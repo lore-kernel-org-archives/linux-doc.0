@@ -1,244 +1,124 @@
-Received: from mail-vs1-f41.google.com (mail-vs1-f41.google.com [209.85.217.41])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EE6365A14
-	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 17:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1774977404; cv=pass; b=bqGLAIYw3vLXYNfH7jtH9IPX7z+nzgjXcw0HMy2u3X1yfLtVNj7gBgPdhAKizBry8gC17gW3AUr0MCKgVCQ02yY8KfmJYUKHjnxgvmInKD36G6LOcmJeHZRn6Mdq7GdWJo8jrAQsYesPxaAI9LczTCU9LsS05QQjZQ8vrLRgL+c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1774977404; c=relaxed/simple;
-	bh=AlaAv/oY4ZLWVnm12PAYx9dKZ0BFTL5ugcVHQKGpG3o=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13964343D75
+	for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 17:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1774977432; cv=none; b=H0EIE/jV8qQTy4hO0tXzKqAvuSOjchX/fwOHUqqR9xcETt3p6gspl2Yvacsj4jH1ky6JhpfU9qBj8Cu6hi/tGnChsy16vlceNImvXyJjbNl+P1+UFvJkHkgQGJgiT2HFwvZKqnhXEZfnOPTuxsN/OxRBSXTNtUm5wmoXHcdG8PI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1774977432; c=relaxed/simple;
+	bh=X8mgB91EilmZX84/+DAl/QEGzBiT68+EQBIZrGj6ois=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ru1ObEh6dO1iQoJdVAfRrKwFTaKTbBQRBYQrFyVS0mo067TR/tDlnfK6IJi+rqqCqEEL3Y2LfRILSKPRps8oLdjEt86yC5D6eZ7ef6EtR0HzQmow4r/gxhia2RmPP9ty/Eyrr9XScUsLE77M/Y3zk1qbpVnRiuYG/IOUQdScWkk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MK0ji7lx; arc=pass smtp.client-ip=209.85.217.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=QeZ1CWDh8hu04ABgi9om2QrNq+MqSPzeRupgSQBGQ9C+/7fA7l3OcmveffLiSnQv47sSPO7QbE/T943LoZiDZ07fSq0HpKWKM/wMqZBdXgWL006uE38SPDqPeN0vs87mTOzQR3X9HQpUd5be7zHqROwNHHOHSYS3Jylk/k57704=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=fM4rTxn5; arc=none smtp.client-ip=209.85.208.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MK0ji7lx"
-Received: by mail-vs1-f41.google.com with SMTP id ada2fe7eead31-60328744754so3688406137.3
-        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 10:16:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1774977401; cv=none;
-        d=google.com; s=arc-20240605;
-        b=QbQz7ccAKbgSnvJFP2X16Zf268eZXNOxtt8FYtsCGd2svDbRXZJHnS6OzX+lLGSP7F
-         ZK3pMOMEJSfHDC5a+Y2GG8pvyAKLEnwDL+KEkFcNCP/rMYtonA36Y8rzUJ9w/ZyLDdAy
-         xte2wJFWLzwNTurRpCXb4qR/8+d8TgWPKG/Tho2qY0rsHJ99EMHLyUnhX8uO7VmJkasm
-         MDgEZNc1SiLLg+Tfg9za2HhL6OdHunrNtPnQWfQniWAwx5Wb+ElRee27R6uA1O+1xbrF
-         eJdB7s8lZsv9ZOkUpHGnPlyZ8SlTAFMvP6L+Z/Rw62Olc0KYVey+WNec7sVy3H+RdFVG
-         gX/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8hJONhGlSkQz5oARDr2KezeMGnAwxGjBhhSBkIE6ImE=;
-        fh=yKZGKaYC/CJeMM3/xsYBHL0Zvb2dU+efDsEidhQukxE=;
-        b=G37Eypaj7fjnh1Qoar542eh/HiW3f+LZxLyWPqZshoyO4Zxdp8DaH5qT0YoIdEPxD+
-         s2XPdu3aunDB6eiOP4E3HBZ/A4q5XL5b/ZtjuPHFh9YbvuC2fZXvzGnKLL7701RiTEnI
-         W9Gk7eueE9ul5dKTjex/u1LSSZBbQXUHQgP+SYNKPaNZEw7jSUJJFpmp/lnhFYgitO6d
-         EQKYg7qH/h5Lg5Xf4Dd8mWEbuWJnSeKFeFphnnPC32qnCtFunHx4ghhjYHPiYJ8PmOVq
-         Bw6MXH4DdkSoXHVxEE7eBmoMaqknN8o95g29vueOcmhQxGn3h4E0f+rOvY7rdsrv93zy
-         cGYQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="fM4rTxn5"
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-65c0891f4e9so10219629a12.1
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 10:17:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1774977401; x=1775582201; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8hJONhGlSkQz5oARDr2KezeMGnAwxGjBhhSBkIE6ImE=;
-        b=MK0ji7lx5K+4J8My7zWUMRzX2cDA1hoBCASSEgK8e5DPbLIag/wFTlulTZrauW9Nbn
-         0+B6u5lOwAku3SMMMXFnIGNy8HxowIu+HV2bkvgwE45DvELmrOu7DV0j7jO035bXxaNf
-         LOV/p7SznWRuTDaRHUS7EZmYOyROphaWZ8GnYO+x8Sw09jk8lhWg+LBHZS1wB12+dKYn
-         cqiQm1xlVQ4V4/OMUw6+tPrJvAJkY7poDW9VSxWLv1lT1HplEV/s8XPUfGCFbf5EEyNe
-         tr/GeAoV1kwLZHsLC3PMkhU1slo8LxiM/A8dKbmk4R0xZE7TxUo15q6Tr4aLugaY99KN
-         86Dg==
+        d=linux-foundation.org; s=google; t=1774977429; x=1775582229; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RzhkbeYcTn/pueZLzsl1uKI6wC45DhSkVKoC+DMZrjs=;
+        b=fM4rTxn5rgETcXmtgnTlITv4/toDrnJPsfQHALwr2JK48y93j8m74Nb+AhT6G8aZ8+
+         y5l9wBaN6lTBhPWlR5rUxKE7iPemKktf0uNLtYJ1TnsgPRqVeoPjm0eBAoQ51+UqqUAY
+         k4so6jv7oVNL5+uGEsHDxoxBMUEmcrUklmxpI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1774977401; x=1775582201;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8hJONhGlSkQz5oARDr2KezeMGnAwxGjBhhSBkIE6ImE=;
-        b=Ys872UJXOCAxQGTTFJDr7RmA5sxP89r3ikv+BGK3yNuxR9MV2bDOH1051pfb+K4UZ/
-         WV4HVGS6SXwQbcx5zBsZ9O+JXlteWxwXZeXMGfAxsgEJlGh5WK7wWwjl6J/ASxNu7BuG
-         Hw/qA+A3AQJRzHBhfE+1kexEBlE8BwcIrc9jRGahTgcpwS+1KISLX7F/h7KOEavFRa/Q
-         30Qt0zloswFXudUYwLVrVhClWysbVcIaImFKW+81ZkrpO+THwapIb3iB8mVOV+QUkiEH
-         obqG/03ftYIvh0g71at7NbvVKQwhoovx1x97rQySDrfHpfBI2b//tXGkpvxnvEF4mfMA
-         hyBg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZuqUgNQQHmFwgtlhnBGFd5V+5IYx4PvDY43AMzolzmbD1u6ok/VO1opH08HWSUZdOfe3zVnzdrHQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxoKLyuXPOHO2A0VwyMQhKES8dj+DCJQz0f+oqYbyy7Lh7NggPb
-	QrJAEdpzxqQMD4R4KQIeAB+gB0J8sg2vtKxzwG6YZCaZDcxDrNuH5SxjFJJB/BfnhcCWaKOM3U7
-	Ey+ThLW0RB9uMBS7r/ZlMyZIiHiVXiqXME4hmThKf
-X-Gm-Gg: ATEYQzy7r4S42kuo5imKIsjGoxIT9Er5FJcIoMDM5+eRPdMFvDWIvdkducWFgc8cttm
-	THwllqWyvEN3r7p8Uwile4Hlbtiu/oFftk3WYyCcM3nHzOEymo6eUd3vt8O8qBJzIaDKxze1Gsp
-	nYDcBybVufdAQr2D1wLnFUDDth77th4gOFrU06IhgVF3xngE4REfPGukl78KPs9Atjl1wPIX1s+
-	StEiQ+Wd6LmfPwM813ji9v7qJfS/POMuM78zAD0Sit/p2bUXNUAJ1vl2wJSfdwr+2wvebFzITRA
-	FXc/9cE=
-X-Received: by 2002:a05:6102:c94:b0:602:ace8:f20e with SMTP id
- ada2fe7eead31-60567e8d127mr38526137.14.1774977400614; Tue, 31 Mar 2026
- 10:16:40 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1774977429; x=1775582229;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RzhkbeYcTn/pueZLzsl1uKI6wC45DhSkVKoC+DMZrjs=;
+        b=qSTH43saE2Qeba6PjMAeMuZIMxigsyfPJRoiypzXppcRCG4xWvamvwY27ImAku9tbi
+         R5PdWZthHh8ORfpqCarabkdKRLHVGQguabdm6jOZX8y+7/BS10RwCNw4A6SnDy0xzeef
+         RB1+DqBGjpBJT1du3qXCQxYa6yY/u1Yc+SIgvrl3AFGes8uSFSZAVPa1myeN7KTRyGbR
+         WKZjp9i9+6r4hbARA3agg1EUIzZi7a8ki9pQBXPfU5Y5e0gat2BGV2wUuWDA9IFwVIMQ
+         i6f4RSspM7EFQeRSvUtzzli1Jq6YeLZNNbGNhtMu4V+8Ez8p7y4hYnSUY0h2th8WCfaB
+         eEMg==
+X-Forwarded-Encrypted: i=1; AJvYcCV7bnF1FHwD6g83MweJgdRIq3NdBjIjEmmNZK4fzoGgtR/+RSjNXZ9UQEyeDBjIRaYZBA/X08mWqfw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiNy/pNy8k+T7Xb4kFSmHcP/d2fXaq/mqXHco2Q2bjanTf/Ke+
+	378MiHkqxfSQhbjUFhVaC3/5iWm18cIV9sBzi7/7fBq6qfLwVoWWNxTZ4ogkfMbGQmwRMArjd/U
+	4NgoyfI7Cyg==
+X-Gm-Gg: ATEYQzxx7zNQwwDpYa0XAf+UDyL4CMQ9bvmvdJgODIrsvEK8ExWu613iFIWC6wkLXVM
+	FUyLLF7aWayRpPMCXIKg6CSzdCxygmQHzSD1UhVkY6Sxc5yehZ3lYh0BzbNtptRQP2RTnjLbRRd
+	mw7zGL50fSWZQuIEa8kA3Eh7GoffsyT2ZPeQ0jwEVFjxAqGRsmBAN7xlKQccNsOpWaorRCaDDWN
+	IX85SzZ8U7FuI3jUVQW+Ty9/n1JnD58vYPJig03mhCdTulHoThHWHR6bGSir2WEnKcn+3SpCnB6
+	ncsQiC9fTJcwRF13NZq+erU+rmP7hcfyZmN44XdYqfJ/920ZasslnJuRuPoh8Ivc53W0FCNgMwG
+	hg/WVhW08iqdWl/+f2sAbmvoTqzZ+5WxqY5ibXDeeATutLLw9c/EK3SbE/6s9ie8Jw0Ms9M+8r5
+	Q+mEMg//T2zQ/4W+HUhEfXncjSGUqD38o1qI5UDwk8PJZFKALY92NwNqvd5u8Pi8wSRUWdZcv7
+X-Received: by 2002:a05:6402:5406:b0:660:a4ad:16a2 with SMTP id 4fb4d7f45d1cf-66db36f7c5bmr235374a12.22.1774977428491;
+        Tue, 31 Mar 2026 10:17:08 -0700 (PDT)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com. [209.85.218.47])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-66bf3e16f80sm2210902a12.25.2026.03.31.10.17.07
+        for <linux-doc@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Mar 2026 10:17:07 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b9382e59c0eso959962266b.0
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 10:17:07 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXRChPt0Ayi3ItOOafz2xFvxj7pq9sT3mQ9Q96Bw+N0HqBPMZtroXKae6e4uELcW7pIBzs9EC44/XE=@vger.kernel.org
+X-Received: by 2002:a17:907:a604:b0:b97:b9d5:4ae4 with SMTP id
+ a640c23a62f3a-b9c138e5f3bmr33991866b.20.1774977427566; Tue, 31 Mar 2026
+ 10:17:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-4-kees@kernel.org>
-In-Reply-To: <20260331163725.2765789-4-kees@kernel.org>
-From: Justin Stitt <justinstitt@google.com>
-Date: Tue, 31 Mar 2026 10:16:27 -0700
-X-Gm-Features: AQROBzCGiv9foA1bZmO6VZEpCJ9MD_wSGSd-WaAakLK22vknVxHA_3Jppbf1n18
-Message-ID: <CAFhGd8pqeckxVVmNrGkb51gdaeTa7MY3BvsRfWVBGd_i=oZxEg@mail.gmail.com>
-Subject: Re: [PATCH 4/5] lkdtm/bugs: Add basic Overflow Behavior Types test
+References: <20260331163716.work.696-kees@kernel.org> <20260331163725.2765789-3-kees@kernel.org>
+In-Reply-To: <20260331163725.2765789-3-kees@kernel.org>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Tue, 31 Mar 2026 10:16:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wg=q7ptcMyUAqPGDbX_DKHivJVppc8bP0zpQqzOky_avA@mail.gmail.com>
+X-Gm-Features: AQROBzBItZBmx5_N-ynlPw8E_7o3PG43Wcm0ba7e3I2MR7-9HUZsFelf3Nv9M7s
+Message-ID: <CAHk-=wg=q7ptcMyUAqPGDbX_DKHivJVppc8bP0zpQqzOky_avA@mail.gmail.com>
+Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
+ __ob_trap and __ob_wrap
 To: Kees Cook <kees@kernel.org>
-Cc: Peter Zijlstra <peterz@infradead.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>, 
-	linux-kselftest@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>, Marco Elver <elver@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Miguel Ojeda <ojeda@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, 
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, llvm@lists.linux.dev
+Cc: Peter Zijlstra <peterz@infradead.org>, Justin Stitt <justinstitt@google.com>, 
+	Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>, 
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com, linux-doc@vger.kernel.org, 
+	llvm@lists.linux.dev, Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, 31 Mar 2026 at 09:37, Kees Cook <kees@kernel.org> wrote:
+>> +
+> +  typedef unsigned int __attribute__((overflow_behavior(trap))) safe_uint;
+> +  typedef unsigned int __attribute__((overflow_behavior(wrap))) wrapping_uint;
 
-On Tue, Mar 31, 2026 at 9:37=E2=80=AFAM Kees Cook <kees@kernel.org> wrote:
->
-> Exercise the end-to-end build and trap infrastructure in the kernel for
-> __ob_trap, __ob_wrap, and associated sanitizer ignore patterns (i.e. idio=
-m
-> exclusions). Add a test for each of the basic overflow conditions under
-> CONFIG_OVERFLOW_BEHAVIOR_TYPES=3Dy, as well as the corner cases associate=
-d
-> with promotion, casting, etc.
->
-> For example, executing this test with CONFIG_OVERFLOW_BEHAVIOR_TYPES_WARN=
-=3Dy
-> (instead of CONFIG_OVERFLOW_BEHAVIOR_TYPES_TRAP=3Dy), will show:
->
->     $ echo OBT_ASSIGN_TRUNCATE_TO | cat >/sys/kernel/debug/provoke-crash/=
-DIRECT
->     $ dmesg
->     ...
->     lkdtm: Performing direct entry OBT_ASSIGN_TRUNCATE_TO
->     UBSAN: implicit-conversion in ../drivers/misc/lkdtm/bugs.c:825:10
->     cannot represent 'int' value 2147483647 during reference binding to '=
-u8t' (aka '__ob_trap u8'), truncated to 255
->
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Shuah Khan <shuah@kernel.org>
-> Cc: <linux-kselftest@vger.kernel.org>
-> ---
->  drivers/misc/lkdtm/bugs.c               | 253 ++++++++++++++++++++++++
->  tools/testing/selftests/lkdtm/tests.txt |  10 +
->  2 files changed, 263 insertions(+)
->
-> diff --git a/drivers/misc/lkdtm/bugs.c b/drivers/misc/lkdtm/bugs.c
-> index e0098f314570..f00c9099957e 100644
-> --- a/drivers/misc/lkdtm/bugs.c
-> +++ b/drivers/misc/lkdtm/bugs.c
-> @@ -817,6 +817,249 @@ static noinline void lkdtm_CORRUPT_PAC(void)
->  #endif
->  }
->
-> +static void lkdtm_OBT_ASSIGN_TRUNCATE_TO(void)
-> +{
-> +       volatile int big =3D INT_MAX;
-> +       volatile int wide_low_value =3D 5;
-> +       u8 __ob_trap narrow_low_value =3D 0;
-> +       s32 __ob_trap same =3D 0;
-> +       u8 __ob_trap small =3D 0;
-> +
-> +       pr_info("Performing same-width assignment to OBT\n");
-> +       same =3D big;
-> +
-> +       pr_info("Performing small-value assignment to OBT\n");
-> +       narrow_low_value =3D wide_low_value;
-> +
-> +       pr_info("Expecting trap on truncated assignment to OBT\n");
-> +       small =3D big;
-> +
-> +       pr_err("FAIL: survived overflowing truncated assignment to OBT: %=
-d -> %u (ok: %d -> %u)\n",
-> +               same, small, wide_low_value, narrow_low_value);
-> +       pr_expected_config(CONFIG_OVERFLOW_BEHAVIOR_TYPES_TRAP);
-> +}
-> +
-> +static void lkdtm_OBT_ASSIGN_TRUNCATE_FROM(void)
-> +{
-> +       volatile s32 __ob_trap big =3D INT_MAX;
-> +       volatile s32 __ob_trap wide_low_value =3D 5;
-> +       u8 narrow_low_value =3D 0;
-> +       s32 same =3D 0;
-> +       u8 small =3D 0;
-> +
-> +       pr_info("Performing same-width assignment from OBT\n");
-> +       same =3D big;
-> +
-> +       pr_info("Performing small-value assignment from OBT\n");
-> +       narrow_low_value =3D wide_low_value;
-> +
-> +       pr_info("Expecting trap on truncated assignment from OBT\n");
-> +       small =3D big;
-> +
-> +       pr_err("FAIL: survived overflowing truncated assignment from OBT:=
- %d -> %u (ok: %d -> %u)\n",
-> +               same, small, wide_low_value, narrow_low_value);
-> +       pr_expected_config(CONFIG_OVERFLOW_BEHAVIOR_TYPES_TRAP);
-> +}
-> +
-> +static void lkdtm_OBT_CAST_TRUNCATE(void)
-> +{
-> +       volatile u32 __ob_trap big =3D INT_MAX;
-> +       u32 trunc =3D 0;
-> +       u32 small =3D 0;
-> +
-> +       pr_info("Performing wrapping too-small cast\n");
-> +       trunc =3D (u16 __ob_wrap)big;
-> +
-> +       pr_info("Expecting trap on too-small cast\n");
-> +       small =3D (s16)big;
-> +
-> +       pr_err("FAIL: survived truncated casting: %u -> %u (ok: %u -> %u)=
-\n",
-> +               big, small, big, trunc);
-> +       pr_expected_config(CONFIG_OVERFLOW_BEHAVIOR_TYPES_TRAP);
-> +}
-> +
-> +static void lkdtm_OBT_CAST_SIGNED(void)
-> +{
-> +       volatile u32 __ob_trap big =3D UINT_MAX;
-> +       s32 neg =3D 0;
-> +       s32 small =3D 0;
-> +
-> +       pr_info("Performing explicit sign-changing cast\n");
-> +       neg =3D (s32 __ob_wrap)big;
-> +
-> +       pr_info("Expecting trap on unexpected sign-changing cast\n");
-> +       small =3D (s32)big;
-> +
-> +       pr_err("FAIL: survived lossy sign conversion: %u -> %d (forced: %=
-u -> %d)\n",
-> +               big, small, big, neg);
-> +       pr_expected_config(CONFIG_OVERFLOW_BEHAVIOR_TYPES_TRAP);
-> +}
+This is fundamentally broken sh*t.
 
-Note to travelers and testers, we still have a compiler patch in
-flight [1] that fixes a bug with sign-change instrumentation
-concerning OBTs.
+Stop thinking that trapping is "safe".
 
-> +
-> +static void lkdtm_OBT_MUL(void)
-> +{
-> +       /* Promotion means no overflow checking can happen. */
-> +       volatile u8 __ob_trap a8 =3D 100;
+It damn well isn't. A dead machine is not a safe machine.
 
-<snip>
+Any patches that call trapping behavior safe will ne NAK'ed by me.,
 
-[1]: https://github.com/llvm/llvm-project/pull/188340
+We have decades of peoiple using BUG_ON() as a safety measure, and it
+has been a HUGE PROBLEM.
 
-Justin
+There is no way in hell that we are ever adding implicit BUG_ON()
+things that are this hidden, this easy to use, and then mislabeled as
+being "safe".
+
+Guys, that's the same logic as having a airbag in your car that just
+shoots you in the head. You're certainly "safe" from the vagaries of
+bad healthcare. But dammit, if anybody thinks that a "bullet to the
+head" should be called "safe", then that person damn well shouldn't be
+involved with kernel development.
+
+So NAK NAK NAK NAK.
+
+The only safe trapping behavior is something that has a clear an
+unambiguous and simple to use way to *HANDLE* it. Not just "mark it
+trapping".
+
+              Linus
