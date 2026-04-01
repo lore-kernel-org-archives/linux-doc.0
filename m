@@ -1,297 +1,199 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011056.outbound.protection.outlook.com [40.93.194.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09288398904;
-	Wed,  1 Apr 2026 07:30:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775028656; cv=fail; b=FC0lkeSXW8U6BIoZ8cFO8Fa14q+baOQFrDj78sdQFa80IDifd18VJ2TOLQMboBFhZ8Lxark75hR1KcYObvuyoScmaUkspYGCiWhJLQWHpIAPfL/eRD3w0da3q2hoW+pyeEgk/a6e9z246cdZNqPfEmJzqHuUzOkuhL533imijlU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775028656; c=relaxed/simple;
-	bh=qaGRda44yb7zWAtrGphW2mY1sqlvMrXAAeYvF4T2S7Y=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DipoBRcT9BTbtnFTb5sT/OWScfPwGgVTE4zM8RIEBCVveO9/+Mdfsy31zSURXLOMbNQjc2JYrOf1Ds5bfr87w0Qf/4vaKeX/MghjZIHUhnj8XRhDP/pGtCVXF/UJCDzk3Os6gpyRd/qNXoL1+/z6T7y6eNiB4oU45BNe6guv+8w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=cqh+fBLI; arc=fail smtp.client-ip=40.93.194.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4204F38B7D6
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 07:52:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775029951; cv=none; b=RuIvcw59iQUToIJ7Wr3sOSCYqXLGei7mVIbZot48EvfuKGg2pzXbPRqjAChranR1X33EQGfTpwkWxr4k/4itnS+Ge08f2B99zYfym++X0ou/2xw2TsXeBIKDWQlZY+kAz6HQ/VUYJue1jmICQ8W1OhuYeD+qCtoi0Hpz7Y5hfIw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775029951; c=relaxed/simple;
+	bh=/xKPjENbw+y9tVTlpGDDqxkzbi3Dsy4WscFa4T8jtsw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GYIiwhrg0wXiokkEVWhcd6BhjfbHKiO+fmeUiZdHTH4EkgxMyTwHfqQBkDHibZttO0xEaZ5C8ahvnZkSXJe5CSdMSxP/gbxBWTBjc9GuawrY18jsbDTr/O9x+oDkXH58XK6IPSdj3aS8mZd2cujkE9kGjtoT/oBNM/Y2FZNr2eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jaet599p; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="cqh+fBLI"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DKKAiO33B9rSJWSdQhT8l88jrc7N33ZJEocIUEwQgC5eujkybyAKVPCXSBh+Y5a0QxDniGsnrNxGHpTPTTY0xqZX+vU63VuKrmnb1aqShmfbsW1VgHYMcEiFYo3NyGdRHE9tzheQ/2Utvd8664yy4I2DOGvTV05SjpgIvq9KFhqQh/rXGLYCqKlyfdt9tLEM9OnIhAx1C4V01xRKWq7J21IQTcucUUQsBMX+T7Ffc84tpsG4exKP8qe2uGzdo/de7huxo81/S34EVk0/jbPT1V1LSU6Yio3RSs3oe/Kjjsi6+du24JeULcFU0lzJVFETRsm6NvJaeUvhzAp2LpwBww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=p+2nVL+oNEhLJODV/d5g6MEA/ciHlVTCNd0iT3/WNeQ=;
- b=uHrHqiRPSFCk9YqtDbnaAUeaHcDr/z3zfQ8hRO/YRkM0Nkjpzy/aV1eIZOhorZCb0Y3CALfdy2ZTKIclcd1l4xgcuRcUwMONHK0C5gvHMGrVyUt2Q/1+dIcrCLGaASJ8mWAgaVFRt8oJMOsQtybc+Dsq/qLKeq8gG8OUPVBz8q+CiOKocnAT4dhK7TyJQYNzrDS7ZxM5B7vjr4V4c5S+rXP2VsWSbX8Z7Wm91bNvQp+dnuZsyg6AWzkqjTNeg69ZFVrb7mxe3mvUo+CkgCDpXQCsByelEryssOndYGUGH3Rk6C7urUeE1ohZW5KjL+FIzW/cBeuDdWUEq8/nMBFJ4w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
- dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=p+2nVL+oNEhLJODV/d5g6MEA/ciHlVTCNd0iT3/WNeQ=;
- b=cqh+fBLI3lwEG3mawvx+RtFPUIZFcH9xV8c6rtzAkrOAvL5CSwWdcWRsO5g6jIbcHtkrbngQfix5y33vsd3Rp7/lpPsnKj4o4KwamDcgr3El0lK5cA+/jp2CPKrfzePatGc+nIzBU2xsbi80+Eg8/yMrE+ErE3b6fFukRvCJJ5s=
-Received: from BL1P223CA0001.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:2c4::6)
- by SJ0PR10MB5663.namprd10.prod.outlook.com (2603:10b6:a03:3db::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.28; Wed, 1 Apr
- 2026 07:30:50 +0000
-Received: from BL02EPF00021F68.namprd02.prod.outlook.com
- (2603:10b6:208:2c4:cafe::23) by BL1P223CA0001.outlook.office365.com
- (2603:10b6:208:2c4::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.30 via Frontend Transport; Wed,
- 1 Apr 2026 07:30:52 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
-Received: from flwvzet201.ext.ti.com (198.47.21.195) by
- BL02EPF00021F68.mail.protection.outlook.com (10.167.249.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.17 via Frontend Transport; Wed, 1 Apr 2026 07:30:47 +0000
-Received: from DFLE207.ent.ti.com (10.64.6.65) by flwvzet201.ext.ti.com
- (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
- 2026 02:30:43 -0500
-Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE207.ent.ti.com
- (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
- 2026 02:30:42 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 1 Apr 2026 02:30:42 -0500
-Received: from a0507033-hp.dhcp.ti.com (a0507033-hp.dhcp.ti.com [172.24.231.225])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6317UN3S3832504;
-	Wed, 1 Apr 2026 02:30:38 -0500
-From: Aksh Garg <a-garg7@ti.com>
-To: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<mani@kernel.org>, <kwilczynski@kernel.org>, <bhelgaas@google.com>,
-	<corbet@lwn.net>, <kishon@kernel.org>, <skhan@linuxfoundation.org>,
-	<lukas@wunner.de>, <cassel@kernel.org>, <alistair@alistair23.me>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>, <a-garg7@ti.com>
-Subject: [PATCH v2 3/4] PCI: endpoint: Add API for DOE initialization and setup in EPC core
-Date: Wed, 1 Apr 2026 13:00:21 +0530
-Message-ID: <20260401073022.215805-4-a-garg7@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260401073022.215805-1-a-garg7@ti.com>
-References: <20260401073022.215805-1-a-garg7@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jaet599p"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-128b9b7e3edso4015808c88.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 00:52:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775029949; x=1775634749; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=SbYMgx5b2U+ll1ogdXc2obIoQ1UDlBi3tYpZOOvXiXo=;
+        b=jaet599pinn8AX1lLH+YXciEiYf01PDtI2s79yuc/QsezkS7In7TlJzrQY4gdb5y3z
+         xKhDPHjQsQeyBnv3mu1/ugwVdhbAAtKkGd6uoWutjiuyOgVOhhjhxV/gcD0Bmpg5W4ti
+         AbJk8b8D9Qrl2tz4fqBFnbvyQmaGrgRPiqLQEjbujP3DHPJr6JAIXBs0DgB5gZhXgDO9
+         kQSHZbAl4egfYlL7sz0RmbRO0IbYGJ+qPsdTmdp54Emr5ePl1D7f2Ogir/6yBEeXLl/L
+         833FgCKUrepsXAoUyTADLt0LsN4i+pJurSfGOG1QnEcE9eooaHq6nzNF25NY0MuAN91N
+         C6Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775029949; x=1775634749;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SbYMgx5b2U+ll1ogdXc2obIoQ1UDlBi3tYpZOOvXiXo=;
+        b=UKEd9YoCmBfbpFQO/XubrulohxP1NdSet1TLZxxZtp49hLvzSty/dKpca8xF8we0Pq
+         FbsRh8SPhng6ay0kIi6h7AHD911xT6TW1uMAyXesWyYKXBYFapF+PiebS1tvYhC7Jp/X
+         tXe531Gqrl+3HhNEijdy+zRXkgD67+xIgqyFa58662ErSz8mpHQX/i0LzQXrdnEPSnHG
+         mWipQjnSkDG0Gt+T3bD7we3rJn+4fp+CNLEk/YWJY44bHoxD1mLcLQfpOhMyOe0rdr5A
+         vv0OjqGPqoQaUKoPazYHMah8+i3v+N2fTiHu4gc/h2xxnHAgX7s4+dBTRB6d5LDeZPjV
+         KFtg==
+X-Forwarded-Encrypted: i=1; AJvYcCXTwwGaBBlZXbrYxfbKLUaTU6bX90oD+y/+sU+TDp+8R10iGq/MgxCE1MsEzXU2S9+rSEP31+/7wRM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9maY6sLvNwyjWrV0iqaRqkiqcpSCTKpYJBQLbqHtu86/DRDmt
+	HZ4qDqv4SNgKVJePg3F/1Y3xDGk8nHH8FkwNLzaKTXpn7VBmGGtJsRFd
+X-Gm-Gg: ATEYQzz/XJbgR3u5p1K28o4YJjXseBBrK0NAiYMJXODF4uquU3AlEKqL2UbOfBFDEZZ
+	m+Ln0uRfOQnEd25435Ox9f8yLefWYWK0qJwDJNje0ZWYLhBdBx4+dLnusS4S2Z4dIb5sXXEMpZ9
+	65PycFNQY98+HI7bVt+TdCokIFx7kY/RGeY8aXv1MjxhBZmiYevBOinapZbRfqPTdzPUsNZhgQc
+	uRlUUCXiz60CP7yrtz4JVcrI1vdMQybmQybZpQH4aJRS/+idoYPDlo+jOICSNeOQkj+lvroBXQp
+	oZnqjW3SkoOFEGf4i3xFdSrtKV4fUW/E/Te+RBLW9ILavPPbP9bHsauvPkMCY2eBWeFC52G9eye
+	wBrkn6qHNyXYFTjcoW4GNw9CTQMUm86OKMtjBN9y/IidVawcnk8rUSbs9mjwgQoyfJ2MZx0um+u
+	du5/AQ+z6J/CyVq3ixMjerbgVb3pMV1NWvrtXyIItQ1cJ7+zQclYR0uWM8PkKL
+X-Received: by 2002:a05:7022:f10f:b0:119:e569:fbb4 with SMTP id a92af1059eb24-12be65579eemr1471488c88.35.1775029944651;
+        Wed, 01 Apr 2026 00:52:24 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c085:21e1::139a? ([2620:10d:c090:400::5:51bb])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ab9864810sm13149653c88.12.2026.04.01.00.52.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Apr 2026 00:52:23 -0700 (PDT)
+Message-ID: <fb04ebf6-a20b-4570-83ee-f97049033c39@gmail.com>
+Date: Wed, 1 Apr 2026 00:52:22 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF00021F68:EE_|SJ0PR10MB5663:EE_
-X-MS-Office365-Filtering-Correlation-Id: ff52b391-d837-4e75-77a0-08de8fc097fe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|36860700016|82310400026|1800799024|921020|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	d7qWoi4qjfygrTUtlRMgyRW0QDv7rNt+sM/KqzqEajxg93a8Ai4c7Mu8bXy6P9PpbkLeWpjXYFv+K2t2t7V3obntYutgsGFYueY4TafFFSVhm+FWA7bi67MrVce8R6+PCr2nHgbnoVQlWgdk89jId+PAVcGtpPCWlc7GbAdEI7kioH+276Ka/bmBBjKuWovwOnAyaKABpI9rLmPDZncVd+vokdaOwDHMt86phIDpm/NQlc4nFmpmoT4nzLGdzPLmUovQ/x56/4PwQJ9/f3LNYIwXEPQ3cgLvUJnghIJv4Jc3MKwRukW4dp6n9InLdyyegiajd4+wc+xDuDmz+fOhdbqmFuVGh57C92LSxCKH5uOcSECxCOcccQPs9UZQzLhU5B2BgzuY19d62rWHmwzH8wWxnUK+FrqjGxafmw8z3N4P/jZdwmu598MCGE3/1iw/l5PrAT0P3SWAhHOKXzcPjBca5TeJuirRfHkrglJsnaWnT4aPjIxq0oS/IqubP8Q/OhzSiWEWFT4NTwfuqhV72FTWz7bPgVyZsmlG79S+y5+rHrH99py/5l6giuOFvYl6XMt4CeTfrecB2cfBBvY0MLSZkydS6RaeU/kgnX88MWRu9lqL+GiO+26HBcvE8vM1w0tpIi93rd/kLCBoqPf2UTxwRxhGjnWvZJAT6F4jlgYK2bpdCU+Kav2FdEdhINzwI1mS8UziWJpvl1Ov7pE4r2AkMRD26PQCMTC6oXx7b04Fk5CjknIcZSkDtGCIwX1kzMpWGqWvYbhdc/PQvC/skOjlrx/ebLkoV1aEbgfZYrsFYOUHNV3gCg0Bzzd0afS0
-X-Forefront-Antispam-Report:
-	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(7416014)(376014)(36860700016)(82310400026)(1800799024)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	xlsUEPXZS7o3gmQ+21Zmpc3il7VohY29DugOeE1u19YspzMXPbwfizG9D8bmjqKIBqFrWSGGDidEN67cthcYm6f7xpIHZ36oAiMceAR+hsKI5p2tXrDeQmlwU37PtDmWCFGm7+biXcb0ndTQ3tFjMeN7NdWg2Iz3nc5WS64ql4lP5cnc2UIyrUQuYCe8AgApiqUVXgLKvE9x91x1oYVKDbyJL+kt38VxRvCGuxM7rDR7IAyMkhJB7Ima6QjWIuKZaH4Va4AE996gFl9FJ/evz8tnaJvM6mJoYd0sg+0EDA4XjJkCGFTcxm91jGP0t1hmSHoZFEiD4bkicdw030sT36PnV4ja6dvIsiRLuinxCnqpwMCQvaWdWsnFsXoU9nlsLBTugRPO6xm4jxHhmalKR/tSpIdP7SCFwqTN1lHPE3vPzNbzAis3QpKqVd8rnJ3E
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 07:30:47.8566
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ff52b391-d837-4e75-77a0-08de8fc097fe
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF00021F68.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB5663
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v03 1/6] hinic3: Add ethtool queue ops
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+ netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
+ Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+ Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
+ <zhengjiezhen@h-partners.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>
+References: <cover.1774940117.git.zhuyikai1@h-partners.com>
+ <17b3bbb0c917ee09ddd7a164cdefca6eb63793ec.1774940117.git.zhuyikai1@h-partners.com>
+Content-Language: en-US
+From: Mohsin Bashir <mohsin.bashr@gmail.com>
+In-Reply-To: <17b3bbb0c917ee09ddd7a164cdefca6eb63793ec.1774940117.git.zhuyikai1@h-partners.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add pci_epc_setup_doe() API in EPC core driver to initialize and setup
-the DOE framework for an endpoint controller. The API discovers the DOE
-capabilities (extended capability ID 0x2E), and registers each discovered
-DOE mailbox for all the functions in the endpoint controller. This API
-should be invoked by the controller driver during probe based on the
-doe_capable feature.
 
-Add pci_epc_destroy_doe() API in EPC core driver for cleanup of DOE
-resources, which should be invoked by the controller driver during
-controller cleanup based on the doe_capable feature.
+> +static int hinic3_set_ringparam(struct net_device *netdev,
+> +				struct ethtool_ringparam *ring,
+> +				struct kernel_ethtool_ringparam *kernel_ring,
+> +				struct netlink_ext_ack *extack)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_dyna_txrxq_params q_params = {};
+> +	u32 new_sq_depth, new_rq_depth;
+> +	int err;
+> +
+> +	err = hinic3_check_ringparam_valid(netdev, ring);
+> +	if (err)
+> +		return err;
+> +
+> +	new_sq_depth = 1U << ilog2(ring->tx_pending);
+> +	new_rq_depth = 1U << ilog2(ring->rx_pending);
+> +	if (new_sq_depth == nic_dev->q_params.sq_depth &&
+> +	    new_rq_depth == nic_dev->q_params.rq_depth)
+> +		return 0;
+> +
 
-Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
-Signed-off-by: Aksh Garg <a-garg7@ti.com>
----
+So non power of 2 values would trimmed to the nearest power of 2 even 
+when the driver support these values. If such values are not supported, 
+should these be rejected here? or if we want to force the nearest power 
+of 2, should we use NL_SET_ERR_MSG to inform the user about rounding?
 
-Changes since v1:
-- New patch added to v2 (not in v1)
+> +int
+> +hinic3_change_channel_settings(struct net_device *netdev,
+> +			       struct hinic3_dyna_txrxq_params *trxq_params)
+> +{
+> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
+> +	struct hinic3_dyna_qp_params new_qp_params = {};
+> +	struct hinic3_dyna_qp_params cur_qp_params = {};
+> +	bool need_teardown = false;
+> +	unsigned long flags;
+> +	int err;
+> +
+> +	mutex_lock(&nic_dev->channel_cfg_lock);
+> +
+> +	hinic3_config_num_qps(netdev, trxq_params);
+> +
+> +	err = hinic3_alloc_channel_resources(netdev, &new_qp_params,
+> +					     trxq_params);
+> +	if (err) {
+> +		netdev_err(netdev, "Failed to alloc channel resources\n");
+> +		mutex_unlock(&nic_dev->channel_cfg_lock);
+> +		return err;
+> +	}
+> +
+> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
+> +	if (!test_and_set_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags))
+> +		need_teardown = true;
+> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
+> +
+> +	if (need_teardown) {
+> +		hinic3_vport_down(netdev);
+> +		hinic3_close_channel(netdev);
+> +		hinic3_uninit_qps(nic_dev, &cur_qp_params);
+> +		hinic3_free_channel_resources(netdev, &cur_qp_params,
+> +					      &nic_dev->q_params);
+> +	}
+> +
+> +	if (nic_dev->num_qp_irq > trxq_params->num_qps)
+> +		hinic3_qp_irq_change(netdev, trxq_params->num_qps);
+> +
+> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
+> +	nic_dev->q_params = *trxq_params;
 
-This patch is introduced based on the feedback provided by Manivannan
-Sadhasivam at [1].
+[1] Here we are overwriting the old parameters
+> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
+> +
+> +	hinic3_init_qps(nic_dev, &new_qp_params);
+> +
+> +	err = hinic3_open_channel(netdev);
+> +	if (err)
+> +		goto err_uninit_qps;
+> +
+> +	err = hinic3_vport_up(netdev);
+> +	if (err)
+> +		goto err_close_channel;
+> +
+> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
+> +	clear_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags);
+> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
+> +
+> +	mutex_unlock(&nic_dev->channel_cfg_lock);
+> +
+> +	return 0;
+> +
+> +err_close_channel:
+> +	hinic3_close_channel(netdev);
+> +err_uninit_qps:
+> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
+> +	memset(&nic_dev->q_params, 0, sizeof(nic_dev->q_params));
 
-[1]: https://lore.kernel.org/all/p57x6jleaim5w7t2k3v7tioujnaxuovfpj5euop5ogefvw23se@y5fw3che5p5d/
+Looks like we are asking for trouble here. The old parameters were 
+already overwritten at [1] and now we are destroying the new ones?
 
- drivers/pci/endpoint/pci-epc-core.c | 71 +++++++++++++++++++++++++++++
- include/linux/pci-epc.h             | 21 +++++++++
- 2 files changed, 92 insertions(+)
-
-diff --git a/drivers/pci/endpoint/pci-epc-core.c b/drivers/pci/endpoint/pci-epc-core.c
-index e546b3dbb240..14f77dd0877b 100644
---- a/drivers/pci/endpoint/pci-epc-core.c
-+++ b/drivers/pci/endpoint/pci-epc-core.c
-@@ -14,6 +14,8 @@
- #include <linux/pci-epf.h>
- #include <linux/pci-ep-cfs.h>
- 
-+#include "../pci.h"
-+
- static const struct class pci_epc_class = {
- 	.name = "pci_epc",
- };
-@@ -547,6 +549,75 @@ void pci_epc_mem_unmap(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- }
- EXPORT_SYMBOL_GPL(pci_epc_mem_unmap);
- 
-+/**
-+ * pci_epc_doe_setup() - Setup and discover DOE mailboxes for all functions
-+ * @epc: the EPC device on which DOE mailboxes has to be setup
-+ *
-+ * Discover DOE (Data Object Exchange) capabilities for all physical functions
-+ * in the endpoint controller and register DOE mailboxes.
-+ *
-+ * This API should be called by the controller driver during initialization
-+ * if DOE support is available (indicated by doe_capable in pci_epc_features).
-+ *
-+ * RETURNS: 0 on success, -errno on failure
-+ */
-+int pci_epc_doe_setup(struct pci_epc *epc)
-+{
-+	u16 cap_offset = 0;
-+	u8 func_no;
-+	int ret;
-+
-+	if (!epc || !epc->ops || !epc->ops->find_ext_capability)
-+		return -EINVAL;
-+
-+	/* Initialize DOE framework for this controller */
-+	ret = pci_ep_doe_init(epc);
-+	if (ret)
-+		return ret;
-+
-+	/* Discover DOE capabilities for all functions */
-+	for (func_no = 0; func_no < epc->max_functions; func_no++) {
-+		while ((cap_offset = epc->ops->find_ext_capability(epc, func_no, 0,
-+								   cap_offset,
-+								   PCI_EXT_CAP_ID_DOE))) {
-+			/* Register this DOE mailbox */
-+			ret = pci_ep_doe_add_mailbox(epc, func_no, cap_offset);
-+			if (ret) {
-+				dev_err(&epc->dev,
-+					"[pf%d:offset %x] failed to add DOE mailbox\n",
-+					func_no, cap_offset);
-+			}
-+		}
-+	}
-+
-+	dev_dbg(&epc->dev, "DOE mailboxes setup complete\n");
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_doe_setup);
-+
-+/**
-+ * pci_epc_doe_destroy() - Destroy and cleanup DOE mailboxes
-+ * @epc: the EPC device on which DOE mailboxes has to be destroyed
-+ *
-+ * Destroy all DOE mailboxes registered on this endpoint controller and
-+ * free associated resources.
-+ *
-+ * This API should be called by the controller driver during controller cleanup
-+ * if DOE support is available (indicated by doe_capable in pci_epc_features).
-+ *
-+ * RETURNS: 0 on success, -errno on failure
-+ */
-+int pci_epc_doe_destroy(struct pci_epc *epc)
-+{
-+	if (!epc)
-+		return -EINVAL;
-+
-+	pci_ep_doe_destroy(epc);
-+	dev_dbg(&epc->dev, "DOE mailboxes destroyed\n");
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(pci_epc_doe_destroy);
-+
- /**
-  * pci_epc_clear_bar() - reset the BAR
-  * @epc: the EPC device for which the BAR has to be cleared
-diff --git a/include/linux/pci-epc.h b/include/linux/pci-epc.h
-index cfe74585be4c..07fa41a8e466 100644
---- a/include/linux/pci-epc.h
-+++ b/include/linux/pci-epc.h
-@@ -84,6 +84,8 @@ struct pci_epc_map {
-  * @start: ops to start the PCI link
-  * @stop: ops to stop the PCI link
-  * @get_features: ops to get the features supported by the EPC
-+ * @find_ext_capability: ops to find extended capability offset for a function
-+ *			 in endpoint controller
-  * @owner: the module owner containing the ops
-  */
- struct pci_epc_ops {
-@@ -115,6 +117,8 @@ struct pci_epc_ops {
- 	void	(*stop)(struct pci_epc *epc);
- 	const struct pci_epc_features* (*get_features)(struct pci_epc *epc,
- 						       u8 func_no, u8 vfunc_no);
-+	u16	(*find_ext_capability)(struct pci_epc *epc, u8 func_no,
-+				       u8 vfunc_no, u16 start, u8 cap);
- 	struct module *owner;
- };
- 
-@@ -236,6 +240,7 @@ struct pci_epc_bar_desc {
-  * @msi_capable: indicate if the endpoint function has MSI capability
-  * @msix_capable: indicate if the endpoint function has MSI-X capability
-  * @intx_capable: indicate if the endpoint can raise INTx interrupts
-+ * @doe_capable: indicate if the endpoint function has DOE capability
-  * @bar: array specifying the hardware description for each BAR
-  * @align: alignment size required for BAR buffer allocation
-  */
-@@ -246,6 +251,7 @@ struct pci_epc_features {
- 	unsigned int	msi_capable : 1;
- 	unsigned int	msix_capable : 1;
- 	unsigned int	intx_capable : 1;
-+	unsigned int	doe_capable : 1;
- 	struct	pci_epc_bar_desc bar[PCI_STD_NUM_BARS];
- 	size_t	align;
- };
-@@ -334,6 +340,21 @@ int pci_epc_mem_map(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- void pci_epc_mem_unmap(struct pci_epc *epc, u8 func_no, u8 vfunc_no,
- 		       struct pci_epc_map *map);
- 
-+#ifdef CONFIG_PCI_ENDPOINT_DOE
-+int pci_epc_doe_setup(struct pci_epc *epc);
-+int pci_epc_doe_destroy(struct pci_epc *epc);
-+#else
-+static inline int pci_epc_doe_setup(struct pci_epc *epc)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline int pci_epc_doe_destroy(struct pci_epc *epc)
-+{
-+	return -EOPNOTSUPP;
-+}
-+#endif
-+
- #else
- static inline void pci_epc_init_notify(struct pci_epc *epc)
- {
--- 
-2.34.1
-
+> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
+> +
+> +	hinic3_uninit_qps(nic_dev, &new_qp_params);
+> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
+> +
+> +	mutex_unlock(&nic_dev->channel_cfg_lock);
+> +
+> +	return err;
+> +}
+> +
