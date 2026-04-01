@@ -1,130 +1,92 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EE9A33064D;
-	Wed,  1 Apr 2026 19:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40503345753
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 20:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775072640; cv=none; b=jGrUY7bs6ZfDNhmElyLqzxw1AQCi/Q0z2W9cYbvDwXL/2f3P5ZnBiaA+3SRdM8AIAIMuGJ+6vBr2FaDeJTL25oSlCZ8FjLPk8J/SL5X8QT0CqDbcqAqjkv8DGhvFW/E1JhtwbEHm6pA+x3OxfoffhzFnt4WWFjtb9oI1LtT4nJQ=
+	t=1775074513; cv=none; b=AG6xZSN2zAobedtKpt02BiUiPZqp8YrfdmjQNiHR3My84oHs83E3WfBhM0U0UbJEuz7uJ7e60XXwu4GlfaPqKqVe41wYkbWWQnPsrLtohbI7SDlOwOiVVTU4QckidUwt0eDVSy+x2N5gHXSDBc8PqiHM6dfXAYPz+TEPMkn30Ao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775072640; c=relaxed/simple;
-	bh=1To5xCj/Euwv8pr6OLe9LCSI7BHddugktrqQ0mZeMp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fy3+4trGJe1rddsh463+sdcNE6jPOYUcqQD4oPJ8eI/Nv0Den6wULVE4zCAzLOlYGj0Rxx2MIhAIRHX9aFWGqsMoFKa3GmAO93zmiCa6663FCqeE/Tc0C5yGSVkX1bVEnZ52Vc5JgtLgYlL64E5PjbolQejc57IQ00cxHmreNx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PVOB1TcH; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775074513; c=relaxed/simple;
+	bh=7J2fHD4IDzBB/gyefNGNqUmzJAS8tkIOKlzKxCGk8ZY=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=S/ayIMo6NI8V2Z+/5Vgx81qlWugZfswBMAqHXKBxtl7o08rx+CzxEFR6xsrecD2ZBS5UK4q24Ekmq7shtv2BQXL0040cQ0ucxjsneLvypNQY77AWfcJEfrGJHSULzTb+p7eq3yRsYuOZys948rmOmsADc1I2qMd+ooAQt8xq2Qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U1cnzhmJ; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PVOB1TcH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DFC6C4CEF7;
-	Wed,  1 Apr 2026 19:43:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775072639;
-	bh=1To5xCj/Euwv8pr6OLe9LCSI7BHddugktrqQ0mZeMp4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PVOB1TcHVUKd9k/gnI553hVBiTFtwTm1KybDl5S+zpnNkqtvWrmVTMotcFdyrlDul
-	 s3SUsTN5h5bfOz+200DOWwUfhFxno2Vxue4RtoJcxnZFHFzMXgP7trFyim/j3NLvFt
-	 qYME2Kif8AWTXoyKqWMeRX04GbWJTvG3cbI8wFLX5ghp/QBiNZbZyt06IP18NzkuiS
-	 zhz4Rpqb2igFE1anUz18faBvQYXFi4K2CST9m9kcMxYD7//pmBAaOfaH29wHyDGrHu
-	 xjthNsDDmRxIngn3YCxoy0gzf1PRVPqRxgDL8o2qIHmM2xQQ0nHkvt56+3wFWBGE1u
-	 fYWrAippeO/6Q==
-Date: Wed, 1 Apr 2026 12:43:58 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Vincent Mailhol <mailhol@kernel.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
- __ob_trap and __ob_wrap
-Message-ID: <202604011242.3E8F635CD@keescook>
-References: <20260331163716.work.696-kees@kernel.org>
- <20260331163725.2765789-3-kees@kernel.org>
- <bd0a4235-a7f0-4624-802c-aa49a9d13f29@kernel.org>
- <20260401092027.GW3738786@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U1cnzhmJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775074511; x=1806610511;
+  h=date:from:to:cc:subject:message-id;
+  bh=7J2fHD4IDzBB/gyefNGNqUmzJAS8tkIOKlzKxCGk8ZY=;
+  b=U1cnzhmJteD2+k8gZ10Zu6frt3Fw7cszv147kwolRJPE0rpGUmRdsl1t
+   Pgkdv8mggR32tXjkfshDHcZ/sViJGej5rLVBpfOuEO9e4aBx4e+rkM3hg
+   Lz7mzafEXrfWD9ceqz1xbDW8c7RN40Lz+lwaLkJeMoGi5w91Yn3Lkn9fv
+   D+1YB/0JcZUTgEg1IbP5WMe9UMRvFFTfhuKJ0YjDJb4h04JRxuCCQch9R
+   qDJnvekBJV48mGfS56uPxHoT415+h3DQrotiETS/YbwuLKaXytQHq6Qe8
+   CfJAYU4/lOjWf1wHPzeNj/+grZdzuIqGYMYdeAjBm9y4W7PDGvqY74Ewd
+   A==;
+X-CSE-ConnectionGUID: ppxM7IOcQECSO3kBIslqRg==
+X-CSE-MsgGUID: VbHInBUPRTuyChRNCRUN5w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11746"; a="79982605"
+X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
+   d="scan'208";a="79982605"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 13:15:10 -0700
+X-CSE-ConnectionGUID: MC3hq+UwQBuAE3vusJwHXA==
+X-CSE-MsgGUID: 58Ay2vbZS8SLO2rp52YHbw==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 01 Apr 2026 13:15:09 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w81xz-000000008px-0Tgi;
+	Wed, 01 Apr 2026 20:15:07 +0000
+Date: Wed, 01 Apr 2026 22:14:51 +0200
+From: kernel test robot <lkp@intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ "Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [linux-next:master 1471/11049] htmldocs: Warning:
+ Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file
+ that doesn't exist:
+ Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+Message-ID: <202604012234.rkuyW7h8-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260401092027.GW3738786@noisy.programming.kicks-ass.net>
 
-On Wed, Apr 01, 2026 at 11:20:27AM +0200, Peter Zijlstra wrote:
-> On Wed, Apr 01, 2026 at 09:19:51AM +0200, Vincent Mailhol wrote:
-> > Le 31/03/2026 à 18:37, Kees Cook a écrit :
-> 
-> > > +  - Saturate (explicitly hold the maximum or minimum representable value)
-> > 
-> > I just wanted to ask how much consideration was put into this last
-> > "saturate" option.
-> > 
-> > When speaking of "safe" as in "functional safety" this seems a good
-> > option to me. The best option is of course proper handling, but as
-> > discussed, we are speaking of the scenario in which the code is already
-> > buggy and which is the fallout option doing the least damage.
-> > 
-> > What I have in mind is a new __ob_saturate type qualifier. Something like:
-> > 
-> > 	void foo(int num)
-> > 	{
-> > 		int __ob_saturate saturate_var = num;
-> > 	
-> > 		saturate_var += 42;
-> > 	}
-> > 
-> > would just print a warning and continue execution, thus solving the
-> > trapping issue. The above code would generate something equivalent to that:
-> > 
-> > 	void foo(int num)
-> > 	{
-> > 		int __ob_saturate saturate_var = num;
-> > 	
-> > 		if (check_add_overflow(saturate_var, increment,
-> > 				       &saturate_var) {
-> > 			WARN(true, "saturation occurred");
-> > 			saturate_var = type_max(saturate_var);
-> > 	}
-> 
-> So I would like to second this option as being interesting.
-> 
-> But while pondering it, I did want to note that all of the options, with
-> the exception of __ob_wrap (which is effectively what we have today for
-> *everything*), will be 'interesting' to compose with _Atomic, another
-> one of these qualifiers.
-> 
-> Now, in the kernel we don't use _Atomic, so strictly speaking I don't
-> care ;-) But here goes...
-> 
-> Something like _Atomic int __ob_wrap, is trivial and good.
-> 
-> _Atomic int __ob_trap is either doable or impossible depending on how
-> you define the result to be on 'trap'. Specifically, the semantics
-> proposed where it keeps the old value makes it impossible.
-> 
-> And _Atomic int __ob_saturate is equally 'challenging', since the
-> fundamental thing of 'reset to min/max on under/over-flow' is rather
-> a non-atomic kind of thing. Look at the trouble we went through with
-> refcount_t to sort of make this work.
+Hi Svyatoslav,
 
-Yeah, this is mainly why we didn't spend time working on an
-__ob_saturate implementation: the primary place we want it in Linux is
-already solved with all the refcount_t work. That said, if the behavior
-could be replicated using a future __ob_saturate, that would be very
-nice. :)
+FYI, the error/warning still remains.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git master
+head:   bd0f139e5fc11182777b81cefc3893ea508544ec
+commit: 5a8ffc5dca9c096fe9c8879fa3a2faff723fbb8a [1471/11049] regulator: dt-bindings: cpcap-regulator: convert to DT schema
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260401/202604012234.rkuyW7h8-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604012234.rkuyW7h8-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/regulator/cpcap-regulator.txt
+   Warning: Documentation/devicetree/bindings/mfd/motorola-cpcap.txt references a file that doesn't exist: Documentation/devicetree/bindings/rtc/cpcap-rtc.txt
+>> Warning: Documentation/devicetree/bindings/regulator/motorola,cpcap-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/devicetree/bindings/rtc/motorola,cpcap-rtc.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/motorola,cpcap.yaml
+   Warning: Documentation/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
+   Warning: Documentation/leds/leds-lp5812.rst references a file that doesn't exist: Documentation/ABI/testing/sysfs-class-led-multicolor.rst
+   Warning: Documentation/translations/it_IT/doc-guide/parse-headers.rst references a file that doesn't exist: Documentation/userspace-api/media/Makefile
 
 -- 
-Kees Cook
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
