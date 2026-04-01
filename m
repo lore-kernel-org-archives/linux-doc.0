@@ -1,162 +1,122 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAC1B36AB61
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 07:53:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87086372ECC
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 08:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775030014; cv=none; b=XeqS/qG4aP3t+p5VeO46B2D9eGeptxOrltzkcDq6Zc0s4L5bUseJfuP3Y+xD6JqB0aK9VEk69NEoA+k08+9m0xBM/o4K9x0wwlFvs/65UUDMs9QST0tYY/56QICZolsL0XJpEhkWZ2YGezjqGRJ+3Ybjqxf1XEGAQz6hbkAypB0=
+	t=1775030764; cv=none; b=SPQva3nreSnBaAzzRrfUjYd1qn6xWNBAOZ6MJnHq8pIDFBzFVqJlFXiYbUiOVOeU7B8VSRhdm/65slGECCMkzN1y6u6b2GI3+tLo6Zf8cSswV57QusVH/YGbOoZjq54eGT4SiTwHGUF3w8ZkuBTKXH7i/HXKKwRr9i5fJ5jw5Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775030014; c=relaxed/simple;
-	bh=Iw8UWtcVlc0hciFLFi9H4GtBrzJdZOWJyX4eXzCH07o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eO1Cqy1VEnzIvNE62sLPMfXiuYkcrftRdqVfwsoa7OkCFYis/WWsC1YUBF0uIJQb1Hl1/Jf88uPnAprWIGgagUtZ7D/tKEuA4H+cXJXu0NsBe699YcICCcEif3USbtUfSrP9JI7/gVHJvFRmaA15bwnc1NFOUiNQ+Ayo3qD9ovs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=svVPWyuY; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775030764; c=relaxed/simple;
+	bh=vCdXcNhvfsQLq7T5BRej3phIPgo6NGFMKQMcuPzGOwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tN+sk9jvB4vT0wREZwdQoVrij/UEaiTyctMndOH11c7sMrv3QssS0PI3wtWgWsWdBCOqkuhbovzrH3NYOUonufVrWhOLgG0hd1y2gkzrmPzc3osQtn+wfBs9cRbiVggcN3PBthlfY6EU17lEUB/EiXGytjOW0iItKKsEaYqCe8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rqJKg0V1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="svVPWyuY"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2b6b0500e06so8878302eec.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 00:53:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775030012; x=1775634812; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=aYAA012nkWBP0515TOKa+rT4aCB7eVy71smoodsA2VY=;
-        b=svVPWyuYSpuum/KP5FjKlYhoHLL8h4QQ7QUUltlQV/iB6zHUvxlosKFOTt+GfOgzUL
-         wiwKAmTPq5zKmq3BP60mXRMR6ok7gnzzD5HkgiOHoCiHtnzdeAsCXZNC8I84h++GVjqg
-         uU8cdz7Qusbd9Pi+1Tfh+DAbwmy1OTxL7yezLcGfM1iJ7fU+ollVEdhZgDKTuak2hSiE
-         mXFys+zhYIOuTjxItFNJ6vCpDrF/qQga2/MmC5BW33nVdel0T1rocSppfvcja7GCML0y
-         7PCtmRYYCbWVxAYKvwbXavNOmLscPtepOGc/dL395cQIXzIZEitHrkx3SxfjYknOYENV
-         isUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775030012; x=1775634812;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=aYAA012nkWBP0515TOKa+rT4aCB7eVy71smoodsA2VY=;
-        b=JuSWsJpV7iW2hOcUVgbxNpeYm0hm3+kYwNzcaW/srT7M7xV27QO9c9nAxTbtWQwg9v
-         YU99jXTl/8wXeAuKQ03N4gzdNp58VHR1cZOj7cBMVdBa6YkPBufyXHb0k7F/WLFSEcm6
-         k+ydpUZYaO5I7XekVmE+ePGME5cIyOVhz6OGrRl9t2Q8cdNZmp9RiZ9xCcAwYsIurfSQ
-         TKxfagIEau2dX1q4kAFuZkLvjHVPYAbJTPQ46Iwvz216OgWQ0uvpwEH6XfaEh2xVpbDS
-         3wNalak2v5HarvkP8c3e6ysQAkeeoIIu5zDopmFn9KTPKwBoK/WkqMgTUoydAEaStxLE
-         CO5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCXT8sp/1wf+itQl/7fRBPl3EhkyuxPTiCVd4WC6+PtkyN4M50ETRCWLhau1VbCOIGCSuUA4UEMDWPA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy50lB1bp2zt9QqpctlAI32y+BBGYNh/8rKn+5GVsFjKq1yXUGZ
-	5WP7KrJyTyrru2VVoGB779rfdJiab9hE6K5aV2EPSU1X/y0Ma+aI4NNC
-X-Gm-Gg: ATEYQzxxkF8cVWAfDvIaxegboTIcDzxG0P08b89rogQVf0+JcJZZz0KW9D3qSopELYS
-	3coCRmTlFiOA6r8i4c3PoU22geZPAZE+Yg8kHeaihLLn92bTv3NXnLo+lxJKIJeC3/o99Ua8CUQ
-	dZpkkHnLMMrzB9FKtY8l6Tp6QCqnUxdnTdvU78cQBjhmNA4NZJFPKJniwns2Uho7RX4pCcjXF0f
-	doWTxN8LEt7ulIkdVKQQR0PGrfVM5iU2BPAb6JiFvrpPzL+H/4O99zZEgcuFD7Cb4SbgzXgy/Fx
-	eTyvWAks3Ym3UBViSdVgPoUMwcFy0PqzSugPvh0fFlD+kTCWBNqHi9WFhxWkGSjbVpFle4TLoL/
-	CcQnWT37MvdQobivXxvGv6U6+uMAbkHBkzFTxmlO94EjBILJdMFvdhRbvFSjjnqe4naIGAmt6mX
-	/pQMtXQtGXYrsO4TnpUMrLHzJVEgtnZtXRRjB07po3FR3W4etAtOtzC1TvFbxc
-X-Received: by 2002:a05:7300:6d1f:b0:2be:833c:149d with SMTP id 5a478bee46e88-2c9325b4835mr1497608eec.28.1775030011765;
-        Wed, 01 Apr 2026 00:53:31 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c085:21e1::139a? ([2620:10d:c090:400::5:51bb])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c4cbbc1fsm11662388eec.13.2026.04.01.00.53.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2026 00:53:31 -0700 (PDT)
-Message-ID: <3b252b2b-6be7-4a8d-9782-39695e948635@gmail.com>
-Date: Wed, 1 Apr 2026 00:53:30 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqJKg0V1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94F8CC2BC9E;
+	Wed,  1 Apr 2026 08:06:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775030764;
+	bh=vCdXcNhvfsQLq7T5BRej3phIPgo6NGFMKQMcuPzGOwQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rqJKg0V1L04Q3f38fKKOlIWP+9kJ7b9nPh/7SkiTWIFS5HV2ZmN4WBl1p7IWmMdpj
+	 ozbqsG5VzM4xt9qwCtV8Lcg0Lfv31XkuUWJxO6UuEAB9rT+kyqIeAUdBi0Iqc2r9M2
+	 XzMoJo+T19GRNpNB+5UA4Ies9Bfdt2aZwaeIVXQDscP+OmcNYEoKkV9SedZ+6L8IKQ
+	 CT3KK/ci1Vi7Lxa+YgcOcm3UkKdiaKDm9Nkw9G8IuFcGnagw1P/upc0jH57Cd7O4eE
+	 8iCQYg380dUf5Xpo3W4aBb1l4T6efuIN4USC1acqxTznac7+2CtR8tyh5Jxrf68iUW
+	 tdo8P/vvB+4dg==
+Date: Wed, 1 Apr 2026 10:06:01 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
+	Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Alex Deucher <alexander.deucher@amd.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Rob Clark <robin.clark@oss.qualcomm.com>, Dmitry Baryshkov <lumag@kernel.org>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v2 1/2] drm: Rename drm_atomic_state
+Message-ID: <20260401-imperial-tan-emu-0a1ab4@houat>
+References: <20260331-drm-drm-atomic-update-v2-0-7e8fe6ddcd32@kernel.org>
+ <20260331-drm-drm-atomic-update-v2-1-7e8fe6ddcd32@kernel.org>
+ <316d8ab8-78d0-4169-9264-e4da5424b5d6@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v03 4/6] hinic3: Add ethtool rss ops
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
- netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Andrew Lunn <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- luosifu <luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
- <zhengjiezhen@h-partners.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>
-References: <cover.1774940117.git.zhuyikai1@h-partners.com>
- <a8347921a7ac11ca7e0db52381be70689b830005.1774940117.git.zhuyikai1@h-partners.com>
-Content-Language: en-US
-From: Mohsin Bashir <mohsin.bashr@gmail.com>
-In-Reply-To: <a8347921a7ac11ca7e0db52381be70689b830005.1774940117.git.zhuyikai1@h-partners.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-
->   /* hilink mac group command */
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-> index 25db74d8c7dd..1c8aea9d8887 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-> @@ -155,7 +155,7 @@ static int hinic3_set_rss_type(struct hinic3_hwdev *hwdev,
->   				       L2NIC_CMD_SET_RSS_CTX_TBL, &msg_params);
->   
->   	if (ctx_tbl.msg_head.status == MGMT_STATUS_CMD_UNSUPPORTED) {
-> -		return MGMT_STATUS_CMD_UNSUPPORTED;
-> +		return -EOPNOTSUPP;
-
-Looks like an unrelated change?
-
->   	} else if (err || ctx_tbl.msg_head.status) {
->   		dev_err(hwdev->dev, "mgmt Failed to set rss context offload, err: %d, status: 0x%x\n",
->   			err, ctx_tbl.msg_head.status);
-> @@ -165,6 +165,39 @@ static int hinic3_set_rss_type(struct hinic3_hwdev *hwdev,
->   	return 0;
->   }
->   
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="cii5lvz5tahfk45i"
+Content-Disposition: inline
+In-Reply-To: <316d8ab8-78d0-4169-9264-e4da5424b5d6@suse.de>
 
 
+--cii5lvz5tahfk45i
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 1/2] drm: Rename drm_atomic_state
+MIME-Version: 1.0
 
-> +static int hinic3_set_rss_hash_opts(struct net_device *netdev,
-> +				    struct ethtool_rxnfc *cmd)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_rss_type *rss_type;
-> +	int err;
-> +
-> +	rss_type = &nic_dev->rss_type;
-> +
-> +	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-> +		cmd->data = 0;
-> +		netdev_err(netdev, "RSS is disable, not support to set flow-hash\n");
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-> +	/* RSS only supports hashing of IP addresses and L4 ports */
-> +	if (cmd->data & ~(RXH_IP_SRC | RXH_IP_DST |
-> +			  RXH_L4_B_0_1 | RXH_L4_B_2_3))
-> +		return -EINVAL;
-> +
-> +	/* Both IP addresses must be part of the hash tuple */
-> +	if (!(cmd->data & RXH_IP_SRC) || !(cmd->data & RXH_IP_DST))
-> +		return -EINVAL;
-> +
-> +	err = hinic3_get_rss_type(nic_dev->hwdev, rss_type);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to get rss type\n");
-> +		return err;
-> +	}
-> +
-> +	err = hinic3_update_rss_hash_opts(netdev, cmd, rss_type);
-> +	if (err)
-> +		return err;
-> +
-> +	err = hinic3_set_rss_type(nic_dev->hwdev, *rss_type);
+Hi Thomas,
 
-So if we fail here, we have already modified the rss_type in-place. From 
-this on-wards, the HW state would diverge from in-memory state. How 
-about use a local copy and only update if no error?
+On Wed, Apr 01, 2026 at 08:05:12AM +0200, Thomas Zimmermann wrote:
+> Am 31.03.26 um 16:41 schrieb Maxime Ripard:
+> > The KMS framework uses two slightly different definitions for the state
+> > concept. For a given object (plane, CRTC, encoder, etc., so
+> > drm_$OBJECT_state), the state is the entire state of that object.
+> > However, at the device level, drm_atomic_state refers to a state update
+> > for a limited number of objects.
+> >=20
+> > Thus, drm_atomic_state isn't the entire device state, but only the full
+> > state of some objects in that device. This has been an endless source of
+> > confusion and thus bugs.
+> >=20
+> > We can rename drm_atomic_state to drm_atomic_commit to make it less
+> > confusing.
+>=20
+> Nit: The subject should already spell out the new name.
+>=20
+> >=20
+> > This patch was created using:
+> >=20
+> > rg -l drm_atomic_state | \
+> > 	xargs sed -i 's/drm_atomic_state/drm_atomic_commit/g; s/drm_atomic_com=
+mit_helper/drm_atomic_state_helper/g'
+> > mv drivers/gpu/drm/tests/drm_atomic_state_test.c drivers/gpu/drm/tests/=
+drm_atomic_commit_test.c
+>=20
+> We now have many places that read like "struct drm_atomic_commit *state',
+> which mixes up terminology. Is there a way of transforming this
+> automatically to use 'commit' for the variable's name?
 
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to set rss type\n");
-> +		return err;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
+I know what you're saying, but it would be much more intrusive and I'm
+not sure I feel comfortable doing it in one go. I had a try this morning
+to come up with a coccinelle script and it looks like it chokes up a bit
+on it too.
+
+I'm sure we could blame my coccinelle skills, but how about we do this
+driver by driver later on? I can do it if you want me to, and we don't
+really need to have that one big commit, it can be split into smaller
+units that would be easier to test and merge.
+
+Maxime
+
+--cii5lvz5tahfk45i
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaczR6AAKCRAnX84Zoj2+
+diwJAX4uy/nV3NPKiK3qmQeMnzfxOpb6SoFRToie/uY1bnwzT4DvI1PBDpupJ2b7
+1TPui7YBf0tYnfE8f570AUNIYHDpDbX7FlYZwmcTtk0dNFPKYel3cDoxReDbmNAk
+0gu5asfI9w==
+=BLVN
+-----END PGP SIGNATURE-----
+
+--cii5lvz5tahfk45i--
