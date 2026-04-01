@@ -1,148 +1,175 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF99C47DD50;
-	Wed,  1 Apr 2026 18:53:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9A522D4E9;
+	Wed,  1 Apr 2026 19:42:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775069584; cv=none; b=ekyQm8GcfxchBVGPnINomACmJ7xMex9ipq2edn+klNM2n6RU6YC4uyHzgEuCyiJcuJh+TqBehhgCYxuMW19aXjwFimG5Fg9kEcBWk6kJpxofeCZPd/hFcJDaRZ1jbAQzIkcYZhcN8Sbkoti0lVovOQVWrDFA+vegf+edqunsOUo=
+	t=1775072523; cv=none; b=cOpUiMIKVTchHYPcJgdq160wCUS9KSCfZ/mg5KqEwbQUeZTB+4jAO541VWT5PM682PAaTdvfEaaPdGZDF7MsRE2Y4YmBieTFaEnDnUXxE34sRcp2RYWGMv8yN+30i96hA0FYR+sV8eh8YKFRJKv+OY82XI5TgDAUA8n5tKvGr0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775069584; c=relaxed/simple;
-	bh=ZdkptTRmZ1xWZy0UTX5CWn5xL1JL0Tsfe3zndQo+s+A=;
+	s=arc-20240116; t=1775072523; c=relaxed/simple;
+	bh=6rRGHVxPREHYm9wPCaHRgKXoqSKaSIjkZI8d+MlPP2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CsfGYQbEbwNDb/HecaC2F6Ztmytk+gxbz7Usv4SNlzN2JTLxkaNKsG5L8hzWbAICoi/gRVli4lAyvtnFj4cYBfc7bD57WHdocgsy7DJFlb9CCvzRdMtBXB+63S3AZlFY8KV+4TDzmnAaFAXFTOWR78J5ne0Hdj9GXL1NHc2RddA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hou/2XiH; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=OgzOc59DdBFR/npg8wfT+Yht8paqB6t5dTvujD4p8jxt2CFWayMIQnBP432xZSB1Umj6/9CC+xXmDhYXknCGk0GKc6ADtSVKlaaTu1E9XNGruNMIqJauPPtQF7I1bBzSFckqzZg4ykvTwZkq/HJmI8W4MswHqfP5Z8Lfp7qXLBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pFMe9OxE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hou/2XiH"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775069584; x=1806605584;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ZdkptTRmZ1xWZy0UTX5CWn5xL1JL0Tsfe3zndQo+s+A=;
-  b=hou/2XiHpZmH5ITGsz34cC+y3nFNyxbDX2Xcw5pdK1vGIhnWPWGyDxgT
-   cDMJCym+uWCAD7LB4GWcU6DY78fa/BOJJt6Nzcp8eFz5v1gDqfOA1ipPw
-   e2/4J85pTmOUEc44Xpio9grTXa1tHVhKGXjdq/sQJMgZVMHNjUyaCsXlP
-   Ln8gsBnwRM5RMsvSFhYaNXP4niqQQ8e5BIUPlXgRfiIp1A+gjSC64I4Th
-   T5t+An64U8dClbMDszvrMwI0CBeLkZCR6rPz/hPeMR1ZNo7r4IgHvNfuS
-   LkwTKGcEZJuEHlwezW7eCdbNCB5MijDsdrOPTKa9iIo4irumtKgiGMti1
-   A==;
-X-CSE-ConnectionGUID: LPv6ZBgKQKKsNMN+Apkwbg==
-X-CSE-MsgGUID: MHprvaz+R+qh4RaJxP4amQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11745"; a="98733266"
-X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="98733266"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 11:53:02 -0700
-X-CSE-ConnectionGUID: OJBGm0UASVyXcsCQ/xRU2w==
-X-CSE-MsgGUID: 2MDbFtqGQE2+9OO6MLo/wQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,153,1770624000"; 
-   d="scan'208";a="225749343"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2026 11:53:02 -0700
-Date: Wed, 1 Apr 2026 11:52:56 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: David Laight <david.laight.linux@gmail.com>
-Cc: Borislav Petkov <bp@alien8.de>, x86@kernel.org,
-	Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v8 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260401185256.f2ostywtxzddnwm2@desk>
-References: <20260324221308.7sh6afdy6r6tsf4w@desk>
- <20260325203759.GCacRHp2t8a7c4Bp6E@fat_crate.local>
- <20260326083934.fk4wyhe6rgiss34z@desk>
- <20260326100120.GAacUD8BVziYzLxZHB@fat_crate.local>
- <20260326104557.24295cbb@pumpkin>
- <20260326202931.wlggnd3nfj6hngpb@desk>
- <20260328004256.mm2ttj5iwvu5kdpa@desk>
- <20260328100837.7e6dc7fe@pumpkin>
- <20260401081236.3rjp2wigkr6w3nym@desk>
- <20260401100200.5b347628@pumpkin>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pFMe9OxE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B3A9DC4CEF7;
+	Wed,  1 Apr 2026 19:42:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775072522;
+	bh=6rRGHVxPREHYm9wPCaHRgKXoqSKaSIjkZI8d+MlPP2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pFMe9OxECJSsnMlfo9ttUe2IwOhM7R+wvb23CSB2DeIAZtMznZLM/8lOwN69yHOOB
+	 9taDCyegwySv2LOXo0XGfQHlBnS4XVTNBa8G2cXYWsnUfZTqIu/cNerzXlQp8o79lt
+	 aiEigISKNddc8Yq9zM9LUaWxS5z7Nn21/zXtqAPmz4amlTq4JOnEldOLrvS+WhRnkY
+	 FRuK/5EJRSFhdOoZ6ZSc7Mm/rfE4CXSrhlzgNM9VqjpWVTsxapSVBZu9UefHfaPG1G
+	 3DcBaO8/7fpUlJXbfQTyEGxbv45A3ATev+soKF6lUlkxlrnay4BrU3XpsXs9qvDBxY
+	 +R0q0Nb8moVpw==
+Date: Wed, 1 Apr 2026 12:42:02 -0700
+From: Kees Cook <kees@kernel.org>
+To: Vincent Mailhol <mailhol@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Marco Elver <elver@google.com>,
+	Andrey Konovalov <andreyknvl@gmail.com>,
+	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
+	Linus Torvalds <torvalds@linux-foundation.org>,
+	Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
+ __ob_trap and __ob_wrap
+Message-ID: <202604011231.1D0BAE9A@keescook>
+References: <20260331163716.work.696-kees@kernel.org>
+ <20260331163725.2765789-3-kees@kernel.org>
+ <bd0a4235-a7f0-4624-802c-aa49a9d13f29@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260401100200.5b347628@pumpkin>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <bd0a4235-a7f0-4624-802c-aa49a9d13f29@kernel.org>
 
-On Wed, Apr 01, 2026 at 10:02:00AM +0100, David Laight wrote:
-> > > As well as swapping %al <-> %ah try changing the outer loop decrement to
-> > > 	sub $0x100, %ax
-> > > since %al is zero that will set the z flag the same.  
-> > 
-> > Unfortunately, using "sub $0x100, %ax"(with %al as inner loop) isn't better
-> > than just using "sub $1, %ah" in the outer loop:
-> > 
-> >   Event                     %al inner      + sub %ax       Delta
-> >   ----------------------  -------------  -------------  ----------
-> >   cycles                    776,775,020    813,372,036     +4.7%
-> >   instructions/cycle               1.23           1.17     -4.5%
-> >   branch-misses               4,792,502      7,610,323    +58.8%
-> >   uops_issued.any           768,019,010    827,465,137     +7.7%
-> >   time elapsed                 0.1627s        0.1707s      +4.9%
+On Wed, Apr 01, 2026 at 09:19:51AM +0200, Vincent Mailhol wrote:
+> Many thanks for this series. Great work and I am ready it with a lot of
+> interest!
+
+Yay! Glad to have folks looking at it all.
+
+> I just wanted to ask how much consideration was put into this last
+> "saturate" option.
 > 
-> That is even more interesting.
-> The 'sub %ax' version has more uops and more branch-misses.
-> Looks like the extra cost of the %ah access is less than the cost
-> of the extra mis-predicted branches.
+> When speaking of "safe" as in "functional safety" this seems a good
+> option to me. The best option is of course proper handling, but as
+> discussed, we are speaking of the scenario in which the code is already
+> buggy and which is the fallout option doing the least damage.
+
+Right -- harm reduction. :)
+
+> What I have in mind is a new __ob_saturate type qualifier. Something like:
 > 
-> Makes me wonder where a version that uses %cl fits?
-> (Or use a zero-extending read and %eax/%ecx - likely to be the same.)
-> I'll bet 'one beer' that is nearest the 'sub %ax' version.
+> 	void foo(int num)
+> 	{
+> 		int __ob_saturate saturate_var = num;
+> 	
+> 		saturate_var += 42;
+> 	}
+> 
+> would just print a warning and continue execution, thus solving the
+> trapping issue. The above code would generate something equivalent to that:
+> 
+> 	void foo(int num)
+> 	{
+> 		int __ob_saturate saturate_var = num;
+> 	
+> 		if (check_add_overflow(saturate_var, increment,
+> 				       &saturate_var) {
+> 			WARN(true, "saturation occurred");
+> 			saturate_var = type_max(saturate_var);
+> 	}
 
-%cl didn't make a noticeable difference, but ...
+Right, yes. Note that __ob_saturate is entirely unimplemented, but we
+wanted to leave the door open for other Overflow Behaviors. (It was
+tricky enough to even get the semantics worked out from wrap and trap,
+so we wanted to get to a distinct first step landed first.)
 
-    Event                      %al/%ah        %al/%cl        Delta
-                             (inner/outer)  (inner/outer)
-    ----------------------  -------------  -------------  ----------
-    cycles                    776,380,149    778,294,183     +0.2%
-    instructions/cycle               1.23           1.22     -0.4%
-    branch-misses               4,986,437      5,679,599    +13.9%
-    uops_issued.any           773,223,387    765,724,878     -1.0%
-    time elapsed                 0.1631s        0.1637s      +0.4%
+For the "warn" part with __ob_trap, we borrowed the Sanitizer
+infrastructure since architecturally it's in exactly the same places
+that __ob_trap needs to be checking, and already has everything
+available. In the case of __ob_saturate, it would only be informational.
+(Arguably, there should be no "warn" at all, as it's the "expected"
+behavior, just like __ob_wrap has no "warn" on wrap-around. But it seems
+sensible to me to make that available by enabling the sanitizers too.)
 
-... there are meaningful gains with 32-bit registers:
+> People using those saturating integers could then later check that the
+> value is still in bound.
+> 
+> This is basically what your size_add() from overflow.h is already doing.
+> If an overflow occurred, the allocation the addition does not trap, it
+> just saturates and let the allocation functions properly handle the issue.
 
-    Event                      %al/%ah        %eax/%ecx      Delta
-                             (inner/outer)  (inner/outer)
-    ----------------------  -------------  -------------  ----------
-    cycles                    776,380,149    706,331,177     -9.0%
-    instructions/cycle               1.23           1.35     +9.9%
-    branch-misses               4,986,437      6,089,306    +22.1%
-    uops_issued.any           773,223,387    774,539,522     +0.2%
-    time elapsed                 0.1631s        0.1482s      -9.1%
+Right.
 
-These values are for userspace tests with immediates. Next, I will test how
-they perform with memory loads in kernel. Before we finalize these uarch
-nuances needs to be tested on a variety of CPUs.
+> The saturation can neutralize many security attacks and can mitigate
+> some safety issues. Think of the Ariane 5 rocket launch: a saturation
+> could have prevented the unintended fireworks.
+> 
+> The caveat I can think of is that the old overflow check pattern becomes
+> invalid. Doing:
+> 
+> 	if (saturate_var + increment < increment)
+> 
+> is now bogus and would need to be caught if possible by static analysis.
+> So those saturating integers will only be usable in newly written code
+> and could not be easily retrofitted.
+
+In theory, the "ignored patterns" (or "idiom exclusions") would already
+allow this to continue to behave correctly, though it may be worth trying
+to figure out if this is "correct" or not.
+
+> > +In the C standard, three basic types can be involved in arithmetic, and each
+> > +has a default strategy for solving the overflow problem:
+> > +
+> > +  - Signed overflow is undefined
+> > +  - Unsigned overflow explicitly wraps around
+> > +  - Pointer overflow is undefined
+> 
+> Nitpick: the C standard uses different definitions than yours. In the
+> standard:
+> 
+>   - overflow is *always* undefined
+>   - unsigned integer wraparound
+>   - signed integer overflow
+> 
+> The nuance is that in the standard unsigned integers do not overflow,
+> they just wraparound.
+
+I guess that's technically true, but for understanding the "overflow
+resolution" properties (from a mathematical perspective), the question
+is "what happens when a value cannot be represented by the bit pattern
+of the storage?" But I think we understand each other here. :)
+So given that under C, signed is undefined and unsigned in wraparound,
+this is how we ended up phrasing it.
+
+> I am not asking you to change your terminology, but it could be good to
+> state in your document that your definition of overflow differs from the
+> standard's definition. Maybe a terminology section could help.
+
+I'm open to whatever you think would make this more clear. :)
+
+-Kees
+
+-- 
+Kees Cook
