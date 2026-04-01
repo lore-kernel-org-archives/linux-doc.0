@@ -1,126 +1,252 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AD133C507;
-	Wed,  1 Apr 2026 21:41:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775079662; cv=none; b=F0TkNseV/v8G6mmjFfbWkPxCkWBbMcQAII2dALYjuQXIv4x1Av9Jo0OTEqMscApYC/XuiHSUClltxsbcefMXYVYo5h8mqPxzaksQE/P1QAa8UVUnKn42EY2Mjx+2+5qV/yS6md2JJnJugv9/n1v7wzvBPpvN4WTuokKMfIltuwk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775079662; c=relaxed/simple;
-	bh=pDwgJl6Fh9R0ESyyzZwZ3nyL/1KbhhNvMwGXe/yD3k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kOoPOhbCBewe5mpVrDQi/YbJu8znlTnrq6G7uJzKaw1iCcZFnhxuNNNRZH8D5fSUBhAC+khSYqb3mdQWtvTjqL0ZIsEyj6Hnw6PSij66JjyfFGf9JA/704BYiil3Dc/5wCAHqTYoEGbizJlH7MRC+hRvZwU0aKchdi/nNMdEaKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjZ4krda; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 414502E0914
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 21:43:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775079829; cv=pass; b=LnVYy1YcY8hqnaTsJHqj2PrehfOxG7vyBLh4PsjkC9ScJfbhEVkU/Lst4Tka8SSZ4NyytwMbQk8gKSsEUicRB1LX+IsvXhXrxwVOYfn42NufXkYGSW6cttox/Sf21lvgjONLossKgXegeXqENYDmYtIwYicdQtLacSrxXEhw76g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775079829; c=relaxed/simple;
+	bh=Lqc2gSCGX27KLO8cR8TH/YramgapK7QqVjWuHRiu0ag=;
+	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BEaHok+aKKa4jecUc8lqp8tjfVclK4OUJigsOYWOOLDM+crbXku7ubGvav3rjT1YG89DOVOUKAP4qKDysZHVqzCjEIKos0HdFkxLFch7Og/oynr92o6FbOQ2+k8F7wggOT2ZllPofp8wkEHOUHz+GrAo/R7UfLI6aV95lhdoLPY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oE/hf/W6; arc=pass smtp.client-ip=209.85.222.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjZ4krda"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78247C4CEF7;
-	Wed,  1 Apr 2026 21:41:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775079661;
-	bh=pDwgJl6Fh9R0ESyyzZwZ3nyL/1KbhhNvMwGXe/yD3k8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rjZ4krdarwjCTk3lcfRgblqKEGSYvMlE4Ub7PB8ZhtVDNHJU53EvsLHOqIa783mjS
-	 uh1Ye5ifYSc+2lJDlHDbyCO1JC4udIlqGMyo95ZakDYbnYiWtqS5FyW0hIoidj/qen
-	 euu68aHI4r+tt1y/ZW63ZJiZ4im12Cq7kvxhAeaFT0Bk5vG9kUopONhOl2i1Kl7x1K
-	 SYxvvMSN1EGRjhFwvZ4L++cQMIxATWc83jCSm1elVC3UFuAoMNGQ+Sdm/JZuUkYqkC
-	 NLdK0LTq7V2d5cfKjTF3ejhgpUSuPge2iqLHnRnctbC7k57HMb0LIt8rHdrO17qxgq
-	 hi+/R+7AcOy4Q==
-Date: Wed, 1 Apr 2026 14:41:00 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
-	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Finn Thain <fthain@linux-m68k.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
-	llvm@lists.linux.dev, Marco Elver <elver@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nsc@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
-	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar
- types
-Message-ID: <202604011438.E5D2335@keescook>
-References: <20260331163716.work.696-kees@kernel.org>
- <20260331163725.2765789-5-kees@kernel.org>
- <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
- <202603311253.95C54588E@keescook>
- <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
- <202603311321.4EE9FEA@keescook>
- <20260401093820.GX3738786@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oE/hf/W6"
+Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-951c5ac6253so80196241.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 14:43:48 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775079827; cv=none;
+        d=google.com; s=arc-20240605;
+        b=G/dbQ6u3j8cVRggoYNUttuktmBqGMqQGvw1vBt3yFEI/DB6bGbD/HB6S2fKZ3y6UEh
+         4/iMPp8CcbwPKvtEEl+AxG0Ss978IIuty+M0cM+ADCz9FIZEyWBT8HDbggtsuZ6Kjtxd
+         GgRXJfjI/iyYl44KYd40Kd3cmw+c0EPIrMB90U7qC8/TQe5jjtswBa7uWR2+1VFjGi7C
+         Q8WQUt0jVGkKJLErx/Grfhc+/edpasLu4pmhD45EerkEm2DdlJ0AAIRA24Tu812S30IR
+         DOhRUSEbyxnIQ62gN3tynWcd6Iohwt2g+UcgNJ2uLbpd2vInAILbSCv22QSYNMVXwGg6
+         p0ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:dkim-signature;
+        bh=1YVI0hayK/pE2zwI/10lFSwnfbjn36xvcFyuXZ+58V8=;
+        fh=99rWC1YjDHfEYxIxzNX7NifXcZXbRbmHH04UNNed8uA=;
+        b=idjrKsbzcFXqyW30egeJsQPs1wJg0KpZdOu4epMH38z5ItSeFXLbnCio7wNL3hIaq/
+         4SvP77F++6CZiI3KZwf2G2hkwybDshr7WhxiczcHaW/j/WIq4HCj98DsKl0XWOaL2Nee
+         NNsGiCAuSIv+Z66A5APIUpuWAD2PNasiz5CLDbLzXbdDJh9HgqErhnZQyE1C/rLwFrjH
+         UhmUjoI+jZgf3HzrV0pORQQbeWe8Jiv0AV8UFZwo1E9e1L6tEDyMeXTqtFNEWjBXj7ta
+         lz1mR+2EUOZ/gNZThLDyk6og2QWcgHNxIKL7x32PU6savDu6iLxKMkNMhQ2vvhgipA9T
+         lepg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775079827; x=1775684627; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1YVI0hayK/pE2zwI/10lFSwnfbjn36xvcFyuXZ+58V8=;
+        b=oE/hf/W65b7KEFAO6JVRtuEeQYfeoO8U2BZ2WTeOd+yKxhEBzT9yQSZqpsVsj7/r8V
+         0SjaY5SxpPv3KvypX8YNjB8ZqoWGquXdzgu9zYeLWhgIE8ALLaQmN8+rwi04B6E6Xz/2
+         CtvfqtaTEWLYazKbkBLD7ItAXpGwOX1UYdcbFQEsNnPvqlIwLQ32oN9W52+71qLwK7yp
+         xkzUhhE0bNr7ABQMEb3gIeiB39R/RwMVzOjwB7cRmvUYi/M/jdQ+pYyaQSFSwf/+hFYV
+         WGAz2lIHQk9/m+dVvmDj2C6+H7ReV73F155tSCO1+Za1+goV3KiJ6QB2DjT4ja9xE4Nb
+         zTsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775079827; x=1775684627;
+        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1YVI0hayK/pE2zwI/10lFSwnfbjn36xvcFyuXZ+58V8=;
+        b=ZuvtGeqIBjZh7J+py8dUOCxSCPiS9QreyG563bKvZ/YR6Izj5W+KjGjDUHvqs5u7H+
+         DaFbZ4kKdsmdiRkyI4Q43y91nto4GK8JExtwJ9952mspMbbGF9p29RJqGatlGq6K4EGS
+         CAJhJBZc/SZJKmCcbGEnyRnUVsfCJZ4D0hfhvxCjA35t05w+LlX81qcK8i0huu7PirmK
+         vuay2mts8pcq6VqpGKCggsabBtakjmebpktfFADHNFhtE+bo4rVupWwioujckB1W7+38
+         hiAjF0D0yWi1+ejJuiUqhDBdSxbt79L5afzul2th3WuCTHExI+BWME05RrpVuWeeihwj
+         AD0w==
+X-Forwarded-Encrypted: i=1; AJvYcCXAmQlHMxQGqR9LBDIFTzuyPbMLKLoVVVpATLjgEvAEcZntSGRQPebGPxxxn1QWeApfoeXfoxW1D2w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSxZqXdBb/YVodLhDaVWC8iRQB57yCqnHbaKv5GltxKfLEy1t4
+	4SaT4GZhZ5tK82n5nl35KQUkteYqXI/SDjIhGnxOkvRVhzueu9A6d8YwqVOCKpAMrmghIIIpoFJ
+	Q2hm0fKxZDA6O12+ExWzg2VLjy1dMraVoInhvpkn5
+X-Gm-Gg: ATEYQzyqPhYg7ujwGKE8WuvUrLa3HmsuVw0GEYpWqzIM9FOFgqACrmKT9m/Q4mSlQ+5
+	NT/nRG5ui6VWF4sxfBrtTpPhGo4ZSdCmykTzm2W0fT+N6++wxtiXd/gM8/vwN6bYFy3109V7G//
+	BujRsw9Qz0TrcjNXQadHEsYyageoQFCaIq8KN0DM9IChUN4UHkn6W05fhQ2tA4LV2GAzOjhYPBZ
+	R+8weTn10y0huZ18C26pISXPtAlIIXM1ebjZ/NLGVI7C312oVIS6GZeF/xeUKyFSD2O59GP3/OD
+	mfMOwP/lHcZzxfXUJ/7mEVvrLzkrTp0npKnZLpLYAr9ueoC/aQ5WLK3AIqn0jno1G4Yq8cgsRnk
+	YBtkL
+X-Received: by 2002:a05:6102:14aa:b0:5f5:4055:4556 with SMTP id
+ ada2fe7eead31-60583dd2d96mr513571137.4.1775079826765; Wed, 01 Apr 2026
+ 14:43:46 -0700 (PDT)
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 1 Apr 2026 14:43:45 -0700
+Received: from 176938342045 named unknown by gmailapi.google.com with
+ HTTPREST; Wed, 1 Apr 2026 14:43:45 -0700
+From: Ackerley Tng <ackerleytng@google.com>
+In-Reply-To: <s4dbqrv2c6yzt4nsflfarnggtl25xlz6mzg74tfeg3eskceno6@6l5hpfmcbju3>
+References: <20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com>
+ <20260326-gmem-inplace-conversion-v4-7-e202fe950ffd@google.com>
+ <CAEvNRgF+FjJ1EWSR_rzD1=N040ZitiRrM2O3N0Kj5yN5rT3h+Q@mail.gmail.com> <s4dbqrv2c6yzt4nsflfarnggtl25xlz6mzg74tfeg3eskceno6@6l5hpfmcbju3>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401093820.GX3738786@noisy.programming.kicks-ass.net>
+Date: Wed, 1 Apr 2026 14:43:45 -0700
+X-Gm-Features: AQROBzB6Nm5vUeDCJFrJRBVH_sKZ67O9qJoiuhUvd8m5ueyFjs7DkYFcGmC74e4
+Message-ID: <CAEvNRgFQU6daGzYY1nTm=9omJ7ca3Eam3DuWRZPeRpYRiYM2fg@mail.gmail.com>
+Subject: Re: [PATCH RFC v4 07/44] KVM: guest_memfd: Only prepare folios for
+ private pages
+To: Michael Roth <michael.roth@amd.com>
+Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+	ira.weiny@intel.com, jmattson@google.com, jroedel@suse.de, 
+	jthoughton@google.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, 
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Wed, Apr 01, 2026 at 11:38:20AM +0200, Peter Zijlstra wrote:
-> On Tue, Mar 31, 2026 at 01:31:16PM -0700, Kees Cook wrote:
-> 
-> > int func()
-> > {
-> > 	...
-> > 	u8 __ob_trap product = 5;
-> > 	...
-> > 	product = a * b; // if store is truncated, goto __overflow
-> > 	...
-> > 	return product;
-> > 
-> > __overflow:
-> > 	pr_info("%u\n", product); // shows "5"
-> > 	return -1;
-> > }
-> > 
-> > (Isn't this just an implicit "try"?)
-> 
-> So I like this implicit try with a default label, and mostly I expect
-> this will be fine.
-> 
-> But as Linus already mentioned, sometimes you might want more. Could we
-> perhaps also have an explicit version, something along the lines of:
-> 
-> int func()
-> {
-> 	int __ob_trap size;
-> 
-> 	size = try(count * flex_size, __mul_overflow);
-> 	size = try(size + base_size, __add_overflow);
-> 
-> 	obj = kzalloc(size,...);
-> 
-> }
-> 
-> where we have something like:
-> 
-> #define try(stmt, _label) ({		\
-> 	__label __overflow; 		\
-> 	if (0) {			\
-> __overflow:				\
-> 		goto _label;		\
-> 	}				\
-> 	stmt; })
-> 
-> That is, have the overflow trapped and confined in the
-> statement-expression by using the overflow label as a local label and
-> use this little trampoline to re-direct to a custom label.
+Michael Roth <michael.roth@amd.com> writes:
 
-Yeah, that should work, and gives us a nice way to create handler
-overrides. We've have to make sure the "locally defined" labels (with
-__label__) and __ob_trap worked together sanely.
+> On Wed, Apr 01, 2026 at 07:05:16AM -0700, Ackerley Tng wrote:
+>> Ackerley Tng <ackerleytng@google.com> writes:
+>>
+>> > All-shared guest_memfd used to be only supported for non-CoCo VMs where
+>> > preparation doesn't apply. INIT_SHARED is about to be supported for
+>> > non-CoCo VMs in a later patch in this series.
+>> >
+>> > In addition, KVM_SET_MEMORY_ATTRIBUTES2 is about to be supported in
+>> > guest_memfd in a later patch in this series.
+>> >
+>> > This means that the kvm fault handler may now call kvm_gmem_get_pfn() on a
+>> > shared folio for a CoCo VM where preparation applies.
+>> >
+>> > Add a check to make sure that preparation is only performed for private
+>> > folios.
+>> >
+>> > Preparation will be undone on freeing (see kvm_gmem_free_folio()) and on
+>> > conversion to shared.
+>> >
+>> > Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+>> > ---
+>> >  virt/kvm/guest_memfd.c | 9 ++++++---
+>> >  1 file changed, 6 insertions(+), 3 deletions(-)
+>> >
+>> > diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>> > index b6ffa8734175d..d414ebfcb4c19 100644
+>> > --- a/virt/kvm/guest_memfd.c
+>> > +++ b/virt/kvm/guest_memfd.c
+>> > @@ -900,6 +900,7 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>> >  		     int *max_order)
+>> >  {
+>> >  	pgoff_t index = kvm_gmem_get_index(slot, gfn);
+>> > +	struct inode *inode;
+>> >  	struct folio *folio;
+>> >  	int r = 0;
+>> >
+>> > @@ -907,7 +908,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>> >  	if (!file)
+>> >  		return -EFAULT;
+>> >
+>> > -	filemap_invalidate_lock_shared(file_inode(file)->i_mapping);
+>> > +	inode = file_inode(file);
+>> > +	filemap_invalidate_lock_shared(inode->i_mapping);
+>> >
+>> >  	folio = __kvm_gmem_get_pfn(file, slot, index, pfn, max_order);
+>> >  	if (IS_ERR(folio)) {
+>> > @@ -920,7 +922,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>> >  		folio_mark_uptodate(folio);
+>> >  	}
+>> >
+>> > -	r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>> > +	if (kvm_gmem_is_private_mem(inode, index))
+>> > +		r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>>
+>> Michael, I might have misunderstood you at the last guest_memfd call:
+>> sev_gmem_prepare() doesn't prepare a page for being a shared page,
+>> right? Does this work? That prepare is only called to "make private"?
+>
+> Hmm, I guess your guest_memfd-inplace-conversion-v4 branch is out of sync with
+> these patches?
+>
 
--- 
-Kees Cook
+My bad, it was. I just force-pushed to github to synchronize them with
+this patch series.
+
+> I have the below local patch based on top of that for SNP-specific enablement,
+> which is basically identically, so suffice to say: yes, this should work
+> for SNP :) If any architecture pops up that needs to do some prep in
+> advance of mapping shared pages, then we could potentially plumb the
+> shared/private flag through to the arch-specific prep hook, as was also
+> suggested on the call, but it doesn't seem like that's needed by any
+> users for now.
+>
+
+Thanks for checking :)
+
+> -Mike
+>
+>   Author: Michael Roth <michael.roth@amd.com>
+>   Date:   Mon Oct 27 07:58:32 2025 -0500
+>
+>       KVM: guest_memfd: Don't prepare shared folios
+>
+>       In the current guest_memfd logic, "preparation" is only used currently
+>       to describe the additional work of putting a guest_memfd page into an
+>       architecturally-defined "private" state, such as updating RMP table
+>       entries for SEV-SNP guests. As such, there's no input to the
+>       corresponding kvm_arch_gmem_prepare() hooks as to whether a page is
+>       being prepared/accessed as shared or as private, so "preparation" will
+>       end up being erroneously done on pages that were supposed to remain in a
+>       shared state. Rather than plumb through the additional information
+>       needed to distinguish between shared vs. private preparation, just
+>       continue to only do preparation on private pages, as was the case prior
+>       to support for GUEST_MEMFD_FLAG_MMAP being introduced.
+>
+>       Signed-off-by: Michael Roth <michael.roth@amd.com>
+>
+>   diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+>   index 3acc6d983449..4869e59e4fc5 100644
+>   --- a/virt/kvm/guest_memfd.c
+>   +++ b/virt/kvm/guest_memfd.c
+>   @@ -1249,7 +1249,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>                   folio_mark_uptodate(folio);
+>           }
+>
+>   -       r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>   +       if (!kvm_gmem_is_shared_mem(file_inode(file), index))
+>   +               r = kvm_gmem_prepare_folio(kvm, slot, gfn, folio);
+>
+>           folio_unlock(folio);
+>
+>>
+>> >
+>> >  	folio_unlock(folio);
+>> >
+>> > @@ -930,7 +933,7 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+>> >  		folio_put(folio);
+>> >
+>> >  out:
+>> > -	filemap_invalidate_unlock_shared(file_inode(file)->i_mapping);
+>> > +	filemap_invalidate_unlock_shared(inode->i_mapping);
+>> >  	return r;
+>> >  }
+>> >  EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
+>> >
+>> > --
+>> > 2.53.0.1018.g2bb0e51243-goog
