@@ -1,209 +1,308 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020137.outbound.protection.outlook.com [52.101.195.137])
+Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844F936EA9F;
-	Wed,  1 Apr 2026 15:15:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.137
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775056514; cv=fail; b=WuaGfB8VElxkAHJtcMGdlxfIkXwxOYK8zWR3FCf7Lx8xd1lvW5h0qWevv3Y8HOSfeCRamBRONKaPRWlGbDigs/iC7BwJygjDx292JqS2JZosUrlTOcUFuE0Q1ykNsBYgRCfSl/WGFXKUmAu6wx532x6eO2xPFpazp963UiRapMA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775056514; c=relaxed/simple;
-	bh=dFwJ/yLjEK76Xp9mf8qnM5tm+uuBXgGAF+2qsw60CxM=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=V3zuclGa0EcGwF6rFcCq9df6R/0Ad/IpiOkKvWx0Cs7pZS3yHj1aVtz/JGCTDwvPVuibNDGpTfvZRfn8lPrPxGafDBlFR+EGZ/oBcaII41GNUrYOvFQb2j/Pz8iE8+Y07tHkXmV17/D1XCe0DI/d5m9vzmYPRUZenKLZK/BU0K8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=jYXDi7P7; arc=fail smtp.client-ip=52.101.195.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="jYXDi7P7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zL86eoyHSdG3dJwxvbvs+i0QOHpFmU0EgAsBjQ35GUrSAuDrdds1+L5WBJms7ImyPuZbFXp33a+We9pTSudwAkBv2Zx7vW/JgT7tzLZ5UzLurpCYgOYDtwZUQYhv17A4SRqdkRWZJptieiRnTyG2Tl1SfpWnlecEPGdkgBjYy/DDYdygGQKBkdxnZxXacGYn3yp6ZE9oLp0thGs1XGS8Rc9EavY8qdHrobtc35ABhUr/fzacqDo+ExXPiqXR/vLhpkoahnG7JNcWlG9RN8zIl6bZcD37R15SS7ReYR2u8xyYpFNDVBkWUEUhwaPsiWrTQS3/AhhblauyFHHDsabLbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JIveiotkeGlE192c9KG+dumBiPtlgN2ju7yaOPdld0M=;
- b=ZMGkUlXrQSz7GPEHTqFapKwyaZ5E+eUbm/QFOyuLvZqiwCtC3/f2FC5tg/iwgzt3M+WY+cHK2mQ0u3hUqyGAEVSwc+7FX75TTtXE04LO02Q2HF9x+OpKVLS2+04Hu9b8AB9+mHSyIiXtr1lzVpj9kUbmsZtT78cRxscrK2tihULTYRp1jRl4Bl0jhjxHB9aodc2m+cD8L2gUy4YpTXZfkB+lNclWV+X+l3O099siFNEcCmFA5fd/77rYRfExGGqgAjLXcDqrDA9p5INIV45xH01I1QCvp8n/5mkLn7Emkwlhd0G0tsmqqdeLXpSkjos5Oj/5y99n9BNlliPRH/WX9g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JIveiotkeGlE192c9KG+dumBiPtlgN2ju7yaOPdld0M=;
- b=jYXDi7P7W0SYPlxUPzvKi4vktHuqnu1f9Nkr4YFU5PmuPHwMeHJHAPjL1qV4P+l0OVPkFXvWcHbi9ok93ntuiQaq8mXuB8Rt+3PnIcIvNXX2RKTbq1bLI724Ib+YFHcJqFdiBYVQxe1Tb2nhHYQ/3i1naEV8W38CL5cnzUTFxB0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB5651.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:158::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Wed, 1 Apr
- 2026 15:15:07 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
- 15:15:07 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Apr 2026 16:15:06 +0100
-Message-Id: <DHHX0LG9K10F.3NNW0OGTARLLK@garyguo.net>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Lorenzo
- Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- "Uladzislau Rezki" <urezki@gmail.com>, <linux-block@vger.kernel.org>,
- "moderated for non-subscribers" <linux-arm-kernel@lists.infradead.org>,
- "Alexandre Ghiti" <alex@ghiti.fr>, <linux-riscv@lists.infradead.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Rae
- Moar" <raemoar63@gmail.com>, <linux-kselftest@vger.kernel.org>,
- <kunit-dev@googlegroups.com>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, <llvm@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 28/33] docs: rust: quick-start: remove GDB/Binutils
- mention
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
- <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Paul
- Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
- <david@davidgow.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
- <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
- Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Jonathan Corbet" <corbet@lwn.net>
-X-Mailer: aerc 0.21.0
-References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-29-ojeda@kernel.org>
-In-Reply-To: <20260401114540.30108-29-ojeda@kernel.org>
-X-ClientProxiedBy: LO4P123CA0323.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:197::22) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA0123A6EFA;
+	Wed,  1 Apr 2026 15:16:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775056567; cv=none; b=u6+Wd2zZeth0Se39SGooIEb19nSpZP8sH3zoLgjx9RJ1FOIb7kCc6j2+MEsIvooTUo5Ag4lce7eCES5s64kO8p7VmwwHpyUKAiMi6c1Ynlab7cyFS5P4HM9OGkbY1ohQyHx/wj2X2NIV7w2ITAny5js2prgbU2tVw11RsjJLzuA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775056567; c=relaxed/simple;
+	bh=25lB7qQccaiGXkodAdpCqYi2IXgKw+RXo/4CAG/NB9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ttv/EFcz6awTJYJMamvxgsQnzJJiiPnvCGKZHPt6UqmocJ0S5M34rQHfCVh5eG4Ay79CXNoDsAFakGxtxTp3MT5g7x31XuP5JM8Obyl0TTFSMSFEE1eLVwMQrbQElDikeN5cWXfklz3eXMtXcFArxpsCj7VCNDMBOuDfXZrAxIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay02.hostedemail.com (Postfix) with ESMTP id A03F713AD7A;
+	Wed,  1 Apr 2026 15:15:56 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf05.hostedemail.com (Postfix) with ESMTPA id C725320018;
+	Wed,  1 Apr 2026 15:15:43 +0000 (UTC)
+Date: Wed, 1 Apr 2026 10:15:41 -0500
+From: John Groves <John@groves.net>
+To: John Groves <john@jagalactic.com>
+Cc: Miklos Szeredi <miklos@szeredi.hu>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <ac0zFPM9BT0XQq45@groves.net>
+References: <20260331123702.35052-1-john@jagalactic.com>
+ <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB5651:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3b00ac4-bdfc-4313-0636-08de90017539
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|7416014|921020|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	OYr5ZvfguCLkWwH7cRnSLnKVQ02OwxukuobmX820gGDbWFv1hdkRoFF1TbqYHusSuMcsA3sAJdG8EhXwinS01u0UGaCSg9XsJxVCu1f57XJnfL7wHzIyZDIHmHJJtDTbUEEa4jOQDvM7aXWJ2MjGIGoYRojcZdTgthR9pYgDhfnS42549v79xDSdUM1Cfm1QHAD9vM7eQ7ZvpfiUYlRXM1oyOA/dDhrcMMfimrhkPT6yT+0CVwoRTyqroUIQJB2anBpaXO3vFQCwMZnEHQLdZqjbLnnQ4uYGPlRT/oldrotTw1aLyU0xJOd7skePyQ8WLGrygmzgK9ViueXYU6bsDkFmHex8ldpMW4iJCsnrNRyZfuZWX9FQBSbLygZ0nu9R4uYhKaC+7mJrloDqadmpyxsz0O0xfjiV4OkOc36Gg48R+14sgVysYTyX+ZCQP84BS43GGgYjI2tFAz7pguTNQxmFKZkA5x8RoHOLqrMmc1eNcOZhCmR1WTDsCsitkjeZgBmx/WPnAQ5iwVEQiygQPSKbU1Ca9RUDhjd1wIS5lGv0Uf+bRI7niedrbGGNSZ80C7Vr3oTyRlDpFgkRjwXVZ+5fzhDA+1xICEawJTtLjaEVix7UtDPlQ9o27ovf24NRbP40sv8Orlxl3/bC66Mo2hj3YItnqPNwnNFCY0jLyt73G3BfiOvHAanLWfc913u6wpy+xwB+g9F2GA6+fzBxc+VXCeSWUp5bVIqZ5tO8Gc7lezzMohreoB9HHisGE13jzKu+4AQgxAWrfqB7qhSbhg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(7416014)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NVN1WWhsZFl6ak5QRzU2RExaQnpqQ2ZVTkxrU3k3Uy85dnk2cy93c2tidTlk?=
- =?utf-8?B?NmE1cFovcU9MMGlwVk9vV0hEUURabWxSeWxHanFpWGZLMEZ1NlB3UmVUOG1q?=
- =?utf-8?B?ckZLNjZJT21UNWhzR3NRalE1YnNFeDNCUGNTdlFWNEw4YUNRTEJzd0NyYWdy?=
- =?utf-8?B?QU96bjkyYmZra3ErSG12M3JIMmFNbnlzYmJRVlBQSk9qd0pWWjVVVy9zci9w?=
- =?utf-8?B?djdsS0dwemNnbHNTTnFNWFV5VGl0YUdWYzFrZGtPNURyNWxGRjBzbnRvUExz?=
- =?utf-8?B?dVBMR0dYOXdXTm5Gbi9OMWNrSWtEdlpHaTRienUyWHNpT3kveTBrcEltRzl4?=
- =?utf-8?B?azRJTWR1aDlaSGdUQ245QTB2Z0hrRmVTMWR6N0lRTndRQTl6RmdncWlNQU5Q?=
- =?utf-8?B?dmRpbVJqTzVpdjVOZkYzWEUycEpUQzNhdGJzUjcyREw2T0JEVTNiMzdjam5s?=
- =?utf-8?B?YlF3U0dXNVpHTmttSDA0ZkJ0Q2VTbTF4b0MzU29zWlhUY0g2a0s3aWcxSjYz?=
- =?utf-8?B?b1Z6b2lHWUdYME5KVzZUWEt6cjZySE1pUjNxWTF3SFBDeEpLMG1UTXdQK2V3?=
- =?utf-8?B?NHdaNmR1bHAvSGhxcUpWZVJzY3E5NzR6ZE5YZXo3N0pTRktTZ3FZSFBQQlZD?=
- =?utf-8?B?OU80M2E2TVlCOEdmS1JrMmFidHRVQ290Qm94aHJCRm42em9UYmwzQnQ5SUMw?=
- =?utf-8?B?bGFvRG9rYjJxRFk1Zll5cEMyeTY4NjZjNDlwRHlUU056UHUwQlQ1OFZMbGlD?=
- =?utf-8?B?bmNIMWdGdGswaHFzeGxIejY2RmtobHRXUUg3K3RONDFEcDZFZ1BEdnpLc1F6?=
- =?utf-8?B?Zi92bTZ2cm5CRkdIZXF3MXdZMTZmQTVIVjUyUGhsTEh2d08waWtaUWRsQlBZ?=
- =?utf-8?B?SDBGaUYzSU9FUkFQdEgyNW1ma0NMd0ZLZUU2Q1F6UU1YNmU0ZGRFQWRqbDhz?=
- =?utf-8?B?RmlUMGJrVytaR1dGWEtoOHVNYjVNRnU3aEl1Z0RYQlk5OUFxYk1odWc0WE1n?=
- =?utf-8?B?Yzg1VG5NT1BYU0RZaTFUL0Ruakd4OVFlZS9aYW1aaFE5YVpOdmdlSnJoVUVF?=
- =?utf-8?B?V3RZZ0dUYlNpN3NCelRTL0ltNnN2M1pxT2hTOElUS2ptUkVJbVZ2aElXMWRX?=
- =?utf-8?B?SXZUUkVWVlZJbGtGdjQyWW5HanUxakxYWnNUZXc3dVBXTlM4ZFFDT1BnY1lG?=
- =?utf-8?B?SGNxTjRrUjVoZDVZT0psKy9DL1BZOGF1N05aN21nVTl4ZzV2eUZzNzdibXA3?=
- =?utf-8?B?eFZMTFMrVHhtaDNObXdMSUpuKzZKL0FvRVFjZTQ1dFN3MjhFM1JJQ3lLM0Nw?=
- =?utf-8?B?SGg3MWQ3Z3BqNDRmaDBYV0ZPeXlnOEZYZFZ2dmtrUjlBVlQ1OWM1dmRMZkkw?=
- =?utf-8?B?d3dzR0NiUXNHRHp4TUlhRU5rc1ZiUHB1aTR6TkhSZDVUUWtLTUpVbmlKY1JM?=
- =?utf-8?B?VGlKa2hzYjlVUzZxbmxxZ1p1SGNzRVBsZHNCWE54T05pMHZ4NXdUWnZEYXda?=
- =?utf-8?B?WmZCTXNPR0cxNER4a3NLN2lzSElxS2dMUkczdDBTL3hTajh2TWpob1YrTEdv?=
- =?utf-8?B?dmxEL3lwRkhOcnhPak9GdUkrTlRDTHRCeVBsVm1WaGhMWHBkbUIwdWNSU3B6?=
- =?utf-8?B?U0Z2NUh5NXFFMS9XRmEyOUJZZmpVOUllSTVFakdydWhSeTNheFdySjZnRnJQ?=
- =?utf-8?B?RjJPbE9OOHVmbGNWTE5tNHlSajgyWG11cFdZd2lpUmsxYlVNa3JOenlzSXEx?=
- =?utf-8?B?Ny9zKzFLdFZKZWxUVUhzc0dwSllQdlZhWjN4WFJpWVhVa3JGVDdJb1ZjS0Nj?=
- =?utf-8?B?MmY1VUZnejdiYURSUEs3enhPNkRZZmFWQ21pZkpITkpCY0k5K0hBMTJDUE0z?=
- =?utf-8?B?MW1OODNmVnAvb0pLVFBUT1IvS0IvRzQ5aG45aDNJQjB0RERPTDBZMU1xZ1J5?=
- =?utf-8?B?ak9yUWJoWTVNTE96cmNtUFk5Um9wN3lUQmtoK3gweWdNZTZkY0MvczlJNlVi?=
- =?utf-8?B?QVdaM0FTVkNCajRnUmY5TFRWYmZ5OEdwdGgvQXlXOTI4OUlaZGdEcXV5WHE4?=
- =?utf-8?B?OVZrUVpMblRjVklmbWRCbzMzMFNDTEh4ZVlxZlRpem9YWm00aU04S0Vsc0tn?=
- =?utf-8?B?RFJwQlNVMVU3c0d4RUVWYmpzd1NTcnBhZ2cvSGhxQUZuQnlTNVZDM3FzSEt3?=
- =?utf-8?B?cmN4ZWl2dkNNaHREQkMrb1B3c1M5ekNabjVUTUxEZDV1c3BQTG1YVlFuM3o5?=
- =?utf-8?B?RUp3WEFrZDJXaklrUkdpL3hjVkR2NXJRQzU4OVU0YTVVdUlUNk5VQmdMbUdN?=
- =?utf-8?B?L2N2S0RLR29yWFBNOUZKeWhQOElXcU00aWJpWmdVaU56bVRVSWh2dz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3b00ac4-bdfc-4313-0636-08de90017539
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 15:15:06.9954
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3lHflWd9u7AoLIoFJ49pndNMlb5mo4KUN7L4Yv+bYf3FuKZ7e2r+1U5oqTt9AQtzsC76N53PD3YPfie7Ht+YmQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5651
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+X-Stat-Signature: yn54oi6s9m8mzq66a3pqox3gimnxnxr8
+X-Rspamd-Server: rspamout02
+X-Rspamd-Queue-Id: C725320018
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX1/tr9utI/djPd2yoN0Cz5Xt2wi19B0GCoo=
+X-HE-Tag: 1775056543-621479
+X-HE-Meta: U2FsdGVkX1+LGtl4ayG4DfaC9oS7dL/Y8rgmAvHptiwOmLe3q753H6mFaGQr69ZqxTaYI7M9ziV06XGHbw9SKh52t7CFF2feqhWM6+dbz95CjWoJ8EdgnlEDtYokZMJfDJr32xATHfcCb1XHYuOtqkq+SP7U0X6wmmsRwIFWuakMQ4l9Bc5CfwHN3hqMv9G1CMlyRJub/FawpP5G6c7WX/i71aIdolTjUCUoxCKjYG7irh1wYQ57T9X67ESmY5bpROGC05gZdftM1s/Ltci//NbM7bhtY/Sg+IFxWfEZmFv9ClE/R1yfGriVuQ2IXTd2NTos9CYRiZRn/I+yMitq5Rp747v7h952WPlDOcj9JdADKNaICTzfFaTwk6d7lmaCpz/OZVE55yKcdY2o0nLegZytGcpohaUl/NYj1bG9cg6iWzjf+Mc64uQZcqJgS6vuyJDRDku8vaObJlFX5sU1mYwUWXao5K1h1YUAqn6LiUzv8pZeVhKQ/cOW3G9xlMDfS5RMs/kUFHK4R9Qwb7Y7lA6Zu0YfKkXxJQMpn63i0Yw=
 
-On Wed Apr 1, 2026 at 12:45 PM BST, Miguel Ojeda wrote:
-> The versions provided nowadays by even a distribution like Debian Stable
-> (and Debian Old Stable) are newer than those mentioned [1].
->
-> Thus remove the workaround.
->
-> Note that the minimum binutils version in the kernel is still 2.30, so
-> one could argue part of the note is still relevant, but it is unlikely
-> a kernel developer using such an old binutils is enabling Rust on a
-> modern kernel, especially when using distribution toolchains, e.g. the
-> Rust minimum version is not satisfied by Debian Old Stable.
+On 26/03/31 12:37PM, John Groves wrote:
+> From: John Groves <john@groves.net>
+> 
+> NOTE: this series depends on the famfs dax series in Ira's for-7.1/dax-famfs
+> branch [0]
+> 
+> Changes v9 -> v10
+> - Rebased to Ira's for-7.1/dax-famfs branch [0], which contains the required
+>   dax patches
+> - Add parentheses to FUSE_IS_VIRTIO_DAX() macro, in case something bad is
+>   passed in as fuse_inode (thanks Jonathan's AI)
+> 
+> Description:
+> 
+> This patch series introduces famfs into the fuse file system framework.
+> Famfs depends on the bundled dax patch set.
+> 
+> The famfs user space code can be found at [1].
+> 
+> Fuse Overview:
+> 
+> Famfs started as a standalone file system, but this series is intended to
+> permanently supersede that implementation. At a high level, famfs adds
+> two new fuse server messages:
+> 
+> GET_FMAP   - Retrieves a famfs fmap (the file-to-dax map for a famfs
+> 	     file)
+> GET_DAXDEV - Retrieves the details of a particular daxdev that was
+> 	     referenced by an fmap
+> 
+> Famfs Overview
+> 
+> Famfs exposes shared memory as a file system. Famfs consumes shared
+> memory from dax devices, and provides memory-mappable files that map
+> directly to the memory - no page cache involvement. Famfs differs from
+> conventional file systems in fs-dax mode, in that it handles in-memory
+> metadata in a sharable way (which begins with never caching dirty shared
+> metadata).
+> 
+> Famfs started as a standalone file system [2,3], but the consensus at
+> LSFMM was that it should be ported into fuse [4,5].
+> 
+> The key performance requirement is that famfs must resolve mapping faults
+> without upcalls. This is achieved by fully caching the file-to-devdax
+> metadata for all active files. This is done via two fuse client/server
+> message/response pairs: GET_FMAP and GET_DAXDEV.
+> 
+> Famfs remains the first fs-dax file system that is backed by devdax
+> rather than pmem in fs-dax mode (hence the need for the new dax mode).
+> 
+> Notes
+> 
+> - When a file is opened in a famfs mount, the OPEN is followed by a
+>   GET_FMAP message and response. The "fmap" is the full file-to-dax
+>   mapping, allowing the fuse/famfs kernel code to handle
+>   read/write/fault without any upcalls.
+> 
+> - After each GET_FMAP, the fmap is checked for extents that reference
+>   previously-unknown daxdevs. Each such occurrence is handled with a
+>   GET_DAXDEV message and response.
+> 
+> - Daxdevs are stored in a table (which might become an xarray at some
+>   point). When entries are added to the table, we acquire exclusive
+>   access to the daxdev via the fs_dax_get() call (modeled after how
+>   fs-dax handles this with pmem devices). Famfs provides
+>   holder_operations to devdax, providing a notification path in the
+>   event of memory errors or forced reconfiguration.
+> 
+> - If devdax notifies famfs of memory errors on a dax device, famfs
+>   currently blocks all subsequent accesses to data on that device. The
+>   recovery is to re-initialize the memory and file system. Famfs is
+>   memory, not storage...
+> 
+> - Because famfs uses backing (devdax) devices, only privileged mounts are
+>   supported (i.e. the fuse server requires CAP_SYS_RAWIO).
+> 
+> - The famfs kernel code never accesses the memory directly - it only
+>   facilitates read, write and mmap on behalf of user processes, using
+>   fmap metadata provided by its privileged fuse server. As such, the
+>   RAS of the shared memory affects applications, but not the kernel.
+> 
+> - Famfs has backing device(s), but they are devdax (char) rather than
+>   block. Right now there is no way to tell the vfs layer that famfs has a
+>   char backing device (unless we say it's block, but it's not). Currently
+>   we use the standard anonymous fuse fs_type - but I'm not sure that's
+>   ultimately optimal (thoughts?)
+> 
+> Changes v8 -> v9
+> - Kconfig: fs/fuse/Kconfig:CONFIG_FUSE_FAMFS_DAX now depends on the
+>   new CONFIG_DEV_DAX_FSDEV (from drivers/dax/Kconfig) rather than
+>   just CONFIG_DEV_DAX and CONFIG_FS_DAX. (CONFIG_FUSE_FAMFS_DAX
+>   depends on those...)
+> 
+> Changes v7 -> v8
+> - Moved to inline __free declaration in fuse_get_fmap() and
+>   famfs_fuse_meta_alloc(), famfs_teardown()
+> - Adopted FIELD_PREP() macro rather than manual bitfield manipulation
+> - Minor doc edits
+> - I dropped adding magic numbers to include/uapi/linux/magic.h. That
+>   can be done later if appropriate
+> 
+> Changes v6 -> v7
+> - Fixed a regression in famfs_interleave_fileofs_to_daxofs() that
+>   was reported by Intel's kernel test robot
+> - Added a check in __fsdev_dax_direct_access() for negative return
+>   from pgoff_to_phys(), which would indicate an out-of-range offset
+> - Fixed a bug in __famfs_meta_free(), where not all interleaved
+>   extents were freed
+> - Added chunksize alignment checks in famfs_fuse_meta_alloc() and
+>   famfs_interleave_fileofs_to_daxofs() as interleaved chunks must
+>   be PTE or PMD aligned
+> - Simplified famfs_file_init_dax() a bit
+> - Re-ran CM's kernel code review prompts on the entire series and
+>   fixed several minor issues
+> 
+> Changes v4 -> v5 -> v6
+> - None. Re-sending due to technical difficulties
+> 
+> Changes v3 [9] -> v4
+> - The patch "dax: prevent driver unbind while filesystem holds device"
+>   has been dropped. Dan Williams indicated that the favored behavior is
+>   for a file system to stop working if an underlying driver is unbound,
+>   rather than preventing the unbind.
+> - The patch "famfs_fuse: Famfs mount opt: -o shadow=<shadowpath>" has
+>   been dropped. Found a way for the famfs user space to do without the
+>   -o opt (via getxattr).
+> - Squashed the fs/fuse/Kconfig patch into the first subsequent patch
+>   that needed the change
+>   ("famfs_fuse: Basic fuse kernel ABI enablement for famfs")
+> - Many review comments addressed.
+> - Addressed minor kerneldoc infractions reported by test robot.
+> 
+> Changes v2 [7] -> v3
+> - Dax: Completely new fsdev driver (drivers/dax/fsdev.c) replaces the
+>   dev_dax_iomap modifications to bus.c/device.c. Devdax devices can now
+>   be switched among 'devdax', 'famfs' and 'system-ram' modes via daxctl
+>   or sysfs.
+> - Dax: fsdev uses MEMORY_DEVICE_FS_DAX type and leaves folios at order-0
+>   (no vmemmap_shift), allowing fs-dax to manage folio lifecycles
+>   dynamically like pmem does.
+> - Dax: The "poisoned page" problem is properly fixed via
+>   fsdev_clear_folio_state(), which clears stale mapping/compound state
+>   when fsdev binds. The temporary WARN_ON_ONCE workaround in fs/dax.c
+>   has been removed.
+> - Dax: Added dax_set_ops() so fsdev can set dax_operations at bind time
+>   (and clear them on unbind), since the dax_device is created before we
+>   know which driver will bind.
+> - Dax: Added custom bind/unbind sysfs handlers; unbind return -EBUSY if a
+>   filesystem holds the device, preventing unbind while famfs is mounted.
+> - Fuse: Famfs mounts now require that the fuse server/daemon has
+>   CAP_SYS_RAWIO because they expose raw memory devices.
+> - Fuse: Added DAX address_space_operations with noop_dirty_folio since
+>   famfs is memory-backed with no writeback required.
+> - Rebased to latest kernels, fully compatible with Alistair Popple
+>   et. al's recent dax refactoring.
+> - Ran this series through Chris Mason's code review AI prompts to check
+>   for issues - several subtle problems found and fixed.
+> - Dropped RFC status - this version is intended to be mergeable.
+> 
+> Changes v1 [8] -> v2:
+> 
+> - The GET_FMAP message/response has been moved from LOOKUP to OPEN, as
+>   was the pretty much unanimous consensus.
+> - Made the response payload to GET_FMAP variable sized (patch 12)
+> - Dodgy kerneldoc comments cleaned up or removed.
+> - Fixed memory leak of fc->shadow in patch 11 (thanks Joanne)
+> - Dropped many pr_debug and pr_notice calls
+> 
+> 
+> References
+> 
+> [0] - https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git/
+> [1] - https://famfs.org (famfs user space)
+> [2] - https://lore.kernel.org/linux-cxl/cover.1708709155.git.john@groves.net/
+> [3] - https://lore.kernel.org/linux-cxl/cover.1714409084.git.john@groves.net/
+> [4] - https://lwn.net/Articles/983105/ (lsfmm 2024)
+> [5] - https://lwn.net/Articles/1020170/ (lsfmm 2025)
+> [6] - https://lore.kernel.org/linux-cxl/cover.8068ad144a7eea4a813670301f4d2a86a8e68ec4.1740713401.git-series.apopple@nvidia.com/
+> [7] - https://lore.kernel.org/linux-fsdevel/20250703185032.46568-1-john@groves.net/ (famfs fuse v2)
+> [8] - https://lore.kernel.org/linux-fsdevel/20250421013346.32530-1-john@groves.net/ (famfs fuse v1)
+> [9] - https://lore.kernel.org/linux-fsdevel/20260107153244.64703-1-john@groves.net/T/#mb2c868801be16eca82dab239a1d201628534aea7 (famfs fuse v3)
+> 
+> 
+> John Groves (10):
+>   famfs_fuse: Update macro s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
+>   famfs_fuse: Basic fuse kernel ABI enablement for famfs
+>   famfs_fuse: Plumb the GET_FMAP message/response
+>   famfs_fuse: Create files with famfs fmaps
+>   famfs_fuse: GET_DAXDEV message and daxdev_table
+>   famfs_fuse: Plumb dax iomap and fuse read/write/mmap
+>   famfs_fuse: Add holder_operations for dax notify_failure()
+>   famfs_fuse: Add DAX address_space_operations with noop_dirty_folio
+>   famfs_fuse: Add famfs fmap metadata documentation
+>   famfs_fuse: Add documentation
+> 
+>  Documentation/filesystems/famfs.rst |  142 ++++
+>  Documentation/filesystems/index.rst |    1 +
+>  MAINTAINERS                         |   10 +
+>  fs/fuse/Kconfig                     |   13 +
+>  fs/fuse/Makefile                    |    1 +
+>  fs/fuse/dir.c                       |    2 +-
+>  fs/fuse/famfs.c                     | 1180 +++++++++++++++++++++++++++
+>  fs/fuse/famfs_kfmap.h               |  167 ++++
+>  fs/fuse/file.c                      |   45 +-
+>  fs/fuse/fuse_i.h                    |  116 ++-
+>  fs/fuse/inode.c                     |   35 +-
+>  fs/fuse/iomode.c                    |    2 +-
+>  fs/namei.c                          |    1 +
+>  include/uapi/linux/fuse.h           |   88 ++
+>  14 files changed, 1790 insertions(+), 13 deletions(-)
+>  create mode 100644 Documentation/filesystems/famfs.rst
+>  create mode 100644 fs/fuse/famfs.c
+>  create mode 100644 fs/fuse/famfs_kfmap.h
+> 
+> 
+> base-commit: 2ae624d5a555d47a735fb3f4d850402859a4db77
+> -- 
+> 2.53.0
+> 
+> 
 
-I suppose people could have been using an old LTS distro + rustup and run i=
-nto
-this issue. Albeit it's probably quite unlikely.
+Miklos,
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+I would appreciate a read on what you're thinking WRT merging famfs. The
+dax patches are ready; this series should be applied on top of Ira's 
+for-7.1/dax-famfs branch, which is at [1].
 
->
-> So we are at the point where keeping the docs short and relevant for
-> essentially everyone is probably the better trade-off.
->
-> Link: https://packages.debian.org/search?suite=3Dall&searchon=3Dnames&key=
-words=3Dbinutils [1]
-> Link: https://lore.kernel.org/all/CANiq72mCpc9=3D2TN_zC4NeDMpFQtPXAFvyiP+=
-gRApg2vzspPWmw@mail.gmail.com/
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  Documentation/rust/quick-start.rst | 9 ---------
->  1 file changed, 9 deletions(-)
->
-> diff --git a/Documentation/rust/quick-start.rst b/Documentation/rust/quic=
-k-start.rst
-> index 5bbe059a8fa3..a6ec3fa94d33 100644
-> --- a/Documentation/rust/quick-start.rst
-> +++ b/Documentation/rust/quick-start.rst
-> @@ -352,12 +352,3 @@ Hacking
->  To dive deeper, take a look at the source code of the samples
->  at ``samples/rust/``, the Rust support code under ``rust/`` and
->  the ``Rust hacking`` menu under ``Kernel hacking``.
-> -
-> -If GDB/Binutils is used and Rust symbols are not getting demangled, the =
-reason
-> -is the toolchain does not support Rust's new v0 mangling scheme yet.
-> -There are a few ways out:
-> -
-> -- Install a newer release (GDB >=3D 10.2, Binutils >=3D 2.36).
-> -
-> -- Some versions of GDB (e.g. vanilla GDB 10.1) are able to use
-> -  the pre-demangled names embedded in the debug info (``CONFIG_DEBUG_INF=
-O``).
+I saw that you had the famfs series in your for-next branch briefly a
+couple of weeks ago, but it didn't build because it depends on the dax
+series. It will build and run cleanly if you put it on Ira's branch above.
+
+Famfs has been in use for a long time, though availability of sharable cxl
+memory is still limited; that is changing with early availability (now) of 
+sharable JBOMs up to 100TB.
+
+The presence of famfs won't affect anybody who doesn't use it though...
+
+What are your thoughts?
+
+Thanks,
+John
+
+[1] - https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git/
 
