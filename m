@@ -1,303 +1,127 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020121.outbound.protection.outlook.com [52.101.196.121])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD9630FF36;
-	Wed,  1 Apr 2026 14:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.121
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775055539; cv=fail; b=Lsr2VkEChGyh6juaAK1zswGA1nYxPzpY0HxCTqx5yjEZsytk/YX6cupOIoTjMu4u0h27HASvR+qTz6+t6DeqvBVu/Kb2G2HBfKplspGGyFvhf1eKDMmqrf/D3RNaGOmqmvE7+hCGYBuwGSUM42cUX93Y1f0kSBz+ekADqMqFqK8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775055539; c=relaxed/simple;
-	bh=TFQ+cbtttZ0zFxM8968YgyTZBAOG9c1V6tQ342+Z0CA=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=so6bUdb9KWVfCotmKAVMYqX9bYJ1oLZM8cSKiRKvPaNBQ2+AvXAZdRxh16qs6uj8nnZBOp+dVmhIr6+YpGyx6qVh+8E18aFK5rx2aNAF9etShP2tdKOPUY5Vd8Miy/qarBoi5Y6AD2I5sJVjyemaZK6rb07WoHo6Ac9dxUnw7bQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=nlbjavTp; arc=fail smtp.client-ip=52.101.196.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387D130C371;
+	Wed,  1 Apr 2026 15:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775055723; cv=none; b=q7qyKJAoSkYMPeQdOyBZRWd0BOEVX7KBAn8g1iRnUP5rkQlh5yxT3Q0MQaBiIxhGxkNJCsn/3A/lBy/z8O0HRtuFXRsAU2SwKHdDBQLPiPt2l3g2ZFk2/fgrR/CsYdqzl7oHyJk8NtV8d+zAdQo4h5LMw0RjSjXgwrkj5Qo4qzg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775055723; c=relaxed/simple;
+	bh=/41jHFMLvQEawsHuNLzVPOrLdBt8POZyw+0Y/fllTrA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iMsu8D5vdx2YG0w87tQ4ntDCVPNC2dkDt1qY3lOTNDVzAncc5W3qeu2jfxDh9poITq3ux1DDeZ4Q0Y8lyb9J3UpiZSu26mgw1OJ/MZmq+yHBaKXB2cCcaNLWEg4iX+bncgaeF0hRr1XXqRRtm4pXIbm50soaooCzJLUz/UsNs0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=cjbTdYsm; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="nlbjavTp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cw/PjoDgY6bg8X6aDpxcszkhd95md1gY9AwhBbunaMa+7bmN1xLltiNCj5oWOmJEHVwW1LdbVs6hmBPam02I3XpH2XHbm4qy/aR7/+W7CH8ghZupSV0GQrxvW9vVZhfPHl3LJAmX3TP8l5d73kXcOSndiJJDBkej0Sl440HG9YygpkMGBLs0Ji1wroE5R5F5eqUViQ+ODJoMf1eO27e2n1Q61HcDXM6aDGle7PMO0GM1wGzeiw/vo0l+RdVaUom+ZfwCmKifysp6CwXYf+PWsegGV8wXgeWqVSOECRfOwtqm0fruZ6+vKXmznpGgjxO1+MyuvLQg8TcKtOSX/HGbeQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FYp0xWvrQI34YjzWCRKfD/vbYPKugUhT4iiOsvBiPoE=;
- b=YGHiSGTaZRBW7eXTemgDcXTQmVc/z6m5H8soE9v9vmoYGKXYewsuJ1Lc6a9CxGbAolxwKFoy8OIWOl23SnEJMzDQK9CYQN7VIP0kYpATeEX49BC8lIJS2+1v0DyH0BJaDXDXd9vjMdOLfH+1w8pxKeopiBSQRfhVAgw01n25N9+yRVvNi3LVeej4WxlTNf514bAwqDLSeY+ETz89bnSPdKTBdStjPLYxyzQvKdOKUxOpyhxX+GbmMMKMBcMbvj+eC2jJgkRSIDzqqukTYAqo70ka3QqD2idWYIBmRfHP/+JA5ViYdLPzwlEYaRS7izdVZobRQ6tU9cCB3xnYdGJ/1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FYp0xWvrQI34YjzWCRKfD/vbYPKugUhT4iiOsvBiPoE=;
- b=nlbjavTpx0CKlmqDBpOaHwDJjP02TovLg3UYgFgjz+Jxfw3jrVjAhRdf5FZxrJvv87HW4jHOywvPDhyEVgA901E9Ir6Yj+Yp/F65Uf0F0pq7Egu6Vf0nJyL5bD9r0l2Tf5rowczdS2/9Z4Klwjczehpt9kMuVvAH/F8Hpo32Z/8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB6385.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1e3::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
- 2026 14:58:51 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
- 14:58:51 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Apr 2026 15:58:50 +0100
-Message-Id: <DHHWO582XLXH.1DU3CO41F1PV7@garyguo.net>
-To: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
- <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Paul
- Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
- <david@davidgow.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
- <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
- Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Jonathan Corbet" <corbet@lwn.net>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Lorenzo
- Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- "Uladzislau Rezki" <urezki@gmail.com>, <linux-block@vger.kernel.org>,
- "moderated for non-subscribers" <linux-arm-kernel@lists.infradead.org>,
- "Alexandre Ghiti" <alex@ghiti.fr>, <linux-riscv@lists.infradead.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Rae
- Moar" <raemoar63@gmail.com>, <linux-kselftest@vger.kernel.org>,
- <kunit-dev@googlegroups.com>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, <llvm@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 15/33] rust: rust_is_available: remove warning for
- 0.66.[01] buggy versions
-From: "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-16-ojeda@kernel.org>
-In-Reply-To: <20260401114540.30108-16-ojeda@kernel.org>
-X-ClientProxiedBy: LO3P123CA0003.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::8) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="cjbTdYsm"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=+WzoGOwpf75acULbUdLCCSgMRdoRK75E6CWGbOYR5ZQ=; b=cjbTdYsmL1LugDvbI+G1od+x5X
+	U0sjnJlEsTkwTYb4fq9x5jxlzfY3jiMYTWT12dmcSoY7TJpyaZSzBJ3p5pP9eMjZfKu4dVMo60n8L
+	KA/a0G/X1klcmoEwRJX7k1QCZya2esiyqTnXRTmO5II47MA8aIVYXgL1YD9afND/II9K4YcMA3mJm
+	2/Qyqh8mBrFth06DINUoPWVgJKwTAOyudumsJlPpVIJDZcN+Ig/iWa4w/enSz4UbCWc+4lfOOoUjQ
+	LInkGozPY9JYdCZ09QBI/PyKFOvBeNXwD4xvrSj2FcJQa8QLKe/p7HfqdIskdleD81ndLF7vOgPEi
+	JWbqceOQ==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1w7x4t-0034E6-11;
+	Wed, 01 Apr 2026 15:01:54 +0000
+Date: Wed, 1 Apr 2026 08:01:48 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org, 
+	kernel-team@meta.com
+Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
+Message-ID: <ac0wz_eW5Zgi4t45@gmail.com>
+References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
+ <20260325232204.05edbb21c7602b6408ca007b@kernel.org>
+ <acZPZ4XKy4QynznK@gmail.com>
+ <20260327223744.f246150adc1671f7605a4f0a@kernel.org>
+ <acpzhCBEPh-tKVqg@gmail.com>
+ <acqJk-zbyjIiy6hJ@gmail.com>
+ <20260331125827.157a833882830007ea9b0b31@kernel.org>
+ <acvjcCqIAeHyIiQN@gmail.com>
+ <20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB6385:EE_
-X-MS-Office365-Filtering-Correlation-Id: d21b32ee-b731-4dad-7d80-08de8fff2fb0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|921020|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	v8TDFYRG56iquYQGbmX0y4ORfVsS7kIMh1vFJujRdjaxuehvcl2AQ+plT9zNxA3kEHPoujcfukV6ivfIVIO/FJkAIztoAT+t6JEsblBDMNuZDLFyWO/iVGW59FFBwcWAxxnINuLdpde88vkJH07lhPGrW2NkaH38xgXP7nrCp3ADx+QwkL/yyt5SnuLAp4R6TqBaGBnbUccbNRuitV7qkgO6OFpsqCV3EKGAgVHtiszedf5G+aFwKEyFYJ5eSpkxGg2oHFg6LQ5Z16tKubbhymPQIIrJkJ/J8NI0C02/KTsIOAZjbpFgOlS2zoBs5jSzWfT9tRHIvTshGvCo3m8ukovY6Na0MKWw7oDUyOl3F+2nSOokFxrxkNkr5BkhOXiU7UB64cbbmkRg7ZN9Tf6jrm5PcMVONDGMpYxosYB7z4H9ZujxNxdJgZBtWFkI5FnMIntc5TzB2lXt+LPdjN5sQRlDuF2gy4ey1RdvFU3yfATvqJ537i4RGh3GGbkCXVBphwUlaNceL1Lf8fMaBRp5BmAN7KUbDoEcncNo4gTNOfAdQKjDLTfGyvZ4WHS09Hmatt7duMHclT9fROKafUdnuGCEEN7KNjQJDGPnq3fkii1dtUO/9NWBauATmmUsQr16Vkrfc/HAaTUxe0sURvdep5vxSpAblRnkuasoDtzk+rUB+MFmQko5v/NS/2tWaEfZ6vuvEq9K2UsZGPIzWY8yKnnwuuBT3N/jvk+nAzuXQe69geJ9m16pBfSKxFRESXAXDlvJGeesFhPkOWKujYfwyw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?K016WTZ4ZWhrSHIrWU5pLzdxTmx3OERRVk1BN2RsRlMrMFg3RytQNEJsT1lw?=
- =?utf-8?B?R2x6dFZSUERtWUxaMGlOWGtVYTg4NkhNRDZYaHY1UzNadXh5OEQ0WDYydGp4?=
- =?utf-8?B?cXFFMFJRaFlSN3hQbU11VXFSM2JHTzlFSjl4dENxUnE4bGxBV2dlcUhQZHds?=
- =?utf-8?B?c0U0aEFRRnp4VDQ1Y1ZNSllSbVFEM2JpdHlpZkI4YWhtSk85Q3NSMHZoL1Y4?=
- =?utf-8?B?MDhQV3d5Ky96YjVFYktZdEpoSWVKOVlhTk5iSG9reGpWUDhPLzlRRyt1WUc0?=
- =?utf-8?B?dlNyV1RMV0pONnh4SDM1UkJXdDBEb0ZBbEloZVRwQTA5Wk9TRndWbkhFS0JK?=
- =?utf-8?B?RVdKWnBIVWp4SVRJalZRazNBblNGbEo4WmxBWW16dkhXWDdxZTJHVERweStl?=
- =?utf-8?B?ME1WaHR2RzByWjhKTnlPT2lDK3VWNCtINXQ2ZnJDV3czWDZwMXp0eWNHdExH?=
- =?utf-8?B?ZTBQODRFQ3oxY1ZxQlVPZ3dZWDJ0L3Mrekw4UFVMakpqd1Zkc3EwM0ZOU0kx?=
- =?utf-8?B?UStnc1JDRHRaTkNZUzdLbTRkTnFxeDR4WXhmbzh6SFlWYU9FYVM3N3ZNaHNr?=
- =?utf-8?B?OWcxd2F3dkxkYTk3YXZ5Y3hBb2JnZTJBaElzWXJ1dzQwRXh3L0Z1Q3N0Y25X?=
- =?utf-8?B?MlRxd2UyUitCN0lzN3A4KzVoVXhTSUNIa01Qekd4L0ROd0pqdjNqU0NqUGov?=
- =?utf-8?B?SzN1Y3RodytGMHcxR0s2NWFKeEtEU3B6dGhta2ZjdkFiRGF6QTREdUwwZVlu?=
- =?utf-8?B?SkJEWlZMNGJuYk1wdEVIc05peVc3dllFL00wQUVUdW1VT01DZ05QQnEvNFZk?=
- =?utf-8?B?czV2emdyNitTN0lCc05TR2g4elo5eGRaMnVNWmVhazgyM3pobXZIcEtEblR4?=
- =?utf-8?B?RXFxN2VUbEd1WXFwcmcrbzUxYi9oWCtCb2MyUDVMNWNWK2VRSGN6N2Z0NWpD?=
- =?utf-8?B?WjR4TEFjTHl5c2tLQnczZjcySlN4ZWVaOHMzUnI3TTNqbWQxL2Rrc0o2WTFW?=
- =?utf-8?B?ZHNzb0RzN2NmTjRuZTk4WkI0WUhLT2VjcDFGNG5lTkNkaGFYVzBSSEZUUURE?=
- =?utf-8?B?Ry8vSVZmS0V2VitRTStFL3dkN3RjOWRtRDlhSEhxVkw5WndsOG5XUW1mbjJq?=
- =?utf-8?B?UW9PU0FjZ0ZSa3FBZUlkdVBUeVF1NkpWSkprZnJKa2dwQ2R4cDQ4MDVWZVBR?=
- =?utf-8?B?NHBlZXVIYjNrbndKUXZSS1hFM2xxUXJpV2xPaFlhcnhiL3cvalM5eC9ORUtw?=
- =?utf-8?B?cmcwcjI0dUUrVDJRUmEzaUczMmpTV2pLdDNUZ0NTTlc2Mkh4dmU4M2dwR0p3?=
- =?utf-8?B?bjBXL045NjYwbHZRMGhwVXV4ZzZmMldSQmR1aGtkRW55MXRzZmxvK24wMVpn?=
- =?utf-8?B?azNkUzFBRkw2L0NpWGV1ZzN0TGFFZ3pVUU10UHp6b1dBRTdMUFRTTmgwSGxm?=
- =?utf-8?B?K2JvQlAyY0F1K0ROL2FUSWJVcHFHQXRsdWQ0dmdHM1hraEgxcUtqNjlLN1E5?=
- =?utf-8?B?MDRKRHQwSVJ1bFNuMnFPL1hkVUdUc05UMGp6Zi9IeXVIelkrSHU5UWNHLzdH?=
- =?utf-8?B?aHhTQUVBK01YVG0weXQwOGpaaFZCOWE1QmtWamlrWWMvYlJBRFZxQmpCamh6?=
- =?utf-8?B?Zlo0eWc0cCtUQzY4bE5mSGlHSllHcFV3OW9MVHJ5WGZxcVZJT3pSZGhNczRY?=
- =?utf-8?B?STU5TDZXMk9kam0vdTg3eEN6N3dtYytJTnJhUTdrd2xoWTFGMjdQdlRRTURY?=
- =?utf-8?B?TmZpUUVTcjNjaXNGVDgwcllmdU4xa3JubkNlbVZWQllVbUM5QmY3MHNXMDJC?=
- =?utf-8?B?YUttbzdwWm5lRUxnS2VoWU5BcTZ5dTE4TzkwTFRtY2wwaGZ6d0hPSXZmc1Bs?=
- =?utf-8?B?U1NnNC9HTWJDamtnK0dkcVNVTFZUQXlNeHVCNkczTDlvbUxFUUxXTnVNc1NV?=
- =?utf-8?B?enJlUHVGVFVLTWtXSkd1a3UyMk1jU1pqVEd6OUlYK0cyNmNWOUFhMUl0SDZP?=
- =?utf-8?B?cEwzYUZMaXBkR0xOa0RZNExpc3hIeEFhRnh3NFZhcWI1VktMMSsra0ZDSkUx?=
- =?utf-8?B?aTdGTnhIM0I0TWt0anpjVjQ4b1BNQnR5dUhyZ24vdDlIYmw5NmQrT1JVZlI0?=
- =?utf-8?B?Z2pMRmZBeE1MckhicGNlc3dscGxOYis0ZzFMTGJDZjU2SEszVWdqaVRtdUZl?=
- =?utf-8?B?NDhQL2Nhd2xxRjd0NGJlMytyaDBHMkc0RjBvMitMZ3hCd0NKWE9TNk9MVENK?=
- =?utf-8?B?UXptMHE1SU11bE9YcEw0RXdEbDNHU01WVWNTUlE2RUFaRWQ2cVhISHhJV3lz?=
- =?utf-8?B?UHNPSUhiKzlTOUNURDBIeFNJU3RRVmNaaTVjRmY0Rkw2NTNieDJSUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: d21b32ee-b731-4dad-7d80-08de8fff2fb0
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 14:58:51.3412
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ORNw/IMt69uuUFpdnxpfBVYRxoT6oGYQcnrhAIbWroPmGV6WGNlMoecR1BgAMQbnLZpfZTUDfldcpkv/tRvDJw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6385
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
+X-Debian-User: leitao
 
-On Wed Apr 1, 2026 at 12:45 PM BST, Miguel Ojeda wrote:
-> It is not possible anymore to fall into the issue that this warning was
-> alerting about given the `bindgen` version bump.
+On Wed, Apr 01, 2026 at 10:48:53PM +0900, Masami Hiramatsu wrote:
+
+> > The challenge extends beyond that. There are numerous early_parameter()
+> > definitions scattered throughout the kernel that may or may not be
+> > utilized by setup_arch().
+> >
+> > For example, consider `early_param("mitigations", ..)` in
+> > ./kernel/cpu.c. This modifies the cpu_mitigations global variable, which
+> > is referenced in various locations across different architectures.
+> >
+> > It's worth noting that we have over 300 early_parameter() instances in
+> > the kernel.
+> >
+> > Given this, analyzing all these early parameters and examining each one
+> > individually represents a substantial amount of work.
 >
-> Thus simplify by removing the machinery behind it, including tests.
+> Yes, that may require a substantial amount of work. But to improve
+> the kernel framework around the parameter handling, eventually we
+> need to examine each early parameter.
 
-The scripts/rust_is_available.sh change looks correct to me, although I cou=
-ldn't
-get scripts/rust_is_available_test.py to run on NixOS.=20
+I'm still uncertain about this approach. The goal is to identify and
+categorize the early parameters that are parsed prior to bootconfig
+initialization.
 
-Looks like it filtered out PATH but uses /usr/bin/env to find python binary=
-? For
-obvious reasons that will only work if python is located /usr/bin/python.
+Moreover, this work could become obsolete if bootconfig's initialization
+point shifts earlier or later in the boot sequence, necessitating
+another comprehensive analysis.
 
-Best,
-Gary
+Conversely, if we successfully move bootconfig initialization earlier
+by breaking the dependency of memblock (assuming this is feasible), the
+vast majority of early parameters would execute after bootconfig is
+configured, eliminating the need for this extensive categorization work.
 
+Please, feel free to tell what approach might be better for the project.
+
+> > Are there alternative approaches? At this point, I'm leaning toward
+> > breaking bootconfig's dependency on memblock, allowing us to invoke it
+> > before setup_arch(). Is this the only practical solution available?!
 >
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
-> ---
->  scripts/rust_is_available.sh             | 13 ------------
->  scripts/rust_is_available_bindgen_0_66.h |  2 --
->  scripts/rust_is_available_test.py        | 26 +++---------------------
->  3 files changed, 3 insertions(+), 38 deletions(-)
->  delete mode 100644 scripts/rust_is_available_bindgen_0_66.h
+> Basically, the memblock dependency comes from allocating copy of data.
+> Only for the embedded bootconfig, we can just pass copy memory block
+> to the xbc_init(). Something like;
 >
-> diff --git a/scripts/rust_is_available.sh b/scripts/rust_is_available.sh
-> index d2323de0692c..77896e31dab5 100755
-> --- a/scripts/rust_is_available.sh
-> +++ b/scripts/rust_is_available.sh
-> @@ -163,19 +163,6 @@ if [ "$rust_bindings_generator_cversion" -lt "$rust_=
-bindings_generator_min_cvers
->  	echo >&2 "***"
->  	exit 1
->  fi
-> -if [ "$rust_bindings_generator_cversion" -eq 6600 ] ||
-> -	[ "$rust_bindings_generator_cversion" -eq 6601 ]; then
-> -	# Distributions may have patched the issue (e.g. Debian did).
-> -	if ! "$BINDGEN" $(dirname $0)/rust_is_available_bindgen_0_66.h >/dev/nu=
-ll; then
-> -		echo >&2 "***"
-> -		echo >&2 "*** Rust bindings generator '$BINDGEN' versions 0.66.0 and 0=
-.66.1 may not"
-> -		echo >&2 "*** work due to a bug (https://github.com/rust-lang/rust-bin=
-dgen/pull/2567),"
-> -		echo >&2 "*** unless patched (like Debian's)."
-> -		echo >&2 "***   Your version:     $rust_bindings_generator_version"
-> -		echo >&2 "***"
-> -		warning=3D1
-> -	fi
-> -fi
-> =20
->  # Check that the `libclang` used by the Rust bindings generator is suita=
-ble.
->  #
-> diff --git a/scripts/rust_is_available_bindgen_0_66.h b/scripts/rust_is_a=
-vailable_bindgen_0_66.h
-> deleted file mode 100644
-> index c0431293421c..000000000000
-> --- a/scripts/rust_is_available_bindgen_0_66.h
-> +++ /dev/null
-> @@ -1,2 +0,0 @@
-> -/* SPDX-License-Identifier: GPL-2.0 */
-> -#define A "\0"
-> diff --git a/scripts/rust_is_available_test.py b/scripts/rust_is_availabl=
-e_test.py
-> index 4fcc319dea84..b66fa5933844 100755
-> --- a/scripts/rust_is_available_test.py
-> +++ b/scripts/rust_is_available_test.py
-> @@ -54,17 +54,12 @@ else:
->  """)
-> =20
->      @classmethod
-> -    def generate_bindgen(cls, version_stdout, libclang_stderr, version_0=
-_66_patched=3DFalse, libclang_concat_patched=3DFalse):
-> +    def generate_bindgen(cls, version_stdout, libclang_stderr, libclang_=
-concat_patched=3DFalse):
->          if libclang_stderr is None:
->              libclang_case =3D f"raise SystemExit({cls.bindgen_default_bi=
-ndgen_libclang_failure_exit_code})"
->          else:
->              libclang_case =3D f"print({repr(libclang_stderr)}, file=3Dsy=
-s.stderr)"
-> =20
-> -        if version_0_66_patched:
-> -            version_0_66_case =3D "pass"
-> -        else:
-> -            version_0_66_case =3D "raise SystemExit(1)"
-> -
->          if libclang_concat_patched:
->              libclang_concat_case =3D "print('pub static mut foofoo: ::st=
-d::os::raw::c_int;')"
->          else:
-> @@ -74,8 +69,6 @@ else:
->  import sys
->  if "rust_is_available_bindgen_libclang.h" in " ".join(sys.argv):
->      {libclang_case}
-> -elif "rust_is_available_bindgen_0_66.h" in " ".join(sys.argv):
-> -    {version_0_66_case}
->  elif "rust_is_available_bindgen_libclang_concat.h" in " ".join(sys.argv)=
-:
->      {libclang_concat_case}
->  else:
-> @@ -83,8 +76,8 @@ else:
->  """)
-> =20
->      @classmethod
-> -    def generate_bindgen_version(cls, stdout, version_0_66_patched=3DFal=
-se):
-> -        return cls.generate_bindgen(stdout, cls.bindgen_default_bindgen_=
-libclang_stderr, version_0_66_patched)
-> +    def generate_bindgen_version(cls, stdout):
-> +        return cls.generate_bindgen(stdout, cls.bindgen_default_bindgen_=
-libclang_stderr)
-> =20
->      @classmethod
->      def generate_bindgen_libclang_failure(cls):
-> @@ -245,19 +238,6 @@ else:
->          result =3D self.run_script(self.Expected.FAILURE, { "BINDGEN": b=
-indgen })
->          self.assertIn(f"Rust bindings generator '{bindgen}' is too old."=
-, result.stderr)
-> =20
-> -    def test_bindgen_bad_version_0_66_0_and_0_66_1(self):
-> -        for version in ("0.66.0", "0.66.1"):
-> -            with self.subTest(version=3Dversion):
-> -                bindgen =3D self.generate_bindgen_version(f"bindgen {ver=
-sion}")
-> -                result =3D self.run_script(self.Expected.SUCCESS_WITH_WA=
-RNINGS, { "BINDGEN": bindgen })
-> -                self.assertIn(f"Rust bindings generator '{bindgen}' vers=
-ions 0.66.0 and 0.66.1 may not", result.stderr)
-> -
-> -    def test_bindgen_bad_version_0_66_0_and_0_66_1_patched(self):
-> -        for version in ("0.66.0", "0.66.1"):
-> -            with self.subTest(version=3Dversion):
-> -                bindgen =3D self.generate_bindgen_version(f"bindgen {ver=
-sion}", True)
-> -                result =3D self.run_script(self.Expected.SUCCESS, { "BIN=
-DGEN": bindgen })
-> -
->      def test_bindgen_libclang_failure(self):
->          bindgen =3D self.generate_bindgen_libclang_failure()
->          result =3D self.run_script(self.Expected.FAILURE, { "BINDGEN": b=
-indgen })
+> xbc_init() {
+>  xbc_data = memblock_alloc();
+>  memcpy(xbc_data, data);
+>  __xbc_init(xbc_data);
+> }
+>
+> embedded_xbc_init() {
+>   __xbc_init(embedded_bootconfig_data);
+> }
+>
+> Afterwards, we can pass mixture of embedded bootcofnigt and initrd
+> bootconfig data to parser again.
+>
+> (But in this case, we must be careful not to override the early
+>  parameters that we have already applied.)
 
+Do you have any additional recommendations if I proceed with this
+approach?
+
+Thank you for your detailed responses and insights.
+--breno
