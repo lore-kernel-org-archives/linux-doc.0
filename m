@@ -1,38 +1,38 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43307372ECC
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 11:42:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE62375ADE
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 11:43:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775043767; cv=none; b=Fkbkna0qeKwsj+e3gNtAGp2j1LyKJaT/V+DlTCz2Gy3oq5R0qCjbmDcSpAozZKSxeZ6O+E9fuoMG3HRtEIc6Ld/vJi+G57AupulPE8YLoFWf9CY190ZxTUtQaU+VpKqmOwbiABzYKEs3RLU7bcAblXzqOg40Pktac2IU7CDs05E=
+	t=1775043786; cv=none; b=ik2hVC3FbmUWObcdvzCWn74qHL3O2N79y0L2sszoplTAIJm1inPfToSMklTEeScU1fXNtw6e7JMEe0T3VBJ7M1RLqCQlMh2lXnZ+xuJ2OfwqEUyd4rzyaDoYW7jcNrw/oy3nJYTnmiRZJf5paxveDwi2huliDe7Mmft5CXKjbTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775043767; c=relaxed/simple;
-	bh=Ltl36VWHUgsP6U1+xk5mSwaTOYNaiDG0ZUQPfr7BPkk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=Tc3hj/LTiUKUD6Bbc3khhbYDL9sEjITb17gMhbnUE6ye6NDOJCb39414949deidYZnnucpqlxyhPE1H/DFK1DuUQjrigH82qnnZcBh+btjctwYKAbcr8WzIzDJKuoULI5CkYhUskh2urCycR91tT0xeL/5l/DYnfQKUx1Zm1AcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=GBldqoMH; arc=none smtp.client-ip=185.171.202.116
+	s=arc-20240116; t=1775043786; c=relaxed/simple;
+	bh=/dGOsN+Ha1KnNF3V0hpjrjlsWOPxWmORU++/RLEZRAI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=hVoWYcvZWahotaF2Kdf579yWA6H/xjk+YTsxA48AOe3leCINlfbJRLavnNn8Mz58R/BYhN8N8cTdmDXlRqW++FJBlJlFS3wPJj39n17OxdMOdCSqef2wKDBlN3UakxHaJaEjNzV8FziBwjBnY7x6NLuLoUdDT6+OmOT+diwFWFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=rN0EYP7l; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="GBldqoMH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="rN0EYP7l"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 8C796C5996B;
-	Wed,  1 Apr 2026 11:43:13 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D71A11A3147;
+	Wed,  1 Apr 2026 11:43:02 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7D8AD602BF;
-	Wed,  1 Apr 2026 11:42:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2518F104500F4;
-	Wed,  1 Apr 2026 13:42:34 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 860DA602BF;
+	Wed,  1 Apr 2026 11:43:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6DA561045013D;
+	Wed,  1 Apr 2026 13:42:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775043761; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1775043781; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=/SDde3CKjIl9YJ6WkA/ImrWM14npMrUWklnYCvT6vC0=;
-	b=GBldqoMHViCaqIISYy/aWfO6VMXU4aZhApUcSqJWWVoZ5lNMtB+eU1iyo/S/OfZJy3Bqm0
-	4/dQiY8PP8KY1+7dKGsij0dNk92x4pgFyjwWukFPgUXs2qyiCRnGx0Qj1CtYV1rKeCXV5v
-	u51L5w0uYvVMg8Y3Lw5C2jtnxreFgHFyum1N2KCAvUZ2jE8C+A4LuJCuv0RZ1zfd4gjepm
-	RZqB9vZQ3oRhag6gB+uib8gfhsym+oSy8YbGZniR26HyQQJChykVB3PvmirNmZgm6Bn8o7
-	9tox4i6sCYGyvdVDVpBxMdj330TPj73/Q+V2qR3t7cwAdppfVJgIySvgo+cP6g==
+	bh=/dGOsN+Ha1KnNF3V0hpjrjlsWOPxWmORU++/RLEZRAI=;
+	b=rN0EYP7lzgcxmAhA6isrn+hA4waEanFywvN/k2glNG1U3/MCf4ezX5/bJLCs4C3PJLDKzU
+	XG3BdfLdV7mdWI4kbOEfPLGgMEUxApu9Y5GXYHYeW32yjtTqZatvWFM1aEAu5e4/xf4x3A
+	+ZKFbM70Lg5zWDfisPrVffdbmFMGuEz7jKW+Ea8L7R8GjzjT1SjJp3r6WBwfwzxau1WFod
+	NhyvLu+D1j3YqjSjyrIX5+Qnt3MVPndcwgrGc/6PQMVIwNJ+tsDmaBNjEXewON6mua7vOW
+	G4MrBOB0+vMeOigiA/yXWaRuXRP+bcFHfHqBDgt5bbJ8Ne2QB3klyjSFrxO1Fg==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,9 +41,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 01 Apr 2026 13:42:34 +0200
-Message-Id: <DHHSHVCVVHRF.2IH5N8N15OAU3@bootlin.com>
-Subject: Re: [PATCH v2 1/2] drm: Rename drm_atomic_state
+Date: Wed, 01 Apr 2026 13:42:56 +0200
+Message-Id: <DHHSI5QRUDJQ.2IE96HSJ2SD7P@bootlin.com>
+To: "Maxime Ripard" <mripard@kernel.org>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
+ <tzimmermann@suse.de>, "Jonathan Corbet" <corbet@lwn.net>
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v2 2/2] Documentation: drm: Remove drm_atomic_state
+ rename entry
 Cc: "Jani Nikula" <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
  <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
  "Tvrtko Ursulin" <tursulin@ursulin.net>, "Alex Deucher"
@@ -54,53 +60,19 @@ Cc: "Jani Nikula" <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
  "Robert Foss" <rfoss@kernel.org>, "Dave Stevenson"
  <dave.stevenson@raspberrypi.com>, "Laurent Pinchart"
  <laurent.pinchart@ideasonboard.com>, <dri-devel@lists.freedesktop.org>,
- <linux-doc@vger.kernel.org>, "Simona Vetter" <simona.vetter@ffwll.ch>
-To: "Maxime Ripard" <mripard@kernel.org>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
- <maarten.lankhorst@linux.intel.com>, "Thomas Zimmermann"
- <tzimmermann@suse.de>, "Jonathan Corbet" <corbet@lwn.net>
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+ <linux-doc@vger.kernel.org>
 X-Mailer: aerc 0.20.1
 References: <20260331-drm-drm-atomic-update-v2-0-7e8fe6ddcd32@kernel.org>
- <20260331-drm-drm-atomic-update-v2-1-7e8fe6ddcd32@kernel.org>
-In-Reply-To: <20260331-drm-drm-atomic-update-v2-1-7e8fe6ddcd32@kernel.org>
+ <20260331-drm-drm-atomic-update-v2-2-7e8fe6ddcd32@kernel.org>
+In-Reply-To: <20260331-drm-drm-atomic-update-v2-2-7e8fe6ddcd32@kernel.org>
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Maxime,
-
 On Tue Mar 31, 2026 at 4:41 PM CEST, Maxime Ripard wrote:
-> The KMS framework uses two slightly different definitions for the state
-> concept. For a given object (plane, CRTC, encoder, etc., so
-> drm_$OBJECT_state), the state is the entire state of that object.
-> However, at the device level, drm_atomic_state refers to a state update
-> for a limited number of objects.
+> We just did that item so we can remove it.
 >
-> Thus, drm_atomic_state isn't the entire device state, but only the full
-> state of some objects in that device. This has been an endless source of
-> confusion and thus bugs.
->
-> We can rename drm_atomic_state to drm_atomic_commit to make it less
-> confusing.
->
-> This patch was created using:
->
-> rg -l drm_atomic_state | \
-> 	xargs sed -i 's/drm_atomic_state/drm_atomic_commit/g; s/drm_atomic_commi=
-t_helper/drm_atomic_state_helper/g'
-> mv drivers/gpu/drm/tests/drm_atomic_state_test.c drivers/gpu/drm/tests/dr=
-m_atomic_commit_test.c
->
-> Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-> Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
 > Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
 Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-And with a couple minor tweaks to apply on my work branch based on
-v7.0-rc6:
-Tested-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-Luca
 
 --
 Luca Ceresoli, Bootlin
