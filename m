@@ -1,134 +1,329 @@
-Received: from mail-dy1-f176.google.com (mail-dy1-f176.google.com [74.125.82.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83E03081BE
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 17:46:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775065562; cv=pass; b=Z6mIMJrDdyrxHLBSUdSj9SFSCbNFtD4JEk5kqmBIQPArvpl/OhEPaJgesoXNfqZ1RREOuI435lq2JMGbvhllreCNKuFFREN1c7xwdarrDJQuXthr/a8LWswUT/JKnJVSRcRL1eER3tTXFKHn3uT/pc1p4LVEb0uxXRUCS9z9FJY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775065562; c=relaxed/simple;
-	bh=QI4ZvYmbpYFMS5F4DxWr2Qtcv3EtByJoEsfGF8Isxow=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GfnnQ6Uol8OxGeUg+ifuHBqc2Gfp5RaFouwkmfOsCYj7av9jYwuiKvtQlz0QcoOZmBdoiZeB4fUgKmwDiwsGFzGXP0CYTkusVBhXxpr+tFxz6aeCwiXMS/pWJBzTddlUO3pznEFZlvUPQDaYiGzhGBz2Lk7eOw7wvw+CnFlOkq0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KuSB1yrt; arc=pass smtp.client-ip=74.125.82.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B3C0477E2E;
+	Wed,  1 Apr 2026 17:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775065685; cv=none; b=uPPnAKnzHiLpytGF64Ybr+w6QVPhwYI/pPlvOo2sVcp7/KeMx7gxQQWmk6DiCMHOtx/T0HTiEChPNC5Ge7QECx6NziZsFnAhIlnNkVp6ryt7EHSftHk8wTdJH8j1Mnw/fjN7U2+CAvOUHQkxbvfIavxy2kCz8pnxiznKd7hGRo4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775065685; c=relaxed/simple;
+	bh=31HRoYZZ/XxE+Cqy5J8p/DJGubd7yNE4lbOepVq2mJI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P11vwMlpsmuM6cBlfEVXpHQ2EDepoJ1qX5gK/TdQ45JG74oiYS++Sg5fiP8N7yCcD9Pk9Ju0eDRz102yiMPgmKNpBGHPrLrC8kKK16suYVuYA/AaKk/5yN7xTwO8V8Rk7iydyaHK9GiQLYvSe+dFrRFzaj8PuloJduaQYHWJu2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QQMvVdOe; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KuSB1yrt"
-Received: by mail-dy1-f176.google.com with SMTP id 5a478bee46e88-2c98928e4bfso5260eec.2
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 10:46:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775065560; cv=none;
-        d=google.com; s=arc-20240605;
-        b=CVrcDmuz4hzu4xYcb20w3Q6y+2hrl+ay2I+AS/8kq8BUA0FeC2vddM810PRwU4feNR
-         5A9aaDpYIN8UCeJ30Hi12JuxhGRkAFKBdJVYmN//WtFCZ/sRXRG0I5womROc4R8V80ot
-         r7Ijr2G7ncX7GkyfKeOjpXoG1WPa8pg5bGfFLftJvko0WnOHWFjrBatlFAkXhZSFj5QA
-         pJQgIpV4neIy1VgTXX7oO0xiBZoXRaNmP68AjbAUvcqBQamYmkEo0RNiguJzWfuozxIw
-         RVpdMuvwJv/rHF2yEKi2XpU2Ol01hwtVwNgdL2uPQqnuDKjkxwaDpNEWjL0x6/d02uhI
-         YiZQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QI4ZvYmbpYFMS5F4DxWr2Qtcv3EtByJoEsfGF8Isxow=;
-        fh=B/acSdfFZ95m4RyH40Pvi9iDRPhwmtMzZa2HZfAc0co=;
-        b=TEA4+sxldXDB5PKYsZDXZ/o7nYt98U5S2XN7+/3lZr7QpmRxC7Ehxb0iw8cvGkTYYQ
-         09NvNzPkVZLoZbtpCs6vapDCEkoyKe/SBMBPEc4cKHiVqx1nOkd0dDoDlA+z8WeULtGB
-         mbcBg0AGAkuhAopK0UqXItOGSqaa002u5R1YwdLj1P0q04k3cA27v4+tfdpo4NOiY8xX
-         D2KdXnL5o6Bcf5LY7+zRDeswdCQJca9nYWvDMJeWIBooRi+59Ggx0vmWzMxKtHpdujiA
-         7uAzkR7mI/Sn7RheHB3eXgk8E901qMzlhwg43pdTonFFIna7CF/RKrQNPEwbUa8/v4ng
-         t9QQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775065560; x=1775670360; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QI4ZvYmbpYFMS5F4DxWr2Qtcv3EtByJoEsfGF8Isxow=;
-        b=KuSB1yrtfd8BjsI6YjeWCq5wxXfLwBoKXUpCsrVo6QhIUPYZyH8YZscFQf+sEFQGSa
-         TZa26pVuuui5NNTB3TMLCTlNQdZUd5bNv5ckyZGKLMzmdHhcy7khKoBsPqwALzvfTqMx
-         Tx4YahpYBU96LprRTqv163LXmagSQ2UWTUI5fXIc45fHuZJGblCH1AeRl57i/ejTj5Mm
-         qxEZ/P7i0pLCCFWwjWNVkYKtF4Ldade03b80tf2gtS6iOo6Vr4UtiKUQABYe6b0oT8sT
-         YwPzJUkCLIYKqge/KqQi71RrOh4/b3n6UY1Gp9QJ2fd5NIK8vlg3P30n21TqlTrKxzN/
-         SiHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775065560; x=1775670360;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QI4ZvYmbpYFMS5F4DxWr2Qtcv3EtByJoEsfGF8Isxow=;
-        b=lFUvQK/35dWNyAgCbiJZ6Mtb0q23gcSTHeB0SuvNB9Y7eWxceOv4c4vCU/4M8l4O3o
-         y4q7oQjErtNUXKZGCXQxk94y4FHchfAHpZx0SRIr1cR02DQnGU2KxxAkEaWd+fnEqPsH
-         72+BnfyCRVfbeBW8dX9r9ydfQ8ud4++RKrIE2nHrTGHzjy6G71yDnnXDJlXhcCBMfsK0
-         ZeXG6pnSrbsSyAMoH8asjE8sWQyWsilmURSizcvuq46Y+eM2EefOxU95VBc2bPrBPt3X
-         SNo4WbXn7xPZWVf6/2lG3mKbSDrbBAqbNEw0iAs/i3LolrTmECHDlhcrNpE5bG+GAgDz
-         /WgA==
-X-Forwarded-Encrypted: i=1; AJvYcCUV0DoVZfWvlhN42Qi9A4qwfcqOhpNN94Gm5Nu3L6i5MrxSZDrP1YBhWLWTAyRc7atZr21bgKI4w1Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfYeVSXRcOVnbaNQA4bjuerstf/V2V7OXj8odxj/MKGey38EAx
-	19IRx8kCDLpKPZqeJorM3y3eWqen5Xa5zWwd+T5bY4rxIU7Ap3u7p3q7l7I/yFeXgQF6en3ktSU
-	5bGpbLiJ8+5PcbtOcM4nrDI0L0WGRIng=
-X-Gm-Gg: ATEYQzx7mnEvb0SnmI2ejHERQKOExXC1O0uI3mwLEpiXsyjFfhYSrA9ZShkq5BMAVmd
-	+1+x1lWDc7kbcgm2R1b3BvYuOSD5b/OVI02I+QpekXfDT6Iidl11CwpQVZd2bP7kQPQSxlbYE7l
-	PwZtZv+pfrb3AIgy93ZJZF23vRIG0GnDDadBoN/blRwNpq1yaTiSzOtjSCm49kcFmCpyTkKT4A0
-	JNcCU+Ps9adJglCAhGD21FJnnxZxPAXcy4mPVshcggKg/Sd1Y0OXAENH3K3ywGI0v5taQRYsEOD
-	ncIIbw3kQxDO4wTCSwoudN1ZL/rhouPQ+FnJYKj88y5P0pN/PQSu7QsPEIW5Dpz6xGQHt6lcJUo
-	5i2jI83uFwn7FgM3mtsslgGUom0lSlpp1pw==
-X-Received: by 2002:a05:7301:2c05:b0:2c6:7f49:a840 with SMTP id
- 5a478bee46e88-2c930798a4dmr1033595eec.1.1775065559731; Wed, 01 Apr 2026
- 10:45:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QQMvVdOe"
+Received: from [10.14.138.223] (unknown [131.107.174.223])
+	by linux.microsoft.com (Postfix) with ESMTPSA id D2D7520B710C;
+	Wed,  1 Apr 2026 10:48:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D2D7520B710C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1775065684;
+	bh=2CWdNBwO4CIFAevgyIpZs7joIJXVfoQIPY9DoxPnopk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=QQMvVdOeInHzdG/krBu5hl0vWO+en++5kqKPp+jSgiB4h/LWYQ5OcbLtjKkXNmRqa
+	 1PoDRBtVPhXENmGDUqSMrcPbRWSOZGP8fRZaoqZdAZje8evcgnWcDo3KUAO8BnYL5g
+	 TPb6oEuCNYX2NnYD7WNLGFXU4+X1pQEUXEowK2wk=
+Message-ID: <7e2906e2-489e-4376-a13f-db6a9bae98f4@linux.microsoft.com>
+Date: Wed, 1 Apr 2026 10:48:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260401114540.30108-1-ojeda@kernel.org> <20260401114540.30108-13-ojeda@kernel.org>
- <DHHVSX66206Y.3E7I9QUNTCJ8I@garyguo.net>
-In-Reply-To: <DHHVSX66206Y.3E7I9QUNTCJ8I@garyguo.net>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 1 Apr 2026 19:45:44 +0200
-X-Gm-Features: AQROBzDasvNfwm3irNcxLclKgLrVzocIHNQudR_c4deB-93-CSbalwIa-aYY_TU
-Message-ID: <CANiq72=8eVKk0gqyvgWM_-VSsRZY1s2e7gx9AbAg+q0dRRYO=Q@mail.gmail.com>
-Subject: Re: [PATCH 12/33] rust: macros: update `extract_if` MSRV TODO comment
-To: Gary Guo <gary@garyguo.net>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
-	Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
-	moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>, Alexandre Ghiti <alex@ghiti.fr>, 
-	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 11/13] ima: Support staging and deleting N measurements
+ entries
+To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
+ eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
+ serge@hallyn.com
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
+ gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
+ Roberto Sassu <roberto.sassu@huawei.com>,
+ steven chen <chenste@linux.microsoft.com>
+References: <20260326173011.1191815-1-roberto.sassu@huaweicloud.com>
+ <20260326173011.1191815-12-roberto.sassu@huaweicloud.com>
+ <0e186faf-8111-4fd9-a7df-bff30f7fb20a@linux.microsoft.com>
+ <af6aa732b85af36e07e4a82b29170e80b13dc7c4.camel@huaweicloud.com>
+Content-Language: en-US
+From: steven chen <chenste@linux.microsoft.com>
+In-Reply-To: <af6aa732b85af36e07e4a82b29170e80b13dc7c4.camel@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 1, 2026 at 4:18=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
+On 3/27/2026 10:02 AM, Roberto Sassu wrote:
+> On Thu, 2026-03-26 at 16:19 -0700, steven chen wrote:
+>> On 3/26/2026 10:30 AM, Roberto Sassu wrote:
+>>> From: Roberto Sassu <roberto.sassu@huawei.com>
+>>>
+>>> Add support for sending a value N between 1 and ULONG_MAX to the staging
+>>> interface. This value represents the number of measurements that should be
+>>> deleted from the current measurements list.
+>>>
+>>> This staging method allows the remote attestation agents to easily separate
+>>> the measurements that were verified (staged and deleted) from those that
+>>> weren't due to the race between taking a TPM quote and reading the
+>>> measurements list.
+>>>
+>>> In order to minimize the locking time of ima_extend_list_mutex, deleting
+>>> N entries is realized by staging the entire current measurements list
+>>> (with the lock), by determining the N-th staged entry (without the lock),
+>>> and by splicing the entries in excess back to the current measurements list
+>>> (with the lock). Finally, the N entries are deleted (without the lock).
+>>>
+>>> Flushing the hash table is not supported for N entries, since it would
+>>> require removing the N entries one by one from the hash table under the
+>>> ima_extend_list_mutex lock, which would increase the locking time.
+>>>
+>>> The ima_extend_list_mutex lock is necessary in ima_dump_measurement_list()
+>>> because ima_queue_staged_delete_partial() uses __list_cut_position() to
+>>> modify ima_measurements_staged, for which no RCU-safe variant exists. For
+>>> the staging with prompt flavor alone, list_replace_rcu() could have been
+>>> used instead, but since both flavors share the same kexec serialization
+>>> path, the mutex is required regardless.
+>>>
+>>> Link: https://github.com/linux-integrity/linux/issues/1
+>>> Suggested-by: Steven Chen <chenste@linux.microsoft.com>
+>>> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
+>>> ---
+>>>    security/integrity/ima/Kconfig     |  3 ++
+>>>    security/integrity/ima/ima.h       |  1 +
+>>>    security/integrity/ima/ima_fs.c    | 22 +++++++++-
+>>>    security/integrity/ima/ima_queue.c | 70 ++++++++++++++++++++++++++++++
+>>>    4 files changed, 95 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/security/integrity/ima/Kconfig b/security/integrity/ima/Kconfig
+>>> index e714726f3384..6ddb4e77bff5 100644
+>>> --- a/security/integrity/ima/Kconfig
+>>> +++ b/security/integrity/ima/Kconfig
+>>> @@ -341,6 +341,9 @@ config IMA_STAGING
+>>>    	  It allows user space to stage the measurements list for deletion and
+>>>    	  to delete the staged measurements after confirmation.
+>>>    
+>>> +	  Or, alternatively, it allows user space to specify N measurements
+>>> +	  entries to be deleted.
+>>> +
+>>>    	  On kexec, staging is reverted and staged measurements are prepended
+>>>    	  to the current measurements list when measurements are copied to the
+>>>    	  secondary kernel.
+>>> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
+>>> index 699b735dec7d..de0693fce53c 100644
+>>> --- a/security/integrity/ima/ima.h
+>>> +++ b/security/integrity/ima/ima.h
+>>> @@ -319,6 +319,7 @@ struct ima_template_desc *lookup_template_desc(const char *name);
+>>>    bool ima_template_has_modsig(const struct ima_template_desc *ima_template);
+>>>    int ima_queue_stage(void);
+>>>    int ima_queue_staged_delete_all(void);
+>>> +int ima_queue_staged_delete_partial(unsigned long req_value);
+>>>    int ima_restore_measurement_entry(struct ima_template_entry *entry);
+>>>    int ima_restore_measurement_list(loff_t bufsize, void *buf);
+>>>    int ima_measurements_show(struct seq_file *m, void *v);
+>>> diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
+>>> index 39d9128e9f22..eb3f343c1138 100644
+>>> --- a/security/integrity/ima/ima_fs.c
+>>> +++ b/security/integrity/ima/ima_fs.c
+>>> @@ -28,6 +28,7 @@
+>>>     * Requests:
+>>>     * 'A\n': stage the entire measurements list
+>>>     * 'D\n': delete all staged measurements
+>>> + * '[1, ULONG_MAX]\n' delete N measurements entries
+>>>     */
+>>>    #define STAGED_REQ_LENGTH 21
+>>>    
+>>> @@ -319,6 +320,7 @@ static ssize_t ima_measurements_staged_write(struct file *file,
+>>>    					     size_t datalen, loff_t *ppos)
+>>>    {
+>>>    	char req[STAGED_REQ_LENGTH];
+>>> +	unsigned long req_value;
+>>>    	int ret;
+>>>    
+>>>    	if (*ppos > 0 || datalen < 2 || datalen > STAGED_REQ_LENGTH)
+>>> @@ -346,7 +348,25 @@ static ssize_t ima_measurements_staged_write(struct file *file,
+>>>    		ret = ima_queue_staged_delete_all();
+>>>    		break;
+>>>    	default:
+>>> -		ret = -EINVAL;
+>>> +		if (ima_flush_htable) {
+>>> +			pr_debug("Deleting staged N measurements not supported when flushing the hash table is requested\n");
+>>> +			return -EINVAL;
+>>> +		}
+>>> +
+>>> +		ret = kstrtoul(req, 10, &req_value);
+>>> +		if (ret < 0)
+>>> +			return ret;
+>>> +
+>>> +		if (req_value == 0) {
+>>> +			pr_debug("Must delete at least one entry\n");
+>>> +			return -EINVAL;
+>>> +		}
+>>> +
+>>> +		ret = ima_queue_stage();
+>>> +		if (ret < 0)
+>>> +			return ret;
+>>> +
+>>> +		ret = ima_queue_staged_delete_partial(req_value);
+>> The default processing is "Trim N" idea plus performance improvement.
+>>
+>> Here do everything in one time. And this is what I said in v3.
+>>
+>> [PATCH v3 1/3] ima: Remove ima_h_table structure
+>> <https://lore.kernel.org/linux-integrity/c61aeaa79929a98cb3a6d30835972891fac3570f.camel@linux.ibm.com/T/#t>
+> In your approach you do:
 >
-> When I write the comment the intention is to enable the unstable feature =
-and
-> switch.
+> lock ima_extend_measure_list_mutex
+> scan entries until N
+> cut list staged -> trim
+> unlock ima_extend_measure_list_mutex
+>
+>
+> In my approach I do:
+> lock ima_extend_measure_list_mutex
+> list replace active -> staged
+> unlock ima_extend_measure_list_mutex
+>
+> scan entries until N
+>
+> lock ima_extend_measure_list_mutex
+> cut list staged -> trim
+> splice staged ->active
+> unlock ima_extend_measure_list_mutex
+>
+> So, I guess if you refer to less user space locking time, you mean one
+> lock/unlock and one list replace + list splice less in your solution.
+>
+> In exchange, you propose to hold the lock in the kernel while scanning
+> N. I think it is a significant increase of kernel locking time vs a
+> negligible increase of user space locking time (in the kernel, all
+> processes need to wait for the ima_extend_measure_list_mutex to be
+> released, in user space it is just the agent waiting).
+>
+> Roberto
 
-Yeah, that is what I meant as the alternative in the commit message.
+Please the version 5:
 
-I am OK with either.
+[PATCH v5 0/3] Trim N entries of IMA event logs 
+<https://lore.kernel.org/linux-integrity/20260401172956.4581-1-chenste@linux.microsoft.com/T/#t>
 
-(By the way, I wondered why you mentioned 1.85 in the comment, I guess
-it was supposed to be 1.86 instead originally, i.e. "above" as in >
-1.86)
+Scanning N is moved out of the lock period.
+"Trim N" proposal has less lock time than "Staging and deleting" proposal.
+"Trim N" proposal has much less code than "Staging and deleting" proposal.
+"Trim N" proposal user space operation is more simple than "Staging and 
+deleting".
 
-Cheers,
-Miguel
+Steven
+
+>> The important two parts of trimming is "trim N" and performance improvement.
+>>
+>> The performance improvement include two parts:
+>>       hash table staging
+>>       active log list staging
+>>
+>> And I think "Trim N" plus performance improvement is the right direction
+>> to go.
+>> Lots of code for two steps "stage and trim" "stage" part can be removed.
+>>
+>> Also race condition may happen if not holding the list all time in user
+>> space
+>> during attestation period: from stage, read list, attestation and trimming.
+>>
+>> So in order to improve the above user space lock time, "Trim T:N" can be
+>> used
+>> not to hold list long in user space during attestation.
+>>
+>> For Trim T:N, T represent total log trimmed since system boot up. Please
+>> refer to
+>> https://lore.kernel.org/linux-integrity/20260205235849.7086-1-chenste@linux.microsoft.com/T/#t
+>>
+>> Thanks,
+>>
+>> Steven
+>>>    	}
+>>>    
+>>>    	if (ret < 0)
+>>> diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
+>>> index f5c18acfbc43..4fb557d61a88 100644
+>>> --- a/security/integrity/ima/ima_queue.c
+>>> +++ b/security/integrity/ima/ima_queue.c
+>>> @@ -371,6 +371,76 @@ int ima_queue_staged_delete_all(void)
+>>>    	return 0;
+>>>    }
+>>>    
+>>> +int ima_queue_staged_delete_partial(unsigned long req_value)
+>>> +{
+>>> +	unsigned long req_value_copy = req_value;
+>>> +	unsigned long size_to_remove = 0, num_to_remove = 0;
+>>> +	struct list_head *cut_pos = NULL;
+>>> +	LIST_HEAD(ima_measurements_trim);
+>>> +	struct ima_queue_entry *qe;
+>>> +	int ret = 0;
+>>> +
+>>> +	/*
+>>> +	 * Safe walk (no concurrent write), not under ima_extend_list_mutex
+>>> +	 * for performance reasons.
+>>> +	 */
+>>> +	list_for_each_entry(qe, &ima_measurements_staged, later) {
+>>> +		size_to_remove += get_binary_runtime_size(qe->entry);
+>>> +		num_to_remove++;
+>>> +
+>>> +		if (--req_value_copy == 0) {
+>>> +			/* qe->later always points to a valid list entry. */
+>>> +			cut_pos = &qe->later;
+>>> +			break;
+>>> +		}
+>>> +	}
+>>> +
+>>> +	/* Nothing to remove, undoing staging. */
+>>> +	if (req_value_copy > 0) {
+>>> +		size_to_remove = 0;
+>>> +		num_to_remove = 0;
+>>> +		ret = -ENOENT;
+>>> +	}
+>>> +
+>>> +	mutex_lock(&ima_extend_list_mutex);
+>>> +	if (list_empty(&ima_measurements_staged)) {
+>>> +		mutex_unlock(&ima_extend_list_mutex);
+>>> +		return -ENOENT;
+>>> +	}
+>>> +
+>>> +	if (cut_pos != NULL)
+>>> +		/*
+>>> +		 * ima_dump_measurement_list() does not modify the list,
+>>> +		 * cut_pos remains the same even if it was computed before
+>>> +		 * the lock.
+>>> +		 */
+>>> +		__list_cut_position(&ima_measurements_trim,
+>>> +				    &ima_measurements_staged, cut_pos);
+>>> +
+>>> +	atomic_long_sub(num_to_remove, &ima_num_entries[BINARY_STAGED]);
+>>> +	atomic_long_add(atomic_long_read(&ima_num_entries[BINARY_STAGED]),
+>>> +			&ima_num_entries[BINARY]);
+>>> +	atomic_long_set(&ima_num_entries[BINARY_STAGED], 0);
+>>> +
+>>> +	if (IS_ENABLED(CONFIG_IMA_KEXEC)) {
+>>> +		binary_runtime_size[BINARY_STAGED] -= size_to_remove;
+>>> +		binary_runtime_size[BINARY] +=
+>>> +					binary_runtime_size[BINARY_STAGED];
+>>> +		binary_runtime_size[BINARY_STAGED] = 0;
+>>> +	}
+>>> +
+>>> +	/*
+>>> +	 * Splice (prepend) any remaining non-deleted staged entries to the
+>>> +	 * active list (RCU not needed, there cannot be concurrent readers).
+>>> +	 */
+>>> +	list_splice(&ima_measurements_staged, &ima_measurements);
+>>> +	INIT_LIST_HEAD(&ima_measurements_staged);
+>>> +	mutex_unlock(&ima_extend_list_mutex);
+>>> +
+>>> +	ima_queue_delete(&ima_measurements_trim, false);
+>>> +	return ret;
+>>> +}
+>>> +
+>>>    static void ima_queue_delete(struct list_head *head, bool flush_htable)
+>>>    {
+>>>    	struct ima_queue_entry *qe, *qe_tmp;
+
+
