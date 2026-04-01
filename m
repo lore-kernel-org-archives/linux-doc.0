@@ -1,232 +1,173 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020095.outbound.protection.outlook.com [52.101.195.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7447436AB4D;
-	Wed,  1 Apr 2026 13:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775051336; cv=none; b=npxqr8jzKkHRicCO1zF9RQaj+SPFg7tZDsvK3sgsCTR+KmCIMPN2/JZtXaVZYMAggr2lJ05Sbh4cM5ch+UlsAERppg+DPr0uRz84i7fgNWYdEgpLy8DuT5QRB5RMEoP/0tayprpVkwzluFM21MkQK2fbi2M68Z7OjJcYhE/525A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775051336; c=relaxed/simple;
-	bh=xFgnOyg8X+lea0/KUQv/0V6QZGmiCPT35r+GsxSV48Y=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=krEnmGSbPLdjIjiE+vuFu3TlCaZzR4bLldPK8XNapp7myiiXAZ3OFf7nMRCns2MgBZ6Tc4K/qMG+gE/JpwMsIrOL0GyJuHEfAb1eCcrrhgpY7VNitrhZig9anmi+R+iztmETy5F/Dm9+a6Kz1Tk3Ac085806BT3h1cKvBk3SLac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gaSufrcF; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2787F43E48A;
+	Wed,  1 Apr 2026 13:51:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.95
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775051474; cv=fail; b=Piz530BAl0vYTnQibqNhJYyqh1y4r7oFYrY7p4dC8qBA3EhaDKEj6bVzrqz8C8btBUMGgwjb9w7CE97C3jI3no4fEl1CgsP7O57fQBuwCbU6eu17K8gFO1ORAIG57zfwd07HDouTCup53P/RUWunVtwVkVjY7xJ5gxABbC6FJgE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775051474; c=relaxed/simple;
+	bh=60amKpwS4Dm1zGCi+XAWGgGTVTiQzcqeqCd4SpQcsM8=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=M/TpEMHV+Hp+YrjJmzLgoqBFIvoLEk/A4c3vlOJ/KsZYf/Uw+LODgaiyXWq9IPM8dsqtt/DtCim8iDA3KRVTEaCqOvUk2xgQcxd0E6xN4zTPypkRe/w7qr9LCjOn59j3SMoKYFoZ5uooZ50EreJJwLv+C/b3UheFR36kxtxIaGg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=jp/KLfwx; arc=fail smtp.client-ip=52.101.195.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gaSufrcF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC0BDC4CEF7;
-	Wed,  1 Apr 2026 13:48:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775051336;
-	bh=xFgnOyg8X+lea0/KUQv/0V6QZGmiCPT35r+GsxSV48Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gaSufrcFiBWIl+QBNrCXCpRVFhDMLErK+CL3DW5vviunWx4NGxz+Fltf3OHM37bmJ
-	 vJfV8D/z01VkLJhvddv5rytXfXdiJNPALucm2QnqmPY0nLBMZw7sNPiD87Lj5x3/OQ
-	 9sIl3if4zmRej4T3LQVP3cXM4CVgFZLccNPN9lpo/ViG+G5HbtawJ39k5xfdzwMq+Q
-	 EWFykxLN7mdga6IcUx4EcNjZqoQJmEtYqSyzYmsFggqEEmseXxv3VI+Vi2I5pSQ0/e
-	 DMRgn15a3y8R0rtan2MawR/TzQu8LHC2VGBOPO/viQIBN1YqtzVUMMizr/0MbGqwFE
-	 sHrecVMsaU9rw==
-Date: Wed, 1 Apr 2026 22:48:53 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Breno Leitao <leitao@debian.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org,
- kernel-team@meta.com
-Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
-Message-Id: <20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
-In-Reply-To: <acvjcCqIAeHyIiQN@gmail.com>
-References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
-	<20260325232204.05edbb21c7602b6408ca007b@kernel.org>
-	<acZPZ4XKy4QynznK@gmail.com>
-	<20260327223744.f246150adc1671f7605a4f0a@kernel.org>
-	<acpzhCBEPh-tKVqg@gmail.com>
-	<acqJk-zbyjIiy6hJ@gmail.com>
-	<20260331125827.157a833882830007ea9b0b31@kernel.org>
-	<acvjcCqIAeHyIiQN@gmail.com>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="jp/KLfwx"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LCHqzUWwydUhE8cTiuDodRkgSz0TP/HNWn43mcrtDHEmAr9qYMA2nifF0dKXk8hV1JQ0z8CERk1WcFt1ixXciaQud2/jl4lsnbi1SXBtOoyTYhwzpVSdYe50MtD9JhjSs1OYrqATBor1DDbxIwKLkPQKP83BYrB2t4f/BUlAV43sg7ViE5SzEINzenw9nCFnn1X4+BBTQnSMqlsC3q+AOdIqs0mZ7LoFHRcf5Im4aVuvBTddlaWM489nkhqH/jPEA0Cq67OMeo7BpZlv+VZui+6acHv9JlykJP+78NdNPbSfUub7p3kjaGjZt+JijDkt4465IEZ1IC5+vSdSiANMvg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vj2ic3FIWzru+55C0E+i3u/w6rWlKCBfo6a9c5CdHOA=;
+ b=jNFWTlxLXd6jGVeaLzkB00PzdzWJYGi/N3VA6iWTmVnpS4i0Us27WyTpRfu/nT1gIroFEFeU7ntYVlWDbISYsRcHLFFU5qqCuIa0uzFQQF797dHLCfmXIz3ahxbJk2Gv43Q7cZo/j3sk+jurJ/JbMKWl3vvJi1HHca6lGfHOq2bISekWmPIZdzklpS0YGmwCjVt7tEqGmvQGxMlgi2DY2QeNqn+8HMeRM1SFIjCL3fMa3gfdmQMymZKolZou42V/JSGzC0wALRVX3H0kKRDp2jNlgt55j+Is/dyUyaUKYdOwV9JH7POhjlz9vvJ13VFs3uuoE1Du7Dvqpl2ovESf1w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Vj2ic3FIWzru+55C0E+i3u/w6rWlKCBfo6a9c5CdHOA=;
+ b=jp/KLfwxjMiGhDWLncGNnZIOJAYHiaRvCP0HdHFGomHHH/NK5xBxtRVkjO9KL8oZ8dFgfVzcExMo5YSQaNvpOth2Nn6Rb9DYtVYhb4/UwlsFT14lnHYofiCVbVj9AXNwGiqRwIDAvQTqJSuImquZwyMdue5LW0/sg8ZCGqTlL/0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LOYP265MB2063.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:123::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
+ 2026 13:51:07 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
+ 13:51:07 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Apr 2026 14:51:06 +0100
+Message-Id: <DHHV8AF0TXLR.1TKOWH8MSO17A@garyguo.net>
+Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ "Uladzislau Rezki" <urezki@gmail.com>, <linux-block@vger.kernel.org>,
+ "moderated for non-subscribers" <linux-arm-kernel@lists.infradead.org>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, <linux-riscv@lists.infradead.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Rae
+ Moar" <raemoar63@gmail.com>, <linux-kselftest@vger.kernel.org>,
+ <kunit-dev@googlegroups.com>, "Nick Desaulniers"
+ <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, <llvm@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 07/33] rust: kbuild: remove `feature(...)`s that are now
+ stable
+From: "Gary Guo" <gary@garyguo.net>
+To: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Paul
+ Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
+ <david@davidgow.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
+ <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
+ Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Jonathan Corbet" <corbet@lwn.net>
+X-Mailer: aerc 0.21.0
+References: <20260401114540.30108-1-ojeda@kernel.org>
+ <20260401114540.30108-8-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-8-ojeda@kernel.org>
+X-ClientProxiedBy: LO4P123CA0335.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18c::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOYP265MB2063:EE_
+X-MS-Office365-Filtering-Correlation-Id: 888c7132-77dc-4c8a-c1a2-08de8ff5b98a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|10070799003|7416014|376014|366016|921020|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	XPyK6u+q9oTDhx0KrbjZoCIb3HfxwEXEdXHQ0ZBFr5+rDrFVTiabG759YLu33UHiS07z3Lxf9xwTt3gwJC4A0tgLarTJDVvSBCUjeDAJEYtndXZKR2jniH4FQ59E2u1ht9Q88eyGx5osJkaCZJ6OKyPx0AE1HyYlK227r8Sj5Rm89rDIoXLnSdgGGEA5rlfNN4qiZUIhOiE8XAu9xuufPFK/RbsFL6x8MPykIoDugRmFb9ouj3hHvZx6RcSfNm7FYBPPg2RFpYjDMbDuCeifQgyizDbWLNZj1SbpLQFTQeCrfczPppjqUFYm7s2Q6/UN5PKzT8K20JiM1EvhtZDrkmoHIlpqcpZ6+oe94iFUc9KL8kqMet5kvWGslWz0rXtKmybgwJZehR+QxuUvmCqr9kD0ZxrgquGxl3Unsm4lKqj+4Z48uDmIAjTTEf+xNybptjHSyjLcHuBi797X6dGLJXaMmmMn5Dn//icbO2W7Y0HxfnRVasONaA0wCRh0UK1CHM18+Lo0HJKwhCO3IUB/0LBjmL6oP2xR844Og65XIlDGgyHVLUoVPzgfyYF2rS2hukh4X2+dci12mXc5jIcEXpVtU4qvZ4vEgQHZipYMJX2ODQ6F+4lqmEben0ExuPAy1AGHH6y5RZDiTqizusjLfTb0sP4tIz908+oZ7v6M/7zgvvuBjxjlYyuXD8UXOY21XjhuZRm4juDlXLnvHx9ZYUbGpgmo9ZEpgWA468lptSU/5bcMDLOVXzjmhRVIslPS17l41jKQWMLN525XpDZucg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(7416014)(376014)(366016)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Mk9GSGwzOEtJQjZjK0RmdmdhaEp6VGhkNzhHNEwvdWVLcHRtUVVSNXBHaDFH?=
+ =?utf-8?B?bTBEN3pLT25ZUWhEaHdtR2c4RGE3V1JUSjN2eTVnMkp1NXdOK01EbUkzczZ1?=
+ =?utf-8?B?TW9qWDZFRDBqMkEvV09FeW9vUktJZ2lUMlRDOUVrNWE3WnFjcHRieU1jRS9Z?=
+ =?utf-8?B?eFVteFNjaGdMbE5NNzhqSkVrY0p3RllpN3RRU0VaM0dGUUp6Q0k5RFRwTlpm?=
+ =?utf-8?B?dmFtUm05cXFLUWhmWFlKZy9sU0lYd1JlSHpSWGEzV3Nwck9aQ3Y0cjVCY2tH?=
+ =?utf-8?B?MUIzTEJ6VExvM0tydllQK04xUW82c3pDTU1pTlRndXFrUXd4OEdBTU9peERO?=
+ =?utf-8?B?dm9TdWRsOHF5ZW1iNlkyNlZ6NzZiTjMyTXBzWkNUWXpSTXc0NGlVTzNyeFhV?=
+ =?utf-8?B?WUwwSjVvdCtFd3RFUlg3Ym9CczVDMEoveWdtNUM0OWpKZzlJZjIyWDA0VU5J?=
+ =?utf-8?B?MTZSNGFyYWhKK0o1c0ZPU1VrR0VaVVp2bmFROTJ6MDFHeW1vL0VYbEFXN3ZW?=
+ =?utf-8?B?eDVvWGtZWnpZclA4N3U3dXo2dzJ4cTBCdG5EYnphOVI5N3A5cWkrYkRib1lq?=
+ =?utf-8?B?SDJtOHIrVnpHWGhKZlFzMXl5WExUdEpxdHNSQ01LZWYyZGp5SFBwT2VRaHJo?=
+ =?utf-8?B?N0s5cXpxTmROQUVub09kaEd5UjlUcVkxNGR3alByOER1VWR2T01ZVTljcHdO?=
+ =?utf-8?B?ODkzQXU1RmZscVZEb2hQTFhWT3Z4WnErY1VPS05TOVhOZ1BTNzM2Nnlyc3ph?=
+ =?utf-8?B?VEgzNWIzcjhDU0YrZTNPZkJNdWxYZi9qdmhPQUJMcE1LamFoeWFkRGs1QzZC?=
+ =?utf-8?B?dUN6ZE5pSTlTY1F1RC9oUVhSa3BtWVJoNW9haEwrdWdDeE4rRFBLWlo5OXg1?=
+ =?utf-8?B?NFRGalUxMktXM0RWd1Y1OHVGb0I5bHZabW9mL294QXRpaDlLKzBOc1NQbEVJ?=
+ =?utf-8?B?ejJZTTlHSVBMQ1ZlbVJKbEZUUHpkTENFdEJheEJJU2ZyZmp6WlpxWFpDRjJS?=
+ =?utf-8?B?cmZTbEJnQUo1YU1GUisyR0x1bnZ0RGZuVit1OEdBM3hXSzk2Y0ROMW5Ddm1l?=
+ =?utf-8?B?U1VYMjU1dEUrc2NUMjRTQU8zbXhQdFdhcUJTdmVuZDV0VW1Kbm42TXoyTjNH?=
+ =?utf-8?B?akEwVWxvRSt2ZjFTMGtVK1RhZU1GenpyNWt6aWhpTzV0UGlNRFpZTlZibWtv?=
+ =?utf-8?B?Mmt3Q1pTSGFIdnpxZFZsakJ0ZGJRU2I4QjVFaHRVbDRpWGFpZ2NFRm56WEdS?=
+ =?utf-8?B?emVYakhSOHQxeEV2N0hwbFEzd1cycmJWV0srVzFYbktVYWxEUkRLekxjL0Zo?=
+ =?utf-8?B?S015MzFGb1NENVBiakpuQm1tZG80d2FIQUgxQnhYYkFoWXdWMnEvaGQ5Y1Yx?=
+ =?utf-8?B?T0EweVhmZWRtZ3FtMGpER1NjMndGVGx0VTFuditzU2VmMzUzNWJvdkxLdnhS?=
+ =?utf-8?B?eGpoNEo1SG9kWUpjaUkxcERUaGFBQmdFQWhMRlprb3R5S0VDRi9pSmtuT2tN?=
+ =?utf-8?B?MTlhYVFtZFBORkNxQ3dYcDluVWJwV1VkQ3dEeExHbXJFckdjSGk5bnZtamUr?=
+ =?utf-8?B?N3RxclFreDlGSmpNcTdNUElJWUQ4VlNybXE2MVRrNTE0SlFlQ3RzM0tGNzM0?=
+ =?utf-8?B?Zm1NaSt3K3NlZUpvOWFGTzdkV3hDSHJ5Q0tJdzVIem5EVFdsbnoxR1dMclNm?=
+ =?utf-8?B?Nkh4M09VL2JvMVZ5QkptaGpLMjlzR1FZbDUvWG5FdVcwVldJZGdxckdYZ1NB?=
+ =?utf-8?B?RmJXZ201S1FDNFdoYlRyNTg5MmNTMlBVOTE3dTNQRDhzRGUxRitsTjJoc0V5?=
+ =?utf-8?B?ZEJ4NFRCYWpHOXR5a0xZWTR1WjF1K04rZDBLVk5pNFJaSk5MYXFWVXZjNDVv?=
+ =?utf-8?B?R3lIdGlzb0VDMjdSeFRUVXhsMEJKZUphTHJKQmQzcHQ0cy9HN3FTWVZLYWlZ?=
+ =?utf-8?B?Z0EwSTN3L3ZsdTB1aFlNbTU0ajhPOUVLaGw3SjZoU3Azckw0QjVsUTVYa01J?=
+ =?utf-8?B?NGl5aVQwSis3ZkxZMk0vMWhLRkJtT3Y4RWNMUjlEZ2NuVU5uZ1dyVm1Kcmxi?=
+ =?utf-8?B?VnBxaG1ZaDRGcXo0UlhkUTRRS1NyVVBXK2I2cklVZ05Sb3pqRjA4V3ZNRFVZ?=
+ =?utf-8?B?R0lWSC8rZmRnb2Z2NkllQXVtWWxSN0J4WjZ6RE42U1BPNGNTKzlvM3FrQjZT?=
+ =?utf-8?B?aGJ5Ti9MK1hLMFZwQ0l0M09XdWh4UW5SckxrOU9jVnVhNjgxeXdKalRBUGh4?=
+ =?utf-8?B?WUpidXd2OEgxdGZjb1A2Qkp4cE9KOTZXWlkwMVduZ2ZyS1FQUUZ2MFRTZHFv?=
+ =?utf-8?B?eDJuditUd2xRakpNN28vM1N5a0RNaDdaOFAyeFdZRUNoK2hDQXNpdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 888c7132-77dc-4c8a-c1a2-08de8ff5b98a
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 13:51:07.6664
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zGHillGN2OVu2riJBPaSbdHJRYSNvfDDjqNbzp8T/Xl1cPptDpB2zfWm8Sk/41J3tgbKLPJcX6KjDin+eCk7oQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOYP265MB2063
 
-Hi Breno,
+On Wed Apr 1, 2026 at 12:45 PM BST, Miguel Ojeda wrote:
+> Now that the Rust minimum version is 1.85.0, there is no need to enable
+> certain features that are stable.
+>=20
+> Thus clean them up.
+>=20
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-On Tue, 31 Mar 2026 08:27:59 -0700
-Breno Leitao <leitao@debian.org> wrote:
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-> hello Masami,
-> 
-> On Tue, Mar 31, 2026 at 12:58:27PM +0900, Masami Hiramatsu wrote:
-> 
-> > > 3) Ensure that early bootconfig parameters don't overwrite the boot command
-> > >    line. For example, if the boot command line has foo=bar and bootconfig
-> > >    later has foo=baz, the command line value should take precedence.
-> > >    This prevents early boot code (in setup_arch()) from seeing a parameter
-> > >    value that will be changed later.
-> >
-> > OK, this also needs to be considered. Currently we just pass the bootconfig
-> > parameters right before bootloader given parameters as "extra_command_line"
-> > if "bootconfig" in cmdline or CONFIG_BOOT_CONFIG_FORCE=y.
-> >
-> > [boot_config(.kernel)]<command_line>[ -- [boot_config(.init)][init_command_line]]
-> >
-> > This is currently expected behavior. The bootconfig parameters are
-> > expected to be overridden by command_line or command_line are appended.
-> 
-> That's correct, and I have no intention of changing this behavior. Here's
-> the current approach:
-> 
-> 1) Early parameters from the bootloader are parsed first in setup_arch()
-> 
-> 2) Subsequently, bootconfig_apply_early_params() is invoked. Any early
->    parameter that was already parsed from the bootloader (in setup_arch())
->    will be skipped at this stage.
+> ---
+>  rust/Makefile          |  2 --
+>  rust/kernel/lib.rs     | 21 ---------------------
+>  scripts/Makefile.build |  6 +-----
+>  3 files changed, 1 insertion(+), 28 deletions(-)
 
-Ah, I meant if we skip these parameters, we should not show it in the
-command line via extra_command_line. This is still a minor issue at this
-point. It should find early parameters in kernel.* parameters and do not
-show it in extra_command_line, because those parameters are ignored.
-So it is better to make a separated patch to fix that.
-
-For example, if we pass
-
-kernel.mem=1G
-
-via bootconfig, it will be shown in the /proc/cmdline, but it is
-not applied. This can confuse user.
-
-
-> 
-> > If we change this for early params, we also should change the expected
-> > output of /proc/cmdline too. I think we have 2 options;
-> >
-> >  - As before, we expect the parameters provided by the boot configuration
-> >    to be processed first and then overridden later by the command line.
-> >
-> > Or,
-> >
-> >  - ignore all parameters which is given from the command line, this also
-> >    updates existing setup_boot_config() (means xbc_snprint_cmdline() ).
-> >
-> > Anyway, this behavior change will also be a bit critical... We have
-> > to announce it.
-> 
-> As mentioned above, I don't anticipate any changes to existing behavior.
-> Bootconfig parsing remains unchanged. The only modification is that
-> bootconfig_apply_early_params() will skip any early config parameter
-> that's already present in the bootloader command line.
-
-Yes, but it is just different from existing one.
-Suppose that if we have "early" and "normal" keys in the kernel, those
-are handled by early_param() and __setup() respectively.
-
-If we use bootconfig, like
-
- kernel {
-   early = bconf_val
-   normal = bconf_val
- }
- 
-And passes "early=foo normal=bar" via cmdline.
-
-In this case, the /proc/cmdline eventually has
-
-"early=bconf_val normal=bconf_val early=foo normal=bar"
-
-And the "normal" callback called with "bconf_val" and "bar" twice.
-However, "early" callback will be called with "foo" only once.
-
-That can confuse users too.
-I believe it's important for the system to behave in a way that is
-as close as possible to the user's mind model.
-Because the behavior is inconsistent when multiple parameters with
-the same name are specified on the kernel command line, it is
-necessary to ensure that users can later look at it and infer what
-happened.
-
-I mean, if a parameter is skipped, it should not be printed at
-/proc/cmdline, because it can mislead user (and maybe bug reporter)
-when a problem happens.
-
-> 
-> > > +Note that embedded bootconfig is parsed after ``setup_arch()``, so
-> > > +early options that are consumed during architecture initialization
-> > > +(e.g., ``mem=``, ``memmap=``, ``earlycon``, ``noapic``, ``nolapic``,
-> > > +``acpi=``, ``numa=``, ``iommu=``) may not take effect from bootconfig.
-> > > +
-> >
-> > This is easy to explain, but it's quite troublesome for users to
-> > determine which parameters are unavailable.
-> 
-> Agreed. This turned out to be significantly more complex than I
-> initially anticipated.
-
-Yeah, that's complicated.
-
-> 
-> I'm uncertain whether we can accomplish this without examining every
-> early_parameter() implementation in depth.
-
-Agreed. My proposal is something like a divide and conquer approach.
-Since these are implemented architecture by architecture, you need to
-check the implementation for each architecture, and I think it's best
-to implement them one by one using Kconfig.
-
-> 
-> > Currently we can identify
-> > it by `git grep early_param -- arch/${ARCH}`. But it is setup in
-> > setup_arch() we need to track the source code. (Or ask AI :))
-> 
-> The challenge extends beyond that. There are numerous early_parameter()
-> definitions scattered throughout the kernel that may or may not be
-> utilized by setup_arch().
-> 
-> For example, consider `early_param("mitigations", ..)` in
-> ./kernel/cpu.c. This modifies the cpu_mitigations global variable, which
-> is referenced in various locations across different architectures.
-> 
-> It's worth noting that we have over 300 early_parameter() instances in
-> the kernel.
-> 
-> Given this, analyzing all these early parameters and examining each one
-> individually represents a substantial amount of work.
-
-Yes, that may require a substantial amount of work. But to improve
-the kernel framework around the parameter handling, eventually we
-need to examine each early parameter.
-
-> 
-> Are there alternative approaches? At this point, I'm leaning toward
-> breaking bootconfig's dependency on memblock, allowing us to invoke it
-> before setup_arch(). Is this the only practical solution available?!
-
-Basically, the memblock dependency comes from allocating copy of data.
-Only for the embedded bootconfig, we can just pass copy memory block
-to the xbc_init(). Something like;
-
-xbc_init() {
- xbc_data = memblock_alloc();
- memcpy(xbc_data, data);
- __xbc_init(xbc_data);
-}
-
-embedded_xbc_init() {
-  __xbc_init(embedded_bootconfig_data);
-}
-
-Afterwards, we can pass mixture of embedded bootcofnigt and initrd
-bootconfig data to parser again.
-
-(But in this case, we must be careful not to override the early
- parameters that we have already applied.)
-
-Thank you,
-
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
