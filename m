@@ -1,140 +1,126 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B24132EB5A1
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 21:12:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26AD133C507;
+	Wed,  1 Apr 2026 21:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775077972; cv=none; b=oQZgwTkAcW4M8TD5mUNOUVMu6127ZcqfsdFYSDPEVTLydlqYAdI08g7c7f5B5I2ANNENhPDbHJWDfORcO6WJ9Ww7xkZJpK2/hr1ZgBYcxoIHGbWwtexZ5h1lAklFLe2p5m1obBEXr146a30QebuAO8pjD0F89fxm08Jhj5a8khU=
+	t=1775079662; cv=none; b=F0TkNseV/v8G6mmjFfbWkPxCkWBbMcQAII2dALYjuQXIv4x1Av9Jo0OTEqMscApYC/XuiHSUClltxsbcefMXYVYo5h8mqPxzaksQE/P1QAa8UVUnKn42EY2Mjx+2+5qV/yS6md2JJnJugv9/n1v7wzvBPpvN4WTuokKMfIltuwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775077972; c=relaxed/simple;
-	bh=jHr1hj3c2yB3sDc5e+7Fsc3y1i+wAYJMQ0SyKmFoIMI=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=uJvDbQQq/5dOsJ4tjepWgsNSUcKQngvy3wGZ67EshvSnerAikD0kPzNM+JZdpzzRGqze4D72gIJpeLpNfzDAv4+5EYSpOYqkmt/+0li2Y4FvhWiwp1a89aEEiLpKsjLAmfUQLuA3YecI4YWsYfenXa3Roe0X7+a+aV96FvjF96Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OTlW0bkS; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1775079662; c=relaxed/simple;
+	bh=pDwgJl6Fh9R0ESyyzZwZ3nyL/1KbhhNvMwGXe/yD3k8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kOoPOhbCBewe5mpVrDQi/YbJu8znlTnrq6G7uJzKaw1iCcZFnhxuNNNRZH8D5fSUBhAC+khSYqb3mdQWtvTjqL0ZIsEyj6Hnw6PSij66JjyfFGf9JA/704BYiil3Dc/5wCAHqTYoEGbizJlH7MRC+hRvZwU0aKchdi/nNMdEaKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rjZ4krda; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OTlW0bkS"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-82c70d1f56eso81052b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 14:12:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775077971; x=1775682771; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L2hTe6/qAASYky4w9/7qUWXPsVepZndGTLTeQA9+UIs=;
-        b=OTlW0bkSqgXE3dUioitPbQH+plsaBZ2Chg8+LMd2AphjT17Hh0vJNM/3FIs6hwqvy/
-         QZNs9UjTx4eu0fCMxYsJGHl6+nGSyfmh0lsJ0DCALvLbHZWQeXGQa6zSFk7ZThdbiIXq
-         /iHQxC2gB3MfUX5lRYZgOODK9wBkbE6ROnps/4dsAvi2Gx+eeFWFPiJyCKRPOBz2hiWq
-         BpcqGomwu97z8uRjDAj8Cc45bFWazhyJIU6bzSeZXciP4Ow/EZiyjOUi6rWkKZpSg63l
-         x12criIchU7LN1wnFnOR6DoGeODlHGiK78ChIaD7NpTdFYc/A6GowR+n/2/KV8swr6+j
-         xiPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775077971; x=1775682771;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L2hTe6/qAASYky4w9/7qUWXPsVepZndGTLTeQA9+UIs=;
-        b=QEBna4YJ27Q299WeMyXesPDqyR72bGckfiLuLeA9IscRGhCWZN4rKfTUFDHHYpWB80
-         cD4Z/pgIQFgKy8+MdMYteZ2nUTdtIUI/VTAiw3zxL9FG/25RrdtOfJdVJt8+g86aLgul
-         XONOiWPAqUuRf9T6lIQ+HVHDmd26VFh/t3J2Vhx0q3DMnMxzLOAR72LmBSll7uLlhUaF
-         Stjgqbou4Igli2VFV2syuyBnnQ4S44RS5hysxVi84FEeaV9ZxeonJ4Ekho3qiZHnyCCN
-         NNk5q08NZFFsssrC3um4VC5BdSAipfbwBpHhTT1jLaBqXb8He0pZYfebSWMi8k2gKRtl
-         KCmg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJtW7RxET0Of6Oi+uS4iXCLi+CnA1q1gjK9yQGN4EQZYeNWIOBK7XCG0Z0hIQOvB8ZC8zn3xweob0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTAoqW8tqQMCwFohCuEI6Op3lM/e0alE4dsfhVLJBa8n7AAuiZ
-	A9+Ul46FAJvswTtrJMWg0LcgXt+HzXdYJBuoKfnJcgApVRndpwjwkcIYLJrz8oiOzBdluUppZle
-	a25cDKA==
-X-Received: from pfbhw14.prod.google.com ([2002:a05:6a00:890e:b0:82a:ff5:27be])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:84d:b0:82a:fc5:fb81
- with SMTP id d2e1a72fcca58-82ce88c3336mr5445243b3a.5.1775077970623; Wed, 01
- Apr 2026 14:12:50 -0700 (PDT)
-Date: Wed, 1 Apr 2026 14:12:49 -0700
-In-Reply-To: <2r4mmfiuisw26qymahnbh2oxqkkrywqev477kc4rlkcyx7tels@c7ple7kdgpo3>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rjZ4krda"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 78247C4CEF7;
+	Wed,  1 Apr 2026 21:41:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775079661;
+	bh=pDwgJl6Fh9R0ESyyzZwZ3nyL/1KbhhNvMwGXe/yD3k8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rjZ4krdarwjCTk3lcfRgblqKEGSYvMlE4Ub7PB8ZhtVDNHJU53EvsLHOqIa783mjS
+	 uh1Ye5ifYSc+2lJDlHDbyCO1JC4udIlqGMyo95ZakDYbnYiWtqS5FyW0hIoidj/qen
+	 euu68aHI4r+tt1y/ZW63ZJiZ4im12Cq7kvxhAeaFT0Bk5vG9kUopONhOl2i1Kl7x1K
+	 SYxvvMSN1EGRjhFwvZ4L++cQMIxATWc83jCSm1elVC3UFuAoMNGQ+Sdm/JZuUkYqkC
+	 NLdK0LTq7V2d5cfKjTF3ejhgpUSuPge2iqLHnRnctbC7k57HMb0LIt8rHdrO17qxgq
+	 hi+/R+7AcOy4Q==
+Date: Wed, 1 Apr 2026 14:41:00 -0700
+From: Kees Cook <kees@kernel.org>
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Finn Thain <fthain@linux-m68k.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	llvm@lists.linux.dev, Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nsc@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar
+ types
+Message-ID: <202604011438.E5D2335@keescook>
+References: <20260331163716.work.696-kees@kernel.org>
+ <20260331163725.2765789-5-kees@kernel.org>
+ <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
+ <202603311253.95C54588E@keescook>
+ <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
+ <202603311321.4EE9FEA@keescook>
+ <20260401093820.GX3738786@noisy.programming.kicks-ass.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com>
- <20260326-gmem-inplace-conversion-v4-10-e202fe950ffd@google.com> <2r4mmfiuisw26qymahnbh2oxqkkrywqev477kc4rlkcyx7tels@c7ple7kdgpo3>
-Message-ID: <ac2KUaWxpVxmfUtY@google.com>
-Subject: Re: [PATCH RFC v4 10/44] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
-From: Sean Christopherson <seanjc@google.com>
-To: Michael Roth <michael.roth@amd.com>
-Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
-	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
-	david@kernel.org, ira.weiny@intel.com, jmattson@google.com, jroedel@suse.de, 
-	jthoughton@google.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260401093820.GX3738786@noisy.programming.kicks-ass.net>
 
-On Wed, Apr 01, 2026, Michael Roth wrote:
-> On Thu, Mar 26, 2026 at 03:24:19PM -0700, Ackerley Tng wrote:
-> >  #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES
-> >  static unsigned long kvm_get_vm_memory_attributes(struct kvm *kvm, gfn_t gfn)
-> >  {
-> > @@ -2635,6 +2625,8 @@ static int kvm_vm_ioctl_set_mem_attributes(struct kvm *kvm,
-> >  		return -EINVAL;
-> >  	if (!PAGE_ALIGNED(attrs->address) || !PAGE_ALIGNED(attrs->size))
-> >  		return -EINVAL;
-> > +	if (attrs->error_offset)
-> > +		return -EINVAL;
-> >  	for (i = 0; i < ARRAY_SIZE(attrs->reserved); i++) {
-> >  		if (attrs->reserved[i])
-> >  			return -EINVAL;
-> > @@ -4983,6 +4975,11 @@ static int kvm_vm_ioctl_check_extension_generic(struct kvm *kvm, long arg)
-> >  		return 1;
-> >  	case KVM_CAP_GUEST_MEMFD_FLAGS:
-> >  		return kvm_gmem_get_supported_flags(kvm);
-> > +	case KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES:
-> > +		if (vm_memory_attributes)
-> > +			return 0;
-> > +
-> > +		return kvm_supported_mem_attributes(kvm);
+On Wed, Apr 01, 2026 at 11:38:20AM +0200, Peter Zijlstra wrote:
+> On Tue, Mar 31, 2026 at 01:31:16PM -0700, Kees Cook wrote:
 > 
-> Based on the discussion from the PUCK call this morning, it sounds like it
-> would be a good idea to limit kvm_supported_mem_attributes() to only
-> reporting KVM_MEMORY_ATTRIBUTE_PRIVATE if the underlying CoCo
-> implementation has all the necessary enablement to support in-place
-> conversion via guest_memfd. In the case of SNP, there is a
-> documentation/parameter check in snp_launch_update() that needs to be
-> relaxed in order for userspace to be able to pass in a NULL 'src'
-> parameter (since, for in-place conversion, it would be initialized in place
-> as shared memory prior to the call, since by the time kvm_gmem_poulate()
-> it will have been set to private and therefore cannot be faulted in via
-> GUP (and if it could, we'd be unecessarily copying the src back on top
-> of itself since src/dst are the same).
+> > int func()
+> > {
+> > 	...
+> > 	u8 __ob_trap product = 5;
+> > 	...
+> > 	product = a * b; // if store is truncated, goto __overflow
+> > 	...
+> > 	return product;
+> > 
+> > __overflow:
+> > 	pr_info("%u\n", product); // shows "5"
+> > 	return -1;
+> > }
+> > 
+> > (Isn't this just an implicit "try"?)
 > 
-> So maybe there should be an arch hook to check a whitelist of VM types
-> that support KVM_MEMORY_ATTRIBUTE_PRIVATE when vm_memory_attributes=0,
-> and if we decide to enable it for SNP as part of this series you could
-> include the 1-2 patches needed there, or I could enable the SNP support
-> separately as a small series and I guess that would then become a prereq
-> for the SNP self-tests?
+> So I like this implicit try with a default label, and mostly I expect
+> this will be fine.
+> 
+> But as Linus already mentioned, sometimes you might want more. Could we
+> perhaps also have an explicit version, something along the lines of:
+> 
+> int func()
+> {
+> 	int __ob_trap size;
+> 
+> 	size = try(count * flex_size, __mul_overflow);
+> 	size = try(size + base_size, __add_overflow);
+> 
+> 	obj = kzalloc(size,...);
+> 
+> }
+> 
+> where we have something like:
+> 
+> #define try(stmt, _label) ({		\
+> 	__label __overflow; 		\
+> 	if (0) {			\
+> __overflow:				\
+> 		goto _label;		\
+> 	}				\
+> 	stmt; })
+> 
+> That is, have the overflow trapped and confined in the
+> statement-expression by using the overflow label as a local label and
+> use this little trampoline to re-direct to a custom label.
 
-If it's trivial-ish, my preference would be to include SNP as part of this series,
-_before_ KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES is exposed to userspace.  I think
-that would avoid the need for pivoting on the VM type?  I.e. don't advertise
-support until all VM types play nice.
+Yeah, that should work, and gives us a nice way to create handler
+overrides. We've have to make sure the "locally defined" labels (with
+__label__) and __ob_trap worked together sanely.
 
-> Not sure if additional enablement is needed for TDX or not before
-> KVM_MEMORY_ATTRIBUTE_PRIVATE would be advertised, but similar
-> considerations there.
+-- 
+Kees Cook
