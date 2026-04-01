@@ -1,246 +1,130 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729BB3D810A
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 12:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E9F38238B
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 12:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775046141; cv=none; b=X/f/RicooSeG5x3MSoddeNsQPpPmxBck0Sy/26yJ+eHga0GnIW3JVTEyCXJdEDfGIxm5M6ThR6sdQLlKrQNFFMlMA04HjeLDv907/lQjHsEZmlF1TCGdGRGHy8qvsSv6ZO/fYbAuiiAsdj1y4GQL9CBkUdo7aVl8WacxnZvAe7w=
+	t=1775046303; cv=none; b=eXAN9S8Enijbq0IND9857b+kLCA/oNK2qLXObhRHLrUSdJ+8mv1DG66T1GXxWNzhy1zvyqz2L3f8El6tFGsQp87QTzBPVCg79iywyMahU1l87xZN/bHrjdgXuBuz6JVVCpVobcfoUw1/Jv5MhamSs2x8wS1gvLoEdnYrlxoHrFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775046141; c=relaxed/simple;
-	bh=YsuTa5lww5YDewP07S+OGZgDQWwFL2bTgBarz21FTJY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hb9c9qfl7ZpuIYc2U16NJUbyPm00rDAyCEcn3Zdh4O4cKES/UuVx0CYyNpPAmRv4hkoDnJuWxEMLVvo4kb6VkFkou0mZmygQC4+sVQ4/pznXWJfV1XdOCbtN94sp6wlxG0f899qt5cE04WnisuZeXLP+hkNjl5U7wCSVo/u1tI0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=S+7GNyvM; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1775046303; c=relaxed/simple;
+	bh=yZLwdPudHgAh/FG2OADadb/MS8JqcR/BjsVN9oFtlNA=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=rdQXZt+D//2uklFClu5gpy9Oe+M4dq/MS/0fFeMDMdxNsguZIMJk3Ip/ejV6ByGwxmkoGl3KtQtnfIkie1lFT2aT2Wr+7kk8ohsqsbZmk5UTmEmpRRpfqHwkOOQPO4YiNDXDPTFN2/3j3VOmZibIsrBdMtmaiKlo2JpintDVwHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=t6SsTE3W; arc=none smtp.client-ip=209.85.218.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="S+7GNyvM"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48374014a77so81900105e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 05:22:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="t6SsTE3W"
+Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b97a3f9ebfaso538048266b.2
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 05:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1775046139; x=1775650939; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=2JvmNkijtfkleZl4AVh3d/5C7ipYcZLtHwRqCUWikPo=;
-        b=S+7GNyvMsbCFemCcYYP5Rfttkomv+zAQzRl4khfCO9ATuTwRMAlTgPJMK81oCybmQv
-         pDsbTX92Zr+zEBhe9+O1/VPFlxuxpqA6ygxd8DI2zcc/g4v0CznQ0SraWIs/0ZbyVkdN
-         zSB4mC0jmuvzLffHHIZ2vVBilLyNGqU+Z8mkizsqGXSKveq33FFdeatNAL3nh65Y01+Y
-         v/1GLud0A/xKO4VftC9qAc1r3Ujprg1saJ6p98I7bLAAXBj0o+BAW83XgWQOzsTIP2Uh
-         cHQBsP61+MaCr7aDH0SuLo63Pvj1XUMvqY3T4HdJ+w/m+To0R/4ctPzHoEbDNUh1bshz
-         tZ4g==
+        d=google.com; s=20251104; t=1775046298; x=1775651098; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ycc6WMg7OLshR/yyfU2jpKKLPa+z0xOJ3hTWvecsxRM=;
+        b=t6SsTE3WFu/gCt0PjF1971y/5E2KV+O5Z5ki8//jv3wpGuFpiOl/lveW1ob11D4Xp5
+         gUaL062812D/2InxzBdhgIY9Is9sKz5DUo08SZVKfRT1AB181cq3ISUH2PverhdM0cXo
+         eJxtGFZEvPzlWWRxr9ZOfcPEcmzYNNhOFdZc6g/AU917x0QaD55f3aBf8pDx2XrHvYFj
+         NsaZuhl13q6nOYsHXDbWJdfHH6PRRXwCsQ35RXNb/gpkhAKdfr74+zdwXjHlaT/Hibk3
+         OT913PTd/JlAlHZ1bjqlNcaTJO/4V1AziHV6PRGPFLB8JJf7GKpTb/QqQUPhiTNONx9Z
+         Fblw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775046139; x=1775650939;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2JvmNkijtfkleZl4AVh3d/5C7ipYcZLtHwRqCUWikPo=;
-        b=ZVt9DhnYh2BrOQruuS84s2UPIE86UfZeLV3NNgPD/rH5CwY/CpTIFn6H36B5qlAGHY
-         5hyXmRaFvl/zMckF0pVWs1B4f2Mn8aP/nLQlESSCjQOCCr6sjTGx3ry273TYbGk5MkQl
-         dy72XNq0N8D1vohIy18ba/C2twTU0N8N9gtLeWXv679cFdSNQXEEwdlyueTD5tS2lwP+
-         iwbQQDjiWI7DpCmEhfZp4yclBvpAwyphPnjdA2V7zYWglzh8yqL+b1BrVK+x8ho0TIC8
-         M/nqyTnPiIfaifO5LGwHpgeSleBViy2vcX98CGgk+WwGj/aI17xrEw5pOedbgx4quzXs
-         nS2g==
-X-Forwarded-Encrypted: i=1; AJvYcCW+GxsBPUl2M+kYzumEDYNMvDhgP4pVxbgFyvjSvF63CbpowZjU0i+CZSGQqGtLSBmp4Mxa+wWgYTU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF7uBDHX+ohOQ4QEkXmPFvu3rW8cInlwZtw8qm2PUfUwY/yhKL
-	T03lbBL4nLtM5JACvqG0JbglP7RGCWegTetivtVBQyZGhlJmHr3mgnhmA5uvXxSv33Y=
-X-Gm-Gg: ATEYQzzq65AsQw0sG61rr5E2X4lPMpydeiwt6J4rIfz0FOw3D8Pf5c53+2BVlMt7Vnz
-	wrdSNgm4dNd9FZtYKSVj/eIKJ71uCAVo1CxtA6/NjCFZTnKGxL5xy8yn1vmc+5iEaL1VAV+FTww
-	nctG+q0Ft0DI7VGumx1Di9lFdkezl5Ag7KJAxhhc+MGthpxYUvYnteTm9phDF51gGjbPti09jJY
-	y+d86FsHkcrIYuQ27MnfEEnrUqbvAxSyekOMiyR1+V0WbyiewfQr4RMJPLaq3Ip2deZYroHU53I
-	del6nYPIBEHddVmYYXyyzntjwLrI+YxT/84uP/9AMnoZKW8owxq/fu9MjBqbxpEhOdDJh9/E8mU
-	vXHCoFjYWLg1VnaI0/q0PLn/h8wYT73K3WbE7fWQOqDZ0R09VBLpPLdz86OpSMd/654a652NkfX
-	xdVpoDkQv79OwXoo3F1ts64kWQow==
-X-Received: by 2002:a05:600c:a4a:b0:487:21c7:2885 with SMTP id 5b1f17b1804b1-4888355e52cmr57407695e9.5.1775046138735;
-        Wed, 01 Apr 2026 05:22:18 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e884dacsm160908025e9.15.2026.04.01.05.22.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 05:22:17 -0700 (PDT)
-Date: Wed, 1 Apr 2026 14:22:11 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
-	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
- safe prototype
-Message-ID: <ac0N89sNYcKAJkAP@pathway.suse.cz>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
- <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
- <acZDneLrIPOmU5ci@pathway.suse.cz>
- <acZLHAT5qJyjKTsp@ashevche-desk.local>
- <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
- <acZaGUV0MwuHNDru@ashevche-desk.local>
- <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
- <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
+        d=1e100.net; s=20251104; t=1775046298; x=1775651098;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ycc6WMg7OLshR/yyfU2jpKKLPa+z0xOJ3hTWvecsxRM=;
+        b=Ko7ub8DG1dHwLE2xgrUFbtZ3OTWp5en8Pq60iaqail+dpRTQadIM7QOPnAsmk6Jn85
+         bL0B3PLZc+AzlCFSKxU+X8OV/ig3yzHKsQH42PkI+cnmejd34vrYmVwwb/ViiJ55P4uk
+         aMjlIhB2tM8rjS4tb5YLyhaDDDIpbrGJQCtSmqd+1R6X8IjH7KywI1uev1KQW9eKVASQ
+         XQC5VS2ZnZk02ckX+CPFWz65pc3xeR++SIBeBfAHps3qnWm3EbGQ1IzkopZuitOo6oyp
+         bd220ixFg86lH4vbE8U5qVfzgesaS/56Uw6RRF1mSU9ezkGCfMWOZMosSfF+ytq6EX2j
+         fLJA==
+X-Forwarded-Encrypted: i=1; AJvYcCUvUylBFWW/uIgUWNONdynqe5gufD6XxZrywzFP8Q5f28FllKzymKGa1V2xvVKyDltiZgs2oC1XKCo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+qz9YiDrzSNZdMmPE/ZiW4MFXCFPZz/BlpcO87wqo8vk5aIVP
+	crD2KQhJpHdZQkbA9On3jsumI8RwBZMOX2SuXOC62awRZVwknLvMaPy1Dtkl9KxOcJ93Uf1NkZ+
+	t5vrOxDauw4JzIvbpTg==
+X-Received: from ejcbp3.prod.google.com ([2002:a17:907:26c3:b0:b9b:54ac:688a])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:907:c448:b0:b99:5f69:9ee2 with SMTP id a640c23a62f3a-b9c13cf93e8mr221111666b.52.1775046297024;
+ Wed, 01 Apr 2026 05:24:57 -0700 (PDT)
+Date: Wed, 1 Apr 2026 12:24:55 +0000
+In-Reply-To: <20260401114540.30108-2-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
+Mime-Version: 1.0
+References: <20260401114540.30108-1-ojeda@kernel.org> <20260401114540.30108-2-ojeda@kernel.org>
+Message-ID: <ac0Ol1PaRTWNK6O9@google.com>
+Subject: Re: [PATCH 01/33] rust: bump Rust minimum supported version to 1.85.0
+ (Debian Trixie)
+From: Alice Ryhl <aliceryhl@google.com>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	"Arve =?utf-8?B?SGrDuG5uZXbDpWc=?=" <arve@android.com>, Todd Kjos <tkjos@android.com>, 
+	Christian Brauner <christian@brauner.io>, Carlos Llamas <cmllamas@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
+	moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>, Alexandre Ghiti <alex@ghiti.fr>, 
+	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
 
-On Mon 2026-03-30 13:49:48, Rodrigo Alencar wrote:
-> On 26/03/27 03:17PM, Rodrigo Alencar wrote:
-> > On 26/03/27 12:21PM, Andy Shevchenko wrote:
-> > > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
-> > > > On 26/03/27 11:17AM, Andy Shevchenko wrote:
-> > > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
-> > > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+On Wed, Apr 01, 2026 at 01:45:08PM +0200, Miguel Ojeda wrote:
+> As proposed in the past in e.g. LPC 2025 and the Maintainers Summit [1],
+> we are going to follow Debian Stable's Rust versions as our minimum
+> supported version.
 > 
-> ...
+> Debian Trixie was released with a Rust 1.85.0 toolchain [2], which it
+> still uses to this day [3] (i.e. no update to Rust 1.85.1).
+
+Debian really *should* pick up 1.85.1. It contains bugfixes serious
+enough that the Rust team decided it was reasonble to release a point
+release.
+
+> Debian Trixie's release happened on 2025-08-09 [4], which means that a
+> fair amount of time has passed since its release for kernel developers
+> to upgrade.
 > 
-> > > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
-> > > > > 
-> > > > > With that we will always consider the fraction part as 32- or 64-bit,
-> > > > > imply floor() on the fraction for the sake of simplicity and require
-> > > > > it to be NUL-terminated with possible trailing '\n'.
-> > > > 
-> > > > I think this is a good idea, but calling it float or fixed point itself
-> > > > is a bit confusing as float often refers to the IEEE 754 standard and
-> > > > fixed point types is often expressed in Q-format.
-> > > 
-> > > Yeah... I am lack of better naming.
-> > 
-> > decimals is the name, but they are often represented as:
-> > 
-> > 	DECIMAL = INT * 10^X + FRAC
-> > 
-> > in a single 64-bit number, which would be fine for my end use case.
-> > However IIO decimal fixed point parsing is out there for quite some time a
-> > lot of drivers use that. The interface often relies on breaking parsed values
-> > into an integer array (for standard attributes int val and int val2 are expected).
+> Thus bump the minimum to the new version.
 > 
-> Thinking about this again and in IIO drivers we end up doing something like:
+> Then, in later commits, clean up most of the workarounds and other bits
+> that this upgrade of the minimum allows us.
 > 
-> val64 = (u64)val * MICRO + val2;
+> pin-init was left as-is since the patches come from upstream. And the
+> vendored crates are unmodified, since we do not want to change those.
 > 
-> so that drivers often work with scaled versions of the decimal value.
-> then, would it make sense to have a function that already outputs such value?
-> That would allow to have more freedom over the 64-bit split between integer
-> and fractional parts.
-> As a draft:
-
-My understanding is that you want to allow parsing frequencies
-in the range from microHz to GHz.
-
-So, you might want to support input in simple float numbers
-with some precision, for example, 1.2GHz, 0.345Hz, ...
-
-By simple, I mean that there is no x10^3 or so.
-
-> static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
-
-I would personally change this to something like:
-
-  static int _unit_float_ktstrtodec64(const char *s, unsigned int precision, u64 *res, char **unit)
-
-It would allow to read float number in the the format XXXX.YYYYunit,
-for example 1.2Ghz
-
-, where:
-
-  + _unit_ means that it might set @unit pointer which point to the unit
-    string right after the number part.
-
-  + _float_ means that it will be able to read float numbers
-
-  + @precisions parameter defines the number of digits accepted
-    after the radix point. It is also used as multiplier for scaling
-    the output number.
-
-  + @res is pointer to the read number multiplied by the given
-    @precision
-
-  + @unit will be set to string after the number
-
-For example:
-
-  + s="1.2GHz", precision=3 will result in *res=1200, *unit="GHz"
-  + s="0.0100004", precision=3 will result in *res=10, *unit=""
-  + s=1.234567GHz, precision=3 will result in *res=1235, *unit="GHz"
-
-Note that the result is rounded in the last example.
-
-The function might be used like simple_strtoull() in memparse(),
-see lib/cmdline.c. Which is able to read the given size in B
-and handle various units like kB, GB, ...
-
-> {
-> 	u64 _res = 0, _frac = 0;
-> 	unsigned int rv;
+> Note that the minimum LLVM major version for Rust 1.85.0 is LLVM 18 (the
+> Rust upstream binaries use LLVM 19.1.7), thus e.g. `RUSTC_LLVM_VERSION`
+> tests can also be updated, but there are no suitable ones to simplify.
 > 
-> 	if (*s != '.') {
-> 		rv = _parse_integer(s, 10, &_res);
-> 		if (rv & KSTRTOX_OVERFLOW)
-> 			return -ERANGE;
-> 		if (rv == 0)
-> 			return -EINVAL;
-> 		s += rv;
-> 	}
+> Ubuntu 25.10 also has a recent enough Rust toolchain [5], and they also
+> provide versioned packages with a Rust 1.85.1 toolchain even back to
+> Ubuntu 22.04 LTS [6].
 > 
-> 	if (*s == '.') {
-> 		s++;
-> 		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> 		if (rv & KSTRTOX_OVERFLOW)
-> 			return -ERANGE;
-> 		if (rv == 0)
-> 			return -EINVAL;
-> 		s += rv;
-> 		if (rv < scale)
-> 			_frac *= int_pow(10, scale - rv);
-> 		while (isdigit(*s)) /* truncate */
-> 			s++;
+> Link: https://lwn.net/Articles/1050174/ [1]
+> Link: https://www.debian.org/releases/trixie/release-notes/whats-new.en.html#desktops-and-well-known-packages [2]
+> Link: https://packages.debian.org/trixie/rustc [3]
+> Link: https://www.debian.org/releases/trixie/ [4]
+> Link: https://packages.ubuntu.com/search?suite=all&searchon=names&keywords=rustc [5]
+> Link: https://launchpad.net/ubuntu/+source/rustc-1.85 [6]
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-We might/should use the first digit to round the _frac.
+Acked-by: Alice Ryhl <aliceryhl@google.com>
 
-> 	}
-> 
-> 	if (*s == '\n')
-> 		s++;
-> 	if (*s)
-> 		return -EINVAL;
-
-I would omit this. Instead I would set @unit pointer so that the
-caller might handle units defined after the number.
-
-> 	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> 	    check_add_overflow(_res, _frac, &_res))
-> 		return -ERANGE;
-> 
-> 	*res = _res;
-> 	return 0;
-> }
-
-Otherwise, this approach looks sensible to me. IMHO, some generic
-API for reading numbers with misc units should be usable in more
-situations. And it would make the kernel interface more user
-friendly.
-
-Of course, we must not over-engineer it. But the above does not
-look much more complex than we already have.
-
-Best Regards,
-Petr
-
-PS: I am sorry if I used some mathematical terms a wrong way.
-    I am not a native speaker. And it is a long time since
-    I worked with float numbers.
