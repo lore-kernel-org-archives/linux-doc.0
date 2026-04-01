@@ -1,127 +1,179 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021129.outbound.protection.outlook.com [52.101.100.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 387D130C371;
-	Wed,  1 Apr 2026 15:02:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775055723; cv=none; b=q7qyKJAoSkYMPeQdOyBZRWd0BOEVX7KBAn8g1iRnUP5rkQlh5yxT3Q0MQaBiIxhGxkNJCsn/3A/lBy/z8O0HRtuFXRsAU2SwKHdDBQLPiPt2l3g2ZFk2/fgrR/CsYdqzl7oHyJk8NtV8d+zAdQo4h5LMw0RjSjXgwrkj5Qo4qzg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775055723; c=relaxed/simple;
-	bh=/41jHFMLvQEawsHuNLzVPOrLdBt8POZyw+0Y/fllTrA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iMsu8D5vdx2YG0w87tQ4ntDCVPNC2dkDt1qY3lOTNDVzAncc5W3qeu2jfxDh9poITq3ux1DDeZ4Q0Y8lyb9J3UpiZSu26mgw1OJ/MZmq+yHBaKXB2cCcaNLWEg4iX+bncgaeF0hRr1XXqRRtm4pXIbm50soaooCzJLUz/UsNs0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=cjbTdYsm; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1F1935FF75;
+	Wed,  1 Apr 2026 15:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.129
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775055930; cv=fail; b=KAgx4rQZ1bMOz7fCya6ScUzO1UlpHikipq4L9P2V8cDNhHE9y9IZCD5DfJUfYfMwLCylqFoCyZWv8tGHTPq5gwhwaV9xr9bEPPnjG6cbRIe5B+OAiydLMwv2FELQYVIcgqQdFNm9eA/JFIWazvpObdWvCYzhTz6ElHDHB3hgWHw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775055930; c=relaxed/simple;
+	bh=dTNRIewjuXWANgv+hysRsiF/lUNMirNuGewkJLZmkhM=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=SMuAzjn0VWCvhQM1ubW6rCLhuiKkY6DWVVOfzoMXOAMJKt9myixaPcqNQmTWSsQZN3LgDXpmQTkBBV/QWBh7bzoCr/lfXfPwU7cITbvH9BO0skmUEWZymCLusXmrqoAX0ujT07dnc4RfkITHQnu5nsD9PwoWBi5wGdE5wBO2BiQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=fin1S7WZ; arc=fail smtp.client-ip=52.101.100.129
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="cjbTdYsm"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=+WzoGOwpf75acULbUdLCCSgMRdoRK75E6CWGbOYR5ZQ=; b=cjbTdYsmL1LugDvbI+G1od+x5X
-	U0sjnJlEsTkwTYb4fq9x5jxlzfY3jiMYTWT12dmcSoY7TJpyaZSzBJ3p5pP9eMjZfKu4dVMo60n8L
-	KA/a0G/X1klcmoEwRJX7k1QCZya2esiyqTnXRTmO5II47MA8aIVYXgL1YD9afND/II9K4YcMA3mJm
-	2/Qyqh8mBrFth06DINUoPWVgJKwTAOyudumsJlPpVIJDZcN+Ig/iWa4w/enSz4UbCWc+4lfOOoUjQ
-	LInkGozPY9JYdCZ09QBI/PyKFOvBeNXwD4xvrSj2FcJQa8QLKe/p7HfqdIskdleD81ndLF7vOgPEi
-	JWbqceOQ==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1w7x4t-0034E6-11;
-	Wed, 01 Apr 2026 15:01:54 +0000
-Date: Wed, 1 Apr 2026 08:01:48 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Masami Hiramatsu <mhiramat@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
-Message-ID: <ac0wz_eW5Zgi4t45@gmail.com>
-References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
- <20260325232204.05edbb21c7602b6408ca007b@kernel.org>
- <acZPZ4XKy4QynznK@gmail.com>
- <20260327223744.f246150adc1671f7605a4f0a@kernel.org>
- <acpzhCBEPh-tKVqg@gmail.com>
- <acqJk-zbyjIiy6hJ@gmail.com>
- <20260331125827.157a833882830007ea9b0b31@kernel.org>
- <acvjcCqIAeHyIiQN@gmail.com>
- <20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="fin1S7WZ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VtC7v+l8XDFaqGllLgTUtu7JUGxvgLi0blljg7BaC1NnxV02faGt0C2MO0VkIqF4nr4vY/j2Aa5rXmAfWGOKKrajGgsujjbLvbaAXPqusa5FlPxEh9DfsgM9DNJApGDB7bJQF2EDJ/nBzVaoJShzoLdKIVFBKNcQqYW50IQiM8qh7LlJPZVETsilsvRUMXMXd5RrlzKSkIxdwEOpnXOrkuLMei9VR8Y+32mMYZyL167UzWPspkrDpYE/51/kxbK1zI3CXpOzTFb/BrS9vU4igBRP9zmAikSOgDhNAQxaPaNC71uWHsbp/FmmSgikNDZtV/XzZnwOq+nWEyQfr8y4lA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/epdbXMFdVsrIkMTz5VPvg/77n+qUmcD9hca/TXFCKc=;
+ b=dYNVZ1mlBPq499ldIPyv/f+3fo6wh2b8TmiXMHQRwNwLgkDO/7kPN2Brc+AkFIIkRB9g4S3qTmlFoMbc0ZuZW31vJGKh47yar0rHrziN5PCiZcXFBzIrDBRNLo1FHywi+jRFlQiZg5kXsWluWUNHEtRROz3Wittbw9M+Qc56qJJtZfvvC2MScqOb+PCiY1DZZ+tJnx7ZXm9naZh1cwNXrHKCcWSdmJTxWoMWCBDg+fHiogih9b0G8E9FCGTB3wfgBAIINMiy2kP2nTj72qNbRTyRk6h/kJx46VRsfAmuBcnQvtuCQq2NNUbj5RwbOgozEhs+1K5kN1k2TvT42t8bQA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/epdbXMFdVsrIkMTz5VPvg/77n+qUmcD9hca/TXFCKc=;
+ b=fin1S7WZ7N2TDHJAReejaqpgW0ONVdrEQjabYoE+lylKEu3kSD7Uwyz3nPGk7m5BNSgTDEE4K+zi+jO9ux6J3lVYmfr4lflbCzkth2+zQgxV1dzzCNb2UB/4IoFa6JGV+NbiR15HMG5zwOiLLIxNWd8Q9xXixk7mSZx+9ihCBuA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO6P265MB6112.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:2b0::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
+ 2026 15:05:25 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
+ 15:05:25 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Apr 2026 16:05:23 +0100
+Message-Id: <DHHWT5V20WEB.287E608FVAGLR@garyguo.net>
+To: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Paul
+ Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
+ <david@davidgow.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
+ <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
+ Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Jonathan Corbet" <corbet@lwn.net>
+Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ "Uladzislau Rezki" <urezki@gmail.com>, <linux-block@vger.kernel.org>,
+ "moderated for non-subscribers" <linux-arm-kernel@lists.infradead.org>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, <linux-riscv@lists.infradead.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Rae
+ Moar" <raemoar63@gmail.com>, <linux-kselftest@vger.kernel.org>,
+ <kunit-dev@googlegroups.com>, "Nick Desaulniers"
+ <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, <llvm@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 17/33] rust: kbuild: update `bindgen --rust-target`
+ version and replace comment
+From: "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <20260401114540.30108-1-ojeda@kernel.org>
+ <20260401114540.30108-18-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-18-ojeda@kernel.org>
+X-ClientProxiedBy: LO4P265CA0136.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c4::12) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
-X-Debian-User: leitao
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO6P265MB6112:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4ac42ab0-eba5-4a9e-e0a2-08de90001a43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|10070799003|366016|1800799024|22082099003|921020|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	YhjC0FtcXTS85KUzTebdBbqDZ1NP3xQ2T+Z8V3jkCcUBw7bfKKn4aUnqcCe1W0T9adIoUjqLqIcmS1Wu1H28rxuUEIRBcsS8EtWW79Pz3H+Wf6WBg4QVKS5CFEK/KsCBYtHQmf6gJsD0HKYdSeJlhuUGBmSBybHKG7uiHVLmyEyabn8vwpdY2oaX0a7QoV3m4nYMM7IHHvuuo6b4B51RdVIEVuSjhdxgh6bvu8WZkwEHseDzYzNE6Tqf/rdHeAd+LoJfCFKOUSsrXrrF6XjhQv1cppeXTPbLl0nwMML4+/YlXXOTSV4Qz6rCwJ0JcUN9VzlWZxsOAKAg4GB+xpXa8E/pm33dWa7stiSIHL5d3ROnvcbarDU/hfoDeUmY1Jw7Y48aTHAgBaQApabnvD8Y568tXqMSTWHLYXFoV5+i8U265La3hR3hrOkZLOrsVUnIsWH8No9aaHBzZUz7fnhEULqs9J41m80zU4TkTENpi++0UMX06Z8B1WnuKEOcM8zJpf4+PJHs1fx5A9zER5Sm1GzPFNcLbrgC2qcd6gMhsH2d0k9WSWaU2hcgj9nE9MLYvX4DnMHPy4QTgV9HGyiroXWCCQjRVWMimNLo90EIcZxWpL/bc9FSbMkclzYnFS7MjAxPkQs/dLp3CmtIuaOCYxbv9J6VVxXPpBksl7GsPD4iHkhV6G8neF6VKmDicGxLFYYyxNDbXp2yA4h0QB7NVTXCzF7Myv/1P66Iq76uJs3ZpoXs7ox/h+VrTnvJzY0gACsuTn53fX2P0QdLIC6vZg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(366016)(1800799024)(22082099003)(921020)(18002099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NmJ2MWxkeXIwTk80UXh0UnA3SldWWEV0RzVyMWNnc3Z0K3dMNVlDOXJsVjY3?=
+ =?utf-8?B?REpQNU5sV0RwWHFhenl5em4zc0J4a2l3Q3VDSWZXZkxQaHd4NExsVXYza2Vo?=
+ =?utf-8?B?OUw0cjNPcXdyZkswTnJsTXBQa3dnR3ZqT3FJRDcrSFp5di9YbTdVYlJ0RTBD?=
+ =?utf-8?B?YUNPdTJ2Z0dtU2o3bXpoWGNpajVKempxaDBNZG9YZ2pSRkFDMHRtUTROOEps?=
+ =?utf-8?B?RmJEbDFNS2s1L3FtenhpclhCcURDaW1LMUhIZm95TG1PT3d3eVdhZ0wweC90?=
+ =?utf-8?B?cGFpZ2JmNWVUdG1kd0YvbU4vdkJYRjRMR3BwVnJjQmJBSG1wR0pzRmw2UWdM?=
+ =?utf-8?B?czhIZkVHUmFWTE00azRlcG9hWGJXc3BRU1NJVGIxWTI3RnpBVnlyVlgxbWFk?=
+ =?utf-8?B?ZlRCbEM1RVNsV05YSGw1alVkTGFLTTUwdXJXMDNjVWwvOTVGYlF0MDJqMmpC?=
+ =?utf-8?B?dENiVUtGbE90bkJpNGRoMjg3LzQra0NlZzZCR1g5K1F5dWNudWVFTVFtNnJv?=
+ =?utf-8?B?L3BRU3RTMnI5M1IxcGFwRmpYUDJpU3ZMbXhSMlZRU1dRRHRZazhOWEY5K1d5?=
+ =?utf-8?B?WjA4Q01QdmRvU0JBVUF3ajFSRXBxejhpZDFzWFB2NTQ2Ky8vM2JrYVJ0Z0NJ?=
+ =?utf-8?B?THJWcXJGNnZsRDhlUnVXVzFqaTZLOW1UZXB2Zm8reUlad1ljNjVvbC9LdFk3?=
+ =?utf-8?B?V0svZ2dkdlFwcHZ4UkZCYWRkV09xNTE1MjNHYm1OdS9OVXpVQ1UwbDhpMFI2?=
+ =?utf-8?B?VHBnakZGeEhjQkxHWmRXWWxIb291WXhFUjIxemFmbzVXWHZTZDN5b3ZlVTJU?=
+ =?utf-8?B?ejVtT0NKcnRUR2crVk1tY2Vrd1ZyR29rbEU5cXE3RnZ3VUtjdWdjMTU0ZlRk?=
+ =?utf-8?B?anQ0OWtHZGxCWndYMVdwZTgzc1ZEVWlMbU5nSnBkdEFtY1pMUjVJb3FGR09w?=
+ =?utf-8?B?S0ovZ1JhSnd0WU0xWVJhenJadUNNZ0M0NDg0YlJUcCtQV3BlMkMwVTdyN2xm?=
+ =?utf-8?B?TWh1TFhnSHVHYlM3aFIrdnlRREcrMnRUbHVGRXNLSDMxUjRhM250MmlRcWRU?=
+ =?utf-8?B?YU5pOUJEZUhVOUtIZlQ3MlFEaFdpT09yc1lwR01DbnpER2oyK1I4SDRoUEpn?=
+ =?utf-8?B?TjJxcXBDeC9EdUdwQ0J4Y0ZZeVhIMnIxWEczT2F4bWF0Tzc2MlFueHRYUVRq?=
+ =?utf-8?B?cmxYRlZXRWo3Z1pZQkt1cVRtSFMwOHNZbnd0NUVYbzlsVzRvVVYwTDFqd0tk?=
+ =?utf-8?B?YkZBemxKWW1PUG1yVnBYMHRLTHVjUU1aenJwYzlnSC9RNG1oaWRQUVFISDRB?=
+ =?utf-8?B?ZFFLVmdSSmwxU3ZjUFhsRFJuUzQ3TGFkMEdqRVlhYmRnMjZwaDArb1JvRFZi?=
+ =?utf-8?B?c2ZlanpLQjRQWkRnbVBnVlNDSFJtYWVHVlJWb3lSNlMyeFlzVDJ2RGlzUVVY?=
+ =?utf-8?B?QWNmbm5aWWNGb3pKMzRGV0tzMkpkR1FtcHZUYnJzVk51VytTNEw5czdFVzNR?=
+ =?utf-8?B?MEJFVE5NUVVBUUVnbW1XSHFjMlp1RlN2dWRmRFhxMUs0TmZmTFJ3TllKNjBs?=
+ =?utf-8?B?YlRaQnBob0lERVhpL1J2L2lyTzFNRUIvYjlnaFo0OVJYSGNVc2hZQjRNeFVp?=
+ =?utf-8?B?aUpxVm91TklWU3U2QzlTckx0VElQdXhRU0w1N3BpczZrcjNnVGhjZnFEb0NV?=
+ =?utf-8?B?dndOMFkxZHRlR3k5RXNyalBuWXVtYUF4am9mZVRHUE1kT010ZUNZWG1YUGlC?=
+ =?utf-8?B?cTZVcTlra0ZjeEFWRVIrZWRkRjZ4TnBYR3VwZVlySGJ3QllTZ0o4MWpPQVl1?=
+ =?utf-8?B?VFA3Z080K3VFZE96WjlBM1ZZQzhtS2RDbjh3dCtDWUdxNTZKd0JqK3pMVjFS?=
+ =?utf-8?B?bVBUU1VGV0h6TWU2Q2xtaW1KL0Z2TzFtV1ZKaWNDOVp1SWsxQTRlVTBzb29N?=
+ =?utf-8?B?WGVkTEtUam5tT3NMRWhpcGh1aUxIaXpaZi8wZnRjNXZQOTZ2K0s0a2kySGdG?=
+ =?utf-8?B?aU4xZHZiSFFEK2RVYzN2VmxwUHNOVnJrWHgxZmwzQ0RSK3kwdjRlRzFLb2pZ?=
+ =?utf-8?B?YzFBaDIrMjY1azhVakFFcVNKcG54c0ZJc0NoK2hpMWFhRWptNElIcS9MTUs2?=
+ =?utf-8?B?Ry9CKzRSSGNtc3NkZXZEaFRKYmhRRjdKZzlBTjhTVjQxV1FhQlV1UEpmMUdZ?=
+ =?utf-8?B?U1BKcG5jd2QrNWhFT2JuVUMzOEF4VlR1UWY2RE5UMXlQbE9tMzdyTHIxSzIv?=
+ =?utf-8?B?OUhoVmlNUk9CWGk0eE5vaThlbEoyS1B3VWpUQjFFR29oUiszd0VtRjJXTzQ1?=
+ =?utf-8?B?NnY1QklVY3BEdHVDS21SczY1czBrYThlK0x2SStIajFZd3poK0JwQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ac42ab0-eba5-4a9e-e0a2-08de90001a43
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 15:05:24.9151
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Y7wolcEQhuXf2Igk8921H6d8xSkmjPmpTfU+ewikEsjzW2gGmx1n115ICu5fFZ6aPSTpXDSFjqXgwXIQ/sy7XA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO6P265MB6112
 
-On Wed, Apr 01, 2026 at 10:48:53PM +0900, Masami Hiramatsu wrote:
+On Wed Apr 1, 2026 at 12:45 PM BST, Miguel Ojeda wrote:
+> As the comment in the `Makefile` explains, previously, we needed to
+> limit ourselves to the list of Rust versions known by `bindgen` for its
+> `--rust-target` option.
+>=20
+> In other words, we needed to consult the versions known by the minimum
+> version of `bindgen` that we supported.
+>=20
+> Now that we bumped the minimum version of `bindgen`, that limitation
+> does not apply anymore.
+>=20
+> Thus replace the comment and simply write our minimum supported Rust
+> version there, which is much simpler.
+>=20
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-> > The challenge extends beyond that. There are numerous early_parameter()
-> > definitions scattered throughout the kernel that may or may not be
-> > utilized by setup_arch().
-> >
-> > For example, consider `early_param("mitigations", ..)` in
-> > ./kernel/cpu.c. This modifies the cpu_mitigations global variable, which
-> > is referenced in various locations across different architectures.
-> >
-> > It's worth noting that we have over 300 early_parameter() instances in
-> > the kernel.
-> >
-> > Given this, analyzing all these early parameters and examining each one
-> > individually represents a substantial amount of work.
->
-> Yes, that may require a substantial amount of work. But to improve
-> the kernel framework around the parameter handling, eventually we
-> need to examine each early parameter.
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-I'm still uncertain about this approach. The goal is to identify and
-categorize the early parameters that are parsed prior to bootconfig
-initialization.
+> ---
+>  rust/Makefile | 16 ++--------------
+>  1 file changed, 2 insertions(+), 14 deletions(-)
 
-Moreover, this work could become obsolete if bootconfig's initialization
-point shifts earlier or later in the boot sequence, necessitating
-another comprehensive analysis.
-
-Conversely, if we successfully move bootconfig initialization earlier
-by breaking the dependency of memblock (assuming this is feasible), the
-vast majority of early parameters would execute after bootconfig is
-configured, eliminating the need for this extensive categorization work.
-
-Please, feel free to tell what approach might be better for the project.
-
-> > Are there alternative approaches? At this point, I'm leaning toward
-> > breaking bootconfig's dependency on memblock, allowing us to invoke it
-> > before setup_arch(). Is this the only practical solution available?!
->
-> Basically, the memblock dependency comes from allocating copy of data.
-> Only for the embedded bootconfig, we can just pass copy memory block
-> to the xbc_init(). Something like;
->
-> xbc_init() {
->  xbc_data = memblock_alloc();
->  memcpy(xbc_data, data);
->  __xbc_init(xbc_data);
-> }
->
-> embedded_xbc_init() {
->   __xbc_init(embedded_bootconfig_data);
-> }
->
-> Afterwards, we can pass mixture of embedded bootcofnigt and initrd
-> bootconfig data to parser again.
->
-> (But in this case, we must be careful not to override the early
->  parameters that we have already applied.)
-
-Do you have any additional recommendations if I proceed with this
-approach?
-
-Thank you for your detailed responses and insights.
---breno
