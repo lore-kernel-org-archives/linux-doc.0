@@ -1,111 +1,177 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C6A26E706;
-	Wed,  1 Apr 2026 20:55:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1094329E11A
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 21:04:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775076943; cv=none; b=lLP9p233OjGTVNB4Hg2sWeCvi0QRASolcHissLPRuvuwZc+VrxdEAdhSkGLf/OioDELvipEByLfWN0R1hMKDSW7mu3rxOC53mBJs28C0/qvudoDXv2BeorHBy+z/GMNqpnSG5tvQcCTUNImM1iO30vPS28isxxysPNcAheoOTJM=
+	t=1775077500; cv=none; b=YyVueprq9LIjsrptP+x97fC3v7QlTE43ky5KrODXK04AI2Ic4qSmSq3hHW5RtUdhtMX9/E+zyNdzQqMDNq6YgfEeoq0s1qbS5P+Cb4Ce/94GysSF/KC67rGQNK2HNkML3uIr7SuIpa8LQqNAzEA0WABZN4fqGKMRYzDngEISBx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775076943; c=relaxed/simple;
-	bh=FjeFNTHKVGRPWTkDkVN3AnH6lzJfCOl7DJ2Lud2KSxo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQf+nSZYsAhr4/Ka+Ceg+k3TwqGxexKJoEYF+9PEU6oF8SX8zHINRgXrhKVHH2txNLX+4thoSQabSQq+vOwe184NVdgnW38uNdAjRWHIX4tGmiZwTAkdphQCNq+7ZNmAKgnusgqVS+Ik8VqjsE43laQeYdKhADY3kvbrnTS/3i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iEKBKde8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775077500; c=relaxed/simple;
+	bh=nKoM68jymx43xt6viB2FGyBTxfjzpi8jc7eXGmyt4Vw=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=gG6YUBadAaZ0OU/d/It66PhF4sgooVEcB2/t7NiMYBAHNj4vxY9yLuGYzKui77pvnwwrUU7UxMKFFgTsOBYFRzoCY7tO2Q5rIKLCte06tKDksIAGfudJXu7AfinyB+dZctzhmtss4AmmDoD9Wq3YuyFTqqez79OQBUdkcpPXefE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=qWOh+Jiq; arc=none smtp.client-ip=209.85.214.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iEKBKde8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89B4CC4CEF7;
-	Wed,  1 Apr 2026 20:55:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775076942;
-	bh=FjeFNTHKVGRPWTkDkVN3AnH6lzJfCOl7DJ2Lud2KSxo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iEKBKde8g4PYt5CG3WUL599vYVMJMnz5uwVRnrEvuBtKZ9BWCgP79+vz+HgEEcEhj
-	 gYMlSh1j/9TAOKAt2TJBBTHozaqjRu2d6NnSTCdyaPzkPB8OWyof4Oj3Owbl40RSeL
-	 nIPoCd50m+VFgUC8dA8u8d3PT+BwnASD2M1odt/Y/oozUSBd4tdCE6Y/XxAXN3tUi8
-	 z4NMn42SbIBO5ZDbRDGlFDZDKIpvoRolFbu7kfbcOmvz/yJB7qkplcVjv8jZ+AogUr
-	 S/KbE2UcYrjjbps6yQCUrSboYYA/EiwGsvOsCYtUD9wRIpAGdgcZbDZuwtMoDUxFbA
-	 LEAVlW6FpyqUw==
-Date: Wed, 1 Apr 2026 13:55:42 -0700
-From: Kees Cook <kees@kernel.org>
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
-	Marco Elver <elver@google.com>,
-	Andrey Konovalov <andreyknvl@gmail.com>,
-	Andrey Ryabinin <ryabinin.a.a@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
- __ob_trap and __ob_wrap
-Message-ID: <202604011352.3993A4D70@keescook>
-References: <20260331163716.work.696-kees@kernel.org>
- <20260331163725.2765789-3-kees@kernel.org>
- <CANiq72mK9fz6Spmgt4js3hScqhqvZb2YP2T7tDfR0fHPDFWJ7g@mail.gmail.com>
- <CAFhGd8paijFboDVr8rJDjScob047q+zgYAs038WuVozOG0aYaQ@mail.gmail.com>
- <202603311249.30B44C66@keescook>
- <20260401090815.GV3738786@noisy.programming.kicks-ass.net>
- <202604011313.AD471BC8@keescook>
- <20260401203053.GC3254421@noisy.programming.kicks-ass.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="qWOh+Jiq"
+Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-2b2489af602so1125425ad.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 14:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775077498; x=1775682298; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z2G9uSQqW1t77mVxoAaIkc05+KXCw20NeU1W0ypS1GQ=;
+        b=qWOh+JiqtqWNw2VFOt9n9NXE+60ueErcIVNA0FmQzkZp4PTa7PBIFksiMndKSIT58y
+         vtK/FXvcOzEBMKtAZWEdNOnzouiRW8fDJg7V7lb70WU1O3QKW/6DYSwxM8JmOMKzQhAW
+         w5XBQTEnuOwNEhx5gd3QKb8aE7P7i4lJDWEI3ynUqWP8lbuUNK+IVsgr7WcsH74nU8CU
+         JBAde1z6Z1Z+qQvpBTdqOuIzljIS5cO1zYyhZuY2j2bW2jJL74dPyOiU7ZoVdn+qGDSh
+         0AhBdJ9XKXS9D/QYWakz11lo0ol/T1WykuXAhJisaejbIjXkN0Sv9fF/tMiMBqnEKBPD
+         Snmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775077498; x=1775682298;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z2G9uSQqW1t77mVxoAaIkc05+KXCw20NeU1W0ypS1GQ=;
+        b=BmLnNngcz5IrvjZhpiP5BNOqbvgufeb/Ln0t8ge7huVskliA0q6i6eu4m2li1wezIk
+         c/yBr0g1bE51M95+c6E5kVaWs9RHZoDF56T5c+Kuxoo3uYxtjWvFGdpGeJR5IVEg/oOt
+         FgFZGR9EH+IwLDNqOhfwzyfayO2g90ir+Br3afuyla7C6Ay1g7ydz4K9iKJdw429l2wV
+         7zi18DSR7lr2+AMQVpfYfoUI3M1amu/RdweSoegZOvp5vubUcH2aXR4AXJNNMVk63G61
+         uLrV87lLloDBKTN2HxIX2A5LmO8RA0N075e5gzAEwIi42f+AdBsZ4gUmP01ZZmt70BPr
+         XfYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwAb0QWyvN4zEQtGZQCb5DvwlGtC1/uvGGbv5lu+fyRMUZhZSseya+O4s5KbXre5osjJ2qaF9AqPw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQcyz/5PPnT0M+DidD1Gm5eG3DxlLoESVdzlMbtRUtKWi+zFbk
+	ftr/xQ6ryo+UZeSYgUgRJ7X5nbKXrrX/g7yDuVdHdtEAsBk0Sm9nQrp9XCkRn4XsZzzxo2J/O39
+	c98yHzQ==
+X-Received: from plhk15.prod.google.com ([2002:a17:902:d58f:b0:2b0:6c44:fc55])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:903:3c48:b0:2b2:4f43:b49a
+ with SMTP id d9443c01a7336-2b2698a1054mr47624785ad.22.1775077498214; Wed, 01
+ Apr 2026 14:04:58 -0700 (PDT)
+Date: Wed, 1 Apr 2026 14:04:56 -0700
+In-Reply-To: <cxmtst7txfodp6lo4ipue3trohx2ge7nkagkfzfixfdnlf5qlo@e3jw3tmbe272>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401203053.GC3254421@noisy.programming.kicks-ass.net>
+Mime-Version: 1.0
+References: <20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com>
+ <20260326-gmem-inplace-conversion-v4-8-e202fe950ffd@google.com> <cxmtst7txfodp6lo4ipue3trohx2ge7nkagkfzfixfdnlf5qlo@e3jw3tmbe272>
+Message-ID: <ac2IeJNrrBuKtYn2@google.com>
+Subject: Re: [PATCH RFC v4 08/44] KVM: Introduce KVM_SET_MEMORY_ATTRIBUTES2
+From: Sean Christopherson <seanjc@google.com>
+To: Michael Roth <michael.roth@amd.com>
+Cc: Ackerley Tng <ackerleytng@google.com>, aik@amd.com, andrew.jones@linux.dev, 
+	binbin.wu@linux.intel.com, brauner@kernel.org, chao.p.peng@linux.intel.com, 
+	david@kernel.org, ira.weiny@intel.com, jmattson@google.com, jroedel@suse.de, 
+	jthoughton@google.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
+	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
+	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
+	Wei Xu <weixugc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, 
+	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Wed, Apr 01, 2026 at 10:30:53PM +0200, Peter Zijlstra wrote:
-> On Wed, Apr 01, 2026 at 01:21:17PM -0700, Kees Cook wrote:
-> > On Wed, Apr 01, 2026 at 11:08:15AM +0200, Peter Zijlstra wrote:
-> > > On Tue, Mar 31, 2026 at 12:52:10PM -0700, Kees Cook wrote:
-> > > 
-> > > > I think for this series, __ob_trap/__ob_wrap is what should be used.
-> > > > 
-> > > > And for other folks, the background here is that we originally wanted
-> > > > to use macros for "__trap" and "__wrap", but the powerpc C compiler
-> > > > (both Clang and GCC) have a builtin macro named "__trap" already. So
-> > > > I switched to just using the Clang-native type qualifier. We can use
-> > > > the attribute style too, but there was a lot of confusion during the
-> > > > Clang development phases where people kept forgetting this was a type
-> > > > qualifier, not an attribute (i.e. the attribute is an internal alias
-> > > > for the qualifier, and the qualifier is a new type).
-> > > 
-> > > Since you mention qualifiers...
-> > > 
-> > > What is the result of __typeof_unqual__(int __ob_trap) ?
-> > 
-> > Hmm, it seems like "const" doesn't get peeled off. That can be fixed, if
-> > that's needed?
-> > 
-> > 'typeof_unqual(int)' (aka 'int')
-> > 'typeof_unqual(__ob_trap int)' (aka '__ob_trap int')
-> > 'typeof_unqual(const int)' (aka 'int')
-> > 'typeof_unqual(__ob_trap const int)' (aka '__ob_trap const int')
+On Tue, Mar 31, 2026, Michael Roth wrote:
+> On Thu, Mar 26, 2026 at 03:24:17PM -0700, Ackerley Tng wrote:
+> > Introduce a "version 2" of KVM_SET_MEMORY_ATTRIBUTES to support returning
+> > information back to userspace.
 > 
-> So how can something be called a qualifier if unqual doesn't strip it?
+> Hi Ackerley,
 > 
-> (We might already have had this discussion, but I can't find the answer
-> in the LLVM documentation page and didn't search our previous
-> correspondence on this).
+> Not trying to bikeshed below, but I'm working on getting related QEMU
+> patches cleaned up to post soon and was working through some of the new
+> uAPI bits, and plumbing some of these capabilities in seems a little
+> awkward in a couple places so wondering if we should revisit how some of
+> this API is defined...
+> 
+> > 
+> > This new ioctl and structure will, in a later patch, be shared as a
+> > guest_memfd ioctl, where the padding in the new kvm_memory_attributes2
+> > structure will be for writing the response from the guest_memfd ioctl to
+> > userspace.
+> > 
+> > A new ioctl is necessary for these reasons:
+> > 
+> > 1. KVM_SET_MEMORY_ATTRIBUTES is currently a write-only ioctl and does not
+> >    allow userspace to read fields. There's nothing in code (yet?) that
+> >    validates this, but using _IOWR for consistency would be prudent.
+> > 
+> > 2. KVM_SET_MEMORY_ATTRIBUTES, when used as a guest_memfd ioctl, will need
+> >    an additional field to provide userspace with more error details.
+> > 
+> > Alternatively, a completely new ioctl could be defined, unrelated to
+> > KVM_SET_MEMORY_ATTRIBUTES, but using the same ioctl number and struct for
+> > the vm and guest_memfd ioctls streamlines the interface for userspace. In
+> > addition, any memory attributes, implemented on the vm or guest_memfd
+> > ioctl, can be easily shared with the other.
+> > 
+> > Add KVM_CAP_MEMORY_ATTRIBUTES2 to indicate that struct
+> > kvm_memory_attributes2 exists and can be used either with
+> > KVM_SET_MEMORY_ATTRIBUTES2 via the vm or guest_memfd ioctl.
+> 
+> The guest_memfd support for the KVM_SET_MEMORY_ATTRIBUTES2 ioctl isn't
+> added until patch #10, and to scan for it you sort of need to infer it
+> via KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES reporting non-zero (i.e.
+> KVM_MEMORY_ATTRIBUTE_PRIVATE), so it's confusing to state that
+> KVM_CAP_MEMORY_ATTRIBUTES2 means you can use the struct via a guest_memfd
+> ioctl.
+> 
+> I think the above is trying to simply say that the corresponding struct
+> exists, and remain agnostic about how it can be used. But if that were
+> the case, there would be no way to know when KVM_SET_MEMORY_ATTRIBUTES2 is
+> available in the first place, so in the case of KVM ioctls at least,
+> KVM_CAP_MEMORY_ATTRIBUTES2 is advertising both the struct and the ioctl,
+> whereas for guest_memfd it's only advertising the struct and not saying
+> anything about whether a similar gmem ioctl is available to use it.
 
-I'll let Justin answer this correctly, but I suspect I'm using the wrong
-name for things. I think I should have said "keyword"? The mechanism
-produces a distinct type, so it's not actually a "qualifier", but the
-intent is that they are distinct types (this came from a long long
-discussion with the LLVM devs, etc), but that they have implicit casts
-to the non-obt scalars, but Justin knows more on this.
++1 to everything Mike said.
 
--- 
-Kees Cook
+> Instead, maybe they should both have the same semantics:
+> 
+>   KVM_CAP_MEMORY_ATTRIBUTES2: *SET_ATTRIBUTES* ioctl exists for KVM that utilizes
+>     struct kvm_memory_attributes2
+> 
+>   KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES: *SET_ATTRIBUTES* ioctl exists for
+>     guest_memfd that utilizes struct kvm_memory_attributes2
+> 
+> In which case you would leave out any mention of guest_memfd here as far as
+> the documentation does, and then in patch #10 you could modify it to be
+> something like:
+> 
+>    4.145 KVM_SET_MEMORY_ATTRIBUTES2
+>    ---------------------------------
+> 
+>   -:Capability: KVM_CAP_MEMORY_ATTRIBUTES2
+>   +:Capability: KVM_CAP_MEMORY_ATTRIBUTES2, KVM_GUEST_MEMFD_CAP_MEMORY_ATTRIBUTES
+>   -:Architectures: x86
+>   +:Architectures: all
+>   -:Type: vm ioctl
+>   +:Type: vm, guest_memfd ioctl
+>    :Parameters: struct kvm_memory_attributes2 (in/out)
+>    :Returns: 0 on success, <0 on error
+
+As discussed at PUCK, I think we should omit KVM_CAP_MEMORY_ATTRIBUTES2 and
+vm-scoped support entirely until it's needed (which may be never).
+
+> and *then* add in your mentions of how the usage/fields differ for
+> guest_memfd/KVM_GUEST_MEMFD_CAP_MEMORY_ATTRIBUTES case vs. KVM ioctls.
+> 
+> This avoids needing to issue 2 checks for the guest_memfd variant vs. 1
+> for KVM, but more importantly avoids subtle differences in how these
+> similarly-named capabilities are used/documented that might cause
+> unecessary confusion.
