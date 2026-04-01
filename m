@@ -1,172 +1,246 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0822423A62;
-	Wed,  1 Apr 2026 11:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 729BB3D810A
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 12:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775044354; cv=none; b=AS3PdwR8qa52ezhTI9OehUPBHm45GH2MjcOIWgF531JOb4RNnXMAArj8vdj/ooucmbOVsixSoluAqt68kiu23d93kSmcwXj4YAUUANUP/TELa+6WJCCm9ZYvw8+6cr81FlgXORJKk3aPw47aAv8KKr7KIJvhgTNgZo4jN4FQmCA=
+	t=1775046141; cv=none; b=X/f/RicooSeG5x3MSoddeNsQPpPmxBck0Sy/26yJ+eHga0GnIW3JVTEyCXJdEDfGIxm5M6ThR6sdQLlKrQNFFMlMA04HjeLDv907/lQjHsEZmlF1TCGdGRGHy8qvsSv6ZO/fYbAuiiAsdj1y4GQL9CBkUdo7aVl8WacxnZvAe7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775044354; c=relaxed/simple;
-	bh=63eNaBb7HhBHNGZHs2ck4m5j8n+byLJscGHPx3NKsmQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=EKHFY72YrY4qP3mToOVqJwJ2/ZF4AIu+QNBhJ6PGfn0IEsfUdYDTNjzXVXFEXo4gn+pAhDxRwaUSylnbhU8i21pW7EkZMF4Kxt0UR4QqLm2lcpwTOpGF4bv1/tWloeUTrK5cb8WErSBwTBkzOKxftjeRm+R6vtE0vdJecKYy13g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P4KiRkYx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775046141; c=relaxed/simple;
+	bh=YsuTa5lww5YDewP07S+OGZgDQWwFL2bTgBarz21FTJY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hb9c9qfl7ZpuIYc2U16NJUbyPm00rDAyCEcn3Zdh4O4cKES/UuVx0CYyNpPAmRv4hkoDnJuWxEMLVvo4kb6VkFkou0mZmygQC4+sVQ4/pznXWJfV1XdOCbtN94sp6wlxG0f899qt5cE04WnisuZeXLP+hkNjl5U7wCSVo/u1tI0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=S+7GNyvM; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P4KiRkYx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D18AC116C6;
-	Wed,  1 Apr 2026 11:52:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775044353;
-	bh=63eNaBb7HhBHNGZHs2ck4m5j8n+byLJscGHPx3NKsmQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P4KiRkYx+9pR8FcDn58eZ58Tl+l8DaXIaKnBFFMxFh3P+IXQUnqgEGZH8vAunNvs4
-	 BLd1TybjNwHbXADCPR4z7Vj6dtmKy7ji1oU2bzwWLnPbbnFVZYCEMjSB2UQpls/Ouo
-	 pYPJfGFA7EPUSZecOxj+EVb7CtgpF1zN5Tw8IewblUNyc/Ie7LYX5Lt+C5FMZplSJ6
-	 xbIWlfeyv6YRSlqqa7C9IoWKbjP/NbQH9T4QOWe/CgvypooqpdHo0TWO2wHyf2zcvI
-	 RVJtUt/y5WBbMgeocVhCwVhlVD3aiintQfQGjzicRa8XTpUjFXmucwr/KWim4JVpaV
-	 E6XIy24XYnOiA==
-From: Miguel Ojeda <ojeda@kernel.org>
-To: Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Courbot <acourbot@nvidia.com>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <david@davidgow.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	=?UTF-8?q?Arve=20Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
-	Todd Kjos <tkjos@android.com>,
-	Christian Brauner <christian@brauner.io>,
-	Carlos Llamas <cmllamas@google.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?UTF-8?q?Bj=C3=B6rn=20Roy=20Baron?= <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Trevor Gross <tmgross@umich.edu>,
-	rust-for-linux@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	linux-block@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers),
-	Alexandre Ghiti <alex@ghiti.fr>,
-	linux-riscv@lists.infradead.org,
-	nouveau@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	Rae Moar <raemoar63@gmail.com>,
-	linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	llvm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH 33/33] rust: kbuild: allow `clippy::precedence` for Rust < 1.86.0
-Date: Wed,  1 Apr 2026 13:45:40 +0200
-Message-ID: <20260401114540.30108-34-ojeda@kernel.org>
-In-Reply-To: <20260401114540.30108-1-ojeda@kernel.org>
-References: <20260401114540.30108-1-ojeda@kernel.org>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="S+7GNyvM"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48374014a77so81900105e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 05:22:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1775046139; x=1775650939; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2JvmNkijtfkleZl4AVh3d/5C7ipYcZLtHwRqCUWikPo=;
+        b=S+7GNyvMsbCFemCcYYP5Rfttkomv+zAQzRl4khfCO9ATuTwRMAlTgPJMK81oCybmQv
+         pDsbTX92Zr+zEBhe9+O1/VPFlxuxpqA6ygxd8DI2zcc/g4v0CznQ0SraWIs/0ZbyVkdN
+         zSB4mC0jmuvzLffHHIZ2vVBilLyNGqU+Z8mkizsqGXSKveq33FFdeatNAL3nh65Y01+Y
+         v/1GLud0A/xKO4VftC9qAc1r3Ujprg1saJ6p98I7bLAAXBj0o+BAW83XgWQOzsTIP2Uh
+         cHQBsP61+MaCr7aDH0SuLo63Pvj1XUMvqY3T4HdJ+w/m+To0R/4ctPzHoEbDNUh1bshz
+         tZ4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775046139; x=1775650939;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2JvmNkijtfkleZl4AVh3d/5C7ipYcZLtHwRqCUWikPo=;
+        b=ZVt9DhnYh2BrOQruuS84s2UPIE86UfZeLV3NNgPD/rH5CwY/CpTIFn6H36B5qlAGHY
+         5hyXmRaFvl/zMckF0pVWs1B4f2Mn8aP/nLQlESSCjQOCCr6sjTGx3ry273TYbGk5MkQl
+         dy72XNq0N8D1vohIy18ba/C2twTU0N8N9gtLeWXv679cFdSNQXEEwdlyueTD5tS2lwP+
+         iwbQQDjiWI7DpCmEhfZp4yclBvpAwyphPnjdA2V7zYWglzh8yqL+b1BrVK+x8ho0TIC8
+         M/nqyTnPiIfaifO5LGwHpgeSleBViy2vcX98CGgk+WwGj/aI17xrEw5pOedbgx4quzXs
+         nS2g==
+X-Forwarded-Encrypted: i=1; AJvYcCW+GxsBPUl2M+kYzumEDYNMvDhgP4pVxbgFyvjSvF63CbpowZjU0i+CZSGQqGtLSBmp4Mxa+wWgYTU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyF7uBDHX+ohOQ4QEkXmPFvu3rW8cInlwZtw8qm2PUfUwY/yhKL
+	T03lbBL4nLtM5JACvqG0JbglP7RGCWegTetivtVBQyZGhlJmHr3mgnhmA5uvXxSv33Y=
+X-Gm-Gg: ATEYQzzq65AsQw0sG61rr5E2X4lPMpydeiwt6J4rIfz0FOw3D8Pf5c53+2BVlMt7Vnz
+	wrdSNgm4dNd9FZtYKSVj/eIKJ71uCAVo1CxtA6/NjCFZTnKGxL5xy8yn1vmc+5iEaL1VAV+FTww
+	nctG+q0Ft0DI7VGumx1Di9lFdkezl5Ag7KJAxhhc+MGthpxYUvYnteTm9phDF51gGjbPti09jJY
+	y+d86FsHkcrIYuQ27MnfEEnrUqbvAxSyekOMiyR1+V0WbyiewfQr4RMJPLaq3Ip2deZYroHU53I
+	del6nYPIBEHddVmYYXyyzntjwLrI+YxT/84uP/9AMnoZKW8owxq/fu9MjBqbxpEhOdDJh9/E8mU
+	vXHCoFjYWLg1VnaI0/q0PLn/h8wYT73K3WbE7fWQOqDZ0R09VBLpPLdz86OpSMd/654a652NkfX
+	xdVpoDkQv79OwXoo3F1ts64kWQow==
+X-Received: by 2002:a05:600c:a4a:b0:487:21c7:2885 with SMTP id 5b1f17b1804b1-4888355e52cmr57407695e9.5.1775046138735;
+        Wed, 01 Apr 2026 05:22:18 -0700 (PDT)
+Received: from pathway.suse.cz ([176.114.240.130])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e884dacsm160908025e9.15.2026.04.01.05.22.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Apr 2026 05:22:17 -0700 (PDT)
+Date: Wed, 1 Apr 2026 14:22:11 +0200
+From: Petr Mladek <pmladek@suse.com>
+To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
+ safe prototype
+Message-ID: <ac0N89sNYcKAJkAP@pathway.suse.cz>
+References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
+ <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
+ <acZDneLrIPOmU5ci@pathway.suse.cz>
+ <acZLHAT5qJyjKTsp@ashevche-desk.local>
+ <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
+ <acZaGUV0MwuHNDru@ashevche-desk.local>
+ <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
+ <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
 
-The Clippy `precedence` lint was extended in Rust 1.85.0 to include
-bitmasking and shift operations [1]. However, because it generated
-many hits, in Rust 1.86.0 it was split into a new `precedence_bits`
-lint which is not enabled by default [2].
+On Mon 2026-03-30 13:49:48, Rodrigo Alencar wrote:
+> On 26/03/27 03:17PM, Rodrigo Alencar wrote:
+> > On 26/03/27 12:21PM, Andy Shevchenko wrote:
+> > > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
+> > > > On 26/03/27 11:17AM, Andy Shevchenko wrote:
+> > > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
+> > > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
+> 
+> ...
+> 
+> > > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
+> > > > > 
+> > > > > With that we will always consider the fraction part as 32- or 64-bit,
+> > > > > imply floor() on the fraction for the sake of simplicity and require
+> > > > > it to be NUL-terminated with possible trailing '\n'.
+> > > > 
+> > > > I think this is a good idea, but calling it float or fixed point itself
+> > > > is a bit confusing as float often refers to the IEEE 754 standard and
+> > > > fixed point types is often expressed in Q-format.
+> > > 
+> > > Yeah... I am lack of better naming.
+> > 
+> > decimals is the name, but they are often represented as:
+> > 
+> > 	DECIMAL = INT * 10^X + FRAC
+> > 
+> > in a single 64-bit number, which would be fine for my end use case.
+> > However IIO decimal fixed point parsing is out there for quite some time a
+> > lot of drivers use that. The interface often relies on breaking parsed values
+> > into an integer array (for standard attributes int val and int val2 are expected).
+> 
+> Thinking about this again and in IIO drivers we end up doing something like:
+> 
+> val64 = (u64)val * MICRO + val2;
+> 
+> so that drivers often work with scaled versions of the decimal value.
+> then, would it make sense to have a function that already outputs such value?
+> That would allow to have more freedom over the 64-bit split between integer
+> and fractional parts.
+> As a draft:
 
-In other words, only Rust 1.85 has a different behavior. For instance,
-it reports:
+My understanding is that you want to allow parsing frequencies
+in the range from microHz to GHz.
 
-    warning: operator precedence can trip the unwary
-      --> drivers/gpu/nova-core/fb/hal/ga100.rs:16:5
-       |
-    16 | /     u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).adr_39_08()) << FLUSH_SYSMEM_ADDR_SHIFT
-    17 | |         | u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::read(bar).adr_63_40())
-    18 | |             << FLUSH_SYSMEM_ADDR_SHIFT_HI
-       | |_________________________________________^
-       |
-       = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#precedence
-       = note: `-W clippy::precedence` implied by `-W clippy::all`
-       = help: to override `-W clippy::all` add `#[allow(clippy::precedence)]`
-    help: consider parenthesizing your expression
-       |
-    16 ~     (u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR::read(bar).adr_39_08()) << FLUSH_SYSMEM_ADDR_SHIFT) | (u64::from(regs::NV_PFB_NISO_FLUSH_SYSMEM_ADDR_HI::read(bar).adr_63_40())
-    17 +             << FLUSH_SYSMEM_ADDR_SHIFT_HI)
-       |
+So, you might want to support input in simple float numbers
+with some precision, for example, 1.2GHz, 0.345Hz, ...
 
-    warning: operator precedence can trip the unwary
-       --> drivers/gpu/nova-core/vbios.rs:511:17
-        |
-    511 | /                 u32::from(data[29]) << 24
-    512 | |                     | u32::from(data[28]) << 16
-    513 | |                     | u32::from(data[27]) << 8
-        | |______________________________________________^
-        |
-        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#precedence
-    help: consider parenthesizing your expression
-        |
-    511 ~                 u32::from(data[29]) << 24
-    512 +                     | u32::from(data[28]) << 16 | (u32::from(data[27]) << 8)
-        |
+By simple, I mean that there is no x10^3 or so.
 
-    warning: operator precedence can trip the unwary
-       --> drivers/gpu/nova-core/vbios.rs:511:17
-        |
-    511 | /                 u32::from(data[29]) << 24
-    512 | |                     | u32::from(data[28]) << 16
-        | |_______________________________________________^ help: consider parenthesizing your expression: `(u32::from(data[29]) << 24) | (u32::from(data[28]) << 16)`
-        |
-        = help: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#precedence
+> static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
 
-While so far we try our best to keep all versions Clippy-clean, the
-minimum (which is now Rust 1.85.0 after the bump) and the latest stable
-are the most important ones; and this may be considered "false positives"
-with respect to the behavior in other versions.
+I would personally change this to something like:
 
-Thus allow this lint for this version using the per-version flags
-mechanism introduced in the previous commit.
+  static int _unit_float_ktstrtodec64(const char *s, unsigned int precision, u64 *res, char **unit)
 
-Link: https://github.com/rust-lang/rust-clippy/issues/14097 [1]
-Link: https://github.com/rust-lang/rust-clippy/pull/14115 [2]
-Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
----
- Makefile | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+It would allow to read float number in the the format XXXX.YYYYunit,
+for example 1.2Ghz
 
-diff --git a/Makefile b/Makefile
-index 20c8179d96ee..a0d6ed050c8a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -836,7 +836,8 @@ export WARN_ON_UNUSED_TRACEPOINTS
- 
- # Per-version Rust flags. These are like `rust_common_flags`, but may
- # depend on the Rust compiler version (e.g. using `rustc-min-version`).
--rust_common_flags_per_version :=
-+rust_common_flags_per_version := \
-+    $(if $(call rustc-min-version,108600),,-Aclippy::precedence)
- 
- rust_common_flags += $(rust_common_flags_per_version)
- KBUILD_HOSTRUSTFLAGS += $(rust_common_flags_per_version)
--- 
-2.53.0
+, where:
 
+  + _unit_ means that it might set @unit pointer which point to the unit
+    string right after the number part.
+
+  + _float_ means that it will be able to read float numbers
+
+  + @precisions parameter defines the number of digits accepted
+    after the radix point. It is also used as multiplier for scaling
+    the output number.
+
+  + @res is pointer to the read number multiplied by the given
+    @precision
+
+  + @unit will be set to string after the number
+
+For example:
+
+  + s="1.2GHz", precision=3 will result in *res=1200, *unit="GHz"
+  + s="0.0100004", precision=3 will result in *res=10, *unit=""
+  + s=1.234567GHz, precision=3 will result in *res=1235, *unit="GHz"
+
+Note that the result is rounded in the last example.
+
+The function might be used like simple_strtoull() in memparse(),
+see lib/cmdline.c. Which is able to read the given size in B
+and handle various units like kB, GB, ...
+
+> {
+> 	u64 _res = 0, _frac = 0;
+> 	unsigned int rv;
+> 
+> 	if (*s != '.') {
+> 		rv = _parse_integer(s, 10, &_res);
+> 		if (rv & KSTRTOX_OVERFLOW)
+> 			return -ERANGE;
+> 		if (rv == 0)
+> 			return -EINVAL;
+> 		s += rv;
+> 	}
+> 
+> 	if (*s == '.') {
+> 		s++;
+> 		rv = _parse_integer_limit(s, 10, &_frac, scale);
+> 		if (rv & KSTRTOX_OVERFLOW)
+> 			return -ERANGE;
+> 		if (rv == 0)
+> 			return -EINVAL;
+> 		s += rv;
+> 		if (rv < scale)
+> 			_frac *= int_pow(10, scale - rv);
+> 		while (isdigit(*s)) /* truncate */
+> 			s++;
+
+We might/should use the first digit to round the _frac.
+
+> 	}
+> 
+> 	if (*s == '\n')
+> 		s++;
+> 	if (*s)
+> 		return -EINVAL;
+
+I would omit this. Instead I would set @unit pointer so that the
+caller might handle units defined after the number.
+
+> 	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
+> 	    check_add_overflow(_res, _frac, &_res))
+> 		return -ERANGE;
+> 
+> 	*res = _res;
+> 	return 0;
+> }
+
+Otherwise, this approach looks sensible to me. IMHO, some generic
+API for reading numbers with misc units should be usable in more
+situations. And it would make the kernel interface more user
+friendly.
+
+Of course, we must not over-engineer it. But the above does not
+look much more complex than we already have.
+
+Best Regards,
+Petr
+
+PS: I am sorry if I used some mathematical terms a wrong way.
+    I am not a native speaker. And it is a long time since
+    I worked with float numbers.
