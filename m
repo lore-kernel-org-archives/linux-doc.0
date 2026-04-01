@@ -1,144 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f201.google.com (mail-dy1-f201.google.com [74.125.82.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B82E26299;
-	Wed,  1 Apr 2026 01:02:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EBE82D0C84
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 01:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775005361; cv=none; b=DpHwfheo0pNPWdEUUcsOvNg2/dDyz0iEMg/7FQFgcbRFJVDRbOS9hxnq3KctIkriUjaiy2UEmtr/x85n+TvYmFX6W9gi2A1weFF7cvxFoybs84YcRR9lbo2AifAqroYoiC95gv/1AhylJkFsfUIvF3sMxc1o1+bVc1wg9QFsthQ=
+	t=1775007023; cv=none; b=nzcUNocIRlEa5B+NC0Bx6PnHFpbchsWnq3Rk4rjnwQugyEcsAvuvPoMEw0NSpiXrPBl7tDBGtv+oqTG6GKY9GUGcx1GVKa31gVnBadGckvd3A1SWcsnMVlcBvR9wNlZglzBJBxRipDGr+FDFlPzfjKBu9Xtk65tBJMedEMkYOPI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775005361; c=relaxed/simple;
-	bh=o0GkM9NSMbU9xamJgvLyN+reID5/kjRHKwPejuHsW6Y=;
-	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=rpG8eo9AjVHjyVLuxRdsptMCfOpsxAR5xK3y4X2RqPJ74Bx40prbeQEsetPJQoHzeu9BBM0rWusRwPkQm6e2pJ1wWh4l5UdkXgwe0NPwy7csgHb2/flqGjKhtTrDokYX5rSb9KRJN03NDVHsePz2+knTyaG19lB/4T0gCoqXy2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TOLR6z9I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775007023; c=relaxed/simple;
+	bh=31TfvCLwbknK8QU0XVOHI6FK0vdxmYqr/snmIVckegg=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=suNWaRIBqJxo9hFpjTTekJBkce0hv/uWY6wN6+attLXZ1TnPqBKLT+vyvZeylSf+HmNfNoF1+z/6MLHvNre4kO6h3tsCfj1GN1ZFrJPMvQLGVX49+FKmbzhZbmkEfH7Uv869xyrP+fnQGSG3b0QWmReDRwZWqzjca67bjHLHtWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jKEW9F1G; arc=none smtp.client-ip=74.125.82.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--samitolvanen.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TOLR6z9I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71666C19423;
-	Wed,  1 Apr 2026 01:02:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775005360;
-	bh=o0GkM9NSMbU9xamJgvLyN+reID5/kjRHKwPejuHsW6Y=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TOLR6z9Ied1+mHgKZNfTJLey4bUBAl2ViZVrLwrOUI+4hnMclcsRPvN2fl/lqwjc7
-	 ASGJFQ/bFplwJZZ+3H5tRH6IBtsr4u3/mLC2yCg8HgB7X2H1pZax9caYjuQRtlXo65
-	 ssKtnmHVJUPUCQOIz0tsyRjWS/K86tw53tyjz0UBXW6WGQ5kqpEOitPCZkfRhzph25
-	 +nbp/KcgNiRANM2pmKVtuIuC5/JE1AmRpk7pgGzX26BkzUmJOUOimqiMqqLfy7RMnT
-	 /46kkdcMNDkp7Etcolf0JH7KNvkxAiGSvrCvg/EfG6wgjd9MnHzfly7ecagOu/BMfR
-	 nHFOHgcr7XaaQ==
-Date: Wed, 1 Apr 2026 10:02:37 +0900
-From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
-To: Kiryl Shutsemau <kirill@shutemov.name>
-Cc: Breno Leitao <leitao@debian.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org,
- kernel-team@meta.com
-Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
-Message-Id: <20260401100237.ff9a37505d041a00e4d8658a@kernel.org>
-In-Reply-To: <acueCFv4neO7zQGI@thinkstation>
-References: <20260325-early_bootconfig-v2-1-6b05a36fbfb5@debian.org>
-	<20260325232204.05edbb21c7602b6408ca007b@kernel.org>
-	<acueCFv4neO7zQGI@thinkstation>
-X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jKEW9F1G"
+Received: by mail-dy1-f201.google.com with SMTP id 5a478bee46e88-2bdf75bc88fso5470658eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 31 Mar 2026 18:30:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775007022; x=1775611822; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=k1/BQLq9I+ernXavRvxZYNZROQSXYmepGs6Tk+w+QVg=;
+        b=jKEW9F1GtFDJu1oSrVQ4fBmh51vm0ej6HPOhm4jQHGM0AICgFsvYpC5w8JyATLvuKt
+         qgGnGu59RpjSsyH4RR9wt3fFvKp7V+i9dI8RJ6ckYyfCYtrJ/zDydvrhc8O/3kJ/jjSN
+         q0sJ3cCNpafYYrlmhGucxhDyn4CDKIgirsGlyfDsCHT6Rfdom+k/cHN3svkXwjCPfYXj
+         94HrWnd5CHpLT88AGgNxxb0ObQ7k533Y02V3hf/sPB/E8+zey7klT4NJVuva4Pkeqakc
+         cIudRDdfke5m7rVJDhxNjUxZngRaGbjfmYz1S1gdiRdk+uKztHrqcWONAKbMzGO8ZdJx
+         Sjzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775007022; x=1775611822;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k1/BQLq9I+ernXavRvxZYNZROQSXYmepGs6Tk+w+QVg=;
+        b=etglk7qFJgGON+PTGE792QyKNh8NrZojFRIWLu+wsZZqOODH6AXkXbNztwAq8qYtK8
+         HFwRIXKf1mNjBrkn+7sIbP/qNePXYzzOLZhvhxUIAhKjVIp4M0otnyluWwlMmcGZvL1i
+         bMr3xNgPIGYdfpEXREQDKCKPHf1nMmMB1OksAbXa8qoZ42dHA2RH8AMBULZNRwAy0RRL
+         SvS5Q2k0Lq984cZOga6+afnyKj+FmCSt39Idn4hPko13+zmb6D4KtQZK1T1MPqMJfc2b
+         7aNtcO2gV2EcAXOGc5mFbT72jm6BA/9LsH+F3ZIYJUFLiKj3hPAs7zo5gmxO+2S8sHK2
+         JnxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdnGu5StgiT1wKmCKik5R09UP+UCLfFttt2A5ypXHhdetkmnP0wM36sQx76MAO4PtD+IogcyELynw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxR0HFbJ8u6rJ6EUMSwtCOQMQnaxh9PGKjVHVdic9tT1lY5tqq1
+	8wERq7dV3kiT12KxKSpcAI0UP3xl3Dj0wpDXSV3QOOL5CxQkpWiNyXe3pnV26OCa++0nH5UtgJT
+	cZQA5t3aORt/xPqVr3Ia/um0ErcS8zg==
+X-Received: from dybmh41.prod.google.com ([2002:a05:7301:f29:b0:2c3:dfe3:6dbb])
+ (user=samitolvanen job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:693c:2c8c:b0:2c6:2bac:8a8 with SMTP id 5a478bee46e88-2c9333b8061mr822830eec.30.1775007021499;
+ Tue, 31 Mar 2026 18:30:21 -0700 (PDT)
+Date: Wed, 01 Apr 2026 01:30:19 +0000
+In-Reply-To: <20260326-kflagstab-v5-0-fa0796fe88d9@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20260326-kflagstab-v5-0-fa0796fe88d9@google.com>
+X-Mailer: b4 0.14.3
+Message-ID: <177500701994.1603852.8130352881871388132.b4-ty@google.com>
+Subject: Re: [PATCH v5 0/7] scalable symbol flags with __kflagstab
+From: Sami Tolvanen <samitolvanen@google.com>
+To: Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
+	Daniel Gomez <da.gomez@kernel.org>, Aaron Tomlin <atomlin@atomlin.com>, Arnd Bergmann <arnd@arndb.de>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Siddharth Nayyar <sidnayyar@google.com>
+Cc: linux-modules@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-doc@vger.kernel.org, maennich@google.com, gprocida@google.com
+Content-Type: text/plain; charset="utf-8"
 
-On Tue, 31 Mar 2026 11:18:33 +0100
-Kiryl Shutsemau <kirill@shutemov.name> wrote:
-
-> On Wed, Mar 25, 2026 at 11:22:04PM +0900, Masami Hiramatsu wrote:
-> > > diff --git a/init/main.c b/init/main.c
-> > > index 453ac9dff2da0..14a04c283fa48 100644
-> > > --- a/init/main.c
-> > > +++ b/init/main.c
-> > > @@ -416,9 +416,64 @@ static int __init warn_bootconfig(char *str)
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +/*
-> > > + * do_early_param() is defined later in this file but called from
-> > > + * bootconfig_apply_early_params() below, so we need a forward declaration.
-> > > + */
-> > > +static int __init do_early_param(char *param, char *val,
-> > > +				 const char *unused, void *arg);
-> > > +
-> > > +/*
-> > > + * bootconfig_apply_early_params - dispatch kernel.* keys from the embedded
-> > > + * bootconfig as early_param() calls.
-> > > + *
-> > > + * early_param() handlers must run before most of the kernel initialises
-> > > + * (e.g. before the GIC driver reads irqchip.gicv3_pseudo_nmi).  A bootconfig
-> > > + * attached to the initrd arrives too late for this because the initrd is not
-> > > + * mapped yet when early params are processed.  The embedded bootconfig lives
-> > > + * in the kernel image itself (.init.data), so it is always reachable.
-> > > + *
-> > > + * This function is called from setup_boot_config() which runs in
-> > > + * start_kernel() before parse_early_param(), making the timing correct.
-> > > + */
-> > > +static void __init bootconfig_apply_early_params(void)
-> > 
-> > [sashiko comment]
-> > | Does this run early enough for architectural parameters?
-> > | While setup_boot_config() runs before parse_early_param() in start_kernel(),
-> > | it runs after setup_arch(). setup_boot_config() relies on xbc_init() which
-> > | uses the memblock allocator, requiring setup_arch() to have already
-> > | initialized it.
-> > | However, the kernel expects many early parameters (like mem=, earlycon,
-> > | noapic, and iommu) to be parsed during setup_arch() via the architecture's
-> > | call to parse_early_param(). Since setup_arch() completes before
-> > | setup_boot_config() runs, will these architectural early parameters be
-> > | silently ignored because the decisions they influence were already
-> > | finalized?
-> > 
-> > This is the major reason that I did not support early parameter
-> > in bootconfig. Some archs initialize kernel_cmdline in setup_arch()
-> > and setup early parameters in it.
-> > To fix this, we need to change setup_arch() for each architecture so
-> > that it calls this bootconfig_apply_early_params().
+On Thu, 26 Mar 2026 21:25:01 +0000, Siddharth Nayyar wrote:
+> This patch series implements a mechanism for scalable exported symbol
+> flags using a separate section called __kflagstab. The series introduces
+> __kflagstab support, removes *_gpl sections in favor of a GPL flag,
+> simplifies symbol resolution during module loading.
 > 
-> Hi Masami,
+> The __kflagstab contains an 8-bit bitset which can represent up to 8
+> boolean flags per symbol exported in the __ksymtab. The patch series
+> also uses this bitset to store GPL-only flag values for kernel symbols,
+> thereby eliminating the need for *_gpl sections for representing GPL
+> only symbols.
 > 
-> I have a question about bootconfig design. Is it necessary to parse the
-> bootconfig at boot time?
-> 
-> We could avoid a lot of complexity if we flattened the bootconfig into a
-> simple key-value list before embedding it in the kernel image or
-> attaching it to the initrd. That would eliminate the need for memory
-> allocations and allow the config to be used earlier during boot.
+> [...]
 
-Hi Kiryl,
+Applied to modules-next, thanks!
 
-Thanks for a good question.
+[1/7] module: define ksym_flags enumeration to represent kernel symbol flags
+      commit: 10a4eb5882ba16164ece86d99486084f02f148bb
+[2/7] module: add kflagstab section to vmlinux and modules
+      commit: 9743311b4535dc76ce81f46303da0f69bfaa5fd6
+[3/7] module: populate kflagstab in modpost
+      commit: 16d0e04f546ffba78c74bbfeb57d93147bcaf2c5
+[4/7] module: use kflagstab instead of *_gpl sections
+      commit: 55fcb926b6d8b5cfb40873e4840a69961db1bb69
+[5/7] module: deprecate usage of *_gpl sections in module loader
+      commit: b4760ff2a5e4351c59d185967735f59c0b0bd7f6
+[6/7] module: remove *_gpl sections from vmlinux and modules
+      commit: f18540256b70c9e1f0e26e2c38f3d43a131926d9
+[7/7] documentation: remove references to *_gpl sections
+      commit: 3b1299f25b07ef83e020d049dfc62ced9c09450d
 
-If it is embedded in the kernel, yes, we can compile it. But if it is
-attached to initrd, the kernel needs to verify it. So anyway we have to
-parse the key-value. Of course we can make it a binary data structure,
-but it still needs verification. Moreover, memory allocation is not
-required by design (the first design uses a statically allocated data).
+Best regards,
 
-Even if it is normalized as key-value, we can not trust the contents
-without outer verification system, like verified boot. Therefore, our
-basic strategy is to parse the text.
-
-However, if the content can be verified externally, for example, if a
-verified boot program verifies the compiled boot configuration, then
-it would be possible to use that directly.
-
-Thank you,
-
-> 
-> What am I missing?
-> 
-> -- 
->   Kiryl Shutsemau / Kirill A. Shutemov
+	Sami
 
 
--- 
-Masami Hiramatsu (Google) <mhiramat@kernel.org>
