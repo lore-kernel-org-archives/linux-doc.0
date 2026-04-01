@@ -1,278 +1,177 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022121.outbound.protection.outlook.com [52.101.101.121])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 487D9337BB0
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 13:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775049407; cv=none; b=W+T9Xs9szZsHqZwNE9gDGyBYDvEM/EgiZACfjLZDCPmz09BJQv5xuYVB4iQDQes2eIJDiM3nu7a2KPRuiFi3wvQqtRkV5d0/tjHsMOtSzp0C+Zr01V7ias/TP6gGfVKYdCUJiStPWeoiToa8MJqSMvVio4kblFMj20YOp4SIvH0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775049407; c=relaxed/simple;
-	bh=ZQ0cluxrrGAAgQmJ2b7UrPz8J+y8NMc4NZcDA7xAclU=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WhwjCIWD+kyk334uNR5NxM2VIVHLxZNgZ9exzI9zMPqtoGWxSDblxXBp+KewCw3KLI9KjZQZ04HlrYlnMiRqSLZmcb0vclj5Eg7HMbka1oMZuVzJSvHMIQhzY+QtoED+4VEDdq8aTj0r91i5cfwS3KNNP1LDQDGXBbVEpKD6jfk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rL293tua; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F50C40DFC1;
+	Wed,  1 Apr 2026 13:18:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.121
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775049484; cv=fail; b=C+LP8FU1/xh/R4xfG56GN+0AUdqYpf7wdANd+nxfex933Sot8ZeIjEcOE3sH0SzfwliV/dF3vbME5tUuYOGk1W4EYqtT5UB4TPD7rt2mXm9Gotv3TkC07DjhV8FwLjqHilVOKwfYe4cS/UK+oicSaxvL5xDgPeFOQiJUpiWrcfM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775049484; c=relaxed/simple;
+	bh=CAmTqmTrUwA8R7KW8ypuSRAIGiZUCAqkdZcppB8M5Ms=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=foh3NatEYX+z4PED5hfbbLstTsljaRc4e3icQ4TMeeSA0e5POY8F3N33L16TlZOwowMYwIFI6LlN0FrC3qzoRR+5rhkxJWgRnSAABYBwKVUUHOdVgm13+LoVoYoPfZc2Gzq6k3v5/HqGlFRtDTY9wgrvi5/qyuw3KxkDjIFD1Eo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=j5hGQ/mq; arc=fail smtp.client-ip=52.101.101.121
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rL293tua"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b980c65b97aso984986166b.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 06:16:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775049405; x=1775654205; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=apbYBRg9b/3DX+6GYzgJ9nE4vIASqDiH9mcyDG+Y7O4=;
-        b=rL293tuab6Ab3LMDJXyCFrElCvLeraYcfqMV5T0rDhRghL9C/AU/eiHaOaWNFjkIDa
-         6M05uARSXg0CJcTNdCm+bJIPNYv66Ky7rcG6aivbOO8/oYthyKhur0YgesCakERFgHoX
-         xbUxZFktNfikw9SYs638qW3yqd/F0Ndhaipbfa4yo6qUPSJ3hd+Wxl8u0AZJ+XbOTH6w
-         hBPd/BFDmSpDQvLqad2VBIeKPexuzZfC/RGPDKeO4EG5O8jI2CNtpzpPAiHVgEj9g4Gg
-         JNai8rWkJiZt+Vlu7t3LuyBf9+8q4N9UyvhsCLPsU7juXVwN97FjyBUHQThTSOftBD18
-         Um8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775049405; x=1775654205;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=apbYBRg9b/3DX+6GYzgJ9nE4vIASqDiH9mcyDG+Y7O4=;
-        b=Y587FpcvCkgyQeD4siDj3jioyDSELFgdeLnvfNAHPDHQbG5a7OwoMF5QlkKO6CliiG
-         It212cRmCtgWOVe1V+n1DDvtYHna3bZZhyEQtBNJXn6617/Fz0Z2QddcRs0YjFHG37WX
-         dj+BcmuHZiX+4x7c4wj466Dz/5Argw+rkEcy/62EcAE/MTK5eWYesCMIryyMwpagKamf
-         l2+npwGjcxUcmpbOkopQNo+GB0cS7YUz4fubXiqYyKpiZGs4r0yygGspT8nDhhbkX+z9
-         6mE0IIteEs9rJV2AbbpEe0QTxcwSu/3r2aMgaycfWtn5B9vJDqgFaWjeWwv5teI1uJtD
-         UMaw==
-X-Forwarded-Encrypted: i=1; AJvYcCX2j2RlmjPlSc2jIPoWMtL0Jdl18NPrQLxyUz2MU+ONg5Jtu68perVuyrIA0Ow79jPTVWCJBbetLaw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfHgoRZu0IPIxj6rGTXIj01lW9K+QW9w1RvBR0LoSQle4RyDMk
-	4/ENiYYDHf1GWaLeAIxTokbqCNpNYY3QpAeudlwQ4Wpf3SWJYY0+b1sx
-X-Gm-Gg: ATEYQzw54SaH6emjUP1veAD7m8A9A6YveXu3xqtLvvrtjyn8MH3rGkGN/zZ7QoEaXRw
-	32OKPwf+lLhYoDDKG3ZeigIn/UmTa7hZ4bNtSt2nBWoPCP7+Hnq1kKs7wP5dInNvW97jPSpUcEZ
-	m1bKa5lRnzxQYGeKT1izaG6CJdQzjsD6hn7bcQqPPNk43Rab+SeOjebDHNPQbviFk9Ex564vMJ8
-	K5P4W1vabm65pQMpsnsnvZZ4bG42D2cUH4etHrPfDQ3EwEm1d5yn/fddatnBqTiBpjPE3H/m+/S
-	FyAatXIR7ZLJfn5eo8EwMOnI157c1SRLEpNemtspAT2LoLJFr1HNWY2PS8mM7DSIUdA0BrEFg6n
-	RUbUyKNoMIchW5L8Mgr6W5Ltrm00vzXmz1wbFxYDdGp5WXpGAzL1B7EtF4YHchmv7h/RyZFYizf
-	nPBxM6a2uX0clMa2bp1Aya6JUOCNP7oVo9Tx0FjfHZvGblglvcUiuDBK0dA+WMpr7UkwYWAKmXs
-	nSZGeEK1iBsMygGTDKOjR6Q5Z187HV+GQedqXBrDEIkIvOPChg=
-X-Received: by 2002:a17:907:2d1f:b0:b90:8016:cfe4 with SMTP id a640c23a62f3a-b9c137a088amr261514666b.10.1775049403891;
-        Wed, 01 Apr 2026 06:16:43 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c0219ed95sm145275666b.29.2026.04.01.06.16.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 06:16:43 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Wed, 1 Apr 2026 14:16:36 +0100
-To: Petr Mladek <pmladek@suse.com>, 
-	Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
- safe prototype
-Message-ID: <24jfl2btofko7iqxz7rlqdbr73yjaf46plfvnrc4zj77i4zbkj@apmruc23fw6f>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
- <20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
- <acZDneLrIPOmU5ci@pathway.suse.cz>
- <acZLHAT5qJyjKTsp@ashevche-desk.local>
- <4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
- <acZaGUV0MwuHNDru@ashevche-desk.local>
- <x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
- <qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
- <ac0N89sNYcKAJkAP@pathway.suse.cz>
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="j5hGQ/mq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XyD+a2Vo7hivtBuXazA8rSVvcv7MCJZ1isi33WflQ9hZxcZBGpKw+I/wQaMtSj5CElU60V6Dnz4x9tWrBIr55nKpqpDiJU2Id7DVr3aghxnxXKYV6sBNXbc7G6OezEb9Vd3EgvYKHayQQXSogAPnneXmCpSj3lxBVUnH+21Mo1K3Zf+AQ03gaM/yTX9+FzuuvxWyWAje7qfXC2OzjvjSUP+IE4GFS8pVfKljg7nWFIR5SZSAb+ZdAXg5tQZAnSai9uduh8tGKd4IxAbdlnVsqwjeNQNkA0KvJ2KFGZOtPNcP6303JD55jDA+HdIt/cJLC15/s4SXeoUyw9WC3iX3uA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JDnCpM9lVS61RJWFs8BQRWmSZ2Orzft1WPMP/GrUDvc=;
+ b=iRon6jS0a3vB0ijunxgfJVHOO4U1GDt8jOIEaQu2UL0hsklxw52UDlxpgtivP0I2deEYDrQwYJdnmC17bI1KXe4m/2j7/pEJsqrHhjxjbkMKI78lIJT0DwgkhsDFQB2Q3u3n83NvTEaI+wRIk+4RFHlxaCX0YCaOjgmWaFmu4RGSqE9u0Snz25km2+KMUxJlZglDW/t3YyVC1dGd8aLAy04JHLLuesOCxWoos0Y/xoJjBytrPKUTZfK2Di/l9vvhBPwvK4o4DrfmsqXEoENnTxFBA7qLJhDjNG4v8DtXhks68bBwBK8lm5Mvk3L5t9YYkXh4R3QhLQJw1rXsOMGYCA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JDnCpM9lVS61RJWFs8BQRWmSZ2Orzft1WPMP/GrUDvc=;
+ b=j5hGQ/mqUovBLQr5ciiAccd/Ru92ohrL5Ytb8u5id2Zd00xreX3vXJPBh/F++eSUKsmJ47OWbeN071hjLPYB73glVGWUJq7eJ/+ABZwy5McgdATyDhlsP4hpalQki5jRd32tt7YKVu9ffmy8PzEFamNwIGJvAg0+B6xIAivOZfk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO0P265MB9164.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:49f::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 1 Apr
+ 2026 13:18:01 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.014; Wed, 1 Apr 2026
+ 13:18:01 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 01 Apr 2026 14:18:00 +0100
+Message-Id: <DHHUIXWLCGT4.G653WGEB8KMT@garyguo.net>
+Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
+ <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Lorenzo
+ Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
+ <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+ "Uladzislau Rezki" <urezki@gmail.com>, <linux-block@vger.kernel.org>,
+ "moderated for non-subscribers" <linux-arm-kernel@lists.infradead.org>,
+ "Alexandre Ghiti" <alex@ghiti.fr>, <linux-riscv@lists.infradead.org>,
+ <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Rae
+ Moar" <raemoar63@gmail.com>, <linux-kselftest@vger.kernel.org>,
+ <kunit-dev@googlegroups.com>, "Nick Desaulniers"
+ <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
+ "Justin Stitt" <justinstitt@google.com>, <llvm@lists.linux.dev>,
+ <linux-kernel@vger.kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH 03/33] rust: simplify `RUSTC_VERSION` Kconfig conditions
+From: "Gary Guo" <gary@garyguo.net>
+To: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
+ <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Danilo Krummrich"
+ <dakr@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Catalin
+ Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Paul
+ Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Alexandre Courbot" <acourbot@nvidia.com>,
+ "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
+ "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
+ <david@davidgow.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
+ <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
+ Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
+ "Jonathan Corbet" <corbet@lwn.net>
+X-Mailer: aerc 0.21.0
+References: <20260401114540.30108-1-ojeda@kernel.org>
+ <20260401114540.30108-4-ojeda@kernel.org>
+In-Reply-To: <20260401114540.30108-4-ojeda@kernel.org>
+X-ClientProxiedBy: LO6P265CA0009.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:339::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ac0N89sNYcKAJkAP@pathway.suse.cz>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO0P265MB9164:EE_
+X-MS-Office365-Filtering-Correlation-Id: 203fd42c-9cef-4a9b-b04f-08de8ff11996
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|7416014|376014|366016|1800799024|921020|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	gO+dYv8youB8/Kxnl39dpescYv7ovVxLiYSDElhvRkuBlAj27MjycVbrbGjsJmCql9BZVza4OIQEWXn+g0EEf7GqKVjr9flUuzYvdNuPSHc78vAcFgV6UwFiegpx7UFjDw+3ag5aRgg5xmWd/1GGUeWnChpv2TtXJERSvQ3uN3d/7JGklDH0w/NsezHzte0U6JJ6RwO0kEFG1M/U6fmSAKC5uL15BNzDOL3JlWcWfyh562brc0g+Y7prgbdqkr6Q1nyxzwv0XrJx5HXwY3gh65s/0L5tKqS5YFS4YlMSOc3Ka6wBerGl2akE7wQGYrDQSnQ6UXhX6oYmCajB63aLmET/wRg/kyTdsBi37w4z46HaWv9YN/BylEc6d/y4RHlNkmqhFFH7dAlUVZxtF8xlNpMH2SIatMr6bLdbw6Pla0VGLhVAxnIsl+U47VWf61R6foojhLXSlpREHLSuu0vjofI2gs3PhtHBXhqu5yRFhlDrBEu4CxL8gqEqoKyL3GMCloRoTgbau7kGH9V4fmWsMshsvJsAQmLsat2kihR5P6A8lFqpo0Yyy0OWUFbzi9ffwFUdH1G6XvxzSpgauIuRTQg8FW8VwqDDbI49qbxPTYUVMXtSypDQ1LnmwWHIMsTBtApLDDM216xTQR8q0z9fIuXU+GK3+8K0V7ZyadyW4c2z/p5fdaLskyes7tARNNP4i3SfFPbxDM3bPF+mSit5houBgJQ+wkho9eXiTo1j97+Y07DXreccWOGtKwb9cml3uus0jkGQ+WfL763d+PPHhA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(376014)(366016)(1800799024)(921020)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RkpITmJJdHZrTTZqQXVHYXprbldGZzdhcVhJekRmQUp0a0xvcytwQWxoRG9L?=
+ =?utf-8?B?eGJpYnYwL1IxcUh2UGw1dXBpS29OM2V3T0JzOWJhSVJkU0dLRFhheDBEaTZU?=
+ =?utf-8?B?Y3lZUmJQaTJiMS9tMHZTZkVkZ1hPVGhnWmxndVdId2xwYTYrWk05ZlhxMEJw?=
+ =?utf-8?B?NUV3M1VZQkdaT3BsNUFtcEk0WkI1bENBREhsR2M3YWFlSEIrcENrakoxSStE?=
+ =?utf-8?B?NXhLdll0L3RsN3BiU05kSzVpektnSkZVQTdPZkI2dEY1Nk1TOXNEc2pmMDJx?=
+ =?utf-8?B?MnFCSWZ0ckdXY2RFL3ozbTQ5QXN5RTFyeE1iSlhBQUI1ek5ET3dCMVUzT1Z1?=
+ =?utf-8?B?anNaRG9MZGN0VXBjUGQ4b0syUGhsMkZicDMrcFRjRkJUY0x1a09yeVVIMFVj?=
+ =?utf-8?B?bXhaV0M2c1BLc2Vpb2hlTm5QbitoYTJRU3BNdjhHU2szMHViUUhISVI1akV5?=
+ =?utf-8?B?MDd0UG15L1E0RElVSyt1dlloWkhnMjd1TWUxRFR1VExQZWczZm5OdVhMVURM?=
+ =?utf-8?B?cmw4U2VyT1FkbWlKdGFKTW1Nb2lSZ2I1Q1pxRThPNDQxQitoU0swbVJ3ZE04?=
+ =?utf-8?B?RXA5Vm14QmMzOVU1Q0trd2Y0alQrOGloYW9EZFVTbjFQZkJBVXlWcmUydVVO?=
+ =?utf-8?B?MWMwend0YTNDNitMRmdybGszQjVEMk5IUlZaWlVpNWx4THcyWjRkM29tOEdo?=
+ =?utf-8?B?d3UyemdLck0zdk5jMUk0T25sNnBWU1RyNVNHSWEyY2RvZE1TM1pRRFJRV1NM?=
+ =?utf-8?B?cXU2SlhrV3pYcUhiaVZnMU9LeDdreVIwbEFMSnB3R21zTWdraGR6U0VkRWd4?=
+ =?utf-8?B?MEtZTHVtci9qZnYzaGRpamFIakR3anVRQVFTMyt4SGh5VSt0SVczWUpVY21F?=
+ =?utf-8?B?RnZOcy9Zc2FKV1plMHN0S2NrTmJPd2djZlhxVHRKK1I5d1JISWNDRUg0bi8x?=
+ =?utf-8?B?NDVIZXBHdytCVU1kV09yMVBLZ2lJa0M4NXRNWFNiY0lUbi9NVVZ5cm40eWMx?=
+ =?utf-8?B?SWJNcnVUM2p6YjAvYjRIWmROUU9GTFJHdVlLM0xEVFU4Nk5ISEtDdm9EZzNo?=
+ =?utf-8?B?bHhoRUdNdXpnUnQ3VjhRNVc5OS9kMkNtY1BTUlgrcklibmVkQTFzazNab0xs?=
+ =?utf-8?B?dmUyeklrYldTU3JXOEZEWm5YNlZ4NCs2WEQzWEp0Y3F4UVB5WjhPVFVsVFc5?=
+ =?utf-8?B?WnJPa0x6cStXWGlTTHQzRnZsbm1BcUlEVCt5ditXVjJRdFQrck80TjljbFFS?=
+ =?utf-8?B?UnRMQlIrRlc2YUpnWlhsbURaUHRpSG56cmFseTBJL1hsOUF6TGVieWhvdnA0?=
+ =?utf-8?B?UDlwZGxBMHhJaW1MTTdqRWs4cUtTaUd1Rk9ndi9jWjg1N2VQNGw2RVRpbVJH?=
+ =?utf-8?B?UXdzNFhTTnowaGxTK1ZpM00xbTBzY0l3dHRQUkF0Y0kvbkxPYzRsOUpYd0xn?=
+ =?utf-8?B?RFlKcjd0TnhHaS9meTE1VllWSDBHM0dSSW96SmdVbEsvcWRXMDc2SWRxaklx?=
+ =?utf-8?B?WnN5aXREQ0F1aDJOUFJNcEdPVWdDQVUvVjd2eTdOTkFmZEliZ0ZwcWRVbWtJ?=
+ =?utf-8?B?RDBYRzhkTTJDSHBWSGJIa3lBZjlpT2lVZjcvRWdGejI1UVo5QThqS1lBYkNp?=
+ =?utf-8?B?SmRXR1h6VTUxV3BveHZBWHp6c0YvMjRVSmxuZTI2ek1PSlpjL29QT2tjQ3ln?=
+ =?utf-8?B?dENVOGl6VndjUVZVVVJxajVqSy9iUVVyamljdG1TSXBuOUpoTkxlL0V0SnNn?=
+ =?utf-8?B?azFLWTk5K2ZqYmJSeDJ1eHM1OUNabEhGWENWaHNaUDE4SkxxQ0NyQng4SlVB?=
+ =?utf-8?B?RzBJaG1DbWl3T3BQVjhpSlEreU9aSjZUMWVrUzFFbm5NL25tZmZHeGZ2dnhs?=
+ =?utf-8?B?eDVIZ21XTGQzSm5JRVFsV1hmVlNDaUg2YTkvbnJqYmdRdDBadThQRmg2WThU?=
+ =?utf-8?B?YzV5V1dHTUREa21tREhUZUowRFJLK0NyM3BWbTFUaklUSitxK1l2SWplNG8w?=
+ =?utf-8?B?QVNOeXpGcS9qdlU1QXlreCsyUjZPMEpxRmpJbXQ4M1RteTlvaEVRZXBlbWxh?=
+ =?utf-8?B?TDJMdnRKZmtWamZPL2JEdDVrSmxtMEtzV0Rnd2JWZTl4ZWxKUEE5OFMrR2hJ?=
+ =?utf-8?B?YjFDUStYdXprU1F2Rk5nQmJwcEV3ZVB3RjFnNVJLcERNQXE5S294UzRRNmZ1?=
+ =?utf-8?B?dG5hcWMwYmR4SEFoMHgxQkhBVW5jT1FBeXV6b0M3eTNDZ2lxMUJROGcvL3Rl?=
+ =?utf-8?B?T0plTEtGL2ErbG5FRnJIT2thOStHdURxSE82N1JnMTJzZzNIQk9lMUVhdVNM?=
+ =?utf-8?B?L084NFZNcnRkVUtqQUpTQW5seWxkdExhNVhFQTZ5OW16OU9LSDhJUT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 203fd42c-9cef-4a9b-b04f-08de8ff11996
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 13:18:01.3199
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fiRuxGURMiJdFsZZ+5VdMS46QErt+WgZnru1Act4iWPdfIJhxVU//96fIi9dpccSvlqWYYsKP3fLQOE3GX38EA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P265MB9164
 
-On 26/04/01 02:22PM, Petr Mladek wrote:
-> On Mon 2026-03-30 13:49:48, Rodrigo Alencar wrote:
-> > On 26/03/27 03:17PM, Rodrigo Alencar wrote:
-> > > On 26/03/27 12:21PM, Andy Shevchenko wrote:
-> > > > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:
-> > > > > On 26/03/27 11:17AM, Andy Shevchenko wrote:
-> > > > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:
-> > > > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:
-> > 
-> > ...
-> > 
-> > > > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
-> > > > > > 
-> > > > > > With that we will always consider the fraction part as 32- or 64-bit,
-> > > > > > imply floor() on the fraction for the sake of simplicity and require
-> > > > > > it to be NUL-terminated with possible trailing '\n'.
-> > > > > 
-> > > > > I think this is a good idea, but calling it float or fixed point itself
-> > > > > is a bit confusing as float often refers to the IEEE 754 standard and
-> > > > > fixed point types is often expressed in Q-format.
-> > > > 
-> > > > Yeah... I am lack of better naming.
-> > > 
-> > > decimals is the name, but they are often represented as:
-> > > 
-> > > 	DECIMAL = INT * 10^X + FRAC
-> > > 
-> > > in a single 64-bit number, which would be fine for my end use case.
-> > > However IIO decimal fixed point parsing is out there for quite some time a
-> > > lot of drivers use that. The interface often relies on breaking parsed values
-> > > into an integer array (for standard attributes int val and int val2 are expected).
-> > 
-> > Thinking about this again and in IIO drivers we end up doing something like:
-> > 
-> > val64 = (u64)val * MICRO + val2;
-> > 
-> > so that drivers often work with scaled versions of the decimal value.
-> > then, would it make sense to have a function that already outputs such value?
-> > That would allow to have more freedom over the 64-bit split between integer
-> > and fractional parts.
-> > As a draft:
-> 
-> My understanding is that you want to allow parsing frequencies
-> in the range from microHz to GHz.
+On Wed Apr 1, 2026 at 12:45 PM BST, Miguel Ojeda wrote:
+> With the Rust version bump in place, several Kconfig conditions based on
+> `RUSTC_VERSION` are always true.
+>=20
+> Thus simplify them.
+>=20
+> The minimum supported major LLVM version by our new Rust minimum version
+> is now LLVM 18, instead of LLVM 16. However, there are no possible
+> cleanups for `RUSTC_LLVM_VERSION`.
+>=20
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-Correct, the ABI requires the values in Hz, and I would like to support
-micro Hz resolution, so that 10 GHz can be represensted as:
+Reviewed-by: Gary Guo <gary@garyguo.net>
 
-	10000000000.000000 
- 
-> So, you might want to support input in simple float numbers
-> with some precision, for example, 1.2GHz, 0.345Hz, ...
-> 
-> By simple, I mean that there is no x10^3 or so.
-> 
-> > static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
-> 
-> I would personally change this to something like:
-> 
->   static int _unit_float_ktstrtodec64(const char *s, unsigned int precision, u64 *res, char **unit)
+> ---
+>  arch/Kconfig       | 3 +--
+>  arch/arm64/Kconfig | 8 --------
+>  arch/riscv/Kconfig | 3 ---
+>  init/Kconfig       | 2 --
+>  4 files changed, 1 insertion(+), 15 deletions(-)
 
-I don't really need "unit" for my specific use case, IIUC this pattern is not
-something to be handled by kstrto*(), because those function should requires NUL
-termination. I am not sure why is that, but I like the idea of returning a
-const char* pointer to the end of the conversion (that was the whole point of
-having something like kstrntoull())
- 
-> It would allow to read float number in the the format XXXX.YYYYunit,
-> for example 1.2Ghz
-> 
-> , where:
-> 
->   + _unit_ means that it might set @unit pointer which point to the unit
->     string right after the number part.
-
-as mentioned, the units is defined in the ABI, so this part is not really needed.
-
->   + _float_ means that it will be able to read float numbers
-
-its a decimal fixed precision, decimal point should not float.
-
-> 
->   + @precisions parameter defines the number of digits accepted
->     after the radix point. It is also used as multiplier for scaling
->     the output number.
-
-precision != scale, for this case we have a fixed precision of 64-bits.
-while scale is passed as parameter.
-
-Reference:
-	https://www.ibm.com/docs/ro/informix-servers/12.10.0?topic=types-decimalps-data 
-
-> 
->   + @res is pointer to the read number multiplied by the given
->     @precision
-> 
->   + @unit will be set to string after the number
-> 
-> For example:
-> 
->   + s="1.2GHz", precision=3 will result in *res=1200, *unit="GHz"
->   + s="0.0100004", precision=3 will result in *res=10, *unit=""
->   + s=1.234567GHz, precision=3 will result in *res=1235, *unit="GHz"
-> 
-> Note that the result is rounded in the last example.
-> 
-> The function might be used like simple_strtoull() in memparse(),
-> see lib/cmdline.c. Which is able to read the given size in B
-> and handle various units like kB, GB, ...
-
-As dicussed above, scaling the value based on the units is not my use case.
-
-> 
-> > {
-> > 	u64 _res = 0, _frac = 0;
-> > 	unsigned int rv;
-> > 
-> > 	if (*s != '.') {
-> > 		rv = _parse_integer(s, 10, &_res);
-> > 		if (rv & KSTRTOX_OVERFLOW)
-> > 			return -ERANGE;
-> > 		if (rv == 0)
-> > 			return -EINVAL;
-> > 		s += rv;
-> > 	}
-> > 
-> > 	if (*s == '.') {
-> > 		s++;
-> > 		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> > 		if (rv & KSTRTOX_OVERFLOW)
-> > 			return -ERANGE;
-> > 		if (rv == 0)
-> > 			return -EINVAL;
-> > 		s += rv;
-> > 		if (rv < scale)
-> > 			_frac *= int_pow(10, scale - rv);
-> > 		while (isdigit(*s)) /* truncate */
-> > 			s++;
-> 
-> We might/should use the first digit to round the _frac.
-
-flooring should not be a problem if it is documented like that.
-I suppose we cannot afford to carry over all roundings from
-subsequent digits. If so, we would be parsing it all and use
-div64 which I would like avoid.
-
-> > 	}
-> > 
-> > 	if (*s == '\n')
-> > 		s++;
-> > 	if (*s)
-> > 		return -EINVAL;
-> 
-> I would omit this. Instead I would set @unit pointer so that the
-> caller might handle units defined after the number.
-
-I understand that this is the whole point of creating a kstrto*()
-function.
-
-> > 	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> > 	    check_add_overflow(_res, _frac, &_res))
-> > 		return -ERANGE;
-> > 
-> > 	*res = _res;
-> > 	return 0;
-> > }
-> 
-> Otherwise, this approach looks sensible to me. IMHO, some generic
-> API for reading numbers with misc units should be usable in more
-> situations. And it would make the kernel interface more user
-> friendly.
-> 
-> Of course, we must not over-engineer it. But the above does not
-> look much more complex than we already have.
-
-I really appreciate your time looking into this, thanks.
- 
--- 
-Kind regards,
-
-Rodrigo Alencar
