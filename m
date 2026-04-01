@@ -1,149 +1,144 @@
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4DAD364949;
-	Wed,  1 Apr 2026 08:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82A3B38AC99;
+	Wed,  1 Apr 2026 08:31:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775032092; cv=none; b=jvehMdoH5p7UsZTzpWvBrAhhPKKMiinn/8gsPqvjk4VUwY+ZlndxdBL+CpJ35rDbiKaK+R8m5xAqucxdcncvPB1Eg8s/lzMVYAsVDItpgjuISFuNxhNLcEhXjvk9DEn782yCUKD92/1wg/bSqHIucvSFsEkXrfpArIthYAYADUM=
+	t=1775032313; cv=none; b=D6lv9MxFn76dDyIppJVhb9oyN7F1v6b79S2xqqslot3Rb9Utc3H5uHPzpdjUpOnn7su/m6NyhB65oa4pokEuGadj42UmcPWCYtRm738dwZye+hmp2kpk4b+cubqTEprjP0Glr5ifx/lD2RTDQpOvrXmQHuuogPPrQlqxSbREkbs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775032092; c=relaxed/simple;
-	bh=ILioDXFPeDc8sI7qJ8enfanclQiViVcwDBkZCyY1L8I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OrJ46cKlaHes8f1WsMMTLBj5uvJr0j0F4Bkx1HQnYfxyt5cVvLg9bhZgO/J2ZdUY0WJEKhonKuSngjn3hyMaKWUkEYnl+4lzbHemmErQXsL4eoz77YObB5D/U9bHLdHlmah/BUA7W9a35pI2IHZNmxfDWU092pFC52KP29sn8IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cDtgeijh; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1775032313; c=relaxed/simple;
+	bh=7a44slUpgCLOzBlar2fCsvCpO3HYMlbpOWn8sctsPaM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XRaXtAcsN47DSvUdChLClB0kSbVQRSseVjETw3uQ4Q9zKpBrW4jDfV70qHiZ2GP6j+wwfIf2iDmSVoa6mg1jOPkwZIwi6r63WAJ6FlflkgS8SoO1F0m7njMyBMiyXdB46B1pN5KXmpLDCDnNIogWBkxvzLKqCPuBhz4b/J57XLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=XlWtHq93; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cDtgeijh"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4flymJ3sjDz9vKb;
-	Wed,  1 Apr 2026 10:28:00 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1775032080;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tb1F2P/gPVX7hmvyL7zuDD5FVQ+lQUkUvdkCl8Wclqk=;
-	b=cDtgeijh/xXy7nE6xhMCdiIacIOVa648Gbf4U7ObTHYmEsqmmM9Jyy7SpQFLBda+CsZOih
-	zZFH9+azWNF50WEPVw9dsvkE3Vu1EHAbC4Qy8kushhoKKPwL/+dvNDvpLxC8ymM3pjV6V+
-	gg7VKq9XTTLS+0eWtrNlFiumCpu2xZPc0o6B9O1GBaIZ9hM1qMEdYStpFEZ5Ki2SiKBLWI
-	RLn63RLyF3/LXPrTZsiCdxIDF8tMR+qw1Wp5G3BJvePt2t5ZhSjO+uASNS3JmiuyXDGoPI
-	a9LDuiXhSaGBzBGIsLuYwWnWbmdYLo9apoKhudIQ0IopI5nxR5Icz6rlrF+eVg==
-Message-ID: <824bf7a3-44ad-4da3-b019-08e43a4cc192@mailbox.org>
-Date: Wed, 1 Apr 2026 10:27:46 +0200
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="XlWtHq93"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=uRLsprxGCyRJMqJHcEPb7n5b3dlx4z0erNrsn6GquF8=; b=XlWtHq93MIrwpCRR7h926GNdco
+	CrN1RpPrGIRpaURSoDMtd+iBK4GOA0NWxuc10D5ogR79EXSfw0Gl69VdFIVlqIxZftEMUjSKTMTpQ
+	5l3rPEGx7ZGdWlXuhkcXOIWxKkVN3bVOjvpJ8eQrs+F0RYeKM/1L3gDNp4BXi7HT2Til7BCir0xbx
+	75jvGLCSn92QtjMRmGdvvkLYIPgc/zTzPc+WKu87Eq69z41hZrI8MtOXk2haLqxEPv5SwSgac4GyU
+	cQVHuIeVP0hIIo/iy3FcqWrHmKZPN8LubxhRlpt5iQ0CJu+4NoN74/lruSO9GMt38lF6pqj65purM
+	gsv3a8Dw==;
+Received: from 2001-1c00-8d85-4b00-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:4b00:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w7qzH-0000000A3p0-3oHE;
+	Wed, 01 Apr 2026 08:31:44 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id B80E83032D1; Wed, 01 Apr 2026 10:31:37 +0200 (CEST)
+Date: Wed, 1 Apr 2026 10:31:37 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Finn Thain <fthain@linux-m68k.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	llvm@lists.linux.dev, Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nsc@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar
+ types
+Message-ID: <20260401083137.GT3738786@noisy.programming.kicks-ass.net>
+References: <20260331163716.work.696-kees@kernel.org>
+ <20260331163725.2765789-5-kees@kernel.org>
+ <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
+ <202603311253.95C54588E@keescook>
+ <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
+ <202603311321.4EE9FEA@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v11 03/22] drm: Add new general DRM property "color
- format"
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
- =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
- Rodrigo Siqueira <siqueira@igalia.com>,
- Alex Deucher <alexander.deucher@amd.com>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=C3=BCbner?=
- <heiko@sntech.de>, Andy Yan <andy.yan@rock-chips.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- kernel@collabora.com, amd-gfx@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-doc@vger.kernel.org, Werner Sembach <wse@tuxedocomputers.com>,
- Andri Yngvason <andri@yngvason.is>, Marius Vlad <marius.vlad@collabora.com>
-References: <20260324-color-format-v11-0-605559af4fb4@collabora.com>
- <acPmcMbUvzWMzC-Q@intel.com>
- <CAPY8ntCRPgN_ayHMGXFv9OrJrdyakUcUT0rvgY5J=FvdCFb6eA@mail.gmail.com>
- <7991520.DvuYhMxLoT@workhorse>
-From: =?UTF-8?Q?Michel_D=C3=A4nzer?= <michel.daenzer@mailbox.org>
-Content-Language: en-CA
-In-Reply-To: <7991520.DvuYhMxLoT@workhorse>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: ce369c97bd17c9d38f0
-X-MBO-RS-META: ru6a8tkc6pfuiejgd9pamkj44hgh76qb
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202603311321.4EE9FEA@keescook>
 
-On 3/26/26 13:02, Nicolas Frattaroli wrote:
-> On Thursday, 26 March 2026 12:16:12 Central European Standard Time Dave Stevenson wrote:
->> On Wed, 25 Mar 2026 at 13:43, Ville Syrjälä
->> <ville.syrjala@linux.intel.com> wrote:
->>> On Wed, Mar 25, 2026 at 12:49:19PM +0000, Dave Stevenson wrote:
->>>> On Tue, 24 Mar 2026 at 16:02, Nicolas Frattaroli
->>>> <nicolas.frattaroli@collabora.com> wrote:
->>>>>
->>>>> +/**
->>>>> + * enum drm_connector_color_format - Connector Color Format Request
->>>>> + *
->>>>> + * This enum, unlike &enum drm_output_color_format, is used to specify requests
->>>>> + * for a specific color format on a connector through the DRM "color format"
->>>>> + * property. The difference is that it has an "AUTO" value to specify that
->>>>> + * no specific choice has been made.
->>>>> + */
->>>>> +enum drm_connector_color_format {
->>>>> +       /**
->>>>> +        * @DRM_CONNECTOR_COLOR_FORMAT_AUTO: The driver or display protocol
->>>>> +        * helpers should pick a suitable color format. All implementations of a
->>>>> +        * specific display protocol must behave the same way with "AUTO", but
->>>>> +        * different display protocols do not necessarily have the same "AUTO"
->>>>> +        * semantics.
->>>>> +        *
->>>>> +        * For HDMI, "AUTO" picks RGB, but falls back to YCbCr 4:2:0 if the
->>>>> +        * bandwidth required for full-scale RGB is not available, or the mode
->>>>> +        * is YCbCr 4:2:0-only, as long as the mode and output both support
->>>>> +        * YCbCr 4:2:0.
->>>>
->>>> Is there a reason you propose dropping back to YCbCr 4:2:0 without
->>>> trying YCbCr 4:2:2 first? Minimising the subsampling is surely
->>>> beneficial, and vc4 for one can do 4:2:2 but not 4:2:0.
->>>
->>> On HDMI 4:2:2 is always 12bpc, so it doesn't save any bandwidth
->>> compared to 8bpc 4:4:4.
->>
->> It does save bandwidth against 10 or 12bpc RGB 4:4:4.
->>
->> Or is the implication that max_bpc = 12 and
->> DRM_CONNECTOR_COLOR_FORMAT_AUTO should drop bpc down to 8 and select
->> RGB in preference to selecting 4:2:2?
+On Tue, Mar 31, 2026 at 01:31:16PM -0700, Kees Cook wrote:
+
+(still slowly digesting the thread)
+
+> Yeah, as you mentioned earlier, I'd agree that nesting is rarely
+> useful. The only thing I'd want to be careful about is ordering/scope. I
+> *think* it would just operate as a "goto" and things like the cleanup.h
+> handlers wouldn't be involved: they operate when a scope is crossed
+> like before. And I think the overflow result wouldn't be represented
+> anywhere. i.e. the wrapped/truncated value wouldn't be stored:
 > 
-> Yes. Some people consider max-bpc to not be a legitimate way of requesting
-> an actual bpc, and don't think drivers will choose the highest bpc <= max-bpc,
-> and instead may negotiate a fantasy number anywhere below or equal to max-bpc.
+> int func()
+> {
+> 	...
+> 	u8 __ob_trap product = 5;
+> 	...
+> 	product = a * b; // if store is truncated, goto __overflow
+> 	...
+> 	return product;
+> 
+> __overflow:
+> 	pr_info("%u\n", product); // shows "5"
+> 	return -1;
+> }
 
-Ridiculing others like this for disagreeing with you is uncalled for.
+Note that there is a 'fun' problem with this in combination with
+cleanup.h.
 
-Is there any evidence for your claim that the driver must always use the 
-highest possible bpc <= max-bpc?
+Something like:
+
+int func()
+{
+	u8 __ob_trap prod = 0;
+
+	scoped_guard (mutex, &my_lock) {
+		prod = a * b;
+	}
+
+	return prod;
+
+__overflow:
+	// whatever
+	return -1;
+}
+
+is fine. *HOWEVER*, something like:
+
+int func()
+{
+	int __ob_trap size = base + count * extra;
+	int err;
+
+	struct my_obj *obj __cleanup(kfree) = kzalloc(size, GFP_KERNEL);
+
+	err = my_obj_init(obj);
+	if (err)
+		return ERR_PTR(err);
+
+	return_ptr(obj);
+
+__overflow:
+	// what now..
+	return NULL;
+}
+
+is most terribly broken. Specifically, the goto will jump into the scope
+of obj -- and that is not allowed.
 
 
-> Of course this logic could be done in userspace which knows whether the
-> less chroma for more bit depth trade-off is worth it, but userspace does
-> not know the negotiated link bpc, and my attempts at adding a property for
-> it are being blocked.
-
-Assuming you're referring to the concerns I raised there, I don't have the power or intent to block it.
-
-
--- 
-Earthling Michel Dänzer       \        GNOME / Xwayland / Mesa developer
-https://redhat.com             \               Libre software enthusiast
