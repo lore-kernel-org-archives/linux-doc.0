@@ -1,230 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013005.outbound.protection.outlook.com [40.93.201.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28831925BC;
-	Wed,  1 Apr 2026 07:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775028003; cv=none; b=cQBEcu8uZtcP19bXMyVYOh8Y2VDRwme4y7BvgrduUGtGkt/ZGTwXHaXixI6fYiteyTvxgos24S3FeHc8gW5R2PDCrmD/bHdt8lDcxG5+c1FhduZMw4PE+ULjEXLQoBlNjC0wHR4OHAHSUMVGMf+6kshtnyQ+GC1CnZHtd61yhZU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775028003; c=relaxed/simple;
-	bh=AaXZ1hkXmEaMbHVBuzRGZqrQ+ajhhSDVuvYdgPeGXIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aabXBWPnOAg6O/VOLe+N8tNdZoqDhTvgoqoPcHWiRbFpzlvWoBhUk5bBGtoDkOQJjxw0dvMgGoHAiZTlAzxihpBjIPuA9igR2p+/vYTAfZZgA51NZm5Q3AOnH7yyhQxpUsRhkixFynfY8B/zuhkWh6+8+bv53o0B3bMCDKvnwUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ECOgKvwd; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA086391834;
+	Wed,  1 Apr 2026 07:30:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.5
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775028642; cv=fail; b=KXC9XTAMnOJOJBk/7GuM/2h2M6tgFbk4kNxs4ndBwZaqsswC9nNT7PPZafXCJYDzkMTK7BLx3mVcxt6hveOUjxX1shpOY5aE4VAUonFGwGF0/OuT102zw7+KW+5QxqpnH+BjN2ZJyDMnP5Gq4Ry0aykGg5NYnsuZB4IArFSWN/8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775028642; c=relaxed/simple;
+	bh=jNZAfKqhOMlUoJpOlWiJScp28OaPyI2i78phpqAhsRM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=uwQfAmDiImyN2lFshmttcRwzMYmOtMG9noHHTGOc9C6zzwzZq+QHXtGw/kkUpfFRdCyNcbLkjZlIcpB8+s1AHFTwpq43NbRrGje9xEnSpZADhJqmaUF6UT1A+CjaF2e2z7rkGgdQ12cc7C0eM2gzOhleSYcERMw5fxcV+3g9tkM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=C7uA3xbG; arc=fail smtp.client-ip=40.93.201.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ECOgKvwd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C236C2BCB3;
-	Wed,  1 Apr 2026 07:19:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775028003;
-	bh=AaXZ1hkXmEaMbHVBuzRGZqrQ+ajhhSDVuvYdgPeGXIc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ECOgKvwdJY4MCK5oFHX276N+znXANU/YjQw/Z33mc0kK0hirbKtyqJW2bIXd2EIo7
-	 XI5aLMezx2oJSmsBQIj0Xh5ZFDr+29wIfuENSKclv24/7YvARNsIJO4rXiHOE2GqEU
-	 zGHUj2vB99pB8BLxaKMfDhwI1u1JFmEbuSOaCniV4vop55ORupguoMKoRhJQ9IVDK0
-	 B3C2LQGGqB+R7VNbmCkMznTWd1piLkjFZ4bImt39RVjb9fbfRLq9EjFDOTNX+zNN8R
-	 dqkm6tlT04eukpNhXz+aT7D/WiBxdG4GUpZ7rnmFlIIRC48TxR/tkzufi8CzEd5ESV
-	 yIAxUF/ulmwHw==
-Message-ID: <bd0a4235-a7f0-4624-802c-aa49a9d13f29@kernel.org>
-Date: Wed, 1 Apr 2026 09:19:51 +0200
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="C7uA3xbG"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mpKuFoTTlzomWiDl2ESic474u5ZvlmuYHLEJs93v4hBMI1xe7wULiYvbltqqZuQ0+uopLumAbs+ktdKSZw97XutLeAaWHBpGFUQ39mWsDtGUoAMcK/5SrnCg5Q5M0aOEYyiVsf4nPhztmyCwXw3lGEpJPGrKpfwTHPTndHc/EbsnPGauInUFKqoqmwGmvWhv5f2sxOHL3pM/ZAexgBwM6fJvSdw5clPZMuDy3rSzKkimxIcgSHIqa5BNVRM0YjjY5S2neq6NR1/vsZnFXDdXkQM3r73MJT1xPX1TY/xsZO42xMyhamiqnj6sTtJXwJsIHBbdCIs2qzx20hvfdqtn9g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/8OEV205hOziypl1nmJRGmEg0Pk/aozqrUUWMUkOv9w=;
+ b=CwLwHV3zhKwNjYZrOn44wgZiYb8VEvtwF7aR9CdGk97KxE50ouUJnZdml+tx6XlJJ3/zWYHiSqA4/Kf0qbqaLUqGDhYInMMNeoRd0glXLEbHQ+DESrOgDUdcBET2ptw9oGOceZJWxqQnu32gHeSd46shxmP13KjDv8XITuANLQ1lijO8PmuNERCpONWyTd9tvc7Gtz1tF5cPYz9DB5W+Cjo5hr7sa3uzG0ulX5RewIFlZ4J54VeGNiwABeuMrtMxchhczd+9U7NSBIkeXBc/ZvnzCGI8uielTIuPRpCJ8OjNVcrmrieC/VFrVsLuz6YgPpbi2O+aRSHKLqmpOdlg7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 198.47.21.195) smtp.rcpttodomain=vger.kernel.org smtp.mailfrom=ti.com;
+ dmarc=pass (p=quarantine sp=none pct=100) action=none header.from=ti.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/8OEV205hOziypl1nmJRGmEg0Pk/aozqrUUWMUkOv9w=;
+ b=C7uA3xbGLzUG5rmqVIlCvVyhVm7Dwi5QYsU8hvovXaeVsrDg2UYXeeyiqwMCkdn+5iI6+WvM7e5SD6d5aWuCbHEphzimgFXKk9ka1vAbfoFdnWdtFWYvo3sfZ0LsB6PMgvUAh/x+nEfMVE3cyifQn1JKp/wJ03Iu6Jq/mxW8E0o=
+Received: from BL1P223CA0012.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:2c4::17)
+ by MW5PR10MB5826.namprd10.prod.outlook.com (2603:10b6:303:19b::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.15; Wed, 1 Apr
+ 2026 07:30:37 +0000
+Received: from BL02EPF00021F68.namprd02.prod.outlook.com
+ (2603:10b6:208:2c4:cafe::2b) by BL1P223CA0012.outlook.office365.com
+ (2603:10b6:208:2c4::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9745.30 via Frontend Transport; Wed,
+ 1 Apr 2026 07:30:31 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.21.195)
+ smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
+ action=none header.from=ti.com;
+Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
+ 198.47.21.195 as permitted sender) receiver=protection.outlook.com;
+ client-ip=198.47.21.195; helo=flwvzet201.ext.ti.com; pr=C
+Received: from flwvzet201.ext.ti.com (198.47.21.195) by
+ BL02EPF00021F68.mail.protection.outlook.com (10.167.249.4) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17 via Frontend Transport; Wed, 1 Apr 2026 07:30:36 +0000
+Received: from DFLE211.ent.ti.com (10.64.6.69) by flwvzet201.ext.ti.com
+ (10.248.192.32) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
+ 2026 02:30:33 -0500
+Received: from DFLE207.ent.ti.com (10.64.6.65) by DFLE211.ent.ti.com
+ (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 1 Apr
+ 2026 02:30:33 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE207.ent.ti.com
+ (10.64.6.65) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Wed, 1 Apr 2026 02:30:33 -0500
+Received: from a0507033-hp.dhcp.ti.com (a0507033-hp.dhcp.ti.com [172.24.231.225])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 6317UN3Q3832504;
+	Wed, 1 Apr 2026 02:30:28 -0500
+From: Aksh Garg <a-garg7@ti.com>
+To: <linux-pci@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<mani@kernel.org>, <kwilczynski@kernel.org>, <bhelgaas@google.com>,
+	<corbet@lwn.net>, <kishon@kernel.org>, <skhan@linuxfoundation.org>,
+	<lukas@wunner.de>, <cassel@kernel.org>, <alistair@alistair23.me>
+CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<s-vadapalli@ti.com>, <danishanwar@ti.com>, <srk@ti.com>, <a-garg7@ti.com>
+Subject: [PATCH v2 1/4] PCI/DOE: Move common definitions to the header file
+Date: Wed, 1 Apr 2026 13:00:19 +0530
+Message-ID: <20260401073022.215805-2-a-garg7@ti.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260401073022.215805-1-a-garg7@ti.com>
+References: <20260401073022.215805-1-a-garg7@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
- __ob_trap and __ob_wrap
-To: Kees Cook <kees@kernel.org>, Peter Zijlstra <peterz@infradead.org>
-Cc: Justin Stitt <justinstitt@google.com>, Marco Elver <elver@google.com>,
- Andrey Konovalov <andreyknvl@gmail.com>,
- Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com,
- linux-doc@vger.kernel.org, llvm@lists.linux.dev,
- Linus Torvalds <torvalds@linux-foundation.org>,
- Nicolas Schier <nsc@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20260331163716.work.696-kees@kernel.org>
- <20260331163725.2765789-3-kees@kernel.org>
-From: Vincent Mailhol <mailhol@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=mailhol@kernel.org; keydata=
- xjMEZluomRYJKwYBBAHaRw8BAQdAf+/PnQvy9LCWNSJLbhc+AOUsR2cNVonvxhDk/KcW7FvN
- JFZpbmNlbnQgTWFpbGhvbCA8bWFpbGhvbEBrZXJuZWwub3JnPsKZBBMWCgBBFiEE7Y9wBXTm
- fyDldOjiq1/riG27mcIFAmdfB/kCGwMFCQp/CJcFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcC
- F4AACgkQq1/riG27mcKBHgEAygbvORJOfMHGlq5lQhZkDnaUXbpZhxirxkAHwTypHr4A/joI
- 2wLjgTCm5I2Z3zB8hqJu+OeFPXZFWGTuk0e2wT4JzjgEZx4y8xIKKwYBBAGXVQEFAQEHQJrb
- YZzu0JG5w8gxE6EtQe6LmxKMqP6EyR33sA+BR9pLAwEIB8J+BBgWCgAmFiEE7Y9wBXTmfyDl
- dOjiq1/riG27mcIFAmceMvMCGwwFCQPCZwAACgkQq1/riG27mcJU7QEA+LmpFhfQ1aij/L8V
- zsZwr/S44HCzcz5+jkxnVVQ5LZ4BANOCpYEY+CYrld5XZvM8h2EntNnzxHHuhjfDOQ3MAkEK
-In-Reply-To: <20260331163725.2765789-3-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF00021F68:EE_|MW5PR10MB5826:EE_
+X-MS-Office365-Filtering-Correlation-Id: d8bf949e-ab45-4752-5275-08de8fc09115
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|82310400026|1800799024|36860700016|921020|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	QnYsR+k0hTGagduKICOj88AEPCVtSkNg/6NyjjoF5tKaneWlhHVYIpM0jpHlEByCD3sBaYpMe4QgKcbkGzgNMZ3PRxQ8zXvGfb3DqhxgAHseY1u7Y83Ez3Zv+2IhF48wOFzsP2vpg2XZ8qDa91+d7AQ3VYo8CkqIx0UV/dzulpOZc0DIa+88MTtXklUdTrzqHMBQYNXvIMXvEgT3k4LLSFPtHNZV/JdGRJgi82N/oN8iZGwGMuKF747nVSvoonzI26myoZnvAfYzrPq0jf6IFagsHmmTpKbwCEEj3hBtVjuVy/16bOy2/K23OMULUO/uBzJRQ2JGqImE0OL0v6tD3rT2ok4RFF+7kzztMEDZIhP9QfN6Q+36YaWw6NzsdAIGz/ht1gDXJozZOdPyoZGkQ2nXVZ7a8eD+zHtojQijJzlk/3KB7saUPJymzvdbc8EynItjIakvzACEm8QbaFktdijwidzWUMJZd22Dl614HodGR8QBeNDgIiRsfqw1O+E+bJTKP6uOZ4U6PkPIVbtonjQFoOrQ2VpdPMgJvmMZa+yXAEQoPoY5WIe7s2RE/y5Ly2JxPHXuoVBJxrLvvYOT0Z08HBW5e9lY1WB3a5lwYdn9Uf4kIWOOnwMEBUZtNSqzIas9oAHKoYIYF60cYskGx8VznAE6eKT73jRU39t864gXklx5cJzCaJrO1k5TKq+zaSAXwYWQL24WQKyqoz1PYmV+XUQOExw3yrlSmrnLh+rVkDTpx0Fc9E2ctdiU6yjtKqpzgTTM6v9tSn1ypVEu2hNvB8Tci629FRNG3tP+q319RitiE1PyNQphsGB9uIoo
+X-Forefront-Antispam-Report:
+	CIP:198.47.21.195;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:flwvzet201.ext.ti.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(376014)(7416014)(82310400026)(1800799024)(36860700016)(921020)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	aS6LAhxRx53RNyPfSfj+XoB83Xfcz4CHv8JocbC0PRB2AufYftbtlMB08V/X5fwljFheIh0NBkYYAbKQ/iRLho4e9S5cCnkteGEjavBpwfMRG6jOnb08K9EOy6/KVZwFwV11H8B0wadVr0H9uzH9D4XzhrkA9lhTH8BbCROqNMpjEpBTZpyqpAtDDiBywRFeDM0xzwQgzdPZe0Lp8GwsFryreepb2kAvv/MISBrZBnvCmaYLiavwyqBLuNm9iM7YQMQXvtNskqeowZ91YNqvxyzu3uYHGBp/r7gl406p+x7RPjir98ejNgIQtqBgCuHcgoOWvel4fFxGJI6HS/0aTSVusV/sWJI5aAE0tVe2swgTPSmRZmhV/SRwWPeoH6eoYNvAId06MHTsP0iAY54+hAPMcCqRB0Ifi/yVbkjLqsFZnvwjv5mbA0JLspNMMhF/
+X-OriginatorOrg: ti.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2026 07:30:36.2531
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8bf949e-ab45-4752-5275-08de8fc09115
+X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.21.195];Helo=[flwvzet201.ext.ti.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF00021F68.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR10MB5826
 
-Hi Kees,
+Move common macros and structures from drivers/pci/doe.c to
+drivers/pci/pci.h to allow reuse across root complex and
+endpoint DOE implementations.
 
-Many thanks for this series. Great work and I am ready it with a lot of
-interest!
+PCI_DOE_MAX_LENGTH macro can be used outside the PCI core as well,
+hence move the macro to include/linux/pci-doe.h.
 
-Le 31/03/2026 à 18:37, Kees Cook a écrit :
-> From: Justin Stitt <justinstitt@google.com>
-> 
-> When CONFIG_OVERFLOW_BEHAVIOR_TYPES=y, Clang 23+'s Overflow Behavior
-> Type[1] annotations are available (i.e. __ob_trap, __ob_wrap). When not
-> enabled, these need to be empty macros. Document the new annotation and
-> add links from sanitizer docs pointing to the arithmetic-overflow docs.
-> 
-> Link: https://clang.llvm.org/docs/OverflowBehaviorTypes.html [1]
-> Signed-off-by: Justin Stitt <justinstitt@google.com>
-> Co-developed-by: Kees Cook <kees@kernel.org>
-> Signed-off-by: Kees Cook <kees@kernel.org>
-> ---
-> Cc: Marco Elver <elver@google.com>
-> Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Shuah Khan <skhan@linuxfoundation.org>
-> Cc: Miguel Ojeda <ojeda@kernel.org>
-> Cc: Nathan Chancellor <nathan@kernel.org>
-> Cc: <kasan-dev@googlegroups.com>
-> Cc: <linux-doc@vger.kernel.org>
-> Cc: <llvm@lists.linux.dev>
-> ---
->  Documentation/dev-tools/ubsan.rst             |  13 +
->  Documentation/process/arithmetic-overflow.rst | 323 ++++++++++++++++++
->  Documentation/process/deprecated.rst          |  39 +++
->  Documentation/process/index.rst               |   1 +
->  include/linux/compiler_attributes.h           |  12 +
->  MAINTAINERS                                   |   1 +
->  6 files changed, 389 insertions(+)
->  create mode 100644 Documentation/process/arithmetic-overflow.rst
-> 
-> diff --git a/Documentation/dev-tools/ubsan.rst b/Documentation/dev-tools/ubsan.rst
-> index e3591f8e9d5b..9e0c0f048eef 100644
-> --- a/Documentation/dev-tools/ubsan.rst
-> +++ b/Documentation/dev-tools/ubsan.rst
-> @@ -71,6 +71,19 @@ unaligned accesses (CONFIG_HAVE_EFFICIENT_UNALIGNED_ACCESS=y). One could
->  still enable it in config, just note that it will produce a lot of UBSAN
->  reports.
->  
-> +Additional sanitizer options include::
-> +
-> +  CONFIG_OVERFLOW_BEHAVIOR_TYPES=y
-> +
-> +This enables checking for integer arithmetic wrap-around (overflow/underflow).
-> +It instruments signed and unsigned integer overflow, as well as implicit
-> +truncation operations. This option is currently limited to specific types
-> +via the ``__ob_trap`` and ``__ob_wrap`` annotations.
-> +
-> +For detailed information about arithmetic overflow handling, overflow behavior
-> +annotations, and best practices, see:
-> +Documentation/process/arithmetic-overflow.rst
-> +
->  References
->  ----------
->  
-> diff --git a/Documentation/process/arithmetic-overflow.rst b/Documentation/process/arithmetic-overflow.rst
-> new file mode 100644
-> index 000000000000..2f19990f189b
-> --- /dev/null
-> +++ b/Documentation/process/arithmetic-overflow.rst
-> @@ -0,0 +1,323 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _arithmetic_overflow:
-> +
-> +Arithmetic Overflow Resolutions for Linux
-> +=========================================
-> +
-> +Background
-> +----------
-> +
-> +When a calculation's result exceeds the involved storage ranges, several
-> +strategies can be followed to handle such an overflow (or underflow),
-> +including:
-> +
-> +  - Undefined (i.e. pretend it's impossible and the result depends on hardware)
-> +  - Wrap around (this is what 2s-complement representation does by default)
-> +  - Trap (create an exception so the problem can be handled in another way)
-> +  - Saturate (explicitly hold the maximum or minimum representable value)
+These changes prepare the groundwork for the DOE endpoint implementation
+that will reuse these common definitions.
 
-I just wanted to ask how much consideration was put into this last
-"saturate" option.
+Co-developed-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+Signed-off-by: Siddharth Vadapalli <s-vadapalli@ti.com>
+Signed-off-by: Aksh Garg <a-garg7@ti.com>
+---
 
-When speaking of "safe" as in "functional safety" this seems a good
-option to me. The best option is of course proper handling, but as
-discussed, we are speaking of the scenario in which the code is already
-buggy and which is the fallout option doing the least damage.
+Changes since v1:
+- Moved the common macros that need not be visible outside the PCI core
+  to drivers/pci/pci.h instead to include/linux/pci-doe.h as suggested
+  by Lukas Wunner
+- Removed the redundant empty inlines guarded with CONFIG_PCI_DOE in
+  include/linux/pci-doe.h.
 
-What I have in mind is a new __ob_saturate type qualifier. Something like:
+v1: https://lore.kernel.org/all/20260213123603.420941-3-a-garg7@ti.com/
 
-	void foo(int num)
-	{
-		int __ob_saturate saturate_var = num;
-	
-		saturate_var += 42;
-	}
+ drivers/pci/doe.c       | 11 -----------
+ drivers/pci/pci.h       |  9 +++++++++
+ include/linux/pci-doe.h |  3 +++
+ 3 files changed, 12 insertions(+), 11 deletions(-)
 
-would just print a warning and continue execution, thus solving the
-trapping issue. The above code would generate something equivalent to that:
-
-	void foo(int num)
-	{
-		int __ob_saturate saturate_var = num;
-	
-		if (check_add_overflow(saturate_var, increment,
-				       &saturate_var) {
-			WARN(true, "saturation occurred");
-			saturate_var = type_max(saturate_var);
-	}
-
-People using those saturating integers could then later check that the
-value is still in bound.
-
-This is basically what your size_add() from overflow.h is already doing.
-If an overflow occurred, the allocation the addition does not trap, it
-just saturates and let the allocation functions properly handle the issue.
-
-The saturation can neutralize many security attacks and can mitigate
-some safety issues. Think of the Ariane 5 rocket launch: a saturation
-could have prevented the unintended fireworks.
-
-The caveat I can think of is that the old overflow check pattern becomes
-invalid. Doing:
-
-	if (saturate_var + increment < increment)
-
-is now bogus and would need to be caught if possible by static analysis.
-So those saturating integers will only be usable in newly written code
-and could not be easily retrofitted.
-
-> +In the C standard, three basic types can be involved in arithmetic, and each
-> +has a default strategy for solving the overflow problem:
-> +
-> +  - Signed overflow is undefined
-> +  - Unsigned overflow explicitly wraps around
-> +  - Pointer overflow is undefined
-
-Nitpick: the C standard uses different definitions than yours. In the
-standard:
-
-  - overflow is *always* undefined
-  - unsigned integer wraparound
-  - signed integer overflow
-
-The nuance is that in the standard unsigned integers do not overflow,
-they just wraparound.
-
-I am not asking you to change your terminology, but it could be good to
-state in your document that your definition of overflow differs from the
-standard's definition. Maybe a terminology section could help.
-
-
-Yours sincerely,
-Vincent Mailhol
+diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
+index 7b41da4ec11a..e8d9e95644b3 100644
+--- a/drivers/pci/doe.c
++++ b/drivers/pci/doe.c
+@@ -28,12 +28,6 @@
+ #define PCI_DOE_TIMEOUT HZ
+ #define PCI_DOE_POLL_INTERVAL	(PCI_DOE_TIMEOUT / 128)
+ 
+-#define PCI_DOE_FLAG_CANCEL	0
+-#define PCI_DOE_FLAG_DEAD	1
+-
+-/* Max data object length is 2^18 dwords */
+-#define PCI_DOE_MAX_LENGTH	(1 << 18)
+-
+ /**
+  * struct pci_doe_mb - State for a single DOE mailbox
+  *
+@@ -63,11 +57,6 @@ struct pci_doe_mb {
+ #endif
+ };
+ 
+-struct pci_doe_feature {
+-	u16 vid;
+-	u8 type;
+-};
+-
+ /**
+  * struct pci_doe_task - represents a single query/response
+  *
+diff --git a/drivers/pci/pci.h b/drivers/pci/pci.h
+index 13d998fbacce..66b7ec80f46f 100644
+--- a/drivers/pci/pci.h
++++ b/drivers/pci/pci.h
+@@ -681,6 +681,15 @@ struct pci_sriov {
+ 	bool		drivers_autoprobe; /* Auto probing of VFs by driver */
+ };
+ 
++/* DOE Mailbox state flags */
++#define PCI_DOE_FLAG_CANCEL	0
++#define PCI_DOE_FLAG_DEAD	1
++
++struct pci_doe_feature {
++	u16 vid;
++	u8 type;
++};
++
+ #ifdef CONFIG_PCI_DOE
+ void pci_doe_init(struct pci_dev *pdev);
+ void pci_doe_destroy(struct pci_dev *pdev);
+diff --git a/include/linux/pci-doe.h b/include/linux/pci-doe.h
+index bd4346a7c4e7..abb9b7ae8029 100644
+--- a/include/linux/pci-doe.h
++++ b/include/linux/pci-doe.h
+@@ -19,6 +19,9 @@ struct pci_doe_mb;
+ #define PCI_DOE_FEATURE_CMA 1
+ #define PCI_DOE_FEATURE_SSESSION 2
+ 
++/* Max data object length is 2^18 dwords */
++#define PCI_DOE_MAX_LENGTH		(1 << 18)
++
+ struct pci_doe_mb *pci_find_doe_mailbox(struct pci_dev *pdev, u16 vendor,
+ 					u8 type);
+ 
+-- 
+2.34.1
 
