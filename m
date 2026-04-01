@@ -1,23 +1,23 @@
-Received: from out28-73.mail.aliyun.com (out28-73.mail.aliyun.com [115.124.28.73])
+Received: from out28-125.mail.aliyun.com (out28-125.mail.aliyun.com [115.124.28.125])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C51A732AABA;
-	Wed,  1 Apr 2026 02:28:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C87B732AABC;
+	Wed,  1 Apr 2026 02:29:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.125
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775010539; cv=none; b=tKTNq+K2IfnPDceNgoYD8xFhJME86HGURlPI0vbNm6kMHUSrHHaWu1Lrtx8iDrMk3GFkxheNOpVe+svh5JMkti/dBb2Sxp9B6/hlpXHiDmRblaqfCciB7Vwi6azcCDn9G+xO3xPGFbQw/jraKYqtIoxiDJLvyD/oVzXxhMNlqc0=
+	t=1775010549; cv=none; b=hZwmJzodGZYQrphup7oC6aUeBOJq5oBC1e3PdJyRp7sICr1awovkYOf4drq12fTBPey6mcaUhhg5uyTUmS9p5ex3Ktf4QgzPUKwIglfykHTTzjUcMFIUz0H9pmTuCqunJejtX0IA+yqcW8qfqj4Vfjzm8kMti+jEME1u4BiWimM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775010539; c=relaxed/simple;
-	bh=mQ3c85qmG5mCLKkLJIM5TV8h8s8cFWs3whvIHT8Mszc=;
+	s=arc-20240116; t=1775010549; c=relaxed/simple;
+	bh=CqV+OVnqK+CgdlxN+HUyI60wjwxLNPTS4aZuThLXNz0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=R8HcBvYrZh/iihVc7B6iAbAwibOMstGWzg9AZdOW8VGmTFzs1JdkVNfAdi2AVUFu23dBPZN2AqtXLINXv4/3nHa2eV2Jbdft4xSu2lidI+GpKuCAa919WgT13H+R+b/9IsyFWILYGAQkYJ/jSvV1tKynee0FCAmW8tSa9oCIQU8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.73
+	 MIME-Version; b=s7i8xl/8KGD7M7S3MmwlcJFWhKXB1vVEagA+gCQzVpIzW4DbMk7onJbpe9+Q0ioQ145T2i0GK9c85aEyNxObsXJaxXLVSLOo5+Z40lSXZhc0CF3YWC7bpfp4HJTVcPknLCpVYGqlyDpIZH1UWRzB7+AQPYrNUHhsZ17q7WVXank=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.125
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.0671315|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_system_inform|0.0221906-0.00311292-0.974696;FP=16597462795852193458|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033023018039;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=20;RT=20;SR=0;TI=SMTPD_---.h2VrTHw_1775010202;
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.h2VrTHw_1775010202 cluster:ay29)
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.06712908|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0123586-0.0139125-0.973729;FP=14580364800796806826|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033032027189;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=20;RT=20;SR=0;TI=SMTPD_---.h2VrTWc_1775010215;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.h2VrTWc_1775010215 cluster:ay29)
           by smtp.aliyun-inc.com;
-          Wed, 01 Apr 2026 10:23:23 +0800
+          Wed, 01 Apr 2026 10:23:36 +0800
 From: "illusion.wang" <illusion.wang@nebula-matrix.com>
 To: dimon.zhao@nebula-matrix.com,
 	illusion.wang@nebula-matrix.com,
@@ -39,9 +39,9 @@ Cc: andrew+netdev@lunn.ch,
 	hkallweit1@gmail.com,
 	jani.nikula@intel.com,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v10 net-next 01/11] net/nebula-matrix: add minimum nbl build framework
-Date: Wed,  1 Apr 2026 10:23:04 +0800
-Message-ID: <20260401022318.28550-2-illusion.wang@nebula-matrix.com>
+Subject: [PATCH v10 net-next 11/11] net/nebula-matrix: add common dev start/stop operation
+Date: Wed,  1 Apr 2026 10:23:14 +0800
+Message-ID: <20260401022318.28550-12-illusion.wang@nebula-matrix.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260401022318.28550-1-illusion.wang@nebula-matrix.com>
 References: <20260401022318.28550-1-illusion.wang@nebula-matrix.com>
@@ -53,354 +53,305 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-1.Add nbl min build infrastructure for nbl driver.
-
-2.Implemented the framework of pci device initialization.
+start common dev: config msix map table, alloc and enable msix vectors,
+register mailbox ISR and enable mailbox irq
 
 Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
 ---
- .../device_drivers/ethernet/index.rst         |   1 +
- .../ethernet/nebula-matrix/nbl.rst            |  27 +++++
- MAINTAINERS                                   |  10 ++
- drivers/net/ethernet/Kconfig                  |   1 +
- drivers/net/ethernet/Makefile                 |   1 +
- drivers/net/ethernet/nebula-matrix/Kconfig    |  34 ++++++
- drivers/net/ethernet/nebula-matrix/Makefile   |   6 +
- .../net/ethernet/nebula-matrix/nbl/Makefile   |   6 +
- .../net/ethernet/nebula-matrix/nbl/nbl_core.h |  16 +++
- .../nbl/nbl_include/nbl_include.h             |  21 ++++
- .../net/ethernet/nebula-matrix/nbl/nbl_main.c | 113 ++++++++++++++++++
- 11 files changed, 236 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
- create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
- create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.c      | 214 ++++++++++++++++++
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  30 ++-
+ 2 files changed, 243 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-index 5f3f06111911..14868fabc1c6 100644
---- a/Documentation/networking/device_drivers/ethernet/index.rst
-+++ b/Documentation/networking/device_drivers/ethernet/index.rst
-@@ -48,6 +48,7 @@ Contents:
-    meta/fbnic
-    microsoft/netvsc
-    mucse/rnpgbe
-+   nebula-matrix/nbl
-    netronome/nfp
-    pensando/ionic
-    pensando/ionic_rdma
-diff --git a/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst b/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
-new file mode 100644
-index 000000000000..262796717dc4
---- /dev/null
-+++ b/Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
-@@ -0,0 +1,27 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+=====================================================
-+Linux Base Driver for Nebula-matrix M18000-NIC family
-+=====================================================
-+
-+Overview:
-+=========
-+M18000-NIC is a series of network interface card for the Data Center Area.
-+
-+The driver supports link-speed 100GbE/25GE/10GE.
-+
-+M18000-NIC devices support MSI-X interrupt vector for each Tx/Rx queue and
-+interrupt moderation.
-+
-+M18000-NIC devices support also various offload features such as checksum offload,
-+Receive-Side Scaling(RSS).
-+
-+Support
-+=======
-+
-+For more information about M18000-NIC, please visit the following URL:
-+https://www.nebula-matrix.com/
-+
-+If an issue is identified with the released source code on the supported kernel
-+with a supported adapter, email the specific information related to the issue to
-+open@nebula-matrix.com.
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7a2ffd9d37d5..041ad29ad62e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18206,6 +18206,16 @@ F:	Documentation/devicetree/bindings/hwmon/nuvoton,nct7363.yaml
- F:	Documentation/hwmon/nct7363.rst
- F:	drivers/hwmon/nct7363.c
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+index 4c97832a25a6..a3aa0fcd1443 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+@@ -6,6 +6,17 @@
+ #include <linux/pci.h>
+ #include "nbl_dev.h"
  
-+NEBULA-MATRIX ETHERNET DRIVER (nebula-matrix)
-+M:	Illusion Wang <illusion.wang@nebula-matrix.com>
-+M:	Dimon Zhao <dimon.zhao@nebula-matrix.com>
-+M:	Alvin Wang <alvin.wang@nebula-matrix.com>
-+M:	Sam Chen <sam.chen@nebula-matrix.com>
-+L:	netdev@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/device_drivers/ethernet/nebula-matrix/
-+F:	drivers/net/ethernet/nebula-matrix/
++static int nbl_dev_clean_mailbox_schedule(struct nbl_dev_mgt *dev_mgt);
 +
- NETCONSOLE
- M:	Breno Leitao <leitao@debian.org>
- S:	Maintained
-diff --git a/drivers/net/ethernet/Kconfig b/drivers/net/ethernet/Kconfig
-index aa7103e7f47f..3aa005adb90e 100644
---- a/drivers/net/ethernet/Kconfig
-+++ b/drivers/net/ethernet/Kconfig
-@@ -131,6 +131,7 @@ config FEALNX
- 
- source "drivers/net/ethernet/ni/Kconfig"
- source "drivers/net/ethernet/natsemi/Kconfig"
-+source "drivers/net/ethernet/nebula-matrix/Kconfig"
- source "drivers/net/ethernet/netronome/Kconfig"
- source "drivers/net/ethernet/8390/Kconfig"
- source "drivers/net/ethernet/nvidia/Kconfig"
-diff --git a/drivers/net/ethernet/Makefile b/drivers/net/ethernet/Makefile
-index 6615a67a63d5..024a8e91abed 100644
---- a/drivers/net/ethernet/Makefile
-+++ b/drivers/net/ethernet/Makefile
-@@ -68,6 +68,7 @@ obj-$(CONFIG_NET_VENDOR_MUCSE) += mucse/
- obj-$(CONFIG_NET_VENDOR_MYRI) += myricom/
- obj-$(CONFIG_FEALNX) += fealnx.o
- obj-$(CONFIG_NET_VENDOR_NATSEMI) += natsemi/
-+obj-$(CONFIG_NET_VENDOR_NEBULA_MATRIX) += nebula-matrix/
- obj-$(CONFIG_NET_VENDOR_NETRONOME) += netronome/
- obj-$(CONFIG_NET_VENDOR_NI) += ni/
- obj-$(CONFIG_NET_VENDOR_NVIDIA) += nvidia/
-diff --git a/drivers/net/ethernet/nebula-matrix/Kconfig b/drivers/net/ethernet/nebula-matrix/Kconfig
-new file mode 100644
-index 000000000000..28a05dc7a0b4
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/Kconfig
-@@ -0,0 +1,34 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Nebula-matrix network device configuration
-+#
-+
-+config NET_VENDOR_NEBULA_MATRIX
-+	bool "Nebula-matrix devices"
-+	default y
-+	help
-+	  If you have a network (Ethernet) card belonging to this class, say Y.
-+	  Note that the answer to this question doesn't directly affect the
-+	  kernel: saying N will just cause the configurator to skip all
-+	  the questions about Nebula-matrix cards. If you say Y, you will be asked
-+	  for your specific card in the following questions.
-+
-+if NET_VENDOR_NEBULA_MATRIX
-+
-+config NBL
-+	tristate "Nebula-matrix Ethernet Controller m18100/m18000 support"
-+	depends on 64BIT && PCI
-+	help
-+	  This driver supports Nebula-matrix Ethernet Controller m18100/m18000
-+	  Family of devices.  For more information about this product, go to
-+	  the product description with smart NIC:
-+
-+	  <http://www.nebula-matrix.com>
-+
-+	  More specific information on configuring the driver is in
-+	  <file:Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst>.
-+
-+	  To compile this driver as a module, choose M here. The module
-+	  will be called nbl.
-+
-+endif # NET_VENDOR_NEBULA_MATRIX
-diff --git a/drivers/net/ethernet/nebula-matrix/Makefile b/drivers/net/ethernet/nebula-matrix/Makefile
-new file mode 100644
-index 000000000000..42cdf2db8f0c
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0
-+#
-+# Makefile for the Nebula-matrix network device drivers.
-+#
-+
-+obj-$(CONFIG_NBL) += nbl/
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-new file mode 100644
-index 000000000000..b90fba239401
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-@@ -0,0 +1,6 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (c) 2025 Nebula Matrix Limited.
-+
-+obj-$(CONFIG_NBL) := nbl.o
-+
-+nbl-objs +=      nbl_main.o
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-new file mode 100644
-index 000000000000..c525114297b4
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2025 Nebula Matrix Limited.
-+ */
-+
-+#ifndef _NBL_CORE_H_
-+#define _NBL_CORE_H_
-+
-+enum {
-+	NBL_CAP_HAS_CTRL_BIT,
-+	NBL_CAP_HAS_NET_BIT,
-+	NBL_CAP_IS_NIC_BIT,
-+	NBL_CAP_IS_LEONIS_BIT,
-+};
-+
-+#endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-new file mode 100644
-index 000000000000..1046e6517b15
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-@@ -0,0 +1,21 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Copyright (c) 2025 Nebula Matrix Limited.
-+ */
-+
-+#ifndef _NBL_INCLUDE_H_
-+#define _NBL_INCLUDE_H_
-+
-+#include <linux/types.h>
-+
-+/*  ------  Basic definitions  -------  */
-+#define NBL_DRIVER_NAME					"nbl"
-+
-+struct nbl_func_caps {
-+	u32 has_ctrl:1;
-+	u32 has_net:1;
-+	u32 is_nic:1;
-+	u32 rsv:29;
-+};
-+
-+#endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-new file mode 100644
-index 000000000000..10c3536b327b
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
-@@ -0,0 +1,113 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2025 Nebula Matrix Limited.
-+ */
-+
-+#include <linux/device.h>
-+#include <linux/pci.h>
-+#include <linux/module.h>
-+#include "nbl_include/nbl_include.h"
-+#include "nbl_core.h"
-+
-+static int nbl_probe(struct pci_dev *pdev,
-+		     const struct pci_device_id *id)
++/* ----------  Interrupt config  ---------- */
++static irqreturn_t nbl_dev_clean_mailbox(int __always_unused irq, void *data)
 +{
++	struct nbl_dev_mgt *dev_mgt = (struct nbl_dev_mgt *)data;
++
++	nbl_dev_clean_mailbox_schedule(dev_mgt);
++	return IRQ_HANDLED;
++}
++
+ static void nbl_dev_init_msix_cnt(struct nbl_dev_mgt *dev_mgt)
+ {
+ 	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
+@@ -14,6 +25,170 @@ static void nbl_dev_init_msix_cnt(struct nbl_dev_mgt *dev_mgt)
+ 	msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num = 1;
+ }
+ 
++static int nbl_dev_request_mailbox_irq(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++	struct nbl_common_info *common = dev_mgt->common;
++	u16 local_vec_id;
++	u32 irq_num;
++	int err;
++
++	if (!msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num)
++		return 0;
++
++	local_vec_id =
++		msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].base_vector_id;
++	irq_num = pci_irq_vector(common->pdev, local_vec_id);
++
++	snprintf(dev_common->mailbox_name, sizeof(dev_common->mailbox_name),
++		 "nbl_mailbox@pci:%s", pci_name(common->pdev));
++	err = request_irq(irq_num, nbl_dev_clean_mailbox, 0,
++			  dev_common->mailbox_name, dev_mgt);
++	if (err)
++		return err;
++
 +	return 0;
 +}
 +
-+static void nbl_remove(struct pci_dev *pdev)
++static void nbl_dev_free_mailbox_irq(struct nbl_dev_mgt *dev_mgt)
 +{
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++	struct nbl_common_info *common = dev_mgt->common;
++	u16 local_vec_id;
++	u32 irq_num;
++
++	if (!msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num)
++		return;
++
++	local_vec_id =
++		msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].base_vector_id;
++	irq_num = pci_irq_vector(common->pdev, local_vec_id);
++
++	free_irq(irq_num, dev_mgt);
 +}
 +
-+/*
-+ * PCI Device IDs for Leonis/NBL Network Controllers
-+ *
-+ * Vendor ID: 0x1F0F
-+ * SNIC v3r1 product Device IDs range: 0x3403-0x3412
-+ */
-+#define NBL_VENDOR_ID				0x1F0F
++static int nbl_dev_enable_mailbox_irq(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++	u16 local_vec_id;
 +
-+#define NBL_DEVICE_ID_M18110			0x3403
-+#define NBL_DEVICE_ID_M18110_LX			0x3404
-+#define NBL_DEVICE_ID_M18110_BASE_T		0x3405
-+#define NBL_DEVICE_ID_M18110_LX_BASE_T		0x3406
-+#define NBL_DEVICE_ID_M18110_OCP		0x3407
-+#define NBL_DEVICE_ID_M18110_LX_OCP		0x3408
-+#define NBL_DEVICE_ID_M18110_BASE_T_OCP		0x3409
-+#define NBL_DEVICE_ID_M18110_LX_BASE_T_OCP	0x340a
-+#define NBL_DEVICE_ID_M18000			0x340b
-+#define NBL_DEVICE_ID_M18000_LX			0x340c
-+#define NBL_DEVICE_ID_M18000_BASE_T		0x340d
-+#define NBL_DEVICE_ID_M18000_LX_BASE_T		0x340e
-+#define NBL_DEVICE_ID_M18000_OCP		0x340f
-+#define NBL_DEVICE_ID_M18000_LX_OCP		0x3410
-+#define NBL_DEVICE_ID_M18000_BASE_T_OCP		0x3411
-+#define NBL_DEVICE_ID_M18000_LX_BASE_T_OCP	0x3412
++	if (!msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num)
++		return 0;
 +
-+static const struct pci_device_id nbl_id_table[] = {
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_BASE_T),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_BASE_T),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_BASE_T_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18110_LX_BASE_T_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_BASE_T),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_BASE_T),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_BASE_T_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	{ PCI_DEVICE(NBL_VENDOR_ID, NBL_DEVICE_ID_M18000_LX_BASE_T_OCP),
-+	  .driver_data = BIT(NBL_CAP_HAS_NET_BIT) | BIT(NBL_CAP_IS_NIC_BIT) |
-+			 BIT(NBL_CAP_IS_LEONIS_BIT) },
-+	/* required as sentinel */
-+	{
-+		0,
++	local_vec_id =
++		msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].base_vector_id;
++	chan_ops->set_queue_state(dev_mgt->chan_ops_tbl->priv,
++				  NBL_CHAN_INTERRUPT_READY,
++				  NBL_CHAN_TYPE_MAILBOX, true);
++
++	return disp_ops->enable_mailbox_irq(dev_mgt->disp_ops_tbl->priv,
++					    local_vec_id, true);
++}
++
++static int nbl_dev_disable_mailbox_irq(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++	struct nbl_channel_ops *chan_ops = dev_mgt->chan_ops_tbl->ops;
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++	u16 local_vec_id;
++
++	if (!msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].num)
++		return 0;
++
++	flush_work(&dev_common->clean_mbx_task);
++	local_vec_id =
++		msix_info->serv_info[NBL_MSIX_MAILBOX_TYPE].base_vector_id;
++	chan_ops->set_queue_state(dev_mgt->chan_ops_tbl->priv,
++				  NBL_CHAN_INTERRUPT_READY,
++				  NBL_CHAN_TYPE_MAILBOX, false);
++
++	return disp_ops->enable_mailbox_irq(dev_mgt->disp_ops_tbl->priv,
++					    local_vec_id, false);
++}
++
++static int nbl_dev_configure_msix_map(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++	bool mask_en = msix_info->serv_info[NBL_MSIX_NET_TYPE].hw_self_mask_en;
++	u16 msix_net_num = msix_info->serv_info[NBL_MSIX_NET_TYPE].num;
++	u16 msix_not_net_num = 0;
++	int err, i;
++
++	for (i = NBL_MSIX_NET_TYPE; i < NBL_MSIX_TYPE_MAX; i++)
++		msix_info->serv_info[i].base_vector_id =
++			msix_info->serv_info[i - 1].base_vector_id +
++			msix_info->serv_info[i - 1].num;
++
++	for (i = NBL_MSIX_MAILBOX_TYPE; i < NBL_MSIX_TYPE_MAX; i++)
++		msix_not_net_num += msix_info->serv_info[i].num;
++
++	err = disp_ops->configure_msix_map(dev_mgt->disp_ops_tbl->priv,
++					   msix_net_num, msix_not_net_num,
++					   mask_en);
++
++	return err;
++}
++
++static int nbl_dev_destroy_msix_map(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dispatch_ops *disp_ops = dev_mgt->disp_ops_tbl->ops;
++
++	return disp_ops->destroy_msix_map(dev_mgt->disp_ops_tbl->priv);
++}
++
++static int nbl_dev_alloc_msix_intr(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dev_common *dev_common = dev_mgt->common_dev;
++	struct nbl_msix_info *msix_info = &dev_common->msix_info;
++	struct nbl_common_info *common = dev_mgt->common;
++	int needed = 0;
++	int err;
++	int i;
++
++	for (i = 0; i < NBL_MSIX_TYPE_MAX; i++)
++		needed += msix_info->serv_info[i].num;
++
++	err = pci_alloc_irq_vectors(common->pdev, needed, needed,
++				    PCI_IRQ_MSIX | PCI_IRQ_AFFINITY);
++	if (err < 0) {
++		pr_err("pci_alloc_irq_vectors failed, err = %d.\n", err);
++		goto enable_msix_failed;
 +	}
-+};
-+MODULE_DEVICE_TABLE(pci, nbl_id_table);
 +
-+static struct pci_driver nbl_driver = {
-+	.name = NBL_DRIVER_NAME,
-+	.id_table = nbl_id_table,
-+	.probe = nbl_probe,
-+	.remove = nbl_remove,
-+};
++	return needed;
 +
-+module_pci_driver(nbl_driver);
++enable_msix_failed:
++	return err;
++}
 +
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Nebula Matrix Network Driver");
++static int nbl_dev_init_interrupt_scheme(struct nbl_dev_mgt *dev_mgt)
++{
++	int err;
++
++	err = nbl_dev_alloc_msix_intr(dev_mgt);
++	if (err < 0) {
++		dev_err(dev_mgt->common->dev,
++			"Failed to enable MSI-X vectors\n");
++		return err;
++	}
++	return 0;
++}
++
++static void nbl_dev_clear_interrupt_scheme(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_common_info *common = dev_mgt->common;
++
++	pci_free_irq_vectors(common->pdev);
++}
++
+ /* ----------  Channel config  ---------- */
+ static int nbl_dev_setup_chan_qinfo(struct nbl_dev_mgt *dev_mgt, u8 chan_type)
+ {
+@@ -79,6 +254,14 @@ static void nbl_dev_clean_mailbox_task(struct work_struct *work)
+ 				      NBL_CHAN_TYPE_MAILBOX);
+ }
+ 
++static int nbl_dev_clean_mailbox_schedule(struct nbl_dev_mgt *dev_mgt)
++{
++	struct nbl_dev_common *common_dev = dev_mgt->common_dev;
++
++	nbl_common_queue_work(&common_dev->clean_mbx_task);
++	return 0;
++}
++
+ /* ----------  Dev init process  ---------- */
+ static int nbl_dev_setup_common_dev(struct nbl_adapter *adapter)
+ {
+@@ -217,9 +400,40 @@ void nbl_dev_remove(struct nbl_adapter *adapter)
+ /* ----------  Dev start process  ---------- */
+ int nbl_dev_start(struct nbl_adapter *adapter)
+ {
++	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
++	int ret;
++
++	ret = nbl_dev_configure_msix_map(dev_mgt);
++	if (ret)
++		goto config_msix_map_err;
++
++	ret = nbl_dev_init_interrupt_scheme(dev_mgt);
++	if (ret)
++		goto init_interrupt_scheme_err;
++	ret = nbl_dev_request_mailbox_irq(dev_mgt);
++	if (ret)
++		goto mailbox_request_irq_err;
++	ret = nbl_dev_enable_mailbox_irq(dev_mgt);
++	if (ret)
++		goto enable_mailbox_irq_err;
+ 	return 0;
++enable_mailbox_irq_err:
++	nbl_dev_disable_mailbox_irq(dev_mgt);
++	nbl_dev_free_mailbox_irq(dev_mgt);
++mailbox_request_irq_err:
++	nbl_dev_clear_interrupt_scheme(dev_mgt);
++init_interrupt_scheme_err:
++	nbl_dev_destroy_msix_map(dev_mgt);
++config_msix_map_err:
++	return ret;
+ }
+ 
+ void nbl_dev_stop(struct nbl_adapter *adapter)
+ {
++	struct nbl_dev_mgt *dev_mgt = adapter->core.dev_mgt;
++
++	nbl_dev_disable_mailbox_irq(dev_mgt);
++	nbl_dev_free_mailbox_irq(dev_mgt);
++	nbl_dev_clear_interrupt_scheme(dev_mgt);
++	nbl_dev_destroy_msix_map(dev_mgt);
+ }
+diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+index db035136e09c..8f07d4fbdf04 100644
+--- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
++++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+@@ -286,7 +286,35 @@ static struct pci_driver nbl_driver = {
+ 	.remove = nbl_remove,
+ };
+ 
+-module_pci_driver(nbl_driver);
++static int __init nbl_module_init(void)
++{
++	int status;
++
++	status = nbl_common_create_wq();
++	if (status) {
++		pr_err("Failed to create wq, err = %d\n", status);
++		goto wq_create_failed;
++	}
++	status = pci_register_driver(&nbl_driver);
++	if (status) {
++		pr_err("Failed to register PCI driver, err = %d\n", status);
++		goto pci_register_driver_failed;
++	}
++	return 0;
++
++pci_register_driver_failed:
++	nbl_common_destroy_wq();
++wq_create_failed:
++	return status;
++}
++
++static void __exit nbl_module_exit(void)
++{
++	pci_unregister_driver(&nbl_driver);
++	nbl_common_destroy_wq();
++}
+ 
++module_init(nbl_module_init);
++module_exit(nbl_module_exit);
+ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("Nebula Matrix Network Driver");
 -- 
 2.47.3
 
