@@ -1,66 +1,66 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4204F38B7D6
-	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 07:52:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F50D31326C
+	for <linux-doc@vger.kernel.org>; Wed,  1 Apr 2026 07:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775029951; cv=none; b=RuIvcw59iQUToIJ7Wr3sOSCYqXLGei7mVIbZot48EvfuKGg2pzXbPRqjAChranR1X33EQGfTpwkWxr4k/4itnS+Ge08f2B99zYfym++X0ou/2xw2TsXeBIKDWQlZY+kAz6HQ/VUYJue1jmICQ8W1OhuYeD+qCtoi0Hpz7Y5hfIw=
+	t=1775029970; cv=none; b=UZAohUmp8PFY0gxF9Cp12wVZ8+aG+NQGdz0u+x1EuHYi4VaKTFSKMDlQMXU2KnMRofBWVloc2KOiZbN8Z0fJ6awx5e+RGp5YD5zFJ2vIUzi1Ea7ZTP95tcKBzZKkuJ21nl4/Atqdb2Y2g7W6gfLvV/M8qxQImncUjSSgGafArNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775029951; c=relaxed/simple;
-	bh=/xKPjENbw+y9tVTlpGDDqxkzbi3Dsy4WscFa4T8jtsw=;
+	s=arc-20240116; t=1775029970; c=relaxed/simple;
+	bh=MCy1eat1Yj7/z8JAKeNn8agQhBiPTnEO0lLEsh8d608=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=GYIiwhrg0wXiokkEVWhcd6BhjfbHKiO+fmeUiZdHTH4EkgxMyTwHfqQBkDHibZttO0xEaZ5C8ahvnZkSXJe5CSdMSxP/gbxBWTBjc9GuawrY18jsbDTr/O9x+oDkXH58XK6IPSdj3aS8mZd2cujkE9kGjtoT/oBNM/Y2FZNr2eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jaet599p; arc=none smtp.client-ip=74.125.82.48
+	 In-Reply-To:Content-Type; b=j247r6BDEH2+9tMw0TKZTHLK8x8QuKjycVkq7nYE2mvH7AKwPPHAlCDEn0icTzJ8AvKSGGQRggjNEc/Pjv3wyTGrE+OW/BL9vXTfxNcG7roJVuTua0hXB1tMRTbAGclaYDWwIdwlogT265+svgeZglRmy2eTDx2EHnQ/D8SDcBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A8ZIa01F; arc=none smtp.client-ip=74.125.82.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jaet599p"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-128b9b7e3edso4015808c88.0
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 00:52:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A8ZIa01F"
+Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1271257ae53so6751020c88.1
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 00:52:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775029949; x=1775634749; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775029968; x=1775634768; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=SbYMgx5b2U+ll1ogdXc2obIoQ1UDlBi3tYpZOOvXiXo=;
-        b=jaet599pinn8AX1lLH+YXciEiYf01PDtI2s79yuc/QsezkS7In7TlJzrQY4gdb5y3z
-         xKhDPHjQsQeyBnv3mu1/ugwVdhbAAtKkGd6uoWutjiuyOgVOhhjhxV/gcD0Bmpg5W4ti
-         AbJk8b8D9Qrl2tz4fqBFnbvyQmaGrgRPiqLQEjbujP3DHPJr6JAIXBs0DgB5gZhXgDO9
-         kQSHZbAl4egfYlL7sz0RmbRO0IbYGJ+qPsdTmdp54Emr5ePl1D7f2Ogir/6yBEeXLl/L
-         833FgCKUrepsXAoUyTADLt0LsN4i+pJurSfGOG1QnEcE9eooaHq6nzNF25NY0MuAN91N
-         C6Aw==
+        bh=cR1hXVaS01Di+TUyEuYwM6QysYHoAzLWu2PSOV8Pv68=;
+        b=A8ZIa01FMl8OoUOXYZojhmsjNHj9KVxUVUU4cxYaCcK6jSEDR7H4Hf+/MHBy9xDSkG
+         sY9GCSh0kA7NWz1tZ7VqFI3UV0F79v0YiydVO3yCxd/nIhE6Z3FZN2MUXc0o2zidqB7i
+         4jlt+lRnNMiwmG+AYKkjNl7Jh067cIZgNyD2tANE5T9yrIIoByLI85maoSpL6wxakbuR
+         M8G1yve3DET6GfPTxBqT639zRGiQSzFrRKa97KPjbrftzJ/P9f+Ina/fymW1PLMuePgZ
+         fFtE9KKWKLYESKEV6Cy/qLAr8xEybcyM4IZrsp3JwCCJ9zj+2WZqSXdpT0BfqefmRIOS
+         hBHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775029949; x=1775634749;
+        d=1e100.net; s=20251104; t=1775029968; x=1775634768;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SbYMgx5b2U+ll1ogdXc2obIoQ1UDlBi3tYpZOOvXiXo=;
-        b=UKEd9YoCmBfbpFQO/XubrulohxP1NdSet1TLZxxZtp49hLvzSty/dKpca8xF8we0Pq
-         FbsRh8SPhng6ay0kIi6h7AHD911xT6TW1uMAyXesWyYKXBYFapF+PiebS1tvYhC7Jp/X
-         tXe531Gqrl+3HhNEijdy+zRXkgD67+xIgqyFa58662ErSz8mpHQX/i0LzQXrdnEPSnHG
-         mWipQjnSkDG0Gt+T3bD7we3rJn+4fp+CNLEk/YWJY44bHoxD1mLcLQfpOhMyOe0rdr5A
-         vv0OjqGPqoQaUKoPazYHMah8+i3v+N2fTiHu4gc/h2xxnHAgX7s4+dBTRB6d5LDeZPjV
-         KFtg==
-X-Forwarded-Encrypted: i=1; AJvYcCXTwwGaBBlZXbrYxfbKLUaTU6bX90oD+y/+sU+TDp+8R10iGq/MgxCE1MsEzXU2S9+rSEP31+/7wRM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9maY6sLvNwyjWrV0iqaRqkiqcpSCTKpYJBQLbqHtu86/DRDmt
-	HZ4qDqv4SNgKVJePg3F/1Y3xDGk8nHH8FkwNLzaKTXpn7VBmGGtJsRFd
-X-Gm-Gg: ATEYQzz/XJbgR3u5p1K28o4YJjXseBBrK0NAiYMJXODF4uquU3AlEKqL2UbOfBFDEZZ
-	m+Ln0uRfOQnEd25435Ox9f8yLefWYWK0qJwDJNje0ZWYLhBdBx4+dLnusS4S2Z4dIb5sXXEMpZ9
-	65PycFNQY98+HI7bVt+TdCokIFx7kY/RGeY8aXv1MjxhBZmiYevBOinapZbRfqPTdzPUsNZhgQc
-	uRlUUCXiz60CP7yrtz4JVcrI1vdMQybmQybZpQH4aJRS/+idoYPDlo+jOICSNeOQkj+lvroBXQp
-	oZnqjW3SkoOFEGf4i3xFdSrtKV4fUW/E/Te+RBLW9ILavPPbP9bHsauvPkMCY2eBWeFC52G9eye
-	wBrkn6qHNyXYFTjcoW4GNw9CTQMUm86OKMtjBN9y/IidVawcnk8rUSbs9mjwgQoyfJ2MZx0um+u
-	du5/AQ+z6J/CyVq3ixMjerbgVb3pMV1NWvrtXyIItQ1cJ7+zQclYR0uWM8PkKL
-X-Received: by 2002:a05:7022:f10f:b0:119:e569:fbb4 with SMTP id a92af1059eb24-12be65579eemr1471488c88.35.1775029944651;
-        Wed, 01 Apr 2026 00:52:24 -0700 (PDT)
+        bh=cR1hXVaS01Di+TUyEuYwM6QysYHoAzLWu2PSOV8Pv68=;
+        b=Fn7KyccIQCOV7Hzn61GhpXuG1CBVHWCpSs8AyV2KYonOzdCmqr3u1SPQiqgWtduC0E
+         1YkufUaBHdZR4MlouVzBJDcNx2uXNaazmiuHWCiocrwrRNqLqGmXWrm+bu68Zftvoe4k
+         7uNwcRHKOYZF6mXxoQN/vGyF/NEzRu2Nuq0lanoI5+LE7FTHyP+S9Uwh2dxkbFHpo6yR
+         dngLi1MAwi78anAKjFGKgw0kaFeUyie33AjK9LClWGDGbrBeAAQQ9tmcZJHDhiEJPwnb
+         2wkLMLi5cA02UnFrkMS8D0nxnkADbSgrj+dkpI51FxmXt8poxsMdV1P0CA2NTHut6rmD
+         Ntcg==
+X-Forwarded-Encrypted: i=1; AJvYcCVB4BIkzc7o/YOPD2DJpSaud+QmgTkkp83Nq2QJ3PcbpG8mqkQmpbAnREyslGzuoe0q1YPh+GISpNQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzqcKC+RYKV7UVSbHhR5b2/ZXXlESGhufbZX1nrVJiBEqDT4zww
+	uPXZnphDOjITe29HnsgkzR8qA1qNXWOlir9nhHPMc9hKxjAFKBoqtA8Z
+X-Gm-Gg: ATEYQzwGMM3rKkrlx7wWlTZwyRgul1rXZa/qbU6u29xazlVg6vuqYe7+14UlhGGrGf/
+	rOtdRDOBEk842QtPE4whyuzBkRb6pvvco+sEwuPFTwk0XQP5DWsoDyBm7VVM5FUguY4IWwPhGuw
+	UOGMy/t0wBJGBIwvJH761TXkdDy0Ge+swNgpj/IPYI8uRjrrh0sDFnXUI1t8IHv9GQpE1UF10Pz
+	N/MPy/7BRsI4hXbRuqalVQEW8Flrn4No0Ppbf7rDvgf9OLa19HsaipJOUTbMHg580d5dmzITTZx
+	qKDlPdd+A8wrmpxJZAzRZdpyims/5ZVmYUbQwYW/iuyAbXOMAEbr8HW+9GhXS6RR4NuvvR5qRct
+	owIRlaJYWQlYOhP8RspgxeG8RbMLGWEBeSrMmWVVavjP8qeehjBVWB/JcVoScWBxTbdci+a6sCQ
+	B+qc4xLudy8ohDkvSpDiz0qJwW3ZIZpNPVUDpORpO179S/J5C/PaBOmFvnYKjuMXhrvFv0DTo=
+X-Received: by 2002:a05:7300:dc8c:b0:2c8:bf0d:74f4 with SMTP id 5a478bee46e88-2c930e6bd08mr1424462eec.5.1775029968395;
+        Wed, 01 Apr 2026 00:52:48 -0700 (PDT)
 Received: from ?IPV6:2620:10d:c085:21e1::139a? ([2620:10d:c090:400::5:51bb])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ab9864810sm13149653c88.12.2026.04.01.00.52.22
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2c3c68b399bsm11813869eec.17.2026.04.01.00.52.46
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 01 Apr 2026 00:52:23 -0700 (PDT)
-Message-ID: <fb04ebf6-a20b-4570-83ee-f97049033c39@gmail.com>
-Date: Wed, 1 Apr 2026 00:52:22 -0700
+        Wed, 01 Apr 2026 00:52:48 -0700 (PDT)
+Message-ID: <65447c62-fa65-456e-9f6c-11588b46d8ac@gmail.com>
+Date: Wed, 1 Apr 2026 00:52:46 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v03 1/6] hinic3: Add ethtool queue ops
+Subject: Re: [PATCH net-next v03 2/6] hinic3: Add ethtool statistic ops
 To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
  netdev@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
  Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
@@ -81,119 +81,37 @@ Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
  <zhengjiezhen@h-partners.com>,
  Maxime Chevallier <maxime.chevallier@bootlin.com>
 References: <cover.1774940117.git.zhuyikai1@h-partners.com>
- <17b3bbb0c917ee09ddd7a164cdefca6eb63793ec.1774940117.git.zhuyikai1@h-partners.com>
+ <d3256c3049445bfa9c6b98832d25eaa712422ae6.1774940117.git.zhuyikai1@h-partners.com>
 Content-Language: en-US
 From: Mohsin Bashir <mohsin.bashr@gmail.com>
-In-Reply-To: <17b3bbb0c917ee09ddd7a164cdefca6eb63793ec.1774940117.git.zhuyikai1@h-partners.com>
+In-Reply-To: <d3256c3049445bfa9c6b98832d25eaa712422ae6.1774940117.git.zhuyikai1@h-partners.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
-> +static int hinic3_set_ringparam(struct net_device *netdev,
-> +				struct ethtool_ringparam *ring,
-> +				struct kernel_ethtool_ringparam *kernel_ring,
-> +				struct netlink_ext_ack *extack)
+> +
+> +static void hinic3_get_qp_stats_strings(const struct net_device *netdev,
+
+Any strong reason to add const here? netdev_priv() would just strip it 
+anyway. No?
+
+> +					char *p)
 > +{
 > +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_txrxq_params q_params = {};
-> +	u32 new_sq_depth, new_rq_depth;
-> +	int err;
+> +	u8 *data = p;
+> +	u16 i, j;
 > +
-> +	err = hinic3_check_ringparam_valid(netdev, ring);
-> +	if (err)
-> +		return err;
-> +
-> +	new_sq_depth = 1U << ilog2(ring->tx_pending);
-> +	new_rq_depth = 1U << ilog2(ring->rx_pending);
-> +	if (new_sq_depth == nic_dev->q_params.sq_depth &&
-> +	    new_rq_depth == nic_dev->q_params.rq_depth)
-> +		return 0;
-> +
-
-So non power of 2 values would trimmed to the nearest power of 2 even 
-when the driver support these values. If such values are not supported, 
-should these be rejected here? or if we want to force the nearest power 
-of 2, should we use NL_SET_ERR_MSG to inform the user about rounding?
-
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +			       struct hinic3_dyna_txrxq_params *trxq_params)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_qp_params new_qp_params = {};
-> +	struct hinic3_dyna_qp_params cur_qp_params = {};
-> +	bool need_teardown = false;
-> +	unsigned long flags;
-> +	int err;
-> +
-> +	mutex_lock(&nic_dev->channel_cfg_lock);
-> +
-> +	hinic3_config_num_qps(netdev, trxq_params);
-> +
-> +	err = hinic3_alloc_channel_resources(netdev, &new_qp_params,
-> +					     trxq_params);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to alloc channel resources\n");
-> +		mutex_unlock(&nic_dev->channel_cfg_lock);
-> +		return err;
+> +	for (i = 0; i < nic_dev->q_params.num_qps; i++) {
+> +		for (j = 0; j < ARRAY_SIZE(hinic3_tx_queue_stats); j++)
+> +			ethtool_sprintf(&data,
+> +					hinic3_tx_queue_stats[j].name, i);
 > +	}
 > +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	if (!test_and_set_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags))
-> +		need_teardown = true;
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	if (need_teardown) {
-> +		hinic3_vport_down(netdev);
-> +		hinic3_close_channel(netdev);
-> +		hinic3_uninit_qps(nic_dev, &cur_qp_params);
-> +		hinic3_free_channel_resources(netdev, &cur_qp_params,
-> +					      &nic_dev->q_params);
+> +	for (i = 0; i < nic_dev->q_params.num_qps; i++) {
+> +		for (j = 0; j < ARRAY_SIZE(hinic3_rx_queue_stats); j++)
+> +			ethtool_sprintf(&data,
+> +					hinic3_rx_queue_stats[j].name, i);
 > +	}
-> +
-> +	if (nic_dev->num_qp_irq > trxq_params->num_qps)
-> +		hinic3_qp_irq_change(netdev, trxq_params->num_qps);
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	nic_dev->q_params = *trxq_params;
-
-[1] Here we are overwriting the old parameters
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	hinic3_init_qps(nic_dev, &new_qp_params);
-> +
-> +	err = hinic3_open_channel(netdev);
-> +	if (err)
-> +		goto err_uninit_qps;
-> +
-> +	err = hinic3_vport_up(netdev);
-> +	if (err)
-> +		goto err_close_channel;
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	clear_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags);
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	mutex_unlock(&nic_dev->channel_cfg_lock);
-> +
-> +	return 0;
-> +
-> +err_close_channel:
-> +	hinic3_close_channel(netdev);
-> +err_uninit_qps:
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	memset(&nic_dev->q_params, 0, sizeof(nic_dev->q_params));
-
-Looks like we are asking for trouble here. The old parameters were 
-already overwritten at [1] and now we are destroying the new ones?
-
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	hinic3_uninit_qps(nic_dev, &new_qp_params);
-> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
-> +
-> +	mutex_unlock(&nic_dev->channel_cfg_lock);
-> +
-> +	return err;
 > +}
 > +
+
