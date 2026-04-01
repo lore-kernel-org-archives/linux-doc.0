@@ -1,80 +1,329 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E24123A9DB2;
-	Wed,  1 Apr 2026 15:40:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AA1233EC;
+	Wed,  1 Apr 2026 15:40:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775058001; cv=none; b=rmFOYfvOQeHILxC2ef//IlxHhPsNkjOzzK83fdprfBE7U8f9qJlQbaB6vjOqB/b1GPU+Ait1rkE77hna7tWMqORMzPWM0zh1kSHQIZI4OXamDtWfg8+E5hByLj0oJDJ2yBqQnHBskJtTwgVn/BEhnMB6KOJvGs2U4b6asjJk9sg=
+	t=1775058041; cv=none; b=PX3TooNwbJk9wBJnU34YRr8Q80qCDfW2qFahN5espsEQgNUcrvbGocFrawi0kJVlM65obkuOkwW9IpGPsrxiZue+DP7rUoqgf1kQyeXvDOA2dDkDMUPyUPdxA+di3/Jxb9k+L2edABB5pwCMpcPgGkWk9dANl3THVAre4ol6Kgw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775058001; c=relaxed/simple;
-	bh=qluaTkvREC5+yG58ljxsV6cqHwaNZiO+EKP753RRYcg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fVRdlrQ/qBo0QrBLsNyFe/elpG0c8TJimoxAWhn+nxqFFvZzHE3FCQ/fUZyMTzCd1yk+hXYG8YPSKFo+xesErbuuOAFlX8zHMINB2N/XYOU88yv9GLEIzhP4m1wHaRYFfDL6F6H70dJ+nsgbxH/ra4A3IwbT4sjws9U8LXfBRdM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtWc7kSB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775058041; c=relaxed/simple;
+	bh=/mo8BlYMWxHMWWMEK3uiP8ASEHyV3MvEv0DurQfXpW4=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=BLfspR+XXuHezsW3eGpH9yk/QPiZB1pTfAjw6n5QXI50f/7YJXroD4+hkkE68eC75einwOO0DqfQqV9Yrg1WvDJrSqCDwidPKtSeqfYIT6VXuvUiF4mGeGk58RXqYkS7y3ll2HtmbsBDwaLShiUwtAGAWIsLT2teB/rKG8/8Llk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ZWoMPif2; arc=none smtp.client-ip=162.62.57.137
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtWc7kSB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2904BC4CEF7;
-	Wed,  1 Apr 2026 15:39:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775058000;
-	bh=qluaTkvREC5+yG58ljxsV6cqHwaNZiO+EKP753RRYcg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XtWc7kSBpczDhOeDzctojUGhjkDX9yLOncrss4xMBiCV/aNAFElErs7mbZxhOzBFj
-	 IjIntWeGJXpFhKhS/f3AB+fYVKP1SKYagi5+a2LPJgthzcivJeg5Rz9GV4Rw4eFXw7
-	 fIPUmcXhywGnFMLSWkC3nbdoxcr1E/+qjOIUMtmLmnJBEAZi4KMImfvb1v0eym+x2e
-	 9qqygeFi0bxup5RxJ5c78WULUV35EpKtPMYapo3WLjNS865aTrEt2qKUl6WScPk4JE
-	 NEJW+MxF0alErQ/CFCZjckq9jlMzUYvZTb0k9w4o2IO9WAfLDuQWKDcTRbseeV3Jom
-	 THPMVL/ytMNMQ==
-Message-ID: <51bffefb-395f-4ece-90ba-588b2bdadaac@kernel.org>
-Date: Wed, 1 Apr 2026 17:39:50 +0200
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ZWoMPif2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1775058028; bh=H/yX2y70+ohfznGw7PFruocS8svbZsUW54HT61f+J5w=;
+	h=From:To:Cc:Subject:Date;
+	b=ZWoMPif29D6G+gvOQp9q6ap6XghLOV0qnb/cNIQZBAM12ZfoaRN2FCqyG6cyjpQhE
+	 VelzLR5ayz+MNSGW3ScBk9S00R0EaVfB0zHo/Qlz6Em1DxUHTFbX7wxWrHJ/JNpMe4
+	 YJ4QT2X7JY+2VjokbeAD1x8Cdly9NNFxr5DbfCcI=
+Received: from localhost.localdomain.localdomain ([27.38.232.100])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id A1939A4E; Wed, 01 Apr 2026 23:40:25 +0800
+X-QQ-mid: xmsmtpt1775058025tk9y8ku22
+Message-ID: <tencent_1BF5E860CC01A1E23DC405DD92314BE16E05@qq.com>
+X-QQ-XMAILINFO: OIkr59++0f4QMUAflFST4X9aQsTRPXuxdV5j7LJ2DIOac2Bh0D0WdbvEigfHuK
+	 w04v9Q5FCTINVuSKSXagTw/h1MToQec0o36beolprPNT2onuMha4cWeW4dZmy+LNVjiZNwngk2+h
+	 zLKczHe8oh+r12hXyU1wBg81H2PB23BeGQ3kHA2BjqNjvIB2daYaY2xxKsFpJ8AIVR3twWE+Ze86
+	 X2UZnmvpsEj0KeUh7yfJV1P8jG6zboc0EC3KKXS0XYOG97PdVWVwQo9Ny111y7n2Vetbbe3OTzys
+	 bqB67gJhAdbIEzjLK5X5a7r/keUtXN89IW3c8c6gbFD9EDu3DKJ6aesE8tURP0cIiW0eu50KmG2q
+	 VcTPCK+UBGXfaD0aBY+Hp3BAH6RnQJvxHeUiiBJ2P+lfAR2b5/UM1VufaIFXwbWkz4axUH/ETOty
+	 Xm5szRZK/lYRWwhymAdKD45yhE6dCrhfmV8LgRmF2vuIJZRpHIibTaCWVgACeqRFHccURTCr2QB3
+	 6lrkeqv+T0xjMPwotWORK9ep5WR1BVFTa9iHXz5pLqnsTI4gI3zAE7wGrISCHXl875zVZ0R2bWRo
+	 F8cMr063sHs6vxeywZP6Mia28kUQBPwyZ9FYDJ1GxeMhu70myh5eO6stf60LK2oaJkEGbqQ2aoLM
+	 MRkJLbHdUcb65fkgax9vQE6pgnMwJC1cH9TSziM2LkbQiXFAGaJRYkTlW9HWr/reK109FTteGAvL
+	 2yNykjS+X5r0G/wmCO6djjWF3DddosyN8sc4WSZP6aRK2A7ZrQGxY1K6zAP+oWUYzConb3uAH79Z
+	 ST7yPlPV5XvnpGhojemRY09qBPGtUdYdMaLZ5+9nd1MT7y6UgUA9I0uI3DAuSNLclt9CqDrRkzvb
+	 2/y0GdonE5JXMqSJcavrFcn1syjsx08Rh5R+qqxPkgzcvgC6BP0dbCaKOPh6v+6cXk85SawusA0l
+	 o9Ar+ASB//kXwmeDJPijvqgiWRrTvCrHuQ+ropvrOZ2ZpDpxMF1lBcdOx1YxNxxPyfZDl7zk9ZY6
+	 iO/HaGg2/E1wTSzWM55fCNBlsdBjH4PWv5HU6ggHFzXnyANDZaR0VlfFgzgK4a1ntCnLXJc+p/xl
+	 bpjQUONyfuHufJCBJNSg57eEFkxDlAF7KJC6RP/bDEi6LmpdqbOy+9zO248klDqS5iDxKK
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+From: Yan Zhu <zhuyan2015@qq.com>
+To: alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net
+Cc: dzm91@hust.edu.cn,
+	skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	zhuyan2015@qq.com
+Subject: [PATCH] docs/zh_CN: add module-signing Chinese translation
+Date: Wed,  1 Apr 2026 23:40:07 +0800
+X-OQ-MSGID: <20260401154009.12720-1-zhuyan2015@qq.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/33] rust: bump Clippy's MSRV and clean
- `incompatible_msrv` allows
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Andreas Hindborg <a.hindborg@kernel.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Alexandre Courbot <acourbot@nvidia.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>,
- Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>,
- Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>,
- Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>,
- Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org,
- linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org,
- moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>,
- Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org,
- nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- Rae Moar <raemoar63@gmail.com>, linux-kselftest@vger.kernel.org,
- kunit-dev@googlegroups.com,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- llvm@lists.linux.dev, linux-kernel@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-3-ojeda@kernel.org>
-From: Danilo Krummrich <dakr@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20260401114540.30108-3-ojeda@kernel.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/1/26 1:45 PM, Miguel Ojeda wrote:
->  drivers/gpu/nova-core/gsp/cmdq.rs | 6 +-----
+Translate .../admin-guide/module-signing.rst into Chinese.
 
-Acked-by: Danilo Krummrich <dakr@kernel.org>
+Update the translation through commit 0ad9a71933e7
+("modsign: Enable ML-DSA module signing")
+
+Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+---
+ .../zh_CN/admin-guide/module-signing.rst      | 242 ++++++++++++++++++
+ 1 file changed, 242 insertions(+)
+ create mode 100644 Documentation/translations/zh_CN/admin-guide/module-signing.rst
+
+diff --git a/Documentation/translations/zh_CN/admin-guide/module-signing.rst b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
+new file mode 100644
+index 000000000000..b8c209dd229d
+--- /dev/null
++++ b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
+@@ -0,0 +1,242 @@
++.. SPDX-License-Identifier: GPL-2.0
++.. include:: ../disclaimer-zh_CN.rst
++
++:Original: Documentation/admin-guide/module-signing.rst
++:翻译:
++ 朱岩 Yan Zhu <zhuyan2015@qq.com>
++
++
++==========================
++内核模块签名机制
++==========================
++
++.. 目录
++..
++.. - 概述
++.. - 配置模块签名
++.. - 生成签名密钥
++.. - 内核中的公钥
++.. - 模块手动签名
++.. - 已签名模块和剥离
++.. - 加载已签名模块
++.. - 无效签名和未签名模块
++.. - 管理/保护私钥
++
++
++概述
++====
++
++内核模块签名机制在安装过程中对模块进行加密签名，然后在加载模块时检查签名。
++这通过禁止加载未签名的模块或使用无效密钥签名的模块来提高内核安全性。
++模块签名通过使恶意模块更难加载到内核中来增加安全性。
++模块签名检查在内核中完成，因此不需要受信任的用户空间位。
++
++此机制使用 X.509 ITU-T 标准证书对涉及的公钥进行编码。
++签名本身不以任何工业标准类型编码。
++内置机制目前仅支持 RSA、NIST P-384 ECDSA 和 NIST FIPS-204 ML-DSA 公钥签名标准（尽管它是可插拔的并允许使用其他标准）。
++对于 RSA 和 ECDSA，可以使用的可能的哈希算法是大小为 256、384 和 512 的 SHA-2 和 SHA-3（算法由签名中的数据选择）；
++ML-DSA会自行进行哈希运算，但允许与SHA512哈希算法结合用于签名属性。
++
++配置模块签名
++============
++
++通过进入内核配置的 :menuselection:`Enable Loadable Module Support` 菜单并打开以下选项来启用模块签名机制::
++
++	CONFIG_MODULE_SIG	"Module signature verification"
++
++这有多个可用选项：
++
++ (1) :menuselection:`Require modules to be validly signed`
++     (``CONFIG_MODULE_SIG_FORCE``)
++
++     这指定了内核应如何处理其密钥未知或未签名的模块。
++
++     如果关闭（即"宽松模式"），则允许使用不可用密钥和未签名的模块，
++     但内核将被标记为受污染，并且相关模块将被标记为受污染，显示字符'E'。
++
++     如果打开（即"限制模式"），只有具有有效签名且可由内核拥有的公钥验证的模块才会被加载。
++     所有其他模块将生成错误。
++
++     无论此处的设置如何，如果模块的签名块无法解析，它将被直接拒绝。
++
++
++ (2) :menuselection:`Automatically sign all modules`
++     (``CONFIG_MODULE_SIG_ALL``)
++
++     如果打开此选项，则在构建的 modules_install 阶段期间将自动签名模块。
++     如果关闭，则必须使用以下命令手动签名模块::
++
++	scripts/sign-file
++
++
++ (3) :menuselection:`Which hash algorithm should modules be signed with?`
++
++     这提供了安装阶段将用于签名模块的哈希算法选择：
++
++        =============================== ==========================================
++	``CONFIG_MODULE_SIG_SHA256``	:menuselection:`Sign modules with SHA-256`
++	``CONFIG_MODULE_SIG_SHA384``	:menuselection:`Sign modules with SHA-384`
++	``CONFIG_MODULE_SIG_SHA512``	:menuselection:`Sign modules with SHA-512`
++	``CONFIG_MODULE_SIG_SHA3_256``	:menuselection:`Sign modules with SHA3-256`
++	``CONFIG_MODULE_SIG_SHA3_384``	:menuselection:`Sign modules with SHA3-384`
++	``CONFIG_MODULE_SIG_SHA3_512``	:menuselection:`Sign modules with SHA3-512`
++        =============================== ==========================================
++
++     此处选择的算法也将被构建到内核中（而不是作为模块），
++     以便使用该算法签名的模块可以在不导致循环依赖的情况下检查其签名。
++
++
++ (4) :menuselection:`File name or PKCS#11 URI of module signing key`
++     (``CONFIG_MODULE_SIG_KEY``)
++
++     将此选项设置为除默认值 ``certs/signing_key.pem`` 之外的其他值将禁用签名密钥的自动生成，
++     并允许使用您选择的密钥对内核模块进行签名。
++     提供的字符串应标识包含私钥及其对应的 PEM 格式 X.509 证书的文件，
++     或者在 OpenSSL ENGINE_pkcs11 功能正常的系统上，使用 RFC7512 定义的 PKCS#11 URI。
++     在后一种情况下，PKCS#11 URI 应引用证书和私钥。
++
++     如果包含私钥的 PEM 文件已加密，或者 PKCS#11 令牌需要 PIN，
++     可以通过 ``KBUILD_SIGN_PIN`` 变量在构建时提供。
++
++
++ (5) :menuselection:`Additional X.509 keys for default system keyring`
++     (``CONFIG_SYSTEM_TRUSTED_KEYS``)
++
++     此选项可设置为包含附加证书的 PEM 编码文件的文件名，
++     这些证书将默认包含在系统密钥环中。
++
++请注意，启用模块签名会为内核构建过程添加对执行签名工具的 OpenSSL 开发包的依赖。
++
++
++生成签名密钥
++============
++
++生成和检查签名需要加密密钥对。私钥用于生成签名，相应的公钥用于检查签名。
++私钥仅在构建期间需要，之后可以删除或安全存储。
++公钥被构建到内核中，以便在加载模块时可以使用它来检查签名。
++
++在正常情况下，当 ``CONFIG_MODULE_SIG_KEY`` 保持默认值时，
++如果文件中不存在密钥对，内核构建将使用 openssl 自动生成新的密钥对::
++
++	certs/signing_key.pem
++
++在构建 vmlinux 期间（公钥需要构建到 vmlinux 中）使用参数::
++
++	certs/x509.genkey
++
++文件（如果尚不存在也会生成）。
++
++可以在 RSA（``MODULE_SIG_KEY_TYPE_RSA``）、ECDSA（``MODULE_SIG_KEY_TYPE_ECDSA``）
++和 ML-DSA（``MODULE_SIG_KEY_TYPE_MLDSA_*``）之间选择生成 RSA 4k、NIST P-384 密钥对或 ML-DSA 44、65 或 87 密钥对。
++
++强烈建议您提供自己的 x509.genkey 文件。
++
++最值得注意的是，在 x509.genkey 文件中，req_distinguished_name 部分应从默认值更改::
++
++	[ req_distinguished_name ]
++	#O = Unspecified company
++	CN = Build time autogenerated kernel key
++	#emailAddress = unspecified.user@unspecified.company
++
++生成的 RSA 密钥大小也可以通过以下方式设置::
++
++	[ req ]
++	default_bits = 4096
++
++也可以使用位于 Linux 内核源代码树根节点中的 x509.genkey 密钥生成配置文件和 openssl 命令手动生成公钥/私钥文件。
++以下是生成公钥/私钥文件的示例::
++
++	openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
++	   -config x509.genkey -outform PEM -out kernel_key.pem \
++	   -keyout kernel_key.pem
++
++然后可以将生成的 kernel_key.pem 文件的完整路径名指定在 ``CONFIG_MODULE_SIG_KEY`` 选项中，
++并且将使用其中的证书和密钥而不是自动生成的密钥对。
++
++
++内核中的公钥
++============
++
++内核包含一个可由 root 查看的公钥环。它们在名为 ".builtin_trusted_keys" 的密钥环中，
++可以通过以下方式查看::
++
++	[root@deneb ~]# cat /proc/keys
++	...
++	223c7853 I------     1 perm 1f030000     0     0 keyring   .builtin_trusted_keys: 1
++	302d2d52 I------     1 perm 1f010000     0     0 asymmetri Fedora kernel signing key: d69a84e6bce3d216b979e9505b3e3ef9a7118079: X509.RSA a7118079 []
++
++除了专门为模块签名生成的公钥外，还可以在 ``CONFIG_SYSTEM_TRUSTED_KEYS`` 配置选项引用的 PEM 编码文件中提供其他受信任的证书。
++
++此外，架构代码可以从硬件存储中获取公钥并将其添加（例如从 UEFI 密钥数据库）。
++
++最后，可以通过以下方式添加其他公钥::
++
++	keyctl padd asymmetric "" [.builtin_trusted_keys-ID] <[key-file]
++
++例如::
++
++	keyctl padd asymmetric "" 0x223c7853 <my_public_key.x509
++
++但是，请注意，内核只允许将由已驻留在 ``.builtin_trusted_keys`` 中的密钥有效签名的密钥添加到 ``.builtin_trusted_keys``。
++
++模块手动签名
++============
++
++要手动对模块进行签名，请使用 Linux 内核源代码树中可用的 scripts/sign-file 工具。
++该脚本需要 4 个参数：
++
++	1.  哈希算法（例如，sha256）
++	2.  私钥文件名或 PKCS#11 URI
++	3.  公钥文件名
++	4.  要签名的内核模块
++
++以下是签名内核模块的示例::
++
++	scripts/sign-file sha512 kernel-signkey.priv \
++		kernel-signkey.x509 module.ko
++
++使用的哈希算法不必与配置的算法匹配，但如果不同，
++应确保哈希算法要么内置在内核中，要么可以在不需要自身的情况下加载。
++
++如果私钥需要密码或 PIN，可以在 $KBUILD_SIGN_PIN 环境变量中提供。
++
++
++已签名模块和剥离
++================
++
++已签名模块在末尾简单地附加了数字签名。模块文件末尾的字符串
++``~Module signature appended~.`` 确认签名存在，但不能确认签名有效！
++
++已签名模块是脆弱的，因为签名在定义的ELF容器之外。
++因此，一旦计算并附加签名，就不得剥离它们。
++请注意，整个模块都是签名的有效载荷，包括签名时存在的任何和所有调试信息。
++
++
++加载已签名模块
++==============
++
++模块通过 insmod、modprobe、``init_module()`` 或 ``finit_module()`` 加载，
++与未签名模块完全一样，因为在用户空间中不进行任何处理。
++所有签名检查都在内核内完成。
++
++
++无效签名和未签名模块
++====================
++
++如果启用了 ``CONFIG_MODULE_SIG_FORCE`` 或在内核启动命令提供了 module.sig_enforce=1，
++内核将仅加载具有有效签名且具有公钥的模块。
++否则，它还将加载未签名的模块。
++任何具有不匹配签名的模块将不被允许加载。
++
++任何具有不可解析签名的模块将被拒绝。
++
++
++管理/保护私钥
++==============
++
++由于私钥用于签名模块，病毒和恶意软件可以使用私钥签名模块并危害操作系统。
++私钥必须被销毁或移动到安全位置，而不是保存在内核源代码树的根节点中。
++
++如果使用相同的私钥为多个内核配置签名模块，
++必须确保模块版本信息足以防止将模块加载到不同的内核中。
++要么设置 ``CONFIG_MODVERSIONS=y``，要么通过更改 ``EXTRAVERSION`` 或 ``CONFIG_LOCALVERSION`` 确保每个配置具有不同的内核发布字符串。
+-- 
+2.43.0
+
