@@ -1,141 +1,170 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33EF538237B;
-	Thu,  2 Apr 2026 11:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71D9E3DC4CE;
+	Thu,  2 Apr 2026 12:42:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775130505; cv=none; b=P3MZKkFyubP99/RcZsCmu05GSF7TPVi2RbA9Ymk8S5Izxe7QnvRPanrrjL/lxUoeriJ6M8jFWzgFpaGDP1T0nR0Rh8XIJeoLWKIRnKeNB6H8nCg55GLNDlaE/8vdMPyhhSQOf7ca4SeAeMBTKgbMGHoD6a4cYO8CHNT89sjmOAc=
+	t=1775133759; cv=none; b=JybTu8VO8gNZ7oOgBofOlAZl6uhTP4thhI2yXXde1BkHaEmuZde48+sOkSbHD+0Z64gr67o2VUEiJfO9YN4SFelNZHTIQfjkcaSyohVAeSddFfHfeEn7/9n8vS8TktrggUAwP4+wA8qDd/4eC3Hlg1im+smQ8AUFHxoeILQ2SnE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775130505; c=relaxed/simple;
-	bh=gUO/V5uvtYu5t5+8XfhNjCUuSp+MOp7rXIqsnq+VKII=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HisIMBess+kk+5t4EbhSOV8l3ZKiTWq4SLwpIU7iePxXFckR7oeQBTbDaHp07jK/NU3QDCGq2fGcYxQPQXc+NsI8MXM9sxnVylgkekpnrBizklu4kAfbcNx8wYcGeqVGXTuPCLi0NZLw5CuTadcjHUrDk5YejwxZKqaGFsjsSv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Luc54heS; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Luc54heS; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1775133759; c=relaxed/simple;
+	bh=eXuiAgdKHKGDwjhMoJPybkXIHLyx2xl4IR43FDNFuXQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=XA4b2YgGv6NM81KAOxdtFxHpVakTwkTfODvLA/uh1KcCWDQwficl+I2gInOA4uIZSI4S2Jib1QpKgQsrRexuKJ3ODXbPvf8KRtE2VdYiY55Sl3ELcH7EXLt+IDw8V+rPDEF+7/22VAje9EGP6kRJb8EkmA6CcxoY/C2VLKtjqE0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Mjn/K6ku; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Luc54heS";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Luc54heS"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=o0BfAq2trtfASNnVxf9HHtrEQCspzeSBvKkdxZfJnW4=;
-	b=Luc54heStVP+Ks1cf/+9Mie8Lxo+t9KmOQfujBmJXRPKkSvo/HJW2BgtlkbawbWBfCN9tRiOC
-	MhfDfIGw5pwHoccffo+jZsj9vgYRqDLMIwGS/b1ztYLuinQEB7Mzu9JGS+etuJoT2GPKebOkefi
-	174duOCnXseF0u2OAWDwFu0=
-Received: from canpmsgout06.his.huawei.com (unknown [172.19.92.157])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4fmg8N1Xx1z1BG4n;
-	Thu,  2 Apr 2026 19:47:48 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=o0BfAq2trtfASNnVxf9HHtrEQCspzeSBvKkdxZfJnW4=;
-	b=Luc54heStVP+Ks1cf/+9Mie8Lxo+t9KmOQfujBmJXRPKkSvo/HJW2BgtlkbawbWBfCN9tRiOC
-	MhfDfIGw5pwHoccffo+jZsj9vgYRqDLMIwGS/b1ztYLuinQEB7Mzu9JGS+etuJoT2GPKebOkefi
-	174duOCnXseF0u2OAWDwFu0=
-Received: from mail.maildlp.com (unknown [172.19.162.223])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fmg1R0MPDzRhTV;
-	Thu,  2 Apr 2026 19:41:47 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 771BE40561;
-	Thu,  2 Apr 2026 19:47:57 +0800 (CST)
-Received: from [10.67.109.254] (10.67.109.254) by
- dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Thu, 2 Apr 2026 19:47:55 +0800
-Message-ID: <c6eb858c-5275-6fdc-b6e9-bd6d4b169e05@huawei.com>
-Date: Thu, 2 Apr 2026 19:47:53 +0800
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Mjn/K6ku"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2B312C43;
+	Thu,  2 Apr 2026 05:42:21 -0700 (PDT)
+Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 534263F915;
+	Thu,  2 Apr 2026 05:42:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1775133747; bh=eXuiAgdKHKGDwjhMoJPybkXIHLyx2xl4IR43FDNFuXQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Mjn/K6kuBcKdeIR3d/RDCeq8IGk9fAR4uLseX84J6PK0lk7X6fvW7GsGpxYK69NPz
+	 TagyLFaP67hiiK+hPeAtNGk5rtn59RNu2q84pljWIfC0qxjiqqLoVRn17vHnIWfIIm
+	 xNx6D9GvNhQE/O10koxyjTdCvO9Xx4q/DRG6csNA=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	will@kernel.org,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	liuyonglong@huawei.com,
+	Jonathan.Cameron@huawei.com,
+	yezhenyu2@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	suzuki.poulose@arm.com
+Subject: Re: [PATCH v3 0/5] Support the FEAT_HDBSS introduced in Armv9.5
+Date: Thu,  2 Apr 2026 13:42:17 +0100
+Message-ID: <ac5kKQZEnS93qdDm@devkitleo>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <730aaffa-9dfd-40c3-a372-c774d203b6e1@huawei.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com> <acvWnjG0AZBHL21q@devkitleo> <730aaffa-9dfd-40c3-a372-c774d203b6e1@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.2.0
-Subject: Re: [PATCH v12 00/15] arm64/riscv: Add support for crashkernel CMA
- reservation
-Content-Language: en-US
-To: Borislav Petkov <bp@alien8.de>
-CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
-	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
-	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
-	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
-	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
-	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
-	<robh@kernel.org>, <saravanak@kernel.org>, <akpm@linux-foundation.org>,
-	<bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
-	<rdunlap@infradead.org>, <peterz@infradead.org>,
-	<pawan.kumar.gupta@linux.intel.com>, <feng.tang@linux.alibaba.com>,
-	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
-	<paulmck@kernel.org>, <lirongqing@baidu.com>, <rppt@kernel.org>,
-	<leitao@debian.org>, <ardb@kernel.org>, <jbohac@suse.cz>,
-	<cfsworks@gmail.com>, <tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
-	<ritesh.list@gmail.com>, <hbathini@linux.ibm.com>, <eajames@linux.ibm.com>,
-	<guoren@kernel.org>, <songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
-	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <coxu@redhat.com>,
-	<fuqiang.wang@easystack.cn>, <liaoyuanhong@vivo.com>,
-	<takahiro.akashi@linaro.org>, <james.morse@arm.com>, <lizhengyu3@huawei.com>,
-	<x86@kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
-	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
-	<kexec@lists.infradead.org>
-References: <20260402072701.628293-1-ruanjinjie@huawei.com>
- <20260402113137.GAac5Tmc5b7SL98KdY@fat_crate.local>
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-In-Reply-To: <20260402113137.GAac5Tmc5b7SL98KdY@fat_crate.local>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems500002.china.huawei.com (7.221.188.17) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+
+On Thu, Apr 02, 2026 at 10:40:37AM +0800, Tian Zheng wrote:
+> 
+> On 3/31/2026 10:13 PM, Leonardo Bras wrote:
+> > On Wed, Feb 25, 2026 at 12:04:16PM +0800, Tian Zheng wrote:
+> > > This series of patches add support to the Hardware Dirty state tracking
+> > > Structure(HDBSS) feature, which is introduced by the ARM architecture
+> > > in the DDI0601(ID121123) version.
+> > > 
+> > > The HDBSS feature is an extension to the architecture that enhances
+> > > tracking translation table descriptors' dirty state, identified as
+> > > FEAT_HDBSS. This feature utilizes hardware assistance to achieve dirty
+> > > page tracking, aiming to significantly reduce the overhead of scanning
+> > > for dirty pages.
+> > > 
+> > > The purpose of this feature is to make the execution overhead of live
+> > > migration lower to both the guest and the host, compared to existing
+> > > approaches (write-protect or search stage 2 tables).
+> > > 
+> > > After these patches, users(such as qemu) can use the
+> > > KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl to enable or disable the HDBSS
+> > > feature before and after the live migration.
+> > > 
+> > > v2:
+> > > https://lore.kernel.org/linux-arm-kernel/20251121092342.3393318-1-zhengtian10@huawei.com/
+> > > 
+> > > v2->v3 changes:
+> > > - Remove the ARM64_HDBSS configuration option and ensure this feature
+> > > is only enabled in VHE mode.
+> > > - Move HDBSS-related variables to the arch-independent portion of the
+> > > kvm structure.
+> > > - Remove error messages during HDBSS enable/disable operations
+> > > - Change HDBSS buffer flushing from handle_exit to vcpu_put,
+> > > check_vcpu_requests, and kvm_handle_guest_abort.
+> > > - Add fault handling for HDBSS including buffer full, external abort,
+> > > and general protection fault (GPF).
+> > > - Add support for a 4KB HDBSS buffer size, mapped to the value 0b0000.
+> > > - Add a second argument to the ioctl to turn HDBSS on or off.
+> > > 
+> > > Tian Zheng (1):
+> > >    KVM: arm64: Document HDBSS ioctl
+> > > 
+> > > eillon (4):
+> > >    arm64/sysreg: Add HDBSS related register information
+> > >    KVM: arm64: Add support to set the DBM attr during memory abort
+> > >    KVM: arm64: Add support for FEAT_HDBSS
+> > >    KVM: arm64: Enable HDBSS support and handle HDBSSF events
+> > > 
+> > >   Documentation/virt/kvm/api.rst       |  16 +++++
+> > >   arch/arm64/include/asm/cpufeature.h  |   5 ++
+> > >   arch/arm64/include/asm/esr.h         |   7 ++
+> > >   arch/arm64/include/asm/kvm_host.h    |  17 +++++
+> > >   arch/arm64/include/asm/kvm_mmu.h     |   1 +
+> > >   arch/arm64/include/asm/kvm_pgtable.h |   4 ++
+> > >   arch/arm64/include/asm/sysreg.h      |  11 +++
+> > >   arch/arm64/kernel/cpufeature.c       |  12 ++++
+> > >   arch/arm64/kvm/arm.c                 | 102 +++++++++++++++++++++++++++
+> > >   arch/arm64/kvm/hyp/pgtable.c         |   6 ++
+> > >   arch/arm64/kvm/hyp/vhe/switch.c      |  19 +++++
+> > >   arch/arm64/kvm/mmu.c                 |  70 ++++++++++++++++++
+> > >   arch/arm64/kvm/reset.c               |   3 +
+> > >   arch/arm64/tools/cpucaps             |   1 +
+> > >   arch/arm64/tools/sysreg              |  29 ++++++++
+> > >   include/uapi/linux/kvm.h             |   1 +
+> > >   tools/include/uapi/linux/kvm.h       |   1 +
+> > >   17 files changed, 305 insertions(+)
+> > > 
+> > > --
+> > > 2.33.0
+> > > 
+> > 
+> > Hi Tian,
+> > 
+> > I was thinking: maybe instead of putting the HDBSS (and HACDBS) stuff
+> > across a bunch of KVM files, we should try to focus them all on a single
+> > arch/arm64/kvm/dirty_bit.c file (plus a header such as
+> > arch/arm64/include/asm/kvm_dirty_bit.h).
+> > 
+> > What is your opinion on that?
+> > 
+> > Thanks!
+> > Leo
+> 
+> 
+> Sorry for the late reply. Yes, I had the same thought before. In the next
+> version, I will
+> 
+> move all the HDBSS-related content into the same file, such as
+> arch/arm64/kvm/dirty_bit.c
+> 
+> and arch/arm64/include/asm/kvm_dirty_bit.h.
+> 
+> 
+> Tian
+> 
+> 
+> > 
+> > 
 
 
+Awesome! Then I will work my HACDBS enablement that way as well.
 
-On 2026/4/2 19:31, Borislav Petkov wrote:
-> On Thu, Apr 02, 2026 at 03:26:46PM +0800, Jinjie Ruan wrote:
->> The crash memory allocation, and the exclude of crashk_res, crashk_low_res
->> and crashk_cma memory are almost identical across different architectures,
->> This patch set handle them in crash core in a general way, which eliminate
->> a lot of duplication code.
-> 
-> From: Documentation/process/submitting-patches.rst
-> 
-> "Don't get discouraged - or impatient
-> ------------------------------------
-> 
-> After you have submitted your change, be patient and wait.  Reviewers are
-> busy people and may not get to your patch right away.
-> 
-> Once upon a time, patches used to disappear into the void without comment,
-> but the development process works more smoothly than that now.  You should
-> receive comments within a week or so; if that does not happen, make sure
-> that you have sent your patches to the right place.  Wait for a minimum of
-> 						     ^^^^^^^^^^^^^^^^^^^^^
-> 
-> one week before resubmitting or pinging reviewers - possibly longer during
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> busy times like merge windows."
-> 
-> You need to be patient and send once a week and not spam people:
-
-Thank you for the reminder and for your patience. I apologize for the
-frequent updates; I am becoming more familiar with the community's
-workflow. I will follow your advice, limit my follow-ups to once a week,
-and avoid resending during busy periods like the merge window. I'll wait
-for further feedback before taking the next step.
-
-> 
-> Feb 04 Jinjie Ruan ( :1.0K|) [PATCH v3 0/3] arm64/riscv: Add support for crashkernel CMA reservation
-> Feb 09 Jinjie Ruan ( :1.5K|) [PATCH v4 0/3] arm64/riscv: Add support for crashkernel CMA reservation
-> Feb 12 Jinjie Ruan ( :2.1K|) [PATCH v5 0/4] arm64/riscv: Add support for crashkernel CMA reservation
-> Feb 24 Jinjie Ruan ( :2.3K|) [PATCH v6 0/5] arm64/riscv: Add support for crashkernel CMA reservation
-> Feb 26 Jinjie Ruan ( :2.5K|) [PATCH v7 0/5] arm64/riscv: Add support for crashkernel CMA reservation
-> Mar 02 Jinjie Ruan ( :2.8K|) [PATCH v8 0/5] arm64/riscv: Add support for crashkernel CMA reservation
-> Mar 23 Jinjie Ruan ( :2.9K|) [PATCH v9 0/5] arm64/riscv: Add support for crashkernel CMA reservation
-> Mar 25 Jinjie Ruan ( :3.7K|) [PATCH v10 0/8] arm64/riscv: Add support for crashkernel CMA reservation
-> Mar 28 Jinjie Ruan ( :4.3K|) [PATCH v11 00/11] arm64/riscv: Add support for crashkernel CMA reservation
-> Apr 02 Jinjie Ruan ( :4.5K|) [PATCH v12 00/15] arm64/riscv: Add support for crashkernel CMA reservation
-> 
+Thanks!
+Leo
