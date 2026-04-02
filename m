@@ -1,167 +1,308 @@
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com [209.85.222.54])
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD9B3EF661
-	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 16:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.222.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775146833; cv=pass; b=c3K0JO7b+5nPfcWHY3yiUdxcV/mdg2hVynNjUP8sO3jMbljlhEtFDu8mn628RK2qsTL2bi3k+cXNAt/xOLBlMyRIFN7q4NzWEy/50SwaJ8+m9SuTW+ovZRkPGz1u97Cycme1xp2Yt++AvN9o+I3Yc9mVe0YkvgUO/A2V63Cxu/Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775146833; c=relaxed/simple;
-	bh=j18XohxzMi25YcB7luu3u4i4Qqa/vIrjWdtPngyhd4w=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nB0+nQ8Tp68ZR+O1JXVv09Yvqwa3QOeUqmz7t6a6TjlIR9cI2maNyUWYmHREkYI6w+neJjtHCeMTkGzN/jZ+RZt8yOBuWyTskyWtISVoRK+ZQM/WnuXTjCdP+oW9f5O1JHpzkU7Yc4yAXlv2fzftU7pxoTeYPLVQCL5VaMbLQ6I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AZyuTiMf; arc=pass smtp.client-ip=209.85.222.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D343CFF56
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 17:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775149914; cv=none; b=Xltgufmsy8BZy0gtX90gesmSIphRyKyJO11sW1kQchG+D2ujG+nCRfDL75ifKdf32yzgnUJOTunZo/YUN98E78y7s6iW60V2ddTe2+su1YME3aUVPiphY3SlzJm3avWGpP1aZunG2Hs2S2r7pKmcN/XkZYRnG6dRvrFFy19dI6Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775149914; c=relaxed/simple;
+	bh=IBuFRNBGBaBjd9eZE55+VJyYFcLcjL8kQrBse1nHfG4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=id5g5mNh3KuAcKtH2pK1oRbYOBzccJxEzgoeDDPgMADJAG/BUZvmDqNq41Jetav9VnEuKMMvQB2lILvOtjg5K/3Ld7Z/GjsoxjvdPS6l7w0LEuh/lGXRxS4gnS9APw322Crtt4n2GQRmhL1edM3sQZzOV9wBfU/TEIX3Ip4u9Oc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/IRgyQH; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AZyuTiMf"
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-9519e97c01aso334086241.0
-        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 09:20:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775146832; cv=none;
-        d=google.com; s=arc-20240605;
-        b=cK3kQP1BAmp2SU67T6yBUB79GwZ5j9sWNdZzWhyH3OnZIQt6mS2+kGiqNpiUmUQmLA
-         Fhg6Ip17li4c64CldDTZRzSlYwPL2O/hJ3ppmmQHxjCQcMc9qvHPG3ZMrqeROlHTQcwQ
-         us9lvV6kjwxZIqq4osn+fsEkidQRGbfHPFoktVfd3MuCLrr5Nr0EvBWuBBmADdCwco7U
-         eR44kQyZZB8ipcQXRH8j7kUAKX28z5CHhJhKwIcYXzUVo2N0RFv3OXrGWTo2c/dyuckU
-         owyfFdX//WD/STp4pXeEZOiLuzF3ydxbaZcNR+rWM23WYmRpJkfm+gYuOCLxGATtoP5J
-         5JUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=XABnzafTexu8r9STfdSEhkFwL2mOaywT8y1TwNRcZwM=;
-        fh=5kKD7ao5Kjkt4oVeKnCH0eecb1chQc+puMuVSE+qHB4=;
-        b=O9c2pI1BrCYdVrDS/dMKOdA+G5dPatDb4DXt6Yf5YwgbQs8pKvV89DdEgwUBGhZctr
-         i3acH/0guTZXvrtqMeoPSpI0RZG5+ub5dsaPKqLk4u9D8uh8sL+rpB/XqrIgHuU3E/lK
-         KNGuoAHXAk9JYIb++biMy5mJFfiayMBc9+VvD5bIinKYLY7cM1nlvzRuyDpPl1dlMzh+
-         KXvYbbnR91zLWaWqigwjM3K5ZiJyak3PBaC+B+EYwoGe5hbFbx/uh/SPJFCAos90zkaD
-         CXGJQ3g1SNVv7H2hf7mO5ipsHoPmrnZUkDt2gb92hbmn+rF4Ptk2GcO/pZUlR098N0hY
-         12pw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/IRgyQH"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486b96760easo12522725e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 10:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775146832; x=1775751632; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=XABnzafTexu8r9STfdSEhkFwL2mOaywT8y1TwNRcZwM=;
-        b=AZyuTiMfgFGzwGTPxESAylW1htWmJDHhf1Zs16KdNQh5hxHHbGrtnmflQrCPAl4nCq
-         /uDNTYowOww3WFDzqEWTkyn3PA76/rCXXPEXWCTruzXwWqQyOT1qXgW7TmtbSlHShsNF
-         0ygOpkiIAVFciDET59zzAiK5f2tyOCoNHfnQz+geKuDcGYRaLqAMzKfvC0grG7PQImTO
-         lMpjxCr/b25cE89ceNfjxhOGwY+RB44pTH0VoVFGMQ2dTJRWODT4wLKjyaZEb1OoPSSE
-         Qd2H22a5Lt53F+FsUHkxjK12FXXve5uR+6i2m0KqHXbBkONmLKvRMcifOT3vaEOMc64e
-         PIow==
+        d=gmail.com; s=20251104; t=1775149909; x=1775754709; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Q4nHYoH4lQZS8z/1UWtS0Bd4HeYd52xdlIi7BxO3080=;
+        b=E/IRgyQHts6By0MbTveh7PHS1B1sHG5b8nvjCjBNvK60cvwCZIi7jveax8fqMQYXXi
+         2VnfRguCrx9Re9V1ESBLv6lSTgJoPHmMNQ8oxlSsNJlZL/f67uKbeJ86qjUzs63ocLbT
+         pwKipsEQDUqWU7pacnzx+dFrDlCxkFlpKF2mOh6ju2lVa9OvM5Mbq1ZyymWXzw2tztfI
+         iHjPVN8EC3hUqJvKQMuxKdocnhhwQwx3czB5CSmOAyjDYl7KiMaDTtVjgwEtOF+59PLl
+         EXnrPz4viJ6jSzTALCXE3/2N76nbMagd7A7lX1cGj4YBdeklvzCyYL57WRzsTmwqaUkd
+         /Kxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775146832; x=1775751632;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=XABnzafTexu8r9STfdSEhkFwL2mOaywT8y1TwNRcZwM=;
-        b=V9ZCz3fA86AwxQjsbijTbrhYr9B8NBOALZidtXjFO+ptGoc2bOVc1uRnpPcNBCKcsp
-         EwSx0SWtfCGAmdN6D6PyMI9hsNQNQQwGwKkRC/R9ciVw4dQbVxDYsw5HDOGVzpIVZ1sH
-         45nXO22KRMyEHf2CT+hFjin2HHrLlo7Jy3j9pHbwaV/jP7U3yXH+i48OK/m76sf1AOg0
-         3X9QviAubzUodW/heje2wQKj2SSeEr0nGNBdjGhvUc9Mo4X7FcAjPPRUE8besxz1FqVm
-         6RyLTxaveC/GAta3W4bvazEGrr6TAEFGCw54Fojh5cAacCITkMlxOxO+eOfAHN4OqK4s
-         jUtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVMe5vUE3NUhYPn1dk+dQcj7VSZ0BeC78WcWYcTpHfNjuLyBsKXCUOfj+wGt4Jqu89YKqwM9sTKxk8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzu3J3Yyz6Fut1WzxJcTE3xymhfYNUdieWMTwXP4f+QRjgZNMYW
-	UcJ4lCmw88P4g/tvoDwNySN22+IeZISxjN9CJA6/eA6bFYmDOFWgzpVCe8Jj6FbdcL6ycgL5hGt
-	jEie/EiaHYs0TajWxmA/E2XGC8/8Vafk5+QNqAwVN
-X-Gm-Gg: ATEYQzxdg2coIQVJEfME3LlL+zzMopN2qd5u90Rm0CTu6YI8Vu6/jnmbgyRzt7Yy3Qw
-	rt8Z8kMzKbdxNRxRHyNmWe16p2mQVL243cmYVHLUjwLFkShPB5JZhqWEWx/HmjnIUEVLZoeg7WL
-	ajOm9ezIFzLGQ6k+FIkrwvHBEVUQ3/DiKH8HN01bEjGswk31m07qqG09EYjXaMtHe7Az+AZ12gi
-	gPq/3/ug0aDZp4lCz96oOTeqSINiDzcSpTbcIopAvkmAIrceJ71sFBUM/dZAXJrmhXzjjeyNk0I
-	u+NxdPxXsWJrO3iT7aw+VQRwxj/1v/2i+qv26EPVCmM6OM/AfLWlnbSKqRQHPZQustaWjw26kcG
-	tcVU=
-X-Received: by 2002:a05:6102:3912:b0:5ff:9d74:967b with SMTP id
- ada2fe7eead31-60567f98c75mr3137498137.20.1775146830774; Thu, 02 Apr 2026
- 09:20:30 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 2 Apr 2026 09:20:30 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Thu, 2 Apr 2026 09:20:29 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <CAEvNRgFkusZeKxGctUpTTbYjdi7nZL1ZZar-gT7XRUOCZ2xtpw@mail.gmail.com>
-References: <20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com>
- <20260326-gmem-inplace-conversion-v4-10-e202fe950ffd@google.com>
- <2r4mmfiuisw26qymahnbh2oxqkkrywqev477kc4rlkcyx7tels@c7ple7kdgpo3> <CAEvNRgFkusZeKxGctUpTTbYjdi7nZL1ZZar-gT7XRUOCZ2xtpw@mail.gmail.com>
+        d=1e100.net; s=20251104; t=1775149909; x=1775754709;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Q4nHYoH4lQZS8z/1UWtS0Bd4HeYd52xdlIi7BxO3080=;
+        b=Z8xLpjaYjroRwgjvekxEVUCNR1wp0IG4AZzoAUppXALLgpq6hUfid7mcS+sfT6kKZV
+         yaaRM4l0MVnLs29Nq8K3x/U8f4piekSYsntaevggz2+JzAG8tDgbVonXXxgkjylcS1H/
+         mgOn6GAsIOxZ5xZ2jQjeNnfq11fPCSHkxzZ6NOHVPFU0PIkitg+voeVH9JvmA0P7kq/O
+         y1zGiy2Xy2LItL5fzNv/6hQ5DTyya69K0G54BFLJlqxe3GA9c4HaaooH3hL+ykorsQ6g
+         WqhW6h5dfY74Z7c7SP5e6VfS3iU2H9MTaeaQDlmsXkZJZHHefBS88AyaDndX2mQblPLT
+         J1aw==
+X-Forwarded-Encrypted: i=1; AJvYcCVN7CbTWabxJmJr0/Db431wuU9kjYibszk1qQnCjhhcK72wP8YM71YZiVodGWJRjVIfusLT1SAECZE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxfDXEf6/cXjXyXBXgmDUulRxMVQJV4i3Q6L6ri1Ciz023cSeVB
+	JFK9ni2mNBMBGf7MtDvVcxm6h3+nNnAvuR430O9MpVVhNMwkLtSHJdNI
+X-Gm-Gg: ATEYQzxnQlEhkBDIYiEtUPTgl4lHzjQEBItyO76dlCerQxYNjNLOOjvevxxKGDptaqU
+	Zifg/qO8o/mF8C2XseXFYIlj13NykEQUInzCxd3H1qKLmAAgle/01lp9a0lTn4+IBfKDaUh/Nx3
+	c2ptDy+5DLHV3saUCzVSI4/HT3xv9s8EhjPPzJ+Pkpcpu8UFuB10+lxX0v6NgVt5dclF75T1zcU
+	tMJDgrW5L8esimtq9WQHMWoD2pX6RU5ZncJrrvGYv2T+f5WfxAjraAhUdeUx5u9W7zDoF/2qitT
+	STD/4q2rI7r0GsTpaxXCj8MztvCbxwKslUojHmtOqazzzctABwFgXA9EVDV8+A7BsRzyinp82Mo
+	wHi4TiiiErF76VDa1u7SSJu7qLfQigGLFiDtaBeDyKqL4WpXOQB8ouy0pN5WtytpubukixtVVUv
+	AFb5PPCFUOVysm6A==
+X-Received: by 2002:a05:600c:8184:b0:483:9139:4c1d with SMTP id 5b1f17b1804b1-48883590456mr148967405e9.14.1775149908448;
+        Thu, 02 Apr 2026 10:11:48 -0700 (PDT)
+Received: from nsa ([185.128.9.128])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488977e43absm1368775e9.28.2026.04.02.10.11.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 10:11:48 -0700 (PDT)
+Date: Thu, 2 Apr 2026 18:12:35 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, linux-gpio@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+Subject: Re: [PATCH v8 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+Message-ID: <ac6iNzw9aW6Lgziz@nsa>
+References: <20260327-ltc4283-support-v8-0-471de255d728@analog.com>
+ <20260327-ltc4283-support-v8-2-471de255d728@analog.com>
+ <aco5L_6SZIB2DdpF@nsa>
+ <e0c96f38-6742-4b86-8938-64e4e6063119@roeck-us.net>
+ <acuLynb1hRFJRcEf@nsa>
+ <32c4c4dc-91db-4286-82e5-1d3269c76a74@roeck-us.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 2 Apr 2026 09:20:29 -0700
-X-Gm-Features: AQROBzDMmtxznwwWBs0nZ4oqZut-IIYidHQDWkMKzAfittGrfvUDuSGnGYqXsAk
-Message-ID: <CAEvNRgGm9icDK8sK5ZfqHEOEqSbvjwtihE4p9d3vpBq-NfVjmw@mail.gmail.com>
-Subject: Re: [PATCH RFC v4 10/44] KVM: guest_memfd: Add support for KVM_SET_MEMORY_ATTRIBUTES2
-To: Michael Roth <michael.roth@amd.com>
-Cc: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
-	brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
-	ira.weiny@intel.com, jmattson@google.com, jroedel@suse.de, 
-	jthoughton@google.com, oupton@kernel.org, pankaj.gupta@amd.com, 
-	qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
-	shivankg@amd.com, steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, 
-	kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <32c4c4dc-91db-4286-82e5-1d3269c76a74@roeck-us.net>
 
-Ackerley Tng <ackerleytng@google.com> writes:
+On Tue, Mar 31, 2026 at 06:31:59AM -0700, Guenter Roeck wrote:
+> On 3/31/26 02:48, Nuno Sá wrote:
+> > On Mon, Mar 30, 2026 at 08:47:32AM -0700, Guenter Roeck wrote:
+> > > On 3/30/26 02:28, Nuno Sá wrote:
+> > > > Hi Guenter, Regarding AI review, I think most of the points were
+> > > > discussed in previous revisions, but there are two valid.
+> > > > 
+> > > > On Fri, Mar 27, 2026 at 05:26:15PM +0000, Nuno Sá wrote:
+> > > > > Support the LTC4283 Hot Swap Controller. The device features programmable
+> > > > > current limit with foldback and independently adjustable inrush current to
+> > > > > optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
+> > > > > temperature rise for reliable protection against overstresses.
+> > > > > 
+> > > > > An I2C interface and onboard ADC allow monitoring of board current,
+> > > > > voltage, power, energy, and fault status.
+> > > > > 
+> > > > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+> > > > > ---
+> > > > >    Documentation/hwmon/index.rst   |    1 +
+> > > > >    Documentation/hwmon/ltc4283.rst |  266 ++++++
+> > > > >    MAINTAINERS                     |    1 +
+> > > > >    drivers/hwmon/Kconfig           |   12 +
+> > > > >    drivers/hwmon/Makefile          |    1 +
+> > > > >    drivers/hwmon/ltc4283.c         | 1796 +++++++++++++++++++++++++++++++++++++++
+> > > > >    6 files changed, 2077 insertions(+)
+> > > > > 
+> > > > 
+> > > > ...
+> > > > 
+> > > > > +static int ltc4283_read_in_alarm(struct ltc4283_hwmon *st, u32 channel,
+> > > > > +				 bool max_alm, long *val)
+> > > > > +{
+> > > > > +	if (channel == LTC4283_VPWR)
+> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_1,
+> > > > > +					  BIT(2 + max_alm), val);
+> > > > > +
+> > > > > +	if (channel >= LTC4283_CHAN_ADI_1 && channel <= LTC4283_CHAN_ADI_4) {
+> > > > > +		u32 bit = (channel - LTC4283_CHAN_ADI_1) * 2;
+> > > > > +		/*
+> > > > > +		 * Lower channels go to higher bits. We also want to go +1 down
+> > > > > +		 * in the min_alarm case.
+> > > > > +		 */
+> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_2,
+> > > > > +					  BIT(7 - bit - !max_alm), val);
+> > > > > +	}
+> > > > > +
+> > > > > +	if (channel >= LTC4283_CHAN_ADIO_1 && channel <= LTC4283_CHAN_ADIO_4) {
+> > > > > +		u32 bit = (channel - LTC4283_CHAN_ADIO_1) * 2;
+> > > > > +
+> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_3,
+> > > > > +					  BIT(7 - bit - !max_alm), val);
+> > > > > +	}
+> > > > > +
+> > > > > +	if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
+> > > > > +		u32 bit = (channel - LTC4283_CHAN_ADIN12) * 2;
+> > > > > +
+> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_5,
+> > > > > +					  BIT(7 - bit - !max_alm), val);
+> > > > > +	}
+> > > > 
+> > > > "Will this condition handle the ADIO12 and ADIO34 differential channels?
+> > > > It looks like channels 14 and 15 fall through to the default return intended
+> > > > for the DRAIN channel. Since reading the alarm implicitly clears the register
+> > > > bits, could reading these ADIO alarms unintentionally clear actual DRAIN
+> > > > alarms? Should the upper bound be LTC4283_CHAN_ADIO34?"
+> > > > 
+> > > > Good catch and should be:
+> > > > 
+> > > > -       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
+> > > > +       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIO34) {
+> > > > 
+> > > > > +
+> > > > > +	if (channel == LTC4283_CHAN_DRNS)
+> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4,
+> > > > > +					  BIT(6 + max_alm), val);
+> > > > > +
+> > > > > +	return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4, BIT(4 + max_alm),
+> > > > > +				  val);
+> > > > > +}
+> > > > 
+> > > > ...
+> > > > 
+> > > > > +
+> > > > > +static int ltc4283_probe(struct i2c_client *client)
+> > > > > +{
+> > > > > +	struct device *dev = &client->dev, *hwmon;
+> > > > > +	struct auxiliary_device *adev;
+> > > > > +	struct ltc4283_hwmon *st;
+> > > > > +	int ret;
+> > > > > +
+> > > > > +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
+> > > > > +	if (!st)
+> > > > > +		return -ENOMEM;
+> > > > > +
+> > > > > +	if (!i2c_check_functionality(client->adapter,
+> > > > > +				     I2C_FUNC_SMBUS_BYTE_DATA |
+> > > > > +				     I2C_FUNC_SMBUS_WORD_DATA |
+> > > > > +				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+> > > > > +		return -EOPNOTSUPP;
+> > > > > +
+> > > > > +	st->client = client;
+> > > > > +	st->map = devm_regmap_init(dev, &ltc4283_regmap_bus, client,
+> > > > > +				   &ltc4283_regmap_config);
+> > > > > +	if (IS_ERR(st->map))
+> > > > > +		return dev_err_probe(dev, PTR_ERR(st->map),
+> > > > > +				     "Failed to create regmap\n");
+> > > > > +
+> > > > > +	ret = ltc4283_setup(st, dev);
+> > > > > +	if (ret)
+> > > > > +		return ret;
+> > > > > +
+> > > > > +	hwmon = devm_hwmon_device_register_with_info(dev, "ltc4283", st,
+> > > > > +						     &ltc4283_chip_info, NULL);
+> > > > > +
+> > > > > +	if (IS_ERR(hwmon))
+> > > > > +		return PTR_ERR(hwmon);
+> > > > > +
+> > > > > +	ltc4283_debugfs_init(st, client);
+> > > > > +
+> > > > > +	if (!st->gpio_mask)
+> > > > > +		return 0;
+> > > > > +
+> > > > > +	adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
+> > > > > +	if (!adev)
+> > > > > +		return dev_err_probe(dev, -ENODEV, "Failed to add GPIO device\n");
+> > > > 
+> > > > "Does this allow multiple LTC4283 chips to probe successfully?
+> > > > Without allocating a unique ID per I2C instance, it seems the first probed
+> > > > chip takes the generic name. If a second chip is present, it might attempt
+> > > > to register with the exact same name, resulting in a failure in device_add()
+> > > > and aborting the probe."
+> > > > 
+> > > > Also looks valid and I suspect is one of those that a quick look will
+> > > > find more "offenders". I would purpose:
+> > > > 
+> > > > -       adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
+> > > > +       adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME, "gpio",
+> > > > +                                             &st->gpio_mask, client->addr);
+> > > > 
+> > > 
+> > > That would still fail if there are multiple chips at the same I2C address
+> > > on multiple I2C busses. Check drivers/gpu/drm/bridge/ti-sn65dsi86.c which has
+> > > the same problem.
+> > 
+> > I did looked at that one but totally forgot the multiple busses
+> > scenario.
+> > 
+> > > 
+> > > > If there's nothing else and you agree with the above, is this something
+> > > > you can tweak while applying or should I spin a new version?
+> > > > 
+> > > 
+> > > Please respin. Also, regarding the other concerns:
+> > > 
+> > >    Can BIT(8) * st->rsense wrap to zero on 32-bit architectures?
+> > >    BIT(8) is a 32-bit unsigned long and st->rsense is a u32. If a user sets a
+> > >    very large sense resistor value via the device tree, the multiplication could
+> > >    wrap to 0, causing a division-by-zero kernel panic. Should the divisor use
+> > >    BIT_ULL(8)?
+> > > 
+> > > Unless I am missing something, this _can_ overflow. Try to provide a sense
+> > > resistor value of 1677721600. Yes, it is unreasonable to specify such large
+> > > rsense values, but why not just limit it such that it does not overflow ?
+> > 
+> > Yes, that's pretty much my reasoning (regarding the unreasonable
+> > rsense). I could just make BIT_ULL() and be done with it. I can also
+> > also cap rsense to a max value but i'm not 100% what that value would
+> > be. Maybe 1 ohm is already more than reasonable. I can also ask internally. Any
+> > preference on this one?
+> > 
+> 
+> I'd suggest to reject large (unreasonable) values. In this case, rejecting rsense
+> values >= 1677721600 should solve the problem.
+> 
+> > > 
+> > > Also, for the overflow concerns, if you are sure they can not happen, I'll
+> > > really need to write the unit test code to make sure that this is indeed
+> > > the case.
+> > > 
+> > 
+> > Hmm, for the val * MILLI case, well it should not happen but given it
+> > depends on user input, better if I clamp it before passing the
+> > value to ltc4283_write_in_byte(). Yes, we clamp again inside the
+> > write_bytes() API but not a big deal.
+> > 
+> > For the st->power_max is again one of those cases where the values would
+> > not make sense (I think - the combination of vsense_max and rsense). Just looking
+> > at the code, it can overflow but this one I'm not really sure how we could handle it.
+> > Maybe clamp power_max to U8_MAX and have a warning message in ltc4283_read_power_byte() if
+> > we overflow long in which case we need a power64 attr?
+> > 
+> > But even clamping does not make much sense here. The power limit register
+> > is 8 bits, so if our design (rsense + vsense_max) overflows that,
+> > there's nothing we can do other that erroring out.
+> > 
+> 
+> Again, why not just reject unreasonable values such that calculations
+> can not overflow ?
+> 
+> In other drivers, the common approach is to reject unreeasonable values if
+> provided through devicetree and to clamp them if provided through sysfs.
+> I don't see why that would not work here.
 
->
-> [...snip...]
->
+Hi Guenter,
 
->> In the case of SNP, there is a
->> documentation/parameter check in snp_launch_update() that needs to be
->> relaxed in order for userspace to be able to pass in a NULL 'src'
->> parameter (since, for in-place conversion, it would be initialized in place
->> as shared memory prior to the call, since by the time kvm_gmem_poulate()
->> it will have been set to private and therefore cannot be faulted in via
->> GUP (and if it could, we'd be unecessarily copying the src back on top
->> of itself since src/dst are the same).
->
->
-> [...snip...]
->
->
-> Btw, if snp_launch_update() is going to accept a NULL src parameter and
-> launch-update the src in-place:
->
-> + Will userspace have to set that memory to private before calling launch
->   update?
->     + If yes, then would we need some other mode of conversion that is
->       not ZERO and not quite PRESERVE (since PRESERVE is defined as that
->       the guest will see what the host wrote post-encryption, but it
->       sounds like launch update is doing the encryption)
-> + Or should launch update be called when that memory is shared? Will
->   launch update then also set that memory to private in guest_memfd?
->
+Just FYI, I intended to re-spin today but then I started to double check
+the st->power_max logic. If I did not messed up 14.5uOhm is the minimum rsense
+we can take so that we don't overflow long on 32bits systems. I'm not sure but
+I think it's plausible to have values lower than that. So, bottom line, I
+asked internally to some HW folks, who definitely know these systems
+better than I do, about that 14,5 min value. I'm waiting for feedback
+but it might be that we end up needing power64 attrs as you suggested
+some revisions ago.
 
-Update after today's guest_memfd biweekly:
+- Nuno Sá
 
-guest_memfd's populate will first check that the memory is shared, then
-also set the memory to private after the populate.
-
-KVM must not make assumptions about any memory that is private, so it
-should actually only be operating on memory that is shared. This is
-aligned with pre-in-place-conversion, since before this series, there
-was no way to populate from private memory anyway.
-
->>
->> [...snip...]
->>
+> 
+> Thanks,
+> Guenter
+> 
