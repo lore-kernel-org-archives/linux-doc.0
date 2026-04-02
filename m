@@ -1,749 +1,140 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE55328B4B
-	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 09:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE2A9371072
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 09:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775120776; cv=none; b=azTGSBxrVXhYGBwMrfdqAtbH4oFFektwAM9bkqF5sNk5/SE0edV6fJ7Lisd1OLpGZSj1PRZf+FPTWG/aP4EasZD2ET7FryPCV04KI0njTAvpxG3Mm2py2ONebU21rocR0JI38hPGqFBNCXzARTHQPwY3eh2PLVrVhuPbOw1ZeQc=
+	t=1775121236; cv=none; b=MdEgCK0nXKAOSsZlazRQuCVDSgRgPIIWV9KktjQ56t4jCuJGE5ihXkyuB4s4kPXsCboRoDFY2nWV1KVxIGzYaWjOuyXYVjzJ9Zx5Ac5ftcq3hbem78LKPgjgHHueVuTAgZ7en+Pe5d4fycqSkMhDwZ5B4IGHMpy5lrsFjd6bwdo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775120776; c=relaxed/simple;
-	bh=5dVkXnbNf8DDFR7Te64rm2NCfguYSbm6QG6t5LoIwgA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EGOBnLe47YFX7D2rIY4apHtgKsoy39hYXaSFgY4ZvKWtXflJFy5S8AzuXPrsBV3H9ShRVDSTZaMzgzN3/nATNh5w/M1HNrA+CYA5DKXKrPgTOdoauDPQbNMGr8IJ9a/BIZs38G0DgOkZpstPV16npK6DeSgY0T/D2cXI14XwYyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=s+jJrJm2; arc=none smtp.client-ip=74.125.82.169
+	s=arc-20240116; t=1775121236; c=relaxed/simple;
+	bh=Ue86H1KysRcjf2OINDQFXuIhBR4ESQnxLFwGpvhWUfw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=YEQmJTvER2iIi7Hivyh+1Xb0u1Mdc0b5ZBSrEobH7COlcTze2YobW2WypehOdV6PgWfYcUBAp+YATMY44tsxjgHpEiOBMslG8kXf0FPSZjEkXWZb4at5v1vYs2MGCKRKKWdnefcJc9gZ7xt6N8zWEOiRtxKeNHHsMAiCvDpfmEU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A5n06+QP; arc=none smtp.client-ip=209.85.128.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="s+jJrJm2"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2ca4ff720ccso709038eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 02:06:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A5n06+QP"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4887d4c6234so7989485e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 02:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775120774; x=1775725574; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Q5iessJ1l64ZgjM5MGjl37L/wxfofNJJq+2yhJj6580=;
-        b=s+jJrJm22VuuDqeplh1TuacFwsPnoSoCTht7KDLWGU/PdpKVDXFsP91WOmSWL9mL8C
-         ulnmGcncAlN/59Y/HmEoIgTmTLuf1s8UbOw97ScEusQaciql+o1jlXiUd2yVIo3fVZfM
-         YD5JwC25rgcH1EdSXCyMDvCJcl2B9/Q24PXRMitnP50chIZ0aQvdUDtnSe/Sf41K6QFJ
-         7A5ssVtT/agpGhGpiHEdB0KsKim9HGejoHReWa/A65HBZ+CypFgrZjHaM0M0SfnyaP/O
-         6grjckuGJm/9sg6qkZeLffV3VpT3kCqfMsFe/eEZId0T9HQfEgu+5W+oejmNr8K4xLhq
-         QCJA==
+        d=gmail.com; s=20251104; t=1775121231; x=1775726031; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Qr0tec9oGf/SBDgbf+2rD33HNBftwB6KGbVP3Dhy5ew=;
+        b=A5n06+QPfUFaXxI/M3g/2ZIAVBIeHbAFIn9fGxXft8XKXsdeYwFLrT028wcoA2aKfh
+         ERiSVNU05FnkjivehGxg+oTWbZUwi88KjkNlqZNBuzj0EzfXGeIMPkU9qUDcJO13u42n
+         Qc+ToNX90wZatSr1UpDFyAIlOAWNRj5Iey84lKGAC8oPZnFP1/xhoIVKNw/RSkQZhGVC
+         LkZhmMkiERw1w+Lqwvz5S1IMxAdtRlgS991nqazXXwMC0Q5FFDV55aopH6vHp5gcvO5d
+         LLk4BkcUPU5LEV1MeB/R4F8tSYVJqHiT7Ti//bkOyEVfeVVHxdf12QoAkbSObQ/O7O7+
+         P4iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775120774; x=1775725574;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q5iessJ1l64ZgjM5MGjl37L/wxfofNJJq+2yhJj6580=;
-        b=bp1QrOHkhMNg19cxtthCkJ+uzSIcRBrnyMtUQOb6IzrlP8RwA5IjGGvkptJChIytru
-         03HJpXo98LcNudtIC355HCTskB+Zgo/7VQdPTkgTAg8fzsVDswhbHgwuZyNbtGQQUsHG
-         Jvs/oc5K8EnBQacsztnWWJZlXvlsL12wIexjbuKzlsa0seW6J25/ZNqYCdbvkfuc1pv3
-         fzdS04uzhkhyYofeLeFaikZV7Q5SEL/pjc28mNVGPCzQlwhio7ja3OPmy/WZwXMKnNJ/
-         83+ip+nX17RswwxqSA10+vmRhQ6N6qVE6Sc3LmzLjMRaZ3rhZ5h8SDPscolU+DnnZJaD
-         /fXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpczDrXX0xvrFbZrIpQbirnx6QkEElgPMLt3g/dUfNVrK7+DQXX+XvWpycorMmG+PRLeLV/eBZuf8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbPT/T+MIotK9DU/7jQpKJYf5Hr4sepJ7QbyzDki2UY5dMpJR1
-	EFssGBL+u3dIzOwDYclJg0DNHjqRBvLDkr0DoTYuKe7EizGV+wqGvFr2
-X-Gm-Gg: ATEYQzx4YU1N4xz5mFC8VLrihPlT4e5FYt1VEOVLtBjOOBzkdg6cJWXVnln0BfjYPMw
-	lx+JmxygSUC1aDhdbAZE0LORxmPOC1saOWJjxgA7THM3tVCACDkoHnEcmqUvjauFPdRKUlDXy3o
-	KewV6eVtrrtH/qgVDw+HgyjjHwtMJGQeSbsaxVJ9SNBjqD0x9F8+dDeuqjxBEPMHSYeovSlMfPg
-	uXYNClZxupJNcAjQw5MFmI8NSnVf+7LxTUwdfSqqO2GTOBfmiv9QvMtmoqg83o7aQtopRLcmMcK
-	p/JL7n5OHyG36aPndU68HYnKlXdAaRDQbYA6oAA1ADCcrgC+yXEFyAJBruj12BbExUFC9EKHZCQ
-	vfsD/qz443tdXjf5S4UoyyN/gsAcf0nLiQqNvYkLLJT4wZvSiQGU03dqx5z7O7KjFi8o0pTmdG6
-	AeOGalTnJUKz5Y8YkdpeZN+im3qX9tSKNL/6Yx4u4abSQC9IC+zqKG3nOGOBjn
-X-Received: by 2002:a05:7300:8ca6:b0:2c1:67e1:61a9 with SMTP id 5a478bee46e88-2cad76f506dmr631550eec.13.1775120773696;
-        Thu, 02 Apr 2026 02:06:13 -0700 (PDT)
-Received: from ?IPV6:2620:10d:c085:21cf::147f? ([2620:10d:c090:400::5:9571])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca78df5ed3sm1934154eec.6.2026.04.02.02.06.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Apr 2026 02:06:13 -0700 (PDT)
-Message-ID: <db9e681f-3a87-4ea3-a8b3-cfa96e328c42@gmail.com>
-Date: Thu, 2 Apr 2026 02:06:11 -0700
+        d=1e100.net; s=20251104; t=1775121231; x=1775726031;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Qr0tec9oGf/SBDgbf+2rD33HNBftwB6KGbVP3Dhy5ew=;
+        b=A45h48CZWlAx0kvRy/tTsOSZggu8eXvBd7Eapu+n2n6ol9lLNR5+GEEA3jP1i2/nWw
+         kRSddpGtYZJAalxnBL+pi0QoV2Em9W02pWB/Ws8KpOFOcKOTREyP5mF8xBm0MrSg9s7L
+         kep3drcGjfJZLcQcIn4zSb5qOcQ3HnU3yD2j93xQbB6+ZnCksyvs0hM1lWObDHyTsrig
+         sTU9eKC0Trvri2lCUlEReEPf+RgTUfE1mefpVwK1sexGBkpYLgi8BzAKKT80ZOx1l+6H
+         RSC2foVUHwCP/WLqmmxyoQU/q1xTQcCrUO+efsaBN672ImukiVFhJ1sSy1/JewlK+c98
+         xvrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWrqIrwM3n/dZWnoW2+oP786ViQyJCG4EhX02kQWofQFOOZBzzgx9l/iubCEGtuERX5/J3J3Aq7Fn0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGKhRSDMadFbpECO+v7x+S2pQVhaar3MJlTahORDBW4GxsnthI
+	dA92LMHK2DR3T/AK6V87MncqStYIdBkvQRyIDIDuYy2k3hBYL4q/QYea
+X-Gm-Gg: ATEYQzy8H4Y07dj+inISzC9MRoDj5NDhFOTGSkwZMXlpNBUi0SYqN48aBEweWFN+kdY
+	bN0JboO+VLvC2gjPr3dnFzIwk72fp9uUoBrlktfCvF/MC2RqqiGEx5nipo9adsVeu+Z+2Jk4TwD
+	z5NjdrbFORS1RAgTlsGkr8IBK8eeA5k/tuWb72Sorp194qY8TPNpmjGAKfrvsYVLtymsy3zitCF
+	bMN/DZpB8LKS2ibUKn4JSlnkCnYvpYOD3vYFGkHLA9yT3OZBrcG0pVZ90fZDHjK6ywflz6NXnxT
+	S6IJGhfN/z8ejlceAfi6Ys5r8Um7JowB+eze4Zx8dXcr3vqPyCDCn47dUOjBG9DaG4cU4BVdKfu
+	LWvW1P87Tjmt3n4tpbbRzvt44OIPUdMaKQ5DLRIG/dJAxjwtN4zcBCHkezwcUOtiiTeqP7b0sr5
+	VnqF6v56f4fuZtH2nYFCPrPiobo7hqs1jnIZBWu590xTa1XZqMtDLjJkR+ZhQTsu5MRNKuYGU=
+X-Received: by 2002:a05:600c:3514:b0:47e:e48b:506d with SMTP id 5b1f17b1804b1-4888358c8b3mr115476365e9.16.1775121230625;
+        Thu, 02 Apr 2026 02:13:50 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4887e952b0bsm162303495e9.12.2026.04.02.02.13.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Apr 2026 02:13:50 -0700 (PDT)
+Date: Thu, 2 Apr 2026 10:13:48 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>, Justin Stitt
+ <justinstitt@google.com>, Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+ Marco Elver <elver@google.com>, Andrey Konovalov <andreyknvl@gmail.com>,
+ Andrey Ryabinin <ryabinin.a.a@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Miguel Ojeda <ojeda@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>, kasan-dev@googlegroups.com,
+ linux-doc@vger.kernel.org, llvm@lists.linux.dev, Linus Torvalds
+ <torvalds@linux-foundation.org>, Nicolas Schier <nsc@kernel.org>, Arnd
+ Bergmann <arnd@arndb.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, linux-kernel@vger.kernel.org,
+ linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 3/5] compiler_attributes: Add overflow_behavior macros
+ __ob_trap and __ob_wrap
+Message-ID: <20260402101348.2f758a58@pumpkin>
+In-Reply-To: <202604011313.AD471BC8@keescook>
+References: <20260331163716.work.696-kees@kernel.org>
+	<20260331163725.2765789-3-kees@kernel.org>
+	<CANiq72mK9fz6Spmgt4js3hScqhqvZb2YP2T7tDfR0fHPDFWJ7g@mail.gmail.com>
+	<CAFhGd8paijFboDVr8rJDjScob047q+zgYAs038WuVozOG0aYaQ@mail.gmail.com>
+	<202603311249.30B44C66@keescook>
+	<20260401090815.GV3738786@noisy.programming.kicks-ass.net>
+	<202604011313.AD471BC8@keescook>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 net-next 08/11] net/nebula-matrix: add vsi resource
- implementation
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>,
- dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
- linux-doc@vger.kernel.org, lorenzo@kernel.org, pabeni@redhat.com,
- horms@kernel.org, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
- edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
- hkallweit1@gmail.com, jani.nikula@intel.com,
- open list <linux-kernel@vger.kernel.org>
-References: <20260401022318.28550-1-illusion.wang@nebula-matrix.com>
- <20260401022318.28550-9-illusion.wang@nebula-matrix.com>
-Content-Language: en-US
-From: Mohsin Bashir <mohsin.bashr@gmail.com>
-In-Reply-To: <20260401022318.28550-9-illusion.wang@nebula-matrix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Wed, 1 Apr 2026 13:21:17 -0700
+Kees Cook <kees@kernel.org> wrote:
 
-
-On 3/31/26 7:23 PM, illusion.wang wrote:
-> The HW (Hardware) layer code can have a quick review since it is
-> highly chip-specific.
-> Chip initialization includes the initialization of the DP module, the
-> intf module, and the P4 registers.
-> The initialization of the DP module encompasses the initialization of
-> the dped(downstream pkt edit), uped(upstream pkt edit), dsch(downstream
-> schedule), ustore, dstore, dvn, uvn, and uqm modules.
+> On Wed, Apr 01, 2026 at 11:08:15AM +0200, Peter Zijlstra wrote:
+> > On Tue, Mar 31, 2026 at 12:52:10PM -0700, Kees Cook wrote:
+> >   
+> > > I think for this series, __ob_trap/__ob_wrap is what should be used.
+> > > 
+> > > And for other folks, the background here is that we originally wanted
+> > > to use macros for "__trap" and "__wrap", but the powerpc C compiler
+> > > (both Clang and GCC) have a builtin macro named "__trap" already. So
+> > > I switched to just using the Clang-native type qualifier. We can use
+> > > the attribute style too, but there was a lot of confusion during the
+> > > Clang development phases where people kept forgetting this was a type
+> > > qualifier, not an attribute (i.e. the attribute is an internal alias
+> > > for the qualifier, and the qualifier is a new type).  
+> > 
+> > Since you mention qualifiers...
+> > 
+> > What is the result of __typeof_unqual__(int __ob_trap) ?  
 > 
-> Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
-> ---
->   .../net/ethernet/nebula-matrix/nbl/Makefile   |   1 +
->   .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  | 406 ++++++++++++++++++
->   .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  12 +-
->   .../nbl_hw_leonis/nbl_resource_leonis.c       |   4 +
->   .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |   1 +
->   .../nebula-matrix/nbl/nbl_hw/nbl_vsi.c        |  51 +++
->   .../nebula-matrix/nbl/nbl_hw/nbl_vsi.h        |  11 +
->   .../nbl/nbl_include/nbl_def_hw.h              |   4 +
->   .../nbl/nbl_include/nbl_include.h             |  31 ++
->   9 files changed, 520 insertions(+), 1 deletion(-)
->   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
->   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
+> Hmm, it seems like "const" doesn't get peeled off. That can be fixed, if
+> that's needed?
 > 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> index a56e722a5ac7..241bbb572b5e 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> @@ -10,6 +10,7 @@ nbl-objs +=       nbl_common/nbl_common.o \
->   				nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.o \
->   				nbl_hw/nbl_resource.o \
->   				nbl_hw/nbl_interrupt.o \
-> +				nbl_hw/nbl_vsi.o \
->   				nbl_core/nbl_dispatch.o \
->   				nbl_core/nbl_dev.o \
->   				nbl_main.o
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-> index aa5e91c2b278..37cfd322d422 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-> @@ -8,6 +8,7 @@
->   #include <linux/io.h>
->   #include <linux/spinlock.h>
->   #include "nbl_hw_leonis.h"
-> +#include "nbl_hw_leonis_regs.h"
->   
->   static void nbl_hw_read_mbx_regs(struct nbl_hw_mgt *hw_mgt, u64 reg,
->   				 u32 *data, u32 len)
-> @@ -63,6 +64,408 @@ static void nbl_hw_wr_regs(struct nbl_hw_mgt *hw_mgt, u64 reg, const u32 *data,
->   	spin_unlock(&hw_mgt->reg_lock);
->   }
->   
-> +static u32 nbl_hw_get_quirks(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	u32 quirks;
-> +
-> +	nbl_hw_read_mbx_regs(hw_mgt, NBL_LEONIS_QUIRKS_OFFSET, &quirks,
-> +			     sizeof(u32));
-> +
-> +	if (quirks == NBL_LEONIS_ILLEGAL_REG_VALUE)
-> +		return 0;
-> +
-> +	return quirks;
-> +}
-> +
-> +static void nbl_configure_dped_checksum(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	union dped_l4_ck_cmd_40_u l4_ck_cmd_40;
-> +
-> +	/* DPED dped_l4_ck_cmd_40 for sctp */
-> +	nbl_hw_rd_regs(hw_mgt, NBL_DPED_L4_CK_CMD_40_ADDR, (u32 *)&l4_ck_cmd_40,
-> +		       sizeof(l4_ck_cmd_40));
-> +	l4_ck_cmd_40.info.en = 1;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DPED_L4_CK_CMD_40_ADDR, (u32 *)&l4_ck_cmd_40,
-> +		       sizeof(l4_ck_cmd_40));
-> +}
-> +
-> +static int nbl_dped_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	nbl_hw_wr32(hw_mgt, NBL_DPED_VLAN_OFFSET, 0xC);
-> +	nbl_hw_wr32(hw_mgt, NBL_DPED_DSCP_OFFSET_0, 0x8);
-> +	nbl_hw_wr32(hw_mgt, NBL_DPED_DSCP_OFFSET_1, 0x4);
-> +
-> +	/* dped checksum offload */
-> +	nbl_configure_dped_checksum(hw_mgt);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_uped_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	struct ped_hw_edit_profile hw_edit;
-> +
-> +	nbl_hw_rd_regs(hw_mgt, NBL_UPED_HW_EDT_PROF_TABLE(NBL_DPED_V4_TCP_IDX),
-> +		       (u32 *)&hw_edit, sizeof(hw_edit));
-> +	hw_edit.l3_len = 0;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UPED_HW_EDT_PROF_TABLE(NBL_DPED_V4_TCP_IDX),
-> +		       (u32 *)&hw_edit, sizeof(hw_edit));
-> +
-> +	nbl_hw_rd_regs(hw_mgt, NBL_UPED_HW_EDT_PROF_TABLE(NBL_DPED_V6_TCP_IDX),
-> +		       (u32 *)&hw_edit, sizeof(hw_edit));
-> +	hw_edit.l3_len = 1;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UPED_HW_EDT_PROF_TABLE(NBL_DPED_V6_TCP_IDX),
-> +		       (u32 *)&hw_edit, sizeof(hw_edit));
-> +
-> +	return 0;
-> +}
-> +
-> +static void nbl_shaping_eth_init(struct nbl_hw_mgt *hw_mgt, u8 eth_id, u8 speed)
-> +{
-> +	struct nbl_shaping_dvn_dport dvn_dport = { 0 };
-> +	struct nbl_shaping_dport dport = { 0 };
-> +	u32 rate, half_rate;
-> +
-> +	if (speed == NBL_FW_PORT_SPEED_100G) {
-> +		rate = NBL_SHAPING_DPORT_100G_RATE;
-> +		half_rate = NBL_SHAPING_DPORT_HALF_100G_RATE;
-> +	} else {
-> +		rate = NBL_SHAPING_DPORT_25G_RATE;
-> +		half_rate = NBL_SHAPING_DPORT_HALF_25G_RATE;
-> +	}
-> +
-> +	dport.cir = rate;
-> +	dport.pir = rate;
-> +	dport.depth = max(dport.cir * 2, NBL_LR_LEONIS_NET_BUCKET_DEPTH);
-> +	dport.cbs = dport.depth;
-> +	dport.pbs = dport.depth;
-> +	dport.valid = 1;
-> +
-> +	dvn_dport.cir = half_rate;
-> +	dvn_dport.pir = rate;
-> +	dvn_dport.depth = dport.depth;
-> +	dvn_dport.cbs = dvn_dport.depth;
-> +	dvn_dport.pbs = dvn_dport.depth;
-> +	dvn_dport.valid = 1;
-> +
-> +	nbl_hw_wr_regs(hw_mgt, NBL_SHAPING_DPORT_REG(eth_id), (u32 *)&dport,
-> +		       sizeof(dport));
-> +	nbl_hw_wr_regs(hw_mgt, NBL_SHAPING_DVN_DPORT_REG(eth_id),
-> +		       (u32 *)&dvn_dport, sizeof(dvn_dport));
-> +}
-> +
-> +static int nbl_shaping_init(struct nbl_hw_mgt *hw_mgt, u8 speed)
-> +{
-> +#define NBL_SHAPING_FLUSH_INTERVAL 128
-> +	struct nbl_shaping_net net_shaping = { 0 };
-> +	struct dsch_psha_en psha_en = { 0 };
-> +	int i;
-> +
-> +	for (i = 0; i < NBL_MAX_ETHERNET; i++)
-> +		nbl_shaping_eth_init(hw_mgt, i, speed);
-> +
-> +	psha_en.en = 0xF;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DSCH_PSHA_EN_ADDR, (u32 *)&psha_en,
-> +		       sizeof(psha_en));
-> +
-> +	for (i = 0; i < NBL_MAX_FUNC; i++) {
-> +		nbl_hw_wr_regs(hw_mgt, NBL_SHAPING_NET_REG(i),
-> +			       (u32 *)&net_shaping, sizeof(net_shaping));
-> +		if ((i % NBL_SHAPING_FLUSH_INTERVAL) == 0)
-> +			nbl_flush_writes(hw_mgt);
-> +	}
-> +	nbl_flush_writes(hw_mgt);
-> +	return 0;
-> +}
-> +
-> +static int nbl_dsch_qid_max_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	struct dsch_vn_quanta quanta = { 0 };
-> +
-> +	quanta.h_qua = NBL_HOST_QUANTA;
-> +	quanta.e_qua = NBL_ECPU_QUANTA;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DSCH_VN_QUANTA_ADDR, (u32 *)&quanta,
-> +		       sizeof(quanta));
-> +	nbl_hw_wr32(hw_mgt, NBL_DSCH_HOST_QID_MAX, NBL_MAX_QUEUE_ID);
-> +
-> +	nbl_hw_wr32(hw_mgt, NBL_DVN_ECPU_QUEUE_NUM, 0);
-> +	nbl_hw_wr32(hw_mgt, NBL_UVN_ECPU_QUEUE_NUM, 0);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_ustore_init(struct nbl_hw_mgt *hw_mgt, u8 eth_num)
-> +{
-> +	struct nbl_ustore_port_drop_th drop_th = { 0 };
-> +	struct ustore_pkt_len pkt_len;
-> +	int i;
-> +
-> +	nbl_hw_rd_regs(hw_mgt, NBL_USTORE_PKT_LEN_ADDR, (u32 *)&pkt_len,
-> +		       sizeof(pkt_len));
+> 'typeof_unqual(int)' (aka 'int')
+> 'typeof_unqual(__ob_trap int)' (aka '__ob_trap int')
+> 'typeof_unqual(const int)' (aka 'int')
+> 'typeof_unqual(__ob_trap const int)' (aka '__ob_trap const int')
+> 
+> -Kees
+> 
 
-Why are we issuing read while ignoring return values? Issuing read to 
-clear registers? A comment here would help.
+Adding all the required cases to the _Generic() doesn't scale.
 
-> +	/* min arp packet length 42 (14 + 28) */
-> +	pkt_len.min = 42;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_USTORE_PKT_LEN_ADDR, (u32 *)&pkt_len,
-> +		       sizeof(pkt_len));
-> +
-> +	drop_th.en = 1;
-> +	if (eth_num == 1)
-> +		drop_th.disc_th = NBL_USTORE_SINGLE_ETH_DROP_TH;
-> +	else if (eth_num == 2)
-> +		drop_th.disc_th = NBL_USTORE_DUAL_ETH_DROP_TH;
-> +	else
-> +		drop_th.disc_th = NBL_USTORE_QUAD_ETH_DROP_TH;
-> +
-> +	for (i = 0; i < NBL_MAX_ETHERNET; i++)
-> +		nbl_hw_wr_regs(hw_mgt, NBL_USTORE_PORT_DROP_TH_REG_ARR(i),
-> +			       (u32 *)&drop_th, sizeof(drop_th));
-> +
-> +	for (i = 0; i < NBL_MAX_ETHERNET; i++) {
-> +		nbl_hw_rd32(hw_mgt, NBL_USTORE_BUF_PORT_DROP_PKT(i));
-> +		nbl_hw_rd32(hw_mgt, NBL_USTORE_BUF_PORT_TRUN_PKT(i));
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_dstore_init(struct nbl_hw_mgt *hw_mgt, u8 speed)
-> +{
-> +	struct dstore_port_drop_th drop_th;
-> +	struct dstore_d_dport_fc_th fc_th;
-> +	struct dstore_disc_bp_th bp_th;
-> +	int i;
-> +
-> +	for (i = 0; i < NBL_DSTORE_PORT_DROP_TH_DEPTH; i++) {
-> +		nbl_hw_rd_regs(hw_mgt, NBL_DSTORE_PORT_DROP_TH_REG(i),
-> +			       (u32 *)&drop_th, sizeof(drop_th));
-> +		drop_th.en = 0;
-> +		nbl_hw_wr_regs(hw_mgt, NBL_DSTORE_PORT_DROP_TH_REG(i),
-> +			       (u32 *)&drop_th, sizeof(drop_th));
-> +	}
-> +
-> +	nbl_hw_rd_regs(hw_mgt, NBL_DSTORE_DISC_BP_TH, (u32 *)&bp_th,
-> +		       sizeof(bp_th));
-> +	bp_th.en = 1;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DSTORE_DISC_BP_TH, (u32 *)&bp_th,
-> +		       sizeof(bp_th));
-> +
-> +	for (i = 0; i < NBL_MAX_ETHERNET; i++) {
-> +		nbl_hw_rd_regs(hw_mgt, NBL_DSTORE_D_DPORT_FC_TH_REG(i),
-> +			       (u32 *)&fc_th, sizeof(fc_th));
-> +		if (speed == NBL_FW_PORT_SPEED_100G) {
-> +			fc_th.xoff_th = NBL_DSTORE_DROP_XOFF_TH_100G;
-> +			fc_th.xon_th = NBL_DSTORE_DROP_XON_TH_100G;
-> +		} else {
-> +			fc_th.xoff_th = NBL_DSTORE_DROP_XOFF_TH;
-> +			fc_th.xon_th = NBL_DSTORE_DROP_XON_TH;
-> +		}
-> +
-> +		fc_th.fc_en = 1;
-> +		nbl_hw_wr_regs(hw_mgt, NBL_DSTORE_D_DPORT_FC_TH_REG(i),
-> +			       (u32 *)&fc_th, sizeof(fc_th));
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void nbl_dvn_descreq_num_cfg(struct nbl_hw_mgt *hw_mgt, u32 descreq_num)
-> +{
-> +	u32 split_ring_num = (descreq_num >> 16) & 0xffff;
-> +	struct nbl_dvn_descreq_num_cfg num_cfg = { 0 };
-> +	u32 packet_ring_num = descreq_num & 0xffff;
-> +
-> +	packet_ring_num =
-> +		clamp(packet_ring_num, PACKET_RING_MIN, PACKET_RING_MAX);
-> +	num_cfg.packed_l1_num =
-> +		(packet_ring_num - PACKET_RING_BASE) / PACKET_RING_DIV;
-> +
-> +	split_ring_num = clamp(split_ring_num, SPLIT_RING_MIN,
-> +			       SPLIT_RING_MAX);
-> +	num_cfg.avring_cfg_num = split_ring_num > SPLIT_RING_MIN ?
-> +					SPLIT_RING_CFG_16 :
-> +					SPLIT_RING_CFG_8;
-> +
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DVN_DESCREQ_NUM_CFG, (u32 *)&num_cfg,
-> +		       sizeof(num_cfg));
-> +}
-> +
-> +static int nbl_dvn_init(struct nbl_hw_mgt *hw_mgt, u8 speed)
-> +{
-> +	struct nbl_dvn_desc_wr_merge_timeout timeout = { 0 };
-> +	struct nbl_dvn_dif_req_rd_ro_flag ro_flag = { 0 };
-> +
-> +	timeout.cfg_cycle = DEFAULT_DVN_DESC_WR_MERGE_TIMEOUT_MAX;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DVN_DESC_WR_MERGE_TIMEOUT, (u32 *)&timeout,
-> +		       sizeof(timeout));
-> +
-> +	ro_flag.rd_desc_ro_en = 1;
-> +	ro_flag.rd_data_ro_en = 1;
-> +	ro_flag.rd_avring_ro_en = 1;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_DVN_DIF_REQ_RD_RO_FLAG, (u32 *)&ro_flag,
-> +		       sizeof(ro_flag));
-> +
-> +	if (speed == NBL_FW_PORT_SPEED_100G)
-> +		nbl_dvn_descreq_num_cfg(hw_mgt,
-> +					DEFAULT_DVN_100G_DESCREQ_NUMCFG);
-> +	else
-> +		nbl_dvn_descreq_num_cfg(hw_mgt, DEFAULT_DVN_DESCREQ_NUMCFG);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_uvn_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	struct uvn_desc_prefetch_init prefetch_init = { 0 };
-> +	struct uvn_desc_wr_timeout desc_wr_timeout = { 0 };
-> +	struct uvn_dif_req_ro_flag flag = { 0 };
-> +	struct uvn_queue_err_mask mask = { 0 };
-> +	u16 wr_timeout = 0x12c;
-> +	u32 timeout = 119760; /* 200us 200000/1.67 */
-> +	u32 quirks;
-> +
-> +	nbl_hw_wr32(hw_mgt, NBL_UVN_DESC_RD_WAIT, timeout);
-> +
-> +	desc_wr_timeout.num = wr_timeout;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UVN_DESC_WR_TIMEOUT, (u32 *)&desc_wr_timeout,
-> +		       sizeof(desc_wr_timeout));
-> +
-> +	flag.avail_rd = 1;
-> +	flag.desc_rd = 1;
-> +	flag.pkt_wr = 1;
-> +	flag.desc_wr = 0;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UVN_DIF_REQ_RO_FLAG, (u32 *)&flag,
-> +		       sizeof(flag));
-> +
-> +	nbl_hw_rd_regs(hw_mgt, NBL_UVN_QUEUE_ERR_MASK, (u32 *)&mask,
-> +		       sizeof(mask));
-> +	mask.dif_err = 1;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UVN_QUEUE_ERR_MASK, (u32 *)&mask,
-> +		       sizeof(mask));
-> +
-> +	prefetch_init.num = NBL_UVN_DESC_PREFETCH_NUM;
-> +	prefetch_init.sel = 0;
-> +	quirks = nbl_hw_get_quirks(hw_mgt);
-> +	if (!(quirks & BIT(NBL_QUIRKS_UVN_PREFETCH_ALIGN)))
-> +		prefetch_init.sel = 1;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UVN_DESC_PREFETCH_INIT,
-> +		       (u32 *)&prefetch_init, sizeof(prefetch_init));
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_uqm_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	struct nbl_uqm_que_type que_type = { 0 };
-> +	u32 cnt = 0;
-> +	int i;
-> +
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_FWD_DROP_CNT, &cnt, sizeof(cnt));
-> +
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_DROP_PKT_CNT, &cnt, sizeof(cnt));
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_DROP_PKT_SLICE_CNT, &cnt,
-> +		       sizeof(cnt));
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_DROP_PKT_LEN_ADD_CNT, &cnt,
-> +		       sizeof(cnt));
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_DROP_HEAD_PNTR_ADD_CNT, &cnt,
-> +		       sizeof(cnt));
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_DROP_WEIGHT_ADD_CNT, &cnt,
-> +		       sizeof(cnt));
-> +
-> +	for (i = 0; i < NBL_UQM_PORT_DROP_DEPTH; i++) {
-> +		nbl_hw_wr_regs(hw_mgt,
-> +			       NBL_UQM_PORT_DROP_PKT_CNT + (sizeof(cnt) * i),
-> +			       &cnt, sizeof(cnt));
-> +		nbl_hw_wr_regs(hw_mgt,
-> +			       NBL_UQM_PORT_DROP_PKT_SLICE_CNT +
-> +				       (sizeof(cnt) * i),
-> +			       &cnt, sizeof(cnt));
-> +		nbl_hw_wr_regs(hw_mgt,
-> +			       NBL_UQM_PORT_DROP_PKT_LEN_ADD_CNT +
-> +				       (sizeof(cnt) * i),
-> +			       &cnt, sizeof(cnt));
-> +		nbl_hw_wr_regs(hw_mgt,
-> +			       NBL_UQM_PORT_DROP_HEAD_PNTR_ADD_CNT +
-> +				       (sizeof(cnt) * i),
-> +			       &cnt, sizeof(cnt));
-> +		nbl_hw_wr_regs(hw_mgt,
-> +			       NBL_UQM_PORT_DROP_WEIGHT_ADD_CNT +
-> +				       (sizeof(cnt) * i),
-> +			       &cnt, sizeof(cnt));
-> +	}
-> +
-> +	for (i = 0; i < NBL_UQM_DPORT_DROP_DEPTH; i++)
-> +		nbl_hw_wr_regs(hw_mgt,
-> +			       NBL_UQM_DPORT_DROP_CNT + (sizeof(cnt) * i),
-> +			       &cnt, sizeof(cnt));
-> +
-> +	que_type.bp_drop = 0;
-> +	nbl_hw_wr_regs(hw_mgt, NBL_UQM_QUE_TYPE, (u32 *)&que_type,
-> +		       sizeof(que_type));
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_dp_init(struct nbl_hw_mgt *hw_mgt, u8 speed, u8 eth_num)
-> +{
-> +	nbl_dped_init(hw_mgt);
-> +	nbl_uped_init(hw_mgt);
-> +	nbl_shaping_init(hw_mgt, speed);
-> +	nbl_dsch_qid_max_init(hw_mgt);
-> +	nbl_ustore_init(hw_mgt, eth_num);
-> +	nbl_dstore_init(hw_mgt, speed);
-> +	nbl_dvn_init(hw_mgt, speed);
-> +	nbl_uvn_init(hw_mgt);
-> +	nbl_uqm_init(hw_mgt);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_host_padpt_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	/* padpt flow  control register */
-> +	nbl_hw_wr32(hw_mgt, NBL_HOST_PADPT_HOST_CFG_FC_CPLH_UP, 0x10400);
-> +	nbl_hw_wr32(hw_mgt, NBL_HOST_PADPT_HOST_CFG_FC_PD_DN, 0x10080);
-> +	nbl_hw_wr32(hw_mgt, NBL_HOST_PADPT_HOST_CFG_FC_PH_DN, 0x10010);
-> +	nbl_hw_wr32(hw_mgt, NBL_HOST_PADPT_HOST_CFG_FC_NPH_DN, 0x10010);
-> +
-> +	return 0;
-> +}
-> +
-> +static int nbl_intf_init(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	nbl_host_padpt_init(hw_mgt);
-> +	return 0;
-> +}
-> +
-> +static void nbl_hw_set_driver_status(struct nbl_hw_mgt *hw_mgt, bool active)
-> +{
-> +	u32 status;
-> +
-> +	status = nbl_hw_rd32(hw_mgt, NBL_DRIVER_STATUS_REG);
-> +
-> +	status = (status & ~(1 << NBL_DRIVER_STATUS_BIT)) |
-> +		 (active << NBL_DRIVER_STATUS_BIT);
-> +
-> +	nbl_hw_wr32(hw_mgt, NBL_DRIVER_STATUS_REG, status);
-> +}
-> +
-> +static void nbl_hw_deinit_chip_module(struct nbl_hw_mgt *hw_mgt)
-> +{
-> +	nbl_hw_set_driver_status(hw_mgt, false);
-> +}
-> +
-> +static int nbl_hw_init_chip_module(struct nbl_hw_mgt *hw_mgt, u8 eth_speed,
-> +				   u8 eth_num)
-> +{
-> +	nbl_dp_init(hw_mgt, eth_speed, eth_num);
-> +	nbl_intf_init(hw_mgt);
-> +
-> +	nbl_write_all_regs(hw_mgt);
-> +	nbl_hw_set_driver_status(hw_mgt, true);
-> +	hw_mgt->version = nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
-> +
-> +	return 0;
-> +}
-> +
->   static void nbl_hw_enable_mailbox_irq(struct nbl_hw_mgt *hw_mgt, u16 func_id,
->   				      bool enable_msix, u16 global_vec_id)
->   {
-> @@ -262,6 +665,9 @@ static u32 nbl_hw_get_fw_eth_map(struct nbl_hw_mgt *hw_mgt)
->   }
->   
->   static struct nbl_hw_ops hw_ops = {
-> +	.init_chip_module = nbl_hw_init_chip_module,
-> +	.deinit_chip_module = nbl_hw_deinit_chip_module,
-> +
->   	.configure_msix_map = nbl_hw_configure_msix_map,
->   	.configure_msix_info = nbl_hw_configure_msix_info,
->   
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
-> index 8831394ed11b..7487d0e757e3 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
-> @@ -128,7 +128,8 @@ struct nbl_function_msix_map {
->   #define NBL_DPED_VLAN_OFFSET		(NBL_DP_DPED_BASE + 0x000003F4)
->   #define NBL_DPED_DSCP_OFFSET_0		(NBL_DP_DPED_BASE + 0x000003F8)
->   #define NBL_DPED_DSCP_OFFSET_1		(NBL_DP_DPED_BASE + 0x000003FC)
-> -
-> +#define NBL_DPED_V4_TCP_IDX		5
-> +#define NBL_DPED_V6_TCP_IDX		6
->   /* DPED hw_edt_prof/ UPED hw_edt_prof */
->   struct ped_hw_edit_profile {
->   	u32 l4_len:2;
-> @@ -268,6 +269,15 @@ struct dsch_vn_quanta {
->   
->   #define DEFAULT_DVN_DESC_WR_MERGE_TIMEOUT_MAX	0x3FF
->   
-> +#define PACKET_RING_MIN 8U
-> +#define PACKET_RING_MAX 32U
-> +#define SPLIT_RING_MIN 8U
-> +#define SPLIT_RING_MAX 16U
-> +#define PACKET_RING_BASE 8U
-> +#define PACKET_RING_DIV 4U
-> +#define SPLIT_RING_CFG_8 0U
-> +#define SPLIT_RING_CFG_16 1U
-> +
->   struct nbl_dvn_descreq_num_cfg {
->   	u32 avring_cfg_num:1; /* spilit ring descreq_num 0:8,1:16 */
->   	u32 rsv0:3;
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-> index 770a255ab06f..403e74b9b1d0 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-> @@ -46,6 +46,10 @@ nbl_res_setup_ops(struct device *dev, struct nbl_resource_mgt *res_mgt)
->   
->   	if (!is_ops_inited) {
->   		ret = nbl_intr_setup_ops(&res_ops);
-> +		if (ret)
-> +			return ERR_PTR(-ENOMEM);
-> +
-> +		ret = nbl_vsi_setup_ops(&res_ops);
->   		if (ret)
->   			return ERR_PTR(-ENOMEM);
->   		is_ops_inited = true;
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-> index 1b80676cf19a..675649ffb271 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-> @@ -110,6 +110,7 @@ void nbl_res_get_eth_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id,
->   			u8 *eth_mode, u8 *eth_id, u8 *logic_eth_id);
->   int nbl_intr_mgt_start(struct nbl_resource_mgt *res_mgt);
->   int nbl_intr_setup_ops(struct nbl_resource_ops *resource_ops);
-> +int nbl_vsi_setup_ops(struct nbl_resource_ops *resource_ops);
->   void nbl_res_pf_dev_vsi_type_to_hw_vsi_type(u16 src_type,
->   					    enum nbl_vsi_serv_type *dst_type);
->   #endif
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
-> new file mode 100644
-> index 000000000000..67b9b23ad012
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
-> @@ -0,0 +1,51 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2025 Nebula Matrix Limited.
-> + */
-> +#include <linux/device.h>
-> +#include "nbl_vsi.h"
-> +
-> +static void nbl_res_vsi_deinit_chip_module(struct nbl_resource_mgt *res_mgt)
-> +{
-> +	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-> +
-> +	hw_ops->deinit_chip_module(res_mgt->hw_ops_tbl->priv);
-> +}
-> +
-> +static int nbl_res_vsi_init_chip_module(struct nbl_resource_mgt *res_mgt)
-> +{
-> +	u8 eth_speed = res_mgt->resource_info->board_info.eth_speed;
-> +	u8 eth_num = res_mgt->resource_info->board_info.eth_num;
-> +	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-> +	struct nbl_hw_mgt *p = res_mgt->hw_ops_tbl->priv;
-> +	int ret;
-> +
-> +	ret = hw_ops->init_chip_module(p, eth_speed, eth_num);
-> +
-> +	return ret;
-> +}
-> +
-> +/* NBL_VSI_SET_OPS(ops_name, func)
-> + *
-> + * Use X Macros to reduce setup and remove codes.
-> + */
-> +#define NBL_VSI_OPS_TBL							\
-> +do {									\
-> +	NBL_VSI_SET_OPS(init_chip_module,				\
-> +			nbl_res_vsi_init_chip_module);			\
-> +	NBL_VSI_SET_OPS(deinit_chip_module,				\
-> +			nbl_res_vsi_deinit_chip_module);		\
-> +} while (0)
-> +
-> +int nbl_vsi_setup_ops(struct nbl_resource_ops *res_ops)
-> +{
-> +#define NBL_VSI_SET_OPS(name, func)		\
-> +	do {					\
-> +		res_ops->NBL_NAME(name) = func;	\
-> +		;				\
-> +	} while (0)
-> +	NBL_VSI_OPS_TBL;
-> +#undef  NBL_VSI_SET_OPS
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
-> new file mode 100644
-> index 000000000000..6fd79add57d6
-> --- /dev/null
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
-> @@ -0,0 +1,11 @@
-> +/* SPDX-License-Identifier: GPL-2.0 */
-> +/*
-> + * Copyright (c) 2025 Nebula Matrix Limited.
-> + */
-> +
-> +#ifndef _NBL_VSI_H_
-> +#define _NBL_VSI_H_
-> +
-> +#include "nbl_resource.h"
-> +
-> +#endif
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
-> index f97f7a810ad0..93dfe74d3643 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
-> @@ -11,6 +11,10 @@
->   struct nbl_hw_mgt;
->   struct nbl_adapter;
->   struct nbl_hw_ops {
-> +	int (*init_chip_module)(struct nbl_hw_mgt *hw_mgt, u8 eth_speed,
-> +				u8 eth_num);
-> +	void (*deinit_chip_module)(struct nbl_hw_mgt *hw_mgt);
-> +
->   	void (*configure_msix_map)(struct nbl_hw_mgt *hw_mgt, u16 func_id,
->   				   bool valid, dma_addr_t dma_addr, u8 bus,
->   				   u8 devid, u8 function);
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-> index e4f11e6ded94..5203bb2a9a5f 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-> @@ -45,4 +45,35 @@ struct nbl_init_param {
->   	bool pci_using_dac;
->   };
->   
-> +enum nbl_fw_port_speed {
-> +	NBL_FW_PORT_SPEED_10G,
-> +	NBL_FW_PORT_SPEED_25G,
-> +	NBL_FW_PORT_SPEED_50G,
-> +	NBL_FW_PORT_SPEED_100G,
-> +};
-> +
-> +#define NBL_OPS_CALL(func, para)		\
-> +do {						\
-> +	typeof(func) _func = (func);		\
-> +	if (_func)				\
-> +		_func para;			\
-> +} while (0)
-> +
-> +#define NBL_OPS_CALL_RET(func, para)		\
-> +({						\
-> +	typeof(func) _func = (func);		\
-> +	_func ? _func para : 0;			\
-> +})
-> +
-> +#define NBL_OPS_CALL_RET_PTR(func, para)	\
-> +({						\
-> +	typeof(func) _func = (func);		\
-> +	_func ? _func para : NULL;		\
-> +})
-> +
-> +enum nbl_performance_mode {
-> +	NBL_QUIRKS_NO_TOE,
-> +	NBL_QUIRKS_UVN_PREFETCH_ALIGN,
-> +};
-> +
->   #endif
+typeof_unqual() needs to die.
+Just using 'auto a = b;' should remove const and volatile - but gcc is buggy.
+There are some alternatives that work in many cases.
+(It has all been discussed before.)
+In most cases you can use 'auto a = (b) + 0'.
+That does do integer promotions - but they happen as soon as 'a' is
+used; so it pretty much doesn't change the type of value, just the
+type of the variable.
+
+	David
 
