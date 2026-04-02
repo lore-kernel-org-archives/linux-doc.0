@@ -1,194 +1,143 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021121.outbound.protection.outlook.com [52.101.100.121])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f46.google.com (mail-yx1-f46.google.com [74.125.224.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9F651DED4C;
-	Thu,  2 Apr 2026 01:43:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.121
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123FF1F936
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 01:54:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.224.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775094194; cv=fail; b=reKnwM4j/r3lpBfEBkrJiv/TiqSo/FZEUHRp+i9wPG8nhc6WGYKGmFuHHnCeUot7IGPo/gtA3t1xYYyRw4B0UgNBJkEnAR8AOZYrPlKc5JwZaQAlaCi5tBSdXaeSFBl031wuDThIzeabHp0NRqJeKiidZW40oWzfU/Sm06J5W8E=
+	t=1775094858; cv=pass; b=aTVTn+h/j0ZaBJ5+i/nm7J2xx6/+FsB6GpdFDZlBP7lJJ7ilxjKYG6UZNqrUvl71JorQA/Opq1BwBfn9TfDLMNAD92s7WWzksITwQVDW91Ul99aBiNtRMFH26TrHWyRPWoeqAsruBKCP+MhydWhdS5dzbJKiayk+eEHc27SkuoA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775094194; c=relaxed/simple;
-	bh=BvZcpENzV3m/vhs8j9yvhHWUTV/0DL/3Dt9LeQqi1HM=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=r9LeLyTrcdMLYF9ttOF+MQTz8jUWiq4kFlMLERHiUQuq6IxGZKPhWuj01rQIxcPVvkH1jlKKIqHM9NCwHgKkrCQAH00N83oUJaS+OAkOfTBTmPuGxuGblMPcAVhj9xWyafqosygEVBNblYdkiAIQDe8YjIiNEutzDXIRE7Qpgyo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=ceyOgkuL; arc=fail smtp.client-ip=52.101.100.121
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	s=arc-20240116; t=1775094858; c=relaxed/simple;
+	bh=ZgdAy4qNSHyKJtotTutzlKM7jv1dqpgGb4Vak3LPpxA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VTnfwG9cOA8G//WTZlu/CS95r9uQedOFNE/G6/hL2rghugvS3K4cZHOH4bP/DkdKFtBA0WVLiVAWk34TefUnrvnqFA6SKYjHgCiow1Jcudr0kD+Gsi7IhmK9+p6PrQVRdppp3+SicHrgXJmlmQZ+h1daCrHhk9rZRUmg3p6HbvI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ww7PwDxv; arc=pass smtp.client-ip=74.125.224.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="ceyOgkuL"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OrtYVB9V4Auf5CCcIxCEZXp2bOujP6TGIyky7qsKbymvAgBIATxBS700aUlGKced6jirqmOQroTRqxAvYG72PVIyLzt/NUFgiJswxmJxCHYbaQb9dylVr/RzDI4I1XHAIV3h+cPb6+JegfP7CVQQBOFzvc2KM3r/PfouNXDOxKOYfTPmSPCvypYM7xivnxHeO/Zp0ChmkBFu4dICY0uWqVoO+CKHzV0j3nuJPGLZmTnZlGgM6PemV0usqd+PBjMxO8/s+uSsEVMUGkgt8bTHdcJnR9nNQNZcZ5NBUAH2UzDbNgCGmqv9zwUrySB9j4ROP8WhfHEls8xwsavU9TmoKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5qB/G8D+a9qdkAOTFYwaI8aFKUBkBofs0Mj2RRHrZvk=;
- b=OPEgW5n/CjBq7RDfNXCtoP33ohiSYOV/FpiT6xGXApV8ND3h+wOGd/mgpBr05oGtt7pVrWX4P12gtRJk3Cmr9jeMCFKcjdQdFrUhCLgOv+G4q50FFSKwNBOHkuXq0spO+JxYHhuS3GES5FZZZ5WFVcSZA/g9ZtjJvlmejcpq12LPu05c+IRBO0Y+KCrqmgh50bhU2fwsq5s0RSov7WHjLCXw/jabXevHTK6OK4QL2i2sdQ4OQ0yzwzhW63Xr+7wsOD/x171iCxqJgLRoGcT5yvqO7Kwjyali4j8dgOewxbnXNMlJu+XHFEJBGk53SLtyRh7YQ0UnkoYuXU57MHM7/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5qB/G8D+a9qdkAOTFYwaI8aFKUBkBofs0Mj2RRHrZvk=;
- b=ceyOgkuLTNtVfumaYrvYf85iZmol8B1GfgMb2cBRuvYgZaNlBg8v31smlhJPgheZ4a6hSydoMcAQOcz+b/cQd1AYy3Uc8pBuLHDcIuLS3Uz0LRY60hQTDbQPBDx04uudEIJUwyHzXLpdP/+t74U9Ra8BmmvPXCyEk7Iy/AJ0mEQ=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWXP265MB5671.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1ab::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Thu, 2 Apr
- 2026 01:43:09 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.016; Thu, 2 Apr 2026
- 01:43:09 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 02 Apr 2026 02:43:07 +0100
-Message-Id: <DHIADG9V159W.11HS1SCCTSLWJ@garyguo.net>
-From: "Gary Guo" <gary@garyguo.net>
-To: "Tamir Duberstein" <tamird@kernel.org>, "Miguel Ojeda"
- <ojeda@kernel.org>
-Cc: "Nathan Chancellor" <nathan@kernel.org>, "Nicolas Schier"
- <nsc@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Andreas Hindborg"
- <a.hindborg@kernel.org>, "Catalin Marinas" <catalin.marinas@arm.com>, "Will
- Deacon" <will@kernel.org>, "Paul Walmsley" <pjw@kernel.org>, "Palmer
- Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
- "Alexandre Courbot" <acourbot@nvidia.com>, "David Airlie"
- <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Brendan Higgins"
- <brendan.higgins@linux.dev>, "David Gow" <david@davidgow.net>, "Greg
- Kroah-Hartman" <gregkh@linuxfoundation.org>,
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
- <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
- Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Boqun Feng" <boqun@kernel.org>, "Gary
- Guo" <gary@garyguo.net>, =?utf-8?q?Bj=C3=B6rn_Roy_Baron?=
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Trevor
- Gross" <tmgross@umich.edu>, <rust-for-linux@vger.kernel.org>,
- <linux-kbuild@vger.kernel.org>, "Lorenzo Stoakes"
- <lorenzo.stoakes@oracle.com>, "Vlastimil Babka" <vbabka@kernel.org>, "Liam
- R . Howlett" <Liam.Howlett@oracle.com>, "Uladzislau Rezki"
- <urezki@gmail.com>, <linux-block@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, "Alexandre Ghiti" <alex@ghiti.fr>,
- <linux-riscv@lists.infradead.org>, <nouveau@lists.freedesktop.org>,
- <dri-devel@lists.freedesktop.org>, "Rae Moar" <raemoar63@gmail.com>,
- <linux-kselftest@vger.kernel.org>, <kunit-dev@googlegroups.com>, "Nick
- Desaulniers" <nick.desaulniers+lkml@gmail.com>, "Bill Wendling"
- <morbo@google.com>, "Justin Stitt" <justinstitt@google.com>,
- <llvm@lists.linux.dev>, <linux-kernel@vger.kernel.org>, "Shuah Khan"
- <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH 13/33] rust: block: update `const_refs_to_static` MSRV
- TODO comment
-X-Mailer: aerc 0.21.0
-References: <20260401114540.30108-1-ojeda@kernel.org>
- <20260401114540.30108-14-ojeda@kernel.org>
- <177508434450.73816.3437422593454602087.b4-review@b4>
-In-Reply-To: <177508434450.73816.3437422593454602087.b4-review@b4>
-X-ClientProxiedBy: LO4P265CA0190.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:311::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ww7PwDxv"
+Received: by mail-yx1-f46.google.com with SMTP id 956f58d0204a3-6501725d888so328887d50.0
+        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 18:54:15 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775094855; cv=none;
+        d=google.com; s=arc-20240605;
+        b=dTz2AKmVhwdIgnA7noY8qulXypOrgXweKXmpXY1/Shr6ttsLWtnowVgvC6Gz2Su7do
+         bU3mz3lzsUoUQAVO0KgHvLZfYZqeJua8V/soaL+CTbc4Mqz884kc+Osky9O72dq+byw0
+         /4Bph7BycUd55TYOlp8SMbEOwaUrAScvnqbAzURGxnA58lcgj0OfRzDvNTQLSBa9YrWv
+         hmMuH63XTuMykvEg34/eJBD8uIUfjzZ3uUskbbS0bdaSiOJgOV1ZGK0z4bmI7Yyfqdjs
+         w9Rur8B1d0AxfHR/SUB/UCpQ2TViNyDWAQO0G7YCjmro/Kz/IYNQp6r5TvR1zHFqfzgb
+         2xSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=kiceuLyx91rPyzndVsPjUqGeAIHXDkrelSUnbkKBTJU=;
+        fh=ano3Vf2RuaWU20JU/n3s0dU/a0SZnqKMNmDMGsyV/F4=;
+        b=i5CMe8gPiwUYv0LUdJISXvMECmafPUN97kBEaGW3JSAACfdbo6RB2cMtoAFTJ47Y+R
+         0Hkaf5880kPsWVxjoxg/AdfeGPkZcOTadb4LqdZ/d/HC5BIq3Y+GjKiKt+L1CEUaBmzc
+         a+ETxiDdnKUIaFSqgMw7KF07kdLBWt3kdIO+EY4APh2Rx98pSC1D8YEc5Z8smLqBxdV2
+         H1bR3b5qHsNBQJ9Ds4yGAh0H8DGn/HQM1qtOvJHdUQQ1FdxqaMVywh7A3uXFdWhNnpUf
+         Cc5qXzSwku/jCf2V53iCOKe+W7d5zj17iMVZW+Ci5oOOT24q1bYlxP3is2UEB8zG4iai
+         hfNQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1775094855; x=1775699655; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kiceuLyx91rPyzndVsPjUqGeAIHXDkrelSUnbkKBTJU=;
+        b=Ww7PwDxv5MVp3tsNlTeE3CT0Oz5MhiebXjUc4q6rFMf/GmFYPBDczuil0bH3TBySVW
+         cQ7fkOrw3Fs2HWzDJLfsnjY/hZHPdGI6yfTW7uszLmZv0eLNZdu2a/xGZzT5b/Uebxp/
+         Dl/sKqbTT84G8zvSDyy7UpAWWhRqTBa6rXzvU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775094855; x=1775699655;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kiceuLyx91rPyzndVsPjUqGeAIHXDkrelSUnbkKBTJU=;
+        b=BrbBEPzTrnwrJC7jhILdWmOyWQPI6qk9P8lWI1jcnkOQc4y00+KmqfYHsIocN1nNto
+         xAgXzN3onMYJtSsVmxFBfwel8iEM+saufBpR7Ub3QAZWZl8TvvqaWdcs4HYmDPzj0iCt
+         5/O8X0H+QLk9iV0Q85Vxdve0a+QaaE6O/0qSWEBNNeomiEoRMjBkqz7cOStpVawaJAPC
+         byr8dbWrG5yA4nCi8YJ53XALzHvVW0WOoUSAVS8lWYccSIYDjmEXwUz5AVMn8WesPy35
+         jxcbMN3M+ljpKQggxijktxZsk1SNUEfxjkifuHotrNlpkHi6rMYFhxUkQ63vl4h6t7gr
+         rDMg==
+X-Forwarded-Encrypted: i=1; AJvYcCUaVwE9HO/V78PM1e8Fb9/sAUO4RzbTNnDDfOZJVG56TEmb/TJJYU39MpRg0a5QA/s/qwP8+ea1lCM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvqdAke1tH9EHsivYhryNqXxmYdGVKoZXF5RsqE7N++S0ZFpgB
+	WetXeCRD6ombf5ZLC5CcB2+bkkmpjUreIGfqbMsWkPznUxSL341B+hAPgU0nVRAj0rEMEUyD6ni
+	rCUdvFejkFx9R2eti9lixNLh62EU0kdlDhSOf5tE/
+X-Gm-Gg: AeBDiesO47sqOTv7tljxbmMiml2C6J3hL3IF8xgZAEvQjb2rWJWqcys/zE7QA1wdfmw
+	HdXmXzxR5VS0FilvbP02amiGAcTVU/I7A0lmVWtGMmBZVyoOUo5/C/XKg4VWnN+GbwWWh1rhqLw
+	lat4PQPfT6qayn01loKPPvUY++21kf+MDL/psswgEryTGsviE8ei1L+v/JrUVvUpxY+xdyzTIIm
+	MoT1xLJiUqq9TVELPZuT9muuwW87SXuabksLbGPDlU9yjzTvogOreT/d24yzL8y6jgcXodxnZcJ
+	p9u0lrkec1IbmjxzSjKOpJK5tGEJ3eb6OISVOBTDCQ==
+X-Received: by 2002:a53:df45:0:b0:64e:abca:564a with SMTP id
+ 956f58d0204a3-6502fdd0ac9mr5063421d50.22.1775094855220; Wed, 01 Apr 2026
+ 18:54:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWXP265MB5671:EE_
-X-MS-Office365-Filtering-Correlation-Id: 19dd5d2d-c8af-49dd-ed9b-08de9059316c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|10070799003|1800799024|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	teX9aT8qhgetoaThj0e/pfb8C7EKhoyqwisDKdIpka2qjAzwO+4anJm23XraA9UQnjOpVk7c4o6CdxZw46pPC+9xyMnZIjK/1bkzsGPdNTvC7BmMWq3C4YIm9dBa94H7D2iDj1aL1Hvrgti0JwQe7PnGNmfaPJDMJemgXjRivRRcR+f7sl6eXQMS8p2xOb73vquACsyQagAHxthGeO5/0Ix+wRV4As2IUOxQqfCU8Fw+eDd3kHuUXuBPspg5Sxjl8ozVPtz/M09yil5PcwAxPG5+RBXRz3vxIjVoVAPULpfzXnL9YOs0T5+e5IzD+hi7XvgjrBumW9m4YymNKYS2n8NkiKz1uVNYLk8gv9zevbFVQsZrBQvvo5gIl9nHIXDYaAC49PkDuW5g66j5z6ETYQ+qOURXtAo0Z7NNn8xczGFrITpzhYYyBLosBFPXV6GHzPczAy5kXzaVec9TiTuG9YruMp4fGJTwmJULpaJV05A1qBzos6Zxbj9hQoy2obZR/5vfkJxuvvUoKUWGfrIW7Ws3ZYSt2MvJzAfDPCGJ5FuZTfWEYovLDPgH3SnUFZ9Bu+LCfgupDIYbphEWkLmXLwthoBILgBAvnR/4Ld7HBxNwcfgQnWWV5SPZFT7XN4Ez+4IaftLaLwTem9eArUx12pUJj4W8ggBaS+KfDuzhrJFHWi0a9+JUgQ9/3V+marFMNNwqIg3yWSUrCJtrGydl3oqJPnqxtAGUXvfN7d+yHq4=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(10070799003)(1800799024)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?STBYemxvME80YWlPeERTTjhIZyswTW85TitQMklZaU4vSzQ2RU1XcnJLUXll?=
- =?utf-8?B?Zlh2OXIrMDNxTFFYVlFJWGdXTjRyWGt2RlNPd0pTZ1lxa0pmZlFSWXF2dVlv?=
- =?utf-8?B?REVIWk43dThlY0YxZDd2MWpHUzNPa0Z4emFtL0tyWnpGVkRZUE9oM21PS0hy?=
- =?utf-8?B?bUIzQzMzWHNDa0kwS2hROHNqMnFQOWRHZ0kyYWZUK2E5cm1LdUdyeGdsVG5n?=
- =?utf-8?B?ck9lcnNzRkcwN2tIUVRsRVA2ZDVIOGxYM2luMy9GenJKNEovZHE2WDFRK0VC?=
- =?utf-8?B?OFBaVDRZMlRkMUdQenpzRDA3ZWhZWkp6OE01TzYrVm5QYU1NZXVlU3BNbUFq?=
- =?utf-8?B?OVNPMWRlMlE4aUlkK0ovLy9jWDVMSXo3b2tTMWo5eXpmQnhOWWY5OGpCSzB5?=
- =?utf-8?B?Njk1QVdJbHkyOXgwRThqdHFOZDlONVVTL2w4V2owdEJmSGZhandTem1XUVJ6?=
- =?utf-8?B?NHQ5aTNRN0l6bU5uYzlsa0huV2g2ZFVYMHZqMm9uU1BxS0xwdTBqZEFaVlVH?=
- =?utf-8?B?dS9Mb1p0YnBzYXZHdnd0ZXJDRlErZzZIRUxTZ1VaSDRNbG4zU2E2OUNWNkRj?=
- =?utf-8?B?M1htSTBmTExIaWV1MnlyMmo0bDZCR2l6NFVqcXNrV2FCMmdTU0R4UEhKT2pn?=
- =?utf-8?B?ZFc4VmxxbnBrUUZRZlNSdU10cVkrME5mdHZjNWhJNXNBclhUR1k4Y1Z5dDFy?=
- =?utf-8?B?bDVRQ1V4djFqNmZxeWRiQmlPZTFmWFRoUENqS2U4cDJtdXJCL2dJVGRQNkFJ?=
- =?utf-8?B?R1lsUUpzRUNnOGZ2aWNuaUNhTmVoVkxqVWw2SkwzQWNMQWZ4U3I2WFpLZ2Zs?=
- =?utf-8?B?NjFMeWxkbHBvM1RaeUJDbFZCMnIzTlN5ZmYwaENwL3dSeHozT29TNmxYZG1l?=
- =?utf-8?B?WERreSsvajdBYjVENDZObnhGMUFidlBpSTRoM1U2VFgrNDdnUVE2OVZLVTdB?=
- =?utf-8?B?ck5XYUh6SWc0SG4rNk9sTW9IOHdwOGNrY3Q2Rmk5enMyL3MrYloxaVNLeFZ3?=
- =?utf-8?B?T0ZZSlV0M1dncmw2aTBrbWJjeTBuSDNEdTQwN25JRGsrcGFZaFgrZjN3ME1Q?=
- =?utf-8?B?Mmt4eGhOVC9SVnBibjFPT0xVYlB2dGZad1lySFo3WEdoY1VGYjNkR25uUW81?=
- =?utf-8?B?Rm1QWDlLWHZFSWU0b0dzQ3VRR1phUkJOdHJRTldmeVIxVzZvZXQwVmJjRklT?=
- =?utf-8?B?N1haWm4yWHBGbVNwaEhkV3Izd1R2WTlwUmE1QzVUV2pvMmNiamlZWTMrM29x?=
- =?utf-8?B?aDlOUFM2S3BtWnc4WFpBMnJhMzk3emJMVVVoVlltVm56VlhJVDJPekFiWVhs?=
- =?utf-8?B?dGI1ak5EeFd2dXAxSlhCMTUrOG03c0ZvdzlSejlTam5nTTUxSVdaVnlPa0Y0?=
- =?utf-8?B?QzNOOVNiZFk4OTd1UDNJRHZHTndGWFladmJROXJBa2h3aVNZTndrSVIvTkpr?=
- =?utf-8?B?Y2cwYSsvalJJMDhud01rSUlNNkhqQlZXbHYweXRwR2duL0pOa1p2U3BHRU0y?=
- =?utf-8?B?NVpSc3F3NmhLNjg4UWY3ZWwxVkJ3NlBHWEhjT2t5V2F4N0l3UWM5RDVnK3ph?=
- =?utf-8?B?clZGTjY5L2FUaXpNWXZtSEhIMDdrcTMxZXc1dHVmTXNhcHNPME9Pc0NQNkwy?=
- =?utf-8?B?d3VTU0dRYWpaU3cwRHVHMWJacnRZbVhnWWZreUR6TXVpcTkwcHpVb0wzYVYw?=
- =?utf-8?B?TlEyclZkNWxBUDNuZkNNYis4ZmJ1Y0dGakpnc2I1ZlNGYUhNeVBpSjJQeTA4?=
- =?utf-8?B?VVArMjduUW85NHR0RjNxRTFJTHZBY3hIckxiNVU2UGNrMElUb2M5OHQvOFM0?=
- =?utf-8?B?WjNhcWxPQmxsU1F0V1VSa3UvWFFaTHFiUXdLRnNPMkcwendrUkZITzNWNXJ1?=
- =?utf-8?B?ZkZ5d3VnNmhobEFlWC8xNzk0V3k0QjdaVkt5cW5OeVJQNyt5citvWnZBTklM?=
- =?utf-8?B?SE50ZEQ5a1d5VVRVdEc4ZDFZMGhhZXpRdy8xL2t2eUpkQlBuWFdSSVJ6T1dK?=
- =?utf-8?B?Q3VSQUlIMy9kWVpDUlZXVDF4c011QWlxaDlnWDlGdURua3VnRGFvUHoyQmdN?=
- =?utf-8?B?MVRCRHhvaWtCZDFoT0lzQTN6K0FaVFhLbXp3QnFyU3NwTVI4TVlCTUFURnJm?=
- =?utf-8?B?eVZORmFiQk9DMHdJZ1JsbEFaVHFIRkVrNnIzN0RzMm13U0FhMGMwN0FpcDE4?=
- =?utf-8?B?UjczT3ptZTVhejNqZG1BVFZzVWc3WUNMbUdveHZtQ1p4Y1VtZEVzdHA3WG0r?=
- =?utf-8?B?S0RVWXVCSXJLZ0xZRTJ0M1RNcEpGNTA4RmpuOWNHNWRxdFlUOElLbXk4bEpp?=
- =?utf-8?B?WUZEMXRhbGdjanpqcmR2WFU0L2hvMmgwTlowUEtWMkhVdmJmRUN6Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 19dd5d2d-c8af-49dd-ed9b-08de9059316c
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2026 01:43:08.9962
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WNCZjB8sYAU+qaKr5073OPqesy1d+LlCsrc2G6OPQU+JdfTj8ShMyi3itM4GiP6aiT1uM3cU1FU6tDJIzTEOYA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWXP265MB5671
+References: <20260324-send-upstream-v2-0-521ce8afff86@chromium.org> <20260325-naughty-hungry-wapiti-658e83@quoll>
+In-Reply-To: <20260325-naughty-hungry-wapiti-658e83@quoll>
+From: Jingyuan Liang <jingyliang@chromium.org>
+Date: Wed, 1 Apr 2026 18:54:03 -0700
+X-Gm-Features: AQROBzDfrwBIaLEV9wnEuLry8lUVCQVrP4uxpF2MQpcY1Q98CokyJ5Vf0yATg4k
+Message-ID: <CAEe3GZFWiUG5ET2oQ42+KvO-TMy2Eq02tR0UMaTbACJ0=V8D0A@mail.gmail.com>
+Subject: Re: [PATCH v2 00/11] Add spi-hid transport driver
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
+	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, hbarnor@chromium.org, tfiga@chromium.org, 
+	Jarrett Schultz <jaschultz@microsoft.com>, Dmitry Antipov <dmanti@microsoft.com>, 
+	Angela Czubak <acz@semihalf.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed Apr 1, 2026 at 11:59 PM BST, Tamir Duberstein wrote:
-> On Wed, 01 Apr 2026 13:45:20 +0200, Miguel Ojeda <ojeda@kernel.org> wrote=
-:
->> diff --git a/rust/kernel/block/mq/gen_disk.rs b/rust/kernel/block/mq/gen=
-_disk.rs
->> index c8b0ecb17082..912cb805caf5 100644
->> --- a/rust/kernel/block/mq/gen_disk.rs
->> +++ b/rust/kernel/block/mq/gen_disk.rs
->> @@ -140,9 +140,7 @@ pub fn build<T: Operations>(
->>              devnode: None,
->>              alternative_gpt_sector: None,
->>              get_unique_id: None,
->> -            // TODO: Set to THIS_MODULE. Waiting for const_refs_to_stat=
-ic feature to
->> -            // be merged (unstable in rustc 1.78 which is staged for li=
-nux 6.10)
->> -            // <https://github.com/rust-lang/rust/issues/119618>
->> +            // TODO: Set to `THIS_MODULE`.
+On Wed, Mar 25, 2026 at 1:49=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
 >
-> Good first issue?
-
-It's actually quite tricky. There're already attempts on the list, although=
- I'm
-not very happy with the solution.
-
-The tricky part is that `THIS_MODULE` needs to be supplied by the leaf modu=
-le,
-it cannot be constructed inside the kernel crate.
-
-Best,
-Gary
-
+> On Tue, Mar 24, 2026 at 06:39:33AM +0000, Jingyuan Liang wrote:
+> > This series picks up the spi-hid driver work originally started by
+> > Microsoft. The patch breakdown has been modified and the implementation
+> > has been refactored to address upstream feedback and testing issues. We
+> > are submitting this as a new series while keeping the original sign-off
+> > chain to reflect the history.
+> >
+> > Same as the original series, there is a change to HID documentation, so=
+me
+> > HID core changes to support a SPI device, the SPI HID transport driver,
+> > and HID over SPI Device Tree binding. We have added the HID over SPI AC=
+PI
+> > support, power management, panel follower, and quirks for Ilitek touch
+> > controllers.
+> >
+> > Original authors: Jarrett Schultz <jaschultz@microsoft.com>,
+> >                 Dmitry Antipov <dmanti@microsoft.com>
+> > Link: https://lore.kernel.org/r/86b63b7b-afda-d7f4-7bfa-175085d5a8ef@gm=
+ail.com
+> >
+> > Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+> > ---
+> > Changes in v2:
+> > - Fix style problems and remove unnecessary fields from the DT binding =
+file
 >
-> Reviewed-by: Tamir Duberstein <tamird@kernel.org>
+> Style and removal? So other comments were skipped?
+>
+> Please write detailed changelogs, otherwise it feels you just ignore
+> parts of the feedback.
+>
+> Best regards,
+> Krzysztof
+>
 
+Comments are either resolved or awaiting further confirmation. I will
+add more details
+to v2 changelog in v3.
