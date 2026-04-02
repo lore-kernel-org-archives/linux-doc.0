@@ -1,62 +1,59 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD84733EB1B;
-	Thu,  2 Apr 2026 20:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C1C53A4F3B;
+	Thu,  2 Apr 2026 21:14:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775162122; cv=none; b=lqak28hLzPVihqO82e4AWu09eOdFY8RxtMDrNk6pzhSCDpGEs7qWmCbGgIGW1skZ89NzsSTN0PIe6BanAftuOj/EDbrUgBQ6+A9qOdMb2iH7ARIFKKwpl/p81FJ9PXb1LUYArMdQ90uwFJJzG/JM/hYr1MW/RpFc52zOINvDNLw=
+	t=1775164450; cv=none; b=adeYaJRwbbCq4fxD894CTh8C7yOeK+luDA3PIvTbDu7Z6r8E5M55CR+VPDIxTfEQzpQ+rKlxS7AJT/OP1HnycZlyCgGdszdcGLcdpBtmTN4zgGdwG+0o5sKZ9WIwC71KGrj8tG3keHVGUg2WFywxPx4IqfhVFg2pYBygOalPXmU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775162122; c=relaxed/simple;
-	bh=9lW/KExV56mrOzTTz8NmdnnniYaI9F7J5QbEzJH+UNA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=J9hbRbMmyakaByfSpT5iXmXolWSqqH36ZKp3cG/TevwKkLPoY6Tg53QvbX/ajSWh5yAIkQY3WjgoueuR6zPrs3N90fDdKIvAqUE9PmDpy3OI1K6quCYura+T6fugxbkhAvhk2MrzWuqGgYZJW5xZl2LDUtEbS46Wf4RL5VDtov8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=bRGcw/82; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1775164450; c=relaxed/simple;
+	bh=I9dw14O86cZwkKMn5PUe2owUIFbxPW/XNrvSe558xsw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Drnze3GPXiNKAS3tA7+TSZQQckm5EIu6EiYZVQNvKZors5B66sVdNh3xVudz179WeXUi2uxeAbjVw92h6KuRw/NqMq+qckBDQkBm5pIGnDp1c+dO8umOIl5gBeLXTvN+HWLv1lyqQgu0knuId6nfZpzba0FDI9ZPE28rN0irQOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=NUdab221; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="bRGcw/82"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632EQbx04131589;
-	Thu, 2 Apr 2026 20:35:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=UW/wB2
-	8RU5VzzRRMul0mFvXWrhXsBhWCUaT0XL56wzc=; b=bRGcw/82Y+AhI/dLPvOSfM
-	f5x7tvDpTaUTyDWqzgfbcMTSLv/8OiTGzXzOUTLhpy/reu+SWhUKBse4zGeQ9CpO
-	8l+/VP1BOyyR9rvBXDWUTivKaWFxvbQ2kHzGNW3iLMqcIF3u0c7uX1+y6zyd/Q/X
-	wyQH+IsdiaxCIwPOBsgSxr8zhbxBAj2waE4E/qRKvME3LIEmk4irRQWffOWahns6
-	AZS4peVeZKimfhCisruIQnGEsA1wk2TaguRXe1wZZ3zBMOjKEqge0Um00H/10EdI
-	GTXzxr9vxvuXIYDses7q2ct+yHqRwGi9nmCo8bLoMt3UKCNVb50HRsrXGlrK7IEA
-	==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d64dgwrau-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Apr 2026 20:35:17 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 632JqSoq005947;
-	Thu, 2 Apr 2026 20:35:17 GMT
-Received: from smtprelay02.wdc07v.mail.ibm.com ([172.16.1.69])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d6spybqm8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 02 Apr 2026 20:35:17 +0000
-Received: from smtpav05.dal12v.mail.ibm.com (smtpav05.dal12v.mail.ibm.com [10.241.53.104])
-	by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 632KZFnM12452430
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 2 Apr 2026 20:35:15 GMT
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8E93E5806A;
-	Thu,  2 Apr 2026 20:35:15 +0000 (GMT)
-Received: from smtpav05.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id D4C4858052;
-	Thu,  2 Apr 2026 20:35:12 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.87.85.9])
-	by smtpav05.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Thu,  2 Apr 2026 20:35:12 +0000 (GMT)
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-Date: Thu, 02 Apr 2026 22:34:59 +0200
-Subject: [PATCH v6 2/2] PCI: s390: Expose the UID as an arch specific PCI
- slot attribute
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="NUdab221"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id D8A4D19F6;
+	Thu,  2 Apr 2026 14:14:01 -0700 (PDT)
+Received: from gaia.lan (usa-sjc-mx-foss1.foss.arm.com [172.31.20.19])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 17AE13F7D8;
+	Thu,  2 Apr 2026 14:14:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1775164447; bh=I9dw14O86cZwkKMn5PUe2owUIFbxPW/XNrvSe558xsw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NUdab221kb6KYuy9thKc6lr0wavgu6G0BdzLcaJyX/ORI0eU/ChjYSG6lxDSuHXA8
+	 fHN5vDTYyvgPT+hoq8NrZKJ4GHDaxtuDhSl3FE2itE/3xEMa6nHaegoCLnHUkSowYl
+	 xJOQDb+Epa+QlgYWE+3FczNfLY849JDaZPWkjQBQ=
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Marc Zyngier <maz@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>,
+	Mark Brown <broonie@kernel.org>
+Cc: Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: (subset) [PATCH v10 00/30] KVM: arm64: Implement support for SME
+Date: Thu,  2 Apr 2026 22:12:18 +0100
+Message-ID: <177516433892.97388.575450953513622752.b4-ty@arm.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,197 +61,29 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-uid_slot-v6-2-d5ea0a14ddb9@linux.ibm.com>
-References: <20260402-uid_slot-v6-0-d5ea0a14ddb9@linux.ibm.com>
-In-Reply-To: <20260402-uid_slot-v6-0-d5ea0a14ddb9@linux.ibm.com>
-To: Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
-        Lukas Wunner <lukas@wunner.de>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Farhan Ali <alifm@linux.ibm.com>,
-        Alexander Gordeev <agordeev@linux.ibm.com>,
-        Christian Borntraeger <borntraeger@linux.ibm.com>,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Gerd Bayer <gbayer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
-        Julian Ruess <julianr@linux.ibm.com>,
-        Matthew Rosato <mjrosato@linux.ibm.com>,
-        Peter Oberparleiter <oberpar@linux.ibm.com>,
-        Ramesh Errabolu <ramesh@linux.ibm.com>,
-        Sven Schnelle <svens@linux.ibm.com>, Vasily Gorbik <gor@linux.ibm.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-pci@vger.kernel.org, linux-s390@vger.kernel.org,
-        Niklas Schnelle <schnelle@linux.ibm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5422;
- i=schnelle@linux.ibm.com; h=from:subject:message-id;
- bh=9lW/KExV56mrOzTTz8NmdnnniYaI9F7J5QbEzJH+UNA=;
- b=owGbwMvMwCX2Wz534YHOJ2GMp9WSGDLPXfplmBjP+FZhet9JF95D09g62x4J7fW71FGiPk/f0
- Cd0+WShjlIWBjEuBlkxRZZFXc5+6wqmmO4J6u+AmcPKBDKEgYtTACYSysLwTy3lVWjJjoD+q+fa
- Y3dx3z12fZ9IrLvii7VTlm3XObJby53hn/5B/Y69Kw4JBrwSt91WypPtefjetCvBVmyy/x7n9NZ
- 8ZQYA
-X-Developer-Key: i=schnelle@linux.ibm.com; a=openpgp;
- fpr=9DB000B2D2752030A5F72DDCAFE43F15E8C26090
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDE4MSBTYWx0ZWRfXxFCiphKZJWql
- Sfn6AgXfiAjSjvIH6r1nEEVH9c1dMaoGFeVKl1KjX1hp/yCuYX3MHEYwBw3pnsN6IfiLE5/3tRt
- o+iGh+yY5iLZ2ibhASCcC/aNMs+xZNZDeyVK1wiFJ19pPrOkFm43GiqoxPzONyMzF8e+0FdhHcu
- Wky/b3Ohsd29FCp/hbG8aa8or42IPTR/a94j7n/EBWBiVnaMgPkoZDkyL6+hIlKhRE8txPajxp+
- Y9M0iTcMNtyCu6/jIdyLm4jcgMLY9H5dbMAmxXWspX6w0DwkYjPfydp0gbvXcHsZn4gDOGImSV6
- GabaWdzg+KnUCTw5HixG8/n9Z2JGM1XOI7cJYVVdBtS18o8W/pfijNBjmpnEOnXfZtltz8FREj8
- bLtiY1SnjNytolW+N4CjecU0EtdmvLVptl/dsVAzyi08aqbr2dakYaSaawfgPZXgW+5KsT/SM7N
- 4AuPkHx6GG82GuqztxA==
-X-Authority-Analysis: v=2.4 cv=QKZlhwLL c=1 sm=1 tr=0 ts=69ced306 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=VnNF1IyMAAAA:8
- a=WU3I-MCEZjdC1qMpAq0A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-GUID: NPCAGVnw9idcZ97Ujhgns4OWUFp07P68
-X-Proofpoint-ORIG-GUID: IiZkK2NLY_GhNficRY4jtlQg7oLkHWye
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-02_03,2026-04-02_05,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 phishscore=0 adultscore=0 impostorscore=0 clxscore=1015
- spamscore=0 bulkscore=0 priorityscore=1501 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020181
+Content-Transfer-Encoding: 8bit
 
-On s390, an individual PCI function can generally be identified by two
-identifiers, the FID and the UID. Which identifier is used depends on
-the scope and the platform configuration.
+On Fri, 06 Mar 2026 17:00:52 +0000, Mark Brown wrote:
+> I've removed the RFC tag from this version of the series, but the items
+> that I'm looking for feedback on remains the same:
+> 
+>  - The userspace ABI, in particular:
+>   - The vector length used for the SVE registers, access to the SVE
+>     registers and access to ZA and (if available) ZT0 depending on
+>     the current state of PSTATE.{SM,ZA}.
+>   - The use of a single finalisation for both SVE and SME.
+> 
+> [...]
 
-The first identifier, the FID, is always available and identifies a PCI
-device uniquely within a machine. The FID may be virtualized by
-hypervisors, but on the LPAR level, the machine scope makes it
-impossible to create the same configuration based on FIDs on two
-different LPARs of the same machine, and difficult to reuse across
-machines.
+Applied to arm64 (for-next/sysreg), thanks!
 
-Such matching LPAR configurations are useful, though, allowing
-standardized setups and booting a Linux installation on different LPARs.
-To this end the UID, or user-defined identifier, was introduced. While
-it is only guaranteed to be unique within an LPAR and only if indicated
-by firmware, it allows users to replicate PCI device setups.
+[01/30] arm64/sysreg: Update SMIDR_EL1 to DDI0601 2025-06
+        https://git.kernel.org/arm64/c/85b6f920a869
 
-On s390, which uses a machine hypervisor, a per PCI function hotplug
-model is used. The shortcoming with the UID then is, that it is not
-visible to the user without first attaching the PCI function and
-accessing the "uid" device attribute. The FID, on the other hand, is
-used as the slot name and is thus known even with the PCI function in
-standby.
-
-Remedy this shortcoming by providing the UID as an attribute on the slot
-allowing the user to identify a PCI function based on the UID without
-having to first attach it. Do this via a macro mechanism analogous to
-what was introduced by commit 265baca69a07 ("s390/pci: Stop usurping
-pdev->dev.groups") for the PCI device attributes.
-
-Reviewed-by: Gerd Bayer <gbayer@linux.ibm.com>
-Reviewed-by: Julian Ruess <julianr@linux.ibm.com>
-Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
----
- Documentation/arch/s390/pci.rst |  7 +++++++
- arch/s390/include/asm/pci.h     |  4 ++++
- arch/s390/pci/pci_sysfs.c       | 20 ++++++++++++++++++++
- drivers/pci/slot.c              | 13 ++++++++++++-
- 4 files changed, 43 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/arch/s390/pci.rst b/Documentation/arch/s390/pci.rst
-index 31c24ed5506f1fc07f89821f67a814118514f441..4c0f35c8a5588eee3cf0d596e0057f24b3ed079c 100644
---- a/Documentation/arch/s390/pci.rst
-+++ b/Documentation/arch/s390/pci.rst
-@@ -57,6 +57,13 @@ Entries specific to zPCI functions and entries that hold zPCI information.
- 
-   - /sys/bus/pci/slots/XXXXXXXX/power
- 
-+  In addition to using the FID as the name of the slot the slot directory
-+  also contains the following s390 specific slot attributes.
-+
-+  - uid:
-+    The User-defined identifier (UID) of the function which may be configured
-+    by this slot. See also the corresponding attribute of the device.
-+
-   A physical function that currently supports a virtual function cannot be
-   powered off until all virtual functions are removed with:
-   echo 0 > /sys/bus/pci/devices/DDDD:BB:dd.f/sriov_numvf
-diff --git a/arch/s390/include/asm/pci.h b/arch/s390/include/asm/pci.h
-index c0ff19dab5807c7e1aabb48a0e9436aac45ec97d..5dcf35f0f325f5f44b28109a1c8d9aef18401035 100644
---- a/arch/s390/include/asm/pci.h
-+++ b/arch/s390/include/asm/pci.h
-@@ -208,6 +208,10 @@ extern const struct attribute_group zpci_ident_attr_group;
- 			    &pfip_attr_group,		 \
- 			    &zpci_ident_attr_group,
- 
-+extern const struct attribute_group zpci_slot_attr_group;
-+
-+#define ARCH_PCI_SLOT_GROUPS (&zpci_slot_attr_group)
-+
- extern unsigned int s390_pci_force_floating __initdata;
- extern unsigned int s390_pci_no_rid;
- 
-diff --git a/arch/s390/pci/pci_sysfs.c b/arch/s390/pci/pci_sysfs.c
-index c2444a23e26c4218832bb91930b5f0ffd498d28f..d98d97df792adb3c7e415a8d374cc2f3a65fbb52 100644
---- a/arch/s390/pci/pci_sysfs.c
-+++ b/arch/s390/pci/pci_sysfs.c
-@@ -187,6 +187,17 @@ static ssize_t index_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(index);
- 
-+static ssize_t zpci_uid_slot_show(struct pci_slot *slot, char *buf)
-+{
-+	struct zpci_dev *zdev = container_of(slot->hotplug, struct zpci_dev,
-+					     hotplug_slot);
-+
-+	return sysfs_emit(buf, "0x%x\n", zdev->uid);
-+}
-+
-+static struct pci_slot_attribute zpci_slot_attr_uid =
-+	__ATTR(uid, 0444, zpci_uid_slot_show, NULL);
-+
- static umode_t zpci_index_is_visible(struct kobject *kobj,
- 				     struct attribute *attr, int n)
- {
-@@ -243,6 +254,15 @@ const struct attribute_group pfip_attr_group = {
- 	.attrs = pfip_attrs,
- };
- 
-+static struct attribute *zpci_slot_attrs[] = {
-+	&zpci_slot_attr_uid.attr,
-+	NULL,
-+};
-+
-+const struct attribute_group zpci_slot_attr_group = {
-+	.attrs = zpci_slot_attrs,
-+};
-+
- static struct attribute *clp_fw_attrs[] = {
- 	&uid_checking_attr.attr,
- 	NULL,
-diff --git a/drivers/pci/slot.c b/drivers/pci/slot.c
-index 787311614e5b6ebb39e7284f9b9f205a0a684d6d..2f8fcfbbec24e73d0bb6e40fd04c05a94f518045 100644
---- a/drivers/pci/slot.c
-+++ b/drivers/pci/slot.c
-@@ -96,7 +96,18 @@ static struct attribute *pci_slot_default_attrs[] = {
- 	&pci_slot_attr_cur_speed.attr,
- 	NULL,
- };
--ATTRIBUTE_GROUPS(pci_slot_default);
-+
-+static const struct attribute_group pci_slot_default_group = {
-+	.attrs = pci_slot_default_attrs,
-+};
-+
-+static const struct attribute_group *pci_slot_default_groups[] = {
-+	&pci_slot_default_group,
-+#ifdef ARCH_PCI_SLOT_GROUPS
-+	ARCH_PCI_SLOT_GROUPS,
-+#endif
-+	NULL,
-+};
- 
- static const struct kobj_type pci_slot_ktype = {
- 	.sysfs_ops = &pci_slot_sysfs_ops,
+I looked to add more core arch patches but they all look like
+preparation for subsequent KVM support. If the subsequent patches will
+have to change following review, I couldn't figure out whether the first
+3-4 patches in this series will remain the same.
 
 -- 
-2.51.0
-
+Catalin
