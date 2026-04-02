@@ -1,265 +1,1423 @@
-Received: from CH4PR04CU002.outbound.protection.outlook.com (mail-northcentralusazon11013022.outbound.protection.outlook.com [40.107.201.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FAA325726;
-	Thu,  2 Apr 2026 08:51:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.201.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775119900; cv=fail; b=EMq8m/0aawW1QK1joT5p2l7ZyND8rS+2fHWciMzttzXjw/IFdllE7lpkNnIlo8R8ETb6IoZtah8I2zVyWPegKCxxbwLu3gRJeECSaFyKCzmOypFgN3+X2A7A+gbyRbp+NGlhTyU0XdYDAn4ecbjBYalrsKakAXF6JunphjPYFwU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775119900; c=relaxed/simple;
-	bh=zUYCdo/UrwSKBZ9rOw6VATluUMJI63mm6aQDtmywBx8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uQV/hm569fhJdcddBajYUHrpFk83WbqdEEnUvE9Lb1p36y/7jYXLX1gMeM1vvxi6tQ88pDuXjRMQc2Q0vpHxT/RqSRORJ/5Hj6Yiz9pP7HpKdcy6pYT+tBO+sVMAmJcnAlmjpfYRzvN2N5rIRRCyEr7cW8ziFS3TMi0crYwzkfg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mD/s6PGg; arc=fail smtp.client-ip=40.107.201.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C25E22FF22
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 09:02:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775120571; cv=none; b=ngopGgnanZ7JAogpvZTenA2jhzS6aF2qNbFT6Db+qpLx/POzV/Ea64beyl+3RHo6rkeKA1+rewv/6qPzXMUl3drxGRGJKu4q6v4DdXYNZIhyEsHrDgg8Y7JCCMfn5ZglJUtxiXrXi8p0avtQ899tkTmSNqAc2H0Lr2AnAVF1/XU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775120571; c=relaxed/simple;
+	bh=pQSfKt+QGiLG63KHk6IL/I9o4php1mlsqxvj8CbPmW4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cBYCNoQI5B/MHshVYxmeqrpTzYfaSnFdGVwirWKrAcl4VopCabUMRNrEMeIE8Qjhv8SpBDyyYbmMlJbQsk2j3vyEdoARlPT5SILXrJm0HjiqHpRuHPqYDdCaNh1k9KQefT4Hfk9lSUY/pEg4yUi/SR3v3q5fatBHSVnPkgd6I0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aOB8RZOW; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mD/s6PGg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nbQ63ABYxRqX1j8GXSY+O5sSK9wMtyBS15vhpAxx+KV5FT+Cmw0wn+ClvwiUoO0SYPRnQWS/GuHDxJDuUYt/x8HxOpFbq+ptbZkC6im8XvxCY0yGHSXiQCtIL03FEdzeHmGopoxaB1bjLGmH5eS6k27lYRlWXH16U60amCp5ejt8CBwptUtyREnzAClkYydCX4crR7tSW6ZaKp+tIauCqloFDuIV6j5g/24CB0uGh27kgqO3hUjxWp0s2cDFaUsJFkmocyzMpZR4LkLGWIS3rjF0JZAL+pA44czPl5072sfMf9pGxaP5stuklR+tf4v0sVylBhqiKPXOVNXcL+jJjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UfYFd+OYL6X+fIJMKO6wCt+DP0m7OAFnvn6SbXDBQIc=;
- b=TkzXtOs+7cIDj6pTggZi1QTJ7E3I2L7qN68kQ6Ds5b53VpmMrtzGnLmV33St/8ZUPNQVif1B+QUVdkqT4qpXnE35fLfd3PWGbsxRQgFCQODHR9Zs2XItdtNS1DO9ktJWX1l1Y8tW+1W2v50adkgT3T6j3tD1P1z0B5Vcpberh4fCKQa+JVQC4hMEAiNiMjTOphHudQRai+ZA91P8P/81w7RqSThvsZmLSRhOcleCweiVwNVUHLwt1rvIajtcAmAYJ4BL+roHOTXwcXvWIS1G2fvFfOi2U4KEZdH/WZbtgBuwG1XRJobQSy+8YjPMUg2Iw9Uyr2Oou1eioxTRHxl1sw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UfYFd+OYL6X+fIJMKO6wCt+DP0m7OAFnvn6SbXDBQIc=;
- b=mD/s6PGgUAjbFq/zc676GJKTozEsgR3fuIChSSfT89tQd8824o6vloigYun+iWYKQbLYufWChrFwDpEUW2jMNMLg/eV9wZsGn+omvGxJxubRszrjJ//W8sYkTyl/vQ80bpYNdXcAZl/K63HVFvSRZ7W2iE9kUR3Bxbf02OzMNh0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB8809.namprd12.prod.outlook.com (2603:10b6:806:31f::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Thu, 2 Apr
- 2026 08:51:33 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9769.016; Thu, 2 Apr 2026
- 08:51:33 +0000
-Message-ID: <9c1545d0-6a5d-4260-b921-e8b1d3525f33@amd.com>
-Date: Thu, 2 Apr 2026 10:51:26 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 12/18] accel/qda: Add PRIME dma-buf import support
-To: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Joerg Roedel <joro@8bytes.org>,
- Will Deacon <will@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- iommu@lists.linux.dev, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- Srinivas Kandagatla <srinivas.kandagatla@oss.qualcomm.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Bharath Kumar <quic_bkumar@quicinc.com>,
- Chenna Kesava Raju <quic_chennak@quicinc.com>
-References: <20260224-qda-firstpost-v1-0-fe46a9c1a046@oss.qualcomm.com>
- <20260224-qda-firstpost-v1-12-fe46a9c1a046@oss.qualcomm.com>
- <e87c0c1d-82f1-4a03-9a56-9bf3e03273cf@amd.com>
- <29f9bb45-5c3f-4847-a629-21cef540f38b@oss.qualcomm.com>
- <998ce121-e027-441d-a3f4-2f3e41e10830@oss.qualcomm.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <998ce121-e027-441d-a3f4-2f3e41e10830@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BL1PR13CA0320.namprd13.prod.outlook.com
- (2603:10b6:208:2c1::25) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aOB8RZOW"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2ba895adfeaso815833eec.0
+        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 02:02:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775120567; x=1775725367; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=NOynyHrMJ1gh1+3pdBDNr+UzOUPWLPLlK0eYSCZoPF0=;
+        b=aOB8RZOWANLCA3Pnck7jWbq6aYRy186VCibUVMj5ToLrmyzv6d8Ok2zuuBgcGb2fcT
+         VgRphh/K4bD5MWzKsGaG0iNozMpcPK45PIaFiimCZVrdsPXRO9O9lCccVv/J5wX24p1v
+         ttK1OtR+TO1okK6wqVu/THAadtJFf0F7NlUP+lFguSLaBihKq/K0GNCXt6HBcyyki5cX
+         Fk9q2SUJMv5zemDfq4JQTsKLbOFdNyeE4Qp5Eva67EwAOuD6PJ69xCFwjm7F36Z8WqQj
+         B0GbNdkc2x0T+vbZhPFrNiHHCabl7IrPdNzlCdRMeLECwsY449PNxLDMxd/LY4TimOQw
+         /c3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775120567; x=1775725367;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NOynyHrMJ1gh1+3pdBDNr+UzOUPWLPLlK0eYSCZoPF0=;
+        b=hkG5unwonVwSP29WT/9vDE2t4GNTA5NiMNr5SqYY6ktoiz+ncpBsGvZAihF+sIuoMZ
+         z0BtBF1Nsm1WGMbvhNcC3cfnI6by7ydJC4RPqz+VSdHo5VwOdPRpC/5C1Pl11gFFgVeJ
+         jJnV5u9wT/TQhTW8gCio6hySq10Efr7r4gafr/8aKxQ8Qsh/kfZf4IMIC+jWSVVoKXZp
+         h384vWKwc3k8U0LiNTaYWSOx8Ny0NiEHWqUSzEA8G+EirDyRaLojk5wIR6n1g9I2coh/
+         FCynID9ErvedBD/B0++5NwSdtrvcx/3G12oENDKyLmUCFw8szzXvsUfyIpQ5h8UIigiB
+         cdBA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQYLWJZo8HvHlCT6WjSe2zukEbuloY0IrimgkB8TgNbDTuyW7G8/3gTCRyGnKSjc5scvRl6o4C540=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFLMAgJmyCBJe9IUXBGhOtA2bG+6y1skTklSVoQWcvMD/TQP77
+	Osr1kJlOtx3mvlScxengniJB35dYGGMV6P7tuS2WuywmcSB7GVdxholV
+X-Gm-Gg: ATEYQzyfIURYz+4kAxlC7Sia+TfETItVx5HgAmQGwyXK1BalaWPS2HiqIo8sT8p2RaF
+	vQEGQzS+EBrt9qInYCQsEbn2BiSalqXJspdgu5Yh3meQouDJuSLKma5dEHrNUISDUr2fwjCAqEk
+	Rk0D4MJHv2cIKh/2hNFVWouyM+MffbXBBSDG0GvwoEhPG9xEn7+vczcUAqPbL7ZS1ap6m0AADsy
+	tFgHoElozQtH0wQeQ5jATFx2/5j+8EO3inVM0sNA9aCTIgpM4OgqfX9dTf+02Mtxh8HbhPZif1F
+	CFS1mVUyiTk4eA3FZBe5uL7z+NV7Ym36ERdz6SbQHCNwB6IwvWwdgnlAz/XeySLfh+bfnefTFeM
+	+Ufvk7B586fJVobG79ZI6kAC2+0H3MKq96ato9eczNwB4VwFp5YJq6VXXmd7cqyh4EmXqYpRwZs
+	XVjGEge2y+j8IKxvBn+azh9MueM81qIxsm96Av9HRgh1amvIiQmkNQSZp63/ErcdbDoXRG8aU=
+X-Received: by 2002:a05:7300:a287:b0:2c5:3b87:2ffc with SMTP id 5a478bee46e88-2c930b800a4mr3553697eec.7.1775120566844;
+        Thu, 02 Apr 2026 02:02:46 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c085:21cf::147f? ([2620:10d:c090:400::5:9571])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ca7cf126c9sm1959194eec.27.2026.04.02.02.02.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Apr 2026 02:02:46 -0700 (PDT)
+Message-ID: <bf9f7c6f-8759-4f4f-8e35-2bd7c446d102@gmail.com>
+Date: Thu, 2 Apr 2026 02:02:44 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB8809:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4162e61e-251b-4917-f30a-08de90950a46
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|921020|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	B7Mx2G/D/bguQBr7wYKmKlgw7h/ymHSBxi6DbEESlZR1PPZjacbgfrQbdgTobkq97Ph5aYK/Wrstgcm7OAstI8fY8ghm9m0qcIHwYVS+MdhcrQhlXpUpWM0CnK825iaXCB4JxGmWRRWTxA9vWdQcG1p+l6arBpHYkdJIbwPMdaseSbJ8mOBWBJbPZHe5orXHWap7DZxWSley1POhsElLTNSyaKg3oYYh9rbcb5WUc/2gwxY6dJiEZZnZ6pbID9TUtv3gUC2LkFIxJzj4AG62qlaa3sIEGC+aKwp2HjEVydSSj7Lsv5dzQrIEE3H8Dynk91x+NQULbOAIKPgX1Jj4EskRLG7gbaDYB4Xd9sk9az1LGoiElz9kmetzF8D8OwsDkK8s95LIbHq7v3F4fgeVCj+0tVsi7RBoPMBitWws4KsgZ7BQfSYvGAccHoojRLi5jtLFkJ0PvyUo4HM00H7dvKPODk84ebSsEzCdetEsaNC3iDr89gM3YCgVTqcPs5yeEJLCxLtPZeqNUi47QUFUKfBNLE2jA2Ge2Wga3kYQujeepTQH76CN7/7zOVELp9+WTjpzJnr+WTVCgZcWwZag+FPs/yGvdyZJ2M9jkzMti+mX6Z92sjP5tNMCiZrlaO3hJ4ISaCNAiPGlpSYTybpdxmf6jZ3dwStaMHwaPNLztovB5J8/LBkmXiCF7T9Wqk9ba1mZ1Oo26GpgjzkL3IeWtZfbRcOhrnMnDzuM/ffHkF8=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(921020)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VDdoTjZSVFRTSk9IK1BPdkxDTis0dE1YcDFZMTJQbGZDMnQ5UkhmV0NVV3JV?=
- =?utf-8?B?cTVqb0N4eFkvRkk3RzY1N1Vxenk2NkZ4NkhNdk9kR0VDMHJqRmo4eHVFcWpM?=
- =?utf-8?B?WlMweXJObUg5Z3ZXclNmMVZjSEYySE4yUDdncGZWOUQ5T2dXNFlIdGFReDh4?=
- =?utf-8?B?K1pFb2FFY3oyVndDNm4yVzllTDhnTTZXV0FoaklteWZpYjdpYXNhbStnd1cy?=
- =?utf-8?B?Mnk0dGZvZ3RQNXVmYTBXR2txMEc4WUVCVlordG5rcTdWRmliQlExbUZaRTZK?=
- =?utf-8?B?bmhjSlJPMDYzUnpobGx0aVdXcmtza3UxRVZsWjV1RXBMMndKSkgyTER4RHZ3?=
- =?utf-8?B?eGRDanVnZnlkRWE0K2k2ZEVHWVFrMXhyWld4clFmbk11RUlYbzJld3BIaWkr?=
- =?utf-8?B?YTQwcEIyS2pyb1JYR3lEaUdyZUdkZkZYZGtqNTJTdmRHQ09rMlA1RjRrVVpR?=
- =?utf-8?B?Q3RiUmJvMC9ySnNvRkhuNGtac2ZWeXhpOXV2T2dZMzNqU1hhRWFpYm1RZm85?=
- =?utf-8?B?ZDJNd1NEbGljWi8vOFo0OHZqL01LMEUwRUNKS2ZjVnFLNzNnNW8zYmlXdHJ0?=
- =?utf-8?B?NDBKeHpyOGpTSUU3Qno5eFE0TndGU0k5WGxDL1FITndWNXhFdkxpSjNkZTZK?=
- =?utf-8?B?cjcwVFZ6QXlCeXFEaHA4M084ZUNZMnh6L29MZHQ1VmpLeEpJYmU0MWtGZkdY?=
- =?utf-8?B?OVVpQUpHZU4vcWpHOHJsbm5iOTU1NWIzM2dvZkZSRmZmSXBwQXJHRGZsR0J5?=
- =?utf-8?B?YjVjOWtwQ0VwdHBJZm5YUzM0aEZmdHQyN1RvWUJvWXhEdGZyazR1Q0lNdkNU?=
- =?utf-8?B?UFkzY09Gb3VpNzlTcTZwZ3FIS1IxV3BvUEZaTDZCSUlQUkRnUGhBN2VjeG4v?=
- =?utf-8?B?bnpVcDdlSXlDQjlvOFp4OVJCcHFTMVgwbWUxK1duOWNaUlJDSmZtNG9SVC80?=
- =?utf-8?B?M2FzUTdDT09aUjRUNjlSRjJGdVB1QmRXWnE2SzJHOFEzWmxBRGtROUhXUERR?=
- =?utf-8?B?RFZCMmdzUlM5K21KZERYL2JiMDg4MERONVZBUUduc2g0NHVmR0pvREhxSi9u?=
- =?utf-8?B?Uy80S2thMU85OEhBMzBUeFpMYUE4VFpaeDFRQ3pvc2JMZVA3cDJyVFRDTlBu?=
- =?utf-8?B?WHZuTmNNeUZYZVdNZEtQTnlvMU9NNko0QS9RTDFnUzBoZUdVclVRd0RMZ2lX?=
- =?utf-8?B?SVgyeVRXWXp2R1Vtb1lBaU04ZDVCbGsxSWdrbktHdm9mWUVOaUllMjYrUUVJ?=
- =?utf-8?B?NDc3bkh3NVUvME40RVRpbktyQ0NrZVFndmlYZGhQWUk3aGtLU1pYZTN5Y1pL?=
- =?utf-8?B?KzYxb1FKVGhVb2s5TlJkN2ZhbjRiVkpLNVN5aVRBSlUrWmxlSTNlbGlCdGIz?=
- =?utf-8?B?SHlnR3NVRkp3b2hvZHRzT0szQWo1ZTFjY3VCeHMvU2RCajF0S3VyVFFrYlhC?=
- =?utf-8?B?NmJLcStBc1hBSUtqSGY4dWh6Q2VRL0VUNjdmdVhHdmdLM21LK0FmZ2JpeEVn?=
- =?utf-8?B?Nkk3ekpaWW5qcXhuUmtWVDFZL3hJV0RxMnhIbFYwN1Q2NFZGaXZ0YWpCdHBw?=
- =?utf-8?B?NzdFdHJBNVNHQnZDemFXR1VjV3BvWktEM1dWMDA2M0FKVW0xYStSSjRPNUYv?=
- =?utf-8?B?THlld0U2cjNOcTUwTVF4M1lWMVQ4VlhCbkJTWEQzYXB2bVBsT2pvQVBPczl1?=
- =?utf-8?B?TWYzcjR1RW15V0dYQUpKcFVwdTZObmw3K1JnZ0pncFdnc05lK1czU0g1bWJk?=
- =?utf-8?B?REpqWTF2SjVFSlNNdG5od1V2V090SDRXRHdjMUVJeHdaUXhrSDMvYnBudENs?=
- =?utf-8?B?VGd6NWhDRDJ6VnUrTFlWRGsyc09wbkIrbnpVUjMvMUEvaHI2WThvem13aWc0?=
- =?utf-8?B?YStYYUpCSzcvQldEdjVHM3N1ZERmOEJxVmJjaDhKOGU2MXIzOGdWRVkxSGF0?=
- =?utf-8?B?NVpzc1FKYzRSNnp6eHVXQWxWRnVhaTVmQUVjd1JwY09TTlZFU1kwOGp4WGJ6?=
- =?utf-8?B?eENwZ05qWTBpRE5DV2JTbHFRTXlaZGljV3VJNFYyU0ZBek9TODF6Wmw2VmRI?=
- =?utf-8?B?UWZUQ2s1blMrRWhIbkxsQVpFVTZiR1JEaVh5VWZzd2lUYWxpemtCS0Z4N2pa?=
- =?utf-8?B?TERMVFQybFlxVS8yalZLMWNpQ24rR0VtUlVqNkRESC9KMlpCY29zQm9VeHN5?=
- =?utf-8?B?ZXdjVmUzZCs2VXJrQXVjSWh0d1kvaXF1MzFWb1o1R3Z4enZlOHV5OWVkRWRG?=
- =?utf-8?B?bGVNLzBHcHZSVkEvbjZLT2tVekw1R3oxckNlbENBTUdOWFZVUWhQN1VRNTRC?=
- =?utf-8?Q?4/CE1y1oxCy4eB6hTz?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4162e61e-251b-4917-f30a-08de90950a46
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2026 08:51:33.1571
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2/XRxMWkAvpNNl8Q7G6CWyWR0PZDVl21g6ICTR65EiOfwpP5VHY4vM/3zqPQ8YdL
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB8809
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 net-next 02/11] net/nebula-matrix: add our driver
+ architecture
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>,
+ dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
+ linux-doc@vger.kernel.org, lorenzo@kernel.org, pabeni@redhat.com,
+ horms@kernel.org, vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com,
+ edumazet@google.com, enelsonmoore@gmail.com, skhan@linuxfoundation.org,
+ hkallweit1@gmail.com, jani.nikula@intel.com,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260401022318.28550-1-illusion.wang@nebula-matrix.com>
+ <20260401022318.28550-3-illusion.wang@nebula-matrix.com>
+Content-Language: en-US
+From: Mohsin Bashir <mohsin.bashr@gmail.com>
+In-Reply-To: <20260401022318.28550-3-illusion.wang@nebula-matrix.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 4/2/26 10:36, Ekansh Gupta wrote:
-> On 3/9/2026 12:29 PM, Ekansh Gupta wrote:
->>
->> On 2/24/2026 2:42 PM, Christian König wrote:
->>> On 2/23/26 20:09, Ekansh Gupta wrote:
->>>> [Sie erhalten nicht häufig E-Mails von ekansh.gupta@oss.qualcomm.com. Weitere Informationen, warum dies wichtig ist, finden Sie unter https://aka.ms/LearnAboutSenderIdentification ]
->>>>
->>>> Add PRIME dma-buf import support for QDA GEM buffer objects and integrate
->>>> it with the existing per-process memory manager and IOMMU device model.
->>>>
->>>> The implementation extends qda_gem_obj to represent imported dma-bufs,
->>>> including dma_buf references, attachment state, scatter-gather tables
->>>> and an imported DMA address used for DSP-facing book-keeping. The
->>>> qda_gem_prime_import() path handles reimports of buffers originally
->>>> exported by QDA as well as imports of external dma-bufs, attaching them
->>>> to the assigned IOMMU device
->>> That is usually an absolutely clear NO-GO for DMA-bufs. Where exactly in the code is that?
->> dma_buf_attach* to comute-cb iommu devices are critical for DSPs to access the buffer.
->> This is needed if the buffer is exported by anyone other than QDA(say system heap). If this is not
->> the correct way, what should be the right way here? On the current fastrpc driver also,
->> the DMABUF is getting attached with iommu device[1] due to the same requirement.
->>
->> [1] https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/misc/fastrpc.c#n779
-> 
-> Hi Christian,
-> 
-> Do you have any suggestions for the shared requirements?
 
-Well I don't fully understand what you are trying to do with the iommu. Usually it is the job of the exporter to provide the importer with DMA addresses which are valid for its device structure, that includes IOMMU mapping.
 
-Can you iterate what exactly this iommu group is and why you have to attach the imported buffers to it, how that attachment works and how lifetime is managed?
+On 3/31/26 7:23 PM, illusion.wang wrote:
+> our driver architecture:
+> Hardware (HW), Channel, Resource, Dispatch, and Device Layer
+> Struct Initialization/Deinitialization, and Operation Set Registration/
+> Unregistration
+> 
+> Our driver architecture is relatively complex because the code is highly
+> reusable and designed to support multiple features. Additionally, the
+> codebase supports multiple chip variants, each with distinct
+> hardware-software interactions.
+> To ensure compatibility, our architecture is divided into the following
+> layers:
+> 
+> 1. Dev Layer (Device Layer)
+> The top-level business logic layer where all operations are
+> device-centric. Every operation is performed relative to the device
+> context. The intergration of base functions encompasses:
+> management(ctrl only for leonis pf0), network(net_dev,this time not
+> contained),common.
+> 
+> 2. Dispatch Layer
+> The distribution from services to specific data operations is mainly
+> divided into two types: direct pass-through and handling by the
+> management PF. It shields the upper layer from the differences in
+> specific underlying locations.
+> It describes the processing locations and paths of the services.
+> 
+> 3. Resource Layer
+> Handles tasks dispatched from Dispatch Layer. These tasks fall into two
+> categories:
+> 3.1 Hardware control
+> The Resource Layer further invokes the HW Layer when hardware access is
+> needed, as only the HW Layer has OS-level privileges.
+> 3.2 Software resource management
+> Operations like packet statistics collection that don't require hardware
+> access.
+> 
+> 4. HW Layer (Hardware Layer)
+> Serves the Resource Layer by interacting with different hardware
+> chipsets.Writes to hardware registers to drive the hardware based on
+> Resource Layer directives.
+> 
+> 5. Channel Layer
+> 
+> Handle communication between PF0(has ctrl func) and other PF,and provide
+> basic interaction channels.
+> 
+> 6. Common Layer
+> Provides fundamental services
+> 
+> Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
+> ---
+>   .../net/ethernet/nebula-matrix/nbl/Makefile   |   7 +-
+>   .../nbl/nbl_channel/nbl_channel.c             |  82 ++++++++
+>   .../nbl/nbl_channel/nbl_channel.h             |  29 +++
+>   .../net/ethernet/nebula-matrix/nbl/nbl_core.h |  43 +++++
+>   .../nebula-matrix/nbl/nbl_core/nbl_dev.c      |  56 ++++++
+>   .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |  27 +++
+>   .../nebula-matrix/nbl/nbl_core/nbl_dispatch.c |  75 ++++++++
+>   .../nebula-matrix/nbl/nbl_core/nbl_dispatch.h |  25 +++
+>   .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  | 140 ++++++++++++++
+>   .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  14 ++
+>   .../nbl_hw_leonis/nbl_resource_leonis.c       |  83 ++++++++
+>   .../nbl_hw_leonis/nbl_resource_leonis.h       |  10 +
+>   .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |  68 +++++++
+>   .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  30 +++
+>   .../nbl/nbl_include/nbl_def_channel.h         |  26 +++
+>   .../nbl/nbl_include/nbl_def_common.h          |  35 ++++
+>   .../nbl/nbl_include/nbl_def_dev.h             |  16 ++
+>   .../nbl/nbl_include/nbl_def_dispatch.h        |  29 +++
+>   .../nbl/nbl_include/nbl_def_hw.h              |  22 +++
+>   .../nbl/nbl_include/nbl_def_resource.h        |  20 ++
+>   .../nbl/nbl_include/nbl_include.h             |  11 ++
+>   .../nbl/nbl_include/nbl_product_base.h        |  18 ++
+>   .../net/ethernet/nebula-matrix/nbl/nbl_main.c | 179 ++++++++++++++++++
+>   23 files changed, 1044 insertions(+), 1 deletion(-)
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+>   create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+> 
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+> index b90fba239401..271605920396 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
+> @@ -3,4 +3,9 @@
+>   
+>   obj-$(CONFIG_NBL) := nbl.o
+>   
+> -nbl-objs +=      nbl_main.o
+> +nbl-objs +=       nbl_channel/nbl_channel.o \
+> +				nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
+> +				nbl_hw/nbl_hw_leonis/nbl_resource_leonis.o \
+> +				nbl_core/nbl_dispatch.o \
+> +				nbl_core/nbl_dev.o \
+> +				nbl_main.o
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+> new file mode 100644
+> index 000000000000..9f4603870cb4
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+> @@ -0,0 +1,82 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#include <linux/device.h>
+> +#include <linux/pci.h>
+> +#include "nbl_channel.h"
+> +
+> +static struct nbl_channel_ops chan_ops = {
+> +};
+> +
+> +static struct nbl_channel_mgt *
+> +nbl_chan_setup_chan_mgt(struct nbl_adapter *adapter)
+> +{
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl = adapter->intf.hw_ops_tbl;
+> +	struct nbl_common_info *common = &adapter->common;
+> +	struct device *dev = &adapter->pdev->dev;
+> +	struct nbl_chan_info *mailbox;
+> +	struct nbl_channel_mgt *chan_mgt;
 
-Regards,
-Christian.
+Reverse xmas violation here
 
-> 
-> I'm reworking on the next version and currently I don't see any other way
-> to handle dma_buf_attach* cases.
-> 
-> //Ekansh
-> 
->>>> and mapping them through the memory manager
->>>> for DSP access. The GEM free path is updated to unmap and detach
->>>> imported buffers while preserving the existing behaviour for locally
->>>> allocated memory.
->>>>
->>>> The PRIME fd-to-handle path is implemented in qda_prime_fd_to_handle(),
->>>> which records the calling drm_file in a driver-private import context
->>>> before invoking the core DRM helpers. The GEM import callback retrieves
->>>> this context to ensure that an IOMMU device is assigned to the process
->>>> and that imported buffers follow the same per-process IOMMU selection
->>>> rules as natively allocated GEM objects.
->>>>
->>>> This patch prepares the driver for interoperable buffer sharing between
->>>> QDA and other dma-buf capable subsystems while keeping IOMMU mapping and
->>>> lifetime handling consistent with the existing GEM allocation flow.
->>>>
->>>> Signed-off-by: Ekansh Gupta <ekansh.gupta@oss.qualcomm.com>
->>> ...
->>>
->>>> @@ -15,23 +16,29 @@ static int validate_gem_obj_for_mmap(struct qda_gem_obj *qda_gem_obj)
->>>>                 qda_err(NULL, "Invalid GEM object size\n");
->>>>                 return -EINVAL;
->>>>         }
->>>> -       if (!qda_gem_obj->iommu_dev || !qda_gem_obj->iommu_dev->dev) {
->>>> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
->>>> -               return -EINVAL;
->>>> -       }
->>>> -       if (!qda_gem_obj->iommu_dev->dev) {
->>>> -               qda_err(NULL, "Allocated buffer missing IOMMU device\n");
->>>> -               return -EINVAL;
->>>> -       }
->>>> -       if (!qda_gem_obj->virt) {
->>>> -               qda_err(NULL, "Allocated buffer missing virtual address\n");
->>>> -               return -EINVAL;
->>>> -       }
->>>> -       if (qda_gem_obj->dma_addr == 0) {
->>>> -               qda_err(NULL, "Allocated buffer missing DMA address\n");
->>>> -               return -EINVAL;
->>>> +       if (qda_gem_obj->is_imported) {
->>> Absolutely clear NAK to that. Imported buffers *can't* be mmaped through the importer!
->>>
->>> Userspace needs to mmap() them through the exporter.
->>>
->>> If you absolutely have to map them through the importer for uAPI backward compatibility then there is dma_buf_mmap() for that, but this is clearly not the case here.
->>>
->>> ...
->> Okay, the requirement is slightly different here. Any buffer which is not allocated using the
->> QDA GEM interface needs to be attached to the iommu device for that particular process to
->> enable DSP for the access. I should not call it `mmap` instead it should be called importing the
->> buffer to a particular iommu context bank. With this definition, is it fine to keep it this way? Or
->> should the dma_buf_attach* calls be moved to some other place?
->>>> +static int qda_memory_manager_map_imported(struct qda_memory_manager *mem_mgr,
->>>> +                                          struct qda_gem_obj *gem_obj,
->>>> +                                          struct qda_iommu_device *iommu_dev)
->>>> +{
->>>> +       struct scatterlist *sg;
->>>> +       dma_addr_t dma_addr;
->>>> +       int ret = 0;
->>>> +
->>>> +       if (!gem_obj->is_imported || !gem_obj->sgt || !iommu_dev) {
->>>> +               qda_err(NULL, "Invalid parameters for imported buffer mapping\n");
->>>> +               return -EINVAL;
->>>> +       }
->>>> +
->>>> +       gem_obj->iommu_dev = iommu_dev;
->>>> +
->>>> +       sg = gem_obj->sgt->sgl;
->>>> +       if (sg) {
->>>> +               dma_addr = sg_dma_address(sg);
->>>> +               dma_addr += ((u64)iommu_dev->sid << 32);
->>>> +
->>>> +               gem_obj->imported_dma_addr = dma_addr;
->>> Well that looks like you are only using the first DMA address from the imported sgt. What about the others?
->> I might have a proper appach for this now, will update in the next spin.
->>> Regards,
->>> Christian.
-> 
+> +
+> +	chan_mgt = devm_kzalloc(dev, sizeof(*chan_mgt), GFP_KERNEL);
+> +	if (!chan_mgt)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	chan_mgt->common = common;
+> +	chan_mgt->hw_ops_tbl = hw_ops_tbl;
+> +
+> +	mailbox = devm_kzalloc(dev, sizeof(*mailbox), GFP_KERNEL);
+> +	if (!mailbox)
+> +		return ERR_PTR(-ENOMEM);
 
+Here, if mailbox allocation fails, we return without freeing chan_mgt 
+resulting in a leak.
+
+> +	mailbox->chan_type = NBL_CHAN_TYPE_MAILBOX;
+> +	chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX] = mailbox;
+> +
+> +	return chan_mgt;
+> +}
+> +
+> +static struct nbl_channel_ops_tbl *
+> +nbl_chan_setup_ops(struct device *dev, struct nbl_channel_mgt *chan_mgt)
+> +{
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl;
+> +
+> +	chan_ops_tbl = devm_kzalloc(dev, sizeof(*chan_ops_tbl), GFP_KERNEL);
+> +	if (!chan_ops_tbl)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	chan_ops_tbl->ops = &chan_ops;
+> +	chan_ops_tbl->priv = chan_mgt;
+> +
+> +	return chan_ops_tbl;
+> +}
+> +
+> +int nbl_chan_init_common(struct nbl_adapter *adap)
+> +{
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl;
+> +	struct device *dev = &adap->pdev->dev;
+> +	struct nbl_channel_mgt *chan_mgt;
+> +	int ret;
+> +
+> +	chan_mgt = nbl_chan_setup_chan_mgt(adap);
+> +	if (IS_ERR(chan_mgt)) {
+> +		ret = PTR_ERR(chan_mgt);
+> +		goto setup_mgt_fail;
+> +	}
+> +	adap->core.chan_mgt = chan_mgt;
+> +
+> +	chan_ops_tbl = nbl_chan_setup_ops(dev, chan_mgt);
+> +	if (IS_ERR(chan_ops_tbl)) {
+> +		ret = PTR_ERR(chan_ops_tbl);
+> +		goto setup_ops_fail;
+> +	}
+> +	adap->intf.channel_ops_tbl = chan_ops_tbl;
+> +	return 0;
+> +
+> +setup_ops_fail:
+> +setup_mgt_fail:
+> +	return ret;
+> +}
+
+Why do we need two labels here? Looks like some piece of code will use 
+two different clean-up paths in the later patches. Better to add related 
+label then?
+
+> +
+> +void nbl_chan_remove_common(struct nbl_adapter *adap)
+> +{
+> +}
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+> new file mode 100644
+> index 000000000000..637912d1e806
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_CHANNEL_H_
+> +#define _NBL_CHANNEL_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#include "../nbl_include/nbl_include.h"
+> +#include "../nbl_include/nbl_product_base.h"
+> +#include "../nbl_include/nbl_def_channel.h"
+> +#include "../nbl_include/nbl_def_hw.h"
+> +#include "../nbl_include/nbl_def_common.h"
+> +#include "../nbl_core.h"
+> +
+> +struct nbl_chan_info {
+> +	u8 chan_type;
+> +};
+> +
+> +struct nbl_channel_mgt {
+> +	struct nbl_common_info *common;
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl;
+> +	struct nbl_chan_info *chan_info[NBL_CHAN_TYPE_MAX];
+> +	struct nbl_hash_tbl_mgt *handle_hash_tbl;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+> index c525114297b4..aa4d24d04e2c 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+> @@ -6,6 +6,20 @@
+>   #ifndef _NBL_CORE_H_
+>   #define _NBL_CORE_H_
+>   
+> +#include <linux/pci.h>
+> +#include "nbl_include/nbl_def_common.h"
+> +#include "nbl_include/nbl_include.h"
+> +
+> +struct nbl_hw_mgt;
+> +struct nbl_hw_ops_tbl;
+> +struct nbl_resource_mgt;
+> +struct nbl_resource_ops_tbl;
+> +struct nbl_dispatch_mgt;
+> +struct nbl_dispatch_ops_tbl;
+> +struct nbl_channel_ops_tbl;
+> +struct nbl_channel_mgt;
+> +struct nbl_dev_mgt;
+> +
+>   enum {
+>   	NBL_CAP_HAS_CTRL_BIT,
+>   	NBL_CAP_HAS_NET_BIT,
+> @@ -13,4 +27,33 @@ enum {
+>   	NBL_CAP_IS_LEONIS_BIT,
+>   };
+>   
+> +struct nbl_interface {
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl;
+> +	struct nbl_resource_ops_tbl *resource_ops_tbl;
+> +	struct nbl_dispatch_ops_tbl *dispatch_ops_tbl;
+> +	struct nbl_channel_ops_tbl *channel_ops_tbl;
+> +};
+> +
+> +struct nbl_core {
+> +	struct nbl_hw_mgt *hw_mgt;
+> +	struct nbl_resource_mgt *res_mgt;
+> +	struct nbl_dispatch_mgt *disp_mgt;
+> +	struct nbl_dev_mgt *dev_mgt;
+> +	struct nbl_channel_mgt *chan_mgt;
+> +};
+> +
+> +struct nbl_adapter {
+> +	struct pci_dev *pdev;
+> +	struct nbl_core core;
+> +	struct nbl_interface intf;
+> +	struct nbl_common_info common;
+> +	struct nbl_product_base_ops *product_base_ops;
+> +};
+> +
+> +struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
+> +				  struct nbl_init_param *param);
+> +void nbl_core_remove(struct nbl_adapter *adapter);
+> +int nbl_core_start(struct nbl_adapter *adapter);
+> +void nbl_core_stop(struct nbl_adapter *adapter);
+> +
+>   #endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+> new file mode 100644
+> index 000000000000..5deb21e35f8e
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+> @@ -0,0 +1,56 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +#include <linux/device.h>
+> +#include <linux/pci.h>
+> +#include "nbl_dev.h"
+> +
+> +static struct nbl_dev_mgt *nbl_dev_setup_dev_mgt(struct nbl_common_info *common)
+> +{
+> +	struct nbl_dev_mgt *dev_mgt;
+> +
+> +	dev_mgt = devm_kzalloc(common->dev, sizeof(*dev_mgt), GFP_KERNEL);
+> +	if (!dev_mgt)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	dev_mgt->common = common;
+> +	return dev_mgt;
+> +}
+> +
+> +int nbl_dev_init(struct nbl_adapter *adapter)
+> +{
+> +	struct nbl_common_info *common = &adapter->common;
+> +	struct nbl_dispatch_ops_tbl *disp_ops_tbl =
+> +		adapter->intf.dispatch_ops_tbl;
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl =
+> +		adapter->intf.channel_ops_tbl;
+> +	struct nbl_dev_mgt *dev_mgt;
+> +	int ret;
+> +
+> +	dev_mgt = nbl_dev_setup_dev_mgt(common);
+> +	if (IS_ERR(dev_mgt)) {
+> +		ret = PTR_ERR(dev_mgt);
+> +		return ret;
+> +	}
+> +
+> +	dev_mgt->disp_ops_tbl = disp_ops_tbl;
+> +	dev_mgt->chan_ops_tbl = chan_ops_tbl;
+> +	adapter->core.dev_mgt = dev_mgt;
+> +
+> +	return 0;
+> +}
+> +
+> +void nbl_dev_remove(struct nbl_adapter *adapter)
+> +{
+> +}
+> +
+> +/* ----------  Dev start process  ---------- */
+> +int nbl_dev_start(struct nbl_adapter *adapter)
+> +{
+> +	return 0;
+> +}
+> +
+> +void nbl_dev_stop(struct nbl_adapter *adapter)
+> +{
+> +}
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+> new file mode 100644
+> index 000000000000..9b71092b99a0
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+> @@ -0,0 +1,27 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEV_H_
+> +#define _NBL_DEV_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#include "../nbl_include/nbl_include.h"
+> +#include "../nbl_include/nbl_product_base.h"
+> +#include "../nbl_include/nbl_def_channel.h"
+> +#include "../nbl_include/nbl_def_hw.h"
+> +#include "../nbl_include/nbl_def_resource.h"
+> +#include "../nbl_include/nbl_def_dispatch.h"
+> +#include "../nbl_include/nbl_def_dev.h"
+> +#include "../nbl_include/nbl_def_common.h"
+> +#include "../nbl_core.h"
+> +
+> +struct nbl_dev_mgt {
+> +	struct nbl_common_info *common;
+> +	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+> new file mode 100644
+> index 000000000000..8b031f6e963f
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+> @@ -0,0 +1,75 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +#include <linux/device.h>
+> +#include <linux/pci.h>
+> +#include "nbl_dispatch.h"
+> +
+> +static struct nbl_dispatch_mgt *
+> +nbl_disp_setup_disp_mgt(struct nbl_common_info *common)
+> +{
+> +	struct nbl_dispatch_mgt *disp_mgt;
+> +	struct device *dev = common->dev;
+> +
+> +	disp_mgt = devm_kzalloc(dev, sizeof(*disp_mgt), GFP_KERNEL);
+> +	if (!disp_mgt)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	disp_mgt->common = common;
+> +	return disp_mgt;
+> +}
+> +
+> +static struct nbl_dispatch_ops_tbl *
+> +nbl_disp_setup_ops(struct device *dev, struct nbl_dispatch_mgt *disp_mgt)
+> +{
+> +	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
+> +	struct nbl_dispatch_ops *disp_ops;
+> +
+> +	disp_ops_tbl = devm_kzalloc(dev, sizeof(*disp_ops_tbl), GFP_KERNEL);
+> +	if (!disp_ops_tbl)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	disp_ops =
+> +		devm_kzalloc(dev, sizeof(*disp_ops), GFP_KERNEL);
+> +	if (!disp_ops)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	disp_ops_tbl->ops = disp_ops;
+> +	disp_ops_tbl->priv = disp_mgt;
+> +
+> +	return disp_ops_tbl;
+> +}
+> +
+> +int nbl_disp_init(struct nbl_adapter *adapter)
+> +{
+> +	struct nbl_common_info *common = &adapter->common;
+> +	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
+> +	struct nbl_resource_ops_tbl *res_ops_tbl =
+> +		adapter->intf.resource_ops_tbl;
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl =
+> +		adapter->intf.channel_ops_tbl;
+> +	struct device *dev = &adapter->pdev->dev;
+> +	struct nbl_dispatch_mgt *disp_mgt;
+> +	int ret;
+> +
+> +	disp_mgt = nbl_disp_setup_disp_mgt(common);
+> +	if (IS_ERR(disp_mgt)) {
+> +		ret = PTR_ERR(disp_mgt);
+> +		return ret;
+> +	}
+> +
+> +	disp_ops_tbl = nbl_disp_setup_ops(dev, disp_mgt);
+> +	if (IS_ERR(disp_ops_tbl)) {
+> +		ret = PTR_ERR(disp_ops_tbl);
+> +		return ret;
+> +	}
+> +
+> +	disp_mgt->res_ops_tbl = res_ops_tbl;
+> +	disp_mgt->chan_ops_tbl = chan_ops_tbl;
+> +	disp_mgt->disp_ops_tbl = disp_ops_tbl;
+> +	adapter->core.disp_mgt = disp_mgt;
+> +	adapter->intf.dispatch_ops_tbl = disp_ops_tbl;
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+> new file mode 100644
+> index 000000000000..fa7f4597febe
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+> @@ -0,0 +1,25 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DISPATCH_H_
+> +#define _NBL_DISPATCH_H_
+> +#include "../nbl_include/nbl_include.h"
+> +#include "../nbl_include/nbl_product_base.h"
+> +#include "../nbl_include/nbl_def_channel.h"
+> +#include "../nbl_include/nbl_def_hw.h"
+> +#include "../nbl_include/nbl_def_resource.h"
+> +#include "../nbl_include/nbl_def_dispatch.h"
+> +#include "../nbl_include/nbl_def_common.h"
+> +#include "../nbl_core.h"
+> +
+> +struct nbl_dispatch_mgt {
+> +	struct nbl_common_info *common;
+> +	struct nbl_resource_ops_tbl *res_ops_tbl;
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl;
+> +	struct nbl_dispatch_ops_tbl *disp_ops_tbl;
+> +	DECLARE_BITMAP(ctrl_lvl, NBL_DISP_CTRL_LVL_MAX);
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+> new file mode 100644
+> index 000000000000..6dd8d3a087dd
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+> @@ -0,0 +1,140 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +#include <linux/device.h>
+> +#include <linux/pci.h>
+> +#include <linux/bits.h>
+> +#include <linux/io.h>
+> +#include <linux/spinlock.h>
+> +#include "nbl_hw_leonis.h"
+> +
+> +static struct nbl_hw_ops hw_ops = {
+> +};
+> +
+> +/* Structure starts here, adding an op should not modify anything below */
+> +static struct nbl_hw_mgt *nbl_hw_setup_hw_mgt(struct nbl_common_info *common)
+> +{
+> +	struct device *dev = common->dev;
+> +	struct nbl_hw_mgt *hw_mgt;
+> +
+> +	hw_mgt = devm_kzalloc(dev, sizeof(*hw_mgt), GFP_KERNEL);
+> +	if (!hw_mgt)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	hw_mgt->common = common;
+> +
+> +	return hw_mgt;
+> +}
+> +
+> +static struct nbl_hw_ops_tbl *nbl_hw_setup_ops(struct nbl_common_info *common,
+> +					       struct nbl_hw_mgt *hw_mgt)
+> +{
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl;
+> +	struct device *dev;
+> +
+> +	dev = common->dev;
+> +	hw_ops_tbl =
+> +		devm_kzalloc(dev, sizeof(*hw_ops_tbl), GFP_KERNEL);
+> +	if (!hw_ops_tbl)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	hw_ops_tbl->ops = &hw_ops;
+> +	hw_ops_tbl->priv = hw_mgt;
+> +
+> +	return hw_ops_tbl;
+> +}
+> +
+> +int nbl_hw_init_leonis(struct nbl_adapter *adapter)
+> +{
+> +	struct nbl_common_info *common = &adapter->common;
+> +	struct pci_dev *pdev = common->pdev;
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl;
+> +	struct nbl_hw_mgt *hw_mgt;
+> +	int bar_mask;
+> +	int ret;
+> +
+> +	hw_mgt = nbl_hw_setup_hw_mgt(common);
+> +	if (IS_ERR(hw_mgt)) {
+> +		ret = PTR_ERR(hw_mgt);
+> +		goto setup_mgt_fail;
+> +	}
+> +	bar_mask = BIT(NBL_MEMORY_BAR) | BIT(NBL_MAILBOX_BAR);
+> +	ret = pci_request_selected_regions(pdev, bar_mask, NBL_DRIVER_NAME);
+> +	if (ret) {
+> +		dev_err(&pdev->dev,
+> +			"Request memory bar and mailbox bar failed, err = %d\n",
+> +			ret);
+> +		goto request_bar_region_fail;
+> +	}
+> +
+> +	if (common->has_ctrl) {
+> +		hw_mgt->hw_addr =
+> +			ioremap(pci_resource_start(pdev, NBL_MEMORY_BAR),
+> +				pci_resource_len(pdev, NBL_MEMORY_BAR) -
+> +					NBL_RDMA_NOTIFY_OFF);
+> +		if (!hw_mgt->hw_addr) {
+> +			dev_err(&pdev->dev, "Memory bar ioremap failed\n");
+> +			ret = -EIO;
+> +			goto ioremap_err;
+> +		}
+> +		hw_mgt->hw_size = pci_resource_len(pdev, NBL_MEMORY_BAR) -
+> +				  NBL_RDMA_NOTIFY_OFF;
+> +	} else {
+> +		hw_mgt->hw_addr =
+> +			ioremap(pci_resource_start(pdev, NBL_MEMORY_BAR),
+> +				NBL_RDMA_NOTIFY_OFF);
+> +		if (!hw_mgt->hw_addr) {
+> +			dev_err(&pdev->dev, "Memory bar ioremap failed\n");
+> +			ret = -EIO;
+> +			goto ioremap_err;
+> +		}
+> +		hw_mgt->hw_size = NBL_RDMA_NOTIFY_OFF;
+> +	}
+> +
+> +	hw_mgt->notify_offset = 0;
+> +	hw_mgt->mailbox_bar_hw_addr = pci_ioremap_bar(pdev, NBL_MAILBOX_BAR);
+> +	if (!hw_mgt->mailbox_bar_hw_addr) {
+> +		dev_err(&pdev->dev, "Mailbox bar ioremap failed\n");
+> +		ret = -EIO;
+> +		goto mailbox_ioremap_err;
+> +	}
+> +
+> +	spin_lock_init(&hw_mgt->reg_lock);
+> +	adapter->core.hw_mgt = hw_mgt;
+> +
+> +	hw_ops_tbl = nbl_hw_setup_ops(common, hw_mgt);
+> +	if (IS_ERR(hw_ops_tbl)) {
+> +		ret = PTR_ERR(hw_ops_tbl);
+> +		goto setup_ops_fail;
+> +	}
+> +	adapter->intf.hw_ops_tbl = hw_ops_tbl;
+> +
+> +	return 0;
+> +
+> +setup_ops_fail:
+> +	iounmap(hw_mgt->mailbox_bar_hw_addr);
+> +mailbox_ioremap_err:
+> +	iounmap(hw_mgt->hw_addr);
+> +ioremap_err:
+> +	pci_release_selected_regions(pdev, bar_mask);
+> +request_bar_region_fail:
+> +setup_mgt_fail:
+> +	return ret;
+> +}
+> +
+> +void nbl_hw_remove_leonis(struct nbl_adapter *adapter)
+> +{
+> +	int bar_mask = BIT(NBL_MEMORY_BAR) | BIT(NBL_MAILBOX_BAR);
+> +	struct nbl_common_info *common = &adapter->common;
+> +	struct nbl_hw_mgt *hw_mgt = adapter->core.hw_mgt;
+> +	u8 __iomem *hw_addr = hw_mgt->hw_addr;
+> +	struct pci_dev *pdev = common->pdev;
+> +	u8 __iomem *mailbox_bar_hw_addr;
+> +
+> +	mailbox_bar_hw_addr = hw_mgt->mailbox_bar_hw_addr;
+> +
+> +	iounmap(mailbox_bar_hw_addr);
+> +	iounmap(hw_addr);
+> +	pci_release_selected_regions(pdev, bar_mask);
+> +}
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> new file mode 100644
+> index 000000000000..77c67b67ba31
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> @@ -0,0 +1,14 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_HW_LEONIS_H_
+> +#define _NBL_HW_LEONIS_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#include "../../nbl_include/nbl_include.h"
+> +#include "../nbl_hw_reg.h"
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+> new file mode 100644
+> index 000000000000..355f7ea66b88
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+> @@ -0,0 +1,83 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +#include <linux/device.h>
+> +#include <linux/pci.h>
+> +#include "nbl_resource_leonis.h"
+> +
+> +static struct nbl_resource_ops res_ops = {
+> +};
+> +
+> +static struct nbl_resource_mgt *
+> +nbl_res_setup_res_mgt(struct nbl_common_info *common)
+> +{
+> +	struct nbl_resource_info *resource_info;
+> +	struct nbl_resource_mgt *res_mgt;
+> +	struct device *dev = common->dev;
+> +
+> +	res_mgt = devm_kzalloc(dev, sizeof(*res_mgt), GFP_KERNEL);
+> +	if (!res_mgt)
+> +		return ERR_PTR(-ENOMEM);
+> +	res_mgt->common = common;
+> +
+> +	resource_info =
+> +		devm_kzalloc(dev, sizeof(*resource_info), GFP_KERNEL);
+> +	if (!resource_info)
+> +		return ERR_PTR(-ENOMEM);
+> +	res_mgt->resource_info = resource_info;
+> +
+> +	return res_mgt;
+> +}
+> +
+> +static struct nbl_resource_ops_tbl *
+> +nbl_res_setup_ops(struct device *dev, struct nbl_resource_mgt *res_mgt)
+> +{
+> +	struct nbl_resource_ops_tbl *res_ops_tbl;
+> +
+> +	res_ops_tbl = devm_kzalloc(dev, sizeof(*res_ops_tbl), GFP_KERNEL);
+> +	if (!res_ops_tbl)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	res_ops_tbl->ops = &res_ops;
+> +	res_ops_tbl->priv = res_mgt;
+> +
+> +	return res_ops_tbl;
+> +}
+> +
+> +static int nbl_res_start(struct nbl_resource_mgt *res_mgt)
+> +{
+> +	return 0;
+> +}
+> +
+> +int nbl_res_init_leonis(struct nbl_adapter *adap)
+> +{
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl = adap->intf.channel_ops_tbl;
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl = adap->intf.hw_ops_tbl;
+> +	struct nbl_common_info *common = &adap->common;
+> +	struct nbl_resource_ops_tbl *res_ops_tbl;
+> +	struct device *dev = &adap->pdev->dev;
+> +	struct nbl_resource_mgt *res_mgt;
+> +	int ret;
+> +
+> +	res_mgt = nbl_res_setup_res_mgt(common);
+> +	if (IS_ERR(res_mgt)) {
+> +		ret = PTR_ERR(res_mgt);
+> +		return ret;
+> +	}
+> +	res_mgt->chan_ops_tbl = chan_ops_tbl;
+> +	res_mgt->hw_ops_tbl = hw_ops_tbl;
+> +
+> +	ret = nbl_res_start(res_mgt);
+> +	if (ret)
+> +		return ret;
+> +	adap->core.res_mgt = res_mgt;
+> +
+> +	res_ops_tbl = nbl_res_setup_ops(dev, res_mgt);
+> +	if (IS_ERR(res_ops_tbl)) {
+> +		ret = PTR_ERR(res_ops_tbl);
+> +		return ret;
+> +	}
+> +	adap->intf.resource_ops_tbl = res_ops_tbl;
+> +	return 0;
+> +}
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+> new file mode 100644
+> index 000000000000..4e61a5c141e5
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+> @@ -0,0 +1,10 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_RESOURCE_LEONIS_H_
+> +#define _NBL_RESOURCE_LEONIS_H_
+> +
+> +#include "../nbl_resource.h"
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+> new file mode 100644
+> index 000000000000..46e58b4e73dc
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+> @@ -0,0 +1,68 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_HW_REG_H_
+> +#define _NBL_HW_REG_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#include "../nbl_include/nbl_product_base.h"
+> +#include "../nbl_include/nbl_def_channel.h"
+> +#include "../nbl_include/nbl_def_hw.h"
+> +#include "../nbl_include/nbl_def_common.h"
+> +#include "../nbl_core.h"
+> +
+> +#define NBL_MEMORY_BAR				0
+> +#define NBL_MAILBOX_BAR				2
+> +#define NBL_RDMA_NOTIFY_OFF			8192
+> +#define NBL_HW_DUMMY_REG			0x1300904
+> +
+> +struct nbl_hw_mgt {
+> +	struct nbl_common_info *common;
+> +	u8 __iomem *hw_addr;
+> +	u8 __iomem *mailbox_bar_hw_addr;
+> +	u64 notify_offset;
+> +	u32 version;
+> +	u32 hw_size;
+> +	spinlock_t reg_lock; /* Protect reg access */
+> +};
+> +
+> +static inline u32 rd32(u8 __iomem *addr, u64 reg)
+> +{
+> +	return readl(addr + reg);
+> +}
+> +
+> +static inline void wr32(u8 __iomem *addr, u64 reg, u32 value)
+> +{
+> +	writel(value, addr + reg);
+> +}
+> +
+> +static inline void nbl_hw_wr32(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 value)
+> +{
+> +	/* Used for emu, make sure that we won't write too frequently */
+> +	wr32(hw_mgt->hw_addr, reg, value);
+> +}
+> +
+> +static inline u32 nbl_hw_rd32(struct nbl_hw_mgt *hw_mgt, u64 reg)
+> +{
+> +	return rd32(hw_mgt->hw_addr, reg);
+> +}
+> +
+> +static inline void nbl_mbx_wr32(struct nbl_hw_mgt *hw_mgt, u64 reg, u32 value)
+> +{
+> +	writel(value, hw_mgt->mailbox_bar_hw_addr + reg);
+> +}
+> +
+> +static inline void nbl_flush_writes(struct nbl_hw_mgt *hw_mgt)
+> +{
+> +	nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +}
+> +
+> +static inline u32 nbl_mbx_rd32(struct nbl_hw_mgt *hw_mgt, u64 reg)
+> +{
+> +	return readl(hw_mgt->mailbox_bar_hw_addr + reg);
+> +}
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+> new file mode 100644
+> index 000000000000..e08b6237da32
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+> @@ -0,0 +1,30 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_RESOURCE_H_
+> +#define _NBL_RESOURCE_H_
+> +
+> +#include <linux/types.h>
+> +
+> +#include "../nbl_include/nbl_include.h"
+> +#include "../nbl_include/nbl_product_base.h"
+> +#include "../nbl_include/nbl_def_channel.h"
+> +#include "../nbl_include/nbl_def_hw.h"
+> +#include "../nbl_include/nbl_def_resource.h"
+> +#include "../nbl_include/nbl_def_common.h"
+> +#include "../nbl_core.h"
+> +
+> +struct nbl_resource_info {
+> +};
+> +
+> +struct nbl_resource_mgt {
+> +	struct nbl_common_info *common;
+> +	struct nbl_resource_info *resource_info;
+> +	struct nbl_channel_ops_tbl *chan_ops_tbl;
+> +	struct nbl_hw_ops_tbl *hw_ops_tbl;
+> +	struct nbl_interrupt_mgt *intr_mgt;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+> new file mode 100644
+> index 000000000000..ff03a53b9f5d
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+> @@ -0,0 +1,26 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_CHANNEL_H_
+> +#define _NBL_DEF_CHANNEL_H_
+> +
+> +struct nbl_channel_mgt;
+> +struct nbl_adapter;
+> +enum nbl_channel_type {
+> +	NBL_CHAN_TYPE_MAILBOX,
+> +	NBL_CHAN_TYPE_MAX
+> +};
+> +
+> +struct nbl_channel_ops {
+> +};
+> +
+> +struct nbl_channel_ops_tbl {
+> +	struct nbl_channel_ops *ops;
+> +	struct nbl_channel_mgt *priv;
+> +};
+> +
+> +int nbl_chan_init_common(struct nbl_adapter *adapter);
+> +void nbl_chan_remove_common(struct nbl_adapter *adapter);
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+> new file mode 100644
+> index 000000000000..cc73d6a91f3c
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+> @@ -0,0 +1,35 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_COMMON_H_
+> +#define _NBL_DEF_COMMON_H_
+> +
+> +#include <linux/types.h>
+> +#include <linux/pci.h>
+> +#include <linux/device.h>
+> +#include "nbl_include.h"
+> +
+> +struct nbl_common_info {
+> +	struct pci_dev *pdev;
+> +	struct device *dev;
+> +	u32 msg_enable;
+> +	u16 vsi_id;
+> +	u8 eth_id;
+> +	u8 logic_eth_id;
+> +	u8 eth_mode;
+> +
+> +	u8 function;
+> +	u8 devid;
+> +	u8 bus;
+> +	u8 hw_bus;
+> +	u16 mgt_pf;
+> +
+> +	bool pci_using_dac;
+> +	enum nbl_product_type product_type;
+> +	u8 has_ctrl;
+> +	u8 has_net;
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+> new file mode 100644
+> index 000000000000..32e6cce38d39
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+> @@ -0,0 +1,16 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_DEV_H_
+> +#define _NBL_DEF_DEV_H_
+> +
+> +struct nbl_adapter;
+> +
+> +int nbl_dev_init(struct nbl_adapter *adapter);
+> +void nbl_dev_remove(struct nbl_adapter *adapter);
+> +int nbl_dev_start(struct nbl_adapter *adapter);
+> +void nbl_dev_stop(struct nbl_adapter *adapter);
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+> new file mode 100644
+> index 000000000000..2230c728079e
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_DISPATCH_H_
+> +#define _NBL_DEF_DISPATCH_H_
+> +
+> +struct nbl_dispatch_mgt;
+> +struct nbl_adapter;
+> +enum {
+> +	NBL_DISP_CTRL_LVL_NEVER = 0,
+> +	NBL_DISP_CTRL_LVL_MGT,
+> +	NBL_DISP_CTRL_LVL_NET,
+> +	NBL_DISP_CTRL_LVL_ALWAYS,
+> +	NBL_DISP_CTRL_LVL_MAX,
+> +};
+> +
+> +struct nbl_dispatch_ops {
+> +};
+> +
+> +struct nbl_dispatch_ops_tbl {
+> +	struct nbl_dispatch_ops *ops;
+> +	struct nbl_dispatch_mgt *priv;
+> +};
+> +
+> +int nbl_disp_init(struct nbl_adapter *adapter);
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+> new file mode 100644
+> index 000000000000..168504b30973
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+> @@ -0,0 +1,22 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_HW_H_
+> +#define _NBL_DEF_HW_H_
+> +
+> +struct nbl_hw_mgt;
+> +struct nbl_adapter;
+> +struct nbl_hw_ops {
+> +};
+> +
+> +struct nbl_hw_ops_tbl {
+> +	struct nbl_hw_ops *ops;
+> +	struct nbl_hw_mgt *priv;
+> +};
+> +
+> +int nbl_hw_init_leonis(struct nbl_adapter *adapter);
+> +void nbl_hw_remove_leonis(struct nbl_adapter *adapter);
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+> new file mode 100644
+> index 000000000000..16add7e25eae
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_RESOURCE_H_
+> +#define _NBL_DEF_RESOURCE_H_
+> +
+> +struct nbl_resource_mgt;
+> +struct nbl_adapter;
+> +struct nbl_resource_ops {
+> +};
+> +
+> +struct nbl_resource_ops_tbl {
+> +	struct nbl_resource_ops *ops;
+> +	struct nbl_resource_mgt *priv;
+> +};
+> +
+> +int nbl_res_init_leonis(struct nbl_adapter *adapter);
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> index 1046e6517b15..50f30f756bf3 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+> @@ -11,6 +11,11 @@
+>   /*  ------  Basic definitions  -------  */
+>   #define NBL_DRIVER_NAME					"nbl"
+>   
+> +enum nbl_product_type {
+> +	NBL_LEONIS_TYPE,
+> +	NBL_PRODUCT_MAX,
+> +};
+> +
+>   struct nbl_func_caps {
+>   	u32 has_ctrl:1;
+>   	u32 has_net:1;
+> @@ -18,4 +23,10 @@ struct nbl_func_caps {
+>   	u32 rsv:29;
+>   };
+>   
+> +struct nbl_init_param {
+> +	struct nbl_func_caps caps;
+> +	enum nbl_product_type product_type;
+> +	bool pci_using_dac;
+> +};
+> +
+>   #endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+> new file mode 100644
+> index 000000000000..4368d4f57a03
+> --- /dev/null
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+> @@ -0,0 +1,18 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Copyright (c) 2025 Nebula Matrix Limited.
+> + */
+> +
+> +#ifndef _NBL_DEF_PRODUCT_BASE_H_
+> +#define _NBL_DEF_PRODUCT_BASE_H_
+> +
+> +struct nbl_adapter;
+> +struct nbl_product_base_ops {
+> +	int (*hw_init)(struct nbl_adapter *p);
+> +	void (*hw_remove)(struct nbl_adapter *p);
+> +	int (*res_init)(struct nbl_adapter *p);
+> +	int (*chan_init)(struct nbl_adapter *p);
+> +	void (*chan_remove)(struct nbl_adapter *p);
+> +};
+> +
+> +#endif
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> index 10c3536b327b..db035136e09c 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
+> @@ -6,17 +6,196 @@
+>   #include <linux/device.h>
+>   #include <linux/pci.h>
+>   #include <linux/module.h>
+> +#include <linux/bits.h>
+>   #include "nbl_include/nbl_include.h"
+> +#include "nbl_include/nbl_product_base.h"
+> +#include "nbl_include/nbl_def_channel.h"
+> +#include "nbl_include/nbl_def_hw.h"
+> +#include "nbl_include/nbl_def_resource.h"
+> +#include "nbl_include/nbl_def_dispatch.h"
+> +#include "nbl_include/nbl_def_dev.h"
+> +#include "nbl_include/nbl_def_common.h"
+>   #include "nbl_core.h"
+>   
+> +static struct nbl_product_base_ops nbl_product_base_ops[NBL_PRODUCT_MAX] = {
+> +	{
+> +		.hw_init	= nbl_hw_init_leonis,
+> +		.hw_remove	= nbl_hw_remove_leonis,
+> +		.res_init	= nbl_res_init_leonis,
+> +		.chan_init	= nbl_chan_init_common,
+> +		.chan_remove	= nbl_chan_remove_common,
+> +	},
+> +};
+> +
+> +int nbl_core_start(struct nbl_adapter *adapter)
+> +{
+> +	return nbl_dev_start(adapter);
+> +}
+> +
+> +void nbl_core_stop(struct nbl_adapter *adapter)
+> +{
+> +	nbl_dev_stop(adapter);
+> +}
+> +
+> +static struct nbl_product_base_ops *
+> +nbl_core_setup_product_ops(struct nbl_adapter *adapter,
+> +			   struct nbl_init_param *param)
+> +{
+> +	adapter->product_base_ops = &nbl_product_base_ops[param->product_type];
+> +	return adapter->product_base_ops;
+> +}
+> +
+> +struct nbl_adapter *nbl_core_init(struct pci_dev *pdev,
+> +				  struct nbl_init_param *param)
+> +{
+> +	struct nbl_product_base_ops *product_base_ops;
+> +	struct nbl_common_info *common;
+> +	struct nbl_adapter *adapter;
+> +	int ret;
+> +
+> +	adapter = devm_kzalloc(&pdev->dev, sizeof(*adapter), GFP_KERNEL);
+> +	if (!adapter)
+> +		return NULL;
+> +
+> +	adapter->pdev = pdev;
+> +	common = &adapter->common;
+> +
+> +	common->pdev = pdev;
+> +	common->dev = &pdev->dev;
+> +	common->has_ctrl = param->caps.has_ctrl;
+> +	common->has_net = param->caps.has_net;
+> +	common->pci_using_dac = param->pci_using_dac;
+> +	common->function = PCI_FUNC(pdev->devfn);
+> +	common->devid = PCI_SLOT(pdev->devfn);
+> +	common->bus = pdev->bus->number;
+> +	common->product_type = param->product_type;
+> +
+> +	product_base_ops = nbl_core_setup_product_ops(adapter, param);
+> +
+> +	/*
+> +	 *every product's hw/chan/res layer has a great difference,
+> +	 *so call their own init ops
+> +	 */
+> +	ret = product_base_ops->hw_init(adapter);
+> +	if (ret)
+> +		goto hw_init_fail;
+> +
+> +	ret = product_base_ops->chan_init(adapter);
+> +	if (ret)
+> +		goto chan_init_fail;
+> +
+> +	ret = product_base_ops->res_init(adapter);
+> +	if (ret)
+> +		goto res_init_fail;
+> +
+> +	ret = nbl_disp_init(adapter);
+> +	if (ret)
+> +		goto res_init_fail;
+> +
+> +	ret = nbl_dev_init(adapter);
+> +	if (ret)
+> +		goto res_init_fail;
+> +	return adapter;
+> +
+
+All the potential failures after res_init() do not need any other cleanup?
+
+> +res_init_fail:
+> +	product_base_ops->chan_remove(adapter);
+> +chan_init_fail:
+> +	product_base_ops->hw_remove(adapter);
+> +hw_init_fail:
+> +	return NULL;
+> +}
+> +
+> +void nbl_core_remove(struct nbl_adapter *adapter)
+> +{
+> +	struct nbl_product_base_ops *product_base_ops;
+> +
+> +	product_base_ops = adapter->product_base_ops;
+> +	nbl_dev_remove(adapter);
+> +	product_base_ops->chan_remove(adapter);
+> +	product_base_ops->hw_remove(adapter);
+> +}
+> +
+> +static void nbl_get_func_param(struct pci_dev *pdev, kernel_ulong_t driver_data,
+> +			       struct nbl_init_param *param)
+> +{
+> +	param->caps.has_ctrl = !!(driver_data & BIT(NBL_CAP_HAS_CTRL_BIT));
+> +	param->caps.has_net = !!(driver_data & BIT(NBL_CAP_HAS_NET_BIT));
+> +	param->caps.is_nic = !!(driver_data & BIT(NBL_CAP_IS_NIC_BIT));
+> +
+> +	if (!!(driver_data & BIT(NBL_CAP_IS_LEONIS_BIT)))
+> +		param->product_type = NBL_LEONIS_TYPE;
+> +
+> +	/*
+> +	 * Leonis only PF0 has ctrl capability, but PF0's pcie device_id
+> +	 * is same with other PF.So handle it special.
+> +	 */
+> +	if (param->product_type == NBL_LEONIS_TYPE &&
+> +	    (PCI_FUNC(pdev->devfn) == 0))
+> +		param->caps.has_ctrl = 1;
+> +}
+> +
+>   static int nbl_probe(struct pci_dev *pdev,
+>   		     const struct pci_device_id *id)
+>   {
+> +	struct nbl_init_param param = { { 0 } };
+> +	struct device *dev = &pdev->dev;
+> +	struct nbl_adapter *adapter;
+> +	int err;
+> +
+> +	if (pci_enable_device(pdev)) {
+> +		dev_err(&pdev->dev, "Failed to enable PCI device\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	param.pci_using_dac = true;
+> +	nbl_get_func_param(pdev, id->driver_data, &param);
+> +
+> +	err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(64));
+> +	if (err) {
+> +		dev_dbg(dev, "Configure DMA 64 bit mask failed, err = %d\n",
+> +			err);
+> +		param.pci_using_dac = false;
+> +		err = dma_set_mask_and_coherent(dev, DMA_BIT_MASK(32));
+> +		if (err) {
+> +			dev_err(dev,
+> +				"Configure DMA 32 bit mask failed, err = %d\n",
+> +				err);
+> +			goto configure_dma_err;
+> +		}
+> +	}
+> +	pci_set_master(pdev);
+> +	pci_save_state(pdev);
+> +	adapter = nbl_core_init(pdev, &param);
+> +	if (!adapter) {
+> +		dev_err(dev, "Nbl adapter init fail\n");
+> +		err = -ENOMEM;
+> +		goto adapter_init_err;
+> +	}
+> +	pci_set_drvdata(pdev, adapter);
+> +	err = nbl_core_start(adapter);
+> +	if (err)
+> +		goto core_start_err;
+>   	return 0;
+> +core_start_err:
+> +	nbl_core_remove(adapter);
+> +adapter_init_err:
+> +	pci_clear_master(pdev);
+> +configure_dma_err:
+> +	pci_disable_device(pdev);
+> +	return err;
+>   }
+>   
+>   static void nbl_remove(struct pci_dev *pdev)
+>   {
+> +	struct nbl_adapter *adapter = pci_get_drvdata(pdev);
+> +
+> +	pci_disable_sriov(pdev);
+> +
+> +	nbl_core_stop(adapter);
+> +	nbl_core_remove(adapter);
+> +
+> +	pci_clear_master(pdev);
+> +	pci_disable_device(pdev);
+>   }
+>   
+>   /*
