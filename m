@@ -1,308 +1,165 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D343CFF56
-	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 17:11:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4197732AAB2
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 18:03:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775149914; cv=none; b=Xltgufmsy8BZy0gtX90gesmSIphRyKyJO11sW1kQchG+D2ujG+nCRfDL75ifKdf32yzgnUJOTunZo/YUN98E78y7s6iW60V2ddTe2+su1YME3aUVPiphY3SlzJm3avWGpP1aZunG2Hs2S2r7pKmcN/XkZYRnG6dRvrFFy19dI6Q=
+	t=1775153013; cv=none; b=fuIh0cAMDk4cjIZ2eTzNHtMrsKyy2F6UImTyYFxC024IsUZiLlreJzMXdMDehVGKdLa5CtLUOrbROV6tDPhkVE8pyRZKAmDtPGXzWjP2PcOJx01pkDoADHdYODvopoiysz/xxOl9ISmm7/h3NyzQBNoiOQhQtIOlgukbYCO9wRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775149914; c=relaxed/simple;
-	bh=IBuFRNBGBaBjd9eZE55+VJyYFcLcjL8kQrBse1nHfG4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=id5g5mNh3KuAcKtH2pK1oRbYOBzccJxEzgoeDDPgMADJAG/BUZvmDqNq41Jetav9VnEuKMMvQB2lILvOtjg5K/3Ld7Z/GjsoxjvdPS6l7w0LEuh/lGXRxS4gnS9APw322Crtt4n2GQRmhL1edM3sQZzOV9wBfU/TEIX3Ip4u9Oc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E/IRgyQH; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775153013; c=relaxed/simple;
+	bh=zslShsm+LS4wiFK9zoZ9vJ4mO499VFjmlCodvm7M0z4=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=mgKfbU45ffOYeG2vGPNu/4qRVmQnCg2vbIGYQntzz4BDrwzUiL0mCAWjtN8q6PSsPCYoKRZAuS4E7W7jem6pjnnksDtcsjKzENl2AGvfc3J4F0B5KrpsSovRD48ZVHM+CQnqvlV/qMPhxjtf/32ny4adLAYsd/yZakmmZzHxaQA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=baEI5sjF; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=kdBm+ciy; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E/IRgyQH"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-486b96760easo12522725e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 10:11:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="baEI5sjF";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="kdBm+ciy"
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632G4YrH1562154
+	for <linux-doc@vger.kernel.org>; Thu, 2 Apr 2026 18:03:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lYQtuyJBlPg9nIy8rieYc5p+WTM4wC63ZTZ5EXpCsbs=; b=baEI5sjFaoyiOmwJ
+	6mC9I/vBqJCuVOKeeG8RAV8t+T/tQcSPKl4zMsKt/k7zM4s13o8KipNtBQDhNaWY
+	w1XaAgPmtXEOxXd9Wr5XDjiEZ0QtQYWmodYntrfe1tGDBe+fEB0VWaF0L/2n9ANW
+	YP8q2uW/bQpa3Ximk1y2kuzn8KE3Gro4M0Px1yoTyuBHcfMEaAFFP/wpDJNqabDE
+	DUeRYabbiNjQ2fP7b0He/m35pi1ZD3Bi/CfpqdoV0D9ti9ajN38NaNaz1LyGjjY8
+	qnSrGDmZeJsqGJIZbtGLrnPDH5qqeGkt9JXxOL+FfK1fb3uXI69ks+tGb8W6kRCV
+	QKr0xw==
+Received: from mail-vs1-f69.google.com (mail-vs1-f69.google.com [209.85.217.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9um70f6s-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 18:03:31 +0000 (GMT)
+Received: by mail-vs1-f69.google.com with SMTP id ada2fe7eead31-6057cbb45a2so141545137.3
+        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 11:03:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775149909; x=1775754709; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Q4nHYoH4lQZS8z/1UWtS0Bd4HeYd52xdlIi7BxO3080=;
-        b=E/IRgyQHts6By0MbTveh7PHS1B1sHG5b8nvjCjBNvK60cvwCZIi7jveax8fqMQYXXi
-         2VnfRguCrx9Re9V1ESBLv6lSTgJoPHmMNQ8oxlSsNJlZL/f67uKbeJ86qjUzs63ocLbT
-         pwKipsEQDUqWU7pacnzx+dFrDlCxkFlpKF2mOh6ju2lVa9OvM5Mbq1ZyymWXzw2tztfI
-         iHjPVN8EC3hUqJvKQMuxKdocnhhwQwx3czB5CSmOAyjDYl7KiMaDTtVjgwEtOF+59PLl
-         EXnrPz4viJ6jSzTALCXE3/2N76nbMagd7A7lX1cGj4YBdeklvzCyYL57WRzsTmwqaUkd
-         /Kxg==
+        d=oss.qualcomm.com; s=google; t=1775153010; x=1775757810; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lYQtuyJBlPg9nIy8rieYc5p+WTM4wC63ZTZ5EXpCsbs=;
+        b=kdBm+ciyWcsN5jM9HN5CobVG5Yl8k0cUsQfHkE6kmy1O1/txcNtsGir9g7XuIyY4aW
+         Np3Kv/oxJeEFdfmBaf6L6sxZ1wRhUfE7NF4I+BO8htnGoAmD8oIHBaiJb9gItyZfMPJJ
+         r+WYztcg60poq8JH2AtuGd8zg4hCUZgV3fMTf5n4iLn8xo2EzSV2ZrP/kcRRmq/xQTWE
+         x1m+pGIHrrRPj5F8lJrBo2LY2N7/iQa1M26VcbgVpOla5M9EKxWn2PP5FU2XrN7En/ic
+         rexz9/c45gnBDT8nzv5otJD6G3YSAHN9U7MnB6Knr+e23ss13NSgSja5PMd/GSfkDxEn
+         F2Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775149909; x=1775754709;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q4nHYoH4lQZS8z/1UWtS0Bd4HeYd52xdlIi7BxO3080=;
-        b=Z8xLpjaYjroRwgjvekxEVUCNR1wp0IG4AZzoAUppXALLgpq6hUfid7mcS+sfT6kKZV
-         yaaRM4l0MVnLs29Nq8K3x/U8f4piekSYsntaevggz2+JzAG8tDgbVonXXxgkjylcS1H/
-         mgOn6GAsIOxZ5xZ2jQjeNnfq11fPCSHkxzZ6NOHVPFU0PIkitg+voeVH9JvmA0P7kq/O
-         y1zGiy2Xy2LItL5fzNv/6hQ5DTyya69K0G54BFLJlqxe3GA9c4HaaooH3hL+ykorsQ6g
-         WqhW6h5dfY74Z7c7SP5e6VfS3iU2H9MTaeaQDlmsXkZJZHHefBS88AyaDndX2mQblPLT
-         J1aw==
-X-Forwarded-Encrypted: i=1; AJvYcCVN7CbTWabxJmJr0/Db431wuU9kjYibszk1qQnCjhhcK72wP8YM71YZiVodGWJRjVIfusLT1SAECZE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxfDXEf6/cXjXyXBXgmDUulRxMVQJV4i3Q6L6ri1Ciz023cSeVB
-	JFK9ni2mNBMBGf7MtDvVcxm6h3+nNnAvuR430O9MpVVhNMwkLtSHJdNI
-X-Gm-Gg: ATEYQzxnQlEhkBDIYiEtUPTgl4lHzjQEBItyO76dlCerQxYNjNLOOjvevxxKGDptaqU
-	Zifg/qO8o/mF8C2XseXFYIlj13NykEQUInzCxd3H1qKLmAAgle/01lp9a0lTn4+IBfKDaUh/Nx3
-	c2ptDy+5DLHV3saUCzVSI4/HT3xv9s8EhjPPzJ+Pkpcpu8UFuB10+lxX0v6NgVt5dclF75T1zcU
-	tMJDgrW5L8esimtq9WQHMWoD2pX6RU5ZncJrrvGYv2T+f5WfxAjraAhUdeUx5u9W7zDoF/2qitT
-	STD/4q2rI7r0GsTpaxXCj8MztvCbxwKslUojHmtOqazzzctABwFgXA9EVDV8+A7BsRzyinp82Mo
-	wHi4TiiiErF76VDa1u7SSJu7qLfQigGLFiDtaBeDyKqL4WpXOQB8ouy0pN5WtytpubukixtVVUv
-	AFb5PPCFUOVysm6A==
-X-Received: by 2002:a05:600c:8184:b0:483:9139:4c1d with SMTP id 5b1f17b1804b1-48883590456mr148967405e9.14.1775149908448;
-        Thu, 02 Apr 2026 10:11:48 -0700 (PDT)
-Received: from nsa ([185.128.9.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488977e43absm1368775e9.28.2026.04.02.10.11.47
+        d=1e100.net; s=20251104; t=1775153010; x=1775757810;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lYQtuyJBlPg9nIy8rieYc5p+WTM4wC63ZTZ5EXpCsbs=;
+        b=d6qETXIi8hDc3XxW9XCDPQAWi26sAFPaSyj7VnzsF80ymL9MDFen9k7omPjLuR5yGg
+         nePuwU9RjADk6BlTZFzTBrk9bijQsyaZwUOnLglZP9wHMNHCgI70OqENfcGHZfPGz+c5
+         FhSkSW7npUaVZ/5sUROM8bdoHA1+q6SnHNxY+lXViZs0u/IJJUm7ZtDP8WeTLLU4PxdN
+         PBeFU0Ikc14mHclxAPqkHxGnoYKUsSyxR5Wk0Sg01MMFLUCG96SHTGlWaGHKctOIRPVV
+         T6DK/jsV2E2YPeaZQl3sh38cJFo74u4XBGrNSZ+em7zrPHeAL/EljeRowVs3WMrL/2K+
+         Hfpg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhKUtGqUGdnaZe+nNBVnISEh6Y5FU3Vo/R1KQGDPkFChx9pqh8O6R/fO8dRwF5UWuzbp0oECwKLXc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPqI1MzBEoS7tjBegZYugF4kjaRugIph6fBh+0m+Fl7Zzgl7ht
+	3yx/yRSsraoY0SqWerAbCd06YCQRlKQg7ev97p2Zbdgn+7PuwkC5Q4MZAcoUlM6Jp2EU8FdL0Ug
+	VrhIPbw5pooSeWStDnKu26AbKyer42+sSCnPjBntXHoMG8CsJ1OVbOzh3LWuBSXc=
+X-Gm-Gg: ATEYQzw80nE9t3grFV68r64xiwsh+qMcJYAvmXqoK12CMkb8Xiu2DzwCMmvJyWU7gx0
+	UBkhLb/qbI87WkYLVxLfmyCaztvyBYfRqO8fSqkHWzz+HBS2wfKKHYLOMU6Mfs91HylJ0RWbrsx
+	eJoqZafnP6reGJvWeWIpl01APWZTToKwYTzuMbVvpgRdojwCmT6C49PQytoSieTNNQW5448tgXz
+	M3pEKlhArCdkTuQcFNsgq/C3eozxrdewBmF4vg7F8dWOaHIgab1UmvxdWU4ahTMmuTHtl7E/t22
+	ixXe//BuNehhfGJSamsRozuExQA6VOEkrOZOQKOTpSfCvAYvU21RAKtGh6h7bUqC6vke5D05MRl
+	g9LtgTaR7S0zVVvJ5SN108MnkZiM2rq7prJy8knngHqiMLf4XIswzz1lIL8xe
+X-Received: by 2002:a05:6102:80a3:b0:604:f029:2262 with SMTP id ada2fe7eead31-605a4fa98ecmr62654137.17.1775153010441;
+        Thu, 02 Apr 2026 11:03:30 -0700 (PDT)
+X-Received: by 2002:a05:6102:80a3:b0:604:f029:2262 with SMTP id ada2fe7eead31-605a4fa98ecmr62587137.17.1775153009715;
+        Thu, 02 Apr 2026 11:03:29 -0700 (PDT)
+Received: from localhost (ip-86-49-249-15.bb.vodafone.cz. [86.49.249.15])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b9c3cec5c16sm115340866b.40.2026.04.02.11.03.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 10:11:48 -0700 (PDT)
-Date: Thu, 2 Apr 2026 18:12:35 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, linux-gpio@vger.kernel.org, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
-Subject: Re: [PATCH v8 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
- Controller
-Message-ID: <ac6iNzw9aW6Lgziz@nsa>
-References: <20260327-ltc4283-support-v8-0-471de255d728@analog.com>
- <20260327-ltc4283-support-v8-2-471de255d728@analog.com>
- <aco5L_6SZIB2DdpF@nsa>
- <e0c96f38-6742-4b86-8938-64e4e6063119@roeck-us.net>
- <acuLynb1hRFJRcEf@nsa>
- <32c4c4dc-91db-4286-82e5-1d3269c76a74@roeck-us.net>
+        Thu, 02 Apr 2026 11:03:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <32c4c4dc-91db-4286-82e5-1d3269c76a74@roeck-us.net>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 02 Apr 2026 20:03:27 +0200
+Message-Id: <DHIV81G43OJO.2HY4RIYFRD0RL@oss.qualcomm.com>
+Subject: Re: [PATCH v7 1/4] RISC-V: KVM: Support runtime configuration for
+ per-VM's HGATP mode
+Cc: <guoren@kernel.org>, <andrew.jones@oss.qualcomm.com>,
+        <linux-doc@vger.kernel.org>, <kvm@vger.kernel.org>,
+        <kvm-riscv@lists.infradead.org>, <linux-riscv@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+To: <fangyu.yu@linux.alibaba.com>, <pbonzini@redhat.com>, <corbet@lwn.net>,
+        <anup@brainfault.org>, <atish.patra@linux.dev>, <pjw@kernel.org>,
+        <palmer@dabbelt.com>, <aou@eecs.berkeley.edu>, <alex@ghiti.fr>,
+        <skhan@linuxfoundation.org>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?=
+ <radim.krcmar@oss.qualcomm.com>
+References: <20260402132303.6252-1-fangyu.yu@linux.alibaba.com>
+ <20260402132303.6252-2-fangyu.yu@linux.alibaba.com>
+In-Reply-To: <20260402132303.6252-2-fangyu.yu@linux.alibaba.com>
+X-Authority-Analysis: v=2.4 cv=U/WfzOru c=1 sm=1 tr=0 ts=69ceaf73 cx=c_pps
+ a=5HAIKLe1ejAbszaTRHs9Ug==:117 a=fuErIE+P63Icv3tqjtEZBw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=M51BFTxLslgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=yOCtJkima9RkubShWh1s:22
+ a=SRrdq9N9AAAA:8 a=EUspDBNiAAAA:8 a=W-_n0kkjAAAA:8 a=VwQbUJbxAAAA:8
+ a=yPi4e_CmV_5Q4fPajbcA:9 a=QEXdDO2ut3YA:10 a=gYDTvv6II1OnSo0itH1n:22
+ a=qeNa2pbTr82C0GpJEZFS:22
+X-Proofpoint-GUID: _tWuFRjCInnessSgArF0w900AN9oa8fe
+X-Proofpoint-ORIG-GUID: _tWuFRjCInnessSgArF0w900AN9oa8fe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDE2MiBTYWx0ZWRfX0bpjw+EQSG4e
+ tukW0edALt6yte1T6DzJsGTXTqA+KX+cSdeY6FOx0W+EXMcDO8a/Ab3PXkAe9p6m0RGYuvge3UO
+ SIcWGwZ+xZHjq5Y2gfOD5udA9B7Q814EF5rytd+P0t1bYDSgArh93pms95kkZYL7fXFSPIxP3M1
+ i+VyWLbY3iTnP9NNRUFB+Mr8sI1RLb9vzDbmlW6agMDqySd08syJ1vE3ER9Ie7z8kf0fDRJfUGZ
+ QS7xSpltzDC/+NosnmkO06aKld8Ly5vBGjTHfOhQvn1URLMobRnXUeaEWQ/Xbj2Pu/A+xDWsCLZ
+ Ke5tkP2ibWaJs9OF2MlpdnIvnZaxNYx0vvRhwkOqaY6qF82ytisPkFE/jlyOrAky23GSoXOUjGb
+ hn+oQ+43AZPqSRtlep49yYNp5QlJoGnbrW3uuJF97SUYfDUiHHNq863vF8iEyMHzUPzIE+WDTD9
+ fFJ4ZtYqNw9J5RP01yw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_03,2026-04-02_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 priorityscore=1501 bulkscore=0 clxscore=1011
+ phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020162
 
-On Tue, Mar 31, 2026 at 06:31:59AM -0700, Guenter Roeck wrote:
-> On 3/31/26 02:48, Nuno Sá wrote:
-> > On Mon, Mar 30, 2026 at 08:47:32AM -0700, Guenter Roeck wrote:
-> > > On 3/30/26 02:28, Nuno Sá wrote:
-> > > > Hi Guenter, Regarding AI review, I think most of the points were
-> > > > discussed in previous revisions, but there are two valid.
-> > > > 
-> > > > On Fri, Mar 27, 2026 at 05:26:15PM +0000, Nuno Sá wrote:
-> > > > > Support the LTC4283 Hot Swap Controller. The device features programmable
-> > > > > current limit with foldback and independently adjustable inrush current to
-> > > > > optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
-> > > > > temperature rise for reliable protection against overstresses.
-> > > > > 
-> > > > > An I2C interface and onboard ADC allow monitoring of board current,
-> > > > > voltage, power, energy, and fault status.
-> > > > > 
-> > > > > Signed-off-by: Nuno Sá <nuno.sa@analog.com>
-> > > > > ---
-> > > > >    Documentation/hwmon/index.rst   |    1 +
-> > > > >    Documentation/hwmon/ltc4283.rst |  266 ++++++
-> > > > >    MAINTAINERS                     |    1 +
-> > > > >    drivers/hwmon/Kconfig           |   12 +
-> > > > >    drivers/hwmon/Makefile          |    1 +
-> > > > >    drivers/hwmon/ltc4283.c         | 1796 +++++++++++++++++++++++++++++++++++++++
-> > > > >    6 files changed, 2077 insertions(+)
-> > > > > 
-> > > > 
-> > > > ...
-> > > > 
-> > > > > +static int ltc4283_read_in_alarm(struct ltc4283_hwmon *st, u32 channel,
-> > > > > +				 bool max_alm, long *val)
-> > > > > +{
-> > > > > +	if (channel == LTC4283_VPWR)
-> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_1,
-> > > > > +					  BIT(2 + max_alm), val);
-> > > > > +
-> > > > > +	if (channel >= LTC4283_CHAN_ADI_1 && channel <= LTC4283_CHAN_ADI_4) {
-> > > > > +		u32 bit = (channel - LTC4283_CHAN_ADI_1) * 2;
-> > > > > +		/*
-> > > > > +		 * Lower channels go to higher bits. We also want to go +1 down
-> > > > > +		 * in the min_alarm case.
-> > > > > +		 */
-> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_2,
-> > > > > +					  BIT(7 - bit - !max_alm), val);
-> > > > > +	}
-> > > > > +
-> > > > > +	if (channel >= LTC4283_CHAN_ADIO_1 && channel <= LTC4283_CHAN_ADIO_4) {
-> > > > > +		u32 bit = (channel - LTC4283_CHAN_ADIO_1) * 2;
-> > > > > +
-> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_3,
-> > > > > +					  BIT(7 - bit - !max_alm), val);
-> > > > > +	}
-> > > > > +
-> > > > > +	if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
-> > > > > +		u32 bit = (channel - LTC4283_CHAN_ADIN12) * 2;
-> > > > > +
-> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_5,
-> > > > > +					  BIT(7 - bit - !max_alm), val);
-> > > > > +	}
-> > > > 
-> > > > "Will this condition handle the ADIO12 and ADIO34 differential channels?
-> > > > It looks like channels 14 and 15 fall through to the default return intended
-> > > > for the DRAIN channel. Since reading the alarm implicitly clears the register
-> > > > bits, could reading these ADIO alarms unintentionally clear actual DRAIN
-> > > > alarms? Should the upper bound be LTC4283_CHAN_ADIO34?"
-> > > > 
-> > > > Good catch and should be:
-> > > > 
-> > > > -       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIN34) {
-> > > > +       if (channel >= LTC4283_CHAN_ADIN12 && channel <= LTC4283_CHAN_ADIO34) {
-> > > > 
-> > > > > +
-> > > > > +	if (channel == LTC4283_CHAN_DRNS)
-> > > > > +		return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4,
-> > > > > +					  BIT(6 + max_alm), val);
-> > > > > +
-> > > > > +	return ltc4283_read_alarm(st, LTC4283_ADC_ALM_LOG_4, BIT(4 + max_alm),
-> > > > > +				  val);
-> > > > > +}
-> > > > 
-> > > > ...
-> > > > 
-> > > > > +
-> > > > > +static int ltc4283_probe(struct i2c_client *client)
-> > > > > +{
-> > > > > +	struct device *dev = &client->dev, *hwmon;
-> > > > > +	struct auxiliary_device *adev;
-> > > > > +	struct ltc4283_hwmon *st;
-> > > > > +	int ret;
-> > > > > +
-> > > > > +	st = devm_kzalloc(dev, sizeof(*st), GFP_KERNEL);
-> > > > > +	if (!st)
-> > > > > +		return -ENOMEM;
-> > > > > +
-> > > > > +	if (!i2c_check_functionality(client->adapter,
-> > > > > +				     I2C_FUNC_SMBUS_BYTE_DATA |
-> > > > > +				     I2C_FUNC_SMBUS_WORD_DATA |
-> > > > > +				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
-> > > > > +		return -EOPNOTSUPP;
-> > > > > +
-> > > > > +	st->client = client;
-> > > > > +	st->map = devm_regmap_init(dev, &ltc4283_regmap_bus, client,
-> > > > > +				   &ltc4283_regmap_config);
-> > > > > +	if (IS_ERR(st->map))
-> > > > > +		return dev_err_probe(dev, PTR_ERR(st->map),
-> > > > > +				     "Failed to create regmap\n");
-> > > > > +
-> > > > > +	ret = ltc4283_setup(st, dev);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	hwmon = devm_hwmon_device_register_with_info(dev, "ltc4283", st,
-> > > > > +						     &ltc4283_chip_info, NULL);
-> > > > > +
-> > > > > +	if (IS_ERR(hwmon))
-> > > > > +		return PTR_ERR(hwmon);
-> > > > > +
-> > > > > +	ltc4283_debugfs_init(st, client);
-> > > > > +
-> > > > > +	if (!st->gpio_mask)
-> > > > > +		return 0;
-> > > > > +
-> > > > > +	adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
-> > > > > +	if (!adev)
-> > > > > +		return dev_err_probe(dev, -ENODEV, "Failed to add GPIO device\n");
-> > > > 
-> > > > "Does this allow multiple LTC4283 chips to probe successfully?
-> > > > Without allocating a unique ID per I2C instance, it seems the first probed
-> > > > chip takes the generic name. If a second chip is present, it might attempt
-> > > > to register with the exact same name, resulting in a failure in device_add()
-> > > > and aborting the probe."
-> > > > 
-> > > > Also looks valid and I suspect is one of those that a quick look will
-> > > > find more "offenders". I would purpose:
-> > > > 
-> > > > -       adev = devm_auxiliary_device_create(dev, "gpio", &st->gpio_mask);
-> > > > +       adev = __devm_auxiliary_device_create(dev, KBUILD_MODNAME, "gpio",
-> > > > +                                             &st->gpio_mask, client->addr);
-> > > > 
-> > > 
-> > > That would still fail if there are multiple chips at the same I2C address
-> > > on multiple I2C busses. Check drivers/gpu/drm/bridge/ti-sn65dsi86.c which has
-> > > the same problem.
-> > 
-> > I did looked at that one but totally forgot the multiple busses
-> > scenario.
-> > 
-> > > 
-> > > > If there's nothing else and you agree with the above, is this something
-> > > > you can tweak while applying or should I spin a new version?
-> > > > 
-> > > 
-> > > Please respin. Also, regarding the other concerns:
-> > > 
-> > >    Can BIT(8) * st->rsense wrap to zero on 32-bit architectures?
-> > >    BIT(8) is a 32-bit unsigned long and st->rsense is a u32. If a user sets a
-> > >    very large sense resistor value via the device tree, the multiplication could
-> > >    wrap to 0, causing a division-by-zero kernel panic. Should the divisor use
-> > >    BIT_ULL(8)?
-> > > 
-> > > Unless I am missing something, this _can_ overflow. Try to provide a sense
-> > > resistor value of 1677721600. Yes, it is unreasonable to specify such large
-> > > rsense values, but why not just limit it such that it does not overflow ?
-> > 
-> > Yes, that's pretty much my reasoning (regarding the unreasonable
-> > rsense). I could just make BIT_ULL() and be done with it. I can also
-> > also cap rsense to a max value but i'm not 100% what that value would
-> > be. Maybe 1 ohm is already more than reasonable. I can also ask internally. Any
-> > preference on this one?
-> > 
-> 
-> I'd suggest to reject large (unreasonable) values. In this case, rejecting rsense
-> values >= 1677721600 should solve the problem.
-> 
-> > > 
-> > > Also, for the overflow concerns, if you are sure they can not happen, I'll
-> > > really need to write the unit test code to make sure that this is indeed
-> > > the case.
-> > > 
-> > 
-> > Hmm, for the val * MILLI case, well it should not happen but given it
-> > depends on user input, better if I clamp it before passing the
-> > value to ltc4283_write_in_byte(). Yes, we clamp again inside the
-> > write_bytes() API but not a big deal.
-> > 
-> > For the st->power_max is again one of those cases where the values would
-> > not make sense (I think - the combination of vsense_max and rsense). Just looking
-> > at the code, it can overflow but this one I'm not really sure how we could handle it.
-> > Maybe clamp power_max to U8_MAX and have a warning message in ltc4283_read_power_byte() if
-> > we overflow long in which case we need a power64 attr?
-> > 
-> > But even clamping does not make much sense here. The power limit register
-> > is 8 bits, so if our design (rsense + vsense_max) overflows that,
-> > there's nothing we can do other that erroring out.
-> > 
-> 
-> Again, why not just reject unreasonable values such that calculations
-> can not overflow ?
-> 
-> In other drivers, the common approach is to reject unreeasonable values if
-> provided through devicetree and to clamp them if provided through sysfs.
-> I don't see why that would not work here.
+2026-04-02T21:23:00+08:00, <fangyu.yu@linux.alibaba.com>:
+> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>
+> Introduces one per-VM architecture-specific fields to support runtime
+> configuration of the G-stage page table format:
+>
+> - kvm->arch.pgd_levels: the corresponding number of page table levels
+>   for the selected mode.
+>
+> These fields replace the previous global variables
+> kvm_riscv_gstage_mode and kvm_riscv_gstage_pgd_levels, enabling different
+> virtual machines to independently select their G-stage page table format
+> instead of being forced to share the maximum mode detected by the kernel
+> at boot time.
+>
+> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+> Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
+> Reviewed-by: Anup Patel <anup@brainfault.org>
+> Reviewed-by: Guo Ren <guoren@kernel.org>
+> ---
+> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
+> @@ -199,7 +199,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, lon=
+g ext)
+>  		r =3D KVM_USER_MEM_SLOTS;
+>  		break;
+>  	case KVM_CAP_VM_GPA_BITS:
+> -		r =3D kvm_riscv_gstage_gpa_bits;
+> +		r =3D kvm_riscv_gstage_gpa_bits(kvm->arch.pgd_levels);
 
-Hi Guenter,
+kvm_vm_ioctl_check_extension() also gets called from with kvm =3D=3D NULL
+from kvm_dev_ioctl().  I think we can continue to return
+...(kvm_riscv_gstage_max_pgd_levels) in that case.
 
-Just FYI, I intended to re-spin today but then I started to double check
-the st->power_max logic. If I did not messed up 14.5uOhm is the minimum rsense
-we can take so that we don't overflow long on 32bits systems. I'm not sure but
-I think it's plausible to have values lower than that. So, bottom line, I
-asked internally to some HW folks, who definitely know these systems
-better than I do, about that 14,5 min value. I'm waiting for feedback
-but it might be that we end up needing power64 attrs as you suggested
-some revisions ago.
-
-- Nuno Sá
-
-> 
-> Thanks,
-> Guenter
-> 
+Thanks.
