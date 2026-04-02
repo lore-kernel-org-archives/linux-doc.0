@@ -1,451 +1,159 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F310D351C11
-	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 01:59:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91A91E32D6;
+	Thu,  2 Apr 2026 02:40:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775095195; cv=none; b=Whsy9YgeIKETNHiEKPq/K6RrsZ4NlDy0U6CLKbfRtYZn0A/qdhYONv5U28Y+ndT9wjPtYUeWdoQ81I2Wix8kDHmErsleEZkmnU0UoqwQBBmyZ0CTjApmQftb2uiaBWjGsn1w/G76bq00NewzfSY7o77tHx04KhAW8ruax5DvyYc=
+	t=1775097648; cv=none; b=nsCVzuZ1iNG4k2MsGe9Aox6sxmy9kiRSn0xGQsJw4hOqciLvSU3X0R63dWdgClIjzvp175riQrGtt+i6T1Ms+7MyEjXUngbde+61QzZdsbF7hnSCvg+v5blczJYGnlBWeo0IA1oZjDR9dilZqwIXezM9IqtPNefB8L6EBZzJ47Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775095195; c=relaxed/simple;
-	bh=GBCgfFdmNxX9+OgrVg4WaE5DIA07uRQnuGXMjbga6H4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SHFUg3wvDjzWmir2yvY4dtve01huyaPkNJ0IPLnclylGMaKXPSyWgSs3BEk3MDHs+aPkpWjC8zM9NMCLXMsHa1yt2HP+MmWF3C8/LRrzgoYR9edlzEfUpk4i+zYORHtiwUG8+Qh2xPUoSY2eEn89J2DrWVuVzQl2X1tIhFFjQEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TifoRlnx; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	s=arc-20240116; t=1775097648; c=relaxed/simple;
+	bh=xm3bYxcxOUlXn0Q63meF9KmhwO02RwnjKtrHxG3LHqE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=G+jxaDWRjjuOMqLWU9/PEqjmnYP60/VZTcbsNWw0pnJI1ouFK6Xjh1lRf9ar6914WU5t66S9QyuBcv+kDc077Q1M9xa6LV+osRxFFUAv2bQ7Adxny81nUzrerMZebmGy+OmZbGAPGpxetN4rZ78yPQm1nSqOfZC72pVopXmFRi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=KvW2Xnyc; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TifoRlnx"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2b0ba3bfe16so11933895ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 01 Apr 2026 18:59:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1775095191; x=1775699991; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NWRl/pdZN5I8n4vNv9o2RQjMPPH8QcZcS//VFK8KffE=;
-        b=TifoRlnxA41757qDVJz0Fu17MMURDBQC0VPBin9YmQBqx1UiFSC7SnyicRqxDQUqKp
-         C+5Zrypg4XA2ImPWVHdf4kPWYzQvNQdOBGK7f28vNhzv6idpbwlga7xIhgwC+C1y6g1E
-         OGXrAeBMZl782vFqnUZLNWfxBYSj1Bhiwfj5Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775095191; x=1775699991;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=NWRl/pdZN5I8n4vNv9o2RQjMPPH8QcZcS//VFK8KffE=;
-        b=A2U782IxRx9qXJg4aPJ4u52f07jG1hUZ9VejW1JeW5LMMXveHP7IVIM7omt0w0U1qJ
-         B3HSzDXHQXzor1LqWX3xVREckUOIf3/3aEb5K95W56t/TZZgIZSLAfHF06HBHzT+2rAf
-         /UE+7DTo63awxFYCo3qJNMM0Yx7fK0vH9cRdhChSVLwveXMbcylaWDbe6JVfGUb29kvU
-         wLOVsIwKgGtFY+hnHrogxqklPoOEylHCbqGYPSdzxcDal0l5ebIfHjGxJ5cZM5bfwzdM
-         0uhuTL10g6yFWaB01+Py+1o7M9K/ddjUdmo/p2ueWnF71w/h7kxZvW/yy/bxKByX/aql
-         i85Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWj3f4wg6TzEHZAYs6HYaYf7hvso2/X/r6vutwMqWxB5qFFVZ/DNFMLEqqxcgnrBrFwrsxlDDQ/xbM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHkBTytrbSO3ATJM8xkYKq/8S+lmAje2LMwWZaHxLiBFWFcAzx
-	wTX9fSBlwQwW1vLGej0jQXPSOvh/RRCysqTd5VVKGMQQaAh/3rwoC9YHgSQEVk+IwQ==
-X-Gm-Gg: ATEYQzwrkX7FX7KsRTxGmK9HVIdyqxVXItaQj8Nvbh0nEpexzJzUMurUAmYQj4yHuBM
-	9qJcDdn3ncyBjQM0rioOg29D/N+UwE03bdvub5qH0kke2RtpsAjcQeq2u+DHs0UuG5lmZdUDdt4
-	EM22+vxOHZGxuk/H32mpx4Tuh19yzkJbdDVST+CBzSOqIsCk1J2BzHtnTuQt2tT2Xw9BxGxlVsC
-	YYNZR0Q9MAEH1sxOQKtUeWzCFY5D2QT43ON2BEsQ0AZCtb1ZDw5ierWcj0BZg3yaVx5vXHHTddR
-	kyiQd2CzpX0d+RmJv896Nh205K+H+D1/koR18TaV0wa5le7h46o1TNHB7IFsCRJPHhZiL4P/e4A
-	8AgPGYv0HQ+bebi2jsO0SxqEEnfN79Hez9HuHDgpA4uJHSeTG8qYp230aICYtAK4jLbHx5nKbGV
-	JEvlhqloIGMxtUw1DEamGgBV5UNZaGJrApU84NQmzFoFt0uWw0x96/xKNvEL3RSQofQMWLf8UMM
-	e0Ueu/lEZbCqX8XjBNoi2P18n+Mm9flZg==
-X-Received: by 2002:a17:903:1aee:b0:24b:1585:6350 with SMTP id d9443c01a7336-2b277df754bmr5416395ad.11.1775095190960;
-        Wed, 01 Apr 2026 18:59:50 -0700 (PDT)
-Received: from jingyliang-input-linux.c.googlers.com (111.169.168.34.bc.googleusercontent.com. [34.168.169.111])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b27478cb4fsm11187535ad.29.2026.04.01.18.59.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Apr 2026 18:59:50 -0700 (PDT)
-From: Jingyuan Liang <jingyliang@chromium.org>
-Date: Thu, 02 Apr 2026 01:59:48 +0000
-Subject: [PATCH v3 11/11] HID: spi-hid: add panel follower support
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="KvW2Xnyc"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=ROWEGxqksQxFZs46Z6UIzyFf3Gnn2DH3A2REbgNnCmE=;
+	b=KvW2XnycR1GXkgXBNFAHBb0gyzZiFhJQ1L52/ao+6KhBQewLy9Mo/i4RrsyZ1J8Axtygqbm2e
+	IrfQxZm1MbH4Z4AURBg1of8D3Ft8qgiVHpBhGIKf6aPQPlk4i2Sp3Be/EsWqkYd3HpYcVMErRvp
+	s5emz2sM9i+TvRTc/EUacX8=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fmQsv6QHCzRhQZ;
+	Thu,  2 Apr 2026 10:34:27 +0800 (CST)
+Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
+	by mail.maildlp.com (Postfix) with ESMTPS id 2317E40561;
+	Thu,  2 Apr 2026 10:40:38 +0800 (CST)
+Received: from [10.67.120.103] (10.67.120.103) by
+ kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Thu, 2 Apr 2026 10:40:37 +0800
+Message-ID: <730aaffa-9dfd-40c3-a372-c774d203b6e1@huawei.com>
+Date: Thu, 2 Apr 2026 10:40:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Support the FEAT_HDBSS introduced in Armv9.5
+To: Leonardo Bras <leo.bras@arm.com>
+CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
+	<corbet@lwn.net>, <pbonzini@redhat.com>, <will@kernel.org>,
+	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <liuyonglong@huawei.com>,
+	<Jonathan.Cameron@huawei.com>, <yezhenyu2@huawei.com>, <linuxarm@huawei.com>,
+	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
+	<suzuki.poulose@arm.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com>
+ <acvWnjG0AZBHL21q@devkitleo>
+From: Tian Zheng <zhengtian10@huawei.com>
+In-Reply-To: <acvWnjG0AZBHL21q@devkitleo>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-send-upstream-v3-11-6091c458d357@chromium.org>
-References: <20260402-send-upstream-v3-0-6091c458d357@chromium.org>
-In-Reply-To: <20260402-send-upstream-v3-0-6091c458d357@chromium.org>
-To: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Dmitry Torokhov <dmitry.torokhov@gmail.com>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
- linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- hbarnor@chromium.org, tfiga@chromium.org, 
- Jingyuan Liang <jingyliang@chromium.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1775095180; l=10416;
- i=jingyliang@chromium.org; s=20260213; h=from:subject:message-id;
- bh=GBCgfFdmNxX9+OgrVg4WaE5DIA07uRQnuGXMjbga6H4=;
- b=7f4b91lHmlf5TYFEkbbrgzi8PSgBr3/69XLfgY8PZh2sAcrCKQdt4dNTBD2zvy7mxEXouf84t
- zT2LB5hJEr2AJxS5Z1czURg1AYqDDJWcLBcQsD+NO2kypaT1TQEg8qG
-X-Developer-Key: i=jingyliang@chromium.org; a=ed25519;
- pk=VTYSdqslTtYOjWWoIGgYoWupGWqNSidrggReKMgfPo4=
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ kwepemr100010.china.huawei.com (7.202.195.125)
 
-Add support to spi-hid to be a panel follower.
 
-Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
----
- drivers/hid/spi-hid/spi-hid-core.c | 199 +++++++++++++++++++++++++++++--------
- drivers/hid/spi-hid/spi-hid-core.h |   7 ++
- 2 files changed, 163 insertions(+), 43 deletions(-)
+On 3/31/2026 10:13 PM, Leonardo Bras wrote:
+> On Wed, Feb 25, 2026 at 12:04:16PM +0800, Tian Zheng wrote:
+>> This series of patches add support to the Hardware Dirty state tracking
+>> Structure(HDBSS) feature, which is introduced by the ARM architecture
+>> in the DDI0601(ID121123) version.
+>>
+>> The HDBSS feature is an extension to the architecture that enhances
+>> tracking translation table descriptors' dirty state, identified as
+>> FEAT_HDBSS. This feature utilizes hardware assistance to achieve dirty
+>> page tracking, aiming to significantly reduce the overhead of scanning
+>> for dirty pages.
+>>
+>> The purpose of this feature is to make the execution overhead of live
+>> migration lower to both the guest and the host, compared to existing
+>> approaches (write-protect or search stage 2 tables).
+>>
+>> After these patches, users(such as qemu) can use the
+>> KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl to enable or disable the HDBSS
+>> feature before and after the live migration.
+>>
+>> v2:
+>> https://lore.kernel.org/linux-arm-kernel/20251121092342.3393318-1-zhengtian10@huawei.com/
+>>
+>> v2->v3 changes:
+>> - Remove the ARM64_HDBSS configuration option and ensure this feature
+>> is only enabled in VHE mode.
+>> - Move HDBSS-related variables to the arch-independent portion of the
+>> kvm structure.
+>> - Remove error messages during HDBSS enable/disable operations
+>> - Change HDBSS buffer flushing from handle_exit to vcpu_put,
+>> check_vcpu_requests, and kvm_handle_guest_abort.
+>> - Add fault handling for HDBSS including buffer full, external abort,
+>> and general protection fault (GPF).
+>> - Add support for a 4KB HDBSS buffer size, mapped to the value 0b0000.
+>> - Add a second argument to the ioctl to turn HDBSS on or off.
+>>
+>> Tian Zheng (1):
+>>    KVM: arm64: Document HDBSS ioctl
+>>
+>> eillon (4):
+>>    arm64/sysreg: Add HDBSS related register information
+>>    KVM: arm64: Add support to set the DBM attr during memory abort
+>>    KVM: arm64: Add support for FEAT_HDBSS
+>>    KVM: arm64: Enable HDBSS support and handle HDBSSF events
+>>
+>>   Documentation/virt/kvm/api.rst       |  16 +++++
+>>   arch/arm64/include/asm/cpufeature.h  |   5 ++
+>>   arch/arm64/include/asm/esr.h         |   7 ++
+>>   arch/arm64/include/asm/kvm_host.h    |  17 +++++
+>>   arch/arm64/include/asm/kvm_mmu.h     |   1 +
+>>   arch/arm64/include/asm/kvm_pgtable.h |   4 ++
+>>   arch/arm64/include/asm/sysreg.h      |  11 +++
+>>   arch/arm64/kernel/cpufeature.c       |  12 ++++
+>>   arch/arm64/kvm/arm.c                 | 102 +++++++++++++++++++++++++++
+>>   arch/arm64/kvm/hyp/pgtable.c         |   6 ++
+>>   arch/arm64/kvm/hyp/vhe/switch.c      |  19 +++++
+>>   arch/arm64/kvm/mmu.c                 |  70 ++++++++++++++++++
+>>   arch/arm64/kvm/reset.c               |   3 +
+>>   arch/arm64/tools/cpucaps             |   1 +
+>>   arch/arm64/tools/sysreg              |  29 ++++++++
+>>   include/uapi/linux/kvm.h             |   1 +
+>>   tools/include/uapi/linux/kvm.h       |   1 +
+>>   17 files changed, 305 insertions(+)
+>>
+>> --
+>> 2.33.0
+>>
+>
+> Hi Tian,
+>
+> I was thinking: maybe instead of putting the HDBSS (and HACDBS) stuff
+> across a bunch of KVM files, we should try to focus them all on a single
+> arch/arm64/kvm/dirty_bit.c file (plus a header such as
+> arch/arm64/include/asm/kvm_dirty_bit.h).
+>
+> What is your opinion on that?
+>
+> Thanks!
+> Leo
 
-diff --git a/drivers/hid/spi-hid/spi-hid-core.c b/drivers/hid/spi-hid/spi-hid-core.c
-index 5f7a5bb692d9..9eedd4f1cba7 100644
---- a/drivers/hid/spi-hid/spi-hid-core.c
-+++ b/drivers/hid/spi-hid/spi-hid-core.c
-@@ -246,21 +246,21 @@ static const char *spi_hid_power_mode_string(enum hidspi_power_state power_state
- 	}
- }
- 
--static void spi_hid_suspend(struct spi_hid *shid)
-+static int spi_hid_suspend(struct spi_hid *shid)
- {
- 	int error;
- 	struct device *dev = &shid->spi->dev;
- 
- 	guard(mutex)(&shid->power_lock);
- 	if (shid->power_state == HIDSPI_OFF)
--		return;
-+		return 0;
- 
- 	if (shid->hid) {
- 		error = hid_driver_suspend(shid->hid, PMSG_SUSPEND);
- 		if (error) {
- 			dev_err(dev, "%s failed to suspend hid driver: %d",
- 				__func__, error);
--			return;
-+			return error;
- 		}
- 	}
- 
-@@ -278,21 +278,22 @@ static void spi_hid_suspend(struct spi_hid *shid)
- 			dev_err(dev, "%s: could not power down.", __func__);
- 			shid->regulator_error_count++;
- 			shid->regulator_last_error = error;
--			return;
-+			return error;
- 		}
- 
- 		shid->power_state = HIDSPI_OFF;
- 	}
-+	return 0;
- }
- 
--static void spi_hid_resume(struct spi_hid *shid)
-+static int spi_hid_resume(struct spi_hid *shid)
- {
- 	int error;
- 	struct device *dev = &shid->spi->dev;
- 
- 	guard(mutex)(&shid->power_lock);
- 	if (shid->power_state == HIDSPI_ON)
--		return;
-+		return 0;
- 
- 	enable_irq(shid->spi->irq);
- 
-@@ -306,7 +307,7 @@ static void spi_hid_resume(struct spi_hid *shid)
- 			dev_err(dev, "%s: could not power up.", __func__);
- 			shid->regulator_error_count++;
- 			shid->regulator_last_error = error;
--			return;
-+			return error;
- 		}
- 		shid->power_state = HIDSPI_ON;
- 
-@@ -315,10 +316,13 @@ static void spi_hid_resume(struct spi_hid *shid)
- 
- 	if (shid->hid) {
- 		error = hid_driver_reset_resume(shid->hid);
--		if (error)
-+		if (error) {
- 			dev_err(dev, "%s: failed to reset resume hid driver: %d.",
- 				__func__, error);
-+			return error;
-+		}
- 	}
-+	return 0;
- }
- 
- static void spi_hid_stop_hid(struct spi_hid *shid)
-@@ -1215,6 +1219,132 @@ const struct attribute_group *spi_hid_groups[] = {
- };
- EXPORT_SYMBOL_GPL(spi_hid_groups);
- 
-+/*
-+ * At the end of probe we initialize the device:
-+ *   0) assert reset, bias the interrupt line
-+ *   1) sleep minimal reset delay
-+ *   2) request IRQ
-+ *   3) power up the device
-+ *   4) deassert reset (high)
-+ * After this we expect an IRQ with a reset response.
-+ */
-+static int spi_hid_dev_init(struct spi_hid *shid)
-+{
-+	struct spi_device *spi = shid->spi;
-+	struct device *dev = &spi->dev;
-+	int error;
-+
-+	shid->ops->assert_reset(shid->ops);
-+
-+	shid->ops->sleep_minimal_reset_delay(shid->ops);
-+
-+	error = devm_request_threaded_irq(dev, spi->irq, NULL, spi_hid_dev_irq,
-+					  IRQF_ONESHOT, dev_name(&spi->dev), shid);
-+	if (error) {
-+		dev_err(dev, "%s: unable to request threaded IRQ.", __func__);
-+		return error;
-+	}
-+	if (device_may_wakeup(dev)) {
-+		error = dev_pm_set_wake_irq(dev, spi->irq);
-+		if (error) {
-+			dev_err(dev, "%s: failed to set wake IRQ.", __func__);
-+			return error;
-+		}
-+	}
-+
-+	error = shid->ops->power_up(shid->ops);
-+	if (error) {
-+		dev_err(dev, "%s: could not power up.", __func__);
-+		shid->regulator_error_count++;
-+		shid->regulator_last_error = error;
-+		return error;
-+	}
-+
-+	shid->ops->deassert_reset(shid->ops);
-+
-+	return 0;
-+}
-+
-+static void spi_hid_panel_follower_work(struct work_struct *work)
-+{
-+	struct spi_hid *shid = container_of(work, struct spi_hid,
-+					    panel_follower_work);
-+	int error;
-+
-+	if (!shid->desc.hid_version)
-+		error = spi_hid_dev_init(shid);
-+	else
-+		error = spi_hid_resume(shid);
-+	if (error)
-+		dev_warn(&shid->spi->dev, "Power on failed: %d", error);
-+	else
-+		WRITE_ONCE(shid->panel_follower_work_finished, true);
-+
-+	/*
-+	 * The work APIs provide a number of memory ordering guarantees
-+	 * including one that says that memory writes before schedule_work()
-+	 * are always visible to the work function, but they don't appear to
-+	 * guarantee that a write that happened in the work is visible after
-+	 * cancel_work_sync(). We'll add a write memory barrier here to match
-+	 * with spi_hid_panel_unpreparing() to ensure that our write to
-+	 * panel_follower_work_finished is visible there.
-+	 */
-+	smp_wmb();
-+}
-+
-+static int spi_hid_panel_follower_resume(struct drm_panel_follower *follower)
-+{
-+	struct spi_hid *shid = container_of(follower, struct spi_hid, panel_follower);
-+
-+	/*
-+	 * Powering on a touchscreen can be a slow process. Queue the work to
-+	 * the system workqueue so we don't block the panel's power up.
-+	 */
-+	WRITE_ONCE(shid->panel_follower_work_finished, false);
-+	schedule_work(&shid->panel_follower_work);
-+
-+	return 0;
-+}
-+
-+static int spi_hid_panel_follower_suspend(struct drm_panel_follower *follower)
-+{
-+	struct spi_hid *shid = container_of(follower, struct spi_hid, panel_follower);
-+
-+	cancel_work_sync(&shid->panel_follower_work);
-+
-+	/* Match with shid_core_panel_follower_work() */
-+	smp_rmb();
-+	if (!READ_ONCE(shid->panel_follower_work_finished))
-+		return 0;
-+
-+	return spi_hid_suspend(shid);
-+}
-+
-+static const struct drm_panel_follower_funcs
-+				spi_hid_panel_follower_prepare_funcs = {
-+	.panel_prepared = spi_hid_panel_follower_resume,
-+	.panel_unpreparing = spi_hid_panel_follower_suspend,
-+};
-+
-+static int spi_hid_register_panel_follower(struct spi_hid *shid)
-+{
-+	struct device *dev = &shid->spi->dev;
-+
-+	shid->panel_follower.funcs = &spi_hid_panel_follower_prepare_funcs;
-+
-+	/*
-+	 * If we're not in control of our own power up/power down then we can't
-+	 * do the logic to manage wakeups. Give a warning if a user thought
-+	 * that was possible then force the capability off.
-+	 */
-+	if (device_can_wakeup(dev)) {
-+		dev_warn(dev, "Can't wakeup if following panel\n");
-+		device_set_wakeup_capable(dev, false);
-+	}
-+
-+	return drm_panel_add_follower(dev, &shid->panel_follower);
-+}
-+
- int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 		       struct spi_hid_conf *conf)
- {
-@@ -1234,6 +1364,7 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	shid->ops = ops;
- 	shid->conf = conf;
- 	set_bit(SPI_HID_RESET_PENDING, &shid->flags);
-+	shid->is_panel_follower = drm_is_panel_follower(&spi->dev);
- 
- 	spi_set_drvdata(spi, shid);
- 
-@@ -1247,6 +1378,7 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	init_completion(&shid->output_done);
- 
- 	INIT_WORK(&shid->reset_work, spi_hid_reset_work);
-+	INIT_WORK(&shid->panel_follower_work, spi_hid_panel_follower_work);
- 
- 	/*
- 	 * We need to allocate the buffer without knowing the maximum
-@@ -1257,42 +1389,18 @@ int spi_hid_core_probe(struct spi_device *spi, struct spihid_ops *ops,
- 	if (error)
- 		return error;
- 
--	/*
--	 * At the end of probe we initialize the device:
--	 *   0) assert reset, bias the interrupt line
--	 *   1) sleep minimal reset delay
--	 *   2) request IRQ
--	 *   3) power up the device
--	 *   4) deassert reset (high)
--	 * After this we expect an IRQ with a reset response.
--	 */
--
--	shid->ops->assert_reset(shid->ops);
--
--	shid->ops->sleep_minimal_reset_delay(shid->ops);
--
--	error = devm_request_threaded_irq(dev, spi->irq, NULL, spi_hid_dev_irq,
--					  IRQF_ONESHOT, dev_name(&spi->dev), shid);
--	if (error) {
--		dev_err(dev, "%s: unable to request threaded IRQ.", __func__);
--		return error;
--	}
--	if (device_may_wakeup(dev)) {
--		error = dev_pm_set_wake_irq(dev, spi->irq);
-+	if (shid->is_panel_follower) {
-+		error = spi_hid_register_panel_follower(shid);
- 		if (error) {
--			dev_err(dev, "%s: failed to set wake IRQ.", __func__);
-+			dev_err(dev, "%s: could not add panel follower.", __func__);
- 			return error;
- 		}
-+	} else {
-+		error = spi_hid_dev_init(shid);
-+		if (error)
-+			return error;
- 	}
- 
--	error = shid->ops->power_up(shid->ops);
--	if (error) {
--		dev_err(dev, "%s: could not power up.", __func__);
--		return error;
--	}
--
--	shid->ops->deassert_reset(shid->ops);
--
- 	dev_dbg(dev, "%s: d3 -> %s.", __func__,
- 		spi_hid_power_mode_string(shid->power_state));
- 
-@@ -1306,6 +1414,9 @@ void spi_hid_core_remove(struct spi_device *spi)
- 	struct device *dev = &spi->dev;
- 	int error;
- 
-+	if (shid->is_panel_follower)
-+		drm_panel_remove_follower(&shid->panel_follower);
-+
- 	spi_hid_stop_hid(shid);
- 
- 	shid->ops->assert_reset(shid->ops);
-@@ -1319,18 +1430,20 @@ static int spi_hid_core_pm_suspend(struct device *dev)
- {
- 	struct spi_hid *shid = dev_get_drvdata(dev);
- 
--	spi_hid_suspend(shid);
-+	if (shid->is_panel_follower)
-+		return 0;
- 
--	return 0;
-+	return spi_hid_suspend(shid);
- }
- 
- static int spi_hid_core_pm_resume(struct device *dev)
- {
- 	struct spi_hid *shid = dev_get_drvdata(dev);
- 
--	spi_hid_resume(shid);
-+	if (shid->is_panel_follower)
-+		return 0;
- 
--	return 0;
-+	return spi_hid_resume(shid);
- }
- 
- const struct dev_pm_ops spi_hid_core_pm = {
-diff --git a/drivers/hid/spi-hid/spi-hid-core.h b/drivers/hid/spi-hid/spi-hid-core.h
-index 293e2cfcfbf7..261b2fd7f332 100644
---- a/drivers/hid/spi-hid/spi-hid-core.h
-+++ b/drivers/hid/spi-hid/spi-hid-core.h
-@@ -10,6 +10,8 @@
- #include <linux/hid-over-spi.h>
- #include <linux/spi/spi.h>
- 
-+#include <drm/drm_panel.h>
-+
- /* Protocol message size constants */
- #define SPI_HID_READ_APPROVAL_LEN		5
- #define SPI_HID_OUTPUT_HEADER_LEN		8
-@@ -56,6 +58,10 @@ struct spi_hid {
- 	struct spi_hid_input_buf *input;	/* Input buffer. */
- 	struct spi_hid_input_buf *response;	/* Response buffer. */
- 
-+	struct drm_panel_follower panel_follower;
-+	bool	is_panel_follower;
-+	bool	panel_follower_work_finished;
-+
- 	u16 response_length;
- 	u16 bufsize;
- 
-@@ -66,6 +72,7 @@ struct spi_hid {
- 	unsigned long flags;	/* device flags. */
- 
- 	struct work_struct reset_work;
-+	struct work_struct panel_follower_work;
- 
- 	/* Control lock to ensure complete output transaction. */
- 	struct mutex output_lock;
 
--- 
-2.53.0.1185.g05d4b7b318-goog
+Sorry for the late reply. Yes, I had the same thought before. In the 
+next version, I will
 
+move all the HDBSS-related content into the same file, such as 
+arch/arm64/kvm/dirty_bit.c
+
+and arch/arm64/include/asm/kvm_dirty_bit.h.
+
+
+Tian
+
+
+>
+>
