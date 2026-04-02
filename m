@@ -1,230 +1,112 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012047.outbound.protection.outlook.com [52.101.48.47])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C1C242D70;
-	Thu,  2 Apr 2026 05:38:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775108286; cv=fail; b=Q22QwqNKUYhktkauo5N3VOzempRckqD6MTDIZfR4oTeos0DJPa8niHlwOuwdIW0S0LDEacXWyoxGNamWL93N0UBKjBUpwKFxi+bZU3ztTfvK6jSRiATa5eiUDBMHduVGpHRYZjzTHeSkSzKLnLIHrEIUcGmVXPXYg4p+pJOyc9M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775108286; c=relaxed/simple;
-	bh=N4ery9WrR95gkCT1H2xglupz0G+hVGed+vrQK6Jev5Y=;
-	h=Content-Type:Date:Message-Id:From:To:Cc:Subject:References:
-	 In-Reply-To:MIME-Version; b=TI3iTbnd30oBPDqh+fP4OVVsvDkuHkcbxbwTwhQOWUboB3MM6er1s755DtwNrRbv0Ovc3FKxz88boI3F9lSVBQP4Lutafd10OvOg1gmsAhUiatDveZTDISzPyLvJp2N1jWjvWeTw0AxMOisJFjwK/NRDvS7x3YuO2JsDKOKOy08=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NxKOMbw3; arc=fail smtp.client-ip=52.101.48.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAB4242D70;
+	Thu,  2 Apr 2026 05:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775108333; cv=none; b=Ur2m4j1EPVNjCYGeQaNB3YfaxLbzmmmLxrbJbhHnB1JlnERjhsXwWK52E/XsG4ojFIc5KnF2Z3UvX3n1bY/KTX7vfzGSs91kNLjWN22D2rcVufh/Rov/bwRO8CpFpn0xfD+zUvM9DzqhOpLbrtzZP+CSl/xO2goUnqGUPjQcEBk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775108333; c=relaxed/simple;
+	bh=U3xZ1AwEDx8plhHOTiqeJsbncmqK1gx2AA1/5UoeUWg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kh+n1s1ZkttSfjIjzufI14pW+ND79sKS3CMbrJ7BgAJ3Jb4AUPm1huP87WNLhlCy94LTxp1o4gqp+fgwWeAKTEyYUk8WC745n3YLJKFsLXi7gU5GAAqMLaz+W4NeyFd5dWLpc/9CEvecEiEkYfxLRaluQsDFiXJdvBmo0tafnkI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=CHOG/o0H; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NxKOMbw3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xRnV5kHLpL567MsnbGT2ysSQtInp/iEDNc0RzUnP5oWjAO+mxcCzl5h63U+Us6UGY+O9ZbAv7GDA4ZBBVXoWKF3UHzlnCOnVgaUZPO0QHiH79DSZuk7Syi21jGfg3a5CfpcOj6KU4lYufMJEHewwCVyRFTeiDhBIrmjyJW0o96CvDNACxGCvwULT/t3QZuUiAjaGpFxqGfsYlr7nft/TBsGiWojvDg2f1zpvcxeYxnTWHfsXJ/x8SU+VHe2WRIYVQpDSZTWxNAm9SnMmpw1xycSfdWhSDKYku3siGeuGYEM/1+6tZ1NGIRCbXEFQrr1lQcDOYoUSr/DUXtLmVO0FNQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=P7DAPd/f3vu7lPJGmIW/2+xrDwuxwXn+vQD1ja9z4Wo=;
- b=Vtifb+4mT6hbxalUbUS/Ysb/jvaZGcFEXNX8oI8ffW0lQhRVA8VouE1ayTbJV+0WNe9hDNfn03it1F2MAXRND+JacJhAXEuItU9V5jeRngAE1t0OOuWxJvaFpTbjHP0oLuybk0QSUZV6xNmbvnntNBgN4n//skZFiyD0SN+8TOFwtwjAKbijyJX+6BCzDD1CTqex09CpM2pxHbdZxpqSYHagBNGWtdgHeGjCfuteJZ9B+VI1evOcdgndt4jvoUwwXdY/TjPR7kuRDu52+tlXhbdRbR1FZgdf368v1VOldcJGTDD/wxy4lPuP3WgJglEv+4ZrZQJFYAHgsi39/PVIgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=P7DAPd/f3vu7lPJGmIW/2+xrDwuxwXn+vQD1ja9z4Wo=;
- b=NxKOMbw3LMk5SvipzBdU9MP9t7tA7jABIbKWUs/x0MpOkFiUzBazBvlRwWivSCCATM5OQC4yE5D2/1LUkVwrLKpUd4nwGlih5bb+9kM0/6HsBOTeugQg91zgn+AtbQdNmNxV5QVHvPLno5x3OhayY6EMgeQDQTVBufQliVCL1X0/1xQLNXpAKuH7Y/qAnJq1AW/96X37ZtiF58codhnURZPvG32J+J9WUbxqkJ+0jHvM5SymOGkB6xCNUaE3CGvl7jW2AQzthha/4mPDph+NBc1hqCieFCs1ylaMy+PeJR257Z9dnusmK0ZZbNvUypJo9HBBb4X08MJ68al63wZAKA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com (2603:10b6:207:4c::31)
- by DM4PR12MB6302.namprd12.prod.outlook.com (2603:10b6:8:a4::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Thu, 2 Apr
- 2026 05:37:56 +0000
-Received: from BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0]) by BL0PR12MB2353.namprd12.prod.outlook.com
- ([fe80::99b:dcff:8d6d:78e0%4]) with mapi id 15.20.9769.017; Thu, 2 Apr 2026
- 05:37:56 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 02 Apr 2026 14:37:52 +0900
-Message-Id: <DHIFD6N7QSU1.1RGEN0APPDHD8@nvidia.com>
-From: "Eliot Courtney" <ecourtney@nvidia.com>
-To: "Joel Fernandes" <joelagnelf@nvidia.com>, <linux-kernel@vger.kernel.org>
-Cc: "Miguel Ojeda" <ojeda@kernel.org>, "Boqun Feng" <boqun@kernel.org>,
- "Gary Guo" <gary@garyguo.net>, "Bjorn Roy Baron"
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, "Nikola Djukic" <ndjukic@nvidia.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- "Christian Koenig" <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Matthew Brost"
- <matthew.brost@intel.com>, "Lucas De Marchi" <lucas.demarchi@intel.com>,
- "Thomas Hellstrom" <thomas.hellstrom@linux.intel.com>, "Helge Deller"
- <deller@gmx.de>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
- <boqun.feng@gmail.com>, "John Hubbard" <jhubbard@nvidia.com>, "Alistair
- Popple" <apopple@nvidia.com>, "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer"
- <epeer@nvidia.com>, "Alexandre Courbot" <acourbot@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <joel@joelfernandes.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v10 03/21] gpu: nova-core: gsp: Expose total physical
- VRAM end from FB region info
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-4-joelagnelf@nvidia.com>
-In-Reply-To: <20260331212048.2229260-4-joelagnelf@nvidia.com>
-X-ClientProxiedBy: TYCPR01CA0172.jpnprd01.prod.outlook.com
- (2603:1096:400:2b2::9) To BL0PR12MB2353.namprd12.prod.outlook.com
- (2603:10b6:207:4c::31)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="CHOG/o0H"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=czWzbulJL+c3dxqGyG6G4eYxihbPhqEeecVFHDNjAYk=; b=CHOG/o0HcrD8J9KjJ8u/b9jPNt
+	amu2MdnlCTZvW3mUyyyeTaIBMEtAQFIzIKWF01LSnY9TlRRYQckfYfsR75O/kBnl1bf9kP/5r2kH0
+	muJeCHe+iBb3i+tGeedB3stwaNoDlql9KLc43duVW5ErhPOlbHj986kTKrBSLIJ2gn5OVgvcxzXHw
+	IJKjlzRIqVJ2yQmJwW66xYMUBZ2h81LI73ut/5IryM/3KgIuSM83P+cnaXXWslpc23iDfRI1B4Ufw
+	Z0eDopMkbQ8gR2kRJyxdS7r31HgBjMjd5BdmPs04UWCa14ZVMKSvPaShQnNrQbYPualhsXg5OlTDN
+	W013HWqg==;
+Received: from 2001-1c00-8d85-4b00-266e-96ff-fe07-7dcc.cable.dynamic.v6.ziggo.nl ([2001:1c00:8d85:4b00:266e:96ff:fe07:7dcc] helo=noisy.programming.kicks-ass.net)
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1w8AlO-0000000BeiC-3CgU;
+	Thu, 02 Apr 2026 05:38:42 +0000
+Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
+	id E351F301BD5; Thu, 02 Apr 2026 07:38:40 +0200 (CEST)
+Date: Thu, 2 Apr 2026 07:38:40 +0200
+From: Peter Zijlstra <peterz@infradead.org>
+To: Kees Cook <kees@kernel.org>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Arnd Bergmann <arnd@arndb.de>, Mark Rutland <mark.rutland@arm.com>,
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Thomas Gleixner <tglx@kernel.org>,
+	Finn Thain <fthain@linux-m68k.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>,
+	llvm@lists.linux.dev, Marco Elver <elver@google.com>,
+	Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nsc@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com,
+	linux-hardening@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH 5/5] types: Add standard __ob_trap and __ob_wrap scalar
+ types
+Message-ID: <20260402053840.GD3254421@noisy.programming.kicks-ass.net>
+References: <20260331163716.work.696-kees@kernel.org>
+ <20260331163725.2765789-5-kees@kernel.org>
+ <CAHk-=wiJ6Q_qMHSe-hs+QvqKVZphvDZjvFP_gQLw1eaWimv8+w@mail.gmail.com>
+ <202603311253.95C54588E@keescook>
+ <CAHk-=wjSOGaausLeTD13yAqso7qM09EnkDFiN7wF15kH0VWmZQ@mail.gmail.com>
+ <202603311321.4EE9FEA@keescook>
+ <20260401083137.GT3738786@noisy.programming.kicks-ass.net>
+ <202604011328.D3821379@keescook>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2353:EE_|DM4PR12MB6302:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1d06e31-16b8-4d00-baf6-08de9079fe09
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|10070799003|366016|7416014|376014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	L8H9Hl7+p/p1tCH3DLJ3S89ZOKE9D0UurGvU0/SWrFJcsL0L29Rwj/nAyP+I2+sXYOaP6HoWv3RzY85F+JPdgnjyvJFVR+SuemYRUpJif1NrGtfCiu0UTIqk/wwPAq9VYOQGiWgyAKDqWTJfPrHNsIdVjwOI6tdshCiw1LlcEN6N2Q7PojrN66uCIno6hRLKkMXjaCrDwGaL3Hm3XfWy39OoCNF2QapNtz/P1Qe1rLKiSEaghtyxZ2o1XJEK3oZ2ky8uxsE4G7fi1vpEt3fssIWb5pQrMUowykN99Q9ZFJK+2ycriY5RjXfNMJEWiNcm5VeJ5vXQgNWyRUTaYLbmJLf1Y44a+v93xbCjPL5J8gTBBURecUZSYnkAP8S7aTeSdX/myhs1IS2j5351rDA/XYRyPpshUS+i1sqBah4u6qH0frDubLXLIvEqwniHy2v3/70FmUHNCenGbyRrwNsnMmApQytIEslqVcvjbTRbmlUomf7vCwYq2597hWhLBbc6LIGXI4Dp6Bhtm5JvXPBCz4ynnaHe0Y3HD98htkxnMkqptPNjj1bJNcmtShoITcF2KcY8UlkwTqmQy4HK5lEKwdk97Tz3DeQfe+y8SqO3GPtfXb0ZT23kl8Ov2qpclFwRGvQf4ipO84AoD2lD3ITN/9tm/OW7yU7uJixhTXxMVBrPAJ3tg6pJH0gdU3y5kO2FmOPS4NpMC18vluZwV63lyIiqLdJ3Wb2ZMItJn291O2o=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL0PR12MB2353.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(7416014)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RVAzZ0p3Ung4OFlvZmEybnBLbjN6ZXArRlBIUEtuSmxBaFJMQnBYejQ0d0VJ?=
- =?utf-8?B?UFZtZ1hjNXI4ZWMvb1JjYkFMek1qYnFYOXhBYlpnRjFuZTBkMTg4OTRTY1By?=
- =?utf-8?B?OHQyWFprUkNmb0NxbUNKN1Z1ZTNuUUZPVk5PWFE5VHhCalNlOEZxMDFCVHlu?=
- =?utf-8?B?T2V0UkFydTZZbElVRzZpTHBSSzZoNmpzZ2l3K01EYzJOa1dsbFdBcEwwNi90?=
- =?utf-8?B?QzRSWkx3aFUyRzlyNVZ1SmVZM1FtTXZlYlovQ3J5YmkxSnJFZFB4aWFQeXFB?=
- =?utf-8?B?cTg3VU1tMlI4UEluYW13Ly95VWZzNElZR2VQbmJWeE9MaFBXMEFFckFmWkJH?=
- =?utf-8?B?RkdjVUtyd2ZqWE0rMXJObklRbGFpcStTVWhuQVpMNXpYZW5GVVZOSnpQMUZG?=
- =?utf-8?B?MllmK1d1amw0SnF5SDIwdWw2THVOVkE0TmM1SVR6ZU5zcVpiWHBybWNpMTVn?=
- =?utf-8?B?ODNBc1A1ZEJqYzRYY25vZDN5WS9ZVnNUUDhSS3NUd0FmeEd4UTJLY2YxcU9C?=
- =?utf-8?B?MmkvdUlIcGNYa1lIaUJ4NFI5SUxrL3hYbWRoS0JSZG9nZk5UM2QwNHdrWGww?=
- =?utf-8?B?ZnNpZWJybGRXZ0JBdmRnNlo3Z1JPRVRtdnptR0dMSittcWJUSGxiY2hQYStI?=
- =?utf-8?B?djEzTkxuS0p2RFpabTk4aHVuMGgvRXJydWVJM1FhaTM4elExTzltOVVod2Z4?=
- =?utf-8?B?K3pKdGdTM1ZlVTZPTTY2K00wRndxR3B2dGRpNEMvaE9VQ0JvaG1ObWlrbXdq?=
- =?utf-8?B?QlZtRG9VOEx4L1c0TFpNdndyYWRyOFJGTVZFeXkvb1JycHJVa1Z2SVJibzAz?=
- =?utf-8?B?M1VicHVpL2pja1pGL1ZaLzQ0NGpaOGV4WWVPWVhmRHN0RUFOSXFubzFta3do?=
- =?utf-8?B?bndOd085VFg3MzY0SE9BalUzcFlsbGhzWU80YUU1N3RxSllkLzRQS0tIejFC?=
- =?utf-8?B?NVFLRVVtNlFKYW5sUkVIcDZ2ZER4d1l4NlFMa0crUWh5ZUlIL2tKSVBHVFI2?=
- =?utf-8?B?UGl4Wk1PVnNBQWxvUVF6NllMd0hlQk51QjhPcWJGUVFYYXJoaVVSSVFmWUcw?=
- =?utf-8?B?aE5CMEhyNVM4RFZkUUlJdGJvNlk3L2ZMYlR3ZmFxMW9CdHR5UzV1bzRmL21u?=
- =?utf-8?B?OW1TMWVTMyswSTFRd2F6T0hKK2xEUmdSWi9wWlJGQ1ZvN2hUVzhTZThLUjBw?=
- =?utf-8?B?U2dBczFKSldkaDBtMjZiRUVxcVJObTc1cjU2MzM2azdlbC82L1JoNkNkeUhG?=
- =?utf-8?B?bTFlOU1iaHBkSzBBZGFMcTdDMkhzc3UwbjhUTi9qa1R4Y3JRa0xSN3poNlVT?=
- =?utf-8?B?eUVqVXZoZklYQnd2SUpIMmJDUFMrMjVON3NpUndkMjliZTZyVmJ6OW5TajZK?=
- =?utf-8?B?MHJNNHBna0xjYmtMN3hOLzExci91QmZyTFJkOHYxTHpBeER6cHluZlpBMGxU?=
- =?utf-8?B?eXU4OGtaMCt6SEYrWEx6bkhjSEg5dlpSSTVhSDVEa3R2WTJ5TU1RemZjNnd2?=
- =?utf-8?B?dDd4WWg5VExha1ZlRDVaMTI4OXNnci8weEFLTXlqem1TVUZrb2IzVkxldTNn?=
- =?utf-8?B?bzJIK2RkTnVzWGZXc1J6WGlIUUNYN0tqY3FiYjNuVllFVFZXOGFjd010VzFP?=
- =?utf-8?B?cDM3MVVLUHJLeWZBaE9ycmR0T3o2K3V2cVh6a0ZuTXhGSm80RW1qa2hPbkF0?=
- =?utf-8?B?akNDRkZ6Q3VzVDU4SmJ6V3NOOW10WW9IMGpWdEFFQVVrYzJpSHJVZ2F6bWJX?=
- =?utf-8?B?c1VNbHNvb3h6N0JQb2VEQVkrMXlFRk5LeFZwT3UrMzd3d09EVEdnY3BtZGtp?=
- =?utf-8?B?L1JZbFM4QmdycTc2bEV2RU5iS2lSK1hZU3BPVzFKTDFJZXhjYnMyK3BWcnNU?=
- =?utf-8?B?dkFWWGhBODVXWkFndlZ3RGJCM1Y3alJvcC9iQmdqZVlsbE0xTldWcndMaDdh?=
- =?utf-8?B?eWt1L0lBRWZjazlkUFZweS9XMkRXbWxqVVpiT2tKWG9kdDRpWno1RGRRZUsz?=
- =?utf-8?B?WU12TEhnK0VDZXVzLytGd0FETEVFVVdydHUyQ1NJRUp2YzEva3RqRzdaWUxV?=
- =?utf-8?B?YThkektxS2JBVGY1MXRJa2NHL0RDVVBIZ045czVaem1UN2UzbklsZHNVMU56?=
- =?utf-8?B?N1YzeDRUdzJqS3BGM2h0T0c2UFE2ZXdFd1hIMEd4ZENBdWRiV0IxT3kvVXBR?=
- =?utf-8?B?bjFwb3MwalZoeHA0a0c3RjU0UzNxQUQrQm9IaVh2Uk4xckxXRkllM21SS3hB?=
- =?utf-8?B?U3JjZVYxSzEyNVluWlExN05ZL3dTdGl0amZCWlQ2TVBQM09nNzh1aG5lcFNU?=
- =?utf-8?B?ZmQ4SEFpRE1rV3Zib2xqSjlXU3A2YWZURmk5bXhWbFgrb3YwRVNHb1EyV0tO?=
- =?utf-8?Q?NtxNCUFU4PAOzHj7X11dNLhcCit1YEsOm5Ph3sOdxgukP?=
-X-MS-Exchange-AntiSpam-MessageData-1: XYf128piNP87zA==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1d06e31-16b8-4d00-baf6-08de9079fe09
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR12MB2353.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2026 05:37:56.2799
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PvQPuRHWD1LRDVsrN5lN+ZSVc4PKNIiFnDVe10wtZlEEw1EFBkediapafoWOX2sXFHyjDXxrkQMQfaDb3+903Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6302
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <202604011328.D3821379@keescook>
 
-On Wed Apr 1, 2026 at 6:20 AM JST, Joel Fernandes wrote:
-> Add `total_fb_end()` to `GspStaticConfigInfo` that computes the
-> exclusive end address of the highest valid FB region covering both
-> usable and GSP-reserved areas.
->
-> This allows callers to know the full physical VRAM extent, not just
-> the allocatable portion.
->
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
->  drivers/gpu/nova-core/gsp/commands.rs    | 6 ++++++
->  drivers/gpu/nova-core/gsp/fw/commands.rs | 7 +++++++
->  2 files changed, 13 insertions(+)
->
-> diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-cor=
-e/gsp/commands.rs
-> index 41742c1633c8..5e0649024637 100644
-> --- a/drivers/gpu/nova-core/gsp/commands.rs
-> +++ b/drivers/gpu/nova-core/gsp/commands.rs
-> @@ -196,6 +196,9 @@ pub(crate) struct GetGspStaticInfoReply {
->      /// Usable FB (VRAM) region for driver memory allocation.
->      #[expect(dead_code)]
->      pub(crate) usable_fb_region: Range<u64>,
-> +    /// End of VRAM.
-> +    #[expect(dead_code)]
-> +    pub(crate) total_fb_end: u64,
->  }
-> =20
->  impl MessageFromGsp for GetGspStaticInfoReply {
-> @@ -209,9 +212,12 @@ fn read(
->      ) -> Result<Self, Self::InitError> {
->          let (base, size) =3D msg.first_usable_fb_region().ok_or(ENODEV)?=
-;
-> =20
-> +        let total_fb_end =3D msg.total_fb_end().ok_or(ENODEV)?;
-> +
->          Ok(GetGspStaticInfoReply {
->              gpu_name: msg.gpu_name_str(),
->              usable_fb_region: base..base.saturating_add(size),
-> +            total_fb_end,
->          })
->      }
->  }
-> diff --git a/drivers/gpu/nova-core/gsp/fw/commands.rs b/drivers/gpu/nova-=
-core/gsp/fw/commands.rs
-> index 9fffa74d03f9..46932d5c8c1d 100644
-> --- a/drivers/gpu/nova-core/gsp/fw/commands.rs
-> +++ b/drivers/gpu/nova-core/gsp/fw/commands.rs
-> @@ -163,6 +163,13 @@ pub(crate) fn first_usable_fb_region(&self) -> Optio=
-n<(u64, u64)> {
->              }
->          })
->      }
-> +
-> +    /// Compute the end of physical VRAM from all FB regions.
-> +    pub(crate) fn total_fb_end(&self) -> Option<u64> {
-> +        self.fb_regions()
-> +            .map(|reg| reg.limit.saturating_add(1))
+On Wed, Apr 01, 2026 at 01:52:26PM -0700, Kees Cook wrote:
 
-I think it would be better to used checked_add here.
+> (Though I would note that GCC does _not_ refuse the jump when there is a
+> cleanup; it only see the other two uninitialized values.)
 
-> +            .max()
-> +    }
->  }
-> =20
->  // SAFETY: Padding is explicit and will not contain uninitialized data.
+Yeah.. I know, but since we also build with clang, any such issue will
+get discovered.
+
+> So that makes it not totally broken, but it does make it a bit fragile.
+
+Right.
+
+> Another concern I have is dealing with older compilers and how to
+> "hide" the label and its code. e.g. if I remove the "goto" from above:
+> 
+> ../drivers/misc/lkdtm/bugs.c:1060:1: warning: label 'weird' defined but not used [-Wunused-label]
+>  1060 | weird:
+>       | ^~~~~
+> 
+> Oddly, the unreachable code isn't a problem, so we could just wrap the
+> label is some macro like:
+> 
+> #define force_label(x) if (0) goto x; x
+> 
+> force_label(weird):
+>         pr_info("value: %lu\n", value);
+>         pr_info("outcome: %zu\n", outcome);
+> 
+
+__maybe_unused also works on labels. Like:
+
+__overflow: __maybe_unused
+	dead-code-here;
+
 
