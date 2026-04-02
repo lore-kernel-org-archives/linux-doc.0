@@ -1,466 +1,249 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00154904.pphosted.com (mx0b-00154904.pphosted.com [148.163.137.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85B643C9EF7;
-	Thu,  2 Apr 2026 22:21:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775168494; cv=none; b=YdhNuaack6BK3hw3IplpoWrlLADV/ZWvI2XFWSMXp3yJs6sZ8+sVtglu2uqyykSukuHPtO5uBubrKYYwHsZeJu4nUUMjuOyjo+gjksKxiQMRCq8rirhpbWfPoOlZQlsnPpW8wWJAeqgSQ51zl59zWgXtyHsEKtiSvxMKpNmxz58=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775168494; c=relaxed/simple;
-	bh=/O6pOQOawGm3QVkocb+e1/Jt2yj3E+m0Xn+m5n3VUf4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KIYY4dz7gnz10Fcpq7dVMedS8LRFbLpyhMASXoMwNoT2zB3Ur2pKZerbwM0d39y19wmP1/FZvRtVhJBLyQGLH4gOosKQo5g5yP8kpHczl83AbMJx59xusiSuLabC+7z3lz43Wt7ph06LJ/N+7xTqPMGRny6MW70q5NNJrjNCV6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sQ1Bj2Vk; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B5F36E46F;
+	Thu,  2 Apr 2026 23:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.137.20
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775173157; cv=fail; b=XQaRj3hv5LwZncldZDIW6JDk5Egn5MEEOojjTG+pvalMPp8U/J1Utv/u2rpbKMVp2HLNnACKyemeSAfRhckHqXnXboGD8jR140VvpTulM9TDVmjqXFH/eM5i/L1uPYY0UDD7hmsmZKiRYWhboBD8JpdHcE4RUaW6ZgSemUmhzL8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775173157; c=relaxed/simple;
+	bh=DZ4fFkvA4hIg9U8ks16DNuLlqJviuwaYTlgzTEPVR+w=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=USk3JwdDZledh7cLlEUSHRO17r+FO3aK5mBNkoU5gEVvzdvED2pcXiTCep94HsMjTieSZezNZe37OM/ykNU7nP9BI/gDAdMYp7zktbF4Y8WDjHfJY/geAbFrE4vtH/d3r3CXA+4bH8wd+RbYyX7iPKZbA0l0nsooDcooLQhKW/k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dell.com; spf=pass smtp.mailfrom=dell.com; dkim=pass (2048-bit key) header.d=dell.com header.i=@dell.com header.b=XJ3appyk; arc=fail smtp.client-ip=148.163.137.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=dell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sQ1Bj2Vk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26643C116C6;
-	Thu,  2 Apr 2026 22:21:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775168494;
-	bh=/O6pOQOawGm3QVkocb+e1/Jt2yj3E+m0Xn+m5n3VUf4=;
-	h=Date:From:To:Cc:Subject:Reply-To:References:In-Reply-To:From;
-	b=sQ1Bj2VkRiaXH6x1vKuH4nw8FAvJFdaJx4wkMpcMLE/bQlpi8UZaBwJ7TrJqy42aB
-	 l1XODfCvXYvcxB19oH1ENT/VnNaTuT3crFs/6HVRQWVc5OoM2kf7O4DnBa/yfmdP9c
-	 eGqZxzqI4MVKKRcATt3MeV2QDK5ww5ViUjuT/tOLxzqmF17XnT3bIDZSMRYCRGm/Ea
-	 QJAOZ+JPff/ZK5HI5LZAJqF43+T+Jfofh45vkFBqXt7LB9K8USXPFMgPhGtda2P9jT
-	 7Yg9EoCVUXt5NCggCErQYB9kAJZcjYcOkSaY+SNm7p2az35abzJILC7wC4VTsriJtc
-	 RNcmGTSr5D2JQ==
-Received: by paulmck-ThinkPad-P17-Gen-1.home (Postfix, from userid 1000)
-	id ABA54CE049F; Thu,  2 Apr 2026 15:21:33 -0700 (PDT)
-Date: Thu, 2 Apr 2026 15:21:33 -0700
-From: "Paul E. McKenney" <paulmck@kernel.org>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Waiman Long <longman@redhat.com>,
-	linux-doc@vger.kernel.org,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: Re: [PATCH v3] doc: Add CPU Isolation documentation
-Message-ID: <ddae3a2a-cac1-49c2-95c0-cd75abb81165@paulmck-laptop>
-Reply-To: paulmck@kernel.org
-References: <20260402094749.18879-1-frederic@kernel.org>
+	dkim=pass (2048-bit key) header.d=dell.com header.i=@dell.com header.b="XJ3appyk"
+Received: from pps.filterd (m0170396.ppops.net [127.0.0.1])
+	by mx0b-00154904.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632I3hg31434881;
+	Thu, 2 Apr 2026 19:38:27 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dell.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=smtpout1; bh=D
+	Z4fFkvA4hIg9U8ks16DNuLlqJviuwaYTlgzTEPVR+w=; b=XJ3appyksGgSWwWP7
+	tXuZjSgAoxI9bYY6nATCKPYynW65wilPthi54wAD/rBc+yLw4IujsYcbP+oete0L
+	EChSImJx+fo8Os+SNx8qDq8/zBq6vtN7KthcLant6q9ihvsHw38WGT0rWPdjwkvn
+	eLrEN8qcvJlLU1H7qRSp6Cj0HECGISyWs0MJc73EuAr2h0NoarnvUqMSVD2kjU03
+	zJCyh1O5ByoHYe3yXA4SIcpOS3ozK0IhQznHljvXwhSpq1oUK2qjF5M1N5NrFW/z
+	sb5459VyLuaLq45DqDXE2s1JvTw4wmG7S9NkdLOSqygaRWovIGxEIqdjumUIvLt+
+	j2mog==
+Received: from mx0b-00154901.pphosted.com (mx0b-00154901.pphosted.com [67.231.157.37])
+	by mx0b-00154904.pphosted.com (PPS) with ESMTPS id 4d6atu45mp-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 02 Apr 2026 19:38:26 -0400 (EDT)
+Received: from pps.filterd (m0393468.ppops.net [127.0.0.1])
+	by mx0a-00154901.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632NXNH7919418;
+	Thu, 2 Apr 2026 19:38:26 -0400
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11013018.outbound.protection.outlook.com [40.93.201.18])
+	by mx0a-00154901.pphosted.com (PPS) with ESMTPS id 4da1s289ky-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=OK);
+	Thu, 02 Apr 2026 19:38:26 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=y3QOvb+9FbWpb+7nA1OS6h4FwGJt9dmBLq2CFSTxtdhVbWjPNdSDVZJZqjr/8egfSb/5IOrhzNbYfL9aR7blDoN3bsRvgrDG/c8DmrprZBXhF0MatBYvRmvVrOCMrN0wnE7BujGl/QXX5HtTPSRmUauHkMGSv+IG8YVg1DR9sfFbb6rp1Yfee86p9YHlRXYrkUkYu6akTfRuTPtTeiQ5rbRnTpyHmKgemA4dNCBz75Oa/lz15EEC/3rsI/acwUx6s7lBQ1+f3L29eFoamOZUMS+eTTD+cO1EkLxAfr0qU7tYR/Z5TMCstRw5fHNILIj3rD7BnusCXtUXFr4hWTZ2hA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DZ4fFkvA4hIg9U8ks16DNuLlqJviuwaYTlgzTEPVR+w=;
+ b=jXv1+OATvTCntCTLiirYyOKn23nflK8/qxShEC0o4Z2SvMw/Yct+OR4cTpohi/UdTVSjRoCM22CsFBvmhr+Qeno+gEeAUARHyR5mte84j2M7R6dWywl6LDoFjDa8+GHlFtpLo/IehNkBs/dQ+YzmbULijlfFKLLfc77eVLNfzzzugCdWRABH6BF99cCxulx6AAEHuOhxCOHpVG2xv/CCQmjPQ9ZSvWthj27IYUUkvMl9pzfH3osFWB7+rn32Wp+/CaajAvHg8KmNRuzunCNaRVuhw7ZNEhfEFIzDQ9awE+ziwS1fgZ+qE4gayhTMNGIKwSftg4Q6wzkpcOaE7osZqw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=dell.com; dmarc=pass action=none header.from=dell.com;
+ dkim=pass header.d=dell.com; arc=none
+Received: from DS7PR19MB6351.namprd19.prod.outlook.com (2603:10b6:8:95::8) by
+ PH7PR19MB8139.namprd19.prod.outlook.com (2603:10b6:510:1b6::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9769.17; Thu, 2 Apr 2026 23:38:18 +0000
+Received: from DS7PR19MB6351.namprd19.prod.outlook.com
+ ([fe80::f45e:e7d6:d522:3d08]) by DS7PR19MB6351.namprd19.prod.outlook.com
+ ([fe80::f45e:e7d6:d522:3d08%3]) with mapi id 15.20.9769.018; Thu, 2 Apr 2026
+ 23:38:18 +0000
+From: "Rose, Charles" <Charles.Rose@dell.com>
+To: Ben Horgan <ben.horgan@arm.com>
+CC: "amitsinght@marvell.com" <amitsinght@marvell.com>,
+        "baisheng.gao@unisoc.com" <baisheng.gao@unisoc.com>,
+        "baolin.wang@linux.alibaba.com" <baolin.wang@linux.alibaba.com>,
+        "carl@os.amperecomputing.com" <carl@os.amperecomputing.com>,
+        "dave.martin@arm.com" <dave.martin@arm.com>,
+        "david@kernel.org"
+	<david@kernel.org>,
+        "dfustini@baylibre.com" <dfustini@baylibre.com>,
+        "fenghuay@nvidia.com" <fenghuay@nvidia.com>,
+        "gshan@redhat.com"
+	<gshan@redhat.com>,
+        "james.morse@arm.com" <james.morse@arm.com>,
+        "jonathan.cameron@huawei.com" <jonathan.cameron@huawei.com>,
+        "kobak@nvidia.com" <kobak@nvidia.com>,
+        "lcherian@marvell.com"
+	<lcherian@marvell.com>,
+        "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "peternewman@google.com"
+	<peternewman@google.com>,
+        "punit.agrawal@oss.qualcomm.com"
+	<punit.agrawal@oss.qualcomm.com>,
+        "quic_jiles@quicinc.com"
+	<quic_jiles@quicinc.com>,
+        "reinette.chatre@intel.com"
+	<reinette.chatre@intel.com>,
+        "rohit.mathew@arm.com" <rohit.mathew@arm.com>,
+        "scott@os.amperecomputing.com" <scott@os.amperecomputing.com>,
+        "sdonthineni@nvidia.com" <sdonthineni@nvidia.com>,
+        "tan.shaopeng@fujitsu.com"
+	<tan.shaopeng@fujitsu.com>,
+        "xhao@linux.alibaba.com"
+	<xhao@linux.alibaba.com>,
+        "catalin.marinas@arm.com"
+	<catalin.marinas@arm.com>,
+        "will@kernel.org" <will@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+        "maz@kernel.org" <maz@kernel.org>,
+        "oupton@kernel.org" <oupton@kernel.org>,
+        "joey.gouly@arm.com"
+	<joey.gouly@arm.com>,
+        "suzuki.poulose@arm.com" <suzuki.poulose@arm.com>,
+        "kvmarm@lists.linux.dev" <kvmarm@lists.linux.dev>,
+        "zengheng4@huawei.com"
+	<zengheng4@huawei.com>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v6 00/40] arm_mpam: Add KVM/arm64 and resctrl glue code
+Thread-Topic: [PATCH v6 00/40] arm_mpam: Add KVM/arm64 and resctrl glue code
+Thread-Index: AQHcsviCWpaD3S4DS0+oknPXpOz+F7XMhTAA
+Date: Thu, 2 Apr 2026 23:38:18 +0000
+Message-ID:
+ <DS7PR19MB6351DBDFED61A8C9A89DB391F351A@DS7PR19MB6351.namprd19.prod.outlook.com>
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+In-Reply-To: <20260313144617.3420416-1-ben.horgan@arm.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+ MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Enabled=True;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SiteId=945c199a-83a2-4e80-9f8c-5a91be5752dd;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_SetDate=2026-04-02T23:08:06.0000000Z;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Name=No
+ Protection (Label Only) - Internal
+ Use;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_ContentBits=3;MSIP_Label_73dd1fcc-24d7-4f55-9dc2-c1518f171327_Method=Standard
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS7PR19MB6351:EE_|PH7PR19MB8139:EE_
+x-ms-office365-filtering-correlation-id: 71f112c3-95a9-41c7-a266-08de9110eb00
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|7416014|786006|38070700021|18002099003|22082099003|56012099003;
+x-microsoft-antispam-message-info:
+ N/JMJbde6r9jXaFIUYR0OoQF40qp3I34Sqi3M5K7Q9Fptq7WL1X5vhJCGvTQgOpaLoGOkAoRg0DxQLxCRhw0+hi7v5dmKU9pKz1+kSMktEG78OIKqcnDTYCSvDDwCuTdjCzQ+R4tLTTD1hI6IryhXX2tHsnnyqjC+ckJveh2VuWrgQXC+UeshoXZoLDDBPkket/nSVqkD3fGOqZNAaT8yYCoRLoyvnuuPQHuw+nucOEmcU0ybJzCUVe38/6pb1kPMKRQJZNDdIA8UKHPHKZLIFzNvArZ6D43lEIAtzl7IDh0uPsMDKRVBfJun5NgwUx8Hc3xIVnayWGlQMTMcn+sY575tp5VC4PkPNgOz18qf+iFtI+Zggg+1+xM9pmiS6+S/+VV+PnWy1lRjt586buGZrm0+jig/d3TgznVnzzZ6bKk53q5ocVz7o8fLSryCB7BykXAPaWs5Q0kI+dBu1Bfn7klxqKOgWUYGox61/1v0v9wPYp2xt5mXhX6LlcDJAF4vW8Wh2viwnt569PQg5vpf6hOPU2t5XJ8MS0DwGFGGv8pxFgX+aAXxB6fCTOWOAHOeNzUA7SVy0+SodWZajybX7n9Jct96Csb065kZ1ZDEq1fbmA8HS4axjqzESXSd+mFWQOo7oSpIe4v13cU1s0itGTHZTXGTqCwtq9t+jiw8x60LGevg9VYYcMUvhwguM9SpbNqBUfoV2jHJ0v+P7tNVI6pv2sy2bZ5RHyF5xbjD6m7udoVLLM60MP5JnN5mKWHFqRZITO+h1KhZdEEErZTWYiYt6l0p78PZ6d7GyAtVhs=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR19MB6351.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(786006)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?8g1jb5baJUaz5dxv3WSJ7TdSaGIhg78+ovbXFosLvE0o6vl4qKjZX4+3Xa7h?=
+ =?us-ascii?Q?I0aGm0N+TEoAD3PMY18EZ3KAm1qGUFudrCt63vtqp9y+AWdg8upmwFCoG6gW?=
+ =?us-ascii?Q?jwUNxwh2bvcLa+ru/nMTSikE7M4NHfJpKzHtV19DtKMquHs35dC1PNegE/B6?=
+ =?us-ascii?Q?bbvSbuROR8hC1bVuTZMfa6A6niarHdW/BfCVAA9VsvPUI1KGVg4mq3PqKLb9?=
+ =?us-ascii?Q?3mXtXcnRw26WEy2qyp4Yo/Jp+IQyH8KLPf7IAXZUqEzT/NbOHDNYfplBpAeO?=
+ =?us-ascii?Q?cmmLm3TQQj7T+G8pDezY7bxgp+3O/I8L05DgBep2g8UBJSlcZpfiPmeaSaSY?=
+ =?us-ascii?Q?nhImgJDYLjpXY3W8yVsHhsccFlltxj4Gnb11SfM4a4WHs8Mnh9H5fs6feHBO?=
+ =?us-ascii?Q?XPT+f5xVqjlZIdOItZ7GmeUBEltnYAsv4f6AxuGTsgnRWyKfb4hamd8E30uj?=
+ =?us-ascii?Q?tqNG5EKZgpwZyTzZaS0oBT5wo6rnft7uHscQ/cy8AcnomDT+BDlx8ulbN51n?=
+ =?us-ascii?Q?Xx4lks9JbDdsiIQzIzgteWWZxWHPh1R8CsKQkPlNnJsbfRMaWnMMqoI1DhN5?=
+ =?us-ascii?Q?equ302nd5pLs1lMpDy4bdnOFC+GSVuvcCq+TrnHluU0TUzsEM89Dhihr33xp?=
+ =?us-ascii?Q?OCl2fWd81lr9CiIhIlMg3P59zuNh2pt2Qi87cqfqCZN/SUFN1PTlpFyRZN/R?=
+ =?us-ascii?Q?4bekmL071iUhRCnNn1FgPYOk/cVz0/fR+2JyokaWe7YpuZI1j4UqHLZx7i86?=
+ =?us-ascii?Q?3mxovS67A+So6K8mLXiK9ZcifOinFLR8E4cf23d7kHTvp5BEQBNvgK82rBZB?=
+ =?us-ascii?Q?vtmZDoxak+KIXVTBd0TgNrINwb8BNwMpKgr7gKEu28N3ujpuyh8GV6FkChVG?=
+ =?us-ascii?Q?9Knk6MQ9MvZkJOwN+v2F6AosG42k84VTvM9WZfhDU5c/4TnMbuLHehz4yegy?=
+ =?us-ascii?Q?fgkE4fZhF9qDpFv8WFmBWL/+i9rmd5QLHM/fM6AReYagORL8aA/IKIHmRAQg?=
+ =?us-ascii?Q?T3sD04RUSQQv2if+LYxaZsnZycLJwLvN1ZNYZ2ZGJG0HePajkAJ7JdW6JeRS?=
+ =?us-ascii?Q?a1rycbeZjUiYEb2XXwbgrz/gNRFEH78rRRtBC9C54l2Mm5ktNHB7fY1OA5VI?=
+ =?us-ascii?Q?F0zLVV0uHFhu9bMxw2E6d5KXRCy/TBANFy7PJZ+oGjXfqySDDIbDaTRpNefc?=
+ =?us-ascii?Q?kIZa94wZc2G5myVf9U0rwRJl+Tz8UTTU9HWarJbWIm18/0qwhkMjIyPqdTPs?=
+ =?us-ascii?Q?y3CNN7FxmQWRnuoMe8J7vYHTmn1Ia7FPE73qJgK68aTJajtxx+ZVU4F1CURL?=
+ =?us-ascii?Q?nzB4S7DlsAHX9Ykc5wzKE/P/hgW32T0sWO6rgbZS0t3TE8jMKPoisCbaxgvB?=
+ =?us-ascii?Q?2eUNf/eAAAHQhil2W3mmurimbofQQ1jZjlwo5jIe9X05OKhSMRkatxTVF1/L?=
+ =?us-ascii?Q?OcP1ReFWGcRA6L7TP2eN6p3FwwGMcky5IIyhDtgvb8nfWdSncQ2EcNI6sIrt?=
+ =?us-ascii?Q?Fmf8lf11pRvJnV7GII2/Qzhzk5+tE80nwAgHKAejv57gF0lCIz8FXizO1xQU?=
+ =?us-ascii?Q?bq7cN9L2/S7h7X35SVThmvaTuwsYdRqSv8Nbxh+wvz5SsBP1dxmZ1zWAJZTQ?=
+ =?us-ascii?Q?e0wAp6iP24jZt/VOpwdyXlvaT29Ost8IR9/sxp6sqh02NLKBV/1zlaYRtdNz?=
+ =?us-ascii?Q?mfsEHrIoi50LjQ6WaH0QeNZnpYdCgjfY5URhjazZTKnUgtT6gZ8rMwYY45Sp?=
+ =?us-ascii?Q?ui5N4J0IiQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260402094749.18879-1-frederic@kernel.org>
+X-Exchange-RoutingPolicyChecked:
+	UacYLJJDpEOgq4QjIb9KnhzZbGr0R48u0RQUh9a+qD0DaBvTll05prO5ySkX7zsQjy8CxQU5UjTKfw3i9Bud7rMyaxligEp1HKwI1WQ7eKI7Z9DsLvAIFl8zU9xjPhFUKzXEvaKnsLGjdfoK+x28863aTSTX1wmcEpft43wFCXuEW2elQZQHdSP1MFuk/JNuY9noAmsZADlXQ6EwfY/EHEuZo7ICku9AwbQqG1egGOuJB8ZYPlhNSG8uTrzB3FNp5ubXZM0mQIzW2f9yxCQbw1Hgqpc/prVkyoXt4Hb3uJllRZbW1UsefHur+QEWxAndW7mv3oqpW3Za+dTT3NKjRw==
+X-OriginatorOrg: Dell.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR19MB6351.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71f112c3-95a9-41c7-a266-08de9110eb00
+X-MS-Exchange-CrossTenant-originalarrivaltime: 02 Apr 2026 23:38:18.1189
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 945c199a-83a2-4e80-9f8c-5a91be5752dd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: zGfWIeT+JCHt2+ZRtZwQ8AWhfdwPdpoOxPdlUWf28HppX2ZX2hH9LocVxv3ecxO3kOdaCsD7tpmeO9i9hsCKQg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR19MB8139
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_04,2026-04-02_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 adultscore=0 priorityscore=1501 clxscore=1011 phishscore=0
+ bulkscore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020211
+X-Authority-Analysis: v=2.4 cv=Hp572kTS c=1 sm=1 tr=0 ts=69cefdf2 cx=c_pps
+ a=Z2e5DKjA+8LiMDv5v6mwwA==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=6gNNCFAoQcIphELLPWWu:22
+ a=fe1keu9KhAX5AoWrZvs2:22 a=iLNU1ar6AAAA:8 a=kaXEgJzuHZ3mdCDcgH8A:9
+ a=CjuIK1q_8ugA:10 a=hlJyneSgMmFPbskH-t2w:22
+X-Proofpoint-GUID: efujn-L-7jlmUNdGDMiyrqGhtXT9Jpoe
+X-Proofpoint-ORIG-GUID: efujn-L-7jlmUNdGDMiyrqGhtXT9Jpoe
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDIxMSBTYWx0ZWRfX7mYYtkr51OMb
+ 5UYm8P111vcrC1FELFy0itCrF9kvnduAI3F6Clg4HML7WmPmEuMIdz99KUTSXp3DLF/fBl3V0fL
+ zRvo/POWQ2JTH/Wk7/VRuGMZSZ02TF+GXaP5JoNl7PlCVxLpqZOLwczPjKKIW9azAXJDFZlA1Xm
+ dW4uxCwV6rF3tKCMjgLIsNu/ITrcAU8uOdhf3l4gfbGy2CcucRPgj7a5tulgxvK6C3B0u1eDpJs
+ QOObA09/MFPlC180uDyDrjrIBdFLF+BuQBjshV/EaJlyOLJkflLf4qPRRvW2cdzhwAWV18hsLIH
+ zuFfny8Rt1/y6GuzktTS9IDkDkjWj0+Uf7OcQJAVljOzM175pJYkdQJ9ZSnygmNRHw1LFu+diKa
+ YjI4+9tWNamTurE10v2euOPic+gT363iJu77mECrp6dYLlqZVBZP55AzBvRXAP1LYX2p2lPY2sj
+ K7V2iy7RVOIwz7efvtw==
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ priorityscore=1501 spamscore=0 phishscore=0 impostorscore=0 malwarescore=0
+ lowpriorityscore=0 clxscore=1011 adultscore=0 bulkscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020211
 
-On Thu, Apr 02, 2026 at 11:47:49AM +0200, Frederic Weisbecker wrote:
-> nohz_full was introduced in v3.10 in 2013, which means this
-> documentation is overdue for 13 years.
-> 
-> Fortunately Paul wrote a part of the needed documentation a while ago,
-> especially concerning nohz_full in Documentation/timers/no_hz.rst and
-> also about per-CPU kthreads in
-> Documentation/admin-guide/kernel-per-CPU-kthreads.rst
-> 
-> Introduce a new page that gives an overview of CPU isolation in general.
-> 
-> Acked-by: Waiman Long <longman@redhat.com>
-> Reviewed-by: Valentin Schneider <vschneid@redhat.com>
-> Reviewed-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-> Signed-off-by: Frederic Weisbecker <frederic@kernel.org>
+Hi Ben,
 
-Reviewed-by: Paul E. McKenney <paulmck@kernel.org>
+> This version of the mpam missing pieces series sees a couple of things
+> dropped or hidden. Memory bandwith utilization with free-running counters
+> is dropped in preference of just always using 'mbm_event' mode (ABMC
+> emulation) which simplifies the code and allows for, in the future,
+> filtering by read/write traffic. So, for the interim, there is no memory
+> bandwidth utilization support. CDP is hidden behind config expert as
+> remount of resctrl fs could potentially lead to out of range PARTIDs bein=
+g
+> used and the fix requires a change in fs/resctrl. The setting of MPAM2_EL=
+2
+> (for pkvm/nvhe) is dropped as too expensive a write for not much value.
+>
+> There are a couple of 'fixes' at the start of the series which address
+> problems in the base driver but are only user visible due to this series.
+>
 
-> ---
-> v3: Apply suggestions from Randy, Steven, Valentin, Waiman and also Sashiko!
-> 
->  Documentation/admin-guide/cpu-isolation.rst | 357 ++++++++++++++++++++
->  Documentation/admin-guide/index.rst         |   1 +
->  2 files changed, 358 insertions(+)
->  create mode 100644 Documentation/admin-guide/cpu-isolation.rst
-> 
-> diff --git a/Documentation/admin-guide/cpu-isolation.rst b/Documentation/admin-guide/cpu-isolation.rst
-> new file mode 100644
-> index 000000000000..8c65d03fd28c
-> --- /dev/null
-> +++ b/Documentation/admin-guide/cpu-isolation.rst
-> @@ -0,0 +1,357 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=============
-> +CPU Isolation
-> +=============
-> +
-> +Introduction
-> +============
-> +
-> +"CPU Isolation" means leaving a CPU exclusive to a given workload
-> +without any undesired code interference from the kernel.
-> +
-> +Those interferences, commonly pointed out as "noise", can be triggered
-> +by asynchronous events (interrupts, timers, scheduler preemption by
-> +workqueues and kthreads, ...) or synchronous events (syscalls and page
-> +faults).
-> +
-> +Such noise usually goes unnoticed. After all, synchronous events are a
-> +component of the requested kernel service. And asynchronous events are
-> +either sufficiently well-distributed by the scheduler when executed
-> +as tasks or reasonably fast when executed as interrupt. The timer
-> +interrupt can even execute 1024 times per seconds without a significant
-> +and measurable impact most of the time.
-> +
-> +However some rare and extreme workloads can be quite sensitive to
-> +those kinds of noise. This is the case, for example, with high
-> +bandwidth network processing that can't afford losing a single packet
-> +or very low latency network processing. Typically those use cases
-> +involve DPDK, bypassing the kernel networking stack and performing
-> +direct access to the networking device from userspace.
-> +
-> +In order to run a CPU without or with limited kernel noise, the
-> +related housekeeping work needs to be either shut down, migrated or
-> +offloaded.
-> +
-> +Housekeeping
-> +============
-> +
-> +In the CPU isolation terminology, housekeeping is the work, often
-> +asynchronous, that the kernel needs to process in order to maintain
-> +all its services. It matches the noises and disturbances enumerated
-> +above except when at least one CPU is isolated. Then housekeeping may
-> +make use of further coping mechanisms if CPU-tied work must be
-> +offloaded.
-> +
-> +Housekeeping CPUs are the non-isolated CPUs where the kernel noise
-> +is moved away from isolated CPUs.
-> +
-> +The isolation can be implemented in several ways depending on the
-> +nature of the noise:
-> +
-> +- Unbound work, where "unbound" means not tied to any CPU, can be
-> +  simply migrated away from isolated CPUs to housekeeping CPUs.
-> +  This is the case of unbound workqueues, kthreads and timers.
-> +
-> +- Bound work, where "bound" means tied to a specific CPU, usually
-> +  can't be moved away as-is by nature. Either:
-> +
-> +	- The work must switch to a locked implementation. E.g.:
-> +	  This is the case of RCU with CONFIG_RCU_NOCB_CPU.
-> +
-> +	- The related feature must be shut down and considered
-> +	  incompatible with isolated CPUs. E.g.: Lockup watchdog,
-> +	  unreliable clocksources, etc...
-> +
-> +	- An elaborate and heavyweight coping mechanism stands as a
-> +	  replacement. E.g.: the timer tick is shut down on nohz_full
-> +	  CPUs but with the constraint of running a single task on
-> +	  them. A significant cost penalty is added on kernel entry/exit
-> +	  and a residual 1Hz scheduler tick is offloaded to housekeeping
-> +	  CPUs.
-> +
-> +In any case, housekeeping work has to be handled, which is why there
-> +must be at least one housekeeping CPU in the system, preferably more
-> +if the machine runs a lot of CPUs. For example one per node on NUMA
-> +systems.
-> +
-> +Also CPU isolation often means a tradeoff between noise-free isolated
-> +CPUs and added overhead on housekeeping CPUs, sometimes even on
-> +isolated CPUs entering the kernel.
-> +
-> +Isolation features
-> +==================
-> +
-> +Different levels of isolation can be configured in the kernel, each of
-> +which has its own drawbacks and tradeoffs.
-> +
-> +Scheduler domain isolation
-> +--------------------------
-> +
-> +This feature isolates a CPU from the scheduler topology. As a result,
-> +the target isn't part of the load balancing. Tasks won't migrate
-> +either from or to it unless affined explicitly.
-> +
-> +As a side effect the CPU is also isolated from unbound workqueues and
-> +unbound kthreads.
-> +
-> +Requirements
-> +~~~~~~~~~~~~
-> +
-> +- CONFIG_CPUSETS=y for the cpusets-based interface
-> +
-> +Tradeoffs
-> +~~~~~~~~~
-> +
-> +By nature, the system load is overall less distributed since some CPUs
-> +are extracted from the global load balancing.
-> +
-> +Interfaces
-> +~~~~~~~~~~
-> +
-> +- Documentation/admin-guide/cgroup-v2.rst cpuset isolated partitions are recommended
-> +  because they are tunable at runtime.
-> +
-> +- The 'isolcpus=' kernel boot parameter with the 'domain' flag is a
-> +  less flexible alternative that doesn't allow for runtime
-> +  reconfiguration.
-> +
-> +IRQs isolation
-> +--------------
-> +
-> +Isolate the IRQs whenever possible, so that they don't fire on the
-> +target CPUs.
-> +
-> +Interfaces
-> +~~~~~~~~~~
-> +
-> +- The file /proc/irq/\*/smp_affinity as explained in detail in
-> +  Documentation/core-api/irq/irq-affinity.rst page.
-> +
-> +- The "irqaffinity=" kernel boot parameter for a default setting.
-> +
-> +- The "managed_irq" flag in the "isolcpus=" kernel boot parameter
-> +  tries a best effort affinity override for managed IRQs.
-> +
-> +Full Dynticks (aka nohz_full)
-> +-----------------------------
-> +
-> +Full dynticks extends the dynticks idle mode, which stops the tick when
-> +the CPU is idle, to CPUs running a single task in userspace. That is,
-> +the timer tick is stopped if the environment allows it.
-> +
-> +Global timer callbacks are also isolated from the nohz_full CPUs.
-> +
-> +Requirements
-> +~~~~~~~~~~~~
-> +
-> +- CONFIG_NO_HZ_FULL=y
-> +
-> +Constraints
-> +~~~~~~~~~~~
-> +
-> +- The isolated CPUs must run a single task only. Multitask requires
-> +  the tick to maintain preemption. This is usually fine since the
-> +  workload usually can't stand the latency of random context switches.
-> +
-> +- No call to the kernel from isolated CPUs, at the risk of triggering
-> +  random noise.
-> +
-> +- No use of POSIX CPU timers on isolated CPUs.
-> +
-> +- Architecture must have a stable and reliable clocksource (no
-> +  unreliable TSC that requires the watchdog).
-> +
-> +
-> +Tradeoffs
-> +~~~~~~~~~
-> +
-> +In terms of cost, this is the most invasive isolation feature. It is
-> +assumed to be used when the workload spends most of its time in
-> +userspace and doesn't rely on the kernel except for preparatory
-> +work because:
-> +
-> +- RCU adds more overhead due to the locked, offloaded and threaded
-> +  callbacks processing (the same that would be obtained with "rcu_nocbs"
-> +  boot parameter).
-> +
-> +- Kernel entry/exit through syscalls, exceptions and IRQs are more
-> +  costly due to fully ordered RmW operations that maintain userspace
-> +  as RCU extended quiescent state. Also the CPU time is accounted on
-> +  kernel boundaries instead of periodically from the tick.
-> +
-> +- Housekeeping CPUs must run a 1Hz residual remote scheduler tick
-> +  on behalf of the isolated CPUs.
-> +
-> +Checklist
-> +=========
-> +
-> +You have set up each of the above isolation features but you still
-> +observe jitters that trash your workload? Make sure to check a few
-> +elements before proceeding.
-> +
-> +Some of these checklist items are similar to those of real-time
-> +workloads:
-> +
-> +- Use mlock() to prevent your pages from being swapped away. Page
-> +  faults are usually not compatible with jitter sensitive workloads.
-> +
-> +- Avoid SMT to prevent your hardware thread from being "preempted"
-> +  by another one.
-> +
-> +- CPU frequency changes may induce subtle sorts of jitter in a
-> +  workload. Cpufreq should be used and tuned with caution.
-> +
-> +- Deep C-states may result in latency issues upon wake-up. If this
-> +  happens to be a problem, C-states can be limited via kernel boot
-> +  parameters such as processor.max_cstate or intel_idle.max_cstate.
-> +  More finegrained tunings are described in
-> +  Documentation/admin-guide/pm/cpuidle.rst page
-> +
-> +- Your system may be subject to firmware-originating interrupts - x86 has
-> +  System Management Interrupts (SMIs) for example. Check your system BIOS
-> +  to disable such interference, and with some luck your vendor will have
-> +  a BIOS tuning guidance for low-latency operations.
-> +
-> +
-> +Full isolation example
-> +======================
-> +
-> +In this example, the system has 8 CPUs and the 8th is to be fully
-> +isolated. Since CPUs start from 0, the 8th CPU is CPU 7.
-> +
-> +Kernel parameters
-> +-----------------
-> +
-> +Set the following kernel boot parameters to disable SMT and setup tick
-> +and IRQ isolation:
-> +
-> +- Full dynticks: nohz_full=7
-> +
-> +- IRQs isolation: irqaffinity=0-6
-> +
-> +- Managed IRQs isolation: isolcpus=managed_irq,7
-> +
-> +- Prevent SMT: nosmt
-> +
-> +The full command line is then:
-> +
-> +  nohz_full=7 irqaffinity=0-6 isolcpus=managed_irq,7 nosmt
-> +
-> +CPUSET configuration (cgroup v2)
-> +--------------------------------
-> +
-> +Assuming cgroup v2 is mounted to /sys/fs/cgroup, the following script
-> +isolates CPU 7 from scheduler domains.
-> +
-> +::
-> +
-> +  cd /sys/fs/cgroup
-> +  # Activate the cpuset subsystem
-> +  echo +cpuset > cgroup.subtree_control
-> +  # Create partition to be isolated
-> +  mkdir test
-> +  cd test
-> +  echo +cpuset > cgroup.subtree_control
-> +  # Isolate CPU 7
-> +  echo 7 > cpuset.cpus
-> +  echo "isolated" > cpuset.cpus.partition
-> +
-> +The userspace workload
-> +----------------------
-> +
-> +Fake a pure userspace workload, the program below runs a dummy
-> +userspace loop on the isolated CPU 7.
-> +
-> +::
-> +
-> +  #include <stdio.h>
-> +  #include <fcntl.h>
-> +  #include <unistd.h>
-> +  #include <errno.h>
-> +  int main(void)
-> +  {
-> +      // Move the current task to the isolated cpuset (bind to CPU 7)
-> +      int fd = open("/sys/fs/cgroup/test/cgroup.procs", O_WRONLY);
-> +      if (fd < 0) {
-> +          perror("Can't open cpuset file...\n");
-> +          return 0;
-> +      }
-> +
-> +      write(fd, "0\n", 2);
-> +      close(fd);
-> +
-> +      // Run an endless dummy loop until the launcher kills us
-> +      while (1)
-> +      ;
-> +
-> +      return 0;
-> +  }
-> +
-> +Build it and save for later step:
-> +
-> +::
-> +
-> +  # gcc user_loop.c -o user_loop
-> +
-> +The launcher
-> +------------
-> +
-> +The below launcher runs the above program for 10 seconds and traces
-> +the noise resulting from preempting tasks and IRQs.
-> +
-> +::
-> +
-> +  TRACING=/sys/kernel/tracing/
-> +  # Make sure tracing is off for now
-> +  echo 0 > $TRACING/tracing_on
-> +  # Flush previous traces
-> +  echo > $TRACING/trace
-> +  # Record disturbance from other tasks
-> +  echo 1 > $TRACING/events/sched/sched_switch/enable
-> +  # Record disturbance from interrupts
-> +  echo 1 > $TRACING/events/irq_vectors/enable
-> +  # Now we can start tracing
-> +  echo 1 > $TRACING/tracing_on
-> +  # Run the dummy user_loop for 10 seconds on CPU 7
-> +  ./user_loop &
-> +  USER_LOOP_PID=$!
-> +  sleep 10
-> +  kill $USER_LOOP_PID
-> +  # Disable tracing and save traces from CPU 7 in a file
-> +  echo 0 > $TRACING/tracing_on
-> +  cat $TRACING/per_cpu/cpu7/trace > trace.7
-> +
-> +If no specific problem arose, the output of trace.7 should look like
-> +the following:
-> +
-> +::
-> +
-> +  <idle>-0 [007] d..2. 1980.976624: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=user_loop next_pid=1553 next_prio=120
-> +  user_loop-1553 [007] d.h.. 1990.946593: reschedule_entry: vector=253
-> +  user_loop-1553 [007] d.h.. 1990.946593: reschedule_exit: vector=253
-> +
-> +That is, no specific noise triggered between the first trace and the
-> +second during 10 seconds when user_loop was running.
-> +
-> +Debugging
-> +=========
-> +
-> +Of course things are never so easy, especially on this matter.
-> +Chances are that actual noise will be observed in the aforementioned
-> +trace.7 file.
-> +
-> +The best way to investigate further is to enable finer grained
-> +tracepoints such as those of subsystems producing asynchronous
-> +events: workqueue, timer, irq_vector, etc... It also can be
-> +interesting to enable the tick_stop event to diagnose why the tick is
-> +retained when that happens.
-> +
-> +Some tools may also be useful for higher level analysis:
-> +
-> +- Documentation/tools/rtla/rtla.rst provides a suite of tools to analyze
-> +  latency and noise in the system. For example Documentation/tools/rtla/rtla-osnoise.rst
-> +  runs a kernel tracer that analyzes and output a summary of the noises.
-> +
-> +- dynticks-testing does something similar to rtla-osnoise but in userspace. It is available
-> +  at git://git.kernel.org/pub/scm/linux/kernel/git/frederic/dynticks-testing.git
-> diff --git a/Documentation/admin-guide/index.rst b/Documentation/admin-guide/index.rst
-> index b734f8a2a2c4..cd28dfe91b06 100644
-> --- a/Documentation/admin-guide/index.rst
-> +++ b/Documentation/admin-guide/index.rst
-> @@ -94,6 +94,7 @@ likely to be of interest on almost any system.
->  
->     cgroup-v2
->     cgroup-v1/index
-> +   cpu-isolation
->     cpu-load
->     mm/index
->     module-signing
-> -- 
-> 2.53.0
-> 
+I tested cache occupancy and memory bandwidth allocation on a Dell PowerEdg=
+e XE8712 with NVIDIA Grace A02P. Both seem to work as expected.
+
+For the series:
+
+Tested-by: Charles Rose <charles.rose@dell.com>
+
+Thanks,
+Charles
+
+Internal Use - Confidential
