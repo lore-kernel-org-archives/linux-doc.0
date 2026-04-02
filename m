@@ -1,170 +1,140 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71D9E3DC4CE;
-	Thu,  2 Apr 2026 12:42:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from out30-101.freemail.mail.aliyun.com (out30-101.freemail.mail.aliyun.com [115.124.30.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD082F5485;
+	Thu,  2 Apr 2026 13:23:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775133759; cv=none; b=JybTu8VO8gNZ7oOgBofOlAZl6uhTP4thhI2yXXde1BkHaEmuZde48+sOkSbHD+0Z64gr67o2VUEiJfO9YN4SFelNZHTIQfjkcaSyohVAeSddFfHfeEn7/9n8vS8TktrggUAwP4+wA8qDd/4eC3Hlg1im+smQ8AUFHxoeILQ2SnE=
+	t=1775136210; cv=none; b=Ro9ZEwGmUXLXJ2mK03V/BMhIEfk3381c/4F7q4qAHagmU8ym6OHU7rhn4ikLc9oHKLbYNgOV7IXqOheQo9y0Czr2CFnGm2iZ4Dw+j3mNW44K47Ru2zh6XhQk9yfNjq3HSnUkq5rxBJ+e/nauxITG3a2UPcUfzR+IxJghNtFtv8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775133759; c=relaxed/simple;
-	bh=eXuiAgdKHKGDwjhMoJPybkXIHLyx2xl4IR43FDNFuXQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=XA4b2YgGv6NM81KAOxdtFxHpVakTwkTfODvLA/uh1KcCWDQwficl+I2gInOA4uIZSI4S2Jib1QpKgQsrRexuKJ3ODXbPvf8KRtE2VdYiY55Sl3ELcH7EXLt+IDw8V+rPDEF+7/22VAje9EGP6kRJb8EkmA6CcxoY/C2VLKtjqE0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=Mjn/K6ku; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1775136210; c=relaxed/simple;
+	bh=sp9+vg7wwwJ605P8pPTe5UaAYU/ySz90REDSGMwh8gs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=SLxrZwdda/Ok8ACdjs3qdPfuFRxIZay7VfsqHVmb4DDooyID4pp/fSxREV6bIhnyxai8RdGa6kWkUAaix1MLBgfwuytQH5rqpe+YqrPrejEXvohunw2UQ4MLU1fKFvwxfcnGhSkRFhGY/njtEfYuDgmLFl4bDQ46rwCndlaKNh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=W4vBdvZa; arc=none smtp.client-ip=115.124.30.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="Mjn/K6ku"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A2B312C43;
-	Thu,  2 Apr 2026 05:42:21 -0700 (PDT)
-Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 534263F915;
-	Thu,  2 Apr 2026 05:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1775133747; bh=eXuiAgdKHKGDwjhMoJPybkXIHLyx2xl4IR43FDNFuXQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Mjn/K6kuBcKdeIR3d/RDCeq8IGk9fAR4uLseX84J6PK0lk7X6fvW7GsGpxYK69NPz
-	 TagyLFaP67hiiK+hPeAtNGk5rtn59RNu2q84pljWIfC0qxjiqqLoVRn17vHnIWfIIm
-	 xNx6D9GvNhQE/O10koxyjTdCvO9Xx4q/DRG6csNA=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="W4vBdvZa"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775136203; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=L0+vAMwC3IiugLJKhUSRlglaj83UWioIkkheO8aLeaM=;
+	b=W4vBdvZalY35fWDI88AzGdBjPNqmKmQQRCYHS+sHYoLo3tJ7ZvIlMSqz5uYsj07VecfaG94suRb9DQ1GWWGC+JswDxnDBCuAKM6ZZ3DWiseSmPLjOA8vSNR7NbGbS6olRYdB2I5DYovEJ5jvzMtXOYCoFfnK+0lL5KNbTliTAgQ=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R181e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=fangyu.yu@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X0HNDCg_1775136200;
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0X0HNDCg_1775136200 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 02 Apr 2026 21:23:22 +0800
+From: fangyu.yu@linux.alibaba.com
+To: pbonzini@redhat.com,
 	corbet@lwn.net,
-	pbonzini@redhat.com,
-	will@kernel.org,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	liuyonglong@huawei.com,
-	Jonathan.Cameron@huawei.com,
-	yezhenyu2@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
+	anup@brainfault.org,
+	atish.patra@linux.dev,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	skhan@linuxfoundation.org
+Cc: guoren@kernel.org,
+	radim.krcmar@oss.qualcomm.com,
+	andrew.jones@oss.qualcomm.com,
 	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	suzuki.poulose@arm.com
-Subject: Re: [PATCH v3 0/5] Support the FEAT_HDBSS introduced in Armv9.5
-Date: Thu,  2 Apr 2026 13:42:17 +0100
-Message-ID: <ac5kKQZEnS93qdDm@devkitleo>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <730aaffa-9dfd-40c3-a372-c774d203b6e1@huawei.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com> <acvWnjG0AZBHL21q@devkitleo> <730aaffa-9dfd-40c3-a372-c774d203b6e1@huawei.com>
+	Fangyu Yu <fangyu.yu@linux.alibaba.com>
+Subject: [PATCH v7 0/4] Support runtime configuration for per-VM's HGATP mode
+Date: Thu,  2 Apr 2026 21:22:59 +0800
+Message-Id: <20260402132303.6252-1-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 02, 2026 at 10:40:37AM +0800, Tian Zheng wrote:
-> 
-> On 3/31/2026 10:13 PM, Leonardo Bras wrote:
-> > On Wed, Feb 25, 2026 at 12:04:16PM +0800, Tian Zheng wrote:
-> > > This series of patches add support to the Hardware Dirty state tracking
-> > > Structure(HDBSS) feature, which is introduced by the ARM architecture
-> > > in the DDI0601(ID121123) version.
-> > > 
-> > > The HDBSS feature is an extension to the architecture that enhances
-> > > tracking translation table descriptors' dirty state, identified as
-> > > FEAT_HDBSS. This feature utilizes hardware assistance to achieve dirty
-> > > page tracking, aiming to significantly reduce the overhead of scanning
-> > > for dirty pages.
-> > > 
-> > > The purpose of this feature is to make the execution overhead of live
-> > > migration lower to both the guest and the host, compared to existing
-> > > approaches (write-protect or search stage 2 tables).
-> > > 
-> > > After these patches, users(such as qemu) can use the
-> > > KVM_CAP_ARM_HW_DIRTY_STATE_TRACK ioctl to enable or disable the HDBSS
-> > > feature before and after the live migration.
-> > > 
-> > > v2:
-> > > https://lore.kernel.org/linux-arm-kernel/20251121092342.3393318-1-zhengtian10@huawei.com/
-> > > 
-> > > v2->v3 changes:
-> > > - Remove the ARM64_HDBSS configuration option and ensure this feature
-> > > is only enabled in VHE mode.
-> > > - Move HDBSS-related variables to the arch-independent portion of the
-> > > kvm structure.
-> > > - Remove error messages during HDBSS enable/disable operations
-> > > - Change HDBSS buffer flushing from handle_exit to vcpu_put,
-> > > check_vcpu_requests, and kvm_handle_guest_abort.
-> > > - Add fault handling for HDBSS including buffer full, external abort,
-> > > and general protection fault (GPF).
-> > > - Add support for a 4KB HDBSS buffer size, mapped to the value 0b0000.
-> > > - Add a second argument to the ioctl to turn HDBSS on or off.
-> > > 
-> > > Tian Zheng (1):
-> > >    KVM: arm64: Document HDBSS ioctl
-> > > 
-> > > eillon (4):
-> > >    arm64/sysreg: Add HDBSS related register information
-> > >    KVM: arm64: Add support to set the DBM attr during memory abort
-> > >    KVM: arm64: Add support for FEAT_HDBSS
-> > >    KVM: arm64: Enable HDBSS support and handle HDBSSF events
-> > > 
-> > >   Documentation/virt/kvm/api.rst       |  16 +++++
-> > >   arch/arm64/include/asm/cpufeature.h  |   5 ++
-> > >   arch/arm64/include/asm/esr.h         |   7 ++
-> > >   arch/arm64/include/asm/kvm_host.h    |  17 +++++
-> > >   arch/arm64/include/asm/kvm_mmu.h     |   1 +
-> > >   arch/arm64/include/asm/kvm_pgtable.h |   4 ++
-> > >   arch/arm64/include/asm/sysreg.h      |  11 +++
-> > >   arch/arm64/kernel/cpufeature.c       |  12 ++++
-> > >   arch/arm64/kvm/arm.c                 | 102 +++++++++++++++++++++++++++
-> > >   arch/arm64/kvm/hyp/pgtable.c         |   6 ++
-> > >   arch/arm64/kvm/hyp/vhe/switch.c      |  19 +++++
-> > >   arch/arm64/kvm/mmu.c                 |  70 ++++++++++++++++++
-> > >   arch/arm64/kvm/reset.c               |   3 +
-> > >   arch/arm64/tools/cpucaps             |   1 +
-> > >   arch/arm64/tools/sysreg              |  29 ++++++++
-> > >   include/uapi/linux/kvm.h             |   1 +
-> > >   tools/include/uapi/linux/kvm.h       |   1 +
-> > >   17 files changed, 305 insertions(+)
-> > > 
-> > > --
-> > > 2.33.0
-> > > 
-> > 
-> > Hi Tian,
-> > 
-> > I was thinking: maybe instead of putting the HDBSS (and HACDBS) stuff
-> > across a bunch of KVM files, we should try to focus them all on a single
-> > arch/arm64/kvm/dirty_bit.c file (plus a header such as
-> > arch/arm64/include/asm/kvm_dirty_bit.h).
-> > 
-> > What is your opinion on that?
-> > 
-> > Thanks!
-> > Leo
-> 
-> 
-> Sorry for the late reply. Yes, I had the same thought before. In the next
-> version, I will
-> 
-> move all the HDBSS-related content into the same file, such as
-> arch/arm64/kvm/dirty_bit.c
-> 
-> and arch/arm64/include/asm/kvm_dirty_bit.h.
-> 
-> 
-> Tian
-> 
-> 
-> > 
-> > 
+From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
 
+Currently, RISC-V KVM hardcodes the G-stage page table format (HGATP mode)
+to the maximum mode detected at boot time (e.g., SV57x4 if supported). but
+often such a wide GPA is unnecessary, just as a host sometimes doesn't need
+sv57.
 
-Awesome! Then I will work my HACDBS enablement that way as well.
+This patch introduces per-VM configurability of the G-stage mode via a new
+KVM capability: KVM_CAP_RISCV_SET_HGATP_MODE. User-space can now explicitly
+request a specific HGATP mode (SV39x4, SV48x4, SV57x4 or SV32x4) during
+VM creation.
 
-Thanks!
-Leo
+---
+Changes in v7 (Anup's suggestions):
+    - Keep the original HGATP mode probing logic.
+    - Link to v6:
+      https://lore.kernel.org/linux-riscv/20260330122601.22140-1-fangyu.yu@linux.alibaba.com/
+---
+Changes in v6 (Anup's suggestions):
+    - Reworked kvm_riscv_gstage_gpa_bits() and kvm_riscv_gstage_gpa_size() to
+      take "unsigned long pgd_levels" instead of "struct kvm_arch *".
+    - Moved kvm_riscv_gstage_mode() helper from kvm_host.h to kvm_gstage.h.
+    - Renamed kvm->arch.kvm_riscv_gstage_pgd_levels to kvm->arch.pgd_levels.
+    - Added pgd_levels to struct kvm_gstage to avoid repeated
+      gstage->kvm->arch pointer chasing.
+    - Link to v5:
+      https://lore.kernel.org/linux-riscv/20260204134507.33912-1-fangyu.yu@linux.alibaba.com/
+---
+Changes in v5:
+    - Use architectural HGATP.MODE encodings as the bit index for the supported-mode
+      bitmap and for the VM-mode selection UAPI; no new UAPI mode/bit defines are
+      introduced(per Radim).
+    - Allow KVM_CAP_RISCV_SET_HGATP_MODE on RV32 as well(per Drew).
+    - Link to v4:
+      https://lore.kernel.org/linux-riscv/20260202140716.34323-1-fangyu.yu@linux.alibaba.com/
+---
+Changes in v4:
+    - Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE values
+      supported by the host and record them in a bitmask.
+    - Treat unexpected pgd_levels in kvm_riscv_gstage_mode() as an internal error
+      (e.g. WARN_ON_ONCE())(per Radim).
+    - Move kvm_riscv_gstage_gpa_bits() and kvm_riscv_gstage_gpa_size() to header
+      as static inline helpers(per Radim).
+    - Drop gstage_mode_user_initialized and Remove the kvm_debug() message from
+      KVM_CAP_RISCV_SET_HGATP_MODE(per Radim).
+    - Link to v3:
+      https://lore.kernel.org/linux-riscv/20260125150450.27068-1-fangyu.yu@linux.alibaba.com/
+---
+Changes in v3:
+    - Reworked the patch formatting (per Drew).
+    - Dropped kvm->arch.kvm_riscv_gstage_mode and derive HGATP.MODE from
+      kvm_riscv_gstage_pgd_levels via a helper, avoiding redundant per-VM state(per Drew).
+    - Removed kvm_riscv_gstage_max_mode and keep only kvm_riscv_gstage_max_pgd_levels
+      for host capability detection(per Drew).
+    - Other initialization and return value issues(per Drew).
+    - Enforce that KVM_CAP_RISCV_SET_HGATP_MODE can only be enabled before any vCPUs
+      are created by rejecting the ioctl once kvm->created_vcpus is non-zero(per Radim).
+    - Add a memslot safety check and reject the capability unless
+      kvm_are_all_memslots_empty(kvm) is true, ensuring the G-stage format is not
+      changed after any memslots have been installed(per Radim).
+    - Link to v2:
+      https://lore.kernel.org/linux-riscv/20260105143232.76715-1-fangyu.yu@linux.alibaba.com/
+
+Fangyu Yu (4):
+  RISC-V: KVM: Support runtime configuration for per-VM's HGATP mode
+  RISC-V: KVM: Cache gstage pgd_levels in struct kvm_gstage
+  RISC-V: KVM: Detect and expose supported HGATP G-stage modes
+  RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
+
+ Documentation/virt/kvm/api.rst      | 27 ++++++++++
+ arch/riscv/include/asm/kvm_gstage.h | 58 ++++++++++++++++++---
+ arch/riscv/include/asm/kvm_host.h   |  1 +
+ arch/riscv/kvm/gstage.c             | 78 ++++++++++++++++-------------
+ arch/riscv/kvm/main.c               | 12 ++---
+ arch/riscv/kvm/mmu.c                | 70 ++++++++------------------
+ arch/riscv/kvm/vm.c                 | 20 ++++++--
+ arch/riscv/kvm/vmid.c               |  3 +-
+ include/uapi/linux/kvm.h            |  1 +
+ 9 files changed, 169 insertions(+), 101 deletions(-)
+
+-- 
+2.50.1
+
