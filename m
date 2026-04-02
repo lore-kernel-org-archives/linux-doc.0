@@ -1,204 +1,253 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 824903EF657
-	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 14:56:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775141779; cv=none; b=uaXZIqwcY8Q85wnOZSjPe1AhDPq9kXnUDutHK3um08NqU56yoZpVJHUaOlZglz0x0QzSHeNKnrvWnZ3nskMbKSFs4Y/Qjj5rSctghDJjS5JoNwt5af+Yxrm33ZlZXa/1tSBn8vUzhvwD4KDMPnrboPEmTegAxBVdXkujKTycNJ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775141779; c=relaxed/simple;
-	bh=NAle46u/5avuxsi8hpP/66pIOLqvOoFx5eK4UUbxdwQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Iz2xOpcXKqNoJcpGjhWZHL/O14fPcZ8hlT2qKcal5Dlt1NA8Yu9tHAbhhZD6KM753wGFLX5hG4ToE8Lc60Kl1/ooN8STeEBwCUIwsz91bHI1aXLoE1lQgPvpD/NT66/kx4ITilniC427w/6pSPNyTtCMUv3i9RjZt3SJZ5SnlDI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=O0imsMf3; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=UjLei42b; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7807F35A3B2
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 15:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775144758; cv=pass; b=HzQMbSEdsHgQzM421Bca23ghAFKZjrilYblMRHFmkHQZHO6Z3qP7OanAnNEBLbqWomVUP+Lfw1TPegoVOWonsEcCjqpMR28r/wEZQ8giqfo2tNS+GK93cLq9K5vZU/4coJDZzqCkYLoLF3rqEAIwi0x0VUxFBdaJ6nlabAwWT+c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775144758; c=relaxed/simple;
+	bh=/pTHh1FwlwKHTpQht+ePSPn6d2XZSZ5XYd3TyLXK26A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pKMvpxPXLvc3R9xra5EESiKTFpkeqB738cDtK4v/L10aYUbgCDwlhwyw8kcpBiK30TyQaAbo/Gppln/KABzrehhDKpxLgIwllTzCOpv4FvWE2jd7Af1U5ckt5I5+dfbKXtyhtogGOWRGRjCaftoVhsSEKr+AHgU1kn0x1se5b2I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yl7+vEM/; arc=pass smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="O0imsMf3";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="UjLei42b"
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632CgbXC3956631
-	for <linux-doc@vger.kernel.org>; Thu, 2 Apr 2026 14:56:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	37FTNICNHCEbZbleh34LldopVFeJEOpx2/mQKFn/W30=; b=O0imsMf3s8UXpbz4
-	wzgmd1j4wyZRZ8mgBmBmm5nfx3j5oGINXTLEks+ACqgD3bb/ZuzNrU0eAs1dVNS8
-	gIMKzDNUtV/Uegb4++tlu0VtsmEeAwObpRK2CMfZeXbHIIA0HihOtxyO0t14a/DH
-	raKnZOCxlHtHZ/b3//GzCwnIhPYfDXXaUo9k6n4FLsrL3aRHR672fltxz3wJBsK2
-	b7pMwlgtLc5Aou2r7nwg8GCwgni2I/rGaB0dll82Xzj1o20hYvC+7b/pdRxXhLwS
-	bq89CxgPkcoBDzewLAk7TLuooTn9spLfgIU1OyKp+GYpeHtgSw+G5VuySOITNPul
-	vb6wvQ==
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4d9aw5ks6a-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 14:56:15 +0000 (GMT)
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-50b274f94f8so3969001cf.1
-        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 07:56:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yl7+vEM/"
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5a2b636b944so1180132e87.1
+        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 08:45:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775144754; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TnAu4YnYuoAaBhSdLpdWmfPU3Mzpf5/X+/EJ+7CgCsJcABV0TTmWebrIp9onp39Toh
+         ZjFUBdp3FeEjl4lmeAEnnm2aOCcfrZf5cdpTaEwWXVnrr+emM/ApSH/V3lgQAaj1kJw5
+         3yc7WNzMZjbJB43Y9olCRzHQV59jan3S8Tyv1C/atcvDuruywOd6ZI3RHw1eVqOlZkMu
+         JofD5hQcWApgkzmd8cm+qJk0S7kbNueXnz8UOQnwWPRhU9lFl/1IMs/+MhvtKcWBuca0
+         M89hDVCbXckmV3CpUdbtFnt3W6W5COjONQ2j2Vk1eeYjrgfMv/orZWEEAU34HI9BMi5E
+         tnbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=v8pXqmHG/qA51T0dr7MQi7kX0TYmgPL+L8IrHwbfF3E=;
+        fh=CS249V2yJRLIJ8ADwEP7QE+Uk+t9YX7On3r3JYpo00s=;
+        b=BAEqHfOBZ++jL61CTszC8CJLdOiw4LRK0UtNiOkZFD0W9nB8a6FFYptf8zB+6F9HN2
+         jve99hhMM2Pn/d/yEzP3ddW87ozraKXVH6rKGZvo03Gza2NuEbCSUzvNKqXtyym4H0Sf
+         kqVYZlX5NJv2ZirnED/dEr+9LmR7RQIX4R8wB7D5EWbYsi7R9oCZ6u8R//PqIdPzDzdL
+         duU1ZS2lJlzXY1U1XWPonaQmdXb04guRhrivfv4kPxmQ4JKzHPWR/bR2o844wF8zdzq8
+         HZCkvJP60z+ZJEy/8TOU0ZybV3KRfwqBOkSjMJwY46hzlrZ4Z4awazKlI1ZWhy2V2ku0
+         YgTw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775141775; x=1775746575; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=37FTNICNHCEbZbleh34LldopVFeJEOpx2/mQKFn/W30=;
-        b=UjLei42bBwG4S0QB5Rwvg/yQGazn9FWl8RpoMVr4xcWR03S+HBWEHMX1pOpx0vVawi
-         GYjRHgCQ0DV6gPeWFfjVxvfelhD0J07qgRSZza8Fm9BjDd2VNdR/D5FSdJntZPBZqEFH
-         iQQ+uP3YC3Tza1SS/618Qaa9BTon3XB0ov8pU01VbHtG9c2rgoGb6F332jDeDGmkO6aZ
-         aV+pH0PHajNWQ24NhMfsw3TIWorx2wIbwva1SYbOr8So09858xRWZ1vR5HT6ttszZa1x
-         Oh60GTcdEvvPnZd9xSnRbjzels0FJ86JdO9wU4DpYDT+AmwGbtoD11h1iJEvtbieC6KT
-         cc+A==
+        d=gmail.com; s=20251104; t=1775144754; x=1775749554; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=v8pXqmHG/qA51T0dr7MQi7kX0TYmgPL+L8IrHwbfF3E=;
+        b=Yl7+vEM//XPrp7wX+dwUboJmURpCGQYJc2d/beW6DoLNGX4ymoyNKbh6PMK801M2dK
+         junoT4IHnwP5qM+6lL8OHB5NpAJ3JffaDP+iDLrBgcOdt6PkhXQGnGEqsVVtgTv8QlGl
+         bi8bxbvaCtdoyRNl0WHx1FO5e6kSaZTeU8DZKZGmV+/La9ew1Y7gN0OJ7kwItgpyqgud
+         tmV8FjtwLAXBH7wcY3DKufwee/hBk9nzlctrd6Do7e8/vdrMYXaApwdNLtph92wUm6NZ
+         gfrfEbaKCUQ7IleIgrz60/ntJFxmy0ICKlD4Usv9zw0NgVLyXEFy+tDLlscED+N0B7Tm
+         Tjfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775141775; x=1775746575;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=37FTNICNHCEbZbleh34LldopVFeJEOpx2/mQKFn/W30=;
-        b=QOVVYPeJ2M1paFZj+GIip6sC6xYTDM3GkhgMuEB1uHysxV2OaZTrbyn597lwdO86rU
-         MOTyb/QBj/F9IWAs+P/mvzFhEzW/Gclr2Wdp/dB2/frEIjUVooLQeCRw5g3uLizyvoSq
-         NVECYFMy24YjCN4+8+g4byxGj4LecQuUw8Kmr0LEO6crxJCVVQ7fKIcx8TtjZs/RLT7t
-         mOCHFywxSky7A51lqNaTZ/fxj1L6s5+kmt13Fgr1hFXRNz67niOyodotdjAafLsi3mwZ
-         ArhOseNKBa3YISsvbWdCUJFcSETUrMBwAv7hT3h1GhjBvPEimggIWCmAP03J1hZTjpiv
-         RQ/w==
-X-Forwarded-Encrypted: i=1; AJvYcCUVYFeFhLWB2OyNcO0FNSgMIm2qMVYOfmmFSXB2eZ6BifWzpZ/oJWrGxqX3jlOBI0DXLJAwT0Xkoio=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyuA7gMX+6GQrx54gde0wtkx6wLHMhVphSVogBJRU0yszcLMP1B
-	MkT7+QoK305cSjo9e0OH6te7avHjgQaBACYRkmBS4z70m6IMTUNkJ6xxJk1AQJOSrv7K5baJntp
-	R/iHhD6fTOPgAlC+SQjl50RlvJwj17e+ClGOREPU4pQfNN2jp2CpOMeAIDfNqx2s=
-X-Gm-Gg: ATEYQzxxxKdUYv/cYVqz2opHNZ9ykembR2M+GI0dSjGuURfGljowMzJNo+hRaOwwMxG
-	37ZzMPyx+9jJezKqQ3aYy2BYVIjbXDdNWvNjDpBlwlWKNxGFSyathLsirhXCzQYSU14HyQzk55X
-	WcKfGVrvnSEtQBqHYqwK/mOvEV5OPUedfrS68XijouCU7614liIMG4xK1LBzH2Tg5eAQCV4QNpA
-	H1z+wCCg8vtSqQjcHaeES67xG0yhZ1jY+/ogJRNlPGjhfFFvSc2o7a1cwSkkvJWm8LQY4lkvy9/
-	ULPYk3b3+rmNAi3a0XscJc890hLzweXD8EogiZI1Pzl5YG7n+PePD2VdzplykGci5xOuMxjhK8l
-	3r/wXqpfI8HV585U/IeMTr5Bnnr3ToWgyf5JWt9iH5PZ/s6GId67y
-X-Received: by 2002:a05:622a:310:b0:50b:6fbe:62b9 with SMTP id d75a77b69052e-50d4fc81a69mr29681571cf.28.1775141774746;
-        Thu, 02 Apr 2026 07:56:14 -0700 (PDT)
-X-Received: by 2002:a05:622a:310:b0:50b:6fbe:62b9 with SMTP id d75a77b69052e-50d4fc81a69mr29681071cf.28.1775141774280;
-        Thu, 02 Apr 2026 07:56:14 -0700 (PDT)
-Received: from brgl-qcom.local ([2a01:cb1d:dc:7e00:4ff1:3e57:22ec:dadc])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4f5294sm7234038f8f.35.2026.04.02.07.56.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Apr 2026 07:56:13 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Date: Thu, 02 Apr 2026 16:55:23 +0200
-Subject: [PATCH v15 12/12] crypto: qce - Communicate the base physical
- address to the dmaengine
+        d=1e100.net; s=20251104; t=1775144754; x=1775749554;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v8pXqmHG/qA51T0dr7MQi7kX0TYmgPL+L8IrHwbfF3E=;
+        b=CmRhjjsZZAuQWcH6zZ4abUv8WAKC1mfECO5VHfD8okRpXI28RjXKJdLFQabH9EM70l
+         u6fxqZ9d5sk3TqeasjKNtiV/8gzytvG0Ae5JEJ4kII0XDeMa1MiTJmecsq4shsCq1LI0
+         gkn9MfEH0DZT5+905PFgXbjGOqy5DIegT/+aT209ZKhapcUiB112plLydlbtyWW0fym0
+         2iuzFRkB7/+0b7114x3Fki/QzpeeaTsQVFdcidPWXxBO55m8swlG6zjbbJNxWyW06Yji
+         QreV5Z0gpntBu3xc9+wB/vR6Ot3/7CY4sw3eA2f4rB0Lkf+HIWuX/6KD8i7ESbKv6yJu
+         CMcA==
+X-Forwarded-Encrypted: i=1; AJvYcCVJCkoIOVdVjW9aggcv/5wo6JlzMRP4PtITXvWXi7FxL7AwkWq8MjvQ2dy6VKuD+oANl+3AeOInbos=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKSYsOTMfWJatHTCEQ+LJ+iMI3GmHryrQYESltJtzfMMvXMhh4
+	AtxBs8vY2zvvx8tyYrNrBeFmH/yePJvNEF1U80ssfkxX4YbVAMPc+uNhdoWyrNLv+1WrFZYRBCG
+	vkJw/M2fp7Y/0D3bwPNfFc+9fGOAco/L4rA==
+X-Gm-Gg: ATEYQzypd4QBHIDzLRR7sO+sW8n9YjCD9vyQ/jbX89EQe0BgB5x96ztNwNr4ggp+knv
+	bAsEdJp6fibZmaJdHngAyjvmNjiK1da3/X/S73ovjcb9coHiqB2m/Byew6O4UuzqsxasGTx3dVy
+	cG7lHgar+/iTVeG7PYjLOeaqyp35Ty/BL1o4JdE6Ipa7CEKw5WKRCdfgorjVakF7VW9fizZZs1C
+	RE8Bs7wfd4imxH0XNAcyfNdSXGmK9C+3CK8k3m7+vLLL79ZQTpCK6Ei1OjmFxreVC+xVao1J9iH
+	jiA+OOYhkIgvfrOj0kPsCOPrZku6YOrPfntAOVNkjhMvGSpQMEZXMBZXCzSoYcrzfzJifLSTQA=
+	=
+X-Received: by 2002:a05:6512:238e:b0:5a1:26f7:71b with SMTP id
+ 2adb3069b0e04-5a2c1c9b911mr3539069e87.0.1775144753402; Thu, 02 Apr 2026
+ 08:45:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260402-qcom-qce-cmd-descr-v15-12-98b5361f7ed7@oss.qualcomm.com>
-References: <20260402-qcom-qce-cmd-descr-v15-0-98b5361f7ed7@oss.qualcomm.com>
-In-Reply-To: <20260402-qcom-qce-cmd-descr-v15-0-98b5361f7ed7@oss.qualcomm.com>
-To: Vinod Koul <vkoul@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Thara Gopinath <thara.gopinath@gmail.com>,
-        Herbert Xu <herbert@gondor.apana.org.au>,
-        "David S. Miller" <davem@davemloft.net>,
-        Udit Tiwari <quic_utiwari@quicinc.com>,
-        Md Sadre Alam <mdalam@qti.qualcomm.com>,
-        Dmitry Baryshkov <lumag@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Stephan Gerhold <stephan.gerhold@linaro.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Peter Ujfalusi <peter.ujfalusi@gmail.com>,
-        Michal Simek <michal.simek@amd.com>, Frank Li <Frank.Li@kernel.org>
-Cc: dmaengine@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        brgl@kernel.org, Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1578;
- i=bartosz.golaszewski@oss.qualcomm.com; h=from:subject:message-id;
- bh=NAle46u/5avuxsi8hpP/66pIOLqvOoFx5eK4UUbxdwQ=;
- b=owEBbQKS/ZANAwAKAQWdLsv/NoTDAcsmYgBpzoN1rL94PjnofpbfnmY9zW3YhDG0gLJ6WcfBN
- VwpH6fx3+eJAjMEAAEKAB0WIQSR5RMt5bVGHXuiZfwFnS7L/zaEwwUCac6DdQAKCRAFnS7L/zaE
- wyzCD/4qBTYL9xjoSE4Nu12ZWiccYQZk369fh1ufLC778tY8l97gBhcQNTuH0sAqanMIqyLPJWB
- PLl6fEZBBKJF4Rd4OqERxB6kv4Rm1/kDg9rxtW4mp5qrJwDCpTBcJ1KVSy4Lzf2W1xXafHSHgvj
- 4ZmSF4rb/jXfL5KpHjoiIhIILZi4meKncS+g3M8C4FsLVm37zWiwCfVUga3rTNy/evEKjLR/ks0
- ohBtsZVB9Prwm6fgTa3Y9VXCO2RsT+mmDuXnSJbjNyijxf4Lwm0rVj5cLwkus8/X5+YLjdFAI4l
- pxPAnEsxN36HsK+8EzZuddZ5nToYDdiaW3XBKv9LcjiQsvIenxG44QLK6L3x+zoZoXGjQG8rbUu
- 2ITGUH1jWhAXZ1JW3HOUb3TfA03rHbB0fn1CT/hfEe2QzYZCZYa/o14MK89zc5LFhaeKtrF5jUI
- SlOfynmMX8vdDtdG3R6cWd79LsdSZT6qsHghAiwW6M4NCerMO/sXiktcpt95KMw4OJPclmImo0q
- IH3kRVe6ChDLEmulFuHZ4XuppilSA4oMbsunrAVxIt7fW88Po3J/IOKRSQVFHInkqS6IqDmNj4V
- mTDi0rWDjmjaPxur4wyuVf+GB8CXip0J/9IOYbc/toHkAaH8mcw+0jBjWOtFL/c68pepGzmd25F
- Zc3yS3si1TqgG4Q==
-X-Developer-Key: i=bartosz.golaszewski@oss.qualcomm.com; a=openpgp;
- fpr=169DEB6C0BC3C46013D2C79F11A72EA01471D772
-X-Authority-Analysis: v=2.4 cv=Q9jfIo2a c=1 sm=1 tr=0 ts=69ce838f cx=c_pps
- a=EVbN6Ke/fEF3bsl7X48z0g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8
- a=TFgmKHP77OfOvYwKDSoA:9 a=QEXdDO2ut3YA:10 a=a_PwQJl-kcHnX1M80qC6:22
-X-Proofpoint-GUID: 7AZmLwy055fc4SfCiK10VB_d6gyKEQLh
-X-Proofpoint-ORIG-GUID: 7AZmLwy055fc4SfCiK10VB_d6gyKEQLh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDEzNCBTYWx0ZWRfXyqpMe3wLx2u9
- s8mo9QMefJjYxkOIoeJ1Vhd7XgH9//6UL5IQFImoCEUR1G9NbDFA20FibSHO7wwOX2KkmALv8QN
- QBMpYHF6whAv9F5m2OfiV7i49+tOv87CEGy42e/9O6N1HN7gBG4dRKBpj9afu+zLpnRZun+fFYz
- A2uft3MWOrLDiWXOgs5j4qRp8qv4bNhbV5BmCaengm3+lx5r6UKTRbWoKUPnQ1eAOV9iW+CmfPk
- vsiibIzMuHc74kPyYgivAywp/TD4Aau4ZU+AraRjHc+IL2EO67U3Y9HGzneDt3hpuy9ugGnEKGN
- nDS7Cl863td+UiCMypZ5SpeSdsDCGZTsbazfRI/R1Vhv9W0ncL8en9grruCfdCO9BxDHooLMrA7
- mhg0vG48PrlPiizIzPh8shGHWBcCI9YZzGKc8jevrUUbz835bTKDfDAfYn5hVoweFGX6J4S4hpY
- Gmc1Gj2WCBeS1KItt5g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-02_02,2026-04-02_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 malwarescore=0 spamscore=0 phishscore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 suspectscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2603050001
- definitions=main-2604020134
+References: <20260205135842.20517-1-seokwoo.chung130@gmail.com>
+ <20260205135842.20517-5-seokwoo.chung130@gmail.com> <20260324131204.735c60133288e94718f20d31@kernel.org>
+In-Reply-To: <20260324131204.735c60133288e94718f20d31@kernel.org>
+From: Ryan Chung <seokwoo.chung130@gmail.com>
+Date: Thu, 2 Apr 2026 11:45:42 -0400
+X-Gm-Features: AQROBzDhQBJMUd2pX45KTasnqGiAEY84CyM8ttQPZa50vwWtIMxIkKUtK7Q78K4
+Message-ID: <CAB1jyqw_6wepbDaKi7087GDUcJ9t1jQO6qP9pa0DWCjti7ABZg@mail.gmail.com>
+Subject: Re: [PATCH v6 4/4] selftests/ftrace: Add accept cases for fprobe list syntax
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: rostedt@goodmis.org, corbet@lwn.net, shuah@kernel.org, 
+	mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-In order to communicate to the BAM DMA engine which address should be
-used as a scratchpad for dummy writes related to BAM pipe locking,
-fill out and attach the provided metadata struct to the descriptor.
+Hi Masami,
 
-Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
----
- drivers/crypto/qce/dma.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+Thank you for your feedback. Unfortunately, I am not in the position
+to continue working on this patch series for the foreseeable future.
+If you or anyone else on the list would like to pick it up and carry
+it forward, you are welcome to do so. I appreciate your time and
+effort on this.
 
-diff --git a/drivers/crypto/qce/dma.c b/drivers/crypto/qce/dma.c
-index 5c42fc7ddf01e11a6562d272ba7c90c906e0e312..7d214ed6f703e6ea0c8b6dbb1d7620fcaf4d5163 100644
---- a/drivers/crypto/qce/dma.c
-+++ b/drivers/crypto/qce/dma.c
-@@ -11,6 +11,7 @@
- 
- #include "core.h"
- #include "dma.h"
-+#include "regs-v5.h"
- 
- #define QCE_IGNORE_BUF_SZ		(2 * QCE_BAM_BURST_SIZE)
- #define QCE_BAM_CMD_SGL_SIZE		128
-@@ -43,6 +44,10 @@ void qce_clear_bam_transaction(struct qce_device *qce)
- 
- int qce_submit_cmd_desc(struct qce_device *qce)
- {
-+	struct bam_desc_metadata meta = {
-+		.scratchpad_addr = qce->base_phys + REG_VERSION,
-+		.direction = DMA_MEM_TO_DEV,
-+	};
- 	struct qce_desc_info *qce_desc = qce->dma.bam_txn->desc;
- 	struct qce_bam_transaction *bam_txn = qce->dma.bam_txn;
- 	struct dma_async_tx_descriptor *dma_desc;
-@@ -64,6 +69,12 @@ int qce_submit_cmd_desc(struct qce_device *qce)
- 		return -ENOMEM;
- 	}
- 
-+	ret = dmaengine_desc_attach_metadata(dma_desc, &meta, 0);
-+	if (ret) {
-+		dma_unmap_sg(qce->dev, bam_txn->wr_sgl, bam_txn->wr_sgl_cnt, DMA_TO_DEVICE);
-+		return ret;
-+	}
-+
- 	qce_desc->dma_desc = dma_desc;
- 	cookie = dmaengine_submit(qce_desc->dma_desc);
- 
+Best regards,
+Seokwoo Chung
 
--- 
-2.47.3
-
+On Tue, 24 Mar 2026 at 00:12, Masami Hiramatsu <mhiramat@kernel.org> wrote:
+>
+> On Thu,  5 Feb 2026 08:58:42 -0500
+> "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
+>
+> > Add fprobe_list.tc to test the comma-separated symbol list syntax
+> > with :entry/:exit suffixes.  Three scenarios are covered:
+> >
+> >   1. List with default (entry) behavior and ! exclusion
+> >   2. List with explicit :entry suffix
+> >   3. List with :exit suffix for return probes
+>
+>
+> Could you also add wildcard pattern test?
+>
+> >
+> > Each test verifies that the correct functions appear in
+> > enabled_functions and that excluded (!) symbols are absent.
+> >
+> > Note: The existing tests add_remove_fprobe.tc, fprobe_syntax_errors.tc,
+> > and add_remove_fprobe_repeat.tc check their "requires" line against the
+> > tracefs README for the old "%return" syntax pattern.  Since the README
+> > now documents ":entry|:exit" instead, these tests report UNSUPPORTED.
+> > Their "requires" lines need updating in a follow-up patch.
+>
+> This means you'll break the selftest. please fix those test first.
+> (This fix must be done before "tracing/fprobe: Support comma-separated
+> symbols and :entry/:exit" so that we can safely bisect it.)
+>
+> Thank you,
+>
+>
+> >
+> > Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+> > ---
+> >  .../ftrace/test.d/dynevent/fprobe_list.tc     | 92 +++++++++++++++++++
+> >  1 file changed, 92 insertions(+)
+> >  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+> >
+> > diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+> > new file mode 100644
+> > index 000000000000..45e57c6f487d
+> > --- /dev/null
+> > +++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+> > @@ -0,0 +1,92 @@
+> > +#!/bin/sh
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +# description: Fprobe event list syntax and :entry/:exit suffixes
+> > +# requires: dynamic_events "f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]":README
+> > +
+> > +# Setup symbols to test. These are common kernel functions.
+> > +PLACE=vfs_read
+> > +PLACE2=vfs_write
+> > +PLACE3=vfs_open
+> > +
+> > +echo 0 > events/enable
+> > +echo > dynamic_events
+> > +
+> > +# Get baseline count of enabled functions (should be 0 if clean, but be safe)
+> > +if [ -f enabled_functions ]; then
+> > +     ocnt=`cat enabled_functions | wc -l`
+> > +else
+> > +     ocnt=0
+> > +fi
+> > +
+> > +# Test 1: List default (entry) with exclusion
+> > +# Target: Trace vfs_read and vfs_open, but EXCLUDE vfs_write
+> > +echo "f:test/list_entry $PLACE,!$PLACE2,$PLACE3" >> dynamic_events
+> > +grep -q "test/list_entry" dynamic_events
+> > +test -d events/test/list_entry
+> > +
+> > +echo 1 > events/test/list_entry/enable
+> > +
+> > +grep -q "$PLACE" enabled_functions
+> > +grep -q "$PLACE3" enabled_functions
+> > +! grep -q "$PLACE2" enabled_functions
+> > +
+> > +# Check count (Baseline + 2 new functions)
+> > +cnt=`cat enabled_functions | wc -l`
+> > +if [ $cnt -ne $((ocnt + 2)) ]; then
+> > +     exit_fail
+> > +fi
+> > +
+> > +# Cleanup Test 1
+> > +echo 0 > events/test/list_entry/enable
+> > +echo "-:test/list_entry" >> dynamic_events
+> > +! grep -q "test/list_entry" dynamic_events
+> > +
+> > +# Count should return to baseline
+> > +cnt=`cat enabled_functions | wc -l`
+> > +if [ $cnt -ne $ocnt ]; then
+> > +     exit_fail
+> > +fi
+> > +
+> > +# Test 2: List with explicit :entry suffix
+> > +# (Should behave exactly like Test 1)
+> > +echo "f:test/list_entry_exp $PLACE,!$PLACE2,$PLACE3:entry" >> dynamic_events
+> > +grep -q "test/list_entry_exp" dynamic_events
+> > +test -d events/test/list_entry_exp
+> > +
+> > +echo 1 > events/test/list_entry_exp/enable
+> > +
+> > +grep -q "$PLACE" enabled_functions
+> > +grep -q "$PLACE3" enabled_functions
+> > +! grep -q "$PLACE2" enabled_functions
+> > +
+> > +cnt=`cat enabled_functions | wc -l`
+> > +if [ $cnt -ne $((ocnt + 2)) ]; then
+> > +     exit_fail
+> > +fi
+> > +
+> > +# Cleanup Test 2
+> > +echo 0 > events/test/list_entry_exp/enable
+> > +echo "-:test/list_entry_exp" >> dynamic_events
+> > +
+> > +# Test 3: List with :exit suffix
+> > +echo "f:test/list_exit $PLACE,!$PLACE2,$PLACE3:exit" >> dynamic_events
+> > +grep -q "test/list_exit" dynamic_events
+> > +test -d events/test/list_exit
+> > +
+> > +echo 1 > events/test/list_exit/enable
+> > +
+> > +# Even for return probes, enabled_functions lists the attached symbols
+> > +grep -q "$PLACE" enabled_functions
+> > +grep -q "$PLACE3" enabled_functions
+> > +! grep -q "$PLACE2" enabled_functions
+> > +
+> > +cnt=`cat enabled_functions | wc -l`
+> > +if [ $cnt -ne $((ocnt + 2)) ]; then
+> > +     exit_fail
+> > +fi
+> > +
+> > +# Cleanup Test 3
+> > +echo 0 > events/test/list_exit/enable
+> > +echo "-:test/list_exit" >> dynamic_events
+> > +
+> > +clear_trace
+> > --
+> > 2.43.0
+> >
+>
+>
+> --
+> Masami Hiramatsu (Google) <mhiramat@kernel.org>
