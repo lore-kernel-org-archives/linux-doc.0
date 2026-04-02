@@ -1,87 +1,69 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227D82DCF57;
-	Thu,  2 Apr 2026 20:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9512DCF57
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 20:26:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775161338; cv=none; b=jLYM+R0Piofnpy4FASpD7rtyoJidJ2RjeJkQfmm8/24WDEJSWoS5S+y5EF+uaSgiSVYrV5o5qNRCPINb4XyJjbYzkF+JTNzeect7tYCaG8hdDr0A9MtPRsddKLQux6y1NJcGQxzgD/zBl4KGT/ikOHLB590ESJU9TOmbdN65D5w=
+	t=1775161605; cv=none; b=M6LWN9vbmkYo7FJK9g6Fglj9fcCCfnutz4dLnhD2Dmw0IWdxxJesN2Kdj5Q25SaU+U7gBmYA5hA6LRvq4iTyqA6lvFwA2xJzN7nSlzaHocHSM9bgOd4Qu0lJ3BlWpCTAQsTP7h8ePgVnbovCgHaSx6V5igxWjTIqXM3x/uwmq10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775161338; c=relaxed/simple;
-	bh=RiqNzOGBsVxRSIwfexxZ3/Lo2YAhdKnqiPcvdaPUgbU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UJNMV+xAiZI97RsWLNII/1d19l53q8iO4s5M4FCnUdLCWCFtjCbZrIOC7MgaUNARh+dO1AZNcWt3gequMqYaPwnUkk0cmmYpVXrN9qHsMdCFHTEGIJlZrZW4/hvM+GY4HiFIC069kUK4Vz4FyA2YY9qZpCG69R10APGQDag3tr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SxnZv5nb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775161605; c=relaxed/simple;
+	bh=4DYw+Ix5GAjX9NcaEm6lX1l6AjvR1uyssa1w9DS4V/A=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=PJe1b0wlSZvu03PQlww2nFyANi+t7y31dwrBUPlYD2eoUf91eUKElptj6BoHbdV7PKro9Qti/a5BZzJZvxm9TPwTO+q/dz2TUVpzNs3zDr3fDAevMJ/GHYPeuOTmzgMclHrJEORHzau0jSLjxEyiTcJUFokfwh6bs7Kn2LnS1zs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SVnc6NtE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SxnZv5nb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67D33C116C6;
-	Thu,  2 Apr 2026 20:22:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SVnc6NtE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE981C2BCB9
+	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 20:26:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775161337;
-	bh=RiqNzOGBsVxRSIwfexxZ3/Lo2YAhdKnqiPcvdaPUgbU=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=SxnZv5nbg49WUbV6oaKzv5ASAa+00k7lOoLp5A8BTGWNPUkXaJO9gnCIVLMqU1hXc
-	 aqe4SeRHeMvTjGTRf+r3xcoECl9BjEmDBNTq/WJpTkc/Lk9t7WbckURwyI9SVZcrCt
-	 ji0qOstG5VT6GttIo/4O9U/v3cySHthbX5WnxKqG8f4Qa/6ocfBUHSBgKlafVvV0/N
-	 bSHpUKH/3Y3oaivzDxrPW2QzRxYS5Mbjg8nD/XnZyVopYy4H2nlCjFPFv/2nUIT4Dh
-	 ePPeDIa16ZrHE83obb05/gUB2q5ZdxHP77q3ilm30P5RoLQVs9j/qmnoD3BbE6FKFL
-	 upCVbYymTOg2g==
-From: Nicolas Schier <nsc@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-kbuild@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Alexander Coffin <alex@cyberialabs.net>
-In-Reply-To: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
-References: <20260313-kbuild-docs-repro-builds-fdebug-prefix-map-updates-v1-1-3aeeef7fa710@kernel.org>
-Subject: Re: [PATCH] Documentation: kbuild: Update the debug information
- notes in reproducible-builds.rst
-Message-Id: <177516118643.3535668.18216827082404503813.b4-ty@b4>
-Date: Thu, 02 Apr 2026 22:19:46 +0200
+	s=k20201202; t=1775161605;
+	bh=4DYw+Ix5GAjX9NcaEm6lX1l6AjvR1uyssa1w9DS4V/A=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=SVnc6NtEwNl1ukkemdgwNbZgcNlnXaqGr0+KHATvqlNk93DxfT2mGg20rfraieQpi
+	 UjjRza9af6spaxsnV2vXFyK6t+WrtopCi5MxTNhgmpptjQtl5fA79949m3CNjpmLGX
+	 axKoS5GQSGplnQsx7BToDTQN5vaWmIA1RlFSXwiwKjCrh9GsaG61OirBAHw2UWidYt
+	 OlH31Pmqs2VWU42+Lx/fiumqMsjzf9/VLLu7bEcvYVFaxCRliiS0RFB8W4VcGqAt4V
+	 AkFD+QmrHkQwyETmMNLxY7J0Bfe2GvY9xc2bxN1fbeVQZYEK18qrrnAQ8E/xZnFQ8F
+	 TJhgsO3OXNTzQ==
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-6618bc129acso1736625a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 02 Apr 2026 13:26:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXu/N8+uFyTZ7ZzXtFUt0pX2HN+4EODFRbxDRBC7nieTeCrne7f5nzjARJA74QhYYs9+MHqAaJe2gY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG1SZMbkYuO+SbXXCBewHECx0VhmXf67+IMgeHp34inZeuvpAS
+	8NOu4CMKGsa6EliMkoSe6qjNZdCD5OXoCFTETCnpUBvkaqWI/MMeEkKXM9CzAW/0e/LW95CdVSf
+	c+vZQJx8hYwWgbewfG4M2mXWE6VUj6WU=
+X-Received: by 2002:a17:907:3d51:b0:b94:1d92:7eb with SMTP id
+ a640c23a62f3a-b9c67802d69mr14905466b.18.1775161604406; Thu, 02 Apr 2026
+ 13:26:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.16-dev-ad80c
-X-Developer-Signature: v=1; a=openpgp-sha256; l=788; i=nsc@kernel.org;
- s=20250924; h=from:subject:message-id;
- bh=RiqNzOGBsVxRSIwfexxZ3/Lo2YAhdKnqiPcvdaPUgbU=;
- b=owEBbQKS/ZANAwAKAQdSCnAWJhJpAcsmYgBpzs9t4y1LJQMiq9LLu91/MzX+A1n4Iakav09bf
- js1jITDXkKJAjMEAAEKAB0WIQSHQTenhzckp4G+wsYHUgpwFiYSaQUCac7PbQAKCRAHUgpwFiYS
- aUmOD/4zV/y7nOMbLPeEnVs19LY1ke+7lJMlRPO4MM47IR9E/TY1Oyc5lBoXjxmCglmQoeMeXb2
- TbaWhfLoE9jrHAZuyO+1JIavHVbaarDdAy78tTs7Wp2FQ+e3RegYUMaj+QQKVSsA7YBVyA3nKhe
- kvDTyGT6HuplGr2yYszE5KMFVn1AE8NjDdjq7iBWtx0zxRTRXhwSXKEOPiDq46w7CAONNznYf+Y
- uXVozQeFVeHzHglWqEVbO2pmMUpAgJFY3pi1b/Ade40DXzs+IjpT7l7tRKKu0I9nAUbpXQSMqNw
- tYwenu9jEuSijZlOPomwLEwpxEig/GPdMQj9yVgkVITcmMVFRpKkDVc3qPBnx5o9b/YgmfP1IkI
- 1zv5BkYds9OgV+67jbBX6MzEyazNa8mqq4psNaBO4NnngRD1SeODliSh6HhX7pw/JsKbAebDY5H
- hN98uc8SBF8ziNqKyRby+X/8C3z3PydXRndYZsRiL3iTu2Pvhx/ouw9SdusnbWdUJzMQOH71g8c
- 9eO5Xhf4letKSyODpEXZI7av2q09ZeFxxpqXy0c1ArKSi7MIBvaw0fBXu95IrsksHyKQaGmnjMV
- pg/US6FQFDBY12vNw29+KGfBvi7HdqoEx3oJKlKoSTTRGm66itxCs4aY0tesQ5IZXKkai3Jrul1
- o0yCfM5kooSwgMw==
-X-Developer-Key: i=nsc@kernel.org; a=openpgp;
- fpr=18ED52DBE34F860EE9FBC82B7D97093255A0CE7F
+References: <20260327234023.2659476-2-jmattson@google.com> <202603301501.N2sdlIQ9-lkp@intel.com>
+ <CALMp9eSO6gz4R0f1S=E-sA3YE8KE0uJ30otcGsMV1NS3ujUcNA@mail.gmail.com>
+In-Reply-To: <CALMp9eSO6gz4R0f1S=E-sA3YE8KE0uJ30otcGsMV1NS3ujUcNA@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Thu, 2 Apr 2026 13:26:32 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zOymT3dV3dDHfhHTM7oawuuzpysWEVgs2-dShZ9BfUo9w@mail.gmail.com>
+X-Gm-Features: AQROBzDeel1_OQ9-UKJ3j7R37ZttRLzLFRNbeAQTW_xCWYguBo3oZA-kZDOKmw0
+Message-ID: <CAO9r8zOymT3dV3dDHfhHTM7oawuuzpysWEVgs2-dShZ9BfUo9w@mail.gmail.com>
+Subject: Re: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+To: Jim Mattson <jmattson@google.com>
+Cc: kernel test robot <lkp@intel.com>, Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	oe-kbuild-all@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, 13 Mar 2026 16:37:29 -0700, Nathan Chancellor wrote:
-> Documentation: kbuild: Update the debug information notes in reproducible-builds.rst
+> It looks like svm.h should include x86.h.
+>
+> Sean: Do you want me to send a new series?
 
-Applied to kbuild/linux.git (kbuild-next-unstable), thanks!
-
-[1/1] Documentation: kbuild: Update the debug information notes in reproducible-builds.rst
-      https://git.kernel.org/kbuild/c/d88af9ef
-
-Please look out for regression or issue reports or other follow up
-comments, as they may result in the patch/series getting dropped,
-reverted or modified (e.g. trailers). Patches applied to the
-kbuild-next-unstable branch are accepted pending wider testing in
-linux-next and any post-commit review; they will generally be moved
-to the kbuild-next branch in about a week if no issues are found.
-
-Best regards,
--- 
-Nicolas
-
-
+FWIW, this is the same problem as:
+https://lore.kernel.org/kvm/CAO9r8zPuDcHMObfzTQVY-P0Z3kXZbw6y5KJizxvpFWXdW7uKbQ@mail.gmail.com/.
+So only the first series that gets picked up will need the fixup.
