@@ -1,202 +1,161 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C777D3C1418
-	for <linux-doc@vger.kernel.org>; Thu,  2 Apr 2026 10:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E1038F93D;
+	Thu,  2 Apr 2026 10:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775125606; cv=none; b=k9T7YSfG0yFqDEUM+y7ghPhgWtQkDTjbeP8VqZXJR/rRX9svsTJzn11LSM0G9OadH7Nuz+nhJGQ5T3OfBQp/T5ZVVW8+JYPqbsIpJfDlXF/ZNsVOvpSvjDNhz/JfVSlRuVXV50RzR96fpGpJ43NvRXUYqShzNKRO9S1k/8f3dJ4=
+	t=1775127536; cv=none; b=JfNBXHf8LaG6E2MNPikEVJh98tbZgqDGsFLujT5XSEdiAtLhXGJDzIvyEAWt48+9ZVhBeYLDKw9wJXykGtyQhxqGjdUIy+lYWXI2hBmqYIqWHnlEr5scKESPcuije8g3FOD6olTfVgwTBPDGqcZhIQKgzdq+MMWqFYs4+2kZY3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775125606; c=relaxed/simple;
-	bh=QocVP8RliyD57oYi8LKapgnuAL11EjWCrBQsYJjeP5I=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NP71G3/UeO9P0dTk76wxPqdVMgJ4VgBWEAzWZ/BdZqRsWk/iYJ86u2XOc4+AU5OwOGWUWmyIDPZnJ6gLCDttJfVvIhQB9FTar5WsvIpaJlyS4gHaT1PIHbeUYeEkMG+mg1NZ0WJXZyw98sISm83j3SMblVg9CCubcudzziu2eok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bP+/8Nhx; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1775127536; c=relaxed/simple;
+	bh=/rZ7A/l+t9TWlhL4/OfagkK4beiX1NefmzMNzH9R7uU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=jLCIJr8gEMhZllbEC1vlISgR7Q28EMNbcA4yQ1qWv4buzL6JsrsdSI1R9PTNW14BwkYi5H2r1XElo1HbuyvhbcJwzXov6910F/8YA9pi1edqPvy16eCAJR6j25MpMtONTM0HlTvDd2eRW3RE1NoUOMgiYW9+1mCSCAlY7BHd0Rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=ojGOrxnC; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bP+/8Nhx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775125604;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tbiNW6fo2qH/eLsmPCaBwN/Htf3MbxA5LWFsoCSTCfM=;
-	b=bP+/8NhxzY1PZhU+KzjHcdeLgyXVGavFweqmhD75UR3gRBlCNoHSugmjce9rVR0oXkblx1
-	zsjquYutdcrh47uDXOpVajtx8HF21L98kAaDsdEUjeHy8WXsq1LHR7DIYYWgiNIrSfZYXG
-	MhJMI88rkekD/LSX6IEg2DeMgV3K1Fk=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-632-kUBRL3a7NfGvSW6G-M2Hug-1; Thu,
- 02 Apr 2026 06:26:38 -0400
-X-MC-Unique: kUBRL3a7NfGvSW6G-M2Hug-1
-X-Mimecast-MFC-AGG-ID: kUBRL3a7NfGvSW6G-M2Hug_1775125594
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 850481956089;
-	Thu,  2 Apr 2026 10:26:33 +0000 (UTC)
-Received: from gerbillo.redhat.com (unknown [10.44.32.195])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id ECC091800351;
-	Thu,  2 Apr 2026 10:26:20 +0000 (UTC)
-From: Paolo Abeni <pabeni@redhat.com>
-To: anthony.l.nguyen@intel.com
-Cc: andriy.shevchenko@intel.com,
-	pmenzel@molgen.mpg.de,
-	aleksandr.loktionov@intel.com,
-	mika.westerberg@linux.intel.com,
-	pabeni@redhat.com,
-	mbloch@nvidia.com,
-	saeedm@nvidia.com,
-	piotr.kwapulinski@intel.com,
-	sx.rinitha@intel.com,
-	kuba@kernel.org,
-	grzegorz.nitka@intel.com,
-	netdev@vger.kernel.org,
-	przemyslaw.kitszel@intel.com,
-	arkadiusz.kubalewski@intel.com,
-	tariqt@nvidia.com,
-	davem@davemloft.net,
-	dima.ruinskiy@intel.com,
-	bhelgaas@google.com,
-	andrew+netdev@lunn.ch,
-	lukas@wunner.de,
-	jacob.e.keller@intel.com,
-	richardcochran@gmail.com,
-	takkozu@amazon.com,
-	enjuk@amazon.com,
-	maximilianpezzullo@gmail.com,
-	joe@dama.to,
-	przemyslaw.korba@intel.com,
-	leon@kernel.org,
-	vgrinber@redhat.com,
-	linux-pci@vger.kernel.org,
-	sunithax.d.mekala@intel.com,
-	corbet@lwn.net,
-	vinicius.gomes@intel.com,
-	ilpo.jarvinen@linux.intel.com,
-	edumazet@google.com,
-	linux-doc@vger.kernel.org,
-	kohei.enju@gmail.com,
-	kohei@enjuk.jp,
-	horms@kernel.org,
-	avigailx.dahan@intel.com
-Subject: Re: [net-next,13/15] ice: add support for unmanaged DPLL on E830 NIC
-Date: Thu,  2 Apr 2026 12:26:16 +0200
-Message-ID: <20260402102616.177883-1-pabeni@redhat.com>
-In-Reply-To: <20260330230248.646900-14-anthony.l.nguyen@intel.com>
-References: <20260330230248.646900-14-anthony.l.nguyen@intel.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="ojGOrxnC"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 632AtPbk3747399;
+	Thu, 2 Apr 2026 10:58:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=
+	content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=0gFINy
+	0J7hWuSvPyF4Me4RwxZxrtep5gKamQFyCNyNA=; b=ojGOrxnCUvdzydYHvSVTnA
+	aCREMJ1+dHb6lGYgjcl+9JLNDbp6kXiIk3LVupebs8lBF9FbGRzard4JbrcKnIEa
+	X8QYs6M6pLmM8eru24rmv3oIwoMOpfSwd4tTEYkis9zKhhWAx/PePPRgmx2HA3aQ
+	0OkV3SKLULF74dQ0KXQ9phYk9MZX19fLFD6phVwN/dWFKH2RFT8y0ogAydf2Xqsj
+	ilWshU4BzEGaBjitQBz5UIOWHA7brAkhA0QBpx9cw7AXF63RHml6nNzqfuckqgKD
+	I36vdi8CYXhm0j5wlLdjPb47elLDBuh2SB6F8M8Bbw8ZeZKQAeY0cWMWfGgcdoyQ
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4d66msbg4c-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Apr 2026 10:58:11 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6325kFcn022227;
+	Thu, 2 Apr 2026 10:58:10 GMT
+Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4d6tan9prq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 02 Apr 2026 10:58:10 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 632Aw6Iw45023654
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 2 Apr 2026 10:58:06 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3140520043;
+	Thu,  2 Apr 2026 10:58:06 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id D8D1220040;
+	Thu,  2 Apr 2026 10:57:52 +0000 (GMT)
+Received: from [9.123.14.142] (unknown [9.123.14.142])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Thu,  2 Apr 2026 10:57:52 +0000 (GMT)
+Message-ID: <cd9fc3a0-701a-45f9-a218-86a846b091fc@linux.ibm.com>
+Date: Thu, 2 Apr 2026 16:27:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 02/15] powerpc/crash: Fix possible memory leak in
+ update_crash_elfcorehdr()
+To: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
+        skhan@linuxfoundation.org, catalin.marinas@arm.com, will@kernel.org,
+        chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
+        mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
+        pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+        alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org,
+        saravanak@kernel.org, akpm@linux-foundation.org, bhe@redhat.com,
+        vgoyal@redhat.com, dyoung@redhat.com, rdunlap@infradead.org,
+        peterz@infradead.org, pawan.kumar.gupta@linux.intel.com,
+        feng.tang@linux.alibaba.com, dapeng1.mi@linux.intel.com,
+        kees@kernel.org, elver@google.com, paulmck@kernel.org,
+        lirongqing@baidu.com, rppt@kernel.org, leitao@debian.org,
+        ardb@kernel.org, jbohac@suse.cz, cfsworks@gmail.com,
+        tangyouling@kylinos.cn, ritesh.list@gmail.com, hbathini@linux.ibm.com,
+        eajames@linux.ibm.com, guoren@kernel.org, songshuaishuai@tinylab.org,
+        kevin.brodsky@arm.com, vishal.moola@gmail.com,
+        junhui.liu@pigmoral.tech, coxu@redhat.com, fuqiang.wang@easystack.cn,
+        liaoyuanhong@vivo.com, takahiro.akashi@linaro.org, james.morse@arm.com,
+        lizhengyu3@huawei.com, x86@kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
+        kexec@lists.infradead.org
+References: <20260402072701.628293-1-ruanjinjie@huawei.com>
+ <20260402072701.628293-3-ruanjinjie@huawei.com>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <20260402072701.628293-3-ruanjinjie@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Authority-Analysis: v=2.4 cv=J6enLQnS c=1 sm=1 tr=0 ts=69ce4bc4 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VnNF1IyMAAAA:8
+ a=i0EeH86SAAAA:8 a=VlouDxB3MAwdfIDnmSwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDAyMDA5NyBTYWx0ZWRfX7sTiPpQy79zU
+ K27F0Aadqv20eVmWi70LMSBPyFOePevJ8HXyavRnK2TMzHBaqSwuLuxWghuZlrQko5p05QNG2B+
+ 9Bgt6FzwoOQe968GS2CqUCWPF85d/PVlPRIHZxewHdS/5BZRUaIOvRMExp1EA0wnq/FfmfkRbml
+ xUoUXHVAC39mqNXXBSfHbajz0Jy/x3ZUV/ETZpslbrsNw6IuxYsEP9fksyG6DmoBcTvr0vzUs7p
+ +NMUSXiYvqxVsqVr2xYwpkjuI4M8zrAJ9QmTnvurotV7fIoCBsSulbmEh6HFEQfxV+LhGIu+pD3
+ ZkhK78O/fbw0C/N0oaillpJX3t5VHm7NQrh0Rt1lDmpLs33W+LZxzNIlnrJzPTtWD6qTBPjbzCv
+ THCMfLanh5h1/u6vlboXEIhI/aKd0Ic+FIzYIGcrqQgvJfN9B4u08rwVs/g8A7mVn8Dgt16cloJ
+ 0Db6BgmrWybcSycnenw==
+X-Proofpoint-GUID: y-dDzylxSChSlhSY3DLcHWQcfmdGadgb
+X-Proofpoint-ORIG-GUID: qB0ckh-l6XGO78PdLdPfSeeapsEZWdAu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-02_01,2026-04-02_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1011 adultscore=0 priorityscore=1501 bulkscore=0
+ phishscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2603050001 definitions=main-2604020097
 
-This is an AI-generated review of your patch. The human sending this
-email has considered the AI review valid, or at least plausible.
 
-For local reproduction steps see https://netdev-ai.bots.linux.dev/ai-local.html
----
-ice: add support for unmanaged DPLL on E830 NIC
 
-Hardware variants of E830 may support an unmanaged DPLL where the
-configuration is hardcoded within the hardware and firmware, meaning
-users cannot modify settings. However, users are able to check the DPLL
-lock status and obtain configuration information through the Linux DPLL
-and devlink health subsystem.
-
-> diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.c b/drivers/net/ethernet/intel/ice/ice_dpll.c
-> index 62f75701d652..2a9eb233dbf4 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_dpll.c
-> +++ b/drivers/net/ethernet/intel/ice/ice_dpll.c
-
-[ ... ]
-
-> @@ -3148,12 +3176,15 @@ ice_dpll_init_direct_pins(struct ice_pf *pf, bool cgu,
->  	int ret;
+On 02/04/26 12:56, Jinjie Ruan wrote:
+> In get_crash_memory_ranges(), if crash_exclude_mem_range() failed
+> after realloc_mem_ranges() has successfully allocated the cmem
+> memory, it just returns an error but leaves cmem pointing to
+> the allocated memory, nor is it freed in the caller
+> update_crash_elfcorehdr(), which cause a memory leak, goto out
+> to free the cmem.
 >
->  	ret = ice_dpll_get_pins(pf, pins, start_idx, count, pf->dplls.clock_id);
-> -	if (ret)
-> +	if (!cgu || ret)
->  		return ret;
-> -	if (cgu) {
-> +
-> +	if (first) {
->  		ret = ice_dpll_register_pins(first, pins, ops, count);
->  		if (ret)
->  			goto release_pins;
-> +	}
-> +	if (second) {
->  		ret = ice_dpll_register_pins(second, pins, ops, count);
->  		if (ret)
->  			goto unregister_first;
-> @@ -3162,7 +3193,8 @@ ice_dpll_init_direct_pins(struct ice_pf *pf, bool cgu,
->  	return 0;
+> Cc: Sourabh Jain <sourabhjain@linux.ibm.com>
+> Cc: Hari Bathini <hbathini@linux.ibm.com>
+> Cc: Michael Ellerman <mpe@ellerman.id.au>
+> Fixes: 849599b702ef ("powerpc/crash: add crash memory hotplug support")
+> Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
+> ---
+>   arch/powerpc/kexec/crash.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 >
->  unregister_first:
-> -	ice_dpll_unregister_pins(first, pins, ops, count);
-> +	if (first)
-> +		ice_dpll_unregister_pins(first, pins, ops, count);
->  release_pins:
->  	ice_dpll_release_pins(pins, count);
->  	return ret;
+> diff --git a/arch/powerpc/kexec/crash.c b/arch/powerpc/kexec/crash.c
+> index a325c1c02f96..1d12cef8e1e0 100644
+> --- a/arch/powerpc/kexec/crash.c
+> +++ b/arch/powerpc/kexec/crash.c
+> @@ -440,7 +440,7 @@ static void update_crash_elfcorehdr(struct kimage *image, struct memory_notify *
+>   	ret = get_crash_memory_ranges(&cmem);
+>   	if (ret) {
+>   		pr_err("Failed to get crash mem range\n");
+> -		return;
+> +		goto out;
+>   	}
+>   
+>   	/*
+Thanks for fixing this Jinjie.
 
-NULL checks were added to ice_dpll_init_direct_pins for handling unmanaged
-DPLL initialization where only one DPLL device is active. However, is the
-corresponding cleanup function ice_dpll_deinit_direct_pins missing the same
-NULL checks?
+Feel free to add:
+Reviewed-by: Sourabh Jain <sourabhjain@linux.ibm.com>
 
-In unmanaged mode, only pf->dplls.pps.dpll is initialized while
-pf->dplls.eec.dpll remains NULL. When ice_dpll_init_pins calls
-ice_dpll_init_direct_pins(pf, true, outputs, count, num_outputs,
-output_ops, eec.dpll, pps.dpll), if this second call (for output pins)
-fails, the error path calls ice_dpll_deinit_direct_pins(pf, true, ...,
-pps.dpll, eec.dpll).
-
-Looking at ice_dpll_deinit_direct_pins:
-
-static void ice_dpll_deinit_direct_pins(struct ice_pf *pf, bool cgu,
-					struct ice_dpll_pin *pins, int count,
-					const struct dpll_pin_ops *ops,
-					struct dpll_device *first,
-					struct dpll_device *second)
-{
-	if (cgu) {
-		ice_dpll_unregister_pins(first, pins, ops, count);
-		ice_dpll_unregister_pins(second, pins, ops, count);
-	}
-	ice_dpll_release_pins(pins, count);
-}
-
-When cgu=true and second=NULL, ice_dpll_unregister_pins is called with
-dpll=NULL. Then dpll_pin_unregister(dpll, pin) dereferences dpll with
-xa_empty(&dpll->pin_refs), causing a NULL pointer dereference.
-
-Shouldn't ice_dpll_deinit_direct_pins add NULL checks for first and second,
-matching the guards you added in ice_dpll_init_direct_pins?
-
-> diff --git a/drivers/net/ethernet/intel/ice/ice_dpll.h b/drivers/net/ethernet/intel/ice/ice_dpll.h
-> index ae42cdea0ee1..2c98b6c6deb0 100644
-> --- a/drivers/net/ethernet/intel/ice/ice_dpll.h
-> +++ b/drivers/net/ethernet/intel/ice/ice_dpll.h
-
-[ ... ]
-
-> @@ -173,3 +181,5 @@ static inline void ice_dpll_deinit(struct ice_pf *pf) { }
->  #define ICE_CGU_R11_SYNCE_S_BYP_CLK		GENMASK(6, 1)
->
->  #define ICE_CGU_BYPASS_MUX_OFFSET_E825C		3
-> +#define ICE_DPLL_UNMANAGED_PIN_NUM		4
-> +#define ICE_DPLL_IN_ESYNC_ENABLED	ICE_AQC_GET_CGU_IN_CFG_FLG2_ESYNC_EN
-
-This isn't a bug, but ICE_DPLL_UNMANAGED_PIN_NUM is defined but never
-used. Looking at the unmanaged pin descriptors, ice_e830_unmanaged_inputs
-has 1 entry and ice_e830_unmanaged_outputs has 2 entries (totaling 3 pins,
-not 4).
-
+- Sourabh Jain
