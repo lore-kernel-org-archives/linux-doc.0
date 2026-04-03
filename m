@@ -1,146 +1,145 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683913C5558;
-	Fri,  3 Apr 2026 15:17:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE2728C2BF;
+	Fri,  3 Apr 2026 15:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775229448; cv=none; b=iWnARop8h27yzFodaj67e0IMqoQ2WyIgGeS4TNFxsF8EtF7n+S3n+dPvE4tTXmFn562Bl2Ppd4q8V2g/palw3XQT+KtC9Y2EjaTbkje5l5EqshWUT5cEtnvrLaCCXRR7RNIi/qHuERYpA2KSFBLrXb3H82OSUfp5/sQlXsBYYsM=
+	t=1775230234; cv=none; b=WJMA6eo8NAzrJVYv9gpHztRcKuc317fi7+fyzjba7UIWEWKz2kqA9jk+D8Y1jVxvIx4UudAPlus71qFluOX7nDwDHZJJXOAzdhV4+f1XSbEF/DXMFo58hkrl84PaRc3Eh/5bw70QGBIbLZxCL5ARvmhtGw5jEtGvWZ/U0sqr838=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775229448; c=relaxed/simple;
-	bh=PY7nGMW4RIW4Bu4YiMdEX/an4i96Nd3s66V2fnrC0Mg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PGPdSYkpYHCt22mKCzGcVxCpyNjRoKw7+jqnHliB0Yvmz7SwzZFrNVM8+7weEwCPJV9g7oPU4zoDBq1v/DMvkfqNAXKJVpi4pVLf2AiFxyYk0kBI1D9SL0MIQMUWRKpkCfH9x0tdgbYWeHQvXxgOJ3+TZ5xjnQL9FtUtNsYM1Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AnlOnrpF; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
+	s=arc-20240116; t=1775230234; c=relaxed/simple;
+	bh=1JN9y2YP149Xaa8TAhsR1KGMxhicd7F0xJEbKmyzfVc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=bnLi0g1ueabaNju9IauLCUZwluLPLbD2yxVRK+96hdzJBC/9OfDQ/NFWrLtFauJqzu/lv/Ju8VJYSpjYjC85Bqh+x9rN+8+iiPYzcnFLgiTucz2lAi4pvUKTkvtzQC075uW9Xt7a7OxJlPBegZWpQt/dOec09eYdB0y4QtQ2Jlk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=pukBa6MR; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AnlOnrpF"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 834D240E0163;
-	Fri,  3 Apr 2026 15:17:21 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
-	header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id NkAatF0RFOQT; Fri,  3 Apr 2026 15:17:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1775229434; bh=wOjHFdJN9rNDh8e+lhwhZd95tC06NXIG29ivgD6QrBM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AnlOnrpFkOIt8FaYgWSTatnbjiqLpr+Ac6B22mE0MUn0wjMaVrpX6nIkQTxgLesb4
-	 oRiFhgDQ+LrC8w4o9J/gmDehARehtBpZhUpC22AOATDS4TWUknDw+qks0rKCT6YUlS
-	 NrJorkLv+T1+dSmYLJ963TThl8FMWr/5efClgJRWtxYBtC6mZLVKo1s3mA+RIVVqTj
-	 ZDGB9hjZW3tQN7CCY6ZzDSUjJcs8lU8spppPnRoRgkED6qB8JDTM1MIWFB23VjMTg0
-	 7BgLuW4+P5UQE2pDoIzW2qCkHw67cXxWZKegY+n9edq3fI79/VOYbjh1v9zQuKKZmo
-	 KAC0Ox5+xm2xb3xoetKOPmO/PvL65iA4n2VR9UckQaNSOa8X7eWu5LJxm1BKcM/f49
-	 z21vULe8V2ZivWHxb1SiNvGTL8uzq/2vX9Yz60CA9mdMlraCcmB7EYGr68BayWmacr
-	 SjzJvBPRQoqA1e/0um0OO67YwSf8ZWz6IQkn37M5OZjurU7yM/WfubRXugEeG51rcn
-	 o3CYgwUfDcVOjCOArNQJwLhV1NmsHbf24gZxSpelAAqhQw2Ed1SOcvsT3HZl9PkLk3
-	 v9NGDIk9Vj9mMQIbAQ5fkl1DK2ovLhKnNxgk/Yp0/j/ojacfXW7riPMv3oPupFGXfd
-	 vEew8VUnMQIKPCzZWRkXqWOs=
-Received: from zn.tnic (p5de8e020.dip0.t-ipconnect.de [93.232.224.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with UTF8SMTPSA id 6D94B40E00DE;
-	Fri,  3 Apr 2026 15:16:37 +0000 (UTC)
-Date: Fri, 3 Apr 2026 17:16:30 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 01/10] x86/bhi: x86/vmscape: Move LFENCE out of
- clear_bhb_loop()
-Message-ID: <20260403151630.GWac_ZzhQZj5LUDlRf@fat_crate.local>
-References: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com>
- <20260402-vmscape-bhb-v9-1-94d16bc29774@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="pukBa6MR"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775230229; h=From:To:Subject:Date:Message-Id:MIME-Version;
+	bh=vAXnuXYy5CVxib+kdtLGkhTwGblq2YVJ173NjMXO3mM=;
+	b=pukBa6MR1g4xP7IoEZUsrNMg6Wn8aSRXXhP6V7liMI04Y0wsFRU74FnG+oQhOHexhyDyA5ZrTlchWob2fChjy1GiWoBctaqhXxxLiO7KuOMKHZgik7ixkJMfeaY8pd2aRT61nslhYhUvc5TC3Bfjr/TSfXg4U37lBCmfGQ/pT6k=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R161e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033037009110;MF=fangyu.yu@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X0KbxUp_1775230226;
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0X0KbxUp_1775230226 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 03 Apr 2026 23:30:27 +0800
+From: fangyu.yu@linux.alibaba.com
+To: pbonzini@redhat.com,
+	corbet@lwn.net,
+	anup@brainfault.org,
+	atish.patra@linux.dev,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	alex@ghiti.fr,
+	skhan@linuxfoundation.org
+Cc: guoren@kernel.org,
+	radim.krcmar@oss.qualcomm.com,
+	andrew.jones@oss.qualcomm.com,
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Fangyu Yu <fangyu.yu@linux.alibaba.com>
+Subject: [PATCH v8 3/3] RISC-V: KVM: Reuse KVM_CAP_VM_GPA_BITS to select HGATP.MODE
+Date: Fri,  3 Apr 2026 23:30:18 +0800
+Message-Id: <20260403153019.9916-4-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <20260403153019.9916-1-fangyu.yu@linux.alibaba.com>
+References: <20260403153019.9916-1-fangyu.yu@linux.alibaba.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260402-vmscape-bhb-v9-1-94d16bc29774@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 02, 2026 at 05:30:47PM -0700, Pawan Gupta wrote:
-> Currently, the BHB clearing sequence is followed by an LFENCE to prevent
-> transient execution of subsequent indirect branches prematurely. However,
-> the LFENCE barrier could be unnecessary in certain cases. For example, when
-> the kernel is using the BHI_DIS_S mitigation, and BHB clearing is only
-> needed for userspace. In such cases, the LFENCE is redundant because ring
-> transitions would provide the necessary serialization.
-> 
-> Below is a quick recap of BHI mitigation options:
-> 
-> On Alder Lake and newer
-> 
->     BHI_DIS_S: Hardware control to mitigate BHI in ring0. This has low
->     performance overhead.
-> 
->     Long loop: Alternatively, a longer version of the BHB clearing sequence
->     can be used to mitigate BHI. It can also be used to mitigate the BHI
->     variant of VMSCAPE. This is not yet implemented in Linux.
-> 
-> On older CPUs
-> 
->     Short loop: Clears BHB at kernel entry and VMexit. The "Long loop" is
->     effective on older CPUs as well, but should be avoided because of
->     unnecessary overhead.
-> 
-> On Alder Lake and newer CPUs, eIBRS isolates the indirect targets between
-> guest and host. But when affected by the BHI variant of VMSCAPE, a guest's
-> branch history may still influence indirect branches in userspace. This
-> also means the big hammer IBPB could be replaced with a cheaper option that
-> clears the BHB at exit-to-userspace after a VMexit.
-> 
-> In preparation for adding the support for the BHB sequence (without LFENCE)
-> on newer CPUs, move the LFENCE to the caller side after clear_bhb_loop() is
-> executed. Allow callers to decide whether they need the LFENCE or not. This
-> adds a few extra bytes to the call sites, but it obviates the need for
-> multiple variants of clear_bhb_loop().
-> 
-> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Tested-by: Jon Kohler <jon@nutanix.com>
-> Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
->  arch/x86/entry/entry_64.S            | 5 ++++-
->  arch/x86/include/asm/nospec-branch.h | 4 ++--
->  arch/x86/net/bpf_jit_comp.c          | 2 ++
->  3 files changed, 8 insertions(+), 3 deletions(-)
+From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
 
-Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+Reuse KVM_CAP_VM_GPA_BITS to advertise and select the effective
+G-stage GPA width for a VM.
 
+KVM_CHECK_EXTENSION(KVM_CAP_VM_GPA_BITS) returns the effective GPA
+bits for a VM, KVM_ENABLE_CAP(KVM_CAP_VM_GPA_BITS) allows userspace
+to downsize the effective GPA width by selecting a smaller G-stage
+page table format:
+  - gpa_bits <= 41 selects Sv39x4 (pgd_levels=3)
+  - gpa_bits <= 50 selects Sv48x4 (pgd_levels=4)
+  - gpa_bits <= 59 selects Sv57x4 (pgd_levels=5)
+
+Reject the request with -EINVAL for unsupported values and with -EBUSY
+if vCPUs have been created or any memslot is populated.
+
+Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
+Reviewed-by: Guo Ren <guoren@kernel.org>
+---
+ arch/riscv/kvm/vm.c | 44 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 42 insertions(+), 2 deletions(-)
+
+diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
+index fb7c4e07961f..a9f083feeb76 100644
+--- a/arch/riscv/kvm/vm.c
++++ b/arch/riscv/kvm/vm.c
+@@ -214,12 +214,52 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+ 
+ int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
+ {
++	if (cap->flags)
++		return -EINVAL;
++
+ 	switch (cap->cap) {
+ 	case KVM_CAP_RISCV_MP_STATE_RESET:
+-		if (cap->flags)
+-			return -EINVAL;
+ 		kvm->arch.mp_state_reset = true;
+ 		return 0;
++	case KVM_CAP_VM_GPA_BITS: {
++		unsigned long gpa_bits = cap->args[0];
++		unsigned long new_levels;
++		int r = 0;
++
++		/* Decide target pgd levels from requested gpa_bits */
++#ifdef CONFIG_64BIT
++		if (gpa_bits <= 41)
++			new_levels = 3;        /* Sv39x4 */
++		else if (gpa_bits <= 50)
++			new_levels = 4;        /* Sv48x4 */
++		else if (gpa_bits <= 59)
++			new_levels = 5;        /* Sv57x4 */
++		else
++			return -EINVAL;
++#else
++		/* 32-bit: only Sv32x4*/
++		if (gpa_bits <= 34)
++			new_levels = 2;
++		else
++			return -EINVAL;
++#endif
++		if (new_levels > kvm_riscv_gstage_max_pgd_levels)
++			return -EINVAL;
++
++		/* Follow KVM's lock ordering: kvm->lock -> kvm->slots_lock. */
++		mutex_lock(&kvm->lock);
++		mutex_lock(&kvm->slots_lock);
++
++		if (kvm->created_vcpus || !kvm_are_all_memslots_empty(kvm))
++			r = -EBUSY;
++		else
++			kvm->arch.pgd_levels = new_levels;
++
++		mutex_unlock(&kvm->slots_lock);
++		mutex_unlock(&kvm->lock);
++
++		return r;
++	}
+ 	default:
+ 		return -EINVAL;
+ 	}
 -- 
-Regards/Gruss,
-    Boris.
+2.50.1
 
-https://people.kernel.org/tglx/notes-about-netiquette
