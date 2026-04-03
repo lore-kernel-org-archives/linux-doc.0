@@ -1,101 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9594B283CB1
-	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 08:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF60438758D;
+	Fri,  3 Apr 2026 09:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775206083; cv=none; b=Vydkzq/WnfVqtwMlkcK64CLc4I7NO/R09SQp8i4mO/dawJVvyd2ApUVxpNUbYCQJV+wXne22WIpe8ZnJt0C/p2/EC88aty57ILZP2l75XhulfP9H1rv2rNmsnwviL04K4T+l0ZBhOFUHua5ck8cacc4xdLvW8Br2EB5pRKkVScM=
+	t=1775207710; cv=none; b=N27xOhNFx7E8S9eXT1qpX6q33n3cKC2iNqEnvQI9EnOmqPAYnni5Uh7Mdas9TZ8iCWaHKxA8XZsZ/hIqc+wRNXpF9Vr5osZoIEGQJ6kNOlnt5VnSHu3BVRWVBulRugYJBhLbQKJtBje2Bjm1vvzXKsAM6eryBap5/wFw8ah7P24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775206083; c=relaxed/simple;
-	bh=04YXqpkFxKXNNmFCqXfL1SWVGPdZx+xH2uylqN1Zjoc=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gre1wqBveIH1LMhaHM79WeKghMQJp2VkeOJDBPywpfGG6N0XGzJK0BTQ1RF3DTwVj+8PFdTucNaZA1xqtZXYn6ZMFppkUQSJGq6esagr+wC2YQzjSex3VXdyOR7rII+dqCV6RuBLLQk+jsbaBl0xKOlxkIaK+yOWtV6pdBU/yks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l+olLvYk; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775207710; c=relaxed/simple;
+	bh=Qh3ffqlIFxz7tQq3QhuKOsjMiTfg6RnjpCUIwVk5E7s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=I5Jg52FR77hZP8BKqzohhdbBOuhZEiAD3tH7ntFjOX33cEXuYaSzKjrUBuu1tmax1cWyIGh8Xdc6l4Paz89UVNURHLLSCGUUGiQcaEzVx26J/3/2dfB0ztryBfILkFbf9ya2D+7bM10bfEAgAPSE4BCsIPbhZaowIik409gB5pQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Ng5I2f7+; arc=none smtp.client-ip=113.46.200.221
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l+olLvYk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775206082; x=1806742082;
-  h=date:from:to:cc:subject:message-id;
-  bh=04YXqpkFxKXNNmFCqXfL1SWVGPdZx+xH2uylqN1Zjoc=;
-  b=l+olLvYkijEGWgE50h3rpIUsI0s5Z4SC5kPmvqdbXJrx6Pemj0/qijyE
-   bTUsJu3s+8w9ETbktdCu38wMV8Yny/Yt4BVFMhBZAVQoJjCDGSKYsiFxp
-   92JYQAiOiUmMSOfbyTQtbuLWGsKkfnozyxwkZqgE0piMAL2E3sW6IoqD0
-   kCUZsqeb5wa8RHGpw7/Z2LySHgAPFnwK+rrl6y4wdllfc2TAWZasfgBDR
-   ZCNlxQWBwKpPAOwev2XVd3IJ2ZJ3F/eUeF8XCi25Xy8FFMBrAYzo8Q8Jd
-   nH7Hn1O+jA5lLxemTI19wg7H+rih2ghm4rRjyRnQj6NwxUXT78RVTAUGw
-   g==;
-X-CSE-ConnectionGUID: I22ZSaXWRvu9Nx6S8OknAg==
-X-CSE-MsgGUID: XJidpjcnRn2mjhQlpj5kjw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11747"; a="87658614"
-X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="87658614"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 01:48:01 -0700
-X-CSE-ConnectionGUID: N2JE3Da+T3648PBP8YIsQQ==
-X-CSE-MsgGUID: eqLlDJexSrShgEq9JxDnJg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,157,1770624000"; 
-   d="scan'208";a="232014708"
-Received: from lkp-server01.sh.intel.com (HELO 064ad336901d) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 03 Apr 2026 01:47:59 -0700
-Received: from kbuild by 064ad336901d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1w8aC5-0000000017X-0pIb;
-	Fri, 03 Apr 2026 08:47:57 +0000
-Date: Fri, 03 Apr 2026 16:47:21 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dennis Dalessandro <dennis.dalessandro@cornelisnetworks.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-doc@vger.kernel.org
-Subject: [cornelisnetworks:for-upstream_20260402-1611 31/31] Warning:
- drivers/infiniband/hw/hfi2/chip_gen.c:577 This comment starts with '/**', but
- isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202604031658.ZEU8LAvq-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Ng5I2f7+"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=1u/gaQ+oVmmKaoGhJfA0lv+PgPfetH5Z+BotMjq1x2M=;
+	b=Ng5I2f7+M26BlWo+f15W4F3KICwNL5iu3h39vY8J/Yh43OjddzRD1MsWnEf25APCV36pJ7jaV
+	E+dS9RuezRSZ5OUSyATrJYym/oMSq0Q/fgtStWYYumuP16zq8mKRFCRw0duIgZtaeNEb1yxvcFU
+	83ODrCmyuPyUV05deMYPVP0=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fnCZY6S1bzRhXS;
+	Fri,  3 Apr 2026 17:08:53 +0800 (CST)
+Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id E56E540571;
+	Fri,  3 Apr 2026 17:15:04 +0800 (CST)
+Received: from [10.67.109.254] (10.67.109.254) by
+ dggpemf500011.china.huawei.com (7.185.36.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Fri, 3 Apr 2026 17:15:01 +0800
+Message-ID: <c5ee66fe-ecc4-2eb4-4b58-44f7d292d221@huawei.com>
+Date: Fri, 3 Apr 2026 17:14:58 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH v12 00/15] arm64/riscv: Add support for crashkernel CMA
+ reservation
+Content-Language: en-US
+To: Borislav Petkov <bp@alien8.de>
+CC: <corbet@lwn.net>, <skhan@linuxfoundation.org>, <catalin.marinas@arm.com>,
+	<will@kernel.org>, <chenhuacai@kernel.org>, <kernel@xen0n.name>,
+	<maddy@linux.ibm.com>, <mpe@ellerman.id.au>, <npiggin@gmail.com>,
+	<chleroy@kernel.org>, <pjw@kernel.org>, <palmer@dabbelt.com>,
+	<aou@eecs.berkeley.edu>, <alex@ghiti.fr>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <dave.hansen@linux.intel.com>, <hpa@zytor.com>,
+	<robh@kernel.org>, <saravanak@kernel.org>, <akpm@linux-foundation.org>,
+	<bhe@redhat.com>, <vgoyal@redhat.com>, <dyoung@redhat.com>,
+	<rdunlap@infradead.org>, <peterz@infradead.org>,
+	<pawan.kumar.gupta@linux.intel.com>, <feng.tang@linux.alibaba.com>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<paulmck@kernel.org>, <lirongqing@baidu.com>, <rppt@kernel.org>,
+	<leitao@debian.org>, <ardb@kernel.org>, <jbohac@suse.cz>,
+	<cfsworks@gmail.com>, <tangyouling@kylinos.cn>, <sourabhjain@linux.ibm.com>,
+	<ritesh.list@gmail.com>, <hbathini@linux.ibm.com>, <eajames@linux.ibm.com>,
+	<guoren@kernel.org>, <songshuaishuai@tinylab.org>, <kevin.brodsky@arm.com>,
+	<vishal.moola@gmail.com>, <junhui.liu@pigmoral.tech>, <coxu@redhat.com>,
+	<fuqiang.wang@easystack.cn>, <liaoyuanhong@vivo.com>,
+	<takahiro.akashi@linaro.org>, <james.morse@arm.com>, <lizhengyu3@huawei.com>,
+	<x86@kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<loongarch@lists.linux.dev>, <linuxppc-dev@lists.ozlabs.org>,
+	<linux-riscv@lists.infradead.org>, <devicetree@vger.kernel.org>,
+	<kexec@lists.infradead.org>
+References: <20260402072701.628293-1-ruanjinjie@huawei.com>
+ <20260402113137.GAac5Tmc5b7SL98KdY@fat_crate.local>
+ <c6eb858c-5275-6fdc-b6e9-bd6d4b169e05@huawei.com>
+ <20260402133644.GBac5w7OYl9MwvVxY_@fat_crate.local>
+From: Jinjie Ruan <ruanjinjie@huawei.com>
+In-Reply-To: <20260402133644.GBac5w7OYl9MwvVxY_@fat_crate.local>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems500001.china.huawei.com (7.221.188.70) To
+ dggpemf500011.china.huawei.com (7.185.36.131)
 
-tree:   https://github.com/cornelisnetworks/linux.git for-upstream_20260402-1611
-head:   f09b053c0b35d3b9de750922b56cbf341eac7434
-commit: f09b053c0b35d3b9de750922b56cbf341eac7434 [31/31] RDMA/hfi2: Modernize mmap to use rdma_user_mmap_entry infrastructure
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260403/202604031658.ZEU8LAvq-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260403/202604031658.ZEU8LAvq-lkp@intel.com/reproduce)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604031658.ZEU8LAvq-lkp@intel.com/
 
-All warnings (new ones prefixed by >>):
+On 2026/4/2 21:36, Borislav Petkov wrote:
+> On Thu, Apr 02, 2026 at 07:47:53PM +0800, Jinjie Ruan wrote:
+>> Thank you for the reminder and for your patience. I apologize for the
+>> frequent updates; I am becoming more familiar with the community's
+>> workflow.
+> 
+> Yap, and you can use that time while waiting to learn about it:
 
->> Warning: drivers/infiniband/hw/hfi2/chip_gen.c:577 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Ask cport firmware for the temperature.
---
->> Warning: drivers/infiniband/hw/hfi2/affinity.c:93 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Remove HT/SMT threads from cores in @cpus.
---
->> Warning: drivers/infiniband/hw/hfi2/init.c:969 function parameter 'index' not described in 'allocate_rcd_index'
->> Warning: drivers/infiniband/hw/hfi2/init.c:1984 function parameter 'params' not described in 'hfi2_alloc_devdata'
->> Warning: drivers/infiniband/hw/hfi2/init.c:969 function parameter 'index' not described in 'allocate_rcd_index'
->> Warning: drivers/infiniband/hw/hfi2/init.c:1984 function parameter 'params' not described in 'hfi2_alloc_devdata'
---
->> Warning: drivers/infiniband/hw/hfi2/user_exp_rcv.c:962 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * Unprogram TID for @node, updating user TID invalidation events when
---
->> Warning: drivers/infiniband/hw/hfi2/chip.c:8163 function parameter 'ppd' not described in 'set_hdrq_regs'
->> Warning: drivers/infiniband/hw/hfi2/chip.c:10792 function parameter 'ppd' not described in 'hfi2_get_qp_map'
->> Warning: drivers/infiniband/hw/hfi2/chip.c:10836 function parameter 'ppd' not described in 'init_qpmap_table'
->> Warning: drivers/infiniband/hw/hfi2/chip.c:8163 function parameter 'ppd' not described in 'set_hdrq_regs'
->> Warning: drivers/infiniband/hw/hfi2/chip.c:10792 function parameter 'ppd' not described in 'hfi2_get_qp_map'
->> Warning: drivers/infiniband/hw/hfi2/chip.c:10836 function parameter 'ppd' not described in 'init_qpmap_table'
+Thanks for the pointer! I'm using the wait time to dive into the process
+docs. Definitely a lot to learn about the workflow, but I'm getting there.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Documentation/process/
+> 
