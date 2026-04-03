@@ -1,41 +1,41 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDF23DA5C8
-	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 16:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D483CCFDF;
+	Fri,  3 Apr 2026 16:10:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775232637; cv=none; b=FTFlvnpZs/LJ6xdBNZsTK1eAZJq+MzKkEg4OO9+owKSsoUR117NsknIt63e9BFA6oC8lSt8ToQxW4bhofjD+6x4LUpYPYHE/w8Y2MDO9gkQk8WvBL4yBcWuspATTou9uoCgX8y3p0JmwJxWDny5IpNnRiSSX1Z0jrINZwgW4rIs=
+	t=1775232639; cv=none; b=LjE2D2u7k1TNUKl2qRv80RyHF6qH9LzWOLI0y3HOMZ9/FBBXDryYUrsYAv24s/aL4xC21l/qIgv0xOnSuxfv5JHQMaqgJGW5343cLbGegG8x05xfzEPCFJeksFSr1bB5MH+yUQNqy8F+ZdnTrUVSeycEQhESrMc2hlkvmLaP9TI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775232637; c=relaxed/simple;
-	bh=0qBZYTUTAN63ktaPIFP5bJwyScD4rw8O3x2EI+I+6Uc=;
+	s=arc-20240116; t=1775232639; c=relaxed/simple;
+	bh=d6UzTnF+MBsI9IkjxPSPcOkLJl3Jmn543+MUHvaWiuM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=UU2BHrfYOqvVOp9UY1n/ZoV6C5g6dPdiw3hruyBUw0ra07ZLbbUUOqKOGZQoz+ttwefCaH8zZ2g4JfRlQuGSLeapcMxARZqkCJ4BOAr4Su822xW7aV56pxYHRIzjkzk5a0MBP9V4DEDWQ0k2Bdtk/aEbEtcZGC20t/jF6Q4aftU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=q8lUnjwH; arc=none smtp.client-ip=185.246.85.4
+	 In-Reply-To:To:Cc; b=TYWbScDBqtxLs0/rWBRmG3zgOEK8HMBkCkLIE90FdMTL57LcXPmxbiCtqZaNVhBqRxmR4b8be+fwZp7aiulx5gqI3rlFqMfYZqJAKWznaeoW6lsHBSdhfOH69GI6RIupGjR9ji+n9OGfAO4QefI7rVatOX/YZ4V1NFD7nNeDQvM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TJsY1hAL; arc=none smtp.client-ip=185.246.84.56
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="q8lUnjwH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TJsY1hAL"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id C13404E428D8;
-	Fri,  3 Apr 2026 16:10:34 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 2231A1A312C;
+	Fri,  3 Apr 2026 16:10:37 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9887D603C1;
-	Fri,  3 Apr 2026 16:10:34 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 23F4010450102;
-	Fri,  3 Apr 2026 18:10:31 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EC8FF603C1;
+	Fri,  3 Apr 2026 16:10:36 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 421B01045010E;
+	Fri,  3 Apr 2026 18:10:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775232633; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1775232636; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=R7OT2YlAzzFHwB/uvEM78CXYvmQMpqZLz49OKpEP2YA=;
-	b=q8lUnjwH9jPWI4Yb3j8YS90x52RZKXekZVFr7dYwDVHBPhlSn/m+pxLA7xKcFSeqrFaC5x
-	0E8c6amxWmqFbkBZqGPkXqokVy3j2BPz1dVAiUFbpB5KQAiG5dAw1Ct4A6SHWLKs3MaP22
-	QWhrMfpeidVa3cmm/y4YDM3Fl31rDLEcZwanNJezFJGO4neVxOF1D9ngzh3RQFb62FXtFq
-	jpNXk50SIpXnRi6KmBQuRGrteLAMQ7hPYwi0pBeat+gsytxp32HDzmjGZ70LDlSHR+5ATV
-	miiTeZG242ctUsKzCLNrqitlc0Yk3wcFe+tdBhxMNSUvj0Z6yLYUM+Si5HvNPg==
+	bh=9HHkcU7E3iEbQwyhNOO8botbJmQi1btZtCu9+8skmvc=;
+	b=TJsY1hAL7ofvIcIJ2LUkiEhNoAvzsbVG8CEQwEPdYi5nzHikDIFhIC3YIWsJI2teL7OXze
+	y4trR8m570ofgB5OVWhj2FvqOqV9FAbE9TcQdCk5zaHBiHUQ20wCJZKkooU17gfHeHYjQW
+	DtXxK0hAM2YwO0PM/aBi1w2FCF5kgaykBa9jilkipvekLYubiCWY4b2MIBWwekajOBG+KJ
+	AyvnjUTAmSMSxRI8fV/SxEteQYu7mCT0yGrPaxAqT2Ezq9xGZ83qvVNau2Ko6yF6ED59Ry
+	Z56AMSzcDSBnm/amoI2dz4+sNXOfa+U5lbP6ruIAiQyXpwPWYZBddjQqhJXylg==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Fri, 03 Apr 2026 18:09:42 +0200
-Subject: [PATCH v4 24/27] mtd: spi-nor: winbond: Add W25H02NWxxAM CMP
+Date: Fri, 03 Apr 2026 18:09:43 +0200
+Subject: [PATCH v4 25/27] mtd: spi-nor: winbond: Add W25H01NWxxIQ CMP
  locking support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -45,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-24-833dab5e7288@bootlin.com>
+Message-Id: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-25-833dab5e7288@bootlin.com>
 References: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
 In-Reply-To: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -75,7 +75,7 @@ feature.
 
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
-Test run with W25H02NWxxAM:
+Test run with W25H01NWxxIQ:
 $ flash_lock -u /dev/mtd0
 $ flash_lock -l /dev/mtd0 $bs $all_but_one # all but the first
 $ show_sectors
@@ -83,75 +83,48 @@ locked sectors
  region (in hex)   | status   | #blocks
  ------------------+----------+--------
  00000000-0000ffff | unlocked | 1
- 00010000-0fffffff |   locked | 4095
+ 00010000-07ffffff |   locked | 2047
 $ flash_lock -u /dev/mtd0 $bs 1 # all but the two first
 $ show_sectors
 locked sectors
  region (in hex)   | status   | #blocks
  ------------------+----------+--------
  00000000-0001ffff | unlocked | 2
- 00020000-0fffffff |   locked | 4094
+ 00020000-07ffffff |   locked | 2046
 $ flash_lock -u /dev/mtd0
 $ flash_lock -l /dev/mtd0 0 $all_but_one # same from the other side
 $ show_sectors
 locked sectors
  region (in hex)   | status   | #blocks
  ------------------+----------+--------
- 00000000-0ffeffff |   locked | 4095
- 0fff0000-0fffffff | unlocked | 1
-$ flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # all but two
+ 00000000-07feffff |   locked | 2047
+ 07ff0000-07ffffff | unlocked | 1
+$ flash_lock -u /dev/mtd0 $(($size - (2 * $bs))) 1 # alll but two
 $ show_sectors
 locked sectors
  region (in hex)   | status   | #blocks
  ------------------+----------+--------
- 00000000-0ffdffff |   locked | 4094
- 0ffe0000-0fffffff | unlocked | 2
+ 00000000-07fdffff |   locked | 2046
+ 07fe0000-07ffffff | unlocked | 2
 ---
- drivers/mtd/spi-nor/winbond.c | 24 +++++++++++++++++++++++-
- 1 file changed, 23 insertions(+), 1 deletion(-)
+ drivers/mtd/spi-nor/winbond.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/mtd/spi-nor/winbond.c b/drivers/mtd/spi-nor/winbond.c
-index 1b9b0e9598ef..959fd4f46eb5 100644
+index 959fd4f46eb5..373c0af9daa2 100644
 --- a/drivers/mtd/spi-nor/winbond.c
 +++ b/drivers/mtd/spi-nor/winbond.c
-@@ -73,6 +73,26 @@ static const struct spi_nor_fixups w25q256_fixups = {
- 	.post_bfpt = w25q256_post_bfpt_fixups,
- };
- 
-+static int
-+winbond_rdcr_post_bfpt_fixup(struct spi_nor *nor,
-+			     const struct sfdp_parameter_header *bfpt_header,
-+			     const struct sfdp_bfpt *bfpt)
-+{
-+	/*
-+	 * W25H02NW, unlike its W25H512NW nor W25H01NW cousins, improperly sets
-+	 * the QE BFPT configuration bits, indicating a non readable CR. This is
-+	 * both incorrect and impractical, as the chip features a CMP bit for its
-+	 * locking scheme that lays in the Control Register, and needs to be read.
-+	 */
-+	nor->flags &= ~SNOR_F_NO_READ_CR;
-+
-+	return 0;
-+}
-+
-+static const struct spi_nor_fixups winbond_rdcr_fixup = {
-+	.post_bfpt = winbond_rdcr_post_bfpt_fixup,
-+};
-+
- /**
-  * winbond_nor_select_die() - Set active die.
-  * @nor:	pointer to 'struct spi_nor'.
-@@ -368,7 +388,9 @@ static const struct flash_info winbond_nor_parts[] = {
+@@ -366,7 +366,9 @@ static const struct flash_info winbond_nor_parts[] = {
  	}, {
- 		/* W25H02NWxxAM */
- 		.id = SNOR_ID(0xef, 0xa0, 0x22),
+ 		/* W25Q01NWxxIQ */
+ 		.id = SNOR_ID(0xef, 0x60, 0x21),
 -		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 | SPI_NOR_4BIT_BP,
 +		.flags = SPI_NOR_HAS_LOCK | SPI_NOR_HAS_TB | SPI_NOR_TB_SR_BIT6 |
 +			 SPI_NOR_4BIT_BP | SPI_NOR_HAS_CMP,
 +		.fixups = &winbond_rdcr_fixup,
- 	},
- };
- 
+ 	}, {
+ 		/* W25Q01NWxxIM */
+ 		.id = SNOR_ID(0xef, 0x80, 0x21),
 
 -- 
 2.53.0
