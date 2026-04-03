@@ -1,41 +1,42 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1801F3D47A4
-	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 16:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AEA3594A
+	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 16:09:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775232593; cv=none; b=ct135asiAlT2kmF5ffLpVR3EnIYwAy1i9LYcnBcvBqnnlVzoBfsrbCDoPIdHHV4Zu3Zlg0jdx3ghFiMvvpXnVqh7NwmrUCxxfz93ABtLjR+aJ3td8fewBB8tWOlJlnw/6Qyk077fwpkl5qKKCG22GCC1ak+enVN3ekdN2KxBXZ0=
+	t=1775232595; cv=none; b=jOlDUawRSz6t1zHu5/YXPvu8KMYm1f4Xkdk4u5whNhi7lGru56RgwLHwCc6844bgIYlleGBarHH+O6CobP2bZfom1bwZkfn54JW/XZy5vyk5WpEq+x2YHqxoH1VUXexk4uiWgeHYqPWsRCT+YWtA5z6QKcyV8hAk/iSW/n5cS0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775232593; c=relaxed/simple;
-	bh=AJ5kgwcORFft8X7fGFxg332WWjDtcyKWpTMRFzOEUgE=;
+	s=arc-20240116; t=1775232595; c=relaxed/simple;
+	bh=kWw1aR6p8m7hAlouR4+sYFaGHye+H3XbCAC0JIcdhhk=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=jLIA5aiqlV8WvP/N/3bgL7rFbM/TuxE75QytvvqLsZS/Z88fEKFbgELNA465u0QXcswIWmy6QNRN6LUSAigNNmkB8KIHDB1OcpNsVxJG3urv/qeZ7ZXmMh/7cWKekQ+3YlCrGHyYoVYJf5cicVJBBvDwi/z/HCCqdkSSkd3BLPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mk8QuibA; arc=none smtp.client-ip=185.171.202.116
+	 In-Reply-To:To:Cc; b=dAQEyoZwDYXMiyobkW9X4VCGBcEAY4w6ae4ZBvQ9QZhyLUmAhNJ9hitpx6fSj3j+hpyaKMetHdaO5/4p1rD0hvWIHmPkgp7U0XgG8UZjfLdgyGX9qdAPLy652gh1p2Dy2lN1xVuA6xnchnunI1JkVuEhkpu+swFfOo2ozyJfSZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lvA4n3WW; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mk8QuibA"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lvA4n3WW"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id ABBBDC59F65;
-	Fri,  3 Apr 2026 16:10:22 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 486E74E428D5;
+	Fri,  3 Apr 2026 16:09:53 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AC2C2603C1;
-	Fri,  3 Apr 2026 16:09:50 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 07CE010450109;
-	Fri,  3 Apr 2026 18:09:47 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1E72F603C1;
+	Fri,  3 Apr 2026 16:09:53 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 52F0510450103;
+	Fri,  3 Apr 2026 18:09:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775232589; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1775232592; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=380DMxOtkVf4S8j1lpaF5rnIUMKJfHDNDSHsb4bomqI=;
-	b=mk8QuibAk95VamgZNE+FL3M989pwdgmWpqW4LMiT+KCNbITz2GPesT6IeR31Px2Vl9dy3A
-	pnp2GYNhrn6fVGfxksGFmKjufllajN9DVXXN7nh4C46w+RjLRtPO+Pv2s+k7Mfesi0UkwG
-	7H4XojzYgaFAmnjh4dX8guOXXPBP5/lY2wS3xH+BppNNwH9Jg4MNEScIIA51GQJCqaHl/j
-	u98bo7CJrqMFr2gEtZoqeO/vjiI1uNZAkXTgVFlAtlEMbqDmzJiK3AkmNudydq9oxjkz5H
-	kNKmRjYRIf5GJS4upyXfmnHQyyHSxbjgVuhKsSA9CRRK54/OCqTHYYebCZD2zw==
+	bh=tFedJhlwMXaI/keWu4o5kk0Lj8Dpliq7e9ukabUVktc=;
+	b=lvA4n3WWkwT+4QMF+Rrao8+Z7oiN4v5mOxgXfzmPLYv4BJ+sMBFUM3JFq7QphWgVyL4+/X
+	/sSihHBKuCalFojGjweW8+QBvVNLbWWYMLz03xX8J6fQYMznczIaHwhjoMGdJewqRqzuTp
+	4GqzuTbaAePzTVkXhOrD47J/HEFnhpJY4fxDHMGQrCyhL9hvNroEHxA5A7sQxif0DnlzaX
+	KDFtVOc+mfDJctN3JF29BIK6K5TBwraB3p+jt4fxI2IHuKgsciwtuK3YkYAowEFhKxP+sE
+	CqU3/3LGmEdQMiEZvfgzOM4Ag1dqn29q2eGhZAATSgaWDCnsADlW5gC5R2cSaA==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-Date: Fri, 03 Apr 2026 18:09:24 +0200
-Subject: [PATCH v4 06/27] mtd: spi-nor: debugfs: Enhance output
+Date: Fri, 03 Apr 2026 18:09:25 +0200
+Subject: [PATCH v4 07/27] mtd: spi-nor: swp: Explain the MEMLOCK ioctl
+ implementation behaviour
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,7 +45,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-6-833dab5e7288@bootlin.com>
+Message-Id: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-7-833dab5e7288@bootlin.com>
 References: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
 In-Reply-To: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
 To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
@@ -59,29 +60,35 @@ Cc: Sean Anderson <sean.anderson@linux.dev>,
 X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Align the number of dashes to the bigger column width (the title in this
-case) to make the output more pleasant and aligned with what is done
-in the "params" file output.
+Add comments about how these requests are actually handled in the SPI
+NOR core. Their behaviour was not entirely clear to me at first, and
+explaining them in plain English sounds the way to go.
 
 Reviewed-by: Michael Walle <mwalle@kernel.org>
 Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 ---
- drivers/mtd/spi-nor/debugfs.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/mtd/spi-nor/swp.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/mtd/spi-nor/debugfs.c b/drivers/mtd/spi-nor/debugfs.c
-index 69830ad43990..d0191eb9f879 100644
---- a/drivers/mtd/spi-nor/debugfs.c
-+++ b/drivers/mtd/spi-nor/debugfs.c
-@@ -144,7 +144,7 @@ static int spi_nor_params_show(struct seq_file *s, void *data)
+diff --git a/drivers/mtd/spi-nor/swp.c b/drivers/mtd/spi-nor/swp.c
+index 1d50db1ef1a0..64a917543928 100644
+--- a/drivers/mtd/spi-nor/swp.c
++++ b/drivers/mtd/spi-nor/swp.c
+@@ -346,6 +346,14 @@ static int spi_nor_sr_is_locked(struct spi_nor *nor, loff_t ofs, u64 len)
+ 	return spi_nor_is_locked_sr(nor, ofs, len, nor->bouncebuf[0]);
+ }
  
- 	seq_puts(s, "\nsector map\n");
- 	seq_puts(s, " region (in hex)   | erase mask | overlaid\n");
--	seq_puts(s, " ------------------+------------+----------\n");
-+	seq_puts(s, " ------------------+------------+---------\n");
- 	for (i = 0; i < erase_map->n_regions; i++) {
- 		u64 start = region[i].offset;
- 		u64 end = start + region[i].size - 1;
++/*
++ * These ioctls behave according to the following rules:
++ * ->lock(): Never locks more than what is requested, ie. may lock less
++ * ->unlock(): Never unlocks more than what is requested, ie. may unlock less
++ * -is_locked(): Checks if the region is *fully* locked, returns false otherwise.
++ *               This feeback may be misleading because users may get an "unlocked"
++ *               status even though a subpart of the region is effectively locked.
++ */
+ static const struct spi_nor_locking_ops spi_nor_sr_locking_ops = {
+ 	.lock = spi_nor_sr_lock,
+ 	.unlock = spi_nor_sr_unlock,
 
 -- 
 2.53.0
