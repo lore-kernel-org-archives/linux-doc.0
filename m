@@ -1,119 +1,195 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FBA3C5DC5
-	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 16:06:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14373C9EE2
+	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 16:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775232406; cv=none; b=uKukPSuUd4W3lULQ8czLrvmfo5gmOXskRFtZ3plNtZaq2dLArVDPwatGSBvCXFRQXukIaUwo4d8MiAqR6gQcNcE+Klvz+c4xbKHfjRs0Mk9QGGdHFxm0NCGHcXj3zD9gSKjHq4/r8PcmhUncQMgQS/jGkfFS8kX7nZZhCkSx3/Q=
+	t=1775232577; cv=none; b=bvUohXlz1Lgbuozvm/WgNUtRnCguC/ARovPyg5/2hZo0HpXQ5mZlHEd/9CLrM9TmqICaP5Srd2WhFAsmSf+o2y/pDgW+E5lDDE0t9SdgSR/XvcqpuYzqEDC6zS45pHZUpWTA9M7FrEHw8ir8LkQhISjbigGmGeVVAbra/w2dje4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775232406; c=relaxed/simple;
-	bh=t0EHngMNYsB2IiM9j2tQRnef+d8tab6F5xgT1UMQNwg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fnDPgyGG2ManMSaDlJiqTEaGD3bk8PBpwKd82AB67HEk4o6aySA61RMl9E51RrBMoz3JlwV39YaG1clKQKTifLUb40aeVvYSvM0FomRKBvRNhkOiqIEERi4mDLkd9tY494CIkaWIbJlMBGSRWwWnUFmdAQCzAX8RwO4Blxtj0ts=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2Tx1mKPq; arc=none smtp.client-ip=185.246.84.56
+	s=arc-20240116; t=1775232577; c=relaxed/simple;
+	bh=YAH+ZurLRfhmoAiuZACJhRNVytl+2ARzpU/H9/jkSd4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=W+qCMOdxPN8dX1AmziSx3HHM9p9YSTZEw7BZ5vOnaz8z1aEaRkW/F8QzsIce4ssZoxXs2Kwy7TFFkaaU/ARekawT63MhWinfv4bzWeUImR8fftceGa8mEqocvFFzp5d9nEMC8mVZZAmxpv83QjtLlmqiSJlgxheVAeCneDWYi+I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=dTophB3G; arc=none smtp.client-ip=185.246.85.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2Tx1mKPq"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="dTophB3G"
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id AD9191A312B;
-	Fri,  3 Apr 2026 16:06:42 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id D01784E428D5;
+	Fri,  3 Apr 2026 16:09:34 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 703EC603C1;
-	Fri,  3 Apr 2026 16:06:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 049E3104500F9;
-	Fri,  3 Apr 2026 18:06:34 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A6AFF603C1;
+	Fri,  3 Apr 2026 16:09:34 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C39FD104500FA;
+	Fri,  3 Apr 2026 18:09:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1775232401; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=KrVx7jihaMo4JfVPFc6GDwNKRrjQQHnDzJIXkqNJIFg=;
-	b=2Tx1mKPqr6MGr+MBrfMLLJ7EKQyPlAHd+lPXQZazym6imMuJ10BcFwZxJ3Tkdz4VOmXNLl
-	fqbziwHYlYvdSeJn99Qj3FsRy9ciSZwNxpNUVTYNdtBLaWRk++Ji2j3HvP7fO4hdJBPSZW
-	1HWLavfhPgrYou6npZxg0jcOwPUuxa/eKtL1BPcodUfuEu7aOAHgPmTsxBHm3NFdHmBYo8
-	zoUb0sGSk/Whv5/D3OC6A4bfoRFLjd6jnoZBJmJs/STJIO66Ud7kxgvqFfyeOWc7oMIlPy
-	30Hdqch5+DaKmbe6L4E/VP09lKdFP2wiOm2awo2HDAw84feMgnaz3f69IZFyLg==
+	t=1775232573; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=lwx4GL+YP18+KXWG9qAxiqZd8QCkawuHr7FPaYnFw4I=;
+	b=dTophB3GMl/tfwGd7FEpZfPrYX9Iz1VbfEXxyezCo8jYRtXz8k0N3bUYyYEMqV3aBwc2Ms
+	g4/oRe65Zt9ngOgU3nCoGQ9Huua6vx4VIXW8uduM1zfu264H3PM/q4r5MhMpPDmEshaE+0
+	EZnFqYBBKbvdA24+kSZL7hqvo8cKuF4LsD06vLQhQ4kUBa7s+f8XyanlKRfkLpirNI+732
+	3A1eFWVq2KhXOFxtz1vMAoQDKd3DZ2Die1Wg9DlvA1SI65E2pczabdxeOrrIQ40d4+7Ohp
+	8BqxhjN6Azzq21Pti02h+Sp9YCtI+Pf5jsfHi+hIkDbCUKCtYkZc/rC996wbJQ==
 From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: <Takahiro.Kuwano@infineon.com>
-Cc: <pratyush@kernel.org>,  <mwalle@kernel.org>,  <richard@nod.at>,
-  <vigneshr@ti.com>,  <corbet@lwn.net>,  <tudor.ambarus@linaro.org>,
-  <sean.anderson@linux.dev>,  <thomas.petazzoni@bootlin.com>,
-  <STLin2@winbond.com>,  <linux-mtd@lists.infradead.org>,
-  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 17/27] mtd: spi-nor: debugfs: Add locking support
-In-Reply-To: <ee2057a104d44d3dbfbedcf5b1ed80b2@infineon.com> (Takahiro
-	Kuwano's message of "Thu, 2 Apr 2026 05:40:55 +0000")
-References: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
-	<20260317-winbond-v6-18-rc1-spi-nor-swp-v3-17-2ca9ea4e7b9b@bootlin.com>
-	<ee2057a104d44d3dbfbedcf5b1ed80b2@infineon.com>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Fri, 03 Apr 2026 18:06:33 +0200
-Message-ID: <87a4vk58qe.fsf@bootlin.com>
+Subject: [PATCH v4 00/27] mtd: spi-nor: Enhance software protection
+Date: Fri, 03 Apr 2026 18:09:18 +0200
+Message-Id: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/43NwW4CIRSF4VcxrL0NFxgGXPU9GhcDw+hNFCYwQ
+ Rsz7140aZrGhS7/s/jOjZWQKRS229xYDpUKpdhCbTfMH4d4CEBjaya46BBRwYWiS3GEqgENZI9
+ QZoKYMpTLDEZ3o9STmrTtWDPmHCa6PvyvfesjlSXl78ddxfv6rlwROCjTO9+jsFbip0tpOVH88
+ OnM7nYVv57myM0rTzTPKy3CZLhGyZ89+edJ7F95snnCDzYMKvTOuv/euq4/YaCxcWwBAAA=
+X-Change-ID: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+To: Pratyush Yadav <pratyush@kernel.org>, Michael Walle <mwalle@kernel.org>, 
+ Takahiro Kuwano <takahiro.kuwano@infineon.com>, 
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Sean Anderson <sean.anderson@linux.dev>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Steam Lin <STLin2@winbond.com>, linux-mtd@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Miquel Raynal <miquel.raynal@bootlin.com>, stable@kernel.org
+X-Mailer: b4 0.14.3
 X-Last-TLS-Session-Version: TLSv1.3
 
-Hi Takahiro,
+Hello,
 
->> +u64 spi_nor_get_min_prot_length_sr(struct spi_nor *nor);
->> +void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, lof=
-f_t *ofs, u64 *len);
->> +bool spi_nor_is_locked_sr(struct spi_nor *nor, loff_t ofs, u64 len, con=
-st u8 *sr);
->> +
->
-> It would be better to have generic helper functions rather than using SR-=
-based
-> functions directly. The locking_ops is vendor/chip specific and can provi=
-de
-> other locking mechanism than SR-based block protection. For instance, Inf=
-ineon,
-> Micron, Macronix (and maybe other vendors) offer protection mechanisms th=
-at can
-> protect sectors individually with volatile or non-volatile manner.
+As recently raised on the mailing-list (link below), it seems that the
+"locking" support in SPI NOR could benefit from some enhancements. As I
+myself had to dig into it recently, here is a proposal.
 
-I get what you mean, thanks for pointing this out. Unfortunately it's
-not that straightforward.
+First issue that I see, the MEMLOCK ioctl is not behaving correctly
+in some cases, as addressed in:
 
-As of today, there are the "default" locking ops (SR based) and a few
-others, chip specific. For debugging purposes, these "other" ops do not
-provide any kind of useful feedback regarding what has actually been
-locked. Only SR based chips provide this, it is useful, I want to use it.
+    mtd: spi-nor: swp: Improve locking user experience
 
-So I'm going to expose a new boolean to filter out whether we have
-locking support *and* if yes, whether we can use SR based functions, this
-should also address this concern:
+Then there is no clear explanation of the shortcuts taken by the kernel
+in terms of uAPI, so there is an attempt to list them in:
 
-> Don't we need to check 'SNOR_F_HAS_LOCK' flag here?
+    mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
 
-We will still need to expose the SR specific helpers, though, but at
-least we will no longer get inconsistencies with chips not featuring the
-default SR approach.
+Plus, Tudor also asked if we could cover locking in the testing
+procedure, which is done in:
 
->> +       seq_puts(s, "\nlocked sectors\n");
->> +       seq_puts(s, " region (in hex)   | status   | #blocks\n");
->> +       seq_puts(s, " ------------------+----------+--------\n");
->> +
->> +       spi_nor_get_locked_range_sr(nor, nor->dfs_sr_cache, &lock_start,=
- &lock_length);
->> +       if (!lock_length || lock_length =3D=3D params->size) {
->> +               seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, para=
-ms->size - 1,
->> +                          lock_length ? "  locked" : "unlocked", params=
-->size / min_prot_len);
->
-> div_u64() is needed.=20
-> I got undefined reference to `__aeabi_uldivmod' for my 32-bit ARM platfor=
-m.
-> Same for following four seq_printf().
+    mtd: spi-nor: Add steps for testing locking support
 
-Good catch, I will fix this too.
+In order to simplify this procedure, and because it got very helpful
+during my testing/development, I want to propose additions to the
+debugfs output:
 
-Thanks,
-Miqu=C3=A8l
+    mtd: spi-nor: debugfs: Add locking support TODO: make the captures again
+
+Finally, I am providing an implementation for the complement (CMP)
+feature in order to allow finer control of the regions locked. This
+feature is for instance available on Winbond chips:
+
+    [core] mtd: spi-nor: swp: Add support for the complement feature
+    [doc]  mtd: spi-nor: Add steps for testing locking with CMP
+    [use]  mtd: spi-nor: winbond: Add CMP locking support
+
+Disclaimer: it was much less straightforward than I initially thought to
+get the CMP feature working correctly. I tested it with as much focus as
+I could, and I am improving the test coverage for the new cases, I am
+also providing extra test cases in the metadata of the commit (which do
+not make sense to test for chip additions, but may be sensible show when
+making core additions like this one), but honestly there are so many
+possibilities, I may still be missing corner cases. I hope this will
+anyway be helpful to others!
+
+All the other patches are misc improvements or style fixes which I faced
+and fixed during my development.
+
+Link: https://lore.kernel.org/linux-mtd/92e99a96-5582-48a5-a4f9-e9b33fcff171@linux.dev/
+
+Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
+---
+Changes in v4:
+- Make sure we don't try to show the (SR specific) debugfs info if the
+  chip does not support an SR based locking scheme. For this, add a new
+  helper to derive whether we are using the default ops or not.
+- Fix compilation issue on arm32, by using div_u64.
+- Link to v3: https://lore.kernel.org/r/20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com
+
+Changes in v3:
+- No change at all, just rebased on top of v7.0-rc1.
+- Collected 2 R-by from M. Walle.
+- Link to v2: https://lore.kernel.org/r/20260108-winbond-v6-18-rc1-spi-nor-swp-v2-0-c462ef806130@bootlin.com
+
+Changes in v2:
+- Collect tags.
+- Add missing Fixes/Cc: stable tags.
+- Add a comment explaining why can_be_top && can_be_bottom is a specific
+  condition.
+- Fix commit logs following Michael Walle's reviews.
+- Amend the documentation following our discussion with Michael Walle as
+  well.
+- Cache the SR register for debugfs use.
+- Create a locked sector map file instead of dumping it as part of the
+  `params` file output.
+- Improved greatly the output of the map as suggested by Michael.
+- Add a patch fixing a duplicate dependency in Kconfig.
+- Add an important comment in the doc about the small 4kiB erase size
+  choice.
+- Add test runs for each and every chip for which the CMP feature is
+  added. This prove me that testing of each and every chip was needed,
+  as some of them seem to feature a broken BFPT table which does not
+  advertise a working 35h (Read CR) command.
+- Added a condition on which the CMP feature is enabled: RDCR must be
+  possible.
+- Link to v1: https://lore.kernel.org/r/20251114-winbond-v6-18-rc1-spi-nor-swp-v1-0-487bc7129931@bootlin.com
+
+---
+Miquel Raynal (27):
+      mtd: spi-nor: Drop duplicate Kconfig dependency
+      mtd: spi-nor: debugfs: Fix the flags list
+      mtd: spi-nor: swp: Improve locking user experience
+      mtd: spi-nor: Improve opcodes documentation
+      mtd: spi-nor: debugfs: Align variable access with the rest of the file
+      mtd: spi-nor: debugfs: Enhance output
+      mtd: spi-nor: swp: Explain the MEMLOCK ioctl implementation behaviour
+      mtd: spi-nor: swp: Clarify a comment
+      mtd: spi-nor: swp: Use a pointer for SR instead of a single byte
+      mtd: spi-nor: swp: Create a helper that writes SR, CR and checks
+      mtd: spi-nor: swp: Rename a mask
+      mtd: spi-nor: swp: Create a TB intermediate variable
+      mtd: spi-nor: swp: Create helpers for building the SR register
+      mtd: spi-nor: swp: Simplify checking the locked/unlocked range
+      mtd: spi-nor: swp: Cosmetic changes
+      mtd: spi-nor: Create a local SR cache
+      mtd: spi-nor: debugfs: Add locking support
+      mtd: spi-nor: debugfs: Add a locked sectors map
+      mtd: spi-nor: Add steps for testing locking support
+      mtd: spi-nor: swp: Add support for the complement feature
+      mtd: spi-nor: Add steps for testing locking with CMP
+      mtd: spi-nor: winbond: Add W25H512NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H02NWxxAM CMP locking support
+      mtd: spi-nor: winbond: Add W25H01NWxxIQ CMP locking support
+      mtd: spi-nor: winbond: Add W25Q01NWxxIM CMP locking support
+      mtd: spi-nor: winbond: Add W25Q02NWxxIM CMP locking support
+
+ Documentation/driver-api/mtd/spi-nor.rst | 164 ++++++++++++++
+ drivers/mtd/spi-nor/Kconfig              |   1 -
+ drivers/mtd/spi-nor/core.c               |  74 ++++++-
+ drivers/mtd/spi-nor/core.h               |  11 +
+ drivers/mtd/spi-nor/debugfs.c            |  69 +++++-
+ drivers/mtd/spi-nor/swp.c                | 364 ++++++++++++++++++++++++-------
+ drivers/mtd/spi-nor/winbond.c            |  41 +++-
+ include/linux/mtd/spi-nor.h              |   7 +-
+ 8 files changed, 643 insertions(+), 88 deletions(-)
+---
+base-commit: 2cd9033836346e630afaf847c4f1ced08c4d1846
+change-id: 20251114-winbond-v6-18-rc1-spi-nor-swp-865d36f4f695
+
+Best regards,
+-- 
+Miquel Raynal <miquel.raynal@bootlin.com>
+
