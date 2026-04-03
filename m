@@ -1,203 +1,316 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03931359A9A;
-	Fri,  3 Apr 2026 18:52:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75B8A356A0D;
+	Fri,  3 Apr 2026 19:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775242366; cv=none; b=C56q06fxO/to7rCMPmlpvifkSMU766QNFMGuHfWKw5i/LuVct8CfX7hKVpJigiBP2qhSWb4RKAU9rsvVgB36vCvmAoSfd3dkItOO9H1P5rtk6sjwuiidz3+CV6/IMTZDppPSmAAuUErdpybh79DOfaS3x2+U/ZSeV27D2HhjZfE=
+	t=1775245787; cv=none; b=qonfpEydmjoos1Iwbd2mpEMAi4PsoDLlIMsuKCpq0XZ/s6r1YjhyLOzlZc4++B4ObszUFCVltVw9C6RdHnYDU/G8Ks0DIvOLKXdmfMnP0P6khFlNQYosC98iKA6liKHgxmvxWPZ0s425icdwCxKh9ebZx3g3juZ9KEEP8UOd1GY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775242366; c=relaxed/simple;
-	bh=qCq+niiYs08OI/g1thV9NiGH1VzsltGEVREW4lf2xNw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Unzi/JtuqTSzMW+MIhGwW/BhxHKWinGx9qBo08I/dE1LftQhV9EJj8Uz0E1ef9nGrEHMQ9qAjlotule56VExfKH6qyjvfe7Xl9aQdE531TRTDK+KI6t/EAoAognGcu1z+H6/5BF/r/w/Rhw0QzvF3R+zDi07h4M7loV5IlR6Onw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IDBjxuLt; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775245787; c=relaxed/simple;
+	bh=nWxGHJ0XQ3+ElUw2cmWPyuD48NvnBEBWFCtaxP+kekg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ijbV90KOh0mmeDN/FZxASkxUETdF07o0YPBueK0FjGXtqh3xAtWgXNB0uD4LNDoMzROr7UfHMu2U2+pMsayaGdlrwoingd4rVqGKCw90H664PBrKbhqKhRO5GaQzlWKa0hdx5LHs0BpKhzfyy9XidOXLllDd2j101bUILSco02I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lfjs79Ds; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IDBjxuLt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lfjs79Ds"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775242364; x=1806778364;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=qCq+niiYs08OI/g1thV9NiGH1VzsltGEVREW4lf2xNw=;
-  b=IDBjxuLtnQ/5ypdqWTX/FgHZ2k/y2plERivV+GhDYIf1rRUyV/hMVTAm
-   KvdpdrbWp7mmnSeMeR+9eii+Dlw8N+PQ2APgYnBcEtt+PftqY2KMJRcdX
-   v6UelYTkJL8myJF8SoJ1ldHycaO9VVF3JWUu/ex9hgt02xT8f93pUWTci
-   WuqRLvJkZO4fZcAalvEvbPS9rqGc3VUr2U4AEJwEt8pSiTthPYNq13olH
-   FYO+1QyNUYCCvpJbJq0h8OQPaanrzwM/FKBCVvio/6neMERAl2cx16PvB
-   A29sNcdz8kIAEajccVosyJGARODCfmF8ep2lvd/8/IknQTjZM0muSPdoR
+  t=1775245786; x=1806781786;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=nWxGHJ0XQ3+ElUw2cmWPyuD48NvnBEBWFCtaxP+kekg=;
+  b=lfjs79Ds7H6KZcBHGT1W6dBQ2s/SxsgXEvUjt14Hho1ZD+Cin3uIELEu
+   WHxUa+Ww42xFvzDDn5ma4/gMTy6WQTFKETBqhWcFaHNGVNDpqUKyZVZat
+   c1EDN7xJQ6TvcwPSkMcfa2omE4YkhjlprDtHxcDOmOOuXO+nrBS6FM/zQ
+   eQq/Trzet2+CGikXJ0CVlkI3NIaqO784wQMmBkhYYtblVXdH9+u8REh53
+   J9XZjE2xOHR6ADYgRSVJIciRug4EacsXAoxHcFlvlxyCECqhm6BAhLV5I
+   ujEDtUqOhnpFnhhoXLyokRK1YrrZe+lV84maJprcbbz1VekFUM1L+mxxI
    g==;
-X-CSE-ConnectionGUID: 0RUw0/y6QT2FMJgyNQM8aQ==
-X-CSE-MsgGUID: xmkRIYzzQhGAwZBbJ7OoLQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76371834"
+X-CSE-ConnectionGUID: neuFX0u5R/GtHZatLrBNBA==
+X-CSE-MsgGUID: mdrSVPnhTzeN+n+4GO3kkQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76428742"
 X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="76371834"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 11:52:43 -0700
-X-CSE-ConnectionGUID: YCzJz3BCSyWVXjrE59tEEg==
-X-CSE-MsgGUID: k2NK7vkuS6+JFVShQqkkEw==
+   d="scan'208";a="76428742"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 12:49:44 -0700
+X-CSE-ConnectionGUID: ueKztHYsTYGqfP1K+VNJhA==
+X-CSE-MsgGUID: uK4f3zrQQGixHIDQeQi8bg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="222974791"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 11:52:42 -0700
-Date: Fri, 3 Apr 2026 11:52:36 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260403185236.sjgetnkha3o3a4d3@desk>
-References: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com>
- <20260402-vmscape-bhb-v9-2-94d16bc29774@linux.intel.com>
- <CALMp9eSLVvr00mJ0J2f2_SPeCW-VS58kxMcxHgUW6etML+_+QA@mail.gmail.com>
+   d="scan'208";a="265266109"
+Received: from anguy11-upstream.jf.intel.com ([10.166.9.133])
+  by orviesa001.jf.intel.com with ESMTP; 03 Apr 2026 12:49:43 -0700
+From: Tony Nguyen <anthony.l.nguyen@intel.com>
+To: davem@davemloft.net,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	edumazet@google.com,
+	andrew+netdev@lunn.ch,
+	netdev@vger.kernel.org
+Cc: Tony Nguyen <anthony.l.nguyen@intel.com>,
+	larysa.zaremba@intel.com,
+	przemyslaw.kitszel@intel.com,
+	aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	anjali.singhai@intel.com,
+	michal.swiatkowski@linux.intel.com,
+	maciej.fijalkowski@intel.com,
+	emil.s.tantilov@intel.com,
+	madhu.chittim@intel.com,
+	joshua.a.hay@intel.com,
+	jacob.e.keller@intel.com,
+	jayaprakash.shanmugam@intel.com,
+	jiri@resnulli.us,
+	horms@kernel.org,
+	corbet@lwn.net,
+	richardcochran@gmail.com,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v2 00/14][pull request] Introduce iXD driver
+Date: Fri,  3 Apr 2026 12:49:22 -0700
+Message-ID: <20260403194938.3577011-1-anthony.l.nguyen@intel.com>
+X-Mailer: git-send-email 2.47.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALMp9eSLVvr00mJ0J2f2_SPeCW-VS58kxMcxHgUW6etML+_+QA@mail.gmail.com>
 
-On Fri, Apr 03, 2026 at 11:10:08AM -0700, Jim Mattson wrote:
-> On Thu, Apr 2, 2026 at 5:32 PM Pawan Gupta
-> <pawan.kumar.gupta@linux.intel.com> wrote:
-> >
-> > As a mitigation for BHI, clear_bhb_loop() executes branches that overwrite
-> > the Branch History Buffer (BHB). On Alder Lake and newer parts this
-> > sequence is not sufficient because it doesn't clear enough entries. This
-> > was not an issue because these CPUs use the BHI_DIS_S hardware mitigation
-> > in the kernel.
-> >
-> > Now with VMSCAPE (BHI variant) it is also required to isolate branch
-> > history between guests and userspace. Since BHI_DIS_S only protects the
-> > kernel, the newer CPUs also use IBPB.
-> >
-> > A cheaper alternative to the current IBPB mitigation is clear_bhb_loop().
-> > But it currently does not clear enough BHB entries to be effective on newer
-> > CPUs with larger BHB. At boot, dynamically set the loop count of
-> > clear_bhb_loop() such that it is effective on newer CPUs too. Use the
-> > X86_FEATURE_BHI_CTRL feature flag to select the appropriate loop count.
-> >
-> > Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> > ---
-> >  arch/x86/entry/entry_64.S            |  8 +++++---
-> >  arch/x86/include/asm/nospec-branch.h |  2 ++
-> >  arch/x86/kernel/cpu/bugs.c           | 13 +++++++++++++
-> >  3 files changed, 20 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
-> > index 3a180a36ca0e..bbd4b1c7ec04 100644
-> > --- a/arch/x86/entry/entry_64.S
-> > +++ b/arch/x86/entry/entry_64.S
-> > @@ -1536,7 +1536,9 @@ SYM_FUNC_START(clear_bhb_loop)
-> >         ANNOTATE_NOENDBR
-> >         push    %rbp
-> >         mov     %rsp, %rbp
-> > -       movl    $5, %ecx
-> > +
-> > +       movzbl    bhb_seq_outer_loop(%rip), %ecx
-> > +
-> >         ANNOTATE_INTRA_FUNCTION_CALL
-> >         call    1f
-> >         jmp     5f
-> > @@ -1556,8 +1558,8 @@ SYM_FUNC_START(clear_bhb_loop)
-> >          * This should be ideally be: .skip 32 - (.Lret2 - 2f), 0xcc
-> >          * but some Clang versions (e.g. 18) don't like this.
-> >          */
-> > -       .skip 32 - 18, 0xcc
-> > -2:     movl    $5, %eax
-> > +       .skip 32 - 20, 0xcc
-> > +2:     movzbl  bhb_seq_inner_loop(%rip), %eax
-> >  3:     jmp     4f
-> >         nop
-> >  4:     sub     $1, %eax
-> > diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
-> > index 70b377fcbc1c..87b83ae7c97f 100644
-> > --- a/arch/x86/include/asm/nospec-branch.h
-> > +++ b/arch/x86/include/asm/nospec-branch.h
-> > @@ -548,6 +548,8 @@ DECLARE_PER_CPU(u64, x86_spec_ctrl_current);
-> >  extern void update_spec_ctrl_cond(u64 val);
-> >  extern u64 spec_ctrl_current(void);
-> >
-> > +extern u8 bhb_seq_inner_loop, bhb_seq_outer_loop;
-> > +
-> >  /*
-> >   * With retpoline, we must use IBRS to restrict branch prediction
-> >   * before calling into firmware.
-> > diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> > index 83f51cab0b1e..2cb4a96247d8 100644
-> > --- a/arch/x86/kernel/cpu/bugs.c
-> > +++ b/arch/x86/kernel/cpu/bugs.c
-> > @@ -2047,6 +2047,10 @@ enum bhi_mitigations {
-> >  static enum bhi_mitigations bhi_mitigation __ro_after_init =
-> >         IS_ENABLED(CONFIG_MITIGATION_SPECTRE_BHI) ? BHI_MITIGATION_AUTO : BHI_MITIGATION_OFF;
-> >
-> > +/* Default to short BHB sequence values */
-> > +u8 bhb_seq_outer_loop __ro_after_init = 5;
-> > +u8 bhb_seq_inner_loop __ro_after_init = 5;
-> > +
-> >  static int __init spectre_bhi_parse_cmdline(char *str)
-> >  {
-> >         if (!str)
-> > @@ -3242,6 +3246,15 @@ void __init cpu_select_mitigations(void)
-> >                 x86_spec_ctrl_base &= ~SPEC_CTRL_MITIGATIONS_MASK;
-> >         }
-> >
-> > +       /*
-> > +        * Switch to long BHB clear sequence on newer CPUs (with BHI_CTRL
-> > +        * support), see Intel's BHI guidance.
-> > +        */
-> > +       if (cpu_feature_enabled(X86_FEATURE_BHI_CTRL)) {
-> > +               bhb_seq_outer_loop = 12;
-> > +               bhb_seq_inner_loop = 7;
-> > +       }
-> > +
-> 
-> How does this work for VMs in a heterogeneous migration pool that
-> spans the Alder Lake boundary? They can't advertise BHI_CTRL, because
-> it isn't available on all hosts in the migration pool, but they need
-> the long sequence when running on Alder Lake or newer.
+Larysa Zaremba says:
 
-As we discussed elsewhere, support for migration pool is much more
-involved. It should be dealt in a separate QEMU/KVM focused series.
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-A quickfix could be adding support for spectre_bhi=long that guests in a
-migration pool can use?
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
 
-> Previously, I considered such a migration pool infeasible, because of
-> the change in MAXPHYADDR, but I now predict that I will lose that
-> battle.
+The first phase entails the following aspects:
+
+1. Additional libie functionalities:
+Patches 1-5 introduce additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
+
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
+
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
+
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
+
+The modules above are not supposed to be linked witn the main libie library,
+but do share the folder with it.
+
+2. idpf:
+Patches 6-9 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization
+and reset and adjust related code accordingly.
+
+3. ixd:
+Patches 11-14 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+---
+v2:
+- improved failure handling and input validation
+- removed cp version from devlink in ixd
+
+v1: https://lore.kernel.org/netdev/20260317230905.847744-1-anthony.l.nguyen@intel.com/
+
+The following are changes since commit 8b0e64d6c9e7feec5ba5643b4fa8b7fd54464778:
+  Merge branch 'enic-sr-iov-v2-preparatory-infrastructure'
+and are available in the git repository at:
+  git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue 
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (5):
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (4):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie_pci APIs
+  idpf: refactor idpf to use libie control queues
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (1):
+  virtchnl: create 'include/linux/intel' and move necessary header files
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   30 +
+ MAINTAINERS                                   |    6 +-
+ drivers/infiniband/hw/irdma/i40iw_if.c        |    2 +-
+ drivers/infiniband/hw/irdma/icrdma_if.c       |    2 +-
+ drivers/infiniband/hw/irdma/ig3rdma_if.c      |    2 +-
+ drivers/infiniband/hw/irdma/main.c            |    2 +-
+ drivers/infiniband/hw/irdma/main.h            |    2 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    4 +-
+ .../net/ethernet/intel/i40e/i40e_adminq_cmd.h |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_client.c |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_ethtool.c    |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.c   |    4 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.h   |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ .../net/ethernet/intel/iavf/iavf_adminq_cmd.h |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.c   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.h   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ .../net/ethernet/intel/iavf/iavf_virtchnl.c   |    2 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_base.c     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_flow.h     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_idc_int.h  |    4 +-
+ drivers/net/ethernet/intel/ice/ice_txrx.c     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_txrx_lib.c |    2 +-
+ drivers/net/ethernet/intel/ice/ice_type.h     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ .../net/ethernet/intel/ice/virt/virtchnl.h    |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |  103 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |  621 ------
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  144 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ .../ethernet/intel/idpf/idpf_controlq_setup.c |  169 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |  101 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |   28 +-
+ drivers/net/ethernet/intel/idpf/idpf_idc.c    |   38 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   69 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |  117 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   99 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1820 +++++++----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   95 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  304 ++-
+ drivers/net/ethernet/intel/ixd/Kconfig        |   15 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   58 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  149 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   33 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   89 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |   97 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   44 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  166 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  147 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  178 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/ixgbe/ixgbe_type.h |    2 +-
+ .../ethernet/intel/ixgbe/ixgbe_type_e610.h    |    2 +-
+ drivers/net/ethernet/intel/libeth/rx.c        |   12 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/adminq.c     |    2 +-
+ drivers/net/ethernet/intel/libie/controlq.c   | 1194 +++++++++++
+ drivers/net/ethernet/intel/libie/fwlog.c      |    2 +-
+ drivers/net/ethernet/intel/libie/pci.c        |  208 ++
+ drivers/net/ethernet/intel/libie/rx.c         |    2 +-
+ include/linux/{net => }/intel/i40e_client.h   |    0
+ include/linux/{net => }/intel/iidc_rdma.h     |    0
+ include/linux/{net => }/intel/iidc_rdma_ice.h |    0
+ .../linux/{net => }/intel/iidc_rdma_idpf.h    |    0
+ include/linux/{net => }/intel/libie/adminq.h  |    0
+ include/linux/intel/libie/controlq.h          |  424 ++++
+ include/linux/{net => }/intel/libie/fwlog.h   |    2 +-
+ include/linux/intel/libie/pci.h               |   56 +
+ include/linux/{net => }/intel/libie/pctype.h  |    0
+ include/linux/{net => }/intel/libie/rx.h      |    0
+ include/linux/{avf => intel}/virtchnl.h       |    0
+ .../idpf => include/linux/intel}/virtchnl2.h  |    0
+ .../linux/intel}/virtchnl2_lan_desc.h         |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 97 files changed, 4195 insertions(+), 2876 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ rename include/linux/{net => }/intel/i40e_client.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma_ice.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma_idpf.h (100%)
+ rename include/linux/{net => }/intel/libie/adminq.h (100%)
+ create mode 100644 include/linux/intel/libie/controlq.h
+ rename include/linux/{net => }/intel/libie/fwlog.h (98%)
+ create mode 100644 include/linux/intel/libie/pci.h
+ rename include/linux/{net => }/intel/libie/pctype.h (100%)
+ rename include/linux/{net => }/intel/libie/rx.h (100%)
+ rename include/linux/{avf => intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h (100%)
+
+-- 
+2.47.1
+
