@@ -1,196 +1,228 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F5EA2248A5;
-	Fri,  3 Apr 2026 17:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775237211; cv=none; b=uQS5JYSZ9ecAeixR8HWmug9E0zNIdGu3YqXrTzBlNSH4hAMa3QEH5aFw+d0i2VQwxHVl1X9en1qTkQ0mOV0282+l+RfY+w9+6+3dsyJPIJBRI+ewNlPFtr9RgC+ERG+7jnQrD/k/Bu704i64KhafhnzDSCXNCvEW6+B+/Smm8Uo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775237211; c=relaxed/simple;
-	bh=M6p3JmmzQexUHfSoR1LIGJcF55doBeHtQAVLzRfQu3I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o4LV5dUQ4OTSInssWc7zSt/OLYf9C9kxJToJe+uBorYHs9BV6POEjgdS6dgkt8dJj65rekHKlJc9y/z3B2yWboQH6+XqqpjILD4JN5U8hlWKRd1aUAv5gqlqqL9auXLkMCcYOGC45++tMqfmoBs7oJIGC/MzQwPT5emkQIDoCKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f+pEtDRk; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7002BE655
+	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 18:10:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.179
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775239825; cv=pass; b=bu4HMi9e6KVVq95Q4WUbaCrtbnkBPLUoSwkXzZMVb1FcJqUJIuetQ7sA3X+qPYAX++AR5oPF7hQPNYiHTrnBvFg9EgTpRDd8qgT/xk1qvivKrWPBvQwkSafYH7/VCLhiiOThZj92qMxF/GqKOTtgEJGZ3arE+lKEcZLEfvIqDDI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775239825; c=relaxed/simple;
+	bh=4wnkiw01drsb1mOeb4vmjM1GYWviZqJrvrwioV4gc0w=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=okwsfGAUKIM6y+AfwrbIW5rO0pZFzV5xVXdshdIlQZ1hjUboaET9i3Lc/1gXMEW34Yc/oXQIebxphIGcEsfLrrIegT4grRdhQJpfx2jFRs/LrpnyxII33+HpI1i9LMrngAFSFRW9TZwb93sROV4A8jHCrzxxwk7HF7rzvNoEM8A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nEkp1iN2; arc=pass smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f+pEtDRk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775237210; x=1806773210;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=M6p3JmmzQexUHfSoR1LIGJcF55doBeHtQAVLzRfQu3I=;
-  b=f+pEtDRkR/TJ/eJmCypB3iLE+2pnWMC8CkJ8RtyFaOr1NSz8iXNoB92c
-   kMaPgjWeiCq06QIQJdrP8n/XgKLXE9yCbWKUnFMjATPDzypCI9xEtXrKj
-   rIAzSrnFn8dm6oMNtAQM5KHOIipBAd2/cyASCWJSSrC+OHcLVO2KjRFVI
-   rv3ViW754DeDWfTTA2XtHl+a1VJLCRpA/qAFcoQDJNEndysY3NyWkONbE
-   KIqmwZlYi4rF7LAEkUBQ3gFY2y2mCQ5EdiNZNdpcHPShYFicev1nKREfb
-   5jlkBeGMKZS2Bz+rgOVQOcm1Crb7QkCvzpqS0QypyNf4+Tlh3BbPsFYM3
-   w==;
-X-CSE-ConnectionGUID: F9RSWatfTRi45C3ENY46uA==
-X-CSE-MsgGUID: WDZN+ZL2QG+S+DRiVQgSpA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="76192441"
-X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="76192441"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 10:26:49 -0700
-X-CSE-ConnectionGUID: 8aLnb5V0QhqxJSY99LLsvw==
-X-CSE-MsgGUID: kWetgwjETliORgt530tEaQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="257775807"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 10:26:49 -0700
-Date: Fri, 3 Apr 2026 10:26:43 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 07/10] x86/vmscape: Use static_call() for predictor
- flush
-Message-ID: <20260403172643.fs2voyiy2kk6yzcx@desk>
-References: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com>
- <20260402-vmscape-bhb-v9-7-94d16bc29774@linux.intel.com>
- <ac_UJx99kDJY8j3t@google.com>
- <20260403164432.ltnr5oupddscwaqu@desk>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nEkp1iN2"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-509062d829dso532421cf.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Apr 2026 11:10:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775239823; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MVPtB5jJNoLoUgE5vPziYruBwtFCbDbYjEQ4yH3wthtNDwXXt7mP4obMW2RMjR4AIv
+         SRk/z0B1jtdgKFf9wLucxN4UxkuJmF5sQP4xA1xjjnVKPvHQFtzBXB2tuSYYdEcLev8P
+         qFyHd1scOOcZwXsvWF67QnEcFbV9IEGNWuaurhe+fIvicpj93LZi8RDU1tY4rhXg3ujO
+         GCKdrZZr8M4qhFBpwfhFobTwpENUVPBUrgJ7w9kQYZeaYRg2CZ43IBAy5Ph2q1m7WjK6
+         gkFda6uBpsRMsSQLmphYT+I/kCUPpJPlxn4vISU/po12e6Vuqh/kXlj+rzcrRWkts6jC
+         XO3w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=D3wHWIST+Psa9goPXbHlA48/ILBuz3wG5otAi6JiaL0=;
+        fh=jw8rTRtGHSQj2Fc+EUXnRiZG67Wk66FTHIztyWAFZzg=;
+        b=Ewj03UiisD0nVM3bEwiRi6wF0yZaJ66F4r2ecYnQLd+FrIIFQLj70JqX539z6RrB/w
+         jh+0QsJDJvbeZXSSVKeLOkdwuWY0PMy3Yy2/19GjCxN42GKbJwqrlnwnXaBaUxZthavn
+         WZ6QGoZAMNlwxXAa3Fixjg+egfvmMyNzg/RqmBFN6KhQ/0mLPEDzsnfpt/0K/N/6eaW0
+         bpfyEPPacYj8aIZKJTRCP4UVVukEXYRmvqK5AjvbJWbU8JXIIGJIfcCvDISZdi7AWUB5
+         dTmZ5Ck10eonslRPZmseG+eRxkbP6/SsaflTncEdydQDBHSUjyiZLTuo6oj4V8kF8Dvw
+         EbAw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775239823; x=1775844623; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D3wHWIST+Psa9goPXbHlA48/ILBuz3wG5otAi6JiaL0=;
+        b=nEkp1iN2jyvw0DdQVmSe7j7ZXK37mB9ritAXbGlVoKn373Hph2yg3uVQpgw/kAv5jJ
+         QfqwJ0yAoPwN4aoHjuvxrhas9rm3bgGR8FtX5CRpF0PMcF5mjX53WBKzLCKp6E/K/tWO
+         pCENK0HP63nEta7+7Cu0f0FApSDOdCES8fRsJMVP73Xg+aJDuOkTzDyt70+f+aM2uuyg
+         MFCkgM/RZJBsfbYoLIQX36HHq+PsL6gbq31R9pNDbn+6jHXUMYaRyumxYhMyZxnN58AB
+         YQV200Wu2HfzoFSbxrj69c+B/9V/cl9pAejHgyFAlAAnrOBa9RrpYqZr/DH2FzJNvws6
+         uIcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775239823; x=1775844623;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=D3wHWIST+Psa9goPXbHlA48/ILBuz3wG5otAi6JiaL0=;
+        b=YrS8oY+bI//PnIwIdvu18QesliI+EHFhpRpd3Q1TMTl8W8sm5oGZVy782OfMlHlazF
+         H4bHg0JOt2CLZ55ta+gEeV9wQjPDzSdBCLjRtt3SEp7OvnbGOQa65BtVDruUKbb4WYl7
+         DZ2qBTX8f0BGDW33ESqEaybhGKKEwAQygriZfT64OeSpL/qUtw4evWT/csaerSjaruiW
+         N8giQsW22arfrUEbIn+omKHEY7UztuYwU3gRUztOjtFhxziGtl0ga1uKeRTqCnULookD
+         MyrYPtPc5NGLl6sX/y9vmcmozdVExsUN1vx2xHGEaA1+un0lGf/H0HvS+YJKJq6tzhYr
+         Bi7g==
+X-Forwarded-Encrypted: i=1; AJvYcCVW4B1ntCc1d6MSuc11G+0T1Ki7tkaKguGBbBYn31I48T3lJOtEsFZ6AfOZ772E1iMXVpMiNy5lvGA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXr8KMI0O5vwrf0/pN0sWiKpiQ2bMLcUxYoP8AUpKzCQxi9dX7
+	b65oqRwjKIUTmsn3O5pt2+0/qNmTx5gkFbrRNha7f3+hEsz1MKTHlMSRgmDnrH71jEpRsAn6ue7
+	SeB2j/2rzqrhcx6CeO0jKn+mEUKTj6jhdVeZzaCSJTIwtcCYxtpY3aQ==
+X-Gm-Gg: ATEYQzypO+ynyYjjppff/RPM3SldbH/TxhaTr/gMREZnvkv1EN2EnHz/qkRI5i7Xgtl
+	BI7b1KeiSNnxjbspFhGKOrMQx1XKETHLec+BJxWQQMKVF/1CyUN1mu1/7ZOHk4JAHC1zhDxHYxi
+	cE7EdVTKevdDiy0B2jFFTn8fQnaAxpOHouMJHHEQWXF/4jxDWmOdmfA7tZQ15+n6F3W6ELdcwqd
+	3eIlR0vthZh/UMaT0yK3ioN20B78F2K9kaiiAVQo6Cd7VBgMRpnxV+L1Z8R045e/UhZziJWOC+e
+	eeNULc0=
+X-Received: by 2002:a05:622a:5c9b:b0:509:15b6:f69f with SMTP id
+ d75a77b69052e-50d63eb1e2amr16678631cf.2.1775239822510; Fri, 03 Apr 2026
+ 11:10:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260403164432.ltnr5oupddscwaqu@desk>
+References: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com> <20260402-vmscape-bhb-v9-2-94d16bc29774@linux.intel.com>
+In-Reply-To: <20260402-vmscape-bhb-v9-2-94d16bc29774@linux.intel.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Fri, 3 Apr 2026 11:10:08 -0700
+X-Gm-Features: AQROBzCyrNR-vZ6JoZC9tdSShIePKIwW7s9m_Ym-DzdZtKevzbTyUKkIE4TY_-E
+Message-ID: <CALMp9eSLVvr00mJ0J2f2_SPeCW-VS58kxMcxHgUW6etML+_+QA@mail.gmail.com>
+Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
+	Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, David Laight <david.laight.linux@gmail.com>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	David Ahern <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 03, 2026 at 09:44:32AM -0700, Pawan Gupta wrote:
-> On Fri, Apr 03, 2026 at 07:52:23AM -0700, Sean Christopherson wrote:
-> > On Thu, Apr 02, 2026, Pawan Gupta wrote:
-> > > --- a/arch/x86/kvm/x86.c
-> > > +++ b/arch/x86/kvm/x86.c
-> > > @@ -11463,7 +11463,7 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
-> > >  	 * set for the CPU that actually ran the guest, and not the CPU that it
-> > >  	 * may migrate to.
-> > >  	 */
-> > > -	if (cpu_feature_enabled(X86_FEATURE_IBPB_EXIT_TO_USER))
-> > > +	if (vmscape_mitigation_enabled())
-> > 
-> > This is pretty lame.  It turns a statically patched MOV
-> 
-> Yes it is, this was done ...
-> 
-> >   11548		if (cpu_feature_enabled(X86_FEATURE_IBPB_EXIT_TO_USER))
-> >   11549			this_cpu_write(x86_ibpb_exit_to_user, true);
-> >      0x000000000003c57a <+858>:	movb   $0x1,%gs:0x0(%rip)        # 0x3c582 <vcpu_enter_guest+866>
-> > 
-> > into a function call and two sets of conditional branches.  And with mitigations
-> > enabled, that function call may trigger the wonderful unret insanity
-> > 
-> >   11548		if (vmscape_mitigation_enabled())
-> >      0x000000000003c575 <+853>:	call   0x3c57a <vcpu_enter_guest+858>
-> >      0x000000000003c57a <+858>:	test   %al,%al
-> >      0x000000000003c57c <+860>:	je     0x3c586 <vcpu_enter_guest+870>
-> > 
-> >   11549			this_cpu_write(x86_predictor_flush_exit_to_user, true);
-> >      0x000000000003c57e <+862>:	movb   $0x1,%gs:0x0(%rip)        # 0x3c586 <vcpu_enter_guest+870>
-> > 
-> > 
-> >   3166	{
-> >      0xffffffff81285320 <+0>:	endbr64
-> >      0xffffffff81285324 <+4>:	call   0xffffffff812aa5a0 <__fentry__>
-> > 
-> >   3167		return !!static_call_query(vmscape_predictor_flush);
-> >      0xffffffff81285329 <+9>:	mov    0x13a4f30(%rip),%rax        # 0xffffffff8262a260 <__SCK__vmscape_predictor_flush>
-> >      0xffffffff81285330 <+16>:	test   %rax,%rax
-> >      0xffffffff81285333 <+19>:	setne  %al
-> > 
-> >   3168	}
-> >      0xffffffff81285336 <+22>:	jmp    0xffffffff81db1e30 <__x86_return_thunk>
-> > 
-> > While this isn't KVM's super hot inner run loop, it's still very much a hot path.
-> > Even more annoying, KVM will eat the function call on kernels with CPU_MITIGATIONS=n.
-> > 
-> > I'd like to at least do something like the below to make the common case of
-> > multiple guest entry/exits more or less free, and to avoid the CALL+(UN)RET
-> > overhead, but trying to include linux/static_call.h in processor.h (or any other
-> > core x86 header) creates a cyclical dependency :-/
-> > 
-> > diff --git a/arch/x86/include/asm/processor.h b/arch/x86/include/asm/processor.h
-> > index 20ab4dd588c6..0dc0680a80f8 100644
-> > --- a/arch/x86/include/asm/processor.h
-> > +++ b/arch/x86/include/asm/processor.h
-> > @@ -36,6 +36,7 @@ struct vm86;
-> >  #include <linux/err.h>
-> >  #include <linux/irqflags.h>
-> >  #include <linux/mem_encrypt.h>
-> > +#include <linux/static_call.h>
-> >  
-> >  /*
-> >   * We handle most unaligned accesses in hardware.  On the other hand
-> > @@ -753,7 +754,11 @@ enum mds_mitigations {
-> >  };
-> >  
-> >  extern bool gds_ucode_mitigated(void);
-> > -extern bool vmscape_mitigation_enabled(void);
-> > +
-> > +static inline bool vmscape_mitigation_enabled(void)
-> > +{
-> > +       return !!static_call_query(vmscape_predictor_flush);
-> > +}
-> >  
-> >  /*
-> >   * Make previous memory operations globally visible before
-> > diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-> > index 366ebe1e1fb9..02bf626f0773 100644
-> > --- a/arch/x86/kernel/cpu/bugs.c
-> > +++ b/arch/x86/kernel/cpu/bugs.c
-> > @@ -148,6 +148,7 @@ DEFINE_STATIC_KEY_FALSE(switch_mm_cond_l1d_flush);
-> >   * sequence. This defaults to no mitigation.
-> >   */
-> >  DEFINE_STATIC_CALL_NULL(vmscape_predictor_flush, write_ibpb);
-> > +EXPORT_STATIC_CALL_GPL(vmscape_predictor_flush);
-> 
-> ... to avoid exporting the static key, so that modules (other than KVM)
-> cannot do static_call_update(vmscape_predictor_flush).
-> 
-> Peter suggested changes that allowed adding EXPORT_STATIC_CALL_FOR_KVM():
-> 
->   https://lore.kernel.org/all/20260319214409.GL3738786@noisy.programming.kicks-ass.net/
+On Thu, Apr 2, 2026 at 5:32=E2=80=AFPM Pawan Gupta
+<pawan.kumar.gupta@linux.intel.com> wrote:
+>
+> As a mitigation for BHI, clear_bhb_loop() executes branches that overwrit=
+e
+> the Branch History Buffer (BHB). On Alder Lake and newer parts this
+> sequence is not sufficient because it doesn't clear enough entries. This
+> was not an issue because these CPUs use the BHI_DIS_S hardware mitigation
+> in the kernel.
+>
+> Now with VMSCAPE (BHI variant) it is also required to isolate branch
+> history between guests and userspace. Since BHI_DIS_S only protects the
+> kernel, the newer CPUs also use IBPB.
+>
+> A cheaper alternative to the current IBPB mitigation is clear_bhb_loop().
+> But it currently does not clear enough BHB entries to be effective on new=
+er
+> CPUs with larger BHB. At boot, dynamically set the loop count of
+> clear_bhb_loop() such that it is effective on newer CPUs too. Use the
+> X86_FEATURE_BHI_CTRL feature flag to select the appropriate loop count.
+>
+> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> ---
+>  arch/x86/entry/entry_64.S            |  8 +++++---
+>  arch/x86/include/asm/nospec-branch.h |  2 ++
+>  arch/x86/kernel/cpu/bugs.c           | 13 +++++++++++++
+>  3 files changed, 20 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/entry_64.S
+> index 3a180a36ca0e..bbd4b1c7ec04 100644
+> --- a/arch/x86/entry/entry_64.S
+> +++ b/arch/x86/entry/entry_64.S
+> @@ -1536,7 +1536,9 @@ SYM_FUNC_START(clear_bhb_loop)
+>         ANNOTATE_NOENDBR
+>         push    %rbp
+>         mov     %rsp, %rbp
+> -       movl    $5, %ecx
+> +
+> +       movzbl    bhb_seq_outer_loop(%rip), %ecx
+> +
+>         ANNOTATE_INTRA_FUNCTION_CALL
+>         call    1f
+>         jmp     5f
+> @@ -1556,8 +1558,8 @@ SYM_FUNC_START(clear_bhb_loop)
+>          * This should be ideally be: .skip 32 - (.Lret2 - 2f), 0xcc
+>          * but some Clang versions (e.g. 18) don't like this.
+>          */
+> -       .skip 32 - 18, 0xcc
+> -2:     movl    $5, %eax
+> +       .skip 32 - 20, 0xcc
+> +2:     movzbl  bhb_seq_inner_loop(%rip), %eax
+>  3:     jmp     4f
+>         nop
+>  4:     sub     $1, %eax
+> diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/=
+nospec-branch.h
+> index 70b377fcbc1c..87b83ae7c97f 100644
+> --- a/arch/x86/include/asm/nospec-branch.h
+> +++ b/arch/x86/include/asm/nospec-branch.h
+> @@ -548,6 +548,8 @@ DECLARE_PER_CPU(u64, x86_spec_ctrl_current);
+>  extern void update_spec_ctrl_cond(u64 val);
+>  extern u64 spec_ctrl_current(void);
+>
+> +extern u8 bhb_seq_inner_loop, bhb_seq_outer_loop;
+> +
+>  /*
+>   * With retpoline, we must use IBRS to restrict branch prediction
+>   * before calling into firmware.
+> diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+> index 83f51cab0b1e..2cb4a96247d8 100644
+> --- a/arch/x86/kernel/cpu/bugs.c
+> +++ b/arch/x86/kernel/cpu/bugs.c
+> @@ -2047,6 +2047,10 @@ enum bhi_mitigations {
+>  static enum bhi_mitigations bhi_mitigation __ro_after_init =3D
+>         IS_ENABLED(CONFIG_MITIGATION_SPECTRE_BHI) ? BHI_MITIGATION_AUTO :=
+ BHI_MITIGATION_OFF;
+>
+> +/* Default to short BHB sequence values */
+> +u8 bhb_seq_outer_loop __ro_after_init =3D 5;
+> +u8 bhb_seq_inner_loop __ro_after_init =3D 5;
+> +
+>  static int __init spectre_bhi_parse_cmdline(char *str)
+>  {
+>         if (!str)
+> @@ -3242,6 +3246,15 @@ void __init cpu_select_mitigations(void)
+>                 x86_spec_ctrl_base &=3D ~SPEC_CTRL_MITIGATIONS_MASK;
+>         }
+>
+> +       /*
+> +        * Switch to long BHB clear sequence on newer CPUs (with BHI_CTRL
+> +        * support), see Intel's BHI guidance.
+> +        */
+> +       if (cpu_feature_enabled(X86_FEATURE_BHI_CTRL)) {
+> +               bhb_seq_outer_loop =3D 12;
+> +               bhb_seq_inner_loop =3D 7;
+> +       }
+> +
 
-Sorry, this is the correct link for EXPORT_STATIC_CALL_FOR_KVM():
+How does this work for VMs in a heterogeneous migration pool that
+spans the Alder Lake boundary? They can't advertise BHI_CTRL, because
+it isn't available on all hosts in the migration pool, but they need
+the long sequence when running on Alder Lake or newer.
 
-  https://lore.kernel.org/all/20260320062206.bdrnmnvho6lhmejw@desk/
+Previously, I considered such a migration pool infeasible, because of
+the change in MAXPHYADDR, but I now predict that I will lose that
+battle.
 
-> EXPORT_STATIC_CALL_FOR_KVM() seems to be a cleaner approach to me.
-> 
-> Boris, I know you didn't like exporting the static_key. But, as Sean said
-> this is a hot path, and avoiding the unnecessary call would benefit all
-> CPUs (affected or unaffected). Moreover, EXPORT_STATIC_CALL_FOR_KVM()
-> somewhat addresses your concern of exporting the static_key to the world.
-> Would you be okay with it?
+
+>         x86_arch_cap_msr =3D x86_read_arch_cap_msr();
+>
+>         cpu_print_attack_vectors();
+>
+> --
+> 2.34.1
+>
+>
+>
