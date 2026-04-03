@@ -1,208 +1,210 @@
-Received: from out30-133.freemail.mail.aliyun.com (out30-133.freemail.mail.aliyun.com [115.124.30.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 357DD1C3BEB;
-	Fri,  3 Apr 2026 01:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABEB312D1F1;
+	Fri,  3 Apr 2026 02:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775179909; cv=none; b=UWcwNl+zJnBEBO5HQwxt6nxWL7fX5SK4dk+D1ng25+R6sTavpqRc3sma4RbJGr+4ItTo7GbyGGEcYu5vVjTl/nbvCXVF6OyyFZqUOXbFs9whTJveul2y9zAg6P40ZuZ5BgTk8NMAkcCn4MyNXmhdy8pq7lp+wnx0l4obrMnh0AQ=
+	t=1775181742; cv=none; b=q8GpJeSJ96W/ldXHEl7V2DbJuEnEdVcAyD5rNNLeSi6/EzqMKPS+aOsS5m3bIM2cs1Qx6WM2ZJDjjYGwtHZIQjir9VFDWWbdPPTkEr3Y/MV/dQsgBzeNRVwbjZcsecWBTLc6TOTl3FYwj64uGj+tDARtOtXGxLezIcBNAUtvyvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775179909; c=relaxed/simple;
-	bh=ui1j+U/lVmdwLQ9xl//b5wqi5bLZ/9P0LsjV28O0GiI=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C9fMmNV9uYC9dy7kdIX1Cn4/naTSgPJJJ/gYZWrNtOR3KWHTKinv4S6DT9r9XIHR7V3//etyF8o5ZX47Jqsn0CSJyfsQUTvgwxDiVEDGN/JMkJExUgI4ekm/PstinYR4BfrrzRljVpQgTxsrxioOmZMZnXmRzEHExMXtmwCT5z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=tKaFuDCC; arc=none smtp.client-ip=115.124.30.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1775181742; c=relaxed/simple;
+	bh=hBW6F4YpD0yqJIg2zZyuPH27KccORAZiNhePtVabi0s=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QsyH1ZoA8cGJzTle7HlmRVp4z0+enCLRkrhzLF5rNP1kbbcHIwljg9yvVG4DJoanHPFC7cX9ChJUr5zIbIph0ny9pcr8uKYmBSc5EorMHYTJOr5qA7vKdEHCOQUc+LpDZfBdhl7/twQNE8QbQBG7qA0esGztKAsoBOXNKSKMkmU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EC3C2lkq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="tKaFuDCC"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1775179905; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
-	bh=M+qCrzuXjzCg6dbRyJgE26YGs/aoiqwjPjQvm1evl3o=;
-	b=tKaFuDCCorMU3BGZN52g21QEE6zn6esi+nMFn47RDCqrjWEgIAUpdsQB3f+NiRllEROnTn5I8rl7WdnBxzAJgIoEg5iaCZMLhJ6lH9wdo5nxS98WKHFkQnNZZ3qm1Um3KSWa5Z72DDAacKbI+GLShJSoIa6XDCpGrp8zIt09+cQ=
-X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R171e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033032089153;MF=fangyu.yu@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X0IV4qf_1775179902;
-Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0X0IV4qf_1775179902 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 03 Apr 2026 09:31:43 +0800
-From: fangyu.yu@linux.alibaba.com
-To: anup@brainfault.org
-Cc: alex@ghiti.fr,
-	andrew.jones@oss.qualcomm.com,
-	aou@eecs.berkeley.edu,
-	atish.patra@linux.dev,
-	corbet@lwn.net,
-	fangyu.yu@linux.alibaba.com,
-	guoren@kernel.org,
-	kvm-riscv@lists.infradead.org,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	palmer@dabbelt.com,
-	pbonzini@redhat.com,
-	pjw@kernel.org,
-	radim.krcmar@oss.qualcomm.com,
-	skhan@linuxfoundation.org
-Subject: Re: Re: [PATCH v7 4/4] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
-Date: Fri,  3 Apr 2026 09:31:37 +0800
-Message-Id: <20260403013137.32604-1-fangyu.yu@linux.alibaba.com>
-X-Mailer: git-send-email 2.39.3 (Apple Git-146)
-In-Reply-To: <CAAhSdy1dXxdF0pb_r+hS+rdZ21VVxezwaZ=MCMmDD+vRCyRUdA@mail.gmail.com>
-References: <CAAhSdy1dXxdF0pb_r+hS+rdZ21VVxezwaZ=MCMmDD+vRCyRUdA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EC3C2lkq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA79AC116C6;
+	Fri,  3 Apr 2026 02:02:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775181742;
+	bh=hBW6F4YpD0yqJIg2zZyuPH27KccORAZiNhePtVabi0s=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EC3C2lkqB7Bn7bQ13mLQk3s218ldUKnOv1X1OS96uBO7lAItMT5JQ81T4hrEQbgzn
+	 H0eOjqKOQkH4V0XESx9AT3gO8Wwdj6cGmmVASJFcE8KmNcL/CwQ5bbmXlcrzvH/uJr
+	 HS5uEJrjsZyMqa811+KxUJmatz0EcxgRhXzI0X6eq/x3ivhj9bG0DUBnHNBpQEjgKw
+	 Y0lOtlEmeRUbaXULuYsJLqBZ3teeFWcCjRGgkm75SLtenoGilEAWEEFZXwbvk1Uugd
+	 VFJDMCkc2zdOLpKUrWL8yF9zCMtr/cjqtDU3SS57ImJA0Whq1LjyWDt5IKMdNIOm/1
+	 65jg+CGIITnaw==
+Date: Thu, 2 Apr 2026 19:02:19 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Tariq Toukan <tariqt@nvidia.com>
+Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Simon Horman <horms@kernel.org>, Donald Hunter
+ <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Saeed Mahameed
+ <saeedm@nvidia.com>, "Leon Romanovsky" <leon@kernel.org>, Mark Bloch
+ <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>, Chuck Lever
+ <chuck.lever@oracle.com>, "Matthieu Baerts (NGI0)" <matttbe@kernel.org>,
+ Carolina Jubran <cjubran@nvidia.com>, Or Har-Toov <ohartoov@nvidia.com>,
+ Moshe Shemesh <moshe@nvidia.com>, Dragos Tatulea <dtatulea@nvidia.com>,
+ Shahar Shitrit <shshitrit@nvidia.com>, Daniel Zahka
+ <daniel.zahka@gmail.com>, Jacob Keller <jacob.e.keller@intel.com>, Cosmin
+ Ratiu <cratiu@nvidia.com>, Parav Pandit <parav@nvidia.com>, Shay Drori
+ <shayd@nvidia.com>, "Adithya Jayachandran" <ajayachandra@nvidia.com>, Kees
+ Cook <kees@kernel.org>, "Daniel Jurgens" <danielj@nvidia.com>,
+ <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-rdma@vger.kernel.org>,
+ <linux-kselftest@vger.kernel.org>, Gal Pressman <gal@nvidia.com>
+Subject: Re: [PATCH net-next V4 10/12] devlink: Add resource scope filtering
+ to resource dump
+Message-ID: <20260402190219.61ea7da1@kernel.org>
+In-Reply-To: <20260401184947.135205-11-tariqt@nvidia.com>
+References: <20260401184947.135205-1-tariqt@nvidia.com>
+	<20260401184947.135205-11-tariqt@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
->On Thu, Apr 2, 2026 at 6:53 PM <fangyu.yu@linux.alibaba.com> wrote:
->>
->> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->>
->> Add a VM capability that allows userspace to select the G-stage page table
->> format by setting HGATP.MODE on a per-VM basis.
->>
->> Userspace enables the capability via KVM_ENABLE_CAP, passing the requested
->> HGATP.MODE in args[0]. The request is rejected with -EINVAL if the mode is
->> not supported by the host, and with -EBUSY if the VM has already been
->> committed (e.g. vCPUs have been created or any memslot is populated).
->>
->> KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE) returns a bitmask of the
->> HGATP.MODE formats supported by the host.
->>
->> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->> Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
->> Reviewed-by: Guo Ren <guoren@kernel.org>
->> ---
->>  Documentation/virt/kvm/api.rst | 27 +++++++++++++++++++++++++++
->>  arch/riscv/kvm/vm.c            | 18 ++++++++++++++++--
->>  include/uapi/linux/kvm.h       |  1 +
->>  3 files changed, 44 insertions(+), 2 deletions(-)
->>
->> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
->> index 032516783e96..9d7f6958fa81 100644
->> --- a/Documentation/virt/kvm/api.rst
->> +++ b/Documentation/virt/kvm/api.rst
->> @@ -8902,6 +8902,33 @@ helpful if user space wants to emulate instructions which are not
->>  This capability can be enabled dynamically even if VCPUs were already
->>  created and are running.
->>
->> +7.47 KVM_CAP_RISCV_SET_HGATP_MODE
->> +---------------------------------
->> +
->> +:Architectures: riscv
->> +:Type: VM
->> +:Parameters: args[0] contains the requested HGATP mode
->> +:Returns:
->> +  - 0 on success.
->> +  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
->> +    hardware.
->> +  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
->> +    non-empty memslots.
->> +
->> +This capability allows userspace to explicitly select the HGATP mode for
->> +the VM. The selected mode must be supported by both KVM and hardware. This
->> +capability must be enabled before creating any vCPUs or memslots.
->> +
->> +If this capability is not enabled, KVM will select the default HGATP mode
->> +automatically. The default is the highest HGATP.MODE value supported by
->> +hardware.
->> +
->> +``KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE)`` returns a bitmask of
->> +HGATP.MODE values supported by the host. A return value of 0 indicates that
->> +the capability is not supported. Supported-mode bitmask use HGATP.MODE
->> +encodings as defined by the RISC-V privileged specification, such as Sv39x4
->> +corresponds to HGATP.MODE=8, so userspace should test bitmask & BIT(8).
->> +
->>  8. Other capabilities.
->>  ======================
->>
->> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
->> index 4d82a886102c..5e82a3ad3ad0 100644
->> --- a/arch/riscv/kvm/vm.c
->> +++ b/arch/riscv/kvm/vm.c
->> @@ -201,6 +201,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>         case KVM_CAP_VM_GPA_BITS:
->>                 r = kvm_riscv_gstage_gpa_bits(kvm->arch.pgd_levels);
->>                 break;
->> +       case KVM_CAP_RISCV_SET_HGATP_MODE:
->> +               r = kvm_riscv_get_hgatp_mode_mask();
->> +               break;
->
->Introducing a new RISC-V capability looks a bit complex.
->Instead of KVM_CAP_RISCV_SET_HGATP_MODE, we can
->simply re-use KVM_CAP_VM_GPA_BITS.
->
->The kvm_vm_ioctl_check_extension() for KVM_CAP_VM_GPA_BITS
->return number of GPA bits which in-directly implies the underlying
->hgatp.MODE. As we know, if it return 59 bits GPA then it means
->Sv57x4 is the selected hgatp.MODE and Sv48x4 and Sv39x4 modes
->are also supported as-per RISC-V privileged specification.
->
->The kvm_vm_ioctl_enable_cap() for KVM_CAP_VM_GPA_BITS
->will take the desired number of GPA bits and downsize the selected
->hgatp.MODE. For example, if user-space ask GPA bits <= 50 and
->GPA bits > 41 then we select Sv48x4. If user-space ask GPA
->bits <= 41 then we select Sv39x4. If user-space ask GPA bits <= 59
->and GPA bits > 50 then we select Sv57x4.
->
+On Wed, 1 Apr 2026 21:49:45 +0300 Tariq Toukan wrote:
+> @@ -873,6 +881,16 @@ attribute-sets:
+>          doc: Unique devlink instance index.
+>          checks:
+>            max: u32-max
+> +      -
+> +        name: resource-scope-mask
+> +        type: bitfield32
 
-Thanks, that makes sense.
+no need for a bitfield here, this is a simpler selector
+bitfield is for cases when we need to update some persistent
+state, in that case we want to indicate which bits we intend
+to update:
 
-In v8 I’ll drop KVM_CAP_RISCV_SET_HGATP_MODE and re-use KVM_CAP_VM_GPA_BITS
-for both discovery and selection.
+	cfg = (cfg & ~bf.mask) | bf.val
 
-Thanks,
-Fangyu
+scope is a straight attribute, there's no updating of anything.
 
->>         default:
->>                 r = 0;
->>                 break;
->> @@ -211,12 +214,23 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->>
->>  int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
->>  {
->> +       if (cap->flags)
->> +               return -EINVAL;
->> +
->>         switch (cap->cap) {
->>         case KVM_CAP_RISCV_MP_STATE_RESET:
->> -               if (cap->flags)
->> -                       return -EINVAL;
->>                 kvm->arch.mp_state_reset = true;
->>                 return 0;
->> +       case KVM_CAP_RISCV_SET_HGATP_MODE:
->> +               if (!kvm_riscv_hgatp_mode_is_valid(cap->args[0]))
->> +                       return -EINVAL;
->> +
->> +               if (kvm->created_vcpus || !kvm_are_all_memslots_empty(kvm))
->> +                       return -EBUSY;
->> +#ifdef CONFIG_64BIT
->> +               kvm->arch.pgd_levels = 3 + cap->args[0] - HGATP_MODE_SV39X4;
->> +#endif
->> +               return 0;
->>         default:
->>                 return -EINVAL;
->>         }
->> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
->> index 80364d4dbebb..a74a80fd4046 100644
->> --- a/include/uapi/linux/kvm.h
->> +++ b/include/uapi/linux/kvm.h
->> @@ -989,6 +989,7 @@ struct kvm_enable_cap {
->>  #define KVM_CAP_ARM_SEA_TO_USER 245
->>  #define KVM_CAP_S390_USER_OPEREXEC 246
->>  #define KVM_CAP_S390_KEYOP 247
->> +#define KVM_CAP_RISCV_SET_HGATP_MODE 248
->>
->>  struct kvm_irq_routing_irqchip {
->>         __u32 irqchip;
->> --
->> 2.50.1
->>
->
->Regards,
->Anup
+u32 or unit would do
+
+> +        enum: resource-scope
+> +        enum-as-flags: true
+> +        doc: |
+> +          Bitmask selecting which resource classes to include in a
+> +          resource-dump response. Bit 0 (dev) selects device-level
+> +          resources; bit 1 (port) selects port-level resources.
+> +          When absent all classes are returned.
+>    -
+>      name: dl-dev-stats
+>      subset-of: devlink
+> @@ -1775,7 +1793,11 @@ operations:
+>              - resource-list
+>        dump:
+>          request:
+> -          attributes: *dev-id-attrs
+> +          attributes:
+> +            - bus-name
+> +            - dev-name
+> +            - index
+> +            - resource-scope-mask
+>          reply: *resource-dump-reply
+>  
+>      -
+> diff --git a/include/uapi/linux/devlink.h b/include/uapi/linux/devlink.h
+> index 7de2d8cc862f..e0a0b523ce5c 100644
+> --- a/include/uapi/linux/devlink.h
+> +++ b/include/uapi/linux/devlink.h
+> @@ -645,6 +645,7 @@ enum devlink_attr {
+>  	DEVLINK_ATTR_PARAM_RESET_DEFAULT,	/* flag */
+>  
+>  	DEVLINK_ATTR_INDEX,			/* uint */
+> +	DEVLINK_ATTR_RESOURCE_SCOPE_MASK,	/* bitfield32 */
+>  
+>  	/* Add new attributes above here, update the spec in
+>  	 * Documentation/netlink/specs/devlink.yaml and re-generate
+> @@ -704,6 +705,22 @@ enum devlink_resource_unit {
+>  	DEVLINK_RESOURCE_UNIT_ENTRY,
+>  };
+>  
+> +enum devlink_resource_scope {
+> +	DEVLINK_RESOURCE_SCOPE_DEV_BIT,
+> +	DEVLINK_RESOURCE_SCOPE_PORT_BIT,
+> +
+> +	__DEVLINK_RESOURCE_SCOPE_MAX_BIT,
+> +	DEVLINK_RESOURCE_SCOPE_MAX_BIT =
+
+do we need this? it's not an attr enum all we care about here is 
+the mask, really so just a trailing value which is max real value + 1
+is enough for all users?
+
+> +		__DEVLINK_RESOURCE_SCOPE_MAX_BIT - 1
+> +};
+> +
+> +#define DEVLINK_RESOURCE_SCOPE_DEV \
+> +	_BITUL(DEVLINK_RESOURCE_SCOPE_DEV_BIT)
+> +#define DEVLINK_RESOURCE_SCOPE_PORT \
+> +	_BITUL(DEVLINK_RESOURCE_SCOPE_PORT_BIT)
+> +#define DEVLINK_RESOURCE_SCOPE_VALID_MASK \
+> +	(_BITUL(__DEVLINK_RESOURCE_SCOPE_MAX_BIT) - 1)
+> +
+>  enum devlink_port_fn_attr_cap {
+>  	DEVLINK_PORT_FN_ATTR_CAP_ROCE_BIT,
+>  	DEVLINK_PORT_FN_ATTR_CAP_MIGRATABLE_BIT,
+
+> +static u32 devlink_resource_scope_get(struct nlattr **attrs, int *flags)
+> +{
+> +	struct nla_bitfield32 scope;
+> +	u32 value;
+> +
+> +	if (!attrs || !attrs[DEVLINK_ATTR_RESOURCE_SCOPE_MASK])
+> +		return DEVLINK_RESOURCE_SCOPE_VALID_MASK;
+> +
+> +	scope = nla_get_bitfield32(attrs[DEVLINK_ATTR_RESOURCE_SCOPE_MASK]);
+> +	value = scope.value & scope.selector;
+> +	if (value != DEVLINK_RESOURCE_SCOPE_VALID_MASK)
+> +		*flags |= NLM_F_DUMP_FILTERED;
+> +
+> +	return value;
+> +}
+> +
+>  static int
+>  devlink_resource_dump_fill_one(struct sk_buff *skb, struct devlink *devlink,
+>  			       struct devlink_port *devlink_port,
+> @@ -400,16 +416,27 @@ devlink_nl_resource_dump_one(struct sk_buff *skb, struct devlink *devlink,
+>  	struct devlink_nl_dump_state *state = devlink_dump_state(cb);
+>  	struct devlink_port *devlink_port;
+>  	unsigned long port_idx;
+> +	u32 scope;
+>  	int err;
+>  
+> -	if (!state->port_number) {
+> +	scope = devlink_resource_scope_get(genl_info_dump(cb)->attrs, &flags);
+> +	if (!scope) {
+> +		NL_SET_ERR_MSG_ATTR(genl_info_dump(cb)->extack,
+> +				    genl_info_dump(cb)->attrs[DEVLINK_ATTR_RESOURCE_SCOPE_MASK],
+
+we have genl_info_dump(cb) 3 times here, let's save the pointer 
+on the stack to make the lines shorter.
+
+> +				    "empty resource scope selection");
+> +		return -EINVAL;
+> +	}
+> +	if (!state->port_number && (scope & DEVLINK_RESOURCE_SCOPE_DEV)) {
+>  		err = devlink_resource_dump_fill_one(skb, devlink, NULL,
+> -						     cb, flags, &state->idx);
+> +						     cb, flags,
+> +						     &state->idx);
+>  		if (err)
+>  			return err;
+>  		state->idx = 0;
+>  	}
+>  
+> +	if (!(scope & DEVLINK_RESOURCE_SCOPE_PORT))
+> +		goto out;
+>  	xa_for_each_start(&devlink->ports, port_idx, devlink_port,
+>  			  state->port_number ? state->port_number - 1 : 0) {
+>  		err = devlink_resource_dump_fill_one(skb, devlink, devlink_port,
+> @@ -420,6 +447,7 @@ devlink_nl_resource_dump_one(struct sk_buff *skb, struct devlink *devlink,
+>  		}
+>  		state->idx = 0;
+>  	}
+> +out:
+>  	state->port_number = 0;
+>  	return 0;
+>  }
+
