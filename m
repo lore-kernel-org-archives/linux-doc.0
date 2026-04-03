@@ -1,197 +1,124 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 537CB1991D4;
-	Fri,  3 Apr 2026 04:01:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 620B93233F4;
+	Fri,  3 Apr 2026 05:58:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775188920; cv=none; b=Lf4Ol3PYVEIyzprtlMGyoi7NPUy0vdLmITNnsSCDThXWm2IPPSZihiqQkzWyobOUqn2hd/u8ZsK0WDXBrG2niCFjLx9m6IiqJ3UZH4K0CTw6YYizcznH6+7Ej/de2s2jdF9W5ELCgffXBCxhUZR/F50cTj1l9ohyeAc7oUqafTY=
+	t=1775195913; cv=none; b=RNzij0txlb649ycCcG5f6wbBZhMNHKtjak8EYOSHN9JQXVb96DamnW9q3T+yGT2QasMEOB8omyyXfFk8u4db1EO9b2P451mv3Dw/2T1EZNVU6k3LvaAdIBjGGoM52FX7tL8gJh3zkwvF5c2h77MsE8IYsLWBW+PAK0g+cPmjRKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775188920; c=relaxed/simple;
-	bh=KlhxTTbe0S2+L2xbVGidcgd76YiRASLn6uvcswLCaVU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nTzg6EyCU97LpMkXx8gNcLRj5RYqb/KFBWbSYJljU0lat+L9TDDI4J1Zus6Ss+JrYaAOwAevI+JF9pt6BOL71cLwSXxW1KmeRGgi6PPs9m7DPucUxcwFfsv/8l95+FiAhEDuFpDIkl/C4vNXbhefGNIp7I4bnQbYro2ictr/5T0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=axqu/+VV; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="axqu/+VV"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=hth5ItCsj8A6hKUrhr9C+dhAotpxXmKlU+z7J5ngyAs=; b=axqu/+VVT6ssg7tTfhgTd3VnKT
-	tgUc58iew4NhtlTgUr4eXMDUnxW9TgpQU0xCsYZemdwFASZftVgX1nz8vDwosnYpxmhtPMpLw7NM2
-	vrArPgkmwABZfC94lJkTqzvL5OiwjzZZCM3vM8y9O+WpFvvVwUBfPUuQdscelSWQn8b8OM24GJmmh
-	jnIsLTRShUhecssRcahCiRyNpRsrHAFT/K9FerX8ktETyaXqSMu2Ci5dwVLQHrM8Ss0Wa/dQe8Xio
-	N6an47614s2aNsAe30Odxw86oaY6NanalJYUIl11UwiT3ewrQrlN1+vRdk4xEicFglvD4eo2FGX+J
-	rubVJiVg==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w8VjB-00000001Ak3-4BmC;
-	Fri, 03 Apr 2026 04:01:50 +0000
-Message-ID: <9e1cc48c-79ea-486a-96f4-a1d1395d7e47@infradead.org>
-Date: Thu, 2 Apr 2026 21:01:47 -0700
+	s=arc-20240116; t=1775195913; c=relaxed/simple;
+	bh=GqzjaJLUmYUCS8QADFOZq2Rrfr6Vt8VTEQWyc42krB0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=oRfm+eF7F/hdC6DOnBSTV8uznBZ42+M+8B6d5f2+GA3rL5Ff+XpGiPrhcGsbVoxhbayZAWnBscS8xq2oAgqafs82gqdfwLadw6A8ywBE7umN2z1L8eQ0y+p2gO1c15CRuUKO011Od60OpCDJoh+NXmIxYjp34BGd32BsZ31gS24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=permerror (bad message/signature format); arc=none smtp.client-ip=124.126.103.232
+Authentication-Results:smtp.subspace.kernel.org; dkim=permerror (bad message/signature format)
+X-UUID: 1d5dfb222f2211f1aa26b74ffac11d73-20260403
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.12,REQID:e18052b6-0fca-44c5-b109-a9ebd7919d26,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:e7bac3a,CLOUDID:a987b866f89964e70fda1da2fdd80112,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:850,TC:nil,Content:0|15|52,EDM:-3,IP:nil
+	,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:
+	1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 1d5dfb222f2211f1aa26b74ffac11d73-20260403
+X-User: fangqiurong@kylinos.cn
+Received: from localhost.localdomain [(10.44.16.150)] by mailgw.kylinos.cn
+	(envelope-from <empty.sender@empty.domain>)
+	(Generic MTA with TLSv1.3 TLS_AES_256_GCM_SHA384 256/256)
+	with ESMTP id 744742611; Fri, 03 Apr 2026 13:58:19 +0800
+From: fqr <user.email>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	dzm91@hust.edu.cn,
+	carlos.bilbao@kernel.org,
+	avadhut.naik@amd.com
+Cc: fangqiurong <fangqiurong@kylinos.cn>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] sched/doc: Update yield_task description in sched-design-CFS
+Date: Fri,  3 Apr 2026 13:58:06 +0800
+Message-Id: <20260403055806.358921-1-user@fqr-pc>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 1/2] docs: s390/pci: Improve and update PCI
- documentation
-To: Niklas Schnelle <schnelle@linux.ibm.com>,
- Bjorn Helgaas <bhelgaas@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Lukas Wunner <lukas@wunner.de>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Farhan Ali <alifm@linux.ibm.com>,
- Alexander Gordeev <agordeev@linux.ibm.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
- Gerd Bayer <gbayer@linux.ibm.com>, Heiko Carstens <hca@linux.ibm.com>,
- Julian Ruess <julianr@linux.ibm.com>, Matthew Rosato
- <mjrosato@linux.ibm.com>, Peter Oberparleiter <oberpar@linux.ibm.com>,
- Ramesh Errabolu <ramesh@linux.ibm.com>, Sven Schnelle <svens@linux.ibm.com>,
- Vasily Gorbik <gor@linux.ibm.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-s390@vger.kernel.org
-References: <20260402-uid_slot-v6-0-d5ea0a14ddb9@linux.ibm.com>
- <20260402-uid_slot-v6-1-d5ea0a14ddb9@linux.ibm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260402-uid_slot-v6-1-d5ea0a14ddb9@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+From: fangqiurong <fangqiurong@kylinos.cn>
 
-On 4/2/26 1:34 PM, Niklas Schnelle wrote:
-> Update the s390 specific PCI documentation to better reflect current
-> behavior and terms such as the handling of Isolated VFs via commit
-> 25f39d3dcb48 ("s390/pci: Ignore RID for isolated VFs").
-> 
-> Add a descriptions for /sys/firmware/clp/uid_is_unique which was added
-> in commit b043a81ce3ee ("s390/pci: Expose firmware provided UID Checking
-> state in sysfs") but missed documentation.
-> 
-> Similarly add documentation for the fidparm attribute added by commit
-> 99ad39306a62 ("s390/pci: Expose FIDPARM attribute in sysfs") and
-> add a list of pft values and their names.
-> 
-> Finally improve formatting of the different attribute descriptions by
-> adding a separating colon.
-> 
-> Signed-off-by: Niklas Schnelle <schnelle@linux.ibm.com>
-> ---
->  Documentation/arch/s390/pci.rst | 139 +++++++++++++++++++++++++++-------------
->  1 file changed, 94 insertions(+), 45 deletions(-)
+The yield_task description referenced the long-removed compat_yield
+sysctl and described the function as a dequeue/enqueue cycle. Update
+it to reflect current behavior: yielding the CPU by moving the
+current task's position back in the runqueue.
 
+Sync zh_CN and sp_SP translations.
 
-These changes are good, so:
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-
-However, I would go a little farther and add these changes if you
-are OK with them. (Patch applies after both of your patches.)
-
--- 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Signed-off-by: fangqiurong <fangqiurong@kylinos.cn>
 ---
- Documentation/arch/s390/pci.rst |   25 +++++++++++++------------
- 1 file changed, 13 insertions(+), 12 deletions(-)
+ Documentation/scheduler/sched-design-CFS.rst                | 5 ++---
+ .../translations/sp_SP/scheduler/sched-design-CFS.rst       | 6 +++---
+ .../translations/zh_CN/scheduler/sched-design-CFS.rst       | 4 ++--
+ 3 files changed, 7 insertions(+), 8 deletions(-)
 
---- linux-next-20260401.orig/Documentation/arch/s390/pci.rst
-+++ linux-next-20260401/Documentation/arch/s390/pci.rst
-@@ -36,7 +36,8 @@ in sysfs directories of the form:
- For example:
+diff --git a/Documentation/scheduler/sched-design-CFS.rst b/Documentation/scheduler/sched-design-CFS.rst
+index b574a2644c77..03998f6c8f9c 100644
+--- a/Documentation/scheduler/sched-design-CFS.rst
++++ b/Documentation/scheduler/sched-design-CFS.rst
+@@ -183,9 +183,8 @@ This is the (partial) list of the hooks:
  
-   - /sys/kernel/debug/s390dbf/pci_msg/sprintf
--    Holds messages from the processing of PCI events, like machine check handling
-+
-+    holds messages from the processing of PCI events, like machine check handling
-     and setting of global functionality, like UID checking.
+  - yield_task(...)
  
-   Change the level of logging to be more or less verbose by piping
-@@ -57,8 +58,8 @@ Entries specific to zPCI functions and e
+-   This function is basically just a dequeue followed by an enqueue, unless the
+-   compat_yield sysctl is turned on; in that case, it places the scheduling
+-   entity at the right-most end of the red-black tree.
++   This function yields the CPU by moving the currently running task's position back
++   in the runqueue, so that other runnable tasks get scheduled first.
  
-   - /sys/bus/pci/slots/XXXXXXXX/power
+  - wakeup_preempt(...)
  
--  In addition to using the FID as the name of the slot the slot directory
--  also contains the following s390 specific slot attributes.
-+  In addition to using the FID as the name of the slot, the slot directory
-+  also contains the following s390-specific slot attributes.
+diff --git a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
+index b35d24464be9..ff0ccbc59183 100644
+--- a/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
++++ b/Documentation/translations/sp_SP/scheduler/sched-design-CFS.rst
+@@ -198,9 +198,9 @@ Esta es la lista parcial de llamadas:
  
-   - uid:
-     The User-defined identifier (UID) of the function which may be configured
-@@ -71,22 +72,22 @@ Entries specific to zPCI functions and e
- * /sys/bus/pci/devices/DDDD:BB:dd.f/:
+  - yield_task(...)
  
-   - function_id:
--    The zPCI function identifier (FID) is a 32 bit hexadecimal value that
-+    The zPCI function identifier (FID) is a 32-bit hexadecimal value that
-     uniquely identifies the PCI function. Unless the hypervisor provides
-     a virtual FID e.g. on KVM this identifier is unique across the machine even
-     between different partitions.
+-   Esta función es básicamente desencolar, seguido por encolar, a menos que
+-   sysctl compat_yield esté activado; en ese caso, sitúa la entidad a gestionar
+-   en la parte más hacia la derecha del árbol rojo-negro.
++   Esta función cede la CPU desplazando la posición de la tarea actualmente
++   en ejecución hacia atrás en la cola de ejecución, para que otras tareas
++   ejecutables sean planificadas primero.
  
-   - function_handle:
--    This 32 bit hexadecimal value is a low-level identifier used for a PCI
-+    This 32-bit hexadecimal value is a low-level identifier used for a PCI
-     function. Note that the function handle may be changed and become invalid
-     on PCI events and when enabling/disabling the PCI function.
+  - check_preempt_curr(...)
  
-   - pchid:
--    This 16 bit hexadecimal value encodes a model-dependent location for
-+    This 16-bit hexadecimal value encodes a model-dependent location for
-     the PCI function.
+diff --git a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+index abc6709ec3b2..03691e0309af 100644
+--- a/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
++++ b/Documentation/translations/zh_CN/scheduler/sched-design-CFS.rst
+@@ -144,8 +144,8 @@ array）。
  
-   - pfgid:
--    PCI function group ID, functions that share identical functionality
-+    PCI function group ID; functions that share identical functionality
-     use a common identifier.
-     A PCI group defines interrupts, IOMMU, IOTLB, and DMA specifics.
+  - yield_task(...)
  
-@@ -95,7 +96,7 @@ Entries specific to zPCI functions and e
-     0 for physical functions.
+-   这个函数的行为基本上是出队，紧接着入队，除非compat_yield sysctl被开启。在那种情况下，
+-   它将调度实体放在红黑树的最右端。
++   此函数通过将当前任务在运行队列中的位置后移来让出 CPU，
++   使得其他可运行的任务优先被调度。
  
-   - pft:
--    The PCI function type is an s390 specific type attribute. It indicates
-+    The PCI function type is an s390-specific type attribute. It indicates
-     a more general, usage oriented, type than PCI Specification
-     class/vendor/device identifiers. That is PCI functions with the same pft
-     value may be backed by different hardware implementations. At the same time
-@@ -124,7 +125,7 @@ Entries specific to zPCI functions and e
-     not applicable for that PCI function type.
+  - wakeup_preempt(...)
  
-   - uid:
--    The user-defined identifier (UID) for a PCI function is a 32 bit
-+    The user-defined identifier (UID) for a PCI function is a 32-bit
-     hexadecimal value. It is defined on a per instance basis as part of the
-     partition, KVM guest, or z/VM guest configuration. If UID Checking is
-     enabled the platform ensures that the UID is unique within that instance
-@@ -146,7 +147,7 @@ Entries specific to zPCI functions and e
-     The more the segments are different, the more the functions are isolated.
- 
-   - fidparm:
--    Contains an 8 bit per PCI function parameter field in hexadecimal provided
-+    Contains an 8-bit-per-PCI function parameter field in hexadecimal provided
-     by the platform. The meaning of this field is PCI function type specific.
-     For NETH VFs a value of 0x01 indicates that the function supports
-     promiscuous mode.
-@@ -164,13 +165,13 @@ The PCI address consists of four parts:
- and is of this form: DDDD:BB:dd.f.
- 
- * For a PCI function for which the platform does not expose the RID, the
--  pci=norid kernel parameter is used, or a so called isolated Virtual Function
-+  pci=norid kernel parameter is used, or a so-called isolated Virtual Function
-   which does have RID information but is used without its parent Physical
-   Function being part of the same PCI configuration:
- 
-   - There is only one function per domain.
- 
--  - The domain is set from the zPCI function's UID if UID Checking is on
-+  - The domain is set from the zPCI function's UID if UID Checking is on;
-     otherwise the domain ID is generated dynamically and is not stable
-     across reboots or hot plug.
- 
+-- 
+2.25.1
 
