@@ -1,79 +1,119 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0DF3BC680;
-	Fri,  3 Apr 2026 15:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41FBA3C5DC5
+	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 16:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775231337; cv=none; b=tP35TsmBbKlBbP6z38j38hciPZ/5L7L9BrwDW/DNTVt0rL3L/pF2KWl2dO+bF4dwHPApHZMqSvo+0L3G1Wzl0i5StPFgP1IQp8qbfHcUrDjJaHitbhwl1Nry5zXwN5eq7lXhO1s4Bl3V07tSRTRGT3Pb2vhWFyuC5Z+zyJK+BMI=
+	t=1775232406; cv=none; b=uKukPSuUd4W3lULQ8czLrvmfo5gmOXskRFtZ3plNtZaq2dLArVDPwatGSBvCXFRQXukIaUwo4d8MiAqR6gQcNcE+Klvz+c4xbKHfjRs0Mk9QGGdHFxm0NCGHcXj3zD9gSKjHq4/r8PcmhUncQMgQS/jGkfFS8kX7nZZhCkSx3/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775231337; c=relaxed/simple;
-	bh=N8TMgXnvpbtnCOxudV0bO85sTcr2ZAfzb0BA4MpXD8k=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E4HqrpHDKBXXxyKveJ8n5no0StvxucqRaF+jliBYqFR7HROphGxoWakWtBjGmlV47XAp+qGpVx5pyonrTc5hEg2YrHmbY/0AbTITLfe7HQpCl6qBz76diBpp9xgbP8tsgxBA3cRMf5XuJEfZny6brcWCL3VRG9wylceQQI1in44=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OV9CkXO8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775232406; c=relaxed/simple;
+	bh=t0EHngMNYsB2IiM9j2tQRnef+d8tab6F5xgT1UMQNwg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fnDPgyGG2ManMSaDlJiqTEaGD3bk8PBpwKd82AB67HEk4o6aySA61RMl9E51RrBMoz3JlwV39YaG1clKQKTifLUb40aeVvYSvM0FomRKBvRNhkOiqIEERi4mDLkd9tY494CIkaWIbJlMBGSRWwWnUFmdAQCzAX8RwO4Blxtj0ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=2Tx1mKPq; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OV9CkXO8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7F852C4CEF7;
-	Fri,  3 Apr 2026 15:48:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775231336;
-	bh=N8TMgXnvpbtnCOxudV0bO85sTcr2ZAfzb0BA4MpXD8k=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OV9CkXO8BhoU67JWYgc52McyYb4iJNGjdEcX2CrYgGbUCwdLhzQ7GZQwKcz7/5eGZ
-	 MV56BF/Max+WTy6ee7DBc5nNzNiZbjiSDMIDcA2+2v6VwvIjoaWZwnyMmZhZFTrNrr
-	 scGvsZMcrJONe9VdhqijEMtT5R9UR0vfIZbs30qL986b1NLBbRe8LEr48JkxV0hQ4h
-	 gFgR/2PmXiR76bvEoTBA1luYWwXa0I0bDbMomIX/E9tlLel4bfwaHoabesK+agbgv9
-	 +iAhti2485eB00SBWgavLBU8WOeygm3P0yUPutvYl3ZRsIi7OWUEAE95Vm8fMZ0Ix2
-	 hb6z9U2IeFZdw==
-Date: Fri, 3 Apr 2026 08:48:56 -0700
-From: Kees Cook <kees@kernel.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: greg@kroah.com, edumazet@google.com, rdunlap@infradead.org,
-	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] Documentation: explain how to find maintainers
- addresses for security reports
-Message-ID: <202604030845.9DBD539AB@keescook>
-References: <20260403062018.31080-1-w@1wt.eu>
- <20260403062018.31080-3-w@1wt.eu>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="2Tx1mKPq"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id AD9191A312B;
+	Fri,  3 Apr 2026 16:06:42 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 703EC603C1;
+	Fri,  3 Apr 2026 16:06:42 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 049E3104500F9;
+	Fri,  3 Apr 2026 18:06:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1775232401; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=KrVx7jihaMo4JfVPFc6GDwNKRrjQQHnDzJIXkqNJIFg=;
+	b=2Tx1mKPqr6MGr+MBrfMLLJ7EKQyPlAHd+lPXQZazym6imMuJ10BcFwZxJ3Tkdz4VOmXNLl
+	fqbziwHYlYvdSeJn99Qj3FsRy9ciSZwNxpNUVTYNdtBLaWRk++Ji2j3HvP7fO4hdJBPSZW
+	1HWLavfhPgrYou6npZxg0jcOwPUuxa/eKtL1BPcodUfuEu7aOAHgPmTsxBHm3NFdHmBYo8
+	zoUb0sGSk/Whv5/D3OC6A4bfoRFLjd6jnoZBJmJs/STJIO66Ud7kxgvqFfyeOWc7oMIlPy
+	30Hdqch5+DaKmbe6L4E/VP09lKdFP2wiOm2awo2HDAw84feMgnaz3f69IZFyLg==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: <Takahiro.Kuwano@infineon.com>
+Cc: <pratyush@kernel.org>,  <mwalle@kernel.org>,  <richard@nod.at>,
+  <vigneshr@ti.com>,  <corbet@lwn.net>,  <tudor.ambarus@linaro.org>,
+  <sean.anderson@linux.dev>,  <thomas.petazzoni@bootlin.com>,
+  <STLin2@winbond.com>,  <linux-mtd@lists.infradead.org>,
+  <linux-kernel@vger.kernel.org>,  <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 17/27] mtd: spi-nor: debugfs: Add locking support
+In-Reply-To: <ee2057a104d44d3dbfbedcf5b1ed80b2@infineon.com> (Takahiro
+	Kuwano's message of "Thu, 2 Apr 2026 05:40:55 +0000")
+References: <20260317-winbond-v6-18-rc1-spi-nor-swp-v3-0-2ca9ea4e7b9b@bootlin.com>
+	<20260317-winbond-v6-18-rc1-spi-nor-swp-v3-17-2ca9ea4e7b9b@bootlin.com>
+	<ee2057a104d44d3dbfbedcf5b1ed80b2@infineon.com>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Fri, 03 Apr 2026 18:06:33 +0200
+Message-ID: <87a4vk58qe.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260403062018.31080-3-w@1wt.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Fri, Apr 03, 2026 at 08:20:17AM +0200, Willy Tarreau wrote:
-> [...]
-> +One difficulty for most first-time reporters is to figure the right list of
-> +recipients to send a report to.  In the Linux kernel, all official maintainers
-> +are trusted, so the consequences of accidentally including the wrong maintainer
-> +are essentially a bit more noise for that person, i.e. nothing dramatic.  As
+Hi Takahiro,
 
-Yeah, this is the central point: we already trust maintainers; there is
-nothing "special" about security@kernel.org.
+>> +u64 spi_nor_get_min_prot_length_sr(struct spi_nor *nor);
+>> +void spi_nor_get_locked_range_sr(struct spi_nor *nor, const u8 *sr, lof=
+f_t *ofs, u64 *len);
+>> +bool spi_nor_is_locked_sr(struct spi_nor *nor, loff_t ofs, u64 len, con=
+st u8 *sr);
+>> +
+>
+> It would be better to have generic helper functions rather than using SR-=
+based
+> functions directly. The locking_ops is vendor/chip specific and can provi=
+de
+> other locking mechanism than SR-based block protection. For instance, Inf=
+ineon,
+> Micron, Macronix (and maybe other vendors) offer protection mechanisms th=
+at can
+> protect sectors individually with volatile or non-volatile manner.
 
-> [...]
-> +single line suitable for use in the To: field of a mailer like this::
-> +
-> +  $ ./scripts/get_maintainer.pl --no-tree --no-l --no-r --no-n --m \
-> +    --no-git-fallback --no-substatus --no-rolestats --no-multiline \
-> +    --pattern-depth 1 drivers/example.c
-> +  dev1@example.com, dev2@example.org
+I get what you mean, thanks for pointing this out. Unfortunately it's
+not that straightforward.
 
-To echo Greg, yeah, this is great, and has been an implicit action we've
-done for years, so there's every reason to delegate it to the reporter
-to avoid the round-trip.
+As of today, there are the "default" locking ops (SR based) and a few
+others, chip specific. For debugging purposes, these "other" ops do not
+provide any kind of useful feedback regarding what has actually been
+locked. Only SR based chips provide this, it is useful, I want to use it.
 
-Though I guess we'll see if these new instructions actually change
-anything -- we still have people asking for CVE assignments. :P
+So I'm going to expose a new boolean to filter out whether we have
+locking support *and* if yes, whether we can use SR based functions, this
+should also address this concern:
 
-Reviewed-by: Kees Cook <kees@kernel.org>
+> Don't we need to check 'SNOR_F_HAS_LOCK' flag here?
 
--- 
-Kees Cook
+We will still need to expose the SR specific helpers, though, but at
+least we will no longer get inconsistencies with chips not featuring the
+default SR approach.
+
+>> +       seq_puts(s, "\nlocked sectors\n");
+>> +       seq_puts(s, " region (in hex)   | status   | #blocks\n");
+>> +       seq_puts(s, " ------------------+----------+--------\n");
+>> +
+>> +       spi_nor_get_locked_range_sr(nor, nor->dfs_sr_cache, &lock_start,=
+ &lock_length);
+>> +       if (!lock_length || lock_length =3D=3D params->size) {
+>> +               seq_printf(s, " %08llx-%08llx | %s | %llu\n", 0ULL, para=
+ms->size - 1,
+>> +                          lock_length ? "  locked" : "unlocked", params=
+->size / min_prot_len);
+>
+> div_u64() is needed.=20
+> I got undefined reference to `__aeabi_uldivmod' for my 32-bit ARM platfor=
+m.
+> Same for following four seq_printf().
+
+Good catch, I will fix this too.
+
+Thanks,
+Miqu=C3=A8l
