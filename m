@@ -1,148 +1,252 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from out30-112.freemail.mail.aliyun.com (out30-112.freemail.mail.aliyun.com [115.124.30.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C864D374186;
-	Fri,  3 Apr 2026 06:20:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE2632E6BD;
+	Fri,  3 Apr 2026 07:07:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775197255; cv=none; b=hE9+RVrGPfD6z6J07yxXgTrXRUVmJeQquTTE5k/DF7GuTbisY0ibikfRf5AtWbgo2COQ4NQuc82H8nXdo4RKsiZ2DffnS/vVezis1LqCf5cB2rAYbfydC0eQ83OPxF6uU+zz56vz0Mrn44suJa+8ErIv22AtU1Lbg5oobr6E6+w=
+	t=1775200055; cv=none; b=oQnTqu2ZIyhBRvIsZOALsmZImdB2S07OGC7wz0MxzNBVlW2bLwrv/h/2VautZbWR/CafcQTpEB2gbtdBJ++GBOhjCT4gbqjI6G7SJETliXz3/QPUtDmCGtHC7jhPUxp9cy68M32H0YUdEWaf/Zd46WYqj4NbqGtRKK+uHQ1WljU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775197255; c=relaxed/simple;
-	bh=n8LECQJ4x4kKLegzjCk6W2ZTgGIHzFc04My1vTX+7DQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=UMSsdNw64LFf3woEXLOzWkxRy9SgF7GAuulN1KJv3dKXKIF8T9ZTZwDgT54HHeduAve50ZkrI8mvh6UOVM4FNzhY2sKSPKv9cvCr252KRIeWnyHYRzfxaxf/hHxwQcHY5Z/iC1dbQp1WcnD//Ab9n2NosPIeP7Qi5cKqjG7yH3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=sw+dmHnL; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1775200055; c=relaxed/simple;
+	bh=Zt/BNexRiesOPUXjswkUS5e07QT04+nEcrO6CHb9P1c=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ManBjrhMEoHxaE138hzP5/oOzxWrQOiYaUTb9Th72WwsM0v1eiwVHvgIz8k5xijPCktmc9IxYF7ieRm5MtoVmqhYNqFro0OxOxLbv7zoDleImqPBRn8ArQTKPK+gO3JDenEBU9E4u6Qn8uAs36nmWBPr+zwOheUpDDzyheFEPBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=uue3dgYZ; arc=none smtp.client-ip=115.124.30.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="sw+dmHnL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1775197244; bh=6mMBFjBX7EcspuOEDXNCtlc+Rfv6QdGApiTNJWlPIec=;
-	h=From:Message-ID:From;
-	b=sw+dmHnLixyk6KSbg5AoMHrLV3AfL7HQAsqRXUqBY53dE0VHaeRTVo5xQH6Gwcaew
-	 8Wyh+pHqGj6PBljj/xHvzF40yIkgOq45BGqaANtNPD6QTiY39atltqZlsWSAkK3X7L
-	 gP0FnlPP2vUByoS8/7A+bYW3HDa9jo16mJAd+pwo=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id F0A14C0AB0;
-	Fri, 03 Apr 2026 08:20:43 +0200 (CEST)
-From: Willy Tarreau <w@1wt.eu>
-To: greg@kroah.com
-Cc: edumazet@google.com, rdunlap@infradead.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Willy Tarreau <w@1wt.eu>
-Subject: [PATCH v2 3/3] Documentation: clarify the mandatory and desirable info for security reports
-Date: Fri,  3 Apr 2026 08:20:18 +0200
-Message-ID: <20260403062018.31080-4-w@1wt.eu>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260403062018.31080-1-w@1wt.eu>
-References: <20260403062018.31080-1-w@1wt.eu>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="uue3dgYZ"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1775200045; h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	bh=tfVpMgp9qVTcZ/8DJfX9VxVoyY3jze79OH3JyHtjLpc=;
+	b=uue3dgYZzJvfmtHEvWryvOZDdCcJf/SW0wgYhEP6qm8gbLR7Rah3iHhn1sCKQk4to/GsR4s+XxvICy7RArmvNpvwiEn7mRpo6UetNOzJbU5m01UTcuyLI5xReWs5MroD4Rfs21A4w12Q/GuF/6WBWeXVMGssiWfM4Xx8SQeDERk=
+X-Alimail-AntiSpam:AC=PASS;BC=-1|-1;BR=01201311R451e4;CH=green;DM=||false|;DS=||;FP=0|-1|-1|-1|0|-1|-1|-1;HT=maildocker-contentspam033045098064;MF=fangyu.yu@linux.alibaba.com;NM=1;PH=DS;RN=18;SR=0;TI=SMTPD_---0X0JS0nl_1775200041;
+Received: from localhost.localdomain(mailfrom:fangyu.yu@linux.alibaba.com fp:SMTPD_---0X0JS0nl_1775200041 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 03 Apr 2026 15:07:23 +0800
+From: fangyu.yu@linux.alibaba.com
+To: anup@brainfault.org
+Cc: alex@ghiti.fr,
+	andrew.jones@oss.qualcomm.com,
+	aou@eecs.berkeley.edu,
+	atish.patra@linux.dev,
+	corbet@lwn.net,
+	fangyu.yu@linux.alibaba.com,
+	guoren@kernel.org,
+	kvm-riscv@lists.infradead.org,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	palmer@dabbelt.com,
+	pbonzini@redhat.com,
+	pjw@kernel.org,
+	radim.krcmar@oss.qualcomm.com,
+	skhan@linuxfoundation.org
+Subject: Re: Re: Re: Re: [PATCH v7 4/4] RISC-V: KVM: add KVM_CAP_RISCV_SET_HGATP_MODE
+Date: Fri,  3 Apr 2026 15:07:19 +0800
+Message-Id: <20260403070719.64284-1-fangyu.yu@linux.alibaba.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-146)
+In-Reply-To: <CAAhSdy2CibJNXJYxCvyofXC3CUpCT5KdricNt2aViRSYCOWrrA@mail.gmail.com>
+References: <CAAhSdy2CibJNXJYxCvyofXC3CUpCT5KdricNt2aViRSYCOWrrA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-A significant part of the effort of the security team consists in begging
-reporters for patch proposals, or asking them to provide them in regular
-format, and most of the time they're willing to provide this, they just
-didn't know that it would help. So let's add a section detailing the
-required and desirable contents in a security report to help reporters
-write more actionable reports which do not require round trips.
+>>
+>> >>On Thu, Apr 2, 2026 at 6:53 PM <fangyu.yu@linux.alibaba.com> wrote:
+>> >>>
+>> >>> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>> >>>
+>> >>> Add a VM capability that allows userspace to select the G-stage page table
+>> >>> format by setting HGATP.MODE on a per-VM basis.
+>> >>>
+>> >>> Userspace enables the capability via KVM_ENABLE_CAP, passing the requested
+>> >>> HGATP.MODE in args[0]. The request is rejected with -EINVAL if the mode is
+>> >>> not supported by the host, and with -EBUSY if the VM has already been
+>> >>> committed (e.g. vCPUs have been created or any memslot is populated).
+>> >>>
+>> >>> KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE) returns a bitmask of the
+>> >>> HGATP.MODE formats supported by the host.
+>> >>>
+>> >>> Signed-off-by: Fangyu Yu <fangyu.yu@linux.alibaba.com>
+>> >>> Reviewed-by: Andrew Jones <andrew.jones@oss.qualcomm.com>
+>> >>> Reviewed-by: Guo Ren <guoren@kernel.org>
+>> >>> ---
+>> >>>  Documentation/virt/kvm/api.rst | 27 +++++++++++++++++++++++++++
+>> >>>  arch/riscv/kvm/vm.c            | 18 ++++++++++++++++--
+>> >>>  include/uapi/linux/kvm.h       |  1 +
+>> >>>  3 files changed, 44 insertions(+), 2 deletions(-)
+>> >>>
+>> >>> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+>> >>> index 032516783e96..9d7f6958fa81 100644
+>> >>> --- a/Documentation/virt/kvm/api.rst
+>> >>> +++ b/Documentation/virt/kvm/api.rst
+>> >>> @@ -8902,6 +8902,33 @@ helpful if user space wants to emulate instructions which are not
+>> >>>  This capability can be enabled dynamically even if VCPUs were already
+>> >>>  created and are running.
+>> >>>
+>> >>> +7.47 KVM_CAP_RISCV_SET_HGATP_MODE
+>> >>> +---------------------------------
+>> >>> +
+>> >>> +:Architectures: riscv
+>> >>> +:Type: VM
+>> >>> +:Parameters: args[0] contains the requested HGATP mode
+>> >>> +:Returns:
+>> >>> +  - 0 on success.
+>> >>> +  - -EINVAL if args[0] is outside the range of HGATP modes supported by the
+>> >>> +    hardware.
+>> >>> +  - -EBUSY if vCPUs have already been created for the VM, if the VM has any
+>> >>> +    non-empty memslots.
+>> >>> +
+>> >>> +This capability allows userspace to explicitly select the HGATP mode for
+>> >>> +the VM. The selected mode must be supported by both KVM and hardware. This
+>> >>> +capability must be enabled before creating any vCPUs or memslots.
+>> >>> +
+>> >>> +If this capability is not enabled, KVM will select the default HGATP mode
+>> >>> +automatically. The default is the highest HGATP.MODE value supported by
+>> >>> +hardware.
+>> >>> +
+>> >>> +``KVM_CHECK_EXTENSION(KVM_CAP_RISCV_SET_HGATP_MODE)`` returns a bitmask of
+>> >>> +HGATP.MODE values supported by the host. A return value of 0 indicates that
+>> >>> +the capability is not supported. Supported-mode bitmask use HGATP.MODE
+>> >>> +encodings as defined by the RISC-V privileged specification, such as Sv39x4
+>> >>> +corresponds to HGATP.MODE=8, so userspace should test bitmask & BIT(8).
+>> >>> +
+>> >>>  8. Other capabilities.
+>> >>>  ======================
+>> >>>
+>> >>> diff --git a/arch/riscv/kvm/vm.c b/arch/riscv/kvm/vm.c
+>> >>> index 4d82a886102c..5e82a3ad3ad0 100644
+>> >>> --- a/arch/riscv/kvm/vm.c
+>> >>> +++ b/arch/riscv/kvm/vm.c
+>> >>> @@ -201,6 +201,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>> >>>         case KVM_CAP_VM_GPA_BITS:
+>> >>>                 r = kvm_riscv_gstage_gpa_bits(kvm->arch.pgd_levels);
+>> >>>                 break;
+>> >>> +       case KVM_CAP_RISCV_SET_HGATP_MODE:
+>> >>> +               r = kvm_riscv_get_hgatp_mode_mask();
+>> >>> +               break;
+>> >>
+>> >>Introducing a new RISC-V capability looks a bit complex.
+>> >>Instead of KVM_CAP_RISCV_SET_HGATP_MODE, we can
+>> >>simply re-use KVM_CAP_VM_GPA_BITS.
+>> >>
+>> >>The kvm_vm_ioctl_check_extension() for KVM_CAP_VM_GPA_BITS
+>> >>return number of GPA bits which in-directly implies the underlying
+>> >>hgatp.MODE. As we know, if it return 59 bits GPA then it means
+>> >>Sv57x4 is the selected hgatp.MODE and Sv48x4 and Sv39x4 modes
+>> >>are also supported as-per RISC-V privileged specification.
+>> >>
+>> >>The kvm_vm_ioctl_enable_cap() for KVM_CAP_VM_GPA_BITS
+>> >>will take the desired number of GPA bits and downsize the selected
+>> >>hgatp.MODE. For example, if user-space ask GPA bits <= 50 and
+>> >>GPA bits > 41 then we select Sv48x4. If user-space ask GPA
+>> >>bits <= 41 then we select Sv39x4. If user-space ask GPA bits <= 59
+>> >>and GPA bits > 50 then we select Sv57x4.
+>> >>
+>> >
+>> >Thanks, that makes sense.
+>> >
+>> >In v8 I’ll drop KVM_CAP_RISCV_SET_HGATP_MODE and re-use KVM_CAP_VM_GPA_BITS
+>> >for both discovery and selection.
+>> >
+>>
+>> Hi Anup,
+>>
+>> While working on the respin reusing KVM_CAP_VM_GPA_BITS, I realized
+>> a potential ambiguity in CHECK_EXTENSION semantics and wanted to confirm the
+>> intended ABI before posting v8.
+>>
+>> One concern about the semantics: today KVM_CHECK_EXTENSION(KVM_CAP_VM_GPA_BITS)
+>> on a VM fd may be interpreted as “the GPA bits for this VM” (or at least what
+>> this VM can use). If we also use KVM_ENABLE_CAP(KVM_CAP_VM_GPA_BITS) to downsize
+>> the selected HGATP.MODE for a particular VM (e.g. to Sv48x4 => 50 bits), then a
+>> subsequent CHECK_EXTENSION(KVM_CAP_VM_GPA_BITS) on the same VM fd would return 50.
+>> Userspace might then assume 50 is the maximum supported by that VM/host and lose
+>> the information that the host actually supports 59 (Sv57x4).
+>
+>I think there is no violation of the semantics because we are providing
+>a way to allow KVM user space change "the GPA bits for this VM”
+>using KVM_ENABLE_CAP(KVM_CAP_VM_GPA_BITS) so subsequent
+>CHECK_EXTENSION(KVM_CAP_VM_GPA_BITS) must return
+>effective number of GPA bits visible to the VM.
 
-Cc: Eric Dumazet <edumazet@google.com>
-Cc: Greg KH <greg@kroah.com>
-Signed-off-by: Willy Tarreau <w@1wt.eu>
----
- Documentation/process/security-bugs.rst | 66 ++++++++++++++++++++++---
- 1 file changed, 59 insertions(+), 7 deletions(-)
+Thanks, agreed.
 
-diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
-index ac97fc78fecd..0b1f6d8e3cbe 100644
---- a/Documentation/process/security-bugs.rst
-+++ b/Documentation/process/security-bugs.rst
-@@ -7,6 +7,65 @@ Linux kernel developers take security very seriously.  As such, we'd
- like to know when a security bug is found so that it can be fixed and
- disclosed as quickly as possible.
- 
-+Preparing your report
-+---------------------
-+
-+Like with any bug report, a security bug report requires a lot of analysis work
-+from the developers, so the more information you can share about the issue, the
-+better.  Please review the procedure outlined in
-+Documentation/admin-guide/reporting-issues.rst if you are unclear about what
-+information is helpful.  The following information are absolutely necessary in
-+**any** security bug report:
-+
-+  * **affected kernel version range**: with no version indication, your report
-+    will not be processed.  A significant part of reports are for bugs that
-+    have already been fixed, so it is extremely important that vulnerabilities
-+    are verified on recent versions (development tree or latest stable
-+    version), at least by verifying that the code has not changed since the
-+    version where it was detected.
-+
-+  * **description of the problem**: a detailed description of the problem, with
-+    traces showing its manifestation, and why you consider that the observed
-+    behavior as a problem in the kernel, is necessary.
-+
-+  * **reproducer**: developers will need to be able to reproduce the problem to
-+    consider a fix as effective.  This includes both a way to trigger the issue
-+    and a way to confirm it happens.  A reproducer with low complexity
-+    dependencies will be needed (source code, shell script, sequence of
-+    instructions, file-system image etc).  Binary-only executables are not
-+    accepted.  Working exploits are extremely helpful and will not be released
-+    without consent from the reporter, unless they are already public.  By
-+    definition if an issue cannot be reproduced, it is not exploitable, thus it
-+    is not a security bug.
-+
-+  * **conditions**: if the bug depends on certain configuration options,
-+    sysctls, permissions, timing, code modifications etc, these should be
-+    indicated.
-+
-+In addition, the following information are highly desirable:
-+
-+  * **suspected location of the bug**: the file names and functions where the
-+    bug is suspected to be present are very important, at least to help forward
-+    the report to the appropriate maintainers.  When not possible (for example,
-+    "system freezes each time I run this command"), the security team will help
-+    identify the source of the bug.
-+
-+  * **a proposed fix**: bug reporters who have analyzed the cause of a bug in
-+    the source code almost always have an accurate idea on how to fix it,
-+    because they spent a long time studying it and its implications.  Proposing
-+    a tested fix will save maintainers a lot of time, even if the fix ends up
-+    not being the right one, because it helps understand the bug.  When
-+    proposing a tested fix, please always format it in a way that can be
-+    immediately merged (see Documentation/process/submitting-patches.rst).
-+    This will save some back-and-forth exchanges if it is accepted, and you
-+    will be credited for finding and fixing this issue.  Note that in this case
-+    only a ``Signed-off-by:`` tag is needed, without ``Reported-by:` when the
-+    reporter and author are the same.
-+
-+  * **mitigations**: very often during a bug analysis, some ways of mitigating
-+    the issue appear. It is useful to share them, as they can be helpful to
-+    keep end users protected during the time it takes them to apply the fix.
-+
- Identifying contacts
- --------------------
- 
-@@ -89,13 +148,6 @@ run additional tests.  Reports where the reporter does not respond promptly
- or cannot effectively discuss their findings may be abandoned if the
- communication does not quickly improve.
- 
--As it is with any bug, the more information provided the easier it
--will be to diagnose and fix.  Please review the procedure outlined in
--'Documentation/admin-guide/reporting-issues.rst' if you are unclear about what
--information is helpful.  Any exploit code is very helpful and will not
--be released without consent from the reporter unless it has already been
--made public.
--
- The report must be sent to maintainers, with the security team in ``Cc:``.
- The Linux kernel security team can be contacted by email at
- <security@kernel.org>.  This is a private list of security officers
--- 
-2.52.0
+>The only additional constraint I would enforce is that the
+>KVM_ENABLE_CAP(KVM_CAP_VM_GPA_BITS) must
+>return -EBUSY if any of the Guest VCPUs have
+>ran_atleast_once set.
+>
 
+In my current implementation I already return -EBUSY if kvm->created_vcpus
+is non-zero, i.e. the GPA bits can only be changed before any vCPU is created.
+
+Thanks,
+Fangyu
+
+>Regards,
+>Anup
+>
+>>
+>> Thanks,
+>> Fangyu
+>>
+>> >Thanks,
+>> >Fangyu
+>> >
+>> >>>         default:
+>> >>>                 r = 0;
+>> >>>                 break;
+>> >>> @@ -211,12 +214,23 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>> >>>
+>> >>>  int kvm_vm_ioctl_enable_cap(struct kvm *kvm, struct kvm_enable_cap *cap)
+>> >>>  {
+>> >>> +       if (cap->flags)
+>> >>> +               return -EINVAL;
+>> >>> +
+>> >>>         switch (cap->cap) {
+>> >>>         case KVM_CAP_RISCV_MP_STATE_RESET:
+>> >>> -               if (cap->flags)
+>> >>> -                       return -EINVAL;
+>> >>>                 kvm->arch.mp_state_reset = true;
+>> >>>                 return 0;
+>> >>> +       case KVM_CAP_RISCV_SET_HGATP_MODE:
+>> >>> +               if (!kvm_riscv_hgatp_mode_is_valid(cap->args[0]))
+>> >>> +                       return -EINVAL;
+>> >>> +
+>> >>> +               if (kvm->created_vcpus || !kvm_are_all_memslots_empty(kvm))
+>> >>> +                       return -EBUSY;
+>> >>> +#ifdef CONFIG_64BIT
+>> >>> +               kvm->arch.pgd_levels = 3 + cap->args[0] - HGATP_MODE_SV39X4;
+>> >>> +#endif
+>> >>> +               return 0;
+>> >>>         default:
+>> >>>                 return -EINVAL;
+>> >>>         }
+>> >>> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
+>> >>> index 80364d4dbebb..a74a80fd4046 100644
+>> >>> --- a/include/uapi/linux/kvm.h
+>> >>> +++ b/include/uapi/linux/kvm.h
+>> >>> @@ -989,6 +989,7 @@ struct kvm_enable_cap {
+>> >>>  #define KVM_CAP_ARM_SEA_TO_USER 245
+>> >>>  #define KVM_CAP_S390_USER_OPEREXEC 246
+>> >>>  #define KVM_CAP_S390_KEYOP 247
+>> >>> +#define KVM_CAP_RISCV_SET_HGATP_MODE 248
+>> >>>
+>> >>>  struct kvm_irq_routing_irqchip {
+>> >>>         __u32 irqchip;
+>> >>> --
+>> >>> 2.50.1
+>> >>>
+>> >>
+>> >>Regards,
+>> >>Anup
+>
