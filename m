@@ -1,42 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C0F1137923;
-	Sat,  4 Apr 2026 21:01:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9154821B9F5;
+	Sat,  4 Apr 2026 21:06:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775336485; cv=none; b=Nly9xJzMxIy5UJ/b8iISLDimfeQA4FuKg5vXnn+VCoNSBe8W2BfHOyxwnmX9HpHOqx+yLy0naeayrzgtxzTZstW7mUXZOpZEnfipkSp7TgPOK8fIbQzpW8vKKuSQ2S5M5K+YUcy8fodWe4kEbR1tiujJ7YDfqZLdBWrwesif9gM=
+	t=1775336798; cv=none; b=baa7nBWhw5IlItQsBTGPKJL7fkL03lcBAeWDNE5ufgALiTfa60F4C4S/hX9jR8Vr1q/ME9oCL4Euk6huCwu8Ao/2DbjQu1uS05PV8iAJhhU3owv+KDsIltwJ0JNNsXZsGkem+/XDk/FRIx/TOxlDUkTRlRmTfE4H9PFge+1zS4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775336485; c=relaxed/simple;
-	bh=BE7WCOjZCyh3D0O3nA0Pw0gvP5pQ6dq1vt184ZQYo8o=;
+	s=arc-20240116; t=1775336798; c=relaxed/simple;
+	bh=4SryKwM7vsegLO0c1BFP+xu0X8RY5OoE3Nf4Yl1SFh4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kXb60D6KLegFY5lQn8rIWbaQh5Rzx75975UAdXhg3fizj6NG1aRBLdWr2JFkvhHHsE8ikvDxQrvrqSjh7y70iFcPfy1ABEqWuRfFDAMsz9PztqwitjKaOatJruM+lc6MN2wHKU+WRu6/8LwRNCOze6zPabxWBISENsHKmBvl8aU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=djJY5HVr; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=nvVaYWLateoNsGfgQ8TY2qBHsuYbGw5wx03pQkl/61WccKkrYzg65tq7nHR7L/V+UhqTnyW2L34gKsx2h++kxy3K59+aP+fkjNIyaQtCd4UGLZLEqaWXQXTilStv0KgLPQl+ZiO3sbtRIWGNf22Gx5GcIfclbXakqD9zCqqegPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t1syRjMY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="djJY5HVr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E307CC19421;
-	Sat,  4 Apr 2026 21:01:24 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t1syRjMY"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F194DC19421;
+	Sat,  4 Apr 2026 21:06:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775336485;
-	bh=BE7WCOjZCyh3D0O3nA0Pw0gvP5pQ6dq1vt184ZQYo8o=;
+	s=k20201202; t=1775336798;
+	bh=4SryKwM7vsegLO0c1BFP+xu0X8RY5OoE3Nf4Yl1SFh4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=djJY5HVr7Z5Iz/LPL7rFSferVpA/SvHCZN3DD9pCOxHKKFnUgEkj5z7wcMMCuwWFD
-	 FVXmBVGBZ/EqUaUzmBTPu0PmmJhyFodz9TMjVeHj2uLXL93WLFxNhx4LFUCm2nTWfB
-	 c/XyfM+qqIG7nbG7sCEO4LZVrebBrjpXHR5jJoBRPJn4CDEp1aNggi7zhilMvECetD
-	 R/YfQKXHTXGTIErUNqvttWPacVb83Q+0hAygiOof20RiEXXM8CXsHpAVl/1jHryAyi
-	 3Ki9lTMMFUJ1YjKE6+hRn3P/tCTvACkCwAvp4TNCazoTqiTJ9Pm0pOgpkKdZzrrY4U
-	 to08EN6ITZUhg==
+	b=t1syRjMYle4xMK+gSEsZrcuYSNG1IxBD6oDNJNvj60aCCos1ZGIJCcinPiEHdzH2F
+	 0/8Qk7SwJrsUZDScopGiUSi9sNUdqJVHOaI465T5900BmJtO81RujxH/aHQYOhGwB2
+	 6zenI80UAnJlu0lBDGmBYbxJ/u+GRuHu1BQLZbAv2x9fJgGreuGGNMyNkKvXu4sDbk
+	 sgk8+bdXzlEZLqjItXYRUrBnAhCnjqv9i9JEnj2kHCCxxBcjaaXgwJWMZAeIlggg4D
+	 dFHJV20oRnsIPTl6W7j3LbvBrrbRqYaLjMdmZbnaa7yYBOcWJ+TW0al2b5IwfgjToM
+	 AIz82ny77TGpg==
 From: SeongJae Park <sj@kernel.org>
 To: SeongJae Park <sj@kernel.org>
 Cc: damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
 	linux-mm@kvack.org
-Subject: Re: (sashiko review) [RFC PATCH 4/9] Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom} files
-Date: Sat,  4 Apr 2026 14:01:15 -0700
-Message-ID: <20260404210116.87508-1-sj@kernel.org>
+Subject: Re: (sashiko status) [RFC PATCH 0/9] mm/damon: introduce DAMOS failed region quota charge ratio
+Date: Sat,  4 Apr 2026 14:06:35 -0700
+Message-ID: <20260404210636.87762-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260404163943.89278-5-sj@kernel.org>
+In-Reply-To: <20260404163943.89278-1-sj@kernel.org>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -46,63 +48,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Dropped individual recipients from Cc list, to reduce unnecessary traffic.
+Dropped individuals from Cc list to reduce the traffic.
 
-TL; DR: sashiko found real issues.  I will fix those in the next revision.
+TL; DR: sashiko made a few useful findings.  I will address those in the next
+revision.
 
-Forwarding sashiko review in a reply format with my inline
-comments below, for details of my view and doing discussions
-via mails if needed.
+Forwarding sashiko.dev review status for the overall picture.  Read my replies
+to 'ISSUES MAY FOUND' patches for more details.
 
-> # review url: https://sashiko.dev/#/patchset/20260404163943.89278-5-sj@kernel.org
-> # start of sashiko.dev inline review
-> commit 5f8a4cfde3d93d0a4d4ac3d9a57f14f310c43e02
-> Author: SeongJae Park <sj@kernel.org>
-> 
-> Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom} files
-> 
-> Update DAMON usage document for the DAMOS action failed regions quota charge
-> ratio control sysfs files.
-> 
-> > diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-> > index 534e1199cf091..3d6af6ce72d82 100644
-> > --- a/Documentation/admin-guide/mm/damon/usage.rst
-> > +++ b/Documentation/admin-guide/mm/damon/usage.rst
-> [ ... ]
-> > @@ -398,6 +401,13 @@ the background design of the feature and the name of the selectable algorithms.
-> >  Refer to :ref:`goals directory <sysfs_schemes_quota_goals>` for the goals
-> >  setup.
-> >  
-> > +You can set the action-failed memory quota charging ratio by writing the
-> > +numerator and the denominator for the ratio to ``fail_charge_num`` and
-> > +`fail_charge_denom`` files, respectively.  Reading those file will return the
-> 
-> This isn't a bug, but fail_charge_denom has a single leading backtick and
-> double trailing backticks.
-> 
-> Additionally, should "Reading those file" be "Reading those files"?
+# review url: https://sashiko.dev/#/patchset/20260404163943.89278-1-sj@kernel.org
 
-Good catch!  I will fix those in the next spin.
+- [RFC PATCH 1/9] mm/damon/core: introduce failed region quota charge ratio
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+- [RFC PATCH 2/9] mm/damon/sysfs-schemes: implement fail_charge_{num,denom} files
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+- [RFC PATCH 3/9] Docs/mm/damon/design: document fail_charge_{num,denom}
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+- [RFC PATCH 4/9] Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom} files
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+- [RFC PATCH 5/9] Docs/ABI/damon: document fail_charge_{num,denom}
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH 6/9] mm/damon/tests/core-kunit: test fail_charge_{num,denom} committing
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+- [RFC PATCH 7/9] selftets/damon/_damon_sysfs: support failed region quota charge ratio
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH 8/9] selftests/damon/drgn_dump_damon_status: support failed region quota charge ratio
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH 9/9] selftets/damon/sysfs.py: test failed region quota charge ratio
+  - status: Reviewed
+  - review: No issues found.
+
+# hkml [1] generated a draft of this mail.  It can be regenerated
+# using below command:
+#
+#     hkml patch sashiko_dev --thread_status --for_forwarding \
+#             20260404163943.89278-1-sj@kernel.org
+#
+# [1] https://github.com/sjp38/hackermail
 
 
 Thanks,
 SJ
-
-> 
-> > +current set values.  Refer to :ref:`design
-> > +<damon_design_damos_quotas_failed_memory_charging_ratio>` for more details of
-> > +the ratio feature.
-> > +
-> >  The time quota is internally transformed to a size quota.  Between the
-> 
-> 
-> # end of sashiko.dev inline review
-> # review url: https://sashiko.dev/#/patchset/20260404163943.89278-5-sj@kernel.org
-
-# hkml [1] generated a draft of this mail.  You can regenerate
-# this using below command:
-#
-#     hkml patch sashiko_dev --for_forwarding \
-#             20260404163943.89278-5-sj@kernel.org
-#
-# [1] https://github.com/sjp38/hackermail
