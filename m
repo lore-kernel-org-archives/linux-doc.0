@@ -1,41 +1,41 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670A925A2C6;
-	Sat,  4 Apr 2026 08:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D7739659F;
+	Sat,  4 Apr 2026 08:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775289915; cv=pass; b=uQwCUC/RG7nF8RSCNykD09RROt3+wUvVEWGWueuT/dYJULvehNwAggk/6OkGUfIIdbgLUIb2qWoTKRZE9iE+wgh0E35Y75LHNhoqWtuMcJP7LJYYJM6Ch8a6c9iU1yMUiHHw75qE1jy1nIsnAEdKkh9CkFZz5Cgo/09iWxG8yhY=
+	t=1775290197; cv=pass; b=c26H51nwkXwnwXSmi+QtDAXigj4GHS7Lu74hSLfHZtb6AwIaXOrzaahtO1mboNvwYane0VFFbEESLZJ9uUC1MIfUzubbpPdMfnGNNdrCdHB5MxcrhvJel12qGZ048Tl+aov+swZgPGPDw65yJcvc5NqLHtKT7h87F+YRDTJL80U=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775289915; c=relaxed/simple;
-	bh=Ua+bqb4GedIGmXgIvzGJeWR3td58WLpXaf+9Z7GkwnY=;
+	s=arc-20240116; t=1775290197; c=relaxed/simple;
+	bh=Vu75UJPws3k2eCy9HgYaU7Z7fUWK4y66sSvBL16PXVQ=;
 	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=X7f6gj62+YnunJv0auhoGl1z+J7M0ueQeG4NcqHiJ/Y9FkhtfnIym8+4qaftQv4ZBbihX0fTnum3Avrn8qHjBdZekTxsVJX8oeuFIsqd9SeOSXQdksx+bxiFQ7cGCdVqQ5UDIJZbmqKPb9htVjY5Ai6l1OF6ZmWszv2JkGSdSD0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=Nbo/wqNo; arc=pass smtp.client-ip=136.143.188.15
+	 References:In-Reply-To; b=g6ozPB+fEriRuwmpk/OdSglyY8fIcVUEkAORrTtx0DApbPb5ai08yZZO6vmxaiWmo75A2E96apsDS02cb0kzZBsB3Or7KGsKceoyS1riuGWyLcA5HVshEN//Y4ur3dn69zCwbboP80hFRzQT4XRtmZr73NMFxLX1ES9GEex0Fsc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=ZlAJw6PO; arc=pass smtp.client-ip=136.143.188.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="Nbo/wqNo"
-ARC-Seal: i=1; a=rsa-sha256; t=1775289909; cv=none; 
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="ZlAJw6PO"
+ARC-Seal: i=1; a=rsa-sha256; t=1775290192; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=ZYGf8hb2/ulsihExdQ0JKdzmQqi/xGvDR6Ww//nNDbTpwQ0cOK84fubdl/eJdu3EWuyURF3QPunCSeryYdsryvpN61supamVN21WZW37e4nYDvFiLcNEt1dzMX5yI8lLhHLM7Pl1Jr2zw97u9e5kxDdkcfxVQ6fGq+oOJbvNkZw=
+	b=mTgndlunrkKF4LA+KZ2gjdhDuY0GEcO5tEqDu2QAeLU/A8q5MGTTAM0M3s6IefapYLCX9/Y87QAK5ow21gzAu97Jt6RTX1cwAAt7xS2fLHgSqa7BX2YqBpH0uPHYmxU2ZgtAm6ojn0MeYQxuj8BolLFaBOWBgZyDRuKu8uvQTI8=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775289909; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Ua+bqb4GedIGmXgIvzGJeWR3td58WLpXaf+9Z7GkwnY=; 
-	b=PetLavIuPZXfAgyMz0tIMPXNtslza+tvwQGCEUHyEsIGCn5g2Nzj39/SMXpgh8tuVIc73kINnFZsRpGREqa57OpLUGAH6MsfYDg3TrVgAyFKvh4Ej0ExSJMY/tOkaaNFKPCFP/Gfg8F7uK4at5fxXQ+umYnrTKtapy/vMbnA5KQ=
+	t=1775290192; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Vu75UJPws3k2eCy9HgYaU7Z7fUWK4y66sSvBL16PXVQ=; 
+	b=KjjXkR9TgA9z8qcbG6vamGhNMe2jFNCI9MaaEOxU9Q6l/y95iy+iO8hlhRjlAJ4oijqmR2itIfdakXizrt1zISnyIlffA0tN1tHqkZCY/Iml1IkmNkpeAa418cdV8U1CgoyIV42Y5wcWTCCtgPBjSjiUaYn19Xgly9xCaKhFd14=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=ritovision.com;
 	spf=pass  smtp.mailfrom=rito@ritovision.com;
 	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775289909;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775290192;
 	s=zmail; d=ritovision.com; i=rito@ritovision.com;
 	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
-	bh=Ua+bqb4GedIGmXgIvzGJeWR3td58WLpXaf+9Z7GkwnY=;
-	b=Nbo/wqNopS0n4fuVywPpy5ul5tGpthf7ZWzq3YHZgrjuBEYGVIffQJuUiZuNnCPA
-	ocjMEV/GJrYFG1eWHpWWwskv7x0XmbMuFuyBTwH0UiMLrhpM2dTLF0Z/kzHEtqhC6x0
-	DRG0TOIeDQpccMUG2khJiRGLUYsKBd78KltotpcU=
-Received: by mx.zohomail.com with SMTPS id 177528990745169.31557488460885;
-	Sat, 4 Apr 2026 01:05:07 -0700 (PDT)
+	bh=Vu75UJPws3k2eCy9HgYaU7Z7fUWK4y66sSvBL16PXVQ=;
+	b=ZlAJw6POOm1gQcthZqSapA8Q8194ni53o/hO3PJBXBoMWTXc7fOXiM9PWW+hINig
+	FNQ3MeeBCDnzoi0UQGXm0JkBhBBrdq3vaZcn0Fp/mCPU+tWYNkPQImaLxEHpJQqPFze
+	VCqHiFPSmAyW17+6HG3DPeEiF8QOCQ/uW5pknKxY=
+Received: by mx.zohomail.com with SMTPS id 1775290189472450.6285856038676;
+	Sat, 4 Apr 2026 01:09:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -44,36 +44,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 04 Apr 2026 04:05:05 -0400
-Message-Id: <DHK7QZOXO958.3I956CZ2E1Y1T@ritovision.com>
-Subject: Re: [PATCH] docs: set canonical base URL for HTML output
-Cc: "Shuah Khan" <skhan@linuxfoundation.org>, <linux-kernel@vger.kernel.org>
+Date: Sat, 04 Apr 2026 04:09:47 -0400
+Message-Id: <DHK7ULBZ7J30.EL6B3092L0DI@ritovision.com>
+Subject: Re: [PATCH v3] docs: restore and reflow footer on narrow screens
+Cc: "Shuah Khan" <skhan@linuxfoundation.org>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>
 From: "Rito Rhymes" <rito@ritovision.com>
-To: "Rito Rhymes" <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>,
- <linux-doc@vger.kernel.org>
+To: "Rito Rhymes" <rito@ritovision.com>, "Jonathan Corbet" <corbet@lwn.net>
 X-Mailer: aerc 0.21.0
-References: <20260321124907.8524-1-rito@ritovision.com>
- <87zf3zd2cs.fsf@trenco.lwn.net> <DHACYJK8P7RN.MUHEBN0UC0LK@ritovision.com>
- <87y0ji9zbz.fsf@trenco.lwn.net> <DHAED9XZZLVM.2GT0BOHIXJ7MA@ritovision.com>
-In-Reply-To: <DHAED9XZZLVM.2GT0BOHIXJ7MA@ritovision.com>
+References: <20260321131857.14166-1-rito@ritovision.com>
+ <20260326005811.116154-1-rito@ritovision.com>
+In-Reply-To: <20260326005811.116154-1-rito@ritovision.com>
 X-ZohoMailClient: External
 
 Jon,
 
 Following up on this point:
 
-> This sounds like perhaps an argument for lore.kernel.org to set this
-> variable for its build; I think a reasonable case could be made for
-> that. I think that the case for everybody else's build is rather
-> weaker.
+> We are not going to fix Sphinx accessibility piecemeal in this way.
 
-Do you accept my follow-up reply's rationale for hardcoding the
-canonical URL into the docs sources, or would you prefer that I
-instead pursue the approach of having lore.kernel.org set this
-via a build-time variable?
+I've rerolled this as a CSS-only change limited to making the footer
+visible/usable on mobile. It is no longer trying to address footer
+semantics or Sphinx accessibility more broadly.
 
-If it is the latter, is the Tools mailing list the right place to
-take that?
+If that narrower scope is acceptable, will it fit in the upcoming
+release?
 
 Thanks,
 Rito
