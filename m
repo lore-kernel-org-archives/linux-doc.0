@@ -1,81 +1,84 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB5F28DB54;
-	Sat,  4 Apr 2026 08:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775290759; cv=pass; b=FfXNtWB6D+aC+echGZcKUOcf8aAZ++aqaJAigaQCqrKScLv9ZYf0LWvwlG6KgiAB2oieBE67a0dxRoJH8Os3pa30KVCwt1pGr8WnI4yO6F1wBxwSYqwh3HpoUFEUfrwdEmIKPBu/7eYP++E0Mhi4hPeYJswsjSpqN6oPeGahchY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775290759; c=relaxed/simple;
-	bh=SaKfIjW8vX3Q/engn20cXzwO8cfm6GGUAaqtrFaxgWs=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:From:To:
-	 References:In-Reply-To; b=C2GjOausukgOMW589LKjY7a0+zopoYaazR5a+GnNbkcAW/BI1/7ky6a34eM4HKVJEWiG5ZCECc+3ZGoIwsK+yxD87vK4dJf0hWfI3LQk67PsM/8UvsUXQ9iLOeuO2NwPWSOCT912OZLPXmWywloH+etMrCHC8+kcxzqCA21h9Pk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=e6AyQ3PZ; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E2A28DB54;
+	Sat,  4 Apr 2026 08:20:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775290848; cv=none; b=bqQPOh37lQ0D/IiSvXD4iQJZFFbHHJrKGwVYUSq4uzmcT+lrIOim+a17f8d0fwBPyRJ1zfUGsfbXI3bxboGBswhxKmXRya9eHZEapQIgajcezwzgd9RpmOsreFREyaPDYdLlLp7a/abbd/9LLg02JDmzdhxrO8peGU/dSrIapEE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775290848; c=relaxed/simple;
+	bh=P2MLsZcq6pEdGQ2NqDQTz6SKu3yE8RshMOrdgghmzCI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k0/geOEPh5M4n5ocfLSN/OO73a3vIrCv7hwM9IMVty8eihyz/1Ply2yBfe+TDDvUH/r4vbzRJGQCWIKmXwDSJi4ATX4eXJN5IicaSntPC37hFXgOLWD8iRq9iMMVSEtQXEuFWARLZuQHNhdGjJWF2XYulcO9rfoQ7zP5su8ySrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=CUN5Yq1z; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="e6AyQ3PZ"
-ARC-Seal: i=1; a=rsa-sha256; t=1775290745; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=DyrDeVz+7vLMBdrCIEjoFdNg5hInQt086O5A6HTMcZXSST6hFaLGHZyppYN1v+Cje2TJrIWkNQ3VgtjcorfW612rv1P6B9u3iz7CU9NakqkD12PRyu/CxEKSK0S5AHomFFMw/8+ieETerzRf3jrOPkvL1zw0MlEasRo2v+8eTsw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775290745; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=SaKfIjW8vX3Q/engn20cXzwO8cfm6GGUAaqtrFaxgWs=; 
-	b=LEq5YdSkz1y3847Ed6lr8K+seNU+onDK0EBCyw3THCEy7zNouLpAQMjes+DgMCkc8ClvcLHP3pcTbqwbzY34dN6xPEXPG44wAP+JGP5kIg6e4qMo9amFCdfYhWQDYNRIUinbFBxRTxAfTPazTjSJULWWUi6fnYHnSJtEq2GoRUw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775290745;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:Subject:Subject:Cc:Cc:From:From:To:To:References:In-Reply-To:Reply-To;
-	bh=SaKfIjW8vX3Q/engn20cXzwO8cfm6GGUAaqtrFaxgWs=;
-	b=e6AyQ3PZylLac45GAuDI/4Y1e4mha95/Pr4QDpSPEkfVvxHUGkZwlMiIkcCgXKC2
-	UPfLyr19Cq7Bk74T2RRcEFVpyI5ABjRMAKLXVoA5rmMlwJY+S0v+/Rdqgvz+SvJCUG9
-	D5eg8P+sQ3r5RMSRxQCqzhmebvyRNqjS9IdiNhEA=
-Received: by mx.zohomail.com with SMTPS id 177529074235535.514879746591305;
-	Sat, 4 Apr 2026 01:19:02 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="CUN5Yq1z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1775290837; bh=QKiJny8okHVQOTZq9VvZChOmHdJQVSu4E7fMaDOkXj8=;
+	h=From:Message-ID:From;
+	b=CUN5Yq1zuPoReUkB3ydpXsONLPCGr4N+nNfUJD+hY0hSZAerYztRY0iXApaHZM6zl
+	 fxl4tzs0/TmH63D6t6sK3W0HkxhKFcUUkexS2+sI6EO34StMZYQo9WoownYF/AOAf7
+	 SNVbJR3dg4MY4a0GgUv7ot5liwdYHRIG03T72h0g=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 8EB03C0EF2;
+	Sat, 04 Apr 2026 10:20:37 +0200 (CEST)
+From: Willy Tarreau <w@1wt.eu>
+To: greg@kroah.com
+Cc: Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Willy Tarreau <w@1wt.eu>
+Subject: Documentation: fix two typos in latest update to the security report howto
+Date: Sat,  4 Apr 2026 10:20:33 +0200
+Message-ID: <20260404082033.5160-1-w@1wt.eu>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 04 Apr 2026 04:19:00 -0400
-Message-Id: <DHK81N93K4TR.1V7UIZW75JMI0@ritovision.com>
-Subject: Re: [PATCH v3] docs: allow long unbroken headings to wrap and
- prevent overflow
-Cc: "Shuah Khan" <skhan@linuxfoundation.org>,
- <linux-kernel@vger.kernel.org>, <rdunlap@infradead.org>
-From: "Rito Rhymes" <rito@ritovision.com>
-To: "Jonathan Corbet" <corbet@lwn.net>, "Rito Rhymes" <rito@ritovision.com>,
- <linux-doc@vger.kernel.org>
-X-Mailer: aerc 0.21.0
-References: <20260321144855.30429-1-rito@ritovision.com>
- <20260323153024.32317-1-rito@ritovision.com>
- <87h5q3g288.fsf@trenco.lwn.net>
-In-Reply-To: <87h5q3g288.fsf@trenco.lwn.net>
-X-ZohoMailClient: External
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Jon,
+In previous patch "Documentation: clarify the mandatory and desirable
+info for security reports" I left two typos that I didn't detect in local
+checks. One is "get_maintainers.pl" (no 's' in the script name), and the
+other one is a missing closing quote after "Reported-by", which didn't
+have effect here but I don't know if it can break rendering elsewhere
+(e.g. on the public HTML page). Better fix it before it gets merged.
 
-Following up on this point:
+Signed-off-by: Willy Tarreau <w@1wt.eu>
+---
 
-> I do not see the problem you are referring to here; headings wrap just
-> fine for me using both Firefox and Chrome. (Firefox arguably does a
-> little better since it wraps at "/", but that is what also make it turn
-> "I/O into "I/
-> O."
+Greg, this is a fix for commit a72b832a482372 that is currently pending
+in your char-misc-linus branch.
+---
+ Documentation/process/security-bugs.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-In my previous reply I sent a catalog of the environments I tested, with
-per-environment screenshots for both slash-delimited and
-underscore-delimited cases.
+diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+index 0b1f6d8e3cbe..27b028e85861 100644
+--- a/Documentation/process/security-bugs.rst
++++ b/Documentation/process/security-bugs.rst
+@@ -59,7 +59,7 @@ In addition, the following information are highly desirable:
+     immediately merged (see Documentation/process/submitting-patches.rst).
+     This will save some back-and-forth exchanges if it is accepted, and you
+     will be credited for finding and fixing this issue.  Note that in this case
+-    only a ``Signed-off-by:`` tag is needed, without ``Reported-by:` when the
++    only a ``Signed-off-by:`` tag is needed, without ``Reported-by:`` when the
+     reporter and author are the same.
+ 
+   * **mitigations**: very often during a bug analysis, some ways of mitigating
+@@ -88,7 +88,7 @@ recipients to send a report to.  In the Linux kernel, all official maintainers
+ are trusted, so the consequences of accidentally including the wrong maintainer
+ are essentially a bit more noise for that person, i.e. nothing dramatic.  As
+ such, a suitable method to figure the list of maintainers (which kernel
+-security officers use) is to rely on the get_maintainers.pl script, tuned to
++security officers use) is to rely on the get_maintainer.pl script, tuned to
+ only report maintainers.  This script, when passed a file name, will look for
+ its path in the MAINTAINERS file to figure a hierarchical list of relevant
+ maintainers.  Calling it a first time with the finest level of filtering will
+-- 
+2.52.0
 
-Does that breakdown help explain why we may be seeing different results,
-or help you reproduce the issue in the environments where it occurs?
-
-Thanks,
-Rito
