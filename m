@@ -1,54 +1,44 @@
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DACB92DA756;
-	Sat,  4 Apr 2026 07:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775288084; cv=pass; b=FLojNe/IyKfeBZktX7CnG5Udfs6DxdZmqGpUtw7i5MJ71hVhuK/5gUgpwHkzTrSv2rxIisaf82DJpg+wRZ9tBt4WQdPiLw6WW1m6k3u/06PBDQzfS2eBC61X/04Nh7zywb+WyDvQz/bOStkQEfyZ10d7HJo3TjAgI2LS/HzEBdM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775288084; c=relaxed/simple;
-	bh=h+PSXYCZQHF1qcWGgvWB9byh4HLu1LRehBIoEtdC1Jg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J9FxvTMImW4y+zKdLZCO6pLCxEOVc3VSncwvXVKCMP93IZeKGOZ8cz4OuqVhPmAFHnK2YdaeFjkTxPisuCXegSKo5IsQ8MjUsZQWRvxFgATbgnFq+umVK3r5QjmgU/nZ7Jy6MYguX/IcHkc/UeyE1+7tQkQloCbWfFeJ+6JoONA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=DPaF5TWa; arc=pass smtp.client-ip=136.143.188.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92B02C21E8
+	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 07:42:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775288541; cv=none; b=W4yRyaXHNfQxjqrD1InXK6JH3bwxg7srsnQUfipwLhUT18uYQs9IrwYeh2V/kVOmyzkQySVK1a+7lW9ZNXFoTrSNbEH0+wXOwqgvR0iUzHRaKFcE2TV9kTec0yn7dF/7VDKEa79h01X3SRiZfNp4Zk/4Ycq/RpUTHU4jy6ZlkBQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775288541; c=relaxed/simple;
+	bh=yp74mcO/GMrEA87PqNvjT4WKezEsssqfkDR6O/CqqtY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUPIoT9xYA8aFIxXisJbwwtZxLLiySc6cd+8wxEdC8FNlMVXGuTnylLkEkxVduauq3LUwU59PZVAGA3C6kQ3zEg+UnzZmkqtjo5q/VcNdzG1wr9zZpTvte902ZEy42dJfgoMEuqd3OaDCVGqbDJx+SIugDAQp+GJn+juDj4FktE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dxbtbL1b; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="DPaF5TWa"
-ARC-Seal: i=1; a=rsa-sha256; t=1775288071; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=G/B5yXhIunRrKa0eRny25xi4MO23fVkcX/mYiY35zcFfR8ONdc22fzGSLlAwuwrSphcuWydU7CegpyGJU07NtiXKIw+CMQkouGaQeq5GyXGCzRYPP7ja3Smn47FYsoA9H1wmX/4gRy/qU97U5bVLSaRd93g2dn9ULFkvpM3Q/24=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1775288071; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=pCeD/ZXTMMcGDYB51L9A/eKKggNnP251mjBbIBY9Xtg=; 
-	b=dVaPtZyUpBrBDVegRSQCG2wFWmdFWcOPYlzL+RT6z8xMoKVPa7BmgXfsdk+fMz1Ss/RRL/SZ8S+V7Y6f8DpZmLsEUZvn+UvSV01FmkbtB0GEogXLyl+W36uSp4Rd83c0FS4q8xQ7oLjIngq9U9lnGv2S7hXLUeblKFsXuzo36mo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=ritovision.com;
-	spf=pass  smtp.mailfrom=rito@ritovision.com;
-	dmarc=pass header.from=<rito@ritovision.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775288071;
-	s=zmail; d=ritovision.com; i=rito@ritovision.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=pCeD/ZXTMMcGDYB51L9A/eKKggNnP251mjBbIBY9Xtg=;
-	b=DPaF5TWat7rXs6iHAVOTWAFdbSwml0J1o65UvDdk0LMZKADmOO8iMoLw1w2pts5a
-	vNLu/3DdxvPKZOkOBy1sYqvADHF+HjRIs71kt5QFwcpO3r/9phjCdOPy5Skd5rjRXB7
-	ntAVavdBSzjGBYWvSeN8T0UGvr8D7fhENJkbEJIw=
-Received: by mx.zohomail.com with SMTPS id 1775288062714887.9556801847679;
-	Sat, 4 Apr 2026 00:34:22 -0700 (PDT)
-From: Rito Rhymes <rito@ritovision.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dxbtbL1b"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775288527;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zVuyuZWPEacFSdtZ4/rdPo2ZTR7RDfdP3BpyB0CT/YE=;
+	b=dxbtbL1bskq8RWMNIzElKYR1ejUPl3iSCrsVzm9L2lgnTj85qp31lBNZsJ2NWa62PdDW2c
+	OSoKGbN0weVgseDjjowry2AM4FnIRMyUe5IqxHPaVVpx/NmszhVr971maYVLuT7UfaFqsL
+	JfIgQfBLHXQG2/U5orIsq8tDe+DkqjU=
+From: Youling Tang <youling.tang@linux.dev>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	Baoquan He <bhe@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>,
+	Dave Young <dyoung@redhat.com>,
+	kexec@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	Rito Rhymes <rito@ritovision.com>
-Subject: [PATCH v3 2/2] docs: add advanced search benchmark harness and instrumentation
-Date: Sat,  4 Apr 2026 03:34:13 -0400
-Message-ID: <20260404073413.32309-3-rito@ritovision.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20260404073413.32309-1-rito@ritovision.com>
-References: <20260321181511.11706-1-rito@ritovision.com>
- <20260404073413.32309-1-rito@ritovision.com>
+	linux-doc@vger.kernel.org,
+	youling.tang@linux.dev,
+	Youling Tang <tangyouling@kylinos.cn>
+Subject: [PATCH] crash: Support high memory reservation for range syntax
+Date: Sat,  4 Apr 2026 15:41:03 +0800
+Message-ID: <20260404074103.506793-1-youling.tang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,1545 +46,212 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+X-Migadu-Flow: FLOW_OUT
 
-Add lightweight app-side timing instrumentation to kernel-search.js
-that records per-phase search timings and search-index readiness
-markers in a window.__kernelSearchPerf global. The instrumentation
-is passive and does not alter search behavior.
+From: Youling Tang <tangyouling@kylinos.cn>
 
-Add a standalone Playwright benchmark harness for measuring advanced
-search behavior against one or more built documentation trees. The
-harness does not vendor or install Playwright in-tree; it points at
-an existing local Playwright install and runs as an external developer
-tool.
+The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
+automatic size selection based on system RAM, but it always reserves
+from low memory. When a large crashkernel is selected, this can
+consume most of the low memory, causing subsequent hardware
+hotplug or drivers requiring low memory to fail due to allocation
+failures.
 
-The harness captures request counts, transferred bytes, startup/index
-timings, result-kind composition, and Pages summary-loading behavior
-across baseline, poor-network, failure-injection, and fresh-navigation
-recovery scenarios. It exercises the current advanced-search Pages
-tab, supports both limited and unbounded Pages summary modes, and can
-also collect coarse CDP page metrics and the app-side phase timings
-exposed by the instrumentation above. Result-kind metadata is
-recorded so compatibility runs stay self-describing across supported
-Sphinx versions.
+Add a new optional conditional suffix ",>boundary" to the crashkernel
+range syntax. When the selected crashkernel size exceeds the specified
+boundary, the kernel will automatically apply the same reservation
+policy as "crashkernel=size,high" - preferring high memory first
+and reserving the default low memory area.
 
-Signed-off-by: Rito Rhymes <rito@ritovision.com>
-Assisted-by: Codex:GPT-5.4
-Assisted-by: Claude:Opus-4.6
+Syntax:
+    crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+
+Example:
+    crashkernel=2G-16G:512M,16G-:1G,>512M
+
+This means:
+  - For 2G-16G RAM: reserve 512M normally
+  - For >16G RAM: reserve 1G with high memory preference (since 1G > 512M)
+
+For systems with >16G RAM, 1G is selected which exceeds 512M, so it
+will be reserved from high memory instead of consuming 1G of
+precious low memory.
+
+Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
 ---
-The harness was used for comparative local runs against stock Quick
-Search and to validate the current runtime behavior of advanced search
-across narrow, medium, and broad queries.
+ Documentation/admin-guide/kdump/kdump.rst     | 25 ++++++++-
+ .../admin-guide/kernel-parameters.txt         |  2 +-
+ kernel/crash_reserve.c                        | 56 ++++++++++++++++---
+ 3 files changed, 73 insertions(+), 10 deletions(-)
 
-In those runs, the default advanced view stayed flat across the tested
-queries and avoided page-summary fetching entirely, while stock scaled
-summary-loading work with query breadth. In limited Pages mode, the
-advanced view loaded 10 summaries for `landlock`, 23 for `futex`, and
-50 for `kernel`.
-
-Playwright is a good fit for this harness because the feature is
-fundamentally a browser-side interface and needs end-to-end exercise at
-that level. The harness is kept external because Playwright is not used
-elsewhere in the kernel tree and is not intended to become a
-documentation build dependency.
-
-The tool is optional developer-side validation infrastructure. It is
-useful for comparative benchmarking now, and it also provides a concrete
-way to measure regressions or behavior changes if the search UI is tuned
-or extended later.
-
- Documentation/doc-guide/sphinx.rst           |   29 +
- Documentation/sphinx-static/kernel-search.js |   96 +-
- MAINTAINERS                                  |    1 +
- tools/docs/bench_search_playwright.mjs       | 1278 ++++++++++++++++++
- 4 files changed, 1397 insertions(+), 7 deletions(-)
- create mode 100755 tools/docs/bench_search_playwright.mjs
-
-diff --git a/Documentation/doc-guide/sphinx.rst b/Documentation/doc-guide/sphinx.rst
-index 6f71192eb..f69785d8a 100644
---- a/Documentation/doc-guide/sphinx.rst
-+++ b/Documentation/doc-guide/sphinx.rst
-@@ -255,6 +255,35 @@ To verify full-site support for a change, also run at least one full
- ``make htmldocs`` build and manually exercise the generated ``search.html``
- page.
+diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+index 7587caadbae1..b5ae4556e9ca 100644
+--- a/Documentation/admin-guide/kdump/kdump.rst
++++ b/Documentation/admin-guide/kdump/kdump.rst
+@@ -293,7 +293,28 @@ crashkernel syntax
+        2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+        3) if the RAM size is larger than 2G, then reserve 128M
  
-+Benchmark Harness
-+~~~~~~~~~~~~~~~~~
+-3) crashkernel=size,high and crashkernel=size,low
++3) range1:size1[,range2:size2,...][@offset],>boundary
++   Optionally, the range list can be followed by a conditional suffix
++   `,>boundary`. When the selected crashkernel size matches the
++   condition, the kernel will reserve memory using the same policy as
++   `crashkernel=size,high` (i.e. prefer high memory first and reserve the
++   default low memory area).
 +
-+For larger behavior or performance changes, the Playwright benchmark
-+harness can compare stock and advanced search against already-built
-+documentation trees.
++   The syntax is::
 +
-+The harness lives at ``tools/docs/bench_search_playwright.mjs``. It does
-+not install Playwright itself; point it at an existing Playwright module
-+with the ``PLAYWRIGHT_MODULE`` environment variable or the
-+``--playwright-module`` command-line option.
++        crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
++        range=start-[end]
 +
-+A typical workflow is:
++   For example::
 +
-+1. Build each documentation tree you want to compare.
-+2. Serve each ``Documentation/output`` directory locally, for example with
-+   ``python3 -m http.server``.
-+3. Run ``node tools/docs/bench_search_playwright.mjs`` with a variant
-+   label, a local URL, a query, and an output path or output directory.
++        crashkernel=2G-16G:512M,16G-:1G,>512M
 +
-+For comparative runs, build and serve one documentation tree per target
-+you want to benchmark.
++   This would mean:
++       1) if the RAM size is between 2G and 16G (exclusive), then reserve 512M.
++       2) if the RAM size is larger than 16G, allocation will behave like
++          `crashkernel=1G,high`.
 +
-+For the full option set, including scenario selection, failure
-+injection, network throttling, startup timing collection, and optional
-+app timings, run::
-+
-+	node tools/docs/bench_search_playwright.mjs --help
-+
- To disable the feature and return to the theme's default Quick Search setup,
- remove the two template overrides:
++4) crashkernel=size,high and crashkernel=size,low
  
-diff --git a/Documentation/sphinx-static/kernel-search.js b/Documentation/sphinx-static/kernel-search.js
-index f762c4be4..477da7185 100644
---- a/Documentation/sphinx-static/kernel-search.js
-+++ b/Documentation/sphinx-static/kernel-search.js
-@@ -57,6 +57,23 @@
-   let activeResultKind = RESULT_KIND_ORDER[0];
-   let pageSummaryLimitEnabled = true;
-   let tabStripCleanup = null;
-+  // Expose lightweight search-phase timings for external benchmarking and
-+  // diagnostics. The search UI does not depend on these values being present.
-+  const perfNow = () =>
-+    window.performance && typeof window.performance.now === "function"
-+      ? window.performance.now()
-+      : Date.now();
-+  let domContentLoadedMs = null;
-+  let searchIndexReadyMs = null;
-+
-+  const writeSearchPerf = (update) => {
-+    const current = window.__kernelSearchPerf || {};
-+    window.__kernelSearchPerf = {
-+      ...current,
-+      ...update,
-+      version: 1,
-+    };
-+  };
+    If memory above 4G is preferred, crashkernel=size,high can be used to
+    fulfill that. With it, physical memory is allowed to be allocated from top,
+@@ -311,7 +332,7 @@ crashkernel syntax
  
-   // Hook into Sphinx's asynchronous searchindex.js loading.
-   window.Search = window.Search || {};
-@@ -1127,13 +1144,48 @@ const setSummaryPlaceholder = (payload, text, modifierClass) => {
-     });
-   };
+             crashkernel=0,low
  
-+  const storeRunSearchPerf = (state, resultsByKind, phaseTimingsMs, runSearchStartedMs, runSearchCompletedMs) => {
-+    const resultCounts = RESULT_KIND_ORDER.reduce((counts, kind) => {
-+      counts[kind] = resultsByKind[kind].length;
-+      return counts;
-+    }, {});
-+    resultCounts.total = RESULT_KIND_ORDER.reduce((sum, kind) => sum + resultCounts[kind], 0);
-+
-+    const timingsMs = {
-+      ...phaseTimingsMs,
-+      runSearch: runSearchCompletedMs - runSearchStartedMs,
-+    };
-+    if (domContentLoadedMs !== null && searchIndexReadyMs !== null) {
-+      timingsMs.searchIndexWait = searchIndexReadyMs - domContentLoadedMs;
-+    }
-+
-+    writeSearchPerf({
-+      exact: state.exact,
-+      kinds: [...state.kinds],
-+      query: state.query,
-+      resultCounts,
-+      timingsMs,
-+    });
-+  };
-+
-   const runSearch = () => {
-     const baseState = parseState();
-     bindFormState(baseState);
-     populateAreaOptions(document.getElementById("kernel-search-area"), baseState);
-     populateObjectTypeOptions(document.getElementById("kernel-search-objtype"), baseState);
+-4) crashkernel=size,cma
++5) crashkernel=size,cma
  
--    const queryState = buildQueryState(baseState.query, baseState.exact);
-+    const phaseTimingsMs = {};
-+    const timePhase = (name, callback) => {
-+      const startedMs = perfNow();
-+      const value = callback();
-+      phaseTimingsMs[name] = perfNow() - startedMs;
-+      return value;
-+    };
-+    const runSearchStartedMs = perfNow();
-+    const queryState = timePhase(
-+      "buildQueryState",
-+      () => buildQueryState(baseState.query, baseState.exact),
-+    );
-     const renderState = {
-       ...baseState,
-       highlightTerms: queryState.highlightTerms,
-@@ -1147,27 +1199,55 @@ const setSummaryPlaceholder = (payload, text, modifierClass) => {
-     };
+ 	Reserve additional crash kernel memory from CMA. This reservation is
+ 	usable by the first system's userspace memory and kernel movable
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 03a550630644..b2e1892ab4d8 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -1087,7 +1087,7 @@ Kernel parameters
+ 			4G when '@offset' hasn't been specified.
+ 			See Documentation/admin-guide/kdump/kdump.rst for further details.
  
-     if (!baseState.queryLower) {
--      renderResults(renderState, resultsByKind);
-+      timePhase("renderResults", () => renderResults(renderState, resultsByKind));
-+      storeRunSearchPerf(
-+        baseState,
-+        resultsByKind,
-+        phaseTimingsMs,
-+        runSearchStartedMs,
-+        perfNow(),
-+      );
-       return;
-     }
+-	crashkernel=range1:size1[,range2:size2,...][@offset]
++	crashkernel=range1:size1[,range2:size2,...][@offset][,>boundary]
+ 			[KNL] Same as above, but depends on the memory
+ 			in the running system. The syntax of range is
+ 			start-[end] where start and end are both
+diff --git a/kernel/crash_reserve.c b/kernel/crash_reserve.c
+index 62e60e0223cf..917738412390 100644
+--- a/kernel/crash_reserve.c
++++ b/kernel/crash_reserve.c
+@@ -254,15 +254,47 @@ static __init char *get_last_crashkernel(char *cmdline,
+ 	return ck_cmdline;
+ }
  
-     if (baseState.kinds.has("object")) {
--      resultsByKind.object = collectObjectResults(window.Search._index, queryState, filters);
-+      resultsByKind.object = timePhase(
-+        "collectObjectResults",
-+        () => collectObjectResults(window.Search._index, queryState, filters),
-+      );
-     }
-     if (baseState.kinds.has("title")) {
--      resultsByKind.title = collectSectionResults(window.Search._index, queryState, filters);
-+      resultsByKind.title = timePhase(
-+        "collectSectionResults",
-+        () => collectSectionResults(window.Search._index, queryState, filters),
-+      );
-     }
-     if (baseState.kinds.has("index")) {
--      resultsByKind.index = collectIndexResults(window.Search._index, queryState, filters);
-+      resultsByKind.index = timePhase(
-+        "collectIndexResults",
-+        () => collectIndexResults(window.Search._index, queryState, filters),
-+      );
-     }
-     if (baseState.kinds.has("text")) {
--      resultsByKind.text = collectTextResults(window.Search._index, queryState, filters);
-+      resultsByKind.text = timePhase(
-+        "collectTextResults",
-+        () => collectTextResults(window.Search._index, queryState, filters),
-+      );
-     }
- 
--    renderResults(renderState, resultsByKind);
-+    timePhase("renderResults", () => renderResults(renderState, resultsByKind));
-+    storeRunSearchPerf(
-+      baseState,
-+      resultsByKind,
-+      phaseTimingsMs,
-+      runSearchStartedMs,
-+      perfNow(),
-+    );
-   };
- 
-   document.addEventListener("DOMContentLoaded", () => {
-+    domContentLoadedMs = perfNow();
-+    writeSearchPerf({ domContentLoadedMs });
-     const container = document.getElementById("kernel-search-results");
-     if (!container) return;
- 
-@@ -1175,6 +1255,8 @@ const setSummaryPlaceholder = (payload, text, modifierClass) => {
-     if (progress) progress.textContent = "Preparing search...";
- 
-     window.Search.whenReady(() => {
-+      searchIndexReadyMs = perfNow();
-+      writeSearchPerf({ searchIndexReadyMs });
-       if (progress) progress.textContent = "";
-       runSearch();
-     });
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c9e50b101..5d5441f81 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7661,6 +7661,7 @@ F:	Documentation/sphinx-static/custom.css
- F:	Documentation/sphinx/templates/search.html
- F:	Documentation/sphinx/templates/searchbox.html
- F:	tools/docs/test_advanced_search.py
-+F:	tools/docs/bench_search_playwright.mjs
- 
- DOCUMENTATION PROCESS
- M:	Jonathan Corbet <corbet@lwn.net>
-diff --git a/tools/docs/bench_search_playwright.mjs b/tools/docs/bench_search_playwright.mjs
-new file mode 100755
-index 000000000..b71fcd4cd
---- /dev/null
-+++ b/tools/docs/bench_search_playwright.mjs
-@@ -0,0 +1,1278 @@
-+#!/usr/bin/env node
-+// SPDX-License-Identifier: GPL-2.0
-+
 +/*
-+ * Benchmark one docs-search variant per invocation using an external
-+ * Playwright installation.
++ * This function parses command lines in the format
 + *
-+ * This script intentionally does not add Node dependencies to the kernel
-+ * tree. Load Playwright from your local tooling via --playwright-module
-+ * or PLAYWRIGHT_MODULE.
-+ *
-+ * Example:
-+ *   PLAYWRIGHT_MODULE=file:///root/bench/search-bench/node_modules/playwright/index.mjs \
-+ *   node tools/docs/bench_search_playwright.mjs \
-+ *     --variant stock \
-+ *     --url http://127.0.0.1:8001/ \
-+ *     --query kernel \
-+ *     --runs 5 \
-+ *     --scenario default \
-+ *     --scenario open-pages \
-+ *     --scenario scroll-pages \
-+ *     --output-dir /root/bench/results
++ *   crashkernel=ramsize-range:size[,...][@offset],>boundary
 + */
-+
-+import fs from "node:fs/promises";
-+import path from "node:path";
-+import process from "node:process";
-+import { pathToFileURL } from "node:url";
-+
-+const DEFAULT_QUERY = "kernel";
-+const DEFAULT_RUNS = 3;
-+const DEFAULT_SCENARIOS = ["default", "open-pages", "scroll-pages"];
-+const DEFAULT_INITIAL_RESULTS_TIMEOUT_MS = 30000;
-+const DEFAULT_NAVIGATION_TIMEOUT_MS = 30000;
-+const DEFAULT_OBSERVATION_MS = 15000;
-+const DEFAULT_SCROLL_DURATION_MS = 10000;
-+const DEFAULT_OUTPUT_SEQUENCE_WIDTH = 4;
-+const VALID_SCENARIOS = new Set([...DEFAULT_SCENARIOS, "recover-pages"]);
-+const VALID_PAGE_VARIANTS = new Set(["advanced", "stock"]);
-+const VALID_PAGE_SUMMARY_MODES = new Set(["limited", "unbounded"]);
-+const NETWORK_PROFILES = {
-+  none: null,
-+  fast3g: {
-+    offline: false,
-+    latency: 150,
-+    downloadThroughput: Math.round((1.6 * 1024 * 1024) / 8),
-+    uploadThroughput: Math.round((0.75 * 1024 * 1024) / 8),
-+    connectionType: "cellular3g",
-+  },
-+  slow4g: {
-+    offline: false,
-+    latency: 40,
-+    downloadThroughput: Math.round((4 * 1024 * 1024) / 8),
-+    uploadThroughput: Math.round((3 * 1024 * 1024) / 8),
-+    connectionType: "cellular4g",
-+  },
-+};
-+const CDP_DURATION_METRICS = new Map([
-+  ["TaskDuration", "cdpTaskDurationMs"],
-+  ["ScriptDuration", "cdpScriptDurationMs"],
-+  ["LayoutDuration", "cdpLayoutDurationMs"],
-+  ["RecalcStyleDuration", "cdpRecalcStyleDurationMs"],
-+]);
-+const CDP_VALUE_METRICS = new Map([
-+  ["Documents", "cdpDocuments"],
-+  ["Frames", "cdpFrames"],
-+  ["JSEventListeners", "cdpJSEventListeners"],
-+  ["JSHeapTotalSize", "cdpJsHeapTotalSizeBytes"],
-+  ["JSHeapUsedSize", "cdpJsHeapUsedSizeBytes"],
-+  ["LayoutCount", "cdpLayoutCount"],
-+  ["Nodes", "cdpNodes"],
-+  ["RecalcStyleCount", "cdpRecalcStyleCount"],
-+]);
-+const HELP = `Usage:
-+  node tools/docs/bench_search_playwright.mjs --variant NAME --url URL [options]
-+
-+Required:
-+  --variant NAME               Report label for this benchmark target, e.g. stock or hard
-+  --url URL                    Base URL for the docs build under test
-+
-+Options:
-+  --expected-page-variant NAME Expected page type for mismatch notes: stock, advanced
-+                               Default: inferred from --variant when possible
-+  --query TERM                 Search term to benchmark (default: ${DEFAULT_QUERY})
-+  --runs N                     Cold runs per scenario (default: ${DEFAULT_RUNS})
-+  --scenario NAME              Scenario to run; repeatable
-+                               Values: default, open-pages, scroll-pages, recover-pages
-+                               Default: ${DEFAULT_SCENARIOS.join(", ")}
-+  --navigation-timeout-ms N    Timeout for page.goto (default: ${DEFAULT_NAVIGATION_TIMEOUT_MS})
-+  --initial-results-timeout-ms N
-+                               Timeout waiting for first visible results (default: ${DEFAULT_INITIAL_RESULTS_TIMEOUT_MS})
-+  --observation-ms N           Time to keep observing after scenario actions (default: ${DEFAULT_OBSERVATION_MS})
-+  --scroll-duration-ms N       Scroll time for scroll-pages (default: ${DEFAULT_SCROLL_DURATION_MS})
-+  --network-profile NAME       Network emulation: none, fast3g, slow4g (default: none)
-+  --summary-delay-ms N         Artificial delay for summary page fetches (default: 0)
-+  --summary-fail-rate R        Artificial HTTP 503 rate for summary page fetches, 0..1 (default: 0)
-+  --page-summary-mode MODE     Advanced Pages summary mode: limited, unbounded
-+                               Default: limited
-+  --collect-app-timings        Collect app-side timings when the page exposes them
-+  --collect-cdp-metrics        Collect coarse CDP performance metrics for the page
-+  --playwright-module SPEC     Module specifier or file path for Playwright
-+  --output PATH                Write the JSON report to PATH, overwriting if it exists
-+  --output-dir PATH            Auto-number report files under PATH, e.g. 0001-stock-kernel.json
-+  --headed                     Run Chromium headed
-+  --help                       Show this help
-+
-+Playwright loading:
-+  The script does not depend on Playwright being installed in this repo.
-+  Use --playwright-module or PLAYWRIGHT_MODULE to point at your local
-+  Playwright install. Examples:
-+
-+    --playwright-module playwright
-+    --playwright-module /abs/path/to/node_modules/playwright/index.mjs
-+    PLAYWRIGHT_MODULE=file:///abs/path/to/node_modules/playwright/index.mjs
-+`;
-+
-+const wait = (milliseconds) =>
-+  new Promise((resolve) => {
-+    setTimeout(resolve, milliseconds);
-+  });
-+
-+const parseInteger = (value, flagName) => {
-+  const parsed = Number.parseInt(value, 10);
-+  if (!Number.isFinite(parsed) || parsed < 0) {
-+    throw new Error(`${flagName} must be a non-negative integer: ${value}`);
-+  }
-+  return parsed;
-+};
-+
-+const parseFloatRate = (value, flagName) => {
-+  const parsed = Number.parseFloat(value);
-+  if (!Number.isFinite(parsed) || parsed < 0 || parsed > 1) {
-+    throw new Error(`${flagName} must be between 0 and 1: ${value}`);
-+  }
-+  return parsed;
-+};
-+
-+const normalizeModuleSpecifier = (specifier) => {
-+  if (!specifier) return specifier;
-+  if (specifier.startsWith("file://")) return specifier;
-+  if (path.isAbsolute(specifier)) return pathToFileURL(specifier).href;
-+  if (specifier.startsWith("./") || specifier.startsWith("../")) {
-+    return pathToFileURL(path.resolve(specifier)).href;
-+  }
-+  return specifier;
-+};
-+
-+const sanitizeSlugPart = (value) => {
-+  const normalized = String(value || "")
-+    .toLowerCase()
-+    .replace(/[^a-z0-9]+/giu, "-")
-+    .replace(/^-+|-+$/gu, "")
-+    .replace(/-{2,}/gu, "-");
-+  return normalized || "run";
-+};
-+
-+const inferExpectedPageVariant = (variantName) => {
-+  const normalized = String(variantName || "").toLowerCase();
-+  if (normalized === "stock") return "stock";
-+  if (normalized === "hard" || normalized === "advanced") return "advanced";
-+  return "";
-+};
-+
-+const requireValue = (argv, index, flagName) => {
-+  if (index + 1 >= argv.length) {
-+    throw new Error(`${flagName} requires a value`);
-+  }
-+  return argv[index + 1];
-+};
-+
-+const parseArgs = (argv) => {
-+  const options = {
-+    collectAppTimings: false,
-+    collectCdpMetrics: false,
-+    expectedPageVariant: "",
-+    headed: false,
-+    initialResultsTimeoutMs: DEFAULT_INITIAL_RESULTS_TIMEOUT_MS,
-+    networkProfile: "none",
-+    navigationTimeoutMs: DEFAULT_NAVIGATION_TIMEOUT_MS,
-+    observationMs: DEFAULT_OBSERVATION_MS,
-+    output: "",
-+    outputDir: "",
-+    pageSummaryMode: "limited",
-+    playwrightModule: process.env.PLAYWRIGHT_MODULE || "",
-+    query: DEFAULT_QUERY,
-+    runs: DEFAULT_RUNS,
-+    scenarios: [],
-+    scrollDurationMs: DEFAULT_SCROLL_DURATION_MS,
-+    summaryDelayMs: 0,
-+    summaryFailRate: 0,
-+    url: "",
-+    variant: "",
-+  };
-+
-+  for (let index = 0; index < argv.length; index += 1) {
-+    const argument = argv[index];
-+    switch (argument) {
-+      case "--variant":
-+        options.variant = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--url":
-+        options.url = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--expected-page-variant":
-+        options.expectedPageVariant = requireValue(argv, index, argument).toLowerCase();
-+        index += 1;
-+        break;
-+      case "--query":
-+        options.query = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--runs":
-+        options.runs = parseInteger(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--scenario":
-+        options.scenarios.push(requireValue(argv, index, argument));
-+        index += 1;
-+        break;
-+      case "--navigation-timeout-ms":
-+        options.navigationTimeoutMs = parseInteger(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--initial-results-timeout-ms":
-+        options.initialResultsTimeoutMs = parseInteger(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--observation-ms":
-+        options.observationMs = parseInteger(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--scroll-duration-ms":
-+        options.scrollDurationMs = parseInteger(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--network-profile":
-+        options.networkProfile = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--summary-delay-ms":
-+        options.summaryDelayMs = parseInteger(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--summary-fail-rate":
-+        options.summaryFailRate = parseFloatRate(requireValue(argv, index, argument), argument);
-+        index += 1;
-+        break;
-+      case "--page-summary-mode":
-+        options.pageSummaryMode = requireValue(argv, index, argument).toLowerCase();
-+        index += 1;
-+        break;
-+      case "--collect-app-timings":
-+        options.collectAppTimings = true;
-+        break;
-+      case "--collect-cdp-metrics":
-+        options.collectCdpMetrics = true;
-+        break;
-+      case "--playwright-module":
-+        options.playwrightModule = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--output":
-+        options.output = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--output-dir":
-+        options.outputDir = requireValue(argv, index, argument);
-+        index += 1;
-+        break;
-+      case "--headed":
-+        options.headed = true;
-+        break;
-+      case "--help":
-+        options.help = true;
-+        break;
-+      default:
-+        throw new Error(`Unknown argument: ${argument}`);
-+    }
-+  }
-+
-+  if (options.help) return options;
-+
-+  if (!options.variant) throw new Error("--variant is required");
-+  if (!options.url) throw new Error("--url is required");
-+  if (options.output && options.outputDir) {
-+    throw new Error("--output and --output-dir are mutually exclusive");
-+  }
-+  if (!Object.prototype.hasOwnProperty.call(NETWORK_PROFILES, options.networkProfile)) {
-+    throw new Error(`Unsupported --network-profile: ${options.networkProfile}`);
-+  }
-+  if (options.expectedPageVariant && !VALID_PAGE_VARIANTS.has(options.expectedPageVariant)) {
-+    throw new Error(`Unsupported --expected-page-variant: ${options.expectedPageVariant}`);
-+  }
-+  if (!VALID_PAGE_SUMMARY_MODES.has(options.pageSummaryMode)) {
-+    throw new Error(`Unsupported --page-summary-mode: ${options.pageSummaryMode}`);
-+  }
-+
-+  if (options.scenarios.length === 0) options.scenarios = DEFAULT_SCENARIOS.slice();
-+  options.scenarios.forEach((scenario) => {
-+    if (!VALID_SCENARIOS.has(scenario)) {
-+      throw new Error(`Unsupported --scenario: ${scenario}`);
-+    }
-+  });
-+
-+  if (!options.expectedPageVariant) {
-+    options.expectedPageVariant = inferExpectedPageVariant(options.variant);
-+  }
-+
-+  return options;
-+};
-+
-+const ensureBaseUrl = (value) => {
-+  const url = new URL(value);
-+  if (!url.pathname.endsWith("/")) url.pathname += "/";
-+  return url;
-+};
-+
-+const buildSearchUrl = (baseUrl, query) => {
-+  const url = new URL("search.html", baseUrl);
-+  url.searchParams.set("q", query);
-+  return url;
-+};
-+
-+// Identify HTML document fetches triggered by page-summary loading while
-+// excluding static assets and Sphinx search infrastructure requests.
-+const isSummaryRequest = (requestUrl, searchUrl) => {
-+  let url;
-+  try {
-+    url = new URL(requestUrl);
-+  } catch {
-+    return false;
-+  }
-+
-+  if (url.origin !== searchUrl.origin) return false;
-+  if (url.pathname === searchUrl.pathname) return false;
-+  if (url.pathname.includes("/_static/")) return false;
-+  if (
-+    url.pathname.endsWith("/searchindex.js")
-+    || url.pathname.endsWith("/language_data.js")
-+    || url.pathname.endsWith("/documentation_options.js")
-+  ) {
-+    return false;
-+  }
-+  if (/\.(?:js|css|png|svg|jpg|jpeg|gif|webp|ico|json|map|txt|woff2?|ttf)$/iu.test(url.pathname)) {
-+    return false;
-+  }
-+
-+  return url.pathname.endsWith(".html") || url.pathname.endsWith("/");
-+};
-+
-+const loadPlaywright = async (moduleSpecifier) => {
-+  const attempts = [];
-+  if (moduleSpecifier) attempts.push(normalizeModuleSpecifier(moduleSpecifier));
-+  else attempts.push("playwright");
-+
-+  let lastError = null;
-+  for (const attempt of attempts) {
-+    try {
-+      const playwright = await import(attempt);
-+      const chromium = playwright.chromium || playwright.default?.chromium;
-+      if (!chromium) {
-+        throw new Error(`Playwright module does not export chromium: ${attempt}`);
-+      }
-+      return {
-+        chromium,
-+        resolvedSpecifier: attempt,
-+      };
-+    } catch (error) {
-+      lastError = error;
-+    }
-+  }
-+
-+  const hint = moduleSpecifier
-+    ? `Failed to import Playwright from ${moduleSpecifier}`
-+    : "Failed to import Playwright. Set --playwright-module or PLAYWRIGHT_MODULE.";
-+  throw new Error(`${hint}\n${lastError}`);
-+};
-+
-+// Inject page-side observers before app scripts run so the harness can
-+// capture DOM and index-readiness milestones from the page itself.
-+const addBenchmarkInitScript = async (page) => {
-+  await page.addInitScript(() => {
-+    const bench = {
-+      firstResultLinkMs: null,
-+      firstResolvedSummaryMs: null,
-+      firstSummaryStateMs: null,
-+      searchIndexReadyMs: null,
-+      searchIndexReadySource: null,
-+    };
-+    const markSearchIndexReady = (source) => {
-+      if (bench.searchIndexReadyMs !== null) return;
-+      bench.searchIndexReadyMs = performance.now();
-+      bench.searchIndexReadySource = source;
-+    };
-+    const getSearchGlobal = () => {
-+      try {
-+        if (typeof Search !== "undefined") return Search;
-+      } catch {
-+        // Ignore missing global lexical bindings and fall back to window.Search.
-+      }
-+      return window.Search || null;
-+    };
-+    const installSearchIndexHook = () => {
-+      const search = getSearchGlobal();
-+      if (!search || typeof search !== "object") return false;
-+      if (search.__kernelSearchBenchWrapped) return true;
-+      if (typeof search.setIndex !== "function") return false;
-+
-+      const originalSetIndex = search.setIndex;
-+      search.setIndex = function benchmarkWrappedSetIndex(...args) {
-+        markSearchIndexReady("setIndex");
-+        return originalSetIndex.apply(this, args);
-+      };
-+      search.__kernelSearchBenchWrapped = true;
-+      return true;
-+    };
-+    const pollSearchIndexReady = () => {
-+      installSearchIndexHook();
-+      const search = getSearchGlobal();
-+      if (!search || typeof search !== "object") return false;
-+
-+      const ready = (typeof search.hasIndex === "function" && search.hasIndex())
-+        || (typeof search._index !== "undefined" && search._index !== null);
-+      if (!ready) return false;
-+
-+      markSearchIndexReady("hasIndex");
-+      return true;
-+    };
-+    const check = () => {
-+      if (
-+        bench.firstResultLinkMs === null
-+        && document.querySelector("#kernel-search-results .kernel-search-result a, #search-results li a")
-+      ) {
-+        bench.firstResultLinkMs = performance.now();
-+      }
-+
-+      if (
-+        bench.firstSummaryStateMs === null
-+        && document.querySelector("#kernel-search-results .kernel-search-summary, #search-results p.context")
-+      ) {
-+        bench.firstSummaryStateMs = performance.now();
-+      }
-+
-+      if (
-+        bench.firstResolvedSummaryMs === null
-+        && document.querySelector(
-+          "#kernel-search-results .kernel-search-summary:not(.kernel-search-summary-status), #search-results p.context",
-+        )
-+      ) {
-+        bench.firstResolvedSummaryMs = performance.now();
-+      }
-+    };
-+
-+    const startObserver = () => {
-+      const root = document.documentElement;
-+      if (!root) return;
-+      const observer = new MutationObserver(check);
-+      observer.observe(root, { childList: true, subtree: true });
-+      check();
-+    };
-+    const searchIndexPoll = window.setInterval(() => {
-+      if (pollSearchIndexReady()) {
-+        window.clearInterval(searchIndexPoll);
-+      }
-+    }, 5);
-+
-+    window.__kernelSearchBench = bench;
-+    if (document.readyState === "loading") {
-+      document.addEventListener("DOMContentLoaded", startObserver, { once: true });
-+    } else {
-+      startObserver();
-+    }
-+    window.addEventListener("load", pollSearchIndexReady, { once: true });
-+  });
-+};
-+
-+const waitForInitialResults = async (page, timeoutMs) => {
-+  await page.waitForFunction(
-+    () =>
-+      !!document.querySelector("#kernel-search-results .kernel-search-result a, #search-results li a"),
-+    { timeout: timeoutMs },
-+  );
-+};
-+
-+const detectPageVariant = async (page) =>
-+  page.evaluate(() => (document.getElementById("kernel-search-results") ? "advanced" : "stock"));
-+
-+const selectPagesViewIfPresent = async (page, pageVariant, pageSummaryMode) => {
-+  if (pageVariant !== "advanced") {
-+    return {
-+      action: "no-op-no-pages-tab",
-+      effective: false,
-+      note: "stock quick search has no Pages tab",
-+      pagesTabSelected: false,
-+    };
-+  }
-+
-+  const tab = page.locator("#kernel-search-tab-text");
-+  if ((await tab.count()) === 0) {
-+    return {
-+      action: "no-op-no-pages-tab",
-+      effective: false,
-+      note: "advanced search returned no Pages tab for this query",
-+      pagesTabSelected: false,
-+    };
-+  }
-+
-+  const alreadySelected = await tab.evaluate(
-+    (element) => element.getAttribute("aria-selected") === "true",
-+  );
-+  if (!alreadySelected) {
-+    await tab.click();
-+    await page.waitForTimeout(250);
-+  }
-+
-+  const summaryToggle = page.locator(".kernel-search-summary-limit input[type='checkbox']");
-+  if ((await summaryToggle.count()) > 0) {
-+    const shouldBeChecked = pageSummaryMode === "limited";
-+    const isChecked = await summaryToggle.isChecked();
-+    if (isChecked !== shouldBeChecked) {
-+      await summaryToggle.click();
-+      await page.waitForTimeout(100);
-+    }
-+  }
-+
-+  return {
-+    action: alreadySelected ? "pages-tab-already-selected" : "selected-pages-tab",
-+    effective: true,
-+    note: pageSummaryMode === "unbounded"
-+      ? "selected Pages tab and disabled the default summary limit"
-+      : "selected Pages tab",
-+    pagesTabSelected: true,
-+  };
-+};
-+
-+const scrollSearchPage = async (page, durationMs, pageVariant) => {
-+  const stepDelayMs = 250;
-+  const deadline = Date.now() + durationMs;
-+
-+  if (pageVariant === "advanced") {
-+    const panel = page.locator("#kernel-search-panel-text:not([hidden])");
-+    if ((await panel.count()) > 0) {
-+      while (Date.now() < deadline) {
-+        await panel.evaluate((element) => {
-+          element.scrollBy(0, Math.max(400, Math.floor(element.clientHeight * 0.8)));
-+        });
-+        await page.waitForTimeout(stepDelayMs);
-+      }
-+      return;
-+    }
-+  }
-+
-+  while (Date.now() < deadline) {
-+    await page.evaluate(() => {
-+      window.scrollBy(0, Math.max(400, Math.floor(window.innerHeight * 0.8)));
-+    });
-+    await page.waitForTimeout(stepDelayMs);
-+  }
-+};
-+
-+const resetTrackingState = (tracking) => {
-+  tracking.requests = new Map();
-+  tracking.peakSummaryConcurrency = 0;
-+  tracking.inflightSummaryRequests = 0;
-+  tracking.wallStart = Date.now();
-+};
-+
-+const collectDomMetrics = async (page) =>
-+  page.evaluate(() => {
-+    const bench = window.__kernelSearchBench || {};
-+    const advanced = !!document.getElementById("kernel-search-results");
-+    const resultKindCounts = advanced
-+      ? ["object", "title", "index", "text"].reduce((counts, kind) => {
-+        counts[kind] = document.querySelectorAll(
-+          `#kernel-search-results .kernel-search-result.kind-${kind}`,
-+        ).length;
-+        return counts;
-+      }, {})
-+      : { text: document.querySelectorAll("#search-results li").length };
-+    const availableResultKinds = Object.entries(resultKindCounts)
-+      .filter(([, count]) => typeof count === "number" && count > 0)
-+      .map(([kind]) => kind)
-+      .sort();
-+    const summaryToggle = advanced
-+      ? document.querySelector(".kernel-search-summary-limit input[type='checkbox']")
-+      : null;
-+
-+    return {
-+      availableResultKinds,
-+      pageVariant: advanced ? "advanced" : "stock",
-+      firstResultLinkMs: bench.firstResultLinkMs ?? null,
-+      firstResolvedSummaryMs: bench.firstResolvedSummaryMs ?? null,
-+      firstSummaryStateMs: bench.firstSummaryStateMs ?? null,
-+      searchIndexReadyMs: bench.searchIndexReadyMs ?? null,
-+      searchIndexReadySource: typeof bench.searchIndexReadySource === "string"
-+        ? bench.searchIndexReadySource
-+        : null,
-+      pageSummaryMode: summaryToggle
-+        ? (summaryToggle.checked ? "limited" : "unbounded")
-+        : null,
-+      pagesTabActive: advanced
-+        ? Boolean(
-+          document.querySelector("#kernel-search-tab-text")?.getAttribute("aria-selected") === "true",
-+        )
-+        : null,
-+      renderedSummaries: advanced
-+        ? document.querySelectorAll(
-+          "#kernel-search-results .kernel-search-summary:not(.kernel-search-summary-status)",
-+        ).length
-+        : document.querySelectorAll("#search-results p.context").length,
-+      summaryPlaceholders: advanced
-+        ? document.querySelectorAll("#kernel-search-results .kernel-search-summary-status").length
-+        : 0,
-+      resultKindCounts,
-+      textResults: advanced
-+        ? document.querySelectorAll("#kernel-search-results .kernel-search-result.kind-text").length
-+        : null,
-+      totalResults: advanced
-+        ? document.querySelectorAll("#kernel-search-results .kernel-search-result").length
-+        : document.querySelectorAll("#search-results li").length,
-+    };
-+  });
-+
-+const collectAppTimings = async (page) =>
-+  page.evaluate(() => {
-+    const perf = window.__kernelSearchPerf;
-+    if (!perf || typeof perf !== "object") return null;
-+    return {
-+      exact: typeof perf.exact === "boolean" ? perf.exact : null,
-+      kinds: Array.isArray(perf.kinds) ? perf.kinds : [],
-+      query: typeof perf.query === "string" ? perf.query : null,
-+      resultCounts: perf.resultCounts && typeof perf.resultCounts === "object"
-+        ? perf.resultCounts
-+        : null,
-+      timingsMs: perf.timingsMs && typeof perf.timingsMs === "object"
-+        ? perf.timingsMs
-+        : null,
-+      version: typeof perf.version === "number" ? perf.version : null,
-+    };
-+  });
-+
-+const collectCdpPerformanceMetrics = async (client) => {
-+  const { metrics } = await client.send("Performance.getMetrics");
-+  const sourceMetrics = new Map(metrics.map((metric) => [metric.name, metric.value]));
-+  const collected = {};
-+
-+  CDP_DURATION_METRICS.forEach((targetName, sourceName) => {
-+    if (!sourceMetrics.has(sourceName)) return;
-+    collected[targetName] = sourceMetrics.get(sourceName) * 1000;
-+  });
-+  CDP_VALUE_METRICS.forEach((targetName, sourceName) => {
-+    if (!sourceMetrics.has(sourceName)) return;
-+    collected[targetName] = sourceMetrics.get(sourceName);
-+  });
-+
-+  return collected;
-+};
-+
-+const snapshotRequests = (requests) =>
-+  [...requests.values()].map((request) => ({
-+    ...request,
-+    pending: request.endedAtMs === null,
-+  }));
-+
-+const computeMetrics = ({
-+  domMetrics,
-+  peakSummaryConcurrency,
-+  requests,
-+}) => {
-+  const completedRequests = requests.filter((request) => !request.pending);
-+  const searchIndexRequests = requests.filter((request) => request.isSearchIndex);
-+  const completedSearchIndexRequests = searchIndexRequests.filter((request) => !request.pending);
-+  const summaryRequests = requests.filter((request) => request.isSummary);
-+  const failedSummaryRequests = summaryRequests.filter(
-+    (request) => request.failed || (request.status !== null && request.status >= 400),
-+  );
-+  const successfulSummaryRequests = summaryRequests.filter(
-+    (request) => !request.pending && !request.failed && (request.status === null || request.status < 400),
-+  );
-+  const totalBytes = completedRequests.reduce(
-+    (sum, request) => sum + (request.encodedDataLength || 0),
-+    0,
-+  );
-+  const summaryBytes = summaryRequests.reduce(
-+    (sum, request) => sum + (request.encodedDataLength || 0),
-+    0,
-+  );
-+  const searchIndexRequestStartMs = searchIndexRequests.length
-+    ? Math.min(...searchIndexRequests.map((request) => request.startedAtMs))
-+    : null;
-+  const searchIndexResponseEndMs = completedSearchIndexRequests.length
-+    ? Math.max(...completedSearchIndexRequests.map((request) => request.endedAtMs || 0))
-+    : null;
-+  const searchIndexEncodedBytes = searchIndexRequests.reduce(
-+    (sum, request) => sum + (request.encodedDataLength || 0),
-+    0,
-+  );
-+
-+  return {
-+    firstResultLinkMs: domMetrics.firstResultLinkMs,
-+    firstResolvedSummaryMs: domMetrics.firstResolvedSummaryMs,
-+    firstSummaryStateMs: domMetrics.firstSummaryStateMs,
-+    lastCompletedRequestMs: completedRequests.length
-+      ? Math.max(...completedRequests.map((request) => request.endedAtMs || 0))
-+      : null,
-+    pageSummaryMode: domMetrics.pageSummaryMode,
-+    pagesTabActive: domMetrics.pagesTabActive,
-+    peakSummaryConcurrency,
-+    renderedSummaries: domMetrics.renderedSummaries,
-+    searchIndexEncodedBytes,
-+    // Approximate time from the last searchindex.js byte arriving to the
-+    // index becoming usable by the page.
-+    searchIndexReadyAfterResponseMs: (
-+      typeof domMetrics.searchIndexReadyMs === "number"
-+      && typeof searchIndexResponseEndMs === "number"
-+    )
-+      ? domMetrics.searchIndexReadyMs - searchIndexResponseEndMs
-+      : null,
-+    searchIndexReadyMs: domMetrics.searchIndexReadyMs,
-+    searchIndexRequestStartMs,
-+    searchIndexRequests: searchIndexRequests.length,
-+    searchIndexResponseEndMs,
-+    searchIndexTransferMs: (
-+      typeof searchIndexRequestStartMs === "number"
-+      && typeof searchIndexResponseEndMs === "number"
-+    )
-+      ? searchIndexResponseEndMs - searchIndexRequestStartMs
-+      : null,
-+    successfulSummaryRequests: successfulSummaryRequests.length,
-+    summaryBytes,
-+    summaryPlaceholders: domMetrics.summaryPlaceholders,
-+    summaryRequests: summaryRequests.length,
-+    summaryRequestsFailed: failedSummaryRequests.length,
-+    summaryRequestsPending: summaryRequests.filter((request) => request.pending).length,
-+    textResults: domMetrics.textResults,
-+    totalBytes,
-+    totalRequests: requests.length,
-+    totalResults: domMetrics.totalResults,
-+  };
-+};
-+
-+const summarizeNumericObjectSet = (objects) => {
-+  const numericObjects = objects.filter((object) => object && typeof object === "object");
-+  if (numericObjects.length === 0) return null;
-+
-+  const numericKeys = new Set();
-+  numericObjects.forEach((numericObject) => {
-+    Object.entries(numericObject).forEach(([key, value]) => {
-+      if (typeof value === "number" && Number.isFinite(value)) numericKeys.add(key);
-+    });
-+  });
-+
-+  const median = {};
-+  const minimum = {};
-+  const maximum = {};
-+
-+  [...numericKeys].sort().forEach((key) => {
-+    const values = numericObjects
-+      .map((numericObject) => numericObject[key])
-+      .filter((value) => typeof value === "number" && Number.isFinite(value))
-+      .sort((left, right) => left - right);
-+    if (values.length === 0) return;
-+    const middle = Math.floor(values.length / 2);
-+    median[key] = values.length % 2 === 0
-+      ? (values[middle - 1] + values[middle]) / 2
-+      : values[middle];
-+    minimum[key] = values[0];
-+    maximum[key] = values[values.length - 1];
-+  });
-+
-+  return {
-+    maximum,
-+    median,
-+    minimum,
-+    sampleCount: numericObjects.length,
-+  };
-+};
-+
-+const summarizeRuns = (runs) => {
-+  const metricSummary = summarizeNumericObjectSet(runs.map((run) => run.metrics));
-+  const appTimingSummary = summarizeNumericObjectSet(
-+    runs.map((run) => run.appTimings?.timingsMs),
-+  );
-+  const resultKindCountSummary = summarizeNumericObjectSet(
-+    runs.map((run) => run.domMetrics?.resultKindCounts),
-+  );
-+  const appResultCountSummary = summarizeNumericObjectSet(
-+    runs.map((run) => run.appTimings?.resultCounts),
-+  );
-+  const cdpMetricSummary = summarizeNumericObjectSet(
-+    runs.map((run) => run.cdpMetrics),
-+  );
-+  const recoveryFailureMetricSummary = summarizeNumericObjectSet(
-+    runs.map((run) => run.recovery?.failurePhase?.metrics),
-+  );
-+  const recoveryRecoveryMetricSummary = summarizeNumericObjectSet(
-+    runs.map((run) => run.recovery?.recoveryPhase?.metrics),
-+  );
-+
-+  const firstRun = [...runs]
-+    .sort((left, right) => left.run - right.run)[0] || null;
-+  const scenarioNoOpCount = runs.filter((run) => run.scenarioNoOp).length;
-+  const actions = [...new Set(runs.flatMap((run) => run.actions || []))].sort();
-+  const availableResultKinds = [...new Set(
-+    runs.flatMap((run) => run.domMetrics?.availableResultKinds || []),
-+  )].sort();
-+
-+  return {
-+    actions,
-+    allRunsNoOp: runs.length > 0 && scenarioNoOpCount === runs.length,
-+    availableResultKinds,
-+    firstRun: firstRun
-+      ? {
-+        actions: firstRun.actions || [],
-+        appTimings: firstRun.appTimings || null,
-+        cdpMetrics: firstRun.cdpMetrics || null,
-+        domMetrics: firstRun.domMetrics || null,
-+        metrics: firstRun.metrics,
-+        notes: firstRun.notes,
-+        recovery: firstRun.recovery || null,
-+        run: firstRun.run,
-+        scenarioNoOp: Boolean(firstRun.scenarioNoOp),
-+        variantDetected: firstRun.variantDetected,
-+      }
-+      : null,
-+    appResultCountSummary,
-+    appTimingSummary,
-+    cdpMetricSummary,
-+    maximum: metricSummary ? metricSummary.maximum : {},
-+    median: metricSummary ? metricSummary.median : {},
-+    minimum: metricSummary ? metricSummary.minimum : {},
-+    recoveryFailureMetricSummary,
-+    recoveryRecoveryMetricSummary,
-+    resultKindCountSummary,
-+    scenarioNoOpCount,
-+    runCount: runs.length,
-+  };
-+};
-+
-+const buildSummary = (results) => {
-+  const scenarios = {};
-+  results.forEach((result) => {
-+    if (!scenarios[result.scenario]) scenarios[result.scenario] = {};
-+    if (!scenarios[result.scenario][result.variant]) scenarios[result.scenario][result.variant] = [];
-+    scenarios[result.scenario][result.variant].push(result);
-+  });
-+
-+  const summary = {};
-+  Object.entries(scenarios).forEach(([scenario, variants]) => {
-+    summary[scenario] = {};
-+    Object.entries(variants).forEach(([variant, runs]) => {
-+      summary[scenario][variant] = summarizeRuns(runs);
-+    });
-+
-+    if (summary[scenario].stock && summary[scenario].hard) {
-+      const delta = {};
-+      const stockMedian = summary[scenario].stock.median;
-+      const hardMedian = summary[scenario].hard.median;
-+      const keys = new Set([...Object.keys(stockMedian), ...Object.keys(hardMedian)]);
-+      [...keys].sort().forEach((key) => {
-+        if (typeof stockMedian[key] !== "number" || typeof hardMedian[key] !== "number") return;
-+        delta[key] = hardMedian[key] - stockMedian[key];
-+      });
-+      summary[scenario].deltaHardMinusStock = delta;
-+    }
-+  });
-+
-+  return summary;
-+};
-+
-+const buildAutoOutputPath = async (outputDirectory, options) => {
-+  await fs.mkdir(outputDirectory, { recursive: true });
-+  const entries = await fs.readdir(outputDirectory, { withFileTypes: true });
-+  let maxSequence = 0;
-+
-+  entries.forEach((entry) => {
-+    if (!entry.isFile()) return;
-+    const match = entry.name.match(/^(\d+)-/u);
-+    if (!match) return;
-+    const parsed = Number.parseInt(match[1], 10);
-+    if (Number.isFinite(parsed)) {
-+      maxSequence = Math.max(maxSequence, parsed);
-+    }
-+  });
-+
-+  const parts = [
-+    sanitizeSlugPart(options.variant),
-+    sanitizeSlugPart(options.query),
-+  ];
-+  if (options.networkProfile !== "none") parts.push(options.networkProfile);
-+  if (options.summaryDelayMs > 0) parts.push(`delay-${options.summaryDelayMs}ms`);
-+  if (options.summaryFailRate > 0) parts.push(`fail-${Math.round(options.summaryFailRate * 100)}pct`);
-+  if (options.pageSummaryMode !== "limited") parts.push(`pages-${options.pageSummaryMode}`);
-+
-+  const sequence = String(maxSequence + 1).padStart(DEFAULT_OUTPUT_SEQUENCE_WIDTH, "0");
-+  return path.join(outputDirectory, `${sequence}-${parts.join("-")}.json`);
-+};
-+
-+const runScenario = async ({
-+  browser,
-+  options,
-+  scenario,
-+  variant,
-+}) => {
-+  const baseUrl = ensureBaseUrl(variant.url);
-+  const searchUrl = buildSearchUrl(baseUrl, options.query);
-+  const context = await browser.newContext({
-+    viewport: { width: 1440, height: 900 },
-+  });
-+  const page = await context.newPage();
-+  await addBenchmarkInitScript(page);
-+
-+  const client = await context.newCDPSession(page);
-+  await client.send("Network.enable");
-+  await client.send("Network.setCacheDisabled", { cacheDisabled: true });
-+  if (options.collectCdpMetrics) {
-+    await client.send("Performance.enable");
-+  }
-+
-+  const networkProfile = NETWORK_PROFILES[options.networkProfile];
-+  if (networkProfile) {
-+    await client.send("Network.emulateNetworkConditions", networkProfile);
-+  }
-+
-+  const tracking = {
-+    inflightSummaryRequests: 0,
-+    peakSummaryConcurrency: 0,
-+    requests: new Map(),
-+    wallStart: Date.now(),
-+  };
-+  const injection = {
-+    delayMs: options.summaryDelayMs,
-+    failRate: options.summaryFailRate,
-+  };
-+
-+  client.on("Network.requestWillBeSent", (event) => {
-+    const request = {
-+      encodedDataLength: 0,
-+      endedAtMs: null,
-+      failed: false,
-+      isSearchIndex: event.request.url.endsWith("/searchindex.js"),
-+      isSummary: isSummaryRequest(event.request.url, searchUrl),
-+      method: event.request.method,
-+      requestId: event.requestId,
-+      resourceType: event.type || "Other",
-+      startedAtMs: Date.now() - tracking.wallStart,
-+      status: null,
-+      url: event.request.url,
-+    };
-+    tracking.requests.set(event.requestId, request);
-+    if (request.isSummary) {
-+      tracking.inflightSummaryRequests += 1;
-+      tracking.peakSummaryConcurrency = Math.max(
-+        tracking.peakSummaryConcurrency,
-+        tracking.inflightSummaryRequests,
-+      );
-+    }
-+  });
-+
-+  client.on("Network.responseReceived", (event) => {
-+    const request = tracking.requests.get(event.requestId);
-+    if (!request) return;
-+    request.status = event.response.status;
-+  });
-+
-+  const finishRequest = (event, extra = {}) => {
-+    const request = tracking.requests.get(event.requestId);
-+    if (!request) return;
-+    request.encodedDataLength = extra.encodedDataLength || request.encodedDataLength || 0;
-+    request.endedAtMs = Date.now() - tracking.wallStart;
-+    if (extra.errorText) request.errorText = extra.errorText;
-+    if (extra.failed) request.failed = true;
-+    if (request.isSummary) {
-+      tracking.inflightSummaryRequests = Math.max(0, tracking.inflightSummaryRequests - 1);
-+    }
-+  };
-+
-+  client.on("Network.loadingFinished", (event) => {
-+    finishRequest(event, { encodedDataLength: event.encodedDataLength || 0 });
-+  });
-+
-+  client.on("Network.loadingFailed", (event) => {
-+    finishRequest(event, {
-+      errorText: event.errorText || null,
-+      failed: true,
-+    });
-+  });
-+
-+  if (options.summaryDelayMs > 0 || options.summaryFailRate > 0) {
-+    await page.route("**/*", async (route) => {
-+      const requestUrl = route.request().url();
-+      if (!isSummaryRequest(requestUrl, searchUrl)) {
-+        await route.continue();
-+        return;
-+      }
-+
-+      if (injection.delayMs > 0) {
-+        await wait(injection.delayMs);
-+      }
-+
-+      if (injection.failRate > 0 && Math.random() < injection.failRate) {
-+        await route.fulfill({
-+          body: "benchmark injected failure\n",
-+          contentType: "text/plain",
-+          status: 503,
-+        });
-+        return;
-+      }
-+
-+      await route.continue();
-+    });
-+  }
-+
-+  const notes = [];
-+  const actions = [];
-+  let scenarioNoOp = false;
-+
-+  const capturePhase = async (pageVariant, collectCdp, phaseNotes) => {
-+    let appTimings = null;
-+    if (options.collectAppTimings) {
-+      appTimings = await collectAppTimings(page);
-+      if (!appTimings && pageVariant === "advanced") {
-+        phaseNotes.push("app timings unavailable");
-+      }
-+    }
-+
-+    let cdpMetrics = null;
-+    if (collectCdp && options.collectCdpMetrics) {
-+      cdpMetrics = await collectCdpPerformanceMetrics(client);
-+    }
-+
-+    const domMetrics = await collectDomMetrics(page);
-+    const requestSnapshot = snapshotRequests(tracking.requests);
-+    return {
-+      appTimings,
-+      cdpMetrics,
-+      domMetrics,
-+      metrics: computeMetrics({
-+        domMetrics,
-+        peakSummaryConcurrency: tracking.peakSummaryConcurrency,
-+        requests: requestSnapshot,
-+      }),
-+      requestCount: requestSnapshot.length,
-+      requests: requestSnapshot,
-+      variant: pageVariant,
-+    };
-+  };
-+
-+  const runObservedNavigation = async ({
-+    enableScroll = false,
-+    openPages = false,
-+    collectCdp = true,
-+    phaseLabel = "",
-+  } = {}) => {
-+    resetTrackingState(tracking);
-+    await page.goto(searchUrl.href, {
-+      timeout: options.navigationTimeoutMs,
-+      waitUntil: "domcontentloaded",
-+    });
-+    await waitForInitialResults(page, options.initialResultsTimeoutMs);
-+
-+    const pageVariant = await detectPageVariant(page);
-+    const phaseNotes = [];
-+    const phaseActions = [];
-+    let phaseNoOp = false;
-+
-+    if (variant.expectedPageVariant && pageVariant !== variant.expectedPageVariant) {
-+      phaseNotes.push(`expected ${variant.expectedPageVariant}, got ${pageVariant}`);
-+    }
-+
-+    if (openPages) {
-+      const action = await selectPagesViewIfPresent(page, pageVariant, options.pageSummaryMode);
-+      phaseActions.push(action.action);
-+      phaseNotes.push(action.note);
-+      if (!action.effective) phaseNoOp = true;
-+    }
-+
-+    if (enableScroll) {
-+      await scrollSearchPage(page, options.scrollDurationMs, pageVariant);
-+      phaseActions.push("scrolled-page");
-+      phaseNotes.push(`scrolled for ${options.scrollDurationMs}ms`);
-+    }
-+
-+    await page.waitForTimeout(options.observationMs);
-+    const phase = await capturePhase(pageVariant, collectCdp, phaseNotes);
-+    if (phaseLabel) {
-+      phase.phase = phaseLabel;
-+    }
-+    phase.actions = phaseActions;
-+    phase.notes = phaseNotes;
-+    phase.scenarioNoOp = phaseNoOp;
-+    return phase;
-+  };
-+
-+  try {
-+    if (scenario === "recover-pages") {
-+      if (options.summaryFailRate <= 0) {
-+        notes.push("recover-pages is most useful with --summary-fail-rate > 0");
-+      }
-+
-+      // Exercise fresh-navigation recovery: first load with injected summary
-+      // failures, then reload the same query cleanly to verify recovery behavior.
-+      const failurePhase = await runObservedNavigation({
-+        openPages: true,
-+        collectCdp: false,
-+        phaseLabel: "failure",
-+      });
-+      actions.push(...failurePhase.actions.map((action) => `failure:${action}`));
-+      notes.push(...failurePhase.notes.map((note) => `failure: ${note}`));
-+
-+      injection.delayMs = 0;
-+      injection.failRate = 0;
-+      actions.push("reloaded-page-clean");
-+      notes.push("reloaded same query with summary failure injection disabled");
-+
-+      const recoveryPhase = await runObservedNavigation({
-+        openPages: true,
-+        collectCdp: options.collectCdpMetrics,
-+        phaseLabel: "recovery",
-+      });
-+      actions.push(...recoveryPhase.actions.map((action) => `recovery:${action}`));
-+      notes.push(...recoveryPhase.notes.map((note) => `recovery: ${note}`));
-+
-+      scenarioNoOp = Boolean(failurePhase.scenarioNoOp && recoveryPhase.scenarioNoOp);
-+      return {
-+        actions,
-+        appTimings: recoveryPhase.appTimings,
-+        cdpMetrics: recoveryPhase.cdpMetrics,
-+        domMetrics: recoveryPhase.domMetrics,
-+        metrics: recoveryPhase.metrics,
-+        notes,
-+        recovery: {
-+          failurePhase: {
-+            actions: failurePhase.actions,
-+            appTimings: failurePhase.appTimings,
-+            cdpMetrics: failurePhase.cdpMetrics,
-+            domMetrics: failurePhase.domMetrics,
-+            metrics: failurePhase.metrics,
-+            notes: failurePhase.notes,
-+            requestCount: failurePhase.requestCount,
-+            variantDetected: failurePhase.variant,
-+          },
-+          recoveryPhase: {
-+            actions: recoveryPhase.actions,
-+            appTimings: recoveryPhase.appTimings,
-+            cdpMetrics: recoveryPhase.cdpMetrics,
-+            domMetrics: recoveryPhase.domMetrics,
-+            metrics: recoveryPhase.metrics,
-+            notes: recoveryPhase.notes,
-+            requestCount: recoveryPhase.requestCount,
-+            variantDetected: recoveryPhase.variant,
-+          },
-+        },
-+        requestCount: recoveryPhase.requestCount,
-+        scenarioNoOp,
-+        variant: recoveryPhase.variant,
-+      };
-+    }
-+
-+    const phase = await runObservedNavigation({
-+      enableScroll: scenario === "scroll-pages",
-+      openPages: scenario === "open-pages" || scenario === "scroll-pages",
-+      collectCdp: options.collectCdpMetrics,
-+    });
-+    actions.push(...phase.actions);
-+    notes.push(...phase.notes);
-+    scenarioNoOp = phase.scenarioNoOp;
-+
-+    return {
-+      actions,
-+      appTimings: phase.appTimings,
-+      cdpMetrics: phase.cdpMetrics,
-+      domMetrics: phase.domMetrics,
-+      metrics: phase.metrics,
-+      notes,
-+      requestCount: phase.requestCount,
-+      scenarioNoOp,
-+      variant: phase.variant,
-+    };
-+  } finally {
-+    await context.close();
-+  }
-+};
-+
-+const main = async () => {
-+  const options = parseArgs(process.argv.slice(2));
-+  if (options.help) {
-+    process.stdout.write(HELP);
-+    return;
-+  }
-+
-+  const { chromium, resolvedSpecifier } = await loadPlaywright(options.playwrightModule);
-+  const browser = await chromium.launch({ headless: !options.headed });
-+
-+  try {
-+    const variant = {
-+      expectedPageVariant: options.expectedPageVariant,
-+      name: options.variant,
-+      url: options.url,
-+    };
-+
-+    const results = [];
-+    for (const scenario of options.scenarios) {
-+      for (let runIndex = 0; runIndex < options.runs; runIndex += 1) {
-+        console.error(
-+          `[bench] scenario=${scenario} variant=${variant.name} run=${runIndex + 1}/${options.runs}`,
-+        );
-+        const run = await runScenario({
-+          browser,
-+          options,
-+          scenario,
-+          variant,
-+        });
-+        results.push({
-+          actions: run.actions,
-+          appTimings: run.appTimings,
-+        cdpMetrics: run.cdpMetrics,
-+          domMetrics: run.domMetrics,
-+          metrics: run.metrics,
-+          notes: run.notes,
-+          recovery: run.recovery || null,
-+          run: runIndex + 1,
-+          scenario,
-+          scenarioNoOp: run.scenarioNoOp,
-+          url: variant.url,
-+          variant: variant.name,
-+          variantDetected: run.variant,
-+        });
-+      }
-+    }
-+
-+    const report = {
-+      generatedAt: new Date().toISOString(),
-+      options: {
-+        collectAppTimings: options.collectAppTimings,
-+        collectCdpMetrics: options.collectCdpMetrics,
-+        expectedPageVariant: options.expectedPageVariant || null,
-+        initialResultsTimeoutMs: options.initialResultsTimeoutMs,
-+        networkProfile: options.networkProfile,
-+        navigationTimeoutMs: options.navigationTimeoutMs,
-+        observationMs: options.observationMs,
-+        playwrightModule: resolvedSpecifier,
-+        query: options.query,
-+        runs: options.runs,
-+        scenarios: options.scenarios,
-+        scrollDurationMs: options.scrollDurationMs,
-+        summaryDelayMs: options.summaryDelayMs,
-+        summaryFailRate: options.summaryFailRate,
-+        url: options.url,
-+        variant: options.variant,
-+      },
-+      results,
-+      summary: buildSummary(results),
-+    };
-+
-+    const serialized = `${JSON.stringify(report, null, 2)}\n`;
-+    const outputPath = options.outputDir
-+      ? await buildAutoOutputPath(options.outputDir, options)
-+      : options.output;
-+
-+    if (outputPath) {
-+      await fs.mkdir(path.dirname(outputPath), { recursive: true });
-+      await fs.writeFile(outputPath, serialized, "utf-8");
-+      console.error(`[bench] wrote ${outputPath}`);
-+    } else {
-+      process.stdout.write(serialized);
-+    }
-+  } finally {
-+    await browser.close();
-+  }
-+};
-+
-+main().catch((error) => {
-+  console.error(error.message || error);
-+  process.exit(1);
-+});
++static void __init parse_crashkernel_boundary(char *ck_cmdline,
++					unsigned long long *boundary)
++{
++	char *cur = ck_cmdline, *next;
++	char *first_gt = false;
++
++	first_gt = strchr(cur, '>');
++	if (!first_gt)
++		return;
++
++	cur = first_gt + 1;
++	if (*cur == '\0' || *cur == ' ' || *cur == ',') {
++		pr_warn("crashkernel: '>' specified without boundary size, ignoring\n");
++		return;
++	}
++
++	*boundary = memparse(cur, &next);
++	if (cur == next) {
++		pr_warn("crashkernel: invalid boundary size after '>'\n");
++		return;
++	}
++}
++
+ static int __init __parse_crashkernel(char *cmdline,
+ 			     unsigned long long system_ram,
+ 			     unsigned long long *crash_size,
+ 			     unsigned long long *crash_base,
+-			     const char *suffix)
++			     const char *suffix,
++			     bool *high,
++			     unsigned long long *low_size)
+ {
+ 	char *first_colon, *first_space;
+ 	char *ck_cmdline;
+ 	char *name = "crashkernel=";
++	unsigned long long boundary = 0;
++	int ret;
+ 
+ 	BUG_ON(!crash_size || !crash_base);
+ 	*crash_size = 0;
+@@ -283,10 +315,20 @@ static int __init __parse_crashkernel(char *cmdline,
+ 	 */
+ 	first_colon = strchr(ck_cmdline, ':');
+ 	first_space = strchr(ck_cmdline, ' ');
+-	if (first_colon && (!first_space || first_colon < first_space))
+-		return parse_crashkernel_mem(ck_cmdline, system_ram,
++	if (first_colon && (!first_space || first_colon < first_space)) {
++		ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+ 				crash_size, crash_base);
+ 
++		/* Handle optional ',>boundary' condition for range ':' syntax only. */
++		parse_crashkernel_boundary(ck_cmdline, &boundary);
++		if (!ret && *crash_size > boundary) {
++			*high = true;
++			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
++		}
++
++		return ret;
++	}
++
+ 	return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
+ }
+ 
+@@ -310,7 +352,7 @@ int __init parse_crashkernel(char *cmdline,
+ 
+ 	/* crashkernel=X[@offset] */
+ 	ret = __parse_crashkernel(cmdline, system_ram, crash_size,
+-				crash_base, NULL);
++				crash_base, NULL, high, low_size);
+ #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
+ 	/*
+ 	 * If non-NULL 'high' passed in and no normal crashkernel
+@@ -318,7 +360,7 @@ int __init parse_crashkernel(char *cmdline,
+ 	 */
+ 	if (high && ret == -ENOENT) {
+ 		ret = __parse_crashkernel(cmdline, 0, crash_size,
+-				crash_base, suffix_tbl[SUFFIX_HIGH]);
++				crash_base, suffix_tbl[SUFFIX_HIGH], high, low_size);
+ 		if (ret || !*crash_size)
+ 			return -EINVAL;
+ 
+@@ -327,7 +369,7 @@ int __init parse_crashkernel(char *cmdline,
+ 		 * is not allowed.
+ 		 */
+ 		ret = __parse_crashkernel(cmdline, 0, low_size,
+-				crash_base, suffix_tbl[SUFFIX_LOW]);
++				crash_base, suffix_tbl[SUFFIX_LOW], high, low_size);
+ 		if (ret == -ENOENT) {
+ 			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+ 			ret = 0;
+@@ -344,7 +386,7 @@ int __init parse_crashkernel(char *cmdline,
+ 	 */
+ 	if (cma_size)
+ 		__parse_crashkernel(cmdline, 0, cma_size,
+-			&cma_base, suffix_tbl[SUFFIX_CMA]);
++			&cma_base, suffix_tbl[SUFFIX_CMA], high, low_size);
+ #endif
+ 	if (!*crash_size)
+ 		ret = -EINVAL;
 -- 
-2.51.0
+2.43.0
+
