@@ -1,257 +1,77 @@
-Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
+Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A92B02C21E8
-	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 07:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775288541; cv=none; b=W4yRyaXHNfQxjqrD1InXK6JH3bwxg7srsnQUfipwLhUT18uYQs9IrwYeh2V/kVOmyzkQySVK1a+7lW9ZNXFoTrSNbEH0+wXOwqgvR0iUzHRaKFcE2TV9kTec0yn7dF/7VDKEa79h01X3SRiZfNp4Zk/4Ycq/RpUTHU4jy6ZlkBQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775288541; c=relaxed/simple;
-	bh=yp74mcO/GMrEA87PqNvjT4WKezEsssqfkDR6O/CqqtY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PUPIoT9xYA8aFIxXisJbwwtZxLLiySc6cd+8wxEdC8FNlMVXGuTnylLkEkxVduauq3LUwU59PZVAGA3C6kQ3zEg+UnzZmkqtjo5q/VcNdzG1wr9zZpTvte902ZEy42dJfgoMEuqd3OaDCVGqbDJx+SIugDAQp+GJn+juDj4FktE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dxbtbL1b; arc=none smtp.client-ip=95.215.58.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C81681531E8;
+	Sat,  4 Apr 2026 07:51:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775289066; cv=pass; b=YPT11dJWF4wx6gJoqbWdmqFLe70GF/lXRanzuIqKzNtb5wlnap0gKg6pUJ7wiISFsq+oC+Wm3B2I7w6Ao98o84NsWQ2QBuq65z9x7b3DxE1YquABWSVOSTGwB0EM65j1GZBeIdWZUffsjwLJBvFAk5b6h8IoAexa7p/XyZhw+5c=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775289066; c=relaxed/simple;
+	bh=6PZtCi0Prk4Sg1qzP4DNSyjQidhu2jQ8o4nQ1vPgsCg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:Subject:Cc:From:
+	 In-Reply-To:References; b=iWVNGyrnwhjmlwLhCBuvVH86zKRSYeSMchAenNlWEilgBKTH09Si7ZfdJgmu94bohmJ6gvHZbX6O8hIbhz6QHYCkMvAe5fP6QRiV2GIraItFQ/OGRtABTjswqWKEoZCzxDYCSfCP7SB/K9fw1MCdR7Jf1kZkAYr4F3RWwr1zIco=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com; spf=pass smtp.mailfrom=ritovision.com; dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b=bpE7BRGL; arc=pass smtp.client-ip=136.143.188.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ritovision.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ritovision.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dxbtbL1b"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775288527;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=zVuyuZWPEacFSdtZ4/rdPo2ZTR7RDfdP3BpyB0CT/YE=;
-	b=dxbtbL1bskq8RWMNIzElKYR1ejUPl3iSCrsVzm9L2lgnTj85qp31lBNZsJ2NWa62PdDW2c
-	OSoKGbN0weVgseDjjowry2AM4FnIRMyUe5IqxHPaVVpx/NmszhVr971maYVLuT7UfaFqsL
-	JfIgQfBLHXQG2/U5orIsq8tDe+DkqjU=
-From: Youling Tang <youling.tang@linux.dev>
-To: Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Vivek Goyal <vgoyal@redhat.com>,
-	Dave Young <dyoung@redhat.com>,
-	kexec@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	youling.tang@linux.dev,
-	Youling Tang <tangyouling@kylinos.cn>
-Subject: [PATCH] crash: Support high memory reservation for range syntax
-Date: Sat,  4 Apr 2026 15:41:03 +0800
-Message-ID: <20260404074103.506793-1-youling.tang@linux.dev>
+	dkim=pass (1024-bit key) header.d=ritovision.com header.i=rito@ritovision.com header.b="bpE7BRGL"
+ARC-Seal: i=1; a=rsa-sha256; t=1775289047; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=lPiAgzhpkuExfDxfStQaAiL2cKw91oQDrbR0rPj7gW6uYWN2Nc6OlPh4u2u3SYMrRTDSISlwtDV9CrL8gnkcxr0KaDHpM2syxY/UynPnFhaPKPerqBsJqKFkM23xjlw8x4zItpRLAp4BoFpxOwGwr6p1nZF1tL+t2Z40byfCg4c=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1775289047; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=6PZtCi0Prk4Sg1qzP4DNSyjQidhu2jQ8o4nQ1vPgsCg=; 
+	b=Fd7b2QC0xcmT+XDrkgTWL1lF4USwkUy9pcy/Dw2NdsUf+rr+4+1YLX0nTb5ZyTJgq8BpSSh5BhaN6yVUfVNDq8BPnejS7zNbvoLDRgfBTh0k6JRX37u2MjpyOrbpOE+uv+CTTox4vsMn2ZddtFncqDwsYBfVrL6ztlm+jNoYn78=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=ritovision.com;
+	spf=pass  smtp.mailfrom=rito@ritovision.com;
+	dmarc=pass header.from=<rito@ritovision.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775289047;
+	s=zmail; d=ritovision.com; i=rito@ritovision.com;
+	h=Mime-Version:Content-Transfer-Encoding:Content-Type:Date:Date:Message-Id:Message-Id:To:To:Subject:Subject:Cc:Cc:From:From:In-Reply-To:References:Reply-To;
+	bh=6PZtCi0Prk4Sg1qzP4DNSyjQidhu2jQ8o4nQ1vPgsCg=;
+	b=bpE7BRGLXNFNDykg9U4NnivToceGkIHWlpMNvFSmMp1HksvzajastZHT32qlPxvG
+	i+nFAsVqbB6dqvXZji7luKiqWE4RZRVAd/dHzAb3v66PKb8SlHSiDVmkpyaThKjUy3C
+	fTgbXzHY4pAs9lriK80NyGxYWuj9XGVReewUlY3M=
+Received: by mx.zohomail.com with SMTPS id 1775289043903734.341021653271;
+	Sat, 4 Apr 2026 00:50:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 04 Apr 2026 03:50:40 -0400
+Message-Id: <DHK7FY79AOJW.AC6LHU703AIR@ritovision.com>
+To: "Randy Dunlap" <rdunlap@infradead.org>
+Subject: Re: [PATCH v3 0/2] docs: advanced search with benchmark harness
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+From: "Rito Rhymes" <rito@ritovision.com>
+X-Mailer: aerc 0.21.0
+In-Reply-To: <20260321181511.11706-1-rito@ritovision.com>
+References: <20260321181511.11706-1-rito@ritovision.com>
+X-ZohoMailClient: External
 
-From: Youling Tang <tangyouling@kylinos.cn>
+Randy, I meant to include you on the v3 reroll; this new version is
+intended to address the compatibility issue you hit earlier in our
+initial test and debugging (among other improvements).
 
-The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
-automatic size selection based on system RAM, but it always reserves
-from low memory. When a large crashkernel is selected, this can
-consume most of the low memory, causing subsequent hardware
-hotplug or drivers requiring low memory to fail due to allocation
-failures.
+I believe the problem came from version-dependent differences in the
+generated Sphinx search data, so this reroll hardens the compatibility
+handling around those differences and the search logic that consumes the
+data.
 
-Add a new optional conditional suffix ",>boundary" to the crashkernel
-range syntax. When the selected crashkernel size exceeds the specified
-boundary, the kernel will automatically apply the same reservation
-policy as "crashkernel=size,high" - preferring high memory first
-and reserving the default low memory area.
+If you have time to try it again with the setup that exposed the
+problem before, I would appreciate confirmation that the updated
+version behaves correctly there.
 
-Syntax:
-    crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+I would also appreciate your broader assessment of the feature:
+whether it seems genuinely useful in practice, how large the benefit is
+relative to the current Quick Search interface, how many other users you
+think would benefit from it, and whether you see any remaining issues or
+obvious room for improvement.
 
-Example:
-    crashkernel=2G-16G:512M,16G-:1G,>512M
-
-This means:
-  - For 2G-16G RAM: reserve 512M normally
-  - For >16G RAM: reserve 1G with high memory preference (since 1G > 512M)
-
-For systems with >16G RAM, 1G is selected which exceeds 512M, so it
-will be reserved from high memory instead of consuming 1G of
-precious low memory.
-
-Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
----
- Documentation/admin-guide/kdump/kdump.rst     | 25 ++++++++-
- .../admin-guide/kernel-parameters.txt         |  2 +-
- kernel/crash_reserve.c                        | 56 ++++++++++++++++---
- 3 files changed, 73 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index 7587caadbae1..b5ae4556e9ca 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -293,7 +293,28 @@ crashkernel syntax
-        2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
-        3) if the RAM size is larger than 2G, then reserve 128M
- 
--3) crashkernel=size,high and crashkernel=size,low
-+3) range1:size1[,range2:size2,...][@offset],>boundary
-+   Optionally, the range list can be followed by a conditional suffix
-+   `,>boundary`. When the selected crashkernel size matches the
-+   condition, the kernel will reserve memory using the same policy as
-+   `crashkernel=size,high` (i.e. prefer high memory first and reserve the
-+   default low memory area).
-+
-+   The syntax is::
-+
-+        crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
-+        range=start-[end]
-+
-+   For example::
-+
-+        crashkernel=2G-16G:512M,16G-:1G,>512M
-+
-+   This would mean:
-+       1) if the RAM size is between 2G and 16G (exclusive), then reserve 512M.
-+       2) if the RAM size is larger than 16G, allocation will behave like
-+          `crashkernel=1G,high`.
-+
-+4) crashkernel=size,high and crashkernel=size,low
- 
-    If memory above 4G is preferred, crashkernel=size,high can be used to
-    fulfill that. With it, physical memory is allowed to be allocated from top,
-@@ -311,7 +332,7 @@ crashkernel syntax
- 
-             crashkernel=0,low
- 
--4) crashkernel=size,cma
-+5) crashkernel=size,cma
- 
- 	Reserve additional crash kernel memory from CMA. This reservation is
- 	usable by the first system's userspace memory and kernel movable
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 03a550630644..b2e1892ab4d8 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1087,7 +1087,7 @@ Kernel parameters
- 			4G when '@offset' hasn't been specified.
- 			See Documentation/admin-guide/kdump/kdump.rst for further details.
- 
--	crashkernel=range1:size1[,range2:size2,...][@offset]
-+	crashkernel=range1:size1[,range2:size2,...][@offset][,>boundary]
- 			[KNL] Same as above, but depends on the memory
- 			in the running system. The syntax of range is
- 			start-[end] where start and end are both
-diff --git a/kernel/crash_reserve.c b/kernel/crash_reserve.c
-index 62e60e0223cf..917738412390 100644
---- a/kernel/crash_reserve.c
-+++ b/kernel/crash_reserve.c
-@@ -254,15 +254,47 @@ static __init char *get_last_crashkernel(char *cmdline,
- 	return ck_cmdline;
- }
- 
-+/*
-+ * This function parses command lines in the format
-+ *
-+ *   crashkernel=ramsize-range:size[,...][@offset],>boundary
-+ */
-+static void __init parse_crashkernel_boundary(char *ck_cmdline,
-+					unsigned long long *boundary)
-+{
-+	char *cur = ck_cmdline, *next;
-+	char *first_gt = false;
-+
-+	first_gt = strchr(cur, '>');
-+	if (!first_gt)
-+		return;
-+
-+	cur = first_gt + 1;
-+	if (*cur == '\0' || *cur == ' ' || *cur == ',') {
-+		pr_warn("crashkernel: '>' specified without boundary size, ignoring\n");
-+		return;
-+	}
-+
-+	*boundary = memparse(cur, &next);
-+	if (cur == next) {
-+		pr_warn("crashkernel: invalid boundary size after '>'\n");
-+		return;
-+	}
-+}
-+
- static int __init __parse_crashkernel(char *cmdline,
- 			     unsigned long long system_ram,
- 			     unsigned long long *crash_size,
- 			     unsigned long long *crash_base,
--			     const char *suffix)
-+			     const char *suffix,
-+			     bool *high,
-+			     unsigned long long *low_size)
- {
- 	char *first_colon, *first_space;
- 	char *ck_cmdline;
- 	char *name = "crashkernel=";
-+	unsigned long long boundary = 0;
-+	int ret;
- 
- 	BUG_ON(!crash_size || !crash_base);
- 	*crash_size = 0;
-@@ -283,10 +315,20 @@ static int __init __parse_crashkernel(char *cmdline,
- 	 */
- 	first_colon = strchr(ck_cmdline, ':');
- 	first_space = strchr(ck_cmdline, ' ');
--	if (first_colon && (!first_space || first_colon < first_space))
--		return parse_crashkernel_mem(ck_cmdline, system_ram,
-+	if (first_colon && (!first_space || first_colon < first_space)) {
-+		ret = parse_crashkernel_mem(ck_cmdline, system_ram,
- 				crash_size, crash_base);
- 
-+		/* Handle optional ',>boundary' condition for range ':' syntax only. */
-+		parse_crashkernel_boundary(ck_cmdline, &boundary);
-+		if (!ret && *crash_size > boundary) {
-+			*high = true;
-+			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-+		}
-+
-+		return ret;
-+	}
-+
- 	return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
- }
- 
-@@ -310,7 +352,7 @@ int __init parse_crashkernel(char *cmdline,
- 
- 	/* crashkernel=X[@offset] */
- 	ret = __parse_crashkernel(cmdline, system_ram, crash_size,
--				crash_base, NULL);
-+				crash_base, NULL, high, low_size);
- #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
- 	/*
- 	 * If non-NULL 'high' passed in and no normal crashkernel
-@@ -318,7 +360,7 @@ int __init parse_crashkernel(char *cmdline,
- 	 */
- 	if (high && ret == -ENOENT) {
- 		ret = __parse_crashkernel(cmdline, 0, crash_size,
--				crash_base, suffix_tbl[SUFFIX_HIGH]);
-+				crash_base, suffix_tbl[SUFFIX_HIGH], high, low_size);
- 		if (ret || !*crash_size)
- 			return -EINVAL;
- 
-@@ -327,7 +369,7 @@ int __init parse_crashkernel(char *cmdline,
- 		 * is not allowed.
- 		 */
- 		ret = __parse_crashkernel(cmdline, 0, low_size,
--				crash_base, suffix_tbl[SUFFIX_LOW]);
-+				crash_base, suffix_tbl[SUFFIX_LOW], high, low_size);
- 		if (ret == -ENOENT) {
- 			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
- 			ret = 0;
-@@ -344,7 +386,7 @@ int __init parse_crashkernel(char *cmdline,
- 	 */
- 	if (cma_size)
- 		__parse_crashkernel(cmdline, 0, cma_size,
--			&cma_base, suffix_tbl[SUFFIX_CMA]);
-+			&cma_base, suffix_tbl[SUFFIX_CMA], high, low_size);
- #endif
- 	if (!*crash_size)
- 		ret = -EINVAL;
--- 
-2.43.0
-
+Rito
