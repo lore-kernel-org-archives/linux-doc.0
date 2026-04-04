@@ -1,50 +1,42 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52AEA17A30A;
-	Sat,  4 Apr 2026 20:02:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE53289E13;
+	Sat,  4 Apr 2026 20:58:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775332926; cv=none; b=ItIFJrH5f79QOyjJxeDJGPSl8WrmyKzd9vtOprp+iGS4QyWWmwiRH0h5LbDKY8QgFaRBNaC9XZtSYM+nvOpdbPvo1N3Z8UPR+95NtpTRXl+j2bOSEaeLpTXsemPkfdY5GYXU1mRPuPtHMLGO3lBjGLAYZkIai6sn4diqIPVMZUQ=
+	t=1775336327; cv=none; b=XAijb5yC8teaYvmQNhveIKD3EL8z33dM7vG5eJVK6e3eD1ViyHSzjA6y3cLODJpvtIZt9duPbLF9MZmNUXufZLNeEfYWkT2w/+CzHPT2z8cyXEEprzMrqP7geLgeLcBtE9u3f8tCpdP2D4rOKpSdTWznyiRYHx32beOA0PT0v5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775332926; c=relaxed/simple;
-	bh=/JiyVizUMe9wSdqRZWW6fVbbnNxTVMDWZytcmkzNmcU=;
+	s=arc-20240116; t=1775336327; c=relaxed/simple;
+	bh=JjuMIdaMEdHQJUEtMAZ1M1peq0Edg56ahCnVKrCmJWM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DytGpkCNj79Kk41Udw1LYZ4R/WADtdnzZQbr1ZmDJbXxLUEFpTkIBGZPOT59hTVIq+Oqq+a4wDeVsfgUOH+o/gmTCs8Shz2FeBpi2BHvYgsritC7iMO0x9LVdKo1BCPHa22pl1chd60U1tCfrsw29yi7g4JLSoYYh2wfs72/6kU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lrA5QUGy; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=orNuezki4CsHhgPhSZYJ6GqIiNV1Rq2nETt5ayZHoiGFB8m9fJNzI6CZ08HBVFBJRoFrkDr+gkjoBj+2sFpYJHu7VkI8PRIzoLEfvtzVRmhjnyOgiQmwHfFcn04Z1NKYHFh5AtNlNIFx1Xd156b+8SUyU3MIzCmzNkRuO2XOmYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DBEMj2I/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lrA5QUGy"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 560C5C19421;
-	Sat,  4 Apr 2026 20:02:05 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DBEMj2I/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2251C19421;
+	Sat,  4 Apr 2026 20:58:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775332925;
-	bh=/JiyVizUMe9wSdqRZWW6fVbbnNxTVMDWZytcmkzNmcU=;
+	s=k20201202; t=1775336327;
+	bh=JjuMIdaMEdHQJUEtMAZ1M1peq0Edg56ahCnVKrCmJWM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lrA5QUGyJQ8bVQcBRmkgwJI7ZwBM9sJNU5eBGGV8qZnyWKaSUSqyBzu6LpN9GvD2U
-	 6PWqlaeorIT4jytNB3eRyedgLHY4vnZ6k6bamJalIPDMDVKAkMXdqMHg8VkCPk0dEQ
-	 qwq2SnCL0oc8kudZeUxGXqaFCTXar2+nndGXZcRnaxRguhK5GF4JD8E9XaMQvYQqZC
-	 EC3Tb2Z2do5VI+617ig9E5WWJc7V2bUnhUoVMAxoyrAwK/SW3I+5+Du2twxoMyWjf9
-	 cXG8+wX5CFQV5LXDpLImwNq0Qy+fCoBrWJbb4+EMp0GEby3i0RtmKpBUCX1He7oBSi
-	 jW3NCs6DwbfUA==
+	b=DBEMj2I/xb5UVjhrDP+WtqhL8610rRzEFHBaQ4FiiURHmjaHAGZVcdmKgatJmT7GZ
+	 8LdCLO1tNKZ3IDEcLD11AmZbUR8zQM7joWvk31sVOaRQnXxW0nY0C+nyrbdPlOi0h0
+	 Dw8dOjexIprwCdfLrHlcB3NqzPA31V+p8x79Xg5Ox5Jwq+KhNZyyTHgsa+qpHwqDhG
+	 KlkGxgwGq2P5Hi2fRZJ64JODvz+6j1KMkPDd5w8xKlJqEoRLh6gBC0EXg49EEGIE4L
+	 SMC9MHhd3ckYgqHh+cTK/BHNzI4GNVRrkgAHm8ZGH8+aPTF7g5Ch+wUfRu1dSi/EN+
+	 yaCI/JVKXBcRw==
 From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev,
 	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com,
-	kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 1/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
-Date: Sat,  4 Apr 2026 13:01:57 -0700
-Message-ID: <20260404200158.86020-1-sj@kernel.org>
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: (sashiko review) [RFC PATCH 3/9] Docs/mm/damon/design: document fail_charge_{num,denom}
+Date: Sat,  4 Apr 2026 13:58:35 -0700
+Message-ID: <20260404205837.87382-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260404012215.1539-2-ravis.opensrc@gmail.com>
+In-Reply-To: <20260404163943.89278-4-sj@kernel.org>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,46 +46,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Fri,  3 Apr 2026 18:22:15 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+Dropped individual Cc's except myself to reduce unnecessary traffic.  I
+initailly thought it would be good to keep Andrew in the Cc list, but even
+Andrew may not really interested in each sashiko review for RFC patch, so I
+dropped him from the list, too.
 
-> Add new quota goal metrics for memory tiering that track scheme-eligible
-> memory distribution across NUMA nodes:
-> 
-> - DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP: ratio of eligible memory on a node
-> - DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP: ratio of ineligible memory on a
->   node
-> 
-> These complementary metrics enable push-pull migration schemes that
-> maintain a target memory distribution across different NUMA nodes
-> representing different memory tiers, based on access patterns defined
-> by each scheme.
-> 
-> The metrics iterate scheme-eligible regions and use damon_get_folio()
-> to determine NUMA node placement of each folio, calculating the ratio
-> of eligible memory on the specified node versus total eligible memory.
-> 
-> The implementation is guarded by CONFIG_DAMON_PADDR since damon_get_folio()
-> is only available when physical address space monitoring is enabled.
-> 
-> Suggested-by: SeongJae Park <sj@kernel.org>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202603251034.978zcsQ2-lkp@intel.com/
+sashiko found issues.  I will fix those in the next revision.
 
-I think you don't need to add the Reported-by: and Closes: for bug that found
-before this patch is merged.  Could you please drop those?
+Forwarding sashiko review in a reply format with my inline
+comments below, for details of my view and doing discussions
+via mails if needed.
 
-> Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-> ---
->  include/linux/damon.h    |   6 ++
->  mm/damon/core.c          | 186 ++++++++++++++++++++++++++++++++++++---
->  mm/damon/sysfs-schemes.c |  12 +++
->  3 files changed, 190 insertions(+), 14 deletions(-)
-[...]
+> # review url: https://sashiko.dev/#/patchset/20260404163943.89278-4-sj@kernel.org
+> # start of sashiko.dev inline review
+> commit bab641e86f0e9820b2ac0a7d4ae493d23c4c50f4
+> Author: SeongJae Park <sj@kernel.org>
+> Docs/mm/damon/design: document fail_charge_{num,denom}
+> 
+> This commit updates the DAMON design document to explain the action-failed
+> memory charging ratio. It provides an example of how to calculate the
+> charged memory when an action fails for a portion of a region.
+> 
+> > diff --git a/Documentation/mm/damon/design.rst b/Documentation/mm/damon/design.rst
+> > index afc7d52bda2f7..01047e8431d17 100644
+> > --- a/Documentation/mm/damon/design.rst
+> > +++ b/Documentation/mm/damon/design.rst
+> > @@ -565,6 +565,27 @@ interface <sysfs_interface>`, refer to :ref:`weights <sysfs_quotas>` part of
+> >  the documentation.
+> >  
+> >  
+> > +.. _damon_design_damos_quotas_failed_memory_charging_ratio:
+> > +
+> > +Action-failed Memory Charging Ratio
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +DAMOS action to a given region can fail for sub subsets of the memory of the
+> 
+> This isn't a bug, but should "sub subsets" just be "some subsets" or
+> "subsets"?
 
-The code changes look good to me.  But, as I replied to the cover letter, I'd
-like to get sashiko review before giving my Reviewed-by:.  Could you please
-rebase this to the latest mm-new and repost for getting the sashiko review?
+Good eye.  I will fix this in the next revision.
+
+> 
+> > +region.  For example, if the action is ``pageout`` and the region has some
+> > +unreclaimable pages, applying the action to the pages will fail.  The amount of
+> > +system resource that is taken for such failed action applications is usually
+> > +different from that for successful action applications.  For such cases, users
+> > +can set different charging ratio for such failed memory.  The ratio can be
+> > +specified using ``fail_charge_num`` and ``fail_charge_denom`` parameters.  The
+> > +two parameters represent the numerator and denominator of the ratio.
+> > +
+> > +For example, let's suppose a DAMOS action is applied to a region of 1 GiB size.
+> > +The action is successfully applied to only 700 MiB of the region.
+> > +``fail_charge_num`` and ``fail_charge_denom`` are set to ``1`` and ``1024``,
+> > +respectively.  Then only 700 MiB and 300 KiB of size (``700 MiB + 300 MiB * 1 /
+> > +1024``) will be charged.
+> 
+> Is this calculation accurate? Since 1 GiB is 1024 MiB, if 700 MiB are
+> successfully applied, the remaining failed region would be 324 MiB rather
+> than 300 MiB. Does the example intentionally use 1 GiB = 1000 MiB, or should
+> the remaining portion be updated to 324 MiB?
+
+Nice finding.  I will fix this in the next revision.
 
 
 Thanks,
 SJ
+
+> 
+> 
+> # end of sashiko.dev inline review
+> # review url: https://sashiko.dev/#/patchset/20260404163943.89278-4-sj@kernel.org
+
+# hkml [1] generated a draft of this mail.  You can regenerate
+# this using below command:
+#
+#     hkml patch sashiko_dev --for_forwarding \
+#             20260404163943.89278-4-sj@kernel.org
+#
+# [1] https://github.com/sjp38/hackermail
