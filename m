@@ -1,120 +1,447 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A6D29DB6C
-	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 15:21:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3306A315D53
+	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 15:34:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775316064; cv=none; b=FX8bkMOzZoWKGL8U1/OQx8gkRtxgqSIQunvqsrMMQ9FBaJHT1lIxjQmKRq+J35UerypxoFnJpw8tt8Na0qWl+9UihMXND/7T3cG1DGE5QVs0QVlF3HJIBjMPeW9QrMRCJ1knSkL5houeDVhj/XnB7iio3bkWSVnA5aZ/lHAf5ag=
+	t=1775316875; cv=none; b=nyr44Li25k4VbPe5T2zz9s0Y2TG2YnJra900n9X3RjkWde7ajUiKEv/Nvk01+5TF/6ADBiDw40Mp28ZeOUqY+YvmF7yt0vV10atF89CO/XXI7XjserVTAhmeiWYkDMMJ8OvxOJUEIGwh73nzQQhWEAgV0sebZ/yO0n9lFIppa34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775316064; c=relaxed/simple;
-	bh=bwi3fwqRL2gMkBWbXUNgaSztWecB9cnkr2OnSeMSIqs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JqlenGHuW7rTgVv8kuxT1o0TpYPfd5nc5YxLCVNo3tRHWSNAXjO/Ja2dGd8U9cF+OfxN1zQyi4pnldZNmsox7Jtu+VMvROPxmIto1zYymEReZ3vDBbUt+2rvzmK4TfL1ZNkExbHGCXg5E1ltdRJ9G4hJJ9Yz3InX6iJbHuzMY/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OGanoOHp; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775316875; c=relaxed/simple;
+	bh=G6SnkhOr1As6FBry8Y9C+66hbGOqOMztZoUWLj98G3U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U/6IIKOlX4sorFP2wwbp8a6b/aGecjVL4+W4lPFX7K2kxfPuNoGGvWIYyM4iXf6BAigbeRBJN5qqb/HwcqbFBvvxxoelSqNMFyGxEuz3giDXKMLzH0XG1dXjuEZRrZfSI0U0xTwKIKJ4ntdYVxGO70hV4W/92M1yTnwU2D3UNjI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=I+7nU80C; arc=none smtp.client-ip=74.125.82.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OGanoOHp"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-483487335c2so27266985e9.2
-        for <linux-doc@vger.kernel.org>; Sat, 04 Apr 2026 08:21:02 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="I+7nU80C"
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1279eced0b9so3106481c88.0
+        for <linux-doc@vger.kernel.org>; Sat, 04 Apr 2026 08:34:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775316061; x=1775920861; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ya15IHYt9XPwJn5C1FMw2sI/phhivTNLETw1ZpFU9KY=;
-        b=OGanoOHp1Zebwnc8FiqdpONklWtKx06Rr45qyxbCocloiS8fxa8iA2zxTmNm/Qu7Wf
-         VN8M6Pr7OfHLyuyvXYEZ4EZ68bhyGem1zY6KrDcE7g7S6r26KeAiwEZo9b06n9Jtp6Rv
-         BxxulVNC0YiKuI4s99+yQfYr2J7LNeSXHag3RDmeZlTJzrmp3L/ZfskOtQKnOr0mUmjP
-         mk3iras8E6HQWO5Yj4VkGJcvDk8Qc3Bm1dACNRiz6mw/BXRt07cv/hkWsv0Fo+XMUyaf
-         7u954wAEsv9AOISAchZoazK0ZpZI7/a939lfNU4++L4MkxWVyI7PFJ5OiaxNu7q+Mo8f
-         s19g==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775316872; x=1775921672; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tNIG7oIixMtjXoOLBTF4Km9l7YWSSk5sSBtCTRK9+1s=;
+        b=I+7nU80CT2MQ5/bERnsTkyLfdhVcN2ESCof2BHYIjoDDHBjVa8UNBZAxjcQK6a++9K
+         8lBhyNrqkuOr/Jusy3y+iu8uiXkGEGrkSUoquTTzEBAQsFkL593viXszR1nDlRJ+y+5/
+         t5fVz/2Hjyff6rTcGR2/BjRKaMAe+F95LaGSYn3bZEh/V0iGLWgKPwGyLibnc5oXdFxb
+         Qa4HFHqUchQpp94JSFnf6LLjUuviztpedFWKEzHJxgDQWrhuGZwhr6LnF8XzS0TZ8YXy
+         XoiYJphm5pQvFOS1ehFJ8iEg/sEIRWGHK8gKNksdbCh6YD4sOv+Mr333XASrzPKiQMxt
+         fxHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775316061; x=1775920861;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ya15IHYt9XPwJn5C1FMw2sI/phhivTNLETw1ZpFU9KY=;
-        b=QBHiTyLRnU/PAO2Dhi3rent9UKWXnYowCriMPXojzcLuDhVTRYW8bzUSj2Y6evsmS8
-         54kPkYD+efxX/mWO1mUmuXpNJIeGvbx1lNwJBqqFGKhU/9REhvs45nycYipZTahuiLiN
-         Gf6lhrV5fDFTfcSVSM6mkvHrUejD9M0epg0HgmAxsSe5ZJ6fQFxZY+W4GPSNDpwp3Zrs
-         m2JE3x7z4sMxAtObmiL+2kp39yVs50eRcoV1HAp80PJ9r/wS46B+JkJ4GIwQ1mytTE6H
-         zRSB5QlyqfVVOQgByGo5kz10cmOJoJgn09UVypytk/oRyyBv0dgK+UBbyAPAUUuPsQfQ
-         0gSA==
-X-Forwarded-Encrypted: i=1; AJvYcCV38BEZYlphpFXxOEn9aDDSZDxoYlXG9aWUhkKxyjoRjdaUvVmN+XHi4mNklT6GNs2EQVAw2bi8Xjc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwixPouNgUxa36sgNpzHK2EsDHs7lpLhTaGJ9HEsPSm1IdYXj6e
-	T2mFNXVavnlNv1JXrXNKqyc25XM6ZFA0kekpYDpkAZhQXEeiI/D7Noj3
-X-Gm-Gg: AeBDieuszxALz378zLb9e1o/IuTIM+tP5zyRRwvPAWGY/qBDlrnNs56LK0hV+tTGOFZ
-	qi+93qkP/9wzUvPceRvHg1L1nuGQQlX9FLzazuHWy1o5SG2lsFIbJYq86ukAT5yiXhz+Yx18zLZ
-	c16h3HSTdsHaARwNMnEqZjxCNeRtl0ZhRRcv2gHOimXwVAzItkTdHcyq16Cz0xecVSAvdJUTMyk
-	gaD6yGKAkcKKzFxmDOAlVvO0hVoRERccmz/B7yw4uQ+TpiVYY5039bmiT+yH0w/hv/TXDU97q7f
-	yRkfDMMbtyjEy/0nTgk5ykVGRrSyFK8+iUc5+HS3a1xHWSvKCpt9cgN084mI69yzXqN7+xi20+L
-	r53Zo24ZNkGZmEnG3JJpcixIpNi2RkduXX+suBBz4KdQRIQeUFFe04SIFmTEsX4nR1ND5rOCB5m
-	XYDIMnImxXBsX1fVKT+C6zLIEZFvKqGA==
-X-Received: by 2002:a05:600c:4650:b0:488:9e54:94c8 with SMTP id 5b1f17b1804b1-4889e5496acmr44565465e9.31.1775316061052;
-        Sat, 04 Apr 2026 08:21:01 -0700 (PDT)
-Received: from pumpkin ([31.55.121.85])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e4e5890sm25182762f8f.31.2026.04.04.08.21.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 04 Apr 2026 08:21:00 -0700 (PDT)
-Date: Sat, 4 Apr 2026 16:20:59 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov
- <nik.borisov@suse.com>, "H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf
- <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, Sean
- Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, Dave
- Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra
- <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>, Daniel
- Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, KP
- Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, "David S. Miller"
- <davem@davemloft.net>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner
- <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, David Ahern
- <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, Eduard
- Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, Yonghong Song
- <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo
- Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, kvm@vger.kernel.org, Asit Mallick
- <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
- bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 00/10] VMSCAPE optimization for BHI variant
-Message-ID: <20260404162059.34ca90df@pumpkin>
-In-Reply-To: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com>
-References: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        d=1e100.net; s=20251104; t=1775316872; x=1775921672;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tNIG7oIixMtjXoOLBTF4Km9l7YWSSk5sSBtCTRK9+1s=;
+        b=srKY1TyFWhGrj6lFaF/pkjxdQyKVYfWv4o3XUpSsXhjlX2A7zILsQiYSa+vPrN6k6K
+         IBSzblfWgkl7cKkK78CJWF9KuEFnvLWzdMoTnMDBwJUrNvKYV9NH/BtIiO2RylUuGknz
+         iwKh1JOYJwg6scsldgncITMc2RIng/qZetVQ+vbvfM524kYFOEDq5iHoHRyOnVDcPCl0
+         EcKtZqvkXCUR8gKm6i6hUJVHfTSUHJTpPixgYG6LF9vWW6YOb5dmUBQy1a7slE5Nz4xm
+         NYjt0bKDARik5TjvfQdRMZaMDqyym10LbTutpJSnVzNZZiso8RYUYIl2Dxs2mQ/hArhU
+         VXZw==
+X-Forwarded-Encrypted: i=1; AJvYcCVzfw1whxZOhc+vl+JsQdcQx44TgK1GxoZkXxU5ESuqSqMoFAV0VvXinJV3z/ctZXSnwW3z0txCXrw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyUKNcBV/UvN657LTiq3mcsUELOACIIcHKLfWvB5wzfW6SwjgEz
+	WcjmzjgAFl01lYLeNJnBekNtNd+ieTjcmWt+MROWwoomSJag8jLScc0Cp5scMpMwAY8=
+X-Gm-Gg: AeBDiesczy06IZJMTtsa+jpNupG16yG1X4DvQMtnuIvK4dc1qGT17FmtNR+xBP6G1my
+	8Q5taXPmI9ehKK6ZE9nUoKh7dGnohdsrProUGycosjdNamApveICxDzZMd72fQK3/20jGv0SKSH
+	r274+YGBnARNyjQACsMDpQ2bLW/ttmMTYAvrTrsY2Q6iTvjOd1/slP5pFmDXaJc7Yfw7nLfalzw
+	JjXU1rs529M69LdQpqJ+1R8bPFk7NhzRWhQ9BJ1KjFxi0VDPQxWAPAFNLfsKTqiJ47xH6rDJLGL
+	RBf+ieexiQ0BzetdfWtE9JAheVGkElbAKEO8bg9EtgloTiSxld2jaGqSfoHfHAUYWowPuXrYIx2
+	T8QN2Of7sPaK8REf8PV4sn4443auhxCWNrNLpTwQu1zpKb4K6shbN481wg+zlVo04q6s1RR4X3X
+	AJ0+1S3Q6xFJCIcxOL3H5YYihZFGtvU1g1lZhcWN+6lqwERO8wk8GQw3NJSjRD2tWscVz/Kogxa
+	g==
+X-Received: by 2002:a05:7022:e09:b0:11a:342e:8a98 with SMTP id a92af1059eb24-12bfb63267fmr3266514c88.0.1775316872075;
+        Sat, 04 Apr 2026 08:34:32 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:e14e:bcc6:3f95:26eb? ([2600:8803:e7e4:500:e14e:bcc6:3f95:26eb])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bedd4e623sm7107228c88.3.2026.04.04.08.34.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Apr 2026 08:34:31 -0700 (PDT)
+Message-ID: <1d0d41c8-7867-4459-a91a-a2c6774b1885@baylibre.com>
+Date: Sat, 4 Apr 2026 10:34:29 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/4] iio: adc: ad4691: add SPI offload support
+To: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260403-ad4692-multichannel-sar-adc-driver-v6-0-fa2a01a57c4e@analog.com>
+ <20260403-ad4692-multichannel-sar-adc-driver-v6-4-fa2a01a57c4e@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260403-ad4692-multichannel-sar-adc-driver-v6-4-fa2a01a57c4e@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2 Apr 2026 17:30:32 -0700
-Pawan Gupta <pawan.kumar.gupta@linux.intel.com> wrote:
+On 4/3/26 6:03 AM, Radu Sabau via B4 Relay wrote:
+> From: Radu Sabau <radu.sabau@analog.com>
+> 
+> Add SPI offload support to enable DMA-based, CPU-independent data
+> acquisition using the SPI Engine offload framework.
+> 
+> When an SPI offload is available (devm_spi_offload_get() succeeds),
+> the driver registers a DMA engine IIO buffer and uses dedicated buffer
+> setup operations. If no offload is available the existing software
+> triggered buffer path is used unchanged.
+> 
+> Both CNV Burst Mode and Manual Mode support offload, but use different
+> trigger mechanisms:
+> 
+> CNV Burst Mode: the SPI Engine is triggered by the ADC's DATA_READY
+> signal on the GP pin specified by the trigger-source consumer reference
+> in the device tree (one cell = GP pin number 0-3). For this mode the
+> driver acts as both an SPI offload consumer (DMA RX stream, message
+> optimization) and a trigger source provider: it registers the
+> GP/DATA_READY output via devm_spi_offload_trigger_register() so the
+> offload framework can match the '#trigger-source-cells' phandle and
+> automatically fire the SPI Engine DMA transfer at end-of-conversion.
+> 
+> Manual Mode: the SPI Engine is triggered by a periodic trigger at
+> the configured sampling frequency. The pre-built SPI message uses
+> the pipelined CNV-on-CS protocol: N+1 4-byte transfers are issued
+> for N active channels (the first result is discarded as garbage from
+> the pipeline flush) and the remaining N results are captured by DMA.
+> 
+> All offload transfers use 32-bit frames (bits_per_word=32, len=4) for
+> DMA word alignment. This patch promotes the channel scan_type from
+> storagebits=16 (triggered-buffer path) to storagebits=32 to match the
+> DMA word size; the triggered-buffer paths are updated to the same layout
+> for consistency. CNV Burst Mode channel data arrives in the lower 16
+> bits of the 32-bit word (shift=0); Manual Mode data arrives in the upper
+> 16 bits (shift=16), matching the 4-byte SPI transfer layout
+> [data_hi, data_lo, 0, 0]. A separate ad4691_manual_channels[] array
+> encodes the shift=16 scan type for manual mode.
+> 
+> Add driver documentation under Documentation/iio/ad4691.rst covering
+> operating modes, oversampling, reference voltage, SPI offload paths,
+> and buffer data layout; register in MAINTAINERS and index.rst
 
-> v9:
-> - Use global variables for BHB loop counters instead of ALTERNATIVE-based
->   approach. (Dave & others)
-> - Use 32-bit registers (%eax/%ecx) for loop counters, loaded via movzbl
->   from 8-bit globals. 8-bit registers (e.g. %ah in the inner loop) caused
->   performance regression on certain CPUs due to partial-register stalls. (David Laight)
-> - Let BPF save/restore %rax/%rcx as in the original implementation, since
->   it is the only caller that needs these registers preserved across the
->   BHB clearing sequence.
+Documentation should be separate patch. It covers more than just SPI
+offload.
 
-That is as dangerous as hell...
-Does BPF even save %rcx - I'm sure I checked that a long time ago
-and found it didn't.
-(I'm mostly AFK over Easter and can't check.)
-A least there should be a blood great big comment that BPF calls this code
-and only saves specific registers.
-But given the number of mispredicted branches and other pipeline stalls
-in this code a couple of register saves to stack are unlikely to make
-any difference.
+> 
+> Kconfig gains a dependency on IIO_BUFFER_DMAENGINE.
+> 
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> ---
+>  Documentation/iio/ad4691.rst | 259 ++++++++++++++++++++++++++
+>  Documentation/iio/index.rst  |   1 +
+>  MAINTAINERS                  |   1 +
+>  drivers/iio/adc/Kconfig      |   1 +
+>  drivers/iio/adc/ad4691.c     | 422 ++++++++++++++++++++++++++++++++++++++++++-
+>  5 files changed, 676 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/iio/ad4691.rst b/Documentation/iio/ad4691.rst
+> new file mode 100644
+> index 000000000000..36f0c841605a
+> --- /dev/null
+> +++ b/Documentation/iio/ad4691.rst
+> @@ -0,0 +1,259 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=============
+> +AD4691 driver
+> +=============
+> +
+> +ADC driver for Analog Devices Inc. AD4691 family of multichannel SAR ADCs.
+> +The module name is ``ad4691``.
+> +
+> +
+> +Supported devices
+> +=================
+> +
+> +The following chips are supported by this driver:
+> +
+> +* `AD4691 <https://www.analog.com/en/products/ad4691.html>`_ — 16-channel, 500 kSPS
+> +* `AD4692 <https://www.analog.com/en/products/ad4692.html>`_ — 16-channel, 1 MSPS
+> +* `AD4693 <https://www.analog.com/en/products/ad4693.html>`_ — 8-channel, 500 kSPS
+> +* `AD4694 <https://www.analog.com/en/products/ad4694.html>`_ — 8-channel, 1 MSPS
+> +
+> +
+> +IIO channels
+> +============
+> +
+> +Each physical ADC input maps to one IIO voltage channel. The AD4691 and AD4692
+> +expose 16 channels (``voltage0`` through ``voltage15``); the AD4693 and AD4694
+> +expose 8 channels (``voltage0`` through ``voltage7``).
+> +
+> +All channels share a common scale (``in_voltage_scale``), derived from the
+> +reference voltage. Each channel independently exposes:
+> +
+> +* ``in_voltageN_raw`` — single-shot ADC result
+> +* ``in_voltageN_sampling_frequency`` — internal oscillator frequency used for
 
-	David
+As mentioned in another patch, sampling_frquency != osciallator frequency when
+oversampling ratio != 1. So this needs to be changed to reflect that.
 
+> +  single-shot reads and CNV Burst Mode buffered captures
+> +* ``in_voltageN_sampling_frequency_available`` — list of valid oscillator
+> +  frequencies
+> +* ``in_voltageN_oversampling_ratio`` — per-channel hardware accumulation depth
+> +* ``in_voltageN_oversampling_ratio_available`` — list of valid ratios
+> +
+> +
+> +Operating modes
+> +===============
+> +
+> +The driver supports two operating modes, auto-detected from the device tree at
+> +probe time. Both modes transition to and from an internal Autonomous Mode idle
+> +state when the IIO buffer is enabled and disabled.
+> +
+> +Manual Mode
+> +-----------
+> +
+> +Selected when no ``pwms`` property is present in the device tree. The CNV pin
+> +is tied to the SPI chip-select: every CS assertion both triggers a new
+> +conversion and returns the result of the previous one (pipelined N+1 scheme).
+> +
+> +To read N channels the driver issues N+1 SPI transfers in a single optimised
+> +message:
+> +
+> +* Transfers 0 to N-1 each carry ``AD4691_ADC_CHAN(n)`` in the TX byte to
+> +  select the next channel; the RX byte of transfer ``k+1`` contains the result
+> +  of the channel selected in transfer ``k``.
+> +* Transfer N is a NOOP (0x00) to flush the last conversion result out of the
+> +  pipeline.
+> +
+> +The external IIO trigger (``pollfunc_store_time``) drives the trigger handler,
+
+I'm not sure "external" is the best word to describe this. I would say a "user-
+defined IIO triger (e.g. hrtimer trigger)".
+
+> +which executes the pre-built SPI message and pushes the scan to the buffer.
+> +
+> +CNV Burst Mode
+> +--------------
+> +
+> +Selected when a ``pwms`` property is present in the device tree. The PWM drives
+> +the CNV pin independently of SPI at the configured conversion rate, and a GP
+> +pin (identified by ``interrupt-names``) asserts DATA_READY at end-of-burst to
+> +signal that the AVG_IN result registers are ready to be read.
+> +
+> +The IRQ handler stops the PWM, fires the IIO trigger, and the trigger handler
+
+If we stop the PWM after an IRQ, then we don't get a consistent sample rate.
+Ideally, we would leave the PWM running and just pick a rate slow enough that
+there is plenty of time to read the data. Otherwise, this mode doesn't seem
+particularly useful.
+
+> +reads all active ``AVG_IN(n)`` registers in a single optimised SPI message and
+> +pushes the scan to the buffer.
+> +
+> +The buffer sampling frequency (i.e. the PWM rate) is controlled by the
+> +``sampling_frequency`` attribute on the IIO buffer. Valid values span from the
+> +chip's minimum oscillator rate up to its maximum conversion rate
+> +(500 kSPS for AD4691/AD4693, 1 MSPS for AD4692/AD4694).
+
+Valid, but not usable without SPI offload.
+
+> +
+> +Autonomous Mode (idle / single-shot)
+> +-------------------------------------
+> +
+> +The chip idles in Autonomous Mode whenever the IIO buffer is disabled. In this
+> +state, ``read_raw`` requests (``in_voltageN_raw``) use the internal oscillator
+> +to perform a single conversion on the requested channel and read back the
+> +result from the ``AVG_IN(N)`` register. The oscillator is started and stopped
+> +for each read to save power.
+> +
+> +
+> +Oversampling
+> +============
+> +
+> +Each channel has an independent hardware accumulator (ACC_DEPTH_IN) that
+> +averages a configurable number of successive conversions before DATA_READY
+> +asserts. The result is always returned as a 16-bit mean from the ``AVG_IN``
+> +register, so the IIO ``realbits`` and ``storagebits`` are unaffected by the
+> +oversampling ratio.
+> +
+> +Valid ratios are 1, 2, 4, 8, 16 and 32. The default is 1 (no averaging).
+> +
+> +.. code-block:: bash
+> +
+> +    # Set oversampling ratio to 16 on channel 0
+> +    echo 16 > /sys/bus/iio/devices/iio:device0/in_voltage0_oversampling_ratio
+> +
+> +When OSR > 1 the effective conversion rate for ``read_raw`` is reduced
+> +accordingly, since the driver waits for 2 × OSR oscillator periods before
+> +reading the result.
+> +
+> +
+> +Reference voltage
+> +=================
+> +
+> +The driver supports two reference configurations, mutually exclusive:
+> +
+> +* **External reference** (``ref-supply``): a voltage between 2.4 V and 5.25 V
+> +  supplied externally. The internal reference buffer is disabled.
+> +* **Buffered internal reference** (``refin-supply``): An internal reference
+> +  buffer is used. The driver enables ``REFBUF_EN`` in the REF_CTRL register
+> +  when this supply is used.
+> +
+> +Exactly one of ``ref-supply`` or ``refin-supply`` must be present in the
+> +device tree.
+> +
+> +The reference voltage determines the full-scale range:
+> +
+> +.. code-block::
+> +
+> +    full-scale = Vref / 2^16  (per LSB)
+> +
+> +
+> +LDO supply
+> +==========
+> +
+> +The chip contains an internal LDO that powers part of the analog front-end.
+> +The LDO input can be driven externally via the ``ldo-in-supply`` regulator. If
+> +that supply is absent, the driver enables the internal LDO path (``LDO_EN``
+> +bit in DEVICE_SETUP).
+> +
+> +
+> +Reset
+> +=====
+> +
+> +The driver supports two reset mechanisms:
+> +
+> +* **Hardware reset** (``reset-gpios`` in device tree): the GPIO is already
+> +  asserted at driver probe by the reset controller framework. The driver waits
+> +  for the required 300 µs reset pulse width and then deasserts.
+> +* **Software reset** (fallback when ``reset-gpios`` is absent): the driver
+> +  writes the software-reset pattern to the SPI_CONFIG_A register.
+> +
+> +
+> +GP pins and interrupts
+> +======================
+> +
+> +The chip exposes up to four general-purpose (GP) pins that can be configured as
+> +interrupt outputs. In CNV Burst Mode (non-offload), one GP pin must be wired to
+
+Or trigger sources.
+
+> +an interrupt-capable SoC input and declared in the device tree using the
+> +``interrupts`` and ``interrupt-names`` properties.
+> +
+> +The ``interrupt-names`` value identifies which GP pin is used (``"gp0"``
+> +through ``"gp3"``). The driver configures that pin as a DATA_READY output in
+> +the GPIO_MODE register.
+> +
+> +Example device tree fragment::
+> +
+> +    adc@0 {
+> +        compatible = "adi,ad4692";
+> +        ...
+> +        interrupts = <17 IRQ_TYPE_LEVEL_HIGH>;
+> +        interrupt-parent = <&gpio0>;
+> +        interrupt-names = "gp0";
+> +    };
+> +
+> +
+> +SPI offload support
+> +===================
+> +
+> +When a SPI offload engine (e.g. the AXI SPI Engine) is present, the driver
+> +uses DMA-backed transfers for CPU-independent, high-throughput data capture.
+> +SPI offload is detected automatically at probe via ``devm_spi_offload_get()``;
+> +if no offload hardware is available the driver falls back to the software
+> +triggered-buffer path.
+> +
+> +Two SPI offload sub-modes exist, corresponding to the two operating modes:
+> +
+> +CNV Burst offload
+> +-----------------
+> +
+> +Used when a ``pwms`` property is present and SPI offload is available.
+> +
+> +The PWM drives CNV at the configured rate. On DATA_READY the SPI offload
+> +engine automatically executes a pre-built message that reads all active
+> +``AVG_IN`` registers and streams the data directly to an IIO DMA buffer with
+> +no CPU involvement. A final state-reset transfer re-arms DATA_READY for the
+> +next burst.
+> +
+> +The GP pin used as DATA_READY trigger is supplied by the trigger-source
+> +consumer (via ``#trigger-source-cells``) at buffer enable time; no
+> +``interrupt-names`` entry is required in this path.
+> +
+> +The buffer sampling frequency is controlled by the ``sampling_frequency``
+> +attribute on the IIO buffer (same as the non-offload CNV Burst path).
+> +
+> +Manual offload
+> +--------------
+> +
+> +Used when no ``pwms`` property is present and SPI offload is available.
+> +
+> +A periodic SPI offload trigger controls the conversion rate. On each trigger
+> +period, the SPI engine executes an N+1 transfer message (same pipelined scheme
+
+How does this work with oversampling?
+
+> +as software Manual Mode) and streams the data directly to the IIO DMA buffer.
+> +
+> +The ``sampling_frequency`` attribute on the IIO buffer controls the trigger
+> +rate (in Hz). The default is the chip's maximum conversion rate.
+> +
+> +
+> +Buffer data format
+> +==================
+> +
+> +The IIO buffer data format (``in_voltageN_type``) depends on the active path:
+> +
+> ++-------------------------+-------------+-------------+-------+
+> +| Path                    | storagebits | realbits    | shift |
+> ++=========================+=============+=============+=======+
+> +| Triggered buffer        | 16          | 16          | 0     |
+> ++-------------------------+-------------+-------------+-------+
+> +| CNV Burst offload (DMA) | 32          | 16          | 0     |
+> ++-------------------------+-------------+-------------+-------+
+> +| Manual offload (DMA)    | 32          | 16          | 16    |
+> ++-------------------------+-------------+-------------+-------+
+> +
+> +In the triggered-buffer path the driver unpacks the 16-bit result in software
+> +before pushing to the buffer, so ``storagebits`` is 16.
+> +
+> +In the DMA offload paths the DMA engine writes 32-bit words directly into the
+> +IIO DMA buffer:
+> +
+> +* **CNV Burst offload**: the SPI engine reads AVG_IN registers with a 2-byte
+> +  address phase followed by a 2-byte data phase; the 16-bit result lands in
+> +  the lower half of the 32-bit word (``shift=0``).
+> +* **Manual offload**: each 32-bit SPI word carries the channel byte in the
+> +  first byte; the 16-bit result is returned in the upper half of the 32-bit
+
+I would expect the "first" byte to be in the "upper half" of the 32-bits as
+well. This layout could be explained better.
+
+Also, since extra data has to be read in this mode, does this affect the max
+conversion rate?
+
+> +  word (``shift=16``).
+> +
+> +The ``in_voltageN_type`` sysfs attribute reflects the active scan type.
+> +
+> +
+> +Unimplemented features
+> +======================
+> +
+> +* GPIO controller functionality of the GP pins
+> +* Clamp status and overrange events
+> +* Raw accumulator (ACC_IN) and accumulator status registers
+> +* ADC_BUSY and overrun status interrupts
