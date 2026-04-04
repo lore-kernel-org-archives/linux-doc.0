@@ -1,326 +1,104 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C486B353EDF
-	for <linux-doc@vger.kernel.org>; Fri,  3 Apr 2026 23:40:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775259611; cv=pass; b=cKZONCXt5ZQkZYkWA75sxTM9+eAt6zEvqyLR0yGc4uO0rLop7zAlJQLmP71qpTVvaXatFktF7eyIH2RKw/A25IYI54geeXks4fRzVPlKGekOLfftH5WYKSRDAH+wfCsOFacwpLenXu+RlCyeL3DeShxRwgk3pENWA4Xpv18FVO4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775259611; c=relaxed/simple;
-	bh=HcrCXVEhPGMRQ1VVj2TU6WqtVF29jKazA7i8frKk+vw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cXRjSLOKkuqdUxMT6VV3K5btAun180+vattiGBlgA0uga398r9hecfS8Jyu+bTT77KJxMqMIGfVAet+JcS+PLfXNEdrFi0tradD2ms1zJjT3geNvcHKSZ6FIjbUVVQe3Qj1wQ/Meuw+2wqC3f+nMrM2JXosVzIh5fZlDi+5BIG0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tPanP8/W; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0D71A6805
+	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 00:16:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775261808; cv=none; b=LigN0zn0jAx2vrwdk866KaUSp6527DanGpY4EiU4RJ5q+yNl0+sgy6z0aj93nkYH94c1fQUIxg6vNhCLhxO7Mkt1kpvEPX2Q5Zjrst/mOCWOBl/+O37ZOMtkHWpJiKpu3Vg+UfYLzi99tM+quyIJTUwZNFF0aWu8z8nGbZah4HE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775261808; c=relaxed/simple;
+	bh=2ZuAxZKra84U0yan52Lq8/tyvosaSbUH/3SCbzzMkyE=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ImsQ96qM/nGw8pHjJtDIgATf5GUDqI2ttu1ukvsHl2iN+PZvbF1/bGUXVn2mwUlAp3JfRlff0+Sb4PQiMM94JI8yybWCZDQ0X73dU3WQgENJIbdzL4vxHafG3nNTcVVjK86MRewEVYKIGJvnk8j7lcOlKav2RkSS2lzGDrCk9XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PNI5ctbQ; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tPanP8/W"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-66bb7118c96so15352a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 03 Apr 2026 16:40:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775259608; cv=none;
-        d=google.com; s=arc-20240605;
-        b=K2E/FFqsASZkZT+HMHiZJyGAlGngHsAWoh9ddQph04tszc42nstovLDX2eVEI8sEdp
-         PbtEAF/gMAITzz9LluN+H6rbKR96nQaRmz267GsmwcQ37aUtEeh+OL74B0Z6ICuZfPuQ
-         UnH102PB8i4yhIYBiVpVXEA/ezC2FS17lBUvFUitvT7XlB23vHYP8QjO/Cw61RMtYo9O
-         P1YfHbEoKBb6JnzK8QbhNnCWxYVPqSPpH+i7m847m8ccnSZQMP3aWY2peSf0bAaak2ZD
-         uH091ZEFPVVvLThWfDjyz9XAUeWJegM1z9/Ty6SQsk7VtAsk3iUsZUehB2eFCWKxxAtd
-         NkLg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hcQ7pBBGQdT00MFQFDOu6XZRzM8maojAqkD2FxkveKM=;
-        fh=0haV1B68NXbiqX6mYFavnrSN4VqafkCW9BTlRmpYbm8=;
-        b=B+NrR64NVgBMu0NTOG00fF29XksfMEUEO7LJodCFpBrIQuEiZDXlXm1sSX/f00tw2X
-         ORqpB5ojcrHRx2lTprExBubp/u20bfRIkza5JVe5lwXnRYokMPg2/hOWKbYMEiWoEfLd
-         l9Ln6kbyQpXqWkP6Zm4Ktle3Dx+ohzuSgRc0+iRrw2DQnX+nCUg1VLIo81BfQOGLnu+g
-         /UfSKxHAPCrkAePkPwxHyvULvPJPtXzLVtxJNyileJwYOBBuY7257pLzSRqPyM1ftsoj
-         YWtz+yI8IwObWoQo1HikMWUBIep0NOkzFPJabfvDZlTQUr00qoMLGwwAM3U/jZStX/hS
-         n8wA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775259608; x=1775864408; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hcQ7pBBGQdT00MFQFDOu6XZRzM8maojAqkD2FxkveKM=;
-        b=tPanP8/Wku52brNPPJwPSZ7ayet4DtoZHU8ZMSUVvGWK4hbJ2OtYnX/WzSppIgy3Kb
-         3v9I0XshJpQT0WvAU884LYUDA9Jk8RhvCfWUX+WDHPg6RedVYkHYGULMlSJn0/7swctc
-         ogwj2rlrk16nZK5TZmRc4h/NeipJ3+xUF7FuUxQ9K2sa8R4CG1QaAbkryFPosDChlvpY
-         /F6RI9WJPvIVYmPsuvGXsJDiMNLkCAf0A84C6eamnhBohLUwJ5uMqSXssJBxjYDMWxTO
-         igSkphxX1OBLfajl6P53c0eWv6T+D7f+1e7FcCQJZGxD4xl4XRCDvzNBsBpBtBak0nVu
-         q+Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775259608; x=1775864408;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hcQ7pBBGQdT00MFQFDOu6XZRzM8maojAqkD2FxkveKM=;
-        b=L8G3JFb7Ehe265dw/b2mxsz95KDUV9vwNXP9/qXbxt6eu6PNiyt8EMCyf+tzYK3bt0
-         M0U+vM2DRm1vgdQFVHaKOReA1VddiIgJEKMq5tN8bi9ZLCszXmYP3u8agev9a2GQOh33
-         auB/OaL3akx1n2wNmjeoCO7IwzHHarxZWotsIS6gYBbIlVGCtYh2c+TNi6ve0czT++ni
-         BePe9kqLcjhjHqxgxvlLWlMG5a6ZH6iyDE/8V4pwIskvQ/pZzqu9laDvKjxJn3+O8uch
-         0omSieqcokm6FpRW6ijqPE+HdncFU8I0jgHuv14YgHQ4CxRSO9TJjXTWac6XEBY1vvhG
-         Jxcg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvqDUJW0DNtFd6WQ2qO/PZ76oJnU4zTgujwnFqRDjUiEjR8L1Lrd+TVcMs5uJhjt43LAlrczjdhGQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyDhtYwf9ZArtrvLwQQIZlEH+Fe467yhcyL3WgUw1JQbEE3SJVA
-	3BB5Kyf8Fk0qram02RZrrRHxdURR1Qg0KksB+kNIFDs9kahon3fFD/2Pn16fM8jVxg8blB8Qt3d
-	Y82igwi0SbRXUvC0msMVhs9H6cBx2jbOgnKZ92LmL
-X-Gm-Gg: AeBDieuRzuiYrymqQ+8JXqI/t1A8r+1GkVrlDZx/xGdEhAtFEMKuKGXrAwAF3WY2FEB
-	yqSf1Xj04DN79hB+cvhtAEJ2mVWZBzCsThMCUiZphlDj1+IDcyPn5yjH32QNhHuRyVT/IZWExfI
-	0njT8SwclwX7R3OtvlPICTcBYE6j2NYfG/BPEL9tzywzPuaRCN3q3M5DRsQHPmE+IsJrHV/WO8+
-	/zNk/QUqxkYGO9/RorAmXNmFBBPkzOxbzLRl4pWWWPZitq7PAonX2onm4dkh9jiAd0WfIFgekIZ
-	hNQystXNw0xqqbJ4lQ==
-X-Received: by 2002:a50:fa85:0:b0:66b:b4da:a8b0 with SMTP id
- 4fb4d7f45d1cf-66e4136b3b3mr57100a12.8.1775259607451; Fri, 03 Apr 2026
- 16:40:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PNI5ctbQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775261807; x=1806797807;
+  h=date:from:to:cc:subject:message-id;
+  bh=2ZuAxZKra84U0yan52Lq8/tyvosaSbUH/3SCbzzMkyE=;
+  b=PNI5ctbQ5hEWM67ju8VEH1FVSwj38eW6rCCEAynyOiIJC59Boiz4faS6
+   Bgmz9l4GQFXFd1xxywqGATEjxUxlf8Fm+ZPYurHQcydPVQanqaTbf//5x
+   gr0frZyIZio7GyQDD70WU2WRFd85mltSSFr0PJggDs3FCUAdZcAThKNZr
+   aK98eLZV27NK5GgJi6mzYus0luleRoHjr6V19b3s3Tos42ADj8tSNd2+B
+   E7KP1jUvBiwjfeDeHBXyLpaoLIKT+7aRvy70L5jzGVT/rKbn3KojpXKD8
+   OC7YmolBc8PgcLQD4FmSFBEAAHJRYrj3KXAchRpX6SgQmJ/TEbXJZO660
+   Q==;
+X-CSE-ConnectionGUID: vzkr4OqzTO2/O+O/UjurYw==
+X-CSE-MsgGUID: OFWtnn3JQUate1YgxhXVLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="86622806"
+X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
+   d="scan'208";a="86622806"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 17:16:46 -0700
+X-CSE-ConnectionGUID: GpKG+yZFTqmSIyVC5lplVg==
+X-CSE-MsgGUID: wCjyIOnNT+6Z2IBUyWXmXQ==
+X-Ironport-Invalid-End-Of-Message: True
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
+   d="scan'208";a="231758203"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa004.jf.intel.com with ESMTP; 03 Apr 2026 17:16:45 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1w8ogs-000000009RV-3K6I;
+	Sat, 04 Apr 2026 00:16:42 +0000
+Date: Sat, 04 Apr 2026 02:16:33 +0200
+From: kernel test robot <lkp@intel.com>
+To: Paul Walmsley <pjw@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [riscv:for-next 24/45] htmldocs:
+ Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-string
+ without end-string. [docutils]
+Message-ID: <202604040216.ea9oBMct-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com>
- <20260402-vmscape-bhb-v9-2-94d16bc29774@linux.intel.com> <CALMp9eSLVvr00mJ0J2f2_SPeCW-VS58kxMcxHgUW6etML+_+QA@mail.gmail.com>
- <20260403185236.sjgetnkha3o3a4d3@desk> <CALMp9eSPkMpKQELTnsaj6=gXD+EyE0n2_p93n4maDc93bPFe+w@mail.gmail.com>
- <20260403213445.xzb4rxbfbg5un7li@desk> <CALMp9eSXfJvR=PHtttbqm3q3nH436T1eH4YdpVqxQeP-cxEPsA@mail.gmail.com>
- <20260403231608.zopnhnypdclzqlx7@desk> <CALMp9eT2vJBdLPY2uBYrPgVrhS_aYmfGfdXe6MZXG_gyryLHVA@mail.gmail.com>
- <20260403233329.fb2ppifgwm3um6ny@desk>
-In-Reply-To: <20260403233329.fb2ppifgwm3um6ny@desk>
-From: Jim Mattson <jmattson@google.com>
-Date: Fri, 3 Apr 2026 16:39:54 -0700
-X-Gm-Features: AQROBzBwB-MmiVC9qntaiDO7zONP8-AQ5DjQ5a_dZ86oZYEi-UAJgB7XA5W8Af0
-Message-ID: <CALMp9eTpsenqsWjzmpXLEubn9uNjgZgzgrMwtZ72HDuV_2xgfg@mail.gmail.com>
-Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
-	Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, David Laight <david.laight.linux@gmail.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	David Ahern <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, chao.gao@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 3, 2026 at 4:33=E2=80=AFPM Pawan Gupta
-<pawan.kumar.gupta@linux.intel.com> wrote:
->
-> On Fri, Apr 03, 2026 at 04:22:28PM -0700, Jim Mattson wrote:
-> > On Fri, Apr 3, 2026 at 4:16=E2=80=AFPM Pawan Gupta
-> > <pawan.kumar.gupta@linux.intel.com> wrote:
-> > >
-> > > On Fri, Apr 03, 2026 at 02:59:33PM -0700, Jim Mattson wrote:
-> > > > On Fri, Apr 3, 2026 at 2:34=E2=80=AFPM Pawan Gupta
-> > > > <pawan.kumar.gupta@linux.intel.com> wrote:
-> > > > >
-> > > > > On Fri, Apr 03, 2026 at 01:19:17PM -0700, Jim Mattson wrote:
-> > > > > > On Fri, Apr 3, 2026 at 11:52=E2=80=AFAM Pawan Gupta
-> > > > > > <pawan.kumar.gupta@linux.intel.com> wrote:
-> > > > > > >
-> > > > > > > On Fri, Apr 03, 2026 at 11:10:08AM -0700, Jim Mattson wrote:
-> > > > > > > > On Thu, Apr 2, 2026 at 5:32=E2=80=AFPM Pawan Gupta
-> > > > > > > > <pawan.kumar.gupta@linux.intel.com> wrote:
-> > > > > > > > >
-> > > > > > > > > As a mitigation for BHI, clear_bhb_loop() executes branch=
-es that overwrite
-> > > > > > > > > the Branch History Buffer (BHB). On Alder Lake and newer =
-parts this
-> > > > > > > > > sequence is not sufficient because it doesn't clear enoug=
-h entries. This
-> > > > > > > > > was not an issue because these CPUs use the BHI_DIS_S har=
-dware mitigation
-> > > > > > > > > in the kernel.
-> > > > > > > > >
-> > > > > > > > > Now with VMSCAPE (BHI variant) it is also required to iso=
-late branch
-> > > > > > > > > history between guests and userspace. Since BHI_DIS_S onl=
-y protects the
-> > > > > > > > > kernel, the newer CPUs also use IBPB.
-> > > > > > > > >
-> > > > > > > > > A cheaper alternative to the current IBPB mitigation is c=
-lear_bhb_loop().
-> > > > > > > > > But it currently does not clear enough BHB entries to be =
-effective on newer
-> > > > > > > > > CPUs with larger BHB. At boot, dynamically set the loop c=
-ount of
-> > > > > > > > > clear_bhb_loop() such that it is effective on newer CPUs =
-too. Use the
-> > > > > > > > > X86_FEATURE_BHI_CTRL feature flag to select the appropria=
-te loop count.
-> > > > > > > > >
-> > > > > > > > > Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> > > > > > > > > Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel=
-.com>
-> > > > > > > > > ---
-> > > > > > > > >  arch/x86/entry/entry_64.S            |  8 +++++---
-> > > > > > > > >  arch/x86/include/asm/nospec-branch.h |  2 ++
-> > > > > > > > >  arch/x86/kernel/cpu/bugs.c           | 13 +++++++++++++
-> > > > > > > > >  3 files changed, 20 insertions(+), 3 deletions(-)
-> > > > > > > > >
-> > > > > > > > > diff --git a/arch/x86/entry/entry_64.S b/arch/x86/entry/e=
-ntry_64.S
-> > > > > > > > > index 3a180a36ca0e..bbd4b1c7ec04 100644
-> > > > > > > > > --- a/arch/x86/entry/entry_64.S
-> > > > > > > > > +++ b/arch/x86/entry/entry_64.S
-> > > > > > > > > @@ -1536,7 +1536,9 @@ SYM_FUNC_START(clear_bhb_loop)
-> > > > > > > > >         ANNOTATE_NOENDBR
-> > > > > > > > >         push    %rbp
-> > > > > > > > >         mov     %rsp, %rbp
-> > > > > > > > > -       movl    $5, %ecx
-> > > > > > > > > +
-> > > > > > > > > +       movzbl    bhb_seq_outer_loop(%rip), %ecx
-> > > > > > > > > +
-> > > > > > > > >         ANNOTATE_INTRA_FUNCTION_CALL
-> > > > > > > > >         call    1f
-> > > > > > > > >         jmp     5f
-> > > > > > > > > @@ -1556,8 +1558,8 @@ SYM_FUNC_START(clear_bhb_loop)
-> > > > > > > > >          * This should be ideally be: .skip 32 - (.Lret2 =
-- 2f), 0xcc
-> > > > > > > > >          * but some Clang versions (e.g. 18) don't like t=
-his.
-> > > > > > > > >          */
-> > > > > > > > > -       .skip 32 - 18, 0xcc
-> > > > > > > > > -2:     movl    $5, %eax
-> > > > > > > > > +       .skip 32 - 20, 0xcc
-> > > > > > > > > +2:     movzbl  bhb_seq_inner_loop(%rip), %eax
-> > > > > > > > >  3:     jmp     4f
-> > > > > > > > >         nop
-> > > > > > > > >  4:     sub     $1, %eax
-> > > > > > > > > diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/=
-x86/include/asm/nospec-branch.h
-> > > > > > > > > index 70b377fcbc1c..87b83ae7c97f 100644
-> > > > > > > > > --- a/arch/x86/include/asm/nospec-branch.h
-> > > > > > > > > +++ b/arch/x86/include/asm/nospec-branch.h
-> > > > > > > > > @@ -548,6 +548,8 @@ DECLARE_PER_CPU(u64, x86_spec_ctrl_cu=
-rrent);
-> > > > > > > > >  extern void update_spec_ctrl_cond(u64 val);
-> > > > > > > > >  extern u64 spec_ctrl_current(void);
-> > > > > > > > >
-> > > > > > > > > +extern u8 bhb_seq_inner_loop, bhb_seq_outer_loop;
-> > > > > > > > > +
-> > > > > > > > >  /*
-> > > > > > > > >   * With retpoline, we must use IBRS to restrict branch p=
-rediction
-> > > > > > > > >   * before calling into firmware.
-> > > > > > > > > diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel=
-/cpu/bugs.c
-> > > > > > > > > index 83f51cab0b1e..2cb4a96247d8 100644
-> > > > > > > > > --- a/arch/x86/kernel/cpu/bugs.c
-> > > > > > > > > +++ b/arch/x86/kernel/cpu/bugs.c
-> > > > > > > > > @@ -2047,6 +2047,10 @@ enum bhi_mitigations {
-> > > > > > > > >  static enum bhi_mitigations bhi_mitigation __ro_after_in=
-it =3D
-> > > > > > > > >         IS_ENABLED(CONFIG_MITIGATION_SPECTRE_BHI) ? BHI_M=
-ITIGATION_AUTO : BHI_MITIGATION_OFF;
-> > > > > > > > >
-> > > > > > > > > +/* Default to short BHB sequence values */
-> > > > > > > > > +u8 bhb_seq_outer_loop __ro_after_init =3D 5;
-> > > > > > > > > +u8 bhb_seq_inner_loop __ro_after_init =3D 5;
-> > > > > > > > > +
-> > > > > > > > >  static int __init spectre_bhi_parse_cmdline(char *str)
-> > > > > > > > >  {
-> > > > > > > > >         if (!str)
-> > > > > > > > > @@ -3242,6 +3246,15 @@ void __init cpu_select_mitigations=
-(void)
-> > > > > > > > >                 x86_spec_ctrl_base &=3D ~SPEC_CTRL_MITIGA=
-TIONS_MASK;
-> > > > > > > > >         }
-> > > > > > > > >
-> > > > > > > > > +       /*
-> > > > > > > > > +        * Switch to long BHB clear sequence on newer CPU=
-s (with BHI_CTRL
-> > > > > > > > > +        * support), see Intel's BHI guidance.
-> > > > > > > > > +        */
-> > > > > > > > > +       if (cpu_feature_enabled(X86_FEATURE_BHI_CTRL)) {
-> > > > > > > > > +               bhb_seq_outer_loop =3D 12;
-> > > > > > > > > +               bhb_seq_inner_loop =3D 7;
-> > > > > > > > > +       }
-> > > > > > > > > +
-> > > > > > > >
-> > > > > > > > How does this work for VMs in a heterogeneous migration poo=
-l that
-> > > > > > > > spans the Alder Lake boundary? They can't advertise BHI_CTR=
-L, because
-> > > > > > > > it isn't available on all hosts in the migration pool, but =
-they need
-> > > > > > > > the long sequence when running on Alder Lake or newer.
-> > > > > > >
-> > > > > > > As we discussed elsewhere, support for migration pool is much=
- more
-> > > > > > > involved. It should be dealt in a separate QEMU/KVM focused s=
-eries.
-> > > > > > >
-> > > > > > > A quickfix could be adding support for spectre_bhi=3Dlong tha=
-t guests in a
-> > > > > > > migration pool can use?
-> > > > > >
-> > > > > > The simplest solution is to add "|
-> > > > > > cpu_feature_enabled(X86_FEATURE_HYPERVISOR)" to the condition a=
-bove.
-> > > > > > If that is unacceptable for the performance of pre-Alder Lake
-> > > > >
-> > > > > Yes, that would be unnecessary overhead.
-> > > > >
-> > > > > > migration pools, you could define a CPUID or MSR bit that says
-> > > > > > explicitly, "long BHB flush sequence needed," rather than tryin=
-g to
-> > > > > > intuit that property from the presence of BHI_CTRL. Like
-> > > > > > IA32_ARCH_CAPABILITIES.SKIP_L1DFL_VMENTRY, the bit would only b=
-e set
-> > > > > > by a hypervisor.
-> > > > >
-> > > > > I will think about this more.
-> > > > >
-> > > > > > I am still skeptical of the need for MSR_VIRTUAL_ENUMERATION an=
-d
-> > > > > > friends, unless there is a major guest OS out there that relies=
- on
-> > > > > > them.
-> > > > >
-> > > > > If we forget about MSR_VIRTUAL_ENUMERATION for a moment, userspac=
-e VMM is
-> > > > > in the best position to decide whether a guest needs
-> > > > > virtual.SPEC_CTRL[BHI_DIS_S]. Via a KVM interface userspace VMM c=
-an get
-> > > > > BHI_DIS_S for the guests that are in migration pool?
-> > > >
-> > > > That is not possible today, since KVM does not implement Intel's
-> > > > IA32_SPEC_CTRL virtualization, and cedes the hardware IA32_SPEC_CTR=
-L
-> > > > to the guest after the first non-zero write to the guest's MSR.
-> > >
-> > > Yes, KVM doesn't support it yet. But, adding that support to give mor=
-e
-> > > control to userspace VMM helps this case, and probably many other in
-> > > the future.
-> >
-> > But didn't you tell me that Windows doesn't want the hypervisor to set
-> > BHI_DIS_S behind their back?
->
-> Since cloud providers have greater control over userspace, the decision t=
-o
-> use BHI_DIS_S or not can be left to them. KVM would simply follow what it
-> is asked to do by the userspace.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/riscv/linux.git for-next
+head:   c0368008b37da62d634fdd1aa2603f13dc31528a
+commit: 8a8f622c329e2e3690b54826370e4a0af45f66ef [24/45] prctl: cfi: change the branch landing pad prctl()s to be more descriptive
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260404/202604040216.ea9oBMct-lkp@intel.com/reproduce)
 
-I feel like we've gone over this before, but if userspace tells KVM
-not to enable BHI_DIS_S, how do we inform Windows that it needs to do
-the longer clearing sequence, despite the fact that the virtual CPU is
-masquerading as Ice Lake?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604040216.ea9oBMct-lkp@intel.com/
 
-I don't think the virtual mitigation MSRs address that issue.
+All warnings (new ones prefixed by >>):
 
-> > > I will check with Chao if he can prepare the next version of virtual
-> > > SPEC_CTRL series (leaving out virtual mitigation MSRs).
-> >
-> > Excellent.
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+   Using alabaster theme
+>> Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-string without end-string. [docutils]
+   Documentation/core-api/kref:328: ./include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
+   int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+   ------------------------------------------------------------------------------------------------^
+   Documentation/core-api/kref:328: ./include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+   int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
+
+
+vim +79 Documentation/arch/riscv/zicfilp.rst
+
+    78	
+  > 79	Per-task indirect branch tracking state can be monitored and
+    80	controlled via the :c:macro:`PR_GET_CFI` and :c:macro:`PR_SET_CFI`
+    81	``prctl()` arguments (respectively), by supplying
+    82	:c:macro:`PR_CFI_BRANCH_LANDING_PADS` as the second argument.  These
+    83	are architecture-agnostic, and will return -EINVAL if the underlying
+    84	functionality is not supported.
+    85	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
