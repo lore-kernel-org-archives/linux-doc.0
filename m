@@ -1,761 +1,234 @@
-Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2820E31A549
-	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 15:57:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1521C168BD;
+	Sat,  4 Apr 2026 16:39:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775318246; cv=none; b=b+Tzuoa9PGYFxUyZzUASm+A/3Bc63GxUYDjuSdwRxVQsdpqjwDdOf2/OUnKfcgJxtw7WKradZj8v7qYRVYQ8XKbLDKcot0de0CfVZbe6z12rpRyfPZ2WnADR9A7sstumJDqq20CNykaEwHsyUpW7PVPQK8cRdUO861/hv4GTU/Q=
+	t=1775320794; cv=none; b=VvsQOFVJALPwE0y+48I9xTxc4g8tcNBHE/SekNSootVxZqxeX8ltypsH/oIOsf+jeqUubz+OG2zw/BVWIcyPJ+efikKazBtnoG0DdTxV/xbxhewGzsHs1Z2rEOyACNYYhFDuzI7VpO5nnKAlNcb95VyMnhpQvfI0dOUwi7K7Ark=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775318246; c=relaxed/simple;
-	bh=I9Zc1R7+yUYIp68dd8Jqc6iCF/xRFUnDWe+7ow9SHeQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i8ih9t+Axz44apGT7RXuPC549aWLA9j9zNyuYveWoZv7RzqwOBJWgNc0HGYOlvSk+oY6UvKjk7cPU/U+UpIDPT4nT7kuzlpoJj7VTIFiLrgeKB8AhlYD7Vkd+ke/XAdt6Mhp10yXxzgpuchWBMbmLlU88Q1WjIeR1+QnVgV0xKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=Zuq0TCBL; arc=none smtp.client-ip=209.85.161.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1775320794; c=relaxed/simple;
+	bh=KzxK3rvPiuMB+ti6vCCvi2SSTcuZGc9NqWsNLvX++LY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TvbZ2HWDQkYugCbUlkSemuiz2efPbfgoePbFxTMRH7K5ApUi8oNzVeyA39gqbjIZL+ayVunS6nfOC9QcWKAV4N6bVy8N5h8+/hxqA320f4cbMR+4i1U5Laiyu7dLHsMeX+bAmEooP0rtXCWICdXGRbLK3BDSvoyD//A6kt9wYkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CQCD1ufc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="Zuq0TCBL"
-Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6823fc5c3faso924127eaf.1
-        for <linux-doc@vger.kernel.org>; Sat, 04 Apr 2026 08:57:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775318242; x=1775923042; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OBJlkG7WAtThtA0KugNK0B/B0Wk0ExPVBWNuyoZfRiw=;
-        b=Zuq0TCBL+X7JnG9hWQKoIoOWQc/b9PjxnZ6azoWz74E8I9ZyzifyYWsVqSy0ZM/BdE
-         brfib2/Cn/PKC6uOPibWsLuLESFUMGdZcmaxQet7DIUuCdyFw4jMz8oO84hqLMZYlPD1
-         nqK6l3CPgSZCBUH35g7RzBj1G0eaKwLXLptiaQldt4Sq4l2pj9fbc0X96WcfnFk0DMfa
-         xyzHGoXbJNhXXyY0/dR+zCAClUE8jHDLQC0pTfPuB7IP+ruWjJNO/LoUMmHF2DtCP69A
-         DBLsAx+DwJrk//SC/krEYe9OgwwRks0vwzOFoJapQSbUSBrR+a7zLJWqBGII9o7ESzcw
-         XnFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775318242; x=1775923042;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OBJlkG7WAtThtA0KugNK0B/B0Wk0ExPVBWNuyoZfRiw=;
-        b=l6P2wUptGYT6dmRlHVKV0O6LE6a38EicWSfE8jXmlENt0qWU8nzKRo5jP8MU8UCmMk
-         VSX4hiQgQMSAQ6H2wiVfgd0+uP+Sdqy49LktK2jGzm79PbJiipZoNGc50uqYN9ftgNVX
-         jIDb06CImTqHk+6rTEntBPW5Y/ajfk4CEOSuws+bPy561J3yLlpaYx4v/iqkgkl0Q5mC
-         iZn4RCfa4Yh22yZDHjakNesrTB68emDiwiq4F4I7pcUJYj1A7v2eKgTbTnZ1xkshybe3
-         Kt561WTA5PGyzqdj8toR4VlBWTlI10fiKbgalrlSWhl6pay/rTljPpXl/FOjyNsnXMJG
-         anVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWl3JAbX8EhXLnzIa+Uine7Ibbcgyru3Emc0ZQf8x8ig9gJiymH5i16kSYcXTYiwxgSeR/zPMuBsaE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZK9134aeOj7MvmTTSJqARKduPIkNj3wHnb/VdyfYWC1QV0XSb
-	ubV13cM4tOTOwTEKzLhKIZcm+28vof3VTqeESLb5XFoWY5d/bYJCdE4wWERvS9+9b28=
-X-Gm-Gg: AeBDietQWnjcxc8iL9DgSkYDzO8fiIZbWwB2HICObGY6eo6st+xdzq/L8d1gekYnW/L
-	tZDzcCyQ6PW82xUUUYEkb5zAKnwVPgrtq5pgQq+xRZKKFATl2BrZOhpiTcpYfiC++xTuv2WB8U3
-	XLPxlBsSNboci12TevkKaqbf0CCos7F78F+FFg7MbgXXaJJEQaNTvlRhE4eM6QGsLV7bkVR4Ph8
-	URabjP6pcEf6C6aoCx73y4iSZb2SfMbme3XCeg9FjY/zWvQvXAhfKNINrW/Dt8CS2bV8DygAfyK
-	SiJ8JxhNGz2VRub8DIJQVj2zHF5qVLDNBH2KMcNKtIBgBMT911zioV5vfKl2WjL+o9ujB0b2EFA
-	ZxzAtXth8fQN75bDCCmqFEaSc76g0NZWE4t/H5OHtN+YobCqUepHqr10u7PG3ziBXcYFAOSTluN
-	YynwrAxK2oH20akZ7MVB3eaBd2BflmIz+PNjpY2KyiDUJCnMJfeOAu5HyLzeIYSjeKEu2wauLmp
-	Q==
-X-Received: by 2002:a05:6820:4c0b:b0:67a:1eaf:a912 with SMTP id 006d021491bc7-6821d747f37mr5208597eaf.2.1775318241917;
-        Sat, 04 Apr 2026 08:57:21 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:e14e:bcc6:3f95:26eb? ([2600:8803:e7e4:500:e14e:bcc6:3f95:26eb])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-68448c1c15dsm673767eaf.0.2026.04.04.08.57.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 04 Apr 2026 08:57:21 -0700 (PDT)
-Message-ID: <22b44acb-bfb5-4b97-8fa2-aeb4aec704c2@baylibre.com>
-Date: Sat, 4 Apr 2026 10:57:19 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CQCD1ufc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EECAC19421;
+	Sat,  4 Apr 2026 16:39:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775320794;
+	bh=KzxK3rvPiuMB+ti6vCCvi2SSTcuZGc9NqWsNLvX++LY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CQCD1ufcoT2sNfl14CV+BXfVwOhjEugdBVoPIwKN3E5OK8jEiEaZWY9oPBq0PPipZ
+	 85wJ26hTX7pThMVAXt2/vTCo7+MHK8M44yrbG437v/cbGihk4JtGZUNGk60kLt/2aF
+	 L6+4q2H+EacWiWLjBYrVdBhf3oTLh2rcI+AZ8zqZ+5TOao/zN4p2VfVXTVvuWApKtX
+	 thxllPbiEy/aUML12ywtSNDnJyHqSfgLJmR00JCFzwmLzUTCyWDY5/hItIhXaP8Rpb
+	 VXIx9Q3ZB5SMmLfeGhOHLe11Hokl1T2tyIi6GPjSLcsxdumnhi95kX7aS3trqmMeOm
+	 LOS6N7rXmKF+Q==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@google.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 0/9] mm/damon: introduce DAMOS failed region quota charge ratio
+Date: Sat,  4 Apr 2026 09:39:30 -0700
+Message-ID: <20260404163943.89278-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 4/4] iio: adc: ad4691: add SPI offload support
-To: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260403-ad4692-multichannel-sar-adc-driver-v6-0-fa2a01a57c4e@analog.com>
- <20260403-ad4692-multichannel-sar-adc-driver-v6-4-fa2a01a57c4e@analog.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260403-ad4692-multichannel-sar-adc-driver-v6-4-fa2a01a57c4e@analog.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 4/3/26 6:03 AM, Radu Sabau via B4 Relay wrote:
-> From: Radu Sabau <radu.sabau@analog.com>
-> 
-> Add SPI offload support to enable DMA-based, CPU-independent data
-> acquisition using the SPI Engine offload framework.
-> 
-> When an SPI offload is available (devm_spi_offload_get() succeeds),
-> the driver registers a DMA engine IIO buffer and uses dedicated buffer
-> setup operations. If no offload is available the existing software
-> triggered buffer path is used unchanged.
-> 
-> Both CNV Burst Mode and Manual Mode support offload, but use different
-> trigger mechanisms:
-> 
-> CNV Burst Mode: the SPI Engine is triggered by the ADC's DATA_READY
-> signal on the GP pin specified by the trigger-source consumer reference
-> in the device tree (one cell = GP pin number 0-3). For this mode the
-> driver acts as both an SPI offload consumer (DMA RX stream, message
-> optimization) and a trigger source provider: it registers the
-> GP/DATA_READY output via devm_spi_offload_trigger_register() so the
-> offload framework can match the '#trigger-source-cells' phandle and
-> automatically fire the SPI Engine DMA transfer at end-of-conversion.
-> 
-> Manual Mode: the SPI Engine is triggered by a periodic trigger at
-> the configured sampling frequency. The pre-built SPI message uses
-> the pipelined CNV-on-CS protocol: N+1 4-byte transfers are issued
-> for N active channels (the first result is discarded as garbage from
-> the pipeline flush) and the remaining N results are captured by DMA.
-> 
-> All offload transfers use 32-bit frames (bits_per_word=32, len=4) for
-> DMA word alignment. This patch promotes the channel scan_type from
-> storagebits=16 (triggered-buffer path) to storagebits=32 to match the
-> DMA word size; the triggered-buffer paths are updated to the same layout
-> for consistency. CNV Burst Mode channel data arrives in the lower 16
-> bits of the 32-bit word (shift=0); Manual Mode data arrives in the upper
-> 16 bits (shift=16), matching the 4-byte SPI transfer layout
-> [data_hi, data_lo, 0, 0]. A separate ad4691_manual_channels[] array
-> encodes the shift=16 scan type for manual mode.
-> 
-> Add driver documentation under Documentation/iio/ad4691.rst covering
-> operating modes, oversampling, reference voltage, SPI offload paths,
-> and buffer data layout; register in MAINTAINERS and index.rst
-> 
-> Kconfig gains a dependency on IIO_BUFFER_DMAENGINE.
-> 
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-> ---
->  Documentation/iio/ad4691.rst | 259 ++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |   1 +
->  MAINTAINERS                  |   1 +
->  drivers/iio/adc/Kconfig      |   1 +
->  drivers/iio/adc/ad4691.c     | 422 ++++++++++++++++++++++++++++++++++++++++++-
->  5 files changed, 676 insertions(+), 8 deletions(-)
-> 
+TL; DR: Let users set different DAMOS quota charge ratios for DAMOS
+action failed regions, for deterministic and consistent DAMOS action
+progress.
 
-...
+Common Reports: Unexpectedly Slow DAMOS
+=======================================
 
->  ANALOG DEVICES INC AD4695 DRIVER
-> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-> index d498f16c0816..93f090e9a562 100644
-> --- a/drivers/iio/adc/Kconfig
-> +++ b/drivers/iio/adc/Kconfig
-> @@ -144,6 +144,7 @@ config AD4691
->  	depends on SPI
->  	select IIO_BUFFER
->  	select IIO_TRIGGERED_BUFFER
-> +	select IIO_BUFFER_DMAENGINE
->  	select REGMAP
->  	help
->  	  Say yes here to build support for Analog Devices AD4691 Family MuxSAR
-> diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
-> index f2a7273e43b9..cc2138e47feb 100644
-> --- a/drivers/iio/adc/ad4691.c
-> +++ b/drivers/iio/adc/ad4691.c
-> @@ -11,6 +11,7 @@
->  #include <linux/delay.h>
->  #include <linux/dev_printk.h>
->  #include <linux/device/devres.h>
-> +#include <linux/dmaengine.h>
->  #include <linux/err.h>
->  #include <linux/interrupt.h>
->  #include <linux/math.h>
-> @@ -22,10 +23,14 @@
->  #include <linux/regulator/consumer.h>
->  #include <linux/reset.h>
->  #include <linux/spi/spi.h>
-> +#include <linux/spi/offload/consumer.h>
-> +#include <linux/spi/offload/provider.h>
->  #include <linux/units.h>
->  #include <linux/unaligned.h>
->  
->  #include <linux/iio/buffer.h>
-> +#include <linux/iio/buffer-dma.h>
-> +#include <linux/iio/buffer-dmaengine.h>
->  #include <linux/iio/iio.h>
->  #include <linux/iio/sysfs.h>
->  #include <linux/iio/trigger.h>
-> @@ -40,6 +45,7 @@
->  #define AD4691_VREF_4P096_uV_MAX		4500000
->  
->  #define AD4691_CNV_DUTY_CYCLE_NS		380
-> +#define AD4691_CNV_HIGH_TIME_NS			430
->  
->  #define AD4691_SPI_CONFIG_A_REG			0x000
->  #define AD4691_SW_RESET				(BIT(7) | BIT(0))
-> @@ -92,6 +98,8 @@
->  #define AD4691_ACC_IN(n)			(0x252 + (3 * (n)))
->  #define AD4691_ACC_STS_DATA(n)			(0x283 + (4 * (n)))
->  
-> +#define AD4691_OFFLOAD_BITS_PER_WORD		32
-> +
->  static const char * const ad4691_supplies[] = { "avdd", "vio" };
->  
->  enum ad4691_ref_ctrl {
-> @@ -109,6 +117,31 @@ struct ad4691_chip_info {
->  	unsigned int max_rate;
->  };
->  
-> +enum {
-> +	AD4691_SCAN_TYPE_NORMAL,         /* triggered buffer:  storagebits=16, shift=0  */
-> +	AD4691_SCAN_TYPE_OFFLOAD_CNV,    /* CNV burst offload: storagebits=32, shift=0  */
-> +	AD4691_SCAN_TYPE_OFFLOAD_MANUAL, /* manual offload:    storagebits=32, shift=16 */
-> +};
-> +
-> +static const struct iio_scan_type ad4691_scan_types[] = {
-> +	[AD4691_SCAN_TYPE_NORMAL] = {
-> +		.sign = 'u',
-> +		.realbits = 16,
-> +		.storagebits = 16,
-> +	},
-> +	[AD4691_SCAN_TYPE_OFFLOAD_CNV] = {
-> +		.sign = 'u',
-> +		.realbits = 16,
-> +		.storagebits = 32,
-> +	},
-> +	[AD4691_SCAN_TYPE_OFFLOAD_MANUAL] = {
-> +		.sign = 'u',
-> +		.realbits = 16,
-> +		.storagebits = 32,
-> +		.shift = 16,
-> +	},
-> +};
-> +
->  #define AD4691_CHANNEL(ch)						\
->  	{								\
->  		.type = IIO_VOLTAGE,					\
-> @@ -122,11 +155,9 @@ struct ad4691_chip_info {
->  		.info_mask_shared_by_all = BIT(IIO_CHAN_INFO_SCALE),	\
->  		.channel = ch,						\
->  		.scan_index = ch,					\
-> -		.scan_type = {						\
-> -			.sign = 'u',					\
-> -			.realbits = 16,					\
-> -			.storagebits = 16,				\
-> -		},							\
-> +		.has_ext_scan_type = 1,					\
-> +		.ext_scan_type = ad4691_scan_types,			\
-> +		.num_ext_scan_type = ARRAY_SIZE(ad4691_scan_types),	\
+One common issue report that we get from DAMON users is that DAMOS
+action applying progress speed is sometimes much slower than expected.
+And one common root cause is that the DAMOS quota is exceeded by the
+action applying failed memory regions.
 
-Usually, we just make two separte ad4691_chip_info structs for offload
-vs. not offload.
+For example, a group of users tried to run DAMOS-based proactive memory
+reclamation (DAMON_RECLAIM) with 100 MiB per second DAMOS quota.  They
+ran it on a system having no active workload which means all memory of
+the system is cold.  The expectation was that the system will show 100
+MiB per second reclamation until (nearly) all memory is reclaimed. But
+what they found is that the speed is quite inconsistent and sometimes it
+becomes very slower than the expectation, sometimes even no reclamation
+at all for about tens of seconds.  The upper limit of the speed (100 MiB
+per second) was being kept as expected, though.
 
-ext_scan_type is generally only used when the scan type can change
-dynamically after probe.
+By monitoring the qt_exceeds (number of DAMOS quota exceed events) DAMOS
+stat, we found DAMOS quota is always exceeded when the speed is slow. By
+monitoring sz_tried and sz_applied (the total amount of DAMOS action
+tried memory and succeeded memory) DAMOS stats together, we found the
+reclamation attempts nearly always failed when the speed is slow.
 
->  	}
->  
->  static const struct iio_chan_spec ad4691_channels[] = {
-> @@ -221,6 +252,17 @@ static const struct ad4691_chip_info ad4694_chip_info = {
->  	.max_rate = 1 * HZ_PER_MHZ,
->  };
->  
-> +struct ad4691_offload_state {
-> +	struct spi_offload *spi;
-> +	struct spi_offload_trigger *trigger;
-> +	u64 trigger_hz;
-> +	struct spi_message msg;
-> +	/* Max 16 channel xfers + 1 state-reset or NOOP */
-> +	struct spi_transfer xfer[17];
-> +	u8 tx_cmd[17][4];
-> +	u8 tx_reset[4];
-> +};
-> +
->  struct ad4691_state {
->  	const struct ad4691_chip_info *info;
->  	struct regmap *regmap;
-> @@ -251,6 +293,8 @@ struct ad4691_state {
->  	struct spi_transfer *scan_xfers;
->  	__be16 *scan_tx;
->  	__be16 *scan_rx;
-> +	/* NULL when no SPI offload hardware is present */
-> +	struct ad4691_offload_state *offload;
->  	/* Scan buffer: one slot per channel plus timestamp */
->  	struct {
->  		u16 vals[16];
-> @@ -273,6 +317,46 @@ static int ad4691_gpio_setup(struct ad4691_state *st, unsigned int gp_num)
->  				  AD4691_GP_MODE_DATA_READY << shift);
->  }
->  
-> +static const struct spi_offload_config ad4691_offload_config = {
-> +	.capability_flags = SPI_OFFLOAD_CAP_TRIGGER |
-> +			    SPI_OFFLOAD_CAP_RX_STREAM_DMA,
-> +};
-> +
-> +static bool ad4691_offload_trigger_match(struct spi_offload_trigger *trigger,
-> +					 enum spi_offload_trigger_type type,
-> +					 u64 *args, u32 nargs)
-> +{
-> +	return type == SPI_OFFLOAD_TRIGGER_DATA_READY &&
-> +	       nargs == 1 && args[0] <= 3;
-> +}
-> +
-> +static int ad4691_offload_trigger_request(struct spi_offload_trigger *trigger,
-> +					  enum spi_offload_trigger_type type,
-> +					  u64 *args, u32 nargs)
-> +{
-> +	struct ad4691_state *st = spi_offload_trigger_get_priv(trigger);
-> +
-> +	if (nargs != 1)
-> +		return -EINVAL;
-> +
-> +	return ad4691_gpio_setup(st, (unsigned int)args[0]);
+DAMOS quota charges DAMOS action tried regions regardless of the
+successfulness of the try.  Hence in the example reported case, there
+was unreclaimable memory spread around the system memory.  Sometimes
+nearly 100 MiB of memory that DAMOS tried to reclaim in the given quota
+interval was reclaimable, and therefore showed nearly 100 MiB per second
+speed.  Sometimes nearly 99 MiB of memory that DAMOS was trying to
+reclaim in the given quota interval was unreclaimable, and therefore
+showing only about 1 MiB per second reclaim speed.
 
-Should be fine to leave out the cast here.
+We explained it is an expected behavior of the feature rather than a
+bug, as DAMOS quota is there for only the upper-limit of the speed.  The
+users agreed and later reported a huge win from the adoption of
+DAMON_RECLAIM on their products.
 
-> +}
-> +
-> +static int ad4691_offload_trigger_validate(struct spi_offload_trigger *trigger,
-> +					   struct spi_offload_trigger_config *config)
-> +{
-> +	if (config->type != SPI_OFFLOAD_TRIGGER_DATA_READY)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct spi_offload_trigger_ops ad4691_offload_trigger_ops = {
-> +	.match    = ad4691_offload_trigger_match,
-> +	.request  = ad4691_offload_trigger_request,
-> +	.validate = ad4691_offload_trigger_validate,
-> +};
-> +
->  static int ad4691_reg_read(void *context, unsigned int reg, unsigned int *val)
->  {
->  	struct spi_device *spi = context;
-> @@ -553,10 +637,17 @@ static int ad4691_read_raw(struct iio_dev *indio_dev,
->  	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
->  		*val = st->osr[chan->scan_index];
->  		return IIO_VAL_INT;
-> -	case IIO_CHAN_INFO_SCALE:
-> +	case IIO_CHAN_INFO_SCALE: {
-> +		const struct iio_scan_type *scan_type;
-> +
-> +		scan_type = iio_get_current_scan_type(indio_dev, chan);
-> +		if (IS_ERR(scan_type))
-> +			return PTR_ERR(scan_type);
-> +
->  		*val = st->vref_uV / (MICRO / MILLI);
-> -		*val2 = chan->scan_type.realbits;
-> +		*val2 = scan_type->realbits;
->  		return IIO_VAL_FRACTIONAL_LOG2;
-> +	}
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -856,6 +947,213 @@ static const struct iio_buffer_setup_ops ad4691_cnv_burst_buffer_setup_ops = {
->  	.postdisable = &ad4691_cnv_burst_buffer_postdisable,
->  };
->  
-> +static int ad4691_manual_offload_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +	struct ad4691_offload_state *offload = st->offload;
-> +	struct device *dev = regmap_get_device(st->regmap);
-> +	struct spi_device *spi = to_spi_device(dev);
-> +	struct spi_offload_trigger_config config = {
-> +		.type = SPI_OFFLOAD_TRIGGER_PERIODIC,
-> +	};
-> +	unsigned int bit, k;
-> +	int ret;
-> +
-> +	ret = ad4691_enter_conversion_mode(st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	memset(offload->xfer, 0, sizeof(offload->xfer));
-> +
-> +	/*
-> +	 * N+1 transfers for N channels. Each CS-low period triggers
-> +	 * a conversion AND returns the previous result (pipelined).
-> +	 *   TX: [AD4691_ADC_CHAN(n), 0x00, 0x00, 0x00]
-> +	 *   RX: [data_hi, data_lo, 0x00, 0x00]   (shift=16)
-> +	 * Transfer 0 RX is garbage; transfers 1..N carry real data.
-> +	 */
-> +	k = 0;
-> +	iio_for_each_active_channel(indio_dev, bit) {
-> +		offload->tx_cmd[k][0] = AD4691_ADC_CHAN(bit);
-> +		offload->xfer[k].tx_buf = offload->tx_cmd[k];
-> +		offload->xfer[k].len = sizeof(offload->tx_cmd[k]);
-> +		offload->xfer[k].bits_per_word = AD4691_OFFLOAD_BITS_PER_WORD;
-> +		offload->xfer[k].cs_change = 1;
-> +		offload->xfer[k].cs_change_delay.value = AD4691_CNV_HIGH_TIME_NS;
-> +		offload->xfer[k].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
-> +		/* First transfer RX is garbage — skip it. */
-> +		if (k > 0)
-> +			offload->xfer[k].offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-> +		k++;
-> +	}
-> +
-> +	/* Final NOOP to flush pipeline and capture last channel. */
-> +	offload->tx_cmd[k][0] = AD4691_NOOP;
-> +	offload->xfer[k].tx_buf = offload->tx_cmd[k];
-> +	offload->xfer[k].len = sizeof(offload->tx_cmd[k]);
-> +	offload->xfer[k].bits_per_word = AD4691_OFFLOAD_BITS_PER_WORD;
-> +	offload->xfer[k].offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-> +	k++;
-> +
-> +	spi_message_init_with_transfers(&offload->msg, offload->xfer, k);
-> +	offload->msg.offload = offload->spi;
-> +
-> +	ret = spi_optimize_message(spi, &offload->msg);
-> +	if (ret)
-> +		goto err_exit_conversion;
-> +
-> +	config.periodic.frequency_hz = offload->trigger_hz;
-> +	ret = spi_offload_trigger_enable(offload->spi, offload->trigger, &config);
-> +	if (ret)
-> +		goto err_unoptimize;
-> +
-> +	return 0;
-> +
-> +err_unoptimize:
-> +	spi_unoptimize_message(&offload->msg);
-> +err_exit_conversion:
-> +	ad4691_exit_conversion_mode(st);
-> +	return ret;
-> +}
-> +
-> +static int ad4691_manual_offload_buffer_predisable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +	struct ad4691_offload_state *offload = st->offload;
-> +
-> +	spi_offload_trigger_disable(offload->spi, offload->trigger);
-> +	spi_unoptimize_message(&offload->msg);
-> +
-> +	return ad4691_exit_conversion_mode(st);
-> +}
-> +
-> +static const struct iio_buffer_setup_ops ad4691_manual_offload_buffer_setup_ops = {
-> +	.postenable = &ad4691_manual_offload_buffer_postenable,
-> +	.predisable = &ad4691_manual_offload_buffer_predisable,
-> +};
-> +
-> +static int ad4691_cnv_burst_offload_buffer_postenable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +	struct ad4691_offload_state *offload = st->offload;
-> +	struct device *dev = regmap_get_device(st->regmap);
-> +	struct spi_device *spi = to_spi_device(dev);
-> +	struct spi_offload_trigger_config config = {
-> +		.type = SPI_OFFLOAD_TRIGGER_DATA_READY,
-> +	};
-> +	unsigned int n_active = bitmap_weight(indio_dev->active_scan_mask,
-> +					      iio_get_masklength(indio_dev));
-> +	unsigned int bit, k;
-> +	int ret;
-> +
-> +	ret = regmap_write(st->regmap, AD4691_STD_SEQ_CONFIG,
-> +			   bitmap_read(indio_dev->active_scan_mask, 0,
-> +				       iio_get_masklength(indio_dev)));
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(st->regmap, AD4691_ACC_MASK_REG,
-> +			   ~bitmap_read(indio_dev->active_scan_mask, 0,
-> +				iio_get_masklength(indio_dev)) & GENMASK(15, 0));
-> +	if (ret)
-> +		return ret;
-> +
-> +	iio_for_each_active_channel(indio_dev, bit) {
-> +		ret = regmap_write(st->regmap, AD4691_ACC_DEPTH_IN(bit),
-> +				   st->osr[bit]);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	ret = ad4691_enter_conversion_mode(st);
-> +	if (ret)
-> +		return ret;
-> +
-> +	memset(offload->xfer, 0, sizeof(offload->xfer));
-> +
-> +	/*
-> +	 * N transfers to read N AVG_IN registers plus one state-reset
-> +	 * transfer (no RX) to re-arm DATA_READY.
-> +	 *   TX: [reg_hi | 0x80, reg_lo, 0x00, 0x00]
-> +	 *   RX: [0x00, 0x00, data_hi, data_lo]   (shift=0)
-> +	 */
-> +	k = 0;
-> +	iio_for_each_active_channel(indio_dev, bit) {
-> +		unsigned int reg = AD4691_AVG_IN(bit);
-> +
-> +		offload->tx_cmd[k][0] = (reg >> 8) | 0x80;
-> +		offload->tx_cmd[k][1] = reg & 0xFF;
+It is Not a Bug but a Feature; But...
+=====================================
 
-Can we use put_unaligned_be16()?
+So nothing is broken.  DAMOS quota is working as intended, as the upper
+limit of the speed.  It also provides its behavior observability via
+DAMOS stat.  In the real world production environment that runs long
+term active workloads and matters stability, the speed sometimes being
+slow is not a real problem.
 
-> +		offload->xfer[k].tx_buf = offload->tx_cmd[k];
-> +		offload->xfer[k].len = sizeof(offload->tx_cmd[k]);
-> +		offload->xfer[k].bits_per_word = AD4691_OFFLOAD_BITS_PER_WORD;
-> +		offload->xfer[k].offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-> +		if (k < n_active - 1)
-> +			offload->xfer[k].cs_change = 1;
-> +		k++;
-> +	}
-> +
-> +	/* State reset to re-arm DATA_READY for the next scan. */
-> +	offload->tx_reset[0] = AD4691_STATE_RESET_REG >> 8;
-> +	offload->tx_reset[1] = AD4691_STATE_RESET_REG & 0xFF;
+But, the non-deterministic behavior is sometimes annoying, especially in
+lab environments.  Even in a realistic production environment, when
+there is a huge amount of DAMOS action unapplicable memory, the speed
+could be problematically slow.  Let's suppose a virtual machines
+provider that setup 99% of the host memory as hugetlb pages that cannot
+be reclaimed, to give it to virtual machines.  Also, when aim-oriented
+DAMOS auto-tuning is applied, this could also make the internal feedback
+loop confused.
 
-ditto.
+The intention of the current behavior was that trying DAMOS action to
+regions would anyway impose some overhead, and therefore somehow be
+charged.  But in the real world, the overhead for failed action is much
+lighter than successful action.  Charging those at the same ratio may be
+unfair, or at least suboptimum in some environments.
 
-> +	offload->tx_reset[2] = AD4691_STATE_RESET_ALL;
-> +	offload->xfer[k].tx_buf = offload->tx_reset;
-> +	offload->xfer[k].len = sizeof(offload->tx_reset);
-> +	offload->xfer[k].bits_per_word = AD4691_OFFLOAD_BITS_PER_WORD;
-> +	k++;
-> +
-> +	spi_message_init_with_transfers(&offload->msg, offload->xfer, k);
-> +	offload->msg.offload = offload->spi;
-> +
-> +	ret = spi_optimize_message(spi, &offload->msg);
-> +	if (ret)
-> +		goto err_exit_conversion;
-> +
-> +	ret = ad4691_sampling_enable(st, true);
-> +	if (ret)
-> +		goto err_unoptimize;
-> +
-> +	ret = spi_offload_trigger_enable(offload->spi, offload->trigger, &config);
-> +	if (ret)
-> +		goto err_sampling_disable;
-> +
-> +	return 0;
-> +
-> +err_sampling_disable:
-> +	ad4691_sampling_enable(st, false);
-> +err_unoptimize:
-> +	spi_unoptimize_message(&offload->msg);
-> +err_exit_conversion:
-> +	ad4691_exit_conversion_mode(st);
-> +	return ret;
-> +}
-> +
-> +static int ad4691_cnv_burst_offload_buffer_predisable(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +	struct ad4691_offload_state *offload = st->offload;
-> +	int ret;
-> +
-> +	spi_offload_trigger_disable(offload->spi, offload->trigger);
-> +
-> +	ret = ad4691_sampling_enable(st, false);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(st->regmap, AD4691_STD_SEQ_CONFIG,
-> +			   AD4691_SEQ_ALL_CHANNELS_OFF);
-> +	if (ret)
-> +		return ret;
-> +
-> +	spi_unoptimize_message(&offload->msg);
-> +
-> +	return ad4691_exit_conversion_mode(st);
-> +}
-> +
-> +static const struct iio_buffer_setup_ops ad4691_cnv_burst_offload_buffer_setup_ops = {
-> +	.postenable = &ad4691_cnv_burst_offload_buffer_postenable,
-> +	.predisable = &ad4691_cnv_burst_offload_buffer_predisable,
-> +};
-> +
->  static ssize_t sampling_frequency_show(struct device *dev,
->  				       struct device_attribute *attr,
->  				       char *buf)
-> @@ -863,6 +1161,9 @@ static ssize_t sampling_frequency_show(struct device *dev,
->  	struct iio_dev *indio_dev = dev_to_iio_dev(dev);
->  	struct ad4691_state *st = iio_priv(indio_dev);
->  
-> +	if (st->manual_mode && st->offload)
-> +		return sysfs_emit(buf, "%llu\n", st->offload->trigger_hz);
-> +
->  	return sysfs_emit(buf, "%u\n", (u32)(NSEC_PER_SEC / st->cnv_period_ns));
->  }
->  
-> @@ -883,6 +1184,20 @@ static ssize_t sampling_frequency_store(struct device *dev,
->  	if (iio_buffer_enabled(indio_dev))
->  		return -EBUSY;
->  
-> +	if (st->manual_mode && st->offload) {
-> +		struct spi_offload_trigger_config config = {
-> +			.type = SPI_OFFLOAD_TRIGGER_PERIODIC,
-> +			.periodic = { .frequency_hz = freq },
-> +		};
+DAMOS Action Failed Region Quota Charge Ratio
+=============================================
 
-Same comment as other patches. This needs to account for oversampling ratio.
+Let users set the charge ratio for the action-failed memory, for more
+optimal and deterministic use of DAMOS.  It allows users to specify the
+numerator and the denominator of the ratio for flexible setup.  For
+example, let's suppose the numerator and the denominator are set to 1
+and 4,096, respectively.  The ratio is 1 / 4,096.  A DAMOS scheme action
+is applied to 5 GiB memory.  For 1 GiB of the memory, the action is
+succeeded.  For the rest (4 GiB), the action is failed.  Then, only 1
+GiB and 1 MiB quota is charged.
 
-> +
-> +		ret = spi_offload_trigger_validate(st->offload->trigger, &config);
-> +		if (ret)
-> +			return ret;
-> +
-> +		st->offload->trigger_hz = config.periodic.frequency_hz;
-> +		return len;
-> +	}
-> +
->  	ret = ad4691_set_pwm_freq(st, freq);
->  	if (ret)
->  		return ret;
-> @@ -968,10 +1283,23 @@ static irqreturn_t ad4691_trigger_handler(int irq, void *p)
->  	return IRQ_HANDLED;
->  }
->  
-> +static int ad4691_get_current_scan_type(const struct iio_dev *indio_dev,
-> +					 const struct iio_chan_spec *chan)
-> +{
-> +	struct ad4691_state *st = iio_priv(indio_dev);
-> +
-> +	if (!st->offload)
-> +		return AD4691_SCAN_TYPE_NORMAL;
-> +	if (st->manual_mode)
-> +		return AD4691_SCAN_TYPE_OFFLOAD_MANUAL;
-> +	return AD4691_SCAN_TYPE_OFFLOAD_CNV;
-> +}
-> +
->  static const struct iio_info ad4691_info = {
->  	.read_raw = &ad4691_read_raw,
->  	.write_raw = &ad4691_write_raw,
->  	.read_avail = &ad4691_read_avail,
-> +	.get_current_scan_type = &ad4691_get_current_scan_type,
->  	.debugfs_reg_access = &ad4691_reg_access,
->  };
->  
-> @@ -1195,9 +1523,75 @@ static int ad4691_setup_triggered_buffer(struct iio_dev *indio_dev,
->  					       &ad4691_manual_buffer_setup_ops);
->  }
->  
-> +static int ad4691_setup_offload(struct iio_dev *indio_dev,
-> +				struct ad4691_state *st,
-> +				struct spi_offload *spi_offload)
-> +{
-> +	struct device *dev = regmap_get_device(st->regmap);
-> +	struct ad4691_offload_state *offload;
-> +	struct dma_chan *rx_dma;
-> +	int ret;
-> +
-> +	offload = devm_kzalloc(dev, sizeof(*offload), GFP_KERNEL);
-> +	if (!offload)
-> +		return -ENOMEM;
-> +
-> +	offload->spi = spi_offload;
-> +	st->offload = offload;
-> +
-> +	if (st->manual_mode) {
-> +		offload->trigger =
-> +			devm_spi_offload_trigger_get(dev, offload->spi,
-> +						     SPI_OFFLOAD_TRIGGER_PERIODIC);
-> +		if (IS_ERR(offload->trigger))
-> +			return dev_err_probe(dev, PTR_ERR(offload->trigger),
-> +					     "Failed to get periodic offload trigger\n");
-> +
-> +		offload->trigger_hz = st->info->max_rate;
+The optimal charge ratio will depend on the use case and
+system/workload.  I'd recommend starting from setting the nominator as 1
+and the denominator as PAGE_SIZE and tune based on the results, because
+many DAMOS actions are applied at page level.
 
-I think I mentioned this elsewhere, but can we really get max_rate in manual mode
-due to the extra SPI overhead? Probably safer to start with a lower rate.
+Tests
+=====
 
-> +	} else {
-> +		struct spi_offload_trigger_info trigger_info = {
-> +			.fwnode = dev_fwnode(dev),
-> +			.ops    = &ad4691_offload_trigger_ops,
-> +			.priv   = st,
-> +		};
-> +
-> +		ret = devm_spi_offload_trigger_register(dev, &trigger_info);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to register offload trigger\n");
-> +
-> +		offload->trigger =
-> +			devm_spi_offload_trigger_get(dev, offload->spi,
-> +						     SPI_OFFLOAD_TRIGGER_DATA_READY);
-> +		if (IS_ERR(offload->trigger))
-> +			return dev_err_probe(dev, PTR_ERR(offload->trigger),
-> +					     "Failed to get DATA_READY offload trigger\n");
-> +	}
-> +
-> +	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, offload->spi);
-> +	if (IS_ERR(rx_dma))
-> +		return dev_err_probe(dev, PTR_ERR(rx_dma),
-> +				     "Failed to get offload RX DMA channel\n");
-> +
-> +	if (st->manual_mode)
-> +		indio_dev->setup_ops = &ad4691_manual_offload_buffer_setup_ops;
-> +	else
-> +		indio_dev->setup_ops = &ad4691_cnv_burst_offload_buffer_setup_ops;
-> +
-> +	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
-> +							  IIO_BUFFER_DIRECTION_IN);
-> +	if (ret)
-> +		return ret;
-> +
-> +	indio_dev->buffer->attrs = ad4691_buffer_attrs;
+I tested this feature in the steps below.
 
-Should including ad4691_buffer_attrs depend on st->manual_mode?
+1. Allocate 50% of system memory and mlock() it using a test program.
+2. Fill up the page cache to exhaust nearly all free memory.
+3. Start DAMON-based proactive reclamation with 100 MiB/second DAMOS
+   hard-quota.  Auto-tune the DAMOS soft-quota under the hard-quota for
+   achieving 40% free memory of the system with 'temporal' tuner.
 
-I thought it was only used when PWM is connected to CNV.
+For step 1, I run a simple C program that is written by Gemini.  It is
+quite straightforward, so I'm not sharing the code here.
 
-> +
-> +	return 0;
-> +}
-> +
->  static int ad4691_probe(struct spi_device *spi)
->  {
->  	struct device *dev = &spi->dev;
-> +	struct spi_offload *spi_offload;
->  	struct iio_dev *indio_dev;
->  	struct ad4691_state *st;
->  	int ret;
-> @@ -1232,6 +1626,13 @@ static int ad4691_probe(struct spi_device *spi)
->  	if (ret)
->  		return ret;
->  
-> +	spi_offload = devm_spi_offload_get(dev, spi, &ad4691_offload_config);
-> +	ret = PTR_ERR_OR_ZERO(spi_offload);
-> +	if (ret == -ENODEV)
-> +		spi_offload = NULL;
-> +	else if (ret)
-> +		return dev_err_probe(dev, ret, "Failed to get SPI offload\n");
-> +
->  	indio_dev->name = st->info->name;
->  	indio_dev->info = &ad4691_info;
->  	indio_dev->modes = INDIO_DIRECT_MODE;
-> @@ -1239,7 +1640,10 @@ static int ad4691_probe(struct spi_device *spi)
->  	indio_dev->channels = st->info->channels;
->  	indio_dev->num_channels = st->info->num_channels;
+For step 2, I use dd command like below:
 
-As mentioned earlier, we generally want separate channel structs
-for SPI offload. These will also have different num_channels because
-there is no timestamp channel in SPI offload.
+   dd if=/dev/zero of=foo bs=1M count=$50_percent_of_system_memory
 
->  
-> -	ret = ad4691_setup_triggered_buffer(indio_dev, st);
-> +	if (spi_offload)
-> +		ret = ad4691_setup_offload(indio_dev, st, spi_offload);
-> +	else
-> +		ret = ad4691_setup_triggered_buffer(indio_dev, st);
->  	if (ret)
->  		return ret;
->  
-> @@ -1277,3 +1681,5 @@ module_spi_driver(ad4691_driver);
->  MODULE_AUTHOR("Radu Sabau <radu.sabau@analog.com>");
->  MODULE_DESCRIPTION("Analog Devices AD4691 Family ADC Driver");
->  MODULE_LICENSE("GPL");
-> +MODULE_IMPORT_NS("IIO_DMA_BUFFER");
-> +MODULE_IMPORT_NS("IIO_DMAENGINE_BUFFER");
-> 
+For step 3, I use the latest version of DAMON user-space tool (damo)
+like below.
 
+    sudo damo start --damos_action pageout \
+            ` # Do the pageout only up to 100 MiB per second ` \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            ` # Auto-tune the quota below the hard quota aiming` \
+            ` # 40% free memory of the node 0 ` \
+            ` # (entire node of the test system)` \
+            --damos_quota_goal node_mem_free_bp 40% 0 \
+            ` # use temporal tuner, which is easy to understnd ` \
+            --damos_quota_goal_tuner temporal
+
+As expected, the progress of the reclamation is not consistent, because
+the quota is exceeded for the failed reclamation of the unreclaimable
+memory.
+
+I do this again, but with the failed region charge ratio feature.  For
+this, the above 'damo' command is used, after appending command line
+option for setup of the charge ratio like below.  Note that the option
+was added to 'damo' after v3.1.9.
+
+    sudo ./damo start --damos_action pageout \
+            [...]
+            ` # quota-charge only 1/4096 for pageout-failed regions ` \
+            --damos_quota_fail_charge_ratio 1 4096
+
+The progress of the reclamation was nearly 100 MiB per second until the
+goal was achieved, meeting the expectation.
+
+Patches Sequence
+================
+
+Patch 1 implements the feature and exposes it via DAMON core API.
+Patch 2 implements DAMON sysfs ABI for the feature.  Three following
+patches (3-5) document the feature and ABI on design, usage, and ABI
+documents, respectively.  Four patches for testing of the new feature
+follow.  Patch 6 implements a kunit test for the feature.  Patches 7
+and 8 extend DAMON selftest helpers for DAMON sysfs control and internal
+state dumping for adding a new selftest for the feature.  Patch 9
+extends existing DAMON sysfs interface selftest to test the new feature
+using the extended helper scripts.
+
+SeongJae Park (9):
+  mm/damon/core: introduce failed region quota charge ratio
+  mm/damon/sysfs-schemes: implement fail_charge_{num,denom} files
+  Docs/mm/damon/design: document fail_charge_{num,denom}
+  Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom}
+    files
+  Docs/ABI/damon: document fail_charge_{num,denom}
+  mm/damon/tests/core-kunit: test fail_charge_{num,denom} committing
+  selftets/damon/_damon_sysfs: support failed region quota charge ratio
+  selftests/damon/drgn_dump_damon_status: support failed region quota
+    charge ratio
+  selftets/damon/sysfs.py: test failed region quota charge ratio
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 12 +++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 18 +++++--
+ Documentation/mm/damon/design.rst             | 21 ++++++++
+ include/linux/damon.h                         |  9 ++++
+ mm/damon/core.c                               |  9 +++-
+ mm/damon/sysfs-schemes.c                      | 54 +++++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  6 +++
+ tools/testing/selftests/damon/_damon_sysfs.py | 21 +++++++-
+ .../selftests/damon/drgn_dump_damon_status.py |  2 +
+ tools/testing/selftests/damon/sysfs.py        |  6 +++
+ 10 files changed, 151 insertions(+), 7 deletions(-)
+
+
+base-commit: 9e634d6813be2e3d1cb023a0b83619fd2bcdd13b
+-- 
+2.47.3
