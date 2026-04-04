@@ -1,121 +1,146 @@
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C12288C30
-	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 01:41:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775266886; cv=none; b=d201ZL1N9jkCYwxrMveHZkO2Yt+8Mymzs918KfHlDenjtiLJVYo8Keo+dE6/ipSRxjvI2ndEa1g6xIP4B5ndV4aroiboXPMCDaRKxIY+OA+AxA5fkAU44vAm7BWzBgJnW4NLhYlqvUxl88UTpK1cF8ke4iD1qei1Xs/6Y32XlPE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775266886; c=relaxed/simple;
-	bh=oalOf6m7JMtDy2yNWJiFY9lNhdyMecV2HOjYO9Uh1k0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eb9Iva/O6Yrh8znUVrMreSfiM7kzwdOEzwL6Mw6XdicWIL+l8UURbOEGNWh1i1ALXAKZb5fvDn9E84kf9kdKGUNszFI/5V8EuHgKqJ0GvNjaiCBHr4gSkqnh61SixKacM1WhtxBY9ZczkP1SHftsGVEbkEOs9tmCJhBRgpdhQss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L1oK5PwR; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A13F1D5CC6
+	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 02:21:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775269278; cv=pass; b=c2ug0YgyYq1Z7XXEvGxoFuaioKO0j9jU6ottp9N9VoRtTJby4DKIirU15lU07G8rxUbYJ4a6bsxaLFCFvQk2oJyNhMwziV5ByCWGTdwH8sH0SmQGFVwSbKwy+nBSINxO0DjVj3b12RnAd8gCrXarFidEqY/u0W3uPhT5R2ufUVk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775269278; c=relaxed/simple;
+	bh=QKK3vfyE3OByfcbnSQwgv55pP7KZYyyoT/ZClNEydVg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ISmBQfNNinRElbkC6qnVt8b8zSAFoz9LpZWkGEgWW1zhLi/mCJ9NnXOIqh/roceBEuA9rqClTx6esFKfibAwpihp3MsU0IgVQTCpID+lC9q3HtorGMhxUdK9P0LGuQENhQCIB3BGPPPHyS1BrrFE6juni5A5FWQP+SSoFfc+vu4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mFZ5CNRz; arc=pass smtp.client-ip=209.85.208.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L1oK5PwR"
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82cd70febc7so1837821b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 03 Apr 2026 18:41:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mFZ5CNRz"
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-66b0dc690bcso12902a12.1
+        for <linux-doc@vger.kernel.org>; Fri, 03 Apr 2026 19:21:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775269275; cv=none;
+        d=google.com; s=arc-20240605;
+        b=R9hAXUvjFvEIAoVIqHABH7v86jcFWnPew/jHIcCtoOjakbNn5pEPc6aLSaAD7n+O1I
+         9PPxu4LzpyIkPFpeHkuwVMSB1ESWUOi1FDC/OEIzPxbe/lZvIUvWKeJiVMl4NWJZQC53
+         4sn8xZI2S4XUh4isSqEGLig++viO9nvXR8tfuGhbNiKjg5Sfa+3tsC7mY5KoUp7+vn5V
+         E8A4vOCG3I1xgK9Jj11yBYnq2RrLMNyYs/1yskW965gD85flDDH41aJVCXSJZt6jbjzv
+         65rnkSrGet334x7HIqgUJh2c0DmvAchFjm1l24C9uSQwJDo10o0/hTEdo/bxhoE/gl3g
+         rcww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=BxC/1pvEk7t6X+wjHIJcWrBYzvtuyxfvAHewlXa9Reg=;
+        fh=BS/xVIv+JaB6u7KYem/w4BdRyaEB95KEesyowFULFYE=;
+        b=OT02rthE1fbQuGdE7QwRLMH4VBm3rBXfpeQH3zujzdjor//aOhbFFzGptyovC95QQa
+         tgjvyNofNVx3FFvcEbEEWYT6VlvOzqDD9SDqAE2Ns5HsxNsC4n1xtOsd0AXyH+gXrij/
+         Vwp8Hx8pniqgVnAb4SIawghe5pmzPO7przXqJPNBnRaTeFAzwokQ3BR3Rpb+5ifQpRVt
+         m9G+VpUVQw+wsPgZv3t2uedS+Nk4RbQVSoTDtPadjMgJhp0LdbV8tLhKMGuUl96hS4Hh
+         G/qHLq6zADYsidv/uZ4VtFM34Gm/BBVTEuC47tnsTe3VoC5DX2B5VaVJFxib+VXxdZFY
+         2m3g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775266884; x=1775871684; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MRkD5HsTDuX9PjT7ol/nE07Q6AgNl5nhM+2WKO7vrJM=;
-        b=L1oK5PwRX2ckY7qdEbDushXIIg4cwKSMfcf0yR41tiOzI60MUl+TKgfWyyK4z9N0HS
-         k+XQgieUuv/2Wha6XM1QBEyj0vdAPmeHEYGapKpMwnKryns8oD/OiuCPizF6idyyHKyq
-         pKQKZEqdswjlpeS4IX2RaMZraUiUO220tQTUxmeiQfwD2CyNkcjxun9EJj6TUAcJDXmb
-         yqf27erOLbA7TrF/PFcRWgc/PBIhcqvOcPWhLRnpexWee081xkMnobpcpJpv7XUiJdYa
-         /6D/OfrOeNvOcscEmAtV/32PO6KbkezwtLzQLd+FZ4AErew/En6fA3do+G9tToJp4vza
-         AXtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775266884; x=1775871684;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=google.com; s=20251104; t=1775269275; x=1775874075; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MRkD5HsTDuX9PjT7ol/nE07Q6AgNl5nhM+2WKO7vrJM=;
-        b=s5o6ORXwlgcTKGcWF4LJ5nRzueZ7lkX0p67ZoRe8UiTXhfZjza4I3gx8HRpioS7pyU
-         yAB3m8Flu1CnINbN6H1bHbN9DLpf1Qd5A+7CFNtPEz76O3DIR4oQx3Q03RWSLEELKAsT
-         OSLYwmUxHximAZMUCK7subMTuaB4wIdJLm3WV6w/Ymx1uWHMai2Y8tWgfb7AaAGAOlea
-         NcL3glFRmyxsFT4wh/llceQ0VAgqPsSfvo5YVOkJ0BwhruczTXZqLkeyKQ0krJvTUDMy
-         FqT0451SLl0v39VSB3UnaecUmN9TMIoDNdYaezMXzgKK11MJLhZfyZXJzJ72GYKecPaG
-         s8HA==
-X-Forwarded-Encrypted: i=1; AJvYcCViI2QqloP4R3OOlZMKQlEq6pyP5AQguLqwROnAErDzrq8oX9MlhewthBWHL+qqTnZ7rQm4Tty/xlQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzfPeNOpdTik69Pa9EmLBwAfsFbH29t8erJWH5rlAI7SF5PEgXK
-	kxjRdSeVbB0PiBq8nwCQ7v2ed2LcypRXvN1CFvkR1LDzR9yguO7U6X4o
-X-Gm-Gg: AeBDiesBqvVK5nnDCPF7HD3sun8ggMzp3ymbk9ErlG6QiKfajYL9UGmlTGlmWyxEQmt
-	F6gqxMBACtEhi7UvdJ0yRP81sFl4667PTV+Yk56rRkILFenVVSOQ5rVGkpkxXZWq8tl8MMuBW2W
-	n9NPDHwm3vqaJ9CvSQWaxAJ1hZ4nJJDOKcb2pP3J2TmawgTsfB7YseqKSCX3BlN2o3TOMnRfCSY
-	cVo+OPYgAbVW+Y8xcmWj1KJlo4etOnmjtFPx/fKUHZIWLcxlWX9aNb4dQ2+J8Cnf5d4oj2PJUyF
-	wsT6H1SKt0Su6GTAyeAGeCBaOeFRnN0Tq5fmGVOY6818TsX+fnQVEkvl+C5uVjs2OG46dhzKjEU
-	PR0ymcdD72u94Hn0MSFQcSkKAs4+uUoORn62WIttUMIxETpLJfKL9QQbIZZrueMcxlD5qayFSZw
-	X/DDJYiP52yBem85bnYh/h/iJl6ehTrjLxTcgDXf6ldcaN5zYowwsrYGUbCEmErwqvYonnZSDYB
-	7UynB8YuPLoUNf/fMmjaS8=
-X-Received: by 2002:a05:6a00:4b56:b0:82c:9c90:54cf with SMTP id d2e1a72fcca58-82d0dba133dmr4891804b3a.43.1775266883642;
-        Fri, 03 Apr 2026 18:41:23 -0700 (PDT)
-Received: from adeel-linux.ad.umanitoba.ca (nat-243-cc-130-179-243-228.umanitoba.ca. [130.179.243.228])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82cf9c6fdd7sm7025639b3a.48.2026.04.03.18.41.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Apr 2026 18:41:23 -0700 (PDT)
-From: Adeel Zahid <adeel.m.zahid@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Adeel Zahid <adeel.m.zahid@gmail.com>
-Subject: [PATCH] docs: usb: document USBDEVFS_BULK return value
-Date: Fri,  3 Apr 2026 20:41:18 -0500
-Message-ID: <20260404014118.15678-1-adeel.m.zahid@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        bh=BxC/1pvEk7t6X+wjHIJcWrBYzvtuyxfvAHewlXa9Reg=;
+        b=mFZ5CNRzhSAbWxV9qEwfLjfxOOP7DEerPOJ44lwZkjp5L0uoXrsRQWWpXvSSDN4Cwo
+         k3qLye3m7czPV1KRG1YwJLNmVknn90IHrEFd+SEYT83REKPPEDEF27RQJWOaYm8vr5Mc
+         ARt2SMt9qNbsDFnF1i/h13uotWnRYenua3pnrUqy5O1F/7zThm1qfGM5Fc55s75pWyY0
+         q4FZWGS8Xs928aEmrZOHOfrCI6S7QgmhPn0SlpxVv8Cq7JNHWWU4jT8KhFsVsqaifCqU
+         8LTPEk17nAIKfFlYGH/o2e/+7vrvBzxwJc9f4mXHfqtkt9b3pw64CSnJbIhLfgpHkhBS
+         4zzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775269275; x=1775874075;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=BxC/1pvEk7t6X+wjHIJcWrBYzvtuyxfvAHewlXa9Reg=;
+        b=iPRuqFN40ebxYys/jd/QGCDdTEwu+EijmFBsO9FYNUgMYTm53oAWBfwcpqO9oBturO
+         4Bf2m/cXEpkLLqgPmPEX3nfQPuZ/4pI1C4dAsDd2khlh8hJe2gyjKjNI0oXEaO7CBI7G
+         EktRzmEb7zmJ2yzPUumDOoIe9PPnSROahaHo0DfsM41bV1ivqJU7S6I8nWyCv0tKNQQh
+         ItApX2PQbywhERt4y6DYPofOdEEFLHvFMfhO2QPWt7gCUvmcL82SkZT7UHLpl6mOKL7P
+         Q0iPeFMlM3YTDlh1JA0kzVlaGmS6emL3nrGNiSni+X3jv58oKX8WqyZ+OMhCkrkcWY+v
+         BWTw==
+X-Forwarded-Encrypted: i=1; AJvYcCWoqd7X+XtSJS02Q+SIMJgBv8wd2gPBxBSXHX76sU5j4YWR2MShvWfduEQmwotpf50Y7Ld6SEvrQUs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YztckEY+9/BbbzZTx2wwP9zBjndArVuN2jxTuGqM61OC+t8bbb8
+	I+PqEJgTz3A5ft4drHlGMSzuGKJf5IEHsexfRBJJyXEFelQOuLq0/xJDEn8HUM6N5cd5RcTHlLY
+	H6M2UB/sGn1u/CWwT97WOdeUS1EvVtUEUw53UKIfE
+X-Gm-Gg: AeBDievYDL+bueYpqM3Yc8XPzhIZHQ5yJ5YqX2jW3A7vJuS3J0gKG0Gjj71LCtq4Dtc
+	8Iw2K0It0/E/+LaS33cjgAWNFmHeoRopGlLpbdX71LyOvURJYmTaWCJ8DByNKZu84OZ/l86VLfK
+	nTOuZsDJJ6O0TpTUx8gdGpribefRM4YpBXPp48jD4KXLDAAwho0EEM8aKE7lYfW1Yw5HBZ9NjL6
+	LCuBH4eL3Z2w5uTk5Y63NpSOqPf3CJBu00d8OyyxfrqS2Oj/DAcw/bvIk2j1TXZIhRsBvsYRxDX
+	jT5NZ6eGibnhjvIO6w==
+X-Received: by 2002:a05:6402:1804:b0:66b:ed69:a85c with SMTP id
+ 4fb4d7f45d1cf-66e43f22b75mr45332a12.7.1775269275001; Fri, 03 Apr 2026
+ 19:21:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260402-vmscape-bhb-v9-2-94d16bc29774@linux.intel.com>
+ <CALMp9eSLVvr00mJ0J2f2_SPeCW-VS58kxMcxHgUW6etML+_+QA@mail.gmail.com>
+ <20260403185236.sjgetnkha3o3a4d3@desk> <CALMp9eSPkMpKQELTnsaj6=gXD+EyE0n2_p93n4maDc93bPFe+w@mail.gmail.com>
+ <20260403213445.xzb4rxbfbg5un7li@desk> <CALMp9eSXfJvR=PHtttbqm3q3nH436T1eH4YdpVqxQeP-cxEPsA@mail.gmail.com>
+ <20260403231608.zopnhnypdclzqlx7@desk> <CALMp9eT2vJBdLPY2uBYrPgVrhS_aYmfGfdXe6MZXG_gyryLHVA@mail.gmail.com>
+ <20260403233329.fb2ppifgwm3um6ny@desk> <CALMp9eTpsenqsWjzmpXLEubn9uNjgZgzgrMwtZ72HDuV_2xgfg@mail.gmail.com>
+ <20260404002149.wtayv6a64vzuppgp@desk>
+In-Reply-To: <20260404002149.wtayv6a64vzuppgp@desk>
+From: Jim Mattson <jmattson@google.com>
+Date: Fri, 3 Apr 2026 19:21:02 -0700
+X-Gm-Features: AQROBzBosyujpEg2ULZMen-BYMNgkEIJxtpk1WSLwb-MqoCqV3Cx2KzliC39bhw
+Message-ID: <CALMp9eSqgL5q-MY1xpjqR5oRn5_cb=mfEhNFWusNneS=Mx8UMg@mail.gmail.com>
+Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
+	Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, David Laight <david.laight.linux@gmail.com>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	David Ahern <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org, chao.gao@intel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Replace the FIXME in the usbfs bulk I/O documentation with the
-current behavior.
+On Fri, Apr 3, 2026 at 5:22=E2=80=AFPM Pawan Gupta
+<pawan.kumar.gupta@linux.intel.com> wrote:
+>
+> On Fri, Apr 03, 2026 at 04:39:54PM -0700, Jim Mattson wrote:
+> > > Since cloud providers have greater control over userspace, the decisi=
+on to
+> > > use BHI_DIS_S or not can be left to them. KVM would simply follow wha=
+t it
+> > > is asked to do by the userspace.
+> >
+> > I feel like we've gone over this before, but if userspace tells KVM
+> > not to enable BHI_DIS_S, how do we inform Windows that it needs to do
+> > the longer clearing sequence, despite the fact that the virtual CPU is
+> > masquerading as Ice Lake?
+>
+> IMO, if an OS is allergic to a hardware mitigation, and is also aware tha=
+t
+> it is virtualized, it should default to a sw mitigation that works everyw=
+here.
 
-Document that USBDEVFS_BULK returns the completed URB actual_length
-on success, which may be smaller than the requested len. Also clarify
-that for IN endpoints only the returned number of bytes is copied into
-the userspace buffer, so a smaller return value indicates a short
-read.
+Agreed. So, without any information to the contrary, VMs should assume
+the long BHB clearing sequence is required.
 
-Signed-off-by: Adeel Zahid <adeel.m.zahid@gmail.com>
----
- Documentation/driver-api/usb/usb.rst | 16 +++++++++++++---
- 1 file changed, 13 insertions(+), 3 deletions(-)
+Returning to my earlier comment, the test should be:
 
-diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
-index 7f2f41e80c1c..6b6a759c1f62 100644
---- a/Documentation/driver-api/usb/usb.rst
-+++ b/Documentation/driver-api/usb/usb.rst
-@@ -535,9 +535,19 @@ USBDEVFS_BULK
-     The ``ep`` value identifies a bulk endpoint number (1 to 15, as
-     identified in an endpoint descriptor), masked with USB_DIR_IN when
-     referring to an endpoint which sends data to the host from the
--    device. The length of the data buffer is identified by ``len``; Recent
--    kernels support requests up to about 128KBytes. *FIXME say how read
--    length is returned, and how short reads are handled.*.
-+    device. The length of the data buffer is identified by ``len``. Recent
-+    kernels support requests up to about 128 KBytes.
-+
-+    On success, the ioctl returns the completed URB's ``actual_length``
-+    value, that is, the number of bytes actually transferred for the
-+    request. This may be less than the value requested in ``len``.
-+
-+    For an IN endpoint, the return value tells userspace how many bytes were
-+    read and copied into ``data``. If the return value is smaller than
-+    ``len``, the read completed as a short read, and only the returned
-+    number of bytes is valid in the buffer.
-+
-+    Failures return a negative errno value.
- 
- USBDEVFS_CLEAR_HALT
-     Clears endpoint halt (stall) and resets the endpoint toggle. This is
--- 
-2.43.0
-
++       if (cpu_feature_enabled(X86_FEATURE_BHI_CTRL) ||
+cpu_feature_enabled(X86_FEATURE_HYPERVISOR)) {
++               bhb_seq_outer_loop =3D 12;
++               bhb_seq_inner_loop =3D 7;
++       }
