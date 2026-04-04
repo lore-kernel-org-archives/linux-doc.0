@@ -1,119 +1,222 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359F414B977;
-	Sat,  4 Apr 2026 00:21:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CBDE145355;
+	Sat,  4 Apr 2026 00:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775262120; cv=none; b=Uqj4vgPoor/5aGszZTW8K8k+U7fny5ksLG8dpIgs3McIYn7GJaGeG0O+ZEWDG/gkVqvbW0kyiI6RSRS9D9tSNBwywJvm7Hs8Cccl6KMHGoskypoTe+m8srj62auimkGuR1lgD0Nr1wrzkMzq7RnA2OPwsPH8eBX1bXHF0GUTDF8=
+	t=1775262317; cv=none; b=bkvp3yy3uJe/8v4m3r6ckQVqUmgKS/98MAUjHV9L+bnQ2ZgHvRJFECM+qBDvyGBqmVrFXuwKvY/nNpmYShuLYyB4JHdwaBCxEPkHPx1bTfpddHeMD6L2uZwyGyqJCxX9gF0xjJjmmkz+ByL6zVcbzg6Wy5/DQ5yLeKKjQSpYM+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775262120; c=relaxed/simple;
-	bh=K4fQ8Le81jwgc4RkE1ZtctQHn7HYlHeLdMGdNNR+9jI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lVqH0PD/bAtZ+j/R5WADcLnS6o2qoCsHXThyZWyrxKSzqieMTtIHK6/WJcRnAjz0PaQY8BWcJYI+E7RXw/Z+MCM7B3Rd6Wpnv5O7Yuj8IcLI3enAaRLGPCQYPzqqJgLRnfnBu7W/P/Gd1mUiUFAyF5f9Eri4irFLtvQQM7ouHhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EizX9mIU; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775262317; c=relaxed/simple;
+	bh=1KKb+SAvQLRbnelg75awC11V6PYrJa+s/5WWOKyvitE=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=iiBvuxDeYxCtKzyfZCWTvvr09/GlIl+d9cTg6lNOI3kpVHd7+S/RQ+5iHDWXPHoH09DX4iiwgd4uYha1Pjx5Kx6TpXttTZF2yb9zidf0P8PT0ak+CyIYNyF95fto6aVNaTM1HWvBpvysVD+a9Cl6TrTHbqk1DJLQur0um4trNTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W0wK1zv4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EizX9mIU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775262119; x=1806798119;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=K4fQ8Le81jwgc4RkE1ZtctQHn7HYlHeLdMGdNNR+9jI=;
-  b=EizX9mIU+O95Qd0kn3+ufYfJ9tFv5bW44b383gGAYemtepzomUyF5K4y
-   Gc/EtITakYaLCGMZdeR6/i3o5IcQkkl7x7GVk83jCc3QCGUt5YLLr7lNm
-   S+zJSJt4tBFDggs6qubU+n2/AxTqvEDal5906Rh+Ls+0E4sCqFW1nghsD
-   BKpDvtHRFPDZCtXb9u0wPkwaRqODbrN9A5fzsK0YTwqMnZNLGatKmTzDh
-   xkVPwEeeMFJISHPaEmQ5pE2yB9WiM1pZRB1L8JjWtF1W0jrnYwL/Rj/RU
-   JkcIuEttkBnMBBtaTqqvimWjmUcVmfN26CB7V81f2YkyVvxUCkix+KTac
-   A==;
-X-CSE-ConnectionGUID: Iw4rPuOFR/mio6cRZbFRvw==
-X-CSE-MsgGUID: Y6r86Y3xQ76qprrJPqiyaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11748"; a="75368382"
-X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="75368382"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 17:21:58 -0700
-X-CSE-ConnectionGUID: Gjpti8vKSNWPaml6JO+/3A==
-X-CSE-MsgGUID: Wal5rm5WRziZs8ottwMk1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,158,1770624000"; 
-   d="scan'208";a="226377012"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2026 17:21:58 -0700
-Date: Fri, 3 Apr 2026 17:21:49 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	chao.gao@intel.com
-Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260404002149.wtayv6a64vzuppgp@desk>
-References: <20260402-vmscape-bhb-v9-2-94d16bc29774@linux.intel.com>
- <CALMp9eSLVvr00mJ0J2f2_SPeCW-VS58kxMcxHgUW6etML+_+QA@mail.gmail.com>
- <20260403185236.sjgetnkha3o3a4d3@desk>
- <CALMp9eSPkMpKQELTnsaj6=gXD+EyE0n2_p93n4maDc93bPFe+w@mail.gmail.com>
- <20260403213445.xzb4rxbfbg5un7li@desk>
- <CALMp9eSXfJvR=PHtttbqm3q3nH436T1eH4YdpVqxQeP-cxEPsA@mail.gmail.com>
- <20260403231608.zopnhnypdclzqlx7@desk>
- <CALMp9eT2vJBdLPY2uBYrPgVrhS_aYmfGfdXe6MZXG_gyryLHVA@mail.gmail.com>
- <20260403233329.fb2ppifgwm3um6ny@desk>
- <CALMp9eTpsenqsWjzmpXLEubn9uNjgZgzgrMwtZ72HDuV_2xgfg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W0wK1zv4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 10CA0C4CEF7;
+	Sat,  4 Apr 2026 00:25:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775262317;
+	bh=1KKb+SAvQLRbnelg75awC11V6PYrJa+s/5WWOKyvitE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=W0wK1zv49Gis98CZbeiRFmiPE0RFDuGtkSyeJA30EgYvLZe79vZqOmI2P438xA6SF
+	 rkCvR6IvoGQ+8bSlUtS/gpA9n4ACbTRB/hncFgvv7yn1UHtjrePMiJdWee/9R0o0Xy
+	 UCs/aQTx5UQBbs0AqJDZC0qahPnQ6RZPIvN8Nx9GkcX6HeDnmm6uO7HdefBZmQB5W2
+	 bkAFQBwfMCQxOGWlxJI4g9Hl2O77cOo7xNsWELH2P5pyV4Bt3Enaf7ln8cCKBhnhZ0
+	 twss24sKTD3uzS2yg2pzPn41rg7vPtj2XY6x1KD1DIEb4n28Ff7elxW5MfXTGqNzn6
+	 hF4WiaSo7N16w==
+Date: Sat, 4 Apr 2026 09:25:08 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Ryan Chung <seokwoo.chung130@gmail.com>
+Cc: rostedt@goodmis.org, corbet@lwn.net, shuah@kernel.org,
+ mathieu.desnoyers@efficios.com, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v6 4/4] selftests/ftrace: Add accept cases for fprobe
+ list syntax
+Message-Id: <20260404092508.2bc18e7b70c96dfaf692fa5c@kernel.org>
+In-Reply-To: <CAB1jyqw_6wepbDaKi7087GDUcJ9t1jQO6qP9pa0DWCjti7ABZg@mail.gmail.com>
+References: <20260205135842.20517-1-seokwoo.chung130@gmail.com>
+	<20260205135842.20517-5-seokwoo.chung130@gmail.com>
+	<20260324131204.735c60133288e94718f20d31@kernel.org>
+	<CAB1jyqw_6wepbDaKi7087GDUcJ9t1jQO6qP9pa0DWCjti7ABZg@mail.gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALMp9eTpsenqsWjzmpXLEubn9uNjgZgzgrMwtZ72HDuV_2xgfg@mail.gmail.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 03, 2026 at 04:39:54PM -0700, Jim Mattson wrote:
-> > Since cloud providers have greater control over userspace, the decision to
-> > use BHI_DIS_S or not can be left to them. KVM would simply follow what it
-> > is asked to do by the userspace.
+On Thu, 2 Apr 2026 11:45:42 -0400
+Ryan Chung <seokwoo.chung130@gmail.com> wrote:
+
+> Hi Masami,
 > 
-> I feel like we've gone over this before, but if userspace tells KVM
-> not to enable BHI_DIS_S, how do we inform Windows that it needs to do
-> the longer clearing sequence, despite the fact that the virtual CPU is
-> masquerading as Ice Lake?
+> Thank you for your feedback. Unfortunately, I am not in the position
+> to continue working on this patch series for the foreseeable future.
+> If you or anyone else on the list would like to pick it up and carry
+> it forward, you are welcome to do so. I appreciate your time and
+> effort on this.
 
-IMO, if an OS is allergic to a hardware mitigation, and is also aware that
-it is virtualized, it should default to a sw mitigation that works everywhere.
+I see, that's unfortunate, but I understand. I'll continue to fix
+and post updates for this patch series.
+I appreciate you starting this series.
 
-> I don't think the virtual mitigation MSRs address that issue.
+Thank you.
 
-Virtual mitigation MSRs are meant to inform the VMM about the guest
-mitigation. Even if there was a way to tell the guest that it needs to use
-a different mitigation, it seems unrealistic for a guest to change its
-mitigation post-migration.
+> 
+> Best regards,
+> Seokwoo Chung
+> 
+> On Tue, 24 Mar 2026 at 00:12, Masami Hiramatsu <mhiramat@kernel.org> wrote:
+> >
+> > On Thu,  5 Feb 2026 08:58:42 -0500
+> > "Seokwoo Chung (Ryan)" <seokwoo.chung130@gmail.com> wrote:
+> >
+> > > Add fprobe_list.tc to test the comma-separated symbol list syntax
+> > > with :entry/:exit suffixes.  Three scenarios are covered:
+> > >
+> > >   1. List with default (entry) behavior and ! exclusion
+> > >   2. List with explicit :entry suffix
+> > >   3. List with :exit suffix for return probes
+> >
+> >
+> > Could you also add wildcard pattern test?
+> >
+> > >
+> > > Each test verifies that the correct functions appear in
+> > > enabled_functions and that excluded (!) symbols are absent.
+> > >
+> > > Note: The existing tests add_remove_fprobe.tc, fprobe_syntax_errors.tc,
+> > > and add_remove_fprobe_repeat.tc check their "requires" line against the
+> > > tracefs README for the old "%return" syntax pattern.  Since the README
+> > > now documents ":entry|:exit" instead, these tests report UNSUPPORTED.
+> > > Their "requires" lines need updating in a follow-up patch.
+> >
+> > This means you'll break the selftest. please fix those test first.
+> > (This fix must be done before "tracing/fprobe: Support comma-separated
+> > symbols and :entry/:exit" so that we can safely bisect it.)
+> >
+> > Thank you,
+> >
+> >
+> > >
+> > > Signed-off-by: Seokwoo Chung (Ryan) <seokwoo.chung130@gmail.com>
+> > > ---
+> > >  .../ftrace/test.d/dynevent/fprobe_list.tc     | 92 +++++++++++++++++++
+> > >  1 file changed, 92 insertions(+)
+> > >  create mode 100644 tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+> > >
+> > > diff --git a/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+> > > new file mode 100644
+> > > index 000000000000..45e57c6f487d
+> > > --- /dev/null
+> > > +++ b/tools/testing/selftests/ftrace/test.d/dynevent/fprobe_list.tc
+> > > @@ -0,0 +1,92 @@
+> > > +#!/bin/sh
+> > > +# SPDX-License-Identifier: GPL-2.0
+> > > +# description: Fprobe event list syntax and :entry/:exit suffixes
+> > > +# requires: dynamic_events "f[:[<group>/][<event>]] <func-name>[:entry|:exit] [<args>]":README
+> > > +
+> > > +# Setup symbols to test. These are common kernel functions.
+> > > +PLACE=vfs_read
+> > > +PLACE2=vfs_write
+> > > +PLACE3=vfs_open
+> > > +
+> > > +echo 0 > events/enable
+> > > +echo > dynamic_events
+> > > +
+> > > +# Get baseline count of enabled functions (should be 0 if clean, but be safe)
+> > > +if [ -f enabled_functions ]; then
+> > > +     ocnt=`cat enabled_functions | wc -l`
+> > > +else
+> > > +     ocnt=0
+> > > +fi
+> > > +
+> > > +# Test 1: List default (entry) with exclusion
+> > > +# Target: Trace vfs_read and vfs_open, but EXCLUDE vfs_write
+> > > +echo "f:test/list_entry $PLACE,!$PLACE2,$PLACE3" >> dynamic_events
+> > > +grep -q "test/list_entry" dynamic_events
+> > > +test -d events/test/list_entry
+> > > +
+> > > +echo 1 > events/test/list_entry/enable
+> > > +
+> > > +grep -q "$PLACE" enabled_functions
+> > > +grep -q "$PLACE3" enabled_functions
+> > > +! grep -q "$PLACE2" enabled_functions
+> > > +
+> > > +# Check count (Baseline + 2 new functions)
+> > > +cnt=`cat enabled_functions | wc -l`
+> > > +if [ $cnt -ne $((ocnt + 2)) ]; then
+> > > +     exit_fail
+> > > +fi
+> > > +
+> > > +# Cleanup Test 1
+> > > +echo 0 > events/test/list_entry/enable
+> > > +echo "-:test/list_entry" >> dynamic_events
+> > > +! grep -q "test/list_entry" dynamic_events
+> > > +
+> > > +# Count should return to baseline
+> > > +cnt=`cat enabled_functions | wc -l`
+> > > +if [ $cnt -ne $ocnt ]; then
+> > > +     exit_fail
+> > > +fi
+> > > +
+> > > +# Test 2: List with explicit :entry suffix
+> > > +# (Should behave exactly like Test 1)
+> > > +echo "f:test/list_entry_exp $PLACE,!$PLACE2,$PLACE3:entry" >> dynamic_events
+> > > +grep -q "test/list_entry_exp" dynamic_events
+> > > +test -d events/test/list_entry_exp
+> > > +
+> > > +echo 1 > events/test/list_entry_exp/enable
+> > > +
+> > > +grep -q "$PLACE" enabled_functions
+> > > +grep -q "$PLACE3" enabled_functions
+> > > +! grep -q "$PLACE2" enabled_functions
+> > > +
+> > > +cnt=`cat enabled_functions | wc -l`
+> > > +if [ $cnt -ne $((ocnt + 2)) ]; then
+> > > +     exit_fail
+> > > +fi
+> > > +
+> > > +# Cleanup Test 2
+> > > +echo 0 > events/test/list_entry_exp/enable
+> > > +echo "-:test/list_entry_exp" >> dynamic_events
+> > > +
+> > > +# Test 3: List with :exit suffix
+> > > +echo "f:test/list_exit $PLACE,!$PLACE2,$PLACE3:exit" >> dynamic_events
+> > > +grep -q "test/list_exit" dynamic_events
+> > > +test -d events/test/list_exit
+> > > +
+> > > +echo 1 > events/test/list_exit/enable
+> > > +
+> > > +# Even for return probes, enabled_functions lists the attached symbols
+> > > +grep -q "$PLACE" enabled_functions
+> > > +grep -q "$PLACE3" enabled_functions
+> > > +! grep -q "$PLACE2" enabled_functions
+> > > +
+> > > +cnt=`cat enabled_functions | wc -l`
+> > > +if [ $cnt -ne $((ocnt + 2)) ]; then
+> > > +     exit_fail
+> > > +fi
+> > > +
+> > > +# Cleanup Test 3
+> > > +echo 0 > events/test/list_exit/enable
+> > > +echo "-:test/list_exit" >> dynamic_events
+> > > +
+> > > +clear_trace
+> > > --
+> > > 2.43.0
+> > >
+> >
+> >
+> > --
+> > Masami Hiramatsu (Google) <mhiramat@kernel.org>
+
+
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
