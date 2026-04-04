@@ -1,162 +1,103 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD6001A682A;
-	Sat,  4 Apr 2026 16:53:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F58333B970;
+	Sat,  4 Apr 2026 19:53:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775321624; cv=none; b=DDDROPISPnTpjbrTR3i1WhWtih/B3Itl4ztMMI3Qx4S556HT3hPGXGVM8CbzMK9HLLXYBJP9AJMmnSrAUnRyj4fqA1ErOYva8WFkkfRaq9PFwO1Q6Jsp7rTA/UojOSerXuWnU60t4exs1n0tbU6DR7lQ1+KVidhz7YDA/Uyww8M=
+	t=1775332419; cv=none; b=eJCXNuQohavTRuDkYnyA5n+Qx4yk8NL7SHaCyZ8eqSd/DO9su9d8mhhNtvdFJ9ytZQsaPfgCsuLUJv3TrzbY1GI4zV9S6qD53ZviJXu2WPCgASt4IACkYxn85EU5CPt3xRS5Ha7hsiegTnwl0U3Bf4NIDZ2eU+mPmQ61LitP06U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775321624; c=relaxed/simple;
-	bh=4ljFbXNE5GaVpD1qooXO+bZe5p57hd2HpLdsSi36i98=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qaASr+fRuK5zDWNgOXg1FaBpe9s01VoMLW3vmG/SwzR+NJ9VuXmSOdyizaOvhbzXjJH6AhS08Vrd2u7MG8wxP3x23kelFI//uvqLgOm8r8gr8ulncVtpeuguqziWFr1An8bIzq4//LdQsTU6SwA8bratSqo0mIs9IeFqz+IAo+U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uoLLbiIx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775332419; c=relaxed/simple;
+	bh=KIyQFCexOJ3GWSHEbtzW2pSLEsIiY9S8dv+B7bmaG+0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=L3H+oGBk6451VK/X2kQnLBY4M1J1vT22DBIoxMf/A4XVXf5I4RkmBHYw6mP8aeT4nTF3a9QYpO8ZPEU47a9xa+IbiRy2PTd9Wo9R+FY8NF2jhXvAVLqar7DSuKq0IRXjOYyfYA8vUVfuKEEqnX9KFA78hkfP4dcWx5tsFzn0Ums=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzAhhg4I; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uoLLbiIx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EAFCC19421;
-	Sat,  4 Apr 2026 16:53:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzAhhg4I"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4F6AC19421;
+	Sat,  4 Apr 2026 19:53:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775321624;
-	bh=4ljFbXNE5GaVpD1qooXO+bZe5p57hd2HpLdsSi36i98=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uoLLbiIxFbBGZ/vxLYnikvtUkFkVKpK+0+eS4Voj+KIm5HA/M3qyTg3zJr+w+/gsa
-	 mdc7NOsJGiGu5M6W/VfPOHq0EHo0WoThpRYCQ5/2oVF2oh3tgiYy8Tg3LNrLh+L4Mu
-	 uHBZ++P6y2er+rTRp3yfoTo7bKJHU4Url3YYN9yjLOY++ThUbe297jAGjbSy+FF9RI
-	 IKhX2S4k3adTLbqFyVmgH7E+VllDg6fIf6g6zOQIRH/R8AKRKsl0clumvpP8LIeyzU
-	 U5+YLC/LgJludkLgapI6ZyBO6VqWZkDdVHDcGxwtZeLV1WVdrbru/6P1V06EVBmn75
-	 hjx/TgvCHesdQ==
-Date: Sat, 4 Apr 2026 22:23:32 +0530
-From: Manivannan Sadhasivam <mani@kernel.org>
-To: Steven Rostedt <rostedt@goodmis.org>, 
-	Shawn Lin <shawn.lin@rock-chips.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, 
-	linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v5 0/3] PCI Controller event and LTSSM tracepoint support
-Message-ID: <u2dh2os5qyuuv636uwzttvohfyics7tvqiobheftjzdnuegq33@n77svn2nlqu2>
-References: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
+	s=k20201202; t=1775332419;
+	bh=KIyQFCexOJ3GWSHEbtzW2pSLEsIiY9S8dv+B7bmaG+0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=OzAhhg4IT4uDD6s1jppMeqlKNBGYOCW4X7Ea1BTUPvxmwMDn6eA6xZMZMQ2tIcddR
+	 8IuMjJvLcBp+uRc9KBkJr8MFK2hx6Crp2yrGY4iH1C1a7oaT+tQE8CQn5PAp7iJdnL
+	 JmJnNoF2/8S9tPNs/RA3lJCnDamB5rotH7ts+gji8lcyXCqLldnaJds/FOsSU2V/+J
+	 jk4vRr8DjruUHrDak/o2Pc5BaPz/n8hlChoFFz85DAt8ZKai5OhHPA40XOFmzGrpuW
+	 AnZQFxRo3gx5814dtAtskWEc3Oab9R3a051pIaRta2ColzDkw07k1krnuuOjKMXxUs
+	 +kvwf2guH77zg==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [PATCH v5 0/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+Date: Sat,  4 Apr 2026 12:53:29 -0700
+Message-ID: <20260404195330.85809-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260404012215.1539-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
 
-On Wed, Mar 25, 2026 at 09:58:29AM +0800, Shawn Lin wrote:
-> 
-> This patch-set adds new pci controller event and LTSSM tracepoint used by host drivers
-> which provide LTSSM trace functionality. The first user is pcie-dw-rockchip with a 256
-> Bytes FIFO for recording LTSSM transition.
-> 
+Hello Ravi,
 
-Steve, could you please take a look at the tracing part?
 
-- Mani
+On Fri,  3 Apr 2026 18:22:14 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-> Testing
-> =========
+> This patch introduces two new DAMOS quota goal metrics for controlling
+> memory distribution in heterogeneous memory systems (e.g., DRAM and CXL
+> memory tiering) using physical address (PA) mode monitoring.
 > 
-> This series was tested on RK3588/RK3588s EVB1 with NVMe SSD connected to PCIe3 and PCIe2
-> root ports.
+> Changes since v4:
+> =================
+> https://lore.kernel.org/linux-mm/20260320190453.1430-1-ravis.opensrc@gmail.com/
 > 
-> echo 1 > /sys/kernel/debug/tracing/events/pci_controller/pcie_ltssm_state_transition/enable
-> cat /sys/kernel/debug/tracing/trace_pipe
-> 
->  # tracer: nop
->  #
->  # entries-in-buffer/entries-written: 64/64   #P:8
->  #
->  #                                _-----=> irqs-off/BH-disabled
->  #                               / _----=> need-resched
->  #                              | / _---=> hardirq/softirq
->  #                              || / _--=> preempt-depth
->  #                              ||| / _-=> migrate-disable
->  #                              |||| /     delay
->  #           TASK-PID     CPU#  |||||  TIMESTAMP  FUNCTION
->  #              | |         |   |||||     |         |
->       kworker/0:0-9       [000] .....     5.600194: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
->       kworker/0:0-9       [000] .....     5.600198: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_WAIT rate: Unknown
->       kworker/0:0-9       [000] .....     5.600199: pcie_ltssm_state_transition: dev: a40000000.pcie state: DETECT_ACT rate: Unknown
->       kworker/0:0-9       [000] .....     5.600201: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_ACTIVE rate: Unknown
->       kworker/0:0-9       [000] .....     5.600202: pcie_ltssm_state_transition: dev: a40000000.pcie state: POLL_CONFIG rate: Unknown
->       kworker/0:0-9       [000] .....     5.600204: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_START rate: Unknown
->       kworker/0:0-9       [000] .....     5.600206: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LINKWD_ACEPT rate: Unknown
->       kworker/0:0-9       [000] .....     5.600207: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_WAI rate: Unknown
->       kworker/0:0-9       [000] .....     5.600208: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_LANENUM_ACEPT rate: Unknown
->       kworker/0:0-9       [000] .....     5.600210: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_COMPLETE rate: Unknown
->       kworker/0:0-9       [000] .....     5.600212: pcie_ltssm_state_transition: dev: a40000000.pcie state: CFG_IDLE rate: Unknown
->       kworker/0:0-9       [000] .....     5.600213: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 2.5 GT/s
->       kworker/0:0-9       [000] .....     5.600214: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
->       kworker/0:0-9       [000] .....     5.600216: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: Unknown
->       kworker/0:0-9       [000] .....     5.600217: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_SPEED rate: Unknown
->       kworker/0:0-9       [000] .....     5.600218: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: Unknown
->       kworker/0:0-9       [000] .....     5.600220: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ1 rate: Unknown
->       kworker/0:0-9       [000] .....     5.600221: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ2 rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600222: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_EQ3 rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600224: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600225: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600226: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600227: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600228: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600229: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600231: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600232: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600233: pcie_ltssm_state_transition: dev: a40000000.pcie state: L123_SEND_EIDLE rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600234: pcie_ltssm_state_transition: dev: a40000000.pcie state: L1_IDLE rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600236: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_LOCK rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600237: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_RCVRCFG rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600238: pcie_ltssm_state_transition: dev: a40000000.pcie state: RCVRY_IDLE rate: 8.0 GT/s
->       kworker/0:0-9       [000] .....     5.600239: pcie_ltssm_state_transition: dev: a40000000.pcie state: L0 rate: 8.0 GT/s
-> 
-> 
-> Changes in v5:
-> - rebase
-> - use EM/EMe instead
-> - remove reg/unreg function and back to use TRACE_EVENT
-> - use trace_pcie_ltssm_state_transition_enabled()
-> 
-> Changes in v4:
-> - use TRACE_EVENT_FN to notify when to start and stop the tracepoint,
->   and export pci_ltssm_tp_enabled() for host drivers to use
-> - skip trace if pci_ltssm_tp_enabled() is false.(Steven)
-> - wrap into 80 columns(Bjorn)
-> 
-> Changes in v3:
-> - add TRACE_DEFINE_ENUM for all enums(Steven Rostedt)
-> - Add toctree entry in Documentation/trace/index.rst(Bagas Sanjaya)
-> - fix mismatch section underline length(Bagas Sanjaya)
-> - Make example snippets in code block(Bagas Sanjaya)
-> - warp context into 80 columns and fix the file name(Bjorn)
-> - reorder variables(Mani)
-> - rename loop to i; rename en to enable(Mani)
-> - use FIELD_GET(Mani)
-> - add comment about how the FIFO works(Mani)
-> 
-> Changes in v2:
-> - use tracepoint
-> 
-> Shawn Lin (3):
->   PCI: trace: Add PCI controller LTSSM transition tracepoint
->   Documentation: tracing: Add PCI controller event documentation
->   PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
-> 
->  Documentation/trace/events-pci-controller.rst |  42 ++++++++++
->  Documentation/trace/index.rst                 |   1 +
->  drivers/pci/controller/dwc/pcie-dw-rockchip.c | 111 ++++++++++++++++++++++++++
->  drivers/pci/trace.c                           |   1 +
->  include/trace/events/pci_controller.h         |  58 ++++++++++++++
->  5 files changed, 213 insertions(+)
->  create mode 100644 Documentation/trace/events-pci-controller.rst
->  create mode 100644 include/trace/events/pci_controller.h
-> 
-> -- 
-> 2.7.4
-> 
+> - Fixed commit message description for DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP
+>   per review feedback
+> - Added clarifying comment for ops-common.h include (for damon_get_folio())
+> - Fixed build error when CONFIG_DAMON_PADDR is disabled by adding
+>   #ifdef CONFIG_DAMON_PADDR guards around functions using damon_get_folio()
+> - Dropped RFC tag per maintainer feedback
 
--- 
-மணிவண்ணன் சதாசிவம்
+Thank you for revisioning while addressing my comments on the previous version!
+
+> 
+> This patch is based on top of damon/next.
+
+Maybe because of this, sashiko was unable to review this.
+
+To my understanding, there is no real reason to make this based on damon/next.
+And I'd like to get sashiko review for this patch.  Could you please rebase
+this to latest mm-new and repost for that?
+
+> 
+> Background and Motivation
+> =========================
+> 
+> In heterogeneous memory systems, controlling memory distribution across
+> NUMA nodes is essential for performance optimization. This patch enables
+> system-wide page distribution with target-state goals such as "maintain
+> 30% of scheme-eligible memory on CXL" using PA-mode DAMON schemes.
+[...]
+
+Other than the lack of the sashiko review, this cover letter looks good to me.
+
+
+Thanks,
+SJ
+
+[...]
