@@ -1,221 +1,130 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 730226F2F2
-	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 11:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775300566; cv=pass; b=uMRPpVdsdHfAe0wyoBYpY4LNZM2WZyT5lHEpLNyGfA885WucdPmJBAl2nDcVK/zmqv9cIKUgLFcgNubQCAiwQ9CVps1xuzNM0I49FxXyChECvNpPbpl4d+sNm30IOj1Yo5Qzv9ukzfi6Q5DDZDCeJjRs87BcN9MVi8kCssMqtpY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775300566; c=relaxed/simple;
-	bh=qQm9tBltYls3k/v6mMzJ47hisi6iCeBEZTaaYj42jB4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XL+kOn+c5YQHDWMdNnPYst5hkj9DyQavZYp3gQ6D2PHzhHiTDC0uVZpT8x2fs6d8Czq7NDzBuvKvhIasIk6zvjhfsgTnybpTW/pQbxXTr8oKN/DuinEDS9zPNUc8CoMYXVZjshtqnUr+h0iPPwH7IW5QtimLhLfPJ2JMAnI/n0k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org; spf=none smtp.mailfrom=brainfault.org; dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b=NtTzD4UP; arc=pass smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=brainfault.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=brainfault.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B61296BDC
+	for <linux-doc@vger.kernel.org>; Sat,  4 Apr 2026 14:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.173
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775312748; cv=none; b=TOIHAM3d8a0chYs+xV944VQI1qkamqyy7xXKJqXHuW+O9ym/M7jYS3mAxIsR7pD9wB0f/gUmSKYxnivXMA6YQwm04Sp0IcuM/4uEwlkDI/BN04HjR4v/rLAGgtb+0GJmA1HxXjvQk+IsR1To9tPFB2l99967dptjmJmp+a7yG+w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775312748; c=relaxed/simple;
+	bh=YDHQQIkUtIMA5RuVXX+SK+ZopnAIz0IH3aZAqaHI9pk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=awrcqZbuehkfW16guhD5w5k9MlRie7ysVimswv2mpZTLXk5YrmPzz2y4Vai+FTJ6Fsu2rtsMCvs/q2IUjAitoIMWGREe+honJQuPXdoHIdk3ZOXjhTIV4kiBXc4bRv/osVaZJ17emp0RWWN0KeaZ9x25xLDLGx4ikwyfg95gMrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=T+tHPtq/; arc=none smtp.client-ip=209.85.167.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=brainfault-org.20251104.gappssmtp.com header.i=@brainfault-org.20251104.gappssmtp.com header.b="NtTzD4UP"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7dbccb6ae20so177738a34.3
-        for <linux-doc@vger.kernel.org>; Sat, 04 Apr 2026 04:02:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775300564; cv=none;
-        d=google.com; s=arc-20240605;
-        b=it1cKg6CRxE3mTdzORuFsT3sp3DO48lrXVCXxQmxnL3s48Kd90sFk2SYIQhksj4zZx
-         SJiIN54S2rbT/r0lkcN8kCtsKrDn/pxU9rvoNRzGyzx/716r0XN8kvz3TyqYMdvYRoMG
-         2lQ6vvHmln2z+d8CgFKSyXl0N4d+Ww1FbYmWgGWJtgPRTvtI6USUvGjKTFwzVgoe1pAi
-         Anv/79W0v6ZjCBSmXR+xPGEcB1ikOgfhb0ogkRnwK9Ple3Jsnt87KLFfwJvLFItL69sT
-         9ltCBf5RvA22i3HDYLZKeKwGaiiGPg5H37J1XVy0VSEQj1jSHqDt5kNez6Tb6RB7Ti9G
-         3vuA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Zfu5+ZoRr42kiqQcxjxD/Vr+HX1maiYTYcsoR4uKhiw=;
-        fh=fV7ujkOdz4f2MEtsCgjXML1jcC5kS9Ah3Z+4tTbpkXg=;
-        b=KQ1x3JM90aqqLkHBoLqe0YSPtlo0zt4fWD8fhGaO6QXVi0j2xv134XYW2pv85rD+ce
-         jJZKs5btVNp9Eur2YW/PTbjoCcYqLIOblKjzBv9yN+f/h7ZAKVpKY4TOvoi8zTHRrp2t
-         dYyxEcaqgMoguF8jL+QbTR3lIKh2hh/uJX7Z0FMdeejRRON7Xar30kS/B+tHkap1mFkg
-         uSZUpKF22YzWeljNOWTqOkQS30XuM9SnD6r5iB8wcLzsq+uxguCI/Id3AlWsuXeFe4ag
-         ggeunsI8hjkCtcmWeoIRQoANr6p9a8hLuM31fGq6VTLxuGlwGC6bsvYOrtfNYzWzyIRM
-         /qOg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="T+tHPtq/"
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-46fc5b8a068so342336b6e.3
+        for <linux-doc@vger.kernel.org>; Sat, 04 Apr 2026 07:25:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=brainfault-org.20251104.gappssmtp.com; s=20251104; t=1775300564; x=1775905364; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zfu5+ZoRr42kiqQcxjxD/Vr+HX1maiYTYcsoR4uKhiw=;
-        b=NtTzD4UP7F1K6s7YplG4hFImUSTvGMubxPMlOYMTwuEY9J204KPVwFfo+kvim9MV+j
-         5OUBAQPJe09/0XgQt33AeoU0G1g4HyooN9j5aJgpDBZRNp32ctCVqFopp9Kz986l9acF
-         PkBxuDCcVtv1E4cnvxssGYOmZeDahzMsz3RY5+zSMa9P4wNGawPOqj3NwEIrw7GMdDIk
-         zvTNtq6YDE2iB3n5O0h9D+D2YvxDHtZfqCI/eLQBBHZSMwuH3BCDLxnTb1JMW7osWZlu
-         /23Pu8CXa9/ZAVlglC3DIEuClTdvtBErJdVq2udloSgBq6hZU11nnerCapEPuFqssMbF
-         mWQA==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775312745; x=1775917545; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=DG8ZLzSkLL5KxGbpBt+cYKmm52XpYZesZWRmcIu235A=;
+        b=T+tHPtq/ZJmrz/x0hon6ubvef3dyaaHhk1GRRXgW8y8HepFtZGYjfJcUQczd3MEkSt
+         2Agviun9Cf5EYKtk9j0IqUraHya5+cWg7jpTqs6odctBlL2Zz+DNQ/uNqQMe9wgH193o
+         z3zeYYVklZaMQki3yiMddob47zunpO6AWKU8n5PWDQ6LxULv6X3f1wcyghb+It/+xjWX
+         z9PNVkRx7eWxmjJNLwRnRuJlliHjZbQNuYTor2Ij+hbvfTGn47XIa2O2GDia9HEi0TFp
+         QBOE28LuVqSi18lbs2VxGAN1lYamyOifHSPJ/JYonO7K4FYFJ/G3E8jlIr/y0xjtfZ+C
+         UNXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775300564; x=1775905364;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Zfu5+ZoRr42kiqQcxjxD/Vr+HX1maiYTYcsoR4uKhiw=;
-        b=ZIvLZc+AwIb+I/LogruLBdysG5oMNWEGLVlrNBWjqa95a+b53+iQQ5fvguEAHu+NLK
-         pfQpowFiBuQr3IksApxC+XeZJr0bdHewx6b1+xaD9a/+kijKV8I26L2Ozhxd0LE+Tlwh
-         4JG0XuI7CJBvB56Lyfuym8YljT8kyb57z9d7lOdmC2TBr/XS56qJarAjGtSyjFJZHu6d
-         +R9k8pATjb/zJ3G3XDVZMeknMHu/36VRk3uFaefuJ5kMSJy6iFdnJTWovtS/erEHgvTj
-         a5DdguUI3cSTJ9iWvRDR4tzJ7A8LeCRjqLJT6WPsGPk6L7fEI92wtZMeTSJDzED/xzCm
-         srnw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAFONsm+OEXmnFomOLL9mc/3v85OHwIS/sfQs7ZYb5QyVtZRZy9DsURpjMbnvTDb20HjuI+7wBwqg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzouiMbothiQc2JZMvEFrfMqSrbMJaMRzn5lTbzit8T/kw+bHL4
-	dubSjaEoUFbfyoqwOS5PHv8Ump4/sHbrwbhyyjKnMM/XcdPr4gu44pd2xg2/JRG83hxnRIPoOsY
-	GqIc9kzviVhuhIxFZCbul6o1mGYooj7fzs/oZfu9SPS8fAld+mjVvqjY=
-X-Gm-Gg: AeBDies8TgLj+vaJ/PVzBL24rUdwEqbGb1wUMUEBDLVSSDYj/Z8Bj7LJuOqcga89NnH
-	Q9dVRnkwBwVqt+riRoKQwnguWSbIl5WpPlBkZR0uh3/Xy4DXvZrny8mcvatZzy7ykdqRUoX+UXz
-	L83ySdIL2T3Mc/x137oJdFT3v9Kj5I5Go2ymMGppMZe/un/MYND6WIxwA5LcvJJjh3COL8awlXZ
-	vj9Y+VYuxOwG+RYEa6wbNi82Hp086wvh+rzaTan8WeQTfU+DLzzbdETd6p1zij6aCoJC0BboS+M
-	C28rAo2CYWgfkqPsmBljyjzrLkJNnH+1VNBnD2e1lWAzU+0LY2tqm3y5RCgNgpVq5jUrvvZXCx0
-	JZL8bHcLFAqM7xW7zPCyPkB9GIQ==
-X-Received: by 2002:a05:6820:1ca8:b0:67e:3b11:89ed with SMTP id
- 006d021491bc7-6821e66a08bmr3527858eaf.10.1775300564107; Sat, 04 Apr 2026
- 04:02:44 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775312745; x=1775917545;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DG8ZLzSkLL5KxGbpBt+cYKmm52XpYZesZWRmcIu235A=;
+        b=MN5MW8R3ZGMHq/vwPbZovY5j4+czcM0dlSQWXQvb7AWpsgo6JcJd9F5RkE8yr9tBYf
+         gEMW5dO71ZlHV3awJ4TKfGaXAew994+yCJqUv1sOrQnBHKVBUWuzC94qLPjkm1eNiRgf
+         2YIcbyudLvu4ORL8i4RjpZjKhnbhMLVMh+nlsgUfS+UAUR3JITOrb1uUBr6X2pvpq0dF
+         cn9Ow3v/YIpx505QWvMkpBxrZD+d8sNTy4x/DFkq2ULs/WIClfMr3yUnD+RjiEuK6fms
+         hM0u9qFjKviFbTk083KdtGm7FgrTuqvma8w1q5PGOg2bymLFuiKSxxsMa9LB8ymttsuR
+         jV7g==
+X-Forwarded-Encrypted: i=1; AJvYcCUCbE2AZLb7JV49bm05kmE4gG0a6yv0M/GczVIqnduJgrm5SnllzNfVBTOU8KFuwMetOJwIKbd6rB8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpmxZ2wjHbUCxyRe7WXfiFcrC+qTMJM57+R3FnxpcLrH4QQpl5
+	74vPM9NXBB01dMNNuIcWZP5d+161nDet0TrZypnjgevyd0wA3odiKQgsXTQN9NNh90IqdTLRwrO
+	WL1c4
+X-Gm-Gg: AeBDievQLOZc6jeXWlVxBHDh09C36go7t4KZly7so6HapcGwJy5CMQ+QTNgNKhZrSn3
+	Ig4qOT4Ga/7CW9XM5JMC7AXl3/RtxZAPrx+jft9WABWzhLVsX7qsC71TnIm4x7hlmn8qUDHoabz
+	MbzBs4qnzzg7S/osAYcrGA4/bpakTHBFh6KeLiOHo/+jRMUHX6xwbw9swSAw5FXlMk9wQRjwLUx
+	x4ResHzZ3IghhCMoIxC3rME9FPagfTNivpw1s5DoYvW9ssGzucRJcvHa4JZNJ+G8FQEazttMvow
+	Nh5/CDGIWUzQQgI/9FReC3d/lvq1CpUCNR5Uc1CHrwItz1Tup9z4sbGZC0oG/qIi9ktyJlFtBy9
+	D33AXVQz2DQiH560UBvJeuZ4NejOmmV9MT+SrXVCpj4Du0oIT7LPJjMqWv0OQktEMAjZDkR/WbY
+	sDxUjQ+YbLATELDzTL/c0ndDtCkfWIGb3/gLsruW8e+Uo0ekoi8sbPl3UTF1s2+JFC/+Udq38g3
+	w==
+X-Received: by 2002:a05:6808:1206:b0:46a:8dd5:3a4f with SMTP id 5614622812f47-46ef5002b8dmr3010289b6e.5.1775312744846;
+        Sat, 04 Apr 2026 07:25:44 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:e14e:bcc6:3f95:26eb? ([2600:8803:e7e4:500:e14e:bcc6:3f95:26eb])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-46f0f4e16a9sm2936944b6e.4.2026.04.04.07.25.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 04 Apr 2026 07:25:43 -0700 (PDT)
+Message-ID: <e4ddf44e-3189-4d4a-9184-13b0560195dd@baylibre.com>
+Date: Sat, 4 Apr 2026 09:25:41 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260403153019.9916-1-fangyu.yu@linux.alibaba.com>
-In-Reply-To: <20260403153019.9916-1-fangyu.yu@linux.alibaba.com>
-From: Anup Patel <anup@brainfault.org>
-Date: Sat, 4 Apr 2026 16:32:32 +0530
-X-Gm-Features: AQROBzDcUt7d2zmN-LgKMz3EEMCzhGSvhLBkGZy88YajEYGJjZyDS4lDfZXa79I
-Message-ID: <CAAhSdy2t2WukRG7mHckY5=+J4+vPU1jvkrG9vqXoDxcMPbiEJg@mail.gmail.com>
-Subject: Re: [PATCH v8 0/3] Support runtime configuration for per-VM's HGATP mode
-To: fangyu.yu@linux.alibaba.com
-Cc: pbonzini@redhat.com, corbet@lwn.net, atish.patra@linux.dev, pjw@kernel.org, 
-	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr, 
-	skhan@linuxfoundation.org, guoren@kernel.org, radim.krcmar@oss.qualcomm.com, 
-	andrew.jones@oss.qualcomm.com, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-riscv@lists.infradead.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] iio: adc: ad4691: add initial driver for AD4691
+ family
+To: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260403-ad4692-multichannel-sar-adc-driver-v6-0-fa2a01a57c4e@analog.com>
+ <20260403-ad4692-multichannel-sar-adc-driver-v6-2-fa2a01a57c4e@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20260403-ad4692-multichannel-sar-adc-driver-v6-2-fa2a01a57c4e@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 3, 2026 at 9:00=E2=80=AFPM <fangyu.yu@linux.alibaba.com> wrote:
->
-> From: Fangyu Yu <fangyu.yu@linux.alibaba.com>
->
-> Currently, RISC-V KVM hardcodes the G-stage page table format (HGATP mode=
-)
-> to the maximum mode detected at boot time (e.g., SV57x4 if supported). bu=
-t
-> often such a wide GPA is unnecessary, just as a host sometimes doesn't ne=
-ed
-> sv57.
->
-> This patch reuse KVM_CAP_VM_GPA_BITS to select HGATP.MODE. User-space can
-> now explicitly request a specific HGATP mode (SV39x4, SV48x4, SV57x4 or
-> SV32x4) during VM creation.
->
+On 4/3/26 6:03 AM, Radu Sabau via B4 Relay wrote:
+> From: Radu Sabau <radu.sabau@analog.com>
+> 
+> Add support for the Analog Devices AD4691 family of high-speed,
+> low-power multichannel SAR ADCs: AD4691 (16-ch, 500 kSPS),
+> AD4692 (16-ch, 1 MSPS), AD4693 (8-ch, 500 kSPS) and
+> AD4694 (8-ch, 1 MSPS).
+> 
+> The driver implements a custom regmap layer over raw SPI to handle the
+> device's mixed 1/2/3/4-byte register widths and uses the standard IIO
+> read_raw/write_raw interface for single-channel reads.
+> 
+> The chip idles in Autonomous Mode so that single-shot read_raw can use
+> the internal oscillator without disturbing the hardware configuration.
+> 
+> Three voltage supply domains are managed: avdd (required), vio, and a
+> reference supply on either the REF pin (ref-supply, external buffer)
+> or the REFIN pin (refin-supply, uses the on-chip reference buffer;
+> REFBUF_EN is set accordingly). Hardware reset is performed via
+> the reset controller framework; a software reset through SPI_CONFIG_A
+> is used as fallback when no hardware reset is available.
+> 
+> Accumulator channel masking for single-shot reads uses ACC_MASK_REG via
+> an ADDR_DESCENDING SPI write, which covers both mask bytes in a single
+> 16-bit transfer.
+> 
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 > ---
-> Changes in v8:
->     - Reuse KVM_CAP_VM_GPA_BITS to advertise and select the effective GPA=
- width
->       for a VM (Anup's suggestion).
->     - Handle the kvm =3D=3D NULL case and task kvm->lock and kvm->slots_l=
-ock to serialize
->       against concurrent vCPU creation and memslot updates (Radim's sugge=
-stion).
->     - Link to v7:
->       https://lore.kernel.org/linux-riscv/20260402132303.6252-1-fangyu.yu=
-@linux.alibaba.com/
-> ---
-> Changes in v7 (Anup's suggestions):
->     - Keep the original HGATP mode probing logic.
->     - Link to v6:
->       https://lore.kernel.org/linux-riscv/20260330122601.22140-1-fangyu.y=
-u@linux.alibaba.com/
-> ---
-> Changes in v6 (Anup's suggestions):
->     - Reworked kvm_riscv_gstage_gpa_bits() and kvm_riscv_gstage_gpa_size(=
-) to
->       take "unsigned long pgd_levels" instead of "struct kvm_arch *".
->     - Moved kvm_riscv_gstage_mode() helper from kvm_host.h to kvm_gstage.=
-h.
->     - Renamed kvm->arch.kvm_riscv_gstage_pgd_levels to kvm->arch.pgd_leve=
-ls.
->     - Added pgd_levels to struct kvm_gstage to avoid repeated
->       gstage->kvm->arch pointer chasing.
->     - Link to v5:
->       https://lore.kernel.org/linux-riscv/20260204134507.33912-1-fangyu.y=
-u@linux.alibaba.com/
-> ---
-> Changes in v5:
->     - Use architectural HGATP.MODE encodings as the bit index for the sup=
-ported-mode
->       bitmap and for the VM-mode selection UAPI; no new UAPI mode/bit def=
-ines are
->       introduced(per Radim).
->     - Allow KVM_CAP_RISCV_SET_HGATP_MODE on RV32 as well(per Drew).
->     - Link to v4:
->       https://lore.kernel.org/linux-riscv/20260202140716.34323-1-fangyu.y=
-u@linux.alibaba.com/
-> ---
-> Changes in v4:
->     - Extend kvm_riscv_gstage_mode_detect() to probe all HGATP.MODE value=
-s
->       supported by the host and record them in a bitmask.
->     - Treat unexpected pgd_levels in kvm_riscv_gstage_mode() as an intern=
-al error
->       (e.g. WARN_ON_ONCE())(per Radim).
->     - Move kvm_riscv_gstage_gpa_bits() and kvm_riscv_gstage_gpa_size() to=
- header
->       as static inline helpers(per Radim).
->     - Drop gstage_mode_user_initialized and Remove the kvm_debug() messag=
-e from
->       KVM_CAP_RISCV_SET_HGATP_MODE(per Radim).
->     - Link to v3:
->       https://lore.kernel.org/linux-riscv/20260125150450.27068-1-fangyu.y=
-u@linux.alibaba.com/
-> ---
-> Changes in v3:
->     - Reworked the patch formatting (per Drew).
->     - Dropped kvm->arch.kvm_riscv_gstage_mode and derive HGATP.MODE from
->       kvm_riscv_gstage_pgd_levels via a helper, avoiding redundant per-VM=
- state(per Drew).
->     - Removed kvm_riscv_gstage_max_mode and keep only kvm_riscv_gstage_ma=
-x_pgd_levels
->       for host capability detection(per Drew).
->     - Other initialization and return value issues(per Drew).
->     - Enforce that KVM_CAP_RISCV_SET_HGATP_MODE can only be enabled befor=
-e any vCPUs
->       are created by rejecting the ioctl once kvm->created_vcpus is non-z=
-ero(per Radim).
->     - Add a memslot safety check and reject the capability unless
->       kvm_are_all_memslots_empty(kvm) is true, ensuring the G-stage forma=
-t is not
->       changed after any memslots have been installed(per Radim).
->     - Link to v2:
->       https://lore.kernel.org/linux-riscv/20260105143232.76715-1-fangyu.y=
-u@linux.alibaba.com/
->
-> Fangyu Yu (3):
->   RISC-V: KVM: Support runtime configuration for per-VM's HGATP mode
->   RISC-V: KVM: Cache gstage pgd_levels in struct kvm_gstage
->   RISC-V: KVM: Reuse KVM_CAP_VM_GPA_BITS to select HGATP.MODE
->
->  arch/riscv/include/asm/kvm_gstage.h | 47 ++++++++++++++++---
->  arch/riscv/include/asm/kvm_host.h   |  1 +
->  arch/riscv/kvm/gstage.c             | 65 +++++++++++++--------------
->  arch/riscv/kvm/main.c               | 12 ++---
->  arch/riscv/kvm/mmu.c                | 70 +++++++++--------------------
->  arch/riscv/kvm/vm.c                 | 49 ++++++++++++++++++--
->  arch/riscv/kvm/vmid.c               |  3 +-
->  7 files changed, 148 insertions(+), 99 deletions(-)
->
-> --
-> 2.50.1
->
+This patch looks in good shape. Although I wouldn't mind using
+MEGA/MICRO, etc. more in numbers with more than 3 or 4 zeros.
 
-Queued this series for Linux-7.1
+Reviewed-by: David Lechner <dlechner@baylibre.com>
 
-Thanks,
-Anup
+
