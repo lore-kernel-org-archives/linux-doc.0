@@ -1,487 +1,265 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011056.outbound.protection.outlook.com [52.101.57.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803FE3845A0;
-	Sun,  5 Apr 2026 20:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775422357; cv=fail; b=A6GLLu/yYfuKWCcnTP44Wuq6bdEr4QWUdJ/VGXOgQ95Uj4TITrNRy0w1NCMlPyuj3LhqhntHAOmlUxD5UyfKxQKuRjE3No62bU4zuZk0GuGbHs3Nk2EC5pIokpErb0HwY9GeMnrz4q7jIqGgDvIn88rf51GFg0c8oA/PwFlUUJY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775422357; c=relaxed/simple;
-	bh=kiJF8N6yjTIobo7AxhdlIaE6hj4pTFW5SynC4Im0fP0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACB2C14A;
+	Sun,  5 Apr 2026 22:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775429156; cv=none; b=Q9k/iVP4fkBLXzA4VzoBo+QGrjo6CBNNgSbc6eGLBIwet2iNj2HrZC1sxFmIVuGbxSc1osXXB6tPp8fFF/BxfGkl2mQvGgY4EpmVi5LzrcyqRMzFJAb5ly55RlVabIqH9qP0IyPvmL8M9vbTh1BetX1wZNLq82aid7Wzt2JrxJs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775429156; c=relaxed/simple;
+	bh=XxJGbynt6Kw4uHZTfIMV+Njj+5Q3VK3ljHd+gNKJnwo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=MDlnFoCOoiiQQARZIIR6MYPk28OF4CpLeegNdX2tL/1owej9ra7m8DJUVTanCkUfGflyjQK0werVtIZgUzCml0U2nz5WMg/0GLTuw1gpWM4R81C8YRb7blbPREaYCf5lwFfMLCeBfVgv3OIcIabP976EoEq0KpWqHFLiEhYT22g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rywx+aKR; arc=fail smtp.client-ip=52.101.57.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	 MIME-Version; b=BTGwHPrxamBfEdvHSHQb2r5spYMY6o7/RjiKk2Kifh1M06gVdJVau6X4Ux2p4xXuyQMiS1TIhOpkVYktPiiG9KrmoTQjLgdO1e7BIIgq/gNHCnWNBlLLspyaLXnfK9AbhNYXlP3rJP8fgoMf35faBZ61PDNLFbgCfo+K9b6AuJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ndOVHOh1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rywx+aKR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=isesC3gAOJ2A5VM5J8KPLSx84LH+aPUzk5DyZc8RBcqRStHPYsebGqUokcdwRxW5bV8zKL8qKoQTCoLToRSsr8xhhTNHylIZrudzz50A7FoUjB58b0pr5X3XCbg06m+2i6UMhdQMJNWwykh7p38+tOkDDRp4USPIaH+zZYM/gnnvTLmPen3mGzbDvWbZTl+SROpAsae+5S7fy1/CmMifD7Np/wb6rX1EkLxY+XBn3jXuWPz5oWzGr2wIed7GcdkPCyEWOYI1Bip9vHgUCuqwtfZ6KO5ThMKKUhZodpDyn8IrDSVrbYQuwydHL0E48rQnJT0+Jn57ZyZZsgSzenlslg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4Hwtjala+FQOUrzVLlofKalszfgiPzfB7hvaCAlvc9k=;
- b=OR4yFb8rlCaEQEicbfAz+SiN6GFVMJ58Ycg+I5mLlyUfb0yOuhFAFp00DvMb1SiDD6z1i2THyqibS6/w/skrZEKawbeVHdB7L6dxShow2cNhRjsx5JRfXoAmviUpqhCYQBA/hC+FMWjsNWAwj2B7p8d3yTRv/d8dYfTc29zE8YEKIfRRkQTTBtl3kf9Zw05ysqjf4l+VSeWTK09Im7NeKqfkKa/uONfhe0hZ83g8deOPut5LlwPuX+OycPK1zG8Qy5qY6Q8OmjsncV81Q64dLuPF5XqznwSdRI1cIlG9dufcsgzey7zS3aAAnxfnh2LbQF8mr87lhNW6Ja2o7P+1QA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4Hwtjala+FQOUrzVLlofKalszfgiPzfB7hvaCAlvc9k=;
- b=rywx+aKRaAKvLpxfC2LBGW/z6hzsjkEsqkUDuCx6xKpPxPaIWzORV24DWNRBq6d+fAVT8aVSz+yXHBtcDvsDC+nPX6Dww3mnjzPQaIoZxj49DI5T1cTXeVuCz9ZnGGzeIteM+/99xGJ6sLEmazsSVbF+J32DVO/CbFudTxrultje1ErycQoRjEpbTe6qyFYk30Q2qRoIhiaR6AMIaJMaZSpS5/shQcjFQjU2kLrc7IT59hvxfg5qoTKMt5MsfsC6CHTl1/o3qNTZpdzcYUMoPTf+F4QgauKAW+DiAcSIETMBfBThLxWvbQ3lFhMsKoLH3RmAoAECX4xK5YfB3rEQTQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB8202.namprd12.prod.outlook.com (2603:10b6:8:e1::13) by
- SJ2PR12MB8807.namprd12.prod.outlook.com (2603:10b6:a03:4d0::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Sun, 5 Apr
- 2026 20:52:31 +0000
-Received: from DS7PR12MB8202.namprd12.prod.outlook.com
- ([fe80::38fd:4146:aea:639e]) by DS7PR12MB8202.namprd12.prod.outlook.com
- ([fe80::38fd:4146:aea:639e%6]) with mapi id 15.20.9769.020; Sun, 5 Apr 2026
- 20:52:31 +0000
-From: Andy Roulin <aroulin@nvidia.com>
-To: netdev@vger.kernel.org
-Cc: bridge@lists.linux.dev,
-	Nikolay Aleksandrov <razor@blackwall.org>,
-	Ido Schimmel <idosch@nvidia.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	Petr Machata <petrm@nvidia.com>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Jonas Gorski <jonas.gorski@gmail.com>,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ndOVHOh1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E18EC116C6;
+	Sun,  5 Apr 2026 22:45:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775429155;
+	bh=XxJGbynt6Kw4uHZTfIMV+Njj+5Q3VK3ljHd+gNKJnwo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ndOVHOh1ksuOCP5L8Wom95mQQaFUhWMwsL+zRzfR9mj2rsbiP/QUqTpQ/IAbfxTyY
+	 6VYibvBj6T1VNok5hOWGs9qwGdQkRxGJ1DJNXiUBrwrqsbg8YrHi/3muEYza7YZ9Sn
+	 NZVwQE61v/i6jBgsCSTjvsamAFpcWk27hDD9lk5R0JZ6UD3FozPhehKuCp0XJHb68V
+	 85xzVzNji8XGFwu8pT3SLeJAxAh39nogKtZP2XrLKfFJBtetaDzLJHQoc2yqIZMavb
+	 RuybkY8Rkx4ehZPaAPCK3t6UbGZ1NNJcpQi0FJ8UXknYTNuMgaUxXXib8YGoCAHFva
+	 RbJdHYTuptrdA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
 	linux-kernel@vger.kernel.org,
-	Andy Roulin <aroulin@nvidia.com>,
-	Nikolay Aleksandrov <nikolay@nvidia.com>
-Subject: [PATCH net-next v4 3/3] selftests: net: add bridge STP mode selection test
-Date: Sun,  5 Apr 2026 13:52:24 -0700
-Message-ID: <20260405205224.3163000-4-aroulin@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260405205224.3163000-1-aroulin@nvidia.com>
-References: <20260405205224.3163000-1-aroulin@nvidia.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR03CA0029.namprd03.prod.outlook.com
- (2603:10b6:a03:39a::34) To DS7PR12MB8202.namprd12.prod.outlook.com
- (2603:10b6:8:e1::13)
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: (sashiko review) [PATCH v6 1/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+Date: Sun,  5 Apr 2026 15:45:50 -0700
+Message-ID: <20260405224550.76218-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260405184247.2690-2-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB8202:EE_|SJ2PR12MB8807:EE_
-X-MS-Office365-Filtering-Correlation-Id: 36b49b09-1714-42f3-a09e-08de93554149
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|22082099003|56012099003|18092099006|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	oJdsEGmDaYAdSWXd8yrOBMxtvwmRY4moBPgrRVD0a3tatAK43AZWINuudhz7D0eFg62rNs2O0NXVcpcjXtJMJtxlc5wThUpWyhV+Rxqq/zhHYF8rTBCtq/KgYjuD193Khr6EVs2T06idjENPL4u5DlveHpIRS/qeV0n2ij5uIiROXBoYey98diEZYL8/oUkrqYVUyOv6ZhmerOqt9RS/2R9x4csphUJtyX1/o2NqIYJhGqP6FWBvbkxYnj3ru0ZHs1ZSliRMHi19KxPZUJ6TNlMsclv3znvEZ/viFiJ8592shzTANS0OVE4kr75daeJXu7uuPSh/5KtWZQNGqgQw99wOQdImSZocdtw+9ihZW3A1qDDpzoXN7qbPa1zvqLUWhcpRBaNHaXSKJAJWJeNU7P0OeiVWLfA6CG2dwdPd8v7/uQjYLKZlCTj/O4NT7sMZ4jq7f2KeOW3nLu5ml0EhAlu4T0toSy+Sy8yBalirObTjS9Nf4t/pE2rHR9bwLddTkryLtURlLzYSlZclP4+j8oJZynfodfzNNhXzzNFxXjVFTPisEtEahuQFuQyiAh+uLIFMRq6CyRCDu/CGFhGCYw8PKWNtfo0yi5KyX066PP0GsDHQQ0iUZy8djL1sKlROSXkXdbs4UpYmrQQHENzRg+MUR7bhRoswj6cA6lgl1yK46JylMXFS+Xdyz1YOKtUjMM+8Kw9z1fZ4IFlUM/TJoLkIbNfQARW4dstrARO37WI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB8202.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(22082099003)(56012099003)(18092099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?+363U8wlQ+liQp1tEBuCe8VCZbIhWu1vJMDhjH/uRwJVh3s2kvcJ8eMjGBR2?=
- =?us-ascii?Q?nMOEQvoKi+pmdVhaHwUfTYVQ45XHMaA5jcC/hBf7SgnQT5WC6iNj7SBb9cfv?=
- =?us-ascii?Q?VKqTOUgu+Q4BlxxRzwtur8Kv4BZoJRaQozzcXC/SY7HB3kp/4IXtlF9JG1eX?=
- =?us-ascii?Q?olRv97n8KhCrLBf64xIMhW2hu9GnYjxOFPTT3UoSugt6SmOWIPNzqgI0AHia?=
- =?us-ascii?Q?RsuejZoH8BY0UPcSPRPYeOFkOEGXxFWkvPFrNDfG1nrlINiEBt8AXcG5Z1nK?=
- =?us-ascii?Q?Jf3cR4bc89L5/3RrvyE4bz83o1yx2YME4LlpdVFFUvNqXrTT7+RCCJi8YrLn?=
- =?us-ascii?Q?Ep5VyJICEBeYAjaIe2TXcH6cysGCl9xzWvppfll0x99pAvJARO2SoGoIMYCL?=
- =?us-ascii?Q?rmza01UITybjBKg0Xg6r11RLlBmW4B36UC0exWqD1FekhSc0Tg6qP6ScNqgq?=
- =?us-ascii?Q?NN2zSjEHnl0SDrABzdRPOVWDHQ0pgjhuu4CE2fw1x81u1HB02xSTP1ZjIUrM?=
- =?us-ascii?Q?sqT5H+LqcVo/RwdOtYmsF4Y1vGe+pNN9Oewv+kvEfq09WMIcSlbOqcAtJYF7?=
- =?us-ascii?Q?WYpyJFCpTz5Fr9mqgysYH0c8FeE9gKLefzyt0HoSiriWVhuoBdhu+ScDSt3+?=
- =?us-ascii?Q?HOsdSKH2Mi/vsGolwY0uijbiqwEGZA42lGZQdhfVpuBZQZIpFwc7BOzH+8z6?=
- =?us-ascii?Q?E+v51ah7rnPDodAXgcMmj6x0dmt4dHYodYlcCbfexc6vEaApaFUKXYaW5UoE?=
- =?us-ascii?Q?C5J9tbPJZi+FdtoX2NWLYWL6+CBj9p9V2GEnvm2vZeZdPjtDyU5Yp9t8FAab?=
- =?us-ascii?Q?g1Pc++q7ug/IiVUXfG7x7dX97KMwE2HPpaJ+VqXOv6P7AX64cbQfh6BSy9Tm?=
- =?us-ascii?Q?PRa113hBg4fiioFJGnv7c/FPup2hND+eWzlRziHAZfDoUvIyIzA3JJ6E+LKE?=
- =?us-ascii?Q?M7QVrChowKVJ0ext2F74fbiZyNPUknxwpUndY3J7hGDkz7ueJh1DxGMAs+OW?=
- =?us-ascii?Q?WtSGOZtEvnNIC1ZAi6Mn4Xk+QmCyzA45iaxXSyhO4dilTs6PgWGybRtxNRJs?=
- =?us-ascii?Q?wbMvwHflNIW3tfaMP2Y90KxOW+NW2y2yhMM5P/HDROSEBuVR6DRFMzuBRQuA?=
- =?us-ascii?Q?fQNACvrg6FmLHOfNqHZVoJVf5R7ATxVQgG9rwW1BeMOuxStXWsWOZofh1yMV?=
- =?us-ascii?Q?OSrewn47DQIwbn34jKf3SpjmIVccq+XQQxJhrfsiGaHXUr3+nuLuXMZD1bQd?=
- =?us-ascii?Q?PDDQiG86BhcEo6wok57ytMuPfw3l7On71q3dC3zlbzgmKfGfTn/8QES4JtBi?=
- =?us-ascii?Q?tJpdZ83IvCUfowhMY4vqIDtdLP/JCTCR7h3mEvvrdMOix9vY4nuQ4VR/vQdY?=
- =?us-ascii?Q?wo2SXW9BRgKHraP/3esWZez5kitNSV09lUK7Ym/Y64QBUBYwudta11BF3VSQ?=
- =?us-ascii?Q?kXjjP148rKLxN+HxAqx0Ytq2mEwZ5uYxSNfC8o8AATzq49+68Loh/IMOfQaQ?=
- =?us-ascii?Q?PtRmPKgB5ZGwQA3BfWhMEYiEd4/cVkOQliWKSSHGgS77J+lD8MrleiJ/aKfv?=
- =?us-ascii?Q?c216+kizhF5rs4Cb2Ph4Ydu6Yg7CDy9ESC5Eov/+TDbHomnADLN9uhwd5ENu?=
- =?us-ascii?Q?yPB4oBdVozQDqjorelxIF/VHipXhbZQQxXbkwFUEO2kv5TnWeYGd2uhnADDq?=
- =?us-ascii?Q?Mqj/DtFRHJ/2g67ySqqZsAe6jm+MlwaUGR+rN/vpsOuvVBzHTvBlgiYYxZc/?=
- =?us-ascii?Q?k6IV0m3zfQ=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 36b49b09-1714-42f3-a09e-08de93554149
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB8202.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Apr 2026 20:52:31.0950
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AvDMhVejqHyI5BMExq0Ej683JUyEoDgzJ6o1NjnfTmqpOO5/+YMt8Tzj95E4ed8FfNMIvx35cbqF/rGlwn5M6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8807
+Content-Transfer-Encoding: 8bit
 
-Add a selftest for the IFLA_BR_STP_MODE bridge attribute that verifies:
 
-1. stp_mode defaults to auto on new bridges
-2. stp_mode can be toggled between user, kernel, and auto
-3. Changing stp_mode while STP is active is rejected with -EBUSY
-4. Re-setting the same stp_mode while STP is active succeeds
-5. stp_mode user in a network namespace yields userspace STP (stp_state=2)
-6. stp_mode kernel forces kernel STP (stp_state=1)
-7. stp_mode auto in a netns preserves traditional fallback to kernel STP
-8. stp_mode and stp_state can be set atomically in a single message
-9. stp_mode persists across STP disable/enable cycles
+Ravi, thank you for reposting this patch after the rebase.  This time sashiko
+was able to review this, and found good points including things that deserve
+another revision of this patch.
 
-Test 5 is the key use case: it demonstrates that userspace STP can now
-be enabled in non-init network namespaces by setting stp_mode to user
-before enabling STP.
+Forwarding full sashiko review in a reply format with my inline comments below,
+for sharing details of my view and doing followup discussions via mails.  Ravi,
+could you please reply?
 
-Test 8 verifies the atomic usage pattern where both attributes are set
-in a single netlink message, which is supported because br_changelink()
-processes IFLA_BR_STP_MODE before IFLA_BR_STP_STATE.
+> # review url: https://sashiko.dev/#/patchset/20260405184247.2690-2-ravis.opensrc@gmail.com
+> # start of sashiko.dev inline review
+> commit 5f6ea8da06d136b84d97827777acf2b07047d42c
+> Author: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+> mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+> 
+> This commit adds quota goal metrics for tracking scheme-eligible and
+> ineligible memory distribution across NUMA nodes. It iterates over
+> scheme-eligible regions and uses damon_get_folio() to determine placement.
+> 
+> > diff --git a/mm/damon/core.c b/mm/damon/core.c
+> > --- a/mm/damon/core.c
+> > +++ b/mm/damon/core.c
+> 
+> [ ... ]
+> 
+> > +static unsigned long damos_calc_eligible_bytes(struct damon_ctx *c,
+> > +		struct damos *s, int nid, unsigned long *total)
+> > +{
+> > +	struct damon_target *t;
+> > +	struct damon_region *r;
+> > +	unsigned long total_eligible = 0;
+> > +	unsigned long node_eligible = 0;
+> 
+> Can total_eligible and node_eligible overflow on 32-bit architectures? 
+> Since these accumulators track raw physical bytes, regions spanning multiple
+> gigabytes might wrap around the 32-bit unsigned long limit. Would it be
+> safer to use u64 or track the counts in pages instead?
 
-The test gracefully skips if the installed iproute2 does not support
-the stp_mode attribute.
+Makes sense.  Ravi, could we update these to use phys_addr_t?
 
-Assisted-by: Claude:claude-opus-4-6
-Reviewed-by: Ido Schimmel <idosch@nvidia.com>
-Acked-by: Nikolay Aleksandrov <nikolay@nvidia.com>
-Signed-off-by: Andy Roulin <aroulin@nvidia.com>
----
+> 
+> > +
+> > +	damon_for_each_target(t, c) {
+> > +		damon_for_each_region(r, t) {
+> > +			phys_addr_t addr, end_addr;
+> > +
+> > +			if (!__damos_valid_target(r, s))
+> > +				continue;
+> 
+> Should this loop also check damos_core_filter_out()? By only checking
+> __damos_valid_target(), it seems memory explicitly excluded by user-defined
+> region filters (like target ID or memcg limits) is still counted as
+> eligible, which might inflate the total and affect the quota tuning loop.
 
-Notes:
-    v2:
-      * Fix shellcheck CI: add SC2329 suppression.
-      * Add idempotent stp_mode test.
-    v4:
-      * Add disable+mode-change simultaneous test.
+No, we intentionally defined "eligible" based on only the access pattern.  We
+may be able to extend this to apply filters in future, if we find a use case.
+But, for now, I'd suggest keeping this as is for now.
 
- tools/testing/selftests/net/Makefile          |   1 +
- .../testing/selftests/net/bridge_stp_mode.sh  | 288 ++++++++++++++++++
- 2 files changed, 289 insertions(+)
- create mode 100755 tools/testing/selftests/net/bridge_stp_mode.sh
+> 
+> > +
+> > +			/* Convert from core address units to physical bytes */
+> > +			addr = r->ar.start * c->addr_unit;
+> > +			end_addr = r->ar.end * c->addr_unit;
+> > +			while (addr < end_addr) {
+> 
+> Could this unbounded loop cause CPU soft lockups? Since DAMON regions can
+> span hundreds of gigabytes, executing millions of folio lookups sequentially
+> without a cond_resched() could monopolize the CPU.
 
-diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
-index 6bced3ed798b0..053c7b83c76dd 100644
---- a/tools/testing/selftests/net/Makefile
-+++ b/tools/testing/selftests/net/Makefile
-@@ -15,6 +15,7 @@ TEST_PROGS := \
- 	big_tcp.sh \
- 	bind_bhash.sh \
- 	bpf_offload.py \
-+	bridge_stp_mode.sh \
- 	bridge_vlan_dump.sh \
- 	broadcast_ether_dst.sh \
- 	broadcast_pmtu.sh \
-diff --git a/tools/testing/selftests/net/bridge_stp_mode.sh b/tools/testing/selftests/net/bridge_stp_mode.sh
-new file mode 100755
-index 0000000000000..0c81fd029d794
---- /dev/null
-+++ b/tools/testing/selftests/net/bridge_stp_mode.sh
-@@ -0,0 +1,288 @@
-+#!/bin/bash
-+# SPDX-License-Identifier: GPL-2.0
-+# shellcheck disable=SC2034,SC2154,SC2317,SC2329
-+#
-+# Test for bridge STP mode selection (IFLA_BR_STP_MODE).
-+#
-+# Verifies that:
-+# - stp_mode defaults to auto on new bridges
-+# - stp_mode can be toggled between user, kernel, and auto
-+# - stp_mode change is rejected while STP is active (-EBUSY)
-+# - stp_mode user in a netns yields userspace STP (stp_state=2)
-+# - stp_mode kernel forces kernel STP (stp_state=1)
-+# - stp_mode auto preserves traditional fallback to kernel STP
-+# - stp_mode and stp_state can be set atomically in one message
-+# - stp_mode persists across STP disable/enable cycles
-+
-+source lib.sh
-+
-+require_command jq
-+
-+ALL_TESTS="
-+	test_default_auto
-+	test_set_modes
-+	test_reject_change_while_stp_active
-+	test_idempotent_mode_while_stp_active
-+	test_user_mode_in_netns
-+	test_kernel_mode
-+	test_auto_mode
-+	test_atomic_mode_and_state
-+	test_mode_persistence
-+"
-+
-+bridge_info_get()
-+{
-+	ip -n "$NS1" -d -j link show "$1" | \
-+		jq -r ".[0].linkinfo.info_data.$2"
-+}
-+
-+check_stp_mode()
-+{
-+	local br=$1; shift
-+	local expected=$1; shift
-+	local msg=$1; shift
-+	local val
-+
-+	val=$(bridge_info_get "$br" stp_mode)
-+	[ "$val" = "$expected" ]
-+	check_err $? "$msg: expected $expected, got $val"
-+}
-+
-+check_stp_state()
-+{
-+	local br=$1; shift
-+	local expected=$1; shift
-+	local msg=$1; shift
-+	local val
-+
-+	val=$(bridge_info_get "$br" stp_state)
-+	[ "$val" = "$expected" ]
-+	check_err $? "$msg: expected $expected, got $val"
-+}
-+
-+# Create a bridge in NS1, bring it up, and defer its deletion.
-+bridge_create()
-+{
-+	ip -n "$NS1" link add "$1" type bridge
-+	ip -n "$NS1" link set "$1" up
-+	defer ip -n "$NS1" link del "$1"
-+}
-+
-+setup_prepare()
-+{
-+	setup_ns NS1
-+}
-+
-+cleanup()
-+{
-+	defer_scopes_cleanup
-+	cleanup_all_ns
-+}
-+
-+# Check that stp_mode defaults to auto when creating a bridge.
-+test_default_auto()
-+{
-+	RET=0
-+
-+	ip -n "$NS1" link add br-test type bridge
-+	defer ip -n "$NS1" link del br-test
-+
-+	check_stp_mode br-test auto "stp_mode default"
-+
-+	log_test "stp_mode defaults to auto"
-+}
-+
-+# Test setting stp_mode to user, kernel, and back to auto.
-+test_set_modes()
-+{
-+	RET=0
-+
-+	ip -n "$NS1" link add br-test type bridge
-+	defer ip -n "$NS1" link del br-test
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode user
-+	check_err $? "Failed to set stp_mode to user"
-+	check_stp_mode br-test user "after set user"
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode kernel
-+	check_err $? "Failed to set stp_mode to kernel"
-+	check_stp_mode br-test kernel "after set kernel"
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode auto
-+	check_err $? "Failed to set stp_mode to auto"
-+	check_stp_mode br-test auto "after set auto"
-+
-+	log_test "stp_mode set user/kernel/auto"
-+}
-+
-+# Verify that stp_mode cannot be changed while STP is active.
-+test_reject_change_while_stp_active()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode kernel
-+	check_err $? "Failed to set stp_mode to kernel"
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 1
-+	check_err $? "Failed to enable STP"
-+
-+	# Changing stp_mode while STP is active should fail.
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode auto 2>/dev/null
-+	check_fail $? "Changing stp_mode should fail while STP is active"
-+
-+	check_stp_mode br-test kernel "mode unchanged after rejected change"
-+
-+	# Disable STP, then change should succeed.
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 0
-+	check_err $? "Failed to disable STP"
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode auto
-+	check_err $? "Changing stp_mode should succeed after STP is disabled"
-+
-+	log_test "reject stp_mode change while STP is active"
-+}
-+
-+# Verify that re-setting the same stp_mode while STP is active succeeds.
-+test_idempotent_mode_while_stp_active()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode user stp_state 1
-+	check_err $? "Failed to enable STP with user mode"
-+
-+	# Re-setting the same mode while STP is active should succeed.
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode user
-+	check_err $? "Idempotent stp_mode set should succeed while STP is active"
-+
-+	check_stp_state br-test 2 "stp_state after idempotent set"
-+
-+	# Changing mode while disabling STP in the same message should succeed.
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode auto stp_state 0
-+	check_err $? "Mode change with simultaneous STP disable should succeed"
-+
-+	check_stp_mode br-test auto "mode changed after disable+change"
-+	check_stp_state br-test 0 "stp_state after disable+change"
-+
-+	log_test "idempotent and simultaneous mode change while STP active"
-+}
-+
-+# Test that stp_mode user in a non-init netns yields userspace STP
-+# (stp_state == 2). This is the key use case: userspace STP without
-+# needing /sbin/bridge-stp or being in init_net.
-+test_user_mode_in_netns()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode user
-+	check_err $? "Failed to set stp_mode to user"
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 1
-+	check_err $? "Failed to enable STP"
-+
-+	check_stp_state br-test 2 "stp_state with user mode"
-+
-+	log_test "stp_mode user in netns yields userspace STP"
-+}
-+
-+# Test that stp_mode kernel forces kernel STP (stp_state == 1)
-+# regardless of whether /sbin/bridge-stp exists.
-+test_kernel_mode()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode kernel
-+	check_err $? "Failed to set stp_mode to kernel"
-+
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 1
-+	check_err $? "Failed to enable STP"
-+
-+	check_stp_state br-test 1 "stp_state with kernel mode"
-+
-+	log_test "stp_mode kernel forces kernel STP"
-+}
-+
-+# Test that stp_mode auto preserves traditional behavior: in a netns
-+# (non-init_net), bridge-stp is not called and STP falls back to
-+# kernel mode (stp_state == 1).
-+test_auto_mode()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	# Auto mode is the default; enable STP in a netns.
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 1
-+	check_err $? "Failed to enable STP"
-+
-+	# In a netns with auto mode, bridge-stp is skipped (init_net only),
-+	# so STP should fall back to kernel mode (stp_state == 1).
-+	check_stp_state br-test 1 "stp_state with auto mode in netns"
-+
-+	log_test "stp_mode auto preserves traditional behavior"
-+}
-+
-+# Test that stp_mode and stp_state can be set in a single netlink
-+# message. This is the intended atomic usage pattern.
-+test_atomic_mode_and_state()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	# Set both stp_mode and stp_state in one command.
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode user stp_state 1
-+	check_err $? "Failed to set stp_mode user and stp_state 1 atomically"
-+
-+	check_stp_state br-test 2 "stp_state after atomic set"
-+
-+	log_test "atomic stp_mode user + stp_state 1 in single message"
-+}
-+
-+# Test that stp_mode persists across STP disable/enable cycles.
-+test_mode_persistence()
-+{
-+	RET=0
-+
-+	bridge_create br-test
-+
-+	# Set user mode and enable STP.
-+	ip -n "$NS1" link set dev br-test type bridge stp_mode user
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 1
-+	check_err $? "Failed to enable STP with user mode"
-+
-+	# Disable STP.
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 0
-+	check_err $? "Failed to disable STP"
-+
-+	# Verify mode is still user.
-+	check_stp_mode br-test user "stp_mode after STP disable"
-+
-+	# Re-enable STP -- should use user mode again.
-+	ip -n "$NS1" link set dev br-test type bridge stp_state 1
-+	check_err $? "Failed to re-enable STP"
-+
-+	check_stp_state br-test 2 "stp_state after re-enable"
-+
-+	log_test "stp_mode persists across STP disable/enable cycles"
-+}
-+
-+# Check iproute2 support before setting up resources.
-+if ! ip link add type bridge help 2>&1 | grep -q "stp_mode"; then
-+	echo "SKIP: iproute2 too old, missing stp_mode support"
-+	exit "$ksft_skip"
-+fi
-+
-+trap cleanup EXIT
-+
-+setup_prepare
-+tests_run
-+
-+exit "$EXIT_STATUS"
--- 
-2.43.0
+Good point.  Most DAMOS action implementations are also doing cond_resched()
+per region.  Ravi, could we add cond_resched() per region to this function,
+too?
 
+> 
+> > +				struct folio *folio;
+> > +				unsigned long folio_sz, counted;
+> > +
+> > +				folio = damon_get_folio(PHYS_PFN(addr));
+> 
+> What happens if this metric is assigned to a DAMON context configured for
+> virtual address space monitoring? If the context uses DAMON_OPS_VADDR,
+> passing a user-space virtual address to PHYS_PFN() might cause invalid
+> memory accesses or out-of-bounds page struct reads. Should this code
+> explicitly verify the operations type first?
+
+Good finding.  We intend to support only paddr ops.  But there is no guard for
+using this on vaddr ops configuration.  Ravi, could we add underlying ops
+check?  I think damon_commit_ctx() is a good place to add that.  The check
+could be something like below?
+
+'''
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -1515,10 +1515,23 @@ static int damon_commit_sample_control(
+ int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
+ {
+        int err;
++       struct damos *scheme;
++       struct damos_quota_goal *goal;
+
+        dst->maybe_corrupted = true;
+        if (!is_power_of_2(src->min_region_sz))
+                return -EINVAL;
++       if (src->ops.id != DAMON_OPS_PADDR) {
++               damon_for_each_scheme(scheme, src) {
++                       damos_for_each_quota_goal(goal, &scheme->quota) {
++                               switch (goal->metric) {
++                               case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
++                               case DAMOS_QUOTA_NODE_INELIGIBLE_MEMPBP:
++                                       return -EINVAL;
++                               }
++                       }
++               }
++       }
+
+        err = damon_commit_schemes(dst, src);
+        if (err)
+'''
+
+> 
+> > +				if (!folio) {
+> > +					addr += PAGE_SIZE;
+> > +					continue;
+> > +				}
+> > +
+> > +				folio_sz = folio_size(folio);
+> > +				/*
+> > +				 * Clip to region boundaries to avoid counting
+> > +				 * bytes outside the region when folio spans
+> > +				 * region boundaries.
+> > +				 */
+> > +				counted = min(folio_sz, (unsigned long)(end_addr - addr));
+> 
+> Does this accurately calculate the remaining bytes if the region starts at an
+> unaligned offset within a large folio? folio_size() returns the full size
+> of the folio, so this calculation might overestimate the eligible bytes by
+> not accounting for the initial offset within the folio.
+> 
+> > +				total_eligible += counted;
+> > +				if (folio_nid(folio) == nid)
+> > +					node_eligible += counted;
+> > +
+> > +				addr += folio_sz;
+> 
+> Can this pointer advancement overshoot the end of the current folio? If
+> addr was unaligned, adding the full folio_sz will skip past the beginning
+> of the next contiguous physical memory folio.
+
+Above two points make sense to me.  Ravi, could we fix these?
+
+> 
+> > +				folio_put(folio);
+> > +			}
+> > +		}
+> > +	}
+> > +
+> > +	*total = total_eligible;
+> > +	return node_eligible;
+> > +}
+> 
+> [ ... ]
+> 
+> > +static unsigned long damos_get_node_ineligible_mem_bp(struct damon_ctx *c,
+> > +		struct damos *s, int nid)
+> > +{
+> > +	unsigned long total_eligible = 0;
+> > +	unsigned long node_eligible;
+> > +
+> > +	if (nid < 0 || nid >= MAX_NUMNODES || !node_online(nid))
+> > +		return 0;
+> > +
+> > +	node_eligible = damos_calc_eligible_bytes(c, s, nid, &total_eligible);
+> > +
+> > +	/* No eligible memory anywhere - ratio is undefined, return 0 */
+> > +	if (!total_eligible)
+> > +		return 0;
+> > +
+> > +	/* Compute ineligible ratio directly: 10000 - eligible_bp */
+> > +	return 10000 - mult_frac(node_eligible, 10000, total_eligible);
+> > +}
+> 
+> Does this return value match the documented metric? The formula computes the
+> percentage of the system's eligible memory located on other NUMA nodes,
+> rather than the amount of actual ineligible (filtered out) memory residing
+> on the target node. Could this semantic mismatch cause confusion when
+> configuring quota policies?
+
+Nice catch.  The name and the documentation are confusing.  We actually
+confused a few times in previous revisions, and I'm again confused now.  IIUC,
+the current implementation is the intended and right one for the given use
+case, though.  If my understanding is correct, how about renaming
+DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP to
+DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_COMPLEMENT, and updating the documentation
+together?  Ravi, what do you think?
+
+> 
+> 
+> # end of sashiko.dev inline review
+> # review url: https://sashiko.dev/#/patchset/20260405184247.2690-2-ravis.opensrc@gmail.com
+
+
+Thanks,
+SJ
+
+# hkml [1] generated a draft of this mail.  You can regenerate
+# this using below command:
+#
+#     hkml patch sashiko_dev --for_forwarding \
+#             20260405184247.2690-2-ravis.opensrc@gmail.com
+#
