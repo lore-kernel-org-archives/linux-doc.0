@@ -1,129 +1,119 @@
-Received: from mail-dy1-f175.google.com (mail-dy1-f175.google.com [74.125.82.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4ED72F5A12
-	for <linux-doc@vger.kernel.org>; Sun,  5 Apr 2026 19:30:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.175
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775417404; cv=pass; b=sJuNxQyNizY3viP9TRoo6kwJzNL0jQcmf89+4jwv1SuhPbI54kcy7ioCqyruycpxhgHDMIAdb78eo8dynrJmarZqoQ9QHKttjmYc6K9Ng4RlFoqvZJpEIR79ULKMdhxLDZubUi4djcqcUllr52ePUaDLHtBB0Q2hbs/Z9U6LzX0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775417404; c=relaxed/simple;
-	bh=tF2TWpDhS6JNHMclno4d/CgtX1qUDK1fcIW7BQ+2mZI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hhmit1T/aaL5kz11yc5so2wbN2kTuaCuFqEt37QzQSvP85z+RzX6C5NhTMl91m2kCTH5mElDTH/aDraFfE+1aj1gVbkVu3Y75S4mceMtFu6z8iMbtfRfFp/IBSKO2LA7vxMqser3XwVmI67yWQafLLmWzhR27DWEHJqfj/C5gcc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mRfJiYT/; arc=pass smtp.client-ip=74.125.82.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2FB82F9DA1;
+	Sun,  5 Apr 2026 19:30:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775417407; cv=none; b=Bi2iZwiuqIjv+XwrLqgHlx4lbiHyJkjUVItr0hwPzzFfJVob2wSefKfGYrz/KQ2DGPvMUzZ2Osr1z7oM244KtNt1++g7GgI0gyYD4iTCDXQV0nvBXkHwTMu0oAu7x0WoRo5Q1fjF7kaTEHJa15RGJaa/xKcuX5CENF0CHHMOChY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775417407; c=relaxed/simple;
+	bh=4hrYDr8gkgVUfr7OxQDEnpxxE9eg3F42Enx9GyCgJ9o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fuW82Z+7m86jqBofB2tQXqklXjTR5uTcGkJQ+5T8B0t/bm5YaM9QFIALv6gV1NZmRxPeAMNgFXSVh1EsJJjsWsZpIeUiiXYl5VilFn6rIdq0zo3Xz/0gZMbHj1CGTsKaeBv72NGG7EFPGol/w33TWNrNsJDW2Mqoqw+xIqdnFLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=esPoJ2ve; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRfJiYT/"
-Received: by mail-dy1-f175.google.com with SMTP id 5a478bee46e88-2bd801b4078so360182eec.2
-        for <linux-doc@vger.kernel.org>; Sun, 05 Apr 2026 12:30:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775417402; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AmuFYaA07RMpC+R9Hi/iah1fCi0eSEWDRvrmrWRqhY0vs0/MOIe9NaRPG13UszQ1Nf
-         TVGGDbdcfFdYdIarIJiCJrQC7PrDUeVtjwFizRvPRisEuJKUTWS3APP5Gh5Yljh2UEvk
-         yH2YPOrNSPExZIVP76owGCDwQO5bnv7phOwDIB+QPhJqgQAf22OLjz0GCUyy5SZpEjYk
-         VHDK0pJ4feN4+39t3fy0/r8pTK5fTm3lOA1Pkmgwch7nYdQ4+SpiTv3ardADAcnPID2E
-         0qtIaDHr6aQ9rQWnWKHuRZjzT5fMTl1DZ9jxPa0qViK6jgBesR4L+GWi/nQmpR0zVW1x
-         DLdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tF2TWpDhS6JNHMclno4d/CgtX1qUDK1fcIW7BQ+2mZI=;
-        fh=famLn6Ni3tnOL4SHHwEDjJlWK076ovc1fbRQyskwRn4=;
-        b=BApEl06nr7vhSMpLKwMsgU6PIr8rjsBOSMV13nKMALFlMxJY413l3tyyf+RM1lVPTp
-         WJ3/HMliUJDVAy4SZbn2nuAl27sHCwedy6JSHEq8j0j18wMzzsX0mj6fo8DwgI+7hz6y
-         7r6oi9rsNnI/7U/Fm5506LJdpALPgodOLmNZYe/iWqyk992HqB4A5rloGO8EsMuUsfO3
-         v+UTl0dMyNN5Qn4YbDuRgqqSIKsVCIqPVShgaHslwdfUknIzkrB0knNUnb+9zhHUuojK
-         EjSZ62CIX32SYFwEcWjV9a5QXnzrHaVenOm8ucgYClGu7MRbTjtJwrNRzjErDQOI0cbt
-         rCVg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775417402; x=1776022202; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tF2TWpDhS6JNHMclno4d/CgtX1qUDK1fcIW7BQ+2mZI=;
-        b=mRfJiYT/+olK1iMcCR1Eq5zd6EtYOTPK4JjL5RlYfH0hC+yPxbhFtfGeBKeOVVNDpP
-         cAbjCbe9gDZQEEaEAYDH6wJGt2ogaBEK4SrH21K02nQOtwKHt5OloY88rxjSzHcEL2qj
-         HA5oy1Q118CPqkIy7UOTuJzcKoulpGte/Msdgpp4i99bjOviHP+vaPuGXMxoYxCsvQIp
-         rG1c/qF0ENmYdCWW5xxLhxtuCMsHH1A83FMtBtZIA+v6cJ18kxJ1G6f10aKzVCZ5AWnO
-         etgmpMTc25U9ObytySL+cEJgB3u6MoPbEdD3KxUPbP4zHyviw7hMzRRL4HhsBuljW+PZ
-         G/qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775417402; x=1776022202;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tF2TWpDhS6JNHMclno4d/CgtX1qUDK1fcIW7BQ+2mZI=;
-        b=gZ6FMfybCBUVzYidp3mMF2E52jxhHkdl3JrPeOC9Dr9kezRsI+946bMrcDW4GnHAP1
-         Y7MSOd806c3mFb7fzB/4pnoI47fLvbLYYzfRrKAQ4Bas73UlsV2IZsAzZjjc+WY41whv
-         VIKrKPVH/BQT05BQ08pF2h73X49+gadQelkrcfPeVyYggF3Ar/Z3V256g1OHwO4b7w0R
-         mJH5zJ5AwhVpNlg97hgtJ6FCI8r0zHB1BRdNBYcSUdgfOiaUcB9hdbB8wG4u4Zurf6Z6
-         BeV4iRj3Y1SoZ1ztBf/XxXVKyleLnc5GwiwZmOPPI9q5cTJmhs12BsY/nqjJEPH3a+YS
-         AFCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWn6w+2KDR01vEdd1Ii5IZzsyLMNN4X0PR253UMVEINPtbpri7lkDllK4Jx9m+KTdfeRVo7q/0h3pQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhHVCJCoqy2fYXPrjGx6iqDmGmjklWx595cr74FhDacxisHQtJ
-	/AkMViPcI6q/BogvrDasUqMPo1rC2MMP5PayPMf5iMQ0ZuqH++HLZ0lY4pmtMBEZ3QS2TLCjzXG
-	2tC5JvtPlbzGCZaxBagrVnPU19nZHd/w=
-X-Gm-Gg: AeBDiesGK9nGHJsTXoguvKdsWmU/bWeSQrPH1znZEW+U4b3HbsReLmCE5buS3mv9Jw4
-	sJo1SgccxZAdOEelo1QQ4y8lBEwFwzrdPjaL62uma+iqL1sfOCaW68jEsZJeL9h1C3eA8401+id
-	vllOpu1oglw1MXJJOToakM1qIJOApVaCSAzuHg36kwyBu7BxazAZzwWgeuET5e3hwxn4KysVoJv
-	La3qeyDvakAzf6/FfKRfXyiAiLd10H4oO4LLmxmEbkTqS4iJC9b0kKXGxlsQkTqn2CyHBZcLeuh
-	VxAXZSclP3VLwyrUONbwIJ8RRCxKXoovbboitiodclSidTrzFS5AaRNdK8k4FrAFNsWK/WveHOR
-	Dbh1QggGz3lTLmAUrcz4bJvE=
-X-Received: by 2002:a05:7301:1688:b0:2c7:2cac:8149 with SMTP id
- 5a478bee46e88-2cbfc95a78bmr1941319eec.7.1775417401965; Sun, 05 Apr 2026
- 12:30:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="esPoJ2ve"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19746C116C6;
+	Sun,  5 Apr 2026 19:30:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775417406;
+	bh=4hrYDr8gkgVUfr7OxQDEnpxxE9eg3F42Enx9GyCgJ9o=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=esPoJ2vewJI15Wd7O0+LWS4CO0cNkSMcaFdPBxW2CoDKHcZLDUtymwi/wb9PrnNDt
+	 80yhklVbBFEfpH4pyRmo7wtYnuKTa+Wrw1lUNfgcT5MtLhNWAbMtLkpB1+5qGUBjIO
+	 kmUfNWJTJS5aazCf0k5uP/jD0I6Ru1pizy1onxn9ZEA6jPrGEW/k5ODCpvch9zXeD2
+	 des9+9CB59Xm28Hq86Ytl6UFJyFqDR7Bgnn/g37h7BYMQ8DjCtD5wd6Hv5BslhS5V+
+	 qzsiinVW14uBqbhjWzs558PtvwTS6L7UDYF0G0j2bsHbaaaQCX2P7i7wNBxz029wo/
+	 EuRcisdEfkqmA==
+Message-ID: <797436d2-6579-4563-a033-329992b101f2@kernel.org>
+Date: Sun, 5 Apr 2026 21:30:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260401114540.30108-1-ojeda@kernel.org> <20260401114540.30108-11-ojeda@kernel.org>
- <177508434443.73816.5437391869400189147.b4-review@b4>
-In-Reply-To: <177508434443.73816.5437391869400189147.b4-review@b4>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Sun, 5 Apr 2026 21:29:47 +0200
-X-Gm-Features: AQROBzCJ9cjSza_PQiGX42eHlVtWqYPN6hP4vKeYF-tVAvlxpiXLyawV-TKZkT8
-Message-ID: <CANiq72=EL4pEagthmrQ=DTNe8-5jWMfgxxx+fsj=pFy3EX0zdw@mail.gmail.com>
-Subject: Re: [PATCH 10/33] rust: transmute: simplify code with Rust 1.80.0 `split_at_*checked()`
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
-	Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
-	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: use acknowledgment in submitting-patches
+To: CaoRuichuang <create0818@163.com>, corbet@lwn.net
+Cc: skhan@linuxfoundation.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260405183602.73797-1-create0818@163.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20260405183602.73797-1-create0818@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 2, 2026 at 1:00=E2=80=AFAM Tamir Duberstein <tamird@kernel.org>=
- wrote:
->
-> "beyond" is probably not the right word here?
+On 05/04/2026 20:36, CaoRuichuang wrote:
+> Signed-off-by: CaoRuichuang <create0818@163.com>
+> ---
+>  Documentation/process/submitting-patches.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/process/submitting-patches.rst b/Documentation/process/submitting-patches.rst
+> index e69d19a..5c44be9 100644
+> --- a/Documentation/process/submitting-patches.rst
+> +++ b/Documentation/process/submitting-patches.rst
+> @@ -486,9 +486,9 @@ reviewed it as thoroughly as if a Reviewed-by: was provided.  Similarly, a key
+>  user may not have carried out a technical review of the patch, yet they may be
+>  satisfied with the general approach, the feature or the user-facing interface.
+>  
+> -Acked-by: does not necessarily indicate acknowledgement of the entire patch.
+> +Acked-by: does not necessarily indicate acknowledgment of the entire patch.
 
-I think you are right -- reworded.
+Pointless change. You are replacing one correct spelling with another
+correct one. And your commit msg is empty...
 
-Thanks!
+Please run scripts/checkpatch.pl on the patches and fix reported
+warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+patches and (probably) fix more warnings. Some warnings can be ignored,
+especially from --strict run, but the code here looks like it needs a
+fix. Feel free to get in touch if the warning is not clear.
 
-Cheers,
-Miguel
+Best regards,
+Krzysztof
