@@ -1,230 +1,139 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010063.outbound.protection.outlook.com [40.93.198.63])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5B9303A37;
-	Mon,  6 Apr 2026 20:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775508634; cv=fail; b=sAaW5C+lrSaZFAhtjItb5l7cqPO/5G5LSoXQzNUauAOIjqAiXepz4VGDlYL7Al3QDOxQ8sC1m2guTDuMjXeLqXVQci2CHJ2fy0LPPYpU0MQkm0lfQTN9Z9MuyQ8licGBH2Eu94McLchlEjQDruAKY5Y/0LUttk6HHkOXOb7Fu7Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775508634; c=relaxed/simple;
-	bh=KUEYSE89Q5Ju87HLSfkJ5DmiUbyCREM4UYGVaVFG2gg=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=h2Wqrl9LXS9dZ4mpR0Kjpw/KvZw2N7x+JsBdMgUMky6Knbq/eiSP//MEgLEncbmhsGzEIyE480hFiQnKwWyRg59ycXTzeM4ILmBJUZzG+vFBJvWdXnloeXPLQadnUzhyjIUwmIYkmMjwIUl0FNhDQamzyQTm3HEAg/qlpg/7UiA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Sh/TMWXi; arc=fail smtp.client-ip=40.93.198.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629102D7BF;
+	Mon,  6 Apr 2026 21:07:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775509630; cv=none; b=Ul6R+mpBHIYWBbF+1WnQp/3O/eUy+tBEPEXT/HU9BzfShowF6Vz3s5kyvRBDExjvQ0bUh4CFo6gldDfBfjY7rbRuS5OG2Xh5ObehHB16QeNpgjJfRp5dPae7X3HPVTsps9Bsu+TDqirfT/4wgZv/d4VGnyZGar61CS4OevV4DLg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775509630; c=relaxed/simple;
+	bh=1LOfMHXAr/3VoSQrFTWUhUhKZV2VaoER/vYpoa0XP0I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eywbwrYwBbbuWkNgU8LPF+8nDzypXflUPznfo4RS/vECs+89fPbFEfxu/4fy/VKV+GCsfRKTPBinkUqN5btkBE0PYnPinMitHV8iYM2z1nMRq+Mmt6MNRJ9VSjIkno3dOZP5//ovtqGiw18nW5BgBz5dpaZoGERLvLCIQlQ8luI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PHwJHf9e; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Sh/TMWXi"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=G5JH/4+OuXtcHbFStrTFT/g8J0KJs+ciWX4V6+0C33eQSRFe6KrBz1HQgj9x1Ab7A+ig/kYgWqBrL7TrjQQFGFTfOlLKmbNVTGHf7/qesN0p6xWl051fQXDNwfcEtQiGaxmPS75rurnXYuK+Yrgu32BwKoxux6NS6vhBqAFwHmO9VDwq5LDoLZs0JDGrLCxdNz5XKh/phfe8CzRCYepXgXjrurpCpAIYXRZ/6m4ioeX0Okvc6jT7ul/+fvtqbnBc3tp/wmP0MCZMoUqlVp0XLqE5kThIpx868Kha4mc8Z3VVyCYLPDVoeHHSjP15uIpTAvpH9ZkRPT4EDqJrP7zyHQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QUfUYfDegwXgeSv1CjCrZdR9BTD+2glpiVXmuhesyjM=;
- b=OW9Jt/PU69cfR4NtIJFXLEQLlQ1mkhwbfEwkZdhZidYmhR4eLtCFtOVqTzPsM1+Yjg+9Si+w/ozn2Iu1AQljMMZTjdmS5tUrEKgV6glFtsyyz5nvWYx6QYRqVU2KnxjvfLaNKMRJ6wQcRhM5bvaOdMha6sV6qELlEgIvWARvneBZQe1rZGZQ1nOzSlbPdGWj8a+xTFOUF/EQFmaRamTdWECp29wqErknpM6EN99c4voZliwStSdqYA19P/IoCQX0BPajMTP4S9rIa+mX3XhpcMK1u0N9M622YSLmFcUaMHtMDrYAVB4yneeWDfjjN4NAQz8uwBF2xsIL9/7Aocc6NA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QUfUYfDegwXgeSv1CjCrZdR9BTD+2glpiVXmuhesyjM=;
- b=Sh/TMWXi1/8Oph3orFkkWUNIrMeugRNl1X8PpWOi9Mh4BRDlxuCg68EIltqz3UD9gN2e+/lxMEeObk8A355Shs89GdXQ2nQyTxOIe2hB3PxiYmFXK164U/WTW9gDgedK67u0RETjbS4ha1wluglfDvHl52cAbh+Aup88mNTdytnhUdiTuPIm6NGXFE1qGmdJGjChL1ntJKF+SRUjn7p2GhByY9EBu2txeJHcwctwd/5jg4BjdRRsYbdU5B2F75gdNxpX+CIP1g4AnxOhAsZ6IYXYo7qqg/+XsEznC3PF9yK4S8ldwm71obGZjjd06dLwc9gPIX6RehH2fHD3AbDNiw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CH3PR12MB7523.namprd12.prod.outlook.com (2603:10b6:610:148::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Mon, 6 Apr
- 2026 20:50:20 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 6 Apr 2026
- 20:50:20 +0000
-Message-ID: <4665d787-bf4f-4ecb-8ba5-f4e1d3517537@nvidia.com>
-Date: Mon, 6 Apr 2026 16:50:16 -0400
-User-Agent: Mozilla Thunderbird
-From: Joel Fernandes <joelagnelf@nvidia.com>
-Subject: Re: [PATCH v10 07/21] gpu: nova-core: mm: Add TLB flush support
-To: Eliot Courtney <ecourtney@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com, joel@joelfernandes.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-8-joelagnelf@nvidia.com>
- <DHIFLRYSRR3Z.34IFDA1592HCW@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <DHIFLRYSRR3Z.34IFDA1592HCW@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR12CA0021.namprd12.prod.outlook.com
- (2603:10b6:208:a8::34) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PHwJHf9e"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DF513143F;
+	Mon,  6 Apr 2026 23:05:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1775509533;
+	bh=1LOfMHXAr/3VoSQrFTWUhUhKZV2VaoER/vYpoa0XP0I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PHwJHf9eaBqF0JQPh+ng+LOsd6OrJW9PeBsdhY3K7cVhiU2sfzphJxwtKXzmdosyK
+	 phr84tEWXSqYHDuxsNazBpARTpABGzraGcBDW55sRVfZWlNJXDyU8ENxYQuPmm7UNx
+	 IvpGfLzo6EjfB6B2jUBX5wjo9I7QEb3/lTEa0FvE=
+Date: Tue, 7 Apr 2026 00:06:57 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: Fernando Fernandez Mancera <fmancera@suse.de>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, netdev@vger.kernel.org,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, mbloch@nvidia.com
+Subject: Re: [PATCH net-next] docs: netdev: document AI-assisted review
+ tooling
+Message-ID: <20260406210657.GD1268443@killaraus.ideasonboard.com>
+References: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
+ <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
+ <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH3PR12MB7523:EE_
-X-MS-Office365-Filtering-Correlation-Id: cd61fa0d-db67-4896-a396-08de941e1d73
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|366016|376014|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	QscDxRyrwy9dVdfKKx4Gz/edEVXuuN1ArNMhvdrs+YcuEv0JiH3ZdZlkxQU/Hl8sYOi52+MPO8IX89uRt2f3r/Os+Ak8IJHGWMgtkCRw+ttna/BP647JNT6dMAWc8gfx5a8+ZqtOjtttxwpnqXn8P0KGoqKBY0iiowC7dl8XiI+LwfTFStPQx1goFMy8xqqtS2L2m9ZS5/njysCCqEVLgO9APworRUFz6hQ0vDDnd8sBOGs4DgmgAiJCwqeyvi+uLvATvy0AE7W2iOeWb1YasmbnoRvI1bdOy7SlZo/yTwtWNTZe7xnz0AoXb4KPEvBNzl7L5UQIbVR8Uu2Ac/y0k+wn6gliRlKsLxWd5CWU3se2R8o58ggtt9rqkanrBSfpNw2/m5uT4vqmt6kZVR4rkbiHmploXSR9HwBIo469BW3QvLejlcCQON4nm4lZmpQvptv/CFFUazJrfxHLW3guOLO1B2jPfiJfoaG0lF5FboAgOlNTQ9aQSdj4WiUL0wgK3ERRhgmSGKwW/MXxN0M3T8lQhCyU+0gNeWmLTmbGritaewCwMLdbNm90DE9AZ/sfrzNEThHOVdQSvFikkbel8ZAV94CkulfHXqS99sGcrpE0TA4W1wrzDR8pDrL1600PmNstn7abUYGcop3j25CGL3jJXCF/numO5JxyZXr4MRjeMPfa7xrMhhFRnGtXDSVGXPRNlbjOV//SlYf+aVWnSh+kgZwNX5tSQQBflfUOa5E=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(366016)(376014)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UWY3Y0tWdVowb2plRjZnT2ZjWUowVG0ySXJzVldZZmlIU2FzT3NHMW1JTEph?=
- =?utf-8?B?K0J2QnljekducGltc1RHYXV3ci96MjFoZTlZNktzYjhtL3NzejhGWFFXZHUv?=
- =?utf-8?B?bktpa2ZRaitPRzdET0ZCNlpqSmVWU1RpRzExb2sxeHBaTFY3WXFVVHBoNXJl?=
- =?utf-8?B?VVQ4aTJjT0FJSVNmUjBxQTJwSFJSRTJ3NGNIYjVFN1oyMDB2NG5ySHNrZWE0?=
- =?utf-8?B?L2dSMWtOYzE4OWNpNXBjOEVoak1Ec2s5dFhUNVppUjNWYmNEbjQzdmI2SlhJ?=
- =?utf-8?B?T2p1TWhndHcvSUJ2R2hSVjlMVWU4S2duekROc0U1SnkxRXA1TVA3TzhVZ0RO?=
- =?utf-8?B?eUU1NHFpL1grc3JGQ25ST0dTOWVJbEc0OEVMM3UzWVhxS05USktxei8vWmtk?=
- =?utf-8?B?aXNNZ3lERVpoVjV4c0hGbVFWUWw2SmZ1c2k2d1pVMS80MmJjY0Q2WHNkUnBW?=
- =?utf-8?B?S1owRC8xY0lGOERGLzBIdCtMWnFIOHlFWCtVZkNsTDZNVkJFWHRhTnFpUVdr?=
- =?utf-8?B?WUJ1VWtBMFN1a0lwQlQxdkw5aEJxb3JOWldmc2dWMldqU3ZpWmJYakFRbXJF?=
- =?utf-8?B?U2FKU2ZQNGxGZUxkVUUwZld6QlBXeWdINGplall4YU9tUnRqOGVuU0N6anNa?=
- =?utf-8?B?dHpQUjZXU1dPWGhhd0NWZnp3dXVMNXF3Zmp2RklhVmlQK2YzQkhocEt3RUpu?=
- =?utf-8?B?SzBCUm9vYXhQcjFpQ1Z1ZEdGdFBrRWxoS085Wjk1eU5RVW5RRnBZUG9XYnNu?=
- =?utf-8?B?ZEExRlp6YzRpQmtVYVRGZmN1TVRQcytvVDl4TWFuZUpGQ3RWckRRejU4SDlK?=
- =?utf-8?B?eGlGcmovdHNPRFFrakVTeFdzNVo1YmY3YWJWQ0ZQWXYzSzdoZnZIa3dvK213?=
- =?utf-8?B?aWZUTUdJR0RwWjAvaEx3Y21OVk5Vc0IzaTU3YTV2NGN6YmFHVE04YTR5a3Jr?=
- =?utf-8?B?WnR0VVdFUGNyYzZlcHAxVEhvYkRMb2N0bWx5UTJEREsxUVZtZnRINCtoK284?=
- =?utf-8?B?ZTRhUWdPMnpLK2lBaUQ4cW1WZWJrZ3k4NWxjdzhsaGRhL0FXVC9lRU9OT3E4?=
- =?utf-8?B?NDVTVzF5amMyUUZpaU81dHlvN3MxMVV2Z0hpU29CZ1p3Y3oxNVR5YzF6SVJm?=
- =?utf-8?B?d1dPL0RQdjJlZkFPMTllNXZVcEtkbUFTajBkdVNaV09oTFA2QVp1QWt3MmFP?=
- =?utf-8?B?RERlalY1dldpcElMK09Qcm1hQ1dyWTJKY1duTWdmaE13cmhPcmlodHBiaTBG?=
- =?utf-8?B?aER6eXR1eEtQYmxNbk5DdlEyTitEYXR2ZHpNUjNwcG5qaDcyWUZsVFpNVWVT?=
- =?utf-8?B?RDkrbnBKL3puMUk0d2o0aWlIeHFacjNLUEFDOVdPaDlrV0F1VVNSdkt2L3I2?=
- =?utf-8?B?V1pJakl6d1A1VlpkRnd6UUN1S0FvY3BXaVFFc3lBb1lkTWNtSTdiYUk2R2FT?=
- =?utf-8?B?QWl2WHRicUlObkltbkl1S1ZBZWsrRUhCUkR4MnRyNXB3YjdFSWJKWVJOdldG?=
- =?utf-8?B?K28zdGw4SU0rOE42WkxLVE9VRGpvOEFOeFhrMS9qY0pzcnBTMm5ZN2c2bW16?=
- =?utf-8?B?cVoxS1hXakRScVpka1VDVytmSmdZWlJzWFRoWmpTZW1EbzRWVjd6a1JYWjdR?=
- =?utf-8?B?VCthNXJhaXN3M0E2RGF4Qy9jU1ZNZzk3cEZ4SWd3TEpFYXk0bE8wejZYREU2?=
- =?utf-8?B?c3FOc0E3OFJRTUFYTnR0eDZLaVR0azcvWjh0eFBNSk42WG44Y1RQMzh1ZWtH?=
- =?utf-8?B?RVN0KzIrYjNoLzdaZmhCemw4MTdteGpMa2NHcEtLRjljd29QelUzeE1PK0pW?=
- =?utf-8?B?UkVsbG5na2RXK0JMUTlGUlBDbWYrdHZUVS9UVWtISDdybjArRXNWK1N5M2ZL?=
- =?utf-8?B?ZzVGR2dkbzY0REFQNHA5ZS8xUlUyMHh6VkdqMWt4dHBtbkpCaHptbUJnRjdn?=
- =?utf-8?B?SWp2RFYwY2RiVEZuTCsvOUM2LzA5di9Jb0N3Zzl3eUZ4U1k2Unlta1VEY3Va?=
- =?utf-8?B?WXFaVUJrNlZnU2hmSzVxVEtoZW0zNWZBL2dIejZZQXllYjZZVDBQQW44NTZa?=
- =?utf-8?B?M2cvVitVaEdjRkhQbDY0YzQ1Q0JwRWdZOHhVTzhPWnlrRTk5SHloczhwU1Br?=
- =?utf-8?B?WmlnMHZBVDZ3ODc3bDZEOWV0dEY1aUp2YTF3SFBkTEpSTHlUSmtBQ1kxZXcw?=
- =?utf-8?B?Q0N4RHlabzVvSDAxOFpYMkQ5UkhqTktTOExzRFhGSDI3a2NXMTZoNUkzL2xB?=
- =?utf-8?B?aWhuL29tQmZ1KzFEZWlVbEFzQjB0LzVOZWRORDV0T2dMbFhOa0pCNnlDMlRC?=
- =?utf-8?B?ejR4SS9qU2JRQmtEdzNOdHMxOUV5T0tWOUhZOUgxMzZFYzJnRkdLUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cd61fa0d-db67-4896-a396-08de941e1d73
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 20:50:19.9211
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: gAFbvCvTy8nwlN94v6nMomu4m9NZ53yYSFgUxt0gRsMlyoEcqhY5c1DebXXVYqaXSRL5VkZ3fitXyJ7mCygZ9g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7523
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
 
-On Thu, 02 Apr 2026 14:49:05 +0900, Eliot Courtney wrote:
+On Mon, Apr 06, 2026 at 10:24:14PM +0200, Nicolai Buchwitz wrote:
+> On 6.4.2026 21:58, Fernando Fernandez Mancera wrote:
+> > [...]
+> 
+> > 
+> > Hi Nicolai,
+> > maybe I am missing something but [2] isn't from sashiko.dev but from 
+> > netdev AI CI instead. See: 
+> > https://netdev-ai.bots.linux.dev/ai-review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
+> 
+> You're right, I mixed up the two systems - the example I linked was
+> from the netdev AI bot, not Sashiko. My mistake on the link.
+> 
+> I stumbled over Sashiko when I noticed the name appearing more often
+> in other reviews and then found Jonathan's LWN article about it [1].
+> 
+> Both tools are actively reviewing patches on the list today. I think
+> it makes sense to document both rather than just one:
+> 
+> The netdev AI bot at netdev-ai.bots.linux.dev
+> Sashiko at sashiko.dev, which posts reviews publicly on its website
+> Both use the same review prompts by Chris Mason [2], so there is
+> common ground - though results will vary between them due to the
+> different AI models (Claude Opus for netdev-ai, Gemini for Sashiko)
+> on top of the usual AI uncertainty.
+> 
+> I think it would be useful to document that AI reviews are happening
+> but mixing AI bots might confuse people.
+> 
+> Agreed, I'll rework the patch to distinguish the two systems once
+> the discussion has been settled.
+> 
+> > The documentation mentioned for running the AI locally is correctly 
+> > related to netdev AI bot.
+> > 
+> > I think it would be useful to document that AI reviews are happening 
+> > but mixing AI bots might confuse people.
+> > 
+> >> Check for findings on your submissions and address
+> >> +valid ones before a maintainer has to relay the same questions.
+> >> +
+> > 
+> > I wonder what would be the consequences for this. If less experienced 
+> > submitters are expected to address issues pointed out by AI bots they 
+> > might work on something that isn't valid. AFAIU, the AI output is only 
+> > forwarded to the submitter after a maintainer reviewed it and believes 
+> > it makes sense.
+> 
+> Fair point. The wording should make clear that the local tooling is
+> an optional aid, not an obligation. I'll soften the language around
+> addressing findings.
+> 
+> Would appreciate input on how much detail is appropriate here -
+> should the doc just acknowledge that AI review exists and point to
+> the tooling, or go into more detail about the workflow?
 
-> > +    /// TLB flush serialization lock: This lock is acquired during the
-> > +    /// DMA fence signalling critical path. It must NEVER be held across any
-> > +    /// reclaimable CPU memory allocations because the memory reclaim path can
-> > +    /// call `dma_fence_wait()`, which would deadlock with this lock held.
-> > +    #[pin]
->
-> This comment says that the lock is acquired during the DMA fence
-> signalling critical path, but IIUC we don't have anything like that
-> right now. Is this based on future yet to be done work? Can we reword
-> this in a way so it makes sense in the current state?
+In general, if a workflow is expected by a subsystem, it should be
+documented. I don't see much to be gained from not telling submitters
+what they're expecting to do.
 
-Good point. Will reword. I'll still keep the references this design is
-specifically for that, but will refine to avoid making it look like a fence
-signalling usecase already exists. Thanks!
+More precisely in this case, as a submitter, I would take it pretty
+badly if I was told to act on the output of a tool that is prone to
+hallucinations without a maintainer first triaging the comments.
 
-> > +    /// This invalidates all TLB entries associated with the given PDB address.
-> > +    /// Must be called after modifying page table entries to ensure the GPU sees
-> > +    /// the updated mappings.
->
-> If this must be called after every operation like that, I wonder if we
-> can change the design to require a guard like pattern something to
-> ensure flush is called. WDYT?
-
-That's a good thought. I looked into this -- currently there are only 2
-call sites (execute_map and unmap_pages in vmm.rs), and both follow the
-same pattern of dropping the PRAMIN window lock before flushing. A RAII
-guard would need careful lifetime management to maintain this lock
-ordering, and error propagation from drop is tricky. With just 2 call
-sites, the explicit flush calls are clearer and easier to audit. If more
-call sites emerge in the future, we can revisit adding a guard pattern
-then.
-
-> > +    pub(crate) fn flush(&self, pdb_addr: VramAddress) -> Result {
->
-> Hopefully we don't need to be calling flush() from anywhere in the
-> entire crate. Can you tighten the visibility here and in other places?
-> Many things seem to be pub(crate) that don't need to be.
-
-Agreed, will tighten flush() to pub(super) and do a broader visibility
-audit across the series. Thanks!
-
-> > +        read_poll_timeout(
-> > +            || Ok(bar.read(regs::NV_TLB_FLUSH_CTRL)),
-> > +            |ctrl: &regs::NV_TLB_FLUSH_CTRL| !ctrl.enable(),
-> > +            Delta::ZERO,
-> > +            Delta::from_secs(2),
-> > +        )?;
->
-> This has zero delay on the read_poll_timeout - what about adding a small
-> delay of a microsecond or so?
-
-I think Delta::ZERO is fine here -- it still calls cpu_relax() on each
-iteration (not a pure busy-spin). This matches what other DRM drivers do
-such polls, e.g. lima_mmu.c and panfrost_gpu.c both use read_poll_timeout
-with sleep_us=0 in some places. I also measured it on GA102 and its about
-~1-1.5us which I think is well within busy-loop territory. From my experience
-with the scheduler, if we sleep, such short sleeps will be much longer than 1us
-due to scheduling latency. I also checked OpenRM and even there it is a
-sleepless spin-loop.
-
-thanks,
+> [1] https://lwn.net/Articles/1063292/
+> [2] https://github.com/masoncl/review-prompts/blob/main/kernel/subsystem/networking.md
+> 
+> >> +You can also run AI reviews locally before submitting. Instructions
+> >> +and tooling are available at:
+> >> +
+> >> +  https://netdev-ai.bots.linux.dev/ai-local.html
+> >> +
+> >>   Testimonials / feedback
+> >>   -----------------------
+> >> 
+> 
+> Thanks for your input
+> 
+> Nicolai
 
 -- 
-Joel Fernandes
+Regards,
+
+Laurent Pinchart
