@@ -1,127 +1,384 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBB3C385534
-	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 14:38:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.171
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775486289; cv=pass; b=N4+eScQR1ehn6x3awWB/Q07ugPCHT1GmpBf8ei2LKcddk2fantv/jmjUuLiaR6IDA1wdHWXR7yZXfIhFZ2iVTS4amNnpCuv82X3/uErK9GBqLoRWleYjiX5BAGXIJxS8XZpooaigaqmaY86yNpa3DsQH3B9aaofon9ST0P/b3zU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775486289; c=relaxed/simple;
-	bh=hIhNt0MJcuiCREyJL4elAnSUfXIEbP8C+cm2AS/TYZc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hok8C0cBMrC5Y2sFN4BgVnzCZ8dkkzjuN4S17vW0Oclku6EbWyySre+y39/J3uVzdsFLvehGTTT++fie1fWkW0Q9PWQIwIoEI6jyu9KW6yT5uKn7GozM7r6ig48lvS0rwJ4uFYuLO7+Z7/fQGGqYYjmBeeXP2zZZXgpQe4l6jW8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jgwhN/LO; arc=pass smtp.client-ip=74.125.82.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6D4833B969;
+	Mon,  6 Apr 2026 14:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775486562; cv=none; b=YJw2Yyhlf8GoTSwVhE0t1UkSgqAiy63Zys/xCpmsQDpx2UaP7ra45xdj3Ifog6vrD4xFjVNLgy46vNHs2/g3udDQCFx7Wz3xPtUiA6SW3mGqGawvVAi5D43Au6udgqCILdXHcX6XbmOcmz185vJOV32oKtr4LGpTQwG/LPSe7ag=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775486562; c=relaxed/simple;
+	bh=YRAZwpdtLFzBHDJ6JvxbTm1XlKhjW+5RrwxjYrMbb+c=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EfcVj7haTwmMtmZE1FlS9FEAvIObve8A94vNP/OSYex/f6xPycByquP/P7/URazozfSfYkJ46r8yT1BtsyO79mg6dViZB/IRBFsbi8x+aLV/j56a46rozPMNhjqsSq7GiU5RNIsWNvNaqB7BxZYZY89MGn+WvqBoUk1wKWP37Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KcbQ8F5t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jgwhN/LO"
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2d13cab02d0so2839eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 07:38:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775486284; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VquSrCDy/l5ni1sw3m8Hone7hrPv5AzuBnlh68mb5lm0h/AXNRZqkVmSnL9vbCGGve
-         GwAwpVXv6Org9eZdEH9H6CREg1Y8oLMcKCpemUD0cGXB+SobQytZXK4NicTUUYSTYWUJ
-         u1xKwyIx72JYBMFOA9KKcYZMt44UwCHQsnfoxamUu0vypWAiyIR9Eg/sUbZgdJ5y5/9n
-         ALJCkKfgs6jM9EE3cZ4OVnqvR/oSc9GidhgTpcyElK+xYuEWKHKhrkLGmdf5KKHD1QG8
-         0LSNNC0hL4M/+j1+OnkVdU9R7QqCW8QJYxEUa4jSgnrfx/IBURYkOj7/0E0YA16ZcsYs
-         ACsg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=hIhNt0MJcuiCREyJL4elAnSUfXIEbP8C+cm2AS/TYZc=;
-        fh=Q8xvkE9M4vX7Z4rLMQVE5ruX0N/iMHcyCwrFqotd4vE=;
-        b=GbXfH78EhaFbHRF9sNSWeptl93Zi72TIiLWdHedYpZzY9VdD+tGrbSqQhprseizTx8
-         lCSVdwShp4Qif+9spW8/GfB5U+a7CFeuwIKRSHmLfnDLmhUF+NgbDv/m3N3jtFQRV0wx
-         1EfX46oAhr4X/RUcix0gsy8+c61lNebU5C5jkiix4k+1RXnV/ZSnsleqilOiMoN0PsyR
-         GFb1KbJSH6iB5zxneO1ZaG1hU/CH5gDX3xT7fo1HJFxm8y3XQGI14oC9gtNUwqoUMHeA
-         Njuvd5wc+U3SN7hubawHRc5kH+69NzvOzRn8cu9FwGVcyPxg0A6pwardbK2Gq8/KPW1H
-         YeMw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775486284; x=1776091084; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hIhNt0MJcuiCREyJL4elAnSUfXIEbP8C+cm2AS/TYZc=;
-        b=jgwhN/LOCRUuz5UtuAxbMF3jgJnFp6nKylfYyZFBTJc1ux/cteBqbZhrHUpd0SVrJ6
-         9hhlLqqaYpY1c0QaNN6MWPPAIwh5+uX2vnAa59YCd3Q2Ao03JARshIQClxScR2gU23q6
-         1Yi78Tqo3Y4/iAxKQ+p+X62sVoaB+OFZJCt2n+9UhA+AY6ZbTDd1LWJ9E3QbIJgzyByS
-         8zBdW1BmZbAb+cnapbsOd4q15lxIceJHUjgfEn/NiAWrxrT0gr1mHOyFTsaOq+RvDLti
-         a6G+lGC7X5xWVSu975ZjophQliZNveh4HFzgRC1AO8zyzB4RALb+QOAALbUrIIiMWMGm
-         AnnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775486284; x=1776091084;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=hIhNt0MJcuiCREyJL4elAnSUfXIEbP8C+cm2AS/TYZc=;
-        b=ZLN0LnfF2JkZVVkG5S+ZUNFRYRnVMtJuB57OgN4jhaGyifcOAms5zhmuES6nhh5Zdr
-         JgKA+foJgd3j+QC0NjAKPZU/zwR0Lbq4Vf9Gbpd8hgmlcCFTND2sUvu15naUdKHYaqG+
-         b3mbTNmM89RW7EstQClCUfmhHYY77EA2dHS1fszW0d7g0Vwp5SFTbdjJbiZt7NRNieiE
-         FrP5OuUgGlMvXJfrCOUzcwaAvXX/ydFDUJ/mqSClwz5IRqQKQCWhLeUppg1wJkdMOSha
-         g7uqUPlylWnRzUJbzRyEmLc4vud0I6Zc2qL8x6o+Qz6eNk5RJWtg1TPqayomDTkzgTel
-         CyEw==
-X-Forwarded-Encrypted: i=1; AJvYcCXUA5/OrbDK53S57eec8WaEA6f8oRjoDAthE0f5IZbqHts0/ZQYYOEMFXWohoXBO+/9wnGtyErd8mA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxxdcq+730M1BkLu2dVxE2+a+ieraVWumzOJUYVkUcs0+UDDKg2
-	MN8yMz5y5D7BQMbnQZqx+crPulPl9uYdKfcwL6etEH9xzJW5EtKvobOeh4ZXMGczrbaruY0yrig
-	7aBzknHhReTIkqcXWGG1G0KGu+AE4pBk=
-X-Gm-Gg: AeBDies78TtMkbJoGXx0qwsOaDoS96lUM643aY0M6UpQv3+jAc7QYZk+NKWSzzkOdl7
-	2Da+NRYko8qtcDJxUViIKGPqOzY8J0/eG4FPKSSJRGCJxEgKAJTCOtuUhx7jYkyR1wilkqbOUSe
-	NfqwPMkaOv/W92kQL2uJxUtuv0wJGkV5wJhn5H3YxPevU477SANe26HO7zYt4KGx/85vrT9d79m
-	6Nh11aaXgceLRunuSnXRNS9o1GQvPgOtZOtPxK6IDkLA4tFbEEETdv6Pw4EgGa4+FIooJnvpuZN
-	hHYbgeTINe1cFvQsoAzH71+YWMKjKGlTTrrnwQzGjYyyOjMR713lgQTs7l18j4EvJ/Ef0AHTknV
-	/PtAhFOprX6MdeXJhOidCctMSHyc6Z8Tprw==
-X-Received: by 2002:a05:693c:2c06:b0:2be:2912:ff65 with SMTP id
- 5a478bee46e88-2cbfbc7d828mr3020598eec.3.1775486284289; Mon, 06 Apr 2026
- 07:38:04 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KcbQ8F5t"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 863F3C2BCAF;
+	Mon,  6 Apr 2026 14:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775486562;
+	bh=YRAZwpdtLFzBHDJ6JvxbTm1XlKhjW+5RrwxjYrMbb+c=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=KcbQ8F5tJmq84jNkHQEPWRoXbRm66VrD9HqMuHn78ysI1F3f1Qas4oWsBxv0FaThj
+	 TG7zyyAqD7VXhS61Yo7uzDAt631XNM24UIJMgafqFsvo81VtdcazAJ9gjuTzD2amtb
+	 ViW7wdwWABovSJbg0HcG7G8WyVbzA7gw35b25m/OAszDCGDEWXm3dgpGinvfRgFD0D
+	 hwrWO1VbFUtvWXmUcRBI6n5RPW6xfmjzokKd8jGlWSFrxGLVjHwoFKr8wzgAyuPoTE
+	 OPr9reDXuf5FxQ+kXIEPCudr5BJUt+yRbVvd6J3WqRzkOFMMAlOu60PwxroOxyHzMg
+	 sUDWHLHKiZagg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71DE2F46C47;
+	Mon,  6 Apr 2026 14:42:42 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Date: Mon, 06 Apr 2026 15:31:11 +0100
+Subject: [PATCH v9 1/3] dt-bindings: hwmon: Document the LTC4283 Swap
+ Controller
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260405235309.418950-1-ojeda@kernel.org> <20260405235309.418950-8-ojeda@kernel.org>
- <177548573697.95472.13544191227699996309.b4-review@b4>
-In-Reply-To: <177548573697.95472.13544191227699996309.b4-review@b4>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 6 Apr 2026 16:37:52 +0200
-X-Gm-Features: AQROBzAshONAZRL6Bf4qdEX94VdiVWUdtgExWPcnxvz_Z_wjuLZH7VazFmpsU7M
-Message-ID: <CANiq72ne_JYPodnROckyNto10ZF0PqadRxSrng5-mZyqVovxFg@mail.gmail.com>
-Subject: Re: [PATCH v2 07/33] rust: allow globally `clippy::incompatible_msrv`
-To: Tamir Duberstein <tamird@kernel.org>
-Cc: Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
-	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
-	Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
-	Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
-	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
-	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Alexandre Ghiti <alex@ghiti.fr>, 
-	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
-	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Message-Id: <20260406-ltc4283-support-v9-1-b66cfc749261@analog.com>
+References: <20260406-ltc4283-support-v9-0-b66cfc749261@analog.com>
+In-Reply-To: <20260406-ltc4283-support-v9-0-b66cfc749261@analog.com>
+To: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+X-Mailer: b4 0.15.1
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1775486610; l=9689;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=dpLW/FJbkJTdEYKnbIi0pTDRPqeW7tODozYYmkat6BE=;
+ b=af6PY1yfFLwRTEGXA9fRledfC3SBTjahvHACCV9CtCIf7vTmd6Z16n8Y1OcF7dRNUecTPv74p
+ 0S7r3/Zo9XLDZxYBlvpby62VwjYdUQcs4/vC+Fe/2C68Zj1mkES3QqX
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Mon, Apr 6, 2026 at 4:29=E2=80=AFPM Tamir Duberstein <tamird@kernel.org>=
- wrote:
->
-> Could you add a reference to the upstream bug report [0] here?
+From: Nuno Sá <nuno.sa@analog.com>
 
-Of course, thanks for the tags!
+The LTC4283 is a negative voltage hot swap controller that drives an
+external N-channel MOSFET to allow a board to be safely inserted and
+removed from a live backplane.
 
-Cheers,
-Miguel
+Special note for the "adi,vpower-drns-enable" property. It allows to choose
+between the attenuated MOSFET drain voltage or the attenuated input
+voltage at the RTNS pin (effectively choosing between input or output
+power). This is a system level decision not really intended to change at
+runtime and hence is being added as a Firmware property.
+
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+---
+ .../devicetree/bindings/hwmon/adi,ltc4283.yaml     | 272 +++++++++++++++++++++
+ MAINTAINERS                                        |   6 +
+ 2 files changed, 278 insertions(+)
+
+diff --git a/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+new file mode 100644
+index 000000000000..05e2132ad4d8
+--- /dev/null
++++ b/Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
+@@ -0,0 +1,272 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/hwmon/adi,ltc4283.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: LTC4283 Negative Voltage Hot Swap Controller
++
++maintainers:
++  - Nuno Sá <nuno.sa@analog.com>
++
++description: |
++  The LTC4283 negative voltage hot swap controller drives an external N-channel
++  MOSFET to allow a board to be safely inserted and removed from a live
++  backplane.
++
++  https://www.analog.com/media/en/technical-documentation/data-sheets/ltc4283.pdf
++
++properties:
++  compatible:
++    enum:
++      - adi,ltc4283
++
++  reg:
++    maxItems: 1
++
++  adi,rsense-nano-ohms:
++    description: Value of the sense resistor.
++
++  adi,current-limit-sense-microvolt:
++    description:
++      The current limit sense voltage of the chip is adjustable between
++      15mV and 30mV in 1mV steps. This effectively limits the current
++      on the load.
++    minimum: 15000
++    maximum: 30000
++    default: 15000
++
++  adi,current-limit-foldback-factor:
++    description:
++      Specifies the foldback factor for the current limit. The current limit
++      can be reduced (folded back) to one of four preset levels. The value
++      represents the percentage of the current limit sense voltage to use
++      during foldback. A value of 100 means no foldback.
++    $ref: /schemas/types.yaml#/definitions/uint32
++    enum: [10, 20, 50, 100]
++    default: 100
++
++  adi,cooling-delay-ms:
++    description:
++      Cooling time to apply after an overcurrent fault, FET bad or
++      external fault.
++    enum: [512, 1002, 2005, 4100, 8190, 16400, 32800, 65600]
++    default: 512
++
++  adi,fet-bad-timer-delay-ms:
++    description:
++      FET bad timer delay. After a FET bad status condition is detected,
++      this timer is started. If the condition persists for the
++      specified time, the FET is turned off and a fault is logged.
++    enum: [256, 512, 1002, 2005]
++    default: 256
++
++  adi,power-good-reset-on-fet:
++    description:
++      If set, resets the power good status when the MOSFET is turned off.
++      Otherwise, it resets when a low output voltage is detected.
++    type: boolean
++
++  adi,fet-turn-off-disable:
++    description:
++      If set, the MOSFET is not turned off when a FET fault is detected.
++    type: boolean
++
++  adi,tmr-pull-down-disable:
++    description: Disables 2uA pull-down current on the TMR pin.
++    type: boolean
++
++  adi,dvdt-inrush-control-disable:
++    description:
++      Disables dV/dt inrush control during startup. In dV/dt mode, the inrush
++      current is limited by controlling a constant output voltage ramp rate.
++      When disabled, the inrush control mechanism is active current limiting.
++    type: boolean
++
++  adi,fault-log-enable:
++    description:
++      If set, enables logging fault registers and ADC data into EEPROM upon a
++      fault.
++    type: boolean
++
++  adi,vpower-drns-enable:
++    description:
++      If set, enables the attenuated MOSFET drain voltage to be monitored. This
++      effectively means that the MOSFET power is monitored. If not set, the
++      attenuated input voltage (and hence input power) is monitored.
++    type: boolean
++
++  adi,external-fault-fet-off-enable:
++    description: Turns MOSFET off following an external fault.
++    type: boolean
++
++  adi,undervoltage-retry-disable:
++    description: Do not retry to turn on the MOSFET after an undervoltage fault.
++    type: boolean
++
++  adi,overvoltage-retry-disable:
++    description: Do not retry to turn on the MOSFET after an overvoltage fault.
++    type: boolean
++
++  adi,external-fault-retry-enable:
++    description: Retry to turn on the MOSFET after an external fault.
++    type: boolean
++
++  adi,overcurrent-retries:
++    description: Configures auto-retry following an Overcurrent fault.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [latch-off, "1", "7", unlimited]
++    default: latch-off
++
++  adi,fet-bad-retries:
++    description:
++      Configures auto-retry following a FET bad fault and a consequent MOSFET
++      turn off.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [latch-off, "1", "7", unlimited]
++    default: latch-off
++
++  adi,pgio1-func:
++    description: Configures the function of the PGIO1 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_power_good, power_good, gpio]
++    default: inverted_power_good
++
++  adi,pgio2-func:
++    description: Configures the function of the PGIO2 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_power_good, power_good, gpio, active_current_limiting]
++    default: inverted_power_good
++
++  adi,pgio3-func:
++    description: Configures the function of the PGIO3 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_power_good_input, power_good_input, gpio]
++    default: inverted_power_good_input
++
++  adi,pgio4-func:
++    description: Configures the function of the PGIO4 pin.
++    $ref: /schemas/types.yaml#/definitions/string
++    enum: [inverted_external_fault, external_fault, gpio]
++    default: inverted_external_fault
++
++  adi,gpio-on-adio1:
++    description: If set, the ADIO1 pin is used as a GPIO.
++    type: boolean
++
++  adi,gpio-on-adio2:
++    description: If set, the ADIO2 pin is used as a GPIO.
++    type: boolean
++
++  adi,gpio-on-adio3:
++    description: If set, the ADIO3 pin is used as a GPIO.
++    type: boolean
++
++  adi,gpio-on-adio4:
++    description: If set, the ADIO4 pin is used as a GPIO.
++    type: boolean
++
++  gpio-controller: true
++
++  '#gpio-cells':
++    const: 2
++
++dependencies:
++  adi,gpio-on-adio1:
++    - gpio-controller
++    - '#gpio-cells'
++  adi,gpio-on-adio2:
++    - gpio-controller
++    - '#gpio-cells'
++  adi,gpio-on-adio3:
++    - gpio-controller
++    - '#gpio-cells'
++  adi,gpio-on-adio4:
++    - gpio-controller
++    - '#gpio-cells'
++  adi,external-fault-retry-enable:
++    - adi,pgio4-func
++  adi,external-fault-fet-off-enable:
++    - adi,pgio4-func
++
++required:
++  - compatible
++  - reg
++  - adi,rsense-nano-ohms
++
++allOf:
++  - if:
++      properties:
++        adi,pgio1-func:
++          const: gpio
++      required:
++        - adi,pgio1-func
++    then:
++      required:
++        - gpio-controller
++        - '#gpio-cells'
++
++  - if:
++      properties:
++        adi,pgio2-func:
++          const: gpio
++      required:
++        - adi,pgio2-func
++    then:
++      required:
++        - gpio-controller
++        - '#gpio-cells'
++
++  - if:
++      properties:
++        adi,pgio3-func:
++          const: gpio
++      required:
++        - adi,pgio3-func
++    then:
++      required:
++        - gpio-controller
++        - '#gpio-cells'
++
++  - if:
++      properties:
++        adi,pgio4-func:
++          const: gpio
++      required:
++        - adi,pgio4-func
++    then:
++      properties:
++        adi,external-fault-retry-enable: false
++        adi,external-fault-fet-off-enable: false
++      required:
++        - gpio-controller
++        - '#gpio-cells'
++
++additionalProperties: false
++
++examples:
++  - |
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        swap-controller@15 {
++            compatible = "adi,ltc4283";
++            reg = <0x15>;
++
++            adi,rsense-nano-ohms = <500>;
++            adi,current-limit-sense-microvolt = <25000>;
++            adi,current-limit-foldback-factor = <10>;
++            adi,cooling-delay-ms = <8190>;
++            adi,fet-bad-timer-delay-ms = <512>;
++
++            adi,external-fault-fet-off-enable;
++            adi,pgio4-func = "external_fault";
++
++            adi,gpio-on-adio1;
++            adi,pgio1-func = "gpio";
++            gpio-controller;
++            #gpio-cells = <2>;
++        };
++    };
++...
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e008c2bcc187..3f727d7fdfa4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -15161,6 +15161,12 @@ F:	Documentation/devicetree/bindings/hwmon/adi,ltc4282.yaml
+ F:	Documentation/hwmon/ltc4282.rst
+ F:	drivers/hwmon/ltc4282.c
+ 
++LTC4283 HARDWARE MONITOR AND GPIO DRIVER
++M:	Nuno Sá <nuno.sa@analog.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Supported
++F:	Documentation/devicetree/bindings/hwmon/adi,ltc4283.yaml
++
+ LTC4286 HARDWARE MONITOR DRIVER
+ M:	Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+ L:	linux-hwmon@vger.kernel.org
+
+-- 
+2.53.0
+
+
