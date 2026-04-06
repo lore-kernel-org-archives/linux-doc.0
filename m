@@ -1,311 +1,290 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011013.outbound.protection.outlook.com [52.101.52.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5F6031D72E;
-	Mon,  6 Apr 2026 16:18:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.13
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775492336; cv=fail; b=Ci1JPQUOV8NPi7GeRQ29SlTzO3Iq80I0ReYR5ZFw52QYyKpc1X1yMey5YllgVKux+2K1rPXxMRxtz06hnYgXi5CEfW1flJoowvuvqUZiy0r+cIiFyO2RzuQ/e9Tk7pwqBSulZIZhLVW/0reaq+2faIA+GEeNUYstXpfGU46HZqk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775492336; c=relaxed/simple;
-	bh=mdaOkNQJ/Z5u2PjntpOhoRYsLXysBplu0uICd57mfzo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XsVgrlMqzfCMJWWPoVro2NDbPg71WEQWPILM1ReWCf7ak8bAwoYKqpONDiahCZSUAePE43EolC51uvDpgPvbhO2tx7EIg0kWtQqvpcDUco8W9lVUrTx4AWivAdELQcsatijtZCx0SfrJ4KPuBar5SPsCB8bNxwesVoyBbYUEucY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Rvo3KqG6; arc=fail smtp.client-ip=52.101.52.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C172D883F;
+	Mon,  6 Apr 2026 17:00:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775494843; cv=none; b=W9C7hK0WaYq61WSotuXLqrDSmOeBPELgSh83VLu3gx4xzaoiw6/H2q/I+rIXpl4Yc7RWvh12gaPmolahhp5eM2rMWoo42HwCsTZVr7kC+i6akYu8fwoY/DzjYJbf1Rzk+V/88tzunPBc2+SpvmGG5eYWbFUg9BY0DPpvGg6M8MA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775494843; c=relaxed/simple;
+	bh=kELBbcQpmhJYF/hxMDc0iagdbtwtCl618DEcc9/nJiI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XB+3z3K+j3bXUQf5R7Lhno24w68vag7sp9qWiQ3QZhPtxF9ArmcK7a0V2T8WZRv2ShhNyBAI+N2YbNGcXSA/jCa1j2T72CbfAENJEWAI1WsLX1zBrLwu6FWvjpJs97bd8oaEZPRK3J165AXjNvKRhXj5VRwFTofvfH5wzj2SMdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oHltm8ol; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Rvo3KqG6"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ssOnrSWMZmOI3rIRfMdSRAdCMd9aVvVTxIGB3mR3kb4mYErWlWjvcNXt07uu2cGnS++JmfSnjkXgHgaCZ3dn+O2YmVktKI6v84/T6ztu9bjmFkYKPJJwznmDnvRzyOHpZLlxxZyW4LbxasxPau+3I/sJGMm3J60iBihNrsvPw98+rC+tZmLfTAvCvzySc7cGRueJy21mR6V3vqKeoE4s1AHpBlRXn20H0vS2WXxROENwp3YKk7ueL/XK/w3/kLy6jdzrVICCjGR9szQchisXGQvb1+YFf1UUZ2jAWraVoEOgiXwuJj1CS0lW7Y1uUWLHJ2NVzxf7xKTvB0zCGpYSmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KdACYr36jeR46z0VB/RDqwi1YYEeJM8vdYKOBScNRIU=;
- b=UEv11Dl9swWuyTW4WsULlsV1gOekwu3zkI0s1KKA0hVt2sj5/5Sf4B5c1OyUBheO80Rm/QYlr5USL2ylQP9wlbIvjsxMXiqIp9w3qPqyoa7RB0Ptr0XYQk6/xnN0bzLIWsGm91pGeYCTfoiyTCgZfl9o4t2cP77JCVQ1sf2/IzLDQA6WqtfKjEOVhxcaE66jRytnieWT1FOh4Fa2cuovedehX+nL8SHD/M3+/rw7Bcq1ZOy0Q4/a81baMNtf0zP5gdwomUSzUkhaGWQBn3J3ISRDfqse4MxV3mDOXALhKwrPU6aShkglJjq/cWBy8piqL8d3meKEfQnwHzB3zCc7pQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KdACYr36jeR46z0VB/RDqwi1YYEeJM8vdYKOBScNRIU=;
- b=Rvo3KqG6m83SATdEPRZhwZKQPG6UN4JI9MC/7OeqkCADapMYlmI81tv1CVDDUKzCtCz3X6VrwJRDfyN8E6In/Ic39WN20rQ9Fv0oZJOY7fyQ+zKl7etS2YON903Pwz3mJ+mnzsanv5NQ51CnjkvNRrezWcyXWuMiKYGFYskfT69+Am1Yxy9hzHDMpzzTGkz1oxT/gP/8mIV8W9QKIShgPELbTYPjxpnJ0Ht7FQ3PAiOD0+A1uzTw+G6jxQqiDn890pTvHXitn1bnESB4etmy3DLTEMpSYzM6VWyF4NAwDhkVpThMR+eCBbhCyvyikJl3hg3zh0qfahi/xWFvJSiPSw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CY1PR12MB9558.namprd12.prod.outlook.com (2603:10b6:930:fe::13)
- by SA1PR12MB8947.namprd12.prod.outlook.com (2603:10b6:806:386::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Mon, 6 Apr
- 2026 16:18:49 +0000
-Received: from CY1PR12MB9558.namprd12.prod.outlook.com
- ([fe80::920f:8246:c48b:7ce9]) by CY1PR12MB9558.namprd12.prod.outlook.com
- ([fe80::920f:8246:c48b:7ce9%4]) with mapi id 15.20.9769.018; Mon, 6 Apr 2026
- 16:18:49 +0000
-Message-ID: <1b91bbf1-9f7e-4551-9f02-91b1858e75fb@nvidia.com>
-Date: Mon, 6 Apr 2026 19:18:36 +0300
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next V4 10/12] devlink: Add resource scope filtering
- to resource dump
-To: Jakub Kicinski <kuba@kernel.org>, Tariq Toukan <tariqt@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Simon Horman <horms@kernel.org>,
- Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko <jiri@resnulli.us>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
- Mark Bloch <mbloch@nvidia.com>, Shuah Khan <shuah@kernel.org>,
- Chuck Lever <chuck.lever@oracle.com>,
- "Matthieu Baerts (NGI0)" <matttbe@kernel.org>,
- Carolina Jubran <cjubran@nvidia.com>, Moshe Shemesh <moshe@nvidia.com>,
- Dragos Tatulea <dtatulea@nvidia.com>, Shahar Shitrit <shshitrit@nvidia.com>,
- Daniel Zahka <daniel.zahka@gmail.com>,
- Jacob Keller <jacob.e.keller@intel.com>, Cosmin Ratiu <cratiu@nvidia.com>,
- Parav Pandit <parav@nvidia.com>, Shay Drori <shayd@nvidia.com>,
- Adithya Jayachandran <ajayachandra@nvidia.com>, Kees Cook <kees@kernel.org>,
- Daniel Jurgens <danielj@nvidia.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-rdma@vger.kernel.org, linux-kselftest@vger.kernel.org,
- Gal Pressman <gal@nvidia.com>
-References: <20260401184947.135205-1-tariqt@nvidia.com>
- <20260401184947.135205-11-tariqt@nvidia.com>
- <20260402190219.61ea7da1@kernel.org>
-Content-Language: en-US
-From: Or Har-Toov <ohartoov@nvidia.com>
-In-Reply-To: <20260402190219.61ea7da1@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TL0P290CA0004.ISRP290.PROD.OUTLOOK.COM
- (2603:1096:950:5::17) To CY1PR12MB9558.namprd12.prod.outlook.com
- (2603:10b6:930:fe::13)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oHltm8ol"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 919DFC4CEF7;
+	Mon,  6 Apr 2026 17:00:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775494843;
+	bh=kELBbcQpmhJYF/hxMDc0iagdbtwtCl618DEcc9/nJiI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oHltm8ole8i/GhwniZLppBuUzP0TIr6kVGowXRj/tY8hZyUwzxY0zjMhxlG2/efDu
+	 Y7Et2bSlWIFnELbVYgf8EypO3nnv8UMeKOWYS3jWfD6mbta1RwxpC6YKzj/OLNlLgw
+	 qIQ+XK4BAmVykh7lREgNLs2KBlFR2JZgnJuo8w366HhTiN/37whSGMw62qg4eDrXDR
+	 JLLbEhBlrzkupvXdGC5pL76DnheVhS2veiaVvkTwFu6n7UO5Y0/KYW1+3jVgv0Z8u3
+	 6hGElTNq/ABSxg7dWNEX/IIJynRqJJnABQy79k966r5Z6IWgcHSuzXHQhyh/UfFy/D
+	 KukrJ96THoNUg==
+From: Sasha Levin <sashal@kernel.org>
+To: dwaipayanray1@gmail.com,
+	lukas.bulwahn@gmail.com
+Cc: joe@perches.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	apw@canonical.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH] checkpatch: add --json output mode
+Date: Mon,  6 Apr 2026 13:00:39 -0400
+Message-ID: <20260406170039.4034716-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY1PR12MB9558:EE_|SA1PR12MB8947:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0de557a5-a59d-458e-8627-08de93f82fcb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	Cmj0joJaamYrt3r+oJkkA3/lRDy1Q+oNZKRKPE4h3jahzVtzyzgWR2ucVSMqvWvvBHsOhOXse77OQ+xDffvvK2T/nU7k4oBBgAsYcLx7nhWv2r3+zrAg58NO2S1IwZhBe8TGo189l1+4RbS1qfaJ3Lc3LyMP3f7kn2iUf8Celb0MZ3LbenW1dc+KrM0pJi+Gvd8hXHEflv3ASFdpOaKcm1NxRdiMdgtBEER+jipr8mhFrNT4WyW3ll20aN1hkWQn6Al5T4I9bremaJnQZa7vTHstrxvUf5nqutIi2OAjv1gcCb8bmLLHBHV+oiEr95DsPluhvhbHtzGxVMUOxbqQL0EzNw7BRZe0SIvqSlRgZaM8nhdSocX0xmq3opF4nBcJZnpYIypoomOBFsYWJobpqIORjDMY3khNOQAOR1R1g9Kd6POjBVIJe0jjF91gyxgO8siaBxjiEAs8k5nPHLqtdMT/qhu7lPsWC7KiQR+xpO/C78azrreIFlBoQR4rIgQGnhEEZ2EgjNh7YZkAbkvOz8uqyJshSQXSu6C7tnJfBuVvm+AuEvXu76ZzuhYyRxzh/99GS6D52hwdlh6ETyXTOgph/bqGgv+4PHNUC8Z1pW0wgZQ3Mm6VZetFcIkYJDhqJLYCK8DBUMluTjyDshJaqZH5RcYjS0NPF/Qb3OLtk2ps385PFLZGCYB8RecNjx3mcPXRk4VT9HQmOH3rzNCO5kepVrPx5btLfdd+14BCzxM=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY1PR12MB9558.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?U3FUSDc4UHZTRWdTMHIyclgrNEVGRG5OcDZJdE8ydVRGOXhvK0E3akRFbjBi?=
- =?utf-8?B?THJGbDFIdlVucDd0b0xpNlJialBXTy9JS3Rta0krelRuQ3NVWmNLMTdHemRl?=
- =?utf-8?B?L1MwYmZnVTB6S3VXOW4vZDFsdWsyakZYWVlySHMxRGxnWG0wODhtNHhlcm1n?=
- =?utf-8?B?Mkc3Z2owdll1TzVqaXVib2lZYkxpeDJmN0NuV1lmKzhVZ1lHRjhOelZZMkY4?=
- =?utf-8?B?NktsMXJFL0o4ek1LMm1xZXlYSlMwTzA5bkVoUFE4M2hNSGNHWGxsODdRYkYv?=
- =?utf-8?B?UlZQdHRmbHdnZWw3SVhGNmgwaUwvVWZNbkR3MnZLM0NMak5BcUM1U1lSY1BD?=
- =?utf-8?B?UzhVVTU1YjlvWVZadXVuTTZUVG9jUGduUmIrRTZxQU4xa1phemRwcDdiTGVj?=
- =?utf-8?B?ZEowODdmY1A2a2pDbFZqaHBjS2hnc2I4anYySzNJQ2RSTjB3MWpBWkN5YlFX?=
- =?utf-8?B?ak8yQitUM3ZOZEFuRER1aXFvNStIQk9uc3UrdGRZSkpPSWNVQTRRblBPZ09p?=
- =?utf-8?B?R0RaVnVGaHcrSURSZ0hJcnRJdm9WcmxFRmNZd3BoQWFmSHIxT1BNVnpmZzVK?=
- =?utf-8?B?R0FPY3RRN1BrSmxrbjRWbDZNajhyTnp0a01waTlGSlRqczJvYmNmTjVvL2tp?=
- =?utf-8?B?WlQyRVNsM2hZc3FrWDBBcHo5U3J1dVdQam15ZzJSTEJDcVpoN2RkZFhyTjZC?=
- =?utf-8?B?MkZVR25kNmxjbWRwcS9OdFJoUmdZd21qR3ZFUlVMdnd3UmtTOUk4MWpXeUhG?=
- =?utf-8?B?K2tKOHNheDZDM0NSZW1ReWNnVUNkZzBoR0YrKzgrRXVtb2l0NnM3anBGMVcx?=
- =?utf-8?B?U2RDNkF0RzBhcEVwTjVFUDFDT1BQczV2T3ZlTkh4MUsvWTJiYXJvTlBjWnNH?=
- =?utf-8?B?UVdrcHZVUWlhM01tSmFyTlFHd09PeGt6R2tjTDRQdW1RQVBnZ2tjT2JFMTZj?=
- =?utf-8?B?dWppeUtPVzRpVHorcEtZN3BwZDM0LzVtUm8rTkFrSW1JRnkvSWF2aldPYno3?=
- =?utf-8?B?Z1NDcSsvaTVyMTRHS3E5cDI3UHBsOUQwaU0rSmJUTnJxUzl5eit0dW9xekVB?=
- =?utf-8?B?dm4wbk53em9rbWpLYzZsRHdRNmNDcFE1bGtrVk5rQlF5bXE1ZUxnSk1mVmdk?=
- =?utf-8?B?a3ROR3dHRWxaWm9aWmkyMmFHNXNPOVFVN0U1ZEQ3NStLd1U2VmxsWU5CVmQ1?=
- =?utf-8?B?QU5NKzRETy8xS1EvdjJLMGtBcFlKdGJ5MFA4NlI0Z1RMN0tZSDFWWUlHeFcr?=
- =?utf-8?B?S0p1TXlNaDArSWVjall5Y2ZXR1I5SWN0UlQ4QzBXamZIb1VzRXhJenJieWpJ?=
- =?utf-8?B?RkdKSlh2M3Jnc0hqWnEyNWN1bU5tMFpNSEdlUGpSenhkTmVNemZ2NVZwanFB?=
- =?utf-8?B?a2Q5RXFQOGliWVBkVi9GY1hvVkNOamt6a2x6SjZDM0VmWjhOcEw4MDJtWi9R?=
- =?utf-8?B?dHBhcEQ0eWMva3hPSVUvbnkyUURtSWh1T0NTbTU5NFdQMlFrNjYyT0ZCZGpj?=
- =?utf-8?B?c2pQdytGK24vOFJpN3BaMVVaME1GY0VLV1BDOHJjUlFyc3RFdVNWTDZUeDBE?=
- =?utf-8?B?SVJlc21PZHhmd1NwL2tqNjFJaVNpdG1hNk55OWwrRXpDaG9aa2NHK2tjTHlz?=
- =?utf-8?B?TmNQZUk0bjNTSGtvT29sbmkwNTlOMkg1aVpkcU5xM1hQWmZyS1JvaVdpTmRM?=
- =?utf-8?B?eC81RE5NK0xZeHI5UnJDUmZVS0FQbEhwT3lmS0tDMVMxejdoY01LYkpmTktZ?=
- =?utf-8?B?YldnN1ZtR2lpVno3bk5reHVGTFhNc2Q3aEpnblN5MFNPQWNOdHN4Mmt6YXdS?=
- =?utf-8?B?WHJuM0U3aXJHaWNpcm1VejZaTTZVYVVoRFc1VjdEL2x5QXBpWkJYN1VRdFRV?=
- =?utf-8?B?UExlYjViaG1PQmhCOVMxdE55Z1VZcjkyZ3B5VzlBOTN5eEV1NTR5VVZPUndF?=
- =?utf-8?B?c0hSb3hJbmUxZTVFVVNiazl1eTM5L1lkUklTbExpSU9SS3lGM3VtMW1RMXQ4?=
- =?utf-8?B?YnJ2djBudURPaUVKaUhMSDlJYUx5U3lFMnZ0aHdhZ2VFZm9Nc0Q1QkdDVW9S?=
- =?utf-8?B?NXkwOFdrVEpGRlZ1VjRZZGpVUGU5RFFTb2FkREFaWkJoS2RGZGF3M1VtVDMz?=
- =?utf-8?B?bXdnU0dhdFJZaFpOTXdNVlhteEFPSER2N0pSbVVoN2xkanIvZEx1cytoalZI?=
- =?utf-8?B?NUZGelJjTkhoc2h2WnBPNlloR2ZENTA1QVZITks4UGtlN1JWVUVEdUtyak0w?=
- =?utf-8?B?b0tzVWlLWVFxdHFvdHluV0xRaDY2S09zNHdBMlhRbmpRUTBCNEwzcEJ1SE9O?=
- =?utf-8?B?OXVpRzRuVVQwUEVFeDgwUzVsTFNnWXZtOS91aEFhckxxbWYzMW9idz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0de557a5-a59d-458e-8627-08de93f82fcb
-X-MS-Exchange-CrossTenant-AuthSource: CY1PR12MB9558.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 16:18:49.7543
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2pF1q4PV4iS1+vPxuMbOv7YcQcbKZcRK3nNFwycj3q9f8m/DbXWzXxNeFZWsAhzVh3csmRckCEGPUEWoTAEeOg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB8947
+Content-Transfer-Encoding: 8bit
 
+Add a --json flag to checkpatch.pl that emits structured JSON output,
+making results machine-parseable for CI systems, IDE integrations, and
+AI-assisted code review tools.
 
+The JSON output includes per-file totals (errors, warnings, checks,
+lines) and an array of individual issues with structured fields for
+level, type, message, file path, and line number.
 
-On 03/04/2026 5:02, Jakub Kicinski wrote:
-> 
-> On Wed, 1 Apr 2026 21:49:45 +0300 Tariq Toukan wrote:
->> @@ -873,6 +881,16 @@ attribute-sets:
->>           doc: Unique devlink instance index.
->>           checks:
->>             max: u32-max
->> +      -
->> +        name: resource-scope-mask
->> +        type: bitfield32
-> 
-> no need for a bitfield here, this is a simpler selector
-> bitfield is for cases when we need to update some persistent
-> state, in that case we want to indicate which bits we intend
-> to update:
-> 
->          cfg = (cfg & ~bf.mask) | bf.val
-> 
-> scope is a straight attribute, there's no updating of anything.
-> 
-> u32 or unit would do
+The --json flag is mutually exclusive with --terse and --emacs.
+Normal text output behavior is completely unchanged when --json is
+not specified.
 
-ack, will use u32 for resource scope mask
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/dev-tools/checkpatch.rst |  7 +++
+ scripts/checkpatch.pl                  | 86 ++++++++++++++++++++++++--
+ 2 files changed, 87 insertions(+), 6 deletions(-)
 
-> 
->> +        enum: resource-scope
->> +        enum-as-flags: true
->> +        doc: |
->> +          Bitmask selecting which resource classes to include in a
->> +          resource-dump response. Bit 0 (dev) selects device-level
->> +          resources; bit 1 (port) selects port-level resources.
->> +          When absent all classes are returned.
->>     -
->>       name: dl-dev-stats
->>       subset-of: devlink
->> @@ -1775,7 +1793,11 @@ operations:
->>               - resource-list
->>         dump:
->>           request:
->> -          attributes: *dev-id-attrs
->> +          attributes:
->> +            - bus-name
->> +            - dev-name
->> +            - index
->> +            - resource-scope-mask
->>           reply: *resource-dump-reply
->>
->>       -
->> diff --git a/include/uapi/linux/devlink.h b/include/uapi/linux/devlink.h
->> index 7de2d8cc862f..e0a0b523ce5c 100644
->> --- a/include/uapi/linux/devlink.h
->> +++ b/include/uapi/linux/devlink.h
->> @@ -645,6 +645,7 @@ enum devlink_attr {
->>        DEVLINK_ATTR_PARAM_RESET_DEFAULT,       /* flag */
->>
->>        DEVLINK_ATTR_INDEX,                     /* uint */
->> +     DEVLINK_ATTR_RESOURCE_SCOPE_MASK,       /* bitfield32 */
->>
->>        /* Add new attributes above here, update the spec in
->>         * Documentation/netlink/specs/devlink.yaml and re-generate
->> @@ -704,6 +705,22 @@ enum devlink_resource_unit {
->>        DEVLINK_RESOURCE_UNIT_ENTRY,
->>   };
->>
->> +enum devlink_resource_scope {
->> +     DEVLINK_RESOURCE_SCOPE_DEV_BIT,
->> +     DEVLINK_RESOURCE_SCOPE_PORT_BIT,
->> +
->> +     __DEVLINK_RESOURCE_SCOPE_MAX_BIT,
->> +     DEVLINK_RESOURCE_SCOPE_MAX_BIT =
-> 
-> do we need this? it's not an attr enum all we care about here is
-> the mask, really so just a trailing value which is max real value + 1
-> is enough for all users?
-> 
-
-ok, can manage without max at all, can manage also without 
-DEVLINK_RESOURCE_SCOPE_VALID_MASK
-
->> +             __DEVLINK_RESOURCE_SCOPE_MAX_BIT - 1
->> +};
->> +
->> +#define DEVLINK_RESOURCE_SCOPE_DEV \
->> +     _BITUL(DEVLINK_RESOURCE_SCOPE_DEV_BIT)
->> +#define DEVLINK_RESOURCE_SCOPE_PORT \
->> +     _BITUL(DEVLINK_RESOURCE_SCOPE_PORT_BIT)
->> +#define DEVLINK_RESOURCE_SCOPE_VALID_MASK \
->> +     (_BITUL(__DEVLINK_RESOURCE_SCOPE_MAX_BIT) - 1)
->> +
->>   enum devlink_port_fn_attr_cap {
->>        DEVLINK_PORT_FN_ATTR_CAP_ROCE_BIT,
->>        DEVLINK_PORT_FN_ATTR_CAP_MIGRATABLE_BIT,
-> 
->> +static u32 devlink_resource_scope_get(struct nlattr **attrs, int *flags)
->> +{
->> +     struct nla_bitfield32 scope;
->> +     u32 value;
->> +
->> +     if (!attrs || !attrs[DEVLINK_ATTR_RESOURCE_SCOPE_MASK])
->> +             return DEVLINK_RESOURCE_SCOPE_VALID_MASK;
->> +
->> +     scope = nla_get_bitfield32(attrs[DEVLINK_ATTR_RESOURCE_SCOPE_MASK]);
->> +     value = scope.value & scope.selector;
->> +     if (value != DEVLINK_RESOURCE_SCOPE_VALID_MASK)
->> +             *flags |= NLM_F_DUMP_FILTERED;
->> +
->> +     return value;
->> +}
->> +
->>   static int
->>   devlink_resource_dump_fill_one(struct sk_buff *skb, struct devlink *devlink,
->>                               struct devlink_port *devlink_port,
->> @@ -400,16 +416,27 @@ devlink_nl_resource_dump_one(struct sk_buff *skb, struct devlink *devlink,
->>        struct devlink_nl_dump_state *state = devlink_dump_state(cb);
->>        struct devlink_port *devlink_port;
->>        unsigned long port_idx;
->> +     u32 scope;
->>        int err;
->>
->> -     if (!state->port_number) {
->> +     scope = devlink_resource_scope_get(genl_info_dump(cb)->attrs, &flags);
->> +     if (!scope) {
->> +             NL_SET_ERR_MSG_ATTR(genl_info_dump(cb)->extack,
->> +                                 genl_info_dump(cb)->attrs[DEVLINK_ATTR_RESOURCE_SCOPE_MASK],
-> 
-> we have genl_info_dump(cb) 3 times here, let's save the pointer
-> on the stack to make the lines shorter.
-> 
-
-ack
-
->> +                                 "empty resource scope selection");
->> +             return -EINVAL;
->> +     }
->> +     if (!state->port_number && (scope & DEVLINK_RESOURCE_SCOPE_DEV)) {
->>                err = devlink_resource_dump_fill_one(skb, devlink, NULL,
->> -                                                  cb, flags, &state->idx);
->> +                                                  cb, flags,
->> +                                                  &state->idx);
->>                if (err)
->>                        return err;
->>                state->idx = 0;
->>        }
->>
->> +     if (!(scope & DEVLINK_RESOURCE_SCOPE_PORT))
->> +             goto out;
->>        xa_for_each_start(&devlink->ports, port_idx, devlink_port,
->>                          state->port_number ? state->port_number - 1 : 0) {
->>                err = devlink_resource_dump_fill_one(skb, devlink, devlink_port,
->> @@ -420,6 +447,7 @@ devlink_nl_resource_dump_one(struct sk_buff *skb, struct devlink *devlink,
->>                }
->>                state->idx = 0;
->>        }
->> +out:
->>        state->port_number = 0;
->>        return 0;
->>   }
-> 
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index dccede68698ca..17e5744d3dee6 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -64,6 +64,13 @@ Available options:
+ 
+    Output only one line per report.
+ 
++ - --json
++
++   Output results as a JSON object.  The object includes total error, warning,
++   and check counts, plus an array of individual issues with structured fields
++   for level, type, message, file, and line number.  Cannot be used with
++   --terse or --emacs.
++
+  - --showfile
+ 
+    Show the diffed file position instead of the input file position.
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e56374662ff79..ed70753ba1afc 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -33,6 +33,7 @@ my $chk_patch = 1;
+ my $tst_only;
+ my $emacs = 0;
+ my $terse = 0;
++my $json = 0;
+ my $showfile = 0;
+ my $file = 0;
+ my $git = 0;
+@@ -93,6 +94,7 @@ Options:
+   --patch                    treat FILE as patchfile (default)
+   --emacs                    emacs compile window format
+   --terse                    one line per report
++  --json                     output results as JSON
+   --showfile                 emit diffed file position, not input file position
+   -g, --git                  treat FILE as a single commit or git revision range
+                              single git commit with:
+@@ -320,6 +322,7 @@ GetOptions(
+ 	'patch!'	=> \$chk_patch,
+ 	'emacs!'	=> \$emacs,
+ 	'terse!'	=> \$terse,
++	'json!'		=> \$json,
+ 	'showfile!'	=> \$showfile,
+ 	'f|file!'	=> \$file,
+ 	'g|git!'	=> \$git,
+@@ -379,6 +382,7 @@ help($help - 1) if ($help);
+ 
+ die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
+ die "$P: --verbose cannot be used with --terse\n" if ($verbose && $terse);
++die "$P: --json cannot be used with --terse or --emacs\n" if ($json && ($terse || $emacs));
+ 
+ if ($color =~ /^[01]$/) {
+ 	$color = !$color;
+@@ -1351,7 +1355,7 @@ for my $filename (@ARGV) {
+ 	}
+ 	close($FILE);
+ 
+-	if ($#ARGV > 0 && $quiet == 0) {
++	if (!$json && $#ARGV > 0 && $quiet == 0) {
+ 		print '-' x length($vname) . "\n";
+ 		print "$vname\n";
+ 		print '-' x length($vname) . "\n";
+@@ -1372,7 +1376,7 @@ for my $filename (@ARGV) {
+ 	$file = $oldfile if ($is_git_file);
+ }
+ 
+-if (!$quiet) {
++if (!$quiet && !$json) {
+ 	hash_show_words(\%use_type, "Used");
+ 	hash_show_words(\%ignore_type, "Ignored");
+ 
+@@ -2395,6 +2399,18 @@ sub report {
+ 
+ 	push(our @report, $output);
+ 
++	if ($json) {
++		our ($realfile, $realline);
++		my %issue = (
++			level => $level,
++			type => $type,
++			message => $msg,
++		);
++		$issue{file} = $realfile if (defined $realfile && $realfile ne '');
++		$issue{line} = $realline + 0 if (defined $realline && $realline);
++		push(our @json_issues, \%issue);
++	}
++
+ 	return 1;
+ }
+ 
+@@ -2402,6 +2418,34 @@ sub report_dump {
+ 	our @report;
+ }
+ 
++sub json_escape {
++	my ($str) = @_;
++	$str =~ s/\\/\\\\/g;
++	$str =~ s/"/\\"/g;
++	$str =~ s/\n/\\n/g;
++	$str =~ s/\r/\\r/g;
++	$str =~ s/\t/\\t/g;
++	$str =~ s/\x08/\\b/g;
++	$str =~ s/\x0c/\\f/g;
++	$str =~ s/([\x00-\x07\x0b\x0e-\x1f])/sprintf("\\u%04x", ord($1))/ge;
++	return $str;
++}
++
++sub json_encode_issue {
++	my ($issue) = @_;
++	my @fields;
++	push(@fields, '"level":"' . json_escape($issue->{level}) . '"');
++	push(@fields, '"type":"' . json_escape($issue->{type}) . '"');
++	push(@fields, '"message":"' . json_escape($issue->{message}) . '"');
++	if (defined $issue->{file}) {
++		push(@fields, '"file":"' . json_escape($issue->{file}) . '"');
++	}
++	if (defined $issue->{line}) {
++		push(@fields, '"line":' . ($issue->{line} + 0));
++	}
++	return '{' . join(',', @fields) . '}';
++}
++
+ sub fixup_current_range {
+ 	my ($lineRef, $offset, $length) = @_;
+ 
+@@ -2690,14 +2734,15 @@ sub process {
+ 	my $last_coalesced_string_linenr = -1;
+ 
+ 	our @report = ();
++	our @json_issues = ();
+ 	our $cnt_lines = 0;
+ 	our $cnt_error = 0;
+ 	our $cnt_warn = 0;
+ 	our $cnt_chk = 0;
+ 
+ 	# Trace the real file/line as we go.
+-	my $realfile = '';
+-	my $realline = 0;
++	our $realfile = '';
++	our $realline = 0;
+ 	my $realcnt = 0;
+ 	my $here = '';
+ 	my $context_function;		#undef'd unless there's a known function
+@@ -7791,18 +7836,33 @@ sub process {
+ 	# If we have no input at all, then there is nothing to report on
+ 	# so just keep quiet.
+ 	if ($#rawlines == -1) {
++		if ($json) {
++			print '{"filename":"' . json_escape($filename) .
++			      '","total_errors":0,"total_warnings":0,' .
++			      '"total_checks":0,"total_lines":0,"issues":[]}' . "\n";
++		}
+ 		exit(0);
+ 	}
+ 
+ 	# In mailback mode only produce a report in the negative, for
+ 	# things that appear to be patches.
+ 	if ($mailback && ($clean == 1 || !$is_patch)) {
++		if ($json) {
++			print '{"filename":"' . json_escape($filename) .
++			      '","total_errors":0,"total_warnings":0,' .
++			      '"total_checks":0,"total_lines":0,"issues":[]}' . "\n";
++		}
+ 		exit(0);
+ 	}
+ 
+ 	# This is not a patch, and we are in 'no-patch' mode so
+ 	# just keep quiet.
+ 	if (!$chk_patch && !$is_patch) {
++		if ($json) {
++			print '{"filename":"' . json_escape($filename) .
++			      '","total_errors":0,"total_warnings":0,' .
++			      '"total_checks":0,"total_lines":0,"issues":[]}' . "\n";
++		}
+ 		exit(0);
+ 	}
+ 
+@@ -7850,6 +7910,19 @@ sub process {
+ 		}
+ 	}
+ 
++	if ($json) {
++		my @issue_strings;
++		foreach my $issue (@json_issues) {
++			push(@issue_strings, json_encode_issue($issue));
++		}
++		print '{"filename":"' . json_escape($filename) . '",' .
++		      '"total_errors":' . ($cnt_error + 0) . ',' .
++		      '"total_warnings":' . ($cnt_warn + 0) . ',' .
++		      '"total_checks":' . ($cnt_chk + 0) . ',' .
++		      '"total_lines":' . ($cnt_lines + 0) . ',' .
++		      '"issues":[' . join(',', @issue_strings) . ']' .
++		      '}' . "\n";
++	} else {
+ 	print report_dump();
+ 	if ($summary && !($clean == 1 && $quiet == 1)) {
+ 		print "$filename " if ($summary_file);
+@@ -7878,8 +7951,9 @@ NOTE: Whitespace errors detected.
+ EOM
+ 		}
+ 	}
++	} # end !$json
+ 
+-	if ($clean == 0 && $fix &&
++	if (!$json && $clean == 0 && $fix &&
+ 	    ("@rawlines" ne "@fixed" ||
+ 	     $#fixed_inserted >= 0 || $#fixed_deleted >= 0)) {
+ 		my $newfile = $filename;
+@@ -7918,7 +7992,7 @@ EOM
+ 		}
+ 	}
+ 
+-	if ($quiet == 0) {
++	if (!$json && $quiet == 0) {
+ 		print "\n";
+ 		if ($clean == 1) {
+ 			print "$vname has no obvious style problems and is ready for submission.\n";
+-- 
+2.53.0
 
