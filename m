@@ -1,183 +1,137 @@
-Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022139.outbound.protection.outlook.com [52.101.101.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A3C145FE0;
-	Mon,  6 Apr 2026 00:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.139
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775434742; cv=fail; b=drjp6qgOzOsMg1oIh6IAM6aVChvDDSYuHgsFGSzocWz1cas0TheGSDhS38TmtnPSuo42XwLMsiKjGef0FZik1UBV57LOe1OsuXfm8aMgKOJ7JdzngNLvcFNjjn5bCrunWLu0fFk57FGNVoMs5cYELJl1GfurqYTc7PXIi6EfVG8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775434742; c=relaxed/simple;
-	bh=DzVv56CV0HWR79+PDr/vG/cxsfMGMreQesbHUfwps4A=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=uxqUg2Y2uflc4gM6OUKFARfLlt6NbnWL/ehuZ23DVCdctAG7J1uXUQTC72DSHFhfmLTMJ4C857sOHWNecICybT1W4cLYz8RF/S/oZnfyYQ6cpxpUqnsmg3gGCWgBrms3hm+VDgwtKJA0VDkIu1fZMCyhwZlpsxqgxiU78tiPwGQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=p9qaW1mF; arc=fail smtp.client-ip=52.101.101.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5EFEEBA
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 03:04:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775444645; cv=none; b=fyrF6zeRTUV6oJZvEJkRDRfMyhH0kvHa9Hf34sktqONEf3R1WLgG72IspQQtiHqdfCv6apdIV32H16Lnu0ZNoyvhKJCoSCrN/c3iDp07N88XI90Fn7lksZr8sMxzO/5rMNkPWeR1t2blCWvCCW98YJOzoitzjMVJDD9Uj4+hHkk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775444645; c=relaxed/simple;
+	bh=NieBmPzWXIkFmhI4KYWuemqUlcQD8teyFT556btQEwo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=PjSi9efFCLkOOSAL4kPGxdrs55siqK31H2ZE0n7vZw3IuSo/qKmakXL+wtzOMtzCMSTCI/xmwp821LJ358vZRbHflRd2FxyWlLnkRf7TDVvO7LUVcWwPvCFo3XGCHRGESkV64zeBQ3iMNJfY292nFW+LBA1Kl0YTUhNb2zNT5xc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=tIw1SSk9; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="p9qaW1mF"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nq2EMueT9kwTdGM/F/johr5P8xyJnC/KboiDLsmOP8tOZXlqcrM2LCDTULZFz7zeD/kJr3ZXAk2jShKGi7WUHn1v4Kj8bwzQfF6mvte5bKIBNswnp4rB3TpnQw94bHWYMYowIH7Z3+E5hP0mN59CrQgA/8yDdd40k7KpoVGJnlEYRNptSdcCDlfX0WblA2+GbXWWMtF8nuBj8adtlVzCUCqW9kqAYKkhvVpZAKlKbq/Eg3wBm1nZwiDjofkB4m6LD29L6wgX3f+lwxBFUwsD66jJH7q6Ilj4dp3L68LWytWbEzpeeocVHrngBdjLgxkvA/1wCx1ie6UAPsEp3nUAaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0urtsX1ZsBfytQ9Rq3gciCAK0Stwhe+4c7wULc+McAo=;
- b=yxvPHZesDxn0tYZHOe5RCx3iMS6/afCmDjYjq0ldyRiRREddJ+1jkx+kh+fLKoGdjl0iFESFXNB2mWw8jBsrghHd9RyxABqPb0LVcvC+t/+nEU6S/2324JMOHt7wyRcgXlRVEaAS2DS2RICDvDUzPWsW/7K3yVzh5FCWLRvlXFBbv6eBkS9hVZQsb22mFtdsRilFhg++tQCX2eVHl6mMm6M2VsDoh72aSmkYJmoGoCcvvvWJ47gnuCzTu3yKGMmBUPEFDJSUkD/REwq/WFEbx2k3ibIUHgvVbw31+u3833awR6Oz2X/KI3aVWNrfUOtWiJ4B60lHWeUv8AIurRyFXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0urtsX1ZsBfytQ9Rq3gciCAK0Stwhe+4c7wULc+McAo=;
- b=p9qaW1mFS6bV7Zi6EJyM6/kA1lrEyciTeFbeijVNX/kS6a60TSAE3A++9hBTTIUoY5SmLHIfxovvv9YW3z2SBvUm5iYkuu9VYnOfvddPNB+LjoYwYBJaTtJX6sN1Gwj9zZlvXrLsHomqG0CQsaHJGW3E/k8ZSPUT7ZG8WZsDaAI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CWLP265MB6050.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:1d3::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Mon, 6 Apr
- 2026 00:18:57 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.016; Mon, 6 Apr 2026
- 00:18:57 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Apr 2026 01:18:56 +0100
-Message-Id: <DHLN367TV9AM.DEQG8HBNZXLP@garyguo.net>
-Cc: "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
- <lossin@kernel.org>, "Trevor Gross" <tmgross@umich.edu>,
- <rust-for-linux@vger.kernel.org>, <linux-kbuild@vger.kernel.org>, "Lorenzo
- Stoakes" <lorenzo.stoakes@oracle.com>, "Vlastimil Babka"
- <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>,
- "Uladzislau Rezki" <urezki@gmail.com>, <linux-block@vger.kernel.org>,
- "moderated for non-subscribers" <linux-arm-kernel@lists.infradead.org>,
- "Alexandre Ghiti" <alex@ghiti.fr>, <linux-riscv@lists.infradead.org>,
- <nouveau@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>, "Rae
- Moar" <raemoar63@gmail.com>, <linux-kselftest@vger.kernel.org>,
- <kunit-dev@googlegroups.com>, "Nick Desaulniers"
- <nick.desaulniers+lkml@gmail.com>, "Bill Wendling" <morbo@google.com>,
- "Justin Stitt" <justinstitt@google.com>, <llvm@lists.linux.dev>,
- <linux-kernel@vger.kernel.org>, "Shuah Khan" <skhan@linuxfoundation.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 07/33] rust: allow globally
- `clippy::incompatible_msrv`
-From: "Gary Guo" <gary@garyguo.net>
-To: "Miguel Ojeda" <ojeda@kernel.org>, "Nathan Chancellor"
- <nathan@kernel.org>, "Nicolas Schier" <nsc@kernel.org>, "Danilo Krummrich"
- <dakr@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Catalin
- Marinas" <catalin.marinas@arm.com>, "Will Deacon" <will@kernel.org>, "Paul
- Walmsley" <pjw@kernel.org>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Alexandre Courbot" <acourbot@nvidia.com>,
- "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Brendan Higgins" <brendan.higgins@linux.dev>, "David Gow"
- <david@davidgow.net>, "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- =?utf-8?q?Arve_Hj=C3=B8nnev=C3=A5g?= <arve@android.com>, "Todd Kjos"
- <tkjos@android.com>, "Christian Brauner" <christian@brauner.io>, "Carlos
- Llamas" <cmllamas@google.com>, "Alice Ryhl" <aliceryhl@google.com>,
- "Jonathan Corbet" <corbet@lwn.net>
-X-Mailer: aerc 0.21.0
-References: <20260405235309.418950-1-ojeda@kernel.org>
- <20260405235309.418950-8-ojeda@kernel.org>
-In-Reply-To: <20260405235309.418950-8-ojeda@kernel.org>
-X-ClientProxiedBy: LNXP123CA0018.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:d2::30) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="tIw1SSk9"
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-42306f82341so1749283fac.2
+        for <linux-doc@vger.kernel.org>; Sun, 05 Apr 2026 20:04:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775444643; x=1776049443; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d15VWi4XhQT15Gfi7fM+Taj4AdGQh4mAG+FpOc6EeJw=;
+        b=tIw1SSk9gApgcN/wjDXPHE+Y9ilqx0fcHB2ug7WYnIcS6WG+VowX4AdGElpw99zgt1
+         vkpzpWs5paXbeGum6J3JHHJiFgXwxXdjf9jae05Hh/N9ixmebtSqG5TdRp8zOfOtzBEs
+         yOH7t8j3Sp7cs2gDVcgjQoxBXf+WUDWyL2cC0HyagR35UK3i6dIiu45w52maAh4TRlLO
+         2BZz2BU4N+n66G/4wZbalu4eBrP4eEq5arnMF0zbmIycajfXG7Eme0FIryANy09OhY31
+         RH7f/A3uiJN7A5AUVE6QZl9cGd1O/wXZW894DFca7nHoIHjQCabeKFhb2yjcTCtJq7yF
+         LSww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775444643; x=1776049443;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=d15VWi4XhQT15Gfi7fM+Taj4AdGQh4mAG+FpOc6EeJw=;
+        b=Zqddi9QK9EKOqIlHWSElsn3VrjiTBL6UfptjRSUL2pbQwg77n1OiRlv0KstHFR47ky
+         pvS3dYflQKNDZ1BPWijazpErBU0gTL4lncu7mtGIWQD2j9Vn+PDuhdygrWeYmPuDKVfm
+         kNSQtUjMHBYg4I5yo7Kjcp26kfrFbqrO0Hs+xWC9+uXGRZVnbCEGHeHlC1V3NGnFryHw
+         fzwO9UcGybpnAcA8WL9rfyxgbGc2ThEqayClSBOd3qlfqy6mBCfjuHPeUNgR1eAnz6CD
+         AS+L2sp5lxoIlbUENypCOt4gf5VQvnBKw1/H0ra4Aaym7QCLK/sKa8ArQJIRgz3oBlna
+         WhWA==
+X-Gm-Message-State: AOJu0YxBDRq2Sd2OoSLmYTt2wcwhQBa8mIJ7k3opxjH+yFLzabt8EHE2
+	+Zi4rwLC9m2KlIVr94ptm3qmAsgaawz1Ry0S8rUkXF++ej9febhaLOf0mKj6EeE=
+X-Gm-Gg: AeBDiesrpp/n7icAyZt1dVfcqhj75FoQ02FqM0Kl+Vf+Ov4LUAo3H26AUNav9Pp0Drr
+	ueBBHSMRplCJfQEFl8iymxYW0+3bpq0yZ01I/oR3pnU0J45ykJNZM6Ce1VNHGaYhmYI1ynvr9pv
+	WAaieSxueB7X195HNHQBmvinRlHPBUSjgwHLTgPovcjacgvGHj95YlrONLgeFwBw+3/M/Wh0/ce
+	Ew5qaZwSMMwN/MbD9Gzkhr92xpRblK040ZrqTjBpef3K50nM5TGKdHM/Wt61FTUbjd+zO5pJyt5
+	X5TJ+eXPdCfjD152a7o8eLyhyHS1ixMKJLsq+/OWJYCPDCXKJCDjACkfL62bPGKQSdSo3HSkeDK
+	MFb/1vyQxjI/ESMZ7EEYwMN9VJ/QJAbGaQK2ZCQvJljy51/nXNu4+ThAejEWq7CF+wsZXGhQzYP
+	mDAGTn7QarEOcdJ8LE6OMeqPO9/wfXE6k06S20S7i4UxMN3HPrAdufWUPHjVmYyA==
+X-Received: by 2002:a05:6808:c117:b0:450:aba0:f006 with SMTP id 5614622812f47-46ef5fede77mr5851716b6e.17.1775444643164;
+        Sun, 05 Apr 2026 20:04:03 -0700 (PDT)
+Received: from Mark-1.localdomain ([189.195.72.254])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-46d92f66ca2sm7423182b6e.13.2026.04.05.20.04.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Apr 2026 20:04:02 -0700 (PDT)
+From: Manuel Cortez <mdjesuscv@gmail.com>
+To: linux-doc@vger.kernel.org,
+	corbet@lwn.net
+Cc: rdunlap@infradead.org,
+	Manuel Cortez <mdjesuscv@gmail.com>
+Subject: [PATCH v2] docs: fix typos and duplicated words across documentation
+Date: Sun,  5 Apr 2026 20:03:23 -0700
+Message-ID: <20260406030323.1196-1-mdjesuscv@gmail.com>
+X-Mailer: git-send-email 2.51.0
+In-Reply-To: <20260405030359.7392-1-mdjesuscv@gmail.com>
+References: <20260405030359.7392-1-mdjesuscv@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CWLP265MB6050:EE_
-X-MS-Office365-Filtering-Correlation-Id: a8557003-e1ce-461d-cee8-08de9372184f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|921020|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	QmFvDTJbgNWDqyy5dMzMW9qvmpSKVLlHd4DwsH23IeTuSQMJtl8F5GFyBGuGWKQGYEVOPFuKcJwvWCjfv0UqP6uwDxucOrc/0jbJJWDjn26FKJeFQOZTOs5ao9Fe6fNU4MPjoMzXL/m60vlWcqZ2h43K3HXZ0s706F1g9jJ9wzv9AQb2+p2DbUMy2Geag/VPT9d/8RSybCAOcyD5FXZbTle9G7hddiSGPTtz+7Pl2Fpl4ld8TNlz0jryLMiE+K9+pGBlNJ634HmDJLneVM1wSuXtZ4nyWomAHyxaNAOpPDB5Pi/4hlrI7Q7G4ARmAnvZUPRDob5THFb6WNGoIyR/wYlwiOuDxaL3b69QjU277Dg0XbayNuxNMHN/AlhvoJzukarQ1tBgNhHELn5T41jB/+LSTTnzre0KClEHdW+cI4xaU4Xuv+2W+yvY0CFhkU67kaHrSjgNv+pkWllIu6PNagTjW/YqmqqPzg2kj0l+O7Iz5Ai+ptIlkCAVuB90DuX8mw9adcUDGLwNJc5Vs8VqVbaXg7PPStyC2t908NctXWyX3bpM9KWC251Lk1p464uB7VWZ+NwYT9LmGE9KBsLjsu7Zt8tT7WNxLlayL904H9FpY9yDWbTf6eGgDEuz86uCl1rIEun96ipMCQspF/t6gOQ+wg9cUJe9WXldB6Oz8zeme/qdh0s2zb8v0eMHVYspFOWMtWqV12hkz8ci8n4u50F6u3ipYUCw8wN8u8c2nhWy8Q6tPqlxyU5VOXqEurMg3aJwFrFJ+HoihHvt117jyA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(921020)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?STlsZm1oRGRxOThEYTdvY2NXR0R5eEJUR3ErZzhQbjRsSmtleDdUdUxaSlA4?=
- =?utf-8?B?SjFpcWNnT2orUGovUTk4UVpFbDFJaXRzTDdnZ2cyUXFUOHRlVldLSHVWV3d2?=
- =?utf-8?B?R0U4N1F1N2RqbUFYWDRJekV2WTVGcUlaNHBJR0dCdGVrdU1zVWZMbnZYWEh3?=
- =?utf-8?B?bWhHNkszd1ZOUC9ZMktDQ2FsZFZzVEtaWnZUeEhzdCthSk5NVGhyeXJkbXNr?=
- =?utf-8?B?ejdBTkplZTdxRkE5SnVDVVlTMTJUOVRTcmtERzVWSGxBamZ6WTdsRE55S0lO?=
- =?utf-8?B?aXBTbmN0UWNyWXlSVDJZZ3E5MG9qdU5vRHh5aSs1OE5SWGJ3SjVtdVJoVlJs?=
- =?utf-8?B?emVSME1uMjVnSHdhN1JxYzJsODZzbUdIL1gzY3p5aGlzK3J4OFBqWk5UUGQy?=
- =?utf-8?B?Wi80c016MjZkMWNrVWlMRFpsWHlLaU5qcEhNSTYxaWpURjdONURMaFVSYkcy?=
- =?utf-8?B?UzM5UnRySXJoL1creUgvRS9US0R0b0tjemhFK09kMWduVUkvNEJGRGhnZmVv?=
- =?utf-8?B?YjEyS2Y1N0VWMi9Ob2tseFN2bGc2eFZ3S2JyK1NuZ0QrRVBVRjRSbDJQRUhF?=
- =?utf-8?B?T2V3a0JaMkRiUVgvcVltQkZmUm5zWnJIclJiRTQ3eXowMjB0cGpZZUVTNVVY?=
- =?utf-8?B?S2w0K3dCczBNV0EzN3JoMisza25ZRVdNcE84WVdsSHNJaTR4Rjk4VTZiNFFi?=
- =?utf-8?B?NzRUMXBCejRpVHRCSEJacE9yQ1EzNkUxZGI3YWNDR0J4VnAyOENiTFZJL3VN?=
- =?utf-8?B?eC9aRThhTHZhTXlnVDFVd3ZneVUxSGNQOFlMS05LRzN6TzVkUEpzMlJrNTUy?=
- =?utf-8?B?TXVIRHNXUC80NXpJZmpDTjVQRW1sU3ZRZWhhZUNKRHlibFBQcGpKSlRZTmtM?=
- =?utf-8?B?ZmJGdXRPb1piR2sveVBPSmpRUWlabi9FcldDWGF6aURIZXZFeDlvb2lORlh4?=
- =?utf-8?B?WEhrMzRrWnlneDg2WC95VUx0OWlCZlVUZFJidmJKZkdrLzBaZnZDaVJRM2tF?=
- =?utf-8?B?bGhBYnRrV00yRTRqTG9jdVJFaEZmVGkwMGJUbU56RTFSTlZaWlM5MXZOZmhV?=
- =?utf-8?B?cVFpa0VlbVpaRXlOMStqZ0lIS2dWZnN2aDNMdUJwU3YzRWl2R3MrWS9zRDN1?=
- =?utf-8?B?dys4Mm1veHMzWkpSYkw0S1B3UnZSWFN1c0tPNGtFK29NM3JMalNMelliUlEw?=
- =?utf-8?B?R3RxWHNhdlBiR3E3WW1HamZpd0VmcjJtNkNXdnBCaXpTdlF4cEdkUGtKVGZr?=
- =?utf-8?B?T3djcFhkWU9XbVN3WGt2WUZ6RFpwOUVtQTNkakwwVlp1N1FHb2NubWxhQzMw?=
- =?utf-8?B?SnNvcFU3VzJHTkIzeDRHeUtiRmVrWWJsenh6WVVuWitsMFB0dzloTUdzZVU3?=
- =?utf-8?B?SXFFbzViWkZUaHk1OXp0L3JseU83MXRjZmhIOGwzTVcvWkJyZm1JM0hqcGxz?=
- =?utf-8?B?T1lrTmNzdGtObHRzblMrb0FBVzBCcWZRdnJHeFZjTWxjaDJZZU9aZzF2d1Np?=
- =?utf-8?B?OWJweWJ2cW5YWDgzSjRsOHlRc1RlTUFuUmtqK29lbnFKaGNPL0JVVTNNbDlU?=
- =?utf-8?B?SWpBRmdXSGRyOGZlT05hdHd4cWdtR2JOYTNUK1JRNkNic2xqbU9GWXdVVDBu?=
- =?utf-8?B?SkVjZDdSZVN6UWg4dENIbzZDenVRWmM2NmpFYmM1MHRrZ0pvM1lZVStDczFD?=
- =?utf-8?B?RHR0TEtZaG9NU3E4a1ZzRUw2V2lPYndTTkdxL3Frd1NaVDM5Y2k5d0hxSjZZ?=
- =?utf-8?B?dXBrZTNPTDl5Z3kwblh4eVRiVXM1MCs4bkxKUGhuczdYT3Zab0M5Q3NXbENL?=
- =?utf-8?B?V0NqUXpyUkZ6SjgrL2VMZ3p4c3B3UlRNQ2I4Q0pnUURkM3ZxSzg1QjRFS1RW?=
- =?utf-8?B?dEJEdUp6MDR6OFB0dlBmTnY0dFpWM0IyVjM0TitRWlI2VzJPTzI1R1ZHSE1p?=
- =?utf-8?B?c1NrbmZuSzZpTlRmc1VvTmF3NFZEZ0s1S25rbTZSQ1ZRL1o0K1lHVzNIQ1dw?=
- =?utf-8?B?N2J2NlZhWWRpbVppanpCbHNjclJYdzZYMktsL1FHZjllekg4c2hxQW5kZnB2?=
- =?utf-8?B?WFJtenRNYlNHMk05Vy9FM29OcFpJL25TdExLZ1gxeVZ0RXJNRkU5NXVhcGZn?=
- =?utf-8?B?a2JLdDg3T1dub0lFV1ZYQTNZQ1krQlo4aitaM0JPNjdTVnNZMXNOOGpGSjdU?=
- =?utf-8?B?ZER2OE04ek1hekszMlB5cnJrajZtRnJxYU9WN0dsZWNzSC84Uy9JRUEzdk9k?=
- =?utf-8?B?bTVkdGk1N09vY1BnSFJVeVdVdVV6dmhGZlVEOUIzS3pBUk5hR0gwcGRRMXFF?=
- =?utf-8?B?YXZpSHFSOFpPMy9yaTFVZ2tRSFdFTmFySHorQ1draXFxdE5WWUt3QT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8557003-e1ce-461d-cee8-08de9372184f
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 00:18:57.7329
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 41GIEQGjwWtWlQBHCAxPPghuS8envm6U/n99NT9FYRRKZ828RDnJKemRqLn9Uk3NMtxq8agELpKLfQ3b3q3TNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP265MB6050
+Content-Transfer-Encoding: 8bit
 
-On Mon Apr 6, 2026 at 12:52 AM BST, Miguel Ojeda wrote:
-> `clippy::incompatible_msrv` is not buying us much, and we discussed
-> allowing it several times in the past.
->=20
-> For instance, there was recently another patch sent to `allow` it where
-> needed [1]. While that particular case would not be needed after the
-> minimum version bump to 1.85.0, it is simpler to just allow it to prevent
-> future instances.
->=20
-> Thus do so, and remove the last instance of locally allowing it we have
-> in the tree (except the one in the vendored `proc_macro2` crate).
->=20
-> Note that we still keep the `msrv` config option in `clippy.toml` since
-> that affects other lints as well.
->=20
-> Link: https://lore.kernel.org/rust-for-linux/20260404212831.78971-4-jhubb=
-ard@nvidia.com/ [1]
-> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
+Fix the following typos and duplicated words:
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+- admin-guide/pm/intel-speed-select.rst: "weather" -> "whether"
+- core-api/real-time/differences.rst: "the the" -> "the"
+- admin-guide/bcache.rst: "to to" -> "to"
 
-> ---
->  Makefile               | 1 +
->  rust/macros/helpers.rs | 1 -
->  2 files changed, 1 insertion(+), 1 deletion(-)
+Signed-off-by: Manuel Cortez <mdjesuscv@gmail.com>
+---
+Changes in v2:
+- Dropped the networking/switchdev.rst change as "is in in" is correct
+  per Randy Dunlap's review.
+
+ Documentation/admin-guide/bcache.rst                | 2 +-
+ Documentation/admin-guide/pm/intel-speed-select.rst | 2 +-
+ Documentation/core-api/real-time/differences.rst    | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/bcache.rst b/Documentation/admin-guide/bcache.rst
+index f71f349553e4..325816edbdab 100644
+--- a/Documentation/admin-guide/bcache.rst
++++ b/Documentation/admin-guide/bcache.rst
+@@ -618,7 +618,7 @@ cache_replacement_policy
+   One of either lru, fifo or random.
+ 
+ freelist_percent
+-  Size of the freelist as a percentage of nbuckets. Can be written to to
++  Size of the freelist as a percentage of nbuckets. Can be written to
+   increase the number of buckets kept on the freelist, which lets you
+   artificially reduce the size of the cache at runtime. Mostly for testing
+   purposes (i.e. testing how different size caches affect your hit rate).
+diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst b/Documentation/admin-guide/pm/intel-speed-select.rst
+index a2bfb971654f..dec2a25f10bc 100644
+--- a/Documentation/admin-guide/pm/intel-speed-select.rst
++++ b/Documentation/admin-guide/pm/intel-speed-select.rst
+@@ -287,7 +287,7 @@ level.
+ Check presence of other Intel(R) SST features
+ ---------------------------------------------
+ 
+-Each of the performance profiles also specifies weather there is support of
++Each of the performance profiles also specifies whether there is support of
+ other two Intel(R) SST features (Intel(R) Speed Select Technology - Base Frequency
+ (Intel(R) SST-BF) and Intel(R) Speed Select Technology - Turbo Frequency (Intel
+ SST-TF)).
+diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
+index 83ec9aa1c61a..a129570dab5a 100644
+--- a/Documentation/core-api/real-time/differences.rst
++++ b/Documentation/core-api/real-time/differences.rst
+@@ -213,7 +213,7 @@ to suspend until the callback completes, ensuring forward progress without
+ risking livelock.
+ 
+ In order to solve the problem at the API level, the sequence locks were extended
+-to allow a proper handover between the the spinning reader and the maybe
++to allow a proper handover between the spinning reader and the maybe
+ blocked writer.
+ 
+ Sequence locks
+-- 
+2.51.0
 
