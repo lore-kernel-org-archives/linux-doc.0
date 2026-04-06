@@ -1,205 +1,201 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013056.outbound.protection.outlook.com [40.93.196.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791FF34DB4F
-	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 21:14:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775510059; cv=none; b=Ryn7JACMKMVO2biwd9g7ocBCkktoKmoKCe3/HX2prxReF77GI/9y6JS5RgmXB9oHxoKPWlzqvEpr9GzPTvy7MBvSxkvUPxAuO2k27tadD7E7E7TMV/+MMVNeRPaDOxPmWZOKp5eNPBU4gB5vEGw71dJUbBds59k3UnUqhKfoMwY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775510059; c=relaxed/simple;
-	bh=yQI2hucAupVyRTWavsrdMoHVdq2ezUeT7+RpkygVu2M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQESbuqs7U4Ic7wnJqImc/ZAUJIiiExV83bNs6OOQ5cglttvlmdpGkhvPX4jCpEXdrrtzuQOqN5YzD2j3xtVU24LlUVwX0JfZBhPaHQjAT9ySsFaeD8GD/bPfEmOxeYFAX0Yl5QWOkQnJOaNP4+sl/orSx7cI+A2VnGm5DScJzI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAm+McgM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HYuA/k3/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAm+McgM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HYuA/k3/; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82993126DA;
+	Mon,  6 Apr 2026 21:14:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.56
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775510095; cv=fail; b=uvOcAdrH247i8NdQ0+oTjzbKQY9NBpmNixlBU1EBgFgq8XK/rN3dKTeqE84TE3ZsElpWq33hBr3xxDrTpovSJDHleEuTEoab3a+HjWRr7ZlQetlPa+Jfb5aeEJDm+3l30InZ1YPsAxcEsQAw6oZKZNYzI7MyMjvfejHODiw54z8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775510095; c=relaxed/simple;
+	bh=ndLQ1IWxxpqaiLNwx0IugRuDJGJFJrEvZf/eaffog2c=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Wsi5D303BaWK+x6qPIBGduKktU0UO43UTZJE9Cj1IN++cnVW6KgJ16ERxlRyTsvFJGppNsciNz6LTyA/gX31Du5JPBBSAqrcu/imuetFgmzo/+ftx09EL2zGyIYO3CZLMpK2JTY+Cjs6lH+ARUoF2k6P0P4c5zvF8e9j9Fg7/yo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IVW0zj4J; arc=fail smtp.client-ip=40.93.196.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAm+McgM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HYuA/k3/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAm+McgM";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HYuA/k3/"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 67A4E5BD48;
-	Mon,  6 Apr 2026 21:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775510056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=EAm+McgMWvEAMWzObHTx5Axb3fmCwBU0rGxqEVoiZoOOvxyqcPUI8Nlrf50XsECTNtS5Zu
-	sKWHMdRNG30Wg0rYlRUpr4pPQU2rTdSJcp5kn6xf5lJ+jDpQakCwBaQ68R0lkaKp1h5y0H
-	4xQflKCvnaXGPdRDkI1Kt4WLkPwsU8g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775510056;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=HYuA/k3/GZPXBvbMfFl+BEq/hGp+lC9TNAEl3vG4WHvxayJBKVY2kV+4G6cmjj+CZisXcL
-	xblREPEQazCPAdCQ==
-Authentication-Results: smtp-out2.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EAm+McgM;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="HYuA/k3/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1775510056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=EAm+McgMWvEAMWzObHTx5Axb3fmCwBU0rGxqEVoiZoOOvxyqcPUI8Nlrf50XsECTNtS5Zu
-	sKWHMdRNG30Wg0rYlRUpr4pPQU2rTdSJcp5kn6xf5lJ+jDpQakCwBaQ68R0lkaKp1h5y0H
-	4xQflKCvnaXGPdRDkI1Kt4WLkPwsU8g=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1775510056;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
-	b=HYuA/k3/GZPXBvbMfFl+BEq/hGp+lC9TNAEl3vG4WHvxayJBKVY2kV+4G6cmjj+CZisXcL
-	xblREPEQazCPAdCQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F3BB4A0B0;
-	Mon,  6 Apr 2026 21:14:15 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id bNdzIyci1GnQewAAD6G6ig
-	(envelope-from <fmancera@suse.de>); Mon, 06 Apr 2026 21:14:15 +0000
-Message-ID: <7b3c4791-674a-4420-879a-98b243827b63@suse.de>
-Date: Mon, 6 Apr 2026 23:14:15 +0200
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IVW0zj4J"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kQA7GL1nylSqc+IgCdjQqWmJW++tEyH5P1JpsMsJzKm7wYAU7rM6KB7qkJ49/lakVUf+UYltnfnWUhippjjJDqXM5Z5NMTO1qxRoUEnHn5qn/uWJv+ovYj138x1TBkzONFh4y86MEitsoW3RqrBjYBvBKSyIVcrjcbOPjtHi4Awpl1SzCGIHN5I/NO2zHnUQuolqHczGlzDhDm3TXnE77S+2g/eACfmE7xQ+pl5fS/jPE1yur9ZpzTCi2qbz9RncGA9Wmznb3MfEXS189j511PrhIZ0J7YVZJkGGxL+CnIXuhjZyb7nXoQuP13ZDkFJWMJVopVLRIoWBWLymQnfEPg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rSwhykR12BFOsYFz1EKHYk5jgpSuh5qcnhmtOJkhKtY=;
+ b=wvI2COR/ue/I+kepOYUp+4EmabTcYRLL1QprdWhoTOzN85Y7Agp5inCUDyKjpXk7jofuOwCp2tv+mXTBiit51btBtc+rir0M1snr/DMtwy+KjoLuNCcsSt7tVsa0zpZD1zsnnNWB9I1Tk+T42qsTrziRQTU4JMRiI8yJa6xKIQpQvkB3ooKBRAR7FcWtD9bDc3aulEMs1XEztI3Mybz8ruC988Bqbqaf3vhUyC0pqo1bmwVCn155qsr1ZzBSGQn1KpX5FeRAbvr1Ksv/gOb/xcwAkD/e+fBNxMXzCZq7cVQ/rrLvnLxN5ypKdTcB9hIJEs0eIbJJcEY41VTQ3BbpVw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rSwhykR12BFOsYFz1EKHYk5jgpSuh5qcnhmtOJkhKtY=;
+ b=IVW0zj4JLWDcg5QE2otyQ+eVgIIVKvzsuxoD7aIDg1IEHyvv0dUkGkxA6gmk2ARuWsWpEeAeAiQXxWLFOyhXKuDi5HUi9fKpdlBgSkBQZ2b1SxOWivxpYgZBLMBq/EFBu/9Cqh0tmfCTBcY0k7+F83CE3NUb3nJ2zTioyPcYMIwqMnVgjn1yn9TyZVxbWFskSUol7UpKBEKUj48I5Xs7ZZj9D9aFapuFs/O4tAiz2DQyXvM3RHgJ21XT6V3lTCe/fB/vSpB+fOz0/tfl1XRiKtB3cUcLlcGRzAokuxBVTGp9POupmORoib2IczwLcY7FMUR4uc+YWOWzA8W/RKdV4Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ SA1PR12MB7296.namprd12.prod.outlook.com (2603:10b6:806:2ba::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Mon, 6 Apr
+ 2026 21:14:50 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 6 Apr 2026
+ 21:14:50 +0000
+Message-ID: <7f1aa44b-0414-4bcb-a055-925613e73b5e@nvidia.com>
+Date: Mon, 6 Apr 2026 17:14:47 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 10/21] gpu: nova-core: mm: Add MMU v2 page table types
+To: Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+ <elle@weathered-steel.dev>, alexeyi@nvidia.com, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-11-joelagnelf@nvidia.com>
+ <DHIFGC4E879U.AXIIQKGRZQAF@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DHIFGC4E879U.AXIIQKGRZQAF@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR06CA0017.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::22) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next] docs: netdev: document AI-assisted review
- tooling
-To: Nicolai Buchwitz <nb@tipi-net.de>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- netdev@vger.kernel.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mbloch@nvidia.com
-References: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
- <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
- <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
-Content-Language: en-US
-From: Fernando Fernandez Mancera <fmancera@suse.de>
-In-Reply-To: <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Action: no action
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:url,suse.de:dkim,suse.de:mid,sashiko.dev:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,lwn.net:url];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Queue-Id: 67A4E5BD48
-X-Spam-Flag: NO
-X-Spam-Score: -4.51
-X-Spam-Level: 
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|SA1PR12MB7296:EE_
+X-MS-Office365-Filtering-Correlation-Id: cd2d15aa-edf2-4d01-c35f-08de9421899c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	xjb4HSnGkGOpena5+iZamnzzDRgRjh9/gv0PP/xU6fMBLJbatiSaLUnaKchqAKToycdBbFfL+ubWSq3LvNJGc75Gf4JKqjuRYHK0rBgEu85QUKREAOQj8c9ILCyXz/GI+OGdnhcgCXfCx/zHQirMCy5Yz7Q8+5Qplxlh+yocLRwwHnp2z4L3aFdRwNgsAjT7+Und3oLLbA8YUqCuNo1OTSs18QWRKET2ZPQ8+vePQ3jKzQVukRhRfYQGEpQf73UkLTy9nttlOG5lBUVzeGHqak68pm/JqZwhuidAvzGcoWOxO1Wz5Bs69RCO8/oUAEH1nd0mX4p+feHiKCtIuJGrcKpzVaxqqfcajhVsST0+owm7CgAfzb/sp0MaGJrzFz2y9BDFoyzs4OGH//J+3I5ONuHHWtROQ+Z+d9n347PSlSSB3x/m84R3mUlt5ILjhuOLgIoPEVFE8tVRZJcyf76IOQSEK8i0GT8XoRN7UXnt3LSOBA/HaEv3jyyK8G6h31eHLv5XgGFKc1Bt5NakY6JN57NpJqFhrlffk+igY+V95nenIFdA5QV+NMIFUMa682pMzmqUmWsYeA3GWGQHG8ZpKUo6psz3uhhTgW3gxYNnbeQralLaWKy32Anb+BEdwXKxec2g9Piw3nkm+q52YTRywSXCF3qUC2xKe2WX5HZ1esGscMobDHBMO6vxaEF55F4AGW0hf2Uv+tkO5s/J9oILlm+5E6hSUTUsATcBMqjKnbI=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WnRpcVVWNjN0NFRoOEtZU2VyN25KYTlvRHNXL24rc3pVMmRRc1p1dldYNzg0?=
+ =?utf-8?B?SlQ0WGdZR2RLL3hFMmlPcWJQTnFpWkhqYTZKNGJxOThGUFJ0cTdzcUxVcEU5?=
+ =?utf-8?B?bzlJRWxMbk0wdVNVMUtFM2dXUE1VZlZsNnIyT0g4VTArYkQvZDNYZ3NmRE83?=
+ =?utf-8?B?T3J2UElWMFo4QzBobnJVVjdvbHJsazh4YjJzZ2hLRng2aFNQT1JXTWwrVGUy?=
+ =?utf-8?B?OWhLWmFldEhkTEF1dWxNa2ZJRFdOY3gremx5S2l4Q2NHamMzN0hremc3T2lU?=
+ =?utf-8?B?RzFheFpMQlczcjlXZlp0V2duQzc5SldTMGZtTUpiOEVqY21zYU5uV09sMEVo?=
+ =?utf-8?B?N0twckpvZW1QR0FhRTAvTjg2cS9rVTMvaUJybHROTHFVYUJFUitmK1QxSm1p?=
+ =?utf-8?B?ckcycVFRUGIweDB0bEh6OXNjZkJMMmxxWlF2c2RBbzBtR2l4UERORTlkSi96?=
+ =?utf-8?B?N0J0eGlKRlI4MVZJVXJHVTdGa0ZVck5QeTJWUE4zdkcrWmVKcHpGODJVM1lT?=
+ =?utf-8?B?OC9kdGpJTG51V0V4QisrdmZCV2JBSTM1SDNEbUdWbVBJYXpqNys1Y0xweFZW?=
+ =?utf-8?B?b1Q2SDlZUzVKOGRCNXAwdFYzMkM3azlWcCtXa09hOWNaU1cydUp2Q3lZaWxI?=
+ =?utf-8?B?ZFY1WVJoUXdNR2F4NEFmYmQrdFVTV1J1d3NLckRxVlc3YTlzbER2K201MWNQ?=
+ =?utf-8?B?RnVoSVNIbHRlcHRaanJ1WHZld3VhKzN3N1VUckdPTldRYk9HREg3dFZRbUNT?=
+ =?utf-8?B?bC9WZTQrNWhqUFhOaU9CU0ZTZ1IzeE1uWnNGWVIyUWt1N29nZ21HYnl3K0hh?=
+ =?utf-8?B?UHI4OEFjZTU2RFF6NndCMDRRNlE0OUVUQlZrQmlZQUZ0NW85emdGeHp0UXJk?=
+ =?utf-8?B?V201dUFXc1ArSUxRVytHdHNHOHlUNHgrMjAzczR2YUhkUDBUM2t0S0YvYmxP?=
+ =?utf-8?B?RjlyZEhJd1dOUDVmMVFvR2h1M0lKL0hVUm5sWFJFL2ZMZVlxRnFPdHVVUEEw?=
+ =?utf-8?B?V2FYQUl1dzYwNFQ2b3drRWtWRC9sakFKVVNPc1o1NGsyR0hFQnRDWW5XRFJD?=
+ =?utf-8?B?T3lDaGlPZkJDRHpTQzFyK0FQWDQvZFUwdlJQQXBSSUlPWndTUXRSVkp3VVlM?=
+ =?utf-8?B?VjduWGRUNUZTVjVWaWhheEV5M0FNWGZqdmo2a2tMRGFSZ0FwRHAvNW1JRXp5?=
+ =?utf-8?B?WTBHMXFzU2ZjQytac2U1MVNjZXE1U1RhT2VUaFdDbjdsQXF5VDc5ZTFJcHlL?=
+ =?utf-8?B?UE9RSEgzK1Jxc2ZlRk1oa3pMeHhqZUk2b0RTNWJyQjZueTNPdWVrR01HRGNx?=
+ =?utf-8?B?MXFsMm9UQ2U5NjZ4cTJSdU4vM2tMUEEzdjE1amZvZExRYm5BZEdKeDBTdXZK?=
+ =?utf-8?B?ZzFBUEJERjlUMmpMclBYTXJERXZkQWdobDh5MWxpc0FzM2JRSmZQZ29nYUZP?=
+ =?utf-8?B?SEhpZ0VPbytpemZwN1FZTHZQTjl2SC9UVk5lWUp2c25ER0NOSTA2TE5MUDlE?=
+ =?utf-8?B?bFFVUkRrcnk2MC82cnI5R0Fub1AzblZXVjY3UFZ1aXVQVklvWlRWKzJSOE1L?=
+ =?utf-8?B?YU9CWkZkTTRDdGQ5UUdKNi9hT3hoNyt2ZVVPNko1WmttQkcrMzhKaTVhalNM?=
+ =?utf-8?B?Ly9QL3UyWWRQbTRObEpVVGVDWVYwSjlXbEJEVno2Z1BkZUliTklFVTRGZmxp?=
+ =?utf-8?B?RFVrVytJQWVLcUlTVm1KdWlESnFieWd0K0dKTit5QUhmaVlYck1JTHlzNFgr?=
+ =?utf-8?B?ZU1mVEVBRkxaaGxhMTAxelFoWTQyaG1GM3QyNDdBUDNlUVJ2bVJJTWpxVXFN?=
+ =?utf-8?B?OHNlYjA2SGluTDA5MElrdmpDRWtQejhqdWNtSElnZmNnRDhaM1hwTU00K1NR?=
+ =?utf-8?B?YWJELzVxTGJZeVg5eXNSUndINFdxZGdMZ081OXN4MVNLbGkrdGZISTl1SEw4?=
+ =?utf-8?B?M211czFtcittVkFkaTMzdmZKQnBtUVU3VkNTWnNvOWxnekpUOFNiYzNYdWpO?=
+ =?utf-8?B?VVlkOEhMTjhjMTlWNnRuUDFGVnhWRnhSSXBrUFRRWmtyb2NXMWY5ejk1M3Zn?=
+ =?utf-8?B?TDQzRGN1bXVQNDBwNXF2NGMxc1ZBSDF1L1BQVFViWVZONEswaklFUWZGdWNB?=
+ =?utf-8?B?WXF4VWRoOGVyeFpuZCtoSFd2QjEwc1RYSjRtcjZhZGFHZTd5OSs0M1BESHFE?=
+ =?utf-8?B?bU9JeFlCN0hkRks5Qzl1MG9PZnRiVTNkUFBUbm0rQm12U0ExV2oxdnlYbVFp?=
+ =?utf-8?B?cGN2NFZMNEtYNUxYTXRFcEl4Tk5zNTlPamlpZDBIU0U0R0JWbEVNQnFJcUJl?=
+ =?utf-8?B?ZFdaMnVtQWtFRCtiV2dmZUlBV0ZKZ2RnZUJZSWQwbzE1UGhhT0V0QT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd2d15aa-edf2-4d01-c35f-08de9421899c
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 21:14:49.8995
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: J+q+0hU5YWen+NXDw75NIRyAHojwFqxNo25QPNmEpc75ijPP2pUM1rhx6qAzLaI2D+MngPYaXH2MOApk0wz61Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7296
 
-On 4/6/26 10:24 PM, Nicolai Buchwitz wrote:
-> On 6.4.2026 21:58, Fernando Fernandez Mancera wrote:
->> [...]
-> 
+
+
+On 4/2/2026 1:41 AM, Eliot Courtney wrote:
+> On Wed Apr 1, 2026 at 6:20 AM JST, Joel Fernandes wrote:
+>> Add page table entry and directory structures for MMU version 2
+>> used by Turing/Ampere/Ada GPUs.
 >>
->> Hi Nicolai,
->> maybe I am missing something but [2] isn't from sashiko.dev but from 
->> netdev AI CI instead. See: https://netdev-ai.bots.linux.dev/ai- 
->> review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
-> 
-> You're right, I mixed up the two systems - the example I linked was
-> from the netdev AI bot, not Sashiko. My mistake on the link.
-> 
-> I stumbled over Sashiko when I noticed the name appearing more often
-> in other reviews and then found Jonathan's LWN article about it [1].
-> 
-> Both tools are actively reviewing patches on the list today. I think
-> it makes sense to document both rather than just one:
-> 
-> The netdev AI bot at netdev-ai.bots.linux.dev
-> Sashiko at sashiko.dev, which posts reviews publicly on its website
-> Both use the same review prompts by Chris Mason [2], so there is
-> common ground - though results will vary between them due to the
-> different AI models (Claude Opus for netdev-ai, Gemini for Sashiko)
-> on top of the usual AI uncertainty.
-> 
-> I think it would be useful to document that AI reviews are happening
-> but mixing AI bots might confuse people.
-> 
-> Agreed, I'll rework the patch to distinguish the two systems once
-> the discussion has been settled.
-> 
+>> Cc: Nikola Djukic <ndjukic@nvidia.com>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/mm/pagetable.rs      |   2 +
+>>  drivers/gpu/nova-core/mm/pagetable/ver2.rs | 232 +++++++++++++++++++++
+>>  2 files changed, 234 insertions(+)
+>>  create mode 100644 drivers/gpu/nova-core/mm/pagetable/ver2.rs
 >>
->> The documentation mentioned for running the AI locally is correctly 
->> related to netdev AI bot.
->>
->> I think it would be useful to document that AI reviews are happening 
->> but mixing AI bots might confuse people.
->>
->>> Check for findings on your submissions and address
->>> +valid ones before a maintainer has to relay the same questions.
->>> +
->>
->> I wonder what would be the consequences for this. If less experienced 
->> submitters are expected to address issues pointed out by AI bots they 
->> might work on something that isn't valid. AFAIU, the AI output is only 
->> forwarded to the submitter after a maintainer reviewed it and believes 
->> it makes sense.
+>> diff --git a/drivers/gpu/nova-core/mm/pagetable.rs b/drivers/gpu/nova-core/mm/pagetable.rs
+>> index 50b76d5e5aaf..38d88f8f09a9 100644
+>> --- a/drivers/gpu/nova-core/mm/pagetable.rs
+>> +++ b/drivers/gpu/nova-core/mm/pagetable.rs
+>> @@ -8,6 +8,8 @@
+>>  
+>>  #![expect(dead_code)]
+>>  
+>> +pub(crate) mod ver2;
+>> +
 > 
-> Fair point. The wording should make clear that the local tooling is
-> an optional aid, not an obligation. I'll soften the language around
-> addressing findings.
+> This looks like it has more visibility than necessary. And it seems
+> incorrect for anyone in the crate to care about MMU version details.
+> This can probably be just 'mod ver2'. There are a lot of other types /
+> functions in this series that could have tighter visibility. Could you
+> go through and see if you can reduce a bunch to private or pub(super)?
 > 
 
-Thank you! Regarding this topic it seems people have been already 
-discussing this around other subsystems [1]. It might be useful to check 
-out similar discussions and outcomes.
+Yes, indeed. I am tightening it now, there are several. Thanks!
 
-[1] https://lwn.net/Articles/1064830/
+--
+Joel Fernandes
 
-> Would appreciate input on how much detail is appropriate here -
-> should the doc just acknowledge that AI review exists and point to
-> the tooling, or go into more detail about the workflow?
-> 
-
-To be honest that is hard for me to tell, I am not a maintainer and not 
-the one doing the forwarding currently. I think there isn't an official 
-workflow regarding this. Maybe a good starter would be to just mention 
-that they exist. Or maybe this is a good opportunity to define an 
-official workflow!
-
-Thanks,
-Fernando.
