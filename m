@@ -1,177 +1,390 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012023.outbound.protection.outlook.com [40.93.195.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f68.google.com (mail-dl1-f68.google.com [74.125.82.68])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E613838D014;
-	Mon,  6 Apr 2026 19:42:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DCA3358D00
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 19:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.68
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775504573; cv=fail; b=snjonVfw1ys/a80FEHHgWdQFzxxiejLobEIhxkvzKZLqM8OhXroBjmswh2CXPgjXCUJPBDgudecFjmNb0heF8Fm2RBaZB0QbbFYdAKopHseCDQ/nf77FmZyhIKRCbyAfpWRv9E7n0U8Agfps/fhkhoT6/afYDKinLKdy5oc7E6A=
+	t=1775504890; cv=pass; b=F0KbGl9VxELlhAdzz6+FyVF0D0S9Qxih4fdikY2odZ0Wae2HJN6S9txem+48kK8t8llc0VwuSyltX9UVPRAgmQTK1Gf6xmylh7szOF3tcPSVxeR2Xk9nmahRKyoupoD0ZbxWsLXdO2etRo/31CGriwI2mVHzy04a0Uropjxh3gI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775504573; c=relaxed/simple;
-	bh=3XFThqjCppXomj/6LvIwTLFPPjfSaEaIrF9myqTyePs=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=n9T+ZVF9gROrsizKdpXzcB9If9uncH3yDfpAoZTjd73rGYY8YYhK6i3XfEvj399uD9jsE4ZdYWVZ1KlxtmX9Mrhxo5F/L3fv43V+mRllfq30tsHpyy77SMoaok2iIa0VFWvmgmdpSsxoDFTBbdluKCLrQNPmyxwWdT6zesvuT5k=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=oOcAwuvH; arc=fail smtp.client-ip=40.93.195.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1775504890; c=relaxed/simple;
+	bh=Bm0v6wTtP+iT93N9OKKBUpzG1JpFtFuCcP8xKu0pC7Q=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O7zlTL/mr09z3ogSdVB9YmhB+OXfIiwpM3H6KVLsL+YCvzH/DYKrhtNvAICSvgqiRe0vIhkzisTKNWQA0M/shZH2uS/PikcQve+h94ZZD+EgeUwSA+20OqTQS4IQ2ZZDhS/6ZBEWEgqaBXoZR5oN/oMvzSpctoNkU9CIh8ZGcLA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U+BjTxRe; arc=pass smtp.client-ip=74.125.82.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="oOcAwuvH"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=v9neShk5yuUq/xg8eHUTrSG4To8ucGKQ21qu3n+9EeW9miluzMOCWOh87N/eRawsnknfMM50LdODhCbFJTSosXONotapaSSgFEr2YHlGqhE/Nbul8xgxVvCevGMyzWDetrByByc+S0K2jR6nS87SIH298u3vvNC8TSSB/vs5Ha+m0I4L7+NKEjjOsB1UZ4qdTNGCe/t9iA7iDlsy1PgTwdusnGJxZJsPRbCEFdKtotd33BLAdxvhaUc/Xj8xGrRF2zlh4SUg1rGAalEMx+WpZ7ijFtQA7lbcIArkYAPXvfAyG73Oq9cw5OPPewEGk0sY7JPW9jsyRdwQxY3I2tjK+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hDFEMNcR2awen6wMosMg4mX6nS3WgVxPjfclDGnr2fY=;
- b=uKlhpNqaNeJxoGRnEvmxxUMdmSU7bht6eyPu118bnwQMv5prKUz9LCu7knUrzOGIWxVjXjFmj7tG3VXdrdDTXMdp46c5HXj0XaZ4i9hZDIceYuzWdHx4lfzq+KbC5N126K3K5EPA5ivXwIcCjWDKz6D5tf3OQaBidYQAHAD2l9n1a9p5j/3uUFTBl9rVyFuGOi6Bo83yLUjeoIth7iLTbqC8vORK5ou2zYa/W+7XAJbNl5JwiUnXqDrEJI1iG+e+lQ9oeezw5xHX1zYc5OlFIaxNj+II4IVVfqSafpU1WFkUuplajBnA6O9xewz15TWRSPnQeqTP1SX8Tci53qijUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hDFEMNcR2awen6wMosMg4mX6nS3WgVxPjfclDGnr2fY=;
- b=oOcAwuvHA2yju/uoyDlQGdgQmzo7YVph3xwuOrrZ4zWXQ5aM3pKOcnyzdhNwCVpSYv2X1cf0AKWKlrgELpc11bpYrPWe2U7LLQKi0tXGD6kd+l2RMh3CmRU1EE89qnyV6iWzvIXx6MkbK1Gogg+jahi2yAWYSOYt4AlYk6YzS7QFBowUooR3QyL0ID26stQv82j3FXAzsnPXP681eRuAvqFjCAbZwK+4fKtDPsgJposmbxbV9PY+Iqx31nanuNze4CzmdeoTAQtpNy1x6nxzQxsUz1FESF33qWcBL2z8rHLyE/EE+pmCQ5gJi24G0EDChecR9m+LGCcfjYVWp0w1aw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CH2PR12MB4213.namprd12.prod.outlook.com (2603:10b6:610:a4::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.20; Mon, 6 Apr 2026 19:42:40 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 6 Apr 2026
- 19:42:40 +0000
-Message-ID: <be07611e-d4a9-4d6c-bb3a-888312ab7c54@nvidia.com>
-Date: Mon, 6 Apr 2026 15:42:37 -0400
-User-Agent: Mozilla Thunderbird
-From: Joel Fernandes <joelagnelf@nvidia.com>
-Subject: Re: [PATCH v10 03/21] gpu: nova-core: gsp: Expose total physical VRAM
- end from FB region info
-To: Eliot Courtney <ecourtney@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com, joel@joelfernandes.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-4-joelagnelf@nvidia.com>
- <DHIFD6N7QSU1.1RGEN0APPDHD8@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <DHIFD6N7QSU1.1RGEN0APPDHD8@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0254.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::19) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U+BjTxRe"
+Received: by mail-dl1-f68.google.com with SMTP id a92af1059eb24-1271195d2a7so9225621c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 12:48:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775504889; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eiFvUI/0O3JFr3F6a4POquo1cFnNQqWqGncRTgDwI5nVw18ppCIVNXZ9pbP5Jr6b3W
+         vdBmbFlvG85MF4fo6fW8COhHAsKrqPnQkwYR5uwnOTLZHp1fYsmy9eaPgzl+avU27t/D
+         r8MSKqQ3Cs9cbe/rV4eHUMr+NhjC0ESzRQ3yOXjP8sSHG2sHxR+QS/vn01R0vXDNLECn
+         OtecUXyhfUnUiW9UnAf8H4Z3wLA+qD7ZSkj0jXR9H8oVhE8b9ecYGM1WcvbFlMWWWzex
+         sTnrTAkk0ucwA++ZxzKF3g8GO2x/2SlVYSdlXJ2HipYVC1eV3Ze8Qtvgbudlaqa55bqo
+         qeag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=n+p9huaeZyNc20m6cFvaCZ1I+Q193UaM95oPQNTrZk8=;
+        fh=7t8dT5wPRu7HW7l4+viT4p/aRmcZ08rtvv+H00ML2qI=;
+        b=KIq+OMNhrCxggrbQyG36QbYSO9wvz1kQvbwK0BhA3hPIe96FKBHKSN/qi4ius05GUZ
+         MW9PdgfVBEdA9tlZExFpL+qghdv9wTqDHBVMKBz5Iw5jLwIT4AcgdpwtrIB33fYvbEQv
+         SY4viat/p2m/vMvD2k1LfVCIPeOxx/YPvIBF9C6ERPyYwPwAz70NmGn461jiFbDyanld
+         y2IzL2pBVHEtTwS+515GIy+Kgr+D1G+4RJtAfwUMbgwIahSqfdz4ZN+kDM1kjz/lpiAR
+         WhFjcSo9IOhYk/bt3dbaHSC3WxFltDh6tYz1R06zT5uBxfuHylowgmG4DDrJozZ/7t9N
+         JJhg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775504889; x=1776109689; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n+p9huaeZyNc20m6cFvaCZ1I+Q193UaM95oPQNTrZk8=;
+        b=U+BjTxReCYJIa79IIHe/PZP+M8bbqr6/Yvl9xT8oy6mvyBTYiQc+6c9qD7gLSvmOJO
+         UMlC1U9V+Nfv0ykYLiEcxPk/S+QoEdFLDC9kkltmUSZHFwNYd14bQtg2WiUge9IGMXi6
+         y9bMbxcwadR+cm+7zQPkQJShiXHXUznsEY51AOycNqdmBzVeEpQcmJ1pMi4GG5ifYc5d
+         phF+lfAuZ6DiONaK+qajoUFat3Q7OCLoDK9/2Wscvrt2mrVHCT15QKSmDKs8RT0mp11x
+         zNgq0jy6woYLzcAaQUzQsfwLXV06TuwOkWQaQtWGIZXNexPG74QaGx3eRzHR1ihWj6nH
+         BXsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775504889; x=1776109689;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=n+p9huaeZyNc20m6cFvaCZ1I+Q193UaM95oPQNTrZk8=;
+        b=DQWCMQF1VlAmggRfykR7ZB9oKmNiatUd185SSqUPtnugFTi9dW3Os/gtFNOZEAE7DD
+         YCY5lRNe829CBlVEnFQZH8Fbbn5v5ViBx0wsukpaiYNxNhpJGWb7DRnITCpw+wUT9hhZ
+         I9WItSKSSa0TgmGj3cMHKsGlqS7aWa+LbqJ1nInap9Lx2UqqrFlj0xFJ2htAGDGmV2Ra
+         PD5BtujWtaKFIjKb1KBgy2Xgj4duEn2QtBOjNTRnZXBxPs40XpCsTioZ8qb98VP6xVAc
+         I8WmOru+ZmqigruClkyKMsoG69TIuhaYs2fYIH7711ZZqOkSw5e42MVJZeF/kmfIP6/W
+         /7/w==
+X-Forwarded-Encrypted: i=1; AJvYcCXJ0fnQncwIdMXHfl52CZ+6an5Gq5nkfCn2xLHVIwyfvhy1gljhmqIRcynLGtNBX6DbdOkQzJ/QOEw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwfE5KAB/xd7OR+4MsbuHju6TpI7EpfwdjlUybZMUeHpkbOs2JH
+	zAmn8Fn6dzJjdiM9Y5OApHU2TCDwBnsMFSrTlvh2GdpC91192ovMob/E4XzCmzntxI0zqcqK7Z7
+	oQnvHrJsMXXFkZALwXiFmkGgG+YLBbw==
+X-Gm-Gg: AeBDieva/ulzpbS0IDMeuhuVv6ZXuOHZy23pDLILYOOOssU1wWl3wdBjrT5tr/GUO7C
+	090K58FXTnU/Hwwl+6u7mP4w1NxSXRw37RzmVihyzAoKqmVVKgZJHjJ9eI7qJ1KCsZg2/HwmuZK
+	5PQ20EBApcTQdkESfd9FVrGUcLjA6gzlAzBZjp9gpZAxwGfdXD9otK2FIjItyIZ21x2BpvenwNW
+	PJ98fd6ccP4rz/ePN8SeLvWHldikWD8ofB+qdrC5F7q6tmwoqh567sgC4THz19VvvjoKmoQLZo6
+	sH+2E3U=
+X-Received: by 2002:a05:7022:ea2f:b0:11a:e426:911a with SMTP id
+ a92af1059eb24-12bfb70b6aamr7852006c88.15.1775504888403; Mon, 06 Apr 2026
+ 12:48:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH2PR12MB4213:EE_
-X-MS-Office365-Filtering-Correlation-Id: 932b765c-bfe4-412e-91e4-08de9414a9cd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|366016|7416014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	bo6M6KrL0XdKHpjaKHuiCCpM5wLDL8M9CFGkh/NZhGE/bPafWRw4Ef97HqoKl6TzS2fzrGW5D7Ph8aySBvCmldyPxH72OU0NXP9U2XuMA52gtnRWMI6MKh/2gzkYel3WGUMNv7N5nNL4gYMrCqymb9dYaTlIsksg/DAMXMIaVl6rSqGP7vzBmgYDfiz+kWzkiWSm9/uvx7GUBHPyy5DiEk1SltjANqZySS8p4CNlH+tPqo/LFEo0y5Avdk/7dNUmadWxQ9ahpAfuUbAmt5Xl4yuQsG1rYaxm3MsF7PEW7yIGHZlt3SKt0Iq/JnYe6tD7MfCQNSv69U5F/ty8mGbqWzLEXVSwbHCQGaD1BDJXARm5OMcf9f9/8K/2RK4EgI++mDwcPzuMdWuuO5+N23vu2rTrLewzOyJrmIQ2PV+Wn3xyaqi02ypE65nhIf4lyWsupLzN2I/nAY+9HaiM+h1A3gMbZi2MjvlUmoItuKmiAjJXka8xpNwSC/8D2HQH1f9sLTOAo/KXSYuvglM3zf/1REVdf6PAG852/cnCN4B7WiOdVmTbtl4XhHQ8AHz1VNdleEHVuaxfs36PdDCA3zo3LDLKFouCg2ZsYCyeM0oUQWS12MeEH0oRwhde+8ofS+GGIOdfmG5Y1ZG4j2Z6Uf22J5m0WsNH4SvVxLEk/i3TEAGXKb9yxyPfQEURXkjJeSMlYjWqqEju6GzNxrQNJo6XpRFejtpPEhJ42/iQ4pY84n0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RTlHL1J4Q2c2ejJDUkJYeUJjQmFoM3JnbGU3UVpPN0xDYlZpN1RSeWxueGR2?=
- =?utf-8?B?RWora0tjQndXbG5BZHMxQzVzNTlwbi9oTW9sQVdlNlg0ZWtXVzVubk9hU25o?=
- =?utf-8?B?WmxnenBzNkxkOUlTbGdwcS9DTjlsZGJRNkhoSHR4Kyt0b0xQQXk4R2RWMmpI?=
- =?utf-8?B?OXpRSGtXVTZSeWUxNW5nOFpJUXZuaUNXYjN3TElXT2xoNUlQbUw4Vk9PY3gy?=
- =?utf-8?B?VkxDRUhlRlllSkFydGZ4dFVLaEtoZGdjSTVqeFJoWGJSTWlncnNHM2ZFUXB5?=
- =?utf-8?B?Qnl1eGRkaFpueStMallpYm11eSsyOFplZ0ZDb0JRa3FMdzF3THl5SXpHbkQw?=
- =?utf-8?B?dTJ0dEtvNEp1Tjh2UDgrOThCc1E4M0hKaHVPQysrdExrcHQwZ1dXVEdxZ25X?=
- =?utf-8?B?dythaEllK2VJOG51dWR4VmlvdEZQcmxLNHpiUkxzTFFnbkxKTDhrR3k4M05O?=
- =?utf-8?B?d2VmcGxwclU0SnVVRHRZcUVBMkxkdXg4dVE0Q2wrcFRBOTNSUElRL1JvUmFl?=
- =?utf-8?B?MUQ0WmwwTHZNZ1hicURhaGEwaTNNclMyeVFKRlE0OTgyOU1ZTjNNRkp5NmZl?=
- =?utf-8?B?bGFhWG5RSk11YlF4ZjBiaWsya2dlSjVweDR3STM1WFlFVkJaNjY3N0o2SGp5?=
- =?utf-8?B?QVRrdGU5TEVmTUJsVW9ZRXpVVlpmS3BEYnZpYWdqazFTUHhMM1Q3cEJIb3hU?=
- =?utf-8?B?OWlwanYxTnR1V0FiT1dza1Z1QnVUY083R1IxWVlBSW0xa1MwVTFhanZ5MHlw?=
- =?utf-8?B?TThYVHFuV2tFRDNpYkM5RnpZZ1lGdDZnNWJqQ2tCUWc1Y0srZTlaV050dGcv?=
- =?utf-8?B?dnBxMUswN2dkVDZVMWNteDRkL0VwcXU5UlFwMkZrc2RmY1haOXB2b09UK1Za?=
- =?utf-8?B?dGJQN2JBMVIxcCtBdEJvcDdoUEpwSmw3a0M3WUNIWEdoUktQRlkvbWlsR09v?=
- =?utf-8?B?cFN1dE1MSXg3VnZiRkZKSE1HYUdEUTJYQm9JSDRIZFVwSmpPSzhYOHQxMnI4?=
- =?utf-8?B?UnVmRFBta21YejZLN09Ja2FEY0YwL2hsc2M0U0dlUzBFdi9yendWRlJWU1Jn?=
- =?utf-8?B?OWxDeVoxZk5SMVJPcUYzSHJGaWhMbFBOWmZkcU8xWmlHTmRtVWRtNk9BQ1Fq?=
- =?utf-8?B?UDlvd2pwcDJVVlZ0NmQwY3Q2UkJ1K09OczR2U1JhODhoQ1UxcEV5eHNDUjdy?=
- =?utf-8?B?aisvMm5sRis4eElsMDhDNWVtS0N5Rk9CV28rNHlBckNUNXBOcStreEV4emJu?=
- =?utf-8?B?ZlJwVHEzOU9zSTRHeFBUdVdWZlR4UkhGWWU2bXdRWmdINXRRZWxnL0V6Tjc3?=
- =?utf-8?B?YURpcTBEb3l3OERabFBaOG1taFJzVTkwWHpUaFNYNXpiODdhQ1dLSG5sQ3Np?=
- =?utf-8?B?L3AraEdOYmt1cXplWkVkNXpjQ0t4TGhrcE4xNmJnMlRGZmZuVi92N3JoOERD?=
- =?utf-8?B?Q1V2ZnZad21meS96RzJpTXg0VnY0d3h2WTZMRFNZU0xFRzA0Tm0rRFhwYkR2?=
- =?utf-8?B?WWFyTGduTTRMNDY0SUpPVlpmUURZRzd0eWoyS1NXNEpqREJ6K01ESUpReE8x?=
- =?utf-8?B?K0NTY0dYOFBUMzZMNFNwL2FZcGtIeHhPc24ydmJ1bDJVWldHZ1lSOFdwb3pQ?=
- =?utf-8?B?ajlHd0hCV3JTVWdqc0ZwQXBxS1pmNUhWM25SUlNXd0J1ZFJEbGxDNURNUDJt?=
- =?utf-8?B?dEpQeVltV2RjQk0xL1lQdmpXWnJzL2tpbW56dVN3WWl1MEM3YitWYkVQajZr?=
- =?utf-8?B?WDFaNzBGRFkwOEx2UldGUXhwWGZJd2JyOUFBYlNGVTJ5VWZYKzV2K2IxMWNG?=
- =?utf-8?B?R1VBTFExZkZHOXdVcGdrUFhyZFU5ZUs3UjZVNVhFUXljQzV3RzkvYjRhQ29I?=
- =?utf-8?B?SjJpVWM0TmxOOEhTcm9VczVpcDVNbEQxa3daeXFnV2lmWE41Y1pCZlN5VEFs?=
- =?utf-8?B?ODlTSCtuU0dQTFVOVzZhYlcwNmk4S053bTRkTEYyS2VqdE85Z0w2YzVCQTFp?=
- =?utf-8?B?aFJ0OGQwdWJwV2hmNlg1L0FwNCtaR0cwYk9MSk9Da3hvK2tTL2NpWUpFdmRV?=
- =?utf-8?B?SVFZQkkwWVlqYTlnR2dtSXFtaHJRY0gyNGRnVkx2bWs0eE5UazRVZUJVWmUw?=
- =?utf-8?B?amtoSU9DVUJ1RjNVNTd0c0htbE5qS0hRdWtxZmlIVmViM2wvSWVyZVJVQ243?=
- =?utf-8?B?QzhSSytSbndRdnpERXhrL01ubnVac3UvNWhUcE9VckRGakgvNUovMmFKRURI?=
- =?utf-8?B?VGVyS0FhL1VjLzlIZmp2b1JKYzN5WlFUV0d4Sjd5bmNmV0xMei9jMVBuYlBy?=
- =?utf-8?B?cEZDS1FJTFhIOWM0Vjlxc3hxLytjNnV2YnA4ZXVHV1JjVytkZzg0dz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 932b765c-bfe4-412e-91e4-08de9414a9cd
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 19:42:40.3853
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nwPqYQWa3+aZygC+4/WEDHZPG9C0ulOHZdswhO679mVjvPlZEjfW2gWN6O4kUTTVQnurkvLR/hpJYl7SHOEg0A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4213
+References: <20260405184247.2690-2-ravis.opensrc@gmail.com> <20260405224550.76218-1-sj@kernel.org>
+In-Reply-To: <20260405224550.76218-1-sj@kernel.org>
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Date: Mon, 6 Apr 2026 12:47:56 -0700
+X-Gm-Features: AQROBzBpPbsPlwve819G7eO28GC1duFxJHiGRdlflbmAq_VezuBZJYhpR-us9Gg
+Message-ID: <CALa+Y14oWqu5+DbkENy7GgBjc=dCbFTaoOCr1i4=9CN-ZNRgEA@mail.gmail.com>
+Subject: Re: (sashiko review) [PATCH v6 1/1] mm/damon: add node_eligible_mem_bp
+ and node_ineligible_mem_bp goal metrics
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
+	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
+	yunjeong.mun@sk.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 02 Apr 2026 14:37:52 +0900, Eliot Courtney wrote:
-
-> +    /// Compute the end of physical VRAM from all FB regions.
-> +    pub(crate) fn total_fb_end(&self) -> Option<u64> {
-> +        self.fb_regions()
-> +            .map(|reg| reg.limit.saturating_add(1))
+On Sun, Apr 5, 2026 at 3:45=E2=80=AFPM SeongJae Park <sj@kernel.org> wrote:
 >
-> I think it would be better to used checked_add here.
+>
+> Ravi, thank you for reposting this patch after the rebase.  This time sas=
+hiko
+> was able to review this, and found good points including things that dese=
+rve
+> another revision of this patch.
+>
+> Forwarding full sashiko review in a reply format with my inline comments =
+below,
+> for sharing details of my view and doing followup discussions via mails. =
+ Ravi,
+> could you please reply?
+>
 
-Fixed, thanks.
+Thanks SJ, providing your comments on top of sashiko's review is very helpf=
+ul.
 
--- 
-Joel Fernandes
+> > # review url: https://sashiko.dev/#/patchset/20260405184247.2690-2-ravi=
+s.opensrc@gmail.com
+> > # start of sashiko.dev inline review
+> > commit 5f6ea8da06d136b84d97827777acf2b07047d42c
+> > Author: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+> > mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metr=
+ics
+> >
+> > This commit adds quota goal metrics for tracking scheme-eligible and
+> > ineligible memory distribution across NUMA nodes. It iterates over
+> > scheme-eligible regions and uses damon_get_folio() to determine placeme=
+nt.
+> >
+> > > diff --git a/mm/damon/core.c b/mm/damon/core.c
+> > > --- a/mm/damon/core.c
+> > > +++ b/mm/damon/core.c
+> >
+> > [ ... ]
+> >
+> > > +static unsigned long damos_calc_eligible_bytes(struct damon_ctx *c,
+> > > +           struct damos *s, int nid, unsigned long *total)
+> > > +{
+> > > +   struct damon_target *t;
+> > > +   struct damon_region *r;
+> > > +   unsigned long total_eligible =3D 0;
+> > > +   unsigned long node_eligible =3D 0;
+> >
+> > Can total_eligible and node_eligible overflow on 32-bit architectures?
+> > Since these accumulators track raw physical bytes, regions spanning mul=
+tiple
+> > gigabytes might wrap around the 32-bit unsigned long limit. Would it be
+> > safer to use u64 or track the counts in pages instead?
+>
+> Makes sense.  Ravi, could we update these to use phys_addr_t?
+
+Agreed. I'll update total_eligible, node_eligible, and the function
+return type to use phys_addr_t throughout damos_calc_eligible_bytes().
+
+>
+> >
+> > > +
+> > > +   damon_for_each_target(t, c) {
+> > > +           damon_for_each_region(r, t) {
+> > > +                   phys_addr_t addr, end_addr;
+> > > +
+> > > +                   if (!__damos_valid_target(r, s))
+> > > +                           continue;
+> >
+> > Should this loop also check damos_core_filter_out()? By only checking
+> > __damos_valid_target(), it seems memory explicitly excluded by user-def=
+ined
+> > region filters (like target ID or memcg limits) is still counted as
+> > eligible, which might inflate the total and affect the quota tuning loo=
+p.
+>
+> No, we intentionally defined "eligible" based on only the access pattern.=
+  We
+> may be able to extend this to apply filters in future, if we find a use c=
+ase.
+> But, for now, I'd suggest keeping this as is for now.
+>
+
+Got it. Will keep it as is.
+
+> >
+> > > +
+> > > +                   /* Convert from core address units to physical by=
+tes */
+> > > +                   addr =3D r->ar.start * c->addr_unit;
+> > > +                   end_addr =3D r->ar.end * c->addr_unit;
+> > > +                   while (addr < end_addr) {
+> >
+> > Could this unbounded loop cause CPU soft lockups? Since DAMON regions c=
+an
+> > span hundreds of gigabytes, executing millions of folio lookups sequent=
+ially
+> > without a cond_resched() could monopolize the CPU.
+>
+> Good point.  Most DAMOS action implementations are also doing cond_resche=
+d()
+> per region.  Ravi, could we add cond_resched() per region to this functio=
+n,
+> too?
+
+Will add cond_resched() at the end of each region's processing.
+
+>
+> >
+> > > +                           struct folio *folio;
+> > > +                           unsigned long folio_sz, counted;
+> > > +
+> > > +                           folio =3D damon_get_folio(PHYS_PFN(addr))=
+;
+> >
+> > What happens if this metric is assigned to a DAMON context configured f=
+or
+> > virtual address space monitoring? If the context uses DAMON_OPS_VADDR,
+> > passing a user-space virtual address to PHYS_PFN() might cause invalid
+> > memory accesses or out-of-bounds page struct reads. Should this code
+> > explicitly verify the operations type first?
+>
+> Good finding.  We intend to support only paddr ops.  But there is no guar=
+d for
+> using this on vaddr ops configuration.  Ravi, could we add underlying ops
+> check?  I think damon_commit_ctx() is a good place to add that.  The chec=
+k
+> could be something like below?
+>
+
+I plan to add the ops type check directly in the metric functions
+(damos_get_node_eligible_mem_bp and its counterpart) rather than in
+damon_commit_ctx(). The functions will return 0 early
+if c->ops.id !=3D DAMON_OPS_PADDR.
+
+That said, if you prefer the damon_commit_ctx() validation approach to
+reject the configuration outright, I can implement it that way instead.
+Please let me know your preference.
+
+> '''
+> --- a/mm/damon/core.c
+> +++ b/mm/damon/core.c
+> @@ -1515,10 +1515,23 @@ static int damon_commit_sample_control(
+>  int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
+>  {
+>         int err;
+> +       struct damos *scheme;
+> +       struct damos_quota_goal *goal;
+>
+>         dst->maybe_corrupted =3D true;
+>         if (!is_power_of_2(src->min_region_sz))
+>                 return -EINVAL;
+> +       if (src->ops.id !=3D DAMON_OPS_PADDR) {
+> +               damon_for_each_scheme(scheme, src) {
+> +                       damos_for_each_quota_goal(goal, &scheme->quota) {
+> +                               switch (goal->metric) {
+> +                               case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
+> +                               case DAMOS_QUOTA_NODE_INELIGIBLE_MEMPBP:
+> +                                       return -EINVAL;
+> +                               }
+> +                       }
+> +               }
+> +       }
+>
+>         err =3D damon_commit_schemes(dst, src);
+>         if (err)
+> '''
+>
+> >
+> > > +                           if (!folio) {
+> > > +                                   addr +=3D PAGE_SIZE;
+> > > +                                   continue;
+> > > +                           }
+> > > +
+> > > +                           folio_sz =3D folio_size(folio);
+> > > +                           /*
+> > > +                            * Clip to region boundaries to avoid cou=
+nting
+> > > +                            * bytes outside the region when folio sp=
+ans
+> > > +                            * region boundaries.
+> > > +                            */
+> > > +                           counted =3D min(folio_sz, (unsigned long)=
+(end_addr - addr));
+> >
+> > Does this accurately calculate the remaining bytes if the region starts=
+ at an
+> > unaligned offset within a large folio? folio_size() returns the full si=
+ze
+> > of the folio, so this calculation might overestimate the eligible bytes=
+ by
+> > not accounting for the initial offset within the folio.
+> >
+> > > +                           total_eligible +=3D counted;
+> > > +                           if (folio_nid(folio) =3D=3D nid)
+> > > +                                   node_eligible +=3D counted;
+> > > +
+> > > +                           addr +=3D folio_sz;
+> >
+> > Can this pointer advancement overshoot the end of the current folio? If
+> > addr was unaligned, adding the full folio_sz will skip past the beginni=
+ng
+> > of the next contiguous physical memory folio.
+>
+> Above two points make sense to me.  Ravi, could we fix these?
+>
+
+ Will fix it. Will calculate the exact overlap between the
+ region [addr, end_addr) and the folio's actual range.
+
+> >
+> > > +                           folio_put(folio);
+> > > +                   }
+> > > +           }
+> > > +   }
+> > > +
+> > > +   *total =3D total_eligible;
+> > > +   return node_eligible;
+> > > +}
+> >
+> > [ ... ]
+> >
+> > > +static unsigned long damos_get_node_ineligible_mem_bp(struct damon_c=
+tx *c,
+> > > +           struct damos *s, int nid)
+> > > +{
+> > > +   unsigned long total_eligible =3D 0;
+> > > +   unsigned long node_eligible;
+> > > +
+> > > +   if (nid < 0 || nid >=3D MAX_NUMNODES || !node_online(nid))
+> > > +           return 0;
+> > > +
+> > > +   node_eligible =3D damos_calc_eligible_bytes(c, s, nid, &total_eli=
+gible);
+> > > +
+> > > +   /* No eligible memory anywhere - ratio is undefined, return 0 */
+> > > +   if (!total_eligible)
+> > > +           return 0;
+> > > +
+> > > +   /* Compute ineligible ratio directly: 10000 - eligible_bp */
+> > > +   return 10000 - mult_frac(node_eligible, 10000, total_eligible);
+> > > +}
+> >
+> > Does this return value match the documented metric? The formula compute=
+s the
+> > percentage of the system's eligible memory located on other NUMA nodes,
+> > rather than the amount of actual ineligible (filtered out) memory resid=
+ing
+> > on the target node. Could this semantic mismatch cause confusion when
+> > configuring quota policies?
+>
+> Nice catch.  The name and the documentation are confusing.  We actually
+> confused a few times in previous revisions, and I'm again confused now.  =
+IIUC,
+> the current implementation is the intended and right one for the given us=
+e
+> case, though.  If my understanding is correct, how about renaming
+> DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP to
+> DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_COMPLEMENT, and updating the documentati=
+on
+> together?  Ravi, what do you think?
+>
+
+Agreed, the current name is confusing. How about
+DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_OFFNODE?
+
+The rationale is that this metric measures "eligible memory that is off
+this node" (i.e., on other nodes).
+
+ I think "offnode" conveys the physical meaning more directly than "complem=
+ent".
+That said, I'm happy to go with "complement" if you prefer.
+both are clearer than "ineligible".
+
+> >
+> >
+> > # end of sashiko.dev inline review
+> > # review url: https://sashiko.dev/#/patchset/20260405184247.2690-2-ravi=
+s.opensrc@gmail.com
+>
+>
+> Thanks,
+> SJ
+>
+
+Best Regards,
+Ravi.
+> # hkml [1] generated a draft of this mail.  You can regenerate
+> # this using below command:
+> #
+> #     hkml patch sashiko_dev --for_forwarding \
+> #             20260405184247.2690-2-ravis.opensrc@gmail.com
+> #
