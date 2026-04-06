@@ -1,87 +1,108 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f73.google.com (mail-pj1-f73.google.com [209.85.216.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F27F304BDF;
-	Mon,  6 Apr 2026 23:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3658839FCAD
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 23:27:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775517791; cv=none; b=Wb5/YJRfBTXp6Nn03NqkKZH+yeSmJhvfwGTirqCZ48MmP2BkWtI9GHDr80rmKCYJM991ZkOpTBRvsIICU3glRHEMDeH3a+iKlYWr+6/I1MyGALkEXJTBDNni6cDuzLldCKXGdpyBVRgQJULetI0vOF6ouW2AAXdpSbckrWgs3aE=
+	t=1775518058; cv=none; b=tGL6Lx4rLfUvQCQI+TRdKIMVmAj+ulokEdLuZcojhvzrwMFTAI1L8DqrUwMi08K/61iVJV7LsFE372uZE5FZu1eBztDMUtH6r7BqtR3P6pZWX29KI3MbuYcvZsGsVt2FSJ2U/3J3afoFwV6BBoaPabzLUzo+RAv/xFZMWFFlQJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775517791; c=relaxed/simple;
-	bh=TDR+i0Z5GEdjXxpEDkMQ16w9yzl53a1QJHKS+kArbgM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F0HfD5xEfve39BWZ1RJ8TxtpjL/ouLc6w6g6pVZgXOD+E7MQ2qkBCaAJgv3N65YZFWRMGlJARrNDvi7VDrm3UvPfsXi1SlJQWtxKK02cZy9Lx1KvIuhZJWYHlspgdKBkr3fNH3txfhQnguOaL88u8iZqTFKIkX0siqwaVele9Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=krwxIrz4; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1775518058; c=relaxed/simple;
+	bh=FRR5sT0zQ8QWo/7kVJ3OR2zaSQRcCfEM05VHXvhpgd0=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=JPuV/os7VugWW4XViat0MLMM32F3se4cg/aNRZzukyVQlrny1N0NWv0EA8Fk3ZH3nY3et3HK4EHLd5K0z3q/LMNLGMzrn9inY8psBsSc25RfAtjoqqH2Larihv9FNBJRbFetd0vsTL+9p7IUCAVuD4QhhxfyXuZeDOmVg8HOhzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=own6LkFV; arc=none smtp.client-ip=209.85.216.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="krwxIrz4"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=uLZ+sz2ULaNa2r2JZeZNL1l0O2MgOhNKzAzik0yDKv8=; b=krwxIrz4SR6eoYbU75WQAvabU5
-	7NnHQQDBLrZ9O40XEjqqFJ2C/9fW/p0T50u6hr3MqZcRnykYadeAyAiqK2I3aG2ltrZE0Cx5Ua29T
-	eiLL8t6KCD0geocgJXotijzuqaxRyi/IjKg9f0kz91nKMiQfYWGbauwKYoBosmK8IwbYMdqtiXiV4
-	f17iJ/yO3wo2cvL+NNMXZOujP88Tn9+IsiNvffupN/nt8oJlqqXwWZAOcjmF76eU12MCQLwMsOg7k
-	tDBgaE2+JSU7FYYJOy3DiOx5BhCv8YWJ7vXizuKaDjkuM0pDzGY5Q+olPBDvS63gjmgWsnnISNI4V
-	Uxr/Li8A==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9tHe-00000005bsT-1EQZ;
-	Mon, 06 Apr 2026 23:23:06 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Deepak Gupta <debug@rivosinc.com>,
-	Paul Walmsley <pjw@kernel.org>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	linux-riscv@lists.infradead.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] riscv: Docs: fix unmatched quote warning
-Date: Mon,  6 Apr 2026 16:23:04 -0700
-Message-ID: <20260406232304.1892528-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="own6LkFV"
+Received: by mail-pj1-f73.google.com with SMTP id 98e67ed59e1d1-3568090851aso11010292a91.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 16:27:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775518055; x=1776122855; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=SJTcZf1UujVpWDgwH0mVsCXrQUf/rG8HnnvzMBPDQG0=;
+        b=own6LkFVesvJFlK7vi+GPOw5Ze5KKZm2S4UUv1RcZs7rS5qHute45kfpFDgMHWDGHK
+         KpnkcHt8hnhQqFu1zXnPCIn2WBkFoqOD3m3AH/houTs+RxFnNh5+pO0g+OuqjNaSPhzT
+         lsdHfuaEpvlpJU05Cq6AWJBeO0VeplTR63j2vG7OJUvsicwm3VR+jbI8E58DJadW4La6
+         gYcgiTIHX1XdW9IIBFyEHbKiEZhV3M1eOhlGUd7XczaGo5ZMyXzjqUeL7dow8Qz34VE4
+         cbKrr5l40tcfRtPPmecaTDVDbjHKAC34Ww4VaESMj/bKvLTUPmLHp1/6MrrMeaF42d3g
+         da1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775518055; x=1776122855;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=SJTcZf1UujVpWDgwH0mVsCXrQUf/rG8HnnvzMBPDQG0=;
+        b=eo0PVytngM6XHXgRazyIl+xyN+5UgL8+ceH9hjObdvsv4JVOBzUMIJn8VMjl6lPhpl
+         VW6viJpt3VQwQMxHOgiqT98XdnEmLLqtrEpFhmVXWFEOKtQSNyK1y80kXDYN2iWgSc9H
+         Rv/FUgmTNu4STGNHLGQUXIVX7AvQpTmVGcByV0I1WUBvFizVbgO2ryAqh+1FtFcoPP3r
+         KG3bL1ifZItCAN7/SMPtIiibXoN+3CxPPlg7ARudPJbjHAlezHkFhQ/RSX6jvbcuO02V
+         qvnsnZkiQQVFissJw3sjSroNn9aJq9t8Co21t38JsrJZ3daQmJUVmfEcnKzG9J3VpQPJ
+         t+Yw==
+X-Forwarded-Encrypted: i=1; AJvYcCU7SfO1AuSyiczFMaYjb1VQukElmJndQ+GC5GXvs12wqRhoctukNsQKTsIRHiQFsIk6SJRrTJ+YJ44=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywxq+tSzQU2LzWADcNYuz8d9NvuFE2W3+r95uprxYU3iCT/rCZh
+	d2bLmxXC7JkFLjrt1xKx+lC8718od9h+1QmVDhO7WcH133rTCdD7QUYCAG4XTS/AY8X7nsDdNox
+	x4TyheQ==
+X-Received: from pjre2.prod.google.com ([2002:a17:90a:b382:b0:35d:a63e:32e9])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:1d49:b0:35d:9927:e023
+ with SMTP id 98e67ed59e1d1-35de67df8c1mr13530992a91.8.1775518055475; Mon, 06
+ Apr 2026 16:27:35 -0700 (PDT)
+Date: Mon, 6 Apr 2026 16:27:34 -0700
+In-Reply-To: <20260327234023.2659476-2-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+References: <20260327234023.2659476-1-jmattson@google.com> <20260327234023.2659476-2-jmattson@google.com>
+Message-ID: <adRBZuqNlBozaDrK@google.com>
+Subject: Re: [PATCH v7 1/9] KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Yosry Ahmed <yosry@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-'make htmldocs' complains about ``prctrl` -- so add a second '`' to
-avoid the warning.
+On Fri, Mar 27, 2026, Jim Mattson wrote:
+> diff --git a/arch/x86/kvm/svm/svm.h b/arch/x86/kvm/svm/svm.h
+> index ff1e4b4dc998..74014110b550 100644
+> --- a/arch/x86/kvm/svm/svm.h
+> +++ b/arch/x86/kvm/svm/svm.h
+> @@ -616,6 +616,17 @@ static inline bool nested_npt_enabled(struct vcpu_svm *svm)
+>  	return svm->nested.ctl.misc_ctl & SVM_MISC_ENABLE_NP;
+>  }
+>  
+> +static inline bool l2_has_separate_pat(struct vcpu_svm *svm)
 
-Documentation/arch/riscv/zicfilp.rst:79: WARNING: Inline literal start-string without end-string. [docutils]
+Take @vcpu instead of @svm.  All of the callers have a "vcpu", but not all have
+a local "svm".  That will shorten the quirk check far enough to let it poke out.
 
-Fixes: 08ee1559052b ("prctl: cfi: change the branch landing pad prctl()s to be more descriptive")
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Deepak Gupta <debug@rivosinc.com>
-Cc: Paul Walmsley <pjw@kernel.org>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Cc: Albert Ou <aou@eecs.berkeley.edu>
-Cc: Alexandre Ghiti <alex@ghiti.fr>
-Cc: linux-riscv@lists.infradead.org
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+> +{
+> +	/*
+> +	 * If KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled while a vCPU
+> +	 * is running, the L2 IA32_PAT semantics for that vCPU are undefined.
+> +	 */
+> +	return nested_npt_enabled(svm) &&
+> +		!kvm_check_has_quirk(svm->vcpu.kvm,
+> +				     KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
 
- Documentation/arch/riscv/zicfilp.rst |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Align indentation.  With the @svm => @vcpu change, this becomes:
 
---- linux-next-20260406.orig/Documentation/arch/riscv/zicfilp.rst
-+++ linux-next-20260406/Documentation/arch/riscv/zicfilp.rst
-@@ -78,7 +78,7 @@ the program.
- 
- Per-task indirect branch tracking state can be monitored and
- controlled via the :c:macro:`PR_GET_CFI` and :c:macro:`PR_SET_CFI`
--``prctl()` arguments (respectively), by supplying
-+``prctl()`` arguments (respectively), by supplying
- :c:macro:`PR_CFI_BRANCH_LANDING_PADS` as the second argument.  These
- are architecture-agnostic, and will return -EINVAL if the underlying
- functionality is not supported.
+	return nested_npt_enabled(to_svm(vcpu)) &&
+	       !kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
+
+> +}
+> +
+>  static inline bool nested_vnmi_enabled(struct vcpu_svm *svm)
+>  {
+>  	return guest_cpu_cap_has(&svm->vcpu, X86_FEATURE_VNMI) &&
+> -- 
+> 2.53.0.1018.g2bb0e51243-goog
+> 
