@@ -1,186 +1,163 @@
-Received: from OS0P286CU011.outbound.protection.outlook.com (mail-japanwestazolkn19010019.outbound.protection.outlook.com [52.103.66.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7CA2DB7B4;
-	Mon,  6 Apr 2026 14:50:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.66.19
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775487055; cv=fail; b=icCB5JZVO8CLg03kn09WSpRRmuw4SxZhNaayIjuRFG7liAQrrvTtaLy+oZHA5HaC1h+70xGrsMIStZPWCHdXzBvGmDBKY4SIxf9c0ORsDzcGq9wtQAva2Tfc3pI777XGngbc4eH9MWv/QfhkKq3oVtxkq8KOu5NFiIie71qhnfI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775487055; c=relaxed/simple;
-	bh=7464iPwQFr0vxOhXXg46kWDSP6YLaY7vab07L/woBAc=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=uq1TA7ZtAXr0WHYMOEUaGGJdqD3TNO1r9mel/IBU6ReXsTCgVtSsGI0O5wTqVjHax/umd74kzuNT/6R6aADkND1HVpqUp5F6p7QXFM9oG78QQOgK0rr4/rHpxM65QcOJQQipNe1VWKGbvGBjdIxmH4o3lxUTh0I1bkziWDrAnJg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=AIhZ8cMV; arc=fail smtp.client-ip=52.103.66.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B167F31355C
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 14:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775487555; cv=none; b=tmyvtVznYUP17Y0lWmzN6pz5JFGiFGPvx9aek30Y5q9YtScXEx/KkYz/Uixqbd4Lcr0p4DXGPZ6XLCXNxX0iA7DcfqF/5iaJfPuTMMt0iWaKYhpLbxrgio5q0kFtNA3hwhRrY/2bsvW8oG2vth+gM4O4uOJWapFej1i7JjD3d6E=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775487555; c=relaxed/simple;
+	bh=xQ7o66TtbbwulQnJW5l2ZtOfYQA79hhGSfn9VhPlO6U=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JWShkTYwuBIUXK4z4M+EX9aiAMNbu57KHoOBaZXU6WkFUp5qYt/suoiw2/WN7+OgY2G8aeZx+zUmDxQ6AunjFCBtD8craXEIzfwXab6DkBy3A3UwuZ3vydbaggng2/f/3i6F31Ae1g7loBzoUe3xWZzCMt1+5YN093QnGWMA6c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLkaENd1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="AIhZ8cMV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oJJzpcHIH+ip8mWOTqWqsUqkgTWqmKHWjhtSyPDtl0f91d+n8seXGhSv7UwcgXPt6Ziax3n0Rby4KDrS4+kbuJGAQw5DlKC+duY6F9udyGxS+KZ+vv59XpmO6CsX8O4jIZq9yJv9EovmGv21MlEgDgC5t+vi4KyYdVZhhimJuqEL9ptObPlw1HfElDSFz3KrOvBeUk+FdhXZ09IBLVqH6VYhmlBBmKk0JDteDdlnceFf0tLA0TUzyRmBOmiBO/LzFvP+O4yQzXwRHsDp433VrQvgbXc7cV70H1Hm4LD8xQKJFa6WXv1WwseJs8zU4umzMoB84R3qo78CUYPs/V1IAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=y36frxGWsLivSetFweD47CAfgQjU8xKg3CJeaCz+lEQ=;
- b=mDaLvQbO7AE+Rz73B2Mm5H0FzOlohtvpcLbCL0gx+GBOpO+emEqVT3LYbpQBUugoqnr0xJp1BxFK+qQ6/yIUsCoFWcXAuCFioAoSRI7MmC/BRmBcqtMPH742s8G8CgDI+lsGIiEPZDxfrrXn2KFSQyboqBDLln3dgWKcO1U8uEsoZ20xSpU3tN455s1NzMLITdgbgv8uEZ9rXmyLDUwbvg3iFLpmfRTfQzrVfyBhkvpNL+FZnZWbauXD0bTZHVoDhwEhsrZmOEj2oroQaR5lVxDDWfIgP+rl/3Lt4N7sB+85hiDyX3eWZzZUeGH5pSvAkQa0GGLRQ1s2MDHGqYQ5Kg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=y36frxGWsLivSetFweD47CAfgQjU8xKg3CJeaCz+lEQ=;
- b=AIhZ8cMV4GNdm9Kovj4sRCiZo92i3RzjXb/AbzD9dy/+k2biOkM05v+5IiFaH6Hji3FOjvWwskoyO2kFiT4Ka7joZORQ2ZBCscZLxcXHvTDN62Tyem30l2gI4ZMgLicqz2A5Rv/vd9U/HwOaVa2QamsPkTC+WFecDX0Jx/wskRd5ZoT033vNExXtLtpwO57lhWgNTxaeu97XNQgP7dix9Tj7r6dUdyNwhaPU1jL5DfZwKMxO73+vSauHJ2pGyv9FB0WpbrWPBmXjOah0qb3hSioa9GLDd2oTbI5naXvsrHDKed3152ncm5gIdPJOGgXTAh4FHhkSk+zMKMKYBN8GBw==
-Received: from TYRPR01MB12666.jpnprd01.prod.outlook.com
- (2603:1096:405:1b4::11) by TY4PR01MB15568.jpnprd01.prod.outlook.com
- (2603:1096:405:28c::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Mon, 6 Apr
- 2026 14:50:50 +0000
-Received: from TYRPR01MB12666.jpnprd01.prod.outlook.com
- ([fe80::6ded:56c7:8121:fa0e]) by TYRPR01MB12666.jpnprd01.prod.outlook.com
- ([fe80::6ded:56c7:8121:fa0e%5]) with mapi id 15.20.9769.017; Mon, 6 Apr 2026
- 14:50:50 +0000
-Message-ID:
- <TYRPR01MB12666EEA0B8007166ED446088CA5DA@TYRPR01MB12666.jpnprd01.prod.outlook.com>
-Date: Mon, 6 Apr 2026 22:50:44 +0800
-User-Agent: =?UTF-8?B?TW96aWxsYSBUaHVuZGVyYmlyZCDmtYvor5XniYg=?=
-From: Xavier Hsinyuan <xavierhsinyuan@outlook.com>
-Subject: Re: [RFC net-next 15/15] Documentation: networking: add ipxlat
- translator guide
-To: ralf@mandelbit.com
-Cc: antonio@mandelbit.com, corbet@lwn.net, davem@davemloft.net,
- dxld@darkboxed.org, edumazet@google.com, horms@kernel.org, kuba@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, pabeni@redhat.com, skhan@linuxfoundation.org
-References: <20260319151230.655687-16-ralf@mandelbit.com>
-In-Reply-To: <20260319151230.655687-16-ralf@mandelbit.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SEWP216CA0083.KORP216.PROD.OUTLOOK.COM
- (2603:1096:101:2bc::8) To TYRPR01MB12666.jpnprd01.prod.outlook.com
- (2603:1096:405:1b4::11)
-X-Microsoft-Original-Message-ID:
- <3709e5d3-99d4-41b2-899e-4b00d9ca9f6c@outlook.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLkaENd1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57BE3C4CEF7
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 14:59:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775487555;
+	bh=xQ7o66TtbbwulQnJW5l2ZtOfYQA79hhGSfn9VhPlO6U=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=MLkaENd1y02jG6YsphOhuZTp0iQI96L6WFY5DEmo/DZ6WCfvoSBDZJV2ohYZSu1N9
+	 ac4WV6CKVr3vtjWO5PyYEkAdXK0hp0G+RobW161z0dcu3s/VU0gY22kCs+MYXqUHBH
+	 Liz1EHAuKjE4fTRx4+YsiI+t4vTTDKeLdDI2YZy0dAHG/YzL3nR/Rt8+yoiTCr6Y7R
+	 31IDqYUjMqFbupJ1fx/4xFWsQpHeFVPqQZdMM9fWEudaIkvMRtjafaQw7H2b7xvoYg
+	 xYFQlwgI/yUaOmD2NLJlqgiOeQ45VmSMD64YK+4sRFnv7nXs5NX2dbzF574dvLBFqO
+	 XtniXv49RXROw==
+Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-470145d7e6fso691441b6e.2
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 07:59:15 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVBA1eIZwz4b4xdBXY7TcQ2/s2cT5ZmuRy6gjqLKUFNnOdP7nNkGZLM5Ts5UBtbN0ljCl8hiPbocrg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNqcFucmyz6IUk4vxJ9x20ABaGdyT0HdVD2hu9VtelMI7SjTCt
+	G7eHjQRFPd4/BSHhfaHo8aOqBRu/WKALSgVJdNpiNg8UtCbez20kDBI+gPXKzq/JGxKZsWwa6ji
+	hPZWxhENRYZJYQM8V2F51kLmB4wBaWQQ=
+X-Received: by 2002:a05:6808:1910:b0:468:776:1ead with SMTP id
+ 5614622812f47-46ef5af739fmr6450744b6e.21.1775487554002; Mon, 06 Apr 2026
+ 07:59:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TYRPR01MB12666:EE_|TY4PR01MB15568:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5001e310-9fdf-4dcd-7cc8-08de93ebe4c6
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|23021999003|8060799015|41001999006|24071999003|15080799012|19110799012|6090799003|5072599009|25031999004|20031999003|39105399006|55001999003|10035399007|440099028|3412199025|4302099013|26121999003|1602099012|41105399003|40105399003;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TGpETzhJOXR4Z2NXNHhMak5jUThXYkZZSDZqbkVvMTlOV2RuOGlTZkoxb3hu?=
- =?utf-8?B?bGRhbjI3Y084YjNpNjAyeWl3anh4Nzc1cm9QeFczVjZ0KzdpcGVkSlpkMG9h?=
- =?utf-8?B?MCsrVXRpUk9wQ1BLOWlrM3BCRkNWbEx5Nzc1K1lxQlY4VTg2Rm8xRmR1RGR0?=
- =?utf-8?B?UzBkS1pZR1lJdmdGVm45T1dWdzI2SlZMZ3NTOEZzSUhJV0QwMkpmcFNSb3NI?=
- =?utf-8?B?emQ5aCsycEVFMW5nRmg3Ukg3QmJ1ZkZzUFpKa1VaS0xpK1RlVUlOT0tlejdh?=
- =?utf-8?B?bUxFRkUrZ01SOUxlU1hIalk0UHFhdm40S05xUytCN2xtdmlMS3FnSnB1cW52?=
- =?utf-8?B?RW9PdkppRmVWVWs2MlpDZVk0VWhaQ0t4SHRKdGpJeGt6aHlJWFdkcmswRnFN?=
- =?utf-8?B?TWt6YTZ5dDRzNjhFNVppOXM3TkI1eGt4UTVhcXZ2R2NNS0RqMGh5akwvSHJh?=
- =?utf-8?B?QmlJV3hsVVE5NE8zY21CNHcwdWtoZ0Y0UlExWDYyeStkMTRta0RtU3o5UlpM?=
- =?utf-8?B?R1pNcU1TUXpxUTMzbkwvd004NUJDQlQwVTU1Y1k0dkttOEtnQzhxSHQzdkdy?=
- =?utf-8?B?THhhMEsxK29jVWR3VVNSOVV3QVJ5dlZ0ZEpQNHpJSGc5bGE1QXJmRUFmQW5l?=
- =?utf-8?B?OFc5bVNYMWFDTE5iV1lBU2NhMldYWFVvWGM2blNaTkdUdGxpWXpNOTFBOWtV?=
- =?utf-8?B?M09pQU52dVR0Rkd6dWxtL0p1Y3M2R2ljTEFtT0FkeWRUdm5QbitEcCtkWnFh?=
- =?utf-8?B?cnlUWndGWGg5WVV0ZUhicm80S3o4c2pkWEVpQ2tocXdnendGNUo4U0hEZ05E?=
- =?utf-8?B?RXBnS041LzZDb3pIOE1qN05zdzZyMnRXeERHRUU3TWt0dDJlTFI3QmcwVGFM?=
- =?utf-8?B?T0p3ODlIRFlJdjNPeW0xVVZSV3BTalhJd3Z1WkRQYW1hc3d0cUlMWWF4VmlK?=
- =?utf-8?B?cjhhUXZhOHl0ZWFRdE1JNVk4bXNNbUJUVzJqcm5mSm9TK2RwaG1SVWR3RlNH?=
- =?utf-8?B?ZjdNeVh6VitLTzVxQ0t3cjF4MEVLQS9uMnNXSjNkcXMrVkJtZVN1ZDA5bFdz?=
- =?utf-8?B?ajNUQmdQNTgwb3cveE5CODVQeTJZNDZVTFBjSFRyKzhRR1RaSE85V3V4VkVZ?=
- =?utf-8?B?azFzaEZOblFGMkdGRlBjVVpLUDNaOHh1dXQ1cGw0dHRkZzBSNDlTUy82TUtv?=
- =?utf-8?B?Qyt2RjhEb1FVa3JVOGRhY3pzWXNkYlpoUFozQmxnWCs5U28vbG5YaUxQemV1?=
- =?utf-8?B?RmxXZTF6alFNaWFFd0ZDcnZva2xHbHZ1SnBnU3VaRzFIQVFveUNWMkJHanR3?=
- =?utf-8?B?UDZqRVBLMjNwUW1iRGRrUy9kL29Xekw4VGViWmFTQ04wLzhyQUFUMG5veTZr?=
- =?utf-8?B?YWpJUHd2MVVKMG56MXZ1MldKcW4zMkQxRFlmaUVGTlp0RjQwVTlJZDdHT1Uz?=
- =?utf-8?B?S0NvN3lyQTdPRXF2ck00V1VKWTU4WktvRVg4cENkamVBc2ViSHpwU2orVWl0?=
- =?utf-8?B?NFhDb05BT0t0aXdaejNTbmNaMzZNQW1UUS9IWi93T2xsOUo0cFFRWU9Wdjln?=
- =?utf-8?B?alZsOE5TTzd1QmpvYys4YjZGNTlUemJsVFpFNjc2QjNUS1NFTGxSUUN1MnBK?=
- =?utf-8?B?SzRtd2h6ZzlMSGpkWU5lOVFkQ1VkMFlUeDM3Y25zVHRXdllXM2NMQUUvRWR5?=
- =?utf-8?B?elBvYm12cUpZU24wOVJ0V3BGRkR6OURVeVQ0cDJtcDR1TUpkdDhlbEhHNEI1?=
- =?utf-8?Q?P1Eg7gZqw+RNUN8gLM=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QlFmYTl5dmE1YkMzK3RjV1NURERNNHhER2xHUlgwZ29NNlh5TnRHTGh0WVli?=
- =?utf-8?B?alRBN1Urb2pHMDU3clo4MTVxZGoxNzh4ZmZUTlBNNXFGTzBXYVhFS2hiR0Z6?=
- =?utf-8?B?RjlJcEJFZUQ0YkZlS0NTQ2NNTWRPcHlZczVmZklEVVNLa1VmR1J1RVF6dGpW?=
- =?utf-8?B?aHpKUkYrWDJZRTVrYitGV0NFTldMRjBXMC9WT3dIemQyQUViSWhtOEtmOGpD?=
- =?utf-8?B?aFJhdmswTFlZcGJuaFZndnlIdWlJL1c1Vm1NdEhGVGYvWEZwcjFKVDVTYkRB?=
- =?utf-8?B?NG1hQnpYNGc2M1EyZ0NZQ1pkL1o5WDJ3c0xjWDVhYkhiNUpSQ2FnTEtjZU1o?=
- =?utf-8?B?ZlhZajgzTXo4VnRVYXNCREVwRGFrRGl1N0RodS9weTBiK1ZhVCtubHYxb1VP?=
- =?utf-8?B?NFRaekxTdUdJMWY1WEVrTnNKWTdDdXo0VkpIbTFXN2dWbzFWVWNuRC9ydzNx?=
- =?utf-8?B?cU1FaGdNbHZUU24wMFZwL0Eya0dwTjJhWXRFTWd0VG44NVB1QWlKTmFJK2Mw?=
- =?utf-8?B?SUE1NVAzdFZSUDJwbmdQVnA5SHVJMVNRaTMzWHE0ZkJQYnFVbldOcjZnKzJa?=
- =?utf-8?B?eHNHb3E1WGY0MEtHcS9VbStnWE1FdDVCaS93emxEcW04R1RXemdvckRaOUZ2?=
- =?utf-8?B?SjlmeXFCZVhhRk8vMUtKTWxJNFpzVjYxSGl0OWMwQkJJdWM2U0ZzK0Q5a3Ry?=
- =?utf-8?B?aXEvSmlhcys2Q3hpeXBwWkZHQ1paTlFGV1dnTkhMNEtwMnNXUTQ2MTl5bE9o?=
- =?utf-8?B?cEN1WnhFWGt4aW16dFlRNGZsdVJSa2dvdndpMi9RT0xxWkFpVFBYZzI1UTlm?=
- =?utf-8?B?czdiRmFta3ArV01NSlVxOHZOUUtvVHIrVjhXVGZDQ09PcnlWTDNpU29mRkNV?=
- =?utf-8?B?Vm1GQ3hxWVpNTDZNa3ozbDdtNVF6bVF6MDc2RStCMHpYTjRSOEJpYjVaWmRi?=
- =?utf-8?B?WlhJWmlmd0RtNHdDaitRVDg2cW95Nk5tZVBmcEFUbEd1Uk1jcTZPV0NLRWg2?=
- =?utf-8?B?eEVvUjRTN2xuQU9uV2xTb09ZOUpvUDFYdUVmdWZob1A4RDdjQWhwTkIxNXZn?=
- =?utf-8?B?TUpIOXFyQ2lSTHFUMlNEdE51Mzc0Mk9Db204M3RjQTdrRUxPZUpCeS93dXhY?=
- =?utf-8?B?Mkd5ajc4NnlNT1h5VUJYZ2RndS9sYzVBbk0rME9ZQ3dJZW1aYzNnQVpyRUtS?=
- =?utf-8?B?NHJkTDlGSU93RFlnbHNkR1l2ZTVuaDg1NkpSTS8zNmx0U1pIVXZzblRBck9C?=
- =?utf-8?B?YmNRNDRYNDFwZmlEVms2WmJOa3JoWFRTbm1JOVpkYWhXNUJJUW1CTTFNeUoy?=
- =?utf-8?B?RVR1T1k3SVpuM1V6ZHVzYUpzcXlBWEFkV2hrQ0owVjFoTU4rNkprUmJ0SVVi?=
- =?utf-8?B?cHpDR2duQnc1TUtDelhDS25TaWM5SDhVU1BoRnZCVzNieWNxTzJHb1psMW5q?=
- =?utf-8?B?dysrQUQwZm8zZHJZNjI1WUc3TE1WZTBVTTczaFN0SGdkZlQwWndFbjFYS3p0?=
- =?utf-8?B?WWVrdTViamZycVo4MHdZSis4SVRSekhlcFZscGxzaXVYOFFLdS9zaEZWbFNz?=
- =?utf-8?B?RnZMQ3p6K2YzM2xrUHhPZmk3eTZvNTFOdDZBa282NHU3ZEFFbWw3Q3dtY3pu?=
- =?utf-8?B?cVlZZmxSeCsxTVlkREFselZBaUUrRGIzR05NdW5YUXBJQm5qZDFvWlUzYjlN?=
- =?utf-8?B?dEVtNk1uTWE5NnRubld6ZXgwK3ZlMTdrM091Q2lUUzFBVlJLeXZZV2N4OVkw?=
- =?utf-8?B?anhUc1B1LzF3QTRLQkhRTFl1eHNDY0ZXNlBLQ25QNzhpWGVoRmJsbDZqcDhj?=
- =?utf-8?B?OWdXeWpFdmRmV2t3Ui9EMnF6WFlCek53Z3VFVUNVcmNLUnVDd2g4SGZJemVK?=
- =?utf-8?B?c3N3RzExS2xBbk5rc2V6YXpaRDdVOEtXU2FtV01kVFlnd0h6RlJGRWtKMXRm?=
- =?utf-8?B?eTN4RUVXODlmS3AyQXVRcFN3WUhKbkFVM2NoQmVKdXFuUHZkVkg4TmpqOVEv?=
- =?utf-8?B?RjVuSjdXVWdRPT0=?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5001e310-9fdf-4dcd-7cc8-08de93ebe4c6
-X-MS-Exchange-CrossTenant-AuthSource: TYRPR01MB12666.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 14:50:50.0253
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY4PR01MB15568
+References: <20260401081640.26875-1-fengchengwen@huawei.com>
+In-Reply-To: <20260401081640.26875-1-fengchengwen@huawei.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Mon, 6 Apr 2026 16:58:58 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0gE9jLbaGy0yJhNZdpQJTR9stE-ABNQVvP5jqss3LQpFw@mail.gmail.com>
+X-Gm-Features: AQROBzDy996ma1a9twY_5lJC3Avr9hchzSyUdEAhSG92k1NHCBaaPp2eIIIoft4
+Message-ID: <CAJZ5v0gE9jLbaGy0yJhNZdpQJTR9stE-ABNQVvP5jqss3LQpFw@mail.gmail.com>
+Subject: Re: [PATCH RESEND v10 0/8] ACPI: Unify CPU UID interface and fix
+ ARM64 TPH steer-tag issue
+To: Chengwen Feng <fengchengwen@huawei.com>
+Cc: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Will Deacon <will@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, 
+	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
+	Len Brown <lenb@kernel.org>, Sunil V L <sunilvl@ventanamicro.com>, 
+	Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
+	Kees Cook <kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+	Sean Christopherson <seanjc@google.com>, Kai Huang <kai.huang@intel.com>, 
+	Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth <thuth@redhat.com>, 
+	Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin <kevinloughlin@google.com>, 
+	Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra <peterz@infradead.org>, 
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin Li <xin@zytor.com>, 
+	"Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta <sohil.mehta@intel.com>, 
+	Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin Murphy <robin.murphy@arm.com>, 
+	James Clark <james.clark@linaro.org>, Besar Wicaksono <bwicaksono@nvidia.com>, 
+	Ma Ke <make24@iscas.ac.cn>, Wei Huang <wei.huang2@amd.com>, 
+	Andy Gospodarek <andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>, 
+	punit.agrawal@oss.qualcomm.com, guohanjun@huawei.com, suzuki.poulose@arm.com, 
+	ryan.roberts@arm.com, chenl311@chinatelecom.cn, masahiroy@kernel.org, 
+	wangyuquan1236@phytium.com.cn, anshuman.khandual@arm.com, 
+	heinrich.schuchardt@canonical.com, Eric.VanTassell@amd.com, 
+	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com, liuyonglong@huawei.com, 
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org, 
+	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org, 
+	linux-perf-users@vger.kernel.org, stable@vger.kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ralf,
+On Wed, Apr 1, 2026 at 10:16=E2=80=AFAM Chengwen Feng <fengchengwen@huawei.=
+com> wrote:
+>
+> This patchset unifies ACPI Processor UID retrieval across
+> arm64/loongarch/riscv/x86 via acpi_get_cpu_uid() (with input validation)
+> and fixes ARM64 CPU steer-tag retrieval failure in PCI/TPH:
+>
+> 1-4: Add acpi_get_cpu_uid() for arm64/loongarch/riscv/x86 (update
+>      respective users)
+> 5: Centralize acpi_get_cpu_uid() declaration in include/linux/acpi.h
+> 6: Clean up perf/arm_cspmu
+> 7: Clean up ACPI/PPTT and remove unused get_acpi_id_for_cpu()
+> 8: Pass ACPI Processor UID to Cache Locality _DSM
+>
+> The interface refactor ensures consistent CPU UID retrieval across
+> architectures (no functional changes for valid inputs) and provides the
+> unified interface required for the ARM64 TPH fix
+>
+> ---
+> Changes in v10-resend:
+> - Add Catalin's ack-by for arm64 commit
+> - Add CC to x86@kernel.org
+>
+> Changes in v10:
+> - Refine commit header&log according to Punit's and Bjorn's review
+> - Split perf/arm_cspmu as a separate commit which address Punit's
+>   review
+>
+> Changes in v9:
+> - Address Bjorn's review: split commits to each platform so that make
+>   them easy to review
+>
+> Changes in v8:
+> - Moving arm64's get_cpu_for_acpi_id() to kernel/acpi.c which address
+>   Jeremy's review
+>
+> Chengwen Feng (8):
+>   arm64: acpi: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
+>   LoongArch: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
+>   RISC-V: ACPI: Add acpi_get_cpu_uid() for unified ACPI CPU UID
+>     retrieval
+>   x86/acpi: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
+>   ACPI: Centralize acpi_get_cpu_uid() declaration in
+>     include/linux/acpi.h
+>   perf: arm_cspmu: Switch to acpi_get_cpu_uid() from
+>     get_acpi_id_for_cpu()
+>   ACPI: PPTT: Use acpi_get_cpu_uid() and remove get_acpi_id_for_cpu()
+>   PCI/TPH: Pass ACPI Processor UID to Cache Locality _DSM
+>
+>  Documentation/PCI/tph.rst          |  4 +--
+>  arch/arm64/include/asm/acpi.h      | 17 +---------
+>  arch/arm64/kernel/acpi.c           | 30 ++++++++++++++++++
+>  arch/loongarch/include/asm/acpi.h  |  5 ---
+>  arch/loongarch/kernel/acpi.c       |  9 ++++++
+>  arch/riscv/include/asm/acpi.h      |  4 ---
+>  arch/riscv/kernel/acpi.c           | 16 ++++++++++
+>  arch/riscv/kernel/acpi_numa.c      |  9 ++++--
+>  arch/x86/include/asm/cpu.h         |  1 -
+>  arch/x86/include/asm/smp.h         |  1 -
+>  arch/x86/kernel/acpi/boot.c        | 20 ++++++++++++
+>  arch/x86/xen/enlighten_hvm.c       |  5 +--
+>  drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
+>  drivers/acpi/riscv/rhct.c          |  7 ++++-
+>  drivers/pci/tph.c                  | 16 +++++++---
+>  drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
+>  include/linux/acpi.h               | 11 +++++++
+>  include/linux/pci-tph.h            |  4 +--
+>  18 files changed, 158 insertions(+), 57 deletions(-)
+>
+> --
 
->+    $ ./tools/net/ynl/pyynl/cli.py --family ipxlat --json '{"ifindex": $IID, \
->+        "config": {"xlat-prefix6": "'$HEX_ADDR'", "prefix-len": 96} }'
-Should this be like:
-$ python3 /extends/pyynl/cli.py --spec ipxlat.yaml --do dev-set --json \
-'{"ifindex": "'$IID'", "config": {"xlat-prefix6": \
-{"prefix":"'$ADDR_HEX'", "prefix-len": 96}}}'
+Applied as 7.1 material, but please note that I haven't tagged it
+explicitly for "stable".
 
->+Address Translation
->+-------------------
->+
->+The ipxlat address translation algorithm is stateless, per RFC-ADDR_, all
->+possible IPv4 addressess are mapped one-to-one into the translation prefix,
->+optionally including a non-standard "suffix". See `RFC-ADDR Section 2.2
->+<https://datatracker.ietf.org/doc/html/rfc6052#section-2.2>`_.
->+
->+.. _RFC-ADDR: https://datatracker.ietf.org/doc/html/rfc6052
->+
->+IPv6 addressess outside this prefix are rejected with ICMPv6 errors with
->+the notable exception of ICMPv6 errors originating from untranslatable
->+source addressess. These are translated to be sourced from the IPv4 Dummy
->+Address ``192.0.0.8`` (per I-D-dummy_) instead to maintain IPv4 traceroute
->+visibility.
-Would it help to add a few example? For instance,
- - Interface ipxlat0 with prefix6=64:ff9b::/96.
- - A IPv6 packet with src=64:ff9b::192.0.2.1 dst=64:ff9b::198.51.100.1,
-   was send to ipxlat0.
- - Then a IPv4 packet with src=192.0.2.1 dst=198.51.100.1 was received from
-   ipxlat0.
+The last patch carries a Fixes: tag which should be suitable for
+"stable" to pick it up and you may as well request the whole series to
+be picked up by "stable" when it hits the mainline.
 
-Best regards,
-Xavier
+Thanks!
