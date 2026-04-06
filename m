@@ -1,118 +1,163 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FC2A20C477
-	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 05:00:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775451653; cv=none; b=FPUp9qIjDfwPsuVLAEUYjioafAtPchJdZg7QymPQuMSTnEw8wuhNVQDAnYIGC2GBEOxCvWqIeJWPbdNFCNQ6zFQYKS7+pE8lOd32ZZAo9VtMFEiBw2oB8hEXf5Jo2Gni/aK1aERUsXtLuxAXJEH5vsRDff/4neh1Kn0Ix5Yy9XI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775451653; c=relaxed/simple;
-	bh=oDzAIJwmIhB1KkTOc3DsKNrcCf6Gj+FfVDPz+1IBaoc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=nVXiSkTcSvN9v/ZxAGVhpTLk9/BJgfDzGdaK8ggxRQY/M/j8wIovd4LLFNbstY98Ok711KfQ/gltou6bqXUF0DcV3SjAu5AouJ98q1sJEfr14oFNgYviEGbY08+x071VpANdG7xUqM1rpUXhUhYDU/vXpJag2kiCQCbs4dDT0qI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SUqLOhOz; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E9A31A0BE0
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 09:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775466204; cv=pass; b=JvNHnHH1XB9zhZIdqarFD+4bMzYgVRQzW/OA1F3XiT1rgXCvxvW447uV2XpYHSXEhgL5TEOfHJJxT8rjA5qsbWklP72OFZZ8QScYfVbIa0MUfvu9/4nlytDjT8DIgQQvDQ0QUj2MjjmAqSErTff6h7tnNsxt7vUiSuDUtCEQmTk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775466204; c=relaxed/simple;
+	bh=R2dHTJQnBLz14FBWbb+c8la9tQYirU1vpp38y1sgoA4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=HnsYx/Sg9ttGwZac/BE/pVpXIXoe6gtlBEisgTBmx2cQErbuYPB1RXcBC9QH8titVp+K2Sw2wtXddrTncubCF2VlyoV0tvuMFdxCTLhsKZ+GgTySAMHd1aB8R97KwMnYQpGJcRt2dt2+2Vhjc3oY2ERV8lLebvalw00HFyxSF5k=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PIATw31B; arc=pass smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SUqLOhOz"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Cc:Content-ID:Content-Description;
-	bh=TVSjU4ePQPKJN9gViKHDhukrPT4dmldWLc3Ak2MKyAU=; b=SUqLOhOztatnGfGhrPK4ZGu2w3
-	Cy9DIEZ1uMEC2kyAl9MOTve4ui1uIUEs0+tF3Hg6VL8A1LQv+ChRwIrlqAAtfAuUlXtnX5A3KNRop
-	cGXLegf6U3aN4lt5n2hKftUAgDoIymrLUQHIGtOOlTtHGezEEtRghDlNEUbi9Iv2SKcE/n6uS1pGx
-	y6dYPl6Wmj+W2A3E52My4H6YthwXX9qzBYSopgOWxmTuQkEAvyw/u/odvJ3+fqLXwTSpvFPexG1z7
-	2vZznrx8smZfb/+zw89lRkSzHtWORTFr95ZHLCRNvnJXAjG+ZRbJPHOX2xTtl7AMU6T6aNopnf+vH
-	KPyiP8LA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1w9c4q-00000004mti-2rVv;
-	Mon, 06 Apr 2026 05:00:44 +0000
-Message-ID: <80333272-a303-4b8a-adc2-41d7d0855028@infradead.org>
-Date: Sun, 5 Apr 2026 22:00:43 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PIATw31B"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2c7e5f38a69so203268eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 02:03:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775466202; cv=none;
+        d=google.com; s=arc-20240605;
+        b=VyxxLvsW+DFwi7i7dl7xZs/eL4+O1pg0O13Sl4ZQOpcHO9mlF94C/5noBqL372Sxw7
+         bcwp929NKpgoj3BoqicQQtF6H7ByTSxl8mDsyE/Bhce1UcbgegzISJ7HJ1WtYi8vqspK
+         wu0IqERZmoQBjhcfft/l7wlngl+k9SauQefWc/Y9zsDfNdig/hc6fXq2z99cgIDSjL5Q
+         4W1sfwWIdcYdFz8x+389aVmJImVLfSCUgvjVi05apYs6tyQQQJ+w7pnrMD0gE3RHD9hV
+         e9HLPb5Xw3p2apVIQ+JLcVXwWTsZ6wgdksMcKdmHmQvhouzEZb+RpwHWfDvmaT09qMeZ
+         9MGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=iVamUPJfkbP2PYNa14ddDsteyLquBt95MrPlozlxwT4=;
+        fh=69reahuNyTvkpsuFtiNPVgZmxbOLtHdF6hUyGV4HMx8=;
+        b=hzLm3zAzzWhtZ5d97ZnAfWDmPr/pMSrsnCjqhikWysXfQqCZlz/+kd7TuWuEnQKVqA
+         vNgLaWSfSAW8VMQpqdPgyjGj9dDmpDinfwJCcSbdAdKxIcCr/6Yj0z83h/bDqKvtagJN
+         /3q2mvO8GBYatpfwbNlaVVl2ZhvIdy13Sy9FXVPgXpMTwMRZHbpZ3Di9Kk2nfziKemTZ
+         RzPrwZNNePO4ZJ9pBGdjBJ8Muk4nHx9j7bkllgqnU2MST684d1PPFenVxHX7C4aoBvDV
+         1DCa9hwdkZcW+sHTdVlPiVN1TAeGiZIjtr8xBKjUQP4YL/AumDoyvwkv74dmI/44vojx
+         ihDQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775466202; x=1776071002; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iVamUPJfkbP2PYNa14ddDsteyLquBt95MrPlozlxwT4=;
+        b=PIATw31Bk+3hkggZjJ21LYlWRCEdonuXrhStaxjfpeEy+RZoMphpX1G6fDXJDfirK0
+         Lcix84JqgjmxFvtJfqRfPYEpHGb1ZhF83nIFw3O8IG8D1d9G4/P2un8SlPIrkQlKDQvS
+         kAjTgHjN9voZ48IaKsTLutwUAdxm01rYT/4srX8EaIwQURRnjXuJteiO0uary5DO+b1y
+         eIHYD5+mctWtaH77V7OyvOW7r4QVs3CY/XzcE6cCxPuvfHIp2DtxiKgzIF0EMRv1ON+k
+         6WsWVXYwGXy8FB5vlCj+jWDIFXrgcqNUpc1z7vi6MIUB1fjeeM+HBhDZVaiEGtXGmhmh
+         Zktg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775466202; x=1776071002;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iVamUPJfkbP2PYNa14ddDsteyLquBt95MrPlozlxwT4=;
+        b=o0+/VHqBK+yb2NPzeiQxsabNaNjIbG/4VPSgjOCek+vmWKXADInrDM0ca8f3Wg5cCG
+         1OsAeF485h61Eb4u9cu5IaLoARBQLN+c6dWmldggPbd5/inrbKVjDWF05c74VKzTdv64
+         N2GFdr9FyCLc7vChlYJX53H3mnvv0PISKIbmEHVvHG+ULqs2sBjtlKzRBoRhnVrJGcjG
+         LhtdiKVRIyfTiLu5wTvR5veE3VKJ+x2MGyhGWU22W60rF847NDjS0iynLjYzzmJIBeiD
+         Hx0KiiLUt3XgXoJeVzyTgmXhnmEVxXjwFvGxjCWjIiRYw7LaNWi16B7f4uUGwKjEadlr
+         t7PA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUnLUEYBoWNk472B1mawSAO938abyV9OgdcbD01u6pELJTOaDn4Umd4KjQDiZJX5qodofYH6qRd2U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmMioAXn6zQc31+xzFZmBYTwJKHuBk8/n4/5H67S4v1BX/JxpI
+	mpeSzoCt5Gr7N+ayI89W/ZIKoP0CF26Zu3O2/qnL5klIaZ+LEwi93MokfuVz9QCW6cdSr0Rs1TC
+	ZE4yyNaRsgbIdOGSSnCm0QmVsLS1BrHE=
+X-Gm-Gg: AeBDiesGlKfz5hInZzJTZ5pRe1PnLU5JoBiUtu5UJMW9riq/Q17lcvNeN2OLfbmzV9z
+	QOVeeWjff+DyOBv29PSMW2II9uGJkDSnD7+83QAaZNm3Wvn/nM5y3q0XEAFoiT94sbA3U7fuUta
+	GccxocOhdPuFzt9/u2uL4aCW/Dsj33NT7wwxaJ7iWHV5he99+ujWl6e5LLFZ8+9vMumqXQBaTOA
+	8lgy4MwA5/DlxtCFRyTxsKYMxlR3Or/HoBHBTCQOaFx+soEXIi5D067sPppjFcU9vR1z+BWZUVv
+	abbUEReSq/lhOUKmMBjk40GNw/tn55mTxEZ/m7h9hHKVgCzP29oX05KqhYN4HleQTySxMV77ScQ
+	PXQMlLAe6IAWk+MMMgLlJwSU=
+X-Received: by 2002:a05:7300:2315:b0:2c4:76a3:bdfc with SMTP id
+ 5a478bee46e88-2cbf6897126mr2280931eec.0.1775466202269; Mon, 06 Apr 2026
+ 02:03:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] docs: fix typos and duplicated words across
- documentation
-To: Manuel Cortez <mdjesuscv@gmail.com>, linux-doc@vger.kernel.org,
- corbet@lwn.net
-References: <20260405030359.7392-1-mdjesuscv@gmail.com>
- <20260406030323.1196-1-mdjesuscv@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260406030323.1196-1-mdjesuscv@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20260405235309.418950-1-ojeda@kernel.org>
+In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 6 Apr 2026 11:03:08 +0200
+X-Gm-Features: AQROBzDwpcCEtASRfptsJ0WJ2jdyaJlOCl6SPsL-e-w0TnWmNnUbHOjTvtft1Wo
+Message-ID: <CANiq72mnGArtgAbe7xXZCYW1x7Zd5hozfnzoftaGy9rxoLO4ew@mail.gmail.com>
+Subject: Re: [PATCH v2 00/33] rust: bump minimum Rust and `bindgen` versions
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+	Danilo Krummrich <dakr@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Courbot <acourbot@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?B?QXJ2ZSBIasO4bm5ldsOlZw==?= <arve@android.com>, 
+	Todd Kjos <tkjos@android.com>, Christian Brauner <christian@brauner.io>, 
+	Carlos Llamas <cmllamas@google.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <lossin@kernel.org>, Trevor Gross <tmgross@umich.edu>, rust-for-linux@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Uladzislau Rezki <urezki@gmail.com>, linux-block@vger.kernel.org, 
+	moderated for non-subscribers <linux-arm-kernel@lists.infradead.org>, Alexandre Ghiti <alex@ghiti.fr>, 
+	linux-riscv@lists.infradead.org, nouveau@lists.freedesktop.org, 
+	dri-devel@lists.freedesktop.org, Rae Moar <raemoar63@gmail.com>, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, llvm@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 6, 2026 at 1:53=E2=80=AFAM Miguel Ojeda <ojeda@kernel.org> wrot=
+e:
+>
+> As proposed in the past in e.g. LPC 2025 and the Maintainers Summit [1],
+> we are going to follow Debian Stable's Rust versions as our minimum
+> supported version.
+>
+> Debian Trixie was released with a Rust 1.85.0 toolchain [2], which it
+> still uses to this day [3] (i.e. no update to Rust 1.85.1).
+>
+> Debian Trixie was released with `bindgen` 0.71.1, which it also still
+> uses to this day [4].
+>
+> Debian Trixie's release happened on 2025-08-09 [5], which means that a
+> fair amount of time has passed since its release for kernel developers
+> to upgrade.
+>
+> Thus bump the minimum to the new versions, i.e.
+>
+>   - Rust: 1.78.0 -> 1.85.0
+>   - bindgen: 0.65.1 -> 0.71.1
+>
+> There are a few main parts to the series, in this order:
+>
+>   - A few cleanups that can be performed before the bumps.
+>   - The Rust bump (and its cleanups).
+>   - The `bindgen` bump (and its cleanups).
+>   - Documentation updates.
+>   - The `cfi_encoding` patch, added here, which needs the bump.
+>   - The per-version flags support and a Clippy cleanup on top.
+>
+> Link: https://lwn.net/Articles/1050174/ [1]
+> Link: https://www.debian.org/releases/trixie/release-notes/whats-new.en.h=
+tml#desktops-and-well-known-packages [2]
+> Link: https://packages.debian.org/trixie/rustc [3]
+> Link: https://packages.debian.org/trixie/bindgen [4]
+> Link: https://www.debian.org/releases/trixie/ [5]
 
+Applied series to `rust-next` -- thanks everyone!
 
-On 4/5/26 8:03 PM, Manuel Cortez wrote:
-> Fix the following typos and duplicated words:
-> 
-> - admin-guide/pm/intel-speed-select.rst: "weather" -> "whether"
-> - core-api/real-time/differences.rst: "the the" -> "the"
-> - admin-guide/bcache.rst: "to to" -> "to"
-> 
-> Signed-off-by: Manuel Cortez <mdjesuscv@gmail.com>
+Let's see if we find any issue in -next.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+(If someone wants to give tags today, then I am happy to pick them up)
 
-> ---
-> Changes in v2:
-> - Dropped the networking/switchdev.rst change as "is in in" is correct
->   per Randy Dunlap's review.
-> 
->  Documentation/admin-guide/bcache.rst                | 2 +-
->  Documentation/admin-guide/pm/intel-speed-select.rst | 2 +-
->  Documentation/core-api/real-time/differences.rst    | 2 +-
->  3 files changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/bcache.rst b/Documentation/admin-guide/bcache.rst
-> index f71f349553e4..325816edbdab 100644
-> --- a/Documentation/admin-guide/bcache.rst
-> +++ b/Documentation/admin-guide/bcache.rst
-> @@ -618,7 +618,7 @@ cache_replacement_policy
->    One of either lru, fifo or random.
->  
->  freelist_percent
-> -  Size of the freelist as a percentage of nbuckets. Can be written to to
-> +  Size of the freelist as a percentage of nbuckets. Can be written to
->    increase the number of buckets kept on the freelist, which lets you
->    artificially reduce the size of the cache at runtime. Mostly for testing
->    purposes (i.e. testing how different size caches affect your hit rate).
-> diff --git a/Documentation/admin-guide/pm/intel-speed-select.rst b/Documentation/admin-guide/pm/intel-speed-select.rst
-> index a2bfb971654f..dec2a25f10bc 100644
-> --- a/Documentation/admin-guide/pm/intel-speed-select.rst
-> +++ b/Documentation/admin-guide/pm/intel-speed-select.rst
-> @@ -287,7 +287,7 @@ level.
->  Check presence of other Intel(R) SST features
->  ---------------------------------------------
->  
-> -Each of the performance profiles also specifies weather there is support of
-> +Each of the performance profiles also specifies whether there is support of
->  other two Intel(R) SST features (Intel(R) Speed Select Technology - Base Frequency
->  (Intel(R) SST-BF) and Intel(R) Speed Select Technology - Turbo Frequency (Intel
->  SST-TF)).
-> diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
-> index 83ec9aa1c61a..a129570dab5a 100644
-> --- a/Documentation/core-api/real-time/differences.rst
-> +++ b/Documentation/core-api/real-time/differences.rst
-> @@ -213,7 +213,7 @@ to suspend until the callback completes, ensuring forward progress without
->  risking livelock.
->  
->  In order to solve the problem at the API level, the sequence locks were extended
-> -to allow a proper handover between the the spinning reader and the maybe
-> +to allow a proper handover between the spinning reader and the maybe
->  blocked writer.
->  
->  Sequence locks
-
--- 
-~Randy
+Cheers,
+Miguel
