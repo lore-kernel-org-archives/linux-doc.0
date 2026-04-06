@@ -1,230 +1,205 @@
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012022.outbound.protection.outlook.com [52.101.43.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0535C275848;
-	Mon,  6 Apr 2026 21:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775509702; cv=fail; b=lLUv6USAoC+jU5YbM78v6tauixWwfqPFHSxvlvK+KfwoVQ7YZC6sP2uaEFeZjbhwrYQIgZKRzeE8RucB1uMz9u7N+ok83PN+ryz5MM5PWhCpxiYeAjgFM5Qm34urVZzN/uoM2q5/QlZLzXIUH0BOnkVbAPz+9Rwye5HdUPcXf7c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775509702; c=relaxed/simple;
-	bh=b+6uAUN8W0bmgKnlZsMAhbEa51YduRkwx/eUXAfTuMo=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=NIuSijF9wFBQz7bHlZeFMzGXfvk7Gm3rfiLn1CiqjXMYeo4pJcDGNrZkOIuOcAnMOMU90AYZZJxlLOHsz6Xiyh7bYbeKEmNT9U+bJFB7rvbtKro33D4AP82lQ8jsaVR2I1rY9ZFJQnuPb0qoKoTYTHRgUnpeOcM6E+cS0HIev70=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=qE7rCWKg; arc=fail smtp.client-ip=52.101.43.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 791FF34DB4F
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 21:14:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775510059; cv=none; b=Ryn7JACMKMVO2biwd9g7ocBCkktoKmoKCe3/HX2prxReF77GI/9y6JS5RgmXB9oHxoKPWlzqvEpr9GzPTvy7MBvSxkvUPxAuO2k27tadD7E7E7TMV/+MMVNeRPaDOxPmWZOKp5eNPBU4gB5vEGw71dJUbBds59k3UnUqhKfoMwY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775510059; c=relaxed/simple;
+	bh=yQI2hucAupVyRTWavsrdMoHVdq2ezUeT7+RpkygVu2M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=qQESbuqs7U4Ic7wnJqImc/ZAUJIiiExV83bNs6OOQ5cglttvlmdpGkhvPX4jCpEXdrrtzuQOqN5YzD2j3xtVU24LlUVwX0JfZBhPaHQjAT9ySsFaeD8GD/bPfEmOxeYFAX0Yl5QWOkQnJOaNP4+sl/orSx7cI+A2VnGm5DScJzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAm+McgM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HYuA/k3/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EAm+McgM; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=HYuA/k3/; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="qE7rCWKg"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RlgiTDSsDFUKSJkHRlEP/rysL14HLn6TsWpntPN1q7aab9vFKGbP0mpgtW9IHpWsTmY6kNJuuH9J4VPHPq03i4sBW/Stjcsi0u/vSA/j7XV1zaBFhkp5gKWpj3/RtPiy+bqckz49Fh3rpxbZX82rwlzDoS/vLwtFKEp1+4GlB6QjVm0YLOYIhUDd+r5ccatitf9A/uIFq/8QQrxCQG9yyO3N2C4ksTJ6jWiCGoUKfLpYdJHiT0pnKwTwgD8/6Qu/FQAhMZcjoFyHGjvxTmPVidBqhd4PFQuXJEkIVj6sYouJ1ickE3jcVqIDSkmJKyuyNWkSKQYhT0LIeZ8AJQ7/gw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CDmB0+GpbUUtn3XKAWy7Rs8YdZ39c6dEvBuFMYWVobc=;
- b=uAp6jgfMi69oQqlwOydK/ujW8GFpbaoskSNx0NRvKPECkMt1BSg/m0Xk75+2Gydw8O/uXPrKYooAmJgB58vhPB7S8Uc1DItc/u8x4eXyJebrXtILAN5/dstiCfUUA2EYLTmp16Tz1qdm18MCXFbsOu++no/pGDthRBVfEDIU0Y4qpHYqtV6lFi97VHSU/ftodqKLEdP3D48uxibhhNa+2kIEW4EoYXBZbVnIvnKDoTYiiiyCOAZaOiA9cnf4cmCYb3zy8X21rjxUR3MpOqGo/05pPwjSWf3XiVKri+Q85BYYwI2WKd+xeHauNgBLhEBx0V9BwKCI++27MJo3ALPg2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CDmB0+GpbUUtn3XKAWy7Rs8YdZ39c6dEvBuFMYWVobc=;
- b=qE7rCWKgzIbkGYI6dwYTkjHYSq9WgZS215mMZDVQCxrOnPwYqsBTuUSNhJdNAMQ0BOzeaRrJD8wA2MRTYH92Os4EBnHTFPmLlO4rEymeKbJTbLGycfky5edMovlIfelkZ7mcawidnoQX/9gFlP8Mw/2jj3UYOpM03DwftPOsnPEtL6v3xxtWinCI0AWPSZI+1AFH+scYNc/JTcR1P6hm/+fB6iS0Bzi7I4rYysPSqwdm3J2ck51GJUwUtcEO0ThfiigMKuGrs6JnD1nN5wC8YTEfq78eqB7OyE9ajjTI4IDwbnuu20gx7B0Z4B/OUCEpCLUxD0A4Wx0i3u6cnniYzA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- IA0PR12MB9010.namprd12.prod.outlook.com (2603:10b6:208:48e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.11; Mon, 6 Apr
- 2026 21:08:16 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 6 Apr 2026
- 21:08:16 +0000
-Message-ID: <e9331c85-cf54-448e-bfe7-33cc0cc41288@nvidia.com>
-Date: Mon, 6 Apr 2026 17:08:12 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 03/21] gpu: nova-core: gsp: Expose total physical VRAM
- end from FB region info
-To: Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com, joel@joelfernandes.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-4-joelagnelf@nvidia.com>
- <DHIFD6N7QSU1.1RGEN0APPDHD8@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DHIFD6N7QSU1.1RGEN0APPDHD8@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BL1PR13CA0124.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::9) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAm+McgM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HYuA/k3/";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EAm+McgM";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="HYuA/k3/"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 67A4E5BD48;
+	Mon,  6 Apr 2026 21:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775510056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
+	b=EAm+McgMWvEAMWzObHTx5Axb3fmCwBU0rGxqEVoiZoOOvxyqcPUI8Nlrf50XsECTNtS5Zu
+	sKWHMdRNG30Wg0rYlRUpr4pPQU2rTdSJcp5kn6xf5lJ+jDpQakCwBaQ68R0lkaKp1h5y0H
+	4xQflKCvnaXGPdRDkI1Kt4WLkPwsU8g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775510056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
+	b=HYuA/k3/GZPXBvbMfFl+BEq/hGp+lC9TNAEl3vG4WHvxayJBKVY2kV+4G6cmjj+CZisXcL
+	xblREPEQazCPAdCQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EAm+McgM;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="HYuA/k3/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1775510056; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
+	b=EAm+McgMWvEAMWzObHTx5Axb3fmCwBU0rGxqEVoiZoOOvxyqcPUI8Nlrf50XsECTNtS5Zu
+	sKWHMdRNG30Wg0rYlRUpr4pPQU2rTdSJcp5kn6xf5lJ+jDpQakCwBaQ68R0lkaKp1h5y0H
+	4xQflKCvnaXGPdRDkI1Kt4WLkPwsU8g=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1775510056;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1AWo8CavFFDUlQFTl1sblytoQrwi8RwdUfstHMGxg+Y=;
+	b=HYuA/k3/GZPXBvbMfFl+BEq/hGp+lC9TNAEl3vG4WHvxayJBKVY2kV+4G6cmjj+CZisXcL
+	xblREPEQazCPAdCQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9F3BB4A0B0;
+	Mon,  6 Apr 2026 21:14:15 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id bNdzIyci1GnQewAAD6G6ig
+	(envelope-from <fmancera@suse.de>); Mon, 06 Apr 2026 21:14:15 +0000
+Message-ID: <7b3c4791-674a-4420-879a-98b243827b63@suse.de>
+Date: Mon, 6 Apr 2026 23:14:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA0PR12MB9010:EE_
-X-MS-Office365-Filtering-Correlation-Id: b6de47e5-e178-45a5-b29b-08de94209f1e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	bR7EvU4zF5CFC+L3kuMefEP0zoKA8r5PvQMFjHR8kB97Q4UpGVIa0LkKZwfuCad//3LRufKx1nDNwl76r7Adcnlz+qvYRzJRKa95uUEAma2G+6XN+x2x5rqBygPZCYqDuUm8UPRDf4itDpY/lwC6p5z6jSHhyYmVQNBmO7wuKBxlYTj0ONmjL6nsbRpP3CvUo2eYU1b/iJilHY5+lwfqpR7Jih5lZRv5Zv6JhuxAtvSMCJaxPhzpU5cFMEIR6ne+YPcdKc3semE29GNJW6aZbyzvnicsLoON7ORjhHwihvwHfnTrh+VkGzwNrEkl0kgencgLb2Phh3BIbEFcozucm0ah4bJdRxgsG66UnS89pwELXjwnvBIyeoZzA52GojSliPfpWJxVUoRH/xZViHIqqQ7MrjAvRsqf5mRUNEeLzcF8MfBqHWdrTi4wDOmCB5ad4hWgFeWSXSf5B6fO13bsYZeAIoPLUOFQcpnFYChPn1XfAsQtg04HT2wqOXVm3PcYN8IlQUUW2FsPy3L+JFKzBSt2wTmTL6U1I7yX6s+zsAzbj1cvdAf3GmQRP1wTYbfW9bbRvvikmdKhcgd/Nd8oNzXS3WfQ6TvDd4ef2lBaeenIq66gQ4wCX1t3vNztprirSf2VcejqZA2xcwCpJXXK3ap0qhBWijrgEktovR7Otz60hogu725J4GBOQW0v6G9Ft9ELYaYMQH+H8Ce17ENMVGnFzungf9hcNScpbU7ERSU=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RHpnSmlWTE5VcmlHd1NsUWRFRVAvdWt5aFNxenVjWmJuUWd5S3FGeWxXaGNE?=
- =?utf-8?B?VUkwaE1oVGZFcGd1b2xJaWhGZHdWTGd0RjY5a0pnMG9WQUpnNk94TXRrOUc2?=
- =?utf-8?B?OTBJUHUxVUZVQ012ZW00WjlkRFdnZWpDM2RZRndqOEdjZmhiaGVqeEZ3Q1hD?=
- =?utf-8?B?L1hqSlp0MVg5SjZMMU1qdnF6eXVCUEVyMTRJTUhQU2o1TGYvU1Q3bFp1N2VH?=
- =?utf-8?B?MGpQOGdZUXVsbU1CT1R2REExZ0NyTTFid2ZqL1N4Vzg0OERQNnFMRnZJNW1a?=
- =?utf-8?B?all6R0NuUDQ2bTVQTVFYMGhYS1YyVkptY1YxNTZzRHdVNlJuTy9na0xCZmNi?=
- =?utf-8?B?ZTcwOGgrZ29VMTNKbzRQY05aTUJmS2lhT2tMVXlLSGpHclVaaFVYSFpvdXJR?=
- =?utf-8?B?dk4rOWJBMkFSRWlDL2xjNmlOSmVTTEsrc2tRaUFSRDJFMzljNzlMcFFmazRu?=
- =?utf-8?B?L0NBYUhkbnM5L2ViZHQrZkhXVEExa0xCOEtMZldySlFkakx1VzdORUc3ZzJN?=
- =?utf-8?B?U3ZLNjdxNWtlbzJmQVJiT2p0VEFpVXQveFlRRzIydUg1T1RlTHhJeHFmV0hH?=
- =?utf-8?B?NXZ2VmR6aS8rOEpOb3JZREdaaHlyd2V6dGlQL2dxbzB2aXFqSzBzLzAxclU4?=
- =?utf-8?B?bDlSMk50NmkzU3A5Z0RRRnBlSW5aNHU3WUR1Z1FnektDWlhOdy9iT3NCd1lO?=
- =?utf-8?B?WWF6YXF6SDQxNFZLL2tDUXI1Rll6d01vKzFpSjBFNEFXU1JXS3JlSExZWGhu?=
- =?utf-8?B?MUlteTdvV1FvMHg3S1A2RnhwcWkvaHIyOWFXWUFlczFURU0yMFhlVnlUKzNC?=
- =?utf-8?B?bU5HVVdxZ1MxSTdmTk1HY0xWV3dqcm9CMFFLaXpXYzkyNjY2T3lGYUo4NnVQ?=
- =?utf-8?B?TndxZ0lZdTcxbXpjUUdPZGVkRFArZGx0MmQyQ2trb2RibXJYVFZyUSsvTk5p?=
- =?utf-8?B?Nko2ZFJEWGNwUzlmLzFrWlFKalJ4QXpWWlZUVjJVM1JrM3J5NWEza2FtUUFF?=
- =?utf-8?B?Wm0vOFpzMlZWdXRWKzIvOXpNRHZsZWkyRnU5c3pjWUdtR1FCUGlwRENveFRB?=
- =?utf-8?B?b1YxdDdJM3ZTRVZrNVNleFdHT0pYc3UxM3V6bHM5bURhbHBPNWJDZ3hTR2JV?=
- =?utf-8?B?ck1BRGJaL3BSeHlwdmpUUEIwUm03VzlOUWtNdXFCMlU5WU9uZ25jVE11bGp5?=
- =?utf-8?B?T282dDdlclpkSUx6MnNVSjZKM2RQTTA0VFB0YmkzVXNkc2p3cWVCMU1iNXQ4?=
- =?utf-8?B?bGVuVXVicUFUTFVuSUJrQ2EzNHJyOWtnRGJUZTYrWG41VHRWOThFbmI5ZXo3?=
- =?utf-8?B?VElnOW9QYXBJQUU0MzJKNzhiMi9TTSt6UVExa3N5dDZsTk9MNkFSN3YrUTlM?=
- =?utf-8?B?aDNzaUpXZFNuU0RnbnJBRTJQL0pTWGN0a0tiTGZ5ZXd6ZURhYXlyVyt0VGNR?=
- =?utf-8?B?YlRIV3hQRFNyREVnWUtJUVBIbzhNN3dxbmxYNHR3N29naVZCRmNuc2ROdjh3?=
- =?utf-8?B?Nk8vODQvVWVtc3IyTDl4U25vN2RZWXBCZVRjbDBpMmtSMUJVaDRvV0FDUEVQ?=
- =?utf-8?B?aml1bzROWkkyM1BTQ08zd1RPcmdjdVRZaGl1SElLemNSTUxjbzFxYmJONUJm?=
- =?utf-8?B?QmpNdFBJQVRqVllaZXNwRCtIMHpyOE12LzUrdExDbklsVzJCazFCSW0zNjdK?=
- =?utf-8?B?Ry92aHpYSGlWSnFwVWwyL3hkVG1wNnI4YjUxVFZqbHpVTFlGdlFoODVYTFJJ?=
- =?utf-8?B?MC9SbkRobDZzRjNDN3daUFl5ZmFMQkFmTzM1aHQzd0FEd3FmeDZ4YXdWZFdr?=
- =?utf-8?B?ZTJaTUZLK0gzVVluQ3J6L2ZXbVRKYlUvT0Z2Y0haaC9SVmZ1bnBtOHVGODJT?=
- =?utf-8?B?NEJDWVRsWWxYSU9CaEhZMEZWZmFBcStuaTJOUHBFemEzRDFleWZHNnNJMkla?=
- =?utf-8?B?WFBZMVhVemZwUmZPZks0cnI2dWdOK09yVDl1d3pzMFJLWWVoZFRRd3JzejYr?=
- =?utf-8?B?WDFqaHNDbmoxZmM2UXc0Y0laNlYvNnpGZGR2a25LaU1abXdyRTM2SjdsM2wz?=
- =?utf-8?B?TU9JUFFUWXhQMkJsUEU5Y3hiRVpVbUF2ZzJhVEs3aTRlVzV3WjN6d0g4NFZT?=
- =?utf-8?B?bitjSXlxZXdYc0M4WFlnTUJyM0ZLOHBDZHRLZzZETTlxRXloTW5YbDdUZVgy?=
- =?utf-8?B?blVGR0NQa0dlL3kvM001eHY3ZU9rcUxmaHlnSmVwWmZmM0RYTGxpeVQ2Yk9j?=
- =?utf-8?B?eEdDSFpVOG9ZZVVlVjY1cFBGRFhpdm9oanBsZEh1NVdoN0hDTHRhMHRvWWNC?=
- =?utf-8?B?WHQ4T2F1emVuWURjYU5xd2RBaVJYemx0REtOTGloNUhJQkdGZjNMdz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b6de47e5-e178-45a5-b29b-08de94209f1e
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Apr 2026 21:08:16.5236
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 02oCKLLYjvzIboxoy4IZ+D+BpBzXEKu8DBi+zVQJ8PyY/BXFnVVIHL5G+AnDBBOhOIP8q7LJA4PJTuVR4DlQJA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB9010
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next] docs: netdev: document AI-assisted review
+ tooling
+To: Nicolai Buchwitz <nb@tipi-net.de>
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ netdev@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, mbloch@nvidia.com
+References: <20260406-nb-docs-ai-review-v1-1-b58943762ca9@tipi-net.de>
+ <345722f0-21b1-4970-8c45-ef85edf9d45b@suse.de>
+ <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
+Content-Language: en-US
+From: Fernando Fernandez Mancera <fmancera@suse.de>
+In-Reply-To: <56c5bdfe2e37738e47b3b4d22e21697c@tipi-net.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Rspamd-Action: no action
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	MID_RHS_MATCH_FROM(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linux.dev:url,suse.de:dkim,suse.de:mid,sashiko.dev:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,lwn.net:url];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Queue-Id: 67A4E5BD48
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
 
-
-
-On 4/2/2026 1:37 AM, Eliot Courtney wrote:
-> On Wed Apr 1, 2026 at 6:20 AM JST, Joel Fernandes wrote:
->> Add `total_fb_end()` to `GspStaticConfigInfo` that computes the
->> exclusive end address of the highest valid FB region covering both
->> usable and GSP-reserved areas.
->>
->> This allows callers to know the full physical VRAM extent, not just
->> the allocatable portion.
->>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> ---
->>  drivers/gpu/nova-core/gsp/commands.rs    | 6 ++++++
->>  drivers/gpu/nova-core/gsp/fw/commands.rs | 7 +++++++
->>  2 files changed, 13 insertions(+)
->>
->> diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-core/gsp/commands.rs
->> index 41742c1633c8..5e0649024637 100644
->> --- a/drivers/gpu/nova-core/gsp/commands.rs
->> +++ b/drivers/gpu/nova-core/gsp/commands.rs
->> @@ -196,6 +196,9 @@ pub(crate) struct GetGspStaticInfoReply {
->>      /// Usable FB (VRAM) region for driver memory allocation.
->>      #[expect(dead_code)]
->>      pub(crate) usable_fb_region: Range<u64>,
->> +    /// End of VRAM.
->> +    #[expect(dead_code)]
->> +    pub(crate) total_fb_end: u64,
->>  }
->>  
->>  impl MessageFromGsp for GetGspStaticInfoReply {
->> @@ -209,9 +212,12 @@ fn read(
->>      ) -> Result<Self, Self::InitError> {
->>          let (base, size) = msg.first_usable_fb_region().ok_or(ENODEV)?;
->>  
->> +        let total_fb_end = msg.total_fb_end().ok_or(ENODEV)?;
->> +
->>          Ok(GetGspStaticInfoReply {
->>              gpu_name: msg.gpu_name_str(),
->>              usable_fb_region: base..base.saturating_add(size),
->> +            total_fb_end,
->>          })
->>      }
->>  }
->> diff --git a/drivers/gpu/nova-core/gsp/fw/commands.rs b/drivers/gpu/nova-core/gsp/fw/commands.rs
->> index 9fffa74d03f9..46932d5c8c1d 100644
->> --- a/drivers/gpu/nova-core/gsp/fw/commands.rs
->> +++ b/drivers/gpu/nova-core/gsp/fw/commands.rs
->> @@ -163,6 +163,13 @@ pub(crate) fn first_usable_fb_region(&self) -> Option<(u64, u64)> {
->>              }
->>          })
->>      }
->> +
->> +    /// Compute the end of physical VRAM from all FB regions.
->> +    pub(crate) fn total_fb_end(&self) -> Option<u64> {
->> +        self.fb_regions()
->> +            .map(|reg| reg.limit.saturating_add(1))
+On 4/6/26 10:24 PM, Nicolai Buchwitz wrote:
+> On 6.4.2026 21:58, Fernando Fernandez Mancera wrote:
+>> [...]
 > 
-> I think it would be better to used checked_add here.
+>>
+>> Hi Nicolai,
+>> maybe I am missing something but [2] isn't from sashiko.dev but from 
+>> netdev AI CI instead. See: https://netdev-ai.bots.linux.dev/ai- 
+>> review.html?id=0b114a22-9aab-4265-8bfc-ea1b5bca5514
+> 
+> You're right, I mixed up the two systems - the example I linked was
+> from the netdev AI bot, not Sashiko. My mistake on the link.
+> 
+> I stumbled over Sashiko when I noticed the name appearing more often
+> in other reviews and then found Jonathan's LWN article about it [1].
+> 
+> Both tools are actively reviewing patches on the list today. I think
+> it makes sense to document both rather than just one:
+> 
+> The netdev AI bot at netdev-ai.bots.linux.dev
+> Sashiko at sashiko.dev, which posts reviews publicly on its website
+> Both use the same review prompts by Chris Mason [2], so there is
+> common ground - though results will vary between them due to the
+> different AI models (Claude Opus for netdev-ai, Gemini for Sashiko)
+> on top of the usual AI uncertainty.
+> 
+> I think it would be useful to document that AI reviews are happening
+> but mixing AI bots might confuse people.
+> 
+> Agreed, I'll rework the patch to distinguish the two systems once
+> the discussion has been settled.
+> 
+>>
+>> The documentation mentioned for running the AI locally is correctly 
+>> related to netdev AI bot.
+>>
+>> I think it would be useful to document that AI reviews are happening 
+>> but mixing AI bots might confuse people.
+>>
+>>> Check for findings on your submissions and address
+>>> +valid ones before a maintainer has to relay the same questions.
+>>> +
+>>
+>> I wonder what would be the consequences for this. If less experienced 
+>> submitters are expected to address issues pointed out by AI bots they 
+>> might work on something that isn't valid. AFAIU, the AI output is only 
+>> forwarded to the submitter after a maintainer reviewed it and believes 
+>> it makes sense.
+> 
+> Fair point. The wording should make clear that the local tooling is
+> an optional aid, not an obligation. I'll soften the language around
+> addressing findings.
 > 
 
-Done, thanks.
+Thank you! Regarding this topic it seems people have been already 
+discussing this around other subsystems [1]. It might be useful to check 
+out similar discussions and outcomes.
 
---
-Joel Fernandes
+[1] https://lwn.net/Articles/1064830/
 
+> Would appreciate input on how much detail is appropriate here -
+> should the doc just acknowledge that AI review exists and point to
+> the tooling, or go into more detail about the workflow?
+> 
+
+To be honest that is hard for me to tell, I am not a maintainer and not 
+the one doing the forwarding currently. I think there isn't an official 
+workflow regarding this. Maybe a good starter would be to just mention 
+that they exist. Or maybe this is a good opportunity to define an 
+official workflow!
+
+Thanks,
+Fernando.
