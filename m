@@ -1,163 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B167F31355C
-	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 14:59:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7967E2D7DC8
+	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 15:02:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775487555; cv=none; b=tmyvtVznYUP17Y0lWmzN6pz5JFGiFGPvx9aek30Y5q9YtScXEx/KkYz/Uixqbd4Lcr0p4DXGPZ6XLCXNxX0iA7DcfqF/5iaJfPuTMMt0iWaKYhpLbxrgio5q0kFtNA3hwhRrY/2bsvW8oG2vth+gM4O4uOJWapFej1i7JjD3d6E=
+	t=1775487754; cv=none; b=V5fLkSOC6Jy/YrM/vXekiELB8MbIeDyG0JDWJm+aAIpjzmmWADHJ0MbyxpDIB/9gzEVFQztcmPcW3YBzrekhMPWfV6fhwQxrMsMx9+EIVwuIJnpAIkXr9pWHAbtZzeFU3l997xYDCJDMHc9z+wOWsuWXkrPx/JnCEKLIC20m9EI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775487555; c=relaxed/simple;
-	bh=xQ7o66TtbbwulQnJW5l2ZtOfYQA79hhGSfn9VhPlO6U=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JWShkTYwuBIUXK4z4M+EX9aiAMNbu57KHoOBaZXU6WkFUp5qYt/suoiw2/WN7+OgY2G8aeZx+zUmDxQ6AunjFCBtD8craXEIzfwXab6DkBy3A3UwuZ3vydbaggng2/f/3i6F31Ae1g7loBzoUe3xWZzCMt1+5YN093QnGWMA6c8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MLkaENd1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775487754; c=relaxed/simple;
+	bh=Vx0S0OEPsMTxWc2pbFyYxITTLhXEIs8IJVVZZBki8hc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JEoMAOPIqHixODq7ZZ7CPEAapOtk0lQNk39Q5Y97GzW/raaAFR+sbMJ3PRJomqUzW/25fqKhRIyBupHbpXT/7jIteV6nmep6tmwwOIw6+fIV4JNDDADcwl0IOCDj9DZms218HRSfntr9BeOWFfHoJJhy9D3UJO70CoeafNfjciU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=crzihiZK; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MLkaENd1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57BE3C4CEF7
-	for <linux-doc@vger.kernel.org>; Mon,  6 Apr 2026 14:59:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775487555;
-	bh=xQ7o66TtbbwulQnJW5l2ZtOfYQA79hhGSfn9VhPlO6U=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=MLkaENd1y02jG6YsphOhuZTp0iQI96L6WFY5DEmo/DZ6WCfvoSBDZJV2ohYZSu1N9
-	 ac4WV6CKVr3vtjWO5PyYEkAdXK0hp0G+RobW161z0dcu3s/VU0gY22kCs+MYXqUHBH
-	 Liz1EHAuKjE4fTRx4+YsiI+t4vTTDKeLdDI2YZy0dAHG/YzL3nR/Rt8+yoiTCr6Y7R
-	 31IDqYUjMqFbupJ1fx/4xFWsQpHeFVPqQZdMM9fWEudaIkvMRtjafaQw7H2b7xvoYg
-	 xYFQlwgI/yUaOmD2NLJlqgiOeQ45VmSMD64YK+4sRFnv7nXs5NX2dbzF574dvLBFqO
-	 XtniXv49RXROw==
-Received: by mail-oi1-f171.google.com with SMTP id 5614622812f47-470145d7e6fso691441b6e.2
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 07:59:15 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVBA1eIZwz4b4xdBXY7TcQ2/s2cT5ZmuRy6gjqLKUFNnOdP7nNkGZLM5Ts5UBtbN0ljCl8hiPbocrg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNqcFucmyz6IUk4vxJ9x20ABaGdyT0HdVD2hu9VtelMI7SjTCt
-	G7eHjQRFPd4/BSHhfaHo8aOqBRu/WKALSgVJdNpiNg8UtCbez20kDBI+gPXKzq/JGxKZsWwa6ji
-	hPZWxhENRYZJYQM8V2F51kLmB4wBaWQQ=
-X-Received: by 2002:a05:6808:1910:b0:468:776:1ead with SMTP id
- 5614622812f47-46ef5af739fmr6450744b6e.21.1775487554002; Mon, 06 Apr 2026
- 07:59:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="crzihiZK"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-68457156797so722069eaf.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 08:02:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775487751; x=1776092551; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=zOYm5VbuAYu3Ygkfd4vye3tA8nAqOV5PzA2/v5FO7a0=;
+        b=crzihiZK3iznSPHdTQNFCTyY9tRwubZfyHEDspKG2XK2CWhL5Yqbd+Fmg/GdZGmMK4
+         uFtPptj5BZY8Jq2do2wLwLQAdNRr3wePMLbJoMzXTwfRVUUJ7m3YRACdiJ8A7WQH5cG+
+         L4wnVXckvLC/av90wdZ6+L+ItetoVONB2UbRlH+YYsSYvJgFyc5FwiJGYERwGKqYqOw6
+         HqEg7pQckRKHVKVIGKAnVO4AzWTD3mylSaPKk0rlmwEs5QfeH84KW0jywgWxIJpY/p+s
+         8DC+UNxI3ko2UftMUYUaRNWTjdeXMTxD+A1m4+LtagnAOZqq5oHVloCKwyfqcTPhgvMg
+         4nPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775487751; x=1776092551;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zOYm5VbuAYu3Ygkfd4vye3tA8nAqOV5PzA2/v5FO7a0=;
+        b=Rt1LkGDytFYfl3DotdhFOY/Ww+GRrdJHIuIZTzDxLS+nSfjpG83rhdkSRyWo+cZbMK
+         h8j1XKx8EEf5G8+AiI+Wbq2nLcC7nXVfEMtWzczCaSBoQtxI6MUGgOWFaDgxkvgMo5lT
+         1CiC7p/AWgyx+FNO89/IB47Ot+j6lbrxBCS325N1eJetO9pn4AcU26xuIhDG0Y1WxeKW
+         4CNNtDL57dnI22OuZlMxBcVYn+DwnZGXqnHwrwXNFCs1/QbU4oHEdLVw+OlxD+hKgaMn
+         2KawBLUTmq2+7y+Mbt2AnueyXPxu5i2akO247gStGGmd89avtN0tJbSB9YACJfVHuF72
+         kDMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1961GcieaJBCrcKpze7vub7k+5ikp25x1zE+s91Jpktm52oNH9p+XLQBTztg61e8Y9iE3af124fg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGu6JVDbwxrE8nKubzoEySb8rrdexHXk9QBQxiMrqZsA7fuLda
+	uGHgVOv7D8CXBLtv3YEAQz8A2k9oFdDy8rkRx00PdfFbVQ4WmRxJoobfBpzYRqhmjOQ=
+X-Gm-Gg: AeBDietJ2uxtGRykSZic/WAB6GQYcsxm26sC2jfXVFDRGQqvNzOQdYF73Jz78W+hF2q
+	myDec4cUIAGCEJF7DQkbWIoQ6Q/vHRMLD+eGzJD2Hic1ZEGHI+0sNLGDwIWpIcPEcyGAUAlXd3w
+	3qsx/hQRZiCRAuZVPsxuxcvyNVQbsJoyxBUm/03XOFdJ4717RBJwmeNR5ll0/p611k3xJjiZ3G1
+	TnoT++gBgmJ2tUgesF1fwyZM43rls49YKJvzilJx8bVjUXyH88UY414lRLDcGqUOTpWAakbA6eu
+	xBfAhVJ8rACaImdg89blDvBwbKWEcPuuhughBFlPHt8JjvTDe8lcsqKGT6tCXUoWvsaomY/6b/s
+	jmmRpozAyF6LyfqoLfGAEbiECyCj4PlzID1yQ8yYmMQejX3ftGSKjRXIY6SL3CyQg7zD7hW/luO
+	9dh7809/uUkfxSHGn5K01mP2B+2pnqtMF/KjfoCJYGxHpPpUToAIsYbW8KdXE6zKpwF/LQn4w=
+X-Received: by 2002:a05:6820:2905:b0:682:ecb8:c38 with SMTP id 006d021491bc7-682ecb811c6mr6352466eaf.42.1775487751272;
+        Mon, 06 Apr 2026 08:02:31 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:90d7:b13f:c53:8ca3? ([2600:8803:e7e4:500:90d7:b13f:c53:8ca3])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-68448c1c15dsm3873975eaf.0.2026.04.06.08.02.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Apr 2026 08:02:30 -0700 (PDT)
+Message-ID: <b2d4ae51-f827-44d0-94a6-2a3db6d681d9@baylibre.com>
+Date: Mon, 6 Apr 2026 10:02:29 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260401081640.26875-1-fengchengwen@huawei.com>
-In-Reply-To: <20260401081640.26875-1-fengchengwen@huawei.com>
-From: "Rafael J. Wysocki" <rafael@kernel.org>
-Date: Mon, 6 Apr 2026 16:58:58 +0200
-X-Gmail-Original-Message-ID: <CAJZ5v0gE9jLbaGy0yJhNZdpQJTR9stE-ABNQVvP5jqss3LQpFw@mail.gmail.com>
-X-Gm-Features: AQROBzDy996ma1a9twY_5lJC3Avr9hchzSyUdEAhSG92k1NHCBaaPp2eIIIoft4
-Message-ID: <CAJZ5v0gE9jLbaGy0yJhNZdpQJTR9stE-ABNQVvP5jqss3LQpFw@mail.gmail.com>
-Subject: Re: [PATCH RESEND v10 0/8] ACPI: Unify CPU UID interface and fix
- ARM64 TPH steer-tag issue
-To: Chengwen Feng <fengchengwen@huawei.com>
-Cc: Bjorn Helgaas <bhelgaas@google.com>, Catalin Marinas <catalin.marinas@arm.com>, 
-	Will Deacon <will@kernel.org>, "Rafael J . Wysocki" <rafael@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	WANG Xuerui <kernel@xen0n.name>, Thomas Gleixner <tglx@kernel.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H . Peter Anvin" <hpa@zytor.com>, 
-	Juergen Gross <jgross@suse.com>, Boris Ostrovsky <boris.ostrovsky@oracle.com>, 
-	Len Brown <lenb@kernel.org>, Sunil V L <sunilvl@ventanamicro.com>, 
-	Mark Rutland <mark.rutland@arm.com>, Jonathan Cameron <jonathan.cameron@huawei.com>, 
-	Kees Cook <kees@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-	Sean Christopherson <seanjc@google.com>, Kai Huang <kai.huang@intel.com>, 
-	Tom Lendacky <thomas.lendacky@amd.com>, Thomas Huth <thuth@redhat.com>, 
-	Thorsten Blum <thorsten.blum@linux.dev>, Kevin Loughlin <kevinloughlin@google.com>, 
-	Zheyun Shen <szy0127@sjtu.edu.cn>, Peter Zijlstra <peterz@infradead.org>, 
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Xin Li <xin@zytor.com>, 
-	"Ahmed S . Darwish" <darwi@linutronix.de>, Sohil Mehta <sohil.mehta@intel.com>, 
-	Ilkka Koskinen <ilkka@os.amperecomputing.com>, Robin Murphy <robin.murphy@arm.com>, 
-	James Clark <james.clark@linaro.org>, Besar Wicaksono <bwicaksono@nvidia.com>, 
-	Ma Ke <make24@iscas.ac.cn>, Wei Huang <wei.huang2@amd.com>, 
-	Andy Gospodarek <andrew.gospodarek@broadcom.com>, Somnath Kotur <somnath.kotur@broadcom.com>, 
-	punit.agrawal@oss.qualcomm.com, guohanjun@huawei.com, suzuki.poulose@arm.com, 
-	ryan.roberts@arm.com, chenl311@chinatelecom.cn, masahiroy@kernel.org, 
-	wangyuquan1236@phytium.com.cn, anshuman.khandual@arm.com, 
-	heinrich.schuchardt@canonical.com, Eric.VanTassell@amd.com, 
-	wangzhou1@hisilicon.com, wanghuiqiang@huawei.com, liuyonglong@huawei.com, 
-	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	loongarch@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	xen-devel@lists.xenproject.org, linux-acpi@vger.kernel.org, 
-	linux-perf-users@vger.kernel.org, stable@vger.kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 4/4] iio: adc: ad4691: add SPI offload support
+To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ "Hennerich, Michael" <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, "Sa, Nuno" <Nuno.Sa@analog.com>,
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260403-ad4692-multichannel-sar-adc-driver-v6-0-fa2a01a57c4e@analog.com>
+ <20260403-ad4692-multichannel-sar-adc-driver-v6-4-fa2a01a57c4e@analog.com>
+ <1d0d41c8-7867-4459-a91a-a2c6774b1885@baylibre.com>
+ <LV9PR03MB84145906CC191F6AB8D2D3DAF75DA@LV9PR03MB8414.namprd03.prod.outlook.com>
+ <420dba4a-0c31-47bc-b84a-5d29702b115e@baylibre.com>
+ <LV9PR03MB8414CB15DEC3EBBDB8F5FDD0F75DA@LV9PR03MB8414.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <LV9PR03MB8414CB15DEC3EBBDB8F5FDD0F75DA@LV9PR03MB8414.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 1, 2026 at 10:16=E2=80=AFAM Chengwen Feng <fengchengwen@huawei.=
-com> wrote:
->
-> This patchset unifies ACPI Processor UID retrieval across
-> arm64/loongarch/riscv/x86 via acpi_get_cpu_uid() (with input validation)
-> and fixes ARM64 CPU steer-tag retrieval failure in PCI/TPH:
->
-> 1-4: Add acpi_get_cpu_uid() for arm64/loongarch/riscv/x86 (update
->      respective users)
-> 5: Centralize acpi_get_cpu_uid() declaration in include/linux/acpi.h
-> 6: Clean up perf/arm_cspmu
-> 7: Clean up ACPI/PPTT and remove unused get_acpi_id_for_cpu()
-> 8: Pass ACPI Processor UID to Cache Locality _DSM
->
-> The interface refactor ensures consistent CPU UID retrieval across
-> architectures (no functional changes for valid inputs) and provides the
-> unified interface required for the ARM64 TPH fix
->
-> ---
-> Changes in v10-resend:
-> - Add Catalin's ack-by for arm64 commit
-> - Add CC to x86@kernel.org
->
-> Changes in v10:
-> - Refine commit header&log according to Punit's and Bjorn's review
-> - Split perf/arm_cspmu as a separate commit which address Punit's
->   review
->
-> Changes in v9:
-> - Address Bjorn's review: split commits to each platform so that make
->   them easy to review
->
-> Changes in v8:
-> - Moving arm64's get_cpu_for_acpi_id() to kernel/acpi.c which address
->   Jeremy's review
->
-> Chengwen Feng (8):
->   arm64: acpi: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
->   LoongArch: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
->   RISC-V: ACPI: Add acpi_get_cpu_uid() for unified ACPI CPU UID
->     retrieval
->   x86/acpi: Add acpi_get_cpu_uid() for unified ACPI CPU UID retrieval
->   ACPI: Centralize acpi_get_cpu_uid() declaration in
->     include/linux/acpi.h
->   perf: arm_cspmu: Switch to acpi_get_cpu_uid() from
->     get_acpi_id_for_cpu()
->   ACPI: PPTT: Use acpi_get_cpu_uid() and remove get_acpi_id_for_cpu()
->   PCI/TPH: Pass ACPI Processor UID to Cache Locality _DSM
->
->  Documentation/PCI/tph.rst          |  4 +--
->  arch/arm64/include/asm/acpi.h      | 17 +---------
->  arch/arm64/kernel/acpi.c           | 30 ++++++++++++++++++
->  arch/loongarch/include/asm/acpi.h  |  5 ---
->  arch/loongarch/kernel/acpi.c       |  9 ++++++
->  arch/riscv/include/asm/acpi.h      |  4 ---
->  arch/riscv/kernel/acpi.c           | 16 ++++++++++
->  arch/riscv/kernel/acpi_numa.c      |  9 ++++--
->  arch/x86/include/asm/cpu.h         |  1 -
->  arch/x86/include/asm/smp.h         |  1 -
->  arch/x86/kernel/acpi/boot.c        | 20 ++++++++++++
->  arch/x86/xen/enlighten_hvm.c       |  5 +--
->  drivers/acpi/pptt.c                | 50 ++++++++++++++++++++++--------
->  drivers/acpi/riscv/rhct.c          |  7 ++++-
->  drivers/pci/tph.c                  | 16 +++++++---
->  drivers/perf/arm_cspmu/arm_cspmu.c |  6 ++--
->  include/linux/acpi.h               | 11 +++++++
->  include/linux/pci-tph.h            |  4 +--
->  18 files changed, 158 insertions(+), 57 deletions(-)
->
-> --
+On 4/6/26 9:16 AM, Sabau, Radu bogdan wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: David Lechner <dlechner@baylibre.com>
+>> Sent: Monday, April 6, 2026 4:44 PM
+> 
+> ...
+> 
+>>>
+>>> This is bad documentation on my part. "channel byte" isn't used anymore,
+>>> this is previous version behaviour. Right now, only 16-bits worth of actual
+>>> channel data are used.
+>>>
+>> Then why do we need the shift if there is no other data? Can't we rework
+>> the SPI message so that there is no shift?
+> 
+> I thought the shift is needed since DMA size is 32 bits, and value comes on the
+> upper word 16 bits, not on the lower ones as for CNV Burst.
 
-Applied as 7.1 material, but please note that I haven't tagged it
-explicitly for "stable".
+That should only happen if we are reading 32-bits instead of 16 bits.
+We should be able to set up the SPI xfers so that we only read 16 bits.
 
-The last patch carries a Fixes: tag which should be suitable for
-"stable" to pick it up and you may as well request the whole series to
-be picked up by "stable" when it hits the mainline.
+> 
+> Manual Mode layout: TX [CMD_HI CMD_LO DUMMY DUMMY], RX [DATA_HI DATA_LO DUMMY DUMMY]
 
-Thanks!
+> CNV Burst layout: TX [REG_HI REG_LO DUMMY DUMMY], RX [DUMMY DUMMY DATA_HI DATA_LO]
+
+This can be split in two xfers.
+
+CNV Burst layout:
+	TX [REG_HI REG_LO]
+	RX [DATA_HI DATA_LO]
+
+And we could even set bits_per_word to 16 so that the data is CPU
+endian instead of big endian when doing SPI offloading.
+
