@@ -1,64 +1,64 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A264377579
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 04:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7B21378819
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 04:14:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775535242; cv=none; b=kGCBOOx+xopFKE1kkYauXjjuPB4U0Lw/+bSzC5dII6hLohgUhw2TcJZeyRkY8O+DfScnN1Ag86bB+dTB7LsnFklNvM2Zg3BHA1+RygmS+4L50DuOIyBVuIrxuKlcRuQc+Ownhnq+E84fSGvrJIiacxlvJAg6yyNAjworHQU+eW0=
+	t=1775535243; cv=none; b=ilsldsS4x5OH0F9n9l3qg9okeHDdnHjvNW1An+EGFvt/6vzmDnP6a3Ws6vHUiWIuBNrKLTCbkHb0dqHVGE7rFek7O7K/wfcUnShpDLmylNty3CVGh0E8Ip7DAt+4SHeY+Tuh55r9dsgOa4ywTIaIrMC82hh/dp1xSsOa9Yr7h3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775535242; c=relaxed/simple;
-	bh=usmYDq97Sg76UklSs3ptf29YaZhkgp2uHecyG8pdypk=;
+	s=arc-20240116; t=1775535243; c=relaxed/simple;
+	bh=cNezbtGntAwz2oSl5uAn0H5MfOye3Ojk8+u5RCwjlj0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=g0HUKmrtVtvJoQpdkFjvxoBFo8dSBuLoWU2Mv0w4ga/r+wZX5x6LriTqE1pcOMNOw3v87MimIZszKojdfhW57G+KQa6txtiJylKSMbN7/f7gRgoAd9P362JTBxDMRjszkEYOkyJc+u5Nyj/c+lX9oeKw0yG9cMJnK+jTRsIpcEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdW3elJF; arc=none smtp.client-ip=74.125.82.54
+	 MIME-Version; b=lm/7Uca9Ue7dPlqTWGNYJNoXdcDlUmggrSxPHciD1+1x+T1b/ubseBNhGDWLA7g/0u6yabf02T52STBP7Pb5wkifnwIZ0OCgZB3p8xksawP/oS1azsfSxNvwUTwkFj53UmTMxJj/cHnC53Nhx+zNdoyeCCKAFJLF+F3LKOJ+9hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HO7VVXBV; arc=none smtp.client-ip=74.125.82.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdW3elJF"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12732e6a123so2460533c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 21:13:59 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HO7VVXBV"
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-2c56aa62931so9736890eec.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 21:14:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775535239; x=1776140039; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1775535240; x=1776140040; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+BUPfatehd4OwQWVH3wip0eKYYTenln556l3fMYEsrA=;
-        b=XdW3elJF1M3ShVzMu80KD6Ff9fOYK7e/qVN1DPniXSk4VAgZZism0wQtu06lZHZ4qj
-         mMN+6k+s0mrzQ7IVGMmtv/g0aIn8idrbgwIU093DLtxilzwT3wik3dl93IgorItyLK1h
-         eT/TWY6/Laeplvto9BsdIb4fNX0kmvIRws3ESvoTeXkO7NsFPIn2iJdaftfqxJz2LnZ8
-         M60wm9xZ8SZtbR0akdcr2B2fEnfXdHaRUw8vcpl/WgO7QomnREkko0gQndRQLe7IK1G1
-         SMJZgkLHH7R4cLwCQ7I+iyxv/MpeKgdluRuXO/Df5vdxM6XGdxpuMO2GvZagk/iGnbO3
-         ZZ6A==
+        bh=xb6BjotEdv4hk1elT3jxmnDkcn5QmvrZiMWl5q56lq0=;
+        b=HO7VVXBV9pY9yZUOIQxwqcBis5vEzEUwVofy47oL1L2mH0Ncaw0NdJo2x3glsfHebC
+         YoJo88kMTA9cIjaP+audUDUfMc5TZ1wQ+rHLwCawk9sg90ithxJanlNh3+zUVccALIyn
+         PNS6wRBcMnv8E63UDxK1pjdWAvfFWGv2ghQnRpFa0emky4RGI/tTTP2dwlIqHlLbzJoi
+         QdWbnu2CDY8Z7TiKFYddhtpWCVEaF06TdEv309htHFxHP8uaplPduLkGYz4E4cxoH/9t
+         q6yoQfXn+s3XWCwi5jb5gE3aBHnQ/aLkaKjYsgGEq8kgDiYvK0WkcvhTVF1uQmio0wdq
+         C1Eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775535239; x=1776140039;
+        d=1e100.net; s=20251104; t=1775535240; x=1776140040;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=+BUPfatehd4OwQWVH3wip0eKYYTenln556l3fMYEsrA=;
-        b=gdeNFbi6iYKdsJOn2D9WsKSWzjv5iWfLkFZF/DZk/QX0e2+HTXhXB//4QKS025SWCc
-         BKVze6A4qNRMgUfTGyqRk2x4JDGVDu45UeOS4oxnoDe4GVbsSP0fAOqsfJPyrO+OJ6jy
-         AUL26LYvLdxVGhYl6okHyrUbSWKx/3r1ZmwGCRqK/NWaA+Ver1Y/crslTlbKc75PNf3O
-         +jwfmPz0cNIsBMGydSnQWrCk7NBf65w3aoFbQOsBMNpZSs71bYLE1Tjg7fVkHsXOToXz
-         ia6M5hlVP9tLfcOL/fqS4/qgLOUj0peZ6q+ZocgXG5gaV9b1sC18zCzqHZeij+4MLP6Y
-         YBDA==
-X-Forwarded-Encrypted: i=1; AJvYcCWcR+Bn+eNqRa7gd50SGqFDvLOHsyL/EbW3zkZ9kiWGbAXf8zjAbQlq7wm3vY+uoxxe1AL2ndTZIJI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBO66tJeJZk5dJWm1BUHWaOEV/K+yU5lRPqlmp1TXXfJRC+AtC
-	fw9nHhxqzmzhNf5w57WQwcgPX/F3wJNyC2AaDtnfbvKHhlO4TfK1Bqzt
-X-Gm-Gg: AeBDiesV829eNPzysVYaL3lcVnFKRR9gXL6w5noTC6QnH93eiDSfc3S7LN9OPP86GYS
-	iZ0SXta1RUwIVyYIV1R+qB9JsKYdVbmuORhwBkivE82h56OHfhMn9gnFmK4d3DNsooaKGBEpnyt
-	boaYndJGTEoy9T/rdlymJtkfMHkvK5wNRwD9oD9egwAnCOJUOXcYzBnycwRLb8j10EASZxxKnrE
-	YiJhZZHDStH+bww0GvJVov1rwNZopmav6S5b2RwKZAKnLCY3yXiYNGW7jI4iItn6N+dBY/tg/KS
-	QzYhCrBOZ0WXeiKWIPzwfNWWEBDQPU+llAEg/bfZgSSutzUUmOSUgjQukXoR+BBs9WMCrejNTZt
-	gLtg43LbcS+WiaYkAnbkAejIQ3SmfLj8mWTCFreVGMboGShy8esq8OOChni4qR4sZa/a2kenbTU
-	HWylrr8cCIhsBLSrBkPjDwWYr2SGgK1kruwLYhZkMGN9JODdabyuaonjpNghADhhwRk5Gy4tfiE
-	pff/UpegotYCqQ=
-X-Received: by 2002:a05:7022:388a:b0:123:348d:8576 with SMTP id a92af1059eb24-12bfb6ec50bmr8556077c88.6.1775535238604;
-        Mon, 06 Apr 2026 21:13:58 -0700 (PDT)
+        bh=xb6BjotEdv4hk1elT3jxmnDkcn5QmvrZiMWl5q56lq0=;
+        b=bb/rZkUcUN73VkttF0DCeCgz0irxIV4AB6zJr4ShZ9Fzoayq2X7ZxnIK4qnYixHVeQ
+         1yqYJ3gyawikKD//cGxtABgGzyVIewYnq1gDzMY0n0LaI8sNwge7UROYQZcj44pjKu5o
+         Ep1or4AYpOusw8oVRJl/R3VsVMnIfF1KJHCJdAGoD/urxPah0rfJNtsJF22QKZAZK4sZ
+         vD+R7NVgm9DJVgGU/nKTF4dtidqzwletnMU5P9x3EoVKyKXxRJUizrzR7CABYp8mSGgO
+         jbhSSBSTh9JzrCAyF5bJa/leaAMwdnM8FSC6RRlKODdAhDTJ/7RPuHARjML+YkkBhozh
+         jrjA==
+X-Forwarded-Encrypted: i=1; AJvYcCWr8t3vLcWfgT7uktF4sNIC0jxc7BgAKpW1zw1Xn6PhuujKmONTtNHJ6piKOl45BQuGXU3osk45WOg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6GldQJr3wv8Gmed9PGpvF0+6NnS/sCj2VQrOcztD8me8aQsan
+	Mje84PrEfmkLfz4WBqdgSZSSmT3CQK1PLwFVttIGdDkmKQ/X4ht/DLzN
+X-Gm-Gg: AeBDieum1zp54gv5KB2uNlTZ2Y+CZD/xwHAGSVAjGxIVnRI8yxrbvWz8v3VVyo7g7Sy
+	fCy7abpaz6FjB/cOcVL+mM1p0BtnD/5nPiKULoLKh1EgL83p9GKn9JtTM/dkjW2CM8+SVmp+P9C
+	b0Qtudg010ezUO34bnYOLa3Pl9N7kooxkiSwA7KA4c0OTFefhTaWotZCdefmAdcfQAbBN1l788o
+	53BSvk50fltxS/8Evbgb22rN2UMlo8V2hruzpGaXwRysuMwVK31OWL8lTYlnKKcCx56dPlcWqDK
+	jiNscKZqwkijmezt+SZfk4ujFODdoua72pZrfqbqC2xJhcMWmyQ1dEiTNJ/CnAm4+21Qkl4Zl6U
+	7/KlL5p6WBI6vAyXMj2fDVSrS+IGmcJhVCWGFvimu6p/NXsXUW9qzp/TDzX4T5IorTzrquGu2Tc
+	D0aHr3dOAuW2FmZBwy8bgs5TG+De5Urkh5RgBsZSZMjUPfnom0ncaZivw1/EK/xubXF3Rf8doAp
+	UI3AqfJZxskU2U=
+X-Received: by 2002:a05:7301:4090:b0:2ca:e4f2:31ff with SMTP id 5a478bee46e88-2cbf99ec0b9mr7453335eec.6.1775535239840;
+        Mon, 06 Apr 2026 21:13:59 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm18523808c88.0.2026.04.06.21.13.58
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm18523808c88.0.2026.04.06.21.13.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 21:13:58 -0700 (PDT)
+        Mon, 06 Apr 2026 21:13:59 -0700 (PDT)
 From: "Derek J. Clark" <derekjohn.clark@gmail.com>
 To: Jiri Kosina <jikos@kernel.org>,
 	Benjamin Tissoires <bentiss@kernel.org>
@@ -68,9 +68,9 @@ Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 2/5] HID: hid-oxp: Add Second Generation RGB Control
-Date: Tue,  7 Apr 2026 04:13:51 +0000
-Message-ID: <20260407041354.2283201-3-derekjohn.clark@gmail.com>
+Subject: [PATCH v2 4/5] HID: hid-oxp: Add Button Mapping Interface
+Date: Tue,  7 Apr 2026 04:13:53 +0000
+Message-ID: <20260407041354.2283201-5-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260407041354.2283201-1-derekjohn.clark@gmail.com>
 References: <20260407041354.2283201-1-derekjohn.clark@gmail.com>
@@ -82,316 +82,660 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds support for the second generation of RGB Control for OneXPlayer
-devices. The interface mirrors the first generation, with some
-differences to how messages are formatted.
+Adds button mapping interface for second generation OneXPlayer
+configuration HID interfaces. This interface allows the MCU to swap
+button mappings at the hardware level. The current state cannot be
+retrieved, and the mappings may have been modified in Windows prior, so
+we reset the button mapping at init and expose an attribute to allow
+userspace to do this again at any time.
 
-Some devices have both a GEN1 MCU for RGB control and a GEN2 MCU for
-button mapping. To avoid conflicts, quirk these devices to skip RGB
-setup for the GEN2_USAGE_PAGE.
+The interface requires two pages of button mapping data to be sent
+before the settings will take place. Since the MCU requires a 200ms
+delay after each message (total 400ms for these attributes) use the same
+debounce work queue method we used for RGB. This will allow for
+userspace or udev rules to rapidly map all buttons. The values will
+be cached before the final write is finally sent to the device.
 
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
 v2:
-  - Add DMI quirks table.
+  - Add detection of post-suspend MCU init to trigger setting the button
+    map again.
 ---
- drivers/hid/Kconfig   |   1 +
- drivers/hid/hid-ids.h |   3 +
- drivers/hid/hid-oxp.c | 151 ++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 155 insertions(+)
+ drivers/hid/hid-oxp.c | 565 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 565 insertions(+)
 
-diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
-index 2deaec9f467d..b779088b80b6 100644
---- a/drivers/hid/Kconfig
-+++ b/drivers/hid/Kconfig
-@@ -924,6 +924,7 @@ config HID_OXP
- 	depends on USB_HID
- 	depends on LEDS_CLASS
- 	depends on LEDS_CLASS_MULTICOLOR
-+	depends on DMI
- 	help
- 	  Say Y here if you would like to enable support for OneXPlayer handheld
- 	  devices that come with RGB LED rings around the joysticks and macro buttons.
-diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
-index dcc5a3a70eaf..0d1ff879e959 100644
---- a/drivers/hid/hid-ids.h
-+++ b/drivers/hid/hid-ids.h
-@@ -1134,6 +1134,9 @@
- #define USB_VENDOR_ID_CRSC			0x1a2c
- #define USB_DEVICE_ID_ONEXPLAYER_GEN1		0xb001
- 
-+#define USB_VENDOR_ID_WCH			0x1a86
-+#define USB_DEVICE_ID_ONEXPLAYER_GEN2		0xfe00
-+
- #define USB_VENDOR_ID_ONTRAK		0x0a07
- #define USB_DEVICE_ID_ONTRAK_ADU100	0x0064
- 
 diff --git a/drivers/hid/hid-oxp.c b/drivers/hid/hid-oxp.c
-index c4219ecd8d71..25214356163e 100644
+index c62952537d98..1100f1f14f35 100644
 --- a/drivers/hid/hid-oxp.c
 +++ b/drivers/hid/hid-oxp.c
-@@ -10,6 +10,7 @@
- #include <linux/delay.h>
- #include <linux/dev_printk.h>
- #include <linux/device.h>
-+#include <linux/dmi.h>
- #include <linux/hid.h>
- #include <linux/jiffies.h>
- #include <linux/kstrtox.h>
-@@ -24,12 +25,15 @@
- #define OXP_PACKET_SIZE 64
- 
- #define GEN1_MESSAGE_ID	0xff
-+#define GEN2_MESSAGE_ID	0x3f
- 
- #define GEN1_USAGE_PAGE	0xff01
-+#define GEN2_USAGE_PAGE	0xff00
- 
- enum oxp_function_index {
+@@ -34,10 +34,145 @@ enum oxp_function_index {
  	OXP_FID_GEN1_RGB_SET =		0x07,
  	OXP_FID_GEN1_RGB_REPLY =	0x0f,
-+	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
+ 	OXP_FID_GEN2_TOGGLE_MODE =	0xb2,
++	OXP_FID_GEN2_KEY_STATE =	0xb4,
+ 	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
  };
  
++#define OXP_MAPPING_GAMEPAD	0x01
++#define OXP_MAPPING_KEYBOARD	0x02
++
++struct oxp_button_data {
++	u8 mode;
++	u8 index;
++	u8 key_id;
++	u8 padding[2];
++} __packed;
++
++struct oxp_button_entry {
++	struct oxp_button_data data;
++	const char *name;
++};
++
++static const struct oxp_button_entry oxp_button_table[] = {
++	/* Gamepad Buttons */
++	{ { OXP_MAPPING_GAMEPAD, 0x01 }, "BTN_A" },
++	{ { OXP_MAPPING_GAMEPAD, 0x02 }, "BTN_B" },
++	{ { OXP_MAPPING_GAMEPAD, 0x03 }, "BTN_X" },
++	{ { OXP_MAPPING_GAMEPAD, 0x04 }, "BTN_Y" },
++	{ { OXP_MAPPING_GAMEPAD, 0x05 }, "BTN_LB" },
++	{ { OXP_MAPPING_GAMEPAD, 0x06 }, "BTN_RB" },
++	{ { OXP_MAPPING_GAMEPAD, 0x07 }, "BTN_LT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x08 }, "BTN_RT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x09 }, "BTN_START" },
++	{ { OXP_MAPPING_GAMEPAD, 0x0a }, "BTN_SELECT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x0b }, "BTN_L3" },
++	{ { OXP_MAPPING_GAMEPAD, 0x0c }, "BTN_R3" },
++	{ { OXP_MAPPING_GAMEPAD, 0x0d }, "DPAD_UP" },
++	{ { OXP_MAPPING_GAMEPAD, 0x0e }, "DPAD_DOWN" },
++	{ { OXP_MAPPING_GAMEPAD, 0x0f }, "DPAD_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x10 }, "DPAD_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x11 }, "JOY_L_UP" },
++	{ { OXP_MAPPING_GAMEPAD, 0x12 }, "JOY_L_UP_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x13 }, "JOY_L_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x14 }, "JOY_L_DOWN_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x15 }, "JOY_L_DOWN" },
++	{ { OXP_MAPPING_GAMEPAD, 0x16 }, "JOY_L_DOWN_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x17 }, "JOY_L_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x18 }, "JOY_L_UP_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x19 }, "JOY_R_UP" },
++	{ { OXP_MAPPING_GAMEPAD, 0x1a }, "JOY_R_UP_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x1b }, "JOY_R_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x1c }, "JOY_R_DOWN_RIGHT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x1d }, "JOY_R_DOWN" },
++	{ { OXP_MAPPING_GAMEPAD, 0x1e }, "JOY_R_DOWN_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x1f }, "JOY_R_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x20 }, "JOY_R_UP_LEFT" },
++	{ { OXP_MAPPING_GAMEPAD, 0x22 }, "BTN_GUIDE" },
++	/* Keyboard Keys */
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5a }, "KEY_F1" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5b }, "KEY_F2" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5c }, "KEY_F3" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5d }, "KEY_F4" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5e }, "KEY_F5" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5f }, "KEY_F6" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x60 }, "KEY_F7" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x61 }, "KEY_F8" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x62 }, "KEY_F9" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x63 }, "KEY_F10" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x64 }, "KEY_F11" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x65 }, "KEY_F12" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x66 }, "KEY_F13" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x67 }, "KEY_F14" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x68 }, "KEY_F15" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x69 }, "KEY_F16" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6a }, "KEY_F17" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6b }, "KEY_F18" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6c }, "KEY_F19" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6d }, "KEY_F20" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6e }, "KEY_F21" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6f }, "KEY_F22" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x70 }, "KEY_F23" },
++	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x71 }, "KEY_F24" },
++};
++
++enum oxp_joybutton_index {
++	BUTTON_A =	0x01,
++	BUTTON_B,
++	BUTTON_X,
++	BUTTON_Y,
++	BUTTON_LB,
++	BUTTON_RB,
++	BUTTON_LT,
++	BUTTON_RT,
++	BUTTON_START,
++	BUTTON_SELECT,
++	BUTTON_L3,
++	BUTTON_R3,
++	BUTTON_DUP,
++	BUTTON_DDOWN,
++	BUTTON_DLEFT,
++	BUTTON_DRIGHT,
++	BUTTON_M1 =	0x22,
++	BUTTON_M2,
++	/* These are unused currently, reserved for future devices */
++	BUTTON_M3,
++	BUTTON_M4,
++	BUTTON_M5,
++	BUTTON_M6,
++};
++
++struct oxp_button_idx {
++	enum oxp_joybutton_index button_idx;
++	u8 mapping_idx;
++} __packed;
++
++struct oxp_bmap_page_1 {
++	struct oxp_button_idx btn_a;
++	struct oxp_button_idx btn_b;
++	struct oxp_button_idx btn_x;
++	struct oxp_button_idx btn_y;
++	struct oxp_button_idx btn_lb;
++	struct oxp_button_idx btn_rb;
++	struct oxp_button_idx btn_lt;
++	struct oxp_button_idx btn_rt;
++	struct oxp_button_idx btn_start;
++} __packed;
++
++struct oxp_bmap_page_2 {
++	struct oxp_button_idx btn_select;
++	struct oxp_button_idx btn_l3;
++	struct oxp_button_idx btn_r3;
++	struct oxp_button_idx btn_dup;
++	struct oxp_button_idx btn_ddown;
++	struct oxp_button_idx btn_dleft;
++	struct oxp_button_idx btn_dright;
++	struct oxp_button_idx btn_m1;
++	struct oxp_button_idx btn_m2;
++} __packed;
++
  static struct oxp_hid_cfg {
-@@ -121,6 +125,22 @@ struct oxp_gen_1_rgb_report {
- 	u8 blue;
++	struct oxp_bmap_page_1 *bmap_1;
++	struct oxp_bmap_page_2 *bmap_2;
+ 	struct led_classdev_mc *led_mc;
+ 	struct hid_device *hdev;
+ 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
+@@ -48,6 +183,10 @@ static struct oxp_hid_cfg {
+ 	u8 rgb_en;
+ } drvdata;
+ 
++#define OXP_FILL_PAGE_SLOT(page, btn)            \
++	{ .button_idx = (page)->btn.button_idx,  \
++	  .mapping_idx = (page)->btn.mapping_idx }
++
+ enum oxp_gamepad_mode_index {
+ 	OXP_GP_MODE_XINPUT = 0x00,
+ 	OXP_GP_MODE_DEBUG = 0x03,
+@@ -153,6 +292,10 @@ struct oxp_gen_2_rgb_report {
+ 	u8 effect;
  } __packed;
  
-+struct oxp_gen_2_rgb_report {
-+	u8 report_id;
-+	u8 header_id;
-+	u8 padding_2;
-+	u8 message_id;
-+	u8 padding_4[2];
-+	u8 enabled;
-+	u8 speed;
-+	u8 brightness;
-+	u8 red;
-+	u8 green;
-+	u8 blue;
-+	u8 padding_12[3];
-+	u8 effect;
-+} __packed;
++struct oxp_attr {
++	u8 index;
++};
 +
  static u16 get_usage_page(struct hid_device *hdev)
  {
  	return hdev->collection[0].usage >> 16;
-@@ -161,6 +181,44 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
- 	return 0;
+@@ -194,12 +337,19 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
  }
  
-+static int oxp_hid_raw_event_gen_2(struct hid_device *hdev,
-+				   struct hid_report *report, u8 *data,
-+				   int size)
-+{
-+	struct led_classdev_mc *led_mc = drvdata.led_mc;
-+	struct oxp_gen_2_rgb_report *rgb_rep;
-+
-+	if (data[0] != OXP_FID_GEN2_STATUS_EVENT)
-+		return 0;
-+
-+	if (data[3] != OXP_GET_PROPERTY)
-+		return 0;
-+
-+	rgb_rep = (struct oxp_gen_2_rgb_report *)data;
-+	/* Ensure we save monocolor as the list value */
-+	drvdata.rgb_effect = rgb_rep->effect == OXP_EFFECT_MONO_TRUE ?
-+			     OXP_EFFECT_MONO_LIST :
-+			     rgb_rep->effect;
-+	drvdata.rgb_speed = rgb_rep->speed;
-+	drvdata.rgb_en = rgb_rep->enabled == 0 ? OXP_FEAT_DISABLED :
-+						 OXP_FEAT_ENABLED;
-+	drvdata.rgb_brightness = rgb_rep->brightness;
-+	led_mc->led_cdev.brightness = rgb_rep->brightness / 4 *
-+				      led_mc->led_cdev.max_brightness;
-+	/* If monocolor had less than 100% brightness on the previous boot,
-+	 * there will be no reliable way to determine the real intensity.
-+	 * Since intensity scaling is used with a hardware brightness set at max,
-+	 * our brightness will always look like 100%. Use the last set value to
-+	 * prevent successive boots from lowering the brightness further.
-+	 * Brightness will be "wrong" but the effect will remain the same visually.
-+	 */
-+	led_mc->subled_info[0].intensity = rgb_rep->red;
-+	led_mc->subled_info[1].intensity = rgb_rep->green;
-+	led_mc->subled_info[2].intensity = rgb_rep->blue;
-+
-+	return 0;
-+}
-+
- static int oxp_hid_raw_event(struct hid_device *hdev, struct hid_report *report,
- 			     u8 *data, int size)
- {
-@@ -171,6 +229,8 @@ static int oxp_hid_raw_event(struct hid_device *hdev, struct hid_report *report,
- 	switch (up) {
- 	case GEN1_USAGE_PAGE:
- 		return oxp_hid_raw_event_gen_1(hdev, report, data, size);
-+	case GEN2_USAGE_PAGE:
-+		return oxp_hid_raw_event_gen_2(hdev, report, data, size);
- 	default:
- 		break;
- 	}
-@@ -216,6 +276,18 @@ static int oxp_gen_1_property_out(enum oxp_function_index fid, u8 *data,
- 	return mcu_property_out(header, header_size, data, data_size, NULL, 0);
- }
+ static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data, u8 data_size);
++static int oxp_set_buttons(void);
  
-+static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data,
-+				  u8 data_size)
-+{
-+	u8 header[] = { fid, GEN2_MESSAGE_ID, 0x01 };
-+	u8 footer[] = { GEN2_MESSAGE_ID, fid };
-+	size_t header_size = ARRAY_SIZE(header);
-+	size_t footer_size = ARRAY_SIZE(footer);
+ static void oxp_mcu_init_fn(struct work_struct *work)
+ {
+ 	u8 gp_mode_data[3] = { OXP_GP_MODE_DEBUG, 0x01, 0x02 };
+ 	int ret;
+ 
++	/* Re-apply the button mapping */
++	ret = oxp_set_buttons();
++	if (ret)
++		dev_err(&drvdata.hdev->dev,
++			"Error: Failed to set button mapping: %i\n", ret);
 +
-+	return mcu_property_out(header, header_size, data, data_size, footer,
-+				footer_size);
+ 	/* Cycle the gamepad mode */
+ 	ret = oxp_gen_2_property_out(OXP_FID_GEN2_TOGGLE_MODE, gp_mode_data, 3);
+ 	if (ret)
+@@ -395,9 +545,410 @@ static ssize_t gamepad_mode_index_show(struct device *dev,
+ }
+ static DEVICE_ATTR_RO(gamepad_mode_index);
+ 
++static void oxp_set_defaults_bmap_1(struct oxp_bmap_page_1 *bmap)
++{
++	bmap->btn_a.button_idx = BUTTON_A;
++	bmap->btn_a.mapping_idx = 0;
++	bmap->btn_b.button_idx = BUTTON_B;
++	bmap->btn_b.mapping_idx = 1;
++	bmap->btn_x.button_idx = BUTTON_X;
++	bmap->btn_x.mapping_idx = 2;
++	bmap->btn_y.button_idx = BUTTON_Y;
++	bmap->btn_y.mapping_idx = 3;
++	bmap->btn_lb.button_idx = BUTTON_LB;
++	bmap->btn_lb.mapping_idx = 4;
++	bmap->btn_rb.button_idx = BUTTON_RB;
++	bmap->btn_rb.mapping_idx = 5;
++	bmap->btn_lt.button_idx = BUTTON_LT;
++	bmap->btn_lt.mapping_idx = 6;
++	bmap->btn_rt.button_idx = BUTTON_RT;
++	bmap->btn_rt.mapping_idx = 7;
++	bmap->btn_start.button_idx = BUTTON_START;
++	bmap->btn_start.mapping_idx = 8;
 +}
 +
- static int oxp_rgb_status_store(u8 enabled, u8 speed, u8 brightness)
- {
- 	u16 up = get_usage_page(drvdata.hdev);
-@@ -230,6 +302,11 @@ static int oxp_rgb_status_store(u8 enabled, u8 speed, u8 brightness)
- 		if (drvdata.rgb_effect == OXP_EFFECT_MONO_LIST)
- 			data[3] = 0x04;
- 		return oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, 4);
-+	case GEN2_USAGE_PAGE:
-+		data = (u8[6]) { OXP_SET_PROPERTY, 0x00, 0x02, enabled, speed, brightness };
-+		if (drvdata.rgb_effect == OXP_EFFECT_MONO_LIST)
-+			data[5] = 0x04;
-+		return oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, 6);
- 	default:
- 		return -ENODEV;
- 	}
-@@ -244,6 +321,9 @@ static ssize_t oxp_rgb_status_show(void)
- 	case GEN1_USAGE_PAGE:
- 		data = (u8[1]) { OXP_GET_PROPERTY };
- 		return oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, 1);
-+	case GEN2_USAGE_PAGE:
-+		data = (u8[3]) { OXP_GET_PROPERTY, 0x00, 0x02 };
-+		return oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, 3);
- 	default:
- 		return -ENODEV;
- 	}
-@@ -274,6 +354,16 @@ static int oxp_rgb_color_set(void)
- 			data[3 * i + 3] = blue;
- 		}
- 		return oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, size);
-+	case GEN2_USAGE_PAGE:
-+		size = 57;
-+		data = (u8[57]) { OXP_EFFECT_MONO_TRUE, 0x00, 0x02 };
++static void oxp_set_defaults_bmap_2(struct oxp_bmap_page_2 *bmap)
++{
++	bmap->btn_select.button_idx = BUTTON_SELECT;
++	bmap->btn_select.mapping_idx = 9;
++	bmap->btn_l3.button_idx = BUTTON_L3;
++	bmap->btn_l3.mapping_idx = 10;
++	bmap->btn_r3.button_idx = BUTTON_R3;
++	bmap->btn_r3.mapping_idx = 11;
++	bmap->btn_dup.button_idx = BUTTON_DUP;
++	bmap->btn_dup.mapping_idx = 12;
++	bmap->btn_ddown.button_idx = BUTTON_DDOWN;
++	bmap->btn_ddown.mapping_idx = 13;
++	bmap->btn_dleft.button_idx = BUTTON_DLEFT;
++	bmap->btn_dleft.mapping_idx = 14;
++	bmap->btn_dright.button_idx = BUTTON_DRIGHT;
++	bmap->btn_dright.mapping_idx = 15;
++	bmap->btn_m1.button_idx = BUTTON_M1;
++	bmap->btn_m1.mapping_idx = 48; /* KEY_F15 */
++	bmap->btn_m2.button_idx = BUTTON_M2;
++	bmap->btn_m2.mapping_idx = 49; /* KEY_F16 */
++}
 +
-+		for (i = 1; i < size / 3; i++) {
-+			data[3 * i] = red;
-+			data[3 * i + 1] = green;
-+			data[3 * i + 2] = blue;
-+		}
-+		return oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, size);
- 	default:
- 		return -ENODEV;
- 	}
-@@ -310,6 +400,10 @@ static int oxp_rgb_effect_set(u8 effect)
- 			data = (u8[1]) { effect };
- 			ret = oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, 1);
- 			break;
-+		case GEN2_USAGE_PAGE:
-+			data = (u8[3]) { effect, 0x00, 0x02 };
-+			ret = oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, 3);
-+			break;
- 		default:
- 			ret = -ENODEV;
- 		}
-@@ -560,6 +654,56 @@ static struct led_classdev_mc oxp_cdev_rgb = {
- 	.subled_info = oxp_rgb_subled_info,
++static void oxp_page_fill_data(char *buf, const struct oxp_button_idx *buttons,
++			       size_t len)
++{
++	size_t offset_increment = sizeof(u8) + sizeof(struct oxp_button_idx);
++	size_t offset = 5;
++	unsigned int i;
++
++	for (i = 0; i < len; i++, offset += offset_increment) {
++		buf[offset] = (u8)buttons[i].button_idx;
++		memcpy(buf + offset + 1,
++		       &oxp_button_table[buttons[i].mapping_idx].data,
++		       sizeof(struct oxp_button_data));
++	}
++}
++
++static int oxp_set_buttons(void)
++{
++	u8 page_1[59] = { 0x02, 0x38, 0x20, 0x01, 0x01 };
++	u8 page_2[59] = { 0x02, 0x38, 0x20, 0x02, 0x01 };
++	u16 up = get_usage_page(drvdata.hdev);
++	int ret;
++
++	if (up != GEN2_USAGE_PAGE)
++		return -EINVAL;
++
++	const struct oxp_button_idx p1[] = {
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_a),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_b),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_x),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_y),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_lb),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_rb),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_lt),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_rt),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_start),
++	};
++
++	const struct oxp_button_idx p2[] = {
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_select),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_l3),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_r3),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_dup),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_ddown),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_dleft),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_dright),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_m1),
++		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_m2),
++	};
++
++	oxp_page_fill_data(page_1, p1, ARRAY_SIZE(p1));
++	oxp_page_fill_data(page_2, p2, ARRAY_SIZE(p2));
++
++	ret = oxp_gen_2_property_out(OXP_FID_GEN2_KEY_STATE, page_1, ARRAY_SIZE(page_1));
++	if (ret)
++		return ret;
++
++	return oxp_gen_2_property_out(OXP_FID_GEN2_KEY_STATE, page_2, ARRAY_SIZE(page_2));
++}
++
++static int oxp_reset_buttons(void)
++{
++	oxp_set_defaults_bmap_1(drvdata.bmap_1);
++	oxp_set_defaults_bmap_2(drvdata.bmap_2);
++	return oxp_set_buttons();
++}
++
++static ssize_t reset_buttons_store(struct device *dev,
++				   struct device_attribute *attr, const char *buf,
++				   size_t count)
++{
++	int val, ret;
++
++	ret = kstrtoint(buf, 10, &val);
++	if (ret)
++		return ret;
++
++	if (val != 1)
++		return -EINVAL;
++
++	ret = oxp_reset_buttons();
++	if (ret)
++		return ret;
++
++	return count;
++}
++static DEVICE_ATTR_WO(reset_buttons);
++
++static void oxp_btn_queue_fn(struct work_struct *work)
++{
++	int ret;
++
++	ret = oxp_set_buttons();
++	if (ret)
++		dev_err(&drvdata.hdev->dev,
++			"Error: Failed to write button mapping: %i\n", ret);
++}
++
++static DECLARE_DELAYED_WORK(oxp_btn_queue, oxp_btn_queue_fn);
++
++static int oxp_button_idx_from_str(const char *buf)
++{
++	int i;
++
++	for (i = 0; i < ARRAY_SIZE(oxp_button_table); i++)
++		if (sysfs_streq(buf, oxp_button_table[i].name))
++			return i;
++
++	return -EINVAL;
++}
++
++static ssize_t map_button_store(struct device *dev,
++				struct device_attribute *attr, const char *buf,
++				size_t count, u8 index)
++{
++	int idx;
++
++	idx = oxp_button_idx_from_str(buf);
++	if (idx < 0)
++		return idx;
++
++	switch (index) {
++	case BUTTON_A:
++		drvdata.bmap_1->btn_a.mapping_idx = idx;
++		break;
++	case BUTTON_B:
++		drvdata.bmap_1->btn_b.mapping_idx = idx;
++		break;
++	case BUTTON_X:
++		drvdata.bmap_1->btn_x.mapping_idx = idx;
++		break;
++	case BUTTON_Y:
++		drvdata.bmap_1->btn_y.mapping_idx = idx;
++		break;
++	case BUTTON_LB:
++		drvdata.bmap_1->btn_lb.mapping_idx = idx;
++		break;
++	case BUTTON_RB:
++		drvdata.bmap_1->btn_rb.mapping_idx = idx;
++		break;
++	case BUTTON_LT:
++		drvdata.bmap_1->btn_lt.mapping_idx = idx;
++		break;
++	case BUTTON_RT:
++		drvdata.bmap_1->btn_rt.mapping_idx = idx;
++		break;
++	case BUTTON_START:
++		drvdata.bmap_1->btn_start.mapping_idx = idx;
++		break;
++	case BUTTON_SELECT:
++		drvdata.bmap_2->btn_select.mapping_idx = idx;
++		break;
++	case BUTTON_L3:
++		drvdata.bmap_2->btn_l3.mapping_idx = idx;
++		break;
++	case BUTTON_R3:
++		drvdata.bmap_2->btn_r3.mapping_idx = idx;
++		break;
++	case BUTTON_DUP:
++		drvdata.bmap_2->btn_dup.mapping_idx = idx;
++		break;
++	case BUTTON_DDOWN:
++		drvdata.bmap_2->btn_ddown.mapping_idx = idx;
++		break;
++	case BUTTON_DLEFT:
++		drvdata.bmap_2->btn_dleft.mapping_idx = idx;
++		break;
++	case BUTTON_DRIGHT:
++		drvdata.bmap_2->btn_dright.mapping_idx = idx;
++		break;
++	case BUTTON_M1:
++		drvdata.bmap_2->btn_m1.mapping_idx = idx;
++		break;
++	case BUTTON_M2:
++		drvdata.bmap_2->btn_m2.mapping_idx = idx;
++		break;
++	default:
++		return -EINVAL;
++	}
++	mod_delayed_work(system_wq, &oxp_btn_queue, msecs_to_jiffies(50));
++	return count;
++}
++
++static ssize_t map_button_show(struct device *dev,
++			       struct device_attribute *attr, char *buf,
++			       u8 index)
++{
++	u8 i;
++
++	switch (index) {
++	case BUTTON_A:
++		i = drvdata.bmap_1->btn_a.mapping_idx;
++		break;
++	case BUTTON_B:
++		i = drvdata.bmap_1->btn_b.mapping_idx;
++		break;
++	case BUTTON_X:
++		i = drvdata.bmap_1->btn_x.mapping_idx;
++		break;
++	case BUTTON_Y:
++		i = drvdata.bmap_1->btn_y.mapping_idx;
++		break;
++	case BUTTON_LB:
++		i = drvdata.bmap_1->btn_lb.mapping_idx;
++		break;
++	case BUTTON_RB:
++		i = drvdata.bmap_1->btn_rb.mapping_idx;
++		break;
++	case BUTTON_LT:
++		i = drvdata.bmap_1->btn_lt.mapping_idx;
++		break;
++	case BUTTON_RT:
++		i = drvdata.bmap_1->btn_rt.mapping_idx;
++		break;
++	case BUTTON_START:
++		i = drvdata.bmap_1->btn_start.mapping_idx;
++		break;
++	case BUTTON_SELECT:
++		i = drvdata.bmap_2->btn_select.mapping_idx;
++		break;
++	case BUTTON_L3:
++		i = drvdata.bmap_2->btn_l3.mapping_idx;
++		break;
++	case BUTTON_R3:
++		i = drvdata.bmap_2->btn_r3.mapping_idx;
++		break;
++	case BUTTON_DUP:
++		i = drvdata.bmap_2->btn_dup.mapping_idx;
++		break;
++	case BUTTON_DDOWN:
++		i = drvdata.bmap_2->btn_ddown.mapping_idx;
++		break;
++	case BUTTON_DLEFT:
++		i = drvdata.bmap_2->btn_dleft.mapping_idx;
++		break;
++	case BUTTON_DRIGHT:
++		i = drvdata.bmap_2->btn_dright.mapping_idx;
++		break;
++	case BUTTON_M1:
++		i = drvdata.bmap_2->btn_m1.mapping_idx;
++		break;
++	case BUTTON_M2:
++		i = drvdata.bmap_2->btn_m2.mapping_idx;
++		break;
++	default:
++		return -EINVAL;
++	}
++
++	if (i >= ARRAY_SIZE(oxp_button_table))
++		return -EINVAL;
++
++	return sysfs_emit(buf, "%s\n", oxp_button_table[i].name);
++}
++
++static ssize_t button_mapping_options_show(struct device *dev,
++					   struct device_attribute *attr, char *buf)
++{
++	ssize_t count = 0;
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(oxp_button_table); i++)
++		count += sysfs_emit_at(buf, count, "%s ", oxp_button_table[i].name);
++
++	if (count)
++		buf[count - 1] = '\n';
++
++	return count;
++}
++static DEVICE_ATTR_RO(button_mapping_options);
++
++#define OXP_DEVICE_ATTR_RW(_name, _group)                                     \
++	static ssize_t _name##_store(struct device *dev,                      \
++				     struct device_attribute *attr,           \
++				     const char *buf, size_t count)           \
++	{                                                                     \
++		return _group##_store(dev, attr, buf, count, _name.index);    \
++	}                                                                     \
++	static ssize_t _name##_show(struct device *dev,                       \
++				    struct device_attribute *attr, char *buf) \
++	{                                                                     \
++		return _group##_show(dev, attr, buf, _name.index);            \
++	}                                                                     \
++	static DEVICE_ATTR_RW(_name)
++
++static struct oxp_attr button_a = { BUTTON_A };
++OXP_DEVICE_ATTR_RW(button_a, map_button);
++
++static struct oxp_attr button_b = { BUTTON_B };
++OXP_DEVICE_ATTR_RW(button_b, map_button);
++
++static struct oxp_attr button_x = { BUTTON_X };
++OXP_DEVICE_ATTR_RW(button_x, map_button);
++
++static struct oxp_attr button_y = { BUTTON_Y };
++OXP_DEVICE_ATTR_RW(button_y, map_button);
++
++static struct oxp_attr button_lb = { BUTTON_LB };
++OXP_DEVICE_ATTR_RW(button_lb, map_button);
++
++static struct oxp_attr button_rb = { BUTTON_RB };
++OXP_DEVICE_ATTR_RW(button_rb, map_button);
++
++static struct oxp_attr button_lt = { BUTTON_LT };
++OXP_DEVICE_ATTR_RW(button_lt, map_button);
++
++static struct oxp_attr button_rt = { BUTTON_RT };
++OXP_DEVICE_ATTR_RW(button_rt, map_button);
++
++static struct oxp_attr button_start = { BUTTON_START };
++OXP_DEVICE_ATTR_RW(button_start, map_button);
++
++static struct oxp_attr button_select = { BUTTON_SELECT };
++OXP_DEVICE_ATTR_RW(button_select, map_button);
++
++static struct oxp_attr button_l3 = { BUTTON_L3 };
++OXP_DEVICE_ATTR_RW(button_l3, map_button);
++
++static struct oxp_attr button_r3 = { BUTTON_R3 };
++OXP_DEVICE_ATTR_RW(button_r3, map_button);
++
++static struct oxp_attr button_d_up = { BUTTON_DUP };
++OXP_DEVICE_ATTR_RW(button_d_up, map_button);
++
++static struct oxp_attr button_d_down = { BUTTON_DDOWN };
++OXP_DEVICE_ATTR_RW(button_d_down, map_button);
++
++static struct oxp_attr button_d_left = { BUTTON_DLEFT };
++OXP_DEVICE_ATTR_RW(button_d_left, map_button);
++
++static struct oxp_attr button_d_right = { BUTTON_DRIGHT };
++OXP_DEVICE_ATTR_RW(button_d_right, map_button);
++
++static struct oxp_attr button_m1 = { BUTTON_M1 };
++OXP_DEVICE_ATTR_RW(button_m1, map_button);
++
++static struct oxp_attr button_m2 = { BUTTON_M2 };
++OXP_DEVICE_ATTR_RW(button_m2, map_button);
++
+ static struct attribute *oxp_cfg_attrs[] = {
++	&dev_attr_button_a.attr,
++	&dev_attr_button_b.attr,
++	&dev_attr_button_d_down.attr,
++	&dev_attr_button_d_left.attr,
++	&dev_attr_button_d_right.attr,
++	&dev_attr_button_d_up.attr,
++	&dev_attr_button_l3.attr,
++	&dev_attr_button_lb.attr,
++	&dev_attr_button_lt.attr,
++	&dev_attr_button_m1.attr,
++	&dev_attr_button_m2.attr,
++	&dev_attr_button_mapping_options.attr,
++	&dev_attr_button_r3.attr,
++	&dev_attr_button_rb.attr,
++	&dev_attr_button_rt.attr,
++	&dev_attr_button_select.attr,
++	&dev_attr_button_start.attr,
++	&dev_attr_button_x.attr,
++	&dev_attr_button_y.attr,
+ 	&dev_attr_gamepad_mode.attr,
+ 	&dev_attr_gamepad_mode_index.attr,
++	&dev_attr_reset_buttons.attr,
+ 	NULL,
  };
  
-+struct quirk_entry {
-+	bool hybrid_mcu;
-+};
-+
-+static struct quirk_entry quirk_hybrid_mcu = {
-+	.hybrid_mcu = true,
-+};
-+
-+static const struct dmi_system_id oxp_hybrid_mcu_list[] = {
-+	{
-+		.ident = "OneXPlayer Apex",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER APEX"),
-+		},
-+		.driver_data = &quirk_hybrid_mcu,
-+	},
-+	{
-+		.ident = "OneXPlayer G1 AMD",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 A"),
-+		},
-+		.driver_data = &quirk_hybrid_mcu,
-+	},
-+	{
-+		.ident = "OneXPlayer G1 Intel",
-+		.matches = {
-+			DMI_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
-+			DMI_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 i"),
-+		},
-+		.driver_data = &quirk_hybrid_mcu,
-+	},
-+	{},
-+};
-+
-+static bool oxp_hybrid_mcu_device(void)
-+{
-+	const struct dmi_system_id *dmi_id;
-+	struct quirk_entry *quirks;
-+
-+	dmi_id = dmi_first_match(oxp_hybrid_mcu_list);
-+	if (!dmi_id)
-+		return false;
-+
-+	quirks = dmi_id->driver_data;
-+
-+	return quirks->hybrid_mcu;
-+}
-+
+@@ -823,6 +1374,8 @@ static bool oxp_hybrid_mcu_device(void)
+ 
  static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
  {
++	struct oxp_bmap_page_1 *bmap_1;
++	struct oxp_bmap_page_2 *bmap_2;
  	int ret;
-@@ -567,6 +711,10 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
+ 
  	hid_set_drvdata(hdev, &drvdata);
- 	mutex_init(&drvdata.cfg_mutex);
- 	drvdata.hdev = hdev;
+@@ -855,6 +1408,18 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
+ 		return 0;
+ 
+ skip_rgb:
++	bmap_1 = devm_kzalloc(&hdev->dev, sizeof(struct oxp_bmap_page_1), GFP_KERNEL);
++	if (!bmap_1)
++		return dev_err_probe(&hdev->dev, -ENOMEM,
++				     "Unable to allocate button map page 1\n");
 +
-+	if (up == GEN2_USAGE_PAGE && oxp_hybrid_mcu_device())
-+		goto skip_rgb;
++	bmap_2 = devm_kzalloc(&hdev->dev, sizeof(struct oxp_bmap_page_2), GFP_KERNEL);
++	if (!bmap_2)
++		return dev_err_probe(&hdev->dev, -ENOMEM,
++				     "Unable to allocate button map page 2\n");
 +
- 	drvdata.led_mc = &oxp_cdev_rgb;
++	drvdata.bmap_1 = bmap_1;
++	drvdata.bmap_2 = bmap_2;
+ 	mod_delayed_work(system_wq, &oxp_mcu_init, msecs_to_jiffies(50));
  
- 	ret = devm_led_classdev_multicolor_register(&hdev->dev, &oxp_cdev_rgb);
-@@ -585,6 +733,7 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- 		dev_warn(drvdata.led_mc->led_cdev.dev,
- 			 "Failed to query RGB initial state: %i\n", ret);
- 
-+skip_rgb:
- 	return 0;
- }
- 
-@@ -613,6 +762,7 @@ static int oxp_hid_probe(struct hid_device *hdev,
- 
- 	switch (up) {
- 	case GEN1_USAGE_PAGE:
-+	case GEN2_USAGE_PAGE:
- 		ret = oxp_cfg_probe(hdev, up);
- 		if (ret) {
- 			hid_hw_close(hdev);
-@@ -633,6 +783,7 @@ static void oxp_hid_remove(struct hid_device *hdev)
- 
- static const struct hid_device_id oxp_devices[] = {
- 	{ HID_USB_DEVICE(USB_VENDOR_ID_CRSC, USB_DEVICE_ID_ONEXPLAYER_GEN1) },
-+	{ HID_USB_DEVICE(USB_VENDOR_ID_WCH, USB_DEVICE_ID_ONEXPLAYER_GEN2) },
- 	{}
- };
- 
+ 	drvdata.gamepad_mode = OXP_GP_MODE_XINPUT;
 -- 
 2.53.0
 
