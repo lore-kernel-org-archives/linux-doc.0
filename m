@@ -1,135 +1,150 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146B425A2B5;
-	Tue,  7 Apr 2026 14:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C033C23EA83
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 14:43:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775572957; cv=none; b=QS+5q+ewqA0R3LtzweDPN97US5XMFrPVWQXzOQN4a2caf5Ww0eKSJ5aOeoHQAXV1dRad+12qnc/jWqduqeYIgu3BZkX+FR3fHOdvp7dSzR2Mjoa5CtoWvaOkHTmStPObGmrIBe67CSNjNFfhiAogILIUEXzZSwNrcHgW5eBmNQI=
+	t=1775573038; cv=none; b=GTZ+by1C7Dsb8nemJM5aaQLCNp/yf8Z8GYmKSl5qiPgdCloKa1t2tc7+7xj8XFOuAtCe1WYysCDMLP+WPIcFaLCY9vGPwGyLE4F1dVIPSB0OaPT2vWNrVqSD1wbZ0+lBHpkMyW/ZwFs0aKmQ6uFk7Sanirc+fhB+6rVMgTGBeuU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775572957; c=relaxed/simple;
-	bh=ZKeT3EG9f0w3T6fK4Zy6iKjyI/8l3jfApv9fdEeLazk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=evhc2KoMZHZOS1sHjQOEXgIQRGItB2ZzAmJ8A5HBO1beV7ZGydS1rPMrv7ViuevsXnYYNf3AqHw5xcwfVmiDkw9J5PDXBg0wvwQvqfbThUMGt4QweFG4AsMnJzbAxI5+JaN+SRMZOENW/9PyQIqFmeM9klUlarGkrGJDdqlxU60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hzXIyjkg; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775573038; c=relaxed/simple;
+	bh=Rg2L4nRM/rmCCsatjSqa4HCUG4hnfLEj0hiBmiJumio=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=eAQXPUeBezeWzX045kiJVx1rTKmpXq3CiE5czW3npC+usBEQQo8n2HxZnpmHKNyys73rDPV91V0PdaPYg0+Jw+hXi1FFzyGxeCqqDJOc4SOdepNOp7BMquvafsrt++w7jDhN59AZ+Hs5QNhRhm35Z2v8s791MBw1s5Ml3PkaKck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ntLJzeLG; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=OG+wUWl/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hzXIyjkg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775572956; x=1807108956;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ZKeT3EG9f0w3T6fK4Zy6iKjyI/8l3jfApv9fdEeLazk=;
-  b=hzXIyjkg+2RYhkSiwKa7XJgUMqYWfXdKN5Az8/mw1RmT9CYuW7N9usTE
-   inoB0y+OMwRvx2mhP7PU3JCHenBaTL2eO7Bj5WzcSc152UHmYfo3CW65X
-   V53iq9gI7/65xrrc1uP/gVfg5/AqRygbnom4ypRB0RogdG6c9YtLHv54B
-   PMi+NURPd14eNjeWCgD+NoUcI9zv9U/wsibKs23WjWNVzIQvFAFiLbu2c
-   RJdvOXICIo/e5nWiTLPrk+ULUBhE1NUSXiBwyAVXmNcgzrg1PQCXuSYs/
-   cy+3rrEvmxHv6S5da1anLRE/SmFuq9Bak9/96z0GbDIl5yxMH9fjz6Kye
-   g==;
-X-CSE-ConnectionGUID: URvI26oaTUa9aRQGrnHjWg==
-X-CSE-MsgGUID: NXCvDNfQSPGv9rjaNl5WYw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="75577464"
-X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="75577464"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:42:35 -0700
-X-CSE-ConnectionGUID: X9UQn79SSZu5MuDyveNRdA==
-X-CSE-MsgGUID: PyT17ImUSAak2sMkKm4OdA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
-   d="scan'208";a="228119455"
-Received: from gabaabhi-mobl2.amr.corp.intel.com (HELO [10.125.108.118]) ([10.125.108.118])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 07:42:35 -0700
-Message-ID: <98880cc2-09be-4bd8-b8f4-f0f0845f939e@intel.com>
-Date: Tue, 7 Apr 2026 07:42:45 -0700
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ntLJzeLG";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="OG+wUWl/"
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 637D6Nvv2328096
+	for <linux-doc@vger.kernel.org>; Tue, 7 Apr 2026 14:43:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	00NWTnAGV7yhJd8/Q9KklSPqk81RRr1EXW2S+gNTCtk=; b=ntLJzeLGPTvhrN8A
+	KfnK88vXvr4V3kMaUnRyELTWksVqxFt3EwUdwALIin+rSWejoZTnq95Sx4yZFyXX
+	cpaOAmTHXlUI6WnREw9WNERNS6Z/NMAk84stup2KAm/HLTkv89nJbeWFmm9nUgh2
+	OCW1iKOpd/CkrbJMUDLUCXiisI/H19Yoi0vUWIIgJTwU1An1p16OWXWIjBMBlX9p
+	QiqUwtilSvDjBiZ7PjFfSd5q12dWeWm/uEUDUkRO2YiC9LSXhlAs7Kisuky5hgFi
+	Ybqq1YH/EgHwBTfKZNXxN0E2thJkfaPDC1UyWZNZNjlY7uxFJ7MshuAVhLhawdFH
+	EBXfYQ==
+Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dcms4u5wm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 14:43:56 +0000 (GMT)
+Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-354c0234c1fso5404147a91.2
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 07:43:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1775573036; x=1776177836; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=00NWTnAGV7yhJd8/Q9KklSPqk81RRr1EXW2S+gNTCtk=;
+        b=OG+wUWl/LLYgLglPLVNXvR0S0f3p78TPPVyq2GdlDCoMkUXEb1Ao6Ls/Bk1SFkg+yA
+         ydoZ7irvihVDgj7A5PdEdbCPYE8GQ6+iSenQYrpZZ+ju4bFfnEsoVLxZTXHfpfLq1wX8
+         8QCu6220ZoUr+OPqAff34b3GDKqcDe0/jCaUf8vYJItkka3LfY2RmhY9ld/jOPI5v+vq
+         BdbBh8y7eVe2eQJQcWhF91gUaJwNMtNCMutepoIrZyamwRh25UCfLQXiR+CTF3To/E7V
+         lVFCQkYFxpVlhzStejCrouALOzr2InWnLEuPvmM+laVfOcMV1z5zojWtHBYJJD8LVpOg
+         ZAWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775573036; x=1776177836;
+        h=content-transfer-encoding:mime-version:date:message-id:subject
+         :references:in-reply-to:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=00NWTnAGV7yhJd8/Q9KklSPqk81RRr1EXW2S+gNTCtk=;
+        b=X7bwq1yMInp8yGA/zJmFlJLGBFeAG38ki+Iur+orLM6s4XgZk8R+JFhhdizOl8CVCz
+         w0yjJflRmK8+deK8Y8WtaTYx9+S4ysMPYuKlw5PpP9RhjyLAD5jSJ0NxSYOwypAIWl9Z
+         kcVNXp8Y88G40RO0/TTmhg4zXYumZt4/Re+rmoetXejdm01dumsdwaZqi11IoVTKYaj0
+         IOUMKfdemkjpHTSILe0L5gswof8Yl2VIM2ZQsTMX1hRjELmK/EgjZcnYoBQ8wXs/DHJ2
+         8gjUlDnTfZwG8QB0Y69BU/pIG27vCk7ibvi/7tBM4qhWEer5EIgLdwEEn5w0OW4gGr2P
+         jLaw==
+X-Forwarded-Encrypted: i=1; AJvYcCWKDzCJjYLAqyAe8EilqB4mpovQVwxWxrY9ix5XYZFPQiJT07jMR66OK/cpCGBAvEFl3SJUc8+ULuQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVwquFDkfJ0j4ZEaw2Nyel34jB+VTOmoNY9swNtxaEEw61oMuE
+	n+nzAbI5RlAB7UpqAc4IVgqBhgXlccS0QlJQewejAJ2EMXQ8wyrllqru6kmtOWdCr55ExnhpHwk
+	ZjrYW2oqYW57mbFp7kytnRmdRqJyJPwz5dzzvtF0sfi9fbjYZDF9yF1WfATR8o1U=
+X-Gm-Gg: AeBDieviT/gvmO0ogMPIONrXGC25i19fU0Vq0+e5z2/PLeHVZkrZ0vTm4KRQNhAgPhW
+	6IzQvnH0KO5sqbmT9etWBrD7ReeUsYysLb31JA/BOpCwXTmvThpNaU2vckQUa1o5m5ONFkHrXAI
+	fCrvRam8YB75XxNeGl/pvA8GfnpPH0SuaW8JHim0gGQRf75ng3nbgp1LVHszsO3AjiqsLV2yP5h
+	7JIpW76O2fKZvi+1J+EWhU84e1Bp5H5E9qy86t3WvUCBbPwa+/Gulo3O68yM4RoHedrmrX11vRS
+	WXBNQrNTZd4P3xgxlRuIxD2+e2V5h/rMX1lPwTDiDY8mvQd1pwYE/uthtLB050OUXu81LjsjP7r
+	R6gSBNBcTNcVMA+z0Noaw
+X-Received: by 2002:a17:90b:2b50:b0:35d:a559:5c1c with SMTP id 98e67ed59e1d1-35de660a07fmr15496007a91.0.1775573036232;
+        Tue, 07 Apr 2026 07:43:56 -0700 (PDT)
+X-Received: by 2002:a17:90b:2b50:b0:35d:a559:5c1c with SMTP id 98e67ed59e1d1-35de660a07fmr15495973a91.0.1775573035680;
+        Tue, 07 Apr 2026 07:43:55 -0700 (PDT)
+Received: from [192.168.1.102] ([120.60.133.76])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-35dd35e34f9sm17067098a91.1.2026.04.07.07.43.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Apr 2026 07:43:54 -0700 (PDT)
+From: Manivannan Sadhasivam <manivannan.sadhasivam@oss.qualcomm.com>
+X-Google-Original-From: Manivannan Sadhasivam <mani@kernel.org>
+To: Bjorn Helgaas <bhelgaas@google.com>, Shawn Lin <shawn.lin@rock-chips.com>
+Cc: linux-rockchip@lists.infradead.org, linux-pci@vger.kernel.org,
+        linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        Steven Rostedt <rostedt@goodmis.org>
+In-Reply-To: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
+References: <1774403912-210670-1-git-send-email-shawn.lin@rock-chips.com>
+Subject: Re: [PATCH v5 0/3] PCI Controller event and LTSSM tracepoint
+ support
+Message-Id: <177557303192.289344.2616682402332241807.b4-ty@b4>
+Date: Tue, 07 Apr 2026 20:13:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: proc: document ProtectionKey in smaps
-To: Kevin Brodsky <kevin.brodsky@arm.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Yury Khrustalev <yury.khrustalev@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org
-References: <20260407125133.564182-1-kevin.brodsky@arm.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260407125133.564182-1-kevin.brodsky@arm.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.15.0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA3MDEzNCBTYWx0ZWRfXy3nDQnKultik
+ lRwGYCWm0wedNQWvKPM2TWYELFzmSGp29e3A7xcfuLhLSj8MBYLwQ8UoO2ewTnhXUQ2+/pWZvsI
+ icN6yhq17crBxYZgmg91wIBeNTyqHfyOaLkE4cu5A9jewTbYoc/76odTphFeAJl0Lhi/JJbgX9Z
+ /WA+AEf19NCiyJqQxZrhW9hGM6NknZmMBchsWlFywAvxkmJsET6q2qOt/xXuPOCUIkj0mEFqn7r
+ U/sk5V+sznSB7mV8IfCMZIkNvnsMwSHFVmc0JiZYezu5HSx5TfQBGD6EBQghFk4P207sTGDIASe
+ tcwcbLv+06gz4Vkl+NOdkIch4x8WZjw2XhFz+r3urDPfqumK+rql40/gDdrrbzs8YbS1hrCS2Ab
+ NESu0Tz0zp5RmIbjwq6rc12bZ/tmjet8EHeyDmW/QuEZMwBSXsT83qINJUsecDF8zc/wLielQ2O
+ kwNDBolc96blBFItWIA==
+X-Proofpoint-ORIG-GUID: 0qzuolJZTmJVgsCxuERM-KOV3iuGpeDD
+X-Authority-Analysis: v=2.4 cv=WNZPmHsR c=1 sm=1 tr=0 ts=69d5182c cx=c_pps
+ a=RP+M6JBNLl+fLTcSJhASfg==:117 a=yDxY/ZQAnAaCL67VaoekCQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
+ a=VwQbUJbxAAAA:8 a=QCXkDXtUJjd1gO50qw4A:9 a=QEXdDO2ut3YA:10
+ a=iS9zxrgQBfv6-_F4QbHw:22
+X-Proofpoint-GUID: 0qzuolJZTmJVgsCxuERM-KOV3iuGpeDD
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-07_03,2026-04-07_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 phishscore=0 spamscore=0 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 clxscore=1015 malwarescore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604070134
 
-On 4/7/26 05:51, Kevin Brodsky wrote:
-> +If both the kernel and the system support protection keys (pkeys),
-> +"ProtectionKey" indicates the memory protection key associated with the
-> +virtual memory area.
 
-I think you're trying to get across the point here that the kernel needs
-to know about protection keys, have it enabled, and be running on a CPU
-with pkey support.
+On Wed, 25 Mar 2026 09:58:29 +0800, Shawn Lin wrote:
+> This patch-set adds new pci controller event and LTSSM tracepoint used by host drivers
+> which provide LTSSM trace functionality. The first user is pcie-dw-rockchip with a 256
+> Bytes FIFO for recording LTSSM transition.
+> 
+> Testing
+> =========
+> 
+> [...]
 
-To me "system" is a bit ambiguous here but _can_ refer to the whole
-hardware/software system as a whole. To avoid redundancy, I'd say either:
+Applied, thanks!
 
-	If both the kernel and the processor support protection keys...
+[1/3] PCI: trace: Add PCI controller LTSSM transition tracepoint
+      commit: d1b7add89c004295cd48d7cd49946ed5cb5cbb55
+[2/3] Documentation: tracing: Add PCI controller event documentation
+      commit: a3966a6f915ea7d1af0941ea26848d921e574c45
+[3/3] PCI: dw-rockchip: Add pcie_ltssm_state_transition trace support
+      commit: a276c0d802d8d2a22088b7919d9e82e936995cf4
 
-or
+Best regards,
+-- 
+Manivannan Sadhasivam <mani@kernel.org>
 
-	If the system supports protection keys...
-
-But I'm ok with what you have in any case. Folks will understand what
-you're saying:
-
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
