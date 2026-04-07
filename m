@@ -1,174 +1,159 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4F837AA82
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 19:04:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FA433E35B;
+	Tue,  7 Apr 2026 19:11:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775588642; cv=none; b=h6FIvTooWHIgqjWKZmh/50ymUpzBkp80KNYrr5egK8XtMP9hJcySmdrDBvz8w2Kf9+sJ3fucjZMBXSaowqHVD3zskAV6eae0XAyC3xgZbEHoMDiDirdi9+XGjLyh/Dn5+JXWeDhd8OIExUHPrJIp1CFKIbzweRI9IDlvAFn9aRQ=
+	t=1775589100; cv=none; b=RFzQXz2pnD+qbo088wngC7kPx24kdacMfjHblyjK44KSpu+GoV6LYDw8pH6F9f1rc0b7rTTJWroLwwlrjgq4xhFJJ2wtupZ9GU58HTUtRK3wkifmC7Ngi5nQeIb5Mrdqlr1qj+JC9o3f9AMKfdl6Ptdupqix5Kx6oZ+aImHhhDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775588642; c=relaxed/simple;
-	bh=DDTnOH7NwcOC069gyrRBOx/hSJ7etBIE2aq6L/7kopw=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WaF3mvPNKhln4/e1+B05209cHyIzUzxl88NdBLQlsm33hxHqrBFvThtMveyZmvSFExZ1BgQqRYbfkMwU4fnjeiyEsY0Qa6HDhWWtz4vQZ7KwFs5Swep6hZJG+8j2ltfc4TPU70Elo8sSQvIF0Gz6SHDptOLd2vkUckwE8tQU8QI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=c3/g4F7l; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com
+	s=arc-20240116; t=1775589100; c=relaxed/simple;
+	bh=1eTZaDaPMLqpdSYtorwnwSWTlbF1iszS3SXt9Qld5p8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lkcwUlMFJqxiOjHrBZInFa8MdH5F6Muk9Hhdl3rVVf5WxNh5qdxFLnhSQAut5y+SQslexBgX/f46GI54OMxRknXUoGjHGs3vWtxnhRD46ur29bYU5tsKvRADV1ndHq8UEs06UM9oXoewnpywdZ22pVzwW4aDuQft4Kue8518f3s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brmo1u2X; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="c3/g4F7l"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82c646e980bso2783632b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 12:04:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775588640; x=1776193440; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=C/hWp5mdQZYGSnJF78QkGkcqqA60B96zhUB/JDrQy94=;
-        b=c3/g4F7lNF8sI7pvKIe3kMjhXocaG1s8FIW1XOwSYzMLI2kw2HAOcN4qtCtoW0vbmf
-         JovYQZnFyMnfjTwKI2Z3GMQJfrybRv5nardWLh/Rw/A+4D4npAJp5Vfm2cZN/+b8UM/m
-         ycL30ycVH1DBtxpGgjhpjcLZrtFQONuOBDcktVnCWYVk88L4lH4y9g7z1MqRFhIC4ldE
-         wrRxIf7gbQv6nML0x2c/rbAyYT7dnhtrTD8JL7HkLaUeEjXNjJK50aTeaINbj5ueZYT2
-         QdkskxYFzUHxvx+uE4Qy3ZPnQOW/J3N+bOwxuWmKP1ikOcBBij6w3N1WuUyO5u2A+EhN
-         ASVg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775588640; x=1776193440;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C/hWp5mdQZYGSnJF78QkGkcqqA60B96zhUB/JDrQy94=;
-        b=PPGb21Vs7Ue6siWEccyjEjrHkSxmTx0HodSf0mGkzLangxJ5jBp0xXJbdXVJSPuyyU
-         IwQTWeJXoZypqnfx/qramhVLiXSR7tnwKbTJUeRBxQOS8ogpbaVXx10H1hZ79PSkZv45
-         wMJ3/3uAbKNphSeQgy7z8ODvWzyerqV9eE1mArnQ5iUmnaLC9dux2SsvHENPOzIRlaed
-         oEZX3u9Q+Dwhvw9FNwLmgqaCNNM9oJeXNXaFchC4KLsfAUnqI78tLZ0d9UbXUHY6Ysez
-         oXMzTKR5bH/nC2htO7mFM7pXbNAH64F65Atuyl3QMvKyCIlIpYPi8W0vVYe+GDrDCaQT
-         TVjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXFsYfb8LOrkRLpIlnGVZRuZPcGbKqOcGdiwBg3U5QwOVp/tBhKBf6nWSiJVumGpAYvY2T11WiZ8II=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywk5C8+SSBXaAhI/3yIgqVg2g1s3QZby+O/MBu8HyTKY2xDeu+Q
-	uD4wUO5RV2s8k9GyadY2Yl0Yla/WH3pCeJ8fzCa4lm6uHKkga3eIBMzU2GtS8WUX03zCgVKiisv
-	GhMLEqTqk2pM5tA==
-X-Received: from pfbjc13.prod.google.com ([2002:a05:6a00:6c8d:b0:821:8233:7400])
- (user=jmattson job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:4193:b0:82c:eb46:acb9 with SMTP id d2e1a72fcca58-82d0da8c458mr17805265b3a.24.1775588639882;
- Tue, 07 Apr 2026 12:03:59 -0700 (PDT)
-Date: Tue,  7 Apr 2026 12:03:31 -0700
-In-Reply-To: <20260407190343.325299-1-jmattson@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brmo1u2X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775589098; x=1807125098;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=1eTZaDaPMLqpdSYtorwnwSWTlbF1iszS3SXt9Qld5p8=;
+  b=brmo1u2X+dzCk+YWcolPe/mk5yNuW2jj0/uN19vZczIQWgPnwA84wHzF
+   Ii/Y77iuXx9oWWKWvrDy3Jb5t/JMyiBazQ9ucMeyEMUfB0nqLlUxjAK7h
+   Ltc1l5S+haDjZwJmdCP4LNz3n4LbYS3snpGXNzW+awqrK6rN23HPgWkp/
+   txH6gWecxSeqRkqShQhMxVuA2rq0iZ+5L+YxY+Wb0IY5g+lgWiXqCUU+g
+   6AJuPSpl+XSHp+450qTy6HwVjyP3zUsDw7xveGGGPJPXReeAalJTK7VA3
+   IA/FLM0EK76E6MOYQgmpniBKZhaG90BACgOeRwrP6JK6dP23YCvLlfuPg
+   g==;
+X-CSE-ConnectionGUID: kGdcdCD5Q66L+30HcISRQg==
+X-CSE-MsgGUID: Qbwu2k8QSySIB0XBTQl+WA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="86855746"
+X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
+   d="scan'208";a="86855746"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 12:11:38 -0700
+X-CSE-ConnectionGUID: K3BKmZE2QxOmuIeKaEHctA==
+X-CSE-MsgGUID: vtTvIZBzRU+D/MxUmZoE4A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
+   d="scan'208";a="232287983"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 12:11:37 -0700
+Date: Tue, 7 Apr 2026 12:11:28 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	chao.gao@intel.com
+Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260407191128.b2hr2ttkdpyunhrr@desk>
+References: <20260403233329.fb2ppifgwm3um6ny@desk>
+ <CALMp9eTpsenqsWjzmpXLEubn9uNjgZgzgrMwtZ72HDuV_2xgfg@mail.gmail.com>
+ <20260404002149.wtayv6a64vzuppgp@desk>
+ <CALMp9eSqgL5q-MY1xpjqR5oRn5_cb=mfEhNFWusNneS=Mx8UMg@mail.gmail.com>
+ <20260404034954.t7iapenzvhdpagxp@desk>
+ <CALMp9eR70eE2U63gzNzTiic0PqJVGv3CBBuVUOVbi3nqbWKZkQ@mail.gmail.com>
+ <20260407163943.y6tkh26z2rfktn3y@desk>
+ <CALMp9eTA3cXxuOT4dq=6y1hx52gPH1ywwTEmPQ5-fA-vz6r3VQ@mail.gmail.com>
+ <20260407171151.2gf2idjbmph35ypb@desk>
+ <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260407190343.325299-1-jmattson@google.com>
-X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
-Message-ID: <20260407190343.325299-9-jmattson@google.com>
-Subject: [PATCH v8 8/8] KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
-From: Jim Mattson <jmattson@google.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
-Cc: Jim Mattson <jmattson@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
 
-Add a 'gpat' field to kvm_svm_nested_state_hdr to carry L2's guest PAT
-value across save and restore.
+On Tue, Apr 07, 2026 at 11:40:57AM -0700, Jim Mattson wrote:
+> On Tue, Apr 7, 2026 at 10:12 AM Pawan Gupta
+> <pawan.kumar.gupta@linux.intel.com> wrote:
+> >
+> > On Tue, Apr 07, 2026 at 09:46:07AM -0700, Jim Mattson wrote:
+> > > On Tue, Apr 7, 2026 at 9:40 AM Pawan Gupta
+> > > <pawan.kumar.gupta@linux.intel.com> wrote:
+> > > >
+> > > > On Mon, Apr 06, 2026 at 07:23:25AM -0700, Jim Mattson wrote:
+> > > > > Yes, but the guest needs a way to determine whether the hypervisor
+> > > > > will do what's necessary to make the short sequence effective. And, in
+> > > > > particular, no KVM hypervisor today is prepared to do that.
+> > > > >
+> > > > > When running under a hypervisor, without BHI_CTRL and without any
+> > > > > evidence to the contrary, the guest must assume that the longer
+> > > > > sequence is necessary. At the very least, we need a CPUID or MSR bit
+> > > > > that says, "the short BHB clearing sequence is adequate for this
+> > > > > vCPU."
+> > > >
+> > > > After discussing this internally, the consensus is that the best path
+> > > > forward is to add virtual SPEC_CTRL support to KVM, which also aligns with
+> > > > Intel's guidance. In the long term, virtual SPEC_CTRL can benefit future
+> > > > mitigations as well. As with many other mitigations (e.g. microcode), the
+> > > > guest would rely on the host to enforce the appropriate protections.
+> > >
+> > > I don't think it's reasonable for the guest to rely on a future
+> > > implementation to enforce the appropriate protections.
+> > >
+> > > This is already a problem today. If a guest sees that BHI_CTRL is
+> > > unavailable, it will deploy the short BHB clearing sequence and
+> > > declare that the vulnerability is mitigated. That isn't true if the
+> > > guest is running on Alder Lake or newer.
+> >
+> > In any case, there is a change required in the kernel either for the guest
+> > or the host, they both are future implementations. Why not implement the
+> > one that is more future proof.
+> 
+> There will always be old hypervisors. True future-proofing requires
+> that the guest be able to distinguish an old hypervisor from a new
+> one.
+> 
+> My proposal is as follows:
+> 
+> 1. The (advanced) hypervisor can advertise to the guest (via CPUID bit
+> or MSR bit) that the short BHB clearing sequence is adequate. This may
+> mean either that the VM will only be hosted on pre-Alder Lake hardware
+> or that the hypervisor will set BHI_DIS_S behind the back of the
+> guest. Presumably, this bit would not be reported if BHI_CTRL is
+> advertised to the guest.
+> 2. If the guest sees this bit, then it can use the short sequence. If
+> it doesn't see this bit, it must use the long sequence.
 
-When KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled and the vCPU is in
-guest mode with nested NPT enabled, save vmcb02's g_pat into the header on
-KVM_GET_NESTED_STATE, and restore it on KVM_SET_NESTED_STATE.
+Thats a good middle ground. Let me check with folks internally what they
+think about defining a new software-only bit.
 
-Host-initiated accesses to IA32_PAT (via KVM_GET/SET_MSRS) always target
-L1's hPAT, so they cannot be used to save or restore gPAT. The separate
-header field ensures that KVM_GET/SET_MSRS and KVM_GET/SET_NESTED_STATE are
-independent and can be ordered arbitrarily during save and restore.
-
-Note that struct kvm_svm_nested_state_hdr is included in a union padded to
-120 bytes, so there is room to add the gpat field without changing any
-offsets.
-
-Fixes: cc440cdad5b7 ("KVM: nSVM: implement KVM_GET_NESTED_STATE and KVM_SET_NESTED_STATE")
-Signed-off-by: Jim Mattson <jmattson@google.com>
----
- Documentation/virt/kvm/api.rst  |  1 +
- arch/x86/include/uapi/asm/kvm.h |  1 +
- arch/x86/kvm/svm/nested.c       | 19 +++++++++++++++++++
- 3 files changed, 21 insertions(+)
-
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 0a2d873ca5a3..d6bbb7bad173 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -4965,6 +4965,7 @@ Errors:
- 
-   struct kvm_svm_nested_state_hdr {
- 	__u64 vmcb_pa;
-+	__u64 gpat;
-   };
- 
-   struct kvm_vmx_nested_state_data {
-diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kvm.h
-index 3ada2fa9ca86..1585ec804066 100644
---- a/arch/x86/include/uapi/asm/kvm.h
-+++ b/arch/x86/include/uapi/asm/kvm.h
-@@ -533,6 +533,7 @@ struct kvm_svm_nested_state_data {
- 
- struct kvm_svm_nested_state_hdr {
- 	__u64 vmcb_pa;
-+	__u64 gpat;
- };
- 
- /* for KVM_CAP_NESTED_STATE */
-diff --git a/arch/x86/kvm/svm/nested.c b/arch/x86/kvm/svm/nested.c
-index cf6356c775e6..9682099193d4 100644
---- a/arch/x86/kvm/svm/nested.c
-+++ b/arch/x86/kvm/svm/nested.c
-@@ -1868,6 +1868,9 @@ static int svm_get_nested_state(struct kvm_vcpu *vcpu,
- 	/* First fill in the header and copy it out.  */
- 	if (is_guest_mode(vcpu)) {
- 		kvm_state.hdr.svm.vmcb_pa = svm->nested.vmcb12_gpa;
-+		kvm_state.hdr.svm.gpat = 0;
-+		if (l2_has_separate_pat(vcpu))
-+			kvm_state.hdr.svm.gpat = svm->vmcb->save.g_pat;
- 		kvm_state.size += KVM_STATE_NESTED_SVM_VMCB_SIZE;
- 		kvm_state.flags |= KVM_STATE_NESTED_GUEST_MODE;
- 
-@@ -1920,6 +1923,7 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
- 	struct vmcb_save_area *save;
- 	struct vmcb_save_area_cached save_cached;
- 	struct vmcb_ctrl_area_cached ctl_cached;
-+	bool use_separate_l2_pat;
- 	unsigned long cr0;
- 	int ret;
- 
-@@ -1996,6 +2000,17 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
- 	    !nested_vmcb_check_save(vcpu, &save_cached, false))
- 		goto out_free;
- 
-+	/*
-+	 * Validate gPAT when the shared PAT quirk is disabled (i.e. L2
-+	 * has its own gPAT). This is done separately from the
-+	 * vmcb_save_area_cached validation above, because gPAT is L2
-+	 * state, but the vmcb_save_area_cached is populated with L1 state.
-+	 */
-+	use_separate_l2_pat = (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP) &&
-+			      !kvm_check_has_quirk(vcpu->kvm,
-+						   KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
-+	if (use_separate_l2_pat && !kvm_pat_valid(kvm_state->hdr.svm.gpat))
-+		goto out_free;
- 
- 	/*
- 	 * All checks done, we can enter guest mode. Userspace provides
-@@ -2022,6 +2037,10 @@ static int svm_set_nested_state(struct kvm_vcpu *vcpu,
- 	nested_copy_vmcb_control_to_cache(svm, ctl);
- 
- 	svm_switch_vmcb(svm, &svm->nested.vmcb02);
-+
-+	if (use_separate_l2_pat)
-+		vmcb_set_gpat(svm->vmcb, kvm_state->hdr.svm.gpat);
-+
- 	nested_vmcb02_prepare_control(svm);
- 
- 	/*
--- 
-2.53.0.1213.gd9a14994de-goog
-
+Third case, for a guest that doesn't want BHI_DIS_S, userspace should be
+allowed to override setting BHI_DIS_S. Then this proposed bit can indicate
+that long sequence is required.
