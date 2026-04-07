@@ -1,60 +1,60 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 186753783B4
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 04:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A264377579
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 04:13:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775535242; cv=none; b=NGjsBb4jhVCqK220LOA50oobhrkKA4kzQvKkgDyzT3nDV5rIMvmoHHJ7hyedlXQQx1PzReuQ4nqSHeu62Kh3BqFYVSTf3vSKXjOYH0Y6VSixyQ8PaXRhu2t39+luZn/oqM61iNJse7uoAh/tInxAF1xVlIRvHymDKqyub+IOdfM=
+	t=1775535242; cv=none; b=kGCBOOx+xopFKE1kkYauXjjuPB4U0Lw/+bSzC5dII6hLohgUhw2TcJZeyRkY8O+DfScnN1Ag86bB+dTB7LsnFklNvM2Zg3BHA1+RygmS+4L50DuOIyBVuIrxuKlcRuQc+Ownhnq+E84fSGvrJIiacxlvJAg6yyNAjworHQU+eW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775535242; c=relaxed/simple;
-	bh=pH1X0aQzXpB3SyOTJrmNhcXASyFLtui/zFbVD/xGlF0=;
+	bh=usmYDq97Sg76UklSs3ptf29YaZhkgp2uHecyG8pdypk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BAsQgAlDvFCoAuk7LifClwHtuW5n1tZpiGozIswy5KVByUZaFidyF/QZtENwdAVRMo8Q0iNGyN/7eFND2HbchaelTdwju7cFPSpnoJn/JZN+NC8TB0CO397MOn1owSWyiWTnoRVHIuhWm0XjpjCC+Oliw1NTYfAuOJjDEvpUKSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Of/NfMa8; arc=none smtp.client-ip=74.125.82.47
+	 MIME-Version; b=g0HUKmrtVtvJoQpdkFjvxoBFo8dSBuLoWU2Mv0w4ga/r+wZX5x6LriTqE1pcOMNOw3v87MimIZszKojdfhW57G+KQa6txtiJylKSMbN7/f7gRgoAd9P362JTBxDMRjszkEYOkyJc+u5Nyj/c+lX9oeKw0yG9cMJnK+jTRsIpcEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdW3elJF; arc=none smtp.client-ip=74.125.82.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Of/NfMa8"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-1279eced0b9so5286418c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 21:14:00 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdW3elJF"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12732e6a123so2460533c88.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 21:13:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20251104; t=1775535239; x=1776140039; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ejgiW/r7pVVUy8vt9xK36NMd3PA7PnFF5ux4KM88uHM=;
-        b=Of/NfMa8lSvWoS/flPyC6WLzjsNffRU/gbzsWCQxto3BO1PdeyqP0+mUu73QyeAaFM
-         uao/gDLxEls/zgDEZBqdC70YAxwtdMkU+MKehADsn8MqyJTqzA7+LDOG/rTRzrzTHkbf
-         NtqC6t2zZN/8JtoE3l2DuWt/q9hih5O0JPUYCDEHrTBjW7FI5BCQL8vtyPWimeq0x1Nn
-         JwPCMK57yrBWIUUasvKCDkMvzwWJVBqGTY1+d1HQsJG/Lyjb2xEA07m71P9kzxtUdx8f
-         W3NJWL/KBo4OMGILFbrI5ELEmDKf9TbgWBfTAxyWvphsBblcUiyc6jzYhukhqdJ7RM5/
-         cagg==
+        bh=+BUPfatehd4OwQWVH3wip0eKYYTenln556l3fMYEsrA=;
+        b=XdW3elJF1M3ShVzMu80KD6Ff9fOYK7e/qVN1DPniXSk4VAgZZism0wQtu06lZHZ4qj
+         mMN+6k+s0mrzQ7IVGMmtv/g0aIn8idrbgwIU093DLtxilzwT3wik3dl93IgorItyLK1h
+         eT/TWY6/Laeplvto9BsdIb4fNX0kmvIRws3ESvoTeXkO7NsFPIn2iJdaftfqxJz2LnZ8
+         M60wm9xZ8SZtbR0akdcr2B2fEnfXdHaRUw8vcpl/WgO7QomnREkko0gQndRQLe7IK1G1
+         SMJZgkLHH7R4cLwCQ7I+iyxv/MpeKgdluRuXO/Df5vdxM6XGdxpuMO2GvZagk/iGnbO3
+         ZZ6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1775535239; x=1776140039;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=ejgiW/r7pVVUy8vt9xK36NMd3PA7PnFF5ux4KM88uHM=;
-        b=f6g0vfEDNRF5MCa8HT4NEoTgYGiF8UrrRWybLX2C4FgrfrlAG5b9raJZnvNFhZi+Sq
-         PHBOY3yTcxgB/8C1GB0s24yuy7XJtaze7Xn6XckwMofqiaOimR+sQW1ZesLErzvrIc1X
-         5d6UeTM9PPwcETuwwRYnn1Hbzddtp/CbASNZ6pcfpWCxO3t8MPaSxzBMIFrCr7tzn7Ju
-         mFtr/DdfCvhIw3MwMPBO74LzKahjgAzy+/99TMv/LITwqtfE1LD5mOXldiBnf8nvBY69
-         NaBW6NrddeUuTo0K0w3CUpfR16gSdRq5UUSUAKfN7B2VCo5hyS5bgA99MubY0PQt3cRr
-         ag+g==
-X-Forwarded-Encrypted: i=1; AJvYcCVjS6MEUL6xF5dRBCgCpxzk8A9ivhlyk7q+ZPdzibUQWodjL2tJYzQ0rQEOQWA1ONiZs+Y993OElB0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzk5BXJMJx/9/AUMhniluiB/QlerRMc1MU4AVEd+bNnnB07RqJ7
-	/l7+/ukad/FUxoCaz5TcyUbO1e8vEWIhGEmCvt3mB6Uw61+D1Tuq7qpa12kbow==
-X-Gm-Gg: AeBDietenZJ1j0lQZzTIY3Slpqn18ViOy5uqttYfS/DQwDTg+umHX5OK/n9pF/f3GRX
-	scjLOugV7zzZhreHcni/7F11omLhH13CR0RGUEWcv0BzYL99Ea5Que5/vJTkYXYMpdNv2hsFvlU
-	1cDoxyBHDVZNDtOpmpZB4AAmuZ7VnJHQaZWx9bPWiiCAarIocp4m3gE9TsSR87Dr3iwA9kbXs84
-	X0iES3aNR6xzs0GgLh9JR7KEKZdCCgxjL7lbw6BL60sG7b1SvFT8W1yNR9FeTsJyKRqlG3at8tV
-	uN33r+2XeSg1+bRhiev5Adkv9NmrbZtEfRF+7QJLcfxKN50BRVKSWpLhSE+m78iw/SLdhT2Tm4j
-	kqfMIGSOrRwrf/JPLi9uwkLYp7B0y28+TUfWjSvYae8qF21SskNWMT92TTDQpGyAC6dML8x3iI+
-	tcGVoOPXMwnCHK7301xZoCuG11zhlf47uthjXyt/cI81Ub0xqN3+imYzxAVI6+tBUJBwWXPPexC
-	pEo
-X-Received: by 2002:a05:7022:e09:b0:11a:342e:8a98 with SMTP id a92af1059eb24-12bfb63267fmr7475760c88.0.1775535239212;
-        Mon, 06 Apr 2026 21:13:59 -0700 (PDT)
+        bh=+BUPfatehd4OwQWVH3wip0eKYYTenln556l3fMYEsrA=;
+        b=gdeNFbi6iYKdsJOn2D9WsKSWzjv5iWfLkFZF/DZk/QX0e2+HTXhXB//4QKS025SWCc
+         BKVze6A4qNRMgUfTGyqRk2x4JDGVDu45UeOS4oxnoDe4GVbsSP0fAOqsfJPyrO+OJ6jy
+         AUL26LYvLdxVGhYl6okHyrUbSWKx/3r1ZmwGCRqK/NWaA+Ver1Y/crslTlbKc75PNf3O
+         +jwfmPz0cNIsBMGydSnQWrCk7NBf65w3aoFbQOsBMNpZSs71bYLE1Tjg7fVkHsXOToXz
+         ia6M5hlVP9tLfcOL/fqS4/qgLOUj0peZ6q+ZocgXG5gaV9b1sC18zCzqHZeij+4MLP6Y
+         YBDA==
+X-Forwarded-Encrypted: i=1; AJvYcCWcR+Bn+eNqRa7gd50SGqFDvLOHsyL/EbW3zkZ9kiWGbAXf8zjAbQlq7wm3vY+uoxxe1AL2ndTZIJI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBO66tJeJZk5dJWm1BUHWaOEV/K+yU5lRPqlmp1TXXfJRC+AtC
+	fw9nHhxqzmzhNf5w57WQwcgPX/F3wJNyC2AaDtnfbvKHhlO4TfK1Bqzt
+X-Gm-Gg: AeBDiesV829eNPzysVYaL3lcVnFKRR9gXL6w5noTC6QnH93eiDSfc3S7LN9OPP86GYS
+	iZ0SXta1RUwIVyYIV1R+qB9JsKYdVbmuORhwBkivE82h56OHfhMn9gnFmK4d3DNsooaKGBEpnyt
+	boaYndJGTEoy9T/rdlymJtkfMHkvK5wNRwD9oD9egwAnCOJUOXcYzBnycwRLb8j10EASZxxKnrE
+	YiJhZZHDStH+bww0GvJVov1rwNZopmav6S5b2RwKZAKnLCY3yXiYNGW7jI4iItn6N+dBY/tg/KS
+	QzYhCrBOZ0WXeiKWIPzwfNWWEBDQPU+llAEg/bfZgSSutzUUmOSUgjQukXoR+BBs9WMCrejNTZt
+	gLtg43LbcS+WiaYkAnbkAejIQ3SmfLj8mWTCFreVGMboGShy8esq8OOChni4qR4sZa/a2kenbTU
+	HWylrr8cCIhsBLSrBkPjDwWYr2SGgK1kruwLYhZkMGN9JODdabyuaonjpNghADhhwRk5Gy4tfiE
+	pff/UpegotYCqQ=
+X-Received: by 2002:a05:7022:388a:b0:123:348d:8576 with SMTP id a92af1059eb24-12bfb6ec50bmr8556077c88.6.1775535238604;
+        Mon, 06 Apr 2026 21:13:58 -0700 (PDT)
 Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
         by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm18523808c88.0.2026.04.06.21.13.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
@@ -68,9 +68,9 @@ Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
 	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 3/5] HID: hid-oxp: Add Second Generation Gamepad Mode Switch
-Date: Tue,  7 Apr 2026 04:13:52 +0000
-Message-ID: <20260407041354.2283201-4-derekjohn.clark@gmail.com>
+Subject: [PATCH v2 2/5] HID: hid-oxp: Add Second Generation RGB Control
+Date: Tue,  7 Apr 2026 04:13:51 +0000
+Message-ID: <20260407041354.2283201-3-derekjohn.clark@gmail.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260407041354.2283201-1-derekjohn.clark@gmail.com>
 References: <20260407041354.2283201-1-derekjohn.clark@gmail.com>
@@ -82,202 +82,315 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds "gamepad_mode" attribute to second generation OneXPlayer
-configuration HID devices. This attribute initiates a mode shift in the
-device MCU that puts it into a state where all events are routed to an
-hidraw interface instead of the xpad evdev interface. This allows for
-debugging the hardware input mapping added in the next patch.
+Adds support for the second generation of RGB Control for OneXPlayer
+devices. The interface mirrors the first generation, with some
+differences to how messages are formatted.
+
+Some devices have both a GEN1 MCU for RGB control and a GEN2 MCU for
+button mapping. To avoid conflicts, quirk these devices to skip RGB
+setup for the GEN2_USAGE_PAGE.
 
 Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
 ---
 v2:
-  - Rename to gamepad_mode & show relevant gamepad modes instead of
-    using a debug enable/disable paradigm, to match other drivers.
+  - Add DMI quirks table.
 ---
- drivers/hid/hid-oxp.c | 130 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 130 insertions(+)
+ drivers/hid/Kconfig   |   1 +
+ drivers/hid/hid-ids.h |   3 +
+ drivers/hid/hid-oxp.c | 151 ++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 155 insertions(+)
 
+diff --git a/drivers/hid/Kconfig b/drivers/hid/Kconfig
+index 2deaec9f467d..b779088b80b6 100644
+--- a/drivers/hid/Kconfig
++++ b/drivers/hid/Kconfig
+@@ -924,6 +924,7 @@ config HID_OXP
+ 	depends on USB_HID
+ 	depends on LEDS_CLASS
+ 	depends on LEDS_CLASS_MULTICOLOR
++	depends on DMI
+ 	help
+ 	  Say Y here if you would like to enable support for OneXPlayer handheld
+ 	  devices that come with RGB LED rings around the joysticks and macro buttons.
+diff --git a/drivers/hid/hid-ids.h b/drivers/hid/hid-ids.h
+index dcc5a3a70eaf..0d1ff879e959 100644
+--- a/drivers/hid/hid-ids.h
++++ b/drivers/hid/hid-ids.h
+@@ -1134,6 +1134,9 @@
+ #define USB_VENDOR_ID_CRSC			0x1a2c
+ #define USB_DEVICE_ID_ONEXPLAYER_GEN1		0xb001
+ 
++#define USB_VENDOR_ID_WCH			0x1a86
++#define USB_DEVICE_ID_ONEXPLAYER_GEN2		0xfe00
++
+ #define USB_VENDOR_ID_ONTRAK		0x0a07
+ #define USB_DEVICE_ID_ONTRAK_ADU100	0x0064
+ 
 diff --git a/drivers/hid/hid-oxp.c b/drivers/hid/hid-oxp.c
-index 25214356163e..c62952537d98 100644
+index c4219ecd8d71..25214356163e 100644
 --- a/drivers/hid/hid-oxp.c
 +++ b/drivers/hid/hid-oxp.c
-@@ -33,6 +33,7 @@
+@@ -10,6 +10,7 @@
+ #include <linux/delay.h>
+ #include <linux/dev_printk.h>
+ #include <linux/device.h>
++#include <linux/dmi.h>
+ #include <linux/hid.h>
+ #include <linux/jiffies.h>
+ #include <linux/kstrtox.h>
+@@ -24,12 +25,15 @@
+ #define OXP_PACKET_SIZE 64
+ 
+ #define GEN1_MESSAGE_ID	0xff
++#define GEN2_MESSAGE_ID	0x3f
+ 
+ #define GEN1_USAGE_PAGE	0xff01
++#define GEN2_USAGE_PAGE	0xff00
+ 
  enum oxp_function_index {
  	OXP_FID_GEN1_RGB_SET =		0x07,
  	OXP_FID_GEN1_RGB_REPLY =	0x0f,
-+	OXP_FID_GEN2_TOGGLE_MODE =	0xb2,
- 	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
++	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
  };
  
-@@ -41,11 +42,22 @@ static struct oxp_hid_cfg {
- 	struct hid_device *hdev;
- 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
- 	u8 rgb_brightness;
-+	u8 gamepad_mode;
- 	u8 rgb_effect;
- 	u8 rgb_speed;
- 	u8 rgb_en;
- } drvdata;
+ static struct oxp_hid_cfg {
+@@ -121,6 +125,22 @@ struct oxp_gen_1_rgb_report {
+ 	u8 blue;
+ } __packed;
  
-+enum oxp_gamepad_mode_index {
-+	OXP_GP_MODE_XINPUT = 0x00,
-+	OXP_GP_MODE_DEBUG = 0x03,
-+};
++struct oxp_gen_2_rgb_report {
++	u8 report_id;
++	u8 header_id;
++	u8 padding_2;
++	u8 message_id;
++	u8 padding_4[2];
++	u8 enabled;
++	u8 speed;
++	u8 brightness;
++	u8 red;
++	u8 green;
++	u8 blue;
++	u8 padding_12[3];
++	u8 effect;
++} __packed;
 +
-+static const char *const oxp_gamepad_mode_text[] = {
-+	[OXP_GP_MODE_XINPUT] = "xinput",
-+	[OXP_GP_MODE_DEBUG] = "debug",
-+};
-+
- enum oxp_feature_en_index {
- 	OXP_FEAT_DISABLED,
- 	OXP_FEAT_ENABLED,
-@@ -181,6 +193,32 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
+ static u16 get_usage_page(struct hid_device *hdev)
+ {
+ 	return hdev->collection[0].usage >> 16;
+@@ -161,6 +181,44 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
  	return 0;
  }
  
-+static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data, u8 data_size);
-+
-+static void oxp_mcu_init_fn(struct work_struct *work)
++static int oxp_hid_raw_event_gen_2(struct hid_device *hdev,
++				   struct hid_report *report, u8 *data,
++				   int size)
 +{
-+	u8 gp_mode_data[3] = { OXP_GP_MODE_DEBUG, 0x01, 0x02 };
-+	int ret;
++	struct led_classdev_mc *led_mc = drvdata.led_mc;
++	struct oxp_gen_2_rgb_report *rgb_rep;
 +
-+	/* Cycle the gamepad mode */
-+	ret = oxp_gen_2_property_out(OXP_FID_GEN2_TOGGLE_MODE, gp_mode_data, 3);
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to set gamepad mode: %i\n", ret);
++	if (data[0] != OXP_FID_GEN2_STATUS_EVENT)
++		return 0;
 +
-+	/* Remainder only applies for xinput mode */
-+	if (drvdata.gamepad_mode == OXP_GP_MODE_DEBUG)
-+		return;
++	if (data[3] != OXP_GET_PROPERTY)
++		return 0;
 +
-+	gp_mode_data[0] = OXP_GP_MODE_XINPUT;
-+	ret = oxp_gen_2_property_out(OXP_FID_GEN2_TOGGLE_MODE, gp_mode_data, 3);
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to set gamepad mode: %i\n", ret);
++	rgb_rep = (struct oxp_gen_2_rgb_report *)data;
++	/* Ensure we save monocolor as the list value */
++	drvdata.rgb_effect = rgb_rep->effect == OXP_EFFECT_MONO_TRUE ?
++			     OXP_EFFECT_MONO_LIST :
++			     rgb_rep->effect;
++	drvdata.rgb_speed = rgb_rep->speed;
++	drvdata.rgb_en = rgb_rep->enabled == 0 ? OXP_FEAT_DISABLED :
++						 OXP_FEAT_ENABLED;
++	drvdata.rgb_brightness = rgb_rep->brightness;
++	led_mc->led_cdev.brightness = rgb_rep->brightness / 4 *
++				      led_mc->led_cdev.max_brightness;
++	/* If monocolor had less than 100% brightness on the previous boot,
++	 * there will be no reliable way to determine the real intensity.
++	 * Since intensity scaling is used with a hardware brightness set at max,
++	 * our brightness will always look like 100%. Use the last set value to
++	 * prevent successive boots from lowering the brightness further.
++	 * Brightness will be "wrong" but the effect will remain the same visually.
++	 */
++	led_mc->subled_info[0].intensity = rgb_rep->red;
++	led_mc->subled_info[1].intensity = rgb_rep->green;
++	led_mc->subled_info[2].intensity = rgb_rep->blue;
++
++	return 0;
 +}
 +
-+static DECLARE_DELAYED_WORK(oxp_mcu_init, oxp_mcu_init_fn);
-+
- static int oxp_hid_raw_event_gen_2(struct hid_device *hdev,
- 				   struct hid_report *report, u8 *data,
- 				   int size)
-@@ -191,6 +229,14 @@ static int oxp_hid_raw_event_gen_2(struct hid_device *hdev,
- 	if (data[0] != OXP_FID_GEN2_STATUS_EVENT)
- 		return 0;
- 
-+	/* Sent ~6s after resume event, indicating the MCU has fully reset.
-+	 * Re-apply our settings after this has been received.
-+	 */
-+	if (data[3] == OXP_EFFECT_MONO_TRUE) {
-+		mod_delayed_work(system_wq, &oxp_mcu_init, msecs_to_jiffies(50));
-+		return 0;
-+	}
-+
- 	if (data[3] != OXP_GET_PROPERTY)
- 		return 0;
- 
-@@ -288,6 +334,77 @@ static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data,
- 				footer_size);
+ static int oxp_hid_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 			     u8 *data, int size)
+ {
+@@ -171,6 +229,8 @@ static int oxp_hid_raw_event(struct hid_device *hdev, struct hid_report *report,
+ 	switch (up) {
+ 	case GEN1_USAGE_PAGE:
+ 		return oxp_hid_raw_event_gen_1(hdev, report, data, size);
++	case GEN2_USAGE_PAGE:
++		return oxp_hid_raw_event_gen_2(hdev, report, data, size);
+ 	default:
+ 		break;
+ 	}
+@@ -216,6 +276,18 @@ static int oxp_gen_1_property_out(enum oxp_function_index fid, u8 *data,
+ 	return mcu_property_out(header, header_size, data, data_size, NULL, 0);
  }
  
-+static ssize_t gamepad_mode_store(struct device *dev,
-+				  struct device_attribute *attr, const char *buf,
-+				  size_t count)
++static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data,
++				  u8 data_size)
 +{
-+	u16 up = get_usage_page(drvdata.hdev);
-+	u8 data[3] = { 0x00, 0x01, 0x02 };
-+	int ret = -EINVAL;
-+	int i;
++	u8 header[] = { fid, GEN2_MESSAGE_ID, 0x01 };
++	u8 footer[] = { GEN2_MESSAGE_ID, fid };
++	size_t header_size = ARRAY_SIZE(header);
++	size_t footer_size = ARRAY_SIZE(footer);
 +
-+	if (up != GEN2_USAGE_PAGE)
-+		return ret;
-+
-+	for (i = 0; i < ARRAY_SIZE(oxp_gamepad_mode_text); i++) {
-+		if (oxp_gamepad_mode_text[i] && sysfs_streq(buf, oxp_gamepad_mode_text[i])) {
-+			ret = i;
-+			break;
-+		}
-+	}
-+	if (ret < 0)
-+		return ret;
-+
-+	data[0] = ret;
-+
-+	ret = oxp_gen_2_property_out(OXP_FID_GEN2_TOGGLE_MODE, data, 3);
-+	if (ret)
-+		return ret;
-+
-+	drvdata.gamepad_mode = data[0];
-+
-+	return count;
++	return mcu_property_out(header, header_size, data, data_size, footer,
++				footer_size);
 +}
-+
-+static ssize_t gamepad_mode_show(struct device *dev,
-+				 struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%s\n", oxp_gamepad_mode_text[drvdata.gamepad_mode]);
-+}
-+static DEVICE_ATTR_RW(gamepad_mode);
-+
-+static ssize_t gamepad_mode_index_show(struct device *dev,
-+				       struct device_attribute *attr,
-+				       char *buf)
-+{
-+	ssize_t count = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(oxp_gamepad_mode_text); i++) {
-+		if (!oxp_gamepad_mode_text[i] ||
-+		    oxp_gamepad_mode_text[i][0] == '\0')
-+			continue;
-+
-+		count += sysfs_emit_at(buf, count, "%s ", oxp_gamepad_mode_text[i]);
-+	}
-+
-+	if (count)
-+		buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RO(gamepad_mode_index);
-+
-+static struct attribute *oxp_cfg_attrs[] = {
-+	&dev_attr_gamepad_mode.attr,
-+	&dev_attr_gamepad_mode_index.attr,
-+	NULL,
-+};
-+
-+static const struct attribute_group oxp_cfg_attrs_group = {
-+	.attrs = oxp_cfg_attrs,
-+};
 +
  static int oxp_rgb_status_store(u8 enabled, u8 speed, u8 brightness)
  {
  	u16 up = get_usage_page(drvdata.hdev);
-@@ -733,7 +850,20 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
+@@ -230,6 +302,11 @@ static int oxp_rgb_status_store(u8 enabled, u8 speed, u8 brightness)
+ 		if (drvdata.rgb_effect == OXP_EFFECT_MONO_LIST)
+ 			data[3] = 0x04;
+ 		return oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, 4);
++	case GEN2_USAGE_PAGE:
++		data = (u8[6]) { OXP_SET_PROPERTY, 0x00, 0x02, enabled, speed, brightness };
++		if (drvdata.rgb_effect == OXP_EFFECT_MONO_LIST)
++			data[5] = 0x04;
++		return oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, 6);
+ 	default:
+ 		return -ENODEV;
+ 	}
+@@ -244,6 +321,9 @@ static ssize_t oxp_rgb_status_show(void)
+ 	case GEN1_USAGE_PAGE:
+ 		data = (u8[1]) { OXP_GET_PROPERTY };
+ 		return oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, 1);
++	case GEN2_USAGE_PAGE:
++		data = (u8[3]) { OXP_GET_PROPERTY, 0x00, 0x02 };
++		return oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, 3);
+ 	default:
+ 		return -ENODEV;
+ 	}
+@@ -274,6 +354,16 @@ static int oxp_rgb_color_set(void)
+ 			data[3 * i + 3] = blue;
+ 		}
+ 		return oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, size);
++	case GEN2_USAGE_PAGE:
++		size = 57;
++		data = (u8[57]) { OXP_EFFECT_MONO_TRUE, 0x00, 0x02 };
++
++		for (i = 1; i < size / 3; i++) {
++			data[3 * i] = red;
++			data[3 * i + 1] = green;
++			data[3 * i + 2] = blue;
++		}
++		return oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, size);
+ 	default:
+ 		return -ENODEV;
+ 	}
+@@ -310,6 +400,10 @@ static int oxp_rgb_effect_set(u8 effect)
+ 			data = (u8[1]) { effect };
+ 			ret = oxp_gen_1_property_out(OXP_FID_GEN1_RGB_SET, data, 1);
+ 			break;
++		case GEN2_USAGE_PAGE:
++			data = (u8[3]) { effect, 0x00, 0x02 };
++			ret = oxp_gen_2_property_out(OXP_FID_GEN2_STATUS_EVENT, data, 3);
++			break;
+ 		default:
+ 			ret = -ENODEV;
+ 		}
+@@ -560,6 +654,56 @@ static struct led_classdev_mc oxp_cdev_rgb = {
+ 	.subled_info = oxp_rgb_subled_info,
+ };
+ 
++struct quirk_entry {
++	bool hybrid_mcu;
++};
++
++static struct quirk_entry quirk_hybrid_mcu = {
++	.hybrid_mcu = true,
++};
++
++static const struct dmi_system_id oxp_hybrid_mcu_list[] = {
++	{
++		.ident = "OneXPlayer Apex",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER APEX"),
++		},
++		.driver_data = &quirk_hybrid_mcu,
++	},
++	{
++		.ident = "OneXPlayer G1 AMD",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 A"),
++		},
++		.driver_data = &quirk_hybrid_mcu,
++	},
++	{
++		.ident = "OneXPlayer G1 Intel",
++		.matches = {
++			DMI_MATCH(DMI_SYS_VENDOR, "ONE-NETBOOK"),
++			DMI_MATCH(DMI_PRODUCT_NAME, "ONEXPLAYER G1 i"),
++		},
++		.driver_data = &quirk_hybrid_mcu,
++	},
++	{},
++};
++
++static bool oxp_hybrid_mcu_device(void)
++{
++	const struct dmi_system_id *dmi_id;
++	struct quirk_entry *quirks;
++
++	dmi_id = dmi_first_match(oxp_hybrid_mcu_list);
++	if (!dmi_id)
++		return false;
++
++	quirks = dmi_id->driver_data;
++
++	return quirks->hybrid_mcu;
++}
++
+ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
+ {
+ 	int ret;
+@@ -567,6 +711,10 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
+ 	hid_set_drvdata(hdev, &drvdata);
+ 	mutex_init(&drvdata.cfg_mutex);
+ 	drvdata.hdev = hdev;
++
++	if (up == GEN2_USAGE_PAGE && oxp_hybrid_mcu_device())
++		goto skip_rgb;
++
+ 	drvdata.led_mc = &oxp_cdev_rgb;
+ 
+ 	ret = devm_led_classdev_multicolor_register(&hdev->dev, &oxp_cdev_rgb);
+@@ -585,6 +733,7 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
  		dev_warn(drvdata.led_mc->led_cdev.dev,
  			 "Failed to query RGB initial state: %i\n", ret);
  
-+	/* Below features are only implemented in gen 2 */
-+	if (up != GEN2_USAGE_PAGE)
-+		return 0;
-+
- skip_rgb:
-+	mod_delayed_work(system_wq, &oxp_mcu_init, msecs_to_jiffies(50));
-+
-+	drvdata.gamepad_mode = OXP_GP_MODE_XINPUT;
-+
-+	ret = devm_device_add_group(&hdev->dev, &oxp_cfg_attrs_group);
-+	if (ret)
-+		return dev_err_probe(&hdev->dev, ret,
-+				     "Failed to attach configuration attributes\n");
-+
++skip_rgb:
  	return 0;
  }
+ 
+@@ -613,6 +762,7 @@ static int oxp_hid_probe(struct hid_device *hdev,
+ 
+ 	switch (up) {
+ 	case GEN1_USAGE_PAGE:
++	case GEN2_USAGE_PAGE:
+ 		ret = oxp_cfg_probe(hdev, up);
+ 		if (ret) {
+ 			hid_hw_close(hdev);
+@@ -633,6 +783,7 @@ static void oxp_hid_remove(struct hid_device *hdev)
+ 
+ static const struct hid_device_id oxp_devices[] = {
+ 	{ HID_USB_DEVICE(USB_VENDOR_ID_CRSC, USB_DEVICE_ID_ONEXPLAYER_GEN1) },
++	{ HID_USB_DEVICE(USB_VENDOR_ID_WCH, USB_DEVICE_ID_ONEXPLAYER_GEN2) },
+ 	{}
+ };
  
 -- 
 2.53.0
