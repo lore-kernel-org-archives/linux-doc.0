@@ -1,160 +1,143 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18AE53B8932
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 14:14:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D935025A2B5;
+	Tue,  7 Apr 2026 14:30:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775571265; cv=none; b=Iap2oZyw3j4X7g9NrtkSI0hMn3QiD8v9jGOzZ9wK5peaqVS90jHhAmULxrCz1kM6yA2tUEO8R2UUTMAbYmjMstkMtnPvRjj+tkr5q693xTgLGAttyn5F73chIN37FH8m/F903F38rr+tpaToJQdUjTVzgnW9Cow/ysb0jif201E=
+	t=1775572209; cv=none; b=nW5o5HSASePpB6Xvb/91uJXT9dHryagrKswJ0dQr+8a5AcNLcGUcYF/A0h/k1wcydHDZE30IIiz87NNLJLIQxRwOiBDVdWkPftTy2ExWrHbTHIE9HpM2gS54n9xMS/o2Uncc5PaFHInp6ClYMG4HXCLd8Hu0n5D4IS9E2wh1yx8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775571265; c=relaxed/simple;
-	bh=x1X6Et09LdVmwK4AwqUKUpjcDLoVxP1vs1Syj2oayko=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=ctSJXaODxrPNa3rsMiZie5wydk2Jv0ZLpTPdne3gX8RwmChQyCHYjhkEeY/DyVD++/3sYtjaS+AJNKSCxWmMYDXy3kv3wEhg7gyghvS3p2u01jspIaVVIX3NEo1RGh/lUqau5VJZ1FJOPqucGfxs9qyiuiU5bBs+tQ7HiQ3Qhi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=nFD+BeSG; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1775572209; c=relaxed/simple;
+	bh=F6zPippwXT9NoAaPuBCmjQXM7i5cwJ55Lk+dK97iVfo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QI7yCXjsu3Bfqr82+wqMmKmf9v/qyuJKCfblIhakwwPV4I6glhhMr6qzjlF5zTI96VKyt2mLRxEqgyXKT5tHV6SdUDDvYAD+jreMwQiBcHCD8DcBlT6rWox1m3vxZ7WRFCXV39uk5PZVqJ5/xuSlbtxCB+Kpmfu7QHXE8ABq4g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SGGpCilo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="nFD+BeSG"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82c7ec40f92so6665140b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 07:14:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775571263; x=1776176063; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Oh0Qcy7NAcZjboyYi+P+h2qLdGnuUSHfUg4cTPCdmsU=;
-        b=nFD+BeSGicoCBbQCAhStO53LmgxVirn2DMVioSEswFtgCE7cmvjE+v21TcTRvlfERa
-         aR88hHbyjPXSEtt+FJ0RNTfXQfz68cBBDkXFz7jI3gFX/7ZDYlDMkuWd5rwJ1IYFOvHf
-         zIlyT3E/TaEPO31BQYsMauaLOYCU/i+/hj7CvlPIiimCmnYph+SF1h1Br5TjqYThinZ2
-         OO9gOvXRlswAgPcta83UPHIwxZD/b4Wp2VglbLv1EoD+fbYgIBl6ypRMPPsbpVVz++ac
-         ok5tgyKN4JBMkvxAIINvts8zAyR8X76a2+h/JLG9lWK37dBw4NlXBkU0pSu9gtKZApnZ
-         Md4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775571263; x=1776176063;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Oh0Qcy7NAcZjboyYi+P+h2qLdGnuUSHfUg4cTPCdmsU=;
-        b=A072NuMGynjWim646ukGmvBusdscCarMyhWJvIcZT9I5/m3ELL//HNhgFk+2TftZ7w
-         0gv6ugxQA7FXJEz006MnbjKComlKW/JbFIY1FA7lJrv7x2vVdXYw81zXf0clzi6fw31V
-         a0ccrQnQcqsoNU96mC/rTKKIKP+JOpFxl+Vs33xp1gr6Aiwb3we9/7Q5Cxmr/Vn8vPr5
-         YaFROvCdDH5BNoYuGrbSSwgPRr+8hFqdwkiHh6VG1p4q6YX8cRnTbLmo7g4rXUaIdYdV
-         9SpPO0KkkXzbvm2kAeVRjwWlOxPi1YBiJSdKM2ln/pFrtede49JuXSDXaxKDAkki3Q/E
-         dLcg==
-X-Forwarded-Encrypted: i=1; AJvYcCX2oN56bcmMTL8cqp3Y7csx7d8/hi2Bi5Astr1ga7H+VsCK0OBuH0fCk0aw28UCpI6k8dBCyxQPev8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzbgm4/kkT4d2pN2up3AurTmhXgAAf/rRDy2tAf7LPSRvtI0Wr/
-	1fUzUIR0bEWxAgEWJoINzsJLP250T/Du+qnQLX2k0mBaDlgQtpI/aFzPmQXG1YGuQi7n42ura8x
-	a2UYT4Q==
-X-Received: from pfaz1.prod.google.com ([2002:aa7:91c1:0:b0:829:894b:618b])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:21d6:b0:82c:d7e7:2f8a
- with SMTP id d2e1a72fcca58-82d0db96cd4mr17107604b3a.39.1775571263189; Tue, 07
- Apr 2026 07:14:23 -0700 (PDT)
-Date: Tue, 7 Apr 2026 07:14:21 -0700
-In-Reply-To: <CALMp9eQsd0fRuDE_R57Mn6-N6jCtbmoPAh7Y7CBdMEZJaNSUGQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SGGpCilo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B4AFC116C6;
+	Tue,  7 Apr 2026 14:30:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775572209;
+	bh=F6zPippwXT9NoAaPuBCmjQXM7i5cwJ55Lk+dK97iVfo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=SGGpCiloA16YGCNOBtnjqATKduo9VqxPftvhFTU4wQ99oD6xhZII3QIIPuZ2BteZi
+	 It4oNSzT+9TV6imSaukmNALxBbaSIH04pnHw+M6T4s3hbGTZk66/6p4/JDiCZ1VdLA
+	 sAQn37Sb6xna/XRQ3bokAGI4LKLj7xAfa4HSGVbr+crUhyoVjTFNNgF0zVgexUITaG
+	 3oO0IctM29eF06Ko+4LKEtWm/Y5wll033MXeJp4amWrRhRc8aRdB9Fsi2Ax/RP3KVY
+	 Y8DZqVWkFinHJV507eYo9FG4A3vIba8mdeHmRheb1U4J/C6vnYUKpC5VRqfkbkMLh6
+	 sCi7TVjgfAdYQ==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH v4 0/6] arm64: Add support for FEAT_Debugv8p9
+Date: Tue, 07 Apr 2026 09:29:42 -0500
+Message-Id: <20260407-arm-debug-8-9-v4-0-a4864e69b0ea@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260327234023.2659476-1-jmattson@google.com> <20260327234023.2659476-9-jmattson@google.com>
- <adRGLPrmBpX-3DdX@google.com> <CALMp9eQsd0fRuDE_R57Mn6-N6jCtbmoPAh7Y7CBdMEZJaNSUGQ@mail.gmail.com>
-Message-ID: <adURPZJEDs50NPkB@google.com>
-Subject: Re: [PATCH v7 8/9] KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
-From: Sean Christopherson <seanjc@google.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Yosry Ahmed <yosry@kernel.org>
+MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANYU1WkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyTHQUlJIzE
+ vPSU3UzU4B8JSMDIzMDEwMz3cSiXN2U1KTSdF0LXUtdE8M0szSDVHNjyyRTJaCegqLUtMwKsHn
+ RsbW1ABe/erJfAAAA
+X-Change-ID: 20260406-arm-debug-8-9-41f6f0e739b5
+To: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>, 
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: Anshuman Khandual <anshuman.khandual@arm.com>, 
+ linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Marc Zyngier <maz@kernel.org>, kvmarm@lists.linux.dev, 
+ Oliver Upton <oupton@kernel.org>
+X-Mailer: b4 0.15-dev
 
-On Mon, Apr 06, 2026, Jim Mattson wrote:
-> On Mon, Apr 6, 2026 at 4:47=E2=80=AFPM Sean Christopherson <seanjc@google=
-.com> wrote:
-> >
-> > On Fri, Mar 27, 2026, Jim Mattson wrote:
-> > > @@ -1918,6 +1921,7 @@ static int svm_set_nested_state(struct kvm_vcpu=
- *vcpu,
-> > >       struct vmcb_save_area_cached save_cached;
-> > >       struct vmcb_ctrl_area_cached ctl_cached;
-> > >       unsigned long cr0;
-> > > +     bool use_separate_l2_pat;
-> >
-> > Land this above "cr0" to preserve the inverted fir tree.
-> >
-> > >       int ret;
-> > >
-> > >       BUILD_BUG_ON(sizeof(struct vmcb_control_area) + sizeof(struct v=
-mcb_save_area) >
-> > > @@ -1993,6 +1997,18 @@ static int svm_set_nested_state(struct kvm_vcp=
-u *vcpu,
-> > >           !nested_vmcb_check_save(vcpu, &save_cached, false))
-> > >               goto out_free;
-> > >
-> > > +     /*
-> > > +      * Validate gPAT when the shared PAT quirk is disabled (i.e. L2
-> > > +      * has its own gPAT). This is done separately from the
-> > > +      * vmcb_save_area_cached validation above, because gPAT is L2
-> > > +      * state, but the vmcb_save_area_cached is populated with L1 st=
-ate.
-> > > +      */
-> > > +     use_separate_l2_pat =3D
-> > > +             (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP) &&
-> > > +             !kvm_check_has_quirk(vcpu->kvm,
-> > > +                                  KVM_X86_QUIRK_NESTED_SVM_SHARED_PA=
-T);
-> >
-> > I vote for either:
-> >
-> >         use_separate_l2_pat =3D (ctl_cached.misc_ctl & SVM_MISC_ENABLE_=
-NP) &&
-> >                               !kvm_check_has_quirk(vcpu->kvm,
-> >                                                    KVM_X86_QUIRK_NESTED=
-_SVM_SHARED_PAT);
-> >
-> LOL! Aren't you the one who keeps complaining that my indentation
-> doesn't line up? Are you schizophrenic?
+This series enables FEAT_Debugv8p9 which extends the breakpoint and 
+watchpoint support from 16 up to 64. I've picked up this series from 
+Anshuman.
 
-Huh?  That is aligned.  Perhaps it's whitespace damaged by your MUA?
+Changes in V4:
 
-> > or
-> >
-> >         use_separate_l2_pat =3D (ctl_cached.misc_ctl & SVM_MISC_ENABLE_=
-NP);
-> >         if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_NESTED_SVM_SHA=
-RED_PAT))
-> >                 use_separate_l2_pat =3D false;
->=20
-> Wow. I really have no idea how to predict what you're going to want
-> the code to look like. How is this better than the original?!?
+- Limit enabling of FEAT_Debugv8p9 to only when more than 16 breakpoints 
+  or watchpoints are present.
+- Add lockdep_assert_irqs_disabled() to document the constraints. Drop 
+  unnecessary IRQ disabling.
+- Add more kprobe blacklist annotations and disallow breakpoints in the 
+  nokprobe code.
+- Drop previously applied sysreg patches.
 
-It doesn't immediately wrap after the "=3D".  Similar to my view on wrappin=
-g before
-function names[*], I find wrapping immediately after an assignment operator=
- to be
-unnecessarily difficult to read as it doesn't provide any context for singl=
-e-line
-searches.
+Prior versions from Anshuman:
 
-I'm pretty darn consistent in my dislike for that style: I count 26 instanc=
-es in
-arch/x86/kvm that match "\s=3D\n", and only two of those carry my SoB or R-=
-b.  I
-simply missed the wrap in kvm_vcpu_apicv_activated() that was added by comm=
-it=20
-896046474f8d ("KVM: x86: Introduce kvm_x86_call() to simplify static calls =
-of
-kvm_x86_ops"), and I'll give myself a pass for commit 8764ed55c970 ("KVM: x=
-86:
-Whitelist port 0x7e for pre-incrementing %rip") as that predates treating
-checkpatch's 80 char limit as a soft limit.
+Changes in V3:
 
-[*] https://lore.kernel.org/all/CAHk-=3DwjoLAYG446ZNHfg=3DGhjSY6nFmuB_wA8fY=
-d5iLBNXjo9Bw@mail.gmail.com
+https://lore.kernel.org/all/20241216040831.2448257-1-anshuman.khandual@arm.com/
+
+- Marked ID_AA64DFR1_EL1.ABLE as FTR_NONSTRICT in ftr_id_aa64dfr1[]
+- Dropped MDCR_EL3.TDA boot requirement from documentation (separate series)
+- Dropped MDCR_EL2_EBWE definition as MDCR_EL2 is now defined in tools sysreg
+- Used SYS_FIELD_PREP() in read_wb_reg() and write_wb_reg()
+- Added MAX_PER_BANK based BUILD_BUG_ON() tests in arch_hw_breakpoint_init()
+- Dropped local variables i.e mdsel_bank and index
+- Derived bank and index from MAX_PER_BANK as required
+
+Changes in V2:
+
+https://lore.kernel.org/all/20241028053426.2486633-1-anshuman.khandual@arm.com/
+
+Following changes have been made per review comments from Mark Rutland
+
+- Orr MDCR_EL2_EBWE directly without an intermittent register
+- Alphabetically order header files in debug-monitors.c
+- Dropped embwe_ref_count mechanism
+- Dropped preempt_enable() from AARCH64_DBG_READ
+- Dropped preempt_disable() from AARCH64_DBG_WRITE
+- Dropped set_bank_index()
+- Renamed read/write_wb_reg() as __read/__write_wb_reg()
+- Modified read/write_wb_reg() to have MDSELR_E1 based banked read/write
+- Added required sysreg tools patches from KVM FEAT_FGT2 series for build
+
+Changes in V1:
+
+https://lore.kernel.org/all/20241001043602.1116991-1-anshuman.khandual@arm.com/
+
+- Changed FTR_STRICT to FTR_NONSTRICT for the following ID_AA64DFR1_EL1
+  register fields - ABL_CMPs, DPFZS, PMICNTR, CTX_CMPs, WRPs and BRPs
+
+Changes in RFC V2:
+
+https://lore.kernel.org/linux-arm-kernel/20240620092607.267132-1-anshuman.khandual@arm.com/
+
+- This series has been split from RFC V1 dealing only with arm64 breakpoints
+- Restored back DBG_MDSCR_MASK definition (unrelated change)
+- Added preempt_disable()/enable() blocks between selecting banks and registers
+
+Changes in RFC:
+
+https://lore.kernel.org/all/20240405080008.1225223-1-anshuman.khandual@arm.com/
+
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+Anshuman Khandual (3):
+      arm64/cpufeature: Add field details for ID_AA64DFR1_EL1 register
+      arm64/boot: Enable EL2 requirements for FEAT_Debugv8p9
+      arm64: hw_breakpoint: Enable FEAT_Debugv8p9
+
+Rob Herring (Arm) (3):
+      arm64: hw_breakpoint: Disallow breakpoints in no kprobe code
+      arm64: hw_breakpoint: Add additional kprobe excluded functions
+      arm64: hw_breakpoint: Add lockdep_assert_irqs_disabled() on install/uninstall
+
+ Documentation/arch/arm64/booting.rst   | 13 +++++++
+ arch/arm64/include/asm/el2_setup.h     | 14 +++++++
+ arch/arm64/include/asm/hw_breakpoint.h | 47 ++++++++++++++++++-----
+ arch/arm64/kernel/cpufeature.c         | 21 ++++++++---
+ arch/arm64/kernel/debug-monitors.c     | 16 +++++---
+ arch/arm64/kernel/hw_breakpoint.c      | 68 +++++++++++++++++++++++++++++-----
+ 6 files changed, 150 insertions(+), 29 deletions(-)
+---
+base-commit: 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f
+change-id: 20260406-arm-debug-8-9-41f6f0e739b5
+
+Best regards,
+--  
+Rob Herring (Arm) <robh@kernel.org>
 
