@@ -1,239 +1,344 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8816370D73;
-	Tue,  7 Apr 2026 16:05:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775577949; cv=none; b=J2wrJ6vFk5BRHt55nErHGl55Use2cKeKl9TUxsK47BiRmGYTimSxVfa+WsgWlBucK7B0ey5ugZwpEGlrYeI3G8F/UTF4bEJ1dRcNzFIqBS2WMinTKZiqhC5mDDsiUgnRqHND53+IVYqg1XFKLsrqG3frqMFS8s0BKL/2SFbu7P0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775577949; c=relaxed/simple;
-	bh=lGp2BtsUVRO4kNlYByDjsk197DjKNjmTVw9N5OE+1r8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=az2L4e+jHXrpvI3SJ1MJIXFoTNuKcIcl9ZYX6IuxiwNtU5tVajM5gKTCAypZQJfw+T2s7UHZB1IQo5rhVIW7MmOnGfoTyXkmplgGsgadOOnC4sg1FBTy8M5+LuNTgeB2ML/uyEE0OVu7MFPvOSr+TDHb41EMckKo+Ut6g+hWubQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6qAumRZ; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734AF36DA1B
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 16:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775578374; cv=pass; b=LECxemqrN3JQKnjufs3X+wYxsyk4fjg67OzEGGu94Bb7aA/r5IcuIC6Oo8/iwBiU0C5wXoMPHPDv42lb8x7/+PFkxZtuSA43HUryKZRGa5Mc7iARp+MJO03ugKN67yKaPTMigkW7KXs/FG8jur1PC6IZuHhyamgpIXEm6XMbb2g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775578374; c=relaxed/simple;
+	bh=PZJu0y1LA7i7A8uF9DKAUABTFfWflVp8QXqMbo19uEE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZHR6eQyGcHuUYQBE3Tx8I1frD+HNtijGmypUiyesOcktluKdjpl/r/tY3mztVRYvI0RVk29k1c0jRDW2BZhdD2Rxnke/UooKkTXEKPU0GA0Ap7byAK/HeWOjidahYTU6q+pXjd19kajhNatZldQatKYFSKTCiSsSRe2fIQqKvE4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mywObNxB; arc=pass smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6qAumRZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A79CCC116C6;
-	Tue,  7 Apr 2026 16:05:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775577948;
-	bh=lGp2BtsUVRO4kNlYByDjsk197DjKNjmTVw9N5OE+1r8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=r6qAumRZuItcevNi0kQNK4pSGc27B0Y8Xwnz8s57+37OFqzCCESt3MMoiygqirtnw
-	 76HCx2amLkWNSAInP56KZ5SopwltsZqvtnnIAO+PwbIDiEZGAcSwuYYujAm9C4OtU/
-	 3C1F9Bh99630PZwZuTY/tutKggi0JcBrbD722tucAGNQqLbtWFonOMoGJ1uCkB7E/r
-	 Jm4vZiQlT78m2MkpEjjzLHUlu+jx9Zs0a1Nvho66qYlCyiYbJsvEteSoEFsFnCGr1c
-	 2g0y2gF/xLdBjFCy7tLCCO4vH9JC11qF3zOMSL6z2aQEeI6jt9sxR3JRzHKve4C0xa
-	 JSpmkBw/4lrEQ==
-From: SeongJae Park <sj@kernel.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Ravi Jonnalagadda <ravis.opensrc@gmail.com>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: (sashiko review) [PATCH v6 1/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
-Date: Tue,  7 Apr 2026 09:05:44 -0700
-Message-ID: <20260407160546.52220-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260407001310.78557-1-sj@kernel.org>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mywObNxB"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a0ff30b240so6728969e87.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 09:12:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775578369; cv=none;
+        d=google.com; s=arc-20240605;
+        b=h9BWNyyhvPNJW4puTbMGxqD1Bs1NfuQTOBn2x2TkP22i0bWY+5HS/EHTtLx1HIymsp
+         8//+ZdOdhi3KbkMBeREqjQfFdNT9RAuQdIiQuXTTCypIds/zpXN3o3xOScTYtzMFa9cL
+         66ksg0mHNoWjNrhcZLQgZVzFKOgXsglR9+LkbGiVdwZXnSB24jOTY4gTLXit4ocNONXe
+         ousRCrva1cfdz5b/Ue1mAF/SaxP1ZJ2FUeLbSTuKyAucwADhS3Mgx807LDkyQhJIno0u
+         7zUUb/O3O9TbjM5W00zzNCmpDO3wdRJxmnd78RE4DEDM0IwE5iSZrwvSJ8AYs2K2E51W
+         ngXw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=jMZwwAVd8FNgUdw3QLf8glhDyeO5NVC8Pxe8yFPrLq4=;
+        fh=N2GijWUHECrn7HveVRf+lZNofs+pcdCdTQYlKd+WpmM=;
+        b=jZn/kfWCJpY0JDyegz6rrBrPifoxe3pJ7Yu852wyWL2RjT9Ri87LYXWyLIY0f54qIc
+         qnvRt8g804jiRFBn6SxwUQCsePJ3qKjxAn3eops6mPfEK2V19z/1lJft5t48YCVDdJEX
+         EzDsj4xIC54IAxYToRlxEaIm376AID3b5XPnGMGRuqtwRJY9en+V5fBazQEmzNCLr/DT
+         4z3JoU7y6v/QFZc4S2E/DBmh1pSzKWva9OjgcDolIgAkiZpMugHs/pdZo91VMJlV6XbT
+         b1lU9wljOIuxqtJuv4ES4M59/HRn9WUr9obKs1IRHm6VXCh7ij8/8fT81H/xN0rOzjAI
+         f/Sw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775578369; x=1776183169; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jMZwwAVd8FNgUdw3QLf8glhDyeO5NVC8Pxe8yFPrLq4=;
+        b=mywObNxBnkM/NFnLsxzQpR9ISgRP9BYRiZpqaW0uNhhhaLWl1dFImWGk/7vpzNP40S
+         SY/1+Mh1ZB0lV1y9XJWfZj8Jutf1FaihEBQAW/eqBLOSH6pVth5MlTWK8zw5k3w2uWet
+         EkQquc1cmh1zS48vpN42b/+IT5x9VitH8ZDKiol6etMN6qONUqM35X4gnIVrkbYHZOt4
+         sgF/WNmfHOukORSILexSQGqMVUyp2DIfsPgYgwy75wylBE1reZS+//hqA3AJau9EE3/b
+         BKsAW5megXWxB0RjHx86oiAJJSPBzv+o4UPtjQMLqRXm5hw130kSRPilvUSNxFeSvgMr
+         WR4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775578369; x=1776183169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=jMZwwAVd8FNgUdw3QLf8glhDyeO5NVC8Pxe8yFPrLq4=;
+        b=HXxs3XmmIP0/Rx1yrZAB1dEJ+cEsi+iMpaM1ywJ6pWwe05RR0ySNkOxPMthu2QNRnG
+         5aWZblHVxYKz1JIgcx9hikX7xKz3zdLyIyK6BsUQ/wkP6bd5deYUnEL7GLqhNP5f+PTq
+         t296v6dhQiOhEsv0Dw7fmaZcSbJhQPwnlOFx4vrmpSU6F1jHV3Kh9dU0PAJl2yDCrVue
+         GIE41F+XHoKkqzHXVHE/Sty6HHSH2k2IdbNOWUWOtdemjWeAI+oXK/wm+rJ0mQ43c22k
+         ICxLXylB3CAgQ+E5UY2j+pwjzzNqgPpHOZcZTfdXS01vVmuWLeGJOIlfu0Gws456kG2d
+         8yAg==
+X-Forwarded-Encrypted: i=1; AJvYcCXteD+T2Qll5kGYP/KIKfO9WHoKzFzvDLmZZBTzW1a47eMhEOr4yvO/oWDtCREAstX1QetvYR3pHlc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyrcXF1i/RGyGaqBKEVauyXi1di8y32LGPheyIeMDez50RPBdV6
+	7xkx25q0I0C9PpEhXjKh6KCbOM7XUX/Lp/c7lGCICHAB6SYc3Ig4Y2yBLE51ZH0eDF+jLjVDIkL
+	TvcYHOiIKGLZZsoPvxC+Ohjko9aJDyWc=
+X-Gm-Gg: AeBDiev7W6Nd18FuwsrTxoBkvi5beuFDflrstN2V1faoEgoeq/scGo+IxDELm8kTNU5
+	pHE7KUAhv0/MoLw6iJ856ffOIkVh1euAnmqWvARyZSf1bYURowZVKhksvqsH6NgCGY3slN9vVsD
+	pbEaDWNXiSm8VXGNHNtSEDeKvZiaRn7Q/E9ymsRfpPh6EkPiYcpzmuHD4McqK12WUMJatuEDk9U
+	3qryKT4nK71UCrJY2dCb3iSbEw42y8y4stVTkrk9ifUYnF+kqKbFGh8V2RhV+W9DqD0qNcBST2L
+	oBDB+RJbP3KNjfQbIDRl
+X-Received: by 2002:a05:6512:3e28:b0:5a3:d10a:8360 with SMTP id
+ 2adb3069b0e04-5a3d10a856emr4276810e87.31.1775578369090; Tue, 07 Apr 2026
+ 09:12:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260407052317.2097791-1-rdunlap@infradead.org> <7752cce3-3362-42c0-becd-96dbc7b17cab@roeck-us.net>
+In-Reply-To: <7752cce3-3362-42c0-becd-96dbc7b17cab@roeck-us.net>
+From: Sergio Melas <sergiomelas@gmail.com>
+Date: Tue, 7 Apr 2026 18:12:36 +0200
+X-Gm-Features: AQROBzDez180iEcJ1lpdn0o4JkAuqAZ5B9rcT4jvOfo4mAHFzjqbomvGD8x0MHk
+Message-ID: <CAP8e=sLmwXWT+O-z4NfLQ_EELsiYQUgzOg1NFf9XDPQo-2mozA@mail.gmail.com>
+Subject: Re: [PATCH] hwmon: (yogafan) various markup improvements
+To: Guenter Roeck <linux@roeck-us.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org, 
+	linux-hwmon@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Adding another thought at the end of the mail without cutting the previous
-unrelated questions, so that Ravi can answer all my questions at once.
+Hi Guenter,
 
-On Mon,  6 Apr 2026 17:13:08 -0700 SeongJae Park <sj@kernel.org> wrote:
+My apologies for the confusion=E2=80=94I am still learning the standard
+workflow. I understand now why applying Randy=E2=80=99s patch immediately i=
+s
+the correct move.
 
-> On Mon, 6 Apr 2026 12:47:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
-> 
-> > On Sun, Apr 5, 2026 at 3:45 PM SeongJae Park <sj@kernel.org> wrote:
-> > >
-> > >
-> > > Ravi, thank you for reposting this patch after the rebase.  This time sashiko
-> > > was able to review this, and found good points including things that deserve
-> > > another revision of this patch.
-> > >
-> > > Forwarding full sashiko review in a reply format with my inline comments below,
-> > > for sharing details of my view and doing followup discussions via mails.  Ravi,
-> > > could you please reply?
-> > >
-> > 
-> > Thanks SJ, providing your comments on top of sashiko's review is very helpful.
-> 
-> I'm glad to hear that it is working for you :)
-> 
-> [...]
-> > > > +static unsigned long damos_calc_eligible_bytes(struct damon_ctx *c,
-> > > > > +           struct damos *s, int nid, unsigned long *total)
-> > > > > +{
-> [...]
-> > > > > +                           struct folio *folio;
-> > > > > +                           unsigned long folio_sz, counted;
-> > > > > +
-> > > > > +                           folio = damon_get_folio(PHYS_PFN(addr));
-> > > >
-> > > > What happens if this metric is assigned to a DAMON context configured for
-> > > > virtual address space monitoring? If the context uses DAMON_OPS_VADDR,
-> > > > passing a user-space virtual address to PHYS_PFN() might cause invalid
-> > > > memory accesses or out-of-bounds page struct reads. Should this code
-> > > > explicitly verify the operations type first?
-> > >
-> > > Good finding.  We intend to support only paddr ops.  But there is no guard for
-> > > using this on vaddr ops configuration.  Ravi, could we add underlying ops
-> > > check?  I think damon_commit_ctx() is a good place to add that.  The check
-> > > could be something like below?
-> > >
-> > 
-> > I plan to add the ops type check directly in the metric functions
-> > (damos_get_node_eligible_mem_bp and its counterpart) rather than in
-> > damon_commit_ctx(). The functions will return 0 early
-> > if c->ops.id != DAMON_OPS_PADDR.
-> > 
-> > That said, if you prefer the damon_commit_ctx() validation approach to
-> > reject the configuration outright, I can implement it that way instead.
-> > Please let me know your preference.
-> 
-> I'd prefer damon_commit_ctx() validation approach since it would give users
-> more clear message of the failure.
-> 
-> > 
-> > > '''
-> > > --- a/mm/damon/core.c
-> > > +++ b/mm/damon/core.c
-> > > @@ -1515,10 +1515,23 @@ static int damon_commit_sample_control(
-> > >  int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
-> > >  {
-> > >         int err;
-> > > +       struct damos *scheme;
-> > > +       struct damos_quota_goal *goal;
-> > >
-> > >         dst->maybe_corrupted = true;
-> > >         if (!is_power_of_2(src->min_region_sz))
-> > >                 return -EINVAL;
-> > > +       if (src->ops.id != DAMON_OPS_PADDR) {
-> > > +               damon_for_each_scheme(scheme, src) {
-> > > +                       damos_for_each_quota_goal(goal, &scheme->quota) {
-> > > +                               switch (goal->metric) {
-> > > +                               case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
-> > > +                               case DAMOS_QUOTA_NODE_INELIGIBLE_MEMPBP:
-> > > +                                       return -EINVAL;
-> > > +                               }
-> > > +                       }
-> > > +               }
-> > > +       }
-> > >
-> > >         err = damon_commit_schemes(dst, src);
-> > >         if (err)
-> > > '''
-> [...]
-> > > > > +   /* Compute ineligible ratio directly: 10000 - eligible_bp */
-> > > > > +   return 10000 - mult_frac(node_eligible, 10000, total_eligible);
-> > > > > +}
-> > > >
-> > > > Does this return value match the documented metric? The formula computes the
-> > > > percentage of the system's eligible memory located on other NUMA nodes,
-> > > > rather than the amount of actual ineligible (filtered out) memory residing
-> > > > on the target node. Could this semantic mismatch cause confusion when
-> > > > configuring quota policies?
-> > >
-> > > Nice catch.  The name and the documentation are confusing.  We actually
-> > > confused a few times in previous revisions, and I'm again confused now.  IIUC,
-> > > the current implementation is the intended and right one for the given use
-> > > case, though.  If my understanding is correct, how about renaming
-> > > DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP to
-> > > DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_COMPLEMENT, and updating the documentation
-> > > together?  Ravi, what do you think?
-> > >
-> > 
-> > Agreed, the current name is confusing. How about
-> > DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_OFFNODE?
-> > 
-> > The rationale is that this metric measures "eligible memory that is off
-> > this node" (i.e., on other nodes).
-> > 
-> >  I think "offnode" conveys the physical meaning more directly than "complement".
-> > That said, I'm happy to go with "complement" if you prefer.
-> > both are clearer than "ineligible".
-> 
-> Thank you for the nice suggestion.  I like "offnode" term.  But I think having
-> "node" twice on the name is not really efficient for people who print code on
-> papers.  What about DAMOS_QUOTA_OFFNODE_ELIGIBLE_MEM_BP?
-> 
-> But...  Maybe more importantly...  Now I realize this means that
-> offnode_eligible_mem_bp with target nid 0 is just same to node_eligible_mem_bp
-> with target nid 1, on your test setup.  Maybe we don't really need
-> offnode_eligible_mem_bp?  That is, your test setup could be like below.
-> 
-> '''
-> For maintaining hot memory on DRAM (node 0) and CXL (node 1) in a 7:3
-> ratio:
-> 
->     PUSH scheme: migrate_hot from node 0 -> node 1
->       goal: node_eligible_mem_bp, nid=1, target=3000
->       "Move hot pages from DRAM to CXL if less thatn 30% of hot data is
->        in CXL"
-> 
->     PULL scheme: migrate_hot from node 1 -> node 0
->       goal: node_eligible_mem_bp, nid=0, target=7000
->       "Move hot pages from CXL to DRAM if less than 70% of hot data is
->        in DRAM"
-> '''
-> 
-> And the schemes are more easy to read and understand for me.  This seems even
-> straightforward to scale for >2 nodes.  For example, if we want hot memory
-> distribution of 5:3:2 to nodes 0:1:2,
-> 
-> 	Two schemes for migrating hot pages out of node 0
-> 	- migrate_hot from node 0 -> node 1
-> 	  - goal: node_eligible_mem_bp, nid=1, target=3000
-> 	- migrate_hot from node 0 -> node 2
-> 	  - goal: node_eligible_mem_bp, nid=2, target=2000
-> 
-> 	Two schemes for migrating hot pages out of node 1
-> 	- migrate_hot from node 1 -> node 0
-> 	  - goal: node_eligible_mem_bp, nid=0, target=5000
-> 	- migrate_hot from node 1 -> node 2
-> 	  - goal: node_eligible_mem_bp, nid=2, target=2000
-> 
-> 	Two schemes for migrating hot pages out of node 2
-> 	- migrate_hot from node 2 -> node 0
-> 	  - goal: node_eligible_mem_bp, nid=0, target=5000
-> 	- migrate_hot from node 2 -> node 1
-> 	  - goal: node_eligible_mem_bp, nid=1, target=3000
-> 
-> Do you think this makes sense?  If it makes sense and works for your use case,
-> what about dropping the offnode goal type?
+When I mentioned the "next version," I was thinking about a major
+expansion I am currently preparing (v1, second round). It expands
+support to nearly all Lenovo and Xiaoxin models. Because the database
+has grown so much, I=E2=80=99ve had to significantly change the table forma=
+t
+in the .rst file to keep it readable. So i was referring to this new
+table (see below). Fully open to modify the format if you thin is not
+ok.
 
-Now I recall I suggested the offnode metric because I suggested to run a
-kdamond per node.  That is, having one kdamond that monitors only node 0 and
-migrate hot memory to node 1, and another kdamond that monitors only node 1 and
-migrate hot memory to node 0.  And I suggested to do so because I knew it is
-suboptimal to run DAMOS schemes with node filter.
+As an automation engineer , this process is quite new to me, so I
+appreciate your patience as I learn the proper terms and procedures. I
+will ensure my next submission is rebased on your current tree with
+Randy's improvements.
 
-We made a change [1] for making that more optimum, though.  The change is now
-in mm-stable, so hopefully it will be available from 7.1-rc1.  So I believe the
-single quota goal metric should work now.  Ravi, could you share what you
-think?
+Best regards, Sergio
 
-[1] commit e1ace69c33ec ("mm/damon/core: set quota-score histogram with core filters")
+::
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+LENOVO FAN CONTROLLER Hardware Abstraction Layer
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
 
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| MODEL       | FAMILY / SERIES   | OFFSET  | FULL ACPI OBJECT PATH
+      | WIDTH  | NMAX  | RMAX  | MULT |
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
++=3D=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D+=3D=3D=3D=3D=3D=3D=3D+=3D=
+=3D=3D=3D=3D=3D+
+| 82N7        | Yoga 14cACN       | 0x06    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 0     | 5500  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83E2        | Yoga Pro 9i       | 0xFE/FF | _SB.PCI0.LPC0.EC0.FANS
+(Fan1)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83E2        | Yoga Pro 9i       | 0xFE/FF | _SB.PCI0.LPC0.EC0.FA2S
+(Fan2)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83CV        | Yoga Pro 9 (Aura) | 0xFE    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 0     | 6000  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83DN        | Yoga Pro 7        | 0xFE    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 0     | 6000  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82A2 / 82A3 | Yoga Slim 7       | 0x06    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 0     | 5500  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83JC / 83DX | Xiaoxin Pro 14/16 | 0xFE    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 80    | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83FD / 83DE | Xiaoxin Pro       | 0xFE/FF |
+_SB.PCI0.LPC0.EC0.FAN0/.FANS   | 8-bit  | 0     | 5000  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 81YM / 82FG | IdeaPad 5         | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 4500  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 83AK        | ThinkBook G7      | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 5400  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 81X1        | Flex 5            | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 4500  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legion 9    | Legion 9i / Extr  | 0xFE/FF | _SB.PCI0.LPC0.EC0.FANS
+(Fan1)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legion 9    | Legion 9i / Extr  | 0xFE/FF | _SB.PCI0.LPC0.EC0.FA2S
+(Fan2)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legion 9    | Legion 9i / Extr  | 0xFE/FF | _SB.PCI0.LPC0.EC0.FA3S
+(Fan3)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82WQ        | Legion 7i (Int)   | 0xFE/FF | _SB.PCI0.LPC0.EC0.FANS
+(Fan1)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82WQ        | Legion 7i (Int)   | 0xFE/FF | _SB.PCI0.LPC0.EC0.FA2S
+(Fan2)  | 16-bit | 0     | 8000  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82JW / 82JU | Legion 5 (AMD)    | 0xFE/FF | _SB.PCI0.LPC0.EC0.FANS
+(Fan1)  | 16-bit | 0     | 6500  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82JW / 82JU | Legion 5 (AMD)    | 0xFE/FF | _SB.PCI0.LPC0.EC0.FA2S
+(Fan2)  | 16-bit | 0     | 6500  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| GeekPro     | GeekPro G5000/6k  | 0xFE/FF | _SB.PCI0.LPC0.EC0.FANS
+(Fan1)  | 16-bit | 0     | 6500  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82XV / 83DV | LOQ 15/16         | 0xFE/FF | _SB.PCI0.LPC0.EC0.FANS
+(Fan1)  | 16-bit | 0     | 6500  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 82XV / 83DV | LOQ 15/16         | 0xFE/FF | _SB.PCI0.LPC0.EC0.FA2S
+(Fan2)  | 16-bit | 0     | 6500  | 1    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80V2 / 81C3 | Yoga 710/720      | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 59    | 4500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80S7        | Yoga 510          | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 41    | 4500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80JH        | Yoga 3 14         | 0x06    |
+_SB.PCI0.LPC0.EC0.FAN0/.FANS   | 8-bit  | 80    | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 20344       | Yoga 2 13         | 0xAB    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 8     | 4200  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 2191 / 20191| Yoga 13           | 0xF2/F3 | _SB.PCI0.LPC0.EC0.FAN1/2
+      | 8-bit  | 0     | 5000  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legacy      | Yoga 11s          | 0x56    |
+_SB.PCI0.LPC0.EC0.FAN0/.FANS   | 8-bit  | 80    | 4500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 20GJ / 20GK | ThinkPad 13       | 0x85    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 7     | 5500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 1143        | ThinkPad E520     | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 4200  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 3698        | ThinkPad Helix    | 0x2F    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 4500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 20M7 / 20M8 | ThinkPad L380     | 0x95    | _SB.PCI0.LPC0.EC0.FAN1
+      | 8-bit  | 0     | 4600  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 20NR / 20NS | ThinkPad L390     | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 5500  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 2464 / 2468 | ThinkPad L530     | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 4400  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 2356        | ThinkPad T430s    | 0x2F    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 20AQ / 20AR | ThinkPad T440s    | 0x4E    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 5200  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 20BE / 20BF | ThinkPad T540p    | 0x2F    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 5500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 3051        | ThinkPad x121e    | 0x2F    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 4500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 4290        | ThinkPad x220i    | 0x2F    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 2324 / 2325 | ThinkPad x230     | 0x2F    | _SB.PCI0.LPC0.EC0.FANS
+      | 8-bit  | 7     | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 81AX        | V330-15IKB        | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 5100  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legacy      | IdeaPad Y580      | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 35    | 4800  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legacy      | IdeaPad V580      | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 0     | 5000  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80SR / 80SX | IdeaPad 500S-13   | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 44    | 5500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80S1        | IdeaPad 500S-14   | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 116   | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80TK        | IdeaPad 510S      | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 41    | 5100  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80S9        | IdeaPad 710S      | 0x95/98 | _SB.PCI0.LPC0.EC0.FAN1/2
+      | 8-bit  | 0     | 5200  | 100  |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80KU        | U31-70            | 0x06    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 44    | 5500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| 80S1        | U41-70            | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 116   | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legacy      | U160              | 0x95    | _SB.PCI0.LPC0.EC0.FAN0
+      | 8-bit  | 64    | 4500  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
+| Legacy      | U330p/U430p       | 0x92    | _SB.PCI0.LPC0.EC0.FAN0
+      | 16-bit | 768   | 5000  | 0    |
++-------------+-------------------+---------+------------------------------=
+--+--------+-------+-------+------+
 
-Thanks,
-SJ
+Note for the  raw_RPM we have 2 cases:
 
-[...]
+* Discrete Level Estimation
+    **Nmax > 0 then raw_RPM =3D (Rmax * IN) / Nmax**
+
+* Continuous Unit Mapping
+    **Nmax =3D 0 then raw_RPM =3D IN * Multiplier**
