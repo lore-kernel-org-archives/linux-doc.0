@@ -1,172 +1,221 @@
-Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4802B40DFD0
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 00:07:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A654632;
+	Tue,  7 Apr 2026 00:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775520469; cv=none; b=b7e+9Rq+jegD0HmLz/lZ0LPtKO69zFxyxEkCbLF9W9EYlzSxGfSzXBB2YrG4xv51iHULe1lfJ9g3HjRZd0VRiixY8Ok3hUANOu+W2LR7Nwf6oDmkYxRPd4jO9gPGBsFlj0iNbib/JwkXbIdPF0qiQvwM9wfNRyveksBjqzT3kQc=
+	t=1775520799; cv=none; b=LoCBknDY0DAaNkv9RNQsABgKk1/g1dirJvXCWtCk68Va8HQ/lljcx94V7JClkhhNuqMAwFkc8GT4OWFacBN/lqefZnR1oUbrw3VZfAD/S1AJAmSHNYEw5N4fiTMVSrjEsfFgycQyNkOzL8OHNkrSlnTckUSvATPBDW9hKoiXvHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775520469; c=relaxed/simple;
-	bh=809RIiG+Jp1NRmRL/hbEdVrCwlECLKkXhLo/V6OrSlk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KhgYKtCIrwxFa+tsVbIWpqZtUWj6wcNjFXNcwk/Bnq5YeQO0wA49fa7E7qm2AGeGi2zFX8qIBzryFg9LyfncBo0g8/Y/mc55zarWf/jUj3icooBrCwIs4gwCq8/youtRncM2mv4pnwScYRaSdSNRtsUzKNOdDraf74YqANrZ7/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=aDtFuT4q; arc=none smtp.client-ip=209.85.215.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1775520799; c=relaxed/simple;
+	bh=BGK91Zud1kj/tvt7oieAdbvvJZc26dEc8R4BMeClsPQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VNweija9rczgWBXQJLbg/rv0mbmc9LdYYsbNP7t5taylVIO69gIZsGhGgbfS9Qy45B4WBuvA9lfZbT5q2YhdDep7xvjGz0rBB5j4wOgVo6pvt9mBv8/acfFeCzgfXrRsLkWamqVy3Sdfa3bsQluo4RnYBqdb4fnRo6j6+DhRbeI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tm6l9d4j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="aDtFuT4q"
-Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c709551ec08so7446509a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 17:07:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775520468; x=1776125268; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CVmJV5bEdLCvGMFJH8cmPdTc292jFDXXIClpGMN6ALE=;
-        b=aDtFuT4qPROfAgyM9nEYMaCQUxt9OKP+bQmEHZpMf1LBSEANEbt70r0XqWPGV3U+3H
-         EeWT/d4Lcqo9vYR1mJpgS12DZBP8qYFJ18CDWzs+hBMDvYrP4gwWsn2dnbVP4+pcaaZT
-         ZnBv/pVjyxUNUYiJ9GGWfzeKKhxBrTxAAY3AVN6A2ykWyA9NO902g/+NB9EN1jHhUb1m
-         /yh6um8uHe/bSsJN2SeWqDtSzzHmdffxGAvEqkhB6+4hlCMHJFpg0VSm+i0qOHDJkrPY
-         8h9BqnIDjHcj9R2MxFhM3h+rlVPhGPQ1JapQWOYrhlnn3Pz5mxpFkk/5t9U2TetgPvIP
-         i34w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775520468; x=1776125268;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=CVmJV5bEdLCvGMFJH8cmPdTc292jFDXXIClpGMN6ALE=;
-        b=YabBPtaheJMKMINInDzO6V4qReBm+/ESzAMlWBhPy/urq1id6vY36/y5olKvjST9kV
-         PjGFCBX0gG+GRbSicrVN/jxZDEMC8c31qAcmg2+3iSsWop5y+Pjxe37y/dubRopZdU2d
-         tlaxb99Tmo8ElrNJNu7u/sjW6/rkn7ioB9WsvX10PSyY9DfnTNi3MIAttT03PPcTzCSp
-         cb1NQ6Su/GPKKyK5wVm0CfgSyimIXF2Z0aISP3u2QVWRXaTEw+AC8CzUvKVstyhp9PLT
-         wXxodwalWAP2fesa7t6zeZBEM+PXbXdZppc+vqjR4SXVCA0UfpB0im/uyxtfTUv1mABh
-         XWgg==
-X-Forwarded-Encrypted: i=1; AJvYcCUONG3oQgS4s0UpNHK2Nb+pmVTUxiBnLvvoAWec/QE7EfHIK3/zizzFGkU+oMLB26ggshJWcosAkaI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxORpYIWN4185HvLOWcgTnskDpzbiXhuy89kAH1NdyUubCiYqL
-	snmuvEw0HmsgJjXI9diU71uHCeg7CzsOUtxtMdDceF6qB53uZJpJM0X+zTfHs2xa6HWKka+IG58
-	YRJ8ZPg==
-X-Received: from pfjf14.prod.google.com ([2002:a05:6a00:22ce:b0:82a:6d96:5a09])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:845:b0:827:370b:2695
- with SMTP id d2e1a72fcca58-82d0db7d9famr12902671b3a.29.1775520467378; Mon, 06
- Apr 2026 17:07:47 -0700 (PDT)
-Date: Mon, 6 Apr 2026 17:07:45 -0700
-In-Reply-To: <20260327234023.2659476-10-jmattson@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tm6l9d4j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68043C4CEF7;
+	Tue,  7 Apr 2026 00:13:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775520798;
+	bh=BGK91Zud1kj/tvt7oieAdbvvJZc26dEc8R4BMeClsPQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=Tm6l9d4jQGiEtsxOMCMp//3292RFdMDB9vsyy6kw4WZSXcXUtHVOWBnL8S6YHCyh0
+	 vW/zwlr/O/+PpP2TNA/v6zkE8Zl5TwoTpy1q4zJ4dZVcNyeVdAVI2CC/nfvCEh1JBg
+	 MME4m0eAbWKFMzapwCXTk+fvMtRbhTYPCwzh3Uk+S395vQnLRybEZ689TYeSAgOT2W
+	 X0JHiM+PFMIAc4E+JUkzmWwKSz2upRMgSrtxKFHTab8qyyU/zBdgif44TAihuFJHFD
+	 Ofg7ChEtq4Fnq0SLQ5FBs5C9qMUzxsSzTNPNpnuFFpRs1z39tZcofKb19K/xh08Ttl
+	 dDeuk3T4oQzpw==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: (sashiko review) [PATCH v6 1/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
+Date: Mon,  6 Apr 2026 17:13:08 -0700
+Message-ID: <20260407001310.78557-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <CALa+Y14oWqu5+DbkENy7GgBjc=dCbFTaoOCr1i4=9CN-ZNRgEA@mail.gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260327234023.2659476-1-jmattson@google.com> <20260327234023.2659476-10-jmattson@google.com>
-Message-ID: <adRK0dyF9QAsZyVz@google.com>
-Subject: Re: [PATCH v7 9/9] KVM: selftests: nSVM: Add svm_nested_pat test
-From: Sean Christopherson <seanjc@google.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	Yosry Ahmed <yosry@kernel.org>
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 27, 2026, Jim Mattson wrote:
-> When KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled, verify that KVM
-> correctly virtualizes the host PAT MSR and the guest PAT register for
-> nested SVM guests.
+On Mon, 6 Apr 2026 12:47:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> On Sun, Apr 5, 2026 at 3:45 PM SeongJae Park <sj@kernel.org> wrote:
+> >
+> >
+> > Ravi, thank you for reposting this patch after the rebase.  This time sashiko
+> > was able to review this, and found good points including things that deserve
+> > another revision of this patch.
+> >
+> > Forwarding full sashiko review in a reply format with my inline comments below,
+> > for sharing details of my view and doing followup discussions via mails.  Ravi,
+> > could you please reply?
+> >
 > 
-> With nested NPT disabled:
->  * L1 and L2 share the same PAT
->  * The vmcb12.g_pat is ignored
+> Thanks SJ, providing your comments on top of sashiko's review is very helpful.
+
+I'm glad to hear that it is working for you :)
+
+[...]
+> > > +static unsigned long damos_calc_eligible_bytes(struct damon_ctx *c,
+> > > > +           struct damos *s, int nid, unsigned long *total)
+> > > > +{
+[...]
+> > > > +                           struct folio *folio;
+> > > > +                           unsigned long folio_sz, counted;
+> > > > +
+> > > > +                           folio = damon_get_folio(PHYS_PFN(addr));
+> > >
+> > > What happens if this metric is assigned to a DAMON context configured for
+> > > virtual address space monitoring? If the context uses DAMON_OPS_VADDR,
+> > > passing a user-space virtual address to PHYS_PFN() might cause invalid
+> > > memory accesses or out-of-bounds page struct reads. Should this code
+> > > explicitly verify the operations type first?
+> >
+> > Good finding.  We intend to support only paddr ops.  But there is no guard for
+> > using this on vaddr ops configuration.  Ravi, could we add underlying ops
+> > check?  I think damon_commit_ctx() is a good place to add that.  The check
+> > could be something like below?
+> >
 > 
-> With nested NPT enabled:
->  * An invalid g_pat in vmcb12 causes VMEXIT_INVALID
->  * RDMSR(IA32_PAT) from L2 returns the value of the guest PAT register
->  * WRMSR(IA32_PAT) from L2 is reflected in vmcb12's g_pat on VMEXIT
->  * RDMSR(IA32_PAT) from L1 returns the value of the host PAT MSR
->  * Save/restore with the vCPU in guest mode preserves both hPAT and gPAT
+> I plan to add the ops type check directly in the metric functions
+> (damos_get_node_eligible_mem_bp and its counterpart) rather than in
+> damon_commit_ctx(). The functions will return 0 early
+> if c->ops.id != DAMON_OPS_PADDR.
 > 
-> Signed-off-by: Jim Mattson <jmattson@google.com>
-> ---
->  tools/arch/x86/include/uapi/asm/kvm.h         |   2 +
+> That said, if you prefer the damon_commit_ctx() validation approach to
+> reject the configuration outright, I can implement it that way instead.
+> Please let me know your preference.
 
-Don't update uAPI headers in tools/, they're not used by KVM selftests (perf
-folks will sync them as needed).
+I'd prefer damon_commit_ctx() validation approach since it would give users
+more clear message of the failure.
 
-> +#define PAT_DEFAULT		0x0007040600070406ULL
-> +#define L1_PAT_VALUE		0x0007040600070404ULL  /* Change PA0 to WT */
-> +#define L2_VMCB12_PAT		0x0606060606060606ULL  /* All WB */
-> +#define L2_PAT_MODIFIED		0x0606060606060604ULL  /* Change PA0 to WT */
-> +#define INVALID_PAT_VALUE	0x0808080808080808ULL  /* 8 is reserved */
-> +
-> +/*
-> + * Shared state between L1 and L2 for verification.
-> + */
-> +struct pat_test_data {
-> +	uint64_t l2_pat_read;
-> +	uint64_t l2_pat_after_write;
-> +	uint64_t l1_pat_after_vmexit;
-> +	uint64_t vmcb12_gpat_after_exit;
-> +	bool l2_done;
-> +};
-> +
-> +static struct pat_test_data *pat_data;
+> 
+> > '''
+> > --- a/mm/damon/core.c
+> > +++ b/mm/damon/core.c
+> > @@ -1515,10 +1515,23 @@ static int damon_commit_sample_control(
+> >  int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
+> >  {
+> >         int err;
+> > +       struct damos *scheme;
+> > +       struct damos_quota_goal *goal;
+> >
+> >         dst->maybe_corrupted = true;
+> >         if (!is_power_of_2(src->min_region_sz))
+> >                 return -EINVAL;
+> > +       if (src->ops.id != DAMON_OPS_PADDR) {
+> > +               damon_for_each_scheme(scheme, src) {
+> > +                       damos_for_each_quota_goal(goal, &scheme->quota) {
+> > +                               switch (goal->metric) {
+> > +                               case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
+> > +                               case DAMOS_QUOTA_NODE_INELIGIBLE_MEMPBP:
+> > +                                       return -EINVAL;
+> > +                               }
+> > +                       }
+> > +               }
+> > +       }
+> >
+> >         err = damon_commit_schemes(dst, src);
+> >         if (err)
+> > '''
+[...]
+> > > > +   /* Compute ineligible ratio directly: 10000 - eligible_bp */
+> > > > +   return 10000 - mult_frac(node_eligible, 10000, total_eligible);
+> > > > +}
+> > >
+> > > Does this return value match the documented metric? The formula computes the
+> > > percentage of the system's eligible memory located on other NUMA nodes,
+> > > rather than the amount of actual ineligible (filtered out) memory residing
+> > > on the target node. Could this semantic mismatch cause confusion when
+> > > configuring quota policies?
+> >
+> > Nice catch.  The name and the documentation are confusing.  We actually
+> > confused a few times in previous revisions, and I'm again confused now.  IIUC,
+> > the current implementation is the intended and right one for the given use
+> > case, though.  If my understanding is correct, how about renaming
+> > DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP to
+> > DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_COMPLEMENT, and updating the documentation
+> > together?  Ravi, what do you think?
+> >
+> 
+> Agreed, the current name is confusing. How about
+> DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_OFFNODE?
+> 
+> The rationale is that this metric measures "eligible memory that is off
+> this node" (i.e., on other nodes).
+> 
+>  I think "offnode" conveys the physical meaning more directly than "complement".
+> That said, I'm happy to go with "complement" if you prefer.
+> both are clearer than "ineligible".
 
-This is ridiculous.  Whatever AI you're using is reinventing sync_global_to_guest()
-in a very obfuscated way.  Drop the indirection along with the params and the
-full page allocation, and just sync the damn struct.
+Thank you for the nice suggestion.  I like "offnode" term.  But I think having
+"node" twice on the name is not really efficient for people who print code on
+papers.  What about DAMOS_QUOTA_OFFNODE_ELIGIBLE_MEM_BP?
 
-Actually, this is even dumber than that.  The "data" is only ever accessed from
-within the guest; it's used to pass info between L1 and L2.  Drop the struct
-entirely and just write global variables.
+But...  Maybe more importantly...  Now I realize this means that
+offnode_eligible_mem_bp with target nid 0 is just same to node_eligible_mem_bp
+with target nid 1, on your test setup.  Maybe we don't really need
+offnode_eligible_mem_bp?  That is, your test setup could be like below.
 
-In general, please clean this test up before submitting v8.  All of the L2 code
-is basically copy+paste of itself.  This is the second vibe coded selftest (AFAIK)
-you've posted, and it has many of the same flaws as the first one[*].   While I'm
-not opposed to using fancy tools, and the bar is generally lower for selftests,
-the code still needs to be readable and maintainable.  This ain't.
+'''
+For maintaining hot memory on DRAM (node 0) and CXL (node 1) in a 7:3
+ratio:
 
-[*] https://lore.kernel.org/all/aXJal3srw2-3J5Dm@google.com
+    PUSH scheme: migrate_hot from node 0 -> node 1
+      goal: node_eligible_mem_bp, nid=1, target=3000
+      "Move hot pages from DRAM to CXL if less thatn 30% of hot data is
+       in CXL"
 
-> +static void l2_guest_code(void)
-> +{
-> +	pat_data->l2_pat_read = rdmsr(MSR_IA32_CR_PAT);
-> +	wrmsr(MSR_IA32_CR_PAT, L2_PAT_MODIFIED);
-> +	pat_data->l2_pat_after_write = rdmsr(MSR_IA32_CR_PAT);
-> +	pat_data->l2_done = true;
-> +	vmmcall();
-> +}
+    PULL scheme: migrate_hot from node 1 -> node 0
+      goal: node_eligible_mem_bp, nid=0, target=7000
+      "Move hot pages from CXL to DRAM if less than 70% of hot data is
+       in DRAM"
+'''
 
-...
+And the schemes are more easy to read and understand for me.  This seems even
+straightforward to scale for >2 nodes.  For example, if we want hot memory
+distribution of 5:3:2 to nodes 0:1:2,
 
-> +static void run_test(void *l1_code, const char *test_name, bool npt_enabled,
-> +		     bool do_save_restore)
-> +{
-> +	struct pat_test_data *data_hva;
-> +	vm_vaddr_t svm_gva, data_gva;
-> +	struct kvm_x86_state *state;
-> +	struct kvm_vcpu *vcpu;
-> +	struct kvm_vm *vm;
-> +	struct ucall uc;
-> +
-> +	pr_info("Testing: %s\n", test_name);
-> +
-> +	vm = vm_create_with_one_vcpu(&vcpu, l1_code);
-> +	vm_enable_cap(vm, KVM_CAP_DISABLE_QUIRKS2,
-> +		      KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT);
-> +	if (npt_enabled)
-> +		vm_enable_npt(vm);
-> +
-> +	vcpu_alloc_svm(vm, &svm_gva);
-> +
-> +	data_gva = vm_vaddr_alloc_page(vm);
-> +	data_hva = addr_gva2hva(vm, data_gva);
-> +	memset(data_hva, 0, sizeof(*data_hva));
+	Two schemes for migrating hot pages out of node 0
+	- migrate_hot from node 0 -> node 1
+	  - goal: node_eligible_mem_bp, nid=1, target=3000
+	- migrate_hot from node 0 -> node 2
+	  - goal: node_eligible_mem_bp, nid=2, target=2000
 
-Ugh.
+	Two schemes for migrating hot pages out of node 1
+	- migrate_hot from node 1 -> node 0
+	  - goal: node_eligible_mem_bp, nid=0, target=5000
+	- migrate_hot from node 1 -> node 2
+	  - goal: node_eligible_mem_bp, nid=2, target=2000
 
-> +
-> +	if (npt_enabled)
-> +		tdp_identity_map_default_memslots(vm);
-> +
-> +	vcpu_args_set(vcpu, 2, svm_gva, data_gva);
+	Two schemes for migrating hot pages out of node 2
+	- migrate_hot from node 2 -> node 0
+	  - goal: node_eligible_mem_bp, nid=0, target=5000
+	- migrate_hot from node 2 -> node 1
+	  - goal: node_eligible_mem_bp, nid=1, target=3000
+
+Do you think this makes sense?  If it makes sense and works for your use case,
+what about dropping the offnode goal type?
+
+
+Thanks,
+SJ
+
+[...]
