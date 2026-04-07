@@ -1,94 +1,94 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448E8373C10
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 03:08:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7F7376BEC
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 03:59:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775531320; cv=pass; b=NLLvfpndU9xgFUkqXqIdXe5UWk+BZA5ftWfXe7qSk8F4xLcQDnDkUvBnp6jDqn/BqJYNUl4DS0DnZITKC9t4hU2BRItFO3kkE2CS3K0Aqopo6Lv4x4uCjIpZgbhBJ3MUkW1mPDtXQS1LaL+/puCr7SMdewbDrzxoJQVfq9YxXDo=
+	t=1775534344; cv=pass; b=gLaz8+lnpYny0ZjtGHJ34VSG1SDbkNNcEovN8zV/izLl1wIsuPg/awR4mOAE/i1uvpIo0MMwmPbhl+KP6+cuo4K8hoU6cDEzIMon8huhk3MCVvLDtFjn4XAT03kIbacySwM1eZ5cPTxYXf27z8/wZRu8ohwOCEEc4ytrvl2rEdc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775531320; c=relaxed/simple;
-	bh=k52uxGJG3jRTUKdJZJj0k217ALr5NF1LnUBSdh34lh0=;
+	s=arc-20240116; t=1775534344; c=relaxed/simple;
+	bh=mfzKgLqLZzYMsvQGYLY63k3H3j/n9cAOhMKsXc5Hl9Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=myDb2oDUbydzMC7jB0sKIWWhgHuAqHqrxeINuUx6iHtCn47Ia37VU7oKIsMQKOdFhEu1ew6Vk2QF+vy7F5XrfcdaLmHIptyjnFNc4ehvo59CcsweJXlJk7jsPoCXP4rLVxLffZe3sAgCBUrSFx6Ec17bAdro0EDJD29090YBMPs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gkdqWtke; arc=pass smtp.client-ip=209.85.208.46
+	 To:Cc:Content-Type; b=As1yJrcNIh9b6Q7Z/x5rqcxHmESLQ5liufU8fo6WRajQWIv8OsniEwooIE3jaiKqph5W0mM0nm16quMY8qsGsGd9yG3xTGwNp/KtwztBIK4En3soD0UcmHxe3wl/zBy301jKDjWGvZaqAJWbbus/2D9VFCsDmg5QuqdOiOdDhkA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oQk6jNYX; arc=pass smtp.client-ip=209.85.208.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gkdqWtke"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-66baa7fdfd3so28684a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 20:08:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775531317; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oQk6jNYX"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-66ba6d3dab3so32372a12.0
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 20:59:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775534341; cv=none;
         d=google.com; s=arc-20240605;
-        b=cBNcVnHEscCYccepBv6CJB56aNCpVW+GcdiJr7LGppf1X9KdSqFOIs+VBQbG9+ImA9
-         hvz8CeRIhHTkvvyCQFOimksLKNSFAiOFVQqDh/ctUZJFIHRGqQfsOofoSqgKAE1VMa3s
-         4ATi918HALH+cePBj2Xl+DQa7k1Vv3OZzn1kZQgcQ1AspPNH0+6wM3uaParlc6rnHrSz
-         vZUJEfDg+RCp0hty3Oid9btRz9TSofAea+cXlxMVjqP4XGGMw+wXarOAe/szG7O/J1Lt
-         7j3zp6rffiEvI1BhrMArvDX15SH+k9b1br58grGZfJdoG1Mnt/C/XrzZZzAsVQ8lQngQ
-         NIkg==
+        b=c9gXuEEeDPu11nc02gCGAbfuKVdCGij48MJj5Nx74K5nXT4te4gJZyfWNNaJqGIN2Z
+         TfUMGL3PCNizGXQM77hCRIjneX5VqIMt+r/rAIasLAU1fTUJpfn704WfowbweRrxIzzm
+         XSBRbRE6qBkVlB/kJCbjU1vaHeBdjOmFehVKVdQ5/DY6sAGfZM4uF0IiIKDNxvJI4/lY
+         G6cYHf4QtgdFhrSswqyp/ATWUACXFTdx7mR1l+79O7k9TUkB/jhZKyTtz6HJMs2BClP9
+         AUXoImLDlI/t9jt6L0CWllpVVtM+2ZDmi5VQP7r+1yaxX5VAB2kwtAF25Tqf1zReMsVH
+         Kdsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=Os2DnFhuf2hlJiSlOQD5vo78MAgCiDjrBPYSDLDhp6o=;
-        fh=Z2yoqA3w05u1IIyKKlDnRUQuRYq546x8cCqoSK2SVD0=;
-        b=QeB3OjbQ718vgRJyLUTSS6jR1kzkWRr2kWUOzCTs3KCtazvM1vOCoHyp91DyPSp6Q9
-         Oir1xezcopsnzjVz/6fbLzVInsV78Z2nwqbY/lVsyzqyRNrly1SOLUZKHMP+DoR9MAUy
-         njPm1NI/cBTN9IO1inyilUGMg3nNASW8uTb0Nma8cbl5ql0vEQHUC+AcMLOnwx12e0yC
-         XFV8lMjqHK8cpzUtdxsWFx1Bbcu5LIlmKs9kZ7QV21gote/Km7Nz0QhlBLdOM3Qx3cPi
-         6wJ1HnRiVqHfVGxpwZZyCQtvfFv11NQAV+uqzpYFuCquEAsgDnStxBlvbT0Ocd8qprFT
-         zo2g==;
+        bh=4Gp8YbEZRFqhe15YerLSFU9IKBLIqcpI1UPog9hHvAQ=;
+        fh=j4wpNvh1BzskAa+iLOrVCgzeXZJaMLahV9jtUR9mw6g=;
+        b=RBPXn/oYYd9kRN9PGj0dEhEfdKZ9CMMgt/9YwQqa7KbPAGAyTZN30n3bxUa2cX47DR
+         7N5ye7St63tcXxvwBeUF9eaFApE570fPJp87Zz6SX6MS8gjWBDTCrnNtarzmKqHHYRTG
+         wnm3pRGDacwim3CkPaKqyOKw1PpibfZ2W6w4Zq3j1C/J8nYk0L6EFLaOhqF3e1hngqzK
+         XVhZHZFU4fmz35XViKSM0aLuvtru5rpIE21wXYgy8WiQmXTchVYpPCTlhABKNi4Snog5
+         pcEij8hhLr4/9CzR/D+rB0ChDYRpoZe5JSu09y2ysgYoBI3KCkv0AVUuhEG67xy1wsVW
+         M5yw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775531317; x=1776136117; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1775534341; x=1776139141; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Os2DnFhuf2hlJiSlOQD5vo78MAgCiDjrBPYSDLDhp6o=;
-        b=gkdqWtkeZupAx8Wfx1zdXj7Twpm3QiWAKkmFepsNiMS0sIpSVZTFd0MUuPYvjQ1alQ
-         Uoty1iuKRPTCuYaURxQaIHjxXFfiretka8cU20deZoWcZ2XnkjlMXxA7hFTnVKa/XX9Y
-         j8fEIPwfjXLjDSPWLALa3FDt4bf1KsxprgBIi6ALxRda0b5oJEPUg62Qnl+i/pUwl87W
-         pWVC7vMc7/21ShYHhjw3LVESGgmmsEiKjs2fMyaZMtkJ6lNg1YrO6jtdI79PLA6ix7MQ
-         DNf8CLjo7uFya9yi7vv5M18uqS8FQceRg3QiSpoMeSCSK/nC8qmjwGWrXDQpDbTufgRi
-         75Uw==
+        bh=4Gp8YbEZRFqhe15YerLSFU9IKBLIqcpI1UPog9hHvAQ=;
+        b=oQk6jNYXCO/9sgZMwolqIwFskFhI0re5l4iu3mfkBjsOWwyb3F9fB3EcFsBEaJeMt+
+         KTEt2eYasLLbpMRT9QbBw09p3YDMolAngiBxjRB1KGto30kefxBY7kBnRKavaG4M8q5F
+         hymvWa4Yj8ABYF2k4QQ9bm6tjG3tE91BMNxoN7hj5cfzyTGNHa2th4JPOqRPdEQg/Mlx
+         QwI0RvvrZi5b9smemZbgVB4Jd5q/8N43XoeNjkj6iYC4KbbSa4Dl77f48/AyOUduj7fF
+         MZZOb8AGbZS5gLinDbusd6546LHN9WqSh1SLt2a/WVt1RRg3HzBzsBN9e12voUXIdGCB
+         hqcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775531317; x=1776136117;
+        d=1e100.net; s=20251104; t=1775534341; x=1776139141;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=Os2DnFhuf2hlJiSlOQD5vo78MAgCiDjrBPYSDLDhp6o=;
-        b=b7RG4+vwZ023N5ihA5DmQ6eXax2nTRh/4EHLBqDXk/6sGy9rtBKJ/nWCC5bDxE1Dxl
-         VtijOXNq74Vx/7gZ8eLsRB1WvMNUSFgzx4IkJ7/E2Tod9dBqY0YM80sNrgPeCQzJ7QBa
-         X3j2ZwkkY/H2XFpbW5aS/MalqbVG2Bw99Xxzckrw8FEN4GygE3W4btq1rd1iupt8bsDB
-         eSxSswHAb5QkNOVC+BhHcGRVwEnGk6kQtTvhUKbekTGf16iax/8xDU8rsga0q7c1+EhU
-         fya2tPyjzVTcoYHsivTq4wsooCe8RJPkfB092e5I7xgDYNlK7h5sO2dBILVN4t72Gx0c
-         80ZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdJlejFXkqYoNYKza0/6fyvWy2zfoaPMNai6+mF2gqrkxUz6phvugi1uWasA6iirjY3sC7eH0LZdc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHTq/WhR5t8coaiqqr0Y+YShk9Se6N2LF2MUlHhHmA7J+Rq/Uh
-	hfMAQLi0ePZy592PtlCTDBnyJKL4KeVXGRxJuUl80wcWEp3erLuX0V89i7luPMx9Ity4n8xIrg5
-	OVoIoQ7W6jQpQ5Q6QSTGTC6Fb9m7QhDlwi2r/Sw6D
-X-Gm-Gg: AeBDietq/GTA7hWSkavMee/H2wHS2Wc4C7uvlA4ILZqhDnPkoVaFV+sbJVJM46GWqCd
-	qgRMEedyoSYSxvMdofec15RHHSo4HWBzU0TcWgOnf4AfufgtLk47rbCuycWHRXYW+Mp7QrpaGSb
-	QJctxaKwHusKid17CQTzNlM6+oCop3GEquHbxNIw2hfb4VTBcr/8AWM050h1Mej2Y/1XLFKuVIf
-	Yl55nA98cVIwZl6Kuq6n+OP/AaOseovEpKdHFDqGvhdpB5r4KW134fn9rixbRjYSVbt1/du1UXX
-	TNio/o06YCSxpym85Q==
-X-Received: by 2002:aa7:d44a:0:b0:66b:860f:3799 with SMTP id
- 4fb4d7f45d1cf-66e43f30587mr117520a12.9.1775531317160; Mon, 06 Apr 2026
- 20:08:37 -0700 (PDT)
+        bh=4Gp8YbEZRFqhe15YerLSFU9IKBLIqcpI1UPog9hHvAQ=;
+        b=KPA2Clybym1xDLFlRNobX/HGoUgwXoEiUNQRevPhlY6WtpkwOsGrT97zcVVScKhczt
+         jScD9Kv/SXyHi1aiiXhq/GlqTyLKS5cbiC4UL+Vc4NbohcFOVB0yZQFeCSTUUSXfAP+a
+         uH9cxDS9VWkMqbS3zFjhh6Um4+fzCxTFDh1UifXyS3lawsE4WfI8Zxv1NMKMUpyELmtB
+         QtAkVlq/YLN0gH4l8SC8jAGUu2D/PhXBcFCcmYeQ6YOfHkwIAjW8U3tDtE8vtfycbG3p
+         xk4OdNNDcprXRknlKUMJJjPYr0UdMRGXtU5ntkgPWKnuPokhUh/jSKoRJ6lts7zpBaqT
+         PbCQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX1nbuEpSxQa78qiIZGUYkyqImueLoED/JTrO4Y8eYWZiYNrUdrZ+CMXgy6kLANdEobw4REKynLTiM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyj/vkeCYYJIUs66eTicGmV9uUMsF4T6ohOU70aeRRoWVV0zZm1
+	LrHMe8cQXp7/r96zgouFidqSO/Vl8HOYwe/YBqHg2oSlMpdetcQn4x67lzGkR8hpSuJr+SdF8/v
+	gSfhiMBmaXKx8VML+r9mAqGBygVIPa4hdmgvIxPQZ
+X-Gm-Gg: AeBDiesrhyLLq8MYc5qp3vigsAMVG1NZ7sYq87u0i+AaXMpXTiCOJOCxc+UuRLm6dYA
+	qZ/d4C3DOWfpzupKXkg0BnNtQatcxkdbGV9VTt0CncszU9/Xo5v0JUQY1/p7XYhf65vKKTfLePa
+	8D4tgjUXj3VXzzd07UX2LLk+U9VdgI+7ZyshTgfVsazejSYm6TXkOwDIAYEKKULFklJG+ZN7cH7
+	XDWmY2zEpLcDRvZYgnFmh8R/4sJUGz5VczkdISYbuYWdP/kr93w9hhVbXo1dGds4kzFMcjO3BZ0
+	31+VX4A=
+X-Received: by 2002:a05:6402:a215:20b0:66b:b6d8:c0f7 with SMTP id
+ 4fb4d7f45d1cf-66e40ae6f4emr91714a12.0.1775534340995; Mon, 06 Apr 2026
+ 20:59:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260327234023.2659476-1-jmattson@google.com> <20260327234023.2659476-9-jmattson@google.com>
- <adRGLPrmBpX-3DdX@google.com>
-In-Reply-To: <adRGLPrmBpX-3DdX@google.com>
+References: <20260327234023.2659476-1-jmattson@google.com> <20260327234023.2659476-10-jmattson@google.com>
+ <adRK0dyF9QAsZyVz@google.com>
+In-Reply-To: <adRK0dyF9QAsZyVz@google.com>
 From: Jim Mattson <jmattson@google.com>
-Date: Mon, 6 Apr 2026 20:08:24 -0700
-X-Gm-Features: AQROBzC8X9Gxsb_fQZyGU7iYS90MtfxxpD0EqXLCCJdCUeZKGIMxWSh5vBrbGnc
-Message-ID: <CALMp9eQsd0fRuDE_R57Mn6-N6jCtbmoPAh7Y7CBdMEZJaNSUGQ@mail.gmail.com>
-Subject: Re: [PATCH v7 8/9] KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
+Date: Mon, 6 Apr 2026 20:58:47 -0700
+X-Gm-Features: AQROBzAR4L9hartxNauJf5yfV8dXpfTn1DNBr0PmrsEV2bOZT00NXIY1ANXG8VU
+Message-ID: <CALMp9eT_+dAS-4Qz9cRGx5n+f7M=svOGpcSk_Kv7QyQw9nVWTA@mail.gmail.com>
+Subject: Re: [PATCH v7 9/9] KVM: selftests: nSVM: Add svm_nested_pat test
 To: Sean Christopherson <seanjc@google.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
 	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
@@ -100,82 +100,81 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 6, 2026 at 4:47=E2=80=AFPM Sean Christopherson <seanjc@google.c=
+On Mon, Apr 6, 2026 at 5:07=E2=80=AFPM Sean Christopherson <seanjc@google.c=
 om> wrote:
 >
 > On Fri, Mar 27, 2026, Jim Mattson wrote:
-> > @@ -1918,6 +1921,7 @@ static int svm_set_nested_state(struct kvm_vcpu *=
-vcpu,
-> >       struct vmcb_save_area_cached save_cached;
-> >       struct vmcb_ctrl_area_cached ctl_cached;
-> >       unsigned long cr0;
-> > +     bool use_separate_l2_pat;
->
-> Land this above "cr0" to preserve the inverted fir tree.
->
-> >       int ret;
+> > When KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled, verify that KVM
+> > correctly virtualizes the host PAT MSR and the guest PAT register for
+> > nested SVM guests.
 > >
-> >       BUILD_BUG_ON(sizeof(struct vmcb_control_area) + sizeof(struct vmc=
-b_save_area) >
-> > @@ -1993,6 +1997,18 @@ static int svm_set_nested_state(struct kvm_vcpu =
-*vcpu,
-> >           !nested_vmcb_check_save(vcpu, &save_cached, false))
-> >               goto out_free;
+> > With nested NPT disabled:
+> >  * L1 and L2 share the same PAT
+> >  * The vmcb12.g_pat is ignored
 > >
-> > +     /*
-> > +      * Validate gPAT when the shared PAT quirk is disabled (i.e. L2
-> > +      * has its own gPAT). This is done separately from the
-> > +      * vmcb_save_area_cached validation above, because gPAT is L2
-> > +      * state, but the vmcb_save_area_cached is populated with L1 stat=
-e.
-> > +      */
-> > +     use_separate_l2_pat =3D
-> > +             (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP) &&
-> > +             !kvm_check_has_quirk(vcpu->kvm,
-> > +                                  KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT)=
-;
->
-> I vote for either:
->
->         use_separate_l2_pat =3D (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP=
-) &&
->                               !kvm_check_has_quirk(vcpu->kvm,
->                                                    KVM_X86_QUIRK_NESTED_S=
-VM_SHARED_PAT);
->
-LOL! Aren't you the one who keeps complaining that my indentation
-doesn't line up? Are you schizophrenic?
-
-> or
->
->         use_separate_l2_pat =3D (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP=
-);
->         if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_NESTED_SVM_SHARE=
-D_PAT))
->                 use_separate_l2_pat =3D false;
-
-Wow. I really have no idea how to predict what you're going to want
-the code to look like. How is this better than the original?!?
-
->
-> > +     if (use_separate_l2_pat && !kvm_pat_valid(kvm_state->hdr.svm.gpat=
-))
-> > +             goto out_free;
+> > With nested NPT enabled:
+> >  * An invalid g_pat in vmcb12 causes VMEXIT_INVALID
+> >  * RDMSR(IA32_PAT) from L2 returns the value of the guest PAT register
+> >  * WRMSR(IA32_PAT) from L2 is reflected in vmcb12's g_pat on VMEXIT
+> >  * RDMSR(IA32_PAT) from L1 returns the value of the host PAT MSR
+> >  * Save/restore with the vCPU in guest mode preserves both hPAT and gPA=
+T
 > >
-> >       /*
-> >        * All checks done, we can enter guest mode. Userspace provides
-> > @@ -2017,6 +2033,10 @@ static int svm_set_nested_state(struct kvm_vcpu =
-*vcpu,
-> >       nested_copy_vmcb_control_to_cache(svm, ctl);
-> >
-> >       svm_switch_vmcb(svm, &svm->nested.vmcb02);
+> > Signed-off-by: Jim Mattson <jmattson@google.com>
+> > ---
+> >  tools/arch/x86/include/uapi/asm/kvm.h         |   2 +
+>
+> Don't update uAPI headers in tools/, they're not used by KVM selftests (p=
+erf
+> folks will sync them as needed).
+>
+> > +#define PAT_DEFAULT          0x0007040600070406ULL
+> > +#define L1_PAT_VALUE         0x0007040600070404ULL  /* Change PA0 to W=
+T */
+> > +#define L2_VMCB12_PAT                0x0606060606060606ULL  /* All WB =
+*/
+> > +#define L2_PAT_MODIFIED              0x0606060606060604ULL  /* Change =
+PA0 to WT */
+> > +#define INVALID_PAT_VALUE    0x0808080808080808ULL  /* 8 is reserved *=
+/
 > > +
-> > +     if (use_separate_l2_pat)
-> > +             vmcb_set_gpat(svm->vmcb, kvm_state->hdr.svm.gpat);
+> > +/*
+> > + * Shared state between L1 and L2 for verification.
+> > + */
+> > +struct pat_test_data {
+> > +     uint64_t l2_pat_read;
+> > +     uint64_t l2_pat_after_write;
+> > +     uint64_t l1_pat_after_vmexit;
+> > +     uint64_t vmcb12_gpat_after_exit;
+> > +     bool l2_done;
+> > +};
 > > +
-> >       nested_vmcb02_prepare_control(svm);
-> >
-> >       /*
-> > --
-> > 2.53.0.1018.g2bb0e51243-goog
-> >
+> > +static struct pat_test_data *pat_data;
+>
+> This is ridiculous.  Whatever AI you're using is reinventing sync_global_=
+to_guest()
+> in a very obfuscated way.  Drop the indirection along with the params and=
+ the
+> full page allocation, and just sync the damn struct.
+>
+> Actually, this is even dumber than that.  The "data" is only ever accesse=
+d from
+> within the guest; it's used to pass info between L1 and L2.  Drop the str=
+uct
+> entirely and just write global variables.
+>
+> In general, please clean this test up before submitting v8.  All of the L=
+2 code
+> is basically copy+paste of itself.  This is the second vibe coded selftes=
+t (AFAIK)
+> you've posted, and it has many of the same flaws as the first one[*].   W=
+hile I'm
+> not opposed to using fancy tools, and the bar is generally lower for self=
+tests,
+> the code still needs to be readable and maintainable.  This ain't.
+>
+> [*] https://lore.kernel.org/all/aXJal3srw2-3J5Dm@google.com
+
+I contend that the kvm selftests infrastructure already fails to meet
+that bar, but I will toss this in the bit bucket and write a selftest
+by hand for the next version.
