@@ -1,97 +1,125 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31A0D25A321;
-	Tue,  7 Apr 2026 18:58:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1680A29E11D
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 19:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775588338; cv=none; b=UoV4+Dd2MkOePb0c4k0J2hSwvSNAP9evtIQGWBPgM2YWb3Agd05BpVJr+im5VNeAkFlAwE/gyc5hQLhkqDSUWkzYLrxAaxQ8Zwq73f+OTIrccybzIfTnu9UKGfiHVq9DQjJqaMFKYd/Vo1ePQyoO5QvLz1ejkkPiaOX0fTwznao=
+	t=1775588630; cv=none; b=S5NKcRsAXy/e9RioV27a0nr3vlNKiOCfQlok3TqaVOj7GhBT/Td7UhvFJPCiYHma2Nszrr1rLLcXxlWkNcH4bpJSitt9y5VAsOnINIBQ3L/nZpfRw6sjp6APDvUDEkPfkdbWw3fsoip7IWAK2dmP8KY8pIN2rLImHh3Qob+d9PI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775588338; c=relaxed/simple;
-	bh=H8SjYEUoxd1atGVgkYJjKuGs+vTKbWOATK1xKl4o3qg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mUngG6RFyvVMHru13MKMeY9Zu8NpvvBWALIEp8y70kOToeMV2ReJZJIZzq3NEt/3D/vEpAH8WOGdc9vmqQ5QgRaBeFr3sXSQVkXDXWL7PVviQuqLs4lBmyS3zGUfJKk2dYahoxJTn9sKRkmh7OJA0uvSTEJAYyFb6I/rt0r5b/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eVY9/VRu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1775588630; c=relaxed/simple;
+	bh=B6vTGJX8XqLDMDvWuiFoUQVcggMrFFoKMMglULgm3aA=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=pf76Y0PmvfG+DN192Ge7Cm93DyUthGM3c1ikvQh71GQlsu+73W4gP8wA4AcOLGFu0hwtYFPe6LsgHglkrQr+wKG4tQ9ev2PvpqKkgjGQcIiwB0BbKpeZO/YgwzBu/qU7cqynxpfwcuOSGC2ZQXMWIX+tM84mYpe6+TUq/YYjlEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=R/pMcc4j; arc=none smtp.client-ip=209.85.215.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--jmattson.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eVY9/VRu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=SQSxQSEOHiVkC2HemnN/5qYkqBP2dOqmPajTu5+oxsw=; b=eVY9/VRugfr6vnIaqRJqhFI5HN
-	9Kb6vigVz4U4mvZnmzfRVBXNX4+J/lxvZlSEGUNNp5MchlZSnQSrG6OZ9Pio+A+tO/Nj4OERv2YNh
-	HUc5zDfcUnEyaytHUfK8y4l1a3JLSoVhP/9ygHNM7fRGzrPrqx9Qg7AyMV0SQZtIR7rKq8xAxDjzc
-	OLG0QWC13ApBCL+oXo6RvABHhfnhQ53elFVhKCEp8OwO0mqToK1lzm9VeYIQlujNiheEdyGgyhuP2
-	bBhWYxtyqW18Zuicg7ygu6QMM8MysFZLEBmsj6gzQasYuXJrs5xC2hyzUYHHIutuHdGsCKhFyG8JU
-	OPG/OyyA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wABdU-000000079Wf-16wb;
-	Tue, 07 Apr 2026 18:58:52 +0000
-Message-ID: <18e2042c-d414-40fb-8819-5e930d5b1584@infradead.org>
-Date: Tue, 7 Apr 2026 11:58:51 -0700
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="R/pMcc4j"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-c7423ba5342so8332304a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 12:03:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775588627; x=1776193427; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=AkHcLNs6zvk1R2rcUOxJyHrLMlv8O0GG57PC9/Sq+uM=;
+        b=R/pMcc4j5iVNiWwGrQNsWStu/Chy5qLBFuPx8dBJgp/U/yyWp1QK0kFUeinh4KhPDR
+         MtR6aDDgyNZfszAYa3Pq4u4FbVfI3rQVUxMh/u9E+W9SBmNZBBby94h7Yc/A6RcguebC
+         WwpMAhbG1+G/8B2EZDdg4nbLbaJmxEeEvYaoye0EoFh4fsvv0+w70+nwPQeYYTgMJiwP
+         q28dLvRetTwJXiJmviuMOVTmURLtyA0Laxu9gkQzYXScRLwZ8z4YZzOsOyuFiXwfbuiX
+         ZJ2bOQIxebriVEX+6ykN/CMI1pzLr/EHgic7d0GYVojX5Yc3yUZY/GD4PjixxKsXoOSo
+         vAUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775588627; x=1776193427;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=AkHcLNs6zvk1R2rcUOxJyHrLMlv8O0GG57PC9/Sq+uM=;
+        b=aCecBkc24wlgIKypaEsjMBGENQp3TT+erSluBhGC4Dvkk0cLqnLc7o66en3RCJ7+bM
+         pK4l5mL3BgYPK0t3cZ4q1bi+SKfd9dSrl7R2ODQs4elpL4nq+5VF4qu1uEfqgJonndA4
+         t8dvhBG6Uk7aoCGNYOIoeqFzOycwL6rCqZ7CYEnN410BA5MyiI425pMUagRU/vSHk8DO
+         NTzngq2TXQgyOqR1i0xvAUzgkQGf7f3XnCzSX+a5lTq+RtagLQcqKuIIY7c1kWrUPnYX
+         hp0EH+MLvZ8gcQArQxC56bBeu+xrUvx2YuJbWSZQvCVpfEFScV7LhoK/GqYkttCNm5nH
+         HbHw==
+X-Forwarded-Encrypted: i=1; AJvYcCWHFsZj7pH649Pt+pv/OyAp2WEBWOWFIVTf3h3L1O9XnWNs+roHG+c+lsezO2VKnkk6CYbDReFhTtc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQvz5kcEJnUGR8NRZboogdAGlmuKJSUqULC3LmVQnFzyMThxLr
+	u6ic8OxO0EZGD90x6ffy3zvtNq1P4e5S8VTHJVsNIM9UDSUhncfsltAiGyecy/Oj5kJLF2A1pCM
+	CZaKkNbuvDU/AHg==
+X-Received: from pfbem11.prod.google.com ([2002:a05:6a00:374b:b0:82c:d86b:4a7d])
+ (user=jmattson job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:3306:b0:82a:805a:7cc with SMTP id d2e1a72fcca58-82d0da4fe00mr16318596b3a.4.1775588627185;
+ Tue, 07 Apr 2026 12:03:47 -0700 (PDT)
+Date: Tue,  7 Apr 2026 12:03:23 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: proc: document ProtectionKey in smaps
-To: Kevin Brodsky <kevin.brodsky@arm.com>, Dave Hansen
- <dave.hansen@intel.com>, linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Yury Khrustalev <yury.khrustalev@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, David Hildenbrand <david@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, linux-fsdevel@vger.kernel.org,
- linux-mm@kvack.org
-References: <20260407125133.564182-1-kevin.brodsky@arm.com>
- <98880cc2-09be-4bd8-b8f4-f0f0845f939e@intel.com>
- <2d2aac86-2780-4a29-9eef-116c26485812@arm.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2d2aac86-2780-4a29-9eef-116c26485812@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.53.0.1213.gd9a14994de-goog
+Message-ID: <20260407190343.325299-1-jmattson@google.com>
+Subject: [PATCH v8 0/8] KVM: x86: nSVM: Improve PAT virtualization
+From: Jim Mattson <jmattson@google.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
+Cc: Jim Mattson <jmattson@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
+Currently, KVM's implementation of nested SVM treats the PAT MSR the same
+way whether or not nested NPT is enabled: L1 and L2 share a single
+PAT. However, the AMD APM specifies that when nested NPT is enabled, the host
+(L1) and the guest (L2) should have independent PATs: hPAT for L1 and gPAT
+for L2.
 
+This patch series implements independent PATs for L1 and L2 when nested NPT
+is enabled, but only when a new quirk, KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT,
+is disabled. By default, the quirk is enabled, preserving KVM's legacy
+behavior. When the quirk is disabled, KVM correctly virtualizes a separate
+PAT register for L2, using the g_pat field in the VMCB.
 
-On 4/7/26 8:12 AM, Kevin Brodsky wrote:
-> On 07/04/2026 16:42, Dave Hansen wrote:
->> On 4/7/26 05:51, Kevin Brodsky wrote:
->>> +If both the kernel and the system support protection keys (pkeys),
->>> +"ProtectionKey" indicates the memory protection key associated with the
->>> +virtual memory area.
->> I think you're trying to get across the point here that the kernel needs
->> to know about protection keys, have it enabled, and be running on a CPU
->> with pkey support.
-> 
-> Indeed.
-> 
->> To me "system" is a bit ambiguous here but _can_ refer to the whole
->> hardware/software system as a whole. To avoid redundancy, I'd say either:
->>
->> 	If both the kernel and the processor support protection keys...
->>
->> or
->>
->> 	If the system supports protection keys...
-> 
-> I see your point. By "system" I essentially mean the hardware (the SoC).
-> In general I would tend to avoid "processor" because not all CPUs in a
-> system necessarily have the same features, and some features require
-> hardware support beyond the CPU itself. Terminology is hard...
-> 
-> Happy to replace "system" with "hardware" if that's clearer :)
+Guest accesses to the IA32_PAT MSR are redirected to either hPAT or gPAT
+depending on the current mode and whether nested NPT is enabled. All other
+accesses, including userspace accesses via KVM_{GET,SET}_MSRS, continue to
+reference hPAT. L2's gPAT is saved and restored via a new 'gpat' field in
+kvm_svm_nested_state_hdr, which is within the existing padding of the header
+to maintain ABI compatibility.
 
-I think that "system" is too nebulous there, so I would prefer to see
-"hardware" instead.
+v1: https://lore.kernel.org/kvm/20260113003016.3511895-1-jmattson@google.com/
+v2: https://lore.kernel.org/kvm/20260115232154.3021475-1-jmattson@google.com/
+v3: https://lore.kernel.org/kvm/20260205214326.1029278-1-jmattson@google.com/
+v4: https://lore.kernel.org/kvm/20260212155905.3448571-1-jmattson@google.com/
+v5: https://lore.kernel.org/kvm/20260224005500.1471972-1-jmattson@google.com/
+v6: https://lore.kernel.org/kvm/20260326174944.3820245-1-jmattson@google.com/
+v7: https://lore.kernel.org/kvm/20260327234023.2659476-1-jmattson@google.com/
 
-thanks.
+  v7 -> v8:
+* Indentation changes to conform to Sean's aesthetic [Sean]
+* Updated comment in svm_pat_accesses_gpat() [Sean]
+* Restored the common behavior for get/set IA32_PAT [Sean]
+* Reordered declarations in svm_set_nested_state() for ASCII art [Sean]
+* Dropped the selftest [Sean]
+
+Jim Mattson (8):
+  KVM: x86: Define KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT
+  KVM: x86: nSVM: Clear VMCB_NPT clean bit when updating hPAT from guest
+    mode
+  KVM: x86: nSVM: Cache and validate vmcb12 g_pat
+  KVM: x86: nSVM: Set vmcb02.g_pat correctly for nested NPT
+  KVM: x86: nSVM: Redirect IA32_PAT accesses to either hPAT or gPAT
+  KVM: x86: nSVM: Save gPAT to vmcb12.g_pat on VMEXIT
+  KVM: Documentation: document KVM_{GET,SET}_NESTED_STATE for SVM
+  KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
+
+ Documentation/virt/kvm/api.rst  | 26 ++++++++++++++
+ arch/x86/include/asm/kvm_host.h |  3 +-
+ arch/x86/include/uapi/asm/kvm.h |  2 ++
+ arch/x86/kvm/svm/nested.c       | 64 ++++++++++++++++++++++++---------
+ arch/x86/kvm/svm/svm.c          | 41 +++++++++++++++++----
+ arch/x86/kvm/svm/svm.h          | 18 +++++++++-
+ 6 files changed, 130 insertions(+), 24 deletions(-)
+
 -- 
-~Randy
+2.53.0.1213.gd9a14994de-goog
 
