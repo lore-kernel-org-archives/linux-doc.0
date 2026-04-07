@@ -1,245 +1,333 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8075B37882E
-	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 04:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775535243; cv=none; b=gd2UZeO9PqGrBzLOarvAgz6RCPryW/nZ1sxQoNrSlxqTk8vqlGUs6dq2kBEguFjZFo3E9EV/nDLzXbyvbCnzD42x6f/7C+vwGJ61gdUzaFX7mhVJ87tHYTFVYuTPhIWT7UQeELZCk8cJh3nHrtexX2nVjKOLl1w+ShM1wXRBANg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775535243; c=relaxed/simple;
-	bh=Cla/z/B6my+ZQS1hti3wyKv25wrYIqurABwe3k0OtC8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OHaAnc8h3S7J1XhIdLL1B+8199hXL4LluqGUwA+G5KP138tLQNlxc2Bx6L0LXrPaYkyzNHcQaTnhT1ErmrZz244Xf+6Z3zxixH4jl4mCQkyGv2fOCjbu6YY1rJZawXKVEIDyoK02JcdPb5ziGAmUTjDAZ5NPjkiYxx6Ild7WAOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JOojSli+; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 325521FF1B4;
+	Tue,  7 Apr 2026 05:14:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775538877; cv=fail; b=HErs+GpYfG4Y5DtUkmdzRuF5a24hPXr+xI4UiFNPAXPY6dxuhT+ZLBa92riyy3Z5o57SlqDcZzerzNhllxettwJ0VmTuKLnSYjjKbll1V2ulsvSjmS7KD9AmmmxtLNUR1v8+tjPjLhQJZLNQ2nNuGpsY/PrlkJgApKPUqwFck70=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775538877; c=relaxed/simple;
+	bh=BQYulf5GtIbuxct6lVW8qNPjTSDptcpDshOyEiEr1Lg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=MUB5li+d+8UVfoXpO6MKaSOkucgKI/JElhZemYCvUneHs2nD61PWZMDkjrX9+E0CBZJhllM/ye3sy4h8F9RXfCHwsp7PkmQn7hR2IRRFC8CDU651iHBZ1tRTEjYPZ4jey8mugUOqHwUjchoC8zDqsKVwiD5+WAE1+O/HqFnV+RU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lI7cGzcL; arc=fail smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JOojSli+"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12732e6a123so2460613c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 21:14:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775535240; x=1776140040; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=88wfNytKmOqUD3hYL9QlOT4XMulvq8D+K4Wg910adVs=;
-        b=JOojSli+vR7ZoxfHmDKIAfMGzvUXNmbuSsLfbxoSY8vU17oUTr5PM6cAKL4UcjO/9j
-         kJdwBsnTQOPHh8RLmrW/MKYw3bZHGtG0hH3Y9w5yCSnoHQ5Hj/YoFab+euudzn9tI/gl
-         gOvoAkNJGTy4Cd2mQ1q8p5Jk+mMMcaLztnA6W9Ko4b3l58n0iueA2RN/N/ZJzZAjyXHY
-         7W+0JLoh6OuOQ1I1nRgdggIf8nhLz+hBhjMHRFuIo/tnIdDSmLKdBMLOo6uxkQizK8Vd
-         QhxaSoOlSJs2tE0TSm0blgjVkYZPgNGC0+P4s8/SnAJSh85z33fzby/qGKxiZreWLuz+
-         P0HQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775535240; x=1776140040;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=88wfNytKmOqUD3hYL9QlOT4XMulvq8D+K4Wg910adVs=;
-        b=rWmga8+rsFhVFCIiMiL7u/PejjO3OlMSr24ctpoiLbbpRQFt/vJT998D7jyhcdJnnm
-         ktycZyj8fo7nCEjoGe97xU4tLztoc5/mR7MiZIDkGsyg3L5zdr33PDmDG9wx2ljDoJJQ
-         WeZKZwtDnG673hzGJnSR4K0UYWcA6OoUhwcclfN9ksO+SpyIjzVzNQFT9jCzAdnpah8G
-         CtZspy/aaVtySoSsuKNlWgohFq25Uy1WRwlA8Z8kw03bh1TqJrlOD3r+I6vOT7yoOj+F
-         0UoH4bX/IpuU4sLo7qoiHOXasvNd2rxPem03nPEzMuv2jAEngCOcWbS2WnAkIBKeamlh
-         QlcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX93IFNTMt5VgcfEiHc6yDy18iLpiB9F5LGGUVD2NWdEttmT1HLCXcAsintkfKnKWmlOJ6kpcuAxII=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvDcjqiSSc4DRJRyOSZKkS+SsDXJbYGC3Jkmheq0plilEQODgA
-	9wX0gqwJpGd3CLw/MimSlJTr8JM2NdxOzNMk373okRBsvZpNKcsXAJgT
-X-Gm-Gg: AeBDiesu6S0DAmUOOlMZ7mFiWqFrMTlQNzfsxZhbln3zjUSw60ThAa8Rwq3jtYdftwT
-	Gf2z8YeNlaE+BEcBjUNxUMR081Y9h6GKXqFnFYw/eNVrIQSB1M1NxvSe76+Ncok+rXtlv5GWb7J
-	DQYviiIJOc2ok2BOiZGTtYYGu/XnsLoh8a9ZjxyFRISNa2yyiCfEDcoXvFtyJE6PigKzp3Gsrno
-	CEe/YFYcf9vxnwkVQiGpGn3cP7w1yEjBsI9LnhNoz17PKa1cZvWTlJnxerTjGDq1vnpVBKc2Zel
-	RTrfXLqBmJBsfdPctK4VY961YjI6CQBvhbzmRo23pPipL+dciqQ1Xe4zWgOUDm3cbrzHP+ZAPiC
-	ifHyE3G5BAKb3P0mJm6hoiZmTOsVWOtJWQ41tWJ8xuCJ8v4LAJw6FokdzraZisj68GXo8qB8C7l
-	ktZnnG3qxp4B7ERW9L497oiV1Cf+nEysm2/OHa7HYz9arldl9fzWbD+fXCfsJDm7Gw/ybvvARv3
-	kAL
-X-Received: by 2002:a05:7022:ec17:b0:128:ca6f:adf2 with SMTP id a92af1059eb24-12bfb76c075mr8444829c88.32.1775535240444;
-        Mon, 06 Apr 2026 21:14:00 -0700 (PDT)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12bed93f861sm18523808c88.0.2026.04.06.21.13.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Apr 2026 21:14:00 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Lambert Fan <fanzhaoming@anopc.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/5] HID: hid-oxp: Add Vibration Intensity Attributes
-Date: Tue,  7 Apr 2026 04:13:54 +0000
-Message-ID: <20260407041354.2283201-6-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260407041354.2283201-1-derekjohn.clark@gmail.com>
-References: <20260407041354.2283201-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lI7cGzcL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775538874; x=1807074874;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=BQYulf5GtIbuxct6lVW8qNPjTSDptcpDshOyEiEr1Lg=;
+  b=lI7cGzcL8KTn3lko/SMvPeNpr68XiKQi3zlU+zZIathRleQ+9vmtnfSx
+   EDubN8zoe2eIQAqVBeCgq3vJ/ALXdrxiyOs/wpgxXc/MEmQrcPwpb3MWn
+   0tExoyROimofv6M3M1sInLa8MmBKjjuTB3leZOnAJjc7ISCmqj5fckTOI
+   ixzrrW9ZUsDUCyQADLVbdSBLDBxdkqlqLQDIjjoY1cpNVzvEDLxwR2uGl
+   jkcU98XyJGkzFxY5pCNEdZoQ1xsFcZ7Hp9S34Ubrloa/DTEZJfrVJpzvt
+   0zzAbg2g1bvfofLd0oNo4Q4//DRHZWFPxcmFc5Wdn3b5HQWtkJYeZLEzG
+   w==;
+X-CSE-ConnectionGUID: MZRue0j/Sbuet+qabC8M4w==
+X-CSE-MsgGUID: ThWaniaKSauCojFl7cfrpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11751"; a="93883718"
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="93883718"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 22:14:33 -0700
+X-CSE-ConnectionGUID: 1WT9Qqq0T7qeDD2vn34LVA==
+X-CSE-MsgGUID: 2Bg4IszlT+mLDKNI5D5+yA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,165,1770624000"; 
+   d="scan'208";a="227971087"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2026 22:14:33 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 6 Apr 2026 22:14:31 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 6 Apr 2026 22:14:31 -0700
+Received: from PH8PR06CU001.outbound.protection.outlook.com (40.107.209.59) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 6 Apr 2026 22:14:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kDn921XdBwdRH1dseYW9vRrAk89yBiDTrIdo11oOnl8i/ozXqEFxWFxl7wB67KXLUYCywrKLws9t7bfWODTVkXQQnb9k4d39D1md7KMS936y6rtlrObCFUr3PzmdJFXfcjgcWFmdYohu9TZEtjqZX0NB4eE4nX5NlFU7NwpwwrBXmBwXux/tDSGel5pPluO4Wxxr1nlxIEuGTLBsH0dirPeTeatGjjRCntWi6Opnb8q7kq8MI+9ZU1FIE1LMiNypdr/JACHQ8HYqCT75s7YNb/YuopLmmPiaXcG3GOc1HNXCdabakLDxpf6Q1gKSEaWlZvUk/bTuE5Q8+y3V4uImsA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r1RW+tWce/wOGZbNz6J0eGGNzIUBGcePzLpp3Pir9R0=;
+ b=YPVTN5+hL9GR7jUb2kEwxJKlcTfe9cs7zULzLwHJvaWKCM6fCtjVLRV578Qi0ZDXOHlN9rDJmnUtSOCP9IDDVMBaieXpbWUJKd3nsEY1T27O3+aqazy8pAZlYP9C2J5G1CU0HAgdFLn+icCJIKsDj27k/QHke+TdHl3BxxqAF7Xxgv2ZtP9YNbORG7jyWCEwsLCGMIZox+O5EeKynuv6YD5id5AZHlcD0e/PALYbFJT4bnof8sfWRWSZ0VdlxG3PgrvNJjvL1Xhx7I3p8plQ2sOMbYIqLCQhBRZkLlja37tzlQElW9cenpNccamV2znMMOXDo+3HFKIVtF40/BruiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
+ by MW4PR11MB6911.namprd11.prod.outlook.com (2603:10b6:303:22d::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Tue, 7 Apr
+ 2026 05:14:28 +0000
+Received: from BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::53c9:f6c2:ffa5:3cb5]) by BL3PR11MB6508.namprd11.prod.outlook.com
+ ([fe80::53c9:f6c2:ffa5:3cb5%7]) with mapi id 15.20.9769.016; Tue, 7 Apr 2026
+ 05:14:28 +0000
+Date: Mon, 6 Apr 2026 22:14:21 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+CC: <linux-kernel@vger.kernel.org>, Miguel Ojeda <ojeda@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, Gary Guo <gary@garyguo.net>, Bjorn Roy Baron
+	<bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, "Andreas
+ Hindborg" <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, "Trevor
+ Gross" <tmgross@umich.edu>, Danilo Krummrich <dakr@kernel.org>, Dave Airlie
+	<airlied@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>, "Koen
+ Koning" <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
+	<rust-for-linux@vger.kernel.org>, Nikola Djukic <ndjukic@nvidia.com>,
+	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet
+	<corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>, Christian Koenig
+	<christian.koenig@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+	"Joonas Lahtinen" <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi
+	<rodrigo.vivi@intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, Huang Rui
+	<ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>, Lucas De Marchi
+	<lucas.demarchi@intel.com>, Thomas Hellstrom
+	<thomas.hellstrom@linux.intel.com>, Helge Deller <deller@gmx.de>, Alex Gaynor
+	<alex.gaynor@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, John Hubbard
+	<jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, Timur Tabi
+	<ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, Alexandre Courbot
+	<acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>, Andy Ritger
+	<aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>, Balbir Singh
+	<balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
+	<elle@weathered-steel.dev>, <alexeyi@nvidia.com>, Eliot Courtney
+	<ecourtney@nvidia.com>, <joel@joelfernandes.org>,
+	<linux-doc@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+	<intel-gfx@lists.freedesktop.org>, <intel-xe@lists.freedesktop.org>,
+	<linux-fbdev@vger.kernel.org>
+Subject: Re: [PATCH v10 07/21] gpu: nova-core: mm: Add TLB flush support
+Message-ID: <adSSrZp6a551xNTu@gsse-cloud1.jf.intel.com>
+References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-8-joelagnelf@nvidia.com>
+ <ac4FpcD29XnbbsdD@gsse-cloud1.jf.intel.com>
+ <0f5605c1-32e8-4a62-b852-b1db01e42817@nvidia.com>
+ <39a476f4-ecac-4313-a59f-e00e72d2b426@nvidia.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <39a476f4-ecac-4313-a59f-e00e72d2b426@nvidia.com>
+X-ClientProxiedBy: BYAPR02CA0002.namprd02.prod.outlook.com
+ (2603:10b6:a02:ee::15) To BL3PR11MB6508.namprd11.prod.outlook.com
+ (2603:10b6:208:38f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|MW4PR11MB6911:EE_
+X-MS-Office365-Filtering-Correlation-Id: 71b2228d-12b6-405e-5d70-08de94648ade
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info: DvMUvnt6BSMB7qFeEXMicandRBF/yy/TcS6Qftrs5SVyvcsrv8CwFJeLnea9/hy4TyLpmr1FJ0UC4xMJddlLxoGpaGMIbts0W5BQ54EKZKcbivsXEle49Rf/KAqDwtW/8vAkm+F448ZMvDv0bwKOFN712osPLnG0GGTVrOA3q6HDbbqRjwCIAaQJcTTf5bsdJzilDa4+S08kFE1hZgfex2Jm6XLu4WHayUwWUwMhZ/CdCQ/ymAXP7CkSq3e3NACITHhbaxTx67mZ0NvmKAixCzc/6OtwpqF2jAWBlcdn4on6/mHpBk9nWXmm6aH05fyvwm+6MO1Vh7N14t8+tCZveQwdPaQClMz1xFuvIidUvAzvVOivl7uwzhY4gXlSmoZtW63LTUcEnBWqcsFjczTVojrUSpiEuQ5KTD2OpxClRESqSCwQr5FEjTPY5jv7hfShduzrHLqKFfeR2QDIcTgjGQraQkHqC4n+CaO6n6zS+Kc2NRetclNnmKaEfV1t58oeFIBOTd5eRpkMxGeAk6ru8YLfmJrNteTRqELeHm6w9Zb/8YLoPfmI8TD53d7KxdJPCh6UUDXMhHvT5vvSSBndUO0zMYsktNr7x5FDUoGAydFB9ZMYwmVMwEGN2NLYs/CgCBeYw7oq62qJ2MUbqtvStpRzuQ1FTAgHTvDJhd34xnKr3dXdRL5M64/qsgejFM6dn3gSy9wWvLe11ZZNlKTRDk0xxwPe9wmu4Bj5ICW+j50=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR11MB6508.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?cjQzb0RRcG5zdFZhdkJ1R3RUTkxrV0JiK2Nqa1UraEtFQ2JLK1l4MTM3OXhT?=
+ =?utf-8?B?WUhRM21SbzJ2QzNjSmo2SmlQakdmSEFBbW13Mm10akRtYnFqa1FVVHBNdUYz?=
+ =?utf-8?B?Wlk5dElPemFOWXdhckxMUW1JNGkvRytFRGxnQXJmNGRVMnBJTlJnaVJ1dEMx?=
+ =?utf-8?B?TDYzTFRqVU5IOXROSjBGcHZPQ1hKU3ZCdlBKLzB4TzJremY5UlF2NDFjK1Y2?=
+ =?utf-8?B?akNRRFNiYngvQUVnVTF3VXlQZ2VHNEQ2WlJkcDFPbjVXclZEZk5FMlhyRWRU?=
+ =?utf-8?B?ejVvNHpaNlM0YjJVdDJTaHNLWmxvdXRXTEFXb1lmcGRqRHVwV2VuYklJU0pu?=
+ =?utf-8?B?blNPUytZRTE1T0xkdGhqOW5FMjVJdHhXeW5MR1RCRytYTFEwcTg3UjBVMzhv?=
+ =?utf-8?B?WWZMb3Zldi80TEIvSVFvaVpkSURzOEdmVDMvUUJkVnM1Mmlzemw3SDlYYk8r?=
+ =?utf-8?B?ZDY5Z2xYZ3NjNnJpcVJBOWg0bEliU0JiOWsySGVCdndKZWFISnUzTGQ5SVVj?=
+ =?utf-8?B?VmVSc0d1RWtDcndQTWdnZEdqUUZQT2RPc2dEc0VwNDZ4ZUxvVmxWeXowaWRL?=
+ =?utf-8?B?Z0t0bm1pOWVwcEdQK2U1d2dFdjJLMmIwMDdQU1BKVTAzS21Mdk4zdVFZUzFL?=
+ =?utf-8?B?bVpHTXR0ekQ2eUpDZWk0WUFrRC9IbnpXUDVNOS91UVFUeVZFQ1RFUXVpeDkr?=
+ =?utf-8?B?cmUxYkwzbEExM0N1V2cxRkVBMzBoOWh5QWtZZ01aczJNMUNnMGZRbUZydnB2?=
+ =?utf-8?B?ckpid29uMGpPUzRVckVRY0Y1dEJkdzFqVnhxMWhmUW9sMUZnVklHTXloM1Yy?=
+ =?utf-8?B?aWYwSEZLN0NJeXZ0L3JYVmJIc0JZTEQvOC9rUHNPaTYya2l4anl5UWkvcis1?=
+ =?utf-8?B?d21mK2IwK244VmxCTXhKbUFGSDlqVWMzdEpOQWlhMW1vNDlsdis3cTRUSE5C?=
+ =?utf-8?B?ejQwaDgzN2I4MUFSVlVMZXc0Q3NRc21kTkdLS2pPY2FWQkthWHRjMDlTdUpR?=
+ =?utf-8?B?d3duNEZqNHZKTXNsU2tjU1ZkYm5zOUM4b3dydEVGRkNXcFdpQndvN0FtZFpN?=
+ =?utf-8?B?RE5mb2RHNUVxU0hlY212L05RbzNEY2lSU3czbGVxZGdZdHRLY2pST3ovSDcy?=
+ =?utf-8?B?cDVvQUkrZVQ2aFZmMURTNjMwckIrMUxIR0hyaVZIcmxCS21sOWlscVVjSm84?=
+ =?utf-8?B?REhDZng5SUFYWXl6cEQyWmFYSVI1L0k3NnRFblRkcXZFK1p0UGc1UkhuWUJz?=
+ =?utf-8?B?YUQ1SzNHWnkxR2hSUGgweXV6TVhNTi9DNGtsYU4ybUx0QlF1ZHo3VStUUnE2?=
+ =?utf-8?B?cERJZGFFQ29UVTF4NjZEZ3NxcThKUlNSS3lpZVJ1ZUZRNkNxZlJoUCtHQ0hn?=
+ =?utf-8?B?NUExdDJkSDJvNjNUb0VPTEtLWWVNbUhuZHdZU2JaeFRURGZOeWxYQTVVdUth?=
+ =?utf-8?B?MmxSeFJMcnhaYmFlamtPUWViRG55OHlYeFRvR0FDY0dYTHJuSkhnU1k0U2Mx?=
+ =?utf-8?B?cXV4alNHa2hjYm5ZOW5ITndOSW5jM0IraUc1dmhrRWhOWnBselFISjNJZlQx?=
+ =?utf-8?B?d1llZm9IRXBYNDZEd0NKd1BUdFFyMG5mWmNDSkQ3eld6dm8wQzRLNWJ3TzYy?=
+ =?utf-8?B?U0JQa2JXY25oZWxOeFpodURKODN0ZklvNTFGa1c1U0N4NjluZU5URVZhY2dE?=
+ =?utf-8?B?eTlPVWNoSks1QU4vMGZnRG1EUUx3Qi9PeEVxU3lsdXAyNndvRXdZTGhzRHFV?=
+ =?utf-8?B?eExFZFRwdlNXbitFd0dJbWdPeFdjM2wrRXR2NGpiTk0xYnIyd2FyZXNhWmlq?=
+ =?utf-8?B?V3VUZU9LOHVRekZtSmZQVCtZMzh3TXV3NUJwd0VxN3U5b3VJUVFTdW1LYXpx?=
+ =?utf-8?B?dnQxQlZPMEpleHFLUzJXZUdCWEw4d3NUK3ZUUEk3Mi9XVVk2eG1GOG5USnQ4?=
+ =?utf-8?B?Z0pyY3A2QnM1YVZ3UWJjeEIwOW8yTUp0c2M3ODhvM3gvZlQ4WHJSZ29jUnUv?=
+ =?utf-8?B?aXJGbGt0UWdvVE8xSTI3OFdFTUtxZXQ3MUdKZEVNWHBUaVhEZWwzSEc0Z2pI?=
+ =?utf-8?B?TmVpV0paSmU2ZWdabVJzRUtjWk5BeEJUT01NTjByeVlwZGVMaXBkWkdvZWhG?=
+ =?utf-8?B?Q2FoYnlwMHd2QzlRR2hhcEtIWW9CQktGbk1Jc3FwTEF4Q0ppVDdpdVNpZnBM?=
+ =?utf-8?B?MXltRFJxejlKWFhleDQwVGtCZkNWcVJZN0VybHBsQnNBNWtVaWU1cndBYXdR?=
+ =?utf-8?B?Q0ExTmhNWHJPeGFKN3BJR1NBTzkyMmxOSDI2V3lGQzY4ZWVqWFNIMUx3OFRH?=
+ =?utf-8?B?UGlYZE85cEZ6S3ltOE1jMDF2dGlzTmcwM2FVMFp2Unpad0w4Mml0NG54Z25z?=
+ =?utf-8?Q?i9/fWs2cB2Y+5RuU=3D?=
+X-Exchange-RoutingPolicyChecked: FByy2fYMlHjg0GUULLaRqklBy4Aqcbg3mJZpTQ8UAgc1Xev9ZnbJBpFjWZ0cMbvN0VD30OF/MSMyeeV9fla9iXN/0sqK4gBN3tpQ7MRixRnpvyBLA9UUCqLNePd2BWq+b15hgJExR1umd5Qa7wrpRhPob2g+L7Z1nT76kxoTs0KayqyuWtLXBSpP3lzr24Z/e3OmMVlLDep83uIdQR4XQ+LUrjU25oli7Z0G55sATovz4MuFi1jeoImh1ehBI3f1/3kIIq+t47/zxPa3s3sQy1f1a+B1L3foUj4wTRcYOxGMUGrfrCyNVpFY0RSkx0JQ+HInVLL91FwpVmoaOVx44Q==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71b2228d-12b6-405e-5d70-08de94648ade
+X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Apr 2026 05:14:28.2608
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: LVCGib3JF2YeW9B9kaCnETJEFWKdN2GkiRUKEusIUgtl9wK81LNjJ6LLYbwGExDbSmbg4NdPdg2KWmmtFFz1nA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6911
+X-OriginatorOrg: intel.com
 
-Adds attribute for setting the rumble intensity level. This setting must
-be re-applied after the gamepad mode is set as doing so resets this to
-the default value.
+On Mon, Apr 06, 2026 at 06:10:07PM -0400, Joel Fernandes wrote:
+> 
+> 
+> On 4/6/2026 5:24 PM, Joel Fernandes wrote:
+> > 
+> > 
+> > On 4/2/2026 1:59 AM, Matthew Brost wrote:
+> >> On Tue, Mar 31, 2026 at 05:20:34PM -0400, Joel Fernandes wrote:
+> >>> Add TLB (Translation Lookaside Buffer) flush support for GPU MMU.
+> >>>
+> >>> After modifying page table entries, the GPU's TLB must be invalidated
+> >>> to ensure the new mappings take effect. The Tlb struct provides flush
+> >>> functionality through BAR0 registers.
+> >>>
+> >>> The flush operation writes the page directory base address and triggers
+> >>> an invalidation, polling for completion with a 2 second timeout matching
+> >>> the Nouveau driver.
+> >>>
+> >>> Cc: Nikola Djukic <ndjukic@nvidia.com>
+> >>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> >>> ---
+> >>>  drivers/gpu/nova-core/mm.rs     |  1 +
+> >>>  drivers/gpu/nova-core/mm/tlb.rs | 95 +++++++++++++++++++++++++++++++++
+> >>>  drivers/gpu/nova-core/regs.rs   | 42 +++++++++++++++
+> >>>  3 files changed, 138 insertions(+)
+> >>>  create mode 100644 drivers/gpu/nova-core/mm/tlb.rs
+> >>>
+> >>> diff --git a/drivers/gpu/nova-core/mm.rs b/drivers/gpu/nova-core/mm.rs
+> >>> index 8f3089a5fa88..cfe9cbe11d57 100644
+> >>> --- a/drivers/gpu/nova-core/mm.rs
+> >>> +++ b/drivers/gpu/nova-core/mm.rs
+> >>> @@ -5,6 +5,7 @@
+> >>>  #![expect(dead_code)]
+> >>>  
+> >>>  pub(crate) mod pramin;
+> >>> +pub(crate) mod tlb;
+> >>>  
+> >>>  use kernel::sizes::SZ_4K;
+> >>>  
+> >>> diff --git a/drivers/gpu/nova-core/mm/tlb.rs b/drivers/gpu/nova-core/mm/tlb.rs
+> >>> new file mode 100644
+> >>> index 000000000000..cd3cbcf4c739
+> >>> --- /dev/null
+> >>> +++ b/drivers/gpu/nova-core/mm/tlb.rs
+> >>> @@ -0,0 +1,95 @@
+> >>> +// SPDX-License-Identifier: GPL-2.0
+> >>> +
+> >>> +//! TLB (Translation Lookaside Buffer) flush support for GPU MMU.
+> >>> +//!
+> >>> +//! After modifying page table entries, the GPU's TLB must be flushed to
+> >>> +//! ensure the new mappings take effect. This module provides TLB flush
+> >>> +//! functionality for virtual memory managers.
+> >>> +//!
+> >>> +//! # Example
+> >>> +//!
+> >>> +//! ```ignore
+> >>> +//! use crate::mm::tlb::Tlb;
+> >>> +//!
+> >>> +//! fn page_table_update(tlb: &Tlb, pdb_addr: VramAddress) -> Result<()> {
+> >>> +//!     // ... modify page tables ...
+> >>> +//!
+> >>> +//!     // Flush TLB to make changes visible (polls for completion).
+> >>> +//!     tlb.flush(pdb_addr)?;
+> >>> +//!
+> >>> +//!     Ok(())
+> >>> +//! }
+> >>> +//! ```
+> >>> +
+> >>> +use kernel::{
+> >>> +    devres::Devres,
+> >>> +    io::poll::read_poll_timeout,
+> >>> +    io::Io,
+> >>> +    new_mutex,
+> >>> +    prelude::*,
+> >>> +    sync::{
+> >>> +        Arc,
+> >>> +        Mutex, //
+> >>> +    },
+> >>> +    time::Delta, //
+> >>> +};
+> >>> +
+> >>> +use crate::{
+> >>> +    driver::Bar0,
+> >>> +    mm::VramAddress,
+> >>> +    regs, //
+> >>> +};
+> >>> +
+> >>> +/// TLB manager for GPU translation buffer operations.
+> >>> +#[pin_data]
+> >>> +pub(crate) struct Tlb {
+> >>> +    bar: Arc<Devres<Bar0>>,
+> >>> +    /// TLB flush serialization lock: This lock is acquired during the
+> >>> +    /// DMA fence signalling critical path. It must NEVER be held across any
+> >>> +    /// reclaimable CPU memory allocations because the memory reclaim path can
+> >>> +    /// call `dma_fence_wait()`, which would deadlock with this lock held.
+> >>> +    #[pin]
+> >>> +    lock: Mutex<()>,
+> >>> +}
+> >>> +
+> >>> +impl Tlb {
+> >>> +    /// Create a new TLB manager.
+> >>> +    pub(super) fn new(bar: Arc<Devres<Bar0>>) -> impl PinInit<Self> {
+> >>> +        pin_init!(Self {
+> >>> +            bar,
+> >>> +            lock <- new_mutex!((), "tlb_flush"),
+> >>> +        })
+> >>> +    }
+> >>> +
+> >>> +    /// Flush the GPU TLB for a specific page directory base.
+> >>> +    ///
+> >>> +    /// This invalidates all TLB entries associated with the given PDB address.
+> >>> +    /// Must be called after modifying page table entries to ensure the GPU sees
+> >>> +    /// the updated mappings.
+> >>> +    pub(crate) fn flush(&self, pdb_addr: VramAddress) -> Result {
+> >>
+> >> This landed on my list randomly, so I took a look.
+> >>
+> >> Wouldn’t you want to virtualize the invalidation based on your device?
+> >> For example, what if you need to register interface changes on future hardware?
+> > 
+> > Good point, for future hardware it indeed makes sense. I will do that.
+> Actually, at least in the future as far as I can see, the register definitions
+> are the same for TLB invalidation are the same, so we are good and I will not be
+> making any change in this regard.
+> 
+> But, thanks for raising the point and forcing me to double check!
+> 
 
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
- drivers/hid/hid-oxp.c | 80 +++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 78 insertions(+), 2 deletions(-)
+Not my driver, but this looks like a classic “works now” change that may
+not hold up later, which is why I replied to something that isn’t really
+my business.
 
-diff --git a/drivers/hid/hid-oxp.c b/drivers/hid/hid-oxp.c
-index 1100f1f14f35..cad6973089a0 100644
---- a/drivers/hid/hid-oxp.c
-+++ b/drivers/hid/hid-oxp.c
-@@ -34,6 +34,7 @@ enum oxp_function_index {
- 	OXP_FID_GEN1_RGB_SET =		0x07,
- 	OXP_FID_GEN1_RGB_REPLY =	0x0f,
- 	OXP_FID_GEN2_TOGGLE_MODE =	0xb2,
-+	OXP_FID_GEN2_RUMBLE_SET =	0xb3,
- 	OXP_FID_GEN2_KEY_STATE =	0xb4,
- 	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
- };
-@@ -178,6 +179,7 @@ static struct oxp_hid_cfg {
- 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
- 	u8 rgb_brightness;
- 	u8 gamepad_mode;
-+	u8 rumble_intensity;
- 	u8 rgb_effect;
- 	u8 rgb_speed;
- 	u8 rgb_en;
-@@ -263,6 +265,11 @@ static const char *const oxp_rgb_effect_text[] = {
- 	[OXP_EFFECT_MONO_LIST] = "monocolor",
- };
- 
-+enum oxp_rumble_side_index {
-+	OXP_RUMBLE_LEFT = 0x00,
-+	OXP_RUMBLE_RIGHT,
-+};
-+
- struct oxp_gen_1_rgb_report {
- 	u8 report_id;
- 	u8 message_id;
-@@ -338,6 +345,7 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
- 
- static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data, u8 data_size);
- static int oxp_set_buttons(void);
-+static int oxp_rumble_intensity_set(u8 intensity);
- 
- static void oxp_mcu_init_fn(struct work_struct *work)
- {
-@@ -365,6 +373,12 @@ static void oxp_mcu_init_fn(struct work_struct *work)
- 	if (ret)
- 		dev_err(&drvdata.hdev->dev,
- 			"Error: Failed to set gamepad mode: %i\n", ret);
-+
-+	/* Set vibration level */
-+	ret = oxp_rumble_intensity_set(drvdata.rumble_intensity);
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to set rumble intensity: %i\n", ret);
- }
- 
- static DECLARE_DELAYED_WORK(oxp_mcu_init, oxp_mcu_init_fn);
-@@ -513,6 +527,14 @@ static ssize_t gamepad_mode_store(struct device *dev,
- 
- 	drvdata.gamepad_mode = data[0];
- 
-+	if (drvdata.gamepad_mode == OXP_GP_MODE_DEBUG)
-+		return count;
-+
-+	/* Re-apply rumble settings as switching gamepad mode will override */
-+	ret = oxp_rumble_intensity_set(drvdata.rumble_intensity);
-+	if (ret)
-+		return ret;
-+
- 	return count;
- }
- 
-@@ -858,6 +880,59 @@ static ssize_t button_mapping_options_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(button_mapping_options);
- 
-+static int oxp_rumble_intensity_set(u8 intensity)
-+{
-+	u8 header[15] = { 0x02, 0x38, 0x02, 0xe3, 0x39, 0xe3, 0x39, 0xe3,
-+			  0x39, 0x01, intensity, 0x05, 0xe3, 0x39, 0xe3 };
-+	u8 footer[9] = { 0x39, 0xe3, 0x39, 0xe3, 0xe3, 0x02, 0x04, 0x39, 0x39 };
-+	size_t footer_size = ARRAY_SIZE(footer);
-+	size_t header_size = ARRAY_SIZE(header);
-+	u8 data[59] = { 0x0 };
-+	size_t data_size = ARRAY_SIZE(data);
-+
-+	memcpy(data, header, header_size);
-+	memcpy(data + data_size - footer_size, footer, footer_size);
-+
-+	return oxp_gen_2_property_out(OXP_FID_GEN2_RUMBLE_SET, data, data_size);
-+}
-+
-+static ssize_t rumble_intensity_store(struct device *dev,
-+				      struct device_attribute *attr, const char *buf,
-+				      size_t count)
-+{
-+	int ret;
-+	u8 val;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val < 0 || val > 5)
-+		return -EINVAL;
-+
-+	ret = oxp_rumble_intensity_set(val);
-+	if (ret)
-+		return ret;
-+
-+	drvdata.rumble_intensity = val;
-+
-+	return count;
-+}
-+
-+static ssize_t rumble_intensity_show(struct device *dev,
-+				     struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%i\n", drvdata.rumble_intensity);
-+}
-+static DEVICE_ATTR_RW(rumble_intensity);
-+
-+static ssize_t rumble_intensity_range_show(struct device *dev,
-+					   struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "0-5\n");
-+}
-+static DEVICE_ATTR_RO(rumble_intensity_range);
-+
- #define OXP_DEVICE_ATTR_RW(_name, _group)                                     \
- 	static ssize_t _name##_store(struct device *dev,                      \
- 				     struct device_attribute *attr,           \
-@@ -949,6 +1024,8 @@ static struct attribute *oxp_cfg_attrs[] = {
- 	&dev_attr_gamepad_mode.attr,
- 	&dev_attr_gamepad_mode_index.attr,
- 	&dev_attr_reset_buttons.attr,
-+	&dev_attr_rumble_intensity.attr,
-+	&dev_attr_rumble_intensity_range.attr,
- 	NULL,
- };
- 
-@@ -1420,10 +1497,9 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- 
- 	drvdata.bmap_1 = bmap_1;
- 	drvdata.bmap_2 = bmap_2;
-+	drvdata.rumble_intensity = 5;
- 	mod_delayed_work(system_wq, &oxp_mcu_init, msecs_to_jiffies(50));
- 
--	drvdata.gamepad_mode = OXP_GP_MODE_XINPUT;
--
- 	ret = devm_device_add_group(&hdev->dev, &oxp_cfg_attrs_group);
- 	if (ret)
- 		return dev_err_probe(&hdev->dev, ret,
--- 
-2.53.0
+Again, not my area, but I’ve been through this before. Generally,
+getting the abstractions right up front pays off.
 
+Matt
+
+> --
+> Joel Fernandes
+> 
