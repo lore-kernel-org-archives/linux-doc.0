@@ -1,221 +1,251 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A654632;
-	Tue,  7 Apr 2026 00:13:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C31175A72;
+	Tue,  7 Apr 2026 01:05:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775520799; cv=none; b=LoCBknDY0DAaNkv9RNQsABgKk1/g1dirJvXCWtCk68Va8HQ/lljcx94V7JClkhhNuqMAwFkc8GT4OWFacBN/lqefZnR1oUbrw3VZfAD/S1AJAmSHNYEw5N4fiTMVSrjEsfFgycQyNkOzL8OHNkrSlnTckUSvATPBDW9hKoiXvHU=
+	t=1775523940; cv=none; b=BACF3dUIfq1ssrJZS0iPt1d9NiXoGARfbJ4zyPLmVyndUqqAuuoHbGLnoyvM5aXz8h6ZOC56HAYgv6QpwMJviZp7RBpuh19PFNEJ80/ThTPOHRQi7UbkjtyUdqxhcVTkloODMIP7dWfFGnZ7pHXaDFDLM+6YcWx7QDXJzkWeKSg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775520799; c=relaxed/simple;
-	bh=BGK91Zud1kj/tvt7oieAdbvvJZc26dEc8R4BMeClsPQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VNweija9rczgWBXQJLbg/rv0mbmc9LdYYsbNP7t5taylVIO69gIZsGhGgbfS9Qy45B4WBuvA9lfZbT5q2YhdDep7xvjGz0rBB5j4wOgVo6pvt9mBv8/acfFeCzgfXrRsLkWamqVy3Sdfa3bsQluo4RnYBqdb4fnRo6j6+DhRbeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tm6l9d4j; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775523940; c=relaxed/simple;
+	bh=CHHjSWicbWh2jqwNCAI5Ew+SQlasXIEElMMWDjLK6ow=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m3pxwtkrhgloOMYjrcDN2VHLj1IeGgpjiqjOgzaJAEcZHSJOMrSe3i57zqooDj3hOuKO1AW6z8dfATvDTnNJtG8WpAyOyBG+duamgUAbARg3Kuyb253Ij/pvuibnzUZMaqaOtbaPfhAiWUSmw3AdTfy1xwbYAz8rAvbI8SrkfCc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjhkznrw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tm6l9d4j"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 68043C4CEF7;
-	Tue,  7 Apr 2026 00:13:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjhkznrw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FD81C4CEF7;
+	Tue,  7 Apr 2026 01:05:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775520798;
-	bh=BGK91Zud1kj/tvt7oieAdbvvJZc26dEc8R4BMeClsPQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Tm6l9d4jQGiEtsxOMCMp//3292RFdMDB9vsyy6kw4WZSXcXUtHVOWBnL8S6YHCyh0
-	 vW/zwlr/O/+PpP2TNA/v6zkE8Zl5TwoTpy1q4zJ4dZVcNyeVdAVI2CC/nfvCEh1JBg
-	 MME4m0eAbWKFMzapwCXTk+fvMtRbhTYPCwzh3Uk+S395vQnLRybEZ689TYeSAgOT2W
-	 X0JHiM+PFMIAc4E+JUkzmWwKSz2upRMgSrtxKFHTab8qyyU/zBdgif44TAihuFJHFD
-	 Ofg7ChEtq4Fnq0SLQ5FBs5C9qMUzxsSzTNPNpnuFFpRs1z39tZcofKb19K/xh08Ttl
-	 dDeuk3T4oQzpw==
+	s=k20201202; t=1775523939;
+	bh=CHHjSWicbWh2jqwNCAI5Ew+SQlasXIEElMMWDjLK6ow=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jjhkznrw9Wu4dlwuvcFbRto6bas4MrZJ0YSyqM5DSlOO6N6TZlpwSzYBCRN0i3eBL
+	 AzRZRLmjbt9aI56EALBlMVHhr6VnNNFQ/06TA7BHMvS8od6nA/MU+jY49p30Ddaa6X
+	 OFLQkDCQABe7XIRhvfNu1ieHmzkSfNuvqJOATp+BGv4kou+jN3/zoH11VJ2DgRZTWS
+	 jd5qdugPzfJOb2iD13tx1TYvJtV/IJaFqAuLeiv6yZoTzcPd1PS/z8rrkDNvnM7vx7
+	 JZhQHWuAlBlZLN6kuQFGnSyO6OaP6txDcHEpb/Jkv9v95ol9JT+BEsxasU9hBcb/A7
+	 EcNNNjHrBXiyA==
 From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+To: 
 Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
 	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
+	kunit-dev@googlegroups.com,
 	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: (sashiko review) [PATCH v6 1/1] mm/damon: add node_eligible_mem_bp and node_ineligible_mem_bp goal metrics
-Date: Mon,  6 Apr 2026 17:13:08 -0700
-Message-ID: <20260407001310.78557-1-sj@kernel.org>
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v3 00/10] mm/damon: introduce DAMOS failed region quota charge ratio
+Date: Mon,  6 Apr 2026 18:05:22 -0700
+Message-ID: <20260407010536.83603-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <CALa+Y14oWqu5+DbkENy7GgBjc=dCbFTaoOCr1i4=9CN-ZNRgEA@mail.gmail.com>
-References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On Mon, 6 Apr 2026 12:47:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+TL; DR: Let users set different DAMOS quota charge ratios for DAMOS
+action failed regions, for deterministic and consistent DAMOS action
+progress.
 
-> On Sun, Apr 5, 2026 at 3:45 PM SeongJae Park <sj@kernel.org> wrote:
-> >
-> >
-> > Ravi, thank you for reposting this patch after the rebase.  This time sashiko
-> > was able to review this, and found good points including things that deserve
-> > another revision of this patch.
-> >
-> > Forwarding full sashiko review in a reply format with my inline comments below,
-> > for sharing details of my view and doing followup discussions via mails.  Ravi,
-> > could you please reply?
-> >
-> 
-> Thanks SJ, providing your comments on top of sashiko's review is very helpful.
+Common Reports: Unexpectedly Slow DAMOS
+=======================================
 
-I'm glad to hear that it is working for you :)
+One common issue report that we get from DAMON users is that DAMOS
+action applying progress speed is sometimes much slower than expected.
+And one common root cause is that the DAMOS quota is exceeded by the
+action applying failed memory regions.
 
-[...]
-> > > +static unsigned long damos_calc_eligible_bytes(struct damon_ctx *c,
-> > > > +           struct damos *s, int nid, unsigned long *total)
-> > > > +{
-[...]
-> > > > +                           struct folio *folio;
-> > > > +                           unsigned long folio_sz, counted;
-> > > > +
-> > > > +                           folio = damon_get_folio(PHYS_PFN(addr));
-> > >
-> > > What happens if this metric is assigned to a DAMON context configured for
-> > > virtual address space monitoring? If the context uses DAMON_OPS_VADDR,
-> > > passing a user-space virtual address to PHYS_PFN() might cause invalid
-> > > memory accesses or out-of-bounds page struct reads. Should this code
-> > > explicitly verify the operations type first?
-> >
-> > Good finding.  We intend to support only paddr ops.  But there is no guard for
-> > using this on vaddr ops configuration.  Ravi, could we add underlying ops
-> > check?  I think damon_commit_ctx() is a good place to add that.  The check
-> > could be something like below?
-> >
-> 
-> I plan to add the ops type check directly in the metric functions
-> (damos_get_node_eligible_mem_bp and its counterpart) rather than in
-> damon_commit_ctx(). The functions will return 0 early
-> if c->ops.id != DAMON_OPS_PADDR.
-> 
-> That said, if you prefer the damon_commit_ctx() validation approach to
-> reject the configuration outright, I can implement it that way instead.
-> Please let me know your preference.
+For example, a group of users tried to run DAMOS-based proactive memory
+reclamation (DAMON_RECLAIM) with 100 MiB per second DAMOS quota.  They
+ran it on a system having no active workload which means all memory of
+the system is cold.  The expectation was that the system will show 100
+MiB per second reclamation until (nearly) all memory is reclaimed. But
+what they found is that the speed is quite inconsistent and sometimes it
+becomes very slower than the expectation, sometimes even no reclamation
+at all for about tens of seconds.  The upper limit of the speed (100 MiB
+per second) was being kept as expected, though.
 
-I'd prefer damon_commit_ctx() validation approach since it would give users
-more clear message of the failure.
+By monitoring the qt_exceeds (number of DAMOS quota exceed events) DAMOS
+stat, we found DAMOS quota is always exceeded when the speed is slow. By
+monitoring sz_tried and sz_applied (the total amount of DAMOS action
+tried memory and succeeded memory) DAMOS stats together, we found the
+reclamation attempts nearly always failed when the speed is slow.
 
-> 
-> > '''
-> > --- a/mm/damon/core.c
-> > +++ b/mm/damon/core.c
-> > @@ -1515,10 +1515,23 @@ static int damon_commit_sample_control(
-> >  int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
-> >  {
-> >         int err;
-> > +       struct damos *scheme;
-> > +       struct damos_quota_goal *goal;
-> >
-> >         dst->maybe_corrupted = true;
-> >         if (!is_power_of_2(src->min_region_sz))
-> >                 return -EINVAL;
-> > +       if (src->ops.id != DAMON_OPS_PADDR) {
-> > +               damon_for_each_scheme(scheme, src) {
-> > +                       damos_for_each_quota_goal(goal, &scheme->quota) {
-> > +                               switch (goal->metric) {
-> > +                               case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
-> > +                               case DAMOS_QUOTA_NODE_INELIGIBLE_MEMPBP:
-> > +                                       return -EINVAL;
-> > +                               }
-> > +                       }
-> > +               }
-> > +       }
-> >
-> >         err = damon_commit_schemes(dst, src);
-> >         if (err)
-> > '''
-[...]
-> > > > +   /* Compute ineligible ratio directly: 10000 - eligible_bp */
-> > > > +   return 10000 - mult_frac(node_eligible, 10000, total_eligible);
-> > > > +}
-> > >
-> > > Does this return value match the documented metric? The formula computes the
-> > > percentage of the system's eligible memory located on other NUMA nodes,
-> > > rather than the amount of actual ineligible (filtered out) memory residing
-> > > on the target node. Could this semantic mismatch cause confusion when
-> > > configuring quota policies?
-> >
-> > Nice catch.  The name and the documentation are confusing.  We actually
-> > confused a few times in previous revisions, and I'm again confused now.  IIUC,
-> > the current implementation is the intended and right one for the given use
-> > case, though.  If my understanding is correct, how about renaming
-> > DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP to
-> > DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_COMPLEMENT, and updating the documentation
-> > together?  Ravi, what do you think?
-> >
-> 
-> Agreed, the current name is confusing. How about
-> DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_OFFNODE?
-> 
-> The rationale is that this metric measures "eligible memory that is off
-> this node" (i.e., on other nodes).
-> 
->  I think "offnode" conveys the physical meaning more directly than "complement".
-> That said, I'm happy to go with "complement" if you prefer.
-> both are clearer than "ineligible".
+DAMOS quota charges DAMOS action tried regions regardless of the
+successfulness of the try.  Hence in the example reported case, there
+was unreclaimable memory spread around the system memory.  Sometimes
+nearly 100 MiB of memory that DAMOS tried to reclaim in the given quota
+interval was reclaimable, and therefore showed nearly 100 MiB per second
+speed.  Sometimes nearly 99 MiB of memory that DAMOS was trying to
+reclaim in the given quota interval was unreclaimable, and therefore
+showing only about 1 MiB per second reclaim speed.
 
-Thank you for the nice suggestion.  I like "offnode" term.  But I think having
-"node" twice on the name is not really efficient for people who print code on
-papers.  What about DAMOS_QUOTA_OFFNODE_ELIGIBLE_MEM_BP?
+We explained it is an expected behavior of the feature rather than a
+bug, as DAMOS quota is there for only the upper-limit of the speed.  The
+users agreed and later reported a huge win from the adoption of
+DAMON_RECLAIM on their products.
 
-But...  Maybe more importantly...  Now I realize this means that
-offnode_eligible_mem_bp with target nid 0 is just same to node_eligible_mem_bp
-with target nid 1, on your test setup.  Maybe we don't really need
-offnode_eligible_mem_bp?  That is, your test setup could be like below.
+It is Not a Bug but a Feature; But...
+=====================================
 
-'''
-For maintaining hot memory on DRAM (node 0) and CXL (node 1) in a 7:3
-ratio:
+So nothing is broken.  DAMOS quota is working as intended, as the upper
+limit of the speed.  It also provides its behavior observability via
+DAMOS stat.  In the real world production environment that runs long
+term active workloads and matters stability, the speed sometimes being
+slow is not a real problem.
 
-    PUSH scheme: migrate_hot from node 0 -> node 1
-      goal: node_eligible_mem_bp, nid=1, target=3000
-      "Move hot pages from DRAM to CXL if less thatn 30% of hot data is
-       in CXL"
+But, the non-deterministic behavior is sometimes annoying, especially in
+lab environments.  Even in a realistic production environment, when
+there is a huge amount of DAMOS action unapplicable memory, the speed
+could be problematically slow.  Let's suppose a virtual machines
+provider that setup 99% of the host memory as hugetlb pages that cannot
+be reclaimed, to give it to virtual machines.  Also, when aim-oriented
+DAMOS auto-tuning is applied, this could also make the internal feedback
+loop confused.
 
-    PULL scheme: migrate_hot from node 1 -> node 0
-      goal: node_eligible_mem_bp, nid=0, target=7000
-      "Move hot pages from CXL to DRAM if less than 70% of hot data is
-       in DRAM"
-'''
+The intention of the current behavior was that trying DAMOS action to
+regions would anyway impose some overhead, and therefore somehow be
+charged.  But in the real world, the overhead for failed action is much
+lighter than successful action.  Charging those at the same ratio may be
+unfair, or at least suboptimum in some environments.
 
-And the schemes are more easy to read and understand for me.  This seems even
-straightforward to scale for >2 nodes.  For example, if we want hot memory
-distribution of 5:3:2 to nodes 0:1:2,
+DAMOS Action Failed Region Quota Charge Ratio
+=============================================
 
-	Two schemes for migrating hot pages out of node 0
-	- migrate_hot from node 0 -> node 1
-	  - goal: node_eligible_mem_bp, nid=1, target=3000
-	- migrate_hot from node 0 -> node 2
-	  - goal: node_eligible_mem_bp, nid=2, target=2000
+Let users set the charge ratio for the action-failed memory, for more
+optimal and deterministic use of DAMOS.  It allows users to specify the
+numerator and the denominator of the ratio for flexible setup.  For
+example, let's suppose the numerator and the denominator are set to 1
+and 4,096, respectively.  The ratio is 1 / 4,096.  A DAMOS scheme action
+is applied to 5 GiB memory.  For 1 GiB of the memory, the action is
+succeeded.  For the rest (4 GiB), the action is failed.  Then, only 1
+GiB and 1 MiB quota is charged.
 
-	Two schemes for migrating hot pages out of node 1
-	- migrate_hot from node 1 -> node 0
-	  - goal: node_eligible_mem_bp, nid=0, target=5000
-	- migrate_hot from node 1 -> node 2
-	  - goal: node_eligible_mem_bp, nid=2, target=2000
+The optimal charge ratio will depend on the use case and
+system/workload.  I'd recommend starting from setting the nominator as 1
+and the denominator as PAGE_SIZE and tune based on the results, because
+many DAMOS actions are applied at page level.
 
-	Two schemes for migrating hot pages out of node 2
-	- migrate_hot from node 2 -> node 0
-	  - goal: node_eligible_mem_bp, nid=0, target=5000
-	- migrate_hot from node 2 -> node 1
-	  - goal: node_eligible_mem_bp, nid=1, target=3000
+Tests
+=====
 
-Do you think this makes sense?  If it makes sense and works for your use case,
-what about dropping the offnode goal type?
+I tested this feature in the steps below.
+
+1. Allocate 50% of system memory and mlock() it using a test program.
+2. Fill up the page cache to exhaust nearly all free memory.
+3. Start DAMON-based proactive reclamation with 100 MiB/second DAMOS
+   hard-quota.  Auto-tune the DAMOS soft-quota under the hard-quota for
+   achieving 40% free memory of the system with 'temporal' tuner.
+
+For step 1, I run a simple C program that is written by Gemini.  It is
+quite straightforward, so I'm not sharing the code here.
+
+For step 2, I use dd command like below:
+
+   dd if=/dev/zero of=foo bs=1M count=$50_percent_of_system_memory
+
+For step 3, I use the latest version of DAMON user-space tool (damo)
+like below.
+
+    sudo damo start --damos_action pageout \
+            ` # Do the pageout only up to 100 MiB per second ` \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            ` # Auto-tune the quota below the hard quota aiming` \
+            ` # 40% free memory of the node 0 ` \
+            ` # (entire node of the test system)` \
+            --damos_quota_goal node_mem_free_bp 40% 0 \
+            ` # use temporal tuner, which is easy to understnd ` \
+            --damos_quota_goal_tuner temporal
+
+As expected, the progress of the reclamation is not consistent, because
+the quota is exceeded for the failed reclamation of the unreclaimable
+memory.
+
+I do this again, but with the failed region charge ratio feature.  For
+this, the above 'damo' command is used, after appending command line
+option for setup of the charge ratio like below.  Note that the option
+was added to 'damo' after v3.1.9.
+
+    sudo ./damo start --damos_action pageout \
+            [...]
+            ` # quota-charge only 1/4096 for pageout-failed regions ` \
+            --damos_quota_fail_charge_ratio 1 4096
+
+The progress of the reclamation was nearly 100 MiB per second until the
+goal was achieved, meeting the expectation.
+
+Patches Sequence
+================
+
+Patch 1 updates fully charged quota check to handle <min_region_sz
+remaining quota, which will be able to exist after this series is
+applied.  Patch 2 implements the feature and exposes it via DAMON core
+API.  Patch 3 implements DAMON sysfs ABI for the feature.  Three
+following patches (4-6) document the feature and ABI on design, usage,
+and ABI documents, respectively.  Four patches for testing of the new
+feature follow.  Patch 7 implements a kunit test for the feature.
+Patches 8 and 9 extend DAMON selftest helpers for DAMON sysfs control
+and internal state dumping for adding a new selftest for the feature.
+Patch 10 extends existing DAMON sysfs interface selftest to test the new
+feature using the extended helper scripts.
+
+Changelog
+=========
+
+Changes from RFC v2
+(https://lore.kernel.org/20260405151232.102690-1-sj@kernel.org)
+- Handle <min_region_sz remaining quota.
+- Document zero denum behavior.
+- Fix typos: s/selftets/selftests/
+Changes from RFC v1
+(https://lore.kernel.org/20260404163943.89278-1-sj@kernel.org)
+- Avoid overflows in charge amount calculation.
+- Fix/wordsmith documentation for grammar, typo, and wrong examples.
+- Improve unit test for more consistent comparison source use.
+
+SeongJae Park (10):
+  mm/damon/core: handle <min_region_sz remaining quota as empty
+  mm/damon/core: introduce failed region quota charge ratio
+  mm/damon/sysfs-schemes: implement fail_charge_{num,denom} files
+  Docs/mm/damon/design: document fail_charge_{num,denom}
+  Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom}
+    files
+  Docs/ABI/damon: document fail_charge_{num,denom}
+  mm/damon/tests/core-kunit: test fail_charge_{num,denom} committing
+  selftests/damon/_damon_sysfs: support failed region quota charge ratio
+  selftests/damon/drgn_dump_damon_status: support failed region quota
+    charge ratio
+  selftests/damon/sysfs.py: test failed region quota charge ratio
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 12 +++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 18 +++++--
+ Documentation/mm/damon/design.rst             | 22 ++++++++
+ include/linux/damon.h                         |  9 ++++
+ mm/damon/core.c                               | 38 ++++++++++---
+ mm/damon/sysfs-schemes.c                      | 54 +++++++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  6 +++
+ tools/testing/selftests/damon/_damon_sysfs.py | 21 +++++++-
+ .../selftests/damon/drgn_dump_damon_status.py |  2 +
+ tools/testing/selftests/damon/sysfs.py        |  6 +++
+ 10 files changed, 175 insertions(+), 13 deletions(-)
 
 
-Thanks,
-SJ
-
-[...]
+base-commit: b1ca86c92674eaf92a32ce3a2d89a0349e406df1
+-- 
+2.47.3
