@@ -1,118 +1,181 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48BAB358391;
-	Tue,  7 Apr 2026 02:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775530668; cv=none; b=SF2TGtIqxIF8DlLc0r3h/Z4QgT+WcZgnbYYBpSpLI4T/0EzdndFLKfJK8Aa/naqHNN5NJQwnU6t5EelLDJjhDPn65gC9yAwLAjgtcb7IkbOa5Fy4QptFWk0wCjrOIpSuzOX4luMbpZB6IaWUq7GvqcMOsRPJupSrbNBBndXQBqM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775530668; c=relaxed/simple;
-	bh=RuKcCmM1WHdyHcmJHDTDYNNNWUMPVrD4Dw0u1UP150o=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=iqYEYb/QDXcE6TKEg07BXFys1O5DM4llzjcrLrf67PH4i8WD+Pp8uT1q2dAAFXEb68PMr6rxc+8r+Qc1pBth1CdY1sCbf5RA4IXGs0Z1q50BAsIMevObebrFGhJ+FArU+3CHMuGehxHdtxK/hbjkRtRC48MeGxtPIkOOSCwZrKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=JJEk76RO; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 448E8373C10
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 03:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775531320; cv=pass; b=NLLvfpndU9xgFUkqXqIdXe5UWk+BZA5ftWfXe7qSk8F4xLcQDnDkUvBnp6jDqn/BqJYNUl4DS0DnZITKC9t4hU2BRItFO3kkE2CS3K0Aqopo6Lv4x4uCjIpZgbhBJ3MUkW1mPDtXQS1LaL+/puCr7SMdewbDrzxoJQVfq9YxXDo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775531320; c=relaxed/simple;
+	bh=k52uxGJG3jRTUKdJZJj0k217ALr5NF1LnUBSdh34lh0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=myDb2oDUbydzMC7jB0sKIWWhgHuAqHqrxeINuUx6iHtCn47Ia37VU7oKIsMQKOdFhEu1ew6Vk2QF+vy7F5XrfcdaLmHIptyjnFNc4ehvo59CcsweJXlJk7jsPoCXP4rLVxLffZe3sAgCBUrSFx6Ec17bAdro0EDJD29090YBMPs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gkdqWtke; arc=pass smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="JJEk76RO"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=ETgww+HwxHhmO9mtPFnDQxT1EU42o/a0milwkwWeNSg=;
-	b=JJEk76ROATZJcg+uB4TytQD5rt+o3NIKXmfoiiOyV4i7Ss3LYwRSYNSeP1xYcT7+ck2jzGq1j
-	1fL3gTZYY7h1/9QLTuXeYaM6S06MWVCjPRRgNlCYEbxohec4zZZvQhQds9tJIhuwKvuQYWGsJSd
-	EuyEd/6cb1TyCiJVFy2dLoQ=
-Received: from mail.maildlp.com (unknown [172.19.162.140])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fqW184C0gzRhQv;
-	Tue,  7 Apr 2026 10:51:24 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id E04222025F;
-	Tue,  7 Apr 2026 10:57:37 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 7 Apr 2026 10:57:37 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 7 Apr 2026 10:57:36 +0800
-Subject: Re: [PATCH v2 2/3] mm/memory-failure: add
- panic_on_unrecoverable_memory_failure sysctl
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260331-ecc_panic-v2-0-9e40d0f64f7a@debian.org>
- <20260331-ecc_panic-v2-2-9e40d0f64f7a@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <59c133a7-74a7-4678-d907-add764bbd107@huawei.com>
-Date: Tue, 7 Apr 2026 10:57:36 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gkdqWtke"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-66baa7fdfd3so28684a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 06 Apr 2026 20:08:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775531317; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cBNcVnHEscCYccepBv6CJB56aNCpVW+GcdiJr7LGppf1X9KdSqFOIs+VBQbG9+ImA9
+         hvz8CeRIhHTkvvyCQFOimksLKNSFAiOFVQqDh/ctUZJFIHRGqQfsOofoSqgKAE1VMa3s
+         4ATi918HALH+cePBj2Xl+DQa7k1Vv3OZzn1kZQgcQ1AspPNH0+6wM3uaParlc6rnHrSz
+         vZUJEfDg+RCp0hty3Oid9btRz9TSofAea+cXlxMVjqP4XGGMw+wXarOAe/szG7O/J1Lt
+         7j3zp6rffiEvI1BhrMArvDX15SH+k9b1br58grGZfJdoG1Mnt/C/XrzZZzAsVQ8lQngQ
+         NIkg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=Os2DnFhuf2hlJiSlOQD5vo78MAgCiDjrBPYSDLDhp6o=;
+        fh=Z2yoqA3w05u1IIyKKlDnRUQuRYq546x8cCqoSK2SVD0=;
+        b=QeB3OjbQ718vgRJyLUTSS6jR1kzkWRr2kWUOzCTs3KCtazvM1vOCoHyp91DyPSp6Q9
+         Oir1xezcopsnzjVz/6fbLzVInsV78Z2nwqbY/lVsyzqyRNrly1SOLUZKHMP+DoR9MAUy
+         njPm1NI/cBTN9IO1inyilUGMg3nNASW8uTb0Nma8cbl5ql0vEQHUC+AcMLOnwx12e0yC
+         XFV8lMjqHK8cpzUtdxsWFx1Bbcu5LIlmKs9kZ7QV21gote/Km7Nz0QhlBLdOM3Qx3cPi
+         6wJ1HnRiVqHfVGxpwZZyCQtvfFv11NQAV+uqzpYFuCquEAsgDnStxBlvbT0Ocd8qprFT
+         zo2g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775531317; x=1776136117; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Os2DnFhuf2hlJiSlOQD5vo78MAgCiDjrBPYSDLDhp6o=;
+        b=gkdqWtkeZupAx8Wfx1zdXj7Twpm3QiWAKkmFepsNiMS0sIpSVZTFd0MUuPYvjQ1alQ
+         Uoty1iuKRPTCuYaURxQaIHjxXFfiretka8cU20deZoWcZ2XnkjlMXxA7hFTnVKa/XX9Y
+         j8fEIPwfjXLjDSPWLALa3FDt4bf1KsxprgBIi6ALxRda0b5oJEPUg62Qnl+i/pUwl87W
+         pWVC7vMc7/21ShYHhjw3LVESGgmmsEiKjs2fMyaZMtkJ6lNg1YrO6jtdI79PLA6ix7MQ
+         DNf8CLjo7uFya9yi7vv5M18uqS8FQceRg3QiSpoMeSCSK/nC8qmjwGWrXDQpDbTufgRi
+         75Uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775531317; x=1776136117;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Os2DnFhuf2hlJiSlOQD5vo78MAgCiDjrBPYSDLDhp6o=;
+        b=b7RG4+vwZ023N5ihA5DmQ6eXax2nTRh/4EHLBqDXk/6sGy9rtBKJ/nWCC5bDxE1Dxl
+         VtijOXNq74Vx/7gZ8eLsRB1WvMNUSFgzx4IkJ7/E2Tod9dBqY0YM80sNrgPeCQzJ7QBa
+         X3j2ZwkkY/H2XFpbW5aS/MalqbVG2Bw99Xxzckrw8FEN4GygE3W4btq1rd1iupt8bsDB
+         eSxSswHAb5QkNOVC+BhHcGRVwEnGk6kQtTvhUKbekTGf16iax/8xDU8rsga0q7c1+EhU
+         fya2tPyjzVTcoYHsivTq4wsooCe8RJPkfB092e5I7xgDYNlK7h5sO2dBILVN4t72Gx0c
+         80ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUdJlejFXkqYoNYKza0/6fyvWy2zfoaPMNai6+mF2gqrkxUz6phvugi1uWasA6iirjY3sC7eH0LZdc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHTq/WhR5t8coaiqqr0Y+YShk9Se6N2LF2MUlHhHmA7J+Rq/Uh
+	hfMAQLi0ePZy592PtlCTDBnyJKL4KeVXGRxJuUl80wcWEp3erLuX0V89i7luPMx9Ity4n8xIrg5
+	OVoIoQ7W6jQpQ5Q6QSTGTC6Fb9m7QhDlwi2r/Sw6D
+X-Gm-Gg: AeBDietq/GTA7hWSkavMee/H2wHS2Wc4C7uvlA4ILZqhDnPkoVaFV+sbJVJM46GWqCd
+	qgRMEedyoSYSxvMdofec15RHHSo4HWBzU0TcWgOnf4AfufgtLk47rbCuycWHRXYW+Mp7QrpaGSb
+	QJctxaKwHusKid17CQTzNlM6+oCop3GEquHbxNIw2hfb4VTBcr/8AWM050h1Mej2Y/1XLFKuVIf
+	Yl55nA98cVIwZl6Kuq6n+OP/AaOseovEpKdHFDqGvhdpB5r4KW134fn9rixbRjYSVbt1/du1UXX
+	TNio/o06YCSxpym85Q==
+X-Received: by 2002:aa7:d44a:0:b0:66b:860f:3799 with SMTP id
+ 4fb4d7f45d1cf-66e43f30587mr117520a12.9.1775531317160; Mon, 06 Apr 2026
+ 20:08:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260331-ecc_panic-v2-2-9e40d0f64f7a@debian.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200001.china.huawei.com (7.221.188.67) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+References: <20260327234023.2659476-1-jmattson@google.com> <20260327234023.2659476-9-jmattson@google.com>
+ <adRGLPrmBpX-3DdX@google.com>
+In-Reply-To: <adRGLPrmBpX-3DdX@google.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Mon, 6 Apr 2026 20:08:24 -0700
+X-Gm-Features: AQROBzC8X9Gxsb_fQZyGU7iYS90MtfxxpD0EqXLCCJdCUeZKGIMxWSh5vBrbGnc
+Message-ID: <CALMp9eQsd0fRuDE_R57Mn6-N6jCtbmoPAh7Y7CBdMEZJaNSUGQ@mail.gmail.com>
+Subject: Re: [PATCH v7 8/9] KVM: x86: nSVM: Save/restore gPAT with KVM_{GET,SET}_NESTED_STATE
+To: Sean Christopherson <seanjc@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	Yosry Ahmed <yosry@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026/3/31 19:00, Breno Leitao wrote:
-> Add a sysctl that allows the system to panic when an unrecoverable
-> memory failure is detected. This covers kernel pages, high-order
-> kernel pages, and unknown page types that cannot be recovered.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
->  mm/memory-failure.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index 6ff80e01b91a..d0d911c54ff1 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
->  
->  static int sysctl_enable_soft_offline __read_mostly = 1;
->  
-> +static int sysctl_panic_on_unrecoverable_mf __read_mostly;
-> +
->  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
->  
->  static bool hw_memory_failure __read_mostly = false;
-> @@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
->  		.proc_handler	= proc_dointvec_minmax,
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= SYSCTL_ONE,
-> +	},
-> +	{
-> +		.procname	= "panic_on_unrecoverable_memory_failure",
-> +		.data		= &sysctl_panic_on_unrecoverable_mf,
-> +		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
->  	}
->  };
->  
-> @@ -1298,6 +1309,11 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
->  	pr_err("%#lx: recovery action for %s: %s\n",
->  		pfn, action_page_types[type], action_name[result]);
->  
-> +	if (sysctl_panic_on_unrecoverable_mf && result == MF_IGNORED &&
-> +	    (type == MF_MSG_KERNEL || type == MF_MSG_KERNEL_HIGH_ORDER ||
-> +	     type == MF_MSG_UNKNOWN))
-> +		panic("Memory failure: %#lx: unrecoverable page", pfn);
+On Mon, Apr 6, 2026 at 4:47=E2=80=AFPM Sean Christopherson <seanjc@google.c=
+om> wrote:
+>
+> On Fri, Mar 27, 2026, Jim Mattson wrote:
+> > @@ -1918,6 +1921,7 @@ static int svm_set_nested_state(struct kvm_vcpu *=
+vcpu,
+> >       struct vmcb_save_area_cached save_cached;
+> >       struct vmcb_ctrl_area_cached ctl_cached;
+> >       unsigned long cr0;
+> > +     bool use_separate_l2_pat;
+>
+> Land this above "cr0" to preserve the inverted fir tree.
+>
+> >       int ret;
+> >
+> >       BUILD_BUG_ON(sizeof(struct vmcb_control_area) + sizeof(struct vmc=
+b_save_area) >
+> > @@ -1993,6 +1997,18 @@ static int svm_set_nested_state(struct kvm_vcpu =
+*vcpu,
+> >           !nested_vmcb_check_save(vcpu, &save_cached, false))
+> >               goto out_free;
+> >
+> > +     /*
+> > +      * Validate gPAT when the shared PAT quirk is disabled (i.e. L2
+> > +      * has its own gPAT). This is done separately from the
+> > +      * vmcb_save_area_cached validation above, because gPAT is L2
+> > +      * state, but the vmcb_save_area_cached is populated with L1 stat=
+e.
+> > +      */
+> > +     use_separate_l2_pat =3D
+> > +             (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP) &&
+> > +             !kvm_check_has_quirk(vcpu->kvm,
+> > +                                  KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT)=
+;
+>
+> I vote for either:
+>
+>         use_separate_l2_pat =3D (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP=
+) &&
+>                               !kvm_check_has_quirk(vcpu->kvm,
+>                                                    KVM_X86_QUIRK_NESTED_S=
+VM_SHARED_PAT);
+>
+LOL! Aren't you the one who keeps complaining that my indentation
+doesn't line up? Are you schizophrenic?
 
-Will it be better to add a helper here?
+> or
+>
+>         use_separate_l2_pat =3D (ctl_cached.misc_ctl & SVM_MISC_ENABLE_NP=
+);
+>         if (kvm_check_has_quirk(vcpu->kvm, KVM_X86_QUIRK_NESTED_SVM_SHARE=
+D_PAT))
+>                 use_separate_l2_pat =3D false;
 
-Thanks.
-.
+Wow. I really have no idea how to predict what you're going to want
+the code to look like. How is this better than the original?!?
+
+>
+> > +     if (use_separate_l2_pat && !kvm_pat_valid(kvm_state->hdr.svm.gpat=
+))
+> > +             goto out_free;
+> >
+> >       /*
+> >        * All checks done, we can enter guest mode. Userspace provides
+> > @@ -2017,6 +2033,10 @@ static int svm_set_nested_state(struct kvm_vcpu =
+*vcpu,
+> >       nested_copy_vmcb_control_to_cache(svm, ctl);
+> >
+> >       svm_switch_vmcb(svm, &svm->nested.vmcb02);
+> > +
+> > +     if (use_separate_l2_pat)
+> > +             vmcb_set_gpat(svm->vmcb, kvm_state->hdr.svm.gpat);
+> > +
+> >       nested_vmcb02_prepare_control(svm);
+> >
+> >       /*
+> > --
+> > 2.53.0.1018.g2bb0e51243-goog
+> >
