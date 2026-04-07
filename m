@@ -1,95 +1,196 @@
-Received: from mail.servers.dxld.at (mail.servers.dxld.at [168.119.78.89])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7043B372B3B;
-	Tue,  7 Apr 2026 11:47:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.78.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F322395DA0;
+	Tue,  7 Apr 2026 12:28:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775562478; cv=none; b=GLWAywJ6aKBVBZxyUNJBsJnkdmGfAZdnehoNCY3pV81GLBXRuKs2IeNMDw6kw5Msdcat/4X9gvhmFNTih0evrHsm4QqUhyZ/35GQ1sXkbFk76rMEgKw/pnCIgsWKlbeNdfMZ1NytYjhIOWKPmAOcEuu02wh0PWSh38yXt+Bn0+Q=
+	t=1775564898; cv=none; b=S5VMJ+diLwIKRStWHub0eZx0JKbs306X/zUZ6XSn++EL832J9tkyGoZ+7B/ZkJjw91BS+KcTRH0fYPasGwbU5nnIHIu4fY/uSm85/UuAxhQqrP1Q4nrLwDSbhdRuDXNeGFpAMm5cHNnXEMP4EwXHxt8uwVG8wT4MNsk0Oq73CRE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775562478; c=relaxed/simple;
-	bh=JYzF85C0V7dRRpq9u6kadu53IyVu+6XVVnHFbfBnr9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fAXdtX9ct6pU7u/5eCmb4LzeLif1wH5rDPpcHed8IPNbMYK1VHoGnQLQqqPKYAQx3PFhfc5ESeVRmN12I1Ws6RE9mAy0wbdYeboktb+tHK6Ir8E7FZfMv6Pvd6d1qr77rNBDkgqHQv2wSTV0T2ttamjHIJn40iyfqMube6c3OdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=darkboxed.org; spf=pass smtp.mailfrom=darkboxed.org; arc=none smtp.client-ip=168.119.78.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=darkboxed.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=darkboxed.org
-Received: mail.servers.dxld.at;
-	Tue, 07 Apr 2026 13:30:53 +0200
-Date: Tue, 7 Apr 2026 13:30:44 +0200
-From: Daniel =?utf-8?Q?Gr=C3=B6ber?= <dxld@darkboxed.org>
-To: Xavier Hsinyuan <xavierhsinyuan@outlook.com>
-Cc: ralf@mandelbit.com, antonio@mandelbit.com, corbet@lwn.net, 
-	davem@davemloft.net, edumazet@google.com, horms@kernel.org, kuba@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	pabeni@redhat.com, skhan@linuxfoundation.org
-Subject: Re: [RFC net-next 15/15] Documentation: networking: add ipxlat
- translator guide
-Message-ID: <fldksy7obiaonlcxrjcbnfkfmaup27t3fq3ktubd7sx35fsswx@hjmchh6sr7rw>
-References: <20260319151230.655687-16-ralf@mandelbit.com>
- <TYRPR01MB12666EEA0B8007166ED446088CA5DA@TYRPR01MB12666.jpnprd01.prod.outlook.com>
+	s=arc-20240116; t=1775564898; c=relaxed/simple;
+	bh=6FUfk7RT/o3k/XrMyRD8enzUua7pxbhrQLW2/w4NOcA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Bv/r8LpMtAyzNzGqwTjo/Fz7Eiz5AmNYBMCpyoJjA5eZ0eF1ux7WxQKoV05XlpFj8HecDmYOFoPLnNvT9vmloHIsDclqLPYYkUJBH7st5HVPsz/qOInIX3l6+Ql5B0Swdf1hlFADgI9cmKeTLEwByi647c0JY4/W227gJ4YPHGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=LqDvnMly; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="LqDvnMly"
+Received: from pps.filterd (m0360083.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 636LnDE42594684;
+	Tue, 7 Apr 2026 12:28:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=VYRpeG
+	fSJPcs/ZBissaz4FE+R6c8k6IoRpmKwrxG83c=; b=LqDvnMlyp/SO08OuzBZzbA
+	FEaPTTLEmuobas5UfslokXkF3vFARZdlA0mE3Bd+mQFCAzeZKArtQSzc0lUB642a
+	WmI3QWoyPN0xu0bSRu5vKdlrAy1vvJAH2Ji240A1mfuKNrvqjnAElsZx5Maf6Jq4
+	mkfj5ZQ45JezStr4lhYVOiWYIYcKdC00UvG6einatuauzCi4wU9h7hudjEaxfA2n
+	Q64KtngweI3RKrXSRp22Kxjs7NZbSmyyJ7yq8o2aXD+KEGC/4pzAswMUY7axcRhH
+	S02xz64f9DgY8r5MC9MZroO359MabOfJpTAyKIaHrBqFT4Cgt96zsP6lDd2EAEbw
+	==
+Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2e2x9e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Apr 2026 12:28:07 +0000 (GMT)
+Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 637BQMMe013902;
+	Tue, 7 Apr 2026 12:28:06 GMT
+Received: from smtprelay03.fra02v.mail.ibm.com ([9.218.2.224])
+	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dcmf432u8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 07 Apr 2026 12:28:06 +0000
+Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com [10.20.54.101])
+	by smtprelay03.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 637CS2jC53215620
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 7 Apr 2026 12:28:02 GMT
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A224520043;
+	Tue,  7 Apr 2026 12:28:02 +0000 (GMT)
+Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 49F292004E;
+	Tue,  7 Apr 2026 12:28:02 +0000 (GMT)
+Received: from [9.52.210.163] (unknown [9.52.210.163])
+	by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Tue,  7 Apr 2026 12:28:02 +0000 (GMT)
+Message-ID: <61126291e21010eb79bc0a8d02cbf5d30e0c7b8f.camel@linux.ibm.com>
+Subject: Re: [PATCH v7 1/2] docs: s390/pci: Improve and update PCI
+ documentation
+From: Gerd Bayer <gbayer@linux.ibm.com>
+To: Niklas Schnelle <schnelle@linux.ibm.com>,
+        Bjorn Helgaas
+	 <bhelgaas@google.com>,
+        Jonathan Corbet <corbet@lwn.net>, Lukas Wunner
+	 <lukas@wunner.de>,
+        Shuah Khan <skhan@linuxfoundation.org>
+Cc: Farhan Ali <alifm@linux.ibm.com>,
+        Alexander Gordeev
+ <agordeev@linux.ibm.com>,
+        Christian Borntraeger
+ <borntraeger@linux.ibm.com>,
+        Gerald Schaefer
+ <gerald.schaefer@linux.ibm.com>,
+        Heiko Carstens	 <hca@linux.ibm.com>,
+        Julian Ruess <julianr@linux.ibm.com>,
+        Matthew Rosato	
+ <mjrosato@linux.ibm.com>,
+        Peter Oberparleiter <oberpar@linux.ibm.com>,
+        Ramesh Errabolu <ramesh@linux.ibm.com>,
+        Sven Schnelle
+ <svens@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-s390@vger.kernel.org, Randy Dunlap	
+ <rdunlap@infradead.org>,
+        Gerd Bayer <gbayer@linux.ibm.com>
+Date: Tue, 07 Apr 2026 14:28:02 +0200
+In-Reply-To: <20260407-uid_slot-v7-1-e50f7976124e@linux.ibm.com>
+References: <20260407-uid_slot-v7-0-e50f7976124e@linux.ibm.com>
+	 <20260407-uid_slot-v7-1-e50f7976124e@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <TYRPR01MB12666EEA0B8007166ED446088CA5DA@TYRPR01MB12666.jpnprd01.prod.outlook.com>
+X-TM-AS-GCONF: 00
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: 2FrKXpPRsQulnMDZ7cCBZYX1SSb9CaJg
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA3MDExNSBTYWx0ZWRfX6U7wudWaC2vP
+ aeCb1yFxSgTz20lMErS145WDtAbPJ1p4DbtUSEgt49uruJWHkQFUfSOOAV66J7iI+vkmGEg0L2G
+ v9A1Ndu+L+lt6yynCLh5UdOZZPyrUWLrpDxEc9oqKwVYztHcRKiez4f+FOIqGUxBWg7l8o372EK
+ eavRf2lwDrCoZ059SbYBkHlG7RGwMMAP3XWKjGMpfZ2BiZbBihwAZckYeKtUJsu44pUdK9LDZ89
+ tioW9HeaFRReLd5hFa7F7gZntr4qCRpsnbPHuSZA5lUCMt8eGA6JtudBP/y5zCkDivo1d9kDD10
+ QA23i/oNeCV2y9R+Sut4lgv/krDtgDeTtk8B4xyP03Gq5HTA9fWZpTgICPZ3lbe4MEef98VN1Xw
+ ZYRM3LZLOHnmw4fLkXbURqCskuFWf6owB7fDxBmJPIH8hEzxVWL2vr6eM73396q1ulSQkeNXjAE
+ vlj4+WHFEDgzsyI3Ksg==
+X-Authority-Analysis: v=2.4 cv=Cfw4Irrl c=1 sm=1 tr=0 ts=69d4f858 cx=c_pps
+ a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=iQ6ETzBq9ecOQQE5vZCe:22 a=OSxpM7LHIlj9ssaGjo0A:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: -KEi8FMBa-OPQkuO470t9wEU_YANZg5t
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-07_02,2026-04-07_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 phishscore=0 clxscore=1011 adultscore=0 suspectscore=0
+ priorityscore=1501 impostorscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604070115
 
-On Mon, Apr 06, 2026 at 10:50:44PM +0800, Xavier Hsinyuan wrote:
-> >+    $ ./tools/net/ynl/pyynl/cli.py --family ipxlat --json '{"ifindex": $IID, \
-> >+        "config": {"xlat-prefix6": "'$HEX_ADDR'", "prefix-len": 96} }'
-> Should this be like:
-> $ python3 /extends/pyynl/cli.py --spec ipxlat.yaml --do dev-set --json \
-> '{"ifindex": "'$IID'", "config": {"xlat-prefix6": \
-> {"prefix":"'$ADDR_HEX'", "prefix-len": 96}}}'
+On Tue, 2026-04-07 at 12:12 +0200, Niklas Schnelle wrote:
 
-Indeed, the JSON is just wrong and --do dev-set is missing. However
-`--family ipxlat` works for me and looking at the code is basically the
-same as specifying --spec.
 
-Could you try this:
+[... snip ...]
 
-    $ JSON='{"ifindex": '"$IID"', "config": {"xlat-prefix6": { "prefix": "'$ADDR_HEX'", "prefix-len": 96}}}'
-    $ ./tools/net/ynl/pyynl/cli.py --family ipxlat --do dev-set --json "$JSON"
+> Similarly add documentation for the fidparm attribute added by commit
+> 99ad39306a62 ("s390/pci: Expose FIDPARM attribute in sysfs") and
+> add a list of pft values and their names.
+>=20
 
-> >+Address Translation
-> >+-------------------
-> >+
-> >+The ipxlat address translation algorithm is stateless, per RFC-ADDR_, all
-> >+possible IPv4 addressess are mapped one-to-one into the translation prefix,
-> >+optionally including a non-standard "suffix". See `RFC-ADDR Section 2.2
-> >+<https://datatracker.ietf.org/doc/html/rfc6052#section-2.2>`_.
-> >+
-> >+.. _RFC-ADDR: https://datatracker.ietf.org/doc/html/rfc6052
-> >+
-> >+IPv6 addressess outside this prefix are rejected with ICMPv6 errors with
-> >+the notable exception of ICMPv6 errors originating from untranslatable
-> >+source addressess. These are translated to be sourced from the IPv4 Dummy
-> >+Address ``192.0.0.8`` (per I-D-dummy_) instead to maintain IPv4 traceroute
-> >+visibility.
->
-> Would it help to add a few example? For instance,
->  - Interface ipxlat0 with prefix6=64:ff9b::/96.
->  - A IPv6 packet with src=64:ff9b::192.0.2.1 dst=64:ff9b::198.51.100.1,
->    was send to ipxlat0.
->  - Then a IPv4 packet with src=192.0.2.1 dst=198.51.100.1 was received from
->    ipxlat0.
+[... snip ...]
 
-I worry once we start with that we're really just re-stating what's already
-extensively documented in the RFCs.
+> ---
+>  Documentation/arch/s390/pci.rst | 144 +++++++++++++++++++++++++++-------=
+------
+>  1 file changed, 97 insertions(+), 47 deletions(-)
+>=20
+> diff --git a/Documentation/arch/s390/pci.rst b/Documentation/arch/s390/pc=
+i.rst
+> index d5755484d8e75c7bf67a350e61bbe04f0452a2fa..8cb0a1e784a7cfc5df1e04a41=
+54ba02c9ecf46cc 100644
+> --- a/Documentation/arch/s390/pci.rst
+> +++ b/Documentation/arch/s390/pci.rst
+> @@ -6,6 +6,7 @@ S/390 PCI
+> =20
+>  Authors:
+>          - Pierre Morel
+> +        - Niklas Schnelle
+> =20
+>  Copyright, IBM Corp. 2020
+> =20
+> @@ -27,14 +28,16 @@ Command line parameters
+>  debugfs entries
+>  ---------------
+> =20
+> -The S/390 debug feature (s390dbf) generates views to hold various debug =
+results in sysfs directories of the form:
+> +The S/390 debug feature (s390dbf) generates views to hold various debug =
+results
+> +in sysfs directories of the form:
+> =20
+>   * /sys/kernel/debug/s390dbf/pci_*/
+> =20
+>  For example:
+> =20
+>    - /sys/kernel/debug/s390dbf/pci_msg/sprintf
+> -    Holds messages from the processing of PCI events, like machine check=
+ handling
+> +
+> +    holds messages from the processing of PCI events, like machine check=
+ handling
+>      and setting of global functionality, like UID checking.
+> =20
+>    Change the level of logging to be more or less verbose by piping
+> @@ -47,87 +50,134 @@ Sysfs entries
+> =20
 
-How about a reference to RFC 7915 Appendix A? This has a full bidirectional
-end-to-end example of how translation operates:
-https://datatracker.ietf.org/doc/html/rfc7915#appendix-A
+[... snip ...]
 
-Admittedly using a /96 prefix (which the appendix doesn't) would make it
-easier to grok whats going on. Not sure that's reason enough to get into
-more detailed examples here.
+> +
+> +* /sys/firmware/clp/uid_is_unique:
 
-WDYT?
+As much as I had loved the attribute to be named as such, or even
+better /sys/firmware/clp/uids_are_unique, I find commit b043a81ce3ee
+("s390/pci: Expose firmware provided UID Checking state in sysfs") has
+introduced
 
-Thanks,
---Daniel
+/sys/firmware/clp/uid_checking.
+
+Sorry, that this did slip me...
+
+Gerd
