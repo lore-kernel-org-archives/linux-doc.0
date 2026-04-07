@@ -1,159 +1,93 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34FA433E35B;
-	Tue,  7 Apr 2026 19:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F14A6352C4F
+	for <linux-doc@vger.kernel.org>; Tue,  7 Apr 2026 19:24:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775589100; cv=none; b=RFzQXz2pnD+qbo088wngC7kPx24kdacMfjHblyjK44KSpu+GoV6LYDw8pH6F9f1rc0b7rTTJWroLwwlrjgq4xhFJJ2wtupZ9GU58HTUtRK3wkifmC7Ngi5nQeIb5Mrdqlr1qj+JC9o3f9AMKfdl6Ptdupqix5Kx6oZ+aImHhhDY=
+	t=1775589875; cv=none; b=PFQ4diiOvClGI0pYwZbe3e3OWyRfGNEPyHfdiElWskxVxwLuoTD7yfdEguOBDZzPwxa9jMquKF8ljIiNRjl9myuobkN4Sxd3pzch9dK0ZJLAP7gwd+bih01nFj7g+SsCWit+LOjqh3DNvj0xMr1qIzdDEeP+wcR/fI2+JpetF1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775589100; c=relaxed/simple;
-	bh=1eTZaDaPMLqpdSYtorwnwSWTlbF1iszS3SXt9Qld5p8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lkcwUlMFJqxiOjHrBZInFa8MdH5F6Muk9Hhdl3rVVf5WxNh5qdxFLnhSQAut5y+SQslexBgX/f46GI54OMxRknXUoGjHGs3vWtxnhRD46ur29bYU5tsKvRADV1ndHq8UEs06UM9oXoewnpywdZ22pVzwW4aDuQft4Kue8518f3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=brmo1u2X; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1775589875; c=relaxed/simple;
+	bh=dE58CN+5pXsLJfZ7un3dRhyZAs4NnQnCZRafu7/oZ+A=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=OAIO7odJRwdYTz8YN3bENFIHTOAs9Kh3k7S/+Uzmin2vrtf84uby9ZGnaUC0melJtsd1tC90bcKS4tnMeMXNHQsL1l/hhOY2BbONDgrPyY9YWFCFz54duspK+Z9GPJy7nF+Jy/D3t92hu6m2EqawIv0cCV+4pEF0EEZoX6Zukn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=u04P3Yjf; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="brmo1u2X"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775589098; x=1807125098;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=1eTZaDaPMLqpdSYtorwnwSWTlbF1iszS3SXt9Qld5p8=;
-  b=brmo1u2X+dzCk+YWcolPe/mk5yNuW2jj0/uN19vZczIQWgPnwA84wHzF
-   Ii/Y77iuXx9oWWKWvrDy3Jb5t/JMyiBazQ9ucMeyEMUfB0nqLlUxjAK7h
-   Ltc1l5S+haDjZwJmdCP4LNz3n4LbYS3snpGXNzW+awqrK6rN23HPgWkp/
-   txH6gWecxSeqRkqShQhMxVuA2rq0iZ+5L+YxY+Wb0IY5g+lgWiXqCUU+g
-   6AJuPSpl+XSHp+450qTy6HwVjyP3zUsDw7xveGGGPJPXReeAalJTK7VA3
-   IA/FLM0EK76E6MOYQgmpniBKZhaG90BACgOeRwrP6JK6dP23YCvLlfuPg
-   g==;
-X-CSE-ConnectionGUID: kGdcdCD5Q66L+30HcISRQg==
-X-CSE-MsgGUID: Qbwu2k8QSySIB0XBTQl+WA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11752"; a="86855746"
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="86855746"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 12:11:38 -0700
-X-CSE-ConnectionGUID: K3BKmZE2QxOmuIeKaEHctA==
-X-CSE-MsgGUID: vtTvIZBzRU+D/MxUmZoE4A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,166,1770624000"; 
-   d="scan'208";a="232287983"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2026 12:11:37 -0700
-Date: Tue, 7 Apr 2026 12:11:28 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: Jim Mattson <jmattson@google.com>
-Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	chao.gao@intel.com
-Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-Message-ID: <20260407191128.b2hr2ttkdpyunhrr@desk>
-References: <20260403233329.fb2ppifgwm3um6ny@desk>
- <CALMp9eTpsenqsWjzmpXLEubn9uNjgZgzgrMwtZ72HDuV_2xgfg@mail.gmail.com>
- <20260404002149.wtayv6a64vzuppgp@desk>
- <CALMp9eSqgL5q-MY1xpjqR5oRn5_cb=mfEhNFWusNneS=Mx8UMg@mail.gmail.com>
- <20260404034954.t7iapenzvhdpagxp@desk>
- <CALMp9eR70eE2U63gzNzTiic0PqJVGv3CBBuVUOVbi3nqbWKZkQ@mail.gmail.com>
- <20260407163943.y6tkh26z2rfktn3y@desk>
- <CALMp9eTA3cXxuOT4dq=6y1hx52gPH1ywwTEmPQ5-fA-vz6r3VQ@mail.gmail.com>
- <20260407171151.2gf2idjbmph35ypb@desk>
- <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="u04P3Yjf"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c76bd4feb9fso2157903a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 12:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775589873; x=1776194673; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7wtvvz53Lt7PgkZRoHfUIRVyXND3bHhDv8n3Lk1Ll8Q=;
+        b=u04P3Yjf8H1IW9ka1QTHanRsghO0/EckAAmNRH1/lTjmLXL7HRhSoX4Tge3KKqdoKH
+         LhEX5Mj2XvqDs9oiH7jMb3RmRojpN8clCPOFanXhKsSj/72iFC9SUSmqiqZ3LY8us0I8
+         8OPEt+2nxQ8WuDy2Ac8EHCIoKt4lIx2gNZuguJRFr1WkxGW8zftUmAQFZXI02jNIp6hr
+         41hVR9hVS9HAhii0MZmi4E8gToEVLovSEcY8dkoi4egwLgFyx2Jy30AKxQPIa9lP/9iP
+         I8j/KIV0/J1rT9SV5HaLrclMbJLBOW4NYqZnCoJJfH+l8RHE9+R+HoGlpiT4A8tUpgu9
+         jXhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775589873; x=1776194673;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7wtvvz53Lt7PgkZRoHfUIRVyXND3bHhDv8n3Lk1Ll8Q=;
+        b=oYy5+K7c4sXlNgkm2cyneSYS2ueXkVpqVzf54Deeh2rZuZBzZnNoiuhFJoNFTdIM/f
+         6n0C8rl816mZZCnQ9jBUlJZgZQval9c3yXq4bwRsK1SrMVb5JYSxtTXqEZUTdH5RKu8p
+         TkvWdawbGIH0jWHOB4Ivt2e7mV0ywWXAUuvPQ+Na3dFhHXPEprn68cWNP74bQRAwmqPX
+         uvCkvP56QVqXyFbfuusTJ5hx4WXMhH74JEiFMIotYq0sXf4awYbfVn80i4cvPrKmRnzK
+         bSu8LTGXVHF9QyrEC5Bd5e5x6u/NbsPcUcwCADp9pHnZA4xxJHUpEcr4ZEcN6SY/vbBO
+         vW4A==
+X-Forwarded-Encrypted: i=1; AJvYcCWd4QyMI/vRwbuDxdZMV1B9B1nzvjWT3xm6QowZvTClHq+/l9l112YeBO+G0psB8+8cMMCDtByJf4s=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7Hb6ZGvlqdZljceRc39/jO2PNwc2k0mSLb1nnyYqAzngTFEQs
+	TCHNVUnttC9K7qouWCAcCZeEuU9tzHw1JE3Sg6flp13AddEk/sekzwXx+xfF5sLfCE2O7p3PMCU
+	fsCWWBQ==
+X-Received: from pfqf9.prod.google.com ([2002:aa7:9d89:0:b0:82c:ed07:26b])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:aa7:88cd:0:b0:827:2ee0:411f
+ with SMTP id d2e1a72fcca58-82d0da46a75mr16920069b3a.4.1775589873116; Tue, 07
+ Apr 2026 12:24:33 -0700 (PDT)
+Date: Tue, 7 Apr 2026 12:24:31 -0700
+In-Reply-To: <20260407190343.325299-6-jmattson@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
+Mime-Version: 1.0
+References: <20260407190343.325299-1-jmattson@google.com> <20260407190343.325299-6-jmattson@google.com>
+Message-ID: <adVZ7-EiekghvDMD@google.com>
+Subject: Re: [PATCH] KVM: x86: nSVM: Redirect IA32_PAT accesses to either hPAT
+ or gPAT
+From: Sean Christopherson <seanjc@google.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Yosry Ahmed <yosry@kernel.org>
+Content-Type: text/plain; charset="us-ascii"
 
-On Tue, Apr 07, 2026 at 11:40:57AM -0700, Jim Mattson wrote:
-> On Tue, Apr 7, 2026 at 10:12 AM Pawan Gupta
-> <pawan.kumar.gupta@linux.intel.com> wrote:
-> >
-> > On Tue, Apr 07, 2026 at 09:46:07AM -0700, Jim Mattson wrote:
-> > > On Tue, Apr 7, 2026 at 9:40 AM Pawan Gupta
-> > > <pawan.kumar.gupta@linux.intel.com> wrote:
-> > > >
-> > > > On Mon, Apr 06, 2026 at 07:23:25AM -0700, Jim Mattson wrote:
-> > > > > Yes, but the guest needs a way to determine whether the hypervisor
-> > > > > will do what's necessary to make the short sequence effective. And, in
-> > > > > particular, no KVM hypervisor today is prepared to do that.
-> > > > >
-> > > > > When running under a hypervisor, without BHI_CTRL and without any
-> > > > > evidence to the contrary, the guest must assume that the longer
-> > > > > sequence is necessary. At the very least, we need a CPUID or MSR bit
-> > > > > that says, "the short BHB clearing sequence is adequate for this
-> > > > > vCPU."
-> > > >
-> > > > After discussing this internally, the consensus is that the best path
-> > > > forward is to add virtual SPEC_CTRL support to KVM, which also aligns with
-> > > > Intel's guidance. In the long term, virtual SPEC_CTRL can benefit future
-> > > > mitigations as well. As with many other mitigations (e.g. microcode), the
-> > > > guest would rely on the host to enforce the appropriate protections.
-> > >
-> > > I don't think it's reasonable for the guest to rely on a future
-> > > implementation to enforce the appropriate protections.
-> > >
-> > > This is already a problem today. If a guest sees that BHI_CTRL is
-> > > unavailable, it will deploy the short BHB clearing sequence and
-> > > declare that the vulnerability is mitigated. That isn't true if the
-> > > guest is running on Alder Lake or newer.
-> >
-> > In any case, there is a change required in the kernel either for the guest
-> > or the host, they both are future implementations. Why not implement the
-> > one that is more future proof.
+On Tue, Apr 07, 2026, Jim Mattson wrote:
+> When KVM_X86_QUIRK_NESTED_SVM_SHARED_PAT is disabled and the vCPU is in
+> guest mode with nested NPT enabled, guest accesses to IA32_PAT are
+> redirected to the gPAT register, which is stored in VMCB02's g_pat field.
 > 
-> There will always be old hypervisors. True future-proofing requires
-> that the guest be able to distinguish an old hypervisor from a new
-> one.
+> Non-guest accesses (e.g. from userspace) to IA32_PAT are always redirected
+> to hPAT, which is stored in vcpu->arch.pat.
 > 
-> My proposal is as follows:
+> Directing host-initiated accesses to hPAT ensures that KVM_GET/SET_MSRS and
+> KVM_GET/SET_NESTED_STATE are independent of each other and can be ordered
+> arbitrarily during save and restore. gPAT is saved and restored separately
+> via KVM_GET/SET_NESTED_STATE.
 > 
-> 1. The (advanced) hypervisor can advertise to the guest (via CPUID bit
-> or MSR bit) that the short BHB clearing sequence is adequate. This may
-> mean either that the VM will only be hosted on pre-Alder Lake hardware
-> or that the hypervisor will set BHI_DIS_S behind the back of the
-> guest. Presumably, this bit would not be reported if BHI_CTRL is
-> advertised to the guest.
-> 2. If the guest sees this bit, then it can use the short sequence. If
-> it doesn't see this bit, it must use the long sequence.
+> Use WARN_ON_ONCE to flag any host-initiated accesses originating from KVM
+> itself rather than userspace.
+> 
+> Use pr_warn_once to flag any use of the common MSR-handling code (now
+> shared by VMX and TDX) for IA32_PAT by a vCPU that is SVM-capable.
 
-Thats a good middle ground. Let me check with folks internally what they
-think about defining a new software-only bit.
-
-Third case, for a guest that doesn't want BHI_DIS_S, userspace should be
-allowed to override setting BHI_DIS_S. Then this proposed bit can indicate
-that long sequence is required.
+Changelog is stale, but otherwise this LGTM.  I'll fixup the changelog when
+applying (in a few weeks).
