@@ -1,637 +1,369 @@
-Received: from out198-18.us.a.mail.aliyun.com (out198-18.us.a.mail.aliyun.com [47.90.198.18])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 940593B6BE5;
-	Wed,  8 Apr 2026 09:38:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=47.90.198.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B97DA3AE715;
+	Wed,  8 Apr 2026 09:41:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775641108; cv=none; b=oRft1WYC4x2n+SOA+mmsAuBc1W6sQUhbJZtmv8mnhWIaeonItIT9Ok8uSQba5Au5CfTkVGa1laQYU+R6vAI+EeAk9+mjChFT1B0jBPq5RNNlTGl2N8E4ctmkF5TdypA3RBdeg96agtLm99ghT1Z0QbQAqKWMZXFjkZc25lcqtMg=
+	t=1775641293; cv=none; b=HyhhdZqJAOQr4NxXbhLEIOppVFi3yPnFDoU63YQNK/Y5KSH6kFGwzCHlwOIazWXVB8rQYiDECR8TtnRHzOHKPN8EjkhXLjxelAiSIbr7vppf19O70UqEMTejsCfdWXkadufh+BBhAPh1mv95ibOWUzYMCO07EFO90nffiRvgyW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775641108; c=relaxed/simple;
-	bh=0ngVc8GVo+vtwVN3bqBWRSgIq87ttMFmPF+BE5WAUSg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E7QZi4N/i6I6F6a0E4K1IFuNePjELj+SFNSHEJEbCQNDmB32QNb9xJRUiw5tR5Tk3sJO2Ybugd7Dsn/Un9RM+JUjcHJZKO582sUfUYAA7HnGXLDW/iGQFSTrpiK5DrGbTl57mzCuUhCwSGbhrt0Oik3NSFYoypLt3GV/pMMTUEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=47.90.198.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
-X-Alimail-AntiSpam:AC=CONTINUE;BC=0.0672746|-1;CH=green;DM=|CONTINUE|false|;DS=CONTINUE|ham_alarm|0.0663011-0.00124657-0.932452;FP=14303254421535479490|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam011083013073;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=19;RT=19;SR=0;TI=SMTPD_---.h7LIHvH_1775641080;
-Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.h7LIHvH_1775641080 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Wed, 08 Apr 2026 17:38:01 +0800
-From: "illusion.wang" <illusion.wang@nebula-matrix.com>
-To: dimon.zhao@nebula-matrix.com,
-	illusion.wang@nebula-matrix.com,
-	alvin.wang@nebula-matrix.com,
-	sam.chen@nebula-matrix.com,
-	netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch,
-	corbet@lwn.net,
-	kuba@kernel.org,
-	linux-doc@vger.kernel.org,
-	lorenzo@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	vadim.fedorenko@linux.dev,
-	lukas.bulwahn@redhat.com,
-	edumazet@google.com,
-	enelsonmoore@gmail.com,
-	skhan@linuxfoundation.org,
-	hkallweit1@gmail.com,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v11 net-next 06/11] net/nebula-matrix: add common resource implementation
-Date: Wed,  8 Apr 2026 17:37:30 +0800
-Message-ID: <20260408093739.56001-7-illusion.wang@nebula-matrix.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260408093739.56001-1-illusion.wang@nebula-matrix.com>
-References: <20260408093739.56001-1-illusion.wang@nebula-matrix.com>
+	s=arc-20240116; t=1775641293; c=relaxed/simple;
+	bh=HMM9tblv6Aw+x/QS+sBIN31bUVhMbXeQMDQpCLwhH9w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NS2A8kJdwjAgLlUJSuhcz4doiKYrqZwVIqPV4HtZaapSsxgpyUfUlemc5BIQ3GPpzTS6ufz+Mzc9vwVs96vy53U96nxyRYdzVWj3ABDqW4JrD9q/VelfYHGLcT4J+BMZJ7Ndfy5Gk4zehEgbdrOFkfgUCJKIuX/gN/i/fdWsMmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=iQHWKiPv; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="iQHWKiPv"
+Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6385i50Q2326115;
+	Wed, 8 Apr 2026 09:40:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ZjUreY
+	ZB4dqBxtPkYBxPNEtzPCAjU+XXM91SH0mST/k=; b=iQHWKiPvIbNpVbvAhws7Ob
+	GwbKaj8PMzrKqS25uQsBVh79qrhsT77swTH8EOKggAH5sLaoAm/P1KJQka7s+J8h
+	qJO/tcTueDu6B3lIWjF6bgWVJvE1L5kU+lltKH3537M456Ibnd2RUVBAk2Yw/TFa
+	RZdl5Dfu03txeM5BTpjovZHBmDWHDOMSJubGoAFuV62CCORPinDWTOt7DuEmDKY8
+	GhV8czlB0SMohyCbxUzj+b69tPZks2JeseNLPIScq3sEcKX7JthzPytwwpBA0K9l
+	cecY8mBf/4VvUYH/Nm7VnUEXt/nhBx6iuhc0B1mjeG8AE+v1F3X0leQQ5qdlkxNA
+	==
+Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2keqvc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 09:40:55 +0000 (GMT)
+Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 6386IDJT007887;
+	Wed, 8 Apr 2026 09:40:55 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dcmg2etxq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 09:40:55 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6389erSF27328768
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 8 Apr 2026 09:40:53 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3338320043;
+	Wed,  8 Apr 2026 09:40:53 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 0435F20040;
+	Wed,  8 Apr 2026 09:40:51 +0000 (GMT)
+Received: from [9.123.14.142] (unknown [9.123.14.142])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  8 Apr 2026 09:40:50 +0000 (GMT)
+Message-ID: <b96d9b86-b193-4f0f-87d8-a73b7fe3d550@linux.ibm.com>
+Date: Wed, 8 Apr 2026 15:10:49 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+To: Youling Tang <youling.tang@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
+ <d584d383-1862-417d-9251-153d9bcf5626@linux.ibm.com>
+ <01e47f44-c22b-42f3-afe1-4a39d9c1fd18@linux.dev>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <01e47f44-c22b-42f3-afe1-4a39d9c1fd18@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDA4NCBTYWx0ZWRfXxT6V9Yqn2wqd
+ C5VKsIN2EQvIZAP7bVSQ1VMbTNJxRrujwjoIR/cRF/zgfAq7LIRdLwYM97zd22v2tZ5ywsJy+ka
+ VMpzreyuT6216CwSk+5pMCWtJ0GPxtNhwzvOTFK43YW23WLu7r0/dscfQHEI84d+Sfoqh5sNSyf
+ 9ad++z08yq8yX3MI2QCtKIKcd4Zb82HFUqNVvK5Aw+/odyiLQKBUKyAo2yF5JnHXJUeVEOaXuTx
+ heG8iqWLSX9QwmBfCEM6h3B75+h68TqLsEghWWKyOq1YnOxhM/H0wjiOGwUn+/Ic1ePk//EWFOu
+ ju5SP8tDZFN2vPXCcg4pd3wLlbW911jXVHUjVQo1wJS81/P0RzPTgeEhp2ElNm02fhh4koTT7A2
+ eLG3KsVkNV9Hnv20IRqD9vU5Ml31PnWDNiBO8FlWrXEvGm1/QKZ2dqJro7111+yQaVxgr3ggxKP
+ X6MaZxthOKQ1m0GZRUA==
+X-Proofpoint-ORIG-GUID: 5A2vCfFAnvmBdy9PoQCVmbL3RvEfqORJ
+X-Authority-Analysis: v=2.4 cv=e9k2j6p/ c=1 sm=1 tr=0 ts=69d622a7 cx=c_pps
+ a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=Y2IxJ9c9Rs8Kov3niI8_:22 a=5lQC5WIk0UPCy102QXMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: 5A2vCfFAnvmBdy9PoQCVmbL3RvEfqORJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-08_03,2026-04-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0 spamscore=0
+ bulkscore=0 adultscore=0 priorityscore=1501 phishscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604080084
 
-The Resource layer processes the entries/data of various modules within
-the processing chip to accomplish specific entry management operations,
-this describes the module business capabilities of the chip and the data
-it manages.
-The resource layer comprises the following sub-modules: common, 
-interrupt, and vsi(txrx,queue not contained this time)
 
-This patch provides the common part, including the conversion
-relationships among vsi_id, func_id, eth_id, and pf_id. These
-relationships may be utilized in the upper layer or the resource layer.
 
-Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
----
- .../net/ethernet/nebula-matrix/nbl/Makefile   |   1 +
- .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  55 ++++++
- .../nbl_hw_leonis/nbl_resource_leonis.c       | 158 ++++++++++++++++++
- .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   | 118 +++++++++++++
- .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  52 ++++++
- .../nbl/nbl_include/nbl_def_common.h          |  15 ++
- .../nbl/nbl_include/nbl_def_resource.h        |  15 ++
- .../nbl/nbl_include/nbl_include.h             |   8 +
- 8 files changed, 422 insertions(+)
- create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
+On 08/04/26 13:11, Youling Tang wrote:
+> Hi, Sourabh
+>
+> On 4/8/26 12:31, Sourabh Jain wrote:
+>> Hello Youling,
+>>
+>> On 04/04/26 13:11, Youling Tang wrote:
+>>> From: Youling Tang <tangyouling@kylinos.cn>
+>>>
+>>> The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
+>>> automatic size selection based on system RAM, but it always reserves
+>>> from low memory. When a large crashkernel is selected, this can
+>>> consume most of the low memory, causing subsequent hardware
+>>> hotplug or drivers requiring low memory to fail due to allocation
+>>> failures.
+>>
+>>
+>> Support for high crashkernel reservation has been added to
+>> address the above problem.
+>>
+>> However, high crashkernel reservation is not supported with
+>> range-based crashkernel kernel command-line arguments.
+>> For example: crashkernel=0M-1G:100M,1G-4G:160M,4G-8G:192M
+>>
+>> Many users, including some distributions, use range-based
+>> crashkernel configuration. So, adding support for high crashkernel
+>> reservation with range-based configuration would be useful.
+>>
+>>>
+>>> Add a new optional conditional suffix ",>boundary" to the crashkernel
+>>> range syntax. When the selected crashkernel size exceeds the specified
+>>> boundary, the kernel will automatically apply the same reservation
+>>> policy as "crashkernel=size,high" - preferring high memory first
+>>> and reserving the default low memory area.
+>>
+>> I think the approach to enable high crashkernel reservation
+>> with range-based configuration makes the crashkernel kernel
+>> argument more complex.
+>>
+>> If the goal is to support high crashkernel reservation with
+>> range-based kernel command-line arguments, how about:
+>>
+>> crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],high
+>>
+>> instead of using >boundary?
+>
+> This approach defaults all reservations to high memory. For example,
+> 0M-2G:100M on a 1GB machine reserves 100M + 
+> DEFAULT_CRASH_KERNEL_LOW_SIZE,
+> which wastes memory on small systems.
 
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-index c9bc060732e7..b03c20f9988e 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-@@ -8,6 +8,7 @@ nbl-objs +=       nbl_common/nbl_common.o \
- 				nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
- 				nbl_hw/nbl_hw_leonis/nbl_resource_leonis.o \
- 				nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.o \
-+				nbl_hw/nbl_resource.o \
- 				nbl_core/nbl_dispatch.o \
- 				nbl_core/nbl_dev.o \
- 				nbl_main.o
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-index 83a4dc584f48..4ef0d5989a76 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
-@@ -9,6 +9,18 @@
- #include <linux/spinlock.h>
- #include "nbl_hw_leonis.h"
- 
-+static void nbl_hw_read_mbx_regs(struct nbl_hw_mgt *hw_mgt, u64 reg,
-+				 u32 *data, u32 len)
-+{
-+	u32 i;
-+
-+	if (len % 4)
-+		return;
-+
-+	for (i = 0; i < len / 4; i++)
-+		data[i] = nbl_mbx_rd32(hw_mgt, reg + i * sizeof(u32));
-+}
-+
- static void nbl_hw_write_mbx_regs(struct nbl_hw_mgt *hw_mgt, u64 reg,
- 				  const u32 *data, u32 len)
- {
-@@ -130,6 +142,14 @@ static u32 nbl_hw_get_host_pf_mask(struct nbl_hw_mgt *hw_mgt)
- 	return data;
- }
- 
-+static u32 nbl_hw_get_real_bus(struct nbl_hw_mgt *hw_mgt)
-+{
-+	u32 data;
-+
-+	data = nbl_hw_rd32(hw_mgt, NBL_PCIE_HOST_TL_CFG_BUSDEV);
-+	return data >> 5;
-+}
-+
- static void nbl_hw_cfg_mailbox_qinfo(struct nbl_hw_mgt *hw_mgt, u16 func_id,
- 				     u16 bus, u16 devid, u16 function)
- {
-@@ -144,6 +164,36 @@ static void nbl_hw_cfg_mailbox_qinfo(struct nbl_hw_mgt *hw_mgt, u16 func_id,
- 		       (u32 *)&mb_qinfo_map, sizeof(mb_qinfo_map));
- }
- 
-+static void nbl_hw_get_board_info(struct nbl_hw_mgt *hw_mgt,
-+				  struct nbl_board_port_info *board_info)
-+{
-+	union nbl_fw_board_cfg_dw3 dw3 = { .info = { 0 } };
-+
-+	nbl_hw_read_mbx_regs(hw_mgt, NBL_FW_BOARD_DW3_OFFSET, (u32 *)&dw3,
-+			     sizeof(dw3));
-+	board_info->eth_num = dw3.info.port_num;
-+	board_info->eth_speed = dw3.info.port_speed;
-+	board_info->p4_version = dw3.info.p4_version;
-+}
-+
-+static u32 nbl_hw_get_fw_eth_num(struct nbl_hw_mgt *hw_mgt)
-+{
-+	union nbl_fw_board_cfg_dw3 dw3 = { .info = { 0 } };
-+
-+	nbl_hw_read_mbx_regs(hw_mgt, NBL_FW_BOARD_DW3_OFFSET, (u32 *)&dw3,
-+			     sizeof(dw3));
-+	return dw3.info.port_num;
-+}
-+
-+static u32 nbl_hw_get_fw_eth_map(struct nbl_hw_mgt *hw_mgt)
-+{
-+	union nbl_fw_board_cfg_dw6 dw6 = { .info = { 0 } };
-+
-+	nbl_hw_read_mbx_regs(hw_mgt, NBL_FW_BOARD_DW6_OFFSET, (u32 *)&dw6,
-+			     sizeof(dw6));
-+	return dw6.info.eth_bitmap;
-+}
-+
- static struct nbl_hw_ops hw_ops = {
- 	.update_mailbox_queue_tail_ptr = nbl_hw_update_mailbox_queue_tail_ptr,
- 	.config_mailbox_rxq = nbl_hw_config_mailbox_rxq,
-@@ -151,8 +201,13 @@ static struct nbl_hw_ops hw_ops = {
- 	.stop_mailbox_rxq = nbl_hw_stop_mailbox_rxq,
- 	.stop_mailbox_txq = nbl_hw_stop_mailbox_txq,
- 	.get_host_pf_mask = nbl_hw_get_host_pf_mask,
-+	.get_real_bus = nbl_hw_get_real_bus,
-+
- 	.cfg_mailbox_qinfo = nbl_hw_cfg_mailbox_qinfo,
- 
-+	.get_fw_eth_num = nbl_hw_get_fw_eth_num,
-+	.get_fw_eth_map = nbl_hw_get_fw_eth_map,
-+	.get_board_info = nbl_hw_get_board_info,
- };
- 
- /* Structure starts here, adding an op should not modify anything below */
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-index 355f7ea66b88..9908189bc3f6 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
-@@ -4,9 +4,12 @@
-  */
- #include <linux/device.h>
- #include <linux/pci.h>
-+#include <linux/bits.h>
- #include "nbl_resource_leonis.h"
- 
- static struct nbl_resource_ops res_ops = {
-+	.get_vsi_id = nbl_res_func_id_to_vsi_id,
-+	.get_eth_id = nbl_res_get_eth_id,
- };
- 
- static struct nbl_resource_mgt *
-@@ -45,8 +48,163 @@ nbl_res_setup_ops(struct device *dev, struct nbl_resource_mgt *res_mgt)
- 	return res_ops_tbl;
- }
- 
-+static int nbl_res_ctrl_dev_setup_eth_info(struct nbl_resource_mgt *res_mgt)
-+{
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+	struct device *dev = res_mgt->common->dev;
-+	struct nbl_eth_info *eth_info;
-+	u32 eth_bitmap, eth_id;
-+	u32 eth_num = 0;
-+	int i;
-+
-+	eth_info = devm_kzalloc(dev, sizeof(*eth_info), GFP_KERNEL);
-+	if (!eth_info)
-+		return -ENOMEM;
-+
-+	res_mgt->resource_info->eth_info = eth_info;
-+
-+	eth_info->eth_num =
-+		(u8)hw_ops->get_fw_eth_num(res_mgt->hw_ops_tbl->priv);
-+	eth_bitmap = hw_ops->get_fw_eth_map(res_mgt->hw_ops_tbl->priv);
-+	/* for 2 eth port board, the eth_id is 0, 2 */
-+	for (i = 0; i < NBL_MAX_ETHERNET; i++) {
-+		if ((1 << i) & eth_bitmap) {
-+			set_bit(i, eth_info->eth_bitmap);
-+			eth_info->eth_id[eth_num] = i;
-+			eth_info->logic_eth_id[i] = eth_num;
-+			eth_num++;
-+		}
-+	}
-+
-+	for (i = 0; i < res_mgt->resource_info->max_pf; i++) {
-+		/* Map PF index i to eth_id from eth_info->eth_id[i]
-+		 * if i < eth_num, otherwise map to eth_id 0
-+		 */
-+		if (i < eth_num) {
-+			eth_id = eth_info->eth_id[i];
-+			eth_info->pf_bitmap[eth_id] |= BIT(i);
-+		} else {
-+			eth_info->pf_bitmap[0] |= BIT(i);
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int nbl_res_ctrl_dev_sriov_info_init(struct nbl_resource_mgt *res_mgt)
-+{
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+	struct nbl_hw_mgt *p = res_mgt->hw_ops_tbl->priv;
-+	struct nbl_common_info *common = res_mgt->common;
-+	struct nbl_sriov_info *sriov_info;
-+	struct device *dev = common->dev;
-+	u16 func_id, function;
-+
-+	sriov_info = devm_kcalloc(dev, res_mgt->resource_info->max_pf,
-+				  sizeof(*sriov_info), GFP_KERNEL);
-+	if (!sriov_info)
-+		return -ENOMEM;
-+
-+	res_mgt->resource_info->sriov_info = sriov_info;
-+	common->hw_bus = (u8)hw_ops->get_real_bus(p);
-+	for (func_id = 0; func_id < res_mgt->resource_info->max_pf; func_id++) {
-+		sriov_info = res_mgt->resource_info->sriov_info + func_id;
-+		function = common->function + func_id;
-+		sriov_info->bdf = PCI_DEVID(common->hw_bus,
-+					    PCI_DEVFN(common->devid, function));
-+	}
-+
-+	return 0;
-+}
-+
-+static int nbl_res_ctrl_dev_vsi_info_init(struct nbl_resource_mgt *res_mgt)
-+{
-+	struct nbl_eth_info *eth_info = res_mgt->resource_info->eth_info;
-+	struct nbl_common_info *common = res_mgt->common;
-+	struct device *dev = common->dev;
-+	struct nbl_vsi_info *vsi_info;
-+	int i;
-+
-+	vsi_info = devm_kcalloc(dev, res_mgt->resource_info->max_pf,
-+				sizeof(*vsi_info), GFP_KERNEL);
-+	if (!vsi_info)
-+		return -ENOMEM;
-+
-+	res_mgt->resource_info->vsi_info = vsi_info;
-+	/*
-+	 * case 1 two port(2pf)
-+	 * pf0,pf1(NBL_VSI_SERV_PF_DATA_TYPE) vsi is 0,512
-+
-+	 * case 2 four port(4pf)
-+	 * pf0,pf1,pf2,pf3(NBL_VSI_SERV_PF_DATA_TYPE) vsi is 0,256,512,768
-+
-+	 */
-+
-+	vsi_info->num = eth_info->eth_num;
-+	for (i = 0; i < vsi_info->num; i++) {
-+		vsi_info->serv_info[i][NBL_VSI_SERV_PF_DATA_TYPE].base_id =
-+			i * NBL_VSI_ID_GAP(vsi_info->num);
-+		vsi_info->serv_info[i][NBL_VSI_SERV_PF_DATA_TYPE].num = 1;
-+	}
-+
-+	return 0;
-+}
-+
-+static int nbl_res_init_pf_num(struct nbl_resource_mgt *res_mgt)
-+{
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+	u32 pf_num = 0;
-+	u32 pf_mask;
-+	int i;
-+
-+	pf_mask = hw_ops->get_host_pf_mask(res_mgt->hw_ops_tbl->priv);
-+	for (i = 0; i < NBL_MAX_PF; i++) {
-+		if (!(pf_mask & (1 << i)))
-+			pf_num++;
-+		else
-+			break;
-+	}
-+
-+	res_mgt->resource_info->max_pf = pf_num;
-+
-+	if (!pf_num)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static void nbl_res_init_board_info(struct nbl_resource_mgt *res_mgt)
-+{
-+	struct nbl_hw_ops *hw_ops = res_mgt->hw_ops_tbl->ops;
-+
-+	hw_ops->get_board_info(res_mgt->hw_ops_tbl->priv,
-+			       &res_mgt->resource_info->board_info);
-+}
-+
- static int nbl_res_start(struct nbl_resource_mgt *res_mgt)
- {
-+	struct nbl_common_info *common = res_mgt->common;
-+	int ret = 0;
-+
-+	if (common->has_ctrl) {
-+		nbl_res_init_board_info(res_mgt);
-+
-+		ret = nbl_res_init_pf_num(res_mgt);
-+		if (ret)
-+			return ret;
-+
-+		ret = nbl_res_ctrl_dev_sriov_info_init(res_mgt);
-+		if (ret)
-+			return ret;
-+
-+		ret = nbl_res_ctrl_dev_setup_eth_info(res_mgt);
-+		if (ret)
-+			return ret;
-+
-+		ret = nbl_res_ctrl_dev_vsi_info_init(res_mgt);
-+		if (ret)
-+			return ret;
-+	}
- 	return 0;
- }
- 
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
-new file mode 100644
-index 000000000000..563f00b5bfb4
---- /dev/null
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
-@@ -0,0 +1,118 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2025 Nebula Matrix Limited.
-+ */
-+
-+#include <linux/pci.h>
-+#include "nbl_resource.h"
-+
-+u16 nbl_res_pfid_to_vsi_id(struct nbl_resource_mgt *res_mgt, int pfid, u16 type)
-+{
-+	struct nbl_vsi_info *vsi_info = res_mgt->resource_info->vsi_info;
-+	enum nbl_vsi_serv_type dst_type = NBL_VSI_SERV_PF_DATA_TYPE;
-+	struct nbl_common_info *common = res_mgt->common;
-+	struct device *dev = res_mgt->common->dev;
-+	u16 vsi_id = U16_MAX;
-+	u32 diff;
-+
-+	diff = nbl_common_pf_id_subtraction_mgtpf_id(common, pfid);
-+	if (diff == U32_MAX)
-+		return vsi_id;
-+
-+	if (diff < vsi_info->num) {
-+		nbl_res_pf_dev_vsi_type_to_hw_vsi_type(type, &dst_type);
-+		vsi_id = vsi_info->serv_info[diff][dst_type].base_id;
-+	}
-+	if (vsi_id == U16_MAX)
-+		dev_err(dev, "convert pfid %d to vsi_id failed!\n", pfid);
-+	return vsi_id;
-+}
-+
-+u16 nbl_res_func_id_to_vsi_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			      u16 type)
-+{
-+	int pfid = func_id;
-+
-+	return nbl_res_pfid_to_vsi_id(res_mgt, pfid, type);
-+}
-+
-+int nbl_res_vsi_id_to_pf_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id)
-+{
-+	struct nbl_vsi_info *vsi_info = res_mgt->resource_info->vsi_info;
-+	struct nbl_common_info *common = res_mgt->common;
-+	bool vsi_find = false;
-+	int pf_id = -1; /* -1 indicates not found */
-+	int i, j;
-+
-+	for (i = 0; i < vsi_info->num; i++) {
-+		for (j = 0; j < NBL_VSI_SERV_MAX_TYPE; j++)
-+			if (vsi_id >= vsi_info->serv_info[i][j].base_id &&
-+			    (vsi_id < vsi_info->serv_info[i][j].base_id +
-+					      vsi_info->serv_info[i][j].num)) {
-+				vsi_find = true;
-+				break;
-+			}
-+
-+		if (vsi_find)
-+			break;
-+	}
-+
-+	if (vsi_find) {
-+		if (j == NBL_VSI_SERV_PF_DATA_TYPE)
-+			pf_id = i + common->mgt_pf;
-+	}
-+
-+	return pf_id;
-+}
-+
-+int nbl_res_func_id_to_bdf(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			   u8 *bus, u8 *dev, u8 *function)
-+{
-+	struct nbl_common_info *common = res_mgt->common;
-+	struct nbl_sriov_info *sriov_info;
-+	int pfid = func_id;
-+	u8 pf_bus, devfn;
-+	u32 diff;
-+
-+	diff = nbl_common_pf_id_subtraction_mgtpf_id(common, pfid);
-+	if (diff == U32_MAX)
-+		return U32_MAX;
-+	sriov_info = res_mgt->resource_info->sriov_info + diff;
-+	pf_bus = PCI_BUS_NUM(sriov_info->bdf);
-+	devfn = sriov_info->bdf & 0xff;
-+	*bus = pf_bus;
-+	*dev = PCI_SLOT(devfn);
-+	*function = PCI_FUNC(devfn);
-+
-+	return 0;
-+}
-+
-+void nbl_res_get_eth_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id,
-+			u8 *eth_mode, u8 *eth_id, u8 *logic_eth_id)
-+{
-+	struct nbl_eth_info *eth_info = res_mgt->resource_info->eth_info;
-+	int pf_id = nbl_res_vsi_id_to_pf_id(res_mgt, vsi_id);
-+	struct device *dev = res_mgt->common->dev;
-+
-+	*eth_mode = eth_info->eth_num;
-+	if (pf_id < eth_info->eth_num && pf_id >= 0) {
-+		*eth_id = eth_info->eth_id[pf_id];
-+		*logic_eth_id = pf_id;
-+	} else {
-+		/*
-+		 * Fallback to eth_id[0] if pf_id is out of range.
-+		 * This is a safety measure to prevent crashes, but callers
-+		 * should validate pf_id beforehand if possible.
-+		 */
-+		dev_warn(dev, "pf_id %d invalid\n", pf_id);
-+		*eth_id = eth_info->eth_id[0];
-+		*logic_eth_id = 0;
-+	}
-+}
-+
-+void nbl_res_pf_dev_vsi_type_to_hw_vsi_type(u16 src_type,
-+					    enum nbl_vsi_serv_type *dst_type)
-+{
-+	if (src_type == NBL_VSI_DATA)
-+		*dst_type = NBL_VSI_SERV_PF_DATA_TYPE;
-+}
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-index e08b6237da32..51b5b958cde8 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
-@@ -16,7 +16,48 @@
- #include "../nbl_include/nbl_def_common.h"
- #include "../nbl_core.h"
- 
-+struct nbl_resource_mgt;
-+
-+/* --------- INFO ---------- */
-+struct nbl_sriov_info {
-+	unsigned int bdf;
-+};
-+
-+struct nbl_eth_info {
-+	DECLARE_BITMAP(eth_bitmap, NBL_MAX_ETHERNET);
-+	u8 pf_bitmap[NBL_MAX_ETHERNET];
-+	u8 eth_num;
-+	u8 resv[3];
-+	u8 eth_id[NBL_MAX_PF];
-+	u8 logic_eth_id[NBL_MAX_PF];
-+};
-+
-+enum nbl_vsi_serv_type {
-+	NBL_VSI_SERV_PF_DATA_TYPE,
-+	NBL_VSI_SERV_MAX_TYPE,
-+};
-+
-+struct nbl_vsi_serv_info {
-+	u16 base_id;
-+	u16 num;
-+};
-+
-+struct nbl_vsi_info {
-+	u16 num;
-+	struct nbl_vsi_serv_info serv_info[NBL_MAX_ETHERNET]
-+					  [NBL_VSI_SERV_MAX_TYPE];
-+};
-+
- struct nbl_resource_info {
-+	/* ctrl-dev owned pfs */
-+	DECLARE_BITMAP(func_bitmap, NBL_MAX_FUNC);
-+	struct nbl_sriov_info *sriov_info;
-+	struct nbl_eth_info *eth_info;
-+	struct nbl_vsi_info *vsi_info;
-+	u32 base_qid;
-+	u32 max_vf_num;
-+	u8 max_pf;
-+	struct nbl_board_port_info board_info;
- };
- 
- struct nbl_resource_mgt {
-@@ -27,4 +68,15 @@ struct nbl_resource_mgt {
- 	struct nbl_interrupt_mgt *intr_mgt;
- };
- 
-+int nbl_res_vsi_id_to_pf_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id);
-+u16 nbl_res_pfid_to_vsi_id(struct nbl_resource_mgt *res_mgt, int pfid,
-+			   u16 type);
-+u16 nbl_res_func_id_to_vsi_id(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			      u16 type);
-+int nbl_res_func_id_to_bdf(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			   u8 *bus, u8 *dev, u8 *function);
-+void nbl_res_get_eth_id(struct nbl_resource_mgt *res_mgt, u16 vsi_id,
-+			u8 *eth_mode, u8 *eth_id, u8 *logic_eth_id);
-+void nbl_res_pf_dev_vsi_type_to_hw_vsi_type(u16 src_type,
-+					    enum nbl_vsi_serv_type *dst_type);
- #endif
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
-index 5c532247c852..04ffc1918a46 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
-@@ -12,6 +12,21 @@
- #include "nbl_include.h"
- 
- struct nbl_hash_tbl_mgt;
-+#define NBL_TWO_ETHERNET_PORT			2
-+#define NBL_FOUR_ETHERNET_PORT			4
-+#define NBL_DEFAULT_VSI_ID_GAP			1024
-+#define NBL_TWO_ETHERNET_VSI_ID_GAP		512
-+#define NBL_FOUR_ETHERNET_VSI_ID_GAP		256
-+
-+#define NBL_VSI_ID_GAP(m)					\
-+	({							\
-+		typeof(m) _m = (m);				\
-+		_m == NBL_FOUR_ETHERNET_PORT ?			\
-+			NBL_FOUR_ETHERNET_VSI_ID_GAP :		\
-+			(_m == NBL_TWO_ETHERNET_PORT ?		\
-+				 NBL_TWO_ETHERNET_VSI_ID_GAP :	\
-+				 NBL_DEFAULT_VSI_ID_GAP);	\
-+	})
- 
- struct nbl_common_info {
- 	struct pci_dev *pdev;
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
-index f654afa62566..249b8f633cee 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
-@@ -6,10 +6,25 @@
- #ifndef _NBL_DEF_RESOURCE_H_
- #define _NBL_DEF_RESOURCE_H_
- 
-+#include <linux/types.h>
-+
- struct nbl_resource_mgt;
- struct nbl_adapter;
- 
- struct nbl_resource_ops {
-+	int (*init_chip_module)(struct nbl_resource_mgt *res_mgt);
-+	void (*deinit_chip_module)(struct nbl_resource_mgt *res_mgt);
-+
-+	int (*configure_msix_map)(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+				  u16 num_net_msix, u16 num_others_msix,
-+				  bool net_msix_mask_en);
-+	int (*destroy_msix_map)(struct nbl_resource_mgt *res_mgt, u16 func_id);
-+	int (*enable_mailbox_irq)(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+				  u16 vector_id, bool enable_msix);
-+	u16 (*get_vsi_id)(struct nbl_resource_mgt *res_mgt, u16 func_id,
-+			  u16 type);
-+	void (*get_eth_id)(struct nbl_resource_mgt *res_mgt, u16 vsi_id,
-+			   u8 *eth_mode, u8 *eth_id, u8 *logic_eth_id);
- };
- 
- struct nbl_resource_ops_tbl {
-diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-index a01c32f57d84..6a0bf5e8ca32 100644
---- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-+++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
-@@ -17,11 +17,19 @@
- 		((_id) == (max) ? 0 : (_id) + 1);	\
- 	})
- 
-+#define NBL_MAX_FUNC					520
-+#define NBL_MAX_ETHERNET				4
-+
- enum nbl_product_type {
- 	NBL_LEONIS_TYPE,
- 	NBL_PRODUCT_MAX,
- };
- 
-+enum {
-+	NBL_VSI_DATA = 0,
-+	NBL_VSI_MAX,
-+};
-+
- struct nbl_func_caps {
- 	u32 has_ctrl:1;
- 	u32 has_net:1;
--- 
-2.47.3
+OK, in that case, we need an option like >boundary because
+DEFAULT_CRASH_KERNEL_LOW_SIZE itself is 128 MB by default
+(unless the architecture overrides it).
+
+- Sourabh Jain
+
+>
+> I prefer small reservations defaulting to low memory, while large
+> reservations start from high memory (with a default-sized segment
+> reserved in low memory). This provides better flexibility for
+> distributions to handle diverse system configurations.
+>
+> Thanks,
+> Youling.
+>>
+>>>
+>>> Syntax:
+>>> crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+>>>
+>>> Example:
+>>>      crashkernel=2G-16G:512M,16G-:1G,>512M
+>>>
+>>> This means:
+>>>    - For 2G-16G RAM: reserve 512M normally
+>>>    - For >16G RAM: reserve 1G with high memory preference (since 1G 
+>>> > 512M)
+>>>
+>>> For systems with >16G RAM, 1G is selected which exceeds 512M, so it
+>>> will be reserved from high memory instead of consuming 1G of
+>>> precious low memory.
+>>>
+>>> Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
+>>> ---
+>>>   Documentation/admin-guide/kdump/kdump.rst     | 25 ++++++++-
+>>>   .../admin-guide/kernel-parameters.txt         |  2 +-
+>>>   kernel/crash_reserve.c                        | 56 
+>>> ++++++++++++++++---
+>>>   3 files changed, 73 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/Documentation/admin-guide/kdump/kdump.rst 
+>>> b/Documentation/admin-guide/kdump/kdump.rst
+>>> index 7587caadbae1..b5ae4556e9ca 100644
+>>> --- a/Documentation/admin-guide/kdump/kdump.rst
+>>> +++ b/Documentation/admin-guide/kdump/kdump.rst
+>>> @@ -293,7 +293,28 @@ crashkernel syntax
+>>>          2) if the RAM size is between 512M and 2G (exclusive), then 
+>>> reserve 64M
+>>>          3) if the RAM size is larger than 2G, then reserve 128M
+>>>   -3) crashkernel=size,high and crashkernel=size,low
+>>> +3) range1:size1[,range2:size2,...][@offset],>boundary
+>>> +   Optionally, the range list can be followed by a conditional suffix
+>>> +   `,>boundary`. When the selected crashkernel size matches the
+>>> +   condition, the kernel will reserve memory using the same policy as
+>>> +   `crashkernel=size,high` (i.e. prefer high memory first and 
+>>> reserve the
+>>> +   default low memory area).
+>>> +
+>>> +   The syntax is::
+>>> +
+>>> + crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+>>> +        range=start-[end]
+>>> +
+>>> +   For example::
+>>> +
+>>> +        crashkernel=2G-16G:512M,16G-:1G,>512M
+>>> +
+>>> +   This would mean:
+>>> +       1) if the RAM size is between 2G and 16G (exclusive), then 
+>>> reserve 512M.
+>>> +       2) if the RAM size is larger than 16G, allocation will 
+>>> behave like
+>>> +          `crashkernel=1G,high`.
+>>> +
+>>> +4) crashkernel=size,high and crashkernel=size,low
+>>>        If memory above 4G is preferred, crashkernel=size,high can be 
+>>> used to
+>>>      fulfill that. With it, physical memory is allowed to be 
+>>> allocated from top,
+>>> @@ -311,7 +332,7 @@ crashkernel syntax
+>>>                 crashkernel=0,low
+>>>   -4) crashkernel=size,cma
+>>> +5) crashkernel=size,cma
+>>>         Reserve additional crash kernel memory from CMA. This 
+>>> reservation is
+>>>       usable by the first system's userspace memory and kernel movable
+>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
+>>> b/Documentation/admin-guide/kernel-parameters.txt
+>>> index 03a550630644..b2e1892ab4d8 100644
+>>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>>> @@ -1087,7 +1087,7 @@ Kernel parameters
+>>>               4G when '@offset' hasn't been specified.
+>>>               See Documentation/admin-guide/kdump/kdump.rst for 
+>>> further details.
+>>>   -    crashkernel=range1:size1[,range2:size2,...][@offset]
+>>> + crashkernel=range1:size1[,range2:size2,...][@offset][,>boundary]
+>>>               [KNL] Same as above, but depends on the memory
+>>>               in the running system. The syntax of range is
+>>>               start-[end] where start and end are both
+>>> diff --git a/kernel/crash_reserve.c b/kernel/crash_reserve.c
+>>> index 62e60e0223cf..917738412390 100644
+>>> --- a/kernel/crash_reserve.c
+>>> +++ b/kernel/crash_reserve.c
+>>> @@ -254,15 +254,47 @@ static __init char *get_last_crashkernel(char 
+>>> *cmdline,
+>>>       return ck_cmdline;
+>>>   }
+>>>   +/*
+>>> + * This function parses command lines in the format
+>>> + *
+>>> + * crashkernel=ramsize-range:size[,...][@offset],>boundary
+>>> + */
+>>> +static void __init parse_crashkernel_boundary(char *ck_cmdline,
+>>> +                    unsigned long long *boundary)
+>>> +{
+>>> +    char *cur = ck_cmdline, *next;
+>>> +    char *first_gt = false;
+>>> +
+>>> +    first_gt = strchr(cur, '>');
+>>> +    if (!first_gt)
+>>> +        return;
+>>> +
+>>> +    cur = first_gt + 1;
+>>> +    if (*cur == '\0' || *cur == ' ' || *cur == ',') {
+>>> +        pr_warn("crashkernel: '>' specified without boundary size, 
+>>> ignoring\n");
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    *boundary = memparse(cur, &next);
+>>> +    if (cur == next) {
+>>> +        pr_warn("crashkernel: invalid boundary size after '>'\n");
+>>> +        return;
+>>> +    }
+>>> +}
+>>> +
+>>>   static int __init __parse_crashkernel(char *cmdline,
+>>>                    unsigned long long system_ram,
+>>>                    unsigned long long *crash_size,
+>>>                    unsigned long long *crash_base,
+>>> -                 const char *suffix)
+>>> +                 const char *suffix,
+>>> +                 bool *high,
+>>> +                 unsigned long long *low_size)
+>>>   {
+>>>       char *first_colon, *first_space;
+>>>       char *ck_cmdline;
+>>>       char *name = "crashkernel=";
+>>> +    unsigned long long boundary = 0;
+>>> +    int ret;
+>>>         BUG_ON(!crash_size || !crash_base);
+>>>       *crash_size = 0;
+>>> @@ -283,10 +315,20 @@ static int __init __parse_crashkernel(char 
+>>> *cmdline,
+>>>        */
+>>>       first_colon = strchr(ck_cmdline, ':');
+>>>       first_space = strchr(ck_cmdline, ' ');
+>>> -    if (first_colon && (!first_space || first_colon < first_space))
+>>> -        return parse_crashkernel_mem(ck_cmdline, system_ram,
+>>> +    if (first_colon && (!first_space || first_colon < first_space)) {
+>>> +        ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+>>>                   crash_size, crash_base);
+>>>   +        /* Handle optional ',>boundary' condition for range ':' 
+>>> syntax only. */
+>>> +        parse_crashkernel_boundary(ck_cmdline, &boundary);
+>>> +        if (!ret && *crash_size > boundary) {
+>>> +            *high = true;
+>>> +            *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>> +        }
+>>> +
+>>> +        return ret;
+>>> +    }
+>>> +
+>>>       return parse_crashkernel_simple(ck_cmdline, crash_size, 
+>>> crash_base);
+>>>   }
+>>>   @@ -310,7 +352,7 @@ int __init parse_crashkernel(char *cmdline,
+>>>         /* crashkernel=X[@offset] */
+>>>       ret = __parse_crashkernel(cmdline, system_ram, crash_size,
+>>> -                crash_base, NULL);
+>>> +                crash_base, NULL, high, low_size);
+>>>   #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
+>>>       /*
+>>>        * If non-NULL 'high' passed in and no normal crashkernel
+>>> @@ -318,7 +360,7 @@ int __init parse_crashkernel(char *cmdline,
+>>>        */
+>>>       if (high && ret == -ENOENT) {
+>>>           ret = __parse_crashkernel(cmdline, 0, crash_size,
+>>> -                crash_base, suffix_tbl[SUFFIX_HIGH]);
+>>> +                crash_base, suffix_tbl[SUFFIX_HIGH], high, low_size);
+>>>           if (ret || !*crash_size)
+>>>               return -EINVAL;
+>>>   @@ -327,7 +369,7 @@ int __init parse_crashkernel(char *cmdline,
+>>>            * is not allowed.
+>>>            */
+>>>           ret = __parse_crashkernel(cmdline, 0, low_size,
+>>> -                crash_base, suffix_tbl[SUFFIX_LOW]);
+>>> +                crash_base, suffix_tbl[SUFFIX_LOW], high, low_size);
+>>>           if (ret == -ENOENT) {
+>>>               *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>>               ret = 0;
+>>> @@ -344,7 +386,7 @@ int __init parse_crashkernel(char *cmdline,
+>>>        */
+>>>       if (cma_size)
+>>>           __parse_crashkernel(cmdline, 0, cma_size,
+>>> -            &cma_base, suffix_tbl[SUFFIX_CMA]);
+>>> +            &cma_base, suffix_tbl[SUFFIX_CMA], high, low_size);
+>>>   #endif
+>>>       if (!*crash_size)
+>>>           ret = -EINVAL;
+>>
 
