@@ -1,226 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF745347517;
-	Wed,  8 Apr 2026 19:53:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D0C322522
+	for <linux-doc@vger.kernel.org>; Wed,  8 Apr 2026 20:02:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775677995; cv=none; b=M/P+hijZBJkBFrNe89KyqO+8fCVrkX6jGet7sLkXt3AYPSTuSET/4GqSWtDjZ14zG8+H/N+Xoq0RUWjCnKu4TS9HVHc2cYtExIxx2BUGmyzcWu0w92oeZQliVHTcMn/KjKK11F6/Z8COuFEfi8upozqo7lU8YgGwhWxSuXyfkK4=
+	t=1775678547; cv=none; b=eKBpTAAllvo3eosJh5gGkC3E62/62ekBlLyEiLO6TmAr96FY/MpQqdR+nzBAHTE+OfGsfCG6cto2KHYsi5ynjMYBX5Gbf2ORbKds1+iVliyn7HAWh7C/BqQHEr1B2Hnb4tigK2Laz00lYhW0heibmh++okOR0x17t+PrlQezql8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775677995; c=relaxed/simple;
-	bh=KEp0Sx73qDFpLx5wCuQRwISOpjvDRMeCBmiVHRjniJw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=J9V4YdgyPtmzYYxzd4qqN5AxFPcR5cYDuzlwjIAfBK9yIQ1qK3sFrnP2xSP7aZioJOUGzIz7ltRjj5EuC7C6IcujGG8TlcLvK6Wxu1RT4ix/GahQLDbZN3E+xhorVUvsgvlPERlVjLfG+6ly2IkHcymBw2Q8vo3DV3u3+QdCFUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m+cEvuN4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775678547; c=relaxed/simple;
+	bh=E1VF4T7M7c35q9Qypwa46ANAajyN9sx88/WRdouByGg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=WYiKu/2JYS0DIZ/irKu8VG0Ez9DCPI2/+MzYZ6rtF8pZS3+/0Btak+MWMYR/0McUZZrFAf6K6n64dwGo7mJ0/dlhkYxkY0OdOqnZnXMJsk556x/m6Py0+7rD8j60xTvAH9neDgAKz1AfQVU9ZFn9mt1ez04KVJLUy6UmMlaxlF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lC5H+HsB; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m+cEvuN4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EDE0C19421;
-	Wed,  8 Apr 2026 19:53:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775677995;
-	bh=KEp0Sx73qDFpLx5wCuQRwISOpjvDRMeCBmiVHRjniJw=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=m+cEvuN4W4C0urrYWtTGPymX3h1QUtEV2IyZKxNF+gNgjgBxI7XsLIXLFkbZoAvt7
-	 1zmRxl1SmL+q20J4D+y2unTnG6DuhmUCBlbf/VeOibGUyL5EvhoMn9T0W9UfNrxoqY
-	 P0sbawUhHpgrIafn4qxGtC8a1ssIEVEgWLwCYmFFv2dgXHC1W7evFj9xqLxMJSk/Xc
-	 3POk7H8k1WsIWFRjdEfrF/zG7N65jm/5slN59hlBq12j5ijRWBa1MNQGe+2caIkeai
-	 fvlKTANQtaQn9ncv7OrYQOaQGM+uXvlv4HbBXxYWsSSyxwWCeV10n4q2JLhfgmK8bI
-	 vr5frDOK8KNEA==
-Message-ID: <411738fab73b3625e0e4728e2749a24bfadb1773.camel@kernel.org>
-Subject: Re: [PATCH 12/24] nfsd: add data structures for handling CB_NOTIFY
-From: Jeff Layton <jlayton@kernel.org>
-To: Chuck Lever <cel@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner	 <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck
- Lever	 <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>,
- Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers	 <mathieu.desnoyers@efficios.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan	 <skhan@linuxfoundation.org>,
- NeilBrown <neil@brown.name>, Olga Kornievskaia	 <okorniev@redhat.com>, Dai
- Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>,  Trond Myklebust
- <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, Amir Goldstein
- <amir73il@gmail.com>
-Cc: Calum Mackay <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Date: Wed, 08 Apr 2026 15:53:11 -0400
-In-Reply-To: <8a6dbbee-5d59-4833-b0f6-22b1e46dfd11@app.fastmail.com>
-References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
-	 <20260407-dir-deleg-v1-12-aaf68c478abd@kernel.org>
-	 <8a6dbbee-5d59-4833-b0f6-22b1e46dfd11@app.fastmail.com>
-Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
- keydata=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
- QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lC5H+HsB"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-682fce74c06so119821eaf.3
+        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2026 13:02:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775678545; x=1776283345; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4wIIBK2xLHmy9ZZczWpP2RzFmOx4bELZz7aMw+RGO2w=;
+        b=lC5H+HsB7LjjlA9mRpxkvYVRssBvFBiq40kbqZGSv59ZpCYnwzW5hwIEpSrnU3Ls6A
+         bG0ejlRFSnYDu93tO0wdTnVzXsQ9dPdz6DvmrGhVes/x34zGxH7/YW2AZMS6bKxzNhOM
+         i2OXCzziFoGscl8Dc0hQP5M330soJ2BvBEFxlAz0fs89ewJY6KkupjuYZxRoZy7WXYqr
+         QNnmIRsi+TOp6pB2iGj0XiFuOqt93wz6BS7ud+b/2dD7SWEMMnILXJeqmRKaKFaztGJE
+         4B/OkQmBkh9EpS8uIdaUoGx7plkLBtiBEi8pniIGY3gg666NKmewLgXyZl45dCOlw7MI
+         xq8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775678545; x=1776283345;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4wIIBK2xLHmy9ZZczWpP2RzFmOx4bELZz7aMw+RGO2w=;
+        b=D5BhP79bjTomIZESc/SLCksnGXq9aH7Jt+sWFiHt0VZwhRvq5z6S1oCwlqIO4Cd7M1
+         Pj+J45WOsNh5B4UqZ9PqZoo7JkiMt6PvuZxLMYwLXOfpH1U1PrgRarIgQ7HdRdAJYFgt
+         XxPaThiY8j5UKz1+8wP+Wkg0gBsECG0qlHtygmlqCRukKk+5nSKhBic84f6XW41YnF+h
+         m7ky5qh8dKpuxq7SgtbOa1d5hPD6LGGCMZZU4X0xHCtE1HiMbukkz5NMrEo9s4B9N0YU
+         srmEgrrJLo0K0DxZxaSdXU8muPQfjzpxwwTmC5EA2T6Ur77aJvGnB+GZN4xB1bwKlweW
+         BOfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWBv/68GbrzhXeFn6tVkgPnH9oD7+GwNUEqbMdSoOWyzorPO+8cYv+GbU/2/+UkBofi6O1xyk1H90g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzSe4lOHSu9d278xZRRgSKR/WLfju9jvX2MLUulXSmNRVJGn9Fx
+	xXBtX18u0evppIc5ZprGP+GUZOCcWwWosktjSd23SqoWAFZ/cZFBp15l
+X-Gm-Gg: AeBDieuw1m12PBPVDAq5TgfgROUX620H2DETn7NR/bUUuU9tF8JU+tCQxkGI/byP9qv
+	llx+ebfpxRJ2OXi55ncCdQ5hw2bJ8SJh/mCR2Uq5lEQHjFuJQKsUPnO2Jo2ViSg1MJBGqstJgm4
+	bMJp/Jf2VOAtQv5DxdrpQDNpXrnaNml/SsGd9rN2J2xZTOHMh4VCxNyhH0vPewpP6qk+m3INjJ5
+	+JFZceTYFQUmMB8eldIDkZ3YbUol7ISFziQ8bF46spIfhn3d/nUkExckk4z8q093RElAROb6hiW
+	UaS2A+youMQM2ANcNn8SsGhIcvnEM8II2uxZ03IzMW+yAWRCpTrFQZPHbcllkeXopePE4bkVCxn
+	95TAdg7qWGwcCcjZKxTYWKeInCNCk33is6Ex41fupjRqS6jIqDfHwY8cuYjYz9IW4buhkAJ4nkE
+	MzPSm923zLyNCX4/d1msYoQoW+d9GrjN3dDR8vS7tkMhq7AS1s4Dz9ycKnRkiEClzIoIVG7wNyL
+	g4=
+X-Received: by 2002:a05:6820:2004:b0:682:644b:ba03 with SMTP id 006d021491bc7-682644bbbaamr12449783eaf.16.1775678544819;
+        Wed, 08 Apr 2026 13:02:24 -0700 (PDT)
+Received: from frodo.raven-morpho.ts.net (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
+        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-680a63c7fd1sm12254208eaf.8.2026.04.08.13.02.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Apr 2026 13:02:24 -0700 (PDT)
+From: Jim Cromie <jim.cromie@gmail.com>
+To: linux-kernel@vger.kernel.org
+Cc: gregkh@linuxfoundation.org,
+	jbaron@akamai.com,
+	louis.chauvet@bootlin.com,
+	Jim Cromie <jim.cromie@gmail.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v13 08/36] docs/dyndbg: explain flags parse 1st
+Date: Wed,  8 Apr 2026 14:01:43 -0600
+Message-ID: <20260408200211.43821-9-jim.cromie@gmail.com>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260408200211.43821-1-jim.cromie@gmail.com>
+References: <20260408200211.43821-1-jim.cromie@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2026-04-08 at 14:39 -0400, Chuck Lever wrote:
-> On Tue, Apr 7, 2026, at 9:21 AM, Jeff Layton wrote:
-> > Add the data structures, allocation helpers, and callback operations
-> > needed for directory delegation CB_NOTIFY support:
-> >=20
-> > - struct nfsd_notify_event: carries fsnotify events for CB_NOTIFY
-> > - struct nfsd4_cb_notify: per-delegation state for notification handlin=
-g
-> > - Union dl_cb_fattr with dl_cb_notify in nfs4_delegation since a
-> >   delegation is either a regular file delegation or a directory
-> >   delegation, never both
-> >=20
-> > Refactor alloc_init_deleg() into a common __alloc_init_deleg() base
-> > with a pluggable sc_free callback, and add alloc_init_dir_deleg() which
-> > allocates the page array and notify4 buffer needed for CB_NOTIFY
-> > encoding.
-> >=20
-> > Add skeleton nfsd4_cb_notify_ops with done/release handlers that will
-> > be filled in when the notification path is wired up.
-> >=20
-> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
->=20
-> > diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-> > index 4afe7e68fb51..b2b8c454fc0f 100644
-> > --- a/fs/nfsd/nfs4state.c
-> > +++ b/fs/nfsd/nfs4state.c
->=20
-> > @@ -3381,6 +3440,30 @@ nfsd4_cb_getattr_release(struct nfsd4_callback=
-=20
-> > *cb)
-> >  	nfs4_put_stid(&dp->dl_stid);
-> >  }
-> >=20
-> > +static int
-> > +nfsd4_cb_notify_done(struct nfsd4_callback *cb,
-> > +				struct rpc_task *task)
-> > +{
-> > +	switch (task->tk_status) {
-> > +	case -NFS4ERR_DELAY:
-> > +		rpc_delay(task, 2 * HZ);
-> > +		return 0;
-> > +	default:
-> > +		return 1;
-> > +	}
-> > +}
-> > +
-> > +static void
-> > +nfsd4_cb_notify_release(struct nfsd4_callback *cb)
-> > +{
-> > +	struct nfsd4_cb_notify *ncn =3D
-> > +			container_of(cb, struct nfsd4_cb_notify, ncn_cb);
-> > +	struct nfs4_delegation *dp =3D
-> > +			container_of(ncn, struct nfs4_delegation, dl_cb_notify);
-> > +
-> > +	nfs4_put_stid(&dp->dl_stid);
-> > +}
-> > +
-> >  static const struct nfsd4_callback_ops nfsd4_cb_recall_any_ops =3D {
-> >  	.done		=3D nfsd4_cb_recall_any_done,
-> >  	.release	=3D nfsd4_cb_recall_any_release,
->=20
-> So when a client responds with NFS4ERR_DELAY, the RPC framework retries
-> after 2s. On retry, prepare() is called again, but ncn_evt_cnt is
-> already 0 (drained in the first prepare). prepare returns false, which
-> destroys the callback.
->=20
+When writing queries to >control, flags are parsed 1st, since they are
+the only required field, and they require specific compositions.  So
+if the flags draw an error (on those specifics), then keyword errors
+aren't reported.  This can be mildly confusing/annoying, so explain it
+instead.
 
-This is actually not a problem. When ->done() returns 0,
-rpc_restart_call_prepare retries the RPC through the RPC-level prepare
-(nfsd4_cb_prepare at nfs4callback.c:1479), which just acquires a
-session slot and calls rpc_call_start. It does not call cb_ops->prepare
-again =E2=80=94 the same encoded XDR is re-sent in that case.
+cc: linux-doc@vger.kernel.org
+Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
+Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
+---
+ .../admin-guide/dynamic-debug-howto.rst         | 17 +++++++++++++----
+ 1 file changed, 13 insertions(+), 4 deletions(-)
 
-> Events arriving during the retry window are dropped because
-> nfsd4_run_cb_notify() returns early when NFSD4_CALLBACK_RUNNING is set.
-> After the callback is destroyed, future events can queue a new CB_NOTIFY,
-> but the window's events are lost.                                        =
-                                               =20
->=20
-> The result is that the client misses notifications. Does this impact
-> behavioral correctness or spec compliance? Is there a way for that
-> client to detect the loss and recover?
->=20
+diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
+index 4b14d9fd0300..9c2f096ed1d8 100644
+--- a/Documentation/admin-guide/dynamic-debug-howto.rst
++++ b/Documentation/admin-guide/dynamic-debug-howto.rst
+@@ -109,10 +109,19 @@ The match-spec's select *prdbgs* from the catalog, upon which to apply
+ the flags-spec, all constraints are ANDed together.  An absent keyword
+ is the same as keyword "*".
+ 
+-
+-A match specification is a keyword, which selects the attribute of
+-the callsite to be compared, and a value to compare against.  Possible
+-keywords are:::
++Note that since the match-spec can be empty, the flags are checked 1st,
++then the pairs of keyword and value.  Flag errs will hide keyword errs::
++
++  bash-5.2# ddcmd mod bar +foo
++  dyndbg: read 13 bytes from userspace
++  dyndbg: query 0: "mod bar +foo" mod:*
++  dyndbg: unknown flag 'o'
++  dyndbg: flags parse failed
++  dyndbg: processed 1 queries, with 0 matches, 1 errs
++
++So a match-spec is a keyword, which selects the attribute of the
++callsite to be compared, and a value to compare against.  Possible
++keywords are::
+ 
+   match-spec ::= 'func' string |
+ 		 'file' string |
+-- 
+2.53.0
 
-There _is_ a problem, however. Events that arrive while the job is
-running queue up, but won't get sent until the _next_ event arrives. We
-need to make the ->release handler check for new events and requeue the
-callback if there are any. I'll plan to fix that up.
-
-Thanks for all the review! I'll plan to send another version soon (but
-probably not until after next week's testing event).
---=20
-Jeff Layton <jlayton@kernel.org>
