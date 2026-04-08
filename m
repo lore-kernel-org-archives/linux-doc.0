@@ -1,149 +1,171 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6571A4F3C
-	for <linux-doc@vger.kernel.org>; Wed,  8 Apr 2026 13:55:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 231431FC0EA;
+	Wed,  8 Apr 2026 14:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775656537; cv=none; b=iXOHrREp13cgD6td6rqYjys1hPf1kp1J4COFUrcbU3cGEhuweIJq8o6AjJlBLr/YgF/PiruNnJDXPnwsUgoIp5iFk6v9H83UETU9UWVkRDUg2Gj16avT95YohxNAx93lPi78sn67dmhETvKEcf4V0tdTyVP83KWFg49W3PW9PaA=
+	t=1775658561; cv=none; b=VRqIk0OreGI558cniOW/CrrdvQQWnsg/VurkehNKiV2FYiZPAYW5P5WOYl9ocv5ZsjdC0gRu61Trjoj7tBuSFW9qKvNH0jQv58TqpvltpJtS1Pa3kwQXlBuegKYRsLMI36Zh7z60x2ksrUR95Ae2sGQOi0bhrCQEFmPzd8waork=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775656537; c=relaxed/simple;
-	bh=T2FqrpE1nQ5/IBWZNdhUXYsltV4L0V+EI0OVS5NLa80=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=D/aQvapOVECDICQ/afF99MbnY1v6PhVzHKJXZ7FkIScp8253qjP4zFmyr2tY2eCwhAuOmyEkXwX1vlB4WMoQLUMrWZKPaP70jrxseVkVBWTky42efFhgjc+ZCrMFBXrpSHjbi80FoV5kAV/GzrXfOsdu5YgnjTrBy3Vf1B4R9fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IrIHEK6M; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=VKPICxya; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1775658561; c=relaxed/simple;
+	bh=afzwQipiDUAb0KqTXFw3pZfQwo4aWaoCWc2HekCQF1M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jV01TVDjtzFvf3hUpZg9JyUrEmsjzTPgQQrpEQl9fxMqCxBWZ7bFehtxmFdaEi1nXM18sG6chDw4lI+ohlOcTd5MSOjYMaq8vGSoj9YNc18almyotL7vCh3QBeY5YdGMWSucwDkfCuskdIwvLs+uN2ANjtLYOi0bMfs4ddmHRIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X8FH0MMs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IrIHEK6M";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="VKPICxya"
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 638CgRMC2861287
-	for <linux-doc@vger.kernel.org>; Wed, 8 Apr 2026 13:55:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	O4xLokYbX78NsG9Sr6J5EhKpNbCDr3s6HqJZoGPlkm0=; b=IrIHEK6M/Lj/wsV5
-	v7von32Eu6RWU9/pEBe5rBg/pn2QvAM6BwRBcz1mAZvLXBsuyOP6EYlzRXJ3VTkP
-	fxIZr7EEJX0vFj53fWcxoUUqK4wh9cSW5KVVwMGrG6QggsUlsIl8DBA2Ridy9RQI
-	wz5UtCDMdiRnm8ZYUzQxf2hWsryD/m/Kd6GwJSCU1N0xuj/zmwQsFkgv6OwJnSu6
-	PkJnFquq3EyKUxBcuADj4lDZlLa9thDrHB6yDgnOgcoscRZbm6G8rrH23+XoeBkY
-	Lw+ADq+pV206x13c9uMimHkRaAu7QSZyHh7zyJ7cjKqTjxJOiXmKPXts5WZFpLCj
-	xxBpHg==
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ddad8u3vp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2026 13:55:34 +0000 (GMT)
-Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-50d5aa81907so62268851cf.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2026 06:55:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775656533; x=1776261333; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O4xLokYbX78NsG9Sr6J5EhKpNbCDr3s6HqJZoGPlkm0=;
-        b=VKPICxyamnCsIQ5cGYM4QlrD0LuPV63Cv7JjfMBsZTTwA357bwd/0zCMiJVxePrXeB
-         cIuV1EYon3IG6/UvCzm4VogAdfkQ9ED6vuXj83DTkxZkgOrLuIcJw2SnFo9SI0gZh9fh
-         KV59NKZ4u+O1ildp/e7mKZO4foTNbdJoAT8IG4XvMdeKsURtULyiQlbcSAghE1Q8HpVy
-         UgdUUVY50FfsIwrCEO0YaMEBrF798m2MsMYhL0Yotj3xGH+Iz7INi6Bn0KgwkdFCBfdk
-         17J+D0kGpSezzdCYDb6xRt3WCTgW0K0TUHR7nSBdGJujdmA0cTsSSekzAwbqIKW6C9Wg
-         ntUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775656533; x=1776261333;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=O4xLokYbX78NsG9Sr6J5EhKpNbCDr3s6HqJZoGPlkm0=;
-        b=QgU1dPrXQ5c461++uO9/kGUsfrrv/D9kpyQ6osSqSzVf0ikyIwiE9Cozs5iY1q60br
-         2N5yp94qxnlAaSGFygt/PugOD9YHj/my9TwSxU5ovo8Ui3lQ0PrjeHScgQMd5rF8VbGq
-         xn4VNJ6Zu/80Dv7iNHCuETTCkaDdjQBONzGI8iG2+pwmWxVgTnj9x+pnRZvcyokSpnZ7
-         3PMnjdMT452frd0xWK+GaKliGXgWklWW6ZBlB64jDCUG1gk2WKm6KDo10m90oMdUsXWY
-         D+a5+vyb7owW3msQBJEks4ZwwK8SwJrP9jp4siRjt+w4RCaOtiN7I2TThTjtrR3w5WCH
-         KGEw==
-X-Forwarded-Encrypted: i=1; AJvYcCWfQvdXIyDnKySfw6GlSpESwNLoKAiMCGBmU8HU/duLjHl+3w5BnKdFu1ejEzQisoiWCaPrYGaE1JY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPnN0bO5/j30J7jH7qVR+BduQ1hbnWQ6aqiy+s/dbCquGSQxDg
-	4lCElCSHd/Lk7pVsGvXqwq/6JDwu8vxMd1XE72J6mAtVzsCPEXbaNUThmIdz08znnIgnjwJCZpe
-	fhbmhf5lq/p23oQ35HW4dZqeLIOEIHQLrQcpeiBJup2ua8AjohjT49SVY1bH84SY=
-X-Gm-Gg: AeBDiesRcVcMMAtohNhVkitFVJyuodWylk1C5QTl+UN2rt41ho7G5EZA8xlxjsnafup
-	9zDTAeQF3yr6DRaJ351XPa34fgg+YPsVKnEufFmfbFO6wu7XYIEGdQtDrRrU7UGeTTwZ3f8BmYV
-	/a33uNjRi88ptmCMXepI/t205r30QgF1xR+Al21kidUQLeOyQIYXA40+9c/o9ktCCBSj+1/evvQ
-	8zB/ilzKer3yc3idJ7se3tLw0eWWsiAkWSjs8qWi6dwV9Cn8WwpTKodLvM9sp6muvn3jUkJA7p+
-	kda73/2lXKbNdj2Q/Xb+RWtw2EBqLB+iTsJvB3SC60QNwJKmyyw4h2tcaODeR+ZbGdYXZ0DuRLo
-	Gp/zYzkZbvsSKdfhiF4XNxKc12/rUYENAbLlaWlqipOJNPtIui5w=
-X-Received: by 2002:a05:622a:588b:b0:509:473e:2a12 with SMTP id d75a77b69052e-50d62afdac2mr281194171cf.48.1775656533488;
-        Wed, 08 Apr 2026 06:55:33 -0700 (PDT)
-X-Received: by 2002:a05:622a:588b:b0:509:473e:2a12 with SMTP id d75a77b69052e-50d62afdac2mr281193621cf.48.1775656532915;
-        Wed, 08 Apr 2026 06:55:32 -0700 (PDT)
-Received: from brgl-qcom.home ([2a01:cb1d:dc:7e00:8384:d958:4b9c:49d3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d1e2a71f7sm60653168f8f.1.2026.04.08.06.55.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 06:55:32 -0700 (PDT)
-From: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-To: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
-Cc: linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: gpio: update the preferred method for using software node lookup
-Date: Wed,  8 Apr 2026 15:55:29 +0200
-Message-ID: <177565652533.25403.6279647182023858359.b4-ty@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260403-doc-gpio-swnodes-v2-1-c705f5897b80@oss.qualcomm.com>
-References: <20260403-doc-gpio-swnodes-v2-1-c705f5897b80@oss.qualcomm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X8FH0MMs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 890E4C19421;
+	Wed,  8 Apr 2026 14:29:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775658560;
+	bh=afzwQipiDUAb0KqTXFw3pZfQwo4aWaoCWc2HekCQF1M=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=X8FH0MMsadR6WD1vBtBzVNCgOd13mbti0aKINsB7SziPl4zQtxwOdeqET3JB75rG9
+	 nPz8hTFr9KYZxwRPqv4sn61VIoh26wVR0rWes0OHDNfb/+n9KqKu1YUkH73D/SuWuh
+	 ++/lecgG2dvZxO9qjrn75erTLnnBGb1Bot3LG2dsTK/4lVOg3TLHhOKyZeb9MTsf3q
+	 EIUuSa0J1tzklwzNdGsyXqm2fRPS0O00lda2SWdvbr/pdDdbOH+Pb5w3RQOBX5NfW1
+	 vwM7qwe4jxgcP6DWIPWpIWIN5MBcVR6gAdPrxYVFXAhkbG0PxkTdUyijcjDCUjcGiu
+	 O233TD3X5VLxg==
+Message-ID: <cd26618e451bee7e9af0e77b11197b2fd501cba7.camel@kernel.org>
+Subject: Re: [PATCH 01/24] filelock: add support for ignoring deleg breaks
+ for dir change events
+From: Jeff Layton <jlayton@kernel.org>
+To: Jan Kara <jack@suse.cz>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner	
+ <brauner@kernel.org>, Chuck Lever <chuck.lever@oracle.com>, Alexander Aring
+	 <alex.aring@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, Masami
+ Hiramatsu	 <mhiramat@kernel.org>, Mathieu Desnoyers
+ <mathieu.desnoyers@efficios.com>,  Jonathan Corbet	 <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, NeilBrown	 <neil@brown.name>, Olga
+ Kornievskaia <okorniev@redhat.com>, Dai Ngo	 <Dai.Ngo@oracle.com>, Tom
+ Talpey <tom@talpey.com>, Trond Myklebust	 <trondmy@kernel.org>, Anna
+ Schumaker <anna@kernel.org>, Amir Goldstein	 <amir73il@gmail.com>, Calum
+ Mackay <calum.mackay@oracle.com>, 	linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-nfs@vger.kernel.org
+Date: Wed, 08 Apr 2026 10:29:16 -0400
+In-Reply-To: <snnggefctfffpb3rsyhjdwmxozqdklqmweiojmxy7owettksgz@6vud2iacgeqc>
+References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
+	 <20260407-dir-deleg-v1-1-aaf68c478abd@kernel.org>
+	 <snnggefctfffpb3rsyhjdwmxozqdklqmweiojmxy7owettksgz@6vud2iacgeqc>
+Autocrypt: addr=jlayton@kernel.org; prefer-encrypt=mutual;
+ keydata=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
+ QZIQXVeAA+smfTT0tDrisj1U5x6ZB9b3nBg65kc=
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: qGvNhd8XdltKA6Vn4FsHRBAVDo6jNi2J
-X-Proofpoint-GUID: qGvNhd8XdltKA6Vn4FsHRBAVDo6jNi2J
-X-Authority-Analysis: v=2.4 cv=EoDiaycA c=1 sm=1 tr=0 ts=69d65e56 cx=c_pps
- a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=VHV1bxSRZQlKidfD:21 a=xqWC_Br6kY4A:10
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=ZpdpYltYx_vBUK5n70dp:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=fOWvFa88cN_o-J8PfnkA:9 a=QEXdDO2ut3YA:10
- a=dawVfQjAaf238kedN5IG:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDEyOCBTYWx0ZWRfX9C7cP+BfEgbF
- PBfYkxREAMJDWcrNLeVKjRHPyFw1AWS3ou61JutqjA3AB1AKoGbp7P2/tB17qdPpE/q0Q3FJovr
- lpOcN+hU4nAktfMlElGxG6gaghr2Y3vg3mfDH+7MwkwfY5wy8In+G05zDse94IfjNzY9SX4H6va
- 2uIX1ynR5zW2saceFQbKixombIryqpDyK7KsrtMSld2ZLjg9TB/l/Jk7hbjik2DwJc6d9mgRx/K
- wgfBncHIaaCYj7w5PdJ9rCCYUyDT5RwrFfHW9DFdLrrK2wSGg6l6RHcf4YWutBzQejaH6wNGe6Z
- +mE2J9G7FvKQP5SaO085vyRYu1TkMJjL8dq5eclglCtUCIG4yhatqeBcvob3C2CPYSCc+lDRM28
- Il9mcHOZ2fI5PwOB2DTuCLG4Sm/ZHGccj7r1fGmhDwOVHn1pTfaBWN1B8xPqyagnuxm5Q/S3iO9
- 7gLY1HMf/H4aiY768YA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-08_04,2026-04-08_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 spamscore=0 clxscore=1015 bulkscore=0
- malwarescore=0 impostorscore=0 suspectscore=0 phishscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604080128
 
+On Wed, 2026-04-08 at 15:45 +0200, Jan Kara wrote:
+> On Tue 07-04-26 09:21:14, Jeff Layton wrote:
+> > If a NFS client requests a directory delegation with a notification
+> > bitmask covering directory change events, the server shouldn't recall
+> > the delegation. Instead the client will be notified of the change after
+> > the fact.
+> >=20
+> > Add support for ignoring lease breaks on directory changes. Add a new
+> > flags parameter to try_break_deleg() and teach __break_lease how to
+> > ignore certain types of delegation break events.
+> >=20
+> > Signed-off-by: Jeff Layton <jlayton@kernel.org>
+>=20
+> Looks good. Feel free to add:
+>=20
+> Reviewed-by: Jan Kara <jack@suse.cz>
+>=20
+> > @@ -222,6 +225,10 @@ struct file_lease *locks_alloc_lease(void);
+> >  #define LEASE_BREAK_LAYOUT		BIT(2)	// break layouts only
+> >  #define LEASE_BREAK_NONBLOCK		BIT(3)	// non-blocking break
+> >  #define LEASE_BREAK_OPEN_RDONLY		BIT(4)	// readonly open event
+> > +#define LEASE_BREAK_DIR_CREATE		BIT(6)  // dir deleg create event
+> > +#define LEASE_BREAK_DIR_DELETE		BIT(7)  // dir deleg delete event
+> > +#define LEASE_BREAK_DIR_RENAME		BIT(8)  // dir deleg rename event
+>=20
+> Just curious why you've left out bit 5 here... :)
+>=20
+> 								Honza
 
-On Fri, 03 Apr 2026 15:04:55 +0200, Bartosz Golaszewski wrote:
-> In its current version, the manual for converting of board files from
-> using GPIO lookup tables to software nodes recommends leaving the
-> software nodes representing GPIO controllers as "free-floating", not
-> attached objects and relying on the matching of their names against the
-> GPIO controller's name. This is an abuse of the software node API and
-> makes it impossible to create fw_devlinks between GPIO suppliers and
-> consumers in this case. We want to remove this behavior from GPIOLIB and
-> to this end, work on converting all existing drivers to using "attached"
-> software nodes.
-> 
-> [...]
+No reason. I've had this series for a couple of years now, and I think
+bit 5 got removed at some point after I originally did this patch, and
+I didn't notice when I fixed up the conflict. I'll plan to renumber
+this for neatness sake.
 
-Applied, thanks!
-
-[1/1] Documentation: gpio: update the preferred method for using software node lookup
-      https://git.kernel.org/brgl/c/d129779da5e3f8878e105fb3ca8519d9ff759a91
-
-Best regards,
--- 
-Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
+Thanks for the review!
+--=20
+Jeff Layton <jlayton@kernel.org>
