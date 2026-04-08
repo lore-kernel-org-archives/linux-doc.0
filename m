@@ -1,295 +1,287 @@
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011005.outbound.protection.outlook.com [52.101.52.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 146043D47C6;
-	Wed,  8 Apr 2026 16:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.5
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775667519; cv=fail; b=h9zzbbktlzXuIxBSHx/cecGj/DneHJYIQVq6bg5qcu81Y0Kghizn91lp525Qhf59LACsp5/c9QIfyBycPVv2Jx4WCkySU/Qxpy0IeqXhSWVOGm89IbNhV0PHz+w1uJJHzFb+b70vGLeklFsH3gQUuGmDx9dLAA7YjLzrSGvbOtc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775667519; c=relaxed/simple;
-	bh=RBKt57iSWLliZ49/ygIt0/KAwcRtEVnR0jDrRQhL3kY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Zmh8JoRZIcQju4wPmAIJQ7/1R9GnE9qzvsXTjpX70P2AjDP+hRIgSkVow+UwQ1CQkvgQN8x36aPb/MmHNucPMz1ppfFh7WoYjnVQnLVvwSr/IsofWwsVs/C3VtqYRcysREff4O8sTP/jT5s0CDNTJkM4L/lv4VLO1caVDp4uv0E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=B9y1wsa4; arc=fail smtp.client-ip=52.101.52.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24BDC3D413C;
+	Wed,  8 Apr 2026 17:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775669078; cv=none; b=HIspdDmdoS4gbC0/xF7n+cDF3f8Nn5CUe5FIlie+dBH4YuJKzgycGHkHKLknOk7A5YFd10PCORmEKrglArhjtYaKxRY/h1VYuU5luDr2ATTjBVnza0oovTWHRd5YBLI6bSKCcHjVDFCntA9TPn+2FqfAI3fnEVbwVDbczpba9BY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775669078; c=relaxed/simple;
+	bh=Rv8EVELx+/zidCVReIS8RYxmzUCqJs5h4jhRfn9SOb4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=prKJNuo4sYft43Mbvh/8brRpecEODnYVzh8wT1V276llGoiszB84cxLzbiwFmZ1OtwpsBRe5rVR9f6h0mBF2Iv9DTAZ7TVjh8ixLTfepGUTQP+zjiYZBHln5JsYnAs16H3Ro51ce+rTNK10lfCNx8TQ7YzkIhun1nfj7hOAuUyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bdqwYCP1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="B9y1wsa4"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Qy+QCg/qgwgtJQ5F8wCu84UCeeig0KiTykG8A69+9Ly14S2zi67k0+Ni8qrubae9paP/FRWO5WaaQcLJqnZTBveX3infXHvMH0aUFZNUJBMsU2a/TnSC08hc64aG8uMgd+eD0c3Pwtxu/f8JDbvzMI9+Ppw1/ahziveniXOFYv1u6hAySgueI0Eu1+wIh4qL72qpsXbuVd+E4F1p4TKtIVY30ejgLvAcCf9kOkpqjd51fD8z87VYD0yhujvCpfbfsgHfAIKo9GtHiaAqvHPWkYGUzALxiNt6Q/3mBs3IxBCv2h+LUfdQ4nW/9imy30AG6A2dIHFe3q/AF2LZeNklbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B4UIIFe7hnORmJdJe/nlxBQbnnmr/iopnsTSASGFnCk=;
- b=yHNidUmRwd8PzP8XS5hYmA1fAzo7eAxNrB325ip4Q+OVzjPDdgE2+wIhvjD8ZRCkIs7E7v9FSWkW8EZTmfJuKwH4KFKtBs5tBgxIQJV8LYR/MiK/0sDTWMH3/zcSYpl3/fjTL7qwRracOEqj/Byjq2wAo6i6HsolVNbmF6rNoXK5ulSqWNmDVJU7BnbTxI9+3vpwkMmf739guHLfUoTGax7hsQN3c1fl2Q8Tk1bVe1y7My+oE2JIjlaBVyyhCmMt4ymSQSER6ELg89+BGxZjm2FuZ1+UxAxhIMG4Q3I5/XqHabVkprZCdii0F3eHz/HXrO/tvSU6P1Zr5dl3kTq/Qw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B4UIIFe7hnORmJdJe/nlxBQbnnmr/iopnsTSASGFnCk=;
- b=B9y1wsa4xxOKB0PRVwULxSkEuu0wPoey852Ea8fINBN3UHssCvjd/dlBMVb7xOtE1URcnmKNh7hNTDiP7VEAFitrCg2DA/tRHnC0Y3eFfq80lBrpi7SEsVW8rUATA6ZuWQSkFC+Z2kopv8OUyge8SNPO/PPdDiFatoHcp6aMtS58crGbZtFfXTxmyCpW5vAYGLDn4v+FAw0u4IkF2zMUujJ4v+BdpGMhG83WTNmteEA8xawgoJrmPyVzJ52oTlMA5+fPZ86cda5zm5bpBVVALtq15+vbtMhu/zrucb5UdZGU872XlfEbngsKdXnZRHi6hWHorMDE7Wdtz4kcu4jGUA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CH3PR12MB8233.namprd12.prod.outlook.com (2603:10b6:610:129::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Wed, 8 Apr
- 2026 16:58:24 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Wed, 8 Apr 2026
- 16:58:24 +0000
-Message-ID: <da8d03f8-0294-417b-b684-2c20d577f94a@nvidia.com>
-Date: Wed, 8 Apr 2026 12:58:18 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 12/21] gpu: nova-core: mm: Add unified page table
- entry wrapper enums
-To: Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org
-Cc: Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com, joel@joelfernandes.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-13-joelagnelf@nvidia.com>
- <DHIFF98P1YQ3.1IXUT02E3TF20@nvidia.com>
- <5db2aab1-4b65-486e-ad9b-27a108bdb0d6@nvidia.com>
- <DHMYSTLVHIFJ.A2BDMPVNZNLS@nvidia.com>
- <537a8c5a-3885-4c47-99f6-963b48ddf87d@nvidia.com>
- <DHNT32C2Q5HN.LLME0RV17Z8V@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DHNT32C2Q5HN.LLME0RV17Z8V@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CYXPR03CA0086.namprd03.prod.outlook.com
- (2603:10b6:930:d3::29) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bdqwYCP1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5A82C19421;
+	Wed,  8 Apr 2026 17:24:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775669077;
+	bh=Rv8EVELx+/zidCVReIS8RYxmzUCqJs5h4jhRfn9SOb4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bdqwYCP1iEkSg2bTnuIKs13u6lHNjnomimU2YySnagiZkc8+HrbX30imbI46ef/YE
+	 faHmFWBb05om2DBFJ2LraFWfIhM/A49kwjt3KG1KRvZQuxjPOXvlJQUUCsg3ullmT8
+	 OGD6JOUqt9u5clIgQHrZz4SsKsjSuR0Ei4nSp+EvZQhnjXMaMR8AVjh5/wgO2FCPtm
+	 Ni1Obk6tded+XatO1PvtZw5D+OF1AGKwRjeQaX7SjKJxwOnGpWtehRW2Yea1X5T/8p
+	 09zRNztb0BnFQ9d59oZnSIX1S600fwmL9pTxl/435sum6ke3Er11N1BuemjutJgZSi
+	 UTxXa/UQQvRKA==
+From: Sasha Levin <sashal@kernel.org>
+To: dwaipayanray1@gmail.com,
+	lukas.bulwahn@gmail.com
+Cc: joe@perches.com,
+	mricon@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	apw@canonical.com,
+	workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH v2] checkpatch: add --json output mode
+Date: Wed,  8 Apr 2026 13:24:35 -0400
+Message-ID: <20260408172435.1268067-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260406170039.4034716-1-sashal@kernel.org>
+References: <20260406170039.4034716-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH3PR12MB8233:EE_
-X-MS-Office365-Filtering-Correlation-Id: e9a4b664-2289-45e0-e0ba-08de95900be3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	7ULpv9Luii9kOK1rkAzJfD6Sh2yrVMFunSPJ7jzwSLOKIo1L0+674iHAxQnmpabtirQud6wTHcc4D01+/OOvT5KmK3TXV2DztbWtPtVVIXdrKcusPsg2iHv64WmvVKhWMGjCYkdj2M/XAoVoT9dWNIzTpZt2+U0reMjwnNDxZbF7e2c4TAncsbQFRPBtIQnOY5UdrwLb7cYYnJy7MH7bQL69AizfDiEqWgg4CaASGWpmz62n/jwwQ65g5cFtwFIf/TjGtqm3svXPgNUczFdn5j2QplVWWN0cjU61hEAdtUmNQE9ednWEnY67DtmShXFDG7dAqklVCMan4GltNCH5669qxg2QSu0+xvHLuaPCULG0shewVkRolhsuuu+UCuMKv9Mf68w19llW4oQ0B/A9JXCxYh1BYfgf+itVIhXIXq/Mt0Wlcemg3VQrfZzGB3+lkP2l3cRMIiEL8rsrqPZjyxFxyKT0QzSYdOMHFzHiB95jjvxfUjKiRHBMICvk8/w1C8rjN7nWqzvsd8Cv1f8RsSqcpOtdjmhmxSld1ngBeHO0sWr/iktC6QBKjwEDwc8YeDZl0c9KFga+c4URA1GE+hz3wEWbYKfR0Jhpee3CsQZbKox9W0S2a23Vg263HlGgLlh7kJr7GEc0VEQC8SreeyyaKTtpcoK74ZcgvBpP+e+kzVZn8JTjyVqk7B8ax61Tn+BxNhUz7ktXNuBgkwdpatVznhB5zTWoxxpdDCstL9U=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NWEvVzg1QzZiQUEvalF3WGlTeHlaUTJSSCtaN0s3SnhCbXc5ZW5GckZkeWt0?=
- =?utf-8?B?ZkIyeUFQdVRocUxNQ3g2bGNSRWo1VEd6NXpGWmRKSGI2RkJ5R1h5NUpPRW5H?=
- =?utf-8?B?NXV0UUtaRGtWaEZrNm82NEt4dUF1ZVlYeTg1N1Rpa01FbDVNdlMwQ0liVG9q?=
- =?utf-8?B?UDdpTFY2a3VZNFVERnB5ZWcrRUdXWXFLalZRYWowQzhqOHhQS0pTV1NTQ3NM?=
- =?utf-8?B?OEpyZnh2RHgvTElMaGcyOFdEUEl1bjh5Q2pacTBxU0hLaUZzTTVVVGROVjFD?=
- =?utf-8?B?S3BIWkpNelA3bzRTS2o2UVlwdTV3amdrcjd3M1lXN0tkdDVCZUkyMjFmeHdm?=
- =?utf-8?B?eGZRQlhPT3F0WnMrZGo5NnZrYXVPUjQ4UVhuYzE1S1EyTDBuTFZ5MDNPOG1z?=
- =?utf-8?B?bzBnMUc4NEZPNUxQK0F3OWhRZ0N4NFVJL3FtNDdreER2NFZtdzVBTWttelZB?=
- =?utf-8?B?ejJOMm9tdllpTk15TzJld0tMZ2FyUkN4VHgwaUtubzhBeTlGeFl6M2NJa2JO?=
- =?utf-8?B?QW40YzVDdFJSUHVsajRkbHM1a2tqVjFXdFEyZGc1dG5KOU8za1dqSzhqK3Fy?=
- =?utf-8?B?ZlhWTUcyVEtiZmxNQ0hPT0ZjN0JaUTBjK1ljZTF0WC9DQnV4SGVJaFlBKzll?=
- =?utf-8?B?QjJlK2lrL2NsWGg0MHFSVnJvOWw2QWdNeEVGSFFXM1hEWVFBZlVYd1kyeFdR?=
- =?utf-8?B?dnkyYjV1TkUxSFF6Z1Vja2dkLzczWjIvTERpaEtjaThJcDM3UU1tZVVtcEgy?=
- =?utf-8?B?SDVIQ0ZSN2tsb1FReFlueXpOY3NkZFFNUHZ2czBGUlZTeXJURWtkQ3ZqY09t?=
- =?utf-8?B?cmdQVE1sRXIxaGJVOVVIZW9VeEYyeGJmMWlMdGR3VVFnV0RNbkJmbi9idTNi?=
- =?utf-8?B?dVp5OVp0Mll0Wm5adDRhUTdRY2kxSDBlTzlDM1g4OE5DU0dqTmVtN2J3QjJp?=
- =?utf-8?B?eE9nUkl2STlPd3o4YVhURkFHWVdSdlFMK0xzbHZsMldFY3psSUFLZW1nWHU3?=
- =?utf-8?B?UEhHNUUrVlB1MmQvWlIvVVZsTy8vWmlNbHRrWFN1d2pSanpDblVkMGxweVJJ?=
- =?utf-8?B?VEFURWJNM1RVU0VscGpQQVFoN0Znck52WktRcThrV0FMQUhpdStlcnFVR3Ru?=
- =?utf-8?B?N3NWTFVJcUt5Zngvd3k1b0xhSG40MDZNWU42SEFacFRMNVVkeEdHS0RVMDNI?=
- =?utf-8?B?OXFsQkFZeEVuWTNXcEppMmphQllWQjRZOFZtanoyK1A0REliSm5Bc21Za2lL?=
- =?utf-8?B?WkhucThuK3lvVTJTK0RSNFVqcDdmNWdndnIwNlJqNjY5RTFWZWI3bVlFSmxn?=
- =?utf-8?B?YkV5bXhIQWFjdmkxenZlM1pWUFVpVHhHZUZ5eE5aSGgxVWtZaDRaZW1BQit1?=
- =?utf-8?B?dkZwR1U1VlVNQmppcWlVWk1MTmk5S3pNRTYzVVhsWHRZc0N2VnFtalNFb2VN?=
- =?utf-8?B?dkgycFNzblpWUkMyUWliTnE0MDN0a3MrZU5iOVYvM1ZlT3ZFMWc3UmFRdGtp?=
- =?utf-8?B?ODRhb1dEclE3aTlOTDJSWSsveCtkaXo0cEFoRm9JWVZ3NUU1MjlpR2srUXdG?=
- =?utf-8?B?STB6TUFZVjUwSkNZSXhSbUxQekdOSDczYmtMM2dZYVkyNzlpVi9nTTZjY0l6?=
- =?utf-8?B?c0VzKzg3aVYyaWR0VGovOXZxeGRsWWZXbURsVjlDNHRqbjlOMmJlbjEvODZ2?=
- =?utf-8?B?Zm5DaXBBL0dzOXBYMFRwZFFTWndzaC8vWXJUUkdpNlMvdFlBSFVobWI3YkUy?=
- =?utf-8?B?TFZQOW9jb25nRDhQdmpuK2IyWXRITktHWEJQczhjWmtVYmtEYkNtL3RPL3F6?=
- =?utf-8?B?RCttTXBucEZIZ2tOVnoydllSaS9mWDNDQW9ISmMybnFNS0EveVAxRXZuS0NE?=
- =?utf-8?B?K1ViZHFicGtPc295UERnaW9SMDErTStadUQyM0RLQU5ZWnN3bXF4cCtoTFdp?=
- =?utf-8?B?NHBDWEdCamFNQ1NKNU1la1RkUDU5OEdLYzd6UjVqRnlLSGdQRW5La0J1b2R0?=
- =?utf-8?B?dm9rOGY3VHFoZjU2STJBWDVOaHd4SkgzcU1PSlBUc2lMMXVrYmpuZjRUNDd1?=
- =?utf-8?B?TGdJVllBQ2RrdFQ3K3RIcWpCQmMzTEhuQTM3VVFaRUU3WXhVUjJMVTNuYUMx?=
- =?utf-8?B?TnR2YWtFUnpKdGFLNE83bVhUNjZHc25mdXU2SVVxcm1VcG5tQis3VkpHSGRm?=
- =?utf-8?B?OTgveUUyWkVMa2JJTWl6NncwYitITGFTK1ozRHpFWWN2ZXVaNFIxUGp5Rktx?=
- =?utf-8?B?SVlwT2VZUzE5OS9DdFNwZkdHTmVWYXZ6SGlhcFRjMDlVb2tyTWkzRVpDMlUy?=
- =?utf-8?B?OUlZVTFwNkkvVzR6TmFnVzd1NzFqeVFTdXlLcnExM3p6Wk8wU1IxQT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e9a4b664-2289-45e0-e0ba-08de95900be3
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 16:58:24.2839
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mNCF8VH6Bg823LaNqROh1eXZQ2G8Uxa81wu5UBFXK5odJD8lVbUvvz0AUDNvmpFKb5lbK6elBBRoHRF0ta+W7w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8233
+Content-Transfer-Encoding: 8bit
 
-Hi Eliot,
+Add a --json flag to checkpatch.pl that emits structured JSON output,
+making results machine-parseable for CI systems, IDE integrations, and
+AI-assisted code review tools.
 
-On 4/8/2026 9:26 AM, Eliot Courtney wrote:
-> On Tue Apr 7, 2026 at 10:59 PM JST, Joel Fernandes wrote:
->> Hi Eliot,
->>
->> On 4/7/2026 9:42 AM, Eliot Courtney wrote:
->>> On Tue Apr 7, 2026 at 6:55 AM JST, Joel Fernandes wrote:
->>>>>> +    /// Compute upper bound on page table pages needed for `num_virt_pages`.
->>>>>> +    ///
->>>>>> +    /// Walks from PTE level up through PDE levels, accumulating the tree.
->>>>>> +    pub(crate) fn pt_pages_upper_bound(&self, num_virt_pages: usize) -> usize {
->>>>>> +        let mut total = 0;
->>>>>> +
->>>>>> +        // PTE pages at the leaf level.
->>>>>> +        let pte_epp = self.entries_per_page(self.pte_level());
->>>>>> +        let mut pages_at_level = num_virt_pages.div_ceil(pte_epp);
->>>>>> +        total += pages_at_level;
->>>>>> +
->>>>>> +        // Walk PDE levels bottom-up (reverse of pde_levels()).
->>>>>> +        for &level in self.pde_levels().iter().rev() {
->>>>>> +            let epp = self.entries_per_page(level);
->>>>>> +
->>>>>> +            // How many pages at this level do we need to point to
->>>>>> +            // the previous pages_at_level?
->>>>>> +            pages_at_level = pages_at_level.div_ceil(epp);
->>>>>> +            total += pages_at_level;
->>>>>> +        }
->>>>>> +
->>>>>> +        total
->>>>>> +    }
->>>>>> +}
->>>>>> +
->>>>>
->>>>> We have a lot of matches on the MMU version here (and below in Pte, Pde,
->>>>> DualPde). What about making MmuVersion into a trait (e.g. Mmu) with
->>>>> associated types for Pte, Pde, DualPde which can implement traits
->>>>> defining their common operations too?
->>>>
->>>> I coded this up and it did not look pretty, there's not much LOC savings and the
->>>> code becomes harder to read because of parametrization of several functions. Also:
->>>
->>> Thanks for looking into it. Sorry to be a bother, but would you have a
->>> branch around with the code? I'm curious what didn't look good about it.
->>
->> Sorry but I already mentioned that above, the parameterizing of dozens of
->> function call sites, 3-4 new traits (because each struct like
->> Pte/Pde/DualPde etc each need their own trait which different MMU versions
->> implement) etc. The code because hard to read and readability is the top
->> critical criteria for me - I am personally strictly against "Lets use shiny
->> features in language at the cost of making code unreadable". Because that
->> translates into bugs and nightmare for maintainability.
->>
->> I don't have the code at the moment, but if you still want to spend on time
->> on this direction, feel free to share a tree. I am happy to take a look.
-> 
-> I had a go at this, you can see the branch here [1] - it might not be
-> perfect, but I think the shape is directionally good. It's structured so
-> the HEAD commit has the diff from the current approach to the
-> parametrised approach. The main decision is where to do the type
-> erasure, I chose in `Vmm` since it looks like the main top level API for
-> this code, but could do `BarUser` instead. I think it's overall better.
-> I also think Alex's point about associated types making it easier to use
-> the appropriate Bounded type is a good one.
-> 
-> [1]: https://github.com/Edgeworth/linux/commits/review/nova-mm-v10/
-First, thanks for the effort. I looked through this, its pretty much what I
-had before when I used traits. I don't think it is better to be honest. In
-fact your version is worse, it adds many new types and things like the
-following which I did not need before.
+The JSON output includes per-file totals (errors, warnings, checks,
+lines) and an array of individual issues with structured fields for
+level, type, message, file path, and line number.
 
-To put it mildly, the following suggestion should not be anywhere near my code:
+The --json flag is mutually exclusive with --terse and --emacs.
+Normal text output behavior is completely unchanged when --json is
+not specified.
 
-/// Type-erased MMU-specific [`Vmm`] implementations.
-enum VmmInner {
-    /// `Vmm` implementation for MMU v2.
-    V2(VmmImpl<MmuV2>),
-    /// `Vmm` implementation for MMU v3.
-    V3(VmmImpl<MmuV3>),
-}
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+Changes since v1:
+- Replace hand-rolled json_escape()/json_encode_issue() with JSON::PP
+  module (core since perl 5.14), as suggested by Konstantin and Joe
+- Factor duplicated empty-result JSON blocks into json_print_result()
+  helper
+- Include used_types and ignored_types arrays in JSON output instead of
+  suppressing hash_show_words, per Joe's suggestion
+---
+ Documentation/dev-tools/checkpatch.rst |  7 +++
+ scripts/checkpatch.pl                  | 64 +++++++++++++++++++++++---
+ 2 files changed, 65 insertions(+), 6 deletions(-)
 
-/// MMU-specific [`Vmm`] implementation.
-struct VmmImpl<M: Mmu> {
-
-Seriously, I have to pass on this. :-)
-
-And, you unfortunately seem to have ignored my point about requiring 4 NEW
-traits (Mmu, PteOps, PdeOps, DualPdeOps etc), which I did not need before.
-So you're making the code much much worse than before actually. We don't
-new traits and types pointlessly.
-
-The only positive thing I could take away from your diff is the following
-(I thought I had already done that, but I'll double check).
-
--    fn level_index(&self, level: u64) -> u64 {
-+    fn level_index(&self, level: PageTableLevel) -> u64 {
-
-Also you're parametrizing VirtualAddress as well which I did not have before:
-
--     let va = VirtualAddress::from(vfn);
-+     let va = M::va(VirtualAddress::from(vfn));
-
-This is another step back.
-
-> I also think Alex's point about associated types making it easier to use
-> the appropriate Bounded type is a good one.
-
-I will reply to Alex thread, separately. I have some good data that should
-hopefully convince you and Alex that my approach in this patch is better
-(Version struct based dispatch than monomorphization). I would emphasize,
-as we all know, that we should make optimizations and changes based on real
-data and proper technical arguments so in the spirit of that, I have
-collected data with both approaches and I will reply to Alex's email with
-all that in there.
-
-Also, the bounded types usage is orthogonal to version-parameterization.
-That can be done regardless, we already use bitfield macro in this code and
-can use bounded types within that if needed to restrict type creation. So I
-don't think we should mix the 2 concepts "bounded types" and
-"parameterization".
-
-thanks,
-
---
-Joel Fernandes
-
+diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+index dccede68698ca..17e5744d3dee6 100644
+--- a/Documentation/dev-tools/checkpatch.rst
++++ b/Documentation/dev-tools/checkpatch.rst
+@@ -64,6 +64,13 @@ Available options:
+ 
+    Output only one line per report.
+ 
++ - --json
++
++   Output results as a JSON object.  The object includes total error, warning,
++   and check counts, plus an array of individual issues with structured fields
++   for level, type, message, file, and line number.  Cannot be used with
++   --terse or --emacs.
++
+  - --showfile
+ 
+    Show the diffed file position instead of the input file position.
+diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+index e56374662ff79..38d1a4a13ee8e 100755
+--- a/scripts/checkpatch.pl
++++ b/scripts/checkpatch.pl
+@@ -14,6 +14,7 @@ use File::Basename;
+ use Cwd 'abs_path';
+ use Term::ANSIColor qw(:constants);
+ use Encode qw(decode encode);
++use JSON::PP;
+ 
+ my $P = $0;
+ my $D = dirname(abs_path($P));
+@@ -33,6 +34,7 @@ my $chk_patch = 1;
+ my $tst_only;
+ my $emacs = 0;
+ my $terse = 0;
++my $json = 0;
+ my $showfile = 0;
+ my $file = 0;
+ my $git = 0;
+@@ -93,6 +95,7 @@ Options:
+   --patch                    treat FILE as patchfile (default)
+   --emacs                    emacs compile window format
+   --terse                    one line per report
++  --json                     output results as JSON
+   --showfile                 emit diffed file position, not input file position
+   -g, --git                  treat FILE as a single commit or git revision range
+                              single git commit with:
+@@ -320,6 +323,7 @@ GetOptions(
+ 	'patch!'	=> \$chk_patch,
+ 	'emacs!'	=> \$emacs,
+ 	'terse!'	=> \$terse,
++	'json!'		=> \$json,
+ 	'showfile!'	=> \$showfile,
+ 	'f|file!'	=> \$file,
+ 	'g|git!'	=> \$git,
+@@ -379,6 +383,7 @@ help($help - 1) if ($help);
+ 
+ die "$P: --git cannot be used with --file or --fix\n" if ($git && ($file || $fix));
+ die "$P: --verbose cannot be used with --terse\n" if ($verbose && $terse);
++die "$P: --json cannot be used with --terse or --emacs\n" if ($json && ($terse || $emacs));
+ 
+ if ($color =~ /^[01]$/) {
+ 	$color = !$color;
+@@ -1351,7 +1356,7 @@ for my $filename (@ARGV) {
+ 	}
+ 	close($FILE);
+ 
+-	if ($#ARGV > 0 && $quiet == 0) {
++	if (!$json && $#ARGV > 0 && $quiet == 0) {
+ 		print '-' x length($vname) . "\n";
+ 		print "$vname\n";
+ 		print '-' x length($vname) . "\n";
+@@ -1372,7 +1377,7 @@ for my $filename (@ARGV) {
+ 	$file = $oldfile if ($is_git_file);
+ }
+ 
+-if (!$quiet) {
++if (!$quiet && !$json) {
+ 	hash_show_words(\%use_type, "Used");
+ 	hash_show_words(\%ignore_type, "Ignored");
+ 
+@@ -2395,6 +2400,18 @@ sub report {
+ 
+ 	push(our @report, $output);
+ 
++	if ($json) {
++		our ($realfile, $realline);
++		my %issue = (
++			level => $level,
++			type => $type,
++			message => $msg,
++		);
++		$issue{file} = $realfile if (defined $realfile && $realfile ne '');
++		$issue{line} = $realline + 0 if (defined $realline && $realline);
++		push(our @json_issues, \%issue);
++	}
++
+ 	return 1;
+ }
+ 
+@@ -2402,6 +2419,23 @@ sub report_dump {
+ 	our @report;
+ }
+ 
++sub json_print_result {
++	my ($filename, $total_errors, $total_warnings, $total_checks,
++	    $total_lines, $issues, $used_types, $ignored_types) = @_;
++	my %result = (
++		filename       => $filename,
++		total_errors   => $total_errors + 0,
++		total_warnings => $total_warnings + 0,
++		total_checks   => $total_checks + 0,
++		total_lines    => $total_lines + 0,
++		issues         => $issues,
++	);
++	$result{used_types} = $used_types if (defined $used_types);
++	$result{ignored_types} = $ignored_types if (defined $ignored_types);
++	my $json_encoder = JSON::PP->new->canonical->utf8;
++	print $json_encoder->encode(\%result) . "\n";
++}
++
+ sub fixup_current_range {
+ 	my ($lineRef, $offset, $length) = @_;
+ 
+@@ -2690,14 +2724,15 @@ sub process {
+ 	my $last_coalesced_string_linenr = -1;
+ 
+ 	our @report = ();
++	our @json_issues = ();
+ 	our $cnt_lines = 0;
+ 	our $cnt_error = 0;
+ 	our $cnt_warn = 0;
+ 	our $cnt_chk = 0;
+ 
+ 	# Trace the real file/line as we go.
+-	my $realfile = '';
+-	my $realline = 0;
++	our $realfile = '';
++	our $realline = 0;
+ 	my $realcnt = 0;
+ 	my $here = '';
+ 	my $context_function;		#undef'd unless there's a known function
+@@ -7791,18 +7826,27 @@ sub process {
+ 	# If we have no input at all, then there is nothing to report on
+ 	# so just keep quiet.
+ 	if ($#rawlines == -1) {
++		if ($json) {
++			json_print_result($filename, 0, 0, 0, 0, []);
++		}
+ 		exit(0);
+ 	}
+ 
+ 	# In mailback mode only produce a report in the negative, for
+ 	# things that appear to be patches.
+ 	if ($mailback && ($clean == 1 || !$is_patch)) {
++		if ($json) {
++			json_print_result($filename, 0, 0, 0, 0, []);
++		}
+ 		exit(0);
+ 	}
+ 
+ 	# This is not a patch, and we are in 'no-patch' mode so
+ 	# just keep quiet.
+ 	if (!$chk_patch && !$is_patch) {
++		if ($json) {
++			json_print_result($filename, 0, 0, 0, 0, []);
++		}
+ 		exit(0);
+ 	}
+ 
+@@ -7850,6 +7894,13 @@ sub process {
+ 		}
+ 	}
+ 
++	if ($json) {
++		my @used = sort keys %use_type;
++		my @ignored = sort keys %ignore_type;
++		json_print_result($filename, $cnt_error, $cnt_warn,
++				  $cnt_chk, $cnt_lines, \@json_issues,
++				  \@used, \@ignored);
++	} else {
+ 	print report_dump();
+ 	if ($summary && !($clean == 1 && $quiet == 1)) {
+ 		print "$filename " if ($summary_file);
+@@ -7878,8 +7929,9 @@ NOTE: Whitespace errors detected.
+ EOM
+ 		}
+ 	}
++	} # end !$json
+ 
+-	if ($clean == 0 && $fix &&
++	if (!$json && $clean == 0 && $fix &&
+ 	    ("@rawlines" ne "@fixed" ||
+ 	     $#fixed_inserted >= 0 || $#fixed_deleted >= 0)) {
+ 		my $newfile = $filename;
+@@ -7918,7 +7970,7 @@ EOM
+ 		}
+ 	}
+ 
+-	if ($quiet == 0) {
++	if (!$json && $quiet == 0) {
+ 		print "\n";
+ 		if ($clean == 1) {
+ 			print "$vname has no obvious style problems and is ready for submission.\n";
+-- 
+2.53.0
 
