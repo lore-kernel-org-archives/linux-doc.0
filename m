@@ -1,169 +1,916 @@
-Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020131.outbound.protection.outlook.com [52.101.196.131])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FF8B25A321;
-	Wed,  8 Apr 2026 17:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.131
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775670243; cv=fail; b=Iq3veFSRsVsgg+TuIcW/QpwM/ldAvmIX34ejma29ETiL/mOLaJJXMcTHAGFsgBeDOr1BKO4wZachccW27xbqMAyelvpvSPIrHo1zKk44yZueSm9iKHnZlzlZ6XWXksR9k7kIe6CDsQwfgF96reimo4nPODH+XRYYjrppU5lHJAM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775670243; c=relaxed/simple;
-	bh=R/G97Uo1SwrV9TpZeGTm0um1zQMIRJRoMz3gHcwFdGI=;
-	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
-	 In-Reply-To:MIME-Version; b=KcrgZzExd8NaOKSPNG/yPUdHyUNYKlbkrsb3vVJ2AyPPX6KUnBaVWC4ydRG7sfgRyIwNPmKsWpfX+0YmmDb/ahEMjLIxqV43f2d4O03BBJ6/tnPFIf+B/MnpDnmRSQxhmd+mOk/kBLCLAXhpAEbt40vUeRCJuwFZnanBhBhhtzs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=rQ51ORzn; arc=fail smtp.client-ip=52.101.196.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="rQ51ORzn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GRtgoBtbmoj8NRrVRDtHG8bQiE7hOAiSXinMn9JNSPe7uv/+b9WFkVbeY4Iv36SmYVMkA8ZO+O94Pt/gq4Ujmj4MbOEgo+3TjSYxMr7lXj5hpaGDU08pytzNJiof3V3NIQ9O36imhF0N2hfk2Wc2IxFtvBEk4EiuqpjndQYXYJDGgF5EfSTqr9xuxVuv7LdcGJlJJckZN6fGj1HdeSXAZXpWX6YHzJ7FXm763+phr4HAUeJCB5B4mGZa4OPWLVTwm8yElsuduiDprsjN9M+f+YvkB5dOv/8MOzEXyOefBcbo76kaW6jQz4Y1BxxC0g2JZ5eRC5sdswSnwIF97UU26Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JuoVcBfAWxyDc/hLQGKY/u/w+tqsmX2BJngjUVgcZVw=;
- b=D6cLtOzGo/UGlL1pEBrks42pSEgXrguJzHJPc0Rn4cOOiGahTEzwyHsNWxQ3BkPDMb1IelZYa3f+pbFTdtt+hwcjVezuZRoU5YbI9dBzbMDOalj2558By8As3h51Lrdhp+dy5wmMTnOJmvZCCW9Wp17NyljQAN5rbU7HmEETSdYVtxpGzywTBsG9Z/Evh4s3XxVYrHatcLDMkNkwlThuFbLIeUbiutCzZetjKAiKRi1ptPWCuLdQj4DTmSt/m8TleyERQFmong3lvX6PGkt30fwylpBHXmpp2SWwuIvSF24OUTOtLc60mTHtYbIarwkVsiSmiJJKsgfTaOJhaxc3TQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JuoVcBfAWxyDc/hLQGKY/u/w+tqsmX2BJngjUVgcZVw=;
- b=rQ51ORznM/7MDJfX507CNj73iZa3TaV+YRtqMszNPYJL/wVG8LO8bZ2+7GxYrm9K1yculWD6pnwRlDXdZqzChO1LFqy++0autLdRMUr/xhGNIzeZOL+v3uvo1snMSsQzRgrnOVxw7Lz0pjtrBGUY8dzgM/h6GFhYF1xO8dj/+1I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by CW1P265MB7531.GBRP265.PROD.OUTLOOK.COM (2603:10a6:400:214::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.21; Wed, 8 Apr
- 2026 17:43:56 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.016; Wed, 8 Apr 2026
- 17:43:55 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Apr 2026 18:43:55 +0100
-Message-Id: <DHNYKCR34P1F.1EZ3D0A8UB8S5@garyguo.net>
-To: "Ben Guo" <ben.guo@openatom.club>, "Gary Guo" <gary@garyguo.net>, "Alex
- Shi" <alexs@kernel.org>, "Yanteng Si" <si.yanteng@linux.dev>, "Dongliang
- Mu" <dzm91@hust.edu.cn>, "Jonathan Corbet" <corbet@lwn.net>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 3/4] docs/zh_CN: update rust/quick-start.rst translation
-From: "Gary Guo" <gary@garyguo.net>
-X-Mailer: aerc 0.21.0
-References: <cover.1775619061.git.ben.guo@openatom.club>
- <b5e1246269848fc95d118a722fb11eee88961053.1775619061.git.ben.guo@openatom.club> <DHNQOSMQJV1A.18UJB6VG0QK70@garyguo.net> <46eb585f-4983-4821-9be8-ef57571c3516@openatom.club>
-In-Reply-To: <46eb585f-4983-4821-9be8-ef57571c3516@openatom.club>
-X-ClientProxiedBy: LO4P123CA0022.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:151::9) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244B826A1AF;
+	Wed,  8 Apr 2026 17:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775670303; cv=none; b=hFs9z6gnBkhpGYesR8R+efMnumNYPG7RtFiKYFShjLow/VweWVdeJmpGvPfW4ZODF72hD3DKOklb6k1MsualDAlYYi9N8a7VPNWsSJolfrPcy8tIJKkmIH7TjyDL743FjaJ+nWNs3McbmpjJWci40tqeK+aAUe4KuURa7VFHdK0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775670303; c=relaxed/simple;
+	bh=m6lEzRAdv7kYgtyA3Em2KRRTRxLrVIO0KeUXKQLGulM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=j2apqAgxQ726Abp1EqUndP3GpfkyNeM32RDi4GNLnu42aDa/H6tEKO9VP29Zj2WRnwLjDyxIrEuImojhZdM7EwZWtGR4dm9ePbcdT6f9GaGysrVnQk5be1DxEQIS9zQKssK/U8DnIQvAAnc9N1pXK8VWG5/07V7bS7Y1CPRHnp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.224.150])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTPS id 4frVRW5JDpzJ46cl;
+	Thu,  9 Apr 2026 01:29:11 +0800 (CST)
+Received: from dubpeml500008.china.huawei.com (unknown [7.214.146.94])
+	by mail.maildlp.com (Postfix) with ESMTPS id A2D684056B;
+	Thu,  9 Apr 2026 01:29:43 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.126.175.151) by
+ dubpeml500008.china.huawei.com (7.214.146.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 8 Apr 2026 18:29:41 +0100
+From: <shiju.jose@huawei.com>
+To: <rafael@kernel.org>, <bp@alien8.de>, <akpm@linux-foundation.org>,
+	<rppt@kernel.org>, <dferguson@amperecomputing.com>,
+	<linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>
+CC: <jonathan.cameron@huawei.com>, <linuxarm@huawei.com>,
+	<rientjes@google.com>, <jiaqiyan@google.com>, <Jon.Grimm@amd.com>,
+	<dave.hansen@linux.intel.com>, <naoya.horiguchi@nec.com>,
+	<james.morse@arm.com>, <jthoughton@google.com>, <somasundaram.a@hpe.com>,
+	<erdemaktas@google.com>, <pgonda@google.com>, <duenwen@google.com>,
+	<gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<wbs@os.amperecomputing.com>, <nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>,
+	<prime.zeng@hisilicon.com>, <roberto.sassu@huawei.com>,
+	<kangkang.shen@futurewei.com>, <wanghuiqiang@huawei.com>,
+	<shiju.jose@huawei.com>, <shijujose2008@gmail.com>
+Subject: [PATCH v19 2/2] ras: mem: Add ACPI RAS2 memory driver
+Date: Wed, 8 Apr 2026 18:28:49 +0100
+Message-ID: <20260408172850.183-3-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
+In-Reply-To: <20260408172850.183-1-shiju.jose@huawei.com>
+References: <20260408172850.183-1-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|CW1P265MB7531:EE_
-X-MS-Office365-Filtering-Correlation-Id: 796f9a61-2282-46b9-7d47-08de9596680b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|10070799003|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	M21237iHr54YkaGRvU6Sc+JeXj+F+942ObkpQDFC3u2ft2KJNXk1yc4kaAVTmZBPrUve8Hrhag8nQs6FNFaCpqSeObqlqXCx4q71tbQn+HjA4EO4mvgG0uIIIjkgl/BSNp6rL6rQbaUwNHP+YxkAFUBwmTEheSrAF3mkKDGUgyh+hgXUBtrFhbIZqMUxK/hwXc0+7c11etQFlHp+prIuUTKlILINh2H1s1Ba9QhPezvIUXzZ4ocUz0c+2X+GgQ2sDizCLzN8yFOFt+Z5eI8GfnYFOV5g1JDo62YtbUn3v0A6vTVlz3sLZkoZbUw3Su34XQ069dlM7rI0c9y05JIZwr/VSfsMnq5rhkA1bqR5hvoRhcurBK09RmNwBX74OWwUO00h/E7JzbLRmgxqgRAQiW6+u9BiPdWb/PiQ/okmNOYJHUgJJWVq+Jk3Ps1vc/evjYZd2KplXG3Uvcfdw0wJDGXww2qQYKQtV7Rs5PHSRrfruIg8YxpZ4+D3ewp96w6qhvvcvTp6g9RS4ZyNg9vQJAqzgynVWOegB6hfZxjyTL0YO8YbVNHOPOISaUg8ivN/Q3087csRPAwokaLxMnuOTrX+jlzlNWdpvX86BlKaySe7cYVBiIeUQV+AAG/dDXHnejNi+QoycsvmkL9EIoTgzdRIbU2rFT8FU2UPEnwifW4tlso5gC6yTlkd8HHzzhJvDFnpOmOoLXDNTtNBz/wKf8fQaEyJWId/C5iAsHuCESI=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(10070799003)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OTlWajdybzhqa3diUkNIQ2lWVjJPa2NXYzQxTW1BbHJucHRYT2gvSDVaYVVz?=
- =?utf-8?B?RFoyRnlBSmdrV2swSFpCRWF0NFBJSzN0bVdLZUVPckl5bUtpMVBocnZtQ281?=
- =?utf-8?B?N3BrM2o0TGtrdHN3Q3g5eWFXYm5aTFJqcmJTMUJaZnF0OGRnQmF6THBwdkdv?=
- =?utf-8?B?Q1BpTG0ySWJvUzVIbHJEajRmRHFndkV3ditKUmMvbG15TFZ5NTMyM0ovcGxn?=
- =?utf-8?B?OFNud3VHOXViMG05M09Bbk9KdFBsSHU5OFg5djJrVkhGNHFxZDFKQjdrV3c3?=
- =?utf-8?B?c0FHN1d2eVdLSUJweXRpNWgxYW1MV0ZrcGFFYTM4RHJjSkl0a01RQWVJcUxN?=
- =?utf-8?B?Q1lwNXZEMlRjVFMrVlBIRStwcFl0UGZqZzlzTFRUUWVXUk9WRkdtMlN1d2JO?=
- =?utf-8?B?WTVJdnY2SmlaQnNyR0FXcjIvZTY3Z05GdXRHZ1NtY0ZYaXlDVmJZbWxyWlFJ?=
- =?utf-8?B?QW1CL2VBYUlIUGFFTXBqb2lyZS82S2pUdmZBcmlQZ2ZRTHdPWGtxdVNhRzZh?=
- =?utf-8?B?LzNLcXdsSEt5TVNudWNMWVZHYWdidzJoVlFpOW1uUTlPMGtzaVlGdXExK1NK?=
- =?utf-8?B?d3dLc1VUS3J1TFgwOFdGUTlVMHp1bHhPZVQ5dGlKTHMxMTB5Ulc5Yk5Zek9y?=
- =?utf-8?B?aDdHMzJKSmFTejdLK3MwT00xWmVYUjJXUjAxdENLVk1QNVpWNDRYN0ZGZkda?=
- =?utf-8?B?dXIxbGdHQWk4RjJKNmlMZ3c1bUVHdlo2UXRJSjNFZjkwVDNpWUdpaHRqTDhQ?=
- =?utf-8?B?R04ybkdlSTNYamtuUldxUERuaXlzS0IzQXlENXBvSVhaa2V2dGtUVFdYSU9Q?=
- =?utf-8?B?SVJzbkdvVFd4WkhLL3pMTWZiRFkyV0liV3JNUG16RjZTQkhzb1l6NTFkMTMw?=
- =?utf-8?B?MHJ5Sk1iYnM4OWRsNHB1UWxhUlZTV0xmV2hxL0k1bXo4Rzc5RFVvRkU0bFY5?=
- =?utf-8?B?dGJmMFpQekFPcXFkRjBtVzN4a0V4ZVhyQklzSzk0Z0dlQUxsV2VHWWxqdTV0?=
- =?utf-8?B?RUczd2FvblN2YzRmc1VZMmorVVNGQjBkd2IrMWJITitmWVJ6QUtIT0t0MnVO?=
- =?utf-8?B?QzNzN2EvUHNQRTVCV2w5MHJLRmNqSlZsUkZrZlpjY2l2NFVWNFdDQVJaaUtS?=
- =?utf-8?B?aVNuTVBBbHpzM05sZmtleTBUc0hUUWFqUXA2U01ydnJEazRCYmZDdmdxeUpI?=
- =?utf-8?B?cDc1MVJkUGdXQXJ1VW5oVHJNMWxFeS9ZaTdYMGN2SCtDeHY2Q1U3aDBacXAr?=
- =?utf-8?B?eTBRckhIWkhkWmNDVVltRFZhU0lZU0djK0MyU28waHRqdXhvdDJieTEva3E5?=
- =?utf-8?B?MHNSM3k0ZFlGYzVyZXBKK0ptcmFyYkxlRzZraW5xVnlITTRoK0lUNE5wM3Ey?=
- =?utf-8?B?Vy9MbzBjYW1kM0hiRTlpWTJvd2t0Z3Q5bjV2Q01QcnVra2MyMFRoRUZ6MDJj?=
- =?utf-8?B?K1RGQXBuM2JsQnRBekZ4a1k0dEtnYjl2YUVaMHl3SzFmTm9aMXFJS0RjMjZI?=
- =?utf-8?B?TU1lcTlkMmQwUEIvOXJyZ1p6UUFPQXg5S0l3S0s0d054dktraks1V0hNL0g2?=
- =?utf-8?B?ODhEK2pKUkhUOE0xckgxNi85bjFMNTJ3U2kwSFBzZUxqRmYrbUc5VXRmMGlD?=
- =?utf-8?B?V0VvK09CRndzUmMyK3FzRy83L2U1OXdOcUJtcEVSMWpMNTQ1U3lvc1YvOWVY?=
- =?utf-8?B?WWVTSW1Wd1hycTlmMHBjS0tJZlh0NFpmRmNnc0JHbXo4c292R3ZQY0F4TjBs?=
- =?utf-8?B?c0NxcTM4am84ZUUxalFrZXlFTkNxOTlzV2FPdFN6eHZCNjRXZklkUE9JQVVB?=
- =?utf-8?B?ZDNsbGRhcVNwYW55U0JhMGdsVkFmUURCRWRUUjZyUVFKMVUvZ2lkdFZORVFM?=
- =?utf-8?B?VzlUeG42TlE4aTlVaDJHSmIxbE43Wi9EMnRsSTlZVjVwQ0paM2lUazIrbXky?=
- =?utf-8?B?eEhLdk1HcGNkMzU2VVo5a1FEU1QzeVpucHJpV3IvWWlZSUhrSy94dDI4UHFZ?=
- =?utf-8?B?TmJHM3VIaVQ2ZXpUVFdqZjkwR2hDdE5KVzk4bkVRRm1WRG1SZWlKQ0tLUWF0?=
- =?utf-8?B?dG5wUk03ZStpRnZVdjYwaGxNd08ySHV3RkpqeHB3dDBmb3RFYkVYSE4vTStn?=
- =?utf-8?B?MWh3bDlYYWNBOE9RM2tYSUE5MUNmUnBsckhFd1B4aWFrYWRHS245ajVrWDlp?=
- =?utf-8?B?ZjJKME9NNkd1WGRIRlgwUmZUK2JnSmZZNHNzL0FyRWdCdVBOemlyZ2czNzFQ?=
- =?utf-8?B?S082ODAvcGx6YnJHWEpsMW0zT2VGRHNzb0hKaGFaRWlQb1BMclVtMm9NdVJE?=
- =?utf-8?B?R3VlcDhQTDFJVlgwNDRTeVM2ZlRvV3NpeXI3MFRqNk9qVWpqQzR2Zz09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 796f9a61-2282-46b9-7d47-08de9596680b
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 17:43:55.7494
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ll/rarlONTdLA8LuabgCgk99gjrzTUO4VWTPCt4fIIp18b4mce+vOIFnN06uQkN8+2PIzkaCuAP4uXEenjcljw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P265MB7531
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500010.china.huawei.com (7.191.174.240) To
+ dubpeml500008.china.huawei.com (7.214.146.94)
 
-On Wed Apr 8, 2026 at 5:51 PM BST, Ben Guo wrote:
-> On 4/8/26 7:33 PM, Gary Guo wrote:
->> Hi Ben,
->>=20
->> Thanks on updating the doc translation. There has been new changes to
->> quick-start.rst on rust-next, could you update the translation to base o=
-n that
->> please?
->>=20
->> Thanks,
->> Gary
->
-> Hi Gary,=20
->  =20
->
->  =20
->  =20
->
-> Thanks for the review. This series is based on the Chinese documentation
-> maintainer's tree (alexs/linux.git docs-next), which does not yet have
-> the latest quick-start.rst changes from the Rust-for-Linux rust-next
-> tree.
->
-> Would it be better to wait until those changes land in our base tree
-> and then resend with the updated translation? Or would you prefer a
-> different approach?
->
-> Thanks,
-> Ben
+From: Shiju Jose <shiju.jose@huawei.com>
 
-I don't see the issue of sending translation of the latest quick-start.rst =
-even
-if it's not in your base yet. By the time the changes land upstream, the
-original quick-start.rst would already be there.
+ACPI 6.5 Specification, section 5.2.21, defined RAS2 feature table (RAS2).
+Driver adds support for RAS2 feature table, which provides interfaces for
+platform RAS features, e.g., for HW-based memory scrubbing, and logical to
+PA translation service. RAS2 uses PCC channel subspace for communicating
+with the ACPI compliant HW platform.
 
-Best,
-Gary
+ACPI RAS2 auxiliary driver for the memory features binds to the auxiliary
+device, which is added by the RAS2 table parser in the ACPI RAS2 driver.
+
+Given the address range provided to the userspace may be the lowest scrub
+address range in the presence of disjoint address ranges, skipping address
+ranges that are from other NUMA nodes but happen to lie within this range.
+
+Driver retrieves the PA range of the NUMA domain and use it as the
+'Requested Address Range', when send RAS2 command GET_PATROL_PARAMETERS
+to get parameters that apply to all addresses in the NUMA domain.
+
+Device with ACPI RAS2 scrub feature registers with EDAC device driver,
+which retrieves the scrub descriptor from EDAC scrub and exposes
+the scrub control attributes for RAS2 scrub instance to userspace in
+/sys/bus/edac/devices/acpi_ras_memX/scrub0/.
+
+Add 'enable_demand' attribute to the EDAC scrub interface to start/stop
+the demand scrub, which is used in the RAS2 demand scrub control.
+When a demand scrub is started, any background scrub currently in progress
+will be stopped and then automatically restarted at the beginning when the
+demand scrub has completed.
+
+Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
+Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+---
+ Documentation/ABI/testing/sysfs-edac-scrub |  13 +-
+ Documentation/edac/scrub.rst               |  70 +++
+ drivers/edac/scrub.c                       |  12 +
+ drivers/ras/Kconfig                        |  13 +
+ drivers/ras/Makefile                       |   1 +
+ drivers/ras/acpi_ras2.c                    | 540 +++++++++++++++++++++
+ include/acpi/ras2.h                        |  27 ++
+ include/linux/edac.h                       |   4 +
+ 8 files changed, 675 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/ras/acpi_ras2.c
+
+diff --git a/Documentation/ABI/testing/sysfs-edac-scrub b/Documentation/ABI/testing/sysfs-edac-scrub
+index ab6014743da5..3f68f63556f4 100644
+--- a/Documentation/ABI/testing/sysfs-edac-scrub
++++ b/Documentation/ABI/testing/sysfs-edac-scrub
+@@ -20,11 +20,7 @@ KernelVersion:	6.15
+ Contact:	linux-edac@vger.kernel.org
+ Description:
+ 		(RW) The base address of the memory region to be scrubbed
+-		for on-demand scrubbing. Setting address starts scrubbing.
+-		The size must be set before that.
+-
+-		The readback addr value is non-zero if the requested
+-		on-demand scrubbing is in progress, zero otherwise.
++		for demand scrubbing.
+ 
+ What:		/sys/bus/edac/devices/<dev-name>/scrubX/size
+ Date:		March 2025
+@@ -34,6 +30,13 @@ Description:
+ 		(RW) The size of the memory region to be scrubbed
+ 		(on-demand scrubbing).
+ 
++What:		/sys/bus/edac/devices/<dev-name>/scrubX/enable_demand
++Date:		Jan 2026
++KernelVersion:	6.19
++Contact:	linux-edac@vger.kernel.org
++Description:
++		(RW) Start/Stop demand scrubbing if supported.
++
+ What:		/sys/bus/edac/devices/<dev-name>/scrubX/enable_background
+ Date:		March 2025
+ KernelVersion:	6.15
+diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
+index 2cfa74fa1ffd..562bfd6ff630 100644
+--- a/Documentation/edac/scrub.rst
++++ b/Documentation/edac/scrub.rst
+@@ -340,3 +340,73 @@ controller or platform when unexpectedly high error rates are detected.
+ 
+ Sysfs files for scrubbing are documented in
+ `Documentation/ABI/testing/sysfs-edac-ecs`
++
++3. ACPI RAS2 Hardware-based Memory Scrubbing
++
++3.1. Demand scrubbing for a specific memory region.
++
++3.1.1. Query the status of demand scrubbing
++
++# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_demand
++
++0
++
++3.1.2. Query what is device default/current scrub cycle setting.
++
++Applicable to both demand and background scrubbing. The unit of the
++scrub cycle is seconds.
++
++# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
++
++36000
++
++3.1.3. Query the range of device supported scrub cycle for a memory region.
++The unit of the scrub cycle range is seconds.
++
++# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/min_cycle_duration
++
++3600
++
++# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/max_cycle_duration
++
++86400
++
++3.1.4. Program scrubbing for the memory region in RAS2 device to repeat every
++43200 seconds (half a day).
++
++# echo 43200 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
++
++3.1.5. Set address range.
++
++Set 'addr' of the memory region to scrub.
++
++# echo 0x80000000 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/addr
++
++Set 'size' of the memory region to scrub.
++
++# echo 0x200000 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/size
++
++3.1.6. Start 'demand scrubbing'.
++
++When a demand scrub is started, any background scrub currently in progress
++will be stopped and then automatically restarted at the beginning when the
++demand scrub has completed.
++
++# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_demand
++
++3.2. Background scrubbing the entire memory
++
++3.2.1. Query the status of background scrubbing.
++
++# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
++
++0
++
++3.2.2. Program background scrubbing for RAS2 device to repeat in every 21600
++seconds (quarter of a day).
++
++# echo 21600 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
++
++3.2.3. Start 'background scrubbing'.
++
++# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
+diff --git a/drivers/edac/scrub.c b/drivers/edac/scrub.c
+index f9d02af2fc3a..f3b9a2f04950 100644
+--- a/drivers/edac/scrub.c
++++ b/drivers/edac/scrub.c
+@@ -14,6 +14,7 @@ enum edac_scrub_attributes {
+ 	SCRUB_ADDRESS,
+ 	SCRUB_SIZE,
+ 	SCRUB_ENABLE_BACKGROUND,
++	SCRUB_ENABLE_DEMAND,
+ 	SCRUB_MIN_CYCLE_DURATION,
+ 	SCRUB_MAX_CYCLE_DURATION,
+ 	SCRUB_CUR_CYCLE_DURATION,
+@@ -55,6 +56,7 @@ static ssize_t attrib##_show(struct device *ras_feat_dev,			\
+ EDAC_SCRUB_ATTR_SHOW(addr, read_addr, u64, "0x%llx\n")
+ EDAC_SCRUB_ATTR_SHOW(size, read_size, u64, "0x%llx\n")
+ EDAC_SCRUB_ATTR_SHOW(enable_background, get_enabled_bg, bool, "%u\n")
++EDAC_SCRUB_ATTR_SHOW(enable_demand, get_enabled_od, bool, "%u\n")
+ EDAC_SCRUB_ATTR_SHOW(min_cycle_duration, get_min_cycle, u32, "%u\n")
+ EDAC_SCRUB_ATTR_SHOW(max_cycle_duration, get_max_cycle, u32, "%u\n")
+ EDAC_SCRUB_ATTR_SHOW(current_cycle_duration, get_cycle_duration, u32, "%u\n")
+@@ -84,6 +86,7 @@ static ssize_t attrib##_store(struct device *ras_feat_dev,			\
+ EDAC_SCRUB_ATTR_STORE(addr, write_addr, u64, kstrtou64)
+ EDAC_SCRUB_ATTR_STORE(size, write_size, u64, kstrtou64)
+ EDAC_SCRUB_ATTR_STORE(enable_background, set_enabled_bg, unsigned long, kstrtoul)
++EDAC_SCRUB_ATTR_STORE(enable_demand, set_enabled_od, unsigned long, kstrtoul)
+ EDAC_SCRUB_ATTR_STORE(current_cycle_duration, set_cycle_duration, unsigned long, kstrtoul)
+ 
+ static umode_t scrub_attr_visible(struct kobject *kobj, struct attribute *a, int attr_id)
+@@ -119,6 +122,14 @@ static umode_t scrub_attr_visible(struct kobject *kobj, struct attribute *a, int
+ 				return 0444;
+ 		}
+ 		break;
++	case SCRUB_ENABLE_DEMAND:
++		if (ops->get_enabled_od) {
++			if (ops->set_enabled_od)
++				return a->mode;
++			else
++				return 0444;
++		}
++		break;
+ 	case SCRUB_MIN_CYCLE_DURATION:
+ 		if (ops->get_min_cycle)
+ 			return a->mode;
+@@ -164,6 +175,7 @@ static int scrub_create_desc(struct device *scrub_dev,
+ 		[SCRUB_ADDRESS] = EDAC_SCRUB_ATTR_RW(addr, instance),
+ 		[SCRUB_SIZE] = EDAC_SCRUB_ATTR_RW(size, instance),
+ 		[SCRUB_ENABLE_BACKGROUND] = EDAC_SCRUB_ATTR_RW(enable_background, instance),
++		[SCRUB_ENABLE_DEMAND] = EDAC_SCRUB_ATTR_RW(enable_demand, instance),
+ 		[SCRUB_MIN_CYCLE_DURATION] = EDAC_SCRUB_ATTR_RO(min_cycle_duration, instance),
+ 		[SCRUB_MAX_CYCLE_DURATION] = EDAC_SCRUB_ATTR_RO(max_cycle_duration, instance),
+ 		[SCRUB_CUR_CYCLE_DURATION] = EDAC_SCRUB_ATTR_RW(current_cycle_duration, instance)
+diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
+index fc4f4bb94a4c..a1e6aed8bcc8 100644
+--- a/drivers/ras/Kconfig
++++ b/drivers/ras/Kconfig
+@@ -46,4 +46,17 @@ config RAS_FMPM
+ 	  Memory will be retired during boot time and run time depending on
+ 	  platform-specific policies.
+ 
++config MEM_ACPI_RAS2
++	tristate "Memory ACPI RAS2 driver"
++	depends on ACPI_RAS2
++	depends on EDAC
++	depends on EDAC_SCRUB
++	select NUMA_KEEP_MEMINFO
++	help
++	  The driver binds to the auxiliary device added by the ACPI RAS2
++	  feature table parser. The driver uses a PCC channel subspace to
++	  communicate with the ACPI-compliant platform and provides
++	  control of the HW-based memory scrubber parameters to the user
++	  through the EDAC scrub interface.
++
+ endif
+diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
+index 11f95d59d397..a0e6e903d6b0 100644
+--- a/drivers/ras/Makefile
++++ b/drivers/ras/Makefile
+@@ -2,6 +2,7 @@
+ obj-$(CONFIG_RAS)	+= ras.o
+ obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
+ obj-$(CONFIG_RAS_CEC)	+= cec.o
++obj-$(CONFIG_MEM_ACPI_RAS2)	+= acpi_ras2.o
+ 
+ obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
+ obj-y			+= amd/atl/
+diff --git a/drivers/ras/acpi_ras2.c b/drivers/ras/acpi_ras2.c
+new file mode 100644
+index 000000000000..129503fdd0bb
+--- /dev/null
++++ b/drivers/ras/acpi_ras2.c
+@@ -0,0 +1,540 @@
++// SPDX-License-Identifier: GPL-2.0-or-later
++/*
++ * ACPI RAS2 memory driver
++ *
++ * Copyright (c) 2024-2026 HiSilicon Limited.
++ *
++ */
++
++#undef pr_fmt
++#define pr_fmt(fmt)	"ACPI RAS2 MEMORY: " fmt
++
++#include <linux/bitfield.h>
++#include <linux/delay.h>
++#include <linux/edac.h>
++#include <linux/kthread.h>
++#include <linux/platform_device.h>
++#include <acpi/ras2.h>
++
++#define RAS2_SUPPORT_HW_PARTOL_SCRUB BIT(0)
++#define RAS2_TYPE_PATROL_SCRUB 0x0000
++
++#define RAS2_GET_PATROL_PARAMETERS 0x01
++#define RAS2_START_PATROL_SCRUBBER 0x02
++#define RAS2_STOP_PATROL_SCRUBBER 0x03
++
++/*
++ * RAS2 patrol scrub
++ */
++#define RAS2_PS_SC_HRS_IN_MASK GENMASK(15, 8)
++#define RAS2_PS_EN_BACKGROUND BIT(0)
++#define RAS2_PS_SC_HRS_OUT_MASK GENMASK(7, 0)
++#define RAS2_PS_MIN_SC_HRS_OUT_MASK GENMASK(15, 8)
++#define RAS2_PS_MAX_SC_HRS_OUT_MASK GENMASK(23, 16)
++#define RAS2_PS_FLAG_SCRUB_RUNNING BIT(0)
++
++#define RAS2_SCRUB_NAME_LEN 128
++#define RAS2_HOUR_IN_SECS 3600
++
++struct acpi_ras2_ps_shared_mem {
++	struct acpi_ras2_shmem common;
++	struct acpi_ras2_patrol_scrub_param params;
++};
++
++#define TO_ACPI_RAS2_PS_SHMEM(_addr) \
++	container_of(_addr, struct acpi_ras2_ps_shared_mem, common)
++
++static int ras2_hw_scrub_set_enabled_bg(struct device *dev, void *drv_data, bool enable);
++
++static int ras2_is_patrol_scrub_support(struct ras2_mem_ctx *ras2_ctx)
++{
++	struct acpi_ras2_shmem __iomem *common = (void *)ras2_ctx->comm_addr;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	common->set_caps[0] = 0;
++
++	return common->features[0] & RAS2_SUPPORT_HW_PARTOL_SCRUB;
++}
++
++static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx *ras2_ctx)
++{
++	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
++		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
++	u32 scrub_params_out;
++	int ret;
++
++	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
++	iowrite16(RAS2_GET_PATROL_PARAMETERS, &ps_sm->params.command);
++	iowrite64(ras2_ctx->mem_base, &ps_sm->params.req_addr_range[0]);
++	iowrite64(ras2_ctx->mem_size, &ps_sm->params.req_addr_range[1]);
++	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
++	if (ret) {
++		dev_err(ras2_ctx->dev, "Failed to read patrol scrub parameters\n");
++		return ret;
++	}
++
++	scrub_params_out = ioread32(&ps_sm->params.scrub_params_out);
++	ras2_ctx->min_scrub_cycle = FIELD_GET(RAS2_PS_MIN_SC_HRS_OUT_MASK,
++					      scrub_params_out);
++	ras2_ctx->max_scrub_cycle = FIELD_GET(RAS2_PS_MAX_SC_HRS_OUT_MASK,
++					      scrub_params_out);
++	ras2_ctx->scrub_cycle_hrs = FIELD_GET(RAS2_PS_SC_HRS_OUT_MASK,
++					      scrub_params_out);
++	if (ras2_ctx->bg_scrub) {
++		ras2_ctx->od_scrub = false;
++		ras2_ctx->base = 0;
++		ras2_ctx->size = 0;
++		return 0;
++	}
++
++	if  (ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING) {
++		ras2_ctx->od_scrub = true;
++		ras2_ctx->base = ioread64(&ps_sm->params.actl_addr_range[0]);
++		ras2_ctx->size = ioread64(&ps_sm->params.actl_addr_range[1]);
++	} else {
++		ras2_ctx->od_scrub = false;
++	}
++
++	return 0;
++}
++
++/* Context - PCC lock must be held */
++static int ras2_get_demand_scrub_running(struct ras2_mem_ctx *ras2_ctx, bool *running)
++{
++	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
++		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
++	int ret;
++
++	if (!ras2_ctx->od_scrub) {
++		*running = false;
++		return 0;
++	}
++
++	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
++	iowrite16(RAS2_GET_PATROL_PARAMETERS, &ps_sm->params.command);
++	iowrite64(ras2_ctx->mem_base, &ps_sm->params.req_addr_range[0]);
++	iowrite64(ras2_ctx->mem_size, &ps_sm->params.req_addr_range[1]);
++
++	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
++	if (ret) {
++		dev_err(ras2_ctx->dev, "Failed to read patrol scrub parameters\n");
++		return ret;
++	}
++
++	*running = ioread32(&ps_sm->params.flags) & RAS2_PS_FLAG_SCRUB_RUNNING;
++	if (!(*running))
++		ras2_ctx->od_scrub = false;
++
++	return 0;
++}
++
++static int ras2_scrub_monitor_thread(void *p)
++{
++	struct ras2_mem_ctx *ras2_ctx = (struct ras2_mem_ctx *)p;
++	bool running;
++	int ret;
++
++	while (!kthread_should_stop()) {
++		if (!ras2_ctx->reenable_bg_scrub)
++			return 0;
++
++		mutex_lock(ras2_ctx->pcc_lock);
++		ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++		mutex_unlock(ras2_ctx->pcc_lock);
++		if (ret)
++			return ret;
++
++		if (!running)
++			return ras2_hw_scrub_set_enabled_bg(ras2_ctx->dev, ras2_ctx, true);
++
++		msleep(1000);
++	}
++
++	ras2_ctx->thread = NULL;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_read_min_scrub_cycle(struct device *dev, void *drv_data, u32 *min)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++
++	*min = ras2_ctx->min_scrub_cycle * RAS2_HOUR_IN_SECS;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_read_max_scrub_cycle(struct device *dev, void *drv_data, u32 *max)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++
++	*max = ras2_ctx->max_scrub_cycle * RAS2_HOUR_IN_SECS;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_cycle_read(struct device *dev, void *drv_data, u32 *scrub_cycle_secs)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++
++	*scrub_cycle_secs = ras2_ctx->scrub_cycle_hrs * RAS2_HOUR_IN_SECS;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_cycle_write(struct device *dev, void *drv_data, u32 scrub_cycle_secs)
++{
++	u32 scrub_cycle_hrs = scrub_cycle_secs / RAS2_HOUR_IN_SECS;
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	bool running;
++	int ret;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++	if (ret)
++		return ret;
++
++	if (running)
++		return -EBUSY;
++
++	if (scrub_cycle_hrs < ras2_ctx->min_scrub_cycle ||
++	    scrub_cycle_hrs > ras2_ctx->max_scrub_cycle)
++		return -EINVAL;
++
++	ras2_ctx->set_scrub_cycle = scrub_cycle_hrs;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_read_addr(struct device *dev, void *drv_data, u64 *base)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	int ret;
++
++	/*
++	 * When BG scrubbing is enabled the actual address range is not valid.
++	 * Return -EBUSY now unless find out a method to retrieve actual full PA range.
++	 */
++	if (ras2_ctx->bg_scrub)
++		return -EBUSY;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
++	if (ret)
++		return ret;
++
++	*base = ras2_ctx->base;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_read_size(struct device *dev, void *drv_data, u64 *size)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	int ret;
++
++	if (ras2_ctx->bg_scrub)
++		return -EBUSY;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
++	if (ret)
++		return ret;
++
++	*size = ras2_ctx->size;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_write_addr(struct device *dev, void *drv_data, u64 base)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	bool running;
++	int ret;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++	if (ret)
++		return ret;
++
++	if (running)
++		return -EBUSY;
++
++	ras2_ctx->base = base;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_write_size(struct device *dev, void *drv_data, u64 size)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	bool running;
++	int ret;
++
++	if (!size)
++		return -EINVAL;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++	if (ret)
++		return ret;
++
++	if (running)
++		return -EBUSY;
++
++	ras2_ctx->size = size;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_get_enabled_bg(struct device *dev, void *drv_data, bool *enabled)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++
++	*enabled = ras2_ctx->bg_scrub;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_set_enabled_bg(struct device *dev, void *drv_data, bool enable)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	struct acpi_ras2_ps_shared_mem __iomem *ps_sm = TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
++	u32 scrub_params_in;
++	bool running;
++	int ret;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++	if (ret)
++		return ret;
++
++	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
++	if (enable) {
++		if (ras2_ctx->bg_scrub || running)
++			return -EBUSY;
++
++		iowrite64(0, &ps_sm->params.req_addr_range[0]);
++		iowrite64(0, &ps_sm->params.req_addr_range[1]);
++		scrub_params_in = ioread32(&ps_sm->params.scrub_params_in);
++		scrub_params_in &= ~RAS2_PS_SC_HRS_IN_MASK;
++		scrub_params_in |= FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK, ras2_ctx->set_scrub_cycle);
++		iowrite32(scrub_params_in, &ps_sm->params.scrub_params_in);
++		iowrite16(RAS2_START_PATROL_SCRUBBER, &ps_sm->params.command);
++	} else {
++		if (!ras2_ctx->bg_scrub)
++			return -EPERM;
++
++		iowrite16(RAS2_STOP_PATROL_SCRUBBER, &ps_sm->params.command);
++	}
++
++	scrub_params_in = ioread32(&ps_sm->params.scrub_params_in);
++	scrub_params_in &= ~RAS2_PS_EN_BACKGROUND;
++	scrub_params_in |= FIELD_PREP(RAS2_PS_EN_BACKGROUND, enable);
++	iowrite32(scrub_params_in, &ps_sm->params.scrub_params_in);
++	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
++	if (ret) {
++		dev_err(dev, "Failed to %s background scrubbing\n",
++			str_enable_disable(enable));
++		return ret;
++	}
++
++	ras2_ctx->bg_scrub = enable;
++	if (enable) {
++		ras2_ctx->reenable_bg_scrub = false;
++		/* Update the cache to account for rounding of supplied parameters and similar */
++		return ras2_update_patrol_scrub_params_cache(ras2_ctx);
++	}
++
++	return 0;
++}
++
++static int ras2_hw_scrub_get_enabled_od(struct device *dev, void *drv_data, bool *enabled)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	bool running;
++	int ret;
++
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++	if (ret)
++		return ret;
++
++	*enabled = running;
++
++	return 0;
++}
++
++static int ras2_hw_scrub_set_enabled_od(struct device *dev, void *drv_data, bool enable)
++{
++	struct ras2_mem_ctx *ras2_ctx = drv_data;
++	struct acpi_ras2_ps_shared_mem __iomem *ps_sm = TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
++	u32 scrub_params_in;
++	bool running;
++	int ret;
++
++	if (!enable)
++		return -EOPNOTSUPP;
++
++	/* Stop any background scrub currently in progress */
++	if (ras2_ctx->bg_scrub) {
++		ret = ras2_hw_scrub_set_enabled_bg(dev, drv_data, false);
++		if (ret)
++			return ret;
++
++		ras2_ctx->reenable_bg_scrub = true;
++	}
++
++	mutex_lock(ras2_ctx->pcc_lock);
++	ret = ras2_get_demand_scrub_running(ras2_ctx, &running);
++	if (ret)
++		goto enable_bg_scrub;
++
++	if (running) {
++		ret = -EBUSY;
++		goto enable_bg_scrub;
++	}
++
++	/* May add more validity checks for the address range in the future if necessary */
++	if (!ras2_ctx->size || ras2_ctx->base < ras2_ctx->mem_base) {
++		dev_err(dev, "%s: Invalid address range, base=0x%llx size=0x%llx\n",
++			__func__, ras2_ctx->base, ras2_ctx->size);
++		ret = -ERANGE;
++		goto enable_bg_scrub;
++	}
++
++	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
++	scrub_params_in = ioread32(&ps_sm->params.scrub_params_in);
++	scrub_params_in &= ~RAS2_PS_SC_HRS_IN_MASK;
++	scrub_params_in |= FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK, ras2_ctx->set_scrub_cycle);
++	scrub_params_in &= ~RAS2_PS_EN_BACKGROUND;
++	iowrite32(scrub_params_in, &ps_sm->params.scrub_params_in);
++	iowrite64(ras2_ctx->base, &ps_sm->params.req_addr_range[0]);
++	iowrite64(ras2_ctx->size, &ps_sm->params.req_addr_range[1]);
++	iowrite16(RAS2_START_PATROL_SCRUBBER, &ps_sm->params.command);
++
++	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
++	if (ret) {
++		dev_err(dev, "Failed to start demand scrubbing rc(%d)\n", ret);
++		if (ret != -EBUSY) {
++			iowrite64(0, &ps_sm->params.req_addr_range[0]);
++			iowrite64(0, &ps_sm->params.req_addr_range[1]);
++			ras2_ctx->od_scrub = false;
++			ras2_ctx->base = 0;
++			ras2_ctx->size = 0;
++		}
++		goto enable_bg_scrub;
++	}
++
++	ras2_ctx->od_scrub = enable;
++
++	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
++
++	if (ras2_ctx->reenable_bg_scrub && !ras2_ctx->thread) {
++		ras2_ctx->thread = kthread_run(ras2_scrub_monitor_thread, ras2_ctx,
++					       "ras2_scrub_nid%d", ras2_ctx->sys_comp_nid);
++		if (IS_ERR(ras2_ctx->thread)) {
++			ret = PTR_ERR(ras2_ctx->thread);
++			ras2_ctx->thread = NULL;
++			goto enable_bg_scrub;
++		}
++	}
++	mutex_unlock(ras2_ctx->pcc_lock);
++
++	return ret;
++
++enable_bg_scrub:
++	mutex_unlock(ras2_ctx->pcc_lock);
++	if (ras2_ctx->reenable_bg_scrub) {
++		ras2_ctx->reenable_bg_scrub = false;
++		ras2_hw_scrub_set_enabled_bg(dev, drv_data, true);
++	}
++
++	return ret;
++}
++
++static const struct edac_scrub_ops ras2_scrub_ops = {
++	.read_addr = ras2_hw_scrub_read_addr,
++	.read_size = ras2_hw_scrub_read_size,
++	.write_addr = ras2_hw_scrub_write_addr,
++	.write_size = ras2_hw_scrub_write_size,
++	.get_enabled_bg = ras2_hw_scrub_get_enabled_bg,
++	.set_enabled_bg = ras2_hw_scrub_set_enabled_bg,
++	.get_enabled_od = ras2_hw_scrub_get_enabled_od,
++	.set_enabled_od = ras2_hw_scrub_set_enabled_od,
++	.get_min_cycle = ras2_hw_scrub_read_min_scrub_cycle,
++	.get_max_cycle = ras2_hw_scrub_read_max_scrub_cycle,
++	.get_cycle_duration = ras2_hw_scrub_cycle_read,
++	.set_cycle_duration = ras2_hw_scrub_cycle_write,
++};
++
++static void ras2_mem_drv_remove(struct auxiliary_device *auxdev)
++{
++	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
++
++	if (ras2_ctx && ras2_ctx->thread) {
++		kthread_stop(ras2_ctx->thread);
++		ras2_ctx->thread = NULL;
++	}
++}
++
++static int ras2_mem_drv_probe(struct auxiliary_device *auxdev, const struct auxiliary_device_id *id)
++{
++	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
++	struct edac_dev_feature ras_features;
++	char scrub_name[RAS2_SCRUB_NAME_LEN];
++	unsigned long start_pfn, size_pfn;
++	int ret;
++
++	if (!ras2_is_patrol_scrub_support(ras2_ctx))
++		return -EOPNOTSUPP;
++
++	/*
++	 * Retrieve the PA range of the NUMA domain and use it as the
++	 * 'Requested Address Range', when send RAS2 command
++	 * GET_PATROL_PARAMETERS to get parameters that apply to all addresses
++	 * in the NUMA domain as well as when send command START_PATROL_SCRUBBER
++	 * to start the demand scrubbing.
++	 */
++	start_pfn = node_start_pfn(ras2_ctx->sys_comp_nid);
++	size_pfn = node_spanned_pages(ras2_ctx->sys_comp_nid);
++	if (!size_pfn) {
++		pr_debug("Failed to find PA range of NUMA node(%u)\n", ras2_ctx->sys_comp_nid);
++		return -EPERM;
++	}
++
++	ras2_ctx->mem_base = __pfn_to_phys(start_pfn);
++	ras2_ctx->mem_size = __pfn_to_phys(size_pfn);
++	guard(mutex)(ras2_ctx->pcc_lock);
++	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
++	if (ret)
++		return ret;
++
++	sprintf(scrub_name, "acpi_ras_mem%d", auxdev->id);
++
++	ras_features.ft_type	= RAS_FEAT_SCRUB;
++	ras_features.instance	= 0;
++	ras_features.scrub_ops	= &ras2_scrub_ops;
++	ras_features.ctx	= ras2_ctx;
++
++	return edac_dev_register(&auxdev->dev, scrub_name, NULL, 1, &ras_features);
++}
++
++static const struct auxiliary_device_id ras2_mem_dev_id_table[] = {
++	{ .name = RAS2_AUX_DEV_NAME "." RAS2_MEM_DEV_ID_NAME, },
++	{ }
++};
++
++MODULE_DEVICE_TABLE(auxiliary, ras2_mem_dev_id_table);
++
++static struct auxiliary_driver ras2_mem_driver = {
++	.name = RAS2_MEM_DEV_ID_NAME,
++	.probe = ras2_mem_drv_probe,
++	.remove = ras2_mem_drv_remove,
++	.id_table = ras2_mem_dev_id_table,
++};
++module_auxiliary_driver(ras2_mem_driver);
++
++MODULE_IMPORT_NS("ACPI_RAS2");
++MODULE_DESCRIPTION("ACPI RAS2 memory driver");
++MODULE_LICENSE("GPL");
+diff --git a/include/acpi/ras2.h b/include/acpi/ras2.h
+index f4574e8e0a12..6b4323b03747 100644
+--- a/include/acpi/ras2.h
++++ b/include/acpi/ras2.h
+@@ -37,6 +37,21 @@ struct device;
+  *			is associated with. See ACPI spec 6.5 Table 5.80: RAS2
+  *			Platform Communication Channel Descriptor format,
+  *			Field: Instance
++ * @mem_base:		Base of the lowest physical continuous memory range
++ *			of the memory associated with the NUMA domain
++ * @mem_size		Size of the lowest physical continuous memory range
++ *			of the memory associated with the NUMA domain
++ * @base:		Base address of the memory region to scrub
++ * @size:		Size of the memory region to scrub
++ * @scrub_cycle_hrs:	Current scrub rate in hours
++ * @set_scrub_cycle:	Scrub rate to set in hours
++ * @min_scrub_cycle:	Minimum scrub rate supported
++ * @max_scrub_cycle:	Maximum scrub rate supported
++ * @od_scrub:		Status of demand scrubbing (memory region)
++ * @bg_scrub:		Status of background patrol scrubbing
++ * @reenable_bg_scrub:	Flag indicates restart background scrubbing after demand
++ *			scrubbing is finished
++ * @thread:		Demand scrub monitor kthread
+  */
+ struct ras2_mem_ctx {
+ 	struct auxiliary_device		adev;
+@@ -45,6 +60,18 @@ struct ras2_mem_ctx {
+ 	void				*sspcc;
+ 	struct mutex			*pcc_lock;
+ 	u32				sys_comp_nid;
++	u64				mem_base;
++	u64				mem_size;
++	u64				base;
++	u64				size;
++	u8				scrub_cycle_hrs;
++	u8				set_scrub_cycle;
++	u8				min_scrub_cycle;
++	u8				max_scrub_cycle;
++	bool				od_scrub;
++	bool				bg_scrub;
++	bool				reenable_bg_scrub;
++	struct task_struct		*thread;
+ };
+ 
+ #ifdef CONFIG_ACPI_RAS2
+diff --git a/include/linux/edac.h b/include/linux/edac.h
+index fa32f2aca22f..2342ff38e9d5 100644
+--- a/include/linux/edac.h
++++ b/include/linux/edac.h
+@@ -680,6 +680,8 @@ enum edac_dev_feat {
+  * @write_size: set offset of the scrubbing range.
+  * @get_enabled_bg: check if currently performing background scrub.
+  * @set_enabled_bg: start or stop a bg-scrub.
++ * @get_enabled_od: check if currently performing demand scrub.
++ * @set_enabled_od: start or stop a demand-scrub.
+  * @get_min_cycle: get minimum supported scrub cycle duration in seconds.
+  * @get_max_cycle: get maximum supported scrub cycle duration in seconds.
+  * @get_cycle_duration: get current scrub cycle duration in seconds.
+@@ -692,6 +694,8 @@ struct edac_scrub_ops {
+ 	int (*write_size)(struct device *dev, void *drv_data, u64 size);
+ 	int (*get_enabled_bg)(struct device *dev, void *drv_data, bool *enable);
+ 	int (*set_enabled_bg)(struct device *dev, void *drv_data, bool enable);
++	int (*get_enabled_od)(struct device *dev, void *drv_data, bool *enable);
++	int (*set_enabled_od)(struct device *dev, void *drv_data, bool enable);
+ 	int (*get_min_cycle)(struct device *dev, void *drv_data,  u32 *min);
+ 	int (*get_max_cycle)(struct device *dev, void *drv_data,  u32 *max);
+ 	int (*get_cycle_duration)(struct device *dev, void *drv_data, u32 *cycle);
+-- 
+2.43.0
+
