@@ -1,474 +1,336 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010029.outbound.protection.outlook.com [52.101.85.29])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f67.google.com (mail-dl1-f67.google.com [74.125.82.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C1F131ED7C;
-	Wed,  8 Apr 2026 01:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.29
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D845C1D5174
+	for <linux-doc@vger.kernel.org>; Wed,  8 Apr 2026 02:33:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.67
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775610119; cv=fail; b=LDSfEZYQaeAlIa64yqc1N+GDoVzfYFhwVjQXqQC5HtIoJMWUpHeOgNFbwExeygWAB84sI/qzdX68t4yyIdcmfyz+A2eaZgbkz+tpddsRRbAtqZgjOcC9VMte+uH5wNueqStLn+SOJOVylwKy4QGK0lqS4ep0X1w7A+EoC551eWE=
+	t=1775615639; cv=pass; b=TgASzKeBluY1lby8JG9XjHaAc/aLljpd48JoS9ybZRuCXykPRPy1L8igHh1CAwCGjPwbPPfjFqjGk5gEpC3Ze+tuR9viFt7YN/yQeEvLHPfyxP2PZLB+0mX96w8WkmLKZvUTZbX4HyIqLGx9kYUADnTd3p+n5avmcgcPwktOZvU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775610119; c=relaxed/simple;
-	bh=c2GnCdk5+Ldl9esXJITCrnZyo/Q1CxirCH1IN+gs9Pg=;
-	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=n+e76t2vcVzQUUJyzw/mgwpOb0xpynQH69tR6ciRl01Wst3HeJbn4xQxW1VT59XgW11ysVtR1FumMOBzMsO2ZGIYisIYy0okK0eZtwYnQmJBgTk7DAQlHs0czogm4C6tvdQTqEYmqCIUroC9VLkiysDKXGQ9tOXpere/q+tfXN4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=skqJbgqC; arc=fail smtp.client-ip=52.101.85.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1775615639; c=relaxed/simple;
+	bh=7p0WMUL7/V0EDl47mpobYNxTF2Xp6yijjFfguyflBPw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GNZsg9HrW5BInYagFugk4MGomn0HiJk1FKW9epprmmaOfDeXpuUcsAg/4pjErKuBXYwjxxXlJYOAriW4bG6ULUWm2hYi00IqTPGVXLu3rslut2DxGUeHqPj0ACCxAn3HZPMoO0Jw7J4tQEH28JQhiGb6sNnS346jKY5ae2AFBZQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rDS81We8; arc=pass smtp.client-ip=74.125.82.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="skqJbgqC"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HdQVPhGPvGbqql9YwsqnqKrDF1Z6pnf7XYwPQBhCn1PQzius8lnoChoJzFshJfzdDgkFybKVGrye4DRvAw0d5qVT640EUBh+HZWAfeUo/hBisT1ooqhOuSAUO/eFDbsWiLmFpRksh3MjOHi4jHEFmt9zEaXZ/RthEjIVTY2LzIyWCExni2I3H1cIv4Z+Zd/FjNgho+8AvINTuAzqG2z8xweH5k3ksyIEwISKjSgvmi6WmD5TMHVhTljT8MNMvaliMF2rL0Mvr+AWguEKQdJN95UvyzTVXzIQ3gbFwQsjRLiQol6dfHnNP9eznZeV+BYyHRle8EnLySf4Qqc4jhaAJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sykbCyGXSMIjmAjG0xdGVwUD4FzAYGlXsmnND0oZyhM=;
- b=eKVPqTIDTqU9XpFvdKzqwu4egmJachVDIQ0+UgTy/J99IcXV+OoB186vCQE+wb+MzLxhZBgzYvO8Kxt0yRY0suvrCx84sUdxi0zYj+wmHS4Sa9iHXYdnlTOgxsy7jxVUXXSTxociT6m5ata5voxrDFVuJ3BqNOWyYVp34VQWpFdxuZKUGUkHs53/F54FWD6ljOkxcq/tZ+gE6IQLU4xq6k05iGmYAwb2eluBnsGxzvZZ3xlCRHNKlvv9FPt57dU4eJz8LBccw48zVnNRCEW7ZTxB37xODt8uUtk0uwVmnDQkngcmkMw0wKm6jglBfOHcQZbyZ+Y7kJGqcY/efqbSUw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sykbCyGXSMIjmAjG0xdGVwUD4FzAYGlXsmnND0oZyhM=;
- b=skqJbgqCnnYkkcjphttdZ4za8Gpaw8Hn8RDpXEDh5ayIf1+tN5939/3g6shz6kKaXsCVYiIwhY9/4vpIwOoooMDUOReRegeRyEog6yVZg4oQ10ZmJLFRO5sjNM0z8oRwJrYhq/f4RL2tHbYWkXfqTBCKDSDm9Ilu7a3FxMVFMeA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by MW5PR12MB5684.namprd12.prod.outlook.com
- (2603:10b6:303:1a1::21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.20; Wed, 8 Apr
- 2026 01:01:48 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::e192:692b:abba:8c88]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::e192:692b:abba:8c88%3]) with mapi id 15.20.9769.016; Wed, 8 Apr 2026
- 01:01:48 +0000
-Message-ID: <c6f574b7-fe5f-49ae-9865-0e4dbb2f9803@amd.com>
-Date: Tue, 7 Apr 2026 20:01:44 -0500
-User-Agent: Mozilla Thunderbird
-From: Babu Moger <babu.moger@amd.com>
-Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
- support to the resctrl subsystem
-To: Reinette Chatre <reinette.chatre@intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "tony.luck@intel.com"
- <tony.luck@intel.com>, "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "kas@kernel.org" <kas@kernel.org>,
- "rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "kees@kernel.org" <kees@kernel.org>, "elver@google.com" <elver@google.com>,
- "paulmck@kernel.org" <paulmck@kernel.org>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "safinaskar@gmail.com" <safinaskar@gmail.com>,
- "fvdl@google.com" <fvdl@google.com>, "seanjc@google.com"
- <seanjc@google.com>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "xin@zytor.com" <xin@zytor.com>, "tiala@microsoft.com"
- <tiala@microsoft.com>, "Neeraj.Upadhyay@amd.com" <Neeraj.Upadhyay@amd.com>,
- "chang.seok.bae@intel.com" <chang.seok.bae@intel.com>,
- "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eranian@google.com" <eranian@google.com>,
- "peternewman@google.com" <peternewman@google.com>
-References: <cover.1773347820.git.babu.moger@amd.com>
- <14a8ad0a-e842-4268-871a-0762f1169e03@intel.com>
- <47c0db32-d0e0-4c53-90bd-b74863d233dc@amd.com>
- <88eebfac-5286-4788-b244-911c659c0439@intel.com>
- <30deeb5b-d2ec-4f85-aa4f-c21400df3486@amd.com>
- <83ae0c18-5c5e-4b52-901d-4126fe7c141b@intel.com>
- <5a740f47-d3f3-45af-9d8c-ebcf3dd89c0d@amd.com>
- <3305c18e-9e50-4df0-b9f1-c61028628967@intel.com>
-Content-Language: en-US
-In-Reply-To: <3305c18e-9e50-4df0-b9f1-c61028628967@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH0PR03CA0037.namprd03.prod.outlook.com
- (2603:10b6:610:b3::12) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rDS81We8"
+Received: by mail-dl1-f67.google.com with SMTP id a92af1059eb24-12c15414820so397243c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 07 Apr 2026 19:33:56 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775615636; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FgQHIsiGsDgmSdX0XRocWz0kxF/mflxWsFUeGCBe1giq51iuFnl0+ZIDt9OAmbbR7R
+         FEwsXz5vQKo3lstpMgnDlrKZIqWhtrYoJjV3EHfQSLBIgUdCt6tWOw8UfQ6rrol4S5sI
+         7LGEoB7eWSum4KLsLhp7aom1BUw7uTI2ViiRvpnFc5Tu1lr7P4AvbFuBxHseg7GraJsc
+         ODOpVD8nQlQuZAyJt/1/PVKDwlDzuRVXSSCTiSG+speIbPuD/qTbZoEDfYovgZO74t0k
+         gkTr5D9ia9p8TeLYq/3nHpKCli39U8QbRDAyvvOGFI9S6y1zconR3jp6fbgGgfm9WqHN
+         W7ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=pHlbK/BsBx2bsBdFDlq8m41PA5eMLpW+4eYLKAyppzY=;
+        fh=MbFKafNTWS7CLRMZVzU6qtb2uMMbJPk8sl2LEZVAIwY=;
+        b=Felhiv7FBurgThpy8gf5bZBqeyocG3dB5rNXTxdol24PwCFXLWZJTtUZuXKz5ZSnGq
+         M3VLR5V8DPZzujYeBF9jQX/WNEuuJjYp+du/NSHV4X3ZIMZKXBg9i7uh1unmKX2RfjU1
+         A1lWgJK2s2GUTk05BXlcEZABKh79FRWVyzGz3oDdALdw0+wjJwzyKypyIbBj1dtZzwlE
+         k4pr+7v9vPlq2SCNrQK5yOa0XlzoCXwDb5FkrWCj3bJwdPfZXmcaVNiTnFnQxRCwEQNq
+         hIUnS/XBcMAGgZseTqlflsJfGiz/Nc6fCyv5y9yfo4w+fkfSYgwYPdeI5uQY/gsERa96
+         UZOA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775615636; x=1776220436; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pHlbK/BsBx2bsBdFDlq8m41PA5eMLpW+4eYLKAyppzY=;
+        b=rDS81We8DOJWygo73+J+39BS5iyAAWp3xQHqGC0PC7GxDJdbXQWFRKwSlSXbQxwkum
+         Yv9If/8YifgMXc3iM/zrU8NEPuirzP4Pm3OQWUPE6SFeUMWxtmz0QgoHcyxfemNvCJRE
+         b5dvwZ8yye2F5Jz60ai9vDTzp27aQCaCsMx7XNDvRcNETENhBKamN5HmcO2GVEW2Kg83
+         xvuQx8s1jO/G6AbwBFuPuOm+S+bms9TzkqnIIplEQBukxYHq8vwTx8Yq5sM63NKmf2tQ
+         pPyXNnQpJ7koLhf9srp5EiCw97sfMFDESCWO5i71SHYzdPmIPZeanm2nPiaHzhfOng8r
+         1E7A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775615636; x=1776220436;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=pHlbK/BsBx2bsBdFDlq8m41PA5eMLpW+4eYLKAyppzY=;
+        b=Z1Zhzlb+xGiTKYkXkDYQdIj0DCXJXFe042ZeYQ2ugsJBtAsLNE83pJNuvgX5XsnnI+
+         wUc4P4lqEA1yOJgtBYSKqFa08J7zmh/FcHa6v2SKNtLbcp+y+KpJDkBujGMoAvlqHh5L
+         k0TXrtHUdK79zMsmjOYaHJZQtDKtGfIpfteuXVZUvAMW3fQcgIH7FGabla4k8yUbPPy2
+         yxhyPU5y6GdpfCa/xJTGESE6L9qEYEXkh2pjXdqDFPzyO33JTVitnupyEqh+lEDEIXo+
+         sv5PB7AbMlR8rXBNXlyjLUsHm+gm5WFwhI4+ouo9bIJeOLdQjF/tnmTgM9pwOWoQgRnI
+         dl9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUWO9yzBbrbcFAdODhrvuVDbP01Fr6d8G7YNTqH1BmwKuLFYMrRzeyAAdzMYU4gR3/4D4AZPXi1Al4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZKuoGXvPqIKfJQC46pgkIiwlQo0jNbCC5xC42EPI9UYyecY5T
+	HvAF/jGXFz4+PZ0vS2r7ZHO1NLtf2JsYjpCiy1POXnvReRnJnj/ypscZOh04gjaszRlfWpjEDsK
+	DW+ZZjrI1eJ6Fcpc/Ys86KWLuvysABA==
+X-Gm-Gg: AeBDiesxGYF9Oj3QzEmu93UxvNqCeX4OssaLEG21voun6OXTP+E8yJqGrWTPkdpU0Ik
+	35fUdl56qYso8yPJyGX35Gnh5l5kHdEMBfXROljc7aGpHuW3gyMzYuTedvafChOPwE2nLtzjnPm
+	W7oPuAqPLNTCCo8tXtlmuzYExq71TFjLYgD8mWdo4j55D8cU8s9wheTbaxzo12uu6kV/dsTh8xK
+	Iawfxe0RbhUf+7PgNaN1UYJ/4HC+7WIfN/FW7PC2awfRIMCtDfm1jmo+Lfztohx5eGFFrcVE3VM
+	Ab5nBtDq1wQ5wzZ/uw==
+X-Received: by 2002:a05:7022:60a1:b0:128:ceac:6db4 with SMTP id
+ a92af1059eb24-12bfae11275mr7059978c88.6.1775615635809; Tue, 07 Apr 2026
+ 19:33:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|MW5PR12MB5684:EE_
-X-MS-Office365-Filtering-Correlation-Id: ec4f805f-ef14-46e1-0532-08de950a68f0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Fl7dfyiAj+1yZvBCmBkV23NqH/FyoDmh0yQsfpuCMIoKN+veFenzPmvQlgzAE3Iv994efIUuGvpOEKCs+frqDY381doA/Ak4RZAqCUSLwGwgnvgJ0axaGEWWbqde6VGwMagBvpZzKkTbsUJU03Bt2iB+G911DmfaIP6yum/1HCsACDGlOpJyKasbO07RfoNDCIKIsUkgrMiQsii7ykcjTt0GsccVn7iOYOOZQOmTgZcHDQKFLRfGKOHtMh/Xs12OLO+K0fpSsrSh4qo/sNXGw+fqhcpNQ3Fp6i7oF2rcLS7Jhy/wlnhgmaFsbSvRscRJb6qu4bPKwvGmytM5InwN3GF22n+kMGWS0Yf5qN8J1TCS9YSN7/G7n2Vk9ykqIzok32Ppqdt/beQUzARyt1KVXDd2m0t8VRuXwipjjPV1JabqocbTB8FX9J59QtrFdYfGKEvaNzpG/hz4wy3IHYDxXuq6HfsQA6pQtaXjP3Medpnqg1QZG32B3L4DjpKfKJ8clUw0IZFWSKBjtMYmef8YNfny6UJQYWo6fe7vvEam0EAcUPIHLDwfvNzUqpuk+YyDF0wtZXJAD7JZzLgZXRtkA06JPldVD3LXYmmV1cXW/eE4VGSK4RHfK4acdtESJVjHyuKbmQS8d7jOF5htQRVmxULJze0C9mynCM3msk4/6LM3qRiwmAbtr1ElObzrYiURLI7m7WK8tFBK/IpkDVLsZvFRoakgmpTMxEUOuUc5BBg=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SVJURWViTCtKSVJqblNDbzNWR2U5UE1hdkp5UHJHZmJ3QXhmVmRyclhoclRv?=
- =?utf-8?B?K2N6VHE1OEpRWnp2WStwVFdBOWhJTTJsOEViaHFvSjFabWF5dk5zUC85V1RW?=
- =?utf-8?B?UEg4eUVta2ZiVmtVdWRwemhPMzlXa29tdmVaK2dkcXIyd0ZORi9jQnJHdTI4?=
- =?utf-8?B?d0ZLL2dLTm5XTDE4MTdRdjBCbDhNaEJYSmFvS0VEZ1VPMnUyRGN6eW1uTEJG?=
- =?utf-8?B?UFhINW5oc1liVlJOdG12bGd3ZTRhTGY5VTA5VFFCTjltL0t3MGJLSmVrbzdC?=
- =?utf-8?B?QWpWWjZiN0FOY2UxWHBaVlF0WU5BVENyOGo4S2RlTlpLQzRtc2hET2NpQ3VJ?=
- =?utf-8?B?MFh2LzBES21YMlFSbC9xWksrTHBtVEJLU1dVTndyN1dKRkZ4RVBvQTZ1M3Bl?=
- =?utf-8?B?My90L3dZak9BYnVQSThjd1lqMitycTBuQkZmVG1Ga3IrdjFVTVdqZGEwc2hl?=
- =?utf-8?B?cHlxTFNqc0pqOHRiTzdvS0NIVkZ3eG1Wc2RzL0s3YWZXVXVIWTZMUkp5QzZR?=
- =?utf-8?B?V1FDQ0tUYWlBcFdaemdUcEJTWWE4TU9pQjZORGdZNmFEV0J5WW93a3JiUDE2?=
- =?utf-8?B?cWZtQWs0VVFaYWZmSGtadGQxdGZScFl0Z0xNL3JIYitvRFBRT2VLNm9xNFFG?=
- =?utf-8?B?ZEc0UjJJdUdaVE1vdzdpa0F6cnBwdUpOdHNsQmRFVldMSVdLbkx1TllhY0Er?=
- =?utf-8?B?b1RSTjNIVFVGL2wrUVFrSWFjQVF5QnVydEtTeXNVc21MbDNERjZnVHZXM3FR?=
- =?utf-8?B?U2FKeHd6Y1VobkhIblVUaEU1YVNQRFdwcStoN2hHSTBiMnRETC9kamZxRmVp?=
- =?utf-8?B?Vy8vTkloMzNqRzVkZkwrTjdjMkp3d01CeVhJbHR0RWpZR2g0bDRFKzJuWllM?=
- =?utf-8?B?Y2tYQlg5NlpTdmtqSWwvVGJJaHg1ZmV0cTkxV2xxeWlHQ2Q0MHNMaFNTMkM5?=
- =?utf-8?B?QU1CaXlMMEFWbUo3aHNsaG9RYmRDQzUzZVZ4d3ROZ004WHpxQ0JmUVpja1ha?=
- =?utf-8?B?MTUyNWRCazdDa0luZWxFbXZnc0NtbVJJbFJjOGF3emZtaExFR1B6bENiQ3lp?=
- =?utf-8?B?UTdGbkFINlNQQUNEVlRiSDBsSzFYSmV0UlFoQlFLeTMxSnJKejJreDRlcjhs?=
- =?utf-8?B?cU1Gbll1NmJWaDFzdTc0UFlzUkRlaVpuYkJmU01TZ3BLd002MDdEaUNuZmRj?=
- =?utf-8?B?aERORFUvQTMxWmVneWVOcUJ1UWE1aEpTRDgrZ1JEYWVORTk1VTArRy9MRXdZ?=
- =?utf-8?B?aXprY0ZMT1h4SmVBSUhMOHVQeHl6UkMwdVNHOWZRMm9NdjcwUGxSS1BkN1By?=
- =?utf-8?B?QUliQ3FoZ1VXS0hlZGJIeFNkendZcDlsWldPb3J4VkpQN0RZb0EreTJIZE4z?=
- =?utf-8?B?cVpKTElrY2w2clhRdHp1T0ZscWE3ZVJEdzgrQWR0eDhobC9weVRuRDZqb0lV?=
- =?utf-8?B?QitqUmtIaVlvd2tURHdrSGRTalRMSytENW1Od0s0NU9NeWx3cnBWcUpyeFRz?=
- =?utf-8?B?UzZTMkNjWUhhMm12b3ZQcUdqazd0RlRaME54R0FlekdNZzBoOFRxNGI2bmVj?=
- =?utf-8?B?NmJMNkppcGk3bmVseGtrRERmL2VxUU5CSnk4YkJlTXZTSmJIb1NnK2tsN2ts?=
- =?utf-8?B?TTI3V0RoUGU2WStNQ3VyNHJpcGt0R2JqaXBIZnhhZ1RKelo3VWJLSnN0NCt6?=
- =?utf-8?B?Z1VhbE5RdTZOL1lFbWFMQkNtREZjcHR1NDlEeUxIUDh2aVlUV21yckFNOXRD?=
- =?utf-8?B?WnhhZCtqdnN1ZmszVlUveE5NR1lHREk1cW9DK0IzdGM4ckhKaHdyd0pTV3JM?=
- =?utf-8?B?aE03L091VldxS0s0MlJpV2s4R2Q1UzlWWk5wVys3dHYzWjFGNTRIeit2MURP?=
- =?utf-8?B?L3NWQlFlYlE3ZE9xVGRZejFXZzZyRjlHRVlzM2JjbnBpV1FOc3BEWGNmSlB2?=
- =?utf-8?B?bnN0UGxtR3czQ1dSVkk0OTJ5N0NNaU9LTGc5UGUvWTBJZ1J2R3RxYlhYSzZG?=
- =?utf-8?B?QTI0NXlyWnBBZVZtYkhGUWFBc0I2aFhKU1R0Y0dvVHUzeWoyZlR1TzJqZVp6?=
- =?utf-8?B?TUdQTStoUjRWcFJlcy9Od2NVTnd1T1NMV3RJVlNLcDVYNVdvYXhXdXd0ajYy?=
- =?utf-8?B?V09KMWM4N3pvZndTaFM1Q1c3UklabkFINzYxTFBxVGVzekJDWjQ1MTBaa3F3?=
- =?utf-8?B?VUZSRkF6dTRwcElrbThuYUk2QXVlcGxLY2VNNkpsUnAvQTJJTzhBNTFRLytk?=
- =?utf-8?B?Wmx2L0hpSjZYWEhIZEZ5MkVYRm1BL3RNbDJoK091WjJDSmpGU2UzYUJsWlQy?=
- =?utf-8?Q?3XrL2Q0arXK2kjSDiF?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ec4f805f-ef14-46e1-0532-08de950a68f0
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 01:01:47.9345
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0pDmyqR+5FvTPeL5GPmcybXHgbuwwnsiDVOd89123vwS3wGTK6JcIDrxCQfVDamB
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW5PR12MB5684
+References: <20260407001310.78557-1-sj@kernel.org> <20260407160546.52220-1-sj@kernel.org>
+In-Reply-To: <20260407160546.52220-1-sj@kernel.org>
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Date: Tue, 7 Apr 2026 19:33:43 -0700
+X-Gm-Features: AQROBzB51dj7-apCsQJ1K1CEdPrKZ_udnrigOM_8d5fSjl2af8KxTgRvnKk80zw
+Message-ID: <CALa+Y17YnrOe=UXWBMKJ1U6seKJuauDqAdTDYo1cCYnrP_vSFg@mail.gmail.com>
+Subject: Re: (sashiko review) [PATCH v6 1/1] mm/damon: add node_eligible_mem_bp
+ and node_ineligible_mem_bp goal metrics
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, akpm@linux-foundation.org, corbet@lwn.net, 
+	bijan311@gmail.com, ajayjoshi@micron.com, honggyu.kim@sk.com, 
+	yunjeong.mun@sk.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Reinette,
+On Tue, Apr 7, 2026 at 9:05=E2=80=AFAM SeongJae Park <sj@kernel.org> wrote:
+>
+> Adding another thought at the end of the mail without cutting the previou=
+s
+> unrelated questions, so that Ravi can answer all my questions at once.
+>
+> On Mon,  6 Apr 2026 17:13:08 -0700 SeongJae Park <sj@kernel.org> wrote:
+>
+> > On Mon, 6 Apr 2026 12:47:56 -0700 Ravi Jonnalagadda <ravis.opensrc@gmai=
+l.com> wrote:
+> >
+> > > On Sun, Apr 5, 2026 at 3:45=E2=80=AFPM SeongJae Park <sj@kernel.org> =
+wrote:
+> > > >
+> > > >
+> > > > Ravi, thank you for reposting this patch after the rebase.  This ti=
+me sashiko
+> > > > was able to review this, and found good points including things tha=
+t deserve
+> > > > another revision of this patch.
+> > > >
+> > > > Forwarding full sashiko review in a reply format with my inline com=
+ments below,
+> > > > for sharing details of my view and doing followup discussions via m=
+ails.  Ravi,
+> > > > could you please reply?
+> > > >
+> > >
+> > > Thanks SJ, providing your comments on top of sashiko's review is very=
+ helpful.
+> >
+> > I'm glad to hear that it is working for you :)
+> >
+> > [...]
+> > > > > +static unsigned long damos_calc_eligible_bytes(struct damon_ctx =
+*c,
+> > > > > > +           struct damos *s, int nid, unsigned long *total)
+> > > > > > +{
+> > [...]
+> > > > > > +                           struct folio *folio;
+> > > > > > +                           unsigned long folio_sz, counted;
+> > > > > > +
+> > > > > > +                           folio =3D damon_get_folio(PHYS_PFN(=
+addr));
+> > > > >
+> > > > > What happens if this metric is assigned to a DAMON context config=
+ured for
+> > > > > virtual address space monitoring? If the context uses DAMON_OPS_V=
+ADDR,
+> > > > > passing a user-space virtual address to PHYS_PFN() might cause in=
+valid
+> > > > > memory accesses or out-of-bounds page struct reads. Should this c=
+ode
+> > > > > explicitly verify the operations type first?
+> > > >
+> > > > Good finding.  We intend to support only paddr ops.  But there is n=
+o guard for
+> > > > using this on vaddr ops configuration.  Ravi, could we add underlyi=
+ng ops
+> > > > check?  I think damon_commit_ctx() is a good place to add that.  Th=
+e check
+> > > > could be something like below?
+> > > >
+> > >
+> > > I plan to add the ops type check directly in the metric functions
+> > > (damos_get_node_eligible_mem_bp and its counterpart) rather than in
+> > > damon_commit_ctx(). The functions will return 0 early
+> > > if c->ops.id !=3D DAMON_OPS_PADDR.
+> > >
+> > > That said, if you prefer the damon_commit_ctx() validation approach t=
+o
+> > > reject the configuration outright, I can implement it that way instea=
+d.
+> > > Please let me know your preference.
+> >
+> > I'd prefer damon_commit_ctx() validation approach since it would give u=
+sers
+> > more clear message of the failure.
+> >
+> > >
+> > > > '''
+> > > > --- a/mm/damon/core.c
+> > > > +++ b/mm/damon/core.c
+> > > > @@ -1515,10 +1515,23 @@ static int damon_commit_sample_control(
+> > > >  int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
+> > > >  {
+> > > >         int err;
+> > > > +       struct damos *scheme;
+> > > > +       struct damos_quota_goal *goal;
+> > > >
+> > > >         dst->maybe_corrupted =3D true;
+> > > >         if (!is_power_of_2(src->min_region_sz))
+> > > >                 return -EINVAL;
+> > > > +       if (src->ops.id !=3D DAMON_OPS_PADDR) {
+> > > > +               damon_for_each_scheme(scheme, src) {
+> > > > +                       damos_for_each_quota_goal(goal, &scheme->qu=
+ota) {
+> > > > +                               switch (goal->metric) {
+> > > > +                               case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_=
+BP:
+> > > > +                               case DAMOS_QUOTA_NODE_INELIGIBLE_ME=
+MPBP:
+> > > > +                                       return -EINVAL;
+> > > > +                               }
+> > > > +                       }
+> > > > +               }
+> > > > +       }
+> > > >
+> > > >         err =3D damon_commit_schemes(dst, src);
+> > > >         if (err)
+> > > > '''
+> > [...]
+> > > > > > +   /* Compute ineligible ratio directly: 10000 - eligible_bp *=
+/
+> > > > > > +   return 10000 - mult_frac(node_eligible, 10000, total_eligib=
+le);
+> > > > > > +}
+> > > > >
+> > > > > Does this return value match the documented metric? The formula c=
+omputes the
+> > > > > percentage of the system's eligible memory located on other NUMA =
+nodes,
+> > > > > rather than the amount of actual ineligible (filtered out) memory=
+ residing
+> > > > > on the target node. Could this semantic mismatch cause confusion =
+when
+> > > > > configuring quota policies?
+> > > >
+> > > > Nice catch.  The name and the documentation are confusing.  We actu=
+ally
+> > > > confused a few times in previous revisions, and I'm again confused =
+now.  IIUC,
+> > > > the current implementation is the intended and right one for the gi=
+ven use
+> > > > case, though.  If my understanding is correct, how about renaming
+> > > > DAMOS_QUOTA_NODE_INELIGIBLE_MEM_BP to
+> > > > DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_COMPLEMENT, and updating the docum=
+entation
+> > > > together?  Ravi, what do you think?
+> > > >
+> > >
+> > > Agreed, the current name is confusing. How about
+> > > DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP_OFFNODE?
+> > >
+> > > The rationale is that this metric measures "eligible memory that is o=
+ff
+> > > this node" (i.e., on other nodes).
+> > >
+> > >  I think "offnode" conveys the physical meaning more directly than "c=
+omplement".
+> > > That said, I'm happy to go with "complement" if you prefer.
+> > > both are clearer than "ineligible".
+> >
+> > Thank you for the nice suggestion.  I like "offnode" term.  But I think=
+ having
+> > "node" twice on the name is not really efficient for people who print c=
+ode on
+> > papers.  What about DAMOS_QUOTA_OFFNODE_ELIGIBLE_MEM_BP?
+> >
+> > But...  Maybe more importantly...  Now I realize this means that
+> > offnode_eligible_mem_bp with target nid 0 is just same to node_eligible=
+_mem_bp
+> > with target nid 1, on your test setup.  Maybe we don't really need
+> > offnode_eligible_mem_bp?  That is, your test setup could be like below.
+> >
+> > '''
+> > For maintaining hot memory on DRAM (node 0) and CXL (node 1) in a 7:3
+> > ratio:
+> >
+> >     PUSH scheme: migrate_hot from node 0 -> node 1
+> >       goal: node_eligible_mem_bp, nid=3D1, target=3D3000
+> >       "Move hot pages from DRAM to CXL if less thatn 30% of hot data is
+> >        in CXL"
+> >
+> >     PULL scheme: migrate_hot from node 1 -> node 0
+> >       goal: node_eligible_mem_bp, nid=3D0, target=3D7000
+> >       "Move hot pages from CXL to DRAM if less than 70% of hot data is
+> >        in DRAM"
+> > '''
+> >
+> > And the schemes are more easy to read and understand for me.  This seem=
+s even
+> > straightforward to scale for >2 nodes.  For example, if we want hot mem=
+ory
+> > distribution of 5:3:2 to nodes 0:1:2,
+> >
+> >       Two schemes for migrating hot pages out of node 0
+> >       - migrate_hot from node 0 -> node 1
+> >         - goal: node_eligible_mem_bp, nid=3D1, target=3D3000
+> >       - migrate_hot from node 0 -> node 2
+> >         - goal: node_eligible_mem_bp, nid=3D2, target=3D2000
+> >
+> >       Two schemes for migrating hot pages out of node 1
+> >       - migrate_hot from node 1 -> node 0
+> >         - goal: node_eligible_mem_bp, nid=3D0, target=3D5000
+> >       - migrate_hot from node 1 -> node 2
+> >         - goal: node_eligible_mem_bp, nid=3D2, target=3D2000
+> >
+> >       Two schemes for migrating hot pages out of node 2
+> >       - migrate_hot from node 2 -> node 0
+> >         - goal: node_eligible_mem_bp, nid=3D0, target=3D5000
+> >       - migrate_hot from node 2 -> node 1
+> >         - goal: node_eligible_mem_bp, nid=3D1, target=3D3000
+> >
+> > Do you think this makes sense?  If it makes sense and works for your us=
+e case,
+> > what about dropping the offnode goal type?
+>
+> Now I recall I suggested the offnode metric because I suggested to run a
+> kdamond per node.  That is, having one kdamond that monitors only node 0 =
+and
+> migrate hot memory to node 1, and another kdamond that monitors only node=
+ 1 and
+> migrate hot memory to node 0.  And I suggested to do so because I knew it=
+ is
+> suboptimal to run DAMOS schemes with node filter.
+>
+> We made a change [1] for making that more optimum, though.  The change is=
+ now
+> in mm-stable, so hopefully it will be available from 7.1-rc1.  So I belie=
+ve the
+> single quota goal metric should work now.  Ravi, could you share what you
+> think?
+>
 
-On 4/7/26 12:48, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 4/6/26 3:45 PM, Babu Moger wrote:
->> Hi Reinette,
->>
->> Sorry for the late response. I was trying to get confirmation about the use case.
-> 
-> No problem. I appreciate that you did this so that we can make sure resctrl supports
-> needed use cases.
-> 
->>
->> On 3/31/26 17:24, Reinette Chatre wrote:
->>> On 3/30/26 11:46 AM, Babu Moger wrote:
->>>> On 3/27/26 17:11, Reinette Chatre wrote:
->>>>> On 3/26/26 10:12 AM, Babu Moger wrote:
->>>>>> On 3/24/26 17:51, Reinette Chatre wrote:
->>>>>>> On 3/12/26 1:36 PM, Babu Moger wrote:
-> 
->>> can have domains that span different CPUs. There thus seem to be a built in assumption of what a "domain"
->>> means for PQR_PLZA_ASSOC so it sounds to me as though, instead of saying that "PQR_PLZA_ASSOC needs
->>> to be the same in QoS domain" it may be more accurate to, for example, say that "PQR_PLZA_ASSOC has L3 scope"?
->>
->> Yes.
-> 
-> Above is about L3 scope ...
+Yes SJ. I think we can make it work with single goal now that the
+below commit is part of mainline. will give it a try and post an
+update.
 
-Yes. The scope for PQR_PLZA_ASSOC is L3.
-
-Is that what you are asking here?
-
->   
->>>
->>> This seems to be what this implementation does since it hardcodes PQR_PLZA_ASSOC scope to the L3
->>> resource but that creates dependency to the L3 resource that would make PLZA unusable if, for example,
->>> the user boots with "rdt=!l3cat" while wanting to use PLZA to manage MBA allocations when in kernel?
->>
->> Yes. that is correct. It should not be attached to one resource. We need to change it to global scope.
-> 
-> Can I interpret "global scope" as "all online CPUs"? Doing so will simplify
-
-Yes. That is correct.
-
-
-> supporting this feature. It does not sound practical for a user wanting to assign
-> different resource groups to kernel work done in different domains ... the guidance should
-> instead be to just set the allocations of one resource group to what is needed in the different
-> domains? There may be more flexibility when supporting per-domain RMIDs though but so far
-> it sounds as though the focus is global. We can consider what needs to be done to support
-> some type of "per-domain" assignment as exercise whether current interface could support it
-> in the future.
-
-Yes. Makes sense.
-
-> 
-> ...
-> 
->>>> There are multiple ways this feature can be applied. For simplicity, the discussion below focuses only on CLOSID.
->>>>
->>>>
->>>>        1. Global PLZA enablement
->>>>
->>>> PLZA can be configured as a global feature by setting |PQR_PLZA_ASSOC.closid = CLOSID| and |PQR_PLZA_ASSOC.plza_en = 1| on all threads in the system. A dedicated CLOSID is reserved for this purpose,
->>>
->>> Also discussed during v1 is that there is no need to dedicate a CLOSID for this purpose.
->>> There could be an "unthrottled" CLOSID to which all high priority user space tasks as
->>> well as all kernel work of all tasks are assigned.
->>> If user space chooses to dedicate a CLOSID for kernel work then that should supported and
->>> interface can allow that, but there is no need for resctrl to enforce this.
-> 
-> (above is comment about dedicated group - please see below)
-> 
->   
->> Yes. I agree. The changes in context switch code is a concern.
->>
->> You covered some of the cases I was thinking(xx_set_individual).
->>
->> How about this idea?
->>
->> I suggest splitting the PLZA into two distinct aspects:
->>
->> 1. How PLZA is applied within a resource group
->>
->> 2. How PLZA is monitored
-> 
-> I think I see where you are going here. While the "How PLZA is monitored" naming
-> refers to "monitoring" I *think* what you are separating here is (a) how PLZA is configured
-> (CLOSID and RMID settings) and (b) how that PLZA configuration is assigned to tasks/CPUs,
-> not just within a resource group but across the system. Please see below.
-> 
-> 
->> Introduce a new file, "info/kmode_type", to describe how kmode applies in the system.
-> 
-> ack. "in the system" as you have above, not "within a resource group" as mentioned
-> before that.
-> 
->>
->> # cat info/kmode_type
->> [global] <- Kernel mode applies to the entire system (all CPUs/tasks)
->>    cpus   <- Kernel mode applies only to the CPUs in the group
->>    tasks  <- Kernel mode applies only to the tasks in the group
->>
->> The "global" option is the default right now and it is current common use-case.
->>
->> The "info/kmode_type -> cpus" option introduces new files
->> "kmode_cpus" and "kmode_cpus_list" for users to apply kmode to
->> specific set of CPUs. This lets users change the CPU set for PLZA.
-> Where were you thinking about placing these files in the hierarchy?
-
-It needs to be inside the resctrl group (in struct rdtgroup).
-
-
-> 
->> The PLZA MSR is updated when user changes the association to the
->> file. No context switch code changes are needed. This will be
->> dedicated group. The current resctrl group files, "cpus, cpus_list
-> 
-> Why does this have to be a dedicated group? One of the conclusions from v1
-> discussion was that the "PLZA group" need *not* be a dedicated group. I repeated that
-> in my earlier response that I left quoted above. You did not respond to these
-> conclusions and statements in this regard while you keep coming back to this
-> needing to be a dedicated group without providing a motivation to do so.
-> Could you please elaborate why a dedicated group is required?
-
-If the same group applies identical limits to both user and kernel 
-space, it essentially behaves like a current resctrl group. In that 
-sense, it’s not really a PLZA group. PLZA’s key value is the ability to 
-separate allocations between user space and kernel space. A single CPU 
-can belong to two groups: one group manages the user-space allocation 
-for that CPU, while another manages the kernel-mode allocation.
-This approach also simplifies file handling, which is another reason I 
-prefer it.
-
-That said, I’m open to not having a dedicated group if we can still 
-support all the features that PLZA provides without it.
-
-
-> 
-> 
->> and tasks" will not be accessible in this mode. This option give
-> 
-> These files can continue to be accessible.
-
-ok.
-
-> 
->> some flexibility for the user without the context switch overhead.
-> 
-> Dedicating a resource group to PLZA removes flexibility though, no?
-
-Yes. But makes it easy to handle the files as I mentioned above.
-
-> 
->>
->> The "info/kmode_type -> tasks" option introduces a new file,
->> "kmode_tasks", for users to apply kmode to specific set of tasks.
->> This requires context switch changes. This will be dedicated group.
->> The current resctrl group files, "cpus, cpus_list and tasks" will
->> not be accessible in this mode. We currently have no use case for
->> this, so it will not be supported now.
-> 
-> Thank you for confirming. This is a relief.
-> 
->>
->>
->> Add a file, "info/kmode_monitor", to describe how kmode is monitored.
->>
->> # cat info/kmode_monitor
->> [inherit_ctrl_and_mon] <- Kernel uses the same CLOSID/RMID as user. Default option for the "global"
->> assign_ctrl_inherit_mon <- One CLOSID for all kernel work; RMID inherited from user.
->> assign_ctrl_assign_mon <- One resource group (CLOSID+RMID) for all kernel work. Default option for "cpu" type.
-> 
-> My first thought is that the naming is confusing. resctrl has a very strong relationship between
-> "RMID" and "monitoring" so naming a file "monitor" that deals with allocation/ctrl/CLOSID is
-> potentially confusion.
-> 
-> Apart from that, while I think I understand where you are going by separating the mode into
-> two files I am concerned about future complications needing to accommodate all different
-> combinations of the (now) essentially two modes. My preference is thus to keep this simple by
-> keeping the mode within one file.
-> 
-> Even so, when stepping back, it does not really look like we need to separate the "global"
-> and "per CPU" modes. We could just have a single "per CPU" mode and the "global" is just
-> its default of "all CPUs", no?
-
-Yes. That correct.
-
-> 
-> Consider, for example, the implementation just consisting of:
-> 
-> 	# cat info/kernel_mode
-> 	[inherit_ctrl_and_mon]
-> 	global_assign_ctrl_inherit_mon_per_cpu
-> 	global_assign_ctrl_assign_mon_per_cpu
->   
->>
->> Rename “kernel_mode_assignment” to “kmode_group” to assign the specific group to kmode. This file usage is same as before.
->>
->> #cat info/kmode_groups (Renamed "kernel_mode_assignment")
->> //
-> 
-> Please consider the intent of this file when thinking about names. The idea is that "info/kernel_mode"
-> specifies the "mode" of how kernel work is handled and it determines the configuration files used in that
-> mode as well as the syntax when interacting with those files. By renaming "kernel_mode_assignment" to
-> "kmode_groups" it implicitly requires all future kernel mode enhancements to need some data related to "groups".
-> 
-> In summary, I think this can be simplified by introducing just two new files in info/ that enables the
-> user to (a) select and (b) configure the "kernel mode". To start there can be just two modes,
-> global_assign_ctrl_inherit_mon_per_cpu and global_assign_ctrl_assign_mon_per_cpu.
-> global_assign_ctrl_inherit_mon_per_cpu mode requires a control group in kernel_mode_assignment while
-> global_assign_ctrl_assign_mon_per_cpu requires a control and monitoring group.
-> 
-> The resource group in info/kernel_mode_assignment gets two additional files "kernel_mode_cpus" and
-> "kernel_mode_cpus_list" that contains the CPUs enabled with the kernel mode configuration, by default
-> it will be all online CPUs. The resource group can continue to be used to manage allocations of and
-> monitor user space tasks. Specifically, the "cpus", "cpus_list", and "tasks" files remain.
-> 
-> A user wanting just "global" settings will get just that when writing the group to
-> info/kernel_mode_assignment. A user wanting "per CPU" settings can follow the
-> info/kernel_mode_assignment setting with changes to that resource group's kernel_mode_cpus/kernel_mode_cpus_list
-> files. Any task running on a CPU that is *not* in kernel_mode_cpus/kernel_mode_cpus_list can be
-> expected to inherit both CLOSID and RMID from user space for all kernel work.
-
-After further consideration, I don’t think the info/kernel_mode file is 
-necessary. There’s no need to enforce a specific mode for all the PLZA 
-groups. Avoiding this constraint makes the design more flexible, 
-particularly as we move toward supporting multiple PLZA groups in the 
-future. MPAM already appears capable of handling more than one group—for 
-example, one group could use inherit_ctrl_and_mon, while another could 
-use global_assign_ctrl_inherit_mon_per_cpu.
-
-The mode can simply be determined on a per-group basis. We can introduce 
-two new files—kernel_mode_cpus and kernel_mode_cpus_list—within each 
-resctrl group when kmode (or PLZA) is supported.
-
-The info/kernel_mode_assignment file would indicate which resctrl 
-group(or groups) is used for PLZA. The files—kernel_mode_cpus and 
-kernel_mode_cpus_list would indicate how the plza is applied which each 
-group.
-
-Files and behavior:
-- cpus / cpus_list:
-
-CPUs listed here use the same allocation for both user and kernel space.
-There is no change to the current semantics of these files.
-If these files are empty, the group effectively becomes a PLZA-dedicated 
-group.
-
-- kernel_mode_cpus / kernel_mode_cpus_list:
-
-These files determine whether a separate kernel allocation is applied.
-If empty, user and kernel share the same allocation.
-If non-empty, the kernel uses a separate allocation.
-
-The group can be CTL_MON or MON group. Based on type the group the 
-CLOSID and RMID will be used to enable PLZA. If it is MON, then rmid_en 
-= 1 when writing PLZA MSR.
-
-
-Here’s the proposed flow:
-
-# mount -t resctrl resctrl /sys/fs/resctrl/
-# cd /sys/fs/resctrl/
-# cat info/kernel_mode_assignment
-//
-
-By default, the root (default) group is PLZA-enabled when resctrl is 
-mounted. All CPUs use CLOSID 0 for both user and kernel-mode allocation.
-
-# cat cpus_list
-1-64
-# cat kmode_cpus_list
-1-64
-
-Next, create a new group for PLZA:
-
-# mkdir plza_group
-
-# echo "plza_group//" > info/kernel_mode_assignment
-
-At this point, plza_group becomes the new PLZA-enabled group, and the 
-PLZA-related MSRs are updated accordingly.
-
-# cat plza_group/cpus_list
-<empty>
-
-# cat plza_group/kmode_cpus_list
-1-64
-
-The user can then update kmode_cpus_list to apply PLZA only to a 
-specific subset of CPUs, if desired.
-
-
-What do you think of this approach?
-
-
-Thanks
-Babu
+> [1] commit e1ace69c33ec ("mm/damon/core: set quota-score histogram with c=
+ore filters")
+>
+>
+> Thanks,
+> SJ
+>
+> [...]
