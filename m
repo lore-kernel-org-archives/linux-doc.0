@@ -1,129 +1,217 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out28-124.mail.aliyun.com (out28-124.mail.aliyun.com [115.124.28.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 826AF378D86;
-	Wed,  8 Apr 2026 07:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E5B40DFA4;
+	Wed,  8 Apr 2026 09:38:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775634849; cv=none; b=CkQZ4r0wGaRKDDB/G4hlj9ichZxk7tMbRaGbbQjxuDCG9TLTZquCZchpEarpFsqpZeoNYZ8dKnOkBGFoScB2HcutXtmkggJpxrqkWJ5LSOA5MZURWsNS0Tyd7P3myzb2JfW9BE/nwuQmBQonw/7lu/I+Xj9R0djHqduIczdWxZM=
+	t=1775641088; cv=none; b=q20KeZG5r3qiJQi/33UFtjr7XQCXfW/o1H5GyXfGlKN7ZJprbcl7dqgVMV60qjh7bQGf0aOR41SdFVq1UEzusmuNWBkycKH0pyHz1AZ3pczcwCwTUSnrx13tV/m6EGwJbUKeGQkdRXBzf00RraFkFNCBI1PR0rXp6LoNff2BOGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775634849; c=relaxed/simple;
-	bh=AsIwSVvXdvCgTsCsjMmwzorkzN1z/OiWFeFCQ2nhdMQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bv6c/5IcQXrpMCisGgkBd8QrAmKfRx+KNkK9EqNAw83dZ1PloVmc/0gNEhYX3AMjMLm/OOBPNJlqoCKFm+xorFrhU4plW21f+0jq0DMx9IupMYKhGLGpkxbwESNakAAQnoT2aZLAUwZyOLJiok8/QBaPBetM7XEXGhcb7/nx8pk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BqVokPVv; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BqVokPVv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D011C19424;
-	Wed,  8 Apr 2026 07:54:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775634849;
-	bh=AsIwSVvXdvCgTsCsjMmwzorkzN1z/OiWFeFCQ2nhdMQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BqVokPVvZ1I0WlzrkqlMDQMlpZNQB9N/qOPkBiT0LURAhedQrNDM1lEezottPtKSI
-	 WPkTYEj5tHLq9G9eoDJIj36r3bo21CgiCJ2VO3i7b+WK0hnTv7B/YZOJr+zg21WdTm
-	 oJhhdCUrG0h1Fb6vjvrgcW8ONwX8jVn6F0sul1Oylbwr0NbttNm0GjE2EgKWqH6iC0
-	 hTKKAv9rMxrt2wcGIHcY0OCPBl6yIdROcCapjrR10JCfzj0FYKnq8AF+wRxMZCypZG
-	 kE4itXhxK2L15K6iR997oS2vMsRfP9O4wSD44fw4DPOSOHrMCDb91RJKkcmNotON1S
-	 KCnywlu1HDv7g==
-Message-ID: <aad23494-7729-468d-b4ea-2310d75b13a5@kernel.org>
-Date: Wed, 8 Apr 2026 09:54:05 +0200
+	s=arc-20240116; t=1775641088; c=relaxed/simple;
+	bh=H1yLxdEwZt6WbSbzyY/2mVtZ3KV7f2+Dv9Yicu6XPHg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hX/IfYgJHzZKWgj8/IWb/JIW1d8SjkrrC082YL1C5w1dyymDc6zLmfhA2upzjCjmTCYPPv2g4pgHS+JTf6Rq1+ecz4LItvbFmPJOaQnguL/m0bc+m37XO/Jm91TAbCTs0VrEVI+D/YmdvgTXXkZZ2TGMC0Wui5LHPvm5pMnSDEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com; spf=pass smtp.mailfrom=nebula-matrix.com; arc=none smtp.client-ip=115.124.28.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=nebula-matrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nebula-matrix.com
+X-Alimail-AntiSpam:AC=CONTINUE;BC=0.7476469|0.08950964;CH=green;DM=|AD|false|;DS=CONTINUE|ham_alarm|0.114224-0.0105365-0.87524;FP=5076061286753113650|0|0|0|0|-1|-1|-1;HT=maildocker-contentspam033037021217;MF=illusion.wang@nebula-matrix.com;NM=1;PH=DS;RN=19;RT=19;SR=0;TI=SMTPD_---.h7LIHlF_1775641072;
+Received: from localhost.localdomain(mailfrom:illusion.wang@nebula-matrix.com fp:SMTPD_---.h7LIHlF_1775641072 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Wed, 08 Apr 2026 17:37:53 +0800
+From: "illusion.wang" <illusion.wang@nebula-matrix.com>
+To: dimon.zhao@nebula-matrix.com,
+	illusion.wang@nebula-matrix.com,
+	alvin.wang@nebula-matrix.com,
+	sam.chen@nebula-matrix.com,
+	netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch,
+	corbet@lwn.net,
+	kuba@kernel.org,
+	linux-doc@vger.kernel.org,
+	lorenzo@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	vadim.fedorenko@linux.dev,
+	lukas.bulwahn@redhat.com,
+	edumazet@google.com,
+	enelsonmoore@gmail.com,
+	skhan@linuxfoundation.org,
+	hkallweit1@gmail.com,
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v11 net-next 00/11] nbl driver for Nebulamatrix NICs
+Date: Wed,  8 Apr 2026 17:37:24 +0800
+Message-ID: <20260408093739.56001-1-illusion.wang@nebula-matrix.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: proc: document ProtectionKey in smaps
-To: Kevin Brodsky <kevin.brodsky@arm.com>,
- Randy Dunlap <rdunlap@infradead.org>, Dave Hansen <dave.hansen@intel.com>,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Yury Khrustalev <yury.khrustalev@arm.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
- Vlastimil Babka <vbabka@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
- linux-fsdevel@vger.kernel.org, linux-mm@kvack.org
-References: <20260407125133.564182-1-kevin.brodsky@arm.com>
- <98880cc2-09be-4bd8-b8f4-f0f0845f939e@intel.com>
- <2d2aac86-2780-4a29-9eef-116c26485812@arm.com>
- <18e2042c-d414-40fb-8819-5e930d5b1584@infradead.org>
- <8a5e4afd-cd0a-400a-8624-79c1dc9e3ff3@kernel.org>
- <fee59f61-cf62-4a60-9d8a-4543a02a9c48@arm.com>
- <efb2dda7-144c-4e00-bd5c-0b57a1244fb1@kernel.org>
- <971a511a-f311-4e2f-8b10-85d11e07bb0a@arm.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <971a511a-f311-4e2f-8b10-85d11e07bb0a@arm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 4/8/26 09:50, Kevin Brodsky wrote:
-> On 08/04/2026 09:39, David Hildenbrand (Arm) wrote:
->> On 4/8/26 09:15, Kevin Brodsky wrote:
->>> Of course that's also possible, "hardware" has to be interpreted in the
->>> context of virtualisation... But granted it is possible to hide features
->>> even on the host with the right kernel parameter, on arm64 at least.
->>>
->>> "If the kernel supports protection keys (pkeys) and the hardware feature
->>> is detected"? Still vague but a little more accurate.
->> Can we just talk about CPU support, to avoid using "system" or "hardware" ?
-> 
-> I'm not sure how this addresses your concern with virtualisation though,
-> unless "CPU" is understood as whatever CPU is virtualised? But then the
-> same logic could apply to "hardware"...
-> 
-> Either way, I'm really not all that picky about it, I don't mind: "If
-> both the kernel and the CPU support protection keys"
+This patch series represents the first phase. We plan to integrate it in
+two phases: the first phase covers mailbox and chip configuration,
+while the second phase involves net dev configuration.
+Together, they will provide basic PF-based Ethernet port transmission and
+reception capabilities.
 
-LGTM
+After that, we will consider other features, such as ethtool support,
+flow management, adminq messaging, VF support, debugfs support, etc.
+
+changes v10->v11
+Link to v10:https://lore.kernel.org/netdev/20260401022318.28550-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Mohsin
+2.AI review issues
+changes v9->v10
+Link to v9:https://lore.kernel.org/netdev/20260325040048.2313-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+changes v8->v9
+Link to v8:https://lore.kernel.org/netdev/20260317034533.5600-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Jakub
+2.AI review issue
+Changes v7→v8
+Link to v7:https://lore.kernel.org/netdev/20260310120959.22015-1-illusion.wang@nebula-matrix.com/
+1.Issues found by Paolo
+Changes v6->v7
+Link to v6:https://lore.kernel.org/netdev/20260306033451.5196-1-illusion.wang@nebula-matrix.com/
+1.Issue found by Jakub
+2.AI review issue
+Changes v5->v6
+Link to V5:https://lore.kernel.org/netdev/20260226073840.3222-1-illusion.wang@nebula-matrix.com/
+1.put all standard linux includes files the .c file which needs it & others
+--Andrew
+2.AI review issue
+Changes v4->v5
+Link to V4:https://lore.kernel.org/netdev/20260206021608.85381-1-illusion.wang@nebula-matrix.com/
+1.change nbl_core to nbl & change ** pointers to *pointers & others
+--Andrew
+2.AI review issue
+Changes v3->v4
+Link to v3: https://lore.kernel.org/netdev/20260123011804.31263-1-illusion.wang@nebula-matrix.com
+1.cut down to part of a mini driver(mailbox and chip init)
+--Jakub Kicinski Simon Horman(some sort of staged approached)
+2.modify issues found by ai.
+3. Reverse Christmas tree/nbl_err/devm_kfree/remove some macros/
+void type to real type/others
+--Andrew Lunn
+4.change deprecated pci_enable_msix_range to pci_alloc_irq_vectors
+5.delete service layer
+6.the style of kconfig---Randy Dunlap
+7.add to Documentation/networking/device_drivers/ethernet/index.rst
+--Simon Horman
+Changes v2 →v3
+Link to v2: https://lore.kernel.org/netdev/20260109100146.63569-1-illusion.wang@nebula-matrix.com/
+1.cut down to a mini driver:
+    delete vf support
+    use promisc mode to cut down flow management
+    drop patch15 in v2
+    delete adminq msg
+    delete abnormal handling
+    delete some unimportant interfaces
+2.modify issues found by ai review
+Changes v1->v2
+Link to v1: https://lore.kernel.org/netdev/20251223035113.31122-1-illusion.wang@nebula-matrix.com/
+1.Format Issues and Compilation Issues
+- Paolo Abeni
+2.add sysfs patch and drop coexisting patch
+- Andrew Lunn
+3.delete some unimportant ndo operations
+4.add machine generated headers patch
+5.Modify the issues found in patch1-2 and apply the same fixes to other
+patches
+6.modify issues found by nipa
+
+illusion.wang (11):
+  net/nebula-matrix: add minimum nbl build framework
+  net/nebula-matrix: add our driver architecture
+  net/nebula-matrix: add chip related definitions
+  net/nebula-matrix: channel msg value and msg struct
+  net/nebula-matrix: add channel layer
+  net/nebula-matrix: add common resource implementation
+  net/nebula-matrix: add intr resource implementation
+  net/nebula-matrix: add vsi resource implementation
+  net/nebula-matrix: add Dispatch layer implementation
+  net/nebula-matrix: add common/ctrl dev init/reinit operation
+  net/nebula-matrix: add common dev start/stop operation
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../ethernet/nebula-matrix/nbl.rst            |   27 +
+ MAINTAINERS                                   |   10 +
+ drivers/net/ethernet/Kconfig                  |    1 +
+ drivers/net/ethernet/Makefile                 |    1 +
+ drivers/net/ethernet/nebula-matrix/Kconfig    |   34 +
+ drivers/net/ethernet/nebula-matrix/Makefile   |    6 +
+ .../net/ethernet/nebula-matrix/nbl/Makefile   |   16 +
+ .../nbl/nbl_channel/nbl_channel.c             |  843 +++++
+ .../nbl/nbl_channel/nbl_channel.h             |  163 +
+ .../nebula-matrix/nbl/nbl_common/nbl_common.c |  212 ++
+ .../nebula-matrix/nbl/nbl_common/nbl_common.h |   34 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_core.h |   59 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.c      |  439 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dev.h      |   58 +
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.c |  485 +++
+ .../nebula-matrix/nbl/nbl_core/nbl_dispatch.h |   56 +
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  |  819 +++++
+ .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h  |  493 +++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c | 2901 +++++++++++++++++
+ .../nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h |   11 +
+ .../nbl_hw_leonis/nbl_resource_leonis.c       |  258 ++
+ .../nbl_hw_leonis/nbl_resource_leonis.h       |   10 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h     |   68 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.c  |  246 ++
+ .../nebula-matrix/nbl/nbl_hw/nbl_interrupt.h  |   12 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.c   |  118 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_resource.h   |  116 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.c        |   51 +
+ .../nebula-matrix/nbl/nbl_hw/nbl_vsi.h        |   11 +
+ .../nbl/nbl_include/nbl_def_channel.h         |  362 ++
+ .../nbl/nbl_include/nbl_def_common.h          |   80 +
+ .../nbl/nbl_include/nbl_def_dev.h             |   16 +
+ .../nbl/nbl_include/nbl_def_dispatch.h        |   43 +
+ .../nbl/nbl_include/nbl_def_hw.h              |   54 +
+ .../nbl/nbl_include/nbl_def_resource.h        |   36 +
+ .../nbl/nbl_include/nbl_include.h             |   79 +
+ .../nbl/nbl_include/nbl_product_base.h        |   18 +
+ .../net/ethernet/nebula-matrix/nbl/nbl_main.c |  320 ++
+ 39 files changed, 8567 insertions(+)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/nebula-matrix/nbl.rst
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Kconfig
+ create mode 100644 drivers/net/ethernet/nebula-matrix/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/Makefile
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_core/nbl_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_resource_leonis.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_reg.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_interrupt.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.c
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_vsi.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_channel.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_common.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dev.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_dispatch.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_hw.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_def_resource.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_include.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_include/nbl_product_base.h
+ create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_main.c
 
 -- 
-Cheers,
+2.47.3
 
-David
