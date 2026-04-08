@@ -1,149 +1,326 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021122.outbound.protection.outlook.com [52.101.100.122])
+Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F1AC26CE2C;
-	Wed,  8 Apr 2026 11:32:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.122
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775647954; cv=fail; b=jqYZqTCststu+VH/dcLf/M9kKHiBfPrg4aibB/T7vZrMUCfvgccYOwfrr+/L5GgVt8AWTAHdLGhhMLT9NPN26iBnWr/lQEkoKoifdMzKOaOPSVBX6md5NHYTKde7CSmTcPjsUYviODHALC0ZKfbpBqBX9WX2j6bgH/DeHMDPVvQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775647954; c=relaxed/simple;
-	bh=fyquusEXW1Dt4yZV0v+6VGUdWMNL3eB6w9tssbCiAHs=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=Vx5MYn2Rj4p5S5C1GAzr683ejeL/vvfy4bJLGrv68Jd9VwVZg6W2csh9cdqRHMXlsZ/sBSsvMEDYFoOvptinMqQOflpDoD/fiaqAtRiaUjSUf+hs91NcHr5RH2Hp6SlusRDWyzXYAjSb0mYiH7jBA/QvozkYmuLxrPMxIkN4JRM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=TAooBN6V; arc=fail smtp.client-ip=52.101.100.122
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBC0937F756;
+	Wed,  8 Apr 2026 11:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775647965; cv=none; b=NCftSol52olLFkoYnhKVBwzvaXsy1axiPqZ+ElgYH9GM9zrbRbPhJRdNaCdnVCHxmrRg97MGE7mbH2s76stPLxmz6k28e6RJML0VQ9h6KFe7MkB8lNTJ8tFJ3XAHf0oSuikMhJnp8ZYLalFomH9A9vTjixXWdW+pX42yuwEr0io=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775647965; c=relaxed/simple;
+	bh=pfiEIXLahlFj+XBEYxghZsQA9xdUy9QyBBVz59RovDA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nWhJ+2P1u8m9WEDUmIC59O1oYOaGYWl1uilkMT7sxxGrS0m+10IuQwP81ICYevtgnw2LNS2q8zjUd01+8mDJPUD7nsf3eq2G/sJs+cR8Xlk3CYttVzv2Ke+N2N2xfEyRU/2vvTkcg+vwLuBFgsiNGK5mMtIxD6he3JEPc0785fI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=CdJS1/UA; arc=none smtp.client-ip=148.163.156.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="TAooBN6V"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nns0uh8M3q9XZIqy02GdbQDLpMPM4/52Lns4PAqorNFwm2/54G8AcFLW7IJTTSzRrq8hDEKgNNKOcmPkCTv83p8aT1y/Z5WorZmt0HJX0HBWRM6JinhblFdRmeyXxQv3HVzViVUKkplE/SOOgtGrfGW0Q+ul1qsAWnyXkl37UPcnocULU6lLSNVM6uI5r3Y44hIFfznCnjMrWkDKhiC247xRT+uXEoxByG5L9HUXPdkLtnYLmAIaWYtMseTb8d6sQjml7VX3XSrwrmKS9/D+KrFJumtGjHHOj7E9KTPXnhREXzH8eRD3itu6WO4GHHSqApD4DZDFvWq1G6v3y4GrMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JRRly1CxweQcBajLidb4Cud2LW7WPJaZs3l8vk53mG0=;
- b=VAu2rkRdjs9RkdaRypAozJ9tcRBHAGObsHIIaq4M7Xqtp+WL7lzzLurzAoRmLe+/8mLDLW0G85iaITQsSXTmWUoYorjg2U8/OKgxzk06nrCLu1VruEBf+pbUtYErhccnXWeyVbGE5+WIUQm1+7Ll+0hqn22EN2KuF+DPsTIcVaVcScXC/ipb62QVjK7hnnqbCkw12eNH3qQ5bge50btOzvhR3ng+ocDHPKof8I8CORaIDYUmpwZ3zQ8jhjW4WlFdzKtVprs8ujW3puFYCph5O3G7/2AWOcvf2X4jX7PP7x1WCJ4U+4PJwYQ1GS/mg0RSq12XLEa86J5Y2eCtFJs01Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
- dkim=pass header.d=garyguo.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JRRly1CxweQcBajLidb4Cud2LW7WPJaZs3l8vk53mG0=;
- b=TAooBN6VP6KMl2Kikm36omZ2FU/ZFhem5psorbCpvuwYQPkd75P87A3pv4Fjac5uyc3GyZaqzrGX4CYiQ2W2chdumYPaJDO9OrhiBrnsDkGuXl0sRpGjsX+3EqeMLcOvrsu0fj1T33ec/PgzGt40LOQtudi5I21inpuPaKXR5uE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=garyguo.net;
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
- by LOAP265MB9175.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:498::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.18; Wed, 8 Apr
- 2026 11:32:30 +0000
-Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.016; Wed, 8 Apr 2026
- 11:32:30 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Apr 2026 12:32:30 +0100
-Message-Id: <DHNQNZ3L4B3Q.2MUD8JBT90ESN@garyguo.net>
-Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <rust-for-linux@vger.kernel.org>
-Subject: Re: [PATCH 2/4] docs/zh_CN: update rust/coding-guidelines.rst
- translation
-From: "Gary Guo" <gary@garyguo.net>
-To: "Ben Guo" <ben.guo@openatom.club>, "Alex Shi" <alexs@kernel.org>,
- "Yanteng Si" <si.yanteng@linux.dev>, "Dongliang Mu" <dzm91@hust.edu.cn>,
- "Jonathan Corbet" <corbet@lwn.net>
-X-Mailer: aerc 0.21.0
-References: <cover.1775619061.git.ben.guo@openatom.club>
- <83b72c91f7ba2a9ca2ae73ab42fd94fcc369220a.1775619061.git.ben.guo@openatom.club>
-In-Reply-To: <83b72c91f7ba2a9ca2ae73ab42fd94fcc369220a.1775619061.git.ben.guo@openatom.club>
-X-ClientProxiedBy: LO2P123CA0085.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:138::18) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:488::16)
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="CdJS1/UA"
+Received: from pps.filterd (m0356517.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6386678R2302243;
+	Wed, 8 Apr 2026 11:32:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=mQ6zZp
+	xT2qSOtvzZoKaBAI5LQFfgnkXwcNMrFIicLhI=; b=CdJS1/UAA+e7v16JnBcaBi
+	FevxVeMbtvPmzRYVrepXAWVnoo68Kfx5It06IaBOm7Bel1G+0JvqN1tl8JURtcOu
+	MohUDWThBJvGRTLPQbYU7QAMR3ac72uiEw1jZCj/tJO+rEkSDm35VpO0qQz+Qtav
+	rPYBey9cbdzIIRIXHHMdXp0OOukHYc/a++fBAxi39T9Sp6fpcGpE0brdCB9a/SNM
+	USoBIB3mqEOShduuPMGo3sNWi9NIA+HEE8n8kntDRZWzANfMTKTscHcty4BjFgrS
+	oXIUDCPU+5vgvjRkpcG8o6Mipa3ImB0Mp4FO8moNiXqBhpqGp5TKpgNewenZaehA
+	==
+Received: from ppma13.dal12v.mail.ibm.com (dd.9e.1632.ip4.static.sl-reverse.com [50.22.158.221])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2ffpte-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 11:32:21 +0000 (GMT)
+Received: from pps.filterd (ppma13.dal12v.mail.ibm.com [127.0.0.1])
+	by ppma13.dal12v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 638B3KOv019113;
+	Wed, 8 Apr 2026 11:32:20 GMT
+Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
+	by ppma13.dal12v.mail.ibm.com (PPS) with ESMTPS id 4dcme9f70r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 11:32:20 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 638BWIw022217086
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 8 Apr 2026 11:32:18 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6E8CD20040;
+	Wed,  8 Apr 2026 11:32:18 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 3EC0320043;
+	Wed,  8 Apr 2026 11:32:16 +0000 (GMT)
+Received: from [9.123.14.142] (unknown [9.123.14.142])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  8 Apr 2026 11:32:16 +0000 (GMT)
+Message-ID: <9905884d-9af1-476e-9355-c2df733d9c75@linux.ibm.com>
+Date: Wed, 8 Apr 2026 17:02:15 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LOAP265MB9175:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e4edbd0-0d74-44eb-7e47-08de95628513
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|10070799003|1800799024|376014|366016|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	Pp/75wXy4+w5LLCGDTZiYtNvq5JzAJ2b9wQZ3IwxsOclv/eAci3ZoQZ2eUlnnb4ZhjFOrMjYTGRtutBnwYYkS8D/Y4SGCpL4PPwx8X8vZG3Pw38XE20vBRdcsX5pW/FeG1ML5qVM/atsMCXp4mcmzvaBjKue/SwDSJxpsGAlE2pTe8yI421N26KBCP7tk9JXl5IqI++lLG8e4lRPid8xsJMJdfPFpwnqY7QBG6zPzuWCuxK/jlf2rl/pqDkEXldZEmyH1sYL2VggDt3VtkcchgLBXvD0Ll2Nmkr7NYI3PY2xEhP9byJ+/naBkXKuuXZDoSiWaKFxVy2GSLQgfu0ThC/d1Wve42bUUH0IzkfRjgADgdNJQM3qKfE1tBs8uNkAeDkbw1jrQ9X3/R+ZohkL7Ou3ssCQhZSEE2ja0KNQ5UPTgjaZHHA5PzlFXCYHGGplviUbK7P+Ruki4GFhBm0zPUgMGmVNn9XKkvxfzZDfMR3jm12UC24CTSsZsF8jC5DjDdWpGLiyVig3ltMJKZWrUy5J20yoDyAv6AmGTQVsBTm5OmnH34kbPCGcCK0mwCWsO/8jgSu5LuXOY/HLPf/30mPAfP3qX8g4OhCtFcseZRduGkqQ9+1FIYuryIK0M+fvv8KiMKlE7sf0VtUqSnT65kQd3nSAttwO4aXV2PZUBhzPWRhdemXYEBmjFCMe4HEkS9wx787clpe/pc/BjoluLjRx8fin6u1lC3f/jQAOX6Y=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(376014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WDIybHFrZldjalNzY0JsUXVGR2F3a2pQS1hJa0FnZkNqMUZPWTR4d1JWYjRM?=
- =?utf-8?B?a2wvbDVaYXpqYnJ5T2NzQXVDc2lPbXZER2JPa2J6Z1loQ2xnTjVMV1cxLzN0?=
- =?utf-8?B?RDNXMFI0RHpUYlNTSjMybnN1UmlZdTRxQTJjUWJBb2MyUXpGS3I3VXZIY1Yy?=
- =?utf-8?B?MlhPUTNSTWExaUNtR3BLejZmdlF5Ukw2VTJUN0pWNUtESnlZRVRqdFNVL29q?=
- =?utf-8?B?SlIyREQ2Uy92QnY0aVJjZmU3aEMzakRzYmU4bVhkdFV5TlN1ZEREdmJOdWJX?=
- =?utf-8?B?RUdBQTFua2ZOYmYrM21uQjcrSG9ic1JWRzBxMSt1Rnl1NnJXRitnOThqTWh4?=
- =?utf-8?B?OTV1bnYzelhlc0hRZVhKc1BSTSswVjdnOXlhMTViaXhESDc5aHlLM0J6ZFBL?=
- =?utf-8?B?RHlGeEVGaFdmaUV1MVFBZ3Jmd3JCdk9BRjBBU0Vocm03dUw5c214Q2JLcm4x?=
- =?utf-8?B?UjBkdmhBNi94Sk9uRTU4MmRUREhGLzJuc08yOGNiczk1RTU1eGdOTEVlY3Zv?=
- =?utf-8?B?OVFXWStqb0VTd2MyTUxhWEhBNjJ2cTZnQnQrL1Frd2htRDl3NnZYK0Q3N0lR?=
- =?utf-8?B?eXdtUXZ6b1M0aEF2QnVUWjhzb0ZYaUFCcnpQSjZPcjhmSTg4RWZsYmhLUXc4?=
- =?utf-8?B?OUU1RVdsUERNMzJoRzQ3TVVpL2UrNEZ5dElOaU5aNkNCYmMzQjd3MncvYmRC?=
- =?utf-8?B?Z0dFalpHdlRlVFhRUmE4QTRRRURuLzFOTWNCYzBzQXJRZnVXWStQMWRoUWND?=
- =?utf-8?B?Q1poY3JIWW9BNk9PRHFOWGFSKzRSK0dxVThhTnlVUDRZc1hXbE9KSTh0QnZn?=
- =?utf-8?B?TFJCWXJsSTdyNm5UWUo2aDFlVysxS0NBZGhlZ3h1MU1mWUFLQlcrbi84Q0Nu?=
- =?utf-8?B?MnAySEpyL1dDcktyQ3FEMmRFKzhDeWVsRnVaRVYrenNKR3RWVlBoeFJkeklh?=
- =?utf-8?B?WGR0WGpsUGxFSkY0SGIrb3JhQTVzU3hhZVZOZkV6eWhoS2ROM3V2VC8vemRV?=
- =?utf-8?B?Q2hOWXMzK2pMdlFwTkdwWmd5a0ZrSXpuSHNWeUhMdWRBWU53RlZxWXlHNW5P?=
- =?utf-8?B?MXQwTVFkY3dUMG9NUVNwTFdEYkIxM0hKRmEwWVRwL0Q1N1p1Z1NUamJ0VUlZ?=
- =?utf-8?B?eU91SEs5bmx3ZGFwSWQvYlZZamVXY04wM2tCeEZQZGpGNHo2YVc5cnh2blpv?=
- =?utf-8?B?WU1PTjQxdXBUZzdTc0FPZ3NFM1JjdTBPekFyaTd0MURqckFmSy9xL2R3eElC?=
- =?utf-8?B?bkV4NjdCK2dha2FDK1FWUmFjZkNJYU5MM3lsYU12TWllTEs2aHRDSGZNMTVC?=
- =?utf-8?B?b3FmNC9hRFcrRTBReGZKR08yOEpWS2lnTS8wVit6U3o0Mmk3T1JyNk1IZmNS?=
- =?utf-8?B?T3AzZm1VcDhVbGVCOXYrbnNSSGgzQVZvV3B4d0xXeHY4Rm9LUmdKUWM4ajIv?=
- =?utf-8?B?bmxwUzlDRXRyelp5Yk1ON1U4T1VHcUxlclNaMHE3SFRuM0l5bnV6SzhNdUd5?=
- =?utf-8?B?QXhtUTEyT3NEMkc1bGNObTlSVVZsSmNmN3Q1T0l0bDRUeG9ZTkt6VkFjdFNM?=
- =?utf-8?B?ZjRoeGxxSmwrWnFwT3VyOXVSbzlUcW5PTHRrY2RDaC9zdm5Bei9QT2hXVVo4?=
- =?utf-8?B?THE3eEp1NGUyWlo4cWErOG5FZTFuMURueEwwNGhjN2hnaGFZUG1QRVZjUW1N?=
- =?utf-8?B?UXB0enJCTXVPWjNVT0g5dDNaNFovbUpHbTFIdFZYRWJheStTSlZwWERmZ3FS?=
- =?utf-8?B?U3F5a2ltRGFqWkRQSUZmbEQyVjB3VEdvMmVEdzZIYjd0d241K2p0ckYzTmdY?=
- =?utf-8?B?eEk2ZitGWWlGMmowNUJDS0lJSkloWFNtUUZCZHh1cEhhTU1LaGJHdzZXZnlv?=
- =?utf-8?B?OHFvNGVzUFdPWjFZOEF3Ry9rUnNJbUVwYjg2ekZLOHRVb3FhMXJJZGM0UDRi?=
- =?utf-8?B?bVlkMkNabFc1c2RpY1UyRWZlT2x5dUVMT1V3d2FPaHVYSWJLanJKSFZUQkZT?=
- =?utf-8?B?K2htYXZoRXJwb2dqL1hLOE1NSXlwMzYyQ0pMUnJTTFNMZXdGS1VuUWtweE01?=
- =?utf-8?B?bVMxTUYxb2JDMTZiemJCSDR5M0tjRFBRMzF1RU9xK0FWY2l2R0JLZ2l6OXRZ?=
- =?utf-8?B?NmwyaE5JbTVWeXk5azRjS29WbEtNS05iTTJOMEhKQTNxbkh1alp2QlBMbzBF?=
- =?utf-8?B?c0l2N2g3RFJoaGJuelJScnpYQVNocUg0b0UzcnFheWx4N3BGWGZ1cGs1cXA1?=
- =?utf-8?B?UlhKWWNpUXVpR2kxNFBmQTloRVNyNUJkSUlxQ2NHc1BIN3FOTVh0amYrell1?=
- =?utf-8?B?TnkyWDZlNm1IUXA2SjVpdFlsSTZpZm04QmxoZUphRnNxMTJlMjlGUT09?=
-X-OriginatorOrg: garyguo.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e4edbd0-0d74-44eb-7e47-08de95628513
-X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 11:32:30.5971
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EVYOA6NdORboDcFrOo/EqcwUnuwWf7rqAfuvToHWWY05vnZjnxv0QliAYyY13HtkL4a66cbTQNzrRArxDxzRXw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LOAP265MB9175
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+To: Youling Tang <youling.tang@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <20260404074103.506793-1-youling.tang@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDEwNCBTYWx0ZWRfXw/s5twIwj5ku
+ srLl0b8nEiGgrernx/eJbrS5U4u2nfJ+wV/vdVFcd9PO/d7PeKEI1qe9PvY93uCgdkhVCZtknBy
+ v6aNhmdlcLb8OmZSanLSpo0UTdbaILS8pS9wWVimCS8sdyB2odToc2hcwRPn4XPavllR0NBbmLe
+ aBmW40L8qCD+VADkBqhVqjAea4vaWSNpNPkv6/4h4DV/hGZm0+rqKtxdsehQ+iezJmytHwtksof
+ +SXeWMQ1W9UrdZ/kUNeYlY53MJBURGWTJyLh4rgwyypoxbDLnPC21ljx1+bs7y2spU+706vT8lJ
+ YczE1HFl2UnljpNkR82aiO8f/ZW5R8H1CkuyxRXEmrEPPIbCF1hYuYtje/UV3ox5pBkVNAEF0PR
+ 7E1+WfJ+ewJaGRuqwm+m55vqz+6VTYPs4PI14UD7NT8hd3BHSJnGAKfEyWP/zUY4Y1MhFDjIWr/
+ 5CoR5rsXgwn0JABGV7g==
+X-Authority-Analysis: v=2.4 cv=FsY1OWrq c=1 sm=1 tr=0 ts=69d63cc5 cx=c_pps
+ a=AfN7/Ok6k8XGzOShvHwTGQ==:117 a=AfN7/Ok6k8XGzOShvHwTGQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=U7nrCbtTmkRpXpFmAIza:22 a=YjEWhN3Cx0CZYGql71AA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: UBVhWKsi9V-Xe3jkId-8tgitBtDBFFuG
+X-Proofpoint-GUID: UBVhWKsi9V-Xe3jkId-8tgitBtDBFFuG
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-08_03,2026-04-08_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0
+ lowpriorityscore=0 clxscore=1015 adultscore=0 malwarescore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604080104
 
-On Wed Apr 8, 2026 at 6:05 AM BST, Ben Guo wrote:
-> Update the translation of .../rust/coding-guidelines.rst into Chinese.
->=20
-> Update the translation through commit 4a9cb2eecc78
-> ("docs: rust: add section on imports formatting")
->=20
-> Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
-> Signed-off-by: Ben Guo <ben.guo@openatom.club>
+
+
+On 04/04/26 13:11, Youling Tang wrote:
+> From: Youling Tang <tangyouling@kylinos.cn>
+>
+> The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
+> automatic size selection based on system RAM, but it always reserves
+> from low memory. When a large crashkernel is selected, this can
+> consume most of the low memory, causing subsequent hardware
+> hotplug or drivers requiring low memory to fail due to allocation
+> failures.
+>
+> Add a new optional conditional suffix ",>boundary" to the crashkernel
+> range syntax. When the selected crashkernel size exceeds the specified
+> boundary, the kernel will automatically apply the same reservation
+> policy as "crashkernel=size,high" - preferring high memory first
+> and reserving the default low memory area.
+>
+> Syntax:
+>      crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+>
+> Example:
+>      crashkernel=2G-16G:512M,16G-:1G,>512M
+>
+> This means:
+>    - For 2G-16G RAM: reserve 512M normally
+>    - For >16G RAM: reserve 1G with high memory preference (since 1G > 512M)
+>
+> For systems with >16G RAM, 1G is selected which exceeds 512M, so it
+> will be reserved from high memory instead of consuming 1G of
+> precious low memory.
+>
+> Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
 > ---
->  .../zh_CN/rust/coding-guidelines.rst          | 262 +++++++++++++++++-
->  1 file changed, 248 insertions(+), 14 deletions(-)
->=20
+>   Documentation/admin-guide/kdump/kdump.rst     | 25 ++++++++-
+>   .../admin-guide/kernel-parameters.txt         |  2 +-
+>   kernel/crash_reserve.c                        | 56 ++++++++++++++++---
+>   3 files changed, 73 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 7587caadbae1..b5ae4556e9ca 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -293,7 +293,28 @@ crashkernel syntax
+>          2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+>          3) if the RAM size is larger than 2G, then reserve 128M
+>   
+> -3) crashkernel=size,high and crashkernel=size,low
+> +3) range1:size1[,range2:size2,...][@offset],>boundary
+> +   Optionally, the range list can be followed by a conditional suffix
+> +   `,>boundary`. When the selected crashkernel size matches the
+> +   condition, the kernel will reserve memory using the same policy as
+> +   `crashkernel=size,high` (i.e. prefer high memory first and reserve the
+> +   default low memory area).
 
-Reviewed-by: Gary Guo <gary@garyguo.net>
+Since we are mentioning that this follows same policy as 
+crashkernel=size,high
+in certain cases I think it is good to mention crashkernel=size,low is 
+ignored here.
 
+> +
+> +   The syntax is::
+> +
+> +        crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+> +        range=start-[end]
+> +
+> +   For example::
+> +
+> +        crashkernel=2G-16G:512M,16G-:1G,>512M
+> +
+> +   This would mean:
+> +       1) if the RAM size is between 2G and 16G (exclusive), then reserve 512M.
+> +       2) if the RAM size is larger than 16G, allocation will behave like
+> +          `crashkernel=1G,high`.
+> +
+> +4) crashkernel=size,high and crashkernel=size,low
+>   
+>      If memory above 4G is preferred, crashkernel=size,high can be used to
+>      fulfill that. With it, physical memory is allowed to be allocated from top,
+> @@ -311,7 +332,7 @@ crashkernel syntax
+>   
+>               crashkernel=0,low
+>   
+> -4) crashkernel=size,cma
+> +5) crashkernel=size,cma
+>   
+>   	Reserve additional crash kernel memory from CMA. This reservation is
+>   	usable by the first system's userspace memory and kernel movable
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 03a550630644..b2e1892ab4d8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1087,7 +1087,7 @@ Kernel parameters
+>   			4G when '@offset' hasn't been specified.
+>   			See Documentation/admin-guide/kdump/kdump.rst for further details.
+>   
+> -	crashkernel=range1:size1[,range2:size2,...][@offset]
+> +	crashkernel=range1:size1[,range2:size2,...][@offset][,>boundary]
+>   			[KNL] Same as above, but depends on the memory
+>   			in the running system. The syntax of range is
+>   			start-[end] where start and end are both
+> diff --git a/kernel/crash_reserve.c b/kernel/crash_reserve.c
+> index 62e60e0223cf..917738412390 100644
+> --- a/kernel/crash_reserve.c
+> +++ b/kernel/crash_reserve.c
+> @@ -254,15 +254,47 @@ static __init char *get_last_crashkernel(char *cmdline,
+>   	return ck_cmdline;
+>   }
+>   
+> +/*
+> + * This function parses command lines in the format
+> + *
+> + *   crashkernel=ramsize-range:size[,...][@offset],>boundary
+> + */
+> +static void __init parse_crashkernel_boundary(char *ck_cmdline,
+> +					unsigned long long *boundary)
+> +{
+> +	char *cur = ck_cmdline, *next;
+> +	char *first_gt = false;
+
+false to char *? We don't even need to initialize.
+
+> +
+> +	first_gt = strchr(cur, '>');
+> +	if (!first_gt)
+> +		return;
+> +
+> +	cur = first_gt + 1;
+> +	if (*cur == '\0' || *cur == ' ' || *cur == ',') {
+> +		pr_warn("crashkernel: '>' specified without boundary size, ignoring\n");
+> +		return;
+> +	}
+> +
+> +	*boundary = memparse(cur, &next);
+> +	if (cur == next) {
+> +		pr_warn("crashkernel: invalid boundary size after '>'\n");
+> +		return;
+> +	}
+> +}
+> +
+>   static int __init __parse_crashkernel(char *cmdline,
+>   			     unsigned long long system_ram,
+>   			     unsigned long long *crash_size,
+>   			     unsigned long long *crash_base,
+> -			     const char *suffix)
+> +			     const char *suffix,
+> +			     bool *high,
+> +			     unsigned long long *low_size)
+>   {
+>   	char *first_colon, *first_space;
+>   	char *ck_cmdline;
+>   	char *name = "crashkernel=";
+> +	unsigned long long boundary = 0;
+> +	int ret;
+>   
+>   	BUG_ON(!crash_size || !crash_base);
+>   	*crash_size = 0;
+> @@ -283,10 +315,20 @@ static int __init __parse_crashkernel(char *cmdline,
+>   	 */
+>   	first_colon = strchr(ck_cmdline, ':');
+>   	first_space = strchr(ck_cmdline, ' ');
+> -	if (first_colon && (!first_space || first_colon < first_space))
+> -		return parse_crashkernel_mem(ck_cmdline, system_ram,
+> +	if (first_colon && (!first_space || first_colon < first_space)) {
+> +		ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+>   				crash_size, crash_base);
+>   
+> +		/* Handle optional ',>boundary' condition for range ':' syntax only. */
+> +		parse_crashkernel_boundary(ck_cmdline, &boundary);
+> +		if (!ret && *crash_size > boundary) {
+> +			*high = true;
+> +			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+
+Not all architectures support high crashkernel reservation. So high and 
+low_size
+can be NULL.
+
+I think we should just skip parse_crashkernel_boundary() call if high is 
+NULL. - Sourabh Jain
+> +		}
+> +
+> +		return ret;
+> +	}
+> +
+>   	return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
+>   }
+>   
+> @@ -310,7 +352,7 @@ int __init parse_crashkernel(char *cmdline,
+>   
+>   	/* crashkernel=X[@offset] */
+>   	ret = __parse_crashkernel(cmdline, system_ram, crash_size,
+> -				crash_base, NULL);
+> +				crash_base, NULL, high, low_size);
+>   #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
+>   	/*
+>   	 * If non-NULL 'high' passed in and no normal crashkernel
+> @@ -318,7 +360,7 @@ int __init parse_crashkernel(char *cmdline,
+>   	 */
+>   	if (high && ret == -ENOENT) {
+>   		ret = __parse_crashkernel(cmdline, 0, crash_size,
+> -				crash_base, suffix_tbl[SUFFIX_HIGH]);
+> +				crash_base, suffix_tbl[SUFFIX_HIGH], high, low_size);
+>   		if (ret || !*crash_size)
+>   			return -EINVAL;
+>   
+> @@ -327,7 +369,7 @@ int __init parse_crashkernel(char *cmdline,
+>   		 * is not allowed.
+>   		 */
+>   		ret = __parse_crashkernel(cmdline, 0, low_size,
+> -				crash_base, suffix_tbl[SUFFIX_LOW]);
+> +				crash_base, suffix_tbl[SUFFIX_LOW], high, low_size);
+>   		if (ret == -ENOENT) {
+>   			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>   			ret = 0;
+> @@ -344,7 +386,7 @@ int __init parse_crashkernel(char *cmdline,
+>   	 */
+>   	if (cma_size)
+>   		__parse_crashkernel(cmdline, 0, cma_size,
+> -			&cma_base, suffix_tbl[SUFFIX_CMA]);
+> +			&cma_base, suffix_tbl[SUFFIX_CMA], high, low_size);
+>   #endif
+>   	if (!*crash_size)
+>   		ret = -EINVAL;
 
