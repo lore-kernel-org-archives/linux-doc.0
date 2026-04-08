@@ -1,207 +1,141 @@
-Received: from relay.hostedemail.com (smtprelay0013.hostedemail.com [216.40.44.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8CEB67E;
-	Wed,  8 Apr 2026 18:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B32EA3537FC;
+	Wed,  8 Apr 2026 18:16:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775672214; cv=none; b=KRCiaED7WX8dCQ96phpk6wzUL/yCRdIIfLlxpVssE0fL63mMDctTLDRcMd+7QS972A4649Eg/q+RwxEmSWWAqsUNCB+RCBGjnT4/WZx91DlB1vP8eJLiCpklOsXbtXmX4exi+2RcAjxFMpFCGTKeNEagg3zzdedyK3RZ023+xWc=
+	t=1775672214; cv=none; b=WRYTVNHw7LxKJ35DX4B5wC6JhtQtBP7UDuRfONliZRiXk9bCH28ueyuEZyavO7OzUrYMmxe3fxcWJJ/3YqPZCNON8ZiF9RnxbnWbk1thzW5/3GOmno8M2XrLDTexfhJYHUim5YD4BOCzzbwjSCDheisuheMlExITsjJuXcOFVns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1775672214; c=relaxed/simple;
-	bh=WCTmsAk4bx/xZwbU40e5dwbewPnydGz9zlTpoNY26AU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=DkU7iu9jxb3ty4Qtt2mQxg/djNqb0j2p98vIf2gFCLJJJFT/2Chqhwt7XMOCMD+fskDKKSrD0/9sjtFRRswZJQZI56J1alcrdQkDc62CgpulBV+SGsgfcx2C/lLmu/YrgpcMoUUUmP3iYSdoN2lJv+yCEMsdU5ifti51Xm7NKYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf16.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay06.hostedemail.com (Postfix) with ESMTP id 4246C1B7028;
-	Wed,  8 Apr 2026 18:16:45 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf16.hostedemail.com (Postfix) with ESMTPA id 5D9412000F;
-	Wed,  8 Apr 2026 18:16:42 +0000 (UTC)
-Message-ID: <bbd86dd5a7e457d368f5875589cc78287ece4193.camel@perches.com>
-Subject: Re: [PATCH v2] checkpatch: add --json output mode
-From: Joe Perches <joe@perches.com>
-To: Sasha Levin <sashal@kernel.org>, dwaipayanray1@gmail.com, 
-	lukas.bulwahn@gmail.com
-Cc: mricon@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	apw@canonical.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 08 Apr 2026 11:16:40 -0700
-In-Reply-To: <20260408172435.1268067-1-sashal@kernel.org>
-References: <20260406170039.4034716-1-sashal@kernel.org>
-	 <20260408172435.1268067-1-sashal@kernel.org>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	bh=HKHxPoblaork2H0d6qRNs+Qxh9dmFv1KNw8j/ngGj2k=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=oijGH4/UxiwicBavlloExqjMDJoCkfKAudKEzW88VofMidFcZ6BSWs4wF9jx/pBX0+OT+HWmCo1EEB1kvDn8fb8zIWRPWhTtA3wnDz/DmpSEjCVmrNDiMi25cUvZHcwIZ4S9O+1vSLRvZzKUU9Gl9ZUFzMMQeuPyVCYj7Zt1xyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rrd3Vq+f; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rrd3Vq+f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2F9D3C19425;
+	Wed,  8 Apr 2026 18:16:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775672214;
+	bh=HKHxPoblaork2H0d6qRNs+Qxh9dmFv1KNw8j/ngGj2k=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=rrd3Vq+fpd2blfg6wopfmOudbeG4wNDSlpCfejvmvd9EMcoPsT5k51gL7CuUaYk8b
+	 CpHgEcnumiCYVsoUwEVKTzSkoA/DVcdCU+DX3KHP2lXzv4YXjSXHuElsMVzZ8VZNaF
+	 mnCA9VD3Q974qfsAM7/mh5BiUph3l8bViDzZ4Wt3RsjC9DHTgC0R++6fU7MAY3ViK8
+	 fep2ac1qhUEMg4BJqE/fnCyhwpxcEteOSOopRmtr0JdkXz4HaLZIWkW0zTlPiKWibw
+	 viZJiaSqhgue58xJCCwHiW3Zpv37EyeLmBL+v3mjOw7OWGvECH+WmbkdD6RXkg+GTx
+	 tDGbFufErBw8Q==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 036AEF4006C;
+	Wed,  8 Apr 2026 14:16:53 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 08 Apr 2026 14:16:53 -0400
+X-ME-Sender: <xms:lJvWaSvFhNZ43WDSF4xUIs6h7WSKhuTbM8ny4RZXenhN05SWE55zww>
+    <xme:lJvWaSRp34g1uyADOBSHkG683H72946qbjCgw08XMh_E942eiYKOwFFr73cJGcLzS
+    _ychiMARQA5cFpBaXc9AUgNy-tsOdFITn8Rpvv0lSPJ1udqMzygP8PH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddvgedvjecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    ephfffkefffedtgfehieevkeduuefhvdejvdefvdeuuddvgeelkeegtefgudfhfeelnecu
+    vehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheptghhuhgtkh
+    hlvghvvghrodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieefgeelleel
+    heelqdefvdelkeeggedvfedqtggvlheppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrih
+    hlrdgtohhmpdhnsggprhgtphhtthhopedvgedpmhhouggvpehsmhhtphhouhhtpdhrtghp
+    thhtohepnhgvihhlsegsrhhofihnrdhnrghmvgdprhgtphhtthhopehmrghthhhivghurd
+    guvghsnhhohigvrhhssegvfhhfihgtihhoshdrtghomhdprhgtphhtthhopegrlhgvgidr
+    rghrihhnghesghhmrghilhdrtghomhdprhgtphhtthhopegrmhhirhejfehilhesghhmrg
+    hilhdrtghomhdprhgtphhtthhopehrohhsthgvughtsehgohhoughmihhsrdhorhhgpdhr
+    tghpthhtoheprghnnhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhgruhhnvg
+    hrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehjlhgrhihtohhnsehkvghrnhgvlhdr
+    ohhrghdprhgtphhtthhopehmhhhirhgrmhgrtheskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:lJvWadfwdEbgHY50jIRm349uKUZoi4dIykahtitCUgzU-qDa0jnh-A>
+    <xmx:lJvWac5QvBsdH_8b0EyXVCQ53CXGlvAU2LZ3Dvd5A7hJOw-v281LXQ>
+    <xmx:lJvWaZ8srh66Ha6yOnd5dPMBZe86eMzFqX6S6cRH6t_Z_s4hH5_cvQ>
+    <xmx:lJvWaWzPQupnYV0SPbhEsvYqUN5lmSqjdY0QzIFVlPNh9gdBGgEVig>
+    <xmx:lJvWaQG2yajAQ8V64yXwD0sO-FDVUo7XOMuAJq6b2G-JRpJ3Lc7Krz8K>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C882B780070; Wed,  8 Apr 2026 14:16:52 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 5D9412000F
-X-Stat-Signature: 1buihourwf9gportukr3gz48kyfz7tqd
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+cGa6Wr1P7N2dE/tHwpvref8MlZoUXYrc=
-X-HE-Tag: 1775672202-820107
-X-HE-Meta: U2FsdGVkX1/f7x5Z4rIcTVI/06sbkjagRW34jxx4c2cZaBfdrAlLVTv0ZzrJ4N/3m4bG6/iNZ2BgplCVYkb1jiMo9vOrY93b3XpmHaUQsJyAfe3tcJQlaqMrUPYYXiv61ZF3Xuk4nvLRp7AajWfgoOm0nEB50eJzz73WUMwIZDQU9r6L0+oMdtJRdXZkhIp+ZsWAwIDDTY1zAQSHwkqnKZLotbNEWRYVl5dFGhc+/cxJgHr/GEkkU/VJfGC030nq68nudU7mwl/S7CNPIup6WdxuJKvcRUdPetmH0zccfuzbNnX22mMJIkoBW1H+IWfU
+X-ThreadId: A5DZmuaHBpig
+Date: Wed, 08 Apr 2026 14:16:32 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <bb4fc3da-765d-4284-9282-dd04d286f671@app.fastmail.com>
+In-Reply-To: <20260407-dir-deleg-v1-1-aaf68c478abd@kernel.org>
+References: <20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org>
+ <20260407-dir-deleg-v1-1-aaf68c478abd@kernel.org>
+Subject: Re: [PATCH 01/24] filelock: add support for ignoring deleg breaks for dir
+ change events
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Wed, 2026-04-08 at 13:24 -0400, Sasha Levin wrote:
 
-Adding --json seems sensible but some of the
-added checkpatch code seems odd to me.
+On Tue, Apr 7, 2026, at 9:21 AM, Jeff Layton wrote:
+> If a NFS client requests a directory delegation with a notification
+> bitmask covering directory change events, the server shouldn't recall
+> the delegation. Instead the client will be notified of the change after
+> the fact.
+>
+> Add support for ignoring lease breaks on directory changes. Add a new
+> flags parameter to try_break_deleg() and teach __break_lease how to
+> ignore certain types of delegation break events.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-> @@ -2395,6 +2400,18 @@ sub report {
-> =20
->  	push(our @report, $output);
-> =20
-> +	if ($json) {
-> +		our ($realfile, $realline);
+> diff --git a/fs/locks.c b/fs/locks.c
+> index 8e44b1f6c15a..dafa0752fdce 100644
+> --- a/fs/locks.c
+> +++ b/fs/locks.c
 
-Seems an odd way to check if $realfile/$readline is set
-
-> +		my %issue =3D (
-> +			level =3D> $level,
-> +			type =3D> $type,
-> +			message =3D> $msg,
-> +		);
-> +		$issue{file} =3D $realfile if (defined $realfile && $realfile ne '');
-> +		$issue{line} =3D $realline + 0 if (defined $realline && $realline);
-
-All the uses of + 0 seem unnecessary, but I gather it's for
-string/decimal conversions.
-
-> +sub json_print_result {
-> +	my ($filename, $total_errors, $total_warnings, $total_checks,
-> +	    $total_lines, $issues, $used_types, $ignored_types) =3D @_;
-> +	my %result =3D (
-> +		filename       =3D> $filename,
-> +		total_errors   =3D> $total_errors + 0,
-> +		total_warnings =3D> $total_warnings + 0,
-> +		total_checks   =3D> $total_checks + 0,
-> +		total_lines    =3D> $total_lines + 0,
-> +		issues         =3D> $issues,
-> +	);
-> +	$result{used_types} =3D $used_types if (defined $used_types);
-> +	$result{ignored_types} =3D $ignored_types if (defined $ignored_types);
-> +	my $json_encoder =3D JSON::PP->new->canonical->utf8;
-
-Maybe add JSON pretty too?
-
-> +	print $json_encoder->encode(\%result) . "\n";
-
-Still missing parentheses around print args.
-I do know  that not all existing print uses have parentheses.
-I just prefer them to be more like C readable.
-
-> +}
-> +
->  sub fixup_current_range {
->  	my ($lineRef, $offset, $length) =3D @_;
-> =20
-> @@ -2690,14 +2724,15 @@ sub process {
->  	my $last_coalesced_string_linenr =3D -1;
-> =20
->  	our @report =3D ();
-> +	our @json_issues =3D ();
->  	our $cnt_lines =3D 0;
->  	our $cnt_error =3D 0;
->  	our $cnt_warn =3D 0;
->  	our $cnt_chk =3D 0;
-> =20
->  	# Trace the real file/line as we go.
-> -	my $realfile =3D '';
-> -	my $realline =3D 0;
-> +	our $realfile =3D '';
-> +	our $realline =3D 0;
-
-?
-
-> @@ -7791,18 +7826,27 @@ sub process {
->  	# If we have no input at all, then there is nothing to report on
->  	# so just keep quiet.
->  	if ($#rawlines =3D=3D -1) {
-> +		if ($json) {
-> +			json_print_result($filename, 0, 0, 0, 0, []);
-> +		}
->  		exit(0);
+> @@ -1670,7 +1709,7 @@ int __break_lease(struct inode *inode, unsigned int flags)
+>  			locks_delete_lock_ctx(&fl->c, &dispose);
 >  	}
-> =20
->  	# In mailback mode only produce a report in the negative, for
->  	# things that appear to be patches.
->  	if ($mailback && ($clean =3D=3D 1 || !$is_patch)) {
-> +		if ($json) {
-> +			json_print_result($filename, 0, 0, 0, 0, []);
-> +		}
->  		exit(0);
->  	}
-> =20
->  	# This is not a patch, and we are in 'no-patch' mode so
->  	# just keep quiet.
->  	if (!$chk_patch && !$is_patch) {
-> +		if ($json) {
-> +			json_print_result($filename, 0, 0, 0, 0, []);
-> +		}
->  		exit(0);
->  	}
+> 
+> -	if (list_empty(&ctx->flc_lease))
+> +	if (!visible_leases_remaining(inode, flags))
+>  		goto out;
+> 
+>  	if (flags & LEASE_BREAK_NONBLOCK) {
+
+After breaking visible leases, the restart: label calls any_leases_conflict()
+which does not filter ignored dir-delegation leases. When only ignored leases
+remain, any_leases_conflict returns true, but visible_leases_remaining also
+returned true (triggering the wait). The code picks the first lease (possibly
+ignored), computes break_time = 1 jiffy, blocks, then loops.                                                     
+
+For example, suppose you have two directory delegations on a directory, one
+with FL_IGN_DIR_DELETE and one without. After the non-ignored one is broken
+and removed, the ignored one keeps any_leases_conflict returning true. The
+loop spins at 1-jiffy intervals until the ignored delegation is released.  
+
+Should the restart: block skip ignored leases?
 
 
-Duplicated code, maybe use a function or consolidate the code?
-Something like:
-
- 	if (($#rawlines =3D=3D -1) ||
-			# If we have no input, there's nothing to report
- 	    ($mailback && ($clean =3D=3D 1 || !$is_patch)) ||
-			# In mailback mode only produce a report for what seems to be a patch
- 	    (!$chk_patch && !$is_patch)) {
-			# This is not a patch, and we are in 'no-patch' mode.
-		json_print_result($filename, 0, 0, 0, 0, []) if ($json);
- 		exit(0);
- 	}
-
-> =20
-> @@ -7850,6 +7894,13 @@ sub process {
->  		}
->  	}
-> =20
-> +	if ($json) {
-> +		my @used =3D sort keys %use_type;
-> +		my @ignored =3D sort keys %ignore_type;
-> +		json_print_result($filename, $cnt_error, $cnt_warn,
-> +				  $cnt_chk, $cnt_lines, \@json_issues,
-> +				  \@used, \@ignored);
-> +	} else {
->  	print report_dump();
->  	if ($summary && !($clean =3D=3D 1 && $quiet =3D=3D 1)) {
->  		print "$filename " if ($summary_file);
-> @@ -7878,8 +7929,9 @@ NOTE: Whitespace errors detected.
->  EOM
->  		}
->  	}
-> +	} # end !$json
-
-I quite dislike misleading indentation.
-
-Perhaps it's  unnecessary here and simpler to use an
-exit in the new block at line 7850
-
-> =20
-> -	if ($clean =3D=3D 0 && $fix &&
-> +	if (!$json && $clean =3D=3D 0 && $fix &&
->  	    ("@rawlines" ne "@fixed" ||
->  	     $#fixed_inserted >=3D 0 || $#fixed_deleted >=3D 0)) {
->  		my $newfile =3D $filename;
-> @@ -7918,7 +7970,7 @@ EOM
->  		}
->  	}
-> =20
-> -	if ($quiet =3D=3D 0) {
-> +	if (!$json && $quiet =3D=3D 0) {
->  		print "\n";
->  		if ($clean =3D=3D 1) {
->  			print "$vname has no obvious style problems and is ready for submissi=
-on.\n";
->=20
+-- 
+Chuck Lever
