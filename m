@@ -1,270 +1,326 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012019.outbound.protection.outlook.com [52.101.43.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5194E3A8744
-	for <linux-doc@vger.kernel.org>; Wed,  8 Apr 2026 20:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775678573; cv=none; b=BU0g7gYnIDJRtFYwR86d1FvOCTg3hSiw9fERWy41XTz6xjHNFDz/er+l6fP6TZKOfAvt9lHac08hYR0cpGkQSVOXducBpaGRisuKdcGrbVRVZajbcJncfIgqZKK5eD11a0lOcbqqROKNmzBiAstHls9n+SgKm11w4A3nEB2CUOg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775678573; c=relaxed/simple;
-	bh=ftTpVckDB1Ntqu89+1elJ8nn6xn5PfMnDJrkqsIjPtg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hjMpKTgcG472TBGVfX51c/48p3+Pef3Tk9LA7ZHEDWtYOSmTlGMGAjqzyb8yGnFuMt8C1ocbyVRYNxU86c1jPcMfCz1vc7wmzH/8ws5YTLAlocJ7hpi7YWZVV+dVR3IFKLmqeIGXXmuDClClo2fUGTcDkB399WsksFcEiiBbDW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RY/J5xAZ; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5500D387340;
+	Wed,  8 Apr 2026 20:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775679601; cv=fail; b=bPBfJF1vTG1++118XRognS6ilGAEzsUPYhjysFCylzFuwgKmjyC0JbZeEvR+skX1gTe4Acv44CIK6KSLuRp/fHaydaVDMRyIBrxFuQG/Uw9Eo/VnF2EhfHNzBdycD6GD8cH36cBN2031FThYhzxyRvIAzdL+fhxolYXzWrNhkiw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775679601; c=relaxed/simple;
+	bh=qmoizDIr3N1r8BmQFKmCQtoUCbforGv/XMpXpYRuBic=;
+	h=Message-ID:Date:From:Subject:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=lEmNNSyTsEqxS2zAJZKBeDZWgdMsB8qbFT2sZrdic7ML10oPq2iL/Q/nXEfwc01MgWQdvr+ZdykxldF1dQUUiGN0ay89FPAW+SjDB/g4ekjUNmJaXc889lIT8XVm7RXWHl2pKY4UDW7lHiAd4i+vy5lS4+q7pDSrYGF8sVDQhyE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Km7BD1tQ; arc=fail smtp.client-ip=52.101.43.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RY/J5xAZ"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7dbd08144deso120368a34.0
-        for <linux-doc@vger.kernel.org>; Wed, 08 Apr 2026 13:02:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775678570; x=1776283370; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8Fn+1VGRF0lzR7vhJfSVcQCaTLdIbHbYdKyEKI0VCCs=;
-        b=RY/J5xAZotuQwD25pFXBuzmUdc6aGA3qkVT9z+E3ke+xhkSUBPcQFgw8mfIAwrjyDv
-         W7zSYAcq5JDkJ0omlWqcKLiOg8kJq9n+ga/xVuXAsSSpuOi42BF7OYXWMtFtBtRI/O9P
-         LxScPIxCT/Nh+eAqTZGU+r+afABAVAZ6BZH0mx2o1MbaVqvpINEMg9L9gOrGAY6q7qj9
-         PADYGejSvikD24PICU61Cr1ewpK8LVFY0goOSk/l82czxIBmT7x0d9IzsIdHPjTHW/t4
-         70bOTVG7MShyBKBnRMMC3BwxHUCmjljNL+J59/D7AQMvS8BUuLhnCGoIAi6M/rlccf/w
-         Wlvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775678570; x=1776283370;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8Fn+1VGRF0lzR7vhJfSVcQCaTLdIbHbYdKyEKI0VCCs=;
-        b=BC3zDh2CIUvdg40iWQXoBLDgs4BLOSTyhmvo03KXvF9XMH5Rzo/xhu27nkJSimNjmD
-         6XgJqUvSMx8iLFoqMHDKnx5qozV07bT3QAhkF911xkIXI2O6MsLl2n3YuF27GXV+u9W9
-         5W1MQO8UgsX2BRW9WzV9679zv7rvxt6Q6eU8YiVK9Cz0Zhrqm0aRetApN3ItyosB/61B
-         jzx9H+RYDCP7ooLvBB7EEgqGpcCLk9uX6TYummDmesC1TjWcDUbJpfxb8fRmEAdMbJli
-         Lvfch4p9DxOHSlYyN8z3o0TnicCAz/GlQapfMcbmMoAqxWc26VYvAnXFkM2fMfDFUiK6
-         +qtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUM8QlH1akHnx4RMF/8jMhscRiWMBgRceX2HlNHJHC2qAjFDj911eDSKLVS2Z+yR516/YpdC67MmmE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1dV74epAlUUdtMTPl+2nUTTdgCyfr9+s9RhNTmrFcu5XG5nNG
-	4Xeb1zTzABzKFEf3ASE/t3vEnH9MkapFpUkXcIajEXQXK+RANoP25sz0
-X-Gm-Gg: AeBDiesFZhsioJkf4sC/p9zHrurt+JuhZg3VpgAv/GNKqo9ydKiaoy1QXCf2s8ohKZE
-	TZBYrkGBX/f0yk8XzGjnWBZZe7HWR7CcQsQ8mwXj1gfYfbvvtblJk7BpcvdESellMwxIDqthWd2
-	uiDkILS8FpmXoi5AwqvVn8Bw9NeuKLBgeoFBeCo2/zsN0PzF5UXgxuOE+2pZvbdULimskKzNpMm
-	l/c3vZfZ7C1Xm9tFXXiukemafDBuzUvK/4uWgJlD9F6ZM3DsGbHnS9kOcSqB972NP4xbOHDduMI
-	pW/M/p/ada/B1unq992atrDM2gcMhyzYI14MLxLiUkKtpHbuF1wSAeRKzXxi+rLE7RBe72wGKTh
-	PlEe8NilZQ1csC0EnaBBJXQef2VazYm79HhgpDs5LkA0DUErZT1T/2NGNjdVvUWlMsUOepUzmbX
-	x7DrUjoMQWSK6RlJlrzaq7aQMcAZVYgUIn7DG2t9d1VVHml98DZ6CWhcE3qriddw1MOB3GmgTWx
-	rM=
-X-Received: by 2002:a05:6820:604:b0:68a:1ed1:206d with SMTP id 006d021491bc7-68a1ee07119mr945464eaf.6.1775678570033;
-        Wed, 08 Apr 2026 13:02:50 -0700 (PDT)
-Received: from frodo.raven-morpho.ts.net (c-98-38-17-99.hsd1.co.comcast.net. [98.38.17.99])
-        by smtp.googlemail.com with ESMTPSA id 006d021491bc7-680a63c7fd1sm12254208eaf.8.2026.04.08.13.02.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Apr 2026 13:02:49 -0700 (PDT)
-From: Jim Cromie <jim.cromie@gmail.com>
-To: linux-kernel@vger.kernel.org
-Cc: gregkh@linuxfoundation.org,
-	jbaron@akamai.com,
-	louis.chauvet@bootlin.com,
-	Jim Cromie <jim.cromie@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v13 35/36] docs/dyndbg: add classmap info to howto
-Date: Wed,  8 Apr 2026 14:02:10 -0600
-Message-ID: <20260408200211.43821-36-jim.cromie@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260408200211.43821-1-jim.cromie@gmail.com>
-References: <20260408200211.43821-1-jim.cromie@gmail.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Km7BD1tQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AKyu4YTuNfA6X14JYgDH4QZbhieXEtDiQu7YWMCi59iOpa0x1UwMEoJNJLB5UAhoAMSretwzlE+amYQxxe1h75iehCazWnfUggXhOSMgrMrViAW+5UiEd82BXHxqtHsxUuymmYrMk3cVhNQTNUeoPYyvk/FwNwbvfYdYHoTLwIrST5WNcGuciibcoUerF5N2zQbqRD45O7En8ScAsp9+SzpnaUkXvxBF5/jLv75GNjSFjOtJz92wrzHngKZSramhp/6YiVucN+ewJgId1rLX7IwgHMQiZeqLa698MVf0NftGJwv0e4miCQxRh064Unu7tLibqTi1Z0Nh5v3fFD67Vw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2efbJ2KJAYhvZX4rWrR+CqaD4WLC7lk1DnyZIwyvCO8=;
+ b=c8JPNQVnFD4HBCfgGIsAgFcwuGT+b2Hw3mtG+RE6gDl/AhcE8oTgtMRZQ5GAtwqIhmes0txN9WwyBIrGJ4CV0DsAEP43XH8sPcPQvqn3VzQld8okPpOIT4iuPSfSBbKqTmNJj/M6LDAvc2XrdRhPNCm4AmEuGQZSLYlebMWiPVvVorVkffI1T8ZzlP0nLftqXDq4wy0ZV2JmNxu3JD3V6b6ZtKgD/YdTGq4m60IO1cx+vYqij6KBDzJZQvmiO4D7zf9CHoHcbFI6ZfSoF+x5IAk8ZWfpwXUQX0B3cIwsaae0LXltGOw3EAGGv/JoiYABj3vt3iybXTJLECfXUAKaAw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2efbJ2KJAYhvZX4rWrR+CqaD4WLC7lk1DnyZIwyvCO8=;
+ b=Km7BD1tQDEJeOs3neGuXzdXrnDVgLasqGI1Tq2RhdJOrNseJxwv8tV4961IA3btB7TxIIG1DU2Qw4xx0xvzefH8ayO8VdtJPuTZQrNzjbSpIEiI+vmz98LmS1/aQ006g6s5ZWw1zofIw+Uf8A8I5tP+WIxKud680eSIJsNQGAUf6JpImgCG4Yqm0VvbR4uqR3iHGIXRldKSCOSNqz9JiwXTG/UyWZhkiawQ+4wzjyYbCK862twNbQVei7E1QYbSapxNyITtg6A8Xqu4hIlQrIyoN5viRbk9sWTacE3Zkmj+Abo5ynghZ+/KwhsZxxuV25RmwrT/DMm71IRJmwNCZGQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ CHXPR12MB999221.namprd12.prod.outlook.com (2603:10b6:610:2fa::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.16; Wed, 8 Apr
+ 2026 20:19:44 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Wed, 8 Apr 2026
+ 20:19:44 +0000
+Message-ID: <2f004511-61d1-4197-84b6-cddcdd275e55@nvidia.com>
+Date: Wed, 8 Apr 2026 16:19:40 -0400
+User-Agent: Mozilla Thunderbird
+From: Joel Fernandes <joelagnelf@nvidia.com>
+Subject: Re: [PATCH v10 12/21] gpu: nova-core: mm: Add unified page table
+ entry wrapper enums
+To: Alexandre Courbot <acourbot@nvidia.com>,
+ Eliot Courtney <ecourtney@nvidia.com>, Danilo Krummrich <dakr@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+ <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ joel@joelfernandes.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-13-joelagnelf@nvidia.com>
+ <DHIFF98P1YQ3.1IXUT02E3TF20@nvidia.com>
+ <5db2aab1-4b65-486e-ad9b-27a108bdb0d6@nvidia.com>
+ <DHMYSTLVHIFJ.A2BDMPVNZNLS@nvidia.com>
+ <537a8c5a-3885-4c47-99f6-963b48ddf87d@nvidia.com>
+ <DHNKYBM159T9.2UUQ7CU0RN0BU@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <DHNKYBM159T9.2UUQ7CU0RN0BU@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BL1PR13CA0116.namprd13.prod.outlook.com
+ (2603:10b6:208:2b9::31) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CHXPR12MB999221:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7ca0982a-89c3-431e-3c89-08de95ac2c4d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	QCS3u0Bq+ix9zqdgXqkPHsvzqDDFahSoj89lzWz4Iq4zKR8Jcrr4rQ+PvsaHvvxREhEpdVn0eBUwjLCJLyAhcoFEPcx4S+TroyJFLzcPX6K/wpPswGmRNxlu4ZgSGUZDuk5iiu+xl9+5Q0CggRFPHpgk5q8OhDE1iHDy43FmESnDIK+v9G2YPurB5Ao390V1SQ1w27sUe2ECzlea4e+S1+H0vrymIViub2xVh9fxsGRFhyUGa2KzhWwH30s3b3+yquLwaDqEm0fhGLeFkc17FRMB4dakNSA858NSu8rk1QF7s0V4jM25Ybxz3Rp9Ij71kU4XyD1ObAF6PDEyJhP8miDC1W/H6/tutkeXF1wjf6jgU0h81A3wPS45+VbB4dB6vBZFHl/tGUDKVMuv/CubYKJutX8yGgc0CcqvYut/4S9kMrdi0cORtvK//Oo2tItmEqUKsSkiqmwASE08Ngu7TePthk/lJ3lsoDD++uHjHWGLl2owd9k6UCJgPT5WHWk9s/QljqAfKdeECq+WURFAh28RaHnCP0ijgRBb6beteIMAzmcXVmje4h0uFSwcMWDyVUc5nNxiGhsDRVkLxVLPYl0/mUQjRtFOKPzcB2NM65j6mY9D/cJQmLnxnh817UmfTLmFFeK8aUq0uam4eIKI7oVreb/vRfQ+gQyIhbn8znSUJR9z/9O0W5NuIzzqGeHVWrO44lsrdgLhlQnJ9p70fukY1DmqWYqgeUyf7blY3Zk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L3oydXF0cFhkTWVzMUxBVUtXLzcyUVExY2gveGc2OVUrSm5FOVV3dzJSUVVr?=
+ =?utf-8?B?SUlITjhpV2VJZlJCTnRqZzBmekFUUitDVVBMNUs1N0tETVVsSUFkV2JvN2FL?=
+ =?utf-8?B?OG82VEc3K2xnTkFUd1czL0pKZ1piT25jZlhYTXhQRWtXLzhwSTA4c3BoRUt2?=
+ =?utf-8?B?YVNDRzEwOURId0JsYzEyQ3RwbWFqcVk0UVpBVkx1MDNaTFE3dnEyWDZ5Y2Yv?=
+ =?utf-8?B?d01ldTQ3VGpZVUtYTFNUVW84TkFaM0NrRUlLeXorSGFqY01JZEx2Q1ZRQnEw?=
+ =?utf-8?B?cVhPY25YRjV0ZnNCOHlHTzZvdjNWUlVzVnc5RGhRcmpZTHRRYmpsa1RFL2pN?=
+ =?utf-8?B?enpyTVVWVW1XSWdPZFMrTnl0U0NqNGdMWGdseWZ1K0pwUWovUGxiNjlZb0lm?=
+ =?utf-8?B?REsvYllMK0xodm1pSFR2Y215dXNQZEFmTDRUTWJnYlNaTlhSTzJjSTVtRTFY?=
+ =?utf-8?B?OFJnd051dEF2RFdNbjF2d1VnSEpCcWNpZU1xVWsvR2U2cHYvZlpUeXZDNEFw?=
+ =?utf-8?B?dWczaU1ScGx0ekZibmZMUmc3WkozU0FicVY0Myt6UlZhWEFNakpOT0FCbXd5?=
+ =?utf-8?B?ZFVEOGFwUmltYnhSNVQvdGFXNE1lT2dGU1FTbE9RaithY1lUdnNHeC9oN1Ri?=
+ =?utf-8?B?bzNHa21FanV4bHdPVDdiSGlXMUgwOXppQ1NtVjVhNm1SVE16dG53eE1VT001?=
+ =?utf-8?B?Z01CdFc3ZXpGYlJrcDRHQk5YNGZGU0xDaWpMazk4V3VQTFJITEFJYzhlUStW?=
+ =?utf-8?B?TkJraUFpR1ROUEpqb0dmMFd3Mm1iLzB0WUVBVTJ6QW1FVUNUMzN6WlFjNzg3?=
+ =?utf-8?B?U0pKc0tkTkNVWHBqNHp1Q0tCbWtBQkRQdWlRL0pXZkdDRTllYVhUL0JMclYw?=
+ =?utf-8?B?M3RkcFFSci9teENWRUZkeC9JeWxBNGtWS1ExZW9ZNXZlcnoramZWSE5KZmtF?=
+ =?utf-8?B?ckdXOUR4SVVldjNRWTBpQUUvUzNteUVqWmlhQ3BqVXVoRjhvMVBLbFVndG9y?=
+ =?utf-8?B?alhXOXFXMnBMaHRQTUw1TnVWUjZ2bDJleFMwVGJZK0JRZC91cTA1Q2h4SE5t?=
+ =?utf-8?B?eHdxdXFqTHNGVXk0THUwMy82OFFBNjA1TllXSHViUHhmcXFzWlRGMnVSM1Mw?=
+ =?utf-8?B?SFFLMXY1OUIrbWtVQW9Kb2pWckhGRnorRmtqaUhodTJCckFHcGd5cXovYnIv?=
+ =?utf-8?B?RlZTRS9CS01RbDVhMjQxNEZiVEZDazVlbk1SSTdwVDNvZ05iOHBIWDRBVzg2?=
+ =?utf-8?B?bGpOdzF4YkJIRXdscmpxbkFkVWdQZ2FVQWZCNzkwYTZVL2J0cnNoYy9rY2ox?=
+ =?utf-8?B?dzAxczlwODdVRmljS0llQ29MOEpqYlVmaDBwcVc3RU0zbEZQbFFudE84aTRn?=
+ =?utf-8?B?Z2IvV3RYZHBZcTZKWktEempVNGVBSlo1UmF6R1dqOUQ0WnlYaE9mWUZBTnFr?=
+ =?utf-8?B?OVFmdXBhYlJ2blBHcVYwRnZvaTdwUFJrOUVaUGJtM0hkWG9sY2VXRC9taUpn?=
+ =?utf-8?B?R1A3SXNPTXNZaFZBRkMwWWpNYTdvNDR4SzEzNDdlSDBxM1ltYUhOYldBTFV6?=
+ =?utf-8?B?VXpVZEZzS05VWXdIK2x2RGhqQU9oeUE1Q05aNzRhNjJiaDdwekJPRnhMRDNK?=
+ =?utf-8?B?VkZuWlF1a2hudTF0ajl6L0lNRUpZNDVnZHYrR0pvRGJzUEswdXMveWFZdzNQ?=
+ =?utf-8?B?TVgrZG00eGJXb08vczY1aWpqWXZkcnN1b0YyTzA0cUNNSjhsUGI4eThvV1J5?=
+ =?utf-8?B?QmZYTVNZQ0hNOUF6elFudXZoQko0M1gveENIWDd4UjkvMXljZWxvdXlqUmgw?=
+ =?utf-8?B?UTNzVnFXNVdIcW81ek9yWVJiMTNzQzhVSnJnK3FzRE14VVovbFYxaUFkVEta?=
+ =?utf-8?B?dHVaUVRreU9id1FsYlNlTUxVYlE5ZHJaOUk4MmZ6TjFaWTdVcWxOYzhXU2l3?=
+ =?utf-8?B?V2Jqa3Q0dDZSV2xaUVNxWDJMM3dIaWpYbjZ3RURXazNYekdaU2lJZzFyMkZM?=
+ =?utf-8?B?UDVLaDg0WjRzenlsdFo0dnVDei94U1llRmR0U09aTEYrREtWV0lZRmg0TEhJ?=
+ =?utf-8?B?dFYxeEcvYmE0SFhRbEt3WXNOTDZ0MmtOZzA4SURyUThmY0locjNSMUtZLy9u?=
+ =?utf-8?B?UnRJekNmNURXaVlmUno3RE9mWCsvL3BxQUtTY3JTMU91a2JIWGVsb1JJcktu?=
+ =?utf-8?B?Q2V1dy9CLzdVSUU4SHJWU3AvTU5zaWpnMVF2cUpBUG03UnpvdXhGZmYzY0dC?=
+ =?utf-8?B?ZUM5dVBkd0loMkFhS3VGbE1DQUxYZDFlVlhNWnNzWjl6aVc1Wm0rbVZoeVhU?=
+ =?utf-8?B?Y3E4Q3ZZbUpUeVlVdUNQbEtSTzZYRXNQOXQya0lYZStzZlZiZi9rZz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7ca0982a-89c3-431e-3c89-08de95ac2c4d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 20:19:44.5944
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CQ58XxuvyR++IUnmDaFEMtnPrcJYrvSralMg/cil1XpSFiMO+9oy5YhqDWupykcOak/KCqpyOMb5QuR4z7nHwQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHXPR12MB999221
 
-Describe the 3 API macros providing dynamic_debug's classmaps
+Hi Alex, Eliot, Danilo,
 
-DYNAMIC_DEBUG_CLASSMAP_DEFINE - create & export a classmap
-DYNAMIC_DEBUG_CLASSMAP_USE    - refer to exported map
-DYNAMIC_DEBUG_CLASSMAP_PARAM  - bind control param to the classmap
-DYNAMIC_DEBUG_CLASSMAP_PARAM_REF + use module's storage - __drm_debug
+Thanks for taking a look. Let me respond to the specific points below.
 
-NB: The _DEFINE & _USE model makes the user dependent on the definer,
-just like EXPORT_SYMBOL(__drm_debug) already does.
+On Wed, 08 Apr 2026, Alexandre Courbot wrote:
+> After a quick look I'd say that having a trait here would actually be
+> *good* for correctness and maintainability.
+>
+> The current design implies that every operation on a page table (most
+> likely using the walker) goes through a branching point. Just looking at
+> `PtWalk::read_pte_at_level`, there are already at least 6
+> `if version == 2 { } else { }` branches that all resolve to the same
+> result. Include walking down the PDEs and you have at least a dozen of
+> these just to resolve a virtual address. I know CPUs are fast, but this
+> is still wasted cycles for no good reason.
 
-cc: linux-doc@vger.kernel.org
-Reviewed-by: Louis Chauvet <louis.chauvet@bootlin.com>
-Signed-off-by: Jim Cromie <jim.cromie@gmail.com>
----
- .../admin-guide/dynamic-debug-howto.rst       | 132 ++++++++++++++++--
- 1 file changed, 122 insertions(+), 10 deletions(-)
+I did some measurements and there is no notieceable difference in both
+approaches. I ran perf and loaded nova with self-tests running. The extra
+potential branching is lost in the noise. In both cases, loading nova and
+running the self-tests has ~119.7M branch instructions on my Ampere. The total
+instruction count is also identical (~615M).
 
-diff --git a/Documentation/admin-guide/dynamic-debug-howto.rst b/Documentation/admin-guide/dynamic-debug-howto.rst
-index 0a42b9de55ac..734be0b5fe9a 100644
---- a/Documentation/admin-guide/dynamic-debug-howto.rst
-+++ b/Documentation/admin-guide/dynamic-debug-howto.rst
-@@ -146,6 +146,9 @@ keywords are::
-   "1-30" is valid range but "1 - 30" is not.
- 
- 
-+Keywords
-+--------
-+
- The meanings of each keyword are:
- 
- func
-@@ -194,16 +197,6 @@ format
- 	format "nfsd: SETATTR"  // a neater way to match a format with whitespace
- 	format 'nfsd: SETATTR'  // yet another way to match a format with whitespace
- 
--class
--    The given class_name is validated against each module, which may
--    have declared a list of known class_names.  If the class_name is
--    found for a module, callsite & class matching and adjustment
--    proceeds.  Examples::
--
--	class DRM_UT_KMS	# a DRM.debug category
--	class JUNK		# silent non-match
--	// class TLD_*		# NOTICE: no wildcard in class names
--
- line
-     The given line number or range of line numbers is compared
-     against the line number of each ``pr_debug()`` callsite.  A single
-@@ -218,6 +211,25 @@ line
- 	line -1605          // the 1605 lines from line 1 to line 1605
- 	line 1600-          // all lines from line 1600 to the end of the file
- 
-+class
-+
-+    The given class_name is validated against each module, which may
-+    have declared a list of class_names it accepts.  If the class_name
-+    accepted by a module, callsite & class matching and adjustment
-+    proceeds.  Examples::
-+
-+	class DRM_UT_KMS	# a drm.debug category
-+	class JUNK		# silent non-match
-+	// class TLD_*		# NOTICE: no wildcard in class names
-+
-+.. note::
-+
-+    Unlike other keywords, classes are "name-to-change", not
-+    "omitting-constraint-allows-change".  See Dynamic Debug Classmaps
-+
-+Flags
-+-----
-+
- The flags specification comprises a change operation followed
- by one or more flag characters.  The change operation is one
- of the characters::
-@@ -239,6 +251,11 @@ The flags are::
-   l    Include line number
-   d    Include call trace
- 
-+.. note::
-+
-+   * To query without changing	``+_`` or ``-_``.
-+   * To clear all flags		``=_`` or ``-fslmpt``.
-+
- For ``print_hex_dump_debug()`` and ``print_hex_dump_bytes()``, only
- the ``p`` flag has meaning, other flags are ignored.
- 
-@@ -395,3 +412,98 @@ just a shortcut for ``print_hex_dump(KERN_DEBUG)``.
- For ``print_hex_dump_debug()``/``print_hex_dump_bytes()``, format string is
- its ``prefix_str`` argument, if it is constant string; or ``hexdump``
- in case ``prefix_str`` is built dynamically.
-+
-+.. _dyndbg-classmaps:
-+
-+Dynamic Debug Classmaps
-+=======================
-+
-+The "class" keyword selects prdbgs based on author supplied,
-+domain-oriented names.  This complements the nested-scope keywords:
-+module, file, function, line.
-+
-+The main difference from the others: classes must be named to be
-+changed.  This protects them from unintended overwrite::
-+
-+  # IOW this cannot undo any drm.debug settings
-+  :#> ddcmd -p
-+
-+This protection is needed; /sys/module/drm/parameters/debug is ABI.
-+drm.debug is authoritative when dyndbg is not used, dyndbg-under-DRM
-+is an implementation detail, and must not behave erratically, just
-+because another admin fed >control something unrelated.
-+
-+So each class must be enabled individually (no wildcards)::
-+
-+  :#> ddcmd class DRM_UT_CORE +p
-+  :#> ddcmd class DRM_UT_KMS +p
-+  # or more selectively
-+  :#> ddcmd class DRM_UT_CORE module drm +p
-+
-+That makes direct >control wordy and annoying, but it is a secondary
-+interface; it is not intended to replace the ABI, just slide in
-+underneath and reimplement the guaranteed behavior.  So DRM would keep
-+using the convenient way, and be able to trust it::
-+
-+  :#> echo 0x1ff > /sys/module/drm/parameters/debug
-+
-+That said, since the sysfs/kparam is the ABI, if the author omits the
-+CLASSMAP_PARAM, theres no ABI to guard, and he probably wants a less
-+pedantic >control interface.  In this case, protection is dropped.
-+
-+Dynamic Debug Classmap API
-+==========================
-+
-+DYNAMIC_DEBUG_CLASSMAP_DEFINE(clname,type,_base,classnames) - this maps
-+classnames (a list of strings) onto class-ids consecutively, starting
-+at _base.
-+
-+DYNAMIC_DEBUG_CLASSMAP_USE(clname) & _USE_(clname,_base) - modules
-+call this to refer to the var _DEFINEd elsewhere (and exported).
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM(clname) - creates the sysfs/kparam,
-+maps/exposes bits 0..N as class-names.
-+
-+Classmaps are opt-in: modules invoke _DEFINE or _USE to authorize
-+dyndbg to update those named classes.  "class FOO" queries are
-+validated against the classes defined or used by the module, this
-+finds the classid to alter; classes are not directly selectable by
-+their classid.
-+
-+Classnames are global in scope, so subsystems (module-groups) should
-+prepend a subsystem name; unqualified names like "CORE" are discouraged.
-+
-+NB: It is an inherent API limitation (due to class_id's int type) that
-+the following are possible:
-+
-+  // these errors should be caught in review
-+  __pr_debug_cls(0, "fake DRM_UT_CORE msg");  // this works
-+  __pr_debug_cls(62, "un-known classid msg"); // this compiles, does nothing
-+
-+There are 2 types of classmaps:
-+
-+* DD_CLASS_TYPE_DISJOINT_BITS: classes are independent, like drm.debug
-+* DD_CLASS_TYPE_LEVEL_NUM: classes are relative, ordered (V3 > V2)
-+
-+DYNAMIC_DEBUG_CLASSMAP_PARAM - modelled after module_param_cb, it
-+refers to a DEFINEd classmap, and associates it to the param's
-+data-store.  This state is then applied to DEFINEr and USEr modules
-+when they're modprobed.
-+
-+The PARAM interface also enforces the DD_CLASS_TYPE_LEVEL_NUM relation
-+amongst the contained classnames; all classes are independent in the
-+control parser itself.  There is no implied meaning in names like "V4"
-+or "PL_ERROR" vs "PL_WARNING".
-+
-+Modules or subsystems (drm & drivers) can define multiple classmaps,
-+as long as they (all the classmaps) share the limited 0..62
-+per-module-group _class_id range, without overlap.
-+
-+If a module encounters a conflict between 2 classmaps it is _USEing or
-+_DEFINEing, it can invoke the extended _USE_(name,_base) macro to
-+de-conflict the respective ranges.
-+
-+``#define DEBUG`` will enable all pr_debugs in scope, including any
-+class'd ones.  This won't be reflected in the PARAM readback value,
-+but the class'd pr_debug callsites can be forced off by toggling the
-+classmap-kparam all-on then all-off.
--- 
-2.53.0
+I measured like this:
+perf stat -e
+branches,branch-misses,cache-references,cache-misses,instructions,cycles --
+modprobe nova_core
+
+So I think the branching argument is not a strong one. I also did more
+measurements and the dominant time taken is MMIO. During the map prep and
+execute, page table walks are done. A TLB flush alone costs ~1.4 microseconds.
+And PRAMIN BAR0 writes to write the PTE is also about 1 microsecond. Considering
+this, I don't think the extra branching argument holds (even without branch
+prediction and speculation).
+
+Also some branches cannot be eliminated even with parameterization:
+
+    if level == self.mmu_version.dual_pde_level() {
+        // 128-bit dual PDE read
+    } else {
+        // Regular 64-bit PDE read
+    }
+
+This isn't really a version branch -- it's a structural branch that
+distinguishes between 64-bit PDE and 128-bit dual PDE entries. Any MMU
+version with a dual PDE level would need this same distinction.
+
+I also did code-generation size analysis (see diff of code used below):
+
+Code generation analysis:
+
+  Module .ko size:   Before: 511,792 bytes   After: 524,464 bytes  (+2.5%)
+  .text section:     Before: 112,620 bytes   After: 116,628 bytes  (+4,008 bytes)
+
+  The +4K .text growth is the monomorphization cost: every generic function
+  is compiled twice (once for MmuV2, once for MmuV3).
+
+> If you use a trait here, and make `PtWalk` generic against it, you can
+> optimize this away. We had a similar situation when we introduced Turing
+> support and the v2 ucode header, and tried both approaches: the
+> trait-based one was slightly shorter, and arguably more readable.
+
+Actually I was the one who suggested traits for Falcon ucode descriptor if you
+see this thread [1]. So basically you and Eliot are telling me to do what I
+suggested in [1]. :-) However, I disagree that it is the right choice for this code.
+
+[1] https://lore.kernel.org/all/20251117231028.GA1095236@joelbox2/
+
+I think the two cases are quite different in complexity:
+
+The falcon ucode descriptor is essentially a set of flat field accessors
+and a few params (imem_sec_load_params, dmem_load_params).
+The trait has ~10 simple getter methods. There's no multi-level hierarchy,
+no walker, and no generic propagation.
+
+The MMU page table case is structurally different. Making PtWalk generic
+over an Mmu trait would require:
+
+  - PtWalk<M: Mmu> (the walker)
+  - Plus all the associated types: M::Pte, M::Pde, M::DualPde each
+    needing their own trait bounds
+
+And we would also need:
+  - Vmm<M: Mmu> (which creates PtWalk)
+  - BarUser<M: Mmu> (which creates Vmm)
+
+I am also against making Vmm an enum as Eliot suggested:
+       enum Vmm {
+           V2(VmmInner<MmuV2>),
+           V3(VmmInner<MmuV3>),
+       }
+
+That moves the version complexity up to the reader. Code complexity IMO should
+decrease as we go up abstractions, making it easier for users (Vmm/Bar).
+
+If you look at the the changes in vmm.rs to handle version dispatch there [2]:
+Added: +109
+Removed: -28
+
+[2]
+https://github.com/Edgeworth/linux/commit/3627af550b61256184d589e7ec666c1108971f0e
+
+The main benefit of my approach is version-specific dispatch complexity is
+completely isolated inside MmuVersion thus making the code outside of
+pagetable.rs much more readable, without having to parametrize anything, and
+without code size increase. I think that is worth considering.
+
+> But the main argument to use a trait here IMO is that it enables
+> associated types and constants. That's particularly critical since some
+> equivalent fields have different lengths between v2 and v3. An
+> associated `Bounded` type for these would force the caller to validate
+> the length of these fields before calling a non-fallible operation,
+> which is exactly the level of caution that we want when dealing with
+> page tables.
+
+I think Bounded validation is orthogonal to the dispatch model.
+We can add Bounded to the current design without restructuring
+into traits. For example:
+
+    // In ver2::Pte
+    pub fn new_vram(pfn: Bounded<Pfn, 25>, writable: bool) -> Self { ... }
+
+    // In ver3::Pte
+    pub fn new_vram(pfn: Bounded<Pfn, 40>, writable: bool) -> Self { ... }
+
+The unified Pte enum wrapper already dispatches to the correct
+version-specific constructor, which would enforce the correct Bounded
+constraint for that version.
+
+> In order to fully benefit from it, we will need the bitfield macro from
+> the `kernel` crate so the PDE/PTE fields can be `Bounded`, I will try to
+> make it available quickly in a patch that you can depend on.
+
+That would be great, and I'd be happy to integrate Bounded validation once
+the macro is available. I just don't think we need to restructure the
+dispatch model in order to benefit from it.
+
+> But long story short, and although I need to dive deeper into the code,
+> this looks like a good candidate for using a trait and associated types.
+
+The walker code (walk.rs) is already version-agnostic and reads cleanly.
+The version dispatch is encapsulated behind method calls, not exposed as
+inline if/else blocks.
+
+Generic propagation (or version-specific dispatch at higher levels) adds more
+complexity at higher layers.
+
+Enclosed below [3] is the diff I used for my testing with the data, I don't
+really see a net readability win there (IMO, it is a net-loss in readability).
+
+[3]
+https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?h=trait-pt-dispatch&id=5eb0e98af11ba608ff4d0f7a06065ee863f5066a
+
+thanks,
+
+--
+Joel Fernandes
 
