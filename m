@@ -1,45 +1,53 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from canpmsgout05.his.huawei.com (canpmsgout05.his.huawei.com [113.46.200.220])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3549F2C3248;
-	Wed,  8 Apr 2026 03:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1E433987;
+	Wed,  8 Apr 2026 04:03:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775617939; cv=none; b=o/X2PAh7/VZhxLC22xtqvQiUXownDhY22S3Z8kWNmdpBtsUqDTNyH1VWjyb38lDGFuWr6iSgOBLAGLIo4iNp84seYHafko/ScFLyGyj2IuUCAdgZoVY5hPZPygVYdjWMv/b4HILsdrEhUF0+P446y9qfm6vaVNQM8AXoOjB84NM=
+	t=1775620998; cv=none; b=DwTcneLLcKiODC5ekT8Hvpy7F7tZesShCa+ecRRpp6fwn3OdbO48TS0/cSfZHUt2dkLoqhZXNYyPaw8BTwD+vd8+bG6m+ZDdXy/Whzpj/8p3dcEeITixD5m0m2Jizn5f8XiPA5PfNlz9525iOCHPklXD1NyDVnpfyPzklY3JcO0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775617939; c=relaxed/simple;
-	bh=r1mNT6+/DeOAAipi7eOSCVCo5gjva+9QrmXn+QN9BsA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=levuSWmDenrm0F/loMm6d4ZWAql7n9IFxSDevxz69lEPeNEByZsgNavLn9JRmxtp1t6p5DQawgEAM2pbpFVCGIUtjQeifZ5QvA7eZxiWUKf7DFnL2AeQOIy7Euxay7PhBEh/W6XfZP4iaRXJpxb9zkgEl8N2xlrbv5ScHOV7QV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=xlflBE9P; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1775620998; c=relaxed/simple;
+	bh=T7PqZWjXXSTCJTo/UPtT0uw3uiznBpLrLtDtMDgbyMM=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=TMeq2i85nWT5UjFeIfL0v5M2GkACVLDJBFpLltvWJv2May+U5M+Ikk+jsGydTZgMr4mVdJbkXxIU7EQcK065L0pPGSqbjDe6lnQ6Sf3j/LUFVsEH+exbSHcAlD5GyTrUIfgSr31W9Oqsjqtu7r6h1jptV/Vac3uaE4ISnUa0/t8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=hpMY1Zpm; arc=none smtp.client-ip=113.46.200.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="xlflBE9P"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=9+0cb5hoKs8AtjmHURSvRwHYxGn6IsRSLv87f9yCWkY=; b=xlflBE9P6haQMHpxM6bOMdZG4x
-	n+VF/IrF5dpNYROKYS46ABWta0kDjWTqQEI/aF3v59/OmZncwi4qw0kAlK2P54evs+rCUeNYnj+Lk
-	GBLysOhflMypKbeDvc+5tjaYoHODgasiZWzTLO6c0OqomDCecY3tLsv39dDBGIeH99Tw9NBOFjQPs
-	KLEDA1kqQRqGXeA+ycL9WOqQr4G/TlrrKVyXkiglPUY9/xb0O2/tlUL/5K1+r58dRkRz3mr65QOWd
-	wUNblk3SdWSDw+jw4pVJgoYKA2onSzB2vWVgeT4uoev+h4kbapukziaExFrnnMexSLEsc2KMJjkLp
-	e2iYqejQ==;
-Received: from [50.53.43.113] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wAJKv-00000008BFx-3s5B;
-	Wed, 08 Apr 2026 03:12:13 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] doc: watchdog: fix typos etc.
-Date: Tue,  7 Apr 2026 20:12:12 -0700
-Message-ID: <20260408031212.2510235-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="hpMY1Zpm"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Rh32Zahn+h0ulk0SxlBgnWDJnxGZmJC5VQNbnw0UmmU=;
+	b=hpMY1ZpmhhxSDh8kDNoTbA+kLIN9dgbodgjrriuqJ7S0xCT4KP8PV1ORWiNwB33bobTYPfXmr
+	wRdpbhWDCf+XRmVN/9GKVaAmhxk4SCqFuTgp6CpEpgJay+bcV3yn6FTRd+GJ3QjB0gSZdFoy132
+	irurw0Y/bUOPkMaxP2UbyPI=
+Received: from mail.maildlp.com (unknown [172.19.163.104])
+	by canpmsgout05.his.huawei.com (SkyGuard) with ESMTPS id 4fr8QB4yMHz12LCq;
+	Wed,  8 Apr 2026 11:56:50 +0800 (CST)
+Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
+	by mail.maildlp.com (Postfix) with ESMTPS id CA0924056A;
+	Wed,  8 Apr 2026 12:03:12 +0800 (CST)
+Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
+ kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.36; Wed, 8 Apr 2026 12:03:11 +0800
+From: Fan Gong <gongfan1@huawei.com>
+To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
+	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>, Mohsin Bashir
+	<mohsin.bashr@gmail.com>
+CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
+	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
+	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
+ Chevallier <maxime.chevallier@bootlin.com>
+Subject: [PATCH net-next v04 0/6] net: hinic3: PF initialization
+Date: Wed, 8 Apr 2026 12:03:00 +0800
+Message-ID: <cover.1775618797.git.zhuyikai1@h-partners.com>
+X-Mailer: git-send-email 2.51.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,45 +55,83 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemf100013.china.huawei.com (7.202.181.12)
 
-Correct grammar, plurality, and typos in lockup-watchdogs.rst.
+This is [3/3] part of hinic3 Ethernet driver second submission.
+With this patch hinic3 becomes a complete Ethernet driver with
+pf and vf.
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
----
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
+Add 20 ethtool ops for information of queue, rss, coalesce and eth data.
+Add MTU size validation
+Config netdev watchdog timeout.
+Remove unneed coalesce parameters.
 
- Documentation/admin-guide/lockup-watchdogs.rst |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Changes:
 
---- linux-next-20260406.orig/Documentation/admin-guide/lockup-watchdogs.rst
-+++ linux-next-20260406/Documentation/admin-guide/lockup-watchdogs.rst
-@@ -18,7 +18,7 @@ provided for this.
- A 'hardlockup' is defined as a bug that causes the CPU to loop in
- kernel mode for several seconds (see "Implementation" below for
- details), without letting other interrupts have a chance to run.
--Similarly to the softlockup case, the current stack trace is displayed
-+Similar to the softlockup case, the current stack trace is displayed
- upon detection and the system will stay locked up unless the default
- behavior is changed, which can be done through a sysctl,
- 'hardlockup_panic', a compile time knob, "BOOTPARAM_HARDLOCKUP_PANIC",
-@@ -41,7 +41,7 @@ is a trade-off between fast response to
- Implementation
- ==============
- 
--The soft and hard lockup detectors are built around a hrtimer.
-+The soft and hard lockup detectors are built around an hrtimer.
- In addition, the softlockup detector regularly schedules a job, and
- the hard lockup detector might use Perf/NMI events on architectures
- that support it.
-@@ -49,7 +49,7 @@ that support it.
- Frequency and Heartbeats
- ------------------------
- 
--The core of the detectors in a hrtimer. It servers multiple purpose:
-+The core of the detectors is an hrtimer. It servers multiple purposes:
- 
- - schedules watchdog job for the softlockup detector
- - bumps the interrupt counter for hardlockup detectors (heartbeat)
+PATCH 03 V01: https://lore.kernel.org/netdev/cover.1773387649.git.zhuyikai1@h-partners.com/
+* Add rmon/pause/phy/mac/ctrl stats (Ioana Ciornei)
+
+PATCH 03 V02: https://lore.kernel.org/netdev/cover.1774684571.git.zhuyikai1@h-partners.com/
+* Modify "return -EINVAL" intension problem (AI review)
+* Use le16_to_cpu for rss_indir pair.out->buf (AI review)
+* Use u32 instead of int in coalesce_limits to avoid overflow (AI review)
+* Remove redundant u64_stats_update_begin/end when reading stats without
+  concurrent reader (AI review)
+* Modify nic_dev->stats.syncp logic (AI review)
+* Complete rxq/txq stats stats fileds in hinic3_rx/txq_get_stats (AI review)
+* Remove statistics values in rtnl_link_stats64 from ethtool statistics
+  values (AI review)
+* Add channel_cfg_lock & channel_res_lock to protect resources access (AI review)
+* Remove OutOfRangeLengthField, FrameToolong and InRangeLengthErrors (Ioana Ciornei)
+* Remove redundant mtu commit (Maxime Chevialler)
+
+PATCH 03 V03: https://lore.kernel.org/netdev/cover.1774940117.git.zhuyikai1@h-partners.com/
+* Change unnedd to unneeded (AI review)
+* Remove packets,bytes,errors and dropped in hinic3_rx/tx_queue_stats (AI review)
+* Remove duplicated entried in hinic3_port_stats[] (AI review)
+* change stats_info.head.status to ps->head.status (AI review)
+
+PATCH 03 V04:
+* Remove restore_drop_sge in hinic3_rx_queue_stats (AI review)
+* Remove hinic3_nic_stats (AI review)
+* Use old_q_param to store old config and use it in error handling (Mohsin Bashir)
+* Add netdev_info to inform the user that depth is trimmed (Mohsin Bashir)
+* Remove const in hinic3_get_qp_stats_strings parameters (Mohsin Bashir)
+* Change EOPNOTSUPP to ERANGE in is_coalesce_exceed_limit (Mohsin Bashir)
+* Update nic_dev->rss_type after hinic3_set_rss_type (Mohsin Bashir)
+* Modify MGMT_STATUS_CMD_UNSUPPORTED to EOPNOTSUPP for complying with the
+  error code specifications  (Mohsin Bashir)
+
+Fan Gong (6):
+  hinic3: Add ethtool queue ops
+  hinic3: Add ethtool statistic ops
+  hinic3: Add ethtool coalesce ops
+  hinic3: Add ethtool rss ops
+  hinic3: Configure netdev->watchdog_timeo to set nic tx timeout
+  hinic3: Remove unneeded coalesce parameters
+
+ .../ethernet/huawei/hinic3/hinic3_ethtool.c   | 827 +++++++++++++++++-
+ .../ethernet/huawei/hinic3/hinic3_hw_intf.h   |  13 +-
+ .../net/ethernet/huawei/hinic3/hinic3_irq.c   |  16 +-
+ .../net/ethernet/huawei/hinic3/hinic3_main.c  |  15 +
+ .../huawei/hinic3/hinic3_mgmt_interface.h     |  39 +
+ .../huawei/hinic3/hinic3_netdev_ops.c         | 103 ++-
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.c   |  64 ++
+ .../ethernet/huawei/hinic3/hinic3_nic_cfg.h   | 109 +++
+ .../ethernet/huawei/hinic3/hinic3_nic_dev.h   |  16 +
+ .../ethernet/huawei/hinic3/hinic3_nic_io.h    |   4 +
+ .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 487 ++++++++++-
+ .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  19 +
+ .../net/ethernet/huawei/hinic3/hinic3_rx.c    |  59 +-
+ .../net/ethernet/huawei/hinic3/hinic3_rx.h    |  18 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.c    |  71 +-
+ .../net/ethernet/huawei/hinic3/hinic3_tx.h    |   2 +
+ 16 files changed, 1835 insertions(+), 27 deletions(-)
+
+
+base-commit: 8e7adcf81564a3fe886a6270eea7558f063e5538
+-- 
+2.43.0
+
