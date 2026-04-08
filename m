@@ -1,687 +1,335 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 353E734F48E;
-	Wed,  8 Apr 2026 04:03:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699B427702D;
+	Wed,  8 Apr 2026 04:32:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775621013; cv=none; b=UogOI1ownFAtdP0JacRsCFu+RgCrpr6oV8Lv9lvNp9u3B/t5mwGhfgrx2/koQSoTHc9ztOhoSWlO7CHJ6SM5NzbJkLw3KgbU85VWAIfWRZ0G1Dq7j47MwbN/ThTRSZAYIUL4nsgmzsfVVahFJA0ntFElRw0JQ+q9QPp3284cufM=
+	t=1775622754; cv=none; b=dp5euSj3QGimBGoo4Yheqmr3+3mWJ588dDMXPJMnsxwagPtlDYT1vvacUdDoULfe+y5YqOYGPImZbpq1fO7dqtyFdtmA180ORL2QqlXQdx6w4JRX49zylzCloHx1cRQ1LFHj3G8+xGuEhJdcXB7ZcMrg7/9pHhN9ioFCI69XIis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775621013; c=relaxed/simple;
-	bh=XLMF6OTnjP9CBVh0+gg1nsFbWdFCutEqJQaU0ufzqMo=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C3lnE8iq+pGkxPNDN0dXgDCYMMaNJg1apgl2t+0WVI2Jy9WHM5be6SugsuCv2IQD0q0JyHgCt0j+LE3cJcGVPfHpRfkcuMjlB4+ggLIGs7Gy3R3T+VZS5/tbQTu8FETA8kDNOsBKRau036QQ7+P9cxjBU2tq4h5W5deNyg1XULc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=GAjbCzwC; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1775622754; c=relaxed/simple;
+	bh=9BzK7RklT1fEFH+8eQOR1YXcHE+3kDWLb5vnfxnGkVM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=O2z8BVGW0isFl1/X59NEMJUyZuykLEnxkBc7QJkhG02fu61iVjniDzB/U6cUzIo3avrcBHShZ/LABBg8sgByohm+gwUaJ5sOVsucHorD8qh1NolyNFZvKXJrE/tgVdNMl0FgOnP6aYNhS2UeVsqCYpShSzDRu20qUFVSQ3dSy8I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pYF7WhM+; arc=none smtp.client-ip=148.163.158.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="GAjbCzwC"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=g3fAFiw8/mS7FWCoEut8WLdOLEadLsG679gyCheeVhI=;
-	b=GAjbCzwCtys0OL4sRjhhpfK84qOi585Zwnjk/08Y7gVOGtf8tFKFDBeM0cArtPIeUf1ef8Kmd
-	RbrNYiPiXONQAfW5Gv6TTEYvt1hLMIex+GCuOsctfWbfqM1gYwES7qFrAa6fHQ/ekt7QmfdloeB
-	ruqCtqrbHHCbebjwYYBzXL8=
-Received: from mail.maildlp.com (unknown [172.19.163.104])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4fr8QV6dlPzRhV9;
-	Wed,  8 Apr 2026 11:57:06 +0800 (CST)
-Received: from kwepemf100013.china.huawei.com (unknown [7.202.181.12])
-	by mail.maildlp.com (Postfix) with ESMTPS id D09B24056D;
-	Wed,  8 Apr 2026 12:03:20 +0800 (CST)
-Received: from DESKTOP-62GVMTR.china.huawei.com (10.174.189.124) by
- kwepemf100013.china.huawei.com (7.202.181.12) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Wed, 8 Apr 2026 12:03:19 +0800
-From: Fan Gong <gongfan1@huawei.com>
-To: Fan Gong <gongfan1@huawei.com>, Zhu Yikai <zhuyikai1@h-partners.com>,
-	<netdev@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>, Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>, Mohsin Bashir
-	<mohsin.bashr@gmail.com>
-CC: <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>, luosifu
-	<luosifu@huawei.com>, Xin Guo <guoxin09@huawei.com>, Zhou Shuai
-	<zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
-	<shijing34@huawei.com>, Zheng Jiezhen <zhengjiezhen@h-partners.com>, Maxime
- Chevallier <maxime.chevallier@bootlin.com>
-Subject: [PATCH net-next v04 4/6] hinic3: Add ethtool rss ops
-Date: Wed, 8 Apr 2026 12:03:04 +0800
-Message-ID: <997ffd6d9afdfe3e37d3bd8834db90369b97a166.1775618798.git.zhuyikai1@h-partners.com>
-X-Mailer: git-send-email 2.51.0.windows.1
-In-Reply-To: <cover.1775618797.git.zhuyikai1@h-partners.com>
-References: <cover.1775618797.git.zhuyikai1@h-partners.com>
+	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pYF7WhM+"
+Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 637MEO8R1472140;
+	Wed, 8 Apr 2026 04:32:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=pp1; bh=ArkiUJ
+	Gn25Pw/YpxTPJM/ImhaRVec2/ASRrX1MLo++o=; b=pYF7WhM+Z8jySeBcdk482a
+	ZVWombE+YkjCoaUOWpJvIBYl20mybRIupbownM8huNbMIWGygR5lLyO4U8g0R7DI
+	pnDA9Zei5d4vKEZOC8cXggbsXPHJs7XOlxMtoroVK50u0LGG1U9iXndSGA/1PRQI
+	LzaLCqT+oTTBGfrNhHeR2KDMkk51wg+jaR8lMjuQIz40wurGb6eIaS0dfwq/uX5u
+	Nvx+MZspn7CEeOkUGUsGEQNXe0Losk9moXx1AdE6+piu3kPrVA+tbexXjF94FbB5
+	DnKp0QM/qek+vkVOFJa6qdveyxpqgE7r3O6nyI+B0F0UuaO3GIiC/0BrnoNP2G5A
+	==
+Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
+	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dcn2fws0q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 04:32:01 +0000 (GMT)
+Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
+	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 637Nm7aV030102;
+	Wed, 8 Apr 2026 04:32:00 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dcme7e04s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 08 Apr 2026 04:32:00 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
+	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 6384Vw3842533342
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 8 Apr 2026 04:31:58 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id ACCC620043;
+	Wed,  8 Apr 2026 04:31:58 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 745C220040;
+	Wed,  8 Apr 2026 04:31:56 +0000 (GMT)
+Received: from [9.123.14.142] (unknown [9.123.14.142])
+	by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+	Wed,  8 Apr 2026 04:31:56 +0000 (GMT)
+Message-ID: <d584d383-1862-417d-9251-153d9bcf5626@linux.ibm.com>
+Date: Wed, 8 Apr 2026 10:01:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf100013.china.huawei.com (7.202.181.12)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+To: Youling Tang <youling.tang@linux.dev>,
+        Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
+        Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+        kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
+Content-Language: en-US
+From: Sourabh Jain <sourabhjain@linux.ibm.com>
+In-Reply-To: <20260404074103.506793-1-youling.tang@linux.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Authority-Analysis: v=2.4 cv=KeridwYD c=1 sm=1 tr=0 ts=69d5da41 cx=c_pps
+ a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=X1Cf018iDqK5zvsI8wQA:9
+ a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: ra5goK1N6uoHJQ-BB2RhxDfxlc8PLOov
+X-Proofpoint-GUID: ra5goK1N6uoHJQ-BB2RhxDfxlc8PLOov
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA4MDAzNiBTYWx0ZWRfX3B8uE9KMFCJD
+ GhK6BbZSDehZhWiXYLLZ1PdJ4gXs7wtgg3HNZ+c7D551Z2LOxp5vhZeg8fovrgc4bdLuiu4fPBh
+ 0MF+nqRZ2ONR8cEIjC5ij9G4hVGmR+dPaO98GoiIX76ggGvIV48RxLkpHWSktjAMdRmLK87bZwf
+ pHAU1xE40MRnz1f2YoeNMkp9x/f/dzZPC0xpUkoA04p9iOR4vAmcHMF9EJkqU+9c5nGsRzfedm5
+ o+arK4acXfnRraZKEL+ki7bBVbULj8WWHTRIOC3mfLsXI994fmORWorn2cWjpC9lnlCdBohwVbF
+ VABXrX5XVbvNvmTAEzovtoLBjBoE4d7qoR1D7ZAMCre0MSKkP7pSCjP9oU6Hnml0EZv9IqYWcKk
+ NIyM2uXb23oXHwUyot4hM1H98Cq/2lA64HJYsaoNDjkwaOPkX8FyxOMqbRpIM1IbWI7PfV43TdP
+ 0gS3m+6Oqq3QiZoduBg==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-08_02,2026-04-07_05,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0 impostorscore=0
+ clxscore=1011 phishscore=0 priorityscore=1501 spamscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604080036
 
-  Implement following ethtool callback function:
-.get_rxnfc
-.set_rxnfc
-.get_channels
-.set_channels
-.get_rxfh_indir_size
-.get_rxfh_key_size
-.get_rxfh
-.set_rxfh
+Hello Youling,
 
-  These callbacks allow users to utilize ethtool for detailed
-RSS parameters configuration and monitoring.
+On 04/04/26 13:11, Youling Tang wrote:
+> From: Youling Tang <tangyouling@kylinos.cn>
+>
+> The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
+> automatic size selection based on system RAM, but it always reserves
+> from low memory. When a large crashkernel is selected, this can
+> consume most of the low memory, causing subsequent hardware
+> hotplug or drivers requiring low memory to fail due to allocation
+> failures.
 
-Co-developed-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Zhu Yikai <zhuyikai1@h-partners.com>
-Signed-off-by: Fan Gong <gongfan1@huawei.com>
----
- .../ethernet/huawei/hinic3/hinic3_ethtool.c   |   9 +
- .../huawei/hinic3/hinic3_mgmt_interface.h     |   2 +
- .../net/ethernet/huawei/hinic3/hinic3_rss.c   | 487 +++++++++++++++++-
- .../net/ethernet/huawei/hinic3/hinic3_rss.h   |  19 +
- 4 files changed, 515 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-index a4b2d5ba81f8..8cd7dd9da67b 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_ethtool.c
-@@ -15,6 +15,7 @@
- #include "hinic3_hw_comm.h"
- #include "hinic3_nic_dev.h"
- #include "hinic3_nic_cfg.h"
-+#include "hinic3_rss.h"
- 
- #define HINIC3_MGMT_VERSION_MAX_LEN     32
- /* Coalesce time properties in microseconds */
-@@ -1231,6 +1232,14 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
- 	.get_pause_stats                = hinic3_get_pause_stats,
- 	.get_coalesce                   = hinic3_get_coalesce,
- 	.set_coalesce                   = hinic3_set_coalesce,
-+	.get_rxnfc                      = hinic3_get_rxnfc,
-+	.set_rxnfc                      = hinic3_set_rxnfc,
-+	.get_channels                   = hinic3_get_channels,
-+	.set_channels                   = hinic3_set_channels,
-+	.get_rxfh_indir_size            = hinic3_get_rxfh_indir_size,
-+	.get_rxfh_key_size              = hinic3_get_rxfh_key_size,
-+	.get_rxfh                       = hinic3_get_rxfh,
-+	.set_rxfh                       = hinic3_set_rxfh,
- };
- 
- void hinic3_set_ethtool_ops(struct net_device *netdev)
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-index 76c691f82703..3c1263ff99ff 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_mgmt_interface.h
-@@ -282,6 +282,7 @@ enum l2nic_cmd {
- 	L2NIC_CMD_SET_VLAN_FILTER_EN  = 26,
- 	L2NIC_CMD_SET_RX_VLAN_OFFLOAD = 27,
- 	L2NIC_CMD_CFG_RSS             = 60,
-+	L2NIC_CMD_GET_RSS_CTX_TBL     = 62,
- 	L2NIC_CMD_CFG_RSS_HASH_KEY    = 63,
- 	L2NIC_CMD_CFG_RSS_HASH_ENGINE = 64,
- 	L2NIC_CMD_SET_RSS_CTX_TBL     = 65,
-@@ -301,6 +302,7 @@ enum l2nic_ucode_cmd {
- 	L2NIC_UCODE_CMD_MODIFY_QUEUE_CTX  = 0,
- 	L2NIC_UCODE_CMD_CLEAN_QUEUE_CTX   = 1,
- 	L2NIC_UCODE_CMD_SET_RSS_INDIR_TBL = 4,
-+	L2NIC_UCODE_CMD_GET_RSS_INDIR_TBL = 6,
- };
- 
- /* hilink mac group command */
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-index 25db74d8c7dd..b40d5fa885c2 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.c
-@@ -155,7 +155,7 @@ static int hinic3_set_rss_type(struct hinic3_hwdev *hwdev,
- 				       L2NIC_CMD_SET_RSS_CTX_TBL, &msg_params);
- 
- 	if (ctx_tbl.msg_head.status == MGMT_STATUS_CMD_UNSUPPORTED) {
--		return MGMT_STATUS_CMD_UNSUPPORTED;
-+		return -EOPNOTSUPP;
- 	} else if (err || ctx_tbl.msg_head.status) {
- 		dev_err(hwdev->dev, "mgmt Failed to set rss context offload, err: %d, status: 0x%x\n",
- 			err, ctx_tbl.msg_head.status);
-@@ -165,6 +165,39 @@ static int hinic3_set_rss_type(struct hinic3_hwdev *hwdev,
- 	return 0;
- }
- 
-+static int hinic3_get_rss_type(struct hinic3_hwdev *hwdev,
-+			       struct hinic3_rss_type *rss_type)
-+{
-+	struct l2nic_cmd_rss_ctx_tbl ctx_tbl = {};
-+	struct mgmt_msg_params msg_params = {};
-+	int err;
-+
-+	ctx_tbl.func_id = hinic3_global_func_id(hwdev);
-+
-+	mgmt_msg_params_init_default(&msg_params, &ctx_tbl, sizeof(ctx_tbl));
-+
-+	err = hinic3_send_mbox_to_mgmt(hwdev, MGMT_MOD_L2NIC,
-+				       L2NIC_CMD_GET_RSS_CTX_TBL,
-+				       &msg_params);
-+	if (err || ctx_tbl.msg_head.status) {
-+		dev_err(hwdev->dev, "Failed to get hash type, err: %d, status: 0x%x\n",
-+			err, ctx_tbl.msg_head.status);
-+		return -EINVAL;
-+	}
-+
-+	rss_type->ipv4         = L2NIC_RSS_TYPE_GET(ctx_tbl.context, IPV4);
-+	rss_type->ipv6         = L2NIC_RSS_TYPE_GET(ctx_tbl.context, IPV6);
-+	rss_type->ipv6_ext     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, IPV6_EXT);
-+	rss_type->tcp_ipv4     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, TCP_IPV4);
-+	rss_type->tcp_ipv6     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, TCP_IPV6);
-+	rss_type->tcp_ipv6_ext = L2NIC_RSS_TYPE_GET(ctx_tbl.context,
-+						    TCP_IPV6_EXT);
-+	rss_type->udp_ipv4     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, UDP_IPV4);
-+	rss_type->udp_ipv6     = L2NIC_RSS_TYPE_GET(ctx_tbl.context, UDP_IPV6);
-+
-+	return 0;
-+}
-+
- static int hinic3_rss_cfg_hash_type(struct hinic3_hwdev *hwdev, u8 opcode,
- 				    enum hinic3_rss_hash_type *type)
- {
-@@ -264,7 +297,8 @@ static int hinic3_set_hw_rss_parameters(struct net_device *netdev, u8 rss_en)
- 	if (err)
- 		return err;
- 
--	hinic3_fillout_indir_tbl(netdev, nic_dev->rss_indir);
-+	if (!netif_is_rxfh_configured(netdev))
-+		hinic3_fillout_indir_tbl(netdev, nic_dev->rss_indir);
- 
- 	err = hinic3_config_rss_hw_resource(netdev, nic_dev->rss_indir);
- 	if (err)
-@@ -334,3 +368,452 @@ void hinic3_try_to_enable_rss(struct net_device *netdev)
- 	clear_bit(HINIC3_RSS_ENABLE, &nic_dev->flags);
- 	nic_dev->q_params.num_qps = nic_dev->max_qps;
- }
-+
-+static int hinic3_set_l4_rss_hash_ops(const struct ethtool_rxnfc *cmd,
-+				      struct hinic3_rss_type *rss_type)
-+{
-+	u8 rss_l4_en;
-+
-+	switch (cmd->data & (RXH_L4_B_0_1 | RXH_L4_B_2_3)) {
-+	case 0:
-+		rss_l4_en = 0;
-+		break;
-+	case (RXH_L4_B_0_1 | RXH_L4_B_2_3):
-+		rss_l4_en = 1;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	switch (cmd->flow_type) {
-+	case TCP_V4_FLOW:
-+		rss_type->tcp_ipv4 = rss_l4_en;
-+		break;
-+	case TCP_V6_FLOW:
-+		rss_type->tcp_ipv6 = rss_l4_en;
-+		break;
-+	case UDP_V4_FLOW:
-+		rss_type->udp_ipv4 = rss_l4_en;
-+		break;
-+	case UDP_V6_FLOW:
-+		rss_type->udp_ipv6 = rss_l4_en;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_update_rss_hash_opts(struct net_device *netdev,
-+				       struct ethtool_rxnfc *cmd,
-+				       struct hinic3_rss_type *rss_type)
-+{
-+	int err;
-+
-+	switch (cmd->flow_type) {
-+	case TCP_V4_FLOW:
-+	case TCP_V6_FLOW:
-+	case UDP_V4_FLOW:
-+	case UDP_V6_FLOW:
-+		err = hinic3_set_l4_rss_hash_ops(cmd, rss_type);
-+		if (err)
-+			return err;
-+
-+		break;
-+	case IPV4_FLOW:
-+		rss_type->ipv4 = 1;
-+		break;
-+	case IPV6_FLOW:
-+		rss_type->ipv6 = 1;
-+		break;
-+	default:
-+		netdev_err(netdev, "Unsupported flow type\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_set_rss_hash_opts(struct net_device *netdev,
-+				    struct ethtool_rxnfc *cmd)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_rss_type rss_type;
-+	int err;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		cmd->data = 0;
-+		netdev_err(netdev, "RSS is disable, not support to set flow-hash\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	/* RSS only supports hashing of IP addresses and L4 ports */
-+	if (cmd->data & ~(RXH_IP_SRC | RXH_IP_DST |
-+			  RXH_L4_B_0_1 | RXH_L4_B_2_3))
-+		return -EINVAL;
-+
-+	/* Both IP addresses must be part of the hash tuple */
-+	if (!(cmd->data & RXH_IP_SRC) || !(cmd->data & RXH_IP_DST))
-+		return -EINVAL;
-+
-+	err = hinic3_get_rss_type(nic_dev->hwdev, &rss_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to get rss type\n");
-+		return err;
-+	}
-+
-+	err = hinic3_update_rss_hash_opts(netdev, cmd, &rss_type);
-+	if (err)
-+		return err;
-+
-+	err = hinic3_set_rss_type(nic_dev->hwdev, rss_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to set rss type\n");
-+		return err;
-+	}
-+
-+	nic_dev->rss_type = rss_type;
-+
-+	return 0;
-+}
-+
-+static void convert_rss_type(u8 rss_opt, struct ethtool_rxnfc *cmd)
-+{
-+	if (rss_opt)
-+		cmd->data |= RXH_L4_B_0_1 | RXH_L4_B_2_3;
-+}
-+
-+static int hinic3_convert_rss_type(struct net_device *netdev,
-+				   struct hinic3_rss_type *rss_type,
-+				   struct ethtool_rxnfc *cmd)
-+{
-+	cmd->data = RXH_IP_SRC | RXH_IP_DST;
-+	switch (cmd->flow_type) {
-+	case TCP_V4_FLOW:
-+		convert_rss_type(rss_type->tcp_ipv4, cmd);
-+		break;
-+	case TCP_V6_FLOW:
-+		convert_rss_type(rss_type->tcp_ipv6, cmd);
-+		break;
-+	case UDP_V4_FLOW:
-+		convert_rss_type(rss_type->udp_ipv4, cmd);
-+		break;
-+	case UDP_V6_FLOW:
-+		convert_rss_type(rss_type->udp_ipv6, cmd);
-+		break;
-+	case IPV4_FLOW:
-+	case IPV6_FLOW:
-+		break;
-+	default:
-+		netdev_err(netdev, "Unsupported flow type\n");
-+		cmd->data = 0;
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int hinic3_get_rss_hash_opts(struct net_device *netdev,
-+				    struct ethtool_rxnfc *cmd)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	struct hinic3_rss_type rss_type;
-+	int err;
-+
-+	cmd->data = 0;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags))
-+		return 0;
-+
-+	err = hinic3_get_rss_type(nic_dev->hwdev, &rss_type);
-+	if (err) {
-+		netdev_err(netdev, "Failed to get rss type\n");
-+		return err;
-+	}
-+
-+	return hinic3_convert_rss_type(netdev, &rss_type, cmd);
-+}
-+
-+int hinic3_get_rxnfc(struct net_device *netdev,
-+		     struct ethtool_rxnfc *cmd, u32 *rule_locs)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err = 0;
-+
-+	switch (cmd->cmd) {
-+	case ETHTOOL_GRXRINGS:
-+		cmd->data = nic_dev->q_params.num_qps;
-+		break;
-+	case ETHTOOL_GRXFH:
-+		err = hinic3_get_rss_hash_opts(netdev, cmd);
-+		break;
-+	default:
-+		err = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return err;
-+}
-+
-+int hinic3_set_rxnfc(struct net_device *netdev, struct ethtool_rxnfc *cmd)
-+{
-+	int err;
-+
-+	switch (cmd->cmd) {
-+	case ETHTOOL_SRXFH:
-+		err = hinic3_set_rss_hash_opts(netdev, cmd);
-+		break;
-+	default:
-+		err = -EOPNOTSUPP;
-+		break;
-+	}
-+
-+	return err;
-+}
-+
-+static u16 hinic3_max_channels(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	u8 tcs = netdev_get_num_tc(netdev);
-+
-+	return tcs ? nic_dev->max_qps / tcs : nic_dev->max_qps;
-+}
-+
-+static u16 hinic3_curr_channels(struct net_device *netdev)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+
-+	if (netif_running(netdev))
-+		return nic_dev->q_params.num_qps ?
-+				nic_dev->q_params.num_qps : 1;
-+	else
-+		return min_t(u16, hinic3_max_channels(netdev),
-+			     nic_dev->q_params.num_qps);
-+}
-+
-+void hinic3_get_channels(struct net_device *netdev,
-+			 struct ethtool_channels *channels)
-+{
-+	channels->max_rx = 0;
-+	channels->max_tx = 0;
-+	channels->max_other = 0;
-+	/* report maximum channels */
-+	channels->max_combined = hinic3_max_channels(netdev);
-+	channels->rx_count = 0;
-+	channels->tx_count = 0;
-+	channels->other_count = 0;
-+	/* report flow director queues as maximum channels */
-+	channels->combined_count = hinic3_curr_channels(netdev);
-+}
-+
-+static int
-+hinic3_validate_channel_parameter(struct net_device *netdev,
-+				  const struct ethtool_channels *channels)
-+{
-+	u16 max_channel = hinic3_max_channels(netdev);
-+	unsigned int count = channels->combined_count;
-+
-+	if (!count) {
-+		netdev_err(netdev, "Unsupported combined_count=0\n");
-+		return -EINVAL;
-+	}
-+
-+	if (channels->tx_count || channels->rx_count || channels->other_count) {
-+		netdev_err(netdev, "Setting rx/tx/other count not supported\n");
-+		return -EINVAL;
-+	}
-+
-+	if (count > max_channel) {
-+		netdev_err(netdev, "Combined count %u exceed limit %u\n", count,
-+			   max_channel);
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+int hinic3_set_channels(struct net_device *netdev,
-+			struct ethtool_channels *channels)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	unsigned int count = channels->combined_count;
-+	struct hinic3_dyna_txrxq_params q_params;
-+	int err;
-+
-+	if (hinic3_validate_channel_parameter(netdev, channels))
-+		return -EINVAL;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		netdev_err(netdev, "This function doesn't support RSS, only support 1 queue pair\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	netdev_dbg(netdev, "Set max combined queue number from %u to %u\n",
-+		   nic_dev->q_params.num_qps, count);
-+
-+	if (netif_running(netdev)) {
-+		q_params = nic_dev->q_params;
-+		q_params.num_qps = (u16)count;
-+		q_params.txqs_res = NULL;
-+		q_params.rxqs_res = NULL;
-+		q_params.irq_cfg = NULL;
-+
-+		err = hinic3_change_channel_settings(netdev, &q_params);
-+		if (err) {
-+			netdev_err(netdev, "Failed to change channel settings\n");
-+			return err;
-+		}
-+	} else {
-+		nic_dev->q_params.num_qps = (u16)count;
-+	}
-+
-+	return 0;
-+}
-+
-+u32 hinic3_get_rxfh_indir_size(struct net_device *netdev)
-+{
-+	return L2NIC_RSS_INDIR_SIZE;
-+}
-+
-+static int hinic3_set_rss_rxfh(struct net_device *netdev,
-+			       const u32 *indir, u8 *key)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err;
-+	u32 i;
-+
-+	if (indir) {
-+		for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-+			nic_dev->rss_indir[i] = (u16)indir[i];
-+
-+		err = hinic3_rss_set_indir_tbl(nic_dev->hwdev,
-+					       nic_dev->rss_indir);
-+		if (err) {
-+			netdev_err(netdev, "Failed to set rss indir table\n");
-+			return err;
-+		}
-+	}
-+
-+	if (key) {
-+		err = hinic3_rss_set_hash_key(nic_dev->hwdev, key);
-+		if (err) {
-+			netdev_err(netdev, "Failed to set rss key\n");
-+			return err;
-+		}
-+
-+		memcpy(nic_dev->rss_hkey, key, L2NIC_RSS_KEY_SIZE);
-+	}
-+
-+	return 0;
-+}
-+
-+u32 hinic3_get_rxfh_key_size(struct net_device *netdev)
-+{
-+	return L2NIC_RSS_KEY_SIZE;
-+}
-+
-+static int hinic3_rss_get_indir_tbl(struct hinic3_hwdev *hwdev,
-+				    u32 *indir_table)
-+{
-+	struct hinic3_cmd_buf_pair pair;
-+	__le16 *indir_tbl = NULL;
-+	int err, i;
-+
-+	err = hinic3_cmd_buf_pair_init(hwdev, &pair);
-+	if (err) {
-+		dev_err(hwdev->dev, "Failed to allocate cmd_buf.\n");
-+		return err;
-+	}
-+
-+	err = hinic3_cmdq_detail_resp(hwdev, MGMT_MOD_L2NIC,
-+				      L2NIC_UCODE_CMD_GET_RSS_INDIR_TBL,
-+				      pair.in, pair.out, NULL);
-+	if (err) {
-+		dev_err(hwdev->dev, "Failed to get rss indir table\n");
-+		goto err_get_indir_tbl;
-+	}
-+
-+	indir_tbl = (__le16 *)pair.out->buf;
-+	for (i = 0; i < L2NIC_RSS_INDIR_SIZE; i++)
-+		indir_table[i] = le16_to_cpu(*(indir_tbl + i));
-+
-+err_get_indir_tbl:
-+	hinic3_cmd_buf_pair_uninit(hwdev, &pair);
-+
-+	return err;
-+}
-+
-+int hinic3_get_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err = 0;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		netdev_err(netdev, "Rss is disabled\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	rxfh->hfunc =
-+		nic_dev->rss_hash_type == HINIC3_RSS_HASH_ENGINE_TYPE_XOR ?
-+		ETH_RSS_HASH_XOR : ETH_RSS_HASH_TOP;
-+
-+	if (rxfh->indir) {
-+		err = hinic3_rss_get_indir_tbl(nic_dev->hwdev, rxfh->indir);
-+		if (err)
-+			return err;
-+	}
-+
-+	if (rxfh->key)
-+		memcpy(rxfh->key, nic_dev->rss_hkey, L2NIC_RSS_KEY_SIZE);
-+
-+	return err;
-+}
-+
-+static int hinic3_update_hash_func_type(struct net_device *netdev, u8 hfunc)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	enum hinic3_rss_hash_type new_rss_hash_type;
-+
-+	switch (hfunc) {
-+	case ETH_RSS_HASH_NO_CHANGE:
-+		return 0;
-+	case ETH_RSS_HASH_XOR:
-+		new_rss_hash_type = HINIC3_RSS_HASH_ENGINE_TYPE_XOR;
-+		break;
-+	case ETH_RSS_HASH_TOP:
-+		new_rss_hash_type = HINIC3_RSS_HASH_ENGINE_TYPE_TOEP;
-+		break;
-+	default:
-+		netdev_err(netdev, "Unsupported hash func %u\n", hfunc);
-+		return -EOPNOTSUPP;
-+	}
-+
-+	if (new_rss_hash_type == nic_dev->rss_hash_type)
-+		return 0;
-+
-+	nic_dev->rss_hash_type = new_rss_hash_type;
-+	return hinic3_rss_set_hash_type(nic_dev->hwdev, nic_dev->rss_hash_type);
-+}
-+
-+int hinic3_set_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh,
-+		    struct netlink_ext_ack *extack)
-+{
-+	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-+	int err;
-+
-+	if (!test_bit(HINIC3_RSS_ENABLE, &nic_dev->flags)) {
-+		netdev_err(netdev, "Not support to set rss parameters when rss is disable\n");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	err = hinic3_update_hash_func_type(netdev, rxfh->hfunc);
-+	if (err)
-+		return err;
-+
-+	err = hinic3_set_rss_rxfh(netdev, rxfh->indir, rxfh->key);
-+
-+	return err;
-+}
-diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
-index 78d82c2aca06..9f1b77780cd4 100644
---- a/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
-+++ b/drivers/net/ethernet/huawei/hinic3/hinic3_rss.h
-@@ -5,10 +5,29 @@
- #define _HINIC3_RSS_H_
- 
- #include <linux/netdevice.h>
-+#include <linux/ethtool.h>
- 
- int hinic3_rss_init(struct net_device *netdev);
- void hinic3_rss_uninit(struct net_device *netdev);
- void hinic3_try_to_enable_rss(struct net_device *netdev);
- void hinic3_clear_rss_config(struct net_device *netdev);
- 
-+int hinic3_get_rxnfc(struct net_device *netdev,
-+		     struct ethtool_rxnfc *cmd, u32 *rule_locs);
-+int hinic3_set_rxnfc(struct net_device *netdev, struct ethtool_rxnfc *cmd);
-+
-+void hinic3_get_channels(struct net_device *netdev,
-+			 struct ethtool_channels *channels);
-+int hinic3_set_channels(struct net_device *netdev,
-+			struct ethtool_channels *channels);
-+
-+u32 hinic3_get_rxfh_indir_size(struct net_device *netdev);
-+u32 hinic3_get_rxfh_key_size(struct net_device *netdev);
-+
-+int hinic3_get_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh);
-+int hinic3_set_rxfh(struct net_device *netdev,
-+		    struct ethtool_rxfh_param *rxfh,
-+		    struct netlink_ext_ack *extack);
-+
- #endif
--- 
-2.43.0
+Support for high crashkernel reservation has been added to
+address the above problem.
+
+However, high crashkernel reservation is not supported with
+range-based crashkernel kernel command-line arguments.
+For example: crashkernel=0M-1G:100M,1G-4G:160M,4G-8G:192M
+
+Many users, including some distributions, use range-based
+crashkernel configuration. So, adding support for high crashkernel
+reservation with range-based configuration would be useful.
+
+>
+> Add a new optional conditional suffix ",>boundary" to the crashkernel
+> range syntax. When the selected crashkernel size exceeds the specified
+> boundary, the kernel will automatically apply the same reservation
+> policy as "crashkernel=size,high" - preferring high memory first
+> and reserving the default low memory area.
+
+I think the approach to enable high crashkernel reservation
+with range-based configuration makes the crashkernel kernel
+argument more complex.
+
+If the goal is to support high crashkernel reservation with
+range-based kernel command-line arguments, how about:
+
+crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],high
+
+instead of using >boundary?
+
+>
+> Syntax:
+>      crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+>
+> Example:
+>      crashkernel=2G-16G:512M,16G-:1G,>512M
+>
+> This means:
+>    - For 2G-16G RAM: reserve 512M normally
+>    - For >16G RAM: reserve 1G with high memory preference (since 1G > 512M)
+>
+> For systems with >16G RAM, 1G is selected which exceeds 512M, so it
+> will be reserved from high memory instead of consuming 1G of
+> precious low memory.
+>
+> Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
+> ---
+>   Documentation/admin-guide/kdump/kdump.rst     | 25 ++++++++-
+>   .../admin-guide/kernel-parameters.txt         |  2 +-
+>   kernel/crash_reserve.c                        | 56 ++++++++++++++++---
+>   3 files changed, 73 insertions(+), 10 deletions(-)
+>
+> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
+> index 7587caadbae1..b5ae4556e9ca 100644
+> --- a/Documentation/admin-guide/kdump/kdump.rst
+> +++ b/Documentation/admin-guide/kdump/kdump.rst
+> @@ -293,7 +293,28 @@ crashkernel syntax
+>          2) if the RAM size is between 512M and 2G (exclusive), then reserve 64M
+>          3) if the RAM size is larger than 2G, then reserve 128M
+>   
+> -3) crashkernel=size,high and crashkernel=size,low
+> +3) range1:size1[,range2:size2,...][@offset],>boundary
+> +   Optionally, the range list can be followed by a conditional suffix
+> +   `,>boundary`. When the selected crashkernel size matches the
+> +   condition, the kernel will reserve memory using the same policy as
+> +   `crashkernel=size,high` (i.e. prefer high memory first and reserve the
+> +   default low memory area).
+> +
+> +   The syntax is::
+> +
+> +        crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+> +        range=start-[end]
+> +
+> +   For example::
+> +
+> +        crashkernel=2G-16G:512M,16G-:1G,>512M
+> +
+> +   This would mean:
+> +       1) if the RAM size is between 2G and 16G (exclusive), then reserve 512M.
+> +       2) if the RAM size is larger than 16G, allocation will behave like
+> +          `crashkernel=1G,high`.
+> +
+> +4) crashkernel=size,high and crashkernel=size,low
+>   
+>      If memory above 4G is preferred, crashkernel=size,high can be used to
+>      fulfill that. With it, physical memory is allowed to be allocated from top,
+> @@ -311,7 +332,7 @@ crashkernel syntax
+>   
+>               crashkernel=0,low
+>   
+> -4) crashkernel=size,cma
+> +5) crashkernel=size,cma
+>   
+>   	Reserve additional crash kernel memory from CMA. This reservation is
+>   	usable by the first system's userspace memory and kernel movable
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index 03a550630644..b2e1892ab4d8 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1087,7 +1087,7 @@ Kernel parameters
+>   			4G when '@offset' hasn't been specified.
+>   			See Documentation/admin-guide/kdump/kdump.rst for further details.
+>   
+> -	crashkernel=range1:size1[,range2:size2,...][@offset]
+> +	crashkernel=range1:size1[,range2:size2,...][@offset][,>boundary]
+>   			[KNL] Same as above, but depends on the memory
+>   			in the running system. The syntax of range is
+>   			start-[end] where start and end are both
+> diff --git a/kernel/crash_reserve.c b/kernel/crash_reserve.c
+> index 62e60e0223cf..917738412390 100644
+> --- a/kernel/crash_reserve.c
+> +++ b/kernel/crash_reserve.c
+> @@ -254,15 +254,47 @@ static __init char *get_last_crashkernel(char *cmdline,
+>   	return ck_cmdline;
+>   }
+>   
+> +/*
+> + * This function parses command lines in the format
+> + *
+> + *   crashkernel=ramsize-range:size[,...][@offset],>boundary
+> + */
+> +static void __init parse_crashkernel_boundary(char *ck_cmdline,
+> +					unsigned long long *boundary)
+> +{
+> +	char *cur = ck_cmdline, *next;
+> +	char *first_gt = false;
+> +
+> +	first_gt = strchr(cur, '>');
+> +	if (!first_gt)
+> +		return;
+> +
+> +	cur = first_gt + 1;
+> +	if (*cur == '\0' || *cur == ' ' || *cur == ',') {
+> +		pr_warn("crashkernel: '>' specified without boundary size, ignoring\n");
+> +		return;
+> +	}
+> +
+> +	*boundary = memparse(cur, &next);
+> +	if (cur == next) {
+> +		pr_warn("crashkernel: invalid boundary size after '>'\n");
+> +		return;
+> +	}
+> +}
+> +
+>   static int __init __parse_crashkernel(char *cmdline,
+>   			     unsigned long long system_ram,
+>   			     unsigned long long *crash_size,
+>   			     unsigned long long *crash_base,
+> -			     const char *suffix)
+> +			     const char *suffix,
+> +			     bool *high,
+> +			     unsigned long long *low_size)
+>   {
+>   	char *first_colon, *first_space;
+>   	char *ck_cmdline;
+>   	char *name = "crashkernel=";
+> +	unsigned long long boundary = 0;
+> +	int ret;
+>   
+>   	BUG_ON(!crash_size || !crash_base);
+>   	*crash_size = 0;
+> @@ -283,10 +315,20 @@ static int __init __parse_crashkernel(char *cmdline,
+>   	 */
+>   	first_colon = strchr(ck_cmdline, ':');
+>   	first_space = strchr(ck_cmdline, ' ');
+> -	if (first_colon && (!first_space || first_colon < first_space))
+> -		return parse_crashkernel_mem(ck_cmdline, system_ram,
+> +	if (first_colon && (!first_space || first_colon < first_space)) {
+> +		ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+>   				crash_size, crash_base);
+>   
+> +		/* Handle optional ',>boundary' condition for range ':' syntax only. */
+> +		parse_crashkernel_boundary(ck_cmdline, &boundary);
+> +		if (!ret && *crash_size > boundary) {
+> +			*high = true;
+> +			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+> +		}
+> +
+> +		return ret;
+> +	}
+> +
+>   	return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
+>   }
+>   
+> @@ -310,7 +352,7 @@ int __init parse_crashkernel(char *cmdline,
+>   
+>   	/* crashkernel=X[@offset] */
+>   	ret = __parse_crashkernel(cmdline, system_ram, crash_size,
+> -				crash_base, NULL);
+> +				crash_base, NULL, high, low_size);
+>   #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
+>   	/*
+>   	 * If non-NULL 'high' passed in and no normal crashkernel
+> @@ -318,7 +360,7 @@ int __init parse_crashkernel(char *cmdline,
+>   	 */
+>   	if (high && ret == -ENOENT) {
+>   		ret = __parse_crashkernel(cmdline, 0, crash_size,
+> -				crash_base, suffix_tbl[SUFFIX_HIGH]);
+> +				crash_base, suffix_tbl[SUFFIX_HIGH], high, low_size);
+>   		if (ret || !*crash_size)
+>   			return -EINVAL;
+>   
+> @@ -327,7 +369,7 @@ int __init parse_crashkernel(char *cmdline,
+>   		 * is not allowed.
+>   		 */
+>   		ret = __parse_crashkernel(cmdline, 0, low_size,
+> -				crash_base, suffix_tbl[SUFFIX_LOW]);
+> +				crash_base, suffix_tbl[SUFFIX_LOW], high, low_size);
+>   		if (ret == -ENOENT) {
+>   			*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>   			ret = 0;
+> @@ -344,7 +386,7 @@ int __init parse_crashkernel(char *cmdline,
+>   	 */
+>   	if (cma_size)
+>   		__parse_crashkernel(cmdline, 0, cma_size,
+> -			&cma_base, suffix_tbl[SUFFIX_CMA]);
+> +			&cma_base, suffix_tbl[SUFFIX_CMA], high, low_size);
+>   #endif
+>   	if (!*crash_size)
+>   		ret = -EINVAL;
 
