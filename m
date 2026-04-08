@@ -1,92 +1,174 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mail-24416.protonmail.ch (mail-24416.protonmail.ch [109.224.244.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D21434A3C5
-	for <linux-doc@vger.kernel.org>; Wed,  8 Apr 2026 16:13:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8C873A2579;
+	Wed,  8 Apr 2026 16:27:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775664832; cv=none; b=SoqYqwruQtD5HHpaD26iko3p9z0XS/mXIlo79vo+wrhxjBPS3AMV2y7o3XtY3Z+4KbBXKTrEGjTLGd7w5DIJeFRONkopQHgcB9IQvPOJ7fpbE6+RkIe6+CzLmN+5WkwhUGiJYoa+p/5kHkjzf7a5xQU34lfHU2kZ1N+gCyPXjHA=
+	t=1775665669; cv=none; b=am1FbBVPC34YczW1cOJYfrRDFnYFM40qtlSfNU5XbASVEYqmnXttuC9p/xQOvBpIXm+17Wb10k/HwdAUhXVdCMvK5PY8QA/6BBFHnmSmPAemIylDX8RYL0RB1ZRzoyiX/BdRrh/9dKya26uvLFTRcBzAA/Nxe3KriZNQzyXYbN4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775664832; c=relaxed/simple;
-	bh=frIqSR913D6i1XmZ5VWS66nZbITYXIqEAg3+Ld0XFfo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=AdxcW9IKL+Ddzw74k8Bvdwuzs+yyI9NnflWHyjgRd9qCbZf3wt+yOz0mdHWSFBjjJ3rrtBZ/xjaWvxvWisk0jZ1Y8EM9FxLZsUDzUzfACR1d6hJa2Jf7jXk5vvQ0NZNf7sNL0YC5ndoqTZgG82Um03cwv+zCadjXbeAJEt0O4NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dLBHV9pl; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1775665669; c=relaxed/simple;
+	bh=MSux11/UUR6St6vxzXDrJlR4GeVCUqnGP/5mFGldxg4=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=LmM9EOJks2SIsn25jInIikklM91e1s0vBYGGEVw350mHee6/XrtunyuDiVX6e6bj767hyKYm4F7clDK9YqT9bR6u06b/uoQH4QHYxTCKTV1Q5441WF1MeABeDDjnvEwHsFco+f/99qjy7i/40rPFH5SElyEyRSHAtH3/+azXdNs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me; spf=pass smtp.mailfrom=pm.me; dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b=H6KBDMmM; arc=none smtp.client-ip=109.224.244.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pm.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pm.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dLBHV9pl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1775664829; x=1807200829;
-  h=date:from:to:cc:subject:message-id;
-  bh=frIqSR913D6i1XmZ5VWS66nZbITYXIqEAg3+Ld0XFfo=;
-  b=dLBHV9pl8E4/o7uDXNxYRdUmrtminWv6KZOCI//rgUUHj/H+lB7zkC4D
-   heD0HXURhRcBw4zOxFQ2j1cPK1eesjiBpHwVygtztVK3bWwhNUT3QLoX0
-   9UrxNIzcwxenFnzig+zCBUrr7X9+In4GDyuSSt77g8oxPE80QUZTwUMPG
-   Kz0f5TAx4j69+XzznZ1UO7I7HwsdYZH4Z3Y5TBOHfR6U8+NNPmwDHBELC
-   Qq8lOmlC5xsr7I7vg0OgHErNeTvohFrDyJwHa7dECoBlx0ofqUAm6Vw+l
-   BrkjXohJVmj8chmdWz7XpUa6JCtOgVnSNutMKHU3QN3TbBPHlW9kb9la9
-   Q==;
-X-CSE-ConnectionGUID: mFaITPlwTmCoLNFJTS0gjQ==
-X-CSE-MsgGUID: Kj8MhdGvSuebXUAXMVrwbQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11753"; a="80541515"
-X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="80541515"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2026 09:13:48 -0700
-X-CSE-ConnectionGUID: d7hn807BR9aa/oGyu2oY/g==
-X-CSE-MsgGUID: AguIt/S5SL+vWUfAqPfebQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,167,1770624000"; 
-   d="scan'208";a="228404878"
-Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
-  by orviesa009.jf.intel.com with ESMTP; 08 Apr 2026 09:13:48 -0700
-Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wAVXF-00000000ATZ-0SER;
-	Wed, 08 Apr 2026 16:13:45 +0000
-Date: Wed, 08 Apr 2026 18:13:22 +0200
-From: kernel test robot <lkp@intel.com>
-To: Sen Wang <sen@ti.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Warning: sound/soc/codecs/tas67524.c references a
- file that doesn't exist: Documentation/sound/codecs/tas675x.rst
-Message-ID: <202604081804.ImZjoifC-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=pm.me header.i=@pm.me header.b="H6KBDMmM"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pm.me;
+	s=protonmail3; t=1775665665; x=1775924865;
+	bh=+yLHN79cSdzszCHYWlX9JCnYRBioU96Hc0JclLCYCWM=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=H6KBDMmMikQ0Airr3pwJJrVhptfPxex2lmK3xY2mDEZNZgqS8T22ef0Rbzq51LJa7
+	 RaT12QSZ/JOfJyZjskZzLKAoZc3w1SLdOoHto6ElxLNBUhALoj43LbUNymyPy2qz4J
+	 WvFFGTuNvyd9kO3F47EhM9nql97sgQHSu8DV91ZXETGCySz/JhYjByw2mjA6ivuilI
+	 S9Yrk5XX7ePwDhi3bk/fFGvKix7UO1fsr/tPtsBugYpLHIGMaTd/5OAUGRlogpAPgE
+	 Y6NL8BZyn33HbFBcRZM/eMUDYiSnRL0aqjkLDgi5vq6YtH8lqkHNnO1CzZSWH0K40N
+	 6gx9REJ2CVidw==
+Date: Wed, 08 Apr 2026 16:27:40 +0000
+To: skhan@linuxfoundation.org, ilpo.jarvinen@linux.intel.com, hansg@kernel.org, corbet@lwn.net, srinivas.pandruvada@linux.intel.com
+From: Maciej Wieczor-Retman <m.wieczorretman@pm.me>
+Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org, m.wieczorretman@pm.me
+Subject: [PATCH v3 0/2] platform/x86/intel-uncore-freq: Expose instance ID in the sysfs
+Message-ID: <cover.1775665057.git.m.wieczorretman@pm.me>
+Feedback-ID: 164464600:user:proton
+X-Pm-Message-ID: 3ffdcd7bbba178a7bb8a82ec494a0c6258adb922
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Sen-Wang/ASoC-dt-bindings-Add-ti-tas67524/20260408-141601
-head:   6d18e62ff6aa71d56585dca8035437bc9218eb19
-commit: 6e3145ebbb92b213c028232cad30d7d99d2ecdbd ASoC: codecs: Add TAS67524 quad-channel audio amplifier driver
-date:   10 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260408/202604081804.ImZjoifC-lkp@intel.com/reproduce)
+--- Motivation
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604081804.ImZjoifC-lkp@intel.com/
+This patchset is about exporting instance ID, a value used to uniquely
+identify MMIO blocks in TPMI devices. Userspace tools like "pepc" [1]
+can use it for direct MMIO reads or writes.
 
-All warnings (new ones prefixed by >>):
+Currently exported information allows doing this on non-partitioned
+systems, but partitioned systems require additional steps to map MMIO
+blocks.
 
-   Warning: Documentation/translations/zh_CN/scsi/scsi_mid_low_api.rst references a file that doesn't exist: Documentation/Configure.help
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/ABI/testing/sysfs-platform-ayaneo
-   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/display/bridge/megachips-stdpxxxx-ge-b850v3-fw.txt
-   Warning: arch/powerpc/sysdev/mpic.c references a file that doesn't exist: Documentation/devicetree/bindings/powerpc/fsl/mpic.txt
-   Warning: rust/kernel/sync/atomic/ordering.rs references a file that doesn't exist: srctree/tools/memory-model/Documentation/explanation.txt
->> Warning: sound/soc/codecs/tas67524.c references a file that doesn't exist: Documentation/sound/codecs/tas675x.rst
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/virtual/lguest/lguest.c
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+[1] https://github.com/intel/pepc
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--- Background
+
+* TPMI MMIO organization
+For each TPMI device a direct register access is possible through MMIO
+mapped blocks, where:
+- Each block belongs to a different power domain.
+- Each power domain is exposed in sysfs via a domain_id attribute.
+- Power domain scope is per-die (either IO dies or compute dies).
+- Compute die blocks are ordered first, before IO die blocks in
+  MMIO space.
+
+* Domain ID mapping
+For compute dies, the mapping is architectural through a CPUID leaf or
+via MSR 0x54:
+- Compute die IDs directly correspond to CPU die IDs
+- CPU die ID can be obtained from MSR 0x54 or recent CPUID leaves
+- Example: domain_id equal to 1 applies to all CPUs with die ID 1
+
+* IO die mapping
+For IO dies, the relationship is generation/platform specific. It's
+generally not recommended to assume any specific IO organization but
+uncore sysfs provides an attribute to differentiate die types.
+
+* Partitioning
+In partitioned systems multiple TPMI devices exist per package. However
+CPUs are still enumerated package-wide and so die IDs (domain_id) are
+unique per-package. For example a single partition (single TPMI device)
+Granite Rapids might order its dies in the following way:
+
++---------------------+-----------+
+| Die type and number | Domain ID |
++---------------------+-----------+
+| Compute die 0=09      |         0 |
+| Compute die 1       |         1 |
+| IO die 0            |         2 |
+| IO die 1            |         3 |
++---------------------+-----------+
+
+While a two partition system may be numbered in this way:
+
++---------------------+-------------+-------------+
+| Die type and number |         Domain ID         |
+| local in single     +-------------+-------------+
+| partition scope     | Partition 0 | Partition 1 |
++---------------------+-------------+-------------+
+| Compute die 0=09      |           0 |           2 |
+| Compute die 1       |           1 |           3 |
+| IO die 0            |           4 |           6 |
+| IO die 1            |           5 |           7 |
++---------------------+-------------+-------------+
+
+The cd_mask value from the TPMI bus info register can show using a
+bitmap which compute dies belong to which partition.
+
+* Instance ID
+Partition ID is not an architectural value, meaning there is no CPUID or
+MSR to map a CPU to a partition number. Therefore to allow mapping CPUs
+to compute dies as well as mapping TPMI registers in MMIO mapped space
+two numbers need to be exported:
+- domain_id
+=09- Whether the system is partitioned or not it still allows
+=09  mapping CPUs to compute die IDs.
+- instance_id
+=09- A per-partition (and hence per-device) physical index to still
+=09  allow mapping MMIO blocks to both compute and IO dies. On
+=09  partitioned systems mapping IO dies would be very difficult
+=09  since they are only indexed after all the compute dies are
+=09  numbered.
+
+As one can see, on non-partitioned systems the instance ID and domain ID
+have the same value. It's only on partitioned systems that both values
+are needed to keep all mapping functionality. To better show the
+relationship this is how values on a partitioned system can look:
+
++---------------------+-------------+-------------+-------------+----------=
+---+
+| Die type and number |         Domain ID         |        Instance ID     =
+   |
+| local in single     +-------------+-------------+-------------+----------=
+---+
+| partition scope     | Partition 0 | Partition 1 | Partition 0 | Partition=
+ 1 |
++---------------------+-------------+-------------+-------------+----------=
+---+
+| Compute die 0=09      |           0 |           2 |           0 |        =
+   0 |
+| Compute die 1       |           1 |           3 |           1 |          =
+ 1 |
+| IO die 0            |           4 |           6 |           2 |          =
+ 2 |
+| IO die 1            |           5 |           7 |           3 |          =
+ 3 |
++---------------------+-------------+-------------+-------------+----------=
+---+
+
+Changes in v3:
+- Remove sentence from the cover letter claiming that the motivation was
+  to replace doing the same thing through MSRs - that was deprecated and
+  it's not available.
+- sprintf() -> sysfs_emit() in show_instance_id().
+- static -> static inline in set_instance_id().
+- Small correction to 2/2 patch message.
+
+Maciej Wieczor-Retman (2):
+  platform/x86/intel-uncore-freq: Rename instance_id
+  platform/x86/intel-uncore-freq: Expose instance ID in the sysfs
+
+ .../pm/intel_uncore_frequency_scaling.rst        |  7 +++++++
+ .../uncore-frequency/uncore-frequency-common.c   | 16 +++++++++++++---
+ .../uncore-frequency/uncore-frequency-common.h   |  8 ++++++--
+ .../uncore-frequency/uncore-frequency-tpmi.c     | 15 ++++++++++++++-
+ 4 files changed, 40 insertions(+), 6 deletions(-)
+
+--=20
+2.53.0
+
+
