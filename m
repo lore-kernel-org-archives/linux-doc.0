@@ -1,335 +1,304 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010029.outbound.protection.outlook.com [52.101.85.29])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C4A0389E07;
-	Wed,  8 Apr 2026 07:40:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775634020; cv=fail; b=tX/sIi5dGynf8PULOPf3erq6tKkXH+61wtzcVY89Q62dM4SLci+WGC3ECyeNrdwPiP/n6JK3TjwkPbR0aUsG+4o1VOYd0RmRmNhzPmTf51KP0xzCxUvOcnivu80/vuugw3vKdVLkandepe0AQMOKwVznr6VjXwTeE6NtbsBPDVA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775634020; c=relaxed/simple;
-	bh=ZosUgt2uZcmdIJNFy/0zy58q0gs/pbcOQO+5cQIFX/w=;
-	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
-	 In-Reply-To:MIME-Version; b=dk+kPWbXS4375brC4Wzpmxz5BNiRSSWzinFRM1SEOBKdYsonofblkWs1AXGfCs9kJVKS5R3OyMz836DZoljCZJF79vchmqkilZ7H+985HU+p4OUDGoiA+FVmDrWkYlI7gKalKxwD61dIDf6VxoIiLkbp6Drh+SKGAICBRX3CHvM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Ctv/z80x; arc=fail smtp.client-ip=52.101.85.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37FAD352C5B
+	for <linux-doc@vger.kernel.org>; Wed,  8 Apr 2026 07:42:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775634148; cv=none; b=V5vg3vPS2Wsba9egfY3n+ND5hwXFO5AWq+gfQ8XucnEreDx0pnhBm1vhJ6NpSS8lCUMmkGdkdgomyP/wwJ3XEIsAXiXILQ3Ww+1RnTWYuV47ogQzXlJV1FkWyfY/lzmv5hdFk9oCKvOgIIXe43GWlN1mba+IFqSHlmESqQkATzA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775634148; c=relaxed/simple;
+	bh=VXeE/V3Nt5epWexqPhW1PLxXVXncYLeglqZfNNzfTyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=in0u1LLDPsM7w+NwosZM4CqDsZf2/74WhX1UChZZnKL/ajwFzIaNWehrGQweHpQSgL5SnkeHyLDTB8aGxy6tCc2l8w+LqwRTmUkrI3dRWQeWwwdBnqbLpHvxdbuK8FDnFoFCcc4N2xIIM1wmR5wEHqvtcRP8n+FDhVzQQgAlEHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Jjp6b3l9; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Ctv/z80x"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=groEWSPlFFRK8H+t8BtDvMCDvX7cIFTUCrEStnRcF2qoXti06g7YUGAAIyZKofxZo+F1DgoT3KzTWyVXQUUeKOM7t/Spf5oPHACge3XhRfmkMkRHyfW9S3biVN2iEyc+4Cqyj3RyF4qAys2NUoqOCQLzFcxpateagmzxV9H9xkX+nmo9Fb3IcjB1fuIGlHUgKYFstZiWPPV2Aw5KaK0+TGPdOAz2vRdJWDdB73kmIPEf6m76VzJAFIhzXxZHb+w0LZa59mjYPdsz+eQsa3tgRrCuPSJmSMLyRQJSJxycjUpmQV+yfzYOoTuDo6DUULY2tEyLWZhhm7vkGmtf86iECA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/PCWW/ZREQfE6c/7hE8bv2du9ib4XbEeassn94rkzPU=;
- b=tjwtW9VZc++xLqJnxUQNlFT3uL4eA1uvEo3z8n1w7AM3fAxMELnDbsCyReq7tYMOcKFti7F6oaGx043JBI/5a6fDA7oWPos/FuW4NpeOQcmDjpo5Iw9Xb1XGHsN5TailxAJPeHRELzb1b2gfzquVV5sb3pxB56y0NlnrzhwkSOfNp9zWWHDkMCASNPCGfv/OcCEq5OmsxwLwcja+6FXh4ORKX3NVapvVi0tUlvMflkKHbIdbE9cCekwVneRPtoVuWfU7ZLFnPYXxqxMWgCJPFZhBpTMf+Hbsx7lMwHoBCqUY/WSLJ5TXmu4Bh2R0tk3dGY/G4oN5do2vmSumoVFw5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/PCWW/ZREQfE6c/7hE8bv2du9ib4XbEeassn94rkzPU=;
- b=Ctv/z80xmO1PRfF6/ogXabFmU5PxHE3tvsouW8eJ5KSSxXKLV5igxeuQwIJKA4NYev0r+sMIEof1+2grA5vHZqTjIJhvNCiE65eGIePDa1/RRUvkNHD9BwTyWKqfD4HDgm1lGyryfT5g9w/fMHhQgAsTRuPSAzmqEohkhFYQXlKU2Nre5CWLg5pvDstde7AVSAZZYi8CdYNkEvGMHoXEHkqDb+ACgFKBI569ky8NNcTIbLE588Jy+SdKW2YICZH1Dqp/bCvfoqir73BvIlop6tKUTWZ0c99YF9drlYSM/oUBIzgce7/jObxpVB309viXsBkSKNV7daS/LwbfEcej2A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com (2603:10b6:610:28::18)
- by MN0PR12MB6246.namprd12.prod.outlook.com (2603:10b6:208:3c2::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.17; Wed, 8 Apr
- 2026 07:40:11 +0000
-Received: from CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989]) by CH2PR12MB3990.namprd12.prod.outlook.com
- ([fe80::7de1:4fe5:8ead:5989%4]) with mapi id 15.20.9769.018; Wed, 8 Apr 2026
- 07:40:11 +0000
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 08 Apr 2026 16:40:07 +0900
-Message-Id: <DHNLQ1UDW1W3.KXLFLCCGWA8P@nvidia.com>
-Cc: "Joel Fernandes" <joelagnelf@nvidia.com>,
- <linux-kernel@vger.kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>, "Boqun
- Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>, "Bjorn Roy Baron"
- <bjorn3_gh@protonmail.com>, "Benno Lossin" <lossin@kernel.org>, "Andreas
- Hindborg" <a.hindborg@kernel.org>, "Alice Ryhl" <aliceryhl@google.com>,
- "Trevor Gross" <tmgross@umich.edu>, "Danilo Krummrich" <dakr@kernel.org>,
- "Dave Airlie" <airlied@redhat.com>, "Daniel Almeida"
- <daniel.almeida@collabora.com>, "Koen Koning"
- <koen.koning@linux.intel.com>, <dri-devel@lists.freedesktop.org>,
- <rust-for-linux@vger.kernel.org>, "Nikola Djukic" <ndjukic@nvidia.com>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "David
- Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Jonathan
- Corbet" <corbet@lwn.net>, "Alex Deucher" <alexander.deucher@amd.com>,
- "Christian Koenig" <christian.koenig@amd.com>, "Jani Nikula"
- <jani.nikula@linux.intel.com>, "Joonas Lahtinen"
- <joonas.lahtinen@linux.intel.com>, "Rodrigo Vivi" <rodrigo.vivi@intel.com>,
- "Tvrtko Ursulin" <tursulin@ursulin.net>, "Huang Rui" <ray.huang@amd.com>,
- "Matthew Auld" <matthew.auld@intel.com>, "Lucas De Marchi"
- <lucas.demarchi@intel.com>, "Thomas Hellstrom"
- <thomas.hellstrom@linux.intel.com>, "Helge Deller" <deller@gmx.de>, "Alex
- Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng" <boqun.feng@gmail.com>, "John
- Hubbard" <jhubbard@nvidia.com>, "Alistair Popple" <apopple@nvidia.com>,
- "Timur Tabi" <ttabi@nvidia.com>, "Edwin Peer" <epeer@nvidia.com>, "Andrea
- Righi" <arighi@nvidia.com>, "Andy Ritger" <aritger@nvidia.com>, "Zhi Wang"
- <zhiw@nvidia.com>, "Balbir Singh" <balbirs@nvidia.com>, "Philipp Stanner"
- <phasta@kernel.org>, "Elle Rhumsaa" <elle@weathered-steel.dev>,
- <alexeyi@nvidia.com>, "Eliot Courtney" <ecourtney@nvidia.com>,
- <joel@joelfernandes.org>, <linux-doc@vger.kernel.org>,
- <amd-gfx@lists.freedesktop.org>, <intel-gfx@lists.freedesktop.org>,
- <intel-xe@lists.freedesktop.org>, <linux-fbdev@vger.kernel.org>
-Subject: Re: [PATCH v10 07/21] gpu: nova-core: mm: Add TLB flush support
-From: "Alexandre Courbot" <acourbot@nvidia.com>
-To: "Matthew Brost" <matthew.brost@intel.com>
-References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-1-joelagnelf@nvidia.com>
- <20260331212048.2229260-8-joelagnelf@nvidia.com>
- <ac4FpcD29XnbbsdD@gsse-cloud1.jf.intel.com>
- <0f5605c1-32e8-4a62-b852-b1db01e42817@nvidia.com>
- <39a476f4-ecac-4313-a59f-e00e72d2b426@nvidia.com>
- <adSSrZp6a551xNTu@gsse-cloud1.jf.intel.com>
-In-Reply-To: <adSSrZp6a551xNTu@gsse-cloud1.jf.intel.com>
-X-ClientProxiedBy: OS0P286CA0093.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:604:b1::8) To CH2PR12MB3990.namprd12.prod.outlook.com
- (2603:10b6:610:28::18)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Jjp6b3l9"
+Message-ID: <01e47f44-c22b-42f3-afe1-4a39d9c1fd18@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1775634134;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1Q0lOeA9WbCpE9UviUVIyO2kcWKjArwzD9MSExnBDGA=;
+	b=Jjp6b3l982HOh7i+JXlUQ5b/V4DNbhtZMZqAcnngbf3w/AobWWV6n2e2nywmj5FKTGA9ri
+	e60uGuZLu4rl7MZNmdXTSuDsVoEOye4ccSVYIIXrKHBK6bZMKPFoMfTmpVna3KyaChOSuM
+	LBDvdYZk6+QThUS9JBwlI5AZbG7bT30=
+Date: Wed, 8 Apr 2026 15:41:14 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PR12MB3990:EE_|MN0PR12MB6246:EE_
-X-MS-Office365-Filtering-Correlation-Id: 42a7515c-2af7-427f-c50f-08de95421048
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|10070799003|366016|1800799024|22082099003|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	Gx8zMH+7eDswU+oNYGcuKH3pzEuxCdgNM/YHbNt/OgVfd6hLr65fuoM2iiryo8DS006A2YzudIWpIlUKBhrteSoJmApOhNipAxz5rOXdQA42IOxS0OipPM1PtI8//n3vvAUC3bSfvOLcRkb31zzgHQYGJ7Iq6rz2XINn+BSadMZSiUf0v1ciOSRSLWTwIGUdnx4TZG/S0Z+KcVDvZl3a/hc/tbgzx9txuHj2uFYrFWF3jT5QFzjdGIoW/u4N55vwhY451e5IRhCVyPYxoKst33Tt74S5OuQ4yMmNa34f9Nz+2RuUU0D3BcCMR3khlA0wRD8UcRzyLhke0hjkx/8jeKbeCzxf2YbotJis7ST6F5chZ/x0NHf8KoIE1x8B1UOQs+y4QaAFAvfD85C/lEU8cU7anyfQAoe7nfBSIYOLSFNm7zmmoxeDxyN08b1NxsNaaYhr+VJmx8IAgH8rM3DuWnzbEQnrcetOfhLrbhno1zsUO3+7rgxwTdc0iucrO00SNTdTFZp2QnuA/ayY3Nj8S86IQXn1XLpwnoP/LPMhX0xSk03lSVFT6amfCqaq70Drxm/8iRpeDOxlAFKsAw/IIC5fdFYu3A/vJWeNnEfelXQeXyGLUYSnhHx7JoPrg39IVgTj491934zAilOQwtdpHe08gV5hJokuVfenCVcU2Uq0c7Cy1zAB1C7De690gBeqBnAI2IStT5XGbw8RLw8SeioctRVbqL2JrZaK/Ks6w5c=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH2PR12MB3990.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(10070799003)(366016)(1800799024)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NFNITXlEY0JNNWR5M1JlQUd4UmMzSHZ0WHVVeDZJbFlEM1NpREFLaVFPM0lF?=
- =?utf-8?B?UjQ0TGoxaWE1WExwZW1QM3h0bkQzYWtXbmRNVFgzZTRWd3JybVMwbTNicXNa?=
- =?utf-8?B?cmZSOG93RlFobHdlWGRmYTUxTWVHaEllL0d5c1RqdThoZG1EZ2NmMnNjcEJU?=
- =?utf-8?B?Tm5RTjlrM0h1Vk5FZk1MQTNGUndkaEhwT3RtemhwZTVudkVIRjZxZi91RHRZ?=
- =?utf-8?B?Y3dxTW4waGgyTzdDUzhVRGVMR0gyWGVodkVOOS9yTDkxNjZzUk1vSEYvdjF6?=
- =?utf-8?B?dFQ4cW8wbHNlMEJqcXExL3VPVXBzcEZxNFlzZ0FaVkJpL3RheVVTSG9PYjlj?=
- =?utf-8?B?anVaVGZablp4SXJRRnc1ZldBSXFyR1pwRG9MRGhPQjk1R1ZtdWJDd2oweXhz?=
- =?utf-8?B?b0o3WlJITE5odG5QQi96NVNaOFd4ZnpobkQvSnE3TXlmT1pwbFVhVWk0blVp?=
- =?utf-8?B?RjBndWFBWGlZYWZKTnFWQzFwM05UeUtyZi9DVEQxeEdPb2JST0FqY25SemNG?=
- =?utf-8?B?eGFjNERabUtXQ0w2cU9XaFZkdFpFUzg5NytxQmxCK2daTFl2ZW9BU0ZYVmRL?=
- =?utf-8?B?MUR0SHlFaEQ0WEJ3aDdwVUp3RHJNL0pQUUd3MHlYN3V0ZzNPbm8rTHdFVjQ4?=
- =?utf-8?B?eS92Nmw5RkRZbGdqeGd4bjFTVjBMOFdZSXI2Rlp3cC9OMUJXMXlOckNRbXpF?=
- =?utf-8?B?cGRPdDdtWWIydlRLcHNxREE0MGtLWFErYUpFd2VRZUVuRHFmdytaKzZ6eGxU?=
- =?utf-8?B?MlQ3dFgzR1NsRUFTcXdWVEJWalZ1VmRtTHVmU0l6UlFvb1R1djQ3cWRUZkdH?=
- =?utf-8?B?MWxQaVRWNzJtOHdpOTBIS2xuS3BhdkM5NlRDT3VUMUdmcXBaaUVJNUJVNzd3?=
- =?utf-8?B?cmhRc1QyN3F4OURzNVlMSVRUZmRnbzBBZW44OUFSczh2RExOYTkwZk1EeTdz?=
- =?utf-8?B?WWV3SmRTb3pFTmE4TWNyb21wZERMVlV2UG45bTdmbE5salEyQ2NUSC9vdFJZ?=
- =?utf-8?B?VTJ4eFdtcjh6N1NwV1drWVdDL2F1Q2lTZi9LZ1ZOdDhJTHRTUDJ6ZWphT0dK?=
- =?utf-8?B?MlMrdmVNUzFoZ3NVZG1Rd0pyczRoaG0xWTliM1NSc1piZVBvYm00Vm14MGVJ?=
- =?utf-8?B?SytsSVlFVkRINElMT1VZd1lqL2ZFbStpWFJpYVg2TkVORElnRnZxeU01VVc4?=
- =?utf-8?B?ZmthQWppZCsrb09YYnN3YkhPMm1qcTdqMURydEtieG5xeG5kRktuaEFCWG10?=
- =?utf-8?B?d21tYjlMVlVsdUFqL2JCbEkreTM3TXkwVnNKektBb1F1U3BvdjdPVndjZmoz?=
- =?utf-8?B?bnNDdWJLaXZucEZLbVdJNW9UTzZ3U25JUERuSjVlZWxWREpDeWdxVnVIc1JO?=
- =?utf-8?B?SXV2aE9UWWUxZjRDWTBRQksxcWpMbDc3Q3krSXJ6K1JLakZScEMyaE1RVHQ1?=
- =?utf-8?B?dU1LRmJER2M5SXVFUkx3RTMraXRMNGprb1lUbFJkSVZPNE9YTElRRUtTalQ5?=
- =?utf-8?B?TEFoNDNFd0JOTGVIUGtJZkxKRFI3UERoQm5qSFBjbG94ckJKZW1hVGVBallN?=
- =?utf-8?B?MzBadnd2NC9XMGJ5TFZJbkd0OFJFczB0ai9EN0dORjZHbHJvRUUwNyszWE5F?=
- =?utf-8?B?T0dSVy9QQUpxdjR5UU9qZ2VlTjk0enJMVW5HSFFCUDJyYldWcVk1cFFlNjRn?=
- =?utf-8?B?NjZCNTdIdGt3UzF1OHpGYzN5N3J0ZmZZY3c1NVJLMU5YeGl1MVoyV2VxbDNB?=
- =?utf-8?B?Y2ZUU3dhVDA0M0hyUDFpSXR1enpvUTZDdFNtSXBwd0ZWclJIL29OaEQzT0hY?=
- =?utf-8?B?S3RUaS9zSGRzamFSc240M0MzMG1hS0RjRmk5VnlwSTF2OW5ZM21TSlFUNUNv?=
- =?utf-8?B?NnhPVC9ramxaYWpua2lNV0dFMlVoclFnRFNmMlJqenhRRFUzMkc5STNmbDFW?=
- =?utf-8?B?L1d5WWI0YmxGQk9RcTBZemJVUWhNMlg3OCtMektHRkdlOG1FclU0L3ZmV1Fu?=
- =?utf-8?B?TkVhTlFZWnhLaHpYaWkrRmdnbzhvY0JMNElkcVZaWmZXb1NJaTR6UmdaUGFP?=
- =?utf-8?B?cGJ5OVBEOTdxTTZMV1ZwZnFLQW9vbDVrSTNrektYQ1ZvVUtwdnVhN3YwTWpq?=
- =?utf-8?B?ZzJSRytkR0cwRllnaEVZR1dIU0JYMFFtbjR2UGxqWGM5Zk94dmRtYmltMUlE?=
- =?utf-8?B?M2wzZnBDbEdxS0lPLzNYM0FJYTdjdlcrTE8rUUo4bENkeElQNG1CdXpodjhK?=
- =?utf-8?B?cXM3eExUY1dDcFpLNWp5SUxyVGFkMWJoeXl2VUpYbUdLOVdsOEVwcXoyU2RD?=
- =?utf-8?B?cnF3cGpqb1JlOEpSRVYzbnZRTC91M0R0K1Y4am1IN0g2OVdxZnduOGU4WU9k?=
- =?utf-8?Q?tvhaltohJpEQv6Rv4P+1Cic+RZSkeX9G+CUQ97MnbH+1n?=
-X-MS-Exchange-AntiSpam-MessageData-1: RR8iIVaCXYzfkQ==
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42a7515c-2af7-427f-c50f-08de95421048
-X-MS-Exchange-CrossTenant-AuthSource: CH2PR12MB3990.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2026 07:40:11.0313
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GeRoihS+uUPkwBhbndiNr+XtoYN0wwA7qcyM53lYLpn6R0K/gHng7NU9MhrYwpJVfN128YJy8AzRSrP9esCHmg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB6246
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+To: Sourabh Jain <sourabhjain@linux.ibm.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Baoquan He <bhe@redhat.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+ kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
+ <d584d383-1862-417d-9251-153d9bcf5626@linux.ibm.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Youling Tang <youling.tang@linux.dev>
+In-Reply-To: <d584d383-1862-417d-9251-153d9bcf5626@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue Apr 7, 2026 at 2:14 PM JST, Matthew Brost wrote:
-> On Mon, Apr 06, 2026 at 06:10:07PM -0400, Joel Fernandes wrote:
->>=20
->>=20
->> On 4/6/2026 5:24 PM, Joel Fernandes wrote:
->> >=20
->> >=20
->> > On 4/2/2026 1:59 AM, Matthew Brost wrote:
->> >> On Tue, Mar 31, 2026 at 05:20:34PM -0400, Joel Fernandes wrote:
->> >>> Add TLB (Translation Lookaside Buffer) flush support for GPU MMU.
->> >>>
->> >>> After modifying page table entries, the GPU's TLB must be invalidate=
-d
->> >>> to ensure the new mappings take effect. The Tlb struct provides flus=
-h
->> >>> functionality through BAR0 registers.
->> >>>
->> >>> The flush operation writes the page directory base address and trigg=
-ers
->> >>> an invalidation, polling for completion with a 2 second timeout matc=
-hing
->> >>> the Nouveau driver.
->> >>>
->> >>> Cc: Nikola Djukic <ndjukic@nvidia.com>
->> >>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> >>> ---
->> >>>  drivers/gpu/nova-core/mm.rs     |  1 +
->> >>>  drivers/gpu/nova-core/mm/tlb.rs | 95 ++++++++++++++++++++++++++++++=
-+++
->> >>>  drivers/gpu/nova-core/regs.rs   | 42 +++++++++++++++
->> >>>  3 files changed, 138 insertions(+)
->> >>>  create mode 100644 drivers/gpu/nova-core/mm/tlb.rs
->> >>>
->> >>> diff --git a/drivers/gpu/nova-core/mm.rs b/drivers/gpu/nova-core/mm.=
-rs
->> >>> index 8f3089a5fa88..cfe9cbe11d57 100644
->> >>> --- a/drivers/gpu/nova-core/mm.rs
->> >>> +++ b/drivers/gpu/nova-core/mm.rs
->> >>> @@ -5,6 +5,7 @@
->> >>>  #![expect(dead_code)]
->> >>> =20
->> >>>  pub(crate) mod pramin;
->> >>> +pub(crate) mod tlb;
->> >>> =20
->> >>>  use kernel::sizes::SZ_4K;
->> >>> =20
->> >>> diff --git a/drivers/gpu/nova-core/mm/tlb.rs b/drivers/gpu/nova-core=
-/mm/tlb.rs
->> >>> new file mode 100644
->> >>> index 000000000000..cd3cbcf4c739
->> >>> --- /dev/null
->> >>> +++ b/drivers/gpu/nova-core/mm/tlb.rs
->> >>> @@ -0,0 +1,95 @@
->> >>> +// SPDX-License-Identifier: GPL-2.0
->> >>> +
->> >>> +//! TLB (Translation Lookaside Buffer) flush support for GPU MMU.
->> >>> +//!
->> >>> +//! After modifying page table entries, the GPU's TLB must be flush=
-ed to
->> >>> +//! ensure the new mappings take effect. This module provides TLB f=
-lush
->> >>> +//! functionality for virtual memory managers.
->> >>> +//!
->> >>> +//! # Example
->> >>> +//!
->> >>> +//! ```ignore
->> >>> +//! use crate::mm::tlb::Tlb;
->> >>> +//!
->> >>> +//! fn page_table_update(tlb: &Tlb, pdb_addr: VramAddress) -> Resul=
-t<()> {
->> >>> +//!     // ... modify page tables ...
->> >>> +//!
->> >>> +//!     // Flush TLB to make changes visible (polls for completion)=
-.
->> >>> +//!     tlb.flush(pdb_addr)?;
->> >>> +//!
->> >>> +//!     Ok(())
->> >>> +//! }
->> >>> +//! ```
->> >>> +
->> >>> +use kernel::{
->> >>> +    devres::Devres,
->> >>> +    io::poll::read_poll_timeout,
->> >>> +    io::Io,
->> >>> +    new_mutex,
->> >>> +    prelude::*,
->> >>> +    sync::{
->> >>> +        Arc,
->> >>> +        Mutex, //
->> >>> +    },
->> >>> +    time::Delta, //
->> >>> +};
->> >>> +
->> >>> +use crate::{
->> >>> +    driver::Bar0,
->> >>> +    mm::VramAddress,
->> >>> +    regs, //
->> >>> +};
->> >>> +
->> >>> +/// TLB manager for GPU translation buffer operations.
->> >>> +#[pin_data]
->> >>> +pub(crate) struct Tlb {
->> >>> +    bar: Arc<Devres<Bar0>>,
->> >>> +    /// TLB flush serialization lock: This lock is acquired during =
-the
->> >>> +    /// DMA fence signalling critical path. It must NEVER be held a=
-cross any
->> >>> +    /// reclaimable CPU memory allocations because the memory recla=
-im path can
->> >>> +    /// call `dma_fence_wait()`, which would deadlock with this loc=
-k held.
->> >>> +    #[pin]
->> >>> +    lock: Mutex<()>,
->> >>> +}
->> >>> +
->> >>> +impl Tlb {
->> >>> +    /// Create a new TLB manager.
->> >>> +    pub(super) fn new(bar: Arc<Devres<Bar0>>) -> impl PinInit<Self>=
- {
->> >>> +        pin_init!(Self {
->> >>> +            bar,
->> >>> +            lock <- new_mutex!((), "tlb_flush"),
->> >>> +        })
->> >>> +    }
->> >>> +
->> >>> +    /// Flush the GPU TLB for a specific page directory base.
->> >>> +    ///
->> >>> +    /// This invalidates all TLB entries associated with the given =
-PDB address.
->> >>> +    /// Must be called after modifying page table entries to ensure=
- the GPU sees
->> >>> +    /// the updated mappings.
->> >>> +    pub(crate) fn flush(&self, pdb_addr: VramAddress) -> Result {
->> >>
->> >> This landed on my list randomly, so I took a look.
->> >>
->> >> Wouldn=E2=80=99t you want to virtualize the invalidation based on you=
-r device?
->> >> For example, what if you need to register interface changes on future=
- hardware?
->> >=20
->> > Good point, for future hardware it indeed makes sense. I will do that.
->> Actually, at least in the future as far as I can see, the register defin=
-itions
->> are the same for TLB invalidation are the same, so we are good and I wil=
-l not be
->> making any change in this regard.
->>=20
->> But, thanks for raising the point and forcing me to double check!
->>=20
+Hi, Sourabh
+
+On 4/8/26 12:31, Sourabh Jain wrote:
+> Hello Youling,
 >
-> Not my driver, but this looks like a classic =E2=80=9Cworks now=E2=80=9D =
-change that may
-> not hold up later, which is why I replied to something that isn=E2=80=99t=
- really
-> my business.
+> On 04/04/26 13:11, Youling Tang wrote:
+>> From: Youling Tang <tangyouling@kylinos.cn>
+>>
+>> The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
+>> automatic size selection based on system RAM, but it always reserves
+>> from low memory. When a large crashkernel is selected, this can
+>> consume most of the low memory, causing subsequent hardware
+>> hotplug or drivers requiring low memory to fail due to allocation
+>> failures.
 >
-> Again, not my area, but I=E2=80=99ve been through this before. Generally,
-> getting the abstractions right up front pays off.
+>
+> Support for high crashkernel reservation has been added to
+> address the above problem.
+>
+> However, high crashkernel reservation is not supported with
+> range-based crashkernel kernel command-line arguments.
+> For example: crashkernel=0M-1G:100M,1G-4G:160M,4G-8G:192M
+>
+> Many users, including some distributions, use range-based
+> crashkernel configuration. So, adding support for high crashkernel
+> reservation with range-based configuration would be useful.
+>
+>>
+>> Add a new optional conditional suffix ",>boundary" to the crashkernel
+>> range syntax. When the selected crashkernel size exceeds the specified
+>> boundary, the kernel will automatically apply the same reservation
+>> policy as "crashkernel=size,high" - preferring high memory first
+>> and reserving the default low memory area.
+>
+> I think the approach to enable high crashkernel reservation
+> with range-based configuration makes the crashkernel kernel
+> argument more complex.
+>
+> If the goal is to support high crashkernel reservation with
+> range-based kernel command-line arguments, how about:
+>
+> crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],high
+>
+> instead of using >boundary?
 
-Our policy so far has been to introduce abstractions when there is a
-justifiable hardware difference within the (reduced) set of GPUs that we
-support. Adding HALs imply using virtual calls, which are harder to
-trace, or monomorphization using generic types, which complicate the
-code (and are hard to justify when there is only one implementation).
+This approach defaults all reservations to high memory. For example,
+0M-2G:100M on a 1GB machine reserves 100M + DEFAULT_CRASH_KERNEL_LOW_SIZE,
+which wastes memory on small systems.
 
-`Tlb` is already an abstraction of sorts; the register accesses are
-well-contained within this leaf module, so if the need arises to support
-a different scheme this can be done transparently to callers, which is
-what matter imho.
+I prefer small reservations defaulting to low memory, while large
+reservations start from high memory (with a default-sized segment
+reserved in low memory). This provides better flexibility for
+distributions to handle diverse system configurations.
+
+Thanks,
+Youling.
+>
+>>
+>> Syntax:
+>> crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+>>
+>> Example:
+>>      crashkernel=2G-16G:512M,16G-:1G,>512M
+>>
+>> This means:
+>>    - For 2G-16G RAM: reserve 512M normally
+>>    - For >16G RAM: reserve 1G with high memory preference (since 1G > 
+>> 512M)
+>>
+>> For systems with >16G RAM, 1G is selected which exceeds 512M, so it
+>> will be reserved from high memory instead of consuming 1G of
+>> precious low memory.
+>>
+>> Signed-off-by: Youling Tang <tangyouling@kylinos.cn>
+>> ---
+>>   Documentation/admin-guide/kdump/kdump.rst     | 25 ++++++++-
+>>   .../admin-guide/kernel-parameters.txt         |  2 +-
+>>   kernel/crash_reserve.c                        | 56 ++++++++++++++++---
+>>   3 files changed, 73 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/kdump/kdump.rst 
+>> b/Documentation/admin-guide/kdump/kdump.rst
+>> index 7587caadbae1..b5ae4556e9ca 100644
+>> --- a/Documentation/admin-guide/kdump/kdump.rst
+>> +++ b/Documentation/admin-guide/kdump/kdump.rst
+>> @@ -293,7 +293,28 @@ crashkernel syntax
+>>          2) if the RAM size is between 512M and 2G (exclusive), then 
+>> reserve 64M
+>>          3) if the RAM size is larger than 2G, then reserve 128M
+>>   -3) crashkernel=size,high and crashkernel=size,low
+>> +3) range1:size1[,range2:size2,...][@offset],>boundary
+>> +   Optionally, the range list can be followed by a conditional suffix
+>> +   `,>boundary`. When the selected crashkernel size matches the
+>> +   condition, the kernel will reserve memory using the same policy as
+>> +   `crashkernel=size,high` (i.e. prefer high memory first and 
+>> reserve the
+>> +   default low memory area).
+>> +
+>> +   The syntax is::
+>> +
+>> + crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary
+>> +        range=start-[end]
+>> +
+>> +   For example::
+>> +
+>> +        crashkernel=2G-16G:512M,16G-:1G,>512M
+>> +
+>> +   This would mean:
+>> +       1) if the RAM size is between 2G and 16G (exclusive), then 
+>> reserve 512M.
+>> +       2) if the RAM size is larger than 16G, allocation will behave 
+>> like
+>> +          `crashkernel=1G,high`.
+>> +
+>> +4) crashkernel=size,high and crashkernel=size,low
+>>        If memory above 4G is preferred, crashkernel=size,high can be 
+>> used to
+>>      fulfill that. With it, physical memory is allowed to be 
+>> allocated from top,
+>> @@ -311,7 +332,7 @@ crashkernel syntax
+>>                 crashkernel=0,low
+>>   -4) crashkernel=size,cma
+>> +5) crashkernel=size,cma
+>>         Reserve additional crash kernel memory from CMA. This 
+>> reservation is
+>>       usable by the first system's userspace memory and kernel movable
+>> diff --git a/Documentation/admin-guide/kernel-parameters.txt 
+>> b/Documentation/admin-guide/kernel-parameters.txt
+>> index 03a550630644..b2e1892ab4d8 100644
+>> --- a/Documentation/admin-guide/kernel-parameters.txt
+>> +++ b/Documentation/admin-guide/kernel-parameters.txt
+>> @@ -1087,7 +1087,7 @@ Kernel parameters
+>>               4G when '@offset' hasn't been specified.
+>>               See Documentation/admin-guide/kdump/kdump.rst for 
+>> further details.
+>>   -    crashkernel=range1:size1[,range2:size2,...][@offset]
+>> + crashkernel=range1:size1[,range2:size2,...][@offset][,>boundary]
+>>               [KNL] Same as above, but depends on the memory
+>>               in the running system. The syntax of range is
+>>               start-[end] where start and end are both
+>> diff --git a/kernel/crash_reserve.c b/kernel/crash_reserve.c
+>> index 62e60e0223cf..917738412390 100644
+>> --- a/kernel/crash_reserve.c
+>> +++ b/kernel/crash_reserve.c
+>> @@ -254,15 +254,47 @@ static __init char *get_last_crashkernel(char 
+>> *cmdline,
+>>       return ck_cmdline;
+>>   }
+>>   +/*
+>> + * This function parses command lines in the format
+>> + *
+>> + *   crashkernel=ramsize-range:size[,...][@offset],>boundary
+>> + */
+>> +static void __init parse_crashkernel_boundary(char *ck_cmdline,
+>> +                    unsigned long long *boundary)
+>> +{
+>> +    char *cur = ck_cmdline, *next;
+>> +    char *first_gt = false;
+>> +
+>> +    first_gt = strchr(cur, '>');
+>> +    if (!first_gt)
+>> +        return;
+>> +
+>> +    cur = first_gt + 1;
+>> +    if (*cur == '\0' || *cur == ' ' || *cur == ',') {
+>> +        pr_warn("crashkernel: '>' specified without boundary size, 
+>> ignoring\n");
+>> +        return;
+>> +    }
+>> +
+>> +    *boundary = memparse(cur, &next);
+>> +    if (cur == next) {
+>> +        pr_warn("crashkernel: invalid boundary size after '>'\n");
+>> +        return;
+>> +    }
+>> +}
+>> +
+>>   static int __init __parse_crashkernel(char *cmdline,
+>>                    unsigned long long system_ram,
+>>                    unsigned long long *crash_size,
+>>                    unsigned long long *crash_base,
+>> -                 const char *suffix)
+>> +                 const char *suffix,
+>> +                 bool *high,
+>> +                 unsigned long long *low_size)
+>>   {
+>>       char *first_colon, *first_space;
+>>       char *ck_cmdline;
+>>       char *name = "crashkernel=";
+>> +    unsigned long long boundary = 0;
+>> +    int ret;
+>>         BUG_ON(!crash_size || !crash_base);
+>>       *crash_size = 0;
+>> @@ -283,10 +315,20 @@ static int __init __parse_crashkernel(char 
+>> *cmdline,
+>>        */
+>>       first_colon = strchr(ck_cmdline, ':');
+>>       first_space = strchr(ck_cmdline, ' ');
+>> -    if (first_colon && (!first_space || first_colon < first_space))
+>> -        return parse_crashkernel_mem(ck_cmdline, system_ram,
+>> +    if (first_colon && (!first_space || first_colon < first_space)) {
+>> +        ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+>>                   crash_size, crash_base);
+>>   +        /* Handle optional ',>boundary' condition for range ':' 
+>> syntax only. */
+>> +        parse_crashkernel_boundary(ck_cmdline, &boundary);
+>> +        if (!ret && *crash_size > boundary) {
+>> +            *high = true;
+>> +            *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>> +        }
+>> +
+>> +        return ret;
+>> +    }
+>> +
+>>       return parse_crashkernel_simple(ck_cmdline, crash_size, 
+>> crash_base);
+>>   }
+>>   @@ -310,7 +352,7 @@ int __init parse_crashkernel(char *cmdline,
+>>         /* crashkernel=X[@offset] */
+>>       ret = __parse_crashkernel(cmdline, system_ram, crash_size,
+>> -                crash_base, NULL);
+>> +                crash_base, NULL, high, low_size);
+>>   #ifdef CONFIG_ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION
+>>       /*
+>>        * If non-NULL 'high' passed in and no normal crashkernel
+>> @@ -318,7 +360,7 @@ int __init parse_crashkernel(char *cmdline,
+>>        */
+>>       if (high && ret == -ENOENT) {
+>>           ret = __parse_crashkernel(cmdline, 0, crash_size,
+>> -                crash_base, suffix_tbl[SUFFIX_HIGH]);
+>> +                crash_base, suffix_tbl[SUFFIX_HIGH], high, low_size);
+>>           if (ret || !*crash_size)
+>>               return -EINVAL;
+>>   @@ -327,7 +369,7 @@ int __init parse_crashkernel(char *cmdline,
+>>            * is not allowed.
+>>            */
+>>           ret = __parse_crashkernel(cmdline, 0, low_size,
+>> -                crash_base, suffix_tbl[SUFFIX_LOW]);
+>> +                crash_base, suffix_tbl[SUFFIX_LOW], high, low_size);
+>>           if (ret == -ENOENT) {
+>>               *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+>>               ret = 0;
+>> @@ -344,7 +386,7 @@ int __init parse_crashkernel(char *cmdline,
+>>        */
+>>       if (cma_size)
+>>           __parse_crashkernel(cmdline, 0, cma_size,
+>> -            &cma_base, suffix_tbl[SUFFIX_CMA]);
+>> +            &cma_base, suffix_tbl[SUFFIX_CMA], high, low_size);
+>>   #endif
+>>       if (!*crash_size)
+>>           ret = -EINVAL;
+>
