@@ -1,86 +1,50 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0C313A8F7
-	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 20:23:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78293BB4A;
+	Thu,  9 Apr 2026 20:36:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775766185; cv=none; b=I0/b78wKxcuI+J+4nWycfiviMRpoGwbC2tbP0Tt2WKPEyeynEwCRo/jpFiRFGMNALJKInlbr+olHJ4UWPwvQWfs/glveL3Kx35C5WB6KM819UFd/YQbhMhC/N/RrPAs8jaFaGcmaU0j9WWijZjL05gIWTga8iwUq3b+i7cK0Vx8=
+	t=1775766988; cv=none; b=cIIYNEW8iTyCyHoyn4rwIhZOh7eIUvizta++VM96SF9mJpXmmYOu+hqwOaOwTzrYZG6hDws1JsDJxKEDw4K53LMqf0yeq/Ccaws5VxBlZUHtYFGXL6bQ5zGZnbjyqNmokNHTodgYZO5RHjmG/Fb4awkX5EhHzMD08Zy3bWoiC8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775766185; c=relaxed/simple;
-	bh=yBJ/NxVaCYwQ0igYQAFkgqv2zp6NSa5HyfEfoQwiFGE=;
+	s=arc-20240116; t=1775766988; c=relaxed/simple;
+	bh=gQuowERDs2CwnIxKTi48OK2lUNoHKjazh0NAg6vOHig=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RHAR5HBgz+64hFB36yeMssWbiUN8bGZMnpyjEuhP4qUW0dT2+sOXPzsBgXcI0hY0K9J2RMo9yk1v/qXqqTLTVJZpqodaolQaXyg5UbCkIHjBjmgjzykt2bzVpZm34Fhloi65cp2n/oIjtu5rsf474L6V6i2dyNViBj6iq+4XAKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=SVMVhu6M; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=hJ8riW3Q; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	 In-Reply-To:Content-Type; b=jU6ZLwZH7+Fhl3uz5u9VINc42wC155fIvZHXgDu/W2lrkipcPZVZoMWHsiX4F0p34Mra0Y9o/lNRbeu5rQm6wXtMpiH8H1CWGAjiuaugcO1iBz839/99Q5YkVoLLTQjxgfqygS2g13iS9XpjsCazYCGhGU3jF8Fgyfn1KaEaKmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T3ZVRQeK; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="SVMVhu6M";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="hJ8riW3Q"
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639DdVKA2812268
-	for <linux-doc@vger.kernel.org>; Thu, 9 Apr 2026 20:23:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	yAm1FyXVAl2rw2SiWlWKegNh5tcyNAIhWj+e+79Lzlo=; b=SVMVhu6MyGcYZmHE
-	B5pO1E/XFaKr6Dz9LBq4FW5XRQOCd4wPVNxtuhjXDYrD71Z1k0AcvzgmbDv0I/Rq
-	5eSj04rDG58BVbn57k8aY0URYm0Ni7SS5nDX+WONNvBQJDuUcEg9x+lcWB7YSxbo
-	vJKOjlaa+o5daZamgV1LNdush0ZK72uVmvBwWWbeC2XOpC1dpJG/JPOAD5/7FCSO
-	ut24fZ8n2TlM27z4+rqedyhAd6KR8FN/0pDaTOod3ZApu1oniXiaYUMS+3K/yHzi
-	0he3Hq9q5bzEIDRqv7ezGIJl5p3Splt+2qdc65QBE6Txp2+2wQo3hvzcZaKR4Nex
-	sgxjLg==
-Received: from mail-dy1-f197.google.com (mail-dy1-f197.google.com [74.125.82.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4ded6h9dav-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 20:23:03 +0000 (GMT)
-Received: by mail-dy1-f197.google.com with SMTP id 5a478bee46e88-2ba9a744f7dso1526485eec.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 13:23:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1775766183; x=1776370983; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yAm1FyXVAl2rw2SiWlWKegNh5tcyNAIhWj+e+79Lzlo=;
-        b=hJ8riW3Q+TI2hmFMhW8fCaGar5qmeAo1w4KIzJ1mBpwzzWIbqOeTh8DCzjsqD+lO+5
-         2NyuD7tc3zDqhEpHj56VMj/4VJsNRXs0dSghA7H9nSF5ait8BaxOpPsnwOio6MYQUGX1
-         qmCC+zSa+Mx8alkSaMtPNSgO0hpvPYV4GMhNdS0uzSXtEBv7fN1xdDXhpV8k5J4ZvzSl
-         l4eo8Poufho9DzVq03O8GIf99ZFFE6PTpVBEgoba8Y1Nk7bcgtdQ/x8dzS6oyN79G22O
-         ah3TnASOPpIvzSzxBdd6lEqKzWSGwwS5ydyfJ9gKKtGeJn6leLFAQPDwnsx8lQHH7MlE
-         /+gA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775766183; x=1776370983;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yAm1FyXVAl2rw2SiWlWKegNh5tcyNAIhWj+e+79Lzlo=;
-        b=AYB87SvKNN+3YjL/Cy/Vp6Hk7fGbFp/cRQU9oo0X77/wxyWaCa7xigmbL2pC3ejfMn
-         mLH5+zdLJv9ivV3Q13DJfsHvvof9R0nvRjMGvL2AZRh37UvI01ZcOS87FfqF4puZgq01
-         SOr+dAIDIUYPucEor1ucJjfxjm6aEKLvCSelaOusCQVMDegBfQcbnL4nvKdZbi+doaqE
-         fWrRBWBbuX4GUhBfJ/O+aO2cj8akjnxm6TuE+k6W/ZZ1fIQejA/gq/eFSbk4Sx5BWmIJ
-         ShCsmGn5TuQr7wPFYBi+ykgaqlnNKPYxf+8IKicLMQ12dwNSVsseCXRnvGZI+yNcxVl8
-         t6jQ==
-X-Gm-Message-State: AOJu0YzvxvCmxkW6dlQaBX0qwEXw1kaY7CGyKwqwGKlhiGEn3PxeHLHY
-	3rtR9DMTZlvAXNuPTh/W04CrJCeqQM5HT3XexHs27v9+D1CRy+4Vvgy3a36rfJCrze1KQTmAMPO
-	r10NMYQ2wR6cw5LbaIElRpVS2gske+6NhFOayQTlwWHPW4aWZx4OF6NPEiRgy7AI=
-X-Gm-Gg: AeBDies5FnQqULGNwKew99mY0pAClYzang/HcPe6JfxJyV5BrilY9RMI4S3XmWPT5/a
-	9mP6NLoK8QGNYDwXSs2wFh+ez4Ai6Diegizd8Zj9LqsbWioBhN/79zY2Yjh7HTvhJs4Xc/1EtRA
-	7TXrovDAHmpiv2Hee4o6sOx6dhgk0TASadzxW5SfWnTgp1s80E+SymhQrBey6S6O+VY1x7MtdiT
-	Qhv8uVyoNAH5fZK6jFbMe1PcMecC+8cfeQQxyJPGms1EfWFyTT0JAtoaRClPwHXyjlvth/9HABv
-	3DabPGgwG4mTD0ml6x4pO7d5bw7o/Z7pf/nKa+lhiYCN9JfJgy0E4OBLzVzq+UEszzQDywCMuZv
-	0eRH8O8La/URYogXtre8cZH+6TmKrEh/0Zq+lh43GKVaj9RuTdkhlGd2pjkSAgBfIOdcg00On3w
-	0=
-X-Received: by 2002:a05:7300:bc8a:b0:2c6:cdb3:bd67 with SMTP id 5a478bee46e88-2d5897690bbmr312303eec.22.1775766183122;
-        Thu, 09 Apr 2026 13:23:03 -0700 (PDT)
-X-Received: by 2002:a05:7300:bc8a:b0:2c6:cdb3:bd67 with SMTP id 5a478bee46e88-2d5897690bbmr312275eec.22.1775766182573;
-        Thu, 09 Apr 2026 13:23:02 -0700 (PDT)
-Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d562ac344csm1137899eec.25.2026.04.09.13.23.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2026 13:23:02 -0700 (PDT)
-Message-ID: <7aeeed43-b458-4c68-98b0-e857f1ed791d@oss.qualcomm.com>
-Date: Thu, 9 Apr 2026 14:23:00 -0600
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T3ZVRQeK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775766987; x=1807302987;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=gQuowERDs2CwnIxKTi48OK2lUNoHKjazh0NAg6vOHig=;
+  b=T3ZVRQeKbB33BVErx85W8FBNfDz3BdWRyzTz2YpND0yiDOHCfYqGtJp9
+   s/R0xya9G1CDcO0CC4QUeRHiSoF+oPNNckckEKjLdD5opu3QNupu2HGJD
+   /CkxeYWBc5muAaF6Onntu9/MYndp4XyACc2aSn8DydLUmE54nToYHcDgL
+   Onxt8ysfOEx+eTL0eiZ/DiU8RE92NxQGD0IUjNjML1q7vjzKteC0aKDVk
+   nS2gGs+yc9VYA7/b3Gl7yXvwQBgYGJV43NoPRWV9BeXi2dW2h6gNkhHTD
+   EorSqQ807mLl9QJdRFhzRoEoIPCBurvk2kjFhuwa/bWR7a8aCf7d+IHNi
+   g==;
+X-CSE-ConnectionGUID: 0uxO33JbQVGV2XkMMEukGw==
+X-CSE-MsgGUID: F/tssg+lQY2FyNsJ21XGhA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="80643225"
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="80643225"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:36:26 -0700
+X-CSE-ConnectionGUID: gdIWAIm2Rj6zJdgyDMCvlQ==
+X-CSE-MsgGUID: p6gG8xayQ9u+FfGy3T8zPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="230608472"
+Received: from ray2.jf.intel.com (HELO [10.24.81.183]) ([10.24.81.183])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 13:36:24 -0700
+Message-ID: <410df9f6-69ec-483f-9009-0a9b8c9162a9@intel.com>
+Date: Thu, 9 Apr 2026 13:36:02 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -88,90 +52,119 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/9] bus: mhi: Match devices exposing the protocol on
- the SAHARA channel
-To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>, andersson@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev
-References: <20260319-sahara_protocol_new_v2-v4-0-47ad79308762@oss.qualcomm.com>
- <20260319-sahara_protocol_new_v2-v4-3-47ad79308762@oss.qualcomm.com>
+Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+To: Jim Mattson <jmattson@google.com>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
+ Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>,
+ "H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
+ David Kaplan <david.kaplan@amd.com>, Sean Christopherson
+ <seanjc@google.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>,
+ Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>,
+ Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
+ KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
+ "David S. Miller" <davem@davemloft.net>,
+ David Laight <david.laight.linux@gmail.com>,
+ Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>,
+ Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
+ <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+ Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+ Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
+ bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ chao.gao@intel.com
+References: <20260404002149.wtayv6a64vzuppgp@desk>
+ <CALMp9eSqgL5q-MY1xpjqR5oRn5_cb=mfEhNFWusNneS=Mx8UMg@mail.gmail.com>
+ <20260404034954.t7iapenzvhdpagxp@desk>
+ <CALMp9eR70eE2U63gzNzTiic0PqJVGv3CBBuVUOVbi3nqbWKZkQ@mail.gmail.com>
+ <20260407163943.y6tkh26z2rfktn3y@desk>
+ <CALMp9eTA3cXxuOT4dq=6y1hx52gPH1ywwTEmPQ5-fA-vz6r3VQ@mail.gmail.com>
+ <20260407171151.2gf2idjbmph35ypb@desk>
+ <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
+ <20260407191128.b2hr2ttkdpyunhrr@desk>
+ <CALMp9eTK0o7Z7-oTB8ohvmoh-vy-Y2qjdUvbqD6HaEhOEPZmhw@mail.gmail.com>
+ <20260407222738.lrartp6evfp7yhti@desk>
+ <CALMp9eQjSqwnvJz4JVzYpMkkTiucSJtW48zC4Hj9GBiUhOH-Eg@mail.gmail.com>
+ <a605fb45-f8e3-45ad-8924-1da43b9a9e05@intel.com>
+ <CALMp9eRfNsghM_RnDXOs=SJYObfPa5A1aOVDZno_zJ=XotfmRw@mail.gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-In-Reply-To: <20260319-sahara_protocol_new_v2-v4-3-47ad79308762@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=RfCgzVtv c=1 sm=1 tr=0 ts=69d80aa7 cx=c_pps
- a=Uww141gWH0fZj/3QKPojxA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22
- a=EUspDBNiAAAA:8 a=3E-APKfXKu7q0kj6aHwA:9 a=QEXdDO2ut3YA:10
- a=PxkB5W3o20Ba91AHUih5:22
-X-Proofpoint-GUID: jUZkg3sk3RCoKzlbyJL89gGm5qROvug3
-X-Proofpoint-ORIG-GUID: jUZkg3sk3RCoKzlbyJL89gGm5qROvug3
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDE4NyBTYWx0ZWRfX+Zx8WWgantQw
- I4x+fuVlJuA7SRIMznS2dVesUApPysFbk0OIu6cff2yn2WIE96KkyfeI7rPjAMksLGRC+oz25fR
- kG8NiPZP/IVZy1yapa5r9Xcxxp9iC9kzKQylNalBdBEUhnklLpgldmN5/B8J1MqbjRTorSD6xSZ
- d4/9Z5WXGkEjUUxB+L07kkUhD0oHrjW7zFZm6K0EUK6fG3EZjwCo/PCJ9+tpVyH+QhDlJquh53D
- fkimQefy48xSF5fjWnx9SHp/1y1gQzisC2p1NfAk6RZrgRIobLyoLU8B7ahAs+pjFPpFcuMETja
- pweOVJm6GV/+K12qgWulbroH1RiP6zbDY/ZT4+k+eUiBKpf5JmZ70FZn4/Mh9qmne1p6SZ2OhiP
- FxND9DvYV55hYVckAnrgYSbEnOQht9V+dtZrKbonk1GPi3GL64HrmaaTEswMuHL0dzkrAnenjlP
- Q8L5JagDdaDxaCldb2w==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-09_04,2026-04-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 clxscore=1015 impostorscore=0 adultscore=0 priorityscore=1501
- lowpriorityscore=0 spamscore=0 suspectscore=0 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604090187
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <CALMp9eRfNsghM_RnDXOs=SJYObfPa5A1aOVDZno_zJ=XotfmRw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 3/19/2026 12:31 AM, Kishore Batta wrote:
-> Some Qualcomm devices expose the Sahara protocol on a generic SAHARA MHI
-> channel rather than a QAIC specific channel name. As a result, the sahara
-
-"Sahara"
-
-> driver does not currently bind to such devices and never probes.
+On 4/7/26 17:47, Jim Mattson wrote:
+> On Tue, Apr 7, 2026 at 4:41 PM Dave Hansen <dave.hansen@intel.com> wrote:
+>> On 4/7/26 16:27, Jim Mattson wrote:
+>>> What is your proposed BHI_DIS_S override mechanism, then?
+>> Let me make sure I get this right. The desire is to:
+>>
+>> 1. Have hypervisors lie to guests about the CPU they are running on (for
+>>    the benefit of large/diverse migration pools)
+>> 2. Have guests be allowed to boot with BHI_DIS_S for performance
+>> 3. Have apps in those guests that care about security to opt back in to
+>>    BHI_DIS_S for themselves?
+> I just want guests on heterogeneous migration pools to properly
+> protect themselves from native BHI when running on host kernels at
+> least as far back as Linux v6.6.
 > 
-> Extend the MHI device ID match table to also match the SAHARA channel
-> name. This allows the Sahara protocol driver to bind to devices that
-> expose the protocol directly on a standard sahara MHI channel.
+> To that end, I would be satisfied with using the longer BHB clearing
+> sequence when HYPERVISOR is true and BHI_CTRL is false.
 
-"Sahara"
+If the guests can't get mitigation information from model/family because
+the hypervisor is lying (or may lie), then it's on the hypervisor to
+figure it out.
 
-> 
-> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
-> ---
->   drivers/bus/mhi/sahara/sahara.c | 2 ++
->   1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/bus/mhi/sahara/sahara.c b/drivers/bus/mhi/sahara/sahara.c
-> index 8ff7b6425ac5423ef8f32117151dca10397686a8..e3499977e7c6b53bc624a8eb00d0636f2ea63307 100644
-> --- a/drivers/bus/mhi/sahara/sahara.c
-> +++ b/drivers/bus/mhi/sahara/sahara.c
-> @@ -911,8 +911,10 @@ static void sahara_mhi_dl_xfer_cb(struct mhi_device *mhi_dev, struct mhi_result
->   
->   static const struct mhi_device_id sahara_mhi_match_table[] = {
->   	{ .chan = "QAIC_SAHARA", },
-> +	{ .chan = "SAHARA"},
+I'm not sure we want to just assume that all hypervisors are going to
+lie all the time about this.
 
-This doesn't work and breaks bisect. At this point Sahara will bind to 
-QDU100, ath12k, or something else but not know how to drive one of those 
-devices.
-
-Just add this when you add QDU100 support, which looks to be patch 5.
-
->   	{},
->   };
-> +MODULE_DEVICE_TABLE(mhi, sahara_mhi_match_table);
->   
->   static struct mhi_driver sahara_mhi_driver = {
->   	.id_table = sahara_mhi_match_table,
-> 
-
+I kinda think we should just let Pawan's series move forward and then we
+can debate the lying hypervisor problem once the series is settled.
