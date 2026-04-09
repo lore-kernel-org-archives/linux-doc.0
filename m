@@ -1,51 +1,51 @@
 Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4213A3A4507;
-	Thu,  9 Apr 2026 23:42:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2623A380B;
+	Thu,  9 Apr 2026 23:42:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775778161; cv=none; b=BbJt53jP6DOzMI8WPpRTocMIwWmR2daSJU3bEXery/8ROHdNeY7br7tk9FC8Fp/9vQRouRO2IzrBvTQTrP2QL384+oGykYBDeDyB06Wd0nV20hNAJXWv9Z2bg5L1Hr93f2hVBBCo5oTpv3vwdk7wQ/lMjvz6JckEq5NzyMo8Tlc=
+	t=1775778171; cv=none; b=M13ZUE4cVGRFTXGOyD6/gvlUQRxxPv1V5Me+e1OCtj+K8mnVIMZt07aGxtRgbVnHiHwJE406hLkw6dDcAT69Ug8S3/aEc+O0H5q0Fl+zuXYyVmggdK5D4yp8ODzL3r822CcP7Ub+bJxtOqpgwAcdqdukTK+Me8qv7E9LAidNMG0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775778161; c=relaxed/simple;
-	bh=i4hsM5bBkaWWTgsi1i+ZiDlxli70hRvaMpjP8NPi9hg=;
+	s=arc-20240116; t=1775778171; c=relaxed/simple;
+	bh=SQjixXq/TwUmaORkd0HVXkmiKnlqa70s57msMmHhxqo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=caL6ebFIq9U4m7xBcTzgozxa9H3oB1Nk7TYkhQp/2x/yVgIFny4EVp06p8alO4WEP8WQpAiC2b/RX5V0eQQMyLrMC0g8LF9pG/xtetJWDwhUFrdq+nbSfPfj2PfDgvlUEPBjghh+XUlnGL1UQmxmPMA6BSqtxKeiNUrYmmG39is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=AoWHHsun; arc=none smtp.client-ip=205.220.165.32
+	 MIME-Version; b=Sj6jU1ag53nJV2pBlyRiyRCo1VBN9dZeGH5iuh7jTZJ0r2x/SBIfbbKZWH+WLrMGMmLSvFJ2FePqfl/Gxg2xC/SOPzWMgKHNF8j7wQs498fgDPSxExHbS5Ph6x3Bo0OzKN+h0SifSj3ZtfO9iY2JU5NtWfngzHcX6xjB6aALIZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=PBqSoxgi; arc=none smtp.client-ip=205.220.165.32
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="AoWHHsun"
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639JtbOH2622470;
-	Thu, 9 Apr 2026 23:42:13 GMT
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PBqSoxgi"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639JtX7I2413207;
+	Thu, 9 Apr 2026 23:42:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
 	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=8bSdH
-	7wFkyRhLWs186r5SR78aocqTaV/GzyoUPrXLjk=; b=AoWHHsun5ZXP6mgIdevJ2
-	/x4Vay6xnXivohkycC9rUla+VY+cq6FcWLxpN5WhF/hP5qSK0dmQgzWYFM2Rm0d9
-	Ri34VQknDfBVT6+me4aQPauPBs86CIjY+VsZi7F7GsmOonXlG+YbWzsd4artgYX9
-	YzFMLVW9TzcnkjrLVFt4cU4+QhUQD8rs3aunRIOGiZ2jLIggn7aZ/fr9z95Yj18Y
-	kf8fimjc+BHyP1DTlrC+WqWxtwxawwFKyyfctdQgKoacHfPyrqAE7ijVm71W5E9h
-	69uhGlmcAyudylJms553npqpGKHVX5S+0p0UaPCdPZa7tk8hI27Y+lEwpo4N01WF
-	g==
+	:mime-version:references:subject:to; s=corp-2025-04-25; bh=fYPIQ
+	1U7Ld2xaMJDsHcFPHGnifsy5elZ8+3aWycdz08=; b=PBqSoxgiAv/W4eg8i7GcB
+	TkVGYw2eN3H9Q2lceHz862Qx+1Ldl7K8ZSQD8uD7P68S8l3H++Nf9+2c5/H00iDA
+	nviQoLKLVL4KGxpWXBz4UBLgddtAvPqJTYrwW43176IYGae7ibA2vr7r6X5Oif4X
+	lM8Oe4Y9tohidTZ1BYaQVrLyr83gjbEXnuHgLvjbVG5Rm+oXq4b3KJjINwPbYmUH
+	2mWxeJ0wHFgF78HANUiOeoR8rg6TYMIRMr+e/ste2aqOF87D6NlLvHggMxZ3addD
+	U8DKwWt2nqBa5YCvzACiLy1fmBTMAvhZc8+IxQkedkD+R8qq52e8RDklMFRswy6i
+	A==
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dcmqarraj-1
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dcmqa8rv3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Apr 2026 23:42:13 +0000 (GMT)
+	Thu, 09 Apr 2026 23:42:20 +0000 (GMT)
 Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 639MIPEW040165;
-	Thu, 9 Apr 2026 23:42:12 GMT
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 639NYFlE040148;
+	Thu, 9 Apr 2026 23:42:20 GMT
 Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4dcmnbj4s2-1
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4dcmnbj4v1-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Apr 2026 23:42:12 +0000
+	Thu, 09 Apr 2026 23:42:20 +0000
 Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 639Ng6Yp038323;
-	Thu, 9 Apr 2026 23:42:11 GMT
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 639Ng6Yx038323;
+	Thu, 9 Apr 2026 23:42:19 GMT
 Received: from brm-x62-16.us.oracle.com (brm-x62-16.us.oracle.com [10.80.150.37])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4dcmnbj4pp-3;
-	Thu, 09 Apr 2026 23:42:11 +0000
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4dcmnbj4pp-7;
+	Thu, 09 Apr 2026 23:42:19 +0000
 From: Jane Chu <jane.chu@oracle.com>
 To: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
         osalvador@suse.de
@@ -54,9 +54,9 @@ Cc: lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@kernel.org,
         skhan@linuxfoundation.org, hughd@google.com,
         baolin.wang@linux.alibaba.com, peterx@redhat.com, linux-mm@kvack.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/6] hugetlb: remove the hugetlb_linear_page_index() helper
-Date: Thu,  9 Apr 2026 17:41:53 -0600
-Message-ID: <20260409234158.837786-3-jane.chu@oracle.com>
+Subject: [PATCH 6/6] hugetlb: pass hugetlb reservation ranges in base-page indices
+Date: Thu,  9 Apr 2026 17:41:57 -0600
+Message-ID: <20260409234158.837786-7-jane.chu@oracle.com>
 X-Mailer: git-send-email 2.43.5
 In-Reply-To: <20260409234158.837786-1-jane.chu@oracle.com>
 References: <20260409234158.837786-1-jane.chu@oracle.com>
@@ -74,77 +74,290 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adults
  phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2604010000
  definitions=main-2604090218
-X-Proofpoint-ORIG-GUID: YxPnX_y4GOJbFM-UZwzBQo-qk-_L2LKM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDIxOSBTYWx0ZWRfXw/6/hbDq4Zg+
- Hhgqe7uyoifxrd/JdXy93ZlJMmAxTYK3TXWPB5TrGjzSjyDOmKjoXInr9UkzVV13UIXh9pt/jMU
- 7lTW+/+/fJ/qdtonakcpijzdOO7Dv05dLF18pB2PXo2ST2653U5VUqAzUAyIL2Osn2udnjk6Kg6
- XKZoeMhRwyZ7PjE8RXpbNV3YRa8F9Ly06ebv7jhYu0ZnzTV5j3dRX/ZB4DNhZOfEFjerjhwWwu/
- s8UxibS59sSyqinlveAP4CcJ+T0Oa8urLxBfQ2ymdFRWJAtiyLyQn9qszSowdegI7zsn8e7pAgG
- 5sa/h2mFVTZiIFs9UObkVUIpJUqvwQ/JKl2txLr3ZQwMEd6LF21cCEmnYTx0jQQ1eubeiBc8F+d
- ssEwpXhfUgxDkJxlXHLLJozyQZZx5vV0BKwBzX32OLTbfnySkr2kANw6+vhU5Uitw7caflwi/Kl
- viqG6qBkuTiOUMiDZgg==
-X-Authority-Analysis: v=2.4 cv=AsTeGu9P c=1 sm=1 tr=0 ts=69d83955 b=1 cx=c_pps
+X-Proofpoint-GUID: gizZC3m12z3s0TgPBjgQGNn9DGqTa4M0
+X-Proofpoint-ORIG-GUID: gizZC3m12z3s0TgPBjgQGNn9DGqTa4M0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDIxOSBTYWx0ZWRfX8zuw29s5+sF+
+ nuEpDRQCmz+JStfiqtO4ZM8tvUp+4b8nP7tI++/AJV6Au0mVjTYCmNJy9pZrs0b8/0tPye3poFr
+ dpxri/ImgBVE4yw6LSfRqKa3uPvdCytkherMgiJ9bme/RQnTT4MsquSlgH1p3B6PdQDmstn4y8s
+ RsUtiUwQof8Xoz9GPaRnX6GXTtqSChZwTPS1H91zV5sNIjWv49JOQiCCwHiouEScrB7dS6iGbd4
+ 0bLtgflyjlM3cc2J6yvIx/X6o9b9wBOmFnwE7Bnd9eojQQbL6eqYjUbqmmTeMS2thsB0Mb53WKr
+ h9HMU2KKGMQwimMP3GVzu8r2PYQxklpYBm+x3dLDt2azUb3q9CuDNH9/I9ia8urQdCdFRyvhrc+
+ iGVFN1w1cwSKrTkEjooJlvwEO0nmpSzTNXJcYJURaDB86jtOjsyMl+FyU3zMzcVMeOOKyGLnSFY
+ 54racietM+HAWJFwpfg==
+X-Authority-Analysis: v=2.4 cv=DLS/JSNb c=1 sm=1 tr=0 ts=69d8395c b=1 cx=c_pps
  a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
  a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=RD47p0oAkeU5bO7t-o6f:22 a=yPCof4ZbAAAA:8 a=aC9wH1do4BV7vRM6I0AA:9
-X-Proofpoint-GUID: YxPnX_y4GOJbFM-UZwzBQo-qk-_L2LKM
+ a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8 a=T4oJmI3Qyo7CCk0tri4A:9
 
-hugetlb_linear_page_index() is just linear_page_index() converted from
-base-page units to hugetlb page units.
+hugetlb_reserve_pages() consume indices in hugepage granularity although
+some callers naturally compute offsets in PAGE_SIZE units.
 
-Open-code that conversion at its remaining call site in
-mfill_atomic_hugetlb() and drop the helper.
+Teach the reservation helpers to accept base-page index ranges and
+convert to hugepage indices internally before operating on the
+reservation map. This keeps the internal representation unchanged while
+making the API contract more uniform for callers.
 
-No functional change intended.
+Update hugetlbfs and memfd call sites to pass base-page indices, and
+adjust the documentation to describe the new calling convention. Add
+alignment warnings in hugetlb_reserve_pages() to catch invalid ranges
+early.
+
+No functional changes.
 
 Signed-off-by: Jane Chu <jane.chu@oracle.com>
 ---
- include/linux/hugetlb.h | 17 -----------------
- mm/userfaultfd.c        |  3 ++-
- 2 files changed, 2 insertions(+), 18 deletions(-)
+ Documentation/mm/hugetlbfs_reserv.rst | 12 +++++------
+ fs/hugetlbfs/inode.c                  | 29 ++++++++++++---------------
+ mm/hugetlb.c                          | 26 ++++++++++++++++--------
+ mm/memfd.c                            |  9 +++++----
+ 4 files changed, 42 insertions(+), 34 deletions(-)
 
-diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
-index c64c6e5e50f5..71691a2b6855 100644
---- a/include/linux/hugetlb.h
-+++ b/include/linux/hugetlb.h
-@@ -792,23 +792,6 @@ static inline unsigned huge_page_shift(struct hstate *h)
- 	return h->order + PAGE_SHIFT;
+diff --git a/Documentation/mm/hugetlbfs_reserv.rst b/Documentation/mm/hugetlbfs_reserv.rst
+index a49115db18c7..60a52b28f0b4 100644
+--- a/Documentation/mm/hugetlbfs_reserv.rst
++++ b/Documentation/mm/hugetlbfs_reserv.rst
+@@ -112,8 +112,8 @@ flag was specified in either the shmget() or mmap() call.  If NORESERVE
+ was specified, then this routine returns immediately as no reservations
+ are desired.
+ 
+-The arguments 'from' and 'to' are huge page indices into the mapping or
+-underlying file.  For shmget(), 'from' is always 0 and 'to' corresponds to
++The arguments 'from' and 'to' are base page indices into the mapping or
++underlying file. For shmget(), 'from' is always 0 and 'to' corresponds to
+ the length of the segment/mapping.  For mmap(), the offset argument could
+ be used to specify the offset into the underlying file.  In such a case,
+ the 'from' and 'to' arguments have been adjusted by this offset.
+@@ -136,10 +136,10 @@ to indicate this VMA owns the reservations.
+ 
+ The reservation map is consulted to determine how many huge page reservations
+ are needed for the current mapping/segment.  For private mappings, this is
+-always the value (to - from).  However, for shared mappings it is possible that
+-some reservations may already exist within the range (to - from).  See the
+-section :ref:`Reservation Map Modifications <resv_map_modifications>`
+-for details on how this is accomplished.
++always the number of huge pages covered by the range [from, to).  However,
++for shared mappings it is possible that some reservations may already exist
++within the range [from, to).  See the section :ref:`Reservation Map Modifications
++<resv_map_modifications>` for details on how this is accomplished.
+ 
+ The mapping may be associated with a subpool.  If so, the subpool is consulted
+ to ensure there is sufficient space for the mapping.  It is possible that the
+diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+index a72d46ff7980..ec05ed30b70f 100644
+--- a/fs/hugetlbfs/inode.c
++++ b/fs/hugetlbfs/inode.c
+@@ -157,10 +157,8 @@ static int hugetlbfs_file_mmap_prepare(struct vm_area_desc *desc)
+ 	if (inode->i_flags & S_PRIVATE)
+ 		vma_flags_set(&vma_flags, VMA_NORESERVE_BIT);
+ 
+-	if (hugetlb_reserve_pages(inode,
+-			desc->pgoff >> huge_page_order(h),
+-			len >> huge_page_shift(h), desc,
+-			vma_flags) < 0)
++	if (hugetlb_reserve_pages(inode, desc->pgoff, len >> PAGE_SHIFT, desc,
++				  vma_flags) < 0)
+ 		goto out;
+ 
+ 	ret = 0;
+@@ -408,8 +406,8 @@ static void hugetlb_unmap_file_folio(struct hstate *h,
+ 	unsigned long v_end;
+ 	pgoff_t start, end;
+ 
+-	start = index * pages_per_huge_page(h);
+-	end = (index + 1) * pages_per_huge_page(h);
++	start = index;
++	end = start + pages_per_huge_page(h);
+ 
+ 	i_mmap_lock_write(mapping);
+ retry:
+@@ -518,6 +516,8 @@ static void remove_inode_single_folio(struct hstate *h, struct inode *inode,
+ 		struct address_space *mapping, struct folio *folio,
+ 		pgoff_t index, bool truncate_op)
+ {
++	pgoff_t next_index;
++
+ 	/*
+ 	 * If folio is mapped, it was faulted in after being
+ 	 * unmapped in caller or hugetlb_vmdelete_list() skips
+@@ -540,8 +540,9 @@ static void remove_inode_single_folio(struct hstate *h, struct inode *inode,
+ 	VM_BUG_ON_FOLIO(folio_test_hugetlb_restore_reserve(folio), folio);
+ 	hugetlb_delete_from_page_cache(folio);
+ 	if (!truncate_op) {
++		next_index = index + pages_per_huge_page(h);
+ 		if (unlikely(hugetlb_unreserve_pages(inode, index,
+-							index + 1, 1)))
++						     next_index, 1)))
+ 			hugetlb_fix_reserve_counts(inode);
+ 	}
+ 
+@@ -575,7 +576,7 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
+ 	struct address_space *mapping = &inode->i_data;
+ 	const pgoff_t end = lend >> PAGE_SHIFT;
+ 	struct folio_batch fbatch;
+-	pgoff_t next, idx;
++	pgoff_t next;
+ 	int i, freed = 0;
+ 	bool truncate_op = (lend == LLONG_MAX);
+ 
+@@ -592,9 +593,8 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
+ 			/*
+ 			 * Remove folio that was part of folio_batch.
+ 			 */
+-			idx = folio->index >> huge_page_order(h);
+ 			remove_inode_single_folio(h, inode, mapping, folio,
+-						  idx, truncate_op);
++						  folio->index, truncate_op);
+ 			freed++;
+ 
+ 			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
+@@ -604,9 +604,8 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
+ 	}
+ 
+ 	if (truncate_op)
+-		(void)hugetlb_unreserve_pages(inode,
+-				lstart >> huge_page_shift(h),
+-				LONG_MAX, freed);
++		(void)hugetlb_unreserve_pages(inode, lstart >> PAGE_SHIFT,
++					      LONG_MAX, freed);
  }
  
--/**
-- * hugetlb_linear_page_index() - linear_page_index() but in hugetlb
-- *				 page size granularity.
-- * @vma: the hugetlb VMA
-- * @address: the virtual address within the VMA
-- *
-- * Return: the page offset within the mapping in huge page units.
-- */
--static inline pgoff_t hugetlb_linear_page_index(struct vm_area_struct *vma,
--		unsigned long address)
--{
--	struct hstate *h = hstate_vma(vma);
--
--	return ((address - vma->vm_start) >> huge_page_shift(h)) +
--		(vma->vm_pgoff >> huge_page_order(h));
--}
--
- static inline bool order_is_gigantic(unsigned int order)
- {
- 	return order > MAX_PAGE_ORDER;
-diff --git a/mm/userfaultfd.c b/mm/userfaultfd.c
-index 2c565c7134b6..c053aa4389b6 100644
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -573,7 +573,8 @@ static __always_inline ssize_t mfill_atomic_hugetlb(
- 		 * in the case of shared pmds.  fault mutex prevents
- 		 * races with other faulting threads.
+ static void hugetlbfs_evict_inode(struct inode *inode)
+@@ -1561,9 +1560,7 @@ struct file *hugetlb_file_setup(const char *name, size_t size,
+ 	inode->i_size = size;
+ 	clear_nlink(inode);
+ 
+-	if (hugetlb_reserve_pages(inode, 0,
+-			size >> huge_page_shift(hstate_inode(inode)), NULL,
+-			acctflag) < 0)
++	if (hugetlb_reserve_pages(inode, 0, size >> PAGE_SHIFT, NULL, acctflag) < 0)
+ 		file = ERR_PTR(-ENOMEM);
+ 	else
+ 		file = alloc_file_pseudo(inode, mnt, name, O_RDWR,
+diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+index 47ef41b6fb2e..eb4ab5bd0c9f 100644
+--- a/mm/hugetlb.c
++++ b/mm/hugetlb.c
+@@ -6532,10 +6532,11 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
+ }
+ 
+ /*
+- * Update the reservation map for the range [from, to].
++ * Update the reservation map for the range [from, to) where 'from' and 'to'
++ * are base-page indices that are expected to be huge page aligned.
+  *
+- * Returns the number of entries that would be added to the reservation map
+- * associated with the range [from, to].  This number is greater or equal to
++ * Returns the number of huge pages that would be added to the reservation map
++ * associated with the range [from, to).  This number is greater or equal to
+  * zero. -EINVAL or -ENOMEM is returned in case of any errors.
+  */
+ 
+@@ -6550,6 +6551,7 @@ long hugetlb_reserve_pages(struct inode *inode,
+ 	struct resv_map *resv_map;
+ 	struct hugetlb_cgroup *h_cg = NULL;
+ 	long gbl_reserve, regions_needed = 0;
++	long from_idx, to_idx;
+ 	int err;
+ 
+ 	/* This should never happen */
+@@ -6558,6 +6560,12 @@ long hugetlb_reserve_pages(struct inode *inode,
+ 		return -EINVAL;
+ 	}
+ 
++	VM_WARN_ON(!IS_ALIGNED(from, 1UL << huge_page_order(h)));
++	VM_WARN_ON(!IS_ALIGNED(to,   1UL << huge_page_order(h)));
++
++	from_idx = from >> huge_page_order(h);
++	to_idx = to >> huge_page_order(h);
++
+ 	/*
+ 	 * Only apply hugepage reservation if asked. At fault time, an
+ 	 * attempt will be made for VM_NORESERVE to allocate a page
+@@ -6580,7 +6588,7 @@ long hugetlb_reserve_pages(struct inode *inode,
  		 */
--		idx = hugetlb_linear_page_index(dst_vma, dst_addr);
-+		idx = linear_page_index(dst_vma, dst_addr);
-+		idx >>= huge_page_order(hstate_vma(dst_vma));
- 		mapping = dst_vma->vm_file->f_mapping;
- 		hash = hugetlb_fault_mutex_hash(mapping, idx);
- 		mutex_lock(&hugetlb_fault_mutex_table[hash]);
+ 		resv_map = inode_resv_map(inode);
+ 
+-		chg = region_chg(resv_map, from, to, &regions_needed);
++		chg = region_chg(resv_map, from_idx, to_idx, &regions_needed);
+ 	} else {
+ 		/* Private mapping. */
+ 		resv_map = resv_map_alloc();
+@@ -6589,7 +6597,7 @@ long hugetlb_reserve_pages(struct inode *inode,
+ 			goto out_err;
+ 		}
+ 
+-		chg = to - from;
++		chg = to_idx - from_idx;
+ 
+ 		set_vma_desc_resv_map(desc, resv_map);
+ 		set_vma_desc_resv_flags(desc, HPAGE_RESV_OWNER);
+@@ -6644,7 +6652,7 @@ long hugetlb_reserve_pages(struct inode *inode,
+ 	 * else has to be done for private mappings here
+ 	 */
+ 	if (!desc || vma_desc_test(desc, VMA_MAYSHARE_BIT)) {
+-		add = region_add(resv_map, from, to, regions_needed, h, h_cg);
++		add = region_add(resv_map, from_idx, to_idx, regions_needed, h, h_cg);
+ 
+ 		if (unlikely(add < 0)) {
+ 			hugetlb_acct_memory(h, -gbl_reserve);
+@@ -6712,7 +6720,7 @@ long hugetlb_reserve_pages(struct inode *inode,
+ 		 * region_add failed or didn't run.
+ 		 */
+ 		if (chg >= 0 && add < 0)
+-			region_abort(resv_map, from, to, regions_needed);
++			region_abort(resv_map, from_idx, to_idx, regions_needed);
+ 	if (desc && is_vma_desc_resv_set(desc, HPAGE_RESV_OWNER)) {
+ 		kref_put(&resv_map->refs, resv_map_release);
+ 		set_vma_desc_resv_map(desc, NULL);
+@@ -6728,13 +6736,15 @@ long hugetlb_unreserve_pages(struct inode *inode, long start, long end,
+ 	long chg = 0;
+ 	struct hugepage_subpool *spool = subpool_inode(inode);
+ 	long gbl_reserve;
++	long start_idx = start >> huge_page_order(h);
++	long end_idx = end >> huge_page_order(h);
+ 
+ 	/*
+ 	 * Since this routine can be called in the evict inode path for all
+ 	 * hugetlbfs inodes, resv_map could be NULL.
+ 	 */
+ 	if (resv_map) {
+-		chg = region_del(resv_map, start, end);
++		chg = region_del(resv_map, start_idx, end_idx);
+ 		/*
+ 		 * region_del() can fail in the rare case where a region
+ 		 * must be split and another region descriptor can not be
+diff --git a/mm/memfd.c b/mm/memfd.c
+index 56c8833c4195..59c174c7533c 100644
+--- a/mm/memfd.c
++++ b/mm/memfd.c
+@@ -80,14 +80,15 @@ struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t index)
+ 		struct inode *inode = file_inode(memfd);
+ 		struct hstate *h = hstate_file(memfd);
+ 		long nr_resv;
+-		pgoff_t idx;
++		pgoff_t next_index;
+ 		int err = -ENOMEM;
+ 
+ 		gfp_mask = htlb_alloc_mask(h);
+ 		gfp_mask &= ~(__GFP_HIGHMEM | __GFP_MOVABLE);
+-		idx = index >> huge_page_order(h);
++		next_index = index + pages_per_huge_page(h); 
+ 
+-		nr_resv = hugetlb_reserve_pages(inode, idx, idx + 1, NULL, EMPTY_VMA_FLAGS);
++		nr_resv = hugetlb_reserve_pages(inode, index, next_index, NULL,
++						EMPTY_VMA_FLAGS);
+ 		if (nr_resv < 0)
+ 			return ERR_PTR(nr_resv);
+ 
+@@ -137,7 +138,7 @@ struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t index)
+ 		}
+ err_unresv:
+ 		if (nr_resv > 0)
+-			hugetlb_unreserve_pages(inode, idx, idx + 1, 0);
++			hugetlb_unreserve_pages(inode, index, next_index, 0);
+ 		return ERR_PTR(err);
+ 	}
+ #endif
 -- 
 2.43.5
 
