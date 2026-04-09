@@ -1,268 +1,210 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CCA370D5E;
-	Thu,  9 Apr 2026 21:06:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775768802; cv=none; b=gtjJ5o1JcgGLChB/2U4wryV0vDtgiw32XryKI3k0So9jLQtCAvYLeNIr42sQzaLTg21PmWK3BlQiCgkDrXuY7t7otki/xKjxdCtvHBvOWVRfAIha8eFO23hJxqefp+Y032hG2AZ855rc0tp49Jx81DCUTgigGEd7TBSyVG+tDxE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775768802; c=relaxed/simple;
-	bh=4irb7gXVLB128N4wh7FMaZEC50I/xyE0/Lt9e52ZlQU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=G8ogu/FPFhS7n8JpAARd7hiHd7xqd/WkkdPu42/552Mvy5rwsWvYyYVvhU994ISmX8Ra/IcTleDh9UBHa+lp9gqJTeYHNg1+EKsQmZycMHl9j9uQlK2oDClJqxNVEMHyvqTgoP0douPMQzCoRB2WeSGaqWWLfi8FLm8qVI4iGH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=SO8jysQc; arc=none smtp.client-ip=212.227.17.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82554324B2D
+	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 21:06:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775768812; cv=pass; b=bUwJo494np4i1XA9jo8EEuBO/qudT1VV3g8N0swXBe9gfSJqvv5z3EPtm98/v1r5OdipS9Jcw/++AaRYAz4t5XOrZukLHI/fdCDEFeQr2gWIdqbZR6q2bxJuO2uuf8adMQJemFUE8JpHh4xX1HRwyAlFQdofWsubVfNm+wCjjKM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775768812; c=relaxed/simple;
+	bh=Jh9WA8x2awad3lmAqYVpxS5VOwXt/AnG9yTjUz42fhc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A4582g+f8xdIhR/Tg7a3AjsWTuqkzhb1VovtUsdIW4VMTUulOiBRvVwZdKL8dO5EkYutf7CK+E/apvUWrlOesdkO4+TEeARwfkJeE4tLkOHGeLoNB9qukTko5ZibJ8GHWFQFiCQi+InIEfWLbFptgsrSFTBWZsYmi37KisxHcfk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N5q5gE5X; arc=pass smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="SO8jysQc"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1775768793; x=1776373593; i=w_armin@gmx.de;
-	bh=krzyAimNjECvodNL+61YaZ1GihD49alclCp2q84EnEI=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=SO8jysQc8AtSizkPmoKIgI7HZ2MjEAOL6qcMCbEmBYvGtHDe86m28t5FDpX8eCck
-	 fmsh/K5kp3mdJNTJcl+eTqNhuNiN010+BDIaCAc1Q/E5K6VUs8Vp5wS7ecO0YELvw
-	 ywqngJbabMy3Cj3K+Pp3pyeC1agFfoTxfJtOGd/dG8aT42B0t3DnL8D/NOq6KGTU6
-	 iamDatm4zU6F/EZa4GIM7ywKR0MmfBI7KtEkEysVCjA0mYxutRTpSnUK+GaczQ64C
-	 qZvYjxoysRLVX0qhQICHLi72BkcMpu1/N2zCIM2lxp3xrNjU/56ft8TNGXtgwnMsQ
-	 riaqR5n9nr4iR+A7jQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from client.hidden.invalid by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MWzfl-1vvunw2Isj-00Ruke; Thu, 09
- Apr 2026 23:06:33 +0200
-From: Armin Wolf <W_Armin@gmx.de>
-To: lee@kernel.org,
-	pavel@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	jacek.anaszewski@gmail.com,
-	pobrn@protonmail.com,
-	m.tretter@pengutronix.de,
-	wse@tuxedocomputers.com
-Subject: [PATCH v3 0/1] leds: Introduce the multi_max_intensity sysfs attribute
-Date: Thu,  9 Apr 2026 23:06:28 +0200
-Message-Id: <20260409210629.9934-1-W_Armin@gmx.de>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N5q5gE5X"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-67070d9ba4dso2761a12.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 14:06:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775768809; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Ebokl9NEHv5WJOayavWd5N+67/oBiMzK+/W6H6VMJADrPvkhIMArZM3jGEQbXBDza/
+         UMrR7+X8UBNYPjkaci7RXyJLfzMXhZ0zDeTEJVu5gII+LLLIy6pdjrcKZLuw0c5HKIkP
+         KbMPgDzZQzYLEV7zOIrm5hUCT403XvJzqJ25540t77Cv3ijTjBQEGbINdTOoYLd6ohIJ
+         DEhBBmabSCwraRCz+axVxkRu/kNyNUFdrAC3VN/e+6/ih7QmTC6aSP0TilJmkVJphIWH
+         FxStJ+C5vzzpboixdpj4e7q0n6bZ7UJgTPRKkQKPDX1Bn/5TqZfGwBu0UedVOdnQ6xLt
+         oB5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=T6Io+TbgEInBUXr2ZZvVAjzS0NzLS5bRjm9qTjcDPeU=;
+        fh=u0e8DjAvOx6dmJYSU3Rg3jaEft/YCu0aUYyq+uOlBwI=;
+        b=bQGUK5ydjA1FODBHyzB5cnx7dUrT1lynvTPku4hIt0vpPX6n0bKyRXhMQxhnFzDTNh
+         FNTGb4s9GTIJFgiC/CdynMnJBaun3T7O8BfoUn8SLTCZ3ABPBI02RwZPiYQfu4z9tSnZ
+         Wnhmq60o64UNVI/tGN9vEfQt7TcdKTR6ADgIBSUca1PkDdb+eoxqsUXBQwga5IYBd54S
+         rzACeEERbk3MC494JFPuECKg4ufS31N292B6vjEAQ5YnpQrlnZKqz9+koq3s7JvpOKw1
+         hOnZ6MlfQyfTBb3MKc6WGBP1UQ6GBsMv7Rd/qMePD34NJFoygjcegJwCr+CyVNIMyJlk
+         g9pg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1775768809; x=1776373609; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T6Io+TbgEInBUXr2ZZvVAjzS0NzLS5bRjm9qTjcDPeU=;
+        b=N5q5gE5XZJ2yYNIdmYor+kWbrOcd8iEX7Ctpi0F+2Md0qQnWSA1Afc6qFcTrN8C3bQ
+         TF5cjdXy1H10yJhuvM49JQQD5ggH4ThQr6ROst0afwNDa5tk9hVE7bQ6YOPqls8O+yG6
+         WcmtBfFUXP71se+/R5rvKaRbYDDP3wr8/XvgsNzrzIQUQrD2vtEPUdmJwD8J4ynqSZ/Z
+         z28bPGk2F2WEJwUHoPvrl3Bme3bX1jvtfexjmhpFhE1j8zWe0BEO8AvBLugxl+CLDQ5N
+         hHOa02rBVavtPIT1buOtLr7Lb297cN9XYXi1s4jDVHWnIv0whud0PZFG+TfBiAAJhZBf
+         KpBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775768809; x=1776373609;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=T6Io+TbgEInBUXr2ZZvVAjzS0NzLS5bRjm9qTjcDPeU=;
+        b=H/3jgM+kp7gs+iER9iuEG49nbd/sV2dS/QIaYAgam8skNtXU7CNPbbUtrEAbgwst7j
+         J3Mft3oKYqSNSU4xWWb1UcxV7h0oydWET/b5l2B/4dACl7AgZkP+jhcY1Tq43oYuflmf
+         uUXk43Ik7hQdG8KKYudl4hleEEYfGUT3QOs8lsQxHm5QaCxkLG51BjHh+yuhOYTTjvHq
+         D3HNYdDGLAgjRK+YSwnOf8wWMCPoaEpSlsPxz/qc/Mz8OtJmOLJBz7Re/wvnBXngPUXH
+         gQzlXTIHj13hGzxQ2fCi1J1M5UTfa437WDNksa6Antz5UE5ZKL6ucUk3Az0obga4v2gr
+         o19Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVUD3KNOvu2SjwtKaJEst9Ped46QFTl8S7U8xC/E913XRw4rm5irkKJAkPxBp8VGMje3W+i1nzDJZk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWCJ/9iyna+GL43BqRQdJFS4iYDMuzGIksUGWfdhntVUAVyiwD
+	GmkFV5buEhJW9JVkL6EY7s0CgU6TtZU8TOCO93Cnb7e77VdGRLK9PRuRWeoW1NYeLQhmIhf4wBe
+	BweNjKWM/wjlkXPEGLW751x/+zZxxYgOaeJPUS36Q
+X-Gm-Gg: AeBDietLH0HGHCp/n+wOyfsPo7Kn4TGPgLXoXZfDQBhyP+l44NMoxuEYQZWhawxSzve
+	BHsm/lKddUntfYweHe9oAkakYrN5XqGbbG4mz/NQPUB1IZwF6au4HiyOSK8mTZzmXvm4tQMDPCe
+	JCbW5KOaxz5U9kmC1b5sDDF7c7SB+oCuukTdIn/XTR6/SOdnpwAFxJgBvC4KGptoeEWJnPnDIRP
+	MrPTKBRERBIX7QEwVNAXJwNEKKe3eB4D0zVcDvoynQ946PHDJvXlXuHDKdBFVUtdO+MwgpGCKCY
+	GH9ffNOMtVkDFtiT5w==
+X-Received: by 2002:a05:6402:26cc:b0:664:eadc:7262 with SMTP id
+ 4fb4d7f45d1cf-6701e2ad1e6mr79997a12.13.1775768808382; Thu, 09 Apr 2026
+ 14:06:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20260404002149.wtayv6a64vzuppgp@desk> <CALMp9eSqgL5q-MY1xpjqR5oRn5_cb=mfEhNFWusNneS=Mx8UMg@mail.gmail.com>
+ <20260404034954.t7iapenzvhdpagxp@desk> <CALMp9eR70eE2U63gzNzTiic0PqJVGv3CBBuVUOVbi3nqbWKZkQ@mail.gmail.com>
+ <20260407163943.y6tkh26z2rfktn3y@desk> <CALMp9eTA3cXxuOT4dq=6y1hx52gPH1ywwTEmPQ5-fA-vz6r3VQ@mail.gmail.com>
+ <20260407171151.2gf2idjbmph35ypb@desk> <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
+ <20260407191128.b2hr2ttkdpyunhrr@desk> <CALMp9eTK0o7Z7-oTB8ohvmoh-vy-Y2qjdUvbqD6HaEhOEPZmhw@mail.gmail.com>
+ <20260407222738.lrartp6evfp7yhti@desk> <CALMp9eQjSqwnvJz4JVzYpMkkTiucSJtW48zC4Hj9GBiUhOH-Eg@mail.gmail.com>
+ <a605fb45-f8e3-45ad-8924-1da43b9a9e05@intel.com> <CALMp9eRfNsghM_RnDXOs=SJYObfPa5A1aOVDZno_zJ=XotfmRw@mail.gmail.com>
+ <410df9f6-69ec-483f-9009-0a9b8c9162a9@intel.com>
+In-Reply-To: <410df9f6-69ec-483f-9009-0a9b8c9162a9@intel.com>
+From: Jim Mattson <jmattson@google.com>
+Date: Thu, 9 Apr 2026 14:06:36 -0700
+X-Gm-Features: AQROBzDpN1eCOiQJSVX_bZO_GJCCAd5QpgFXMhi42CoW97OvabZocFA88ATO2hY
+Message-ID: <CALMp9eQx3H+n3V3dQh+ZafQZ6uNBjSYk8tZsvG6ffcY43YTrnQ@mail.gmail.com>
+Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org, 
+	Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
+	Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
+	"David S. Miller" <davem@davemloft.net>, David Laight <david.laight.linux@gmail.com>, 
+	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+	David Ahern <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org, chao.gao@intel.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cw7OdDvUTcs+qC0TB/XOj/nMakcWTyEEunso/5XlXlrthbwOnNI
- i/2WhrdQug6P+5Fa8C1l97hbl1qZz0TRK5RywvU0nF4OTI94qxHw/K/eKYQZJms5wjlFyQZ
- yTn7kBumAd7JvEhq9DFq33FSTRKybiZVPjb5sejUg1b+f4RfswzWOiegg6GX9ORI63hhilp
- xRBntsnDemFM0GgkXPR4Q==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:lPdBKHQJybU=;aatEBdIK6Zk9LoNIqQsmhMpPg1d
- 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
 
-This patch series was born out of of a mailing list thread [1] where
-i asked how to properly model a RGB LED as a multicolor LED. Said
-LED has some exotic properties:
+On Thu, Apr 9, 2026 at 1:36=E2=80=AFPM Dave Hansen <dave.hansen@intel.com> =
+wrote:
+>
+> On 4/7/26 17:47, Jim Mattson wrote:
+> > On Tue, Apr 7, 2026 at 4:41=E2=80=AFPM Dave Hansen <dave.hansen@intel.c=
+om> wrote:
+> >> On 4/7/26 16:27, Jim Mattson wrote:
+> >>> What is your proposed BHI_DIS_S override mechanism, then?
+> >> Let me make sure I get this right. The desire is to:
+> >>
+> >> 1. Have hypervisors lie to guests about the CPU they are running on (f=
+or
+> >>    the benefit of large/diverse migration pools)
+> >> 2. Have guests be allowed to boot with BHI_DIS_S for performance
+> >> 3. Have apps in those guests that care about security to opt back in t=
+o
+> >>    BHI_DIS_S for themselves?
+> > I just want guests on heterogeneous migration pools to properly
+> > protect themselves from native BHI when running on host kernels at
+> > least as far back as Linux v6.6.
+> >
+> > To that end, I would be satisfied with using the longer BHB clearing
+> > sequence when HYPERVISOR is true and BHI_CTRL is false.
+>
+> If the guests can't get mitigation information from model/family because
+> the hypervisor is lying (or may lie), then it's on the hypervisor to
+> figure it out.
+>
+> I'm not sure we want to just assume that all hypervisors are going to
+> lie all the time about this.
 
-1. 5 global brightness levels.
-2. 50 intensity levels for each R/G/B color components.
+Without any information, that is exactly what we must assume. There is
+precedent for this.
 
-The current sysfs interface mandates that the maximum intensity value
-for each color component should be the same as the maximum global
-brightness. This makes sense for LEDs that only emulate global
-brightness using led_mc_calc_color_components(), but causes problems
-for LEDs that perform global brightness control in hardware.
+In vulnerable_to_its():
 
-Faking a maximum global brightness of 50 will not work in this case,
-as the hardware can change the global brightness on its own. Userspace
-applications might also prefer to know the true maximum brightness
-value.
+        /*
+         * If a VMM did not expose ITS_NO, assume that a guest could
+         * be running on a vulnerable hardware or may migrate to such
+         * hardware.
+         */
+        if (boot_cpu_has(X86_FEATURE_HYPERVISOR))
+                return true;
 
-Because of this i decided to add a new sysfs attribute called
-"multi_max_intensity". This attribute is similar to the
-"max_brightness" sysfs attribute, except that it targets the intensity
-values inside the "multi_intensity" sysfs atribute. I also decided to=20
-cap intensity values comming from userspace to said maximum intensity
-values to relieve drivers from doing it themself. This was already
-proposed in a unrelated patch [2] and might break some misbehaving
-userspace applications that do not respect max_brightness.
 
-#include <linux/module.h>
-#include <linux/init.h>
-#include <linux/led-class-multicolor.h>
+In cpu_set_bug_bits():
 
-static int test_brightness_set_blocking(struct led_classdev *led_cdev,
-					enum led_brightness brightness)
-{
-	struct led_classdev_mc *mc_cdev =3D lcdev_to_mccdev(led_cdev);
+        /*
+         * Intel parts with eIBRS are vulnerable to BHI attacks. Parts with
+         * BHI_NO still need to use the BHI mitigation to prevent Intra-mod=
+e
+         * attacks.  When virtualized, eIBRS could be hidden, assume vulner=
+able.
+         */
+        if (!cpu_matches(cpu_vuln_whitelist, NO_BHI) &&
+            (boot_cpu_has(X86_FEATURE_IBRS_ENHANCED) ||
+             boot_cpu_has(X86_FEATURE_HYPERVISOR)))
+                setup_force_cpu_bug(X86_BUG_BHI);
 
-	for (int i =3D 0; i < mc_cdev->num_colors; i++) {
-		if (mc_cdev->subled_info[i].intensity > 30)
-			return -EIO;
-	}
+...and...
 
-	return 0;
-}
+        if (c->x86_vendor =3D=3D X86_VENDOR_AMD) {
+                if (!cpu_has(c, X86_FEATURE_TSA_SQ_NO) ||
+                    !cpu_has(c, X86_FEATURE_TSA_L1_NO)) {
+                        if (cpu_matches(cpu_vuln_blacklist, TSA) ||
+                            /* Enable bug on Zen guests to allow for
+live migration. */
+                            (cpu_has(c, X86_FEATURE_HYPERVISOR) &&
+cpu_has(c, X86_FEATURE_ZEN)))
+                                setup_force_cpu_bug(X86_BUG_TSA);
+                }
+        }
 
-static struct mc_subled subleds[] =3D {
-	{
-		.color_index =3D LED_COLOR_ID_RED,
-		.max_intensity =3D 0,
-		.channel =3D 1,
-	},
-	{
-		.color_index =3D LED_COLOR_ID_GREEN,
-		.max_intensity =3D 0,
-		.channel =3D 2,
-	},
-	{
-		.color_index =3D LED_COLOR_ID_BLUE,
-		.max_intensity =3D 0,
-		.channel =3D 3,
-	},
-};
 
-static struct led_classdev_mc led_mc_cdev =3D {
-	.led_cdev =3D {
-		.max_brightness =3D 255,
-		.color =3D LED_COLOR_ID_MULTI,
-		.flags =3D LED_CORE_SUSPENDRESUME | LED_REJECT_NAME_CONFLICT,
-		.brightness_set_blocking =3D test_brightness_set_blocking,
-	},
-	.num_colors =3D ARRAY_SIZE(subleds),
-	.subled_info =3D subleds,
-};
+In check_null_seg_clears_base():
 
-static int __init test_init(void)
-{
-	struct led_init_data init_data =3D {
-		.devicename =3D "test-led",
-		.default_label =3D "multicolor:" LED_FUNCTION_KBD_BACKLIGHT,
-		.devname_mandatory =3D true,
-	};
+        /*
+         * CPUID bit above wasn't set. If this kernel is still running
+         * as a HV guest, then the HV has decided not to advertize
+         * that CPUID bit for whatever reason. For example, one
+         * member of the migration pool might be vulnerable. Which
+         * means, the bug is present: set the BUG flag and return.
+         */
+        if (cpu_has(c, X86_FEATURE_HYPERVISOR)) {
+                set_cpu_bug(c, X86_BUG_NULL_SEG);
+                return;
+        }
 
-	return led_classdev_multicolor_register_ext(NULL, &led_mc_cdev, &init_dat=
-a);
-}
-module_init(test_init);
-
-static void __exit test_exit(void)
-{
-	led_classdev_multicolor_unregister(&led_mc_cdev);
-}
-module_exit(test_exit);
-
-MODULE_AUTHOR("Armin Wolf <W_Armin@gmx.de>");
-MODULE_DESCRIPTION("Multicolor LED test device");
-MODULE_LICENSE("GPL");
-
-[1] https://lore.kernel.org/linux-leds/2d91a44e-fce2-42dc-b529-133ab4a191f=
-0@gmx.de/
-[2] https://lore.kernel.org/linux-leds/20260123-leds-multicolor-limit-inte=
-nsity-v1-1-b37761c2fdfd@pengutronix.de/
-
-Changes since v2:
-- add Reviewed-by tags
-- fix spelling mistake
-
-Changes since v1:
-- use sysfs_emit_at()
-- fix documentation issues
-
-Changes since RFC:
-- rework documentation
-- drop useless defines
-- reduce amount of driver code churn
-
-Armin Wolf (1):
-  leds: Introduce the multi_max_intensity sysfs attribute
-
- .../ABI/testing/sysfs-class-led-multicolor    | 19 ++++++--
- Documentation/leds/leds-class-multicolor.rst  | 21 ++++++++-
- drivers/leds/led-class-multicolor.c           | 47 ++++++++++++++++++-
- drivers/leds/leds-lp50xx.c                    |  1 +
- drivers/leds/rgb/leds-ncp5623.c               |  4 +-
- include/linux/led-class-multicolor.h          | 30 +++++++++++-
- 6 files changed, 113 insertions(+), 9 deletions(-)
-
-=2D-=20
-2.39.5
-
+The hypervisor could provide more information so that the guest can
+determine when it's safe to use the short sequence, but that's just
+icing on the cake. The default, out-of-the-box configuration must be
+safe.
