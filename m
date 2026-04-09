@@ -1,190 +1,192 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010069.outbound.protection.outlook.com [52.101.85.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF55E8BE9
-	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 17:53:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775757192; cv=none; b=JQfoQRpscEzRsHYsq2UCbTwmtw39c2Q9MU9mu/xNY/gFLrF/u7q17jxCba9Xp5QA4k9ka07xIhOCn+dch85YO8mmFbjKi66vft9W/AlfvBPjWxfEr/jt3+UOCksN2P6kUTarTXfvDztWbrr4eo2vryGP0wDYvLTqUVy2KoFvZx8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775757192; c=relaxed/simple;
-	bh=mm6VZqCRkab8GZnSK4FaXiFdyAa0ocA3azLFcvPZj6I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UUbVIlqlmNhX3BWvKkdaJBusPHHjMne5e27UCyhIHniZfjj8/DF498D4UbqUyG3dz764yVFQtReVwF9L7cZQfnQHJZvWSn40FQPxYd/HPTYzIZNQSnBBaDRXnTkgzn9n0dYuCPriZb8kx6oioGSZHFVB+6ELtNhUacOnZx2krIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qE5XTpm+; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2548C1A682F;
+	Thu,  9 Apr 2026 18:02:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.69
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775757776; cv=fail; b=kudGwLJkIe84JzeQCYiyQLWsWR4NOSTrDGyP3Qq84lcXCbjmo8slAgaf9m/hIx2ekmFdmHLNgqbqHZTrECAlj3Hp5VhYKHXOTYF5ntIpb2kEGS0VzuvThm2k4s31lHzzC5tRSzWojW5X1hicP0LLLl8jePTjUlzTjiqAbkpMGOQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775757776; c=relaxed/simple;
+	bh=HWoVRmreJFFoM5LOg+eLPMtalIk+ewFdcZTe8c2VK98=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=drScI5968y/Wdgg/el8mYGd3TMkiXRYsbxMjm8g47lE3ofP6xbK48MmP0pWL02tvNKFdYGmnFZVVFAUplDMH6i6mii2EnlL9OhT0DzS1QX+f2HMVKFvefdhM83ZDhprj1T5ahlVBCPAflCmaiEFawvsPkUxKx2kDvahThIoP3Is=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=oTKIrmY4; arc=fail smtp.client-ip=52.101.85.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qE5XTpm+"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-82cec955160so905426b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 10:53:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775757190; x=1776361990; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=aJq3rYsQ60yHYBH9wgTwGBJ0UIOoD7LqWc0lT9QqzeA=;
-        b=qE5XTpm+vD/pSt6vhIWj8Ic2USGW4Eb2VmHexzTDxjViEM1ppdO3PNL0r9hfMVPDcr
-         7xibKWXT2eDovlBtHJap1UwpPztLlZE0CX9blzNGCe6WE4XbrJxyZ7CT93u+k1P9Jpxy
-         hVXnziDDngRVlCk+h3sBEMZGbgJ/AH/N51DdjLyxywSw3hxmKGlhRO5pa980pBp4KCPb
-         obmft2ULHiW+Im5ydqsu9h/xspyLtr0/wqRYCwB3YZlKjBGL0LH/w1YSQ7UkC0z9fOAi
-         VGAwnQwZoGC9EoeOBhit9fe/ewHYzDanpV7kNDhxc3a0at+Y6m8dEC/foi73HGc2ARJi
-         NVgQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775757190; x=1776361990;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aJq3rYsQ60yHYBH9wgTwGBJ0UIOoD7LqWc0lT9QqzeA=;
-        b=lrLUVicjrh0/HEEy7uh1H6OK1R9qnF6yjWakUgXhyjMT0mVQpK+mt+NW3U6sDvc6y+
-         6JT9Ojt7B69RzbJXenrtWOVeznYN+DaMlU9kBDbBEuPtXaKV2NzR5MsxJuhaeI2ahzAi
-         EKzFzEdHtJPvRwpIDnW1t8gn11NLtBMoFZMUbHvIKxt2SfqzO3kAbFstDR608f1Ksb5I
-         OCMZxXoqRVCWlzC8pM/wzud9YtkCpH3iOCbhNhyDszzhcWmi/qi5WI7DH/BMfdQZ+p9a
-         qHRtYmEWqTMoHA+5clva34BEQFokE9ylKYDavPtd8UkwArxk8yHBUpN72mAL26rqbVur
-         1mPw==
-X-Forwarded-Encrypted: i=1; AJvYcCWAssD4CUbTGpYshN5Ov+1Vwx+ZM2EgsFligAWGgEHZt1PT5dZJyFfhEwNq5FUHch4M0azt0LTckpI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXX2bQIJlo97Wr0IkZkkemWPv1pSsn1Lmrhvd0OtBgpwfUP59u
-	+IUpkjFC0ubtt7zdKL22SciI4n4lidL2rIvNhGygizbiD7uSTmgDNw2R
-X-Gm-Gg: AeBDievgCDEBCMO5DPrcH+rl/YosK7R5Lko5lMAG7uhnNZd9Ti4FF2IpNb1X3OEzLyy
-	v0j4Nexql0kyuWtJQ919bRgbmy8dgLZGqk44BEvb+zB92ng6pWx0KPDA6CBnjuH2UQD+mkBHWFk
-	u9xBB1bC/p975kgpN/aONeN9JSUrHZMENYVLUAN0kpW9d16XwCNRdaAV53PQ53oSgvIP+T36QET
-	uwkLbHS/gbQyLlkidGcA0gSrg13EaVFwrVxikuTCibdY7an4zGos7GPcPiKok1vqcZnLckK1kz8
-	J4ClUH7oq+TERis5XX6m3c3FrtoWbImD7Bs6qHgHH9Mmi9vIWD8KJJ8pWiGoIgioyh8lMm0W1mE
-	E9OcqHwyYXl5x+tejJusApPhv8IWqCgwI8TGKJOt+NAKIOhepwGqiyZ/lziSUmdeDa5qurEyXoB
-	AHhWeVzZzYMZLI73g9YJq76pN0NaxAXQaBKFnCAGw4mP0pv5grrKb4iVG2
-X-Received: by 2002:a05:6a00:3007:b0:82a:955:50d3 with SMTP id d2e1a72fcca58-82f0c2e4290mr127537b3a.45.1775757189921;
-        Thu, 09 Apr 2026 10:53:09 -0700 (PDT)
-Received: from tech-Alienware-m15-R6.. ([122.171.16.234])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c52cf05sm30817b3a.61.2026.04.09.10.53.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Apr 2026 10:53:09 -0700 (PDT)
-From: Sunny Patel <nueralspacetech@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-watchdog@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sunny Patel <nueralspacetech@gmail.com>
-Subject: [PATCH] Documentation: Refactored watchdog old doc
-Date: Thu,  9 Apr 2026 23:23:01 +0530
-Message-ID: <20260409175301.22902-1-nueralspacetech@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="oTKIrmY4"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=f+VVhBnh/gSE5orknkPhF/gb+BoeACmuWboCKyJ/RLSzy+eMRg2I0AO51jZICdzAeYcgYVTl+RAGrCjCVtrCFsVgSpy7vwNFbX+jPDF7f4bKsjbOsQ/uuPAW3BgTqgWUh/2pOJ8JwmtkNjVMBOAfbRlavA5ZR2S77xYx+dt3dzIq+gukdvOuiPVtyoo70j29UXtS9Tq0U2AUZFExB8K6/pzCBoi/4L1PaI0/irX9+MySGyBGy/xmncmSiIJAf2b8yNc/ldi9kbAWasTMaRpRTjXcNlmIVNL/boZhbybdmOesYVYy/H4M4c4AJWn0OcQGZkufVTpgF9+g9TInZLI9mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oq/4YySi3atnMQACYwqM5uyElZTSA6yoG4z9G9fCl7k=;
+ b=Hr/bTmN2m12w8ZMcLpfIBjl3TdNn+a193XUYjx//l/5X90OukcNqrwX494RS4//tANReTr5EtRpYbs0/Q2xFpvkWQxvML8ClylBxkLQdlNnZ2OuazPCErilwfaTGcs23CxC37RnwMDDSEOI8f+Ux2cqT8q0WwVoMdrbMsi6i7/LWgOL6o+fRpxT/Q2GDdUooCuh0cyZLfzGcp2WcxjImt/Pj0qcUtmMIX5SPQR8ZG1ng/1l4qsujVaokFJBR9k0fIvaxrhmSEs1YYTrwpLdWItMJY6XR9vDoZJqqOhNQppOJ7aS4NJsU1AmaFX+jjIvj/FRxM/sHBKl3j8flj9tWag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oq/4YySi3atnMQACYwqM5uyElZTSA6yoG4z9G9fCl7k=;
+ b=oTKIrmY492juoLUiXjmRsjQlcxrA564r5kE9BhwCdQygQtRVxI3AyqGls7HTQWc9pN9vYhq9mKMkzvZL3zrzjmVDBDU95eHQwsqzOB0buWDNTUDB2pWuR3Jgk8H3j8lXLb1VgpXE3+qAWxk+6ebtJcesOQ25knlajniQJrRhaML8xqdouChcaLkF9DTsvMy23Hx9DCx8SOPpenpv/S/1MgBlZ1W+7dwlr/J2gPK+/UWiRu//vYaIf7kPwNdXlQ22Rfc1T0eak1abmJyEiXh3i5KQbGVgGheWRu+eVIDbJ+p3uh/1U5vEJAjojPC82Mlk1Y5tFBTDDHmMx0IoZq3+8g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com (2603:10b6:0:4b::8) by
+ SJ0PR12MB5674.namprd12.prod.outlook.com (2603:10b6:a03:42c::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9791.33; Thu, 9 Apr 2026 18:02:51 +0000
+Received: from DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8]) by DM3PR12MB9416.namprd12.prod.outlook.com
+ ([fe80::8cdd:504c:7d2a:59c8%5]) with mapi id 15.20.9769.020; Thu, 9 Apr 2026
+ 18:02:50 +0000
+Message-ID: <387064d2-8c6b-4b26-93e3-cab88d41dca3@nvidia.com>
+Date: Thu, 9 Apr 2026 11:02:47 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 12/21] gpu: nova-core: mm: Add unified page table
+ entry wrapper enums
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: Eliot Courtney <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Vivi Rodrigo <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, Alexey Ivanov <alexeyi@nvidia.com>,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <42dd707f-e23a-4725-8b6f-08ca346b0143@nvidia.com>
+ <1775730646.3752.4760@nvidia.com>
+Content-Language: en-US
+From: John Hubbard <jhubbard@nvidia.com>
+In-Reply-To: <1775730646.3752.4760@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BY3PR05CA0018.namprd05.prod.outlook.com
+ (2603:10b6:a03:254::23) To DM3PR12MB9416.namprd12.prod.outlook.com
+ (2603:10b6:0:4b::8)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM3PR12MB9416:EE_|SJ0PR12MB5674:EE_
+X-MS-Office365-Filtering-Correlation-Id: 400d31ce-b3f4-47ae-93a6-08de966236e7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	kj9SYVST2FGXw3/Gx4LVjn5NoTo3Fgnw0cjHOABTkR3mDBWReAlej3zSrfmbXw0ATfAO46j3uo5Fpyqn1JPwKW7LEqqVGXEthPPb03g8fHxWf8FUTgevOIgYOxwg1KkDxwyetPGbfpMnjjfOT0xWKsoHkkzcrpFMrKH6sYjtbcqLQRbzs9d0/Kc/FJ7gX7297bbsJaOF3MZb3USiuOGGu+VwtssObaYrLx856j2fwhsbnDCoay5M5fyNxpCiQBTGiPw/ahLnp4ifDdZ1W4yV6+ScNQGvDMhKmY82uEkpn6tdhvpSegDz0AeqkwoctyW8NSKGj3GubaR89MC9vu6TMvN7q5whjh3143B18fLNYVKhbm8BEaxffpIc9Y7Mn1TER5NyZYrY1ovhcjh/TlmAI5r2O1981uTDO97Cv569++h5XyaAclj4Q9IWlmqkkmQfR7TnqMye9jjQdoyWm6llaz9mTf102oLj3nPUERFWC2JrEcZq2EIQ2irRvKwaarUJquAh9eFgVEH8mk93mj3/NlEHl38lsbBZJmQQQhB1+IwuMXaSIRi0m3HsxrdSqSrxV1mOrWQ5m+EfO1IgePkUUzKxWYP61xY490EcKoFobexUaL8parlk67iwzlb+fK8cKmgd1RmhH8bEaiAORwjgS7HFUxxW1gO5QVLzDuaCRC7B8c1sQpWPUZlGd/WWcFUvrIqwC3Y+23cX2kaEm+ta31eksZ0toi4N2U/zEiJYd4M=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM3PR12MB9416.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?T1lGSFFZTFdrUVZEeVBLSlFyTkZVNmxaYTBUOUZ1UGpucjBBR05rTFJVVDZp?=
+ =?utf-8?B?bitsMjlBeXpodmZpQXRmR0JkVUFRck9MYkJsdEp4ZnFwbjZqSnpWbTJBeGlO?=
+ =?utf-8?B?dmR2UEVteFpBMHNnM0pjRklXWmJmeDRRZVprbmRsaWRoS1JBbWNRcHdMc0dw?=
+ =?utf-8?B?MTNiZ1ZxakkwT2pXTEEwbXRudm45cCtiN2FnNnlBNElVTEFIYTZjY2F0dDlK?=
+ =?utf-8?B?dzM5d2xJbE9BdldCaGQ2bENaOVhuaG5CTzAzRU0xRUlJeHE0U3VMem5WLzU4?=
+ =?utf-8?B?Z2VVMk1lUFFHUHNSK2kwY1VsMDcrZU5CNmF4bWFtWGtTU1U5eGlyRXc2SEZ5?=
+ =?utf-8?B?TU81ZTJIdmtUL21EL1N0NmhOVmVjU3lHNC9taDVsNG5RYXVVMGU0S0dGMjda?=
+ =?utf-8?B?U2lJblhLSnptM0ExbFZSOUQxL1dEcERsbjlwWDl6Vmt4VmkrWFVTMkl1SE1K?=
+ =?utf-8?B?aExKdGhvK3kxNDlsaGJrNjBZUVJEaU5BM0M1MmlYa0xNUmJGNDgxOVRpUkFF?=
+ =?utf-8?B?Nk14NmFSQU1jOXhNV1E1ZVMvTWhIYkpYNEYwakJmenYzU0loUHRQOVNjZkN5?=
+ =?utf-8?B?Sm9IaUxzcEI2ZW5IT0tkdGtIYjBqWExHbkFYR0oyaGVYdHROMlF3aGRnT0JK?=
+ =?utf-8?B?dXhWRk12ck9FVHYwalFlTG9PQ0tyZ1ZqS0F0SHlNaXJPRjlGckd4SFpFbHhr?=
+ =?utf-8?B?RmI5cHdodDl1U3QyYlF3WGdmTUxYLzgzZlFsSHY1U1U4NEJ1eWNXcWQ1Slp3?=
+ =?utf-8?B?STIyQWFvT0pCUms4NWxaTlZtZU80MC9qQVhrbEwzVXcyb2hWT2E4cnVLemY1?=
+ =?utf-8?B?VzBkUWI2TUF5aGJwRDExbXdMMk9WWVNPUmJoUjdOcHVjbDlkaUhQc3dNQ0xU?=
+ =?utf-8?B?UHFLcDdFbXZvbiszMTRiOVUzOFpqU3MzWHBVNiszZ0t4MXVVVXE2VFJMUXdH?=
+ =?utf-8?B?TEZEWCtZVGI5bUpSSDhBblpFQTdpVGtkV2F3YVRQSjNicXB0d2NoN1ZZZ1p4?=
+ =?utf-8?B?TnM3dUQzZmxpTU9DdklwRTNrYkRIUDRzdG11bVNVVEhFUVg1QnptcDB2UXZE?=
+ =?utf-8?B?TmpBNjdOQVNxRzZWbVpvRmg1NENVa1VZemZHUVVvcHowK0ZRWkk4clc0YUd6?=
+ =?utf-8?B?K2ZVeERCdFI4RVhkY2JiMm9BYUxIeWc4S1Nrc2xuMlZTRVcxNVkzbzdHQlVy?=
+ =?utf-8?B?NW5sVmVFdmR6Yyt0VldWczRYc3BoVkVqZlQzR050WlQyR1BTeXE3djk1d0M0?=
+ =?utf-8?B?b0tiV2NEa1Y5ek1VcUJnS1J2ZlR2RmEvaHg5RUx2NFhhaUllQ2tCbm1zUFc4?=
+ =?utf-8?B?RjJ4eTBpamJGd2dxR0I2eGhuWk5pd3Z3SGczWk5KaEM3dFZibGsxMzhEdWpv?=
+ =?utf-8?B?TkZCYVVkSFVpZ2Nlb0ROQmc5SVNTU2NEbm9oN0l6cGpEaUp5dERXRUhYcmla?=
+ =?utf-8?B?VGV2dlh0VVZXUms4bDNqaDNsL09PeFU3aE5XNloraW4xVmQ3NVIxTVdFeE16?=
+ =?utf-8?B?OE5iZFA4cVNVYXVrV3IweTF4QVE4NWJTdkloelhHT3I5WHZ2UlZPR2VITThG?=
+ =?utf-8?B?eDdBRC9SamR3b3Y0bklGL0t4MGNGTW9hRWJuTDhVMVRucjlmckZaQjJnNGpu?=
+ =?utf-8?B?R2ZCMUZTKytsYkZxTldpMS85NFk1VlNFa05JbEtVTUNuWm44bWpwd3k2TkQ0?=
+ =?utf-8?B?Zmp2TTYrZ1ZMY2JUMmJMMW1QbmdiaFdKUEVuNGZDZExKcnUzMzVmK1FQOHI5?=
+ =?utf-8?B?cFBHU3M4TzZrWTUzV0FzZUYwdUtkOGd5a2V1T3JJcC9KK3I0cDdWN1NCTzE3?=
+ =?utf-8?B?MUExc1c5WmhoS1ZRS3owc2htbXh0a3hhUTd3TWRncHBKZkFlcnJhcm82Rjlq?=
+ =?utf-8?B?UVJFQ280Vnd0c3l5UHM5cUV3U1FETlJNK0RGZTdxUWVFeVozdEdJL2wwUUZ4?=
+ =?utf-8?B?dGFiQzBlK1FlR1NxV1lDdVJCOGpXRDA1RHNIaWs3SUVFeUZTSENoQWg0clpQ?=
+ =?utf-8?B?b1JUQ2F4WFhnYTlNTkFNMm01TmpMVTl2aklxTzNmaSttRWZ2UzVjVHppcm5x?=
+ =?utf-8?B?ZTlIYUF6RlQ5WURTcVlzZ2orSXBzTHE3YTI3VTRPcysrbGdmZ2lOZjVsSjBn?=
+ =?utf-8?B?b3V3eHdHaFowSUJFUEVuc1lZN1lXZ0RzalRXVzFBa1I0ZFpQYmJqSHZHWTFx?=
+ =?utf-8?B?cmlmTFFZUVFTV1p1TmJWQUFxYTdPakFrOW9PeXJjSmRHbU1yaHQwOGlhOVh0?=
+ =?utf-8?B?QW1KTnlOd3ptU2k3aitTUjhEVk52TTlUVnZLNy8rVm40SVJud3M5QTNyNGtS?=
+ =?utf-8?B?UHZqTGxPN0UxOFZPdjVZZmtzZjZtTEI1QThOdWNwY25PSVBWVnRsQT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 400d31ce-b3f4-47ae-93a6-08de966236e7
+X-MS-Exchange-CrossTenant-AuthSource: DM3PR12MB9416.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 18:02:50.7930
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C5sFpG9fRg+sZOCpn2TH1B9iNmeetx5Uqc6pFozRK1XNmvjQndL65KUutjHs+GL4ohBZfQ+585Jg1SZwi7AD5w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB5674
 
-Revisited old doc of watchdog and did some cleanup.
-Also added support for new api in doc.
+On 4/9/26 3:33 AM, Joel Fernandes wrote:
+...
+> Since it is 3 against 1 here, I rest my case :-). I am still in
 
-Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
----
- Documentation/watchdog/watchdog-api.rst | 49 +++++++++++++++++++++----
- 1 file changed, 41 insertions(+), 8 deletions(-)
+As Danilo points out, we want to foster healthy debate and land
+on whatever comes out of that. Not just by counting noses. :)
 
-diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-index 78e228c272cf..446f961852ec 100644
---- a/Documentation/watchdog/watchdog-api.rst
-+++ b/Documentation/watchdog/watchdog-api.rst
-@@ -2,7 +2,7 @@
- The Linux Watchdog driver API
- =============================
- 
--Last reviewed: 10/05/2007
-+Last reviewed: 04/08/2026
- 
- 
- 
-@@ -106,11 +106,10 @@ the requested one due to limitation of the hardware::
- This example might actually print "The timeout was set to 60 seconds"
- if the device has a granularity of minutes for its timeout.
- 
--Starting with the Linux 2.4.18 kernel, it is possible to query the
--current timeout using the GETTIMEOUT ioctl::
-+It is also possible to get the current timeout with the GETTIMEOUT ioctl::
- 
-     ioctl(fd, WDIOC_GETTIMEOUT, &timeout);
--    printf("The timeout was is %d seconds\n", timeout);
-+    printf("The timeout is %d seconds\n", timeout);
- 
- Pretimeouts
- ===========
-@@ -133,7 +132,7 @@ seconds.  Setting a pretimeout to zero disables it.
- There is also a get function for getting the pretimeout::
- 
-     ioctl(fd, WDIOC_GETPRETIMEOUT, &timeout);
--    printf("The pretimeout was is %d seconds\n", timeout);
-+    printf("The pretimeout is %d seconds\n", timeout);
- 
- Not all watchdog drivers will support a pretimeout.
- 
-@@ -145,7 +144,7 @@ before the system will reboot. The WDIOC_GETTIMELEFT is the ioctl
- that returns the number of seconds before reboot::
- 
-     ioctl(fd, WDIOC_GETTIMELEFT, &timeleft);
--    printf("The timeout was is %d seconds\n", timeleft);
-+    printf("The timeout is %d seconds\n", timeleft);
- 
- Environmental monitoring
- ========================
-@@ -227,12 +226,33 @@ The watchdog saw a keepalive ping since it was last queried.
- 	WDIOF_SETTIMEOUT	Can set/get the timeout
- 	================	=======================
- 
--The watchdog can do pretimeouts.
-+The watchdog supports  timeout set/get via the WDIOC_SETTIMEOUT and
-+WDIOC_GETTIMEOUT ioctls.
- 
- 	================	================================
- 	WDIOF_PRETIMEOUT	Pretimeout (in seconds), get/set
- 	================	================================
- 
-+The watchdog supports a pretimeout, a warning interrupt that fires before
-+the actual reboot tiemout. USE WDIOC_SETPRETIMEOUT and WDIOC_GETPRETIMEOUT
-+to set/get the pretimeout.
-+
-+	================	================================
-+	WDIOF_MAGICCLOSE	Supports magic close char
-+	================	================================
-+
-+The driver supports the Magic Close feature, The watchdog is only disabled
-+if the characted 'V' is written to /dev/watchdog before the file descriptor
-+is closed. Without this, closing the device disables the watchdog
-+unconditionally.
-+
-+	================	================================
-+	WDIOF_ALARMONLY	    Not a reboot watchdog
-+	================	================================
-+
-+The watchdog will not reboot the system when it expires. Instead it
-+triggers a management or other external alarm. Userspace should not
-+rely on a system reboot occurring.
- 
- For those drivers that return any bits set in the option field, the
- GETSTATUS and GETBOOTSTATUS ioctls can be used to ask for the current
-@@ -268,4 +288,17 @@ The following options are available:
- 	WDIOS_TEMPPANIC		Kernel panic on temperature trip
- 	=================	================================
- 
--[FIXME -- better explanations]
-+``WDIOS_DISABLECARD`` stops the watchdog timer. The driver will cease
-+pinging the hardware watchdog, allowing a controlled shutdown without
-+a forced reboot. This is equivalent to the watchdog being disarmed.
-+
-+``WDIOS_ENABLECARD`` starts the watchdog timer. if the watchdog was
-+previously stopped via ``WDIOS_DISABLECARD``,this will re-enable it. The
-+hardware watchdog will begin counting down from the configured timeout.
-+
-+``WDIOS_TEMPPANIC`` enables temperature-based kernel panic. When set,
-+the driver will call ``panic()`` (or ``kernel_power_off()`` on some
-+drivers) if the hardware temperature sensor exceeds its threshold,
-+rather than only setting the ``WDIOF_OVERHEAT`` status bit. Support
-+for this option  is driver-specific, not all watchdog drivers implement
-+temperature monitoring.
-\ No newline at end of file
+> disagreement since I do not see much benefit (that is why I said
+> pointless above). Actually it is not even about readability, that is
+> subjective (and I haven’t heard most people say parametrizing code for
+> the sake of it makes it more readable anyway). It is that the code gen
+> is worse, and the complexity is just moved to a higher level in the
+> code, not removed. So what are we getting out of this really, other than
+> more boiler plate in higher layers of the code that did not exist
+> before? Not performance, not better generated code. Really nothing. See
+> all the data points in my previous reply.
+
+Alex's latest response[1] does a *much* better job than mine, in
+explicitly highlighting what we get out of this. (It arrived a bit after
+your response here.) Please take a very close look at that response and
+see what you think.
+
+The patterns in these page tables are not a new thing, and Rust has
+language features to help express them. 
+
+[1] https://lore.kernel.org/DHOKJ3MJNO5P.SXKOAYKX13JL@nvidia.com
+
+thanks,
 -- 
-2.43.0
+John Hubbard
 
