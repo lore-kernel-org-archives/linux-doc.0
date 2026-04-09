@@ -1,72 +1,165 @@
-Received: from relay.hostedemail.com (smtprelay0010.hostedemail.com [216.40.44.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAFF43DEADB;
-	Thu,  9 Apr 2026 15:50:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D462F83A2;
+	Thu,  9 Apr 2026 15:57:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775749849; cv=none; b=FDKQaXeEmBsLLgTxEc+nBNXhjvQobaH6+Bg1zFrAjUiqEDqTCMXNpHV7psVvF2Jv6m2ftcsqarT8aehYYPChnn9PhQRw7KD58xOxGzs1f1brw0STWdkPmrr0pFccfmzLeui2IpjcZrzJjlZwwKj8jm+jvx0FSzXIuwCuKjKTARM=
+	t=1775750232; cv=none; b=crMY1ud/zaoJCbnSx/bAZFJAtrIE6+pcZWIoMIRsd5ncFe1kUtxhM7kgCT17AY1IqxnC4DQJsLZ+yo1GyhZ98EWVyOyPHzyKy6pz844F8g4iY6uThl+gNzMyidPDHOkQrX1CunvcxT0V3RtcrWP0CbXWmU9SkSIEhbBALATG88o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775749849; c=relaxed/simple;
-	bh=wpvklQMA0hDtCCBjrVbwuPyAMpw4aMa9pQz1l3Al3RI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E10cf61dlu6adMI/Fy+7JDM9JykzW4UzBS5KzzZO+CBPdNMxRI8GL7V1BLUE7OrcE4DnFjjjeM32ImHgGewVxKsFeyqR3HVYn0A/anzeGwc+swmNPcYt4+8oe1gBcvIFz9qbJfYYpWhpLsohjsUpS4oOFWDZ1IgslKVBwCt4+j4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay08.hostedemail.com (Postfix) with ESMTP id 69D4F1408D4;
-	Thu,  9 Apr 2026 15:50:45 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf19.hostedemail.com (Postfix) with ESMTPA id 6319920027;
-	Thu,  9 Apr 2026 15:50:43 +0000 (UTC)
-Date: Thu, 9 Apr 2026 11:52:00 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, Linux
- Trace Kernel <linux-trace-kernel@vger.kernel.org>, Masami Hiramatsu
- <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Tom Zanussi <zanussi@kernel.org>
-Subject: Re: [PATCH] tracing: Documentation: Update histogram-design.rst for
- fn() handling
-Message-ID: <20260409115200.45883a07@gandalf.local.home>
-In-Reply-To: <87bjfsb37x.fsf@trenco.lwn.net>
-References: <20260126181742.03e8f0d5@gandalf.local.home>
-	<20260305110347.31d6bae5@gandalf.local.home>
-	<87bjfsb37x.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1775750232; c=relaxed/simple;
+	bh=WR+qzP41usMsL+U2CHUcv+sT27DtSgM6KltIpwfZcnY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GMJkXW5qszJ5WEAjzZPsgLI4jcmmayMXNupt+lhNzjXMytmcCgYigQjOPbnmDWzlTNUSLQ+YE8kdmAktT5laiGzWYsLmko8JGs4EeDpw6GZ8fWgH6fvLbzcmE2P+YWtJizWpp3UjMxCo9hrxLdoD5GzZ1tNf6bRwGpvo6E1Z98c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tD+Traxk; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tD+Traxk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 768C0C4CEF7;
+	Thu,  9 Apr 2026 15:57:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775750232;
+	bh=WR+qzP41usMsL+U2CHUcv+sT27DtSgM6KltIpwfZcnY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tD+TraxkBSWzV1OrvrD/QSp3BLnXIyQ/r5VEw6Ssz3oVkX62k9yBe3TLQioa/1soi
+	 pwx5mlxqS6foCBa5LNeuMMUU16bHPdrWEfieNxK+dyyT+lyEaiFtCE2rRc+83+PC5a
+	 K/2pOvpJ0ECptyYkObH3plHWEH1NYAkS6HHUESwGZki2P/UqMiwpiIZjucJN39BENx
+	 OBo4WsN5BqX+ULmrxtpN3dIJnAgIXmLrFEp5Co2xDwD5ek+foaAd2xxGQHGc7qHwRt
+	 Xqb9KwwQypnh1KRJ3vALlj/mwQqaexs+JkfB5teKHDpMco9wLLTzVsA+gA/tSA3FGc
+	 FYT/GUmKcq9yQ==
+Date: Thu, 9 Apr 2026 16:57:06 +0100
+From: Conor Dooley <conor@kernel.org>
+To: radu.sabau@analog.com
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 1/6] dt-bindings: iio: adc: add AD4691 family
+Message-ID: <20260409-headwear-condense-c119f423095b@spud>
+References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
+ <20260409-ad4692-multichannel-sar-adc-driver-v7-1-be375d4df2c5@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Stat-Signature: n6xmx31ixtdr5woyi7ebr6t5w7ox7zz4
-X-Rspamd-Server: rspamout01
-X-Rspamd-Queue-Id: 6319920027
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+tGIud1ExAUO/pLP/e8m3SraoUysR0b1A=
-X-HE-Tag: 1775749843-565787
-X-HE-Meta: U2FsdGVkX19UG9TQnpcq0VZEdA+h8kT2PJCe6IZpLapSLSGqP8V1fWNW4kzX244E2sy7kH+RayM56kTpkBPJTiXwF78nlPPjgGXoljLWMe50gHhvf4I77ALwzQHkILzS2ykNpfIHRXCTLwBbgat2icjCNuzQuJ22w4lI/97DUxTrlNu5Pas/5oM9kG4UL59FOxG1lAAgQWcXTy67w/D0mMwx+8cbuGPOoYGHgFakni1NmrZudby6+d8rpKQgDZy37yy3IpDGYZBWK1qff2eLJhfTpAkI8/D+1VIPYxboMlHJHrlGbsZPSvsp4gqC/Ev+3MRZsxqp5peNzS60+kPoKFrKmQMIH7+95iGLQ1+JGPRvLNI9gDGrVEagWF3CF5IfwWZ7/bbqY5M353EYPlkhzfUnutta7bQefwDOLLYcLe0BcoP6luqMlDIWsVoOKMS2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6AiVT6msxNHZX0tI"
+Content-Disposition: inline
+In-Reply-To: <20260409-ad4692-multichannel-sar-adc-driver-v7-1-be375d4df2c5@analog.com>
 
-On Thu, 09 Apr 2026 08:47:14 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Steven Rostedt <rostedt@goodmis.org> writes:
-> 
-> > Hi Jon,
-> >
-> > Can you take this through your tree?  
-> 
-> Somehow it fell through a crack in my inbox, but I have, finally, done
-> that.  Sorry for the delay.
+--6AiVT6msxNHZX0tI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks, it has happened to me too often but not as much when I started
-using patchwork. Is there a patchwork monitoring linux-doc? If not, I
-highly recommend it. I stopped missing almost all patches when I started
-managing patches with patchwork. The few times I missed patches was when I
-accidentally incorrectly changed the status of a patch. But that's usually
-due to my own negligence and not simply because it was lost in my INBOX.
+On Thu, Apr 09, 2026 at 06:28:22PM +0300, Radu Sabau via B4 Relay wrote:
+> From: Radu Sabau <radu.sabau@analog.com>
+>=20
+> Add DT bindings for the Analog Devices AD4691 family of multichannel
+> SAR ADCs (AD4691, AD4692, AD4693, AD4694).
+>=20
+> The binding describes the hardware connections:
+>=20
+> - Power domains: avdd-supply (required), vio-supply, ref-supply or
+>   refin-supply (external reference; the REFIN path enables the
+>   internal reference buffer), and an optional ldo-in-supply, that if
+>   absent, means the on-chip internal LDO will be used.
+>=20
+> - Optional PWM on the CNV pin selects CNV Burst Mode; when absent,
+>   Manual Mode is assumed with CNV tied to SPI CS.
+>=20
+> - An optional reset GPIO (reset-gpios) for hardware reset.
+>=20
+> - Up to four GP pins (gp0..gp3) usable as interrupt sources,
+>   identified in firmware via interrupt-names "gp0".."gp3".
+>=20
+> - gpio-controller with #gpio-cells =3D <2> for GP pin GPIO usage.
+>=20
+> - #trigger-source-cells =3D <1>: one cell selecting the GP pin number
+>   (0-3) used as the SPI offload trigger source.
+>=20
+> Two binding examples are provided: CNV Burst Mode with SPI offload
+> (DMA data acquisition driven by DATA_READY on a GP pin), and Manual
+> Mode for CPU-driven triggered-buffer or single-shot capture.
+>=20
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> ---
+>  .../devicetree/bindings/iio/adc/adi,ad4691.yaml    | 162 +++++++++++++++=
+++++++
+>  MAINTAINERS                                        |   7 +
+>  2 files changed, 169 insertions(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml b/=
+Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+> new file mode 100644
+> index 000000000000..81d2ca4e0e22
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+> @@ -0,0 +1,162 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/iio/adc/adi,ad4691.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Analog Devices AD4691 Family Multichannel SAR ADCs
+> +
+> +maintainers:
+> +  - Radu Sabau <radu.sabau@analog.com>
+> +
+> +description: |
+> +  The AD4691 family are high-speed, low-power, multichannel successive
+> +  approximation register (SAR) analog-to-digital converters (ADCs) with
+> +  an SPI-compatible serial interface. The ADC supports CNV Burst Mode,
+> +  where an external PWM drives the CNV pin, and Manual Mode, where CNV
+> +  is directly tied to the SPI chip-select.
+> +
+> +  Datasheets:
+> +    * https://www.analog.com/en/products/ad4691.html
+> +    * https://www.analog.com/en/products/ad4692.html
+> +    * https://www.analog.com/en/products/ad4693.html
+> +    * https://www.analog.com/en/products/ad4694.html
+> +
+> +$ref: /schemas/spi/spi-peripheral-props.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - adi,ad4691
+> +      - adi,ad4692
+> +      - adi,ad4693
+> +      - adi,ad4694
 
--- Steve
+Please add a note to the commit message about why these devices are not
+compatible. With that,
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+pw-bot: not-applicable
+
+--6AiVT6msxNHZX0tI
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCadfMUgAKCRB4tDGHoIJi
+0g4LAQCDFiL/WYpD2A+CMZGioBuUJdp7MxiycZ1eF9K+aAushQD+K4LkAPI6pd7C
+hvPe16l+EF68AU12LiKpOM8XZ7AdZAg=
+=it+N
+-----END PGP SIGNATURE-----
+
+--6AiVT6msxNHZX0tI--
