@@ -1,146 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A36C738B7DD;
-	Thu,  9 Apr 2026 08:14:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775722479; cv=none; b=Q7h+4oOcFxSnIKFAhslsVkq9T0Dfg4lNP/lrNYS3iUTEJIXFFkpPEQw6Trgqo/A3Ir8OV0/SgckMmcRKHhX2HAbG5WZ7oYucTZYt33Sg+4CxA9SfMWuTKoT+NvUVGIp/GXOwq0MKImI8uoU7wC7ymh8yHYDXtIiIfflGdv7YBDU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775722479; c=relaxed/simple;
-	bh=3G5Y64fdJYhpPq7ZwMBZEixlrfHpeuaE8YXrRUfjeMs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=esAg1qeBVxxpCzH69ppNRBqQe1GnwOHDEQMTYTSy4WAjPGDCVqCDSgG8zEvePm3o4wxdTVrt9FyFB6cdUxNhgJ7e/NIbXSbIP8i7ub/fRtTXXaf9sRS5+Zew8DAmNnO0G1xudkH8JusFumh1SAiSupegdhsS+yRtNzN4mCkLVAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OzHoVBeR; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 245E63A544E
+	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 08:19:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.216.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775722747; cv=pass; b=MagWsaOvDqNkcDB3H7frBfVfZSNAWHcvbnzVzeiCJhBGX8C+tiCk2go25CoJ7mJdywtmdrgHxQf3QnshSUBVRDKCjCzhQ3TfUf30Zyya50rAhobhAS+Nm09W0CChD/EJ1Ity37zFXddNX0o5iXA0g/9BMKC5ty1iv5IHGTqDCnY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775722747; c=relaxed/simple;
+	bh=GtUkGmQN4EL5h2rkR5WgfM1JZC8AEtqZRGbgJ5anoLU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kSTrF1Wlk41zQBXp9np8/hYFhY35aS/cncmRno3LRZDTUc/3H2gDsaGhgH2ZYNxsfPf+XnbBlYO5KXifGFFNQgf249woegmEBBjg8nsVi9IYPFZe72PUwEPqU2nn5pI7pV/2Wfe92qH2HfYEdGnbUNs8feZzVuTVP32gVEYH+io=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aNuxb3OW; arc=pass smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OzHoVBeR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CABD9C4CEF7;
-	Thu,  9 Apr 2026 08:14:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775722479;
-	bh=3G5Y64fdJYhpPq7ZwMBZEixlrfHpeuaE8YXrRUfjeMs=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OzHoVBeRvY/SsR06SwsiSiPOpUf/NeNeO4KCQ0hNXg00N+yKidPIAkYDUEm9IdNrk
-	 vDmreE9oiiil6bCPRhEF5TIaV1mw68kw+UTV3PZWmYnOatG48gpRcTxuLy9ItYjpDu
-	 YAUfI0+rdR/p6aO03Jj4W47eLSmjPhAxh0rOeFzu8ScWCrbR9K6YodD9JXmfUxC664
-	 23hIyo1iVYlLo71vl+7Fg3stF4il+ImnBRfqZz24TFfGraJ8LbG5DJBTZHuzcWK5hg
-	 9EPm1kjYUet+TSleyKr50u/2zBfC/jB9m2maCM8/sqitwoiNXOHAO34bYEb0Rr09iD
-	 UxfM9W1yZ++wA==
-Message-ID: <2e3f7c8c-c443-4e71-ad60-36c5203de09b@kernel.org>
-Date: Thu, 9 Apr 2026 10:14:21 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aNuxb3OW"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35d9749c26dso633396a91.2
+        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 01:19:05 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775722744; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A5ThI46GcTVp5YnO8HRSYtkkJAISIxOowQ2rnKsYUHh+KOup59garHjJ4gOdbQTQxz
+         zFuMymJ/gAOCyV55aQuDBiJpJeWlHewIZI0stIbOsAfdCfNpahVMWlRHo2GsHysWKz3i
+         AHr+vF9OiVufOBfIB4sSqI/hIvI8mmEbcM/I4iphqZ10eRHHocgpPDtr2dw0nRpON+VC
+         sO15VqtB7rX6/vnbckSs0MqYr0HawXHj8/vVwG5fpOAHK67sYNFJ4sPIb8OhCGh9BWZs
+         SCsVUD+f6FvIiGcZlrnyZ90LTdoEobliMWGqUymgkgMsvgaUGzx5Ksr64/bBSszuInTQ
+         owKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=HxaRZLSN39qvxIV0ix/Q0XZyFLIVhPcJo8ZKpZblht0=;
+        fh=YnmrqcvnxO0TYJSUbRqAIz8YUZlsvBCLAurVrLjOdko=;
+        b=hEjS8O6dAcTnXGyHgYji39iDKftQQG9ySGErI91+S1CasnYGi8IJTRfWV0jpyZ+0a6
+         Q8X0jNjTlMAeuTuuzLyDn7eUXAK41klmD8fNwNnfMoj/Y84QmyIHo3onT0uT7uKwxPAN
+         jf+OP5GgLOAGpBx0ZO6wNiacyAzm9kjgUjpylmbj7j72A8AFxBunExDRmqfVQi59VP/h
+         xhcHax9tpeVs8g3/g4ctPibzP+hG7WoD9C3tN4JkUk+pQN9drCQ5SlZL2phKUKTX+pgO
+         V+of2Ii+PDE0tsgXZtMaJPLwkPouP3VIe7MI9Hxr/CJhVqvTVoZpzfvNpgEfMHFOtXmK
+         1xAA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775722744; x=1776327544; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HxaRZLSN39qvxIV0ix/Q0XZyFLIVhPcJo8ZKpZblht0=;
+        b=aNuxb3OWSm7AxwAOpoY0MjpWL6+TIljVkCAHFMqeFKtn/gLMrWkV5+yp4E6aVf9eKo
+         MyTeEdMavTgFAtEvhi1/eniuOfjiLxi8DKrwIRu+qkcluB11uxTLZAgCJurRkrql33CR
+         GW7dnKGgKWDh51izTBxr7cuURIkoEdXnLRwInI+0x55FseYKoo37nZz9kHGPe3AM6Q1I
+         XkenLNdBWLSEYhKC9wzc1DaCyVbL2hfhYnq9cOcynx8Cx1UscPI9HX35Ik7TdoBmlQpG
+         1VAoTiIQlmc/TDa53a5o2PDFB66mNSJUFSkJ+9XdxrfbGsKf8471oDEwaIxPzMN8o0fm
+         nfRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775722744; x=1776327544;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=HxaRZLSN39qvxIV0ix/Q0XZyFLIVhPcJo8ZKpZblht0=;
+        b=WTXELUKeYij52WXYZNAG8vmQ6RbQs6qkPsedTyXUzsSdR2Y2Ddwa0AkOyIdPaBGOpq
+         gyvKMknhzpQugon8OC0oGxvUearG4nRRg9JcsaoR5JxrR0TqUshdA3PwwB71POUZ0PGh
+         aqL80Ble1w2bVvzWt1GdHaEHmPRRuanA308o1V2fm6QEsRgGopiHgwwIYdT30b/06C6m
+         LkEljuFxLvOWvWQ3YFK4GrD+ETLLdVPeO4xhkQL6gaArcKakKm5H6n6b7OEKOnM1Qvkx
+         0TFsz43xEyAQUB8YlvvjtxUCZXHiZb5oEp0rftAXoYyxIVb255zoqqsyUh1zH9QLiD3S
+         CCwA==
+X-Forwarded-Encrypted: i=1; AJvYcCV0PDRwbNtaDk3A4RkVuobY6GBw8AUluZM75lHLuIei64tYeyHLV72ttNTnDkQqhzgC4ffEt0uQ3lc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvwoIi/+xGvABD75Xh3OlNZhWv+dCXge+rQoc3XSbbvVnnXWD9
+	tklzdLge3R77sYYgk5T5SAyhLrcbJBKBP635tuD7q8IvIIkuD8T05vtL75qkdykU7IKwjR3yyoo
+	IW3sPkJyBo1wz+r4m62T25CBmkPLo6yk=
+X-Gm-Gg: AeBDievw5XFDRiyJoM1q0EjZJUqiSMc4it8mP9aqSaU4AKgYETY+sFBszE9nbtm1HnE
+	WVeR26itIOk9xiYbkLIq14Ref6fycvNVOnZTZSYLmLYYwH4UObe5xF1Sb3/YWImRHG6ie+EYwVu
+	+FVis66NecFKB5A5zLZbfi/gksgrW4lrhveZyjeK81Oy5S9gVncgs6oqqT9M054pfcIGFsTdFaE
+	sro7Hg6OEEEJpssI3I0jdChlnJqPck2sPjKM2XuFNuwCvj+Gh0YBMsfrnEYHGFlrZYhjeVHa/Ew
+	jiW1m+q4gLO1850dUH2+jyryvy56M8+O/i472NS8
+X-Received: by 2002:a17:90b:5583:b0:35d:95eb:87a1 with SMTP id
+ 98e67ed59e1d1-35de67daa63mr23825380a91.3.1775722744531; Thu, 09 Apr 2026
+ 01:19:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH mm-unstable v15 03/13] mm/khugepaged: generalize
- __collapse_huge_page_* for mTHP support
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com,
- catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net,
- dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net,
- hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com,
- jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com,
- kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com,
- lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com,
- matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
- peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
- rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
- rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
- shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
- thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
- vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
- will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032347.232939-1-npache@redhat.com>
- <8a4568de-e0f9-471b-bc94-1062d4af3938@kernel.org>
- <ee39e605-0d9f-433b-9dfa-f70fd92edfac@kernel.org>
- <c4e80668-9018-48fc-883c-5d52a5950065@kernel.org>
- <CAA1CXcA8nE2PZrB4J1gV5v16PeQ7X2AiwjJ3gO1Q8hW7tyTtPQ@mail.gmail.com>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <CAA1CXcA8nE2PZrB4J1gV5v16PeQ7X2AiwjJ3gO1Q8hW7tyTtPQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20260403210343.1380437-1-eugene.shalygin@gmail.com>
+ <05e9870a-5d8c-410d-99ed-6ef9470b2ff7@roeck-us.net> <CAB95QATxrJa0koMq=BCjnXvLHJ5boRBUA+76FwqWJhmhEi-Tqg@mail.gmail.com>
+ <25bbdd98-656e-407a-ada7-da2bdacb1aea@rxtx.cx>
+In-Reply-To: <25bbdd98-656e-407a-ada7-da2bdacb1aea@rxtx.cx>
+From: Eugene Shalygin <eugene.shalygin@gmail.com>
+Date: Thu, 9 Apr 2026 10:18:51 +0200
+X-Gm-Features: AQROBzDHSH2nSG-G3TRcvkXFHA35V3bkCM5TDnwJBo1p0NXqcv6DGpUkDODdnGU
+Message-ID: <CAB95QAQfXs4VDr35UiuszqD2J5EmtKeqqHZh0K9_50X-T2MBbg@mail.gmail.com>
+Subject: Re: [PATCH] hwmon: (asus-ec-sensors) add ROG STRIX B650E-E GAMING WIFI
+To: Veronika Kossmann <nanodesu@rxtx.cx>
+Cc: Guenter Roeck <linux@roeck-us.net>, Veronika Kossmann <nanodesuu@gmail.com>, 
+	Veronika Kossmann <desu.git@rxtx.cx>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/8/26 21:48, Nico Pache wrote:
-> On Thu, Mar 12, 2026 at 2:56 PM David Hildenbrand (Arm)
-> <david@kernel.org> wrote:
->>
->> On 3/12/26 21:36, David Hildenbrand (Arm) wrote:
->>>
->>> Okay, now I am confused. Why are you not taking care of
->>> collapse_scan_pmd() in the same context?
->>>
->>> Because if you make sure that we properly check against a max_ptes_swap
->>> similar as in the style above, we'd rule out swapin right from the start?
->>>
->>> Also, I would expect that all other parameters in there are similarly
->>> handled?
->>>
->>
->> Okay, I think you should add the following:
-> 
-> Hey! Thanks for all your reviews here.
-> 
-> For multiple reasons, here is the solution I developed:
-> 
-> Add a patch before the generalize __collapse.. patch that reworks the
-> max_ptes* handling and introduces the helpers (no functional changes).
+Hey Veronika,
 
-I assume that's roughly the patch I shared below? If so, sounds good to me.
+On Wed, 8 Apr 2026 at 22:29, Veronika Kossmann <nanodesu@rxtx.cx> wrote:
+>
+> Of course:
+>
+> $sensors asusec-isa-000a
+> asusec-isa-000a
+> Adapter: ISA adapter
+> CPU:          +37.0=C2=B0C
+> Motherboard:  +38.0=C2=B0C
+> VRM:          +51.0=C2=B0C
+>
+> These are relevant to actual temperatures.
+>
 
--- 
+Thanks! So, there is no output for CPU current and chipset
+temperature. Could you, please, test that CPU current displays
+reasonable values with the following additional change:
+
+diff --git a/asus-ec-sensors.c b/asus-ec-sensors.c
+index 47e6c2db8b97..4a0b80012a6d 100644
+--- a/asus-ec-sensors.c
++++ b/asus-ec-sensors.c
+@@ -284,6 +284,7 @@ static const struct ec_sensor_info
+sensors_family_amd_600[] =3D {
+   EC_SENSOR("VRM", hwmon_temp, 1, 0x00, 0x33),
+ [ec_sensor_temp_t_sensor] =3D
+   EC_SENSOR("T_Sensor", hwmon_temp, 1, 0x00, 0x36),
++ [ec_sensor_curr_cpu] =3D EC_SENSOR("CPU", hwmon_curr, 1, 0x00, 0xf4),
+ [ec_sensor_fan_cpu_opt] =3D
+   EC_SENSOR("CPU_Opt", hwmon_fan, 2, 0x00, 0xb0),
+ [ec_sensor_temp_water_in] =3D
+
+At least it should correlate with CPU load.
+
+And we need to replace SENSOR_SET_TEMP_CHIPSET_CPU_MB with
+SENSOR_TEMP_CPU | SENSOR_TEMP_MB.
+
 Cheers,
-
-David
+Eugene
