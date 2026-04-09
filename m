@@ -1,363 +1,203 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2623A380B;
-	Thu,  9 Apr 2026 23:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 657EB23BCF7;
+	Thu,  9 Apr 2026 23:48:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775778171; cv=none; b=M13ZUE4cVGRFTXGOyD6/gvlUQRxxPv1V5Me+e1OCtj+K8mnVIMZt07aGxtRgbVnHiHwJE406hLkw6dDcAT69Ug8S3/aEc+O0H5q0Fl+zuXYyVmggdK5D4yp8ODzL3r822CcP7Ub+bJxtOqpgwAcdqdukTK+Me8qv7E9LAidNMG0=
+	t=1775778504; cv=none; b=bzSM4TDOkuUFnlbcsca8yJgdvQPpJ5UzxnY6OvwdSIhszLT56o7SDxgWrkJpPiX0KpRvubv+0irDiaNqK/3STQshfHe5oqDKAMF6YM/RbdYkProze3Q/uwdm2Z9Q3Ob7xYG7fcBH4Qyv8aXOXXDpKhdWDhfX4eQN6zPScQli6Ng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775778171; c=relaxed/simple;
-	bh=SQjixXq/TwUmaORkd0HVXkmiKnlqa70s57msMmHhxqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Sj6jU1ag53nJV2pBlyRiyRCo1VBN9dZeGH5iuh7jTZJ0r2x/SBIfbbKZWH+WLrMGMmLSvFJ2FePqfl/Gxg2xC/SOPzWMgKHNF8j7wQs498fgDPSxExHbS5Ph6x3Bo0OzKN+h0SifSj3ZtfO9iY2JU5NtWfngzHcX6xjB6aALIZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=PBqSoxgi; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1775778504; c=relaxed/simple;
+	bh=cNFp5/1e4fflXeAwMOdQ4yhvA6vVAfsBV7gzMHKdgUM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XFGX0UE55G3CZAvE4R6KVcUbBVNnTwaGAPw+YmWerNNZK69Vp8YqDp3X+7LI4M0fOXS8GvKOzjsIG0l+cGT1DoaxQ1cVpKAzS/052T3XhdIrrXp3oGGzQYlU2av6dHqHIUwSNSfagDJX7x9AcLNfdTi3tuYytTFypKATok8eKZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ehSjIiDX; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PBqSoxgi"
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639JtX7I2413207;
-	Thu, 9 Apr 2026 23:42:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2025-04-25; bh=fYPIQ
-	1U7Ld2xaMJDsHcFPHGnifsy5elZ8+3aWycdz08=; b=PBqSoxgiAv/W4eg8i7GcB
-	TkVGYw2eN3H9Q2lceHz862Qx+1Ldl7K8ZSQD8uD7P68S8l3H++Nf9+2c5/H00iDA
-	nviQoLKLVL4KGxpWXBz4UBLgddtAvPqJTYrwW43176IYGae7ibA2vr7r6X5Oif4X
-	lM8Oe4Y9tohidTZ1BYaQVrLyr83gjbEXnuHgLvjbVG5Rm+oXq4b3KJjINwPbYmUH
-	2mWxeJ0wHFgF78HANUiOeoR8rg6TYMIRMr+e/ste2aqOF87D6NlLvHggMxZ3addD
-	U8DKwWt2nqBa5YCvzACiLy1fmBTMAvhZc8+IxQkedkD+R8qq52e8RDklMFRswy6i
-	A==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dcmqa8rv3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Apr 2026 23:42:20 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 639NYFlE040148;
-	Thu, 9 Apr 2026 23:42:20 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4dcmnbj4v1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 09 Apr 2026 23:42:20 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 639Ng6Yx038323;
-	Thu, 9 Apr 2026 23:42:19 GMT
-Received: from brm-x62-16.us.oracle.com (brm-x62-16.us.oracle.com [10.80.150.37])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTP id 4dcmnbj4pp-7;
-	Thu, 09 Apr 2026 23:42:19 +0000
-From: Jane Chu <jane.chu@oracle.com>
-To: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
-        osalvador@suse.de
-Cc: lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@kernel.org,
-        rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-        skhan@linuxfoundation.org, hughd@google.com,
-        baolin.wang@linux.alibaba.com, peterx@redhat.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 6/6] hugetlb: pass hugetlb reservation ranges in base-page indices
-Date: Thu,  9 Apr 2026 17:41:57 -0600
-Message-ID: <20260409234158.837786-7-jane.chu@oracle.com>
-X-Mailer: git-send-email 2.43.5
-In-Reply-To: <20260409234158.837786-1-jane.chu@oracle.com>
-References: <20260409234158.837786-1-jane.chu@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ehSjIiDX"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775778503; x=1807314503;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=cNFp5/1e4fflXeAwMOdQ4yhvA6vVAfsBV7gzMHKdgUM=;
+  b=ehSjIiDX6GyqBGCAeLqDViqq94t2QrkiCYTcuI9hkjntfEUD3/uLrCfn
+   9tRBYv2/+orA9IOF9neAVyWgw6OtSUN6VM8YwV1sa4TebVmqe0Tt/UPUb
+   +YXmyeuZzozysT+uqyCzn516pbEhsawQyRqth1+bTDVB0npegjn7G1JXE
+   dLuGYC3RmXHaqOi5oc4rPVREfl1ivJ9P/Oio/RMavEvCW1GqchMK3H9v+
+   OCaCS54LdGEdubRrqqFe8CCchs/dPY2wc/NxP33xXqYCnJ96MSqb6ZE4g
+   su3a5DY5y1ltusVu14ihslFkiMQ2sohRSi6lrqJCuSDRYyrzHfpxUIp24
+   A==;
+X-CSE-ConnectionGUID: qVlXWNoJSwKQJGsg0S4B4g==
+X-CSE-MsgGUID: eaZ566buTtamiZWgEkXYlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11754"; a="76980471"
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="76980471"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 16:48:22 -0700
+X-CSE-ConnectionGUID: hMuKyc7STvW/Ezaqo1PRrw==
+X-CSE-MsgGUID: TwJTTwWUQ7Gjw+Ved6vQEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,170,1770624000"; 
+   d="scan'208";a="230658220"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2026 16:48:20 -0700
+Date: Thu, 9 Apr 2026 16:48:12 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: Jim Mattson <jmattson@google.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, x86@kernel.org,
+	Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org, Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	chao.gao@intel.com
+Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
+ newer CPUs
+Message-ID: <20260409234754.e5mhhg3z36uwv36r@desk>
+References: <20260407171151.2gf2idjbmph35ypb@desk>
+ <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
+ <20260407191128.b2hr2ttkdpyunhrr@desk>
+ <CALMp9eTK0o7Z7-oTB8ohvmoh-vy-Y2qjdUvbqD6HaEhOEPZmhw@mail.gmail.com>
+ <20260407222738.lrartp6evfp7yhti@desk>
+ <CALMp9eQjSqwnvJz4JVzYpMkkTiucSJtW48zC4Hj9GBiUhOH-Eg@mail.gmail.com>
+ <a605fb45-f8e3-45ad-8924-1da43b9a9e05@intel.com>
+ <CALMp9eRfNsghM_RnDXOs=SJYObfPa5A1aOVDZno_zJ=XotfmRw@mail.gmail.com>
+ <410df9f6-69ec-483f-9009-0a9b8c9162a9@intel.com>
+ <CALMp9eQx3H+n3V3dQh+ZafQZ6uNBjSYk8tZsvG6ffcY43YTrnQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-09_04,2026-04-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 adultscore=0 spamscore=0
- phishscore=0 suspectscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2604010000
- definitions=main-2604090218
-X-Proofpoint-GUID: gizZC3m12z3s0TgPBjgQGNn9DGqTa4M0
-X-Proofpoint-ORIG-GUID: gizZC3m12z3s0TgPBjgQGNn9DGqTa4M0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDIxOSBTYWx0ZWRfX8zuw29s5+sF+
- nuEpDRQCmz+JStfiqtO4ZM8tvUp+4b8nP7tI++/AJV6Au0mVjTYCmNJy9pZrs0b8/0tPye3poFr
- dpxri/ImgBVE4yw6LSfRqKa3uPvdCytkherMgiJ9bme/RQnTT4MsquSlgH1p3B6PdQDmstn4y8s
- RsUtiUwQof8Xoz9GPaRnX6GXTtqSChZwTPS1H91zV5sNIjWv49JOQiCCwHiouEScrB7dS6iGbd4
- 0bLtgflyjlM3cc2J6yvIx/X6o9b9wBOmFnwE7Bnd9eojQQbL6eqYjUbqmmTeMS2thsB0Mb53WKr
- h9HMU2KKGMQwimMP3GVzu8r2PYQxklpYBm+x3dLDt2azUb3q9CuDNH9/I9ia8urQdCdFRyvhrc+
- iGVFN1w1cwSKrTkEjooJlvwEO0nmpSzTNXJcYJURaDB86jtOjsyMl+FyU3zMzcVMeOOKyGLnSFY
- 54racietM+HAWJFwpfg==
-X-Authority-Analysis: v=2.4 cv=DLS/JSNb c=1 sm=1 tr=0 ts=69d8395c b=1 cx=c_pps
- a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=jiCTI4zE5U7BLdzWsZGv:22
- a=7Gl3-_t3PgB9XO-mQDs3:22 a=yPCof4ZbAAAA:8 a=T4oJmI3Qyo7CCk0tri4A:9
+In-Reply-To: <CALMp9eQx3H+n3V3dQh+ZafQZ6uNBjSYk8tZsvG6ffcY43YTrnQ@mail.gmail.com>
 
-hugetlb_reserve_pages() consume indices in hugepage granularity although
-some callers naturally compute offsets in PAGE_SIZE units.
+On Thu, Apr 09, 2026 at 02:06:36PM -0700, Jim Mattson wrote:
+> On Thu, Apr 9, 2026 at 1:36 PM Dave Hansen <dave.hansen@intel.com> wrote:
+> >
+> > On 4/7/26 17:47, Jim Mattson wrote:
+> > > On Tue, Apr 7, 2026 at 4:41 PM Dave Hansen <dave.hansen@intel.com> wrote:
+> > >> On 4/7/26 16:27, Jim Mattson wrote:
+> > >>> What is your proposed BHI_DIS_S override mechanism, then?
+> > >> Let me make sure I get this right. The desire is to:
+> > >>
+> > >> 1. Have hypervisors lie to guests about the CPU they are running on (for
+> > >>    the benefit of large/diverse migration pools)
+> > >> 2. Have guests be allowed to boot with BHI_DIS_S for performance
+> > >> 3. Have apps in those guests that care about security to opt back in to
+> > >>    BHI_DIS_S for themselves?
+> > > I just want guests on heterogeneous migration pools to properly
+> > > protect themselves from native BHI when running on host kernels at
+> > > least as far back as Linux v6.6.
+> > >
+> > > To that end, I would be satisfied with using the longer BHB clearing
+> > > sequence when HYPERVISOR is true and BHI_CTRL is false.
+> >
+> > If the guests can't get mitigation information from model/family because
+> > the hypervisor is lying (or may lie), then it's on the hypervisor to
+> > figure it out.
+> >
+> > I'm not sure we want to just assume that all hypervisors are going to
+> > lie all the time about this.
+> 
+> Without any information, that is exactly what we must assume. There is
+> precedent for this.
+> 
+> In vulnerable_to_its():
+> 
+>         /*
+>          * If a VMM did not expose ITS_NO, assume that a guest could
+>          * be running on a vulnerable hardware or may migrate to such
+>          * hardware.
+>          */
+>         if (boot_cpu_has(X86_FEATURE_HYPERVISOR))
+>                 return true;
+> 
+> 
+> In cpu_set_bug_bits():
+> 
+>         /*
+>          * Intel parts with eIBRS are vulnerable to BHI attacks. Parts with
+>          * BHI_NO still need to use the BHI mitigation to prevent Intra-mode
+>          * attacks.  When virtualized, eIBRS could be hidden, assume vulnerable.
+>          */
+>         if (!cpu_matches(cpu_vuln_whitelist, NO_BHI) &&
+>             (boot_cpu_has(X86_FEATURE_IBRS_ENHANCED) ||
+>              boot_cpu_has(X86_FEATURE_HYPERVISOR)))
+>                 setup_force_cpu_bug(X86_BUG_BHI);
+> 
+> ...and...
+> 
+>         if (c->x86_vendor == X86_VENDOR_AMD) {
+>                 if (!cpu_has(c, X86_FEATURE_TSA_SQ_NO) ||
+>                     !cpu_has(c, X86_FEATURE_TSA_L1_NO)) {
+>                         if (cpu_matches(cpu_vuln_blacklist, TSA) ||
+>                             /* Enable bug on Zen guests to allow for
+> live migration. */
+>                             (cpu_has(c, X86_FEATURE_HYPERVISOR) &&
+> cpu_has(c, X86_FEATURE_ZEN)))
+>                                 setup_force_cpu_bug(X86_BUG_TSA);
+>                 }
+>         }
+> 
+> 
+> In check_null_seg_clears_base():
+> 
+>         /*
+>          * CPUID bit above wasn't set. If this kernel is still running
+>          * as a HV guest, then the HV has decided not to advertize
+>          * that CPUID bit for whatever reason. For example, one
+>          * member of the migration pool might be vulnerable. Which
+>          * means, the bug is present: set the BUG flag and return.
+>          */
+>         if (cpu_has(c, X86_FEATURE_HYPERVISOR)) {
+>                 set_cpu_bug(c, X86_BUG_NULL_SEG);
+>                 return;
+>         }
+> 
+> The hypervisor could provide more information so that the guest can
+> determine when it's safe to use the short sequence, but that's just
+> icing on the cake. The default, out-of-the-box configuration must be
+> safe.
 
-Teach the reservation helpers to accept base-page index ranges and
-convert to hugepage indices internally before operating on the
-reservation map. This keeps the internal representation unchanged while
-making the API contract more uniform for callers.
+In the above cases there was no practical way a VMM could have mitigated
+the guest. So the only option for the guest was to take a conservative
+approach. Secondly, in the BHI case, real world scenarios of migration
+between pre and post ADL CPUs were unknown.
 
-Update hugetlbfs and memfd call sites to pass base-page indices, and
-adjust the documentation to describe the new calling convention. Add
-alignment warnings in hugetlb_reserve_pages() to catch invalid ranges
-early.
+Nevertheless, Intel guidance covers this case by having KVM deploy
+BHI_DIS_S for the guest using virtual-SPEC_CTRL. I understand that support
+is missing currently, I am working on it. Hopefully, I will be able to
+share the draft after this series settles down. We can workout the details
+there.
 
-No functional changes.
-
-Signed-off-by: Jane Chu <jane.chu@oracle.com>
----
- Documentation/mm/hugetlbfs_reserv.rst | 12 +++++------
- fs/hugetlbfs/inode.c                  | 29 ++++++++++++---------------
- mm/hugetlb.c                          | 26 ++++++++++++++++--------
- mm/memfd.c                            |  9 +++++----
- 4 files changed, 42 insertions(+), 34 deletions(-)
-
-diff --git a/Documentation/mm/hugetlbfs_reserv.rst b/Documentation/mm/hugetlbfs_reserv.rst
-index a49115db18c7..60a52b28f0b4 100644
---- a/Documentation/mm/hugetlbfs_reserv.rst
-+++ b/Documentation/mm/hugetlbfs_reserv.rst
-@@ -112,8 +112,8 @@ flag was specified in either the shmget() or mmap() call.  If NORESERVE
- was specified, then this routine returns immediately as no reservations
- are desired.
- 
--The arguments 'from' and 'to' are huge page indices into the mapping or
--underlying file.  For shmget(), 'from' is always 0 and 'to' corresponds to
-+The arguments 'from' and 'to' are base page indices into the mapping or
-+underlying file. For shmget(), 'from' is always 0 and 'to' corresponds to
- the length of the segment/mapping.  For mmap(), the offset argument could
- be used to specify the offset into the underlying file.  In such a case,
- the 'from' and 'to' arguments have been adjusted by this offset.
-@@ -136,10 +136,10 @@ to indicate this VMA owns the reservations.
- 
- The reservation map is consulted to determine how many huge page reservations
- are needed for the current mapping/segment.  For private mappings, this is
--always the value (to - from).  However, for shared mappings it is possible that
--some reservations may already exist within the range (to - from).  See the
--section :ref:`Reservation Map Modifications <resv_map_modifications>`
--for details on how this is accomplished.
-+always the number of huge pages covered by the range [from, to).  However,
-+for shared mappings it is possible that some reservations may already exist
-+within the range [from, to).  See the section :ref:`Reservation Map Modifications
-+<resv_map_modifications>` for details on how this is accomplished.
- 
- The mapping may be associated with a subpool.  If so, the subpool is consulted
- to ensure there is sufficient space for the mapping.  It is possible that the
-diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-index a72d46ff7980..ec05ed30b70f 100644
---- a/fs/hugetlbfs/inode.c
-+++ b/fs/hugetlbfs/inode.c
-@@ -157,10 +157,8 @@ static int hugetlbfs_file_mmap_prepare(struct vm_area_desc *desc)
- 	if (inode->i_flags & S_PRIVATE)
- 		vma_flags_set(&vma_flags, VMA_NORESERVE_BIT);
- 
--	if (hugetlb_reserve_pages(inode,
--			desc->pgoff >> huge_page_order(h),
--			len >> huge_page_shift(h), desc,
--			vma_flags) < 0)
-+	if (hugetlb_reserve_pages(inode, desc->pgoff, len >> PAGE_SHIFT, desc,
-+				  vma_flags) < 0)
- 		goto out;
- 
- 	ret = 0;
-@@ -408,8 +406,8 @@ static void hugetlb_unmap_file_folio(struct hstate *h,
- 	unsigned long v_end;
- 	pgoff_t start, end;
- 
--	start = index * pages_per_huge_page(h);
--	end = (index + 1) * pages_per_huge_page(h);
-+	start = index;
-+	end = start + pages_per_huge_page(h);
- 
- 	i_mmap_lock_write(mapping);
- retry:
-@@ -518,6 +516,8 @@ static void remove_inode_single_folio(struct hstate *h, struct inode *inode,
- 		struct address_space *mapping, struct folio *folio,
- 		pgoff_t index, bool truncate_op)
- {
-+	pgoff_t next_index;
-+
- 	/*
- 	 * If folio is mapped, it was faulted in after being
- 	 * unmapped in caller or hugetlb_vmdelete_list() skips
-@@ -540,8 +540,9 @@ static void remove_inode_single_folio(struct hstate *h, struct inode *inode,
- 	VM_BUG_ON_FOLIO(folio_test_hugetlb_restore_reserve(folio), folio);
- 	hugetlb_delete_from_page_cache(folio);
- 	if (!truncate_op) {
-+		next_index = index + pages_per_huge_page(h);
- 		if (unlikely(hugetlb_unreserve_pages(inode, index,
--							index + 1, 1)))
-+						     next_index, 1)))
- 			hugetlb_fix_reserve_counts(inode);
- 	}
- 
-@@ -575,7 +576,7 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
- 	struct address_space *mapping = &inode->i_data;
- 	const pgoff_t end = lend >> PAGE_SHIFT;
- 	struct folio_batch fbatch;
--	pgoff_t next, idx;
-+	pgoff_t next;
- 	int i, freed = 0;
- 	bool truncate_op = (lend == LLONG_MAX);
- 
-@@ -592,9 +593,8 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
- 			/*
- 			 * Remove folio that was part of folio_batch.
- 			 */
--			idx = folio->index >> huge_page_order(h);
- 			remove_inode_single_folio(h, inode, mapping, folio,
--						  idx, truncate_op);
-+						  folio->index, truncate_op);
- 			freed++;
- 
- 			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
-@@ -604,9 +604,8 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
- 	}
- 
- 	if (truncate_op)
--		(void)hugetlb_unreserve_pages(inode,
--				lstart >> huge_page_shift(h),
--				LONG_MAX, freed);
-+		(void)hugetlb_unreserve_pages(inode, lstart >> PAGE_SHIFT,
-+					      LONG_MAX, freed);
- }
- 
- static void hugetlbfs_evict_inode(struct inode *inode)
-@@ -1561,9 +1560,7 @@ struct file *hugetlb_file_setup(const char *name, size_t size,
- 	inode->i_size = size;
- 	clear_nlink(inode);
- 
--	if (hugetlb_reserve_pages(inode, 0,
--			size >> huge_page_shift(hstate_inode(inode)), NULL,
--			acctflag) < 0)
-+	if (hugetlb_reserve_pages(inode, 0, size >> PAGE_SHIFT, NULL, acctflag) < 0)
- 		file = ERR_PTR(-ENOMEM);
- 	else
- 		file = alloc_file_pseudo(inode, mnt, name, O_RDWR,
-diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-index 47ef41b6fb2e..eb4ab5bd0c9f 100644
---- a/mm/hugetlb.c
-+++ b/mm/hugetlb.c
-@@ -6532,10 +6532,11 @@ long hugetlb_change_protection(struct vm_area_struct *vma,
- }
- 
- /*
-- * Update the reservation map for the range [from, to].
-+ * Update the reservation map for the range [from, to) where 'from' and 'to'
-+ * are base-page indices that are expected to be huge page aligned.
-  *
-- * Returns the number of entries that would be added to the reservation map
-- * associated with the range [from, to].  This number is greater or equal to
-+ * Returns the number of huge pages that would be added to the reservation map
-+ * associated with the range [from, to).  This number is greater or equal to
-  * zero. -EINVAL or -ENOMEM is returned in case of any errors.
-  */
- 
-@@ -6550,6 +6551,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 	struct resv_map *resv_map;
- 	struct hugetlb_cgroup *h_cg = NULL;
- 	long gbl_reserve, regions_needed = 0;
-+	long from_idx, to_idx;
- 	int err;
- 
- 	/* This should never happen */
-@@ -6558,6 +6560,12 @@ long hugetlb_reserve_pages(struct inode *inode,
- 		return -EINVAL;
- 	}
- 
-+	VM_WARN_ON(!IS_ALIGNED(from, 1UL << huge_page_order(h)));
-+	VM_WARN_ON(!IS_ALIGNED(to,   1UL << huge_page_order(h)));
-+
-+	from_idx = from >> huge_page_order(h);
-+	to_idx = to >> huge_page_order(h);
-+
- 	/*
- 	 * Only apply hugepage reservation if asked. At fault time, an
- 	 * attempt will be made for VM_NORESERVE to allocate a page
-@@ -6580,7 +6588,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 		 */
- 		resv_map = inode_resv_map(inode);
- 
--		chg = region_chg(resv_map, from, to, &regions_needed);
-+		chg = region_chg(resv_map, from_idx, to_idx, &regions_needed);
- 	} else {
- 		/* Private mapping. */
- 		resv_map = resv_map_alloc();
-@@ -6589,7 +6597,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 			goto out_err;
- 		}
- 
--		chg = to - from;
-+		chg = to_idx - from_idx;
- 
- 		set_vma_desc_resv_map(desc, resv_map);
- 		set_vma_desc_resv_flags(desc, HPAGE_RESV_OWNER);
-@@ -6644,7 +6652,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 	 * else has to be done for private mappings here
- 	 */
- 	if (!desc || vma_desc_test(desc, VMA_MAYSHARE_BIT)) {
--		add = region_add(resv_map, from, to, regions_needed, h, h_cg);
-+		add = region_add(resv_map, from_idx, to_idx, regions_needed, h, h_cg);
- 
- 		if (unlikely(add < 0)) {
- 			hugetlb_acct_memory(h, -gbl_reserve);
-@@ -6712,7 +6720,7 @@ long hugetlb_reserve_pages(struct inode *inode,
- 		 * region_add failed or didn't run.
- 		 */
- 		if (chg >= 0 && add < 0)
--			region_abort(resv_map, from, to, regions_needed);
-+			region_abort(resv_map, from_idx, to_idx, regions_needed);
- 	if (desc && is_vma_desc_resv_set(desc, HPAGE_RESV_OWNER)) {
- 		kref_put(&resv_map->refs, resv_map_release);
- 		set_vma_desc_resv_map(desc, NULL);
-@@ -6728,13 +6736,15 @@ long hugetlb_unreserve_pages(struct inode *inode, long start, long end,
- 	long chg = 0;
- 	struct hugepage_subpool *spool = subpool_inode(inode);
- 	long gbl_reserve;
-+	long start_idx = start >> huge_page_order(h);
-+	long end_idx = end >> huge_page_order(h);
- 
- 	/*
- 	 * Since this routine can be called in the evict inode path for all
- 	 * hugetlbfs inodes, resv_map could be NULL.
- 	 */
- 	if (resv_map) {
--		chg = region_del(resv_map, start, end);
-+		chg = region_del(resv_map, start_idx, end_idx);
- 		/*
- 		 * region_del() can fail in the rare case where a region
- 		 * must be split and another region descriptor can not be
-diff --git a/mm/memfd.c b/mm/memfd.c
-index 56c8833c4195..59c174c7533c 100644
---- a/mm/memfd.c
-+++ b/mm/memfd.c
-@@ -80,14 +80,15 @@ struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t index)
- 		struct inode *inode = file_inode(memfd);
- 		struct hstate *h = hstate_file(memfd);
- 		long nr_resv;
--		pgoff_t idx;
-+		pgoff_t next_index;
- 		int err = -ENOMEM;
- 
- 		gfp_mask = htlb_alloc_mask(h);
- 		gfp_mask &= ~(__GFP_HIGHMEM | __GFP_MOVABLE);
--		idx = index >> huge_page_order(h);
-+		next_index = index + pages_per_huge_page(h); 
- 
--		nr_resv = hugetlb_reserve_pages(inode, idx, idx + 1, NULL, EMPTY_VMA_FLAGS);
-+		nr_resv = hugetlb_reserve_pages(inode, index, next_index, NULL,
-+						EMPTY_VMA_FLAGS);
- 		if (nr_resv < 0)
- 			return ERR_PTR(nr_resv);
- 
-@@ -137,7 +138,7 @@ struct folio *memfd_alloc_folio(struct file *memfd, pgoff_t index)
- 		}
- err_unresv:
- 		if (nr_resv > 0)
--			hugetlb_unreserve_pages(inode, idx, idx + 1, 0);
-+			hugetlb_unreserve_pages(inode, index, next_index, 0);
- 		return ERR_PTR(err);
- 	}
- #endif
--- 
-2.43.5
-
+In retrospect, it would have been ideal if this discussion had happened at
+the time when virtual-SPEC_CTRL series was introduced.
