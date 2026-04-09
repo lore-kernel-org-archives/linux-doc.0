@@ -1,204 +1,191 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022131.outbound.protection.outlook.com [52.101.96.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7553A9D94
-	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 09:07:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775725632; cv=none; b=YSZY3VHRQESgbzDfuRLIZ1Ip7rye48eYvsusgQIK6H6+eJFzNvWQlef/u1Vn4OpCQvj4nvkvCfiwAs3Yg192bDn/QzS/eIxBaJfQKkQ4oSw+DqByfgFaDJ3Vs4GucC1L/ebZqPzgKNdGBKED2GeVy9HTqPxJaGUnWZb1FMN5OnE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775725632; c=relaxed/simple;
-	bh=i1wcDeZy472F2DDydaaazwer8mrmQJnIkHi3ESeJhkw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qh48CZZ2X3pcOkWCNYZbAjISiQdkxXGFEIEZGfAH04vsjpDdLL4ZHoYlee1+EbOAew0cvfgoPi8W1RUp6N7ONQXW0CXe9/lCPQ5QAd1nScchUu5FaUnv5p2svvXcKuBKk6fLBuY+u8phV8A3a0teFPG8ggPfckQ9n5aZjPhRvBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pn+mLf3c; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=DOd9Qscf; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EEE34C815;
+	Thu,  9 Apr 2026 10:03:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775729035; cv=fail; b=UXHAGj8rJUfab4Eqk9YF+lcD0eLsf+Ys8laz7kDxGmNX39WqjvqlGegMDU1vWka8kuaW0nClAGB2HaIAXTVtA66ry91Vujw2eJ05AFPfoatJpPOZS5lf74lMWt2MVYMuo99PM/78BlSWYPt+RvpE4iq8jr/Mp4dBEFt3MLhRbVA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775729035; c=relaxed/simple;
+	bh=ySfpNJ9Q/lNJRgULOavdvHmunDLUK7EjQYHjpVGiQMI=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=g/rGXeSXGAW+3tzb4RsBFjphTmxUVd8acC7vBfS0HSBUJdjwbaBZEn0vb/Umcotm/EzDOaFgL04tuHMzSuCFRIXHsA9szw5fujaYx0UWxmSVLcBr0KvPYOWTWqSDhMu18KxKJZGoQidZWp73Bboaw6n2AdPPYizuPISoEMlRtmw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=bBJG+vah; arc=fail smtp.client-ip=52.101.96.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pn+mLf3c";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="DOd9Qscf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1775725629;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kycERlqtaQObpK767b5Smd+ksenhEKvG6OD246qy+Uk=;
-	b=Pn+mLf3cjXSAAVEcrTs4ygUKegFuyrzHBs49FhqHNQxEN7oAoZ6I/TCo54Imv3CjJM9tth
-	XdyxUvVmUTowJ/qeQwEo38/UGDlHXOXDZHcrvB9k4LOjk6onw76O85X9rnMDp5DPIRAeIZ
-	FPgstyt6eYqVHffK0yqo++Fqa7T3vL0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-688-qfWC9GDgOxSO2Uq7_tZxog-1; Thu, 09 Apr 2026 05:07:06 -0400
-X-MC-Unique: qfWC9GDgOxSO2Uq7_tZxog-1
-X-Mimecast-MFC-AGG-ID: qfWC9GDgOxSO2Uq7_tZxog_1775725625
-Received: by mail-wr1-f71.google.com with SMTP id ffacd0b85a97d-43d1dea12aaso461496f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 02:07:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1775725625; x=1776330425; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kycERlqtaQObpK767b5Smd+ksenhEKvG6OD246qy+Uk=;
-        b=DOd9Qscf2y/BK/0L4pi7pv+jZgDNwG72qe78wQhSZEcBkBzXYT62JQ4LgVlux5bYzS
-         5O6AJbB/xHGzCDgpwOnzypzqxIqBLfdhTOloc+gguEH/mo36TDHlDiNVeTpec/IPw5NI
-         oT32H4f8Kl3p88efaN7zQjZQRIW8E+xA+PGG8+ujw4QKXy3pj/vF1wOichXszSgRKDWD
-         U+z0lMyt76rCTwUovMD9P/JNy7gC9t0cRSHOXgebiOBiMZ4Xubshg5khkl3FwgDcpsAt
-         syTqGerLJiDGt0pnGHQp4xuVF/sOpl/sElgCoQZin5Ji10NrufmhMqBimjNtOX95gIvS
-         trng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775725625; x=1776330425;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kycERlqtaQObpK767b5Smd+ksenhEKvG6OD246qy+Uk=;
-        b=IjdY8+WjmHBNeAhaaLe/U61X0SEaeRfPHDbSaNVijCMBO6KVk44gbS/TJmzFYBYq9E
-         hzHd0JfvbaikXc7/SRfN9+7x6F2aVw7dWvTwsZfs7etFMpCDZOXLOX+yHIEDgWp0r6EM
-         c99Zb0hEkwB4k3gKnTOQBnS8TZgE8p3rVaOzQY3TUbNW7ni8cvcjOXu3PX1yHCdSCq3c
-         QuV/OQPvTPO2ZQYSbbnCjweA+lGwlYQ6nVl+WTUcVnb/u9q558fd0nOTkyAtma9igbGO
-         JXaSxJO93Cw7Wf7Di/IXufmqUSu+WZtOh4+Sbt19D1a2ZUKxczp3xrE7TcJC8pDriOvR
-         L3VQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVE9sXaekjbIs3iRPWrNmzLgzhBQJox4dOcLZTnOOTUtpwKQLiYIdUKGj9g5p8YITyvVmPDvAFj870=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTnzAlYAJAR9ZEpB7LzREP4utJip+18RS3vC4I5n6LOdehD6wD
-	GW50b5BBbJHT3xVYnQSQwvFO5vJe68LpiLDVqrbZsqaFNMXuExPn+l0RaEKqvkZmEzdWdwrAUy5
-	mB54mTvlKC+NK+nJk4QjDUCfqkPjaFGiqJ8zA4FfnW8h+3pzsLJA9bmiGVSYahQ==
-X-Gm-Gg: AeBDievIfD3amVaALP0h2TSQJ2yMi446wNDsz2sH7J4eRmcDhAsfeDFu+nag6u8vh1C
-	XmEmbkxvJ2Ej4PSNj2lSAkdoiltUxMQGxchnsFnWPXoDzTzvMKwa5WqT29NOIhL5xpYu9Y5AyMc
-	ptivCATE8ff3XCGAnETwHhaCJvLdDWVkNAd+F85mrTVK2LuTktxlLzGOOeNYrXFczngi/X+5caV
-	u1xV06tjWpL0XnGvZEaP4EYAHYldo23/jm3cf4dnfnyb8sc7K9nKFG4ru7M2Pn3Essop6Sz4TKr
-	S0ZgB76xg8dyhXiziMHD53nYEWeIbZuEBY05ywctKPOsU1xpWYXxGPPk+GTLkry1hM/mYGFg2g4
-	3uNlpDiOesips5gRS/t4pwY0890LnxB06Uo4/gqVas7j8yjsZfA+dD0vz
-X-Received: by 2002:a05:6000:4201:b0:43c:f976:b8ee with SMTP id ffacd0b85a97d-43d292dab19mr34931834f8f.26.1775725625139;
-        Thu, 09 Apr 2026 02:07:05 -0700 (PDT)
-X-Received: by 2002:a05:6000:4201:b0:43c:f976:b8ee with SMTP id ffacd0b85a97d-43d292dab19mr34931783f8f.26.1775725624581;
-        Thu, 09 Apr 2026 02:07:04 -0700 (PDT)
-Received: from [192.168.88.32] ([150.228.25.243])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d5e969bbfsm2652991f8f.1.2026.04.09.02.07.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2026 02:07:04 -0700 (PDT)
-Message-ID: <b559c877-7712-4ed7-adb4-d2b667e16e74@redhat.com>
-Date: Thu, 9 Apr 2026 11:07:02 +0200
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="bBJG+vah"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RnF2U02zUudC3n1wNb8iBDMeWAYAe3d7dbSeRStWCmXZ742Go/f0ECSqpZp1mMjAuqMSeFRprwC7eEjNcij2ZTpDS83e1efItPUhcv5tyD+qzQZFAn8ghaStB1gHAGL8WJ+g8gZNQv8ffRtaNd1nfOB8ZWM9Mztu0sxB4jxThPX4sUv1k3O8Qfh5C0EnAla55XVvhiI8MWOUWjrmqp37qYbcOpyGpew69pBw1XAunlgomN7sVdXObbofC/erahGMYEdP8svxrD1izXTbcRtFwZFyoBUW6HU3VNpMTw3EorS/TUyrs8VmP70e1NE1hunq+4w/tiaA6VTg1OIjWepDDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ch85p64fNuzAT7gARhxckqqviS2gYuDnRayBqAQbly8=;
+ b=dgpn09Kp8+XOqNgnvdKsxU8ETAeOxUt9cug5Yx413D6QMnGEDyOIpf5+undk5gUYXive9pAaPC4lwxOGgr/C7Eyww7GSVvncfWdI9fsNY6z17VzBu7ewwiUwT8wXOzYEnks30k5HP1RZa1LGoEbu+iImSekfkV6YndnMYIJpvQ+pfoaowsdJKH5uzfpcR+fF4/ySuLvqQi+qLSXfabI1OM9TImFpX7IPYbFAMhxHktpDixTsrRoP6HxUWbsx06Iuglc+0MqTzh6BxYnORJ9EDkAWRMyy4ftBkWQqstgDWFV98iNLLbKbm2BT5IDajrbHdZyhzbgrrsf/H8Qwo0Ufkg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ch85p64fNuzAT7gARhxckqqviS2gYuDnRayBqAQbly8=;
+ b=bBJG+vahoYUJeSdDM1maUdRpA3GxkdGuRS42o2Os0Zo0pd1IIhPWSYvfid4Flu8xpel/BPb9cn3roKnOZaKCzccs4+ETzH8uqiiKe0ikkWl/q9h54drLsLURZETicarjsWi2nF4/StkM0sMz5Un5US3gt8NrdYc+t5vhVUHZhuA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO2P265MB3293.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:19b::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.19; Thu, 9 Apr
+ 2026 10:03:50 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9769.041; Thu, 9 Apr 2026
+ 10:03:50 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 09 Apr 2026 11:03:49 +0100
+Message-Id: <DHOJEMI0WBYX.2Y6HFZ2PYD7HS@garyguo.net>
+To: "Dongliang Mu" <dzm91@hust.edu.cn>, "Gary Guo" <gary@garyguo.net>, "Ben
+ Guo" <ben.guo@openatom.club>, "Alex Shi" <alexs@kernel.org>, "Yanteng Si"
+ <si.yanteng@linux.dev>, "Jonathan Corbet" <corbet@lwn.net>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <rust-for-linux@vger.kernel.org>
+Subject: Re: [PATCH 3/4] docs/zh_CN: update rust/quick-start.rst translation
+From: "Gary Guo" <gary@garyguo.net>
+X-Mailer: aerc 0.21.0
+References: <cover.1775619061.git.ben.guo@openatom.club>
+ <b5e1246269848fc95d118a722fb11eee88961053.1775619061.git.ben.guo@openatom.club> <DHNQOSMQJV1A.18UJB6VG0QK70@garyguo.net> <46eb585f-4983-4821-9be8-ef57571c3516@openatom.club> <DHNYKCR34P1F.1EZ3D0A8UB8S5@garyguo.net> <d7e81015-f17e-4ab9-a9e5-d2ac6dd82e7b@hust.edu.cn>
+In-Reply-To: <d7e81015-f17e-4ab9-a9e5-d2ac6dd82e7b@hust.edu.cn>
+X-ClientProxiedBy: LO4P265CA0278.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:37a::19) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 05/14] libie: add bookkeeping support for
- control queue messages
-To: Tony Nguyen <anthony.l.nguyen@intel.com>, davem@davemloft.net,
- kuba@kernel.org, edumazet@google.com, andrew+netdev@lunn.ch,
- netdev@vger.kernel.org
-Cc: Phani R Burra <phani.r.burra@intel.com>, larysa.zaremba@intel.com,
- przemyslaw.kitszel@intel.com, aleksander.lobakin@intel.com,
- sridhar.samudrala@intel.com, anjali.singhai@intel.com,
- michal.swiatkowski@linux.intel.com, maciej.fijalkowski@intel.com,
- emil.s.tantilov@intel.com, madhu.chittim@intel.com, joshua.a.hay@intel.com,
- jacob.e.keller@intel.com, jayaprakash.shanmugam@intel.com, jiri@resnulli.us,
- horms@kernel.org, corbet@lwn.net, richardcochran@gmail.com,
- linux-doc@vger.kernel.org, Bharath R <bharath.r@intel.com>,
- Samuel Salin <Samuel.salin@intel.com>,
- Aleksandr Loktionov <aleksandr.loktionov@intel.com>
-References: <20260403194938.3577011-1-anthony.l.nguyen@intel.com>
- <20260403194938.3577011-6-anthony.l.nguyen@intel.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260403194938.3577011-6-anthony.l.nguyen@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB3293:EE_
+X-MS-Office365-Filtering-Correlation-Id: b2b6f149-bbbf-41b2-ce2c-08de961f4c2f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|366016|10070799003|1800799024|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	e/hYhD05ph8ZIt0hMGu05OR35+3BMvxI3OyMe4+96W88YqQsOd4GZKR/HN89n8q68vUaTKm6xabbIddP7jdyHo1p5DKu60N0B5Kq77ho1dSnTQFdPwN8ghuDzG0VkjA5RFQATK1YiUkJjs+ntxlh1EhZK8Ffnkc6nguNxMjRyc3iESYVYHD84vQ0RDQq1XiYyn30+uqOo3/+CIf+aJhid9bxRFEucxpA7vMvLe2k2P77n3xTQrfbRSzC/v/Iq4MrBd/6gEv91dH4iCKLoptsoIvZ0KexVQfCAh2X3qYQd68NE2sn+rO4lyU7Ka6SifYEHRR1Prwa13VuJDeASeM9xyp2j3EpjbpZ1RN2CXXstihrvIkYlKOO5HzDJKew9zLezQDZZw28rWa4HrU0CdazW5ziADEkPSLnFBzIy5+yipXJR06/94EJSnd6BtuSJnOdSV+mL5kHtciQ9YXKz7TWsngYljhNfglwXfVDayaKtrfYhhIJfpboua7JUMpPZkrHDRwFIC0Pys2iNF3/XCBYqM7rZj5NYXEjVzvlND5RRWyE0aRqQE4pfaeaymoOBB6RKdRHeYQX4YDWsFD8o7tkryn1CKCSJG2IR745A0AhKTLYgYMktl3h8IIpW+qJ2QS9quc6QNHfb2RW/DXbNz7zf0m4a3p+9drbF3G1hz38pRBg1+rjv0IWtm7Ioq938G6I2kAFJxC8mMtsXklTpshjq1WPQqah+fPvp+V7GoPWGxo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(10070799003)(1800799024)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?R1Jnd2hrbXI4dEtHU0Ewak5EMmszanFzY1prMGtqcnBRaXQ0M09IWVIrK2VC?=
+ =?utf-8?B?Ly9NUGg0RTQvWEptV1VqSi9uZ0Faa3NKNWZ1MnVjTXhoeTRUcGkrQ09LV0I5?=
+ =?utf-8?B?SHRaNHpNMloxY0Z3cG5heGF6S0J4YTVPVlU3QU5OcHA0YXVubEJ6U1ZBU09u?=
+ =?utf-8?B?emhWa283SnV1QXpJWUZRd0cwMnNBeGs5c0duVmwvVm1mdFM2Q0h2Ry9sSVA1?=
+ =?utf-8?B?aGEvRTlXM0QxTnFsMlc4ZUpBUHNFQm91RGFTY1poQ1FOSHRESVhJTWpuaFFW?=
+ =?utf-8?B?a0hpbDVCVE05Q25vNllOTjhuYVVGS3RKalZWU1dIeDZVV0VERE55dnZXQ3RG?=
+ =?utf-8?B?ZFo0TVRybzk1cThPTU9STk44dkpzb1RFbjN3WXpOWlBXN25xT0lxcVNGSUZH?=
+ =?utf-8?B?dXU5OWpzNno2emJoL2tIR05uNCtMemgxL3E0ZSs2VHVFclkyaW8rUktDaTU4?=
+ =?utf-8?B?cHUzTzA3T25URkRYeE1XM0NvTWZ1SXEwMy9JWlRmYWVZYUllZzROOENDQUl1?=
+ =?utf-8?B?S0xXYzhqV1RoNGJXZTNmWmRtR3AwdExmRE9sRXRxY0YxWHFPWXY2VjQwV0NT?=
+ =?utf-8?B?ck0xaE5VY1BJWWJOd0lLYnNQY216S3BaVTV0ajFmczJiSHQwZCtkMEhBSzFS?=
+ =?utf-8?B?aWJST3h1R3o4dzgrL2dnZ1AzZEQrZ3Z6Zlc3dlNFRGhMZHp1MU5Qc1JJVTdQ?=
+ =?utf-8?B?ODNTVDExQ0x6WTRQbnp0S0pOTWhyTnZzUlkxdXNJUFFRVjA3UU15L0dLcDh1?=
+ =?utf-8?B?YURZVU1vR0xGZk5FWUV3MElwRmp3a0dGUGthblVRZm5CczExbEtOTHNoNjla?=
+ =?utf-8?B?OE5aZzlPcmVLTnJoTWZwRUh2blFSODJPZEYwS1BOQ1hRclNvYU5henBpdU9D?=
+ =?utf-8?B?dFk3T1N6NkFTOU1OZmx5Ylh3K0xmbjQ2TUxRTjJSa2d1SStuQUg2RERobFZN?=
+ =?utf-8?B?TVRBZEF3eGQ5Q2tkak9OMm94bnp3Wk1JVmg1RXV0Rk4wYlFqM2tMdzVxL0lK?=
+ =?utf-8?B?NDYrNnBBNVpPNzlJMytFRFd1U2JlQzVsNVhEQVlhdkdneGNyZXRzMG1LbU11?=
+ =?utf-8?B?cHNHdWQwbHYzMUwvMlFWUDgxS3RJalhIK2FNU1I0a3hLb2E2TzV6N0l5N1dr?=
+ =?utf-8?B?bUh2RUszWGJlcjVEVmJQODZ2RzZtcUNRbDUzeWFpZlFoaXphUVZwRU03VkhU?=
+ =?utf-8?B?bldBd25ZN092RGtiamF3R3ZOQVY1WmpMa3Z1QUErVEp4UTRxUUZ4TkdTRDk1?=
+ =?utf-8?B?MzNsMXFleDIyaFZyS0hFRFlyUTJBRUJUalBIbm1KZ0NRYmZmUTc5VW80ajMy?=
+ =?utf-8?B?Y3JFVTNKTGVQalpXTlkzbTlvM1RwbVZwYU9YbUtQV3YzVnBzVnp2NmpnZnF0?=
+ =?utf-8?B?bVJSa2h4cUZ5UTNrU09ITklpS2ROMEFJcmZybEpuSUJEc1dBMGMrUDNGdVly?=
+ =?utf-8?B?VFBseFpqOS9pZUd5MHo2MXBORi8zTFlCbGQ5QkhQekh5enFoYXZtVEpNVko4?=
+ =?utf-8?B?RW9hOG0wdTFOMVlVRHVpTXNTU1JveEcvSk1oblVYdnNMQzgrWlp5RkFZcFJP?=
+ =?utf-8?B?THl3cExsUWdJanBUWjluM2tWQTAxZzRlZHhwSzFGOGdXZm44TXN4QlQzVW9s?=
+ =?utf-8?B?ZyttMW1xOTBubGdNcE5XV3N5alJpVXlaL1hIUmcvK1hUZWF3YTFHUWVrVlNI?=
+ =?utf-8?B?TDBTSGlYZW1XQmZUNnBOL1J0ZHkzNmt4MHcwY0FTZ09yM05NTUhjY0M1Z2d3?=
+ =?utf-8?B?Q016WkZ3K2tOS0tSL0NTbXo0Nnc3VHdoQkpBdndPSnY0UDRXVjM0WS9pM2hF?=
+ =?utf-8?B?b0xydnBpbGFmd1l3bmNDVFFoZlRia0NXeGRGR0lQSDRjMTdzdS9ndzk1ZGpV?=
+ =?utf-8?B?Nkx0RS9VKzZqMHdMWVVyQ3NBYmNoYnViNDhhVnVTNzlzcmRBVHdnU0MwYjA0?=
+ =?utf-8?B?SHNJdERybFRyQVdtUFZCbUMwTzQ5LzM4VzMvdDl6cFQzeloxV0x6bkJDWTNh?=
+ =?utf-8?B?USsyV3U5L2puRXFsS2F1Q0tSV2lITS9iWFBLTmNQbG9wa0l3TkxOQ1NBbDVQ?=
+ =?utf-8?B?a01WV2hjMjg5akw3SlpkMkFhMzgzN1pJSXVZRi9JQmhNT0RmclZ5d09CMnAv?=
+ =?utf-8?B?cXhBK3BLVGl6YmFsS1Jkd2lVUXlmUmExM21wVGZKRXljaVVWUGdlWDVpKzc5?=
+ =?utf-8?B?SlFNUWJ4VmlVenRYVmNPY00rM1RCR2F0MmQwOVZtdWRlU0tXUlpqWEpkeGFk?=
+ =?utf-8?B?OHZqZThzd3B4dzRTNnhFSHZ4WG84U01MNFU4NlZtdjNxQWNHQmVjaXlPTzBO?=
+ =?utf-8?B?WW5yZVM1dmM0czcvN2ZBbU4yVzBGNXdXSmhPcXMyY2VSYkdocUg4UT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: b2b6f149-bbbf-41b2-ce2c-08de961f4c2f
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2026 10:03:50.0583
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o6pCyqz87+BYGdfu8SndZsQ9e5x8b5942JAU8D8zu+Br75/rmXerF5MWaK8cWS6MBn044jatmEwpAEaU4QZIdg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB3293
 
-On 4/3/26 9:49 PM, Tony Nguyen wrote:
-> +static bool
-> +libie_ctlq_xn_process_recv(struct libie_ctlq_xn_recv_params *params,
-> +			   struct libie_ctlq_msg *ctlq_msg)
-> +{
-> +	struct libie_ctlq_xn_manager *xnm = params->xnm;
-> +	struct libie_ctlq_xn *xn;
-> +	u16 msg_cookie, xn_index;
-> +	struct kvec *response;
-> +	int status;
-> +	u16 data;
-> +
-> +	data = ctlq_msg->sw_cookie;
-> +	xn_index = FIELD_GET(LIBIE_CTLQ_XN_INDEX_M, data);
-> +	msg_cookie = FIELD_GET(LIBIE_CTLQ_XN_COOKIE_M, data);
-> +	status = ctlq_msg->chnl_retval ? -EFAULT : 0;
-> +
-> +	xn = &xnm->ring[xn_index];
-> +	if (ctlq_msg->chnl_opcode != xn->virtchnl_opcode ||
-> +	    msg_cookie != xn->cookie)
-> +		return false;
-> +
-> +	spin_lock(&xn->xn_lock);
+On Thu Apr 9, 2026 at 6:37 AM BST, Dongliang Mu wrote:
+>
+> On 4/9/26 1:43 AM, Gary Guo wrote:
+>> On Wed Apr 8, 2026 at 5:51 PM BST, Ben Guo wrote:
+>>> On 4/8/26 7:33 PM, Gary Guo wrote:
+>>>> Hi Ben,
+>>>>
+>>>> Thanks on updating the doc translation. There has been new changes to
+>>>> quick-start.rst on rust-next, could you update the translation to base=
+ on that
+>>>> please?
+>>>>
+>>>> Thanks,
+>>>> Gary
+>>> Hi Gary,
+>>>   =20
+>>>
+>>>   =20
+>>>   =20
+>>>
+>>> Thanks for the review. This series is based on the Chinese documentatio=
+n
+>>> maintainer's tree (alexs/linux.git docs-next), which does not yet have
+>>> the latest quick-start.rst changes from the Rust-for-Linux rust-next
+>>> tree.
+>>>
+>>> Would it be better to wait until those changes land in our base tree
+>>> and then resend with the updated translation? Or would you prefer a
+>>> different approach?
+>>>
+>>> Thanks,
+>>> Ben
+>> I don't see the issue of sending translation of the latest quick-start.r=
+st even
+>> if it's not in your base yet. By the time the changes land upstream, the
+>> original quick-start.rst would already be there.
+>
+> Hi Gary,
+>
+> Let=E2=80=99s wait for the rust-next changes to land upstream first, then=
+ I=E2=80=99ll=20
+> ask Ben Guo to sync that commit. Otherwise, the Chinese translation=20
+> would do not match the=C2=A0original English doc, which will confuse read=
+ers.
+>
+> We have checktransupdate.py in place for monitoring the updates in=20
+> English documents.
+>
+> Dongliang Mu
 
-Sashiko says:
+Given that you have tools to catch this, I'm also okay with this patch land=
+ing
+as is, with a follow up translation when the new quick-start.rst lands upst=
+ream.
 
----
-Because the cookie and opcode are checked before acquiring the lock, is
-it possible for the transaction to time out, be returned to the free
-list, and get reallocated for a new message before the lock is acquired?
-If that happens, could the old delayed response falsely complete the
-newly allocated transaction since the identifiers are not re-verified
-inside the lock?
----
-
-> +/**
-> + * libie_xn_check_async_timeout - Check for asynchronous message timeouts
-> + * @xnm: Xn transaction manager
-> + *
-> + * Call the corresponding callback to notify the caller about the timeout.
-> + */
-> +static void libie_xn_check_async_timeout(struct libie_ctlq_xn_manager *xnm)
-> +{
-> +	u32 idx;
-> +
-> +	for_each_clear_bit(idx, xnm->free_xns_bm, LIBIE_CTLQ_MAX_XN_ENTRIES) {
-
-Sashiko says:
-
----
-This iterates over the bitmap without holding the lock. Concurrently,
-other paths modify this bitmap using non-atomic bitwise operations like
-__clear_bit() and __set_bit() under the lock. Will this cause torn reads
-or data races that might lead the timeout handler to skip valid
-transactions or examine invalid ones?
----
-
-
-> +		params->ctlq_msg->sw_cookie = cookie;
-> +		params->ctlq_msg->send_mem = *dma_mem;
-> +		params->ctlq_msg->data_len = buf_len;
-> +		params->ctlq_msg->chnl_opcode = params->chnl_opcode;
-> +		ret = libie_ctlq_send(params->ctlq, params->ctlq_msg, 1);
-> +	}
-> +
-> +	if (ret && !libie_cp_can_send_onstack(buf_len))
-> +		libie_cp_unmap_dma_mem(dev, dma_mem);
-
-Sashiko says:
-
----
-When libie_ctlq_send() fails here, the DMA memory is unmapped and the
-buffer is freed by the caller. However, the software tracking ring at
-tx_msg[next_to_use] still contains the populated send_mem details and a
-non-zero data_len.
-
-During driver teardown, libie_ctlq_xn_send_clean() is invoked with
-params->force = true, which processes the ring without checking the
-hardware completion bit. Could this cause the cleanup routine to process
-the failed slot again, resulting in a double-free and double-unmap?
----
-
-There are more remarks on the following patch, please have a look.
-
-Also, it would be very helpful if you could help triaging such
-(overwhelming amount of) feedback on future submissions, explicitly
-commenting on the ML. Sashiko tends to be quite noise on device driver code.
+Acked-by: Gary Guo <gary@garyguo.net> # Rust
 
 Thanks,
-
-Paolo
-
+Gary
