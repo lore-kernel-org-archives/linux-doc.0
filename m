@@ -1,210 +1,286 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82554324B2D
-	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 21:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775768812; cv=pass; b=bUwJo494np4i1XA9jo8EEuBO/qudT1VV3g8N0swXBe9gfSJqvv5z3EPtm98/v1r5OdipS9Jcw/++AaRYAz4t5XOrZukLHI/fdCDEFeQr2gWIdqbZR6q2bxJuO2uuf8adMQJemFUE8JpHh4xX1HRwyAlFQdofWsubVfNm+wCjjKM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775768812; c=relaxed/simple;
-	bh=Jh9WA8x2awad3lmAqYVpxS5VOwXt/AnG9yTjUz42fhc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A4582g+f8xdIhR/Tg7a3AjsWTuqkzhb1VovtUsdIW4VMTUulOiBRvVwZdKL8dO5EkYutf7CK+E/apvUWrlOesdkO4+TEeARwfkJeE4tLkOHGeLoNB9qukTko5ZibJ8GHWFQFiCQi+InIEfWLbFptgsrSFTBWZsYmi37KisxHcfk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=N5q5gE5X; arc=pass smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDC16371CE6
+	for <linux-doc@vger.kernel.org>; Thu,  9 Apr 2026 21:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775769256; cv=none; b=io8QUcLV6kUW4FoURbAonvhscHmon8tLhxEXxBHI5GOYo3w9KvLiJjRtFsdFUSNipWXt7qC6b2tdnuDpPe3zujpCPkz6zma6Q1KtjXr5Wy5fbzMc7l5NacccfqWW8AzDowGjUD+Pak3yOYeayLKqiqRprimtKLdSpd9GRV+k9kg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775769256; c=relaxed/simple;
+	bh=fl4nGN4lCESvXQWVBOIXNbs8beARKP8jJmEhq8ZQvtM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XGPh7yCwWif4dGAZbmqlp7CEPNjAWTjF176GgrsGMZ1yJ/en9c0IhfrdTBBsr7sbVJoGUa+ALyYlogR8N6cn0J9k8VuNqiy832koiTB94mpyukgCZtA1MGZg3lB+MaMqIMvUX6xj5MraKuptpaA8hrGEi3N++6faGM1Csc4Wg/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Kz7dc2Aq; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=TiNlvEEH; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="N5q5gE5X"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-67070d9ba4dso2761a12.0
-        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 14:06:50 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1775768809; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Ebokl9NEHv5WJOayavWd5N+67/oBiMzK+/W6H6VMJADrPvkhIMArZM3jGEQbXBDza/
-         UMrR7+X8UBNYPjkaci7RXyJLfzMXhZ0zDeTEJVu5gII+LLLIy6pdjrcKZLuw0c5HKIkP
-         KbMPgDzZQzYLEV7zOIrm5hUCT403XvJzqJ25540t77Cv3ijTjBQEGbINdTOoYLd6ohIJ
-         DEhBBmabSCwraRCz+axVxkRu/kNyNUFdrAC3VN/e+6/ih7QmTC6aSP0TilJmkVJphIWH
-         FxStJ+C5vzzpboixdpj4e7q0n6bZ7UJgTPRKkQKPDX1Bn/5TqZfGwBu0UedVOdnQ6xLt
-         oB5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=T6Io+TbgEInBUXr2ZZvVAjzS0NzLS5bRjm9qTjcDPeU=;
-        fh=u0e8DjAvOx6dmJYSU3Rg3jaEft/YCu0aUYyq+uOlBwI=;
-        b=bQGUK5ydjA1FODBHyzB5cnx7dUrT1lynvTPku4hIt0vpPX6n0bKyRXhMQxhnFzDTNh
-         FNTGb4s9GTIJFgiC/CdynMnJBaun3T7O8BfoUn8SLTCZ3ABPBI02RwZPiYQfu4z9tSnZ
-         Wnhmq60o64UNVI/tGN9vEfQt7TcdKTR6ADgIBSUca1PkDdb+eoxqsUXBQwga5IYBd54S
-         rzACeEERbk3MC494JFPuECKg4ufS31N292B6vjEAQ5YnpQrlnZKqz9+koq3s7JvpOKw1
-         hOnZ6MlfQyfTBb3MKc6WGBP1UQ6GBsMv7Rd/qMePD34NJFoygjcegJwCr+CyVNIMyJlk
-         g9pg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Kz7dc2Aq";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="TiNlvEEH"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 639KUFnv1433178
+	for <linux-doc@vger.kernel.org>; Thu, 9 Apr 2026 21:14:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	71bx/GMNtE6R0JOiEcxGItTozs6PCdIMyyDmKsMoGNI=; b=Kz7dc2AqlffxzAgh
+	cdh/3LtvfpwHCe7rSWC0Wldi7NbRmijlA9Sf9GouOVHCKU9yBzRS3ISBi9wJpGgQ
+	qnfNmlkyPHDfsKbfBAda4+AKrx+4I5vj/AsMOHcItxVdA99VajhrZ7N4VOsLUGaB
+	zjfrFaLt6B8Q0SzCj03gDfr/GQ8vcibfyXUFpavDPh+EDjrmMWSLZJALXEmhxW/o
+	CtImuz5AnVs45OKk8Uw+CaKSMOb0Jahf4F1I9+BkrqtiuLpsq3gUDyW1cEEr+O+G
+	NkW8aOABPN6XpOvK2f8NdSHhx/NmzAvZSUwi27/s1zfsVvw83aZcSDZJEsO3ih1W
+	Qj9J6g==
+Received: from mail-dl1-f69.google.com (mail-dl1-f69.google.com [74.125.82.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4deckf9qp9-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 21:14:13 +0000 (GMT)
+Received: by mail-dl1-f69.google.com with SMTP id a92af1059eb24-126e8ee6227so1845071c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 14:14:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1775768809; x=1776373609; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=T6Io+TbgEInBUXr2ZZvVAjzS0NzLS5bRjm9qTjcDPeU=;
-        b=N5q5gE5XZJ2yYNIdmYor+kWbrOcd8iEX7Ctpi0F+2Md0qQnWSA1Afc6qFcTrN8C3bQ
-         TF5cjdXy1H10yJhuvM49JQQD5ggH4ThQr6ROst0afwNDa5tk9hVE7bQ6YOPqls8O+yG6
-         WcmtBfFUXP71se+/R5rvKaRbYDDP3wr8/XvgsNzrzIQUQrD2vtEPUdmJwD8J4ynqSZ/Z
-         z28bPGk2F2WEJwUHoPvrl3Bme3bX1jvtfexjmhpFhE1j8zWe0BEO8AvBLugxl+CLDQ5N
-         hHOa02rBVavtPIT1buOtLr7Lb297cN9XYXi1s4jDVHWnIv0whud0PZFG+TfBiAAJhZBf
-         KpBw==
+        d=oss.qualcomm.com; s=google; t=1775769253; x=1776374053; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=71bx/GMNtE6R0JOiEcxGItTozs6PCdIMyyDmKsMoGNI=;
+        b=TiNlvEEHNCs1oIx+PUkLA5G1lkM7Pz7ARE3O+XzoNUXHgx+Bcy5Kkwzhof5cJqPUnT
+         yCRzVubMhcCQUk91ikAp3uCtxIqPclmZH5eO+cpS7FUkiScJZE7mziDU5hfkxLO5B/sm
+         TWsu+EXS2X3Rp6cvJr2rkAi9RPmyx1uTag5o3PayrFLGnSpEGZZo+Yl16PJLLUDmzhM+
+         YDCxgmf74djOUg+FPYR4PfSS/3HpoOwjPMLvgw8dIkk+AAP8K7vk1BcfmqMHTl+6co6d
+         OiuzcgYZL9ZwhwALHI8URE70CQLL8Chs95MnQu5NP4/b959+pylDDDH9/9JiDqM4wsGI
+         cpiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775768809; x=1776373609;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=T6Io+TbgEInBUXr2ZZvVAjzS0NzLS5bRjm9qTjcDPeU=;
-        b=H/3jgM+kp7gs+iER9iuEG49nbd/sV2dS/QIaYAgam8skNtXU7CNPbbUtrEAbgwst7j
-         J3Mft3oKYqSNSU4xWWb1UcxV7h0oydWET/b5l2B/4dACl7AgZkP+jhcY1Tq43oYuflmf
-         uUXk43Ik7hQdG8KKYudl4hleEEYfGUT3QOs8lsQxHm5QaCxkLG51BjHh+yuhOYTTjvHq
-         D3HNYdDGLAgjRK+YSwnOf8wWMCPoaEpSlsPxz/qc/Mz8OtJmOLJBz7Re/wvnBXngPUXH
-         gQzlXTIHj13hGzxQ2fCi1J1M5UTfa437WDNksa6Antz5UE5ZKL6ucUk3Az0obga4v2gr
-         o19Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVUD3KNOvu2SjwtKaJEst9Ped46QFTl8S7U8xC/E913XRw4rm5irkKJAkPxBp8VGMje3W+i1nzDJZk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWCJ/9iyna+GL43BqRQdJFS4iYDMuzGIksUGWfdhntVUAVyiwD
-	GmkFV5buEhJW9JVkL6EY7s0CgU6TtZU8TOCO93Cnb7e77VdGRLK9PRuRWeoW1NYeLQhmIhf4wBe
-	BweNjKWM/wjlkXPEGLW751x/+zZxxYgOaeJPUS36Q
-X-Gm-Gg: AeBDietLH0HGHCp/n+wOyfsPo7Kn4TGPgLXoXZfDQBhyP+l44NMoxuEYQZWhawxSzve
-	BHsm/lKddUntfYweHe9oAkakYrN5XqGbbG4mz/NQPUB1IZwF6au4HiyOSK8mTZzmXvm4tQMDPCe
-	JCbW5KOaxz5U9kmC1b5sDDF7c7SB+oCuukTdIn/XTR6/SOdnpwAFxJgBvC4KGptoeEWJnPnDIRP
-	MrPTKBRERBIX7QEwVNAXJwNEKKe3eB4D0zVcDvoynQ946PHDJvXlXuHDKdBFVUtdO+MwgpGCKCY
-	GH9ffNOMtVkDFtiT5w==
-X-Received: by 2002:a05:6402:26cc:b0:664:eadc:7262 with SMTP id
- 4fb4d7f45d1cf-6701e2ad1e6mr79997a12.13.1775768808382; Thu, 09 Apr 2026
- 14:06:48 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775769253; x=1776374053;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=71bx/GMNtE6R0JOiEcxGItTozs6PCdIMyyDmKsMoGNI=;
+        b=tHrHMRDdIJWJR+GVVUSg0wqOa/jv9Ntyw00vC/EniDUayhRRjQC98jTJuye5o/UfU9
+         8yyX1fjLCdRfkHw8yAG/UVzM3zPUk+KnezLAwRrIU7fERprtqfLQcPGSfTr1Ued1E803
+         CCTY/qUsk6KQy098HY/FsY2tjgCUKToUHBW2ejoccdqWHz0pgF6vFHZQB9hkK7x/94TH
+         d7ni//TzIvD6I4lbzSGy3T8CUnq9HCBMrkficfIdVwF32mDX2gs7dBaiBT6OI3tPMcyE
+         LN09KhZHyg3vCfAnk4sXI1DvfxeJjdZ4LCmMhxvN4xI25fQdr2cj14jy21keSO5ZDdPN
+         DgDw==
+X-Gm-Message-State: AOJu0YwIOKPjFXnh/lTq2jK7F8PiQlLrjLorZ1fAViCLwtte21WP27OY
+	Oe2eQgSzNBr5/PTfgPBgZY62X2dkZNLmF6lMcFxSljHd2qypJgxYE4npb1HnwleCxIKFtnY3p4l
+	VCTk6MTbQGuOgDy/rPhe2ZGDtJ3bhu3ealEq1Lz1x3AyM9hnExHHOg3tfo/HbqaM=
+X-Gm-Gg: AeBDiev70PfQYxi6pTkTcPsjzG9oQ0o2rlgm990RC5cWBXe/kt13FfDThiAbpsgg1GL
+	CxXejHFtN2Cn+QZKTb8DGAP2pELv2fVXMFJHHAs8HIfiFRSp9U+VG4ychDaIsdiEmqK2Prytlhu
+	TyqXxApk0qtXvj/kvyu+O+uUNIOznxDIbHu9HVMKV5z9u4nhmd1ciZ63qx4OcrobTtluxbp5LLU
+	tPRQQ1xJLmJ+NzT3IFb69Zf5WjMxatKTLL3zN7n1Ki1rkh0vmT2yivrByTLmIeM0z8M6C5J4tFq
+	ho4f+8HWKf8ob7icjYdZX1cBcBdg8svilBb14plZnoM6Hzv1OyVKMFr83W6FXxJaOkwk1VUnLLG
+	TUefnGA/9aG4tGesr4u+JwrPIuilEKugdoifC5jSm+XqieRX3GtGlxKHZ82Sj3+l+iSsYI+VO6U
+	Q=
+X-Received: by 2002:a05:7022:419f:b0:12c:2dd7:9099 with SMTP id a92af1059eb24-12c34ef6d62mr423005c88.30.1775769252617;
+        Thu, 09 Apr 2026 14:14:12 -0700 (PDT)
+X-Received: by 2002:a05:7022:419f:b0:12c:2dd7:9099 with SMTP id a92af1059eb24-12c34ef6d62mr422975c88.30.1775769251987;
+        Thu, 09 Apr 2026 14:14:11 -0700 (PDT)
+Received: from [10.226.59.182] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55f5c698esm1454478eec.6.2026.04.09.14.14.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Apr 2026 14:14:11 -0700 (PDT)
+Message-ID: <65985856-0a01-4856-af97-56caed5430b6@oss.qualcomm.com>
+Date: Thu, 9 Apr 2026 15:14:10 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260404002149.wtayv6a64vzuppgp@desk> <CALMp9eSqgL5q-MY1xpjqR5oRn5_cb=mfEhNFWusNneS=Mx8UMg@mail.gmail.com>
- <20260404034954.t7iapenzvhdpagxp@desk> <CALMp9eR70eE2U63gzNzTiic0PqJVGv3CBBuVUOVbi3nqbWKZkQ@mail.gmail.com>
- <20260407163943.y6tkh26z2rfktn3y@desk> <CALMp9eTA3cXxuOT4dq=6y1hx52gPH1ywwTEmPQ5-fA-vz6r3VQ@mail.gmail.com>
- <20260407171151.2gf2idjbmph35ypb@desk> <CALMp9eRNVGFpzk_-ajQTuXadMtoY9H-ndUaz78wTT1zDYbTrPQ@mail.gmail.com>
- <20260407191128.b2hr2ttkdpyunhrr@desk> <CALMp9eTK0o7Z7-oTB8ohvmoh-vy-Y2qjdUvbqD6HaEhOEPZmhw@mail.gmail.com>
- <20260407222738.lrartp6evfp7yhti@desk> <CALMp9eQjSqwnvJz4JVzYpMkkTiucSJtW48zC4Hj9GBiUhOH-Eg@mail.gmail.com>
- <a605fb45-f8e3-45ad-8924-1da43b9a9e05@intel.com> <CALMp9eRfNsghM_RnDXOs=SJYObfPa5A1aOVDZno_zJ=XotfmRw@mail.gmail.com>
- <410df9f6-69ec-483f-9009-0a9b8c9162a9@intel.com>
-In-Reply-To: <410df9f6-69ec-483f-9009-0a9b8c9162a9@intel.com>
-From: Jim Mattson <jmattson@google.com>
-Date: Thu, 9 Apr 2026 14:06:36 -0700
-X-Gm-Features: AQROBzDpN1eCOiQJSVX_bZO_GJCCAd5QpgFXMhi42CoW97OvabZocFA88ATO2hY
-Message-ID: <CALMp9eQx3H+n3V3dQh+ZafQZ6uNBjSYk8tZsvG6ffcY43YTrnQ@mail.gmail.com>
-Subject: Re: [PATCH v9 02/10] x86/bhi: Make clear_bhb_loop() effective on
- newer CPUs
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org, 
-	Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
-	Sean Christopherson <seanjc@google.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Peter Zijlstra <peterz@infradead.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>, 
-	"David S. Miller" <davem@davemloft.net>, David Laight <david.laight.linux@gmail.com>, 
-	Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	David Ahern <dsahern@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
-	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org, chao.gao@intel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/9] bus: mhi: Add QDU100 variant and image_id firmware
+ fallback
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
+        Oded Gabbay <ogabbay@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>, andersson@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        mhi@lists.linux.dev
+References: <20260319-sahara_protocol_new_v2-v4-0-47ad79308762@oss.qualcomm.com>
+ <20260319-sahara_protocol_new_v2-v4-5-47ad79308762@oss.qualcomm.com>
+Content-Language: en-US
+From: Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+In-Reply-To: <20260319-sahara_protocol_new_v2-v4-5-47ad79308762@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=S/fpBosP c=1 sm=1 tr=0 ts=69d816a5 cx=c_pps
+ a=kVLUcbK0zfr7ocalXnG1qA==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22
+ a=EUspDBNiAAAA:8 a=-PYeUNOmlN0cYKBwraoA:9 a=QEXdDO2ut3YA:10
+ a=vr4QvYf-bLy2KjpDp97w:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDA5MDE5NSBTYWx0ZWRfXzMJRJm+hrpuX
+ QRnvmIdQd5teg6hwJnXFNoQMzsY+oac0WA5XLo+LiYovDEXO+L5EcAj4Xd7kIyO0QNgAnxBYM0w
+ euoAvRtc5TIZiR31i9ue4g8CT6p0JGiub6k4vSqMYeGJ75oYAW3EEbv8VBIqey3qXpRT8YcrxSB
+ TGMB84gkz0I+PHIQkkmpmSKMCOwRNkWqfe0wgg8V3wm60wR1sKc35eXLo+97MgMUHmiDyjD9jO3
+ 7sh8lu+YIGU5UJ9mZ99uHqjT0vHa0kEch3pIL+RgpOKyj/iyOGWxOQfupCkCPCzfTU+vgjwgER6
+ i/Qu0nzBMy3PekP7+AUJUDY6PDpn46qUqhqFsfFcTD0UStCKItO7nmcJkpNObLzJ2nUbgXJQicL
+ DuxymHHDmMQ+HpjlU4Cd16fBRvCXoXtWO/IWDdxxngR5+IKK3fRAZRJHVcxW+D/JenZBTFuc4Ls
+ cY+ZI+leWvbK6Ir97+Q==
+X-Proofpoint-ORIG-GUID: WSWubXsERWEAC0nm7-XktrVu7lP5PANA
+X-Proofpoint-GUID: WSWubXsERWEAC0nm7-XktrVu7lP5PANA
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-09_04,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 malwarescore=0 adultscore=0 spamscore=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604010000 definitions=main-2604090195
 
-On Thu, Apr 9, 2026 at 1:36=E2=80=AFPM Dave Hansen <dave.hansen@intel.com> =
-wrote:
->
-> On 4/7/26 17:47, Jim Mattson wrote:
-> > On Tue, Apr 7, 2026 at 4:41=E2=80=AFPM Dave Hansen <dave.hansen@intel.c=
-om> wrote:
-> >> On 4/7/26 16:27, Jim Mattson wrote:
-> >>> What is your proposed BHI_DIS_S override mechanism, then?
-> >> Let me make sure I get this right. The desire is to:
-> >>
-> >> 1. Have hypervisors lie to guests about the CPU they are running on (f=
-or
-> >>    the benefit of large/diverse migration pools)
-> >> 2. Have guests be allowed to boot with BHI_DIS_S for performance
-> >> 3. Have apps in those guests that care about security to opt back in t=
-o
-> >>    BHI_DIS_S for themselves?
-> > I just want guests on heterogeneous migration pools to properly
-> > protect themselves from native BHI when running on host kernels at
-> > least as far back as Linux v6.6.
-> >
-> > To that end, I would be satisfied with using the longer BHB clearing
-> > sequence when HYPERVISOR is true and BHI_CTRL is false.
->
-> If the guests can't get mitigation information from model/family because
-> the hypervisor is lying (or may lie), then it's on the hypervisor to
-> figure it out.
->
-> I'm not sure we want to just assume that all hypervisors are going to
-> lie all the time about this.
+On 3/19/2026 12:31 AM, Kishore Batta wrote:
+> The Sahara driver currently selects a firmware image table based on the
+> attached device, but it does not recognize QDU100 devices that expose the
+> protocol on the SAHARA MHI channel. As a result, the host cannot associate
+> QDU100 devices with the correct firmware namespace during image transfer.
+> 
+> Extend the probe-time variant selection to match the SAHARA MHI channel
+> and associate it with the QDU100 firmware folder. Add an image_id based
+> firmware lookup fallback for cases where an image does not have an explicit
+> table entry. This allows required images to be provisioned by the platform
+> without requiring device specific client drivers or additional registration
+> mechanisms.
+> 
+> This change only affects devices matched on the SAHARA channel and does not
+> change behavior for existing AIC100 and AIC200 devices.
+> 
+> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+> ---
+>   drivers/bus/mhi/sahara/sahara.c | 77 ++++++++++++++++++++++++++++++++++++++---
+>   1 file changed, 72 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/sahara/sahara.c b/drivers/bus/mhi/sahara/sahara.c
+> index 8f1c0d72066c0cf80c09d78bfc51df2e482133b9..4ea14c57774f51a778289d7409372a6ab21fea60 100644
+> --- a/drivers/bus/mhi/sahara/sahara.c
+> +++ b/drivers/bus/mhi/sahara/sahara.c
+> @@ -234,6 +234,36 @@ static const char * const aic200_image_table[] = {
+>   	[78] = "qcom/aic200/pvs.bin",
+>   };
+>   
+> +static const char * const qdu100_image_table[] = {
+> +	[5] = "qcom/qdu100/uefi.elf",
+> +	[8] = "qcom/qdu100/qdsp6sw.mbn",
+> +	[16] = "qcom/qdu100/efs1.bin",
+> +	[17] = "qcom/qdu100/efs2.bin",
+> +	[20] = "qcom/qdu100/efs3.bin",
+> +	[23] = "qcom/qdu100/aop.mbn",
+> +	[25] = "qcom/qdu100/tz.mbn",
+> +	[29] = "qcom/qdu100/zeros_1sector.bin",
+> +	[33] = "qcom/qdu100/hypvm.mbn",
+> +	[34] = "qcom/qdu100/mdmddr.mbn",
+> +	[36] = "qcom/qdu100/multi_image_qti.mbn",
+> +	[37] = "qcom/qdu100/multi_image.mbn",
+> +	[38] = "qcom/qdu100/xbl_config.elf",
+> +	[39] = "qcom/qdu100/abl_userdebug.elf",
+> +	[40] = "qcom/qdu100/zeros_1sector.bin",
+> +	[41] = "qcom/qdu100/devcfg.mbn",
+> +	[42] = "qcom/qdu100/zeros_1sector.bin",
+> +	[45] = "qcom/qdu100/tools_l.elf",
+> +	[46] = "qcom/qdu100/Quantum.elf",
+> +	[47] = "qcom/qdu100/quest.elf",
+> +	[48] = "qcom/qdu100/xbl_ramdump.elf",
+> +	[49] = "qcom/qdu100/shrm.elf",
+> +	[50] = "qcom/qdu100/cpucp.elf",
+> +	[51] = "qcom/qdu100/aop_devcfg.mbn",
+> +	[52] = "qcom/qdu100/fw_csm_gsi_3.0.elf",
+> +	[53] = "qcom/qdu100/qdsp6sw_dtbs.elf",
+> +	[54] = "qcom/qdu100/qupv3fw.elf",
+> +};
+> +
+>   static const struct sahara_variant sahara_variants[] = {
+>   	{
+>   		.match = "AIC100",
+> @@ -250,6 +280,14 @@ static const struct sahara_variant sahara_variants[] = {
+>   		.table_size = ARRAY_SIZE(aic200_image_table),
+>   		.fw_folder = "aic200",
+>   		.non_streaming = false,
+> +	},
+> +	{
+> +		.match = "SAHARA",
+> +		.match_is_chan = true,
 
-Without any information, that is exactly what we must assume. There is
-precedent for this.
+Theres a half dozen non-QDU100 devices in pci_generic.c which expose 
+"SAHARA" channels. Considering those as valid usecases, I don't see this 
+mechanism working. Everything non-AIC is now going to be treated as QDU100.
 
-In vulnerable_to_its():
+> +		.image_table = qdu100_image_table,
+> +		.table_size = ARRAY_SIZE(qdu100_image_table),
+> +		.fw_folder = "qdu100",
+> +		.non_streaming = false,
+>   	}
+>   };
+>   
+> @@ -278,8 +316,21 @@ static const struct sahara_variant *sahara_select_variant(struct mhi_device *mhi
+>   	return NULL;
+>   }
+>   
+> +static int sahara_request_fw(struct sahara_context *context, const char *path)
+> +{
+> +	int ret;
+> +
+> +	ret = firmware_request_nowarn(&context->firmware, path,
+> +				      &context->mhi_dev->dev);
+> +	if (ret)
+> +		dev_dbg(&context->mhi_dev->dev,
+> +			"Request for file %s failed %d\n", path, ret);
+> +	return ret;
+> +}
 
-        /*
-         * If a VMM did not expose ITS_NO, assume that a guest could
-         * be running on a vulnerable hardware or may migrate to such
-         * hardware.
-         */
-        if (boot_cpu_has(X86_FEATURE_HYPERVISOR))
-                return true;
+This is a pointless change. Drop it.
 
+> +
+>   static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>   {
+> +	char *fw_path;
+>   	int ret;
+>   
+>   	if (image_id == context->active_image_id)
+> @@ -292,8 +343,26 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>   	}
+>   
+>   	if (image_id >= context->table_size || !context->image_table[image_id]) {
+> -		dev_err(&context->mhi_dev->dev, "request for unknown image: %d\n", image_id);
+> -		return -EINVAL;
+> +		if (!context->fw_folder) {
+> +			dev_err(&context->mhi_dev->dev,
+> +				"Request for unknown image: %u (no fw folder)\n", image_id);
+> +			return -EINVAL;
+> +		}
+> +
+> +		fw_path = kasprintf(GFP_KERNEL, "qcom/%s/image_%u.elf",
+> +				    context->fw_folder, image_id);
+> +		if (!fw_path)
+> +			return -ENOMEM;
+> +
+> +		ret = sahara_request_fw(context, fw_path);
+> +		kfree(fw_path);
+> +		if (ret) {
+> +			dev_err(&context->mhi_dev->dev,
+> +				"request for unknown image: %d\n", image_id);
+> +			return -EINVAL;
+> +		}
+> +		context->active_image_id = image_id;
+> +		return 0;
 
-In cpu_set_bug_bits():
+I don't see a usecase for this fw path search functionality, and I think 
+it breaks the documented firmware loading guidelines.
 
-        /*
-         * Intel parts with eIBRS are vulnerable to BHI attacks. Parts with
-         * BHI_NO still need to use the BHI mitigation to prevent Intra-mod=
-e
-         * attacks.  When virtualized, eIBRS could be hidden, assume vulner=
-able.
-         */
-        if (!cpu_matches(cpu_vuln_whitelist, NO_BHI) &&
-            (boot_cpu_has(X86_FEATURE_IBRS_ENHANCED) ||
-             boot_cpu_has(X86_FEATURE_HYPERVISOR)))
-                setup_force_cpu_bug(X86_BUG_BHI);
+>   	}
+>   
+>   	/*
+> @@ -301,9 +370,7 @@ static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>   	 * Only the device knows. Suppress error messages that could suggest an
+>   	 * a problem when we were actually able to continue.
+>   	 */
+> -	ret = firmware_request_nowarn(&context->firmware,
+> -				      context->image_table[image_id],
+> -				      &context->mhi_dev->dev);
+> +	ret = sahara_request_fw(context, context->image_table[image_id]);
+>   	if (ret) {
+>   		dev_dbg(&context->mhi_dev->dev, "request for image id %d / file %s failed %d\n",
+>   			image_id, context->image_table[image_id], ret);
+> 
 
-...and...
-
-        if (c->x86_vendor =3D=3D X86_VENDOR_AMD) {
-                if (!cpu_has(c, X86_FEATURE_TSA_SQ_NO) ||
-                    !cpu_has(c, X86_FEATURE_TSA_L1_NO)) {
-                        if (cpu_matches(cpu_vuln_blacklist, TSA) ||
-                            /* Enable bug on Zen guests to allow for
-live migration. */
-                            (cpu_has(c, X86_FEATURE_HYPERVISOR) &&
-cpu_has(c, X86_FEATURE_ZEN)))
-                                setup_force_cpu_bug(X86_BUG_TSA);
-                }
-        }
-
-
-In check_null_seg_clears_base():
-
-        /*
-         * CPUID bit above wasn't set. If this kernel is still running
-         * as a HV guest, then the HV has decided not to advertize
-         * that CPUID bit for whatever reason. For example, one
-         * member of the migration pool might be vulnerable. Which
-         * means, the bug is present: set the BUG flag and return.
-         */
-        if (cpu_has(c, X86_FEATURE_HYPERVISOR)) {
-                set_cpu_bug(c, X86_BUG_NULL_SEG);
-                return;
-        }
-
-The hypervisor could provide more information so that the guest can
-determine when it's safe to use the short sequence, but that's just
-icing on the cake. The default, out-of-the-box configuration must be
-safe.
