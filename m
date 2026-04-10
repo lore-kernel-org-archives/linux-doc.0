@@ -1,244 +1,93 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D99D3DA5AE
-	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 15:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40FA3DA7E9
+	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 16:22:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775836301; cv=none; b=JpVYqTEeiXlcE9KL6+OLIJ2JJyxEWAgDVIuRd9jXZPS1iWZEO2egQNM50W2Dw57BuF/UpxY7HT/mZ7fKCqul+640MluhUzysUvBUKq2sYIZNxTFD8HcZQ+deFEUiCTozb44SVzQN+YD3EwaaZFCtPIgxDxda3fknZzKzGTj+tFE=
+	t=1775838144; cv=none; b=DClAtRfVUSPrxbag6++pB+ojAXMBWh4nBQ5DbvT4+evh0Hobr74hRDzM2ELopaRxU0kj45ClJbQX7povfXFHUVuyMfDcBgNpzIMV2C1Iulyd4R30aHgDrmT3FlgXLPerLkp3R9i4/kJpYCS/62mIvMPM5t1m7Z4bOrtRCVrsiSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775836301; c=relaxed/simple;
-	bh=3LQfonLQ6oQh/iQdITFeM/huuu7kEGKK/0YlFr8Zfdo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gWNS1UjQgMbafk7xHWkOEanPFEvUe73Zg3jxvb/DxJ1WwXmXvsy4uiP+E/w0z7kFXK9SAl4q+UGOLOg1WnhVkNRyRax7lcpRjxb0TKDnZOkpbPamFZ8rcAzNef6jb9xi7dxo/0v9V9buBjp3TrybeaMZaa9HwUdB5Y9kFjhHaDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PwV4SLqr; arc=none smtp.client-ip=74.125.82.48
+	s=arc-20240116; t=1775838144; c=relaxed/simple;
+	bh=BBIkEk5IWn0dgN8UubTAKBIOMBYqreRBUyJgp0WUWdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HD9sA8I5rGQFy4ySPmzzRccLkK/0GyKaUQxVBy5BuHgjw7FGhWQlC42nCIOwz/OBp6f48ZvutM0eQyfBhFJmNaMkey1+gZt+W24iTnXZ0i0ElrVdo+NEWuflQ5JNzXcDQwzzqtuYQXAVRggVbyfN2j182dUL1P8QiWYsBWRd+9A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KIcQ5zy4; arc=none smtp.client-ip=74.125.82.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PwV4SLqr"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c1fcce8f8so1320015c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 08:51:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KIcQ5zy4"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-128b9b7e3edso403287c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 09:22:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775836295; x=1776441095; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=AJv0LGb+9ZG2U1NmhhTKErAnJqDXklx024/ud5+KlaM=;
-        b=PwV4SLqrpc+NbV8DJRZA8lj0Ujdpox/XgrHKXFbx7uAgOhD/9r/U1VokqplezvVY9D
-         DdPoRlRg8EeMlUVM17vvu6J4d1h+6Dg6vV9UiD9blmQjeXyKHLQ86KCyR10IjM43E3pc
-         rUG9Z0tS678UsUv1eah4repZ/2/ASuFH8mydF/O8Th+SD8Kd/CBsWy8Gig+mcWM8pUEy
-         DLGui21pO6we8pbT0pLtcgjpDnl5M+lHBVcpZM76nOOGNje6iA/5BQsA62UstNg+0ZKY
-         9w8F2iCVGjZQw5TvEl5Uo3Z9+uv29qn4OwYUoA+35mPBbAfJqruFxXkxwZcPxGMVizWD
-         iR7A==
+        d=gmail.com; s=20251104; t=1775838143; x=1776442943; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ud2WfQQv0Jjbl2amZn8W+6KYSKXPpeMW+BFIbEVApCI=;
+        b=KIcQ5zy4WnnWRfT+vruB+DhxD+8sbKr00/OiqrrZGReIyT4YTyfsLmVjwLgFWTNVHN
+         dnjIZhfj4MTQB2UsLYUWwhdwWmxaTFduiUdrjw8tXkECHSFJ+dDpSCvxMtNUYYqixcnZ
+         PN2mi9JvYnFFy2NYz3i+ZBnGAsieDtoaQxWh1muDdgGIipaX+i5+mZxcP5ZI0JOlNMSf
+         ABcQpxq7CmdvxAGbabLHqRcp8O8XWIIxkszwI24UX1jJYi1GSJMp1BzVDpdEMNdka5qJ
+         WN37W5cGxZRsCaPm5lU8gnebn17uZ/UzfJknmwvTB0XzA1V9PKn+IG04ApUnYXpMU7Of
+         9f6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775836295; x=1776441095;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AJv0LGb+9ZG2U1NmhhTKErAnJqDXklx024/ud5+KlaM=;
-        b=qXQbravn59xPCpx0qnrcMi46+9L5yxCbvBnCPU3MAptJBLvGf4Mb/CCLV7qDBCQbse
-         FYCoqL7PfJ5NnPXL8GES9DdKs8qCIHJASJsH3iSOgDFiWMvy+GG35BedhiDENgsTBt/a
-         6MaR3it5ekfYWxeMmD5FnBohYTY0vRlNWO2eCKeEOhvvcNRZ3XKuXzLGbghX8ra9UJhw
-         8P47aJLmi/ujfCqoeAUXBCFhDoMuwqGhBEJ+oYA8h0Ftn1u7ZbbONDSwr0OEIkKeEwb5
-         ZuVeYb88/L+wMCMpo10Up9a6MRLtdFO8bGDE4ipSshHMF+zI2xv9Ifs3n4eKndk5BmLs
-         kmJw==
-X-Forwarded-Encrypted: i=1; AJvYcCVe6ckN/rROSSvzI3jv3BGqTE58Bi0jbCu6W8cXg9TFQbM1x+3Bei37z9OAOqvb4E5+HlHustkeHng=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXfA79/xzDXZ8/K2k1Q1GZjrW9j5bIY4QwTV94CUUNsp2c/moz
-	Uq+4COwi6aKkTpCDLVYH9/22JOhnpthGPqV6FYKJ/w0uB33GGKs6loP2
-X-Gm-Gg: AeBDievptodow9c8Wa7aNaR3SfOFqRcoTMKx3DMLsO466xVswy7DxKKJvUX1D3esp8e
-	NpB2ng/xhVNtmAG/cD7a1OYm1jygEvX9jjLgx7HhaapJwwoBCUblVkQGwfLOzeLsZhK8HksjJbp
-	H9pXyx3of6ZpW1BSqQNofqobv5j2R88WvHmpB7SU+GUOaTcXksaMVyUIbJnMxzuRDXMu6kCJK38
-	4Z+WbVdbzMherZlApuW/PGDdL+yq7cn027XI6/ZixfKnXc2Oqkq3k/I3Hlgd2CTm4+OJHFDbPn7
-	Ldz9QqbyTWoiRerYKmjPCqKSU6bjwnxLbZD8IIE8poBhhxfScsWVOVo2dnlbzlsrO1xr2lGvi6z
-	s9ohDGNkg2cpXGiqu41ffDfOnDwYWRQ5oCNC9X2sQL8LEdRKVbucX1XseNjrlFNEr5vD4SrYMOP
-	LqRPSw7VwtTkiokhn8ILtTX8N2OVSlpi/pitvTOiQorLo75qijjK4CESQIviDwrFalyyVH+mdeL
-	iLeD8CZoVk=
-X-Received: by 2002:a05:7300:ed0f:b0:2bd:c285:2fe with SMTP id 5a478bee46e88-2d587e7d192mr1915642eec.9.1775836295227;
-        Fri, 10 Apr 2026 08:51:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d55ce46a65sm4839362eec.0.2026.04.10.08.51.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2026 08:51:34 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1775838143; x=1776442943;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Ud2WfQQv0Jjbl2amZn8W+6KYSKXPpeMW+BFIbEVApCI=;
+        b=foQSJVf8mowl4CNAfeQ1apCfju0RbRLiGlvThOZXffkJy6Xb/JK3YDxyYsrBJ3fZ6V
+         6lLoVQVITiwxnBcsN/TNoEbs8yVeCePCduNtHVBvwAFS71v6gLYa+IO20FQohUC1Wnxj
+         0/nZPf09hDt7Q02uMql2d1zxnElPDn0hBYebtBVP+Tx1Jm517kGHwRCKPqloo6igW80C
+         jjYMMI8hE4do7y2SiM5T+Q1pFd0SDqvMJtTYw5wmkKkqqFPiPILZ65e1unQsKphBczQ/
+         kNcIC8QTTQwl6pEVj/mRCBhmJyAlP2RJRgC80CZwlxRdl/7GB9sxiseHyIzpexVswon9
+         Ecxw==
+X-Forwarded-Encrypted: i=1; AJvYcCVVqmkD+VFw1ZjmPnsmVOi/XaVWrSYVWVNnrmV5mlvxp4XbhPHmN896/CFNYEXrRo1zXa8kJe/G1z4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxaO1uSHwbT2ZQNuk2AFiy/tIkW3MuKPD/BVItuus6LUz7SZ+mu
+	F+aLE5KdSuKTYKeq++4QgwnKmZZPM10W1EDQ6ELINXwDI0gilRvfTrIl
+X-Gm-Gg: AeBDietZtP7Tz3y2IrjrKeLAZYrjJ8Ve27X8F9vNwKm3+N2U7B/rxXoNPK1flf6wv7M
+	AxGcDNsYfG9fH1hVeH7oznJjquaVtJpZAEVNw000oCcQmKN/PthJNlG1hEVF32DIChYc6uZ7Bab
+	QzfQ/Qjw1+jXMPulF1jZTRLAYfSTI26DcPFcm01GWB4mo/YwV8daum6MJ/yMoZpJt7mG+83zjox
+	yszoNaY7oEH3JQylSNB6axQeERzgseQHZpIjOocHj0e/I8YOJfEjt9xtm3KG21AhnoHXBtJyxMx
+	FZjOJU4aK6qrz+dUVVH2WQ9gXXYXp9USbBDBFssIsrZrAWXNf9yc1OEGJpNR1OvzMsgNptp0zUM
+	Vw229BwbP9Odr7yA0xmaS0eIkZdYbQxwkzDYMLtY1PoOz8hnhOO+50I3ZaueoC+g+xeaYJYIe76
+	YXupqg4HHbQsRrbQ3i8j6C2rZBeucoqj/u22NjGE0aM32vX+g=
+X-Received: by 2002:a05:7022:60a7:b0:12c:33dd:f9ff with SMTP id a92af1059eb24-12c34ef7bbbmr2055222c88.33.1775838142675;
+        Fri, 10 Apr 2026 09:22:22 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c346eb228sm4445290c88.9.2026.04.10.09.22.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 09:22:22 -0700 (PDT)
 Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <dcc14537-2975-4c93-89ec-78e1a0e807f1@roeck-us.net>
-Date: Fri, 10 Apr 2026 08:51:33 -0700
+Date: Fri, 10 Apr 2026 09:22:21 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Victor Duicu <victor.duicu@microchip.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, marius.cristea@microchip.com
+Subject: Re: [PATCH v12 2/2] hwmon: add support for MCP998X
+Message-ID: <3025e1bc-9801-4483-b03c-f638767c1465@roeck-us.net>
+References: <20260403-add-mcp9982-hwmon-v12-0-b3bfb26ff136@microchip.com>
+ <20260403-add-mcp9982-hwmon-v12-2-b3bfb26ff136@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/2] Add support for Microchip EMC1812
-To: Marius Cristea <marius.cristea@microchip.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Conor Dooley <conor.dooley@microchip.com>
-References: <20260403-hw_mon-emc1812-v9-0-1a798f31cf2e@microchip.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260403-hw_mon-emc1812-v9-0-1a798f31cf2e@microchip.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260403-add-mcp9982-hwmon-v12-2-b3bfb26ff136@microchip.com>
 
-On 4/3/26 05:39, Marius Cristea wrote:
-> This is the hwmon driver for EMC1812/13/14/15/33 multichannel Low-Voltage
-> Remote Diode Sensor Family. The chips in the family have one internal
-> and different numbers of external channels, ranging from 1 (EMC1812) to
-> 4 channels (EMC1815).
-> Reading diodes in anti-parallel connection is supported by EMC1814, EMC1815
-> and EMC1833.
+On Fri, Apr 03, 2026 at 04:32:17PM +0300, Victor Duicu wrote:
+> Add driver for Microchip MCP998X/33 and MCP998XD/33D
+> Multichannel Automotive Temperature Monitor Family.
 > 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
+> Signed-off-by: Victor Duicu <victor.duicu@microchip.com>
 
-Sashiko still reports numberous issues which I consider valid:
-
-https://sashiko.dev/#/patchset/20260403-hw_mon-emc1812-v9-0-1a798f31cf2e%40microchip.com
-
-Please fix.
+Applied.
 
 Thanks,
 Guenter
-
-> ---
-> Changes in v9:
-> - improve the wording in the Documentation/hwmon/emc1812.rst file
-> - add const to variables in the driver
-> - initialize the EXT2_BETA_CONFIG only for the pats that support it
-> - update the writeble regmap table to exclude read-only registers
-> - Link to v8: https://lore.kernel.org/r/20260310-hw_mon-emc1812-v8-0-bc155727e0d2@microchip.com
-> 
-> Changes in v8:
-> - remove "address scan" from emc1812.rst documentation
-> - change the second dimension of emc1812_limit_regs_low[][] to 2
-> - clamp input value before doing math on it to avoid overflow
-> - use rounding instead of truncation for 8 bits limit registers
-> - fix misleading comment when HW ID is not recognized
-> - Link to v7: https://lore.kernel.org/r/20260223-hw_mon-emc1812-v7-0-51e2676f4e20@microchip.com
-> 
-> Changes in v7:
-> - driver
->    - fix an overflow emc1812_set_hyst
->    - remove unused parameter in emc1812_set_temp
-> - devicetree binding:
->    - remove unneeded restrictions not to bloating the binding
-> - Link to v6: https://lore.kernel.org/r/20260212-hw_mon-emc1812-v6-0-e37e9b38d898@microchip.com
-> 
-> Changes in v6:
-> - driver
->    - fix an overflow when writing more then 191875 to limits stored on 8
->      bits register
->    - remove "i2c_set_clientdata" from probe
->    - fix discrepancy where writing 16ms and reading it back returns 15ms
->      at update interval
->    - skip setting the ideality factor for channels that are not available
->      on the device
-> - devicetree binding:
->    - change the way interrupts are described/used
->    - add "microchip,enable-anti-parallel"
->    - rewrite "allOf" section to be more clear
-> - Link to v5: https://lore.kernel.org/r/20260205-hw_mon-emc1812-v5-0-232835aefe8f@microchip.com
-> 
-> Changes in v5:
-> - fix calculation in emc1812_get_limit_temp
-> - use i2c_get_match_data cover the case when the driver is instantiated
->    via I2C ID table.
-> - replace dev_info with dev_warn
-> - remove some unnecessary truncation on 8 bits
-> - remove clamping when reading the temerature with hyst
-> - not change the conversion rate at probe time
-> - use a generic define to remove duplicate channel_info entries
-> - Link to v4: https://lore.kernel.org/r/20260127-hw_mon-emc1812-v4-0-6bf636b54847@microchip.com
-> 
-> Changes in v4:
-> - fix file permissions for read only properties
-> - fix calculation when the limits are written
-> - remove the temp_min_hyst because the part doesn't support it
-> - Link to v3: https://lore.kernel.org/r/20251218-hw_mon-emc1812-v3-0-a123ada7b859@microchip.com
-> 
-> Changes in v3:
-> - remove mesages that are not helpfull
-> - fix an issue related to NULL labels
-> - fix sign/unsign calculation
-> - replace E2BIG with EINVAL
-> - use BIT() to create mask
-> - Link to v2: https://lore.kernel.org/r/20251121-hw_mon-emc1812-v2-0-5b2070f8b778@microchip.com
-> 
-> Changes in v2:
-> - update the interrupt section from yaml file
-> - update index.rst
-> - remove fault condition from internal sensor
-> - remove unused members from structures
-> - update the driver to work on systems without device tree or
->    firmware nodes
-> - add missing include files
-> - make NULL labels to be not visible
-> - corect sign/unsign calculations
-> - corect possible underflow for limits
-> - Link to v1: https://lore.kernel.org/r/20251029-hw_mon-emc1812-v1-0-be4fd8af016a@microchip.com
-> 
-> ---
-> Marius Cristea (2):
->        dt-bindings: hwmon: temperature: add support for EMC1812
->        hwmon: temperature: add support for EMC1812
-> 
->   .../bindings/hwmon/microchip,emc1812.yaml          | 184 ++++
->   Documentation/hwmon/emc1812.rst                    |  67 ++
->   Documentation/hwmon/index.rst                      |   1 +
->   MAINTAINERS                                        |   8 +
->   drivers/hwmon/Kconfig                              |  11 +
->   drivers/hwmon/Makefile                             |   1 +
->   drivers/hwmon/emc1812.c                            | 965 +++++++++++++++++++++
->   7 files changed, 1237 insertions(+)
-> ---
-> base-commit: d2b2fea3503e5e12b2e28784152937e48bcca6ff
-> change-id: 20251002-hw_mon-emc1812-f1b806487d10
-> 
-> Best regards,
-
