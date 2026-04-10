@@ -1,183 +1,171 @@
-Received: from CWXP265CU009.outbound.protection.outlook.com (mail-ukwestazon11021092.outbound.protection.outlook.com [52.101.100.92])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534F03DF01E;
-	Fri, 10 Apr 2026 16:59:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.100.92
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775840362; cv=fail; b=CJlehba3x/qTXeUfAYJKUvLJKA4MRqpAvnEI2Ulsm+/lmuup5++F/dl7tPaX5M7dVaPbp7n1TzjOtpAOvE5dNEOd0UxBB4MMLo9CKf3FUjxX13d37gZBAmgHCUNeFVkNaQqYU4UPuXxbXpTZ3gWf/k6nwrS0rszwHa0k6wKj1EY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775840362; c=relaxed/simple;
-	bh=0QM56DYfH1thLdB1EHccWfwGtEWMIQCKXWepmFmRmOY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=QLravc3i6F1jOPs3TLxSv7BhJoQtIQQRmedvpba2za8eSl63RV062/00IhDu7KXgh21HOsH6NNPvrffLMxVTtPrc6Wg29T5hKM1pIKWKrwQnCF2q3A6cvM766zaVx/PY/t30uEslViU/tpALxqDIGsnMb74t1eLai3HZexSOiZs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.100.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lpQF8si3mbEwp6EgMLwevHsTirlLfGrs25FH0JCLwB17P3mCuChvmBZ6qw/wkhPe/3cJq9yOUsx/TKK1LMCatc1MHlI0IahAekmZ8SpwH4qfKSN2vzcAKb5e05x1pLorv4/aV5G7svLG2+Ugk/St4KURBsDCfiJJIbLlHhEfTn8S+x1WKNdQRcqUiIQ9UP8jy+hpm/AEB9sPZs0vmQ9ym/1+NFYGoil92pXySZFgxWm2MAqDFXhwc12trOUONgjUiMKjuoz6E6k9uCZRBST4gkamxGwREIkNj19pCcxnpvSTXVTzvm8zJomrxageGBOR5fyxcwSDZlMyZoHoCoQrOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0QM56DYfH1thLdB1EHccWfwGtEWMIQCKXWepmFmRmOY=;
- b=edfZ2+nWeI6q+nicAuw5xRUXlrdofXJu+2aPMK5Z0G3JHxWqZrWRDFkGaO0i8qBNJGqCdqGRGDjvIKnh2mIIG/DjPZ6ytzO+I/h94pmAHb48PSGNe0tg9KxDAz7hLDclsfOjHpfSklXYPFpYtEZTM6UZ4WW4sclLYlptpfcFgo+GD48oya0KQr3MdhUYEw10kWm9ulgMp9NMzrK0/mwDjqPx/kg3EB2xf0b+Za0xSFveiU8RxML05YltB7Autu5GWU8MXiF4CS91XM+mEevBAjoeGn3/cjG21Z4yVhH9loA7VGbBA1mJ8WGa+tOWbUKPmPXHtZDdtg4W6mIU5xJwzg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by CW1P123MB7556.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:207::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.42; Fri, 10 Apr
- 2026 16:59:14 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.016; Fri, 10 Apr 2026
- 16:59:13 +0000
-Date: Fri, 10 Apr 2026 12:59:10 -0400
-From: Aaron Tomlin <atomlin@atomlin.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238093E3147
+	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 17:27:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775842063; cv=none; b=IGmPQSZyKd1e77rX8B88Ozf+iBiwQI81ixNX6+K4heXAhs+yGzyfRkLG5OhZ/q1QDQ4bgx4UB2vpT0MkhXeK6j6MPl9tnkK5JBeHqzK5AjBE/Si+1mRE+sTtJt+JrrmxRh/Dqh4+pfUNkV8WjJX0OPvJqAzSYJnMRj6egFw7yHM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775842063; c=relaxed/simple;
+	bh=4IMw3GWlufvJ/dDaFIfvHpTM5fSEwV14iaiM6URyhpg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jpnuvQjM450y28W+pJyPJrDDuO2MCSmOTZdnz2j5OGL9tYOXw1PtemfOnveBzmY5TmUSoEZ0avD49XFxarst7DSCbjXIdB+xHCPOZmzzAYQlhvVnal0uzkyuNS8C2Fy1J+nr3MAROpHiVvWttoBvXNACfd/pNj3zzlP0iNn/gBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dLh1q1O0; arc=none smtp.client-ip=74.125.82.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLh1q1O0"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12c1a170a50so2140153c88.0
+        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 10:27:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775842061; x=1776446861; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BaxxoVZ/N6PYOpmH7IgxMu5sYWaYy96hqMrV/TeWyec=;
+        b=dLh1q1O0QuzG6Kv0KVKslcR+8CvrTDJKtiAf3mWgd51KbD+VHqvgcdXRoIkqyGOEEq
+         Q5cDs9LyG3MUdDZWisg3ucph2DWogX6Yz151ognG+SFsI+sn1SqrL2iMeoipvr54Bm5F
+         lrVteXxKd5Yi4NtrohOZ3Ys/BbqDu4ayT84aJU3ooAiDhZcfYW95PdFEwGC66L0yNXe8
+         YlVARtXhr3y9RdO3Ieh8KyXYRFw7RkpqxkDGBR6Hfslme5+zwcrpc2Plc2XOFfdajR+J
+         IB67wsqvr7OC8uiY3ogSjMn4xWnbzWO0sCNESEr1VBZqj2iaXldbHGtMmMEdwD2sx6cE
+         ozFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775842061; x=1776446861;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BaxxoVZ/N6PYOpmH7IgxMu5sYWaYy96hqMrV/TeWyec=;
+        b=bo+Q9j0x70YPxPA+EzAeQhSAxN5YnHCC+5zvMK1/kYBf0Wr5MIejPGgdKbRYHzVd5C
+         wadYZn4Vced+JqFag5w1dYHVX64cs8V3SMPOVD4qKG4gL805cOLGy4rTvdZtDedMI9hW
+         hDDlNL+IhbXYHsGjfol55fw02vsEm1d+N+Tse+2mNRg/t9vmBLZ7dZW7EV1whz6tAeiv
+         NXaUmzIPE+0+ozU+cgfXZ4slzutG3Q0r2E+PvcnDHseEghc7vtSc9Sg1g93SYGOEUBUw
+         GhOPU6jWXEAZE30eMSmMVgyupT0WwEeufGndq17E1UmP60osMEYUsgu4Blf1+GOL7vps
+         ZVaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXSR+AzRwQPlZjtgt9ui7lyvE9rFJDhakKlSrUrwp1mkIfPyPiMaF5O0CdaSQw+oPAwnySuX/UIhU0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyElpHzFQneod4PBJgBcvuGIRRBepVfDUmonFb1AomaIo4Fsb1J
+	s2/C7WZhR+dd3JRL1Zuw4/Wn5NAZWZRYsvyY3mBeRI0xI29oA/eRd5SE
+X-Gm-Gg: AeBDieuRwf886XnpDSCGLlpB2IYs0ljZ6yvyRnJzj18dqQ2yYST3hd0VwM6QKnj2XLM
+	X/ddcJ5vUx2zH7lulucutp4hve8Gwz3XjPa5ZDAmTzgTf47d4CN3gIbkd34vuKZPwpcfoFJvRom
+	j70rOxBk4fDyWfX6dVUZODkbX6FIoEAWyfStePgUGQI2DSRDMlpuX2YF3TrBd2DomoI/iFLuSSl
+	Bg1WgTU8x4sRZy6Qhu2vWLZvgDMxCIZazpF++KQp80tkHGqi090gs5n1tBDQmh4vqvGNkszZ2Jp
+	3QNfrdCKmItvhGghOB0SwMKbLJLe3Gan/WKMpT3Js3Kk8RjKfSvBIYexVTZSjECBo5gs/Kjv93o
+	ZDGj3D5m25sJFnzn8j+3BwZmwZVarMiSDpC/alPPFRwhuyN6gfc4yOf24JKMngT0A5V2YG0MKAQ
+	nAisszpgn6UPXspXbXs+09/RA7wxf9PEJDqecM
+X-Received: by 2002:a05:7022:23a8:b0:128:ce44:be90 with SMTP id a92af1059eb24-12c34eeb7d4mr2293149c88.28.1775842061155;
+        Fri, 10 Apr 2026 10:27:41 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c34acb077sm3854245c88.6.2026.04.10.10.27.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 10:27:40 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 10 Apr 2026 10:27:38 -0700
+From: Guenter Roeck <linux@roeck-us.net>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Christoph Hellwig <hch@lst.de>, 
-	Frederic Weisbecker <frederic@kernel.org>, Jens Axboe <axboe@fb.com>, Ming Lei <ming.lei@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Valentin Schneider <vschneid@redhat.com>, 
-	Waiman Long <longman@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
-	John Ogness <john.ogness@linutronix.de>
-Subject: Re: [RFC PATCH] Documentation: Add managed interrupts
-Message-ID: <br3qlvhmydv2nakutazk5tfpkrktf3eje5j5s7fonktyp5sfn5@lqh5zbbbhi54>
-References: <20260401110232.ET5RxZfl@linutronix.de>
- <87wlygb3wd.fsf@trenco.lwn.net>
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="2mwwzfg2g6blh6la"
-Content-Disposition: inline
-In-Reply-To: <87wlygb3wd.fsf@trenco.lwn.net>
-X-ClientProxiedBy: BL1PR13CA0249.namprd13.prod.outlook.com
- (2603:10b6:208:2ba::14) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+Cc: Sunny Patel <nueralspacetech@gmail.com>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Refactored watchdog old doc
+Message-ID: <3e25ae54-e62d-484e-8d90-4f7825705e4f@roeck-us.net>
+References: <132f7e64-4fc6-4274-a04e-e53f0b957665@roeck-us.net>
+ <20260410072825.19114-1-nueralspacetech@gmail.com>
+ <fe3de980-e918-47ae-862a-969a5b117ae0@roeck-us.net>
+ <87ik9y229e.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CW1P123MB7556:EE_
-X-MS-Office365-Filtering-Correlation-Id: e93165e5-c9ca-4940-b008-08de97227e3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|366016|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	Z6Ez4Cn44YIztISbLBNbtGpF22TfPP9XKxI+SUSSH57tDLqX/nHz9sV/n/TacAcpAeZYuY4rqTyrLqzMqGYBMQeL5lYhMvDrzmy0LMgEWHxNBn/tyocD3buphbu+kDeMAhJn5fTY1rgze6Z7EfKOWhEDAnUnDHsX6G5vc0hJ8rzPHGBdSbbWOsKYOcTqAd0dgXi9LTiuI+n2wowHeQa6Ph+JvjEWnly7FWjP4RK4RmECNUY9mVmWSbQ2A2sTYdpPdUWJO7IOpBNg4BMc53HUkZYlkB0oQkUs+36lASLIQ0DcnRsZPjXipI9nWn5LwZBTGc/JnszeTKBtf9+Ce9CrzYQKhxCDNq0YYWi49E6dMokhRsobYHkKogycps/hL7cA4l2Q8hAakHd60a0rWOrTc8vFOUG7mieyuiaHve8K8AtOtmBFdXdAQo8NbHmTqfC83T6jYmzobc4xDKyG+5mVnsXpn8ZyszFVtxYVR+BNkah2xSfvRao0iAY6nIfrPQXxpbko5GokZLvFmVjGnA4X1w4Jh6SfAA7zqOxydrQ3+rWsEeYOmfCuA5hpvYi7t8SUNWmI363R9Q3eIOtiaLhOgAtougmsVP7TPJ5Q95wUQTsfMzHQn9OIeYt3n9+zmUlr5zqfO+Xl5sUlms0TggY+eXlnHRgdXmRYNDDdLQQ68YtDEXg5pRZGl8SIcw50eIcehPg7XTZ/yYUHLBNgUBezuiM9uChamu6ZzBlyjrvDwCY=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?clIzUzFDUzN5NWY1OVlyQ05yYmtIOGtXdzNPdFQvd1JCWG14N3dsS3NTUjZ1?=
- =?utf-8?B?Q0FIeXJ6ZU5uQis4N3Y3VmtKY2lOWjFoeGN6OUlDQThRNktZMjA1V2N2TGFM?=
- =?utf-8?B?WWladXljNGYxclczRHl5bFlJRnhBMVJKOUlpUUlOYW1td3Q5a2ZBbEJtZ2NM?=
- =?utf-8?B?TXA2THA2dGNTU0pzc3BLd3RqMXdrK3Z4VFh5cmp4RG0vdzJZQ2RKVkx0UW0z?=
- =?utf-8?B?RDZvZUtYMERvV3FYQTVBSUJ4VTFuRUZCcDhuZERYeTdaR2NJRnkyeWpkVzlP?=
- =?utf-8?B?YjhYZXJxV0w5SGJGSC81aEowUitadTJFM2o1OHdkMmJEQUthNk5FdW1pbWNK?=
- =?utf-8?B?UFA0RjUxNml6SXR0K3VJanlvZm5sR1lMd3Evb3dzQUZ3emFseW1GSnFveEx6?=
- =?utf-8?B?dElwWUVrbE9DRjE5T3VTeTkydDYyNWhoREdOYUt6bmxUUDJ5WHJNWVBFWk8z?=
- =?utf-8?B?M2JzRHFEVnFOV1c5MmlIalpmblp6SnQ5amR0azRkaUVHUmZVUW9SSVpwSk53?=
- =?utf-8?B?empEdEZ3VnZIZFZScVdKZW9OVUJOQ0JnNDdmZlphRTVwVkY1RDFsSEdsU2ZT?=
- =?utf-8?B?aE1MTlU0ZS80M0lydjlMaktjZUJBSEw5aExsSnZSMVluNEl6Z0ZSeXRLWHkz?=
- =?utf-8?B?c21VQytveFZXWFNRaWozSksvL2VXODQvQ3VXNjNBM3RBMGh0ZlF2dEFrY3A3?=
- =?utf-8?B?Y1dQVDhPNW9RL3pKK0hML2FtZWl4dm1LUW85QW9jMnVXeENpcllJaUZZZW8v?=
- =?utf-8?B?eG53V3BXL2JvN1UxU3dWM3Vtcnc0TWpnSUgwTWxXU0g1b3EyUVVQMUF1ajBt?=
- =?utf-8?B?aWN1WXgxZ21ZVWNFR09sREszUlF6TGthZ1NsYmRuZVZsa3VCUjU4azNmSEtM?=
- =?utf-8?B?MmlwQUQ1aXBZbzlzdlBkNkdRc0E1MloyWkthc0xsc1dpMXJMbUhSWWkxTlFi?=
- =?utf-8?B?UnRjbzUwT1J2UWxycDUwdk5kRWNQWlY5bEhITFVDUUk3SVJhd0tKR3owZ2t1?=
- =?utf-8?B?RXROWkN6dUlxSk0waGttMGhIQkZDcmdwZU9YQjFCSktFLzVJMFk3c21XSnRT?=
- =?utf-8?B?N2FNRUJPNng4K2hMQ01EVVZRWG9CWXhYZXhXUHJmT0R0QmV6cy9vMnJwV3pi?=
- =?utf-8?B?amdCejBSRTkyVVo0R1dhOXBuNys3aXhVWVo3YWkzSlMySFFQdWY1UjJUWnFp?=
- =?utf-8?B?ZFRRRU90T2lXL3V3Yzk4bDhwS2VwZ3p3MjAxNW5reUpmejNFbVVVZkl3NTF3?=
- =?utf-8?B?VGg3SUNjZFlzMUh3amhJUkRuY2dGRWNiTmpVVTZDeW9wdTh3YkFRWlJXSXZ5?=
- =?utf-8?B?T3owYmFrckZ6SFNLNXljYjFJQlVkWXNobG5FQ0pNQXNSb0lUS0lGeHFaZEh5?=
- =?utf-8?B?SE5zMDNENCtzcWovRnUrVjJFMklZbzZRa0JOWTBRZmxldHNJbXpFY1FZL1Rj?=
- =?utf-8?B?bWdpOGhQS1BYU25nNWs1T20xUjQwbTNlbTdJMHJlV2FLemlLald3TUd6OWdS?=
- =?utf-8?B?RUFjcnNUdlBDZ2FGQS9xaFc1WGN1eXNGM0RBeDBJMWRCT3ROVytBYWduSDRN?=
- =?utf-8?B?Wkd1VHpuaStZYkFqcUhWUVNsQVpQRStlSWd4U0hZOTJhS05VRFg0Q2RLc3Y3?=
- =?utf-8?B?U29IUTN5cmI2MWROUk0rdEZPUzVFR0VoVXBWbVB4RStHTFBScXJlNEd4RWhR?=
- =?utf-8?B?ckNmOElIVzdLUXo1SEhjdGdSaU1ZaFBSYXVuK0hvc00xY2RSblBvQnBVNHZX?=
- =?utf-8?B?VFlMY3hOa1BZeDk0VFJ5cmVSK2pnZEQyRlAxVTd2ZWtMbDVmbVk0MW1sTUd1?=
- =?utf-8?B?b3BSQU8zZ04ySTVraGQ0NG5iUitKaXA4ekJXRjlCdUxsR0tqZ2MxWDdGWTBJ?=
- =?utf-8?B?VjhTdzMvVXRmU3AwdDljbmpPTFZ4dVYwODNxTnYxRVQ4UnlMQjNUc3NEOTBi?=
- =?utf-8?B?MUtVMmtNZWFrREQ0bDRXY005dE52azY5NWhEOTd2YTJ4aW5KYTg1NXkyL0Uw?=
- =?utf-8?B?MFhiTFhEWndvMzd6dUE5UWxFRVM5TXlTZC9sc2dkWnNzcmxpYy9vZjFvVzVI?=
- =?utf-8?B?dnBMYm9EdE1xVnlodHdHQlRqSWhUK2NkeXRqV1czWWc3OEVpS2pabGYxMWZx?=
- =?utf-8?B?MWdyTmxRalF2NWdBakJlem1HaGlXQWZ2anN0MTJoS1lpVHBzRUxCVVBEYXlZ?=
- =?utf-8?B?NHZEcEZrSnlJd1dneU54Vk96ZHVIYnZXR2REb2hRNWMxcE56NitJL2JLUnFY?=
- =?utf-8?B?ZmJPNU9vVFh2dCtkSVQwNUVWclJmS3ptNVBLWXpSV0haTHNhdS9jRzdyUmRH?=
- =?utf-8?B?bDM4NEZmb2d4SzZYeDc4WDViRWZUd2tPSEdNS05kZEFiVEJhTmJSZz09?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e93165e5-c9ca-4940-b008-08de97227e3a
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2026 16:59:13.8530
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 1toZR9magzrn0U6BU8Y4WTK5kPkGEY3oJP9WqWRgZY/IMGktqBF2dEDnE9O8SYAdDH66Xs2TC56kBDrZ4co0Gg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CW1P123MB7556
-
---2mwwzfg2g6blh6la
-Content-Type: text/plain; protected-headers=v1; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [RFC PATCH] Documentation: Add managed interrupts
-MIME-Version: 1.0
+In-Reply-To: <87ik9y229e.fsf@trenco.lwn.net>
 
-On Thu, Apr 09, 2026 at 08:32:34AM -0600, Jonathan Corbet wrote:
-> Sebastian Andrzej Siewior <bigeasy@linutronix.de> writes:
->=20
-> > I stumbled upon "isolcpus=3Dmanaged_irq" which is the last piece which
-> > can only be handled by isolcpus=3D and has no runtime knob. I knew roug=
-hly
-> > what managed interrupts should do but I lacked some details how it is
-> > used and what the managed_irq sub parameter means in practise.
+On Fri, Apr 10, 2026 at 10:45:01AM -0600, Jonathan Corbet wrote:
+> Guenter Roeck <linux@roeck-us.net> writes:
+> 
+> > On Fri, Apr 10, 2026 at 12:58:11PM +0530, Sunny Patel wrote:
+> >> Good Point. So again revisited the watchdog core
+> >> api and list out the deprecated one and marked
+> >> as deprecated in doc and also mentioned it just
+> >> for legacy driver and not for newer one.
+> >> 
+> >> As someof the legacy driver still have reference 
+> >> to old api so just marked as deprecated in doc.
+> >> 
+> >> Also checked with other watchdog related api
+> >> which are deprecated in driver but still present 
+> >> in doc but didn't find any.
+> >> 
+> >> ---
 > >
-> > This documents what we have as of today and how it works. I added some
-> > examples how the parameter affects the configuration. Did I miss
-> > something?
->=20
-> There's been a lot of silence on this one... should I pick this one up,
-> or are there other plans for it...?
->=20
-> Thanks,
->=20
-> jon
+> > The above would show up as commit message, there is no change log, and
+> > this e-mail was sent as response to v1. And I can see that without even
+> > looking at the patch itself.
+> >
+> > That makes me wonder what Documentation/process/submitting-patches.rst
+> > is useful for. No one seems to bother reading it. We might as well
+> > just remove it.
+> 
+> It's good to point people at.
+> 
+> I do think it needs a serious rewrite to, among other things, turn it
+> into less of an intimidating tome.  On my list of things to do.  Now if
+> I could only buy a larger drive to hold that whole list...
+> 
+Let's have some fun:
 
-Hi Jonathan,
+1st AI prompt:
 
-Sorry.
+You are an experienced Linux kernel developer and an AI prompt expert.
+Read linux/Documentation/process/submitting-patches.rst and generate an
+AI prompt file named review.md which can be used by an AI agent to review
+a patch submission and determine if it follows the guidance in
+submitting-patches.rst.
 
-Reviewed-by: Aaron Tomlin <atomlin@atomlin.com>
---=20
-Aaron Tomlin
+2nd AI prompt:
 
---2mwwzfg2g6blh6la
-Content-Type: application/pgp-signature; name="signature.asc"
+Using @review.md, review the patch in index.html, which targets the
+repository in the linux/ directory. Provide review output in review.log.
 
------BEGIN PGP SIGNATURE-----
+Result is below (raw file as generated by the AI agent, not reformatted).
 
-iQIzBAEBCgAdFiEEeQaE6/qKljiNHm6b4t6WWBnMd9YFAmnZLF4ACgkQ4t6WWBnM
-d9Zv1BAAsrvybWjk4TanPJ7hwaH0lZPplVI9RuOASBt6+e7TCCyXPlRWrREOEeTl
-JpCJO1TGqvCvoHd+KWXaBdjks4qj+gGdbSG3Zf1IFZG9/GGcrgkYfRsWHsiZ6llU
-elIuIyOZHsM9p8THEegWMTu2ZdZZQRDrI2TAaZ6ETqQxO+r8/vutVT8/Nz/+QLVe
-adME+ae1LVRdNE1z3IpVLZol4/oIsFmZbwtVGZfM7BwT5gbyGV+oJglQmCvlSuza
-potZkFR0PGevIi2B348DeS603/UjdLpCfuwTFigoHmTtXeyOCADW825lUFwa1J5w
-E+K92gQMTfRQWUZCWeEMfFAAeuJI47zpiXz7EjnoogvRLyhxV21fIR97kb08e1Bv
-YDiAEAeeNemNZong3c5fYhLzHV7sxWYgeUMSzd7r320IXYRABmq/qJA+wwH2OYgb
-xf9P+BGXrAuHEOhIYPBuYyRaX6O2ly6GSLlVm2jovXfqsRY36JBw64T7Sg4Qsaqm
-GAegPjck5ljBACvl/8CZN/lmPr6xQSLVywwfgDdqjp+SjfHIO4sdlrRzFWyVwfAm
-Nvw1tuC26QcZpMVSVFH8vAoJFrdOgGR2IKbZ2ID9SdDZW245aVKmjNolEvWzNJYj
-A/BVYtvRvBU6YyXfEnY1qvy5zAeMpDw6qXWQoUpeXfyQkzBN4HI=
-=nkc/
------END PGP SIGNATURE-----
+Guenter
 
---2mwwzfg2g6blh6la--
+---
+Status: NEEDS WORK
+
+Summary:
+The patch updates the watchdog API documentation by marking deprecated ioctls and adding descriptions for features like MAGICCLOSE and PRETIMEOUT. While the technical content is useful, the patch requires revisions to the commit 
+message and documentation text to fix typos, grammatical errors, and formatting issues.
+
+Detailed Findings:
+1. Commit Message & Description:
+   - The description starts with conversational filler ("Good Point. So again revisited...") which should be removed.
+   - The message is not written in the imperative mood (e.g., use "Mark WDIOC_GETTEMP as deprecated" instead of "Revisited... and marked...").
+   - Typos in the commit message: "someof" (some of), "Reierate" (Reiterate).
+   - The subject line "Documentation: Refactored watchdog old doc" should use the imperative mood: "Documentation: Refactor watchdog documentation".
+
+2. Technical Content & Style:
+   - Several typos in the documentation text:
+     - "reboot tiemout" -> "reboot timeout" (Multiple occurrences).
+     - "characted 'V'" -> "character 'V'".
+     - "small number if legacy drivers" -> "small number of legacy drivers".
+   - Grammatical/Formatting issues:
+     - Missing space: "WDIOS_DISABLECARD,this" -> "WDIOS_DISABLECARD, this".
+     - Inconsistent capitalization: "USE WDIOC_SETPRETIMEOUT" should be "Use WDIOC_SETPRETIMEOUT".
+     - "New Drivers" should be "New drivers".
+   - The patch results in "No newline at end of file" for Documentation/watchdog/watchdog-api.rst.
+
+3. Canonical Patch Format:
+   - The patch follows the basic canonical format (Subject, From, Sign-off, separators, changelog, and diffstat are all present).
+
+Actionable Advice:
+1. Rewrite the commit message to be professional and in the imperative mood. Remove any conversational references to previous discussions.
+2. Perform a spell-check on the documentation changes. Specifically, fix "tiemout", "characted", and "if" (where "of" was intended).
+3. Ensure proper spacing after punctuation (e.g., after the comma in the WDIOS_DISABLECARD description).
+4. Add a newline at the end of Documentation/watchdog/watchdog-api.rst.
+5. Use consistent sentence-case for instructions (e.g., "Use" instead of "USE").
+
