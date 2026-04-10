@@ -1,215 +1,107 @@
-Received: from iad-out-012.esa.us-east-1.outbound.mail-perimeter.amazon.com (iad-out-012.esa.us-east-1.outbound.mail-perimeter.amazon.com [34.197.10.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF9F33D9DD2
-	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 15:19:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=34.197.10.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B028C3D9DD2
+	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 15:19:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775834368; cv=none; b=nDePorqA1xwwpjzvELetROr66v9RwJMrLFURIH4tPTisPf36joeXH+hYPz0QY+oPCvMGbFrzewtKGsa3HnoQW9f9zBmykebvMruhuDCLO6ZZE2s0ODageZqdx4MyM7s30X2fir+JpDY70boEmeNcPAZ1w2Wn72kxT5lyAwEU0HY=
+	t=1775834370; cv=none; b=efJDckOiR9r/Qxo378hdhq4ds4XqdrM+bu5Tj/+SOzdug8w8kcCx/8U8X2MxGnNrw06VP0Ddok5fyf5WtQXDoY04znFzSVJ4UQRi/PKDoQ4m5s5tZhMX5Z0k6VfF0OEcPgwCJ27jQRNc1FeM/DEm6i9QGaC4EtBMq48yL5mH13U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775834368; c=relaxed/simple;
-	bh=gl2xH3pnkZhUdLbvpzVAUkRpuWjT0Avl9j1PuyA65zw=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=FSF2f+FJfQYZjJarcMDGZOyHsLWDGPKXSLtVLD5r4azaiXBJf6Bf1+RYtBj/jzTulWb3oktavPDOVRe0necdxRZewDSdh3gypMeSqOpNLY26KmGh1nZPi59wppFiZHEVQho+Rq92onJlq1cwo55dmoWWSrDtGle5/2iE538Cj7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk; spf=pass smtp.mailfrom=amazon.co.uk; dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b=EZOsb2Cy; arc=none smtp.client-ip=34.197.10.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.co.uk
+	s=arc-20240116; t=1775834370; c=relaxed/simple;
+	bh=MwH/WucLijAHaNDytI577A/CNakmrl5slNZKBtFvgsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aAibGWcsw4YjlFHsgwhWjx4iLiMTxoULCuI94bnZeg6pmcRI6631Rhf8ZOGqn9DgysQ27xXYxp3V7zI5ruOSlDPeKnBW/THa/okrvVuldLeFMv1KLuI01PBmyeL3C/fRHgn1zzPlQRgmDGXOcxF8X1y9W9OAl8HOTuC4BewWk0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lncuj8yo; arc=none smtp.client-ip=74.125.82.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.co.uk header.i=@amazon.co.uk header.b="EZOsb2Cy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lncuj8yo"
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2d17b8fbedaso944393eec.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 08:19:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.co.uk; i=@amazon.co.uk; q=dns/txt;
-  s=amazoncorp2; t=1775834366; x=1807370366;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=vLy8Uo7H/yy1MpTCKNu3B0dgocKjoo20PjX7Wqklm/o=;
-  b=EZOsb2CyX1W6sPC/OQm+8EDLJZIR146XaG1DQ4SWz05y1sSYAwjBLTBI
-   QxsbHZTsKH+jggyrJeKTU3EvO9oCURBt0kYbK3bhc9NTTNH83c8z98hET
-   0tduzQWlHp/qpQV6QhavrYvBg6aSpUTAHdFUWbPxE7+jvluIsguHyAyec
-   kWE+E7FFV9YifsG8eWrRw9RoAJCqxmFfzlmx6mKDmwlB17YEfPwKG413K
-   3oGYvN2JgCTjVDN0mEbr4f+X4OeHMajHf+H0/nbnGDL7e0WDya70489Sw
-   9sKQHl4zaAMumKHuKxjCK4EYL3ARobvsvC4DXFNzxqj/85GOM9Sxd2ajB
-   Q==;
-X-CSE-ConnectionGUID: gyKHZ+N4Q7aligjTfKPmtg==
-X-CSE-MsgGUID: I+Y0FbOuRQ+gc3rOs+n9mA==
-X-IronPort-AV: E=Sophos;i="6.23,171,1770595200"; 
-   d="scan'208";a="15710928"
-Received: from ip-10-4-10-75.ec2.internal (HELO smtpout.naws.us-east-1.prod.farcaster.email.amazon.dev) ([10.4.10.75])
-  by internal-iad-out-012.esa.us-east-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2026 15:19:25 +0000
-Received: from EX19MTAUEC002.ant.amazon.com [72.21.196.66:19527]
- by smtpin.naws.us-east-1.prod.farcaster.email.amazon.dev [10.0.29.254:2525] with esmtp (Farcaster)
- id ed764640-5065-4944-9789-c3b1f1c92cdd; Fri, 10 Apr 2026 15:19:25 +0000 (UTC)
-X-Farcaster-Flow-ID: ed764640-5065-4944-9789-c3b1f1c92cdd
-Received: from EX19D027UEC001.ant.amazon.com (10.252.137.156) by
- EX19MTAUEC002.ant.amazon.com (10.252.135.253) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 10 Apr 2026 15:19:25 +0000
-Received: from EX19D027UEC003.ant.amazon.com (10.252.137.250) by
- EX19D027UEC001.ant.amazon.com (10.252.137.156) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.37;
- Fri, 10 Apr 2026 15:19:24 +0000
-Received: from EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d]) by
- EX19D027UEC003.ant.amazon.com ([fe80::887f:519b:ba73:21d%3]) with mapi id
- 15.02.2562.037; Fri, 10 Apr 2026 15:19:24 +0000
-From: "Kalyazin, Nikita" <kalyazin@amazon.co.uk>
-To: "kvm@vger.kernel.org" <kvm@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "kvmarm@lists.linux.dev"
-	<kvmarm@lists.linux.dev>, "linux-fsdevel@vger.kernel.org"
-	<linux-fsdevel@vger.kernel.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
-	"bpf@vger.kernel.org" <bpf@vger.kernel.org>,
-	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-	"kernel@xen0n.name" <kernel@xen0n.name>, "linux-riscv@lists.infradead.org"
-	<linux-riscv@lists.infradead.org>, "linux-s390@vger.kernel.org"
-	<linux-s390@vger.kernel.org>, "loongarch@lists.linux.dev"
-	<loongarch@lists.linux.dev>, "linux-pm@vger.kernel.org"
-	<linux-pm@vger.kernel.org>
-CC: "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
-	<corbet@lwn.net>, "maz@kernel.org" <maz@kernel.org>, "oupton@kernel.org"
-	<oupton@kernel.org>, "joey.gouly@arm.com" <joey.gouly@arm.com>,
-	"suzuki.poulose@arm.com" <suzuki.poulose@arm.com>, "yuzenghui@huawei.com"
-	<yuzenghui@huawei.com>, "catalin.marinas@arm.com" <catalin.marinas@arm.com>,
-	"will@kernel.org" <will@kernel.org>, "seanjc@google.com" <seanjc@google.com>,
-	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
-	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "x86@kernel.org" <x86@kernel.org>,
-	"hpa@zytor.com" <hpa@zytor.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "willy@infradead.org"
-	<willy@infradead.org>, "akpm@linux-foundation.org"
-	<akpm@linux-foundation.org>, "david@kernel.org" <david@kernel.org>,
-	"lorenzo.stoakes@oracle.com" <lorenzo.stoakes@oracle.com>,
-	"vbabka@kernel.org" <vbabka@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
-	"surenb@google.com" <surenb@google.com>, "mhocko@suse.com" <mhocko@suse.com>,
-	"ast@kernel.org" <ast@kernel.org>, "daniel@iogearbox.net"
-	<daniel@iogearbox.net>, "andrii@kernel.org" <andrii@kernel.org>,
-	"martin.lau@linux.dev" <martin.lau@linux.dev>, "eddyz87@gmail.com"
-	<eddyz87@gmail.com>, "song@kernel.org" <song@kernel.org>,
-	"yonghong.song@linux.dev" <yonghong.song@linux.dev>,
-	"john.fastabend@gmail.com" <john.fastabend@gmail.com>, "kpsingh@kernel.org"
-	<kpsingh@kernel.org>, "sdf@fomichev.me" <sdf@fomichev.me>,
-	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
-	<jolsa@kernel.org>, "jgg@ziepe.ca" <jgg@ziepe.ca>, "jhubbard@nvidia.com"
-	<jhubbard@nvidia.com>, "peterx@redhat.com" <peterx@redhat.com>,
-	"jannh@google.com" <jannh@google.com>, "pfalcato@suse.de" <pfalcato@suse.de>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "riel@surriel.com"
-	<riel@surriel.com>, "ryan.roberts@arm.com" <ryan.roberts@arm.com>,
-	"jgross@suse.com" <jgross@suse.com>, "yu-cheng.yu@intel.com"
-	<yu-cheng.yu@intel.com>, "kas@kernel.org" <kas@kernel.org>, "coxu@redhat.com"
-	<coxu@redhat.com>, "ackerleytng@google.com" <ackerleytng@google.com>,
-	"yosry@kernel.org" <yosry@kernel.org>, "ajones@ventanamicro.com"
-	<ajones@ventanamicro.com>, "maobibo@loongson.cn" <maobibo@loongson.cn>,
-	"tabba@google.com" <tabba@google.com>, "prsampat@amd.com" <prsampat@amd.com>,
-	"wu.fei9@sanechips.com.cn" <wu.fei9@sanechips.com.cn>, "mlevitsk@redhat.com"
-	<mlevitsk@redhat.com>, "jmattson@google.com" <jmattson@google.com>,
-	"jthoughton@google.com" <jthoughton@google.com>, "agordeev@linux.ibm.com"
-	<agordeev@linux.ibm.com>, "alex@ghiti.fr" <alex@ghiti.fr>,
-	"aou@eecs.berkeley.edu" <aou@eecs.berkeley.edu>, "borntraeger@linux.ibm.com"
-	<borntraeger@linux.ibm.com>, "chenhuacai@kernel.org" <chenhuacai@kernel.org>,
-	"baolu.lu@linux.intel.com" <baolu.lu@linux.intel.com>, "dev.jain@arm.com"
-	<dev.jain@arm.com>, "gor@linux.ibm.com" <gor@linux.ibm.com>,
-	"hca@linux.ibm.com" <hca@linux.ibm.com>, "palmer@dabbelt.com"
-	<palmer@dabbelt.com>, "pjw@kernel.org" <pjw@kernel.org>,
-	"shijie@os.amperecomputing.com" <shijie@os.amperecomputing.com>,
-	"svens@linux.ibm.com" <svens@linux.ibm.com>, "thuth@redhat.com"
-	<thuth@redhat.com>, "yang@os.amperecomputing.com"
-	<yang@os.amperecomputing.com>, "Liam.Howlett@oracle.com"
-	<Liam.Howlett@oracle.com>, "urezki@gmail.com" <urezki@gmail.com>,
-	"zhengqi.arch@bytedance.com" <zhengqi.arch@bytedance.com>,
-	"gerald.schaefer@linux.ibm.com" <gerald.schaefer@linux.ibm.com>,
-	"jiayuan.chen@shopee.com" <jiayuan.chen@shopee.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "pavel@kernel.org" <pavel@kernel.org>, "rafael@kernel.org"
-	<rafael@kernel.org>, "yangyicong@hisilicon.com" <yangyicong@hisilicon.com>,
-	"vannapurve@google.com" <vannapurve@google.com>, "jackmanb@google.com"
-	<jackmanb@google.com>, "patrick.roy@linux.dev" <patrick.roy@linux.dev>,
-	"Thomson, Jack" <jackabt@amazon.co.uk>, "Itazuri, Takahiro"
-	<itazur@amazon.co.uk>, "Manwaring, Derek" <derekmn@amazon.com>, "Kalyazin,
- Nikita" <kalyazin@amazon.co.uk>
-Subject: [PATCH v12 09/16] KVM: arm64: define
- kvm_arch_gmem_supports_no_direct_map()
-Thread-Topic: [PATCH v12 09/16] KVM: arm64: define
- kvm_arch_gmem_supports_no_direct_map()
-Thread-Index: AQHcyP1pqKPFicKVfkONXJiuCe9SiA==
-Date: Fri, 10 Apr 2026 15:19:24 +0000
-Message-ID: <20260410151746.61150-10-kalyazin@amazon.com>
-References: <20260410151746.61150-1-kalyazin@amazon.com>
-In-Reply-To: <20260410151746.61150-1-kalyazin@amazon.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        d=gmail.com; s=20251104; t=1775834368; x=1776439168; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Z7ObF2b/IFmk4GCUBZOwS78VSlp53MCRHb7XjsIFZ+w=;
+        b=Lncuj8yoLuJSO15TPNcLHDWXXUzsPxbBZZ8F1zsD6ClwaW20zlxLYdZLQC7kGqLF9J
+         2SCYyFwoAcBEggHMvdWsdxPyGAEn3S8oUidT8oJ7lQSCFADQ9ZhiLSC93epYm8oSySfH
+         1M+6r/pDVT9JeEXgnbtQbphyXz7T/DSjPvW6kGMt4zTtpYL3i+Ga1uGKS/znI/QO9Ivf
+         PTtgT2PrxzmC6gJeUqACMy+2K4+gPH07zKEmWeOvUHljd0mixlWdNVZtGbCYeJAItMlO
+         UpxjLRlnCo4j95hBdA5LWMjwXE54ggQdQUNGMX+yOS1cCVn8jCV2RsE7y3kpr+VyM8YL
+         gCuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775834368; x=1776439168;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Z7ObF2b/IFmk4GCUBZOwS78VSlp53MCRHb7XjsIFZ+w=;
+        b=k0yHMZwA6Aw0GKSzW/cr5peh86pM4wD7NHCp7Pui+g2i8q3BXTMVA6LUMCap8pWQKy
+         ZwN5Ku7w65/ZuhtgzXq1B3hsdNkNv1PTxST1wh7rfr2V4XijVZa9ZP+hwl7N2oZnPd2Z
+         SuDodDjT2crEDL2Ppf3PJ69kikx8cK+49XG569zBPVYhRxyPVn5tmk7c2E8U8I+fSTWB
+         ezIie1Kq5fK+4t/EGMN8DaIuCmRyXPYrfri+IANRCghfnkAQabf1qYgawc7jRNnrkENc
+         EKdsZV8QE/7tNpgM+iAtvFiBl/QoVLwEu0O58PT64XPsRSVR8KJuOqFvxVecfdNuW1b+
+         osvw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMIX3nGWa5x6NLl+zZlCEQjrJco88EZxTAA+unQmiR7+kUyzEtopxbqrYkqGY2Sny9M5gG8quhHkQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyu67n5TNB3yJdbnxa5nMEqaUaiLyA0MZusgdk8klc14rKmf1nB
+	Wfg8q9Xq2ZWC9XSObV9H8W9PZCMkxOzLpT25a6+D6Ie+YnUsNcFTncnarQ3s6Q==
+X-Gm-Gg: AeBDiesEodxjJzAJqMWgqFYMNhXA5O3rE4Do4vEBtokdXQrOPY6hHxIyQtTph0SDQDv
+	1RR6eAXqc3ekoCzf92LSCqGpdHDhaTyIvTJW7J4Dmu7gfrDXLFcxdICNKBHafo7WfUc7PO6wnx+
+	IV/00Ur9IB36+UukRHbSOQRGR3IWSCFsYM9am+tY9ytaitlV7hY9t3mMltX+fKeCK9G18C8XOlX
+	5vnVnTQ4wmtZ2e/YDVKQShMmPRUU/wKd1iMaoCfJrojNJmkkE98eAIKIKkWraVUkl5lSzqp4hKZ
+	uxrV1fck1/4hOY2SabGxcvr9Y8JN+XTVfJiKrU0mr4Lsdj2HaQ1yn/LySzfne5QBke7B7gFx/Kj
+	UWY39lfrYxkp7/c7IJdvCSGNOjiqZUek4vJJXRXbGqcfC7IfwUSz5vJPWXQcB/oUhXl1CItrx4v
+	IqgK959Yy4MZOwsMlSVUxuijbRp8duL0rw0nQQkGugUrgGjbs=
+X-Received: by 2002:a05:7300:5713:b0:2ca:bd22:6102 with SMTP id 5a478bee46e88-2d4101c572cmr4053457eec.14.1775834367665;
+        Fri, 10 Apr 2026 08:19:27 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2d562db64c4sm4533921eec.27.2026.04.10.08.19.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 10 Apr 2026 08:19:26 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Fri, 10 Apr 2026 08:19:25 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Sunny Patel <nueralspacetech@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: Refactored watchdog old doc
+Message-ID: <fe3de980-e918-47ae-862a-969a5b117ae0@roeck-us.net>
+References: <132f7e64-4fc6-4274-a04e-e53f0b957665@roeck-us.net>
+ <20260410072825.19114-1-nueralspacetech@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260410072825.19114-1-nueralspacetech@gmail.com>
 
-From: Patrick Roy <patrick.roy@linux.dev>=0A=
-=0A=
-Support for GUEST_MEMFD_FLAG_NO_DIRECT_MAP on arm64 depends on 1) direct=0A=
-map manipulations at 4k granularity being possible, and 2) FEAT_S2FWB.=0A=
-=0A=
-1) is met whenever the direct map is set up at 4k granularity (e.g. not=0A=
- with huge/gigantic pages) at boottime, as due to ARM's=0A=
-break-before-make semantics, breaking huge mappings into 4k mappings in=0A=
-the direct map is not possible (BBM would require temporary invalidation=0A=
-of the entire huge mapping, even if only a 4k subrange should be zapped,=0A=
-which will probably crash the kernel). However, the current default for=0A=
-rodata_full is true, which forces a 4k direct map.=0A=
-=0A=
-2) is required to allow KVM to elide cache coherency operations when=0A=
-installing stage 2 page tables, which require the direct map to be=0A=
-entry for the newly mapped memory to be present (which it will not be,=0A=
-as guest_memfd would have removed direct map entries in=0A=
-kvm_gmem_get_pfn()).=0A=
-=0A=
-Cc: Will Deacon <will@kernel.org>=0A=
-Signed-off-by: Patrick Roy <patrick.roy@linux.dev>=0A=
-Reviewed-by: David Hildenbrand (Arm) <david@kernel.org>=0A=
-Signed-off-by: Nikita Kalyazin <nikita.kalyazin@linux.dev>=0A=
----=0A=
- arch/arm64/include/asm/kvm_host.h | 13 +++++++++++++=0A=
- 1 file changed, 13 insertions(+)=0A=
-=0A=
-diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm=
-_host.h=0A=
-index 70cb9cfd760a..fbdd43e7e94e 100644=0A=
---- a/arch/arm64/include/asm/kvm_host.h=0A=
-+++ b/arch/arm64/include/asm/kvm_host.h=0A=
-@@ -19,6 +19,7 @@=0A=
- #include <linux/maple_tree.h>=0A=
- #include <linux/percpu.h>=0A=
- #include <linux/psci.h>=0A=
-+#include <linux/set_memory.h>=0A=
- #include <asm/arch_gicv3.h>=0A=
- #include <asm/barrier.h>=0A=
- #include <asm/cpufeature.h>=0A=
-@@ -1682,6 +1683,18 @@ static __always_inline enum fgt_group_id __fgt_reg_t=
-o_group_id(enum vcpu_sysreg=0A=
- 									\=0A=
- 		p;							\=0A=
- 	})=0A=
-+#ifdef CONFIG_KVM_GUEST_MEMFD=0A=
-+static inline bool kvm_arch_gmem_supports_no_direct_map(struct kvm *kvm)=
-=0A=
-+{=0A=
-+	/*=0A=
-+	 * Without FWB, direct map access is needed in kvm_pgtable_stage2_map(),=
-=0A=
-+	 * as it calls dcache_clean_inval_poc().=0A=
-+	 */=0A=
-+	return can_set_direct_map() && cpus_have_final_cap(ARM64_HAS_STAGE2_FWB);=
-=0A=
-+}=0A=
-+#define kvm_arch_gmem_supports_no_direct_map kvm_arch_gmem_supports_no_dir=
-ect_map=0A=
-+#endif /* CONFIG_KVM_GUEST_MEMFD */=0A=
-+=0A=
- =0A=
- long kvm_get_cap_for_kvm_ioctl(unsigned int ioctl, long *ext);=0A=
- =0A=
--- =0A=
-2.50.1=0A=
-=0A=
+On Fri, Apr 10, 2026 at 12:58:11PM +0530, Sunny Patel wrote:
+> Good Point. So again revisited the watchdog core
+> api and list out the deprecated one and marked
+> as deprecated in doc and also mentioned it just
+> for legacy driver and not for newer one.
+> 
+> As someof the legacy driver still have reference 
+> to old api so just marked as deprecated in doc.
+> 
+> Also checked with other watchdog related api
+> which are deprecated in driver but still present 
+> in doc but didn't find any.
+> 
+> ---
+
+The above would show up as commit message, there is no change log, and
+this e-mail was sent as response to v1. And I can see that without even
+looking at the patch itself.
+
+That makes me wonder what Documentation/process/submitting-patches.rst
+is useful for. No one seems to bother reading it. We might as well
+just remove it.
+
+Guenter
