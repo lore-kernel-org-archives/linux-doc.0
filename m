@@ -1,77 +1,82 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mailrelay-egress7.pub.mailoutpod2-cph3.one.com (mailrelay-egress7.pub.mailoutpod2-cph3.one.com [46.30.211.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EE6D3D5668;
-	Fri, 10 Apr 2026 14:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BA1422578D
+	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 14:57:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.30.211.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775832838; cv=none; b=ZKpIxiUf0ObuSe381dP/9FGU9PwQCe8nUcJfzJAJxaabrKYNrlqGJccye5aSn6SuoR/Lw6LhOKfYijz18biRfCP+NRR1zbWMQgMfWL5lwXFwg+g/rLlitN8G/kM/SQ7dbCsRjc3OlflsYKNH51SNqAoLZ0SeB2L4w3JxtFs7asg=
+	t=1775833056; cv=none; b=HCIA37weBmQN6DUaadKro4g+v3WvMpxyHlvDokAKWki7fErTGSI6w++cOtrjR5Y9kFlUi41u+XfddSSP5OcuoHp/oaIf8xen8mQTpcxeDBmFBbfR2mkQ+lUP7ObuOGTWKgZALypbH60ERc3iMPLefq58bui5BlSiMxPEfdzPlUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775832838; c=relaxed/simple;
-	bh=DhI/OkHJmAlFb2E8T2Sq0d7zABUR4+AKc9tF8OFgYK4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BBOn/R0hpSry1aj7AY86QxiUQsDZAlZDzHLydAmtgNXBskemx6cYaa8XmNU0z0m5/dV0llQvB1t9qk6gywYgOJinDYMTf6fKjl+6ZYzC+5M93T4VJTeIkBFiWmFo6jOvt4kZTcBbqx1YVa5u5lKvYPQyxIdkKD6So2kPbtL/GvE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=KbfhcOrE; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1775833056; c=relaxed/simple;
+	bh=6HLPp8eiKlP4BHoFEFaXa6hwcnR8Yr8FCXMs2RkLafQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=DueIjP+sqjIup4d8y/pSR1gkm0aJdXKSvPkxoo1CVLpAYwJyCcBxYDMhPfqSxpXnFCP85dDcjElpq8WWk35cS0P1fd2edTnx8kxWmVi1hjnt9BmLjw/PLh4S8TOeqr4Ax3fgC9hdqC/QtnDdUrFapZQ3mG2xWS9Sal6Pjxt28IQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knutsson.it; spf=pass smtp.mailfrom=knutsson.it; dkim=pass (2048-bit key) header.d=knutsson.it header.i=@knutsson.it header.b=Q5owrYZL; dkim=permerror (0-bit key) header.d=knutsson.it header.i=@knutsson.it header.b=n12w5VAL; arc=none smtp.client-ip=46.30.211.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=knutsson.it
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=knutsson.it
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="KbfhcOrE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1775832834;
-	bh=DhI/OkHJmAlFb2E8T2Sq0d7zABUR4+AKc9tF8OFgYK4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KbfhcOrEyZC+4N5OabPlo8c12l6UPUC3lwjChfQmLc1nd3gLGLNhBoqT6BIPwiF6l
-	 0H3++Z+vXyQ5EgOnbhow/FkWcB1Gmiai5Ag5I2NxJB6WmUkvggTQnwGFZT0WKjrhc+
-	 QBAHkRg+uHvJaEcIWtU2tHuB93BWwEKSi/Of/5aI=
-Date: Fri, 10 Apr 2026 16:53:54 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Aureo Serrano de Souza <aureo.serrano@arctic.de>
-Cc: linux-hwmon@vger.kernel.org, linux@roeck-us.net, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6] hwmon: add driver for ARCTIC Fan Controller
-Message-ID: <23c6211d-cdc7-4e26-bc7a-a0563c846a24@t-8ch.de>
-References: <20260401153949.77488-1-aureo.serrano@arctic.de>
+	dkim=pass (2048-bit key) header.d=knutsson.it header.i=@knutsson.it header.b="Q5owrYZL";
+	dkim=permerror (0-bit key) header.d=knutsson.it header.i=@knutsson.it header.b="n12w5VAL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1775832981; x=1776437781;
+	d=knutsson.it; s=rsa2;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=Vf0t4MxdBmTz3FyWXWkHxvC+hT5aYnnQwznRd8j4Cr0=;
+	b=Q5owrYZLrXwRpXKaDbHZJMb7ngipIoX8KHf3YSKmAqcjddD5FXfPqWRGi7fPggGosc+h3dh7bb7US
+	 Qxht7Tk3VcLHoMiKZRrvIeqfuMHuWeNR9NZmTQzESTMgpe4VuAXodROLsEq/BbV/tPnkbJ1uH9fFex
+	 nbBLzp5/YCb2JL6Nh7w6Qq8uwgQBuafxPvK9j1yDHQs0jdpLqvKnHFQK7uazEE3T4L0rbXeKwHbDYd
+	 GNsQpOCk5sNzNDV7hb2vSnIZ6DYVwiJLiItMgBWCMvToYF9KVtm2VV2qtgqvUCOOju+gBlQZEOOrR6
+	 AI3520ZPIDzOUQjCmvTVWNQQPgoSehA==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; t=1775832981; x=1776437781;
+	d=knutsson.it; s=ed2;
+	h=content-transfer-encoding:mime-version:message-id:date:subject:cc:to:from:
+	 from;
+	bh=Vf0t4MxdBmTz3FyWXWkHxvC+hT5aYnnQwznRd8j4Cr0=;
+	b=n12w5VALJMe8bFtVyXPOC4eXKVG0nAakOCFbbRaSBRMGvuqLPzfjKqP5gsNzp3JZBV7BQwRiG/cJM
+	 bxjLXmOCA==
+X-HalOne-ID: 6fa567f2-34ed-11f1-bef7-fb5fec76084d
+Received: from critbfk-Desktop.int.essentialive.dk (0x573e6412.static.cust.fastspeed.dk [87.62.100.18])
+	by mailrelay3.pub.mailoutpod3-cph3.one.com (Halon) with ESMTPSA
+	id 6fa567f2-34ed-11f1-bef7-fb5fec76084d;
+	Fri, 10 Apr 2026 14:56:21 +0000 (UTC)
+From: Brian Knutsson <development@knutsson.it>
+To: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Knutsson Development <development@knutsson.it>
+Subject: [PATCH] docs: tainted-kernels: fix typos in documentation
+Date: Fri, 10 Apr 2026 16:56:06 +0200
+Message-ID: <20260410145606.774491-1-development@knutsson.it>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260401153949.77488-1-aureo.serrano@arctic.de>
+Content-Transfer-Encoding: 8bit
 
-Hi Aureo,
+From: Knutsson Development <development@knutsson.it>
 
-On 2026-04-01 23:39:47+0800, Aureo Serrano de Souza wrote:
-(...)
+Fix two minor typos in the tainted-kernels documentation:
+- 'a more details explanation' -> 'a more detailed explanation'
 
-> +struct arctic_fan_data {
-> +	struct hid_device *hdev;
-> +	struct device *hwmon_dev;	/* stored for explicit unregister in remove() */
-> +	spinlock_t in_report_lock;	/* protects fan_rpm, ack_status, write_pending, pwm_duty */
-> +	struct completion in_report_received; /* ACK (ID 0x02) received in raw_event */
-> +	int ack_status;			/* 0 = OK, negative errno on device error */
-> +	bool write_pending;		/* true while an OUT report ACK is in flight */
-> +	u32 fan_rpm[ARCTIC_NUM_FANS];
-> +	u8 pwm_duty[ARCTIC_NUM_FANS];	/* 0-255 matching sysfs range; converted to 0-100 on send */
-> +	/*
-> +	 * OUT report buffer. Cache-line aligned so it occupies its own cache
-> +	 * line, preventing DMA cache-coherency issues with adjacent fields
-> +	 * (fan_rpm[], pwm_duty[]) on non-coherent architectures.
-> +	 * Embedded in the devm_kzalloc'd struct so it is heap-allocated and
-> +	 * passes usb_hcd_map_urb_for_dma(). Serialized by the hwmon core.
-> +	 */
-> +	u8 buf[ARCTIC_REPORT_LEN] ____cacheline_aligned;
+Signed-off-by: Knutsson Development <development@knutsson.it>
+---
+ Documentation/admin-guide/tainted-kernels.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I recently discovered __dma_from_device_group_begin() / _end().
-These look like the correct solution to use here. It would also make
-parts of the comment unnecessary, as the macro already expresses this
-semantic.
+diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+index ed1f8f1e86c5..714186159536 100644
+--- a/Documentation/admin-guide/tainted-kernels.rst
++++ b/Documentation/admin-guide/tainted-kernels.rst
+@@ -63,7 +63,7 @@ this on the machine that had the statements in the logs that were quoted earlier
+ 	 * Externally-built ('out-of-tree') module was loaded  (#12)
+ 	See Documentation/admin-guide/tainted-kernels.rst in the Linux kernel or
+ 	 https://www.kernel.org/doc/html/latest/admin-guide/tainted-kernels.html for
+-	 a more details explanation of the various taint flags.
++	 a more detailed explanation of the various taint flags.
+ 	Raw taint value as int/string: 4609/'P        W  O     '
+ 
+ You can try to decode the number yourself. That's easy if there was only one
+-- 
+2.48.1
 
-> +};
-
-(...)
-
-
-Thomas
