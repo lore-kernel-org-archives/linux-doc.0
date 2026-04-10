@@ -1,200 +1,112 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E412434751E
-	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 11:24:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9281340A57
+	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 12:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775820300; cv=none; b=AYaAM1XpWP9tc23CJZkKOJAGobpL2yZfo87RT88r2jZZmuanrh3n11ew2T0YPWVm/DT/ev0ULSMa0pRSZgBxxu6FLE3JgWSbcnDgDVo9jrzlS0g/7BBOj4essm0iFafkiOS9heKDMTqgNZhyBFnbYZbf3YXEVUteb98fxJtOHk4=
+	t=1775823097; cv=none; b=VMIY9tt6amNrHnD1JBRndYQyVi1IVARthNDderJsa6G5T+Wnd58LyTPg7ML1XtsM2tZG1LQjgrd142zIgSjbjcOofGscvGXIpCbI4jFcIyQhHZRRnrKRdOFJakPDSkW2cttsPSi5Zw2TVhOiRhfcoHjw6Di9Cl0B1e9Yq+zET7k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775820300; c=relaxed/simple;
-	bh=kfPJBcpCTjphmXk1M7DyAu87ptGGposdZoQGRvKJS3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ozj8nt9t966m5FHTb16TcFc80Da+rDkUEl+02KXodq3r2EdHtwv3NeA2YtsrlPMFQvNzE4aiGNcn3JgZXbv9fgGgjvndFuDrV9pIEEnZYRl+eeX4Elkolv7a900iLG0VIUmdEIEsyqOCihMOKf/Oc3+IsPDL213UMWdN25I2htQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lgc0buJb; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1775823097; c=relaxed/simple;
+	bh=FztPS0UQeubSwIKvX1X4/qNcd1K+zFW3IouJYfHQRog=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tgGWCrETbGK0sA69Ze7RD7DoEruBitnSp9gXNsTbAcNN7HViFo3HSudITG5151GdrDYr2ed3kYEHSrSwps2CcLUEUZrwWmrlPAVGTMEnDGI2ennBn1v6thklI7dxyalwFfbfWwjvUw2mqWySNzqq3X9UhQ0kXRofnsm9bdSlWBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=r21uG3S8; arc=none smtp.client-ip=209.85.210.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lgc0buJb"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1775820286;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pL2u8G14yedECayBazskDlM9FGACE+Bqe2F5AnR4p0w=;
-	b=Lgc0buJbwkSBl9H29bocyedc72ItyFsaAvpYxeazrNi8uKkkmpOkYKIuqoy6zLqjrUOF4H
-	j7mbJ3zl+i0Cz/9du9+JO4FfGZOnSKU6BmHlsN+lbRh6LgyILLCF2B2rCVDrCRzZLHOoHT
-	0biJvrXVp0hla/Qn6xTcNSfmBYj4B9I=
-From: Usama Arif <usama.arif@linux.dev>
-To: Jane Chu <jane.chu@oracle.com>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	akpm@linux-foundation.org,
-	david@kernel.org,
-	muchun.song@linux.dev,
-	osalvador@suse.de,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	hughd@google.com,
-	baolin.wang@linux.alibaba.com,
-	peterx@redhat.com,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] hugetlb: make hugetlb_fault_mutex_hash() take PAGE_SIZE index
-Date: Fri, 10 Apr 2026 04:24:31 -0700
-Message-ID: <20260410112433.3248586-1-usama.arif@linux.dev>
-In-Reply-To: <20260409234158.837786-4-jane.chu@oracle.com>
-References: 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="r21uG3S8"
+Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-82f0884bcfaso785599b3a.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 05:11:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775823095; x=1776427895; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=x3f2VGjlp0zrHnZkKgCfeyqB8lCSoeEC0x2mfrr6vdc=;
+        b=r21uG3S8Yf7GKA6puyKNqqobrXby2ZuX6NemgfXzB/uiZneB8KZ/m4kHNZDcTClDn9
+         x9LrVgxach9F3J0yyJXFwiAfBpgTF+iwEeylsYiUjKIpVKVXs7Aqw5ePjB8pxKuMwtmU
+         I3qLozhvF1PJvIlb1xVCPWf+JcPCcKv7sm6rrCQcEm9J4RIY5LSlIUT41E2d8sisRLMF
+         aB+kIk0kH8Vu3FrY5/RFCyqlo3GgQ/smcvENWsFCkop6oQCQexcuJlhdXOW6XL1ttXMP
+         uopLmO4L4TcpyrhMYwx9FDKxfo1CYC5S3NDDgc6o7d5rEo0B5Nd5xJ1npAAP8W+5IJKr
+         pqvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775823095; x=1776427895;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=x3f2VGjlp0zrHnZkKgCfeyqB8lCSoeEC0x2mfrr6vdc=;
+        b=S5OniMSDJzJ6ddE39a8aHt4sB4u4HPBr8kuvI5r2kQXML9RMlnft/QSQPxTqLwy4L7
+         bplKu18VB/QwKupZCJKQkq+ivDz5QiWp2EAlWr1yqzj8CotxJ+mEtGd3hfmOfF0gLNFK
+         aAeMYvdHjugvhiD/LdScZmpwXjCLR8V47V4beEjnvNniYoWOhcT1KoA2TMWdaQ9Zsr4R
+         PTCdSCWCgLVujMvnWzldzt83tgjpyaBkp9L6Qf0vqsK97n529PtGc5iE/WcVjEgYJ6iN
+         gqVlk9IsYzAs/YiUctSD+wfff96C4ZMG7XccpF8DMNRve8iqXEkP2XhDnuyBLY5T8h4r
+         qwcw==
+X-Gm-Message-State: AOJu0YyTQe1B2loylAuPFNDgm4PqJ3giKR7YWzgfusjeMmz81XONW6+a
+	aTghK2WGIwIgssn+g5YL4oSQcB8iF6aNY3OqjUAdgJzv/baPJGjWwX/m
+X-Gm-Gg: AeBDiesuqQEL5dKcmhLgLb+XtNNAXN5582YkgEp0DDwE0Y3+GLWoQb9qXmijWCtOdUn
+	xC1rrRm6Fj7DuvqeAFRFu14Nah7Dk1nGX2g41AnzJYQwxtcMdbCF60U2mWBwOLcHTuzWdfa2p/E
+	fuVa4RQQY7+0aKN79vQA0Ki/GgJ/soVroWZ7FbN411YQ1sVcEP7eOH2DNCkmL31SmyCmQ0u/Mrv
+	RvfaOHD7y4Y5DcxebrbRwamVeq++axkHk8lbPGgXCRQeyKCGIFYXX1p6aJ4i4LihgfNn+jMj0RG
+	bV+kc/sbJs2DuThp4f7FRPH1VUa0DamEJtVwOLyIZLKg2tRoIkZzcXKt0dDnwUySbNeRWlvWljE
+	ELYJXAeTgrTwB0adEn2DXneZzJQIxX9hN7ghdBHkbzKzld/AKbv7CeUx2ZkstdUNQiBBhuL+UzO
+	uzubut9ZK/Weu0GElgAtGd++L8X6ICS7xif3n2MY81aaRWZoM073ItD9rgGLR42w==
+X-Received: by 2002:a05:6a00:228c:b0:82a:7893:e14f with SMTP id d2e1a72fcca58-82f0c351427mr3915362b3a.41.1775823095134;
+        Fri, 10 Apr 2026 05:11:35 -0700 (PDT)
+Received: from ?IPV6:240e:38b:d99:bc01:ecae:8cfc:4adc:6bc? ([240e:38b:d99:bc01:ecae:8cfc:4adc:6bc])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c30f5c3sm2714637b3a.3.2026.04.10.05.11.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Apr 2026 05:11:34 -0700 (PDT)
+Message-ID: <d357e76d-87c3-4570-a8c3-10b1d8f478ff@gmail.com>
+Date: Fri, 10 Apr 2026 20:11:28 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/4] docs/zh_CN: update rust/ subsystem translations
+To: Ben Guo <ben.guo@openatom.club>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, hust-os-kernel-patches@googlegroups.com
+References: <cover.1775786987.git.ben.guo@openatom.club>
+Content-Language: en-US
+From: Alex Shi <seakeel@gmail.com>
+In-Reply-To: <cover.1775786987.git.ben.guo@openatom.club>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu,  9 Apr 2026 17:41:54 -0600 Jane Chu <jane.chu@oracle.com> wrote:
+Applied, Thanks!
 
-> hugetlb_fault_mutex_hash() is used to serialize faults and page cache
-> operations on the same hugetlb file offset. The helper currently expects
-> its index argument in hugetlb page granularity, so callers have to
-> open-code conversions from the PAGE_SIZE-based indices commonly used
-> in the rest of MM helpers.
+On 2026/4/10 10:41, Ben Guo wrote:
+> Update Chinese translations for the Rust subsystem documentation,
+> syncing with the latest upstream changes.
 > 
-> Change hugetlb_fault_mutex_hash() to take a PAGE_SIZE-based index
-> instead, and perform the hugetlb-granularity conversion inside the helper.
-> Update all callers accordingly.
+> - arch-support.rst: add ARM (ARMv7) support, update RISC-V and UM notes
+> - coding-guidelines.rst: add imports formatting, private item docs,
+>    C FFI types, and Lints sections
+> - quick-start.rst: add distro-specific install instructions, update
+>    rustc/bindgen sections, remove cargo section
+> - index.rst: remove experimental notice and genindex
 > 
-> This makes the helper interface consistent with filemap_get_folio(),
-> and linear_page_index(), while preserving the same lock selection for
-> a given hugetlb file offset.
+> Changes in v2:
+> - Add Reviewed-by from Gary Guo
 > 
-> Signed-off-by: Jane Chu <jane.chu@oracle.com>
-> ---
->  fs/hugetlbfs/inode.c | 19 ++++++++++---------
->  mm/hugetlb.c         | 28 +++++++++++++++++++---------
->  mm/memfd.c           | 11 ++++++-----
->  mm/userfaultfd.c     |  7 +++----
->  4 files changed, 38 insertions(+), 27 deletions(-)
+> Ben Guo (4):
+>    docs/zh_CN: update rust/arch-support.rst translation
+>    docs/zh_CN: update rust/coding-guidelines.rst translation
+>    docs/zh_CN: update rust/quick-start.rst translation
+>    docs/zh_CN: update rust/index.rst translation
 > 
-> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-> index cf79fb830377..e24e9bf54e14 100644
-> --- a/fs/hugetlbfs/inode.c
-> +++ b/fs/hugetlbfs/inode.c
-> @@ -575,7 +575,7 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
->  	struct address_space *mapping = &inode->i_data;
->  	const pgoff_t end = lend >> PAGE_SHIFT;
->  	struct folio_batch fbatch;
-> -	pgoff_t next, index;
-> +	pgoff_t next, idx;
->  	int i, freed = 0;
->  	bool truncate_op = (lend == LLONG_MAX);
->  
-> @@ -586,15 +586,15 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
->  			struct folio *folio = fbatch.folios[i];
->  			u32 hash = 0;
->  
-> -			index = folio->index >> huge_page_order(h);
-> -			hash = hugetlb_fault_mutex_hash(mapping, index);
-> +			hash = hugetlb_fault_mutex_hash(mapping, folio->index);
->  			mutex_lock(&hugetlb_fault_mutex_table[hash]);
->  
->  			/*
->  			 * Remove folio that was part of folio_batch.
->  			 */
-> +			idx = folio->index >> huge_page_order(h);
->  			remove_inode_single_folio(h, inode, mapping, folio,
-> -						  index, truncate_op);
-> +						  idx, truncate_op);
->  			freed++;
->  
->  			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
-> @@ -734,7 +734,7 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
->  	struct mm_struct *mm = current->mm;
->  	loff_t hpage_size = huge_page_size(h);
->  	unsigned long hpage_shift = huge_page_shift(h);
-> -	pgoff_t start, index, end;
-> +	pgoff_t start, end, idx, index;
->  	int error;
->  	u32 hash;
->  
-> @@ -774,7 +774,7 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
->  	vm_flags_init(&pseudo_vma, VM_HUGETLB | VM_MAYSHARE | VM_SHARED);
->  	pseudo_vma.vm_file = file;
->  
-> -	for (index = start; index < end; index++) {
-> +	for (idx = start; idx < end; idx++) {
->  		/*
->  		 * This is supposed to be the vaddr where the page is being
->  		 * faulted in, but we have no vaddr here.
-> @@ -794,14 +794,15 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
->  		}
->  
->  		/* addr is the offset within the file (zero based) */
-> -		addr = index * hpage_size;
-> +		addr = idx * hpage_size;
->  
->  		/* mutex taken here, fault path and hole punch */
-> +		index = idx << huge_page_order(h);
->  		hash = hugetlb_fault_mutex_hash(mapping, index);
->  		mutex_lock(&hugetlb_fault_mutex_table[hash]);
->  
->  		/* See if already present in mapping to avoid alloc/free */
-> -		folio = filemap_get_folio(mapping, index << huge_page_order(h));
-> +		folio = filemap_get_folio(mapping, index);
->  		if (!IS_ERR(folio)) {
->  			folio_put(folio);
->  			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
-> @@ -824,7 +825,7 @@ static long hugetlbfs_fallocate(struct file *file, int mode, loff_t offset,
->  		}
->  		folio_zero_user(folio, addr);
->  		__folio_mark_uptodate(folio);
-> -		error = hugetlb_add_to_page_cache(folio, mapping, index);
-> +		error = hugetlb_add_to_page_cache(folio, mapping, idx);
->  		if (unlikely(error)) {
->  			restore_reserve_on_error(h, &pseudo_vma, addr, folio);
->  			folio_put(folio);
-> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
-> index 38b39eaf46cc..9d5ae1f87850 100644
-> --- a/mm/hugetlb.c
-> +++ b/mm/hugetlb.c
-> @@ -5515,7 +5515,7 @@ static vm_fault_t hugetlb_wp(struct vm_fault *vmf)
->  		 */
->  		if (cow_from_owner) {
->  			struct address_space *mapping = vma->vm_file->f_mapping;
-> -			pgoff_t idx;
-> +			pgoff_t index;
->  			u32 hash;
->  
->  			folio_put(old_folio);
-> @@ -5528,8 +5528,9 @@ static vm_fault_t hugetlb_wp(struct vm_fault *vmf)
->  			 *
->  			 * Reacquire both after unmap operation.
->  			 */
-> -			idx = vma_hugecache_offset(h, vma, vmf->address);
-> -			hash = hugetlb_fault_mutex_hash(mapping, idx);
-> +			index = linear_page_index(vma, vmf->address);
-> +			hash = hugetlb_fault_mutex_hash(mapping, index);
-> +
->  			hugetlb_vma_unlock_read(vma);
->  			mutex_unlock(&hugetlb_fault_mutex_table[hash]);
->  
-> @@ -5664,6 +5665,10 @@ static inline vm_fault_t hugetlb_handle_userfault(struct vm_fault *vmf,
->  						  unsigned long reason)
->  {
->  	u32 hash;
-> +	pgoff_t index;
-> +
-> +	index = linear_page_index((const struct vm_area_struct *)vmf, vmf->address);
+>   .../translations/zh_CN/rust/arch-support.rst  |   9 +-
+>   .../zh_CN/rust/coding-guidelines.rst          | 262 +++++++++++++++++-
+>   .../translations/zh_CN/rust/index.rst         |  17 --
+>   .../translations/zh_CN/rust/quick-start.rst   | 190 ++++++++++---
+>   4 files changed, 401 insertions(+), 77 deletions(-)
+> 
+> -- 2.53.0
 
-This is supposed to be linear_page_index(vmf->vma, vmf->address), right?
- 
