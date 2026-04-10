@@ -1,67 +1,25 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A013164DF
-	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 00:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+Received: from zg8tmtyylji0my4xnjeumjiw.icoremail.net (zg8tmtyylji0my4xnjeumjiw.icoremail.net [162.243.161.220])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51974313273;
+	Fri, 10 Apr 2026 01:09:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.243.161.220
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775782437; cv=none; b=SzM1Tmm1pv451luhqnBs4aNFydAVvsFRafzMj80V8WfJK2ZziKD5AbTUcF1Cq+mxd9b9kp9/RfEX31P8eW8B+ykEui9X6FWgxEZEbFSWT++0SQNN8xV6glkbnQSKV1DMbvjSddnrNvl8YBUsbJGTAKhicuaelZUvhKpCEBtZIdo=
+	t=1775783403; cv=none; b=i4S6hLS+vFsz/lFf96GwdYScby53upv2auiLDP9YRmCsgM/LoB7VvzFsZOgPbG7NONUCFK/oO1ZzKqbe2lFKSIH/D8kZ/15c2JjjwNL6niwX0lVfFIeFTELwRoOAh4tm4KuAhGQnMToA9A7ztjRO09AHROFMnjy95xZZFA9vQXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775782437; c=relaxed/simple;
-	bh=OTmZ+oGMVvjRnvXG6OGGFurCLhilKvD8WsmlC0/3ZRc=;
+	s=arc-20240116; t=1775783403; c=relaxed/simple;
+	bh=TLOyOoJegajucaNBtxenWkUsXS3pfQSNjXk34ZBMjks=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O6uOa1bBSNxeH6MAAYxBBiDvscpbTv+QXJWXW6wMFpIXaw8jTCsCA6+RTtEf2XoPB6PrI5+neSmiHMD81yPmIGn83XGZqyfBqJcME5/PSFVOB3A+aa7VY959l8vpaxp2C0vulFmVSa266i9XdgdZuJ/eGWDWsf1Cj1GtEyRoRmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BYlRta/W; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BYlRta/W"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b25cf1b5f0so11244085ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 09 Apr 2026 17:53:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775782435; x=1776387235; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=zlPpzT2EYibWjmLAuoWUFVaCZoy5o7mnT06yLl6p+LU=;
-        b=BYlRta/Wz+IZgqSmPPlWSm8dMjQS3mdzTZihgoHSPPrn0YM133hqfhQ+r0gtJQJytK
-         DkIIADga1kYHqEtpHkYlq7P5VK24rUsUZBjVbdhHpsxQHUhd8+ScnescvuBkoaB5NOLE
-         ogR4Q2XxHB29NPVJn2/OgTb3VrNTnwB5R6/BTMcITYrUDh6bo7txvwq+4+Q1mIs29cZ1
-         zhrhs/heYduEU1MmYKwubHrd9gCTT+juXyi0U+sU7GmLIaPJSCjuikEbXu4y9iUDGInU
-         j0ccpvYMODlhDAg6xYfqu6jiHuHqPpT7ucV4mfoz6c+HDRNj9Edx4hoYI2XtpiAP9KBS
-         k12w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775782435; x=1776387235;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zlPpzT2EYibWjmLAuoWUFVaCZoy5o7mnT06yLl6p+LU=;
-        b=q+WhqD9S/iv8rCkhFE7BJQPZEyOh/7Z0TqIA328US+Kibat3S4f587Ddr/hducWu6G
-         st53Yu3vptk/Pk+jLWK2Fy+7mVHCBeNxGvwA8ddaETKYZwaGlqr4PLm2kqTSgKrtKRGh
-         rYx83TPtyhcbvR+66DQwj7/WV3oQlh9pbqR1HgWJENR4EcgYQSRvyx7Gy0ZzZATP1+8e
-         Vn013h1TzbUyCHPnHMH7jpy8E4JbX1a6/2+nAKIuKvpZSem+XizGyeprsZpPn8PckvkJ
-         Ss3ytscDtHSXbbikn5G5/Vzo1viVPgn+Um9HCPLMPaoK3mkv9vGwygat/Y2jzWc5Sdb/
-         i+ug==
-X-Forwarded-Encrypted: i=1; AJvYcCWl3w71w45QtrZn1RYfyHBWcuBsHsmWH79VJjK3iLoEQGJjKGtdk0LDrdapSN4uvVDrWnQKF7eqOPc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUsKm+pZFmHzcG2tZSPrz+S4CBnvDa79Bjxxh628TXjA2Tws7T
-	HBJOwzDmRQstzZGE//AAk/pL2dAGl7OQsgMl+dbl5wdvOXZYDoVSwOa8
-X-Gm-Gg: AeBDieuuY+8b7uzu6e+b4esYx3dAlOZQmsb+Z8SuQkLf6li/r1oUZvfwPCChGeZveky
-	0yX/b9GyAI8iU5Wimet5igxF5Ye1AjWWrS/YT4XVPWiEVRBT8PKw+ZPHy9HAMwJMjAHzWL8xsjG
-	GkEWtNjCYbuhxUeXM20Um3U66/Ma0TPTLU/BCdi5d6ya2CA1sx7ysSGbAB/POZEDHugk8mitRZy
-	cEeGUVVYKxCyCP8k8OXAjtn0fgCk4zaMWlLkKQHbnHH7Nf4HVvxjTICCdZmloFimRnPqWMP/nQg
-	xZ+Xhihcwe4TYDSE7i9o+FTDXx3sfMOn4rta0DKrq4HCBzG13MlJdwd0W9Xk4NHO7ZttuQz9wq7
-	wxaCj43g85klBkAkeOJhVKK7J06DDW50lz9zn3HqI05IG5c7CJkblwiL5yMnL/SgTcizoP2pduw
-	w7cqCemiy/+HIrTwc+pDowX+GZB3lKKc4WHXSNIpwxhz7YnkRWYaAKViXl3Ccpx/vPxX+ljlsY
-X-Received: by 2002:a17:903:1211:b0:2b2:4b4e:e4d8 with SMTP id d9443c01a7336-2b2d591b8aemr9022925ad.4.1775782434748;
-        Thu, 09 Apr 2026 17:53:54 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4dabe98sm8061865ad.6.2026.04.09.17.53.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Apr 2026 17:53:54 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <132f7e64-4fc6-4274-a04e-e53f0b957665@roeck-us.net>
-Date: Thu, 9 Apr 2026 17:53:52 -0700
+	 In-Reply-To:Content-Type; b=hMupntwvd33lTWWAFTBSALd+BchJ6PgfV6qjJKbCLisoq0xj6RQFMVCh62Ii4iUfrhAUhAFgBpJbf9d49qRYuxyvLOsyX3AI3aqCCkU53Vq7heUoiEo0rvsWAluwWl57wQ/J49e6eSgEcjhTJxY4KLRn28ISoWxUihVfKLRLyuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=162.243.161.220
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app2 (Coremail) with SMTP id HwEQrAC3ZzjOTdhpTafqAA--.64816S2;
+	Fri, 10 Apr 2026 09:09:34 +0800 (CST)
+Received: from [10.11.69.226] (unknown [10.11.69.226])
+	by gateway (Coremail) with SMTP id _____wD379bNTdhpodKyAA--.62376S2;
+	Fri, 10 Apr 2026 09:09:34 +0800 (CST)
+Message-ID: <816ad142-071a-4f45-a81d-35166ecf514a@hust.edu.cn>
+Date: Fri, 10 Apr 2026 09:09:33 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,174 +27,63 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: Refactored watchdog old doc
-To: Sunny Patel <nueralspacetech@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-watchdog@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260409175301.22902-1-nueralspacetech@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260409175301.22902-1-nueralspacetech@gmail.com>
+Subject: Re: [PATCH 0/4] docs/zh_CN: update rust/ subsystem translations
+To: Ben Guo <ben.guo@openatom.club>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org
+References: <cover.1775619061.git.ben.guo@openatom.club>
+ <8dd6239f-eac6-4e81-a1b5-a4e6c45d07fd@hust.edu.cn>
+ <34e73fc0-97d8-4bba-8083-84b932525789@openatom.club>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <34e73fc0-97d8-4bba-8083-84b932525789@openatom.club>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HwEQrAC3ZzjOTdhpTafqAA--.64816S2
+Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvdXoW7GrW5CrW7GFyfGr15tF4DXFb_yoWxZrg_Kr
+	4jyrZrCrWUtFnrJFsavFsxXrs3Xan7trn5JFyrCwn3Ja4rA390gF92grsI9rWrGryxZw1f
+	Cr1vgrW2qr1j9jkaLaAFLSUrUUUU8b8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUbkxYjsxI4VWxJwAYFVCjjxCrM7CY07I20VC2zVCF04k26cxKx2IY
+	s7xG6rWj6s0DM28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8wA2z4x0Y4vE2Ix0cI
+	8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr1j6F4UJwA2z4x0Y4vE
+	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_Jr
+	v_JF1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
+	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
+	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
+	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxAIw28IcxkI7VAKI48JMxAIw28IcV
+	Cjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWU
+	XVWUAwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67
+	kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY
+	6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0x
+	vEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2Kfnx
+	nUUI43ZEXa7IU0X_-JUUUUU==
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-On 4/9/26 10:53, Sunny Patel wrote:
-> Revisited old doc of watchdog and did some cleanup.
-> Also added support for new api in doc.
-> 
-> Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
-> ---
->   Documentation/watchdog/watchdog-api.rst | 49 +++++++++++++++++++++----
->   1 file changed, 41 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-> index 78e228c272cf..446f961852ec 100644
-> --- a/Documentation/watchdog/watchdog-api.rst
-> +++ b/Documentation/watchdog/watchdog-api.rst
-> @@ -2,7 +2,7 @@
->   The Linux Watchdog driver API
->   =============================
->   
-> -Last reviewed: 10/05/2007
-> +Last reviewed: 04/08/2026
->   
->   
->   
-> @@ -106,11 +106,10 @@ the requested one due to limitation of the hardware::
->   This example might actually print "The timeout was set to 60 seconds"
->   if the device has a granularity of minutes for its timeout.
->   
-> -Starting with the Linux 2.4.18 kernel, it is possible to query the
-> -current timeout using the GETTIMEOUT ioctl::
-> +It is also possible to get the current timeout with the GETTIMEOUT ioctl::
->   
->       ioctl(fd, WDIOC_GETTIMEOUT, &timeout);
-> -    printf("The timeout was is %d seconds\n", timeout);
-> +    printf("The timeout is %d seconds\n", timeout);
->   
->   Pretimeouts
->   ===========
-> @@ -133,7 +132,7 @@ seconds.  Setting a pretimeout to zero disables it.
->   There is also a get function for getting the pretimeout::
->   
->       ioctl(fd, WDIOC_GETPRETIMEOUT, &timeout);
-> -    printf("The pretimeout was is %d seconds\n", timeout);
-> +    printf("The pretimeout is %d seconds\n", timeout);
->   
->   Not all watchdog drivers will support a pretimeout.
->   
-> @@ -145,7 +144,7 @@ before the system will reboot. The WDIOC_GETTIMELEFT is the ioctl
->   that returns the number of seconds before reboot::
->   
->       ioctl(fd, WDIOC_GETTIMELEFT, &timeleft);
-> -    printf("The timeout was is %d seconds\n", timeleft);
-> +    printf("The timeout is %d seconds\n", timeleft);
->   
->   Environmental monitoring
->   ========================
-> @@ -227,12 +226,33 @@ The watchdog saw a keepalive ping since it was last queried.
->   	WDIOF_SETTIMEOUT	Can set/get the timeout
->   	================	=======================
->   
-> -The watchdog can do pretimeouts.
-> +The watchdog supports  timeout set/get via the WDIOC_SETTIMEOUT and
-> +WDIOC_GETTIMEOUT ioctls.
->   
->   	================	================================
->   	WDIOF_PRETIMEOUT	Pretimeout (in seconds), get/set
->   	================	================================
->   
-> +The watchdog supports a pretimeout, a warning interrupt that fires before
-> +the actual reboot tiemout. USE WDIOC_SETPRETIMEOUT and WDIOC_GETPRETIMEOUT
-> +to set/get the pretimeout.
-> +
-> +	================	================================
-> +	WDIOF_MAGICCLOSE	Supports magic close char
-> +	================	================================
-> +
-> +The driver supports the Magic Close feature, The watchdog is only disabled
-> +if the characted 'V' is written to /dev/watchdog before the file descriptor
-> +is closed. Without this, closing the device disables the watchdog
-> +unconditionally.
-> +
-> +	================	================================
-> +	WDIOF_ALARMONLY	    Not a reboot watchdog
-> +	================	================================
-> +
-> +The watchdog will not reboot the system when it expires. Instead it
-> +triggers a management or other external alarm. Userspace should not
-> +rely on a system reboot occurring.
->   
->   For those drivers that return any bits set in the option field, the
->   GETSTATUS and GETBOOTSTATUS ioctls can be used to ask for the current
-> @@ -268,4 +288,17 @@ The following options are available:
->   	WDIOS_TEMPPANIC		Kernel panic on temperature trip
->   	=================	================================
->   
-> -[FIXME -- better explanations]
-> +``WDIOS_DISABLECARD`` stops the watchdog timer. The driver will cease
-> +pinging the hardware watchdog, allowing a controlled shutdown without
-> +a forced reboot. This is equivalent to the watchdog being disarmed.
-> +
-> +``WDIOS_ENABLECARD`` starts the watchdog timer. if the watchdog was
-> +previously stopped via ``WDIOS_DISABLECARD``,this will re-enable it. The
-> +hardware watchdog will begin counting down from the configured timeout.
-> +
-> +``WDIOS_TEMPPANIC`` enables temperature-based kernel panic. When set,
-> +the driver will call ``panic()`` (or ``kernel_power_off()`` on some
-> +drivers) if the hardware temperature sensor exceeds its threshold,
-> +rather than only setting the ``WDIOF_OVERHEAT`` status bit. Support
-> +for this option  is driver-specific, not all watchdog drivers implement
-> +temperature monitoring.
-> \ No newline at end of file
 
-FWIW, I think if we update the document, all functionality not supported
-by the watchdog core (specifically but not necessarily limited to
-WDIOS_TEMPPANIC) should be declared/marked deprecated.
+On 4/9/26 12:54 AM, Ben Guo wrote:
+> On 4/8/26 7:44 PM, Dongliang Mu wrote:
+>> Hi Guo,
+>>
+>> I found an issue in this patchset: please do not directly include my
+>> review tag from the internal mailing list [1].
+>>
+>> After you submit it to the linux‑doc mailing list, I will add my review
+>> tag at that time. Including it now would look inappropriate.
+>>
+>> Our internal review is only intended to maintain patch quality for our
+>> open‑source club.
+> Hi Dongliang,
+>
+> Thanks for pointing this out.
+>
+> I will remove your Reviewed-by from all patches and resend as v2.
 
-Guenter
+Reviewed-by: Dongliang Mu <dzm91@hust.edu.cn>
+
+You can add the review tag from me and Guo in the v2.
+
+>
+> Thanks,
+> Ben
 
