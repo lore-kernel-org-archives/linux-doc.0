@@ -1,230 +1,85 @@
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D712A336885
-	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 07:28:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47EF3AA1A8;
+	Fri, 10 Apr 2026 08:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775806115; cv=none; b=RjhQ2VgkNucmw4eV3pPn9lUq3JdRo8npS+6HtlrRo0WPLNbShvgZIsK9wAXQEIkBju6G1yByT7F5+EEsJk22aqZ7dujAGaOZ6pEeNgyvl7tQ6X5M+YOqsmSoQvDhHGll4a1E7inlOu1r5urVnJzEjWIXyuss/oKPJiWrndrDma4=
+	t=1775808763; cv=none; b=daGtDaTWZOXRZWlo85UioaSx2fwbjIy5ZzJW/qrQpzngK5BIptZrQtr/ZylsDxWgckrNsXObiV5ho7SNBjstkuyOVtALeaTBsLV5WiEMeM/uAyZtPA08PQp/Xsp62MBG302NnJ1U44unwYc4LgPRO/meo7IqZe87gtKJZNRDJEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775806115; c=relaxed/simple;
-	bh=ua1/GjFq5UBIw4chHlHvFZCaOtW3aUXSxAj6LfiyLnw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GoanLjza5FkWO+lZQHluq5fgy1qxTUOegcW5QPuxLYNHqisSUSX0NTSPT6iGVqyDkIRiAo/2oXyY8oqs76uxt2StVWWVXp+ogn2GVEZIFk+vmj9gK+GujpM3VJV23t0O1xRwUMJOPS1y9f/fujOA1YTVkCiN831tTS9ryyS6WoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Fjo7hpSU; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1775808763; c=relaxed/simple;
+	bh=AaE5wKoj1tWdEOdCbB55qbf5ITjSzBLP7pwr1KwdqcE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=k2uVb4V57csMUAkVBQ4pLJ4HpY2ihiKQ2rMnj7Iy5BqKvWgWJzbwSyVdojs8IoD6lZdpbKG7Rtf4BOrmUPKaWvzPT6/4yq9C+V55Gi3Gq8QihELC4XLhnOsc/xW0NeMTbdA+U9IDvnCPVgTKPjGkGNLQ7SQqvMYnYfBF+4to8+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bqN3iDNG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Fjo7hpSU"
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-82ce09b4197so899408b3a.2
-        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 00:28:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775806113; x=1776410913; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KGRPycyP0bYCi0FYmQRd0IwF9nhHr5uM+DqBSnm5Sws=;
-        b=Fjo7hpSUYTyPzHwGCV4Z98vGsOChF5IZu3U+fTfeCZ+Zqy2n6RFdYfwkf3YAlvH4ei
-         OdeTI3HMrln1kQaDBccoijALUemNy2iE5XecdW/IhrZjR8P3U7eQx0Ltmtcof8+q2j7M
-         UOMSu8WS0V/lzx1hEfJw46sa7+9BMoMEl8Iiz8f/MQpOFMnd+kcJgjbmsSyWIG6d/tb1
-         mkel3GSGfjq3H/KpWKCDMEJz+wG2VSZ/War3okHy0KCEj3EFkdnoaFzPLErOLixvDS88
-         V813wbj8Z0PJtGltmTu2hf+UBUJj/9mmeQnPsuEn6zf+oLcO30Km6p1obE39koXziQNW
-         Ej8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775806113; x=1776410913;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=KGRPycyP0bYCi0FYmQRd0IwF9nhHr5uM+DqBSnm5Sws=;
-        b=QuCun5458pjO7N52PJCqiImlPwZ3vbbgPxlM8rsW6SiTer3EHL5qaicoy04M8cl+F+
-         qFcZlt5S6PTLz0efLpG6srIUzap7isCPXptZfwb7zUcHpNCPw7n9Yr/zPBSoceAWhAW1
-         q+Cj83E/DBo67C1fAPm/1TNvdGOraKAKpPzCwtVf/+2HIcG3dCc5yRkZhxF0sW7in2j8
-         9qlndcxbZxHrlCaGSoMVwnj/vsPyXuX6klsCmYdy2lEP1IbLAvU5t98/Y0wY81FMv0eO
-         ji9GoLcRCWAuQTI5tu2uZ+x9kn77/7T8bUKLWN0w7sPdct+1QT0/EcLrgNEk8AMG4Xnp
-         Gj2A==
-X-Forwarded-Encrypted: i=1; AJvYcCX0w2reOosZVih9y+9AMHqCScBPMtigSyLACqqgpz9juqVjDlp7GGq3qpFLH3vbK3VOV835g4UK+5w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUACM9vQcmKKGUhSxx/+UNRQHHqZXOw1mlnqmBrLvKu8/E2em3
-	5h9wIQg6miCwtMncNSNiJ6+kfmc3LA5IhnNtEhvmpjN0177PPSHK/9VqQXVMo2luCRc=
-X-Gm-Gg: AeBDievCzcRtcvCfWa0Rp697zEPYVzsblHC33/lqGMoJ1tkfZRXfDsBsGc29eOWMl3D
-	F7d1fBbQKQOBEqR5ylyaf3jNhGZNIBoT4JApsbKi7FmuBsjRMv6He+DrHdqIIGGPuJWf3tZNNRW
-	EOoekSbl4oXcBnZKncZIpiICLbL9SL66riXSXzQBEeW4ki9vQBn+134nQpDigu4wjmsxj5iFawC
-	Fpr6D6UToK0pINaKd1zNwXe4gnpXWkbm46WPdwkm90B7afMG+Y+Wp59vCSx5RgTmxvn/pEgAayZ
-	ZvALNga7DQ3gY6E/+s+I8Mf3M7c4pavJcqsli7N38ZvAhhss0q9fm3+j+4v22GTyeP1m6zpAPK/
-	9je1M2W0rjtAm3iUYHEeLLIWxW913N2i2p8KHn3SvgRhYkvAl1c+s2RZdlR1eAsQAs/TDEwzht+
-	JXtn1e6ny/KuSK6FKe/jzOPPzVUHLdBnJgXujv2gBMK4uK
-X-Received: by 2002:a05:6a20:1588:b0:39b:989e:6d34 with SMTP id adf61e73a8af0-39fe3c1c2d6mr2534138637.4.1775806113302;
-        Fri, 10 Apr 2026 00:28:33 -0700 (PDT)
-Received: from tech-Alienware-m15-R6.. ([122.171.16.65])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79216fd6edsm1796906a12.3.2026.04.10.00.28.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 10 Apr 2026 00:28:32 -0700 (PDT)
-From: Sunny Patel <nueralspacetech@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-watchdog@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sunny Patel <nueralspacetech@gmail.com>
-Subject: [PATCH v2] Documentation: Refactored watchdog old doc
-Date: Fri, 10 Apr 2026 12:58:11 +0530
-Message-ID: <20260410072825.19114-1-nueralspacetech@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <132f7e64-4fc6-4274-a04e-e53f0b957665@roeck-us.net>
-References: <132f7e64-4fc6-4274-a04e-e53f0b957665@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bqN3iDNG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 537F2C19421;
+	Fri, 10 Apr 2026 08:12:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775808763;
+	bh=AaE5wKoj1tWdEOdCbB55qbf5ITjSzBLP7pwr1KwdqcE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=bqN3iDNG9uAfV4+wGEMpI2ij+F4JQTolNKyn4mo0GF4sqZiG7wUqn/z4aPWMY1tLT
+	 BZyflCCYGnlQCiN9moUHnIGh0MmXZMgbZsqk1ljD/9w5GpJL41xqwwIwSpAd4srMXZ
+	 z0M24zxLWmR5NZiFfmFOkASHigo4KFHz9bUsnt6dU10RXfzz3VGFRjHALavvKivHg4
+	 xtj8shpyGOM7D46mJWX8/JtXyCuQWu5Ozg9EZ7vfpp2/NdD4ixOnJj0LGuYfoF0W4C
+	 fEpAcgozA3j35QVFOGD/A/b4EiL9QCQNu0BHWBK87kh63v0QEVwmDA3GIPxY5QEuCy
+	 1DwxTvpGXBMpQ==
+Date: Fri, 10 Apr 2026 10:12:39 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Mailing
+ List <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>
+Subject: Re: maintainer profiles
+Message-ID: <20260410101239.04c87f26@foz.lan>
+In-Reply-To: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
+References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Good Point. So again revisited the watchdog core
-api and list out the deprecated one and marked
-as deprecated in doc and also mentioned it just
-for legacy driver and not for newer one.
+On Thu, 9 Apr 2026 17:18:39 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-As someof the legacy driver still have reference 
-to old api so just marked as deprecated in doc.
+> Hi,
+> 
+> Is there supposed to be a difference (or distinction) in the contents of
+> 
+> Documentation/process/maintainer-handbooks.rst
+> and
+> Documentation/maintainer/maintainer-entry-profile.rst
+> ?
+> 
+> Can they be combined into one location?
 
-Also checked with other watchdog related api
-which are deprecated in driver but still present 
-in doc but didn't find any.
+Heh, from the 5 entries at maintainer-handbooks.rst:
 
----
+   maintainer-netdev
+   maintainer-soc
+   maintainer-soc-clean-dts
+   maintainer-tip
+   maintainer-kvm-x86
 
-Revisited old doc of watchdog and did some cleanup.
-Also added support for new api in doc. Which is
-WDIOF_MAGICCLOSE and WDIOF_PRETIMEOUT.
+we have 3 of them already there at maintainer-entry-profile.rst:
 
-Reierate the core api and Mark WDIOC_GETTEMP and
-WDIO_TEMPPANIC as deprecated.Both are absent from
-the watchdog core and only present in legacy driver.
+   $ grep process/ Documentation/maintainer/maintainer-entry-profile.rst
+   ../process/maintainer-soc
+   ../process/maintainer-soc-clean-dts
+   ../process/maintainer-netdev
 
-Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
----
- Documentation/watchdog/watchdog-api.rst | 59 +++++++++++++++++++++----
- 1 file changed, 51 insertions(+), 8 deletions(-)
+It sounds to me that moving maintainer-tip and maintainer-kvm-x86
+to maintainer-entry-profile.rst would be enough to drop
+maintainer-handbooks.rst, keeping them consolidated on a single
+place.
 
-diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-index 78e228c272cf..e11575db93e6 100644
---- a/Documentation/watchdog/watchdog-api.rst
-+++ b/Documentation/watchdog/watchdog-api.rst
-@@ -2,7 +2,7 @@
- The Linux Watchdog driver API
- =============================
- 
--Last reviewed: 10/05/2007
-+Last reviewed: 04/08/2026
- 
- 
- 
-@@ -106,11 +106,10 @@ the requested one due to limitation of the hardware::
- This example might actually print "The timeout was set to 60 seconds"
- if the device has a granularity of minutes for its timeout.
- 
--Starting with the Linux 2.4.18 kernel, it is possible to query the
--current timeout using the GETTIMEOUT ioctl::
-+It is also possible to get the current timeout with the GETTIMEOUT ioctl::
- 
-     ioctl(fd, WDIOC_GETTIMEOUT, &timeout);
--    printf("The timeout was is %d seconds\n", timeout);
-+    printf("The timeout is %d seconds\n", timeout);
- 
- Pretimeouts
- ===========
-@@ -133,7 +132,7 @@ seconds.  Setting a pretimeout to zero disables it.
- There is also a get function for getting the pretimeout::
- 
-     ioctl(fd, WDIOC_GETPRETIMEOUT, &timeout);
--    printf("The pretimeout was is %d seconds\n", timeout);
-+    printf("The pretimeout is %d seconds\n", timeout);
- 
- Not all watchdog drivers will support a pretimeout.
- 
-@@ -145,7 +144,7 @@ before the system will reboot. The WDIOC_GETTIMELEFT is the ioctl
- that returns the number of seconds before reboot::
- 
-     ioctl(fd, WDIOC_GETTIMELEFT, &timeleft);
--    printf("The timeout was is %d seconds\n", timeleft);
-+    printf("The timeout is %d seconds\n", timeleft);
- 
- Environmental monitoring
- ========================
-@@ -227,12 +226,33 @@ The watchdog saw a keepalive ping since it was last queried.
- 	WDIOF_SETTIMEOUT	Can set/get the timeout
- 	================	=======================
- 
--The watchdog can do pretimeouts.
-+The watchdog supports  timeout set/get via the WDIOC_SETTIMEOUT and
-+WDIOC_GETTIMEOUT ioctls.
- 
- 	================	================================
- 	WDIOF_PRETIMEOUT	Pretimeout (in seconds), get/set
- 	================	================================
- 
-+The watchdog supports a pretimeout, a warning interrupt that fires before
-+the actual reboot tiemout. USE WDIOC_SETPRETIMEOUT and WDIOC_GETPRETIMEOUT
-+to set/get the pretimeout.
-+
-+	================	================================
-+	WDIOF_MAGICCLOSE	Supports magic close char
-+	================	================================
-+
-+The driver supports the Magic Close feature, The watchdog is only disabled
-+if the characted 'V' is written to /dev/watchdog before the file descriptor
-+is closed. Without this, closing the device disables the watchdog
-+unconditionally.
-+
-+	================	================================
-+	WDIOF_ALARMONLY	    Not a reboot watchdog
-+	================	================================
-+
-+The watchdog will not reboot the system when it expires. Instead it
-+triggers a management or other external alarm. Userspace should not
-+rely on a system reboot occurring.
- 
- For those drivers that return any bits set in the option field, the
- GETSTATUS and GETBOOTSTATUS ioctls can be used to ask for the current
-@@ -254,6 +274,11 @@ returned value is the temperature in degrees Fahrenheit::
-     int temperature;
-     ioctl(fd, WDIOC_GETTEMP, &temperature);
- 
-+.. deprecated::
-+	``WDIOC_GETTEMP`` is not implemented by the watchdog core. It is only
-+	supported by a small number of legacy drivers. New Drivers should not
-+	implement it.
-+
- Finally the SETOPTIONS ioctl can be used to control some aspects of
- the cards operation::
- 
-@@ -268,4 +293,22 @@ The following options are available:
- 	WDIOS_TEMPPANIC		Kernel panic on temperature trip
- 	=================	================================
- 
--[FIXME -- better explanations]
-+``WDIOS_DISABLECARD`` stops the watchdog timer. The driver will cease
-+pinging the hardware watchdog, allowing a controlled shutdown without
-+a forced reboot. This is equivalent to the watchdog being disarmed.
-+
-+``WDIOS_ENABLECARD`` starts the watchdog timer. if the watchdog was
-+previously stopped via ``WDIOS_DISABLECARD``,this will re-enable it. The
-+hardware watchdog will begin counting down from the configured timeout.
-+
-+``WDIOS_TEMPPANIC`` enables temperature-based kernel panic. When set,
-+the driver will call ``panic()`` (or ``kernel_power_off()`` on some
-+drivers) if the hardware temperature sensor exceeds its threshold,
-+rather than only setting the ``WDIOF_OVERHEAT`` status bit. Support
-+for this option  is driver-specific, not all watchdog drivers implement
-+temperature monitoring.
-+
-+.. deprecated::
-+	``WDIOS_TEMPPANIC`` is not implemented by the watchdog core and is only
-+	present in a small number if legacy drivers. New Drivers should not
-+	implement it.
-\ No newline at end of file
--- 
-2.43.0
 
+Thanks,
+Mauro
