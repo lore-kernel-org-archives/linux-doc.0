@@ -1,113 +1,266 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEB193CEB94;
-	Fri, 10 Apr 2026 14:20:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775830847; cv=none; b=AncqEOBdx6MB5Z8TPZZT2xIOIju/l/F79sC1aGQDOBAeVP/Yx/5xqiWlyxG6GfeX9nllyOCE7YibYPqNG5ImeLmrbkRC/2Bk02K06G9aBjjAE2eFoOMH2hpX2/RnSgi7/EbmUkNISQ6QLOj5Y4yAN7qF6hD2wwwvs5pCVG9UmQA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775830847; c=relaxed/simple;
-	bh=fJkIAWWlo48QPdeJ9YXUoXHCIlYHiM9shoj6TYfrLSQ=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB673D16EF;
+	Fri, 10 Apr 2026 14:22:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775830936; cv=pass; b=ZxqEU3lS4xoaAomjxh0yRJ8YHjATDF3QIC5o105nlRxpKQ/uDaSSenoZqornoHwEH942SMGjkCwysM1+I7a4OfaC0Rarhyen5WYkg0Q7ZrGSXTODI47bwd+hqeh6JeZGm6NPA2cfHHxtVPvRrLoz/jlQjHC9GjE3SBG5nSDKjvQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775830936; c=relaxed/simple;
+	bh=U94iWYT6naNnvugmwJGifDt5luorKbUxxVhM+aynaKE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cF8wxS57qtOTueEsw47CADhFPnVLpu8IsZFT24k/w56rbs8zE3Y8VtoIho4x6MQmHCt3nKEBI2ytBsj3KjcKXevULOKA/oZaw5c/PGZdmp8THYf9uoiY2rzpA6sUfZWKelNOBdGZmx9l6vaOeoMavB2IscWlIeK39GmCBXPYiD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fFKB4S9p; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ZplaSiOBv0DoqrxFL0fMIZ2WexTkYKCcgpLPLcmlNXoEOzf01QbayDFp0P730MbkkFOPQuP/1089hUigPFGv+zieiOLNIaHbhVyiULw2h1svKdUF/11P+u45Ixe3OP//txo0tkWU7nWOtTq3FCt0ii2F58qjPapuDSPoSTNR9u4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=CVwPR2Jj; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fFKB4S9p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A766CC2BCB2;
-	Fri, 10 Apr 2026 14:20:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775830847;
-	bh=fJkIAWWlo48QPdeJ9YXUoXHCIlYHiM9shoj6TYfrLSQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fFKB4S9pndS8ojZKsfjMcXM27eJslDp78XHI0NS9OmbQ7O7I1QKrZqF/45Re8ylEg
-	 SQQxR6sGPFkloqKDy4nX3Nr/Um8QPprePEAvQgQ4DIVuyGzNPF4B6z2PCeQvO4BhcV
-	 2VzoRVluXQ6jSkSzftsAjr4egOXBj/HQM6Fq0nCy+A5WdFTsoortEpxVxcmiqAd6zq
-	 xSpN9liedp1cllTnDxF2fk7CcIqexh+Nx/AgziEvYnA2YGbiTEH1wn2kW6ScmYG+X/
-	 5ZmAaw2unrc42cMKZdiAegmpmGfeG1uUyBA7ke6AFweWGzQo8CCvxZxHoK66sNZeZP
-	 VGpzA617ljYIw==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v5 06/11] Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom} files
-Date: Fri, 10 Apr 2026 07:20:27 -0700
-Message-ID: <20260410142034.83798-7-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260410142034.83798-1-sj@kernel.org>
-References: <20260410142034.83798-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="CVwPR2Jj"
+ARC-Seal: i=1; a=rsa-sha256; t=1775830871; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=Jn/Tmj19i3gOK6f9TWANjUnYtLOPBQJNqcx0tOvjD6UpoX8CURmIgJHUNdecp8Pw0CljdDunOXYctaIxdBHusanURm0wQacxVoaGiqrv4X1c2DA8c8Y0+8I4KFWu1BkOG6EKYiSMzeB/aMXduHDEnhJaZkibDPCNqKz5tzzC2w0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1775830871; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=9zLHnTtMqw0wWzWI7j+3+Qz08IlRB+2G4Qkl+hxqDWo=; 
+	b=YYqZ7rPD2KtIX1IkeI5KwpQUzCS1ufbR7X+rw1FRYUs1PdogLTcepHPQHDUFTuX4/XqMYUliTgNli96hFqCPikJoz7GZp8BfKi27RdJ/soknA9PpgKQ9gi/D846d2zCYSaUSm/Cc3/QnFgD5R/p82+/jayc8xDqUoa0hzflpqSg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1775830871;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=9zLHnTtMqw0wWzWI7j+3+Qz08IlRB+2G4Qkl+hxqDWo=;
+	b=CVwPR2JjdsnnJHG3iLLKNbX4wAsiZCkL3NtXjldGLNGHKv8/5VoQA1Jn4biRiq67
+	//9zWXRFyP5j6alWl4gj1F2804zm/gplOKweJwC3iihVZHcLBnJ1hRq5pRUvZc8NkjE
+	dyhmroMYyfJueA+zxqQg6lsQ7hpMUqCrpzHbjqJ0=
+Received: by mx.zohomail.com with SMTPS id 1775830869992203.62896287388855;
+	Fri, 10 Apr 2026 07:21:09 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+ Rodrigo Siqueira <siqueira@igalia.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Sandy Huang <hjc@rock-chips.com>,
+ Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>,
+ Andy Yan <andy.yan@rock-chips.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ kernel@collabora.com, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-doc@vger.kernel.org
+Subject:
+ Re: [PATCH v12 04/25] drm/bridge: Act on the DRM color format property
+Date: Fri, 10 Apr 2026 16:21:00 +0200
+Message-ID: <4810558.ElGaqSPkdT@workhorse>
+In-Reply-To: <edeq6wxmwzvovfoo6pvih6dybwszf3tahg7nvqkjrw3qxllbfd@jwejh2sgb5eh>
+References:
+ <20260409-color-format-v12-0-ce84e1817a27@collabora.com>
+ <20260409-color-format-v12-4-ce84e1817a27@collabora.com>
+ <edeq6wxmwzvovfoo6pvih6dybwszf3tahg7nvqkjrw3qxllbfd@jwejh2sgb5eh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-Update DAMON usage document for the DAMOS action failed regions quota
-charge ratio control sysfs files.
+On Friday, 10 April 2026 00:08:24 Central European Summer Time Dmitry Baryshkov wrote:
+> On Thu, Apr 09, 2026 at 05:44:54PM +0200, Nicolas Frattaroli wrote:
+> > The new DRM color format property allows userspace to request a specific
+> > color format on a connector. In turn, this fills the connector state's
+> > color_format member to switch color formats.
+> > 
+> > Make drm_bridges consider the color_format set in the connector state
+> > during the atomic bridge check. For bridges that represent HDMI bridges,
+> > rely on whatever format the HDMI logic set. Reject any output bus
+> > formats that do not correspond to the requested color format.
+> > 
+> > Non-HDMI last bridges with DRM_CONNECTOR_COLOR_FORMAT_AUTO set will end
+> > up choosing the first output format that functions to make a whole
+> > recursive bridge chain format selection succeed.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/drm_bridge.c | 89 +++++++++++++++++++++++++++++++++++++++++++-
+> >  1 file changed, 88 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> > index ba80bebb5685..7c1516864d96 100644
+> > --- a/drivers/gpu/drm/drm_bridge.c
+> > +++ b/drivers/gpu/drm/drm_bridge.c
+> > @@ -1150,6 +1150,47 @@ static int select_bus_fmt_recursive(struct drm_bridge *first_bridge,
+> >  	return ret;
+> >  }
+> >  
+> > +static bool __pure bus_format_is_color_fmt(u32 bus_fmt, enum drm_connector_color_format fmt)
+> > +{
+> > +	if (fmt == DRM_CONNECTOR_COLOR_FORMAT_AUTO)
+> > +		return true;
+> > +
+> > +	switch (bus_fmt) {
+> > +	case MEDIA_BUS_FMT_FIXED:
+> > +		return true;
+> > +	case MEDIA_BUS_FMT_RGB888_1X24:
+> > +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> > +	case MEDIA_BUS_FMT_RGB121212_1X36:
+> > +	case MEDIA_BUS_FMT_RGB161616_1X48:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_RGB444;
+> > +	case MEDIA_BUS_FMT_YUV8_1X24:
+> > +	case MEDIA_BUS_FMT_YUV10_1X30:
+> > +	case MEDIA_BUS_FMT_YUV12_1X36:
+> > +	case MEDIA_BUS_FMT_YUV16_1X48:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
+> > +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> > +	case MEDIA_BUS_FMT_VYUY8_1X16:
+> > +	case MEDIA_BUS_FMT_YUYV8_1X16:
+> > +	case MEDIA_BUS_FMT_YVYU8_1X16:
+> > +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> > +	case MEDIA_BUS_FMT_YUYV10_1X20:
+> > +	case MEDIA_BUS_FMT_VYUY10_1X20:
+> > +	case MEDIA_BUS_FMT_YVYU10_1X20:
+> > +	case MEDIA_BUS_FMT_UYVY12_1X24:
+> > +	case MEDIA_BUS_FMT_VYUY12_1X24:
+> > +	case MEDIA_BUS_FMT_YUYV12_1X24:
+> > +	case MEDIA_BUS_FMT_YVYU12_1X24:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
+> > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> > +	case MEDIA_BUS_FMT_UYYVYY12_0_5X36:
+> > +	case MEDIA_BUS_FMT_UYYVYY16_0_5X48:
+> > +		return fmt == DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
+> > +	default:
+> > +		return false;
+> > +	}
+> > +}
+> > +
+> >  /*
+> >   * This function is called by &drm_atomic_bridge_chain_check() just before
+> >   * calling &drm_bridge_funcs.atomic_check() on all elements of the chain.
+> > @@ -1193,6 +1234,7 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+> >  	struct drm_encoder *encoder = bridge->encoder;
+> >  	struct drm_bridge_state *last_bridge_state;
+> >  	unsigned int i, num_out_bus_fmts = 0;
+> > +	enum drm_connector_color_format fmt;
+> >  	u32 *out_bus_fmts;
+> >  	int ret = 0;
+> >  
+> > @@ -1234,13 +1276,58 @@ drm_atomic_bridge_chain_select_bus_fmts(struct drm_bridge *bridge,
+> >  			out_bus_fmts[0] = MEDIA_BUS_FMT_FIXED;
+> >  	}
+> >  
+> > +	/*
+> > +	 * On HDMI connectors, use the output format chosen by whatever does the
+> > +	 * HDMI logic. For everyone else, just trust that the bridge out_bus_fmts
+> > +	 * are sorted by preference for %DRM_CONNECTOR_COLOR_FORMAT_AUTO, as
+> > +	 * bus_format_is_color_fmt() always returns true for AUTO.
+> > +	 */
+> > +	if (last_bridge->type == DRM_MODE_CONNECTOR_HDMIA) {
+> 
+> I still think this is misplaced (and misidentified). Consider HDMI
+> bridge being routed to the DVI-D connector. The last bridge would have
+> different type, but the HDMI-specific logic must still be applied. The
+> bridge must use RGB444, but it must be handled in a generic way.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
+Thanks for the review. I was hoping that an HDMI bridge chain going to
+a DVI connector would be a DRM_MODE_CONNECTOR_HDMIB thing, but apparently
+not. I also don't know however how doing this in the drm bridge connector
+helps us here. I guess we'd call into a drm_bridge_connector specific
+function with the connector format and connector, and get an output
+format in return, and said function checks that if any bridge in the
+bridge connector is HDMI it uses the HDMI logic? That would conflict
+with the following case from what I understand:
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index bfdb717441f05..d5548e460857c 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -84,7 +84,9 @@ comma (",").
-     │ │ │ │ │ │ │ │ sz/min,max
-     │ │ │ │ │ │ │ │ nr_accesses/min,max
-     │ │ │ │ │ │ │ │ age/min,max
--    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,effective_bytes,goal_tuner
-+    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,
-+    │ │ │ │ │ │ │     effective_bytes,goal_tuner,
-+    │ │ │ │ │ │ │     fail_charge_num,fail_charge_denom
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ │ :ref:`goals <sysfs_schemes_quota_goals>`/nr_goals
-     │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid,path
-@@ -381,9 +383,10 @@ schemes/<N>/quotas/
- The directory for the :ref:`quotas <damon_design_damos_quotas>` of the given
- DAMON-based operation scheme.
- 
--Under ``quotas`` directory, five files (``ms``, ``bytes``,
--``reset_interval_ms``, ``effective_bytes`` and ``goal_tuner``) and two
--directories (``weights`` and ``goals``) exist.
-+Under ``quotas`` directory, seven files (``ms``, ``bytes``,
-+``reset_interval_ms``, ``effective_bytes``, ``goal_tuner``, ``fail_charge_num``
-+and ``fail_charge_denom``) and two directories (``weights`` and ``goals``)
-+exist.
- 
- You can set the ``time quota`` in milliseconds, ``size quota`` in bytes, and
- ``reset interval`` in milliseconds by writing the values to the three files,
-@@ -402,6 +405,13 @@ the background design of the feature and the name of the selectable algorithms.
- Refer to :ref:`goals directory <sysfs_schemes_quota_goals>` for the goals
- setup.
- 
-+You can set the action-failed memory quota charging ratio by writing the
-+numerator and the denominator for the ratio to ``fail_charge_num`` and
-+``fail_charge_denom`` files, respectively.  Reading those files will return the
-+current set values.  Refer to :ref:`design
-+<damon_design_damos_quotas_failed_memory_charging_ratio>` for more details of
-+the ratio feature.
-+
- The time quota is internally transformed to a size quota.  Between the
- transformed size quota and user-specified size quota, smaller one is applied.
- Based on the user-specified :ref:`goal <sysfs_schemes_quota_goals>`, the
--- 
-2.47.3
+> Or other way around, a DVI bridge being routed through the HDMI
+> connector (thinking about PandaBoard here). The combo should not go
+> through the HDMI-specific color format selection although the last
+> bridge in the chanin is the HDMI-A bridge.
+
+In that case, wouldn't the recursive bridge bus format selection
+take care of this? I assume the DVI bridge will only allow RGB444,
+and one of the bridges that follow it is an HDMI bridge for the
+HDMI connector that's physically on the board.
+
+In such a case, if the HDMI state helpers came up with something
+other than RGB444, the select_bus_fmt_recursive below would fail
+as expected, since it won't be able to find an output that
+satisfies the constraints given by the DVI bridge.
+
+> I think all these cases should be handled by the connector, which knows
+> if there is an OP_HDMI bridge in the chain or not.
+
+Kind regards,
+Nicolas Frattaroli
+
+> > +		drm_dbg_kms(last_bridge->dev,
+> > +			    "HDMI bridge requests format %s\n",
+> > +			    drm_hdmi_connector_get_output_format_name(
+> > +				    conn_state->hdmi.output_format));
+> > +		switch (conn_state->hdmi.output_format) {
+> > +		case DRM_OUTPUT_COLOR_FORMAT_RGB444:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_RGB444;
+> > +			break;
+> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR444:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR444;
+> > +			break;
+> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR422:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR422;
+> > +			break;
+> > +		case DRM_OUTPUT_COLOR_FORMAT_YCBCR420:
+> > +			fmt = DRM_CONNECTOR_COLOR_FORMAT_YCBCR420;
+> > +			break;
+> > +		default:
+> > +			ret = -EINVAL;
+> > +			goto out_free_bus_fmts;
+> > +		}
+> > +	} else {
+> > +		fmt = conn_state->color_format;
+> > +		drm_dbg_kms(last_bridge->dev, "Non-HDMI bridge requests format %d\n", fmt);
+> > +	}
+> > +
+> >  	for (i = 0; i < num_out_bus_fmts; i++) {
+> > +		if (!bus_format_is_color_fmt(out_bus_fmts[i], fmt)) {
+> > +			drm_dbg_kms(last_bridge->dev,
+> > +				    "Skipping bus format 0x%04x as it doesn't match format %d\n",
+> > +				    out_bus_fmts[i], fmt);
+> > +			ret = -ENOTSUPP;
+> > +			continue;
+> > +		}
+> >  		ret = select_bus_fmt_recursive(bridge, last_bridge, crtc_state,
+> >  					       conn_state, out_bus_fmts[i]);
+> > -		if (ret != -ENOTSUPP)
+> > +		if (ret != -ENOTSUPP) {
+> > +			drm_dbg_kms(last_bridge->dev,
+> > +				    "Found bridge chain ending with bus format 0x%04x\n",
+> > +				    out_bus_fmts[i]);
+> >  			break;
+> > +		}
+> >  	}
+> >  
+> > +out_free_bus_fmts:
+> >  	kfree(out_bus_fmts);
+> >  
+> >  	return ret;
+> > 
+> 
+> 
+
+
+
+
