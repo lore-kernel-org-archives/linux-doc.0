@@ -1,138 +1,267 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66F93CB2E6;
-	Fri, 10 Apr 2026 14:17:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E40DA3CC9FE;
+	Fri, 10 Apr 2026 14:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775830666; cv=none; b=LJdJ62p+HicTKAiwdqNcmSB1sL7rn8Q/vIRF3ELIQNytapOKd0ZhU+RuwoA1ZcfDGjKHnu8m3qcNNVcDymFMZ443qeYoS0Oa6UmhRYrIf+GW0WyQmoPURbcTwl4atuTpROTWiZD5+xvucpLrImg9cP+ST/pcu3juTeUM/Eg5sRA=
+	t=1775830845; cv=none; b=QcjtmcGYxAoA1HfdOIkuhZfWEdQdxgG59JzKP5cfA6s8ufkBMDr7UQAvE55DnvNE/5fKoIFSvbkEpZ11PM2durqHAHR4Wej7/FZWLkkuscDafWR2DCxRY/KmK6PnXb5qNKAXgtJvrdHnVSnRohDSeAXJzu4PIBZ6fjIaVvHMRa8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775830666; c=relaxed/simple;
-	bh=MWQbDbKJMvlQeDOdpwjVFPm2GwVeWyzLpiS7dX7cf6o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Qhb8wBnjQT4Zpb/Q2ib6yHS9q+/P5cAiamuqze4VVvFCWcqrlKxjEp4mTVEAJ58yyI/PsXNRLh9wbbBuvFlMsB7PRpypbHuhE79u1DrWVdRd7wUpU76i8Y/XXx0cbdphQQEIhuQM52osXZ09nv7bjxLZ6imsy+JA8RzTkfNEuU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=g6Xv4FLB; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1775830845; c=relaxed/simple;
+	bh=JJWpVrHZSIlukvM587fa/e1ss1M9d88mHEJo7BWA4Tk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QGNR91bztWEZtwMKTmLkJr4jfs5jtUzmv2jT+nd/ccIXRmHc2daRoReDdKaGPgSCGeGReQV8b6G+qDNonT1e1xuug0xk5j/nkG6XdDoBNulgP1g9hLmA7qc2Q77QwSc4hDOtcZAoUwIFi7o0VqB0lGsRjiWfV4ruPTB3x0fGcvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gOfuPOTg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="g6Xv4FLB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=89sWGO8AlV20Ohsw4OJI0G4LNPOoHNZD3rE29wrdmss=; b=g6Xv4FLBo75hPgXI5PonFAm1Qj
-	dc83hN9ROemoVz8Mh5e301Yv0LtveH0BO8ylQjQ/4kp5vnMegzwI5L5+jycI+nbyyJ74gg3ye0w0n
-	NfMcPYbuihg0xGddTYlBK06M9Yzmd6bRPV8TdaRVRJm/Mzy7lvvJeiZVmwGozVUI6I+TArha+pSkH
-	tUc6VEmTjcyLxgLITU87MIISC8HPx768iLoPUNCfR/SMouxsoXz4gghQnuBX1vnOS6vr01qo9n0l+
-	40vavz2p2jb14SuazfTHSvaHfpQZzdNarTOQvcM+6A22Sm4gWiiQbfQRReQRLVxjHoguhe5o6IbW2
-	O6OR726g==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wBCfy-00A2JE-1B;
-	Fri, 10 Apr 2026 14:17:38 +0000
-Date: Fri, 10 Apr 2026 07:17:33 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-team@meta.com, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/3] mm/memory-failure: add
- panic_on_unrecoverable_memory_failure sysctl
-Message-ID: <adkFQF7QH8Jc3p3U@gmail.com>
-References: <20260331-ecc_panic-v2-0-9e40d0f64f7a@debian.org>
- <20260331-ecc_panic-v2-2-9e40d0f64f7a@debian.org>
- <59c133a7-74a7-4678-d907-add764bbd107@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gOfuPOTg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BCD9AC19421;
+	Fri, 10 Apr 2026 14:20:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1775830844;
+	bh=JJWpVrHZSIlukvM587fa/e1ss1M9d88mHEJo7BWA4Tk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=gOfuPOTgsOhuPg1WH3NqUiGgPlN8sS9ByLozVoiJe6CilHiXEcQ4D0n3nyA8g6fxP
+	 lEx6Gq1FbxdrpxOYA0zwNiYjyboYSj+rajC1tBA8Pp/3C/fe3jqEtOVLyx2kVoqgeX
+	 IP6FxfW9Ps7ViweVsWDw2DIqxhUZAtoZDLq5WmgwEb2Wu72xRZTufIGlF7IKlD+Rnk
+	 V178EBVdc3R+35sAolJexwWppQ6nl1xD7e/UrPCDYg/4zAOE9pQCUjTl1gxgsztvWb
+	 f0jGNz/J8ygavVl5yzgJtUk+g0CDlNh4IgLPmN7QJwjqs9+czJ5HBHrVTSbNJIjsNp
+	 y6Ilectl1u/lw==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v5 00/11] mm/damon: introduce DAMOS failed region quota charge ratio
+Date: Fri, 10 Apr 2026 07:20:21 -0700
+Message-ID: <20260410142034.83798-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <59c133a7-74a7-4678-d907-add764bbd107@huawei.com>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 07, 2026 at 10:57:36AM +0800, Miaohe Lin wrote:
-> On 2026/3/31 19:00, Breno Leitao wrote:
-> > +	if (sysctl_panic_on_unrecoverable_mf && result == MF_IGNORED &&
-> > +	    (type == MF_MSG_KERNEL || type == MF_MSG_KERNEL_HIGH_ORDER ||
-> > +	     type == MF_MSG_UNKNOWN))
-> > +		panic("Memory failure: %#lx: unrecoverable page", pfn);
-> 
-> Will it be better to add a helper here?
+TL; DR: Let users set different DAMOS quota charge ratios for DAMOS
+action failed regions, for deterministic and consistent DAMOS action
+progress.
 
-Yes, a helper would make things easier to read and digest. Thanks for
-the feedback. This is what I have in mind:
+Common Reports: Unexpectedly Slow DAMOS
+=======================================
 
-commit 36d5b3cbbe6d6abfe3296b7b21135a5f01e743eb
-Author: Breno Leitao <leitao@debian.org>
-Date:   Mon Mar 23 08:00:29 2026 -0700
+One common issue report that we get from DAMON users is that DAMOS
+action applying progress speed is sometimes much slower than expected.
+And one common root cause is that the DAMOS quota is exceeded by the
+action applying failed memory regions.
 
-    mm/memory-failure: add panic_on_unrecoverable_memory_failure sysctl
-    
-    Add a sysctl that allows the system to panic when an unrecoverable
-    memory failure is detected. This covers kernel pages, high-order
-    kernel pages, and unknown page types that cannot be recovered.
-    
-    Signed-off-by: Breno Leitao <leitao@debian.org>
+For example, a group of users tried to run DAMOS-based proactive memory
+reclamation (DAMON_RECLAIM) with 100 MiB per second DAMOS quota.  They
+ran it on a system having no active workload which means all memory of
+the system is cold.  The expectation was that the system will show 100
+MiB per second reclamation until (nearly) all memory is reclaimed. But
+what they found is that the speed is quite inconsistent and sometimes it
+becomes very slower than the expectation, sometimes even no reclamation
+at all for about tens of seconds.  The upper limit of the speed (100 MiB
+per second) was being kept as expected, though.
 
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index 6ff80e01b91a4..a29b6688fe2d3 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
- 
- static int sysctl_enable_soft_offline __read_mostly = 1;
- 
-+static int sysctl_panic_on_unrecoverable_mf __read_mostly;
-+
- atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
- 
- static bool hw_memory_failure __read_mostly = false;
-@@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
- 		.proc_handler	= proc_dointvec_minmax,
- 		.extra1		= SYSCTL_ZERO,
- 		.extra2		= SYSCTL_ONE,
-+	},
-+	{
-+		.procname	= "panic_on_unrecoverable_memory_failure",
-+		.data		= &sysctl_panic_on_unrecoverable_mf,
-+		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dointvec_minmax,
-+		.extra1		= SYSCTL_ZERO,
-+		.extra2		= SYSCTL_ONE,
- 	}
- };
- 
-@@ -1281,6 +1292,16 @@ static void update_per_node_mf_stats(unsigned long pfn,
- 	++mf_stats->total;
- }
- 
-+static bool is_unrecoverable_memory_failure(enum mf_action_page_type type,
-+					    enum mf_result result)
-+{
-+	return sysctl_panic_on_unrecoverable_mf &&
-+	       result == MF_IGNORED &&
-+	       (type == MF_MSG_KERNEL ||
-+		type == MF_MSG_KERNEL_HIGH_ORDER ||
-+		type == MF_MSG_UNKNOWN);
-+}
-+
- /*
-  * "Dirty/Clean" indication is not 100% accurate due to the possibility of
-  * setting PG_dirty outside page lock. See also comment above set_page_dirty().
-@@ -1298,6 +1319,9 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
- 	pr_err("%#lx: recovery action for %s: %s\n",
- 		pfn, action_page_types[type], action_name[result]);
- 
-+	if (is_unrecoverable_memory_failure(type, result))
-+		panic("Memory failure: %#lx: unrecoverable page", pfn);
-+
- 	return (result == MF_RECOVERED || result == MF_DELAYED) ? 0 : -EBUSY;
- }
- 
+By monitoring the qt_exceeds (number of DAMOS quota exceed events) DAMOS
+stat, we found DAMOS quota is always exceeded when the speed is slow. By
+monitoring sz_tried and sz_applied (the total amount of DAMOS action
+tried memory and succeeded memory) DAMOS stats together, we found the
+reclamation attempts nearly always failed when the speed is slow.
+
+DAMOS quota charges DAMOS action tried regions regardless of the
+successfulness of the try.  Hence in the example reported case, there
+was unreclaimable memory spread around the system memory.  Sometimes
+nearly 100 MiB of memory that DAMOS tried to reclaim in the given quota
+interval was reclaimable, and therefore showed nearly 100 MiB per second
+speed.  Sometimes nearly 99 MiB of memory that DAMOS was trying to
+reclaim in the given quota interval was unreclaimable, and therefore
+showing only about 1 MiB per second reclaim speed.
+
+We explained it is an expected behavior of the feature rather than a
+bug, as DAMOS quota is there for only the upper-limit of the speed.  The
+users agreed and later reported a huge win from the adoption of
+DAMON_RECLAIM on their products.
+
+It is Not a Bug but a Feature; But...
+=====================================
+
+So nothing is broken.  DAMOS quota is working as intended, as the upper
+limit of the speed.  It also provides its behavior observability via
+DAMOS stat.  In the real world production environment that runs long
+term active workloads and matters stability, the speed sometimes being
+slow is not a real problem.
+
+But, the non-deterministic behavior is sometimes annoying, especially in
+lab environments.  Even in a realistic production environment, when
+there is a huge amount of DAMOS action unapplicable memory, the speed
+could be problematically slow.  Let's suppose a virtual machines
+provider that setup 99% of the host memory as hugetlb pages that cannot
+be reclaimed, to give it to virtual machines.  Also, when aim-oriented
+DAMOS auto-tuning is applied, this could also make the internal feedback
+loop confused.
+
+The intention of the current behavior was that trying DAMOS action to
+regions would anyway impose some overhead, and therefore somehow be
+charged.  But in the real world, the overhead for failed action is much
+lighter than successful action.  Charging those at the same ratio may be
+unfair, or at least suboptimum in some environments.
+
+DAMOS Action Failed Region Quota Charge Ratio
+=============================================
+
+Let users set the charge ratio for the action-failed memory, for more
+optimal and deterministic use of DAMOS.  It allows users to specify the
+numerator and the denominator of the ratio for flexible setup.  For
+example, let's suppose the numerator and the denominator are set to 1
+and 4,096, respectively.  The ratio is 1 / 4,096.  A DAMOS scheme action
+is applied to 5 GiB memory.  For 1 GiB of the memory, the action is
+succeeded.  For the rest (4 GiB), the action is failed.  Then, only 1
+GiB and 1 MiB quota is charged.
+
+The optimal charge ratio will depend on the use case and
+system/workload.  I'd recommend starting from setting the nominator as 1
+and the denominator as PAGE_SIZE and tune based on the results, because
+many DAMOS actions are applied at page level.
+
+Tests
+=====
+
+I tested this feature in the steps below.
+
+1. Allocate 50% of system memory and mlock() it using a test program.
+2. Fill up the page cache to exhaust nearly all free memory.
+3. Start DAMON-based proactive reclamation with 100 MiB/second DAMOS
+   hard-quota.  Auto-tune the DAMOS soft-quota under the hard-quota for
+   achieving 40% free memory of the system with 'temporal' tuner.
+
+For step 1, I run a simple C program that is written by Gemini.  It is
+quite straightforward, so I'm not sharing the code here.
+
+For step 2, I use dd command like below:
+
+   dd if=/dev/zero of=foo bs=1M count=$50_percent_of_system_memory
+
+For step 3, I use the latest version of DAMON user-space tool (damo)
+like below.
+
+    sudo damo start --damos_action pageout \
+            ` # Do the pageout only up to 100 MiB per second ` \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            ` # Auto-tune the quota below the hard quota aiming` \
+            ` # 40% free memory of the node 0 ` \
+            ` # (entire node of the test system)` \
+            --damos_quota_goal node_mem_free_bp 40% 0 \
+            ` # use temporal tuner, which is easy to understnd ` \
+            --damos_quota_goal_tuner temporal
+
+As expected, the progress of the reclamation is not consistent, because
+the quota is exceeded for the failed reclamation of the unreclaimable
+memory.
+
+I do this again, but with the failed region charge ratio feature.  For
+this, the above 'damo' command is used, after appending command line
+option for setup of the charge ratio like below.  Note that the option
+was added to 'damo' after v3.1.9.
+
+    sudo ./damo start --damos_action pageout \
+            [...]
+            ` # quota-charge only 1/4096 for pageout-failed regions ` \
+            --damos_quota_fail_charge_ratio 1 4096
+
+The progress of the reclamation was nearly 100 MiB per second until the
+goal was achieved, meeting the expectation.
+
+Patches Sequence
+================
+
+First two patches make preparational changes.  Patch 1 updates fully
+charged quota check to handle <min_region_sz remaining quota, which will
+be able to exist after this series is applied.  Patch 2 merges regions
+that split out for quota as soon as possible, since the split can happen
+much more frequently under a corner case that this series will make
+available.
+
+Patch 3 implements the feature and exposes it via DAMON core API.  Patch
+4 implements DAMON sysfs ABI for the feature.  Three following patches
+(5-7) document the feature and ABI on design, usage, and ABI documents,
+respectively.  Four patches for testing of the new feature follow.
+Patch 8 implements a kunit test for the feature.  Patches 9 and 10
+extend DAMON selftest helpers for DAMON sysfs control and internal state
+dumping for adding a new selftest for the feature.  Patch 11 extends
+existing DAMON sysfs interface selftest to test the new feature using
+the extended helper scripts.
+
+Changelog
+=========
+
+Changes from RFC v4
+(https://lore.kernel.org/20260409142148.60652-1-sj@kernel.org)
+- Fix quota-sliced region merge-back issues.
+  - Use damon_for_each_region() instead of damon_for_each_region_safe().
+  - Avoid merging back of sliced but scheme unapplied regions, to keep
+    the monitoring information.
+Changes from RFC v3
+(https://lore.kernel.org/20260407010536.83603-1-sj@kernel.org)
+- Make damos_quota_is_full() safe from overflow and easier to read.
+- Avoid quota-based region split making too many new regions.
+Changes from RFC v2
+(https://lore.kernel.org/20260405151232.102690-1-sj@kernel.org)
+- Handle <min_region_sz remaining quota.
+- Document zero denum behavior.
+- Fix typos: s/selftets/selftests/
+Changes from RFC v1
+(https://lore.kernel.org/20260404163943.89278-1-sj@kernel.org)
+- Avoid overflows in charge amount calculation.
+- Fix/wordsmith documentation for grammar, typo, and wrong examples.
+- Improve unit test for more consistent comparison source use.
+
+SeongJae Park (11):
+  mm/damon/core: handle <min_region_sz remaining quota as empty
+  mm/damon/core: merge quota-sliced regions back
+  mm/damon/core: introduce failed region quota charge ratio
+  mm/damon/sysfs-schemes: implement fail_charge_{num,denom} files
+  Docs/mm/damon/design: document fail_charge_{num,denom}
+  Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom}
+    files
+  Docs/ABI/damon: document fail_charge_{num,denom}
+  mm/damon/tests/core-kunit: test fail_charge_{num,denom} committing
+  selftests/damon/_damon_sysfs: support failed region quota charge ratio
+  selftests/damon/drgn_dump_damon_status: support failed region quota
+    charge ratio
+  selftests/damon/sysfs.py: test failed region quota charge ratio
+
+ .../ABI/testing/sysfs-kernel-mm-damon         | 12 +++
+ Documentation/admin-guide/mm/damon/usage.rst  | 18 +++-
+ Documentation/mm/damon/design.rst             | 22 +++++
+ include/linux/damon.h                         |  9 ++
+ mm/damon/core.c                               | 83 ++++++++++++++++---
+ mm/damon/sysfs-schemes.c                      | 54 ++++++++++++
+ mm/damon/tests/core-kunit.h                   |  6 ++
+ tools/testing/selftests/damon/_damon_sysfs.py | 21 ++++-
+ .../selftests/damon/drgn_dump_damon_status.py |  2 +
+ tools/testing/selftests/damon/sysfs.py        |  6 ++
+ 10 files changed, 216 insertions(+), 17 deletions(-)
+
+
+base-commit: fe17d40616ec462138186edb32f3105b0c064674
+-- 
+2.47.3
