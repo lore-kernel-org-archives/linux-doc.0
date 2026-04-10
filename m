@@ -1,67 +1,67 @@
-Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 914FE33F585
-	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 21:15:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292813DBD4F
+	for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 21:38:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775855726; cv=none; b=aS2qBcv8E2VRhD5jtqsWNL7hmj2NVgXCgWPfKQXZVK00poWZPTnSVKNV/uQBNjudy6GLDc7+KHqPBFJLYh3VocbJu3v3dOeJKjhWAnAZGN5mQ2gob16kQMCxYgZR2g56yK5iJw6RLVGqDT38ZHa6ctdmxSCRNCpf05pfBbjICYA=
+	t=1775857134; cv=none; b=s+jk6OpxaM8ZNrEyGtDq2vrGIjYMnxy/X6gRMnsEE8ot+cXNkDI2hQIRLmAZoyXlhZFt4pYWMadYyt08CjoP2qgozNFKsVX7dxcOabmX8tkPUJmydB7UskMqjmy75VZnreC7yuup839+4JBGXcJImDMRno0DW4Xah7qsXRifPSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775855726; c=relaxed/simple;
-	bh=cAXb9CrTpv524+4pOELODw8P3jQqS2XAiSFfzufoL7w=;
+	s=arc-20240116; t=1775857134; c=relaxed/simple;
+	bh=AfxJCGuDwawedT7P4I/1sW7q39LqQw75gWL8s0+dAh4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O5uya2BGrnpzlyXSbCU74rqsmDkQu9lUro/qaX3ghQbQmWGAazBSD80SSBpPSKG6p9JIWwunFhlp22SeIi3xl7N8fmyltgQUuAL/pi1tv+8Geuyn8lDRw2BvAEOxlK7ez6qbA/fSLpb8zSQMguc/VT96R3mqF7itQUUvusRgaJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=Iq4bgpeP; arc=none smtp.client-ip=209.85.210.51
+	 In-Reply-To:Content-Type; b=uyYI6N+UsdIenoWFCanvxPPYyfk3d7O4AFx+O+2vutaidtY60hrfWrceNr6nwIHrbOox9OxsLYacKurKt7+ZhoPbeEnBUxWbnT1kIm1ZK5loCrs2CfhpCswH5ZEx/KfbxaALKL1p6eMBfBUgDuCKMJYsNpTXJy+4ZMGEqlqPphU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=rowVptpZ; arc=none smtp.client-ip=209.85.210.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="Iq4bgpeP"
-Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-7d7eb85fb81so2184430a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 14:15:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="rowVptpZ"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7dbff06e4a6so2398589a34.1
+        for <linux-doc@vger.kernel.org>; Fri, 10 Apr 2026 14:38:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775855722; x=1776460522; darn=vger.kernel.org;
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1775857130; x=1776461930; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=/2F93Mx6phIJ7QoLcf5ftd6VaLTce3YAnV6T7zlntoQ=;
-        b=Iq4bgpePomKXt6AMMlpaPk9SJk6i/A1tgjOMozgB89M4I78HwLhBvsHC1LHos7KBTN
-         hpQ5SoqDc9gLQ6r4JlVk9gTNB0EDMcNQ52ebRjbV7tPVSN7n/7oRDkF23vPhPzRKRDzR
-         WnAdhK0JDnro1imOvz2DyaJD00+fhQylcUQIWrwcEDCYt9tx01uQGcBkI0RubUc0HFx9
-         YRXnP4SKu3Cn1BKhHX1sPr3PfLl2+b2V1rv9roHxLJ562FK0rvJKZB/K0e1Zvcsmh2uJ
-         ij7Ck1Oc+hrE6HUmw+S/ihUc+crUt7sGS6G0KMpccao9YqE6NojZVaQorKVOXQDxd7ov
-         Q5rQ==
+        bh=eaFyqgC3R1GXm84D3GWzj8iqNT7a1oUcf/2QMWQlMeg=;
+        b=rowVptpZ9UsLOgQik7lVyrdF6+0eY2gPqRnhkmcgu/6QsD99GYfkanNJsi2AKSIXD7
+         88VqicmttTOrzlAWUidS213yc6pY8yVX8IksXXJQ3MYkEiGEiZxWpWQQecHNXXjq9/8C
+         XZBGam90Cs62hlon1Ih5+sHpbdvigOtZMFLQXkSKX5xAlW7TuzoCZrozGYqMXrQCviuS
+         79MPxY9ZkNpiu+PCEM6l4cEMO7buD0M6ZhQAqacUbbm57Nm5P50QuZBouVuGBMjAthKW
+         eXNJ8GQEDbGefxYshH/1nBwLSFEoxuM+api7VjUBUmFZOgZdYjmBL9UPCFLvTpfkGy6T
+         ctRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775855722; x=1776460522;
+        d=1e100.net; s=20251104; t=1775857130; x=1776461930;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/2F93Mx6phIJ7QoLcf5ftd6VaLTce3YAnV6T7zlntoQ=;
-        b=Myua+HhqTIOGaGiZughzoxtDEDJdy90X9yF1YmKWsJfUSp0I5jsk93xb8vGhr67hPV
-         r/9Tc+rMj0qv7W4Z2iEaCSG0dPjB5UIHD1g+MVOYvJdPY8yeZzn4eTHrscNx9zkVcemh
-         2Mbj6QAv4j15uXpXeTt9n97ieSforEqppe7SGD0UEF3Cu1gznkPExQzcNscLpohBdlhv
-         IfN5AXZfGKa0mUY7QIvK1UsxlFn8jX9s26cHb63e1EhiRAYK+fCot/b7ESTMGueZGfZ7
-         O/fjNJB+zC2l+Ego4unckZz5HnvZYkboKLq6V8Sbzg4nCMijvQEHukXYehlriRBxv+Yg
-         HUkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7VBplNHM8/4DeMTzK9W11kId7rjzSJYzKUj5KnV+Uyh5N3ub+BJZjECwuncVaSulXLZsT2s9K4Ko=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3+9QFf3uS+l6lCCc3GRQvjnO1TNdIwzfCqW3IzyYKGpHlmYUl
-	2Rr1Ejm+nq3t9Ai9FVK1Mg7XzNdVhqtTHIc8Pf3UasApYBNiIDCLptkoPnDQMOeEuhM=
-X-Gm-Gg: AeBDieuykKNVW6SzqrqOI4nwNO99b31ZyTWL7boPFpT+o0E1qOTwuVTMQBltrtHoRLL
-	qFhvTO6dPGDWRGFMk+bpdBMmktNcn3qKbIcDlahG1suLOfj8JATuvdWKVGPzJhiM0NRVkSNS+aG
-	Zj8To5POjKkqPwoCpTpQX8rh0VRLff2grpgTwKag5iw6B80Ecf+UTgQCEY/X2MXEe81PkMkTMpM
-	+mMbHL8RbH6Hg4tEhFqNz1jQNCgg6xnm+Tv0WFMOtGnMBh+r8YZ0kmP0IszS0q1OX8b2Mk15evF
-	rXvNsosOxyjOv/soXMapkwfJx7Zc18XXAHuD3juy8pkBj4GHIXeTq60nPdIJL9FGAMttSMo5Ies
-	WM4fUm8rRMmJ9/McnoB1FFgTP1Z+P2WBOhkW/Abpwu0FM12r0wWkkTaBjHFGUSbV1YoDO+kV0+A
-	M1EZLji4oV+sD0Srcl5BQ0cyvhVXX5X/NRsg2KmnTFPMhPNsp5j9b8aQ2cQKzny3NgJDS2xgcdf
-	A==
-X-Received: by 2002:a05:6820:822:b0:687:a24d:5ba2 with SMTP id 006d021491bc7-68be8bd89b5mr2314197eaf.55.1775855722351;
-        Fri, 10 Apr 2026 14:15:22 -0700 (PDT)
+        bh=eaFyqgC3R1GXm84D3GWzj8iqNT7a1oUcf/2QMWQlMeg=;
+        b=D3SWOmX7uDgnE0pftDZ4rA+QnTvpTiAZ1rNM2l+Se45LYzra/n8DgYku+Im7GgCYr2
+         mO9+24O14PyZfijohHSbvQqwC38NBmSN6IFuF1wkOCYyaXBVkHpCVAT7T79FCerbA0hn
+         dHqyM2vvJhOksP8fk7NKi4LJ2x0YCDRTuPHpSwBgzN3DPi5AmXl0qpRKfUO48Iq6o0Xd
+         TPSGw5pBp1+aDYd79+ttPdjz5GGtKtGBW2H+kP34fEYYvU+vl70E5grGNIhfn1FUvUxR
+         WRIZWtWOeuWn9QClW7Hs39csjk8+TsaKgLgvzkMPSkvM1zYLtc5rsJMNKxMbNV8WwI2I
+         Htag==
+X-Forwarded-Encrypted: i=1; AJvYcCXcLLY1xTqBA+ZRmN7zOIXCCuVP6JiMfgJH/KIpY5CKrdyVnhbuPc9zZu4x49FSHq/XQzKrG60NGiE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNbfgfSgYK/ShSozyg3UuvkawCXwnNJlWia8VoZSAkltx7vLEi
+	dCTx0fn96OEc3Cl9IjA9cXXfKksFVGIJj3Pr7bJghiYSJ4h9uUzgKAwmmsvQK4NN17g=
+X-Gm-Gg: AeBDietGGlrN1RVpvr3mQ94VX47PpzoK/IDEJdDMkpGz18Rvj6chB9i3RS7Fgvx86dy
+	f5FaIImN8SnGaXbcQcropiVYSRUKJSxoLEerQ5xOF4FzJiG/Zrq1JIAcCKSY56f+/AEY/2mPFZH
+	ijSuiePjmRRYASBfAGMGks4qGbvl+AobdFtEN60t+6Zs6P5HwclXkzgvldnn5+D6/gcMU8S9XKM
+	XhQ2BdrX1kUPvhBwUKGMCdtk6VZv+/gDcqhUZce+69yJJhacRM3RNpO2t2x0lpxhFc7Eu953n3E
+	n5/u2SZNDBnrd8zxziWFQCH9KJENIo3DzHH3tfC8WTCD1GQ92LP5Saj7UHA2N9177ieoUKRsg9s
+	WtaqnDIhO4uwEQA+7HsBtbUYWvGrPK6m49EXgJtRMBfPqLm+iZw86FHsq+slTG2UbU61Ir5EGKv
+	Y4PudkNBuhhPkyVh3ze3X5PAulKXecGZ41qACIdJBbmOFjXwDb/bVJhyRqJelAl2J1CBSxW2cDL
+	g==
+X-Received: by 2002:a05:6830:498b:b0:7d7:f617:3573 with SMTP id 46e09a7af769-7dc27cbf49bmr3103286a34.10.1775857130046;
+        Fri, 10 Apr 2026 14:38:50 -0700 (PDT)
 Received: from ?IPV6:2600:8803:e7e4:500:b75d:2440:dc10:808b? ([2600:8803:e7e4:500:b75d:2440:dc10:808b])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-68bc82ea1b7sm1972885eaf.5.2026.04.10.14.15.21
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc26941b7esm2736484a34.19.2026.04.10.14.38.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Apr 2026 14:15:21 -0700 (PDT)
-Message-ID: <742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
-Date: Fri, 10 Apr 2026 16:15:20 -0500
+        Fri, 10 Apr 2026 14:38:49 -0700 (PDT)
+Message-ID: <9c36ee85-12da-41e8-b9ab-e32b7ec29e75@baylibre.com>
+Date: Fri, 10 Apr 2026 16:38:48 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +69,7 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
+Subject: Re: [PATCH v7 6/6] docs: iio: adc: ad4691: add driver documentation
 To: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>,
  Michael Hennerich <Michael.Hennerich@analog.com>,
  Jonathan Cameron <jic23@kernel.org>, =?UTF-8?Q?Nuno_S=C3=A1?=
@@ -85,97 +85,70 @@ Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
  linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
 References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
- <20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
+ <20260409-ad4692-multichannel-sar-adc-driver-v7-6-be375d4df2c5@analog.com>
 Content-Language: en-US
 From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
+In-Reply-To: <20260409-ad4692-multichannel-sar-adc-driver-v7-6-be375d4df2c5@analog.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 4/9/26 10:28 AM, Radu Sabau via B4 Relay wrote:
 > From: Radu Sabau <radu.sabau@analog.com>
 > 
-> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
-> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
-> selected OSR at buffer enable time and before each single-shot read.
+> Add RST documentation for the AD4691 family ADC driver covering
+> supported devices, IIO channels, operating modes, oversampling,
+> reference voltage, LDO supply, reset, GP pins, SPI offload support,
+> and buffer data format.
 > 
-> Supported OSR values: 1, 2, 4, 8, 16, 32.
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+> ---
+>  Documentation/iio/ad4691.rst | 283 +++++++++++++++++++++++++++++++++++++++++++
+>  Documentation/iio/index.rst  |   1 +
+>  MAINTAINERS                  |   1 +
+>  3 files changed, 285 insertions(+)
 > 
-> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels, which do
-> not expose the oversampling ratio attribute since OSR is not applicable
-> in that mode. A separate manual_channels array is added to
-> struct ad4691_channel_info and selected at probe time; offload paths
-> reuse the same arrays with num_channels capping access before the soft
-> timestamp entry.
-> 
-> The reported sampling frequency accounts for the active OSR:
-> effective_freq = oscillator_freq / osr
-
-Technically, the way this is implemented is fine according to IIO ABI
-rules. Writing any attribute can cause others to change. It does
-introduce a potential pitfall though. Currently, changing the OSR will
-change the sampling frequency, so you have to always write oversampling_ratio
-first, then write sampling_frequency to get what you asked for. If you want
-to change the OSR and keep the same sample rate, you still have to write both
-attributes again.
-
-In other drivers, I've implemented it so that the requested sampling frequency
-is stored any you always get the closest sampling frequency available based on
-the oversampling ratio. This way, it doesn't matter which order you write
-the attributes. In that case, the actual periodic trigger source isn't set up
-until we actually start sampling.
-
-> 
-> OSR defaults to 1 (no accumulation) for all channels.
-> 
-
-...
-
-> @@ -499,7 +570,7 @@ static int ad4691_get_sampling_freq(struct ad4691_state *st, int *val)
->  	if (ret)
->  		return ret;
->  
-> -	*val = ad4691_osc_freqs_Hz[FIELD_GET(AD4691_OSC_FREQ_MASK, reg_val)];
-> +	*val = ad4691_osc_freqs_Hz[FIELD_GET(AD4691_OSC_FREQ_MASK, reg_val)] / osr;
-
-I guess we don't have to worry about fractional values here?
-
->  	return IIO_VAL_INT;
->  }
->  
-> @@ -536,6 +607,11 @@ static int ad4691_read_avail(struct iio_dev *indio_dev,
->  		*type = IIO_VAL_INT;
->  		*length = ARRAY_SIZE(ad4691_osc_freqs_Hz) - start;
->  		return IIO_AVAIL_LIST;
-> +	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
-> +		*vals = ad4691_oversampling_ratios;
-> +		*type = IIO_VAL_INT;
-> +		*length = ARRAY_SIZE(ad4691_oversampling_ratios);
-> +		return IIO_AVAIL_LIST;
->  	default:
->  		return -EINVAL;
->  	}
-> @@ -566,6 +642,11 @@ static int ad4691_single_shot_read(struct iio_dev *indio_dev,
->  	if (ret)
->  		return ret;
->  
-> +	ret = regmap_write(st->regmap, AD4691_ACC_DEPTH_IN(chan->channel),
-> +			   st->osr[chan->channel]);
-> +	if (ret)
-> +		return ret;
+> diff --git a/Documentation/iio/ad4691.rst b/Documentation/iio/ad4691.rst
+> new file mode 100644
+> index 000000000000..a1012c8b78a3
+> --- /dev/null
+> +++ b/Documentation/iio/ad4691.rst
+> @@ -0,0 +1,283 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
 > +
->  	ret = regmap_read(st->regmap, AD4691_OSC_FREQ_REG, &reg_val);
->  	if (ret)
->  		return ret;
-> @@ -575,8 +656,9 @@ static int ad4691_single_shot_read(struct iio_dev *indio_dev,
->  		return ret;
->  
->  	osc_idx = FIELD_GET(AD4691_OSC_FREQ_MASK, reg_val);
-> -	/* Wait 2 oscillator periods for the conversion to complete. */
-> -	period_us = DIV_ROUND_UP(2UL * USEC_PER_SEC, ad4691_osc_freqs_Hz[osc_idx]);
-> +	/* Wait osr oscillator periods for all accumulator samples to complete. */
+> +=============
+> +AD4691 driver
+> +=============
 
-Why did we need to way 2 before and only 1 now when OSR == 1?
 
-> +	period_us = DIV_ROUND_UP((unsigned long)st->osr[chan->channel] * USEC_PER_SEC,
-> +				 ad4691_osc_freqs_Hz[osc_idx]);
+One overall comment. This goes into driver implementation details quite a bit.
+I think that is really better done as comments in the driver itself. And this
+document should just focus on how to use the driver from the userspace point
+of view.
+
+
+> +Buffer data format
+> +==================
+> +
+> +The IIO buffer data format (``in_voltageN_type``) is the same across all
+> +paths: 16-bit unsigned big-endian samples with no shift.
+> +
+> ++-------------------------+-------------+----------+-------+
+> +| Path                    | storagebits | realbits | shift |
+> ++=========================+=============+==========+=======+
+> +| Triggered buffer        | 16          | 16       | 0     |
+> ++-------------------------+-------------+----------+-------+
+> +| CNV Burst offload (DMA) | 16          | 16       | 0     |
+> ++-------------------------+-------------+----------+-------+
+> +| Manual offload (DMA)    | 16          | 16       | 0     |
+> ++-------------------------+-------------+----------+-------+
+
+Not sure this table is helpful since all values are the same everywhere.
+
+Also, doesn't SPI offload have storagebits == 32?
+
+> +
+> +In the triggered-buffer path the SPI rx_buf for each transfer points directly
+> +into the scan buffer, so the 16-bit big-endian result is written in place with
+> +no additional copying.
+> +
+
