@@ -1,113 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E9E3BAD8C;
-	Sat, 11 Apr 2026 16:49:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 095B61D6BB;
+	Sat, 11 Apr 2026 17:22:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775926169; cv=none; b=HQeIaDbe2N7s6XUzAmZniVDbMegNZSbISyetNGUj/vLHJ7SR4ilReQNtumzvH+wNiH5sLcT73XS1MLdnv1PtAqQlbu5CnOheAG0Gzz/YUEfCCeBApUEbaUvJ3IxgOlVy+zDTxdWX7YY3Xofad85kPSUo/YOV4NxVfVRPJknc0Hc=
+	t=1775928176; cv=none; b=VRLm8Aexv8vPCw0ddBsriF4FvWml4BzAiGiwaGeXUMNd1nTHwPEfc5bGAw4DcQEqb1qSxywEZKcYt5wHg1bbdj3LpDu3TxVkHKXS0u94BFggrAX0sJBnhG3Ta1L/yCryOFd41+kdVHEdhStXGLbyATRZi8TSARgOlc+10l6MB9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775926169; c=relaxed/simple;
-	bh=fJkIAWWlo48QPdeJ9YXUoXHCIlYHiM9shoj6TYfrLSQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gRtmmc8H2zXKTJON3wLMt563FL23o01XcdCTSq2vJkgx4VGaWgfopKM3wKD2fNaXD4SvIogNs+giAwY0K/Kqv36OxAqERnY2g0UNEnAPJYDf8aGGNISZ8D0DN8DIQdq2qlflzceBOhKuSGJchsi5pek1NoTWau1CABZnU2SxvTo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ixGYDx9s; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1775928176; c=relaxed/simple;
+	bh=FQM6ywD0C9OLhQRBxpAw2CwAxJnCiGuArr7SZIsbfoo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Yu6JUnrzSlZK8Df42wk+V7n6lOpbRj2ou5xE4JqMdYj6REg3A+aPugfh1z05ZuhH3zWy0DMq3Z3u/AyvQB4dHaA/w3/S+ab9q3KQoOR1byZfkycpzjYwkjNXTD200373C3E2xNKkrrV498GbrEWNE7jj2WkyA/tn8y4E0z5wULM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FEcccpnt; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixGYDx9s"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7698C2BCB0;
-	Sat, 11 Apr 2026 16:49:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1775926169;
-	bh=fJkIAWWlo48QPdeJ9YXUoXHCIlYHiM9shoj6TYfrLSQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ixGYDx9ssNNPjrfbgiMV4ZJcebZaf3qT0CchkYS2IN72WIq9+MUqVlKZovccRmnWY
-	 z5QpD2VLZkBdhiC6qwoi18cTbL6niw6YRBxIDyx0QovyKzsoLTebnlusSotg6xngIH
-	 uOba8dYTS+Zc0pUzNhgZFU1yb5TfkFGgrtAunm43K8A4vH5VLLK6WOFJA+eo+DqYDA
-	 YZUoVttfjrrwVjWR1y9Ls1t4zvNhxE/IQ1DUgI5EzFw0XBV2eCOqOJnEDN8qyQfdsQ
-	 y9/IiLJnl4RQ5yflbRkt69hhQenTF8EVf0Owarxllwpvmk58od04r+VmrV6o++EN4e
-	 +g/kf8Ov4TBCA==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH v5.1 06/11] Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom} files
-Date: Sat, 11 Apr 2026 09:48:59 -0700
-Message-ID: <20260411164908.77189-7-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260411164908.77189-1-sj@kernel.org>
-References: <20260411164908.77189-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FEcccpnt"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=xMZtbxovVZdXpmbCooD3OY0FSnOrTeJL/fyBNqIaSmw=; b=FEcccpntOTw1Eun65rrMre9qdH
+	q03H2Rnmu5eKw4TtkTCnaH1R9Ezl8N/X3xYnHFK/1tGGfLep4qENqG12MD4PBPrhuFkGAE3ktInTx
+	h5dOYBa9CPjmo2oA8Nj1BG8IRy9zCCqRVCxoSh3FDEmAOI0QZSebN5Wkl5Gn2x2YZzNx9vsIyRqcr
+	QiqkqHUu6HvU1yCtPWMtSvPU1QhhLzCNrifd5uQCwAa3oE2n4MUIqHO623+6OrEbukmOsMk/WU9gl
+	JRt0LZYgNCNT6m3NNMt+YBBTnXBhKvZW+Dbcx3TELuapjgux0wwWwAH3yjv4sGfK7OJyNlT/Lg4jA
+	zzMqxbZw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wBc2c-0000000DfqX-2m2M;
+	Sat, 11 Apr 2026 17:22:42 +0000
+Message-ID: <303dcd9e-ca40-48b7-851e-6cd283cb96ad@infradead.org>
+Date: Sat, 11 Apr 2026 10:22:42 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation: Refactored watchdog old doc
+To: Sunny Patel <nueralspacetech@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Guenter Roeck <linux@roeck-us.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <3e25ae54-e62d-484e-8d90-4f7825705e4f@roeck-us.net>
+ <20260411150922.20536-1-nueralspacetech@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260411150922.20536-1-nueralspacetech@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Update DAMON usage document for the DAMOS action failed regions quota
-charge ratio control sysfs files.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 18 ++++++++++++++----
- 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index bfdb717441f05..d5548e460857c 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -84,7 +84,9 @@ comma (",").
-     │ │ │ │ │ │ │ │ sz/min,max
-     │ │ │ │ │ │ │ │ nr_accesses/min,max
-     │ │ │ │ │ │ │ │ age/min,max
--    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,effective_bytes,goal_tuner
-+    │ │ │ │ │ │ │ :ref:`quotas <sysfs_quotas>`/ms,bytes,reset_interval_ms,
-+    │ │ │ │ │ │ │     effective_bytes,goal_tuner,
-+    │ │ │ │ │ │ │     fail_charge_num,fail_charge_denom
-     │ │ │ │ │ │ │ │ weights/sz_permil,nr_accesses_permil,age_permil
-     │ │ │ │ │ │ │ │ :ref:`goals <sysfs_schemes_quota_goals>`/nr_goals
-     │ │ │ │ │ │ │ │ │ 0/target_metric,target_value,current_value,nid,path
-@@ -381,9 +383,10 @@ schemes/<N>/quotas/
- The directory for the :ref:`quotas <damon_design_damos_quotas>` of the given
- DAMON-based operation scheme.
- 
--Under ``quotas`` directory, five files (``ms``, ``bytes``,
--``reset_interval_ms``, ``effective_bytes`` and ``goal_tuner``) and two
--directories (``weights`` and ``goals``) exist.
-+Under ``quotas`` directory, seven files (``ms``, ``bytes``,
-+``reset_interval_ms``, ``effective_bytes``, ``goal_tuner``, ``fail_charge_num``
-+and ``fail_charge_denom``) and two directories (``weights`` and ``goals``)
-+exist.
- 
- You can set the ``time quota`` in milliseconds, ``size quota`` in bytes, and
- ``reset interval`` in milliseconds by writing the values to the three files,
-@@ -402,6 +405,13 @@ the background design of the feature and the name of the selectable algorithms.
- Refer to :ref:`goals directory <sysfs_schemes_quota_goals>` for the goals
- setup.
- 
-+You can set the action-failed memory quota charging ratio by writing the
-+numerator and the denominator for the ratio to ``fail_charge_num`` and
-+``fail_charge_denom`` files, respectively.  Reading those files will return the
-+current set values.  Refer to :ref:`design
-+<damon_design_damos_quotas_failed_memory_charging_ratio>` for more details of
-+the ratio feature.
-+
- The time quota is internally transformed to a size quota.  Between the
- transformed size quota and user-specified size quota, smaller one is applied.
- Based on the user-specified :ref:`goal <sysfs_schemes_quota_goals>`, the
+On 4/11/26 8:09 AM, Sunny Patel wrote:
+> Mark WDIOC_GETTEMP and WDIOS_TEMPPANIC as deprecated since
+> neither is implemented by the watchdog core and both are only
+> present in a small number of legacy drivers.
+> 
+> Add documentation for previously undocumented status bits
+> WDIOF_MAGICCLOSE and WDIOF_ALARMONLY in the options field.
+> 
+> Add documentation for WDIOF_PRETIMEOUT and WDIOF_SETTIMEOUT
+> status bits describing their respective ioctls.
+> 
+> Fix the following issues in existing documentation:
+>   - Remove version-specific reference to Linux 2.4.18 from
+>     the GETTIMEOUT ioctl description
+>   - Fix duplicate "was is" in printf format strings
+>   - Replace [FIXME] placeholder with proper descriptions for
+>     WDIOS_DISABLECARD, WDIOS_ENABLECARD and WDIOS_TEMPPANIC
+> 
+> Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
+> ---
+> 
+> Changes in v2:
+>   - Fixed typos: "tiemout" -> "timeout", "characted" -> "character"
+>   - Fixed "small number if legacy" -> "of legacy"
+>   - Fixed capitalization: "New Drivers" -> "New drivers", "USE" -> "Use"
+>   - Fixed spacing: "WDIOS_DISABLECARD,this" -> "WDIOS_DISABLECARD, this"
+>   - Fixed double spaces in two places
+>   - Added missing newline at end of file
+>   - Rewrote commit message
+
+However, you failed to fix a malformed table warning that I reported here:
+https://lore.kernel.org/linux-doc/9e3403a0-4ec2-4fbe-a50f-53f939c1d841@infradead.org/
+
+Documentation/watchdog/watchdog-api.rst:250: ERROR: Malformed table.
+Text in column margin in table line 2.
+
+================        ================================
+WDIOF_ALARMONLY     Not a reboot watchdog
+================        ================================
+
+
+So I repeat, please test your patches.
+
+> 
+>  Documentation/watchdog/watchdog-api.rst | 59 +++++++++++++++++++++----
+>  1 file changed, 51 insertions(+), 8 deletions(-)
 -- 
-2.47.3
+~Randy
+
