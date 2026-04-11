@@ -1,105 +1,203 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 330FB387585
-	for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 15:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 704893A963E
+	for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 15:54:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775922794; cv=none; b=i2bwVJ6wMMAtcDpNHgZjK4ajWxisCAA3wiiSSligs0zNaWs3HKG38znY+mw8AHLHNHzXqRWMZxduHQnt2JDXIRM9PdQBh0OMk8VJoVyIFSZz2zddnHUmJPTh/ZejyDbUkeSQiFTMzHe5rcsFmwDCafPyD9I5esJavkJOIcz2rzw=
+	t=1775922881; cv=none; b=H+kDVcIf0sP8iXDiCmYJK3kho5vr5nJevwzE3slpM+pI716Oh5NBPlLsvmyqw1d0K7GqXDJPi0N4za0n+cC0HTPJv53logHO9DKrZZ4nuMqhJgiAgHVVd+Lp09b2Mp9CgIFATNSez0FpcMbG0jJO6U/qzOFaLM67w3RHHRrhAP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775922794; c=relaxed/simple;
-	bh=szNahsDdzfRYyvO/aj3g8rbqKjZFkB5X0HvgChFPezQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nNBbMkFp4w0OMRQ2As/QSScoKN90G1xAYRSkQDYOnEJiNpzBqqPaxZnBPfQaBH1E3zqQ+UbLTj0rWWr3j+wxvzscNN1Zem/PtJcwmGtoNeEgnyzcHEWn1iRK+fu4t/KpwyTj10RTGI9H+8GY9NY8JYgh2PmsXUCDfJYEF4QIWuU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GRpIU7yN; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	s=arc-20240116; t=1775922881; c=relaxed/simple;
+	bh=vyZ3p4QNZDmYaHVFaAa2c29T/arRXgNKIbADpC/E2RY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=geoc6wlhleBXqtwNEFDM8mvuvE0ydLvko2c8VsuS3/KVAhc8tzuUa0UhsK7Vqb/BgIcnzT7tvIUoR0TYxXvnR6iC3hUKTBGSp4ARp3riaVwSTbqVGDjt1QCCVnpJ0QjMzX57RuhP9CHawIdZh0ABYZIZVpESj7jBbUXH60EVjIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a5FGLWXb; arc=none smtp.client-ip=209.85.216.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GRpIU7yN"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-43d17bb1c1dso2405698f8f.2
-        for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 08:53:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a5FGLWXb"
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-35d9749c26dso2792141a91.2
+        for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 08:54:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775922791; x=1776527591; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ykIj77DYl2q5XauhI3fe9hKv77dgJXi8Oulhxw3fmt4=;
-        b=GRpIU7yNHRMkr9/ofoU6IHOjA8cLCh8oDH6TFfX04AsVmAhc6uaVS+rU6vNLZ71JEI
-         K1iLJqWOpu62qIVHBYj3Z4j1OZjDTs30zeZTbH8dD3j9bA3upWsGU4PGT3pp9w5BWRpj
-         SYpoShQIJKiZo7GWNJSoM1+0CFFRJtOSK7WOh+aMN5Duf0BUIL/h1PiSMhocout2LHnb
-         SNC8LZm3P8/2EXIvow2CR4UY049dneTjOGdnIDpqbuZTG/v2lKMnevEhMrIXgAuLDbaa
-         vL75D5cgnYRUsgLlZ1y8+6IGSD1u+6JQJvApS9e+sTwQRvUht+BkXDhdGms5OLDTyqYH
-         ByrA==
+        d=gmail.com; s=20251104; t=1775922880; x=1776527680; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=KdjVpbQ+mHdJ8uLjb1LbuXKErsPJPIomY1MUk5b01hY=;
+        b=a5FGLWXbA+ZrxwwsqjwXzqUXV9wVjVCWmKesO6H8aM5/Ka02nkLd0uxVVl2e7QGmoH
+         iQbzHQruqgrqco+l5va1Zhpj3u696v7V1V0+LzmYh4C8RoHrFfOBjBEOm13WndLeFE0K
+         z/JYpUHKEeSfMdf5lbt+6YkRP/irSbE+N0Jb/YgVpRs+PWaQ2Wyi93U7hIaGitLaUBxp
+         nN+IcubwXJjRGXU0dTmwt7jvngppj2wjLIES1oA3dYS4qivOU20p1HmWoJdRS8LxM98+
+         IxRQNG8H/6x+WlrIbyKEez4A4Oh2kJDu8/Iv8EEKB/P8UVqFUc/Dg1Bh0RfNJrZcvGAc
+         Mzhg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775922791; x=1776527591;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ykIj77DYl2q5XauhI3fe9hKv77dgJXi8Oulhxw3fmt4=;
-        b=Sh1befgedpgFmFMYSsq8wpt41YeYbxs1GNYqWUTIJLjEofwshTUh0EKI0UkawWdEL+
-         4TRNYDgPkozZZ/3nvjw3or8reJEvVp7pyzc0sk5Bq6BuU4oJPL6Vt9JbWXuHp2W/doK8
-         +0dyhhETI3Yvj9MyIoPG63gy2T0seLKhmkgpKDdy+b3wPzY8cfNwD2VgY3/2Wxnljjjy
-         KnE3NXPgjipJulS4rUvaIzQrryb8cnfP1J2mnUT70QDeWiwzMV7KceOj/+/rm220C8PQ
-         7IDrkd/mcqAmQwywBVMl3hYQXpkKJv+oFnsX+1529Mkr3joX0naeDpqiw15UKCcmCVS/
-         Ve+w==
-X-Forwarded-Encrypted: i=1; AJvYcCVCOfqrFN+5Rz5nYJvqoSm3vOI2BL/zPiBDFRXTxhEylTZI+x4eFMY2HMNUWl+UF25IwcRDs9aITsY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzMqRB0ofbbOdbn3AMmk0y3ra0YVe43psnWqKXbgW+wgOLxs3t
-	J4iyUIqHC/BIbdwVEEbAecLmps8015SIJdQ77fK2eWWgsCeFb+WDEWeP
-X-Gm-Gg: AeBDiett2Zt+YwAMYLebEJxV8JRJzfSRfC6NyZiDao4kn1OXowFLqC4VQQ8r3Oey+6P
-	zFJj5MUX016FKNqvD5XljmNo6Cc+UYsrKeZcsC4HzVEIN/i2M7MCzG8t0uPuzpeDePeY8pi5O8/
-	Htq5+eyJM5LXB+ChbbsNJALsmESAQ+s4ovbthB9j4t692Vik3M1MHse8iun+VUB9yKYF2mAf/Na
-	8I88QoWJQ4S34x3PYuV2C44HgHmIG4fDCQ3BU3X0jWoVpQpvQxEvEiDcnF4zGysccmXY9X1CmmU
-	tlYgMqpenHVNEYq0LzxsRH1rPlXZUvm8WeA9lnVv5I/kciuh1mqpvcZznZ9HSw67GKHlRKEc2mo
-	33LKW2fhcl479TCGGntL1EyMl26vzmmk6dlnr1QjOjbZWE6eqa9EBV49Q5OlFuaDpA75yckDL3C
-	/QssS7AIV1IJ0nUZOjjGUYYIUV6f+QR4VOOlMj4HGTOkUWcDUqbqKyOeYaOtDDalgMi84gzNEUi
-	O7cfHekjzy9HdJ25DI7GwDDNUyEN2TQS6zVvo4wFvnUigqVILXJmxlp30KbYKvu0vHk5ZEjhAix
-	KpxCmA+yYedhjf+Czq8G6ss1KoP6cvEv
-X-Received: by 2002:a5d:5f92:0:b0:43c:fd7e:72eb with SMTP id ffacd0b85a97d-43d642cd31emr10983362f8f.41.1775922791535;
-        Sat, 11 Apr 2026 08:53:11 -0700 (PDT)
-Received: from hsukr3.localdomain (dynamic-2a02-3100-a01c-4800-fd8b-e688-91b6-420a.310.pool.telefonica.de. [2a02:3100:a01c:4800:fd8b:e688:91b6:420a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43d63e46713sm17958153f8f.21.2026.04.11.08.53.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 11 Apr 2026 08:53:11 -0700 (PDT)
-From: Sukrut Heroorkar <hsukrut3@gmail.com>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-rt-devel@lists.linux.dev (open list:Real-time Linux (PREEMPT_RT)),
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Cc: Sukrut Heroorkar <hsukrut3@gmail.com>
-Subject: [PATCH] Documentation: core-api: real-time: correct spelling
-Date: Sat, 11 Apr 2026 17:51:19 +0200
-Message-ID: <20260411155120.233357-1-hsukrut3@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20251104; t=1775922880; x=1776527680;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KdjVpbQ+mHdJ8uLjb1LbuXKErsPJPIomY1MUk5b01hY=;
+        b=G1rpv5L/kig6LaWDFP7ruVZPifW89ge3fLlWrB30i5QDjb75SqIpfSf3Op1Ti/801u
+         B6c3HrpouSQw0pQRG2cgOkfgcMna90SoixPnfibheaj4IgO2DXDa/NRFiRV8RWDSWKAE
+         HkvhkRXSW/DaRGHg0p4x+arN2LeWl3AKejrrwc4pc6Jw+JETSNHqRg5PN/dL63gVUpnO
+         QBZ419R7bMpCLQz9eOK+JzHBqmKpY5fPCLTG5vgbVi1gwilJsYr5FopuX+n8jmluStO3
+         ag5Y+2s1Bl5fuhoT67Pb9ejePViDVdgImZUE8oJhDjL6xvrILbt6pQx9zgdOcC4JrtsX
+         K2gw==
+X-Forwarded-Encrypted: i=1; AFNElJ981bIHKwJtGxS7ShT1NHhJ2Rbj55vdS8qr+Mq/2cMJjM3SVUQf2Eu5TRH5ES/Z6TI/UdjeZB90oW0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWvSGsd0pMVloqoIX0FA1o0C0AiKAf2llijUGHFNvVPNRWb/Yt
+	VHaQpMRzAq5iiQU/MgoQRPicUbL85DIQAnqat/TaHofAmr2ZYK0+QZe6
+X-Gm-Gg: AeBDievgjIQs+UD6YMu4wp0yMGyCxEpIStyFIormNGJ2vMUz7WSJ/joNjJQWW8JY97v
+	b5s5kR/ZI+86Kkjm9cZ/BaCZIu3VXdxxUdUEzkm3Lf8ef+NRBXgUvHTjzay2hYfhcaIcGYl0u9z
+	52SHsAn/ged9MrHbSfnI9/35qMXb78C8fCWVkqEIPqeTsOL4vEebyT8INjwkxHemLHcz9Irz8pB
+	XCYfyui03HlBF3fojU8fNuZaTmEylV5A8iZd1FuHbj9r7/1VTlS4jU6WyuhKralfyzXuS1vGo+T
+	LwqKtQDtAWntl2QVcgbQC5BMO2ySZQMBuZfmFhmTd9vrwMuDf2DEW0+7ETyWsMgSK+k8u3p0iF7
+	r1HMp06bPpY4MnGJncPvsCyp3V9pJKYhHtldaWBJ/OAxp47E+F3SN8ShsSovaOVNgHIl3xGyJnT
+	mY0OWG8Kl/qQvQNOZCkVFKyaNjZw9JIm6XpQjAARaXU5vWagHFRrH593otOMrr/VomISYqZ9qk5
+	XAzxWhLCEY=
+X-Received: by 2002:a17:902:9341:b0:2b0:4fb6:85ce with SMTP id d9443c01a7336-2b2d5a45a0bmr58725085ad.21.1775922879656;
+        Sat, 11 Apr 2026 08:54:39 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4f0a39fsm61293595ad.48.2026.04.11.08.54.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Apr 2026 08:54:39 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <5b695477-8dc9-49c8-ac0a-51c29604fdbf@roeck-us.net>
+Date: Sat, 11 Apr 2026 08:54:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 2/3] hwmon: ltc4283: Add support for the LTC4283 Swap
+ Controller
+To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>, nuno.sa@analog.com,
+ linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>
+References: <20260406-ltc4283-support-v9-0-b66cfc749261@analog.com>
+ <20260406-ltc4283-support-v9-2-b66cfc749261@analog.com>
+ <29b207c8-10ab-42b4-a1c8-988aacc75154@roeck-us.net>
+ <2653dc70f42fd015b88e2744da257f6200603b50.camel@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <2653dc70f42fd015b88e2744da257f6200603b50.camel@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Fix typo "excpetion" with "exception".
+On 4/11/26 05:38, Nuno Sá wrote:
+> On Fri, 2026-04-10 at 16:27 -0700, Guenter Roeck wrote:
+>> On 4/6/26 07:31, Nuno Sá via B4 Relay wrote:
+>>> From: Nuno Sá <nuno.sa@analog.com>
+>>>
+>>> Support the LTC4283 Hot Swap Controller. The device features programmable
+>>> current limit with foldback and independently adjustable inrush current to
+>>> optimize the MOSFET safe operating area (SOA). The SOA timer limits MOSFET
+>>> temperature rise for reliable protection against overstresses.
+>>>
+>>> An I2C interface and onboard ADC allow monitoring of board current,
+>>> voltage, power, energy, and fault status.
+>>>
+>>> Signed-off-by: Nuno Sá <nuno.sa@analog.com>
+>>
+>> The patch still has some issues. Please see
+>>
+>> https://sashiko.dev/#/patchset/20260406-ltc4283-support-v9-0-b66cfc749261%40analog.com
+>>
+>> Specifically:
+>>
+>> - regmap_clear_bits() may not cause problems, but it is not the best
+>>     choice either because the register was already read.
+>>     It might be better to just write the value to be masked since
+>>     both the register value and the mask are known.
+> 
+> Fair enough.
+> 
+>>
+>> - I can't comment on the energy accuracy lost. That is your call.
+>>
+> 
+> The AI might have a point. Maybe you know better but if I understood correctly,
+> mul_u64_u64_div_u64() will handle the multiplication by using 128bits (when
+> available) or if not, using clever tricks. And it should also handle overflows.
+> 
+> So my feeling is that we can simplify all of those check_overflow paths with the
+> suggested API.
+> 
+>> - Clamping before multiplying is indeed wrong.
+>>     You'll need to clamp before multiplying (and then possibly
+>>     clamp again).
+> 
+> Yeah, the clamp change was just nonsense from me. What about about
+> 
+> val = clamp_val((u64)val * MILLI, ...)
+> 
+> ?
+> 
 
-Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
----
- Documentation/core-api/real-time/architecture-porting.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+I don't think that will work on systems where sizeof(long) == 64.
+I'd suggest to just bite the bullet and clamp against LONG_MAX/MILLI
+first.
 
-diff --git a/Documentation/core-api/real-time/architecture-porting.rst b/Documentation/core-api/real-time/architecture-porting.rst
-index c90a426d8062..c9a39d708866 100644
---- a/Documentation/core-api/real-time/architecture-porting.rst
-+++ b/Documentation/core-api/real-time/architecture-porting.rst
-@@ -74,7 +74,7 @@ Exception handlers
-   Enabling interrupts is especially important on PREEMPT_RT, where certain
-   locks, such as spinlock_t, become sleepable. For example, handling an
-   invalid opcode may result in sending a SIGILL signal to the user task. A
--  debug excpetion will send a SIGTRAP signal.
-+  debug exception will send a SIGTRAP signal.
-   In both cases, if the exception occurred in user space, it is safe to enable
-   interrupts early. Sending a signal requires both interrupts and kernel
-   preemption to be enabled.
--- 
-2.43.0
+> 
+>> -  %*ph: The AI seems to have a point.
+> 
+> Indeed!
+> 
+> FWIW, I was already aware of the AI feedback but I'll just setup things locally and
+> run the review before submitting again.
+> 
+
+The AI now copies you on new revisions. Please feel free to rely on that
+(unless you have tokens to burn, of course ;-). Those AI reviews are cheap
+for what they do, but they are expensive in absolute terms.
+
+Thanks,
+Guenter
 
