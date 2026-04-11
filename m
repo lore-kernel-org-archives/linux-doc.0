@@ -1,121 +1,89 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA2CEAC7;
-	Sat, 11 Apr 2026 19:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82C642F9D89
+	for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 22:24:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775937137; cv=none; b=BKkYW5G9fx7kHDs/Kero2DYoD+b0SgpEIZ6vpG/nPmlAN6EKOUEIl0yAhuBihS9jgHJgeiJnceTETgBotOO25ylGzw93KDOrTbhgmGvaHltqxAtOsyqXQnsZfux5hgRqxLhHvBDvghAgTMXmHsmg3d7a82h4WCdfmRxXUg31oJg=
+	t=1775946267; cv=none; b=onhYSHnSHHlD4/gkMLg/CZ2Ge9J/cF2IAgPoxCbwR6aUDvZ2WuXJlQ5Fq0yWI35RmsdH/5HZpbxfq98NN3qPFTLlfhS2ngpDaxGF1WnURUnvgjYAaxt29ZblWjX8/CN2T7z9n30cjLUvRNqCrdBWp0U3rImbd037VT/d+GpTcSw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775937137; c=relaxed/simple;
-	bh=kkGV3TCtg6y3yuvJfqrCz/3aQhkXtMetGHryb/KPTs0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EEPE+bhQ8+b4oexsjSI1iXuubByUhir96+wadxgXRVhxeAPoAtCg02DUFJZyQlw2FVASVUoifXt4Mpu4elYfjeGRqU27CXqe/Hqh761RwVzO2O2/DFcf1bLpPAITUv1534o2XCoNl4Q68V24Tg2arRYxoipLIwYbh7LRrlIPwGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=iC8lyb4V; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1775946267; c=relaxed/simple;
+	bh=PJeJbeIlM+U+J4VdHIO0HVggcYD5iZf5J5b/kttrZQU=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=opwIvn5RhQRZSI1gjApVEK4knhkVtPtBmwsK7iRXHinJTf2ZpgT2/lwlH/6GIawm0ZUk+YhwISWgRBODHHQmqYinf2cPxp5l2DcVP4w4hr82AXhcYiwkmhjhOq2EbrYW/2SjabGKmD2rfZs6GDDHpPgXGZ5B3lZhExzosJeiZ3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ihVOvbCQ; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="iC8lyb4V"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=5KUE4HFTALwIzkA1tvOxTXRH7lfqaI3aF/vhsKrVhKU=; b=iC8lyb4VRzFrl77LSq/HCL/lNv
-	67wf6aiB8wJxhh7ALh7QDdt9H/NXZemz7EmtzxLpwX/63wOCcpC/Dp/z/4smfpbhsjYcISdBTAhkE
-	eZEi0zPQfBzMN4j2n9U0aLReHLHFQqfqy7qrKhzh1lmfErMVIbqsxFqhqGPRYAHsCsjCgkw8ZTdn2
-	TNnwtZzBvLyoWR/DwlOxsUAQSFAWcFSyPFOoxfCe3q4A95N+rjIvlyr+CcHfp32tcJGrj5XvnTNCd
-	qsoytelOh6c7Ykbz4u5fXXFTKU8Cq1f+DXkVCMXsUhtTJ3SzCss+P/vslS8tP8u3EqdADeiTtWhkU
-	zEyQh+kQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBeNH-0000000DkyC-3awe;
-	Sat, 11 Apr 2026 19:52:11 +0000
-Message-ID: <c76374e7-3e61-4a97-bdd0-1b566632368c@infradead.org>
-Date: Sat, 11 Apr 2026 12:52:11 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ihVOvbCQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1775946266; x=1807482266;
+  h=date:from:to:cc:subject:message-id;
+  bh=PJeJbeIlM+U+J4VdHIO0HVggcYD5iZf5J5b/kttrZQU=;
+  b=ihVOvbCQO+V3uRoL8VCtVYI2tMl1cha7zm1ZpwOHySsLpf1TbBcxjRyu
+   wMZ/KuqJEVzeEryxz+Smrgg7TGZFZab7NOqTF4MA/ia70iXreZ7y26mcC
+   WnGoi1EGtkDKLVXLr7Bh17HyYZerj+V93qaHa5lr6Kna7LbdtNrcNWsW1
+   NT4xkvwpoWn3HUbV+3z2/iC8lfIq+r5iVhiQySMx7lGXNgg1+agIUrtDI
+   wFyeDuCaT/hFk5SQi8tjTR3BH0W0SEGxTrrbb9XdlFS0D5e3rFhTOnsc/
+   Wfnkto3LLjD+A6mIjbLABBwZU8NWORBtFlDzvBxrzQ+hGj8ufMBFlA7N0
+   A==;
+X-CSE-ConnectionGUID: RsrUN59+Rpe+E2+PGcpULQ==
+X-CSE-MsgGUID: Zhj64dvnQ664VUOWb0In3w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11755"; a="76947668"
+X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
+   d="scan'208";a="76947668"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Apr 2026 15:24:25 -0700
+X-CSE-ConnectionGUID: x9e4lhZATPejVxrHjRuPmw==
+X-CSE-MsgGUID: fx5QkRf0SPqipkXi3hk0+Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,174,1770624000"; 
+   d="scan'208";a="229681566"
+Received: from igk-lkp-server01.igk.intel.com (HELO 9958d990ccf2) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 11 Apr 2026 15:24:23 -0700
+Received: from kbuild by 9958d990ccf2 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wBgkX-00000000B9Z-1LHZ;
+	Sat, 11 Apr 2026 22:24:21 +0000
+Date: Sun, 12 Apr 2026 00:24:15 +0200
+From: kernel test robot <lkp@intel.com>
+To: Bart Van Assche <bvanassche@acm.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [bvanassche:thread-safety 95/95] htmldocs:
+ Documentation/mm/highmem:211: ./include/linux/highmem.h:222: WARNING: Error
+ in declarator or parameters
+Message-ID: <202604120025.jtlnpWff-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] docs: advanced search with benchmark harness
-To: Rito Rhymes <rito@ritovision.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260321181511.11706-1-rito@ritovision.com>
- <DHK7FY79AOJW.AC6LHU703AIR@ritovision.com>
- <b3c87ef0-5faf-4bda-90e4-e6b24419e0c0@infradead.org>
- <DHOI5DYYBXEN.3MWP1RMB6ECES@ritovision.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <DHOI5DYYBXEN.3MWP1RMB6ECES@ritovision.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
+tree:   https://github.com/bvanassche/linux thread-safety
+head:   834588da5a3bc2696586cdc98024dcebec97aeed
+commit: 834588da5a3bc2696586cdc98024dcebec97aeed [95/95] treewide: Build fixes
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260412/202604120025.jtlnpWff-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604120025.jtlnpWff-lkp@intel.com/
 
-On 4/9/26 2:04 AM, Rito Rhymes wrote:
->> I like it. I think it's useful -- the old search could give a bit too
->> much output. The search result tabs (groups) are helpful.
-> 
-> Thanks for taking the time to test it out again and give feedback.
-> I'm glad you see potential utility for it.
-> 
->> I mostly use 'grep' for searching Documentation/ and I expect lots
->> of other developers also do that (if they bother to look).
-> 
-> That's definitely what I expect kernel hackers to default to.
-> 
-> I'd like to get a clearer sense of your perspective, it may represent
-> others too, and I can weigh it against my own assumptions here.
-> 
-> So my question framed for you is:
-> 
-> You know a particular concept you want to look up, but you do not know
-> the exact file, and related words repeat a lot across the source.
-> 
-> Could you imagine yourself going through grep results, not quickly
-> finding what you need, burning mental bandwidth and then deciding:
-> "let me just go on docs.kernel.org real quick, hit the advanced search,
-> and see what I find"?
-> 
-> Is that something you could actually see ever happening?
+All warnings (new ones prefixed by >>):
 
-It would take a while for me to give up on grep, but eventually
-I could see using Advanced Search - but not quickly.
-
-> Maybe even, in that type of situation, eventually defaulting to that
-> mode first to avoid spending time scanning through noisy grep results.
-
-That would only come after several cases where Adv. Search proved to
-be more useful than grep.
-
-> Or is grep and staying in the terminal a comfortable enough place to
-> remain even when the results are not very fruitful and the time spent
-> there is not especially efficient?
-
-Nice characterization :)
-But yes, grep + terminal will remain the default for now.
-
-> Or does that situation just not come up often enough to justify a
-> separate mental workflow for it outside the grep norm?
-
-For me it probably does not.
-
->> I do notice under the Pages tab that all of the pages listed say
->> "Summary unavailable." I don't know what should be there instead of
->> that message.
-> 
-> It's supposed to be populated with an excerpt from the page related
-> to the search criterion; 2-3 lines of text or so.
-> 
-> I encountered that same issue after an incremental rebuild, doing a
-> full rebuild fixed it.
-> 
-> Could you please confirm if it works after a full rebuild?
-
-Same result for me - Summary unavailable.
+   Runtime Survivability
+   ===================== [docutils]
+   WARNING: ./include/linux/highmem.h:235 function parameter '__maybe_unused' not described in 'clear_user_pages'
+   WARNING: ./include/linux/highmem.h:235 function parameter '__maybe_unused' not described in 'clear_user_pages'
+>> Documentation/mm/highmem:211: ./include/linux/highmem.h:222: WARNING: Error in declarator or parameters
+   Invalid C declaration: Expecting "," or ")" in parameters, got "_". [error at 55]
+   void clear_user_pages (void *addr, unsigned long vaddr __maybe_unused, struct page *page, unsigned int npages)
+   -------------------------------------------------------^
+   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
 
 -- 
-~Randy
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
