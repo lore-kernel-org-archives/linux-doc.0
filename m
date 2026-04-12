@@ -1,37 +1,67 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C921933985;
-	Sun, 12 Apr 2026 00:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCCF1991D4
+	for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 00:09:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775952179; cv=none; b=Am4EzpErnJyEX4O72XHNh9qwjrlS9RzsXUMBUIl9bZ7yBt8EE0F+MFDjxkHJJG4DiF/E9uBaLFKfJQXgNm9eQTL8toGo45Fe8OBd61/NcZXbA59I45neqjrB8Ga1+PNo0/q0B+UD35oWtakRaoAE23h+Q2MPjuz4htR6o5Eqv7M=
+	t=1775952577; cv=none; b=pA2ttiEBB01kwI6MmhJIKi9DiwHEUCI6KXPUr+6X6Pq3eP6kigj/3QJRba23QRgoauPG1K6f9zZ0hSqUt83V1XQDRbocVXORWiDOzPXomMMhBT2P/K92ll7AILTtxGvIj5AHD2mFuzLzZsKqRWyQbnPORB8L1468nmP6P15LPaw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775952179; c=relaxed/simple;
-	bh=Hp9U7vnuz9gzAYjCtfVPRdjtc4p7/vdeGvWgu8SaH0Y=;
+	s=arc-20240116; t=1775952577; c=relaxed/simple;
+	bh=S3zBjySD2slZy8mnb+K+yj8qQo8cozvwD9hCVXVDCys=;
 	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ZdWwelqPVcdiHQnKvE0JSLT5P8HStL0fyJOUdaTsTuaL3pvSXcPoNpg3oNo0yDNaVYSQGKUA8iqPoJ+9EigOzPAgcXrxAldYh8deQfhYG7eedDraMNkWHGUedIhf3NC7Ox2I5ha2WXTIXrBHnGS8gVUmgV7jHVURRpxQLYrB1kY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=ull8X6F5; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=Ie+TLRhG6L6nALua46rlex2vC9vYyt4+bbk9F1aM0TADkhYjj0EicX5kUWw5SIZO+vNwOjJKcmZj7Bx3oD1yy/6KW9WcyE/yxVPHEpqYR6ggMfQp2/V4Z6JsbgWS9NB1QYsStDAOoHfzlggNl08xNOpIytkWTgOnuzKTqKaBtiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rYiJ2Z9G; arc=none smtp.client-ip=209.85.216.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="ull8X6F5"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:From:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=xYV0z2MkuxdauR6WLoTXIg3DnfOmBbz6bOdf6SWJE9c=; b=ull8X6F5PfnIssMX01Hhv4bTty
-	xIC4GpJ03ogn9spqTfvLpUkMT/RJxmqLBoVI8hH4BqLPyubW8I9EVC0KN7RuWy+athqNrSIoR3j3k
-	S8Rb8biognb5wFW+bFy9OOHsuBU7XJ+A9dUgTqZhdt5JGzPH9HlP9gu0LOi1FIjdoZW7blUZ0fPPS
-	L7K5IWzri1BSzdJ+zdmUZ7xrPWGWguvTL1TBrqJv9HAO5HqKppz2l9YS2jG3cfMpKrTQ9t3S404bU
-	Jb6380tNZvS7pZeOHvl695pXwv6r1Ekqg4ALNoBmCzsOgxL/0U4fXIhGDr9UO7sCWq9aVlMdgBosc
-	WVUpYqjw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wBiHx-0000000Dts4-1ZLa;
-	Sun, 12 Apr 2026 00:02:57 +0000
-Message-ID: <a7421a41-458a-4925-a804-e31e2552c79e@infradead.org>
-Date: Sat, 11 Apr 2026 17:02:56 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rYiJ2Z9G"
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-35d90833cacso2054023a91.2
+        for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 17:09:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1775952575; x=1776557375; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=eu+YC8zYOACgeCUdH+pUjO0BlwjbU4g1BVKPHxfcxP4=;
+        b=rYiJ2Z9G2ZZHp5d9D6QtlHMyjokYiYhn/oHvqx70hfX8RjVaHK1HtJg/dr1Ier8x7t
+         jjKWbCrtzVkjxC6Gre8RjHeaIVRS7320M8emkrLE2m0IlLHWp7/6PVQEoi6faH2r76rs
+         qTTOiwPc7FiJDH3bRUaf1+1TJVeReyNGmNQOMhOirQzuNutL3lVanmvtSOb9vRx4mdOp
+         plPw41fh5Lxn9u0kxfNtBcdiKU/ZUX3+kFnkOhW33avXPQugZVGaww7cTLX5ENJsR3yZ
+         UaO6i8vdzak3nsXL7p6+j6sgW7z26RAsQNqc6n4zEAeJc2kaIzlXsuneOrIASsV2/P1W
+         IchA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1775952575; x=1776557375;
+        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
+         :references:cc:to:from:subject:user-agent:mime-version:date
+         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=eu+YC8zYOACgeCUdH+pUjO0BlwjbU4g1BVKPHxfcxP4=;
+        b=XWbv4sogxEByY0ThJBFKNa1oTduLXESbxOvBIls9Gx6Fx0zDkkfa+koPhW7WbAfBfC
+         2JFWluetX7hWo+qpJAu+4JMj/7jo6+YE0jGKre55HuhV4LuGFA9PtQ2cF2LGMJeWHQfc
+         obS8v4zAuLhmIBKJD2DDmEcgtGqcvaRn4szxJZlG/y8p3O490ZD0oIllmjhgqngUKcxo
+         TX1crUeQFR2XbetYIXRXPRuRiKS648K5jTy48CQ5izsY5jzaydUJGecrVNGjChkb74mt
+         ehK7UjWTL3EV6OQmUCk1A1IcUZ4Yo+ljCfSTzO1bHf0DiNlKf9VRwqRFvIos15JP4Lhx
+         UxKA==
+X-Forwarded-Encrypted: i=1; AFNElJ/zADNFAf8iL11swKzzlI6eDqaz1i0oRXVxKWPNUIGRHVXxV7BfEVga+B0OkgSxBwdjATXN7q2X16s=@vger.kernel.org
+X-Gm-Message-State: AOJu0YysxnhdqjjUjejjOoenMpfxsB6DgyeZMVGaoRQ6j5VzNnYAFCy+
+	FqOIqCt8rBX3LG0oP79KO0VhdZN6W/JKyQGQ1k4nFnBKg7H32dbtTa4t
+X-Gm-Gg: AeBDieuUHhm2NBowgrjI1daPDSLAbqVM76BfUhShCAq9VbPeoaOtMXMNyYrcQh7P0UE
+	ch6q/HlEvpW6gCrCHPFTZdvW1cip0DTOSrjfPxVkNAPspRocg0s5R7CwpB/TBFRk0g7IeYPbe66
+	Kk6H9oUg+QE4dgA1y2tsH9jjkjJj2v9REmocIlmAb5sDfLsT9A6kGQ4+SGLB+MBCsfmDU9dGVAd
+	y2k0D4g+SRrTJkncpmJjd74wK4JekwrS3Pcu9CIYO7X0XcIZyrCb437v3LSV3SPGg7vnIIasRvt
+	5JMH8ksvrjzf2tSLH2BZdVChMnQUjhVUASE5TckAJVt64JrMh75sUiofVequf+LQGJ89KQVKsnj
+	wA/nPStWiuVD+6nKnYCYD/Rry4b5lenvryDPq46vvzXbNSYn+lgb+hjG22222kcwBKdfauHzk9U
+	MQbV+btkFh7PNKqTrXEjGSu/gVjKYMB4xniteoo69tQsV7N6+x4VxlqKG9CZfaugW1zIrYiY/L
+X-Received: by 2002:a17:903:1ae8:b0:2b2:497e:3f60 with SMTP id d9443c01a7336-2b2d5a6d679mr90114095ad.33.1775952575331;
+        Sat, 11 Apr 2026 17:09:35 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4daed20sm68773495ad.4.2026.04.11.17.09.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 11 Apr 2026 17:09:34 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <aeb4da9c-db28-4345-833f-db299b05e31e@roeck-us.net>
+Date: Sat, 11 Apr 2026 17:09:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,75 +69,111 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: maintainer profiles
-From: Randy Dunlap <rdunlap@infradead.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
- <20260410101239.04c87f26@foz.lan>
- <d8804a85-dd2b-481e-903f-c6fea5d24c97@infradead.org>
+Subject: Re: [PATCH v2] Documentation: Refactored watchdog old doc
+From: Guenter Roeck <linux@roeck-us.net>
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Sunny Patel <nueralspacetech@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Shuah Khan <skhan@linuxfoundation.org>, linux-watchdog@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <3e25ae54-e62d-484e-8d90-4f7825705e4f@roeck-us.net>
+ <20260411150922.20536-1-nueralspacetech@gmail.com>
+ <303dcd9e-ca40-48b7-851e-6cd283cb96ad@infradead.org>
+ <33f18499-96d8-4b17-badf-4de957a29a20@roeck-us.net>
 Content-Language: en-US
-In-Reply-To: <d8804a85-dd2b-481e-903f-c6fea5d24c97@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <33f18499-96d8-4b17-badf-4de957a29a20@roeck-us.net>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-
-
-On 4/11/26 4:54 PM, Randy Dunlap wrote:
-> Hi,
-> 
-> On 4/10/26 1:12 AM, Mauro Carvalho Chehab wrote:
->> On Thu, 9 Apr 2026 17:18:39 -0700
->> Randy Dunlap <rdunlap@infradead.org> wrote:
+On 4/11/26 12:07, Guenter Roeck wrote:
+> On 4/11/26 10:22, Randy Dunlap wrote:
 >>
->>> Hi,
+>>
+>> On 4/11/26 8:09 AM, Sunny Patel wrote:
+>>> Mark WDIOC_GETTEMP and WDIOS_TEMPPANIC as deprecated since
+>>> neither is implemented by the watchdog core and both are only
+>>> present in a small number of legacy drivers.
 >>>
->>> Is there supposed to be a difference (or distinction) in the contents of
+>>> Add documentation for previously undocumented status bits
+>>> WDIOF_MAGICCLOSE and WDIOF_ALARMONLY in the options field.
 >>>
->>> Documentation/process/maintainer-handbooks.rst
->>> and
->>> Documentation/maintainer/maintainer-entry-profile.rst
->>> ?
+>>> Add documentation for WDIOF_PRETIMEOUT and WDIOF_SETTIMEOUT
+>>> status bits describing their respective ioctls.
 >>>
->>> Can they be combined into one location?
+>>> Fix the following issues in existing documentation:
+>>>    - Remove version-specific reference to Linux 2.4.18 from
+>>>      the GETTIMEOUT ioctl description
+>>>    - Fix duplicate "was is" in printf format strings
+>>>    - Replace [FIXME] placeholder with proper descriptions for
+>>>      WDIOS_DISABLECARD, WDIOS_ENABLECARD and WDIOS_TEMPPANIC
+>>>
+>>> Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
+>>> ---
+>>>
+>>> Changes in v2:
+>>>    - Fixed typos: "tiemout" -> "timeout", "characted" -> "character"
+>>>    - Fixed "small number if legacy" -> "of legacy"
+>>>    - Fixed capitalization: "New Drivers" -> "New drivers", "USE" -> "Use"
+>>>    - Fixed spacing: "WDIOS_DISABLECARD,this" -> "WDIOS_DISABLECARD, this"
+>>>    - Fixed double spaces in two places
+>>>    - Added missing newline at end of file
+>>>    - Rewrote commit message
 >>
->> Heh, from the 5 entries at maintainer-handbooks.rst:
+>> However, you failed to fix a malformed table warning that I reported here:
+>> https://lore.kernel.org/linux-doc/9e3403a0-4ec2-4fbe-a50f-53f939c1d841@infradead.org/
 >>
->>    maintainer-netdev
->>    maintainer-soc
->>    maintainer-soc-clean-dts
->>    maintainer-tip
->>    maintainer-kvm-x86
->>
->> we have 3 of them already there at maintainer-entry-profile.rst:
->>
->>    $ grep process/ Documentation/maintainer/maintainer-entry-profile.rst
->>    ../process/maintainer-soc
->>    ../process/maintainer-soc-clean-dts
->>    ../process/maintainer-netdev
->>
->> It sounds to me that moving maintainer-tip and maintainer-kvm-x86
->> to maintainer-entry-profile.rst would be enough to drop
->> maintainer-handbooks.rst, keeping them consolidated on a single
->> place.
 > 
-> Yes, maybe. How about in the other direction:
-> move them all to maintainer-handbooks.rst?
+> On top of that, it should have been v3, not v2.
 > 
-> After all, maintainer-entry-profile.rst says:
->   For now, existing maintainer profiles are listed here; we will likely want
->   to do something different in the near future.
-> 
-> Also, does anyone know why some of these profiles are numbered and some
-> are not?  See
->   https://docs.kernel.org/maintainer/maintainer-entry-profile.html#existing-profiles
-> for odd numbering.
 
-Because they are numbered in their own respective documentation areas...
+On top of that, again, it was sent as response to the previous patch.
 
--- 
-~Randy
+There is also some Sashiko feedback:
+
+https://sashiko.dev/#/patchset/20260411150922.20536-1-nueralspacetech%40gmail.com
+
+Guenter
 
