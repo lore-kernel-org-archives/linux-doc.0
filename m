@@ -1,142 +1,187 @@
-Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F35AB533D6
-	for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 18:45:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87B36CA5A;
+	Sun, 12 Apr 2026 18:59:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776019544; cv=none; b=ZcsQY01Lt9hO+t9CpBtn6VN0lGAo3EEKxBiB7gMs/WHMD1wMR13UADX+rt1lKPaaGNT7/zerJ8iqGPhxZGWVFLbVMs+yFBL6ZQY2OZbZcabYqpnNx4gtMaCms3fQyWjB1QQx0+e1pAZ0ytbQVQaLtuyQITRYHYpamnrZplxtlTk=
+	t=1776020397; cv=none; b=XBMBOOASaRkM7ZnmW84JRwx6ujEPKRAJ5pcwV4TBDd+mwG8vjEtvOTXvzQBJf/PJfuVAJ1zkxJqOxB22dLzadC9xjlXDAWu2xv47uObOrtJSK8RPXljBQap+dMuU8Lj3IvC8/psQ5L/h3AgDTAZhlwEAs3h4juLO7apMAtD3Yck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776019544; c=relaxed/simple;
-	bh=oQzRgQ7NQPcP1cTNgd4z06Z6ADUV1qjY2dP5A5oq9kY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nTKldihTXB0XKVD1jX3CDJz8o5qv/FSnIysWQQzNDpzR10szSWFRW0JVPNPrY6tL9Im11yutnXCdPAkjoQOX61BzYcXwmSqGrGmVkGr51RkoUm+u1M0L4iMk3oWATL1UyIqFii3DUEXkoHoMcZMn5z91c+HezRBcq4M4Hx4H2ck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=OGW9U3WJ; arc=none smtp.client-ip=209.85.167.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1776020397; c=relaxed/simple;
+	bh=c5nX17VEd6pfb8YBjWIDLaDupaE+dxyisObEf1BO9qU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=fADszMghgw1pWywUU935VkP2vI8G+XObBYrq19Xo3cm2LLlmNa2e97bf0YEg0S5CWg4ubWS80AGvu2CBXOiPKfp36Fc8TV5f2wS9AnggI9be7/xb0FZdIwaY476u/jLKFMTbR6eu33y1GKx8IpE2xqwI6T0Cs3+DPKWdCCBp4ck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxfu5tG4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="OGW9U3WJ"
-Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-47018d34159so2701184b6e.2
-        for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 11:45:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776019542; x=1776624342; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=M+ZO6rZv9NGV1Yj2nIfY3XI669Ebfty85k3Q8tYt5QY=;
-        b=OGW9U3WJZDl6ektiEuFCczMHCtc+ME8EUqGijmbXrA0QcFfW72Wpq1CLFm6iX7Is81
-         tSj5PvDkSca2dGxoAYLyzNlePB/wldPvADeBtfSYw6PA2Xt/lqvF3kg52RZmALMLxCWs
-         D9znPT2DUorWB2GT7c5s5YBOoNaivA6zAJmG57f7295gYFMlSW2Mb4j1MgOGYpm6qu2p
-         8O0zkfXdhX40Do9NSgf4bBItWgswnh5B129ftmAHDssNNc1yZGNNsiFhvTLIRK3utzIG
-         IZRTWt0gRFF850mfyHPVMyCqpCBY8lk9xT9H/RRfTLkzS6z/cFvWD8W5QRiaGVVPGIsF
-         iFFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776019542; x=1776624342;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=M+ZO6rZv9NGV1Yj2nIfY3XI669Ebfty85k3Q8tYt5QY=;
-        b=Fhfm84wcOYPpQOu7tKSDVF8QKeCfPDpVrEqOPHooW7JXeNlJfhlMGVHp1s7ddCGwZ8
-         +ba/YhGz3MEN2135IXvU/+qCUiywQjQ4vzDAKAuM8jkUsjU1+K+E6ebVfNlLiypu2b/S
-         Biu26uR7AmpsQLCRjIjxJ02sOEXJGNooN88hh8JMp36OZCUURMcNS2kSpqiqz7guVoAz
-         ZdLizYTzKkU0vZd2UNootaCKOpDjfBx/JrJgM/r8E+4H56ogsduiK6FeFK3yPjcVxfWd
-         W4MwuBcCuJIBGrc9FCkGQp2Spt/oAkyO+Aq7mfWSZAB/YDWRMOwRiwprcnTRb7LRlwYp
-         EWkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV1w6IqSuMUWoeNuA1E/2r8xkOZp7sg2lXasxV/F5GchfOrcv9rVT1axH4zVKpm5GuEEKYVKKeG59Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0hmmtfu6NbSUgIwLQA2FQqfid8udgEbMuRT/sjDk82n5Lynrx
-	DN3kaO7fzRBX+ulMPchuhSEBXKtPAdqbc8KPQIkI7+pDdMoQxh2/X50fukpjjED5Xpo=
-X-Gm-Gg: AeBDieuEn4k/9m9LnTpjDeibWnHGN8cJ5liAgrb233JEEjaNiu2fegHsLOPJbOimtsM
-	Ggqtjmop2BqptArT494/mWJFysPaFMHUs4iEYJ5yP/MOnPXtyxvxHpPYipJH/tF1NiR2zJbf/s+
-	591cvk6XtrUZaoSL+S/9DqfAqbwilMiwI03yk/dg9Q730sWvzFxTVyYFk3/DvrYblq15AKNTs2O
-	nJEiM6K5K6Et6VKV3oeqKfXG/QozNnaI0CODD37Zo9tso55SJgwg7I9ummPL/J4mR8j/PJYl/f1
-	mrLRQFhPr1lUQhljwNNGzdmQhDbTBFMYlY90tyz/Oj10BZHKGM1/SwFa5RWbyceZUQFU1elCvJi
-	30pAO4F5LEyxQqyZgbjMn08hvcbnnBKmevxRuf2gmp9hgCHj0glCEv1kfaDEb7g74E2dUnYY4jK
-	ZbraRdFbsYpizRd/GZaKAoEDEXzWmpAFb2hI1HgdyAzXOgq0YNOvSyTPH0RtwAHBtN7+HSBJV42
-	g==
-X-Received: by 2002:a05:6808:4f49:b0:45e:b623:f9b3 with SMTP id 5614622812f47-4789f7074ddmr5377663b6e.42.1776019541977;
-        Sun, 12 Apr 2026 11:45:41 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:5c13:5a8e:1b91:8035? ([2600:8803:e7e4:500:5c13:5a8e:1b91:8035])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-478a3666dbfsm4831509b6e.15.2026.04.12.11.45.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 12 Apr 2026 11:45:40 -0700 (PDT)
-Message-ID: <801badd3-d10d-4bae-b3e1-73aa1edff47c@baylibre.com>
-Date: Sun, 12 Apr 2026 13:45:40 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxfu5tG4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22BE5C19424;
+	Sun, 12 Apr 2026 18:59:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776020397;
+	bh=c5nX17VEd6pfb8YBjWIDLaDupaE+dxyisObEf1BO9qU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=lxfu5tG4r1oBXYBsWqkORgXMFdEEWDR1s2ofUH+NE9ImdK8k4lw9lqbaSRhOUoQ2Q
+	 99CzxakPFcjKWNYyVZcbfwyAiIQe+KcTS5G0jWUfyz7f1XqXd/RoE+LOVV7N1wzZYb
+	 bXna0M/w7a7Xc3ZmXjwGtk5UiMyabygE/pFLUWjhkm4Qy+//1yGoLPjNS8TAox4t8a
+	 +a2TU2+kx+Mp+kiv+EEPK6Fb8rXXk2Dd+S/w+0YM/gh4WcrXt8NLxIjCxiaoVt6/Qt
+	 cc341LiNqvQpTQyqp1QU8uT1SkuxMXtGBb7JTL8bGZTvcn17/Vo6k8FGz32GNT42K6
+	 rAoDjru9ItEOg==
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: [PATCH RFC 00/13] mm/rmap: support arbitrary folio mappings
+Date: Sun, 12 Apr 2026 20:59:31 +0200
+Message-Id: <20260412-mapcount-v1-0-05e8dfab52e0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC v2 8/9] Documentation: ABI: testing: add docs for
- ad9910 sysfs entries
-To: Jonathan Cameron <jic23@kernel.org>,
- Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>, rodrigo.alencar@analog.com,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260318-ad9910-iio-driver-v2-0-e79f93becf11@analog.com>
- <20260318-ad9910-iio-driver-v2-8-e79f93becf11@analog.com>
- <20260322172257.1681de69@jic23-huawei>
- <mtqjtmsysz6ywvybeut6qzhee2o4qedwgvr5isbn4um7bwhjbe@sg2b7hwlszwd>
- <20260412155115.2f7a83bf@jic23-huawei>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <20260412155115.2f7a83bf@jic23-huawei>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJPr22kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDY2MD3dzEguT80rwSXWMjAzOzZDMLcwNDAyWg8oKi1LTMCrBR0UpBbs5
+ KsbW1AN0GLIlfAAAA
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+ Rik van Riel <riel@surriel.com>, Harry Yoo <harry@kernel.org>, 
+ Jann Horn <jannh@google.com>, Brendan Jackman <jackmanb@google.com>, 
+ Zi Yan <ziy@nvidia.com>, Pedro Falcato <pfalcato@suse.de>, 
+ Matthew Wilcox <willy@infradead.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+ linux-fsdevel@vger.kernel.org, "David Hildenbrand (Arm)" <david@kernel.org>
+X-Mailer: b4 0.13.0
 
-On 4/12/26 9:51 AM, Jonathan Cameron wrote:
-> On Mon, 23 Mar 2026 11:36:08 +0000
-> Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
-> 
->> On 26/03/22 05:22PM, Jonathan Cameron wrote:
->>> On Wed, 18 Mar 2026 17:56:08 +0000
->>> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
->>>   
->>>> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
->>>>
->>>> Add ABI documentation file for the DDS AD9910 with sysfs entries to
->>>> control Parallel Port, Digital Ramp Generator, RAM and OSK parameters.
->>>>
->>>> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
->>>> ---  
->>
-...
+This series is related to my LSF/MM/BPF topic:
 
->>>   
->>>> +		  - "ramp_down": No-dwell low; the ramp resets to upper
->>>> +		    limit upon reaching the lower limit.
->>>> +		  - "ramp_up": No-dwell high; the ramp resets to lower
->>>> +		    limit upon reaching the upper limit.
->>>> +		  - "bidirectional_continuous": Both no-dwell high and low;
->>>> +		    the ramp continuously sweeps without dwelling.  
->>>
->>> Triangle wave?  bidirectional continuous is a rather confusing term so maybe
->>> we should rethink this one.  
->>
->> Mostly yes, but not only that. Sawtooth can be achieved as well by changing
->> the step sizes, also other weird patterns can be achieved by toggling DRCTL pin.
-> 
-> Sawtooth is kind of a special triangle wave with one very steep side.
-> Wikipedia even has: "It can also be considered the extreme case of an asymmetric triangle wave"
-> https://en.wikipedia.org/wiki/Sawtooth_wave
-> 
->> This mode is the most useful when one does not have an FPGA and want to save
->> resources on controlling the DRCTL pin. That mode name comes from the datasheet,
->> so I suppose it was fine.
-> 
-> Let us see if we can get more opinions on this.  Whilst I can see the logic of
-> the datasheet naming, it's a bit obscure.
-> 
-It is the same as ramp_up and ramp_down other than what happens when it hits
-the limit? If so, I would call it ramp_up_down.
+	[LSF/MM/BPF TOPIC] Towards removing CONFIG_PAGE_MAPCOUNT [1]
+
+And does the following things:
+
+(a) Gets rid of CONFIG_PAGE_MAPCOUNT, stopping rmap-related code to no
+    longer use page->_mapcount.
+
+(b) Converts the entire mapcount to a "total mapped pages" counter, that
+    can trivially be used to calculate the per-page average mapcount in
+    a folio.
+
+(c) Cleans up the code heavily,
+
+(d) Teaches RMAP code to support arbitrary folio mappings: For example,
+    supporting PMD-mapping of folios that span multiple PMDs.
+
+Initially, I wanted to use a PMD + PUD mapcount, but once I realized that
+we can do the same thing much easier with a "total mapped pages" counters,
+I tried that. And was surprised how clean it looks.
+
+More details in the last patch.
+
+Functional Changes
+------------------
+
+The kernel now always behaves like CONFIG_PAGE_NO_MAPCOUNT currently
+does, in particular:
+
+(1) System/node/memcg stats account large folios as fully mapped as soon
+    as a single page is mapped, instead of the precise number of pages
+    a partially-mapped folio has mapped. For example, this affects
+    "AnonPages:", "Mapped:" and "Shmem" in /proc/meminfo.
+
+(2) "mapmax" part of /proc/$PID/numa_maps uses the average page mapcount
+    in a folio instead of the effective page mapcount.
+
+(3) Determining the PM_MMAP_EXCLUSIVE flag for /proc/$PID/pagemap is based on
+    folio_maybe_mapped_shared() instead of the effective page mapcount.
+
+(4) /proc/kpagecount exposes the average page mapcount in a folio
+    instead of the effective page mapcount.
+
+(5) Calculating the Pss for /proc/$PID/smaps and /proc/$PID/smaps_rollup
+    uses the average page mapcount in a folio instead of the effective
+    page mapcount.
+
+(6) Calculating the Uss for /proc/$PID/smaps and /proc/$PID/smaps_rollup
+    uses folio_maybe_mapped_shared() instead of the effective page
+    mapcount.
+
+(7) Detecting partially-mapped anonymous folios uses the average
+    page-page mapcount. This implies that we cannot detect partial
+    mappings of shared anonymous folios in all cases.
+
+TODOs
+-----
+
+Partially-mapped folios:
+
+If deemed relevant, we could detect more partially-mapped shared
+anonymous folios on the memory reclaim path (e.g., during access-bit
+harvesting) and flag them accordingly, so they can get deferred-split.
+We might also just let the deferred splitting logic perform more such
+scanning of possible candidates.
+
+Mapcount overflows:
+
+It may already be possible to overflow a large folio's mapcount
+(+refcount). With this series, it may be possible to overflow
+"total mapped pages" on 32bit; and I'd like to avoid making it an
+unsigned long long on 32bit.
+
+In a distant future, we may want a 64bit mapcountv value, but for
+the time being (no relevant use cases), we should likely reject new
+folio mappings if there is the possibility for mapcount +
+"total mapped pages" overflows early. I assume doing some basic checks
+during fork() + file folio mapping should be good enough (e.g., stop
+once it would turn negative).
+
+This series saw only very basic testing on 64bit and no performance
+fine-tuning yet.
+
+[1] https://lore.kernel.org/all/fe6afcc3-7539-4650-863b-04d971e89cfb@kernel.org/
+
+---
+David Hildenbrand (Arm) (13):
+      mm/rmap: remove folio->_nr_pages_mapped
+      fs/proc/task_mmu: remove CONFIG_PAGE_MAPCOUNT handling for "mapmax"
+      fs/proc/page: remove CONFIG_PAGE_MAPCOUNT handling for kpagecount
+      fs/proc/task_mmu: remove CONFIG_PAGE_MAPCOUNT handling for PM_MMAP_EXCLUSIVE
+      fs/proc/task_mmu: remove mapcount comment in smaps_account()
+      fs/proc/task_mmu: remove CONFIG_PAGE_MAPCOUNT handling in smaps_account()
+      mm/rmap: remove CONFIG_PAGE_MAPCOUNT
+      mm: re-consolidate folio->_entire_mapcount
+      mm: move _large_mapcount to _mapcount in page[1] of a large folio
+      mm: re-consolidate folio->_pincount
+      mm/rmap: stop using the entire mapcount for hugetlb folios
+      mm/rmap: large mapcount interface cleanups
+      mm/rmap: support arbitrary folio mappings
+
+ Documentation/admin-guide/cgroup-v1/memory.rst |   6 +-
+ Documentation/admin-guide/cgroup-v2.rst        |  13 +-
+ Documentation/admin-guide/mm/pagemap.rst       |  30 ++-
+ Documentation/filesystems/proc.rst             |  41 ++--
+ Documentation/mm/transhuge.rst                 |  29 +--
+ fs/proc/internal.h                             |  58 +----
+ fs/proc/page.c                                 |  10 +-
+ fs/proc/task_mmu.c                             |  69 ++----
+ include/linux/mm.h                             |  37 +--
+ include/linux/mm_types.h                       |  22 +-
+ include/linux/pgtable.h                        |  22 ++
+ include/linux/rmap.h                           | 221 ++++++++----------
+ mm/Kconfig                                     |  17 --
+ mm/debug.c                                     |  10 +-
+ mm/internal.h                                  |  30 +--
+ mm/memory.c                                    |   3 +-
+ mm/page_alloc.c                                |  31 +--
+ mm/rmap.c                                      | 302 ++++++++-----------------
+ 18 files changed, 325 insertions(+), 626 deletions(-)
+---
+base-commit: 196ab4af58d724f24335fed3da62920c3cea945f
+change-id: 20260330-mapcount-32066c687010
+
+Best regards,
+-- 
+David Hildenbrand (Arm) <david@kernel.org>
 
