@@ -1,79 +1,106 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 539222BEC5E;
-	Sun, 12 Apr 2026 19:12:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38AB146A66;
+	Sun, 12 Apr 2026 21:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776021127; cv=none; b=Aw7qm3GIdz0sk6yYC3Dwsbr5HhGp0/SZLv67Anx+JDjnRy1XVSJ7CBw7Tkh+lQVDCXBqS1WwfwO4HjX3dl6m5skGfqjvDdilPhm0xFIhUUswWdefVzHYGAra4j1IhrRPq5zdF3Ebp+V7XtTMufPNUxG7FziVVZO1q9AYiTL6Muw=
+	t=1776028781; cv=none; b=g4fQd8JtpslCGIKVUDt7LYkachQ0mljEkzFEd3f9i54/Ib4INa60s4KqYIDwDcAMEStcyOcBz5xr11JIvjtqjby5en+tUj9MDrk3KE/rnmcwzYrb9pxm/EDZep+eR+8gQNzqBjmXgRL94JtG57x2q6X3uUvxJ8SJHNVQ+ADGcyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776021127; c=relaxed/simple;
-	bh=Rjy0bYx/aiKu7BrMVP+P24OWfYKEbSst93ot4M9v5u8=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=tF2lszCBdUlCFawPV9Yi0wsnZD9BrWmar9FEvZNSy89vjZfW7o1w6NoodbkrYyeM34gvKPFvCcN5YOis+wWCMFtXndc1tjgLLuVewFSvrQWoZWbNivTxYzXmqMUd8z9xhKJapITzFb20YftLlH6LZRZndSWr74PTqMnOM2o2Mv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=FioJIBUW; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776028781; c=relaxed/simple;
+	bh=A+viAtzJhebo8EZLCtKP1pqNz8neWzmWQtOaasROq5E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KmP36onCMe5wkkARahu2opSIgMfPmxoy1/73aQBXcSlWGlKgDA3OSJmFQqDevhhAD6vbrwNeR1u5d1g0iUhlaKOmKGQGaozJe1NSBAx++ZfEeQkMkO2mocpdwohhyOwA2mbpmRqFk8ysj8lVaM6CNl+V5m3rDaeN/d4GgSBn6rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWqUOw6W; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="FioJIBUW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B8CDA42A44
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776021124; bh=CXG8SaYjHg40te0VXu4OrzULroPQFyJmZbW36fv7HJw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=FioJIBUWd/94cB9f2fxbp23onHdKhG1SIJ+JVvkm0y+hTbyuupxgSC5PkSEVq+xWq
-	 MrpWp+EO2ArUM9t39S/4ZypX654m2GK0V/ReTwkFZtzJcbKwM9phOhja9B137Nio8V
-	 jWrZk9aDy1MFcK4NjQDnm+nX0S9MR4QUpKf/pVuMwjnz5qkcBLlxQrpNw2573oQCoP
-	 Gvc4st9JkmRpJGcfhhgz1koe/WDePb/Npzt3FrLUkL2W1HHRitAzleB3a/trxngns+
-	 nui8BnApnl3/Dv2fynyIX14c7KAGVVHOLASm8EsnvfnGcrvlwZfvIqZ8nHazUBJB4p
-	 lZB8LrL3DQ6mw==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id B8CDA42A44;
-	Sun, 12 Apr 2026 19:12:04 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Sukrut Heroorkar <hsukrut3@gmail.com>, Sebastian Andrzej Siewior
- <bigeasy@linutronix.de>, Clark Williams <clrkwllms@kernel.org>, Steven
- Rostedt <rostedt@goodmis.org>, Shuah Khan <skhan@linuxfoundation.org>,
- "open list:Real-time Linux (PREEMPT_RT)" <linux-rt-devel@lists.linux.dev>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, open list
- <linux-kernel@vger.kernel.org>
-Cc: Sukrut Heroorkar <hsukrut3@gmail.com>
-Subject: Re: [PATCH] Documentation: core-api: real-time: correct spelling
-In-Reply-To: <20260411155120.233357-1-hsukrut3@gmail.com>
-References: <20260411155120.233357-1-hsukrut3@gmail.com>
-Date: Sun, 12 Apr 2026 13:12:03 -0600
-Message-ID: <87jyucyovw.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWqUOw6W"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFBF5C19424;
+	Sun, 12 Apr 2026 21:19:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776028781;
+	bh=A+viAtzJhebo8EZLCtKP1pqNz8neWzmWQtOaasROq5E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=uWqUOw6W58RXhfqMvzzHjaiqCSMnugIccRIlvCBDUZbR5n05lrVD3dsDRoFnDJJDV
+	 dz9/qvoDWtgV843kX1KtouCgqUwXJcx6V4Zuw5+Y48muX66ZiH3vt634iAlRu04ZWy
+	 yTgQCE7NmgUoIWfZaMFR2jG40eJsXvd4cXAzMf6XIowPJ8dX7Jm0VAw32MAhqSkeDy
+	 Wm46TJ5TZdPf6GaO1lThQZMd5JIyeCN2LYR4JykBLAgGDV3I+1pbc3qqRuNqY7tY1f
+	 BX6+ZhOFGkogLg8KtaGXyaT6gp4CIMlTrdqI4R5xrZDyUy6FSUH0QJIlnfjZ2mXZRS
+	 3utuA4U8c3T5g==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	sashiko@lists.linux.dev
+Subject: [PATCH] Docs/mm/damon/maintainer-profile: add AI review usage guideline
+Date: Sun, 12 Apr 2026 14:19:31 -0700
+Message-ID: <20260412211932.89038-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Sukrut Heroorkar <hsukrut3@gmail.com> writes:
+DAMON is opted-in for DAMON patches scanning [1] and email delivery [2].
+Clarify how that could be used on DAMON maintainer profile.
 
-> Fix typo "excpetion" with "exception".
->
-> Signed-off-by: Sukrut Heroorkar <hsukrut3@gmail.com>
-> ---
->  Documentation/core-api/real-time/architecture-porting.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/core-api/real-time/architecture-porting.rst b/Documentation/core-api/real-time/architecture-porting.rst
-> index c90a426d8062..c9a39d708866 100644
-> --- a/Documentation/core-api/real-time/architecture-porting.rst
-> +++ b/Documentation/core-api/real-time/architecture-porting.rst
-> @@ -74,7 +74,7 @@ Exception handlers
->    Enabling interrupts is especially important on PREEMPT_RT, where certain
->    locks, such as spinlock_t, become sleepable. For example, handling an
->    invalid opcode may result in sending a SIGILL signal to the user task. A
-> -  debug excpetion will send a SIGTRAP signal.
-> +  debug exception will send a SIGTRAP signal.
->    In both cases, if the exception occurred in user space, it is safe to enable
+[1] https://github.com/sashiko-dev/sashiko/commit/ad9f4a98f958
+[2] https://github.com/sashiko-dev/sashiko/commit/b554c7b6e733
 
-Applied, thanks.
+Signed-off-by: SeongJae Park <sj@kernel.org>
+---
+Changes from v1
+- v1: https://lore.kernel.org/20260411183029.81030-1-sj@kernel.org
+- replace typo-ed word: s/a non-mandastory/an optional/.
+- wordsmith recipients reduction rule of thumbs.
 
-jon
+ Documentation/mm/damon/maintainer-profile.rst | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
+
+diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
+index bcb9798a27a86..fb2fa00cc9aa1 100644
+--- a/Documentation/mm/damon/maintainer-profile.rst
++++ b/Documentation/mm/damon/maintainer-profile.rst
+@@ -100,3 +100,24 @@ There is also a public Google `calendar
+ <https://calendar.google.com/calendar/u/0?cid=ZDIwOTA4YTMxNjc2MDQ3NTIyMmUzYTM5ZmQyM2U4NDA0ZGIwZjBiYmJlZGQxNDM0MmY4ZTRjOTE0NjdhZDRiY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t>`_
+ that has the events.  Anyone can subscribe to it.  DAMON maintainer will also
+ provide periodic reminders to the mailing list (damon@lists.linux.dev).
++
++AI Review
++---------
++
++For patches that are publicly posted to DAMON mailing list
++(damon@lists.linux.dev), AI reviews of the patches will be available at
++sashiko.dev.  The reviews could also be sent as mails to the author of the
++patch.
++
++Patch authors are encouraged to check the AI reviews and share their opinions.
++The sharing could be done as a reply to the mail thread.  Consider reducing the
++recipients list for such sharing, since some people are not really interested
++in AI reviews.  As a rule of thumb, drop stable@vger.kernel.org and individuals
++except DAMON maintainer.
++
++`hkml` also provides a `feature
++<https://github.com/sjp38/hackermail/blob/master/USAGE.md#forwarding-sashikodev-statuscomments-to-mailing-list>`_
++for such sharing.  Please feel free to use the feature.
++
++It is only an optional recommendation.  DAMON maintainer could also ask any
++question about the AI reviews, though.
+
+base-commit: 507d761b28278a923d86e7a29c5d084b74639e15
+-- 
+2.47.3
