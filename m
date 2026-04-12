@@ -1,179 +1,191 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CCCF1991D4
-	for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 00:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1775952577; cv=none; b=pA2ttiEBB01kwI6MmhJIKi9DiwHEUCI6KXPUr+6X6Pq3eP6kigj/3QJRba23QRgoauPG1K6f9zZ0hSqUt83V1XQDRbocVXORWiDOzPXomMMhBT2P/K92ll7AILTtxGvIj5AHD2mFuzLzZsKqRWyQbnPORB8L1468nmP6P15LPaw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1775952577; c=relaxed/simple;
-	bh=S3zBjySD2slZy8mnb+K+yj8qQo8cozvwD9hCVXVDCys=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ie+TLRhG6L6nALua46rlex2vC9vYyt4+bbk9F1aM0TADkhYjj0EicX5kUWw5SIZO+vNwOjJKcmZj7Bx3oD1yy/6KW9WcyE/yxVPHEpqYR6ggMfQp2/V4Z6JsbgWS9NB1QYsStDAOoHfzlggNl08xNOpIytkWTgOnuzKTqKaBtiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rYiJ2Z9G; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5593B18EB0
+	for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 01:03:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1775955800; cv=pass; b=PKh18gSumA59/kXknrZJ0PDG+aL0OKTsZMdfo1lsz9n4FlbNDVBoWmAMQ35ph2tv/sBatX5e7pxSQzApKZKC6sz93qtyhEGvjlUg/dYeao8amAxLaV6lPQUd2OMQ6hJjSjLqS+r3ylycYNh9zT7otKZlQz/iiWXdtGFbvtmQ2aY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1775955800; c=relaxed/simple;
+	bh=PlZOaj5QMEwQ9f/NbjFyXWBBhXvCrxn2EYbvYVQJYV4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pZN+QCNYWl/EM8E8I9iZoqagMO3yhZ3X6uWCHXt8oBzYwY8KtXAQBjeAwBeBdFlRavNlMhIkueinpThS+HWuCTuED0vojcPWLsM8+vJt6DQ13PNEWv+5NTXBTEloIdzqrxziqO4g6BhrakzFrngVi52kb+cx4g3dJDdNjD8BLTo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d8iu7lh6; arc=pass smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rYiJ2Z9G"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-35d90833cacso2054023a91.2
-        for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 17:09:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d8iu7lh6"
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-43d5e87a507so2584939f8f.3
+        for <linux-doc@vger.kernel.org>; Sat, 11 Apr 2026 18:03:18 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1775955797; cv=none;
+        d=google.com; s=arc-20240605;
+        b=gcKr2F1K4AvwW5fGX/jmAkxN/K37MBecwn8jyd5pDYcByi8t6a7fhlBM0QbTWsnHMM
+         uHMetZP9C28gJ9qncZRt4ba0/SCbxtXrotsWyif/9l+30EwnpUMtJhD+Hlt3nhLsSWCw
+         9AwIbQgLa0qKT4aHr3BL1EEKIUCzKWZ0bAsqTE56PZDfNDEi3+DEx0HPcbb5txIDVjWC
+         K+fJ7WBPnrxuzP6V77Rf7s6bIl+rKZVUcUPZZ2O3Adev8pi4RaZ4EKMVHTxX8PnyM0iK
+         e93AiX+D5kVWp3h6wH0K5844u6KUv2Z6sRC1yGvURix80WpuhBhz5zSPeyiQCYYihkcF
+         Vqrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=O/lCR/Upuk85s1KKtsj70aAhwIocyaRuQRg4fGGyx+k=;
+        fh=Sk8eSq1ggf2X7Ypi9vlrx5wezxrtAP6IwE0rPuSfuEo=;
+        b=fDAro6Ah+T4gwl+Wm/c6njkIIz80w1Aqf64uiDWxrm1NEpwpuSy06vwqqM+GIXoL4Z
+         r3RgkILn8uy6jLBfhQkZLFgm6E41Xt6IJlGHrlf0b49Wsg4ULB/t8swo1FKv+6r+oiQL
+         dsrhjOaI3J1HSitOw9u3C/p3RLfAQSy2uiNCMEIWFoky0uWkMvVf+80SihA+VCosIQ4Y
+         FbzlQTxoMY0xxLIq1NOdlELLuPAeJkXjQlGLbPWVsVfSZtDWwKXHkRCmzyboFtjAMqVV
+         kEkqvQ75EdklHxP//e89hn9BAOVoB/wFjS0uzp6eUEEcPHqZgWmKCGIxJA2+a0aJJGC5
+         MmLA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1775952575; x=1776557375; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=eu+YC8zYOACgeCUdH+pUjO0BlwjbU4g1BVKPHxfcxP4=;
-        b=rYiJ2Z9G2ZZHp5d9D6QtlHMyjokYiYhn/oHvqx70hfX8RjVaHK1HtJg/dr1Ier8x7t
-         jjKWbCrtzVkjxC6Gre8RjHeaIVRS7320M8emkrLE2m0IlLHWp7/6PVQEoi6faH2r76rs
-         qTTOiwPc7FiJDH3bRUaf1+1TJVeReyNGmNQOMhOirQzuNutL3lVanmvtSOb9vRx4mdOp
-         plPw41fh5Lxn9u0kxfNtBcdiKU/ZUX3+kFnkOhW33avXPQugZVGaww7cTLX5ENJsR3yZ
-         UaO6i8vdzak3nsXL7p6+j6sgW7z26RAsQNqc6n4zEAeJc2kaIzlXsuneOrIASsV2/P1W
-         IchA==
+        d=gmail.com; s=20251104; t=1775955797; x=1776560597; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O/lCR/Upuk85s1KKtsj70aAhwIocyaRuQRg4fGGyx+k=;
+        b=d8iu7lh682alIilkEG+IQW+0sw9tkdjLYdICcAXX41fGk1khJN1o/oRhp+a60E96jI
+         5SUor9IK/3qHbp0MgFO45hMezpvW3IS4RiQFoHh3grpdUBVslchzZzc/qxmuIY1I6vl+
+         KnQD8EQ7SQdU0nTD6FKFCh+lpuU578JondNumuZYuZX5x2S8Q9o5ew4w4HDj96+RI3C5
+         GZnXatBbGfal/g4daouUA1IQJI72pB70si4J2JaIr+HiThjBHepX8YMM+HHlSZBsrDaR
+         qBOKpE+dHijWTqCm97F+mYAtmb6thTxXn2mMkFyogokueMvSGQvIuRGBQpuZunOzlRt8
+         L3pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1775952575; x=1776557375;
-        h=content-transfer-encoding:in-reply-to:autocrypt:content-language
-         :references:cc:to:from:subject:user-agent:mime-version:date
-         :message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=eu+YC8zYOACgeCUdH+pUjO0BlwjbU4g1BVKPHxfcxP4=;
-        b=XWbv4sogxEByY0ThJBFKNa1oTduLXESbxOvBIls9Gx6Fx0zDkkfa+koPhW7WbAfBfC
-         2JFWluetX7hWo+qpJAu+4JMj/7jo6+YE0jGKre55HuhV4LuGFA9PtQ2cF2LGMJeWHQfc
-         obS8v4zAuLhmIBKJD2DDmEcgtGqcvaRn4szxJZlG/y8p3O490ZD0oIllmjhgqngUKcxo
-         TX1crUeQFR2XbetYIXRXPRuRiKS648K5jTy48CQ5izsY5jzaydUJGecrVNGjChkb74mt
-         ehK7UjWTL3EV6OQmUCk1A1IcUZ4Yo+ljCfSTzO1bHf0DiNlKf9VRwqRFvIos15JP4Lhx
-         UxKA==
-X-Forwarded-Encrypted: i=1; AFNElJ/zADNFAf8iL11swKzzlI6eDqaz1i0oRXVxKWPNUIGRHVXxV7BfEVga+B0OkgSxBwdjATXN7q2X16s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysxnhdqjjUjejjOoenMpfxsB6DgyeZMVGaoRQ6j5VzNnYAFCy+
-	FqOIqCt8rBX3LG0oP79KO0VhdZN6W/JKyQGQ1k4nFnBKg7H32dbtTa4t
-X-Gm-Gg: AeBDieuUHhm2NBowgrjI1daPDSLAbqVM76BfUhShCAq9VbPeoaOtMXMNyYrcQh7P0UE
-	ch6q/HlEvpW6gCrCHPFTZdvW1cip0DTOSrjfPxVkNAPspRocg0s5R7CwpB/TBFRk0g7IeYPbe66
-	Kk6H9oUg+QE4dgA1y2tsH9jjkjJj2v9REmocIlmAb5sDfLsT9A6kGQ4+SGLB+MBCsfmDU9dGVAd
-	y2k0D4g+SRrTJkncpmJjd74wK4JekwrS3Pcu9CIYO7X0XcIZyrCb437v3LSV3SPGg7vnIIasRvt
-	5JMH8ksvrjzf2tSLH2BZdVChMnQUjhVUASE5TckAJVt64JrMh75sUiofVequf+LQGJ89KQVKsnj
-	wA/nPStWiuVD+6nKnYCYD/Rry4b5lenvryDPq46vvzXbNSYn+lgb+hjG22222kcwBKdfauHzk9U
-	MQbV+btkFh7PNKqTrXEjGSu/gVjKYMB4xniteoo69tQsV7N6+x4VxlqKG9CZfaugW1zIrYiY/L
-X-Received: by 2002:a17:903:1ae8:b0:2b2:497e:3f60 with SMTP id d9443c01a7336-2b2d5a6d679mr90114095ad.33.1775952575331;
-        Sat, 11 Apr 2026 17:09:35 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b2d4daed20sm68773495ad.4.2026.04.11.17.09.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 11 Apr 2026 17:09:34 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <aeb4da9c-db28-4345-833f-db299b05e31e@roeck-us.net>
-Date: Sat, 11 Apr 2026 17:09:33 -0700
+        d=1e100.net; s=20251104; t=1775955797; x=1776560597;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=O/lCR/Upuk85s1KKtsj70aAhwIocyaRuQRg4fGGyx+k=;
+        b=aoC6D+x9sLx7LRatlbMVKAjigLpLnEVygr6VtTmlekyj0TnDDo/9HJk5ltI68V9aaF
+         Q0DHJDxHzMEYgtHi9hMK+vEGldEO93HSCJbdxipZ3frpvLA7d9CmQP9g/4uOoOzA9O1P
+         1P+PQqS39mFj6T4XHvK1MrDZYDVdRr+YjatbwLHJ3E0t3rul2I7qVtjQejTsjadmgu4l
+         WDHqHcUXpOMVCEGKPZK5gdlp2T+L9gUaiaPQc4EYM4wxky82XXsfYetzN5/9SxS5cLVB
+         SFhxmt5D3jKwebyZsfo29gXfHz6C5dF0CYkVZelBTEo7djjLpix2glV+0LSc5P/CfgW7
+         zKIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ80F5MwfQK/xfxafBta6WRuVZ48Q/esE3nZ4j/jSUaNOVnfjyBwK5xv2EZj/7qhHCco/o34dqaGanQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzvCRaLCcFNLJML3cXsoRh7ULv/70Yzjqy8TS4ZqREwme/Y1TYU
+	9QQeeObnkTfemoESfsvjMdcCQnqD2AG5bI1H0y//7JEDH2xb5HKuYXM/cnBvFy0lc512lVE4FEr
+	9AC2fEbpNovprqHOX+bFCYWIgv1mByQs=
+X-Gm-Gg: AeBDietr/0tJ/ksNWpEOmjJKRx5NHlhBTwCb1ca0Bpii9G4pPKu3RKiKq9bV3B677FC
+	hqTFSNQGqyEQcBN/z9DmtoTNOBMUSCrhhDsp7/tY6TU+MfvRzsDAqdMaj4te3/5BmeXrGmQnycI
+	To8M6Bc6h5FzFe0ErVGetdvY7wfcOtghDZQBVALD3eug1BghVjo/Hy5jwGL+5eqwtu3IZMKAOZl
+	mKudd1c7q6ILRSSWbz+06/5KLdJFUa0M6PEWCbgIe4ZOcJJHGPE680eYz6edS/QtX3RGdAUld7i
+	2GQvMyrh5Y2LnBUIBmFosEvqOLu6ejARVVdrDg==
+X-Received: by 2002:a05:6000:2dc7:b0:43d:2581:3053 with SMTP id
+ ffacd0b85a97d-43d642d9d6fmr11425935f8f.45.1775955796453; Sat, 11 Apr 2026
+ 18:03:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation: Refactored watchdog old doc
-From: Guenter Roeck <linux@roeck-us.net>
-To: Randy Dunlap <rdunlap@infradead.org>,
- Sunny Patel <nueralspacetech@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-watchdog@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <3e25ae54-e62d-484e-8d90-4f7825705e4f@roeck-us.net>
- <20260411150922.20536-1-nueralspacetech@gmail.com>
- <303dcd9e-ca40-48b7-851e-6cd283cb96ad@infradead.org>
- <33f18499-96d8-4b17-badf-4de957a29a20@roeck-us.net>
-Content-Language: en-US
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <33f18499-96d8-4b17-badf-4de957a29a20@roeck-us.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260320192735.748051-1-nphamcs@gmail.com> <CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com>
+ <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com> <acQvNRLpHwnHt7i+@yjaykim-PowerEdge-T330>
+In-Reply-To: <acQvNRLpHwnHt7i+@yjaykim-PowerEdge-T330>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Sat, 11 Apr 2026 18:03:04 -0700
+X-Gm-Features: AQROBzD_Pt7K9MF5OX7eBfMwphwrIpDFPvFIpxySkOPErMwdGQw3LLfvFpdgRuc
+Message-ID: <CAKEwX=Pt04pYfhYOwmtXJKU5OqcxBC14SAf1wpBxBo1D7rPpGw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+To: YoungJun Park <youngjun.park@lge.com>
+Cc: Kairui Song <ryncsn@gmail.com>, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
+	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, 
+	cgroups@vger.kernel.org, chengming.zhou@linux.dev, chrisl@kernel.org, 
+	corbet@lwn.net, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
+	joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
+	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
+	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
+	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, 
+	ryan.roberts@arm.com, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
+	surenb@google.com, tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
+	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
+	riel@surriel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/11/26 12:07, Guenter Roeck wrote:
-> On 4/11/26 10:22, Randy Dunlap wrote:
->>
->>
->> On 4/11/26 8:09 AM, Sunny Patel wrote:
->>> Mark WDIOC_GETTEMP and WDIOS_TEMPPANIC as deprecated since
->>> neither is implemented by the watchdog core and both are only
->>> present in a small number of legacy drivers.
->>>
->>> Add documentation for previously undocumented status bits
->>> WDIOF_MAGICCLOSE and WDIOF_ALARMONLY in the options field.
->>>
->>> Add documentation for WDIOF_PRETIMEOUT and WDIOF_SETTIMEOUT
->>> status bits describing their respective ioctls.
->>>
->>> Fix the following issues in existing documentation:
->>>    - Remove version-specific reference to Linux 2.4.18 from
->>>      the GETTIMEOUT ioctl description
->>>    - Fix duplicate "was is" in printf format strings
->>>    - Replace [FIXME] placeholder with proper descriptions for
->>>      WDIOS_DISABLECARD, WDIOS_ENABLECARD and WDIOS_TEMPPANIC
->>>
->>> Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
->>> ---
->>>
->>> Changes in v2:
->>>    - Fixed typos: "tiemout" -> "timeout", "characted" -> "character"
->>>    - Fixed "small number if legacy" -> "of legacy"
->>>    - Fixed capitalization: "New Drivers" -> "New drivers", "USE" -> "Use"
->>>    - Fixed spacing: "WDIOS_DISABLECARD,this" -> "WDIOS_DISABLECARD, this"
->>>    - Fixed double spaces in two places
->>>    - Added missing newline at end of file
->>>    - Rewrote commit message
->>
->> However, you failed to fix a malformed table warning that I reported here:
->> https://lore.kernel.org/linux-doc/9e3403a0-4ec2-4fbe-a50f-53f939c1d841@infradead.org/
->>
-> 
-> On top of that, it should have been v3, not v2.
-> 
+On Wed, Mar 25, 2026 at 11:53=E2=80=AFAM YoungJun Park <youngjun.park@lge.c=
+om> wrote:
+>
+> On Mon, Mar 23, 2026 at 11:32:57AM -0400, Nhat Pham wrote:
+>
+> > Interesting. Normally "lots of zero-filled page" is a very beneficial
+> > case for vswap. You don't need a swapfile, or any zram/zswap metadata
+> > overhead - it's a native swap backend. If production workload has this
+> > many zero-filled pages, I think the numbers of vswap would be much
+> > less alarming - perhaps even matching memory overhead because you
+> > don't need to maintain a zram entry metadata (it's at least 2 words
+> > per zram entry right?), while there's no reverse map overhead induced
+> > (so it's 24 bytes on both side), and no need to do zram-side locking
+> > :)
+> >
+> > So I was surprised to see that it's not working out very well here. I
+> > checked the implementation of memhog - let me know if this is wrong
+> > place to look:
+> >
+> > https://man7.org/linux/man-pages/man8/memhog.8.html
+> > https://github.com/numactl/numactl/blob/master/memhog.c#L52
+> >
+> > I think this is what happened here: memhog was populating the memory
+> > 0xff, which triggers the full overhead of a swapfile-backed swap entry
+> > because even though it's "same-filled" it's not zero-filled! I was
+> > following Usama's observation - "less than 1% of the same-filled pages
+> > were non-zero" - and so I only handled the zero-filled case here:
+> >
+> > https://lore.kernel.org/all/20240530102126.357438-1-usamaarif642@gmail.=
+com/
+> >
+> > This sounds a bit artificial IMHO - as Usama pointed out above, I
+> > think most samefilled pages are zero pages, in real production
+> > workloads. However, if you think there are real use cases with a lot
+> > of non-zero samefilled pages, please let me know I can fix this real
+> > quick. We can support this in vswap with zero extra metadata overhead
+> > - change the VSWAP_ZERO swap entry type to VSWAP_SAME_FILLED, then use
+> > the backend field to store that value. I can send you a patch if
+> > you're interested.
+>
+> This brings back memories -- I'm pretty sure we talked about
+> exactly this at LPC. Our custom swap device already handles both
+> zero-filled and same-filled pages on its own, so what we really
+> wanted was a way to tell the swap layer "just skip the detection
+> and let it through."
+>
+> I looked at two approaches back then but never submitted either:
+>
+>   - A per-swap_info flag to opt out of zero/same-filled handling.
+>     But this felt wrong from vswap's perspective -- if even one
+>     device opts out of the zeromap, the model gets messy.
+>
+>   - Revisiting Usama's patch 2 approach.
+>     Sounded good in theory, but as you said,
+>     it's not as simple to verify in practice. And it is more clean design
+>     swapout time zero check as I see. So,  I gave up on it.
+>
+> Seeing this come up again is actually kind of nice :)
+>
+> One thought -- maybe a compile-time CONFIG or a boot param to
+> control the scope? e.g. zero-only, same-filled, or disabled.
+> That way vendors like us just turn it off, and setups like
+> Kairui's can opt into broader detection. Just an idea though --
+> open to other approaches if you have something in mind.
 
-On top of that, again, it was sent as response to the previous patch.
+Yeah for vswap it's probably going to be a CONFIG or boot param.
 
-There is also some Sashiko feedback:
+But in the status quo, we can always add a swapfile flag. That one
+should work already, right?
 
-https://sashiko.dev/#/patchset/20260411150922.20536-1-nueralspacetech%40gmail.com
+Thanks for thinking about it :) FWIW I think zero check is really
+cheap, but yeah it's just wasted work.
 
-Guenter
+(ZRAM folks - do you feel the overhead here?)
 
+>
+> Thanks,
+> Youngjun Park
+>
