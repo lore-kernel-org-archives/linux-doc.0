@@ -1,751 +1,508 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 550693803C3
-	for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 21:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBE763126CD;
+	Sun, 12 Apr 2026 21:51:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776029694; cv=none; b=PaAtZEXQlMsiI4jjpv5xzXGvSOx7Y7gbDL1Bad6sOTpYzSIHDH7ogOeluIimKAbwB+iEfx4AOv21ot+/39OrJb/Lu9MDePIfukO5fdYHNSjzXEt2qRlUglAhbvx69Iv0IyqfGd4sBkyMFbbIchLH4So1ggn634aw3lN62py+U7g=
+	t=1776030681; cv=none; b=j1AEJeZqZi0skIg4eK6S6keWYE7O1eWPH5qA8/AgJnvYDqnvPa5zfRbu061mdIUVRBPkoaE7ur8jl6dviaKI15/OY7SDsk2o4cvcLA+A6G1HKp6W1wM4ixQtfqZrhioHEyvgnWp1w49ii+tV7EBocOfQATqkNVSjZhjQJ4R+ZTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776029694; c=relaxed/simple;
-	bh=0L8+Cu0B3v2IJPpznJcUSAEo09HE1ytfsd+rqQiq+g8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KPZOSIHV+ekqtsh0F73gDQk3WuTnubYnCKnCP9LVXqQPG63dnf9BGQWIM66zaoB+iiPbbLMfueQ6O17jPgx+Xf/3/r0izQVd2fiVaSE/bqaKqXp32zcdS9/pQm8Fqsymb+eaBlOPvHvwAq0Vs/jqEOJK+ZKVEAsG0zagPp2/A4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OJiVTLYb; arc=none smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776030681; c=relaxed/simple;
+	bh=Evw1ssSF+o1/IlASNsdW6nI5+Y+t8SQaHNaAqPcPhnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=DbE3jPuI104LORYEEkEH4wdhiSaipbMQw/bhv7kieygCW4zm/VnPQbNm5ghmajhNnqwBwPghQU+eA0kvvpEDhXVq9YI5AURnQDhXfJxUUtKs2V2dTlj1n0kzKf9K5pLE+WmHWFaiL38f0UM2mcmh5K9jBpp8umTb8+VjaL8UHxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=eQDH0Omd; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OJiVTLYb"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12c19d23b19so3728643c88.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 14:34:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776029690; x=1776634490; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c8funBZTKhVWLxfnDwjPxG9phASxver8OXdgR+E6H4w=;
-        b=OJiVTLYbQTvsZePurv8iNcrSMYCx4iO55kQd+qGWeFaKOGX+8kGnJAyLTACK/kVHFw
-         m8FtpHX0Oi0GQVxXMXaJ6Oyd18ehPGiBg0u9HU+k1DU4zBBpUEbTHsjhCxk1X8LFJ5BS
-         dcz+b9yAsttlBCra8PZBrykzQBWQNNX52uRfDmV80YYZkTTK1m66ba++omwhDiLulX8C
-         u93dxi7dhLih4BT+G8PVjtN7f6+LX16XIr7XZUxbI6olCKuqSgtgtcoMUlAk8qiWAmmC
-         YmwdhjC72CQpGrmlSoMFirDVmailUWYEE8Jnihema8h2mUwky37hHiTCo6EOv6HhFte5
-         OiUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776029690; x=1776634490;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=c8funBZTKhVWLxfnDwjPxG9phASxver8OXdgR+E6H4w=;
-        b=HyWnZX88CD9Dmo8sXT4LYiJkuLTS4H10nYAgRPk2p4ATOWjAdzQM4/d9ruLCy0gSDG
-         AtHuCWB/uQpIRRSJIelPiOIa6DzCjM8bnniYpHaNl2dMpEpXXVPGqtlEgxkd5p5w+tFp
-         I+lIy81YOFikC0A6P6DiAurfHMFIfLQUwF0P+FXLE38EU5lqStkklyw/NRxwxvJLmqJX
-         kVcgnqZ5ah7Ce1AaMO/EQGllDqKLtxqxh5GLnBXgeaZXJ5YoaOLG4XUhaRqlgJ/QCSV1
-         RNVEdQwZHCwHXoUQO2ndonz9/a4bz/vZANu3i3wPwzum5kP+AGizM/XijnxMw77YjnWe
-         3ojw==
-X-Forwarded-Encrypted: i=1; AJvYcCXbgyVyRP+2Ei82TdUDmWHi26DxBjkw7MM0+qN6h6bd7Usq51DMt85jOYmL3RfJ0SEKaAl0dJHAN/0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykimzxwlRStGuOGSaK003XeNn6UZO/Hib+kBjrHYWNdHOEOT/I
-	ycNdQDefbrKRZezxOgjSGScZgM9CfIujEy7ymaTaqh3FL3OoFcHHBKyQ
-X-Gm-Gg: AeBDieuVMJZjQyUKU31/QH5/hrGbzJ7doCs74VP11oQBAKQRqN/94aWqkcz649X+Npw
-	hv/4qerYzrZmN4iwPv+DlL0sSMfICGOy/sqZPTzAiS3sLGq3QBQV0OTCv0ExNtwmVPL+7cG+s53
-	5kz26bRcMmPgg86dVIugqtkmBVO0ddOSc19E+9Ux3mPrLSGiZeiS0qSokF7z7keJxEiYT8GXU56
-	hoS36A9uAlR/Kk3jAqpEdtuI3Q7j4E21qddosN4GNCZVDPZANhHK+GBHx7wF//GrRItxJbKvo9H
-	mnWKkYb5hY9LF0T/cJsjGZzpyyl3e/PEDS3mmFZ0hVtTOqewX1Spms0zLBwi0inP/EWctYs2Jp6
-	4tJlz3cEzZ3DBzoZZ+s6LHeEoMU0uln67dL5b0d5VaFApjp1YL9lceKvZQbkDEwLMnYIF1+6vMN
-	UBGDfPDrq3zqndV2tJ1dezi+iWDaMM+Q4/s6Q0mHLNvk9GVZk+w37s6xntBnZmZQv8iK/bwYEqu
-	d8e
-X-Received: by 2002:a05:7022:6b8d:b0:122:2f4:b285 with SMTP id a92af1059eb24-12c34edd852mr5965432c88.25.1776029690417;
-        Sun, 12 Apr 2026 14:34:50 -0700 (PDT)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c345b5b9dsm10631736c88.7.2026.04.12.14.34.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 12 Apr 2026 14:34:50 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Lambert Fan <fanzhaoming@anopc.com>,
-	Zhouwang Huang <honjow311@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 4/5] HID: hid-oxp: Add Button Mapping Interface
-Date: Sun, 12 Apr 2026 21:34:43 +0000
-Message-ID: <20260412213444.2231505-5-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260412213444.2231505-1-derekjohn.clark@gmail.com>
-References: <20260412213444.2231505-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="eQDH0Omd"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0E066410AA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1776030679; bh=s2H8dBht0Wl1frY08R2NC+tk1TF2lzcuqg3AJ0Z1CGo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eQDH0OmdU1uuftvAEOgTCjiHGD6thwCUQMNVwBmgHGi0ujvuqlPwrtWXuV6WMClzh
+	 7Q7ou0ECktXN+HSmIUoDO3554bpaXfKFBGKrj6IryC20aZhqfJWABWMu6qWnggplmh
+	 PAGpBg/8O20qlMQP1vysv5IeBUaW0xrgsyMhhPPB3CteE71qpAjS4EahSgqHF22nQp
+	 erj93Z/CYNkPgwIwip4pUY/IUzHTMy1ik2OwIa4izF8dnmTb4DvRZASrw5BTsdjXoU
+	 OdLzV0ZRZ0z28g09j8/jaP6NTZFrDPADyBmKjzNtPAEMdhk3jlbDXLndcMq2SydFbt
+	 HsIYG8/Ga4CWg==
+Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0E066410AA;
+	Sun, 12 Apr 2026 21:51:18 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Linus Torvalds <torvalds@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Shuah Khan
+ <shuah@kernel.org>
+Subject: [GIT PULL] Documentation for 7.1
+Date: Sun, 12 Apr 2026 15:51:18 -0600
+Message-ID: <87bjfnzw2x.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Adds button mapping interface for second generation OneXPlayer
-configuration HID interfaces. This interface allows the MCU to swap
-button mappings at the hardware level. The current state cannot be
-retrieved, and the mappings may have been modified in Windows prior, so
-we reset the button mapping at init and expose an attribute to allow
-userspace to do this again at any time.
+The following changes since commit 6de23f81a5e08be8fbf5e8d7e9febc72a5b5f27f:
 
-The interface requires two pages of button mapping data to be sent
-before the settings will take place. Since the MCU requires a 200ms
-delay after each message (total 400ms for these attributes) use the same
-debounce work queue method we used for RGB. This will allow for
-userspace or udev rules to rapidly map all buttons. The values will
-be cached before the final write is finally sent to the device.
+  Linux 7.0-rc1 (2026-02-22 13:18:59 -0800)
 
-Reviewed-by: Zhouwang Huang <honjow311@gmail.com>
-Tested-by: Zhouwang Huang <honjow311@gmail.com>
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
----
-v3:
-  - Ensure default button map is properly init during probe.
-v2:
-  - Add detection of post-suspend MCU init to trigger setting the button
-    map again.
----
- drivers/hid/hid-oxp.c | 569 +++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 567 insertions(+), 2 deletions(-)
+are available in the Git repository at:
 
-diff --git a/drivers/hid/hid-oxp.c b/drivers/hid/hid-oxp.c
-index c62952537d98..959ec1a90d22 100644
---- a/drivers/hid/hid-oxp.c
-+++ b/drivers/hid/hid-oxp.c
-@@ -34,10 +34,145 @@ enum oxp_function_index {
- 	OXP_FID_GEN1_RGB_SET =		0x07,
- 	OXP_FID_GEN1_RGB_REPLY =	0x0f,
- 	OXP_FID_GEN2_TOGGLE_MODE =	0xb2,
-+	OXP_FID_GEN2_KEY_STATE =	0xb4,
- 	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
- };
- 
-+#define OXP_MAPPING_GAMEPAD	0x01
-+#define OXP_MAPPING_KEYBOARD	0x02
-+
-+struct oxp_button_data {
-+	u8 mode;
-+	u8 index;
-+	u8 key_id;
-+	u8 padding[2];
-+} __packed;
-+
-+struct oxp_button_entry {
-+	struct oxp_button_data data;
-+	const char *name;
-+};
-+
-+static const struct oxp_button_entry oxp_button_table[] = {
-+	/* Gamepad Buttons */
-+	{ { OXP_MAPPING_GAMEPAD, 0x01 }, "BTN_A" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x02 }, "BTN_B" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x03 }, "BTN_X" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x04 }, "BTN_Y" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x05 }, "BTN_LB" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x06 }, "BTN_RB" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x07 }, "BTN_LT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x08 }, "BTN_RT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x09 }, "BTN_START" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x0a }, "BTN_SELECT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x0b }, "BTN_L3" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x0c }, "BTN_R3" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x0d }, "DPAD_UP" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x0e }, "DPAD_DOWN" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x0f }, "DPAD_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x10 }, "DPAD_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x11 }, "JOY_L_UP" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x12 }, "JOY_L_UP_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x13 }, "JOY_L_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x14 }, "JOY_L_DOWN_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x15 }, "JOY_L_DOWN" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x16 }, "JOY_L_DOWN_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x17 }, "JOY_L_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x18 }, "JOY_L_UP_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x19 }, "JOY_R_UP" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x1a }, "JOY_R_UP_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x1b }, "JOY_R_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x1c }, "JOY_R_DOWN_RIGHT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x1d }, "JOY_R_DOWN" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x1e }, "JOY_R_DOWN_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x1f }, "JOY_R_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x20 }, "JOY_R_UP_LEFT" },
-+	{ { OXP_MAPPING_GAMEPAD, 0x22 }, "BTN_GUIDE" },
-+	/* Keyboard Keys */
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5a }, "KEY_F1" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5b }, "KEY_F2" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5c }, "KEY_F3" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5d }, "KEY_F4" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5e }, "KEY_F5" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x5f }, "KEY_F6" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x60 }, "KEY_F7" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x61 }, "KEY_F8" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x62 }, "KEY_F9" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x63 }, "KEY_F10" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x64 }, "KEY_F11" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x65 }, "KEY_F12" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x66 }, "KEY_F13" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x67 }, "KEY_F14" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x68 }, "KEY_F15" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x69 }, "KEY_F16" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6a }, "KEY_F17" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6b }, "KEY_F18" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6c }, "KEY_F19" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6d }, "KEY_F20" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6e }, "KEY_F21" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x6f }, "KEY_F22" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x70 }, "KEY_F23" },
-+	{ { OXP_MAPPING_KEYBOARD, 0x01, 0x71 }, "KEY_F24" },
-+};
-+
-+enum oxp_joybutton_index {
-+	BUTTON_A =	0x01,
-+	BUTTON_B,
-+	BUTTON_X,
-+	BUTTON_Y,
-+	BUTTON_LB,
-+	BUTTON_RB,
-+	BUTTON_LT,
-+	BUTTON_RT,
-+	BUTTON_START,
-+	BUTTON_SELECT,
-+	BUTTON_L3,
-+	BUTTON_R3,
-+	BUTTON_DUP,
-+	BUTTON_DDOWN,
-+	BUTTON_DLEFT,
-+	BUTTON_DRIGHT,
-+	BUTTON_M1 =	0x22,
-+	BUTTON_M2,
-+	/* These are unused currently, reserved for future devices */
-+	BUTTON_M3,
-+	BUTTON_M4,
-+	BUTTON_M5,
-+	BUTTON_M6,
-+};
-+
-+struct oxp_button_idx {
-+	enum oxp_joybutton_index button_idx;
-+	u8 mapping_idx;
-+} __packed;
-+
-+struct oxp_bmap_page_1 {
-+	struct oxp_button_idx btn_a;
-+	struct oxp_button_idx btn_b;
-+	struct oxp_button_idx btn_x;
-+	struct oxp_button_idx btn_y;
-+	struct oxp_button_idx btn_lb;
-+	struct oxp_button_idx btn_rb;
-+	struct oxp_button_idx btn_lt;
-+	struct oxp_button_idx btn_rt;
-+	struct oxp_button_idx btn_start;
-+} __packed;
-+
-+struct oxp_bmap_page_2 {
-+	struct oxp_button_idx btn_select;
-+	struct oxp_button_idx btn_l3;
-+	struct oxp_button_idx btn_r3;
-+	struct oxp_button_idx btn_dup;
-+	struct oxp_button_idx btn_ddown;
-+	struct oxp_button_idx btn_dleft;
-+	struct oxp_button_idx btn_dright;
-+	struct oxp_button_idx btn_m1;
-+	struct oxp_button_idx btn_m2;
-+} __packed;
-+
- static struct oxp_hid_cfg {
-+	struct oxp_bmap_page_1 *bmap_1;
-+	struct oxp_bmap_page_2 *bmap_2;
- 	struct led_classdev_mc *led_mc;
- 	struct hid_device *hdev;
- 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
-@@ -48,6 +183,10 @@ static struct oxp_hid_cfg {
- 	u8 rgb_en;
- } drvdata;
- 
-+#define OXP_FILL_PAGE_SLOT(page, btn)            \
-+	{ .button_idx = (page)->btn.button_idx,  \
-+	  .mapping_idx = (page)->btn.mapping_idx }
-+
- enum oxp_gamepad_mode_index {
- 	OXP_GP_MODE_XINPUT = 0x00,
- 	OXP_GP_MODE_DEBUG = 0x03,
-@@ -153,6 +292,10 @@ struct oxp_gen_2_rgb_report {
- 	u8 effect;
- } __packed;
- 
-+struct oxp_attr {
-+	u8 index;
-+};
-+
- static u16 get_usage_page(struct hid_device *hdev)
- {
- 	return hdev->collection[0].usage >> 16;
-@@ -194,12 +337,19 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
- }
- 
- static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data, u8 data_size);
-+static int oxp_set_buttons(void);
- 
- static void oxp_mcu_init_fn(struct work_struct *work)
- {
- 	u8 gp_mode_data[3] = { OXP_GP_MODE_DEBUG, 0x01, 0x02 };
- 	int ret;
- 
-+	/* Re-apply the button mapping */
-+	ret = oxp_set_buttons();
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to set button mapping: %i\n", ret);
-+
- 	/* Cycle the gamepad mode */
- 	ret = oxp_gen_2_property_out(OXP_FID_GEN2_TOGGLE_MODE, gp_mode_data, 3);
- 	if (ret)
-@@ -395,9 +545,410 @@ static ssize_t gamepad_mode_index_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(gamepad_mode_index);
- 
-+static void oxp_set_defaults_bmap_1(struct oxp_bmap_page_1 *bmap)
-+{
-+	bmap->btn_a.button_idx = BUTTON_A;
-+	bmap->btn_a.mapping_idx = 0;
-+	bmap->btn_b.button_idx = BUTTON_B;
-+	bmap->btn_b.mapping_idx = 1;
-+	bmap->btn_x.button_idx = BUTTON_X;
-+	bmap->btn_x.mapping_idx = 2;
-+	bmap->btn_y.button_idx = BUTTON_Y;
-+	bmap->btn_y.mapping_idx = 3;
-+	bmap->btn_lb.button_idx = BUTTON_LB;
-+	bmap->btn_lb.mapping_idx = 4;
-+	bmap->btn_rb.button_idx = BUTTON_RB;
-+	bmap->btn_rb.mapping_idx = 5;
-+	bmap->btn_lt.button_idx = BUTTON_LT;
-+	bmap->btn_lt.mapping_idx = 6;
-+	bmap->btn_rt.button_idx = BUTTON_RT;
-+	bmap->btn_rt.mapping_idx = 7;
-+	bmap->btn_start.button_idx = BUTTON_START;
-+	bmap->btn_start.mapping_idx = 8;
-+}
-+
-+static void oxp_set_defaults_bmap_2(struct oxp_bmap_page_2 *bmap)
-+{
-+	bmap->btn_select.button_idx = BUTTON_SELECT;
-+	bmap->btn_select.mapping_idx = 9;
-+	bmap->btn_l3.button_idx = BUTTON_L3;
-+	bmap->btn_l3.mapping_idx = 10;
-+	bmap->btn_r3.button_idx = BUTTON_R3;
-+	bmap->btn_r3.mapping_idx = 11;
-+	bmap->btn_dup.button_idx = BUTTON_DUP;
-+	bmap->btn_dup.mapping_idx = 12;
-+	bmap->btn_ddown.button_idx = BUTTON_DDOWN;
-+	bmap->btn_ddown.mapping_idx = 13;
-+	bmap->btn_dleft.button_idx = BUTTON_DLEFT;
-+	bmap->btn_dleft.mapping_idx = 14;
-+	bmap->btn_dright.button_idx = BUTTON_DRIGHT;
-+	bmap->btn_dright.mapping_idx = 15;
-+	bmap->btn_m1.button_idx = BUTTON_M1;
-+	bmap->btn_m1.mapping_idx = 48; /* KEY_F15 */
-+	bmap->btn_m2.button_idx = BUTTON_M2;
-+	bmap->btn_m2.mapping_idx = 49; /* KEY_F16 */
-+}
-+
-+static void oxp_page_fill_data(char *buf, const struct oxp_button_idx *buttons,
-+			       size_t len)
-+{
-+	size_t offset_increment = sizeof(u8) + sizeof(struct oxp_button_idx);
-+	size_t offset = 5;
-+	unsigned int i;
-+
-+	for (i = 0; i < len; i++, offset += offset_increment) {
-+		buf[offset] = (u8)buttons[i].button_idx;
-+		memcpy(buf + offset + 1,
-+		       &oxp_button_table[buttons[i].mapping_idx].data,
-+		       sizeof(struct oxp_button_data));
-+	}
-+}
-+
-+static int oxp_set_buttons(void)
-+{
-+	u8 page_1[59] = { 0x02, 0x38, 0x20, 0x01, 0x01 };
-+	u8 page_2[59] = { 0x02, 0x38, 0x20, 0x02, 0x01 };
-+	u16 up = get_usage_page(drvdata.hdev);
-+	int ret;
-+
-+	if (up != GEN2_USAGE_PAGE)
-+		return -EINVAL;
-+
-+	const struct oxp_button_idx p1[] = {
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_a),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_b),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_x),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_y),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_lb),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_rb),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_lt),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_rt),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_1, btn_start),
-+	};
-+
-+	const struct oxp_button_idx p2[] = {
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_select),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_l3),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_r3),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_dup),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_ddown),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_dleft),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_dright),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_m1),
-+		OXP_FILL_PAGE_SLOT(drvdata.bmap_2, btn_m2),
-+	};
-+
-+	oxp_page_fill_data(page_1, p1, ARRAY_SIZE(p1));
-+	oxp_page_fill_data(page_2, p2, ARRAY_SIZE(p2));
-+
-+	ret = oxp_gen_2_property_out(OXP_FID_GEN2_KEY_STATE, page_1, ARRAY_SIZE(page_1));
-+	if (ret)
-+		return ret;
-+
-+	return oxp_gen_2_property_out(OXP_FID_GEN2_KEY_STATE, page_2, ARRAY_SIZE(page_2));
-+}
-+
-+static void oxp_reset_buttons(void)
-+{
-+	oxp_set_defaults_bmap_1(drvdata.bmap_1);
-+	oxp_set_defaults_bmap_2(drvdata.bmap_2);
-+}
-+
-+static ssize_t reset_buttons_store(struct device *dev,
-+				   struct device_attribute *attr, const char *buf,
-+				   size_t count)
-+{
-+	int val, ret;
-+
-+	ret = kstrtoint(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val != 1)
-+		return -EINVAL;
-+
-+	oxp_reset_buttons();
-+	ret = oxp_set_buttons();
-+	if (ret)
-+		return ret;
-+
-+	return count;
-+}
-+static DEVICE_ATTR_WO(reset_buttons);
-+
-+static void oxp_btn_queue_fn(struct work_struct *work)
-+{
-+	int ret;
-+
-+	ret = oxp_set_buttons();
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to write button mapping: %i\n", ret);
-+}
-+
-+static DECLARE_DELAYED_WORK(oxp_btn_queue, oxp_btn_queue_fn);
-+
-+static int oxp_button_idx_from_str(const char *buf)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(oxp_button_table); i++)
-+		if (sysfs_streq(buf, oxp_button_table[i].name))
-+			return i;
-+
-+	return -EINVAL;
-+}
-+
-+static ssize_t map_button_store(struct device *dev,
-+				struct device_attribute *attr, const char *buf,
-+				size_t count, u8 index)
-+{
-+	int idx;
-+
-+	idx = oxp_button_idx_from_str(buf);
-+	if (idx < 0)
-+		return idx;
-+
-+	switch (index) {
-+	case BUTTON_A:
-+		drvdata.bmap_1->btn_a.mapping_idx = idx;
-+		break;
-+	case BUTTON_B:
-+		drvdata.bmap_1->btn_b.mapping_idx = idx;
-+		break;
-+	case BUTTON_X:
-+		drvdata.bmap_1->btn_x.mapping_idx = idx;
-+		break;
-+	case BUTTON_Y:
-+		drvdata.bmap_1->btn_y.mapping_idx = idx;
-+		break;
-+	case BUTTON_LB:
-+		drvdata.bmap_1->btn_lb.mapping_idx = idx;
-+		break;
-+	case BUTTON_RB:
-+		drvdata.bmap_1->btn_rb.mapping_idx = idx;
-+		break;
-+	case BUTTON_LT:
-+		drvdata.bmap_1->btn_lt.mapping_idx = idx;
-+		break;
-+	case BUTTON_RT:
-+		drvdata.bmap_1->btn_rt.mapping_idx = idx;
-+		break;
-+	case BUTTON_START:
-+		drvdata.bmap_1->btn_start.mapping_idx = idx;
-+		break;
-+	case BUTTON_SELECT:
-+		drvdata.bmap_2->btn_select.mapping_idx = idx;
-+		break;
-+	case BUTTON_L3:
-+		drvdata.bmap_2->btn_l3.mapping_idx = idx;
-+		break;
-+	case BUTTON_R3:
-+		drvdata.bmap_2->btn_r3.mapping_idx = idx;
-+		break;
-+	case BUTTON_DUP:
-+		drvdata.bmap_2->btn_dup.mapping_idx = idx;
-+		break;
-+	case BUTTON_DDOWN:
-+		drvdata.bmap_2->btn_ddown.mapping_idx = idx;
-+		break;
-+	case BUTTON_DLEFT:
-+		drvdata.bmap_2->btn_dleft.mapping_idx = idx;
-+		break;
-+	case BUTTON_DRIGHT:
-+		drvdata.bmap_2->btn_dright.mapping_idx = idx;
-+		break;
-+	case BUTTON_M1:
-+		drvdata.bmap_2->btn_m1.mapping_idx = idx;
-+		break;
-+	case BUTTON_M2:
-+		drvdata.bmap_2->btn_m2.mapping_idx = idx;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+	mod_delayed_work(system_wq, &oxp_btn_queue, msecs_to_jiffies(50));
-+	return count;
-+}
-+
-+static ssize_t map_button_show(struct device *dev,
-+			       struct device_attribute *attr, char *buf,
-+			       u8 index)
-+{
-+	u8 i;
-+
-+	switch (index) {
-+	case BUTTON_A:
-+		i = drvdata.bmap_1->btn_a.mapping_idx;
-+		break;
-+	case BUTTON_B:
-+		i = drvdata.bmap_1->btn_b.mapping_idx;
-+		break;
-+	case BUTTON_X:
-+		i = drvdata.bmap_1->btn_x.mapping_idx;
-+		break;
-+	case BUTTON_Y:
-+		i = drvdata.bmap_1->btn_y.mapping_idx;
-+		break;
-+	case BUTTON_LB:
-+		i = drvdata.bmap_1->btn_lb.mapping_idx;
-+		break;
-+	case BUTTON_RB:
-+		i = drvdata.bmap_1->btn_rb.mapping_idx;
-+		break;
-+	case BUTTON_LT:
-+		i = drvdata.bmap_1->btn_lt.mapping_idx;
-+		break;
-+	case BUTTON_RT:
-+		i = drvdata.bmap_1->btn_rt.mapping_idx;
-+		break;
-+	case BUTTON_START:
-+		i = drvdata.bmap_1->btn_start.mapping_idx;
-+		break;
-+	case BUTTON_SELECT:
-+		i = drvdata.bmap_2->btn_select.mapping_idx;
-+		break;
-+	case BUTTON_L3:
-+		i = drvdata.bmap_2->btn_l3.mapping_idx;
-+		break;
-+	case BUTTON_R3:
-+		i = drvdata.bmap_2->btn_r3.mapping_idx;
-+		break;
-+	case BUTTON_DUP:
-+		i = drvdata.bmap_2->btn_dup.mapping_idx;
-+		break;
-+	case BUTTON_DDOWN:
-+		i = drvdata.bmap_2->btn_ddown.mapping_idx;
-+		break;
-+	case BUTTON_DLEFT:
-+		i = drvdata.bmap_2->btn_dleft.mapping_idx;
-+		break;
-+	case BUTTON_DRIGHT:
-+		i = drvdata.bmap_2->btn_dright.mapping_idx;
-+		break;
-+	case BUTTON_M1:
-+		i = drvdata.bmap_2->btn_m1.mapping_idx;
-+		break;
-+	case BUTTON_M2:
-+		i = drvdata.bmap_2->btn_m2.mapping_idx;
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	if (i >= ARRAY_SIZE(oxp_button_table))
-+		return -EINVAL;
-+
-+	return sysfs_emit(buf, "%s\n", oxp_button_table[i].name);
-+}
-+
-+static ssize_t button_mapping_options_show(struct device *dev,
-+					   struct device_attribute *attr, char *buf)
-+{
-+	ssize_t count = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(oxp_button_table); i++)
-+		count += sysfs_emit_at(buf, count, "%s ", oxp_button_table[i].name);
-+
-+	if (count)
-+		buf[count - 1] = '\n';
-+
-+	return count;
-+}
-+static DEVICE_ATTR_RO(button_mapping_options);
-+
-+#define OXP_DEVICE_ATTR_RW(_name, _group)                                     \
-+	static ssize_t _name##_store(struct device *dev,                      \
-+				     struct device_attribute *attr,           \
-+				     const char *buf, size_t count)           \
-+	{                                                                     \
-+		return _group##_store(dev, attr, buf, count, _name.index);    \
-+	}                                                                     \
-+	static ssize_t _name##_show(struct device *dev,                       \
-+				    struct device_attribute *attr, char *buf) \
-+	{                                                                     \
-+		return _group##_show(dev, attr, buf, _name.index);            \
-+	}                                                                     \
-+	static DEVICE_ATTR_RW(_name)
-+
-+static struct oxp_attr button_a = { BUTTON_A };
-+OXP_DEVICE_ATTR_RW(button_a, map_button);
-+
-+static struct oxp_attr button_b = { BUTTON_B };
-+OXP_DEVICE_ATTR_RW(button_b, map_button);
-+
-+static struct oxp_attr button_x = { BUTTON_X };
-+OXP_DEVICE_ATTR_RW(button_x, map_button);
-+
-+static struct oxp_attr button_y = { BUTTON_Y };
-+OXP_DEVICE_ATTR_RW(button_y, map_button);
-+
-+static struct oxp_attr button_lb = { BUTTON_LB };
-+OXP_DEVICE_ATTR_RW(button_lb, map_button);
-+
-+static struct oxp_attr button_rb = { BUTTON_RB };
-+OXP_DEVICE_ATTR_RW(button_rb, map_button);
-+
-+static struct oxp_attr button_lt = { BUTTON_LT };
-+OXP_DEVICE_ATTR_RW(button_lt, map_button);
-+
-+static struct oxp_attr button_rt = { BUTTON_RT };
-+OXP_DEVICE_ATTR_RW(button_rt, map_button);
-+
-+static struct oxp_attr button_start = { BUTTON_START };
-+OXP_DEVICE_ATTR_RW(button_start, map_button);
-+
-+static struct oxp_attr button_select = { BUTTON_SELECT };
-+OXP_DEVICE_ATTR_RW(button_select, map_button);
-+
-+static struct oxp_attr button_l3 = { BUTTON_L3 };
-+OXP_DEVICE_ATTR_RW(button_l3, map_button);
-+
-+static struct oxp_attr button_r3 = { BUTTON_R3 };
-+OXP_DEVICE_ATTR_RW(button_r3, map_button);
-+
-+static struct oxp_attr button_d_up = { BUTTON_DUP };
-+OXP_DEVICE_ATTR_RW(button_d_up, map_button);
-+
-+static struct oxp_attr button_d_down = { BUTTON_DDOWN };
-+OXP_DEVICE_ATTR_RW(button_d_down, map_button);
-+
-+static struct oxp_attr button_d_left = { BUTTON_DLEFT };
-+OXP_DEVICE_ATTR_RW(button_d_left, map_button);
-+
-+static struct oxp_attr button_d_right = { BUTTON_DRIGHT };
-+OXP_DEVICE_ATTR_RW(button_d_right, map_button);
-+
-+static struct oxp_attr button_m1 = { BUTTON_M1 };
-+OXP_DEVICE_ATTR_RW(button_m1, map_button);
-+
-+static struct oxp_attr button_m2 = { BUTTON_M2 };
-+OXP_DEVICE_ATTR_RW(button_m2, map_button);
-+
- static struct attribute *oxp_cfg_attrs[] = {
-+	&dev_attr_button_a.attr,
-+	&dev_attr_button_b.attr,
-+	&dev_attr_button_d_down.attr,
-+	&dev_attr_button_d_left.attr,
-+	&dev_attr_button_d_right.attr,
-+	&dev_attr_button_d_up.attr,
-+	&dev_attr_button_l3.attr,
-+	&dev_attr_button_lb.attr,
-+	&dev_attr_button_lt.attr,
-+	&dev_attr_button_m1.attr,
-+	&dev_attr_button_m2.attr,
-+	&dev_attr_button_mapping_options.attr,
-+	&dev_attr_button_r3.attr,
-+	&dev_attr_button_rb.attr,
-+	&dev_attr_button_rt.attr,
-+	&dev_attr_button_select.attr,
-+	&dev_attr_button_start.attr,
-+	&dev_attr_button_x.attr,
-+	&dev_attr_button_y.attr,
- 	&dev_attr_gamepad_mode.attr,
- 	&dev_attr_gamepad_mode_index.attr,
-+	&dev_attr_reset_buttons.attr,
- 	NULL,
- };
- 
-@@ -823,6 +1374,8 @@ static bool oxp_hybrid_mcu_device(void)
- 
- static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- {
-+	struct oxp_bmap_page_1 *bmap_1;
-+	struct oxp_bmap_page_2 *bmap_2;
- 	int ret;
- 
- 	hid_set_drvdata(hdev, &drvdata);
-@@ -855,9 +1408,21 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- 		return 0;
- 
- skip_rgb:
--	mod_delayed_work(system_wq, &oxp_mcu_init, msecs_to_jiffies(50));
--
-+	bmap_1 = devm_kzalloc(&hdev->dev, sizeof(struct oxp_bmap_page_1), GFP_KERNEL);
-+	if (!bmap_1)
-+		return dev_err_probe(&hdev->dev, -ENOMEM,
-+				     "Unable to allocate button map page 1\n");
-+
-+	bmap_2 = devm_kzalloc(&hdev->dev, sizeof(struct oxp_bmap_page_2), GFP_KERNEL);
-+	if (!bmap_2)
-+		return dev_err_probe(&hdev->dev, -ENOMEM,
-+				     "Unable to allocate button map page 2\n");
-+
-+	drvdata.bmap_1 = bmap_1;
-+	drvdata.bmap_2 = bmap_2;
-+	oxp_reset_buttons();
- 	drvdata.gamepad_mode = OXP_GP_MODE_XINPUT;
-+	mod_delayed_work(system_wq, &oxp_mcu_init, msecs_to_jiffies(50));
- 
- 	ret = devm_device_add_group(&hdev->dev, &oxp_cfg_attrs_group);
- 	if (ret)
--- 
-2.53.0
+  git://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git tags/docs-7.1
 
+for you to fetch changes up to 40a3f6c5e2604ff7c007da6628120529569e950c:
+
+  Documentation: core-api: real-time: correct spelling (2026-04-12 13:11:50=
+ -0600)
+
+----------------------------------------------------------------
+A busier cycle than I had expected for docs, including:
+
+- Translations: some overdue updates to the Japanese translations, Chinese
+  translations for some of the Rust documentation, and the beginnings of a
+  Portuguese translation.
+
+- New documents covering CPU isolation, managed interrupts, debugging
+  Python gbb scripts, and more.
+
+- More tooling work from Mauro, reducing docs-build warnings, adding self
+  tests, improving man-page output, bringing in a proper C tokenizer to
+  replace (some of) the mess of kernel-doc regexes, and more.
+
+- Update and synchronize changes.rst and scripts/ver_linux, and put both
+  into alphabetical order.
+
+...and a long list of documentation updates, typo fixes, and general
+improvements.
+
+Expect a simple conflict with the Rust tree due to the sorting of
+Documentation/process/changes.rst.
+
+----------------------------------------------------------------
+Akira Yokosawa (1):
+      docs/ja_JP: submitting-patches: Amend "Describe your changes"
+
+Akiyoshi Kurita (2):
+      docs: ja_JP: process: translate first half of 'Describe your changes'
+      docs: ja_JP: process: translate second half of 'Describe your changes'
+
+Ariful Islam Shoikot (3):
+      Documentation: process: backporting: fix missing subject
+      Documentation/mm: Fix typo in NUMA paragraph
+      Documentation/mm/hwpoison.rst: fix typos and grammar.
+
+Askar Safin (1):
+      doc: early_userspace_support.rst: trivial fix: directory -> file
+
+Ben Guo (4):
+      docs/zh_CN: update rust/arch-support.rst translation
+      docs/zh_CN: update rust/coding-guidelines.rst translation
+      docs/zh_CN: update rust/quick-start.rst translation
+      docs/zh_CN: update rust/index.rst translation
+
+Bhaskar Chowdhury (1):
+      Doc: dev-tools: Added Gentoo in the Operating system list under Getti=
+ng Coccinelle
+
+Costa Shulyupin (2):
+      Documentation/rtla: Add hwnoise to main page
+      Documentation/rtla: Convert links to RST format
+
+Daniel Castro (1):
+      docs: pt_BR: translate process/1.Intro.rst
+
+Daniel Pereira (8):
+      docs: pt_BR: Add initial Portuguese translation
+      docs: pt_BR: translate process/changes.rst
+      docs: pt_BR: Add translation for maintainer-handbooks
+      docs: pt_BR: add netdev and maintainer handbook translations
+      docs/pt_BR: translation of maintainer-soc.rst
+      docs/pt_BR: translation of maintainer-soc-clean-dts.rst
+      docs: pt_BR: Add translation for process/conclave.rst
+      docs: pt_BR: Add translation for KVM x86 maintainer guide
+
+Daniel Tang (1):
+      docs: path-lookup: fix unrenamed WALK_GET
+
+David Hildenbrand (Arm) (1):
+      docs: filesystems: clarify KernelPageSize vs. MMUPageSize in smaps
+
+Florian Fainelli (1):
+      Documentation: Provide hints on how to debug Python GDB scripts
+
+Frederic Weisbecker (1):
+      doc: Add CPU Isolation documentation
+
+Gleb Golovko (1):
+      docs: fix typo in zoran driver documentation
+
+Haowen Hu (1):
+      docs/zh_TW: remove trailing space
+
+Haoyang LIU (2):
+      tools/docs/checktransupdate.py: add support for scanning directory
+      tools/docs/checktransupdate.py: fix all issues reported by pylint
+
+Harry Wentland (1):
+      scripts/checkpatch: add Assisted-by: tag validation
+
+Jonathan Corbet (11):
+      docs: Fix an erroneous reference to sphinx.rst
+      docs: remove unneeded maintainer_handbooks_main label
+      Merge branch 'mauro' into docs-mw
+      Merge branch 'mauro' into docs-mw
+      Merge branch 'mauro' into docs-mw
+      Merge branch 'mauro' into docs-mw
+      Merge branch 'docs-fixes' into docs-mw
+      Revert "scripts: ver_linux: expand and fix list"
+      Revert "scripts/checkpatch: add Assisted-by: tag validation"
+      docs: add an Assisted-by mention to submitting-patches.rst
+      Merge tag 'Chinese-docs-7.1' of git://git.kernel.org/pub/scm/linux/ke=
+rnel/git/alexs/linux into tmp
+
+Julia Lawall (1):
+      coccinelle: update Coccinelle URL
+
+Kuan-Wei Chiu (2):
+      docs: interconnect: Add provider APIs to documentation
+      docs: interconnect: Document consumer APIs and drop outdated text
+
+LIU Haoyang (2):
+      docs/dev-tools: fix a broken URL in dev-tools/coccinelle.rst
+      docs/zh_CN: fix an inconsistent statement in dev-tools/testing-overvi=
+ew
+
+Li RongQing (1):
+      Documentation/kernel-parameters: fix architecture alignment for pt, n=
+opt, and nobypass
+
+Manuel Cortez (1):
+      docs: fix typos and duplicated words across documentation
+
+Manuel Ebner (3):
+      scripts: ver_linux: expand and fix list
+      docs: changes/ver_linux: fix entries and add several tools
+      docs: changes.rst and ver_linux: sort the lists
+
+Matteo Martelli (1):
+      sched_deadline, docs: fix cpuset example for cgroupv2
+
+Mauro Carvalho Chehab (80):
+      docs: kdoc_re: add support for groups()
+      docs: kdoc_re: don't go past the end of a line
+      docs: kdoc_parser: move var transformers to the beginning
+      docs: kdoc_parser: don't mangle with function defines
+      docs: kdoc_parser: fix variable regexes to work with size_t
+      docs: kdoc_parser: fix the default_value logic for variables
+      docs: kdoc_parser: don't exclude defaults from prototype
+      docs: kdoc_parser: fix parser to support multi-word types
+      docs: kdoc_parser: add support for LIST_HEAD
+      docs: kdoc_re: better show KernRe() at documentation
+      docs: kdoc_parser: move transform lists to a separate file
+      docs: kdoc_re: handle strings and escape chars on NextMatch
+      docs: kdoc_re: don't recompile NestedMatch regex every time
+      docs: kdoc_re: Change NestedMath args replacement to \0
+      docs: kdoc_re: make NestedMatch use KernRe
+      docs: kdoc_parser: move nested match transforms to xforms_lists.py
+      docs: kdoc_files: allows the caller to use a different xforms class
+      docs: kdoc_files: document KernelFiles() ABI
+      docs: sphinx-build-wrapper: better handle troff .TH markups
+      docs: sphinx-build-wrapper: don't allow "/" on file names
+      docs: kdoc_output: use a method to emit the .TH header
+      docs: kdoc_output: remove extra attribute on man .TH headers
+      docs: kdoc_output: use a single manual for everything
+      docs: kdoc_output: don't use a different modulename for functions
+      docs: kdoc_output: fix naming for DOC markups
+      docs: kdoc_output: describe the class init parameters
+      docs: kdoc_output: pick a better default for modulename
+      docs: kdoc_output: Change the logic to handle man highlight
+      docs: kdoc_output: add a logic to handle tables inside kernel-doc mar=
+kups
+      docs: kdoc_output: add support to handle code blocks
+      docs: kdoc_output: better handle lists
+      docs: python: add helpers to run unit tests
+      unittests: add a testbench to check public/private kdoc comments
+      docs: kdoc: don't add broken comments inside prototypes
+      docs: kdoc: properly handle empty enum arguments
+      docs: add a C tokenizer to be used by kernel-doc
+      docs: kdoc: use tokenizer to handle comments on structs
+      unittests: test_private: modify it to use CTokenizer directly
+      unittests: test_tokenizer: check if the tokenizer works
+      unittests: add a runner to execute all unittests
+      docs: kdoc: create a CMatch to match nested C blocks
+      tools: unittests: add tests for CMatch
+      docs: c_lex: properly implement a sub() method for CMatch
+      unittests: test_cmatch: add tests for sub()
+      docs: kdoc: replace NestedMatch with CMatch
+      docs: kdoc_re: get rid of NestedMatch class
+      docs: xforms_lists: handle struct_group directly
+      docs: xforms_lists: better evaluate struct_group macros
+      docs: c_lex: setup a logger to report tokenizer issues
+      docs: kernel-doc.rst: document private: scope propagation
+      docs: kdoc: ensure that comments are dropped before calling split_str=
+uct_proto()
+      docs: kdoc_parser: avoid tokenizing structs everytime
+      docs: xforms_lists: use CMatch for all identifiers
+      unittests: test_tokenizer: better handle mismatch error
+      docs: kdoc_re: better represent long regular expressions
+      docs: kdoc: add c_lex to generated documentation
+      docs: kdoc_files: use a class to group config parameters
+      docs: kdoc_files: move output symbols logic to kdoc_output
+      docs: kdoc_item: fix initial value for parameterdesc_start_lines
+      docs: kdoc_item: add support to generate a KdocItem from a dict
+      docs: kdoc_item: fix a typo on sections_start_lines
+      docs: unittests: add a parser to test kernel-doc parser logic
+      docs: add a schema to help creating unittests for kernel-doc
+      docs: add a simple kdoc-test.yaml together with a validation tool
+      docs: test_kdoc_parser: add support for dynamic test creation
+      docs: add a new file to write kernel-doc output to a YAML file
+      docs: kernel-doc: add support to store output on a YAML file
+      MAINTAINERS: update documentation scripts to add unittests
+      unittests: test_kdoc_parser: add command line arg to read a YAML file
+      docs: tools: include kdoc_yaml_file at documentation
+      docs: kdoc_yaml_file: add a representer to make strings look nicer
+      docs: kdoc-test.yaml: add more tests
+      docs: kdoc_output: fix handling of simple tables
+      docs: kdoc: better handle source when producing YAML output
+      docs: kdoc_yaml_file: use a better name for the tests
+      docs: kdoc_output: raise an error if full_proto not available for var
+      docs: c_lex.py: store logger on its data
+      doc tools: better handle KBUILD_VERBOSE
+      tools: unittest_helper: add a quiet mode
+      docs: kdoc_diff: add a helper tool to help checking kdoc regressions
+
+Miquel Sabat=C3=A9 Sol=C3=A0 (1):
+      documentation: update arch features
+
+Pranav Kharche (1):
+      docs: kernel-parameters: Fix repeated word in initramfs_options entry
+
+Praveen Kumar Singh (1):
+      docs: memory-hotplug: fix typo 'fo' -> 'for' in NODE_ADDED_FIRST_MEMO=
+RY description
+
+Randy Dunlap (5):
+      linux-next: update maintainer info.
+      docs: admin-guide: update tiny script for number of taint flags
+      docs: kdoc_parser: handle struct member macro VIRTIO_DECLARE_FEATURES=
+(name)
+      docs: xforms_lists: ignore context analysis and lock attributes
+      Docs: hid: intel-ish-hid: make long URL usable
+
+Ricardo Ungerer (1):
+      jobserver: Fix typo in docstring
+
+Rito Rhymes (5):
+      docs: use logo.svg as favicon
+      docs: allow inline literals in paragraphs to wrap to prevent overflow
+      docs: contain horizontal overflow in C API descriptions
+      docs: allow long table reference links to wrap and prevent overflow
+      docs: allow long links to wrap per character to prevent page overflow
+
+Ryan Cheevers (1):
+      docs: fix typo in housekeeping
+
+Sebastian Andrzej Siewior (1):
+      Documentation: Add managed interrupts
+
+Shubham Chakraborty (2):
+      docs: sysctl: add documentation for crypto and debug
+      docs: sysctl: Add documentation for /proc/sys/xen/
+
+Song Hongyi (1):
+      docs/zh_CN: sync process/2.Process.rst with English version
+
+Steven Rostedt (1):
+      tracing: Documentation: Update histogram-design.rst for fn() handling
+
+Sukrut Heroorkar (1):
+      Documentation: core-api: real-time: correct spelling
+
+Thorsten Blum (1):
+      Documentation/maintainer-tip: Fix grammar
+
+Thorsten Leemhuis (6):
+      docs: handling-regressions: add, trim, and sort quotes from Linus
+      docs: reporting-issues: mention text is best viewed rendered
+      docs: reporting-issues: tweak the reference section intro
+      docs: reporting-issues: add conclusion to the step-by-step guide
+      docs: verify-bugs-=E2=80=A6 and quickly-build-=E2=80=A6: improve feed=
+back section
+      docs: reporting-issues: create a proper appendix explaining specialti=
+es
+
+Tommaso Cucinotta (1):
+      sched/deadline: document new sched_getattr() feature for retrieving c=
+urrent parameters for DEADLINE tasks
+
+Tom=C3=A1s Pando (1):
+      docs: driver-api: fix 6 spelling typos in Documentation/driver-api
+
+Wolfram Sang (1):
+      Documentation: seq_file: drop 2.6 reference
+
+Zenghui Yu (Huawei) (1):
+      docs: proc: remove description of prof_cpu_mask
+
+fangqiurong (1):
+      sched/doc: Update yield_task description in sched-design-CFS
+
+h3288824963 (1):
+      Documentation: printk: Add section about avoiding lockups
+
+ Documentation/admin-guide/bcache.rst               |    2 +-
+ Documentation/admin-guide/cpu-isolation.rst        |  357 ++++
+ Documentation/admin-guide/index.rst                |    1 +
+ Documentation/admin-guide/kernel-parameters.txt    |    8 +-
+ .../admin-guide/pm/intel-speed-select.rst          |    2 +-
+ .../admin-guide/quickly-build-trimmed-linux.rst    |   14 +-
+ Documentation/admin-guide/reporting-issues.rst     |  210 +--
+ Documentation/admin-guide/sysctl/crypto.rst        |   47 +
+ Documentation/admin-guide/sysctl/debug.rst         |   52 +
+ Documentation/admin-guide/sysctl/index.rst         |    9 +-
+ Documentation/admin-guide/sysctl/xen.rst           |   31 +
+ Documentation/admin-guide/tainted-kernels.rst      |    2 +-
+ .../verify-bugs-and-bisect-regressions.rst         |   15 +-
+ Documentation/conf.py                              |    1 +
+ Documentation/core-api/housekeeping.rst            |    2 +-
+ Documentation/core-api/irq/index.rst               |    1 +
+ Documentation/core-api/irq/managed_irq.rst         |  116 ++
+ Documentation/core-api/memory-hotplug.rst          |    2 +-
+ Documentation/core-api/printk-basics.rst           |   36 +
+ .../core-api/real-time/architecture-porting.rst    |    2 +-
+ Documentation/core-api/real-time/differences.rst   |    2 +-
+ Documentation/dev-tools/coccinelle.rst             |    5 +-
+ Documentation/doc-guide/kernel-doc.rst             |    6 +
+ Documentation/driver-api/acpi/acpi-drivers.rst     |    2 +-
+ .../driver-api/cxl/platform/acpi/cedt.rst          |    2 +-
+ .../driver-api/cxl/platform/bios-and-efi.rst       |    2 +-
+ Documentation/driver-api/dmaengine/pxa_dma.rst     |    2 +-
+ .../early-userspace/early_userspace_support.rst    |    2 +-
+ Documentation/driver-api/interconnect.rst          |   16 +-
+ Documentation/driver-api/libata.rst                |    2 +-
+ Documentation/driver-api/media/drivers/zoran.rst   |    2 +-
+ Documentation/driver-api/pci/p2pdma.rst            |    2 +-
+ .../features/perf/perf-regs/arch-support.txt       |    2 +-
+ .../features/perf/perf-stackdump/arch-support.txt  |    2 +-
+ Documentation/filesystems/path-lookup.rst          |    2 +-
+ Documentation/filesystems/proc.rst                 |   52 +-
+ Documentation/filesystems/seq_file.rst             |    2 +-
+ Documentation/hid/intel-ish-hid.rst                |    4 +-
+ Documentation/mm/hwpoison.rst                      |    2 +-
+ Documentation/mm/numa.rst                          |    2 +-
+ Documentation/process/2.Process.rst                |    2 +-
+ Documentation/process/backporting.rst              |    2 +-
+ Documentation/process/changes.rst                  |   58 +-
+ .../process/debugging/gdb-kernel-debugging.rst     |    9 +
+ Documentation/process/handling-regressions.rst     |  695 +++++---
+ Documentation/process/maintainer-handbooks.rst     |    2 -
+ Documentation/process/maintainer-tip.rst           |    2 +-
+ Documentation/process/submitting-patches.rst       |   12 +-
+ Documentation/scheduler/sched-deadline.rst         |   22 +-
+ Documentation/scheduler/sched-design-CFS.rst       |    5 +-
+ Documentation/sphinx-static/custom.css             |   26 +
+ Documentation/sphinx/translations.py               |    1 +
+ Documentation/tools/kdoc_ancillary.rst             |   17 +
+ Documentation/tools/kdoc_parser.rst                |    8 +
+ Documentation/tools/python.rst                     |    2 +
+ Documentation/tools/rtla/rtla-hwnoise.rst          |    2 +-
+ Documentation/tools/rtla/rtla-osnoise-hist.rst     |    2 +-
+ Documentation/tools/rtla/rtla-osnoise-top.rst      |    2 +-
+ Documentation/tools/rtla/rtla-osnoise.rst          |    2 +-
+ Documentation/tools/rtla/rtla-timerlat-hist.rst    |    2 +-
+ Documentation/tools/rtla/rtla-timerlat-top.rst     |    2 +-
+ Documentation/tools/rtla/rtla-timerlat.rst         |    2 +-
+ Documentation/tools/rtla/rtla.rst                  |    6 +-
+ Documentation/tools/unittest.rst                   |   24 +
+ Documentation/trace/histogram-design.rst           |   20 +-
+ Documentation/translations/index.rst               |    4 +-
+ .../translations/it_IT/process/4.Coding.rst        |    3 +-
+ .../ja_JP/process/submitting-patches.rst           |  129 +-
+ .../translations/pt_BR/disclaimer-pt_BR.rst        |   11 +
+ Documentation/translations/pt_BR/index.rst         |   77 +
+ .../translations/pt_BR/process/1.Intro.rst         |  269 ++++
+ .../translations/pt_BR/process/changes.rst         |  576 +++++++
+ .../translations/pt_BR/process/conclave.rst        |   40 +
+ Documentation/translations/pt_BR/process/howto.rst |  637 ++++++++
+ .../pt_BR/process/maintainer-handbooks.rst         |   18 +
+ .../pt_BR/process/maintainer-kvm-x86.rst           |  435 +++++
+ .../pt_BR/process/maintainer-netdev.rst            |  596 +++++++
+ .../pt_BR/process/maintainer-soc-clean-dts.rst     |   28 +
+ .../translations/pt_BR/process/maintainer-soc.rst  |  222 +++
+ .../translations/sp_SP/process/4.Coding.rst        |    3 +-
+ .../sp_SP/process/submitting-patches.rst           |    2 +-
+ .../sp_SP/scheduler/sched-design-CFS.rst           |    6 +-
+ .../zh_CN/dev-tools/testing-overview.rst           |    2 +-
+ .../translations/zh_CN/process/2.Process.rst       |   56 +-
+ .../translations/zh_CN/process/4.Coding.rst        |    2 +-
+ .../translations/zh_CN/rust/arch-support.rst       |    9 +-
+ .../translations/zh_CN/rust/coding-guidelines.rst  |  262 ++-
+ Documentation/translations/zh_CN/rust/index.rst    |   17 -
+ .../translations/zh_CN/rust/quick-start.rst        |  190 ++-
+ .../zh_CN/scheduler/sched-design-CFS.rst           |    4 +-
+ .../translations/zh_TW/admin-guide/README.rst      |    2 +-
+ .../translations/zh_TW/process/4.Coding.rst        |    2 +-
+ MAINTAINERS                                        |   10 +-
+ scripts/ver_linux                                  |   63 +-
+ tools/docs/checktransupdate.py                     |   22 +-
+ tools/docs/kdoc_diff                               |  508 ++++++
+ tools/docs/kernel-doc                              |   49 +-
+ tools/docs/sphinx-build-wrapper                    |   17 +-
+ tools/lib/python/jobserver.py                      |    4 +-
+ tools/lib/python/kdoc/c_lex.py                     |  662 ++++++++
+ tools/lib/python/kdoc/kdoc_files.py                |  151 +-
+ tools/lib/python/kdoc/kdoc_item.py                 |   45 +-
+ tools/lib/python/kdoc/kdoc_output.py               |  324 +++-
+ tools/lib/python/kdoc/kdoc_parser.py               |  292 ++--
+ tools/lib/python/kdoc/kdoc_re.py                   |  205 +--
+ tools/lib/python/kdoc/kdoc_yaml_file.py            |  178 ++
+ tools/lib/python/kdoc/xforms_lists.py              |  153 ++
+ tools/lib/python/unittest_helper.py                |  363 +++++
+ tools/unittests/kdoc-test-schema.yaml              |  156 ++
+ tools/unittests/kdoc-test.yaml                     | 1698 ++++++++++++++++=
+++++
+ tools/unittests/run.py                             |   17 +
+ tools/unittests/test_cmatch.py                     |  821 ++++++++++
+ tools/unittests/test_kdoc_parser.py                |  560 +++++++
+ tools/unittests/test_kdoc_test_schema.py           |   94 ++
+ tools/unittests/test_tokenizer.py                  |  469 ++++++
+ 115 files changed, 11356 insertions(+), 1057 deletions(-)
+ create mode 100644 Documentation/admin-guide/cpu-isolation.rst
+ create mode 100644 Documentation/admin-guide/sysctl/crypto.rst
+ create mode 100644 Documentation/admin-guide/sysctl/debug.rst
+ create mode 100644 Documentation/admin-guide/sysctl/xen.rst
+ create mode 100644 Documentation/core-api/irq/managed_irq.rst
+ create mode 100644 Documentation/tools/unittest.rst
+ create mode 100644 Documentation/translations/pt_BR/disclaimer-pt_BR.rst
+ create mode 100644 Documentation/translations/pt_BR/index.rst
+ create mode 100644 Documentation/translations/pt_BR/process/1.Intro.rst
+ create mode 100644 Documentation/translations/pt_BR/process/changes.rst
+ create mode 100644 Documentation/translations/pt_BR/process/conclave.rst
+ create mode 100644 Documentation/translations/pt_BR/process/howto.rst
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-han=
+dbooks.rst
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-kvm=
+-x86.rst
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-net=
+dev.rst
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-soc=
+-clean-dts.rst
+ create mode 100644 Documentation/translations/pt_BR/process/maintainer-soc=
+.rst
+ create mode 100755 tools/docs/kdoc_diff
+ create mode 100644 tools/lib/python/kdoc/c_lex.py
+ create mode 100644 tools/lib/python/kdoc/kdoc_yaml_file.py
+ create mode 100644 tools/lib/python/kdoc/xforms_lists.py
+ create mode 100755 tools/lib/python/unittest_helper.py
+ create mode 100644 tools/unittests/kdoc-test-schema.yaml
+ create mode 100644 tools/unittests/kdoc-test.yaml
+ create mode 100755 tools/unittests/run.py
+ create mode 100755 tools/unittests/test_cmatch.py
+ create mode 100755 tools/unittests/test_kdoc_parser.py
+ create mode 100755 tools/unittests/test_kdoc_test_schema.py
+ create mode 100755 tools/unittests/test_tokenizer.py
