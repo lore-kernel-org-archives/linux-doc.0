@@ -1,252 +1,274 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E54AB1A9B24;
-	Sun, 12 Apr 2026 15:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3923E8C1F;
+	Sun, 12 Apr 2026 16:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776006369; cv=none; b=VD7rC3cb+/96aYuKJb5jueFAvt/kwCbri2oXdoniulrLAKWWgvOxnEkw8geJHnwj/bNvrBuxBiC3jWd2CClXmHGt5OEzd1sqsC3SHUKpfRZyMKkYEcBryrcTxhecookIg6jOBqe7Scntqm2+pjJ7FHW3/DBA13VnI1RmocBCw28=
+	t=1776010802; cv=none; b=aXsMBXA4vNJTtJIeaLAPTAiDf1Qs2AuJJK6afqglROS5meX61l3gSZAcZFaINqWsZKNcJ1vvUY0bR1Nzz16OBp4erJgvFtVt0yBith8n+QYp/rOWk8MYwhvWXAl09togQVLNgoGUZT04bMpmlzJ7TXn/HFwr+srFVBpC1yzHL68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776006369; c=relaxed/simple;
-	bh=UcSympXQJ9b3M0RiLFwXAgw6p+0gTGwvhAg18x5yTB0=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=sG8am5Ue1OHVaJnrK2UfNxDET9DR+SHig+1ZiprnaQkw9/V9MJVJYMU5dBAB6gc38C73krq4WUDBmjmvYt/4uWoapdnmfSQhhbVoZD+4p5QkKa6nq4lc4m1XCe1Y/6VJVq9j+x34R+zqmjfgdiuS36yvUorfpJD4pWNcog9vn3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sv2v7JO6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776010802; c=relaxed/simple;
+	bh=TKSNA76V2Q7FnR2TtsRjiWi8cm1w5FFExih5nDC2pRI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D/J3btmYvH0J0EQUH3LCHPTmjV+vX+ucRG23SZ8JExl3N1CIYylp/DesiD+92AoXjpnbLTIIFI4JONc/6LV5Obd54320bjLMBlIP9esIHYxf8hyfdWpFAU8eDh5AXw95v8qldRYvnXxRf8xKrieRSBxEZn+lxCFEH1zj4AYUNns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fSw0VDgW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sv2v7JO6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86C65C19424;
-	Sun, 12 Apr 2026 15:06:00 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fSw0VDgW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 053ADC19424;
+	Sun, 12 Apr 2026 16:20:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776006368;
-	bh=UcSympXQJ9b3M0RiLFwXAgw6p+0gTGwvhAg18x5yTB0=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=sv2v7JO67veBqJeZo2TAd0BNRsS+Mksy460oi9Wtl3w4Ojjnm83il4lIOF0pvcK13
-	 TXkzybAXMi5F4vCxgCIR1QVBFsOUGElV425xtfYnSPGrBTg2FUvVRqKGEJZWA/XBd8
-	 WjC1w+uoic7OG+JOqbibm8gv16WGq7KPTQKSgMqpavGwkNge6FmQaN6+I9iM7fOWLc
-	 IK7WcyAflLHGwLN1yRVlMelqjFFCIJdBkbEbyXKbR/XcM89IoO6UXOKbs32aOykJK+
-	 om7yXciNx/CZJUJ0uODBdm1wDgDW5WGN/RyH+aMae4xreHe2jjQNtopOClgWckB3Di
-	 FflQLdHR4HDAw==
-Date: Sun, 12 Apr 2026 16:05:55 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Petr Mladek
- <pmladek@suse.com>, rodrigo.alencar@analog.com,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, David Lechner
- <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, Rasmus
- Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v9 2/9] lib: vsprintf: export simple_strntoull() in a
- safe prototype
-Message-ID: <20260412160555.4f0ac419@jic23-huawei>
-In-Reply-To: <mnz7d2zd27x6h2qa24rajgrbhkhsypybadkqz2fi43rg7bvjvj@oufys7xs25t4>
-References: <20260320-adf41513-iio-driver-v9-0-132f0d076374@analog.com>
-	<20260320-adf41513-iio-driver-v9-2-132f0d076374@analog.com>
-	<acZDneLrIPOmU5ci@pathway.suse.cz>
-	<acZLHAT5qJyjKTsp@ashevche-desk.local>
-	<4uijfg4efzaapu3esobez55hfwqzszwagpeb4lxej2ybmifu76@s3c57fmnsme6>
-	<acZaGUV0MwuHNDru@ashevche-desk.local>
-	<x34d7jz7be4ommjh6efx5mcq5pbpellykwuyrqayr4ske3lywf@wh46mu3anmcz>
-	<qnb3ozrhrq5n4zkh2luitkpwr5oj4omgcuo5vnvy2gatdfdqlg@cgsgux7etcql>
-	<mnz7d2zd27x6h2qa24rajgrbhkhsypybadkqz2fi43rg7bvjvj@oufys7xs25t4>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1776010801;
+	bh=TKSNA76V2Q7FnR2TtsRjiWi8cm1w5FFExih5nDC2pRI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=fSw0VDgWITMAvD/hRNLrG/1isNPI04+GCdEgM6V5sy/xiAtFaYWj9ef3FPoeHMSMk
+	 1khdNuHw9AGhkjwicx4GO9A7cIuXTQNm3UVq/baZHQQZpIofLc5jWggt6+cNBPnbC+
+	 EjdUQegFkqg42hyg4+HnV6Ac1y2w93c6maOqZfnNh0yllpVPOkackpAGs54ANxVcb4
+	 HXVwjAPSVAiATDekSiOtxUyf+NaaxcB+SQ9AIDyJCt6EDKifgI8yUfecum84GLt1Aa
+	 E6RELkIhtDg0exLNeikoI8pVA7HkZfoZUKdaFF1W0PDNsCnWFZuKEj6h9M8BCVelj6
+	 GKb5+Co2PBfKg==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH v5.2 00/11] mm/damon: introduce DAMOS failed region quota charge ratio
+Date: Sun, 12 Apr 2026 09:19:43 -0700
+Message-ID: <20260412161957.82835-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 31 Mar 2026 14:01:04 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+TL; DR: Let users set different DAMOS quota charge ratios for DAMOS
+action failed regions, for deterministic and consistent DAMOS action
+progress.
 
-> On 26/03/30 01:49PM, Rodrigo Alencar wrote:
-> > On 26/03/27 03:17PM, Rodrigo Alencar wrote:  
-> > > On 26/03/27 12:21PM, Andy Shevchenko wrote:  
-> > > > On Fri, Mar 27, 2026 at 10:11:56AM +0000, Rodrigo Alencar wrote:  
-> > > > > On 26/03/27 11:17AM, Andy Shevchenko wrote:  
-> > > > > > On Fri, Mar 27, 2026 at 09:45:17AM +0100, Petr Mladek wrote:  
-> > > > > > > On Fri 2026-03-20 16:27:27, Rodrigo Alencar via B4 Relay wrote:  
-> > 
-> > ...
-> >   
-> > > > > > Maybe we want to have kstrtof32() and kstrtof64() for these two cases?
-> > > > > > 
-> > > > > > With that we will always consider the fraction part as 32- or 64-bit,
-> > > > > > imply floor() on the fraction for the sake of simplicity and require
-> > > > > > it to be NUL-terminated with possible trailing '\n'.  
-> > > > > 
-> > > > > I think this is a good idea, but calling it float or fixed point itself
-> > > > > is a bit confusing as float often refers to the IEEE 754 standard and
-> > > > > fixed point types is often expressed in Q-format.  
-> > > > 
-> > > > Yeah... I am lack of better naming.  
-> > > 
-> > > decimals is the name, but they are often represented as:
-> > > 
-> > > 	DECIMAL = INT * 10^X + FRAC
-> > > 
-> > > in a single 64-bit number, which would be fine for my end use case.
-> > > However IIO decimal fixed point parsing is out there for quite some time a
-> > > lot of drivers use that. The interface often relies on breaking parsed values
-> > > into an integer array (for standard attributes int val and int val2 are expected).  
-> > 
-> > Thinking about this again and in IIO drivers we end up doing something like:
-> > 
-> > val64 = (u64)val * MICRO + val2;
-> > 
-> > so that drivers often work with scaled versions of the decimal value.
-> > then, would it make sense to have a function that already outputs such value?
-> > That would allow to have more freedom over the 64-bit split between integer
-> > and fractional parts.
-> > As a draft:
-> > 
-> > static int _kstrtodec64(const char *s, unsigned int scale, u64 *res)
-> > {
-> > 	u64 _res = 0, _frac = 0;
-> > 	unsigned int rv;
-> > 
-> > 	if (*s != '.') {
-> > 		rv = _parse_integer(s, 10, &_res);
-> > 		if (rv & KSTRTOX_OVERFLOW)
-> > 			return -ERANGE;
-> > 		if (rv == 0)
-> > 			return -EINVAL;
-> > 		s += rv;
-> > 	}
-> > 
-> > 	if (*s == '.') {
-> > 		s++;
-> > 		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> > 		if (rv & KSTRTOX_OVERFLOW)
-> > 			return -ERANGE;
-> > 		if (rv == 0)
-> > 			return -EINVAL;
-> > 		s += rv;
-> > 		if (rv < scale)
-> > 			_frac *= int_pow(10, scale - rv);
-> > 		while (isdigit(*s)) /* truncate */
-> > 			s++;
-> > 	}
-> > 
-> > 	if (*s == '\n')
-> > 		s++;
-> > 	if (*s)
-> > 		return -EINVAL;
-> > 
-> > 	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> > 	    check_add_overflow(_res, _frac, &_res))
-> > 		return -ERANGE;
-> > 
-> > 	*res = _res;
-> > 	return 0;
-> > }
-> > 
-> > noinline
-> > int kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> > {
-> > 	if (s[0] == '+')
-> > 		s++;
-> > 	return _kstrtodec64(s, scale, res);
-> > }
-> > EXPORT_SYMBOL(kstrtoudec64);
-> > 
-> > noinline
-> > int kstrtosdec64(const char *s, unsigned int scale, s64 *res)
-> > {
-> > 	u64 tmp;
-> > 	int rv;
-> > 
-> > 	if (s[0] == '-') {
-> > 		rv = _kstrtodec64(s + 1, scale, &tmp);
-> > 		if (rv < 0)
-> > 			return rv;
-> > 		if ((s64)-tmp > 0)
-> > 			return -ERANGE;
-> > 		*res = -tmp;
-> > 	} else {
-> > 		rv = kstrtoudec64(s, scale, &tmp);
-> > 		if (rv < 0)
-> > 			return rv;
-> > 		if ((s64)tmp < 0)
-> > 			return -ERANGE;
-> > 		*res = tmp;
-> > 	}
-> > 	return 0;
-> > }
-> > EXPORT_SYMBOL(kstrtosdec64);
-> > 
-> > e.g., kstrtosdec64() or kstrtoudec64() parses "3.1415" with scale 3 into 3141  
-> 
-> Hi Jonathan,
-> 
-> developing more on that, I wouldn't need to create a iio_str_to_fixpoint64(),
-> what do you think on new format types:
-> 
-> #define IIO_VAL_DECIMAL64_1 101
-> #define IIO_VAL_DECIMAL64_2 102
-> #define IIO_VAL_DECIMAL64_3 103
-> #define IIO_VAL_DECIMAL64_4 104
-> #define IIO_VAL_DECIMAL64_5 105
-> #define IIO_VAL_DECIMAL64_6 106
-> #define IIO_VAL_DECIMAL64_7 107
-> #define IIO_VAL_DECIMAL64_8 108
-> #define IIO_VAL_DECIMAL64_9 109
-> #define IIO_VAL_DECIMAL64_10 110
-> #define IIO_VAL_DECIMAL64_11 111
-> #define IIO_VAL_DECIMAL64_12 112
-> #define IIO_VAL_DECIMAL64_13 113
-> #define IIO_VAL_DECIMAL64_14 114
-> #define IIO_VAL_DECIMAL64_15 115
+Common Reports: Unexpectedly Slow DAMOS
+=======================================
 
-Seems unlikely more than a few of these would ever be used.
-If you want to keep the offsets define them in terms
-of first one + whatever makes sense (maybe with a base value
-to make that easier - then MICRO is BASE + 6 etc)
+One common issue report that we get from DAMON users is that DAMOS
+action applying progress speed is sometimes much slower than expected.
+And one common root cause is that the DAMOS quota is exceeded by the
+action applying failed memory regions.
 
-> 
-> #define IIO_VAL_DECIMAL64_MILLI IIO_VAL_DECIMAL64_3
-> #define IIO_VAL_DECIMAL64_MICRO IIO_VAL_DECIMAL64_6
-> #define IIO_VAL_DECIMAL64_NANO IIO_VAL_DECIMAL64_9
-> #define IIO_VAL_DECIMAL64_PICO IIO_VAL_DECIMAL64_12
-> #define IIO_VAL_DECIMAL64_FEMTO IIO_VAL_DECIMAL64_15
-> 
-> which gets stored as 64-bit, and represent the decimal scaled value.
-> That would also work for the PLL driver (using IIO_VAL_DECIMAL64_MICRO):
->   - It supports frequency range from 1 to 26 GHz with micro Hz resolution
->   - In the driver a 64-bit value: (val * MICRO + val2) is already created
->   anyways.
-> I would leverage something like kstrtodec64() in iio_write_channel_info().
-> 
-> That way, I would drop the changes on the iio fixpoint parse, which I think
-> it would do better with something like kstrntoull() to be able to handle that
-> "dB" suffix.
-> 
-> So for now, I may have the following approaches:
-> - new kstrntoull() function: to have control over the parsing, whithout
->   requiring NUL-termination, avoiding unecessary string scanning or copying.
->   covered in v8.
-> - expose a "safe" simple_strntoull(): minimal changes to vsprintf.c, this
->   is covered by this patch series (v9), and it similar solution to kstrntoull().
-> - new kstrtodec64() function: parse decimal numbers as 64-bit with NUL-termination.
->   Might be covered in a v10, if it is a good idea.
-> 
-> let me know your thoughts.
+For example, a group of users tried to run DAMOS-based proactive memory
+reclamation (DAMON_RECLAIM) with 100 MiB per second DAMOS quota.  They
+ran it on a system having no active workload which means all memory of
+the system is cold.  The expectation was that the system will show 100
+MiB per second reclamation until (nearly) all memory is reclaimed. But
+what they found is that the speed is quite inconsistent and sometimes it
+becomes very slower than the expectation, sometimes even no reclamation
+at all for about tens of seconds.  The upper limit of the speed (100 MiB
+per second) was being kept as expected, though.
 
-For string parsing I'm not a particular expert, so I only really care
-about useability of the end result.  Having types would work, but I'd kind
-of want an 'odd ones' to stand out. Hence only defining them for parsing 
-cases we already support (but with 64 bit values) would be my preference
-if you got ahead with this new approach.
+By monitoring the qt_exceeds (number of DAMOS quota exceed events) DAMOS
+stat, we found DAMOS quota is always exceeded when the speed is slow. By
+monitoring sz_tried and sz_applied (the total amount of DAMOS action
+tried memory and succeeded memory) DAMOS stats together, we found the
+reclamation attempts nearly always failed when the speed is slow.
 
-Jonathan
+DAMOS quota charges DAMOS action tried regions regardless of the
+successfulness of the try.  Hence in the example reported case, there
+was unreclaimable memory spread around the system memory.  Sometimes
+nearly 100 MiB of memory that DAMOS tried to reclaim in the given quota
+interval was reclaimable, and therefore showed nearly 100 MiB per second
+speed.  Sometimes nearly 99 MiB of memory that DAMOS was trying to
+reclaim in the given quota interval was unreclaimable, and therefore
+showing only about 1 MiB per second reclaim speed.
 
-> 
+We explained it is an expected behavior of the feature rather than a
+bug, as DAMOS quota is there for only the upper-limit of the speed.  The
+users agreed and later reported a huge win from the adoption of
+DAMON_RECLAIM on their products.
 
+It is Not a Bug but a Feature; But...
+=====================================
+
+So nothing is broken.  DAMOS quota is working as intended, as the upper
+limit of the speed.  It also provides its behavior observability via
+DAMOS stat.  In the real world production environment that runs long
+term active workloads and matters stability, the speed sometimes being
+slow is not a real problem.
+
+But, the non-deterministic behavior is sometimes annoying, especially in
+lab environments.  Even in a realistic production environment, when
+there is a huge amount of DAMOS action unapplicable memory, the speed
+could be problematically slow.  Let's suppose a virtual machines
+provider that setup 99% of the host memory as hugetlb pages that cannot
+be reclaimed, to give it to virtual machines.  Also, when aim-oriented
+DAMOS auto-tuning is applied, this could also make the internal feedback
+loop confused.
+
+The intention of the current behavior was that trying DAMOS action to
+regions would anyway impose some overhead, and therefore somehow be
+charged.  But in the real world, the overhead for failed action is much
+lighter than successful action.  Charging those at the same ratio may be
+unfair, or at least suboptimum in some environments.
+
+DAMOS Action Failed Region Quota Charge Ratio
+=============================================
+
+Let users set the charge ratio for the action-failed memory, for more
+optimal and deterministic use of DAMOS.  It allows users to specify the
+numerator and the denominator of the ratio for flexible setup.  For
+example, let's suppose the numerator and the denominator are set to 1
+and 4,096, respectively.  The ratio is 1 / 4,096.  A DAMOS scheme action
+is applied to 5 GiB memory.  For 1 GiB of the memory, the action is
+succeeded.  For the rest (4 GiB), the action is failed.  Then, only 1
+GiB and 1 MiB quota is charged.
+
+The optimal charge ratio will depend on the use case and
+system/workload.  I'd recommend starting from setting the nominator as 1
+and the denominator as PAGE_SIZE and tune based on the results, because
+many DAMOS actions are applied at page level.
+
+Tests
+=====
+
+I tested this feature in the steps below.
+
+1. Allocate 50% of system memory and mlock() it using a test program.
+2. Fill up the page cache to exhaust nearly all free memory.
+3. Start DAMON-based proactive reclamation with 100 MiB/second DAMOS
+   hard-quota.  Auto-tune the DAMOS soft-quota under the hard-quota for
+   achieving 40% free memory of the system with 'temporal' tuner.
+
+For step 1, I run a simple C program that is written by Gemini.  It is
+quite straightforward, so I'm not sharing the code here.
+
+For step 2, I use dd command like below:
+
+   dd if=/dev/zero of=foo bs=1M count=$50_percent_of_system_memory
+
+For step 3, I use the latest version of DAMON user-space tool (damo)
+like below.
+
+    sudo damo start --damos_action pageout \
+            ` # Do the pageout only up to 100 MiB per second ` \
+            --damos_quota_space 100M --damos_quota_interval 1s \
+            ` # Auto-tune the quota below the hard quota aiming` \
+            ` # 40% free memory of the node 0 ` \
+            ` # (entire node of the test system)` \
+            --damos_quota_goal node_mem_free_bp 40% 0 \
+            ` # use temporal tuner, which is easy to understnd ` \
+            --damos_quota_goal_tuner temporal
+
+As expected, the progress of the reclamation is not consistent, because
+the quota is exceeded for the failed reclamation of the unreclaimable
+memory.
+
+I do this again, but with the failed region charge ratio feature.  For
+this, the above 'damo' command is used, after appending command line
+option for setup of the charge ratio like below.  Note that the option
+was added to 'damo' after v3.1.9.
+
+    sudo ./damo start --damos_action pageout \
+            [...]
+            ` # quota-charge only 1/4096 for pageout-failed regions ` \
+            --damos_quota_fail_charge_ratio 1 4096
+
+The progress of the reclamation was nearly 100 MiB per second until the
+goal was achieved, meeting the expectation.
+
+Patches Sequence
+================
+
+The first two patches make preparational changes.  Patch 1 updates fully
+charged quota check to handle <min_region_sz remaining quota, which will
+be able to exist after this series is applied.  Patch 2 merges regions
+after applying schemes is done as long as it is ok to do, since regions
+split operations for quota could happen much more frequently under a
+corner case that this series will make available.
+
+Patch 3 implements the feature and exposes it via DAMON core API.  Patch
+4 implements DAMON sysfs ABI for the feature.  Three following patches
+(5-7) document the feature and ABI on design, usage, and ABI documents,
+respectively.  Four patches for testing of the new feature follow.
+Patch 8 implements a kunit test for the feature.  Patches 9 and 10
+extend DAMON selftest helpers for DAMON sysfs control and internal state
+dumping for adding a new selftest for the feature.  Patch 11 extends
+existing DAMON sysfs interface selftest to test the new feature using
+the extended helper scripts.
+
+Changelog
+=========
+
+Changes from RFC v5.1
+(https://lore.kernel.org/20260411164908.77189-1-sj@kernel.org)
+- Add missed mergeback fixup.
+Changes from RFC v5
+(https://lore.kernel.org/20260410142034.83798-1-sj@kernel.org)
+- Merge back: merge whatever if it doesn't lose monitoring infomration
+  and not violating min_nr_regions.
+Changes from RFC v4
+(https://lore.kernel.org/20260409142148.60652-1-sj@kernel.org)
+- Fix quota-sliced region merge-back issues.
+  - Use damon_for_each_region() instead of damon_for_each_region_safe().
+  - Avoid merging back of sliced but scheme unapplied regions, to keep
+    the monitoring information.
+Changes from RFC v3
+(https://lore.kernel.org/20260407010536.83603-1-sj@kernel.org)
+- Make damos_quota_is_full() safe from overflow and easier to read.
+- Avoid quota-based region split making too many new regions.
+Changes from RFC v2
+(https://lore.kernel.org/20260405151232.102690-1-sj@kernel.org)
+- Handle <min_region_sz remaining quota.
+- Document zero denum behavior.
+- Fix typos: s/selftets/selftests/
+Changes from RFC v1
+(https://lore.kernel.org/20260404163943.89278-1-sj@kernel.org)
+- Avoid overflows in charge amount calculation.
+- Fix/wordsmith documentation for grammar, typo, and wrong examples.
+- Improve unit test for more consistent comparison source use.
+
+SeongJae Park (11):
+  mm/damon/core: handle <min_region_sz remaining quota as empty
+  mm/damon/core: merge regions after applying DAMOS schemes
+  mm/damon/core: introduce failed region quota charge ratio
+  mm/damon/sysfs-schemes: implement fail_charge_{num,denom} files
+  Docs/mm/damon/design: document fail_charge_{num,denom}
+  Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom}
+    files
+  Docs/ABI/damon: document fail_charge_{num,denom}
+  mm/damon/tests/core-kunit: test fail_charge_{num,denom} committing
+  selftests/damon/_damon_sysfs: support failed region quota charge ratio
+  selftests/damon/drgn_dump_damon_status: support failed region quota
+    charge ratio
+  selftests/damon/sysfs.py: test failed region quota charge ratio
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  12 ++
+ Documentation/admin-guide/mm/damon/usage.rst  |  18 ++-
+ Documentation/mm/damon/design.rst             |  22 ++++
+ include/linux/damon.h                         |   9 ++
+ mm/damon/core.c                               | 103 ++++++++++++++++--
+ mm/damon/sysfs-schemes.c                      |  54 +++++++++
+ mm/damon/tests/core-kunit.h                   |   6 +
+ tools/testing/selftests/damon/_damon_sysfs.py |  21 +++-
+ .../selftests/damon/drgn_dump_damon_status.py |   2 +
+ tools/testing/selftests/damon/sysfs.py        |   6 +
+ 10 files changed, 236 insertions(+), 17 deletions(-)
+
+
+base-commit: 8419cb46e7cc36ea746f259cfcbda7166a9a1fd5
+-- 
+2.47.3
