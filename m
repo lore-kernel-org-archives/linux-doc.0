@@ -1,52 +1,76 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C38AB146A66;
-	Sun, 12 Apr 2026 21:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89493314A79
+	for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 21:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776028781; cv=none; b=g4fQd8JtpslCGIKVUDt7LYkachQ0mljEkzFEd3f9i54/Ib4INa60s4KqYIDwDcAMEStcyOcBz5xr11JIvjtqjby5en+tUj9MDrk3KE/rnmcwzYrb9pxm/EDZep+eR+8gQNzqBjmXgRL94JtG57x2q6X3uUvxJ8SJHNVQ+ADGcyI=
+	t=1776029689; cv=none; b=Hmj3PmAJD1xf9bVLG+lrIwT4QGTdQQDfCmF38H3MFpz1UurV30iWeu7KyGnApGWBHXE1G37uXloIrom9m+fEPnUQBXnS4TJ+he2tXZAcnZr61IDrjOiqKMFt/h5nzo0izT/tVwo1Ur+giQoRzCdZW4XG3w+qAvyKGUN2zFEx+Y8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776028781; c=relaxed/simple;
-	bh=A+viAtzJhebo8EZLCtKP1pqNz8neWzmWQtOaasROq5E=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KmP36onCMe5wkkARahu2opSIgMfPmxoy1/73aQBXcSlWGlKgDA3OSJmFQqDevhhAD6vbrwNeR1u5d1g0iUhlaKOmKGQGaozJe1NSBAx++ZfEeQkMkO2mocpdwohhyOwA2mbpmRqFk8ysj8lVaM6CNl+V5m3rDaeN/d4GgSBn6rs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uWqUOw6W; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776029689; c=relaxed/simple;
+	bh=AQrTEGW6sfD5ciR2bScsYfxiVHmSFMd8GRvYzOJarhM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=g6rAoKZR4leF2xdDvVDHjPxbm+txTAfY7yMj+mr02JCCnbeBZBZgXBXi6qHpmFQTuuhEekUEJDcWUQ2tHKwYiQBQfHd/CkABX+BWbtwGuXOsElZl2kXcDe3drPBwVnM4ybnzUxfpB0YusN0IAYlwUndlkZdBtqPUuHdDlOEPdJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BAui7PPy; arc=none smtp.client-ip=74.125.82.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uWqUOw6W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AFBF5C19424;
-	Sun, 12 Apr 2026 21:19:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776028781;
-	bh=A+viAtzJhebo8EZLCtKP1pqNz8neWzmWQtOaasROq5E=;
-	h=From:To:Cc:Subject:Date:From;
-	b=uWqUOw6W58RXhfqMvzzHjaiqCSMnugIccRIlvCBDUZbR5n05lrVD3dsDRoFnDJJDV
-	 dz9/qvoDWtgV843kX1KtouCgqUwXJcx6V4Zuw5+Y48muX66ZiH3vt634iAlRu04ZWy
-	 yTgQCE7NmgUoIWfZaMFR2jG40eJsXvd4cXAzMf6XIowPJ8dX7Jm0VAw32MAhqSkeDy
-	 Wm46TJ5TZdPf6GaO1lThQZMd5JIyeCN2LYR4JykBLAgGDV3I+1pbc3qqRuNqY7tY1f
-	 BX6+ZhOFGkogLg8KtaGXyaT6gp4CIMlTrdqI4R5xrZDyUy6FSUH0QJIlnfjZ2mXZRS
-	 3utuA4U8c3T5g==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BAui7PPy"
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-2d832f2f44cso842417eec.0
+        for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 14:34:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776029688; x=1776634488; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z0vO1HvyTYpK+q2M2tlyUiDamAY+vmW0ihlj4iawHpg=;
+        b=BAui7PPymn+xKSelNqqeOQe3YP8M4+EfsB078JhTVddvpSk5MinrSf6dNVijj5I/fv
+         /Rlg7Ql/YEiwBaRZchhT15vF5oHvI0RUUkH7mKvsjLzFg2ARUVztAZZ0Eqv3dBYByFRU
+         IHI6DdTSC7FKmSnf/OXjfhs5THFnLkRgBdcHz2PVy8jkFLzHAZ5t2tfUwtDS/hzMg9cy
+         h01lout5Lw3yTQJOk9E5Qrfp41E6O/1f4tDmUj5wKV0bubNxdtz9tHPpb6em/FqXd9G2
+         F4W+cPUmOetA7MDlSjs/1KCZgCqXqk5tWWDwedFDh2Vh6GJKIObaa3Hha5thYIEunbh3
+         RnZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776029688; x=1776634488;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z0vO1HvyTYpK+q2M2tlyUiDamAY+vmW0ihlj4iawHpg=;
+        b=LSxIzmGyh+y5KoFvzKyfZAW4L99JNp7vpGqOS+XRukfNCls0HqzDy2DEFODLlIedSi
+         eXYRrDvWJUTv52glfyk4rmjp9uD3KP6I86D6FgRFcu6Q3g6+fU8vZGcKQVReqVjkrWyn
+         Y8QMUV/OaahvgPe+H9Xkk2uU6uNaIVjBYfz3MuqnQHxEWAB8sSuOiKVphPqgumTJPlrN
+         B2KH2oFZ4o2+SB2XQScBNGDagx+xBfZoip9jFY7I8VlzygmnMJAXk+5NFCnhVhGlSaYw
+         RRT8YyN+MYaS71vI1CJZXUQRr+z7SDXdWeil9pxpwAiWlftzxnad3Uzh8NRC3CkPQYr5
+         UaAg==
+X-Forwarded-Encrypted: i=1; AJvYcCWCc5wOTSs3IEQzwJNYqWQ3tOmfO/CpHlTSlZ4DwrbpG69eQ+Kh8C9sZ6HxyPm/BGkZB3OIzFEziR4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwhwnYisn8FsBVF2Ut4tc6WjW1jsfQO+TX0E5C0KTM0s4+hrr10
+	FNBo3j4zNvGiEBpm8fvaLVuoE3tT9OqlQfEndRfknjFMbfa3ukfMz/Ep
+X-Gm-Gg: AeBDieuS1o6so1b1RjGJWtaAkW5paUzOP03hVq7fmha2+ajkZK9Wba8m7bCbSxixkZ/
+	Nw9F36uvaOCcwZtZK8cbXzs5efGerOvUm796FaFQ/AJWrHZychISVipZrKqavaWwwQmPE8FKnrO
+	nMFPnDYTR3K5ckd/FW+lOGNnQ6lpqNGzixScxEuCTc1BTmnUVnFAF+tAlJShb10dfj+6LsJJbxx
+	x6fKQmllyQkfUZT5kfZLzDvfhIBq15ui94FA5864iUzsY+fAuZTZTEqKQP9LDHwx95810GS4yJx
+	ahSmzZy3VJTzowLfoa5V0x7Y/hB+4SyaKUMXUYXGOa+KCbJA+kR6MUyDTyLKirRv+NrUAQUgF04
+	ZrxUi9GgcarBPkRn9veKIERaVz+6UCKxpBSYs9FE8kohzKmK+V4lCD9VtCL4AnTpbZjEME1CbKa
+	Bmc0n5WdogXelCmuyT01+3LaMYpoWwsl7A0PZbdGBUY/siXh33YRKPCT/j02OvOhOOC31IfxgO4
+	KN4
+X-Received: by 2002:a05:7022:790:b0:12a:b932:81d3 with SMTP id a92af1059eb24-12c34eeb76fmr5593844c88.26.1776029687711;
+        Sun, 12 Apr 2026 14:34:47 -0700 (PDT)
+Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c345b5b9dsm10631736c88.7.2026.04.12.14.34.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 14:34:47 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Jiri Kosina <jikos@kernel.org>,
+	Benjamin Tissoires <bentiss@kernel.org>
+Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	Lambert Fan <fanzhaoming@anopc.com>,
+	Zhouwang Huang <honjow311@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	linux-input@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	sashiko@lists.linux.dev
-Subject: [PATCH] Docs/mm/damon/maintainer-profile: add AI review usage guideline
-Date: Sun, 12 Apr 2026 14:19:31 -0700
-Message-ID: <20260412211932.89038-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/5] Add OneXPlayer Configuration HID Driver
+Date: Sun, 12 Apr 2026 21:34:39 +0000
+Message-ID: <20260412213444.2231505-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,52 +79,41 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-DAMON is opted-in for DAMON patches scanning [1] and email delivery [2].
-Clarify how that could be used on DAMON maintainer profile.
+Adds an HID driver for OneXPlayer HID configuration devices. There are
+currently 2 generations of OneXPlayer HID protocol. The first (OneXPlayer
+F1 series) only provides an RGB control interface over HID. The Second
+(X1 mini series, G1 series, AOKZOE A1X) also includes a hardware level
+button mapping interface, vibration intensity settings, and the ability
+to switch output between xinput and a debug mode that can be used to debug
+the button mapping. Some devices (G1 Series, APEX) use a hybrid of Gen1
+RGB control and Gen 2 controller settings. To ensure there is no conflicts
+when the driver is loaded, we skip creating the RGB interface for Gen 2
+devices if there is a DMI match.
 
-[1] https://github.com/sashiko-dev/sashiko/commit/ad9f4a98f958
-[2] https://github.com/sashiko-dev/sashiko/commit/b554c7b6e733
+I'll also add a note that Gen 1 devices also have an interface for
+setting the key map and debug mode, but that is done entirely over a
+serial TTY device so it is not able to be added to this driver. There
+are also some "Gen 0" devices (OneXPlayer 2 Series) also use it, but
+the TTY interface also handles the RGB control so no support is
+provided by this driver for those interfaces.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
-Changes from v1
-- v1: https://lore.kernel.org/20260411183029.81030-1-sj@kernel.org
-- replace typo-ed word: s/a non-mandastory/an optional/.
-- wordsmith recipients reduction rule of thumbs.
+Signed-off-by: Derel J. Clark <derekjohn.clark@gmail.com>
 
- Documentation/mm/damon/maintainer-profile.rst | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Derek J. Clark (5):
+  HID: hid-oxp: Add OneXPlayer configuration driver
+  HID: hid-oxp: Add Second Generation RGB Control
+  HID: hid-oxp: Add Second Generation Gamepad Mode Switch
+  HID: hid-oxp: Add Button Mapping Interface
+  HID: hid-oxp: Add Vibration Intensity Attributes
 
-diff --git a/Documentation/mm/damon/maintainer-profile.rst b/Documentation/mm/damon/maintainer-profile.rst
-index bcb9798a27a86..fb2fa00cc9aa1 100644
---- a/Documentation/mm/damon/maintainer-profile.rst
-+++ b/Documentation/mm/damon/maintainer-profile.rst
-@@ -100,3 +100,24 @@ There is also a public Google `calendar
- <https://calendar.google.com/calendar/u/0?cid=ZDIwOTA4YTMxNjc2MDQ3NTIyMmUzYTM5ZmQyM2U4NDA0ZGIwZjBiYmJlZGQxNDM0MmY4ZTRjOTE0NjdhZDRiY0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t>`_
- that has the events.  Anyone can subscribe to it.  DAMON maintainer will also
- provide periodic reminders to the mailing list (damon@lists.linux.dev).
-+
-+AI Review
-+---------
-+
-+For patches that are publicly posted to DAMON mailing list
-+(damon@lists.linux.dev), AI reviews of the patches will be available at
-+sashiko.dev.  The reviews could also be sent as mails to the author of the
-+patch.
-+
-+Patch authors are encouraged to check the AI reviews and share their opinions.
-+The sharing could be done as a reply to the mail thread.  Consider reducing the
-+recipients list for such sharing, since some people are not really interested
-+in AI reviews.  As a rule of thumb, drop stable@vger.kernel.org and individuals
-+except DAMON maintainer.
-+
-+`hkml` also provides a `feature
-+<https://github.com/sjp38/hackermail/blob/master/USAGE.md#forwarding-sashikodev-statuscomments-to-mailing-list>`_
-+for such sharing.  Please feel free to use the feature.
-+
-+It is only an optional recommendation.  DAMON maintainer could also ask any
-+question about the AI reviews, though.
+ MAINTAINERS           |    6 +
+ drivers/hid/Kconfig   |   13 +
+ drivers/hid/Makefile  |    1 +
+ drivers/hid/hid-ids.h |    6 +
+ drivers/hid/hid-oxp.c | 1575 +++++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 1601 insertions(+)
+ create mode 100644 drivers/hid/hid-oxp.c
 
-base-commit: 507d761b28278a923d86e7a29c5d084b74639e15
 -- 
-2.47.3
+2.53.0
+
