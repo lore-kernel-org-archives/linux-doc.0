@@ -1,107 +1,109 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FE632D1931;
-	Sun, 12 Apr 2026 17:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344F53D994;
+	Sun, 12 Apr 2026 18:14:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776016714; cv=none; b=F4vZYqTiO87+tzPBC6QS47x1+G7sJlz8cEkua7HX1a3QTNjX+TNoI/lbq6eEi5wqZ9pf8hDia5pjNxSLx99VB+1KDaMIKX97w1I33tCekaSy9Ze+Jh9m410P5ipMSEKzbH99+E4h7j/EDtGhfhMe20woZhL6u++MQYljqbko/5Y=
+	t=1776017658; cv=none; b=s4GQcBVZ135p59T12OWESEK59MmYYoG2vtnxihpdRXRMeYnuF1e7eaNgL2S06IuVsl3C5L683BI4+u183T970QRQFvt+kuQSYiKd670WH0YlG9nCbT+uhExRNCEHYiZQ5TrZOayUxaKbnaJ37pbwdCHmxV0Q+R8LVzGFUPA64o8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776016714; c=relaxed/simple;
-	bh=4X/ds1i4LVhfsuIlv7LHfB70clIx86rcZI0v0PSPtnE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HWI9ib7sLG42me0ZVmjrCWVjxizfHltBDH8giMyy+KvddQqjZvOcBztc+ZPy0nzGE/sT5tN749Xlx/OwfioE0EHAtdXFKzmNGQwqTgkM/9Frwk/tXPz55tOvIyFvoozLRMsGuJQjeNn6GmEFL3xCfuA0pWgsD+WMeeioTQOwm9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JL3SZqTm; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776017658; c=relaxed/simple;
+	bh=ScWjFfjjpM9jn/WjFwtS9xJ95budLw+WQgu9N2i0yr4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ftkbv5GOzfdYdeLlgdZUykbcldMGoDJA5pCxtCy7tITtphvnUGbD0DeKakWPvoiAHI3jfjQ9lYBNaFKcZ5ieov4cp0r+P7wLgDIzoY5LYfyulDUJkys2hprsbuzLb6wvX+sP8nvOMGN60ucpXTmKtpzO/iOPT2zNrYPBFSi74wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PAskbK8U; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JL3SZqTm"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E17C8C19424;
-	Sun, 12 Apr 2026 17:58:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PAskbK8U"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A148EC19424;
+	Sun, 12 Apr 2026 18:14:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776016714;
-	bh=4X/ds1i4LVhfsuIlv7LHfB70clIx86rcZI0v0PSPtnE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=JL3SZqTm1F5W3YkQI0/srNCI4Z90qZG2sJQpH7FJPHtRiDRDayy5peeH1mzGsVIfl
-	 2iz0AW5x5OXOQlzfxh33xDhjatUYxWh/+guNNKIn2ipyVXNf0sIAV8F44ETfB/lcEU
-	 sCeJLA1LYZI3N+02TPB9nxyy0bPAKYp0Fb5GRfbRNfcl6A2LMLaN+rjWhGZhrIR4ud
-	 kN+cziHuHQ9sBQuIa7Z8nrVc2ERyeosOm2O7Gcyjrcbk65gETxw7DspsYv+XALoJmA
-	 w2YmIm5Y7Wsru9LUuQ5xTlJCRUhptAwgft6gLTWd1ejKFdrMCynf+CT8WfAwraJOHN
-	 gX53kabhDgIcA==
-Date: Sun, 12 Apr 2026 18:58:21 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark Brown
- <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, Bartosz
- Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
-Message-ID: <20260412185821.739e477f@jic23-huawei>
-In-Reply-To: <742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
-References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
-	<20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
-	<742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1776017657;
+	bh=ScWjFfjjpM9jn/WjFwtS9xJ95budLw+WQgu9N2i0yr4=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PAskbK8U63j7K2gYgh7JPEvRyPtpkqPh3JB5rKqMB8MZPYFL8RinP/tRLYZXW16uN
+	 V0FbIjCqRcoPGj1KzTUTYV7UlWk1+t2ckM/jWKfsB9G42Ch6zxcC+qvQ/9ezf2Tj8e
+	 1/Dp559TCBynLYestO13T/2x+IK3xuYguT2bPuMz6/a/HkSczEiGEhDaKoXT6H2OGl
+	 YrOphXq6Zx2vdI9p+YUAin65/pPDdhCz45nLhMfJnzEP44rmn3GhQ++uM9UFAO/UH4
+	 5mhfq0oLiGQht+RUCnwUr/E07RMhlJ1zHeu5ZTwusynQVITzDXcmloyHDzqlWxbbOR
+	 1B/4ZhI6mKw5Q==
+From: SeongJae Park <sj@kernel.org>
+To: SeongJae Park <sj@kernel.org>
+Cc: damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: Re: (sashiko status) [RFC PATCH v5.2 00/11] mm/damon: introduce DAMOS failed region quota charge ratio
+Date: Sun, 12 Apr 2026 11:14:14 -0700
+Message-ID: <20260412181414.84422-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260412161957.82835-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 10 Apr 2026 16:15:20 -0500
-David Lechner <dlechner@baylibre.com> wrote:
+TL; DR: Seems Sashiko is finally convinced.  I will drop RFC tag from the next
+spin.
 
-> On 4/9/26 10:28 AM, Radu Sabau via B4 Relay wrote:
-> > From: Radu Sabau <radu.sabau@analog.com>
-> > 
-> > Add per-channel oversampling ratio (OSR) support for CNV burst mode.
-> > The accumulator depth register (ACC_DEPTH_IN) is programmed with the
-> > selected OSR at buffer enable time and before each single-shot read.
-> > 
-> > Supported OSR values: 1, 2, 4, 8, 16, 32.
-> > 
-> > Introduce AD4691_MANUAL_CHANNEL() for manual mode channels, which do
-> > not expose the oversampling ratio attribute since OSR is not applicable
-> > in that mode. A separate manual_channels array is added to
-> > struct ad4691_channel_info and selected at probe time; offload paths
-> > reuse the same arrays with num_channels capping access before the soft
-> > timestamp entry.
-> > 
-> > The reported sampling frequency accounts for the active OSR:
-> > effective_freq = oscillator_freq / osr  
-> 
-> Technically, the way this is implemented is fine according to IIO ABI
-> rules. Writing any attribute can cause others to change. It does
-> introduce a potential pitfall though. Currently, changing the OSR will
-> change the sampling frequency, so you have to always write oversampling_ratio
-> first, then write sampling_frequency to get what you asked for. If you want
-> to change the OSR and keep the same sample rate, you still have to write both
-> attributes again.
-> 
-> In other drivers, I've implemented it so that the requested sampling frequency
-> is stored any you always get the closest sampling frequency available based on
-> the oversampling ratio. This way, it doesn't matter which order you write
-> the attributes. In that case, the actual periodic trigger source isn't set up
-> until we actually start sampling.
-> 
-Agreed. This is more intuitive. Now generally the userspace should
-be sanity checking the value anyway as limitations may mean the new
-sampling frequency is not particularly close to the original one but
-at least it increases the chances of getting the expected value somewhat!
+Forwarding sashiko.dev review status for this thread, with my short comments
+for issues-may-found reviews.
 
-So to me this is a nice useability improvement given the code to implement
-it tends not to be too complex.
+# review url: https://sashiko.dev/#/patchset/20260412161957.82835-1-sj@kernel.org
+
+- [RFC PATCH v5.2 01/11] mm/damon/core: handle <min_region_sz remaining quota as empty
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 02/11] mm/damon/core: merge regions after applying DAMOS schemes
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 03/11] mm/damon/core: introduce failed region quota charge ratio
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+
+Sashiko is asking a same question that I already decided to ignore.
+
+- [RFC PATCH v5.2 04/11] mm/damon/sysfs-schemes: implement fail_charge_{num,denom} files
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 05/11] Docs/mm/damon/design: document fail_charge_{num,denom}
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 06/11] Docs/admin-guide/mm/damon/usage: document fail_charge_{num,denom} files
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 07/11] Docs/ABI/damon: document fail_charge_{num,denom}
+  - status: Reviewed
+  - review: ISSUES MAY FOUND
+
+For this review, Sashiko seems just hallucinated.
+
+- [RFC PATCH v5.2 08/11] mm/damon/tests/core-kunit: test fail_charge_{num,denom} committing
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 09/11] selftests/damon/_damon_sysfs: support failed region quota charge ratio
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 10/11] selftests/damon/drgn_dump_damon_status: support failed region quota charge ratio
+  - status: Reviewed
+  - review: No issues found.
+- [RFC PATCH v5.2 11/11] selftests/damon/sysfs.py: test failed region quota charge ratio
+  - status: Reviewed
+  - review: No issues found.
+
 
 Thanks,
+SJ
 
-J
-
+# hkml [1] generated a draft of this mail.  It can be regenerated
+# using below command:
+#
+#     hkml patch sashiko_dev --thread_status --for_forwarding \
+#             20260412161957.82835-1-sj@kernel.org
+#
+# [1] https://github.com/sjp38/hackermail
