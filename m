@@ -1,226 +1,219 @@
-Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010021.outbound.protection.outlook.com [52.101.85.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3C43909A2;
-	Mon, 13 Apr 2026 22:28:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776119284; cv=fail; b=WcLeDfa0reHqbAu9BOnIZWPnYIo8av/D+8OH+b0S1XtwC9jZu+5HLRhqhyqryG/YNCUM0uW0n+fC+UxlDxaZp3pkeA+xIJAk4mHb5jkNUwwW68YG7id+ZfmIvYmbJRNv8EEJyulV318BnRsefxZi0ZGzh9LWF39PeyACRBD6WBM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776119284; c=relaxed/simple;
-	bh=YHafjdl4m4mb8Ki44a8sM8NyT9lGYWgNsSSszq5MZHY=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=fcjsDcWFhVLaIYPuXi0nzWzb0ASr3TOqBy2yx7PIXWUzXuMbFsTM8xIy/raF7c4Y4GCPv6meDCNxVuXw/JYn9e3thNiYO2SGSoUsBaOSDJWNhkuFX9nK9qnbZTKcdALb1+f8amUOJP81c9jvPU+yz5xrt/rCcRMwIUF1cd6v5AA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EDpQxQUu; arc=fail smtp.client-ip=52.101.85.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CFDF36605A;
+	Mon, 13 Apr 2026 22:34:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776119682; cv=none; b=K6LysRdTVvNyIAdIuEmKaL6lbrXgG/fsGaXqYTWRvVOWkeAI99NvMsVXEYyVB6DRy2Upgtk7cyQ9fTEU4k3rl3b0ox6wvNaqH6ixExA0/f6eXiCnYV4TJpIaXkTv6t3rVih1LyMfe7QJRWtKze3lbCZWLqqmYb9udffEIEM2lQg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776119682; c=relaxed/simple;
+	bh=Cu8QPFAj6Omdz5GFbQTJq3dzW1ndULZyXPq+DakSqVU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LFUKF1AsOt2Irlb+KY/yQAswaGIWvz/QwTY7rEwaqtTDaXHHmPOlJ2+N90mKXUnHULzxWSRQcDCCf+CXtbO0FmpEuiaDwoTpqztzD0p/LScJP6Zy64ww1bKhS/QiDJBciCa3gdpzTlJzKprJ5FPDWWlvSzsSQGeLKXwEDtdQ8tY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OuRiGdCf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EDpQxQUu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QJfDszZXgL9Tvbq9lutsiBC5OEK8CYLYEZSlKr1HVwBPJPnTkhLQBXAmxXIwZaFT3CvVPDA7K7ukW3OkYn/kH/TyOJdpJyHJt6U8W0c1dtJljulr/Qj7ki+CVWdxuZM3v9YnfWI1nb2dNVOsE9iD1YRP3NpET7NlX1Q+qJQqpvwKk3JLFM/nQdNO6pXi+3/kwhh2eXkpAn0owYieKit5WyMaNYs5lQb0PYKG+FZoObMNrgbL0BfuHX97hhiYj4QbJWNGYSwDUmsCQ/C/e3AYm9RcMskvf6QhuTqwrTcl1w35LXOt0oRBvWIfsbrfhuLWC6TmNvdqb21T5IhtQi3a5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=47E08eQaTBiv4ZRU6nvH++4pNOwp6LsLQRffwJgPtYU=;
- b=yTqwmyDnGWAEp15+u8pkiF6jbkGAhXZfeIUD48MLMHY15uLno9/zi9rY3SxPJoiKQxl/alHd3bTqwFQeHhCxYvO6HVxbKITHlzR/wVBYEl5spAT/mB06We6YnRlwFdOT/5YsK5RjnGhtZzTegu7IH7FvNlTbQBdcLxn+tg2wzpWCND0f2NnHoK2Lffd9bGNCgugEX5vaK39aURgql0ENCkeqbMlycmUJfAQ3JJsdMWf/DXEyt5qIWNyAj7uViH832/nyoO6DCoe0Ne5EX+B2o5LbtzdXTngSmgE5Z+1gJXTyk5bGZMwMfIy2nKKxJDRPeJIrAgRbzXoJyz4ym7pt5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=47E08eQaTBiv4ZRU6nvH++4pNOwp6LsLQRffwJgPtYU=;
- b=EDpQxQUu5vsd9QsWZ7V0/oFEMUiqpX0oTWXUPZKUtpA84ST9tDaBB7/jtcDuMCe8NHkFDWil6pD1YwgRlLyWoyD52WHFAzH8mOy0oSd5SRx75f2mAPL1g3sjwcVFQajHrZfhXdJLroxqpF2uNT7TNtxj++8mJgyLE1WJrYWwcJcqFQv6jwE5qXHfBFioC1GlTb9TswFqxavUES3tzdLfbKwlUEgaZ/Tx+8OPi9ZhCjmXG5wK13Je2uncsOO67ILAnY/7HqbeLbCAP1VF1bBwsyRI7blVCj1KZOx5SeCjXMIt3/cN0+4sNlyKnDzBBPePz8H/nPcbmi8n5kIUDYk7Cw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CH1PPF2EB7CF87B.namprd12.prod.outlook.com (2603:10b6:61f:fc00::60b) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
- 2026 22:27:55 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 13 Apr 2026
- 22:27:55 +0000
-Message-ID: <56526b93-72a3-4b07-9aa7-7822bd561cd5@nvidia.com>
-Date: Mon, 13 Apr 2026 18:27:49 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 12/21] gpu: nova-core: mm: Add unified page table
- entry wrapper enums
-From: Joel Fernandes <joelagnelf@nvidia.com>
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: John Hubbard <jhubbard@nvidia.com>, Eliot Courtney
- <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Vivi Rodrigo <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Matthew Brost <matthew.brost@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
- Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Elle Rhumsaa <elle@weathered-steel.dev>, Alexey Ivanov <alexeyi@nvidia.com>,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <42dd707f-e23a-4725-8b6f-08ca346b0143@nvidia.com>
- <1775730646.3752.4760@nvidia.com> <DHOKLTRRIX2Z.1YA9X0D0X21K@kernel.org>
- <acd38f51-3acc-4dbf-9929-50187dccec82@nvidia.com>
-Content-Language: en-US
-In-Reply-To: <acd38f51-3acc-4dbf-9929-50187dccec82@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN2PR13CA0025.namprd13.prod.outlook.com
- (2603:10b6:208:160::38) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OuRiGdCf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E550C2BCAF;
+	Mon, 13 Apr 2026 22:34:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776119681;
+	bh=Cu8QPFAj6Omdz5GFbQTJq3dzW1ndULZyXPq+DakSqVU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OuRiGdCfU8gDxaKCCYDmxUAp7jkhhJm36S/p/WHsvqrttBHSWlwefyol5Y5kKP7uu
+	 d6HcCZ9wpbIZkzBZ6UojpbThwuvTuxHzvwRWc76izV3hUEhh8HFRoTWl42JfVsPtDz
+	 2Nel5icunSsiownPDufl3GFNla3H1o8KleUTtVcpU/WVVL5BU0otXb81RzDpapgTKY
+	 6n0aAPRGUgr8VcAeBWzErUwVCs1D62kGDBbnYwzTqD076497jXGQdtwaIeZYK6XFUd
+	 /peXnfZWDq9ecHXb2MsFXpXOaAdu5wPJlWuP7M3e53gtCgw4Gz1HOvuxs/4XztR+4l
+	 DRbiuOH7AAeNg==
+Date: Mon, 13 Apr 2026 17:34:39 -0500
+From: Rob Herring <robh@kernel.org>
+To: Conor Dooley <conor@kernel.org>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Jingyuan Liang <jingyliang@chromium.org>
+Cc: Jiri Kosina <jikos@kernel.org>, Benjamin Tissoires <bentiss@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Mark Brown <broonie@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-spi@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, hbarnor@chromium.org,
+	tfiga@chromium.org, Dmitry Antipov <dmanti@microsoft.com>,
+	Jarrett Schultz <jaschultz@microsoft.com>
+Subject: Re: [PATCH v3 09/11] dt-bindings: input: Document hid-over-spi DT
+ schema
+Message-ID: <20260413223439.GA3647847-robh@kernel.org>
+References: <20260402-send-upstream-v3-0-6091c458d357@chromium.org>
+ <20260402-send-upstream-v3-9-6091c458d357@chromium.org>
+ <20260409-defuse-thank-4b038128fac5@spud>
+ <adfdkwq_bF9dirAq@google.com>
+ <20260410-sake-dollop-9f253ddb0749@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH1PPF2EB7CF87B:EE_
-X-MS-Office365-Filtering-Correlation-Id: c73e5370-4fb6-44e3-d7a9-08de99abe88d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|18096099003|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	KqUI640PH+lnDTjfipz2GuhNHJ0PFaEduReAHVlQnxWFKdCm+29qcZmkdFLeub2DzcFroaeRaxKxnp9zWhdU/mdPNb2P8sEZIdse9VuxJBML6FhaN4O4Fk7MfM0reODXCph7ivLgdIKiKwQFRWx1tLE3cJBlvNdIVMODn02fVNwSvUtN41qYsIHxtd7KNLK+TXp8b16A/hzZUcjGfj+6ZxcFjjS11ZOib6fKqGV8P/X8q6C6J7vjaMyTjhVogDpUIEkbAWwTZIZ5DhvzRLimvY8jwOzijfdCOj9RxLHRr1kcR0d8lVGEOz31MlTKhvDKM2Kanq36L9prGZHrBSbC+xUBFmrZI4pY42wVk9y1dGl243ZOTMkvQbcE/qrbgWdfhRlnGfLPowzeYxd/nHFZ5tKdJ+kelibXwWqnLbK+RojjYHIso8tyUNvJOx4rQEIF+nsNSNVaMQWF+hWAHpWP8vusI7PslhYGhaSwJtO/maK60+RCmCQ8nu4yrNzDSUHqmPkkAp+sBzpbvYfAIOaGoPESRpJXnXr8K87WfCnq/b59bQbDH/WvsArweMO48hbKTP/XkmI1QGwj94id1D8zoISTH+9vH6KxuAIMHZqqZUgWef2JBDrV6v/U1JUgoO/5/VIfXPomRbalMxRj54uzkIBLlfxusFVMK+G9ZM6+kthTceteQAp1sBLMqG4l1ND6D76ceqsae9FsDNDAVaYHE6H2kEeoCMJWEDyMCdNjgJo=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(18096099003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Yng5blhMQUF1T0k3K28xd1hIdEU4WkY5Q1VCTDErdVYxZlByR3NHaGMveURx?=
- =?utf-8?B?bldGNllkUjMyUnRFTHVkV3lWWXhqMG04cGZmdFI5UmtrcDdXNktMWkZoamF3?=
- =?utf-8?B?bGt3VFQxaWVKMWhkUVp3NVduSDlMMlhSWVlZMzhWSmh3U3REcjZGcDNydTM1?=
- =?utf-8?B?cHc0OXVhTE1RYm9yS09YaG0yZElCZkRjZWtONjBUOFNGb1J4RHVMSDM3SzRz?=
- =?utf-8?B?WXRyUWhzdEQ0T2xKZjEreFMrZFU1L2RaVldsUktGQWM0Znh0ek9IOW84SmI1?=
- =?utf-8?B?NmxhVE1Va1lvUWcvMzZ4UjM5QXRnK0psRDJZNEIydGJOdFVWNWs0WTNvZStY?=
- =?utf-8?B?eWJZVGNjdjBDSFZpaERJV3JKdGt2bTZoanlPaFNGcmlEamRHQ1U4SjVKdDg2?=
- =?utf-8?B?ckVUcDZ0N0hPRGdhQk1IZHNlMUlyeTdHMW9IOFVjTzUxOC9jYVZrRVdPSGEx?=
- =?utf-8?B?YWJzbTQyNDNoditaUklIODg1MXpnbUVUMFZKV0wxVUZsUFNHTWQ0R0k1YWVm?=
- =?utf-8?B?QnJ0L1ArQVpOZ3l6aDd1bnhiWDAzaTFITnpvanZ2c2kvak5yandNbmRGdmdk?=
- =?utf-8?B?YldwL2lyeVlMRjVqK2VpR3VPZTg2c0docDdmQWttWjhnK21abW03RkhUbklm?=
- =?utf-8?B?eVZONW5nYXJMdEZDRVpUc0NzbytiMVFzbzBza0cvek94TWJzWS9BUzZKZitz?=
- =?utf-8?B?bUpNOWFLeWlyblA1dC9oWWNFQk5GTGF6L2JIQTlWRHB4OUZ1dDZpQTA1RjAw?=
- =?utf-8?B?U1FXanlhWldsUFhnMDA0RnpVOFo3WEQ1RVVZZ3R6SVJhNlpvRFoyUGFzaE1N?=
- =?utf-8?B?OWtyZE5keDNXNlM3MlVXZFMzdVRKa0tIbzFZYTFob1pMenpwQVpCcHlZb3M3?=
- =?utf-8?B?MnNTc3lENEF3SzA0YllPZ2pBeTY5djJBUklCR210NWpGaDhBcEYzNmlIdkdn?=
- =?utf-8?B?Y1B6MUNQNUVNU0kxc3Z3K1ZjTXVDSDRqTU1LdzhRSHpEbGtBdG1FRmc3bUVQ?=
- =?utf-8?B?NFpmaXVnZE5qRS9CaUdETHhNZ1QrK2lqbG41Wmtzb0Y1dGNNTWE0ZHE0MHNK?=
- =?utf-8?B?UFFpSDhJY1h3c0ZOTjhCWFk0SXhBR1p5TnBlVkMzUDVNcmp4RzR5T2dSK1JW?=
- =?utf-8?B?b2JncnpvWUVQRzBFUi8xZWJCRU1yN3ozZ0Q2di90WTgxdXRrc3U2SjBTVzNp?=
- =?utf-8?B?OE1sRXkxa1dzd2UvTzBEUGJNTW8zV3lJNEN2Y2Z6ODlyaEJJSHpjN0hjek83?=
- =?utf-8?B?RXh1N2x0aE9tZ3dwQXQxdzdEelhPVkxFc243N2Q3eFIzNlJ0ZmRvQmtwTE0w?=
- =?utf-8?B?Y0dtSUFJYytRZll6QkVsTGpRZEwwQUdDWFhVZ0dtUjJKT2VON1hOSksvWnF4?=
- =?utf-8?B?NGdnTW5wdDlyMUNMNHB3UDY3dTBCWEc3M0U4ZUtRekFNemlUL0tiN3lEc1FX?=
- =?utf-8?B?cmxNVmJmU0hXOFlHajYyNk0zNzY3eEhQODJuY2QyZjVlMzhrcWdaK1UxaURC?=
- =?utf-8?B?S1NEckY2WFdTT2hhRW40cW9EZW02MEQyeVphZWE3VExzTDltc2trL1h6b1p0?=
- =?utf-8?B?ZGJjYWFZUGEwUk5VcHV2ZlFVZ3pBbk1xcmlyWG1WZHh1Sm1yZThINHQ3dXJZ?=
- =?utf-8?B?OUt0NTNmdWpwdzJncWRNV2M4djI2WkFFN2R2OHJrVGtpN3FnVTA1TDgwaVJV?=
- =?utf-8?B?bXFvNURKUXNsNW1XZkp2SnlzUkFVY0pNNmszaHhHTG9MR2haVzhES2pmR05n?=
- =?utf-8?B?bFVudW9QQnhZUFp1cTZuMVlYS2VLN2dJMU9YaUQzeFliTnl5KytvZnFxOTZU?=
- =?utf-8?B?L1VINlRhQlNnam5KTzNpT3ZkU2FFVlpEZkg2RW9qQzYvNnR5ZlVIUGZhRitN?=
- =?utf-8?B?ZE53WktKT2R4RmlEblN1ajEyc0VseU9YcFJpUm4xODBZSERlTWhIUEsvMVZT?=
- =?utf-8?B?d3BDWFE4b1o3YUtjWGMxVmx1RDJMVzdlRFlNalBadXpyRGV2ZXIvL0dVSmZS?=
- =?utf-8?B?bFdmR2Mzclg4Y002UmNYZTZlaWZtZVZxSUFoQVZKbXczdFFvZFErY29TR2JN?=
- =?utf-8?B?VGZvYXg2VXlTUlFPMTRRQ0lOSVhsdUlnU1pRT3hCOEtBZFR1dHFZQyt0QkpR?=
- =?utf-8?B?M0tpc0Fwc3pWd2RuUzNBK3Nod0ZNMUREbFAzSldZSnYyR0xZSGZTeUtzTFpP?=
- =?utf-8?B?Qmsrdk1GWWt2Ty82WGdNaVo3RTRpREFMSm44VkFhN3pEUmxMNFZJc3cyNExm?=
- =?utf-8?B?WmltbklDVnBlZU5VQlZSYXhuWm85USt1M0lBaksvWU1zVE5oZkVwS25pUjIy?=
- =?utf-8?B?Y1dFQmZoekR2OFZ1VDJ5RVJ0UXRpS21pOTFkbXFZODBZc0xUTUNiUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c73e5370-4fb6-44e3-d7a9-08de99abe88d
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 22:27:55.4884
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fLXnO9ZZeDocrMVU7VODdVxEQeXON5ZFhijlzCTBaCTyZghWxxGe2NdfglXZb5DXPoitV1dpGSxe48SRvs4qrw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF2EB7CF87B
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260410-sake-dollop-9f253ddb0749@spud>
 
+On Fri, Apr 10, 2026 at 06:35:00PM +0100, Conor Dooley wrote:
+> On Thu, Apr 09, 2026 at 10:16:46AM -0700, Dmitry Torokhov wrote:
+> > On Thu, Apr 09, 2026 at 05:02:11PM +0100, Conor Dooley wrote:
+> > > On Thu, Apr 02, 2026 at 01:59:46AM +0000, Jingyuan Liang wrote:
+> > > > Documentation describes the required and optional properties for
+> > > > implementing Device Tree for a Microsoft G6 Touch Digitizer that
+> > > > supports HID over SPI Protocol 1.0 specification.
+> > > > 
+> > > > The properties are common to HID over SPI.
+> > > > 
+> > > > Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> > > > Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+> > > > Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+> > > > ---
+> > > >  .../devicetree/bindings/input/hid-over-spi.yaml    | 126 +++++++++++++++++++++
+> > > >  1 file changed, 126 insertions(+)
+> > > > 
+> > > > diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yaml b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > > > new file mode 100644
+> > > > index 000000000000..d1b0a2e26c32
+> > > > --- /dev/null
+> > > > +++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > > > @@ -0,0 +1,126 @@
+> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > +%YAML 1.2
+> > > > +---
+> > > > +$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
+> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > +
+> > > > +title: HID over SPI Devices
+> > > > +
+> > > > +maintainers:
+> > > > +  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > > +  - Jiri Kosina <jkosina@suse.cz>
+> > > 
+> > > Why them and not you, the developers of the series?
+> > > 
+> > > > +
+> > > > +description: |+
+> > > > +  HID over SPI provides support for various Human Interface Devices over the
+> > > > +  SPI bus. These devices can be for example touchpads, keyboards, touch screens
+> > > > +  or sensors.
+> > > > +
+> > > > +  The specification has been written by Microsoft and is currently available
+> > > > +  here: https://www.microsoft.com/en-us/download/details.aspx?id=103325
+> > > > +
+> > > > +  If this binding is used, the kernel module spi-hid will handle the
+> > > > +  communication with the device and the generic hid core layer will handle the
+> > > > +  protocol.
+> > > 
+> > > This is not relevant to the binding, please remove it.
+> > > 
+> > > > +
+> > > > +allOf:
+> > > > +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> > > > +
+> > > > +properties:
+> > > > +  compatible:
+> > > > +    oneOf:
+> > > > +      - items:
+> > > > +          - enum:
+> > > > +              - microsoft,g6-touch-digitizer
+> > > > +          - const: hid-over-spi
+> > > > +      - description: Just "hid-over-spi" alone is allowed, but not recommended.
+> > > > +        const: hid-over-spi
+> > > 
+> > > Why is it allowed but not recommended? Seems to me like we should
+> > > require device-specific compatibles.
+> > 
+> > Why would we want to change the driver code to add a new compatible each
+> > time a vendor decides to create a chip that is fully hid-spi-protocol
+> > compliant? Or is the plan to still allow "hid-over-spi" fallback but
+> > require device-specific compatible that will be ignored unless there is
+> > device-specific quirk needed?
 
+The plan is the latter case (the 1st entry up above). The comment is 
+remove the 2nd entry (with 'Just "hid-over-spi" alone is allowed, but 
+not recommended.').
 
-On 4/13/2026 4:10 PM, Joel Fernandes wrote:
-> Hi Danilo,
+> This has nothing to do with the driver, just the oddity of having a
+> comment saying that not having a device specific compatible was
+> permitted by not recommended in a binding. Requiring device-specific
+> compatibles is the norm after all and a comment like this makes draws
+> more attention to the fact that this is abnormal. Regardless of what the
+> driver does, device-specific compatibles should be required.
 > 
-> On 4/9/2026 7:00 AM, Danilo Krummrich wrote:
->> On Thu Apr 9, 2026 at 12:33 PM CEST, Joel Fernandes wrote:
->>> Since it is 3 against 1 here, I rest my case :-).
->>
->> That's not how I'd view it. :)
->>
->> Anyways, in case I'm included in "3", that's not my position. My point was to
->> ensure we keep discussing advantages and disadvantages on their merits, as I
->> think you both have good points.
+> > > > +
+> > > > +  reg:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  interrupts:
+> > > > +    maxItems: 1
+> > > > +
+> > > > +  reset-gpios:
+> > > > +    maxItems: 1
+> > > > +    description:
+> > > > +      GPIO specifier for the digitizer's reset pin (active low). The line must
+> > > > +      be flagged with GPIO_ACTIVE_LOW.
+> > > > +
+> > > > +  vdd-supply:
+> > > > +    description:
+> > > > +      Regulator for the VDD supply voltage.
+> > > > +
+> > > > +  input-report-header-address:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > +    minimum: 0
+> > > > +    maximum: 0xffffff
+> > > > +    description:
+> > > > +      A value to be included in the Read Approval packet, listing an address of
+> > > > +      the input report header to be put on the SPI bus. This address has 24
+> > > > +      bits.
+> > > > +
+> > > > +  input-report-body-address:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > +    minimum: 0
+> > > > +    maximum: 0xffffff
+> > > > +    description:
+> > > > +      A value to be included in the Read Approval packet, listing an address of
+> > > > +      the input report body to be put on the SPI bus. This address has 24 bits.
+> > > > +
+> > > > +  output-report-address:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > +    minimum: 0
+> > > > +    maximum: 0xffffff
+> > > > +    description:
+> > > > +      A value to be included in the Output Report sent by the host, listing an
+> > > > +      address where the output report on the SPI bus is to be written to. This
+> > > > +      address has 24 bits.
+> > > > +
+> > > > +  read-opcode:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > > +    description:
+> > > > +      Value to be used in Read Approval packets. 1 byte.
+> > > > +
+> > > > +  write-opcode:
+> > > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > > +    description:
+> > > > +      Value to be used in Write Approval packets. 1 byte.
+> > > 
+> > > Why can none of these things be determined from the device's compatible?
+> > > On the surface, they like the kinds of things that could/should be.
+> > 
+> > Why would we want to keep tables of these values in the kernel and again
+> > have to update the driver for each new chip?
 > 
-> Heh, yes I actually *did not* include you in the 3 since you sounded to be open
-> to both. ;-)
-> 
->>
->>> I am still in disagreement since I do not see much benefit (that is why I said
->>> pointless above).
->>
->> That is fair -- in this case please explain why the advantages pointed out by
->> others are not worth it, propose something that picks up the best of both
->> worlds, etc.
->>
->> You can also turn it around and ask people whether they can tweak their counter
->> proposal to get rid of specific parts you dislike for a reason.
->>
->> IOW, keep the ball rolling, so we can come up with the best possible solution.
-> 
-> Good advice, thanks! I will try to come up with something that is acceptable to
-> everyone and we can further debate pros/cons on v11.
-> 
-> There are some merits on the alternative proposal from Eliot/Alex that I'd like
-> to explore while seeing if I can keep some of the merits in mine as well.
-I think I found a nice approach. IMO the MMU version dispatch does not belong in
-Vmm/BarUser layers. Those are version-independent code. However I agree that
-doing version dispatch at every low-level page table operation is a bit heavy on
-matches (if we put the MMIO overhead counter-argument aside).
+> That's pretty normal though innit? It's what match data does.
+> If someone wants to have properties that communicate data that
+> can be determined from the compatible, they need to provide
+> justification why it is being done.
 
-So how about the following approach?
+IIRC, it was explained in prior versions the spec itself says these 
+values vary by device. If we expect variation, then I think these 
+properties are fine. But please capture the reasoning for them in this 
+patch or we will just keep asking the same questions over and over. 
 
-PtWalk, PtMap and everything below it are monomorphized. Vmm and BarUser are
-not. Version dispatch is handled on PtWalk and PtMap entry points.
-
-I think it makes it cleaner and splits the code up better too and the
-organizations makes sense because the version differences are related to page
-tables, not to generic concepts like Vmm and Bar.
-
-Thoughts? Here is a preview:
-https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?h=pt-traits-v2&id=ff22ba64f729f9f73258777231763a7b9804123b
-
-thanks,
-
---
-Joel Fernandes
-
-
-
-
-
+Rob
