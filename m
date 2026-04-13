@@ -1,360 +1,226 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
+Received: from BYAPR05CU005.outbound.protection.outlook.com (mail-westusazon11010021.outbound.protection.outlook.com [52.101.85.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA3E839B494;
-	Mon, 13 Apr 2026 22:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776119184; cv=none; b=knObSExMVbw4SCfTQK2/hCS9XmgGVx+fdi9k/VsLoaIb1Sdmh9Kf8aNpOlb3G0D8HnHytAcIDSRMxiWQyEuHdW5kvx3bYMzSeupU7J3oDBXEHQJKXcke0tOoMxNL+GIH73x73VauMLOU25sdz6DR2N2PdUQT/IKopOveeSIdiVc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776119184; c=relaxed/simple;
-	bh=5A7fVcPbR26mydlKiWE9R0xeDAsL1zhvxBOOqc2kDDA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z5AfUDphtcuNSkdlV+dlnTitF3q0ZfT0dvtdhOsik+wHw1YCyJYH62ro3cKoISee3SzwSuQY9/nfkbA3meweDTCNRk7JEh9YZLezdZSw61acaqPSWNQNJ4PIssW5FJC0Ay3az16V3gZ1H60T+zB4MOLjGEyZNyZYl6cNV2orPR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf19.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay07.hostedemail.com (Postfix) with ESMTP id F33CF160338;
-	Mon, 13 Apr 2026 22:26:17 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf19.hostedemail.com (Postfix) with ESMTPA id AA44720025;
-	Mon, 13 Apr 2026 22:26:07 +0000 (UTC)
-Date: Mon, 13 Apr 2026 17:26:06 -0500
-From: John Groves <John@groves.net>
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V10 0/8] dax: prepare for famfs
-Message-ID: <ad1tUMoTjlb8LCHw@groves.net>
-References: <20260327210311.79099-1-john@jagalactic.com>
- <0100019d311bed04-dbb67b48-c55d-4e6a-962a-a0f8b714f2e7-000000@email.amazonses.com>
- <acrpbBt5UsWEiEbm@aschofie-mobl2.lan>
- <69dd576924b0f_24f910029@iweiny-mobl.notmuch>
- <69dd62eba432e_20039100b5@iweiny-mobl.notmuch>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D3C43909A2;
+	Mon, 13 Apr 2026 22:28:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.85.21
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776119284; cv=fail; b=WcLeDfa0reHqbAu9BOnIZWPnYIo8av/D+8OH+b0S1XtwC9jZu+5HLRhqhyqryG/YNCUM0uW0n+fC+UxlDxaZp3pkeA+xIJAk4mHb5jkNUwwW68YG7id+ZfmIvYmbJRNv8EEJyulV318BnRsefxZi0ZGzh9LWF39PeyACRBD6WBM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776119284; c=relaxed/simple;
+	bh=YHafjdl4m4mb8Ki44a8sM8NyT9lGYWgNsSSszq5MZHY=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=fcjsDcWFhVLaIYPuXi0nzWzb0ASr3TOqBy2yx7PIXWUzXuMbFsTM8xIy/raF7c4Y4GCPv6meDCNxVuXw/JYn9e3thNiYO2SGSoUsBaOSDJWNhkuFX9nK9qnbZTKcdALb1+f8amUOJP81c9jvPU+yz5xrt/rCcRMwIUF1cd6v5AA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=EDpQxQUu; arc=fail smtp.client-ip=52.101.85.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="EDpQxQUu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QJfDszZXgL9Tvbq9lutsiBC5OEK8CYLYEZSlKr1HVwBPJPnTkhLQBXAmxXIwZaFT3CvVPDA7K7ukW3OkYn/kH/TyOJdpJyHJt6U8W0c1dtJljulr/Qj7ki+CVWdxuZM3v9YnfWI1nb2dNVOsE9iD1YRP3NpET7NlX1Q+qJQqpvwKk3JLFM/nQdNO6pXi+3/kwhh2eXkpAn0owYieKit5WyMaNYs5lQb0PYKG+FZoObMNrgbL0BfuHX97hhiYj4QbJWNGYSwDUmsCQ/C/e3AYm9RcMskvf6QhuTqwrTcl1w35LXOt0oRBvWIfsbrfhuLWC6TmNvdqb21T5IhtQi3a5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=47E08eQaTBiv4ZRU6nvH++4pNOwp6LsLQRffwJgPtYU=;
+ b=yTqwmyDnGWAEp15+u8pkiF6jbkGAhXZfeIUD48MLMHY15uLno9/zi9rY3SxPJoiKQxl/alHd3bTqwFQeHhCxYvO6HVxbKITHlzR/wVBYEl5spAT/mB06We6YnRlwFdOT/5YsK5RjnGhtZzTegu7IH7FvNlTbQBdcLxn+tg2wzpWCND0f2NnHoK2Lffd9bGNCgugEX5vaK39aURgql0ENCkeqbMlycmUJfAQ3JJsdMWf/DXEyt5qIWNyAj7uViH832/nyoO6DCoe0Ne5EX+B2o5LbtzdXTngSmgE5Z+1gJXTyk5bGZMwMfIy2nKKxJDRPeJIrAgRbzXoJyz4ym7pt5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=47E08eQaTBiv4ZRU6nvH++4pNOwp6LsLQRffwJgPtYU=;
+ b=EDpQxQUu5vsd9QsWZ7V0/oFEMUiqpX0oTWXUPZKUtpA84ST9tDaBB7/jtcDuMCe8NHkFDWil6pD1YwgRlLyWoyD52WHFAzH8mOy0oSd5SRx75f2mAPL1g3sjwcVFQajHrZfhXdJLroxqpF2uNT7TNtxj++8mJgyLE1WJrYWwcJcqFQv6jwE5qXHfBFioC1GlTb9TswFqxavUES3tzdLfbKwlUEgaZ/Tx+8OPi9ZhCjmXG5wK13Je2uncsOO67ILAnY/7HqbeLbCAP1VF1bBwsyRI7blVCj1KZOx5SeCjXMIt3/cN0+4sNlyKnDzBBPePz8H/nPcbmi8n5kIUDYk7Cw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ CH1PPF2EB7CF87B.namprd12.prod.outlook.com (2603:10b6:61f:fc00::60b) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
+ 2026 22:27:55 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 13 Apr 2026
+ 22:27:55 +0000
+Message-ID: <56526b93-72a3-4b07-9aa7-7822bd561cd5@nvidia.com>
+Date: Mon, 13 Apr 2026 18:27:49 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 12/21] gpu: nova-core: mm: Add unified page table
+ entry wrapper enums
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: John Hubbard <jhubbard@nvidia.com>, Eliot Courtney
+ <ecourtney@nvidia.com>, linux-kernel@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Vivi Rodrigo <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Rui Huang <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, Alexey Ivanov <alexeyi@nvidia.com>,
+ linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org
+References: <42dd707f-e23a-4725-8b6f-08ca346b0143@nvidia.com>
+ <1775730646.3752.4760@nvidia.com> <DHOKLTRRIX2Z.1YA9X0D0X21K@kernel.org>
+ <acd38f51-3acc-4dbf-9929-50187dccec82@nvidia.com>
+Content-Language: en-US
+In-Reply-To: <acd38f51-3acc-4dbf-9929-50187dccec82@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR13CA0025.namprd13.prod.outlook.com
+ (2603:10b6:208:160::38) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <69dd62eba432e_20039100b5@iweiny-mobl.notmuch>
-X-Stat-Signature: 3ezap5jn6g73nfycmmsj9o9zyds13o35
-X-Rspamd-Server: rspamout08
-X-Rspamd-Queue-Id: AA44720025
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX18aHdyj8CPonE2nMkMlfxQw8N6d++WsvZY=
-X-HE-Tag: 1776119167-822919
-X-HE-Meta: U2FsdGVkX182KUrTrOIBq57VVW5WWL50AUv3BqL4jIgvkPZooM25GEyX43V2YzPZiWCzjy1R582lpIyBAzT/7ru3gILLs8Ca1jy0vYlr1JOROvMM1Cx0aJnsvqKJ3RPabKAYHYG+s7YTGHuMvWpYz4OPIruM5JsTnisjCXFdXCc5Z9dXecVd3Pen694jsfGFbfpsgg0EnUhAaY04v+BuuBzS9K+7BjNj+gGkgpfiZeMklHZ9XH53jqz8U2onXZSm31PTHaHBvViFFdBgVnNnKTtu4TQkk42GRLep5yqnBElmiYMVamyBNJVUla6IPM7SSA0LJyrkzDTzNl7ERyKyXK63HhpwBNnEN6Hm4BZidbPmfUIZ2yOhFDuRUiTQRAyxuJKE1go4ddsmXqHuAdQrtg==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH1PPF2EB7CF87B:EE_
+X-MS-Office365-Filtering-Correlation-Id: c73e5370-4fb6-44e3-d7a9-08de99abe88d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|18096099003|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	KqUI640PH+lnDTjfipz2GuhNHJ0PFaEduReAHVlQnxWFKdCm+29qcZmkdFLeub2DzcFroaeRaxKxnp9zWhdU/mdPNb2P8sEZIdse9VuxJBML6FhaN4O4Fk7MfM0reODXCph7ivLgdIKiKwQFRWx1tLE3cJBlvNdIVMODn02fVNwSvUtN41qYsIHxtd7KNLK+TXp8b16A/hzZUcjGfj+6ZxcFjjS11ZOib6fKqGV8P/X8q6C6J7vjaMyTjhVogDpUIEkbAWwTZIZ5DhvzRLimvY8jwOzijfdCOj9RxLHRr1kcR0d8lVGEOz31MlTKhvDKM2Kanq36L9prGZHrBSbC+xUBFmrZI4pY42wVk9y1dGl243ZOTMkvQbcE/qrbgWdfhRlnGfLPowzeYxd/nHFZ5tKdJ+kelibXwWqnLbK+RojjYHIso8tyUNvJOx4rQEIF+nsNSNVaMQWF+hWAHpWP8vusI7PslhYGhaSwJtO/maK60+RCmCQ8nu4yrNzDSUHqmPkkAp+sBzpbvYfAIOaGoPESRpJXnXr8K87WfCnq/b59bQbDH/WvsArweMO48hbKTP/XkmI1QGwj94id1D8zoISTH+9vH6KxuAIMHZqqZUgWef2JBDrV6v/U1JUgoO/5/VIfXPomRbalMxRj54uzkIBLlfxusFVMK+G9ZM6+kthTceteQAp1sBLMqG4l1ND6D76ceqsae9FsDNDAVaYHE6H2kEeoCMJWEDyMCdNjgJo=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(18096099003)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Yng5blhMQUF1T0k3K28xd1hIdEU4WkY5Q1VCTDErdVYxZlByR3NHaGMveURx?=
+ =?utf-8?B?bldGNllkUjMyUnRFTHVkV3lWWXhqMG04cGZmdFI5UmtrcDdXNktMWkZoamF3?=
+ =?utf-8?B?bGt3VFQxaWVKMWhkUVp3NVduSDlMMlhSWVlZMzhWSmh3U3REcjZGcDNydTM1?=
+ =?utf-8?B?cHc0OXVhTE1RYm9yS09YaG0yZElCZkRjZWtONjBUOFNGb1J4RHVMSDM3SzRz?=
+ =?utf-8?B?WXRyUWhzdEQ0T2xKZjEreFMrZFU1L2RaVldsUktGQWM0Znh0ek9IOW84SmI1?=
+ =?utf-8?B?NmxhVE1Va1lvUWcvMzZ4UjM5QXRnK0psRDJZNEIydGJOdFVWNWs0WTNvZStY?=
+ =?utf-8?B?eWJZVGNjdjBDSFZpaERJV3JKdGt2bTZoanlPaFNGcmlEamRHQ1U4SjVKdDg2?=
+ =?utf-8?B?ckVUcDZ0N0hPRGdhQk1IZHNlMUlyeTdHMW9IOFVjTzUxOC9jYVZrRVdPSGEx?=
+ =?utf-8?B?YWJzbTQyNDNoditaUklIODg1MXpnbUVUMFZKV0wxVUZsUFNHTWQ0R0k1YWVm?=
+ =?utf-8?B?QnJ0L1ArQVpOZ3l6aDd1bnhiWDAzaTFITnpvanZ2c2kvak5yandNbmRGdmdk?=
+ =?utf-8?B?YldwL2lyeVlMRjVqK2VpR3VPZTg2c0docDdmQWttWjhnK21abW03RkhUbklm?=
+ =?utf-8?B?eVZONW5nYXJMdEZDRVpUc0NzbytiMVFzbzBza0cvek94TWJzWS9BUzZKZitz?=
+ =?utf-8?B?bUpNOWFLeWlyblA1dC9oWWNFQk5GTGF6L2JIQTlWRHB4OUZ1dDZpQTA1RjAw?=
+ =?utf-8?B?U1FXanlhWldsUFhnMDA0RnpVOFo3WEQ1RVVZZ3R6SVJhNlpvRFoyUGFzaE1N?=
+ =?utf-8?B?OWtyZE5keDNXNlM3MlVXZFMzdVRKa0tIbzFZYTFob1pMenpwQVpCcHlZb3M3?=
+ =?utf-8?B?MnNTc3lENEF3SzA0YllPZ2pBeTY5djJBUklCR210NWpGaDhBcEYzNmlIdkdn?=
+ =?utf-8?B?Y1B6MUNQNUVNU0kxc3Z3K1ZjTXVDSDRqTU1LdzhRSHpEbGtBdG1FRmc3bUVQ?=
+ =?utf-8?B?NFpmaXVnZE5qRS9CaUdETHhNZ1QrK2lqbG41Wmtzb0Y1dGNNTWE0ZHE0MHNK?=
+ =?utf-8?B?UFFpSDhJY1h3c0ZOTjhCWFk0SXhBR1p5TnBlVkMzUDVNcmp4RzR5T2dSK1JW?=
+ =?utf-8?B?b2JncnpvWUVQRzBFUi8xZWJCRU1yN3ozZ0Q2di90WTgxdXRrc3U2SjBTVzNp?=
+ =?utf-8?B?OE1sRXkxa1dzd2UvTzBEUGJNTW8zV3lJNEN2Y2Z6ODlyaEJJSHpjN0hjek83?=
+ =?utf-8?B?RXh1N2x0aE9tZ3dwQXQxdzdEelhPVkxFc243N2Q3eFIzNlJ0ZmRvQmtwTE0w?=
+ =?utf-8?B?Y0dtSUFJYytRZll6QkVsTGpRZEwwQUdDWFhVZ0dtUjJKT2VON1hOSksvWnF4?=
+ =?utf-8?B?NGdnTW5wdDlyMUNMNHB3UDY3dTBCWEc3M0U4ZUtRekFNemlUL0tiN3lEc1FX?=
+ =?utf-8?B?cmxNVmJmU0hXOFlHajYyNk0zNzY3eEhQODJuY2QyZjVlMzhrcWdaK1UxaURC?=
+ =?utf-8?B?S1NEckY2WFdTT2hhRW40cW9EZW02MEQyeVphZWE3VExzTDltc2trL1h6b1p0?=
+ =?utf-8?B?ZGJjYWFZUGEwUk5VcHV2ZlFVZ3pBbk1xcmlyWG1WZHh1Sm1yZThINHQ3dXJZ?=
+ =?utf-8?B?OUt0NTNmdWpwdzJncWRNV2M4djI2WkFFN2R2OHJrVGtpN3FnVTA1TDgwaVJV?=
+ =?utf-8?B?bXFvNURKUXNsNW1XZkp2SnlzUkFVY0pNNmszaHhHTG9MR2haVzhES2pmR05n?=
+ =?utf-8?B?bFVudW9QQnhZUFp1cTZuMVlYS2VLN2dJMU9YaUQzeFliTnl5KytvZnFxOTZU?=
+ =?utf-8?B?L1VINlRhQlNnam5KTzNpT3ZkU2FFVlpEZkg2RW9qQzYvNnR5ZlVIUGZhRitN?=
+ =?utf-8?B?ZE53WktKT2R4RmlEblN1ajEyc0VseU9YcFJpUm4xODBZSERlTWhIUEsvMVZT?=
+ =?utf-8?B?d3BDWFE4b1o3YUtjWGMxVmx1RDJMVzdlRFlNalBadXpyRGV2ZXIvL0dVSmZS?=
+ =?utf-8?B?bFdmR2Mzclg4Y002UmNYZTZlaWZtZVZxSUFoQVZKbXczdFFvZFErY29TR2JN?=
+ =?utf-8?B?VGZvYXg2VXlTUlFPMTRRQ0lOSVhsdUlnU1pRT3hCOEtBZFR1dHFZQyt0QkpR?=
+ =?utf-8?B?M0tpc0Fwc3pWd2RuUzNBK3Nod0ZNMUREbFAzSldZSnYyR0xZSGZTeUtzTFpP?=
+ =?utf-8?B?Qmsrdk1GWWt2Ty82WGdNaVo3RTRpREFMSm44VkFhN3pEUmxMNFZJc3cyNExm?=
+ =?utf-8?B?WmltbklDVnBlZU5VQlZSYXhuWm85USt1M0lBaksvWU1zVE5oZkVwS25pUjIy?=
+ =?utf-8?B?Y1dFQmZoekR2OFZ1VDJ5RVJ0UXRpS21pOTFkbXFZODBZc0xUTUNiUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c73e5370-4fb6-44e3-d7a9-08de99abe88d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 22:27:55.4884
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fLXnO9ZZeDocrMVU7VODdVxEQeXON5ZFhijlzCTBaCTyZghWxxGe2NdfglXZb5DXPoitV1dpGSxe48SRvs4qrw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF2EB7CF87B
 
-On 26/04/13 04:40PM, Ira Weiny wrote:
-> Ira Weiny wrote:
-> > Alison Schofield wrote:
-> > > On Fri, Mar 27, 2026 at 09:03:26PM +0000, John Groves wrote:
-> > > > From: John Groves <john@groves.net>
-> > > > 
-> 
-> [snip]
-> 
-> > > > 
-> > > > Description:
-> > > > 
-> > > > This patch series introduces the required dax support for famfs.
-> > > > Previous versions of the famfs series included both dax and fuse patches.
-> > > > This series separates them into separate patch series' (and the fuse
-> > > > series dependends on this dax series).
-> > > > 
-> > > > The famfs user space code can be found at [1]
-> > > > 
-> > > > Dax Overview:
-> > > > 
-> > > > This series introduces a new "famfs mode" of devdax, whose driver is
-> > > > drivers/dax/fsdev.c. This driver supports dax_iomap_rw() and
-> > > > dax_iomap_fault() calls against a character dax instance. A dax device
-> > > > now can be converted among three modes: 'system-ram', 'devdax' and
-> > > > 'famfs' via daxctl or sysfs (e.g. unbind devdax and bind famfs instead).
-> > > > 
-> > > > In famfs mode, a dax device initializes its pages consistent with the
-> > > > fsdaxmode of pmem. Raw read/write/mmap are not supported in this mode,
-> > > > but famfs is happy in this mode - using dax_iomap_rw() for read/write and
-> > > > dax_iomap_fault() for mmap faults.
-> > > > 
-> > > 
-> > > Here's what I found:
-> > > 
-> > > famfs-v10 on 7.0-rc5 + ndctl v84:
-> > > 	dax suite all pass 13/13, so no regression appears
-> > > 
-> > > famfs-v10 on 7.0-rc5 +
-> > > (ndctl v84 w https://github.com/jagalactic/ndctl/tree/famfs
-> > > top 3 patches + edit daxctl-famfs.sh to use cxl-test:
-> > > 
-> > > 	existing dax suite keeps passing
-> > > 	daxctl-famfs.sh oops w the new test at # Restore original mode"
-> > > 	seems easy to repoduce, maybe cannot go back to system-ram???
-> > 
-> > John have you been able to reproduce this?
-> > 
-> > Ira
-> 
-> John I've found a different crash with the daxctl-famfs.sh test.  See
-> below.
-> 
-> I got the ndctl repo with the test from Alison.
-> 
-> I'm not at all clear what is happening at this point...
-> 
-> Ira
-> 
-> <crash>
-> 
-> [  519.007691] BUG: TASK stack guard page was hit at ffffc90001767fc8 (stack is ffffc90001768000..ffffc9000176c000)
-> [  519.007694] Oops: stack guard page: 0000 [#1] SMP NOPTI
-> [  519.007697] CPU: 0 UID: 0 PID: 1465 Comm: daxctl Tainted: G           O        7.0.0-rc6ira+ #68 PREEMPT(full)
-> [  519.007699] Tainted: [O]=OOT_MODULE
-> [  519.007700] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS edk2-20250812-19.fc42 08/12/2025
-> [  519.007701] RIP: 0010:sprintf+0xc/0x50
-> [  519.007709] Code: 24 10 e8 37 f8 ff ff c9 c3 cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 48 89 e5 48 83 ec 48 48 8d 45 10 <48>
->  89 54 24 28 48 89 f2 be ff ff ff 7f 48 89 4c 24 30 48 89 e1 48
-> [  519.007710] RSP: 0018:ffffc90001767fd0 EFLAGS: 00010282
-> [  519.007712] RAX: ffffc90001768028 RBX: ffffc90001768068 RCX: 0000000000001e08
-> [  519.007712] RDX: 0000000000000207 RSI: ffffffff82abab1c RDI: ffffc90001768068
-> [  519.007713] RBP: ffffc90001768018 R08: 0000000000000000 R09: 0000000000000001
-> [  519.007713] R10: ffffc90001768110 R11: 0000000000000002 R12: 0000000000000800
-> [  519.007714] R13: ffffc90001768068 R14: 0000000000000000 R15: ffffffff839c71c0
-> [  519.007715] FS:  00007fb94b807c80(0000) GS:ffff8880f9e9c000(0000) knlGS:0000000000000000
-> [  519.007717] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  519.007717] CR2: ffffc90001767fc8 CR3: 0000000077d2e005 CR4: 0000000000770ef0
-> [  519.007720] PKRU: 55555554
-> [  519.007721] Call Trace:
-> [  519.007722]  <TASK>
-> [  519.007723]  info_print_prefix+0xc0/0xe0
-> [  519.007728]  record_print_text+0x58/0x2d0
-> [  519.007730]  printk_get_next_message+0xd8/0x220
-> [  519.007733]  console_flush_one_record+0x1a5/0x390
-> [  519.007735]  console_unlock+0x5a/0xe0
-> [  519.007737]  vprintk_emit+0x2e8/0x340
-> [  519.007738]  _printk+0x48/0x50
-> [  519.007741]  ? printk_get_next_message+0x70/0x220
-> [  519.007743]  __dump_page.cold+0x3c/0x331
-> [  519.007746]  ? dump_page+0x1b/0x30
-> [  519.007748]  dump_page+0x1b/0x30
-> [  519.007749]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007751]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007753]  __dump_page.cold+0x1c6/0x331
-> [  519.007755]  ? dump_page+0x1b/0x30
-> [  519.007756]  dump_page+0x1b/0x30
-> [  519.007756]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007757]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007758]  __dump_page.cold+0x1c6/0x331
-> [  519.007760]  ? dump_page+0x1b/0x30
-> [  519.007761]  dump_page+0x1b/0x30
-> [  519.007761]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007762]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007763]  __dump_page.cold+0x1c6/0x331
-> [  519.007765]  ? dump_page+0x1b/0x30
-> [  519.007765]  dump_page+0x1b/0x30
-> [  519.007766]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007767]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007772]  __dump_page.cold+0x1c6/0x331
-> [  519.007774]  ? dump_page+0x1b/0x30
-> [  519.007775]  dump_page+0x1b/0x30
-> [  519.007775]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007776]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007777]  __dump_page.cold+0x1c6/0x331
-> [  519.007779]  ? dump_page+0x1b/0x30
-> [  519.007780]  dump_page+0x1b/0x30
-> [  519.007780]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007781]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007782]  __dump_page.cold+0x1c6/0x331
-> [  519.007784]  ? dump_page+0x1b/0x30
-> [  519.007785]  dump_page+0x1b/0x30
-> [  519.007785]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007786]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007787]  __dump_page.cold+0x1c6/0x331
-> [  519.007789]  ? dump_page+0x1b/0x30
-> [  519.007790]  dump_page+0x1b/0x30
-> [  519.007790]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007791]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007792]  __dump_page.cold+0x1c6/0x331
-> [  519.007794]  ? dump_page+0x1b/0x30
-> [  519.007795]  dump_page+0x1b/0x30
-> [  519.007795]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007796]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007797]  __dump_page.cold+0x1c6/0x331
-> [  519.007799]  ? dump_page+0x1b/0x30
-> [  519.007800]  dump_page+0x1b/0x30
-> [  519.007800]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007801]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007802]  __dump_page.cold+0x1c6/0x331
-> [  519.007804]  ? dump_page+0x1b/0x30
-> [  519.007805]  dump_page+0x1b/0x30
-> [  519.007808]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007809]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007810]  __dump_page.cold+0x1c6/0x331
-> [  519.007812]  ? dump_page+0x1b/0x30
-> [  519.007813]  dump_page+0x1b/0x30
-> [  519.007813]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007814]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007815]  __dump_page.cold+0x1c6/0x331
-> [  519.007817]  ? dump_page+0x1b/0x30
-> [  519.007818]  dump_page+0x1b/0x30
-> [  519.007818]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007819]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007820]  __dump_page.cold+0x1c6/0x331
-> [  519.007822]  ? dump_page+0x1b/0x30
-> [  519.007823]  dump_page+0x1b/0x30
-> [  519.007824]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007824]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007825]  __dump_page.cold+0x1c6/0x331
-> [  519.007827]  ? dump_page+0x1b/0x30
-> [  519.007828]  dump_page+0x1b/0x30
-> [  519.007829]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007829]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007830]  __dump_page.cold+0x1c6/0x331
-> [  519.007833]  ? dump_page+0x1b/0x30
-> [  519.007833]  dump_page+0x1b/0x30
-> [  519.007834]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007834]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007835]  __dump_page.cold+0x1c6/0x331
-> [  519.007838]  ? dump_page+0x1b/0x30
-> [  519.007838]  dump_page+0x1b/0x30
-> [  519.007839]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007840]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007841]  __dump_page.cold+0x1c6/0x331
-> [  519.007843]  ? dump_page+0x1b/0x30
-> [  519.007843]  dump_page+0x1b/0x30
-> [  519.007844]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007845]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007846]  __dump_page.cold+0x1c6/0x331
-> [  519.007848]  ? dump_page+0x1b/0x30
-> [  519.007849]  dump_page+0x1b/0x30
-> [  519.007849]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007850]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007851]  __dump_page.cold+0x1c6/0x331
-> [  519.007853]  ? dump_page+0x1b/0x30
-> [  519.007854]  dump_page+0x1b/0x30
-> [  519.007854]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007855]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007856]  __dump_page.cold+0x1c6/0x331
-> [  519.007858]  ? dump_page+0x1b/0x30
-> [  519.007859]  dump_page+0x1b/0x30
-> [  519.007859]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007860]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007861]  __dump_page.cold+0x1c6/0x331
-> [  519.007863]  ? dump_page+0x1b/0x30
-> [  519.007864]  dump_page+0x1b/0x30
-> [  519.007864]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007865]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007866]  __dump_page.cold+0x1c6/0x331
-> [  519.007868]  ? dump_page+0x1b/0x30
-> [  519.007869]  dump_page+0x1b/0x30
-> [  519.007869]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007870]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007871]  __dump_page.cold+0x1c6/0x331
-> [  519.007873]  ? dump_page+0x1b/0x30
-> [  519.007874]  dump_page+0x1b/0x30
-> [  519.007874]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007875]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007876]  __dump_page.cold+0x1c6/0x331
-> [  519.007878]  ? dump_page+0x1b/0x30
-> [  519.007879]  dump_page+0x1b/0x30
-> [  519.007880]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007880]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007881]  __dump_page.cold+0x1c6/0x331
-> [  519.007883]  ? dump_page+0x1b/0x30
-> [  519.007884]  dump_page+0x1b/0x30
-> [  519.007885]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007885]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007886]  __dump_page.cold+0x1c6/0x331
-> [  519.007889]  ? dump_page+0x1b/0x30
-> [  519.007889]  dump_page+0x1b/0x30
-> [  519.007890]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007890]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007891]  __dump_page.cold+0x1c6/0x331
-> [  519.007894]  ? dump_page+0x1b/0x30
-> [  519.007894]  dump_page+0x1b/0x30
-> [  519.007895]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007895]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007896]  __dump_page.cold+0x1c6/0x331
-> [  519.007899]  ? dump_page+0x1b/0x30
-> [  519.007899]  dump_page+0x1b/0x30
-> [  519.007900]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007900]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007901]  __dump_page.cold+0x1c6/0x331
-> [  519.007904]  ? dump_page+0x1b/0x30
-> [  519.007904]  dump_page+0x1b/0x30
-> [  519.007905]  __get_pfnblock_flags_mask+0x6c/0xe0
-> [  519.007905]  get_pfnblock_migratetype+0xa/0x20
-> [  519.007906]  __dump_page.cold+0x1c6/0x331
-> [  519.007907]  ? do_file_open+0xbe/0x150
-> [  519.007910]  ? stack_depot_save_flags+0x24/0x910
-> [  519.007918]  ? dump_page+0x1b/0x30
-> [  519.007919]  dump_page+0x1b/0x30
-> [  519.007920]  memmap_init_range+0x2f6/0x310
-> [  519.007922]  move_pfn_range_to_zone+0xee/0x220
-> [  519.007924]  mhp_init_memmap_on_memory+0x23/0xb0
-> [  519.007926]  memory_subsys_online+0x122/0x1a0
-> [  519.007929]  device_online+0x49/0x80
-> [  519.007931]  state_store+0x8e/0xa0
-> [  519.007932]  kernfs_fop_write_iter+0x136/0x1f0
-> [  519.007935]  vfs_write+0x205/0x460
-> [  519.007937]  ksys_write+0x57/0xd0
-> [  519.007938]  do_syscall_64+0x106/0x5f0
-> [  519.007940]  ? irqentry_exit+0x6c/0x520
-> [  519.007941]  ? exc_page_fault+0x66/0x180
-> [  519.007942]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [  519.007944] RIP: 0033:0x7fb94ba3473e
-> [  519.007946] Code: 4d 89 d8 e8 d4 bc 00 00 4c 8b 5d f8 41 8b 93 08 03 00 00 59 5e 48 83 f8 fc 74 11 c9 c3 0f 1f 80 00 00 00 00 48 8b 45 10 0f 05 <c9>
->  c3 83 e2 39 83 fa 08 75 e7 e8 13 ff ff ff 0f 1f 00 f3 0f 1e fa
-> [  519.007946] RSP: 002b:00007fff47c8ddd0 EFLAGS: 00000202 ORIG_RAX: 0000000000000001
-> [  519.007948] RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007fb94ba3473e
-> [  519.007948] RDX: 000000000000000f RSI: 00007fb94bc21a3e RDI: 0000000000000004
-> [  519.007949] RBP: 00007fff47c8dde0 R08: 0000000000000000 R09: 0000000000000000
-> [  519.007949] R10: 0000000000000000 R11: 0000000000000202 R12: 00007fff47c8e3f8
-> [  519.007950] R13: 0000000000000006 R14: 00007fb94bc67000 R15: 0000000000413d88
-> [  519.007951]  </TASK>
-> [  519.007951] Modules linked in: cxl_test(O) cxl_acpi(O) device_dax(O) fsdev_dax kmem nd_pmem(O) nd_btt(O) cxl_pmu dax_cxl dax_pmem(O) cxl_pci nd_e820
-> (O) nfit(O) cxl_mock_mem(O) cxl_pmem(O) cxl_mem(O) cxl_port(O) cxl_mock(O) libnvdimm(O) nfit_test_iomap(O) cxl_core(O) fwctl [last unloaded: cxl_acpi(O
-> )]
-> [  519.007962] ---[ end trace 0000000000000000 ]---
-> [  519.007963] RIP: 0010:sprintf+0xc/0x50
-> [  519.007964] Code: 24 10 e8 37 f8 ff ff c9 c3 cc cc cc cc 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 90 55 48 89 e5 48 83 ec 48 48 8d 45 10 <48>
->  89 54 24 28 48 89 f2 be ff ff ff 7f 48 89 4c 24 30 48 89 e1 48
-> [  519.007965] RSP: 0018:ffffc90001767fd0 EFLAGS: 00010282
-> [  519.007966] RAX: ffffc90001768028 RBX: ffffc90001768068 RCX: 0000000000001e08
-> [  519.007966] RDX: 0000000000000207 RSI: ffffffff82abab1c RDI: ffffc90001768068
-> [  519.007967] RBP: ffffc90001768018 R08: 0000000000000000 R09: 0000000000000001
-> [  519.007967] R10: ffffc90001768110 R11: 0000000000000002 R12: 0000000000000800
-> [  519.007967] R13: ffffc90001768068 R14: 0000000000000000 R15: ffffffff839c71c0
-> [  519.007968] FS:  00007fb94b807c80(0000) GS:ffff8880f9e9c000(0000) knlGS:0000000000000000
-> [  519.007969] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [  519.007969] CR2: ffffc90001767fc8 CR3: 0000000077d2e005 CR4: 0000000000770ef0
-> [  519.007971] PKRU: 55555554
-> [  519.007972] Kernel panic - not syncing: Fatal exception in interrupt
-> [  519.008404] Kernel Offset: disabled
-> [  519.083400] ---[ end Kernel panic - not syncing: Fatal exception in interrupt ]---
 
-Dang. Obviously runaway recursion; I don't recognize anything in
-the stack, but will start trying to reproduce it.
 
-John
+On 4/13/2026 4:10 PM, Joel Fernandes wrote:
+> Hi Danilo,
+> 
+> On 4/9/2026 7:00 AM, Danilo Krummrich wrote:
+>> On Thu Apr 9, 2026 at 12:33 PM CEST, Joel Fernandes wrote:
+>>> Since it is 3 against 1 here, I rest my case :-).
+>>
+>> That's not how I'd view it. :)
+>>
+>> Anyways, in case I'm included in "3", that's not my position. My point was to
+>> ensure we keep discussing advantages and disadvantages on their merits, as I
+>> think you both have good points.
+> 
+> Heh, yes I actually *did not* include you in the 3 since you sounded to be open
+> to both. ;-)
+> 
+>>
+>>> I am still in disagreement since I do not see much benefit (that is why I said
+>>> pointless above).
+>>
+>> That is fair -- in this case please explain why the advantages pointed out by
+>> others are not worth it, propose something that picks up the best of both
+>> worlds, etc.
+>>
+>> You can also turn it around and ask people whether they can tweak their counter
+>> proposal to get rid of specific parts you dislike for a reason.
+>>
+>> IOW, keep the ball rolling, so we can come up with the best possible solution.
+> 
+> Good advice, thanks! I will try to come up with something that is acceptable to
+> everyone and we can further debate pros/cons on v11.
+> 
+> There are some merits on the alternative proposal from Eliot/Alex that I'd like
+> to explore while seeing if I can keep some of the merits in mine as well.
+I think I found a nice approach. IMO the MMU version dispatch does not belong in
+Vmm/BarUser layers. Those are version-independent code. However I agree that
+doing version dispatch at every low-level page table operation is a bit heavy on
+matches (if we put the MMIO overhead counter-argument aside).
+
+So how about the following approach?
+
+PtWalk, PtMap and everything below it are monomorphized. Vmm and BarUser are
+not. Version dispatch is handled on PtWalk and PtMap entry points.
+
+I think it makes it cleaner and splits the code up better too and the
+organizations makes sense because the version differences are related to page
+tables, not to generic concepts like Vmm and Bar.
+
+Thoughts? Here is a preview:
+https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?h=pt-traits-v2&id=ff22ba64f729f9f73258777231763a7b9804123b
+
+thanks,
+
+--
+Joel Fernandes
+
+
+
+
 
