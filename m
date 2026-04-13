@@ -1,104 +1,386 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011052.outbound.protection.outlook.com [52.101.62.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C590349AF3
-	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 19:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776110212; cv=none; b=pxLB5MzLMJPj/uoZbLeoFbMFnLFpRHWmX/t7XZPbd9C/zABVEKOUmWgCzm1hX80DauCfASG2NBu0lX7/096duMwms0lUq7LK7x6IlUh2DXTNu8VNTzMN1u+nz2ZR0vqaJtXaXOIAQu8V7o8a/lOXcwTZvoELvz+zqOf4q1sXLKM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776110212; c=relaxed/simple;
-	bh=DE8j9lZdAJJJNS58z2mtSdSWi/z8pLO7tjOa7/37A0c=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=glC0trIsc8Y295KJYCGIRx5lrdlS95WEQO820/dKjaa86ARTa6A02c+bwBUhg0f/9qPatfzx1RasoLCok9vmzzqJZ4IJoaZDcoIlX3v9JH3vt8IdCLcNCO1QOFy56/eoXnZmf3cwQgGa+NIN0CIhGMIOZC5EQKRSrJQjy+7Kzfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Shkeawkx; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A64F02288CB;
+	Mon, 13 Apr 2026 20:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776110693; cv=fail; b=L6M7JBpEW8Ymy4zFvMfHFXbe9Qa1uBZK4RyY8KfeLxBPVxo3E281ocgk8Lk9tgUfEFF6Tx8UVQi8amXgJ9EalPfHYpDudl+ItVh0edVkIoD8aeCJQad1xGG3/e5UXA6A087itZp7fYpEtjy/KXgDUHGAs/M1Fbt2aQT3cX2DkhI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776110693; c=relaxed/simple;
+	bh=YqbwkgMRIOPQIwYiC4Gq/1HSsB9vvHmvFFFcjO+tt3E=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GI0r1fUxRZ4sQbsUV6XimUzScyUEd71L+HH9IdJsJVjzPJoGtwsWaWs4ctbC1rFT1AkSMbL/X9eHW154B/SLJRw/rYuwQuAYnX8xGlC+n4UQFmEThxb+pKaMbjPdjn8Cs9QJurNUgXvQjhEl8ZgwVQoduz0+KrXzSXQV7hMvQpU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=RrlDPMZM; arc=fail smtp.client-ip=52.101.62.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Shkeawkx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776110211; x=1807646211;
-  h=date:from:to:cc:subject:message-id;
-  bh=DE8j9lZdAJJJNS58z2mtSdSWi/z8pLO7tjOa7/37A0c=;
-  b=Shkeawkx93rr/epLe+8TemMZ4CIuELzyzaxqspCpKLl+IpwfSpEOukvc
-   gaq2+2uORYt5yTm/L79lYvcpFogFMdKwL7LDeGTRx0j1tAARo681gqUqx
-   luGOfJU7pRbJt9A+PkTSHha6l4PintbUWn4mBGccoepG4ZQyfuV7Tj4X9
-   0BPYNgq7rJoUvTsJSQCC+cWAv7LZ0vUnRNAm76mMii1XAtQvOYSnyps3y
-   BHLWcccMxP7XxzgdBB2o5Vsf1uGB4wo4biFQ+l7TGi8ylEkkxYj677Wjt
-   v+J/Lw3824E126l7vzSkYBCdb1CRP7JKgvlSe4w/j1Q5MhtszlXdWxAfb
-   A==;
-X-CSE-ConnectionGUID: 7hBCE0ThR2+5BHOE3IzjVQ==
-X-CSE-MsgGUID: zH3XviHHTgeTes2ciBIU5Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="79640678"
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="79640678"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:56:50 -0700
-X-CSE-ConnectionGUID: +P7x4vkURsivz7rK4KaTIQ==
-X-CSE-MsgGUID: /wCurEebSuCNwfnQu2/S2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="233907053"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 13 Apr 2026 12:56:49 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wCNOo-0000000009B-1yZ9;
-	Mon, 13 Apr 2026 19:56:46 +0000
-Date: Mon, 13 Apr 2026 21:56:23 +0200
-From: kernel test robot <lkp@intel.com>
-To: Linlin Zhang <linlin.zhang@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs:
- Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst:1: WARNING: Title
- overline too short.
-Message-ID: <202604132146.Iz4XtlRm-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="RrlDPMZM"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=cS0mo9SgCuUyosehFMbogi49ZMynWzhaeXG/1UFHplWqvdyruSCSGcqoa45bMC7b9tmrXOgfstgHHANGeE5R0wdcEoWBlbTQFck/4qiPKXcJItMub/WMrZ0v206/oIWRWOOWR89rd9ciQMaXhFOHlrA/HBQQGtRTBmwf48MS/i0g0kFGCir+ApDHY9reCvXnXRcS3GJs5n7V3F3xcGKcwloyS36M4j53bK+Nhg8hM+k+zobA7ptDX2FK774D7QrXNewCWOPuPuD4C191hYdI/Z5MLK67SyOiPzVNBM8Bhq7uS9QqqGBzMirNZiAMTnPxmIu3hOuG3az6HSlJVYjcfQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uUMgseq8KDTfLRXR+B24PcoeYr/Jg8TkAMc8gBHyhoE=;
+ b=jCo7PIyFffva/CQfxfrPyQ16tHOiYUWR6oZax537oBblW+mqX7Bt/gSL8RN5t1gESeXP0oQrXUxYjtFjTq6eBiIUybMwHV+jdqaPpRCnYwcVK+EfWDoJL0tdw5+1Yvvo4Aqtvfo/5K2FEPnsTpUT0/E1ZfIEgSOEUk4vn6mu2Um9u5C/1p5pAgoqLmJ/0c/mkQDroOx0ix9vXGwc0TYWOBL0R1TX0pYVShPcustktD2sE+8vPALIF5rsfMmgmKsvJtvyCT/kj82sA1QPGzZ1TrrYIWRWI6QPxYwaQ6yeTtwuW0VAjSXJ0MPMq0fLzqTQEc9RJtnFoYHkjpZ29b46Sw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=uUMgseq8KDTfLRXR+B24PcoeYr/Jg8TkAMc8gBHyhoE=;
+ b=RrlDPMZMhOqEDzoUmH0gD8VwP2G7SNLSW/iG8eqhp73LCoo782UApRJhpoCruI3EQ5iTxXNjOi1MlVzlWP/sQcNiUqgEgENZWrZ6Lg9ZUM/39BtD0eTNfBHYAlomkrlQ8+1bmFWaV8uv3KQe7VfSthaeLmXmn9+GGyX4yyoOaj0vt9YEH2KUVhiAK71rvrnOCWa7Onyw9vgjFl1DVVlm1Ra8of9ydwZsZcxjmh/xS6tRsq1A4EI8lTSFcqf4YODC9kvBZtjOyVByeST2/gWe/eEI+bV08v1GYK9PrHTuXb9IA55rNQ7McSSOw7IfWVWNrBg2gecPQQ3RV3bixdBpoA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ PH0PR12MB7093.namprd12.prod.outlook.com (2603:10b6:510:21d::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.20; Mon, 13 Apr
+ 2026 20:04:45 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9769.014; Mon, 13 Apr 2026
+ 20:04:45 +0000
+Message-ID: <f3a00d39-cbf5-41e0-9c7e-8ef078328821@nvidia.com>
+Date: Mon, 13 Apr 2026 16:04:38 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 12/21] gpu: nova-core: mm: Add unified page table
+ entry wrapper enums
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: Eliot Courtney <ecourtney@nvidia.com>, Danilo Krummrich
+ <dakr@kernel.org>, linux-kernel@vger.kernel.org,
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
+ rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
+ Christian Koenig <christian.koenig@amd.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
+ Matthew Auld <matthew.auld@intel.com>,
+ Matthew Brost <matthew.brost@intel.com>,
+ Lucas De Marchi <lucas.demarchi@intel.com>,
+ Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+ Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
+ Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
+ Edwin Peer <epeer@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ Elle Rhumsaa <elle@weathered-steel.dev>, alexeyi@nvidia.com,
+ joel@joelfernandes.org, linux-doc@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ intel-xe@lists.freedesktop.org, linux-fbdev@vger.kernel.org
+References: <20260311004008.2208806-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-1-joelagnelf@nvidia.com>
+ <20260331212048.2229260-13-joelagnelf@nvidia.com>
+ <DHIFF98P1YQ3.1IXUT02E3TF20@nvidia.com>
+ <5db2aab1-4b65-486e-ad9b-27a108bdb0d6@nvidia.com>
+ <DHMYSTLVHIFJ.A2BDMPVNZNLS@nvidia.com>
+ <537a8c5a-3885-4c47-99f6-963b48ddf87d@nvidia.com>
+ <DHNKYBM159T9.2UUQ7CU0RN0BU@nvidia.com>
+ <2f004511-61d1-4197-84b6-cddcdd275e55@nvidia.com>
+ <DHOKJ3MJNO5P.SXKOAYKX13JL@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DHOKJ3MJNO5P.SXKOAYKX13JL@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN0PR03CA0052.namprd03.prod.outlook.com
+ (2603:10b6:408:e7::27) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|PH0PR12MB7093:EE_
+X-MS-Office365-Filtering-Correlation-Id: c267056f-f409-492b-b33b-08de9997e830
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	3vBEb1bKBk/bsjCYpV2ugwbcix2QvxViMZCpMGnQLvG/X8vMidvA0qkM1rBL7z/S4NX5LrzTucJqWlpeYe6skV1itmmgnR3NUEzpdiksHCO96OV85wmseLpkqhd6xgs4mUMHlY0KESQ3NDclrvuAqmM5mhu1xNE4YDclTb8jYOiRynGg8pMwzBtRTc50Zib/B7TnDheAWPTK8QEryR8AP5yabfiKA/hGKMiJaMH6FfDzMRglg0T6qqQ3XJ58eWlJfLVd4EAXqQ/KLzGnSp+cPs6vg/vW+UenJ3toYknsVnjbehHJ5lxSlEaiC7flitL+E6V+gbiW1lVFQupYW8y03ZejMzJvsxnra7hjKy2+VGDEbVbsCGOgFaBTgWE0tkNVksvM6wCVMtZsP5cDU2bgUwF8d1PLay+qQW0rriPc8uiJDK0fmTAIMTtdayJYddEiyBbhDB7vWY8HpJKPAmrbESD9nFxHtndsbFA3Nau/ANshZ8q6S4LmFh5jJrdPuyo1M7cJT9d7uTRDUVaTmRPtRqV4uImM9ZO7voiFiQMx8kwmF8Nj6vZ7x07obXlRqHdFH/ANvcIbiOmMISXy5S2JWfRSo2VVJocTGWUfRHQOfUXmUjnkcnYf3gGEGK27e82LxaNOVuseKAyb74bc+wDPg2XoL5aJ0ocQUEfmncsqZYAe6pzu6RaVBFVXOL4gLouCBdvD9JsG0p3MtNWbY2zCJDfH9DmcDJSsABKflNedSlc=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?L3hxSk5Lckhrbzg1N0ZJTU5VYitaMW54SzBSUytyWWVSMVlUazhsSTF4Y3NM?=
+ =?utf-8?B?R3liakdyYWZRdjdJeVQ4aWdGZldWZ1NvZkc0T3c2anJiZFVpOW9QNXpIcjY1?=
+ =?utf-8?B?SU45NWxrMjR4enRDRUFQTHpPVE5jU2h6QmdIcG9iS1l0cFdVZkRMZzBSMW05?=
+ =?utf-8?B?VlgrUG9CRE9veVB6ZHpDc2VWSElpZGJvRFYyT3Z6NTcwMElXL3dNMi91cVZ3?=
+ =?utf-8?B?MU5POHhQZ0Z5ZEhBT25ZaVByRGl3OHFFSVp0ZElsSEFmZU1Sb1IweXZrUVRn?=
+ =?utf-8?B?ajFkVHFGdm5QMUZMcVgvTThuYSttSzdSaTY4ZHR4SHZvUzB6KzBxK3h4cXg1?=
+ =?utf-8?B?V1Z5eldPbFRMQkV5aUlicTZKWmJZOFVJMzVDMGRSZDFPTnJSRE1acG9uRFdV?=
+ =?utf-8?B?RTN1M01MNU5USWNDZ1pEQlRxcHgvcVdRNjBoUDZ5STIwVXNwbG5kUmFVajlv?=
+ =?utf-8?B?OU1KWlRFT01GU01Da1BFdjBsQ2JZbFB1ZXM5LytHVFlWb0FNOTVUWHBWSWRu?=
+ =?utf-8?B?WnZ3bkZNYXpvSFk3S0J0bm1nSVVMN2thRkFHMHBWM3U4OENrOHo3SlVtcjNO?=
+ =?utf-8?B?aVJJem5GdzBvZlBwRHZUSmtPRE5oSjdETG0zdFZkRDZJWWJsbU1NMWxDMHpM?=
+ =?utf-8?B?ZVlJTncrVU1QZmh3Vk5VUWpWckRRSEtCMmsvbXF3UUhwazArSjBYUTVRSy9M?=
+ =?utf-8?B?WVhMcjBjOTdrSWM1T0l4RGEvL05MWUJQWmk5RzZPSzlMR3dDY1R2SFlrSlht?=
+ =?utf-8?B?K2ZWL1FHc0syRzJhdER1MEFEYlh6ZVVmUDE1aEx4VCtvVUwrd3dNTnQ4MlVJ?=
+ =?utf-8?B?VmVvSjc2UTBsQzRRdnJlSDgwU0N5RFc1SnFuVEJ2WlZmWVhBeE0yQlRPV0ZP?=
+ =?utf-8?B?ME83dXAvM21aSlVoeXd0VDdzQkY1T2xSUit2TzNyQnFsNnJIQWlMSDd4blVW?=
+ =?utf-8?B?VEtmVzNzRElkcEVhclNuSEsxTUtCKzZIUXZxUHIvK2FLZyt6dzNxTlJyb0Iy?=
+ =?utf-8?B?elBHY0RMSm1yVnJVeitOL1VGYkMxVEpLdE9BYjlmcStGc3libkdTUzYwWUNz?=
+ =?utf-8?B?YXdlYitId0loWWFZTzBzVFlNdUZXUi8wUmhuTWtNVGtya2w2NVlwK1UwVU1E?=
+ =?utf-8?B?L3poMXRsNmJKVEsyWFdWVjZoSVdEVi8vdlg4Q3pMeEdYb2E1S2pmcWdNekVJ?=
+ =?utf-8?B?RFBrT0MyRkFpSzhFMklGZ1JMZHhiK21wUHliK2NNMGxCalB6RXRMdFdFR1Nw?=
+ =?utf-8?B?V1dOQ1JEVDVRWVhETHNVN2xzb05zUGkrTVNwNmFnRG1VTFc5RVRwTkpGS2RW?=
+ =?utf-8?B?bS9OSS9KWHIyeTZld0FYS2FpS3M4VVNyMTFpZFNTcHlGdnlONGE1QnptSWxY?=
+ =?utf-8?B?Rm1kTTU4bm1ZMDdHUER4SXN4TVgwMkFvVmxLK2k5YUk5Q29Kc1pDS0hRNWVS?=
+ =?utf-8?B?ajBCSEVLNzNYUFZhQ3dyT3FCMHZoOVpjZ2pILzFZdGFSNytFeW15eC85bWNJ?=
+ =?utf-8?B?VExTaVM4Z0MzQWZhZVg0REp4Qk5xZ1R6cHJFVTFkWVNQa1J0V1RFaTdpa0Vs?=
+ =?utf-8?B?VUtLL3NBNnJkV3hlOGhJRmVVUFQzVFhUcDY4YkRPNEFsWkc4ZlN0dE03M0gw?=
+ =?utf-8?B?UC85ZWZ5SnBCNExVR05kNVBQT0F0TkhFb2p5Q1pWU0hwN0FhVy9nVEF1Ukxn?=
+ =?utf-8?B?NFFtV0E4L1VuVDRpTkpBY3p5WTVIVlJLNFY2am9CbVZTNVptQm03L0ExZzh6?=
+ =?utf-8?B?akZvYTRKRElkZ01ZL0RZYlpnUktHb2oxRU1WWnl6QmR3OW9PRXlhdzBwMGN5?=
+ =?utf-8?B?Z2xiREsyL3dncDhJdW91WE5jaUduNWFxd2ZIVlNsblJEbzJQQ3J5VG1pcnhM?=
+ =?utf-8?B?OEcyUStTU0huMjhwVWZWUVg5dGpOQlZSUDFMR2NXcER0dTdOOG42K3JxZXFN?=
+ =?utf-8?B?YXN2bWdpblUzcHVua0cwdy85c0ZvVVlpVlFqODJEZ0JjK3pVU0tnZ0ovNXNi?=
+ =?utf-8?B?bXZSL2xjWVN1WTdpemF3MDlvR2pkanFSY1ozU0ZIcjVUQmlwb1NZS05LazhE?=
+ =?utf-8?B?dkZDWGhMeGUzQmVZMEZTSXd6UXgyTE9NbmJSdEJhOVU5dDRLL2V3Q3RYVU5z?=
+ =?utf-8?B?MTBueXV5MjljMXhrM1FkT25SYUxyYmtEK0FrY0NnckxNNzBZZk9iMXVIaDl2?=
+ =?utf-8?B?ZUN2bjRvRnY0RU55Q0N1b3BhNXF2aUZCYS85QjZFT2VKZzFGaStlbVVOUllk?=
+ =?utf-8?B?Z0tVV2U2YjBxRlJjQ0F0U2pLZkxUNk1nUnphT0FGK1FRSG5ic2FETXYxMDVl?=
+ =?utf-8?B?d2pNU3llUjIrNmZVZWVvM0c0OXg0ZVRjTnA0TVFUMElsU1UyTnk2dz09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c267056f-f409-492b-b33b-08de9997e830
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 20:04:45.4934
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aQJmFPK4uQeu1/XgEYTrZ+A7yoFjnLhRVA3CYZjq9PSUTPrHrlwUhB0P/f9QOayhpsLmsE5751mDxH3//8Md7w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB7093
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Linlin-Zhang/block-export-blk-crypto-symbols-required-by-dm-inlinecrypt/20260413-212518
-head:   9b0494c109a48c2e2a286f44e61f2f5dbf35b31d
-commit: 9b0494c109a48c2e2a286f44e61f2f5dbf35b31d dm: add documentation for dm-inlinecrypt target
-date:   6 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260413/202604132146.Iz4XtlRm-lkp@intel.com/reproduce)
+Hi Alex,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604132146.Iz4XtlRm-lkp@intel.com/
+On 4/9/2026 6:56 AM, Alexandre Courbot wrote:
+> On Thu Apr 9, 2026 at 5:19 AM JST, Joel Fernandes wrote:
+>> Hi Alex, Eliot, Danilo,
+>>
+>> Thanks for taking a look. Let me respond to the specific points below.
+>>
+>> On Wed, 08 Apr 2026, Alexandre Courbot wrote:
+>>> After a quick look I'd say that having a trait here would actually be
+>>> *good* for correctness and maintainability.
+>>>
+>>> The current design implies that every operation on a page table (most
+>>> likely using the walker) goes through a branching point. Just looking at
+>>> `PtWalk::read_pte_at_level`, there are already at least 6
+>>> `if version == 2 { } else { }` branches that all resolve to the same
+>>> result. Include walking down the PDEs and you have at least a dozen of
+>>> these just to resolve a virtual address. I know CPUs are fast, but this
+>>> is still wasted cycles for no good reason.
+>>
+>> I did some measurements and there is no notieceable difference in both
+>> approaches. I ran perf and loaded nova with self-tests running. The extra
+>> potential branching is lost in the noise. In both cases, loading nova and
+>> running the self-tests has ~119.7M branch instructions on my Ampere. The total
+>> instruction count is also identical (~615M).
+> 
+> That's expected - as I said, CPUs are fast - and that's also not my
+> point. My issue is that we are doing countless tests that all resolve to
+> the code path, a code path that is already known during probe time.
+> That's a huge code smell.
+> 
+> When we create the GPU, we know whether we will be using v2 or v3 page
+> tables. That we need to test that again 12 times per address resolution
+> is a design issue, irrespective of performance. There are 24 version
+> match sites in patch 12 alone.
+> 
+> And that's precisely a good justification for using monomorphization. v2
+> and v3 are technically two different page table implementations (they
+> even have their own distinct module in your series), we just use
+> generics to factorize the (source) code a bit.
 
-All warnings (new ones prefixed by >>):
+To repeat my point though, the extra tests don't complicate the code or change
+performance. The bottleneck is here is MMIO, not CPU cycles (and arguably
+testing shows no change in CPU cycles either). So I tend to prefer cleaner code
+(which in my view is the few matches in pagetable.rs versus templatizing lots of
+code). I do see your point of view though and I Ok with (trying out) the
+alternative as well, and it seems to be what mostly everyone wants. It is a
+little more boiler plate in higher layers which are not exposed to version
+matching, but not the end of the world :).
+>> I measured like this:
+>> perf stat -e
+>> branches,branch-misses,cache-references,cache-misses,instructions,cycles --
+>> modprobe nova_core
+>>
+>> So I think the branching argument is not a strong one. I also did more
+>> measurements and the dominant time taken is MMIO. During the map prep and
+>> execute, page table walks are done. A TLB flush alone costs ~1.4 microseconds.
+>> And PRAMIN BAR0 writes to write the PTE is also about 1 microsecond. Considering
+>> this, I don't think the extra branching argument holds (even without branch
+>> prediction and speculation).
+>>
+>> Also some branches cannot be eliminated even with parameterization:
+>>
+>>     if level == self.mmu_version.dual_pde_level() {
+>>         // 128-bit dual PDE read
+>>     } else {
+>>         // Regular 64-bit PDE read
+>>     }
+>>
+>> This isn't really a version branch -- it's a structural branch that
+>> distinguishes between 64-bit PDE and 128-bit dual PDE entries. Any MMU
+>> version with a dual PDE level would need this same distinction.
+> 
+> The dual PDE level should be an associated constant - you still need to
+> do the test, but note that you would also do it if there was only a
+> single page table version. It's orthogonal to whether we use a trait or
+> not here.
 
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,\b(\S*)(Documentation/[A-Za-z0-9
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
-   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
-   Using alabaster theme
->> Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst:1: WARNING: Title overline too short.
+Sure, fair enough.
+
+> 
+>>
+>> I also did code-generation size analysis (see diff of code used below):
+>>
+>> Code generation analysis:
+>>
+>>   Module .ko size:   Before: 511,792 bytes   After: 524,464 bytes  (+2.5%)
+>>   .text section:     Before: 112,620 bytes   After: 116,628 bytes  (+4,008 bytes)
+>>
+>>   The +4K .text growth is the monomorphization cost: every generic function
+>>   is compiled twice (once for MmuV2, once for MmuV3).
+> 
+> I would say this is working as intended then.
+
+2.5% is not much for 1 feature but overtime IMO it can add up and become
+significant, I think we should keep an eye on size.
+>>> If you use a trait here, and make `PtWalk` generic against it, you can
+>>> optimize this away. We had a similar situation when we introduced Turing
+>>> support and the v2 ucode header, and tried both approaches: the
+>>> trait-based one was slightly shorter, and arguably more readable.
+>>
+>> Actually I was the one who suggested traits for Falcon ucode descriptor if you
+>> see this thread [1]. So basically you and Eliot are telling me to do what I
+>> suggested in [1]. :-) However, I disagree that it is the right choice for this code.
+>>
+>> [1] https://lore.kernel.org/all/20251117231028.GA1095236@joelbox2/
+>>
+>> I think the two cases are quite different in complexity:
+> 
+> Exactly. The complexity is different (this one involves multiple traits
+> and associated types) but the pattern is the same - and that's a pattern
+> traits are designed to address. If we were supposed to stop applying it
+> when things go beyond a certain level of complexity, the conceptors of
+> Rust would not have bothered addings things like associated types.
+> 
+> These traits are nothing new, they simply formalize a reality that
+> already exists in your code, which is that each version of the page
+> table needs to implement a given set of methods. It's already there with
+> the version doing dispatches, only it is not articulated clearly to the
+> reader. So in that respect, having traits make the code *more* readable
+> imho.
+
+Makes the lower layers more readable and the higher layers more complex. Me, I'd
+have preferred to keep the version matching stuff to the lower layers /
+centralized. Maybe there is still a way to do that, while still using traits.
+
+>>
+>> The falcon ucode descriptor is essentially a set of flat field accessors
+>> and a few params (imem_sec_load_params, dmem_load_params).
+>> The trait has ~10 simple getter methods. There's no multi-level hierarchy,
+>> no walker, and no generic propagation.
+>>
+>> The MMU page table case is structurally different. Making PtWalk generic
+>> over an Mmu trait would require:
+>>
+>>   - PtWalk<M: Mmu> (the walker)
+>>   - Plus all the associated types: M::Pte, M::Pde, M::DualPde each
+>>     needing their own trait bounds
+>>
+>> And we would also need:
+>>   - Vmm<M: Mmu> (which creates PtWalk)
+>>   - BarUser<M: Mmu> (which creates Vmm)
+>>
+>> I am also against making Vmm an enum as Eliot suggested:
+>>        enum Vmm {
+>>            V2(VmmInner<MmuV2>),
+>>            V3(VmmInner<MmuV3>),
+>>        }
+>>
+>> That moves the version complexity up to the reader. Code complexity IMO should
+>> decrease as we go up abstractions, making it easier for users (Vmm/Bar).
+>>
+>> If you look at the the changes in vmm.rs to handle version dispatch there [2]:
+>> Added: +109
+>> Removed: -28
+>>
+>> [2]
+>> https://github.com/Edgeworth/linux/commit/3627af550b61256184d589e7ec666c1108971f0e
+>>
+>> The main benefit of my approach is version-specific dispatch complexity is
+>> completely isolated inside MmuVersion thus making the code outside of
+>> pagetable.rs much more readable, without having to parametrize anything, and
+>> without code size increase. I think that is worth considering.
+>>
+>>> But the main argument to use a trait here IMO is that it enables
+>>> associated types and constants. That's particularly critical since some
+>>> equivalent fields have different lengths between v2 and v3. An
+>>> associated `Bounded` type for these would force the caller to validate
+>>> the length of these fields before calling a non-fallible operation,
+>>> which is exactly the level of caution that we want when dealing with
+>>> page tables.
+>>
+>> I think Bounded validation is orthogonal to the dispatch model.
+>> We can add Bounded to the current design without restructuring
+>> into traits. For example:
+>>
+>>     // In ver2::Pte
+>>     pub fn new_vram(pfn: Bounded<Pfn, 25>, writable: bool) -> Self { ... }
+>>
+>>     // In ver3::Pte
+>>     pub fn new_vram(pfn: Bounded<Pfn, 40>, writable: bool) -> Self { ... }
+>>
+>> The unified Pte enum wrapper already dispatches to the correct
+>> version-specific constructor, which would enforce the correct Bounded
+>> constraint for that version.
+> 
+> But then what type does the `new_vram` dispatch method take? Generic
+> code lets us expose the expected `Bounded` type to the caller, which can
+> do the proper validation. This is a small example, but I expect this
+> pattern to come up in other parts of the code as well.
+
+Maybe I didn't follow your point, but the caller would do a version match and
+pass the correct bounded number of bits, but granted that's uglier if/once we
+switched to bounded types here.
+
+>>
+>>> In order to fully benefit from it, we will need the bitfield macro from
+>>> the `kernel` crate so the PDE/PTE fields can be `Bounded`, I will try to
+>>> make it available quickly in a patch that you can depend on.
+>>
+>> That would be great, and I'd be happy to integrate Bounded validation once
+>> the macro is available. I just don't think we need to restructure the
+>> dispatch model in order to benefit from it.
+> 
+> I'll finish the series and hopefully send it a bit later today. That's
+> another significant rework for the series (sorry about that) but it
+> should be worth the effort for the added correctness.
+
+Sure!
+
+thanks,
+
 --
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+Joel Fernandes
 
-
-vim +1 Documentation/admin-guide/device-mapper/dm-inlinecrypt.rst
-
-   > 1	========
-     2	dm-inlinecrypt
-     3	========
-     4	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
