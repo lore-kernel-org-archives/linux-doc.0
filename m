@@ -1,162 +1,85 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A723CAE95;
-	Mon, 13 Apr 2026 13:27:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A12523DEFE1;
+	Mon, 13 Apr 2026 14:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776086839; cv=none; b=meWV+2prlpPe7Ygi/GATK9sN5QidfZ2vn0+DGEbgYjOCYszqsM0Ue76YsofhG6TJghDpBwOnZuzwQc116UykCUl1xtpYfqqX4M7gQ1VI27TBfq3e8sXpDOcxzRIDsu39Y/g+edr/gnfAB28T+c/LeUVDxewU4S+3UP0+ne2Jyyo=
+	t=1776090711; cv=none; b=Ag/TDw9qu+5QonGeK1MpHstaql+Z6GslfXP/K06q7yvkp/eLuOOt1SQPFurIcVpNWavUrV2W0Ueo2yJweEYiI/pHe/z7r9Y119PT9yHeqOxEfqeRqkrPyBOVA7I5zf4Wa9fGg72ndWkcQ42A+ipwHnuqdXtPZbMPOzUwKNj20oE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776086839; c=relaxed/simple;
-	bh=Mp1Qv6rhhs0jzy9DwGJSWL5EM4TqsDFHcgB+US1rhmY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DiSm5ys/gSAEnV0EgHIhuIHJI51MXNdq1qMWQFjBmTQQqxZs4AZTawzEYVjMGSbwLWaaa16oO+DxLW9jXZj5Vo3EVVy52ErGhUPOx9YQQrZtfnRX7+UrlLHBuIWpQS+S0QPks3CIgIvg1UPXw/RWbEBfTZymatYum3BgI+AtO2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=QBzc305O; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1776090711; c=relaxed/simple;
+	bh=Bq30PsvBig46HcczZd+NZdFILcN3Ad0q3W32R7+TqHw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DTEWaceOBzvaFMMaD6oClAVMoxNnq6gzvKyavpYouaqVAjgOWrhOevFsvdZx3Ta0VfalL3H4fAXpIeZmIrLr0ow2hLFw1J5pAlebksUUCcex2E7L7nFdrwkIyXS7nIvycG34yJSHHwimP12T4/O98HRJxoNkNyuKO9e5Yp7+0XI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=tcYYyjmN; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="QBzc305O"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:Cc:To:In-Reply-To:References:
-	Message-Id:Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:
-	From:Reply-To:Content-ID:Content-Description;
-	bh=nbtwqqP04/XwB92jTwUHTtIQvE/SEZDBq3VRc3N6Y6I=; b=QBzc305OGUU3CKBmxPvJpBa4Oi
-	I+/4n5il8SogHtoZ9MYMe5yABscVp4Uwgzh7udwzt87tchgUBR60wrkk3013QEZGquOerBE/DLD6y
-	I+rFCji1nIzcCUrJJ++zbGDBJANL6pQRdpdDLuinvsc9TNjaujyOLdviEwyNIbBayln7o509HIBre
-	Wic1Em1XHS3+OKmfW9u9rOJ1B2ipR/UxyfAneocY+8yVQKj51+KYTOvC4M2+068/5Nc0unBm+gz+2
-	6yfunAVklS9x8MwaYjqT5W9Tu0FsVhUTnxel7+gKsAbEs3NZc9MtgWZazik+Kr8QK9RHHvsfede3r
-	voQFxuVA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wCHJa-00CKEj-03;
-	Mon, 13 Apr 2026 13:26:58 +0000
-From: Breno Leitao <leitao@debian.org>
-Date: Mon, 13 Apr 2026 06:26:35 -0700
-Subject: [PATCH v3 3/3] Documentation: document
- panic_on_unrecoverable_memory_failure sysctl
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="tcYYyjmN"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 727F6339;
+	Mon, 13 Apr 2026 07:31:37 -0700 (PDT)
+Received: from [10.1.196.46] (e134344.arm.com [10.1.196.46])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B239D3F641;
+	Mon, 13 Apr 2026 07:31:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1776090703; bh=Bq30PsvBig46HcczZd+NZdFILcN3Ad0q3W32R7+TqHw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=tcYYyjmNQmbBlP/CXf6Tkt6kzenoZ6R7ZWifBjHdYs5iAuiRpjZLOPkfeChoQvwZp
+	 KpDX1ZKS4+myLT9ycjsrVWTJoQ3yKZBQ+L/NX3LI1l+6YhXausRfCgrThiN3VtAky4
+	 DpGxmw9kcRkClHU9xfGrgpvXZlQpjx5tIKubCWFY=
+Message-ID: <c8a48e64-bdef-4d6f-997d-1c912dfcceb7@arm.com>
+Date: Mon, 13 Apr 2026 15:31:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Thunderbird Daily
+Subject: Re: [PATCH v6 00/40] arm_mpam: Add KVM/arm64 and resctrl glue code
+To: Fenghua Yu <fenghuay@nvidia.com>
+Cc: amitsinght@marvell.com, baisheng.gao@unisoc.com,
+ baolin.wang@linux.alibaba.com, carl@os.amperecomputing.com,
+ dave.martin@arm.com, david@kernel.org, dfustini@baylibre.com,
+ gshan@redhat.com, james.morse@arm.com, jonathan.cameron@huawei.com,
+ kobak@nvidia.com, lcherian@marvell.com,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ peternewman@google.com, punit.agrawal@oss.qualcomm.com,
+ quic_jiles@quicinc.com, reinette.chatre@intel.com, rohit.mathew@arm.com,
+ scott@os.amperecomputing.com, sdonthineni@nvidia.com,
+ tan.shaopeng@fujitsu.com, xhao@linux.alibaba.com, catalin.marinas@arm.com,
+ will@kernel.org, corbet@lwn.net, maz@kernel.org, oupton@kernel.org,
+ joey.gouly@arm.com, suzuki.poulose@arm.com, kvmarm@lists.linux.dev,
+ zengheng4@huawei.com, linux-doc@vger.kernel.org
+References: <20260313144617.3420416-1-ben.horgan@arm.com>
+ <8c4f8019-f6eb-4a3b-a6cf-96e533bfa15f@nvidia.com>
+Content-Language: en-US
+From: Ben Horgan <ben.horgan@arm.com>
+In-Reply-To: <8c4f8019-f6eb-4a3b-a6cf-96e533bfa15f@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260413-ecc_panic-v3-3-1dcbb2f12bc4@debian.org>
-References: <20260413-ecc_panic-v3-0-1dcbb2f12bc4@debian.org>
-In-Reply-To: <20260413-ecc_panic-v3-0-1dcbb2f12bc4@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>, 
- Naoya Horiguchi <nao.horiguchi@gmail.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
- "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, Breno Leitao <leitao@debian.org>, 
- kernel-team@meta.com
-X-Mailer: b4 0.16-dev-453a6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3210; i=leitao@debian.org;
- h=from:subject:message-id; bh=Mp1Qv6rhhs0jzy9DwGJSWL5EM4TqsDFHcgB+US1rhmY=;
- b=owEBbQKS/ZANAwAIATWjk5/8eHdtAcsmYgBp3O8OOxyyLmnEVBgYOxqnlJRNzEM32jMwRHuJl
- lp++LJaOeOJAjMEAAEIAB0WIQSshTmm6PRnAspKQ5s1o5Of/Hh3bQUCadzvDgAKCRA1o5Of/Hh3
- bbCzD/9leaOJbS39F2fvv+N0M66/TmFRtRCcOvuRaKUAiQBKdSD1YSoEQj/XTjfciF6P5hnM7xz
- z+aS5nQ1qmxSLt/HRHr7rxoCfaSg0I+P0ltripbJMdGICH4kW1rvmfUcGQT8wRwz/4lipjlOFec
- jFublJBDLwhJmN9e2X3x4uXgJu4D4w8QWlXAW/ScqPcOYARBsjIsbWn44+1JoehOLSovAcWL/Pp
- LT+uIQxpkclyud2f+JDVRHE+vZDjl+PIgNWUBQBLCHWUmTCmxgh8jkkpMgVblybwg6t2113OfPw
- fHUQy5kQesNq2FKEU7QUESbLK0nXapRElS1AFOJvPhm7hkXbtTsa+k+39jLu4/zxFv8ToGhG6i/
- PQWe2A/8s9edOQR1dEQ6MVbsrzZE1gduOsoMmFv2REu4gqWiEyFdDynidGUS6evfEBTgOV72gSd
- nfFItHI9Iha6SBepQQB0W2IGVk587944kax9CtNXIWL5JOyt88lDUXkZy7h/L0R8rP2jlRPWjWm
- bpiDU2XojNGjjJeOJiQHh20p54N+ghvu63JKOZeeNlw6/dKxYqUFTPznWPwtm4NGxsO8+V10KmE
- 3WopOzwuVW+t8nmq3ORD19ijF9bZwM8FQsKnklTlw19aTltDK+/URDsNvwZFEfveAYI0aJArQeU
- m2XO1b/mwZvaQ6A==
-X-Developer-Key: i=leitao@debian.org; a=openpgp;
- fpr=AC8539A6E8F46702CA4A439B35A3939FFC78776D
-X-Debian-User: leitao
 
-Document the vm.panic_on_unrecoverable_memory_failure sysctl in the
-admin guide, including the CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC kernel
-configuration option that allows enabling this behavior at build time.
 
-This follows the same format as panic_on_unrecovered_nmi and other
-panic-on-error documentation, providing clear examples of:
- - Enabling panic at build time via CONFIG option
- - Disabling at runtime via sysctl
- - Enabling at runtime via sysctl
 
-Signed-off-by: Breno Leitao <leitao@debian.org>
----
- Documentation/admin-guide/sysctl/vm.rst | 46 +++++++++++++++++++++++++++++++++
- 1 file changed, 46 insertions(+)
+On 4/2/26 00:56, Fenghua Yu wrote:
+> 
+> 
+> On 3/13/26 07:45, Ben Horgan wrote:
+>> This version of the mpam missing pieces series sees a couple of things
+>> dropped or hidden. Memory bandwith utilization with free-running counters
+>> is dropped in preference of just always using 'mbm_event' mode (ABMC
+>> emulation) which simplifies the code and allows for, in the future,
+>> filtering by read/write traffic. So, for the interim, there is no memory
+>> bandwidth utilization support. CDP is hidden behind config expert as
+>> remount of resctrl fs could potentially lead to out of range PARTIDs being
+>> used and the fix requires a change in fs/resctrl. The setting of MPAM2_EL2
+>> (for pkvm/nvhe) is dropped as too expensive a write for not much value.
+>>
+>> There are a couple of 'fixes' at the start of the series which address
+>> problems in the base driver but are only user visible due to this series.
+> 
+> Tested-by: Fenghua Yu <fenghuay@nvidia.com>
 
-diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-index 97e12359775c9..af545869bc1b4 100644
---- a/Documentation/admin-guide/sysctl/vm.rst
-+++ b/Documentation/admin-guide/sysctl/vm.rst
-@@ -67,6 +67,7 @@ Currently, these files are in /proc/sys/vm:
- - page-cluster
- - page_lock_unfairness
- - panic_on_oom
-+- panic_on_unrecoverable_memory_failure
- - percpu_pagelist_high_fraction
- - stat_interval
- - stat_refresh
-@@ -925,6 +926,51 @@ panic_on_oom=2+kdump gives you very strong tool to investigate
- why oom happens. You can get snapshot.
- 
- 
-+panic_on_unrecoverable_memory_failure
-+======================================
-+
-+When a hardware memory error (e.g. multi-bit ECC) hits an in-use kernel
-+page that cannot be recovered by the memory failure handler, the default
-+behaviour is to ignore the error and continue operation.  This is
-+dangerous because the corrupted data remains accessible to the kernel,
-+risking silent data corruption or a delayed crash when the poisoned
-+memory is next accessed.
-+
-+Pages that reach this path include slab objects (dentry cache, inode
-+cache, etc.), page tables, kernel stacks, and other kernel allocations
-+that lack the reverse mapping needed to isolate all references.
-+
-+For many environments it is preferable to panic immediately with a clean
-+crash dump that captures the original error context, rather than to
-+continue and face a random crash later whose cause is difficult to
-+diagnose.
-+
-+= =====================================================================
-+0 Try to continue operation (default).
-+1 Panic immediately.  If the ``panic`` sysctl is also non-zero then the
-+  machine will be rebooted.
-+= =====================================================================
-+
-+This sysctl can be set to 1 at boot time by enabling the
-+``CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC`` kernel configuration option.
-+This provides systems with the ability to enforce panic-on-error behavior
-+from the kernel build, without requiring runtime sysctl configuration.
-+
-+Examples:
-+
-+1. Enable panic on unrecoverable memory failure at kernel build time::
-+
-+     CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC=y
-+
-+2. Disable at runtime even when compiled in::
-+
-+     echo 0 > /proc/sys/vm/panic_on_unrecoverable_memory_failure
-+
-+3. Enable at runtime when not enabled at build time::
-+
-+     echo 1 > /proc/sys/vm/panic_on_unrecoverable_memory_failure
-+
-+
- percpu_pagelist_high_fraction
- =============================
- 
+Thanks!
 
--- 
-2.52.0
+Ben
 
