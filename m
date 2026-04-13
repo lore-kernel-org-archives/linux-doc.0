@@ -1,256 +1,131 @@
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1FE30BBAE;
-	Mon, 13 Apr 2026 16:40:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776098436; cv=fail; b=gDEJy3/nq35840eqV8ZfjGR+O4kClExxt3UdYkawaNWe6Y5pz/AU/AQXINSgjj7FygLgeLa2alARr/VObukQaPiaRr6UPIA+FU3I6J4mr9Zo0NrzDa03e0ICqhGNyeeNFtG+2o+QXo+GXnH38A/8Rc3fzwRmYqOKzD83wCL6Uh4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776098436; c=relaxed/simple;
-	bh=aL9JH9RNk5wpFL5bLVTBnthiMtLKHgY153Qn9XusS4M=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=WW52xR7KUzk2lSxKnvxBv2An3HSSZRjoHWPzWcZLqQ5JuYNsSOS025XCVXAPvBF/Cd5ZIusBBGRGQR4sIJrROtAj4t3e5yJaST3HGITvcOqDuiqktm8f45/PLQsjtMWkx9TjAAUOuHH1sYs23M3EwpLws8KHyBIV98N+DotVTLo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=MXgj/jnc; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=a/+q6fFV; arc=fail smtp.client-ip=205.220.177.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A372E313298;
+	Mon, 13 Apr 2026 16:47:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776098832; cv=none; b=BOCpmnnUUCE9afclpeH35gwo9Ghqhu1BIRsKBI1z/7nGfKUWCKgbhxrCbWK0yijGiR8L7Ncu9YfFMbrZ2yVat7plfGdXj84PmusN53CJCphKQphMqaU6ZCsfg4+TqgjSpqhx1zvpxIqN4rekD6Oqb1ERJtMfrD6wWV/opmrVjTo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776098832; c=relaxed/simple;
+	bh=jNW0/buPHzZfl7bk0soR3fE7hl4JdwHL3dBiQwr/s+g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R8Pr182fUeH6b0RSEfLNVipcRoZMTCTVGx31Y4w9oDOmMBiPRN3MtTJye5PbV+kS3DF0PucUCw1DYtUs1XgkotcIOCg3DWsgcCAosTizpcC4SMl4q78diOMVn7PEWpIIAWYKXey12DB3lGfbmkFAE5wPWEBDVslUnKhWrhpODtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvG2mcu5; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="MXgj/jnc";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="a/+q6fFV"
-Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DDBhCe2304995;
-	Mon, 13 Apr 2026 16:40:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=
-	corp-2025-04-25; bh=dejmZlqC5XGb2LyzG1bSI23tfqV+P40gn2WRx8qB680=; b=
-	MXgj/jncCzE6VQw0H0LiqojgoJhROk5bSTkvR0Kroc6hHFoVlpOtt02cXEATOWFO
-	jLoueab6q8sAvZkbhgbvuR2xc02WXpukh3Q0oykuk2wR/8PQliOk932tOvj9fK6U
-	qOHWvaWxBU3HB7mJ9Ms9UboGxqcFN3o/O/ul7H6GuTuO21nxwDm2qpLyyp0bsQMN
-	F2gcL3vSWNRZPKdJ0qJFmia25NDwtJoyiDmmCL0vSYH1eicjS6xg8trR37970TlX
-	UqwPaJrmMIi0pnKhD9P6/c1BScrlgJaRcJ+gV4NpcrqxkF1SkyNz6f0+fiXA4lY6
-	aD5HVAYdbSOPcg4Ha2YHsg==
-Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dfebdkgrv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 13 Apr 2026 16:40:07 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63DGdPWe014483;
-	Mon, 13 Apr 2026 16:40:06 GMT
-Received: from sn4pr0501cu005.outbound.protection.outlook.com (mail-southcentralusazon11011037.outbound.protection.outlook.com [40.93.194.37])
-	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 4dgbr8vtfq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 13 Apr 2026 16:40:06 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XptYkeB4d1DOD+l1SUHapsULPGS1sq7qDsVUbtXqgxD7qL/OSA+ELS4SnjCtb93li/qAcwny9V3m5QyR2Ti9/6+d5hfHDdoVH+diJ4msOURgzDJnsRNO3Z7E4xxACeTNlsnS/lyotWIzDmvdraYbDrO45N1hAjTe+ELhrNLHVinNn63diz4mukXqqUsGvDjgQUKpUyAhyPLIupvltKUKDCmQYu2AgDw6jNC+Jk6NZdRa+3zXGkm2TFyTj04S+ntzm/KA/wFdb2iRj8rv2kquUifWi9MfNvubYDdSa0fPHKrXd6szzTpoXkNzcd9EkxpTD8amDsCszUn68Cpv0XgDbw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dejmZlqC5XGb2LyzG1bSI23tfqV+P40gn2WRx8qB680=;
- b=ZBxHk0enyvSwCMPK0hbwbVxA057jB1iCLig4ThYvwokf8GPHlpiFX70g1UZMZR2HpkW1f1l88QuEbZ1JmmlPIZQftRFXgiv4DrT9yUhIwCqVqSXqd8MTM7R8wLUOEfZXV7hueSivWNRusnwnB6bZ/P8sBoVYO4QkyE7S0MqmhgRhJulYiI9BbKqxPwTR2k3rS5W42s0VJYfyBZrgvDPa3pAc3CTMJs4GX3T8VsPhqGKRktQN7PgJo7jm94d9SFcxMz6cBy1nUSlFp8ncJs/tZkNSTo8SaVOxdI/2FaIsOxQ4xIFDa6ap0qIVh9XR+55aUBwlqkcVKMo0ABJQ96kBgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dejmZlqC5XGb2LyzG1bSI23tfqV+P40gn2WRx8qB680=;
- b=a/+q6fFVof31HSbA3hj6nbkg/K4k604FNk99orgA4gf+Gv3+zyf4FugU9rWDYTj615fg6rEGKg9Fr4bwVFI47h2jugNoqSyQYVGTj+REV6FDPdZoCPxYVt5JxVeZipdlcUBT8GL4RTSzOgrqF92kphTAmaASCodYABxTwKw9K/Y=
-Received: from DS0PR10MB7364.namprd10.prod.outlook.com (2603:10b6:8:fe::6) by
- CY8PR10MB6538.namprd10.prod.outlook.com (2603:10b6:930:5a::17) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9769.48; Mon, 13 Apr 2026 16:40:00 +0000
-Received: from DS0PR10MB7364.namprd10.prod.outlook.com
- ([fe80::a4df:c903:e1aa:322f]) by DS0PR10MB7364.namprd10.prod.outlook.com
- ([fe80::a4df:c903:e1aa:322f%3]) with mapi id 15.20.9769.046; Mon, 13 Apr 2026
- 16:40:00 +0000
-Message-ID: <dbee2d38-709a-41d6-baa6-7fe82bbe5fb4@oracle.com>
-Date: Mon, 13 Apr 2026 09:39:57 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] hugetlb: open-code hugetlb folio lookup index
- conversion
-To: Mike Rapoport <rppt@kernel.org>
-Cc: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
-        osalvador@suse.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-        vbabka@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net,
-        skhan@linuxfoundation.org, hughd@google.com,
-        baolin.wang@linux.alibaba.com, peterx@redhat.com, linux-mm@kvack.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260409234158.837786-1-jane.chu@oracle.com>
- <20260409234158.837786-2-jane.chu@oracle.com> <adpXTeGPIKcdyekX@kernel.org>
-Content-Language: en-US
-From: jane.chu@oracle.com
-In-Reply-To: <adpXTeGPIKcdyekX@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0204.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::29) To DS0PR10MB7364.namprd10.prod.outlook.com
- (2603:10b6:8:fe::6)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvG2mcu5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E3DAC2BCB3;
+	Mon, 13 Apr 2026 16:47:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776098832;
+	bh=jNW0/buPHzZfl7bk0soR3fE7hl4JdwHL3dBiQwr/s+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lvG2mcu5j/XA3oxFBUu/Z/Ckhb+9VwD/m8gyJh4MxMuNdqi1+hNtyyO36fC0ior7/
+	 A+OrhCQDF2Y/r5AOyCF/qW+trC5lrBHxUKd+W/lq0hUKNgu/p07Vu5v0r6RGt4txGZ
+	 Yj7vCYGtNPF7zI/2VTqaM7GI7usYlK7+VYeJgt6zL11nMDdQRN2bjAXfLbqXsgcA2l
+	 nGeQz7WBlWa8kKJnM4qhEWvhtu2639aThsDpjrzVJg4KsrWcRphtizM0gOwq2VrvNX
+	 ztU3k+yLmc668bj4gr3L2wGMrXPttmZzSZOt/OvsgzOx3JYvd0GUq8mSOmq23Ts8u3
+	 AI9XXdCH73d3A==
+Date: Mon, 13 Apr 2026 17:47:07 +0100
+From: Simon Horman <horms@kernel.org>
+To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+	kuba@kernel.org, pabeni@redhat.com, kuniyu@google.com,
+	corbet@lwn.net, skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: sysctl: document net core sysctls
+Message-ID: <20260413164707.GT469338@kernel.org>
+References: <20260407083213.27045-1-chakrabortyshubham66@gmail.com>
+ <20260409174859.11854-1-chakrabortyshubham66@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR10MB7364:EE_|CY8PR10MB6538:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8f20db57-c595-41fb-1ccf-08de997b4de6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	kFkCAdpN1U3ofU3SaIJ4ifLzZ+93o4AZfvK1fhdRj7sXAIrdkkKtu9gOi5eK7nn71HsV3lWHtntMV6QUexYtLH+HO8vVSvvSKBpqIcKTPDs3dZCkJixUXMS2iAs1ONvCu2a6K86QSsRnR1IY+27uV/9MLGA4duEL5nq79wsOeaUA/wzv0HsTyJ6zgj3Raoz4cwkbTfEtO/h3SA4Lgo9bTcfH7XVsefst7yg8v15vBBVCIqQfkxxdBFaMebhUgvkQ1RY0ZIKlVPuWXpiCJeBUy2KDRxPRamw9knp6OQ290zLcLctCZF3JPGC5w3GrA50pEWXBzT5ieSQDLXdDDxD4lJqORmLUDwRCcqpNkgB9Z3faCdUpPwKyIffe1FGpSWK9BkeVeiguV6/92rN3T63vxF+HzsveR4HXdy0940CYtWuD3iDx0I1I9RqO4QeScqgcq/96ppHjzT5cxKsXTJID0OqLU3VrjGK7YvnNM2hwsTsG77QXLW0z9OsMUom7uK5CtxcBiOD1rp8I4BFq9UIqAgoWhMHcSKck6vR1bLhKk4+4sntc7XnbDFkcSkxJR/nbtxCrNIueiiTIEd9nj+/uS13bSCZ1tB0H/+sT/gN5VB8pkyVoaupMPkjN+8wx+OFCGh5+ApjjThJbliDQt8uB3nuBxhzCSe0BTM2ivgstNV/oyAX8Kwxqtr7ucWiVBMzx6nIBWnP7sagzkhU16aYeIofTIkObuaTzi4lx46H8io0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7364.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?c1h4aTRZL01rWklzcDdyYXorajV4V1pBcDdBbUxxQ0w5dkNHdEFOd1pLSlpQ?=
- =?utf-8?B?NGdSajlmazdPWHYxT0RRTFNObFpiZ201MnRUcG9EV0VzWkNuSUxsSHA5ZE1M?=
- =?utf-8?B?b3YyR1VKTzV2NG5uWlhKSXZWSENhYk1nKzJCT3VvVTBrcys4TTRGa1RkMG4x?=
- =?utf-8?B?ZU5YemZlaGk4N1Y0eW9YcHBhUXlqQWlncnM4LzQ2amUrcER1QVljT1ZCYmhP?=
- =?utf-8?B?RHpnN3JyMWFPQ0F3ZFBNZ2xqUE5iODNnYXh5aHFvcXU3eCt3L0FxQlhhYWN2?=
- =?utf-8?B?WXg3TU1laW9STEZFTldlcGNTRlBhcFl5K1BPeENmclJub1luZ1djb3hTTWw1?=
- =?utf-8?B?RCtFc1RVMFN6Vk9ObGFvU1NvSjJFSnRDdjc2eTdLL2tBN0x3SWQ1bU44WHJi?=
- =?utf-8?B?dFZwNStZZ0tiWm41QjRsMy85ZGVlRzhVQ2NERTBKUkVuUm5EbXVickV1NzNi?=
- =?utf-8?B?ZWRJa2lodWI4YjNyei94cGNZQzVTUGRQbHhaZmpUZkUveFozK3laYlpuRnhI?=
- =?utf-8?B?TnhMVWdrazFsckNCL2w1VDNPbG1LQW03QlV2U0o3K3pick05QXlQM1BmOUpI?=
- =?utf-8?B?azg3bTNvdlJwVEswNDRtd09CbTR6R1JqWE9TWjdDWEJvdHJFS0t5c3VvaDBr?=
- =?utf-8?B?TW1NWm5id1JFV1lzT1ljc3RoU3JpUHB5eEZibVJpc1hjb0x5UlpsRExWazBH?=
- =?utf-8?B?MnlRdnJ5eEFkRjFWMEhNWWtpSWxNS2lNaEdPYlIvOVVqVlozeUNpa0M3cDBT?=
- =?utf-8?B?VC9ET091dTdpTmF4aFEwdGRYQ0NRZENYaW92WnVqSXdUeFJWMkdZQjNyZjVG?=
- =?utf-8?B?VG5kYnV5WGwwR1J3UFpoK1dvRGtpc1poSno2eFpTNEN0K2RNbWkzYWdEMWpw?=
- =?utf-8?B?TGlOZS96S2o5Mzlzdnl4SDBTOExIUVJSemo2cmlicjc0aXpqMDNSSHBIa0lY?=
- =?utf-8?B?aktjeUs0WCtOU2hwUk9QK2tVV3NjTEcwZGlGZzlqNDZLdWcrWGt0M1l4RmVH?=
- =?utf-8?B?MExxS0VkQnFsQW1oSjhVdkY5WHZEN3BHVFo3LzdwVlRvYmlZVlVXYUdZUjJL?=
- =?utf-8?B?NnVGcEpFcTNEUHh1TkFMcWVoUTZNbXd5ajhSWVJhTGx2L0loaVpvdCsrZ3kv?=
- =?utf-8?B?NnN1S3JRTHVwODZwMDZaeldSblYvT3dwNWFWK2p0SjcrZXhmZzVHNGlRb3ds?=
- =?utf-8?B?RjFDa0pET1QzTnFWWWhZTXNrQlhGMExndHNRSEJwNXZLSWNtRThLNk0wM2xJ?=
- =?utf-8?B?V0oxQklVdzJteFd1ZDczQnpudkQ0TlVHbzRQN1AxbDdYaWgzMlFHTEZaVnVZ?=
- =?utf-8?B?dEpxNzIrczRjaUxHNFgyNHVTS3AwWlN5MVlqRmhpV0p0M01FSzhSTlRnQWNN?=
- =?utf-8?B?dkRHWUlqbUVJaEJpcm4wOG9tWUVGOXZoa0RGcE12L01lcnEreVRudU9JVER2?=
- =?utf-8?B?RmgyMmZoREZTQll5ZGgrNFlTWmxRaStTTE9IL3hRNnVMam9pcHREVjNzNTFo?=
- =?utf-8?B?aXFZUHVKamdUVTFtb0VlV1JpOFpNZkRWOFN5VmNGd0E5Q0xJWjhwSEZEeHV3?=
- =?utf-8?B?ZG95aklqNlZSUk42QWtRRHpMZmZnRFBSUDgyY2JBQzZrQkxkajI0V2lOaTdx?=
- =?utf-8?B?MFEyQ0VVRGlTZDhwRmNDVzEycTFyS2RvRHJ2TVFWUVRvRldGbXcwTVJRaHFs?=
- =?utf-8?B?SldLUm9zN2Z3OFlsamhzdzZjaldLVGc3U3AwUmkyOTZuM1N1U1ZnTTk4aDVw?=
- =?utf-8?B?bTVmZk1YWC9pRFo3WnJuNC9pVENaVk1rRDFPRUkzekFpaFVFYmVnQUtsZTBn?=
- =?utf-8?B?anhVR3NHeFNFbjRRdk80bEwrdWhWZnhGdWdVQkYwb1hhNkJTclhDNndmOVBV?=
- =?utf-8?B?ZTBCeUpPT1NzWlRITkJxR1FRREh0dFp2dkMySlRGdUlXSnRBRUJXVjk4Rk5S?=
- =?utf-8?B?dHdpTkUzeHBWeUtmUHU5WDJUTmJjN2UzNURPcGdIcU8rbnRGMVk3OEMrZXlP?=
- =?utf-8?B?YU9XTlUzb0lNWmd2bnVuUjNEV1MybjN6UDRDcmN2WUlqaVgvSWNJV1FrUDl4?=
- =?utf-8?B?RVB5TGpzTVhlR0tsNkpmcWZHMWh5enV3NVNLRGJQaTJWMlo2WTFHZzNNeDVU?=
- =?utf-8?B?dVU3OVAzVnpNWkZHU1B0bHlodWpya0RvTjlhTFBlcWlKTkozc1JqVzJZaHFD?=
- =?utf-8?B?ZDQwb21rQThPQUNJczFXNVZxZytXUVlVZmlSK0lZT3I2cGxaSXI2MDk3bGZQ?=
- =?utf-8?B?SnREM1o0MUhuNlVtL281SmdlUEoyY2h3VDNYMGRraUswRXN5QkRHalJ1T0J4?=
- =?utf-8?B?elBEOHNHK25EQXoxRWxMWWF2cERIaWtyY1dHbW5aTWh6QktOZXFXQT09?=
-X-Exchange-RoutingPolicyChecked:
-	ILyrK4ksweZyCQl7BWkhgSqZMRj2WnNWCtB6SZeSvXxUpidluO+egkBqEsBMpx8ATEMAFzSc9FWGsvt8X7YmFvMPKIBLhxH9AegK4idaNaQsQsUKT7XgP0ymqIYQ4LACunbxNFxmCFRU28j6DrgNa+d+KNBOXeuiXA0aFPEzeKO6emNi1wAWbHcWc6+LGi08Ke1NYgN18cG6Iu+OhBmyo7X+Ftfn6npHdDiw6IfhReNlRARk+I8tZ0TJy5tSakxEBb/pXzutqiTHjALRAaTa7TSlQHb9a5GLovAHNy58rJJ6dM62tdLaXXvFnlKsO+yP6PFijVvd5uo+VYfz+8QyOQ==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	qgWguYaMf0NL/C8sFmsTZoJDTZ0gtSDPLpS7xmcqp4hqsiHFg9TEHPQQL0pBA8f58Ivib42EsXOJY9drbelSAaFbNjINPdGBikpr23WCGglDQEPSER9GSPAY7brc14jwPh3FRGAOY5hfQxcUOs7QqKVHzyHCrTZVVAnTbe6yAHhlIRDJvh2BUIlzgM2nw3idXol2Iyegp0DvQu4l6oWh4qS16peaacb3SXs6rWcklEO7uA5DaLX5iCiOioDrpd1CE+7suNTI0ImpndtPWYIPYRAriq057iDp6tNdUntJvPqtwLSDmZf8frMaGsNPnY2ZCNmT2sXLVairJ+AlBFpSiHQCfYuct6F2OiYHWC21QUbt1JpJBlbyJHffxKKbnCa4gjE0rTzAO2qeuaGUVcccEN+huOfFEZcX9lo/iPk+HhMvjJQOCAuPePk89+CpzK77AgSOQXY82Rhb91QAmnU2vusinDvZcH96SaXhBySxYiGN6byFycncAtEnPoCn1qDrea9cte87s97qJ6tPwPHvQZdMDOGH1fT6EzCVYW78jLGP2v9JxNySEvrvFN2tat3MqTQdRny7X8Yj/YHUQIeza5oSstBPOKkW8S6soWXETVo=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8f20db57-c595-41fb-1ccf-08de997b4de6
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7364.namprd10.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 16:40:00.1582
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4F/AYzCp9ZSKr+rChiAQDguxMCqUf9ktiE5Y9uRoi5M2ffYCl7b5dANHM/hI6MU36K/80GU/ZwRnuER0wBnn6g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR10MB6538
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-13_03,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0
- mlxscore=0 lowpriorityscore=0 adultscore=0 bulkscore=0 suspectscore=0
- mlxlogscore=999 malwarescore=0 spamscore=0 classifier=spam adjust=0
- reason=mlx scancount=1 engine=8.19.0-2604010000 definitions=main-2604130164
-X-Authority-Analysis: v=2.4 cv=aIjAb79m c=1 sm=1 tr=0 ts=69dd1c67 cx=c_pps
- a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17
- a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=VwQbUJbxAAAA:8
- a=yPCof4ZbAAAA:8 a=py-mNpOukuJqCzMsB4EA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDE2NCBTYWx0ZWRfX3tJDw7CyUvM4
- 4of9eLMIhlouU8Vs7jT4JxM4KCtUFQZJ9MG8fE2jS4W8CnB85G6LaYzmIFHaYWWR20cgp9gUNhW
- /rNfZG3da+dZIOifS5WIznHetB7VNeOz2oMRsY4chKi2NPyYfY5EIvGjt3zpODiUsNdLVWcs6oa
- 0+qwexDqw6EKKbcHDFH0jXT3br5LyRWovxiS4bYn7qX72Kiag34u13T4Nl/LOvMmjSb9hHUXELF
- Sssx2U5CJcGXjdUpG+Rw+CzuTPVs6FdmkOtFtg+s7+d3KtQQgXRPg6m8vhH8wJDan+1VJtt1AAe
- Y1cO2Pulu5313M/1ko//yE0MoSP00V71cSi4Sj8rGD9XczEsEov8HXGy8VQE9cHNdPpVhVYIJE3
- I3LsPKk4767sPhA3UUCvL61yc+0V0aEpa5WNptH0iXqothmfALeeGLM5xBVe367mKpg60hQU+OU
- vB7X5gXaMuW/CAaEgpA==
-X-Proofpoint-ORIG-GUID: xkb7grGaw7AqCQbQq8vUWS9H7yJ_Dfbo
-X-Proofpoint-GUID: xkb7grGaw7AqCQbQq8vUWS9H7yJ_Dfbo
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409174859.11854-1-chakrabortyshubham66@gmail.com>
 
+On Thu, Apr 09, 2026 at 11:18:59PM +0530, Shubham Chakraborty wrote:
+> Document missing net.core and net.unix sysctl entries in
+> admin-guide/sysctl/net.rst, and correct wording for defaults
+> that are derived from PAGE_SIZE, HZ, or CONFIG_MAX_SKB_FRAGS.
+> 
+> Also clarify that the RFS and flow-limit controls are only present
+> when CONFIG_RPS or CONFIG_NET_FLOW_LIMIT is enabled, and describe
+> rps_sock_flow_entries the way the handler implements it: non-zero
+> values are rounded up to the nearest power of two.
+> 
+> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
 
+...
 
-On 4/11/2026 7:14 AM, Mike Rapoport wrote:
-> Hi,
-> 
-> On Thu, Apr 09, 2026 at 05:41:52PM -0600, Jane Chu wrote:
->> This patch removes `filemap_lock_hugetlb_folio()` and open-codes
->> the index conversion at each call site, making it explicit when
->> hugetlb code is translating a hugepage index into the base-page index
->> expected by `filemap_lock_folio()`.  As part of that cleanup,
->> it also uses a base-page index directly in `hugetlbfs_zero_partial_page()`,
->> where the byte offset is already page-granular. Overall, the change
->> makes the indexing model more obvious at the call sites and avoids
->> hiding the huge-index to base-index conversion inside a helper.
->>
->> Suggested-by: David Hildenbrand <david@kernel.org>
->> Signed-off-by: Jane Chu <jane.chu@oracle.com>
->> ---
->>   fs/hugetlbfs/inode.c    | 20 ++++++++++----------
->>   include/linux/hugetlb.h | 12 ------------
->>   mm/hugetlb.c            |  4 ++--
->>   3 files changed, 12 insertions(+), 24 deletions(-)
->>
->> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
->> index cd6b22f6e2b1..cf79fb830377 100644
->> --- a/fs/hugetlbfs/inode.c
->> +++ b/fs/hugetlbfs/inode.c
->> @@ -242,9 +242,9 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
->>   	struct hstate *h = hstate_file(file);
->>   	struct address_space *mapping = file->f_mapping;
->>   	struct inode *inode = mapping->host;
->> -	unsigned long index = iocb->ki_pos >> huge_page_shift(h);
->> +	unsigned long idx = iocb->ki_pos >> huge_page_shift(h);
-> 
-> Is it necessary to rename index to idx?
-> 
->>   	unsigned long offset = iocb->ki_pos & ~huge_page_mask(h);
->> -	unsigned long end_index;
->> +	unsigned long end_idx;
->>   	loff_t isize;
->>   	ssize_t retval = 0;
->    
-> ...
-> 
->> @@ -652,10 +652,10 @@ static void hugetlbfs_zero_partial_page(struct hstate *h,
->>   					loff_t start,
->>   					loff_t end)
->>   {
->> -	pgoff_t idx = start >> huge_page_shift(h);
->> +	pgoff_t index = start >> PAGE_SHIFT;
-> 
-> And idx to index?
-> 
-> Maybe let's pick one and rename the other or just leave them be.
+> @@ -238,6 +240,37 @@ rps_default_mask
+>  The default RPS CPU mask used on newly created network devices. An empty
+>  mask means RPS disabled by default.
+>  
+> +rps_sock_flow_entries
+> +---------------------
+> +
+> +The total number of entries in the RPS flow table. This is used by
 
-As I just replied to Oscar, I found the mixture of idx/index both could 
-represent both huge page index as well as base page index creates a bit 
-dizzying situation to the reader.  So through out the patches, 'idx' is 
-made to carry the notion of huge page index while 'index' carry the 
-notion of base page index.
+Maybe s/This/The table/ to make it clearer that it is the table,
+rather than the number of entries, that track CPUs.
 
-thanks,
--jane
+> +RFS (Receive Flow Steering) to track which CPU is currently processing
+> +a flow in userspace. Non-zero values are rounded up to the nearest
+> +power of two.
+> +Available only when ``CONFIG_RPS`` is enabled.
 
-> 
->>   	struct folio *folio;
->>   
-> 
+I think it would be worth noting that a value of 0 disables RPS.
 
+> +
+> +Default: 0
+
+...
+
+>  netdev_budget_usecs
+>  ---------------------
+>  
+
+The lines above the following hunk are:
+
+netdev_budget_usecs
+---------------------
+
+Maximum number of microseconds in one NAPI polling cycle. Polling
+
+> @@ -297,12 +332,16 @@ Maximum number of microseconds in one NAPI polling cycle. Polling
+>  will exit when either netdev_budget_usecs have elapsed during the
+>  poll cycle or the number of packets processed reaches netdev_budget.
+>  
+> +Default: ``2 * USEC_PER_SEC / HZ`` (2000 when ``HZ`` is 1000)
+> +
+
+Well, that is awkward.
+
+Looking at git history, it seems that this sysctl was added by 7acf8a1e8a28
+("Replace 2 jiffies with sysctl netdev_budget_usecs to enable softirq
+tuning") in 2017. And at that time the unic was us, and the default was 2000 us.
+
+But that was changed by a fix for that commit, a4837980fd9f ("net: revert
+default NAPI poll timeout to 2 jiffies"), in 2020. As a side-effect of
+that commit, the default was changed to what you have documented above,
+and the unit changed to jiffies.
+
+So while what you have is correct it seems nonsensical to me for the unit
+to be jiffies. Because that's not a meaningful unit for users. And because
+the name of the sysctl ends in usecs.
+
+But I'm unsure what to do about it. Since changing the unit this would
+represent (another) KABI break.
+
+* Add another knob that shadows this one (But what to call it?)
+* Simply remove this one (KAPI break)
+* Change the unit of this knob (KAPI break)
+
+If the code is left as is, then I think it should be documented that the
+unit is jiffies.
+
+...
