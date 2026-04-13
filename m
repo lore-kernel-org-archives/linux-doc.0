@@ -1,42 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A372E313298;
-	Mon, 13 Apr 2026 16:47:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B88323E342
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 16:48:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776098832; cv=none; b=BOCpmnnUUCE9afclpeH35gwo9Ghqhu1BIRsKBI1z/7nGfKUWCKgbhxrCbWK0yijGiR8L7Ncu9YfFMbrZ2yVat7plfGdXj84PmusN53CJCphKQphMqaU6ZCsfg4+TqgjSpqhx1zvpxIqN4rekD6Oqb1ERJtMfrD6wWV/opmrVjTo=
+	t=1776098912; cv=none; b=svA8shAK4Vyw+H0ce+kn5ZJKxTp7d1+5Olc7tMiu+urrruVt91d/XKFeEN/2XeT4RIMjj2PgapRv2hrBoQygc+LMG/Fwygpev7E5XJnXZL/KUvQvEwyTOvDSKUoW6zpG9bEnZNZAxAsMgX9xjtcW7uFODvfCvOuVPa0Qynyhf0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776098832; c=relaxed/simple;
-	bh=jNW0/buPHzZfl7bk0soR3fE7hl4JdwHL3dBiQwr/s+g=;
+	s=arc-20240116; t=1776098912; c=relaxed/simple;
+	bh=3ZNdutJTZCIir4cEZCHDVQDyD++8K7aKyOaSXsrl1Ag=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R8Pr182fUeH6b0RSEfLNVipcRoZMTCTVGx31Y4w9oDOmMBiPRN3MtTJye5PbV+kS3DF0PucUCw1DYtUs1XgkotcIOCg3DWsgcCAosTizpcC4SMl4q78diOMVn7PEWpIIAWYKXey12DB3lGfbmkFAE5wPWEBDVslUnKhWrhpODtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lvG2mcu5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jn3culNWJcJg3aEdXRsPA5rSFTWoRrrZRPI5I/faCniJdZoZfIxBwv5Du5KybwgqNe4xhPWzkLpjd5hYNygsGdq4z7ksVp5JeREZZyqG5jihCN3VPnK+PYhg/KtvdzBvtdiRCOx7RxtuAOpkjH8wMZ5x/qOgVYhjDPxDgb0azRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Rjtkm9F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u5HQaj0R; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=1Rjtkm9F; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=u5HQaj0R; arc=none smtp.client-ip=195.135.223.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lvG2mcu5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E3DAC2BCB3;
-	Mon, 13 Apr 2026 16:47:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776098832;
-	bh=jNW0/buPHzZfl7bk0soR3fE7hl4JdwHL3dBiQwr/s+g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lvG2mcu5j/XA3oxFBUu/Z/Ckhb+9VwD/m8gyJh4MxMuNdqi1+hNtyyO36fC0ior7/
-	 A+OrhCQDF2Y/r5AOyCF/qW+trC5lrBHxUKd+W/lq0hUKNgu/p07Vu5v0r6RGt4txGZ
-	 Yj7vCYGtNPF7zI/2VTqaM7GI7usYlK7+VYeJgt6zL11nMDdQRN2bjAXfLbqXsgcA2l
-	 nGeQz7WBlWa8kKJnM4qhEWvhtu2639aThsDpjrzVJg4KsrWcRphtizM0gOwq2VrvNX
-	 ztU3k+yLmc668bj4gr3L2wGMrXPttmZzSZOt/OvsgzOx3JYvd0GUq8mSOmq23Ts8u3
-	 AI9XXdCH73d3A==
-Date: Mon, 13 Apr 2026 17:47:07 +0100
-From: Simon Horman <horms@kernel.org>
-To: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
-	kuba@kernel.org, pabeni@redhat.com, kuniyu@google.com,
-	corbet@lwn.net, skhan@linuxfoundation.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation: sysctl: document net core sysctls
-Message-ID: <20260413164707.GT469338@kernel.org>
-References: <20260407083213.27045-1-chakrabortyshubham66@gmail.com>
- <20260409174859.11854-1-chakrabortyshubham66@gmail.com>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Rjtkm9F";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u5HQaj0R";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="1Rjtkm9F";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="u5HQaj0R"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 7B3245BDE2;
+	Mon, 13 Apr 2026 16:48:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776098909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PhYl+zfnnZblysGfhddsW421+r8fb0OK3WMKk04BntY=;
+	b=1Rjtkm9FXnIHCxpko/RYPz5JVKCmrWLdupLpXS13XwEJqEWA1UE61vtbcBaSrq4ieEj9Jn
+	OTJCTnuMMVvAeS6sZdWy/GjqowNp0WtMfbWJo0B3aAWqXUfwp2ac31rCzh2RUGhFPhbPDw
+	I2CclffFbMFIzhlq+tZsK732Y6QGerg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776098909;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PhYl+zfnnZblysGfhddsW421+r8fb0OK3WMKk04BntY=;
+	b=u5HQaj0RVm3E4HSPIRVwvA21DrOaQzc+Z2W1gfCI+C19+ZFXmRvdShkKxe+YzO2GyZVVmm
+	AmgforSERSNw16DQ==
+Authentication-Results: smtp-out2.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=1Rjtkm9F;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=u5HQaj0R
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776098909; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PhYl+zfnnZblysGfhddsW421+r8fb0OK3WMKk04BntY=;
+	b=1Rjtkm9FXnIHCxpko/RYPz5JVKCmrWLdupLpXS13XwEJqEWA1UE61vtbcBaSrq4ieEj9Jn
+	OTJCTnuMMVvAeS6sZdWy/GjqowNp0WtMfbWJo0B3aAWqXUfwp2ac31rCzh2RUGhFPhbPDw
+	I2CclffFbMFIzhlq+tZsK732Y6QGerg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776098909;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PhYl+zfnnZblysGfhddsW421+r8fb0OK3WMKk04BntY=;
+	b=u5HQaj0RVm3E4HSPIRVwvA21DrOaQzc+Z2W1gfCI+C19+ZFXmRvdShkKxe+YzO2GyZVVmm
+	AmgforSERSNw16DQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 845EB4AFAD;
+	Mon, 13 Apr 2026 16:48:28 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id E79zHVwe3WlGCwAAD6G6ig
+	(envelope-from <osalvador@suse.de>); Mon, 13 Apr 2026 16:48:28 +0000
+Date: Mon, 13 Apr 2026 18:48:23 +0200
+From: Oscar Salvador <osalvador@suse.de>
+To: Jane Chu <jane.chu@oracle.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
+	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
+	hughd@google.com, baolin.wang@linux.alibaba.com, peterx@redhat.com,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/6] hugetlb: remove the hugetlb_linear_page_index()
+ helper
+Message-ID: <ad0eV3hZtE51bTA9@localhost.localdomain>
+References: <20260409234158.837786-1-jane.chu@oracle.com>
+ <20260409234158.837786-3-jane.chu@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -45,87 +93,55 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260409174859.11854-1-chakrabortyshubham66@gmail.com>
+In-Reply-To: <20260409234158.837786-3-jane.chu@oracle.com>
+X-Spamd-Result: default: False [-4.51 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	RCPT_COUNT_TWELVE(0.00)[18];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
+	TO_DN_SOME(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	ARC_NA(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:dkim,suse.de:email,oracle.com:email,localhost.localdomain:mid];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Action: no action
+X-Spam-Flag: NO
+X-Spam-Score: -4.51
+X-Spam-Level: 
+X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
+X-Rspamd-Queue-Id: 7B3245BDE2
 
-On Thu, Apr 09, 2026 at 11:18:59PM +0530, Shubham Chakraborty wrote:
-> Document missing net.core and net.unix sysctl entries in
-> admin-guide/sysctl/net.rst, and correct wording for defaults
-> that are derived from PAGE_SIZE, HZ, or CONFIG_MAX_SKB_FRAGS.
+On Thu, Apr 09, 2026 at 05:41:53PM -0600, Jane Chu wrote:
+> hugetlb_linear_page_index() is just linear_page_index() converted from
+> base-page units to hugetlb page units.
 > 
-> Also clarify that the RFS and flow-limit controls are only present
-> when CONFIG_RPS or CONFIG_NET_FLOW_LIMIT is enabled, and describe
-> rps_sock_flow_entries the way the handler implements it: non-zero
-> values are rounded up to the nearest power of two.
+> Open-code that conversion at its remaining call site in
+> mfill_atomic_hugetlb() and drop the helper.
 > 
-> Signed-off-by: Shubham Chakraborty <chakrabortyshubham66@gmail.com>
+> No functional change intended.
+> 
+> Signed-off-by: Jane Chu <jane.chu@oracle.com>
 
-...
+Acked-by: Oscar Salvador <osalvador@suse.de>
 
-> @@ -238,6 +240,37 @@ rps_default_mask
->  The default RPS CPU mask used on newly created network devices. An empty
->  mask means RPS disabled by default.
->  
-> +rps_sock_flow_entries
-> +---------------------
-> +
-> +The total number of entries in the RPS flow table. This is used by
+ 
 
-Maybe s/This/The table/ to make it clearer that it is the table,
-rather than the number of entries, that track CPUs.
-
-> +RFS (Receive Flow Steering) to track which CPU is currently processing
-> +a flow in userspace. Non-zero values are rounded up to the nearest
-> +power of two.
-> +Available only when ``CONFIG_RPS`` is enabled.
-
-I think it would be worth noting that a value of 0 disables RPS.
-
-> +
-> +Default: 0
-
-...
-
->  netdev_budget_usecs
->  ---------------------
->  
-
-The lines above the following hunk are:
-
-netdev_budget_usecs
----------------------
-
-Maximum number of microseconds in one NAPI polling cycle. Polling
-
-> @@ -297,12 +332,16 @@ Maximum number of microseconds in one NAPI polling cycle. Polling
->  will exit when either netdev_budget_usecs have elapsed during the
->  poll cycle or the number of packets processed reaches netdev_budget.
->  
-> +Default: ``2 * USEC_PER_SEC / HZ`` (2000 when ``HZ`` is 1000)
-> +
-
-Well, that is awkward.
-
-Looking at git history, it seems that this sysctl was added by 7acf8a1e8a28
-("Replace 2 jiffies with sysctl netdev_budget_usecs to enable softirq
-tuning") in 2017. And at that time the unic was us, and the default was 2000 us.
-
-But that was changed by a fix for that commit, a4837980fd9f ("net: revert
-default NAPI poll timeout to 2 jiffies"), in 2020. As a side-effect of
-that commit, the default was changed to what you have documented above,
-and the unit changed to jiffies.
-
-So while what you have is correct it seems nonsensical to me for the unit
-to be jiffies. Because that's not a meaningful unit for users. And because
-the name of the sysctl ends in usecs.
-
-But I'm unsure what to do about it. Since changing the unit this would
-represent (another) KABI break.
-
-* Add another knob that shadows this one (But what to call it?)
-* Simply remove this one (KAPI break)
-* Change the unit of this knob (KAPI break)
-
-If the code is left as is, then I think it should be documented that the
-unit is jiffies.
-
-...
+-- 
+Oscar Salvador
+SUSE Labs
