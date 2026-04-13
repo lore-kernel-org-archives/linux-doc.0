@@ -1,74 +1,174 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6CA35BDDC;
-	Mon, 13 Apr 2026 19:03:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F851BBBE5;
+	Mon, 13 Apr 2026 19:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776107011; cv=none; b=hDTuCOV157vx+H3oIZzp6YKc/bUYLfKp4RI2qwVn9WQF5K96rtsqKqi+jwUv+EMsPMd8qJYTaVczIyAfFqarLFgGE01Phgn8J4ah8y6xL13bOdZzzVgK12V06r85U8wcnoxH15JeqKBnBV3VrqmfcHRxwShKK8E1DhO9qYfF08Y=
+	t=1776107064; cv=none; b=K698xCyocAppgS0K8AlQA42K2mGaIuHsRtQQ89H+2u3uRIfsiSk9wsAUXMAWebFVeKmrm67ZfO8icQGIKyzpOZbap9lxNCkFE3KB0Iuy8z+pgaVsZMud0aSWq+IhhE8CZa+HBzaFjByXkdE/NVL9pa5ZqbUpMOwq12hMIvrzwUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776107011; c=relaxed/simple;
-	bh=PYUq7g8rdm958akGZ3XUgNx9skG3NIVGchkQTTk33os=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=szYGiTfIy5AyYevbytbgjfGIydCmv17pujw9v4r0JWnVYO1/jTYi9tOohYIfJlikAYO0XIIDZvqmrVM4Vk5l0m9Z2cVQORgiPOaOQmGuXXJWEZwZv174c5PV32hmV3keRLBy9XFJrYSp4zl1ntXBljZUg7q9cGkcrZElKKEJXc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=Nenmv7dP; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776107064; c=relaxed/simple;
+	bh=J6Oy2Os5lNI/CAxu9YtA3xPK4u5JL/xZobEDTIfkwz0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FBzsRG5OptDYpDxhQfslZ6qWxipN9T1KN9f85iUd/sZZLiWlOLREvdwIfXyo6jpfswupeGqjgOJNqK4xmHG9owFMo2mibTM7exy9m3wjenNs3ePr3WyR9dT3KZNU/J5sF0b9snbV71Pu1T1MNVzGvWLCMy9zf1w8AKlXgFul74c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KK2jcVhY; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="Nenmv7dP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 55D8E41084
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776107009; bh=uIjiAYkHIVqj3YY4+31pUtOWCeJOQ6EWGMupRVVLLlo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=Nenmv7dPFdS/TSHR7vWui6V+Y8gc5A4ReaJx99zedEn9M4LgT8bdXMQLSYpE4gU3B
-	 GK0yz3vKvgEVtl+7n6+27FIvOoFGA7Vp4WpzXeoPM0fE+BIOrcnTb38WlH+OpfZ9m/
-	 nPvMNBk4t0YmTq5WccTncJSo6FtxVolTUt94qVRTrjxELeXZwf5x/MetC8T9V5ngha
-	 WwxyxEKTcKzjhflq9/8OvEdYv5qA460ionijyHxapBMeRoL079SdfJn8JAUL42H+fo
-	 CvyMGN8jTIC3l232hACycvBiI+TdxYDJGjIkeCN/dtF43YpG4Q1AOP66dSo15TUMRj
-	 nJazYzj911/MQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:27b::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 55D8E41084;
-	Mon, 13 Apr 2026 19:03:29 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, Linux Documentation
- <linux-doc@vger.kernel.org>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>
-Cc: Linux Kernel Workflows <workflows@vger.kernel.org>
-Subject: Re: maintainer profiles
-In-Reply-To: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
-References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
-Date: Mon, 13 Apr 2026 13:03:28 -0600
-Message-ID: <87wlyawum7.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KK2jcVhY"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776107062; x=1807643062;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=J6Oy2Os5lNI/CAxu9YtA3xPK4u5JL/xZobEDTIfkwz0=;
+  b=KK2jcVhYBNmNCx9yEZB4xsZjkFV3P9wngZpK4SKFaXAxmYeWCdz6PhQI
+   THev/BtvbKKuiqMW4hik3hQPoE1FW8B+C4X/hL5YtIi7GCdK3NAQv7pGl
+   R+mJc2BAAfigCWfbsWPCsB1Fz13CKNQskz5erwGVEB7j/gwhes8NXA5/Y
+   TW4qS6SN8FflB1qxBJGHXjnir+5hidOpIU48c/GbegUuj9K2O0rsLp+fy
+   mlS9rueU3V0nFSxID5tUaOkpVtkuo8wHB3+BCO/1d0EnRXGuHMdK0dwHn
+   GEUobDksv63QHzjUY2OKUsGATnSDZpjPRRfFv4ZMoH0dudKCmUv/wEqMp
+   w==;
+X-CSE-ConnectionGUID: 3ltgrzQqRxaPT2ZmYMAZAw==
+X-CSE-MsgGUID: Bzuq+5MbTTO6LelBuda8Hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="99698020"
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="99698020"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:04:21 -0700
+X-CSE-ConnectionGUID: s581NXHCRZmMfO6wEfwB2g==
+X-CSE-MsgGUID: SbIpZcUdT/a1/749YLYoDQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="234275702"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:04:11 -0700
+Date: Mon, 13 Apr 2026 22:04:07 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v13 11/27] drm/i915/hdmi: Add YCBCR444 handling for sink
+ formats
+Message-ID: <ad0-J35F1kcyZjoG@intel.com>
+References: <20260413-color-format-v13-0-ab37d4dfba48@collabora.com>
+ <20260413-color-format-v13-11-ab37d4dfba48@collabora.com>
+ <ad08zqpKbyF--Br3@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ad08zqpKbyF--Br3@intel.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
-Randy Dunlap <rdunlap@infradead.org> writes:
+On Mon, Apr 13, 2026 at 09:58:22PM +0300, Ville Syrjälä wrote:
+> On Mon, Apr 13, 2026 at 12:07:25PM +0200, Nicolas Frattaroli wrote:
+> > In anticipation of userspace being able to explicitly select supported
+> > sink formats, add handling of the YCBCR444 sink format. The AUTO path
+> > does not choose this format, but with explicit format selection added to
+> > the driver, it becomes a possibility.
+> > 
+> > Check for YCBCR444 support on the sink in both sink_bpc_possible, and
+> > sink_format_valid.
+> > 
+> > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+> > ---
+> >  drivers/gpu/drm/i915/display/intel_hdmi.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> > index 874076a29da4..5ab5b5f85cde 100644
+> > --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
+> > +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
+> > @@ -1966,6 +1966,8 @@ static bool intel_hdmi_sink_bpc_possible(struct drm_connector *_connector,
+> >  
+> >  		if (sink_format == INTEL_OUTPUT_FORMAT_YCBCR420)
+> >  			return hdmi->y420_dc_modes & DRM_EDID_YCBCR420_DC_36;
+> > +		else if (sink_format == INTEL_OUTPUT_FORMAT_YCBCR444)
+> > +			return info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_36;
+> >  		else
+> >  			return info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_36;
+> >  	case 10:
+> > @@ -1974,6 +1976,8 @@ static bool intel_hdmi_sink_bpc_possible(struct drm_connector *_connector,
+> >  
+> >  		if (sink_format == INTEL_OUTPUT_FORMAT_YCBCR420)
+> >  			return hdmi->y420_dc_modes & DRM_EDID_YCBCR420_DC_30;
+> > +		else if (sink_format == INTEL_OUTPUT_FORMAT_YCBCR444)
+> > +			return info->edid_hdmi_ycbcr444_dc_modes & DRM_EDID_HDMI_DC_30;
+> >  		else
+> >  			return info->edid_hdmi_rgb444_dc_modes & DRM_EDID_HDMI_DC_30;
+> >  	case 8:
+> > @@ -2038,6 +2042,11 @@ intel_hdmi_sink_format_valid(struct intel_connector *connector,
+> >  
+> >  		return MODE_OK;
+> >  	case INTEL_OUTPUT_FORMAT_RGB:
+> > +		return MODE_OK;
+> > +	case INTEL_OUTPUT_FORMAT_YCBCR444:
+> 
+> We'll also want the !has_hdmi_sink check here like for 4:2:0.
+> 
+> And I think we also want something to mirror the ycbcr_420_allowed
+> flag. I guess you could just make it something like:
+> 
+> intel_hdmi_ycbcr_444_allowed(display)
+> {
+> 	return DISPLAY_VER(display) >= 5 && !HAS_GMCH(display);
 
-> Hi,
->
-> Is there supposed to be a difference (or distinction) in the contents of
->
-> Documentation/process/maintainer-handbooks.rst
-> and
-> Documentation/maintainer/maintainer-entry-profile.rst
-> ?
->
-> Can they be combined into one location?
+Actually the display version check is redundant there.
+!HAS_GMCH alone is sufficient.
 
-Late to the party, sorry ... the original idea, I believe, was that
-maintainer-handbooks.rst would be for developers looking for a guidebook
-for a specific subsystem, while maintainer-entry-profile.rst was about
-how maintainers themselves should write their subsystem guide.
-Doubtless things have drifted since then...  But the intended audiences
-were different, so it might be good to think about bringing them back
-into focus.
+> }
+> 
+> That can also be reused when setting up the allowed property values.
+> 
+> > +		if (!(info->color_formats & BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444)))
+> > +			return MODE_BAD;
+> > +
+> >  		return MODE_OK;
+> >  	default:
+> >  		MISSING_CASE(sink_format);
+> > 
+> > -- 
+> > 2.53.0
+> 
+> -- 
+> Ville Syrjälä
+> Intel
 
-jon
+-- 
+Ville Syrjälä
+Intel
