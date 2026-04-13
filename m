@@ -1,165 +1,248 @@
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B923818AFE;
-	Mon, 13 Apr 2026 03:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.187
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CC5037FF79
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 04:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776051761; cv=none; b=pVy4d4RAs6xUgzMWpYFZy3gd+YsLxiP9iaIQxxeyvG17jmoLdCRKxanDcPESnwuUFEXT4ff8t/23HtKJmduH0CtIu2R2TJN1grkkKLBOYw6W0tirie1lJte9PaCEPuTWQbRr7KRIIF3D3r3FoL6UMHhNzclW1IL/Di3/YhqZlMI=
+	t=1776053555; cv=none; b=OHG83DcU1tNzUKxj9bjzvWKHgn91ypsXM36Fqk2U/OZYVtmX++pfweQ6yn0h/obKGV5hZ1i9SY5p9GA/3YH0MyU6Jf549KfDja0EqMpo584VsdVZIRU51GfYMk3Sz11R+qn2213gpgFFD6YMKzpVI1AJNbBMNqzM3X4E8jhyFXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776051761; c=relaxed/simple;
-	bh=Zmv/zr4aYb9NLLn+/uye7F8uxgwJflDtMrxg6M/x5Zw=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=hTUf8jeuV7Dz6AdCjuJE8c3wQezRfffYXs7SxhKjOvxb3nrkzoYpn8xn8ODenSf20f/BUD6DGPZQQOIP3IoG7e+z3oA1WfZaMvv1kqBxsS0/TTyoH0QaT+4ClJMhaBAYya6l7+2W7jW7oNjdl/pqSJ+5DiKWbW2ZRxOAhTSWx3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=UBAiCWrY; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=UBAiCWrY; arc=none smtp.client-ip=45.249.212.187
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1776053555; c=relaxed/simple;
+	bh=Nfx8SY0UEvaq6+gSxlXjMVt/bs4KEn/ejYgsUpz3yFU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CVxlutMpOl5Z7VevY8pyLr3Fyf46QYafR0eAdYIEWq2NEML/6AdAarAwwQ8fMGW6shHI+18X803MuNuLiOBxzDwC+VYqIm2NWF7oAi6Jv2vT9LCwRU0sFCBBZI17yN21vcwNnIknqOxjNbedT6rGaBWaUbcLYV+uImBWWWeS798=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PVt1hTfd; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="UBAiCWrY";
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="UBAiCWrY"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=VMBgE/Gsm0n04DIPKSxZD/WWr/ajg+HN9qmWHOd2nLM=;
-	b=UBAiCWrYyWVLxflrm6gIeQAmeDDsz2uzinYSsE/+GLgGs818dvZT0Lldpd1SE/SsmosenhEbj
-	4ZWfz0Bm9fdQTtyjbsQi18FPjFDNEJTE2Smu8uSDdbwbJExZI2KmC2IPx/ykS3ucY8qbIImKVbR
-	EOL3oOYUY8SKJosN5lGRDQg=
-Received: from canpmsgout01.his.huawei.com (unknown [172.19.92.178])
-	by szxga01-in.huawei.com (SkyGuard) with ESMTPS id 4fvCrd69VGz1BGG3;
-	Mon, 13 Apr 2026 11:41:53 +0800 (CST)
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=VMBgE/Gsm0n04DIPKSxZD/WWr/ajg+HN9qmWHOd2nLM=;
-	b=UBAiCWrYyWVLxflrm6gIeQAmeDDsz2uzinYSsE/+GLgGs818dvZT0Lldpd1SE/SsmosenhEbj
-	4ZWfz0Bm9fdQTtyjbsQi18FPjFDNEJTE2Smu8uSDdbwbJExZI2KmC2IPx/ykS3ucY8qbIImKVbR
-	EOL3oOYUY8SKJosN5lGRDQg=
-Received: from mail.maildlp.com (unknown [172.19.162.144])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fvCkH2j1Bz1T4Gh;
-	Mon, 13 Apr 2026 11:36:23 +0800 (CST)
-Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id D9D0740574;
-	Mon, 13 Apr 2026 11:42:20 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 13 Apr 2026 11:42:20 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 13 Apr 2026 11:42:19 +0800
-Subject: Re: [PATCH v2 2/3] mm/memory-failure: add
- panic_on_unrecoverable_memory_failure sysctl
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260331-ecc_panic-v2-0-9e40d0f64f7a@debian.org>
- <20260331-ecc_panic-v2-2-9e40d0f64f7a@debian.org>
- <59c133a7-74a7-4678-d907-add764bbd107@huawei.com>
- <adkFQF7QH8Jc3p3U@gmail.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <15315535-3881-e2db-02d4-907235dd98b7@huawei.com>
-Date: Mon, 13 Apr 2026 11:42:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PVt1hTfd"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-82748257f5fso2132596b3a.1
+        for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 21:12:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776053544; x=1776658344; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=EiR3khxQhFmDzcy0QJGcEyjroXltDHGy0h+uzT9wKzQ=;
+        b=PVt1hTfdiTbS4jYbHQY1h6aJn5MhPlqg4nuCk7bYFfKjFsGgt1UOzV91D5wChlKE1H
+         4sPhNmMdF5zqI4izWGIAWx+nRXcdsyxkKE3sqmIc6Kf0B3a+Ep9ttoyR6BN/1qNXSluy
+         ukazZiOuHc0gsi0pOV03bhR7Liy5m1DkbiQ621onz96DByGNz8R/R3Amr9Ltqsv29J8i
+         /EzpmrTMzy+1qLJTI9ySQPib9H7tokrejir3Jeljk49NZXjiyHiA0urzwAYmR+LdpHL7
+         XUQzZAU34C0tnQkVt3oVWFTEpYg/aN/+gMskdXSR6VKtx2rxEK9RXKLWxN23Rh9dPST8
+         EK6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776053544; x=1776658344;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EiR3khxQhFmDzcy0QJGcEyjroXltDHGy0h+uzT9wKzQ=;
+        b=Dn1z7gB1CVBoGqH8h7Yto+gVcY3EzZ++e16M7TMnqTO5PZGoBklrpKa5CqsFcHbq3e
+         dzFKNyuJL2FWCuxNlUYN9RBdXRDiL+gMKrAfqEECXwNTu8S/NdteCES4ujN7Py4hcjC/
+         YJOivbQNSxKa0AZ45KivTDLr7YlYTKVp5HThs5smJmxgIhpgTySIQ0W5Me+WmOWOSG/D
+         Rg6SF5BZWSOCalQnFkeXejUEZkXH+JZa4xcCHDWI9ySiP8BfH+2Wa/MiWUaJMte6jLu2
+         mVWpl/haU51M6ZfAhNB0r4Q4sN0RS/fvl9LzEMQ3B7raGAIWoOTsu76xRQ0LpZnovdDj
+         SlXg==
+X-Gm-Message-State: AOJu0YzdqGwgR1b2uCol0FMrWw8zRKo+5keYUSADQOtFypu3STLnVe72
+	PUREP0aLZv8nzpuQ0IofvjJzlOflv1otWVrtSmn1lggRkb0zrFa/p9TV1anco2y9h70=
+X-Gm-Gg: AeBDiev1w/pQsI0rmOPhnW2RBevKwSI5s1zXy7aA0HMpDnVyBjMfj5yGbMNscfJuKEJ
+	cujABRi1FM310IFLDhrUB+dmuWP92kupM0S1+8Im9WFAJDx5LMJf8Mv+WqinYhq6+bajfs/Kgup
+	pthxYD/HLD6ym/P4QIHk7HvryKVtLuAl5jotCmWzrA2yLMV4EY8NkGXNPNX1fJxGcn+zo5UoxOQ
+	zmVx83LgmoDohsCPKPuS7uQHpzdIuDjhdCvcbbZqXJjjtfDX33Buh/xHwGzOR3coirY8HqOfCOm
+	D7mCyVL0YnFxYVJKzjHoxtTTThSKNwiDfXVq6nTsxQAmtuSR2ZIi2ZefwyJeU36XoC8u6+hcOqL
+	BOHhFdNTfotJnPUg1mDJkLOOC0KK/PKZq6jPfY5Tg61J48KTTClN49cTXHTtspyTzeTegzKxZiJ
+	rz9MNGAykPzYIjqo4Bag7PD7x/reTtmkxchO7kH8URiCyw
+X-Received: by 2002:a05:6a20:1e42:b0:3a0:21ed:7e66 with SMTP id adf61e73a8af0-3a021ed7f66mr1782966637.25.1776053543674;
+        Sun, 12 Apr 2026 21:12:23 -0700 (PDT)
+Received: from tech-Alienware-m15-R6.. ([122.171.18.84])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c79219c618asm8578587a12.18.2026.04.12.21.12.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Apr 2026 21:12:23 -0700 (PDT)
+From: Sunny Patel <nueralspacetech@gmail.com>
+To: linux-doc@vger.kernel.org
+Cc: linux-watchdog@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	wim@linux-watchdog.org,
+	linux@roeck-us.net,
+	rdunlap@infradead.org,
+	Sunny Patel <nueralspacetech@gmail.com>
+Subject: [PATCH v5] Documentation: Refactored watchdog old doc
+Date: Mon, 13 Apr 2026 09:41:55 +0530
+Message-ID: <20260413041215.10362-1-nueralspacetech@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <adkFQF7QH8Jc3p3U@gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 2026/4/10 22:17, Breno Leitao wrote:
-> On Tue, Apr 07, 2026 at 10:57:36AM +0800, Miaohe Lin wrote:
->> On 2026/3/31 19:00, Breno Leitao wrote:
->>> +	if (sysctl_panic_on_unrecoverable_mf && result == MF_IGNORED &&
->>> +	    (type == MF_MSG_KERNEL || type == MF_MSG_KERNEL_HIGH_ORDER ||
->>> +	     type == MF_MSG_UNKNOWN))
->>> +		panic("Memory failure: %#lx: unrecoverable page", pfn);
->>
->> Will it be better to add a helper here?
-> 
-> Yes, a helper would make things easier to read and digest. Thanks for
-> the feedback. This is what I have in mind:
-> 
-> commit 36d5b3cbbe6d6abfe3296b7b21135a5f01e743eb
-> Author: Breno Leitao <leitao@debian.org>
-> Date:   Mon Mar 23 08:00:29 2026 -0700
-> 
->     mm/memory-failure: add panic_on_unrecoverable_memory_failure sysctl
->     
->     Add a sysctl that allows the system to panic when an unrecoverable
->     memory failure is detected. This covers kernel pages, high-order
->     kernel pages, and unknown page types that cannot be recovered.
->     
->     Signed-off-by: Breno Leitao <leitao@debian.org>
-> 
-> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> index 6ff80e01b91a4..a29b6688fe2d3 100644
-> --- a/mm/memory-failure.c
-> +++ b/mm/memory-failure.c
-> @@ -74,6 +74,8 @@ static int sysctl_memory_failure_recovery __read_mostly = 1;
->  
->  static int sysctl_enable_soft_offline __read_mostly = 1;
->  
-> +static int sysctl_panic_on_unrecoverable_mf __read_mostly;
-> +
->  atomic_long_t num_poisoned_pages __read_mostly = ATOMIC_LONG_INIT(0);
->  
->  static bool hw_memory_failure __read_mostly = false;
-> @@ -155,6 +157,15 @@ static const struct ctl_table memory_failure_table[] = {
->  		.proc_handler	= proc_dointvec_minmax,
->  		.extra1		= SYSCTL_ZERO,
->  		.extra2		= SYSCTL_ONE,
-> +	},
-> +	{
-> +		.procname	= "panic_on_unrecoverable_memory_failure",
-> +		.data		= &sysctl_panic_on_unrecoverable_mf,
-> +		.maxlen		= sizeof(sysctl_panic_on_unrecoverable_mf),
-> +		.mode		= 0644,
-> +		.proc_handler	= proc_dointvec_minmax,
-> +		.extra1		= SYSCTL_ZERO,
-> +		.extra2		= SYSCTL_ONE,
->  	}
->  };
->  
-> @@ -1281,6 +1292,16 @@ static void update_per_node_mf_stats(unsigned long pfn,
->  	++mf_stats->total;
->  }
->  
-> +static bool is_unrecoverable_memory_failure(enum mf_action_page_type type,
-> +					    enum mf_result result)
+Mark WDIOC_GETTEMP and WDIOS_TEMPPANIC as deprecated since
+neither is implemented by the watchdog core and both are only
+present in a small number of legacy drivers.
 
-Thanks for your update.
+Add documentation for previously undocumented status bits
+WDIOF_MAGICCLOSE and WDIOF_ALARMONLY in the options field.
 
-> +{
-> +	return sysctl_panic_on_unrecoverable_mf &&
-> +	       result == MF_IGNORED &&
-> +	       (type == MF_MSG_KERNEL ||
-> +		type == MF_MSG_KERNEL_HIGH_ORDER ||
-> +		type == MF_MSG_UNKNOWN);
-> +}
-> +
->  /*
->   * "Dirty/Clean" indication is not 100% accurate due to the possibility of
->   * setting PG_dirty outside page lock. See also comment above set_page_dirty().
-> @@ -1298,6 +1319,9 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
->  	pr_err("%#lx: recovery action for %s: %s\n",
->  		pfn, action_page_types[type], action_name[result]);
->  
-> +	if (is_unrecoverable_memory_failure(type, result))
+Add documentation for WDIOF_PRETIMEOUT and WDIOF_SETTIMEOUT
+status bits describing their respective ioctls.
 
-Would it be better to name it as panic_on_unrecoverable_mf() or something like it?
-This function determines whether panic on the specified memory error.
+Fix the following issues in existing documentation:
+  - Remove version-specific reference to Linux 2.4.18 from
+    the GETTIMEOUT ioctl description
+  - Fix duplicate "was is" in printf format strings
+  - Replace [FIXME] placeholder with proper descriptions for
+    WDIOS_DISABLECARD, WDIOS_ENABLECARD and WDIOS_TEMPPANIC
 
-Thanks.
-.
+Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
+---
+
+Changes in v5:
+  - Fixed WDIOC_GETTIMELEFT printf statement to correctly reference 
+    "timeleft" instead of "timeout".
+  
+Changes in v4:
+  - Fixed WDIOS_DISABLECARD description: corrected inverted logic —
+    the ioctl disables the hardware timer entirely rather than
+    stopping pings. Clarified that userspace, not the kernel driver,
+    is primarily responsible for pinging under normal operation.
+
+ Documentation/watchdog/watchdog-api.rst | 65 +++++++++++++++++++++----
+ 1 file changed, 55 insertions(+), 10 deletions(-)
+
+diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+index 78e228c272cf..736436a68f65 100644
+--- a/Documentation/watchdog/watchdog-api.rst
++++ b/Documentation/watchdog/watchdog-api.rst
+@@ -2,7 +2,7 @@
+ The Linux Watchdog driver API
+ =============================
+ 
+-Last reviewed: 10/05/2007
++Last reviewed: 04/08/2026
+ 
+ 
+ 
+@@ -42,7 +42,7 @@ activates as soon as /dev/watchdog is opened and will reboot unless
+ the watchdog is pinged within a certain time, this time is called the
+ timeout or margin.  The simplest way to ping the watchdog is to write
+ some data to the device.  So a very simple watchdog daemon would look
+-like this source file:  see samples/watchdog/watchdog-simple.c
++like this source file: see samples/watchdog/watchdog-simple.c
+ 
+ A more advanced driver could for example check that a HTTP server is
+ still responding before doing the write call to ping the watchdog.
+@@ -106,11 +106,10 @@ the requested one due to limitation of the hardware::
+ This example might actually print "The timeout was set to 60 seconds"
+ if the device has a granularity of minutes for its timeout.
+ 
+-Starting with the Linux 2.4.18 kernel, it is possible to query the
+-current timeout using the GETTIMEOUT ioctl::
++It is also possible to get the current timeout with the GETTIMEOUT ioctl::
+ 
+     ioctl(fd, WDIOC_GETTIMEOUT, &timeout);
+-    printf("The timeout was is %d seconds\n", timeout);
++    printf("The timeout is %d seconds\n", timeout);
+ 
+ Pretimeouts
+ ===========
+@@ -133,7 +132,7 @@ seconds.  Setting a pretimeout to zero disables it.
+ There is also a get function for getting the pretimeout::
+ 
+     ioctl(fd, WDIOC_GETPRETIMEOUT, &timeout);
+-    printf("The pretimeout was is %d seconds\n", timeout);
++    printf("The pretimeout is %d seconds\n", timeout);
+ 
+ Not all watchdog drivers will support a pretimeout.
+ 
+@@ -145,12 +144,12 @@ before the system will reboot. The WDIOC_GETTIMELEFT is the ioctl
+ that returns the number of seconds before reboot::
+ 
+     ioctl(fd, WDIOC_GETTIMELEFT, &timeleft);
+-    printf("The timeout was is %d seconds\n", timeleft);
++    printf("The timeleft is %d seconds\n", timeleft);
+ 
+ Environmental monitoring
+ ========================
+ 
+-All watchdog drivers are required return more information about the system,
++All watchdog drivers are required to return more information about the system,
+ some do temperature, fan and power level monitoring, some can tell you
+ the reason for the last reboot of the system.  The GETSUPPORT ioctl is
+ available to ask what the device can do::
+@@ -227,12 +226,33 @@ The watchdog saw a keepalive ping since it was last queried.
+ 	WDIOF_SETTIMEOUT	Can set/get the timeout
+ 	================	=======================
+ 
+-The watchdog can do pretimeouts.
++The watchdog supports timeout set/get via the WDIOC_SETTIMEOUT and
++WDIOC_GETTIMEOUT ioctls.
+ 
+ 	================	================================
+ 	WDIOF_PRETIMEOUT	Pretimeout (in seconds), get/set
+ 	================	================================
+ 
++The watchdog supports a pretimeout, a warning interrupt that fires before
++the actual reboot timeout. Use WDIOC_SETPRETIMEOUT and WDIOC_GETPRETIMEOUT
++to set/get the pretimeout.
++
++	================	================================
++	WDIOF_MAGICCLOSE	Supports magic close char
++	================	================================
++
++The driver supports the Magic Close feature. The watchdog is only disabled
++if the character 'V' is written to /dev/watchdog before the file descriptor
++is closed. Without writing 'V' before closing, the watchdog remains active
++and will trigger a reboot after the timeout expires.
++
++	================	================================
++	WDIOF_ALARMONLY		Not a reboot watchdog
++	================	================================
++
++The watchdog will not reboot the system when it expires. Instead it
++triggers a management or other external alarm. Userspace should not
++rely on a system reboot occurring.
+ 
+ For those drivers that return any bits set in the option field, the
+ GETSTATUS and GETBOOTSTATUS ioctls can be used to ask for the current
+@@ -254,6 +274,11 @@ returned value is the temperature in degrees Fahrenheit::
+     int temperature;
+     ioctl(fd, WDIOC_GETTEMP, &temperature);
+ 
++.. note::
++	``WDIOC_GETTEMP`` is not implemented by the watchdog core and is
++	considered deprecated. It is only supported by a small number of
++	legacy drivers. New drivers should not implement it.
++
+ Finally the SETOPTIONS ioctl can be used to control some aspects of
+ the cards operation::
+ 
+@@ -268,4 +293,24 @@ The following options are available:
+ 	WDIOS_TEMPPANIC		Kernel panic on temperature trip
+ 	=================	================================
+ 
+-[FIXME -- better explanations]
++``WDIOS_DISABLECARD`` disables the hardware watchdog timer entirely,
++allowing a controlled system shutdown without triggering a reboot.
++Userspace is responsible for pinging the watchdog under normal
++operation; this ioctl stops the underlying hardware timer so that
++the absence of pings no longer causes a system reset.
++
++``WDIOS_ENABLECARD`` starts the watchdog timer. If the watchdog was
++previously stopped via ``WDIOS_DISABLECARD``, this will re-enable it. The
++hardware watchdog will begin counting down from the configured timeout.
++
++``WDIOS_TEMPPANIC`` enables temperature-based kernel panic. When set,
++the driver will call ``panic()`` (or ``kernel_power_off()`` on some
++drivers) if the hardware temperature sensor exceeds its threshold,
++rather than only setting the ``WDIOF_OVERHEAT`` status bit. Support
++for this option is driver-specific; not all watchdog drivers implement
++temperature monitoring.
++
++.. note::
++	``WDIOS_TEMPPANIC`` is not implemented by the watchdog core and is
++	considered deprecated. It is only present in a small number of
++	legacy drivers. New drivers should not implement it.
+-- 
+2.43.0
 
