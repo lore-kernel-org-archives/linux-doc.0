@@ -1,99 +1,186 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C16603BF680;
-	Mon, 13 Apr 2026 11:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B841C23AE87;
+	Mon, 13 Apr 2026 11:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776079359; cv=none; b=Gmp6doyURVNiGbRav5//vaDV2oRqc4++WTcFgMFhmtDXJT2J6Que0l3yg9IK0Ze06MgiCCUIXKbuTh0JvJQhue5e9xcreC8RNshMPJLiyoi3S3SF02W14oJoylT0nD1joSfXpKqbe8iAJTJ1Ef592GtfJgd/IHl7HadcaC/wSqc=
+	t=1776079621; cv=none; b=DfAw6B62e4ZOvjeOyzPDuTcUFcpWg5MWpsMZCtNq3/maWnfw2ZrG6IUPA85xZkyZEfRdO2oW4k0Zp8MWuRIM37qZvJ8qIIkTsrp/jywG6uuN/uMKyFGWwoPhfuNsnL2eA2Z6KDh4VDJCTFB44QgK0gjjjATwSjGyUxJHhv1bnVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776079359; c=relaxed/simple;
-	bh=qyuACa6cSDnuCVOltnurx00idjKamNDwYb4pWwlW7y0=;
+	s=arc-20240116; t=1776079621; c=relaxed/simple;
+	bh=e11dG/1PaJPNgRXjK/Zx+/DeJ/ARnA1AtRogWkYiVkc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mrgbakyUXIJB64uVjTLIQwNF6L65KiUzFTjjxizrP3uDsl7icMg9uLW6shxsAd0DO+b4hkqAMgiRqGTkaviYM86WHnuefVkhZGfxxKBe68oe1Qp9Qdco9/hPGZDuJn3sZOs/3RPyQTe3ZiNMjz4v98F6oOCokTJL7Ec/GVr79b8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=EQzxAo9Q; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=lncKBK3mZ5zUrqRGyxMMKUkM8+mRsERuCr+pTodOXYbzHuJGoXtZ8S8FFzlLuH3l+qPX/gGnAMpGYahsE4RRe9DdiO+6rw+LnKRFJvKOuhkJKij2ReNfUSuvb4slJH/UqXU+Xolgv7azZQjILQXmuVXK9/Z90vyQ9EKFTPMdXz4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XCPJ59tE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="EQzxAo9Q"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=epg3lloxstaR+U2vf+uUHLYMjLaIyOPP3DRHzedUqkg=; b=EQzxAo9Q44B5SjzTyheEABdbL3
-	ggxr/2N/jTNN+JQZThPbeI0p6MxqiEdEO2GdqY1MUk5G/PJRKybDDGU74KFLlYcX/A2mMcU0R1uhb
-	I0UQzGNbvINHzfPAPRWuNHmNi0lWtSDamNvgJZ2W60u3ZcoNt9nHp4Z2FXI9joYC+KF9XJLvhD9GB
-	tj+Hop85hnwTbrPgfhvazdA2gOuYktSqCGvK5/PlOC1LofEDdcwSxS6sQ2W/+nWK5WyjC5FVdqTVd
-	nLFY3NIS8X1jdbxKXqJovZ6RYinwkpvFFM8Fqca81ZcJhNLB8xTi3k1ZC29UqGRuY56dDsgVWKfUQ
-	/E4vJchA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wCFN4-00CFrC-0y;
-	Mon, 13 Apr 2026 11:22:26 +0000
-Date: Mon, 13 Apr 2026 04:22:21 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-team@meta.com, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/3] mm/memory-failure: add
- panic_on_unrecoverable_memory_failure sysctl
-Message-ID: <adzQIS7jd_Ce_JrA@gmail.com>
-References: <20260331-ecc_panic-v2-0-9e40d0f64f7a@debian.org>
- <20260331-ecc_panic-v2-2-9e40d0f64f7a@debian.org>
- <59c133a7-74a7-4678-d907-add764bbd107@huawei.com>
- <adkFQF7QH8Jc3p3U@gmail.com>
- <15315535-3881-e2db-02d4-907235dd98b7@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XCPJ59tE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B8DDC116C6;
+	Mon, 13 Apr 2026 11:26:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776079621;
+	bh=e11dG/1PaJPNgRXjK/Zx+/DeJ/ARnA1AtRogWkYiVkc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XCPJ59tEA7udDDdQaPHGGIh0z2VzXgSzuJW5+KEykkNj8I/FwriVWi2P3ANWydQvb
+	 Dd1CWPDtQfaAgr2A+BQtrJ2ibklTgojb/og01i8N49cfu456g8J9Qt7fL6PcGMhLaG
+	 7FolTa5snB5gn3Koz2AyYLyZ1F0nA2Z9ZhZ4xHW5Pc+BY7x5MJiTlYDH56h3w06/vL
+	 kwKoiGVKvE1+IGb/sTYtKWGqgCeB7ZTUqmYoDqwg/JSmpnbgWdKDnVdpB2i7qZM9JD
+	 6/XS1N8xNGhfD/AbCKoHH+HNveJvQrNbBvojAMi5WzmaIBFAO/qAaPLHmcv264YIYe
+	 HS+1HKtk2DO/w==
+Date: Mon, 13 Apr 2026 16:56:53 +0530
+From: Manivannan Sadhasivam <mani@kernel.org>
+To: Kishore Batta <kishore.batta@oss.qualcomm.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+	Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>, Oded Gabbay <ogabbay@kernel.org>, andersson@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, mhi@lists.linux.dev
+Subject: Re: [PATCH v4 4/9] bus: mhi: Centralize firmware image table
+ selection at probe time
+Message-ID: <2sykuv6r643v3i6ymdoevzohoxdmgrrodvgpbaystskz7fwgun@fd3p7gcso252>
+References: <20260319-sahara_protocol_new_v2-v4-0-47ad79308762@oss.qualcomm.com>
+ <20260319-sahara_protocol_new_v2-v4-4-47ad79308762@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <15315535-3881-e2db-02d4-907235dd98b7@huawei.com>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260319-sahara_protocol_new_v2-v4-4-47ad79308762@oss.qualcomm.com>
 
-On Mon, Apr 13, 2026 at 11:42:19AM +0800, Miaohe Lin wrote:
-> On 2026/4/10 22:17, Breno Leitao wrote:
-> > On Tue, Apr 07, 2026 at 10:57:36AM +0800, Miaohe Lin wrote:
-> >> On 2026/3/31 19:00, Breno Leitao wrote:
-> > +{
-> > +	return sysctl_panic_on_unrecoverable_mf &&
-> > +	       result == MF_IGNORED &&
-> > +	       (type == MF_MSG_KERNEL ||
-> > +		type == MF_MSG_KERNEL_HIGH_ORDER ||
-> > +		type == MF_MSG_UNKNOWN);
-> > +}
-> > +
-> >  /*
-> >   * "Dirty/Clean" indication is not 100% accurate due to the possibility of
-> >   * setting PG_dirty outside page lock. See also comment above set_page_dirty().
-> > @@ -1298,6 +1319,9 @@ static int action_result(unsigned long pfn, enum mf_action_page_type type,
-> >  	pr_err("%#lx: recovery action for %s: %s\n",
-> >  		pfn, action_page_types[type], action_name[result]);
-> >
-> > +	if (is_unrecoverable_memory_failure(type, result))
->
-> Would it be better to name it as panic_on_unrecoverable_mf() or something like it?
-> This function determines whether panic on the specified memory error.
+On Thu, Mar 19, 2026 at 12:01:44PM +0530, Kishore Batta wrote:
+> The Sahara driver currently selects firmware image tables using
+> scattered, device specific conditionals in the probe path, making the
+> logic harder to  follow and extend.
+> 
+> Refactor firmware image table selection into a single, explicit probe-time
+> mechanism by introducing a variant table that captures device matching,
+> firmware image tables, firmware folder names, and streaming behavior in
+> one place.
+> 
+> This centralizes device specific decisions, simplifies the probe logic,
+> and avoids ad-hoc conditionals while preserving the existing behavior for
+> all supported AIC devices.
+> 
+> Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
+> ---
+>  drivers/bus/mhi/sahara/sahara.c | 66 ++++++++++++++++++++++++++++++++++++-----
+>  1 file changed, 58 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/bus/mhi/sahara/sahara.c b/drivers/bus/mhi/sahara/sahara.c
+> index e3499977e7c6b53bc624a8eb00d0636f2ea63307..8f1c0d72066c0cf80c09d78bfc51df2e482133b9 100644
+> --- a/drivers/bus/mhi/sahara/sahara.c
+> +++ b/drivers/bus/mhi/sahara/sahara.c
+> @@ -180,6 +180,16 @@ struct sahara_context {
+>  	u32				read_data_length;
+>  	bool				is_mem_dump_mode;
+>  	bool				non_streaming;
+> +	const char			*fw_folder;
+> +};
+> +
+> +struct sahara_variant {
+> +	const char *match;
+> +	bool match_is_chan;
 
-Acknowledged. I'll rename the function to panic_on_unrecoverable_mf() in the
-next version.
+This name makes no sense.
 
-After extensive testing, I'm considering adding a boot-time configuration
-parameter for this feature, similar to BOOTPARAM_WQ_STALL_PANIC,
-BOOTPARAM_SOFTLOCKUP_PANIC, BOOTPARAM_HARDLOCKUP_PANIC, and
-BOOTPARAM_HUNG_TASK_PANIC. This would make the panic behavior available
-from early boot without requiring runtime sysctl configuration, ensuring
-the system crashes on unrecoverable ECC errors rather than ignoring
-them.
+- Mani
 
-I'll prepare and send the updated version shortly.
+> +	const char * const *image_table;
+> +	size_t table_size;
+> +	const char *fw_folder;
+> +	bool non_streaming;
+>  };
+>  
+>  static const char * const aic100_image_table[] = {
+> @@ -224,11 +234,50 @@ static const char * const aic200_image_table[] = {
+>  	[78] = "qcom/aic200/pvs.bin",
+>  };
+>  
+> +static const struct sahara_variant sahara_variants[] = {
+> +	{
+> +		.match = "AIC100",
+> +		.match_is_chan = false,
+> +		.image_table = aic100_image_table,
+> +		.table_size = ARRAY_SIZE(aic100_image_table),
+> +		.fw_folder = "aic100",
+> +		.non_streaming = true,
+> +	},
+> +	{
+> +		.match = "AIC200",
+> +		.match_is_chan = false,
+> +		.image_table = aic200_image_table,
+> +		.table_size = ARRAY_SIZE(aic200_image_table),
+> +		.fw_folder = "aic200",
+> +		.non_streaming = false,
+> +	}
+> +};
+> +
+>  static bool is_streaming(struct sahara_context *context)
+>  {
+>  	return !context->non_streaming;
+>  }
+>  
+> +static const struct sahara_variant *sahara_select_variant(struct mhi_device *mhi_dev,
+> +							  const struct mhi_device_id *id)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(sahara_variants); i++) {
+> +		const struct sahara_variant *v = &sahara_variants[i];
+> +
+> +		if (v->match_is_chan) {
+> +			if (id && id->chan && !strcmp(id->chan, v->match))
+> +				return v;
+> +		} else {
+> +			if (mhi_dev->mhi_cntrl && mhi_dev->mhi_cntrl->name &&
+> +			    !strcmp(mhi_dev->mhi_cntrl->name, v->match))
+> +				return v;
+> +		}
+> +	}
+> +	return NULL;
+> +}
+> +
+>  static int sahara_find_image(struct sahara_context *context, u32 image_id)
+>  {
+>  	int ret;
+> @@ -797,6 +846,7 @@ static void sahara_read_data_processing(struct work_struct *work)
+>  
+>  static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_id *id)
+>  {
+> +	const struct sahara_variant *variant;
+>  	struct sahara_context *context;
+>  	int ret;
+>  	int i;
+> @@ -809,14 +859,14 @@ static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_
+>  	if (!context->rx)
+>  		return -ENOMEM;
+>  
+> -	if (!strcmp(mhi_dev->mhi_cntrl->name, "AIC200")) {
+> -		context->image_table = aic200_image_table;
+> -		context->table_size = ARRAY_SIZE(aic200_image_table);
+> -	} else {
+> -		context->image_table = aic100_image_table;
+> -		context->table_size = ARRAY_SIZE(aic100_image_table);
+> -		context->non_streaming = true;
+> -	}
+> +	variant = sahara_select_variant(mhi_dev, id);
+> +	if (!variant)
+> +		return -ENODEV;
+> +
+> +	context->image_table = variant->image_table;
+> +	context->table_size = variant->table_size;
+> +	context->non_streaming = variant->non_streaming;
+> +	context->fw_folder = variant->fw_folder;
+>  
+>  	/*
+>  	 * There are two firmware implementations for READ_DATA handling.
+> 
+> -- 
+> 2.34.1
+> 
 
-Thanks for your feedback,
---breno
+-- 
+மணிவண்ணன் சதாசிவம்
