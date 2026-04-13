@@ -1,429 +1,114 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from canpmsgout10.his.huawei.com (canpmsgout10.his.huawei.com [113.46.200.225])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D8C234964
-	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 02:48:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776048525; cv=pass; b=lsOruFtXutMpAaN2B3oxctpWrJ6OHCxHnhX5i3STQdpvIRj02CmEOGBn70w849deEoDXNTQS1fbSxmg5V7kGsJjJs1rJHszfYioCjZ+oe+Y8qOZa+EoBnIEVG2YQ/LNMOxYSoWESGeB0bkS7exBvTPLWtPTe7sQNBQNldCGePj4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776048525; c=relaxed/simple;
-	bh=WDSkU69d23oA41r26eTbNiLbIMezYo2HY98fcr2R7cw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PYJDlbegMTdX6V9SyFHDzh2Qw/Wo5+D+B94+O5sJ+KrpkaWmT7OWB0Gloq3t0LIBoS42qUx1yzJhi534J1gLLMuQ5gw84FcWq85vwHUVkMmquMd/u+u2whybAAlD27eoLeEj7VX5Gf21ZCMx6cNeE0nIMMzXRMbOMcZhyFl9umE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WudvJZ66; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=X5SrjqLb; arc=pass smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B899331A7A;
+	Mon, 13 Apr 2026 03:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.225
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776051312; cv=none; b=QBTg8bs8Ts08OtupO58nDi8vlFxElZMfxb1Fe4C61BnNVIUSuni69UN8j2uT6hTt5P3OSdzanr/CmmMEUa68PJYplEV2qKY0Xa9bRe0Yih1kRhytTrEK7gfbkNWz3/yfMmCTRzS56N9uNV3czW5eHljkQN2/HU5vWuB+z7tMhl0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776051312; c=relaxed/simple;
+	bh=mRXhO7OJ91Icrv5CxGoVLbAlzDpQHFAMFe+0hPDPMaw=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=ehydnc5kwvmk31AyNSp5F4MAzE1nX8bjWTykVnG4JQzx8Ivt76dtBbFeGMq4+tmONKyr59ZKpxBfnAd5M2ZwzMx+6Rhr2QThV81vi9CHUsN0Fix50+6WFquNa5RyK1uyaTt1VXGA8xvO+ulvYmTzVyHjfA/rUzDCluVSKk7dhtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=dKSsW1eQ; arc=none smtp.client-ip=113.46.200.225
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WudvJZ66";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="X5SrjqLb"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776048522;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ipq+oq6oBakti4FTC7ep+u1PWOX2wbuMMxX1sQWOxoU=;
-	b=WudvJZ66etcg8OZP4505cnHQPzjCcTQeL2HpRQuXL3SMrvwSiTxfY8+IsXBjeCanJUQTgg
-	YKSbHh92s6r4AMs3FZc6i+pN47w326A2nY4q9/BQ6efr4EkbyvkYTFMa5qn3c241KeL9Zl
-	W7UyNCOCAaW3z/K1U0q3Qo99JnfCq5g=
-Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com
- [74.125.224.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-41-KHWeArvZNlubzyrxNTVa0g-1; Sun, 12 Apr 2026 22:48:41 -0400
-X-MC-Unique: KHWeArvZNlubzyrxNTVa0g-1
-X-Mimecast-MFC-AGG-ID: KHWeArvZNlubzyrxNTVa0g_1776048521
-Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-650709ef300so10139377d50.0
-        for <linux-doc@vger.kernel.org>; Sun, 12 Apr 2026 19:48:41 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776048520; cv=none;
-        d=google.com; s=arc-20240605;
-        b=b0gwGdm95M/t1xu7GOH6c/hs9aEC2s5KoAwu7lpfU1a3rMYHtF9SSfOW9wEuKOM4Oq
-         gj7O7MQT1AHhApaUdk+A76oZm8+hBoKH755tjsiXRw5uL72Fy80O7D/fR009bfGgwasc
-         NtbAXcfjuLIoch814Z8NLMjcU7oZfj9JtJex3AM1zPDKQ+eM3wy7Da0EYjHHSBf7xKYl
-         XC1UAnuSZ7SMQqGM8l4JKzPZRB8SLWBp+bxq33H7AgKj5cvNBFgLY+EWhbA+H988Bm/j
-         JcSRdpkRWZwATcm4jc0e+l/URr6KsUXxnUrd3V0NSx+T6H1sK3x7oOK38+GuEfevgPxP
-         OvOQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ipq+oq6oBakti4FTC7ep+u1PWOX2wbuMMxX1sQWOxoU=;
-        fh=j7Tv1QckJQ4bPZP7abpYbj1Medulczw4g57Ej4XMALk=;
-        b=a/Q0boaCnfRwendNFsC3NlxT3U8J/vO1DzFlmEWp9tzBBqztmZR2f/RXJHyP/YUKbO
-         ELHNyHLKo417Xa1y32qPQ5vuyeeSVrZvTBoq6tNh1rvnCrAbcT1dkRLereXpi7aTsIms
-         UaNPAwHyVMtRZZg1HqOIgj7LLBimN7PSYuWrL000t/vOoadYlHlyAp6/V/olyigcEsfu
-         7hgJN2KKifGUFuZNLRpbAT3dAhjDBr4jgRDfYOYv92SpHamdM1414dRUOk/Hm1TPziEJ
-         fQ6fTfK5kkaRrLc+eksWbF61IEP2Fp148xcJxt/HACNyoMzD9nhAjU5jJi1N0l57dQ7V
-         Z2pg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1776048520; x=1776653320; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ipq+oq6oBakti4FTC7ep+u1PWOX2wbuMMxX1sQWOxoU=;
-        b=X5SrjqLb56O1fq9YwQB4LaQTALUDt2empRBKiwumHr238THmTyesdVuSEI2fHt+4O7
-         ScP/DvtlKFtCY8bLNLWg5/+hwzWcl/GkAW/3BFh5QI7UfVBg0ZuZ53wq72zv42k349Aj
-         lwohCpBr0OLC2nD1/XnJsrU3cRSdlCpsHfo5YGnxFrhV+8l497KVpKXBa+pouofxA6Ue
-         PB2rvttBtIFvG8NWx/vp5Zxezd2dR5Nwi+wrwQ5tME+6pq7rNYDuuQYSyjK4CSjtrGEj
-         AFVXrVlA7u502cCcdphnci1NuXEjJKpBIXB5gZOxVzQUSH7P9CPaGaPAamwfSi4jTztX
-         74gg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776048520; x=1776653320;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ipq+oq6oBakti4FTC7ep+u1PWOX2wbuMMxX1sQWOxoU=;
-        b=VfCOUStAgFEyKIoSqT0zlXfyqebN7VGpkLolxTW7zZektvpxFnVdhHEj1Qtu6rLhvd
-         23ejGy3mQ+NPrk1vz5P7LWkE6CMxmwId1C8huSCG8XIQhYk7grsmJYJ066Z2pO/5AZ4b
-         Jkz93F+BrHDneSMWjiYgufCAFywvZSYH0tyU48t3/zfHiVQn/tg1rk2B9AmOUiWolm2U
-         ZduOQDfflsWDFUh08xWkgja9oyH2QFGAgxp3djmbH+33qBndhnUDXdv17Q1i2RIZILZm
-         vtBDawspoeYA6Kbe0OvD31BlUqe3Gpo4ncLpwL0UnNZaQKPQ401w+JxfLK6yK/uFo5Z6
-         BYvQ==
-X-Gm-Message-State: AOJu0Yyt2LxFy4DnQFmW4qWeGd9AZRlzvIryY4ccqRqEMgo76lBIRLUZ
-	MoJEJNIsBbbpPjfKbeRHD1kADYjOeMllODZXDOVzJ56WgGDFR+JlwsKTWxzolBqgYqiwxPXS7/r
-	EmhFy2D7URjxiC1Ka8MpiUdDgGq+XLDemPKeGaV9BSvATohltYEITKX+Xp7PFQgHq77oNexWtw9
-	Me9ZJQYapCYpPRN4S0/4Pya9vXsP0iUHqGjqac
-X-Gm-Gg: AeBDietqwzH9u/a19pzTf15sohx+mdQFgClfpGgEeqm/QbR1cCBrAe7FmJvFoiB5Ulv
-	xvhK+Vxk/hj/aswXBfCIGzijtMVal4dMS0Vgh4qGPARI/Le19odDYiGJ81b51fkM8wqjNJwnQ88
-	EQrVIS8UhNkszpI908Q4NlawkmTIBcfIcBy62KxHmTbvjpCSxSebl8LIt+P7piytsjCR/CSWQK2
-	b/ZdPcJ
-X-Received: by 2002:a05:690e:4849:b0:64e:e6ca:1564 with SMTP id 956f58d0204a3-6518724af28mr8403961d50.34.1776048520505;
-        Sun, 12 Apr 2026 19:48:40 -0700 (PDT)
-X-Received: by 2002:a05:690e:4849:b0:64e:e6ca:1564 with SMTP id
- 956f58d0204a3-6518724af28mr8403906d50.34.1776048520015; Sun, 12 Apr 2026
- 19:48:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="dKSsW1eQ"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=0lo8Xlh8J6AAcOfJlZi1VaS6PaTCJdZoDYuoT/zI/d8=;
+	b=dKSsW1eQ1/cdHkunTqu4A83di7BCBCT8wS5h6xfCfFBEtG+7ubbFtUUSG4F+xTed/xU+DmrKw
+	x3QDMPf9qZxNXaJsBEiBtWUCvLuNMYdHxo0cKUfN6C8W+bjlayz2F5vMkDY3zRgAIS0r0Wp4nwC
+	sDxdhKJu5UjXTPq3WNgEWPo=
+Received: from mail.maildlp.com (unknown [172.19.163.15])
+	by canpmsgout10.his.huawei.com (SkyGuard) with ESMTPS id 4fvCYV3Rcdz1K980;
+	Mon, 13 Apr 2026 11:28:46 +0800 (CST)
+Received: from dggemv712-chm.china.huawei.com (unknown [10.1.198.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 3404940571;
+	Mon, 13 Apr 2026 11:35:01 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv712-chm.china.huawei.com (10.1.198.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 13 Apr 2026 11:35:01 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Mon, 13 Apr 2026 11:35:00 +0800
+Subject: Re: [PATCH v2 1/3] mm/memory-failure: report MF_MSG_KERNEL for
+ reserved pages
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260331-ecc_panic-v2-0-9e40d0f64f7a@debian.org>
+ <20260331-ecc_panic-v2-1-9e40d0f64f7a@debian.org>
+ <e074d5de-f494-4995-2521-32de4f2bd34f@huawei.com>
+ <adkCtR0LzJ7aWfm-@gmail.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <1265c3f5-9fdc-8718-6323-147fcbf52de4@huawei.com>
+Date: Mon, 13 Apr 2026 11:34:59 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260226031741.230674-1-npache@redhat.com> <20260226032504.233594-1-npache@redhat.com>
- <c832d503-8b8c-487a-b61a-df74a3057308@lucifer.local>
-In-Reply-To: <c832d503-8b8c-487a-b61a-df74a3057308@lucifer.local>
-From: Nico Pache <npache@redhat.com>
-Date: Sun, 12 Apr 2026 20:48:29 -0600
-X-Gm-Features: AQROBzAnrSbSKarMGYOQfjR0CAwy4v95QjUC8UMaaOKZsxklTcr1VSvGMtYqDEU
-Message-ID: <CAA1CXcCS9gWySN1oQzEYpALfURxBwt58us9tkAbNPnHOKmLd5g@mail.gmail.com>
-Subject: Re: [PATCH mm-unstable v15 07/13] mm/khugepaged: add per-order mTHP
- collapse failure statistics
-To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
-	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
-	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
-	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, 
-	joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev, 
-	Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, 
-	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
-	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
-	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
-	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
-	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
-	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
-	zokeefe@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <adkCtR0LzJ7aWfm-@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On Tue, Mar 17, 2026 at 11:05=E2=80=AFAM Lorenzo Stoakes (Oracle)
-<ljs@kernel.org> wrote:
->
-> On Wed, Feb 25, 2026 at 08:25:04PM -0700, Nico Pache wrote:
-> > Add three new mTHP statistics to track collapse failures for different
-> > orders when encountering swap PTEs, excessive none PTEs, and shared PTE=
-s:
-> >
-> > - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to s=
-wap
-> >       PTEs
-> >
-> > - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
-> >       exceeding the none PTE threshold for the given order
-> >
-> > - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to sh=
-ared
-> >       PTEs
-> >
-> > These statistics complement the existing THP_SCAN_EXCEED_* events by
-> > providing per-order granularity for mTHP collapse attempts. The stats a=
-re
-> > exposed via sysfs under
-> > `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
-> > supported hugepage size.
-> >
-> > As we currently dont support collapsing mTHPs that contain a swap or
-> > shared entry, those statistics keep track of how often we are
-> > encountering failed mTHP collapses due to these restrictions.
-> >
-> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > Signed-off-by: Nico Pache <npache@redhat.com>
-> > ---
-> >  Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
-> >  include/linux/huge_mm.h                    |  3 +++
-> >  mm/huge_memory.c                           |  7 +++++++
-> >  mm/khugepaged.c                            | 16 ++++++++++++---
-> >  4 files changed, 47 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation=
-/admin-guide/mm/transhuge.rst
-> > index c51932e6275d..eebb1f6bbc6c 100644
-> > --- a/Documentation/admin-guide/mm/transhuge.rst
-> > +++ b/Documentation/admin-guide/mm/transhuge.rst
-> > @@ -714,6 +714,30 @@ nr_anon_partially_mapped
-> >         an anonymous THP as "partially mapped" and count it here, even =
-though it
-> >         is not actually partially mapped anymore.
-> >
-> > +collapse_exceed_none_pte
-> > +       The number of collapse attempts that failed due to exceeding th=
-e
-> > +       max_ptes_none threshold. For mTHP collapse, Currently only max_=
-ptes_none
-> > +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other val=
-ue will
-> > +       emit a warning and no mTHP collapse will be attempted. khugepag=
-ed will
->
-> It's weird to document this here but not elsewhere in the document? I mea=
-n I
-> made this comment on the documentation patch also.
+On 2026/4/10 22:03, Breno Leitao wrote:
+> On Tue, Apr 07, 2026 at 10:56:39AM +0800, Miaohe Lin wrote:
+>> On 2026/3/31 19:00, Breno Leitao wrote:
+>>> When get_hwpoison_page() returns a negative value, distinguish
+>>> reserved pages from other failure cases by reporting MF_MSG_KERNEL
+>>> instead of MF_MSG_GET_HWPOISON. Reserved pages belong to the kernel
+>>> and should be classified accordingly for proper handling by the
+>>> panic_on_unrecoverable_memory_failure mechanism.
+>>>
+>>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>>> ---
+>>>  mm/memory-failure.c | 6 +++++-
+>>>  1 file changed, 5 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+>>> index ee42d4361309..6ff80e01b91a 100644
+>>> --- a/mm/memory-failure.c
+>>> +++ b/mm/memory-failure.c
+>>> @@ -2432,7 +2432,11 @@ int memory_failure(unsigned long pfn, int flags)
+>>>  		}
+>>>  		goto unlock_mutex;
+>>>  	} else if (res < 0) {
+>>> -		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
+>>> +		if (PageReserved(p))
+>>> +			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+>>
+>> Is it safe or common to check page flags without holding extra refcnt?
+> 
+> 
+> Yes, this is safe. At this point the page has HWPoison set, preventing
+> reallocation.
+> 
+> PageReserved is an atomic flag test on struct page memory that's always
+> valid for online PFNs.
+> 
+> Reserved pages are inherently stable (kernel text, firmware, etc.) and
+> don't change status dynamically.
+> 
+> This follows the same pattern as the existing is_free_buddy_page(p)
+> check a few lines above, which also reads page state without an extra
+> refcount.
 
-I can add some more documentation but TBH I don't really know where or
-what else to put. I checked a few of these other per-mTHP stats, and
-none are referenced elsewhere. if anything these 3 additions are the
-best documented ones.
+Got it. Thanks for your explanation.
 
->
-> Not sure if I missed you adding it to another bit of the docs? :)
->
-> > +       try to collapse to the largest enabled (m)THP size; if it fails=
-, it will
-> > +       try the next lower enabled mTHP size. This counter records the =
-number of
-> > +       times a collapse attempt was skipped for exceeding the max_ptes=
-_none
-> > +       threshold, and khugepaged will move on to the next available mT=
-HP size.
-> > +
-> > +collapse_exceed_swap_pte
-> > +       The number of anonymous mTHP PTE ranges which were unable to co=
-llapse due
-> > +       to containing at least one swap PTE. Currently khugepaged does =
-not
-> > +       support collapsing mTHP regions that contain a swap PTE. This c=
-ounter can
-> > +       be used to monitor the number of khugepaged mTHP collapses that=
- failed
-> > +       due to the presence of a swap PTE.
-> > +
-> > +collapse_exceed_shared_pte
-> > +       The number of anonymous mTHP PTE ranges which were unable to co=
-llapse due
-> > +       to containing at least one shared PTE. Currently khugepaged doe=
-s not
-> > +       support collapsing mTHP PTE ranges that contain a shared PTE. T=
-his
-> > +       counter can be used to monitor the number of khugepaged mTHP co=
-llapses
-> > +       that failed due to the presence of a shared PTE.
->
-> All of these talk about 'ranges' that could be of any size. Are these use=
-ful
-> metrics? Counting a bunch of failures and not knowing if they are 256 KB
-> failures or 16 KB failures or whatever is maybe not so useful information=
-?
-
-These are per-mTHP size statistics. If you look at the surrounding
-examples and docs this all makes more sense.
-
->
-> Also, from the code, aren't you treating PMD events the same as mTHP ones=
- from
-> the point of view of these counters? Maybe worth documenting that?
-
-IIUC, yes but that is true of all these
-
-```
-In /sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/stats, There are
-also individual counters for each huge page size, which can be utilized to
-monitor the system's effectiveness in providing huge pages for usage. Each
-counter has its own corresponding file.
-```
-
->
-> > +
-> >  As the system ages, allocating huge pages may be expensive as the
-> >  system uses memory compaction to copy data around memory to free a
-> >  huge page for use. There are some counters in ``/proc/vmstat`` to help
-> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > index 9941fc6d7bd8..e8777bb2347d 100644
-> > --- a/include/linux/huge_mm.h
-> > +++ b/include/linux/huge_mm.h
-> > @@ -144,6 +144,9 @@ enum mthp_stat_item {
-> >       MTHP_STAT_SPLIT_DEFERRED,
-> >       MTHP_STAT_NR_ANON,
-> >       MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
-> > +     MTHP_STAT_COLLAPSE_EXCEED_SWAP,
-> > +     MTHP_STAT_COLLAPSE_EXCEED_NONE,
-> > +     MTHP_STAT_COLLAPSE_EXCEED_SHARED,
-> >       __MTHP_STAT_COUNT
-> >  };
-> >
-> > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > index 228f35e962b9..1049a207a257 100644
-> > --- a/mm/huge_memory.c
-> > +++ b/mm/huge_memory.c
-> > @@ -642,6 +642,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLI=
-T_FAILED);
-> >  DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
-> >  DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
-> >  DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PART=
-IALLY_MAPPED);
-> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXC=
-EED_SWAP);
-> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXC=
-EED_NONE);
-> > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_E=
-XCEED_SHARED);
->
-> Is there a reason there's such a difference between the names and the act=
-ual
-> enum names?
-
-Good point I didnt think about that. I can update those as long as
-they don't conflict with something else (I forget why i named them
-like this).
-
->
-> > +
-> >
-> >  static struct attribute *anon_stats_attrs[] =3D {
-> >       &anon_fault_alloc_attr.attr,
-> > @@ -658,6 +662,9 @@ static struct attribute *anon_stats_attrs[] =3D {
-> >       &split_deferred_attr.attr,
-> >       &nr_anon_attr.attr,
-> >       &nr_anon_partially_mapped_attr.attr,
-> > +     &collapse_exceed_swap_pte_attr.attr,
-> > +     &collapse_exceed_none_pte_attr.attr,
-> > +     &collapse_exceed_shared_pte_attr.attr,
-> >       NULL,
-> >  };
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index c739f26dd61e..a6cf90e09e4a 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -595,7 +595,9 @@ static enum scan_result __collapse_huge_page_isolat=
-e(struct vm_area_struct *vma,
-> >                               continue;
-> >                       } else {
-> >                               result =3D SCAN_EXCEED_NONE_PTE;
-> > -                             count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> > +                             if (is_pmd_order(order))
-> > +                                     count_vm_event(THP_SCAN_EXCEED_NO=
-NE_PTE);
-> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
-_EXCEED_NONE);
->
-> It's a bit gross to have separate stats for both thp and mthp but maybe
-> unavoidable from a legacy stand point.
-
-I agree but that's how it currently is. Perhaps we can add this to the
-TODO list for THP work.
-
->
-> Why are we dropping the _PTE suffix?
-
-I follow the convention that the other mTHP stats follow for example
-(MTHP_STAT_SPLIT_DEFERRED)
-
->
-> >                               goto out;
-> >                       }
-> >               }
-> > @@ -631,10 +633,17 @@ static enum scan_result __collapse_huge_page_isol=
-ate(struct vm_area_struct *vma,
-> >                        * shared may cause a future higher order collaps=
-e on a
-> >                        * rescan of the same range.
-> >                        */
-> > -                     if (!is_pmd_order(order) || (cc->is_khugepaged &&
-> > -                         shared > khugepaged_max_ptes_shared)) {
->
-> OK losing track here :) as the series sadly doesn't currently apply so ca=
-n't
-> browser file as is.
->
-> In the code I'm looking at, there's also a ++shared here that I guess ano=
-ther
-> patch removed?
->
-> Is this in the folio_maybe_mapped_shared() branch?
-
-yes the counting is now done at the top of that branch.
-
->
-> > +                     if (!is_pmd_order(order)) {
-> > +                             result =3D SCAN_EXCEED_SHARED_PTE;
-> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
-_EXCEED_SHARED);
-> > +                             goto out;
-> > +                     }
-> > +
-> > +                     if (cc->is_khugepaged &&
-> > +                         shared > khugepaged_max_ptes_shared) {
-> >                               result =3D SCAN_EXCEED_SHARED_PTE;
-> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
-);
-> > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE=
-_EXCEED_SHARED);
-> >                               goto out;
->
-> Anyway I'm a bit lost on this logic until a respin but this looks like a =
-LOT of
-> code duplication. I see David alluded to a refactoring so maybe what he s=
-uggests
-> will help (not had a chance to check what it is specifically :P)
-
-Yep :) should look cleaner in the next one. Although it's quite a bit
-of refactoring. I'll be praying that i got it right on the first go,
-and I put all the other pieces in the desired spot.
-
->
-> >                       }
-> >               }
-> > @@ -1081,6 +1090,7 @@ static enum scan_result __collapse_huge_page_swap=
-in(struct mm_struct *mm,
-> >                * range.
-> >                */
-> >               if (!is_pmd_order(order)) {
-> > +                     count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_=
-SWAP);
->
-> Hmm I thought we were incrementing mthp stats for pmd sized also?
-
-Yes we are supposed to. I've already refactored and it looks fine
-there... perhaps i missed this one in this version!
-
-Cheers,
-
--- Nico
-
->
-> >                       pte_unmap(pte);
-> >                       mmap_read_unlock(mm);
-> >                       result =3D SCAN_EXCEED_SWAP_PTE;
-> > --
-> > 2.53.0
-> >
->
-> Cheers, Lorenzo
->
-
+Thanks.
+.
