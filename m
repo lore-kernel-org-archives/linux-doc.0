@@ -1,458 +1,353 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E039A3093B2;
-	Mon, 13 Apr 2026 16:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776097510; cv=none; b=YKOKaK3+Ti0sNDvEt4IYSjpf7ff7o2A11aHT/Urc6i+ZeQ9vkm70SvLWNM0LfYivQ7qqt6MFfeJxe2a8YsMN9b3lyK1dR/A9I0eehC4M4ynzf8vdO4QTNofxjxNuFxgBbzHTpGi5jhyZHhN04TBrN4zfWIJHl9cKFy8O9WRCF+4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776097510; c=relaxed/simple;
-	bh=C5cpzGGSXycz7FKft4QGgiPHqeCBEPesluUGSzzf+Co=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OhKRrzBIWFR8aqPqI86CZM9+pjRgyDKReskwWrLd+nn38Nl7H0OE2RjWUbe57ziR3W/b/Qx1QPFQSYXeKq9zVcN3q+mBgcojDUWtBza3ecSGiHbN0TkWiziMfq0A1HjKenxtoJUlDSDy+FDOghlDAm2Xu1o/dMKdwMPNBVifzhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=C6hZgaTs; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0552238166;
+	Mon, 13 Apr 2026 16:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776097894; cv=fail; b=FMCQt+ybK1PWxgixJzFtsLgt8T1FDUhKUd/kjLN9ZdRcVT5FBwb3UjlQ1n/H17hoNnkgNF5EW+yH6HjLw8pZZQ83iqCGpTAAm59PEIwM9N4Fuquv3SVICUvlBBy8Gps1eRQnhbd5fmNh5jIQSk12r2oEhNknR6RBN74k8xe2knA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776097894; c=relaxed/simple;
+	bh=Wgv+GiEDcTd/OcxmheWcRx+IggCHaxzzscy4/q1FSx0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Fn/wrzk5CaFwjeRBK1wIZHqPk8jw59KVtRFMFWNBMDwNgskA9xhovj5ZbozMJ1VhNuI06sGCee3o5PXQkrSTXYCyKpucmQocasONy5IZaK/sdQ8EE4DQpd6f3PN+7X0Ecey7MYZKkaUHELiBt3zUmf6LZ6e7zPhx9oCBVmmQYGE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=nBv6EEK5; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=OOCf+5xf; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="C6hZgaTs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 781EBC2BCAF;
-	Mon, 13 Apr 2026 16:25:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776097509;
-	bh=C5cpzGGSXycz7FKft4QGgiPHqeCBEPesluUGSzzf+Co=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C6hZgaTsjf2LLRxradoo7/txAcA4ty99H6lm9q87hiUPlxCVPJEHPsciyklTFxhm1
-	 DlpaAJ+DCpu+A513n5lNH/vZ/DUiXq39InH37OZheWJbO7gS52KUrhMFJMu1cM/DGY
-	 RBTtzZ+ccma8VBiCADME/qMN0QTS8ZLm6FC14m8k=
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: stable@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	patches@lists.linux.dev,
-	Randy Dunlap <rdunlap@infradead.org>,
-	John Stultz <jstultz@google.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.15 157/570] time: add kernel-doc in time.c
-Date: Mon, 13 Apr 2026 17:54:48 +0200
-Message-ID: <20260413155836.332587301@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260413155830.386096114@linuxfoundation.org>
-References: <20260413155830.386096114@linuxfoundation.org>
-User-Agent: quilt/0.69
-X-stable: review
-X-Patchwork-Hint: ignore
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="nBv6EEK5";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="OOCf+5xf"
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63DDBSnk3896066;
+	Mon, 13 Apr 2026 16:31:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=w3T+KSjr4Jycq1k4SaGrxzPt5Qx5TptjmtZElcFXeXs=; b=
+	nBv6EEK5Rfn0yT6OwuxWrqMzssxIc6GDWSOEARYm9nAW0vdI2JEF/pffHc2S5kh8
+	OsUvb17PiuzeV7TIPDT4of+pXGgpxq1AmZCinxoN6ycWPhkhRPr/SSNkE4C1PGu7
+	kedAfh6OtlVbO+I1ag87hwbIVgGtaVCLi0ZwJYk1QCErm6RKMNjCySL2fa0epSmM
+	z08SZHpc8UjTqZrOlt19pqmpB9byKkpbyIdqQ+9RcJofGCFfzGct6f+7rSBy7Ymd
+	tPhBAbGyeU38TootUKO72kBnw6Y6PTXn1PfadFSWuxmYmvzpENAG60XefzOnbry1
+	DDofVxY7T5zRsUAdCHptHQ==
+Received: from iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta02.appoci.oracle.com [147.154.18.20])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dfe68kdyd-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Apr 2026 16:31:03 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63DGTXa0011198;
+	Mon, 13 Apr 2026 16:31:02 GMT
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11013042.outbound.protection.outlook.com [40.107.201.42])
+	by iadpaimrmta02.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4dgbse41ty-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 13 Apr 2026 16:31:02 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YopmAPwnFi4vVz2dAR8NLjbrLUtf4ojtAMg3rwSU5t2acQVUc5t9NLD8gC/YMVKcEikF4LV5GF3GIlfDtTpT3lL3Z5+32l60RyCSZwUwStFjvWfiFg95DKLuZ4Aq1NLSCCBt6SPbUoAmHTIOhQMtkE3Byhx6R1DdE34ylC6kCOTtxKhurkT+73+c+CMUrpEct1kak34vjKdc1QLIjNzfvHiRwOAcBmAPtvlA6kRtJYJjQUg5Q771GGs2k3RniMHJ9NU9umAgW7gYGuJ8W0ZW279qRRlU0yu0PhZIqiDEy14XImzT0x0ZHOwY66r/3+P0IiDWzdR0I0S36PrN3ze9dQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w3T+KSjr4Jycq1k4SaGrxzPt5Qx5TptjmtZElcFXeXs=;
+ b=htitPUIDUVmOU28z71mUiU2FAvtb1PkJovUokO6IwDp6EUyvuW6TYe6FQ7OBSCVFQzv8riT/uWj6UHkWDZ+jqrMKOhpPGm2S54W1SBv6DHVfBbLE6jv9OtkGPGXIshGPrbo7hbq3n/PL+dETkts8QcjVgVjkUWUWjMz3nseUiiJ5Sz98fC0z0SbrBY6GGNCLWx1MWwcnv9mMWuh98khhwjAh4hVAxkBZqBBW1YUw0klwcHklsg25X8PS7C5yQJ3vaSDc33s6VI20DSr1pOKb8fFz2D8okOUOIe/AZv62RVOInrL3jVFEvNozRFjIloEfApjnS10GiXMCea2xLlIZLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=w3T+KSjr4Jycq1k4SaGrxzPt5Qx5TptjmtZElcFXeXs=;
+ b=OOCf+5xfhRyieC7g6CO07sAnaJmgnX+0VIzstKmvfWziE7d6Hv6OeqFhlxbv7EAUGkWWXDhvthxFAmCFxlnsN/8qWqRPjgc2V0CtQaIWrwhSraj9GB0GDcdgCLeOkAaVE7NCBP2WQ851n5vN82+TNveh8wckjQMh+bj3nmRRK9A=
+Received: from DS0PR10MB7364.namprd10.prod.outlook.com (2603:10b6:8:fe::6) by
+ BY5PR10MB4227.namprd10.prod.outlook.com (2603:10b6:a03:208::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9769.48; Mon, 13 Apr
+ 2026 16:30:56 +0000
+Received: from DS0PR10MB7364.namprd10.prod.outlook.com
+ ([fe80::a4df:c903:e1aa:322f]) by DS0PR10MB7364.namprd10.prod.outlook.com
+ ([fe80::a4df:c903:e1aa:322f%3]) with mapi id 15.20.9769.046; Mon, 13 Apr 2026
+ 16:30:56 +0000
+Message-ID: <1f2d40f0-7b7c-44f2-9545-2c3c93b3d03c@oracle.com>
+Date: Mon, 13 Apr 2026 09:30:52 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] hugetlb: open-code hugetlb folio lookup index
+ conversion
+To: Oscar Salvador <osalvador@suse.de>
+Cc: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
+        lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, vbabka@kernel.org,
+        rppt@kernel.org, surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+        skhan@linuxfoundation.org, hughd@google.com,
+        baolin.wang@linux.alibaba.com, peterx@redhat.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260409234158.837786-1-jane.chu@oracle.com>
+ <20260409234158.837786-2-jane.chu@oracle.com>
+ <ad0YVH4EVzi62yML@localhost.localdomain>
+Content-Language: en-US
+From: jane.chu@oracle.com
+In-Reply-To: <ad0YVH4EVzi62yML@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PH7P221CA0088.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:328::20) To DS0PR10MB7364.namprd10.prod.outlook.com
+ (2603:10b6:8:fe::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-
-5.15-stable review patch.  If anyone has any objections, please let me know.
-
-------------------
-
-From: Randy Dunlap <rdunlap@infradead.org>
-
-[ Upstream commit 67b3f564cb1e769ef8e45835129a4866152fcfdb ]
-
-Add kernel-doc for all APIs that do not already have it.
-
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: John Stultz <jstultz@google.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Acked-by: John Stultz <jstultz@google.com>
-Signed-off-by: Jonathan Corbet <corbet@lwn.net>
-Link: https://lore.kernel.org/r/20230704052405.5089-3-rdunlap@infradead.org
-Stable-dep-of: 755a648e78f1 ("time/jiffies: Mark jiffies_64_to_clock_t() notrace")
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- kernel/time/time.c | 169 ++++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 158 insertions(+), 11 deletions(-)
-
-diff --git a/kernel/time/time.c b/kernel/time/time.c
-index a7fce68465a38..50390158e9d97 100644
---- a/kernel/time/time.c
-+++ b/kernel/time/time.c
-@@ -365,11 +365,14 @@ SYSCALL_DEFINE1(adjtimex_time32, struct old_timex32 __user *, utp)
- }
- #endif
- 
--/*
-- * Convert jiffies to milliseconds and back.
-+/**
-+ * jiffies_to_msecs - Convert jiffies to milliseconds
-+ * @j: jiffies value
-  *
-  * Avoid unnecessary multiplications/divisions in the
-- * two most common HZ cases:
-+ * two most common HZ cases.
-+ *
-+ * Return: milliseconds value
-  */
- unsigned int jiffies_to_msecs(const unsigned long j)
- {
-@@ -388,6 +391,12 @@ unsigned int jiffies_to_msecs(const unsigned long j)
- }
- EXPORT_SYMBOL(jiffies_to_msecs);
- 
-+/**
-+ * jiffies_to_usecs - Convert jiffies to microseconds
-+ * @j: jiffies value
-+ *
-+ * Return: microseconds value
-+ */
- unsigned int jiffies_to_usecs(const unsigned long j)
- {
- 	/*
-@@ -408,8 +417,15 @@ unsigned int jiffies_to_usecs(const unsigned long j)
- }
- EXPORT_SYMBOL(jiffies_to_usecs);
- 
--/*
-+/**
-  * mktime64 - Converts date to seconds.
-+ * @year0: year to convert
-+ * @mon0: month to convert
-+ * @day: day to convert
-+ * @hour: hour to convert
-+ * @min: minute to convert
-+ * @sec: second to convert
-+ *
-  * Converts Gregorian date to seconds since 1970-01-01 00:00:00.
-  * Assumes input in normal date format, i.e. 1980-12-31 23:59:59
-  * => year=1980, mon=12, day=31, hour=23, min=59, sec=59.
-@@ -427,6 +443,8 @@ EXPORT_SYMBOL(jiffies_to_usecs);
-  *
-  * An encoding of midnight at the end of the day as 24:00:00 - ie. midnight
-  * tomorrow - (allowable under ISO 8601) is supported.
-+ *
-+ * Return: seconds since the epoch time for the given input date
-  */
- time64_t mktime64(const unsigned int year0, const unsigned int mon0,
- 		const unsigned int day, const unsigned int hour,
-@@ -471,8 +489,7 @@ EXPORT_SYMBOL(ns_to_kernel_old_timeval);
-  * Set seconds and nanoseconds field of a timespec variable and
-  * normalize to the timespec storage format
-  *
-- * Note: The tv_nsec part is always in the range of
-- *	0 <= tv_nsec < NSEC_PER_SEC
-+ * Note: The tv_nsec part is always in the range of 0 <= tv_nsec < NSEC_PER_SEC.
-  * For negative values only the tv_sec field is negative !
-  */
- void set_normalized_timespec64(struct timespec64 *ts, time64_t sec, s64 nsec)
-@@ -501,7 +518,7 @@ EXPORT_SYMBOL(set_normalized_timespec64);
-  * ns_to_timespec64 - Convert nanoseconds to timespec64
-  * @nsec:       the nanoseconds value to be converted
-  *
-- * Returns the timespec64 representation of the nsec parameter.
-+ * Return: the timespec64 representation of the nsec parameter.
-  */
- struct timespec64 ns_to_timespec64(const s64 nsec)
- {
-@@ -548,6 +565,8 @@ EXPORT_SYMBOL(ns_to_timespec64);
-  * runtime.
-  * the _msecs_to_jiffies helpers are the HZ dependent conversion
-  * routines found in include/linux/jiffies.h
-+ *
-+ * Return: jiffies value
-  */
- unsigned long __msecs_to_jiffies(const unsigned int m)
- {
-@@ -560,6 +579,12 @@ unsigned long __msecs_to_jiffies(const unsigned int m)
- }
- EXPORT_SYMBOL(__msecs_to_jiffies);
- 
-+/**
-+ * __usecs_to_jiffies: - convert microseconds to jiffies
-+ * @u:	time in milliseconds
-+ *
-+ * Return: jiffies value
-+ */
- unsigned long __usecs_to_jiffies(const unsigned int u)
- {
- 	if (u > jiffies_to_usecs(MAX_JIFFY_OFFSET))
-@@ -568,7 +593,10 @@ unsigned long __usecs_to_jiffies(const unsigned int u)
- }
- EXPORT_SYMBOL(__usecs_to_jiffies);
- 
--/*
-+/**
-+ * timespec64_to_jiffies - convert a timespec64 value to jiffies
-+ * @value: pointer to &struct timespec64
-+ *
-  * The TICK_NSEC - 1 rounds up the value to the next resolution.  Note
-  * that a remainder subtract here would not do the right thing as the
-  * resolution values don't fall on second boundaries.  I.e. the line:
-@@ -582,8 +610,9 @@ EXPORT_SYMBOL(__usecs_to_jiffies);
-  *
-  * The >> (NSEC_JIFFIE_SC - SEC_JIFFIE_SC) converts the scaled nsec
-  * value to a scaled second value.
-+ *
-+ * Return: jiffies value
-  */
--
- unsigned long
- timespec64_to_jiffies(const struct timespec64 *value)
- {
-@@ -601,6 +630,11 @@ timespec64_to_jiffies(const struct timespec64 *value)
- }
- EXPORT_SYMBOL(timespec64_to_jiffies);
- 
-+/**
-+ * jiffies_to_timespec64 - convert jiffies value to &struct timespec64
-+ * @jiffies: jiffies value
-+ * @value: pointer to &struct timespec64
-+ */
- void
- jiffies_to_timespec64(const unsigned long jiffies, struct timespec64 *value)
- {
-@@ -618,6 +652,13 @@ EXPORT_SYMBOL(jiffies_to_timespec64);
- /*
-  * Convert jiffies/jiffies_64 to clock_t and back.
-  */
-+
-+/**
-+ * jiffies_to_clock_t - Convert jiffies to clock_t
-+ * @x: jiffies value
-+ *
-+ * Return: jiffies converted to clock_t (CLOCKS_PER_SEC)
-+ */
- clock_t jiffies_to_clock_t(unsigned long x)
- {
- #if (TICK_NSEC % (NSEC_PER_SEC / USER_HZ)) == 0
-@@ -632,6 +673,12 @@ clock_t jiffies_to_clock_t(unsigned long x)
- }
- EXPORT_SYMBOL(jiffies_to_clock_t);
- 
-+/**
-+ * clock_t_to_jiffies - Convert clock_t to jiffies
-+ * @x: clock_t value
-+ *
-+ * Return: clock_t value converted to jiffies
-+ */
- unsigned long clock_t_to_jiffies(unsigned long x)
- {
- #if (HZ % USER_HZ)==0
-@@ -649,6 +696,12 @@ unsigned long clock_t_to_jiffies(unsigned long x)
- }
- EXPORT_SYMBOL(clock_t_to_jiffies);
- 
-+/**
-+ * jiffies_64_to_clock_t - Convert jiffies_64 to clock_t
-+ * @x: jiffies_64 value
-+ *
-+ * Return: jiffies_64 value converted to 64-bit "clock_t" (CLOCKS_PER_SEC)
-+ */
- u64 jiffies_64_to_clock_t(u64 x)
- {
- #if (TICK_NSEC % (NSEC_PER_SEC / USER_HZ)) == 0
-@@ -671,6 +724,12 @@ u64 jiffies_64_to_clock_t(u64 x)
- }
- EXPORT_SYMBOL(jiffies_64_to_clock_t);
- 
-+/**
-+ * nsec_to_clock_t - Convert nsec value to clock_t
-+ * @x: nsec value
-+ *
-+ * Return: nsec value converted to 64-bit "clock_t" (CLOCKS_PER_SEC)
-+ */
- u64 nsec_to_clock_t(u64 x)
- {
- #if (NSEC_PER_SEC % USER_HZ) == 0
-@@ -687,6 +746,12 @@ u64 nsec_to_clock_t(u64 x)
- #endif
- }
- 
-+/**
-+ * jiffies64_to_nsecs - Convert jiffies64 to nanoseconds
-+ * @j: jiffies64 value
-+ *
-+ * Return: nanoseconds value
-+ */
- u64 jiffies64_to_nsecs(u64 j)
- {
- #if !(NSEC_PER_SEC % HZ)
-@@ -697,6 +762,12 @@ u64 jiffies64_to_nsecs(u64 j)
- }
- EXPORT_SYMBOL(jiffies64_to_nsecs);
- 
-+/**
-+ * jiffies64_to_msecs - Convert jiffies64 to milliseconds
-+ * @j: jiffies64 value
-+ *
-+ * Return: milliseconds value
-+ */
- u64 jiffies64_to_msecs(const u64 j)
- {
- #if HZ <= MSEC_PER_SEC && !(MSEC_PER_SEC % HZ)
-@@ -719,6 +790,8 @@ EXPORT_SYMBOL(jiffies64_to_msecs);
-  * note:
-  *   NSEC_PER_SEC = 10^9 = (5^9 * 2^9) = (1953125 * 512)
-  *   ULLONG_MAX ns = 18446744073.709551615 secs = about 584 years
-+ *
-+ * Return: nsecs converted to jiffies64 value
-  */
- u64 nsecs_to_jiffies64(u64 n)
- {
-@@ -750,6 +823,8 @@ EXPORT_SYMBOL(nsecs_to_jiffies64);
-  * note:
-  *   NSEC_PER_SEC = 10^9 = (5^9 * 2^9) = (1953125 * 512)
-  *   ULLONG_MAX ns = 18446744073.709551615 secs = about 584 years
-+ *
-+ * Return: nsecs converted to jiffies value
-  */
- unsigned long nsecs_to_jiffies(u64 n)
- {
-@@ -757,10 +832,16 @@ unsigned long nsecs_to_jiffies(u64 n)
- }
- EXPORT_SYMBOL_GPL(nsecs_to_jiffies);
- 
--/*
-- * Add two timespec64 values and do a safety check for overflow.
-+/**
-+ * timespec64_add_safe - Add two timespec64 values and do a safety check
-+ * for overflow.
-+ * @lhs: first (left) timespec64 to add
-+ * @rhs: second (right) timespec64 to add
-+ *
-  * It's assumed that both values are valid (>= 0).
-  * And, each timespec64 is in normalized form.
-+ *
-+ * Return: sum of @lhs + @rhs
-  */
- struct timespec64 timespec64_add_safe(const struct timespec64 lhs,
- 				const struct timespec64 rhs)
-@@ -778,6 +859,15 @@ struct timespec64 timespec64_add_safe(const struct timespec64 lhs,
- 	return res;
- }
- 
-+/**
-+ * get_timespec64 - get user's time value into kernel space
-+ * @ts: destination &struct timespec64
-+ * @uts: user's time value as &struct __kernel_timespec
-+ *
-+ * Handles compat or 32-bit modes.
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int get_timespec64(struct timespec64 *ts,
- 		   const struct __kernel_timespec __user *uts)
- {
-@@ -801,6 +891,14 @@ int get_timespec64(struct timespec64 *ts,
- }
- EXPORT_SYMBOL_GPL(get_timespec64);
- 
-+/**
-+ * put_timespec64 - convert timespec64 value to __kernel_timespec format and
-+ * 		    copy the latter to userspace
-+ * @ts: input &struct timespec64
-+ * @uts: user's &struct __kernel_timespec
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int put_timespec64(const struct timespec64 *ts,
- 		   struct __kernel_timespec __user *uts)
- {
-@@ -839,6 +937,15 @@ static int __put_old_timespec32(const struct timespec64 *ts64,
- 	return copy_to_user(cts, &ts, sizeof(ts)) ? -EFAULT : 0;
- }
- 
-+/**
-+ * get_old_timespec32 - get user's old-format time value into kernel space
-+ * @ts: destination &struct timespec64
-+ * @uts: user's old-format time value (&struct old_timespec32)
-+ *
-+ * Handles X86_X32_ABI compatibility conversion.
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int get_old_timespec32(struct timespec64 *ts, const void __user *uts)
- {
- 	if (COMPAT_USE_64BIT_TIME)
-@@ -848,6 +955,16 @@ int get_old_timespec32(struct timespec64 *ts, const void __user *uts)
- }
- EXPORT_SYMBOL_GPL(get_old_timespec32);
- 
-+/**
-+ * put_old_timespec32 - convert timespec64 value to &struct old_timespec32 and
-+ * 			copy the latter to userspace
-+ * @ts: input &struct timespec64
-+ * @uts: user's &struct old_timespec32
-+ *
-+ * Handles X86_X32_ABI compatibility conversion.
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int put_old_timespec32(const struct timespec64 *ts, void __user *uts)
- {
- 	if (COMPAT_USE_64BIT_TIME)
-@@ -857,6 +974,13 @@ int put_old_timespec32(const struct timespec64 *ts, void __user *uts)
- }
- EXPORT_SYMBOL_GPL(put_old_timespec32);
- 
-+/**
-+ * get_itimerspec64 - get user's &struct __kernel_itimerspec into kernel space
-+ * @it: destination &struct itimerspec64
-+ * @uit: user's &struct __kernel_itimerspec
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int get_itimerspec64(struct itimerspec64 *it,
- 			const struct __kernel_itimerspec __user *uit)
- {
-@@ -872,6 +996,14 @@ int get_itimerspec64(struct itimerspec64 *it,
- }
- EXPORT_SYMBOL_GPL(get_itimerspec64);
- 
-+/**
-+ * put_itimerspec64 - convert &struct itimerspec64 to __kernel_itimerspec format
-+ * 		      and copy the latter to userspace
-+ * @it: input &struct itimerspec64
-+ * @uit: user's &struct __kernel_itimerspec
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int put_itimerspec64(const struct itimerspec64 *it,
- 			struct __kernel_itimerspec __user *uit)
- {
-@@ -887,6 +1019,13 @@ int put_itimerspec64(const struct itimerspec64 *it,
- }
- EXPORT_SYMBOL_GPL(put_itimerspec64);
- 
-+/**
-+ * get_old_itimerspec32 - get user's &struct old_itimerspec32 into kernel space
-+ * @its: destination &struct itimerspec64
-+ * @uits: user's &struct old_itimerspec32
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int get_old_itimerspec32(struct itimerspec64 *its,
- 			const struct old_itimerspec32 __user *uits)
- {
-@@ -898,6 +1037,14 @@ int get_old_itimerspec32(struct itimerspec64 *its,
- }
- EXPORT_SYMBOL_GPL(get_old_itimerspec32);
- 
-+/**
-+ * put_old_itimerspec32 - convert &struct itimerspec64 to &struct
-+ *			  old_itimerspec32 and copy the latter to userspace
-+ * @its: input &struct itimerspec64
-+ * @uits: user's &struct old_itimerspec32
-+ *
-+ * Return: %0 on success or negative errno on error
-+ */
- int put_old_itimerspec32(const struct itimerspec64 *its,
- 			struct old_itimerspec32 __user *uits)
- {
--- 
-2.51.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR10MB7364:EE_|BY5PR10MB4227:EE_
+X-MS-Office365-Filtering-Correlation-Id: 57185b66-d950-44b6-0357-08de997a0972
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	duV5iNOvOTFD+KyKmD+RGM/gwzSs3WDhfvCU3vW1F5mTE6rlio9UhDbY8nVF0AuEhDpVLGGNklz8qmq2P9is/OyXD/Oq5r4cx6a0m0AwfbFF/rcmBm22RoRMa4bV2qL0KFYAXW8hZKTCssQMfuiwTwfTqD12T5FiK/YFJFXDI8EMkSIFKhpLKnqe84j0IhkDlI5VX8fLm4y1SpZDPMvaDa+jjyO12BXE3FME3N18QNcgwW1pg08NVLJvNRYIQ8NbWMMQmEsoOYvccENLKVpIUoJSLbfLa1GXP60PUJwF9pRZXaNqKpygCtoIlVSBYPDVnOlJOrD3F2VfwPrHM1wjvXyn5VCP6MCr5Ohf9G4Wh2Zupz9I/lBgC0W9/cKDzZ4NPs6s6ZK34nAvc9JZbn8Hvrd7CKDvAQfgmAgUYLLyF6lTj3mlxv6lIuxZCJeIxRkzG7IfjVh6JTfOzPvOno297KS+6UI6ajgiHa2VHe51L8OqlQnnK+6WQwMXp8KiKLLIwTBHW8m2a2rOi1CqnF3G6wb7iDA5sNSXRW8Yb64TlKarCxqIB133kuSAiHmUi1ijqyRTsmJTrTn6OkcChPI4OluSpA/EJUXP1+EdLorNDzNnaNVescyxySE+UO3GmT0nmY3+MTf8XVb3JWiA5Y2v+ZB9Ujsd1zp42PEVC1Gv5HAgMXE57NMrBP+zovyWUhsF0gvNgBn3WnSVYkOPeu25GSGs3aGZv/wLVV8QrbwQJhk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7364.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QnZHbFpqVE1oUU1JYVhSVnp5SXpyR0JyaEVjVE1Hdmt2TzI0cVpoZ0dseSsy?=
+ =?utf-8?B?MndxTnNZZGhXNS9TOFVOMEdMY0M2dVhnRmV1T3FaSWZqNGxvMmJZa1lnQTFL?=
+ =?utf-8?B?aDlvcXdyNGNvK1pMNDNULzZJK2xMSVVibkhvSklCWFpkREgzbm5SN0VsTFVK?=
+ =?utf-8?B?NmljUGYxS3cra1lxLzkyKyt1bXFmNlFWK01UUEFJTTdTUEI1TDQ4L3dnWEVm?=
+ =?utf-8?B?OHNFWjhTZ3NFcmxoNE4yVWxOUHRpYzNHejVVTlMyTm5Rd2hEd1M5S1psZW9U?=
+ =?utf-8?B?bjZlR1UyM0tiMkZ6ZE9WcGtyZS81dG9VbFkxZzFVTTJsK2t6b3h0RTdQcGhx?=
+ =?utf-8?B?c1VaUXdtejRjNDBhVDZHTDgwU3QwVHFUTzQrbzVGNUhKNTFlU1pIUmZiTnU2?=
+ =?utf-8?B?TUIwSWdaOGdhUy9WZ2dndE5vWTBYRTNBQnZJTmRkWHQ1b2E5UHNCRHZROTlp?=
+ =?utf-8?B?andIditEbWxweWFPZ0s3U0p2Y0VWWTgvM3hkNS9pTjcxMTFrcGg2TVhTbDRY?=
+ =?utf-8?B?MzRUeGwyUk9RVDJyeXVNZEREb1A5ajllZEtFQ2pScVU4ZU5XUTh4a0tDREJR?=
+ =?utf-8?B?bmtaNmo4OGVGUHMzTGRFTm8yY2hCWTB6eFpQUzlQRWRDQ0xtbHF0d3UwTHJL?=
+ =?utf-8?B?QU1CWnhxNzNYb2YvZ3JzSnJFblA2NjZGNkFmcDlBWUt4TUJBYnFmOHBqdXpu?=
+ =?utf-8?B?TnNRYWRNS2NWZ25yRk8xTnlrbms5VTR5cDJTS21wYkNkK1M3cDhmbmhWbUNz?=
+ =?utf-8?B?Rmt4YUNtY3JlUXNyL3FUVVh0R1JQeVhsV043MWxhQ3IvL015V2lYSHZNcTZN?=
+ =?utf-8?B?WTV0dGtYZ1F3a3BNY0VlSENWck9HU1JjSFdNdlRxQW9NbGo4Rk5YVThhRktJ?=
+ =?utf-8?B?R0huOVMrQzNYUmd6SHNQVFBIclN4Vk1DSG1vWk5LRWkwZVdYaEZoT0p5OUlh?=
+ =?utf-8?B?eHFVQkllQlBHVUNJeS9tRzZOdFhJMmh2czRqSHg0YU1ySlR5WU8vdjJsQisx?=
+ =?utf-8?B?d3U0TTBxaUxDRUU1aDk4cUZFR0lsVUV1R01MRmJvYU1oSXF0YVJhSE1tNVc4?=
+ =?utf-8?B?eXhWZFd0eGw2V0pzQ2JwbmQ1d0dSOGRrU0thUWlGd3dPald5ODUrYmZpSlhr?=
+ =?utf-8?B?cDdSQ1RmSWFJS3Q2Tlp3cXZ6TUNtQXNERjljNVdxdFNtV2NHTXZQWThtWDlR?=
+ =?utf-8?B?OG5wTW9KQnhVOUNRbGw0RGxNZFVQU0dtclpYZXVKdTZsc243ZnNxNUJPbUNr?=
+ =?utf-8?B?YlB6ZjE3MDRmQStGZFRVOUt1dS9BUDR4UkkzR1VwM09ldGN6dWhqZXk1L2I4?=
+ =?utf-8?B?VFIzNzNxQmZvbmwxRnpQU29mNStMVWZyTkZLZ1pObzV0dDhXb1krVXUzSkkz?=
+ =?utf-8?B?LzE2T3NQMVcyM2NNZVJxekh1M3gvUjlZcDM2dlh2U0xSTVFqeXV0bHdMTW91?=
+ =?utf-8?B?QThuVHRtQkpBWjRDcHpVeVprTUw1d2NxbHM3M0lUUnJZdENSVlB0cVoyY0Jp?=
+ =?utf-8?B?NFVadWJXSzB0NzNTZzJVbGdEbGxFdUdKaUpIdmJlQUJIQkRlR3pzZkhmdktG?=
+ =?utf-8?B?UU9sT05ZcVB5VGI4bkpSVzV5UzhkeFJPa3ZtOFo2T1lRRWxXdm5KTEI1T1FP?=
+ =?utf-8?B?VTUvT1BNUTh5UnVOQnc4MW9jODR0MjdlQTI5aVZ1LzF3V1lkc3F6MTZFbjlM?=
+ =?utf-8?B?ZTBwWGlJQ1FDVGVsSGYyL3BGV3Q0NmZJaEVPVDc0YjB4WUtNZ2hTQldNQll1?=
+ =?utf-8?B?aXhYVlRST01ZQklma0V3V0hiKzBJN0U5b3NqUE5TeTdLWkJSbUJaQVVWY0U2?=
+ =?utf-8?B?NzJjVHlMN21rbmJVUHc1cFg1S3pIYmN1ODhOMzBaZkJpdlQ5V011dHpKcWR0?=
+ =?utf-8?B?TjBkVHNqcFFBY3BvUnNLSlEvSjRuWlRaL1IzejA3Um1WUmdOazhBS0hwZG1t?=
+ =?utf-8?B?Yis2SlV2cmQ3QitLNlN1RTlIYUFjVTlORUVTdjVSTVVaRFZNWGtZU1NsY0VH?=
+ =?utf-8?B?VTcyTE11YlNJUWZ3VTZtYUhxbHZKNjh3UnJ0Wm5MS3lOMUFBZFZXZENBK2lZ?=
+ =?utf-8?B?WE9PWEp1NCtQaXFBQkE3bHZJbEEvL0tvczg2UjViUjByeXV2T0xqb0p2TFFl?=
+ =?utf-8?B?N3I4S1hmd0hCa3BzTExsNWhkZHVrbGVmSEkzanorZ0p0MWM4MWFWWmVwZWpt?=
+ =?utf-8?B?ZnlxamNRbzAvM2lVek1GK3pRRjUvYWhVa0dIYmNJT1ZzZHlLdDR6d3pOR3Fj?=
+ =?utf-8?B?VEhnNjVYczc4RnJlMmw0UFJmeWltMllqWmMrT1I3Q05HUzZwaW9UdHVIeDh5?=
+ =?utf-8?B?VmFscXdXTW1SSHp6cFBNMDBhKzRUYmNSNlEyNzE2NWRucEliVERNQT09?=
+X-Exchange-RoutingPolicyChecked:
+	GXuZ++y+fQyS05s8Y7MPyRxjhB7qSYZcJjQKP3QqduOLz77S0rAss84FQLraUMSELdFUFXGghcZTEcZFJh5lNglzTpW195gDOn+U+UmIL/nsekyUjBxgAF5Z01mT28VQlK9iQ9U0uJPmm6AfgY4xYTbhXWYftMEbpjME0nMsC/3ZJ6D7l3ac1RKxPEeTaEt2RkbIhsnmtj/qULhZAKPBJIeUyPO7EKyM/jmOm+77ic3eqjES4QEy8WUykz1QsB0s67A9y6d0AIm6kg4F0xeOCSUs6CQZQppm0eFTJkDXR4ddxH0/OH5/U3aOAnP/FZjnA5uNC8MYP8DYFpXu2bJd+w==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	NpfvIcAEKzW2vcPCNOlaEswCcJG8R9mRtif1/sSCM4oWHasnocQEMUel4LsL7pTTBlV8qMcnJ8Bte/ZYKN/dMpXXEIMRqWSOhyrkWWGspDRH48GOCuXZR8kzcA7rDG3CgryYUWynRKDsT4sw4me1VNL9GJjeqYXtBL/wUnjVkobVCvaRcQRtydD5N5/jKu4VCfsxNobaGT7hsY8vTCjccPCU2DndmZbUJAZpzWy8Wh7fTdRHYvu0R2P4I+d7hfIsKHIYemaiLzjStT4bCtHBzAMU3k2ZVZtslz/9pjjnQXBzXjrGb+sVxyY+YSwQibUWUoIeYrH/739eUZRHUenyWJ56uOGCs4saXab91MIiPrAvXVGsVx7gMhov2ypm+xUCW/gaCN/G+0L5PBENxvZnBoIs9FIpxOO81n6uQe4s/wceu9Iu/0bkO9WyCheVkJ3xQaFkweq+TtxcIObADx5af4lJBqNuNYyAeTNVUTX7Rrw8n/Ste62A7uMeUpTpaNvxwjlAAYB5Oye02WXNReH7KmX3HNjtRBa4FwiKm0J9SQp428LKyUOW7jb8/PsajQOS0QCzcdl/nJMMxYrGqfxJGHIoGU/hdO4Qg1PxICYLaro=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57185b66-d950-44b6-0357-08de997a0972
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7364.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Apr 2026 16:30:55.9264
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WcZYtXEoVV1KqZdR92BK+VTui5GIVKHoJt5+L046fSUXFo4oK5gKbaL4u8B8w5OLFZwtvUoudBWW6TayIcdjuQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR10MB4227
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-13_03,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+ lowpriorityscore=0 spamscore=0 bulkscore=0 mlxscore=0 phishscore=0
+ suspectscore=0 adultscore=0 mlxlogscore=999 malwarescore=0 classifier=spam
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2604010000
+ definitions=main-2604130162
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDE2MiBTYWx0ZWRfXw/8Gy3lJBquz
+ S838+UCsHunSoDQ65qUh4TcS5Qr92yTx21NeWbaGJfHzCHKZWBOqCVN75XQv1VYD+tgfVCSjHrU
+ H/TTKgnGJagvJwSvKAQQyGkfjMci5ZsEFE7of4EabYZqB96Cb+yShO28U1oaND9MPr+6xbbkRpV
+ ASMP9Lr7qjYMEOO9PEmcH2xhaOyg6GgfO5XSVDrKsoMc9oTCShsI405Ee3CcgYPLWGWF5QB+EOM
+ pxEgaEsJzJtJm7ayIEsgfP0zkM1ugQGL+lq7YJYGKNDRZF4V6ey1NeZhcXGq73xt6e6PfenuR5R
+ 1z47CDrhnP6pRL9rjEjfgFgniXYxb+g1ec5eCzo++Z2rTMpHz5aJIKOmMtg9PoUNXVo9+gaCj9U
+ QNuODc/N1dbO2EA6yJE1mcD0Od2HMEP5ayKk76IYhIFVrdyMO+YWSCB6LFhVPg54mS4QCg5vTpK
+ 8IRlD6hVs2LXrK8BvldmBkEIuWGe9l8xZc3xKVkU=
+X-Proofpoint-ORIG-GUID: As4CLWYOa_Ql15JFtGDkWtQ7EKVJ7Trl
+X-Authority-Analysis: v=2.4 cv=Q/TiJY2a c=1 sm=1 tr=0 ts=69dd1a47 b=1 cx=c_pps
+ a=e1sVV491RgrpLwSTMOnk8w==:117 a=e1sVV491RgrpLwSTMOnk8w==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=EIcjfB9IiI4px24ztqRk:22 a=VwQbUJbxAAAA:8
+ a=yPCof4ZbAAAA:8 a=iiYXnXobPXXOPB1X1KoA:9 a=QEXdDO2ut3YA:10 cc=ntf
+ awl=host:13825
+X-Proofpoint-GUID: As4CLWYOa_Ql15JFtGDkWtQ7EKVJ7Trl
 
 
+
+On 4/13/2026 9:22 AM, Oscar Salvador wrote:
+> On Thu, Apr 09, 2026 at 05:41:52PM -0600, Jane Chu wrote:
+>> This patch removes `filemap_lock_hugetlb_folio()` and open-codes
+>> the index conversion at each call site, making it explicit when
+>> hugetlb code is translating a hugepage index into the base-page index
+>> expected by `filemap_lock_folio()`.  As part of that cleanup,
+>> it also uses a base-page index directly in `hugetlbfs_zero_partial_page()`,
+>> where the byte offset is already page-granular. Overall, the change
+>> makes the indexing model more obvious at the call sites and avoids
+>> hiding the huge-index to base-index conversion inside a helper.
+>>
+>> Suggested-by: David Hildenbrand <david@kernel.org>
+>> Signed-off-by: Jane Chu <jane.chu@oracle.com>
+> 
+> It kind of funny that most of the patch is s/index/idx noise.
+> Checking mm/hugetlb* and fs/hugetlb/* we do have a mix of index/idx but
+> I would say that idx predominates, so I am ok with going with that one.
+
+Indeed the situation that both idx/index can represent both huge page 
+index and base page index had led me intentionally memorize which is 
+representing what in a given local context. I thought that to denote 
+'index' to base page granularity and 'idx' to huge page granularity 
+could relax the readers.
+
+> 
+> Acked-by: Oscar Salvador <osalvador@suse.de>
+
+thanks,
+-jane
+
+> 
+> 
+>> ---
+>>   fs/hugetlbfs/inode.c    | 20 ++++++++++----------
+>>   include/linux/hugetlb.h | 12 ------------
+>>   mm/hugetlb.c            |  4 ++--
+>>   3 files changed, 12 insertions(+), 24 deletions(-)
+>>
+>> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
+>> index cd6b22f6e2b1..cf79fb830377 100644
+>> --- a/fs/hugetlbfs/inode.c
+>> +++ b/fs/hugetlbfs/inode.c
+>> @@ -242,9 +242,9 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>>   	struct hstate *h = hstate_file(file);
+>>   	struct address_space *mapping = file->f_mapping;
+>>   	struct inode *inode = mapping->host;
+>> -	unsigned long index = iocb->ki_pos >> huge_page_shift(h);
+>> +	unsigned long idx = iocb->ki_pos >> huge_page_shift(h);
+>>   	unsigned long offset = iocb->ki_pos & ~huge_page_mask(h);
+>> -	unsigned long end_index;
+>> +	unsigned long end_idx;
+>>   	loff_t isize;
+>>   	ssize_t retval = 0;
+>>   
+>> @@ -257,10 +257,10 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>>   		isize = i_size_read(inode);
+>>   		if (!isize)
+>>   			break;
+>> -		end_index = (isize - 1) >> huge_page_shift(h);
+>> -		if (index > end_index)
+>> +		end_idx = (isize - 1) >> huge_page_shift(h);
+>> +		if (idx > end_idx)
+>>   			break;
+>> -		if (index == end_index) {
+>> +		if (idx == end_idx) {
+>>   			nr = ((isize - 1) & ~huge_page_mask(h)) + 1;
+>>   			if (nr <= offset)
+>>   				break;
+>> @@ -268,7 +268,7 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>>   		nr = nr - offset;
+>>   
+>>   		/* Find the folio */
+>> -		folio = filemap_lock_hugetlb_folio(h, mapping, index);
+>> +		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
+>>   		if (IS_ERR(folio)) {
+>>   			/*
+>>   			 * We have a HOLE, zero out the user-buffer for the
+>> @@ -307,10 +307,10 @@ static ssize_t hugetlbfs_read_iter(struct kiocb *iocb, struct iov_iter *to)
+>>   				retval = -EFAULT;
+>>   			break;
+>>   		}
+>> -		index += offset >> huge_page_shift(h);
+>> +		idx += offset >> huge_page_shift(h);
+>>   		offset &= ~huge_page_mask(h);
+>>   	}
+>> -	iocb->ki_pos = ((loff_t)index << huge_page_shift(h)) + offset;
+>> +	iocb->ki_pos = ((loff_t)idx << huge_page_shift(h)) + offset;
+>>   	return retval;
+>>   }
+>>   
+>> @@ -652,10 +652,10 @@ static void hugetlbfs_zero_partial_page(struct hstate *h,
+>>   					loff_t start,
+>>   					loff_t end)
+>>   {
+>> -	pgoff_t idx = start >> huge_page_shift(h);
+>> +	pgoff_t index = start >> PAGE_SHIFT;
+>>   	struct folio *folio;
+>>   
+>> -	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+>> +	folio = filemap_lock_folio(mapping, index);
+>>   	if (IS_ERR(folio))
+>>   		return;
+>>   
+>> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+>> index 9c098a02a09e..c64c6e5e50f5 100644
+>> --- a/include/linux/hugetlb.h
+>> +++ b/include/linux/hugetlb.h
+>> @@ -829,12 +829,6 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
+>>   	return huge_page_size(h) / 512;
+>>   }
+>>   
+>> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+>> -				struct address_space *mapping, pgoff_t idx)
+>> -{
+>> -	return filemap_lock_folio(mapping, idx << huge_page_order(h));
+>> -}
+>> -
+>>   #include <asm/hugetlb.h>
+>>   
+>>   #ifndef is_hugepage_only_range
+>> @@ -1106,12 +1100,6 @@ static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio
+>>   	return NULL;
+>>   }
+>>   
+>> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+>> -				struct address_space *mapping, pgoff_t idx)
+>> -{
+>> -	return NULL;
+>> -}
+>> -
+>>   static inline int isolate_or_dissolve_huge_folio(struct folio *folio,
+>>   						struct list_head *list)
+>>   {
+>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>> index a786034ac95c..38b39eaf46cc 100644
+>> --- a/mm/hugetlb.c
+>> +++ b/mm/hugetlb.c
+>> @@ -5724,7 +5724,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+>>   	 * before we get page_table_lock.
+>>   	 */
+>>   	new_folio = false;
+>> -	folio = filemap_lock_hugetlb_folio(h, mapping, vmf->pgoff);
+>> +	folio = filemap_lock_folio(mapping, vmf->pgoff << huge_page_order(h));
+>>   	if (IS_ERR(folio)) {
+>>   		size = i_size_read(mapping->host) >> huge_page_shift(h);
+>>   		if (vmf->pgoff >= size)
+>> @@ -6208,7 +6208,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>>   
+>>   	if (is_continue) {
+>>   		ret = -EFAULT;
+>> -		folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+>> +		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
+>>   		if (IS_ERR(folio))
+>>   			goto out;
+>>   		folio_in_pagecache = true;
+>> -- 
+>> 2.43.5
+>>
+> 
 
