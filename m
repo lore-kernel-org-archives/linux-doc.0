@@ -1,172 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E138CFE4
-	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 19:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 152543E0C7E
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 19:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776108368; cv=none; b=Z3KWKAeMEeHun6pmD8jwM1eN8Dr0KPmTFKSd5tc0sz46EOzw/oiKKonW7is22rRHNtG77Ya+mpTBUeziWe4AoiZ3JaXi9rmKqKr2khbHN9gIr0NLZsyizjJftnOqqWWfxHEGtNH25rTYy8xk2QJHoNMVHt+oo7NdzUeFUKATzJw=
+	t=1776109764; cv=none; b=ZeC/t059x9TmlNqmY8WnhLcNnxAhn6H3pwgtqTwBnbd404awAVha0h1zjEndRzK7KubNBgOF4vLRLNAgmyj/8ShTJObHkQ5mA2L+k1OA8V3eVxX20gLbVnVJCWnKEkt2IJayyjpQQTu6SgdIKwMwqmJGN8rRpoD1ZQcm+lMg+FU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776108368; c=relaxed/simple;
-	bh=JhhiDtpgCIbIcPcjurEF+BYrFwWWHfvbfmV0YHXq4o0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fF0VV+VsGGYu7aQPj4IysGhauSmaOtVsl+pMe33G8s0kjyucWSHoKSVCfegcYqX8nOMjyBuz8j0megW2RLbRcVu0Ovfmv+LQV8jtl3h0ftLsRoxvDBp3R5ZCAyhXE9iYBfQUtriR6Q0k3Z3tWMUZxOdftLdiZHBu8NZELNkWdRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WUG4tW4E; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WUG4tW4E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776108366;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4BWr/5AY8ZAqufMs3TADs0Xu7j+z3NdjM/f4VibM9b8=;
-	b=WUG4tW4EpKrRDOvfphj1tdkAlNV8DHdsIZFeqT6HkI0oBJ25LIWq9KyL2//iSA5cWVgG9S
-	uRMigISWTpzvBWin8rjt9JL1YGPxpq3gtPgpGA2D4dqEQ6b1/FI0rSeMHNEqHvMGj6Nez1
-	37zFXxGo+7lCk4lP4ytjqnXK6fdZVsc=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-Uxe0wUrkPlijpBHtUceyPQ-1; Mon,
- 13 Apr 2026 15:26:02 -0400
-X-MC-Unique: Uxe0wUrkPlijpBHtUceyPQ-1
-X-Mimecast-MFC-AGG-ID: Uxe0wUrkPlijpBHtUceyPQ_1776108358
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 546391800372;
-	Mon, 13 Apr 2026 19:25:57 +0000 (UTC)
-Received: from [10.22.65.13] (unknown [10.22.65.13])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 53FA31800357;
-	Mon, 13 Apr 2026 19:25:47 +0000 (UTC)
-Message-ID: <fd77bca8-bee8-4997-a11a-932a1693edf7@redhat.com>
-Date: Mon, 13 Apr 2026 15:25:46 -0400
+	s=arc-20240116; t=1776109764; c=relaxed/simple;
+	bh=moVbajI93ylbX6Hc5sdUyOa//mRwUHngn4c2aF7DVXc=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=HTBFEvIITUx/a7Yr1ozdAVS06z+E8IGedp6tTnwAT71ip2nMtcC5xlcTd2gR6iBhQLsvTKW2TciN77tqA6QzDbkF0p2HTr0//wYVU354W08eMC04P8GvfBQsEgs2POCOxQ05rldSVmpj8jIqkZ75sYIX7wwpMdZTM6mmD6u7cH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-683b4edaab1so8292843eaf.3
+        for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 12:49:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776109762; x=1776714562;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wwIjK5znXEGb3Qzj4YtcJUWny7RW6O0EuDhuQVd9AfU=;
+        b=stpBuqeE0MdvGApoI/bXVILuiv1+OMQrmHdAIZaxeJn41zfVI29DGMNuhwmUnaiPRa
+         5u0O/8EwLB2LJTnRaVn6W0VFgZNyUGtJVdkP7Xav1RhegAoEc6B1ldJhsuQgtxuT39Kr
+         IMaatRtQMxRUh/32vUJFMt/H6kpFyvC4b8no/OaCm+UTSGpUsg/dpiDi5Qq7rG+goj54
+         1i+44le2KviQ4Ud7NBbNvuMFwB5THGbMqFSk0TVowy3X8/+qz6aU4T4qbWElCDauYM6C
+         PGTNBFMqW/rnSYoZ2tHUysiH1tRyA1RO/zv9r990gEX9kazk++FSux60on4WUuOoQqof
+         j+fA==
+X-Forwarded-Encrypted: i=1; AFNElJ97oEWIXASKsD+lX/ssN+tF0uTSOkiG8v6rJDNd4mZHBTb8Rz89TQr0WnvrybJ4CbvHHGT4mGP//ws=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJSRUXBufrNnBSwnufnYaLW0gc1YrrB3wFqsA6IEuzPU2KIEJS
+	qd12NgbzOKvqXm7TvprZsFPWNCswuCTSdkBsWmgNxIN0MwMPRoIjq6Vm9fAx/5XkwyCtu8NBxhT
+	9It18MPSiqN+HRSUB9EYCligThEe8tGbtrCnEekGhwCceyAUWoUKpA0/0rCI=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 01/12] sched/isolation: Separate housekeeping types in
- enum hk_type
-To: Qiliang Yuan <realwujing@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>,
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
- Chen Ridong <chenridong@huaweicloud.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, linux-mm@kvack.org,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org
-References: <20260413-wujing-dhm-v2-0-06df21caba5d@gmail.com>
- <20260413-wujing-dhm-v2-1-06df21caba5d@gmail.com>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <20260413-wujing-dhm-v2-1-06df21caba5d@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Received: by 2002:a05:6820:2908:b0:67e:1887:34b4 with SMTP id
+ 006d021491bc7-68be8dd14dfmr7132661eaf.58.1776109762119; Mon, 13 Apr 2026
+ 12:49:22 -0700 (PDT)
+Date: Mon, 13 Apr 2026 12:49:22 -0700
+In-Reply-To: <20260413094442.1376022-1-hawk@kernel.org>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69dd48c2.a00a0220.468cb.004e.GAE@google.com>
+Subject: [syzbot ci] Re: veth: add Byte Queue Limits (BQL) support
+From: syzbot ci <syzbot+cib904ea9ebb647254@syzkaller.appspotmail.com>
+To: andrew@lunn.ch, ast@kernel.org, bpf@vger.kernel.org, corbet@lwn.net, 
+	daniel@iogearbox.net, davem@davemloft.net, edumazet@google.com, 
+	frederic@kernel.org, hawk@kernel.org, horms@kernel.org, 
+	j.koeppeler@tu-berlin.de, jhs@mojatatu.com, jiri@resnulli.us, 
+	john.fastabend@gmail.com, kernel-team@cloudflare.com, krikku@gmail.com, 
+	kuba@kernel.org, kuniyu@google.com, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	netdev@vger.kernel.org, pabeni@redhat.com, sdf@fomichev.me, shuah@kernel.org, 
+	skhan@linuxfoundation.org, yajun.deng@linux.dev
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/13/26 3:43 AM, Qiliang Yuan wrote:
-> Most kernel noise types (TICK, TIMER, RCU, etc.) are currently aliased
-> to a single HK_TYPE_KERNEL_NOISE enum value. This prevents fine-grained
-> runtime isolation control as all masks are forced to be identical.
->
-> Un-alias service-specific housekeeping types in enum hk_type. This
-> separation provides the necessary granularity for DHM subsystems to
-> subscribe to and maintain independent affinity masks.
+syzbot ci has tested the following series
 
-Usually, if we want to run a latency sensitive workload like DPDK, we 
-try to minimize all sorts of kernel noises or interference as much as 
-possible. Do you have a good use case where it is advantageous to remove 
-some types of kernel noises from a given set of CPUs but not the others?
+[v2] veth: add Byte Queue Limits (BQL) support
+https://lore.kernel.org/all/20260413094442.1376022-1-hawk@kernel.org
+* [PATCH net-next v2 1/5] net: add dev->bql flag to allow BQL sysfs for IFF_NO_QUEUE devices
+* [PATCH net-next v2 2/5] veth: implement Byte Queue Limits (BQL) for latency reduction
+* [PATCH net-next v2 3/5] veth: add tx_timeout watchdog as BQL safety net
+* [PATCH net-next v2 4/5] net: sched: add timeout count to NETDEV WATCHDOG message
+* [PATCH net-next v2 5/5] selftests: net: add veth BQL stress test
 
-Cheers,
-Longman
+and found the following issue:
+WARNING in veth_napi_del_range
 
-> Signed-off-by: Qiliang Yuan <realwujing@gmail.com>
-> ---
->   include/linux/sched/isolation.h | 20 ++++++++------------
->   kernel/sched/isolation.c        | 10 +++++++++-
->   2 files changed, 17 insertions(+), 13 deletions(-)
->
-> diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
-> index dc3975ff1b2e1..b9a041247565c 100644
-> --- a/include/linux/sched/isolation.h
-> +++ b/include/linux/sched/isolation.h
-> @@ -17,21 +17,17 @@ enum hk_type {
->   	/* Inverse of boot-time isolcpus=managed_irq argument */
->   	HK_TYPE_MANAGED_IRQ,
->   	/* Inverse of boot-time nohz_full= or isolcpus=nohz arguments */
-> -	HK_TYPE_KERNEL_NOISE,
-> +	HK_TYPE_TICK,
-> +	HK_TYPE_TIMER,
-> +	HK_TYPE_RCU,
-> +	HK_TYPE_MISC,
-> +	HK_TYPE_WQ,
-> +	HK_TYPE_KTHREAD,
->   	HK_TYPE_MAX,
-> -
-> -	/*
-> -	 * The following housekeeping types are only set by the nohz_full
-> -	 * boot commandline option. So they can share the same value.
-> -	 */
-> -	HK_TYPE_TICK    = HK_TYPE_KERNEL_NOISE,
-> -	HK_TYPE_TIMER   = HK_TYPE_KERNEL_NOISE,
-> -	HK_TYPE_RCU     = HK_TYPE_KERNEL_NOISE,
-> -	HK_TYPE_MISC    = HK_TYPE_KERNEL_NOISE,
-> -	HK_TYPE_WQ      = HK_TYPE_KERNEL_NOISE,
-> -	HK_TYPE_KTHREAD = HK_TYPE_KERNEL_NOISE
->   };
->   
-> +#define HK_TYPE_KERNEL_NOISE HK_TYPE_TICK
-> +
->   #ifdef CONFIG_CPU_ISOLATION
->   DECLARE_STATIC_KEY_FALSE(housekeeping_overridden);
->   extern int housekeeping_any_cpu(enum hk_type type);
-> diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
-> index ef152d401fe20..e05ed5118e651 100644
-> --- a/kernel/sched/isolation.c
-> +++ b/kernel/sched/isolation.c
-> @@ -15,9 +15,17 @@ enum hk_flags {
->   	HK_FLAG_DOMAIN_BOOT	= BIT(HK_TYPE_DOMAIN_BOOT),
->   	HK_FLAG_DOMAIN		= BIT(HK_TYPE_DOMAIN),
->   	HK_FLAG_MANAGED_IRQ	= BIT(HK_TYPE_MANAGED_IRQ),
-> -	HK_FLAG_KERNEL_NOISE	= BIT(HK_TYPE_KERNEL_NOISE),
-> +	HK_FLAG_TICK		= BIT(HK_TYPE_TICK),
-> +	HK_FLAG_TIMER		= BIT(HK_TYPE_TIMER),
-> +	HK_FLAG_RCU		= BIT(HK_TYPE_RCU),
-> +	HK_FLAG_MISC		= BIT(HK_TYPE_MISC),
-> +	HK_FLAG_WQ		= BIT(HK_TYPE_WQ),
-> +	HK_FLAG_KTHREAD		= BIT(HK_TYPE_KTHREAD),
->   };
->   
-> +#define HK_FLAG_KERNEL_NOISE (HK_FLAG_TICK | HK_FLAG_TIMER | HK_FLAG_RCU | \
-> +			      HK_FLAG_MISC | HK_FLAG_WQ | HK_FLAG_KTHREAD)
-> +
->   DEFINE_STATIC_KEY_FALSE(housekeeping_overridden);
->   EXPORT_SYMBOL_GPL(housekeeping_overridden);
->   
->
+Full report is available here:
+https://ci.syzbot.org/series/ee732006-8545-4abd-a105-b4b1592a7baf
 
+***
+
+WARNING in veth_napi_del_range
+
+tree:      net-next
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/netdev/net-next.git
+base:      8806d502e0a7e7d895b74afbd24e8550a65a2b17
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/90743a26-f003-44cf-abcc-5991c47588b2/config
+syz repro: https://ci.syzbot.org/findings/d068bfb2-9f8b-466a-95b4-cd7e7b00006c/syz_repro
+
+------------[ cut here ]------------
+index >= dev->num_tx_queues
+WARNING: ./include/linux/netdevice.h:2672 at netdev_get_tx_queue include/linux/netdevice.h:2672 [inline], CPU#0: syz.1.27/6002
+WARNING: ./include/linux/netdevice.h:2672 at veth_napi_del_range+0x3b7/0x4e0 drivers/net/veth.c:1142, CPU#0: syz.1.27/6002
+Modules linked in:
+CPU: 0 UID: 0 PID: 6002 Comm: syz.1.27 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:netdev_get_tx_queue include/linux/netdevice.h:2672 [inline]
+RIP: 0010:veth_napi_del_range+0x3b7/0x4e0 drivers/net/veth.c:1142
+Code: 00 e8 ad 96 69 fe 44 39 6c 24 10 74 5e e8 41 61 44 fb 41 ff c5 49 bc 00 00 00 00 00 fc ff df e9 6d ff ff ff e8 2a 61 44 fb 90 <0f> 0b 90 42 80 3c 23 00 75 8e eb 94 48 8b 0c 24 80 e1 07 80 c1 03
+RSP: 0018:ffffc90003adf918 EFLAGS: 00010293
+RAX: ffffffff86814ec6 RBX: 1ffff110227a6c03 RCX: ffff888103a857c0
+RDX: 0000000000000000 RSI: 0000000000000002 RDI: 0000000000000002
+RBP: 1ffff110227a6c9a R08: ffff888113f01ab7 R09: 0000000000000000
+R10: ffff888113f01a98 R11: ffffed10227e0357 R12: dffffc0000000000
+R13: 0000000000000002 R14: 0000000000000002 R15: ffff888113d36018
+FS:  000055555ea16500(0000) GS:ffff88818de4a000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007efc287456b8 CR3: 000000010cdd0000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ veth_napi_del drivers/net/veth.c:1153 [inline]
+ veth_disable_xdp+0x1b0/0x310 drivers/net/veth.c:1255
+ veth_xdp_set drivers/net/veth.c:1693 [inline]
+ veth_xdp+0x48e/0x730 drivers/net/veth.c:1717
+ dev_xdp_propagate+0x125/0x260 net/core/dev_api.c:348
+ bond_xdp_set drivers/net/bonding/bond_main.c:5715 [inline]
+ bond_xdp+0x3ca/0x830 drivers/net/bonding/bond_main.c:5761
+ dev_xdp_install+0x42c/0x600 net/core/dev.c:10387
+ dev_xdp_detach_link net/core/dev.c:10579 [inline]
+ bpf_xdp_link_release+0x362/0x540 net/core/dev.c:10595
+ bpf_link_free+0x103/0x480 kernel/bpf/syscall.c:3292
+ bpf_link_put_direct kernel/bpf/syscall.c:3344 [inline]
+ bpf_link_release+0x6b/0x80 kernel/bpf/syscall.c:3351
+ __fput+0x44f/0xa70 fs/file_table.c:469
+ task_work_run+0x1d9/0x270 kernel/task_work.c:233
+ resume_user_mode_work include/linux/resume_user_mode.h:50 [inline]
+ __exit_to_user_mode_loop kernel/entry/common.c:67 [inline]
+ exit_to_user_mode_loop+0xed/0x480 kernel/entry/common.c:98
+ __exit_to_user_mode_prepare include/linux/irq-entry-common.h:226 [inline]
+ syscall_exit_to_user_mode_prepare include/linux/irq-entry-common.h:256 [inline]
+ syscall_exit_to_user_mode include/linux/entry-common.h:325 [inline]
+ do_syscall_64+0x32d/0xf80 arch/x86/entry/syscall_64.c:100
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7f5bda39c819
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007ffdca2969e8 EFLAGS: 00000246 ORIG_RAX: 00000000000001b4
+RAX: 0000000000000000 RBX: 00007f5bda617da0 RCX: 00007f5bda39c819
+RDX: 0000000000000000 RSI: 000000000000001e RDI: 0000000000000003
+RBP: 00007f5bda617da0 R08: 00007f5bda616128 R09: 0000000000000000
+R10: 000000000003fd78 R11: 0000000000000246 R12: 0000000000010fb8
+R13: 00007f5bda61609c R14: 0000000000010cdd R15: 00007ffdca296af0
+ </TASK>
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
