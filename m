@@ -1,185 +1,122 @@
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D62A2C21E8
-	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 17:43:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84FB31B4F1F;
+	Mon, 13 Apr 2026 18:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776102233; cv=none; b=cY0Lrmw9r4SkUr8buUNrHySVUOsVnTtvzPQAud00nb81jtHaj/O3iq8hA2yhyvcqpJjQrD7AN9XuKM3tJa+xy+I6/0DMHtknnTTPTa/sUzobY4fsIhddJTEVhjLzMtIhvK30/rWuJJfYd7pELHVgN1lr+4BTvuuTcIL71jn5snE=
+	t=1776105936; cv=none; b=res0S4kopw0rtyV6UCYe4tKN6sHn0muca90IKB2inPxHD/HXwv4F5eEYrm/4rqq+kLfRDi+Em+Adq3VM+xpqKSqngvYKIq04pzy7maybMJczEuqKmCaVxXKI7t+0OcHbEP7X53O4yJymtf76E+eW8Hw62XK3k68G/DzrpuxAJNg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776102233; c=relaxed/simple;
-	bh=OWh6Iy4XfNTies9wq3TbzgRs8JIbiD8NP3kbexXVSI8=;
+	s=arc-20240116; t=1776105936; c=relaxed/simple;
+	bh=IJgA2Jxj1ewy8Fefwuu7JHOczR6vtdnyBKngXgZ+7V4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oUo8OOD3O8GcngYRFkas3zb8DOHriz+d+Rf5Ou7v/LYWbGeKRd6SohdHGLZsshVzPeEMmb5WLG3iCH8P6SRD+8dN2CchNFUmTui4Bwp+RWncA6mDFXjHRXfTcHam8yBMAbQ3aB2lrSBItf9rqt4rV/JgMiCuM30auGDYpYRH42M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cKwV1QYz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rQe3Mkfb; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=cKwV1QYz; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=rQe3Mkfb; arc=none smtp.client-ip=195.135.223.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	 Content-Type:Content-Disposition:In-Reply-To; b=DiAOTmw00dSo26yNfr7oFpq4W9ziV6kkHgRJRPybYulugGQbZ4PUUxK2YcezAGfbIYfydTY8Baa50R5btzUve/mRQx2m7cBhA2w/EQ2buL2cszzNY/V1R2MwePsjwkP8uCEHCRrfdIq/GMpg0a2mjR8s8HaZ7DH9+gM4S/oHJ68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EHwvZnGC; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cKwV1QYz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rQe3Mkfb";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="cKwV1QYz";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="rQe3Mkfb"
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id B60BD5BD3E;
-	Mon, 13 Apr 2026 17:43:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776102230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W6FuKmcXLR07Fw6pjG6z+dAgssBozguHf37YZWpjsEQ=;
-	b=cKwV1QYz1GSOpXcoJnqcN01IEtlRs793+honbozuKFEC8VyeP3SkJtPP6t/oQgHWclBGM0
-	FUCX939RJ7zw0DgJeXe+G+xkHhqvaWcJ7pEWBC3PYuOGlO7XKwHIyofmhEImtDJUEcALkL
-	Sad0YRziyKt2CAt8eSsneiA9W1NChSM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776102230;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W6FuKmcXLR07Fw6pjG6z+dAgssBozguHf37YZWpjsEQ=;
-	b=rQe3Mkfb+UKAwYCDfjjuovY8Tr3CSJ19JO19jRWk3nIYkSYZoNgvHRHHWscAB3C3xgCGxG
-	aedN/zUVhwMAMDBQ==
-Authentication-Results: smtp-out2.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776102230; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W6FuKmcXLR07Fw6pjG6z+dAgssBozguHf37YZWpjsEQ=;
-	b=cKwV1QYz1GSOpXcoJnqcN01IEtlRs793+honbozuKFEC8VyeP3SkJtPP6t/oQgHWclBGM0
-	FUCX939RJ7zw0DgJeXe+G+xkHhqvaWcJ7pEWBC3PYuOGlO7XKwHIyofmhEImtDJUEcALkL
-	Sad0YRziyKt2CAt8eSsneiA9W1NChSM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776102230;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=W6FuKmcXLR07Fw6pjG6z+dAgssBozguHf37YZWpjsEQ=;
-	b=rQe3Mkfb+UKAwYCDfjjuovY8Tr3CSJ19JO19jRWk3nIYkSYZoNgvHRHHWscAB3C3xgCGxG
-	aedN/zUVhwMAMDBQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id EEFE14AFE5;
-	Mon, 13 Apr 2026 17:43:49 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id DCwUOFUr3Wm0QAAAD6G6ig
-	(envelope-from <osalvador@suse.de>); Mon, 13 Apr 2026 17:43:49 +0000
-Date: Mon, 13 Apr 2026 19:43:44 +0200
-From: Oscar Salvador <osalvador@suse.de>
-To: Jane Chu <jane.chu@oracle.com>
-Cc: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
-	mhocko@suse.com, corbet@lwn.net, skhan@linuxfoundation.org,
-	hughd@google.com, baolin.wang@linux.alibaba.com, peterx@redhat.com,
-	linux-mm@kvack.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/6] hugetlb: make hugetlb_fault_mutex_hash() take
- PAGE_SIZE index
-Message-ID: <ad0rUB4FuNUOJ1pN@localhost.localdomain>
-References: <20260409234158.837786-1-jane.chu@oracle.com>
- <20260409234158.837786-4-jane.chu@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EHwvZnGC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776105933; x=1807641933;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=IJgA2Jxj1ewy8Fefwuu7JHOczR6vtdnyBKngXgZ+7V4=;
+  b=EHwvZnGC49ttj49VTW3/KEc2fCYkR+EFLjC39si2cFtqcbIN/K2jXDXy
+   sHqh0STJrsXajZgmNDxQSLR5nHkukNZmyV1KP9HTu59IIjwKkAdwGCJN+
+   I0CeBeHlMDxW0JKYlc14oMLQs2Ek0Nuy0AGyDybhfiF5EdCtAxhoSNzXA
+   Ag4j2DTJw4tWRD7euYwVVHucDqRtpwXapgNEo4DK8jjAKLj3L9d4oQ7j8
+   QmIgvMjoITWZ0YI5Mp/VyAUBVudpcsBxBJvI0eOcrLbyLEbxVZLuEumBM
+   4qcVvFyZnSxnlno5mTiA/87uCpZKTJlBwhtyelhAyoPwzk2KwVOMlJasz
+   w==;
+X-CSE-ConnectionGUID: RAWZ93rsQhumgFwQN8SsnA==
+X-CSE-MsgGUID: 7Ww/UvlbTH+cSRit0FRHUg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="77016448"
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="77016448"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 11:45:32 -0700
+X-CSE-ConnectionGUID: cL1tUNhMT3inlQpZ4Ig2pg==
+X-CSE-MsgGUID: WcpCzJ05QPmiPMAPYrziEg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
+   d="scan'208";a="225565560"
+Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 11:45:22 -0700
+Date: Mon, 13 Apr 2026 21:45:19 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>,
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Sandy Huang <hjc@rock-chips.com>,
+	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
+	Andy Yan <andy.yan@rock-chips.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
+	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Werner Sembach <wse@tuxedocomputers.com>,
+	Andri Yngvason <andri@yngvason.is>,
+	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>,
+	Marius Vlad <marius.vlad@collabora.com>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Andy Yan <andyshrk@163.com>
+Subject: Re: [PATCH v13 00/27] Add new general DRM property "color format"
+Message-ID: <ad05v935wrjn-A5R@intel.com>
+References: <20260413-color-format-v13-0-ab37d4dfba48@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260409234158.837786-4-jane.chu@oracle.com>
-X-Spam-Score: -4.30
-X-Spam-Level: 
-X-Spamd-Result: default: False [-4.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	ARC_NA(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	MISSING_XM_UA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[18];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[oracle.com:email]
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260413-color-format-v13-0-ab37d4dfba48@collabora.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
-On Thu, Apr 09, 2026 at 05:41:54PM -0600, Jane Chu wrote:
-> hugetlb_fault_mutex_hash() is used to serialize faults and page cache
-> operations on the same hugetlb file offset. The helper currently expects
-> its index argument in hugetlb page granularity, so callers have to
-> open-code conversions from the PAGE_SIZE-based indices commonly used
-> in the rest of MM helpers.
+On Mon, Apr 13, 2026 at 12:07:14PM +0200, Nicolas Frattaroli wrote:
+> Hello,
 > 
-> Change hugetlb_fault_mutex_hash() to take a PAGE_SIZE-based index
-> instead, and perform the hugetlb-granularity conversion inside the helper.
-> Update all callers accordingly.
-> 
-> This makes the helper interface consistent with filemap_get_folio(),
-> and linear_page_index(), while preserving the same lock selection for
-> a given hugetlb file offset.
-> 
-> Signed-off-by: Jane Chu <jane.chu@oracle.com>
-> ---
->  fs/hugetlbfs/inode.c | 19 ++++++++++---------
->  mm/hugetlb.c         | 28 +++++++++++++++++++---------
->  mm/memfd.c           | 11 ++++++-----
->  mm/userfaultfd.c     |  7 +++----
->  4 files changed, 38 insertions(+), 27 deletions(-)
-> 
-> diff --git a/fs/hugetlbfs/inode.c b/fs/hugetlbfs/inode.c
-> index cf79fb830377..e24e9bf54e14 100644
-> --- a/fs/hugetlbfs/inode.c
-> +++ b/fs/hugetlbfs/inode.c
-> @@ -575,7 +575,7 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
->  	struct address_space *mapping = &inode->i_data;
->  	const pgoff_t end = lend >> PAGE_SHIFT;
->  	struct folio_batch fbatch;
-> -	pgoff_t next, index;
-> +	pgoff_t next, idx;
->  	int i, freed = 0;
->  	bool truncate_op = (lend == LLONG_MAX);
->  
-> @@ -586,15 +586,15 @@ static void remove_inode_hugepages(struct inode *inode, loff_t lstart,
->  			struct folio *folio = fbatch.folios[i];
->  			u32 hash = 0;
->  
-> -			index = folio->index >> huge_page_order(h);
-> -			hash = hugetlb_fault_mutex_hash(mapping, index);
-> +			hash = hugetlb_fault_mutex_hash(mapping, folio->index);
->  			mutex_lock(&hugetlb_fault_mutex_table[hash]);
->  
->  			/*
->  			 * Remove folio that was part of folio_batch.
->  			 */
-> +			idx = folio->index >> huge_page_order(h);
->  			remove_inode_single_folio(h, inode, mapping, folio,
-> -						  index, truncate_op);
-> +						  idx, truncate_op);
+> this is a follow-up to
+> https://lore.kernel.org/all/20250911130739.4936-1-marius.vlad@collabora.com/
+> which in of itself is a follow-up to
+> https://lore.kernel.org/dri-devel/20240115160554.720247-1-andri@yngvason.is/ where
+> a new DRM connector property has been added allowing users to
+> force a particular color format.
 
-Since this is the only place we call remove_inode_single_folio(), and that we do not
-the index (at least index >> huge_page_order()) directly in this function, would it not be
-better to make remove_inode_single_folio do the conversion itself? 
+Looks like we're still missing the wayland folks in the cc. But I was
+told that everyone should just cc wayland-devel@lists.freedesktop.org
+on all relevant uapi stuff. So please add that on the next version.
 
-Also, I am thinking out loud here but we do have a few places where we
-go: idx = index >> huge_page_order() to convert it into hugepage units, but the casual
-reader might be a bit puzzled about that.
-So, would it be worth to have implement an inline helper with an accurate name
-to do that? It might help whoever reads that?
+The i915 rework is now merged so you should even get a buildable
+series next time.
 
+I'll go read the i915 parts now...
 
 -- 
-Oscar Salvador
-SUSE Labs
+Ville Syrjälä
+Intel
