@@ -1,298 +1,172 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD608315D21;
-	Mon, 13 Apr 2026 19:21:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A4E138CFE4
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 19:26:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776108114; cv=none; b=LoRKo8uAxSts+IS7yNQRLOC432guSGMmq2BkxXWAEWNYnLkmuqsKQDz+VO21c1b85iqux/qG58P/bIfVYKVPNjme/1BFU1AUnsrO6rLrMOKueuZmZovRV9RwatPz2JaPslCSEyMKZpVqdW2oDlaANrUPijT4yIdFfWyQjzeD7oQ=
+	t=1776108368; cv=none; b=Z3KWKAeMEeHun6pmD8jwM1eN8Dr0KPmTFKSd5tc0sz46EOzw/oiKKonW7is22rRHNtG77Ya+mpTBUeziWe4AoiZ3JaXi9rmKqKr2khbHN9gIr0NLZsyizjJftnOqqWWfxHEGtNH25rTYy8xk2QJHoNMVHt+oo7NdzUeFUKATzJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776108114; c=relaxed/simple;
-	bh=/yuxMwENnIRcCPgqrASXBDil5WGzLxAiS5rqQNABMkc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qmvgqURM++AeZxnyKfXWmigSERXpSfO6/0521OlH/qakI06sytK7f+hi92TFXTRPhGp+53t/MMuo80QKzAW2HpAKM/2DTAw3Wok5bXNJkU5ssUYR0ey343EishC/wyYQIlldee+L5NfCfsplEd9D4Y1J4oICLZNPsBMzUCPKmPA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mhWDaI0I; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776108368; c=relaxed/simple;
+	bh=JhhiDtpgCIbIcPcjurEF+BYrFwWWHfvbfmV0YHXq4o0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fF0VV+VsGGYu7aQPj4IysGhauSmaOtVsl+pMe33G8s0kjyucWSHoKSVCfegcYqX8nOMjyBuz8j0megW2RLbRcVu0Ovfmv+LQV8jtl3h0ftLsRoxvDBp3R5ZCAyhXE9iYBfQUtriR6Q0k3Z3tWMUZxOdftLdiZHBu8NZELNkWdRs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WUG4tW4E; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mhWDaI0I"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776108112; x=1807644112;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=/yuxMwENnIRcCPgqrASXBDil5WGzLxAiS5rqQNABMkc=;
-  b=mhWDaI0I7cJ5yFifeIbMeI8Uljwsh62V7tDJvQGXYYm7HpfeJ5kijB+a
-   b+4wWfbdtz35NYfXAlflvibYx8IuTzzlYwM01q0KYUeoUxaObZzyZhkbr
-   M5gHPaCln/qsDTxd21W5TCsWKpldfw+6HeibfLCXX+gcBlSLwejZ7ayh2
-   uJdMqlG3rR6DWId5CIm2eQcwMeSxVKdsuoFKI42YPusdz1BAn2n9U4l3J
-   wXbevvjbj4SEpe9vh46Yk5hASUANA8NV7CJTkODz98neLHTUy9HLEOieC
-   Wrk9JYLljgJG/mUDG84OMeJBROh7HZp5tbB+V7MxmGxO4E9+RdMTcNikU
-   A==;
-X-CSE-ConnectionGUID: uJQiBmbLQ6qtNMKRCNeW8Q==
-X-CSE-MsgGUID: qKav3MUOQOuQpz/mSZCCZg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="88435214"
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="88435214"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:21:50 -0700
-X-CSE-ConnectionGUID: +JW6UgNqSJaplS0n3VHDFQ==
-X-CSE-MsgGUID: bC1tA4TnQ3+K75+6KoFutQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,177,1770624000"; 
-   d="scan'208";a="225569953"
-Received: from abityuts-desk.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Apr 2026 12:21:40 -0700
-Date: Mon, 13 Apr 2026 22:21:31 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>,
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
-	Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Rob Herring <robh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, kernel@collabora.com,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, intel-gfx@lists.freedesktop.org,
-	intel-xe@lists.freedesktop.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v13 13/27] drm/i915: Implement the "color format" DRM
- property
-Message-ID: <ad1CO9-nlaskZQM7@intel.com>
-References: <20260413-color-format-v13-0-ab37d4dfba48@collabora.com>
- <20260413-color-format-v13-13-ab37d4dfba48@collabora.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WUG4tW4E"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776108366;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4BWr/5AY8ZAqufMs3TADs0Xu7j+z3NdjM/f4VibM9b8=;
+	b=WUG4tW4EpKrRDOvfphj1tdkAlNV8DHdsIZFeqT6HkI0oBJ25LIWq9KyL2//iSA5cWVgG9S
+	uRMigISWTpzvBWin8rjt9JL1YGPxpq3gtPgpGA2D4dqEQ6b1/FI0rSeMHNEqHvMGj6Nez1
+	37zFXxGo+7lCk4lP4ytjqnXK6fdZVsc=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-220-Uxe0wUrkPlijpBHtUceyPQ-1; Mon,
+ 13 Apr 2026 15:26:02 -0400
+X-MC-Unique: Uxe0wUrkPlijpBHtUceyPQ-1
+X-Mimecast-MFC-AGG-ID: Uxe0wUrkPlijpBHtUceyPQ_1776108358
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 546391800372;
+	Mon, 13 Apr 2026 19:25:57 +0000 (UTC)
+Received: from [10.22.65.13] (unknown [10.22.65.13])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 53FA31800357;
+	Mon, 13 Apr 2026 19:25:47 +0000 (UTC)
+Message-ID: <fd77bca8-bee8-4997-a11a-932a1693edf7@redhat.com>
+Date: Mon, 13 Apr 2026 15:25:46 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260413-color-format-v13-13-ab37d4dfba48@collabora.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/12] sched/isolation: Separate housekeeping types in
+ enum hk_type
+To: Qiliang Yuan <realwujing@gmail.com>, Ingo Molnar <mingo@redhat.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>,
+ Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>,
+ Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ Frederic Weisbecker <frederic@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
+ Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>,
+ Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+ Chen Ridong <chenridong@huaweicloud.com>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
+Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, linux-mm@kvack.org,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org
+References: <20260413-wujing-dhm-v2-0-06df21caba5d@gmail.com>
+ <20260413-wujing-dhm-v2-1-06df21caba5d@gmail.com>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <20260413-wujing-dhm-v2-1-06df21caba5d@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Mon, Apr 13, 2026 at 12:07:27PM +0200, Nicolas Frattaroli wrote:
-> Implement the "color format" DRM property for both DP and HDMI.  The
-> values of the property include RGB, YCbCr420, YCbCr444 and Auto. Auto
-> will pick RGB, with a fallback to YCbCr420.
-> 
-> The mask of supported formats by the source exposed by the property is
-> an optimistic scenario, as specific DFP-related caveats can't be
-> established before an EDID is present.
-> 
-> Should the explicitly requested color format not be supported by the
-> sink (or by the source in combination with the sink), then an error is
-> returned to userspace, so that it can make a better choice.
-> 
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+On 4/13/26 3:43 AM, Qiliang Yuan wrote:
+> Most kernel noise types (TICK, TIMER, RCU, etc.) are currently aliased
+> to a single HK_TYPE_KERNEL_NOISE enum value. This prevents fine-grained
+> runtime isolation control as all masks are forced to be identical.
+>
+> Un-alias service-specific housekeeping types in enum hk_type. This
+> separation provides the necessary granularity for DHM subsystems to
+> subscribe to and maintain independent affinity masks.
+
+Usually, if we want to run a latency sensitive workload like DPDK, we 
+try to minimize all sorts of kernel noises or interference as much as 
+possible. Do you have a good use case where it is advantageous to remove 
+some types of kernel noises from a given set of CPUs but not the others?
+
+Cheers,
+Longman
+
+> Signed-off-by: Qiliang Yuan <realwujing@gmail.com>
 > ---
->  drivers/gpu/drm/i915/display/intel_connector.c | 10 +++++++
->  drivers/gpu/drm/i915/display/intel_connector.h |  1 +
->  drivers/gpu/drm/i915/display/intel_dp.c        | 38 +++++++++++++++++++++++---
->  drivers/gpu/drm/i915/display/intel_hdmi.c      | 38 +++++++++++++++++++++++---
->  4 files changed, 79 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/i915/display/intel_connector.c b/drivers/gpu/drm/i915/display/intel_connector.c
-> index 7ef9338d67ab..b1a21dd77af6 100644
-> --- a/drivers/gpu/drm/i915/display/intel_connector.c
-> +++ b/drivers/gpu/drm/i915/display/intel_connector.c
-> @@ -338,3 +338,13 @@ intel_attach_scaling_mode_property(struct drm_connector *connector)
->  
->  	connector->state->scaling_mode = DRM_MODE_SCALE_ASPECT;
->  }
+>   include/linux/sched/isolation.h | 20 ++++++++------------
+>   kernel/sched/isolation.c        | 10 +++++++++-
+>   2 files changed, 17 insertions(+), 13 deletions(-)
+>
+> diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
+> index dc3975ff1b2e1..b9a041247565c 100644
+> --- a/include/linux/sched/isolation.h
+> +++ b/include/linux/sched/isolation.h
+> @@ -17,21 +17,17 @@ enum hk_type {
+>   	/* Inverse of boot-time isolcpus=managed_irq argument */
+>   	HK_TYPE_MANAGED_IRQ,
+>   	/* Inverse of boot-time nohz_full= or isolcpus=nohz arguments */
+> -	HK_TYPE_KERNEL_NOISE,
+> +	HK_TYPE_TICK,
+> +	HK_TYPE_TIMER,
+> +	HK_TYPE_RCU,
+> +	HK_TYPE_MISC,
+> +	HK_TYPE_WQ,
+> +	HK_TYPE_KTHREAD,
+>   	HK_TYPE_MAX,
+> -
+> -	/*
+> -	 * The following housekeeping types are only set by the nohz_full
+> -	 * boot commandline option. So they can share the same value.
+> -	 */
+> -	HK_TYPE_TICK    = HK_TYPE_KERNEL_NOISE,
+> -	HK_TYPE_TIMER   = HK_TYPE_KERNEL_NOISE,
+> -	HK_TYPE_RCU     = HK_TYPE_KERNEL_NOISE,
+> -	HK_TYPE_MISC    = HK_TYPE_KERNEL_NOISE,
+> -	HK_TYPE_WQ      = HK_TYPE_KERNEL_NOISE,
+> -	HK_TYPE_KTHREAD = HK_TYPE_KERNEL_NOISE
+>   };
+>   
+> +#define HK_TYPE_KERNEL_NOISE HK_TYPE_TICK
 > +
-> +void
-> +intel_attach_color_format_property(struct drm_connector *connector)
-> +{
-> +	const unsigned long fmts = BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-> +				   BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
-> +				   BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420);
-
-We're going to need different formats for different platforms, and 
-for DP vs. HDMI.
-
-For HDMI it should be fairly simple if we have the
-ycbcr420_allowed and ycbcr444_allowed things to consult.
-
-For DP I'm not sure if we want to advertise YCbCr output support
-for platforms that can't produce it without help from the PCON.
-If we know there is an on board PCON that can do it, then the answer
-is probably yes. But without that it might be best to not advertise
-the relevant formats unless source_can_output() tells us that it can
-be directly output. We could at least start with that, and revisit
-it later if some situations arise where eg. having explicit 4:2:0
-output on older platforms is beneficial.
-
-I think you want to split this to separate DP vs. HDMI patches since
-the two require quite different logic.
-
+>   #ifdef CONFIG_CPU_ISOLATION
+>   DECLARE_STATIC_KEY_FALSE(housekeeping_overridden);
+>   extern int housekeeping_any_cpu(enum hk_type type);
+> diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
+> index ef152d401fe20..e05ed5118e651 100644
+> --- a/kernel/sched/isolation.c
+> +++ b/kernel/sched/isolation.c
+> @@ -15,9 +15,17 @@ enum hk_flags {
+>   	HK_FLAG_DOMAIN_BOOT	= BIT(HK_TYPE_DOMAIN_BOOT),
+>   	HK_FLAG_DOMAIN		= BIT(HK_TYPE_DOMAIN),
+>   	HK_FLAG_MANAGED_IRQ	= BIT(HK_TYPE_MANAGED_IRQ),
+> -	HK_FLAG_KERNEL_NOISE	= BIT(HK_TYPE_KERNEL_NOISE),
+> +	HK_FLAG_TICK		= BIT(HK_TYPE_TICK),
+> +	HK_FLAG_TIMER		= BIT(HK_TYPE_TIMER),
+> +	HK_FLAG_RCU		= BIT(HK_TYPE_RCU),
+> +	HK_FLAG_MISC		= BIT(HK_TYPE_MISC),
+> +	HK_FLAG_WQ		= BIT(HK_TYPE_WQ),
+> +	HK_FLAG_KTHREAD		= BIT(HK_TYPE_KTHREAD),
+>   };
+>   
+> +#define HK_FLAG_KERNEL_NOISE (HK_FLAG_TICK | HK_FLAG_TIMER | HK_FLAG_RCU | \
+> +			      HK_FLAG_MISC | HK_FLAG_WQ | HK_FLAG_KTHREAD)
 > +
-> +	drm_connector_attach_color_format_property(connector, fmts);
-> +}
-> diff --git a/drivers/gpu/drm/i915/display/intel_connector.h b/drivers/gpu/drm/i915/display/intel_connector.h
-> index 0aa86626e646..c77b7aac02cb 100644
-> --- a/drivers/gpu/drm/i915/display/intel_connector.h
-> +++ b/drivers/gpu/drm/i915/display/intel_connector.h
-> @@ -34,5 +34,6 @@ void intel_attach_dp_colorspace_property(struct drm_connector *connector);
->  void intel_attach_scaling_mode_property(struct drm_connector *connector);
->  void intel_connector_queue_modeset_retry_work(struct intel_connector *connector);
->  void intel_connector_cancel_modeset_retry_work(struct intel_connector *connector);
-> +void intel_attach_color_format_property(struct drm_connector *connector);
->  
->  #endif /* __INTEL_CONNECTOR_H__ */
-> diff --git a/drivers/gpu/drm/i915/display/intel_dp.c b/drivers/gpu/drm/i915/display/intel_dp.c
-> index 47bd3d59ea93..3b2293415b55 100644
-> --- a/drivers/gpu/drm/i915/display/intel_dp.c
-> +++ b/drivers/gpu/drm/i915/display/intel_dp.c
-> @@ -3398,10 +3398,10 @@ intel_dp_compute_output_format(struct intel_encoder *encoder,
->  }
->  
->  static int
-> -intel_dp_compute_formats(struct intel_encoder *encoder,
-> -			 struct intel_crtc_state *crtc_state,
-> -			 struct drm_connector_state *conn_state,
-> -			 bool respect_downstream_limits)
-> +intel_dp_compute_formats_auto(struct intel_encoder *encoder,
-> +			      struct intel_crtc_state *crtc_state,
-> +			      struct drm_connector_state *conn_state,
-> +			      bool respect_downstream_limits)
->  {
->  	struct intel_display *display = to_intel_display(encoder);
->  	struct intel_dp *intel_dp = enc_to_intel_dp(encoder);
-> @@ -3437,6 +3437,34 @@ intel_dp_compute_formats(struct intel_encoder *encoder,
->  	return ret;
->  }
->  
-> +static int
-> +intel_dp_compute_formats(struct intel_encoder *encoder,
-> +			 struct intel_crtc_state *crtc_state,
-> +			 struct drm_connector_state *conn_state,
-> +			 bool respect_downstream_limits)
-> +{
-> +	switch (conn_state->color_format) {
-> +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
-> +		return intel_dp_compute_output_format(encoder, crtc_state, conn_state,
-> +						      respect_downstream_limits,
-> +						      INTEL_OUTPUT_FORMAT_RGB);
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
-> +		return intel_dp_compute_output_format(encoder, crtc_state, conn_state,
-> +						      respect_downstream_limits,
-> +						      INTEL_OUTPUT_FORMAT_YCBCR444);
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
-> +		return intel_dp_compute_output_format(encoder, crtc_state, conn_state,
-> +						      respect_downstream_limits,
-> +						      INTEL_OUTPUT_FORMAT_YCBCR420);
-> +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
-> +		return intel_dp_compute_formats_auto(encoder, crtc_state, conn_state,
-> +						     respect_downstream_limits);
-> +	default:
-> +		MISSING_CASE(conn_state->color_format);
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  void
->  intel_dp_audio_compute_config(struct intel_encoder *encoder,
->  			      struct intel_crtc_state *pipe_config,
-> @@ -7025,6 +7053,8 @@ intel_dp_add_properties(struct intel_dp *intel_dp, struct drm_connector *_connec
->  
->  	if (HAS_VRR(display))
->  		drm_connector_attach_vrr_capable_property(&connector->base);
-> +
-> +	intel_attach_color_format_property(&connector->base);
->  }
->  
->  static void
-> diff --git a/drivers/gpu/drm/i915/display/intel_hdmi.c b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> index 5ab5b5f85cde..632498e3702b 100644
-> --- a/drivers/gpu/drm/i915/display/intel_hdmi.c
-> +++ b/drivers/gpu/drm/i915/display/intel_hdmi.c
-> @@ -2307,10 +2307,10 @@ static int intel_hdmi_compute_output_format(struct intel_encoder *encoder,
->  	return intel_hdmi_compute_clock(encoder, crtc_state, respect_downstream_limits);
->  }
->  
-> -static int intel_hdmi_compute_formats(struct intel_encoder *encoder,
-> -				      struct intel_crtc_state *crtc_state,
-> -				      const struct drm_connector_state *conn_state,
-> -				      bool respect_downstream_limits)
-> +static int intel_hdmi_compute_formats_auto(struct intel_encoder *encoder,
-> +					   struct intel_crtc_state *crtc_state,
-> +					   const struct drm_connector_state *conn_state,
-> +					   bool respect_downstream_limits)
->  {
->  	struct intel_display *display = to_intel_display(encoder);
->  	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> @@ -2345,6 +2345,35 @@ static int intel_hdmi_compute_formats(struct intel_encoder *encoder,
->  	return ret;
->  }
->  
-> +static int intel_hdmi_compute_formats(struct intel_encoder *encoder,
-> +				      struct intel_crtc_state *crtc_state,
-> +				      const struct drm_connector_state *conn_state,
-> +				      bool respect_downstream_limits)
-> +{
-> +	struct intel_connector *connector = to_intel_connector(conn_state->connector);
-> +
-> +	switch (conn_state->color_format) {
-> +	case DRM_CONNECTOR_COLOR_FORMAT_RGB444:
-> +		return intel_hdmi_compute_output_format(encoder, crtc_state, connector,
-> +							respect_downstream_limits,
-> +							INTEL_OUTPUT_FORMAT_RGB);
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR444:
-> +		return intel_hdmi_compute_output_format(encoder, crtc_state, connector,
-> +							respect_downstream_limits,
-> +							INTEL_OUTPUT_FORMAT_YCBCR444);
-> +	case DRM_CONNECTOR_COLOR_FORMAT_YCBCR420:
-> +		return intel_hdmi_compute_output_format(encoder, crtc_state, connector,
-> +							respect_downstream_limits,
-> +							INTEL_OUTPUT_FORMAT_YCBCR420);
-> +	case DRM_CONNECTOR_COLOR_FORMAT_AUTO:
-> +		return intel_hdmi_compute_formats_auto(encoder, crtc_state, conn_state,
-> +						       respect_downstream_limits);
-> +	default:
-> +		MISSING_CASE(conn_state->color_format);
-> +		return -EINVAL;
-> +	}
-> +}
-> +
->  static bool intel_hdmi_is_cloned(const struct intel_crtc_state *crtc_state)
->  {
->  	return crtc_state->uapi.encoder_mask &&
-> @@ -2729,6 +2758,7 @@ intel_hdmi_add_properties(struct intel_hdmi *intel_hdmi, struct drm_connector *_
->  
->  	intel_attach_hdmi_colorspace_property(&connector->base);
->  	drm_connector_attach_content_type_property(&connector->base);
-> +	intel_attach_color_format_property(&connector->base);
->  
->  	if (DISPLAY_VER(display) >= 10)
->  		drm_connector_attach_hdr_output_metadata_property(&connector->base);
-> 
-> -- 
-> 2.53.0
+>   DEFINE_STATIC_KEY_FALSE(housekeeping_overridden);
+>   EXPORT_SYMBOL_GPL(housekeeping_overridden);
+>   
+>
 
--- 
-Ville Syrjälä
-Intel
