@@ -1,179 +1,162 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9DEB3128B2
-	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 07:44:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622D1397E86
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 07:44:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776066257; cv=none; b=MZ5VNv3fmRLJPtlX0/GuLYJSG445+dzhhqr1ghf8KpNj/bfOwVbTgo/dRcf7sZNIVnPP7Im6O9dGFsRN2QOWB0lEBHiTjaWq4IlH/G7bgpYnktC4mR9A3MCP9zCUwqAP8b7hzZE+GN6kHkqIF0qN5Ra64zRd2wD7guE3arRSA/M=
+	t=1776066258; cv=none; b=V7aPnfKs9d3trzQQBBFWut3MrtawMJOL+YoKXo3fg/Vj8a9JShNSGzIlnjscb1KvivKqOJU0jmdAoTyjcRKp6Ol9pl5XgPHYCeqM5hrNumh8RBFzL45fQEwo80DXa6RZf9HZ0FwCqdta6rS3/a4lU+BCPJBNPI4gMco+4wTGaPg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776066257; c=relaxed/simple;
-	bh=abNstHmJGgw4JbpWqL555msiifzgY+9+aN3eQVlKCX4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=a/MAG7qkBuo4bQ0GHAzuIJECHZehvEmqZn+1ytyMX1mETEZ+OiupKpnk6X4H7d5wYXFZygbAaeVrBpUE/3sGFLMm0XTVrDKSOFSorFbY8KKsofkBiZ+nK+zv/piN1W8PnTYH4uzXL1Jw+cKxR+10N0szKV8n9XtRBipfPWh0ntg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OfXeGHxD; arc=none smtp.client-ip=74.125.82.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776066258; c=relaxed/simple;
+	bh=emAvh6toXGOd5B6fz9M/oSRBGye5L4QrB2xQSA35mQk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pqMWHu3Cvk3fIcWeuPxP5slEU5dgEJbv67D2clriDTyO3tBYkZg0XzR86u6npRZO4A7GII2xJHBnQRaXCj8J4rV3WenESa1gTFefCLQJADTrc2ImtEk9ItylQHVK5ykavrEEhUEAt6DTDqDRTe47F+aDxXjr4VRW4gnF3Qgh9x0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AyBXHeun; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=iCcz/ZaX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OfXeGHxD"
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-12c20010f10so10474424c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 00:44:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AyBXHeun";
+	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="iCcz/ZaX"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63D5hx363312592
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 07:44:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Y3r+aQYgMBEMT6ku800XCoTGo0hyxDK8cY2
+	8YsHhpYU=; b=AyBXHeuncUj2SlqQHimyEvSr0VpXT1UnTu9I57tHajzg+BhsxqB
+	VT+gFyGFZ6IAVYuM2rASS0xVuwiB1TwPF6ezaIq083U1qmx3AY6hMxfDD0DNbvuI
+	JYF7icxAQ379i5wVBy2uxql/gKmxvbnWroewB6HKTJn1AO4VSc/yaSUm4PIVmloP
+	Ly4sGB+gbbmGSRXEu+feMu7hnVOJJ8H/tINfcfzEZcelsmKko831AjK1h/i9Bqi9
+	hWSKVAGapE8mDpzb/pv9Ql5UOZprHaHSYbNLFWayjLRn56ZkexKZr+eOwUB8JESZ
+	/r9DrowfD9yUIteloRcd7K/mTSNSDzQlZRA==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dfewkvaym-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 07:44:16 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-50b4031b86dso109116531cf.0
+        for <linux-doc@vger.kernel.org>; Mon, 13 Apr 2026 00:44:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776066255; x=1776671055; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EF3HsX1PiWlQS1SWUgySjoqh/zlAKHa5r5Dv0SN822Y=;
-        b=OfXeGHxDXjLlvoZJQLl2fIyr2B7Ezrmrc+Ir2bzbbK7z4cugW2V3aOao4CC1jCFf9/
-         KkiyEWtA9IQ61ZMNyufOzSeQlYQn12b5HoZujPMJGD/QijERHfLBqXfuuebIhGseJ/sc
-         HqRHyx9DrQFL1QQ3tGiLfAQiLQj969T+3JE/bnRN/O0bdfd3eJhHhPQ+g8MfVPWjclpw
-         i1y4fo+fzljdwsDlavcuqNQAQ9sTfWraQVCDFDGa78J6daPlwai6hkt+hqdV/MP0eaPp
-         vTaHIpac17q+ITfiX9s9Q4AVTfZBMhv0g0GuryusQ1pOLZpnaPsSVhVvxtsKJ9VMJG3c
-         bT9g==
+        d=oss.qualcomm.com; s=google; t=1776066256; x=1776671056; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y3r+aQYgMBEMT6ku800XCoTGo0hyxDK8cY28YsHhpYU=;
+        b=iCcz/ZaX8T/RjqRcQWNHWtvkV3XbuFp+Fb+9YG0kV2dEX4VqgBW8UwoLzO0j4llNsU
+         y4BXPDqeOFmnK4J0kjqAywca2HenZ84uquBTCxV1OwtWf9zSAOi7SoaMI7eOq2vslGUd
+         qimu7nJ+fVW/fG1e58bXsG7c6fY4XmON1S0FFxpP4pilvdzTnkk2cCVLaF+TcE6rpAqd
+         EK7Kb6/4x5oHLPL3KIPa9yGzQCHeRSK1jcFYIG/sqCaQIoplngaxfojVJFXnKc2X6wLG
+         UufXuvaWL8j1KC5mRPI0s/kSaCvTTNQPIgYgDDGpB5pTSTM0oSqv8OoQ9Zgt6wMJ717y
+         rFMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776066255; x=1776671055;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=EF3HsX1PiWlQS1SWUgySjoqh/zlAKHa5r5Dv0SN822Y=;
-        b=Zj4vhVb9uRyqux/pTJrYqDYmywwiAs8ExzmMVMShsjUvw5FlNh+NYgLyOqLeV5+TF9
-         462PnNiirQAf7yVLpFt47fHe8COcTrICqg883HrCei3E89BGRdAx1gkRlmARuaBNyTaG
-         nXOlYTX+wKYj3k1qLkX6lDxrdaX0wBuYSEDFY42FxGSg90xKXmtjZaGP08DSmcM+0ZSx
-         wDtpQZYwzpVuhzDAd3ljzuRNs7CtakItrc07urOM87Hvho4HgOWGnrJBBtX1STjqKz++
-         q37sjgJKTm2zDdp0GWx59ONpMiBDb7ILE6XjRzMAV+6x9d/unHVPrvKiqA/DUXr+0teD
-         zJ6A==
-X-Forwarded-Encrypted: i=1; AFNElJ+CidpqP2+I13pg6ypcc7cNt0/0eAs0uGDLDGCc11n7ixif8WfS82I+lnidKxX68XahCAJZp1ubTiM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyMub+5aKeKchvaSc/J0Ywkv1xwTr0jSRWk7fjsOGGsAln4T7OX
-	nFFoqm97CyVmnwWdnrN+vjwfkPV+7cgwqMWevohcdUKcKMJr1Of4QJeh
-X-Gm-Gg: AeBDiesHwdJRiZ1RpW4nB0lIDQLPIrAeasUrPFdiDI6nyu7LW/Y5xrfgPGQctQRDTQG
-	IvnN3JKRN0/K3f7pYqkASIIXDBH84n4lPirsNzE9Rg7Mt6IG+NOJ+DsqeLN6IvFzaUeotI9XHYQ
-	7CbOh0wVN0DNvhCmUW5wH/CxxiD53anAgzxvy89T6SIgK1n9idUO+JaJ2mARjPHVuy/b/zRUqra
-	LXk3RHkGw04yJeU0tB78HJT7mAieYqp/YcrwRai2CupvRdoyIDfrn/+lLNGTNfRSVa9YCAKrAjq
-	yplCKe64m9AyRL1xTNJZQbDQDltz6y+nVhfezOtKRZHoMlutOWpdcLaFoKIsbjehTVCNDrc50Um
-	bt2QDSx+kMmwW/r9S/S4mFgr/BgEf7/JHuCjd3/K//xP6ktfbYq346V/XmuzIoUAO25AD0oar02
-	dPogeKbohTL5dCYTOrr6o57AjePqk=
-X-Received: by 2002:a05:7022:47:b0:128:d4be:7428 with SMTP id a92af1059eb24-12c34edee4bmr7057521c88.19.1776066255198;
+        d=1e100.net; s=20251104; t=1776066256; x=1776671056;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Y3r+aQYgMBEMT6ku800XCoTGo0hyxDK8cY28YsHhpYU=;
+        b=TXBo5rOW04C0xc97GZNVMdvVH+2HShyv4iZi26OalP/DllFyc2BaF1cxrgggU+eVNE
+         qSBybc2z79TcrdjSy6jCT1ovTFL4AswI7Ler53WCkUYHD2ES90Xunig2KPK+1h8a0ql9
+         nFZuI87GbD/oDskm1IAOW19VOBQWulvGzCXwCEPzIUniUb+ngrqIVJTymOAeBjtjOdkw
+         iTATcXIFdY9lJlkr5SJIt8jEYOsJL0fFYBzX63yFUbAJBqeuWr1fJI6c9h4rCJr58/m+
+         mL6u/5Hc4YT783WGcxlOSgNXh3cG8JemkVcO9K1Vi8ZRSaXIN2uBvEWKEE78FVDgM+fU
+         /A6g==
+X-Forwarded-Encrypted: i=1; AFNElJ/tqBuzuHAQ2wJ+LEC3MD3iXPlmxkek6d0nrp2hdiSou5/ISn/n402WoOcal43mBF+NpHD5ucizbHs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhnsGNW8RSEqG6NOXL9IpbxO7KB9qqWNmyTeNnLXYGdLSHX7Za
+	LuIe72tlV/Ab2IxijMuy3xjy+0Vw6SUpyIRCE+FqvEMNyRBScL+6fw8nLmi0tW0Y4WuZxd+Tqkj
+	mtS+LWQ+c4eO9U5H1F4JeoKEfFiFeQ1RHYProqgcoqWJBLHByYyBBhcvVmiG6Qxs=
+X-Gm-Gg: AeBDietPaiS0qpOk03xRjSua2+pojGND1SfW+D6+INLCFCFTG58z5yHmZN/kkeK64+w
+	IZtNfoS3aVhmunyhBymxJt7Zjas21WPCch/7cWax7L7n9bYR/CTzTYBU1SysDLTKxz25+nxe/C2
+	bzRIypfnc7e4+05d9hVvqHVnuuDdiD8Xeij4mn+r+UxW9oi+DZgraVJiUQDZw88NphZAV3UHM2N
+	6TwIbcUFwK9WtLQKv5LFHT8hpK/TLOpUUsHZxswGq7Fu1eF6vir9YlScgJO1W/a44B8WkBpwvKE
+	K2G3TuXdXmJTzkdkJ9HiMOCwHNmeByYbd3Rs8qRdUa9HeFt0IVMV+dUsZLP8wpLhUvqT9gZNc6T
+	G3ZeQz94inUKcHZbxIqq4Y2InRg6DhQVKOzAY
+X-Received: by 2002:a05:622a:2485:b0:50b:50bf:5bbe with SMTP id d75a77b69052e-50dd5adbf6fmr172964131cf.22.1776066255672;
         Mon, 13 Apr 2026 00:44:15 -0700 (PDT)
-Received: from wujing. ([74.48.213.230])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c347fa2c9sm12884610c88.15.2026.04.13.00.44.05
+X-Received: by 2002:a05:622a:2485:b0:50b:50bf:5bbe with SMTP id d75a77b69052e-50dd5adbf6fmr172963821cf.22.1776066255250;
+        Mon, 13 Apr 2026 00:44:15 -0700 (PDT)
+Received: from quoll ([178.197.219.94])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488d67a46bdsm137465635e9.3.2026.04.13.00.44.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 13 Apr 2026 00:44:14 -0700 (PDT)
-From: Qiliang Yuan <realwujing@gmail.com>
-Date: Mon, 13 Apr 2026 15:43:11 +0800
-Subject: [PATCH v2 05/12] genirq: Support dynamic migration for managed
- interrupts
+        Mon, 13 Apr 2026 00:44:13 -0700 (PDT)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+To: Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+        Alexandre Belloni <alexandre.belloni@bootlin.com>,
+        Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, soc@lists.linux.dev,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+Subject: [PATCH 1/2] Documentation/process: maintainer-soc: Trim from trivial ask-DT
+Date: Mon, 13 Apr 2026 09:44:02 +0200
+Message-ID: <20260413074401.27282-3-krzysztof.kozlowski@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260413-wujing-dhm-v2-5-06df21caba5d@gmail.com>
-References: <20260413-wujing-dhm-v2-0-06df21caba5d@gmail.com>
-In-Reply-To: <20260413-wujing-dhm-v2-0-06df21caba5d@gmail.com>
-To: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, 
- Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- "Paul E. McKenney" <paulmck@kernel.org>, 
- Frederic Weisbecker <frederic@kernel.org>, 
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, 
- Joel Fernandes <joelagnelf@nvidia.com>, 
- Josh Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>, 
- Uladzislau Rezki <urezki@gmail.com>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>, 
- Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>, 
- Tejun Heo <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, 
- Vlastimil Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
- Michal Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, 
- Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, 
- Waiman Long <longman@redhat.com>, Chen Ridong <chenridong@huaweicloud.com>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, linux-mm@kvack.org, 
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, Qiliang Yuan <realwujing@gmail.com>
-X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1043; i=krzysztof.kozlowski@oss.qualcomm.com;
+ h=from:subject; bh=emAvh6toXGOd5B6fz9M/oSRBGye5L4QrB2xQSA35mQk=;
+ b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBp3J7B9CNNwKiSkBiaBvTBEt7nJ0+9KfR4CI6jJ
+ ReGlcqSceeJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCadyewQAKCRDBN2bmhouD
+ 1/2wD/9L24BCH+anyswyq/Pmf9FjSqqRahmQhA3Etm/mZhIjFMkR7SmeIS94BhUgJ1CTNj5Nzrz
+ GulTVM6c0ublpzeEtJJJvQ0IOxUWo1d7U1yaSxWdplLOdXNMTkJNso4LcT7ImlPimc9wIzbJbAz
+ QgFHg/4XqpKgRqY2MfWixigQ6K3Qr5VtakXiJ8FX9QN0TnTCWhDtadNIEHwtdgVpDd3cL86VDXO
+ 5VXHTfuGiY6WhqwU1cDx2apqEciWxE+8EnQ2alx/ndl5+sXsGmnNSG1usVNKAN3kaSxsGdQPUI3
+ 0yEgACJPWScLQoecEZ+F9E0VQezmfyDO8eGY4Q4wMDWigvvXK4c1a1J/Mrhgt6K2QcNMi4roudX
+ E6eLr+JJtZ68hmfkXyFcrjzmYNloQ0Wnh1Z92i6KSxCzRZJLMvCwC/pvdBgpvD/iNDBEk8l/E9J
+ IptP1feZNdAcY1jJ7JyoxxTNrKP9qewZYrUvs8DcyGCoyOJ6a3JwQT8EdPcw4cN0UvgIfdNxAQv
+ KOclVDo+A7WIc8z3kA+dW8AZzEDyn7kg3lHooWQO1D04bnlqlK+YfrplJJJN2t9ZLBC9BicXvBD
+ DCClGh127H4DYZsDyTAgqzbkiwTy7UGVsr08momrz7NrSfZIXKNS5hjgqcd/yjCnUZ71MQaWS4d q6mSGtE0n8TVtrA==
+X-Developer-Key: i=krzysztof.kozlowski@oss.qualcomm.com; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=bcFbluPB c=1 sm=1 tr=0 ts=69dc9ed0 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=gOEeR9iKwsj33Yj5oN/cWg==:17
+ a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22 a=EUspDBNiAAAA:8
+ a=gmrGOGr7E6VI24hohNgA:9 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDEzMDA3MyBTYWx0ZWRfX2aY4hYSw2ShF
+ rOBIvRi9R7L0Qh1Ki1IcKwsj1H9H+dWUDajOgQb36QA4jfHbMKjKh7W/jlEQSTkEwricy0N3pss
+ QXrHSDe0D0qGta3tg+Gb871rAejzp8/+mApTJao712ey7VMJ5dDzXnatpmj53WYuMh1iX3jqavp
+ Eg18bSsvRNdt5x5BaUvceFQp50eU1AsVI5K6/tPGMAJue22n4F3VGy5Aqmu9Tay/SSsZ0/YfJIV
+ s7IIrBEO1E0l9hNMXDTUA1ourHbfvq8DwFg2FYFZrs4/8pUSMdSmkJuMksIAYTbV+fV2MnJjdWY
+ FqfVW1KFOdEcC/VRv8EhriBj24q6RTIWTkuooCAp5E6vxh3YRrKwjkZUq7aZv2iA1eWemUuqRHI
+ kWRvMzDhMSxkwetK+Yo6g0klbMC2+Q3xGvXFtp1br3VQ7C3VJVjaljIwg7maHlZy4LyFmzgPuRh
+ N+dz+QLQz6n1HkypMfw==
+X-Proofpoint-ORIG-GUID: K_KkBEMWB_SZQU5LGu8puUzAVM84p9T4
+X-Proofpoint-GUID: K_KkBEMWB_SZQU5LGu8puUzAVM84p9T4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-13_02,2026-04-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ suspectscore=0 adultscore=0 bulkscore=0 phishscore=0 priorityscore=1501
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2604010000
+ definitions=main-2604130073
 
-Managed interrupts currently have their affinity determined once,
-honoring boot-time isolation settings. There is no mechanism to migrate
-them when housekeeping boundaries change at runtime.
+It is obvious that one can ask DT maintainers of something, just like
+one can ask anyone, so just drop the sentence.  Concise documents with
+rules have bigger chances of actually being read by people.
 
-Enable managed interrupts to respond dynamically to housekeeping updates.
-
-This ensures that managed interrupts are migrated away from newly
-isolated CPUs or redistributed when housekeeping CPUs are added.
-
-Signed-off-by: Qiliang Yuan <realwujing@gmail.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 ---
- kernel/irq/manage.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ Documentation/process/maintainer-soc.rst | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
-index 2e80724378267..31e263d9f40d0 100644
---- a/kernel/irq/manage.c
-+++ b/kernel/irq/manage.c
-@@ -2801,3 +2801,52 @@ bool irq_check_status_bit(unsigned int irq, unsigned int bitmask)
- 	return res;
- }
- EXPORT_SYMBOL_GPL(irq_check_status_bit);
-+
-+#ifdef CONFIG_SMP
-+static int irq_housekeeping_reconfigure(struct notifier_block *nb,
-+				       unsigned long action, void *data)
-+{
-+	struct housekeeping_update *upd = data;
-+	unsigned int irq;
-+
-+	if (action != HK_UPDATE_MASK || upd->type != HK_TYPE_MANAGED_IRQ)
-+		return NOTIFY_OK;
-+
-+	irq_lock_sparse();
-+	for_each_active_irq(irq) {
-+		struct irq_data *irqd;
-+		struct irq_desc *desc;
-+
-+		desc = irq_to_desc(irq);
-+		if (!desc)
-+			continue;
-+
-+		scoped_guard(raw_spinlock_irqsave, &desc->lock) {
-+			irqd = irq_desc_get_irq_data(desc);
-+			if (!irqd_affinity_is_managed(irqd) || !desc->action ||
-+			    !irq_data_get_irq_chip(irqd))
-+				continue;
-+
-+			/*
-+			 * Re-apply existing affinity to honor the new
-+			 * housekeeping mask via __irq_set_affinity() logic.
-+			 */
-+			irq_set_affinity_locked(irqd, irq_data_get_affinity_mask(irqd), false);
-+		}
-+	}
-+	irq_unlock_sparse();
-+
-+	return NOTIFY_OK;
-+}
-+
-+static struct notifier_block irq_housekeeping_nb = {
-+	.notifier_call = irq_housekeeping_reconfigure,
-+};
-+
-+static int __init irq_init_housekeeping_notifier(void)
-+{
-+	housekeeping_register_notifier(&irq_housekeeping_nb);
-+	return 0;
-+}
-+core_initcall(irq_init_housekeeping_notifier);
-+#endif
-
+diff --git a/Documentation/process/maintainer-soc.rst b/Documentation/process/maintainer-soc.rst
+index 7d6bad989ad8..4029dc6938d8 100644
+--- a/Documentation/process/maintainer-soc.rst
++++ b/Documentation/process/maintainer-soc.rst
+@@ -169,8 +169,6 @@ more information on the validation of devicetrees.
+ For new platforms, or additions to existing ones, ``make dtbs_check`` should not
+ add any new warnings.  For RISC-V and Samsung SoC, ``make dtbs_check W=1`` is
+ required to not add any new warnings.
+-If in any doubt about a devicetree change, reach out to the devicetree
+-maintainers.
+ 
+ Branches and Pull Requests
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~
 -- 
-2.43.0
+2.51.0
 
