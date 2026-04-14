@@ -1,406 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lgeamrelo03.lge.com (lgeamrelo03.lge.com [156.147.51.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9BFE8F49;
-	Tue, 14 Apr 2026 00:18:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E052430F95C
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 03:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.147.51.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776125901; cv=none; b=bHRcc1DmBwedmB9ewDHFBBbNEaCry7zqUyHwVME7YB99o6glSx7ZDUbzl0S3VvOtgcALZeAfA4PBLQIFSdlGLsUCxmIQV8gedafLy6JSCKKWOXp022pibv6F1mlnDDRBEfdMa3rG2X6BIXgpdfG7fp7eVR8OdFKbyO46Zfnzk54=
+	t=1776135914; cv=none; b=ITdF9aca2FyL14zI/6gXeNPRcLLveFgjUKkyfFKKHJej3b0Qt/Bjn743hGKr2WI0aSqfglOoRzJBLTbRJOM0BxNik/LP7oWhnUco4A/g4p0hFr/TGBxozgIfQ6txHMAbVehYeb6PPNBl/DQ8Zp3D4esRZL/PUHHFTudxV4d/nr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776125901; c=relaxed/simple;
-	bh=CRceZ72YMeCA7AV2JisCDBURFLUKBnYdwgooIReQp/I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Uv2Qnxy++DUovHHjNv7zOEE7xfGKFQaRzOqitiQoOgFZ4az4EeVAOqjxz0AbbszC1bnlpgjBqPVG99HX5o33SxSVjBp5vTEGyqAPHeWXFpgL0rXVv7oVS6IYXMj4m2Xs0ib4hx2LDb2fx2cdBpTr7F6Zlw90FhoY+PokXN9KLV0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HeRmxS9+; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HeRmxS9+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C60BFC2BCAF;
-	Tue, 14 Apr 2026 00:18:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776125901;
-	bh=CRceZ72YMeCA7AV2JisCDBURFLUKBnYdwgooIReQp/I=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HeRmxS9+EfkipokXLfupnR//80naGsv64ll4oaymDIGW0xFuumAu+SnyaP7ZpqDZb
-	 3rlksjm0nynRK8jcbQeH0ff/Fw1KLqKSCdS54mrs8JXhPvCbp4ddKd1OaNCFoF2ExI
-	 hoqVWvP2Vyw+QAO6/32ottuN0XDHU5h9AmerZtiAOZr0IEMsTM92J7AwQVWu8Fmptd
-	 uMxYQfneULZrEbSvhQ98KVs6/3XrRoDYDUCOODw8sCdyMvLTWALnchp11TRseNU4hO
-	 CMQ3GqSteS7JwuP3Pl1I14Y48Jyl6vCev20NhuXNGhlQbd/JNRj0VGM/ltZpGpSUSg
-	 iwJ36jrjuk0Dg==
-Date: Mon, 13 Apr 2026 17:18:17 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Fan Gong <gongfan1@huawei.com>
-Cc: Zhu Yikai <zhuyikai1@h-partners.com>, <netdev@vger.kernel.org>, "David
- S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo
- Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Ioana Ciornei <ioana.ciornei@nxp.com>, Mohsin
- Bashir <mohsin.bashr@gmail.com>, <linux-kernel@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
- <guoxin09@huawei.com>, Zhou Shuai <zhoushuai28@huawei.com>, Wu Like
- <wulike1@huawei.com>, Shi Jing <shijing34@huawei.com>, Zheng Jiezhen
- <zhengjiezhen@h-partners.com>, Maxime Chevallier
- <maxime.chevallier@bootlin.com>
-Subject: Re: [PATCH net-next v05 1/6] hinic3: Add ethtool queue ops
-Message-ID: <20260413171817.1e1eca30@kernel.org>
-In-Reply-To: <157d5cc6e757ffa77eee01dfdc3f2159dc97905f.1775711066.git.zhuyikai1@h-partners.com>
-References: <cover.1775711066.git.zhuyikai1@h-partners.com>
-	<157d5cc6e757ffa77eee01dfdc3f2159dc97905f.1775711066.git.zhuyikai1@h-partners.com>
+	s=arc-20240116; t=1776135914; c=relaxed/simple;
+	bh=iIkey2oim3PlO7vo+3FK0G8oXI2A0hzPeh0Tb+R90y4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pC0YAHqiY+1FR42g/CjjNJYol3fvW62MT5j1oIAt5HZloQ9IfpIFXxa353Wwg26oPYCZ6XF5o5AxMqMD6z78TwWkPQfg89/IJpFKz0QRvA/9OH1cEq0Wf/tXPc39xHg/0RwB5xpkHsKWBq8ToP7JPDV14zY2PPdEm1I/9/woAvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com; spf=pass smtp.mailfrom=lge.com; arc=none smtp.client-ip=156.147.51.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lge.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lge.com
+Received: from unknown (HELO yjaykim-PowerEdge-T330) (10.177.112.156)
+	by 156.147.51.102 with ESMTP; 14 Apr 2026 11:50:09 +0900
+X-Original-SENDERIP: 10.177.112.156
+X-Original-MAILFROM: youngjun.park@lge.com
+Date: Tue, 14 Apr 2026 11:50:08 +0900
+From: YoungJun Park <youngjun.park@lge.com>
+To: Nhat Pham <nphamcs@gmail.com>
+Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org,
+	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org,
+	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com,
+	cgroups@vger.kernel.org, chengming.zhou@linux.dev,
+	chrisl@kernel.org, corbet@lwn.net, david@kernel.org,
+	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org,
+	hughd@google.com, jannh@google.com, joshua.hahnjy@gmail.com,
+	lance.yang@linux.dev, lenb@kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com,
+	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev,
+	npache@redhat.com, pavel@kernel.org, peterx@redhat.com,
+	peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org,
+	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org,
+	ryan.roberts@arm.com, shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org,
+	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com,
+	yosry.ahmed@linux.dev, yuanchu@google.com,
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com,
+	riel@surriel.com
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+Message-ID: <ad2rYH9tUPthHFoj@yjaykim-PowerEdge-T330>
+References: <20260320192735.748051-1-nphamcs@gmail.com>
+ <acQrQYHJgqof0yx4@yjaykim-PowerEdge-T330>
+ <CAKEwX=NnHxpQKp9qBg2=r_euyjgxw2nHXjbgof3MymHTgJmRAQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKEwX=NnHxpQKp9qBg2=r_euyjgxw2nHXjbgof3MymHTgJmRAQ@mail.gmail.com>
 
-On Sat, 11 Apr 2026 11:36:59 +0800 Fan Gong wrote:
->   Implement following ethtool callback function:
-> .get_ringparam
-> .set_ringparam
-> 
->   These callbacks allow users to utilize ethtool for detailed
-> queue depth configuration and monitoring.
+On Sat, Apr 11, 2026 at 06:40:44PM -0700, Nhat Pham wrote:
 
-> +static int hinic3_check_ringparam_valid(struct net_device *netdev,
-> +					const struct ethtool_ringparam *ring)
-> +{
-> +	if (ring->rx_jumbo_pending || ring->rx_mini_pending) {
+Hello Nhat!
 
-Can driver actually be called with non-zero values if max is not set?
+> > 1. Modularization
+> >
+> > You removed CONFIG_* and went with a unified approach. I recall
+> > you were also considering a module-based structure at some point.
+> > What are your thoughts on that direction?
+> >
+>
+> The CONFIG-based approach was a huge mess. It makes me not want to
+> look at the code, and I'm the author :)
+>
+> > If we take that approach, we could extend the recent swap ops
+> > patchset (https://lore.kernel.org/linux-mm/20260302104016.163542-1-bhe@redhat.com/)
+> > as follows:
+> > - Make vswap a swap module
+> > - Have cluster allocation functions reside in swapops
+> > - Enable vswap through swapon
+>
+> Hmmmmm.
 
-> +		netdev_err(netdev, "Unsupported rx_jumbo_pending/rx_mini_pending\n");
-> +		return -EINVAL;
-> +	}
+I think this would be a happy world, but I wonder what others think.
+Anyway, I'm looking forward to the future direction.
 
+> > 2. Flash-friendly swap integration (for my use case)
+> >
+> > I've been thinking about the flash-friendly swap concept that
+> > I mentioned before and recently proposed:
+> > (https://lore.kernel.org/linux-mm/aZW0voL4MmnMQlaR@yjaykim-PowerEdge-T330/)
+> >
+> > One of its core functions requires buffering RAM-swapped pages
+> > and writing them sequentially at an appropriate time -- not
+> > immediately, but in proper block-sized units, sequentially.
+> >
+> > This means allocated offsets must essentially be virtual, and
+> > physical offsets need to be managed separately at the actual
+> > write time.
+> >
+> > If we integrate this into the current vswap, we would either
+> > need vswap itself to handle the sequential writes (bypassing
+> > the physical device and receiving pages directly), or swapon
+> > a swap device and have vswap obtain physical offsets from it.
+> > But since those offsets cannot be used directly (due to
+> > buffering and sequential write requirements), they become
+> > virtual too, resulting in:
+> >
+> >   virtual -> virtual -> physical
+> >
+> > This triple indirection is not ideal.
+> >
+> > However, if the modularization from point 1 is achieved and
+> > vswap acts as a swap device itself, then we can cleanly
+> > establish a:
+> >
+> >   virtual -> physical
+>
+> I read that thread sometimes ago. Some remarks:
+>
+> 1. I think Christoph has a point. Seems like some of your ideas ( are
+> broadly applicable to swap in general. Maybe fixing swap infra
+> generally would make a lot of sense?
 
-> +	if (ring->tx_pending > HINIC3_MAX_TX_QUEUE_DEPTH ||
-> +	    ring->tx_pending < HINIC3_MIN_QUEUE_DEPTH ||
-> +	    ring->rx_pending > HINIC3_MAX_RX_QUEUE_DEPTH ||
-> +	    ring->rx_pending < HINIC3_MIN_QUEUE_DEPTH) {
+Broadly speaking, there are two main ideas:
+1. Swap I/O buffering (which is also tied to cluster management issues)
+2. Deduplication
 
-similar question - do you need to check the upper bound?
-kernel should check the input against max returned by .get
+Are you leaning towards the view that these two should be placed in a
+higher layer?
 
-> +		netdev_err(netdev,
+> 2. Why do we need to do two virtual layers here? For example, If you
+> want to buffer multiple swap outs and turn them into a sequential
+> request, you can:
+>
+> a. Allocate virtual swap space for them as you wish. They don't even
+> need to be sequential.
+>
+> b. At swap_writeout() time, don't allocate physical swap space for
+> them right away. Instead, accumulate them into a buffer. You can add a
+> new virtual swap entry type to flag it if necessary.
+>
+> c. Once that buffer reaches a certain size, you can now allocate
+> contiguous physical swap space for them. Then flush etc. You can flush
+> at swap_writeout() time, or use a dedicated threads etc.
 
-please use extack for errors
+I initially thought implementing this in vswap would be complicated
+(due to the ripple effects of altering behavior at swap_writeout timing),
+but it seems entirely possible!
 
-> +			   "Queue depth out of range tx[%d-%d] rx[%d-%d]\n",
-> +			   HINIC3_MIN_QUEUE_DEPTH, HINIC3_MAX_TX_QUEUE_DEPTH,
-> +			   HINIC3_MIN_QUEUE_DEPTH, HINIC3_MAX_RX_QUEUE_DEPTH);
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int hinic3_set_ringparam(struct net_device *netdev,
-> +				struct ethtool_ringparam *ring,
-> +				struct kernel_ethtool_ringparam *kernel_ring,
-> +				struct netlink_ext_ack *extack)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_txrxq_params q_params = {};
-> +	u32 new_sq_depth, new_rq_depth;
-> +	int err;
-> +
-> +	err = hinic3_check_ringparam_valid(netdev, ring);
-> +	if (err)
-> +		return err;
-> +
-> +	new_sq_depth = 1U << ilog2(ring->tx_pending);
-> +	new_rq_depth = 1U << ilog2(ring->rx_pending);
-> +	if (new_sq_depth == nic_dev->q_params.sq_depth &&
-> +	    new_rq_depth == nic_dev->q_params.rq_depth)
-> +		return 0;
-> +
-> +	if (new_sq_depth != ring->tx_pending)
-> +		netdev_info(netdev, "Requested Tx depth trimmed to %d\n",
-> +			    new_sq_depth);
+1. We could change the behavior (e.g., buffering) at vswap_alloc_swap_slot
+   timing by checking things like the si type.
+2. Additionally, if we can handle the cluster data structures and
+   mechanisms in the swap_info_struct privately, a virtual-to-physical
+   one-direction approach seems feasible.
+   (Come to think of it, it might be better to refactor the infra to let
+   other modules handle this, potentially removing the swap_info_struct
+   mechanism entirely. Just imagination ;) )
 
-please use extack for warnings
+> Deduplication sounds like something that should live at a lower layer
+> - I was thinking about it for zswap/zsmalloc back then. I mean, I
+> assume you don't want content sharing across different swap media? :)
+> Something along the line of:
+>
+> 1. Maintain an content index for swapped out pages.
+>
+> 2. For the swap media that support deduplication, you'll need to add
+> some sort of reference count (more overhead ew).
+>
+> 3. Each time we swapped out, we can content-check to see if the same
+> piece of conent has been swapped out before. If so, set the vswap
+> backend to the physical location of the data, increment some sort of
+> reference count (perhaps we can use swap count) of the older entry,
+> and have the swap type point to it.
 
-> +	if (new_rq_depth != ring->rx_pending)
-> +		netdev_info(netdev, "Requested Rx depth trimmed to %d\n",
-> +			    new_rq_depth);
-> +
-> +	netdev_info(netdev, "Change Tx/Rx ring depth from %u/%u to %u/%u\n",
-> +		    nic_dev->q_params.sq_depth, nic_dev->q_params.rq_depth,
-> +		    new_sq_depth, new_rq_depth);
-> +
-> +	if (!netif_running(netdev)) {
-> +		hinic3_update_qp_depth(netdev, new_sq_depth, new_rq_depth);
-> +	} else {
-> +		q_params = nic_dev->q_params;
-> +		q_params.sq_depth = new_sq_depth;
-> +		q_params.rq_depth = new_rq_depth;
-> +
-> +		err = hinic3_change_channel_settings(netdev, &q_params);
-> +		if (err) {
-> +			netdev_err(netdev, "Failed to change channel settings\n");
-> +			return err;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static const struct ethtool_ops hinic3_ethtool_ops = {
->  	.supported_coalesce_params      = ETHTOOL_COALESCE_USECS |
->  					  ETHTOOL_COALESCE_PKT_RATE_RX_USECS,
-> @@ -417,6 +516,8 @@ static const struct ethtool_ops hinic3_ethtool_ops = {
->  	.get_msglevel                   = hinic3_get_msglevel,
->  	.set_msglevel                   = hinic3_set_msglevel,
->  	.get_link                       = ethtool_op_get_link,
-> +	.get_ringparam                  = hinic3_get_ringparam,
-> +	.set_ringparam                  = hinic3_set_ringparam,
->  };
+As for reference count management, applying it loosely might be a good
+approach. Instead of strictly managing the lifecycle of the dedup contents
+with refcounts, we could just periodically clean up the hash. This also
+has the benefit of reducing I/O for the same swap content compared to
+deleting it immediately.
 
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> index 0a888fe4c975..3b470978714a 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_main.c
-> @@ -179,6 +179,8 @@ static int hinic3_sw_init(struct net_device *netdev)
->  	int err;
->  
->  	mutex_init(&nic_dev->port_state_mutex);
-> +	mutex_init(&nic_dev->channel_cfg_lock);
+> But have you considered the implications of sharing swap data like
+> this? I need to read the paper you cite - seems like a potential fun
+> read. But what happen when these two pages that share the content
+> belong to two different cgroups? How does the
+> charging/uncharging/charge transferring story work? That's one of the
+> things that made me pause when I wanted to implement deduplication for
+> zswap/zsmalloc. Zram does not charge memory towards cgroup, but zswap
+> does, so we'll need to handle this somehow, and at that point all the
+> complexity might no longer be worth it.
 
-Why do you need this mutex?
-Aren't all the places you take it under rtnl_lock anyway?
+Since our private swap device is similar to ZRAM, I hadn't considered
+the charging aspect. It is indeed a complex issue.
 
-> +	spin_lock_init(&nic_dev->channel_res_lock);
->  
->  	nic_dev->q_params.sq_depth = HINIC3_SQ_DEPTH;
->  	nic_dev->q_params.rq_depth = HINIC3_RQ_DEPTH;
-> @@ -314,6 +316,15 @@ static void hinic3_link_status_change(struct net_device *netdev,
->  				      bool link_status_up)
->  {
->  	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	unsigned long flags;
-> +	bool valid;
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	valid = HINIC3_CHANNEL_RES_VALID(nic_dev);
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	if (!valid)
+If it goes into ZSWAP, there would definitely be a clear advantage of
+seeing dedup benefits across all swap devices. It's a technically
+interesting area, and I'd like to discuss it in a separate thread if
+I have more ideas or thoughts.
 
-Why are you checking valid here? What if the state changes immediately
-after unlocking?
+Just a thought that comes to mind here: if vswap becomes modularized,
+how about doing memcg charging for this entire area? 
+(Come to think of it, to fully benefit from vswap modularization,
+zswap should also be applied within its scope.)
 
-> +		return;
->  
->  	if (link_status_up) {
->  		if (netif_carrier_ok(netdev))
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> index da73811641a9..d652a5ffdc2c 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_netdev_ops.c
-> @@ -428,6 +428,85 @@ static void hinic3_vport_down(struct net_device *netdev)
->  	}
->  }
->  
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +			       struct hinic3_dyna_txrxq_params *trxq_params)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_dyna_txrxq_params old_qp_params = {};
-> +	struct hinic3_dyna_qp_params new_qp_params = {};
-> +	struct hinic3_dyna_qp_params cur_qp_params = {};
-> +	bool need_teardown = false;
-> +	unsigned long flags;
-> +	int err;
-> +
-> +	mutex_lock(&nic_dev->channel_cfg_lock);
-> +
-> +	hinic3_config_num_qps(netdev, trxq_params);
-> +
-> +	err = hinic3_alloc_channel_resources(netdev, &new_qp_params,
-> +					     trxq_params);
-> +	if (err) {
-> +		netdev_err(netdev, "Failed to alloc channel resources\n");
-> +		mutex_unlock(&nic_dev->channel_cfg_lock);
-> +		return err;
-> +	}
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	if (!test_and_set_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags))
-> +		need_teardown = true;
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	if (need_teardown) {
-> +		hinic3_vport_down(netdev);
-> +		hinic3_close_channel(netdev);
-> +		hinic3_uninit_qps(nic_dev, &cur_qp_params);
-> +		hinic3_free_channel_resources(netdev, &cur_qp_params,
-> +					      &nic_dev->q_params);
-> +	}
-> +
-> +	if (nic_dev->num_qp_irq > trxq_params->num_qps)
-> +		hinic3_qp_irq_change(netdev, trxq_params->num_qps);
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	old_qp_params = nic_dev->q_params;
-> +	nic_dev->q_params = *trxq_params;
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	hinic3_init_qps(nic_dev, &new_qp_params);
-> +
-> +	err = hinic3_open_channel(netdev);
-
-This "open" function allocates Rx buffers, and fails if it couldn't get
-even one. That's no good.
-
-> +	if (err)
-> +		goto err_uninit_qps;
-> +
-> +	err = hinic3_vport_up(netdev);
-> +	if (err)
-> +		goto err_close_channel;
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	clear_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags);
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	mutex_unlock(&nic_dev->channel_cfg_lock);
-> +
-> +	return 0;
-> +
-> +err_close_channel:
-> +	hinic3_close_channel(netdev);
-> +err_uninit_qps:
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	nic_dev->q_params = old_qp_params;
-> +	clear_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags);
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	hinic3_uninit_qps(nic_dev, &new_qp_params);
-> +	hinic3_free_channel_resources(netdev, &new_qp_params, trxq_params);
-> +
-> +	mutex_unlock(&nic_dev->channel_cfg_lock);
-
-AI says:
-
-  Can this error path lead to memory corruption?
-  If need_teardown was true, the old channel resources were freed earlier in
-  the function. If hinic3_open_channel() or hinic3_vport_up() fails, the code
-  jumps to err_uninit_qps and restores nic_dev->q_params = old_qp_params.
-  However, it doesn't appear to re-allocate those old resources or mark the
-  interface as down. Could a subsequent administrative teardown or network
-  traffic dereference these freed pointers?
-
-> +
->  static int hinic3_open(struct net_device *netdev)
->  {
->  	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> @@ -487,16 +566,33 @@ static int hinic3_close(struct net_device *netdev)
->  {
->  	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
->  	struct hinic3_dyna_qp_params qp_params;
-> +	bool need_teardown = false;
-> +	unsigned long flags;
->  
->  	if (!test_and_clear_bit(HINIC3_INTF_UP, &nic_dev->flags)) {
->  		netdev_dbg(netdev, "Netdev already close, do nothing\n");
->  		return 0;
->  	}
->  
-> -	hinic3_vport_down(netdev);
-> -	hinic3_close_channel(netdev);
-> -	hinic3_uninit_qps(nic_dev, &qp_params);
-> -	hinic3_free_channel_resources(netdev, &qp_params, &nic_dev->q_params);
-> +	mutex_lock(&nic_dev->channel_cfg_lock);
-> +
-> +	spin_lock_irqsave(&nic_dev->channel_res_lock, flags);
-> +	if (!test_and_set_bit(HINIC3_CHANGE_RES_INVALID, &nic_dev->flags))
-> +		need_teardown = true;
-> +	spin_unlock_irqrestore(&nic_dev->channel_res_lock, flags);
-> +
-> +	if (need_teardown) {
-> +		hinic3_vport_down(netdev);
-> +		hinic3_close_channel(netdev);
-> +		hinic3_uninit_qps(nic_dev, &qp_params);
-> +		hinic3_free_channel_resources(netdev, &qp_params,
-> +					      &nic_dev->q_params);
-> +	}
-> +
-> +	hinic3_free_nicio_res(nic_dev);
-> +	hinic3_destroy_num_qps(netdev);
-> +
-> +	mutex_unlock(&nic_dev->channel_cfg_lock);
->  
->  	return 0;
->  }
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> index 9502293ff710..55b280888ad8 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_dev.h
-> @@ -10,6 +10,9 @@
->  #include "hinic3_hw_cfg.h"
->  #include "hinic3_hwdev.h"
->  #include "hinic3_mgmt_interface.h"
-> +#include "hinic3_nic_io.h"
-> +#include "hinic3_tx.h"
-> +#include "hinic3_rx.h"
->  
->  #define HINIC3_VLAN_BITMAP_BYTE_SIZE(nic_dev)  (sizeof(*(nic_dev)->vlan_bitmap))
->  #define HINIC3_VLAN_BITMAP_SIZE(nic_dev)  \
-> @@ -20,8 +23,13 @@ enum hinic3_flags {
->  	HINIC3_MAC_FILTER_CHANGED,
->  	HINIC3_RSS_ENABLE,
->  	HINIC3_UPDATE_MAC_FILTER,
-> +	HINIC3_CHANGE_RES_INVALID,
->  };
->  
-> +#define HINIC3_CHANNEL_RES_VALID(nic_dev) \
-> +	(test_bit(HINIC3_INTF_UP, &(nic_dev)->flags) && \
-> +	 !test_bit(HINIC3_CHANGE_RES_INVALID, &(nic_dev)->flags))
-
-I don't get why you need to check both of these bits.
-Can't there be one bit for "resources valid" ?
-And it will only be set while device is up (of course) so no need to
-also check UP (this way checking can be atomic without the spin lock).
-
->  enum hinic3_event_work_flags {
->  	HINIC3_EVENT_WORK_TX_TIMEOUT,
->  };
-> @@ -129,6 +137,10 @@ struct hinic3_nic_dev {
->  	struct work_struct              rx_mode_work;
->  	/* lock for enable/disable port */
->  	struct mutex                    port_state_mutex;
-> +	/* lock for channel configuration */
-> +	struct mutex                    channel_cfg_lock;
-> +	/* lock for channel resources */
-> +	spinlock_t                      channel_res_lock;
->  
->  	struct list_head                uc_filter_list;
->  	struct list_head                mc_filter_list;
-> @@ -143,6 +155,10 @@ struct hinic3_nic_dev {
->  
->  void hinic3_set_netdev_ops(struct net_device *netdev);
->  int hinic3_set_hw_features(struct net_device *netdev);
-> +int
-> +hinic3_change_channel_settings(struct net_device *netdev,
-> +			       struct hinic3_dyna_txrxq_params *trxq_params);
-> +
->  int hinic3_qps_irq_init(struct net_device *netdev);
->  void hinic3_qps_irq_uninit(struct net_device *netdev);
->  
-> diff --git a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> index 12eefabcf1db..3791b9bc865b 100644
-> --- a/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> +++ b/drivers/net/ethernet/huawei/hinic3/hinic3_nic_io.h
-> @@ -14,6 +14,10 @@ struct hinic3_nic_dev;
->  #define HINIC3_RQ_WQEBB_SHIFT      3
->  #define HINIC3_SQ_WQEBB_SIZE       BIT(HINIC3_SQ_WQEBB_SHIFT)
->  
-> +#define HINIC3_MAX_TX_QUEUE_DEPTH  65536
-> +#define HINIC3_MAX_RX_QUEUE_DEPTH  16384
-> +#define HINIC3_MIN_QUEUE_DEPTH     128
-> +
->  /* ******************** RQ_CTRL ******************** */
->  enum hinic3_rq_wqe_type {
->  	HINIC3_NORMAL_RQ_WQE = 1,
-
+Best regards,
+Youngjun Park
