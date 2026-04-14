@@ -1,224 +1,375 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3082A387566;
-	Tue, 14 Apr 2026 21:57:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776203876; cv=none; b=RaICNizARuxFP47dUF+harhm2gm8/kmDVvLZff0ttvJCCkjDXBfxVxQCwswRaTyvU1GxKCT5/3K/MDGn/lL5/XrGIMDrkmbSY53mRvanqTtlkT0XcVsZrZUwq+riURnv1kfLucJLsk6/m+u+i1js+SBC9ynW/YJ6klLHAnur/KM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776203876; c=relaxed/simple;
-	bh=ZUNzTicQgDcyFP5w0RI4Nrc7tmhjfuPP2YRMHTfeXHw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=biQcYW6tYqJyKb5h0CSersXPTWthx+ZHfc6Qj+l7a4/9nY8+3p2M89t14c0th0uTDONXINd2OiKkdUXLe/oLjimbuKJsUfuAEJi+MlyL+k3goryBNRLuvZ1fMaCO3bmA/3d1FJ2oHr+GONLaPyMNx34Q355Vh05f7bn8FTnhB08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bpO0O54J; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FE7638946C
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 22:14:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776204853; cv=pass; b=iYmPXvjsI7zUbqIQmGF9dlVqNYz+zNdXRdwloLHMwWbMuzL8jyQh9nLt1CDylYz7f6J2NLktnBrj/4eu+Dw+zdXX6uTrHfzat3cd9xIASl/m4CtJw640ltadrskz6SxyJp9Za0Itb4oZtOQ3S4gRXcqrzWMupm0ypWp1DD+O/N8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776204853; c=relaxed/simple;
+	bh=EFuG3O2GySYI1nkRvikReQtUCyFAwyYO97i5pS4YUoo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ePDeMJrMnoEHn+vb5WgMf3/2K/Ed/wBlgT/lAb7NLTQAcGybDAO5PXO1a1SbQD87dTv6woGwDbs2MKE6vlIJMlZBS820Js7EACMQGijs+ifhnTYUzaYMmHU2HI1j5NjdAA9rPt1q8WkiutljC42k9MTK6mEzUhMBS5+YWCb4h1I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BIpUt2aU; arc=pass smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bpO0O54J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA95EC19425;
-	Tue, 14 Apr 2026 21:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776203875;
-	bh=ZUNzTicQgDcyFP5w0RI4Nrc7tmhjfuPP2YRMHTfeXHw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=bpO0O54J2tayfMK4LNj+PnNzYYE4jpf3X6/mDcNY+6rk5Iu3nuFLpco5R5ZzI0cqE
-	 1FS2FTQ1hTF/HrWbhVai0pCIBDQh9x//cPwtiInWdpQwVH/0QW0vOVeXgnwFA27D+d
-	 dWjnEJxD2jYfv0nRE7nM+UtQRYf+vR7EtCW2+fmlAGhtdC4+c+wLWqn3Skmb+M7S01
-	 6qa3LyUdW91baafo8JAYu2iOSg2Dwsf0At3W/2Te4M3Jz+C6o7zoKelMpO3E8Hhy4O
-	 vR5+74ONopnl8+XXC7oUb31d3nocIMR2Otp5hCvt3O/crKmRHOK2/WshfIcZ+gApy1
-	 AkdHVnGu+8dDw==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Qiliang Yuan <realwujing@gmail.com>, Ingo Molnar <mingo@redhat.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Steven Rostedt <rostedt@goodmis.org>, Ben
- Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>, Valentin
- Schneider <vschneid@redhat.com>, "Paul E. McKenney" <paulmck@kernel.org>,
- Frederic Weisbecker <frederic@kernel.org>, Neeraj Upadhyay
- <neeraj.upadhyay@kernel.org>, Joel Fernandes <joelagnelf@nvidia.com>, Josh
- Triplett <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>, Mathieu Desnoyers
- <mathieu.desnoyers@efficios.com>, Lai Jiangshan <jiangshanlai@gmail.com>,
- Zqiang <qiang.zhang@linux.dev>, Anna-Maria Behnsen
- <anna-maria@linutronix.de>, Ingo Molnar <mingo@kernel.org>, Tejun Heo
- <tj@kernel.org>, Andrew Morton <akpm@linux-foundation.org>, Vlastimil
- Babka <vbabka@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal
- Hocko <mhocko@suse.com>, Brendan Jackman <jackmanb@google.com>, Johannes
- Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>, Waiman Long
- <longman@redhat.com>, Chen Ridong <chenridong@huaweicloud.com>, Michal
- =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Shuah Khan <shuah@kernel.org>
-Cc: linux-kernel@vger.kernel.org, rcu@vger.kernel.org, linux-mm@kvack.org,
- cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Qiliang Yuan <realwujing@gmail.com>
-Subject: Re: [PATCH v2 04/12] tick/nohz: Transition to dynamic full dynticks
- state management
-In-Reply-To: <20260413-wujing-dhm-v2-4-06df21caba5d@gmail.com>
-References: <20260413-wujing-dhm-v2-0-06df21caba5d@gmail.com>
- <20260413-wujing-dhm-v2-4-06df21caba5d@gmail.com>
-Date: Tue, 14 Apr 2026 23:57:52 +0200
-Message-ID: <87tstddx27.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BIpUt2aU"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d7650202fso2138320f8f.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 15:14:10 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776204849; cv=none;
+        d=google.com; s=arc-20240605;
+        b=DBL8qNA02Tz8iJJLn4sveiHYWlUPoKeRf1pZuZMF/Qu38KqwjoKMu/3ilNrrcpTwK0
+         VWdi9UzUU86T/24y7i02kIjCTX0Vt5y58BCeUr+iFI55J9G2vlLehnT0CKxkCp+GM4ij
+         eawNf14RVLeXq5Tiyi3UzIM4sM6uDFDBE3ZaEoyVuhT5jfFGKX+OP1+r3fLaVJAVqHpJ
+         WmteHkDCuyaET+BhBZZoV1sF0WP0AmLmpRfcpwCopLXWNqwKH/TxzuaYwMjyh0jOXynM
+         4zhN1NbtEunSjttNPIC4RsoNHHSPXXZ8mSkvRvYkdlCXVeFUQ5+H/m4IsIxZnAZ/8CEL
+         Sc/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=XHGoqrVAF4yRodgucren3pErXmC922PltoQad4CPqCU=;
+        fh=/k/62mmS6fzBEC0TmNnJ+YG8deZbR9gE/zI20TJ8LsQ=;
+        b=Ulr3xcBvcbrAnubKtK9QCthN5V4+JePxjze62hE3pmvUeDeLrtuLSyo3bqsJHkJsot
+         j6VeDZ9ZhAHwwjf59sgHDLjJVIUA7GY7RQtfGuaJKGQOc+tiNzgJCCZe9QF8h6IoCx+G
+         MnwQQ1GFJp86wdxEEcifxIVDgXpcMDokD9ZbfXjvEGW3teM+2pA4nI2GoV2luosXi/MN
+         UYpRQtWIBz3U2wGRBfJldt+YfGlHwpNGGuG5wi8bTroabI6jt7DvuF8b4U2BJE2jX5Bn
+         8mGG1z+RGjV7Jmzmn7FMn1Xx10IL6aJqjg1MutUPmWyH63Q0fe8xrDSIqYBEQzkEEYKh
+         Ydlg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776204849; x=1776809649; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XHGoqrVAF4yRodgucren3pErXmC922PltoQad4CPqCU=;
+        b=BIpUt2aUIurYcVRlz8yJ47oY+d4to0e5UTP1mP3OYO5ciZ5OGle+rbMb4oRKzMyAOQ
+         CNNdxaLRMAdyTYYE4p6TQr2WIfo1H+cOljG/cUoUwfA205fhXgS/OhTYamPgRcLziF8L
+         VBKT9Koyfh3C6IC/Zb1/PpM/hhbheG8EDQ9y1GNTeV7W2bni1BE5n8GhwONFSwVB2iIB
+         pW9VWtWBHkUzBYGUurRh2Di4uXHJeKmjPlR3l3svMnjUYrNR0wyXqkQj7ZyNcii4OsGT
+         mprKQthumNTFv2BIxeo2PyKSZc2N5ABtOJbva5diWW1cm7HJOX2blhUADsIJTahsHLnH
+         E8lg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776204849; x=1776809649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=XHGoqrVAF4yRodgucren3pErXmC922PltoQad4CPqCU=;
+        b=G6M6RFdwfLywYXEpPG9PqORG0m5QEOG0N7i9sUmiA7bxPLNomwVFVMI7c30aeDNtJg
+         4vUEIzMPwRCIdv4uQIGsH8AhnPd+1QQ6C2tsn9P5i22KcOfdWz8dTIknsj32bK56sI8t
+         SzLYSqL6venx0nP0wHvllRyUgJxKkHmL4MCGetfIYQcsLjFdJznrphhFe+HqyODjJaEY
+         JJuqek9ze5vM0wgizEZ26Qp2P3jCarp4hyhsXtC9SwYfXB7hbqWSeualqWW2TG1DqWtd
+         MM4Xsnmyq41RQCQKtHEP56URTzuRA+8I4Dh6iriyl5MXF/MvuphhLcUghy7QHkO0GmGS
+         YFLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9rVXozIcEBxZM/7Nzgn/zA6/aP2r+kLjf+pjbzVL4jcCqEMw1+4O+1CwzIKm+cdNZDxNOU4Ty6l98=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKqmdpyeLuOv2iYCOHhVhL48XozZy3TBAhbUXQoRJ+PseH1uJb
+	HtVcQfWQwG8qnY+t9RyyYQp76pXUvpTZrIx0gHDvbuYRjuhm/j8VLsSG3iwz1rDx/R4Ryb22eRd
+	8CPFSuOr5XfKOoOYZoHyMMjXGhTWv6i0=
+X-Gm-Gg: AeBDieu/qPrCahkz2cC22vJx6lhAq+9h1TU4XehFF3S+ImuULKjB+I5RRbfLPrT2U5z
+	q6Qz6tlGzJ03rqFg3LinofDiYOkIBGpkPh02T8y9jHjwZP2OdSL+9fVHYS5k0wYno6NwkfAyL9s
+	8QB/Q3UtfESCHlNwWaLw+9wrdBt86ZFOMWfBwCgQLqjawCiEjskpkjQAdNRrUKf2V5KpZ5JtHXY
+	B77PamI/ichmKLSmNlJDFfkW/7ug0KRq1dRPfhGk+fvwkKgpLgWwrHe8AcbntNVpOFAcpq9tFaS
+	/HGHVh9qvzeHEMdp
+X-Received: by 2002:a5d:4443:0:b0:43d:696b:72a6 with SMTP id
+ ffacd0b85a97d-43d696b7352mr16413725f8f.7.1776204849185; Tue, 14 Apr 2026
+ 15:14:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <20260331123702.35052-1-john@jagalactic.com> <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+In-Reply-To: <20260414185740.GA604658@frogsfrogsfrogs>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Tue, 14 Apr 2026 15:13:57 -0700
+X-Gm-Features: AQROBzAAIIChNBd3LuntveTzVP71atwEu6BvgneAi9g5zAgR2JCNJI8CupfByL8
+Message-ID: <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
+	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 13 2026 at 15:43, Qiliang Yuan wrote:
+On Tue, Apr 14, 2026 at 11:57=E2=80=AFAM Darrick J. Wong <djwong@kernel.org=
+> wrote:
+>
+> On Tue, Apr 14, 2026 at 08:41:42AM -0500, John Groves wrote:
+> > On 26/04/14 03:19PM, Miklos Szeredi wrote:
+> > > On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.com> w=
+rote:
+> > >
+> > > > Overall, my intention with bringing this up is just to make sure we=
+'re
+> > > > at least aware of this alternative before anything is merged and
+> > > > permanent. If Miklos and you think we should land this series, then
+> > > > I'm on board with that.
+> > >
+> > > TBH, I'd prefer not to add the famfs specific mapping interface if no=
+t
+> > > absolutely necessary.  This was the main sticking point originally,
+> > > but there seemed to be no better alternative.
+> > >
+> > > However with the bpf approach this would be gone, which is great.
+>
+> Well... you can't get away with having *no* mapping interface at all.
 
-> Context:
-> Full dynticks (NOHZ_FULL) is typically a static configuration determined
-> at boot time. DHEI extends this to support runtime activation.
+Yes but the mapping interface should be *generic*, not one that is so
+specifically tailored to one server. fuse will have to support this
+forever.
 
-I have no idea what DHEI is. Provide proper information and not magic
-acronyms.
+> You still have to define a UABI that BPF programs can use to convey
+> mapping data into fsdax/iomap.  BTF is a nice piece of work that smooths
+> over minor fluctuations in struct layout between a running kernel and
+> a precompiled BPF program, but fundamentally we still need a fuse-native
+> representation.
+>
+> That last sentence was an indirect way of saying: No, we're not going
+> to export struct iomap to userspace.  The fuse-iomap patchset provides
+> all the UABI pieces we need for regular filesystems (ext4) and hardware
+> adjacent filesystems (famfs) to exchange file mapping data with the
+> kernel.  This has been out for review since last October, but the lack
+> of engagement with that patchset (or its February resubmission) doesn't
+> leave me with confidence that any of it is going anywhere.
+>
+> Note: The reason for bolting BPF atop fuse-iomap is so that famfs can
+> upload bpf programs to generate interleaved mappings.  It's not so hard
+> to convert famfs' iomapping paths to use fuse-iomap, but I haven't
+> helped him do that because:
+>
+> a) I have no idea what Miklos' thoughts are about merging any of the
+> famfs stuff.
+>
+> b) I also have no idea what his thoughts are about fuse-iomap.  The
+> sparse replies are not encouraging.
+>
+> c) It didn't seem fair to John to make him take on a whole new patchset
+> dependency given (a) and (b).
+>
+> d) Nobody ever replied to my reply to the LSFMM thread about "can we do
+> some code review of fuse iomap without waiting three months for LSFMM?"
+> I've literally done nothing with fuse-iomap for two of the three months
+> requested.
+>
+> > > So let us please at least have a try at this. I'm not into bpf yet,
+> > > but willing to learn.
+>
+> I sent out the patches to enable exactly this sort of experimentation
+> two months ago, and have not received any responses:
+>
+> https://lore.kernel.org/linux-fsdevel/177188736765.3938194.67707916882360=
+41940.stgit@frogsfrogsfrogs/
+>
+> I would like to say this as gently as possible: I don't know what the
+> problem here is, Miklos -- are you uninterested in the work?  Do you
+> have too many other things to do inside RH that you can't talk about?
+> Is it too difficult to figure out how the iomap stuff fits into the rest
+> of the fuse codebase?  Do you need help from the rest of us to get
+> reviews done?  Is there something else with which I could help?
+>
+> Because ... over the past few years, many of my team's filesystem
+> projects have endured monthslong review cycles and often fail to get
+> merged.  This has led to burnout and frustration among my teammates such
+> that many of them chose to move on to other things.  For the remaining
+> people, it was very difficult to justify continuing headcount when
+> progress on projects is so slow that individuals cannot achieve even one
+> milestone per quarter on any project.
+>
+> There's now nobody left here but me.
+>
+> I'm not blaming you (Miklos) for any of this, but that is the current
+> deplorable state of things.
+>
+> > > Thanks,
+> > > Miklos
+> >
+> > Thanks for responding...
+> >
+> > My short response: Noooooooooo!!!!!!
+> >
+> > I very strongly object to making this a prerequisite to merging. This
+> > is an untested idea that will certainly delay us by at least a couple
+> > of merge windows when products are shipping now, and the existing appro=
+ach
+> > has been in circulation for a long time. It is TOO LATE!!!!!!
+>
+> /me notes that has "we're shipping so you have to merge it over peoples'
+> concerns" rarely carries the day in LKML land, and has never ended well
+> in the few cases that it happens.  As Ted is fond of saying, this is a
+> team sport, not an individual effort.  Unfortunately, to abuse your
+> sports metaphor, we all play for the ******* A's.
+>
+> That said, you're clearly pissed at the goalposts changing yet again,
+> and that's really not fair that we collectively keep moving them.
+>
+> It's a rotten situation that I could have even helped you to solve both
+> our problems via fuse-iomap, but I just couldn't motivate myself to
+> entwine our two projects until the technical direction questions got
+> answered.
+>
+> > Famfs is not a science project, it's enablement for actual products and
+> > early versions are available now!!!
+> >
+> > That doesn't mean we couldn't convert later IF THERE ARE NO HIDDEN PROB=
+LEMS.
+>
+> Heck, the fuse command field is a u32.  There are plenty of numberspace
+> left, and the kernel can just *stop issuing them*.
 
-> Problem:
-> Switching to NOHZ_FULL at runtime requires careful synchronization
-> of context tracking and housekeeping states. Re-invoking setup logic
-> multiple times could lead to inconsistencies or warnings, and RCU
-> dependency checks often prevented tick suppression in Zero-Conf setups.
+I don't think the problem is the command field. As I understand it, if
+this lands and is converted over later, none of the famfs code in this
+series can be removed from fuse. If fuse has native non-bpf support
+for famfs, then it will always need to have that. That's the part that
+worries me.
 
-And that careful synchronization is best achieved with an opaque
-notifier callchain which relies on build time ordering. Impressive.
+>
+> > What are the risks of converting to BPF?
 
-> Solution:
-> - Replace the static tick_nohz_full_enabled() checks with a dynamic
->   tick_nohz_full_running state variable.
+I think maybe there is a misinterpretation of what the alternative
+approach entails. From my point of view, the alternative approach is
+not that different from what is already in this series. The only piece
+of the famfs logic that would need to use bpf is the logic for
+finding/computing the extent mappings (which is the famfs-specific
+logic that would not be applicable to any other server). That famfs
+bpf code is minimal and already written [1], as it is just the logic
+that is in patch 6 [2] in this series copied over. No other part of
+famfs touches bpf. The rest is renaming the functions in
+fs/fuse/famfs.c to generic fuse_iomap_dax_XXX names (the logic is the
+same logic in this series, eg invoking the lower-level calls to
+dax_iomap_rw/fault/etc) and moving the daxdev setup/initialization to
+connection initialization time where the server passes that daxdev
+setup info/configs upfront. I don't think this would delay things by
+several merge windows, as the code is already mostly written. If it
+would be helpful, I can clean up what's in the prototype and send that
+out.
 
-That variable existed before and you are telling the what and not why
-this is required and how that is correct vs. the other checks in
-tick_nohz_full_enabled(). Also what's static about that function aside
-of being marked static inline?
+I think the part that is not clear yet and needs to be verified is
+whether this approach runs into any technical limitations on famfs's
+production workloads. For example, does the overhead of using bpf maps
+lead to a noticeable performance drop on real workloads? In the
+future, will there be too many extent mappings on high-scale systems
+to make this feasible? etc. If there are technical reasons why the
+famfs logic has to be in fuse, then imo we should figure that out and
+ideally that's the discussion we should be having. I am not a cxl
+expert so perhaps there is something missing in the approach that
+makes it not sufficient on production systems. If we don't end up
+going with the alternative approach, I still think this series should
+try to make the famfs uapi additions to fuse as generic as possible
+since that will be irreversible.
 
-> - Refactor tick_nohz_full_setup to be safe for runtime invocation,
->   adding guards against re-initialization and ensuring IRQ work
->   interrupt support.
+If we expedited the alternative approach in terms of reviewing and
+merging, would that suffice? Is the main pushback the timing of it, eg
+that it would take too long to get reviewed, merged, and shipped?
 
-Refactoring has to be done in a preparatory patch and not 
+> >
+> > - I don't know how to do it - so it'll be slow (kinda like my fuse lear=
+ning
+> >   curve cost about a year because this is not that similar to anything
+> >   else that was already in fuse.
+>
+> ...and per above, BPF isn't some magic savior that avoids the expansion
+> of the UABI.
 
-> - Implement boot-time pre-activation of context tracking (shadow
->   init) for all possible CPUs to avoid instruction flow issues during
->   dynamic transitions.
+It doesn't avoid the expansion of the UABI but it makes the UABI
+generic (eg plenty of future servers can/will use the generic iomap
+layer).
 
-Again lot's of hand waving without a proper explanation.
+>
+> > - Those of us who are involved don't fully understand either the securi=
+ty
+> >   or performance implications of this. It
+>
+> Correct.  I sure think it's swell that people can inject IR programs
+> that jit/link into the kernel.  Don't ask which secondary connotation of
+> "swell" I'm talking about.
 
-> - Hook into housekeeping_notifier_list to update NO_HZ states dynamically.
+bpf is used elsewhere in the kernel (eg networking, scheduling). If it
+is the case that it is unsafe (which maybe it is, I don't know), then
+wouldn't those other areas have the same issues?
 
-See above.
+>
+> > - Famfs is enabling access to memory and mapping fault handling must be
+> >   at "memory speed". We know that BPF walks some data structures when a
+> >   program executes. That exposes us to additional serialized L3 cache
+> >   misses each time we service a mapping fault (any TLB & page table mis=
+s).
+> >   This should be studied side-by-side with the existing approach under
+> >   multiple loads before being adopted for production.
+>
+> Yes, it should.  AFAICT if one switched to a per-inode bpf program, then
+> you could do per-inode bpf programs.  Then you don't even need the bpf
+> map, and the ->iomap_begin becomes an indirect call into JITted x86_64
+> math code.
+>
+> (The downside is that dyn code can't be meaningfully signed, requires
+> clang on the system, and you have to deal with inode eviction issues.)
+>
+> > - This has never been done in production, and we're throwing it in the =
+way
+> >   of a project that has been soaking for years and needs to support ear=
+ly
+> >   shipments of products.
+>
+> Correct.  I haven't even implemented BPF-iomap for fuse4fs.  This BPF
+> integration stuff is *highly* experimental code.
 
-> This provides the core state machine for reliable, on-demand tick
-> suppression and high-performance isolation.
+I think what fuse4fs needs for bpf is significantly more complicated
+and intensive than what famfs needs. For famfs, the extent mapping
+logic is straightforward computation.
 
-I can find a lot of hacks, but definitely not the slightest notion of a
-state machine. Don't throw random buzzwords into a changelog if there is
-no evidence for their existance.
+>
+> > If this is the only path, I'd like to revive famfs as a standalone file
+> > system. I'm still maintaining that and it's still in use.
+>
+> Honestly, you should probably just ship that to your users.  As long as
+> the ondisk format doesn't change much, switching the implementation at a
+> later date is at least still possible.
 
-> +static int tick_nohz_housekeeping_reconfigure(struct notifier_block *nb,
-> +					     unsigned long action, void *data)
-> +{
-> +	struct housekeeping_update *upd = data;
-> +	int cpu;
-> +
-> +	if (action == HK_UPDATE_MASK && upd->type == HK_TYPE_TICK) {
-> +		cpumask_var_t non_housekeeping_mask;
-> +
-> +		if (!alloc_cpumask_var(&non_housekeeping_mask, GFP_KERNEL))
-> +			return NOTIFY_BAD;
-> +
-> +		cpumask_andnot(non_housekeeping_mask, cpu_possible_mask, upd->new_mask);
-> +
-> +		if (!tick_nohz_full_mask) {
-> +			if (!zalloc_cpumask_var(&tick_nohz_full_mask, GFP_KERNEL)) {
-> +				free_cpumask_var(non_housekeeping_mask);
-> +				return NOTIFY_BAD;
-> +			}
-> +		}
-> +
-> +		/* Kick all CPUs to re-evaluate tick dependency before change */
-> +		for_each_online_cpu(cpu)
-> +			tick_nohz_full_kick_cpu(cpu);
-
-That solves what?
-
-> +		cpumask_copy(tick_nohz_full_mask, non_housekeeping_mask);
-
-What's the exact point of this non_housekeeping_mask?
-
-Why can't you simply do:
-
-		cpumask_andnot(tick_nohz_full_mask, cpu_possible_mask, upd->new_mask);
-
-That'd be too simple and comprehensible, right?
-
-> +		tick_nohz_full_running = !cpumask_empty(tick_nohz_full_mask);
-> +
-> +		/*
-> +		 * If nohz_full is running, the timer duty must be on a housekeeper.
-> +		 * If the current timer CPU is not a housekeeper, or no duty is assigned,
-> +		 * pick the first housekeeper and assign it.
-> +		 */
-> +		if (tick_nohz_full_running) {
-> +			int timer_cpu = READ_ONCE(tick_do_timer_cpu);
-
-New line between declaration and code.
-
-> +			if (timer_cpu == TICK_DO_TIMER_NONE ||
-> +			    !cpumask_test_cpu(timer_cpu, upd->new_mask)) {
-
-No line break required. You have 100 characters
-
-> +				int next_timer = cpumask_first(upd->new_mask);
-
-next_timer? Please pick variable names which are comprehensible and self
-explaining. Also why can't you re-use timer_cpu, which would be actually useful?
-
-
-> +				if (next_timer < nr_cpu_ids)
-
-How can upd->new_mask be empty? That'd be a bug, no?
-
-> +					WRITE_ONCE(tick_do_timer_cpu, next_timer);
-> +			}
-> +		}
-> +
-> +		/* Kick all CPUs again to apply new nohz full state */
-> +		for_each_online_cpu(cpu)
-> +			tick_nohz_full_kick_cpu(cpu);
-
-This whole thing lacks an explanation why it is even remotely correct.
-
-> void __init tick_nohz_init(void)
-...
-> +	if (!tick_nohz_full_mask) {
-> +		if (!slab_is_available())
-> +			alloc_bootmem_cpumask_var(&tick_nohz_full_mask);
-> +		else
-> +			zalloc_cpumask_var(&tick_nohz_full_mask, GFP_KERNEL);
->  	}
-
-I've seen the same code sequence before. Copy & paste is simpler than
-providing helper functions.....
-  
-> -	if (IS_ENABLED(CONFIG_PM_SLEEP_SMP) &&
-> -			!IS_ENABLED(CONFIG_PM_SLEEP_SMP_NONZERO_CPU)) {
-> -		cpu = smp_processor_id();
-> +	housekeeping_register_notifier(&tick_nohz_housekeeping_nb);
->  
-> -		if (cpumask_test_cpu(cpu, tick_nohz_full_mask)) {
-> -			pr_warn("NO_HZ: Clearing %d from nohz_full range "
-> -				"for timekeeping\n", cpu);
-> -			cpumask_clear_cpu(cpu, tick_nohz_full_mask);
-> +	if (tick_nohz_full_running) {
-
-This indentation and the resulting goto mess can be completely avoided
-if you actually refactor the code and not just claim to do so.
-
-Again, this does too many things at once and then explains them badly,
-which makes it unreviewable.
+I recognize this is an unfair situation John as you've already spent
+years working on this and did what the community asked with rewriting
+it. What I'm hoping to convey is that the approach where the extent
+computing/finding logic gets moved to bpf is not radically different
+from the famfs logic already in this patchset. In my view, moving this
+logic to bpf is more advantageous for both fuse *and* famfs
+(decoupling famfs releases from kernel releases) - it would be great
+to consider this on technical merits if expediting the timeline of the
+alternative approach would suffice.
 
 Thanks,
+Joanne
 
-        tglx
+[1] https://github.com/joannekoong/libfuse/blob/444fa27fa9fd2118a0dc3329331=
+97faf9bbf25aa/example/famfs.bpf.c
+[2] https://lore.kernel.org/linux-fsdevel/0100019d43e79794-0eadcf5e-b659-43=
+f7-8fdc-dec9f4ccce14-000000@email.amazonses.com/
+
+>
+> --D
