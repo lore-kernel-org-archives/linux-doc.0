@@ -1,137 +1,419 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F004248166;
-	Tue, 14 Apr 2026 18:05:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29B4D3093CF;
+	Tue, 14 Apr 2026 18:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776189935; cv=none; b=mlEyw3vWEKXgwrz9PGgYVVl6+cBI96bQllImt16GB2jG31Z5QapS/hzvaQ8LA7PCQEHoFWiE+VlBOuGbfheEDTh2Q6zkSqQARBoqua3fb8kpj4fLV4V2L+LBbgUzcfzYiZyGTsVrxe/8gPa+8PhOSWOoGnUc+An0cunb5lmqN2g=
+	t=1776190328; cv=none; b=XmNMEC3UU7CKR6YytQs2IgQKONjgoMYLyk7bDh4LRgIL6sFlIMMJ/IXMLKtSfvthUhxiZLbmj/y5DqvpyQsjlDyUUQqWnU8fMKFMtzCg+xMI2AzkqMbPhZUu8olLuecv7Y0DhMydzmDm1/uGWe7H99yaMe6R8z/LvCADGzD4TJc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776189935; c=relaxed/simple;
-	bh=q2DrsFnuxK1fHmNxOuRECS2OWVI0HZxW9voN9duT66w=;
+	s=arc-20240116; t=1776190328; c=relaxed/simple;
+	bh=Vvs1mhMo55PahCwoPvb2tiFwYXyodQ1YBlUJY1X6pok=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nC7RQ4BIU5k5FsSynqhC/jW1S4IlvJK9cKy0uXFp6Gjn9TY7Idy+8KIrq0gXw7wGv/ipj0Z6ZWbNopBKBwldZMMZTmsWoTh61SXifIaTyYXLEsY6nkFJp9r4E3i+XULbqZ9MNYXl+vNwJ4sOGHEKJK6koAuhvGZ/Vc4HOrTOzj0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EAGTSUYk; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QMLqeq+HRGu/VYerPvBk0ht2YSOzM+UjMEFLpI3eklWRWFIuNGKGMqrm/sa1d3GBw82nFI1ODkLEfnEbkI0m+oJbOMmP7/6dcQPIWoJTtTmgwfRMZOPr8fm/fr61LlTzmWsJPUX8UuMFu9o883RgQzjVGb85l/Qo/Kh2ygT741o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=tttnoJUb; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=lso6wdpp; arc=none smtp.client-ip=193.142.43.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EAGTSUYk"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776189935; x=1807725935;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q2DrsFnuxK1fHmNxOuRECS2OWVI0HZxW9voN9duT66w=;
-  b=EAGTSUYkUJ758mdy2h8UrDVyHnUMN9shwpNX6JEty7mEMS3i1XGqrNpA
-   k6LDouC1f8LLJ1KoKZyAGt63oZs7X9kYiA//Wx6WSJk1gHn62+QGBwk3J
-   qv8b+7qTI5zObK7B2foun4U9NOjfoKe12pS+IAt+FHi9MZ3VZ2QbAuzrM
-   0LhJRu7yODrcJiCngHf89UWEFJzbwiCWFkVymFVaHtt7NXGAvhu9Vcpq9
-   niT5A7Fzqki6TmCI1rcifEiVtleWObiXP5f7B4Uq0y42uCxrDsGDiJvhM
-   8go0720F84xmSgU2ezn5RXEHwVEXb5bp5ICMbN6LoeV5SQdPLvDuer2XV
-   Q==;
-X-CSE-ConnectionGUID: deWxrDmaRoe1bH65EFtpLg==
-X-CSE-MsgGUID: 5a6cH/lmSgaZsTqq6ybFDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="80751352"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="80751352"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 11:05:34 -0700
-X-CSE-ConnectionGUID: E6+mn6gRRpCxIi3eA8k+Gg==
-X-CSE-MsgGUID: 8cAOYDHdTKawlZGUMUgCbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="235119082"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 11:05:33 -0700
-Date: Tue, 14 Apr 2026 11:05:00 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v10 01/12] x86/bhi: x86/vmscape: Move LFENCE out of
- clear_bhb_loop()
-Message-ID: <20260414180442.gcio7h6zjwjcayrs@desk>
-References: <20260414-vmscape-bhb-v10-0-efa924abae5f@linux.intel.com>
- <20260414-vmscape-bhb-v10-1-efa924abae5f@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="tttnoJUb";
+	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="lso6wdpp"
+Date: Tue, 14 Apr 2026 20:12:02 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020; t=1776190324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yaxROwQDs+5OJYyvMSBO+PjmZn4BG5+DcIzyEfclWUM=;
+	b=tttnoJUb0P6AmvctFpiM5ajGrwLQXfMCPm9uwdrgoxuQG/Zsx33ckjxLs5LsvtMPHal7GO
+	qpA3A1VUdme8SZhAuqh1ncHyA7VYuAi+A0rPIwcL3ddNavE9+ewAXuKlYRQd9vEaj3yQik
+	udQ4UWRS4LaCMe7vjlgCR+Kh1j9rpKX30vRNvnuL3HNSr2vL9U/cZGUBWSuJzA/wpJPLDp
+	dZr4LMN9OGSLHrobUtANMJPaOgUjf2s1D+Q8vJ6rsgawsYw/OOTKJcCoOaaDcQOAjvdq6I
+	KAGQwz/tTo7Iip7amuj3idZs2yFszLGr0DhrtF0QamwrQNOtPXRS4Oo2b1/M0w==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+	s=2020e; t=1776190324;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yaxROwQDs+5OJYyvMSBO+PjmZn4BG5+DcIzyEfclWUM=;
+	b=lso6wdppR3HOdENlHDTNl26+p8pkRCCOO+KUVjCLm+oPPFzWGjgoW0VlT5byodJYJ3KfrQ
+	jd3MY9YA1PjgA9CA==
+From: "Ahmed S. Darwish" <darwi@linutronix.de>
+To: Jonathan Corbet <corbet@lwn.net>, Clark Williams <clrkwllms@kernel.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	linux-rt-devel@lists.linux.dev
+Cc: Matthew Wilcox <willy@infradead.org>,
+	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
+	John Ogness <john.ogness@linutronix.de>,
+	Derek Barbosa <debarbos@redhat.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v4 1/1] Documentation: real-time: Add kernel configuration
+ guide
+Message-ID: <ad6DcliisiRxw5RN@lx-t490>
+References: <20260414174159.1271171-1-darwi@linutronix.de>
+ <20260414174159.1271171-2-darwi@linutronix.de>
+ <ad5_XCnVDlC9Hvup@lx-t490>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20260414-vmscape-bhb-v10-1-efa924abae5f@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ad5_XCnVDlC9Hvup@lx-t490>
 
-On Tue, Apr 14, 2026 at 12:05:28AM -0700, Pawan Gupta wrote:
-> Currently, the BHB clearing sequence is followed by an LFENCE to prevent
-> transient execution of subsequent indirect branches prematurely. However,
-> the LFENCE barrier could be unnecessary in certain cases. For example, when
-> the kernel is using the BHI_DIS_S mitigation, and BHB clearing is only
-> needed for userspace. In such cases, the LFENCE is redundant because ring
-> transitions would provide the necessary serialization.
-> 
-> Below is a quick recap of BHI mitigation options:
-> 
-> On Alder Lake and newer
-> 
->     BHI_DIS_S: Hardware control to mitigate BHI in ring0. This has low
->     performance overhead.
-> 
->     Long loop: Alternatively, a longer version of the BHB clearing sequence
->     can be used to mitigate BHI. It can also be used to mitigate the BHI
->     variant of VMSCAPE. This is not yet implemented in Linux.
-> 
-> On older CPUs
-> 
->     Short loop: Clears BHB at kernel entry and VMexit. The "Long loop" is
->     effective on older CPUs as well, but should be avoided because of
->     unnecessary overhead.
-> 
-> On Alder Lake and newer CPUs, eIBRS isolates the indirect targets between
-> guest and host. But when affected by the BHI variant of VMSCAPE, a guest's
-> branch history may still influence indirect branches in userspace. This
-> also means the big hammer IBPB could be replaced with a cheaper option that
-> clears the BHB at exit-to-userspace after a VMexit.
-> 
-> In preparation for adding the support for the BHB sequence (without LFENCE)
-> on newer CPUs, move the LFENCE to the caller side after clear_bhb_loop() is
-> executed. Allow callers to decide whether they need the LFENCE or not. This
-> adds a few extra bytes to the call sites, but it obviates the need for
-> multiple variants of clear_bhb_loop().
-> 
-> Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
-> Tested-by: Jon Kohler <jon@nutanix.com>
-> Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-> ---
+Add a configuration guide for real-time kernels.
 
-Sorry this is missing Boris's Ack, I will fix.
+List all Kconfig options that are recommended to be either enabled or
+disabled.  Explicitly add a table of contents at the top of the document,
+so that all the options can be seen in a glance.
 
-> Acked-by: Borislav Petkov (AMD) <bp@alien8.de>
+Whenever appropriate, link to other kernel guides; e.g. cpuidle, cpufreq,
+power management, and no_hz.
+
+Add a summary at the end of the document warning users that there is a no
+"one size fits all solution" for configuring a real-time system.
+
+Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
+---
+
+* Changelog v4
+
+ Handle Sashiko's review remarks at
+ https://sashiko.dev/#/patchset/ad5_XCnVDlC9Hvup%40lx-t490
+
+ Documentation/core-api/real-time/index.rst    |   1 +
+ .../real-time/kernel-configuration.rst        | 310 ++++++++++++++++++
+ 2 files changed, 311 insertions(+)
+ create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
+
+diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
+index f08d2395a22c..a17a3dec535c 100644
+--- a/Documentation/core-api/real-time/index.rst
++++ b/Documentation/core-api/real-time/index.rst
+@@ -15,3 +15,4 @@ the required changes compared to a non-PREEMPT_RT configuration.
+    differences
+    hardware
+    architecture-porting
++   kernel-configuration
+diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
+new file mode 100644
+index 000000000000..73f7730d468e
+--- /dev/null
++++ b/Documentation/core-api/real-time/kernel-configuration.rst
+@@ -0,0 +1,310 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++==============================
++Real-Time Kernel configuration
++==============================
++
++.. contents:: Table of Contents
++   :depth: 3
++   :local:
++
++Introduction
++============
++
++This document lists the kernel configuration options that might affect a
++real-time kernel's worst-case latency.  It is intended for system integrators.
++
++Configuration options
++=====================
++
++``CONFIG_CPU_FREQ``
++-------------------
++
++:Expectation: enabled
++:Severity: *high*
++
++The CPU frequency scaling subsystem ensures that the processor can operate
++at its maximum supported frequency.  While, in general, bootloaders are
++tasked with setting the CPU clock to the highest speed on boot, some do
++not.  It is thus desirable to keep this option enabled.
++
++.. caution::
++
++  A real-time kernel is not about being "as fast as possible", however
++  real-time requirements may demand that the CPU is clocked at a
++  particular speed.
++
++``CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE``
++-------------------------------------------
++
++:Expectation: enabled
++:Severity: *high*
++
++Real-Time workloads expect a fixed CPU frequency during execution.  Using
++the performance governor is an easy way to achieve that purely from kernel
++configuration.
++
++This is not a blanket rule.  Some setups might prefer to clock the CPU to
++lower speeds due to thermal packaging or other requirements.  The key is
++that the CPU frequency remains constant once set.
++
++``CONFIG_CPU_IDLE``
++-------------------
++
++:Expectation: enabled
++:Severity: *info*
++
++CPU idle states (C-states) allow the processor to enter low-power modes
++during periods of inactivity.  Very-low CPU idle states may require
++flushing the CPU caches and lowering or disabling the clocking.  This can
++lower power consumption, but it also increases the entry and exit latency
++from such states.
++
++While disabling this option eliminates cpuidle-related latencies, doing so
++can significantly impact hardware longevity, warranty, and thermal
++behavior.  Users should cap the maximum C-state to C1 instead.  For ACPI
++platforms, this can be achieved by using the boot parameter [1]_::
++
++  processor.max_cstate=1
++
++Higher C-states can be acceptable depending on the user workload's latency
++requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
++command to inspect the available idle states.
++
++For more information, please see:
++
++- ``linux/tools/power/cpupower``
++- :doc:`/admin-guide/pm/cpuidle`
++- :doc:`/admin-guide/pm/index`
++
++``CONFIG_DRM``
++--------------
++
++:Expectation: disabled
++:Severity: *info*
++
++GPU-accelerated workloads can share system resources with the CPU,
++including last-level cache (LLC) and memory bandwidth.  Modern integrated
++GPUs optimize graphics performance at the expense of CPU determinism.
++
++Examples of affected platforms:
++
++- Intel processors with integrated graphics (Gen9 and later)
++- AMD APUs with Radeon Graphics
++- Xilinx Zynq UltraScale+ MPSoC EG/EV series
++
++If graphics workloads must run alongside real-time tasks, users must
++conduct thorough stress testing using tools like ``glmark2`` while
++measuring the overall system latency.
++
++For more information, please check:
++
++- :doc:`Regarding hardware (System memory and cache) </core-api/real-time/hardware>`
++- :doc:`/filesystems/resctrl`
++- `Real-Time and Graphics: A Contradiction?`_
++
++``CONFIG_EFI_DISABLE_RUNTIME``
++------------------------------
++
++:Expectation: enabled
++:Severity: *medium*
++
++EFI is the standard boot and firmware interface for multiple
++architectures.  EFI runtime services provide callback functions to be
++called from the kernel; e.g., as utilized by (``CONFIG_EFI_VARS*``) or
++(``CONFIG_RTC_DRV_EFI``).  For the former, the kernel calls into EFI to
++update the EFI variables.
++
++Calling into EFI means invoking firmware callbacks.  During such
++invocations, the system might not be able to react to interrupts and will
++thus not be able to perform a context switch.  This can cause significant
++latency spikes for the real-time system.
++
++``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
++manually disabled at build time, the following boot parameter [1]_ may be
++used to disable EFI runtime at boot up::
++
++  efi=noruntime
++
++There is ongoing `development work`_ to allow access to EFI variables for a
++real-time Linux system.
++
++``CONFIG_NO_HZ`` / ``CONFIG_NO_HZ_FULL``
++----------------------------------------
++
++:Expectation: disabled
++:Severity: *medium*
++
++Tickless operation can increase kernel-to-userspace transition latency due
++to the extra accounting and state book-keeping.
++
++*Guidance by real-time workload type:*
++
++- For periodic workloads; e.g., control loops executing every 100 µs, avoid
++  ``NO_HZ`` modes.  Consistent kernel ticks are preferable.
++
++- For computation-intensive workloads; e.g. extended userspace execution,
++  ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload
++  the kernel housekeeping to dedicated CPUs and isolate compute cores.
++
++See also :doc:`/timers/no_hz`.
++
++``CONFIG_PREEMPT_RT``
++---------------------
++
++:Expectation: enabled
++:Severity: **fatal**
++
++This option must be enabled, or the resulting kernel will not be fully
++preemptible and real-time capable.
++
++``CONFIG_TRACING`` (and tracing options)
++----------------------------------------
++
++:Expectation: enabled
++:Severity: *info*
++
++Shipping kernels with tracing support enabled (but not actively running) is
++highly recommended.  This will allow the users to extract more information
++if latency problems arise.  Nonetheless, some tracers do incur latency
++overhead by just being enabled; see :ref:`tracers`.
++
++.. caution::
++
++  Users should *not* make use of tracers or trace events during production
++  real-time kernel operation as they can add considerable overhead and
++  degrade the system's latency.
++
++Non-performance CPU frequency governors
++---------------------------------------
++
++:Expectation: disabled
++:Severity: *medium*
++
++To ensure reproducible system latency measurements, disable the
++non-``PERFORMANCE`` CPU frequency governors when possible.  This avoids the
++risk of unknown userspace tasks implicitly or explicitly setting a
++different CPU frequency governor, and thus achieving different latency
++results across the system's runtime.
++
++If disabling other frequency governors is not an option, then
++``CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that case,
++users should set a *stable* CPU frequency setting during the system
++runtime, as changing the CPU frequency will increase the system latency and
++affect latency measurements reproducibility.  If a lower CPU frequency is
++desired, then ``CONFIG_CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
++
++The ``ONDEMAND`` CPU frequency governor should *not* be enabled in a
++real-time system since it dramatically affects determinism depending on the
++workload.
++
++For more information, please check :doc:`/admin-guide/pm/cpufreq`.
++
++Kernel Debug Options
++====================
++
++Most kernel debug options add runtime overhead that increases the
++worst-case latency.
++
++.. caution::
++
++  During development and early testing, users are encouraged to run their
++  real-time workloads and peripherals with lockdep (:ref:`lockdep`) and
++  other kernel debug options enabled, for a considerable amount of time.
++  Such workloads might trigger kernel code paths that were not triggered
++  during the internal Linux real-time kernel development, thus helping to
++  uncover locking and other types of kernel bugs.
++
++Problematic debug options
++-------------------------
++
++.. _tracers:
++
++``CONFIG_IRQSOFF_TRACER`` and ``CONFIG_PREEMPT_TRACER``
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Severity: *high*
++
++These tracers do incur measurable latency overhead even when tracing is not
++currently active.
++
++``CONFIG_LOCKUP_DETECTOR``
++^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++Severity: *high*
++
++The lockup detector creates kernel timer callbacks that execute every few
++seconds, in hard-IRQ context, even on real-time kernels.  These periodic
++interrupts can cause latency spikes.
++
++Users should use hardware watchdogs instead, which will provide a similar
++functionality without the software-induced latency.
++
++.. _lockdep:
++
++``CONFIG_PROVE_LOCKING``
++^^^^^^^^^^^^^^^^^^^^^^^^
++
++Severity: *high*
++
++Proving the correctness of all kernel locking adds substantial overhead
++and significantly increases worst-case latency.
++
++Allowed kernel debug options
++----------------------------
++
++Kernel debug options which are not included in this list should be enabled
++with caution, after extensive auditing of their impact on system latency.
++
++``CONFIG_DEBUG_ATOMIC_SLEEP``
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++This sanity check catches common kernel programming errors with
++a tolerable latency cost.
++
++``CONFIG_DEBUG_BUGVERBOSE``
++^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++This improves the debugging capabilities without affecting normal
++operation latency.
++
++``CONFIG_DEBUG_FS``
++^^^^^^^^^^^^^^^^^^^
++
++This is safe to include in real-time kernels, *provided that debugfs is
++not accessed during production runtime*.
++
++``CONFIG_DEBUG_INFO``
++^^^^^^^^^^^^^^^^^^^^^
++
++This increases the kernel image size but has no latency impact.  It is
++also essential for meaningful crash dumps and profiling.
++
++``CONFIG_DEBUG_KERNEL``
++^^^^^^^^^^^^^^^^^^^^^^^
++
++Meta-option which allows debug features to be enabled.  This configuration
++option has no runtime impact, but be aware of any debug features that it
++may have allowed to be enabled.
++
++Summary
++=======
++
++There is no "one size fits all" solution for configuring a real-time Linux
++system.  Beginning with the system real-time requirements, integrators
++must consider the features and functions of the system's hardware, kernel,
++and userspace.  All such components must be properly configured in order
++to establish and constrain the system's maximum latency.
++
++With that in mind, any incorrect real-time kernel configuration could cause
++a new maximum latency that shows up at the wrong time and is catastrophic
++for the real-time system's latency.
++
++References
++==========
++
++.. [1] See :doc:`/admin-guide/kernel-parameters`
++
++.. _development work: https://lore.kernel.org/r/20260227170103.4042157-1-bigeasy@linutronix.de
++
++.. _Real-Time and Graphics\: A Contradiction?: https://web.archive.org/web/20221025085614/https://linutronix.de/PDF/Realtime_and_graphics-acontradiction2021.pdf
+--
+2.53.0
