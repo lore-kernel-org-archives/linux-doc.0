@@ -1,63 +1,143 @@
-Received: from mail-ot1-f71.google.com (mail-ot1-f71.google.com [209.85.210.71])
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C240A38C43D
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 08:08:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B78C35DA4F
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 08:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776154090; cv=none; b=mi20w00c0/0lusdHcUHRMOCzq3r5BVKSb2Is6EEtxYtDfADrtOC0KmY3dT5tkUPyjdIcBeqaGUlAyYReyATU8BhDQ6a75cAczcBeUBEr+zwgR6Hkln6MzkUd2ZI70xwqILlZvlpnPZtredwVUjigSxCB/cKcxcfYbZDbpa3BwHM=
+	t=1776156359; cv=none; b=HjwrQOQtM+G5xF/3g71NpxVHX0HDu8XbOJ6wiLoPd3u60kMGfhQvMywAaHD/EpUkTyZWcGdxRZx12sDcwwNXQ88XKIcG9A2qQzdzeJAUKMwIwr+J1Gqv5lToBQQo+YEuFzsXi69BlBaf0Br5fCtMolZ57gCmHjOt/i85rIhUpBg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776154090; c=relaxed/simple;
-	bh=NCU7HC1t3iEDC4IqX2izve0FBoiDBcxRNyhBdT9YCoc=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=sK7/tvRRY0GyIsVjatPO1GAvf7xWZdnZfYe+A3jVYQUvAJfzd2G2VbHsbvgAgQK9PS2EVFh6m+gzSKf17Lc9mhTKVYXSkbjC4L0SKzm1H0Tf1FuB8SvGRNCQspBihylr/yEGSrN/Yy62HgPgvHF89aS/bK9/S040pg+zXBQInIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.210.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-ot1-f71.google.com with SMTP id 46e09a7af769-7dbe11b1f03so1354217a34.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 01:08:08 -0700 (PDT)
+	s=arc-20240116; t=1776156359; c=relaxed/simple;
+	bh=BRYJ6uVsCDThFB8tCgwITIWz23beoie3cE00ovg/BdE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IIQpt5Pa8F+6bsBzf1SzeFVbDlUhaQXCRNXEf65zKVN3k5Wsi1t+kVVVoQrJR4ajdGXQbsBmxaI6cGNowInJJ9YFFFXqJc0LWIras1lcegxe2NeKWQrUZNf8UtiSvTKBRjZhopnJBsVVkT/L+BZ43nghMVBzhxIq4Z+la1UIjME=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nF9l/6+W; arc=none smtp.client-ip=209.85.215.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nF9l/6+W"
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-c76bde70ec9so2136821a12.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 01:45:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776156358; x=1776761158; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JDvFhDFcx5e4TCyjA1q7jKK1ch2jNHgdaQYFkQOXvbM=;
+        b=nF9l/6+W1nAZT1kkqRflI48a2RZOuZiZhHZZARMpuOJ/HnLvCL8n4cN6KX1Oac0tqC
+         MxTDnJiwy5YcNBkhyD9T9iJh+svq/qtMKdSOn7hK9iJ/4ndQqkNsyL7vb/kn9RQR8LJz
+         CENJBYE274/44gfEtjlz7EOVQEGV7IUUd1Cnw8o+F+Iss86rV6GpQw9LukgpaV7yjgBe
+         3vzSiIgdzYnSdI6U/2i4lHplL7UhyLGSfE50BXrg/ZFUh7xLGCfeMqsqnfia5Hfs/cRY
+         +534Y69wVm0hoX7XBSdiEmN5L8bna6FZSf7e+oMg46XyPRjxhJKZB0rgzww3EZ9twdfK
+         OyGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776154088; x=1776758888;
-        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NCU7HC1t3iEDC4IqX2izve0FBoiDBcxRNyhBdT9YCoc=;
-        b=AEG7MjThBcSk0L/dtv5kK2r47oOPHo0ZnkD8WftfSEue8BvoaUHQQwq7ojwRo/CXwM
-         lLCeGu5krh2v6rmUx0n+iNc+WMh3ORMspbk1OdZXF6TWvL+zSW3DkSRFQwy0mcssbNyA
-         E4TVoX4gzMyrbVg0lFjonzPPaou0HqtaRZMTJUOP8US1XLXwm3MxOoH+q2fSMaxhSBh8
-         BTakiOe/ac6GP1czlZ9Gu8VXwr+YZte0Z6o4PEDFImZ8AP+bO5DUOleasetmfTj2ndhB
-         hmvO445Zm3/nqOOwbVg/BhPFrCVjunbbofAElHlPMCfsrzcz2n1v2OkwDTbPD1Uri1fj
-         fg4Q==
-X-Forwarded-Encrypted: i=1; AFNElJ/AoMwKMdxZ3Gar0380LsXNXRLvmk+wcV89oL+cK02Oe4TT/10PJDr9ombwnz+n3Ep4LJ55rLaYcc4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4dzCWSriEFEIxOo7/zEkvc3HNRtkleDSHIO6bbNYgsi2VZKFc
-	O8cNTxk+Rb9FzJYaI/3e/CuPi2cug/nFSNwkR1uEh80C9p7gJsoVDKBQ+oT8YFkPe7ZZHOrx2GO
-	G4ZlYoSg4RtEvW25sybnzmgcvkPHU1a/IjE0u8qtUAfefFwJBYnqB/nf9r1Y=
+        d=1e100.net; s=20251104; t=1776156358; x=1776761158;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JDvFhDFcx5e4TCyjA1q7jKK1ch2jNHgdaQYFkQOXvbM=;
+        b=AztmD5WtJt5ry9mB2CE4hz/ZiIgm9iff+xIq6wH24HzF/HauFksmEUhNVeqmDqtpmj
+         NwIQr2O0966V87tJLWEB/uLRRTaBXBoEqqzKNBZwNnVCzxZOAEZX//PGntfGs7KTVfPT
+         BbPtnXK1MRV4alEso4ENQB9pXqKsyh9FAZHD0k4j6WkTCEYVSVREbLSHqhMCzVJ0qlY/
+         zi9kH0MYIaoeZOhkfoLLjeWOC3O5q0vNgpaNcggzClCtJLHfU3wuETFPTvD19E0vREWm
+         bO1gayKHSHkpiUbm6O1aucH5ZmAdlC/0nhsYRHaJ1sly3CkUmLNTq2hHkR1YhJ3lqHsJ
+         Z0Yg==
+X-Forwarded-Encrypted: i=1; AFNElJ+5AxIowU1NGugikdEdtvqwNgPdrPhLd/JwyuIaFJwqECVWMFWcwyUMM6a57hOusMV9I1YgpHOOt3U=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyjvErUDIcJsx5RXZaGEaPjP0QcZjh9Lb4anf+/CRTWqRhoMH6J
+	bGBp8kr+R5FNkM86Kzu1RVoS4QGeZZBfw3sU2nDzT5YgBtAFKRJ3u7LMbbIdXQiI3Cc=
+X-Gm-Gg: AeBDiethKVGdO4Y39qFTbrf0EHn/RHodfWBwcrJvNiz8h9CZCkkKUfYcD4NW26ypxei
+	ARBm7vMAyXRfzvCa0mWzEsWLLvWos7zZAJNAbv8k5Dt5h60y4J+mqC34xJ5Vw3GKyCzpm3dbljO
+	mdbEQDllOQN4/H/7Drv2so2X8+W287H/sXSzYMl38XonhVurW9JMCZK7Dun3ouBUmHz4uaLjwOI
+	QJ5/FAFkZ/sWBaYoYiIuGM/lSU6emQB15eeufZnxNmV7jrsgQ3a7xiPt73T9JRZuMNybhB2D5H1
+	s/3rIfRTOZo1hgDImhCVss3+qaipzkMWqDxoSA3UEoQfUU2/p5LR27emcHxAk0D9pqT5MfhE87g
+	esy/ZZMpnqeZGxnRSywcrFh6NTiWN09ozoFkv0zzjPLP6xp5P28iHsWx996DvZGzHyihYikpdlu
+	5/8iEFqsEqM8kPK5gg5puw6/N28Th/RCCy85cc7maeJKfDuVi72Rxd6BermOP/uURNzg==
+X-Received: by 2002:a05:6a20:1586:b0:398:9794:32ed with SMTP id adf61e73a8af0-39fe3c64b93mr18182309637.12.1776156357567;
+        Tue, 14 Apr 2026 01:45:57 -0700 (PDT)
+Received: from localhost.localdomain ([124.55.73.133])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f0c4b3dc2sm14010608b3a.34.2026.04.14.01.45.55
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 14 Apr 2026 01:45:56 -0700 (PDT)
+From: fru1tworld <fruitworld.planet@gmail.com>
+To: corbet@lwn.net
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
+	fru1tworld <fruitworld.planet@gmail.com>
+Subject: [PATCH] docs: fix typos in kernel documentation
+Date: Tue, 14 Apr 2026 17:45:53 +0900
+Message-ID: <20260414084553.22762-1-fruitworld.planet@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6820:8183:b0:67e:1c67:ebd8 with SMTP id
- 006d021491bc7-68be7ee1b88mr7508599eaf.40.1776154087806; Tue, 14 Apr 2026
- 01:08:07 -0700 (PDT)
-Date: Tue, 14 Apr 2026 01:08:07 -0700
-In-Reply-To: <41689f2e-8786-49a6-912d-f65e48245a61@kernel.org>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <69ddf5e7.a00a0220.468cb.005b.GAE@google.com>
-Subject: Re: Re: [syzbot ci] Re: veth: add Byte Queue Limits (BQL) support
-From: syzbot ci <syzbot@syzkaller.appspotmail.com>
-To: hawk@kernel.org
-Cc: andrew@lunn.ch, ast@kernel.org, bpf@vger.kernel.org, corbet@lwn.net, 
-	daniel@iogearbox.net, davem@davemloft.net, edumazet@google.com, 
-	frederic@kernel.org, hawk@kernel.org, horms@kernel.org, 
-	j.koeppeler@tu-berlin.de, john.fastabend@gmail.com, 
-	kernel-team@cloudflare.com, kuba@kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	netdev@vger.kernel.org, pabeni@redhat.com, sdf@fomichev.me, shuah@kernel.org, 
-	syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
+reinitalizes => reinitializes
+unpriviledged => unprivileged
+the the => the (duplicated word)
+sub-struture => sub-structure
 
-Please attach the patch to act upon.
+Signed-off-by: fru1tworld <fruitworld.planet@gmail.com>
+---
+ Documentation/block/data-integrity.rst           | 2 +-
+ Documentation/core-api/list.rst                  | 2 +-
+ Documentation/core-api/real-time/differences.rst | 2 +-
+ Documentation/gpu/drm-uapi.rst                   | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/Documentation/block/data-integrity.rst b/Documentation/block/data-integrity.rst
+index 99905e880..b7b10c8ab 100644
+--- a/Documentation/block/data-integrity.rst
++++ b/Documentation/block/data-integrity.rst
+@@ -154,7 +154,7 @@ bio_free() will automatically free the bip.
+ ----------------
+ 
+ Block devices can set up the integrity information in the integrity
+-sub-struture of the queue_limits structure.
++sub-structure of the queue_limits structure.
+ 
+ Layered block devices will need to pick a profile that's appropriate
+ for all subdevices.  queue_limits_stack_integrity() can help with that.  DM
+diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
+index 241464ca0..4819343a2 100644
+--- a/Documentation/core-api/list.rst
++++ b/Documentation/core-api/list.rst
+@@ -752,7 +752,7 @@ This is because list_splice() did not reinitialize the list_head it took
+ entries from, leaving its pointer pointing into what is now a different list.
+ 
+ If we want to avoid this situation, list_splice_init() can be used. It does the
+-same thing as list_splice(), except reinitalizes the donor list_head after the
++same thing as list_splice(), except reinitializes the donor list_head after the
+ transplant.
+ 
+ Concurrency considerations
+diff --git a/Documentation/core-api/real-time/differences.rst b/Documentation/core-api/real-time/differences.rst
+index 83ec9aa1c..a129570da 100644
+--- a/Documentation/core-api/real-time/differences.rst
++++ b/Documentation/core-api/real-time/differences.rst
+@@ -213,7 +213,7 @@ to suspend until the callback completes, ensuring forward progress without
+ risking livelock.
+ 
+ In order to solve the problem at the API level, the sequence locks were extended
+-to allow a proper handover between the the spinning reader and the maybe
++to allow a proper handover between the spinning reader and the maybe
+ blocked writer.
+ 
+ Sequence locks
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index d98428a59..14ecaf98d 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -568,7 +568,7 @@ ENOSPC:
+ EPERM/EACCES:
+         Returned for an operation that is valid, but needs more privileges.
+         E.g. root-only or much more common, DRM master-only operations return
+-        this when called by unpriviledged clients. There's no clear
++        this when called by unprivileged clients. There's no clear
+         difference between EACCES and EPERM.
+ 
+ ENODEV:
+-- 
+2.52.0
 
