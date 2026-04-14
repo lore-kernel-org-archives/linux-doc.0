@@ -1,161 +1,168 @@
-Received: from mail-oo1-f74.google.com (mail-oo1-f74.google.com [209.85.161.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU010.outbound.protection.outlook.com (mail-ukwestazon11022085.outbound.protection.outlook.com [52.101.101.85])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED0A313550
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 19:55:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.74
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776196532; cv=none; b=t0+bPPLBiw8sgfzqAYj4nD10cr9epG9blo4idJ5QfWfeZUR3m6cfkQ5uHXS79HLxo9umSkZ6XEouhLCoz2VC5CQbV44TnSaqppUkWPWk1u/Cug6KD0K62y9HM1VOZ1Rmhd9bosnbLcWuWkdIs2D+zL2craBHsbvLcDnLt+817AQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776196532; c=relaxed/simple;
-	bh=sGPFZnIQdpvtj8pWF29yE7FXHvTUdwtT/N494dsATCQ=;
-	h=Date:In-Reply-To:Mime-Version:Message-ID:Subject:From:To:Cc:
-	 Content-Type; b=HNNuwXQ70bQ1SByrrpgJITswbW7LRU6pCSAUiEbGgrwSc3fFW+ijVVJQqZrs6N9Kw864pthwuh3GXzkoiW9Z8vuhczXLKWuFjs3jjbR/rMs40apyEzHDnNAT9trbdhcZhQeceZZW+viaOg2MofCqSVL28DLXdk+ykzzXpDGPepo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=OXKGKP58; arc=none smtp.client-ip=209.85.161.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--coltonlewis.bounces.google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="OXKGKP58"
-Received: by mail-oo1-f74.google.com with SMTP id 006d021491bc7-68e7e213adfso6617097eaf.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 12:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776196530; x=1776801330; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=sGPFZnIQdpvtj8pWF29yE7FXHvTUdwtT/N494dsATCQ=;
-        b=OXKGKP58fuVC4EK1+DXFB7QXBW9ile36DwGxJ+IxbyQSWtMhqQHH1wyge52NRv//hw
-         Gc9qys22qiRVLXjGXTVYANeD6TKwqTm0r5mcI4opFtnbKYzKE+sQi7ty8wFEr9pP3c9y
-         bLjMwqxW8UJW97Dnvw5gphZhsrpnqQ+lSHT5GvFhPAkZidmzQVPpfG1GpER0Mzcy0AjA
-         61hC/En8syU2Ij8IrthAzyOMWNsMlffWzvDP5mr0TMMILbgxTzxZDKczXNFY0MaQTlkp
-         AtNi1DkEiyRFPXGPqjdeG02AtwacBda5TqV45V7Z9n3k/3GGA7uniWjPEfkRmIZ103ri
-         wSog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776196530; x=1776801330;
-        h=cc:to:from:subject:message-id:mime-version:in-reply-to:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sGPFZnIQdpvtj8pWF29yE7FXHvTUdwtT/N494dsATCQ=;
-        b=ZBgzmTGulOeI0F8SetzuZh/skdz7vN8K5JzOr4auiCqjWbGeGzRRIE7vybm9s96ULO
-         KUBLHVI293qyYdS3WGkvtsh0PqvSlCB0/IxcAdM2d8/mX+WG/fmSQggPkDlaYaat1iqb
-         +3haK0E0T5FmL9BOAiA23Mzvim1OtdEMbh9kM9tCixiod8Yn6Y4eEZjdRAB273yFp6H+
-         DCdpHkoQiy1n/ulYrcRJtjpHwJZxen1UFHwM8cRjKzH9NtBzZh8r8p7XdiWlQYkF0SrC
-         ueEVJailb7sSVGduxfzjxm4R4CKlUgjQy5VSCwoBqeqR+E1todPNeDcl1n0YFRNX8ZWq
-         idwg==
-X-Forwarded-Encrypted: i=1; AFNElJ9jFWYgFro413JTIeSSqEmQC7RESupoWCXOMfSiGeym0wKe1J2ygsm9JhfAWnpsxFICTjs9KSqrr3c=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy4lfZlEytTUJuFjQiVnOUUUtqt1ZX1q0coATcoo4EH2yy4TwVm
-	MLr+S/d7A4b41ymsP9fCoafMwKhQIMFeZRVIqUEa0p20f7ujOfDXQ+PFV09wtM+sV8KFhlVLLGy
-	ESV/9vtEWlKKEAeQeJkb06m1giQ==
-X-Received: from iljv10.prod.google.com ([2002:a05:6e02:13ca:b0:4fa:147e:ab1d])
- (user=coltonlewis job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6820:812:b0:68d:dfd2:8db8 with SMTP id 006d021491bc7-68ddfd29166mr6158103eaf.8.1776196529605;
- Tue, 14 Apr 2026 12:55:29 -0700 (PDT)
-Date: Tue, 14 Apr 2026 19:55:27 +0000
-In-Reply-To: <gsntpl7a694p.fsf@coltonlewis-kvm.c.googlers.com> (message from
- Colton Lewis on Thu, 15 Jan 2026 18:09:10 +0000)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CB3322C6D;
+	Tue, 14 Apr 2026 20:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.101.85
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776196974; cv=fail; b=tVAuw1YKCl3giH9+YFXKpP0ZHIS6KWudvYBbutQQtJKjKJt2atZGzqBJ5yES8j25Yb2XdZziprVU7oh87kj0K1HNrMeplWZOv7/0gYeATDoPm4uACh4VMtPEw9DiVb7h6gykYmz7qSWndhwMkBM9b3dBm6TAqlW6V11X6VGSvPg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776196974; c=relaxed/simple;
+	bh=RMc/htsv+159+922dgs9clE4aiQpyKal1u1pe4rRIp0=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=MeUpRYVPDW6j6eJ6T2fLFvUD0tEy6plel6IcNSgozyPjzOAO/OjBrVFl/5odQZFSAtVPsD/aLhZRllpDfdtnq2kt146xoYYByJm0cGRbOjWHaTgTDf5yqLQRGbtzwnot+brbJQ4ziCAD7jMbsXhfcI9o1aA6IUEyidZIAz/lruQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.101.85
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VFqbe1BdfrWd2MuvK6liwLjLSB1lfqFEX6NjrRvlpaYY7WZ9aOgUsHUO8548NvmJaQyp5RvEgEF4tIwjDqjQkyts2jqtGJcPxELdEIceQQj0AKPRpJIzD4Lausptb8inXK0luGwsC94iclTa00SCDVxtW5KhvjmoDWAAsFv7qzt8nqGbM06qTxvkN+UAg51I7JgPTCuBARAusEor5t0j6tUShDEK6IWej1mIxHjDJA9lCO0DC6tg2ZxKHs8YG47zMxnRAhRvJM2J5/9dQCUREAhesRk9rMjNW7/RuR/3JUJrBaDSFvngYtrxweqfCBc8txgyrrU6U96UsO5tWdE1Xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+kf4S5/KC8AlKFQBrlJAoDCGQMNksej1qAOdDwU2bFM=;
+ b=ClqYg2r24VGyIUHjGQQ3Sc/vanZpDs8P0Xpv8Wbd4IGXYDpWw7tBf04qbaMGfC26hwHkAS2ipYb/4ZTtqMhOhXxZiCC2XgLjR9R9Wkp7j3nKtJ0DEV4umoj9mhHiEgzXMg3LkZxH2tXeFBQGpv+pcShELQtOwqjvISe2FMJrrTzLfEC9woPMOy/41baCH5bS6UPoEKi+BbL0caVZtI6bCHZyXlwmTZbx4LkL9pCWyTZQNaKqMbW6MQW/oY9KBRpunLMLNljHHHdwqvRJJ44gefjFEPUnRbU7oAf1BV7I6UHCcxKrZe9gwNxqAcrtizAvvtw9ZG8TR+cM/ENEns216w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by CWLP123MB2753.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:4b::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9745.42; Tue, 14 Apr
+ 2026 20:02:50 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9769.046; Tue, 14 Apr 2026
+ 20:02:49 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: tglx@kernel.org,
+	akpm@linux-foundation.org,
+	bp@alien8.de,
+	rdunlap@infradead.org,
+	dave.hansen@linux.intel.com,
+	feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com,
+	dapeng1.mi@linux.intel.com,
+	kees@kernel.org,
+	elver@google.com,
+	paulmck@kernel.org,
+	lirongqing@baidu.com,
+	bhelgaas@google.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] docs: kernel-parameters: document scope of irqaffinity= parameter
+Date: Tue, 14 Apr 2026 16:02:45 -0400
+Message-ID: <20260414200245.1153919-1-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BL1PR13CA0160.namprd13.prod.outlook.com
+ (2603:10b6:208:2bd::15) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Message-ID: <gsnt1pghgvv4.fsf@coltonlewis-kvm.c.googlers.com>
-Subject: Re: [PATCH v5 00/24] ARM64 PMU Partitioning
-From: Colton Lewis <coltonlewis@google.com>
-To: Colton Lewis <coltonlewis@google.com>
-Cc: will@kernel.org, oupton@kernel.org, kvm@vger.kernel.org, 
-	pbonzini@redhat.com, corbet@lwn.net, linux@armlinux.org.uk, 
-	catalin.marinas@arm.com, maz@kernel.org, oliver.upton@linux.dev, 
-	mizhang@google.com, joey.gouly@arm.com, suzuki.poulose@arm.com, 
-	yuzenghui@huawei.com, mark.rutland@arm.com, shuah@kernel.org, 
-	gankulkarni@os.amperecomputing.com, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-perf-users@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"; format=flowed; delsp=yes
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|CWLP123MB2753:EE_
+X-MS-Office365-Filtering-Correlation-Id: f7adde86-1305-4fe2-797e-08de9a60cdf2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	sLwJaGFAoFGA7WtD0UTfaTuIFdr+qnov+ZK0MfBnB/ql3HwBGX050G6iISi2e32N4nKK/g9DhAlEy1WXjy9GEbC3ULiXz2UoAoYs/Ex+LT9iTCfKrv/jhQGcq+ur5QuhJCgOf06VTx7edG+xlhPNwrziY4rxRpc2xg3ElD/CfaxypA6dtCi2ZCIr9bLXjvkYzOg2OrzCXhAQ7f/PVGwjBSd2ZN0Oi9kKOjKaVrIjF+E5zf6KpgK2H5kcpp4eqaKDOobBFrIQ5TBgKN/eUpAE1tonO8SwIByYIiII7blxbQGD7sd6ybD2xRDLksfIvUWZl8KLix5jBjqwsCEqvd9p7TbDU1TFWAo4LAmixJZ6FshVvajPKeZf+D7ZcPtdT++MpmHVkeIj+snPj8LmpUbYZPxyM75auXGWPe6VfvpzMod8PKhxA2Dbx5CheFsfTr/G+OP8KQ8pfDZEIR4iVEl9Y7lZdzhnHJLtA283WSSC8QFpeI5PcPZ04bE5H2MHAn8w0+xZnQt3ryhLMVZccfsAZBtqgZS7pXttQv8rFINvTWDa4vUgv4eq5aSlM7rNCT5ZIEQtVMR5JhNmnDeT1y2iy2HnfTYW3CbR8vpsEOw4hFYrYmyUKIp5n/uV9DLVCWrj6iAJXBJNhIhrg5SUKAb7Zh4xC6D64gp7RwB68zEev9nLRHAuEhAh6DpCZ1642Qh+RUje0+q1qmm58tQcPdzd6rnMj3zV8Rq1exZiAHwMfC8=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2umfCXeNd9cdjchLQBcRH5XJSJwYem9b3Qi/Kbi3S0vh/WZatcQOa12aCNg3?=
+ =?us-ascii?Q?/4qXBSNUhKf56LKwo6Z4GBJDW1LUZw1FFmH0gkYgvcHFPN8VHnv4qp5Erx1d?=
+ =?us-ascii?Q?isr/6D7//TiUyPIAPsh8D/YutvqrXVSSLT0ZG9viuU8n4anWGh1KYbcMDB3W?=
+ =?us-ascii?Q?/kx5SFxB7jHNDvLcno8qFDjTK4bNz2L7zb6DvrjrYoud1ixZ2PxYT4t4+Pf5?=
+ =?us-ascii?Q?5C1kzTEBjEXpRc7jxnGne93ptcpCCz41GtIDb7R2TWAZ1QXgnLh9QgqUY2SZ?=
+ =?us-ascii?Q?tFnOppCD3fodRv0Xv+K4RFnnXxbWkP7gQ6owOgHFnRAGz/iuzwWD1olVYpfH?=
+ =?us-ascii?Q?Cm318UM254YOy6k1bIgmuLntGnQShxXz0kWqW6XTXM3cBj1277Pzsy60kWvb?=
+ =?us-ascii?Q?Zvd9P8SBwu/MpzoToKeVuFLzXNA84px+ulLimr7Y63ZTDbxMeAfsiEw6DqGN?=
+ =?us-ascii?Q?9Ui+Q889AVlz5fMRcroKKrogaCfn3B/eVHGQGag15fiJiiieqOrUR3bajSH8?=
+ =?us-ascii?Q?Kmz5wfSEoAsTws+9oz2Sj2kxlj8+e2Nf0b52KdnDII7u1zAU2EsbvmUwAq5U?=
+ =?us-ascii?Q?sVWT/qK3Q1PNlgyXzofpSSnQRuQAQeQC+3nBvbEt22VSXd6tYu7gAlnOzvrH?=
+ =?us-ascii?Q?CkYSjQMeaEjc3cAygFBHrpth/87xLwzYB0gSjYMuzjsw7cf6FWIqczGIuYt7?=
+ =?us-ascii?Q?7hDugvDO93xFzcaQOAudlkoCrz9+HXfynSXr3peG3TT8NbdwmHB9ApT7t1//?=
+ =?us-ascii?Q?wyByFFyH3OIo1lLyPOdBjf6v/WrrrOQUVj+KjjMimXm5Nok8XSQ7qXqlnq6W?=
+ =?us-ascii?Q?79SzQciymzvNGyFiJYS0KzF3TKdKTUgfefEvDLo/h8vwNHowz6UFNCrTxSIu?=
+ =?us-ascii?Q?BPsBSZZodXEdNKe5l3yFjCcu97qXHc66vY2/NAsQWJD8nbHCOQfxam1l+6f4?=
+ =?us-ascii?Q?/QQHHvkj8IYARyJBKsP+d5suP0y2Z4XSj3k+dZbnZVWuATUpQZBBUBhooWwC?=
+ =?us-ascii?Q?Isx6GRHWmSehsxfa5CwSw/d/sObbWxRt6gK6A66D7dZ49iUjxdTDJa1XJt1b?=
+ =?us-ascii?Q?6ZN4dND1ydKkM4xTCbktz4u0JTInx82wdYpaR07yidBSRUweuEzo6Pq7nE11?=
+ =?us-ascii?Q?nxqIwKVZjFuIPoSwG+bY4NqiVyBj4oW/O+fFAlX8RCwk9LS1ZMZDS0jd3sQO?=
+ =?us-ascii?Q?3Hoh3PX9mX/sqx8qsRCxiLfVFI1BDaTTz0AQbLtdSe/KmQsrPFdYjFm7I85v?=
+ =?us-ascii?Q?XkSTBlNg+F0lARCYvuqULDtlR1gTszuERiaEg0a/In2ZPzcBWvwejG5I77b8?=
+ =?us-ascii?Q?5oNQ21LQsUu7we2T6DbyTXy9Of3msvlU8/vWv263uAcSKGxaeWegx2MZe9r4?=
+ =?us-ascii?Q?wR8aTVs8SYUImsRmu/dUJAI3YJguFRRJF09Xf1j0+E54rMXJ5dtngy7xADEL?=
+ =?us-ascii?Q?IFCS9Dn48T7s0uPGO8lyBePLPO+x2QDoM6BhTqCSDggHvgVcUXImsC2k9R7/?=
+ =?us-ascii?Q?R6rZff2YWaqfzRklPZyl9M1/Vw3AcNHQ2RxqLTejueYglGt4vNKteIpIt6um?=
+ =?us-ascii?Q?BOuvkBKpINbMy9gECOj+lNEXiV7NIVbbkq94vtPgFQr+GRJPFKRvY6bYkf6O?=
+ =?us-ascii?Q?fynnwIhGfaZi4Dl+fCWpN5q/a5+92/9cgpgadTEiaBuijcybOgJcupOrLNcG?=
+ =?us-ascii?Q?cIqYqH74ma/4jkHkMfglHY8Op/BcKjoIjO++hofO7oPQ5CndwcURm3np+LV3?=
+ =?us-ascii?Q?k+OHRRrEPQ=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f7adde86-1305-4fe2-797e-08de9a60cdf2
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2026 20:02:49.7517
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: li7KNEO0dJQhzU5bru/tAJZcCjEaRMl+HYa6dkEHrt3q+kQm3DfLJyrTi+3qsRnQGmSEFlh+I7sHElBDH8COMQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CWLP123MB2753
 
-Colton Lewis <coltonlewis@google.com> writes:
+System administrators frequently use the "irqaffinity=" boot parameter
+in conjunction with CPU isolation to build deterministic, latency-free
+environments. However, there is a widespread misconception that
+"irqaffinity=" acts as a global, absolute override for all hardware
+interrupts.
 
-> Will Deacon <will@kernel.org> writes:
+In reality, "irqaffinity=" strictly populates the irq_default_affinity
+mask. When the kernel allocates multiqueue vectors
+(e.g., irq_create_affinity_masks()), it explicitly bypasses this default
+mask for managed interrupts. Instead, it relies on dynamic spreading
+algorithms to map queues to the available topology, effectively
+overriding any default the administrator set via the command line.
 
->> On Tue, Dec 09, 2025 at 03:00:59PM -0800, Oliver Upton wrote:
->>> On Tue, Dec 09, 2025 at 08:50:57PM +0000, Colton Lewis wrote:
->>> > This series creates a new PMU scheme on ARM, a partitioned PMU that
->>> > allows reserving a subset of counters for more direct guest access,
->>> > significantly reducing overhead. More details, including performance
->>> > benchmarks, can be read in the v1 cover letter linked below.
->>> >
->>> > An overview of what this series accomplishes was presented at KVM
->>> > Forum 2025. Slides [1] and video [2] are linked below.
->>> >
->>> > The long duration between v4 and v5 is due to time spent on this
->>> > project being monopolized preparing this feature for internal
->>> > production. As a result, there are too many improvements to fully list
->>> > here, but I will cover the notable ones.
+This patch explicitly documents this limitation in kernel-parameters.txt
+to set correct expectations and directs users to the appropriate
+"isolcpus=" sub-parameters for managed interrupt isolation.
 
->>> Thanks for reposting. I think there's still quite a bit of ground to
->>> cover on the KVM side of this, but I would definitely appreciate it if
->>> someone with more context on the perf side of things could chime in.
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
->>> Will, IIRC you had some thoughts around counter allocation, right?
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 9ed7c3ecd158..40ca92d8cf04 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2732,6 +2732,14 @@ Kernel parameters
+ 	irqaffinity=	[SMP] Set the default irq affinity mask
+ 			The argument is a cpu list, as described above.
+ 
++			Note: This parameter only sets the default affinity
++			for unmanaged interrupts (e.g., legacy single-queue
++			devices or unmanaged pre/post vectors). It is
++			explicitly ignored by managed interrupts, such as
++			those utilised by modern multiqueue storage
++			controllers. To isolate CPUs from managed
++			interrupts, see the "managed_irq".
++
+ 	irqchip.gicv2_force_probe=
+ 			[ARM,ARM64,EARLY]
+ 			Format: <bool>
+-- 
+2.51.0
 
->> Right, I was hoping that the host counter reservation could be more
->> dynamic than a cmdline option. Perf already has support for pinning
->> events to a CPU, so the concept of some counters being unavailable
->> shouldn't be too much for the driver to handle. You might just need to
->> create some fake pinned events so that perf code understands what is
->> happening.
-
-> Thanks Will. I have a few followup questions:
-
-> 1. Are you suggesting this be done whenever we enter a guest so the host
-> always has access to the full range in host context? That would be the
-> most dynamic.
-
-> 2. How should we handle the possibility a real event already occupies a
-> counter wanted by the guest? Is there a good way to create our fake
-> pinned events then force a reschedule so perf moves the real events out
-> of the way?
-
-> 3. Is there an existing fake event type that tells perf not to touch
-> hardware?
-
-> 4. Can you point to any example code that already does something like
-> this?
-
-Thank you Will and Mark for meeting with me to discuss things in person.
-
-Here's my main takeaways so the list can comment:
-
-Will's initial idea doesn't work because there is no way for KVM to pin
-counters in a way that takes priority over counters pinned by the host
-and therefore guarantee reservation.
-
-An alternate idea I am proposing is to call the perf core
-sched_in/sched_out functionality during vcpu_load/vcpu_put when guest
-counters need to be reserved/unreserved.
-
-That means having perf vacate all the host counters temporarily,
-modifying the arm_pmu.cntr_mask to add/remove the appropriate counters,
-then having perf schedule all host events back on the new set. Perf is
-capable of doing that without any significant changes.
-
-This is simple and should work because arm_pmu.cntr_mask is already
-accessible from the vcpu struct and modifying it is already how the
-existing boot-time counter reservation works.
-
-There are some tradeoffs to this approach that will need further
-consideration. The first is how to handle event groups. Perf allows
-events to be grouped such that they must all be scheduled in at once. If
-the host has a larger group than the number of counters available while
-the vcpu is loaded, then it simply won't be able to schedule that group
-in for that time period. Another is whether it will be acceptable
-performance-wise to put perf sched_in/sched_out in
-vcpu_load/vcpu_put. I'm unsure how much delay that would add to those
-paths.
-
-Absent strong objections, I will be posting a series using this method.
-
-Another idea that was not discussed that I had later is a middle
-approach that is less dynamic but gives the user control over when the
-perf sched_in/sched_out happens. Expose the existing boot-time parameter
-as writable in sysfs and do the sched_out/modify mask/sched_in when that
-is written rather than in vcpu_load.
