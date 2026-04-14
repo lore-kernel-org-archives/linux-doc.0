@@ -1,140 +1,257 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1541190473;
-	Tue, 14 Apr 2026 15:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CF4B2DA768;
+	Tue, 14 Apr 2026 15:39:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776181078; cv=none; b=CJ2gKxgtC7VhxIVnAmSXTlcld852v5gN5OFrjiwRsUtTl7rvaiVZ/YdJNDMCHxc4N6vZIIp7JuUCkXsboxKL/ciJkQY6macSyKuxufG5MKb7XT+F2+NtCaP39WTtZTkde2UKU6cgkASjW3rgIOxGXl3kj3On2cnytHqSI2rpIQ0=
+	t=1776181172; cv=none; b=ngnOXwWB1Vooq5ZXDrlxj2GH/gGWIWj63GNK5fcFNJqCPFLC7gkpj+waWgpZGmKABzJ5othlND6Z1iyLHKjQ/hIr3Hddf+frk4NVjdlEUROH5W1GEZ5qHg/Kgjbrb5pbw19PkB2bFLnIM0/o3XMPUggUOgSeHd/i0USI71OvEk4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776181078; c=relaxed/simple;
-	bh=vLt1zIsK1rIcZO3TGQDorDFsNmmezc0A83+t9iQrN+k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ur21lBNQlyaO1cBghC7G11EP/5PIRy/Eee9bTsv87vG/0LvpZbHcjh709wL/YiNw/CeA4mND1NVSg/IybU+QkX/p2Io+BEuAI6YXAJT2BeS4Q3NS6Vqz+Mmjtyl4gHeXg00kFfh3oqDir93LgZswYi9q0eIhvRmwsYMvqjiUbB8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjdxK0h2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776181172; c=relaxed/simple;
+	bh=rTCyXEtDUnsotdoEbD/fLLp1IKAltS5fHIoCHSQ1vXQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MKUlmjRWZvEyzrKPpoSi0ufEXYDpGtDhySiUXqwH+1bJVYmVMTQW8FK7K4KAIU5GwywvTjrcof3l0mnZ5TaYsMACe7X9FICTXLZlNckoloo9Qd+nvPj5Vn88PDejb1v+RbesSghEU2ER17EVJLDVBZqTGTkLDVYNFL9opGdk2Ow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=m3Ugc+N1; arc=none smtp.client-ip=117.135.210.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjdxK0h2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E91AC19425;
-	Tue, 14 Apr 2026 15:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776181077;
-	bh=vLt1zIsK1rIcZO3TGQDorDFsNmmezc0A83+t9iQrN+k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NjdxK0h2GlaLeB2t7hArNWCRSqIDWcr2FCJVvMvkYdIxeOUoHWUm6aU7MhJs3gNKJ
-	 FypuwAHi2hMrXIc+l1an1CDDfivVpNt3PY4pT08Q3K6e54kreCwdbViRtNdtlQ0Efl
-	 HhJ7XbrsOkzRKkr11b1F0kC/SM4p+8VNc49XaTj12yQFL8rdupj0JBa2P+C8Jvt6Qv
-	 rvkA6/+pPJvk1QsfcB2eOgjvWNzL1PMJqkn4K95cb8JxYMxdfD/mdkgqzoKAGljVae
-	 pkA6KH1CRimrpkUlpvNirlN9XHIyNfbtgr4zdhbyFhwE17ncHUFz5dMqwLNcvOaZg7
-	 +0KeKpVCjDscA==
-Message-ID: <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
-Date: Tue, 14 Apr 2026 17:37:50 +0200
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="m3Ugc+N1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Subject:From:To:Date:Content-Type:
+	MIME-Version; bh=Ip1c0a+3297g90+Upi4oiVKn6ZWOXamB2pU1EwVMxx8=;
+	b=m3Ugc+N17v/CDZwCXgWK2JH20Pmb+JPhp/GYeXzjAb4bQlu90CuxqJf619xTdq
+	z/rlZzhjmTaKUqlGesCih2F1BnSL29bcm3NMiHlINTXG8jR4+QzloqwVjPOU7tFv
+	RuiLKeE4arChjdEWm5sdkHu3uBqD8R4tEzCzNkQeKQaEE=
+Received: from [127.0.0.1] (unknown [])
+	by gzga-smtp-mtada-g0-0 (Coremail) with SMTP id _____wD3vwo0X95ptSsPEw--.58359S2;
+	Tue, 14 Apr 2026 23:37:28 +0800 (CST)
+Message-ID: <42c1fed84a84519c2432163aa46f587f2d624fef.camel@163.com>
+Subject: Re: [PATCH bpf] bpf,tcp: avoid infinite recursion in
+ BPF_SOCK_OPS_HDR_OPT_LEN_CB
+From: mkf <message1887@163.com>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>, bpf@vger.kernel.org
+Cc: Quan Sun <2022090917019@std.uestc.edu.cn>, Yinhao Hu
+ <dddddd@hust.edu.cn>,  Kaiyan Mei <M202472210@hust.edu.cn>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Eric Dumazet <edumazet@google.com>,  Neal Cardwell
+ <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, "David S.
+ Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Tue, 14 Apr 2026 23:37:24 +0800
+In-Reply-To: <20260414105702.248310-1-jiayuan.chen@linux.dev>
+References: <20260414105702.248310-1-jiayuan.chen@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM guest
- memory
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: Peter Xu <peterx@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>,
- Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Vlastimil Babka <vbabka@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kvm@vger.kernel.org
-References: <20260414142354.1465950-1-kas@kernel.org>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <20260414142354.1465950-1-kas@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3vwo0X95ptSsPEw--.58359S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW3Ww4xZFy8Kr1xWw1kKrW7Jwb_yoWxJw18pF
+	Wqy3W5ArsrJrW8Cwn3tFWxCF1Igw4qkF9rCa1xWr1rCwnIgr1xJ3y2krsxur4YkrW8Aa4f
+	ZF1jkr15CwnrAFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UpSoXUUUUU=
+X-CM-SenderInfo: 5phv2tdjhrmmqx6rljoofrz/xtbCwRr3P2neXzqSRwAA3U
 
-On 4/14/26 16:23, Kiryl Shutsemau (Meta) wrote:
-> This series adds userfaultfd support for tracking the working set of
-> VM guest memory, enabling VMMs to identify cold pages and evict them
-> to tiered or remote storage.
-> 
-> == Problem ==
-> 
-> VMMs managing guest memory need to:
-> 1. Track which pages are actively used (working set detection)
-> 2. Safely evict cold pages to slower storage
-> 3. Fetch pages back on demand when accessed again
-> 
-> For shmem-backed guest memory, working set tracking partially works
-> today: MADV_DONTNEED zaps PTEs while pages stay in page cache, and
-> re-access auto-resolves from cache. But safe eviction still requires
-> synchronous fault interception to prevent data loss races.
-> 
-> For anonymous guest memory (needed for KSM cross-VM deduplication),
-> there is no mechanism at all — clearing a PTE loses the page.
-> 
-> == Solution ==
-> 
-> The series introduces a unified userfaultfd interface that works
-> across both anonymous and shmem-backed memory:
-> 
-> UFFD_FEATURE_MINOR_ANON: extends MODE_MINOR registration to anonymous
-> private memory. Uses the PROT_NONE hinting mechanism (same as NUMA
-> balancing) to make pages inaccessible without freeing them.
+On Tue, 2026-04-14 at 18:57 +0800, Jiayuan Chen wrote:
+> A BPF_PROG_TYPE_SOCK_OPS program can set BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FL=
+AG
+> to inject custom TCP header options. When the kernel builds a TCP packet,
+> it calls tcp_established_options() to calculate the header size, which
+> invokes bpf_skops_hdr_opt_len() to trigger the BPF_SOCK_OPS_HDR_OPT_LEN_C=
+B
+> callback.
+>=20
+> If the BPF program calls bpf_setsockopt(TCP_NODELAY) inside this callback=
+,
+> __tcp_sock_set_nodelay() will call tcp_push_pending_frames(), which calls
+> tcp_current_mss(), which calls tcp_established_options() again,
+> re-triggering the same BPF callback. This creates an infinite recursion
+> that exhausts the kernel stack and causes a panic.
+>=20
+> BPF_SOCK_OPS_HDR_OPT_LEN_CB
+> =C2=A0 -> bpf_setsockopt(TCP_NODELAY)
+> 	-> tcp_push_pending_frames()
+> 	=C2=A0 -> tcp_current_mss()
+> 		-> tcp_established_options()
+> 		=C2=A0 -> bpf_skops_hdr_opt_len()
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 /* infinite recursion */
+> 			-> BPF_SOCK_OPS_HDR_OPT_LEN_CB
+>=20
+> A similar reentrancy issue exists for TCP congestion control, which is
+> guarded by tp->bpf_chg_cc_inprogress. Adopt the same approach: introduce
+> tp->bpf_hdr_opt_len_cb_inprogress, set it before invoking the callback in
+> bpf_skops_hdr_opt_len(), and check it in sol_tcp_sockopt() to reject
+> bpf_setsockopt(TCP_NODELAY) calls that would trigger
+> tcp_push_pending_frames() and cause the recursion.
+>=20
+> Reported-by: Quan Sun <2022090917019@std.uestc.edu.cn>
+> Reported-by: Yinhao Hu <dddddd@hust.edu.cn>
+> Reported-by: Kaiyan Mei <M202472210@hust.edu.cn>
+> Reported-by: Dongliang Mu <dzm91@hust.edu.cn>
+> Closes: https://lore.kernel.org/bpf/d1d523c9-6901-4454-a183-94462b8f3e4e@=
+std.uestc.edu.cn/
+> Fixes: 0813a841566f ("bpf: tcp: Allow bpf prog to write and parse TCP hea=
+der option")
+> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+> ---
+> =C2=A0Documentation/networking/net_cachelines/tcp_sock.rst |=C2=A0 1 +
+> =C2=A0include/linux/tcp.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 11 ++++++++++-
+> =C2=A0net/core/filter.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 4 ++++
+> =C2=A0net/ipv4/tcp_minisocks.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
+> =C2=A0net/ipv4/tcp_output.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
+3 +++
+> =C2=A05 files changed, 19 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst
+> b/Documentation/networking/net_cachelines/tcp_sock.rst
+> index 563daea10d6c..07d3226d90cc 100644
+> --- a/Documentation/networking/net_cachelines/tcp_sock.rst
+> +++ b/Documentation/networking/net_cachelines/tcp_sock.rst
+> @@ -152,6 +152,7 @@ unsigned_int=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 keepalive_i=
+ntvl
+> =C2=A0int=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 linger2
+> =C2=A0u8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 bpf_sock_ops_cb_flags
+> =C2=A0u8:1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 bpf_chg_cc_inprogress
+> +u8:1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 bpf_hdr_opt_len_cb_inprogress
+> =C2=A0u16=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 timeout_rehash
+> =C2=A0u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 rcv_ooopack
+> =C2=A0u32=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 rcv_rtt_last_tsecr
+> diff --git a/include/linux/tcp.h b/include/linux/tcp.h
+> index f72eef31fa23..2bfb73cf922e 100644
+> --- a/include/linux/tcp.h
+> +++ b/include/linux/tcp.h
+> @@ -475,12 +475,21 @@ struct tcp_sock {
+> =C2=A0	u8	bpf_sock_ops_cb_flags;=C2=A0 /* Control calling BPF programs
+> =C2=A0					 * values defined in uapi/linux/tcp.h
+> =C2=A0					 */
+> -	u8	bpf_chg_cc_inprogress:1; /* In the middle of
+> +	u8	bpf_chg_cc_inprogress:1, /* In the middle of
+> =C2=A0					=C2=A0 * bpf_setsockopt(TCP_CONGESTION),
+> =C2=A0					=C2=A0 * it is to avoid the bpf_tcp_cc->init()
+> =C2=A0					=C2=A0 * to recur itself by calling
+> =C2=A0					=C2=A0 * bpf_setsockopt(TCP_CONGESTION, "itself").
+> =C2=A0					=C2=A0 */
+> +		bpf_hdr_opt_len_cb_inprogress:1; /* It is set before invoking the
+> +						=C2=A0 * callback so that a nested
+> +						=C2=A0 * bpf_setsockopt(TCP_NODELAY) or
+> +						=C2=A0 * bpf_setsockopt(TCP_CORK) cannot
+> +						=C2=A0 * trigger tcp_push_pending_frames(),
+> +						=C2=A0 * which would call tcp_current_mss()
+> +						=C2=A0 * -> bpf_skops_hdr_opt_len(), causing
+> +						=C2=A0 * infinite recursion.
+> +						=C2=A0 */
+> =C2=A0#define BPF_SOCK_OPS_TEST_FLAG(TP, ARG) (TP->bpf_sock_ops_cb_flags =
+& ARG)
+> =C2=A0#else
+> =C2=A0#define BPF_SOCK_OPS_TEST_FLAG(TP, ARG) 0
+> diff --git a/net/core/filter.c b/net/core/filter.c
+> index 78b548158fb0..518699429a7a 100644
+> --- a/net/core/filter.c
+> +++ b/net/core/filter.c
+> @@ -5483,6 +5483,10 @@ static int sol_tcp_sockopt(struct sock *sk, int op=
+tname,
+> =C2=A0	if (sk->sk_protocol !=3D IPPROTO_TCP)
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> +	if ((optname =3D=3D TCP_NODELAY || optname =3D=3D TCP_CORK) &&
+> +	=C2=A0=C2=A0=C2=A0 tcp_sk(sk)->bpf_hdr_opt_len_cb_inprogress)
+> +		return -EBUSY;
+> +
+TCP_CORK is not support in sol_tcp_sockopt(), return -EINVAL by default. an=
+d put the check here
+could also prevent us from calling getsockopt(TCP_NODELAY) below.
 
-I would rather tackle this from the other direction: it's another form
-of protection (like WP), not really a "minor" mode.
+> =C2=A0	switch (optname) {
+> =C2=A0	case TCP_NODELAY:
+> =C2=A0	case TCP_MAXSEG:
+> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+> index dafb63b923d0..fb06c464ac16 100644
+> --- a/net/ipv4/tcp_minisocks.c
+> +++ b/net/ipv4/tcp_minisocks.c
+> @@ -663,6 +663,7 @@ struct sock *tcp_create_openreq_child(const struct so=
+ck *sk,
+> =C2=A0	RCU_INIT_POINTER(newtp->fastopen_rsk, NULL);
+> =C2=A0
+> =C2=A0	newtp->bpf_chg_cc_inprogress =3D 0;
+> +	newtp->bpf_hdr_opt_len_cb_inprogress =3D 0;
+> =C2=A0	tcp_bpf_clone(sk, newsk);
+> =C2=A0
+> =C2=A0	__TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
+> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+> index 326b58ff1118..c9654e690e1a 100644
+> --- a/net/ipv4/tcp_output.c
+> +++ b/net/ipv4/tcp_output.c
+> @@ -475,6 +475,7 @@ static void bpf_skops_hdr_opt_len(struct sock *sk, st=
+ruct sk_buff *skb,
+> =C2=A0				=C2=A0 unsigned int *remaining)
+> =C2=A0{
+> =C2=A0	struct bpf_sock_ops_kern sock_ops;
+> +	struct tcp_sock *tp =3D tcp_sk(sk);
+> =C2=A0	int err;
+> =C2=A0
+> =C2=A0	if (likely(!BPF_SOCK_OPS_TEST_FLAG(tcp_sk(sk),
+> @@ -519,7 +520,9 @@ static void bpf_skops_hdr_opt_len(struct sock *sk, st=
+ruct sk_buff *skb,
+> =C2=A0	if (skb)
+> =C2=A0		bpf_skops_init_skb(&sock_ops, skb, 0);
+> =C2=A0
+> +	tp->bpf_hdr_opt_len_cb_inprogress =3D 1;
+we check the BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG before calling BPF_CGROUP_R=
+UN_PROG_SOCK_OPS_SK,
+could this flag use for the same purpose? so we don't need to add an extra =
+field.
 
-Could we add a UFFDIO_REGISTER_MODE_RWP (or however we would call it)
-and support it for anon+shmem, avoiding the zapping for shmem completely?
+	if (likely(!BPF_SOCK_OPS_TEST_FLAG(tcp_sk(sk),
+					   BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG)) ||
+	    !*remaining)
+		return;
+> =C2=A0	err =3D BPF_CGROUP_RUN_PROG_SOCK_OPS_SK(&sock_ops, sk);
+> +	tp->bpf_hdr_opt_len_cb_inprogress =3D 0;
+> =C2=A0
+> =C2=A0	if (err || sock_ops.remaining_opt_len =3D=3D *remaining)
+> =C2=A0		return;
 
--- 
-Cheers,
+--=20
+Thanks,
+KaFai
 
-David
