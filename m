@@ -1,213 +1,217 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8182324B1F
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 14:33:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776177216; cv=pass; b=aIv9t4GjI6W1MhPiaKQ7FYFWvnn4oN4DsNnESsH3VkrryxfUXVIJItnoqsc1GtYxwFm+0JDpacI8HoHlNTOMvE2oJLrBbZ8pkzcG6XMp4eS/c78ZL3h1Xml5n/4FCh0CoW3SRgiVQu1deVqMo7V1aC2xSmGzwL/in51+nv1xLoY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776177216; c=relaxed/simple;
-	bh=z+r8cADNJ1goFXqiFxfvrucLp8szq64XSfMHf/m9FPo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MF+Uv2L7qJMfJSkSc02+JRAuf7bS8CzgAqRtnACpZ/OIXRlmh5EZHgcyXzHA0d1RWALVrf8d3C5rPbbsqk7n0VIE7sWds+C+uNcY1XSoEHeXnS/kp1GhU+FjxkXy/uMwmrR/WwakNBMw7d3LRrDtQZgW5kJDBcsW1koNtAAHFHw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m1uY4nFb; arc=pass smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8398730C618
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 15:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776178956; cv=none; b=Ki+CiX2sRKvz8Oax5EsEQQyJJpLngI1hVYjyKQjpldXmmnuYE/lJzuDiysJ0gXEOVAyB/k12e9xfMMQgpb7pfcilhhIeKxrTHZ96CLzvwYDSHOVofe5w1rKEYarRpKIVissOvd2UvnTdQGF4XbOaaIMeYY95ym5qdCFdZVemsNc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776178956; c=relaxed/simple;
+	bh=pR7yMGzINuh7Tg+rgoLYT2relUB3Xn6nd5b/yiBK3yM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JfW1JBcwon5JF5hvy54P3/TfHqEfYVptAV1o77Jne3sLEq1JBdYD0T3juXnOiMOrSeXAGj27VwN0YvbWnhVf6imUgGrzmkx7DSv23tIpquaDw0f/krjRCDxb/L4CFKDrOEHNBuzrUeWUxS4+yaOfp/7j2YGw0iKvyq7c5m8F3Yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=S8CGAeVo; arc=none smtp.client-ip=209.85.160.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m1uY4nFb"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-43d74086e5bso1923451f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 07:33:33 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776177212; cv=none;
-        d=google.com; s=arc-20240605;
-        b=kwC7mELegh+L1xbzCAw6G7wBM0hotFRIr/eyhQr9gZvs6f7pq/KTGiCilEqegsDlNg
-         WL3Ph3+aZdElKBTkb9FL6/URQ2xNLaSaFedUiav/reyJ0/73YTNXdoihDL4OQh6vWnUO
-         swmObUcCA4BioFrpbyt3GfkNzVCFHv/uBUnSRacm0Rk6ImoCjiSjWbj2JomkvErUHlNq
-         I/zthBTQv253mM5fZyPIqmFKgXhwt2zMDEvXbSuYrhSeZR/50Tm71POS75JODsuGPg++
-         5l3xm1bFa3C213FxpnKSBVihJbbptRLk5n8aoYscbYDXLvmJyK6TTWuom+J3ur24wU6c
-         wXfg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Bw6f7AXQLyB14/caIw5kD86MDDHBEfPYqQSR/5hoL5E=;
-        fh=59Kf+gCIXmLIn2U/5+F1yjQiuPiaxhQBdrLFD+uah8I=;
-        b=VWWUxdaO7R1EhDY1rgh/sS7HLYf89SQw+MRzlFSy6dMraX2YgNPz05YJs7tb5YLwfW
-         qMgseee8QAOOySYywENEwlP+j9a72DQEJ3H5jcOc76vyu4vhdCN3ukqG7SleQFxxraSP
-         NHIiqP9uKEG2PSHmnNfd5lQmbxnUYcqjh+fDNWiG6nVbcdk4tAAId6Uk5bmeXnyBj2E5
-         Bj1HMBYsnmTDYlhWd3DF3KtuaMbasBQx/qwfaOTHntjBdlduFoUdyNQ9vaK9dmSrc/u0
-         jDyU3xVTXUmpT21Mzle2OoRvkF07odWKRNpE91qHPSP/229tFEs5eg1mfaPpQh57de3D
-         U89Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="S8CGAeVo"
+Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-415e568a7ecso2042521fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 08:02:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776177212; x=1776782012; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Bw6f7AXQLyB14/caIw5kD86MDDHBEfPYqQSR/5hoL5E=;
-        b=m1uY4nFbY48r/Xpf0dgmOPmB9DkzFeJODUf2P/v9awivH5M9bJI+kaZ8lUv2TJJ7w6
-         60+c6MD4hliooPY6i0iKklgtYsS6WEt6MJ3Yu0yjgNgK0u2qWZYDGPeu6KzpS+qV9SN0
-         Hs1ZIWxifj3I2qEIwWCszVmZ3+WA8yapSNbrCejSe1+OEChdvyzgAk2W0FvskJoFRfKO
-         5qbqExof2+YjkvyZ+bZhz43P92nF99wqvr8HT1itd+kbrtU7EkwGkIsT+OnpqUb67aYC
-         SoxavYpjJbVYYA09w9m8REuOuwbtlPLHmBQjitN0f1D4QT3yhFjKy7LFHlqymcP0gaVm
-         QgTg==
+        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776178953; x=1776783753; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=72WPnVzQjKjXI3MDfuIkyAD5bPg/rh8SgDqYgiN/6GI=;
+        b=S8CGAeVoEi+deFP4+cHQ1txTffIqNW6G9nX1e01JQNJHNZB/ZnqtcLbbYWBWHhXGq1
+         tDwzquR9RSDI9i31D8xsyu0fZN6gWJkBMOZYYJRNYJJm9gyMMiOqj33J/0RjpOl5UWrL
+         vtPZyol8xPer1B2f4j57bGNFXeuYqpaYINmzV/M2adxr7mKp+oyh41CKw5jel2OhBbqz
+         +FWCRmHuDSXcw3VIbFoaiYpleVDx+/dt8xgBqO19/x3/GYWaBuCEmUbXxKG2haEcfnPL
+         236bnvcTkdt7QACNHmy91TeMPzz8ygzvOG4lOVviJiLyXI+zwfm/2kDw15kwsP8RR6p+
+         1ASg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776177212; x=1776782012;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Bw6f7AXQLyB14/caIw5kD86MDDHBEfPYqQSR/5hoL5E=;
-        b=akbe3AFjOhZrQEA5kRg/BlIFdydnJ6u8yTCE1YMx4BxcmsrcsO7Y3qAgnq+gKI+m3i
-         Kr7IAZpfqZTn9qXKMBMwfqkiN6sEgaV4U6C6bFk7QZHM2J/vrNiSTzvd2VhU7Omi8RWH
-         JaqhNyJhQNQRV4dZJakQb6Khyk03QZOlEI4zGCdGx9PVSBJa7DE+RlJgqfbZbPr2c2fU
-         9A09UddJuMTZRdu740Tk6gP34gRTBLFmOT7exFgjdRRo8tN2NdOcf8j9z0ErQN2P9Gv3
-         JjMpvTGRZ4g5P+eSmR0PdfCR+w4ch+kenvRe6yMqoAQuVqGKgi9u78L/6Qb/ffXDXq9Y
-         SOzw==
-X-Forwarded-Encrypted: i=1; AFNElJ+5202A5FxZlbKkuhX2F7V5JkplBvfOO8JceNB45npOm/UgfB/NC6OpONoCyd+oQhdSmqDkXGajOCY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsWMXmdMrCBSFAMjJVtmWqEt9uY1nU1wU12icpY40RzHHESIXY
-	FxVN10X5/JjyPeH29W/odYHtuNb6S/f8qprO9iWKeaUR3BxLqoBnaqNR+YgTlrXB7B5qnMsBOgN
-	PZzPV0Eq5YnVEm2sGFhSWaHPLmTVhWKM=
-X-Gm-Gg: AeBDiet1NpGRx9dHghRDys2VNq9T/cSAu58avqtOxB6+pzCGS2+FMd1Zg3SGK2rl9+K
-	LVH14evmJ9zdapVXUZ55OEeEfsLvL6UTAlwA/nMomyT8p/F+05vE9PGXCD7upDjKkfa1memyqGx
-	6eDaEm0bdsycvKar6LS+wsW9Uo78lZr/iEJff/hymRoQcnNvAefcEbUphkB+G6wghNTTzmRD1xD
-	wXKueCvjajr4uNAaiiLuNXHbHVgELvo+xftlHsL85TxLJ/ToWh73kD7jgcCjrrSTBfbA0Ts4zpa
-	QEVQ9ok8WwPm46fKmILn55VhHevGLF789gLcJ0Z5RPEzJAp8prFrTrnuTLh3SO3CTr57ouADXcb
-	8a3LKG58oIpnf0Y87AFGptfXL2FWIKj/gCPcF
-X-Received: by 2002:a05:6000:2dc1:b0:43d:7af0:3a7c with SMTP id
- ffacd0b85a97d-43d7af03e24mr10264101f8f.29.1776177211931; Tue, 14 Apr 2026
- 07:33:31 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776178953; x=1776783753;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=72WPnVzQjKjXI3MDfuIkyAD5bPg/rh8SgDqYgiN/6GI=;
+        b=OHP0o+JsKp7GjODYBkjS+YVIfmmXZY24jsrTMJTm2+P16fS1qOaIbMdMkZoyVdNqQL
+         coumQyRBGbmz210JaojRp4Gelod7j4JnzFi06PMa3IRkZvW2xuByRcfLrsbYWqHVSoKC
+         7ALRdoZTvZ5lQQZRV2xLe9Dqg7nnDw179Q4IPB7OiJjUh3vR7z56GfPozodE9C8hBbFy
+         T8xSpT8guxu1DcQzIPwnkIVaYNrRDPYzvmY/NMj/zY5dKCFzS5k6khGsAY//AM5P/cAn
+         6zXadfmpyxGvi2yJtVIGRGaQYKmVK5wg1CdkCloIhAodoTfHJOHic8LDbQlDQ2IskjXW
+         0NBQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9nHRQNYtrPkMT4cbi5d4/ZDHRl8rCUWvi5K5e6IkHljpEbOOnR8l1HKW7GA0g9qqhV8cG346KaApA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywitd4YYT94KyFb05YtUrNB+qkhNHkUwdLwTKbt1SaeLSpx1lql
+	yQbC2T+dNfa2dq0uDkf/wX8wnHDQYAWEbUdwD64oyXxgSo8PAci0Zcv/OwcgxoSGG7Y=
+X-Gm-Gg: AeBDiesyNT3dmFqeeqNuYZ8w5IjG8eXCR7x0ALbA4I5S9ArrHsvwlf9A/Kh8kDOGNrk
+	+WnKT8Hzm0Z4m/NK8M1boPes9XrWQ6aqfwzfpWPj6IPDMKYNbG0r1j5UYpU6VXHxioMwOBy+BNn
+	mgkaEhgDacpgWuAGBcu4FIS5hHhBE1Qgt/BIKRtkJMbPPKNK5LBRhFxYc8+S1aIp9GSF414Ou0o
+	g6kYTvlxY+9EB0NpvVPS3FyYMgg3CXbeNIWv/hovhCWvItnbnUOxwCwl+O2cR/wtNTott0N8fcF
+	FUaluGaz3cPVOuwpGVJ4Y4PivRcA0uqCZ6r4sKPQs5dNe5r0jBYfsQx6mqcFwnWrLNNC8JbXY1o
+	MM2pbppIpg4eEM3KBI2sOcDdG2IhHRlo673sJEx4xzffjRyag3ycw+XgBS/OROfewYIbq+EhYAR
+	HyNUgQl5IxzNGpi6pP0XerFgjh/yrTwbdpNB4SwXx1ciax1/i/Le9SVhhT0xrko1YEXLeudd7fN
+	osqm+czBEgS
+X-Received: by 2002:a05:6870:a093:b0:417:f38:f54d with SMTP id 586e51a60fabf-423e1081b4bmr10571548fac.29.1776178953139;
+        Tue, 14 Apr 2026 08:02:33 -0700 (PDT)
+Received: from ?IPV6:2600:8803:e7e4:500:5bfd:a817:5527:c417? ([2600:8803:e7e4:500:5bfd:a817:5527:c417])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-423dd3960bbsm11211900fac.4.2026.04.14.08.02.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Apr 2026 08:02:32 -0700 (PDT)
+Message-ID: <b352b76c-8047-4a1f-8b83-db8144466c36@baylibre.com>
+Date: Tue, 14 Apr 2026 10:02:31 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260414105702.248310-1-jiayuan.chen@linux.dev>
-In-Reply-To: <20260414105702.248310-1-jiayuan.chen@linux.dev>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 14 Apr 2026 07:33:20 -0700
-X-Gm-Features: AQROBzCkbw5ADLWM4k0dOh5Z9WgXj9bNTMtPKcV-DzogX7CuHh-4xfxWUg3Ty-U
-Message-ID: <CAADnVQKZC5hrfn1+7BJXYnemWT_AR6ODYH5OhmpRaAWOosTxDQ@mail.gmail.com>
-Subject: Re: [PATCH bpf] bpf,tcp: avoid infinite recursion in BPF_SOCK_OPS_HDR_OPT_LEN_CB
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: bpf <bpf@vger.kernel.org>, Quan Sun <2022090917019@std.uestc.edu.cn>, 
-	Yinhao Hu <dddddd@hust.edu.cn>, Kaiyan Mei <M202472210@hust.edu.cn>, 
-	Dongliang Mu <dzm91@hust.edu.cn>, Eric Dumazet <edumazet@google.com>, 
-	Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Alexei Starovoitov <ast@kernel.org>, 
-	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
-	Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>, 
-	Network Development <netdev@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
+To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ "Hennerich, Michael" <Michael.Hennerich@analog.com>,
+ "Sa, Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
+ Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
+ Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
+ "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
+ <20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
+ <742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
+ <20260412185821.739e477f@jic23-huawei>
+ <LV9PR03MB8414E0A68C5676302909E220F7252@LV9PR03MB8414.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <LV9PR03MB8414E0A68C5676302909E220F7252@LV9PR03MB8414.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 14, 2026 at 3:57=E2=80=AFAM Jiayuan Chen <jiayuan.chen@linux.de=
-v> wrote:
->
-> A BPF_PROG_TYPE_SOCK_OPS program can set BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FL=
-AG
-> to inject custom TCP header options. When the kernel builds a TCP packet,
-> it calls tcp_established_options() to calculate the header size, which
-> invokes bpf_skops_hdr_opt_len() to trigger the BPF_SOCK_OPS_HDR_OPT_LEN_C=
-B
-> callback.
->
-> If the BPF program calls bpf_setsockopt(TCP_NODELAY) inside this callback=
-,
-> __tcp_sock_set_nodelay() will call tcp_push_pending_frames(), which calls
-> tcp_current_mss(), which calls tcp_established_options() again,
-> re-triggering the same BPF callback. This creates an infinite recursion
-> that exhausts the kernel stack and causes a panic.
->
-> BPF_SOCK_OPS_HDR_OPT_LEN_CB
->   -> bpf_setsockopt(TCP_NODELAY)
->         -> tcp_push_pending_frames()
->           -> tcp_current_mss()
->                 -> tcp_established_options()
->                   -> bpf_skops_hdr_opt_len()
->                            /* infinite recursion */
->                         -> BPF_SOCK_OPS_HDR_OPT_LEN_CB
->
-> A similar reentrancy issue exists for TCP congestion control, which is
-> guarded by tp->bpf_chg_cc_inprogress. Adopt the same approach: introduce
-> tp->bpf_hdr_opt_len_cb_inprogress, set it before invoking the callback in
-> bpf_skops_hdr_opt_len(), and check it in sol_tcp_sockopt() to reject
-> bpf_setsockopt(TCP_NODELAY) calls that would trigger
-> tcp_push_pending_frames() and cause the recursion.
->
-> Reported-by: Quan Sun <2022090917019@std.uestc.edu.cn>
-> Reported-by: Yinhao Hu <dddddd@hust.edu.cn>
-> Reported-by: Kaiyan Mei <M202472210@hust.edu.cn>
-> Reported-by: Dongliang Mu <dzm91@hust.edu.cn>
-> Closes: https://lore.kernel.org/bpf/d1d523c9-6901-4454-a183-94462b8f3e4e@=
-std.uestc.edu.cn/
-> Fixes: 0813a841566f ("bpf: tcp: Allow bpf prog to write and parse TCP hea=
-der option")
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-> ---
->  Documentation/networking/net_cachelines/tcp_sock.rst |  1 +
->  include/linux/tcp.h                                  | 11 ++++++++++-
->  net/core/filter.c                                    |  4 ++++
->  net/ipv4/tcp_minisocks.c                             |  1 +
->  net/ipv4/tcp_output.c                                |  3 +++
->  5 files changed, 19 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst b/Docum=
-entation/networking/net_cachelines/tcp_sock.rst
-> index 563daea10d6c..07d3226d90cc 100644
-> --- a/Documentation/networking/net_cachelines/tcp_sock.rst
-> +++ b/Documentation/networking/net_cachelines/tcp_sock.rst
-> @@ -152,6 +152,7 @@ unsigned_int                  keepalive_intvl
->  int                           linger2
->  u8                            bpf_sock_ops_cb_flags
->  u8:1                          bpf_chg_cc_inprogress
-> +u8:1                          bpf_hdr_opt_len_cb_inprogress
->  u16                           timeout_rehash
->  u32                           rcv_ooopack
->  u32                           rcv_rtt_last_tsecr
-> diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-> index f72eef31fa23..2bfb73cf922e 100644
-> --- a/include/linux/tcp.h
-> +++ b/include/linux/tcp.h
-> @@ -475,12 +475,21 @@ struct tcp_sock {
->         u8      bpf_sock_ops_cb_flags;  /* Control calling BPF programs
->                                          * values defined in uapi/linux/t=
-cp.h
->                                          */
-> -       u8      bpf_chg_cc_inprogress:1; /* In the middle of
-> +       u8      bpf_chg_cc_inprogress:1, /* In the middle of
->                                           * bpf_setsockopt(TCP_CONGESTION=
-),
->                                           * it is to avoid the bpf_tcp_cc=
-->init()
->                                           * to recur itself by calling
->                                           * bpf_setsockopt(TCP_CONGESTION=
-, "itself").
->                                           */
-> +               bpf_hdr_opt_len_cb_inprogress:1; /* It is set before invo=
-king the
-> +                                                 * callback so that a ne=
-sted
-> +                                                 * bpf_setsockopt(TCP_NO=
-DELAY) or
-> +                                                 * bpf_setsockopt(TCP_CO=
-RK) cannot
-> +                                                 * trigger tcp_push_pend=
-ing_frames(),
-> +                                                 * which would call tcp_=
-current_mss()
-> +                                                 * -> bpf_skops_hdr_opt_=
-len(), causing
-> +                                                 * infinite recursion.
+On 4/14/26 9:25 AM, Sabau, Radu bogdan wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Jonathan Cameron <jic23@kernel.org>
+>> Sent: Sunday, April 12, 2026 8:58 PM
+>> To: David Lechner <dlechner@baylibre.com>
+>> Cc: Sabau, Radu bogdan <Radu.Sabau@analog.com>; Lars-Peter Clausen
+>> <lars@metafoo.de>; Hennerich, Michael <Michael.Hennerich@analog.com>;
+>> Sa, Nuno <Nuno.Sa@analog.com>; Andy Shevchenko <andy@kernel.org>;
+>> Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
+>> Conor Dooley <conor+dt@kernel.org>; Uwe Kleine-König
+>> <ukleinek@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>; Mark Brown
+>> <broonie@kernel.org>; Linus Walleij <linusw@kernel.org>; Bartosz
+>> Golaszewski <brgl@kernel.org>; Philipp Zabel <p.zabel@pengutronix.de>;
+>> Jonathan Corbet <corbet@lwn.net>; Shuah Khan
+>> <skhan@linuxfoundation.org>; linux-iio@vger.kernel.org;
+>> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+>> pwm@vger.kernel.org; linux-gpio@vger.kernel.org; linux-doc@vger.kernel.org
+>> Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
+>>
+>> [External]
+>>
+>> On Fri, 10 Apr 2026 16:15:20 -0500
+>> David Lechner <dlechner@baylibre.com> wrote:
+>>
+>>> On 4/9/26 10:28 AM, Radu Sabau via B4 Relay wrote:
+>>>> From: Radu Sabau <radu.sabau@analog.com>
+>>>>
+>>>> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
+>>>> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
+>>>> selected OSR at buffer enable time and before each single-shot read.
+>>>>
+>>>> Supported OSR values: 1, 2, 4, 8, 16, 32.
+>>>>
+>>>> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels,
+>> which do
+>>>> not expose the oversampling ratio attribute since OSR is not applicable
+>>>> in that mode. A separate manual_channels array is added to
+>>>> struct ad4691_channel_info and selected at probe time; offload paths
+>>>> reuse the same arrays with num_channels capping access before the soft
+>>>> timestamp entry.
+>>>>
+>>>> The reported sampling frequency accounts for the active OSR:
+>>>> effective_freq = oscillator_freq / osr
+>>>
+>>> Technically, the way this is implemented is fine according to IIO ABI
+>>> rules. Writing any attribute can cause others to change. It does
+>>> introduce a potential pitfall though. Currently, changing the OSR will
+>>> change the sampling frequency, so you have to always write
+>> oversampling_ratio
+>>> first, then write sampling_frequency to get what you asked for. If you want
+>>> to change the OSR and keep the same sample rate, you still have to write
+>> both
+>>> attributes again.
+>>>
+>>> In other drivers, I've implemented it so that the requested sampling
+>> frequency
+>>> is stored any you always get the closest sampling frequency available based
+>> on
+>>> the oversampling ratio. This way, it doesn't matter which order you write
+>>> the attributes. In that case, the actual periodic trigger source isn't set up
+>>> until we actually start sampling.
+>>>
+>> Agreed. This is more intuitive. Now generally the userspace should
+>> be sanity checking the value anyway as limitations may mean the new
+>> sampling frequency is not particularly close to the original one but
+>> at least it increases the chances of getting the expected value somewhat!
+>>
+>> So to me this is a nice useability improvement given the code to implement
+>> it tends not to be too complex.
+>>
+> 
+> Hi David, Jonathan,
+> 
+> What I understand from this is that the osr should be taken into account when writing
+> the sampling frequency as well, right? Here's what I understand:
+> 
+> If the user wants a 125kHz freq with 4 OSR, then when internal osc will be written
+> to 500kHz before single-shot read, buffer preenable/postenable.
+> However, if the user wants a 500kHz frequency with 4 OSR, that would mean a 2MHz
+> Internal osc freq, which is impossible.
 
-Let's not add new bits.
-Reuse existing and test/check all in one place,
-like commit 061ff040710e9 did.
+It is up to the user to request something that is legal. They should know this
+from reading the datasheet.
 
-pw-bot: cr
+> 
+> More than this, if the OSR is 32 the maximum effective rate would be 31250, so 25kHz
+> would make it the closes available one. If the user would select 1MHz from the available
+> list it would be weird I would say. So perhaps a solution for this is to display the avail list
+> depending on the set OSR value.
+
+Yes, the available list should reflect the current state of any other attributes
+that affect it.
+
+> 
+> Linking the two together is perhaps wrong to begin with from my end, since in this
+> driver's case, the per-channel sampling frequency is controlled by the internal oscillator
+> which has static available values. So perhaps sampling frequency should be separate, and
+> OSR separate as well, which would make everything cleaner.
+> 
+> Indeed, the effective rate is changed by OSR, but perhaps that is something the user
+> should be aware of, since the sampling frequency is the rate at which the channel samples
+> (1 sample per period) and OSR is how many times the channel samples upon a final sample
+> is to be read. The user already has to take this into account when setting the buffer
+> sampling frequency, so it would make sense to take this into account here too.
+
+We can't change the definition of the IIO ABI just to make one driver simpler
+to implement. The OSR and sample rate can't be completely independent.
+
+If you want to leave it the way it is currently implemented though, that is fine.
+
+> 
+> Please let me know you thoughts on this,
+> Radu
+
