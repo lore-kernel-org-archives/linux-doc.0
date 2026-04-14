@@ -1,217 +1,91 @@
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8398730C618
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 15:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946AE358375;
+	Tue, 14 Apr 2026 15:24:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776178956; cv=none; b=Ki+CiX2sRKvz8Oax5EsEQQyJJpLngI1hVYjyKQjpldXmmnuYE/lJzuDiysJ0gXEOVAyB/k12e9xfMMQgpb7pfcilhhIeKxrTHZ96CLzvwYDSHOVofe5w1rKEYarRpKIVissOvd2UvnTdQGF4XbOaaIMeYY95ym5qdCFdZVemsNc=
+	t=1776180247; cv=none; b=UthAZ7kDf87tYoZdsHh6gCdYnwdYyEzBfdZFKNwo+Yi4a0Gn9/uNL2m2AGzDegqBJUvgUYlXOe/54UIFkoL6CE+YcWj7eCgFApehw5A5ghmIsF9pbgHgzMhwHqD2h6nffb+vnir7tHyJ6Pu3H5xAlOCUaugKRWVFpmGZlZ4dLxI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776178956; c=relaxed/simple;
-	bh=pR7yMGzINuh7Tg+rgoLYT2relUB3Xn6nd5b/yiBK3yM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JfW1JBcwon5JF5hvy54P3/TfHqEfYVptAV1o77Jne3sLEq1JBdYD0T3juXnOiMOrSeXAGj27VwN0YvbWnhVf6imUgGrzmkx7DSv23tIpquaDw0f/krjRCDxb/L4CFKDrOEHNBuzrUeWUxS4+yaOfp/7j2YGw0iKvyq7c5m8F3Yc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b=S8CGAeVo; arc=none smtp.client-ip=209.85.160.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20251104.gappssmtp.com header.i=@baylibre-com.20251104.gappssmtp.com header.b="S8CGAeVo"
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-415e568a7ecso2042521fac.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 08:02:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20251104.gappssmtp.com; s=20251104; t=1776178953; x=1776783753; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=72WPnVzQjKjXI3MDfuIkyAD5bPg/rh8SgDqYgiN/6GI=;
-        b=S8CGAeVoEi+deFP4+cHQ1txTffIqNW6G9nX1e01JQNJHNZB/ZnqtcLbbYWBWHhXGq1
-         tDwzquR9RSDI9i31D8xsyu0fZN6gWJkBMOZYYJRNYJJm9gyMMiOqj33J/0RjpOl5UWrL
-         vtPZyol8xPer1B2f4j57bGNFXeuYqpaYINmzV/M2adxr7mKp+oyh41CKw5jel2OhBbqz
-         +FWCRmHuDSXcw3VIbFoaiYpleVDx+/dt8xgBqO19/x3/GYWaBuCEmUbXxKG2haEcfnPL
-         236bnvcTkdt7QACNHmy91TeMPzz8ygzvOG4lOVviJiLyXI+zwfm/2kDw15kwsP8RR6p+
-         1ASg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776178953; x=1776783753;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=72WPnVzQjKjXI3MDfuIkyAD5bPg/rh8SgDqYgiN/6GI=;
-        b=OHP0o+JsKp7GjODYBkjS+YVIfmmXZY24jsrTMJTm2+P16fS1qOaIbMdMkZoyVdNqQL
-         coumQyRBGbmz210JaojRp4Gelod7j4JnzFi06PMa3IRkZvW2xuByRcfLrsbYWqHVSoKC
-         7ALRdoZTvZ5lQQZRV2xLe9Dqg7nnDw179Q4IPB7OiJjUh3vR7z56GfPozodE9C8hBbFy
-         T8xSpT8guxu1DcQzIPwnkIVaYNrRDPYzvmY/NMj/zY5dKCFzS5k6khGsAY//AM5P/cAn
-         6zXadfmpyxGvi2yJtVIGRGaQYKmVK5wg1CdkCloIhAodoTfHJOHic8LDbQlDQ2IskjXW
-         0NBQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9nHRQNYtrPkMT4cbi5d4/ZDHRl8rCUWvi5K5e6IkHljpEbOOnR8l1HKW7GA0g9qqhV8cG346KaApA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywitd4YYT94KyFb05YtUrNB+qkhNHkUwdLwTKbt1SaeLSpx1lql
-	yQbC2T+dNfa2dq0uDkf/wX8wnHDQYAWEbUdwD64oyXxgSo8PAci0Zcv/OwcgxoSGG7Y=
-X-Gm-Gg: AeBDiesyNT3dmFqeeqNuYZ8w5IjG8eXCR7x0ALbA4I5S9ArrHsvwlf9A/Kh8kDOGNrk
-	+WnKT8Hzm0Z4m/NK8M1boPes9XrWQ6aqfwzfpWPj6IPDMKYNbG0r1j5UYpU6VXHxioMwOBy+BNn
-	mgkaEhgDacpgWuAGBcu4FIS5hHhBE1Qgt/BIKRtkJMbPPKNK5LBRhFxYc8+S1aIp9GSF414Ou0o
-	g6kYTvlxY+9EB0NpvVPS3FyYMgg3CXbeNIWv/hovhCWvItnbnUOxwCwl+O2cR/wtNTott0N8fcF
-	FUaluGaz3cPVOuwpGVJ4Y4PivRcA0uqCZ6r4sKPQs5dNe5r0jBYfsQx6mqcFwnWrLNNC8JbXY1o
-	MM2pbppIpg4eEM3KBI2sOcDdG2IhHRlo673sJEx4xzffjRyag3ycw+XgBS/OROfewYIbq+EhYAR
-	HyNUgQl5IxzNGpi6pP0XerFgjh/yrTwbdpNB4SwXx1ciax1/i/Le9SVhhT0xrko1YEXLeudd7fN
-	osqm+czBEgS
-X-Received: by 2002:a05:6870:a093:b0:417:f38:f54d with SMTP id 586e51a60fabf-423e1081b4bmr10571548fac.29.1776178953139;
-        Tue, 14 Apr 2026 08:02:33 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:500:5bfd:a817:5527:c417? ([2600:8803:e7e4:500:5bfd:a817:5527:c417])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-423dd3960bbsm11211900fac.4.2026.04.14.08.02.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 08:02:32 -0700 (PDT)
-Message-ID: <b352b76c-8047-4a1f-8b83-db8144466c36@baylibre.com>
-Date: Tue, 14 Apr 2026 10:02:31 -0500
+	s=arc-20240116; t=1776180247; c=relaxed/simple;
+	bh=sDKLF81P7X0rSH9QLJyWkhlANiplPSnzbflXNreb7VU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U6E87UtiuCb+1qzsMqfYkfG1ivreYUisW6kDN7c4SppAWczeSG/92xAHNoZZmeA75ZAW6SDtbVbQJrrGeC15z8u8vkEPDGHLGAOfuanJRf8UTUz2TAU4odHkwGaEQJdDFtWdOuBa4xPZOduPXVTV/VYqO1x7hpHdBe8p77N1EB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
+Received: from omf03.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay05.hostedemail.com (Postfix) with ESMTP id 1381350DCD;
+	Tue, 14 Apr 2026 15:24:01 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf03.hostedemail.com (Postfix) with ESMTPA id D06246000A;
+	Tue, 14 Apr 2026 15:23:49 +0000 (UTC)
+Date: Tue, 14 Apr 2026 10:23:48 -0500
+From: John Groves <John@groves.net>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>, 
+	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
+	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
+	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
+	djbw@kernel.org
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <ad5bpK3h9woM9XgW@groves.net>
+References: <20260331123702.35052-1-john@jagalactic.com>
+ <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net>
+ <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <CAJfpegsCoMMg-Ux3CbBh0d1uqDNg3Fu_8YE-LubwrQ6A-2Cggw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
-To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>,
- Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>,
- "Hennerich, Michael" <Michael.Hennerich@analog.com>,
- "Sa, Nuno" <Nuno.Sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>,
- Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>,
- Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- "linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>,
- "linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
- <20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
- <742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
- <20260412185821.739e477f@jic23-huawei>
- <LV9PR03MB8414E0A68C5676302909E220F7252@LV9PR03MB8414.namprd03.prod.outlook.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <LV9PR03MB8414E0A68C5676302909E220F7252@LV9PR03MB8414.namprd03.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegsCoMMg-Ux3CbBh0d1uqDNg3Fu_8YE-LubwrQ6A-2Cggw@mail.gmail.com>
+X-Rspamd-Server: rspamout07
+X-Rspamd-Queue-Id: D06246000A
+X-Stat-Signature: xr8xh36476psstk8w4ckif649iyrphm6
+X-Session-Marker: 6A6F686E4067726F7665732E6E6574
+X-Session-ID: U2FsdGVkX18ObgszvpeQJhZtO3GiUPb9fpEN5kDCcM0=
+X-HE-Tag: 1776180229-353483
+X-HE-Meta: U2FsdGVkX1/GjWD1QMH6GjnuMOs4TmlAbCvDMSWjC9e9EecvLnUXTz9QOvU7FTdli+62crx8/ao39hY9VJHu5ID2P8lHUBiq9eASND+NObUgsnB6PwXzrn4A0VyHo0aL2fNRb6i7jDKg1mwGLwkUpyEm9Dhq6HVM2C/UBjrAH5UobEmVMYOotsCR1r+bqSu9V6KE/c2fudY25mZGNybf9Ovn4Yh2r6QQgYhW3v7fR/W/T1KzAL73gCpirABiggJ3VsDuE6edjlL+XcXhOVXACKo1RPGRqcedKLZDU8/w0jT0dG9R9BPhA32ynLgquGl2tw1CmQuuzqjoniU7kVaYAFIOkMR489QEi7RmUsRqofbGrvNSmePTsLGhyZ65m2Bt
 
-On 4/14/26 9:25 AM, Sabau, Radu bogdan wrote:
+On 26/04/14 04:18PM, Miklos Szeredi wrote:
+> On Tue, 14 Apr 2026 at 15:41, John Groves <John@groves.net> wrote:
 > 
+> > My short response: Noooooooooo!!!!!!
 > 
->> -----Original Message-----
->> From: Jonathan Cameron <jic23@kernel.org>
->> Sent: Sunday, April 12, 2026 8:58 PM
->> To: David Lechner <dlechner@baylibre.com>
->> Cc: Sabau, Radu bogdan <Radu.Sabau@analog.com>; Lars-Peter Clausen
->> <lars@metafoo.de>; Hennerich, Michael <Michael.Hennerich@analog.com>;
->> Sa, Nuno <Nuno.Sa@analog.com>; Andy Shevchenko <andy@kernel.org>;
->> Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
->> Conor Dooley <conor+dt@kernel.org>; Uwe Kleine-König
->> <ukleinek@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>; Mark Brown
->> <broonie@kernel.org>; Linus Walleij <linusw@kernel.org>; Bartosz
->> Golaszewski <brgl@kernel.org>; Philipp Zabel <p.zabel@pengutronix.de>;
->> Jonathan Corbet <corbet@lwn.net>; Shuah Khan
->> <skhan@linuxfoundation.org>; linux-iio@vger.kernel.org;
->> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
->> pwm@vger.kernel.org; linux-gpio@vger.kernel.org; linux-doc@vger.kernel.org
->> Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
->>
->> [External]
->>
->> On Fri, 10 Apr 2026 16:15:20 -0500
->> David Lechner <dlechner@baylibre.com> wrote:
->>
->>> On 4/9/26 10:28 AM, Radu Sabau via B4 Relay wrote:
->>>> From: Radu Sabau <radu.sabau@analog.com>
->>>>
->>>> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
->>>> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
->>>> selected OSR at buffer enable time and before each single-shot read.
->>>>
->>>> Supported OSR values: 1, 2, 4, 8, 16, 32.
->>>>
->>>> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels,
->> which do
->>>> not expose the oversampling ratio attribute since OSR is not applicable
->>>> in that mode. A separate manual_channels array is added to
->>>> struct ad4691_channel_info and selected at probe time; offload paths
->>>> reuse the same arrays with num_channels capping access before the soft
->>>> timestamp entry.
->>>>
->>>> The reported sampling frequency accounts for the active OSR:
->>>> effective_freq = oscillator_freq / osr
->>>
->>> Technically, the way this is implemented is fine according to IIO ABI
->>> rules. Writing any attribute can cause others to change. It does
->>> introduce a potential pitfall though. Currently, changing the OSR will
->>> change the sampling frequency, so you have to always write
->> oversampling_ratio
->>> first, then write sampling_frequency to get what you asked for. If you want
->>> to change the OSR and keep the same sample rate, you still have to write
->> both
->>> attributes again.
->>>
->>> In other drivers, I've implemented it so that the requested sampling
->> frequency
->>> is stored any you always get the closest sampling frequency available based
->> on
->>> the oversampling ratio. This way, it doesn't matter which order you write
->>> the attributes. In that case, the actual periodic trigger source isn't set up
->>> until we actually start sampling.
->>>
->> Agreed. This is more intuitive. Now generally the userspace should
->> be sanity checking the value anyway as limitations may mean the new
->> sampling frequency is not particularly close to the original one but
->> at least it increases the chances of getting the expected value somewhat!
->>
->> So to me this is a nice useability improvement given the code to implement
->> it tends not to be too complex.
->>
+> :) Seems like this is a highly emotional topic...  I suggest that we
+> go ahead with bpf experiments, then discuss results and path forward
+> at LSM.
 > 
-> Hi David, Jonathan,
-> 
-> What I understand from this is that the osr should be taken into account when writing
-> the sampling frequency as well, right? Here's what I understand:
-> 
-> If the user wants a 125kHz freq with 4 OSR, then when internal osc will be written
-> to 500kHz before single-shot read, buffer preenable/postenable.
-> However, if the user wants a 500kHz frequency with 4 OSR, that would mean a 2MHz
-> Internal osc freq, which is impossible.
+> Thanks,
+> Miklos
 
-It is up to the user to request something that is legal. They should know this
-from reading the datasheet.
+I think we need to try to emergency-add a session at LSFMM on this, with
+fs/mm/bpf people. Any ideas on how to do this?
 
-> 
-> More than this, if the OSR is 32 the maximum effective rate would be 31250, so 25kHz
-> would make it the closes available one. If the user would select 1MHz from the available
-> list it would be weird I would say. So perhaps a solution for this is to display the avail list
-> depending on the set OSR value.
-
-Yes, the available list should reflect the current state of any other attributes
-that affect it.
-
-> 
-> Linking the two together is perhaps wrong to begin with from my end, since in this
-> driver's case, the per-channel sampling frequency is controlled by the internal oscillator
-> which has static available values. So perhaps sampling frequency should be separate, and
-> OSR separate as well, which would make everything cleaner.
-> 
-> Indeed, the effective rate is changed by OSR, but perhaps that is something the user
-> should be aware of, since the sampling frequency is the rate at which the channel samples
-> (1 sample per period) and OSR is how many times the channel samples upon a final sample
-> is to be read. The user already has to take this into account when setting the buffer
-> sampling frequency, so it would make sense to take this into account here too.
-
-We can't change the definition of the IIO ABI just to make one driver simpler
-to implement. The OSR and sample rate can't be completely independent.
-
-If you want to leave it the way it is currently implemented though, that is fine.
-
-> 
-> Please let me know you thoughts on this,
-> Radu
+John
 
