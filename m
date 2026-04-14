@@ -1,297 +1,337 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7045138F93D
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 17:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776187123; cv=none; b=sW+q/fmjb1VcNp/46pRxTjssMZNaGLOzissivEA3BEivywCONkjKJr3HrbNE90OTKF4iQYjNcUXGJRZVgvXvOrpYtcmimS+oZ0UL7PLTpyjA8hUDuHzr34vT84F2MRqE7mhXLX4MmiYX0bjE/DdQ1VLIFsVdy1yRBO1WuFOp7UM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776187123; c=relaxed/simple;
-	bh=l4VJLiaQnUGWNqq56MRrwD1M5+5RpBujlHwL6ugThNg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aM2f+n6uJzwRUHgvOr80OqU4N43/ldEJaITRmpH9Hy6DWz/U8Vj+h3nKi/FDX09kac2NHbCAawbOPGNErizDE5CU7MAh5w60B6uESE3S+v9EpY45E2Z9bsnOHB4O17elWGfDsqTXD6AwESY2Km+lL9EMVrOVXmDGHtNYpzULVT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XT5WHA1J; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 158BD3ED10F
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 17:23:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776187439; cv=pass; b=ci9awuH9dlTrRYOjvqJ4Zysvyo0QYV4QeNv1Nwp9IePqiqipu1ip45pcF6yqdZNnUfJURGb247xEboU+KkuB1gmsNnz6hR+QoY0FQ2Y61tVICIhxixeAEEul4+uf+JhI0wrAZwtrU8WX6JdcbmiQ1otJOKIJnro6APwr6LHFNvk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776187439; c=relaxed/simple;
+	bh=fBNd16aMcIO51hrQ2DUJK8LJDyzxvoNpH9dvTIPgUB4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eRewzY7ODZGq6SoMzIb7H1cRMMnHhdZo4P3Azn0IwG8xnHDpuXjgN7ASPrOQOnOLLQvCqJvm6yqULFzFvEyOc7KcKMv49VUEwOEXXKGe+Zv/DkADjDxy0RtFKihN/QI0lsTZMMEuUgs1XS+QUz86Y606J+tJz+7/agf2LKZYW54=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P4ABFflq; arc=pass smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XT5WHA1J"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-c648bc907ebso4140895a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 10:18:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P4ABFflq"
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43d7605ec91so2273156f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 10:23:55 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776187434; cv=none;
+        d=google.com; s=arc-20240605;
+        b=e/yLWwWfPtHzSt5/3ZjV/ROaYhLx/WS5arCLdwclfuAn6IieUEYAMiHztFz2cRHkhd
+         7+1VCewMBoijqpF53HcvZh6w8AZQWGcJjtySaeCurdsBM/3cjDKFJviEdDSo4gu0ovoC
+         NpzOnbp1nIOR1lXDpBeafXxzG7gwL7VoIzjG2NL7baA7VtI08cQhj33raco5FObQAiBf
+         paaPIdQkEzrYE3OJLGLs+s3o1BgWYSyJkDreKr68oAYvt4nxNBvEBLp/FDDCZmQD9FjB
+         saFsnWJW+5Fik6xj+dsA2FDn2WHp77pxlkmv2zVzeN/wAg2zd/g0wV0AKI6XFSp0g6NI
+         /toQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=dp82XmEr+jeti4TR19n6W0flGrbWCgKnTbsqPQVkS+w=;
+        fh=UvYyyWnmUzMpXPCGVjp0RFWLodwkJoKe4TbfyEt7RDM=;
+        b=QxS4LIoH0ykcJq0fAV1Pj9//SWD+6w/xYjqqszWMALy5P3RKAZkubgi+MKoTFguFBV
+         NbzEe31dDM3pCtFb5yHxhq/C+/wREt4A+iTLAy+/XiPp157Jm1XJ0V25D09M0ijSsYL1
+         KAeb/IbnGvBZ4tDwMHdYOxgT63zrxG8mrMxHI94SLy9mpSmRa1sLY4WTfzRnSErSrIsp
+         vqf7NWfkU/+Bwg0NW0Zdsgml6/jorOfzivui0ZlLaU5g7foPWl0b2OvsLKd4J2FFdy4Z
+         hTNUFoDGC+fouL3IyCiAjJ9ttTBjrssu6eqUASDAicQdPetMWasLd/P3JSMjxZj4m99n
+         S4LA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776187120; x=1776791920; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=I/Y4I1bHWOZ95823lOSalVrpRocLk3v1BB0vX52vmQQ=;
-        b=XT5WHA1JMGiIMS8+B5BZ4twQw7EoYetV4D8TPwKj0IcAUSx4Nt/0TeTxqovHKtQd3G
-         1CmEuGRMZUSH/yi5VpL8wOgZ0frITS8+UWP6p0zjwBnBFl7uUhwFCRiAK8Rb/LfvMpGk
-         +O5rbAzExs4LOgAgW4nlhCFiV6rvTKZcgMXYpWIkm2uKtuYgU9Or1OztLSbKUWQX9oS4
-         a+PH3xeoEh1Rdjq2bnWHZK8OiTIJZnCWmA+65Lo1VWnvpt0Zivnyi3B447TJEnppPPFq
-         HgR2UpuRb93dnhpLpjmmTKKpVv+0A4IXLaLH3eNH6D0le0FFWOX5LRhn889T2Y0a9b6Y
-         rxcg==
+        d=gmail.com; s=20251104; t=1776187434; x=1776792234; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dp82XmEr+jeti4TR19n6W0flGrbWCgKnTbsqPQVkS+w=;
+        b=P4ABFflqrZcN31vaeETuf/Nk22Bfi2P+w0TFf3QkOwXB0rl3o62OtqrDxs/I/DGDfp
+         tEv17UiW/g7vsuHbYAfoVh+18R6OGXh/yez083xWeqIfjuyuXFk8hZjOMt6uGTmnaGm5
+         mKlL/4UBVe+KMcl0E1xBo14A0UF+onpjrUKwPazVSezpZE9qEFr8Ecbr+cMyUKspGFqZ
+         3p9jrDqDzKxT/hKLh8O6i5h3NxykweI0sT6BcuDG3lpVakRzGJVsMddbx1suGm4AVKH/
+         oPlJU5Ih8pXOb0VAs0TMw9xtjdkpbMPUF5hIM031vnu/aDLKUTz+hlcrutzzPghMu1ID
+         DM6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776187120; x=1776791920;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=I/Y4I1bHWOZ95823lOSalVrpRocLk3v1BB0vX52vmQQ=;
-        b=oWLw5u/zuB3v5l8QJBLgPTUw1vGswvvphA/sf63z9m/KD3RYtFtrWap5mIgBgvy+Ci
-         DDPXad+wMh1SGSsqpI+h+qcOWsJHA73mhL1ux/sqdJ5EQIhQAVGIlMvX2eStwishfw3R
-         hdS8yUWvxxDoet87FSkjkE9h111Tw+koZe8/UmJuZIBbYRyJz8EiXNimBkQdFEMh33mc
-         5X2+6Rwua1G0UTvQTRJbYKAlohyzjjrhw/6e3TI4GEXdTpGwkMiu6YOiEOHyrGXKTHHo
-         jr1ofpHr6mgS5sCvSCXbIyZ26+E7eiicb+b8GFqB5kANpz1Fh+fhmhTOZolIrjfkTsF+
-         jOow==
-X-Forwarded-Encrypted: i=1; AFNElJ+7vnXhBcsG3vqu483Pi5jAsS4RnhWlg/psNypE+KqhJ2JFN2aDHYMQNEoUSaKiZwVUMbbXJk9CA0k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUfaJkYMG+M/J/7kBZkYDhEhf6oqUZypBHF4jGOjC36nxK/CQ0
-	wENPya5JWJlkdgj/mhq8Q/pyyrwcb6b/wR7Nf6AlY48Vq2zn3+mlLshpGT/vxg==
-X-Gm-Gg: AeBDievdSpzvID9Ub1WW4lfDNnKYCPD6yoOrQtnyGANJ/NRFMd2b4flx3DOaULQpGjV
-	NVsSD/RKcEi+0xuRPJTQrYpetQ0lZsftKVQV0irmJJc4AIT0kwNizhYW8+UuWv8xvdyG2Rz9lZg
-	CM6UkP3HX8pYU8SWg5VTbPEDcz17yQW9nxBXDNZqdT9ygu7/dQPSzG/z3GMsJObJBw+NDr9S8bw
-	kICeOryAE/8+3sBXGj16YIjMD9nzKGeDDQmLjKKnBzr07WqX+4p6STokjHckmND7bCXzF25VaZB
-	YOG2YMItIRHRAJGUeEEMiOG9zVnOzw/TDax5tH0k2HYUPe6+EeSHQ8Co6LodrrlpmiBnqR3Hkyx
-	Ik/lt4WwF5NZQ82IAxZhj/fd3ad1zrCI+aGO3zBhepM+XzRMhOledhJgpcXelXXRRCVhUCIfnCP
-	vIWLnvqFEg3W14b99y79Z82V+n01UjcngbKpZkxQ2E85gefppZmWjcGnQWbQVKGcaTX9tH8qLuk
-	pdoywBazbI=
-X-Received: by 2002:a05:6a20:3d09:b0:398:a060:a967 with SMTP id adf61e73a8af0-39fe3c79306mr20055750637.11.1776187119353;
-        Tue, 14 Apr 2026 10:18:39 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c794d8f3984sm1878336a12.12.2026.04.14.10.18.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 10:18:38 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <04d3ab9e-8754-4a62-8b49-a865bfe5aa64@roeck-us.net>
-Date: Tue, 14 Apr 2026 10:18:37 -0700
+        d=1e100.net; s=20251104; t=1776187434; x=1776792234;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=dp82XmEr+jeti4TR19n6W0flGrbWCgKnTbsqPQVkS+w=;
+        b=PG4TGo+vnhK19+RfaCjc4KN8JGqGsEooyFiHLj2DGKwYAVkoyK7AbHjREbg4wiDxHF
+         6CMFoVnrau0XtZiTglMykhb8YCMaOQ/lN1TUWHuysXeXvszJK3DwSDb64oPvYwpMHcVh
+         zVbQCAIqDI0yWJJlrJmaLUq7UXf6d/BbeF06SxIyx19mmglfefdZbMJidiLo1q0G/AHn
+         y840nB/JGuGSFMFhPhuwLE+08LMdl1b9D16GtOPKQIHPy5X8hz25h6BsNY5udMF0vDyz
+         0O7rjlk9mdI/iV7osSwcW3cuaMEGiIyxe9GnavM2e53oqI9+2CwYBLgXDuQFvkOqlomJ
+         Pr9A==
+X-Forwarded-Encrypted: i=1; AFNElJ/n5X48mxyn2rS8eYNWNSf9ergU4eF0h0axPzVxKvirhrSzbl7nKTaRg9/y/6s2pM5J52HLaZEPJ8A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEqDLxdrNFrxp2UGvNWxyLuL9r2+sfoF3epRBnPGdZ2HRrUEtV
+	UKjwO05o6RuciABUS2B7SNiC3rkF3oI8AU1AtTIsedE/xZsBSdqMWdBUds6lYO6WsaiPu9xqVtb
+	tO43pOn4NGJQRXFG9OsHFqHQy61tl4Xs=
+X-Gm-Gg: AeBDietgsTi6zWElyZQsAGrR1j8OajZ6LUmMxaueYhzO/TlpWdME0lWKc5famjv/EzY
+	bsLzKRZohdgejv78VKC1pgVdqyFDBCnQqBI9g0U3TtEry1mJpO6VbnBEv9mL7T7r4QhVDZ0PZc1
+	Vm7dtfh+GSPFK1Lfzt2JsXKRrraUe0BNNNA8/YgaxG/zRDpe/u/xjYX6k7JWhaIyCNbhbN6OFaS
+	xnsYWz5UGzEXpXngAnY6H1nhbQ2zMXKxtE/sy3ApvHDev+Kmj26W6Ny5ncOPHE0U4YjPoXkIFou
+	uMhkLeKwvGwSdB3Or2EdKSDrEdvFvzRrojDqbXs=
+X-Received: by 2002:a05:6000:2211:b0:43d:2f92:633f with SMTP id
+ ffacd0b85a97d-43d641f97aemr27791434f8f.0.1776187434027; Tue, 14 Apr 2026
+ 10:23:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] Documentation: Refactored watchdog old doc
-To: Sunny Patel <nueralspacetech@gmail.com>, linux-doc@vger.kernel.org
-Cc: linux-watchdog@vger.kernel.org, linux-kernel@vger.kernel.org,
- corbet@lwn.net, wim@linux-watchdog.org, rdunlap@infradead.org
-References: <20260413041215.10362-1-nueralspacetech@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260413041215.10362-1-nueralspacetech@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20260320192735.748051-1-nphamcs@gmail.com> <CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com>
+ <CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com>
+ <CAMgjq7AzySv801qDxfc8mEkEsFDv4P=_qw0rNOTe0n+qy7Fz6A@mail.gmail.com> <CAKEwX=P4syV38jAVCWq198r2OHXXc=xA-fx1dk6+qYef6yzxWQ@mail.gmail.com>
+In-Reply-To: <CAKEwX=P4syV38jAVCWq198r2OHXXc=xA-fx1dk6+qYef6yzxWQ@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Tue, 14 Apr 2026 10:23:42 -0700
+X-Gm-Features: AQROBzCvQ2Y205EwGC1lGKq27IJDyjI-VHhfD6X3kasimC4o5zGPGqT7idYCq1M
+Message-ID: <CAKEwX=NrUhUrAFx+8BYJEfaVKpCm-H9JhBzYSrqOQb-NW7QRug@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Liam.Howlett@oracle.com, akpm@linux-foundation.org, apopple@nvidia.com, 
+	axelrasmussen@google.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
+	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
+	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
+	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, 
+	lenb@kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, 
+	matthew.brost@intel.com, mhocko@suse.com, muchun.song@linux.dev, 
+	npache@redhat.com, pavel@kernel.org, peterx@redhat.com, peterz@infradead.org, 
+	pfalcato@suse.de, rafael@kernel.org, rakie.kim@sk.com, 
+	roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
+	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, 
+	tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
+	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
+	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
+	riel@surriel.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/12/26 21:11, Sunny Patel wrote:
-> Mark WDIOC_GETTEMP and WDIOS_TEMPPANIC as deprecated since
-> neither is implemented by the watchdog core and both are only
-> present in a small number of legacy drivers.
-> 
-> Add documentation for previously undocumented status bits
-> WDIOF_MAGICCLOSE and WDIOF_ALARMONLY in the options field.
-> 
-> Add documentation for WDIOF_PRETIMEOUT and WDIOF_SETTIMEOUT
-> status bits describing their respective ioctls.
-> 
-> Fix the following issues in existing documentation:
->    - Remove version-specific reference to Linux 2.4.18 from
->      the GETTIMEOUT ioctl description
->    - Fix duplicate "was is" in printf format strings
->    - Replace [FIXME] placeholder with proper descriptions for
->      WDIOS_DISABLECARD, WDIOS_ENABLECARD and WDIOS_TEMPPANIC
-> 
-> Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
+On Mon, Mar 23, 2026 at 1:05=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> wrote=
+:
+>
+> On Mon, Mar 23, 2026 at 12:41=E2=80=AFPM Kairui Song <ryncsn@gmail.com> w=
+rote:
+> >
+> > On Mon, Mar 23, 2026 at 11:33=E2=80=AFPM Nhat Pham <nphamcs@gmail.com> =
+wrote:
+> > >
+> > > On Mon, Mar 23, 2026 at 6:09=E2=80=AFAM Kairui Song <ryncsn@gmail.com=
+> wrote:
+> > > >
+> > > > On Sat, Mar 21, 2026 at 3:29=E2=80=AFAM Nhat Pham <nphamcs@gmail.co=
+m> wrote:
+> > > > > This patch series is based on 6.19. There are a couple more
+> > > > > swap-related changes in mainline that I would need to coordinate
+> > > > > with, but I still want to send this out as an update for the
+> > > > > regressions reported by Kairui Song in [15]. It's probably easier
+> > > > > to just build this thing rather than dig through that series of
+> > > > > emails to get the fix patch :)
+> > > > >
+> > > > > Changelog:
+> > > > > * v4 -> v5:
+> > > > >     * Fix a deadlock in memcg1_swapout (reported by syzbot [16]).
+> > > > >     * Replace VM_WARN_ON(!spin_is_locked()) with lockdep_assert_h=
+eld(),
+> > > > >       and use guard(rcu) in vswap_cpu_dead
+> > > > >       (reported by Peter Zijlstra [17]).
+> > > > > * v3 -> v4:
+> > > > >     * Fix poor swap free batching behavior to alleviate a regress=
+ion
+> > > > >       (reported by Kairui Song).
+> > > >
+> > >
+> > > Hi Kairui! Thanks a lot for the testing big boss :) I will focus on
+> > > the regression in this patch series - we can talk more about
+> > > directions in another thread :)
 
-Reviewed-by: Guenter Roeck <linux@ropeck-us.net>
+Hi Kairui,
 
-> ---
-> 
-> Changes in v5:
->    - Fixed WDIOC_GETTIMELEFT printf statement to correctly reference
->      "timeleft" instead of "timeout".
->    
-> Changes in v4:
->    - Fixed WDIOS_DISABLECARD description: corrected inverted logic —
->      the ioctl disables the hardware timer entirely rather than
->      stopping pings. Clarified that userspace, not the kernel driver,
->      is primarily responsible for pinging under normal operation.
-> 
->   Documentation/watchdog/watchdog-api.rst | 65 +++++++++++++++++++++----
->   1 file changed, 55 insertions(+), 10 deletions(-)
-> 
-> diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
-> index 78e228c272cf..736436a68f65 100644
-> --- a/Documentation/watchdog/watchdog-api.rst
-> +++ b/Documentation/watchdog/watchdog-api.rst
-> @@ -2,7 +2,7 @@
->   The Linux Watchdog driver API
->   =============================
->   
-> -Last reviewed: 10/05/2007
-> +Last reviewed: 04/08/2026
->   
->   
->   
-> @@ -42,7 +42,7 @@ activates as soon as /dev/watchdog is opened and will reboot unless
->   the watchdog is pinged within a certain time, this time is called the
->   timeout or margin.  The simplest way to ping the watchdog is to write
->   some data to the device.  So a very simple watchdog daemon would look
-> -like this source file:  see samples/watchdog/watchdog-simple.c
-> +like this source file: see samples/watchdog/watchdog-simple.c
->   
->   A more advanced driver could for example check that a HTTP server is
->   still responding before doing the write call to ping the watchdog.
-> @@ -106,11 +106,10 @@ the requested one due to limitation of the hardware::
->   This example might actually print "The timeout was set to 60 seconds"
->   if the device has a granularity of minutes for its timeout.
->   
-> -Starting with the Linux 2.4.18 kernel, it is possible to query the
-> -current timeout using the GETTIMEOUT ioctl::
-> +It is also possible to get the current timeout with the GETTIMEOUT ioctl::
->   
->       ioctl(fd, WDIOC_GETTIMEOUT, &timeout);
-> -    printf("The timeout was is %d seconds\n", timeout);
-> +    printf("The timeout is %d seconds\n", timeout);
->   
->   Pretimeouts
->   ===========
-> @@ -133,7 +132,7 @@ seconds.  Setting a pretimeout to zero disables it.
->   There is also a get function for getting the pretimeout::
->   
->       ioctl(fd, WDIOC_GETPRETIMEOUT, &timeout);
-> -    printf("The pretimeout was is %d seconds\n", timeout);
-> +    printf("The pretimeout is %d seconds\n", timeout);
->   
->   Not all watchdog drivers will support a pretimeout.
->   
-> @@ -145,12 +144,12 @@ before the system will reboot. The WDIOC_GETTIMELEFT is the ioctl
->   that returns the number of seconds before reboot::
->   
->       ioctl(fd, WDIOC_GETTIMELEFT, &timeleft);
-> -    printf("The timeout was is %d seconds\n", timeleft);
-> +    printf("The timeleft is %d seconds\n", timeleft);
->   
->   Environmental monitoring
->   ========================
->   
-> -All watchdog drivers are required return more information about the system,
-> +All watchdog drivers are required to return more information about the system,
->   some do temperature, fan and power level monitoring, some can tell you
->   the reason for the last reboot of the system.  The GETSUPPORT ioctl is
->   available to ask what the device can do::
-> @@ -227,12 +226,33 @@ The watchdog saw a keepalive ping since it was last queried.
->   	WDIOF_SETTIMEOUT	Can set/get the timeout
->   	================	=======================
->   
-> -The watchdog can do pretimeouts.
-> +The watchdog supports timeout set/get via the WDIOC_SETTIMEOUT and
-> +WDIOC_GETTIMEOUT ioctls.
->   
->   	================	================================
->   	WDIOF_PRETIMEOUT	Pretimeout (in seconds), get/set
->   	================	================================
->   
-> +The watchdog supports a pretimeout, a warning interrupt that fires before
-> +the actual reboot timeout. Use WDIOC_SETPRETIMEOUT and WDIOC_GETPRETIMEOUT
-> +to set/get the pretimeout.
-> +
-> +	================	================================
-> +	WDIOF_MAGICCLOSE	Supports magic close char
-> +	================	================================
-> +
-> +The driver supports the Magic Close feature. The watchdog is only disabled
-> +if the character 'V' is written to /dev/watchdog before the file descriptor
-> +is closed. Without writing 'V' before closing, the watchdog remains active
-> +and will trigger a reboot after the timeout expires.
-> +
-> +	================	================================
-> +	WDIOF_ALARMONLY		Not a reboot watchdog
-> +	================	================================
-> +
-> +The watchdog will not reboot the system when it expires. Instead it
-> +triggers a management or other external alarm. Userspace should not
-> +rely on a system reboot occurring.
->   
->   For those drivers that return any bits set in the option field, the
->   GETSTATUS and GETBOOTSTATUS ioctls can be used to ask for the current
-> @@ -254,6 +274,11 @@ returned value is the temperature in degrees Fahrenheit::
->       int temperature;
->       ioctl(fd, WDIOC_GETTEMP, &temperature);
->   
-> +.. note::
-> +	``WDIOC_GETTEMP`` is not implemented by the watchdog core and is
-> +	considered deprecated. It is only supported by a small number of
-> +	legacy drivers. New drivers should not implement it.
-> +
->   Finally the SETOPTIONS ioctl can be used to control some aspects of
->   the cards operation::
->   
-> @@ -268,4 +293,24 @@ The following options are available:
->   	WDIOS_TEMPPANIC		Kernel panic on temperature trip
->   	=================	================================
->   
-> -[FIXME -- better explanations]
-> +``WDIOS_DISABLECARD`` disables the hardware watchdog timer entirely,
-> +allowing a controlled system shutdown without triggering a reboot.
-> +Userspace is responsible for pinging the watchdog under normal
-> +operation; this ioctl stops the underlying hardware timer so that
-> +the absence of pings no longer causes a system reset.
-> +
-> +``WDIOS_ENABLECARD`` starts the watchdog timer. If the watchdog was
-> +previously stopped via ``WDIOS_DISABLECARD``, this will re-enable it. The
-> +hardware watchdog will begin counting down from the configured timeout.
-> +
-> +``WDIOS_TEMPPANIC`` enables temperature-based kernel panic. When set,
-> +the driver will call ``panic()`` (or ``kernel_power_off()`` on some
-> +drivers) if the hardware temperature sensor exceeds its threshold,
-> +rather than only setting the ``WDIOF_OVERHEAT`` status bit. Support
-> +for this option is driver-specific; not all watchdog drivers implement
-> +temperature monitoring.
-> +
-> +.. note::
-> +	``WDIOS_TEMPPANIC`` is not implemented by the watchdog core and is
-> +	considered deprecated. It is only present in a small number of
-> +	legacy drivers. New drivers should not implement it.
+My apologies if I missed your response, but could you share with me
+your full benchmark suite? It would be hugely useful, not just for
+this series, but for all swap contributions in the future :) We should
+do as much homework ourselves as possible :P
 
+And apologies for the delayed response. I kept having to back and
+forth between regression investigating, and figuring out what was
+going on with the build setups (I missed some of the CONFIGs you had
+originally), reducing variance on hosts, etc.
+
+I don't have PMEM, so I have only worked with zram backend so far. I
+did manage to reproduce the regressions you showed me (albeit at a
+much smaller gap on certain metrics than your cited numbers, which I
+suspect is due to zram/pmem difference).
+
+There are two benchmarks that I focused on:
+
+1. Usemem - the exact command I ran is: time ./usemem --init-time -O
+-y -x -n 1 56G
+
+My host is 32GB, 52 processor(s) / x86_64.
+
+Build        real (s)          vs base   sys (s)           tput (KB/s)
+       free_ms
+baseline     175.6 +/- 3.6      =E2=80=94        121.9 +/- 3.3    391,941 +=
+/-
+8,333  6,992 +/- 204
+vss_v5       184.0 +/- 3.9    +4.8%      130.5 +/- 3.8    376,192 +/-
+8,581  8,297 +/- 247
+
+(I hope the formatting works, but let me know if it looks weird).
+
+2. Memhog: time memhog 48G
+
+My host for this one is 16 GB, 52 processors, x86_64 too.
+
+Build        real (s)          vs base   sys (s)
+baseline      80.5 +/- 1.9      =E2=80=94         62.7 +/- 2.0
+vss_v5        83.0 +/- 1.8    +3.1%       65.7 +/- 1.8
+
+On both benchmark, I enable MGLRU, to more closely match the setup you had.
+
+Staring at the run logs (and double check with the logs you sent me to
+make sure it's not just on my system), there are some common patterns
+I noticed across these runs:
+
+1. Kswapd is slower on the vswap side, which shifts work towards
+direct reclaim, and makes compaction have to run harder (which has a
+weird contention through zsmalloc - I can expand further, but this is
+not vswap-specific, just exacerbated by slower kswapd).
+
+2. Higher swap readahead (albeit with higher hit rate) - this is more
+of an artifact of the fact that zero swap pages are no longer backed
+by zram swapfile, which skipped readahead in certain paths. We can
+ignore this for now, but worth assessing this for fast swap backends
+in general (zero swap pages, zswap, so on and so forth).
+
+I spent sometimes perf-ing kswapd, and hack the usemem binary a bit so
+that I can perf the free stage of usemem separately. Most of the
+vswap-specific overhead lies in the xarray lookups. Some big offenders
+on top of my mind:
+
+1. Right now, in the physical swap allocator, whenever we have an
+allocated slot in the range we're checking, we check if that slot is
+swap-cache-only (i.e no swap count), and if so we try to free it (if
+swapfile is almost full etc.). This check is cheap if all swap entry
+metadata live in physical swap layer only, but more expensive when you
+have to go through another layer of indirection :)
+
+I fixed that by just taking one bit in the reverse map to track
+swap-cache-only state, which eliminates this without extra space
+overhead (on top of the existing design).
+
+2. On the free path, in swap_pte_batch(), we check cgroup to make sure
+that the range we pass to free_swap_and_cache_nr() belongs to the same
+cgroup, which has a per-PTE overhead for going to the vswap layer. We
+can make this check once-per range instead, to reduce overhead. Even
+better - we can skip this check in swap_pte_batch() for the free case,
+and deferred this check to later on where we already enter vswap
+cluster lock context :)
+
+With a bunch of changes like that, I closed the gap majorly:
+
+usemem:
+Build        real (s)          vs base   sys (s)           tput (KB/s)
+       free_ms
+baseline     175.6 +/- 3.6      =E2=80=94        121.9 +/- 3.3    391,941 +=
+/-
+8,333  6,992 +/- 204
+new_opt_v2   179.8 +/- 3.0    +2.4%      126.1 +/- 2.9    382,536 +/-
+6,662  7,105 +/- 183
+
+memhog:
+Build        real (s)          vs base   sys (s)
+baseline      80.5 +/- 1.9      =E2=80=94         62.7 +/- 2.0
+new_opt_v2    79.9 +/- 1.7    -0.8%       62.4 +/- 1.7
+
+I would like to also point out that, some of this overhead is specific
+to the swapfile backend case, which is why we don't see this in zswap
+in the stats I included in V5. Zswap does not require this
+swap-cache-only dance, because in virtual swap, zswap only needs the
+virtual swap slot as the index (on top of much more negligible space
+overhead thanks to zswap tree merging into vswap cluster, no swap
+charging, no double allocation, etc.).
+
+Anyway, still a small gap. The next idea that I have is inspired by
+TLB, which cache virtual->physical memory address translation. I added
+a per-CPU MRU virtual cluster. The idea is that a lot of consecutive
+swap operations operate on the same range of swap entries - merging
+these operations of course makes the most sense, but sometimes it's
+not convenient to do it. The non-vswap, old design sometimes lock the
+physical swap cluster and expose the swap cluster struct to callers to
+pass around, but I would like to avoid that if possible :)
+
+With this change, we close the gap even further - exceeding the
+baseline in average in certain cases, but as you can see it's within
+noises so I wouldn't conclude too much out of it:
+
+usemem:
+Build        real (s)          vs base   sys (s)           tput (KB/s)
+       free_ms
+baseline     175.6 +/- 3.6      =E2=80=94        121.9 +/- 3.3    391,941 +=
+/-
+8,333  6,992 +/- 204
+cc_v2        176.4 +/- 5.3    +0.4%      123.6 +/- 5.4    390,405 +/-
+12,792 6,987 +/- 296
+
+
+memhog:
+Build        real (s)          vs base   sys (s)
+baseline      80.5 +/- 1.9      =E2=80=94         62.7 +/- 2.0
+cc_v2         79.9 +/- 0.9    -0.8%       62.1 +/- 1.5
+
+The reclaim and compaction stats tell a similar story:
+
+Reclaim / Compaction (usemem)
+Metric                               baseline
+vss_v5                   new_opt_v2                        cc_v2
+allocstall                 167,787 +/- 10,292           170,532 +/-
+15,185           169,782 +/- 9,903            168,635 +/- 13,526
+pgsteal_kswapd          6,932,143 +/- 186,411        6,965,962 +/-
+288,323        6,968,188 +/- 286,383        7,038,513 +/- 202,696
+pgsteal_direct          9,759,350 +/- 480,674        9,978,721 +/-
+765,543        9,899,698 +/- 480,781        9,845,668 +/- 544,319
+swap_ra                        82.9 +/- 22.6             5994.8 +/-
+2817.5            4976.8 +/- 1484.2            4718.2 +/- 1510.5
+pgmigrate               1,029,901 +/- 428,416        1,687,072 +/-
+399,505        1,260,451 +/- 202,603        1,144,560 +/- 490,177
+
+Reclaim / Compaction (memhog)
+Metric                               baseline
+vss_v5                   new_opt_v2                        cc_v2
+allocstall                 101,245 +/- 6,271            109,320 +/-
+12,180           100,207 +/- 11,053            99,223 +/- 9,905
+pgsteal_kswapd          8,817,264 +/- 432,519        8,436,548 +/-
+265,763        8,728,944 +/- 305,101        8,962,443 +/- 589,012
+pgsteal_direct          5,408,046 +/- 394,775        5,932,611 +/-
+584,873        5,419,891 +/- 551,226        5,349,352 +/- 601,655
+swap_ra                        66.5 +/- 22.8             8589.5 +/-
+3325.1            8954.5 +/- 2661.9            8703.1 +/- 1746.6
+pgmigrate                  239,410 +/- 46,014           277,193 +/-
+71,487           320,672 +/- 59,488          243,989 +/- 136,129
+
+You can see that the latter versions gradually restore the behaviors
+of baseline in terms of reclaim dynamics :)
+
+Some final remarks:
+* I still think there's a good chance we can *significantly* close the
+gap overall between a design with virtual swap and a design without.
+It's a bit premature to commit to a vswap-optional route (which to be
+completely honest I'm still not confident is possible to satisfy all
+of our requirements).
+
+* Regardless of the direction we take, these are all pitfalls that
+will be problematic for virtual swap design, and more generally some
+of them will affect any dynamic swap design (which has to go through
+some sort of indirection or a dynamic data structure like xarray that
+will induce some amount of lookup overhead). I hope my work here can
+be useful in this sense too, outside of this specific vswap direction
+:)
+
+I will clean things up a bit and send you a v6 for further inspection.
+Once again, I'd like to express my gratitude for your engagement and
+feedback.
