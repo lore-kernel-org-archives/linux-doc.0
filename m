@@ -1,416 +1,261 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCDB93F0A86;
-	Tue, 14 Apr 2026 17:42:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7572DEA6E
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 17:45:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776188535; cv=none; b=SoZXBgpx2PSubpfqxZWnszSvbD/hNw7Pek50Hj5FupBOv7v3ls2slQZUjF6rpdajseuHsqCdAZZjKJAR8v2w9hXOsNDMkp6jttCJZnAemOyz2QNTIw3YOtRLXTbdjf2KUvGbP3Q9EpHyiVbWEJkhIaifHmZKR0UwKCkG8FOE8jk=
+	t=1776188761; cv=none; b=A0ruIXeYXrHaKMupq5p1LWw2Ze43JdC2Q2GYmcB/WTi9xrmcrV9T5ump2EuwzxvUGFk795y39sxPSC/UdIOSc/5c3I+AC1WvLN0pQvFcHUg6/qrjcGNUPNaezijWhfo6gIjkS4ipUGa1X+da1MQA+/CgpElnZwOYy9QCicGQ38w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776188535; c=relaxed/simple;
-	bh=4QUn9As1pxh7eXWjbeKq4y+Nchtl9F2pYLvneGGLUCk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MfVWWOg1F4j0Tgv9xIyKqlnMvDy8Dcy2KbyvaK0fdT6WOPJSHfqfc/JZCuvsNiKdQnpQ1Yai0l+NV0QggvJTP9EHp+KNh3XcjhlseusLQiJ0jEVrAgroffuvvmEu2h7KQmjyU789RCLLC9alSLx+1dnlBtNnWZS6Nh95eVpnKFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=qyQlhGx+; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=1E2oj9nV; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1776188761; c=relaxed/simple;
+	bh=caYqKS/PGkKE5/alosNGczPJNeGI8wHSodMZa0PvBpQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=KqrtWWtJusGniKGzbD9qZSn/yaIvXnojZC2K6sEW/Ou3EQvLKc8mhWP3YUfzcSAdLg7epLcxQpncfLlfoTt4fY6N+vdm6knRgqC2lrTcLNJK4EDmtyG88oUHwSzkl05NpNKcigQ5J1xkCVpnr3GOn5GOkVK0/yVmZGvYpRpzOYA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DdqBV1Ah; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ii0mSKrK; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="qyQlhGx+";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="1E2oj9nV"
-From: "Ahmed S. Darwish" <darwi@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1776188530;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DdqBV1Ah";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ii0mSKrK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776188757;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0rCvgA9EBrMkNQG633utOv8P+bebeia6n+Ud10ua45o=;
-	b=qyQlhGx+lsolq3JVLukFJJX/lD2o8OpJBgJvAUmWfSnVGL3gJyEPRz+t+aMCoPe7ucBxeV
-	PteBpX3xlLOQOF4W1bbF/nQEvyskEZxsYWG7MuJOPSpN5Dz8J4CMW7TdZs3HM+/tMh/9Dw
-	gYW1JfOOSAJ5Uwi83iYCXoT5cEwVTUrTtDxKHTvC4MMoN2Lj+xe4IVI/NC17qG8zLTDHxS
-	F3IN5pvmpZUVNs1JAwP8upsSWguISExBkSk6K3IZqbm+51ph6AbNPyFA4geGNg12wN6Fyy
-	H02cMSwSDGl1buHsucRnQUQkXa4v1BG1VbehA9rBalttVvEPWuG4oEVQR1sR7Q==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1776188530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0rCvgA9EBrMkNQG633utOv8P+bebeia6n+Ud10ua45o=;
-	b=1E2oj9nVPjuQlc3TimVQaKGhIC5B/IRsbfGUvouBnva6u5ElEGIlE+9OUuKMs6czdRUMcY
-	5FceT6fRfMK4hLCA==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Clark Williams <clrkwllms@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	linux-rt-devel@lists.linux.dev
-Cc: Matthew Wilcox <willy@infradead.org>,
-	Sebastian Andrzej Siewior <bigeasy@linutronix.de>,
-	John Ogness <john.ogness@linutronix.de>,
-	Derek Barbosa <debarbos@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Ahmed S. Darwish" <darwi@linutronix.de>
-Subject: [PATCH v2 1/1] Documentation: real-time: Add kernel configuration guide
-Date: Tue, 14 Apr 2026 19:41:56 +0200
-Message-ID: <20260414174159.1271171-2-darwi@linutronix.de>
-In-Reply-To: <20260414174159.1271171-1-darwi@linutronix.de>
-References: <20260414174159.1271171-1-darwi@linutronix.de>
+	bh=mANt+MJIo4mwSuWx1hJyMYIsIgCq8OGnhUtWVmIQp40=;
+	b=DdqBV1AhBWwYf7UN8DBNFlUxuVfv1o9ZGq57ndviJnNko1+rX4dYe0TJJ5lI0+hGaoOBvk
+	C9T38C2LfaD6xijaC6k9HPPxoUSOSzTl8s+k4YkzlIp0OYEtghUKABXSIoi2pN/2Yd6yj0
+	ODCNlmJ7Kee3T7Mfen7VAWpuXXrH+p0=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-294-XjKM_oG-OZSYS8ayQs8tEw-1; Tue, 14 Apr 2026 13:45:56 -0400
+X-MC-Unique: XjKM_oG-OZSYS8ayQs8tEw-1
+X-Mimecast-MFC-AGG-ID: XjKM_oG-OZSYS8ayQs8tEw_1776188755
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-50dd17a71f6so76149711cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 10:45:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776188755; x=1776793555; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mANt+MJIo4mwSuWx1hJyMYIsIgCq8OGnhUtWVmIQp40=;
+        b=ii0mSKrKV/gFikfzPX/KHbc1yo2DPHgc2yfhjyYb61r3eqtmIacr+426PHnWGksntc
+         PKs3HaCvq09QxZVokr5NFIZfZiSECAq6pOrIwaI3G8Y+0vTYgEBlEIslorXxVNbpbj9V
+         6FjAUcusn1BGTg1ZEswTWcn3FKkqeXpODfBd3YFHhdipE1R0VWZ7xswuRSJ962+/AcTg
+         RhcbcylhZFx9USOXv8WmfkEy1Bv7RvQsFH2B92Sbo7mdZOwEfN1Cw8eT4Q6577f8sU2Y
+         sOOnCm4KcwjpkMd7unUi/t1rB8+YlfsPerAZF9yf6xGtIquZAjLVWsXBXuVGqhNi9pNa
+         94Xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776188755; x=1776793555;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mANt+MJIo4mwSuWx1hJyMYIsIgCq8OGnhUtWVmIQp40=;
+        b=QulvfStVWnq+c4AzJi9DwPN2v1sTjWOPjTP43ZoMWA6RwJKhmV5CC93GvXDA1VXqng
+         Y4eJixQ3zyQMMKt5/6yTP+FcOHVDCvbNLEK3HVj1bV3vqUJXVI3p9USrM0w3wkHXfaiQ
+         +7gMLyXe9k09qblg25AKqT2NJ14PsFzqfzkgOl4OqXZeeFjDq2ItgiLZ0oe3IaEZ6kmM
+         +Q1Ru7lqcekEFnMA+kgbZlUOsOqfSDIZJLr3KkgDQfr+fUvjb5zPTBti6wHxzntu+Oi8
+         Bcc8D5x6ndC1eIVILShMWf6VXxQqfd9ze1VI7P4IYeRKmBq0BgIK8pwus4je0bYjJLrw
+         NEAg==
+X-Forwarded-Encrypted: i=1; AFNElJ8951kDFw7JNejkwdsde8Lsoh/wP/gOpK9gWv0yuXjkjtCCw+zrCovOV6ujwesj3662Im8OAMqDhfc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzpY5xGvoZlIGFmXnSxqM4C+nluTjZS+Tfs4stqH2KhNxYGcF+P
+	KhL5Ux3t31PupzEdetFQGp8gxjvkH70ktpdPqEaCHjj+9huXgv6vYICChpGmnO8gBOwH5mWz6D4
+	XduHhfDvfACcWB0rTehHStNHNbuCJzOwLAmB2685oI+Iht6O25Qh3lNjsOAPK8Q==
+X-Gm-Gg: AeBDieuhQNrTsYh7dtX7HblO3NX8heIRjXfKHNMslb3w81KYII2j0huVpEwo19dMK+w
+	Kz0mofSBjalAD11djKksMhB9Ng2LHf5iYqU+RCsGaQKnKKC1+kSVWLCZ4yXsP76RdujHApz9oYK
+	lLmNJEEANJ1rzBkfekCcz8SkFAJwyH1cLoAuK+dxetpHsNSVswMnSPN1msmzPcmSvhzNzobYLYn
+	TtBgwbEKKJU4glstYuWmoNCEwmDOugfyKL4XqHiC1CWtGp9c4SeHlxfXmHtTqY8tIOZctabj4L8
+	/QnBmVeFkmQbtYJlAB9gD2cJtjo7IVx4+ahj7pmtie0jtgcvWCoRXL1uxaYPzs6unulDNAgLocr
+	BU5tQtmurC6bjNwedM9FEjr6P729gAqieE4MVO14/fDjuvhPTC9g/xehKbg==
+X-Received: by 2002:a05:622a:5c98:b0:509:11bd:9d3 with SMTP id d75a77b69052e-50dd6a6a478mr232486171cf.1.1776188755086;
+        Tue, 14 Apr 2026 10:45:55 -0700 (PDT)
+X-Received: by 2002:a05:622a:5c98:b0:509:11bd:9d3 with SMTP id d75a77b69052e-50dd6a6a478mr232485641cf.1.1776188754505;
+        Tue, 14 Apr 2026 10:45:54 -0700 (PDT)
+Received: from x1.local ([142.189.10.167])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50dd53f9c16sm110767131cf.11.2026.04.14.10.45.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Apr 2026 10:45:53 -0700 (PDT)
+Date: Tue, 14 Apr 2026 13:45:51 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org,
+	James Houghton <jthoughton@google.com>,
+	Andrea Arcangeli <aarcange@redhat.com>
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <ad59TxAHNwFWH7Cc@x1.local>
+References: <20260414142354.1465950-1-kas@kernel.org>
+ <ad5dIUpAMs4MuBvV@x1.local>
+ <ad5hAVuRwa_0VNPf@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ad5hAVuRwa_0VNPf@thinkstation>
 
-Add a configuration guide for real-time kernels.
+On Tue, Apr 14, 2026 at 06:08:48PM +0100, Kiryl Shutsemau wrote:
+> On Tue, Apr 14, 2026 at 11:28:33AM -0400, Peter Xu wrote:
+> > Hi, Kiryl,
+> > 
+> > On Tue, Apr 14, 2026 at 03:23:34PM +0100, Kiryl Shutsemau (Meta) wrote:
+> > > This series adds userfaultfd support for tracking the working set of
+> > > VM guest memory, enabling VMMs to identify cold pages and evict them
+> > > to tiered or remote storage.
+> > 
+> > Thanks for sharing this work, it looks very interesting to me.
+> > 
+> > Personally I am also looking at some kind of VMM memtiering issues.  I'm
+> > not sure if you saw my lsfmm proposal, it mentioned the challenge we're
+> > facing, it's slightly different but still a bit relevant:
+> > 
+> > https://lore.kernel.org/all/aYuad2k75iD9bnBE@x1.local/
+> 
+> Thanks will read up. I didn't follow userfultfd work until recently.
 
-List all Kconfig options that are recommended to be either enabled or
-disabled.  Explicitly add a table of contents at the top of the document,
-so that all the options can be seen in a glance.
+Thanks.  Note that the proposal doesn't have much with userfaultfd.  You'll
+see when you start reading.
 
-Whenever appropriate, link to other kernel guides; e.g. cpuidle, cpufreq,
-power management, and no_hz.
+> 
+> > Unfortunately, that proposal was rejected upstream.
+> 
+> Sorry about that. We can chat about in hall track, if you are there :)
 
-Add a summary at the end of the document warning users that there is a no
-"one size fits all solution" for configuring a real-time system.
+I won't be there (as it's rejected.. hence not invited).  But I'm always
+happy to discuss on this topic on the list or elsewhere.  Alone the way I
+believe it'll also help us to know what is the most acceptable path
+forward as it's still very relevant.
 
-Signed-off-by: Ahmed S. Darwish <darwi@linutronix.de>
----
- Documentation/core-api/real-time/index.rst    |   1 +
- .../real-time/kernel-configuration.rst        | 313 ++++++++++++++++++
- 2 files changed, 314 insertions(+)
- create mode 100644 Documentation/core-api/real-time/kernel-configuration.rst
+> 
+> > > == VMM Workflow ==
+> > 
+> > AFAIU, this workflow provides two functionalities:
+> > 
+> > > 
+> > >     UFFDIO_DEACTIVATE(all)            -- async, no vCPU stalls
+> > >     sleep(interval)
+> > >     PAGEMAP_SCAN                      -- find cold pages
+> > 
+> > Until here it's only about page hotness tracking.  I am curious whether you
+> > evaluated idle page tracking.  Is it because of perf overheads on rmap?
+> 
+> I didn't gave idle page tracking much thought. I needed uffd faults to
+> serialize reclaim against memory accesses. If use it for one thing we
+> can as well try to use it for tracking as well. And it seems to be
+> fitting together nicely with sync/async mode flipping.
 
-diff --git a/Documentation/core-api/real-time/index.rst b/Documentation/core-api/real-time/index.rst
-index f08d2395a22c..a17a3dec535c 100644
---- a/Documentation/core-api/real-time/index.rst
-+++ b/Documentation/core-api/real-time/index.rst
-@@ -15,3 +15,4 @@ the required changes compared to a non-PREEMPT_RT configuration.
-    differences
-    hardware
-    architecture-porting
-+   kernel-configuration
-diff --git a/Documentation/core-api/real-time/kernel-configuration.rst b/Documentation/core-api/real-time/kernel-configuration.rst
-new file mode 100644
-index 000000000000..4310ca85f014
---- /dev/null
-+++ b/Documentation/core-api/real-time/kernel-configuration.rst
-@@ -0,0 +1,313 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+Real-Time Kernel configuration
-+==============================
-+
-+.. contents:: Table of Contents
-+   :depth: 3
-+   :local:
-+
-+Introduction
-+============
-+
-+This document lists the kernel configuration options that might affect a
-+real-time kernel's worst-case latency.  It is intended for system integrators.
-+
-+Configuration options
-+=====================
-+
-+``CONFIG_CPU_FREQ``
-+-------------------
-+
-+:Expectation: enabled
-+:Severity: *high*
-+
-+The CPU frequency scaling subsystem ensures that the processor can operate
-+at its maximum supported frequency.  While, in general, bootloaders are
-+tasked with setting the CPU clock to the highest speed on boot, some do
-+not.  It is thus desirable to keep this option enabled.
-+
-+.. caution::
-+
-+  A real-time kernel is not about being "as fast as possible", however
-+  real-time requirements may demand that the CPU is clocked at a
-+  particular speed.
-+
-+``CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE``
-+-------------------------------------------
-+
-+:Expectation: enabled
-+:Severity: *high*
-+
-+Real-Time workloads expect a fixed CPU frequency during execution.  Using
-+the performance governor is an easy way to achieve that purely from kernel
-+configuration.
-+
-+This is not a blanket rule.  Some setups might prefer to clock the CPU to
-+lower speeds due to thermal packaging or other requirements.  The key is
-+that the CPU frequency remains constant once set.
-+
-+``CONFIG_CPU_IDLE``
-+-------------------
-+
-+:Expectation: enabled
-+:Severity: *info*
-+
-+CPU idle states (C-states) allow the processor to enter low-power modes
-+during periods of inactivity.  Very-low CPU idle states may require
-+flushing the CPU caches and lowering or disabling the clocking.  This can
-+lower power consumption, but it also increases the entry and exit latency
-+from such states.
-+
-+While disabling this option eliminates cpuidle-related latencies, doing so
-+can significantly impact hardware longevity, warranty, and thermal
-+behavior.  Users should cap the maximum C-state to C1 instead.  For ACPI
-+platforms, this can be achieved by using the boot parameter [1]_::
-+
-+  processor.max_cstate=1
-+
-+Higher C-states can be acceptable depending on the user workload's latency
-+requirements.  For ACPI-based platforms, use the ``cpupower idle-info``
-+command to inspect the available idle states.
-+
-+For more information, please see:
-+
-+- ``linux/tools/power/cpupower``
-+- :doc:`/admin-guide/pm/cpuidle`
-+- :doc:`/admin-guide/pm/index`
-+
-+``CONFIG_DRM``
-+--------------
-+
-+:Expectation: disabled
-+:Severity: *info*
-+
-+GPU-accelerated workloads can share system resources with the CPU,
-+including last-level cache (LLC) and memory bandwidth.  Modern integrated
-+GPUs optimize graphics performance at the expense of CPU determinism.
-+
-+Examples of affected platforms:
-+
-+- Intel processors with integrated graphics (Gen9 and later)
-+- AMD APUs with Radeon Graphics
-+- Xilinx Zynq UltraScale+ MPSoC EG/EV series
-+
-+If graphics workloads must run alongside real-time tasks, users must
-+conduct thorough stress testing using tools like ``glmark2`` while
-+measuring the overall system latency.
-+
-+For more information, please check:
-+
-+- :doc:`Regarding hardware (System memory and cache) </core-api/real-time/hardware>`
-+- :doc:`/filesystems/resctrl`
-+- `Real-Time and Graphics: A Contradiction?`_
-+
-+``CONFIG_EFI_DISABLE_RUNTIME``
-+------------------------------
-+
-+:Expectation: enabled
-+:Severity: *medium*
-+
-+EFI is the standard boot and firmware interface for multiple
-+architectures.  EFI runtime services provide callback functions to be
-+called from the kernel; e.g., as utilized by (``CONFIG_EFI_VARS*``) or
-+(``CONFIG_RTC_DRV_EFI``).  For the former, the kernel calls into EFI to
-+update the EFI variables.
-+
-+Calling into EFI means invoking firmware callbacks.  During such
-+invocations, the system might not be able to react to interrupts and will
-+thus not be able to perform a context switch.  This can cause significant
-+latency spikes for the real-time system.
-+
-+``CONFIG_PREEMPT_RT`` enables this option by default.  If this option is
-+manually disabled at build time, the following boot parameter [1]_ may be
-+used to disable EFI runtime at boot up::
-+
-+  efi=noruntime
-+
-+There is ongoing `development work`_ to allow access to EFI variables for a
-+real-time Linux system.
-+
-+``CONFIG_NO_HZ`` / ``CONFIG_NO_HZ_FULL``
-+----------------------------------------
-+
-+:Expectation: disabled
-+:Severity: *medium*
-+
-+Tickless operation can increase kernel-to-userspace transition latency due
-+to the extra accounting and state book-keeping.
-+
-+*Guidance by real-time workload type:*
-+
-+- For periodic workloads; e.g., control loops executing every 100 µs, avoid
-+  ``NO_HZ`` modes.  Consistent kernel ticks are preferable.
-+
-+- For computation-intensive workloads; e.g. extended userspace execution,
-+  ``NO_HZ_FULL`` may be beneficial.  In such cases, users should offload
-+  the kernel housekeeping to dedicated CPUs and isolate compute cores.
-+
-+See also :doc:`/timers/no_hz`.
-+
-+``CONFIG_PREEMPT_RT``
-+---------------------
-+
-+:Expectation: enabled
-+:Severity: **fatal**
-+
-+This option must be enabled, or the resulting kernel will not be fully
-+preemptible and real-time capable.
-+
-+``CONFIG_TRACING`` (and tracing options)
-+----------------------------------------
-+
-+:Expectation: enabled
-+:Severity: *info*
-+
-+Shipping kernels with tracing support enabled (but not actively running) is
-+highly recommended.  This will allow the users to extract more information
-+if latency problems arise.  Nonetheless, some tracers do incur latency
-+overhead by just being enabled; see :ref:`tracers`.
-+
-+.. caution::
-+
-+  Users should *not* make use of tracers or trace events during production
-+  real-time kernel operation as they can add considerable overhead and
-+  degrade the system's latency.
-+
-+Non-performance CPU frequency governors
-+---------------------------------------
-+
-+:Expectation: disabled
-+:Severity: *medium*
-+
-+To ensure reproducible system latency measurements, disable the
-+non-``PERFORMANCE`` CPU frequency governors when possible.  This avoids the
-+risk of unknown userspace tasks implicitly or explicitly setting a
-+different CPU frequency governor, and thus achieving different latency
-+results across the system's runtime.
-+
-+If disabling other frequency governors is not an option, then
-+``CPU_FREQ_DEFAULT_GOV_USERSPACE`` should be enabled.  In that case, users
-+should set a *stable* CPU frequency setting during the system runtime, as
-+changing the CPU frequency will increase the system latency and affect
-+latency measurements reproducibility.  If a lower CPU frequency is desired,
-+then ``CPU_FREQ_DEFAULT_GOV_POWERSAVE`` should be set.
-+
-+The ``ONDEMAND`` CPU frequency governor should *not* be enabled in a
-+real-time system since in dramatically affects determinism depending on the
-+workload.
-+
-+For more information, please check :doc:`/admin-guide/pm/cpufreq`.
-+
-+Kernel Debug Options
-+====================
-+
-+Most kernel debug options add runtime overhead that increases the
-+worst-case latency.
-+
-+.. TODO: Connect lockdep with PROVE_LOCKING.  Make it clear that it does
-+.. not uncover latency issues.
-+
-+.. caution::
-+
-+  During development and early testing, users are encouraged to run their
-+  real-time workloads and peripherals with lockdep (:ref:`lockdep`) and
-+  other kernel debug options enabled, for a considerable amount of time.
-+  Such workloads might trigger kernel code paths that were not triggered
-+  during the internal Linux real-time kernel development, thus helping to
-+  uncover locking bugs and any real-time latency issues in the kernel.
-+
-+Problematic debug options
-+-------------------------
-+
-+``CONFIG_LOCKUP_DETECTOR``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Severity: *high*
-+
-+The lockup detector creates kernel timer callbacks that execute every few
-+seconds, in hard-IRQ context, even on real-time kernels.  These periodic
-+interrupts can cause latency spikes.
-+
-+Users should use hardware watchdogs instead, which will provide a similar
-+functionality without the software-induced latency.
-+
-+.. _lockdep:
-+
-+``CONFIG_PROVE_LOCKING``
-+^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Severity: *high*
-+
-+Proving the correctness of all kernel locking adds substantial overhead
-+and significantly increases worst-case latency.
-+
-+.. _tracers:
-+
-+``CONFIG_IRQSOFF_TRACER`` and ``CONFIG_PREEMPT_TRACER``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Severity: *high*
-+
-+These tracers do incur measurable latency overhead even when tracing is not
-+currently active.
-+
-+Allowed kernel debug options
-+----------------------------
-+
-+Kernel debug options which are not included in this list should be enabled
-+with caution, after extensive auditing of their impact on system latency.
-+
-+``CONFIG_DEBUG_ATOMIC_SLEEP``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This sanity check catches common kernel programming errors with
-+a tolerable latency cost.
-+
-+``CONFIG_DEBUG_BUGVERBOSE``
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+This improves the debugging capabilities without affecting normal
-+operation latency.
-+
-+``CONFIG_DEBUG_FS``
-+^^^^^^^^^^^^^^^^^^^
-+
-+This is safe to include in real-time kernels, *provided that debugfs is
-+not accessed during production runtime*.
-+
-+``CONFIG_DEBUG_INFO``
-+^^^^^^^^^^^^^^^^^^^^^
-+
-+This increases the kernel image size but has no latency impact.  It is
-+also essential for meaningful crash dumps and profiling.
-+
-+``CONFIG_DEBUG_KERNEL``
-+^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Meta-option which allows debug features to be enabled.  This configuration
-+option has no runtime impact, but be aware of any debug features that it
-+may have allowed to be enabled.
-+
-+Summary
-+=======
-+
-+There is no "one size fits all" solution for configuring a real-time Linux
-+system.  Beginning with the system real-time requirements, integrators
-+must consider the features and functions of the system's hardware, kernel,
-+and userspace.  All such components must be properly configured in order
-+to establish and constrain the system's maximum latency.
-+
-+With that in mind, any incorrect real-time kernel configuration could cause
-+a new maximum latency that shows up at the wrong time and is catastrophic
-+for the real-time system's latency.
-+
-+References
-+==========
-+
-+.. [1] See :doc:`/admin-guide/kernel-parameters`
-+
-+.. _development work: https://lore.kernel.org/r/20260205115559.1625236-1-bigeasy@linutronix.de
-+
-+.. _Real-Time and Graphics\: A Contradiction?: https://web.archive.org/web/20221025085614/https://linutronix.de/PDF/Realtime_and_graphics-acontradiction2021.pdf
+Yes, I get your point.
+
+It's just that it'll still partly done what access bit has already been
+doing for mm core in general on tracking hotness.  So I wonder if we should
+still try to see if we can separate the two problems.
+
+One other quick thought is maybe we could also report hotness from kernel
+directly rather than relying on async faults, you can refer to "(2) Hotness
+Information API" in my above proposal.  Here when it's only about knowing
+which page is less frequently used, it's only a READ interface.
+
+> 
+> > To
+> > me, your solution (until here.. on the hotness sampling) reads more like a
+> > more efficient way to do idle page tracking but only per-mm, not per-folio.
+> > 
+> > That will also be something I would like to benefit if QEMU will decide to
+> > do full userspace swap.  I think that's our last resort, I'll likely start
+> > with something that makes QEMU work together with Linux on swapping
+> > (e.g. we're happy to make MGLRU or any reclaim logic that Linux mm
+> > currently uses, as long as efficient) then QEMU only cares about the rest,
+> > which is what the migration problem is about.
+> > 
+> > The other issue about idle page tracking to us is, I believe MGLRU
+> > currently doesn't work well with it (due to ignoring IDLE bits) where the
+> > old LRU algo works.  I'm not sure how much you evaluated above, so it'll be
+> > great to share from that perspective too.  I also mentioned some of these
+> > challenges in the lsfmm proposal link above.
+> > 
+> > >     UFFDIO_SET_MODE(sync)             -- block faults for eviction
+> > >     pwrite + MADV_DONTNEED cold pages -- safe, faults block
+> > >     UFFDIO_SET_MODE(async)            -- resume tracking
+> > 
+> > These operations are the 2nd function.  It's, IMHO, a full userspace swap
+> > system based on userfaultfd.
+> 
+> Right. And we want to decide where to put cold pages from userspace. 
+> 
+> > Have you thought about directly relying on userfaultfd-wp to do this work?
+> > The relevant question is, why do we need to block guest reads on pages
+> > being evicted by the userapp?  Can we still allow that to happen, which
+> > seems to be more efficient?  IIUC, only writes / updates matters in such
+> > swap system.
+> 
+> But we do care about about read accesses. We don't want to swap out
+> pages that got read-touched. And we cannot in practice switch to WP mode
+
+This is a good point.
+
+When it's considered on top of your above "async trapping to collect
+hotness with userfaultfd" idea, it flows naturally with this idea indeed.
+
+However, IMHO that should really be an extremely small window, and the
+major part the userapp should rely on is the larger window sampling
+whether, in your current case, PROT_NONE (or PTE_NONE for shmem) switched
+back to a accessable PTE.
+
+It means using RW protection v.s. WR-ONLY protection will only differ very
+slightly if by accident some page got read-only during evicting.  For
+example, if the mgmt app monitors PROT_NONE state for 30 seconds, make a
+decision to evict, evicting takes 5ms, then within 5ms someone read the
+page.  It means it only misses the 5ms/30sec access pattern of guest.
+
+So far I don't yet know if this would justify a new kernel API just for
+that small false postive reporting some page is cold but actually it's hot.
+To me it's still fine to consider using WP-ONLY and just allow that trivial
+window to get refaulted later, because it shouldn't be the majority.
+
+> after PAGEMAP_SCAN: it would require a lot of UFFDIO_WRITEPROTECT calls
+> with TLB flushing each.
+
+This is indeed a concern, maybe a bigger one.  I don't know how much
+benefit we can get from avoiding one extra TLB flush when evicting.  IMHO
+some numbers might be more than great to justify this part.
+
+While at this, I do have a pure question that is relevant on the full
+protection scheme (and it can be naive; please bare with me on not yet
+reading the whole series): if you change anon mappings to PROT_NONE in
+pgtables, then how do the mgmt app reads this page before dumping it to
+anywhere? It's not like shmem where you can have a separate mapping.
+
+Do you need to fork(), for example?
+
+> 
+> With my approach switching tracking and reclaiming is single bit flip
+> under mmap lock.
+> 
+> > Also, I'm not sure if you're aware of LLNL's umap library:
+> > 
+> > https://github.com/llnl/umap
+> > 
+> > That implemnted the swap system using userfaultfd wr-protect mode only, so
+> > no new kernel API needed.
+> 
+> Will look into it. Thanks.
+
+Thanks,
+
 -- 
-2.53.0
+Peter Xu
 
