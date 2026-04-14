@@ -1,205 +1,111 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EA1A31715F
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 10:57:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31DF719DF6A;
+	Tue, 14 Apr 2026 11:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776164253; cv=none; b=OYqIoxAJhZnG4N0t1rgNPunjWWl3oxGk6q/aRdpeokiAGu019uz8yyMJ+O0IwgHsAsC2eUOUhlCvCQGWr47GGIS6DAOUvLTGj6J64Q/qC9g0HcYg7S3eveYxj7xpY3X8F6niAjBoCiKW2pB2QQNXABpREksNpENe93Nsts0SiMQ=
+	t=1776165506; cv=none; b=iocrlInsEF4Zgenp7VNRCM62HgpnAz4qZeC3wCQJuhscJUgwhu8pbRN/pm8siScgUAbwdafM9YwH9DmDsidjcE1/a4AMSUhLb9KhkL9se5/3ERv6jiL66CtjuWIQUhGWim9dIXbfWkIzth7JSE7YsmWZ6xXHalQebEgD05hdFzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776164253; c=relaxed/simple;
-	bh=qEdUDIS0XszYcYgqCC3NvynmxU3u2A8Nt8G2CMnCDi8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=S92Do5rtc9udzst/THaK5LTvmGxWd9Lar6mrqZLAy8voAU8YyvBoLg7R9BSbx6L/YomkYGR4clJmdKzgFsLguH040UsMjL7eP8R/Jr21umxgZjZYRl50bmjQnJw8IkaXLRceYoGCkwTqXAGudD3JvRdHZShxDrh5a5WeZyztfr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=s1PPsEav; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776165506; c=relaxed/simple;
+	bh=iG7HI+5u4A8V60EX2I9b9IKmo5HXQbPzeBfJHB8npoc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nkY4ARAqND+Dog5omEGcR6aUPg+4rpaJjaXXi4W9LK7ATDKrgXNRCNQZqmqa8g4ZJKnGjoOJFPY4SoowEMmROisvEz51R69VEFnpAm1cpTLecfEC4+29ftDPAOXTylXjEf/PoWf5C0csIKaQn2n5Z5a4mb9VkApdcox2hceu3M8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LO8ERRJE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="s1PPsEav"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776164248;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=kUMc9JT9mvA6tnmnVu0LMQDF/Ku/DuIn19+C8psUBNo=;
-	b=s1PPsEavMdzmSBVV4lPqUiUC+F2v+djU9FJWMzHx5Mh37HDgRuD2lugsJIaYVoNut1wJvh
-	EK1gumGOCMTY1fKpwe8jNOEj1Bem7TjXbbQV/oNixK1gMTO1fiClvuRQx5m2GZP4Lf/sR7
-	0M1WGUkBrJVPH+okbrZSZXXARJlcO+M=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: bpf@vger.kernel.org
-Cc: Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Quan Sun <2022090917019@std.uestc.edu.cn>,
-	Yinhao Hu <dddddd@hust.edu.cn>,
-	Kaiyan Mei <M202472210@hust.edu.cn>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Eric Dumazet <edumazet@google.com>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
-	David Ahern <dsahern@kernel.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH bpf] bpf,tcp: avoid infinite recursion in BPF_SOCK_OPS_HDR_OPT_LEN_CB
-Date: Tue, 14 Apr 2026 18:57:00 +0800
-Message-ID: <20260414105702.248310-1-jiayuan.chen@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LO8ERRJE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 91CC8C19425;
+	Tue, 14 Apr 2026 11:18:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776165505;
+	bh=iG7HI+5u4A8V60EX2I9b9IKmo5HXQbPzeBfJHB8npoc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LO8ERRJEA4LNRByWzZXFQThcmV9FJne3FgkpoJIgQucY6lINbIsvtA7+q5V3La8nl
+	 CNqikCruTsg8nHKWGsg5hpiNMUxyo39bhj0r/hYCEqftk5rTK4kmv071wHYe+g/AWu
+	 qkLpTt6j+XZSTYMm/i8e4gzPPGvj9SPfo0cs3swPEhqs+Jby7Cs1duIQkGDX5L6N4I
+	 uPxC8rm5yFOcek2W5EvVTGSoe3PnAOov/idjU4UWEOA/wtDgmZxGH0pusNWct5oIyx
+	 yle99HSHFLjvRg5T1Xq3a+HcCzN+zubVEJ8tO+L77G1yvXMQS/lFRh7NleYKvvasxE
+	 KYIQ1E8IeWBdg==
+Message-ID: <72a4accd-5f94-45f7-8392-bb659167f078@kernel.org>
+Date: Tue, 14 Apr 2026 13:18:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: maintainer profiles
+To: Randy Dunlap <rdunlap@infradead.org>,
+ Linux Documentation <linux-doc@vger.kernel.org>,
+ Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Linux Kernel Workflows <workflows@vger.kernel.org>
+References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-A BPF_PROG_TYPE_SOCK_OPS program can set BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG
-to inject custom TCP header options. When the kernel builds a TCP packet,
-it calls tcp_established_options() to calculate the header size, which
-invokes bpf_skops_hdr_opt_len() to trigger the BPF_SOCK_OPS_HDR_OPT_LEN_CB
-callback.
+On 10/04/2026 02:18, Randy Dunlap wrote:
+> Hi,
+> 
+> Is there supposed to be a difference (or distinction) in the contents of
+> 
+> Documentation/process/maintainer-handbooks.rst
+> and
+> Documentation/maintainer/maintainer-entry-profile.rst
+> ?
+> 
+> Can they be combined into one location?
 
-If the BPF program calls bpf_setsockopt(TCP_NODELAY) inside this callback,
-__tcp_sock_set_nodelay() will call tcp_push_pending_frames(), which calls
-tcp_current_mss(), which calls tcp_established_options() again,
-re-triggering the same BPF callback. This creates an infinite recursion
-that exhausts the kernel stack and causes a panic.
+Yes, please! Including also the location of actual profiles. I am mostly
+looking at them in the sources directly, not web docs, so confusing and
+annoying to find them distributed.
 
-BPF_SOCK_OPS_HDR_OPT_LEN_CB
-  -> bpf_setsockopt(TCP_NODELAY)
-	-> tcp_push_pending_frames()
-	  -> tcp_current_mss()
-		-> tcp_established_options()
-		  -> bpf_skops_hdr_opt_len()
-                           /* infinite recursion */
-			-> BPF_SOCK_OPS_HDR_OPT_LEN_CB
-
-A similar reentrancy issue exists for TCP congestion control, which is
-guarded by tp->bpf_chg_cc_inprogress. Adopt the same approach: introduce
-tp->bpf_hdr_opt_len_cb_inprogress, set it before invoking the callback in
-bpf_skops_hdr_opt_len(), and check it in sol_tcp_sockopt() to reject
-bpf_setsockopt(TCP_NODELAY) calls that would trigger
-tcp_push_pending_frames() and cause the recursion.
-
-Reported-by: Quan Sun <2022090917019@std.uestc.edu.cn>
-Reported-by: Yinhao Hu <dddddd@hust.edu.cn>
-Reported-by: Kaiyan Mei <M202472210@hust.edu.cn>
-Reported-by: Dongliang Mu <dzm91@hust.edu.cn>
-Closes: https://lore.kernel.org/bpf/d1d523c9-6901-4454-a183-94462b8f3e4e@std.uestc.edu.cn/
-Fixes: 0813a841566f ("bpf: tcp: Allow bpf prog to write and parse TCP header option")
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- Documentation/networking/net_cachelines/tcp_sock.rst |  1 +
- include/linux/tcp.h                                  | 11 ++++++++++-
- net/core/filter.c                                    |  4 ++++
- net/ipv4/tcp_minisocks.c                             |  1 +
- net/ipv4/tcp_output.c                                |  3 +++
- 5 files changed, 19 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/net_cachelines/tcp_sock.rst b/Documentation/networking/net_cachelines/tcp_sock.rst
-index 563daea10d6c..07d3226d90cc 100644
---- a/Documentation/networking/net_cachelines/tcp_sock.rst
-+++ b/Documentation/networking/net_cachelines/tcp_sock.rst
-@@ -152,6 +152,7 @@ unsigned_int                  keepalive_intvl
- int                           linger2
- u8                            bpf_sock_ops_cb_flags
- u8:1                          bpf_chg_cc_inprogress
-+u8:1                          bpf_hdr_opt_len_cb_inprogress
- u16                           timeout_rehash
- u32                           rcv_ooopack
- u32                           rcv_rtt_last_tsecr
-diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index f72eef31fa23..2bfb73cf922e 100644
---- a/include/linux/tcp.h
-+++ b/include/linux/tcp.h
-@@ -475,12 +475,21 @@ struct tcp_sock {
- 	u8	bpf_sock_ops_cb_flags;  /* Control calling BPF programs
- 					 * values defined in uapi/linux/tcp.h
- 					 */
--	u8	bpf_chg_cc_inprogress:1; /* In the middle of
-+	u8	bpf_chg_cc_inprogress:1, /* In the middle of
- 					  * bpf_setsockopt(TCP_CONGESTION),
- 					  * it is to avoid the bpf_tcp_cc->init()
- 					  * to recur itself by calling
- 					  * bpf_setsockopt(TCP_CONGESTION, "itself").
- 					  */
-+		bpf_hdr_opt_len_cb_inprogress:1; /* It is set before invoking the
-+						  * callback so that a nested
-+						  * bpf_setsockopt(TCP_NODELAY) or
-+						  * bpf_setsockopt(TCP_CORK) cannot
-+						  * trigger tcp_push_pending_frames(),
-+						  * which would call tcp_current_mss()
-+						  * -> bpf_skops_hdr_opt_len(), causing
-+						  * infinite recursion.
-+						  */
- #define BPF_SOCK_OPS_TEST_FLAG(TP, ARG) (TP->bpf_sock_ops_cb_flags & ARG)
- #else
- #define BPF_SOCK_OPS_TEST_FLAG(TP, ARG) 0
-diff --git a/net/core/filter.c b/net/core/filter.c
-index 78b548158fb0..518699429a7a 100644
---- a/net/core/filter.c
-+++ b/net/core/filter.c
-@@ -5483,6 +5483,10 @@ static int sol_tcp_sockopt(struct sock *sk, int optname,
- 	if (sk->sk_protocol != IPPROTO_TCP)
- 		return -EINVAL;
- 
-+	if ((optname == TCP_NODELAY || optname == TCP_CORK) &&
-+	    tcp_sk(sk)->bpf_hdr_opt_len_cb_inprogress)
-+		return -EBUSY;
-+
- 	switch (optname) {
- 	case TCP_NODELAY:
- 	case TCP_MAXSEG:
-diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-index dafb63b923d0..fb06c464ac16 100644
---- a/net/ipv4/tcp_minisocks.c
-+++ b/net/ipv4/tcp_minisocks.c
-@@ -663,6 +663,7 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
- 	RCU_INIT_POINTER(newtp->fastopen_rsk, NULL);
- 
- 	newtp->bpf_chg_cc_inprogress = 0;
-+	newtp->bpf_hdr_opt_len_cb_inprogress = 0;
- 	tcp_bpf_clone(sk, newsk);
- 
- 	__TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
-diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-index 326b58ff1118..c9654e690e1a 100644
---- a/net/ipv4/tcp_output.c
-+++ b/net/ipv4/tcp_output.c
-@@ -475,6 +475,7 @@ static void bpf_skops_hdr_opt_len(struct sock *sk, struct sk_buff *skb,
- 				  unsigned int *remaining)
- {
- 	struct bpf_sock_ops_kern sock_ops;
-+	struct tcp_sock *tp = tcp_sk(sk);
- 	int err;
- 
- 	if (likely(!BPF_SOCK_OPS_TEST_FLAG(tcp_sk(sk),
-@@ -519,7 +520,9 @@ static void bpf_skops_hdr_opt_len(struct sock *sk, struct sk_buff *skb,
- 	if (skb)
- 		bpf_skops_init_skb(&sock_ops, skb, 0);
- 
-+	tp->bpf_hdr_opt_len_cb_inprogress = 1;
- 	err = BPF_CGROUP_RUN_PROG_SOCK_OPS_SK(&sock_ops, sk);
-+	tp->bpf_hdr_opt_len_cb_inprogress = 0;
- 
- 	if (err || sock_ops.remaining_opt_len == *remaining)
- 		return;
--- 
-2.43.0
-
+Best regards,
+Krzysztof
