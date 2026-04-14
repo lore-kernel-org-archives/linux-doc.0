@@ -1,34 +1,100 @@
-Received: from relay.hostedemail.com (smtprelay0017.hostedemail.com [216.40.44.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3511925B2F4;
-	Tue, 14 Apr 2026 13:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776174120; cv=none; b=UVnLV9J/E8EkwWjp65Tivxi5TGLjxA6GJGybCdhc+HNScMNAYjQpUCY0EsLgd88mkUtr4rn3k8K29b4RGvcyo3yNI+5wpdkgVJCmyebgDn8LVswhSscav2tgOwecQn5rIVAoVEyHRvIHPK0ZLERLyARsHF1aK4VOPpfDU68TFtE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776174120; c=relaxed/simple;
-	bh=RHpptF+atO/Rhx/afsgSrALZFOyszUomvjg2Qi2fN+0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ViQFIUKmbC9AXvh8+IkzM9zHYGivjAsadgmW+80Be64zD9++7U/rNc/+77O51UEwgAr63MpsCBrXDq1EFe1odouty1mdmutNTJAp1F2LhIyD6SNJeF/qpnx1F/fuWkl39EU/ybKuCxhWbHJSz/6YUGECWbCurHAlhNRNZlolzMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=groves.net; arc=none smtp.client-ip=216.40.44.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=groves.net
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
-	by unirelay03.hostedemail.com (Postfix) with ESMTP id 730F9B9CAA;
-	Tue, 14 Apr 2026 13:41:54 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: john@groves.net) by omf06.hostedemail.com (Postfix) with ESMTPA id 834B820011;
-	Tue, 14 Apr 2026 13:41:43 +0000 (UTC)
-Date: Tue, 14 Apr 2026 08:41:42 -0500
-From: John Groves <John@groves.net>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: Joanne Koong <joannelkoong@gmail.com>, 
-	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACCA39023F
+	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 14:18:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776176327; cv=pass; b=SIqGsx69BaB0XnpOo/DgskF142B7K4FjDjTNJdfS8qASfr0zcH9nlzO4JmjkhcENgrq7gseQ1Go/j5SGFmjQFiNw5F0oY2Zwm4R8IW3HRyzl6aVYRiDCv7tkZLF2Mbrj3pTwDaTS+YWfYEEvJy76I5lP9VMeXdMnk0BdxcqYS0o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776176327; c=relaxed/simple;
+	bh=qR1ARNJXhgZbUhvZNjjyKFCNkW5s8L/UcZxIWeoFM80=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Taqyt1cbfPIIRvooiklf3TOhgozVr2ZixlobBuveOoCebFmW4I0ioyMg34UZ7FWT4uBhQRCc58E5pKlDdRJNNaUgXBUXesf2viJKmzv5fW8VHXWxm086fuK4Q5ONzIY3fBGob56VJjUabmifnGiewD2cgJXdlU0QVodJW2FfXh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=aLYDXS56; arc=pass smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="aLYDXS56"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50d6b9bca48so73900261cf.2
+        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 07:18:45 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776176325; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HQHaSE3EkAfLkIDmxROqE8Ew4bpEwolvhSNHD/Zvkhm/Caeq7Vl69fp4cGAaKd18oF
+         yByyQxbcK6Z8rYthVvabNrkV7u2sQGQPdK+aHJJuUXyikgOJv6OOG3gWX7xRiitaPLip
+         I0yXaDwXz17kscbC4U9PBWwCkTgsnv+mrgQPRkUG6XWjyxUGAnoBl1i/hWI8dwPGRP9Q
+         bRV+dcYmgXbmf0wRO3cxF7hQ3rYNTvByFqCBlqVeDnmlZQxUsJ4HWPwH/FGw0qoUGoTa
+         /H2YCNT+ESNkp1Fcxh/sHFEi6Nl6EQ+zaWLaLButMO5G9KhHOG6or7Ru5xK4RhuLVJQl
+         a9HA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=BeSg31i3cb+7JrMZOeE8E9eFnlQ6LWh5RGdI+wJ//2Q=;
+        fh=eP3J+PTbCVTzvbc+f69nERLzBSiKYtq5O/jbEm1cs/U=;
+        b=CUYECB5wIsvPr4YCt+enK6ekRbScDJiGvoPqlrQmKqne6xb53/G4srSXa/yv/dRLyd
+         AZA96pqOSVWZXoaHgUqVTUPzw5mFeWjb8aTgdf7kfca2Lvdh0Xf+e8Md+Hg5rvptLF/j
+         37ZoAHUt0FYq83r24SW2A698cFDMYt01hFaf/Z3xQU3dH7dFTInGkdWaCqDwPMrRgHZE
+         4pBFlz32RqL/Tyd0cw+LNF/WNsVKIrcMPAQGHc0lWKzr5IhVedyIVhPp1zX3bBh3sjqw
+         f1xNUGi/+LzJNpKm6HYtT2txHj2CI74HcoecI80CPGuLmOSaLBuCSjfEsuNT8LaYm2IU
+         4WSw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776176325; x=1776781125; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BeSg31i3cb+7JrMZOeE8E9eFnlQ6LWh5RGdI+wJ//2Q=;
+        b=aLYDXS56/o8us38bnHNSLqBbnL5B3SDw60KVFLMVn/2uVKQovw9c/tHGitbk1B1TRq
+         3otfycQbQbx4V1lBJhjRfPkygJLtKZp21KgnlPnDvKX4AG3hanVf0Jb2efE51AtavLQs
+         3O7skEOmP7d9yay0IT50KL5zSiVztehyDeaM4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776176325; x=1776781125;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BeSg31i3cb+7JrMZOeE8E9eFnlQ6LWh5RGdI+wJ//2Q=;
+        b=mXUnSVpD6AIhIFp67Qjlzpo9lwE8k3KwraksXc9NbNp4kBnd5z4IJZXon+K3H7alS9
+         EAQ4OHIviZh3ZzQ1q0tmdQpTtIF0LwhC4T4lqaBtuJxH+rjwPHwRNmHVsLfjskcDAFrW
+         7eERbC/Y8l1m7CBb8+2/5TZWLGX9Z1XiNwN07yWNNUrby9UCGk9aeNy7hEoMLLqbg8mr
+         iSN3pet/03w9taHE3f4szqhl2i93PDw9w0D6tMT3tMyZBZgbjHdnuedWCjkGCDeWLFWN
+         KYDK+vlZMCqodQOBMYepOipRQFk2MuzsIlVwgDzOFCeuSXmHJZiqs1l24aWyhL6Zup4f
+         8yCA==
+X-Forwarded-Encrypted: i=1; AFNElJ9DbRQACPw93j2CXiX4gpmsco1/qGjvXeUXgu04zgOgTDBe0UhjiW/7E4aiYMiM36i4Zzq1Rs/exwQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkGTFU4iYqt5jVHy7f21Jk2Nt4nuXXxgz7CLTzCtar/apwImqa
+	AEevb8qTLK2wXShRt4P4Z+CHBFI6yYyLdUUs5Kra1Q4HQYojxFwv+rvz3AJuaQsolVQ1MLlnfbq
+	K8pJ4pXJwNyF5RJ9FCPJGzNpC+w6f209Nj8PKTqAiAg==
+X-Gm-Gg: AeBDietBXomFXmr01ehewSRiquZpxSd6Ib5+USx9HtAh/HAP1pm4/QoyD4E0kw7VOgl
+	J79l6HuC5+hmxUzowLG/xuzrDEgXSDAK0C8tR2aoX+logfktE7FH3s3diPv6jfr8zlS0ADYkAZ/
+	8Ezz3OZ4jgE7VM8y9BlCrMFWWhU63K27WsTtobdq3ZoKxty3hVy5Fxgxv/9MsOYX5EltNtyTbxT
+	OuzLm6wm4UNcQ7iSIODrSxK1xErdqe0TSjO/xZC9WaLnTTRxDLqW9BPH2lm3xzHu35ZrKSgrfsi
+	aY3wSwqAUrZaa0EHdANP4l1mA+mrrOoj4vI3xZ/i8i6xDQA=
+X-Received: by 2002:ac8:5d89:0:b0:50d:7135:5631 with SMTP id
+ d75a77b69052e-50dd5b959fcmr266547411cf.6.1776176324547; Tue, 14 Apr 2026
+ 07:18:44 -0700 (PDT)
+Precedence: bulk
+X-Mailing-List: linux-doc@vger.kernel.org
+List-Id: <linux-doc.vger.kernel.org>
+List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20260331123702.35052-1-john@jagalactic.com> <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com> <ad4_jFsR951c2Mtn@groves.net>
+In-Reply-To: <ad4_jFsR951c2Mtn@groves.net>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 14 Apr 2026 16:18:33 +0200
+X-Gm-Features: AQROBzCjv32eXkH-VR3uBgnPuhuKjz5ZLSL9EY66Hi1IQzByLu6JpgnFl7pVZ3s
+Message-ID: <CAJfpegsCoMMg-Ux3CbBh0d1uqDNg3Fu_8YE-LubwrQ6A-2Cggw@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: John Groves <John@groves.net>
+Cc: Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
 	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
 	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
 	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
@@ -39,98 +105,21 @@ Cc: Joanne Koong <joannelkoong@gmail.com>,
 	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
 	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
 	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, 
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <ad4_jFsR951c2Mtn@groves.net>
-References: <20260331123702.35052-1-john@jagalactic.com>
- <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
- <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
- <adkDq0m5Wt9YhJ8A@groves.net>
- <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
-Precedence: bulk
-X-Mailing-List: linux-doc@vger.kernel.org
-List-Id: <linux-doc.vger.kernel.org>
-List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
-List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
-X-Rspamd-Queue-Id: 834B820011
-X-Stat-Signature: osob67n6eeczx8asmfbkzmfutkb4digx
-X-Rspamd-Server: rspamout03
-X-Session-Marker: 6A6F686E4067726F7665732E6E6574
-X-Session-ID: U2FsdGVkX1+SVXLkp0hdoyxt/nYLVnuiJzgDSoB6drE=
-X-HE-Tag: 1776174103-201279
-X-HE-Meta: U2FsdGVkX1+o+SRZZyzbR/R8njSUkeQWUwyoCzq04hU35apA7vVzWjjcQZgAMC9iX79jqY5MWMkP/7pWmCK235zT8/aTsAsxYhxiuuOis90g52GWRjdVEgaJBEp9UNimWGcgLUYYf6q9bHFUP+zOcgei1JxxtJhIQPLOUUKv1fwweYnXqZo4S4DUdr5ll+JmdYAv/ic1UFSt8hMutBQLUuvY55NXZrJCZmjY0ehh+oC8FM7aRMt1KdWwS0XdOI3Isx2fv8ky16IEl496GV+NavoLMO6BLWPyHunqtIojvdpcTGM0qcW50KufiA7H/0pWXdI1ozUIbRKaisJT7LybGrmMWmGeL8mK
+	"venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 26/04/14 03:19PM, Miklos Szeredi wrote:
-> On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.com> wrote:
-> 
-> > Overall, my intention with bringing this up is just to make sure we're
-> > at least aware of this alternative before anything is merged and
-> > permanent. If Miklos and you think we should land this series, then
-> > I'm on board with that.
-> 
-> TBH, I'd prefer not to add the famfs specific mapping interface if not
-> absolutely necessary.  This was the main sticking point originally,
-> but there seemed to be no better alternative.
-> 
-> However with the bpf approach this would be gone, which is great.
-> 
-> So let us please at least have a try at this. I'm not into bpf yet,
-> but willing to learn.
-> 
-> Thanks,
-> Miklos
+On Tue, 14 Apr 2026 at 15:41, John Groves <John@groves.net> wrote:
 
-Thanks for responding...
+> My short response: Noooooooooo!!!!!!
 
-My short response: Noooooooooo!!!!!!
-
-I very strongly object to making this a prerequisite to merging. This
-is an untested idea that will certainly delay us by at least a couple
-of merge windows when products are shipping now, and the existing approach
-has been in circulation for a long time. It is TOO LATE!!!!!!
-
-Famfs is not a science project, it's enablement for actual products and
-early versions are available now!!!
-
-That doesn't mean we couldn't convert later IF THERE ARE NO HIDDEN PROBLEMS.
-
-What are the risks of converting to BPF?
-
-- I don't know how to do it - so it'll be slow (kinda like my fuse learning
-  curve cost about a year because this is not that similar to anything
-  else that was already in fuse.
-
-- Those of us who are involved don't fully understand either the security
-  or performance implications of this. It 
-
-- Famfs is enabling access to memory and mapping fault handling must be
-  at "memory speed". We know that BPF walks some data structures when a 
-  program executes. That exposes us to additional serialized L3 cache 
-  misses each time we service a mapping fault (any TLB & page table miss).
-  This should be studied side-by-side with the existing approach under
-  multiple loads before being adopted for production.
-
-- This has never been done in production, and we're throwing it in the way
-  of a project that has been soaking for years and needs to support early
-  shipments of products.
-
-If this is the only path, I'd like to revive famfs as a standalone file
-system. I'm still maintaining that and it's still in use.
-
-Please reconsider Miklos. To use an American football metaphor, this moves
-the goal posts by a mile, and that's not reasonable!!!
+:) Seems like this is a highly emotional topic...  I suggest that we
+go ahead with bpf experiments, then discuss results and path forward
+at LSM.
 
 Thanks,
-John
-
-
+Miklos
