@@ -1,125 +1,238 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EACCA39023F
-	for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 14:18:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.176
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776176327; cv=pass; b=SIqGsx69BaB0XnpOo/DgskF142B7K4FjDjTNJdfS8qASfr0zcH9nlzO4JmjkhcENgrq7gseQ1Go/j5SGFmjQFiNw5F0oY2Zwm4R8IW3HRyzl6aVYRiDCv7tkZLF2Mbrj3pTwDaTS+YWfYEEvJy76I5lP9VMeXdMnk0BdxcqYS0o=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776176327; c=relaxed/simple;
-	bh=qR1ARNJXhgZbUhvZNjjyKFCNkW5s8L/UcZxIWeoFM80=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Taqyt1cbfPIIRvooiklf3TOhgozVr2ZixlobBuveOoCebFmW4I0ioyMg34UZ7FWT4uBhQRCc58E5pKlDdRJNNaUgXBUXesf2viJKmzv5fW8VHXWxm086fuK4Q5ONzIY3fBGob56VJjUabmifnGiewD2cgJXdlU0QVodJW2FfXh0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=aLYDXS56; arc=pass smtp.client-ip=209.85.160.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B162C3E6DF9;
+	Tue, 14 Apr 2026 14:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776176638; cv=none; b=c2a7skFvBlIZ8LqIlheNYUwfbI437PpHDUwn1R23/2rfFFzEM6WxW9OAHvTLBETEV1RaTaETHrbZXHDSN6k45QRhchMzVLLj1JsLNstYQc9a0kIT17lMtiAV/7xIbfU/5pkltju5Xg7/3odfsBc/VJevi/JcrYZTcwHxGUwNoRE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776176638; c=relaxed/simple;
+	bh=/fCVxa0eMyMWklv2E9q9GFJdXVtpfKD77F6QKI/nFIQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BKHy16D+ko886590W/VnagkV4CfK7Seo/XfkHRRyNpKr1/kkXFUn7rSzR1gTOvWu/BCHtt7I3e7RPLzEUzyDVddB0qLDaqX/45hNqOTIVrCwFjIEtnxAWv9JZU4CEFoHV+TtSEuDNQIBD524xNvQ0Ji17kdGyGtZjJp6yGlk7WM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CUMgG7US; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="aLYDXS56"
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-50d6b9bca48so73900261cf.2
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 07:18:45 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776176325; cv=none;
-        d=google.com; s=arc-20240605;
-        b=HQHaSE3EkAfLkIDmxROqE8Ew4bpEwolvhSNHD/Zvkhm/Caeq7Vl69fp4cGAaKd18oF
-         yByyQxbcK6Z8rYthVvabNrkV7u2sQGQPdK+aHJJuUXyikgOJv6OOG3gWX7xRiitaPLip
-         I0yXaDwXz17kscbC4U9PBWwCkTgsnv+mrgQPRkUG6XWjyxUGAnoBl1i/hWI8dwPGRP9Q
-         bRV+dcYmgXbmf0wRO3cxF7hQ3rYNTvByFqCBlqVeDnmlZQxUsJ4HWPwH/FGw0qoUGoTa
-         /H2YCNT+ESNkp1Fcxh/sHFEi6Nl6EQ+zaWLaLButMO5G9KhHOG6or7Ru5xK4RhuLVJQl
-         a9HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BeSg31i3cb+7JrMZOeE8E9eFnlQ6LWh5RGdI+wJ//2Q=;
-        fh=eP3J+PTbCVTzvbc+f69nERLzBSiKYtq5O/jbEm1cs/U=;
-        b=CUYECB5wIsvPr4YCt+enK6ekRbScDJiGvoPqlrQmKqne6xb53/G4srSXa/yv/dRLyd
-         AZA96pqOSVWZXoaHgUqVTUPzw5mFeWjb8aTgdf7kfca2Lvdh0Xf+e8Md+Hg5rvptLF/j
-         37ZoAHUt0FYq83r24SW2A698cFDMYt01hFaf/Z3xQU3dH7dFTInGkdWaCqDwPMrRgHZE
-         4pBFlz32RqL/Tyd0cw+LNF/WNsVKIrcMPAQGHc0lWKzr5IhVedyIVhPp1zX3bBh3sjqw
-         f1xNUGi/+LzJNpKm6HYtT2txHj2CI74HcoecI80CPGuLmOSaLBuCSjfEsuNT8LaYm2IU
-         4WSw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=szeredi.hu; s=google; t=1776176325; x=1776781125; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BeSg31i3cb+7JrMZOeE8E9eFnlQ6LWh5RGdI+wJ//2Q=;
-        b=aLYDXS56/o8us38bnHNSLqBbnL5B3SDw60KVFLMVn/2uVKQovw9c/tHGitbk1B1TRq
-         3otfycQbQbx4V1lBJhjRfPkygJLtKZp21KgnlPnDvKX4AG3hanVf0Jb2efE51AtavLQs
-         3O7skEOmP7d9yay0IT50KL5zSiVztehyDeaM4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776176325; x=1776781125;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BeSg31i3cb+7JrMZOeE8E9eFnlQ6LWh5RGdI+wJ//2Q=;
-        b=mXUnSVpD6AIhIFp67Qjlzpo9lwE8k3KwraksXc9NbNp4kBnd5z4IJZXon+K3H7alS9
-         EAQ4OHIviZh3ZzQ1q0tmdQpTtIF0LwhC4T4lqaBtuJxH+rjwPHwRNmHVsLfjskcDAFrW
-         7eERbC/Y8l1m7CBb8+2/5TZWLGX9Z1XiNwN07yWNNUrby9UCGk9aeNy7hEoMLLqbg8mr
-         iSN3pet/03w9taHE3f4szqhl2i93PDw9w0D6tMT3tMyZBZgbjHdnuedWCjkGCDeWLFWN
-         KYDK+vlZMCqodQOBMYepOipRQFk2MuzsIlVwgDzOFCeuSXmHJZiqs1l24aWyhL6Zup4f
-         8yCA==
-X-Forwarded-Encrypted: i=1; AFNElJ9DbRQACPw93j2CXiX4gpmsco1/qGjvXeUXgu04zgOgTDBe0UhjiW/7E4aiYMiM36i4Zzq1Rs/exwQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkGTFU4iYqt5jVHy7f21Jk2Nt4nuXXxgz7CLTzCtar/apwImqa
-	AEevb8qTLK2wXShRt4P4Z+CHBFI6yYyLdUUs5Kra1Q4HQYojxFwv+rvz3AJuaQsolVQ1MLlnfbq
-	K8pJ4pXJwNyF5RJ9FCPJGzNpC+w6f209Nj8PKTqAiAg==
-X-Gm-Gg: AeBDietBXomFXmr01ehewSRiquZpxSd6Ib5+USx9HtAh/HAP1pm4/QoyD4E0kw7VOgl
-	J79l6HuC5+hmxUzowLG/xuzrDEgXSDAK0C8tR2aoX+logfktE7FH3s3diPv6jfr8zlS0ADYkAZ/
-	8Ezz3OZ4jgE7VM8y9BlCrMFWWhU63K27WsTtobdq3ZoKxty3hVy5Fxgxv/9MsOYX5EltNtyTbxT
-	OuzLm6wm4UNcQ7iSIODrSxK1xErdqe0TSjO/xZC9WaLnTTRxDLqW9BPH2lm3xzHu35ZrKSgrfsi
-	aY3wSwqAUrZaa0EHdANP4l1mA+mrrOoj4vI3xZ/i8i6xDQA=
-X-Received: by 2002:ac8:5d89:0:b0:50d:7135:5631 with SMTP id
- d75a77b69052e-50dd5b959fcmr266547411cf.6.1776176324547; Tue, 14 Apr 2026
- 07:18:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CUMgG7US"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 088A2C2BCB6;
+	Tue, 14 Apr 2026 14:23:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776176638;
+	bh=/fCVxa0eMyMWklv2E9q9GFJdXVtpfKD77F6QKI/nFIQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=CUMgG7USGrHWNOhxeLwWd/mwPJHpMj3QUt4q9oHTRQdLna0K9mfo2uXiVDMQ4hKpc
+	 uqrM/kI+CMLi/YxeXP3Uj623dK4aKke80UIjoAkHX6M43RqZ9INfja18DHQc7R/S2+
+	 pW4MsWKJLn0WAhQd7L7Bnq2qe9L/yhS012c69IM4E8TCzpKVthZEBVCnW8ufu9TC95
+	 4DEGxxDjc8+U+4jNcXTmaTYPTexLDZ2jImIEi8IukiOLl4yyK7zsCk9aJdFfpN8eBS
+	 VYO4GHxm5TEZYZGz0+e6qMSjf4rzl5yQgj3E4hw6+5bIWpkdYJqXbqzw6K8qRMJ6CJ
+	 2qGv8yv3OQZ6A==
+Received: from phl-compute-08.internal (phl-compute-08.internal [10.202.2.48])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 28BECF4006B;
+	Tue, 14 Apr 2026 10:23:57 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-08.internal (MEProxy); Tue, 14 Apr 2026 10:23:57 -0400
+X-ME-Sender: <xms:_U3eaQCvx35FDPWnL6sBweeurEOIpI1LijIehBqkLQ-bQHEONKlxzA>
+    <xme:_U3eaT_VLmjwZOt1WWXNz-43IGClnMVgKQG_vmW9Zpt3C0HbfQIow8sRSqkzPvv-R
+    D_TrBXUamNa9V1MsdCGIbUQMkUdXgaIPtCBTAxjlvnrjaXezzIrkyw>
+X-ME-Received: <xmr:_U3eae-dUcx-b5B52N4dZw92O_l69d7jJWMEWbFPEPP9sCzpLlTml1QK-rznEA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegudefkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffogggtgfesthekredtredtjeenucfhrhhomhepfdfmihhrhihlucfu
+    hhhuthhsvghmrghuucdlofgvthgrmddfuceokhgrsheskhgvrhhnvghlrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpedvleevheejjeevveetgfejvdfhtdfftefhhfettefgkeejfefg
+    keduhfdthfehhfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudei
+    udduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshh
+    huthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphho
+    uhhtpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrgh
+    dprhgtphhtthhopehpvghtvghrgiesrhgvughhrghtrdgtohhmpdhrtghpthhtohepuggr
+    vhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsuhhr
+    vghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvhgsrggskhgrsehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvghtthesohhrrggtlhgvrdgtohhm
+    pdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:_U3eaT3tV0clRDLau64h_TF2174YK72e9bO6MIuYmNiAAB_3GGKYmw>
+    <xmx:_U3eaW-oonZ89wLF8NBRjooF_IQKHfLzthUEv49mYfz9vXflpFxGFw>
+    <xmx:_U3eace5NWItR9K6l05oht3kgIeUcBoOkY2SSpv5ilJbt-QDeiPC9Q>
+    <xmx:_U3eaaEyQMfeSO-25SexlC6pwViL_nRKottkT37wtZNO6LAucKdryw>
+    <xmx:_U3eaZAbUtd7_zzDnzhJQDQYpwcvp63VCCSURN19-3KzfM-2D_ehBgmi>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 14 Apr 2026 10:23:56 -0400 (EDT)
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Peter Xu <peterx@redhat.com>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM guest memory
+Date: Tue, 14 Apr 2026 15:23:34 +0100
+Message-ID: <20260414142354.1465950-1-kas@kernel.org>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260331123702.35052-1-john@jagalactic.com> <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
- <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
- <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com> <ad4_jFsR951c2Mtn@groves.net>
-In-Reply-To: <ad4_jFsR951c2Mtn@groves.net>
-From: Miklos Szeredi <miklos@szeredi.hu>
-Date: Tue, 14 Apr 2026 16:18:33 +0200
-X-Gm-Features: AQROBzCjv32eXkH-VR3uBgnPuhuKjz5ZLSL9EY66Hi1IQzByLu6JpgnFl7pVZ3s
-Message-ID: <CAJfpegsCoMMg-Ux3CbBh0d1uqDNg3Fu_8YE-LubwrQ6A-2Cggw@mail.gmail.com>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: John Groves <John@groves.net>
-Cc: Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
-	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, 14 Apr 2026 at 15:41, John Groves <John@groves.net> wrote:
+This series adds userfaultfd support for tracking the working set of
+VM guest memory, enabling VMMs to identify cold pages and evict them
+to tiered or remote storage.
 
-> My short response: Noooooooooo!!!!!!
+== Problem ==
 
-:) Seems like this is a highly emotional topic...  I suggest that we
-go ahead with bpf experiments, then discuss results and path forward
-at LSM.
+VMMs managing guest memory need to:
+1. Track which pages are actively used (working set detection)
+2. Safely evict cold pages to slower storage
+3. Fetch pages back on demand when accessed again
 
-Thanks,
-Miklos
+For shmem-backed guest memory, working set tracking partially works
+today: MADV_DONTNEED zaps PTEs while pages stay in page cache, and
+re-access auto-resolves from cache. But safe eviction still requires
+synchronous fault interception to prevent data loss races.
+
+For anonymous guest memory (needed for KSM cross-VM deduplication),
+there is no mechanism at all — clearing a PTE loses the page.
+
+== Solution ==
+
+The series introduces a unified userfaultfd interface that works
+across both anonymous and shmem-backed memory:
+
+UFFD_FEATURE_MINOR_ANON: extends MODE_MINOR registration to anonymous
+private memory. Uses the PROT_NONE hinting mechanism (same as NUMA
+balancing) to make pages inaccessible without freeing them.
+
+UFFD_FEATURE_MINOR_ASYNC: auto-resolves minor faults without handler
+involvement. The kernel restores PTE permissions immediately and the
+faulting thread continues. Works for anonymous, shmem, and hugetlbfs.
+
+UFFDIO_DEACTIVATE: marks pages as deactivated. For anonymous memory,
+sets PROT_NONE on PTEs (pages stay resident). For shmem/hugetlbfs,
+zaps PTEs (pages stay in page cache).
+
+UFFDIO_SET_MODE: toggles MINOR_ASYNC at runtime, synchronized via
+mmap_write_lock. Enables the VMM workflow: async mode for lightweight
+detection, sync mode for race-free eviction.
+
+PAGE_IS_UFFD_DEACTIVATED: PAGEMAP_SCAN category flag for efficient
+batch detection of cold (still-deactivated) anonymous pages.
+
+== VMM Workflow ==
+
+    UFFDIO_DEACTIVATE(all)            -- async, no vCPU stalls
+    sleep(interval)
+    PAGEMAP_SCAN                      -- find cold pages
+    UFFDIO_SET_MODE(sync)             -- block faults for eviction
+    pwrite + MADV_DONTNEED cold pages -- safe, faults block
+    UFFDIO_SET_MODE(async)            -- resume tracking
+
+The same workflow applies to shmem, with a different PAGEMAP_SCAN mask
+(!PAGE_IS_PRESENT instead of PAGE_IS_UFFD_DEACTIVATED).
+
+== NUMA Balancing ==
+
+NUMA balancing scanning is skipped on anonymous VM_UFFD_MINOR VMAs to
+avoid protnone conflicts. NUMA locality stats are fed from the uffd
+fault path via task_numa_fault() so the scheduler retains placement
+data. Shmem VMAs are unaffected (UFFDIO_DEACTIVATE zaps PTEs there,
+no protnone involved).
+
+== Testing ==
+
+The series includes 6 new selftests covering async/sync modes,
+PAGEMAP_SCAN cold detection, GUP through protnone, UFFDIO_SET_MODE
+toggling, and cleanup on close. All 73 uffd unit tests pass
+(including hugetlb) across defconfig, allnoconfig, allmodconfig,
+and randomized configs.
+
+Kiryl Shutsemau (Meta) (12):
+  userfaultfd: define UAPI constants for anonymous minor faults
+  userfaultfd: add UFFD_FEATURE_MINOR_ANON registration support
+  userfaultfd: implement UFFDIO_DEACTIVATE ioctl
+  userfaultfd: UFFDIO_CONTINUE for anonymous memory
+  mm: intercept protnone faults on VM_UFFD_MINOR anonymous VMAs
+  userfaultfd: auto-resolve shmem and hugetlbfs minor faults in async
+    mode
+  sched/numa: skip scanning anonymous VM_UFFD_MINOR VMAs
+  userfaultfd: enable UFFD_FEATURE_MINOR_ANON
+  mm/pagemap: add PAGE_IS_UFFD_DEACTIVATED to PAGEMAP_SCAN
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd anonymous minor fault tests
+  Documentation/userfaultfd: document working set tracking
+
+ Documentation/admin-guide/mm/userfaultfd.rst | 141 ++++-
+ fs/proc/task_mmu.c                           |  11 +-
+ fs/userfaultfd.c                             | 184 +++++-
+ include/linux/huge_mm.h                      |   6 +
+ include/linux/mm.h                           |   2 +
+ include/linux/sched/numa_balancing.h         |   1 +
+ include/linux/userfaultfd_k.h                |  21 +-
+ include/trace/events/sched.h                 |   3 +-
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  40 +-
+ kernel/sched/fair.c                          |  13 +
+ mm/huge_memory.c                             |  33 +-
+ mm/hugetlb.c                                 |   3 +-
+ mm/memory.c                                  |  51 +-
+ mm/mprotect.c                                |   9 +-
+ mm/shmem.c                                   |   3 +-
+ mm/userfaultfd.c                             | 164 +++++-
+ tools/testing/selftests/mm/uffd-unit-tests.c | 458 +++++++++++++++
+ 18 files changed, 1096 insertions(+), 48 deletions(-)
+
+Kiryl Shutsemau (Meta) (12):
+  userfaultfd: define UAPI constants for anonymous minor faults
+  userfaultfd: add UFFD_FEATURE_MINOR_ANON registration support
+  userfaultfd: implement UFFDIO_DEACTIVATE ioctl
+  userfaultfd: UFFDIO_CONTINUE for anonymous memory
+  mm: intercept protnone faults on VM_UFFD_MINOR anonymous VMAs
+  userfaultfd: auto-resolve shmem and hugetlbfs minor faults in async
+    mode
+  sched/numa: skip scanning anonymous VM_UFFD_MINOR VMAs
+  userfaultfd: enable UFFD_FEATURE_MINOR_ANON
+  mm/pagemap: add PAGE_IS_UFFD_DEACTIVATED to PAGEMAP_SCAN
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd anonymous minor fault tests
+  Documentation/userfaultfd: document working set tracking
+
+ Documentation/admin-guide/mm/userfaultfd.rst | 141 +++++-
+ fs/proc/task_mmu.c                           |  11 +-
+ fs/userfaultfd.c                             | 184 +++++++-
+ include/linux/huge_mm.h                      |   6 +
+ include/linux/mm.h                           |   2 +
+ include/linux/sched/numa_balancing.h         |   1 +
+ include/linux/userfaultfd_k.h                |  21 +-
+ include/trace/events/sched.h                 |   3 +-
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  40 +-
+ kernel/sched/fair.c                          |  13 +
+ mm/huge_memory.c                             |  33 +-
+ mm/hugetlb.c                                 |   3 +-
+ mm/memory.c                                  |  51 ++-
+ mm/mprotect.c                                |   9 +-
+ mm/shmem.c                                   |   3 +-
+ mm/userfaultfd.c                             | 164 ++++++-
+ tools/testing/selftests/mm/uffd-unit-tests.c | 458 +++++++++++++++++++
+ 18 files changed, 1096 insertions(+), 48 deletions(-)
+
+-- 
+2.51.2
+
