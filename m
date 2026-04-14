@@ -1,465 +1,275 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E17836EA82;
-	Tue, 14 Apr 2026 06:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C77B2D8364;
+	Tue, 14 Apr 2026 07:05:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776148483; cv=none; b=byv/ZJ32Fs40APIZmb5IEDZqC0Mvuij9SvSO3xiswSHEMhNaA/kITdqDAtUwymgS5K4N8eh08aDe0HJ23KMMOQL5H7lRxrYKzEVlSK0+Vj6LnjBUNzVrNoUePkXnaFKIGS7wXDhtW0blEGlArQ5Lt7TOVvLmbHblKes3/BO5OWQ=
+	t=1776150321; cv=none; b=QODWjjlb7biLGcrogGgi955aEpiYumbA9jZ4qcRQHSgR2SkM4+ZSI59s6G7P99NCHuIlBj3OXR7ZbtHJFcri9w9ROTwUoFPpYOY1AR6xDtBZLWGGwCPln9ARx0DuV9eT5mXXzu0F/y/gGXy91VCbF3gTG6S5QupEYsSr2duWkNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776148483; c=relaxed/simple;
-	bh=0c6lfJuH7ZJGsVDLlmGmYTAoyFwCX6EtPs7P4iHdSsU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TW91BbuRx7e1XjWW7prpRFiNdHUNu/xYaXqqLsZpy9JfChmH8tGFCHp+JEvw0XBk5AM3SgmNFJUcVvJ2f55yXyTOOtEh5aggEp5V5E94AbpIif8yWWCF6GCLRDU8TxpSGGqQuWU+0M+EzUN4RH1LnCFJT5EiR8ued3PBaeRA9Vs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=KtyhWiPJ; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1776150321; c=relaxed/simple;
+	bh=eiK/74tfdqHKat9y+xuL2tR+KmBCHs426kLj5QskTbI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=FlVb9OTZfl/eQCeF+Mu560PDCkACbA74sB+SAh0z1lFMIcPKrZm7V7v6onuftw8XXEigDKnW1egzJODBlqVwdbKlpOAxTYayMbAvDGIz6JB9eCPOiYPD5bBO0PwixaGgqBVmW0KiAN/boij8TWtXQGPMdEuU4KtH/4s1lXmiqRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fn2fTE3v; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="KtyhWiPJ"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 9E94825D82;
-	Tue, 14 Apr 2026 08:34:40 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id w0t6YYEf_u20; Tue, 14 Apr 2026 08:34:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1776148479; bh=0c6lfJuH7ZJGsVDLlmGmYTAoyFwCX6EtPs7P4iHdSsU=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc;
-	b=KtyhWiPJ8uLlZkBvVIku/Ayzhv6AJtTSY5D8SqeYjRHUgIi6ataMjyUA2ccEXQ9a+
-	 tpwgko2RKbxms04APMltNmj7ZZLtynrCB1YENuyQ5pfvOX5YJuRi6bv05kVIschaL2
-	 ko6J8LnLJJNhgkGaRKSa+x0Kc7z2D53RqR1ssitR3AoK1UhWVhZ+lhhyjDkIb7HaFf
-	 hT6zAo5Bdob8gSJIU2LM2iqpu59J4mHBzZYZl4lfkNw2YnwgU3mlOgub/pBDAQLHej
-	 ZEIV/7K2WNUDVHrrwpmAk7rntJLLors0Fwn93/YPIdHVesIjFDtkif0JjKOT/tFVfX
-	 Tf47y99Mu8HIg==
-From: Kaustabh Chakraborty <kauschluss@disroot.org>
-Date: Tue, 14 Apr 2026 12:03:05 +0530
-Subject: [PATCH v4 13/13] power: supply: add support for Samsung S2M series
- PMIC charger device
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fn2fTE3v"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776150318; x=1807686318;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=eiK/74tfdqHKat9y+xuL2tR+KmBCHs426kLj5QskTbI=;
+  b=Fn2fTE3vVvfUdIADVRAKn4TPpHbzUg16IHXJ3ZAZ+aoAi32OOL2TMolU
+   djMjclKSSyoBJLXrXVA31CUtMAC5ANppQa9yyjfU+nhTOHQ2srsTlv/cn
+   TmxUnr2AQFkf+mS1BCyt1tjAJJ9sX9Ptvz1/URQBg7HBrowEEySp2yQll
+   rh4u+shvrXhNh7S3UUwEoX24i2naL3W1O1jIDBfV49yCuD1jMy1JU6i7w
+   jdqpw436O0OmwJim6PcXd0mCt2UXqzFAWfWbQonCJFsfaSOJE90D28YHu
+   IzoIQ627/Lsc8e/xA8Ry+QBveKdotFR4mUNzGGyE9IKKvrza0lwrRrVr2
+   g==;
+X-CSE-ConnectionGUID: jyphCPPcQyCTKwthCGYGNA==
+X-CSE-MsgGUID: 1qsQrYCTRUKEHjuVxxT6MQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11758"; a="99742428"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="99742428"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:05:16 -0700
+X-CSE-ConnectionGUID: iKbeaX9HTBuu2VDH9NVUcg==
+X-CSE-MsgGUID: hlP3smgrTDWFTsEeAX0Teg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="231744498"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 00:05:12 -0700
+Date: Tue, 14 Apr 2026 00:05:12 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v10 00/12] VMSCAPE optimization for BHI variant
+Message-ID: <20260414-vmscape-bhb-v10-0-efa924abae5f@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAJzm3WkC/23SzWrDMAwH8FcpPi/Fkr+infYeYwfbclZDm5SkC
+ x2l7z6nbGtTfJRAP/hLuogpjTlN4nVzEWOa85SHvhQgXzYi7nz/mZrMpSFQopEEtpkPU/TH1IR
+ daNixtkTOddiJMnEcU5fPN+79o9S7PJ2G8fumz7B0fx3UK2eGRjbsDXQyASnNb/vcf523uT+l/
+ TYOB7FoM/4LIMGsBSwCQQzMFJUnWxfUg4BuLagiGEcqolE6kaoL+i4A0FrQRQDPnnWyxBzrgnk
+ QcL3P2TQlB7K1SaMKUtYFexdQwlqwyyYtSGYDxoGuC+5PsFI9p3BFCM5655yn1nd1oX0Qnq/ZF
+ sG2IRjUQflAdYHugpa4Fmi5pmawIWJ5r0qK6/X6A+rjXXW9AgAA
+X-Change-ID: 20250916-vmscape-bhb-d7d469977f2f
+X-Mailer: b4 0.16-dev
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260414-s2mu005-pmic-v4-13-7fe7480577e6@disroot.org>
-References: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
-In-Reply-To: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- =?utf-8?q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Nam Tran <trannamatk@gmail.com>, 
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org, 
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
- linux-doc@vger.kernel.org, Kaustabh Chakraborty <kauschluss@disroot.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add a driver for charger controllers found in certain Samsung S2M series
-PMICs. The driver has very basic support for the device, with only
-charger online reporting working, and USB 2.0 device negotiations
-working.
+v10:
+- Add patches to define EXPORT_STATIC_CALL_FOR_MODULES() and
+  EXPORT_STATIC_CALL_FOR_KVM(), so that vmscape_predictor_flush static key
+  is only accessible to KVM and not to other kernel modules. (PeterZ)
+  (Borisov earlier objected to exporting the static key to all modules, but
+  now the static key is only exported to KVM. I guess that resolves the
+  concern.)
+- Avoid an explicit call to vmscape_mitigation_enabled() and instead use
+  static_call_query() in VMexit hot path. (Sean)
+- Drop vmscape_mitigation_enabled(), as it is no longer needed.
+- Rebased to v7.0
 
-The driver includes initial support for the S2MU005 PMIC charger.
+v9: https://lore.kernel.org/r/20260402-vmscape-bhb-v9-0-94d16bc29774@linux.intel.com
+- Use global variables for BHB loop counters instead of ALTERNATIVE-based
+  approach. (Dave & others)
+- Use 32-bit registers (%eax/%ecx) for loop counters, loaded via movzbl
+  from 8-bit globals. 8-bit registers (e.g. %ah in the inner loop) caused
+  performance regression on certain CPUs due to partial-register stalls. (David Laight)
+- Let BPF save/restore %rax/%rcx as in the original implementation, since
+  it is the only caller that needs these registers preserved across the
+  BHB clearing sequence.
+- Drop Reviewed-by from patch 2/10 as the implementation changed significantly.
+- Apply Tested-by from Jon Kohler to the series (except patch 2/10).
+- Fix commit message grammar. (Borislav)
+- Rebased to v7.0-rc6.
 
-Co-developed-by: Łukasz Lebiedziński <kernel@lvkasz.us>
-Signed-off-by: Łukasz Lebiedziński <kernel@lvkasz.us>
-Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
+v8: https://lore.kernel.org/r/20260324-vmscape-bhb-v8-0-68bb524b3ab9@linux.intel.com
+- Use helper in KVM to convey the mitigation status. (PeterZ/Borisov)
+- Fix the documentation for default vmscape mitigation. (BPF bot)
+- Remove the stray lines in bug.c (BPF bot).
+- Updated commit messages and comments.
+- Rebased to v7.0-rc5.
+
+v7: https://lore.kernel.org/r/20260319-vmscape-bhb-v7-0-b76a777a98af@linux.intel.com
+- s/This allows/Allow/ and s/This does adds/This adds/ in patch 1/10 commit
+  message (Borislav).
+- Minimize register usage in BHB clearing seq. (David Laight)
+  - Instead of separate ecx/eax counters, use al/ah.
+  - Adjust the alignment of RET due to register size change.
+  - save/restore rax in the seq itself.
+  - Remove the save/restore of rax/rcx for BPF callers.
+- Rename clear_bhb_loop() to clear_bhb_loop_nofence() to make it
+  obvious that the LFENCE is not part of the sequence (Borislav).
+- Fix Kconfig: s/select/depends on/ HAVE_STATIC_CALL (PeterZ).
+- Rebased to v7.0-rc4.
+
+v6: https://lore.kernel.org/r/20251201-vmscape-bhb-v6-0-d610dd515714@linux.intel.com
+- Remove semicolon at the end of asm in ALTERNATIVE (Uros).
+- Fix build warning in vmscape_select_mitigation() (LKP).
+- Rebased to v6.18.
+
+v5: https://lore.kernel.org/r/20251126-vmscape-bhb-v5-2-02d66e423b00@linux.intel.com
+- For BHI seq, limit runtime-patching to loop counts only (Dave).
+  Dropped 2 patches that moved the BHB seq to a macro.
+- Remove redundant switch cases in vmscape_select_mitigation() (Nikolay).
+- Improve commit message (Nikolay).
+- Collected tags.
+
+v4: https://lore.kernel.org/r/20251119-vmscape-bhb-v4-0-1adad4e69ddc@linux.intel.com
+- Move LFENCE to the callsite, out of clear_bhb_loop(). (Dave)
+- Make clear_bhb_loop() work for larger BHB. (Dave)
+  This now uses hardware enumeration to determine the BHB size to clear.
+- Use write_ibpb() instead of indirect_branch_prediction_barrier() when
+  IBPB is known to be available. (Dave)
+- Use static_call() to simplify mitigation at exit-to-userspace. (Dave)
+- Refactor vmscape_select_mitigation(). (Dave)
+- Fix vmscape=on which was wrongly behaving as AUTO. (Dave)
+- Split the patches. (Dave)
+  - Patch 1-4 prepares for making the sequence flexible for VMSCAPE use.
+  - Patch 5 trivial rename of variable.
+  - Patch 6-8 prepares for deploying BHB mitigation for VMSCAPE.
+  - Patch 9 deploys the mitigation.
+  - Patch 10-11 fixes ON Vs AUTO mode.
+
+v3: https://lore.kernel.org/r/20251027-vmscape-bhb-v3-0-5793c2534e93@linux.intel.com
+- s/x86_pred_flush_pending/x86_predictor_flush_exit_to_user/ (Sean).
+- Removed IBPB & BHB-clear mutual exclusion at exit-to-userspace.
+- Collected tags.
+
+v2: https://lore.kernel.org/r/20251015-vmscape-bhb-v2-0-91cbdd9c3a96@linux.intel.com
+- Added check for IBPB feature in vmscape_select_mitigation(). (David)
+- s/vmscape=auto/vmscape=on/ (David)
+- Added patch to remove LFENCE from VMSCAPE BHB-clear sequence.
+- Rebased to v6.18-rc1.
+
+v1: https://lore.kernel.org/r/20250924-vmscape-bhb-v1-0-da51f0e1934d@linux.intel.com
+
+Hi All,
+
+These patches aim to improve the performance of a recent mitigation for
+VMSCAPE[1] vulnerability. This improvement is relevant for BHI variant of
+VMSCAPE that affect Alder Lake and newer processors.
+
+The current mitigation approach uses IBPB on kvm-exit-to-userspace for all
+affected range of CPUs. This is an overkill for CPUs that are only affected
+by the BHI variant. On such CPUs clearing the branch history is sufficient
+for VMSCAPE, and also more apt as the underlying issue is due to poisoned
+branch history.
+
+Below is the iPerf data for transfer between guest and host, comparing IBPB
+and BHB-clear mitigation. BHB-clear shows performance improvement over IBPB
+in most cases.
+
+Platform: Emerald Rapids
+Baseline: vmscape=off
+Target: IBPB at VMexit-to-userspace Vs the new BHB-clear at
+	VMexit-to-userspace mitigation (both compared against baseline).
+
+(pN = N parallel connections)
+
+| iPerf user-net | IBPB    | BHB Clear |
+|----------------|---------|-----------|
+| UDP 1-vCPU_p1  | -12.5%  |   1.3%    |
+| TCP 1-vCPU_p1  | -10.4%  |  -1.5%    |
+| TCP 1-vCPU_p1  | -7.5%   |  -3.0%    |
+| UDP 4-vCPU_p16 | -3.7%   |  -3.7%    |
+| TCP 4-vCPU_p4  | -2.9%   |  -1.4%    |
+| UDP 4-vCPU_p4  | -0.6%   |   0.0%    |
+| TCP 4-vCPU_p4  |  3.5%   |   0.0%    |
+
+| iPerf bridge-net | IBPB    | BHB Clear |
+|------------------|---------|-----------|
+| UDP 1-vCPU_p1    | -9.4%   |  -0.4%    |
+| TCP 1-vCPU_p1    | -3.9%   |  -0.5%    |
+| UDP 4-vCPU_p16   | -2.2%   |  -3.8%    |
+| TCP 4-vCPU_p4    | -1.0%   |  -1.0%    |
+| TCP 4-vCPU_p4    |  0.5%   |   0.5%    |
+| UDP 4-vCPU_p4    |  0.0%   |   0.9%    |
+| TCP 1-vCPU_p1    |  0.0%   |   0.9%    |
+
+| iPerf vhost-net | IBPB    | BHB Clear |
+|-----------------|---------|-----------|
+| UDP 1-vCPU_p1   | -4.3%   |   1.0%    |
+| TCP 1-vCPU_p1   | -3.8%   |  -0.5%    |
+| TCP 1-vCPU_p1   | -2.7%   |  -0.7%    |
+| UDP 4-vCPU_p16  | -0.7%   |  -2.2%    |
+| TCP 4-vCPU_p4   | -0.4%   |   0.8%    |
+| UDP 4-vCPU_p4   |  0.4%   |  -0.7%    |
+| TCP 4-vCPU_p4   |  0.0%   |   0.6%    |
+
+[1] https://comsec.ethz.ch/research/microarch/vmscape-exposing-and-exploiting-incomplete-branch-predictor-isolation-in-cloud-environments/
+
 ---
- drivers/power/supply/Kconfig        |  11 ++
- drivers/power/supply/Makefile       |   1 +
- drivers/power/supply/s2m-charger.c  | 300 ++++++++++++++++++++++++++++++++++++
- include/linux/mfd/samsung/s2mu005.h |   5 +
- 4 files changed, 317 insertions(+)
+Pawan Gupta (12):
+      x86/bhi: x86/vmscape: Move LFENCE out of clear_bhb_loop()
+      x86/bhi: Make clear_bhb_loop() effective on newer CPUs
+      x86/bhi: Rename clear_bhb_loop() to clear_bhb_loop_nofence()
+      x86/vmscape: Rename x86_ibpb_exit_to_user to x86_predictor_flush_exit_to_user
+      x86/vmscape: Move mitigation selection to a switch()
+      x86/vmscape: Use write_ibpb() instead of indirect_branch_prediction_barrier()
+      static_call: Add EXPORT_STATIC_CALL_FOR_MODULES()
+      kvm: Define EXPORT_STATIC_CALL_FOR_KVM()
+      x86/vmscape: Use static_call() for predictor flush
+      x86/vmscape: Deploy BHB clearing mitigation
+      x86/vmscape: Resolve conflict between attack-vectors and vmscape=force
+      x86/vmscape: Add cmdline vmscape=on to override attack vector controls
 
-diff --git a/drivers/power/supply/Kconfig b/drivers/power/supply/Kconfig
-index 83392ed6a8da9..6270e6d16fbbb 100644
---- a/drivers/power/supply/Kconfig
-+++ b/drivers/power/supply/Kconfig
-@@ -856,6 +856,17 @@ config CHARGER_RK817
- 	help
- 	  Say Y to include support for Rockchip RK817 Battery Charger.
- 
-+config CHARGER_S2M
-+	tristate "Samsung S2M series PMIC battery charger support"
-+	depends on EXTCON_S2M
-+	depends on MFD_SEC_CORE
-+	select REGMAP_IRQ
-+	help
-+	  This option enables support for charger devices found in
-+	  certain Samsung S2M series PMICs, such as the S2MU005. These
-+	  devices provide USB power supply information and also required
-+	  for USB OTG role switching.
-+
- config CHARGER_SMB347
- 	tristate "Summit Microelectronics SMB3XX Battery Charger"
- 	depends on I2C
-diff --git a/drivers/power/supply/Makefile b/drivers/power/supply/Makefile
-index 7ee839dca7f33..738814650ea0f 100644
---- a/drivers/power/supply/Makefile
-+++ b/drivers/power/supply/Makefile
-@@ -107,6 +107,7 @@ obj-$(CONFIG_CHARGER_BQ25890)	+= bq25890_charger.o
- obj-$(CONFIG_CHARGER_BQ25980)	+= bq25980_charger.o
- obj-$(CONFIG_CHARGER_BQ256XX)	+= bq256xx_charger.o
- obj-$(CONFIG_CHARGER_RK817)	+= rk817_charger.o
-+obj-$(CONFIG_CHARGER_S2M)	+= s2m-charger.o
- obj-$(CONFIG_CHARGER_SMB347)	+= smb347-charger.o
- obj-$(CONFIG_CHARGER_TPS65090)	+= tps65090-charger.o
- obj-$(CONFIG_CHARGER_TPS65217)	+= tps65217_charger.o
-diff --git a/drivers/power/supply/s2m-charger.c b/drivers/power/supply/s2m-charger.c
-new file mode 100644
-index 0000000000000..8836943f14faa
---- /dev/null
-+++ b/drivers/power/supply/s2m-charger.c
-@@ -0,0 +1,300 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Battery Charger Driver for Samsung S2M series PMICs.
-+ *
-+ * Copyright (c) 2015 Samsung Electronics Co., Ltd
-+ * Copyright (c) 2026 Kaustabh Chakraborty <kauschluss@disroot.org>
-+ * Copyright (c) 2026 Łukasz Lebiedziński <kernel@lvkasz.us>
-+ */
-+
-+#include <linux/devm-helpers.h>
-+#include <linux/extcon.h>
-+#include <linux/mfd/samsung/core.h>
-+#include <linux/mfd/samsung/s2mu005.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/of_graph.h>
-+#include <linux/platform_device.h>
-+#include <linux/power_supply.h>
-+#include <linux/regmap.h>
-+
-+struct s2m_chgr {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct power_supply *psy;
-+	struct extcon_dev *extcon;
-+	struct work_struct extcon_work;
-+	struct notifier_block extcon_nb;
-+};
-+
-+static int s2mu005_chgr_get_online(struct s2m_chgr *priv, int *value)
-+{
-+	u32 val;
-+	int ret = 0;
-+
-+	ret = regmap_read(priv->regmap, S2MU005_REG_CHGR_STATUS0, &val);
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to read register (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	*value = !!(val & S2MU005_CHGR_CHG);
-+
-+	return ret;
-+}
-+
-+static int s2mu005_chgr_get_property(struct power_supply *psy,
-+				     enum power_supply_property psp,
-+				     union power_supply_propval *val)
-+{
-+	struct s2m_chgr *priv = power_supply_get_drvdata(psy);
-+	int ret = 0;
-+
-+	switch (psp) {
-+	case POWER_SUPPLY_PROP_ONLINE:
-+		ret = s2mu005_chgr_get_online(priv, &val->intval);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+
-+	return ret;
-+}
-+
-+static int s2mu005_chgr_mode_set_host(struct s2m_chgr *priv)
-+{
-+	int ret;
-+
-+	/* set mode to OTG */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				 S2MU005_CHGR_OP_MODE,
-+				 FIELD_PREP(S2MU005_CHGR_OP_MODE,
-+					    S2MU005_CHGR_OP_MODE_OTG));
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to set OTG mode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* set boost frequency to 2MHz */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL11,
-+				 S2MU005_CHGR_OSC_BOOST,
-+				 FIELD_PREP(S2MU005_CHGR_OSC_BOOST,
-+					    S2MU005_CHGR_OSC_BOOST_2MHZ));
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to set boost frequency (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* set OTG current limit to 1.5 A */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL4,
-+				 S2MU005_CHGR_OTG_OCP,
-+				 FIELD_PREP(S2MU005_CHGR_OTG_OCP,
-+					    S2MU005_CHGR_OTG_OCP_1P5A));
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to set OTG current limit (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* VBUS switches are OFF when OTG over-current happens */
-+	ret = regmap_set_bits(priv->regmap, S2MU005_REG_CHGR_CTRL4,
-+			      S2MU005_CHGR_OTG_OCP_OFF);
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to set OTG OCP switch (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* set OTG voltage to 5.1 V */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL5,
-+				 S2MU005_CHGR_VMID_BOOST,
-+				 FIELD_PREP(S2MU005_CHGR_VMID_BOOST,
-+					    S2MU005_CHGR_VMID_BOOST_5P1V));
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to set OTG voltage (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* turn on OTG */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL15,
-+				 S2MU005_CHGR_OTG_EN,
-+				 FIELD_PREP(S2MU005_CHGR_OTG_EN,
-+					    S2MU005_CHGR_OTG_EN_ON));
-+	if (ret < 0)
-+		dev_err(priv->dev, "failed to turn on OTG (%d)\n", ret);
-+	return ret;
-+}
-+
-+static int s2mu005_chgr_mode_set_charger(struct s2m_chgr *priv)
-+{
-+	int ret;
-+
-+	/* first reset to mode 0 */
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				S2MU005_CHGR_OP_MODE);
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to reset opmode (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* wait for the charger to settle before switching to charging mode */
-+	msleep(50);
-+	/* then set to charging mode */
-+	ret = regmap_update_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				 S2MU005_CHGR_OP_MODE,
-+				 FIELD_PREP(S2MU005_CHGR_OP_MODE,
-+					    S2MU005_CHGR_OP_MODE_CHG));
-+	if (ret < 0)
-+		dev_err(priv->dev, "failed to set opmode to charging (%d)\n", ret);
-+		return ret;
-+}
-+
-+static int s2mu005_chgr_mode_unset(struct s2m_chgr *priv)
-+{
-+	int ret;
-+
-+	/* turn off OTG */
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL15,
-+				S2MU005_CHGR_OTG_EN);
-+	if (ret < 0) {
-+		dev_err(priv->dev, "failed to turn off OTG (%d)\n", ret);
-+		return ret;
-+	}
-+
-+	/* reset operation mode */
-+	ret = regmap_clear_bits(priv->regmap, S2MU005_REG_CHGR_CTRL0,
-+				S2MU005_CHGR_OP_MODE);
-+	if (ret < 0)
-+		dev_err(priv->dev, "failed to reset opmode (%d)\n", ret);
-+	return ret;
-+}
-+
-+static void s2mu005_chgr_extcon_work(struct work_struct *work)
-+{
-+	struct s2m_chgr *priv = container_of(work, struct s2m_chgr,
-+						 extcon_work);
-+
-+	if (extcon_get_state(priv->extcon, EXTCON_USB_HOST))
-+		s2mu005_chgr_mode_set_host(priv);
-+	else if (extcon_get_state(priv->extcon, EXTCON_USB))
-+		s2mu005_chgr_mode_set_charger(priv);
-+	else
-+		s2mu005_chgr_mode_unset(priv);
-+
-+	power_supply_changed(priv->psy);
-+}
-+
-+static const enum power_supply_property s2mu005_chgr_properties[] = {
-+	POWER_SUPPLY_PROP_ONLINE,
-+};
-+
-+static const struct power_supply_desc s2mu005_chgr_psy_desc = {
-+	.name = "s2mu005-charger",
-+	.type = POWER_SUPPLY_TYPE_USB,
-+	.properties = s2mu005_chgr_properties,
-+	.num_properties = ARRAY_SIZE(s2mu005_chgr_properties),
-+	.get_property = s2mu005_chgr_get_property,
-+};
-+
-+static int s2m_chgr_extcon_notifier(struct notifier_block *nb,
-+					unsigned long event, void *param)
-+{
-+	struct s2m_chgr *priv = container_of(nb, struct s2m_chgr, extcon_nb);
-+
-+	schedule_work(&priv->extcon_work);
-+
-+	return NOTIFY_OK;
-+}
-+
-+static int s2m_chgr_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct sec_pmic_dev *pmic_drvdata = dev_get_drvdata(dev->parent);
-+	struct s2m_chgr *priv;
-+	struct device_node *extcon_node __free(device_node) = NULL;
-+	struct power_supply_config psy_cfg = {};
-+	const struct power_supply_desc *psy_desc;
-+	work_func_t extcon_work_func;
-+	int ret;
-+
-+	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	platform_set_drvdata(pdev, priv);
-+	priv->dev = dev;
-+	priv->regmap = pmic_drvdata->regmap_pmic;
-+
-+	switch (platform_get_device_id(pdev)->driver_data) {
-+	case S2MU005:
-+		psy_desc = &s2mu005_chgr_psy_desc;
-+		extcon_work_func = s2mu005_chgr_extcon_work;
-+		break;
-+	default:
-+		return dev_err_probe(dev, -ENODEV,
-+				     "device type %d is not supported by driver\n",
-+				     pmic_drvdata->device_type);
-+	}
-+
-+	psy_cfg.drv_data = priv;
-+	priv->psy = devm_power_supply_register(dev, psy_desc, &psy_cfg);
-+	if (IS_ERR(priv->psy))
-+		return dev_err_probe(dev, PTR_ERR(priv->psy),
-+				     "failed to register power supply subsystem\n");
-+
-+	/* MUIC is mandatory. If unavailable, request probe deferral */
-+	if (!of_graph_is_present(dev->of_node))
-+		return -ENODEV;
-+	extcon_node = of_graph_get_remote_node(dev->of_node, 0, 0);
-+	priv->extcon = extcon_find_edev_by_node(extcon_node);
-+	if (IS_ERR(priv->extcon))
-+		return -EPROBE_DEFER;
-+
-+	ret = devm_work_autocancel(dev, &priv->extcon_work, extcon_work_func);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "failed to initialize extcon work\n");
-+
-+	priv->extcon_nb.notifier_call = s2m_chgr_extcon_notifier;
-+	ret = devm_extcon_register_notifier_all(dev, priv->extcon, &priv->extcon_nb);
-+	if (ret)
-+		dev_err_probe(dev, ret, "failed to register extcon notifier\n");
-+
-+	return 0;
-+}
-+
-+static const struct platform_device_id s2m_chgr_id_table[] = {
-+	{ "s2mu005-charger", S2MU005 },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(platform, s2m_chgr_id_table);
-+
-+/*
-+ * Device is instantiated through parent MFD device and device matching
-+ * is done through platform_device_id.
-+ *
-+ * However if device's DT node contains proper compatible and driver is
-+ * built as a module, then the *module* matching will be done through DT
-+ * aliases. This requires of_device_id table. In the same time this will
-+ * not change the actual *device* matching so do not add .of_match_table.
-+ */
-+static const struct of_device_id s2m_chgr_of_match_table[] = {
-+	{
-+		.compatible = "samsung,s2mu005-charger",
-+		.data = (void *)S2MU005,
-+	}, {
-+		/* sentinel */
-+	},
-+};
-+MODULE_DEVICE_TABLE(of, s2m_chgr_of_match_table);
-+
-+static struct platform_driver s2m_chgr_driver = {
-+	.driver = {
-+		.name = "s2m-charger",
-+	},
-+	.probe = s2m_chgr_probe,
-+	.id_table = s2m_chgr_id_table,
-+};
-+module_platform_driver(s2m_chgr_driver);
-+
-+MODULE_DESCRIPTION("Battery Charger Driver For Samsung S2M Series PMICs");
-+MODULE_AUTHOR("Kaustabh Chakraborty <kauschluss@disroot.org>");
-+MODULE_AUTHOR("Łukasz Lebiedziński <kernel@lvkasz.us>");
-+MODULE_LICENSE("GPL");
-diff --git a/include/linux/mfd/samsung/s2mu005.h b/include/linux/mfd/samsung/s2mu005.h
-index 07f4ae664950d..00b5450cf1c60 100644
---- a/include/linux/mfd/samsung/s2mu005.h
-+++ b/include/linux/mfd/samsung/s2mu005.h
-@@ -2,6 +2,7 @@
- /*
-  * Copyright (c) 2015 Samsung Electronics Co., Ltd
-  * Copyright (c) 2025 Kaustabh Chakraborty <kauschluss@disroot.org>
-+ * Copyright (c) 2026 Łukasz Lebiedziński <kernel@lvkasz.us>
-  */
- 
- #ifndef __LINUX_MFD_S2MU005_H
-@@ -186,9 +187,11 @@ enum s2mu005_reg {
- #define S2MU005_CHGR_OTG_OCP_ON		BIT(5)
- #define S2MU005_CHGR_OTG_OCP_OFF	BIT(4)
- #define S2MU005_CHGR_OTG_OCP		GENMASK(3, 2)
-+#define S2MU005_CHGR_OTG_OCP_1P5A	0x3
- 
- /* S2MU005_REG_CHGR_CTRL5 */
- #define S2MU005_CHGR_VMID_BOOST		GENMASK(4, 0)
-+#define S2MU005_CHGR_VMID_BOOST_5P1V	0x16
- 
- /* S2MU005_REG_CHGR_CTRL6 */
- #define S2MU005_CHGR_COOL_CHG_CURR	GENMASK(5, 0)
-@@ -205,6 +208,7 @@ enum s2mu005_reg {
- /* S2MU005_REG_CHGR_CTRL11 */
- #define S2MU005_CHGR_OSC_BOOST		GENMASK(6, 5)
- #define S2MU005_CHGR_OSC_BUCK		GENMASK(4, 3)
-+#define S2MU005_CHGR_OSC_BOOST_2MHZ	0x3
- 
- /* S2MU005_REG_CHGR_CTRL12 */
- #define S2MU005_CHGR_WDT		GENMASK(2, 0)
-@@ -214,6 +218,7 @@ enum s2mu005_reg {
- 
- /* S2MU005_REG_CHGR_CTRL15 */
- #define S2MU005_CHGR_OTG_EN		GENMASK(3, 2)
-+#define S2MU005_CHGR_OTG_EN_ON		0x3
- 
- /* S2MU005_REG_FLED_STATUS */
- #define S2MU005_FLED_FLASH_STATUS(x)	(BIT(7) >> 2 * (x))
+ Documentation/admin-guide/hw-vuln/vmscape.rst   | 15 ++++-
+ Documentation/admin-guide/kernel-parameters.txt |  6 +-
+ arch/x86/Kconfig                                |  1 +
+ arch/x86/entry/entry_64.S                       | 21 ++++---
+ arch/x86/include/asm/cpufeatures.h              |  2 +-
+ arch/x86/include/asm/entry-common.h             | 13 ++--
+ arch/x86/include/asm/kvm_types.h                |  1 +
+ arch/x86/include/asm/nospec-branch.h            | 15 +++--
+ arch/x86/kernel/cpu/bugs.c                      | 84 +++++++++++++++++++++----
+ arch/x86/kvm/x86.c                              |  4 +-
+ arch/x86/net/bpf_jit_comp.c                     |  4 +-
+ include/linux/kvm_types.h                       | 13 +++-
+ include/linux/static_call.h                     |  8 +++
+ 13 files changed, 150 insertions(+), 37 deletions(-)
+---
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
+change-id: 20250916-vmscape-bhb-d7d469977f2f
 
--- 
-2.53.0
+Best regards,
+--  
+Thanks,
+Pawan
+
 
