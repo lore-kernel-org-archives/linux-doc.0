@@ -1,323 +1,113 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAFC3D1CDF
-	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 15:09:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2A6B2DAFD7;
+	Wed, 15 Apr 2026 15:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776265763; cv=none; b=sXAjZ63SzOu3FVUNvjj4whpUXb1NkXn6spJbwqybMICmXSGq1/CKwfch/Db0oDylrNgE2A/3vgDN5DJDKDANX575bCEWiPEDqy+Mm3XsESFjUsdRjk45clCk85EQ73+49pX1MtwTGVcipZAz5f9vrqHRUaMm8/OAkp75OcZ+vpQ=
+	t=1776265827; cv=none; b=qivl11WjJyI81CAnMseYlduQMdbkvW6iFQyoDOopm+FBsZAMDxYMW68MMl71UxSCk/oGSkKm0GSh0MNauwcBXCGCVhE0hCwZXSIxje1+fdol0z9xT/BMugLTjBTcmfivDBc4SElPsz/sy/VvVM373FwZamENrZf19X5U2yiPTBQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776265763; c=relaxed/simple;
-	bh=ljVeei6DMsz6nzfdao3nHxblLqi1rjyRizXz36J4w6c=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SdCIXb8zNVDav8eQ19HKyOUGTz0EYH43DmIp1/KvKXlnVHWhyzPhBC4J8KzoKX1phj1PoEj389GQini4znYV12qwCo/wxPNjBTlZfG+YhMde0GsHk3Kf6Rqq/ZcvoY3DK/HHbg8v7MEzuz8a2dho731/a0m89sjnTz9pzOnRyA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kfffJOx8; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776265827; c=relaxed/simple;
+	bh=yHb1dWk2Vi/3kjBAIirLK/D5eHjwHRIFDKNF39m3SFc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XCR+Y5rEzie0Nv2bPjnsWATX1rHCuyzoOBIKyPsyACv6eVc9rYGp3oGxSprcO1y36fy6xvz62uT7dnQYcSXCpG4RfrtwTL5mLjBxc3vRD/K3I9ufFgf9v2gFeeDAibb1w6xUwXIN852GrfI+lpOQkWjfGXGgj0hznh1LZTSJ7Wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=JeAdh/jK; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kfffJOx8"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776265749;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=DTbY8XYoOMeANO+YssI33JYga8YW2EPuDPwZbcUAWPk=;
-	b=kfffJOx8g7JzNZwe9Fiqdzaa6C6hGPqjhhrXVRjHDnF8Ra3s2/OdzCkJzg72YQimCBXAfI
-	sL8ZbD4ggGqW/rEAomv9YVvV8fxRck5UOZVgMZnXyXHjYUskEOUghCCpQ0UJoJkQQpFMR+
-	/4fm+CMCquFDmFEyMWl5/YxhxkBfhEE=
-From: Usama Arif <usama.arif@linux.dev>
-To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Cc: Usama Arif <usama.arif@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Peter Xu <peterx@redhat.com>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Zi Yan <ziy@nvidia.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="JeAdh/jK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FjdkDuZrAakO4bZaNk4hPtCRJU5ObDFajb298D8gE2M=; b=JeAdh/jK6zrXFm9bYtdN/AToKA
+	68WvS5kirxw2K5MZP5F9tckhJXpOzgBvOm1tLdFkjkx1Mu8h6qZTSDtAFjIV5NMIB2HQyHul6HPcm
+	qXwU5iCSHEaohnJ3eBeKuci2dHZW/Afi6QbyJAtJe793cKYt+PqMGdj+ejxj93e67QfkpJCl+pBNJ
+	4uQQOkTeHp5rC61R7y9dy1exZl9TQDrb1JIj1SWYEhjQac8oPkolls6UeQXtgzisQCO3LdwPrlDD1
+	t5imBUekyKRvTsSTIylhFjmo6yI0Kko9fkNa0vDZSZ0SH8sUqcskdrAIMXb4VL7fsmwdKYfTOZUk5
+	CqPYMltA==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wD1sO-000000002lg-3I9m;
+	Wed, 15 Apr 2026 15:10:00 +0000
+Date: Wed, 15 Apr 2026 16:10:00 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Gregory Price <gourry@gourry.net>,
+	"David Hildenbrand (Arm)" <david@kernel.org>,
+	"Darrick J. Wong" <djwong@kernel.org>,
+	John Groves <John@groves.net>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
 	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: Re: [RFC, PATCH 10/12] userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
-Date: Wed, 15 Apr 2026 08:08:59 -0700
-Message-ID: <20260415150900.3660575-1-usama.arif@linux.dev>
-In-Reply-To: <20260414142354.1465950-11-kas@kernel.org>
-References: 
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	djbw@kernel.org
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <ad-qSB4oL5D3S-ht@casper.infradead.org>
+References: <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
+ <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
+ <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
+ <CAJfpegsUVv0ziMSQiq9pKeXf6G-+LROPTW077hHMSmAirVCLQw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegsUVv0ziMSQiq9pKeXf6G-+LROPTW077hHMSmAirVCLQw@mail.gmail.com>
 
-On Tue, 14 Apr 2026 15:23:44 +0100 "Kiryl Shutsemau (Meta)" <kas@kernel.org> wrote:
+On Wed, Apr 15, 2026 at 04:04:50PM +0200, Miklos Szeredi wrote:
+> On Wed, 15 Apr 2026 at 15:35, Gregory Price <gourry@gourry.net> wrote:
+> 
+> > This was my first reaction when I realized the BPF program would be
+> > controlling iomap return value in the fault path.  Big ol' (!)  popped
+> > up over my head.
+> 
+> I'm wondering which part of this triggers the big (!).
+> 
+> BPF program being run in the fault path?
+> 
+> Or that the return value from the BPF function is used as iomap?
+> 
+> Or something else?
 
-> Add UFFDIO_SET_MODE ioctl to toggle UFFD_FEATURE_MINOR_ASYNC at
-> runtime. Takes mmap_write_lock for serialization against all in-flight
-> faults. On sync-to-async transition, wake threads blocked in
-> handle_userfault() so they retry and auto-resolve.
-> 
-> Since ctx->features can now be modified concurrently, add
-> userfaultfd_features() helper that wraps READ_ONCE() and convert
-> all ctx->features reads to use it.
-> 
-> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
-> Assisted-by: Claude:claude-opus-4-6
-> ---
->  fs/userfaultfd.c                 | 95 ++++++++++++++++++++++++++++----
->  include/uapi/linux/userfaultfd.h | 13 +++++
->  2 files changed, 96 insertions(+), 12 deletions(-)
-> 
-> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
-> index 43064238fd8d..0edb33599491 100644
-> --- a/fs/userfaultfd.c
-> +++ b/fs/userfaultfd.c
-> @@ -79,24 +79,33 @@ struct userfaultfd_wake_range {
->  /* internal indication that UFFD_API ioctl was successfully executed */
->  #define UFFD_FEATURE_INITIALIZED		(1u << 31)
->  
-> +/*
-> + * Read ctx->features with READ_ONCE() since UFFDIO_SET_MODE can
-> + * modify it concurrently.
-> + */
-> +static unsigned int userfaultfd_features(struct userfaultfd_ctx *ctx)
-> +{
-> +	return READ_ONCE(ctx->features);
-> +}
-> +
->  static bool userfaultfd_is_initialized(struct userfaultfd_ctx *ctx)
->  {
-> -	return ctx->features & UFFD_FEATURE_INITIALIZED;
-> +	return userfaultfd_features(ctx) & UFFD_FEATURE_INITIALIZED;
->  }
->  
->  static bool userfaultfd_wp_async_ctx(struct userfaultfd_ctx *ctx)
->  {
-> -	return ctx && (ctx->features & UFFD_FEATURE_WP_ASYNC);
-> +	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_WP_ASYNC);
->  }
->  
->  static bool userfaultfd_minor_anon_ctx(struct userfaultfd_ctx *ctx)
->  {
-> -	return ctx && (ctx->features & UFFD_FEATURE_MINOR_ANON);
-> +	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_MINOR_ANON);
->  }
->  
->  static bool userfaultfd_minor_async_ctx(struct userfaultfd_ctx *ctx)
->  {
-> -	return ctx && (ctx->features & UFFD_FEATURE_MINOR_ASYNC);
-> +	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_MINOR_ASYNC);
->  }
->  
->  static unsigned int userfaultfd_ctx_flags(struct userfaultfd_ctx *ctx)
-> @@ -122,7 +131,7 @@ bool userfaultfd_wp_unpopulated(struct vm_area_struct *vma)
->  	if (!ctx)
->  		return false;
->  
-> -	return ctx->features & UFFD_FEATURE_WP_UNPOPULATED;
-> +	return userfaultfd_features(ctx) & UFFD_FEATURE_WP_UNPOPULATED;
->  }
->  
->  static int userfaultfd_wake_function(wait_queue_entry_t *wq, unsigned mode,
-> @@ -435,7 +444,7 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
->  	/* 0 or > 1 flags set is a bug; we expect exactly 1. */
->  	VM_WARN_ON_ONCE(!reason || (reason & (reason - 1)));
->  
-> -	if (ctx->features & UFFD_FEATURE_SIGBUS)
-> +	if (userfaultfd_features(ctx) & UFFD_FEATURE_SIGBUS)
->  		goto out;
->  	if (!(vmf->flags & FAULT_FLAG_USER) && (ctx->flags & UFFD_USER_MODE_ONLY))
->  		goto out;
-> @@ -506,7 +515,7 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
->  	init_waitqueue_func_entry(&uwq.wq, userfaultfd_wake_function);
->  	uwq.wq.private = current;
->  	uwq.msg = userfault_msg(vmf->address, vmf->real_address, vmf->flags,
-> -				reason, ctx->features);
-> +				reason, userfaultfd_features(ctx));
->  	uwq.ctx = ctx;
->  	uwq.waken = false;
->  
-> @@ -668,7 +677,7 @@ int dup_userfaultfd(struct vm_area_struct *vma, struct list_head *fcs)
->  	if (!octx)
->  		return 0;
->  
-> -	if (!(octx->features & UFFD_FEATURE_EVENT_FORK)) {
-> +	if (!(userfaultfd_features(octx) & UFFD_FEATURE_EVENT_FORK)) {
->  		userfaultfd_reset_ctx(vma);
->  		return 0;
->  	}
-> @@ -774,7 +783,7 @@ void mremap_userfaultfd_prep(struct vm_area_struct *vma,
->  	if (!ctx)
->  		return;
->  
-> -	if (ctx->features & UFFD_FEATURE_EVENT_REMAP) {
-> +	if (userfaultfd_features(ctx) & UFFD_FEATURE_EVENT_REMAP) {
->  		vm_ctx->ctx = ctx;
->  		userfaultfd_ctx_get(ctx);
->  		down_write(&ctx->map_changing_lock);
-> @@ -824,7 +833,7 @@ bool userfaultfd_remove(struct vm_area_struct *vma,
->  	struct userfaultfd_wait_queue ewq;
->  
->  	ctx = vma->vm_userfaultfd_ctx.ctx;
-> -	if (!ctx || !(ctx->features & UFFD_FEATURE_EVENT_REMOVE))
-> +	if (!ctx || !(userfaultfd_features(ctx) & UFFD_FEATURE_EVENT_REMOVE))
->  		return true;
->  
->  	userfaultfd_ctx_get(ctx);
-> @@ -863,7 +872,7 @@ int userfaultfd_unmap_prep(struct vm_area_struct *vma, unsigned long start,
->  	struct userfaultfd_unmap_ctx *unmap_ctx;
->  	struct userfaultfd_ctx *ctx = vma->vm_userfaultfd_ctx.ctx;
->  
-> -	if (!ctx || !(ctx->features & UFFD_FEATURE_EVENT_UNMAP) ||
-> +	if (!ctx || !(userfaultfd_features(ctx) & UFFD_FEATURE_EVENT_UNMAP) ||
->  	    has_unmap_ctx(ctx, unmaps, start, end))
->  		return 0;
->  
-> @@ -1826,6 +1835,65 @@ static int userfaultfd_deactivate(struct userfaultfd_ctx *ctx,
->  	return ret;
->  }
->  
-> +/*
-> + * Features that can be toggled at runtime via UFFDIO_SET_MODE.
-> + * Only async features that were enabled at UFFDIO_API time may be toggled.
-> + */
-> +#define UFFD_FEATURE_TOGGLEABLE	(UFFD_FEATURE_MINOR_ASYNC)
-> +
-> +static int userfaultfd_set_mode(struct userfaultfd_ctx *ctx,
-> +				  unsigned long arg)
-> +{
-> +	struct uffdio_set_mode mode;
-> +	struct mm_struct *mm = ctx->mm;
-> +
-> +	if (copy_from_user(&mode, (void __user *)arg, sizeof(mode)))
-> +		return -EFAULT;
-> +
-> +	/* enable and disable must not overlap */
-> +	if (mode.enable & mode.disable)
-> +		return -EINVAL;
-> +
-> +	/* only toggleable features are allowed */
-> +	if ((mode.enable | mode.disable) & ~UFFD_FEATURE_TOGGLEABLE)
-> +		return -EINVAL;
+If a BPF program controls what memory address a fault now allows access
+to, who validates that this is a memory address within the purview of
+the BPF program, and not, say, the address of the kernel page tables?
 
-The commit message states "Only async features that were enabled at
-UFFDIO_API time may be toggled."  However, the code only checks that
-the requested feature is in UFFD_FEATURE_TOGGLEABLE.
-
-Is it intentional that a user who opened a uffd without
-UFFD_FEATURE_MINOR_ASYNC can still enable it later via
-UFFDIO_SET_MODE? 
-
-> +
-> +	if (!mmget_not_zero(mm))
-> +		return -ESRCH;
-> +
-> +	/*
-> +	 * mmap_write_lock serializes against all page faults.
-> +	 * After we release, no in-flight faults from the old mode exist.
-> +	 */
-> +	{
-> +		unsigned int new_features;
-> +
-> +		mmap_write_lock(mm);
-> +		new_features = userfaultfd_features(ctx);
-> +		new_features |= mode.enable;
-> +		new_features &= ~mode.disable;
-> +		WRITE_ONCE(ctx->features, new_features);
-> +		mmap_write_unlock(mm);
-> +	}
-> +
-> +	/*
-> +	 * If switching to async, wake threads blocked in handle_userfault().
-> +	 * They will retry the fault and auto-resolve under the new mode.
-> +	 * len=0 means wake all pending faults on this context.
-> +	 */
-> +	if (mode.enable & UFFD_FEATURE_MINOR_ASYNC) {
-> +		struct userfaultfd_wake_range range = { .len = 0 };
-> +
-> +		spin_lock_irq(&ctx->fault_pending_wqh.lock);
-> +		__wake_up_locked_key(&ctx->fault_pending_wqh, TASK_NORMAL,
-> +				     &range);
-> +		__wake_up(&ctx->fault_wqh, TASK_NORMAL, 1, &range);
-> +		spin_unlock_irq(&ctx->fault_pending_wqh.lock);
-> +	}
-> +
-> +	mmput(mm);
-> +	return 0;
-> +}
->  
->  static int userfaultfd_continue(struct userfaultfd_ctx *ctx, unsigned long arg)
->  {
-> @@ -2150,6 +2218,9 @@ static long userfaultfd_ioctl(struct file *file, unsigned cmd,
->  	case UFFDIO_DEACTIVATE:
->  		ret = userfaultfd_deactivate(ctx, arg);
->  		break;
-> +	case UFFDIO_SET_MODE:
-> +		ret = userfaultfd_set_mode(ctx, arg);
-> +		break;
->  	}
->  	return ret;
->  }
-> @@ -2177,7 +2248,7 @@ static void userfaultfd_show_fdinfo(struct seq_file *m, struct file *f)
->  	 *	protocols: aa:... bb:...
->  	 */
->  	seq_printf(m, "pending:\t%lu\ntotal:\t%lu\nAPI:\t%Lx:%x:%Lx\n",
-> -		   pending, total, UFFD_API, ctx->features,
-> +		   pending, total, UFFD_API, userfaultfd_features(ctx),
->  		   UFFD_API_IOCTLS|UFFD_API_RANGE_IOCTLS);
->  }
->  #endif
-> diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
-> index 775825da2596..f0f14f9db06c 100644
-> --- a/include/uapi/linux/userfaultfd.h
-> +++ b/include/uapi/linux/userfaultfd.h
-> @@ -84,6 +84,7 @@
->  #define _UFFDIO_CONTINUE		(0x07)
->  #define _UFFDIO_POISON			(0x08)
->  #define _UFFDIO_DEACTIVATE		(0x09)
-> +#define _UFFDIO_SET_MODE		(0x0A)
->  #define _UFFDIO_API			(0x3F)
->  
->  /* userfaultfd ioctl ids */
-> @@ -110,6 +111,8 @@
->  				      struct uffdio_poison)
->  #define UFFDIO_DEACTIVATE	_IOR(UFFDIO, _UFFDIO_DEACTIVATE,	\
->  				     struct uffdio_range)
-> +#define UFFDIO_SET_MODE		_IOW(UFFDIO, _UFFDIO_SET_MODE,	\
-> +				     struct uffdio_set_mode)
->  
->  /* read() structure */
->  struct uffd_msg {
-> @@ -395,6 +398,16 @@ struct uffdio_move {
->  	__s64 move;
->  };
->  
-> +struct uffdio_set_mode {
-> +	/*
-> +	 * Toggle async mode for features at runtime.
-> +	 * Supported: UFFD_FEATURE_MINOR_ASYNC.
-> +	 * Setting a bit in both enable and disable is invalid.
-> +	 */
-> +	__u64 enable;
-> +	__u64 disable;
-> +};
-> +
->  /*
->   * Flags for the userfaultfd(2) system call itself.
->   */
-> -- 
-> 2.51.2
-> 
-> 
+(I have done no looking to determine if this is already considered)
