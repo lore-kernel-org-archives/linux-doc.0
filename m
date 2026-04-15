@@ -1,155 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3ED1334A3DB;
-	Wed, 15 Apr 2026 11:43:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76170275B15
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 12:52:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776253426; cv=none; b=GzNOaZUfdTH9ifQgwZbHlozQTSJkjtJu+PfnYtFdLOla1RCzuTm3u4xeaxCLGszKF9ySQPIYU7N4JtkiwCcIBhI3GiioBc6kmi64JcoORJeQ7BRLtj0F3cpKGSxakYrZiRMiG3ieAXRqarWI7qSq7eVWNVvFAyUBuP1Jxqbl9Vs=
+	t=1776257565; cv=none; b=Ynng1ybUHgdbH0hBom8amXcQqb4Y9qwRoI/1Rqa8+umRczwarhPVCypRGTsKcP1vZpZ8DnOWSAM7vOQXxyUt9X+MZAdl+ARI3nMboxpxAZJutFCgkKvppFC3Y+NkrFipTg2sKfz9n8leRW1bwKS0egS1Ux3d5uzd2V9AAjXW1+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776253426; c=relaxed/simple;
-	bh=tXfp6De6v1HqoOJvt/plPmKQ+uXgDMHWC7/2Mze9maI=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Sqa6tL5Zn+0s4wlQkDZeh8+JXxK7HbWEEd1wqeTviGtvrJVM378WmYvCvlqbjHoK/epjpPIPhX3FMJ8EtF4P+pR18mBhga68QyBln+8CgqYfAnmt3QUjFZn36nWe8cjencSb3BPtIE9oreyW1mC5hUNX5Zbt6M13h/pnxtkpA9E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VBSF2SGt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776257565; c=relaxed/simple;
+	bh=bH30D+S77L+76WV39EC2xqLQPjfmUJAx50Hb1EuxO/Y=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=F3mfXvKAmF1c6mK9hgsEoRXSkRjdSeQXUKR9Ro99h0l0hHP6qLsBkfDE8sRXC0yG5QBPprtiIUaN8xf089IWqtFaIgm1TwS77qIS/m8VQnrq9ZPLW/aERBmtDXmV0R19l6F1WDyE+BMFam8qyDUgvHrUs51R6inBaicpM0lxgeo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iEKJt+UP; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBSF2SGt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F790C19424;
-	Wed, 15 Apr 2026 11:43:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776253425;
-	bh=tXfp6De6v1HqoOJvt/plPmKQ+uXgDMHWC7/2Mze9maI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VBSF2SGtgYiM7uY/0Z+w5O/RqFH+t9b676zR/R2UHTK29EzET7sAXbWpN0i6CN9/r
-	 37FOmNx5nnhlc7J3C/1R4IaLWQJ5bXBMonblOIuqpCuSu2rCduVb5aYuRqYKXRY2i+
-	 3PQGNM2UyfrIRDWBVcFvdz6Au/NlefShArQgNyG1f5B4WeYbfdBEJtjA9VzgNpRqUm
-	 awVhvJRBFdgR909xhFmM/6zFdJAlRfe7t1QiBWNEd7jr6q7V4iGorNtGsXNikmsXlh
-	 jsDuSm/ekcpKbHWXgRz8toLPHyg8z2jU2n34z0GEzyejCcCl23Zz5/rWhs4dKAyD6U
-	 l2hbn2ZdrD+jw==
-Date: Wed, 15 Apr 2026 13:43:41 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Linux Documentation <linux-doc@vger.kernel.org>, Linux Kernel Mailing
- List <linux-kernel@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Linux Kernel Workflows <workflows@vger.kernel.org>
-Subject: Re: maintainer profiles
-Message-ID: <20260415134341.002745d2@foz.lan>
-In-Reply-To: <d8804a85-dd2b-481e-903f-c6fea5d24c97@infradead.org>
-References: <b7775383-da94-4098-8af9-2f672c4f1a71@infradead.org>
-	<20260410101239.04c87f26@foz.lan>
-	<d8804a85-dd2b-481e-903f-c6fea5d24c97@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iEKJt+UP"
+Message-ID: <abbf756620742f7508d4306b5d830bfb59cea607.camel@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776257550;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bH30D+S77L+76WV39EC2xqLQPjfmUJAx50Hb1EuxO/Y=;
+	b=iEKJt+UPHhtGDw9Q25fPepjFpg8PAaDIa4DQbc3IFP4bfFh1awzbhgMM1HrnJ0Fg4bDAn+
+	iu0ymFU2fFbJghkwuJIhjmQgwXWwB9sLEDic/V0KJmeObxeSzRzDPFarQJt8gJ8PHL7Hhc
+	yQUmEzzD5PCJtNUWfuilgFA7gDf86F0=
+Subject: Re: [PATCH bpf] bpf,tcp: avoid infinite recursion in
+ BPF_SOCK_OPS_HDR_OPT_LEN_CB
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: KaFai Wan <kafai.wan@linux.dev>
+To: Jiayuan Chen <jiayuan.chen@linux.dev>, bpf@vger.kernel.org
+Cc: Quan Sun <2022090917019@std.uestc.edu.cn>, Yinhao Hu
+ <dddddd@hust.edu.cn>,  Kaiyan Mei <M202472210@hust.edu.cn>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Eric Dumazet <edumazet@google.com>,  Neal Cardwell
+ <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, "David S.
+ Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu
+ <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John Fastabend
+ <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, Stanislav
+ Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa
+ <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Wed, 15 Apr 2026 20:52:16 +0800
+In-Reply-To: <0b3a3a41-f709-4414-8a5d-d2eb4959db3f@linux.dev>
+References: <20260414105702.248310-1-jiayuan.chen@linux.dev>
+	 <42c1fed84a84519c2432163aa46f587f2d624fef.camel@163.com>
+	 <0b3a3a41-f709-4414-8a5d-d2eb4959db3f@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, 11 Apr 2026 16:54:00 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+On Wed, 2026-04-15 at 09:47 +0800, Jiayuan Chen wrote:
+>=20
+> On 4/14/26 11:37 PM, mkf wrote:
+> > On Tue, 2026-04-14 at 18:57 +0800, Jiayuan Chen wrote:
+>=20
+> Hi Martin, I saw your patch. Your solution is better, please ignore mine =
+:)
+>=20
+I'm not Martin, just same first name :). Ok, I'll continue.
+>=20
+>=20
 
-> Also, does anyone know why some of these profiles are numbered and some
-> are not?  See
->   https://docs.kernel.org/maintainer/maintainer-entry-profile.html#existi=
-ng-profiles
-> for odd numbering.
-
-Patch 9/8 fixes it, while solving other issues:
-
-- https://lore.kernel.org/linux-doc/cfff2b313d1f79a5919f400020a1b1a4064a714=
-3.1776252056.git.mchehab+huawei@kernel.org/T/#u
-
-Basically, it creates a hidden TOC which is not displayed, creating
-this ReST output:
-
-	- :doc:`Arm And Arm64 Soc Sub-Architectures (Common Parts) <maintainer-soc=
->`
-	- :doc:`Arm/Samsung S3C, S5P And Exynos Arm Architectures <maintainer-soc-=
-clean-dts>`
-	- :doc:`Arm/Tesla Fsd Soc Support <maintainer-soc-clean-dts>`
-	- `Audit Subsystem <https://github.com/linux-audit/audit-kernel/blob/main/=
-README.md>`_
-	- :doc:`Damon <../mm/damon/maintainer-profile>`
-	- :doc:`Documentation <../doc-guide/maintainer-profile>`
-	- :doc:`Google Tensor Soc Support <maintainer-soc-clean-dts>`
-	- :doc:`Kernel Nfsd, Sunrpc, And Lockd Servers <../filesystems/nfs/nfsd-ma=
-intainer-entry-profile>`
-	- :doc:`Kernel Virtual Machine For X86 (Kvm/X86) <maintainer-kvm-x86>`
-	- :doc:`Libnvdimm Btt: Block Translation Table <../nvdimm/maintainer-entry=
--profile>`
-	- :doc:`Libnvdimm Pmem: Persistent Memory Driver <../nvdimm/maintainer-ent=
-ry-profile>`
-	- :doc:`Libnvdimm: Non-Volatile Memory Device Subsystem <../nvdimm/maintai=
-ner-entry-profile>`
-	- :doc:`Media Input Infrastructure (V4L/Dvb) <../driver-api/media/maintain=
-er-entry-profile>`
-	- :doc:`Networking Drivers <maintainer-netdev>`
-	- :doc:`Networking [General] <maintainer-netdev>`
-	- :doc:`Risc-V Architecture <../arch/riscv/patch-acceptance>`
-	- `Rust <https://rust-for-linux.com/contributing>`_
-	- `Security Subsystem <https://github.com/LinuxSecurityModule/kernel/blob/=
-main/README.md>`_
-	- `Selinux Security Module <https://github.com/SELinuxProject/selinux-kern=
-el/blob/main/README.md>`_
-	- :doc:`Vfio Pci Device Specific Drivers <../driver-api/vfio-pci-device-sp=
-ecific-driver-acceptance>`
-	- :doc:`X86 Architecture (32-Bit And 64-Bit) <maintainer-tip>`
-	- :doc:`Xfs Filesystem <../filesystems/xfs/xfs-maintainer-entry-profile>`
-
-	.. toctree::
-	   :hidden:
-
-	   ../filesystems/xfs/xfs-maintainer-entry-profile
-	   ../driver-api/vfio-pci-device-specific-driver-acceptance
-	   maintainer-netdev
-	   ../nvdimm/maintainer-entry-profile
-	   maintainer-soc
-	   maintainer-soc-clean-dts
-	   ../doc-guide/maintainer-profile
-	   maintainer-kvm-x86
-	   ../mm/damon/maintainer-profile
-	   ../driver-api/media/maintainer-entry-profile
-	   ../arch/riscv/patch-acceptance
-	   ../filesystems/nfs/nfsd-maintainer-entry-profile
-	   maintainer-tip
-
-E.g. instead of showing the contents of the TOC tree, it shows a
-per-subsystem sorted list of items. The TOC tree is used there just
-to avoid warnings that a .rst file is not placed on a TOC.
-
-The advantage of such approach is that there's now one item at
-the list for each "P:" tag at MAINTAINERS. All of them are
-displayed using the name of the subsystem as described there,
-e.g. it outputs:
-
-     =E2=80=A2=C2=A0Arm And Arm64 Soc Sub-Architectures (Common Parts)
-     =E2=80=A2=C2=A0Arm/Samsung S3C, S5P And Exynos Arm Architectures
-     =E2=80=A2=C2=A0Arm/Tesla Fsd Soc Support
-     =E2=80=A2=C2=A0Audit Subsystem
-     =E2=80=A2=C2=A0Damon
-     =E2=80=A2=C2=A0Documentation
-     =E2=80=A2=C2=A0Google Tensor Soc Support
-     =E2=80=A2=C2=A0Kernel Nfsd, Sunrpc, And Lockd Servers
-     =E2=80=A2=C2=A0Kernel Virtual Machine For X86 (Kvm/X86)
-     =E2=80=A2=C2=A0Libnvdimm Btt: Block Translation Table
-     =E2=80=A2=C2=A0Libnvdimm Pmem: Persistent Memory Driver
-     =E2=80=A2=C2=A0Libnvdimm: Non-Volatile Memory Device Subsystem
-     =E2=80=A2=C2=A0Media Input Infrastructure (V4L/Dvb)
-     =E2=80=A2=C2=A0Networking Drivers
-     =E2=80=A2=C2=A0Networking [General]
-     =E2=80=A2=C2=A0Risc-V Architecture
-     =E2=80=A2=C2=A0Rust
-     =E2=80=A2=C2=A0Security Subsystem
-     =E2=80=A2=C2=A0Selinux Security Module
-     =E2=80=A2=C2=A0Vfio Pci Device Specific Drivers
-     =E2=80=A2=C2=A0X86 Architecture (32-Bit And 64-Bit)
-     =E2=80=A2=C2=A0Xfs Filesystem
-
-Each of entry there with either a cross-reference to a document or
-with a reference to an external site.
-
+--=20
 Thanks,
-Mauro
+KaFai
