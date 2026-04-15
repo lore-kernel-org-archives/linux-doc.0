@@ -1,350 +1,105 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989CA36895D;
-	Wed, 15 Apr 2026 11:12:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CFF630ACF6;
+	Wed, 15 Apr 2026 11:16:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776251528; cv=none; b=qLF4ta2U7OL04ckMEjfHgIgCG+szmfrxLmsTq6S7EKpjKcDEztPBH7wzm5owBQCsg3rbXGDcgYbp2tYjVmnP2l6ok2vpYiTMoH2I24N6khYcAq/cbtSN0JTe0PT0SFvT9yHEPXid0JOe0w+FZSzyW0j1DS6c8wK2LEfxwbsn9YE=
+	t=1776251772; cv=none; b=Ekm0vCLZJKgdWM8RbWgPqeL9wQdMg/Lr9FiISSv4ZpnY065k4fMHi2oXGgB1lFhXgdw4ncsnPI6MFQg6KO0aMkZlEPX6RyTicllhqmpSn20BXn70XMdkWAM6WDFkKa9BKVj48ejSnBg/rRxRvVhcI7QCzrE3SbMWCg/i94nhBWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776251528; c=relaxed/simple;
-	bh=fayZBoBbFheO/kclvc+4SUw+dXjp/LYFzJvRENUQZRU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=uqQRCkZflz/QRS0Ip9Ize2jH4P15/Bl7ynp65w92QrPohEReoK5QBKWkOh7zO+2W0geD6aDFS+15y7ymVW5Yr6EmLx1/1+gaIhD3bdTK7Z6DFDGMaYcq2wxqS2HNsTxp5YvpSDjHS7jgnFllCc8P9AeQvh9J1KQN9BuBQ5iP3wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bN0YvBY/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776251772; c=relaxed/simple;
+	bh=x0Ti+MMtlG36NDqMz+AWtmoLIFfR4SVxIgJEa2CZPXo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s8BKAvt+/XbhWD/1LkftsCi1ZuFuTEKqGsB0xIWRYblunVE4zUqCePEzwB3MJlO2nU6DCE7S6a32KGYiy59MYHhlo+p6U5wZCkXIL+fSq0EUf0SiAY0bj2UhcF4kcjwt3+HLbjR6PMpazhERBs646FTGxH/4QyQn6t7MgNWezqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=XutY8iYg; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bN0YvBY/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CA2FC2BCB8;
-	Wed, 15 Apr 2026 11:12:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776251527;
-	bh=fayZBoBbFheO/kclvc+4SUw+dXjp/LYFzJvRENUQZRU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bN0YvBY/TEX8XZxKyBizo1sp/iPMShVMk8/2jAo7X+ubM+pPo2iG737HhqEflYOla
-	 x5mC9uJzqMoAv6LwiFaxkdg1XHcoAFx9jo/giJD6G9XVB/zOLnGG2SaAIkPdbZlZ4w
-	 +mphdQYEGKOM3R14LHphcZTt6SIYVE/unii4ti3A3soDG+uYDpBrYjTeKAFOkY+M8t
-	 tLJv0aeRnQKiRGFb6QqYjMe8csNiQO64m8CSNXxUbBscL8Yu6sHN2NbPRbRFi6MbQo
-	 pjrAAwq91IXgqhuIHph/UyyIExqbfFb+en+vfFI/fObr8+IP2oUTS7czCx9m1qb/Il
-	 T5hedV3g/B8eg==
-From: Jarkko Sakkinen <jarkko@kernel.org>
-To: linux-integrity@vger.kernel.org
-Cc: Jarkko Sakkinen <jarkko@kernel.org>,
-	Nayna Jain <nayna@linux.ibm.com>,
-	Srish Srinivasan <ssrish@linux.ibm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	James Bottomley <James.Bottomley@HansenPartnership.com>,
-	Mimi Zohar <zohar@linux.ibm.com>,
-	David Howells <dhowells@redhat.com>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Ahmad Fatoum <a.fatoum@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-	Feng Tang <feng.tang@linux.alibaba.com>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Li RongQing <lirongqing@baidu.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-security-module@vger.kernel.org
-Subject: [PATCH v4] KEYS: trusted: Debugging as a feature
-Date: Wed, 15 Apr 2026 14:12:00 +0300
-Message-Id: <20260415111202.63888-1-jarkko@kernel.org>
-X-Mailer: git-send-email 2.39.5
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="XutY8iYg"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=x0Ti+MMtlG36NDqMz+AWtmoLIFfR4SVxIgJEa2CZPXo=; b=XutY8iYgOsW5dxK+6LuYCy7LKk
+	5UR0wZVLon9MydJVMfs6mVysd510Hq1+by+Xqaxf3ijVWF30ApxKWJGIgK4VzEAOW86qpFBldr4NM
+	UWL/iOH4buy3i2DOrEgOftpf0qdUIJkSv4K6Cug5jvkVt8dthfpdeVwD4Bo/ZjzSDvgVN7b3pEeos
+	ha/9+MU5Qd+BiVjX7lGtL0eSdRdKD38kez9G5ABMNJhQx79YSwEM1T3r4nYGcrAHvO7pt8owFr7RP
+	BfGtmCDdzuTy+TcIjlnF2mfZlPvocRtQk7/kvH68+587Ga1IaJGfOJ8VBwfLpXheTK6l68J5Ky3F/
+	kNtZLeBA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wCyDx-00DnWX-2J;
+	Wed, 15 Apr 2026 11:16:02 +0000
+Date: Wed, 15 Apr 2026 04:15:57 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org, 
+	kernel-team@meta.com, Kiryl Shutsemau <kirill@shutemov.name>
+Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
+Message-ID: <ad9wwUJ3lh_536Xy@gmail.com>
+References: <acZPZ4XKy4QynznK@gmail.com>
+ <20260327223744.f246150adc1671f7605a4f0a@kernel.org>
+ <acpzhCBEPh-tKVqg@gmail.com>
+ <acqJk-zbyjIiy6hJ@gmail.com>
+ <20260331125827.157a833882830007ea9b0b31@kernel.org>
+ <acvjcCqIAeHyIiQN@gmail.com>
+ <20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
+ <ac0wz_eW5Zgi4t45@gmail.com>
+ <20260403114519.14e326a4bba019373bf3ff09@kernel.org>
+ <adTX6h4Ej5jOcONP@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <adTX6h4Ej5jOcONP@gmail.com>
+X-Debian-User: leitao
 
-TPM_DEBUG, and other similar flags, are a non-standard way to specify a
-feature in Linux kernel. Introduce CONFIG_TRUSTED_KEYS_DEBUG for trusted
-keys, and use it to replace these ad-hoc feature flags.
+On Tue, Apr 07, 2026 at 03:19:09AM -0700, Breno Leitao wrote:
+> On Fri, Apr 03, 2026 at 11:45:19AM +0900, Masami Hiramatsu wrote:
+> > > I'm still uncertain about this approach. The goal is to identify and
+> > > categorize the early parameters that are parsed prior to bootconfig
+> > > initialization.
+> >
+> > Yes, if we support early parameters in bootconfig, we need to clarify
+> > which parameters are inherently unsupportable, and document it.
+> > Currently it is easy to say that it does not support the parameter
+> > defined with "early_param()". Similary, maybe we should introduce
+> > "arch_param()" or something like it (or support all of them).
+> >
+> > >
+> > > Moreover, this work could become obsolete if bootconfig's initialization
+> > > point shifts earlier or later in the boot sequence, necessitating
+> > > another comprehensive analysis.
+> >
+> > If we can init it before calling setup_arch(), yes, we don't need to
+> > check it. So that is another option. Do you think it is feasible to
+> > support all of them? (Of course, theologically we can do, but the
+> > question is the use case and requirements.)
+>
+> I don't believe all early parameters can be supported by bootconfig.
+> Some are inherently incompatible as far as I understand, while others
+> depend on bootconfig's initialization point in the boot sequence.
 
-Given that trusted keys debug dumps can contain sensitive data, harden the
-feature as follows:
+I've developed a patch series that relocates bootconfig initialization
+to occur before setup_arch().
 
-1. In the Kconfig description postulate that pr_debug() statements must be
-   used.
-2. Use pr_debug() statements in TPM 1.x driver to print the protocol dump.
-3. Require trusted.debug=1 on the kernel command line (default: 0) to
-   activate dumps at runtime, even when CONFIG_TRUSTED_KEYS_DEBUG=y.
+Adopting this approach would streamline the categorization considerably,
+as only a small subset of kernel parameters are parsed before
+setup_arch() is called.
 
-Traces, when actually needed, can be easily enabled by providing
-trusted.dyndbg='+p' and trusted.debug=1 in the kernel command-line.
+This enables a clearer distinction: parameters processed *before*
+setup_arch() versus those handled afterward, rather than classifying
+based on what occurs before bootconfig initialization.
 
-Reported-by: Nayna Jain <nayna@linux.ibm.com>
-Closes: https://lore.kernel.org/all/7f8b8478-5cd8-4d97-bfd0-341fd5cf10f9@linux.ibm.com/
-Reviewed-by: Nayna Jain <nayna@linux.ibm.com>
-Tested-by: Srish Srinivasan <ssrish@linux.ibm.com>
-Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
----
-v4:
-- Added kernel parameter documentation.t
-- Added tags from Srishand and Nayna.
-- Sanity check round. This version will be applied unless there is
-  something specific to address.
-v3:
-- Add kernel-command line option for enabling the traces.
-- Add safety information to the Kconfig entry.
-v2:
-- Implement for all trusted keys backends.
-- Add HAVE_TRUSTED_KEYS_DEBUG as it is a good practice despite full
-  coverage.
----
- .../admin-guide/kernel-parameters.txt         | 16 +++++++
- include/keys/trusted-type.h                   | 21 +++++----
- security/keys/trusted-keys/Kconfig            | 23 ++++++++++
- security/keys/trusted-keys/trusted_caam.c     |  7 ++-
- security/keys/trusted-keys/trusted_core.c     |  6 +++
- security/keys/trusted-keys/trusted_tpm1.c     | 44 +++++++++++--------
- 6 files changed, 87 insertions(+), 30 deletions(-)
+Just to close the look and link both discussion together, the proposed
+patch series is available at:
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index f2ce1f4975c1..f1515668c8ab 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -7917,6 +7917,22 @@ Kernel parameters
- 			first trust source as a backend which is initialized
- 			successfully during iteration.
- 
-+	trusted.debug=	[KEYS]
-+			Format: <bool>
-+			Enable trusted keys debug traces at runtime when
-+			CONFIG_TRUSTED_KEYS_DEBUG=y.
-+
-+			To make the traces visible after enabling the option,
-+			use trusted.dyndbg='+p' as needed. By convention,
-+			the subsystem uses pr_debug() for these traces.
-+
-+			SAFETY: The traces can leak sensitive data, so be
-+			cautious before enabling this. They remain inactive
-+			unless this parameter is set this option to  a true
-+			value.
-+
-+			Default: false
-+
- 	trusted.rng=	[KEYS]
- 			Format: <string>
- 			The RNG used to generate key material for trusted keys.
-diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-index 03527162613f..9f9940482da4 100644
---- a/include/keys/trusted-type.h
-+++ b/include/keys/trusted-type.h
-@@ -83,18 +83,21 @@ struct trusted_key_source {
- 
- extern struct key_type key_type_trusted;
- 
--#define TRUSTED_DEBUG 0
-+#ifdef CONFIG_TRUSTED_KEYS_DEBUG
-+extern bool trusted_debug;
- 
--#if TRUSTED_DEBUG
- static inline void dump_payload(struct trusted_key_payload *p)
- {
--	pr_info("key_len %d\n", p->key_len);
--	print_hex_dump(KERN_INFO, "key ", DUMP_PREFIX_NONE,
--		       16, 1, p->key, p->key_len, 0);
--	pr_info("bloblen %d\n", p->blob_len);
--	print_hex_dump(KERN_INFO, "blob ", DUMP_PREFIX_NONE,
--		       16, 1, p->blob, p->blob_len, 0);
--	pr_info("migratable %d\n", p->migratable);
-+	if (!trusted_debug)
-+		return;
-+
-+	pr_debug("key_len %d\n", p->key_len);
-+	print_hex_dump_debug("key ", DUMP_PREFIX_NONE,
-+			     16, 1, p->key, p->key_len, 0);
-+	pr_debug("bloblen %d\n", p->blob_len);
-+	print_hex_dump_debug("blob ", DUMP_PREFIX_NONE,
-+			     16, 1, p->blob, p->blob_len, 0);
-+	pr_debug("migratable %d\n", p->migratable);
- }
- #else
- static inline void dump_payload(struct trusted_key_payload *p)
-diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-keys/Kconfig
-index 9e00482d886a..e5a4a53aeab2 100644
---- a/security/keys/trusted-keys/Kconfig
-+++ b/security/keys/trusted-keys/Kconfig
-@@ -1,10 +1,29 @@
- config HAVE_TRUSTED_KEYS
- 	bool
- 
-+config HAVE_TRUSTED_KEYS_DEBUG
-+	bool
-+
-+config TRUSTED_KEYS_DEBUG
-+	bool "Debug trusted keys"
-+	depends on HAVE_TRUSTED_KEYS_DEBUG
-+	default n
-+	help
-+	  Trusted key backends and core code that support debug traces can
-+	  opt-in that feature here. Traces must only use debug level output, as
-+	  sensitive data may pass by. In the kernel-command line traces can be
-+	  enabled via trusted.dyndbg='+p'.
-+
-+	  SAFETY: Debug dumps are inactive at runtime until trusted.debug is set
-+	  to a true value on the kernel command-line. Use at your utmost
-+	  consideration when enabling this feature on a production build. The
-+	  general advice is not to do this.
-+
- config TRUSTED_KEYS_TPM
- 	bool "TPM-based trusted keys"
- 	depends on TCG_TPM >= TRUSTED_KEYS
- 	default y
-+	select HAVE_TRUSTED_KEYS_DEBUG
- 	select CRYPTO_HASH_INFO
- 	select CRYPTO_LIB_SHA1
- 	select CRYPTO_LIB_UTILS
-@@ -23,6 +42,7 @@ config TRUSTED_KEYS_TEE
- 	bool "TEE-based trusted keys"
- 	depends on TEE >= TRUSTED_KEYS
- 	default y
-+	select HAVE_TRUSTED_KEYS_DEBUG
- 	select HAVE_TRUSTED_KEYS
- 	help
- 	  Enable use of the Trusted Execution Environment (TEE) as trusted
-@@ -33,6 +53,7 @@ config TRUSTED_KEYS_CAAM
- 	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
- 	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
- 	default y
-+	select HAVE_TRUSTED_KEYS_DEBUG
- 	select HAVE_TRUSTED_KEYS
- 	help
- 	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
-@@ -42,6 +63,7 @@ config TRUSTED_KEYS_DCP
- 	bool "DCP-based trusted keys"
- 	depends on CRYPTO_DEV_MXS_DCP >= TRUSTED_KEYS
- 	default y
-+	select HAVE_TRUSTED_KEYS_DEBUG
- 	select HAVE_TRUSTED_KEYS
- 	help
- 	  Enable use of NXP's DCP (Data Co-Processor) as trusted key backend.
-@@ -50,6 +72,7 @@ config TRUSTED_KEYS_PKWM
- 	bool "PKWM-based trusted keys"
- 	depends on PSERIES_PLPKS >= TRUSTED_KEYS
- 	default y
-+	select HAVE_TRUSTED_KEYS_DEBUG
- 	select HAVE_TRUSTED_KEYS
- 	help
- 	  Enable use of IBM PowerVM Key Wrapping Module (PKWM) as a trusted key backend.
-diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-index 601943ce0d60..6a33dbf2a7f5 100644
---- a/security/keys/trusted-keys/trusted_caam.c
-+++ b/security/keys/trusted-keys/trusted_caam.c
-@@ -28,10 +28,13 @@ static const match_table_t key_tokens = {
- 	{opt_err, NULL}
- };
- 
--#ifdef CAAM_DEBUG
-+#ifdef CONFIG_TRUSTED_KEYS_DEBUG
- static inline void dump_options(const struct caam_pkey_info *pkey_info)
- {
--	pr_info("key encryption algo %d\n", pkey_info->key_enc_algo);
-+	if (!trusted_debug)
-+		return;
-+
-+	pr_debug("key encryption algo %d\n", pkey_info->key_enc_algo);
- }
- #else
- static inline void dump_options(const struct caam_pkey_info *pkey_info)
-diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-index 0b142d941cd2..6aed17bee09d 100644
---- a/security/keys/trusted-keys/trusted_core.c
-+++ b/security/keys/trusted-keys/trusted_core.c
-@@ -31,6 +31,12 @@ static char *trusted_rng = "default";
- module_param_named(rng, trusted_rng, charp, 0);
- MODULE_PARM_DESC(rng, "Select trusted key RNG");
- 
-+#ifdef CONFIG_TRUSTED_KEYS_DEBUG
-+bool trusted_debug;
-+module_param_named(debug, trusted_debug, bool, 0);
-+MODULE_PARM_DESC(debug, "Enable trusted keys debug traces (default: 0)");
-+#endif
-+
- static char *trusted_key_source;
- module_param_named(source, trusted_key_source, charp, 0);
- MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee, caam, dcp or pkwm)");
-diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-index 6ea728f1eae6..13513819991e 100644
---- a/security/keys/trusted-keys/trusted_tpm1.c
-+++ b/security/keys/trusted-keys/trusted_tpm1.c
-@@ -46,38 +46,44 @@ enum {
- 	SRK_keytype = 4
- };
- 
--#define TPM_DEBUG 0
--
--#if TPM_DEBUG
-+#ifdef CONFIG_TRUSTED_KEYS_DEBUG
- static inline void dump_options(struct trusted_key_options *o)
- {
--	pr_info("sealing key type %d\n", o->keytype);
--	pr_info("sealing key handle %0X\n", o->keyhandle);
--	pr_info("pcrlock %d\n", o->pcrlock);
--	pr_info("pcrinfo %d\n", o->pcrinfo_len);
--	print_hex_dump(KERN_INFO, "pcrinfo ", DUMP_PREFIX_NONE,
--		       16, 1, o->pcrinfo, o->pcrinfo_len, 0);
-+	if (!trusted_debug)
-+		return;
-+
-+	pr_debug("sealing key type %d\n", o->keytype);
-+	pr_debug("sealing key handle %0X\n", o->keyhandle);
-+	pr_debug("pcrlock %d\n", o->pcrlock);
-+	pr_debug("pcrinfo %d\n", o->pcrinfo_len);
-+	print_hex_dump_debug("pcrinfo ", DUMP_PREFIX_NONE,
-+			     16, 1, o->pcrinfo, o->pcrinfo_len, 0);
- }
- 
- static inline void dump_sess(struct osapsess *s)
- {
--	print_hex_dump(KERN_INFO, "trusted-key: handle ", DUMP_PREFIX_NONE,
--		       16, 1, &s->handle, 4, 0);
--	pr_info("secret:\n");
--	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE,
--		       16, 1, &s->secret, SHA1_DIGEST_SIZE, 0);
--	pr_info("trusted-key: enonce:\n");
--	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE,
--		       16, 1, &s->enonce, SHA1_DIGEST_SIZE, 0);
-+	if (!trusted_debug)
-+		return;
-+
-+	print_hex_dump_debug("trusted-key: handle ", DUMP_PREFIX_NONE,
-+			     16, 1, &s->handle, 4, 0);
-+	pr_debug("secret:\n");
-+	print_hex_dump_debug("", DUMP_PREFIX_NONE,
-+			     16, 1, &s->secret, SHA1_DIGEST_SIZE, 0);
-+	pr_debug("trusted-key: enonce:\n");
-+	print_hex_dump_debug("", DUMP_PREFIX_NONE,
-+			     16, 1, &s->enonce, SHA1_DIGEST_SIZE, 0);
- }
- 
- static inline void dump_tpm_buf(unsigned char *buf)
- {
- 	int len;
- 
--	pr_info("\ntpm buffer\n");
-+	if (!trusted_debug)
-+		return;
-+	pr_debug("\ntpm buffer\n");
- 	len = LOAD32(buf, TPM_SIZE_OFFSET);
--	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE, 16, 1, buf, len, 0);
-+	print_hex_dump_debug("", DUMP_PREFIX_NONE, 16, 1, buf, len, 0);
- }
- #else
- static inline void dump_options(struct trusted_key_options *o)
--- 
-2.39.5
-
+https://lore.kernel.org/all/20260415-bootconfig_earlier-v1-0-cf160175de5e@debian.org/
