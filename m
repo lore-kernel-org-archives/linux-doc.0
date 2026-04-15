@@ -1,106 +1,132 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3842A3D3339;
-	Wed, 15 Apr 2026 14:03:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776261842; cv=none; b=RFaejnPRagqd5s4Nryxl8F+6Maaz712Kgr4ZuBpyUznNuy7WpOr4tH4ZVJT9QKk9pfdyjtVlx8CKT994YyHW8LoZ1RgkMbAlY1PAKSxzCuJfdPu8SMRkvLfdD1DA36hL7Dr6uDKz/D/mqFVp3/6H+dNt3/+q4xf59ETq5/fUJYw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776261842; c=relaxed/simple;
-	bh=aWGSn3CN9S+IbpjM6b+2zZExgq1YLo7wgpfx+ae9Qt4=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=m6Tp5fk1XNbS/kWJbDjmEpfxf4dSzs2F8QW1zZEHTv/7QRob83Qi5Ys4vrWAZgwMBLWsL6sGkCYthSsiPk0lkXcn40U1EAjKnWKMaYwt0gBnLLU52l6VedeFDdPnFn+S6XU53ajexEG/8984EYAbvsPhSEB8xxe0Bw6fPxDiQWM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=UGOeCFuc; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACA42459CF
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 14:05:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.160.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776261906; cv=pass; b=KcxBbfnNJmfE+HcC+LLIh9Nd5H83U4UQqZuTkqCHbKk318negmcOpPp2RG1bTTUMxmvm0BC5RqLwvNq+37h8qUZaC4vTMViY1tAPO/QQRIGo9W6GDcErzdX4bijt9EAcWHK9F6FgXi8EFl2C9Gzzi632vmqUT+5GRRXwPdQK2k0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776261906; c=relaxed/simple;
+	bh=OuxoKfF1eIFYHXEVVTIuTwEbgi2RzLTEr5xC4F2+szE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RKrOn7Qm+iLSp0bZaTdFZNLbpe64aNuDwyu/277H3q6F7oivufcuq648NIRp9PLMLQUIiMeP7Nwa+wSXmviSIz6nMCdZKe572CNxc87Sv/elDI23PtXyoMOEMpGzCHVjs/ksgwonlD9B+mIW/yISpM2Y3SrvyFcOED+r33tAwdA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=ekVbcIdZ; arc=pass smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="UGOeCFuc"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id EBFAB2715F;
-	Wed, 15 Apr 2026 16:03:49 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id mkeiFiIQuqGz; Wed, 15 Apr 2026 16:03:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1776261829; bh=aWGSn3CN9S+IbpjM6b+2zZExgq1YLo7wgpfx+ae9Qt4=;
-	h=Date:To:Cc:Subject:From:References:In-Reply-To;
-	b=UGOeCFucyHI3hsMEzq+/IOCQghT92u4U5lbNFTK7yaZM5Im1gRhbEPt5K6bf0xFq5
-	 B8oPsO5I4T1lNZiKuJ2NK6wyUMsVX8ALWlE0kZJdXL3R1wPHHNesUNnXQT2oVBuzuG
-	 WHw1hajTx4dB+Gbq69JItu5tz52Thsy74H8wIA/BOha9CYlcKQgtdhZST6ruKMkfBN
-	 s14aBNvndqe48+vxH1M6+Fl4kH8bZWkFzIWweIaEHvNBUECZfgoTTfcf3JkVbPo6C4
-	 k9nexMRmR7+fb2PK7QHQPZNdYfgeqo3AEA/VDl9rFGks1SSMyJdRSqPUTrcqUYhmsf
-	 bmRI5V3O5YWWg==
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="ekVbcIdZ"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-50baf2df711so54784981cf.2
+        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 07:05:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776261904; cv=none;
+        d=google.com; s=arc-20240605;
+        b=cnU3wWUpf+tUxLPkK4ZvqZYxgWDbGTqJMoAbyhwKPEQpPH+f0ls9FOTpHQrlAUoJ6q
+         JuSTYdvozu+WYd5zqNkRcMq9HrN6sfiz6x4TCRlBj8dIf0RNmfSRXE+zriwg6m3E65tq
+         +LIJgcaKn+KYN7unpRWaK29YOD+/MPZu8x/7nVyaunyQ339nHoroL/3bIyXF7TEoifhm
+         gaNlYO3ND8JwFoUdC9YKJoBDF6qXZGPdDMUxzulwpQpIkwMAA6/MlzJ2uyTZe2CZ+jJ7
+         3VlvffpiblIL9pnv3Tn7QajqbqAUS3jAUe0n1JhKBvCo/PyM7MvXRDn6wEmvY3UDDGYC
+         K5rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Nn6fMxeMg8FDWayAItzG5oIgCrdJaKGk/78HcE957DA=;
+        fh=4eKrNglcTeCffzJg5SKnY6FQ141DgDcqUUz59sCWaxM=;
+        b=MkOyXe1XhzEh/JhRKciW2+97guGVC3Qj6juMY/oipWM5yoU11fM+/aW0daqB6/KF3V
+         JFGc7KMcRJ62YmTeZeMlOk7VQv8KLQav1QBloPGFk/V0gMPCX5eFpnmMx74nk2AyfBOF
+         Hd9Z/i2CAg42t3vOi2uoNu/l/s1lvAdFshnp+A+Dy17d2lEb87JDVOh4gQnL+/8RFzwL
+         srgb/jnQEaY8X79Q4iaXkXsrnj37XSJOBq/RoOyOjRoh+DrXlO4mhODWFsO1dbRk6By/
+         +onwNxhb0SRJorcb/OmtkpWpqwXSIaHTgnbC6L+w3a0X8erFgUsiycvPK76JnLTPZifP
+         yH/Q==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1776261904; x=1776866704; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nn6fMxeMg8FDWayAItzG5oIgCrdJaKGk/78HcE957DA=;
+        b=ekVbcIdZQI29b+3fJvGFFAIcMiRWw0JQnGl2jXt0eUF/NbJXxRCA6/0u4ZrPdPzn5C
+         hpopkgk1KEC7PJoE2+NCfBogXftvcBXM3EKMQnna5/JTG6FnQlSDzYB+R9tAyhP6JuBn
+         jEaev1RMbJw9SdD2+nFsnm6cRn2EoDaA3p42c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776261904; x=1776866704;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Nn6fMxeMg8FDWayAItzG5oIgCrdJaKGk/78HcE957DA=;
+        b=Fa60SRM3LNa1n7E6+N2ZeTkOlwXGCgN1hqmAIDtQg7olPhTheXPPOTy9dbhXqeIU1F
+         ODxEEKrTrjaPthcl3xlxFgKBC0Kwx5TFSz1osqUZtglVPFhlT8L3LEl70amVbzLIy4ho
+         PEhRjN8dRjJ00RaxF3gnBB4TtKdShVsA7tUFO5/rNID3q1CJGs87cHLR2xImIr5VI3cd
+         Pci7W4xcYCzDhfCgqNBHSHoqDX4/Qs+SPtzyD1QC9R1prtQHbI44v3/t/yqsggM5z6F6
+         gFbIWGX8JuI8BKcLU6vceR3KxqY/skzOYE7I9gpOoC3Aruk4PwuMaM+klnKW/4AZLa2A
+         rtvA==
+X-Forwarded-Encrypted: i=1; AFNElJ9/3RWy3kXmEc5AuxkQXzNhLGM7GXh5MduLOYLhZUGcNbV8YuP6SbPyTQvII5FAJbr02vd0FXbkKpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzuuYJxxzJWkWVIs+wK1D3TfFkOecn21okDCKN3VTQB/B05aCB/
+	RhUbnvm3UF4r9/IjfBS3qMPyhqj6W6ugmextY8/RN1ubeB8jxt2ezfwLSDLIvLTCXnVqRLcaziU
+	V0PAEJoiTDgIK0oUn2jlCmR5mlOHtYmsj+AnLce5ibg==
+X-Gm-Gg: AeBDiev0emJUIO06abLRMXZDg2yYrDxMMjzysUft+LMY91TZzaUsDjiYV2Fj3m/CCs1
+	pzhz1cvkbFMCNHe6cxHkXiXuqviho6ZZXFWNK0xpo6Tt5NhzaBeStdwyDPIGJ+y7Zor4/IYIT8I
+	myKDFnD7JA64Pc2MgNJ+tulCegTx0gvc3DTA6Gx2pm/xSf3en7bDWS9b+NeMMKvjjzRUEvNdUPH
+	L4KGsYL12XLdwQusKa/AtNQg0X8zDz6gndGLNW9mtGWu8Xz3XpG6TLxiuVOq8gQV528XY8+Zs4E
+	TxJwtzrXF8mrouSZxGxUvJ46SkZobDSlM9I6
+X-Received: by 2002:ac8:57d4:0:b0:50b:567a:e915 with SMTP id
+ d75a77b69052e-50dd5c10ad8mr322793641cf.64.1776261903663; Wed, 15 Apr 2026
+ 07:05:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 15 Apr 2026 19:33:35 +0530
-Message-Id: <DHTS9H2EIM2D.2TC17F9WBOOR1@disroot.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Kaustabh Chakraborty"
- <kauschluss@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v4 04/13] dt-bindings: power: supply: document Samsung
- S2M series PMIC charger device
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-References: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
- <20260414-s2mu005-pmic-v4-4-7fe7480577e6@disroot.org>
- <20260415-swinging-radical-junglefowl-85dcf7@quoll>
-In-Reply-To: <20260415-swinging-radical-junglefowl-85dcf7@quoll>
+MIME-Version: 1.0
+References: <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F> <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
+ <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
+In-Reply-To: <ad-UAMcALRubBcHk@gourry-fedora-PF4VCD3F>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Wed, 15 Apr 2026 16:04:50 +0200
+X-Gm-Features: AQROBzArU4_0DWulqMJjaZBbvqSvSBgOVsWveoXthohq7f36XvJ72ClRliOsfUQ
+Message-ID: <CAJfpegsUVv0ziMSQiq9pKeXf6G-+LROPTW077hHMSmAirVCLQw@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: Gregory Price <gourry@gourry.net>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, "Darrick J. Wong" <djwong@kernel.org>, John Groves <John@groves.net>, 
+	Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>, 
+	John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, Alison Schofield <alison.schofield@intel.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 2026-04-15 09:18 +02:00, Krzysztof Kozlowski wrote:
-> On Tue, Apr 14, 2026 at 12:02:56PM +0530, Kaustabh Chakraborty wrote:
->> +description: |
->> +  The Samsung S2M series PMIC battery charger manages power interfacing
->> +  of the USB port. It may supply power, as done in USB OTG operation
->> +  mode, or it may accept power and redirect it to the battery fuelgauge
->> +  for charging.
->> +
->> +  This is a part of device tree bindings for S2M and S5M family of Powe=
-r
->> +  Management IC (PMIC).
->> +
->> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml f=
-or
->> +  additional information and example.
->> +
->> +allOf:
->> +  - $ref: power-supply.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - samsung,s2mu005-charger
->> +
->> +  port:
->> +    $ref: /schemas/graph.yaml#/properties/port
->
-> That port is internal part of the device, thus should be dropped which
-> leaves you with only one property - monitored battery - and therefore
-> fold the node into the parent node.
+On Wed, 15 Apr 2026 at 15:35, Gregory Price <gourry@gourry.net> wrote:
 
-And that monitored-battery belongs to power-supply.yaml. Do I then
-include the allOf block in the mfd/samsung,s2mps11.yaml under the
-s2mu005 compatible?
+> This was my first reaction when I realized the BPF program would be
+> controlling iomap return value in the fault path.  Big ol' (!)  popped
+> up over my head.
 
->
-> Best regards,
-> Krzysztof
+I'm wondering which part of this triggers the big (!).
 
+BPF program being run in the fault path?
+
+Or that the return value from the BPF function is used as iomap?
+
+Or something else?
+
+Thanks,
+Miklos
