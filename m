@@ -1,153 +1,334 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www537.your-server.de (www537.your-server.de [188.40.3.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59D4E37FF6A
-	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 05:41:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D6238A721;
+	Wed, 15 Apr 2026 06:24:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.3.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776231671; cv=none; b=bEuIyEI35m9GB0tiUInWup+jBhcE8g5d1EMIslWuLmkJqREwCVlJgzNQzH3d0xOggCag4HRHjpaR80ZtvYQ5Al0sEtmRNJdQBlxZPddwy/rfUU9dtP/Wf22+gWW37rbCVkClC8+/XLbnVRNPjTQozAVDFg6gRSoB7Lm4iBqbFgs=
+	t=1776234270; cv=none; b=fPJjvNP2j01hGrzJJ3inJnbQH7CT5qqRNNGl3vbVCRpDtNQ5AUoXtKQdr8dmNC5YI3wcRv5/DH1AcI2Sp++ISfYQUnRAi/Pqin39myEIpqJX0j3nbDmOwPcclegm/u4o+V2HQ9s3gAf7w8ffPU0TISIBfjglxSSWpSCVE2krojI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776231671; c=relaxed/simple;
-	bh=eCKwA+qiIqZQlfpRKzHylf5F6sp/2pJwdf1EC9B0u+0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bgdAcN6ELh18/7JsOwHVuY+Spxdz297dkFnxOfImHyDA729pwZlTpTpV07z2MCdmfqbOt9U17OsLa4P9SKZEUYVRjtltWk3YM8wWNeeeY4QWevDzCOuf2emnSqRWjBdbiU+pyKyZVrFf0EBUPcRv207kEHXe4BzPHa/vot3Qts4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IvFZqfAV; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776234270; c=relaxed/simple;
+	bh=BFVHN3I7gfk9e1GzV/aQxQYDBFEid/EYjJjrCi8oulA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DklYmfGweCWxtzMaO/7lXoskxT6xflpEHJeS8B4YdfUs1oFW5u2NDoLXDhLwuB5PB+WwxGoGSTeFv8lW1sUAaAnOhSKVXIP/FCRPLVk1Qj1vdqZAFQ1l7f3fVkQ7y2SybuZCfXPSvayuiNcvxa4xoyAA4hgv4rhqMd+tvu8KmzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=UtOXXLwr; arc=none smtp.client-ip=188.40.3.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IvFZqfAV"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82ce2e2880cso4107489b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 14 Apr 2026 22:41:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776231670; x=1776836470; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=NuVV5te/UoQgVIHGlgzu/ETtLjtQKCtAInlwfOwxg8w=;
-        b=IvFZqfAV0u8C0uYS9jKNSXCreVAWAAFQCZJX0tQgJDf8LcFHgAJIt6Z19sfS98Ad/A
-         nB+0ACgV4lmQ2E8D8w4DBjZn5Q0NIngalv1ilTxKWUqtadFxw8IE2+M6TuDiYMTWXAib
-         DIZszUgghkSocQH/LLY6Z19FednB+KIEkgQ6/giNb9Xvgpd4B6LMnVaVnQLRzjmRwGvF
-         n6emK7gp0Scw4/lTknO+FgcfyC945VDnGvm16dd7OyXKcsFPurHogI/vPlCDpfp8iPAX
-         Iyx2c6Ab3x7D7Pqa1LPdbwSfCnAGbSZfb73MPqrTEPokitgHGIy3M79MJvWFAAtzFvF2
-         22Kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776231670; x=1776836470;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NuVV5te/UoQgVIHGlgzu/ETtLjtQKCtAInlwfOwxg8w=;
-        b=lwqg1EaWyEzcYtP0EvwIQXlalvcoY5UTqZORdsDjFDwwpQhNxQa0gOjcemC9ZdeTtE
-         QNsG0j1B3BO8RgZAqqWp/slO675pf32fwbWxukPM/vQiSODt+7FUpgPUKH62QxKzfq4I
-         mnA0w41YTv1Qvdnmwf8OzBT73+NeKWi/cn0mo285VE2QmcLgZaRB2suBWEaSZUBtB/h2
-         ss0jeAjr1QyjRiWNGknN6260wj5ouDE5sH63ftO/yHdEyTM4EXGJfNr9sdLDvWyR+jbo
-         PX4a3yQ/StVovcB8i+i5tx84kJ6Ilf8dMOPEiSSUFjXGdJE3MF2kLRENKQWNEoP1ccBT
-         1Dnw==
-X-Forwarded-Encrypted: i=1; AFNElJ8Y0k6IXAr2Ei7CEN9YUt0hcl6sKSjIJU7zIktKIQMJq71JXW5hSFbIqAtSim32YWnJz4ivaYvTyqQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/guLJcGJL5t2V2jakQwpLWtBgyZ4zmfZ/xLyqWM4zL0b2bgm0
-	RRoH7ZOseBlKSKxSwN2E+ZfqEAb5C+kfu1bXMsuuCWtasNw2hVAjTXrS
-X-Gm-Gg: AeBDieuU6j9CE46CJF+W25I1CxJ0I9g7QhodmZS4oRnfhe5OFhgWvSDwvcCev/BZPpI
-	zbyL4YHUZi8qN9zjYNOUdoBaCl4wqa4lHpq5HVkVfI8tmCn0a3BXJ6gazZk0QLEPLQOaDTyXw3U
-	5uNkyuMIyJ6AEGzxlFpAd9VshSRxuaKfc0FNNX6mjpHLuGIJ6v15YHrKVOpGZLNiTG3b4EsMysN
-	3C3vkTjlXDJznSOkOQakd+wmTcnJ5gUSBV6LvHP88jiD5qaqYE/bRvWUmA/bCDHnEzKeOhk0n/o
-	YGCyplwyj6JH4GK15lhKOh1dH0CcsYr2AnloFJQnFk2pwSKzqXriXs5Q8KZ73XowRz5PL5vH1WF
-	z9W5Fe7EaLIgpJaqVJ9UX0dQnKIhKpU+StsORUmRVXYX92wLhqcgCmLZ2d0Hv3QG74/t6hSAZRk
-	Plfy89sSN1kaVfDYS3s6UiyE+HhSScJlP/58PrIuzEyCeBN84TlpDr5opBJFoXgHzuOetZ76NLM
-	GwxwvqLSED+dCz7ahk5
-X-Received: by 2002:a05:6a00:1947:b0:82c:70a8:faee with SMTP id d2e1a72fcca58-82f0c1d9e1dmr19993166b3a.6.1776231669692;
-        Tue, 14 Apr 2026 22:41:09 -0700 (PDT)
-Received: from ?IPV6:2405:6e00:634:7891:2b45:7371:96b8:aba1? ([2405:6e00:634:7891:2b45:7371:96b8:aba1])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f67411135sm804502b3a.42.2026.04.14.22.41.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Apr 2026 22:41:09 -0700 (PDT)
-Message-ID: <d525b70d-ada5-45a9-be5d-2377a1707aef@gmail.com>
-Date: Wed, 15 Apr 2026 15:40:58 +1000
+	dkim=pass (2048-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="UtOXXLwr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=ew.tq-group.com; s=default2602; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=cKvxKrEAPFq/y0IpQgm674FoRAJX/pUpi5+a8m7Kle8=; b=UtOXXLwrRkelyZ5PhfZiAj7mA0
+	HcTNrUWE4mTvsBHTkJkOPbEBh5qsWH2bp3xXxKTXe05kO58vTkrJJz0ySA8L9Kgc4GWPA9sHgB28b
+	vUGKOU2tN7GkDSH34K4SHKAme+oaZnf1ZkFB4+2ouUcdu+UKWJrQL9tz6kuu14B3jxyPcQGuu+90Z
+	IZiQSwSiuGf9Mnnxb70GsSJoX9TJbc0okZZUNzZDeQEOU5F3L4BhDOK1pkE4VTUBEtM70lw5aFiQO
+	cKVNZiZcvqNg6QfVsiMGat7ZkJHC+wNRiDtaRH7GX4pzm1F6KwwL/Wj+afuBr6f4jjbFiuyOglal0
+	kE79p83w==;
+Received: from sslproxy08.your-server.de ([78.47.166.52])
+	by www537.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wCtfj-000FBS-2d;
+	Wed, 15 Apr 2026 08:24:23 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <alexander.stein@ew.tq-group.com>)
+	id 1wCtfi-0008bK-1w;
+	Wed, 15 Apr 2026 08:24:23 +0200
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ Mark Brown <broonie@kernel.org>, Mark Brown <broonie@kernel.org>
+Subject:
+ Re: [PATCH 1/8] arm64/hwcap: Generate the KERNEL_HWCAP_ definitions for the
+ hwcaps
+Date: Wed, 15 Apr 2026 08:24:22 +0200
+Message-ID: <8745494.GXAFRqVoOG@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20260302-arm64-dpisa-2025-v1-1-0855e7f41689@kernel.org>
+References:
+ <20260302-arm64-dpisa-2025-v1-0-0855e7f41689@kernel.org>
+ <20260302-arm64-dpisa-2025-v1-1-0855e7f41689@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC net-next 1/3] net/tls_sw: support randomized zero padding
-To: Alistair Francis <Alistair.Francis@wdc.com>,
- Wilfred Mallawa <wilfred.mallawa@wdc.com>, "kuba@kernel.org"
- <kuba@kernel.org>
-Cc: "corbet@lwn.net" <corbet@lwn.net>, "dlemoal@kernel.org"
- <dlemoal@kernel.org>, "davem@davemloft.net" <davem@davemloft.net>,
- "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
- "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
- "sd@queasysnail.net" <sd@queasysnail.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "pabeni@redhat.com" <pabeni@redhat.com>,
- "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "edumazet@google.com" <edumazet@google.com>,
- "horms@kernel.org" <horms@kernel.org>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>
-References: <20260309054837.2299732-2-wilfred.opensource@gmail.com>
- <20260309054837.2299732-3-wilfred.opensource@gmail.com>
- <abQOGm6BqAE5eEln@krikkit> <20260314073919.2f92b966@kernel.org>
- <9e9f6eb89ba95e9fbb764e2807420e98b566bf37.camel@wdc.com>
- <20260316180355.37d45785@kernel.org>
- <8f29d43fc1fd7e6feec4c24131eb2c0292a8c0fd.camel@wdc.com>
- <20260316183023.2fb38d84@kernel.org>
- <64cb821cc09226155059807cb0bcdbc51ae8d0d6.camel@wdc.com>
- <49513ee4347536e7c8419e9e65b8c619a8c665bb.camel@wdc.com>
-Content-Language: en-US, en-ZM
-From: Wilfred Mallawa <wilfred.opensource@gmail.com>
-In-Reply-To: <49513ee4347536e7c8419e9e65b8c619a8c665bb.camel@wdc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27971/Tue Apr 14 08:24:44 2026)
 
->>> Sorry, I realized when i hit "send" that I phrased my previous
->>> message
->>> poorly. When I say "potential" I mean someone actually presenting a
->>> PoC
->>> and a CVE is issued for it. Have we seen any of those?
-> In 2014 a group at UC Berkeley used HTTPS traffic analysis to identify:
->
-> "individual pages in the same web-site with 90% accuracy, exposing
-> personal details including medical conditions, financial and legal
-> affairs and sexual orientation."
->
-> They used machine learning to help and that was over 10 years ago. So I
-> suspect modern day machine learning would make this even easier to do
-> today.
->
-> Obviously that is HTTP traffic, which is different to the NVMe-TCP
-> traffic this series is targeting, but it does still seem like a real
-> concern.
->
-> They talk about a range of defences in the paper, with tradeoffs
-> between all of them. But the linear defence seems like the one that is
-> applicable here:
->
-> "linear defense pads all packet sizes up to multiples of 128"
->
-> The linear defence seems to reduce the Pan attack from 60% to around
-> 25% and the BoG attack from 90% to around 60%.
->
-> On top of that the
->
-> "Burst defense offers greater protection, operating between the TCP
-> layer and application layer to pad contiguous bursts of traffic up to 
-> predefined thresholds uniquely determined for each website"
->
-> Which to me sounds like the random padding proposed in this series
-> would provide more protection then the basic linear padding used in the
-> paper.
->
-> To me analysing TLS traffic does seem like a plausible threat and
-> something that randomised padding would help with. Leaving it up to
-> userspace to decide based on their threat model seems like a good
-> approach as well.
->
-> 1: https://secml.cs.berkeley.edu/pets2014/
->
-> Alistair
+Am Montag, 2. M=E4rz 2026, 23:53:16 CEST schrieb Mark Brown:
+> Currently for each hwcap we define both the HWCAPn_NAME definition which =
+is
+> exposed to userspace and a kernel internal KERNEL_HWCAP_NAME definition
+> which we use internally. This is tedious and repetitive, instead use a
+> script to generate the KERNEL_HWCAP_ definitions from the UAPI definition=
+s.
+>=20
+> No functional changes intended.
 
-gentle ping. Are there any further thoughts on adding this support?
+Somehow this change causes to delete and generate kernel-hwcap.h on each
+make call. This results in compiling essentially everything each time.
 
-Wilfred
+$ make Image
+make[1]: Entering directory '/linux/build_arm64'
+  REMOVE  arch/arm64/include/generated/asm/kernel-hwcap.h
+  GEN     arch/arm64/include/generated/asm/kernel-hwcap.h
+  CC      arch/arm64/kernel/asm-offsets.s
+  CC      kernel/sched/rq-offsets.s
+^Cmake[3]: *** Deleting file 'kernel/sched/rq-offsets.s'
+make[3]: *** [../scripts/Makefile.build:184: kernel/sched/rq-offsets.s] Int=
+errupt
+make[2]: *** [/linux/Makefile:1371: prepare0] Interrupt
+make[1]: *** [/linux/Makefile:248: __sub-make] Interrupt
+make: *** [Makefile:248: __sub-make] Interrupt
+
+make Image
+make[1]: Entering directory '/linux/build_arm64'
+  REMOVE  arch/arm64/include/generated/asm/kernel-hwcap.h
+  GEN     arch/arm64/include/generated/asm/kernel-hwcap.h
+  CC      arch/arm64/kernel/asm-offsets.s
+  CC      kernel/sched/rq-offsets.s
+  CC      arch/arm64/kernel/vdso/vgettimeofday.o
+  LD      arch/arm64/kernel/vdso/vdso.so.dbg
+  VDSOSYM include/generated/vdso-offsets.h
+  OBJCOPY arch/arm64/kernel/vdso/vdso.so
+  CC      init/version.o
+^Cmake[4]: *** [../scripts/Makefile.build:289: init/version.o] Interrupt
+make[3]: *** [../scripts/Makefile.build:548: init] Interrupt
+make[2]: *** [/linux/Makefile:2140: .] Interrupt
+make[1]: *** [/linux/Makefile:248: __sub-make] Interrupt
+make: *** [Makefile:248: __sub-make] Interrupt
+
+Best regards,
+Alexander
+
+>=20
+> Signed-off-by: Mark Brown <broonie@kernel.org>
+> ---
+>  arch/arm64/include/asm/hwcap.h        | 120 +---------------------------=
+=2D-----
+>  arch/arm64/tools/Makefile             |   8 ++-
+>  arch/arm64/tools/gen-kernel-hwcaps.sh |  23 +++++++
+>  3 files changed, 32 insertions(+), 119 deletions(-)
+>=20
+> diff --git a/arch/arm64/include/asm/hwcap.h b/arch/arm64/include/asm/hwca=
+p.h
+> index 72ea4bda79f3..abe8218b2325 100644
+> --- a/arch/arm64/include/asm/hwcap.h
+> +++ b/arch/arm64/include/asm/hwcap.h
+> @@ -60,126 +60,10 @@
+>   * of KERNEL_HWCAP_{feature}.
+>   */
+>  #define __khwcap_feature(x)		const_ilog2(HWCAP_ ## x)
+> -#define KERNEL_HWCAP_FP			__khwcap_feature(FP)
+> -#define KERNEL_HWCAP_ASIMD		__khwcap_feature(ASIMD)
+> -#define KERNEL_HWCAP_EVTSTRM		__khwcap_feature(EVTSTRM)
+> -#define KERNEL_HWCAP_AES		__khwcap_feature(AES)
+> -#define KERNEL_HWCAP_PMULL		__khwcap_feature(PMULL)
+> -#define KERNEL_HWCAP_SHA1		__khwcap_feature(SHA1)
+> -#define KERNEL_HWCAP_SHA2		__khwcap_feature(SHA2)
+> -#define KERNEL_HWCAP_CRC32		__khwcap_feature(CRC32)
+> -#define KERNEL_HWCAP_ATOMICS		__khwcap_feature(ATOMICS)
+> -#define KERNEL_HWCAP_FPHP		__khwcap_feature(FPHP)
+> -#define KERNEL_HWCAP_ASIMDHP		__khwcap_feature(ASIMDHP)
+> -#define KERNEL_HWCAP_CPUID		__khwcap_feature(CPUID)
+> -#define KERNEL_HWCAP_ASIMDRDM		__khwcap_feature(ASIMDRDM)
+> -#define KERNEL_HWCAP_JSCVT		__khwcap_feature(JSCVT)
+> -#define KERNEL_HWCAP_FCMA		__khwcap_feature(FCMA)
+> -#define KERNEL_HWCAP_LRCPC		__khwcap_feature(LRCPC)
+> -#define KERNEL_HWCAP_DCPOP		__khwcap_feature(DCPOP)
+> -#define KERNEL_HWCAP_SHA3		__khwcap_feature(SHA3)
+> -#define KERNEL_HWCAP_SM3		__khwcap_feature(SM3)
+> -#define KERNEL_HWCAP_SM4		__khwcap_feature(SM4)
+> -#define KERNEL_HWCAP_ASIMDDP		__khwcap_feature(ASIMDDP)
+> -#define KERNEL_HWCAP_SHA512		__khwcap_feature(SHA512)
+> -#define KERNEL_HWCAP_SVE		__khwcap_feature(SVE)
+> -#define KERNEL_HWCAP_ASIMDFHM		__khwcap_feature(ASIMDFHM)
+> -#define KERNEL_HWCAP_DIT		__khwcap_feature(DIT)
+> -#define KERNEL_HWCAP_USCAT		__khwcap_feature(USCAT)
+> -#define KERNEL_HWCAP_ILRCPC		__khwcap_feature(ILRCPC)
+> -#define KERNEL_HWCAP_FLAGM		__khwcap_feature(FLAGM)
+> -#define KERNEL_HWCAP_SSBS		__khwcap_feature(SSBS)
+> -#define KERNEL_HWCAP_SB			__khwcap_feature(SB)
+> -#define KERNEL_HWCAP_PACA		__khwcap_feature(PACA)
+> -#define KERNEL_HWCAP_PACG		__khwcap_feature(PACG)
+> -#define KERNEL_HWCAP_GCS		__khwcap_feature(GCS)
+> -#define KERNEL_HWCAP_CMPBR		__khwcap_feature(CMPBR)
+> -#define KERNEL_HWCAP_FPRCVT		__khwcap_feature(FPRCVT)
+> -#define KERNEL_HWCAP_F8MM8		__khwcap_feature(F8MM8)
+> -#define KERNEL_HWCAP_F8MM4		__khwcap_feature(F8MM4)
+> -#define KERNEL_HWCAP_SVE_F16MM		__khwcap_feature(SVE_F16MM)
+> -#define KERNEL_HWCAP_SVE_ELTPERM	__khwcap_feature(SVE_ELTPERM)
+> -#define KERNEL_HWCAP_SVE_AES2		__khwcap_feature(SVE_AES2)
+> -#define KERNEL_HWCAP_SVE_BFSCALE	__khwcap_feature(SVE_BFSCALE)
+> -#define KERNEL_HWCAP_SVE2P2		__khwcap_feature(SVE2P2)
+> -#define KERNEL_HWCAP_SME2P2		__khwcap_feature(SME2P2)
+> -#define KERNEL_HWCAP_SME_SBITPERM	__khwcap_feature(SME_SBITPERM)
+> -#define KERNEL_HWCAP_SME_AES		__khwcap_feature(SME_AES)
+> -#define KERNEL_HWCAP_SME_SFEXPA		__khwcap_feature(SME_SFEXPA)
+> -#define KERNEL_HWCAP_SME_STMOP		__khwcap_feature(SME_STMOP)
+> -#define KERNEL_HWCAP_SME_SMOP4		__khwcap_feature(SME_SMOP4)
+> -
+>  #define __khwcap2_feature(x)		(const_ilog2(HWCAP2_ ## x) + 64)
+> -#define KERNEL_HWCAP_DCPODP		__khwcap2_feature(DCPODP)
+> -#define KERNEL_HWCAP_SVE2		__khwcap2_feature(SVE2)
+> -#define KERNEL_HWCAP_SVEAES		__khwcap2_feature(SVEAES)
+> -#define KERNEL_HWCAP_SVEPMULL		__khwcap2_feature(SVEPMULL)
+> -#define KERNEL_HWCAP_SVEBITPERM		__khwcap2_feature(SVEBITPERM)
+> -#define KERNEL_HWCAP_SVESHA3		__khwcap2_feature(SVESHA3)
+> -#define KERNEL_HWCAP_SVESM4		__khwcap2_feature(SVESM4)
+> -#define KERNEL_HWCAP_FLAGM2		__khwcap2_feature(FLAGM2)
+> -#define KERNEL_HWCAP_FRINT		__khwcap2_feature(FRINT)
+> -#define KERNEL_HWCAP_SVEI8MM		__khwcap2_feature(SVEI8MM)
+> -#define KERNEL_HWCAP_SVEF32MM		__khwcap2_feature(SVEF32MM)
+> -#define KERNEL_HWCAP_SVEF64MM		__khwcap2_feature(SVEF64MM)
+> -#define KERNEL_HWCAP_SVEBF16		__khwcap2_feature(SVEBF16)
+> -#define KERNEL_HWCAP_I8MM		__khwcap2_feature(I8MM)
+> -#define KERNEL_HWCAP_BF16		__khwcap2_feature(BF16)
+> -#define KERNEL_HWCAP_DGH		__khwcap2_feature(DGH)
+> -#define KERNEL_HWCAP_RNG		__khwcap2_feature(RNG)
+> -#define KERNEL_HWCAP_BTI		__khwcap2_feature(BTI)
+> -#define KERNEL_HWCAP_MTE		__khwcap2_feature(MTE)
+> -#define KERNEL_HWCAP_ECV		__khwcap2_feature(ECV)
+> -#define KERNEL_HWCAP_AFP		__khwcap2_feature(AFP)
+> -#define KERNEL_HWCAP_RPRES		__khwcap2_feature(RPRES)
+> -#define KERNEL_HWCAP_MTE3		__khwcap2_feature(MTE3)
+> -#define KERNEL_HWCAP_SME		__khwcap2_feature(SME)
+> -#define KERNEL_HWCAP_SME_I16I64		__khwcap2_feature(SME_I16I64)
+> -#define KERNEL_HWCAP_SME_F64F64		__khwcap2_feature(SME_F64F64)
+> -#define KERNEL_HWCAP_SME_I8I32		__khwcap2_feature(SME_I8I32)
+> -#define KERNEL_HWCAP_SME_F16F32		__khwcap2_feature(SME_F16F32)
+> -#define KERNEL_HWCAP_SME_B16F32		__khwcap2_feature(SME_B16F32)
+> -#define KERNEL_HWCAP_SME_F32F32		__khwcap2_feature(SME_F32F32)
+> -#define KERNEL_HWCAP_SME_FA64		__khwcap2_feature(SME_FA64)
+> -#define KERNEL_HWCAP_WFXT		__khwcap2_feature(WFXT)
+> -#define KERNEL_HWCAP_EBF16		__khwcap2_feature(EBF16)
+> -#define KERNEL_HWCAP_SVE_EBF16		__khwcap2_feature(SVE_EBF16)
+> -#define KERNEL_HWCAP_CSSC		__khwcap2_feature(CSSC)
+> -#define KERNEL_HWCAP_RPRFM		__khwcap2_feature(RPRFM)
+> -#define KERNEL_HWCAP_SVE2P1		__khwcap2_feature(SVE2P1)
+> -#define KERNEL_HWCAP_SME2		__khwcap2_feature(SME2)
+> -#define KERNEL_HWCAP_SME2P1		__khwcap2_feature(SME2P1)
+> -#define KERNEL_HWCAP_SME_I16I32		__khwcap2_feature(SME_I16I32)
+> -#define KERNEL_HWCAP_SME_BI32I32	__khwcap2_feature(SME_BI32I32)
+> -#define KERNEL_HWCAP_SME_B16B16		__khwcap2_feature(SME_B16B16)
+> -#define KERNEL_HWCAP_SME_F16F16		__khwcap2_feature(SME_F16F16)
+> -#define KERNEL_HWCAP_MOPS		__khwcap2_feature(MOPS)
+> -#define KERNEL_HWCAP_HBC		__khwcap2_feature(HBC)
+> -#define KERNEL_HWCAP_SVE_B16B16		__khwcap2_feature(SVE_B16B16)
+> -#define KERNEL_HWCAP_LRCPC3		__khwcap2_feature(LRCPC3)
+> -#define KERNEL_HWCAP_LSE128		__khwcap2_feature(LSE128)
+> -#define KERNEL_HWCAP_FPMR		__khwcap2_feature(FPMR)
+> -#define KERNEL_HWCAP_LUT		__khwcap2_feature(LUT)
+> -#define KERNEL_HWCAP_FAMINMAX		__khwcap2_feature(FAMINMAX)
+> -#define KERNEL_HWCAP_F8CVT		__khwcap2_feature(F8CVT)
+> -#define KERNEL_HWCAP_F8FMA		__khwcap2_feature(F8FMA)
+> -#define KERNEL_HWCAP_F8DP4		__khwcap2_feature(F8DP4)
+> -#define KERNEL_HWCAP_F8DP2		__khwcap2_feature(F8DP2)
+> -#define KERNEL_HWCAP_F8E4M3		__khwcap2_feature(F8E4M3)
+> -#define KERNEL_HWCAP_F8E5M2		__khwcap2_feature(F8E5M2)
+> -#define KERNEL_HWCAP_SME_LUTV2		__khwcap2_feature(SME_LUTV2)
+> -#define KERNEL_HWCAP_SME_F8F16		__khwcap2_feature(SME_F8F16)
+> -#define KERNEL_HWCAP_SME_F8F32		__khwcap2_feature(SME_F8F32)
+> -#define KERNEL_HWCAP_SME_SF8FMA		__khwcap2_feature(SME_SF8FMA)
+> -#define KERNEL_HWCAP_SME_SF8DP4		__khwcap2_feature(SME_SF8DP4)
+> -#define KERNEL_HWCAP_SME_SF8DP2		__khwcap2_feature(SME_SF8DP2)
+> -#define KERNEL_HWCAP_POE		__khwcap2_feature(POE)
+> -
+>  #define __khwcap3_feature(x)		(const_ilog2(HWCAP3_ ## x) + 128)
+> -#define KERNEL_HWCAP_MTE_FAR		__khwcap3_feature(MTE_FAR)
+> -#define KERNEL_HWCAP_MTE_STORE_ONLY	__khwcap3_feature(MTE_STORE_ONLY)
+> -#define KERNEL_HWCAP_LSFE		__khwcap3_feature(LSFE)
+> -#define KERNEL_HWCAP_LS64		__khwcap3_feature(LS64)
+> +
+> +#include "asm/kernel-hwcap.h"
+> =20
+>  /*
+>   * This yields a mask that user programs can use to figure out what
+> diff --git a/arch/arm64/tools/Makefile b/arch/arm64/tools/Makefile
+> index c2b34e761006..a94b3d9caad6 100644
+> --- a/arch/arm64/tools/Makefile
+> +++ b/arch/arm64/tools/Makefile
+> @@ -3,7 +3,7 @@
+>  gen :=3D arch/$(ARCH)/include/generated
+>  kapi :=3D $(gen)/asm
+> =20
+> -kapisyshdr-y :=3D cpucap-defs.h sysreg-defs.h
+> +kapisyshdr-y :=3D cpucap-defs.h kernel-hwcap.h sysreg-defs.h
+> =20
+>  kapi-hdrs-y :=3D $(addprefix $(kapi)/, $(kapisyshdr-y))
+> =20
+> @@ -18,11 +18,17 @@ kapi:   $(kapi-hdrs-y)
+>  quiet_cmd_gen_cpucaps =3D GEN     $@
+>        cmd_gen_cpucaps =3D mkdir -p $(dir $@); $(AWK) -f $(real-prereqs) =
+> $@
+> =20
+> +quiet_cmd_gen_kernel_hwcap =3D GEN     $@
+> +      cmd_gen_kernel_hwcap =3D mkdir -p $(dir $@); /bin/sh -e $(real-pre=
+reqs) > $@
+> +
+>  quiet_cmd_gen_sysreg =3D GEN     $@
+>        cmd_gen_sysreg =3D mkdir -p $(dir $@); $(AWK) -f $(real-prereqs) >=
+ $@
+> =20
+>  $(kapi)/cpucap-defs.h: $(src)/gen-cpucaps.awk $(src)/cpucaps FORCE
+>  	$(call if_changed,gen_cpucaps)
+> =20
+> +$(kapi)/kernel-hwcap.h: $(src)/gen-kernel-hwcaps.sh $(srctree)/arch/arm6=
+4/include/uapi/asm/hwcap.h FORCE
+> +	$(call if_changed,gen_kernel_hwcap)
+> +
+>  $(kapi)/sysreg-defs.h: $(src)/gen-sysreg.awk $(src)/sysreg FORCE
+>  	$(call if_changed,gen_sysreg)
+> diff --git a/arch/arm64/tools/gen-kernel-hwcaps.sh b/arch/arm64/tools/gen=
+=2Dkernel-hwcaps.sh
+> new file mode 100644
+> index 000000000000..e7cdcf428d91
+> --- /dev/null
+> +++ b/arch/arm64/tools/gen-kernel-hwcaps.sh
+> @@ -0,0 +1,23 @@
+> +#!/bin/sh -e
+> +# SPDX-License-Identifier: GPL-2.0
+> +#
+> +# gen-kernel-hwcap.sh - Generate kernel internal hwcap.h definitions
+> +#
+> +# Copyright 2026 Arm, Ltd.
+> +
+> +if [ "$1" =3D "" ]; then
+> +	echo "$0: no filename specified"
+> +	exit 1
+> +fi
+> +
+> +echo "#ifndef __ASM_KERNEL_HWCAPS_H"
+> +echo "#define __ASM_KERNEL_HWCAPS_H"
+> +echo ""
+> +echo "/* Generated file - do not edit */"
+> +echo ""
+> +
+> +grep -E '^#define HWCAP[0-9]*_[A-Z0-9_]+' $1 | \
+> +	sed 's/.*HWCAP\([0-9]*\)_\([A-Z0-9_]\+\).*/#define KERNEL_HWCAP_\2\t__k=
+hwcap\1_feature(\2)/'
+> +
+> +echo ""
+> +echo "#endif /* __ASM_KERNEL_HWCAPS_H */"
+>=20
+>=20
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
