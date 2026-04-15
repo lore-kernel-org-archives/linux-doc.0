@@ -1,159 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F070D28BAB9;
-	Wed, 15 Apr 2026 00:59:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B0DF4369A;
+	Wed, 15 Apr 2026 01:20:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776214793; cv=none; b=TVU0IBxhX8TbtHyjMljDdAFaGudgSkxW9jM6yilPskCKQJSrvu6hoUlNgowlVJF/z9AGW8aMWIZ/bS9rPCIAWwHYcPiPbfDoIGEcAuTJJYibYzdkySCi8BR19N2WslQiZxejqWQvVBJFJzgT5LRH53l21FvmmmplY8B4LV3Nd9o=
+	t=1776216057; cv=none; b=SvJwnLci+FCYelpi809U49uPgXwMCroX5JBW67XCZjOs03tkUV1XRYJZR48IlSQ5UlZFmde8Y++hH5ELNF1/RUqnP5269UNLe2/ySxYCFqcnblArhBB9VgS1p89tu+S/3CwBwxjYBQSb53cA/GuuZYl0IDxkEI2RW4KN/0T99V8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776214793; c=relaxed/simple;
-	bh=wpJVPa82t/Q9ZbyuHOA8+fPbPFbqOgSSPuMHwapeSJs=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 Mime-Version:Content-Type; b=OF12DmBlrzFqKTjrBb3gYhnl4f98Qaze0BBTb0jxF4AIdXu9SvU9aDoBbxic7DGROSJElegMMr5JaJuWSlrZnA+WmzKz5QxLkaxF51TkhZNvJJmeByMrINLbOpFyBWGXvyxwXv6t4jRAIweb869UlwZc9oSzM6lXqNbEcSXCVjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mwf/O9j3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776216057; c=relaxed/simple;
+	bh=/73a6Fauu1hEXPiMbtwap5gMqcffhpJAS00bzrE8afg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XgbkUjnSB6ODgfMmYDLEDQEpwN8U1l50oOm5C4vW7n8VIZo5YheDWFyKTvJQf28jfTZTEnkzsSZD24Y6bDiZxT2P4gFz1LlBI9mofCnMkDGtjF9UWb8m0VjlZD6XdAxwxfAlxfr6WMFnWm58XauaAbIlRppo1LbHDJBqotb4kLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oPy6geJV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mwf/O9j3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EAE0C2BCB3;
-	Wed, 15 Apr 2026 00:59:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oPy6geJV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1FE52C19425;
+	Wed, 15 Apr 2026 01:20:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776214792;
-	bh=wpJVPa82t/Q9ZbyuHOA8+fPbPFbqOgSSPuMHwapeSJs=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=Mwf/O9j3O9U12LdMOChSyxTrjaXNqkQcxgAmMZu9Wf4JtA6YU4ukf+6V6hBNziHLs
-	 aLwYszWnDflF0kfKx+uZOsZPmedvQnyQzL/FDgOi5AhlzT9jbqzE5XvHokRIkTGA1/
-	 lLTw4oUU0WOqW7ekRckoogE+puWQlU37NpUjyF1pug0UdMQRl5FvjLQ97bkdepzoeb
-	 9dTLk3SlMTT26KDtLnokT/GULOsE5b1KGpB9/sKzhQvmB97yv31kSFrbuXIOXoIQoz
-	 6M7boRHMqaTmVufbuwSo/gmD5HWBJZBBN0rmjdVT4wXPu1yoQL9Se/FnwVHvtOAvOP
-	 9DTheOng+3lAA==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 84DBEF40069;
-	Tue, 14 Apr 2026 20:59:51 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 14 Apr 2026 20:59:51 -0400
-X-ME-Sender: <xms:B-PeaYrbpcE5KUu5OIkvJvN7sFX198RJ-5IO3R1dTF7WCMPW_DYnCg>
-    <xme:B-PeaZCKSQ0xgkJa5b8vpyQEt3ZLBjcsoXD7Gvyiu7xEEYZ6GsN_X4IGTMaK7t30C
-    vOXhAls3eshYc-lZxQZtztYbdGy8nmGfwxs2CKg8zbVI5VG1Y6TpGU>
-X-ME-Received: <xmr:B-PeaTX_UwQWHB2uM_CK6bJGSyX79QbB-lHoRbRBGHQ28WWT49Rl0gH71W6onfWQpdrXht8h4oKt_uV7cGF6BYImPOmS_ovOZ2U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegvdeikecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefkjghfufggtgfgsehtjeertddttdejnecuhfhrohhmpeffrghnucghihhl
-    lhhirghmshcuoegujhgsfieskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
-    elhfeiudfgvdeijedtleeltdduueekffejjedvjefhgeevjeefueejledtleetjeenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegujhgsfidomh
-    gvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudejjedvfedtgeehhedqfeeffeel
-    gedtgeejqdgujhgsfieppehkvghrnhgvlhdrohhrghesfhgrshhtmhgrihhlrdgtohhmpd
-    hnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgt
-    hhgvhhgrsgdohhhurgifvghisehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhrsg
-    gvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhhishgtvheslhhishhtshdr
-    ihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopeifohhrkhhflhhofihssehvghgvrh
-    drkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghouhesvggvtghsrdgsvghrkhgvlhgv
-    hidrvgguuhdprhgtphhtthhopegrlhgvgiesghhhihhtihdrfhhrpdhrtghpthhtohepug
-    hjsgifsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:B-PeabBrUKV6GjdD8Vo9eGHmglR3pA3OQQgnZOj2Rgm930tPnOt-kw>
-    <xmx:B-PeaQf_aB5ZSobl2hStB2MEXVFMNS4SeTnNbALkD9JLHENupk4U2A>
-    <xmx:B-PeaSpT86eZ403iIWqB5TS-jmj-tyFTwqJlfdxD2khZNRT6UHEJrQ>
-    <xmx:B-PeaRSV7ZbREip4BBPCejIAOSB0zrbSMEN19rhbG_U51HVgljX4oQ>
-    <xmx:B-PeaSVBGtS0fTmGc39EUjuKD4qu0lm9b_AfraOVjOBVuLDrlRxSlLXS>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 14 Apr 2026 20:59:50 -0400 (EDT)
-Date: Tue, 14 Apr 2026 17:59:50 -0700
-From: Dan Williams <djbw@kernel.org>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- linux-kernel@vger.kernel.org, 
- linux-riscv@lists.infradead.org, 
- workflows@vger.kernel.org, 
- Albert Ou <aou@eecs.berkeley.edu>, 
- Alexandre Ghiti <alex@ghiti.fr>, 
- Dan Williams <djbw@kernel.org>, 
- Palmer Dabbelt <palmer@dabbelt.com>, 
- Paul Walmsley <pjw@kernel.org>, 
- Randy Dunlap <rdunlap@infradead.org>, 
- Shuah Khan <skhan@linuxfoundation.org>
-Message-ID: <69dee30660eb_147c80100a3@djbw-dev.notmuch>
-In-Reply-To: <9228f77b0339b8e5dea4a201ab6d4feb30cef5c2.1776176108.git.mchehab+huawei@kernel.org>
-References: <cover.1776176108.git.mchehab+huawei@kernel.org>
- <9228f77b0339b8e5dea4a201ab6d4feb30cef5c2.1776176108.git.mchehab+huawei@kernel.org>
-Subject: Re: [PATCH RFC 4/4] docs: auto-generate maintainer entry profile
- links
+	s=k20201202; t=1776216056;
+	bh=/73a6Fauu1hEXPiMbtwap5gMqcffhpJAS00bzrE8afg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oPy6geJV/ZHcgYgvAer8Ya5yKvPgZpm82wb4uqkM8lofq/CbDh6mcjnSalolMex7n
+	 PHC0xCJQn9O/rXx/6JTyW8BG2m3wuB6pOBIUZTvfOJzYqLjyY4WvE5MyEKftMrNw8q
+	 ady5yDxKOulIcFGxzXWt3kVbv+h7G6ejvUeIrwVdXiyyGu6bdtpK7DoshDOLlJtI/A
+	 Yd25okJYBOeZiosBAyEEuSqoiMiUIAUSW+UWxkNneK+yD0wGaVvckUR7+z2Jzc22Qd
+	 sxEsOwtPKL4kZyBon4M5lwIoU9d9mYyst9r382UrADOf/qHsM7cqDM/CObHK0VnnlT
+	 DsN2Lt/LkN22g==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [RFC PATCH 0/7] mm/damon/reclaim,lru_sort: monitor all system rams by default
+Date: Tue, 14 Apr 2026 18:20:28 -0700
+Message-ID: <20260415012048.76508-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Mauro Carvalho Chehab wrote:
-> Instead of manually creating a TOC tree for them, use the new
-> tag to auto-generate its TOC.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> ---
->  .../maintainer/maintainer-entry-profile.rst     | 17 ++---------------
->  Documentation/process/maintainer-handbooks.rst  | 10 +---------
->  2 files changed, 3 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
-> index 6020d188e13d..48ecabd4ce13 100644
-> --- a/Documentation/maintainer/maintainer-entry-profile.rst
-> +++ b/Documentation/maintainer/maintainer-entry-profile.rst
-> @@ -98,18 +98,5 @@ Existing profiles
->  For now, existing maintainer profiles are listed here; we will likely want
->  to do something different in the near future.
+DAMON_RECLAIM and DAMON_LRU_SORT set the biggest 'System RAM' resource
+of the system as the default monitoring target address range.  The main
+intention behind the design is to minimize the overhead coming from
+monitoring of non-System RAM areas.
 
-Given the "near future" is now, I would say go ahead and delete this.
+This could result in an odd setup when there are multiple discrete
+System RAMs of considerable sizes.  For example, there are System RAMs
+each having 500 GiB size.  In this case, only the first 500 GiB will be
+set as the monitoring region by default.  This is particularly common on
+NUMA systems.  Hence the modules allow users to set the monitoring
+target address range using the module parameters if the default setup
+doesn't work for them.  In other words, the current design trades ease
+of setup for lower overhead.
 
-> -.. toctree::
-> -   :maxdepth: 1
-> -
-> -   ../doc-guide/maintainer-profile
-> -   ../nvdimm/maintainer-entry-profile
-> -   ../arch/riscv/patch-acceptance
-> -   ../process/maintainer-soc
-> -   ../process/maintainer-soc-clean-dts
-> -   ../driver-api/media/maintainer-entry-profile
-> -   ../process/maintainer-netdev
-> -   ../driver-api/vfio-pci-device-specific-driver-acceptance
-> -   ../nvme/feature-and-quirk-policy
-> -   ../filesystems/nfs/nfsd-maintainer-entry-profile
-> -   ../filesystems/xfs/xfs-maintainer-entry-profile
-> -   ../mm/damon/maintainer-profile
-> +See Documentation/process/maintainer-handbooks.rst for subsystem-specific
-> +profiles.
-> diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
-> index 3d72ad25fc6a..d3d74c719018 100644
-> --- a/Documentation/process/maintainer-handbooks.rst
-> +++ b/Documentation/process/maintainer-handbooks.rst
-> @@ -9,12 +9,4 @@ which is supplementary to the general development process handbook
+However, because DAMON utilizes the sampling based access check and the
+adaptive regions adjustment mechanisms, the overhead from the monitoring
+of non-System RAM areas should be negligible in most setups.  Meanwhile,
+the setup complexity is causing real headaches for users who need to run
+those modules on various types of systems.  That is, the current
+tradeoff is not a good deal.
 
-Given this whole thing started with a question about why there are 2
-files you can go ahead and fold in:
+Set the physical address range that can cover all System RAM areas of
+the system as the default monitoring regions for DAMON_RECLAIM and
+DAMON_LRU_SORT.
 
----
-For developers, see below for all the known subsystem specific guides.
-If the subsystem you are contributing to does not have a guide listed
-here, it is fair to seek clarification of questions raised in
-Documentation/maintainer/maintainer-entry-profile.rst.
+Technically speaking, this is changing documented behavior.  However, it
+makes no sense to believe there is a real use case that really depends
+on the old weird default behavior.  If the old default behavior was
+working for them in the reasonable way, this change will only add a
+negligible amount of monitoring overhead.  If it didn't work, the users
+may already be using manual monitoring regions setup, and they will not
+be affected by this change.
 
-For maintainers, consider documenting additional requirements and
-expectations if submissions routinely overlook specific submission
-criteria. See Documentation/maintainer/maintainer-entry-profile.rst and
-the P: tag in MAINTAINERS.
----
+Patches Sequence
+================
 
-...suggestion with a:
+Patch 1 introduces a new core function that will be used for the new
+default monitoring target region setup.  Patch 2 and 3 update
+DAMON_RECLAIM and DAMON_LRU_SORT to use the new function instead of the
+old one, respectively.  Patch 4 removes the old core function that was
+replaced by the new one, as there is no more user of it.  Patch 5
+updates DAMON_STAT to use the new one instead of its in-house
+nearly-duplicate self implementation of the functionality.  Finally
+patches 6 and 7 update the DAMON_RECLAIM and DAMON_LRU_SORT user
+documentation for the new behaviors, respectively.
 
-Co-developed-by: Dan Williams <djbw@kernel.org>
-Signed-off-by: Dan Williams <djbw@kernel.org>
+SeongJae Park (7):
+  mm/damon: introduce damon_set_region_system_rams_default()
+  mm/damon/reclaim: cover all system rams
+  mm/damon/lru_sort: cover all system rams
+  mm/damon/core: remove damon_set_region_biggest_system_ram_default()
+  mm/damon/stat: use damon_set_region_system_rams_default()
+  Docs/admin-guide/mm/damon/reclaim: update for entire memory monitoring
+  Docs/admin-guide/mm/damon/lru_sort: update for entire memory
+    monitoring
 
-...if you want me to submit that separately, just holler.
+ .../admin-guide/mm/damon/lru_sort.rst         |  6 ++-
+ .../admin-guide/mm/damon/reclaim.rst          |  6 ++-
+ include/linux/damon.h                         |  2 +-
+ mm/damon/core.c                               | 49 +++++++++--------
+ mm/damon/lru_sort.c                           |  8 +--
+ mm/damon/reclaim.c                            | 14 ++---
+ mm/damon/stat.c                               | 53 ++-----------------
+ 7 files changed, 50 insertions(+), 88 deletions(-)
+
+
+base-commit: 11bcd10460e9446785fc04deb5d175806a00400b
+-- 
+2.47.3
