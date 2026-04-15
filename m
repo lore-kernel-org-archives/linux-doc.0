@@ -1,153 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2040C14E2F2;
-	Wed, 15 Apr 2026 08:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D9038AC7D
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 08:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776241014; cv=none; b=m9XwsgDXMJe+XEQH1gIHylXrJnGV8wrD5EdxVN2mZXoifOf4VtKj4Q0mu+FGW4qv51za0F38xPa8DuMXVW5EnBh2b1XdmUFB9RPIbr70DX8nQEfuxVX2NjM+gdJThWEtiGTzsKjhOMo/k35Au2vAwn7mjFn4yhj51Z1upEEtYnQ=
+	t=1776241213; cv=none; b=UOE6JtmQb2D4qEG8TbqSIRwi9GzdLfs0oT8FIyeo+4eJvfVy42ZIKAQw9B7JMnRyuWuoalasqDndex172/dbXpZzYYhgtDhQqDHLUHWA1l8rhhoKtDTtxWPIO29GyI4DeF/ULlWuHA3VChASSxrrbdMe7gVO7xJLcLI8bDL9aC0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776241014; c=relaxed/simple;
-	bh=wLkpUw9kqOW1E+1Px6W25y7CBskyxCnxcAtXgRpaFok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lb/DH/GODnwiIuId/TmdIDSqw0XxYC9+YSe7GEDs4Rb1kGthGoJ+pABUfu2w5SdwsreGfIe4OXH7HkpooogxtkhMy8WPyBZTpZXoT3GlbbcufVGx+wIv6yYRhUJASdId2fxoKM3QLiVcVyj0P8AIJE4bKyPHbwCc25mhARN+YiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PnJ9OWO/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776241213; c=relaxed/simple;
+	bh=AS429itr7wbpGuNOk5jL7MlDnLt1qmHnn3vRkHB1nVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W2RG+Gmjy98ZclUNjW98CGCra9WepxOCO1i5XA/grklvlioGHJpbfljfFYbXAOyydfb3IVZe4ugr/kGi+OImdlfclLg4j/zMB/DHLoXy7q/ngwsrgZign0PTh8yPDkyiiBWp0AS3zv1GLIIpxxhSHjvAMdSqOJCiKvY5KjxvjTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0k3KIXT; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PnJ9OWO/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A297C2BCB4;
-	Wed, 15 Apr 2026 08:16:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776241013;
-	bh=wLkpUw9kqOW1E+1Px6W25y7CBskyxCnxcAtXgRpaFok=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PnJ9OWO//fj4+EanD8IpYEjI0rJDYlBz0SBsOWojD2IuYufoshXp33pTUwnyrt2WV
-	 jGuGn3V1hD5Miy/TBH0QUWDkmilDG6ApXhmmgqpcI/IqW5UfWFMM5bQ2O++QX5Xt65
-	 BJvKUFUpkkg+p8U87+ifkpu6yNGyH4K2Wj+DnLvEhguDz7LKelIU/r6jFPKz2y2P3y
-	 qoHQQoRtMkTS3j3CSJA/L0K7z0uuQCUpFMb2463EA1425hphKyA1Ynzx+zbC7ANvkR
-	 VmF3uiXObXjeb0/mgb6rEy3YIKYkboY+wMwreQOYftETm81t1AzoS5SrGJWbjD7PV7
-	 MY42RBcoFHDtw==
-Message-ID: <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
-Date: Wed, 15 Apr 2026 10:16:38 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0k3KIXT"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso60816505e9.3
+        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 01:20:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776241211; x=1776846011; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=0otFmE3OfgX1ocRffAsBD3VgKhSHJKmOocoLMY68w2Q=;
+        b=O0k3KIXTrRRTXq7ITdfsgz4CqfxhnnsMH1eB/RPf8ZrOiN+jGV7dxT1ik7p8SNFD4O
+         jI4fSaTYA40PH2meeWkBVio+RGdNX7bS+9NrufjDQektPsXipRcOjrxVkTI/J14sF9ht
+         d77eO62p8G4jsUCwh4bijIM1BiLwlzJL1GQg4D0UumwndDvsJ/ToV/MMIzQu3U94vpzW
+         d+h8ES2B1K9GtcErvIv2vEtf4/CKmgUtbstgEbZNpyD6/mIEhXR3MbOkWvMXBVrzr645
+         6PG1yiI5JiN3JouibmvfbLp9TGVvQyIoh/jCNDHZu4Z1q6tTGGVK4XR2rFetxvd9dSce
+         hm+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776241211; x=1776846011;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0otFmE3OfgX1ocRffAsBD3VgKhSHJKmOocoLMY68w2Q=;
+        b=s7rfHi1ZhNF9V654lNtVxi2gX1b71f34N4zBN8XBgRaivxN+Wv0T9lWx+uT8U28rKH
+         i96vC70j3ft+AbFBKU0rQL5wh70Z2q2SwRRizN7ioQhoOxyF7OEPWkfI3oxU8RlgPNK0
+         HMd1Yg0jzAHWBb5lY4hEUnucqZKUV4tNQvN3USFnbkkKyNNXSawpTsUG5TUYAG8PqtcY
+         Xw+A7ennMMxOEFSs6G9tYsP6WofFmKFCz6d3or4TLlYDAMCMH0iYWdPDg0hzDDeTWG6v
+         mUxowfhQ2AxEzjld3fMUqsTAuVrT0+tFe7pJbjA4n4n9hz4yWPkE4SymWervWPm/uMrN
+         3IlQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9oe+Yl15j58ADmt49UUfpxdELDuPpkY4S1B9069b6rOBeuuYsuC+fMGJK7LQChvmB+yheHZW2/gfg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbneMTe84oj3Ha84g5sOWTkYJZ1sg22WLZ6RDIXo8ubE12E3Vk
+	EmFLpjvOhaDzQTlZSUGdNW2k6j+kfT49ATk9jqivSLSWcZogQoBnAuFk
+X-Gm-Gg: AeBDiesr97Dyfwpwbz1Vn86Ot1djEbmaCT2B0eFHImiS7yw7RysyDg4/IELgLY+v1jC
+	kXfbovREarpeIo4FD+WR+tfpyyULq7oQwG9s3+GUDYpwdRArY7/UNsXdI0qcEUwJ0QazPeGrCVM
+	nWFC8cz/JTsphCen7LUlIFxIrR6mpNrHnZJzT0dbakcXTkqL8SCaPsSYcODycRCRxs2NinuCJiD
+	j4HJD0BcbtzqIad6yJalECXvEXW/YEPbc5yb8brcGNx83zERkrL1o5bW1xYUIkFi5xBDA+XV1Bh
+	Prc4UVMsjyjNZ7qsXAv9C6/uWb5hsVnyR9ytvMIYX2LOBV4D9XC862yeozOHeRECHEmVW3dtML5
+	R6HPJlZQ0P8cnI8gVUatsrAHteAjLqsMRAQO0wA74uLrJM7tMYpkMeeUH6U5GjCPnvuG919s5j+
+	fjtJ5L5aMO2zfz/NSTHZScLcg=
+X-Received: by 2002:a05:600c:c0dc:b0:488:aa3d:fab1 with SMTP id 5b1f17b1804b1-488d68364f2mr188027275e9.17.1776241210420;
+        Wed, 15 Apr 2026 01:20:10 -0700 (PDT)
+Received: from nsa ([45.94.208.74])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3ebaf1sm2980604f8f.33.2026.04.15.01.20.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Apr 2026 01:20:09 -0700 (PDT)
+Date: Wed, 15 Apr 2026 09:20:59 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	"Hennerich, Michael" <Michael.Hennerich@analog.com>, "Sa, Nuno" <Nuno.Sa@analog.com>, 
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
+	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, 
+	Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
+Message-ID: <ad9J9C5K7tyxuztU@nsa>
+References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
+ <20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
+ <742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
+ <20260412185821.739e477f@jic23-huawei>
+ <LV9PR03MB8414E0A68C5676302909E220F7252@LV9PR03MB8414.namprd03.prod.outlook.com>
+ <b352b76c-8047-4a1f-8b83-db8144466c36@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: Gregory Price <gourry@gourry.net>, "Darrick J. Wong" <djwong@kernel.org>
-Cc: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
- Joanne Koong <joannelkoong@gmail.com>, Bernd Schubert <bernd@bsbernd.com>,
- John Groves <john@jagalactic.com>, Dan Williams <dan.j.williams@intel.com>,
- Bernd Schubert <bschubert@ddn.com>,
- Alison Schofield <alison.schofield@intel.com>,
- John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
- Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>,
- Bagas Sanjaya <bagasdotme@gmail.com>,
- Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>,
- Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>,
- Shivank Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>,
- Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- djbw@kernel.org
-References: <20260331123702.35052-1-john@jagalactic.com>
- <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
- <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
- <adkDq0m5Wt9YhJ8A@groves.net>
- <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b352b76c-8047-4a1f-8b83-db8144466c36@baylibre.com>
 
-On 4/15/26 00:20, Gregory Price wrote:
-> On Tue, Apr 14, 2026 at 11:57:40AM -0700, Darrick J. Wong wrote:
->>>
->>> I very strongly object to making this a prerequisite to merging. This
->>> is an untested idea that will certainly delay us by at least a couple
->>> of merge windows when products are shipping now, and the existing approach
->>> has been in circulation for a long time. It is TOO LATE!!!!!!
->>
-> ...
->>
->> That said, you're clearly pissed at the goalposts changing yet again,
->> and that's really not fair that we collectively keep moving them.
->>
+On Tue, Apr 14, 2026 at 10:02:31AM -0500, David Lechner wrote:
+> On 4/14/26 9:25 AM, Sabau, Radu bogdan wrote:
+> > 
+> > 
+> >> -----Original Message-----
+> >> From: Jonathan Cameron <jic23@kernel.org>
+> >> Sent: Sunday, April 12, 2026 8:58 PM
+> >> To: David Lechner <dlechner@baylibre.com>
+> >> Cc: Sabau, Radu bogdan <Radu.Sabau@analog.com>; Lars-Peter Clausen
+> >> <lars@metafoo.de>; Hennerich, Michael <Michael.Hennerich@analog.com>;
+> >> Sa, Nuno <Nuno.Sa@analog.com>; Andy Shevchenko <andy@kernel.org>;
+> >> Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
+> >> Conor Dooley <conor+dt@kernel.org>; Uwe Kleine-König
+> >> <ukleinek@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>; Mark Brown
+> >> <broonie@kernel.org>; Linus Walleij <linusw@kernel.org>; Bartosz
+> >> Golaszewski <brgl@kernel.org>; Philipp Zabel <p.zabel@pengutronix.de>;
+> >> Jonathan Corbet <corbet@lwn.net>; Shuah Khan
+> >> <skhan@linuxfoundation.org>; linux-iio@vger.kernel.org;
+> >> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+> >> pwm@vger.kernel.org; linux-gpio@vger.kernel.org; linux-doc@vger.kernel.org
+> >> Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
+> >>
+> >> [External]
+> >>
+> >> On Fri, 10 Apr 2026 16:15:20 -0500
+> >> David Lechner <dlechner@baylibre.com> wrote:
+> >>
+> >>> On 4/9/26 10:28 AM, Radu Sabau via B4 Relay wrote:
+> >>>> From: Radu Sabau <radu.sabau@analog.com>
+> >>>>
+> >>>> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
+> >>>> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
+> >>>> selected OSR at buffer enable time and before each single-shot read.
+> >>>>
+> >>>> Supported OSR values: 1, 2, 4, 8, 16, 32.
+> >>>>
+> >>>> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels,
+> >> which do
+> >>>> not expose the oversampling ratio attribute since OSR is not applicable
+> >>>> in that mode. A separate manual_channels array is added to
+> >>>> struct ad4691_channel_info and selected at probe time; offload paths
+> >>>> reuse the same arrays with num_channels capping access before the soft
+> >>>> timestamp entry.
+> >>>>
+> >>>> The reported sampling frequency accounts for the active OSR:
+> >>>> effective_freq = oscillator_freq / osr
+> >>>
+> >>> Technically, the way this is implemented is fine according to IIO ABI
+> >>> rules. Writing any attribute can cause others to change. It does
+> >>> introduce a potential pitfall though. Currently, changing the OSR will
+> >>> change the sampling frequency, so you have to always write
+> >> oversampling_ratio
+> >>> first, then write sampling_frequency to get what you asked for. If you want
+> >>> to change the OSR and keep the same sample rate, you still have to write
+> >> both
+> >>> attributes again.
+> >>>
+> >>> In other drivers, I've implemented it so that the requested sampling
+> >> frequency
+> >>> is stored any you always get the closest sampling frequency available based
+> >> on
+> >>> the oversampling ratio. This way, it doesn't matter which order you write
+> >>> the attributes. In that case, the actual periodic trigger source isn't set up
+> >>> until we actually start sampling.
+> >>>
+> >> Agreed. This is more intuitive. Now generally the userspace should
+> >> be sanity checking the value anyway as limitations may mean the new
+> >> sampling frequency is not particularly close to the original one but
+> >> at least it increases the chances of getting the expected value somewhat!
+> >>
+> >> So to me this is a nice useability improvement given the code to implement
+> >> it tends not to be too complex.
+> >>
+> > 
+> > Hi David, Jonathan,
+> > 
+> > What I understand from this is that the osr should be taken into account when writing
+> > the sampling frequency as well, right? Here's what I understand:
+> > 
+> > If the user wants a 125kHz freq with 4 OSR, then when internal osc will be written
+> > to 500kHz before single-shot read, buffer preenable/postenable.
+> > However, if the user wants a 500kHz frequency with 4 OSR, that would mean a 2MHz
+> > Internal osc freq, which is impossible.
 > 
-> This seems a bit more than moving a goalpost.
+> It is up to the user to request something that is legal. They should know this
+> from reading the datasheet.
 > 
-> We're now gating working software, for real working hardware, on a novel,
-> unproven BPF ops structure that controls page table mappings on page table
-> faults which would be used by exactly 1 user : FAMFS.
+> > 
+> > More than this, if the OSR is 32 the maximum effective rate would be 31250, so 25kHz
+> > would make it the closes available one. If the user would select 1MHz from the available
+> > list it would be weird I would say. So perhaps a solution for this is to display the avail list
+> > depending on the set OSR value.
+> 
+> Yes, the available list should reflect the current state of any other attributes
+> that affect it.
 
-Are MM people on board with even letting BPF do that? Honest question,
-if someone has a pointer to how that should work, that would be appreciated.
+IMO, the above makes total sense to me.
 
--- 
-Cheers,
+- Nuno Sá
 
-David
+> 
+> > 
+> > Linking the two together is perhaps wrong to begin with from my end, since in this
+> > driver's case, the per-channel sampling frequency is controlled by the internal oscillator
+> > which has static available values. So perhaps sampling frequency should be separate, and
+> > OSR separate as well, which would make everything cleaner.
+> > 
+> > Indeed, the effective rate is changed by OSR, but perhaps that is something the user
+> > should be aware of, since the sampling frequency is the rate at which the channel samples
+> > (1 sample per period) and OSR is how many times the channel samples upon a final sample
+> > is to be read. The user already has to take this into account when setting the buffer
+> > sampling frequency, so it would make sense to take this into account here too.
+> 
+> We can't change the definition of the IIO ABI just to make one driver simpler
+> to implement. The OSR and sample rate can't be completely independent.
+> 
+> If you want to leave it the way it is currently implemented though, that is fine.
+> 
+> > 
+> > Please let me know you thoughts on this,
+> > Radu
+> 
