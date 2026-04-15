@@ -1,238 +1,253 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013051.outbound.protection.outlook.com [40.93.196.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2C3F2236F2
-	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 20:56:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F3F31282C;
+	Wed, 15 Apr 2026 21:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.51
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776286611; cv=pass; b=HppZrE+lH9dowV5scj74VyPLQkiqFy3eoFy/mHVVAm2zE8mIGuU8jDUDXeaF8LPaJkJF4x4ihyeGPplqppen7xs27vxvkBXdz4tt85qRM41nYhwoXAyE8d0eOC6lpaLUeLsIHKnU+raqDaX13z9pZ3+m0x6vTUCY2HXDVbi1F4E=
+	t=1776287164; cv=fail; b=ZEc1n+24cPlIduMVRCXPJGBiR0CMSA02Rq0vwSI4a82C/Kj1Oh6NlDJenbThEGe47h0V57XVGdmaLIWSQ2GbxFLP2y8mS7SExLOzuhRNIpSLgEmLwBTtZLrC6lCcmrt1+GwFG4kcXivH5vFG5Eyc30Wf6wMslu/0/LiIJD0Qz4Q=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776286611; c=relaxed/simple;
-	bh=S6quRijRpUFT51EqQ3nik6KXpqTtV6Q1q6MKozapkr0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Iv1D79Iu0oCWauDjQsMy6ql4/aQAvW90PNGiHtOmRpthe6TqN9BTuNOICkpsilwtaM09qFpYP7djvZriIZFH/JTfovUeVcR++C612SnMU3JYX8CAbWXkqBcvP0fguE/E22LCQAfuinlD+6V3Yk4Uyyy8zyOQSJl9VZGFRNp5EnA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=AukW893s; arc=pass smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1776287164; c=relaxed/simple;
+	bh=hV9YoSgoueBopH8a6nNkOAkdV2frHEregayBG2A9ivM=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=fjh4C9yj0BIM9BziZSsvCJA/lIfqc9LyQsXDzOSYSmTSsk1UJjjtkb2xn9Nvm276sn2jAyYtVfia6u4o7rHii5bZNro615k6GWKfboR7+lyEXaA58ifCJGmsULx7UbH524Vd4f59+LsdObGzmgtiEQ+MP5HJJQmuZzAAFZrQhyw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=l6B98k3M; arc=fail smtp.client-ip=40.93.196.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AukW893s"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-488879dcbc3so3895e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 13:56:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776286607; cv=none;
-        d=google.com; s=arc-20240605;
-        b=erYSCi3QihvkxqLkzJIp0XzwwYg07byfskaPqoempBiiqzjpMthv11cyOhTsV3xbcE
-         rB77saSuPwbsA3NtAlz4A4NYitgvjOnzoWlyIP8we7I+vpSDoG8kutYgh+BNkLgH3Trk
-         R1ADrdevsDCQjHjGgb7kQZ1Sgbd9XEf8/ZZ2NVs265HZ4I4yNe06QMPiz66NQSQmCYDo
-         8az6vCCWBAVeBLB0s0BZix8E82ybPHeaGlQEEeck+K6zXCDmJDwJfp8sNX2jnicC/jhc
-         1U3GV7e/lWyew95gHFKPyjF8udAtP7iygPYgFTkFssHfV6nLN6BrYzYXUeARJM1WfB/d
-         1/wQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=JqmrcX9qSaqHr61SrWlzMf7ZmFlrG/fsUaqnrdHct58=;
-        fh=7FE+0PN8SqNlEd1WqnnwI3szhT4Jd9WzlTJTuDZpeXo=;
-        b=L3vQ0p3UQ7A2Y+NBQTTK4OjXAWGw08/hu2OBYnJUVOcfjfzo4jqo8lYS5ZDifIT2EO
-         l6gJuXoSfKluwv1GtSGvo8j0CY7nWd3tX4OCYLxsmz5B8Llg68wp9jsDYloqaHHvQ8Nq
-         0S0xs6viq21Aray1T7ziNB8bDLqwjrEhyTbTx9qkEXFmo1TaadaXvol/gVYn6hUltusc
-         TWR+tV29PC+UB0bH8cYXdzQOap0W0Puxcvz7QxeJUWiS5wotQ8DDzWlUzlxk7gmAVcEp
-         DCsODgdLVDCOk+9Z+sgo6BIYDdD3gpXDoQ9yhpaxp6oKnySe64vSJONXULWauDTmXEh1
-         QC+g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776286607; x=1776891407; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JqmrcX9qSaqHr61SrWlzMf7ZmFlrG/fsUaqnrdHct58=;
-        b=AukW893sfLjlrB2Lt39KDdOLGh8p4cgBusiXNCSx+7eSHbDDQoGiTAcomAHhgqsYp4
-         uavayzCRFKfMNLxtk67jqyLUJlc8W3x/hlE0FPjFBNF018MmxWeWlow4rQjF+wltyTJA
-         5ayrs1QkigJMdJSIXf+ZwFd1CxbBoMpboFLNK+/wxhbE5Ysu2Eg88UWrIdxjTNLkoeyQ
-         QvcJKPsFdgxlBdImdozlrpKDLYoUnPR1Nzvv+yQaIoFLnAjkjFJTbuh3hUF4YZPqD7rI
-         NmLQe25/bEssUs/OzmSC4BWH96OC3vWfT9SNYSr+cvfmyDrZZjaL9g9plX/7LIsVykXa
-         Hqwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776286607; x=1776891407;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=JqmrcX9qSaqHr61SrWlzMf7ZmFlrG/fsUaqnrdHct58=;
-        b=hvA75kPtTS5wbO/8heuVWaMrCnBrWgwxcZR6B795ITAHHcCHyKRThlW7MsHRuvfCiH
-         P5In97c+Gs+fxaotN4xnrDAwiPSv6unFGprAGP0G4ylucDyu4pCHmtp9TjEwjvlxU6Lc
-         G+rmhfnpd7EukqXdEqssz7MVaXxZJhn5zAOiUqyouySqCd9dNbbo9U27+7eYtsOFdcHH
-         B7h9ibap2PYOA1oU0RSzZjSX69YMR4yfoUBiTeKsj8kG5MP0h+BJ2umAHr8cS6Z0F+Cm
-         3fa3OZyu0Jc1TRdbnh/N+l0oS1jbEhYYecR2IzAvxad8y9u3yrCWyKI12yaTmexP8zKQ
-         x/oQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/9We1oJES+3eoHtbPZM0yPMSHBsGqXtI5091k1hg71cjaoBqheE1ON7je3aJjfsx4PCEBDQGk6TCc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy6t07xIjOP+QzSzaeSS9OJtbVDrlHRgck6fG5BErsaA0WJusx/
-	5pxNV8sbp994dCTrM1jJhqVuns/JOwO4QZI/oipT1h1iQ44jS6635Hk0EVzgpSCnZOd4kW44eXn
-	9pPAFV+XsuI1ffESYGaSEVPZ+aIO+GiSPk84Gjv9QWoteOs9l763cchwIN2k=
-X-Gm-Gg: AeBDieu1UdPAfMA7KxKbxzEUZmh5KKG1vGO8DaqS6oliY2GvCzr54zj7HwxBo64HqBU
-	WcXtnscsZIiXtKF8FMBXRoaVBjkr/rmV6/l57j6Gms9UJJUy34CZ9BeO6QvMBeNb5KYvyxWlQQy
-	0oI6ZF4VGuJ0Txf2bvVj/eb4jYVL8104UiPOiBA6j8EdOemPGANVvYpyw1RH9fT+0YrE8awqACs
-	CUhpOrlOFQPFdC13dxQLHlTa4JISimqp4uzTG/5UDH0d5zMOWEHya4kvxsNe8YltUxjVa5a2XMD
-	JYGJVq5TcrMtDR4sfavD2juGy9chR5Ra7FmbyG4+ULlxPQqpC1QEWkMgog==
-X-Received: by 2002:a05:600c:32af:b0:477:86fd:fb47 with SMTP id
- 5b1f17b1804b1-488f4a9d81emr153385e9.8.1776286606809; Wed, 15 Apr 2026
- 13:56:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="l6B98k3M"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=MoOdKN6PpE6F4nQGSr7k8XuWHXuzdwDWkhAC3V2KH+RyGPn4LDFfqpUpyJPWCQ0C3aYmXUtdDAnuO0OvD2UtYH6s/JrvIJlgM2JQGd7wJJIELUIAvKFxN/QeNlQ4UblDtF21oPnIsg7SxGse8zlenjFUUoH1bJK/6jkt4oDHVpk+s1+3F2av7ZjLN6MAYf5kVwV0PH1KqIksnIBimF67l8JXNqLO8wM6kc168T35Fp9TyTu7wW34qEUXcS71INYgQ3jALLkbINsxWYCOZLMeBUY5oUdOECjOk286c7lkg5pLy+XQaSw2o8J14vfmhDaWLmVkyO7fduVTvgur/ZCYpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FtoDJ6er/k2G53jxIosChbmXmrmiFKgC1O+HW2zAtcY=;
+ b=YB7HrUu3dSHtP9C8IcIby83iBl/BWw0yJvYPe37Z8T2Yrkw6vwwqJ+5d1slxC9lc4ATP2zoSKVeFwBcMyQDY4gDzfBrd4paYCQFUTLGKj9axxW+jZcHZ3FpT+Bw1P/mseutTuKuRxqyyLHXLXHdGJufYLV1mDzmz9j61aNF8etztycD83KJlSHKoDs6GV9JoxS1jDayU/D0bf87bU3sUyKdRL9gfGP23pETPOS/qwzNchXBz56OdbVkM7Wap7d4fLFaTU27Tk/Qadv06Qpf2PS/5eKTKe8BBrGanbVZ9NqmojFI+QyjXsa7ceeYbO6mdXm7AGNxO787gcqZXf9uatw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FtoDJ6er/k2G53jxIosChbmXmrmiFKgC1O+HW2zAtcY=;
+ b=l6B98k3MNFpijX3fd4BBLN4LXi1bYXxfQ4/7JpCXt4xfLZ+2K4CvpOSaGJt6yjGAuq8dYQnCpi6rZPjDYdvqFr6XfCqB5p1sg+cfE/2ITP1oqySoM2cwe3FI+uEj34eNvQSBWXR1t0bSi5s1J8+Ip2lSYJtRXqvdFMwikoXHQq/sGiUista6YIJ3wCX79SuFqufh9KIczx+AB785x8NKUrbylJZq3Xfy9oJrLRsAWsLve2uQHW8XzQck9sT/x2FYgzVmNl3UKyMNN71SyqYZyrphFPbs5Sj+XT6cjGhS6dW/cNjDi0+fKBwOxVVn6S8rAiPy2wj6Z1Txh6Y0FzJrzw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ SA3PR12MB9177.namprd12.prod.outlook.com (2603:10b6:806:39d::5) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9818.20; Wed, 15 Apr 2026 21:05:58 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9818.017; Wed, 15 Apr 2026
+ 21:05:57 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: linux-kernel@vger.kernel.org
+Cc: Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Dave Airlie <airlied@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Koen Koning <koen.koning@linux.intel.com>,
+	dri-devel@lists.freedesktop.org,
+	rust-for-linux@vger.kernel.org,
+	Nikola Djukic <ndjukic@nvidia.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Alex Deucher <alexander.deucher@amd.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Huang Rui <ray.huang@amd.com>,
+	Matthew Auld <matthew.auld@intel.com>,
+	Lucas De Marchi <lucas.demarchi@intel.com>,
+	Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
+	Helge Deller <deller@gmx.de>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>,
+	John Hubbard <jhubbard@nvidia.com>,
+	Alistair Popple <apopple@nvidia.com>,
+	Timur Tabi <ttabi@nvidia.com>,
+	Edwin Peer <epeer@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Andrea Righi <arighi@nvidia.com>,
+	Andy Ritger <aritger@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>,
+	Balbir Singh <balbirs@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>,
+	Elle Rhumsaa <elle@weathered-steel.dev>,
+	alexeyi@nvidia.com,
+	Eliot Courtney <ecourtney@nvidia.com>,
+	joel@joelfernandes.org,
+	linux-doc@vger.kernel.org,
+	amd-gfx@lists.freedesktop.org,
+	intel-gfx@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-fbdev@vger.kernel.org,
+	Joel Fernandes <joelagnelf@nvidia.com>
+Subject: [PATCH v11 01/20] gpu: nova-core: gsp: Return GspStaticInfo from boot()
+Date: Wed, 15 Apr 2026 17:05:28 -0400
+Message-Id: <20260415210548.3776595-1-joelagnelf@nvidia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: CY5PR19CA0039.namprd19.prod.outlook.com
+ (2603:10b6:930:1a::29) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
-In-Reply-To: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Wed, 15 Apr 2026 13:56:35 -0700
-X-Gm-Features: AQROBzC_-yVQi7CjcD3DiHe7zBgEWti0V3awpLyPpMnYVTnD0d4omoeELg1sqHw
-Message-ID: <CACw3F51PC0iB6mfbiceQ_Kh242FN8zdXOfTyE5Pa_5+gjTPPGg@mail.gmail.com>
-Subject: Re: [PATCH v4 0/3] mm/memory-failure: add panic option for
- unrecoverable pages
-To: Breno Leitao <leitao@debian.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|SA3PR12MB9177:EE_
+X-MS-Office365-Filtering-Correlation-Id: 45ccdad8-0b9f-4694-7ef0-08de9b32ca35
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	TTctzZ88b27E0Mex5M5ktlOPT38CasE/TVsLQQm6P0ZxqaFsBcsc+UgHOR22ku0JppRg9hl/vvxT9UwH7tdDnLnYaHAMx5JTEmcw0dW3UsRyJHV8Q3ywEFRXc7OCvRSbarW6fmrxdhlS2GDdKA1kiA8uvZpfQ00PkRLFZfk74+Ir6ki2u9vyXtPqYkJBV327iY3TLmsqlFrZLCSWxVIpXPEuWaJSp6q/iCcJcbUA/oCZTUUG4Ciw8KATtJrRgZAxehDNLuOBWtrgZfXXe1JJF88BUFWot8aiJ+55Fcdpo76LlE53WBJJjZpGG/edCyzoBssbSoJHwlFKF408HeeXLFBpTWFQQETu1ImFwFQWEfPAUdMw6VQQD7frymMusr+LuS4dbMm7hYlSYwX2dwiOCQjk2/RsgibBDrWOPUKlyI1XCGTJso3QY+vrhY3zlsy3IBzwKkycUKna//TXP/KHPC8JrDQzo1EeunyqlPh/DbBGoKf4I7uQm/xcU5B5XV/nJvBXKqFEgahnA9Y/mmviWAQnT8hLmQxlVB8xVW8RjZQncPPjJf15HalLJQUOHMeIsnRKkv0RA9OjSuBT1tZxm47vk6SuSImvq51rbZCW94VBdVa8j/f2xpB/7lN2yO1xjOeLwILn0W7KbvPSEK9nMMZO7mbyhG2ILKvaM/5gwYWtBf/R2pqy2ns+cPCKn4vTZ+XBD8/q4e4eRpE96xkKvkVRU5I73DJB4KjZ2ZEuwBs=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?py/7ueszEtZM5LK2gZG5aVKnt56sQqzni/Qedt+zUAt2kwTdSSLf6/2eHFdS?=
+ =?us-ascii?Q?Jb2ECe5XW5juuMLD3Nh+RgKSEsUcxw9MVN3v3MXMp/yH2YR02KKCeX/K7YIJ?=
+ =?us-ascii?Q?e+MhYs5jjHlzMeaJjxR9mgKIdTU76XWuybKXrMj1ShGQ9FB9mRQQBbD6K/4T?=
+ =?us-ascii?Q?Gbj8ZMNfBhxV+5yJ5to0pa9Qd4/YPVSI9iK/J37eW/HaXiE83AMGxMP/pcAF?=
+ =?us-ascii?Q?KDlYPNbzLnSRr+LZyJsYUuTTeylkRMuLhLdtpCi5x5UBYO5gPMkYCBal8G9m?=
+ =?us-ascii?Q?WODcUohMGj3wKkBrfcLI5RsR8fSeNXN03MuY5+iScvsCn9VcaiHMaZqx5nso?=
+ =?us-ascii?Q?9ttkYUHO24l7BrI+ykEe78A7KAUaiFsGcvFuLh8PkqYFRwirBbLdZMAZhP6w?=
+ =?us-ascii?Q?yo8ukezRj7yFKWv7HR4+Dnl7RUOZMwzqyhpiR9G5KX+JmkvPL7aCkv/oiqJl?=
+ =?us-ascii?Q?1f5BBUCYDaCYtjbCuDfl0f21OmLaGOs3yRsGLhmC6ZXlB08EPRN8YJzQcBiG?=
+ =?us-ascii?Q?zCjDgI6DL3gB1Tt3Ib1mBsAc9kE507nv7+fqXha3bPfIBvp1ZUmAtGG868hk?=
+ =?us-ascii?Q?N3HQNHRQu0/ds+PPuWQ1FZ/G3uI/zRCaQVopekcLLe2RP5lMdSXPen4DzxY1?=
+ =?us-ascii?Q?jG9xBsUEeheY4Vm9YnmyxDOKfdE58dFSS6efCA94ZuCLkupOvDBPKd8sqWVo?=
+ =?us-ascii?Q?Yk3Fr2bKW3Hckms5Xl7O2wTVGe3/0+MkJ+DBylRfkAn+0fFCN0/uJZP4mwM4?=
+ =?us-ascii?Q?woJ0ojj6G8k/fcpMMhmCxWrAwjATJa0LQwtGiFB5mvUozHU5Tyo4pChLZcDd?=
+ =?us-ascii?Q?mvLPonZuj8CSxx2XmA2rK9X5F4ahcdiZcv4NQ+cUnvSnr03sbRBrhevwI+fA?=
+ =?us-ascii?Q?xWTrE7BQbYz70x7WSW1DjL6hFqM9YXyHCnZhbLIMbRcpiVkih3Z2LTRjNsab?=
+ =?us-ascii?Q?RsjHvYXoD+TTfM7bthUxtx7+TaWAjHNTDE8PJwdLNKeEClVbzPH78nOqBBzk?=
+ =?us-ascii?Q?4PHQ5WrJjma2rhe2Z8u3gDOqythdSpr7urN8mHaqBFiwGFNeqGKhkLcI2WLI?=
+ =?us-ascii?Q?qJ+2fE7UqJh2GtBUFTJrvDZcKFiMugN9b+PQgCTvq3BOX8RCcXYYSslDV47C?=
+ =?us-ascii?Q?5KXZsV03TVJ4fmReiI3XLmJNncvq+YZBYmaG8j6Oo1tedwEcHJF+iaoipz/J?=
+ =?us-ascii?Q?xpzyi/um3Vpk+SnfvNDIxpKvfZVVg6ifxiemKzOtJ0BYPtdWrS5toxm/Ez53?=
+ =?us-ascii?Q?DPqVn7j0d/n6x/TEskq/RQrBpcCPacPuESCQvgeV2kHIuNvFYKcKz/5E6OwM?=
+ =?us-ascii?Q?VkjrWV/qRoBCP1nXmMvkHEkzcxt2Ki5QpisOTqumZVL9SMcZKQh6neqIYRvx?=
+ =?us-ascii?Q?4gtr8BzXyZBNNEikT6U35LQJntZhmOkncI2EED2Z4WhUMmYILRfBcArDQKX3?=
+ =?us-ascii?Q?6Yp++RxncmZH3aKQ0oRSu3bD2YDzclCMYHlLtE6fvRX+PWnTiQ5a7L3tpzfi?=
+ =?us-ascii?Q?CmnRZg2Zmc7aYN39I45xpVmBk8TjVYOYVljf9I3xmswemgeB3hSZ5JKQZ3fD?=
+ =?us-ascii?Q?TGtcra7RUEU8+ESB9aybWR8pmvoMAynVFnvedKd2xVByQK9dk/SfR7vmRCEK?=
+ =?us-ascii?Q?bpcECBDljY4sNqasYVASe53W3DJUYrbfAnkzX/x4bW4OUwnlQMwiVTOoCGhZ?=
+ =?us-ascii?Q?rqd53VR1Itj1OB5IKpgRWU/YLsuLdhFm2D4R5Vvy5HOszcRexk+sdKvdzsnk?=
+ =?us-ascii?Q?8skRiI3+SQ=3D=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 45ccdad8-0b9f-4694-7ef0-08de9b32ca35
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2026 21:05:57.8015
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dOpd+OUQJX/JH5WX6rDdHoiDkHPxiVqfCb5ix3gsaGMkHGq7rxENiH8LVn4VH9HCodw58VotfSlavpap82ZmHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB9177
 
-Hi Breno,
+Refactor the GSP boot function to return GetGspStaticInfoReply.
 
-On Wed, Apr 15, 2026 at 5:55=E2=80=AFAM Breno Leitao <leitao@debian.org> wr=
-ote:
->
-> When the memory failure handler encounters an in-use kernel page that it
-> cannot recover (slab, page tables, kernel stacks, vmalloc, etc.), it
-> currently logs the error as "Ignored" and continues operation.
->
-> This leaves corrupted data accessible to the kernel, which will inevitabl=
-y
-> cause either silent data corruption or a delayed crash when the poisoned =
-memory
-> is next accessed.
->
-> This is a common problem on large fleets. We frequently observe multi-bit=
- ECC
-> errors hitting kernel slab pages, where memory_failure() fails to recover=
- them
-> and the system crashes later at an unrelated code path, making root cause
-> analysis unnecessarily difficult.
->
-> Here is one specific example from production on an arm64 server: a multi-=
-bit
-> ECC error hit a dentry cache slab page, memory_failure() failed to recove=
-r it
-> (slab pages are not supported by the hwpoison recovery mechanism), and 67
-> seconds later d_lookup() accessed the poisoned cache line causing
-> a synchronous external abort:
->
->     [88690.479680] [Hardware Error]: error_type: 3, multi-bit ECC
->     [88690.498473] Memory failure: 0x40272d: unhandlable page.
->     [88690.498619] Memory failure: 0x40272d: recovery action for
->                    get hwpoison page: Ignored
->     ...
->     [88757.847126] Internal error: synchronous external abort:
->                    0000000096000410 [#1] SMP
->     [88758.061075] pc : d_lookup+0x5c/0x220
->
-> This series adds a new sysctl vm.panic_on_unrecoverable_memory_failure
-> (default 0) that, when enabled, panics immediately on unrecoverable
-> memory failures. This provides a clean crash dump at the time of the
+This enables access required for memory management initialization to:
+- bar1_pde_base: BAR1 page directory base.
+- bar2_pde_base: BAR2 page directory base.
+- usable memory regions in video memory.
 
-I get the fail-fast part, but wonder will kernel really be able to
-provide clean crash dump useful for diagnosis?
+Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
+Cc: Nikola Djukic <ndjukic@nvidia.com>
+Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+---
+ drivers/gpu/nova-core/gpu.rs      | 9 +++++++--
+ drivers/gpu/nova-core/gsp/boot.rs | 9 ++++++---
+ 2 files changed, 13 insertions(+), 5 deletions(-)
 
-In your example at 88757.847126, kernel was handling SEA and because
-we are under kernel context, eventually has to die(). Apparently not
-only your patch, but also memory-failure has no role to play there.
-But at least SEA handling tried its best to show the kernel code that
-consumed the memory error.
+diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+index 0f6fe9a1b955..b4da4a1ae156 100644
+--- a/drivers/gpu/nova-core/gpu.rs
++++ b/drivers/gpu/nova-core/gpu.rs
+@@ -21,7 +21,10 @@
+     },
+     fb::SysmemFlush,
+     gfw,
+-    gsp::Gsp,
++    gsp::{
++        commands::GetGspStaticInfoReply,
++        Gsp, //
++    },
+     regs,
+ };
+ 
+@@ -238,6 +241,8 @@ pub(crate) struct Gpu {
+     /// GSP runtime data. Temporarily an empty placeholder.
+     #[pin]
+     gsp: Gsp,
++    /// Static GPU information from GSP.
++    gsp_static_info: GetGspStaticInfoReply,
+ }
+ 
+ impl Gpu {
+@@ -269,7 +274,7 @@ pub(crate) fn new<'a>(
+ 
+             gsp <- Gsp::new(pdev),
+ 
+-            _: { gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falcon)? },
++            gsp_static_info: { gsp.boot(pdev, bar, spec.chipset, gsp_falcon, sec2_falcon)? },
+ 
+             bar: devres_bar,
+         })
+diff --git a/drivers/gpu/nova-core/gsp/boot.rs b/drivers/gpu/nova-core/gsp/boot.rs
+index 6f707b3d1a54..d42637db06dd 100644
+--- a/drivers/gpu/nova-core/gsp/boot.rs
++++ b/drivers/gpu/nova-core/gsp/boot.rs
+@@ -33,7 +33,10 @@
+     },
+     gpu::Chipset,
+     gsp::{
+-        commands,
++        commands::{
++            self,
++            GetGspStaticInfoReply, //
++        },
+         sequencer::{
+             GspSequencer,
+             GspSequencerParams, //
+@@ -145,7 +148,7 @@ pub(crate) fn boot(
+         chipset: Chipset,
+         gsp_falcon: &Falcon<Gsp>,
+         sec2_falcon: &Falcon<Sec2>,
+-    ) -> Result {
++    ) -> Result<GetGspStaticInfoReply> {
+         let dev = pdev.as_ref();
+ 
+         let bios = Vbios::new(dev, bar)?;
+@@ -235,6 +238,6 @@ pub(crate) fn boot(
+             Err(e) => dev_warn!(pdev, "GPU name unavailable: {:?}\n", e),
+         }
+ 
+-        Ok(())
++        Ok(info)
+     }
+ }
+-- 
+2.34.1
 
-So your code should apply to the memory failure handling at
-88690.498473, which is likely triggered from APEI GHES for poison
-detection (I guess the example is from ARM64). Anything except SEA is
-considered not synchronous (by APEI is_hest_sync_notify()). If kernel
-panics there, I guess it will be in a random process context or a
-kworker thread? How useful is it for diagnosis? Just the exact time an
-error detected (which is already logged by kernel)?
-
-On X86, for UCNA or SRAO type machine check exceptions, I think with
-your patch the panic would also happen in random process context or
-kworker thread,
-
-Can you share some clean crash dumps from your testing that show they
-are more useful than the crash at SEA? Thanks!
-
-> error, which is far more useful for diagnosis than a random crash later
-> at an unrelated code path.
->
-> This also categorizes reserved pages as MF_MSG_KERNEL, and panics on
-> unknown page types (MF_MSG_UNKNOWN).
->
-> Note that dynamically allocated kernel memory (SLAB/SLUB, vmalloc,
-> kernel stacks, page tables) shares the MF_MSG_GET_HWPOISON return path
-> with transient refcount races, so it is intentionally excluded from the
-> panic conditions to avoid false positives.
->
-> Signed-off-by: Breno Leitao <leitao@debian.org>
-> ---
-> Changes in v4:
-> - Drop CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC kernel configuration option.
-> - Split the reserved page classification (MF_MSG_KERNEL) into its own
->   patch, separate from the panic mechanism.
-> - Document why the buddy allocator TOCTOU race (between
->   get_hwpoison_page() and is_free_buddy_page()) cannot cause false
->   positives: PG_hwpoison is set beforehand and check_new_page() in the
->   page allocator rejects hwpoisoned pages.
-> - Document the narrow LRU isolation race window for MF_MSG_UNKNOWN and
->   its mitigation via identify_page_state()'s two-pass design.
-> - Explicitly document why MF_MSG_GET_HWPOISON is excluded from the
->   panic conditions (shared path with transient races and non-reserved
->   kernel memory).
-> - Link to v3: https://patch.msgid.link/20260413-ecc_panic-v3-0-1dcbb2f12b=
-c4@debian.org
->
-> Changes in v3:
-> - Rename is_unrecoverable_memory_failure() to panic_on_unrecoverable_mf()
->   as suggested by maintainer.
-> - Add CONFIG_BOOTPARAM_MEMORY_FAILURE_PANIC kernel configuration option,
->   similar to CONFIG_BOOTPARAM_HARDLOCKUP_PANIC.
-> - Add documentation for the sysctl and CONFIG option.
-> - Add code comments documenting the panic condition design rationale and
->   how the retry mechanism mitigates false positives from buddy allocator
->   races.
-> - Link to v2: https://patch.msgid.link/20260331-ecc_panic-v2-0-9e40d0f64f=
-7a@debian.org
->
-> Changes in v2:
-> - Panic on MF_MSG_KERNEL, MF_MSG_KERNEL_HIGH_ORDER and MF_MSG_UNKNOWN
->   instead of MF_MSG_GET_HWPOISON.
-> - Report MF_MSG_KERNEL for reserved pages when get_hwpoison_page() fails
->   instead of MF_MSG_GET_HWPOISON.
-> - Link to v1: https://patch.msgid.link/20260323-ecc_panic-v1-0-72a1921726=
-c5@debian.org
->
-> ---
-> Breno Leitao (3):
->       mm/memory-failure: report MF_MSG_KERNEL for reserved pages
->       mm/memory-failure: add panic option for unrecoverable pages
->       Documentation: document panic_on_unrecoverable_memory_failure sysct=
-l
->
->  Documentation/admin-guide/sysctl/vm.rst | 37 +++++++++++++
->  mm/memory-failure.c                     | 92 +++++++++++++++++++++++++++=
-+++++-
->  2 files changed, 128 insertions(+), 1 deletion(-)
-> ---
-> base-commit: e6efabc0afca02efa263aba533f35d90117ab283
-> change-id: 20260323-ecc_panic-4e473b83087c
->
-> Best regards,
-> --
-> Breno Leitao <leitao@debian.org>
->
->
