@@ -1,164 +1,156 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DE7301717;
-	Wed, 15 Apr 2026 01:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 220512D6407
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 01:48:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776217415; cv=none; b=EDRpUwBHWfhBgw4PZVEYClcWhgVQwNuLMuKF5s728Y7+xWebuuBBYjHfmIZoP00XJhzF7vBjO478QUfIzV6aGd3BCY5iOPSXZPTZKqToUL2Y0iwkLPcdOlo7poulQmydIC5T3eV1U7Q+UYTJnXCFqR5iG5hWpEH4mLvRLti7LQQ=
+	t=1776217683; cv=none; b=WC3trWRN9Vy7RXrRN+ZwN9CVWlUHPR2B2hZZwBPEVPLt58+zdVgiyy+rftgL+HsEnhaYMKFVezG4qBAIz4QSVKzkkH8kD+8B1zCh+nxtj4+JLZZyfY+u8apGFlNQXZ55Tm5RGbeK0AHQVBCz3VDDJffk9NuAowLBRG7V4exP45M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776217415; c=relaxed/simple;
-	bh=KJ1dmm7JBQS8tm37XInqKorcvhoHPQHM2ZL56cx+0tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hCW+sRM2/mmzdSQrGmpnNnBbykdTwg9ChStRuUN2ZKtazNbaapp/nyR9AV5ZbGJw6abR7qOp9ngGX1jiO0kISbpjBwBaws0QPPHzQXr4UQK+rwkyAy4O4YlRjdZR/O7Ph9Ckzkf8dqL7/AYSbhtSU/k/rlewzMWrJhgKpZ0vP24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISGfLv1y; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776217683; c=relaxed/simple;
+	bh=3+kNzHFejOQOLKMulMK/JUItcTuX/0dCa0b0gn4yakM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Payqc3EYCAAhjgpX5D0BmWqI5RldALVR2LHaz7E1VMmnpQFWu2Vgd0fwvUENx+gRXDx01qTQlMJwdathQp5CrbsaZVQbDcMF8ZEmJIwIvvqX4zU5pI+69JNguQeleqLWpyalq8kDQ60jZMVAOGvicVEvEJBQrSzfqHNh5S9D24Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=VMw2B7OE; arc=none smtp.client-ip=95.215.58.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISGfLv1y"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776217412; x=1807753412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=KJ1dmm7JBQS8tm37XInqKorcvhoHPQHM2ZL56cx+0tc=;
-  b=ISGfLv1yhmoO5dILPKqcyW4sfx02z/I8zD/a5eVSZWlpQ4A7fwi0sO4k
-   /MJ/15/vWAnyULGeMhYgGagVFgLSrIVL8+NO8Hzcg76aDVjNxpbkaDyLP
-   q68FvjvXgea0y6IDxlUwgh+xIb2P8leCAnz0qQy3gfXUegnuvOVI5iLST
-   tb6bogdVtv8JmQeHWlGOX5pzMlzuzBRhYzj/XMf8NZdMRYpZb16DT1TCH
-   a2jBCpxLCfOqy44XTM2uqctn4A89WBNGr46rki2yJBNrBxGgq9nTJRC2T
-   +cwRchfmLXl6rjgV0jsRdbNZViCBV7krHI37WZoTeuCHKIIpeWIWbfMks
-   Q==;
-X-CSE-ConnectionGUID: GDCVGrEBR6O6TMl/8Y6xFA==
-X-CSE-MsgGUID: q5ISzMaNRnyHNoABTb930Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77092845"
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="77092845"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 18:43:31 -0700
-X-CSE-ConnectionGUID: xDnDgNgmQHylQE5TEFOqqQ==
-X-CSE-MsgGUID: 0K3ensgWS3ubo6LrqDE3yw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
-   d="scan'208";a="229401197"
-Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
-  by orviesa010.jf.intel.com with ESMTP; 14 Apr 2026 18:43:28 -0700
-Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wCpHp-0000000023N-1IVW;
-	Wed, 15 Apr 2026 01:43:25 +0000
-Date: Wed, 15 Apr 2026 09:43:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Youling Tang <youling.tang@linux.dev>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
-	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, youling.tang@linux.dev,
-	Youling Tang <tangyouling@kylinos.cn>
-Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
-Message-ID: <202604150941.oDguaP7A-lkp@intel.com>
-References: <20260404074103.506793-1-youling.tang@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="VMw2B7OE"
+Message-ID: <0b3a3a41-f709-4414-8a5d-d2eb4959db3f@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776217669;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DWZ6Awtfs3P/gl9vFEiAqeXj5OtNuxNWZvMMh21RkVs=;
+	b=VMw2B7OE+m0xis7HfvVFF4qD/6oF3WQJELxb1d67PI/yEdWIbjSSJyqJFh0NrlOmY8TbmZ
+	7a+ie5p5hEJVF6PFLY2oPp0RNWIpMt7Ss8O+s2xBjt4zV3LgOh+usXWX9xyfhCcfH/GhpG
+	tQjTjDJfg+w1T+duTHUGiD7s7aq2LvQ=
+Date: Wed, 15 Apr 2026 09:47:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260404074103.506793-1-youling.tang@linux.dev>
-
-Hi Youling,
-
-kernel test robot noticed the following build errors:
-
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on linus/master v7.0 next-20260414]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/crash-Support-high-memory-reservation-for-range-syntax/20260414-205035
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20260404074103.506793-1-youling.tang%40linux.dev
-patch subject: [PATCH] crash: Support high memory reservation for range syntax
-config: s390-defconfig (https://download.01.org/0day-ci/archive/20260415/202604150941.oDguaP7A-lkp@intel.com/config)
-compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150941.oDguaP7A-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604150941.oDguaP7A-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   kernel/crash_reserve.c:264:19: warning: expression which evaluates to zero treated as a null pointer constant of type 'char *' [-Wnon-literal-null-conversion]
-     264 |         char *first_gt = false;
-         |                          ^~~~~
->> kernel/crash_reserve.c:324:16: error: use of undeclared identifier 'DEFAULT_CRASH_KERNEL_LOW_SIZE'
-     324 |                         *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning and 1 error generated.
+Subject: Re: [PATCH bpf] bpf,tcp: avoid infinite recursion in
+ BPF_SOCK_OPS_HDR_OPT_LEN_CB
+To: mkf <message1887@163.com>, bpf@vger.kernel.org
+Cc: Quan Sun <2022090917019@std.uestc.edu.cn>, Yinhao Hu
+ <dddddd@hust.edu.cn>, Kaiyan Mei <M202472210@hust.edu.cn>,
+ Dongliang Mu <dzm91@hust.edu.cn>, Eric Dumazet <edumazet@google.com>,
+ Neal Cardwell <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau
+ <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>,
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+ Jiri Olsa <jolsa@kernel.org>, David Ahern <dsahern@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260414105702.248310-1-jiayuan.chen@linux.dev>
+ <42c1fed84a84519c2432163aa46f587f2d624fef.camel@163.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+In-Reply-To: <42c1fed84a84519c2432163aa46f587f2d624fef.camel@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
 
-vim +/DEFAULT_CRASH_KERNEL_LOW_SIZE +324 kernel/crash_reserve.c
+On 4/14/26 11:37 PM, mkf wrote:
+> On Tue, 2026-04-14 at 18:57 +0800, Jiayuan Chen wrote:
 
-   282	
-   283	static int __init __parse_crashkernel(char *cmdline,
-   284				     unsigned long long system_ram,
-   285				     unsigned long long *crash_size,
-   286				     unsigned long long *crash_base,
-   287				     const char *suffix,
-   288				     bool *high,
-   289				     unsigned long long *low_size)
-   290	{
-   291		char *first_colon, *first_space;
-   292		char *ck_cmdline;
-   293		char *name = "crashkernel=";
-   294		unsigned long long boundary = 0;
-   295		int ret;
-   296	
-   297		BUG_ON(!crash_size || !crash_base);
-   298		*crash_size = 0;
-   299		*crash_base = 0;
-   300	
-   301		ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
-   302		if (!ck_cmdline)
-   303			return -ENOENT;
-   304	
-   305		ck_cmdline += strlen(name);
-   306	
-   307		if (suffix)
-   308			return parse_crashkernel_suffix(ck_cmdline, crash_size,
-   309					suffix);
-   310		/*
-   311		 * if the commandline contains a ':', then that's the extended
-   312		 * syntax -- if not, it must be the classic syntax
-   313		 */
-   314		first_colon = strchr(ck_cmdline, ':');
-   315		first_space = strchr(ck_cmdline, ' ');
-   316		if (first_colon && (!first_space || first_colon < first_space)) {
-   317			ret = parse_crashkernel_mem(ck_cmdline, system_ram,
-   318					crash_size, crash_base);
-   319	
-   320			/* Handle optional ',>boundary' condition for range ':' syntax only. */
-   321			parse_crashkernel_boundary(ck_cmdline, &boundary);
-   322			if (!ret && *crash_size > boundary) {
-   323				*high = true;
- > 324				*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
-   325			}
-   326	
-   327			return ret;
-   328		}
-   329	
-   330		return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
-   331	}
-   332	
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+[...]
+
+> --- a/include/linux/tcp.h
+> +++ b/include/linux/tcp.h
+> @@ -475,12 +475,21 @@ struct tcp_sock {
+>   	u8	bpf_sock_ops_cb_flags;  /* Control calling BPF programs
+>   					 * values defined in uapi/linux/tcp.h
+>   					 */
+> -	u8	bpf_chg_cc_inprogress:1; /* In the middle of
+> +	u8	bpf_chg_cc_inprogress:1, /* In the middle of
+>   					  * bpf_setsockopt(TCP_CONGESTION),
+>   					  * it is to avoid the bpf_tcp_cc->init()
+>   					  * to recur itself by calling
+>   					  * bpf_setsockopt(TCP_CONGESTION, "itself").
+>   					  */
+> +		bpf_hdr_opt_len_cb_inprogress:1; /* It is set before invoking the
+> +						  * callback so that a nested
+> +						  * bpf_setsockopt(TCP_NODELAY) or
+> +						  * bpf_setsockopt(TCP_CORK) cannot
+> +						  * trigger tcp_push_pending_frames(),
+> +						  * which would call tcp_current_mss()
+> +						  * -> bpf_skops_hdr_opt_len(), causing
+> +						  * infinite recursion.
+> +						  */
+>   #define BPF_SOCK_OPS_TEST_FLAG(TP, ARG) (TP->bpf_sock_ops_cb_flags & ARG)
+>   #else
+>   #define BPF_SOCK_OPS_TEST_FLAG(TP, ARG) 0
+> diff --git a/net/core/filter.c b/net/core/filter.c
+> index 78b548158fb0..518699429a7a 100644
+> --- a/net/core/filter.c
+> +++ b/net/core/filter.c
+> @@ -5483,6 +5483,10 @@ static int sol_tcp_sockopt(struct sock *sk, int optname,
+>   	if (sk->sk_protocol != IPPROTO_TCP)
+>   		return -EINVAL;
+>   
+> +	if ((optname == TCP_NODELAY || optname == TCP_CORK) &&
+> +	    tcp_sk(sk)->bpf_hdr_opt_len_cb_inprogress)
+> +		return -EBUSY;
+> +
+> TCP_CORK is not support in sol_tcp_sockopt(), return -EINVAL by default. and put the check here
+> could also prevent us from calling getsockopt(TCP_NODELAY) below.
+>
+>>   	switch (optname) {
+>>   	case TCP_NODELAY:
+>>   	case TCP_MAXSEG:
+>> diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+>> index dafb63b923d0..fb06c464ac16 100644
+>> --- a/net/ipv4/tcp_minisocks.c
+>> +++ b/net/ipv4/tcp_minisocks.c
+>> @@ -663,6 +663,7 @@ struct sock *tcp_create_openreq_child(const struct sock *sk,
+>>   	RCU_INIT_POINTER(newtp->fastopen_rsk, NULL);
+>>   
+>>   	newtp->bpf_chg_cc_inprogress = 0;
+>> +	newtp->bpf_hdr_opt_len_cb_inprogress = 0;
+>>   	tcp_bpf_clone(sk, newsk);
+>>   
+>>   	__TCP_INC_STATS(sock_net(sk), TCP_MIB_PASSIVEOPENS);
+>> diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
+>> index 326b58ff1118..c9654e690e1a 100644
+>> --- a/net/ipv4/tcp_output.c
+>> +++ b/net/ipv4/tcp_output.c
+>> @@ -475,6 +475,7 @@ static void bpf_skops_hdr_opt_len(struct sock *sk, struct sk_buff *skb,
+>>   				  unsigned int *remaining)
+>>   {
+>>   	struct bpf_sock_ops_kern sock_ops;
+>> +	struct tcp_sock *tp = tcp_sk(sk);
+>>   	int err;
+>>   
+>>   	if (likely(!BPF_SOCK_OPS_TEST_FLAG(tcp_sk(sk),
+>> @@ -519,7 +520,9 @@ static void bpf_skops_hdr_opt_len(struct sock *sk, struct sk_buff *skb,
+>>   	if (skb)
+>>   		bpf_skops_init_skb(&sock_ops, skb, 0);
+>>   
+>> +	tp->bpf_hdr_opt_len_cb_inprogress = 1;
+> we check the BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG before calling BPF_CGROUP_RUN_PROG_SOCK_OPS_SK,
+> could this flag use for the same purpose? so we don't need to add an extra field.
+>
+> 	if (likely(!BPF_SOCK_OPS_TEST_FLAG(tcp_sk(sk),
+> 					   BPF_SOCK_OPS_WRITE_HDR_OPT_CB_FLAG)) ||
+> 	    !*remaining)
+> 		return;
+
+
+Hi Martin, I saw your patch. Your solution is better, please ignore mine :)
+
+
+
