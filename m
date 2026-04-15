@@ -1,216 +1,252 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49D9038AC7D
-	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 08:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D987838B146;
+	Wed, 15 Apr 2026 08:41:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776241213; cv=none; b=UOE6JtmQb2D4qEG8TbqSIRwi9GzdLfs0oT8FIyeo+4eJvfVy42ZIKAQw9B7JMnRyuWuoalasqDndex172/dbXpZzYYhgtDhQqDHLUHWA1l8rhhoKtDTtxWPIO29GyI4DeF/ULlWuHA3VChASSxrrbdMe7gVO7xJLcLI8bDL9aC0=
+	t=1776242494; cv=none; b=uiUgNR+J0PPSlY4dbGl36VIVpvMsKEFzn0WLI6DPk7XX7KoblguJjJ2HFei/MgNGua8+QEVMf+wdT9kQnD/zs1s7H2kY97q8T8rj7KhXYSF1MTWnyf+kgqji/CnuX11KWD9NrcXU8AJUrBfqsgt2ELX/Wq6I/wNmQGkM2vIm0Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776241213; c=relaxed/simple;
-	bh=AS429itr7wbpGuNOk5jL7MlDnLt1qmHnn3vRkHB1nVk=;
+	s=arc-20240116; t=1776242494; c=relaxed/simple;
+	bh=eNe90dnGEwFYmwMJ23lPtYLzIduu9ItXjVHRdlA/aWw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W2RG+Gmjy98ZclUNjW98CGCra9WepxOCO1i5XA/grklvlioGHJpbfljfFYbXAOyydfb3IVZe4ugr/kGi+OImdlfclLg4j/zMB/DHLoXy7q/ngwsrgZign0PTh8yPDkyiiBWp0AS3zv1GLIIpxxhSHjvAMdSqOJCiKvY5KjxvjTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O0k3KIXT; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oe7BINMxO7xkauVaq9rfBeDRjPPeCqWS/pFVFh/vnG/lcMe9DHQkYf/6Ucu8gRpD9GiigxKLsXvczkzrxIg0T7me68ipuyVyWz7F6Kq+eQ/4JhqcLIrKYmoo1jzCLIXElEoXHwZ4cd+qjIFI+uOK1ubOP3cbR6aVwv7o9La7nHI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ec21mLYw; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O0k3KIXT"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso60816505e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 01:20:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776241211; x=1776846011; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=0otFmE3OfgX1ocRffAsBD3VgKhSHJKmOocoLMY68w2Q=;
-        b=O0k3KIXTrRRTXq7ITdfsgz4CqfxhnnsMH1eB/RPf8ZrOiN+jGV7dxT1ik7p8SNFD4O
-         jI4fSaTYA40PH2meeWkBVio+RGdNX7bS+9NrufjDQektPsXipRcOjrxVkTI/J14sF9ht
-         d77eO62p8G4jsUCwh4bijIM1BiLwlzJL1GQg4D0UumwndDvsJ/ToV/MMIzQu3U94vpzW
-         d+h8ES2B1K9GtcErvIv2vEtf4/CKmgUtbstgEbZNpyD6/mIEhXR3MbOkWvMXBVrzr645
-         6PG1yiI5JiN3JouibmvfbLp9TGVvQyIoh/jCNDHZu4Z1q6tTGGVK4XR2rFetxvd9dSce
-         hm+g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776241211; x=1776846011;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0otFmE3OfgX1ocRffAsBD3VgKhSHJKmOocoLMY68w2Q=;
-        b=s7rfHi1ZhNF9V654lNtVxi2gX1b71f34N4zBN8XBgRaivxN+Wv0T9lWx+uT8U28rKH
-         i96vC70j3ft+AbFBKU0rQL5wh70Z2q2SwRRizN7ioQhoOxyF7OEPWkfI3oxU8RlgPNK0
-         HMd1Yg0jzAHWBb5lY4hEUnucqZKUV4tNQvN3USFnbkkKyNNXSawpTsUG5TUYAG8PqtcY
-         Xw+A7ennMMxOEFSs6G9tYsP6WofFmKFCz6d3or4TLlYDAMCMH0iYWdPDg0hzDDeTWG6v
-         mUxowfhQ2AxEzjld3fMUqsTAuVrT0+tFe7pJbjA4n4n9hz4yWPkE4SymWervWPm/uMrN
-         3IlQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9oe+Yl15j58ADmt49UUfpxdELDuPpkY4S1B9069b6rOBeuuYsuC+fMGJK7LQChvmB+yheHZW2/gfg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbneMTe84oj3Ha84g5sOWTkYJZ1sg22WLZ6RDIXo8ubE12E3Vk
-	EmFLpjvOhaDzQTlZSUGdNW2k6j+kfT49ATk9jqivSLSWcZogQoBnAuFk
-X-Gm-Gg: AeBDiesr97Dyfwpwbz1Vn86Ot1djEbmaCT2B0eFHImiS7yw7RysyDg4/IELgLY+v1jC
-	kXfbovREarpeIo4FD+WR+tfpyyULq7oQwG9s3+GUDYpwdRArY7/UNsXdI0qcEUwJ0QazPeGrCVM
-	nWFC8cz/JTsphCen7LUlIFxIrR6mpNrHnZJzT0dbakcXTkqL8SCaPsSYcODycRCRxs2NinuCJiD
-	j4HJD0BcbtzqIad6yJalECXvEXW/YEPbc5yb8brcGNx83zERkrL1o5bW1xYUIkFi5xBDA+XV1Bh
-	Prc4UVMsjyjNZ7qsXAv9C6/uWb5hsVnyR9ytvMIYX2LOBV4D9XC862yeozOHeRECHEmVW3dtML5
-	R6HPJlZQ0P8cnI8gVUatsrAHteAjLqsMRAQO0wA74uLrJM7tMYpkMeeUH6U5GjCPnvuG919s5j+
-	fjtJ5L5aMO2zfz/NSTHZScLcg=
-X-Received: by 2002:a05:600c:c0dc:b0:488:aa3d:fab1 with SMTP id 5b1f17b1804b1-488d68364f2mr188027275e9.17.1776241210420;
-        Wed, 15 Apr 2026 01:20:10 -0700 (PDT)
-Received: from nsa ([45.94.208.74])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead3ebaf1sm2980604f8f.33.2026.04.15.01.20.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Apr 2026 01:20:09 -0700 (PDT)
-Date: Wed, 15 Apr 2026 09:20:59 +0100
-From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
-	"Hennerich, Michael" <Michael.Hennerich@analog.com>, "Sa, Nuno" <Nuno.Sa@analog.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, 
-	Mark Brown <broonie@kernel.org>, Linus Walleij <linusw@kernel.org>, 
-	Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	"linux-iio@vger.kernel.org" <linux-iio@vger.kernel.org>, "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org" <linux-pwm@vger.kernel.org>, 
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
-Message-ID: <ad9J9C5K7tyxuztU@nsa>
-References: <20260409-ad4692-multichannel-sar-adc-driver-v7-0-be375d4df2c5@analog.com>
- <20260409-ad4692-multichannel-sar-adc-driver-v7-5-be375d4df2c5@analog.com>
- <742b1821-9103-414e-a860-c2e8d5406e35@baylibre.com>
- <20260412185821.739e477f@jic23-huawei>
- <LV9PR03MB8414E0A68C5676302909E220F7252@LV9PR03MB8414.namprd03.prod.outlook.com>
- <b352b76c-8047-4a1f-8b83-db8144466c36@baylibre.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ec21mLYw"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AFF1C19424;
+	Wed, 15 Apr 2026 08:41:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776242494;
+	bh=eNe90dnGEwFYmwMJ23lPtYLzIduu9ItXjVHRdlA/aWw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ec21mLYwBJtwXg4pvb0psVyizRk3Rxx8Q6ZlZwMtJd88qQ1zvgiwRtRJdGW6niMr5
+	 ReVMO3HrLyBPRwDT1vhdoEt94SQeIVq5xZYMgCYOpPMvacbjJgKM2zXSkT3Hri5m4v
+	 2BqqYLEuGWGNu9KUeU4ElXuBYNwLGHvCdWFLHxL2CWsRIOmGsgik+MapokezdgBzao
+	 X7t/Obv3uQvm4VGQ9DliPuBqAYHDW4eXCyrWgMVGIy8txaH4fyxtbYpFr8irnadfh8
+	 YT1sRaN/v0bCLXS8HQDxpSVLWQYjeTsOOB7YQMQabPQWeESit7ZHQUmIzVd4vytT9i
+	 3E/CyLxdIxqhQ==
+Date: Wed, 15 Apr 2026 10:41:27 +0200
+From: Benjamin Tissoires <bentiss@kernel.org>
+To: Rob Herring <robh@kernel.org>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Cc: Conor Dooley <conor@kernel.org>, 
+	Jingyuan Liang <jingyliang@chromium.org>, Jiri Kosina <jikos@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Mark Brown <broonie@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-input@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-spi@vger.kernel.org, 
+	linux-trace-kernel@vger.kernel.org, devicetree@vger.kernel.org, hbarnor@chromium.org, 
+	tfiga@chromium.org, Dmitry Antipov <dmanti@microsoft.com>, 
+	Jarrett Schultz <jaschultz@microsoft.com>
+Subject: Re: [PATCH v3 09/11] dt-bindings: input: Document hid-over-spi DT
+ schema
+Message-ID: <ad9MbUYT12b61Ymo@beelink>
+References: <20260402-send-upstream-v3-0-6091c458d357@chromium.org>
+ <20260402-send-upstream-v3-9-6091c458d357@chromium.org>
+ <20260409-defuse-thank-4b038128fac5@spud>
+ <adfdkwq_bF9dirAq@google.com>
+ <20260410-sake-dollop-9f253ddb0749@spud>
+ <20260413223439.GA3647847-robh@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b352b76c-8047-4a1f-8b83-db8144466c36@baylibre.com>
+In-Reply-To: <20260413223439.GA3647847-robh@kernel.org>
 
-On Tue, Apr 14, 2026 at 10:02:31AM -0500, David Lechner wrote:
-> On 4/14/26 9:25 AM, Sabau, Radu bogdan wrote:
-> > 
-> > 
-> >> -----Original Message-----
-> >> From: Jonathan Cameron <jic23@kernel.org>
-> >> Sent: Sunday, April 12, 2026 8:58 PM
-> >> To: David Lechner <dlechner@baylibre.com>
-> >> Cc: Sabau, Radu bogdan <Radu.Sabau@analog.com>; Lars-Peter Clausen
-> >> <lars@metafoo.de>; Hennerich, Michael <Michael.Hennerich@analog.com>;
-> >> Sa, Nuno <Nuno.Sa@analog.com>; Andy Shevchenko <andy@kernel.org>;
-> >> Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> >> Conor Dooley <conor+dt@kernel.org>; Uwe Kleine-König
-> >> <ukleinek@kernel.org>; Liam Girdwood <lgirdwood@gmail.com>; Mark Brown
-> >> <broonie@kernel.org>; Linus Walleij <linusw@kernel.org>; Bartosz
-> >> Golaszewski <brgl@kernel.org>; Philipp Zabel <p.zabel@pengutronix.de>;
-> >> Jonathan Corbet <corbet@lwn.net>; Shuah Khan
-> >> <skhan@linuxfoundation.org>; linux-iio@vger.kernel.org;
-> >> devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
-> >> pwm@vger.kernel.org; linux-gpio@vger.kernel.org; linux-doc@vger.kernel.org
-> >> Subject: Re: [PATCH v7 5/6] iio: adc: ad4691: add oversampling support
-> >>
-> >> [External]
-> >>
-> >> On Fri, 10 Apr 2026 16:15:20 -0500
-> >> David Lechner <dlechner@baylibre.com> wrote:
-> >>
-> >>> On 4/9/26 10:28 AM, Radu Sabau via B4 Relay wrote:
-> >>>> From: Radu Sabau <radu.sabau@analog.com>
-> >>>>
-> >>>> Add per-channel oversampling ratio (OSR) support for CNV burst mode.
-> >>>> The accumulator depth register (ACC_DEPTH_IN) is programmed with the
-> >>>> selected OSR at buffer enable time and before each single-shot read.
-> >>>>
-> >>>> Supported OSR values: 1, 2, 4, 8, 16, 32.
-> >>>>
-> >>>> Introduce AD4691_MANUAL_CHANNEL() for manual mode channels,
-> >> which do
-> >>>> not expose the oversampling ratio attribute since OSR is not applicable
-> >>>> in that mode. A separate manual_channels array is added to
-> >>>> struct ad4691_channel_info and selected at probe time; offload paths
-> >>>> reuse the same arrays with num_channels capping access before the soft
-> >>>> timestamp entry.
-> >>>>
-> >>>> The reported sampling frequency accounts for the active OSR:
-> >>>> effective_freq = oscillator_freq / osr
-> >>>
-> >>> Technically, the way this is implemented is fine according to IIO ABI
-> >>> rules. Writing any attribute can cause others to change. It does
-> >>> introduce a potential pitfall though. Currently, changing the OSR will
-> >>> change the sampling frequency, so you have to always write
-> >> oversampling_ratio
-> >>> first, then write sampling_frequency to get what you asked for. If you want
-> >>> to change the OSR and keep the same sample rate, you still have to write
-> >> both
-> >>> attributes again.
-> >>>
-> >>> In other drivers, I've implemented it so that the requested sampling
-> >> frequency
-> >>> is stored any you always get the closest sampling frequency available based
-> >> on
-> >>> the oversampling ratio. This way, it doesn't matter which order you write
-> >>> the attributes. In that case, the actual periodic trigger source isn't set up
-> >>> until we actually start sampling.
-> >>>
-> >> Agreed. This is more intuitive. Now generally the userspace should
-> >> be sanity checking the value anyway as limitations may mean the new
-> >> sampling frequency is not particularly close to the original one but
-> >> at least it increases the chances of getting the expected value somewhat!
-> >>
-> >> So to me this is a nice useability improvement given the code to implement
-> >> it tends not to be too complex.
-> >>
-> > 
-> > Hi David, Jonathan,
-> > 
-> > What I understand from this is that the osr should be taken into account when writing
-> > the sampling frequency as well, right? Here's what I understand:
-> > 
-> > If the user wants a 125kHz freq with 4 OSR, then when internal osc will be written
-> > to 500kHz before single-shot read, buffer preenable/postenable.
-> > However, if the user wants a 500kHz frequency with 4 OSR, that would mean a 2MHz
-> > Internal osc freq, which is impossible.
+On Apr 13 2026, Rob Herring wrote:
+> On Fri, Apr 10, 2026 at 06:35:00PM +0100, Conor Dooley wrote:
+> > On Thu, Apr 09, 2026 at 10:16:46AM -0700, Dmitry Torokhov wrote:
+> > > On Thu, Apr 09, 2026 at 05:02:11PM +0100, Conor Dooley wrote:
+> > > > On Thu, Apr 02, 2026 at 01:59:46AM +0000, Jingyuan Liang wrote:
+> > > > > Documentation describes the required and optional properties for
+> > > > > implementing Device Tree for a Microsoft G6 Touch Digitizer that
+> > > > > supports HID over SPI Protocol 1.0 specification.
+> > > > > 
+> > > > > The properties are common to HID over SPI.
+> > > > > 
+> > > > > Signed-off-by: Dmitry Antipov <dmanti@microsoft.com>
+> > > > > Signed-off-by: Jarrett Schultz <jaschultz@microsoft.com>
+> > > > > Signed-off-by: Jingyuan Liang <jingyliang@chromium.org>
+> > > > > ---
+> > > > >  .../devicetree/bindings/input/hid-over-spi.yaml    | 126 +++++++++++++++++++++
+> > > > >  1 file changed, 126 insertions(+)
+> > > > > 
+> > > > > diff --git a/Documentation/devicetree/bindings/input/hid-over-spi.yaml b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..d1b0a2e26c32
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/input/hid-over-spi.yaml
+> > > > > @@ -0,0 +1,126 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/input/hid-over-spi.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: HID over SPI Devices
+> > > > > +
+> > > > > +maintainers:
+> > > > > +  - Benjamin Tissoires <benjamin.tissoires@redhat.com>
+> > > > > +  - Jiri Kosina <jkosina@suse.cz>
+> > > > 
+> > > > Why them and not you, the developers of the series?
+> > > > 
+> > > > > +
+> > > > > +description: |+
+> > > > > +  HID over SPI provides support for various Human Interface Devices over the
+> > > > > +  SPI bus. These devices can be for example touchpads, keyboards, touch screens
+> > > > > +  or sensors.
+> > > > > +
+> > > > > +  The specification has been written by Microsoft and is currently available
+> > > > > +  here: https://www.microsoft.com/en-us/download/details.aspx?id=103325
+> > > > > +
+> > > > > +  If this binding is used, the kernel module spi-hid will handle the
+> > > > > +  communication with the device and the generic hid core layer will handle the
+> > > > > +  protocol.
+> > > > 
+> > > > This is not relevant to the binding, please remove it.
+> > > > 
+> > > > > +
+> > > > > +allOf:
+> > > > > +  - $ref: /schemas/input/touchscreen/touchscreen.yaml#
+> > > > > +
+> > > > > +properties:
+> > > > > +  compatible:
+> > > > > +    oneOf:
+> > > > > +      - items:
+> > > > > +          - enum:
+> > > > > +              - microsoft,g6-touch-digitizer
+> > > > > +          - const: hid-over-spi
+> > > > > +      - description: Just "hid-over-spi" alone is allowed, but not recommended.
+> > > > > +        const: hid-over-spi
+> > > > 
+> > > > Why is it allowed but not recommended? Seems to me like we should
+> > > > require device-specific compatibles.
+> > > 
+> > > Why would we want to change the driver code to add a new compatible each
+> > > time a vendor decides to create a chip that is fully hid-spi-protocol
+> > > compliant? Or is the plan to still allow "hid-over-spi" fallback but
+> > > require device-specific compatible that will be ignored unless there is
+> > > device-specific quirk needed?
 > 
-> It is up to the user to request something that is legal. They should know this
-> from reading the datasheet.
+> The plan is the latter case (the 1st entry up above). The comment is 
+> remove the 2nd entry (with 'Just "hid-over-spi" alone is allowed, but 
+> not recommended.').
 > 
+> > This has nothing to do with the driver, just the oddity of having a
+> > comment saying that not having a device specific compatible was
+> > permitted by not recommended in a binding. Requiring device-specific
+> > compatibles is the norm after all and a comment like this makes draws
+> > more attention to the fact that this is abnormal. Regardless of what the
+> > driver does, device-specific compatibles should be required.
 > > 
-> > More than this, if the OSR is 32 the maximum effective rate would be 31250, so 25kHz
-> > would make it the closes available one. If the user would select 1MHz from the available
-> > list it would be weird I would say. So perhaps a solution for this is to display the avail list
-> > depending on the set OSR value.
+> > > > > +
+> > > > > +  reg:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  interrupts:
+> > > > > +    maxItems: 1
+> > > > > +
+> > > > > +  reset-gpios:
+> > > > > +    maxItems: 1
+> > > > > +    description:
+> > > > > +      GPIO specifier for the digitizer's reset pin (active low). The line must
+> > > > > +      be flagged with GPIO_ACTIVE_LOW.
+> > > > > +
+> > > > > +  vdd-supply:
+> > > > > +    description:
+> > > > > +      Regulator for the VDD supply voltage.
+> > > > > +
+> > > > > +  input-report-header-address:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > +    minimum: 0
+> > > > > +    maximum: 0xffffff
+> > > > > +    description:
+> > > > > +      A value to be included in the Read Approval packet, listing an address of
+> > > > > +      the input report header to be put on the SPI bus. This address has 24
+> > > > > +      bits.
+> > > > > +
+> > > > > +  input-report-body-address:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > +    minimum: 0
+> > > > > +    maximum: 0xffffff
+> > > > > +    description:
+> > > > > +      A value to be included in the Read Approval packet, listing an address of
+> > > > > +      the input report body to be put on the SPI bus. This address has 24 bits.
+> > > > > +
+> > > > > +  output-report-address:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > > > +    minimum: 0
+> > > > > +    maximum: 0xffffff
+> > > > > +    description:
+> > > > > +      A value to be included in the Output Report sent by the host, listing an
+> > > > > +      address where the output report on the SPI bus is to be written to. This
+> > > > > +      address has 24 bits.
+> > > > > +
+> > > > > +  read-opcode:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > > > +    description:
+> > > > > +      Value to be used in Read Approval packets. 1 byte.
+> > > > > +
+> > > > > +  write-opcode:
+> > > > > +    $ref: /schemas/types.yaml#/definitions/uint8
+> > > > > +    description:
+> > > > > +      Value to be used in Write Approval packets. 1 byte.
+> > > > 
+> > > > Why can none of these things be determined from the device's compatible?
+> > > > On the surface, they like the kinds of things that could/should be.
+> > > 
+> > > Why would we want to keep tables of these values in the kernel and again
+> > > have to update the driver for each new chip?
+> > 
+> > That's pretty normal though innit? It's what match data does.
+> > If someone wants to have properties that communicate data that
+> > can be determined from the compatible, they need to provide
+> > justification why it is being done.
 > 
-> Yes, the available list should reflect the current state of any other attributes
-> that affect it.
+> IIRC, it was explained in prior versions the spec itself says these 
+> values vary by device. If we expect variation, then I think these 
+> properties are fine. But please capture the reasoning for them in this 
+> patch or we will just keep asking the same questions over and over. 
+> 
 
-IMO, the above makes total sense to me.
+Dmitry, FWIW, we roughly had the exact same of argument with Rob with
+i2c-hid :)
 
-- Nuno Sá
+It took me a while, but I finally understood the rationale and agreed to
+it (using the i2c-hid examples):
 
-> 
-> > 
-> > Linking the two together is perhaps wrong to begin with from my end, since in this
-> > driver's case, the per-channel sampling frequency is controlled by the internal oscillator
-> > which has static available values. So perhaps sampling frequency should be separate, and
-> > OSR separate as well, which would make everything cleaner.
-> > 
-> > Indeed, the effective rate is changed by OSR, but perhaps that is something the user
-> > should be aware of, since the sampling frequency is the rate at which the channel samples
-> > (1 sample per period) and OSR is how many times the channel samples upon a final sample
-> > is to be read. The user already has to take this into account when setting the buffer
-> > sampling frequency, so it would make sense to take this into account here too.
-> 
-> We can't change the definition of the IIO ABI just to make one driver simpler
-> to implement. The OSR and sample rate can't be completely independent.
-> 
-> If you want to leave it the way it is currently implemented though, that is fine.
-> 
-> > 
-> > Please let me know you thoughts on this,
-> > Radu
-> 
+Most i2c-hid devices are following the spec and rely purely on ACPI and
+the DT declaration of i2c-hid -> they are working fine and we don't need
+anything else for them. They declare their compatible and the i2c-hid
+compatible, and they work great.
+
+But some devices need a reset line. But the i2c-hid spec doesn't mention
+a reset line at all. And some other devices need a reset line with a
+different timing. etc... Relying purely on the i2c-hid driver means that
+the driver needs to now the platform the device is on and the exact
+device we have in front of us. i2c-hid provide a VID/PID through the
+protocol, but we are still lacking information: in some cases, the
+timing of the reset line for the same device differs depending on the
+platform they run.
+
+Having a device specific compatible means that we can make use of it
+before we load i2c-hid. This is why we have i2c-hid-core and module
+specifics on the side. Those extra module can do all the oddities they
+want, like having 2 or 3 reset lines, but in the end they are using the
+core i2c-hid once they are set up.
+
+Think of it as a way to quirk the device upfront without polluting the
+i2c-hid processing.
+
+That allowed us to clean up the i2c-hid code by removing the non
+standard regulators, reset lines, quirks that are device specific and
+keep it closer to the spec.
+
+Cheers,
+Benjamin
