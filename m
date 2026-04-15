@@ -1,195 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-171.mta0.migadu.com (out-171.mta0.migadu.com [91.218.175.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81BFB19D092;
-	Wed, 15 Apr 2026 11:21:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB04237AA7A
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 11:29:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776252087; cv=none; b=m3QRsrsXt29NjYWD4sJbls2KlmV0+6bxQOZ3hh4+vx1VO1bbY5si/oLZldZ/txs4B8seLI1cl7CUTeJzUSAx/dd/xFKKcNv9maKyVAFX8ge4rwmKowmFLnVjAUwZkcDBIqTkuyf5y9go4Drk/4Zywafh60epYtLUpp4ojEA4mVU=
+	t=1776252566; cv=none; b=fGx1xluv+p+s0n6Mv9/woizqkHkue+AWF0BxWcf9Ob/GiS9iev/xultLP9FdSSWAJ2eHuAHyCAFtlSpoNsLFDl1NMHuetsbpuOjHsJbXCfNy1NTv7/vNMvM26l6mbCRsCi9fnFGBehpd/E139OXrD+mSXvWc/Ce66MnILktBPc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776252087; c=relaxed/simple;
-	bh=foSitjGjVjWkt3FOsEjErrXwoSNFIILUN9JQwZDwqYk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=r4CLhNbT+JN5rouEMUl/4So2GuFo/gpGknGIXePhUP0AuPjAOFdD3TZj9TWDLGC/VGfqfCAFgjIA5P6M6raG29dCf6ovS6CAVNwspvBbd0vbItuQK/0fB6HIHC3doPO3LhamLkSWn7VKawvHlfY2K6tH4LHmvorxfTGdXZMkTcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nuSQxBK4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776252566; c=relaxed/simple;
+	bh=X9EONQDkzTf/uJLS6LvsRf2SakYDmKNPttPBDGJ7qFE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DlNDe4yah15DQRna7uEkp7Q5c583PHHCWiYSZG3uQ310iAIesfxeOHnrTtIzBIqhYJSwX1PHs3awUkEksFIlfOEy/xkq/AvjF+xp0Mm9wlOuWXu3PnefK/f0NWGymKYmJeD7R7atdvGljSL3GHpJrku2+aXiQ4Qb3QlpzaoWz4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=NrkZgIDm; arc=none smtp.client-ip=91.218.175.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nuSQxBK4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03A5EC19424;
-	Wed, 15 Apr 2026 11:21:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776252087;
-	bh=foSitjGjVjWkt3FOsEjErrXwoSNFIILUN9JQwZDwqYk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nuSQxBK4yMRALpHzwpOh8ntHlQFwc06OwvLiPbuuMsJZZRYcUDjQypopKxD7Q/Q28
-	 cruRp9fqJxDP/5FgCyBk0HAgXBtFepo9HfYDJxz9PINSJcUJFyKDDlnSrhIjDcW2hs
-	 jaUppd8fTQojwA8gNvbJoJYF56SxlXx7QH3nH5SlUJyWYzx5pEEzDHfGfkXPDkCvJ6
-	 a3BLAj5uAF0vSk3m+FoEeL3o5UCbuXiH7/kkDvl5sqtKV5mcvewQrQk4fQ4PUPYzqX
-	 JCC7CHuA44bYw+6I8P2QcgDos03ZxM++36ydY31XH+6iT5cFaUEixjanILbqUY5c6E
-	 gJZAJLGOCJZAA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wCyJA-0000000EhWi-20nG;
-	Wed, 15 Apr 2026 13:21:24 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	Dan Williams <djbw@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 9/8] docs: maintainers_include: improve its output
-Date: Wed, 15 Apr 2026 13:21:08 +0200
-Message-ID: <cfff2b313d1f79a5919f400020a1b1a4064a7143.1776252056.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <cover.1776242739.git.mchehab+huawei@kernel.org>
-References: <cover.1776242739.git.mchehab+huawei@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="NrkZgIDm"
+Date: Wed, 15 Apr 2026 19:29:15 +0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776252562;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0deT5nTzAZM9jwtgeU6/XSQTQUWcP+shdfcj+l+woP8=;
+	b=NrkZgIDmFnexpGPLRTk6BGtBWHW+Nb5UsUyG0DU10dMiXW5WGKh2aHVUOBLAYK5wwK/FW3
+	IrB3+fqJBc8gShpkGXjIZDErEC5gTkzlLA2fl3HZDYDFbSjCo1VMtpYF06kjOEBzVbU4Q6
+	Y/8Psk1bmkdXqLuNNvCqTft106v+OO4=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Baoquan He <baoquan.he@linux.dev>
+To: Youling Tang <youling.tang@linux.dev>
+Cc: Baoquan He <bhe@redhat.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Vivek Goyal <vgoyal@redhat.com>,
+	Dave Young <dyoung@redhat.com>, kexec@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	Youling Tang <tangyouling@kylinos.cn>
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+Message-ID: <ad92ix7d7I8jsykV@MiWiFi-R3L-srv>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
+ <d584d383-1862-417d-9251-153d9bcf5626@linux.ibm.com>
+ <adZYpnwOxgvFMLaT@MiWiFi-R3L-srv>
+ <ea389ca2-8980-4022-a7d0-d96c913f671c@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ea389ca2-8980-4022-a7d0-d96c913f671c@linux.dev>
+X-Migadu-Flow: FLOW_OUT
 
-There are three "types" of profiles:
-1. Profiles already included inside subsystem-specific documentation.
-   This is the most common case;
-2. Profiles that are hosted externally;
-3. Profiles that are at the same location as maintainer-handbooks.rst.
+On 04/09/26 at 09:55am, Youling Tang wrote:
+> Hi, Baoquan
+> 
+> On 4/8/26 21:32, Baoquan He wrote:
+> > On 04/08/26 at 10:01am, Sourabh Jain wrote:
+> > > Hello Youling,
+> > > 
+> > > On 04/04/26 13:11, Youling Tang wrote:
+> > > > From: Youling Tang <tangyouling@kylinos.cn>
+> > > > 
+> > > > The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
+> > > > automatic size selection based on system RAM, but it always reserves
+> > > > from low memory. When a large crashkernel is selected, this can
+> > > > consume most of the low memory, causing subsequent hardware
+> > > > hotplug or drivers requiring low memory to fail due to allocation
+> > > > failures.
+> > > 
+> > > Support for high crashkernel reservation has been added to
+> > > address the above problem.
+> > > 
+> > > However, high crashkernel reservation is not supported with
+> > > range-based crashkernel kernel command-line arguments.
+> > > For example: crashkernel=0M-1G:100M,1G-4G:160M,4G-8G:192M
+> > > 
+> > > Many users, including some distributions, use range-based
+> > > crashkernel configuration. So, adding support for high crashkernel
+> > > reservation with range-based configuration would be useful.
+> > Sorry for late response. And I have to say sorry because I have some
+> > negative tendency on this change.
+> > 
+> > We use crashkernel=xM|G and crashkernel=range1:size1[,range2:size2,...]
+> > as default setting, so that people only need to set suggested amount
+> > of memory. While crashkernel=,high|low is for advanced user to customize
+> > their crashkernel value. In that case, user knows what's high memory and
+> > low memory, and how much is needed separately to achieve their goal, e.g
+> > saving low memory, taking away more high memory.
+> > 
+> > To be honest, above grammers sounds simple, right? I believe both of you
+> > know very well how complicated the current crashkernel code is. I would
+> > suggest not letting them becomre more and more complicated by extending
+> > the grammer further and further. Unless you meet unavoidable issue with
+> > the existing grammer.
+> > 
+> > Here comes my question, do you meet unavoidable issue with the existing
+> > grammer when you use crashkernel=range1:size1[,range2:size2,...] and
+> > think it's not satisfactory, and at the same time crashkernel=,high|low
+> > can't meet your demand either?
+> 
+> Yes, regular users generally don't know about high memory and low memory,
+> and probably don't know how much crashkernel memory should be reserved
+> either. They mostly just use the default crashkernel parameters configured
+> by the distribution.
+> 
+> For advanced users, the current grammar is sufficient, because
+> 'crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary'
+> can definitely be replaced with 'crashkernel=size,high'.
+> 
+> The main purpose of this patch is to provide distributions with a more
+> reasonable default parameter configuration (satisfying most requirements),
+> without having to set different distribution default parameters for
+> different
+> scenarios (physical machines, virtual machines) and different machine
+> models.
 
-For (3), we need to create a TOC, as they don't exist elsewhere.
-
-Change the logic to create TOC just for (3), prepending the
-content of maintainer-handbooks with a sorted entry of all types,
-before the TOC.
-
-With such change, we can have an unique sorted list of profiles,
-having the subsystem names used there listed.
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/sphinx/maintainers_include.py | 76 +++++++++++----------
- 1 file changed, 40 insertions(+), 36 deletions(-)
-
-diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index 7ab921820612..5413c1350bba 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -21,7 +21,7 @@ import sys
- import re
- import os.path
- 
--from textwrap import indent
-+from glob import glob
- 
- from docutils import statemachine
- from docutils.parsers.rst import Directive
-@@ -36,8 +36,8 @@ class MaintainersParser:
-     """Parse MAINTAINERS file(s) content"""
- 
-     def __init__(self, base_path, path):
--        self.profiles = {}
--        self.profile_urls = {}
-+        self.profile_toc = set()
-+        self.profile_entries = {}
- 
-         result = list()
-         result.append(".. _maintainers:")
-@@ -73,26 +73,24 @@ class MaintainersParser:
-             # Drop needless input whitespace.
-             line = line.rstrip()
- 
-+            #
-+            # Handle profile entries - either as files or as https refs
-+            #
-             match = re.match(r"P:\s*(Documentation/\S+)\.rst", line)
-             if match:
--                fname = os.path.relpath(match.group(1), base_path)
--                if fname.startswith("../"):
--                    if self.profiles.get(fname) is None:
--                        self.profiles[fname] = subsystem_name
--                    else:
--                        self.profiles[fname] += f", {subsystem_name}"
-+                entry = os.path.relpath(match.group(1), base_path)
-+                if "*" in entry:
-+                    for e in glob(entry):
-+                        self.profile_toc.add(e)
-+                        self.profile_entries[subsystem_name] = e
-                 else:
--                    self.profiles[fname] = None
--
--            match = re.match(r"P:\s*(https?://.*)", line)
--            if match:
--                url = match.group(1).strip()
--                if url not in self.profile_urls:
--                    if self.profile_urls.get(url) is None:
--                        self.profile_urls[url] = subsystem_name
--                    else:
--                        self.profile_urls[url] += f", {subsystem_name}"
--
-+                    self.profile_toc.add(entry)
-+                    self.profile_entries[subsystem_name] = entry
-+            else:
-+                match = re.match(r"P:\s*(https?://.*)", line)
-+                if match:
-+                    entry = match.group(1).strip()
-+                    self.profile_entries[subsystem_name] = entry
- 
-             # Linkify all non-wildcard refs to ReST files in Documentation/.
-             pat = r'(Documentation/([^\s\?\*]*)\.rst)'
-@@ -234,26 +232,32 @@ class MaintainersProfile(Include):
- 
-         maint = MaintainersParser(base_path, path)
- 
--        output  = ".. toctree::\n"
--        output += "   :maxdepth: 1\n\n"
-+        #
-+        # Produce a list with all maintainer profiles, sorted by subsystem name
-+        #
-+        output = ""
- 
--        items = sorted(maint.profiles.items(),
--                       key=lambda kv: (kv[1] or "", kv[0]))
--        for fname, profile in items:
--            if profile:
--                output += f"   {profile} <{fname}>\n"
-+        for profile, entry in maint.profile_entries.items():
-+            if entry.startswith("http"):
-+                if profile:
-+                    output += f"- `{profile} <{entry}>`_\n"
-+                else:
-+                    output += f"- `<{entry}>_`\n"
-             else:
--                output += f"   {fname}\n"
-+                if profile:
-+                    output += f"- :doc:`{profile} <{entry}>`\n"
-+                else:
-+                    output += f"- :doc:`<{entry}>`\n"
- 
--        output += "\n**External profiles**\n\n"
-+        #
-+        # Create a hidden TOC table with all profiles. That allows adding
-+        # profiles without needing to add them on any index.rst file.
-+        #
-+        output += "\n.. toctree::\n"
-+        output += "   :hidden:\n\n"
- 
--        items = sorted(maint.profile_urls.items(),
--                       key=lambda kv: (kv[1] or "", kv[0]))
--        for url, profile in items:
--            if profile:
--                output += f"- {profile} <{url}>\n"
--            else:
--                output += f"- {url}\n"
-+        for fname in maint.profile_toc:
-+            output += f"   {fname}\n"
- 
-         output += "\n"
- 
--- 
-2.53.0
-
+OK, do you have a concrete case? e.g in your distros, what will you set
+with this patchset applied? Let's see if it can cover all cases with one
+simple and satisfying parameter.
