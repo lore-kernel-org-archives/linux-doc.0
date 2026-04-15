@@ -1,144 +1,162 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA85A388E56;
-	Wed, 15 Apr 2026 20:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02F2C3859D7
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 20:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776285730; cv=none; b=jtjgeOOF9HQgkt1sxWHEAkvQ1XhZW59fb/sHdN8r0EodCOgBG1Gj9hhiaqark1FqwRyzohkpLw2cxdvZJ/7i0eB6g1eGs53Bcu98ddkQxLMvXFfeHbmvkjWugm5BVYyMtG4cYcD8V1XoZeZG4GF19NkmvD54q/Ph3kYzwNB0sOs=
+	t=1776286098; cv=none; b=Q/aYwTWkr3d0ucCaT0nEuX9L9lftUEkMvte/7xXklhCBAeGe4DNLaAVu2doBJK+AIAhx0gLMDqaBoefnlc7Y26s6QSohIc4WQ17DW2FwEYcnPwP+d371LRDQWQE9R+a/pdRXj5fjUyiTB/6xWJ1X3G9dKJfe/WE1onIgTF+EYZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776285730; c=relaxed/simple;
-	bh=Xzd2CUJJ8z3EoXKcsDKLmkr2vCR7Zi96So2JehYv0TI=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hLKkj1epRXH+hcXxXpa0XN1uhoeVZ3QOgzLuVcBPVoh2G/raxECXCzdaMnTwLjUhq8DCMhNZy2Hx/CaBV+d4cK5cVfYKW3wf9DozSel1qlfJx6qYZ6arBeoJ+Tv1XGs+SIHAmVui4IAOCxNCYRUon1hqLTIc0Te+yWqeXi8dIRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=wzXlCkhD; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776286098; c=relaxed/simple;
+	bh=/31A7tCuqB7cEwFGSwV84Eyql6EPNKJEJQ11qwCiYlk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=XDCj8m9JqNG5F0q6lW0yjUgdS/NHZoCaV5yMk4GfA4xNWBLMxwzeHnldFms6/SF0KSNNitm/7z2sqg0gbwqbVNkL0+3vIsOHuqtb9JfFglsiuaOUHfWtsBYK2C5OkKCb2uQ9YxxM4qgs9Nt+g4jX6G+TPApw62/D35qAlrQl30s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=a2409jzf; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="wzXlCkhD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:References:Cc:To:Subject:From:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=1aI+Ng4erWXxFs8ZUX3dbkCgT4drnJQF8UdC69GC4XY=; b=wzXlCkhDyKgXfW98jVR6l3CFTK
-	yZYX2n2+J73Qf67dI6tTBkcSDeDqES+SjijBg373d/NQPeJ2u9XE2XH6SoofOeFxNtTyNoCh8V23W
-	7mXVIR8iK3ccKk33FPs97X6N6PU7JfA4R5Gsl7jjEBktMBMevLysOS1AZ+EOKnN2gBDfPiMEERuOU
-	8FimRqe0zj0bewfrfP3YNQ78I0z0qu1uJ1D2FxSXsxnRyken2wJb0zh+4+koPvvx0LDfEa532eDNd
-	grCb8rKbdFir1bOIJ8DQefISMbDd8LQDWMjNlmLLC7PtRScAXEsj7ZzLSZWj3RvfEdhD//8nDjcVT
-	2jpxYHlQ==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wD731-00000001az3-2X16;
-	Wed, 15 Apr 2026 20:41:30 +0000
-Message-ID: <88335220-3527-4b1f-9500-417f7ebb7a02@infradead.org>
-Date: Wed, 15 Apr 2026 13:41:16 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="a2409jzf"
+Message-ID: <d7f83d2fade487bfff896069dd095958e59e96dc.camel@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776286084;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MjKCuhIOQMxzsJUyFJ/TMsFtW2TvEux0w0PnvDrNoig=;
+	b=a2409jzfdFGbeMpkKiZ69z0sGt7BlfK5vvJRsB7FRhrH3sFX4yc89wLPxhdlqws40iVChT
+	rkE4UgeVZ/JCeieULq1A+NkewncdOJuT8CPKBMAbiMDsSJgjEl509mlTQGmhf923ev3Mtj
+	Rf9psW8x5ibxpjtTfxW8XGNSIqzkr9c=
+Subject: Re: [PATCH bpf] bpf,tcp: avoid infinite recursion in
+ BPF_SOCK_OPS_HDR_OPT_LEN_CB
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: KaFai Wan <kafai.wan@linux.dev>
+To: Martin KaFai Lau <martin.lau@linux.dev>, Jiayuan Chen
+	 <jiayuan.chen@linux.dev>
+Cc: bpf@vger.kernel.org, Quan Sun <2022090917019@std.uestc.edu.cn>, Yinhao
+ Hu <dddddd@hust.edu.cn>, Kaiyan Mei <M202472210@hust.edu.cn>, Dongliang Mu
+ <dzm91@hust.edu.cn>, Eric Dumazet <edumazet@google.com>, Neal Cardwell
+ <ncardwell@google.com>, Kuniyuki Iwashima <kuniyu@google.com>, "David S.
+ Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo
+ Abeni <pabeni@redhat.com>,  Simon Horman <horms@kernel.org>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,  Alexei
+ Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
+ Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman <eddyz87@gmail.com>,
+ Song Liu <song@kernel.org>, Yonghong Song <yonghong.song@linux.dev>, John
+ Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri
+ Olsa <jolsa@kernel.org>,  David Ahern <dsahern@kernel.org>,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org
+Date: Thu, 16 Apr 2026 04:47:42 +0800
+In-Reply-To: <2026415181939.1bue.martin.lau@linux.dev>
+References: <20260414105702.248310-1-jiayuan.chen@linux.dev>
+	 <2026415181939.1bue.martin.lau@linux.dev>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH 0/8] Auto-generate maintainer profile entries
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org,
- Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>,
- Dan Williams <djbw@kernel.org>
-References: <cover.1776242739.git.mchehab+huawei@kernel.org>
-Content-Language: en-US
-In-Reply-To: <cover.1776242739.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi Mauro,
+On Wed, 2026-04-15 at 11:55 -0700, Martin KaFai Lau wrote:
+> On Tue, Apr 14, 2026 at 06:57:00PM +0800, Jiayuan Chen wrote:
+> > A BPF_PROG_TYPE_SOCK_OPS program can set BPF_SOCK_OPS_WRITE_HDR_OPT_CB_=
+FLAG
+> > to inject custom TCP header options. When the kernel builds a TCP packe=
+t,
+> > it calls tcp_established_options() to calculate the header size, which
+> > invokes bpf_skops_hdr_opt_len() to trigger the BPF_SOCK_OPS_HDR_OPT_LEN=
+_CB
+> > callback.
+> >=20
+> > If the BPF program calls bpf_setsockopt(TCP_NODELAY) inside this callba=
+ck,
+> > __tcp_sock_set_nodelay() will call tcp_push_pending_frames(), which cal=
+ls
+> > tcp_current_mss(), which calls tcp_established_options() again,
+> > re-triggering the same BPF callback. This creates an infinite recursion
+> > that exhausts the kernel stack and causes a panic.
+> >=20
+> > BPF_SOCK_OPS_HDR_OPT_LEN_CB
+> > =C2=A0 -> bpf_setsockopt(TCP_NODELAY)
+> > 	-> tcp_push_pending_frames()
+> > 	=C2=A0 -> tcp_current_mss()
+> > 		-> tcp_established_options()
+> > 		=C2=A0 -> bpf_skops_hdr_opt_len()
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 /* infinite recursion */
+> > 			-> BPF_SOCK_OPS_HDR_OPT_LEN_CB
+> >=20
+> > A similar reentrancy issue exists for TCP congestion control, which is
+> > guarded by tp->bpf_chg_cc_inprogress. Adopt the same approach: introduc=
+e
+> > tp->bpf_hdr_opt_len_cb_inprogress, set it before invoking the callback =
+in
+> > bpf_skops_hdr_opt_len(), and check it in sol_tcp_sockopt() to reject
+> > bpf_setsockopt(TCP_NODELAY) calls that would trigger
+> > tcp_push_pending_frames() and cause the recursion.
+> >=20
+> > Reported-by: Quan Sun <2022090917019@std.uestc.edu.cn>
+> > Reported-by: Yinhao Hu <dddddd@hust.edu.cn>
+> > Reported-by: Kaiyan Mei <M202472210@hust.edu.cn>
+> > Reported-by: Dongliang Mu <dzm91@hust.edu.cn>
+> > Closes: https://lore.kernel.org/bpf/d1d523c9-6901-4454-a183-94462b8f3e4=
+e@std.uestc.edu.cn/
+>=20
+> Thanks for the report and fixes suggested across different threads.
+>=20
+> Using has_current_bpf_ctx() to avoid tcp_push_pending_frames() should
+> work but it may change the expectation for bpf_setsockopt(TCP_NODELAY).
+> e.g. A bpf_tcp_iter does bpf_setsockopt(TCP_NODELAY).
+>=20
+> Adding another bit in the tcp_sock is not ideal either. I agree with
+> Alexei that it is better to reuse the existing bit if we go down this pat=
+h.
+> We also need to audit more closely if there are cases that two different
+> type of bpf progs may call bpf_setsockopt(). e.g.
+> bpf_tcp_iter does bpf_setsockopt(TCP_CONGESTION) to switch
+> to a bpf_tcp_cc and the new bpf_tcp_cc->init() will also do
+> bpf_setsockopt(xxx) which then will be rejected.
+>=20
+> Another fix could be, the bpf_setsockopt(TCP_NODELAY) is always broken
+> for BPF_SOCK_OPS_HDR_OPT_LEN_CB and BPF_SOCK_OPS_WRITE_HDR_OPT_CB unless
+> the bpf prog is doing some maneuver to avoid the recursion. Thus,
+> this use case is basically broken as is and I don't see a use case
+> for bpf_setsockopt(TCP_NODELAY) when writing header also.
+> How about checking the bpf_sock->op, level, and optname in
+> bpf_sock_ops_setsockopt() and return -EOPNOTSUPP?
 
-Thanks for tackling this issue.
+Hi Martin, thanks for the review.
 
-On 4/15/26 1:52 AM, Mauro Carvalho Chehab wrote:
-> Date: Tue, 14 Apr 2026 16:29:03 +0200
-> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> To: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>, Dan Williams <djbw@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>
-> Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>
-> Message-ID: <cover.1776176108.git.mchehab+huawei@kernel.org>
-> 
-> Hi Dan/Jon,
-> 
-> This patch series change the way maintainer entry profile links
-> are added to the documentation. Instead of having an entry for
-> each of them at an ReST file, get them from MAINTAINERS content.
-> 
-> That should likely make easier to maintain, as there will be a single
-> point to place all such profiles.
-> 
-> On this version, I added Dan's text to patch 4.
-> 
-> I also added a couple of other patches to improve its output. While
-> I could have them merged at the first patch, I opted to make them
-> separate, as, in case of problems or needed changes, it would be
-> easier to revert or modify the corresponding logic. Also, it should
-> be better to review, in case one wants some changes there.
-> 
-> The main changes against RFC are:
-> 
-> - now, the TOC will be presented with 1 depth identation level,
->   meaning that it would look like a list;
-> - for files outside Documentation/process, it will use the name of
->   the subsystem with title capitalization for the name of the
->   profile entry;
-> - the logic also parses and produces a list of profiles that are
->   maintained elsewhere, picking its http/https link;
-> - entries are now better sorted: first by subsystem name, then
->   by its name.
-> 
-> Suggested-by: Dan Williams <djbw@kernel.org>
-> Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-> 
-> Mauro Carvalho Chehab (8):
->   docs: maintainers_include: auto-generate maintainer profile TOC
->   MAINTAINERS: add an entry for media maintainers profile
->   MAINTAINERS: add maintainer-tip.rst to X86
->   docs: auto-generate maintainer entry profile links
->   docs: maintainers_include: use a better title for profiles
->   docs: maintainers_include: add external profile URLs
->   docs: maintainers_include: preserve names for files under process/
->   docs: maintainers_include: Only show main entry for profiles
-> 
->  .../maintainer/maintainer-entry-profile.rst   |  24 +---
->  .../process/maintainer-handbooks.rst          |  17 ++-
->  Documentation/sphinx/maintainers_include.py   | 131 +++++++++++++++---
->  MAINTAINERS                                   |   2 +
->  4 files changed, 128 insertions(+), 46 deletions(-)
+I'm working whit return -EOPNOTSUPP. I've completed whit the code of fix an=
+d test, and will send the
+patch later.
 
-When building htmldocs with O=DOCS, I get a bunch of warnings.
-I tested against today's linux-next tree.
+The fix is:
 
-The 'make O=DOCS htmldocs' warnings are (subset of all warnings):
+diff --git a/net/core/filter.c b/net/core/filter.c
+index fcfcb72663ca..911ff04bca5a 100644
+--- a/net/core/filter.c
++++ b/net/core/filter.c
+@@ -5833,6 +5833,11 @@ BPF_CALL_5(bpf_sock_ops_setsockopt, struct bpf_sock_=
+ops_kern *, bpf_sock,
+ 	if (!is_locked_tcp_sock_ops(bpf_sock))
+ 		return -EOPNOTSUPP;
+=20
++	if ((bpf_sock->op =3D=3D BPF_SOCK_OPS_HDR_OPT_LEN_CB ||
++	     bpf_sock->op =3D=3D BPF_SOCK_OPS_WRITE_HDR_OPT_CB) &&
++	    IS_ENABLED(CONFIG_INET) && level =3D=3D SOL_TCP && optname =3D=3D TCP=
+_NODELAY)
++		return -EOPNOTSUPP;
++
+ 	return _bpf_setsockopt(bpf_sock->sk, level, optname, optval, optlen);
+ }
 
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-kvm-x86' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/filesystems/xfs/xfs-maintainer-entry-profile' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-soc-clean-dts' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-netdev' [toc.not_readable]
-linux-next/MAINTAINERS:38: WARNING: toctree contains reference to nonexisting document 'DOCS/Documentation/process/maintainer-tip' [toc.not_readable]
-
-linux-next/Documentation/filesystems/nfs/nfsd-maintainer-entry-profile.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-kvm-x86.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-netdev.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-soc.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-soc-clean-dts.rst: WARNING: document isn't included in any toctree [toc.not_included]
-linux-next/Documentation/process/maintainer-tip.rst: WARNING: document isn't included in any toctree [toc.not_included]
-
-linux-next/MAINTAINERS:1: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc' [ref.doc]
-linux-next/MAINTAINERS:2: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
-linux-next/MAINTAINERS:3: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-soc-clean-dts' [ref.doc]
-linux-next/MAINTAINERS:5: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
-linux-next/MAINTAINERS:6: WARNING: unknown document: '../../DOCS/Documentation/process/maintainer-tip' [ref.doc]
-
-
--- 
-~Randy
-
+--=20
+Thanks,
+KaFai
