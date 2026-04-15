@@ -1,93 +1,164 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5D8B7260D;
-	Wed, 15 Apr 2026 01:20:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06DE7301717;
+	Wed, 15 Apr 2026 01:43:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776216059; cv=none; b=lmluEuRDJ3s16Se0efaNL2+c91SPa7a937ptZm8o9dj9tztsJUPq2JXZ5C4rEFOCIVGWNVxNc+p6OcZTbe0441HV+safqCxScExrrUSDMjNcqs9UT7nGHu00piKk0M/0nBgp/VAStAlCdE8u+6IMctQB10Pi7Ooet5M8CfJREtI=
+	t=1776217415; cv=none; b=EDRpUwBHWfhBgw4PZVEYClcWhgVQwNuLMuKF5s728Y7+xWebuuBBYjHfmIZoP00XJhzF7vBjO478QUfIzV6aGd3BCY5iOPSXZPTZKqToUL2Y0iwkLPcdOlo7poulQmydIC5T3eV1U7Q+UYTJnXCFqR5iG5hWpEH4mLvRLti7LQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776216059; c=relaxed/simple;
-	bh=DstdtJTxjDChhGDlgpo8hhIle9ABxcUjhKJsfY7hfhY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=tvV2qrl4poADsW6kmLrIodZyW0wtlTGYJPmeSR4PGCv9tnfEouwbuTEJCykOtEVsdkV0Wu+ei+7vW2UQ/t9ywZeu5QDK+tQV22ZE2lToDK8HlHC7aUZeDf7FnZ5E4RCmqS1sYIGvlWsdvVx0M+hhzcciDFgp3b9hMmnHaJcilxY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X11PWJG3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776217415; c=relaxed/simple;
+	bh=KJ1dmm7JBQS8tm37XInqKorcvhoHPQHM2ZL56cx+0tc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hCW+sRM2/mmzdSQrGmpnNnBbykdTwg9ChStRuUN2ZKtazNbaapp/nyR9AV5ZbGJw6abR7qOp9ngGX1jiO0kISbpjBwBaws0QPPHzQXr4UQK+rwkyAy4O4YlRjdZR/O7Ph9Ckzkf8dqL7/AYSbhtSU/k/rlewzMWrJhgKpZ0vP24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ISGfLv1y; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X11PWJG3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B8B3C2BCB3;
-	Wed, 15 Apr 2026 01:20:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776216059;
-	bh=DstdtJTxjDChhGDlgpo8hhIle9ABxcUjhKJsfY7hfhY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X11PWJG3DoyCdwo0kmy8K1QumXjfCBzqpVmpQ8z6UHj45Tx7uZkXnsrlkqQKR/fpA
-	 vKiVuxnMUpslv9P9F/VaHo89XVjAcCJHnRVB/HXTBK/9HWJS3d9Dm5+HDAAdmhNr1g
-	 VfNO3aEC/3GsPS5oLDVCsgAlUtoh2uHmj1jx2z1OAsc7GYNrqyT5WJJwCxrfW562mC
-	 ETt0+5MXhtpvii2faQu/fIRzhfpdyen8YqDfgMf8667O3sqp4a4/oHRnaG0R4Qw8vX
-	 uh11VIHnV/wRdEgo5OI83UclPt3xpe2ysGbpDHLX/iXFt/jUoiJbi0BbSSdNbTHb9A
-	 TDnP20D5ppmFg==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ISGfLv1y"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776217412; x=1807753412;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=KJ1dmm7JBQS8tm37XInqKorcvhoHPQHM2ZL56cx+0tc=;
+  b=ISGfLv1yhmoO5dILPKqcyW4sfx02z/I8zD/a5eVSZWlpQ4A7fwi0sO4k
+   /MJ/15/vWAnyULGeMhYgGagVFgLSrIVL8+NO8Hzcg76aDVjNxpbkaDyLP
+   q68FvjvXgea0y6IDxlUwgh+xIb2P8leCAnz0qQy3gfXUegnuvOVI5iLST
+   tb6bogdVtv8JmQeHWlGOX5pzMlzuzBRhYzj/XMf8NZdMRYpZb16DT1TCH
+   a2jBCpxLCfOqy44XTM2uqctn4A89WBNGr46rki2yJBNrBxGgq9nTJRC2T
+   +cwRchfmLXl6rjgV0jsRdbNZViCBV7krHI37WZoTeuCHKIIpeWIWbfMks
+   Q==;
+X-CSE-ConnectionGUID: GDCVGrEBR6O6TMl/8Y6xFA==
+X-CSE-MsgGUID: q5ISzMaNRnyHNoABTb930Q==
+X-IronPort-AV: E=McAfee;i="6800,10657,11759"; a="77092845"
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="77092845"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2026 18:43:31 -0700
+X-CSE-ConnectionGUID: xDnDgNgmQHylQE5TEFOqqQ==
+X-CSE-MsgGUID: 0K3ensgWS3ubo6LrqDE3yw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,179,1770624000"; 
+   d="scan'208";a="229401197"
+Received: from lkp-server01.sh.intel.com (HELO 7b0b59b3a0d4) ([10.239.97.150])
+  by orviesa010.jf.intel.com with ESMTP; 14 Apr 2026 18:43:28 -0700
+Received: from kbuild by 7b0b59b3a0d4 with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wCpHp-0000000023N-1IVW;
+	Wed, 15 Apr 2026 01:43:25 +0000
+Date: Wed, 15 Apr 2026 09:43:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Youling Tang <youling.tang@linux.dev>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH 7/7] Docs/admin-guide/mm/damon/lru_sort: update for entire memory monitoring
-Date: Tue, 14 Apr 2026 18:20:35 -0700
-Message-ID: <20260415012048.76508-8-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260415012048.76508-1-sj@kernel.org>
-References: <20260415012048.76508-1-sj@kernel.org>
+	Baoquan He <bhe@redhat.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
+	kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, youling.tang@linux.dev,
+	Youling Tang <tangyouling@kylinos.cn>
+Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
+Message-ID: <202604150941.oDguaP7A-lkp@intel.com>
+References: <20260404074103.506793-1-youling.tang@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260404074103.506793-1-youling.tang@linux.dev>
 
-Update DAMON_LRU_SORT usage document for the changed default monitoring
-target region selection.
+Hi Youling,
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/lru_sort.rst | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+kernel test robot noticed the following build errors:
 
-diff --git a/Documentation/admin-guide/mm/damon/lru_sort.rst b/Documentation/admin-guide/mm/damon/lru_sort.rst
-index 25e2f042a383f..796b0a028555d 100644
---- a/Documentation/admin-guide/mm/damon/lru_sort.rst
-+++ b/Documentation/admin-guide/mm/damon/lru_sort.rst
-@@ -246,7 +246,8 @@ monitor_region_start
- Start of target memory region in physical address.
- 
- The start physical address of memory region that DAMON_LRU_SORT will do work
--against.  By default, biggest System RAM is used as the region.
-+against.  By default, the system's entire phyiscal memory is used as the
-+region.
- 
- monitor_region_end
- ------------------
-@@ -254,7 +255,8 @@ monitor_region_end
- End of target memory region in physical address.
- 
- The end physical address of memory region that DAMON_LRU_SORT will do work
--against.  By default, biggest System RAM is used as the region.
-+against.  By default, the system's entire physical memory is used as the
-+region.
- 
- addr_unit
- ---------
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on linus/master v7.0 next-20260414]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Youling-Tang/crash-Support-high-memory-reservation-for-range-syntax/20260414-205035
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20260404074103.506793-1-youling.tang%40linux.dev
+patch subject: [PATCH] crash: Support high memory reservation for range syntax
+config: s390-defconfig (https://download.01.org/0day-ci/archive/20260415/202604150941.oDguaP7A-lkp@intel.com/config)
+compiler: clang version 23.0.0git (https://github.com/llvm/llvm-project 5bac06718f502014fade905512f1d26d578a18f3)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260415/202604150941.oDguaP7A-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604150941.oDguaP7A-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   kernel/crash_reserve.c:264:19: warning: expression which evaluates to zero treated as a null pointer constant of type 'char *' [-Wnon-literal-null-conversion]
+     264 |         char *first_gt = false;
+         |                          ^~~~~
+>> kernel/crash_reserve.c:324:16: error: use of undeclared identifier 'DEFAULT_CRASH_KERNEL_LOW_SIZE'
+     324 |                         *low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+         |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning and 1 error generated.
+
+
+vim +/DEFAULT_CRASH_KERNEL_LOW_SIZE +324 kernel/crash_reserve.c
+
+   282	
+   283	static int __init __parse_crashkernel(char *cmdline,
+   284				     unsigned long long system_ram,
+   285				     unsigned long long *crash_size,
+   286				     unsigned long long *crash_base,
+   287				     const char *suffix,
+   288				     bool *high,
+   289				     unsigned long long *low_size)
+   290	{
+   291		char *first_colon, *first_space;
+   292		char *ck_cmdline;
+   293		char *name = "crashkernel=";
+   294		unsigned long long boundary = 0;
+   295		int ret;
+   296	
+   297		BUG_ON(!crash_size || !crash_base);
+   298		*crash_size = 0;
+   299		*crash_base = 0;
+   300	
+   301		ck_cmdline = get_last_crashkernel(cmdline, name, suffix);
+   302		if (!ck_cmdline)
+   303			return -ENOENT;
+   304	
+   305		ck_cmdline += strlen(name);
+   306	
+   307		if (suffix)
+   308			return parse_crashkernel_suffix(ck_cmdline, crash_size,
+   309					suffix);
+   310		/*
+   311		 * if the commandline contains a ':', then that's the extended
+   312		 * syntax -- if not, it must be the classic syntax
+   313		 */
+   314		first_colon = strchr(ck_cmdline, ':');
+   315		first_space = strchr(ck_cmdline, ' ');
+   316		if (first_colon && (!first_space || first_colon < first_space)) {
+   317			ret = parse_crashkernel_mem(ck_cmdline, system_ram,
+   318					crash_size, crash_base);
+   319	
+   320			/* Handle optional ',>boundary' condition for range ':' syntax only. */
+   321			parse_crashkernel_boundary(ck_cmdline, &boundary);
+   322			if (!ret && *crash_size > boundary) {
+   323				*high = true;
+ > 324				*low_size = DEFAULT_CRASH_KERNEL_LOW_SIZE;
+   325			}
+   326	
+   327			return ret;
+   328		}
+   329	
+   330		return parse_crashkernel_simple(ck_cmdline, crash_size, crash_base);
+   331	}
+   332	
+
 -- 
-2.47.3
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
