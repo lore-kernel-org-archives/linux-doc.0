@@ -1,145 +1,323 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13B3B21A447;
-	Wed, 15 Apr 2026 14:40:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAFC3D1CDF
+	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 15:09:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776264005; cv=none; b=tmJFboXOveIFzG7IpIYVTcLuKb+23muqlxNC2cxlEnKSrkD/k9zogtM6jaA9UBeeScmXRQAvTvi0VJ19lBQEctS24lzoCvO+D9AYrq6eBy1aP9hB791LWlEbl/QWHpYoCoLOUJn6TDdsGVN8zbFsOMDuUCyNua/A9YzuFw4YSnA=
+	t=1776265763; cv=none; b=sXAjZ63SzOu3FVUNvjj4whpUXb1NkXn6spJbwqybMICmXSGq1/CKwfch/Db0oDylrNgE2A/3vgDN5DJDKDANX575bCEWiPEDqy+Mm3XsESFjUsdRjk45clCk85EQ73+49pX1MtwTGVcipZAz5f9vrqHRUaMm8/OAkp75OcZ+vpQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776264005; c=relaxed/simple;
-	bh=vRytYMb3yBx4DsRTk5JUfGOjb04s/yzy8mMvJV/J9Z0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Yzx/x5gip82vMOmnNIvAf7aLY7KVxcBvU+Rb9E3yLkH/QiKUAvk61VkkTWfdVm9heC5N/XYNIx5Ny5uW21JFFjYPkhDHcsijOBniXOlilS92YPZR1XxD7EQY+fM6lP2XrvNEgBABYDuDQuaC91pf+4Q3hs+aZwC5/iY3w7sL3e8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7BEMT5p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776265763; c=relaxed/simple;
+	bh=ljVeei6DMsz6nzfdao3nHxblLqi1rjyRizXz36J4w6c=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SdCIXb8zNVDav8eQ19HKyOUGTz0EYH43DmIp1/KvKXlnVHWhyzPhBC4J8KzoKX1phj1PoEj389GQini4znYV12qwCo/wxPNjBTlZfG+YhMde0GsHk3Kf6Rqq/ZcvoY3DK/HHbg8v7MEzuz8a2dho731/a0m89sjnTz9pzOnRyA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kfffJOx8; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7BEMT5p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B4F7C19424;
-	Wed, 15 Apr 2026 14:39:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776264004;
-	bh=vRytYMb3yBx4DsRTk5JUfGOjb04s/yzy8mMvJV/J9Z0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m7BEMT5pb2z0xhxj6FuuytJVA4+qXpuZqPjem2aBnO/O5huXHtA10JnhVz2Q/0KhS
-	 H6E4vOBB7KGBHISfiFa1N05kwP+Fd/ZRO3WnRtjqNPeggeS+m1SC/Jc0yWS5QSakxg
-	 /n4h/QHcarbZnRUmGcN2fogOdHIk3YVp6WXm+hewZaZ3oC3X4lpXN6SsvrGKrMyvhN
-	 raSU742Dxuh8xGN0sDyJtgSY2Z17BE33DYct2inVzIYlntT5sGjUgIkzaLOFWgNE/A
-	 o7BsUsXtRZuSqdXqoyH2pFDO0g2L1YFZupvzhp7jN3alkUY+ZerSdii00Zse0yQ0EP
-	 7JE7idITNYbSg==
-Message-ID: <cf079a7d-c919-4a76-a760-fa38eaccc895@kernel.org>
-Date: Wed, 15 Apr 2026 16:39:58 +0200
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kfffJOx8"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776265749;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=DTbY8XYoOMeANO+YssI33JYga8YW2EPuDPwZbcUAWPk=;
+	b=kfffJOx8g7JzNZwe9Fiqdzaa6C6hGPqjhhrXVRjHDnF8Ra3s2/OdzCkJzg72YQimCBXAfI
+	sL8ZbD4ggGqW/rEAomv9YVvV8fxRck5UOZVgMZnXyXHjYUskEOUghCCpQ0UJoJkQQpFMR+
+	/4fm+CMCquFDmFEyMWl5/YxhxkBfhEE=
+From: Usama Arif <usama.arif@linux.dev>
+To: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Peter Xu <peterx@redhat.com>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Zi Yan <ziy@nvidia.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 10/12] userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+Date: Wed, 15 Apr 2026 08:08:59 -0700
+Message-ID: <20260415150900.3660575-1-usama.arif@linux.dev>
+In-Reply-To: <20260414142354.1465950-11-kas@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/13] dt-bindings: power: supply: document Samsung S2M
- series PMIC charger device
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>,
- Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>,
- =?UTF-8?Q?Andr=C3=A9_Draszik?= <andre.draszik@linaro.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Nam Tran <trannamatk@gmail.com>, =?UTF-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?=
- <kernel@lvkasz.us>, linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
- <20260414-s2mu005-pmic-v4-4-7fe7480577e6@disroot.org>
- <20260415-swinging-radical-junglefowl-85dcf7@quoll>
- <DHTS9H2EIM2D.2TC17F9WBOOR1@disroot.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <DHTS9H2EIM2D.2TC17F9WBOOR1@disroot.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 15/04/2026 16:03, Kaustabh Chakraborty wrote:
-> On 2026-04-15 09:18 +02:00, Krzysztof Kozlowski wrote:
->> On Tue, Apr 14, 2026 at 12:02:56PM +0530, Kaustabh Chakraborty wrote:
->>> +description: |
->>> +  The Samsung S2M series PMIC battery charger manages power interfacing
->>> +  of the USB port. It may supply power, as done in USB OTG operation
->>> +  mode, or it may accept power and redirect it to the battery fuelgauge
->>> +  for charging.
->>> +
->>> +  This is a part of device tree bindings for S2M and S5M family of Power
->>> +  Management IC (PMIC).
->>> +
->>> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml for
->>> +  additional information and example.
->>> +
->>> +allOf:
->>> +  - $ref: power-supply.yaml#
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - samsung,s2mu005-charger
->>> +
->>> +  port:
->>> +    $ref: /schemas/graph.yaml#/properties/port
->>
->> That port is internal part of the device, thus should be dropped which
->> leaves you with only one property - monitored battery - and therefore
->> fold the node into the parent node.
+On Tue, 14 Apr 2026 15:23:44 +0100 "Kiryl Shutsemau (Meta)" <kas@kernel.org> wrote:
+
+> Add UFFDIO_SET_MODE ioctl to toggle UFFD_FEATURE_MINOR_ASYNC at
+> runtime. Takes mmap_write_lock for serialization against all in-flight
+> faults. On sync-to-async transition, wake threads blocked in
+> handle_userfault() so they retry and auto-resolve.
 > 
-> And that monitored-battery belongs to power-supply.yaml. Do I then
-> include the allOf block in the mfd/samsung,s2mps11.yaml under the
-> s2mu005 compatible?
+> Since ctx->features can now be modified concurrently, add
+> userfaultfd_features() helper that wraps READ_ONCE() and convert
+> all ctx->features reads to use it.
+> 
+> Signed-off-by: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Assisted-by: Claude:claude-opus-4-6
+> ---
+>  fs/userfaultfd.c                 | 95 ++++++++++++++++++++++++++++----
+>  include/uapi/linux/userfaultfd.h | 13 +++++
+>  2 files changed, 96 insertions(+), 12 deletions(-)
+> 
+> diff --git a/fs/userfaultfd.c b/fs/userfaultfd.c
+> index 43064238fd8d..0edb33599491 100644
+> --- a/fs/userfaultfd.c
+> +++ b/fs/userfaultfd.c
+> @@ -79,24 +79,33 @@ struct userfaultfd_wake_range {
+>  /* internal indication that UFFD_API ioctl was successfully executed */
+>  #define UFFD_FEATURE_INITIALIZED		(1u << 31)
+>  
+> +/*
+> + * Read ctx->features with READ_ONCE() since UFFDIO_SET_MODE can
+> + * modify it concurrently.
+> + */
+> +static unsigned int userfaultfd_features(struct userfaultfd_ctx *ctx)
+> +{
+> +	return READ_ONCE(ctx->features);
+> +}
+> +
+>  static bool userfaultfd_is_initialized(struct userfaultfd_ctx *ctx)
+>  {
+> -	return ctx->features & UFFD_FEATURE_INITIALIZED;
+> +	return userfaultfd_features(ctx) & UFFD_FEATURE_INITIALIZED;
+>  }
+>  
+>  static bool userfaultfd_wp_async_ctx(struct userfaultfd_ctx *ctx)
+>  {
+> -	return ctx && (ctx->features & UFFD_FEATURE_WP_ASYNC);
+> +	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_WP_ASYNC);
+>  }
+>  
+>  static bool userfaultfd_minor_anon_ctx(struct userfaultfd_ctx *ctx)
+>  {
+> -	return ctx && (ctx->features & UFFD_FEATURE_MINOR_ANON);
+> +	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_MINOR_ANON);
+>  }
+>  
+>  static bool userfaultfd_minor_async_ctx(struct userfaultfd_ctx *ctx)
+>  {
+> -	return ctx && (ctx->features & UFFD_FEATURE_MINOR_ASYNC);
+> +	return ctx && (userfaultfd_features(ctx) & UFFD_FEATURE_MINOR_ASYNC);
+>  }
+>  
+>  static unsigned int userfaultfd_ctx_flags(struct userfaultfd_ctx *ctx)
+> @@ -122,7 +131,7 @@ bool userfaultfd_wp_unpopulated(struct vm_area_struct *vma)
+>  	if (!ctx)
+>  		return false;
+>  
+> -	return ctx->features & UFFD_FEATURE_WP_UNPOPULATED;
+> +	return userfaultfd_features(ctx) & UFFD_FEATURE_WP_UNPOPULATED;
+>  }
+>  
+>  static int userfaultfd_wake_function(wait_queue_entry_t *wq, unsigned mode,
+> @@ -435,7 +444,7 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
+>  	/* 0 or > 1 flags set is a bug; we expect exactly 1. */
+>  	VM_WARN_ON_ONCE(!reason || (reason & (reason - 1)));
+>  
+> -	if (ctx->features & UFFD_FEATURE_SIGBUS)
+> +	if (userfaultfd_features(ctx) & UFFD_FEATURE_SIGBUS)
+>  		goto out;
+>  	if (!(vmf->flags & FAULT_FLAG_USER) && (ctx->flags & UFFD_USER_MODE_ONLY))
+>  		goto out;
+> @@ -506,7 +515,7 @@ vm_fault_t handle_userfault(struct vm_fault *vmf, unsigned long reason)
+>  	init_waitqueue_func_entry(&uwq.wq, userfaultfd_wake_function);
+>  	uwq.wq.private = current;
+>  	uwq.msg = userfault_msg(vmf->address, vmf->real_address, vmf->flags,
+> -				reason, ctx->features);
+> +				reason, userfaultfd_features(ctx));
+>  	uwq.ctx = ctx;
+>  	uwq.waken = false;
+>  
+> @@ -668,7 +677,7 @@ int dup_userfaultfd(struct vm_area_struct *vma, struct list_head *fcs)
+>  	if (!octx)
+>  		return 0;
+>  
+> -	if (!(octx->features & UFFD_FEATURE_EVENT_FORK)) {
+> +	if (!(userfaultfd_features(octx) & UFFD_FEATURE_EVENT_FORK)) {
+>  		userfaultfd_reset_ctx(vma);
+>  		return 0;
+>  	}
+> @@ -774,7 +783,7 @@ void mremap_userfaultfd_prep(struct vm_area_struct *vma,
+>  	if (!ctx)
+>  		return;
+>  
+> -	if (ctx->features & UFFD_FEATURE_EVENT_REMAP) {
+> +	if (userfaultfd_features(ctx) & UFFD_FEATURE_EVENT_REMAP) {
+>  		vm_ctx->ctx = ctx;
+>  		userfaultfd_ctx_get(ctx);
+>  		down_write(&ctx->map_changing_lock);
+> @@ -824,7 +833,7 @@ bool userfaultfd_remove(struct vm_area_struct *vma,
+>  	struct userfaultfd_wait_queue ewq;
+>  
+>  	ctx = vma->vm_userfaultfd_ctx.ctx;
+> -	if (!ctx || !(ctx->features & UFFD_FEATURE_EVENT_REMOVE))
+> +	if (!ctx || !(userfaultfd_features(ctx) & UFFD_FEATURE_EVENT_REMOVE))
+>  		return true;
+>  
+>  	userfaultfd_ctx_get(ctx);
+> @@ -863,7 +872,7 @@ int userfaultfd_unmap_prep(struct vm_area_struct *vma, unsigned long start,
+>  	struct userfaultfd_unmap_ctx *unmap_ctx;
+>  	struct userfaultfd_ctx *ctx = vma->vm_userfaultfd_ctx.ctx;
+>  
+> -	if (!ctx || !(ctx->features & UFFD_FEATURE_EVENT_UNMAP) ||
+> +	if (!ctx || !(userfaultfd_features(ctx) & UFFD_FEATURE_EVENT_UNMAP) ||
+>  	    has_unmap_ctx(ctx, unmaps, start, end))
+>  		return 0;
+>  
+> @@ -1826,6 +1835,65 @@ static int userfaultfd_deactivate(struct userfaultfd_ctx *ctx,
+>  	return ret;
+>  }
+>  
+> +/*
+> + * Features that can be toggled at runtime via UFFDIO_SET_MODE.
+> + * Only async features that were enabled at UFFDIO_API time may be toggled.
+> + */
+> +#define UFFD_FEATURE_TOGGLEABLE	(UFFD_FEATURE_MINOR_ASYNC)
+> +
+> +static int userfaultfd_set_mode(struct userfaultfd_ctx *ctx,
+> +				  unsigned long arg)
+> +{
+> +	struct uffdio_set_mode mode;
+> +	struct mm_struct *mm = ctx->mm;
+> +
+> +	if (copy_from_user(&mode, (void __user *)arg, sizeof(mode)))
+> +		return -EFAULT;
+> +
+> +	/* enable and disable must not overlap */
+> +	if (mode.enable & mode.disable)
+> +		return -EINVAL;
+> +
+> +	/* only toggleable features are allowed */
+> +	if ((mode.enable | mode.disable) & ~UFFD_FEATURE_TOGGLEABLE)
+> +		return -EINVAL;
 
-allOf does not go under the compatible. The entire device schema should
-have $ref to power-supply.yaml, just like many other devices have that
-or different $ref.
+The commit message states "Only async features that were enabled at
+UFFDIO_API time may be toggled."  However, the code only checks that
+the requested feature is in UFFD_FEATURE_TOGGLEABLE.
 
-Best regards,
-Krzysztof
+Is it intentional that a user who opened a uffd without
+UFFD_FEATURE_MINOR_ASYNC can still enable it later via
+UFFDIO_SET_MODE? 
+
+> +
+> +	if (!mmget_not_zero(mm))
+> +		return -ESRCH;
+> +
+> +	/*
+> +	 * mmap_write_lock serializes against all page faults.
+> +	 * After we release, no in-flight faults from the old mode exist.
+> +	 */
+> +	{
+> +		unsigned int new_features;
+> +
+> +		mmap_write_lock(mm);
+> +		new_features = userfaultfd_features(ctx);
+> +		new_features |= mode.enable;
+> +		new_features &= ~mode.disable;
+> +		WRITE_ONCE(ctx->features, new_features);
+> +		mmap_write_unlock(mm);
+> +	}
+> +
+> +	/*
+> +	 * If switching to async, wake threads blocked in handle_userfault().
+> +	 * They will retry the fault and auto-resolve under the new mode.
+> +	 * len=0 means wake all pending faults on this context.
+> +	 */
+> +	if (mode.enable & UFFD_FEATURE_MINOR_ASYNC) {
+> +		struct userfaultfd_wake_range range = { .len = 0 };
+> +
+> +		spin_lock_irq(&ctx->fault_pending_wqh.lock);
+> +		__wake_up_locked_key(&ctx->fault_pending_wqh, TASK_NORMAL,
+> +				     &range);
+> +		__wake_up(&ctx->fault_wqh, TASK_NORMAL, 1, &range);
+> +		spin_unlock_irq(&ctx->fault_pending_wqh.lock);
+> +	}
+> +
+> +	mmput(mm);
+> +	return 0;
+> +}
+>  
+>  static int userfaultfd_continue(struct userfaultfd_ctx *ctx, unsigned long arg)
+>  {
+> @@ -2150,6 +2218,9 @@ static long userfaultfd_ioctl(struct file *file, unsigned cmd,
+>  	case UFFDIO_DEACTIVATE:
+>  		ret = userfaultfd_deactivate(ctx, arg);
+>  		break;
+> +	case UFFDIO_SET_MODE:
+> +		ret = userfaultfd_set_mode(ctx, arg);
+> +		break;
+>  	}
+>  	return ret;
+>  }
+> @@ -2177,7 +2248,7 @@ static void userfaultfd_show_fdinfo(struct seq_file *m, struct file *f)
+>  	 *	protocols: aa:... bb:...
+>  	 */
+>  	seq_printf(m, "pending:\t%lu\ntotal:\t%lu\nAPI:\t%Lx:%x:%Lx\n",
+> -		   pending, total, UFFD_API, ctx->features,
+> +		   pending, total, UFFD_API, userfaultfd_features(ctx),
+>  		   UFFD_API_IOCTLS|UFFD_API_RANGE_IOCTLS);
+>  }
+>  #endif
+> diff --git a/include/uapi/linux/userfaultfd.h b/include/uapi/linux/userfaultfd.h
+> index 775825da2596..f0f14f9db06c 100644
+> --- a/include/uapi/linux/userfaultfd.h
+> +++ b/include/uapi/linux/userfaultfd.h
+> @@ -84,6 +84,7 @@
+>  #define _UFFDIO_CONTINUE		(0x07)
+>  #define _UFFDIO_POISON			(0x08)
+>  #define _UFFDIO_DEACTIVATE		(0x09)
+> +#define _UFFDIO_SET_MODE		(0x0A)
+>  #define _UFFDIO_API			(0x3F)
+>  
+>  /* userfaultfd ioctl ids */
+> @@ -110,6 +111,8 @@
+>  				      struct uffdio_poison)
+>  #define UFFDIO_DEACTIVATE	_IOR(UFFDIO, _UFFDIO_DEACTIVATE,	\
+>  				     struct uffdio_range)
+> +#define UFFDIO_SET_MODE		_IOW(UFFDIO, _UFFDIO_SET_MODE,	\
+> +				     struct uffdio_set_mode)
+>  
+>  /* read() structure */
+>  struct uffd_msg {
+> @@ -395,6 +398,16 @@ struct uffdio_move {
+>  	__s64 move;
+>  };
+>  
+> +struct uffdio_set_mode {
+> +	/*
+> +	 * Toggle async mode for features at runtime.
+> +	 * Supported: UFFD_FEATURE_MINOR_ASYNC.
+> +	 * Setting a bit in both enable and disable is invalid.
+> +	 */
+> +	__u64 enable;
+> +	__u64 disable;
+> +};
+> +
+>  /*
+>   * Flags for the userfaultfd(2) system call itself.
+>   */
+> -- 
+> 2.51.2
+> 
+> 
