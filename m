@@ -1,164 +1,212 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A014342517
-	for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 10:26:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AAAE54774;
+	Wed, 15 Apr 2026 10:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776248792; cv=none; b=NmyqEs8e5kRaZSKjAY3CsQdEdJZ5IExJypn9kgzdlBvKLf6nAoOZuWkNDTizFMIi5pKHLca7Yc0UX7T07S3iDTwMJTG1+AcsHnSVs0ZGr9zHicoBNK+PmVMyTN7TwjB9rJp3FfA4/mtkB28ZxQNNsvU2A2i/XCtbpbsPhTc2WVo=
+	t=1776249552; cv=none; b=j5RRJztYG4oQwtMofNTxBxrK8oI5R54zFmRMBuJWo/6xTsyBRHa2kp9Maxr5QliIudqzc5bi+HUXuYH5goM4J6HETWK4cyFYh6IG5ZbOUkoLL/VAYiqCDFnIM9IjIjyCK4lelJD356V3JeT0BpoE0P3SJpCu40l4TB8Y64kuSXo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776248792; c=relaxed/simple;
-	bh=7tc4vB5zCj5hmlaXaDObxb1sbOKPgtqcYEsOPec42RU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=pfMXUACZRXdNnDApNvrjHtTxtyxx46wkazqHMnBPcUqqT3OqlQbukXo0UWtEI5/5/FafpedH1xugm5J3s9MDVhDNVQqDPM8J29EE8kzJ3X0KTjXoh5hB4Af4X7bxGpTyGmsEiFlrkMflgfmCGDI0HfsZuRdtwOicJgkxPKw5Atw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=ratatoskr.trumtrar.info)
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <s.trumtrar@pengutronix.de>)
-	id 1wCxRr-000821-2M; Wed, 15 Apr 2026 12:26:19 +0200
-From: Steffen Trumtrar <s.trumtrar@pengutronix.de>
-Date: Wed, 15 Apr 2026 12:26:13 +0200
-Subject: [PATCH] net: ipv4: igmp: add sysctl option to ignore inbound
- llm_reports
+	s=arc-20240116; t=1776249552; c=relaxed/simple;
+	bh=aheK/gwMEHe63duzE1RlMxnosDOaR8fFPomYOSoLjoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X2Cs49xcuqwrkfq3xX8STUTq6OWFfrygLqGwoxt9D3NBQ+gdkQbR2N3TkaAXkc341O59/OHjmp9IEsHodTcsbktSTqaImzxq/xYLMIQY9YZm5YYPUbZILsoAw+INLDI4shZSeM+8UXBucdWB3X+icTFFlT5r5NPMagi2uCT4bMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BGe4oo+R; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BGe4oo+R"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 06538C2BCB3;
+	Wed, 15 Apr 2026 10:39:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776249552;
+	bh=aheK/gwMEHe63duzE1RlMxnosDOaR8fFPomYOSoLjoA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BGe4oo+Rr6efnJSmuEhBX+8+oci2s7TXrD5SAWzJAgUDrNqIZUeYYJa0E8QnfxweL
+	 mJkuSi14CLX1B+D4k7vrsP/EjDztM4ALt7A8qRxFy+WRwQbnQKfKcnYNMUt9NCwuBY
+	 LS4WjGrlJhJQgOYUdb5nMedpcZ20GSGY8Yjjgzt1cM4mdLcaero9rGoiwOds/QPtlV
+	 mOh3tP04HhFrWRTtwssAJwOwmLoQn1F1Bs9guHDbjmRjfO3XWpgOUzeOGpbAsO4PB+
+	 3duhimw3Vj44ywaZQIWg5//grARbOZy4Lt6DBUwxk/0uDBqggy2CUnKERkvyz28C50
+	 b/4pQqyTYyx1Q==
+Date: Wed, 15 Apr 2026 12:39:09 +0200
+From: Frederic Weisbecker <frederic@kernel.org>
+To: Qiliang Yuan <realwujing@gmail.com>
+Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
+	Juri Lelli <juri.lelli@redhat.com>,
+	Vincent Guittot <vincent.guittot@linaro.org>,
+	Dietmar Eggemann <dietmar.eggemann@arm.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+	Valentin Schneider <vschneid@redhat.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+	Joel Fernandes <joelagnelf@nvidia.com>,
+	Josh Triplett <josh@joshtriplett.org>,
+	Boqun Feng <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Lai Jiangshan <jiangshanlai@gmail.com>,
+	Zqiang <qiang.zhang@linux.dev>,
+	Anna-Maria Behnsen <anna-maria@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Brendan Jackman <jackmanb@google.com>,
+	Johannes Weiner <hannes@cmpxchg.org>, Zi Yan <ziy@nvidia.com>,
+	Waiman Long <longman@redhat.com>,
+	Chen Ridong <chenridong@huaweicloud.com>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Shuah Khan <shuah@kernel.org>, linux-kernel@vger.kernel.org,
+	rcu@vger.kernel.org, linux-mm@kvack.org, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 03/12] rcu: Support runtime NOCB initialization and
+ dynamic offloading
+Message-ID: <ad9qzVGrcgVL9SQk@localhost.localdomain>
+References: <20260413-wujing-dhm-v2-0-06df21caba5d@gmail.com>
+ <20260413-wujing-dhm-v2-3-06df21caba5d@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260415-v7-0-topic-igmp-llm-drop-v1-1-1367bfbb898e@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIAMRn32kC/yXMTQqEMAxA4atI1gZaf8GrDC40jRpRW1oVQbz7d
- Mblt3jvhsBeOECT3OD5lCB2i9BpAjR128goJhoylVWq0CWeNSrcrRNCGVeHy7Ki8dYhF6Rz0w+
- 6JoKYO8+DXP/1p30djn5m2n8/eJ4vW76tU3wAAAA=
-X-Change-ID: 20260415-v7-0-topic-igmp-llm-drop-e4c13dbf17cc
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- David Ahern <dsahern@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Steffen Trumtrar <s.trumtrar@pengutronix.de>
-X-Mailer: b4 0.15.1
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: s.trumtrar@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260413-wujing-dhm-v2-3-06df21caba5d@gmail.com>
 
-Add a new sysctl option 'igmp_link_local_mcast_reports_drop' that allows
-dropping inbound IGMP reports for link-local multicast groups in the
-224.0.0.X range. This can be used to prevent the local system from
-processing IGMP reports for link local multicast groups and therefore
-let the kernel still send the own outbound IGMP reports.
+Le Mon, Apr 13, 2026 at 03:43:09PM +0800, Qiliang Yuan a écrit :
+> Context:
+> The RCU Non-Callback (NOCB) infrastructure traditionally requires
+> boot-time parameters (e.g., rcu_nocbs) to allocate masks and spawn
+> management kthreads (rcuog/rcuo). This prevents systems from activating
+> offloading on-demand without a reboot.
+> 
+> Problem:
+> Dynamic Housekeeping Management requires CPUs to transition to
+> NOCB mode at runtime when they are newly isolated. Without boot-time
+> setup, the NOCB masks are unallocated, and critical kthreads are missing,
+> preventing effective tick suppression and isolation.
+> 
+> Solution:
+> Refactor RCU initialization to support dynamic on-demand setup.
+> - Introduce rcu_init_nocb_dynamic() to allocate masks and organize
+>   kthreads if the system wasn't initially configured for NOCB.
+> - Introduce rcu_housekeeping_reconfigure() to iterate over CPUs and
+>   perform safe offload/deoffload transitions via hotplug sequences
+>   (cpu_down -> offload -> cpu_up) when a housekeeping cpuset triggers
+>   a notifier event.
+> - Remove __init from rcu_organize_nocb_kthreads to allow runtime
+>   reconfiguration of the callback management hierarchy.
+> 
+> This enables a true "Zero-Conf" isolation experience where any CPU
+> can be fully isolated at runtime regardless of boot parameters.
+> 
+> Signed-off-by: Qiliang Yuan <realwujing@gmail.com>
+> ---
+>  kernel/rcu/rcu.h       |  4 +++
+>  kernel/rcu/tree.c      | 75 ++++++++++++++++++++++++++++++++++++++++++++++++++
+>  kernel/rcu/tree.h      |  2 +-
+>  kernel/rcu/tree_nocb.h | 31 +++++++++++++--------
+>  4 files changed, 100 insertions(+), 12 deletions(-)
+> 
+> diff --git a/kernel/rcu/rcu.h b/kernel/rcu/rcu.h
+> index 9b10b57b79ada..282874443c96b 100644
+> --- a/kernel/rcu/rcu.h
+> +++ b/kernel/rcu/rcu.h
+> @@ -663,8 +663,12 @@ unsigned long srcu_batches_completed(struct srcu_struct *sp);
+>  #endif // #else // #ifdef CONFIG_TINY_SRCU
+>  
+>  #ifdef CONFIG_RCU_NOCB_CPU
+> +void rcu_init_nocb_dynamic(void);
+> +void rcu_spawn_cpu_nocb_kthread(int cpu);
+>  void rcu_bind_current_to_nocb(void);
+>  #else
+> +static inline void rcu_init_nocb_dynamic(void) { }
+> +static inline void rcu_spawn_cpu_nocb_kthread(int cpu) { }
+>  static inline void rcu_bind_current_to_nocb(void) { }
+>  #endif
+>  
+> diff --git a/kernel/rcu/tree.c b/kernel/rcu/tree.c
+> index 55df6d37145e8..84c8388cf89a1 100644
+> --- a/kernel/rcu/tree.c
+> +++ b/kernel/rcu/tree.c
+> @@ -4928,4 +4928,79 @@ void __init rcu_init(void)
+>  #include "tree_stall.h"
+>  #include "tree_exp.h"
+>  #include "tree_nocb.h"
+> +
+> +#ifdef CONFIG_SMP
+> +static int rcu_housekeeping_reconfigure(struct notifier_block *nb,
+> +					unsigned long action, void *data)
+> +{
+> +	struct housekeeping_update *upd = data;
+> +	struct task_struct *t;
+> +	int cpu;
+> +
+> +	if (action != HK_UPDATE_MASK || upd->type != HK_TYPE_RCU)
+> +		return NOTIFY_OK;
+> +
+> +	rcu_init_nocb_dynamic();
+> +
+> +	for_each_possible_cpu(cpu) {
+> +		struct rcu_data *rdp = per_cpu_ptr(&rcu_data, cpu);
+> +		bool isolated = !cpumask_test_cpu(cpu, upd->new_mask);
+> +		bool offloaded = rcu_rdp_is_offloaded(rdp);
+> +
+> +		if (isolated && !offloaded) {
+> +			/* Transition to NOCB */
+> +			pr_info("rcu: CPU %d transitioning to NOCB mode\n", cpu);
+> +			if (cpu_online(cpu)) {
+> +				remove_cpu(cpu);
 
-Signed-off-by: Steffen Trumtrar <s.trumtrar@pengutronix.de>
----
- Documentation/networking/ip-sysctl.rst                       | 12 ++++++++++++
- .../networking/net_cachelines/netns_ipv4_sysctl.rst          |  1 +
- include/net/netns/ipv4.h                                     |  1 +
- net/ipv4/af_inet.c                                           |  1 +
- net/ipv4/igmp.c                                              |  2 ++
- net/ipv4/sysctl_net_ipv4.c                                   |  7 +++++++
- 6 files changed, 24 insertions(+)
+We plan to assume that the CPU is offline while updating HK_TYPE_KERNEL_NOISE
+through cpusets. So you shouldn't need to care about offlining here.
 
-diff --git a/Documentation/networking/ip-sysctl.rst b/Documentation/networking/ip-sysctl.rst
-index 6921d8594b849..2da4cd6ac7202 100644
---- a/Documentation/networking/ip-sysctl.rst
-+++ b/Documentation/networking/ip-sysctl.rst
-@@ -2306,6 +2306,18 @@ igmp_link_local_mcast_reports - BOOLEAN
- 
- 	Default TRUE
- 
-+igmp_link_local_mcast_reports_drop - BOOLEAN
-+	Drop inbound IGMP reports for link local multicast groups in
-+	the 224.0.0.X range. When enabled, IGMP membership reports for
-+	link local multicast addresses are silently dropped without
-+	processing.
-+	When the kernel gets inbound IGMP reports it stops sending own
-+	IGMP reports. With allowing to drop and process the inbound reports,
-+	the kernel will not stop sending the own reports, even when IGMP
-+	reports from other hosts are seen on the network.
-+
-+	Default FALSE
-+
- Alexey Kuznetsov.
- kuznet@ms2.inr.ac.ru
- 
-diff --git a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-index beaf1880a19bf..703afe2ba063b 100644
---- a/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-+++ b/Documentation/networking/net_cachelines/netns_ipv4_sysctl.rst
-@@ -140,6 +140,7 @@ int                             sysctl_udp_rmem_min
- u8                              sysctl_fib_notify_on_flag_change
- u8                              sysctl_udp_l3mdev_accept
- u8                              sysctl_igmp_llm_reports
-+u8                              sysctl_igmp_llm_reports_drop
- int                             sysctl_igmp_max_memberships
- int                             sysctl_igmp_max_msf
- int                             sysctl_igmp_qrv
-diff --git a/include/net/netns/ipv4.h b/include/net/netns/ipv4.h
-index 8e971c7bf1646..1453f825ffd4d 100644
---- a/include/net/netns/ipv4.h
-+++ b/include/net/netns/ipv4.h
-@@ -258,6 +258,7 @@ struct netns_ipv4 {
- 	u8 sysctl_igmp_llm_reports;
- 	int sysctl_igmp_max_memberships;
- 	int sysctl_igmp_max_msf;
-+	u8 sysctl_igmp_llm_reports_drop;
- 	int sysctl_igmp_qrv;
- 
- 	struct ping_group_range ping_group_range;
-diff --git a/net/ipv4/af_inet.c b/net/ipv4/af_inet.c
-index c7731e300a442..b8f96a5d8afdc 100644
---- a/net/ipv4/af_inet.c
-+++ b/net/ipv4/af_inet.c
-@@ -1825,6 +1825,7 @@ static __net_init int inet_init_net(struct net *net)
- 	net->ipv4.sysctl_igmp_max_msf = 10;
- 	/* IGMP reports for link-local multicast groups are enabled by default */
- 	net->ipv4.sysctl_igmp_llm_reports = 1;
-+	net->ipv4.sysctl_igmp_llm_reports_drop = 0;
- 	net->ipv4.sysctl_igmp_qrv = 2;
- 
- 	net->ipv4.sysctl_fib_notify_on_flag_change = 0;
-diff --git a/net/ipv4/igmp.c b/net/ipv4/igmp.c
-index a674fb44ec25b..3a4932e4108bd 100644
---- a/net/ipv4/igmp.c
-+++ b/net/ipv4/igmp.c
-@@ -931,6 +931,8 @@ static bool igmp_heard_report(struct in_device *in_dev, __be32 group)
- 	if (ipv4_is_local_multicast(group) &&
- 	    !READ_ONCE(net->ipv4.sysctl_igmp_llm_reports))
- 		return false;
-+	if (READ_ONCE(net->ipv4.sysctl_igmp_llm_reports_drop))
-+		return true;
- 
- 	rcu_read_lock();
- 	for_each_pmc_rcu(in_dev, im) {
-diff --git a/net/ipv4/sysctl_net_ipv4.c b/net/ipv4/sysctl_net_ipv4.c
-index 5654cc9c8a0b9..24dde84d289e4 100644
---- a/net/ipv4/sysctl_net_ipv4.c
-+++ b/net/ipv4/sysctl_net_ipv4.c
-@@ -948,6 +948,13 @@ static struct ctl_table ipv4_net_table[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dou8vec_minmax,
- 	},
-+	{
-+		.procname	= "igmp_link_local_mcast_reports_drop",
-+		.data		= &init_net.ipv4.sysctl_igmp_llm_reports_drop,
-+		.maxlen		= sizeof(u8),
-+		.mode		= 0644,
-+		.proc_handler	= proc_dou8vec_minmax,
-+	},
- 	{
- 		.procname	= "igmp_max_memberships",
- 		.data		= &init_net.ipv4.sysctl_igmp_max_memberships,
 
----
-base-commit: 028ef9c96e96197026887c0f092424679298aae8
-change-id: 20260415-v7-0-topic-igmp-llm-drop-e4c13dbf17cc
+> +				rcu_spawn_cpu_nocb_kthread(cpu);
+> +				rcu_nocb_cpu_offload(cpu);
+> +				add_cpu(cpu);
+> +			} else {
+> +				rcu_spawn_cpu_nocb_kthread(cpu);
+> +				rcu_nocb_cpu_offload(cpu);
+> +			}
+> +		} else if (!isolated && offloaded) {
+> +			/* Transition to CB */
+> +			pr_info("rcu: CPU %d transitioning to CB mode\n", cpu);
+> +			if (cpu_online(cpu)) {
+> +				remove_cpu(cpu);
+> +				rcu_nocb_cpu_deoffload(cpu);
+> +				add_cpu(cpu);
+> +			} else {
+> +				rcu_nocb_cpu_deoffload(cpu);
+> +			}
+> +		}
+> +	}
+> +
+> +	t = READ_ONCE(rcu_state.gp_kthread);
+> +	if (t)
+> +		housekeeping_affine(t, HK_TYPE_RCU);
+> +
+> +#ifdef CONFIG_TASKS_RCU
+> +	t = get_rcu_tasks_gp_kthread();
+> +	if (t)
+> +		housekeeping_affine(t, HK_TYPE_RCU);
+> +#endif
+> +
+> +#ifdef CONFIG_TASKS_RUDE_RCU
+> +	t = get_rcu_tasks_rude_gp_kthread();
+> +	if (t)
+> +		housekeeping_affine(t, HK_TYPE_RCU);
+> +#endif
 
-Best regards,
---  
-Steffen Trumtrar <s.trumtrar@pengutronix.de>
+No need to handle kthreads affinities. This is already taken care of by isolated
+cpuset partitions.
 
+Thanks.
+
+-- 
+Frederic Weisbecker
+SUSE Labs
