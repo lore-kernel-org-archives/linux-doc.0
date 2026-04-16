@@ -1,150 +1,146 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB153101D8
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 18:01:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F3D25783C;
+	Thu, 16 Apr 2026 18:32:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776362520; cv=none; b=agEYD2wcwFdB2M11VdBi8a/YOvK32xvryu2190Ye+Z0RnI8mA/L1fuPTetT4Myh1mV6Cj6O/MZMXM6hdOWuSfRb8Zf1GOvGiRiW7wzkw5n5dnJwAv8wJtdpK/Z6yGcLFvdKnYnWXC7SwK5xW4z0XQdJ6d0Q1zWLvWPl1AXb5HVQ=
+	t=1776364346; cv=none; b=NG3wrvrWBoUmi8nIKfj3NO+T1pHbvbQTLLSE3ZNNbugc/bdggv+ZuYrleKG5r7GTjBIOP0BHHRa+Wm/gsQT+aT5kQPuR9y2RcFMscrmTv1dtOoGHUzYd8sAE9PAO5nZQSDmx57klybru9Xntos10jZBwyeyzeqA1plt6OpdXR0w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776362520; c=relaxed/simple;
-	bh=un5vJmKuf9KhDXulQKe/Bn2uSGgatkG8otaxH+Varv4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jpEzk/VjKoIMVZZXje7wzgSFphEAN25evTmfJoSQcm2UBs126DwWIB2tHzfMpX5obny5XUeFZfPCnh98DkIw/xb+ZFYlgYQJ7oKTznwZ3GWbN6QEwcotEMjmXm/GcRvhJx+70hW5yFk//BGcVjrTx4synuf6w/Y5aMrEEKVdlXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFGqjjSZ; arc=none smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776364346; c=relaxed/simple;
+	bh=cuaEVAsEImHzMRgmx5zy1ElIshNgZdC1LMYmjR+EZF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dGBcfns3MrOJRV5rLl7N3RanAQwqTBG5ZFwefSZ9q/fffE0r1IptsCN5rUx4d0rApcjkQv5cyjNsilGAHeIGjqCDNUZxITeJoLz+g8w9IZPgDjYd1oyBx0jCyM0gebf1hVynMGRX9p405IbW94aOM8Q0QnfhjbIw9zG58sK09UA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YOjrVj0z; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFGqjjSZ"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c7212836bso72345c88.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 11:01:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776362518; x=1776967318; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=60N7vYgebawIQ/IuYOlbRBF7aQ2YJsB3l2hVZCHj0iY=;
-        b=lFGqjjSZawaoX9bvO5qtNBgabIeOn0sABdcSph05og/r72pUXZ4O1Ku2t5iqIIPJi8
-         IlLvf6F5kDq498QKUJL/vDTLs3Rly7TwJ4NQ5rj+RnTnTAqI8BML2Yn5Mg0GlYI0Q8dR
-         oYjVygkUtgI1wLwVkCwQ8jjot+7ozeP1vH81mjO61P0XgctK9p/syF6zPhTsXVM2AsA/
-         71RhFKggWWP63JVr6dEngtPOQQCMCIfhNEXLAM/u5DPu8qUe5DVIoPFO5AAd7LpM17M/
-         mPbNMbuKkrCBD3nhIwioUiqNcXfqH6OHKYPTt661ERPzrnAnzEgmKLXuX6e3c2yQErL+
-         bOWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776362518; x=1776967318;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=60N7vYgebawIQ/IuYOlbRBF7aQ2YJsB3l2hVZCHj0iY=;
-        b=skcbDiggnwIsGDYyL3i6ST1Aw0k5/svXdWcKhUW/b1khaVUHKRJtZN+UXUhvRgAsxv
-         D9gXbTRyxzY3QS++6kc32Aj1wxphrSQAYo8iTxtg0KDmhdvDoqs2nXGxWdw10ZmOUrwQ
-         0PnZ9PY8OXwKc1cgbbnxAHm0py4ZD8Y24vD55O2I+o0cR6smP9YGJWqis8ST8AtyG7V/
-         pJNblFcF5QIZbRTJcsQwRsAsTyr9OeM5cuNqAQ1JxSzx3VluTecSKcSpOGYfqoW6d2sw
-         YlvUwp3wC8yZWXn1hWq7ClsJKmhPnNbLdfU+eIjn6A/a7Tmx5IOgFW1b81El5pt3AqI8
-         WAoA==
-X-Forwarded-Encrypted: i=1; AFNElJ/sz4BxRTOqvsbV/8iYNSugr4ITg2eSPpQEs4fojCCwb5LoDmA8R6eWG1fSkLlIkPozDbLPJaNxQyI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLtY6Wh4adj4EwBbCC0ezV31hYZR0AvsW+C6pq7POXLKI//c9n
-	lDEN2DSHpACjucbobZ13cW5dJ9Pa4rjMwAzmlRxd4xCyAdOxy+ozAYB0
-X-Gm-Gg: AeBDieuHaOB72dvMCE+hEarraowp1xngh9yz97HjiK9c+WL0uOomcI/vQXfNM2trOUH
-	qqtfpVN3Fs6JmTfXaSy2tSseF720OxJ8wWe1PkxUsdHTkmpc1GkpovywNh8TXtSNo4MvoM1AUnk
-	lSdhqjzr0xa+Gpnq+5xiGYb06QjmPsZ4naMNgmMHpUkL9C1MuhhmTfJnlTaQxBJk9x2uytH9tOp
-	+HM9cfTZnNHGUMA/yWwxL1HtYHXniG+FN9ATzefFeJx0xO3LDc45h/pznbQUfpZiCZlXKjdGQL0
-	SdhHZam2VSeEyVdn5h35MT8orXui9JF73/uJ2yvwQvM2qJHSMeVCXmeTSHdlbfBIbcXOJaFmtwJ
-	dAIdm93JfHZIU/CC0vMyMysLzz1aSYSohgdmrO2ZyF0ZB8Q7BRC3um7W2NV7yAJifnTC7RdRp0T
-	hlzAkR/KRtzo/0JW3LmKgE0nu2OltneL6nGfkBHk5m8KXbfOQ=
-X-Received: by 2002:a05:7022:6b94:b0:12c:4928:e57f with SMTP id a92af1059eb24-12c7285b24dmr66236c88.25.1776362516755;
-        Thu, 16 Apr 2026 11:01:56 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c6e0fc4absm2056544c88.3.2026.04.16.11.01.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 11:01:52 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 16 Apr 2026 11:01:49 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Conor Dooley <conor@kernel.org>
-Cc: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
-Message-ID: <84a5154f-1139-425e-94ae-31d7e662cd0e@roeck-us.net>
-References: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
- <20260416-dev_max20830-v2-1-2c7d676dc0bd@analog.com>
- <20260416-diaphragm-corrode-494560404ed4@spud>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YOjrVj0z"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BDF7C2BCAF;
+	Thu, 16 Apr 2026 18:32:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776364346;
+	bh=cuaEVAsEImHzMRgmx5zy1ElIshNgZdC1LMYmjR+EZF8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YOjrVj0zkuyJq4UJAR2lP/YzBG7O+jCdG706M15jBmDHS8e2++5PcpU0ovWXMbB1a
+	 33+kZ1OAPsZVfuQ1d2eoozg0XaqoX7973YAjvOan9LfWEvs2LR26eBqQPOSHzMNW99
+	 XC5v2EEC7+KtgR5XWdivrJkVZy8K04wlwava9tp82RdORo1GV1+KNPz6srG802iSX1
+	 0BshNuFosNEh6xxtwDjoW/L2Ao5CMZppGnzZQl0mvXqpNbTte6/x3J5LjyoTMk1RB3
+	 OKfYdF7ririrKNyTHNuiO925fzsqMRe2tQ9VZJUck7m49cPPZ66ZFLMkKQHkgUmsQd
+	 4ErCtFqBERQQQ==
+Message-ID: <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
+Date: Thu, 16 Apr 2026 20:32:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260416-diaphragm-corrode-494560404ed4@spud>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM guest
+ memory
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, Peter Xu <peterx@redhat.com>,
+ Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kvm@vger.kernel.org
+References: <20260414142354.1465950-1-kas@kernel.org>
+ <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
+ <ad50rPOseVa-SP_s@thinkstation> <aeDoqFWPFxkkNB26@thinkstation>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aeDoqFWPFxkkNB26@thinkstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 16, 2026 at 04:51:37PM +0100, Conor Dooley wrote:
-> On Thu, Apr 16, 2026 at 03:59:10PM +0800, Alexis Czezar Torreno wrote:
-> > Add device tree documentation for MAX20830 step-down DC-DC switching
-> > regulator with PMBus interface.
-> > 
-> > Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> > ---
-> >  .../bindings/hwmon/pmbus/adi,max20830.yaml         | 61 ++++++++++++++++++++++
-> >  MAINTAINERS                                        |  7 +++
-> >  2 files changed, 68 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..8b3ec1ffa0c9460de2122f6606ce3dcbcdfbbcc7
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-> > @@ -0,0 +1,61 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/hwmon/pmbus/adi,max20830.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Analog Devices MAX20830 Step-Down Switching Regulator with PMBus
-> > +
-> > +maintainers:
-> > +  - Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> > +
-> > +description: |
-> > +  The MAX20830 is a fully integrated step-down DC-DC switching regulator with
-> > +  PMBus interface. It provides 2.7V to 16V input, 0.4V to 5.8V adjustable
-> > +  output, and up to 30A output current. It allows monitoring of input/output
-> > +  voltage, output current and temperature through the PMBus serial interface.
-> > +  Datasheet:
-> > +    https://www.analog.com/en/products/max20830.html
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/regulator/regulator.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: adi,max20830
-> > +
-> > +  reg:
-> > +    maxItems: 1
+On 4/16/26 15:49, Kiryl Shutsemau wrote:
+> On Tue, Apr 14, 2026 at 06:10:44PM +0100, Kiryl Shutsemau wrote:
+>> On Tue, Apr 14, 2026 at 05:37:50PM +0200, David Hildenbrand (Arm) wrote:
+>>>
+>>> I would rather tackle this from the other direction: it's another form
+>>> of protection (like WP), not really a "minor" mode.
+>>>
+>>> Could we add a UFFDIO_REGISTER_MODE_RWP (or however we would call it)
+>>> and support it for anon+shmem, avoiding the zapping for shmem completely?
+>>
+>> I like this idea.
+>>
+>> It should be functionally equivalent, but your interface idea fits
+>> better with the rest.
+>>
+>> Thanks! Will give it a try.
 > 
-> On the previous version, you got an LLM comment about not having the
-> interrupts property amongst other things.
-> I think the other things got implemented, but I didn't see any reply to
-> the bot about that?
-> I think the answer is that it shouldn't because the pin it referenced
-> doesn't exist, but when looking at the schematic I have to wonder if
-
-I had to look this up in the datasheet. A SMBus chip with no alert pin is
-a bit odd, but you are correct.
-
-> there should be an interrupts property for dealing with "pgood"?
+> Here is an updated version:
 > 
-FWIW, I have never seen that. Normally such pins are used to take devices
-out of reset.
+> https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git/log/?h=uffd/rfc-v2
+> 
+> will post after -rc1 is tagged.
+> 
+> I like it more. It got substantially cleaner.
 
-Thanks,
-Guenter
+I don't have time to look into the details just yet, but my thinking was
+that
+
+a) It would avoid the zap+refault
+
+b) We could reuse the uffd-wp PTE bit + marker to indicate/remember the
+   protection, making it co-exist with NUMA hinting naturally.
+
+b) obviously means that we cannot use uffd-wp and uffd-rwp at the same
+time in the same uffd area. I guess that should be acceptable for the
+use cases we you should have in mind?
+
+But I also haven't taken a closer look at this patch set, whether you
+would already be using a PTE bit somehow (I suspect not :) )
+
+-- 
+Cheers,
+
+David
