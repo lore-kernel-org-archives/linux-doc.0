@@ -1,133 +1,329 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D965B39183C
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 08:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18E34387357;
+	Thu, 16 Apr 2026 09:18:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776328052; cv=none; b=gT4LSVutpsEoOhGxw3W/6k6mRpFbeBMkV9PghpakGbe8EJvxcZpzZzKBXVvsr0MddqadVeNDGMiy03W0o2bdR42Mw+z2+LsbqCfgtBptCdOCgDJiNhSxoBWdWw6/hthJwRWx53ewsOx2/Lzcq26peNvqqlBsP/K3X3sCsybQ78w=
+	t=1776331132; cv=none; b=AvxSt9xXD9sMN75ypqMTEdGtzkULL/Oz2/159x46W8D24Z68QgTgPWpJmVSktOHCBH0TB0eGO2Fhpd+SzoQnskgK1POFZEPsIOsw9UrSQ7TZ7PVzkr7IN9PcXNiLTgcbFNy+55qnGRBiWZ2oklTIeVG704sd3BGtDNCIXDBHOGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776328052; c=relaxed/simple;
-	bh=O0kNZNME6liz/PDiFhx17G1oocdPgEZotIhQ2QvF/Sw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=svUVPCmj0DzefaGIBS5SqaEgJvtIRowvk8hPsaioHkO8ZFAxXUnyzVXhhuA9/37U1obVW/PJS7BwpUKnuzKoHXK/RxlFmSlwoP6nchP6htoCJhrogwG9jOlgtEjpmQ5Z6VIku7mSvnh+rsRhj9U+MzJXOAHIYmS5v9Qz7VO96GI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IzYa+5vX; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776331132; c=relaxed/simple;
+	bh=SzXoHeZ2JO2A1v0yMh2lz7VOrjVQVBsKdfKse2SbmaQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=MAjbPj5mC20RVdI6Yxf52Yn5sRnb3lY57YYoZHK7efjl3AnGeQLG6s3kaV9Wj64RDaf+9Ny1tYe+CB+9wLUNz0c/+fm1vdRdAzL+elSqgzoqGjo8SmjYCNdTU95mHfRUR2omrU4hdcPev6UMv5Oj5nXhQblVxOOvzGte/CCBfow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cDSM7glx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IzYa+5vX"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776328049;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psV3t89J4TYPxkXy1/CDffDJ8IP5u3Jv6+y4DGwPsJ4=;
-	b=IzYa+5vX+NubPHSqYuQNur+6QVDn2L8utATLZdFuy2xbwDKVEyhUc3rzmZL9Bm9FfvDfL2
-	oJVZvPgDhtEIuNEoX69PGyBy11dCJoHv5peGPIQgSuqqwwcElr0vUiMU8daHOqbqC1U8uL
-	1yEnstsXcUT4cFkWv/VutHtrwJ5D3wY=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Paul Mackerras <paulus@ozlabs.org>,
-	linux-ppp@vger.kernel.org,
-	Jaco Kroon <jaco@uls.co.za>,
-	James Carlson <carlsonj@workingcode.com>,
-	Qingfang Deng <qingfang.deng@linux.dev>
-Subject: [RFC net-next 3/3] docs: update ppp_generic.rst for API changes
-Date: Thu, 16 Apr 2026 16:26:46 +0800
-Message-ID: <20260416082656.86963-3-qingfang.deng@linux.dev>
-In-Reply-To: <20260416082656.86963-1-qingfang.deng@linux.dev>
-References: <20260416082656.86963-1-qingfang.deng@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cDSM7glx"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id CB07BC2BCB5;
+	Thu, 16 Apr 2026 09:18:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776331131;
+	bh=SzXoHeZ2JO2A1v0yMh2lz7VOrjVQVBsKdfKse2SbmaQ=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=cDSM7glxiw54p1GGtNGA2tjI6J/vwh43FD3eXKMAtp2h7TC+KyGAfOKz6w6n5RjC9
+	 9ZjJXIlz4gOyL5jGivujHmBGWWZhKtkGaq6+N4D7c0jk/FpX33IPrRSJMbmoh+x2tJ
+	 f2erZy3O8QQuas5TZlp6UCgOR+4+xqqc7E6aCXUrcSjF21iPjKsaiUmtyYyuyljSvL
+	 rp3PZTuzQdxfNiSSCFfmMUuGsqTucS3MBDH1MNXfuPCYGfJ8WOFLYL/bUWkNOhIf9S
+	 9m7eyFVlu1k5ci32SoUAl/2JogzK5W+CEG1OuMGUOIvigd3J4qaSNW15mf0IL5ZD/P
+	 VaQ5kofizawJg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BBC66F8A149;
+	Thu, 16 Apr 2026 09:18:51 +0000 (UTC)
+From: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Date: Thu, 16 Apr 2026 12:18:46 +0300
+Subject: [PATCH v8 1/6] dt-bindings: iio: adc: add AD4691 family
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Message-Id: <20260416-ad4692-multichannel-sar-adc-driver-v8-1-c415bd048fa3@analog.com>
+References: <20260416-ad4692-multichannel-sar-adc-driver-v8-0-c415bd048fa3@analog.com>
+In-Reply-To: <20260416-ad4692-multichannel-sar-adc-driver-v8-0-c415bd048fa3@analog.com>
+To: Lars-Peter Clausen <lars@metafoo.de>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Jonathan Cameron <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ =?utf-8?q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>, 
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org, 
+ linux-gpio@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Radu Sabau <radu.sabau@analog.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776331127; l=7809;
+ i=radu.sabau@analog.com; s=20260220; h=from:subject:message-id;
+ bh=in2Pz2zrVtt7NdRLvF8Xhl9sdHh3Xa8lcwA/A28P4+k=;
+ b=vJmnpXURu1XzBwS+AW1wengj5hWIqpC8/WUCOaHfc+r37OtADjS07kkPdBpBpYApFhdbJDtdl
+ +KidTvnC3f6Dbhg3x5MzQYKr2iL3PRwBs7BeBAWgJq3LpRuN2nFgME9
+X-Developer-Key: i=radu.sabau@analog.com; a=ed25519;
+ pk=lDPQHgn9jTdt0vo58Na9lLxLaE2mb330if71Cn+EvFU=
+X-Endpoint-Received: by B4 Relay for radu.sabau@analog.com/20260220 with
+ auth_id=642
+X-Original-From: Radu Sabau <radu.sabau@analog.com>
+Reply-To: radu.sabau@analog.com
 
-Document the new ppp_channel_conf struct and ppp_channel lifecycle
-management changes.
+From: Radu Sabau <radu.sabau@analog.com>
 
-Assisted-by: Gemini:gemini-3-flash
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
+Add DT bindings for the Analog Devices AD4691 family of multichannel
+SAR ADCs (AD4691, AD4692, AD4693, AD4694).
+
+The binding describes the hardware connections:
+
+- Power domains: avdd-supply (required), vio-supply, ref-supply or
+  refin-supply (external reference; the REFIN path enables the
+  internal reference buffer). Digital core VDD is supplied either
+  externally via vdd-supply, or generated by the on-chip LDO fed
+  from ldo-in-supply; the two are mutually exclusive and one must
+  be present.
+
+- Optional PWM on the CNV pin selects CNV Burst Mode; when absent,
+  Manual Mode is assumed with CNV tied to SPI CS.
+
+- An optional reset GPIO (reset-gpios) for hardware reset.
+
+- Up to four GP pins (gp0..gp3) usable as interrupt sources,
+  identified in firmware via interrupt-names "gp0".."gp3".
+
+- gpio-controller with #gpio-cells = <2> for GP pin GPIO usage.
+
+- #trigger-source-cells = <1>: one cell selecting the GP pin number
+  (0-3) used as the SPI offload trigger source.
+
+Two binding examples are provided: CNV Burst Mode with SPI offload
+(DMA data acquisition driven by DATA_READY on a GP pin), and Manual
+Mode for CPU-driven triggered-buffer or single-shot capture.
+
+The four variants are not compatible with each other: AD4691/AD4692 have
+16 analog input channels while AD4693/AD4694 have 8, and AD4691/AD4693
+top out at 500 kSPS while AD4692/AD4694 reach 1 MSPS. These differences
+in channel count and maximum sample rate require distinct compatible
+strings so the driver can select the correct channel configuration and
+rate limits.
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Radu Sabau <radu.sabau@analog.com>
 ---
- Documentation/networking/ppp_generic.rst | 33 ++++++++++--------------
- 1 file changed, 13 insertions(+), 20 deletions(-)
+ .../devicetree/bindings/iio/adc/adi,ad4691.yaml    | 180 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 +
+ 2 files changed, 187 insertions(+)
 
-diff --git a/Documentation/networking/ppp_generic.rst b/Documentation/networking/ppp_generic.rst
-index 5a10abce5964..8d63f997fb3f 100644
---- a/Documentation/networking/ppp_generic.rst
-+++ b/Documentation/networking/ppp_generic.rst
-@@ -124,18 +124,19 @@ presented to the start_xmit() function contain only the 2-byte
- protocol number and the data, and the skbuffs presented to ppp_input()
- must be in the same format.
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+new file mode 100644
+index 000000000000..af28a0c1cfa9
+--- /dev/null
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
+@@ -0,0 +1,180 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/iio/adc/adi,ad4691.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices AD4691 Family Multichannel SAR ADCs
++
++maintainers:
++  - Radu Sabau <radu.sabau@analog.com>
++
++description: |
++  The AD4691 family are high-speed, low-power, multichannel successive
++  approximation register (SAR) analog-to-digital converters (ADCs) with
++  an SPI-compatible serial interface. The ADC supports CNV Burst Mode,
++  where an external PWM drives the CNV pin, and Manual Mode, where CNV
++  is directly tied to the SPI chip-select.
++
++  Datasheets:
++    * https://www.analog.com/en/products/ad4691.html
++    * https://www.analog.com/en/products/ad4692.html
++    * https://www.analog.com/en/products/ad4693.html
++    * https://www.analog.com/en/products/ad4694.html
++
++$ref: /schemas/spi/spi-peripheral-props.yaml#
++
++properties:
++  compatible:
++    enum:
++      - adi,ad4691
++      - adi,ad4692
++      - adi,ad4693
++      - adi,ad4694
++
++  reg:
++    maxItems: 1
++
++  spi-max-frequency:
++    maximum: 40000000
++
++  spi-cpol: true
++  spi-cpha: true
++
++  avdd-supply:
++    description: Analog power supply (4.5V to 5.5V).
++
++  vdd-supply:
++    description:
++      External 1.8V digital core supply. When present, the internal LDO is
++      disabled (LDO_EN = 0). Mutually exclusive with ldo-in-supply.
++
++  ldo-in-supply:
++    description:
++      LDO input supply (2.4V to 5.5V). When present and vdd-supply is absent,
++      the internal LDO generates 1.8V VDD from this input (LDO_EN = 1).
++      Mutually exclusive with vdd-supply.
++
++  vio-supply:
++    description: I/O voltage supply (1.71V to 1.89V or VDD).
++
++  ref-supply:
++    description: External reference voltage supply (2.4V to 5.25V).
++
++  refin-supply:
++    description: Internal reference buffer input supply.
++
++  reset-gpios:
++    description:
++      GPIO line controlling the hardware reset pin (active-low).
++    maxItems: 1
++
++  pwms:
++    description:
++      PWM connected to the CNV pin. When present, selects CNV Burst Mode where
++      the PWM drives the conversion rate. When absent, Manual Mode is used
++      (CNV tied to SPI CS).
++    maxItems: 1
++
++  interrupts:
++    description:
++      Interrupt lines connected to the ADC GP pins. Each GP pin can be
++      physically wired to an interrupt-capable input on the SoC.
++    maxItems: 4
++
++  interrupt-names:
++    description: Names of the interrupt lines, matching the GP pin names.
++    minItems: 1
++    maxItems: 4
++    items:
++      enum:
++        - gp0
++        - gp1
++        - gp2
++        - gp3
++
++  gpio-controller: true
++
++  '#gpio-cells':
++    const: 2
++
++  '#trigger-source-cells':
++    description:
++      This node can act as a trigger source. The single cell in a consumer
++      reference specifies the GP pin number (0-3) used as the trigger output.
++    const: 1
++
++required:
++  - compatible
++  - reg
++  - avdd-supply
++  - vio-supply
++
++allOf:
++  # vdd-supply and ldo-in-supply are mutually exclusive, one is required:
++  # either an external 1.8V VDD is provided or the internal LDO is fed from
++  # ldo-in-supply to generate VDD.
++  - oneOf:
++      - required:
++          - vdd-supply
++      - required:
++          - ldo-in-supply
++  # ref-supply and refin-supply are mutually exclusive, one is required
++  - oneOf:
++      - required:
++          - ref-supply
++      - required:
++          - refin-supply
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    /* AD4692 in CNV Burst Mode with SPI offload */
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4692";
++            reg = <0>;
++            spi-cpol;
++            spi-cpha;
++            spi-max-frequency = <40000000>;
++
++            avdd-supply = <&avdd_supply>;
++            ldo-in-supply = <&avdd_supply>;
++            vio-supply = <&vio_supply>;
++            ref-supply = <&ref_5v>;
++
++            reset-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
++
++            pwms = <&pwm_gen 0 0>;
++
++            #trigger-source-cells = <1>;
++        };
++    };
++
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    /* AD4692 in Manual Mode (CNV tied to SPI CS) */
++    spi {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        adc@0 {
++            compatible = "adi,ad4692";
++            reg = <0>;
++            spi-cpol;
++            spi-cpha;
++            spi-max-frequency = <31250000>;
++
++            avdd-supply = <&avdd_supply>;
++            ldo-in-supply = <&avdd_supply>;
++            vio-supply = <&vio_supply>;
++            refin-supply = <&refin_supply>;
++
++            reset-gpios = <&gpio0 15 GPIO_ACTIVE_LOW>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 61bf550fd37c..438ca850fa1c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1484,6 +1484,13 @@ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/adc/adi,ad4170-4.yaml
+ F:	drivers/iio/adc/ad4170-4.c
  
--The channel must provide an instance of a ppp_channel struct to
--represent the channel.  The channel is free to use the ``private`` field
--however it wishes.  The channel should initialize the ``mtu`` and
--``hdrlen`` fields before calling ppp_register_channel() and not change
--them until after ppp_unregister_channel() returns.  The ``mtu`` field
--represents the maximum size of the data part of the PPP frames, that
--is, it does not include the 2-byte protocol number.
-+The channel must provide an instance of a ppp_channel_conf struct to
-+describe the channel during registration.  The generic layer will
-+allocate a ppp_channel struct and return a pointer to it.  The
-+ppp_channel struct is opaque to the channel driver.  The ``mtu`` field
-+(if multilink is enabled) represents the maximum size of the data part
-+of the PPP frames, that is, it does not include the 2-byte protocol
-+number.  ppp_channel_update_mtu() can be called by the channel driver
-+to update the ``mtu`` field once LCP MRU negotiation is complete.
- 
- If the channel needs some headroom in the skbuffs presented to it for
- transmission (i.e., some space free in the skbuff data area before the
- start of the PPP frame), it should set the ``hdrlen`` field of the
--ppp_channel struct to the amount of headroom required.  The generic
-+ppp_channel_conf struct to the amount of headroom required.  The generic
- PPP layer will attempt to provide that much headroom but the channel
- should still check if there is sufficient headroom and copy the skbuff
- if there isn't.
-@@ -199,20 +200,12 @@ The PPP generic layer has been designed to be SMP-safe.  Locks are
- used around accesses to the internal data structures where necessary
- to ensure their integrity.  As part of this, the generic layer
- requires that the channels adhere to certain requirements and in turn
--provides certain guarantees to the channels.  Essentially the channels
--are required to provide the appropriate locking on the ppp_channel
--structures that form the basis of the communication between the
--channel and the generic layer.  This is because the channel provides
--the storage for the ppp_channel structure, and so the channel is
--required to provide the guarantee that this storage exists and is
--valid at the appropriate times.
-+provides certain guarantees to the channels.  The generic layer manages
-+the ppp_channel object, ensuring it exists and is valid while the
-+channel is registered.
- 
- The generic layer requires these guarantees from the channel:
- 
--* The ppp_channel object must exist from the time that
--  ppp_register_channel() is called until after the call to
--  ppp_unregister_channel() returns.
--
- * No thread may be in a call to any of ppp_input(), ppp_input_error(),
-   ppp_output_wakeup(), ppp_channel_index() or ppp_unit_number() for a
-   channel at the time that ppp_unregister_channel() is called for that
-@@ -453,4 +446,4 @@ an interface unit are:
-   fragments is disabled.  This ioctl is only available if the
-   CONFIG_PPP_MULTILINK option is selected.
- 
--Last modified: 7-feb-2002
-+Last modified: 16-apr-2026
++ANALOG DEVICES INC AD4691 DRIVER
++M:	Radu Sabau <radu.sabau@analog.com>
++L:	linux-iio@vger.kernel.org
++S:	Supported
++W:	https://ez.analog.com/linux-software-drivers
++F:	Documentation/devicetree/bindings/iio/adc/adi,ad4691.yaml
++
+ ANALOG DEVICES INC AD4695 DRIVER
+ M:	Michael Hennerich <michael.hennerich@analog.com>
+ M:	Nuno Sá <nuno.sa@analog.com>
+
 -- 
 2.43.0
+
 
