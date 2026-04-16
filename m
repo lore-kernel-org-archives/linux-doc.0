@@ -1,255 +1,186 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD58395DBC
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 19:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776367516; cv=pass; b=DGulKTE68cozsxzB9lRtF8iNzu54m1wIvTQcvEIhAvUujHt7TydWkw8/LhXCgin6ZXNBAVdpZuCZH+6J94XeEfuTKjQjALLqWChVHlL1SgovfKskVnyrVVaizuhIKeAUCkbKA5jVInPP5dvPwGW4eSK4U2sZjBFZQKzArpOy4LY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776367516; c=relaxed/simple;
-	bh=YTWAuUgodP4x0SGZZNXpfJHoOQ/Al8dOyWsalMJbeKs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MZbBUHIn+wJVxMkysE7WzxYZVoOb0mJ40Jg8AMTk8HSjKhxnk77vEXMqVmlBM26I/WtrjBt+Ka9LPeYRE+wg6ykQlK0E+xML/FT+m1zs5wcQx0HuMZe0fTTbewl0vnHiCh9pFGWR2SfsMW9+L/Wy9heihX6De/wta/51kNysJ+w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IuvgudHs; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694F436EAB2;
+	Thu, 16 Apr 2026 20:11:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776370326; cv=none; b=H3ytYR9oUrQeGy4ZjBfGss29WxhGCPxhve214sYEINO9SZFKlN7osLevOnrP/FRDtn/VQFy971LRVKhXvoeiZr7MMY/6NHsp6jGaTZwI1nJpIalEceGhtlMCyLmPUzpR7eC5FF4yKgshTIHYFwlUkfTQWuiiKSli5LomWKQVC24=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776370326; c=relaxed/simple;
+	bh=L+TQPUEqXk6q+CHjxofqPSLdFhHt0fFNBd9YXgQf4kA=;
+	h=From:To:cc:Subject:In-reply-to:References:MIME-Version:
+	 Content-Type:Date:Message-ID; b=pc29vM2seQxplM2EuGr22LWT7Ng0UPw49kAuTmfacTuZ5JY8dPKDOZKeNb0uLU2qH+XBiYBul9R2rcTg8dOq7DQL28Qm9nn4TUTlgtOGna3Nv0iht/p+OIOigqxZD0qc+gmTnb7/ube7eJyK3MVaTFbteb6cg1mqUszSvqSwDCI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net; spf=pass smtp.mailfrom=jvosburgh.net; dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b=MJJuG/z6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ygw6tFlu; arc=none smtp.client-ip=103.168.172.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=jvosburgh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jvosburgh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IuvgudHs"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b9c755b2cdeso1366092266b.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 12:25:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776367496; cv=none;
-        d=google.com; s=arc-20240605;
-        b=lnU4ifKQ+F3U+qt+D3NcRiAefmNGzUfkPFHJsJB9sb5no9gP7dFxCTLcRFcZMUF14Q
-         mNUturF7Kb6Nz6TTU/ePOOY0jfxDX+IN1sMBHCZ+J+x6lp8Hkkw6hkxsy+7FdLxN3MAv
-         rDhZFaHzki3MQCOf6dxpKFtE+pel0elDrRQ/zPE9/Pgcld9EFVqFmXLaUMWFityBIcW1
-         Bz63jhwywf74bU2UyV/x/CPPLOBiLBM960dEWv66e5f9BBZM4/MEGMzo4jWkHL2akk1M
-         YSBGo9dYwLPS5Aj6BeRTVGqv3sLlgc3fG/3vRdVjV4rhIxFTh1zeNsCvE/pXIu1xiUZT
-         Tqhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9K3ysuZXV4OKgvP6Hz+tr/FztQIKDGUmUgbaHLYQ4fs=;
-        fh=sOq365KkCwi8SiuHGMM9qeGCiQwgA1LLLUaTSqzLR2E=;
-        b=kYbr2rOUi6qyhmzY4PIbJh5YQ9ldXXp8QllLtjBKQu8lYP1I1BAMdcft1bTCqHWnSx
-         OeOdxS/scFDYr6Rr7lwBFoTYWI0+ewVn7hQc6jk8tKV6KKGz/ZgUr578DWX1rc2hIbT1
-         OyEG4V8LIlA27NVx6IuxaWpGtlUAGi3NCOUFx0YH8AA2pfkP+TkySl8792iEuHyd5hon
-         uiE1ylwglI37WMSg9F694jJQBOwq7PUVgX8NToluEzBAEIzEDpF7q7hJEprrS9ewAd04
-         7xDx8lWpX6LrRdpYt8nI3BEYDH0bfzPFtjwk7Ns6kvQYJtsVdv82vyYhb/RcLJ70I60F
-         rDkA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776367496; x=1776972296; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9K3ysuZXV4OKgvP6Hz+tr/FztQIKDGUmUgbaHLYQ4fs=;
-        b=IuvgudHss3pf9xta9CoHzbNM/KkqwvVlbZG1ujAPlUvsEERquMRMCcNKuZB4ePTAM5
-         7NtHkTfv5kJNgOXozHtBzx6BeOftPECAFzrLC/Kx+7C6Z+aMX16BAnXG4S26OUfk3WGg
-         CWZQvHirIm8BMV/eAS7dQVd+snAopqjN+dWq8LBfZchgH0SFAJBxKZ7twV1lroXi7RqL
-         6seCdSS2mS6a+aqyWvZotzTjBpSsVqzQV/ddt5/cyYwOEsyfwdY8ZTvZnZXvtx6xF+FO
-         5LV2B5eGbqXEDNgAZKrrj0OIGOZ6Vfb9iUPXy8OI0AkX/Cx2xeQJhF/vFCWfKeI7U4O9
-         g8Gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776367496; x=1776972296;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9K3ysuZXV4OKgvP6Hz+tr/FztQIKDGUmUgbaHLYQ4fs=;
-        b=A5vPtF2dQoyEDJCW7KlxaahFNFQg9roSZ5WjUiNGo3rjXewsLdNISr2qNMLCpWpbCm
-         cv8hrYz922/rGCNx8WzBGWtsEphVMr7fk4ql8COzJonalIw8hS1W6grlgzIBC//43Iml
-         RQ66xhfMqqo8zp5mUo6wsfajq4aVTvPvoKE2DQUtSpUQMpsBBRLYMeNNFohKGBozrzew
-         VLhxuKp1Ko718z0XEWlen6qrD+84HLZJeBQumtWNC4/NupbuebdgjI8xxDmGNcQQxoAf
-         1NCSugqsabeZZ3J7rnKbQyBBixDVL7Q8OcWx5sjp0560lapW1TV9wrcPHtjKHlO6KCeq
-         9JDw==
-X-Forwarded-Encrypted: i=1; AFNElJ8JvPqawCm7BnXw+nh8olRtFP+3FcWIEiy/DD6EuRfO1gelhMt21JgarBKEJE5mbqMyJwFMZjhTYWs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+3E5NhKWUyegdDXNCYLY0LWqH6laV/Y6Wcy36nlDWTDVdgP4a
-	bzsN013Jr7bofHdKd1u0jkR3h6TjJV+la/c7Q8IOsEeBfBRVUn0z4cmVcdFea8tkwJvJn7+ykM0
-	aGBxGtgIFK4x74d27ysJCi4yJn7QRluU=
-X-Gm-Gg: AeBDietGj+BbgsORJFBx8B3KYsgRcXnp2wQsmvdbG74rbpNmnGQOaSYO73PtvQdZ/UY
-	vpMT+cqCi6OCCGpyLe6hOMuKJFeMlHabOHeOL0/4pbKmhKNEaHR8QIGEH8w3d0aWieHIg8SCiDy
-	xZ9V6aAdXlfKjoGz4/gDraSAAYaB99+Fi8vsyl4VA2PXGfMQ1hVDMkO0NjPLvtNbcemvHXnz7RF
-	1QJnPwTudYWG3JwddyMIQC63LGYeQ4oZ/c58W09pGzC+6txD5osRETbnxr7coOONH4jX4yKF5h1
-	9j5f9A/0crLoJG7WnQlMDZddi2QkBevKk+Dm4oz0RWyUmvmxd37CdzAOwBvdCn4=
-X-Received: by 2002:a17:907:c002:b0:b9c:34f8:b969 with SMTP id
- a640c23a62f3a-ba3dd6a4727mr34562766b.49.1776367495571; Thu, 16 Apr 2026
- 12:24:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=jvosburgh.net header.i=@jvosburgh.net header.b="MJJuG/z6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ygw6tFlu"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id D7748EC004E;
+	Thu, 16 Apr 2026 16:11:56 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 16 Apr 2026 16:11:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jvosburgh.net;
+	 h=cc:cc:content-id:content-transfer-encoding:content-type
+	:content-type:date:date:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to; s=fm3; t=1776370316; x=1776456716; bh=7QwwJQElEWF97WU4fng9x
+	1lkKwLataMrHDRU3MK1aso=; b=MJJuG/z6NC2zcvdKWbxVGdoKJdtfvZ46KLjHF
+	N/L/vz5Ip/GiMfmhvT6nF6nlF1wWxnAuu277DDjG2m1WMN1p2T2jnoIMXmB32daL
+	VTqDEYlNlKoSJZ2/HB+6bB7FfDuVWJ1SkXJVLEp1wX2NbN9CFFt5i61pUYxy/De3
+	r5EQ71ZYdncmfTZTbWGONrRcnh9NQjve7L8IRyaN6n4HP1yKxfLR4ArOm9ofH6Qc
+	RBxuJKCn/dJmCLxK0xeAZiQugfGAQe07EnlSOM8HQuzLgC0+GsSCmmgmFxLXz06x
+	QxIVUxnkggE+G87cHbCkztp5CnKI+2ndThsSRdJ8Gup3+M6vw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-id
+	:content-transfer-encoding:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776370316; x=1776456716; bh=7QwwJQElEWF97WU4fng9x1lkKwLataMrHDR
+	U3MK1aso=; b=Ygw6tFluYhpjpxfU0WF+2erd+p7ypMzI/sEHVAFAeXEXQPhnl25
+	egd0q0TiwmA1BTDhLhGwO8+xmztO0i+raDZeyiORMNVU7fZMnIsmZugho/+96W60
+	A0C98focxY/g7ajqAGstiVI8K5HkCkkEMO/cpkMcm+ALrU9Vk6DzUEYPkFVQ1SnM
+	5nn2tqIznT0JU3rld/OibJV3/GI2TqmnZgL2WpD2MeqWQ/CjN8SEf/+Em7ajnRnA
+	hajsfbJXMqGKVQbz6jJ1EjJ9VhZM+Ldk1/B4Hl1/KIKNY2yCai0unIuXKQnLDJBp
+	cLWDjEgLl/6q6YeUAgBGnoufZwg4k/kS+Ow==
+X-ME-Sender: <xms:jELhaU1qF5sFWI7H4xyD3aLetFsLubLyfxVxIWzt7Sf8t1uf6i7azQ>
+    <xme:jELhaXNCdALCxz0NzVjxJQ4e4JE0Irf6_r6WuB8HnNo0xnS2eVa3vn9cB4bImHBWl
+    Eg-faHkxl8Wol9iqPxdMbRdB5rUFo8eXTLXvUzSxPvmt60ET_dLCEo>
+X-ME-Received: <xmr:jELhacaq0ER8DHStwWd4udr15XGJIunyUoZmag9Ng96wMW0bJKEmL2qsD4iDLfSokqA8Uw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegjeelfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufgjfhfogggtgfffkfesthhqredtredtvdenucfhrhhomheplfgrhicuggho
+    shgsuhhrghhhuceojhhvsehjvhhoshgsuhhrghhhrdhnvghtqeenucggtffrrghtthgvrh
+    hnpeeifedvleefleejveethfefieduueeivdefieevleffuddvveeftdehffffteefffen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjvhesjh
+    hvohhssghurhhghhdrnhgvthdpnhgspghrtghpthhtohepuddvpdhmohguvgepshhmthhp
+    ohhuthdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpth
+    htoheptghhrghkrhgrsghorhhthihshhhusghhrghmieeisehgmhgrihhlrdgtohhmpdhr
+    tghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuh
+    hnihihuhesghhoohhglhgvrdgtohhmpdhrtghpthhtohephhhorhhmsheskhgvrhhnvghl
+    rdhorhhgpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hskhhhrghnsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheptgho
+    rhgsvghtsehlfihnrdhnvghtpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtg
+    homh
+X-ME-Proxy: <xmx:jELhadwYOTsk5SaJv-2YfIHlQhxP1JXTkhKol_2ITbJ2zqkCnQzd-Q>
+    <xmx:jELhaTNfZbOJ10IWWa0F0tbrTUmOMDxrxPDLJqhRfYc5ku5q98gDww>
+    <xmx:jELhaUf6Itjz_m5jHG6wBFjCkL-OKGIkYam6IxL-khb57ePMfP1-tA>
+    <xmx:jELhaQRlHliBYurUAcFV2d8CmgJ5u-dub1doh-6D94phoAq22ExPNg>
+    <xmx:jELhaSRCPxP-WNfrY3IkD-p4Gu6mHfWLrJFoIeQJqqBOXlEgq4_Tjeqm>
+Feedback-ID: i53714940:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Apr 2026 16:11:56 -0400 (EDT)
+Received: by famine.localdomain (Postfix, from userid 1000)
+	id 54FF89FB64; Thu, 16 Apr 2026 13:11:55 -0700 (PDT)
+Received: from famine (localhost [127.0.0.1])
+	by famine.localdomain (Postfix) with ESMTP id 523919FB3D;
+	Thu, 16 Apr 2026 13:11:55 -0700 (PDT)
+From: Jay Vosburgh <jv@jvosburgh.net>
+To: Simon Horman <horms@kernel.org>
+cc: Shubham Chakraborty <chakrabortyshubham66@gmail.com>,
+    netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+    kuba@kernel.org, pabeni@redhat.com, kuniyu@google.com,
+    corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] Documentation: sysctl: document net core sysctls
+In-reply-to: <20260413164707.GT469338@kernel.org>
+References: <20260407083213.27045-1-chakrabortyshubham66@gmail.com>
+ <20260409174859.11854-1-chakrabortyshubham66@gmail.com>
+ <20260413164707.GT469338@kernel.org>
+Comments: In-reply-to Simon Horman <horms@kernel.org>
+   message dated "Mon, 13 Apr 2026 17:47:07 +0100."
+X-Mailer: MH-E 8.6+git; nmh 1.8+dev; Emacs 29.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260416-dir-deleg-v2-0-851426a550f6@kernel.org> <20260416-dir-deleg-v2-7-851426a550f6@kernel.org>
-In-Reply-To: <20260416-dir-deleg-v2-7-851426a550f6@kernel.org>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Thu, 16 Apr 2026 21:24:44 +0200
-X-Gm-Features: AQROBzDkNbo1A8vs3cuxkYPYXRSUZziZymY7H6-6on9ynU_2C3mPiqqxTu3HE2k
-Message-ID: <CAOQ4uxg2jHxCi77A1DGtopjZHsTNg4etdboW2GjL85N3uc_KqQ@mail.gmail.com>
-Subject: Re: [PATCH v2 07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
-	Chuck Lever <chuck.lever@oracle.com>, Alexander Aring <alex.aring@gmail.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, NeilBrown <neil@brown.name>, 
-	Olga Kornievskaia <okorniev@redhat.com>, Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Calum Mackay <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <874686.1776370315.1@famine>
 Content-Transfer-Encoding: quoted-printable
+Date: Thu, 16 Apr 2026 13:11:55 -0700
+Message-ID: <874687.1776370315@famine>
 
-On Thu, Apr 16, 2026 at 7:35=E2=80=AFPM Jeff Layton <jlayton@kernel.org> wr=
-ote:
->
-> Add a new fsnotify_rename_data struct and FSNOTIFY_EVENT_RENAME data
-> type that carries both the moved dentry and the inode that was
-> overwritten by the rename (if any).
->
-> Update fsnotify_data_inode(), fsnotify_data_dentry(), and
-> fsnotify_data_sb() to handle the new type, and add a new
-> fsnotify_data_rename_target() helper for extracting the overwritten
-> target inode.
->
-> Update fsnotify_move() to use the new data type for FS_RENAME and
-> FS_MOVED_TO events, passing the overwritten target inode through the
-> event data. FS_MOVED_FROM is unchanged since the source directory
-> doesn't need overwrite information.
->
-> This is done so that fsnotify consumers like nfsd can atomically
-> observe the overwritten file when a rename replaces an existing entry,
-> without needing a separate FS_DELETE event.
->
-> Assisted-by: Claude (Anthropic Claude Code)
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
->  include/linux/fsnotify.h         |  8 ++++++--
->  include/linux/fsnotify_backend.h | 20 ++++++++++++++++++++
->  2 files changed, 26 insertions(+), 2 deletions(-)
+Simon Horman <horms@kernel.org> wrote:
 
-It is strange to me that the NFS protocol needs to report the overwritten
-node in the same event of the rename, but oh well, fine by me.
+>On Thu, Apr 09, 2026 at 11:18:59PM +0530, Shubham Chakraborty wrote:
 
-Feel free to add:
-Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+[...]
 
-Thanks,
-Amir.
+>>  netdev_budget_usecs
+>>  ---------------------
+>>  =
 
 >
-> diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
-> index 079c18bcdbde..bda798bc67bc 100644
-> --- a/include/linux/fsnotify.h
-> +++ b/include/linux/fsnotify.h
-> @@ -257,6 +257,10 @@ static inline void fsnotify_move(struct inode *old_d=
-ir, struct inode *new_dir,
->         __u32 new_dir_mask =3D FS_MOVED_TO;
->         __u32 rename_mask =3D FS_RENAME;
->         const struct qstr *new_name =3D &moved->d_name;
-> +       struct fsnotify_rename_data rd =3D {
-> +               .moved =3D moved,
-> +               .target =3D target,
-> +       };
+>The lines above the following hunk are:
 >
->         if (isdir) {
->                 old_dir_mask |=3D FS_ISDIR;
-> @@ -265,12 +269,12 @@ static inline void fsnotify_move(struct inode *old_=
-dir, struct inode *new_dir,
->         }
+>netdev_budget_usecs
+>---------------------
 >
->         /* Event with information about both old and new parent+name */
-> -       fsnotify_name(rename_mask, moved, FSNOTIFY_EVENT_DENTRY,
-> +       fsnotify_name(rename_mask, &rd, FSNOTIFY_EVENT_RENAME,
->                       old_dir, old_name, 0);
+>Maximum number of microseconds in one NAPI polling cycle. Polling
 >
->         fsnotify_name(old_dir_mask, source, FSNOTIFY_EVENT_INODE,
->                       old_dir, old_name, fs_cookie);
-> -       fsnotify_name(new_dir_mask, source, FSNOTIFY_EVENT_INODE,
-> +       fsnotify_name(new_dir_mask, &rd, FSNOTIFY_EVENT_RENAME,
->                       new_dir, new_name, fs_cookie);
+>> @@ -297,12 +332,16 @@ Maximum number of microseconds in one NAPI pollin=
+g cycle. Polling
+>>  will exit when either netdev_budget_usecs have elapsed during the
+>>  poll cycle or the number of packets processed reaches netdev_budget.
+>>  =
+
+>> +Default: ``2 * USEC_PER_SEC / HZ`` (2000 when ``HZ`` is 1000)
+>> +
 >
->         if (target)
-> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_ba=
-ckend.h
-> index 66e185bd1b1b..f8c8fb7f34ae 100644
-> --- a/include/linux/fsnotify_backend.h
-> +++ b/include/linux/fsnotify_backend.h
-> @@ -311,6 +311,7 @@ enum fsnotify_data_type {
->         FSNOTIFY_EVENT_DENTRY,
->         FSNOTIFY_EVENT_MNT,
->         FSNOTIFY_EVENT_ERROR,
-> +       FSNOTIFY_EVENT_RENAME,
->  };
+>Well, that is awkward.
 >
->  struct fs_error_report {
-> @@ -335,6 +336,11 @@ struct fsnotify_mnt {
->         u64 mnt_id;
->  };
+>Looking at git history, it seems that this sysctl was added by 7acf8a1e8a=
+28
+>("Replace 2 jiffies with sysctl netdev_budget_usecs to enable softirq
+>tuning") in 2017. And at that time the unic was us, and the default was 2=
+000 us.
 >
-> +struct fsnotify_rename_data {
-> +       struct dentry *moved;   /* the dentry that was renamed */
-> +       struct inode *target;   /* inode overwritten by rename, or NULL *=
-/
-> +};
-> +
->  static inline struct inode *fsnotify_data_inode(const void *data, int da=
-ta_type)
->  {
->         switch (data_type) {
-> @@ -348,6 +354,8 @@ static inline struct inode *fsnotify_data_inode(const=
- void *data, int data_type)
->                 return d_inode(file_range_path(data)->dentry);
->         case FSNOTIFY_EVENT_ERROR:
->                 return ((struct fs_error_report *)data)->inode;
-> +       case FSNOTIFY_EVENT_RENAME:
-> +               return d_inode(((const struct fsnotify_rename_data *)data=
-)->moved);
->         default:
->                 return NULL;
->         }
-> @@ -363,6 +371,8 @@ static inline struct dentry *fsnotify_data_dentry(con=
-st void *data, int data_typ
->                 return ((const struct path *)data)->dentry;
->         case FSNOTIFY_EVENT_FILE_RANGE:
->                 return file_range_path(data)->dentry;
-> +       case FSNOTIFY_EVENT_RENAME:
-> +               return ((struct fsnotify_rename_data *)data)->moved;
->         default:
->                 return NULL;
->         }
-> @@ -395,6 +405,8 @@ static inline struct super_block *fsnotify_data_sb(co=
-nst void *data,
->                 return file_range_path(data)->dentry->d_sb;
->         case FSNOTIFY_EVENT_ERROR:
->                 return ((struct fs_error_report *) data)->sb;
-> +       case FSNOTIFY_EVENT_RENAME:
-> +               return ((const struct fsnotify_rename_data *)data)->moved=
-->d_sb;
->         default:
->                 return NULL;
->         }
-> @@ -430,6 +442,14 @@ static inline struct fs_error_report *fsnotify_data_=
-error_report(
->         }
->  }
+>But that was changed by a fix for that commit, a4837980fd9f ("net: revert
+>default NAPI poll timeout to 2 jiffies"), in 2020. As a side-effect of
+>that commit, the default was changed to what you have documented above,
+>and the unit changed to jiffies.
 >
-> +static inline struct inode *fsnotify_data_rename_target(const void *data=
-,
-> +                                                       int data_type)
-> +{
-> +       if (data_type =3D=3D FSNOTIFY_EVENT_RENAME)
-> +               return ((const struct fsnotify_rename_data *)data)->targe=
-t;
-> +       return NULL;
-> +}
-> +
->  static inline const struct file_range *fsnotify_data_file_range(
->                                                         const void *data,
->                                                         int data_type)
+>So while what you have is correct it seems nonsensical to me for the unit
+>to be jiffies. Because that's not a meaningful unit for users. And becaus=
+e
+>the name of the sysctl ends in usecs.
+
+	I don't think the units for netdev_budget_usecs are actually
+jiffies, even after a4837980fd9f.  The default value, for example, is
+2000 if HZ is 1000.  However, the granularity of the measurement is in
+jiffies, via:
+
+static __latent_entropy void net_rx_action(void)
+{
+        struct softnet_data *sd =3D this_cpu_ptr(&softnet_data);
+        unsigned long time_limit =3D jiffies +
+                usecs_to_jiffies(READ_ONCE(net_hotdata.netdev_budget_usecs=
+));
+
+
+	I'm not sure offhand if usecs_to_jiffies rounds up or down, but
+the netdev_budget_usecs looks to be interpreted as usecs.
+
+	-J
+
+>But I'm unsure what to do about it. Since changing the unit this would
+>represent (another) KABI break.
 >
-> --
-> 2.53.0
+>* Add another knob that shadows this one (But what to call it?)
+>* Simply remove this one (KAPI break)
+>* Change the unit of this knob (KAPI break)
 >
+>If the code is left as is, then I think it should be documented that the
+>unit is jiffies.
+>
+>...
+>
+
+---
+	-Jay Vosburgh, jv@jvosburgh.net
