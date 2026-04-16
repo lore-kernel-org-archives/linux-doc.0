@@ -1,321 +1,155 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06718389DFF;
-	Thu, 16 Apr 2026 07:21:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB48438E5EF;
+	Thu, 16 Apr 2026 08:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776324083; cv=none; b=SLohLAHMXqDKECFuk4ejIVxqZL/su4M9wdNPy1c50b8Ft0fVTm5823syK9mxxHRJ+Ug3djtTXqdsyW2mK4jNtJNT39oG749V/QANWkqrMhBxVE2kgPW5+UnWEKJVcJExDTVgiAl+d0DP4qQYSlbkDm9cPJPmrnERHRzbd05wwSQ=
+	t=1776326422; cv=none; b=PjKbsukBEVfwIoyaal1BFQgM2mZ0JYwGB3ltfq2EfDeTi1Lx55MkppUchkQec2FdPfilBKqMBgtqtL5nHAITVnJwKAkcjrLAsBYMYmJqGiTgUg8bpqZVIjy70KvNKU8HjEoTk3uSLeOrCXdCCnQwYsWPFMbJsDcCv5MJ6K9GP5o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776324083; c=relaxed/simple;
-	bh=0ymd9ycVrp8Bw35IXBADj2QEe35ENGWzHv22RoybH9c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q4WFhGofMjy0PJRaTnFiJr15jEgZQsMLDmA6iy22iZouaZysejUyg7gizKYZ506/MBl5ckdPGOQaJ1JxPaAuWNA+nssekcd0MM3WHYVvaZ9Zupa+0D3R4XPn2UFJ3xtLPj4HeZjhNXI32L5aHzkquFg7IiPFQnrpFXuS5l6lTUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rNufEJHE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776326422; c=relaxed/simple;
+	bh=GPF1TfGOqzcqdTNO5Mh6DsmNyK7qEBczUVGwRXxwemI=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=HEx0UN1KYwjt4+woL8bWYgkSeBniy/eyJStl+vUl8MZ6sJDmnl36claLYfi0zK3UOR87cXkdfZ+M8lX7l/PdFV49FuN95Fxmw8GuRiSsWVDFx+/3Y4D/lMsJPrur/q2JdUVTSiXWykGfq/Sobe57eNawW8FTPfFZux1V22DjYE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=x6QHXlli; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rNufEJHE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4AB97C2BCAF;
-	Thu, 16 Apr 2026 07:21:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776324082;
-	bh=0ymd9ycVrp8Bw35IXBADj2QEe35ENGWzHv22RoybH9c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rNufEJHE0To++g4VWWqZ+8sj2QU4KogfXr3w4jfj1OdfyL0UrxVoW+mbgM21ck+Cy
-	 kcIHXm6KwL4/JKtcEHWeUZT5u7tC4yWaVRgYaM1V4BT3sWV9HufJvcoV3pFKMk0MuQ
-	 vSWjwFgk+maDWtIICPeGVxnY0+x7Df2RY9obG+gNqGTSKfu2JmfZqe5VEbPItDp0kJ
-	 tVgbRYElPoIgkQ9y2Jw2RrKT13TTr24n7gj9J9w5vDsJ7zVFVTssBbLnCNNmtPjNRD
-	 M7k8hAgZbuQTmqaBk/ufG45TcPlngLq+vSASajVwMHNFXdcrbnzRGh3S4eU8mnl5Rk
-	 Fsd++iBZlBTDw==
-Date: Thu, 16 Apr 2026 08:21:07 +0100
-From: Lorenzo Stoakes <ljs@kernel.org>
-To: Nico Pache <npache@redhat.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
-	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
-	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
-	jackmanb@google.com, jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, 
-	kas@kernel.org, lance.yang@linux.dev, Liam.Howlett@oracle.com, 
-	lorenzo.stoakes@oracle.com, mathieu.desnoyers@efficios.com, matthew.brost@intel.com, 
-	mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, 
-	rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org, 
-	richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
-	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com, 
-	thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz, 
-	vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
-	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH mm-unstable v15 07/13] mm/khugepaged: add per-order mTHP
- collapse failure statistics
-Message-ID: <aeCFqEHaeO8dD11M@lucifer>
-References: <20260226031741.230674-1-npache@redhat.com>
- <20260226032504.233594-1-npache@redhat.com>
- <c832d503-8b8c-487a-b61a-df74a3057308@lucifer.local>
- <CAA1CXcCS9gWySN1oQzEYpALfURxBwt58us9tkAbNPnHOKmLd5g@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="x6QHXlli"
+Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
+	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63G7QGoR3359996;
+	Thu, 16 Apr 2026 04:00:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=DKIM; bh=O0gh3tgfUuAMymqw1xMuN6uE5BE
+	W0UfqtQMWfOAvnyU=; b=x6QHXlliS6gRccHp8ZVdq8djXJEPw9xypkOx71WE63U
+	49vW11Sh6+yu6oZ3Tu9YeCN6cBP1BdZ3hhVLr8cB7YcHZfUQiK9SzJazk0o32/Hk
+	QfH4pFwE7yPkjOUIXjUp+SAX6l5SnZo/q5PJuMgBS18edHlxLCIog5h2IBlcDaKI
+	mmOOQDSMXC4pFT0rm4m4841tUHh5ygjXuElOOa4cEAQNxQ9Kn0DyxOE+ik07G3pR
+	O85R1TDS1XNAsAac6T/3dzrxFqWLRUC4B4354X28lz4j0vVP7wAgjIu/qsL56QHH
+	FVFgvin2XxDBAZ7ixw2O5k9HSwmuZq6WD+olFa6xxSw==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4dh859dgnf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 16 Apr 2026 04:00:00 -0400 (EDT)
+Received: from ASHBMBX9.ad.analog.com (ASHBMBX9.ad.analog.com [10.64.17.10])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 63G7xw4A042620
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Thu, 16 Apr 2026 03:59:58 -0400
+Received: from ASHBCASHYB5.ad.analog.com (10.64.17.133) by
+ ASHBMBX9.ad.analog.com (10.64.17.10) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Thu, 16 Apr 2026 03:59:58 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by
+ ASHBCASHYB5.ad.analog.com (10.64.17.133) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.37; Thu, 16 Apr 2026 03:59:58 -0400
+Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx9.ad.analog.com
+ (10.64.17.10) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
+ Transport; Thu, 16 Apr 2026 03:59:58 -0400
+Received: from ATORRENO-L02.ad.analog.com ([10.66.6.193])
+	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 63G7xbdx025993;
+	Thu, 16 Apr 2026 03:59:46 -0400
+From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Subject: [PATCH v2 0/2] Add support for MAX20830 PMBUS
+Date: Thu, 16 Apr 2026 15:59:09 +0800
+Message-ID: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAA1CXcCS9gWySN1oQzEYpALfURxBwt58us9tkAbNPnHOKmLd5g@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAM2W4GkC/3XMQQ7CIBCF4as0sxYzTBFbV97DNAaBtiQWDBhS0
+ 3B3sXuX/0vet0Gy0dkEl2aDaLNLLvgadGhAz8pPljlTGwhJouCCGZvvi1oJuxZZLyQ+etKjVAr
+ q5RXt6Naduw21Z5feIX52PfPf+gfKnCEjjqYdO9KnM78qr55hOuqwwFBK+QLJqdbRqQAAAA==
+X-Change-ID: 20260414-dev_max20830-9460b92cf6aa
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>
+CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        "Alexis Czezar
+ Torreno" <alexisczezar.torreno@analog.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1776326383; l=1936;
+ i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
+ bh=GPF1TfGOqzcqdTNO5Mh6DsmNyK7qEBczUVGwRXxwemI=;
+ b=16+t065flkcUIGvZRwYWvlu2cRYg901H1i7NAIwBYCiobC6E9cL+/WGLe8JjAmIA4How9xJVv
+ vxSdNxC1tbZAwC0xBVZFn5vQ1ISfjbQzlDFsqQmx3qUeupA5Se5OCig
+X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
+ pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
+X-ADIRuleOP-NewSCL: Rule Triggered
+X-Proofpoint-ORIG-GUID: o1o8N6D4kH4mGTLCs_uHO2LmYO0-OQuk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDA3NCBTYWx0ZWRfX8iRnKc4tSYni
+ jfe3/uSv5r5xN6toaDPeivfAYT9sw8zIJVnRFeYLEgBtesklG6kXnV26fGLl+cu6rcxO8dkKdPo
+ ENfwAc6lyokAVIB4Kl48lN9rsxjXWCpMcs5uU62HvHdk/nKPlYrxUEe9m3WQcT941bUKek32E0O
+ PEL4FMJBRw3BOL882CM6bBrHqS7YMcQj3MemYLIKrbrRjC9QifseWDkb8cwRR5dFyKMNwgRsNKq
+ uTfYeZoCvuj8T8tLOgfEztSqIYIcPMFCUqNZpoR06NRlACLKc5rMC2XSIbKVa+IqwGei9prnsub
+ ruZB1kj+bdpWLqPjQIQsxJN4V5PbcsCWdGRU0h/Jlb+Xj5Yttsq8xzqKr4j1Kxc+YoYB4SUlN+/
+ lJO/jkW+FtfHmRhSF34b3LcUTItPkX0Lf0NKNBA8O2nVTKAh7zsf7/gJctIIGDczqrDAMpD8ENi
+ 39P2ni9f8uML0YYUSxw==
+X-Authority-Analysis: v=2.4 cv=Ivkutr/g c=1 sm=1 tr=0 ts=69e09700 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=0sLvza09kfJOxVLZPwjg:22 a=OmVn7CZJonkx5R5zMQLL:22 a=gAnH3GRIAAAA:8
+ a=VwQbUJbxAAAA:8 a=r-qAA2OrMi8oRDqhcIUA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-GUID: o1o8N6D4kH4mGTLCs_uHO2LmYO0-OQuk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-16_02,2026-04-13_04,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 impostorscore=0 suspectscore=0 lowpriorityscore=0
+ clxscore=1015 bulkscore=0 spamscore=0 adultscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604160074
 
-Ack on all below due to lower bandwidth :P
+This series adds support for the Analog Devices MAX20830 step-down
+switching regulator with PMBus interface.
 
-It's nothing really major here so don't let any of this block on respin!
+The MAX20830 provides 2.7V to 16V input, 0.4V to 5.8V output, and up
+to 30A output current. It supports monitoring of input/output voltage,
+output current, and temperature via PMBus.
 
-Cheers, Lorenzo
+Datasheet: https://www.analog.com/en/products/max20830.html
 
-On Sun, Apr 12, 2026 at 08:48:29PM -0600, Nico Pache wrote:
-> On Tue, Mar 17, 2026 at 11:05 AM Lorenzo Stoakes (Oracle)
-> <ljs@kernel.org> wrote:
-> >
-> > On Wed, Feb 25, 2026 at 08:25:04PM -0700, Nico Pache wrote:
-> > > Add three new mTHP statistics to track collapse failures for different
-> > > orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
-> > >
-> > > - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
-> > >       PTEs
-> > >
-> > > - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
-> > >       exceeding the none PTE threshold for the given order
-> > >
-> > > - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
-> > >       PTEs
-> > >
-> > > These statistics complement the existing THP_SCAN_EXCEED_* events by
-> > > providing per-order granularity for mTHP collapse attempts. The stats are
-> > > exposed via sysfs under
-> > > `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
-> > > supported hugepage size.
-> > >
-> > > As we currently dont support collapsing mTHPs that contain a swap or
-> > > shared entry, those statistics keep track of how often we are
-> > > encountering failed mTHP collapses due to these restrictions.
-> > >
-> > > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > > Signed-off-by: Nico Pache <npache@redhat.com>
-> > > ---
-> > >  Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
-> > >  include/linux/huge_mm.h                    |  3 +++
-> > >  mm/huge_memory.c                           |  7 +++++++
-> > >  mm/khugepaged.c                            | 16 ++++++++++++---
-> > >  4 files changed, 47 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> > > index c51932e6275d..eebb1f6bbc6c 100644
-> > > --- a/Documentation/admin-guide/mm/transhuge.rst
-> > > +++ b/Documentation/admin-guide/mm/transhuge.rst
-> > > @@ -714,6 +714,30 @@ nr_anon_partially_mapped
-> > >         an anonymous THP as "partially mapped" and count it here, even though it
-> > >         is not actually partially mapped anymore.
-> > >
-> > > +collapse_exceed_none_pte
-> > > +       The number of collapse attempts that failed due to exceeding the
-> > > +       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
-> > > +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
-> > > +       emit a warning and no mTHP collapse will be attempted. khugepaged will
-> >
-> > It's weird to document this here but not elsewhere in the document? I mean I
-> > made this comment on the documentation patch also.
->
-> I can add some more documentation but TBH I don't really know where or
-> what else to put. I checked a few of these other per-mTHP stats, and
-> none are referenced elsewhere. if anything these 3 additions are the
-> best documented ones.
->
-> >
-> > Not sure if I missed you adding it to another bit of the docs? :)
-> >
-> > > +       try to collapse to the largest enabled (m)THP size; if it fails, it will
-> > > +       try the next lower enabled mTHP size. This counter records the number of
-> > > +       times a collapse attempt was skipped for exceeding the max_ptes_none
-> > > +       threshold, and khugepaged will move on to the next available mTHP size.
-> > > +
-> > > +collapse_exceed_swap_pte
-> > > +       The number of anonymous mTHP PTE ranges which were unable to collapse due
-> > > +       to containing at least one swap PTE. Currently khugepaged does not
-> > > +       support collapsing mTHP regions that contain a swap PTE. This counter can
-> > > +       be used to monitor the number of khugepaged mTHP collapses that failed
-> > > +       due to the presence of a swap PTE.
-> > > +
-> > > +collapse_exceed_shared_pte
-> > > +       The number of anonymous mTHP PTE ranges which were unable to collapse due
-> > > +       to containing at least one shared PTE. Currently khugepaged does not
-> > > +       support collapsing mTHP PTE ranges that contain a shared PTE. This
-> > > +       counter can be used to monitor the number of khugepaged mTHP collapses
-> > > +       that failed due to the presence of a shared PTE.
-> >
-> > All of these talk about 'ranges' that could be of any size. Are these useful
-> > metrics? Counting a bunch of failures and not knowing if they are 256 KB
-> > failures or 16 KB failures or whatever is maybe not so useful information?
->
-> These are per-mTHP size statistics. If you look at the surrounding
-> examples and docs this all makes more sense.
->
-> >
-> > Also, from the code, aren't you treating PMD events the same as mTHP ones from
-> > the point of view of these counters? Maybe worth documenting that?
->
-> IIUC, yes but that is true of all these
->
-> ```
-> In /sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/stats, There are
-> also individual counters for each huge page size, which can be utilized to
-> monitor the system's effectiveness in providing huge pages for usage. Each
-> counter has its own corresponding file.
-> ```
->
-> >
-> > > +
-> > >  As the system ages, allocating huge pages may be expensive as the
-> > >  system uses memory compaction to copy data around memory to free a
-> > >  huge page for use. There are some counters in ``/proc/vmstat`` to help
-> > > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > > index 9941fc6d7bd8..e8777bb2347d 100644
-> > > --- a/include/linux/huge_mm.h
-> > > +++ b/include/linux/huge_mm.h
-> > > @@ -144,6 +144,9 @@ enum mthp_stat_item {
-> > >       MTHP_STAT_SPLIT_DEFERRED,
-> > >       MTHP_STAT_NR_ANON,
-> > >       MTHP_STAT_NR_ANON_PARTIALLY_MAPPED,
-> > > +     MTHP_STAT_COLLAPSE_EXCEED_SWAP,
-> > > +     MTHP_STAT_COLLAPSE_EXCEED_NONE,
-> > > +     MTHP_STAT_COLLAPSE_EXCEED_SHARED,
-> > >       __MTHP_STAT_COUNT
-> > >  };
-> > >
-> > > diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-> > > index 228f35e962b9..1049a207a257 100644
-> > > --- a/mm/huge_memory.c
-> > > +++ b/mm/huge_memory.c
-> > > @@ -642,6 +642,10 @@ DEFINE_MTHP_STAT_ATTR(split_failed, MTHP_STAT_SPLIT_FAILED);
-> > >  DEFINE_MTHP_STAT_ATTR(split_deferred, MTHP_STAT_SPLIT_DEFERRED);
-> > >  DEFINE_MTHP_STAT_ATTR(nr_anon, MTHP_STAT_NR_ANON);
-> > >  DEFINE_MTHP_STAT_ATTR(nr_anon_partially_mapped, MTHP_STAT_NR_ANON_PARTIALLY_MAPPED);
-> > > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_swap_pte, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> > > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_none_pte, MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> > > +DEFINE_MTHP_STAT_ATTR(collapse_exceed_shared_pte, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> >
-> > Is there a reason there's such a difference between the names and the actual
-> > enum names?
->
-> Good point I didnt think about that. I can update those as long as
-> they don't conflict with something else (I forget why i named them
-> like this).
->
-> >
-> > > +
-> > >
-> > >  static struct attribute *anon_stats_attrs[] = {
-> > >       &anon_fault_alloc_attr.attr,
-> > > @@ -658,6 +662,9 @@ static struct attribute *anon_stats_attrs[] = {
-> > >       &split_deferred_attr.attr,
-> > >       &nr_anon_attr.attr,
-> > >       &nr_anon_partially_mapped_attr.attr,
-> > > +     &collapse_exceed_swap_pte_attr.attr,
-> > > +     &collapse_exceed_none_pte_attr.attr,
-> > > +     &collapse_exceed_shared_pte_attr.attr,
-> > >       NULL,
-> > >  };
-> > >
-> > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > > index c739f26dd61e..a6cf90e09e4a 100644
-> > > --- a/mm/khugepaged.c
-> > > +++ b/mm/khugepaged.c
-> > > @@ -595,7 +595,9 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
-> > >                               continue;
-> > >                       } else {
-> > >                               result = SCAN_EXCEED_NONE_PTE;
-> > > -                             count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> > > +                             if (is_pmd_order(order))
-> > > +                                     count_vm_event(THP_SCAN_EXCEED_NONE_PTE);
-> > > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_NONE);
-> >
-> > It's a bit gross to have separate stats for both thp and mthp but maybe
-> > unavoidable from a legacy stand point.
->
-> I agree but that's how it currently is. Perhaps we can add this to the
-> TODO list for THP work.
->
-> >
-> > Why are we dropping the _PTE suffix?
->
-> I follow the convention that the other mTHP stats follow for example
-> (MTHP_STAT_SPLIT_DEFERRED)
->
-> >
-> > >                               goto out;
-> > >                       }
-> > >               }
-> > > @@ -631,10 +633,17 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
-> > >                        * shared may cause a future higher order collapse on a
-> > >                        * rescan of the same range.
-> > >                        */
-> > > -                     if (!is_pmd_order(order) || (cc->is_khugepaged &&
-> > > -                         shared > khugepaged_max_ptes_shared)) {
-> >
-> > OK losing track here :) as the series sadly doesn't currently apply so can't
-> > browser file as is.
-> >
-> > In the code I'm looking at, there's also a ++shared here that I guess another
-> > patch removed?
-> >
-> > Is this in the folio_maybe_mapped_shared() branch?
->
-> yes the counting is now done at the top of that branch.
->
-> >
-> > > +                     if (!is_pmd_order(order)) {
-> > > +                             result = SCAN_EXCEED_SHARED_PTE;
-> > > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> > > +                             goto out;
-> > > +                     }
-> > > +
-> > > +                     if (cc->is_khugepaged &&
-> > > +                         shared > khugepaged_max_ptes_shared) {
-> > >                               result = SCAN_EXCEED_SHARED_PTE;
-> > >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
-> > > +                             count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SHARED);
-> > >                               goto out;
-> >
-> > Anyway I'm a bit lost on this logic until a respin but this looks like a LOT of
-> > code duplication. I see David alluded to a refactoring so maybe what he suggests
-> > will help (not had a chance to check what it is specifically :P)
->
-> Yep :) should look cleaner in the next one. Although it's quite a bit
-> of refactoring. I'll be praying that i got it right on the first go,
-> and I put all the other pieces in the desired spot.
->
-> >
-> > >                       }
-> > >               }
-> > > @@ -1081,6 +1090,7 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
-> > >                * range.
-> > >                */
-> > >               if (!is_pmd_order(order)) {
-> > > +                     count_mthp_stat(order, MTHP_STAT_COLLAPSE_EXCEED_SWAP);
-> >
-> > Hmm I thought we were incrementing mthp stats for pmd sized also?
->
-> Yes we are supposed to. I've already refactored and it looks fine
-> there... perhaps i missed this one in this version!
->
-> Cheers,
->
-> -- Nico
->
-> >
-> > >                       pte_unmap(pte);
-> > >                       mmap_read_unlock(mm);
-> > >                       result = SCAN_EXCEED_SWAP_PTE;
-> > > --
-> > > 2.53.0
-> > >
-> >
-> > Cheers, Lorenzo
-> >
->
+Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+---
+Changes in v2:
+- bindings:
+  - did not add interrupt, smbalert pin does not exist in device.
+  - added allof with ref to regulator.yaml
+  - changed additionalprop to unevaluatedprop
+  - device node name in example changed to regulator
+- driver: 
+  - max20830.rst: Added missing in2_alarm
+  - max20830.c: 
+    - added missing quotes in MODULE_IMPORT_NS
+    - added comment on why i2c_smbus_read_i2c_block_data is used
+    - first byte of buffer used as length instead of the return value
+    - "unsupported device" log now does not print first byte of buffer
+- Link to v1: https://lore.kernel.org/r/20260414-dev_max20830-v1-0-210d3f82c571@analog.com
+
+---
+Alexis Czezar Torreno (2):
+      dt-bindings: hwmon: pmbus: add max20830
+      hwmon: (pmbus/max20830) add driver for max20830
+
+ .../bindings/hwmon/pmbus/adi,max20830.yaml         | 61 +++++++++++++++
+ Documentation/hwmon/index.rst                      |  1 +
+ Documentation/hwmon/max20830.rst                   | 49 ++++++++++++
+ MAINTAINERS                                        |  9 +++
+ drivers/hwmon/pmbus/Kconfig                        |  9 +++
+ drivers/hwmon/pmbus/Makefile                       |  1 +
+ drivers/hwmon/pmbus/max20830.c                     | 86 ++++++++++++++++++++++
+ 7 files changed, 216 insertions(+)
+---
+base-commit: fb447217c59a13b2fff22d94de2498c185cd9032
+change-id: 20260414-dev_max20830-9460b92cf6aa
+
+Best regards,
+-- 
+Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+
