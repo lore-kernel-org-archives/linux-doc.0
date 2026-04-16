@@ -1,286 +1,277 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7A33E0252
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 14:10:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 192963A6F03
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 14:37:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776348637; cv=none; b=V1/SZIsUmp8JlUdXR0Oh0+Fz3AeW2smSJ1Vpl7KCoU6K1yyQImMUL+7Ugigo6/HP9JfYx8v8g35sIkase7emhgCvo0I+kADRoyHxZZDfIjVcxnU0T2yuoaqKoyYVGnljlQ3nPqFxbfe9U9UTDvaitvkQgx5H7q6ojWYCYMFCC/Q=
+	t=1776350259; cv=none; b=M7UtTQoyLA9n9UIZHnYrUSguCx5mFbjzRX0iWWt68+AN4bIZh9EwMyxsXu2gSgOaDQOFMSYAF/31MNfQBi99hOr1bhYYp86pvM7U5pvTHxjVaAVB2mYcBUN6cdK9GZMFX7En/nfQy/3LYSeL1zNyVaXcj9YJg5LKE62nRDBu94w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776348637; c=relaxed/simple;
-	bh=ED34D8b+KIsBJGlgWYmYp+bxz9nF9W6dhG3Lu+L8T+Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=hbQtAAXjhIBCDcJEgzfdNyJPxdDBWABBNjiXk4XVc2C1LkqoGvvSoWL3KlnfdWj3XUx+TNvaZrc3adrV9v6KqTvxC/snCzTQ+j1QuBdIHOylrzgFjJ8mz9+6/RiAicgdhEb6/2TDicEsM8Q3AyM30sffTn96u2/Gp7RErC1rrow=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XqjGIXZd; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=DJZzALKm; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1776350259; c=relaxed/simple;
+	bh=v0CmJsJ2YboECIMwVR31yUzzIZtQS7igYnAk5OF0hCw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Cep2A3T4DDHRl/0+K9NjI3W7hywZDHIR15kInwEy4LNGklJ5QttQc93oYrsyEgwjA1f55EGB3MJeC71VfXlGq/QhSsUx0pGnEAAw090rguVhcK0ECROmen+94uewPkhGmw+hcyfc5AzVsMIK823eVdXX5pi4jr4WL5Ko4YS+NzA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BeoZi6iE; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XqjGIXZd";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="DJZzALKm"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63G8CUMI2576024
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 14:10:33 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	olONKICAQIN5WecCXZoB05Va0xoXxi3BtToDJt2JvlU=; b=XqjGIXZdw6NKQMIj
-	hSdPAXMczheOQYqH98Bq4weVCFDDFn4Zl9dpgUgwEA0k6WsX6U5CdxHcdpikXQ7I
-	osU9HlveeflD3qM1vNr9ljKCejtLeubry2wpPTOPiclUymeC3eF06EVlH6SlR4jV
-	1Uh5MPrhLPMk0lQIwaNs1LdmIlInNKAYvidiw08ZmneMzSWnRoroYB9Yg7kyLU3D
-	0XeKNpgw4tok3ZAlx3r6RONqmRy3Rdn4RycrT99ZTnszi2EZVnOawonyeWfylSV5
-	HCyH90Yqe4uIR75M6mt0P2Rk+k9EmjsU7XGSzRifJSks8W0s1UqK5vMDGjGdWEl2
-	8ThZ0Q==
-Received: from mail-yx1-f69.google.com (mail-yx1-f69.google.com [74.125.224.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4djv27h8vp-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 14:10:33 +0000 (GMT)
-Received: by mail-yx1-f69.google.com with SMTP id 956f58d0204a3-651c29a96d6so5351848d50.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 07:10:33 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BeoZi6iE"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so74742955e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 07:37:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1776348632; x=1776953432; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=olONKICAQIN5WecCXZoB05Va0xoXxi3BtToDJt2JvlU=;
-        b=DJZzALKmhPmWQs4MEBjB2vZ0ouRqz1mqpwsnQT3miKMQVFJ7JR60k8Q17RbETP3djF
-         lgWEtiN+hJVX/W1qxgqNiFNGvw61eA5IOUoxSc4zNytEdf05A7h918oA6QX9SqCNZ4A2
-         DHc51z1qVQP+r5pXXd78bkn1oxB39+F/0xJnAC0aIJo2fJz8b1dq/kVYtkZPorLepcLB
-         9UhsSnd+Z3o/czRivMh1hbRafx+GwwE2l6ktEPT205MTI1fyAJ2ySSTFXGAb1OL5lfeL
-         VpZiJsiZtBmsy1m8oKajnJg2u7cnI5LZtCBZ817RZqPd0YFq1WGwshvaK12GGk9Kdhd+
-         QLJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776348632; x=1776953432;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+        d=gmail.com; s=20251104; t=1776350256; x=1776955056; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=olONKICAQIN5WecCXZoB05Va0xoXxi3BtToDJt2JvlU=;
-        b=dnbjuESrZokbToJOfcVxHfH2u946aqus6I9VXCLg0kMSrI39a870Leose5Zl3YKkye
-         iUkGJ5ZQfzkpk2O16mXQIjOmTxny55gzBpyhP0uyj8Or4g8c4BDp6o7WoI6TFXsrbD6C
-         vgr2ArLEPzixnpQ+HdSPhQoURDavx9B2Q5UNmk6QSy+kRV+a/fU2UG+4j+YjXnL/52/k
-         +Tq+Sv3JVl+Gg9chCl+c79j2YWPOVO3ya28WaLoQLIRWDVkvjg7NP2vdWgm2oh7Tsik5
-         WQ+TAtu0awfW0k3Z7WPlGj+7RR0o0WJIVGQrpv7wmrFqZPOJ8j6E1l5/r4U6938pEvFM
-         aPPg==
-X-Gm-Message-State: AOJu0YztQA4m2bVM1ET8aeAjxI2Z2omYnZy8Td2APNT7fDoNOA8HZ5D/
-	Q8AL9U10QRxsNe4LGnp1R8zIStaHIdi+QbJjaI7sYlnHHIhKf+k5cq+rO8mu36bvnkaNUDbh/Ix
-	+0iwUbLgN8muynwluT60hgvakloezFCto1A6eTZ8Yxw43ADluTc6HziCpI4EZBdI=
-X-Gm-Gg: AeBDieuYbCmGCUpAXY+SFkQ251hDsRDcKxm2wsjHQxdBs/NRIj/Yu5cS49MycweI9Q7
-	5fp7wRh1hkQoIdKlMGyM54qSTDSqRay5XMnsRN+tLVw7ItJPzU3af9dDGeF6hbzWXp7vApZ4IHh
-	6v0I139NeIX2oSCIOpatVRRjYFPl5MSFULFXd2pbjMVaqE2n1cgaP8mSmylu11j7uaqZua60IZ9
-	hMYJAJ//lfCdxce+Pq/5WObtZPEqwBxbOpv2RtPH/cmZ1KwpDW+wXgLg1SO2NxhfWudV2TjQi5a
-	EPFzjlFMx6ksoUVrtxOnujlqjT/h2a6kkg4hFRFKpYS0pUuccfHlZm5HuB9LkYHA09Z2a/pUslx
-	zWYuTbEhMUxsleC5ePzw+HFLYa/lZiTEFHoPfDiWCJUWD6pZ3USQ=
-X-Received: by 2002:a53:cf05:0:b0:650:4aec:29fa with SMTP id 956f58d0204a3-65198b734cbmr16936296d50.38.1776348632101;
-        Thu, 16 Apr 2026 07:10:32 -0700 (PDT)
-X-Received: by 2002:a53:cf05:0:b0:650:4aec:29fa with SMTP id 956f58d0204a3-65198b734cbmr16936245d50.38.1776348631578;
-        Thu, 16 Apr 2026 07:10:31 -0700 (PDT)
-Received: from hu-batta-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-652e47ba4a3sm2084691d50.17.2026.04.16.07.10.27
+        bh=VysYGCXsyIEebfIwJV27h+uUWML92olF3CQNmU0siXk=;
+        b=BeoZi6iEqsK2MXckmjSMjBjeBe9uUarSQD5OYlYS/ejj2hpPrub967trtIIkNijQYC
+         oeFeDC9T2lHUPhB6scStq0MoNwyaI3F7IESphUJHIF6wpTaemZxH7AmqAxO9JUtzT5rh
+         bhRbZSW4r2eeAl87UsnuGxGXhz6pWSsKPovyJ16CwYFcLfP8glGYiQsmXtZ+3GIKtQ+N
+         aI9wFa2mKYYElmOoNbAUJFroEJq0qUfB/508tw/fZuCqoWHhI9L0bHlnUHfdheGwZf4f
+         NqmNqBFgtZ+aZiC59dUAieiXTT6INbiIs0u626gFR81fwT/ufE1u/O46Pm4L1wzD0Poz
+         tpxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776350256; x=1776955056;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VysYGCXsyIEebfIwJV27h+uUWML92olF3CQNmU0siXk=;
+        b=F4ntCkyluRq4ItvcZfFrI6U7gsjltEzPZr9YGtw32kWdocCp62aa3gF2uYN8Y987ql
+         +AYMMbS5DobWJID0g7DOBJKRVLcD6Yu53TTChKnt9PrNTvamHbhcTsZWKqwcHn4gdxqu
+         Xkxy4XQyQiUTwiztdzyjn5ZVbLGGPTBOUk1cGfCuY7u2ma5qZz12W/t/GgimCQTJQbrr
+         WlR9i6N3EvmNvsY7gQCEPS9UiMNpeWdztPPWg20AMxbnYGegKQ466JnJqZbY7VNGd3Ku
+         OZ913XKSz1aaDRezJ5TA2wXcxWCUQIo3cvwhzcoxJ/HZm1K1XmiOdxKC3mgkFjz1Hi9Z
+         nwIQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+gdZuiCm1QSfRiSZTp5P7fv/v7x+kgMUz5G1yVHoO6Ws2fFVY2Hp3GRdcfEIH3rde9clu31jPpRSA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwK4Ni/cGNgsI/u2oLr3LQgzaI0jiLpMpvlhpn9jT/H9h6GXs5z
+	oGieHuC4DwSCfZgiPwY3uSNqoqp0gnEGgdz5tDZHIiQOM8GGQDXlvwfF
+X-Gm-Gg: AeBDies0ipGZWGLioSEnVnqCrX0TH4ydG7DpDVdZa3gc4X+Wgrt2dQkUPU8sGANIu98
+	0vLRY8ZNZoMGpriHdbj0HXgNtxHYNf+5PmEs4S6rdIjA+ykE+KmWzlJb1+MSmOq1/OtGuVGHPTk
+	d1NJNylWtgljg0BEn4gN5aVQeXKe9KlT6CiOgu0BlHYpT0mwNZoa39fxQ3b6x028LcVvpoCSSys
+	7sotjGLueYIhSCKhdP0FIO1l6MlbvxCubhwQ0j0SPf4Y0PNzuM51ejXkPluBbx0PQzGdyeg5oet
+	TvEUG21HnTNzVHRZCbiCLzxnoqgUs5v1Txge8ylmXAHurSJ+1gZ6c+kxqfma6q8cEMHGAhZLawI
+	Fn3JICbNHzTXa7iYExEMkyvteQsleXlr5Q5jucc5dZHysuAg8fqyL3BmTRkSz+8fYn+jG+Dp2L1
+	pU28fa7Pq4h0jlA6c=
+X-Received: by 2002:a05:600c:3f19:b0:485:3ff1:d5ed with SMTP id 5b1f17b1804b1-488d67bbc2amr343915545e9.1.1776350255889;
+        Thu, 16 Apr 2026 07:37:35 -0700 (PDT)
+Received: from nsa ([148.63.225.166])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488f0e7ecd9sm73158735e9.7.2026.04.16.07.37.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 07:10:31 -0700 (PDT)
-From: Kishore Batta <kishore.batta@oss.qualcomm.com>
-Date: Thu, 16 Apr 2026 19:39:48 +0530
-Subject: [PATCH v5 7/7] bus: mhi: Expose DDR training data via controller
- sysfs
+        Thu, 16 Apr 2026 07:37:35 -0700 (PDT)
+Date: Thu, 16 Apr 2026 15:38:24 +0100
+From: Nuno =?utf-8?B?U8Oh?= <noname.nuno@gmail.com>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] hwmon: (pmbus/max20830) add driver for max20830
+Message-ID: <aeD0BCvuu2I5UFtX@nsa>
+References: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
+ <20260416-dev_max20830-v2-2-2c7d676dc0bd@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260416-sahara_protocol_new_v2-v5-7-6aebf005e4ba@oss.qualcomm.com>
-References: <20260416-sahara_protocol_new_v2-v5-0-6aebf005e4ba@oss.qualcomm.com>
-In-Reply-To: <20260416-sahara_protocol_new_v2-v5-0-6aebf005e4ba@oss.qualcomm.com>
-To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-        Jeff Hugo <jeff.hugo@oss.qualcomm.com>,
-        Carl Vanderlip <carl.vanderlip@oss.qualcomm.com>,
-        Oded Gabbay <ogabbay@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        mhi@lists.linux.dev, Kishore Batta <kishore.batta@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776348592; l=5329;
- i=kishore.batta@oss.qualcomm.com; s=20260206; h=from:subject:message-id;
- bh=ED34D8b+KIsBJGlgWYmYp+bxz9nF9W6dhG3Lu+L8T+Y=;
- b=wr3vSGs78JSxGrL9+BaCDjQaV430OdwRmfmRxGfEA18NdKlc7cPBYHUMyREr7q9wjEQydgh2n
- fowGZKpD2eLBYkBvWD8gp2LTGudSo2ECATeMbqaMDKsHQlDphB0Yaf9
-X-Developer-Key: i=kishore.batta@oss.qualcomm.com; a=ed25519;
- pk=vJo8RvTf+HZpRLK2oOIljmbn9l3zFkibCGh+blaqZCw=
-X-Authority-Analysis: v=2.4 cv=PJQ/P/qC c=1 sm=1 tr=0 ts=69e0edd9 cx=c_pps
- a=J+5FMm3BkXb42VdG8aMU9w==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
- a=EUspDBNiAAAA:8 a=6t33SRJ6vQwVIDTtI9kA:9 a=QEXdDO2ut3YA:10
- a=Epx66wHExT0cjJnnR-oj:22
-X-Proofpoint-GUID: mZayIpwwAPp1Cvs3FL2zHyYPgjRAZhGy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDEzNiBTYWx0ZWRfX8ytorfQ+rCBV
- iuhgtBl6zVne46dhH/46j7UPqKIg7jmV7yY53z3gpia1bBnpb/va+fH7IttmUX7vfroiG6/L4aM
- ntkrWgeScC4Y8aUE35cD4tzRjYkWdoAWOWL3eARv2qr+ISTYbGblxRqLqGMTStNSBucYfyVhLck
- icQ43CytAhqzH9o1QRYp63JsNBog4A9oRIKrFMp8Iib+aXUAvqIFndqDIkkFpcR9EPy3uZ3ujaJ
- zH3AvSnW5gzfixePqLwdPQTJr02zmouvtzu2YEOTwFACBf9XZnxMZ6Kjio6tvfuHssqCZ77LHep
- j387YdOANs6t5KT2v0TdIzOgW8s0uFvbNeHv+vuHsyPueImBLukHlpCQqHHQ/OswAB6l3qtE11o
- K6W72FNSyYJaIadiVXa4UpF5HGBul2WfHNAlU05L38qfnY/I4z0+TMYvwuIwtw7Ok4g0KssWGfq
- rurDjIXK4ma9M3bxccg==
-X-Proofpoint-ORIG-GUID: mZayIpwwAPp1Cvs3FL2zHyYPgjRAZhGy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_03,2026-04-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 spamscore=0 adultscore=0 phishscore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 clxscore=1015
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604160136
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260416-dev_max20830-v2-2-2c7d676dc0bd@analog.com>
 
-DDR training data captured during Sahara command mode needs to be
-accessible to userspace so it can be persisted and reused on subsequent
-boots. Currently, the training data is stored internally in the driver
-but has no external visibility once the Sahara channel is torn down.
+On Thu, Apr 16, 2026 at 03:59:11PM +0800, Alexis Czezar Torreno wrote:
+> Add support for MAX20830 step-down DC-DC switching regulator with
+> PMBus interface. It allows monitoring of input/output voltage,
+> output current and temperature through the PMBus serial interface.
+> 
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> ---
+>  Documentation/hwmon/index.rst    |  1 +
+>  Documentation/hwmon/max20830.rst | 49 +++++++++++++++++++++++
+>  MAINTAINERS                      |  2 +
+>  drivers/hwmon/pmbus/Kconfig      |  9 +++++
+>  drivers/hwmon/pmbus/Makefile     |  1 +
+>  drivers/hwmon/pmbus/max20830.c   | 86 ++++++++++++++++++++++++++++++++++++++++
+>  6 files changed, 148 insertions(+)
+> 
+> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+> index 8b655e5d6b68b90c697a52c7bf526e81d370caf7..56f7eb761be76dd627a2f34135abad05203b0582 100644
+> --- a/Documentation/hwmon/index.rst
+> +++ b/Documentation/hwmon/index.rst
+> @@ -158,6 +158,7 @@ Hardware Monitoring Kernel Drivers
+>     max197
+>     max20730
+>     max20751
+> +   max20830
+>     max31722
+>     max31730
+>     max31760
+> diff --git a/Documentation/hwmon/max20830.rst b/Documentation/hwmon/max20830.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..936e409dcc5c0898dde27d782308d4a7e1357e73
+> --- /dev/null
+> +++ b/Documentation/hwmon/max20830.rst
+> @@ -0,0 +1,49 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Kernel driver max20830
+> +======================
+> +
+> +Supported chips:
+> +
+> +  * Analog Devices MAX20830
+> +
+> +    Prefix: 'max20830'
+> +
+> +    Addresses scanned: -
+> +
+> +    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max20830.pdf
+> +
+> +Author:
+> +
+> +  - Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> +
+> +
+> +Description
+> +-----------
+> +
+> +This driver supports hardware monitoring for Analog Devices MAX20830
+> +Step-Down Switching Regulator with PMBus Interface.
+> +
+> +The MAX20830 is a 2.7V to 16V, 30A fully integrated step-down DC-DC switching
+> +regulator. Through the PMBus interface, the device can monitor input/output
+> +voltages, output current and temperature.
+> +
+> +The driver is a client driver to the core PMBus driver. Please see
+> +Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
+> +
+> +Sysfs entries
+> +-------------
+> +
+> +================= ========================================
+> +in1_label         "vin"
+> +in1_input         Measured input voltage
+> +in1_alarm         Input voltage alarm
+> +in2_label         "vout1"
+> +in2_input         Measured output voltage
+> +in2_alarm         Output voltage alarm
+> +curr1_label       "iout1"
+> +curr1_input       Measured output current
+> +curr1_alarm       Output current alarm
+> +temp1_input       Measured temperature
+> +temp1_alarm       Chip temperature alarm
+> +================= ========================================
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 031c743e979521a92ed9ac67915c178ce31727bd..d6a6745e2dae29c3b8f80bbe61c54a2f5ecd9f47 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15585,6 +15585,8 @@ L:	linux-hwmon@vger.kernel.org
+>  S:	Supported
+>  W:	https://ez.analog.com/linux-software-drivers
+>  F:	Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
+> +F:	Documentation/hwmon/max20830.rst
+> +F:	drivers/hwmon/pmbus/max20830.c
+>  
+>  MAX2175 SDR TUNER DRIVER
+>  M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 8f4bff375ecbc355f5ed3400855c2852ec2aa5ef..987705bf45b75b7b91ccc469247909f3c3f53d77 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -365,6 +365,15 @@ config SENSORS_MAX20751
+>  	  This driver can also be built as a module. If so, the module will
+>  	  be called max20751.
+>  
+> +config SENSORS_MAX20830
+> +	tristate "Analog Devices MAX20830"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Analog
+> +	  Devices MAX20830.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called max20830.
+> +
+>  config SENSORS_MAX31785
+>  	tristate "Maxim MAX31785 and compatibles"
+>  	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 7129b62bc00f8a2e98de14004997752a856dfda2..bc52f930e0825a902a0dd1c9e2b44f2e8d577c35 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -36,6 +36,7 @@ obj-$(CONFIG_SENSORS_MAX16601)	+= max16601.o
+>  obj-$(CONFIG_SENSORS_MAX17616)	+= max17616.o
+>  obj-$(CONFIG_SENSORS_MAX20730)	+= max20730.o
+>  obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
+> +obj-$(CONFIG_SENSORS_MAX20830)	+= max20830.o
+>  obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
+>  obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
+>  obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
+> diff --git a/drivers/hwmon/pmbus/max20830.c b/drivers/hwmon/pmbus/max20830.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..21ea8b59150cb0564f1776ee08131bad7fdef003
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/max20830.c
+> @@ -0,0 +1,86 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Hardware monitoring driver for Analog Devices MAX20830
+> + *
+> + * Copyright (C) 2026 Analog Devices, Inc.
+> + */
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/module.h>
+> +#include "pmbus.h"
+> +
+> +static struct pmbus_driver_info max20830_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = linear,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
+> +		PMBUS_HAVE_TEMP |
+> +		PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT |
+> +		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
+> +};
+> +
+> +static int max20830_probe(struct i2c_client *client)
+> +{
+> +	u8 buf[I2C_SMBUS_BLOCK_MAX + 1];
 
-Expose the captured DDR training data via a read-only binary sysfs
-attribute on the MHI controller device:
+AI seems a bit paranoid but maybe to be on the safe side just initialize
+the above buffer.
 
-/sys/bus/mhi/devices/<mhi_cntrl>/ddr_training_data
+> +	u8 len;
+> +	int ret;
+> +
+> +	if (!i2c_check_functionality(client->adapter,
+> +				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
+> +		return -ENODEV;
+> +
+> +	/*
+> +	 * Use i2c_smbus_read_i2c_block_data() instead of
+> +	 * i2c_smbus_read_block_data() to support I2C controllers
+> +	 * which do not support SMBus block reads.
+> +	 */
+> +	ret = i2c_smbus_read_i2c_block_data(client, PMBUS_IC_DEVICE_ID,
+> +					    I2C_SMBUS_BLOCK_MAX, buf);
+> +	if (ret < 0)
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Failed to read IC_DEVICE_ID\n");
+> +
+> +	/* First byte is the block length. */
+> +	len = buf[0];
+> +	if (len != 9)
+> +		return dev_err_probe(&client->dev, -ENODEV,
+> +				     "Unexpected IC_DEVICE_ID response\n");
+> +
+> +	buf[len] = '\0';
 
-The sysfs read callback serves data directly from controller scoped storage
-and protects access with the controller training data lock. The attribute
-lifetime is tied to the controller device via devres, allowing the data to
-remain readable after Sahara channel teardown and ensuring automatic
-cleanup when controller device is removed.
+It looks like it has a point in the above though.
 
-Userspace flow:
-1. For each controller device, userspace reads the ddr_training_data sysfs
-   attribute.
-2. If the read returns non-zero data, userspace persists it using a
-   serial specific filename (for example, mdmddr_0x<serial_no>.mbn).
-3. On subsequent boots, the Sahara driver attempts to load this serial
-   specific DDR training image before falling back to the default
-   training image, restoring DDR calibration data and avoiding retraining.
-
-Add ABI documentation for the DDR training data sysfs attribute exposed by
-Sahara MHI driver.
-
-Signed-off-by: Kishore Batta <kishore.batta@oss.qualcomm.com>
----
- .../ABI/testing/sysfs-bus-mhi-ddr_training_data    | 19 ++++++
- drivers/bus/mhi/host/clients/sahara/sahara.c       | 69 ++++++++++++++++++++++
- 2 files changed, 88 insertions(+)
-
-diff --git a/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-new file mode 100644
-index 0000000000000000000000000000000000000000..810b487b5a5fdba133d81255f9879844e3938a10
---- /dev/null
-+++ b/Documentation/ABI/testing/sysfs-bus-mhi-ddr_training_data
-@@ -0,0 +1,19 @@
-+What:                   /sys/bus/mhi/devices/<mhi-cntrl>/ddr_training_data
-+
-+Date:                   March 2026
-+
-+Contact:                Kishore Batta <kishore.batta@oss.qualcomm.com>
-+
-+Description:            Contains the DDR training data for the Qualcomm device
-+                        connected. MHI driver populates different controller
-+                        nodes for each device. The DDR training data is exposed
-+                        to userspace to read and save the training data file to
-+                        the filesystem. In the subsequent boot up of the device,
-+                        the training data is restored from host to device
-+                        optimizing the boot up time of the device.
-+
-+Usage:                  Example for reading DDR training data:
-+                        cat /sys/bus/mhi/devices/mhi0/ddr_training_data
-+
-+Permissions:            The file permissions are set to 0444 allowing read
-+                        access.
-diff --git a/drivers/bus/mhi/host/clients/sahara/sahara.c b/drivers/bus/mhi/host/clients/sahara/sahara.c
-index 07bc743aa061dd2fa85638067d494562152474e3..fef5dc1d8884133397d204f23361584fd1d9b075 100644
---- a/drivers/bus/mhi/host/clients/sahara/sahara.c
-+++ b/drivers/bus/mhi/host/clients/sahara/sahara.c
-@@ -273,6 +273,73 @@ static struct sahara_cntrl_training_data *sahara_cntrl_training_get(struct devic
- 	return ct;
- }
- 
-+static ssize_t ddr_training_data_read(struct file *filp, struct kobject *kobj,
-+				      const struct bin_attribute *attr, char *buf,
-+				      loff_t offset, size_t count)
-+{
-+	struct device *dev = kobj_to_dev(kobj);
-+	struct sahara_cntrl_training_data *ct;
-+	size_t available;
-+
-+	ct = sahara_cntrl_training_get(dev);
-+	if (!ct)
-+		return -ENODEV;
-+
-+	mutex_lock(&ct->lock);
-+
-+	/* No data yet or offset past end */
-+	if (!ct->data || offset >= ct->size) {
-+		mutex_unlock(&ct->lock);
-+		return 0;
-+	}
-+
-+	available = ct->size - offset;
-+	count = min(count, available);
-+	memcpy(buf, (u8 *)ct->data + offset, count);
-+
-+	mutex_unlock(&ct->lock);
-+
-+	return count;
-+}
-+
-+static const struct bin_attribute ddr_training_data_attr = {
-+	.attr = {
-+		.name = "ddr_training_data",
-+		.mode = 0444,
-+	},
-+	.read = ddr_training_data_read,
-+};
-+
-+static void sahara_sysfs_devres_release(struct device *dev, void *res)
-+{
-+	device_remove_bin_file(dev, &ddr_training_data_attr);
-+}
-+
-+static void sahara_sysfs_create(struct mhi_device *mhi_dev)
-+{
-+	struct device *dev = &mhi_dev->mhi_cntrl->mhi_dev->dev;
-+	void *cookie;
-+	int ret;
-+
-+	if (devres_find(dev, sahara_sysfs_devres_release, NULL, NULL))
-+		return;
-+
-+	ret = device_create_bin_file(dev, &ddr_training_data_attr);
-+	if (ret) {
-+		dev_warn(&mhi_dev->dev,
-+			 "Failed to create DDR training sysfs node (%d)\n", ret);
-+		return;
-+	}
-+
-+	cookie = devres_alloc(sahara_sysfs_devres_release, 1, GFP_KERNEL);
-+	if (!cookie) {
-+		device_remove_bin_file(dev, &ddr_training_data_attr);
-+		return;
-+	}
-+
-+	devres_add(dev, cookie);
-+}
-+
- static int sahara_find_image(struct sahara_context *context, u32 image_id)
- {
- 	char *fw_path;
-@@ -1131,6 +1198,8 @@ static int sahara_mhi_probe(struct mhi_device *mhi_dev, const struct mhi_device_
- 		return ret;
- 	}
- 
-+	sahara_sysfs_create(mhi_dev);
-+
- 	return 0;
- }
- 
-
--- 
-2.34.1
+- Nuno Sá
 
