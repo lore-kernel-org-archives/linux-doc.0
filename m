@@ -1,200 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F262375ACF;
-	Thu, 16 Apr 2026 22:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C4537B002
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 22:44:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776379412; cv=none; b=kT2/Xdb5fPzh4MI0WY5JwPnsvH+XKMiKEjJYJjez1M4tUJt6F/Eff28t+Yb+6L7vCX7VApwiaJbVpBR/qVW5sck6W01BHxKkI4ST/5mblRFox8lzOxDQhhvbZ21vbdmvaaoU2N6JXUKjb1faDBtr1MnXSXoJMTQUSOCRQjR2cGw=
+	t=1776379494; cv=none; b=E512zmrsIdlGA2L3eKOfULHtoKB72bp3lqxU/CEuFlidm7LIxb6Izl7wkmwNKDBFv6in3dIvhCJutyFpg3mgMmD0WECi/hpB4OZJYttJu+pY67/lGmq+zx2qlmDrTThGTwz7LDQfJ/FHg4oD7NxzaHQPC6UxJvjhqcEwavudtlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776379412; c=relaxed/simple;
-	bh=qKUpqDrb9Ptsu5hc5LGE0mNm7b8T3hnjmauL6JvvBJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n2Sr6CYu95vzsxHD4RQx2HXPrG7VUpsulJoZ/MzgUCFiQTPGT+mwBmkPUmWz+mgj4K5NjgFvasOupusXjJDrVXiBQiAByQy101LDrwSlXoRiNS83rppEestYQhwNH2Fy5LfG5ivwwk4Z9mI8wM63IMyHE2sbi7qx/UCH1yk0yvk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+3srfUS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776379494; c=relaxed/simple;
+	bh=QnH1vIimESyZ2peW1iohZ3MwmBA4oBxKLRs7rK4wSqQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=G+zHzTlwCCGP/tMQWKcqpRHt+TVAqR85YEhbvXxASs8/IOf0xE0TAST5/R721waas3kPIpntk3R/VPych2/czqAQM8CyRWhdb5/BWI6xFv2yUh4u08ivDynJ5+P2/8m2qmA33eq17/cjdB7XxfviHdYPt4k2XxR4rtNUvl3GR4E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VeIywNGF; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+3srfUS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01F9C2BCAF;
-	Thu, 16 Apr 2026 22:43:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776379412;
-	bh=qKUpqDrb9Ptsu5hc5LGE0mNm7b8T3hnjmauL6JvvBJQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=V+3srfUSnBdTShmnHUJ0+HYBHhLJolmNslN4MMY6F+lr2vtuizOwnhixs3OwcxfL5
-	 zMTIZoGEqxMJWonHpytQ8Q+fl3SBMrgr6zcsSHW9Lkxlx0IERmvhInsMQLqhWFrlex
-	 NPVFoWcf1LhAlJnZs9XST3nOmgPq8TFT+vFRPAykZeiU/qi/5S1pxwjji0HeN4IbtF
-	 ktDU8V85DZRT/HbiOEqtLIGwtM5zwq1coG6oyeXmy4FVWfqSfI+o/+aWFE1I8CxtDr
-	 dZN1opfhJeWjxxdudK3kIAhQNPFS8zUGgxtvxk42Sy+BlyQidwCsZnk/BoJwrKS7G7
-	 SxMz53uLvDrnQ==
-Date: Thu, 16 Apr 2026 15:43:31 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Dan Williams <djbw@kernel.org>
-Cc: Gregory Price <gourry@gourry.net>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan J Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <20260416224331.GD114184@frogsfrogsfrogs>
-References: <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net>
- <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
- <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VeIywNGF"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-82f07078eaaso65379b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 15:44:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1776379491; x=1776984291; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqyYEqZgyMpoZKxskZj0QRqQl7ttahHyrPikYOVHCGs=;
+        b=VeIywNGFDT898urzHsB6Lhv0CzlE8C3vn6rrp3ax65KnTTLVOjOmQaJ+bco7wSJcEK
+         Uy2LteuxTCZUjkfGmcCfIm4Fo2uEZTOoWx5DyDzyt9YbtQhMuczlsGBBysKy9fqF8fpu
+         KecMu0Mc4aRkDSV5sL7F5BhQtELHwHFx5LOSL/h6sLPYcGPdO68JwgPnKMwqygpU5OsU
+         wYtHN1iyi0qbTfX9FV81jWlwUJHqQnESeK1b9u3YR1ZmbdLLxZZNcW/3Swyvej0rCDDe
+         9ZQDd3gYL35i9oiaMKBf1YXy9Vm18CoXnTB4wWFJQSeoqAdWfBeUctSDwor4lSHE2cal
+         jfBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776379491; x=1776984291;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UqyYEqZgyMpoZKxskZj0QRqQl7ttahHyrPikYOVHCGs=;
+        b=IGGLqf9PbSuli6zpqh7tvXOTxYy+vvTl/1T52kqKOxp2tMr1ep7k17TWrQunDRFPag
+         tQuMyrSiixWYKkhE3J10cQXQ3Q352h2KfeJhkBg0W/jSib30C3qVLrU63rFNO4lg0Uou
+         LtXgelu/W2k1Bml2lOtoDlo3OzVRQagJZGeU/HDV44TrIE9xYq9AOUNrnkFLpzFufKYo
+         pSEIo2y+hrhABGIDYJeodc3V/3QQD7pZriyEHDPxJGvcUIjGSXVFMWomMq8Lnx25Ftor
+         jY8YwFmnsfvUA3K5Tq8HFjwtf6tzz9t5zjAK+zgMyI+uHGb8gW4I9mnXI5kSP9flcamL
+         NtDw==
+X-Forwarded-Encrypted: i=1; AFNElJ8oVKxTLwCXNLz63K7fzLGtYzJrgUK9FZVQzyaADlb75tQT8BnwbErjI2DeFba20WpI0+4mdDk0JrI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwVtH1XEz3FGz76z9c4Nz3KnI183R489YDB8Za7ttILcni3Muf
+	bOGXXj/n0FGeijtAJmB605scWDKjW66cOpC3KtcNe2KcxQMC6c38I228gGgtw2oxeMnrdYZwbKh
+	uJk+4lA==
+X-Received: from pfbho13.prod.google.com ([2002:a05:6a00:880d:b0:7ba:8e68:3140])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:439b:b0:82f:8696:5a75
+ with SMTP id d2e1a72fcca58-82f8c8bb700mr145981b3a.28.1776379491191; Thu, 16
+ Apr 2026 15:44:51 -0700 (PDT)
+Date: Thu, 16 Apr 2026 15:44:49 -0700
+In-Reply-To: <20260414-vmscape-bhb-v10-8-efa924abae5f@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
+Mime-Version: 1.0
+References: <20260414-vmscape-bhb-v10-0-efa924abae5f@linux.intel.com> <20260414-vmscape-bhb-v10-8-efa924abae5f@linux.intel.com>
+Message-ID: <aeFmYd1ybZnVlAYW@google.com>
+Subject: Re: [PATCH v10 08/12] kvm: Define EXPORT_STATIC_CALL_FOR_KVM()
+From: Sean Christopherson <seanjc@google.com>
+To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Cc: x86@kernel.org, Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>, 
+	"H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>, David Kaplan <david.kaplan@amd.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>, 
+	Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>, 
+	Jiri Olsa <jolsa@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
+	David Laight <david.laight.linux@gmail.com>, Andy Lutomirski <luto@kernel.org>, 
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, kvm@vger.kernel.org, 
+	Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Apr 16, 2026 at 01:53:27PM -0700, Dan Williams wrote:
+On Tue, Apr 14, 2026, Pawan Gupta wrote:
+> EXPORT_SYMBOL_FOR_KVM() exists to export symbols to KVM modules. Static
+> calls need the same treatment when the core kernel defines a static_call
+> that KVM needs access to (e.g. from a VM-exit path).
 > 
+> Define EXPORT_STATIC_CALL_FOR_KVM() as the static_call analogue of
+> EXPORT_SYMBOL_FOR_KVM(). The same three-way logic applies:
 > 
-> On Thu, Apr 16, 2026, at 1:14 PM, Gregory Price wrote:
-> > On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
-> >> On Tue, Apr 14, 2026 at 5:10 PM John Groves <John@groves.net> wrote:
-> >> >
-> >> > There is a FUSE_DAX_FMAP capability that the kernel may advertise or not
-> >> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
-> >> > commands. In the future, if we find a way to use BPF (or some other
-> >> > mechanism) to avoid needing those fuse messages, the kernel could be updated
-> >> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-specific
-> >> > code could be taken out of kernels that never advertise that capability.
-> >> 
-> >> I’m not sure the capability bit can be used like that (though I am
-> >> hoping it can!). As I understand it, once the kernel advertises a
-> >> capability, it must continue supporting it in future kernels else
-> >> userspace programs that rely on it will break.
-
-So don't break fuse servers.  If you wanted to (say) get rid of
-GET_FMAP in favor of IOMAP_BEGIN, you could alter libfuse to translate a
-fuse server's ->get_fmap implementation into the equivalent
-->iomap_begin, and eventually the kernel can stop making GET_FMAP calls
-to userspace.
-
-The trouble here is that I've also seen half a dozen projects vendoring
-libfuse so that's a nightmare that will have to be dealt with.  But
-maybe that doesn't even matter, because...
-
-> > FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
-> > not required to continue advertising FUSE_DAX_FMAP in perpetuity.
-> >
-> > Setting CONFIG_FUSE_DAX=n does not mean userland "is broken", this would
-> > only be the case if FUSE_DAX_FMAP was advertised but not actually
-> > supported.
-
-...the memory interleaving is a rather interesting quality of famfs.
-There's no good way to express a formulaic meta-mapping in traditional
-iomap parlance, and famfs needs that to interleave across memory
-controllers/dimm boxen/whatever.  Throwing individual iomaps at the
-kernel is a very inefficient way to do that.  So I don't think there's a
-good reason to get rid of GET_FMAP at this time...
-
-> > If DAX were removed from the kernel (unlikely, but stick with me) this
-> > would be equivalent to permanently changing CONFIG_FUSE_DAX to always
-> > off, and there would be no squabbles over whether that particular
-> > change broke userland (there would be much strife over removing dax).
-
-...however the strongest case (IMO) would be if (having merged famfs) we
-then merge fuse-iomap after famfs.  Then we extend the existing
-fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
-That enables us to analyze thoroughly the performance characteristics of:
-
-a) Using GET_FMAP as-is
-
-b) Uploading raw iomaps (HA)
-
-c) Uploading a single bpf program to make iomaps, exchanging fmap-style
-mapping data into a bpf map, and having the single bpf program walk
-through the map
-
-d) Uploading a custom bpf program per famfs file to make iomaps.  No
-bpfmap required, but the setup and compilation are now much more complex
-
-Then we'll finally know which approach is the best, having broken the
-Gordian Knot of how to merge famfs and fuse-iomap.
-
-If we decide that (c) or (d) are actually better, then guess what?  To
-get any of the iomap functionality, you have to set an inode flag, and
-that (FUSE_CAP_FAMFS && FUSE_CAP_IOMAP && FUSE_ATTR_IOMAP) is the signal
-for "don't call GET_FMAP".  FUSE_CAP_FAMFS && (!FUSE_CAP_IOMAP ||
-!FUSE_ATTR_IOMAP) means "call GET_FMAP".
-
-Yes, we burn a couple of fuse command values to find out, but that's all.
-
-(TBH I still dislike GET_DAXDEV, that really should just be another
-application of backing files, and the backing file id gets passed to
-GET_FMAP.)
-
-What do you all think of doing that?
-
-> > While not a deprecation method, this is what capability bits are
-> > designed for. Same as cpuid capability bits - just because the bit is
-> > there doesn't mean a processor is required to support it in perpetuity.
-> >
-> > They're only required to support it if the bit is turned on.
-> >
+>   - KVM_SUB_MODULES defined: export to "kvm," plus all sub-modules
+>   - KVM=m, no sub-modules: export to "kvm" only
+>   - KVM built-in: no export needed (noop)
 > 
-> Right, if the protocol on day one is "user space must ask which method
-> is available", then userspace can not be surprised when one option
-> disappears. So to give time for the bpf approach to mature the kernel
-> can do something like "famfs and bpf  mapping support are available".
-> In some future kernel the famfs native option disappears after a
-> deprecation period.
+> As with EXPORT_SYMBOL_FOR_KVM(), allow architectures to override the
+> definition (e.g. to suppress the export when kvm.ko itself will not be
+> built despite CONFIG_KVM=m). Add the x86 no-op override in
+> arch/x86/include/asm/kvm_types.h for that case.
 > 
-> When folks ask 10 years from now why this ever supported optionality
-> the explanation is "oh because famfs enjoyed first mover advantage to
-> prove out fs semantics layered on dax devices", or "turns out there
-> are some cases where bpf is not fast enough but it still stops the
-> proliferation of more in kernel mapping implementations".
+> Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+> ---
+>  arch/x86/include/asm/kvm_types.h |  1 +
+>  include/linux/kvm_types.h        | 13 ++++++++++++-
+>  2 files changed, 13 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/kvm_types.h b/arch/x86/include/asm/kvm_types.h
+> index d7c704ed1be9..bceeaed2940e 100644
+> --- a/arch/x86/include/asm/kvm_types.h
+> +++ b/arch/x86/include/asm/kvm_types.h
+> @@ -15,6 +15,7 @@
+>   * at least one vendor module is enabled.
+>   */
+>  #define EXPORT_SYMBOL_FOR_KVM(symbol)
+> +#define EXPORT_STATIC_CALL_FOR_KVM(symbol)
+>  #endif
+>  
+>  #define KVM_ARCH_NR_OBJS_PER_MEMORY_CACHE 40
+> diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
+> index a568d8e6f4e8..c81f4fdba625 100644
+> --- a/include/linux/kvm_types.h
+> +++ b/include/linux/kvm_types.h
+> @@ -13,6 +13,8 @@
+>  	EXPORT_SYMBOL_FOR_MODULES(symbol, __stringify(KVM_SUB_MODULES))
+>  #define EXPORT_SYMBOL_FOR_KVM(symbol) \
+>  	EXPORT_SYMBOL_FOR_MODULES(symbol, "kvm," __stringify(KVM_SUB_MODULES))
+> +#define EXPORT_STATIC_CALL_FOR_KVM(symbol) \
+> +	EXPORT_STATIC_CALL_FOR_MODULES(symbol, "kvm," __stringify(KVM_SUB_MODULES))
+>  #else
+>  #define EXPORT_SYMBOL_FOR_KVM_INTERNAL(symbol)
+>  /*
+> @@ -27,7 +29,16 @@
+>  #define EXPORT_SYMBOL_FOR_KVM(symbol)
+>  #endif /* IS_MODULE(CONFIG_KVM) */
+>  #endif /* EXPORT_SYMBOL_FOR_KVM */
+> -#endif
+> +
+> +#ifndef EXPORT_STATIC_CALL_FOR_KVM
+> +#if IS_MODULE(CONFIG_KVM)
+> +#define EXPORT_STATIC_CALL_FOR_KVM(symbol) EXPORT_STATIC_CALL_FOR_MODULES(symbol, "kvm")
+> +#else
+> +#define EXPORT_STATIC_CALL_FOR_KVM(symbol)
+> +#endif /* IS_MODULE(CONFIG_KVM) */
+> +#endif /* EXPORT_STATIC_CALL_FOR_KVM */
+> +
+> +#endif /* KVM_SUB_MODULES */
 
-Yes.  We're not *capable* of determining the best mechanism unless we
-can start shipping these things to users to get their feedback.  Only
-then can we iterate and make real improvements.
+I think I'd prefer to require EXPORT_SYMBOL_FOR_KVM and EXPORT_STATIC_CALL_FOR_KVM
+to come as a pair from arch code.  I can't think of a scenario where arch code
+should override one but not the other.  The end result is slightly less ugly :-)
 
-> Something like FUSE_DAX_FMAP is always available but the backend to
-> that is optionally native vs bpf. ...or some other arrangement to make
-> it clear that native might be gone someday.
+---
+ arch/x86/include/asm/kvm_types.h |  1 +
+ include/linux/kvm_types.h        | 10 +++++++++-
+ 2 files changed, 10 insertions(+), 1 deletion(-)
 
---D
+diff --git a/arch/x86/include/asm/kvm_types.h b/arch/x86/include/asm/kvm_types.h
+index d7c704ed1be9..bceeaed2940e 100644
+--- a/arch/x86/include/asm/kvm_types.h
++++ b/arch/x86/include/asm/kvm_types.h
+@@ -15,6 +15,7 @@
+  * at least one vendor module is enabled.
+  */
+ #define EXPORT_SYMBOL_FOR_KVM(symbol)
++#define EXPORT_STATIC_CALL_FOR_KVM(symbol)
+ #endif
+ 
+ #define KVM_ARCH_NR_OBJS_PER_MEMORY_CACHE 40
+diff --git a/include/linux/kvm_types.h b/include/linux/kvm_types.h
+index a568d8e6f4e8..be602d3f287e 100644
+--- a/include/linux/kvm_types.h
++++ b/include/linux/kvm_types.h
+@@ -13,6 +13,8 @@
+ 	EXPORT_SYMBOL_FOR_MODULES(symbol, __stringify(KVM_SUB_MODULES))
+ #define EXPORT_SYMBOL_FOR_KVM(symbol) \
+ 	EXPORT_SYMBOL_FOR_MODULES(symbol, "kvm," __stringify(KVM_SUB_MODULES))
++#define EXPORT_STATIC_CALL_FOR_KVM(symbol) \
++	EXPORT_STATIC_CALL_FOR_MODULES(symbol, "kvm," __stringify(KVM_SUB_MODULES))
+ #else
+ #define EXPORT_SYMBOL_FOR_KVM_INTERNAL(symbol)
+ /*
+@@ -23,11 +25,17 @@
+ #ifndef EXPORT_SYMBOL_FOR_KVM
+ #if IS_MODULE(CONFIG_KVM)
+ #define EXPORT_SYMBOL_FOR_KVM(symbol) EXPORT_SYMBOL_FOR_MODULES(symbol, "kvm")
++#define EXPORT_STATIC_CALL_FOR_KVM(symbol) EXPORT_STATIC_CALL_FOR_MODULES(symbol, "kvm")
+ #else
+ #define EXPORT_SYMBOL_FOR_KVM(symbol)
++#define EXPORT_STATIC_CALL_FOR_KVM(symbol)
+ #endif /* IS_MODULE(CONFIG_KVM) */
++#else
++#ifndef EXPORT_STATIC_CALL_FOR_KVM
++#error Must #define EXPORT_STATIC_CALL_FOR_KVM if #defining EXPORT_SYMBOL_FOR_KVM
++#endif
+ #endif /* EXPORT_SYMBOL_FOR_KVM */
+-#endif
++#endif /* KVM_SUB_MODULES */
+ 
+ #ifndef __ASSEMBLER__
+ 
+
+base-commit: 56b7ace84970ff647b095849e80bc36c094760aa
+--
