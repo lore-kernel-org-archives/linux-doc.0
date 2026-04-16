@@ -1,96 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E707221D3E2;
-	Thu, 16 Apr 2026 08:23:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D965B39183C
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 08:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776327807; cv=none; b=bv4S7zbaH5ypoiZUQzzGBy9rvGJ3UebUq4qi+j1EYnc7P1RiKDz0mdHFmSvzbAqkciNAmHraj8x47aURmwHieJOoDg2CI7T7G07ZijJi0xgsuNPq0FhlEZss62aPArQfEuLEUJK/AZVWpaAaShLsy6TfbBINCGR1RWxyZbQRYQM=
+	t=1776328052; cv=none; b=gT4LSVutpsEoOhGxw3W/6k6mRpFbeBMkV9PghpakGbe8EJvxcZpzZzKBXVvsr0MddqadVeNDGMiy03W0o2bdR42Mw+z2+LsbqCfgtBptCdOCgDJiNhSxoBWdWw6/hthJwRWx53ewsOx2/Lzcq26peNvqqlBsP/K3X3sCsybQ78w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776327807; c=relaxed/simple;
-	bh=7iqdeBf056Y8f773kiB5jg4IskAEOD5AHTuM5uEHn9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LdhVPk+4nwDaxl2czFIgLL97r/4zUjXI1ADApEOy8/4LuXpnRdWTCxIe6LbzRurP/LlP25Hh+MoDza/znZ68JR7RhCxId/n89vVWpTQspbY1aLBnxzutU7Z9x8MwrF8iZ5BPZwikmcLl3m6Lr9Qo0ExNnNYlUCvAFcfUUfvZg78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VfWJyWSN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776328052; c=relaxed/simple;
+	bh=O0kNZNME6liz/PDiFhx17G1oocdPgEZotIhQ2QvF/Sw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=svUVPCmj0DzefaGIBS5SqaEgJvtIRowvk8hPsaioHkO8ZFAxXUnyzVXhhuA9/37U1obVW/PJS7BwpUKnuzKoHXK/RxlFmSlwoP6nchP6htoCJhrogwG9jOlgtEjpmQ5Z6VIku7mSvnh+rsRhj9U+MzJXOAHIYmS5v9Qz7VO96GI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=IzYa+5vX; arc=none smtp.client-ip=91.218.175.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VfWJyWSN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C5CAC2BCAF;
-	Thu, 16 Apr 2026 08:23:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776327806;
-	bh=7iqdeBf056Y8f773kiB5jg4IskAEOD5AHTuM5uEHn9w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VfWJyWSNLcRI3mHfjJQ//U3Em9KSyrdWYhU9QmMbY93UEIe7NQtMni3n85pAdojFt
-	 Soq7/+JoRXmAAK/c2mUOIjouhPNidagBWaPcym9cn69N0Q61LLoOdn4NIgs4lZgqdy
-	 xkoZZZqOjFGIKFB8W5DXO/svEiuTwOPSU2kYMUnSdjHz3RCdcncuqN2Relso/0QZzH
-	 94Y1oCK73QW3YlVFO+Dn4083Igd0QGR80mGvNz69wUa+fG+h4NZaL+3oWqMJV0wyV/
-	 yNV85tEgdeDHmdxuIkmolxk3yRrj8CHa9JJ0TMlk5sVFM39VW8Vjj5G9xrVwTm0Qov
-	 XD42AdN5JOGQw==
-Date: Thu, 16 Apr 2026 10:23:24 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kaustabh Chakraborty <kauschluss@disroot.org>
-Cc: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, MyungJoo Ham <myungjoo.ham@samsung.com>, 
-	Chanwoo Choi <cw00.choi@samsung.com>, Sebastian Reichel <sre@kernel.org>, 
-	=?utf-8?B?QW5kcsOp?= Draszik <andre.draszik@linaro.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Nam Tran <trannamatk@gmail.com>, =?utf-8?B?xYF1a2FzeiBMZWJpZWR6acWEc2tp?= <kernel@lvkasz.us>, 
-	linux-leds@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-pm@vger.kernel.org, linux-samsung-soc@vger.kernel.org, linux-rtc@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 02/13] dt-bindings: leds: document Samsung S2M series
- PMIC RGB LED device
-Message-ID: <20260416-upbeat-archetypal-mantis-1ede48@quoll>
-References: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
- <20260414-s2mu005-pmic-v4-2-7fe7480577e6@disroot.org>
- <20260415-sensible-kiwi-of-argument-44d6ed@quoll>
- <DHTWNPSQ06IJ.24A9E1FL1RWER@disroot.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="IzYa+5vX"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776328049;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=psV3t89J4TYPxkXy1/CDffDJ8IP5u3Jv6+y4DGwPsJ4=;
+	b=IzYa+5vX+NubPHSqYuQNur+6QVDn2L8utATLZdFuy2xbwDKVEyhUc3rzmZL9Bm9FfvDfL2
+	oJVZvPgDhtEIuNEoX69PGyBy11dCJoHv5peGPIQgSuqqwwcElr0vUiMU8daHOqbqC1U8uL
+	1yEnstsXcUT4cFkWv/VutHtrwJ5D3wY=
+From: Qingfang Deng <qingfang.deng@linux.dev>
+To: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Paul Mackerras <paulus@ozlabs.org>,
+	linux-ppp@vger.kernel.org,
+	Jaco Kroon <jaco@uls.co.za>,
+	James Carlson <carlsonj@workingcode.com>,
+	Qingfang Deng <qingfang.deng@linux.dev>
+Subject: [RFC net-next 3/3] docs: update ppp_generic.rst for API changes
+Date: Thu, 16 Apr 2026 16:26:46 +0800
+Message-ID: <20260416082656.86963-3-qingfang.deng@linux.dev>
+In-Reply-To: <20260416082656.86963-1-qingfang.deng@linux.dev>
+References: <20260416082656.86963-1-qingfang.deng@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <DHTWNPSQ06IJ.24A9E1FL1RWER@disroot.org>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Wed, Apr 15, 2026 at 11:00:16PM +0530, Kaustabh Chakraborty wrote:
-> On 2026-04-15 09:03 +02:00, Krzysztof Kozlowski wrote:
-> > On Tue, Apr 14, 2026 at 12:02:54PM +0530, Kaustabh Chakraborty wrote:
-> >> +description: |
-> >> +  The Samsung S2M series PMIC RGB LED is a three-channel LED device with
-> >> +  8-bit brightness control for each channel, typically used as status
-> >> +  indicators in mobile phones.
-> >> +
-> >> +  This is a part of device tree bindings for S2M and S5M family of Power
-> >> +  Management IC (PMIC).
-> >> +
-> >> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yaml for
-> >> +  additional information and example.
-> >> +
-> >> +allOf:
-> >> +  - $ref: common.yaml#
-> >
-> > Rob's comment is still valid:
-> > 1. How do you address one of three LEDs in non-RGB case?
-> > 2. Where is multi-color?
-> 
-> Yes, multi-color should have been added here.
-> 
-> >
-> > And based on this alone without other properties, I say this should be
-> > part of top-level schema.  Separate node is fine, but no need for
-> > separate binding.
-> 
-> BTW, for loading the sub-device driver via platform (as it won't be a
-> separate binding) the driver *must* be built-in. Although not related to
-> bindings, this seems counter-intuitive. I see the same problem with the
+Document the new ppp_channel_conf struct and ppp_channel lifecycle
+management changes.
 
-I don't understand that comment. If it has nothing to do with the
-binding, what is the problem?
+Assisted-by: Gemini:gemini-3-flash
+Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
+---
+ Documentation/networking/ppp_generic.rst | 33 ++++++++++--------------
+ 1 file changed, 13 insertions(+), 20 deletions(-)
 
-Best regards,
-Krzysztof
+diff --git a/Documentation/networking/ppp_generic.rst b/Documentation/networking/ppp_generic.rst
+index 5a10abce5964..8d63f997fb3f 100644
+--- a/Documentation/networking/ppp_generic.rst
++++ b/Documentation/networking/ppp_generic.rst
+@@ -124,18 +124,19 @@ presented to the start_xmit() function contain only the 2-byte
+ protocol number and the data, and the skbuffs presented to ppp_input()
+ must be in the same format.
+ 
+-The channel must provide an instance of a ppp_channel struct to
+-represent the channel.  The channel is free to use the ``private`` field
+-however it wishes.  The channel should initialize the ``mtu`` and
+-``hdrlen`` fields before calling ppp_register_channel() and not change
+-them until after ppp_unregister_channel() returns.  The ``mtu`` field
+-represents the maximum size of the data part of the PPP frames, that
+-is, it does not include the 2-byte protocol number.
++The channel must provide an instance of a ppp_channel_conf struct to
++describe the channel during registration.  The generic layer will
++allocate a ppp_channel struct and return a pointer to it.  The
++ppp_channel struct is opaque to the channel driver.  The ``mtu`` field
++(if multilink is enabled) represents the maximum size of the data part
++of the PPP frames, that is, it does not include the 2-byte protocol
++number.  ppp_channel_update_mtu() can be called by the channel driver
++to update the ``mtu`` field once LCP MRU negotiation is complete.
+ 
+ If the channel needs some headroom in the skbuffs presented to it for
+ transmission (i.e., some space free in the skbuff data area before the
+ start of the PPP frame), it should set the ``hdrlen`` field of the
+-ppp_channel struct to the amount of headroom required.  The generic
++ppp_channel_conf struct to the amount of headroom required.  The generic
+ PPP layer will attempt to provide that much headroom but the channel
+ should still check if there is sufficient headroom and copy the skbuff
+ if there isn't.
+@@ -199,20 +200,12 @@ The PPP generic layer has been designed to be SMP-safe.  Locks are
+ used around accesses to the internal data structures where necessary
+ to ensure their integrity.  As part of this, the generic layer
+ requires that the channels adhere to certain requirements and in turn
+-provides certain guarantees to the channels.  Essentially the channels
+-are required to provide the appropriate locking on the ppp_channel
+-structures that form the basis of the communication between the
+-channel and the generic layer.  This is because the channel provides
+-the storage for the ppp_channel structure, and so the channel is
+-required to provide the guarantee that this storage exists and is
+-valid at the appropriate times.
++provides certain guarantees to the channels.  The generic layer manages
++the ppp_channel object, ensuring it exists and is valid while the
++channel is registered.
+ 
+ The generic layer requires these guarantees from the channel:
+ 
+-* The ppp_channel object must exist from the time that
+-  ppp_register_channel() is called until after the call to
+-  ppp_unregister_channel() returns.
+-
+ * No thread may be in a call to any of ppp_input(), ppp_input_error(),
+   ppp_output_wakeup(), ppp_channel_index() or ppp_unit_number() for a
+   channel at the time that ppp_unregister_channel() is called for that
+@@ -453,4 +446,4 @@ an interface unit are:
+   fragments is disabled.  This ioctl is only available if the
+   CONFIG_PPP_MULTILINK option is selected.
+ 
+-Last modified: 7-feb-2002
++Last modified: 16-apr-2026
+-- 
+2.43.0
 
