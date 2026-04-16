@@ -1,187 +1,199 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15D133314A1
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 20:14:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 344E538F62E
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 20:19:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776370453; cv=none; b=IoqLCZLzyHFJT4ciAe1+xjIpj5IldyTE/bKHSoNMl3HK0cLruxUpanQ06ptKkY9pcgn3nvQu19eW04zMEWmyBx3ppD6Wgh1EZw0EB2YmdwHG6CtpO7nM3Xm8DT+B91rJbkCLBNWx/kxlp07Te17mhZ1ziqbFJB2n7QuwqZbJtN0=
+	t=1776370774; cv=none; b=gs/3NZGd49IAjo4teUkTXdp5/WvgKS1PjQM4G3CkbGtLcAkIbVki3JSZ2lumpA8EYiY+hYe8frBfw9q1vf9AEsiLU4cASwJAAtbs3YpbYT2LtVXZAvQEbe2UEgXi8De7uQlJEaCqFyiu2t+GQX3uBRHLGwKwSrgoJUO8cqgv/kE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776370453; c=relaxed/simple;
-	bh=e7Fg9iUXgdaJVBpIOwk6ko7gURjRziHIJE6o8vDP+M8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOfUDZ6UV2TdBRgRHyDkX/+YdUsSc5Bs/Dez+DgIU/aAxt4BBDtyNEp4SvEwzKIXjr2St+NpfYWTMNznc5JU2JcKwk6DqqZ0EoDWdzHkeJeFMDPmYDyv82AHa4/Wt81kqPlb3lHzPrloEauKYh4RZ7mSeogtrL0VSBs99qIi0DE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=Uc0Dm969; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1776370774; c=relaxed/simple;
+	bh=7HAu9409XS2mSrrSyv0Alnlrsv+y0tOov9p9fjQcR0g=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kW9T6xReyvpcjSxCvvnt7k0E5aEnWCikvYxSUjXNArCqJ9J5b3R47T1UE2ywqzcm6dUUuXYPmYO06TPJDsQ+tt+ZM9iaws5DmW6hhof/SrnZjrrbQ0kyurCn1RpbOFNwrKgCWo0C0D+qCsFtERm5cEcymVwzDhrR+IGrxQd4SkU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SBr3pA4W; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="Uc0Dm969"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-8a016799d2cso89891216d6.1
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 13:14:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SBr3pA4W"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43d572f7437so5283236f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 13:19:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776370446; x=1776975246; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=VzpFkDx1hfZFcFbwqFMS/1j2riFwDbWAqbQBRsqDt2o=;
-        b=Uc0Dm9691QttaHiQ2miWbg1h+IrKvVy0QQL6oQtINE2G3cHWxejGQrV5ZkiPBskpgC
-         AFqSwduZtN62KJCgsug0oXiVu48Sl0WY4BMKyt3QmGZvKHPlv+xMe19wC8ma3jqDFC30
-         y7z8Nppn+fpIgJW/zWuXgDvJeKJsBFBd7L9MqXMYk8ITnjfIte4DOul/0J1lBlSHk+sF
-         Q5H6jSPQbUVkLr4sItsPJR1Rvaejh7nV5YYOwiQIFJCkrqpvXduKW0XsHKV7m6sIu4iD
-         cQAAjlAjXR3WNclKnqARMzPZoNJrQy4ONTeOSXsBq733bKvUZT407VwGWd62v1D8k2HP
-         cSqg==
+        d=gmail.com; s=20251104; t=1776370768; x=1776975568; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W8nZc0xy0duswt5stMQc278vwujXUsWzZTQDCqL9tXM=;
+        b=SBr3pA4WV/aglwfK7N06E2JiQAtYjbFBjNpzPXaxJ5AE1FtMiDDf3olCm4g73d6SaF
+         eXt/5GAiZQNKccnhflbMboC/LnyvgLk2eZRnyTbZmBGkItN/KO9ok1pprBYYLvBW7k7t
+         zwxybV8lMc2vTf72oeYvv8JMGzKXIFV/o0iW/UGXc5MH49xpYg0yOxYUfUde07Huqqb4
+         VAf6bVJ7BGqPbYxhRmlUAlZF6JgQez8xVs3qXWoxj+Y0D46dCTr8SHFTBsYm0JUCqFQe
+         lVtdrKn54uuN7rxH0PRgD4eXohlFw7jDSVDoSHKWmHmStsufJ1774UnCqlNWDYpjUgnq
+         0xww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776370446; x=1776975246;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzpFkDx1hfZFcFbwqFMS/1j2riFwDbWAqbQBRsqDt2o=;
-        b=eI3ljNXW39J68yYL0UnTOyeym37DaI4Jq2JAAEwWn9mV6NeXa0IkeG7jvfnDbznrfw
-         93fC6jWYiAA2ZBphvludWHK5F2Wxh/tXqSSOKcqiX/u/ljJTS2W2UarM8SeHdhV05YEZ
-         0fjFrT+KBBFyVzD9YFM2vXJ73w5KIzZs8qscvPe6G00mctMA9HvLxcoo9DiBurBSk8rV
-         aQoMzo85BSVGuvGIYvAOfjwxEBBZ6PnOdyp4vziMblrit4TRA4Kok7dScDxFdv/gtYQR
-         +dLBWUmD1ITKOQgj5ETH7ZnaKCEufX9J0X2U6ZR2lwl/hshL7O0bYeMLPe6tp2AL9fxY
-         r1Rg==
-X-Forwarded-Encrypted: i=1; AFNElJ8+IvI4Kd0FRrwRcDSvudJyp54mVEuVELXINOsiR1H45qpRZJ810xUSELupemRIEMQ99O1czLmOQp4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfVp2Ol69rrmLfiRdF+3Cm8/2jnkp3gDkVPPi3zMBAAJm/Jg4G
-	Lm2p9WrEDfCLE1l3TdrK7VQyDtPN8ABW8+qwg2xvcJ792nLWLpqjxiy80qCdUMPoaWA=
-X-Gm-Gg: AeBDietLwR35JapgSXwhcv/uv0J2sUWkSzNw5NaM5XWEVstObjUVP1MGQjzmYMhGCRi
-	0KVXSYNqjupkJZ0WwaNhy82LM4KJYsaXLWs9wFfSI+9a48otF3JuClyaauXV9zv3BdQR+7LwEXx
-	eDoHWBlXFwUpTwIv13QGayJgv93MNzuTioFo65N1L3cLuw3qieAanCM/yuMQRa8OTYEh8MIp3Rz
-	zF6rMBdpkPZ0TntnFzGolXhWTtwlnX/iCeCQR/oUdgFLnQnpeRKxiSlA4qfBZY2uhOk0M7THn+3
-	mDkFHMPR1BcdNmNOjdTmiNeYBZnY3jYc/0hLlYE5hU8X6UT2BJwZ8OkK+ZStJINNy8fERmY8QU1
-	db826JpxI4wJ0N2jKJshR7upLcmgYoMCpUfjWcC7ErrBAfKfXyyh6FN5wRkYR6jpMEdGmf5QEt+
-	r2GdiVgHbQftFbvX78KjU6xGMCr3+lNwrZTfIK5rqDQmXt/C8QtcwKxZaq0jQ=
-X-Received: by 2002:a0c:f09a:0:b0:8ae:6347:8c8b with SMTP id 6a1803df08f44-8b025ef029fmr11410336d6.37.1776370446430;
-        Thu, 16 Apr 2026 13:14:06 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F ([2607:fb90:ea1b:4643:9f36:3ffb:fc60:9518])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8ae6cb9ee20sm43873996d6.26.2026.04.16.13.14.03
+        d=1e100.net; s=20251104; t=1776370768; x=1776975568;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=W8nZc0xy0duswt5stMQc278vwujXUsWzZTQDCqL9tXM=;
+        b=QFvKNxZegfZN8+li64oeYjZptXWVfroyWLQUVzKurNynO+fc0OcQdGqSD62gIR/8Ew
+         +nwxeu1KH3UToOGSLR3bisoVzdameROqxXyYX57SQCOlXaTrp7ApUlh4x3do//vbII35
+         Pa7cTBGOXtLcDYSFiYbhksMVbitz3+IiF4XUdxi+wFW69FW/o/FbGSZSUW015Fi2dQaX
+         IkDdPASIoEq/CEzsgV6xgvkvP7A49Vrl6IgGwBbb+CD+HlZoWMWzAvugJSE6n01ZjVAp
+         OKmsaQOmfoU4/VX2XEmSYcpUkZikcRqNobMzQjAfuuOaLv8YAnedLQJHnJuYjf1YxXsf
+         hGZg==
+X-Gm-Message-State: AOJu0YzXjlhQIMPc7kfl2ei1TrdNf5cMxIx6cmhzEo8USpCmL/zJRYNy
+	FpfHJOX9gdmxCCvvAwBtyY43rPkBJ5AaXV4qH5R9FxllekQADTWgUjzk
+X-Gm-Gg: AeBDieusLAxT6/6WTF6ujem0t4XceyFenV9vBZ5nooJV0nrmISC8MeGn5jEt/EYWLSo
+	PcFvYooQ3lWTjf5+PRsc20YIbVhCjQbx7TrOSrSu1w58If1IgeJxYAlgoVOjqFtKLH4q74ZFXJV
+	Dr/cmIOdMCBKq1I1zUPjSiBniSAzJun4OeiqaRjoeabBR7Nu/YyBHai2Dye0H42BsckonK/snz8
+	5trN3c97btJ8PMqkpjFbnwVhWAoMyFV2Y42vq7DAWItyfuVdcHZASuQhDCrED06NmY/K2DAl1WQ
+	iTa5OyLjmv/2rQ5vYe4YvfaxbTDd4DDje6EqDG82E7repi/4A0SU21y7peNfSAC6EhkhR1b2GqD
+	Xb10SSx168POvBWAtbG4U77D3FLrWLq15tbFz0P3SXL9PwLK68yJ28UonntG0tQosEFA3BIHIia
+	DXxvkeHxmAcj7XdgswIffftc3s2M3am4qn+GEJCOLEQGubMg==
+X-Received: by 2002:a05:6000:22c3:b0:43d:3004:5fef with SMTP id ffacd0b85a97d-43fe0ea3667mr1302338f8f.7.1776370767968;
+        Thu, 16 Apr 2026 13:19:27 -0700 (PDT)
+Received: from [192.168.0.2] ([197.250.227.196])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43ead35c026sm16180624f8f.15.2026.04.16.13.19.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 16 Apr 2026 13:14:05 -0700 (PDT)
-Date: Thu, 16 Apr 2026 16:14:01 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: John Groves <John@groves.net>, "Darrick J. Wong" <djwong@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	David Hildenbrand <david@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
-References: <adkDq0m5Wt9YhJ8A@groves.net>
- <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net>
- <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+        Thu, 16 Apr 2026 13:19:27 -0700 (PDT)
+From: =?utf-8?q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
+Subject: [PATCH v4 0/8] Add support for ZTE zx297520v3
+Date: Thu, 16 Apr 2026 23:19:08 +0300
+Message-Id: <20260416-send-v4-0-e19d02b944ec@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+X-B4-Tracking: v=1; b=H4sIADxE4WkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyTHQUlJIzE
+ vPSU3UzU4B8JSMDIzMDE0Mz3eLUvBRd02QDi1QDS9NU02RLJaDSgqLUtMwKsDHRsbW1APKUMK5
+ WAAAA
+X-Change-ID: 20260416-send-5c08e095e5c9
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+ Krzysztof Kozlowski <krzk@kernel.org>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jiri Slaby <jirislaby@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
+ soc@lists.linux.dev, linux-serial@vger.kernel.org, 
+ =?utf-8?q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4069;
+ i=stefandoesinger@gmail.com; h=from:subject:message-id;
+ bh=7HAu9409XS2mSrrSyv0Alnlrsv+y0tOov9p9fjQcR0g=;
+ b=owEBiQJ2/ZANAwAIAT0TvMhUTxoiAcsmYgBp4URKrT6XMtZiyJrbaPR7qc/RFSCsMcn+h+B6/
+ JgQ1+HrddiJAk8EAAEIADkWIQRDFvS2qgVbJ5UyXWw9E7zIVE8aIgUCaeFEShsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQPRO8yFRPGiIu1BAAjlaJHP867qOApRxS4iItx61iEqXtDj6
+ UDOM4lTZjUjVTnDxtQvhePQRk58NIRDpDCFcoGau64b1+E0H6+Rtt4V409u5suYtD3PFmK8LDHJ
+ 6jPtYooFJ+VIcqfylazdeVELYKHYapukRAmsft7FykhxLSoOAf7hzebqqC4ZBjhM6C3wvat8V68
+ +bn4GJT11BYeFkZKfYaosuZ5W5ScLD8AiCJqNyEsrNfOXU2gm6nCT8hJoHhFd7xxJZtKBNySssv
+ 8r+7LC/jCTasqR/8uuA2s8uSly1LKJhJvqTIt2MGpFj+5rXyU9QYOa8ZeYewGje43HUSB31gcgm
+ blVjAWzBLyurMsqIcQnEW8cQN0Gsls78sYyv9LFyreYHGd3HYNxFeA1KeEBvl08Az4VYvHxY6lX
+ CXI0r/CsjWykTCKYoELJBaTCb7kvKbOMKeqBKEyyGsd/hUYy55oIfl8rkWhN6dhSws++b3S3qSj
+ av75J8cYPxxxw0m3gMB1I1niwcjFvIJoc2kQiSVDZ8icrQTebOc2rZuAeMHH9ffQTuR2ojSwRuE
+ dk5CZhW6WR5quSpi+M3RpJnzTKqWt4xlBpP+0o3On+XwtqfykvyE1dnWVBSr6rNNijmTSXE0JO4
+ jrRfmJBlifeFvGqUnmxqQYMq/fsfymG5KG8qh3jOLOpLC/b+acD8=
+X-Developer-Key: i=stefandoesinger@gmail.com; a=openpgp;
+ fpr=4F9C2C8728019633893EBBB98CB81F9A72BBA155
 
-On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
-> On Tue, Apr 14, 2026 at 5:10 PM John Groves <John@groves.net> wrote:
-> >
-> > There is a FUSE_DAX_FMAP capability that the kernel may advertise or not
-> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
-> > commands. In the future, if we find a way to use BPF (or some other
-> > mechanism) to avoid needing those fuse messages, the kernel could be updated
-> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-specific
-> > code could be taken out of kernels that never advertise that capability.
-> 
-> I’m not sure the capability bit can be used like that (though I am
-> hoping it can!). As I understand it, once the kernel advertises a
-> capability, it must continue supporting it in future kernels else
-> userspace programs that rely on it will break.
-> 
+Hi,
 
-FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
-not required to continue advertising FUSE_DAX_FMAP in perpetuity.
+This is a follow-up on my RFC patches from January [0] for ZTE's 
+zx297520v3 chipset. This chipset is popular in cheap LTE-to-wifi routers 
+sold in developing countries. My goal is to run OpenWRT on them. I made 
+more progress in more work on this SoC and it is time to get serious 
+about code review and upstreaming.
 
-Setting CONFIG_FUSE_DAX=n does not mean userland "is broken", this would
-only be the case if FUSE_DAX_FMAP was advertised but not actually
-supported.
+Since my version in January I managed to get more hardware running: SPI, 
+I2C, PMIC with real time clock and voltage regulators, Watchdog. LTE is 
+not working yet, but I am able to start the coprocessor that handles it 
+and talk to it via mailbox + shared memory. Wifi is working on a few 
+more devices. Since WiFi, USB and Ethernet are working, the devices can 
+have actual use with OpenWRT even without LTE.
 
-If DAX were removed from the kernel (unlikely, but stick with me) this
-would be equivalent to permanently changing CONFIG_FUSE_DAX to always
-off, and there would be no squabbles over whether that particular
-change broke userland (there would be much strife over removing dax).
+Another hacker created a free software program to talk to the USB loader 
+[1] and boot U-Boot and Linux without modifying the on disk files. At 
+the moment it needs a proprietary blob, so my documentation is 
+emphasising booting with the on-device U-Boot.
 
-While not a deprecation method, this is what capability bits are
-designed for. Same as cpuid capability bits - just because the bit is
-there doesn't mean a processor is required to support it in perpetuity.
+This patchset here is mostly unmodified from the version I sent in 
+January. It is the bare minimum to get an interactive shell working on 
+the UART. Future patches can be found on my git repository [2] for those 
+curious to peek ahead. The first 30 patches are in reasonable shape, but 
+the further you go the more cleanup is necessary. I expect all of the 
+patches go require a few rounds of feedback though.
 
-They're only required to support it if the bit is turned on.
+My plan for upstreaming is largly this:
 
+1) This bare minimum boot patchset
+2) Add clock and pinctrl drivers
+3) Add standard hardware to the device tree
+4) Add zx29 specific drivers one by one: Watchdog, spi, i2c, DMA, PMIC, 
+battery
+5) SDIO backend for rtl8xxxu
+6) rproc, mailbox and rpmsg
+
+I am willing to maintain support for the SoC within reason. My patches 
+add myself as maintainer. This is a hobby project for me though, keep 
+that in mind if you want to ship a commercial product with these SoCs 
+and upstreaming Linux.
+
+Cheers,
+Stefan
+
+0: https://lists.infradead.org/pipermail/linux-arm-kernel/2026-January/1099306.html
+1: https://github.com/zx297520v3-mainline/zx297520v3-loader
+2: https://gitlab.com/stefandoesinger/zx297520-kernel/
+
+Patch changelog:
+
+v4: rename zx29.yaml to zte.yaml and add board enums
+v3: Remove [RFC] tag, add defconfig
+v2: checkpatch.pl fixes
+
+Signed-off-by: Stefan Dösinger <stefandoesinger@gmail.com>
 ---
+Stefan Dösinger (8):
+      ARM: zte: Add zx297520v3 platform support
+      dt-bindings: arm: Add zx297520v3 board binding
+      ARM: dts: Add D-Link DWR-932M support
+      ARM: zte: Add support for zx29 low level debug
+      ARM: dts: Add an armv7 timer for zx297520v3
+      ARM: zte: Bring back zx29 UART support
+      ARM: dts: Declare UART1 on zx297520v3 boards
+      ARM: defconfig: Add a zx29 defconfig file
 
-I think the focus here needs to be on whether this interface ACTUALLY
-needs to be more generic - and whether that is actually FEASIBLE.
+ Documentation/arch/arm/zte/zx297520v3.rst      | 158 +++++++++++++++++++++++++
+ Documentation/devicetree/bindings/arm/zte.yaml |  25 ++++
+ MAINTAINERS                                    |   6 +
+ arch/arm/Kconfig                               |   2 +
+ arch/arm/Kconfig.debug                         |  12 ++
+ arch/arm/Makefile                              |   1 +
+ arch/arm/boot/dts/Makefile                     |   1 +
+ arch/arm/boot/dts/zte/Makefile                 |   3 +
+ arch/arm/boot/dts/zte/dlink-dwr-932m.dts       |  21 ++++
+ arch/arm/boot/dts/zte/zx297520v3.dtsi          |  83 +++++++++++++
+ arch/arm/configs/zx29_defconfig                |  90 ++++++++++++++
+ arch/arm/include/debug/pl01x.S                 |   7 ++
+ arch/arm/mach-zte/Kconfig                      |  24 ++++
+ arch/arm/mach-zte/Makefile                     |   2 +
+ arch/arm/mach-zte/zx297520v3.c                 |  19 +++
+ drivers/tty/serial/amba-pl011.c                |  37 ++++++
+ include/linux/amba/bus.h                       |   6 +
+ 17 files changed, 497 insertions(+)
+---
+base-commit: 028ef9c96e96197026887c0f092424679298aae8
+change-id: 20260416-send-5c08e095e5c9
 
-It's not like this is a new problem - and there are real design reasons
-why John chose this route.
+Best regards,
+-- 
+Stefan Dösinger <stefandoesinger@gmail.com>
 
-The additional overhead is not trivial for FAMFS - FAMFS is not doing
-i/o.  He already has data showing fuse caused a performance hit due to
-overhead on open - his concern of overhead on fault being catastrophic
-is grounded in data.
-
-For others it's an age old problem of self-describing protocols (parsing
-vs giant inflexible binary blobs, pick your poison).  It's extremely
-unlikely we will find a one-size-fits-all solution that doesn't
-eventually run right back into this same problem.
-
-I worry that this discussion is going to turn towards implementing a
-solution grounded in parsing arbitrary formats and how to store them,
-and that is completely detached from why FAMFS went this route in the
-first place.
-
-I question whether the actual issue here lies in the interface APPEARING
-more general purpose than it actually is - and therefore inviting
-attempts to over-genericize it.
-
-Is there a world here where this is solved by a name change and a
-capability bit?  I think so.
-
-~Gregory
