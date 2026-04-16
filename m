@@ -1,562 +1,376 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB37A2C11E1
-	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 15:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 986B3396D24
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 16:26:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.47
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776355023; cv=pass; b=qGd4x2kmYhrfeJvhenohXbL7a2HDG4RUHtzGL5c1GxydXrMlyeEsHBHNQdQTgjw7m6NNoD/PaLrjUIvliZYmQjAtLSh2G1rmjUaDAhGJPWpEr3Q/5GWIAOHilSsqEl3BUBxIw16zoAJ2IQdDPn+XLydRmf/ijUt9ZCwbe7AUJWg=
+	t=1776356785; cv=pass; b=HpOeY73NCpeCGhY6yqmhS2TOdVSw0grEFmYKPMzIUuhtl1Q5Vj4kA+e5qFYDi7Y7fgAw8eLAJTQ0Qhyz2G/HJeyGR/BdjKlkKuEl8L9IKToOzK2EL9SBn5kS9aTaXuEoLsDviOnW03IBau/ezWr7b2irn/RSfG1Jj4/yatGqYUo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776355023; c=relaxed/simple;
-	bh=M7gPZRMXwsKZPHEV9eSBHGyZEgE8KrtipqgPUasQvfk=;
+	s=arc-20240116; t=1776356785; c=relaxed/simple;
+	bh=7hsSG8Ftc6soj4XirGPV1/fbrHtjBR6B795+xizAbiA=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jT2isfWLn/Z8thBSLJLjrLV6GHxd6pjT0kf2o2qLgVzigLWs5VMStLEFHk7dbe+dUNHW+7dvvDBlTZOVsKwLBv56rE1bq/eORGAE2ckrNWykeyKlt+JZ4tFuYzPKeHjlc6+hcj43fh+8cJXl+EPxuajXu1RXLZUIO7mEMs/mYd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IqCM4E2Y; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=EiPiXDz+2iCS9AlQ0bDiVxTAMIb+4Hsk2azv+TZiZAfEskdrhb8vD8DFApdjnV4k3+dyfVnnEcawXhkowsBtM0sh/pLYpIrCc3OKg2ZAvnLrc0h0cX0zwkhMSWj5Wt2BpozNrlyNugbhPp1c/d5vdgmhl1lvZNOHSVdSNQo4Ctc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KJ1qFW50; arc=pass smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IqCM4E2Y"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43eada6d900so1724306f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 08:57:00 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776355019; cv=none;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KJ1qFW50"
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4887ec3d8e7so118615e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 09:26:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776356782; cv=none;
         d=google.com; s=arc-20240605;
-        b=de4uGCVICPttcciXaaTjsn5bGKaXMDqm3/7RUYFjJyD5EdeJLBfP5Zv/p2LJaNa7mD
-         I8vm61bMoz5cOkAcFBzPYYxf0BCLeIdo3+LHM6bYLD56NEQL3MbVI6+V7oJmX2Si5MMQ
-         Xhq9dQZ+brjuRbGyT9H4GXsJjD1AN8qEpO67YU9HMmN9OqLzRV/hycvQn9amx8hq+PjT
-         vPyGVmjgkXoXivGVyzFF4ur2Z+yXyFxkFzOnQHg5Ft1nMMJi3/vKs3GVJJp93grqF/Bz
-         suUWYSIxsRqUucdoNqDqpIHau1J5nOvve17WY93rZWqMrFj8dMLPentrLoRdFp7qHRE4
-         c+Bg==
+        b=c9z9eG0FHGR4C7sJLwgXQzgA9jRRlWUHcRDhDc76rrejM530Fj7KwXsF3VJFw0MOiq
+         Svr/Vuia1LIJom/x0nGs3fFPbqlqeVKdXvoDRxHUU5DpmbO0OBU4Bht0c4YsLP8kOEqt
+         gXzTXXaNwKN4kOFeYJbXuFu4KtHGRI5HznjH4fHjBA0sgsMpwKuYV3vwif7B1JmV52zA
+         kn10lfqfZhXXrPLYFx+PaabHUlmXdU/CZgy3ehJRF/SbUYMtTs+maaJ/8NnSqTkcKsnY
+         m7D+ydkvyWoR1v6p2RQa/UnMbqyOP/7BexSjLy3ADHWsprzWVzlDzEzhmNF9ttBN4ZfV
+         r0rw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=csLQ189K8q+dYy5ZW5r++AMtfUplzzeY0yd9HcFl3+w=;
-        fh=PtHU05xn1HbvrBQYoivJAwM5+9298PgJxZB8pNEA/p4=;
-        b=MQ1FATxlmu3B6NRA+Aw3y/n+dbYjYCA2WRzC0LI2Bl3ujrrGmRPtV3UGziBWtM7OCf
-         mHjtWfUajR6lr71ZSKQckN+nbQMOAI420xG3k3HCjDW456r8W8Fixbdh1BNJNdAMJJbx
-         QC1CSFxmLj6VOG/D0k7XRQP+y90+zPnFrCyjFApQXooDZnB0mewQlY4RmgJH05BaBvO8
-         Fdhhfa5DA7sJ91N7eAulM7XLySSJf0ZTWpn+y6EzWLECtlc6NM/ds/mmXug+K2prLOku
-         +ZZ02ra4fhoawinucgjpHj/R2fV/YODuuTV+dZqR64H6Lfy2bAcG2ql6zp4HybL3xrQk
-         QRuw==;
+        bh=SiIXqIQ1insAYDWmIOBggv552UAc9lAw2EwSt5zxlQ0=;
+        fh=gwaETegt+oD/WDrq/NDrmQtdPgTCvt36W8wV//AD0Kg=;
+        b=eowZyNU9TY3j/ehel9aZo6wB7lMCskHipVroan8RzzJCGhzLqvtEVTVYwPKRTqk6tz
+         NMIjOAvaKQU8Q9D6zSvpmMmuezYsCZhQInKfX2TMO3YuNcPGjVm2cQqYzX9paXatLA2T
+         qG0JJTw/SJVWefiYlkZJZKghgJBZaeDAFr9bWB61hDLfD1VVynNHX513vfWz4HbbTGlt
+         30HYl8hJhgpzJgu7uSJAUQFpZmEDoR44UHvoyq4Sb6r0fivj8ReVY0wh/o23ftLudBVS
+         mvJpTAkW13khkPDxTtoHNSRhZ8xJ6HdfAJK10xt0IK5FyzKn9oymOWEvIxDJce+WCvEQ
+         nQmw==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776355019; x=1776959819; darn=vger.kernel.org;
+        d=google.com; s=20251104; t=1776356782; x=1776961582; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=csLQ189K8q+dYy5ZW5r++AMtfUplzzeY0yd9HcFl3+w=;
-        b=IqCM4E2YXzlVdFyDZgqgBz+ntI4LWbQ4IciX9fxnm0nVJBo+mf4Tmua4Akto6xL7Ot
-         NC/uyZ+VpXOATew2VpF1fFgaChMzFQ5KyftN05SOLhmzMaR8g7jbfC7SF++9jcFAjU1Z
-         dlk9pZe3xLqfJkSqHHMaq+oF135BbGtClH0SKVzu6gq4QysRvEdQ3DxtMmTbT9BfpS0h
-         tsulyuL3ZeX01Ek2Q6Y3CezvZYf6yeAT+y3uv0aqvFJ4EWpnkm8vKNIXwgmHO2mxj847
-         OtGCHdVsAF90degaLdwhrepjwRyu2BkE2gIqH964nx24DGu3nvAWvI7eqYGBHTHLTFCg
-         uicQ==
+        bh=SiIXqIQ1insAYDWmIOBggv552UAc9lAw2EwSt5zxlQ0=;
+        b=KJ1qFW50SQwNOPyjALU6kkz9EV9kYlGQ1g4h7cZlY1xml/84hdUPJncsbJeHSfXdSL
+         yPB9Eprv/UVkDVPogXyk3BhaKT/uasJ1d6DvzADrcJdkYaRSnj8Yzxo5bp8WgV1FpZ3d
+         bppiCHJzyOIHCZmDm81oLynXOmdX6xyKG6iT4PidYnr1sGrBW9/h97fE38QgMVEM1Rcj
+         U7zzrNDctvYFTlIzO/u3l62JASLZW04gwSa8fLdFsODPaPuYVjNAV89+pUpnWMZ6Bu61
+         G6YmnqnKzJc/T6XiK8k0TS2rKfZlYSx7dgwHj5INMvlZyIdwCPZgZyLqb+OQDWPW9K0D
+         H9pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776355019; x=1776959819;
+        d=1e100.net; s=20251104; t=1776356782; x=1776961582;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=csLQ189K8q+dYy5ZW5r++AMtfUplzzeY0yd9HcFl3+w=;
-        b=JSCePEXEVPdBie+Obv8ShIw0s9zt36UkaoueOmLixD4VIoaadiNT95967yCUHr279P
-         9wZ+5utVR7hkSxpoVNa3O3ny/oeyGkPpwtXV77asuNzj8lWe0u3ESDlUM4mz+2F/XzXt
-         AlQEy6ac7EcCy0ILDT6xFLft2kNKSULgBYiy9g9kEPsTY9iSmcKBdNH5+Q+Ohnjf4Cui
-         +AeGm+ws0WMJTunsM7N/dT/zPwxggbmKz7Tzns6+XvvzqazVByfe8pMaBmr0Kux5iHnL
-         j7QFM5kU+K/apHTLXSBiZLTFYXXqR8zLhGSbPO7q4oVSXkLwrd2OzDxe0WkjIrJ04lS4
-         RzvA==
-X-Forwarded-Encrypted: i=1; AFNElJ8yCbmNSflp3687/9oG7UTLzgGYLn29rr+MxoY3b+s9nJQ/5pxqOs03fUpdOXgjhU33XeWLJbruV3k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjWh0UObe+LDqFbOov2oGbm0SJRENIriSmgxPft3QDjYVgXoEj
-	17kvHKLy4qGeE6lwOpwOJhnO/IX6qG42OHCIZxSUfcVMNkyYoR8zEiFtPYQMRZ2IxSbsz66hWcZ
-	oRXcooy4xYAqcoVwGvSGBnq4ysIuXAK4=
-X-Gm-Gg: AeBDieu3GInHGd0o53Lw+OzSf3hUYpEOXN1q0RkR6shBh2KsZFWjlYAnemnpZRAI3eT
-	WZgHyCelA6C4grIgHWIxol/y/8OevvihXgkD0Ib2LBcMSrOveurPn4ue0VLyj5fVjUgEwRv6kok
-	LyOucPjilhn0bLbdxOfZxeKx1zlWV4jrv4hBgBGtxzVntlgPCuj7WL0IJtbmXSXiQRil8uOLYd5
-	2CcwbepSkmXcm4W3maeosYncSDEuK2hOScTLzRlJ5Mk09leh0dzE8VD2haM6vkECPSTq8rfJqiV
-	EVtsapUyCC77c6XR
-X-Received: by 2002:a05:6000:230e:b0:43b:3b80:6776 with SMTP id
- ffacd0b85a97d-43fe0809ebcmr25499f8f.30.1776355018514; Thu, 16 Apr 2026
- 08:56:58 -0700 (PDT)
+        bh=SiIXqIQ1insAYDWmIOBggv552UAc9lAw2EwSt5zxlQ0=;
+        b=d7N/wGFKWNw31+vitGGCKAnChlf4ZTqiG+VRza8eLbXEjNhHkuZbswv8Xu3nmLm0BN
+         2ZzQVs2JKMUPa/KSlDdpmFk7N5UMVwxRM0H4LAoxEDOma1R3aXgWKuxu+TG0xQc/dR9N
+         1zh30NA1fSFE9MFe98wOK6x3UV90M17i225a/j3+I1UTJmZSf7O069iWbJTAtcOFU9bD
+         iqjBcbvj0gvqggNdxGQAEVjhxibyPBvRzQYn/yp3uuh+JXrT6G3s+IvjIxqljfoDYZWg
+         lSy0nqLIZZA4VrEIbYve1sKDrWiYGDTr8+6Tyy4SXRuarzmK7MbeZf1NfOBc9RraiToK
+         Fc4w==
+X-Forwarded-Encrypted: i=1; AFNElJ/wFK8Y++/O94SS6jzX1IfN3K7mRtMaZdUzBqr+Xm0pKgo61tC9rkVE6b1Be+gxyyHGjL3WM6VGjEk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyoAlEH55H2CsYIrhfdEvwYCl0hA3/L5/einKD3T4KSYs+7/w8l
+	eNS+J37icZ/vz9QX/RYUnjb/t38wU4FnJKEiXlLugnZw48yGueMtxwRIM0Iq3GtHNgdRqD3mEzQ
+	VR4C21P1E2cv5+XkXKhODetCYSURXGxT/s9gOa4io
+X-Gm-Gg: AeBDieugO9cI99efckxXOGud5dHVfir3Bu3WpIvzNAAS7csJtn3tn3ZAV53fySNh9Gv
+	gfqx4m/AM2V3o8TyqCSyXIBl7qT28VYpw9YOWd9hhqDxysxPeZRVuN7byG7QvMjwffwlMfHYrkn
+	yAK5YbGACqaXGaqhQMXrFe/sPujow+7qmZZKmsseFZknG9e8ac2/+z1zdyQUG0WHQMyfQLdILt/
+	iX+me2QSjgJF6DqOVPlbs1odenqp3vaEr1JLirXbA3ixXJHkXnEz/Nx61P3t0i6g1jXJ7EO78I8
+	0/0ln91dtCnFe06uVxR5C7gIlilH1g6aa2AIhT/K/Fw3mVXcpv/qOectsP76gA==
+X-Received: by 2002:a05:600c:c3ce:10b0:485:5918:d1cb with SMTP id
+ 5b1f17b1804b1-488fa6727f3mr23185e9.13.1776356781442; Thu, 16 Apr 2026
+ 09:26:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
- <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
- <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com> <ad7Tps4tkNbndd9Z@groves.net>
-In-Reply-To: <ad7Tps4tkNbndd9Z@groves.net>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 16 Apr 2026 08:56:46 -0700
-X-Gm-Features: AQROBzD6FksXwOQQcM-59dk9RYoRBpTrQTtKbS5KL2H92k939UzapAUDIGOhreU
-Message-ID: <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: John Groves <John@groves.net>
-Cc: "Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>, 
-	"venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
+ <CACw3F51PC0iB6mfbiceQ_Kh242FN8zdXOfTyE5Pa_5+gjTPPGg@mail.gmail.com> <aeD6hpM3t0RZm5mW@gmail.com>
+In-Reply-To: <aeD6hpM3t0RZm5mW@gmail.com>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Thu, 16 Apr 2026 09:26:08 -0700
+X-Gm-Features: AQROBzD5JUgdRLTgyYC9r4BJ93B9PUQ3FepxUaMlQT4MyQG2ukmY-pbNiFMMAyQ
+Message-ID: <CACw3F50WYH8Vmd9EXx9+3yM=FU5-1WBkNffkGucC+wSjL+=wFQ@mail.gmail.com>
+Subject: Re: [PATCH v4 0/3] mm/memory-failure: add panic option for
+ unrecoverable pages
+To: Breno Leitao <leitao@debian.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 14, 2026 at 5:10=E2=80=AFPM John Groves <John@groves.net> wrote=
-:
+On Thu, Apr 16, 2026 at 8:32=E2=80=AFAM Breno Leitao <leitao@debian.org> wr=
+ote:
 >
-> On 26/04/14 03:13PM, Joanne Koong wrote:
-> > On Tue, Apr 14, 2026 at 11:57=E2=80=AFAM Darrick J. Wong <djwong@kernel=
-.org> wrote:
+> Hi Jiaqi,
+>
+> On Wed, Apr 15, 2026 at 01:56:35PM -0700, Jiaqi Yan wrote:
+> > On Wed, Apr 15, 2026 at 5:55 AM Breno Leitao <leitao@debian.org> wrote:
 > > >
-> > > On Tue, Apr 14, 2026 at 08:41:42AM -0500, John Groves wrote:
-> > > > On 26/04/14 03:19PM, Miklos Szeredi wrote:
-> > > > > On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.co=
-m> wrote:
-> > > > >
-> > > > > > Overall, my intention with bringing this up is just to make sur=
-e we're
-> > > > > > at least aware of this alternative before anything is merged an=
+> > > When the memory failure handler encounters an in-use kernel page that=
+ it
+> > > cannot recover (slab, page tables, kernel stacks, vmalloc, etc.), it
+> > > currently logs the error as "Ignored" and continues operation.
+> > >
+> > > This leaves corrupted data accessible to the kernel, which will inevi=
+tably
+> > > cause either silent data corruption or a delayed crash when the poiso=
+ned memory
+> > > is next accessed.
+> > >
+> > > This is a common problem on large fleets. We frequently observe multi=
+-bit ECC
+> > > errors hitting kernel slab pages, where memory_failure() fails to rec=
+over them
+> > > and the system crashes later at an unrelated code path, making root c=
+ause
+> > > analysis unnecessarily difficult.
+> > >
+> > > Here is one specific example from production on an arm64 server: a mu=
+lti-bit
+> > > ECC error hit a dentry cache slab page, memory_failure() failed to re=
+cover it
+> > > (slab pages are not supported by the hwpoison recovery mechanism), an=
+d 67
+> > > seconds later d_lookup() accessed the poisoned cache line causing
+> > > a synchronous external abort:
+> > >
+> > >     [88690.479680] [Hardware Error]: error_type: 3, multi-bit ECC
+> > >     [88690.498473] Memory failure: 0x40272d: unhandlable page.
+> > >     [88690.498619] Memory failure: 0x40272d: recovery action for
+> > >                    get hwpoison page: Ignored
+> > >     ...
+> > >     [88757.847126] Internal error: synchronous external abort:
+> > >                    0000000096000410 [#1] SMP
+> > >     [88758.061075] pc : d_lookup+0x5c/0x220
+> > >
+> > > This series adds a new sysctl vm.panic_on_unrecoverable_memory_failur=
+e
+> > > (default 0) that, when enabled, panics immediately on unrecoverable
+> > > memory failures. This provides a clean crash dump at the time of the
+> >
+> > I get the fail-fast part, but wonder will kernel really be able to
+> > provide clean crash dump useful for diagnosis?
+>
+> Yes, the kernel does provide a useful crash dump. With the sysctl enabled=
+,
+> here's what I observe:
+>
+>         Kernel panic - not syncing: Memory failure: 0x1: unrecoverable pa=
+ge
+>         CPU: 40 UID: 0 PID: 682 Comm: bash Tainted: G B  7.0.0-next-20260=
+414-upstream-00004-gcbb3af7bfd3b #93
+>         Tainted: [B]=3DBAD_PAGE
+>
+>         Call Trace:
+>          <TASK>
+>          vpanic+0x399/0x700
+>          panic+0xb4/0xc0
+>          action_result+0x278/0x340          =E2=86=90 your new panic call=
+ site
+>          memory_failure+0x152b/0x1c80
+>
+>
+> Without the patch (or with the sysctl disabled), you only get:
+>
+>         Memory failure: 0x1: unhandlable page.
+>         Memory failure: 0x1: recovery action for reserved kernel page: Ig=
+nored
+>
+> Then the host continues running until it eventually accesses that poisone=
 d
-> > > > > > permanent. If Miklos and you think we should land this series, =
-then
-> > > > > > I'm on board with that.
-> > > > >
-> > > > > TBH, I'd prefer not to add the famfs specific mapping interface i=
-f not
-> > > > > absolutely necessary.  This was the main sticking point originall=
-y,
-> > > > > but there seemed to be no better alternative.
-> > > > >
-> > > > > However with the bpf approach this would be gone, which is great.
-> > >
-> > > Well... you can't get away with having *no* mapping interface at all.
+> memory, triggering a generic error similar to the d_lookup() case mention=
+ed
+> above.
+>
+> > In your example at 88757.847126, kernel was handling SEA and because
+> > we are under kernel context, eventually has to die(). Apparently not
+> > only your patch, but also memory-failure has no role to play there.
+> > But at least SEA handling tried its best to show the kernel code that
+> > consumed the memory error.
 > >
-> > Yes but the mapping interface should be *generic*, not one that is so
-> > specifically tailored to one server. fuse will have to support this
-> > forever.
+> > So your code should apply to the memory failure handling at
+> > 88690.498473, which is likely triggered from APEI GHES for poison
+> > detection (I guess the example is from ARM64). Anything except SEA is
+> > considered not synchronous (by APEI is_hest_sync_notify()). If kernel
+> > panics there, I guess it will be in a random process context or a
+> > kworker thread? How useful is it for diagnosis? Just the exact time an
+> > error detected (which is already logged by kernel)?
 >
-> Mapping interfaces being generic is a nice idea, but I'm no sure it's
-> realistic in a generalized sense. But other mitigating comments below.
->
-> >
-> > > You still have to define a UABI that BPF programs can use to convey
-> > > mapping data into fsdax/iomap.  BTF is a nice piece of work that smoo=
-ths
-> > > over minor fluctuations in struct layout between a running kernel and
-> > > a precompiled BPF program, but fundamentally we still need a fuse-nat=
-ive
-> > > representation.
-> > >
-> > > That last sentence was an indirect way of saying: No, we're not going
-> > > to export struct iomap to userspace.  The fuse-iomap patchset provide=
-s
-> > > all the UABI pieces we need for regular filesystems (ext4) and hardwa=
-re
-> > > adjacent filesystems (famfs) to exchange file mapping data with the
-> > > kernel.  This has been out for review since last October, but the lac=
-k
-> > > of engagement with that patchset (or its February resubmission) doesn=
-'t
-> > > leave me with confidence that any of it is going anywhere.
-> > >
-> > > Note: The reason for bolting BPF atop fuse-iomap is so that famfs can
-> > > upload bpf programs to generate interleaved mappings.  It's not so ha=
-rd
-> > > to convert famfs' iomapping paths to use fuse-iomap, but I haven't
-> > > helped him do that because:
-> > >
-> > > a) I have no idea what Miklos' thoughts are about merging any of the
-> > > famfs stuff.
-> > >
-> > > b) I also have no idea what his thoughts are about fuse-iomap.  The
-> > > sparse replies are not encouraging.
-> > >
-> > > c) It didn't seem fair to John to make him take on a whole new patchs=
-et
-> > > dependency given (a) and (b).
-> > >
-> > > d) Nobody ever replied to my reply to the LSFMM thread about "can we =
-do
-> > > some code review of fuse iomap without waiting three months for LSFMM=
-?"
-> > > I've literally done nothing with fuse-iomap for two of the three mont=
-hs
-> > > requested.
-> > >
-> > > > > So let us please at least have a try at this. I'm not into bpf ye=
-t,
-> > > > > but willing to learn.
-> > >
-> > > I sent out the patches to enable exactly this sort of experimentation
-> > > two months ago, and have not received any responses:
-> > >
-> > > https://lore.kernel.org/linux-fsdevel/177188736765.3938194.6770791688=
-236041940.stgit@frogsfrogsfrogs/
-> > >
-> > > I would like to say this as gently as possible: I don't know what the
-> > > problem here is, Miklos -- are you uninterested in the work?  Do you
-> > > have too many other things to do inside RH that you can't talk about?
-> > > Is it too difficult to figure out how the iomap stuff fits into the r=
-est
-> > > of the fuse codebase?  Do you need help from the rest of us to get
-> > > reviews done?  Is there something else with which I could help?
-> > >
-> > > Because ... over the past few years, many of my team's filesystem
-> > > projects have endured monthslong review cycles and often fail to get
-> > > merged.  This has led to burnout and frustration among my teammates s=
-uch
-> > > that many of them chose to move on to other things.  For the remainin=
-g
-> > > people, it was very difficult to justify continuing headcount when
-> > > progress on projects is so slow that individuals cannot achieve even =
-one
-> > > milestone per quarter on any project.
-> > >
-> > > There's now nobody left here but me.
-> > >
-> > > I'm not blaming you (Miklos) for any of this, but that is the current
-> > > deplorable state of things.
-> > >
-> > > > > Thanks,
-> > > > > Miklos
-> > > >
-> > > > Thanks for responding...
-> > > >
-> > > > My short response: Noooooooooo!!!!!!
-> > > >
-> > > > I very strongly object to making this a prerequisite to merging. Th=
-is
-> > > > is an untested idea that will certainly delay us by at least a coup=
-le
-> > > > of merge windows when products are shipping now, and the existing a=
-pproach
-> > > > has been in circulation for a long time. It is TOO LATE!!!!!!
-> > >
-> > > /me notes that has "we're shipping so you have to merge it over peopl=
-es'
-> > > concerns" rarely carries the day in LKML land, and has never ended we=
-ll
-> > > in the few cases that it happens.  As Ted is fond of saying, this is =
-a
-> > > team sport, not an individual effort.  Unfortunately, to abuse your
-> > > sports metaphor, we all play for the ******* A's.
-> > >
-> > > That said, you're clearly pissed at the goalposts changing yet again,
-> > > and that's really not fair that we collectively keep moving them.
-> > >
-> > > It's a rotten situation that I could have even helped you to solve bo=
-th
-> > > our problems via fuse-iomap, but I just couldn't motivate myself to
-> > > entwine our two projects until the technical direction questions got
-> > > answered.
-> > >
-> > > > Famfs is not a science project, it's enablement for actual products=
- and
-> > > > early versions are available now!!!
-> > > >
-> > > > That doesn't mean we couldn't convert later IF THERE ARE NO HIDDEN =
-PROBLEMS.
-> > >
-> > > Heck, the fuse command field is a u32.  There are plenty of numberspa=
-ce
-> > > left, and the kernel can just *stop issuing them*.
-> >
-> > I don't think the problem is the command field. As I understand it, if
-> > this lands and is converted over later, none of the famfs code in this
-> > series can be removed from fuse. If fuse has native non-bpf support
-> > for famfs, then it will always need to have that. That's the part that
-> > worries me.
->
-> I believe this basic premise is completely wrong. Here is why:
->
-> There is a FUSE_DAX_FMAP capability that the kernel may advertise or not
-> at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
-> commands. In the future, if we find a way to use BPF (or some other
-> mechanism) to avoid needing those fuse messages, the kernel could be upda=
-ted
-> to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-specifi=
-c
-> code could be taken out of kernels that never advertise that capability.
+> The kernel panics with a clear stack trace and explicit reason, making it
+> straightforward to correlate and analyze the failure.
 
-I=E2=80=99m not sure the capability bit can be used like that (though I am
-hoping it can!). As I understand it, once the kernel advertises a
-capability, it must continue supporting it in future kernels else
-userspace programs that rely on it will break.
+So we will always get the same stack trace below, right?
 
-John, with what you have in this series, is there any way we can make
-it generalizable so it can be used by any dax-based server? Would you
-be open to that?
+          panic+0xb4/0xc0
+          action_result+0x278/0x340
+          memory_failure+0x152b/0x1c80
 
-My main gripe is with the layout encoding for FUSE_GET_FMAP and how it
-bakes in famfs-specific layout concepts (simple vs interleaved
-extents, file type, strip definitions, etc) into the uapi and forces
-the kernel to interpret/process this super-specific encoding in a
-hardcoded way. Is it not possible to just move this all to the server
-side? Could the famfs server just preprocess the mappings and take
-care of the simple vs interleaved extents stuff and do all the logic
-that's in [1] in userspace and simply just give the kernel a list of
-generic extent mapping information? The kernel could then just cache
-this generic mapping per inode and do the lookup on fault with no
-famfs-specific logic needed in the kernel. Or is there a reason the
-famfs processing logic needs to happen in the kernel? That's the part
-I'm unclear about.
+IIUC, this stack trace itself doesn't provide any useful information
+about the memory error, right? What exactly can we use from the stack
+trace? It is just a side-effect that we failed immediately.
 
-I think this is pretty much what Darrick is doing in his iomap
-patchset [2] except in his case, the mappings are fetched lazily on
-access, whereas I guess for your case that would be too slow so it
-needs to be prepopulated at open time. imo that seems fine since
-prepopulating mappings would be a useful feature in general. So could
-we rename FUSE_GET_FMAP to something like FUSE_IOMAP_GETMAP and have
-it just return super generic mapping info? Darrick already adds a
-"struct fuse_iomap_io" [3] to the uapi, could we just use that and add
-a uint32_t dev_id; to that?
-
-Looking more at Darrick's patchset, his caching [4] uses the b+ tree
-and is more performant but imo also more complex, but I don't think
-that would be necessary for this series. imo we could just use a basic
-interval tree for now for famfs's needs and optimize / converge it
-later.
-
-As well, are you open to renaming the FUSE_DAX_FMAP capability and
-FUSE_FAMFS_DAX config to a generic FUSE_IOMAP_DAX naming scheme
-instead?
-
-Additionally, it would be really nice to replace FUSE_GET_DAXDEV and
-add the daxdev config stuff to the generic FUSE_IOMAP_CONFIG Darrick
-has for iomap [5], but this one might be more contentious in getting
-the config uapi solidified. I think in general though for famfs, it
-makes more sense for all the dax devices to be set up upfront all at
-once at connection init time instead of discovered lazily on every
-file open, which as I understand it,  would make things less complex
-server side for famfs too, so even if this doesn't go through
-FUSE_IOMAP_CONFIG, maybe it makes sense to have this be on init where
-the server sends all the daxdev device information all at once? That
-seems less confusing (and better performance-wise) of a flow than
-having it be lazily discovered on open, though if I'm misunderstanding
-something here please let me know.
-
-I'm not sure how Miklos feels about this, but I think this would get
-rid of all the famfs-specific logic in fuse and would be adding
-infrastrucutre that other dax-backed servers in the future would use.
-On my end, this eases my concerns and would be just as good as what
-the bpf approach is trying to accomplish.
-
-There's some ties between your and Darrick's work as you guys are both
-using iomap, and maybe/hopefully this aligns with Darrick's thoughts
-combining the two, but in my opinion (and maybe Darrick disagrees with
-this), to get famfs out the door, we wouldn't need all the code in
-Darrick's patchset to land before famfs. In my view, we would only
-need to borrow/steal the 'struct fuse_iomap_io' definition in uapi and
-hopefully converge on a FUSE_IOMAP_CONFIG uapi format, for famfs to
-land, if you agree this direction makes sense. I think we just need to
-get the uapi stuff figured out and everything else could be optimized
-in the future post-merge. Darrick, do you agree with this assessment?
-
-John, is this a middle ground you think is reasonable? I know this
-whole thing has kind of been a mess with the moving goalposts - if the
-above would work for famfs but you're slammed with other work and
-don't have the bandwidth to make these changes, I'm happy to help out
-with the restructuring if that would be useful.
+You can still correlate failure with "Memory failure: 0x1: unhandlable
+page" and keep running until the actual fatal poison consumption takes
+down the system. Drawback is that these will be cascading events that
+can be "noisy". What I see is the choice between failing fast versus
+failing safe.
 
 >
-> Simple, really. Can't re-use the message opcodes, but as Darrick pointed =
-out
-> those are not a scarce resource.
+> My objective is to have a clean, immediate crash rather than allowing the
+> system to continue running and potentially crash later (if at all).
 >
-> >
-> > >
-> > > > What are the risks of converting to BPF?
-> >
-> > I think maybe there is a misinterpretation of what the alternative
-> > approach entails. From my point of view, the alternative approach is
-> > not that different from what is already in this series. The only piece
-> > of the famfs logic that would need to use bpf is the logic for
-> > finding/computing the extent mappings (which is the famfs-specific
-> > logic that would not be applicable to any other server). That famfs
-> > bpf code is minimal and already written [1], as it is just the logic
-> > that is in patch 6 [2] in this series copied over. No other part of
-> > famfs touches bpf. The rest is renaming the functions in
-> > fs/fuse/famfs.c to generic fuse_iomap_dax_XXX names (the logic is the
-> > same logic in this series, eg invoking the lower-level calls to
-> > dax_iomap_rw/fault/etc) and moving the daxdev setup/initialization to
-> > connection initialization time where the server passes that daxdev
-> > setup info/configs upfront. I don't think this would delay things by
-> > several merge windows, as the code is already mostly written. If it
-> > would be helpful, I can clean up what's in the prototype and send that
-> > out.
-> >
-> > I think the part that is not clear yet and needs to be verified is
-> > whether this approach runs into any technical limitations on famfs's
-> > production workloads. For example, does the overhead of using bpf maps
-> > lead to a noticeable performance drop on real workloads? In the
-> > future, will there be too many extent mappings on high-scale systems
-> > to make this feasible? etc. If there are technical reasons why the
-> > famfs logic has to be in fuse, then imo we should figure that out and
-> > ideally that's the discussion we should be having. I am not a cxl
-> > expert so perhaps there is something missing in the approach that
-> > makes it not sufficient on production systems. If we don't end up
-> > going with the alternative approach, I still think this series should
-> > try to make the famfs uapi additions to fuse as generic as possible
-> > since that will be irreversible.
-> >
-> > If we expedited the alternative approach in terms of reviewing and
-> > merging, would that suffice? Is the main pushback the timing of it, eg
-> > that it would take too long to get reviewed, merged, and shipped?
-> >
-> > > >
-> > > > - I don't know how to do it - so it'll be slow (kinda like my fuse =
-learning
-> > > >   curve cost about a year because this is not that similar to anyth=
-ing
-> > > >   else that was already in fuse.
-> > >
-> > > ...and per above, BPF isn't some magic savior that avoids the expansi=
-on
-> > > of the UABI.
-> >
-> > It doesn't avoid the expansion of the UABI but it makes the UABI
-> > generic (eg plenty of future servers can/will use the generic iomap
-> > layer).
+> Working at a hyperscaler, I regularly see thousands of these "unhandlable
+> page" messages, followed by later kernel crashes when the corrupted memor=
+y
+> is eventually accessed.
 >
-> Um, advertised capabilities allow contraction of the UABI-handling code w=
-ith
-> only some small cruft. Code that is only reachable in the presence of dea=
-d
-> capability can totally be removed.
->
+> > On X86, for UCNA or SRAO type machine check exceptions, I think with
+> > your patch the panic would also happen in random process context or
+> > kworker thread,
 > >
-> > >
-> > > > - Those of us who are involved don't fully understand either the se=
-curity
-> > > >   or performance implications of this. It
-> > >
-> > > Correct.  I sure think it's swell that people can inject IR programs
-> > > that jit/link into the kernel.  Don't ask which secondary connotation=
- of
-> > > "swell" I'm talking about.
-> >
-> > bpf is used elsewhere in the kernel (eg networking, scheduling). If it
-> > is the case that it is unsafe (which maybe it is, I don't know), then
-> > wouldn't those other areas have the same issues?
+> > Can you share some clean crash dumps from your testing that show they
+> > are more useful than the crash at SEA? Thanks!
 >
-> See my long comment to Darrick's prior email.
+> Certainly, here is the complete crash dump from the example above. This
+> happened on a real production hardware:
 >
-> I suspect that this would be the only place BPF has been tried for a vma
-> fault handler. That is a special, performance critical path - especially
-> for famfs. In discussion with the right people we can probably reason
-> through whether this is a non-starter or not.
+>         [88690.478913] [ T593001] {1}[Hardware Error]: Hardware error fro=
+m APEI Generic Hardware Error Source: 784
+>         [88690.479097] [ T593001] {1}[Hardware Error]: event severity: re=
+coverable
+>         [88690.479184] [ T593001] {1}[Hardware Error]:  imprecise tstamp:=
+ 2026-03-20 13:13:08
+>         [88690.479282] [ T593001] {1}[Hardware Error]:  Error 0, type: re=
+coverable
+>         [88690.479359] [ T593001] {1}[Hardware Error]:   section_type: me=
+mory error
+>         [88690.479424] [ T593001] {1}[Hardware Error]:   physical_address=
+: 0x00000040272d5080
+>         [88690.479503] [ T593001] {1}[Hardware Error]:   physical_address=
+_mask: 0xfffffffffffff000
+>         [88690.479606] [ T593001] {1}[Hardware Error]:   node:0 card:0 mo=
+dule:1 rank:1 bank:13 device:6 row:64114 column:832 requestor_id:0x00000000=
+00000027
+>         [88690.479680] [ T593001] {1}[Hardware Error]:   error_type: 3, m=
+ulti-bit ECC
+>         [88690.479754] [ T593001] {1}[Hardware Error]:   DIMM location: n=
+ot present. DMI handle: 0x000e
+>         [88690.479882] [ T593001] EDAC MC0: 1 UE multi-bit ECC on unknown=
+ memory (node:0 card:0 module:1 rank:1 bank:13 device:6 row:64114 column:83=
+2 requestor_id:0x0000000000000027 DIMM location: not present. DMI handle: 0=
+x000e page:0x40272d offset:0x5080 grain:4096 - APEI location: node:0 card:0=
+ module:1 rank:1 bank:13 device:6 row:64114 column:832 requestor_id:0x00000=
+00000000027 DIMM location: not present. DMI handle: 0x000e)
+>         [88690.498473] [ T593001] Memory failure: 0x40272d: unhandlable p=
+age.
+>         [88690.498619] [ T593001] Memory failure: 0x40272d: recovery acti=
+on for get hwpoison page: Ignored
+>         [88757.847126] [ T640437] Internal error: synchronous external ab=
+ort: 0000000096000410 [#1]  SMP
+>         [88757.867131] [ T640437] Modules linked in: ghes_edac(E) act_gac=
+t(E) sch_fq(E) tcp_diag(E) inet_diag(E) cls_bpf(E) mlx5_ib(E) sm3_ce(E) sha=
+3_ce(E) sha512_ce(E) ipmi_ssif(E) ipmi_devintf(E) nvidia_cspmu(E) ib_uverbs=
+(E) cppc_cpufreq(E) coresight_etm4x(E) coresight_stm(E) ipmi_msghandler(E) =
+coresight_trbe(E) arm_cspmu_module(E) arm_smmuv3_pmu(E) arm_spe_pmu(E) stm_=
+core(E) coresight_tmc(E) coresight_funnel(E) coresight(E) bpf_preload(E) sc=
+h_fq_codel(E) ip_tables(E) ip6_tables(E) vhost_net(E) tun(E) vhost(E) vhost=
+_iotlb(E) tap(E) tls(E) mpls_gso(E) mpls_iptunnel(E) mpls_router(E) fou(E) =
+acpi_power_meter(E) loop(E) drm(E) backlight(E) drm_panel_orientation_quirk=
+s(E) autofs4(E) raid0(E) efivarfs(E) dm_crypt(E)
+>         [88757.991191] [ T640437] CPU: 70 UID: 34133 PID: 640437 Comm: Co=
+llection-20 Kdump: loaded Tainted: G   M        E       6.16.1-0_fbk2_0_gf4=
+0efc324cc8 #1 NONE
+>         [88758.017569] [ T640437] Tainted: [M]=3DMACHINE_CHECK, [E]=3DUNS=
+IGNED_MODULE
+>         [88758.028860] [ T640437] Hardware name: ....
+>         [88758.046969] [ T640437] pstate: 23401009 (nzCv daif +PAN -UAO +=
+TCO +DIT +SSBS BTYPE=3D--)
+>         [88758.061075] [ T640437] pc : d_lookup+0x5c/0x220
+>         [88758.068392] [ T640437] lr : try_lookup_noperm+0x30/0x50
+>         [88758.077088] [ T640437] sp : ffff800138cafc30
+>         [88758.083827] [ T640437] x29: ffff800138cafc40 x28: ffff0001dcfe=
+8bc0 x27: 00000000bc0a11f7
+>         [88758.098321] [ T640437] x26: 00000000000ee00c x25: ffffffffffff=
+ffff x24: 0000000000000001
+>         [88758.112807] [ T640437] x23: ffff003fa14d0000 x22: ffff8000828d=
+3740 x21: ffff800138cafde8
+>         [88758.127281] [ T640437] x20: ffff0000d0316fc0 x19: ffff800138ca=
+fce0 x18: 0001000000000000
+>         [88758.141753] [ T640437] x17: 0000000000000001 x16: 0000000001ff=
+ffff x15: dfc038a300003936
+>         [88758.156226] [ T640437] x14: 00000000fffffffa x13: ffffffffffff=
+ffff x12: ffff0000d0316fc0
+>         [88758.170695] [ T640437] x11: 61c8864680b583eb x10: 000000000000=
+0039 x9 : ffff800080fcfd68
+>         [88758.185170] [ T640437] x8 : ffff003fa72d5088 x7 : 000000000000=
+0000 x6 : ffff800138cafd58
+>         [88758.199645] [ T640437] x5 : ffff0001dcfe8bc0 x4 : ffff80008104=
+a330 x3 : 0000000000000002
+>         [88758.214111] [ T640437] x2 : ffff800138cafd4d x1 : ffff800138ca=
+fce0 x0 : ffff0000d0316fc0
+>         [88758.228579] [ T640437] Call trace:
+>         [88758.233565] [ T640437]  d_lookup+0x5c/0x220 (P)
+>         [88758.240864] [ T640437]  try_lookup_noperm+0x30/0x50
+>         [88758.248868] [ T640437]  proc_fill_cache+0x54/0x140
+>         [88758.256696] [ T640437]  proc_readfd_common+0x138/0x1e8
+>         [88758.265222] [ T640437]  proc_fd_iterate.llvm.72608576508414357=
+59+0x1c/0x30
+>         [88758.277248] [ T640437]  iterate_dir+0x84/0x228
+>         [88758.284354] [ T640437]  __arm64_sys_getdents64+0x5c/0x110
+>         [88758.293383] [ T640437]  invoke_syscall+0x4c/0xd0
+>         [88758.300843] [ T640437]  do_el0_svc+0x80/0xb8
+>         [88758.307599] [ T640437]  el0_svc+0x30/0xf0
+>         [88758.313820] [ T640437]  el0t_64_sync_handler+0x70/0x100
+>         [88758.322497] [ T640437]  el0t_64_sync+0x17c/0x180
+>         ...
+>
+> And my clear crash would look like the following:
+>
+>         [ 1096.480523] Memory failure: 0x2: recovery action for reserved =
+kernel page: Ignored
+>         [ 1096.480751] Kernel panic - not syncing: Memory failure: 0x2: u=
+nrecoverable page
+>         [ 1096.480760] CPU: 5 UID: 0 PID: 683 Comm: bash Tainted: G    B =
+              7.0.0-next-20260414-upstream-00004-gcbb3af7bfd3b #93 PREEMPTL=
+AZY
+>         [ 1096.480768] Tainted: [B]=3DBAD_PAGE
+>         [ 1096.480774] Call Trace:
+>         [ 1096.480778]  <TASK>
+>         [ 1096.480782]  vpanic+0x399/0x700
+>         [ 1096.480821]  panic+0xb4/0xc0
+>         [ 1096.480849]  action_result+0x278/0x340
+>         [ 1096.480857]  memory_failure+0x152b/0x1c80
+>         [ 1096.480925]  hwpoison_inject+0x3a6/0x3f0 [hwpoison_inject]
+>         ....
+>
+>
+> Isn't the clean approach way better than the random one?
 
-Yes, I think the bpf overhead is the main uncertainty about whether
-this suffices or not for famfs. I understand (from the all caps in
-your previous messages :)) that performance is critical. The bpf
-overhead could indeed be too much for the special famfs performance
-critical path. I'll try to get some time next week to benchmark this.
-
-Thanks,
-Joanne
-
-[1] https://lore.kernel.org/linux-fsdevel/0100019d43e79794-0eadcf5e-b659-43=
-f7-8fdc-dec9f4ccce14-000000@email.amazonses.com/
-[2] https://lore.kernel.org/linux-fsdevel/177188733084.3935219.104005701365=
-29869673.stgit@frogsfrogsfrogs/T/#t
-[3] https://lore.kernel.org/linux-fsdevel/176169810371.1424854.301019528091=
-5622081.stgit@frogsfrogsfrogs/
-[4] https://lore.kernel.org/linux-fsdevel/177188735954.3937557.841478048197=
-856035.stgit@frogsfrogsfrogs/
-[5] https://lore.kernel.org/linux-fsdevel/176169813786.1427432.414564085463=
-311156.stgit@frogsfrogsfrogs/
+I don't fully agree. In the past upstream has enhanced many kernel mm
+services (e.g. khugepaged, page migration, dump_user_range()) to
+recover from memory error in order to improve system availability,
+given these service or tools can fail safe. Seeing many crashes
+pointing to a certain in-kernel service at consumption time helped us
+decide what services we should enhance, and which service we should
+prioritize. Of course not all kernel code can be recovered from memory
+error, but that doesn't mean knowing what kernel code often caused
+crash isn't useful.
 
 >
-> >
-> > >
-> > > > - Famfs is enabling access to memory and mapping fault handling mus=
-t be
-> > > >   at "memory speed". We know that BPF walks some data structures wh=
-en a
-> > > >   program executes. That exposes us to additional serialized L3 cac=
-he
-> > > >   misses each time we service a mapping fault (any TLB & page table=
- miss).
-> > > >   This should be studied side-by-side with the existing approach un=
-der
-> > > >   multiple loads before being adopted for production.
-> > >
-> > > Yes, it should.  AFAICT if one switched to a per-inode bpf program, t=
-hen
-> > > you could do per-inode bpf programs.  Then you don't even need the bp=
-f
-> > > map, and the ->iomap_begin becomes an indirect call into JITted x86_6=
-4
-> > > math code.
-> > >
-> > > (The downside is that dyn code can't be meaningfully signed, requires
-> > > clang on the system, and you have to deal with inode eviction issues.=
-)
-> > >
-> > > > - This has never been done in production, and we're throwing it in =
-the way
-> > > >   of a project that has been soaking for years and needs to support=
- early
-> > > >   shipments of products.
-> > >
-> > > Correct.  I haven't even implemented BPF-iomap for fuse4fs.  This BPF
-> > > integration stuff is *highly* experimental code.
-> >
-> > I think what fuse4fs needs for bpf is significantly more complicated
-> > and intensive than what famfs needs. For famfs, the extent mapping
-> > logic is straightforward computation.
-> >
-> > >
-> > > > If this is the only path, I'd like to revive famfs as a standalone =
-file
-> > > > system. I'm still maintaining that and it's still in use.
-> > >
-> > > Honestly, you should probably just ship that to your users.  As long =
-as
-> > > the ondisk format doesn't change much, switching the implementation a=
-t a
-> > > later date is at least still possible.
-> >
-> > I recognize this is an unfair situation John as you've already spent
-> > years working on this and did what the community asked with rewriting
-> > it. What I'm hoping to convey is that the approach where the extent
-> > computing/finding logic gets moved to bpf is not radically different
-> > from the famfs logic already in this patchset. In my view, moving this
-> > logic to bpf is more advantageous for both fuse *and* famfs
-> > (decoupling famfs releases from kernel releases) - it would be great
-> > to consider this on technical merits if expediting the timeline of the
-> > alternative approach would suffice.
-> >
-> > Thanks,
-> > Joanne
-> >
-> > [1] https://github.com/joannekoong/libfuse/blob/444fa27fa9fd2118a0dc332=
-933197faf9bbf25aa/example/famfs.bpf.c
-> > [2] https://lore.kernel.org/linux-fsdevel/0100019d43e79794-0eadcf5e-b65=
-9-43f7-8fdc-dec9f4ccce14-000000@email.amazonses.com/
-> >
-> > >
-> > > --D
+> For testing, I use this simple procedure, in case you want to play with
+> it:
+>         # modprobe hwpoison-inject
+>         # sysctl -w vm.panic_on_unrecoverable_memory_failure=3D0
+>         # echo 1 > /sys/kernel/debug/hwpoison/corrupt-pfn
 >
-> Regards,
-> John
+>
+> Thanks for the review and good discussion,
+
+Anyway, I only have a second opinion on the usefulness of a static
+stack trace. This fail-fast option is good to have. Thanks!
+
+> --breno
 >
