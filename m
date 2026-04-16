@@ -1,404 +1,652 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E0B22D29C7;
-	Thu, 16 Apr 2026 03:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776309804; cv=none; b=nODWWntGP1Zi+LXYrqYnXDFnD7NTpN+x8FnSWHDoGpBeMVatwSQDipVuo0kp+ixEGcme3fQvcZiUYp0t5TU4LmzKR/hFCDF+KO0/6ndzoLSKlp8+XlaZBOPQOcGRKchB0vV4IAHmjpO6qnWrgn/m1i6qj/+lEZzQR+ItawLnElU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776309804; c=relaxed/simple;
-	bh=HlQX4Adau2R5onNZ4hQZ9wPsgjH+B/IhganZTtXcGdc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kO+AQBFEhOzaa71NDTBiUd8E8FpdOmalZxj3EAisw6/FO4Vg0smJwJgxVw4EbnIZVodJIFVRrA5UMa6itO1k90jZW/h1ap/ovCZCwhBSe/aSUpaM0O+TiEZxrZnKQfrvv9C4c7tSC14QKLmSXoFM5wrjtMU/i4LTZVwSFHVk61g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Xo/eSRnR; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FF830EF64
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 04:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776312898; cv=pass; b=i8Nq53324Imc2xdWVRej1Z66kB0D3cOtsAKuTYvQM8eefsfSuBW/A+DYgO/tc+5uewFL46Nt6o4rRnqsA0gB+yWlRQKfqmnf22pdSOzW4IzYwTl5y/kpYcmIWzpPRkh5JDACowB23GsTX5f53Wc9VO/MQ3KHJbDTQygkeV+/tok=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776312898; c=relaxed/simple;
+	bh=dWz91ARxLsGlXW7XSGaqXIVfC7WDn8iro5Npuj98YlM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=n2fuqM7CtfidjPg8KQ6bMztMcwEitBbGEj42oLCnDxekFnp0y1kzmHvQJKh57V2kloh0Q6GUG5YBFi2HvOYjqYx0IinRQBa5b5UdNW5ctvWiPd0cwOD5U3o4gFXU5YoiYyA7+N6L4VJbj8jRuw/jlJH4MyTZCdBGqE19Gp2K8vY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ezTxOkk8; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=gbeyduiH; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Xo/eSRnR"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63FGpUVH1804500;
-	Thu, 16 Apr 2026 03:16:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=qhmxM3
-	gr/wrpaVGlpBEOBItyUitHGshfPV2GbWA1xao=; b=Xo/eSRnR0LrfGOs7yMqPRm
-	c4vHxJ8T7Wu0sS0VE9Oy9GE0UJjsm4deG3d4CPEwqxqDTxgLBSVhyeq7Rx7nP2O5
-	RIoYah6RKcziF1j2+XXIDyuHYwHfmgY97ZIZg7eZGjv2y85KEbl5UtFkA9a/bwXf
-	86elMDDCyRRwJwZ0RP+9JbdZntXfM8wp6eYkqidRHNGcL4Cq5w7nmM+sNJeQg2SB
-	4GSKpLos2tsJ54Y7ppjiJJuNox3sKjMTh7I2nnvALcToGn7lQScVP/+TDxxXLnCT
-	9v6zLlnHWf938mo/uvE6HQwgaYICGYEGy9/sMCM7KW9uzXy02WwURMsJzsHrdpjg
-	==
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dh89kaq06-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Apr 2026 03:16:35 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 63G1ojII003594;
-	Thu, 16 Apr 2026 03:16:34 GMT
-Received: from smtprelay07.wdc07v.mail.ibm.com ([172.16.1.74])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dg1mnh4j5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Apr 2026 03:16:34 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay07.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63G3GXFu26149520
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 16 Apr 2026 03:16:33 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6758658095;
-	Thu, 16 Apr 2026 03:16:33 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C07655809C;
-	Thu, 16 Apr 2026 03:16:30 +0000 (GMT)
-Received: from [9.61.145.232] (unknown [9.61.145.232])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 16 Apr 2026 03:16:30 +0000 (GMT)
-Message-ID: <1569ac4b-a569-4c78-a415-7e9c189d9cb6@linux.ibm.com>
-Date: Wed, 15 Apr 2026 23:16:29 -0400
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ezTxOkk8";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="gbeyduiH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776312896;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cRivx3o9YlPIRYPzXoVedxYyHVyEWOjBKnATULWHp3k=;
+	b=ezTxOkk85KDidRcdmJui7vXbd4Ir0teQUCNm0D0500u4GBW5gqj6wrZE8JZz2NTUjOltbK
+	wp1Xxz467iRbCoYFT0S+K0jseBol44WtGx0SULTQ3RLmAj2kkgjKPtzBCvb97mfRQjOojL
+	vdQcQoUSJFi5FvaBnb/Hx9p22CUtx3k=
+Received: from mail-yx1-f70.google.com (mail-yx1-f70.google.com
+ [74.125.224.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-660-2nfIWhSAO_G7iItlJkc9dQ-1; Thu, 16 Apr 2026 00:14:53 -0400
+X-MC-Unique: 2nfIWhSAO_G7iItlJkc9dQ-1
+X-Mimecast-MFC-AGG-ID: 2nfIWhSAO_G7iItlJkc9dQ_1776312893
+Received: by mail-yx1-f70.google.com with SMTP id 956f58d0204a3-64eb0bbab48so388297d50.1
+        for <linux-doc@vger.kernel.org>; Wed, 15 Apr 2026 21:14:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776312893; cv=none;
+        d=google.com; s=arc-20240605;
+        b=eRYYXnDqNhw9U97PgJifjyH8icLNVDuv6muSJzVZVkNMEZLY0nxkKe5RZGVDkj6MZv
+         F7WwSwtPZmqkgO8tNC1K4oZEVcTWgorc0Zdu8Y4yVL/Rjj5m0TzF8e88AeFUi2++xNcG
+         8oDmz+u6eD9uoYQtLn9WlaTacRtQg+DHldviqFqD3lts/uRuU6dhoLbXjAOu4GSpq81l
+         sXp04eMFCXp41goUb9J1vyfmm3Wz9mVszkyeh01xO2BK2gsHEavjlwu55JkOuJFdLuzs
+         zMwYGhbs26eeJQHoor533xaBTF+wL7XToWUXxf3rr/iiJjebwuDIhm0eK/hm7qWrbRyH
+         Blog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=cRivx3o9YlPIRYPzXoVedxYyHVyEWOjBKnATULWHp3k=;
+        fh=j7Tv1QckJQ4bPZP7abpYbj1Medulczw4g57Ej4XMALk=;
+        b=NzBw1wxDvFWpxunM2jLKuzir5YS71eJiO/Oc4boploiUzMWg8xkkRp4jMbh864fQg5
+         uG7KrrIFLXHKaDwb0NF1F6pQE7Y8KNQaMfztIIRneKfvOFoWLOFnUFzjPmCMlym2X7up
+         GqLSWEDH2CGHm4BGJ4Pqvn4czGqRjJqBueDbevUeB2zwDTbj/MuyxvVFQbTf4T7VAQqX
+         h2RNEElW/6MeSlg91/bbwXYoZbyJbCD1TAAqTbN9x/i+uoCPSYFheOfjMLfcTtOxZTrf
+         ajzT8LuMW7EI7ALO2cUboC37XmiulcfuiDEJfbogbuhrwlUWMPig2m6NBittu2LaJpA3
+         fgCg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1776312893; x=1776917693; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cRivx3o9YlPIRYPzXoVedxYyHVyEWOjBKnATULWHp3k=;
+        b=gbeyduiHQpqUGUW2WwktgQAI0YFC3Bou+YF/IET64XRVzVhXwHuNxLqhXXn2hlvsgV
+         v27JN13xuFnHKFf+fNVXX7dq4T/mUOMk9su/YAIx/EGhIlL/0FBPbml+7aDiblZ3HtZc
+         ObUyOtP062LH7YE0KvS+irBj46SVwsbLdqpxPus19SEQuJZkLvBr4gwAl6aUDfyLRhnV
+         48UhiapCpVgM/tPoOdHgQgNkXYBk+gLEuPYMXKfNS7NsGvZ7AT1gCSZeF2e8Xag5OevN
+         /EzPVSUh3F134U+Z7HNFTyhaSjmRqR93Kp0tVvOqaSa7zjlXvpiIXgYHjPjHsym22olZ
+         ynvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776312893; x=1776917693;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=cRivx3o9YlPIRYPzXoVedxYyHVyEWOjBKnATULWHp3k=;
+        b=aiDxGbMDv+SwQP1u30s/hz8pLzWXMaz0JtR9viVZLNzexLstirdxibm9ZFMV4fs33n
+         hQ8aD5vWI1IWtAWiZ9DmJP5ujLKeNmItGK6qswHIiKxrPZrhf1/GCYMxzCJdww5GHKbF
+         VN0J78VQFrxujHfUpPM6oRWZDy98n7GtCJQLkGbNgLlpu9AaN/dLVP/DJAzBeqzylcjc
+         G/fTXwdE0/L384XG3zwRnSkl4b8qVdgCGWUKOypMlYqU/3md2EXtrflA2SUcPJTqwwzl
+         Ci5Ua8xVsUJMjQ94gQtUHXwz3IWtx1NQAwQGV8hEFLkgsF1MOqF4hdEucT7xXDq00EIl
+         3v7A==
+X-Gm-Message-State: AOJu0Yzf6ORyZgxWGFyB15kM495u4xDpX3XjzvGTL0fwALcV1VHxHwYM
+	ng+zqeIA3prn48A7AZRWZM9wllq7dOI1dCsYqVvxvj5L4urMJiQgChpnczHuPuxdxFCeAkwqmVk
+	iW31WMG4VLpG2069v614Jtx4O4UpgGuVbixFXl22xZd9in63R5wjiPSSJDNNepMi5vX24OqhxXv
+	vtLm1EGoUBRmBzhqMOjumJ3+xoxsPMLCJmu9h2
+X-Gm-Gg: AeBDieuDEzbc1SnCjIXTHFoW0vMb4AC+ZvsIgHx1XKY2iKyeGEXZIp7/3iTPqVfwNh2
+	/uOrTwqtGX9zjC5zlTtguoXtmKph7QsSteBrsMZ81IlcKoBlMY1Bm9OdoJY2M/WmL52awTNaviz
+	zkuWLGQDQUWiywTB+q1/LaVKDwzojR1MbIt9ABv4Qs2p0B258vj6LbpwYsrzRF/GRWC68RdYmqZ
+	PhYjG9Jd+E/NJezxME=
+X-Received: by 2002:a53:ac9a:0:b0:651:d5cb:a490 with SMTP id 956f58d0204a3-65300f34cedmr63553d50.9.1776312892744;
+        Wed, 15 Apr 2026 21:14:52 -0700 (PDT)
+X-Received: by 2002:a53:ac9a:0:b0:651:d5cb:a490 with SMTP id
+ 956f58d0204a3-65300f34cedmr63494d50.9.1776312892131; Wed, 15 Apr 2026
+ 21:14:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] KEYS: trusted: Debugging as a feature
-To: Jarkko Sakkinen <jarkko@kernel.org>, linux-integrity@vger.kernel.org
-Cc: Srish Srinivasan <ssrish@linux.ibm.com>, Jonathan Corbet
- <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        James Bottomley <James.Bottomley@HansenPartnership.com>,
-        Mimi Zohar <zohar@linux.ibm.com>, David Howells <dhowells@redhat.com>,
-        Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
-        "Serge E. Hallyn" <serge@hallyn.com>,
-        Ahmad Fatoum
- <a.fatoum@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        "Borislav Petkov (AMD)" <bp@alien8.de>,
-        Randy Dunlap
- <rdunlap@infradead.org>,
-        Dave Hansen <dave.hansen@linux.intel.com>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Feng Tang <feng.tang@linux.alibaba.com>,
-        Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
-        Marco Elver <elver@google.com>, Li RongQing <lirongqing@baidu.com>,
-        "Paul E. McKenney" <paulmck@kernel.org>,
-        Thomas Gleixner <tglx@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        keyrings@vger.kernel.org, linux-security-module@vger.kernel.org
-References: <20260415111202.63888-1-jarkko@kernel.org>
-Content-Language: en-US
-From: Nayna Jain <nayna@linux.ibm.com>
-In-Reply-To: <20260415111202.63888-1-jarkko@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-GUID: KQs0K3VmyIOiiaAotl8jIaQj_pgOcwaG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE2MDAyNCBTYWx0ZWRfX7jdsV3hJl25F
- wgNI/yzuVOIDxGsHByiCGYlO+b2RZJiYQQHpXqtPnP2l/PXX9yaxCsiwgZtNpB5gsGXKUGX5CdJ
- DByWXWoK8un5jrBw3448Z3/hJ4E5W9sY+BWFzaOZ7eAXNB0p6p9YOLqykZG9ITrV8Z10whGoP8s
- WSwacaQHprnFlBCR/CiCw06JdzlgQDBdRhvWmu3zvgSxlWzZhinTfeSZgFRFkaNYOMDc5nqxd9X
- YTWOez6IA+uAC/VGSFbheIULWPtTEdMzVe5rAT/fJmVrOdDaPM90HTOjSECwPUu+8WOZJNekMv9
- nIOnGlo3NSR/rC/l3WU2vA7mbPp0aUxbXx9BH0gx0UDaLH969DhS6oslFnNJ7yuvbpClRjb8X2+
- tRhBSXnVha8xyp3hN0OqYajyHt59KYAtETvyhr6BUylbVFbBmPZuFIGJa/LKu92NfJeDBTMUvyT
- PWA9gC+e8U75129cgvw==
-X-Proofpoint-ORIG-GUID: au-3_HIjGvpReuOQLMWnpLP-U0wEWjrm
-X-Authority-Analysis: v=2.4 cv=W60IkxWk c=1 sm=1 tr=0 ts=69e05494 cx=c_pps
- a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=RzCfie-kr_QcCd8fBx8p:22 a=VwQbUJbxAAAA:8
- a=VnNF1IyMAAAA:8 a=zzKBsTiU_qEVFVDPJAMA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_01,2026-04-13_04,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 clxscore=1011 priorityscore=1501 spamscore=0 bulkscore=0
- adultscore=0 phishscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604160024
+References: <20260226031741.230674-1-npache@redhat.com> <20260226032427.233282-1-npache@redhat.com>
+ <9f0b8790-eace-4caa-a0c0-45f66285887f@lucifer.local>
+In-Reply-To: <9f0b8790-eace-4caa-a0c0-45f66285887f@lucifer.local>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 15 Apr 2026 22:14:45 -0600
+X-Gm-Features: AQROBzC1KKy87TR-iBvBmj4hP_sLQhLGbBJB_L1VWLUErkn8zNpUDcEW6TlhoHU
+Message-ID: <CAA1CXcDL20wS5u7FHHK8JFL5OVcopLtLrdwt34zN4RfriXsefg@mail.gmail.com>
+Subject: Re: [PATCH mm-unstable v15 05/13] mm/khugepaged: generalize
+ collapse_huge_page for mTHP collapse
+To: "Lorenzo Stoakes (Oracle)" <ljs@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-mm@kvack.org, linux-trace-kernel@vger.kernel.org, aarcange@redhat.com, 
+	akpm@linux-foundation.org, anshuman.khandual@arm.com, apopple@nvidia.com, 
+	baohua@kernel.org, baolin.wang@linux.alibaba.com, byungchul@sk.com, 
+	catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, david@kernel.org, dev.jain@arm.com, 
+	gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, 
+	jackmanb@google.com, jannh@google.com, jglisse@google.com, 
+	joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev, 
+	Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
+	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
+	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
+	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
+	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
+	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-On 4/15/26 7:12 AM, Jarkko Sakkinen wrote:
-> TPM_DEBUG, and other similar flags, are a non-standard way to specify a
-> feature in Linux kernel. Introduce CONFIG_TRUSTED_KEYS_DEBUG for trusted
-> keys, and use it to replace these ad-hoc feature flags.
+On Tue, Mar 17, 2026 at 10:52=E2=80=AFAM Lorenzo Stoakes (Oracle)
+<ljs@kernel.org> wrote:
 >
-> Given that trusted keys debug dumps can contain sensitive data, harden the
-> feature as follows:
+> On Wed, Feb 25, 2026 at 08:24:27PM -0700, Nico Pache wrote:
+> > Pass an order and offset to collapse_huge_page to support collapsing an=
+on
+> > memory to arbitrary orders within a PMD. order indicates what mTHP size=
+ we
+> > are attempting to collapse to, and offset indicates were in the PMD to
+> > start the collapse attempt.
+> >
+> > For non-PMD collapse we must leave the anon VMA write locked until afte=
+r
+> > we collapse the mTHP-- in the PMD case all the pages are isolated, but =
+in
 >
-> 1. In the Kconfig description postulate that pr_debug() statements must be
->     used.
-> 2. Use pr_debug() statements in TPM 1.x driver to print the protocol dump.
-> 3. Require trusted.debug=1 on the kernel command line (default: 0) to
->     activate dumps at runtime, even when CONFIG_TRUSTED_KEYS_DEBUG=y.
->
-> Traces, when actually needed, can be easily enabled by providing
-> trusted.dyndbg='+p' and trusted.debug=1 in the kernel command-line.
+> The '--' seems weird here :) maybe meant to be ' - '?
 
-Thanks for adding the documentation.
-
-Reviewed-by: Nayna Jain <nayna@linux.ibm.com>
+It's called an em-dash, and I've been utilizing them for ages. Sadly,
+AI likes to use them too so it looks like I'm using AI when I write
+things ;p
 
 >
-> Reported-by: Nayna Jain <nayna@linux.ibm.com>
-> Closes: https://lore.kernel.org/all/7f8b8478-5cd8-4d97-bfd0-341fd5cf10f9@linux.ibm.com/
-> Reviewed-by: Nayna Jain <nayna@linux.ibm.com>
-> Tested-by: Srish Srinivasan <ssrish@linux.ibm.com>
-> Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
-> ---
-> v4:
-> - Added kernel parameter documentation.t
-> - Added tags from Srishand and Nayna.
-> - Sanity check round. This version will be applied unless there is
->    something specific to address.
-> v3:
-> - Add kernel-command line option for enabling the traces.
-> - Add safety information to the Kconfig entry.
-> v2:
-> - Implement for all trusted keys backends.
-> - Add HAVE_TRUSTED_KEYS_DEBUG as it is a good practice despite full
->    coverage.
-> ---
->   .../admin-guide/kernel-parameters.txt         | 16 +++++++
->   include/keys/trusted-type.h                   | 21 +++++----
->   security/keys/trusted-keys/Kconfig            | 23 ++++++++++
->   security/keys/trusted-keys/trusted_caam.c     |  7 ++-
->   security/keys/trusted-keys/trusted_core.c     |  6 +++
->   security/keys/trusted-keys/trusted_tpm1.c     | 44 +++++++++++--------
->   6 files changed, 87 insertions(+), 30 deletions(-)
+> > the mTHP case this is not true, and we must keep the lock to prevent
+> > changes to the VMA from occurring.
 >
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index f2ce1f4975c1..f1515668c8ab 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -7917,6 +7917,22 @@ Kernel parameters
->   			first trust source as a backend which is initialized
->   			successfully during iteration.
->   
-> +	trusted.debug=	[KEYS]
-> +			Format: <bool>
-> +			Enable trusted keys debug traces at runtime when
-> +			CONFIG_TRUSTED_KEYS_DEBUG=y.
-> +
-> +			To make the traces visible after enabling the option,
-> +			use trusted.dyndbg='+p' as needed. By convention,
-> +			the subsystem uses pr_debug() for these traces.
-> +
-> +			SAFETY: The traces can leak sensitive data, so be
-> +			cautious before enabling this. They remain inactive
-> +			unless this parameter is set this option to  a true
-> +			value.
-> +
-> +			Default: false
-> +
->   	trusted.rng=	[KEYS]
->   			Format: <string>
->   			The RNG used to generate key material for trusted keys.
-> diff --git a/include/keys/trusted-type.h b/include/keys/trusted-type.h
-> index 03527162613f..9f9940482da4 100644
-> --- a/include/keys/trusted-type.h
-> +++ b/include/keys/trusted-type.h
-> @@ -83,18 +83,21 @@ struct trusted_key_source {
->   
->   extern struct key_type key_type_trusted;
->   
-> -#define TRUSTED_DEBUG 0
-> +#ifdef CONFIG_TRUSTED_KEYS_DEBUG
-> +extern bool trusted_debug;
->   
-> -#if TRUSTED_DEBUG
->   static inline void dump_payload(struct trusted_key_payload *p)
->   {
-> -	pr_info("key_len %d\n", p->key_len);
-> -	print_hex_dump(KERN_INFO, "key ", DUMP_PREFIX_NONE,
-> -		       16, 1, p->key, p->key_len, 0);
-> -	pr_info("bloblen %d\n", p->blob_len);
-> -	print_hex_dump(KERN_INFO, "blob ", DUMP_PREFIX_NONE,
-> -		       16, 1, p->blob, p->blob_len, 0);
-> -	pr_info("migratable %d\n", p->migratable);
-> +	if (!trusted_debug)
-> +		return;
-> +
-> +	pr_debug("key_len %d\n", p->key_len);
-> +	print_hex_dump_debug("key ", DUMP_PREFIX_NONE,
-> +			     16, 1, p->key, p->key_len, 0);
-> +	pr_debug("bloblen %d\n", p->blob_len);
-> +	print_hex_dump_debug("blob ", DUMP_PREFIX_NONE,
-> +			     16, 1, p->blob, p->blob_len, 0);
-> +	pr_debug("migratable %d\n", p->migratable);
->   }
->   #else
->   static inline void dump_payload(struct trusted_key_payload *p)
-> diff --git a/security/keys/trusted-keys/Kconfig b/security/keys/trusted-keys/Kconfig
-> index 9e00482d886a..e5a4a53aeab2 100644
-> --- a/security/keys/trusted-keys/Kconfig
-> +++ b/security/keys/trusted-keys/Kconfig
-> @@ -1,10 +1,29 @@
->   config HAVE_TRUSTED_KEYS
->   	bool
->   
-> +config HAVE_TRUSTED_KEYS_DEBUG
-> +	bool
-> +
-> +config TRUSTED_KEYS_DEBUG
-> +	bool "Debug trusted keys"
-> +	depends on HAVE_TRUSTED_KEYS_DEBUG
-> +	default n
-> +	help
-> +	  Trusted key backends and core code that support debug traces can
-> +	  opt-in that feature here. Traces must only use debug level output, as
-> +	  sensitive data may pass by. In the kernel-command line traces can be
-> +	  enabled via trusted.dyndbg='+p'.
-> +
-> +	  SAFETY: Debug dumps are inactive at runtime until trusted.debug is set
-> +	  to a true value on the kernel command-line. Use at your utmost
-> +	  consideration when enabling this feature on a production build. The
-> +	  general advice is not to do this.
-> +
->   config TRUSTED_KEYS_TPM
->   	bool "TPM-based trusted keys"
->   	depends on TCG_TPM >= TRUSTED_KEYS
->   	default y
-> +	select HAVE_TRUSTED_KEYS_DEBUG
->   	select CRYPTO_HASH_INFO
->   	select CRYPTO_LIB_SHA1
->   	select CRYPTO_LIB_UTILS
-> @@ -23,6 +42,7 @@ config TRUSTED_KEYS_TEE
->   	bool "TEE-based trusted keys"
->   	depends on TEE >= TRUSTED_KEYS
->   	default y
-> +	select HAVE_TRUSTED_KEYS_DEBUG
->   	select HAVE_TRUSTED_KEYS
->   	help
->   	  Enable use of the Trusted Execution Environment (TEE) as trusted
-> @@ -33,6 +53,7 @@ config TRUSTED_KEYS_CAAM
->   	depends on CRYPTO_DEV_FSL_CAAM_JR >= TRUSTED_KEYS
->   	select CRYPTO_DEV_FSL_CAAM_BLOB_GEN
->   	default y
-> +	select HAVE_TRUSTED_KEYS_DEBUG
->   	select HAVE_TRUSTED_KEYS
->   	help
->   	  Enable use of NXP's Cryptographic Accelerator and Assurance Module
-> @@ -42,6 +63,7 @@ config TRUSTED_KEYS_DCP
->   	bool "DCP-based trusted keys"
->   	depends on CRYPTO_DEV_MXS_DCP >= TRUSTED_KEYS
->   	default y
-> +	select HAVE_TRUSTED_KEYS_DEBUG
->   	select HAVE_TRUSTED_KEYS
->   	help
->   	  Enable use of NXP's DCP (Data Co-Processor) as trusted key backend.
-> @@ -50,6 +72,7 @@ config TRUSTED_KEYS_PKWM
->   	bool "PKWM-based trusted keys"
->   	depends on PSERIES_PLPKS >= TRUSTED_KEYS
->   	default y
-> +	select HAVE_TRUSTED_KEYS_DEBUG
->   	select HAVE_TRUSTED_KEYS
->   	help
->   	  Enable use of IBM PowerVM Key Wrapping Module (PKWM) as a trusted key backend.
-> diff --git a/security/keys/trusted-keys/trusted_caam.c b/security/keys/trusted-keys/trusted_caam.c
-> index 601943ce0d60..6a33dbf2a7f5 100644
-> --- a/security/keys/trusted-keys/trusted_caam.c
-> +++ b/security/keys/trusted-keys/trusted_caam.c
-> @@ -28,10 +28,13 @@ static const match_table_t key_tokens = {
->   	{opt_err, NULL}
->   };
->   
-> -#ifdef CAAM_DEBUG
-> +#ifdef CONFIG_TRUSTED_KEYS_DEBUG
->   static inline void dump_options(const struct caam_pkey_info *pkey_info)
->   {
-> -	pr_info("key encryption algo %d\n", pkey_info->key_enc_algo);
-> +	if (!trusted_debug)
-> +		return;
-> +
-> +	pr_debug("key encryption algo %d\n", pkey_info->key_enc_algo);
->   }
->   #else
->   static inline void dump_options(const struct caam_pkey_info *pkey_info)
-> diff --git a/security/keys/trusted-keys/trusted_core.c b/security/keys/trusted-keys/trusted_core.c
-> index 0b142d941cd2..6aed17bee09d 100644
-> --- a/security/keys/trusted-keys/trusted_core.c
-> +++ b/security/keys/trusted-keys/trusted_core.c
-> @@ -31,6 +31,12 @@ static char *trusted_rng = "default";
->   module_param_named(rng, trusted_rng, charp, 0);
->   MODULE_PARM_DESC(rng, "Select trusted key RNG");
->   
-> +#ifdef CONFIG_TRUSTED_KEYS_DEBUG
-> +bool trusted_debug;
-> +module_param_named(debug, trusted_debug, bool, 0);
-> +MODULE_PARM_DESC(debug, "Enable trusted keys debug traces (default: 0)");
-> +#endif
-> +
->   static char *trusted_key_source;
->   module_param_named(source, trusted_key_source, charp, 0);
->   MODULE_PARM_DESC(source, "Select trusted keys source (tpm, tee, caam, dcp or pkwm)");
-> diff --git a/security/keys/trusted-keys/trusted_tpm1.c b/security/keys/trusted-keys/trusted_tpm1.c
-> index 6ea728f1eae6..13513819991e 100644
-> --- a/security/keys/trusted-keys/trusted_tpm1.c
-> +++ b/security/keys/trusted-keys/trusted_tpm1.c
-> @@ -46,38 +46,44 @@ enum {
->   	SRK_keytype = 4
->   };
->   
-> -#define TPM_DEBUG 0
-> -
-> -#if TPM_DEBUG
-> +#ifdef CONFIG_TRUSTED_KEYS_DEBUG
->   static inline void dump_options(struct trusted_key_options *o)
->   {
-> -	pr_info("sealing key type %d\n", o->keytype);
-> -	pr_info("sealing key handle %0X\n", o->keyhandle);
-> -	pr_info("pcrlock %d\n", o->pcrlock);
-> -	pr_info("pcrinfo %d\n", o->pcrinfo_len);
-> -	print_hex_dump(KERN_INFO, "pcrinfo ", DUMP_PREFIX_NONE,
-> -		       16, 1, o->pcrinfo, o->pcrinfo_len, 0);
-> +	if (!trusted_debug)
-> +		return;
-> +
-> +	pr_debug("sealing key type %d\n", o->keytype);
-> +	pr_debug("sealing key handle %0X\n", o->keyhandle);
-> +	pr_debug("pcrlock %d\n", o->pcrlock);
-> +	pr_debug("pcrinfo %d\n", o->pcrinfo_len);
-> +	print_hex_dump_debug("pcrinfo ", DUMP_PREFIX_NONE,
-> +			     16, 1, o->pcrinfo, o->pcrinfo_len, 0);
->   }
->   
->   static inline void dump_sess(struct osapsess *s)
->   {
-> -	print_hex_dump(KERN_INFO, "trusted-key: handle ", DUMP_PREFIX_NONE,
-> -		       16, 1, &s->handle, 4, 0);
-> -	pr_info("secret:\n");
-> -	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE,
-> -		       16, 1, &s->secret, SHA1_DIGEST_SIZE, 0);
-> -	pr_info("trusted-key: enonce:\n");
-> -	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE,
-> -		       16, 1, &s->enonce, SHA1_DIGEST_SIZE, 0);
-> +	if (!trusted_debug)
-> +		return;
-> +
-> +	print_hex_dump_debug("trusted-key: handle ", DUMP_PREFIX_NONE,
-> +			     16, 1, &s->handle, 4, 0);
-> +	pr_debug("secret:\n");
-> +	print_hex_dump_debug("", DUMP_PREFIX_NONE,
-> +			     16, 1, &s->secret, SHA1_DIGEST_SIZE, 0);
-> +	pr_debug("trusted-key: enonce:\n");
-> +	print_hex_dump_debug("", DUMP_PREFIX_NONE,
-> +			     16, 1, &s->enonce, SHA1_DIGEST_SIZE, 0);
->   }
->   
->   static inline void dump_tpm_buf(unsigned char *buf)
->   {
->   	int len;
->   
-> -	pr_info("\ntpm buffer\n");
-> +	if (!trusted_debug)
-> +		return;
-> +	pr_debug("\ntpm buffer\n");
->   	len = LOAD32(buf, TPM_SIZE_OFFSET);
-> -	print_hex_dump(KERN_INFO, "", DUMP_PREFIX_NONE, 16, 1, buf, len, 0);
-> +	print_hex_dump_debug("", DUMP_PREFIX_NONE, 16, 1, buf, len, 0);
->   }
->   #else
->   static inline void dump_options(struct trusted_key_options *o)
+> You mean changes to the page tables right? rmap won't alter VMA parameter=
+s
+> without a VMA lock. Better to be specific.
+
+yes, I will update, thanks!
+
+>
+> >
+> > Also convert these BUG_ON's to WARN_ON_ONCE's as these conditions, whil=
+e
+> > unexpected, should not bring down the system.
+> >
+> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Tested-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >  mm/khugepaged.c | 102 +++++++++++++++++++++++++++++-------------------
+> >  1 file changed, 62 insertions(+), 40 deletions(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 99f78f0e44c6..fb3ba8fe5a6c 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -1150,44 +1150,53 @@ static enum scan_result alloc_charge_folio(stru=
+ct folio **foliop, struct mm_stru
+> >       return SCAN_SUCCEED;
+> >  }
+> >
+> > -static enum scan_result collapse_huge_page(struct mm_struct *mm, unsig=
+ned long address,
+> > -             int referenced, int unmapped, struct collapse_control *cc=
+)
+> > +static enum scan_result collapse_huge_page(struct mm_struct *mm, unsig=
+ned long start_addr,
+> > +             int referenced, int unmapped, struct collapse_control *cc=
+,
+> > +             bool *mmap_locked, unsigned int order)
+>
+> This is getting horrible, could we maybe look at passing through a helper
+> struct or something?
+
+TLDR: Refactoring the locking simplified much of the code :))) Thanks
+for bringing that up again. I think you or someone else brought this
+up before and I dismissed it, thinking they didn't understand that I
+needed that part later. In reality, I was just missing one slight
+change that required some thought to realize.
+
+Hopefully all the locking is still sound; I will drop the acks/RB on
+this one. Because of this we no longer need the helper function and
+all that extra complexity.
+
+>
+> >  {
+> >       LIST_HEAD(compound_pagelist);
+> >       pmd_t *pmd, _pmd;
+> > -     pte_t *pte;
+> > +     pte_t *pte =3D NULL;
+> >       pgtable_t pgtable;
+> >       struct folio *folio;
+> >       spinlock_t *pmd_ptl, *pte_ptl;
+> >       enum scan_result result =3D SCAN_FAIL;
+> >       struct vm_area_struct *vma;
+> >       struct mmu_notifier_range range;
+> > +     bool anon_vma_locked =3D false;
+> > +     const unsigned long pmd_address =3D start_addr & HPAGE_PMD_MASK;
+>
+> We have start_addr and pmd_address, let's make our mind up and call both
+> either addr or address please.
+
+ok
+
+>
+> >
+> > -     VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+> > +     VM_WARN_ON_ONCE(pmd_address & ~HPAGE_PMD_MASK);
+>
+> You just masked this with HPAGE_PMD_MASK then check & ~HPAGE_PMD_MASK? :)
+>
+> Can we just drop it? :)
+
+im cool with that.
+
+>
+> >
+> >       /*
+> >        * Before allocating the hugepage, release the mmap_lock read loc=
+k.
+> >        * The allocation can take potentially a long time if it involves
+> >        * sync compaction, and we do not need to hold the mmap_lock duri=
+ng
+> >        * that. We will recheck the vma after taking it again in write m=
+ode.
+> > +      * If collapsing mTHPs we may have already released the read_lock=
+.
+> >        */
+> > -     mmap_read_unlock(mm);
+> > +     if (*mmap_locked) {
+> > +             mmap_read_unlock(mm);
+> > +             *mmap_locked =3D false;
+> > +     }
+>
+> If you use a helper struct you can write a function that'll do both of
+> these at once, E.g.:
+>
+> static void scan_mmap_unlock(struct scan_state *scan)
+> {
+>         if (!scan->mmap_locked)
+>                 return;
+>
+>         mmap_read_unlock(scan->mm);
+>         scan->mmap_locked =3D false;
+> }
+>
+>         ...
+>
+>         scan_mmap_unlock(scan_state);
+>
+> >
+> > -     result =3D alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+> > +     result =3D alloc_charge_folio(&folio, mm, cc, order);
+> >       if (result !=3D SCAN_SUCCEED)
+> >               goto out_nolock;
+> >
+> >       mmap_read_lock(mm);
+> > -     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc,
+> > -                                      HPAGE_PMD_ORDER);
+> > +     *mmap_locked =3D true;
+> > +     result =3D hugepage_vma_revalidate(mm, pmd_address, true, &vma, c=
+c, order);
+>
+> Be nice to add a /*expect_anon=3D*/true, here so we can read what paramet=
+er
+> that is at a glance.
+
+ack!
+
+>
+> >       if (result !=3D SCAN_SUCCEED) {
+> >               mmap_read_unlock(mm);
+> > +             *mmap_locked =3D false;
+> >               goto out_nolock;
+> >       }
+> >
+> > -     result =3D find_pmd_or_thp_or_none(mm, address, &pmd);
+> > +     result =3D find_pmd_or_thp_or_none(mm, pmd_address, &pmd);
+> >       if (result !=3D SCAN_SUCCEED) {
+> >               mmap_read_unlock(mm);
+> > +             *mmap_locked =3D false;
+> >               goto out_nolock;
+> >       }
+> >
+> > @@ -1197,13 +1206,16 @@ static enum scan_result collapse_huge_page(stru=
+ct mm_struct *mm, unsigned long a
+> >                * released when it fails. So we jump out_nolock directly=
+ in
+> >                * that case.  Continuing to collapse causes inconsistenc=
+y.
+> >                */
+> > -             result =3D __collapse_huge_page_swapin(mm, vma, address, =
+pmd,
+> > -                                                  referenced, HPAGE_PM=
+D_ORDER);
+> > -             if (result !=3D SCAN_SUCCEED)
+> > +             result =3D __collapse_huge_page_swapin(mm, vma, start_add=
+r, pmd,
+> > +                                                  referenced, order);
+> > +             if (result !=3D SCAN_SUCCEED) {
+> > +                     *mmap_locked =3D false;
+> >                       goto out_nolock;
+> > +             }
+> >       }
+> >
+> >       mmap_read_unlock(mm);
+> > +     *mmap_locked =3D false;
+> >       /*
+> >        * Prevent all access to pagetables with the exception of
+> >        * gup_fast later handled by the ptep_clear_flush and the VM
+> > @@ -1213,20 +1225,20 @@ static enum scan_result collapse_huge_page(stru=
+ct mm_struct *mm, unsigned long a
+> >        * mmap_lock.
+> >        */
+> >       mmap_write_lock(mm);
+>
+> Hmm you take an mmap... write lock here then don/t set *mmap_locked =3D
+> true... It's inconsistent and bug prone.
+
+yay we no longer need the gross lock tracking :)
+
+>
+> I'm also seriously not a fan of switching between mmap read and write loc=
+k
+> here but keeping an *mmap_locked parameter here which is begging for a bu=
+g.
+>
+> In general though, you seem to always make sure in the (fairly hideous
+> honestly) error goto labels to have the mmap lock dropped, so what is the
+> point in keeping the *mmap_locked parameter updated throughou this anyway=
+?
+
+Cleaned up the locking and its all much better now
+
+>
+> Are we ever exiting with it set? If not why not drop the parameter/helper
+> struct field and just have the caller understand that it's dropped on exi=
+t
+> (and document that).
+
+This...
+
+>
+> Since you're just dropping the lock on entry, why not have the caller do
+> that and document that you have to enter unlocked anyway?
+
+
++ moving one piece of code up into the parent (the part I was missing
+conceptually) solved all this. Thanks!
+
+>
+>
+> > -     result =3D hugepage_vma_revalidate(mm, address, true, &vma, cc,
+> > -                                      HPAGE_PMD_ORDER);
+> > +     result =3D hugepage_vma_revalidate(mm, pmd_address, true, &vma, c=
+c, order);
+> >       if (result !=3D SCAN_SUCCEED)
+> >               goto out_up_write;
+> >       /* check if the pmd is still valid */
+> >       vma_start_write(vma);
+> > -     result =3D check_pmd_still_valid(mm, address, pmd);
+> > +     result =3D check_pmd_still_valid(mm, pmd_address, pmd);
+> >       if (result !=3D SCAN_SUCCEED)
+> >               goto out_up_write;
+> >
+> >       anon_vma_lock_write(vma->anon_vma);
+> > +     anon_vma_locked =3D true;
+>
+> Again with a helper struct you can abstract this and avoid more noise.
+>
+> E.g. scan_anon_vma_lock_write(scan);
+>
+> >
+> > -     mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, address,
+> > -                             address + HPAGE_PMD_SIZE);
+> > +     mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, start_ad=
+dr,
+> > +                             start_addr + (PAGE_SIZE << order));
+>
+> I hate this open-coded 'start_addr + (PAGE_SIZE << order)' construct.
+>
+> If you use a helper struct (theme here :) you could have a macro that
+> generates it set an end param to this.
+
+Ill probably just do a variable with map_size or something. I dont
+think we need a helper for this.
+
+>
+>
+> >       mmu_notifier_invalidate_range_start(&range);
+> >
+> >       pmd_ptl =3D pmd_lock(mm, pmd); /* probably unnecessary */
+> > @@ -1238,24 +1250,21 @@ static enum scan_result collapse_huge_page(stru=
+ct mm_struct *mm, unsigned long a
+> >        * Parallel GUP-fast is fine since GUP-fast will back off when
+> >        * it detects PMD is changed.
+> >        */
+> > -     _pmd =3D pmdp_collapse_flush(vma, address, pmd);
+> > +     _pmd =3D pmdp_collapse_flush(vma, pmd_address, pmd);
+> >       spin_unlock(pmd_ptl);
+> >       mmu_notifier_invalidate_range_end(&range);
+> >       tlb_remove_table_sync_one();
+> >
+> > -     pte =3D pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+> > +     pte =3D pte_offset_map_lock(mm, &_pmd, start_addr, &pte_ptl);
+> >       if (pte) {
+> > -             result =3D __collapse_huge_page_isolate(vma, address, pte=
+, cc,
+> > -                                                   HPAGE_PMD_ORDER,
+> > -                                                   &compound_pagelist)=
+;
+> > +             result =3D __collapse_huge_page_isolate(vma, start_addr, =
+pte, cc,
+> > +                                                   order, &compound_pa=
+gelist);
+>
+> Will this work correctly with the non-PMD aligned start_addr?
+
+Yes we generalize all the other functions in the previous patch if
+that is what you are asking.
+
+>
+> >               spin_unlock(pte_ptl);
+> >       } else {
+> >               result =3D SCAN_NO_PTE_TABLE;
+> >       }
+> >
+> >       if (unlikely(result !=3D SCAN_SUCCEED)) {
+> > -             if (pte)
+> > -                     pte_unmap(pte);
+> >               spin_lock(pmd_ptl);
+> >               BUG_ON(!pmd_none(*pmd));
+>
+> Can we downgrade to WARN_ON_ONCE() as we pass by any BUG_ON()'s please?
+> Since we're churning here anyway it's worth doing :)
+
+ack.
+
+>
+> >               /*
+> > @@ -1265,21 +1274,21 @@ static enum scan_result collapse_huge_page(stru=
+ct mm_struct *mm, unsigned long a
+> >                */
+> >               pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+> >               spin_unlock(pmd_ptl);
+> > -             anon_vma_unlock_write(vma->anon_vma);
+> >               goto out_up_write;
+> >       }
+> >
+> >       /*
+> > -      * All pages are isolated and locked so anon_vma rmap
+> > -      * can't run anymore.
+> > +      * For PMD collapse all pages are isolated and locked so anon_vma
+> > +      * rmap can't run anymore. For mTHP collapse we must hold the loc=
+k
+>
+> This is really unclear. What does 'can't run anymore' mean? Why must we
+> hold the lock for mTHP?
+
+In the PMD case we have isolated all the pages in the PMD, so no
+changes can occur, and we don't need to hold the lock. in the mTHP
+case, the PMD is only partially isolated, so if we drop the lock,
+changes can occur to the rest of the PMD. This was based on a bug
+found by Hugh https://lore.kernel.org/lkml/7a81339c-f9e5-a718-fa7f-6e3fb134=
+dca5@google.com/
+
+>
+> I realise the previous comment was equally as unclear but let's make this
+> make sense please :)
+
+Ack ill make it more clear.
+
+>
+> >        */
+> > -     anon_vma_unlock_write(vma->anon_vma);
+> > +     if (is_pmd_order(order)) {
+> > +             anon_vma_unlock_write(vma->anon_vma);
+> > +             anon_vma_locked =3D false;
+> > +     }
+> >
+> >       result =3D __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+> > -                                        vma, address, pte_ptl,
+> > -                                        HPAGE_PMD_ORDER,
+> > -                                        &compound_pagelist);
+> > -     pte_unmap(pte);
+> > +                                        vma, start_addr, pte_ptl,
+> > +                                        order, &compound_pagelist);
+> >       if (unlikely(result !=3D SCAN_SUCCEED))
+> >               goto out_up_write;
+> >
+> > @@ -1289,20 +1298,34 @@ static enum scan_result collapse_huge_page(stru=
+ct mm_struct *mm, unsigned long a
+> >        * write.
+> >        */
+> >       __folio_mark_uptodate(folio);
+> > -     pgtable =3D pmd_pgtable(_pmd);
+> > +     if (is_pmd_order(order)) { /* PMD collapse */
+>
+> At this point we still hold the pte lock, is that intended? Are we sure
+> there won't be any issues leaving it held during the operations that now
+> happen before you release it?
+
+I will verify before posting, but nothing has shown up in all my
+testing (not that doesn't mean it's okay).
+
+>
+> > +             pgtable =3D pmd_pgtable(_pmd);
+> >
+> > -     spin_lock(pmd_ptl);
+> > -     BUG_ON(!pmd_none(*pmd));
+> > -     pgtable_trans_huge_deposit(mm, pmd, pgtable);
+> > -     map_anon_folio_pmd_nopf(folio, pmd, vma, address);
+> > +             spin_lock(pmd_ptl);
+> > +             WARN_ON_ONCE(!pmd_none(*pmd));
+> > +             pgtable_trans_huge_deposit(mm, pmd, pgtable);
+> > +             map_anon_folio_pmd_nopf(folio, pmd, vma, pmd_address);
+>
+> If we're PMD order start_addr =3D=3D pmd_address right?
+
+Correct. If you're asking why we don't uniformly use `start_addr`
+across the board, it's because using the PMD variable seemed clearer
+for PMD-related functions. Let me know which you prefer.
+
+>
+> > +     } else { /* mTHP collapse */
+> > +             spin_lock(pmd_ptl);
+> > +             WARN_ON_ONCE(!pmd_none(*pmd));
+>
+> You duplicate both of these lines in both branches, pull them out?
+
+Ill give that a shot.
+
+>
+> > +             map_anon_folio_pte_nopf(folio, pte, vma, start_addr, /*uf=
+fd_wp=3D*/ false);
+> > +             smp_wmb(); /* make PTEs visible before PMD. See pmd_insta=
+ll() */
+>
+> It'd be much nicer to call pmd_install() :)
+
+I don't think we can do that easily.
+
+>
+> Or maybe even to separate out the unlocked bit from pmd_install(), put th=
+at
+> in e.g. __pmd_install(), then use that after lock acquired?
+
+Can we please save all this for later? It's rather trivial; and last
+time I made a cosmetic change I broke something that i had spent over
+a year testing and verifying.
+
+>
+> > +             pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+> > +     }
+> >       spin_unlock(pmd_ptl);
+> >
+> >       folio =3D NULL;
+>
+> Not your code but... why? I guess to avoid the folio_put() below but
+> gross. Anyway this function needs refactoring, can be a follow up.
+
+ack
+
+>
+> >
+> >       result =3D SCAN_SUCCEED;
+> >  out_up_write:
+> > +     if (anon_vma_locked)
+> > +             anon_vma_unlock_write(vma->anon_vma);
+> > +     if (pte)
+> > +             pte_unmap(pte);
+>
+> Again can be helped with helper struct :)
+>
+> >       mmap_write_unlock(mm);
+> > +     *mmap_locked =3D false;
+>
+> And this... I also hate the break from if (*mmap_locked) ... etc.
+>
+> >  out_nolock:
+> > +     WARN_ON_ONCE(*mmap_locked);
+>
+> Should be a VM_WARN_ON_ONCE() if we keep it.
+
+ack to the above. I will try cleaning up the locking.
+
+>
+> >       if (folio)
+> >               folio_put(folio);
+> >       trace_mm_collapse_huge_page(mm, result =3D=3D SCAN_SUCCEED, resul=
+t);
+> > @@ -1483,9 +1506,8 @@ static enum scan_result collapse_scan_pmd(struct =
+mm_struct *mm,
+> >       pte_unmap_unlock(pte, ptl);
+> >       if (result =3D=3D SCAN_SUCCEED) {
+> >               result =3D collapse_huge_page(mm, start_addr, referenced,
+> > -                                         unmapped, cc);
+> > -             /* collapse_huge_page will return with the mmap_lock rele=
+ased */
+>
+> Hm except this is true :) We also should probably just unlock before
+> entering as mentioned before.
+
+Ack will keep that in mind as part of above
+
+>
+> > -             *mmap_locked =3D false;
+> > +                                         unmapped, cc, mmap_locked,
+> > +                                         HPAGE_PMD_ORDER);
+> >       }
+> >  out:
+> >       trace_mm_khugepaged_scan_pmd(mm, folio, referenced,
+> > --
+> > 2.53.0
+> >
+>
+> Cheers, Lorenzo
+
+Thank you for the review :)
+
+Cheers,
+-- Nico
+
+>
+
