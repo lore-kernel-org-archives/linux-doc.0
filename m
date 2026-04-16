@@ -1,115 +1,105 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA26839FCD7;
-	Thu, 16 Apr 2026 12:15:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 167D23890E9
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 13:27:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776341761; cv=none; b=lTPLg9oQ3gwrrazUKgODYEfCkd7jjJxAwblRxuaKKJDT95O3JNJequKS3+RhyVdrjMfHPom3RoYrh/4d9E4Ct9CRFbsoUbTkqbQQLKKAcB/jDLSHc2CqeSsvQq54wEYePWp0ZdPuAzxuNuBG8b6DOLtccQXOz5tMnGZx5XRHqBc=
+	t=1776346042; cv=none; b=VcZKTwH84pdFX0kfxy4f/Eyjz6NidTOXA0NO0AOf1lP0NvXbZNpF4ifwKDeECcKvXlw303D9xEvCvmuQxPI9ZeYrnNXcdvmifVHNEKB2CGBQ+slMgR2AK7uD1tnweBdojGkLYUdIYB9XXk4IJjAn9YyZWnDlJjGgJ0IVIIWw9vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776341761; c=relaxed/simple;
-	bh=gZLO9lN2kJhvahZVktWGr0uWFAt2YTX/UxFa5gJq4A8=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=oSwzCM+QvK7GCVlyRsnBticF0MXmXzk+u1Vk/OPpp6jkJGtYFqLEvDyWPIi0HCIcYRqiymwyjiXdJM1GKnXrfkyu++VcELlMwP0w+dokA74lVkrdGsUdQjCTM9naHapg+bISksjAGn7ZMmrMurQRRN96Pdc5gqTjmAilQ+AWHR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=S7USaVxd; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1776346042; c=relaxed/simple;
+	bh=U0wkkhyzba+VOCKmZclFLbF+sxUF9Ywi5JITEPUwc7k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=S538/hblFJBQx8862Vve4wPDRgbFZnkwH8YRTYMypf3EjyF1xQ4aflUfm5jB8ofBRAp48cQmr7I9DolGkIRrcwo30V+W/bxI80nASLz2yugf9fc3wWOei2auDhA52CyYHf7v7rXc93WVtneKD8p7Ya/CB30fusqMbhXTxEGWStM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uhuISdkl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="S7USaVxd"
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id D25DF2652E;
-	Thu, 16 Apr 2026 14:15:56 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id X6_CcIs2Vbau; Thu, 16 Apr 2026 14:15:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1776341756; bh=gZLO9lN2kJhvahZVktWGr0uWFAt2YTX/UxFa5gJq4A8=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=S7USaVxd65Og3uIBkajZCPvp5uwQZmZ7aCXvg10iCZY+jeBRc/BMfVzEvDleesVkg
-	 zLq8XGpCS0tbNavffePMl5DA6RCAH0jOM3KNEmy5DCj6a0BoGV38qsN26VB1WglB7t
-	 fT2puLTOvqjZiVoA4BPCbpyKRCY7189XIxmioDYpRAAY/NN3q5RkjOBI0gRM7u6zGc
-	 +egLI8//Sm2SGNidrv5TEjS9Gga2NeNfGKOSFk/CdPDViYFLc2W7m+N52QVgB0Wml0
-	 w4rlnKVUAdQ3K9UVfY7NGHeml8SVHt8HFxkwEyJRqhYpuUgRRuJ8tdEmGnjN2t1UzP
-	 GQiJcPVvGWHEQ==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uhuISdkl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85735C2BCB3;
+	Thu, 16 Apr 2026 13:27:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776346041;
+	bh=U0wkkhyzba+VOCKmZclFLbF+sxUF9Ywi5JITEPUwc7k=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uhuISdklht5GZilmETzaFULIdxNV1HKQOv43zU1TqXTaM2iFcEnAhmG2nvYAMpfOb
+	 CpSECYRWMsf1AA6mINE07kqw3DJCJGh3uxAEsTpc8REM+6xDWBQFxBQKfjl7KqlQ3q
+	 400wwd/bJ7x1HluGqaZijuV/IEHpQ7E/dWkEbMsMgskfubgkEDEqgK8R6PzxDA+8Sd
+	 mRkbJ7z4qqVL7R4jd0Oeqcvkfr7TyhNEWOFybc33/7MqGQ5mYtKh6ScY7NepOZQMEZ
+	 /nIjGgi0CsGPxC7d17ghahd7eXNPh+eIDKcrrKGgLFXzqpMVsn6Xsv+JSZkfrfisWL
+	 FfnUpqfyPrDfg==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 85D3FF40068;
+	Thu, 16 Apr 2026 09:27:20 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Thu, 16 Apr 2026 09:27:20 -0400
+X-ME-Sender: <xms:uOPgaSk_pM6BuGhHptX9-amFXqT0UE2TM2wzA7HHgiENOXqea5Zmew>
+    <xme:uOPgadL-UqmGJ7BML7mME_r8-DxdWdy-GcSfr7AcUImmFz2ZAbB-p1Kr2eeewnuq_
+    mzFtP4FTTqgSs3OlwKW2qxIGfGEAhdX0NCIBCfcYUCOhBse5YxyQbc>
+X-ME-Received: <xmr:uOPgaccZcaWcEty1RZiELLMnLg0zpNfLCHITOax68C9SLv8VAEJJcHzOZapXiw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegjeduudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeeuieejieffkeehfeffffdtkeelfeelhefhfefhudehjeehvdffleeuvddufefgkeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
+    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
+    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
+    grmhgvpdhnsggprhgtphhtthhopeefkedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepuhhsrghmrgdrrghrihhfsehlihhnuhigrdguvghvpdhrtghpthhtoheprghkphhmse
+    hlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehpvghtvghrgies
+    rhgvughhrghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpd
+    hrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhpphhtsehk
+    vghrnhgvlhdrohhrghdprhgtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpd
+    hrtghpthhtohepvhgsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgr
+    mhdrhhhofihlvghtthesohhrrggtlhgvrdgtohhm
+X-ME-Proxy: <xmx:uOPgaZxt_HEBPxXdhHDBAeAtykf6aHcXL77XFB7L1kzKKuRgr8KhOg>
+    <xmx:uOPgaUwdlNspXNQ2md4kX5WpB6oTKsYqkzxB6thSi84_GXxB2wXFlQ>
+    <xmx:uOPgaaUER8pEqvOLKPlSpRxZjlGB5oVBs5W0IxVz9Hkw6UIM3IrlGg>
+    <xmx:uOPgaUc-WsUOcgNf8whhteEVnf0B1htZu4McDmu0SLGH0dpVWJVSCw>
+    <xmx:uOPgaXfCqcIf0Fbi7qdwViNxE3Nt7ki312s5joURJKDR8U_3R_9WwV3j>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 16 Apr 2026 09:27:19 -0400 (EDT)
+Date: Thu, 16 Apr 2026 14:27:17 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Usama Arif <usama.arif@linux.dev>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 10/12] userfaultfd: add UFFDIO_SET_MODE for runtime
+ sync/async toggle
+Message-ID: <aeDje8vylad8bGoj@thinkstation>
+References: <20260414142354.1465950-11-kas@kernel.org>
+ <20260415150900.3660575-1-usama.arif@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 16 Apr 2026 17:45:32 +0530
-Message-Id: <DHUKLAE757OT.XQW1LJYKC2FM@disroot.org>
-Subject: Re: [PATCH v4 02/13] dt-bindings: leds: document Samsung S2M series
- PMIC RGB LED device
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Kaustabh Chakraborty"
- <kauschluss@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-References: <20260414-s2mu005-pmic-v4-0-7fe7480577e6@disroot.org>
- <20260414-s2mu005-pmic-v4-2-7fe7480577e6@disroot.org>
- <20260415-sensible-kiwi-of-argument-44d6ed@quoll>
- <DHTWNPSQ06IJ.24A9E1FL1RWER@disroot.org>
- <20260416-upbeat-archetypal-mantis-1ede48@quoll>
-In-Reply-To: <20260416-upbeat-archetypal-mantis-1ede48@quoll>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415150900.3660575-1-usama.arif@linux.dev>
 
-On 2026-04-16 10:23 +02:00, Krzysztof Kozlowski wrote:
-> On Wed, Apr 15, 2026 at 11:00:16PM +0530, Kaustabh Chakraborty wrote:
->> On 2026-04-15 09:03 +02:00, Krzysztof Kozlowski wrote:
->> > On Tue, Apr 14, 2026 at 12:02:54PM +0530, Kaustabh Chakraborty wrote:
->> >> +description: |
->> >> +  The Samsung S2M series PMIC RGB LED is a three-channel LED device =
-with
->> >> +  8-bit brightness control for each channel, typically used as statu=
-s
->> >> +  indicators in mobile phones.
->> >> +
->> >> +  This is a part of device tree bindings for S2M and S5M family of P=
-ower
->> >> +  Management IC (PMIC).
->> >> +
->> >> +  See also Documentation/devicetree/bindings/mfd/samsung,s2mps11.yam=
-l for
->> >> +  additional information and example.
->> >> +
->> >> +allOf:
->> >> +  - $ref: common.yaml#
->> >
->> > Rob's comment is still valid:
->> > 1. How do you address one of three LEDs in non-RGB case?
->> > 2. Where is multi-color?
->>=20
->> Yes, multi-color should have been added here.
->>=20
->> >
->> > And based on this alone without other properties, I say this should be
->> > part of top-level schema.  Separate node is fine, but no need for
->> > separate binding.
->>=20
->> BTW, for loading the sub-device driver via platform (as it won't be a
->> separate binding) the driver *must* be built-in. Although not related to
->> bindings, this seems counter-intuitive. I see the same problem with the
->
-> I don't understand that comment. If it has nothing to do with the
-> binding, what is the problem?
+On Wed, Apr 15, 2026 at 08:08:59AM -0700, Usama Arif wrote:
+> > +	/* only toggleable features are allowed */
+> > +	if ((mode.enable | mode.disable) & ~UFFD_FEATURE_TOGGLEABLE)
+> > +		return -EINVAL;
+> 
+> The commit message states "Only async features that were enabled at
+> UFFDIO_API time may be toggled."  However, the code only checks that
+> the requested feature is in UFFD_FEATURE_TOGGLEABLE.
+> 
+> Is it intentional that a user who opened a uffd without
+> UFFD_FEATURE_MINOR_ASYNC can still enable it later via
+> UFFDIO_SET_MODE? 
 
-It was an unrelated user-space issue, so ignore.
+The comment is stale. Will fix.
 
->
-> Best regards,
-> Krzysztof
-
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
