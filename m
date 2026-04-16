@@ -1,211 +1,200 @@
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012035.outbound.protection.outlook.com [52.101.53.35])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9F32DECCB;
-	Thu, 16 Apr 2026 22:18:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.35
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776377917; cv=fail; b=cP+9ckBEkJ1Vrlfvrq5pz913jeZRMSrSzk7lJwECcbvUvIPO0TjMN0ktaDoBXGGkawWyJ+4kmz+96f25olnKYo1u96nOps35x20bpXexvERSpIN5G8OtC7f1zwuyICYNnmlJUcMqoQuFkVAnA48RqEmgtMpnXZpfUbTox5ojlUc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776377917; c=relaxed/simple;
-	bh=//3amu7Ej64TmF7tpTiEGaPu0swSlGvXhMRoYHqhfPU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ncyq07pUthcG6/XEJYT6KWT49boCcHKmV+iHZdHa77DznkB4u/yVnOKjdPBBKhUzB5/thgxHy72xzNM93IubwHOsm80ONsk2+jf9K+7t8TMy14zVWDh7lrWXXFJAp/T/4+FviW+k7AFaz470e3tjiMvg4RzDmVrjs7+crt8tkMw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=XB1H0iqR; arc=fail smtp.client-ip=52.101.53.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F262375ACF;
+	Thu, 16 Apr 2026 22:43:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776379412; cv=none; b=kT2/Xdb5fPzh4MI0WY5JwPnsvH+XKMiKEjJYJjez1M4tUJt6F/Eff28t+Yb+6L7vCX7VApwiaJbVpBR/qVW5sck6W01BHxKkI4ST/5mblRFox8lzOxDQhhvbZ21vbdmvaaoU2N6JXUKjb1faDBtr1MnXSXoJMTQUSOCRQjR2cGw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776379412; c=relaxed/simple;
+	bh=qKUpqDrb9Ptsu5hc5LGE0mNm7b8T3hnjmauL6JvvBJQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n2Sr6CYu95vzsxHD4RQx2HXPrG7VUpsulJoZ/MzgUCFiQTPGT+mwBmkPUmWz+mgj4K5NjgFvasOupusXjJDrVXiBQiAByQy101LDrwSlXoRiNS83rppEestYQhwNH2Fy5LfG5ivwwk4Z9mI8wM63IMyHE2sbi7qx/UCH1yk0yvk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V+3srfUS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="XB1H0iqR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kKHRuibBec5ihQ+f4hnJTQyQ6ZmZVTrV/Dt18axG7+HRfbBXovPCwG3zKcE788ELqcZRZyRebr+QMRq7ST6u95UGCBlXQ+LTtV/WRf+UK+ETCv6WBOxyyT0vBnVTFQZUMUGoowklfSUrd1Ra1rqa9UKyfoz6d2b6mbaUtQf3GB9vHlXrmwKOr6NuyYkA29d23HCv+WGxB8T4LsiXBuw8nYmzt8DrBTdr9Tt1u3EOtVmvio8vd8cdvo5cTXDXH+Fwy2FimpYxGSKEdvFGF4H0MegW3OR9+UKtGjiZcpGYrFB5kO0PpP95WbjAUKGOwqfGlYobUQk6uaQCqVcOb3q12Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=c1P1tQR9yZZWisKMGrQmCkUzuS4EOXOzhommPK/0CbY=;
- b=odjJE4rfoVSWwoWjBJWKp+1ubFvWh/R1+ReO/LDqm5SmuR+udE9d8zHflu+glrcEZeU/YOLCZgcxrsMyr/GqSmVAGbCxULSul6tkOBiFkLdqhp5RthPiBrWiLInhqmceRWszjfBtG4J/Xd2i9PZvYrEqx5W0vmJbBsggoQ/PxEup+q9r8GdRx0jir4vChs4UZIyi/jw12POHu+dIM9OnMT95zaAZiIsqmgieE+AA7B1jVnrWG+bPAe4/+Cw7Bd93VaUDBFJajE6gEhhZjFJafc18TK7NmW59jqJT/h9lNCu2XudTHJPBSSfJ5tpjkQBAD2HBkVDpkWtcUSW36qOFwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=c1P1tQR9yZZWisKMGrQmCkUzuS4EOXOzhommPK/0CbY=;
- b=XB1H0iqR4+2W99OoP6A8JS7lPZNX51ggQowdihuYITpRDhi1hUxECdjyn7Bv5xCpzO2rirNf0fobDaG8eahcBL7cmS3f2G/tFJ11N/UNDrxHTdU6JC6MfI4uC984o+huWYsVmlXKf8xKG/20zisgrFUVCwiy3PjJg6LZ4mOhLJWyIha/dd/n4vIiW1BrHEkkdjpXa8BoflrTySs74Zfaz4WjLTCX9EWjVFGTa8ZnMpHBiQIssXhkVuzlKtJ5o7G9IHH1mv3BFjXTz7n6Vs1X8AKEb6Fa5IFDttg5vfHsEvhdNtApqvbMrSN+23SWvWnXuoCcpNpYIiAdfxSGeS0FDg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- DS0PR12MB7875.namprd12.prod.outlook.com (2603:10b6:8:14d::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9818.20; Thu, 16 Apr 2026 22:18:27 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9818.017; Thu, 16 Apr 2026
- 22:18:27 +0000
-Message-ID: <1e3c423e-1cf5-48b1-b012-c4af0eb6b95f@nvidia.com>
-Date: Thu, 16 Apr 2026 18:18:24 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 07/20] gpu: nova-core: mm: Add TLB flush support
-To: Danilo Krummrich <dakr@kernel.org>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Koen Koning <koen.koning@linux.intel.com>, dri-devel@lists.freedesktop.org,
- rust-for-linux@vger.kernel.org, Nikola Djukic <ndjukic@nvidia.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Alex Deucher <alexander.deucher@amd.com>,
- Christian Koenig <christian.koenig@amd.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- Thomas Hellstrom <thomas.hellstrom@linux.intel.com>,
- Helge Deller <deller@gmx.de>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Alexandre Courbot <acourbot@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, Elle Rhumsaa
- <elle@weathered-steel.dev>, alexeyi@nvidia.com,
- Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
- linux-doc@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-fbdev@vger.kernel.org
-References: <20260415210548.3776595-1-joelagnelf@nvidia.com>
- <20260415210548.3776595-7-joelagnelf@nvidia.com>
- <20260416212312.GA667928@joelbox2> <DHUWPQX14ZGZ.26BV7GQCJDZQI@kernel.org>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DHUWPQX14ZGZ.26BV7GQCJDZQI@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: BLAP220CA0004.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:32c::9) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V+3srfUS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01F9C2BCAF;
+	Thu, 16 Apr 2026 22:43:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776379412;
+	bh=qKUpqDrb9Ptsu5hc5LGE0mNm7b8T3hnjmauL6JvvBJQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=V+3srfUSnBdTShmnHUJ0+HYBHhLJolmNslN4MMY6F+lr2vtuizOwnhixs3OwcxfL5
+	 zMTIZoGEqxMJWonHpytQ8Q+fl3SBMrgr6zcsSHW9Lkxlx0IERmvhInsMQLqhWFrlex
+	 NPVFoWcf1LhAlJnZs9XST3nOmgPq8TFT+vFRPAykZeiU/qi/5S1pxwjji0HeN4IbtF
+	 ktDU8V85DZRT/HbiOEqtLIGwtM5zwq1coG6oyeXmy4FVWfqSfI+o/+aWFE1I8CxtDr
+	 dZN1opfhJeWjxxdudK3kIAhQNPFS8zUGgxtvxk42Sy+BlyQidwCsZnk/BoJwrKS7G7
+	 SxMz53uLvDrnQ==
+Date: Thu, 16 Apr 2026 15:43:31 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Dan Williams <djbw@kernel.org>
+Cc: Gregory Price <gourry@gourry.net>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan J Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <20260416224331.GD114184@frogsfrogsfrogs>
+References: <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+ <ad7Tps4tkNbndd9Z@groves.net>
+ <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+ <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
+ <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|DS0PR12MB7875:EE_
-X-MS-Office365-Filtering-Correlation-Id: 12d1b84f-fd02-4f21-5cce-08de9c06152f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	Z9gPoYCrnolufJuLkjHrmfiSazfG723fyrhE3ZiF9MPrOtirgVnsicdBjZEF0pKR4MIwKjpimnQKxEdlQFWiFmHyLNwtFLByxU3Cw+1FAc4GRDN0d5/t8DGqxR9zwnX8ugAlP8VQuEsECy2ZMgC+ZcWpML7PS8GeqjfYEojzjF23jRrcFs0E3D9cCuEL9Tw5XbrzKjhKUJg17ZvZI0zGRNRGTQ0KzgOiW0VXKojptxJXqFYlOr7v1TK+n8qzgunpdDh+8aO4cGFCdr6ubauCsaV5yaRp8eWTQUSMxSXJMwCA4JAyla4OgqwQOrlzcJoquRQjg/hgeRcCkWt8jUeuyNYcy+GstG5mXJVcc+Yv8iljucEW70yKCpM0+ejrOyI+9BwV5xnVkZjEYhsaNHPfcx54LPnoUf6GVG3Tyxy5V4G5coXRuzD2FsPESc9adVgAXCwLYPd1XtZPJ2igl6LIoC2AZuskMIaNO5GQE+3+R7xKN0bj315TXBP4WaYAy/MB9tl0NFyKcKkrHPbk2xqrxETNvjqKIp8As5JI8hgePuAUQ3sIBYbo5ZSHPqFI9W0kHyPHaVhW7Q8HQPgQlLF2IMSYFU7AmDnYzOaS/CYz6/rcgHPlM21qTYP1xFgDb3hBZT9uTszsCUyS5413qzPcsLo9+ZZKnsagDZjXl8amS8VVYe5hzXHb4KR/kZWPzwjUdoGJI3BRTVuBSr625QaxU3lOer8TsM56oi6jc4lpq4o=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WGZtWWZ3cjNKMlNPaXNuWlJSbFpGNFE1Z3ZRVDJ0UVJrZG1ONVlXYjY1eXhM?=
- =?utf-8?B?OXcxMzh1dEo2N2UrNDNNdCt4VWhZWHA5S1hNN0Eva1QzK1FBNy9EMG5VYmpv?=
- =?utf-8?B?eE9GZktSN3ExR1hUODhVK0owWVpOYWJnU1U3THc1N2QwZU13dXRadlZwWWgy?=
- =?utf-8?B?UWJNd3UxN2JYMFhoc3Z0VnZjRTdHUytWby8rMnMyMFFBbC9lZzVsa0VnY3d6?=
- =?utf-8?B?RGk5b3dUcDBzTHFYQ2RUQjJZbGlPeFY4bTJ0VUdJRDNxSmplNWIzVEVLUjJ2?=
- =?utf-8?B?dG1CZVdnTXN6eDdFM3d6NUpGZWJNb2xzOXFmTzRCMVRhaUhSZHdacmhUWXJn?=
- =?utf-8?B?UVZkcm5LYmdJdHhFMUVMdFZIM2dWalY4SUVZM0hueENuNzdEN25RU3RHRG9l?=
- =?utf-8?B?dG03ZUFSbldwSzNjakErN2UzaFN0WDJKZk9jei8zWE9ZaEFKZ2NRWGtyZ21k?=
- =?utf-8?B?bEF5cWdNZXRrNklUc0ZSMU5XMzBwelBHUFVjU29KQ3oyVHpjNW96akp5M2Y5?=
- =?utf-8?B?WnBUckU4RjNQRmRPTmxlc2E3Yy8wZWIwNWI4dHZoLzAvK0RqSWk1S0dEZzh4?=
- =?utf-8?B?M1diL1ZGaFYxR0Nld3FhOTczV1ZnenZLeVhNN1JUTjZTV3NhV2lKM0hadlov?=
- =?utf-8?B?MlQ3alhZRnNOcFgyZ1phd2lxeGw5NERFUFp1ZjM3WFB1bHpKK0tmRGNNSzRm?=
- =?utf-8?B?TC95ZVYxN3pVS3kwMjRseThYVkdudWJheGhCQW4wYXVYampKd2dIQW9BYnM1?=
- =?utf-8?B?cGJYWnFDamxteGFseHFhYmVMcnBMd2g0eldjOHpWaGhlREtUR3BMVFA0dHhz?=
- =?utf-8?B?VWNmL3B4bDEzVXJlT01uTlc0YXdjbGJKQUpvN0dweXdwajZGRmErUnJzY2g3?=
- =?utf-8?B?WHFPWUFrc3U0c0RZalc1TUFsWnFHOFM4QUFqTUFmZFJYalJUWnI4ZlJGUFhM?=
- =?utf-8?B?a21XYnZxb29CbldMQzJSc3A4S1NXTDlUdHRWTnJJUXd5UCtuZWVEUm52bjRE?=
- =?utf-8?B?NWZtM2JqNUVUM214NndDSFUrZVJBV29JWnRRRlF2TWtEeXVTUDEyT1JKZ2JD?=
- =?utf-8?B?TXMvY3ZqbWZSUGswT0JadlJFcjFyTlZ5dXFVNDVBWm5kQ0l4MmwrRWUxdDZw?=
- =?utf-8?B?bmpYWDh4K3ArdytmTzNqc0FnQnZkR0tOc3lrZXZ1TERtTjlqWGhSb3p5OVdX?=
- =?utf-8?B?UmlQTXpreWxUMkpSVVgwV3FqQTBhc211VVF2ZmhYQ3lrTWtoNGFpQ2djUXha?=
- =?utf-8?B?MS93czJiWTlqVG1mOEpPcFR1U1lrWmFHK01NNXJJc0FNT3BiUmZOZmRBNGRB?=
- =?utf-8?B?VW51d2NGODFody9vYmNYWXdNVHMzaGMwWFVKMXhtamRRYW9BaWcxdEJNY2ox?=
- =?utf-8?B?N0ZYbExET2pneGpubHlHcTB3RjBOZng2U0M0UXpTR2trVmRkN21PWVd4Tnk5?=
- =?utf-8?B?NXJFeGdwN2VEU2I3ajhhb3JxeXR3cHdxNW9VbWZGSXV0cG41by9PWXJ2WHBG?=
- =?utf-8?B?VlNKRTVIMEZKaDhPZWI5WmJ5TWxCZnBuT3p1dk1jYUVTRzRIc29UeWhYMjlY?=
- =?utf-8?B?dWkyZEJwODkxL0UzRFA4ZVA5WDdQVDdBMm1DendTWVdOMStSZE1TUXNtdmx6?=
- =?utf-8?B?U3FVWm9XeWpYQ3g5TnpJdlFwTTlKd09Sckoyei85cGdCdTdaUjdlTjJoZ0sy?=
- =?utf-8?B?VFBQNnJCRThlMm0rdXF0am53M1h5Skh3RzB0NkVHRTJVOWZKVjR2UTdpUDRZ?=
- =?utf-8?B?cExNbG51Q1ZyTVBTUElVcEFxZWRPdFR1ckV0QzVjWTk3ZUZjN3BPMkpuM3hW?=
- =?utf-8?B?SkFCbVY4S2hoenRXOTFHOTNQN3ArV04xRDl4WnNHVUNPa1E1enhtemN1UU9T?=
- =?utf-8?B?MFg0a1JkbFJCUEhPZkRGVzJMV29Bb1VjMGFtNncwWUE1TGtrU1pjUnE5dVJq?=
- =?utf-8?B?ZUpJbVdCRkZ3VlJHTHNUUEZzTlYwRXJFVlFuS3NOQkRIbWR1VDhSaS9QM1Na?=
- =?utf-8?B?eXBvekxxUDlWTVJLb0dhTXhpQmU1ekZxa3JzcXFra25mdUxsZGNla1ZoNVlH?=
- =?utf-8?B?azd2UjZRajkxajZLQ2o5L25USkpab3NycjNJWitRMThkbDRsOFVTK1J5SmdS?=
- =?utf-8?B?MFFSaFdKZzVzK25DOGQ5VFpMbHN1Rmx1NGNraHZFY24vanNQTzRCYTBBUXl0?=
- =?utf-8?B?elJQeTh3bUZZZ3RzNXNmeCtHck9YeW1oZHRQM2c5dWxpR204UlBKdldhSnlS?=
- =?utf-8?B?dENYSk0xMSt2MXdIZ3RBR1lrc1dhU0thdFMrdkZyUDV1SjNkZnQzYlc5Rk9s?=
- =?utf-8?B?SUVNdWlYc1JaL0o0L1ZLMUEwTXk1RHovTXpIM0xKN2ZNZTR3bWZPZz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 12d1b84f-fd02-4f21-5cce-08de9c06152f
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2026 22:18:27.5574
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NVV4sENjNQ/k94ELk+Mo9Yv7BuDdIKwYT8yexHU4m6gK3x5qW2PGeSiGTmihKpS9azRkXsQLMnGXXWrZvt9rWg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB7875
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
 
-
-
-On 4/16/2026 5:45 PM, Danilo Krummrich wrote:
-> On Thu Apr 16, 2026 at 11:23 PM CEST, Joel Fernandes wrote:
->> Btw, I changed this to doing it in 2 phases to avoid holding the RCU readlock
->> across read_poll_timeout, which can sleep. Will squash it in for v12.
+On Thu, Apr 16, 2026 at 01:53:27PM -0700, Dan Williams wrote:
 > 
-> Why do we need the try_access() dance in the first place? I assume this ends up
-> being called from the BarAccess destructor?
-
-BarAccess is different. The try_access() calls here are in tlb.rs and
-pramin.rs for Bar0. BarAccess uses &'a Bar1 directly — its Drop impl just
-calls self.vmm.unmap_pages(self.mm, mapped), without needing try_access().
-
 > 
-> If so, I think this is solvable. Gary and me are currently working on
-> higher-ranked types and a chained Devres type.
+> On Thu, Apr 16, 2026, at 1:14 PM, Gregory Price wrote:
+> > On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
+> >> On Tue, Apr 14, 2026 at 5:10 PM John Groves <John@groves.net> wrote:
+> >> >
+> >> > There is a FUSE_DAX_FMAP capability that the kernel may advertise or not
+> >> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
+> >> > commands. In the future, if we find a way to use BPF (or some other
+> >> > mechanism) to avoid needing those fuse messages, the kernel could be updated
+> >> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-specific
+> >> > code could be taken out of kernels that never advertise that capability.
+> >> 
+> >> I’m not sure the capability bit can be used like that (though I am
+> >> hoping it can!). As I understand it, once the kernel advertises a
+> >> capability, it must continue supporting it in future kernels else
+> >> userspace programs that rely on it will break.
 
-Hmm, the issue here is we cannot hold revocable guard while sleeping, but
-we have read the bar as a condition in the body of the poll. So I split the
-try_access()'es. First phase for writing and second for reading (bar 0).
+So don't break fuse servers.  If you wanted to (say) get rid of
+GET_FMAP in favor of IOMAP_BEGIN, you could alter libfuse to translate a
+fuse server's ->get_fmap implementation into the equivalent
+->iomap_begin, and eventually the kernel can stop making GET_FMAP calls
+to userspace.
 
+The trouble here is that I've also seen half a dozen projects vendoring
+libfuse so that's a nightmare that will have to be dealt with.  But
+maybe that doesn't even matter, because...
+
+> > FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
+> > not required to continue advertising FUSE_DAX_FMAP in perpetuity.
+> >
+> > Setting CONFIG_FUSE_DAX=n does not mean userland "is broken", this would
+> > only be the case if FUSE_DAX_FMAP was advertised but not actually
+> > supported.
+
+...the memory interleaving is a rather interesting quality of famfs.
+There's no good way to express a formulaic meta-mapping in traditional
+iomap parlance, and famfs needs that to interleave across memory
+controllers/dimm boxen/whatever.  Throwing individual iomaps at the
+kernel is a very inefficient way to do that.  So I don't think there's a
+good reason to get rid of GET_FMAP at this time...
+
+> > If DAX were removed from the kernel (unlikely, but stick with me) this
+> > would be equivalent to permanently changing CONFIG_FUSE_DAX to always
+> > off, and there would be no squabbles over whether that particular
+> > change broke userland (there would be much strife over removing dax).
+
+...however the strongest case (IMO) would be if (having merged famfs) we
+then merge fuse-iomap after famfs.  Then we extend the existing
+fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
+That enables us to analyze thoroughly the performance characteristics of:
+
+a) Using GET_FMAP as-is
+
+b) Uploading raw iomaps (HA)
+
+c) Uploading a single bpf program to make iomaps, exchanging fmap-style
+mapping data into a bpf map, and having the single bpf program walk
+through the map
+
+d) Uploading a custom bpf program per famfs file to make iomaps.  No
+bpfmap required, but the setup and compilation are now much more complex
+
+Then we'll finally know which approach is the best, having broken the
+Gordian Knot of how to merge famfs and fuse-iomap.
+
+If we decide that (c) or (d) are actually better, then guess what?  To
+get any of the iomap functionality, you have to set an inode flag, and
+that (FUSE_CAP_FAMFS && FUSE_CAP_IOMAP && FUSE_ATTR_IOMAP) is the signal
+for "don't call GET_FMAP".  FUSE_CAP_FAMFS && (!FUSE_CAP_IOMAP ||
+!FUSE_ATTR_IOMAP) means "call GET_FMAP".
+
+Yes, we burn a couple of fuse command values to find out, but that's all.
+
+(TBH I still dislike GET_DAXDEV, that really should just be another
+application of backing files, and the backing file id gets passed to
+GET_FMAP.)
+
+What do you all think of doing that?
+
+> > While not a deprecation method, this is what capability bits are
+> > designed for. Same as cpuid capability bits - just because the bit is
+> > there doesn't mean a processor is required to support it in perpetuity.
+> >
+> > They're only required to support it if the bit is turned on.
+> >
 > 
-> With that, such use-cases should be cleanly solvable without the need for
-> try_access().
+> Right, if the protocol on day one is "user space must ask which method
+> is available", then userspace can not be surprised when one option
+> disappears. So to give time for the bpf approach to mature the kernel
+> can do something like "famfs and bpf  mapping support are available".
+> In some future kernel the famfs native option disappears after a
+> deprecation period.
 > 
-> Besides that, I can't find where BarAccess is ever constructed.
+> When folks ask 10 years from now why this ever supported optionality
+> the explanation is "oh because famfs enjoyed first mover advantage to
+> prove out fs semantics layered on dax devices", or "turns out there
+> are some cases where bpf is not fast enough but it still stops the
+> proliferation of more in kernel mapping implementations".
 
-BarUser::map() constructs it.
-https://lore.kernel.org/all/20260415210548.3776595-18-joelagnelf@nvidia.com/
+Yes.  We're not *capable* of determining the best mechanism unless we
+can start shipping these things to users to get their feedback.  Only
+then can we iterate and make real improvements.
 
-> 
-> It already has a lifetime 'a for &'a Bar1, so I don't see why you can't do the
-> same for Bar0.>
-> But again, I don't see this being constructed and I'm not sure the whole
-> construct works in the first place.
+> Something like FUSE_DAX_FMAP is always available but the backend to
+> that is optionally native vs bpf. ...or some other arrangement to make
+> it clear that native might be gone someday.
 
-BarAccess uses &'a Bar1 because it's a short-lived scoped object. In long
-lived objects I am trying to avoid this. I guess I would be Ok with
-switching &'a Bar1 to Devres as well. But let me know your suggestions!
-
-If it is easier to look at a git tree to get a complete picture, here is
-the git tag of v11:
-https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/tag/?h=nova-mm-v11-20260415
-
-Thanks.
-
-
-
+--D
