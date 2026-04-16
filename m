@@ -1,257 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958B13EF654;
-	Thu, 16 Apr 2026 17:36:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FB153101D8
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 18:01:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776360960; cv=none; b=AuOVvwXFEs7MnNBAQeky5kA8TpIzWDZ5vkhMXsNqPoxAsFLc9WtqfTMkC3nfYb3oUfKKAdk4M/cMEo7msoTQD8DMDuac3lI6GJZ79olOiJpZRh4nUarP9t+skxz2c3faCylKti23c1jlOQjbs0j5mgASPcASBvqeBjB9NE7qt40=
+	t=1776362520; cv=none; b=agEYD2wcwFdB2M11VdBi8a/YOvK32xvryu2190Ye+Z0RnI8mA/L1fuPTetT4Myh1mV6Cj6O/MZMXM6hdOWuSfRb8Zf1GOvGiRiW7wzkw5n5dnJwAv8wJtdpK/Z6yGcLFvdKnYnWXC7SwK5xW4z0XQdJ6d0Q1zWLvWPl1AXb5HVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776360960; c=relaxed/simple;
-	bh=ljfjy/b8w/hQplBxEbpZFyap3tO+DH6nJOLLAPUxDOQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TG8EMg4Eon9OnB1XVIaiIZPP+QQ6cvuu1GjnZYsb361Y7RNsVQeAgVrnC6gQeER8kywzVNtHOIBjYok6ko3hWl307ckRq8wRF3iMPCkYe966n2SWhPfLj0QGHPbQ7+PuoCslpoyT5DfGyEnu4hp0akian+5zKNSz+I3ky+mdAco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LDTwdR9r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776362520; c=relaxed/simple;
+	bh=un5vJmKuf9KhDXulQKe/Bn2uSGgatkG8otaxH+Varv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jpEzk/VjKoIMVZZXje7wzgSFphEAN25evTmfJoSQcm2UBs126DwWIB2tHzfMpX5obny5XUeFZfPCnh98DkIw/xb+ZFYlgYQJ7oKTznwZ3GWbN6QEwcotEMjmXm/GcRvhJx+70hW5yFk//BGcVjrTx4synuf6w/Y5aMrEEKVdlXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lFGqjjSZ; arc=none smtp.client-ip=74.125.82.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LDTwdR9r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95FF1C2BCB0;
-	Thu, 16 Apr 2026 17:35:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776360960;
-	bh=ljfjy/b8w/hQplBxEbpZFyap3tO+DH6nJOLLAPUxDOQ=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=LDTwdR9rcYpC+PWYmtTySZmkJeRG5rBy1KRbtNgA6wqrZncoy0QoIy59/YIHJFUlL
-	 2S7eoYl9/9inXlHzl8+zzXXZ3F4xvcd6H0H0J2iCqr/sNtmB8Ci2pN8YbRyLe2sBCI
-	 7Lu7F7w1USJtrqNRyghKhbzq4+k/Hh5UaydGVpkFKCZqfk/lXEnXwlywdIrZDsIjQa
-	 vf530ESYqvA00pwYGuVbZLhy4USxXUJPGgMmL86l+relJEXJZ6oz91klryk17QMznJ
-	 cKEdSfdx5IrdDq9EL3tDv/6NGA/QjNNx1wLs3OF5Jpnou4Ji2aRGJLW/qAj14z+RdX
-	 AT0/v/Mf9Xt1w==
-From: Jeff Layton <jlayton@kernel.org>
-Date: Thu, 16 Apr 2026 10:35:29 -0700
-Subject: [PATCH v2 28/28] nfsd: add support to CB_NOTIFY for dir attribute
- changes
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lFGqjjSZ"
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c7212836bso72345c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 11:01:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776362518; x=1776967318; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=60N7vYgebawIQ/IuYOlbRBF7aQ2YJsB3l2hVZCHj0iY=;
+        b=lFGqjjSZawaoX9bvO5qtNBgabIeOn0sABdcSph05og/r72pUXZ4O1Ku2t5iqIIPJi8
+         IlLvf6F5kDq498QKUJL/vDTLs3Rly7TwJ4NQ5rj+RnTnTAqI8BML2Yn5Mg0GlYI0Q8dR
+         oYjVygkUtgI1wLwVkCwQ8jjot+7ozeP1vH81mjO61P0XgctK9p/syF6zPhTsXVM2AsA/
+         71RhFKggWWP63JVr6dEngtPOQQCMCIfhNEXLAM/u5DPu8qUe5DVIoPFO5AAd7LpM17M/
+         mPbNMbuKkrCBD3nhIwioUiqNcXfqH6OHKYPTt661ERPzrnAnzEgmKLXuX6e3c2yQErL+
+         bOWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776362518; x=1776967318;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=60N7vYgebawIQ/IuYOlbRBF7aQ2YJsB3l2hVZCHj0iY=;
+        b=skcbDiggnwIsGDYyL3i6ST1Aw0k5/svXdWcKhUW/b1khaVUHKRJtZN+UXUhvRgAsxv
+         D9gXbTRyxzY3QS++6kc32Aj1wxphrSQAYo8iTxtg0KDmhdvDoqs2nXGxWdw10ZmOUrwQ
+         0PnZ9PY8OXwKc1cgbbnxAHm0py4ZD8Y24vD55O2I+o0cR6smP9YGJWqis8ST8AtyG7V/
+         pJNblFcF5QIZbRTJcsQwRsAsTyr9OeM5cuNqAQ1JxSzx3VluTecSKcSpOGYfqoW6d2sw
+         YlvUwp3wC8yZWXn1hWq7ClsJKmhPnNbLdfU+eIjn6A/a7Tmx5IOgFW1b81El5pt3AqI8
+         WAoA==
+X-Forwarded-Encrypted: i=1; AFNElJ/sz4BxRTOqvsbV/8iYNSugr4ITg2eSPpQEs4fojCCwb5LoDmA8R6eWG1fSkLlIkPozDbLPJaNxQyI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLtY6Wh4adj4EwBbCC0ezV31hYZR0AvsW+C6pq7POXLKI//c9n
+	lDEN2DSHpACjucbobZ13cW5dJ9Pa4rjMwAzmlRxd4xCyAdOxy+ozAYB0
+X-Gm-Gg: AeBDieuHaOB72dvMCE+hEarraowp1xngh9yz97HjiK9c+WL0uOomcI/vQXfNM2trOUH
+	qqtfpVN3Fs6JmTfXaSy2tSseF720OxJ8wWe1PkxUsdHTkmpc1GkpovywNh8TXtSNo4MvoM1AUnk
+	lSdhqjzr0xa+Gpnq+5xiGYb06QjmPsZ4naMNgmMHpUkL9C1MuhhmTfJnlTaQxBJk9x2uytH9tOp
+	+HM9cfTZnNHGUMA/yWwxL1HtYHXniG+FN9ATzefFeJx0xO3LDc45h/pznbQUfpZiCZlXKjdGQL0
+	SdhHZam2VSeEyVdn5h35MT8orXui9JF73/uJ2yvwQvM2qJHSMeVCXmeTSHdlbfBIbcXOJaFmtwJ
+	dAIdm93JfHZIU/CC0vMyMysLzz1aSYSohgdmrO2ZyF0ZB8Q7BRC3um7W2NV7yAJifnTC7RdRp0T
+	hlzAkR/KRtzo/0JW3LmKgE0nu2OltneL6nGfkBHk5m8KXbfOQ=
+X-Received: by 2002:a05:7022:6b94:b0:12c:4928:e57f with SMTP id a92af1059eb24-12c7285b24dmr66236c88.25.1776362516755;
+        Thu, 16 Apr 2026 11:01:56 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c6e0fc4absm2056544c88.3.2026.04.16.11.01.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 16 Apr 2026 11:01:52 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 16 Apr 2026 11:01:49 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Conor Dooley <conor@kernel.org>
+Cc: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
+Message-ID: <84a5154f-1139-425e-94ae-31d7e662cd0e@roeck-us.net>
+References: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
+ <20260416-dev_max20830-v2-1-2c7d676dc0bd@analog.com>
+ <20260416-diaphragm-corrode-494560404ed4@spud>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260416-dir-deleg-v2-28-851426a550f6@kernel.org>
-References: <20260416-dir-deleg-v2-0-851426a550f6@kernel.org>
-In-Reply-To: <20260416-dir-deleg-v2-0-851426a550f6@kernel.org>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Chuck Lever <chuck.lever@oracle.com>, 
- Alexander Aring <alex.aring@gmail.com>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Masami Hiramatsu <mhiramat@kernel.org>, 
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
- Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
- Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
- Amir Goldstein <amir73il@gmail.com>
-Cc: Calum Mackay <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org, 
- Jeff Layton <jlayton@kernel.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6108; i=jlayton@kernel.org;
- h=from:subject:message-id; bh=ljfjy/b8w/hQplBxEbpZFyap3tO+DH6nJOLLAPUxDOQ=;
- b=owEBbQKS/ZANAwAKAQAOaEEZVoIVAcsmYgBp4R3o2LhexlgAJoX8NHPQ6gcu2NLN9f1xovT1r
- rInPTWLFfeJAjMEAAEKAB0WIQRLwNeyRHGyoYTq9dMADmhBGVaCFQUCaeEd6AAKCRAADmhBGVaC
- FYe/D/9PtdrLY15JLTr0DUze9xwoP99KYUiS2/zWUe0U684BJLG8RpLaymBBMCHbq3udqHAXiz7
- 1YFMmfWqM2mb1VkEHSzdlSdPIzcu0W+L0PhZKtDqUuB2J61zwocSlYpbdgRCWA2RaF+4EWDlo2R
- d+xBOyZ3mTL1FeMxuZSqF33E4XatpwcVGlT5jxFA9qHmvTaS8ohxTim860A7RHV+VsKX10NDWIh
- FlKg24QwR16vcD5yACCAXY7CrH0toYCSEy9o7xDNKe+OqZ5U8RgwUuwvZtweXZE2/11sOxE0NCL
- jFZWSUATUAsefIRW4odMDNHJb0jP2oTeJ6UdKIpquRC2LVrWLZd4b4ETCFVoRdAaDQaVL9T+WlN
- hTTPSL/NvKIjaXMQM/LYpAGZ9P/QgXg4EVAQZ8iSr1D4kZnkKrjswh3vdRYGXclaevuoUphIX1e
- ziN4vy51Patf4ZB8M9fua6T8ZOZshsI//uPWW2R9s75HKc+kd/6TmPc+i9wsWchIAkbuay0keqJ
- 3hwC9u1lQ8VbSpxw0H0h9HproOAYSpb3N7OodTjGd9y8tszRMTDYIkACNKFksKpFSbj8a5fb3Zy
- wOs806UAiPX/7gD5dphPXdjHfSv+Q9dGLqntF2mRhMwGE5WeUDeYYZBfn/Adm3vzq3bqewCYZPP
- b7JQkZOjy/rFs4A==
-X-Developer-Key: i=jlayton@kernel.org; a=openpgp;
- fpr=4BC0D7B24471B2A184EAF5D3000E684119568215
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416-diaphragm-corrode-494560404ed4@spud>
 
-If the client requested dir attribute change notifications, send those
-alongside any set of add/remove/rename events. Note that the server will
-still recall the delegation on a SETATTR, so these are only sent for
-changes to child dirents.
+On Thu, Apr 16, 2026 at 04:51:37PM +0100, Conor Dooley wrote:
+> On Thu, Apr 16, 2026 at 03:59:10PM +0800, Alexis Czezar Torreno wrote:
+> > Add device tree documentation for MAX20830 step-down DC-DC switching
+> > regulator with PMBus interface.
+> > 
+> > Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> > ---
+> >  .../bindings/hwmon/pmbus/adi,max20830.yaml         | 61 ++++++++++++++++++++++
+> >  MAINTAINERS                                        |  7 +++
+> >  2 files changed, 68 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..8b3ec1ffa0c9460de2122f6606ce3dcbcdfbbcc7
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
+> > @@ -0,0 +1,61 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/hwmon/pmbus/adi,max20830.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Analog Devices MAX20830 Step-Down Switching Regulator with PMBus
+> > +
+> > +maintainers:
+> > +  - Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> > +
+> > +description: |
+> > +  The MAX20830 is a fully integrated step-down DC-DC switching regulator with
+> > +  PMBus interface. It provides 2.7V to 16V input, 0.4V to 5.8V adjustable
+> > +  output, and up to 30A output current. It allows monitoring of input/output
+> > +  voltage, output current and temperature through the PMBus serial interface.
+> > +  Datasheet:
+> > +    https://www.analog.com/en/products/max20830.html
+> > +
+> > +allOf:
+> > +  - $ref: /schemas/regulator/regulator.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: adi,max20830
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> 
+> On the previous version, you got an LLM comment about not having the
+> interrupts property amongst other things.
+> I think the other things got implemented, but I didn't see any reply to
+> the bot about that?
+> I think the answer is that it shouldn't because the pin it referenced
+> doesn't exist, but when looking at the schematic I have to wonder if
 
-Signed-off-by: Jeff Layton <jlayton@kernel.org>
----
- fs/nfsd/nfs4state.c | 25 ++++++++++++++++++++--
- fs/nfsd/nfs4xdr.c   | 61 +++++++++++++++++++++++++++++++++++++++++++++--------
- fs/nfsd/xdr4.h      |  2 ++
- 3 files changed, 77 insertions(+), 11 deletions(-)
+I had to look this up in the datasheet. A SMBus chip with no alert pin is
+a bit odd, but you are correct.
 
-diff --git a/fs/nfsd/nfs4state.c b/fs/nfsd/nfs4state.c
-index 32340a0669df..5eca7899c48d 100644
---- a/fs/nfsd/nfs4state.c
-+++ b/fs/nfsd/nfs4state.c
-@@ -3478,10 +3478,15 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	struct nfsd_notify_event *events[NOTIFY4_EVENT_QUEUE_SIZE];
- 	struct xdr_buf xdr = { .buflen = PAGE_SIZE * NOTIFY4_PAGE_ARRAY_SIZE,
- 			       .pages  = ncn->ncn_pages };
-+	int limit = NOTIFY4_EVENT_QUEUE_SIZE;
- 	struct xdr_stream stream;
- 	struct nfsd_file *nf;
--	int count, i;
- 	bool error = false;
-+	int count, i;
-+
-+	/* Save a slot for dir attr update if requested */
-+	if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS))
-+		--limit;
- 
- 	xdr_init_encode_pages(&stream, &xdr);
- 
-@@ -3495,7 +3500,7 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 	}
- 
- 	/* we can't keep up! */
--	if (count > NOTIFY4_EVENT_QUEUE_SIZE) {
-+	if (count > limit) {
- 		spin_unlock(&ncn->ncn_lock);
- 		goto out_recall;
- 	}
-@@ -3542,6 +3547,22 @@ nfsd4_cb_notify_prepare(struct nfsd4_callback *cb)
- 		nfsd_notify_event_put(nne);
- 	}
- 	if (!error) {
-+		if (dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)) {
-+			u32 *maskp = (u32 *)xdr_reserve_space(&stream, sizeof(*maskp));
-+
-+			if (maskp) {
-+				u8 *p = nfsd4_encode_dir_attr_change(&stream, dp, nf);
-+
-+				if (p) {
-+					*maskp = BIT(NOTIFY4_CHANGE_DIR_ATTRS);
-+					ncn->ncn_nf[count].notify_mask.count = 1;
-+					ncn->ncn_nf[count].notify_mask.element = maskp;
-+					ncn->ncn_nf[count].notify_vals.data = p;
-+					ncn->ncn_nf[count].notify_vals.len = (u8 *)stream.p - p;
-+					++count;
-+				}
-+			}
-+		}
- 		ncn->ncn_nf_cnt = count;
- 		nfsd_file_put(nf);
- 		return true;
-diff --git a/fs/nfsd/nfs4xdr.c b/fs/nfsd/nfs4xdr.c
-index bd1142590d2b..73f2fdf929ed 100644
---- a/fs/nfsd/nfs4xdr.c
-+++ b/fs/nfsd/nfs4xdr.c
-@@ -4152,11 +4152,11 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 			  struct nfsd_file *nf, char *name, u32 namelen)
- {
- 	struct nfs4_file *fi = dp->dl_stid.sc_file;
--	struct path path =  { .mnt = nf->nf_file->f_path.mnt,
--			      .dentry = dentry };
-+	struct path path = nf->nf_file->f_path;
- 	struct nfsd4_fattr_args args = { };
- 	uint32_t *attrmask;
- 	__be32 status;
-+	bool parent;
- 	int ret;
- 
- 	/* Reserve space for attrmask */
-@@ -4168,6 +4168,9 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 	ne->ne_file.len = namelen;
- 	ne->ne_attrs.attrmask.element = attrmask;
- 
-+	parent = (dentry == path.dentry);
-+	path.dentry = dentry;
-+
- 	/* FIXME: d_find_alias for inode ? */
- 	if (!path.dentry || !d_inode(path.dentry))
- 		goto noattrs;
-@@ -4183,15 +4186,20 @@ nfsd4_setup_notify_entry4(struct notify_entry4 *ne, struct xdr_stream *xdr,
- 
- 	args.change_attr = nfsd4_change_attribute(&args.stat);
- 
--	attrmask[0] = dp->dl_child_attrs[0];
--	attrmask[1] = dp->dl_child_attrs[1];
--	attrmask[2] = 0;
-+	if (parent) {
-+		attrmask[0] = dp->dl_dir_attrs[0];
-+		attrmask[1] = dp->dl_dir_attrs[1];
-+	} else {
-+		attrmask[0] = dp->dl_child_attrs[0];
-+		attrmask[1] = dp->dl_child_attrs[1];
- 
--	if (!setup_notify_fhandle(dentry, fi, nf, &args))
--		attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
-+		if (!setup_notify_fhandle(dentry, fi, nf, &args))
-+			attrmask[0] &= ~FATTR4_WORD0_FILEHANDLE;
- 
--	if (!(args.stat.result_mask & STATX_BTIME))
--		attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+		if (!(args.stat.result_mask & STATX_BTIME))
-+			attrmask[1] &= ~FATTR4_WORD1_TIME_CREATE;
-+	}
-+	attrmask[2] = 0;
- 
- 	ne->ne_attrs.attrmask.count = 2;
- 	ne->ne_attrs.attr_vals.data = (u8 *)xdr->p;
-@@ -4308,6 +4316,41 @@ u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *
- 	return NULL;
- }
- 
-+/**
-+ * nfsd4_encode_dir_attr_change
-+ * @xdr: stream to which to encode the fattr4
-+ * @dp: delegation where the event occurred
-+ * @nf: nfsd_file opened on the directory
-+ *
-+ * Encode a dir attr change event.
-+ */
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf)
-+{
-+	struct dentry *dentry = nf->nf_file->f_path.dentry;
-+	struct notify_attr4 na = { };
-+	struct name_snapshot n;
-+	bool ret;
-+	u8 *p = NULL;
-+
-+	if (!(dp->dl_notify_mask & BIT(NOTIFY4_CHANGE_DIR_ATTRS)))
-+		return NULL;
-+
-+	take_dentry_name_snapshot(&n, dentry);
-+	ret = nfsd4_setup_notify_entry4(&na.na_changed_entry, xdr,
-+					dentry, dp, nf, (char *)n.name.name,
-+					n.name.len);
-+
-+	/* Don't bother with the event if we're not encoding attrs */
-+	if (ret && na.na_changed_entry.ne_attrs.attr_vals.len) {
-+		p = (u8 *)xdr->p;
-+		if (!xdrgen_encode_notify_attr4(xdr, &na))
-+			p = NULL;
-+	}
-+	release_dentry_name_snapshot(&n);
-+	return p;
-+}
-+
- static void svcxdr_init_encode_from_buffer(struct xdr_stream *xdr,
- 				struct xdr_buf *buf, __be32 *p, int bytes)
- {
-diff --git a/fs/nfsd/xdr4.h b/fs/nfsd/xdr4.h
-index d276840aca50..cf7f0df68d63 100644
---- a/fs/nfsd/xdr4.h
-+++ b/fs/nfsd/xdr4.h
-@@ -958,6 +958,8 @@ __be32 nfsd4_encode_fattr_to_buf(__be32 **p, int words,
- u8 *nfsd4_encode_notify_event(struct xdr_stream *xdr, struct nfsd_notify_event *nne,
- 			      struct nfs4_delegation *dd, struct nfsd_file *nf,
- 			      u32 *notify_mask);
-+u8 *nfsd4_encode_dir_attr_change(struct xdr_stream *xdr, struct nfs4_delegation *dp,
-+				 struct nfsd_file *nf);
- extern __be32 nfsd4_setclientid(struct svc_rqst *rqstp,
- 		struct nfsd4_compound_state *, union nfsd4_op_u *u);
- extern __be32 nfsd4_setclientid_confirm(struct svc_rqst *rqstp,
+> there should be an interrupts property for dealing with "pgood"?
+> 
+FWIW, I have never seen that. Normally such pins are used to take devices
+out of reset.
 
--- 
-2.53.0
-
+Thanks,
+Guenter
