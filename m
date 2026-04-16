@@ -1,184 +1,116 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B3F371D0A;
-	Thu, 16 Apr 2026 20:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 465972848AD
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 21:04:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776372827; cv=none; b=JjmIwYLqRgqB32/Yv0F9skYLctJs6L69P3oyq4S6d2QuZ+230rguSl2g79gwrpA3JT9rw80KJLgPgBNgg9IM1zYNiwCUPAEqMPLqvXFgoOemgJN9+heWnEBUWv8zbLq0EP6ytH1LlhmIsywAR7OEvBIdLyi0NRRi5f1I1vfhZME=
+	t=1776373443; cv=none; b=JVkYO8wmx+Lxd5hFA15GY4yvEvU2HZkFXBSayCY9ikqsf01wfa53bDs28DwXsEQGehYVepOX4IgsS8qbHZFiw3IrvdSq4sLLL+VsGZfq5HEA4FxWRdrlC2gtLshCvj6cC45+D+KsIjOVD+6GUJkEtzvrRCgRjsmilK8vNcUoHFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776372827; c=relaxed/simple;
-	bh=WrSs9D3ajaYKuB8EpBEH6JutRpPV1nePztytUV2eiHs=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=TL0/xa1I7EqpZ/Ag2sjgfGHL3nazMGHMS1AYSDoC+Kf2IQoGrTCbWiWWIM3A8xibkqwKAR8GVr0Cd1BoJkflCXDCLif9C+43Ps5u3SQ3jeQ+i046J+jWj/ocRUT2YdP0SKTjeS1PzgaPSEOWRbvPW9VBN2n6IMUlYEifD+ioFDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJnU0Bu9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776373443; c=relaxed/simple;
+	bh=HV7jGFdLhzAZHOmvudPnyfEXv5F47QiRBZi1CMuDfc0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tyoFxRySuTNJqwvXzpWvBM88EGaWKx7fDI5aPPaM/X/w6xvLRwK1mrxQ9b8QprxcJ8oUMlomaPClY0nl96H9ZeFhwhr1YqzLSADocdrw4IYzkle6HYg2zE77T5siYrB7Y5IlomOvK6ogrhToLv6InC9fs/Ncuez4kKSyTWiwfXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fjo+1mGD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJnU0Bu9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B6BEC2BCB0;
-	Thu, 16 Apr 2026 20:53:46 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fjo+1mGD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF74C2BCB8
+	for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 21:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776372827;
-	bh=WrSs9D3ajaYKuB8EpBEH6JutRpPV1nePztytUV2eiHs=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=iJnU0Bu9Fp2a4IIR6Uvsn5yEJALrEieeyO07X5igdL3nn6qyrINXnKXSa3sj15F62
-	 oA33VKZ2J79rZ5PSVroqNFlwwwfE6HyZ1eQbwxOfexBReNtzIjGYeoLeb8TDckm+35
-	 zwU9rlcRGvlYnzQkYay/xjkeyJMsshTM5etYg3la6zc0dnEmJf0u9xUZa3szmd7sJl
-	 x9oQfxlQ53kEEZRdoANKMaFiJEzGS+bGYBNLgST69LOP0X8CRXtLnE9j+GcVaGQOAT
-	 xZkii60w11Mht5DOBn4/V+ysXrUMpHKn/3BJCGIvP/Y8oLB3TaEf11Dr3J6SIW85c3
-	 G8frIdEoqrH8g==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 879EAF40068;
-	Thu, 16 Apr 2026 16:53:45 -0400 (EDT)
-Received: from phl-imap-16 ([10.202.2.88])
-  by phl-compute-02.internal (MEProxy); Thu, 16 Apr 2026 16:53:45 -0400
-X-ME-Sender: <xms:WUzhadGIqbMa438SrmTsmjCl787G0xIJFBw-Qfs109qRystEsMhcdQ>
-    <xme:WUzhadLaVQq3x-NOPV0-M4W52GGMuR8O3vGFT06GtzhIa47z5SLO1wMNoh-bMbGy0
-    zJuRd-9hBTXvfPtQV-jAVs_02CvVZxMChloGmRT5Iuk0-kTD-v3rWo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegkedtudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdffrghnucgh
-    ihhllhhirghmshdfuceoughjsgifsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepuedujeffveegleegkeeiteefuefhfeekvedvgfffgeehgfehleejgeejveffgfff
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepughjsg
-    ifodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqddujeejvdeftdegheehqdef
-    feefleegtdegjedqughjsgifpeepkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtg
-    homhdpnhgspghrtghpthhtohepgedupdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    pehshhhivhgrnhhkghesrghmugdrtghomhdprhgtphhtthhopehjrghmvghsrdhmohhrsh
-    gvsegrrhhmrdgtohhmpdhrtghpthhtohepsggvrhhnugessghssggvrhhnugdrtghomhdp
-    rhgtphhtthhopegsshgthhhusggvrhhtseguughnrdgtohhmpdhrtghpthhtoheprghmih
-    hrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepsggrghgrshguohhtmhgvsehg
-    mhgrihhlrdgtohhmpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrd
-    gtohhmpdhrtghpthhtoheprggtkhgvrhhlvgihthhnghesghhoohhglhgvrdgtohhmpdhr
-    tghpthhtohepshgvrghnjhgtsehgohhoghhlvgdrtghomh
-X-ME-Proxy: <xmx:WUzhaUwKZTaAAPCUuJbPycDNZtQTCaP5juc11oOQ_1ue4asARW8VGA>
-    <xmx:WUzhacSa6JiaRRPSepxGapcMKy5oSkaT1H4l4bNDaWe8SKtRLa7SUQ>
-    <xmx:WUzhaW8ydo5n2xptH7g8nlrQTbCn-CaM0Do_ErMzA688EE0yzRjvKQ>
-    <xmx:WUzhaSaB-i6fI32eV4MloL7qa2UnRU28gl_J-sIw6CckXihQQmHOGQ>
-    <xmx:WUzhafq-9M3Zbr2c10ckJ_IZsgALgwKX-sf8gzQ9MiuLBfCJrNbpvG_K>
-Feedback-ID: i67ae4b3e:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 5278B2CC0083; Thu, 16 Apr 2026 16:53:45 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1776373443;
+	bh=HV7jGFdLhzAZHOmvudPnyfEXv5F47QiRBZi1CMuDfc0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fjo+1mGDvQ7wn6KV99duUBZLaL2KzoC4IMHeObTHtknQrusLqaYl/c/oHYUIgnP1t
+	 SsiScWiySwQ6DSMcQFlsF/rzQV8eDkonZftgzIdL7MeFaY38M3+2iJHQ0MRFxBYxNh
+	 E9FYwzpl2Ty6VDiRLvWohyGhD96sG6zT2SnTfBffQs9ZLbDI4K4WeQnZmSBYsB4OyF
+	 1Oyjf04cXE+01GFW0603IkbnFkUiTMcSMJxCBbwjsIAlQgIBgHoA9/Mx6TWr3fg+oy
+	 F8taDIotykU9no3T+aw8IqY9WrwE5JFXQyxWT3ZB8T2ZCqT77VGGyKkthDxhuECvCp
+	 WvE5SFH5oj7hg==
+Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12c080efc1eso934463c88.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 14:04:03 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ/JrQzMAqqFZCJrxVHnr3uwDPA2b+EstFDuEInK+xNrvIy2YTLfbVOSsYGbPhVROm0RvDNKtZy0Feo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YznIb+syYvf3UQ1lreyWo0lkduCFNF9roQM1V93VYX6Y/JtwXgG
+	tDlajdw6NZxIjJo/wJ7XrgVKG3BJf+Av4wCbqEf3pepS73TD7U/dKm53I4VLW0QYWjztaAtCVZn
+	7lCaf1RgkslULF6X1w5+VExhIBmGYJLY=
+X-Received: by 2002:a05:7022:6990:b0:12c:41ec:8303 with SMTP id
+ a92af1059eb24-12c73b042cdmr28854c88.9.1776373442262; Thu, 16 Apr 2026
+ 14:04:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 16 Apr 2026 13:53:27 -0700
-From: "Dan Williams" <djbw@kernel.org>
-To: "Gregory Price" <gourry@gourry.net>,
- "Joanne Koong" <joannelkoong@gmail.com>
-Cc: "John Groves" <John@groves.net>, "Darrick J. Wong" <djwong@kernel.org>,
- "Miklos Szeredi" <miklos@szeredi.hu>,
- "Bernd Schubert" <bernd@bsbernd.com>,
- "John Groves" <john@jagalactic.com>,
- "Dan J Williams" <dan.j.williams@intel.com>,
- "Bernd Schubert" <bschubert@ddn.com>,
- "Alison Schofield" <alison.schofield@intel.com>,
- "John Groves" <jgroves@micron.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Shuah Khan" <skhan@linuxfoundation.org>,
- "Vishal Verma" <vishal.l.verma@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "David Hildenbrand" <david@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- "Stefan Hajnoczi" <shajnocz@redhat.com>,
- "Josef Bacik" <josef@toxicpanda.com>,
- "Bagas Sanjaya" <bagasdotme@gmail.com>,
- "Chen Linxuan" <chenlinxuan@uniontech.com>,
- "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
- "Sean Christopherson" <seanjc@google.com>,
- "Shivank Garg" <shivankg@amd.com>,
- "Ackerley Tng" <ackerleytng@google.com>,
- "Aravind Ramesh" <arramesh@micron.com>,
- "Ajay Joshi" <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Message-Id: <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
-In-Reply-To: <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
-References: <adkDq0m5Wt9YhJ8A@groves.net>
- <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net>
- <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Content-Type: text/plain; charset=utf-8
+References: <20260416173500.176716-1-bboscaccy@linux.microsoft.com> <20260416173500.176716-11-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20260416173500.176716-11-bboscaccy@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Thu, 16 Apr 2026 14:03:50 -0700
+X-Gmail-Original-Message-ID: <CAKtyLkGbcD940c2OG2RpShEo7WnXj5OPt0qik9x=fEfp3GMVXw@mail.gmail.com>
+X-Gm-Features: AQROBzBd3MFbWFa56VUxGXd30U0dprFH8If1gqEB7uKOZwigi_RUa5OVut8j4RQ
+Message-ID: <CAKtyLkGbcD940c2OG2RpShEo7WnXj5OPt0qik9x=fEfp3GMVXw@mail.gmail.com>
+Subject: Re: [PATCH v4 10/10] ipe: Add BPF program load policy enforcement via
+ Hornet integration
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	James.Bottomley@hansenpartnership.com, dhowells@redhat.com, 
+	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	Song Liu <song@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
+On Thu, Apr 16, 2026 at 10:35=E2=80=AFAM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
+>
+> Add support for the bpf_prog_load_post_integrity LSM hook, enabling IPE
+> to make policy decisions about BPF program loading based on integrity
+> verdicts provided by the Hornet LSM.
+>
+> New policy operation:
+>   op=3DBPF_PROG_LOAD - Matches BPF program load events
+>
+> New policy properties:
+>   bpf_signature=3DNONE      - No Verdict
+>   bpf_signature=3DOK        - Program signature and map hashes verified
+>   bpf_signature=3DUNSIGNED  - No signature provided
+>   bpf_signature=3DPARTIALSIG - Signature OK but no map hash data
+>   bpf_signature=3DUNKNOWNKEY - Cert not trusted
+>   bpf_signature=3DUNEXPECTED - An unexpected hash value was encountered
+>   bpf_signature=3DFAULT      - System error during verification
+>   bpf_signature=3DBADSIG    - Signature or map hash verification failed
+>   bpf_keyring=3DBUILTIN     - Program was signed using a builtin keyring
+>   bpf_keyring=3DSECONDARY   - Program was signed using the secondary keyr=
+ing
+>   bpf_keyring=3DPLATFORM    - Program was signed using the platform keyri=
+ng
+>   bpf_kernel=3DTRUE         - Program originated from kernelspace
+>   bpf_kernel=3DFALSE        - Program originated from userspace
+>
+> These properties map directly to the lsm_integrity_verdict enum values
+> provided by the Hornet LSM through security_bpf_prog_load_post_integrity.
+>
+> The feature is gated on CONFIG_IPE_PROP_BPF_SIGNATURE which depends on
+> CONFIG_SECURITY_HORNET.
+>
+> Example policy for bpf signature enforcement:
+>  DEFAULT op=3DBPF_PROG_LOAD action=3DDENY
+>  op=3DBPF_PROG_LOAD is_kernel=3DTRUE action=3DALLOW
+>  op=3DBPF_PROG_LOAD bpf_signature=3DOK action=3DALLOW
+>
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
 
+Hi Blaise,
 
-On Thu, Apr 16, 2026, at 1:14 PM, Gregory Price wrote:
-> On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
->> On Tue, Apr 14, 2026 at 5:10=E2=80=AFPM John Groves <John@groves.net>=
- wrote:
->> >
->> > There is a FUSE_DAX_FMAP capability that the kernel may advertise o=
-r not
->> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
->> > commands. In the future, if we find a way to use BPF (or some other
->> > mechanism) to avoid needing those fuse messages, the kernel could b=
-e updated
->> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-s=
-pecific
->> > code could be taken out of kernels that never advertise that capabi=
-lity.
->>=20
->> I=E2=80=99m not sure the capability bit can be used like that (though=
- I am
->> hoping it can!). As I understand it, once the kernel advertises a
->> capability, it must continue supporting it in future kernels else
->> userspace programs that rely on it will break.
->>=20
->
-> FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
-> not required to continue advertising FUSE_DAX_FMAP in perpetuity.
->
-> Setting CONFIG_FUSE_DAX=3Dn does not mean userland "is broken", this w=
-ould
-> only be the case if FUSE_DAX_FMAP was advertised but not actually
-> supported.
->
-> If DAX were removed from the kernel (unlikely, but stick with me) this
-> would be equivalent to permanently changing CONFIG_FUSE_DAX to always
-> off, and there would be no squabbles over whether that particular
-> change broke userland (there would be much strife over removing dax).
->
-> While not a deprecation method, this is what capability bits are
-> designed for. Same as cpuid capability bits - just because the bit is
-> there doesn't mean a processor is required to support it in perpetuity.
->
-> They're only required to support it if the bit is turned on.
->
+I have not finished reviewing the code yet, so I do not have
+implementation comments at this point.
 
-Right, if the protocol on day one is "user space must ask which method i=
-s available", then userspace can not be surprised when one option disapp=
-ears. So to give time for the bpf approach to mature the kernel can do s=
-omething like "famfs and bpf  mapping support are available". In some fu=
-ture kernel the famfs native option disappears after a deprecation perio=
-d.=20
+Since this code introduces new policy semantics, it would be helpful
+to also reflect that in the IPE documentation, and perhaps include a
+link to the Hornet documentation for context.
 
-When folks ask 10 years from now why this ever supported optionality the=
- explanation is "oh because famfs enjoyed first mover advantage to prove=
- out fs semantics layered on dax devices", or "turns out there are some =
-cases where bpf is not fast enough but it still stops the proliferation =
-of more in kernel mapping implementations".
-
-Something like FUSE_DAX_FMAP is always available but the backend to that=
- is optionally native vs bpf. ...or some other arrangement to make it cl=
-ear that native might be gone someday.
+-Fan
