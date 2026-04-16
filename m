@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC37535F5E4;
-	Thu, 16 Apr 2026 21:10:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46B0437186F;
+	Thu, 16 Apr 2026 21:17:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776373849; cv=none; b=VG1Unz8Ua3wSwgqoSq1AV6Edf1kn5qi++RXFg5EwEt6uN5IrVAq5jDH7PZIecUSqZxVqObg3Hc5lFrw5SsMP1DGH6SrtvO5UndLuPWMo0xpZ4ABvmLdPbFHGs7rBJdWEmpcE3l5GAERdj+WUomwDpZtvkK4KWnlgi6IQhu2nOL8=
+	t=1776374247; cv=none; b=eS4tMiVvSou6PcM59X/lQKyVm35X14cHRMYBDwNW3DnEitmtSuA4mT0IW8rknP+QTAMIKRZcr1MwX1A+N+nFG1eyfORj4PyhaI71fxcMmW3cvpgox7L4VymbecTq64Jl79Nw/7QBDm3ndnPwyQQUpWUrbLfdOtQNmq8xRG6bXfo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776373849; c=relaxed/simple;
-	bh=tK+Us+60ypdY+8xy5NOzQFC4IGCqHJkoia9xZDAS33s=;
+	s=arc-20240116; t=1776374247; c=relaxed/simple;
+	bh=8+qp5AVliBOoLA+ApAN6ukgLp/FCzJny3hVHvc7k+N0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B3uhsZYRKMVldKCP0gLJ67djskyO4Bxj0oonFH+pPBn1s4amtodhfFVQ/wNsXF6y20eqfVYu+XWKpEbF1oBcZeA1WYsy8dZIGAD9pQDdznHavZh9ybaP6HZ3G6ZO0HXDIk9T8wsKX3JcgDnKwnwgMdOBiha67q9Vg1mIDmbvJeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=dqnX6oTM; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=EVtaGuEbBMIgaJ2lwYHw42mTBlnpqugKmxyxdRIpR6yyZvdLdQm4ZRzmgT0/kcbRG51OEqVayHYz0+a02KSCJhSLGMkjVpdwZTfz3ETmfFYfmWy/FsVCR9YvS3RjAAcjcqOO3YESF+IiXkY5t3Z1K2s9xiu5cltZ2eCJLKd3O3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=chpSMJwr; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="dqnX6oTM"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="chpSMJwr"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=pF+hcvOM+pTk5+aFxrJQ1Z7u1BA1J9lewId/mfJhv9E=; b=dqnX6oTMdHn41jQw2G4I273stF
-	o56JClDlwBgxP2oSZVA0wzadjEHwaZk03eXaAihQuBInpeJ6tb/80sZ+RbWSdXjk87ded4A1pWFna
-	DNJO0swuxArVAEF7YbVeEs3SXvV3VtAdnNdm+x/MZ7a1r5t6XaPpKyCh01uv6B8S1hUzxHIEQ/jyi
-	0oGnFS9cb1GB9CFSV/os9rNnkkbowU6kG31EDPPqX0OqBZBqoHV1LLBAm8HhZxCG44G9t9imQYSP0
-	9CsWRFFcc1ej4SA2EmAffaOvtrLkjb4C2V3UtSqpz009qqXubJkPsGiGfeAHglqcuFXxgR5mBxYJd
-	sJRzq/Fw==;
+	bh=XYKSSik4iHJGZXHi+q1kyedEjJZTQZpwWje/LXfezkA=; b=chpSMJwredwsoI3Yi8M5yfY51T
+	B+5zIliu0vYvhoSSPeOhRLeQW46v2KveAKLVWDqcK4IoNQ84PS1MVs5GM2VEroYW0PTICev+qA5t5
+	diBBayH0ttChXfk/gm16CvXBpc6PX7QTXgsc7gC/Y40lGfgGJGkbNVx5algepyMPdUU+iSJjHSMHW
+	QNGd5UA/1gqx08V08ZAXPvo3lPAS1TpVZ0ZdwPid72nRz3AuBPWPTrNCaf/u29xDeyE28C0e2mGUB
+	t76FXrSV7EYbTN1O4M1b/EQFa8lf4dFQg2pKG0lpM1MJepMTk6cdYWhiRG+K5K4zL/cnIRcVLwbzP
+	kB+kWe9A==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wDTz0-000000033AF-1ZYy;
-	Thu, 16 Apr 2026 21:10:42 +0000
-Message-ID: <491d3249-1995-4499-9dc2-150e0fd2acef@infradead.org>
-Date: Thu, 16 Apr 2026 14:10:40 -0700
+	id 1wDU5Q-000000033kd-45gm;
+	Thu, 16 Apr 2026 21:17:21 +0000
+Message-ID: <e7a15679-07f8-49e3-8818-3d4005c085d3@infradead.org>
+Date: Thu, 16 Apr 2026 14:17:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,93 +39,66 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: staging: fix various typos and grammar issues
-To: Zhang Xiaolei <zxl434815272@gmail.com>, corbet@lwn.net,
- ebiggers@kernel.org, andersson@kernel.org, mathieu.poirier@linaro.org
-Cc: ardb@kernel.org, skhan@linuxfoundation.org, linux-crypto@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260416105854.788-1-zxl434815272@gmail.com>
+Subject: Re: [PATCH v4 1/8] ARM: zte: Add zx297520v3 platform support
+To: =?UTF-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ soc@lists.linux.dev, linux-serial@vger.kernel.org
+References: <20260416-send-v4-0-e19d02b944ec@gmail.com>
+ <20260416-send-v4-1-e19d02b944ec@gmail.com>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260416105854.788-1-zxl434815272@gmail.com>
+In-Reply-To: <20260416-send-v4-1-e19d02b944ec@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 4/16/26 3:58 AM, Zhang Xiaolei wrote:
-> Fix a few typographical and grammatical issues across several
-> staging documentation files to improve readability:
-> - crc32.rst: replace "decide in" with "decide on"
-> - lzo.rst: replace "independent on" with "independent of"
-> - remoteproc.rst: fix word order in dependent clause
-> - static-keys.rst: add hyphen to "low-level"
-> 
-> Signed-off-by: Zhang Xiaolei <zxl434815272@gmail.com>
+On 4/16/26 1:19 PM, Stefan Dösinger wrote:
+> diff --git a/arch/arm/mach-zte/Kconfig b/arch/arm/mach-zte/Kconfig
+> new file mode 100644
+> index 000000000000..24699256863b
+> --- /dev/null
+> +++ b/arch/arm/mach-zte/Kconfig
+> @@ -0,0 +1,24 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +menuconfig ARCH_ZTE
+> +	bool "ZTE zx family"
+> +	depends on ARCH_MULTI_V7
+> +	help
+> +	  Support for ZTE zx-based family of processors.
+> +
+> +if ARCH_ZTE
+> +
+> +config SOC_ZX297520V3
+> +	default y if ARCH_ZTE
+> +	bool "ZX297520v3"
+> +	select ARM_GIC_V3
+> +	select ARM_AMBA
+> +	select HAVE_ARM_ARCH_TIMER
+> +	select PM_GENERIC_DOMAINS if PM
+> +	help
+> +	  Support for ZTE zx297520v3 SoC. It a single core SoC used in cheap LTE to WiFi routers.
 
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-Thanks.
+	                                  It is
 
-> ---
->  Documentation/staging/crc32.rst       | 2 +-
->  Documentation/staging/lzo.rst         | 2 +-
->  Documentation/staging/remoteproc.rst  | 2 +-
->  Documentation/staging/static-keys.rst | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/Documentation/staging/crc32.rst b/Documentation/staging/crc32.rst
-> index 64f3dd430a6c..fc0d9564b99c 100644
-> --- a/Documentation/staging/crc32.rst
-> +++ b/Documentation/staging/crc32.rst
-> @@ -119,7 +119,7 @@ the byte-at-a-time table method, popularized by Dilip V. Sarwate,
->  v.31 no.8 (August 1988) p. 1008-1013.
->  
->  Here, rather than just shifting one bit of the remainder to decide
-> -in the correct multiple to subtract, we can shift a byte at a time.
-> +on the correct multiple to subtract, we can shift a byte at a time.
->  This produces a 40-bit (rather than a 33-bit) intermediate remainder,
->  and the correct multiple of the polynomial to subtract is found using
->  a 256-entry lookup table indexed by the high 8 bits.
-> diff --git a/Documentation/staging/lzo.rst b/Documentation/staging/lzo.rst
-> index f65b51523014..2d48b2667dd2 100644
-> --- a/Documentation/staging/lzo.rst
-> +++ b/Documentation/staging/lzo.rst
-> @@ -75,7 +75,7 @@ Description
->       are called under the assumption that a certain number of bytes follow
->       because it has already been guaranteed before parsing the instructions.
->       They just have to "refill" this credit if they consume extra bytes. This
-> -     is an implementation design choice independent on the algorithm or
-> +     is an implementation design choice independent of the algorithm or
->       encoding.
->  
->  Versions
-> diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
-> index 5c226fa076d6..c117b060e76c 100644
-> --- a/Documentation/staging/remoteproc.rst
-> +++ b/Documentation/staging/remoteproc.rst
-> @@ -24,7 +24,7 @@ handlers, and then all rpmsg drivers will then just work
->  (for more information about the virtio-based rpmsg bus and its drivers,
->  please read Documentation/staging/rpmsg.rst).
->  Registration of other types of virtio devices is now also possible. Firmwares
-> -just need to publish what kind of virtio devices do they support, and then
-> +just need to publish what kind of virtio devices they support, and then
->  remoteproc will add those devices. This makes it possible to reuse the
->  existing virtio drivers with remote processor backends at a minimal development
->  cost.
-> diff --git a/Documentation/staging/static-keys.rst b/Documentation/staging/static-keys.rst
-> index b0a519f456cf..e8dc3a87c381 100644
-> --- a/Documentation/staging/static-keys.rst
-> +++ b/Documentation/staging/static-keys.rst
-> @@ -90,7 +90,7 @@ out-of-line true branch. Thus, changing branch direction is expensive but
->  branch selection is basically 'free'. That is the basic tradeoff of this
->  optimization.
->  
-> -This lowlevel patching mechanism is called 'jump label patching', and it gives
-> +This low-level patching mechanism is called 'jump label patching', and it gives
->  the basis for the static keys facility.
->  
->  Static key label API, usage and examples
+> +	  These devices can be Identified by the occurrence of the string "zx297520v3" in the boot
+
+	                       identified
+
+> +	  output and /proc/cpuinfo of their stock firmware.
+> +
+> +	  Please read Documentation/arch/arm/zte/zx297520v3.rst on how to boot the kernel.
 
 -- 
 ~Randy
+
