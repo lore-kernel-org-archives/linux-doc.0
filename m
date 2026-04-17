@@ -1,195 +1,252 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7801D3563FB;
-	Fri, 17 Apr 2026 03:32:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776396777; cv=fail; b=GT5wx75jGXVvoWFFVMg4EqvOUCqyLJLhdB1/WQ34DRtJojK9mrGNPKrZwgA7jRorq78gcdAMnN3gTGjio64akuznXN/G0pGgn1EtjTF9ElbfkfNJSOD4FD8rgqubrlSIAMzdPZ2y/4nqVeLO+PA7yh8X/XV5sVNRyvjWkq4OViE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776396777; c=relaxed/simple;
-	bh=mPmol3iU9kYHxaj/o0JbxCq6aufAxRORHLLuPFX0wXA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=uEYmLMzS0msggnIShvoJ/WcRPr6Xg/LHBrNSmU08D9cfxBpHRgk00SZRmOAVimZqe1RKpRK6Qe5zgfW8MBXejJ6bMNgtNswaKqxEe4pFq9v9PEU56Y02MxKwdv4WLtqV5/q6TZ6ttsZaDhQZviZGFa+R2un7iW1jx1UN+AZ3nvA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=AmILXkkb; arc=fail smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C96B286D73;
+	Fri, 17 Apr 2026 05:40:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776404433; cv=none; b=Yb1Bw6VU+2UIGHgGLwLDxTdQkjGuVVit9DowcJR8+x/trwvEBPeCE2maV2HSqzZ7PseczJME5PNpR12uFsy/gx4U9WgxmyrnGSIzeomKEMjOBHryLWsm9EI4nD/BAD5wqItoTZdx2OZq713MOvDJPQp7j0BO2H5rNobYOA78hXI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776404433; c=relaxed/simple;
+	bh=WBeGqOv2MsAxuiPSo/t1Xo5oPMExHQYWkQbnnaWeeE4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hvbHJtiL8rm3lMiX4b0gis4Q4lfvu0L2vIaiEzE2SoXs8r5KZb+6Y/lPFLt2aS1444H9rmwVOqS4Uel7mL77cwuH5ig4MG1ZbRP/1YFm/nol60a7oPJlZkn+8cF13N4nbkKy7TN/4OKEM9D9zAe9QS/DkYFljQqe2M8eLH5ipmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F26gAPcz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="AmILXkkb"
-Received: from pps.filterd (m0516787.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63H1F9BH203575;
-	Thu, 16 Apr 2026 23:32:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=mPmol
-	3iU9kYHxaj/o0JbxCq6aufAxRORHLLuPFX0wXA=; b=AmILXkkbAFxerDrjtlGj0
-	OfTziDY8fwO/TSFNPcRrakcAWs7vKQbGV5oXtrJWzXHNKk3wbXjEd4E/gGgLHjgz
-	FInepauK/zaDEIn3DSLbs+/LRceqgwywLxUnVAYzWSMdH7syWlWkKB44lZQXZgdj
-	uvp7IEZ6VMU5PLSOo8deMt6bLTOPtzinRrGPWiMSmQ1xBYLi8sR0TC+k2+4Rt2ra
-	PQ6oYTLlZ4jiHanNl0yrnNnQWZcHIPzrPTzCyf8gQzyf2wbbSHEpLHn6pQwgjb+E
-	Vo1gn5eTNy9TIWLMKGgC8VKfQ/W8i/ymrOE9HqnMeGa/QPtpw70CDc5+La4IRCTd
-	A==
-Received: from cy7pr03cu001.outbound.protection.outlook.com (mail-westcentralusazon11010071.outbound.protection.outlook.com [40.93.198.71])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4djv9ac1wf-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 16 Apr 2026 23:32:39 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dUSHN1460xzscQt4VVZ4k+aQqiYCe6xsdINNwNMy6InPL3vD5hRjV+iTAjYFoK1lMzgV+rZnIu3Z5PuPPCeFgZbkcXQfAV9yTXUsgT67vyvzQyteqoRP5lCLij3SZsUXDFQXt9eWbwQZNZcgeWNFsIAt6INmxbqWw50vDlpZppO2PyX9Y41Tbsmgsn5CoQCCTiqWn1hQz70PVapthAyk+uCUmsImOVe0qbAn+vW9+kvGSXusoEETqi1Ese9qgF5BZjfKTueDK4ayVkRTa1T+V3FCdl+OE4Q5oQbGimDPMljs5fWCUN3+JD1h7dYsSKunTvqK5pnNIqSEcV5LJ/13Hw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mPmol3iU9kYHxaj/o0JbxCq6aufAxRORHLLuPFX0wXA=;
- b=ANbnEGBs/rOAftuUYLujDqG1yYJs7xRBHvQ3gwK2qtEGnHOdVz5nBKhUtWcDifnpMJnU68iFqnVIrMCwMD49gOgufB7jIT7fJ/wOH3fWs4t7OoBjI9A86IcgaByCc0xiQvqno6ASeolFkkOSguobI1J7Db5nxgEJ7iXCYnOMq12/At9HS3B9TqKnR5TTw8S3mmG2eWM3Mstz1WDlVV4K32uLsiB1KO9gK0Rz39YopUKcdFKKAdRlE6aqqxm0B2JL63/ELq+uJanyTDmlwJNNBPoFJvWY4/TQ6Qu8Pa+eLrnFe7eS5Wz/DmZqX1f0OpEFcPWWyEUyLo1femLcO2kDgw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by SA3PR03MB8183.namprd03.prod.outlook.com (2603:10b6:806:464::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
- 2026 03:32:37 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::1578:4572:29b5:2442%6]) with mapi id 15.20.9818.017; Fri, 17 Apr 2026
- 03:32:37 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Conor Dooley <conor@kernel.org>
-CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah
- Khan <skhan@linuxfoundation.org>,
-        "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
-Thread-Topic: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
-Thread-Index:
- AQHczXcJ0nOdZqqKtk+vtpI0M6ZlMLXh1uKAgAAkYYCAADpzgIAAM80AgAAuaQCAAAKpUA==
-Date: Fri, 17 Apr 2026 03:32:37 +0000
-Message-ID:
- <PH0PR03MB6351D050E350502FCF60DD5CF1202@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
- <20260416-dev_max20830-v2-1-2c7d676dc0bd@analog.com>
- <20260416-diaphragm-corrode-494560404ed4@spud>
- <84a5154f-1139-425e-94ae-31d7e662cd0e@roeck-us.net>
- <20260416-scoring-secluding-c7a7235b181a@spud>
- <PH0PR03MB635166088B7C473CF59F17D1F1202@PH0PR03MB6351.namprd03.prod.outlook.com>
- <a142d5ce-e4a3-4f50-8009-f796609fb13c@roeck-us.net>
-In-Reply-To: <a142d5ce-e4a3-4f50-8009-f796609fb13c@roeck-us.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|SA3PR03MB8183:EE_
-x-ms-office365-filtering-correlation-id: d902d32d-e955-43bb-a71a-08de9c31f8b0
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|7416014|366016|1800799024|38070700021|18002099003|22082099003|56012099003;
-x-microsoft-antispam-message-info:
- oL1VsvSu5dH8IGGpClc7MlqWkIkYJtkGTfVkRMZU3EVwD+XtzoeLMuOBTHLrz2unroJs8GJT/G/oTtfs8ijglrE3wliFmr19+H8k5CdLJhY08GLT8MSqaayIBAYcrl81lAt9ltkatpeRCEaMR6xeqJZNaI+3Wq9az33N5+lB/033yxsP0YV+HbmaAIZ2M+ZgIze6DCdHfFsygdRYV91AamMDkjOEZHEXXdZUtLFGfQ5FjYXObVkU2jRAjhrN3eb27/PVv+H2aI+zizqTcWD/qMNuXPjLoKJkYuN5GxE2M3bArqqMZIAbTf17OujzEugmd3D7y/bkWBKgOmomiHbp2wnJqn9AnhOj3iDryyAwneJsrn2Uh7YbJ5RrnXH+mqZmeCmOH5UVVvW91Y+mId0h5JDhknjfnSOCp+uqZKLbzrkvkGM3makwGOJ+sXEvXEVxu5CoDxZD6roZZ9EEpmDzKy4Ndi9394R7YIUvSVDZ62GOaXTZKaCbct6CajfGo9W1+EkDGeychn4s2vgfIl3cONEzGQrorUIk8D5j7I0X9kE2frMP6FJuFHEs8mgbQEDiYFbLh+D6hVlnWEcSGIIus+m0wNtTYFX7FX36zwXv4ssBrsPqxDoSFGW98tiT2IftwsBj0QJ43rC6x1JHxY+mTxBSUTLje/NhuQ8/ohSvvuMBc5noXgicPDc67lz3NKlsrFmPZQ6MXapuVkiiMwAgdtu7QHo9U4FngugFamQXgkLtfbRQYELsh6SgrS2mv3BaOr/usGyA/AbjE4ExtzlQoJ/ncpWsbpp25RQpSG81Eks=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(38070700021)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?S3c2Z0RyakVIN04yUGlWUEZHZWp0R3dRNlVxTWVXTkRtQWtRNU91TWdxbGlC?=
- =?utf-8?B?djNQbktnZU5NTDJwdWV0VXNZSktaSWg2bXdnWC91ZnMyZDE3bjJ5eUpFRXUv?=
- =?utf-8?B?TDA0U2RDNmpZODMxWVEwaWpOL2dGQzg5TVQvU1dZWG91OUZ3VVpFbHRPeW5j?=
- =?utf-8?B?NS9zd1plS2ZEWmRuUVM4NG5UR0x3d3I1MnFCbHdaU3JXUFhZN1EzUC95YW9x?=
- =?utf-8?B?OE5aTEJ2Z01oVy9QaytjSFRHTG44eVZONCt0YlVWTkV1SUIrNHNjZEhwbU4x?=
- =?utf-8?B?b3VtU1VpQmcwU0NrL1ZYeGNHWWJBRDljNk4rV3F6ZkwrWS9Vc3NncWNnTVZG?=
- =?utf-8?B?SSs5Q2lMVXM0aTEraitlSVRiUUM2OWRMMk9XYmdLN3Qwejd0ekhyZUtYRlJu?=
- =?utf-8?B?WitXa1U5OEN6OVU0cXVNOGQyb1dHUnRwQVcwaHlIVlBsTm8vaXZ1U1g3NmFB?=
- =?utf-8?B?cmZrMENjR2psN3hBRTdDbWtYWkIxSUx5b0Racm92RWhwWkpOWjBUNEwzVUtu?=
- =?utf-8?B?QllQU2JOanBLaUx0cW8ybmJBdmdHeDJ3ZTc3bFczblFlTXB4WEFKSXJlYjh1?=
- =?utf-8?B?S1MvS2pWMDByVjhvdUFVaXFwTGxic1JqSWlBSDJpcW9WbmdNTitIU1pxaHcv?=
- =?utf-8?B?c2lhdFo5U2NMQmZlRTVZTTlrMHBRZGZlVVZVWCtJcjEzNFYrYjQ4eDhmWUY2?=
- =?utf-8?B?SGxRUHQ4bm1mT2JDOWFaMmcyenRSU0I0S20xd0w1TWN6dUdiUE16Um00ZnJ3?=
- =?utf-8?B?OVp3c29rdXAwUmVhbitPeHhZMEVXd3BpYVdBV1IwY2NQVi9XYVQ2TDYyblp2?=
- =?utf-8?B?Vmh3SUZ2N3lLeWJBYzBPMWtYSWt4Qy9rNXJLSzl2NTVoRzRaYmVUOUNyLzdN?=
- =?utf-8?B?ajRITVUxTVp2bmFLZTM3bitBYysvZ1RmWHYycks3ZVo3T0dzL3MwMWhjWTZk?=
- =?utf-8?B?akUyQTJ4RXZYempVU2ZRYzE2VTZPTHNzcVNXK2I5a1lZRjNRdlk3V3lEVUxV?=
- =?utf-8?B?UW04RWVhemJYWkZUV2h5SG0vaUhNSm5kc1JDaW04TmFaQkxNbmNXcEc0bWN1?=
- =?utf-8?B?QVMyeExNMnZZVytLdHFOTndJS2hBSVk0V2NIcFVoR0paa0RybVluVFcxb1dq?=
- =?utf-8?B?eHFLMHBzeDBXdS9MR01qaXJGOHpLMjdzQTNJenl1TFlTWW1xT2JvTXZycHh2?=
- =?utf-8?B?Um9nS1R5cHFNekFhamdKNWtXWWZHcE94Zyt3elQ2bGplSzlVcG9EODRNYjdD?=
- =?utf-8?B?K2dXVC9ZbUVFZmJhOTBGRGV3a1VxTCttZndlMldHcGI2by9pRzY4dHQ5ZkFQ?=
- =?utf-8?B?MlYwSkRaalBNNis5SWJ5Zm9iUWVnYlVTTWl3d1g3cnlYcXBkZElzWSszSk9h?=
- =?utf-8?B?UG5GRDQwTkhLWVRGY3RleTRXY09TVENFRVk0QXY3cVQvZlJuQjducEdiY0NU?=
- =?utf-8?B?aWdJTjEwZnhnWU4zOXNqb3BPVlVmT3FEZ1dJQkNBaldLRGFFOFMrc242K3Jk?=
- =?utf-8?B?eGhmbkxLcHVzblNiRUxlaW1raThtZ3VnYWRDeEdJazJ4R1Zrbk9YRW9xOE0z?=
- =?utf-8?B?R3NVSEtWS0FuZktIYXJzOUI1cXowZktDazMzWWVMVyszWlFnNHo3OXl0UWNs?=
- =?utf-8?B?bHRpRFl1UW1IZEZzamoyZlRCNmE3dUJlTzI2allLZGVRREJPN3kyQmNsdWoz?=
- =?utf-8?B?ckg2NHIwOHJZNEFzd3VJd0ZSK3VSdk9WVE1ZOGpVYWVvOU05THg0S2RXOWZZ?=
- =?utf-8?B?ZVdzS2JxQVNkaE5nYjA5Nm9XeExFd3BYYzAzR2xNeEVLT0V3UCtxcXl2L3M4?=
- =?utf-8?B?SW5GZjVHVC9lVHd6d2NuMjFjVVBSdCtvVi9hSmhLeWQrc2J3VnUrbXNPZ0Za?=
- =?utf-8?B?UGRwV0g0Y2xSMWovYVJLQU9vdW1GYTk2MndaLytkZzB5RmdYVE1lbjk2K2xS?=
- =?utf-8?B?OStHQjFLMEJ5OG0xSVdxKzJUNGZLdHRQaWErQTNNbnpCZHQxMVlSNUtRaWp6?=
- =?utf-8?B?cGdLY21lSE5JQTdEb3BZL2VDeWJEWmJzTjZzUVVYSmQvWG83dGN2TnBqZWZx?=
- =?utf-8?B?MlNHZzc4VjBocFlXSG1QU1FIZjluemltMDlGc1VyMkJacVhZU0MwOFRDTWFo?=
- =?utf-8?B?bG1QT3NHaTBFbit2S1lrcW00SnhCWTh3dGNNZzU0U1M3UG5sTHBVTnkxaFFs?=
- =?utf-8?B?RzRDeE55dDFQM2wzMk5acURTakFHNER6RkFxN1BYNnJRTU5wNXpMWGRkdXZV?=
- =?utf-8?B?dTNBVnFEVEhRaTlvNTVQRmVja0pMTDlMSSs5S1dBbDR2ak1hY3ZNSERiR1dU?=
- =?utf-8?B?SEhha1ZkVWpCUytWay8xZ2xMNmw4Z2dJa1dxQkNnZlBES24vK2xWZFpPVThn?=
- =?utf-8?Q?THz1UHRbC8XVqFCQ=3D?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F26gAPcz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9092BC19425;
+	Fri, 17 Apr 2026 05:40:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776404432;
+	bh=WBeGqOv2MsAxuiPSo/t1Xo5oPMExHQYWkQbnnaWeeE4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=F26gAPczEYjmAjmeCbBGVtLvpWTgU28Pp/KBAzVNV6it77V4SEGvCLs4G8UxlUsIl
+	 QVkSkU/ooENlJ72ER1iVm+7DzZ5lifYyS5uD/ax4RsmsnYiaCGJgGR0LBLJkPtNpg+
+	 sMAoB1oxThVFf2TTl2Bz8Q/6KoiuXY3K27TR9HnLl7PymuFZGI8kTI+ao41CgUhNmq
+	 6LXgIVAxzm1KNRlonJsztVSiWxim6To1ypdgDnvaJyg+tP69TYsXWmijM8fk5smZiR
+	 IIQJIbiEBv/j01fQXHHZAgNHh5RoXn8oT8xvKH8S/R/1ZSvAZ7+a6yoQnFnv7hDU9X
+	 BV5HsNlzvBTEA==
+Date: Thu, 16 Apr 2026 22:40:31 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Dan Williams <djbw@kernel.org>, Gregory Price <gourry@gourry.net>,
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan J Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <20260417054031.GA7727@frogsfrogsfrogs>
+References: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+ <ad7Tps4tkNbndd9Z@groves.net>
+ <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+ <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
+ <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
+ <20260416224331.GD114184@frogsfrogsfrogs>
+ <CAJnrk1Y78UGLyAGVjiQ10PERTz1d2qcimok6bqCquy7jQYaXag@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	mGS8m19UTHYQSjPde39zY21sgoD4w/NOHyVd87IZo8OZdJp1fqFUs20ejJMU5eeC5rtD5295B2a49ATm0JXiNanD9nz/KBzkyK1z1AoCwW6onwdcd3s+gvBCv0FOw+AhEveustXUFhLKx8BKEjLPwY0b7mp0YTKrOCrxG2tiFi5pk3VoA8p5tju4vOLTHM7E3TouHNB7Iic/3/pEVGgfnsTsTV4/dUbc8YF0rfYbVwUi5z84YmLfQv4FmaR4LlMQ0ScTBvWZYJLutej529c/dzEzTEOd5f+RqnZ6+i70BHqn+XE9pq1ROym2W7ZwTSDMGSgHSh3oyJwT4DItBw3G1A==
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d902d32d-e955-43bb-a71a-08de9c31f8b0
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2026 03:32:37.2343
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: et/LPd3BB7SQqMsS9wC1h/FgBFF9NsEOH+0/cXK6O7avYBwf/X/tv70s0whVgRGxe5BQrmIZdNMm+bMsCzZUm8YAl82pze6WaKUcvhjYLpM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR03MB8183
-X-Proofpoint-GUID: vH0WOSjNRV-xXP-iwNsT9qIRjlTstIdj
-X-Authority-Analysis: v=2.4 cv=KIZqylFo c=1 sm=1 tr=0 ts=69e1a9d7 cx=c_pps
- a=4uekZJdLSFpbpqOwIdQ1dA==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
- a=OmVn7CZJonkx5R5zMQLL:22 a=fKdYXS8PF-zz7EGT6f8A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDAzMiBTYWx0ZWRfXxySlJNFhG9N+
- LS1NrIXkHwGr8Z82TZ6bAnGPx84VSm3a03RMhOkaxctLTZy1mWI7LBkGlYFnSyIhRumAyb8jjJP
- 8fNPugpD3+DhTUu8+9yivzMjQMyGM8oRSlo60cME0vzdafe5FkXVEY8fQpn45t8+sqMJJUjRFOP
- NSGbN+qyNxcIeKima1zUuRi7fSZcgnhDV/HukMycQfvj8cFhTJ9HXsQp4Wm+0KLLSG2TdH/0pC0
- 8JEanJN9szJtfxpsuXQOHA8pDdzfTYwAkM5VSyjTiz4sYZa2Uj8NXMItIYbMQuJwpVGRzW2eCBJ
- 4C2Cwh4LvcxYCczVR8OFF6iaGzs0tX2sbPxr+d5cTx+YSo2akKnErw5AeuC88xkB4c2rlmc5cgy
- LWNKOx32TAPkxRW0GA0XkCeQBMbMZM5BCc17ttSkQucvBbLnW4vlRTS9F4Rc/4lis7RIC8vLBvw
- T1uNa7E4mAB3tGUXBxw==
-X-Proofpoint-ORIG-GUID: vH0WOSjNRV-xXP-iwNsT9qIRjlTstIdj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_04,2026-04-16_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 lowpriorityscore=0 impostorscore=0 priorityscore=1501
- phishscore=0 spamscore=0 suspectscore=0 bulkscore=0 clxscore=1015
- adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604070000
- definitions=main-2604170032
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1Y78UGLyAGVjiQ10PERTz1d2qcimok6bqCquy7jQYaXag@mail.gmail.com>
 
-DQo+ID4+DQo+ID4+IEl0J3MgYW4gb3V0cHV0IG9uIHRoaXMgZGV2aWNlIHNlZW1pbmdseS4gSSBk
-b24ndCBjYXJlIGlmIHRoZSBkcml2ZXINCj4gPj4gaWdub3JlcyBpdCwgYnV0IGZvciBjb21wbGV0
-ZW5lc3MgKGFuZCB3ZSBsaWtlIGNvbXBsZXRlbmVzcyB3aXRoDQo+ID4+IGJpbmRpbmdzKSBJIHRo
-aW5rIGl0IHNob3VsZCBiZSBkb2N1bWVudGVkIGFzIGFuIGludGVycnVwdCBvciBncGlvLg0KPiA+
-DQo+ID4gQWxyaWdodCwgSSdsbCBhZGQgaXQgYXMgYW4gaW50ZXJydXB0OiBvcHRpb25hbCBwb3dl
-ci1nb29kIHNpZ25hbA0KPiA+DQo+IA0KPiBVdWgsIHRoYXQgcmVhbGx5IGRvZXNuJ3QgbWFrZSBh
-bnkgc2Vuc2UuIFBsZWFzZSBhdCBsZWFzdCBtYWtlIGl0IGEgZ3BpbyBwaW4sDQo+IG1hdGNoaW5n
-IHB3ci1nb29kLWdwaW9zIG9mIHRpLHRwczY1MTg1LnlhbWwuDQo+IA0KDQpJIHNlZSwgd2lsbCBk
-by4NCg==
+On Thu, Apr 16, 2026 at 05:44:28PM -0700, Joanne Koong wrote:
+> On Thu, Apr 16, 2026 at 3:43 PM Darrick J. Wong <djwong@kernel.org> wrote:
+> >
+> > On Thu, Apr 16, 2026 at 01:53:27PM -0700, Dan Williams wrote:
+> > >
+> > >
+> > > On Thu, Apr 16, 2026, at 1:14 PM, Gregory Price wrote:
+> > > > On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
+> > > >> On Tue, Apr 14, 2026 at 5:10 PM John Groves <John@groves.net> wrote:
+> > > >> >
+> > > >> > There is a FUSE_DAX_FMAP capability that the kernel may advertise or not
+> > > >> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
+> > > >> > commands. In the future, if we find a way to use BPF (or some other
+> > > >> > mechanism) to avoid needing those fuse messages, the kernel could be updated
+> > > >> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-specific
+> > > >> > code could be taken out of kernels that never advertise that capability.
+> > > >>
+> > > >> I’m not sure the capability bit can be used like that (though I am
+> > > >> hoping it can!). As I understand it, once the kernel advertises a
+> > > >> capability, it must continue supporting it in future kernels else
+> > > >> userspace programs that rely on it will break.
+> >
+> > So don't break fuse servers.  If you wanted to (say) get rid of
+> > GET_FMAP in favor of IOMAP_BEGIN, you could alter libfuse to translate a
+> > fuse server's ->get_fmap implementation into the equivalent
+> > ->iomap_begin, and eventually the kernel can stop making GET_FMAP calls
+> > to userspace.
+> 
+> I don't think it's this simple. We can't assume libfuse is the only
+> way servers talk to the kernel. Some servers use the /dev/fuse
+> interface directly. And, as I understand it, this would still break
+> users who are on older versions of libfuse if they upgrade to a newer
+> kernel.
+> 
+> My reason for pushing back isn't because I don't want this to work; I
+> just want to make sure that if we're going to rely on this as a safety
+> hatch, then we can actually do it.
+> 
+> Going back to what Dan said about using the capability bits for
+> deprecation, "In some future kernel the famfs native option disappears
+> after a deprecation period" - what does the deprecation period/process
+> look like? Do you have to wait a certain amount of time before it can
+> be fully removed or is it pretty immediate?
+
+That depends on how much gluecode you can stand up to redirect older
+programs.
+
+> > The trouble here is that I've also seen half a dozen projects vendoring
+> > libfuse so that's a nightmare that will have to be dealt with.  But
+> > maybe that doesn't even matter, because...
+> >
+> > > > FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
+> > > > not required to continue advertising FUSE_DAX_FMAP in perpetuity.
+> > > >
+> > > > Setting CONFIG_FUSE_DAX=n does not mean userland "is broken", this would
+> > > > only be the case if FUSE_DAX_FMAP was advertised but not actually
+> > > > supported.
+> >
+> > ...the memory interleaving is a rather interesting quality of famfs.
+> > There's no good way to express a formulaic meta-mapping in traditional
+> > iomap parlance, and famfs needs that to interleave across memory
+> > controllers/dimm boxen/whatever.  Throwing individual iomaps at the
+> > kernel is a very inefficient way to do that.  So I don't think there's a
+> > good reason to get rid of GET_FMAP at this time...
+> 
+> So could we make the interleaving part generic then? Striped /
+> interleaved layouts are used elsewhere (eg RAID-0, md-stripe, etc.) -
+> could we add a generic interleave descriptor to the uapi and use that
+> for what famfs needs?
+
+I doubt it.  md-raid presents a unified LBA address space, which means
+that the filesystem doesn't have to know anything about whatever
+translations might happen underneath it.  Even memory controllers
+quietly take care of striping across DIMMs and whatnot.
+
+Most filesystems that implement striping themselves don't restrict
+themselves to monotonically increasing LBA ranges rotored across each
+device like md-raid0 does.
+
+But for whatever reason, pmem/dax don't have remapping layers like
+md/dm so filesystems have to do that on their own if the hardware
+doesn't do it for them.
+
+> > > > If DAX were removed from the kernel (unlikely, but stick with me) this
+> > > > would be equivalent to permanently changing CONFIG_FUSE_DAX to always
+> > > > off, and there would be no squabbles over whether that particular
+> > > > change broke userland (there would be much strife over removing dax).
+> >
+> > ...however the strongest case (IMO) would be if (having merged famfs) we
+> > then merge fuse-iomap after famfs.  Then we extend the existing
+> > fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
+> > That enables us to analyze thoroughly the performance characteristics of:
+> >
+> > a) Using GET_FMAP as-is
+> >
+> > b) Uploading raw iomaps (HA)
+> >
+> > c) Uploading a single bpf program to make iomaps, exchanging fmap-style
+> > mapping data into a bpf map, and having the single bpf program walk
+> > through the map
+> >
+> > d) Uploading a custom bpf program per famfs file to make iomaps.  No
+> > bpfmap required, but the setup and compilation are now much more complex
+> >
+> > Then we'll finally know which approach is the best, having broken the
+> > Gordian Knot of how to merge famfs and fuse-iomap.
+> >
+> > If we decide that (c) or (d) are actually better, then guess what?  To
+> > get any of the iomap functionality, you have to set an inode flag, and
+> > that (FUSE_CAP_FAMFS && FUSE_CAP_IOMAP && FUSE_ATTR_IOMAP) is the signal
+> > for "don't call GET_FMAP".  FUSE_CAP_FAMFS && (!FUSE_CAP_IOMAP ||
+> > !FUSE_ATTR_IOMAP) means "call GET_FMAP".
+> >
+> > Yes, we burn a couple of fuse command values to find out, but that's all.
+> >
+> > (TBH I still dislike GET_DAXDEV, that really should just be another
+> > application of backing files, and the backing file id gets passed to
+> > GET_FMAP.)
+> >
+> > What do you all think of doing that?
+> 
+> To be completely honest, this is orthogonal to what I was hoping we
+> could discuss on this thread. My main concern is the GET_FMAP part.
+> Can we make it more generic to other interleaved/striped layouts?
+
+"Generic"... do we even /have/ a second user?  I don't feel like we do.
+
+--D
+
+> Thanks,
+> Joanne
+> 
+> >
+> > > > While not a deprecation method, this is what capability bits are
+> > > > designed for. Same as cpuid capability bits - just because the bit is
+> > > > there doesn't mean a processor is required to support it in perpetuity.
+> > > >
+> > > > They're only required to support it if the bit is turned on.
+> > > >
+> > >
+> > > Right, if the protocol on day one is "user space must ask which method
+> > > is available", then userspace can not be surprised when one option
+> > > disappears. So to give time for the bpf approach to mature the kernel
+> > > can do something like "famfs and bpf  mapping support are available".
+> > > In some future kernel the famfs native option disappears after a
+> > > deprecation period.
+> > >
+> > > When folks ask 10 years from now why this ever supported optionality
+> > > the explanation is "oh because famfs enjoyed first mover advantage to
+> > > prove out fs semantics layered on dax devices", or "turns out there
+> > > are some cases where bpf is not fast enough but it still stops the
+> > > proliferation of more in kernel mapping implementations".
+> >
+> > Yes.  We're not *capable* of determining the best mechanism unless we
+> > can start shipping these things to users to get their feedback.  Only
+> > then can we iterate and make real improvements.
+> >
+> > > Something like FUSE_DAX_FMAP is always available but the backend to
+> > > that is optionally native vs bpf. ...or some other arrangement to make
+> > > it clear that native might be gone someday.
+> >
+> > --D
+> 
