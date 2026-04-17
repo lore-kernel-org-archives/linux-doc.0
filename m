@@ -1,82 +1,117 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45B0D296BD2;
-	Fri, 17 Apr 2026 07:22:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA1423033CF;
+	Fri, 17 Apr 2026 08:04:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776410552; cv=none; b=cTltrF3EKrWSGjlHd55QRFoKGZNiQOpVrAXfzR7BfGXHNzVS0HhbOnYFU7UrBv4ky4PZxqSXJibxr3EXPWhRaZYF3aUddK9BYlKcSRrDrWFz2SIPmQXPkufcs05QyFGbWcx713+UU9ml0AEpEZ0vdv72b4EXsxIEvMb6xgPOwk4=
+	t=1776413094; cv=none; b=hVF9DP7rXiijxgXs1/iePRnQ21kMiP4L39t0KHFjU0CSXL6j0+mjZ+NIxt3z/45Hm1CTYLj3gGFwUzVUiN5hTm/GOBL0kBSKlqpcR0tYoYOslybwj/N3gNhcgjvOygakKZBgtdi0V37/BpZSXp/Dsqo6razQ/IctPB+IiCAa7Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776410552; c=relaxed/simple;
-	bh=aYhnMB8exwcdwO8nghToLfcTjGhQoG+YuF3UZPR9I/A=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=gPmeEoYl0Davo18g7FxkbiiNBb+S9sPcHVsu/ZLXvcWnCe+3BK6OK9/jK33qLKWMxec8XCj76DX3IdgkYgLQaxSB2R7I3UpG2vrYp79W9gBp81ZTT1G8Ui7iq4wN5ecTvVP/Z9LuSMRAaVCdFyzxKIqLeE/zZdXYoGy/FOr3FR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UG9Frnu1; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776413094; c=relaxed/simple;
+	bh=Z1/9pPNfUbG+2/KcKKt8WrOWINsx2g4XRefFSdIht+4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YUbnlvf4o+h+AcSwTs+pZV+L2SRqQFEIaM9WG//4mWb/mKxZ54i6WT7dXsEc5oCkuRAea9k6S4dviVdMbbBRr+6mwWd8b7YpFsqEGvHbj41MqY2Id4fvyNkqK9UI1DqLdDeGtUS+bKpe4uO/AHEGLC/9Jg9H8R92SFHoNKqI/nw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T87ww8kT; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UG9Frnu1"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1CCFC41084
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776410550; bh=KPnHi+1bKzHEd/oisuQ1QlmvkMCVC7FxZM8j7Mxe7mQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UG9Frnu1b57q69zn83mAsuhnNTNGDKO0UN10o0LvZN2dlZuElucLKmbkKBVMs3H1v
-	 s87GwYC2hihTr2j0Tj2PpLHnVhYvGsimngj6mOnQE8f0D/4NyqcbAAVfPBcYK0i6Nw
-	 vv/t7IqumaSkAfEcsNsOVDv+FRN5pjci248jQfvsLI5zZOFKpqP1QwqxQw4FKI3oCC
-	 tzEtnoFT67sl7mLxUZfp/K65n8WsSgBkHdZXt3QxRC70HivCxC5k5seUT98QwXAQ4a
-	 nwGm8DD3T8avZSpKBHQ0vbj1u/xCf14OptBHzQOexXzSE2cEPj7MqxGwr9BnmgOWfh
-	 FhSshEXaRtZaA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1CCFC41084;
-	Fri, 17 Apr 2026 07:22:29 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>, "Jason A
- . Donenfeld" <Jason@zx2c4.com>, Herbert Xu <herbert@gondor.apana.org.au>,
- linux-doc@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, Eric
- Biggers <ebiggers@kernel.org>
-Subject: Re: [PATCH 0/2] Improve the crypto library documentation
-In-Reply-To: <20260417065529.64925-1-ebiggers@kernel.org>
-References: <20260417065529.64925-1-ebiggers@kernel.org>
-Date: Fri, 17 Apr 2026 01:22:26 -0600
-Message-ID: <874ilayrt9.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T87ww8kT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=iq953/W1fH4+ePeN3WVL9mT3UeuaUrsvH971+8ptC2o=; b=T87ww8kTWwqx+U9QSTfTTqRRqZ
+	RxojXMb7XwOyEEKKGOkXGtQNspCDywrnPZkZvxdVjytiJ2Ot6juHDPLznayKXy6OvXf9CAWS70srF
+	nOqZbeb7N35lcHqP3v1ZJgyVerqGiYnYekgL9XP8WpxkSzA5RgtVtVIvCiw1k4UKq2NjnMCnazBz1
+	oePh2DcpFxB0JnQ07QvWUHbBbf/ArmV99Ejom7HyOPRfD16PjWULAG81oyrtYedrW4EXxaQM8pfHt
+	hn8wiHwZHbkhBpbdmUAP+ZW5LXy7q7DwcJ2lcNqMtvCcrZsXVgNvkrD7dfytayeaFdG5BXf4JJntW
+	nwkx7/ag==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wDeBi-00000003eCj-42fO;
+	Fri, 17 Apr 2026 08:04:30 +0000
+Date: Fri, 17 Apr 2026 01:04:30 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Miklos Szeredi <miklos@szeredi.hu>
+Cc: Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	"Darrick J . Wong" <djwong@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Gregory Price <gourry@gourry.net>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+	djbw@kernel.org
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <aeHpjpNN4TliZOyp@infradead.org>
+References: <20260331123702.35052-1-john@jagalactic.com>
+ <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+ <CAJnrk1ZRTGWjNzkMxS3UkeZMmrpadJDtWKontMx2=d-smXYq=w@mail.gmail.com>
+ <adkDq0m5Wt9YhJ8A@groves.net>
+ <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net>
+ <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Eric Biggers <ebiggers@kernel.org> writes:
+This is the first mail without annoying and pointless full quotes,
+so chiming in here.  Sorry if I missed something important in all the
+noise.
 
-> While the crypto library already has a lot of kerneldoc, it's not being
-> included in the HTML or PDF documentation.  Update Documentation/crypto/
-> to include it, and also add a high-level overview of the library.
->
-> I'd like to take this series via the libcrypto tree for 7.1.
->
-> Eric Biggers (2):
->   docs: kdoc: Expand 'at_least' when creating parameter list
->   lib/crypto: docs: Add rst documentation to Documentation/crypto/
->
->  Documentation/crypto/index.rst                |   2 +-
->  .../crypto/libcrypto-blockcipher.rst          |  19 ++
->  Documentation/crypto/libcrypto-hash.rst       |  86 +++++++++
->  Documentation/crypto/libcrypto-signature.rst  |  11 ++
->  Documentation/crypto/libcrypto-utils.rst      |   6 +
->  Documentation/crypto/libcrypto.rst            | 167 ++++++++++++++++++
->  Documentation/crypto/sha3.rst                 |   2 +
->  tools/lib/python/kdoc/kdoc_parser.py          |   5 +
->  8 files changed, 297 insertions(+), 1 deletion(-)
+On Tue, Apr 14, 2026 at 03:19:36PM +0200, Miklos Szeredi wrote:
+> On Fri, 10 Apr 2026 at 21:44, Joanne Koong <joannelkoong@gmail.com> wrote:
+> 
+> > Overall, my intention with bringing this up is just to make sure we're
+> > at least aware of this alternative before anything is merged and
+> > permanent. If Miklos and you think we should land this series, then
+> > I'm on board with that.
+> 
+> TBH, I'd prefer not to add the famfs specific mapping interface if not
+> absolutely necessary.
 
-I think this is great - sorry about the snide comment on LWN, but this
-will make this documentation much more accessible.
+Yes,  fuse needing support for a specific file systems sounds like a
+design mistake.
 
-Thanks,
+>This was the main sticking point originally,
+> but there seemed to be no better alternative.
+> 
+> However with the bpf approach this would be gone, which is great.
 
-jon
+So what is this bpf magic actually trying to solve?
+
