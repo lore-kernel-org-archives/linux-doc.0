@@ -1,152 +1,132 @@
-Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1933A9615;
-	Fri, 17 Apr 2026 08:59:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D11034E760;
+	Fri, 17 Apr 2026 09:01:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776416402; cv=none; b=opugV/lpwcVGU1i7e4ud1Kp1a6iYQqSRCVQKSVRmQp0kimA7P+dyUnfXpCjzp8vUVEi8GwFtqLSk0Kh8nYOvX1EaE/Jhqfj8/g0YO/PcXwZWLW0xBczcv+cdqnQMmRcsOlEU31SktbZPd+c1xuK5l6OML8M6QPW0NpmKvzu141Y=
+	t=1776416493; cv=none; b=Uelyz4mRBALg2xi5eB5Kzn2HxSwiVDVIaBkHYw/o6CMt65THww+M/0Lstc+rCWTnO/Dp+gAMh0OxQ6tixG8V2AD0uyo6kU9eby2P/M7SNe0Co7ECBT6KUjD5Zv1iPzi9cyjAUu9B1jNhgq5g2S/eGQF0aK5MC+MxlkKdaxbadEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776416402; c=relaxed/simple;
-	bh=hshxd87I7o4SSyjp/EHX3u4T0PWayKVK/jIU2zs7yxM=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=g3cD2cmEuq+3GGj0Qb406NXkZT1C7Sr54T+HDCVd5pzGinT5CFHTpjolIFFJuLI04FBHGUbNbBvHtGHMblxAiCqmE75Hs3zcMz1vUveccpV0hU3VuQspRtEgp4e/kyEb1YVXocP9wVujvrlBqGC92EI0ukTTpbqM5KPmQYJWs+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=JS/UeliM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WaSxT0Xq; arc=none smtp.client-ip=202.12.124.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+	s=arc-20240116; t=1776416493; c=relaxed/simple;
+	bh=1GkrNCZpL/X+wd3koPcDl1fAtbAyop8jNVCEwtAxOe8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=XlAnxhdhKLcKS4dQX1x9iGrIc+hEUNtUMrw2xl0LHd2eoilYRbJ1P/pkE9/pKGNVk8nr8sZzW81T4dCiduiQCtAqWG977UYMKhXp/3t0aNGr/VACJH5qokjrbXN3n0IYIOfcXopqKt5Mmq2adKUGE5SdebkXeC35usIOWcDzz00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=T8pzOYnQ; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=oi5uSOXf; arc=none smtp.client-ip=203.29.242.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="JS/UeliM";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WaSxT0Xq"
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 9D3DE1D001E3;
-	Fri, 17 Apr 2026 04:59:58 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Fri, 17 Apr 2026 04:59:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1776416398;
-	 x=1776502798; bh=UUvDMgT2JDILnPFp/rQMG5xa0/FbaPkssLGIWBPbYgo=; b=
-	JS/UeliMctoAoIjBE3RhNUS3edBlWLZsyGRgrONFKmz/CiVVFMhHNtetfjM6JtYQ
-	vhFE5tdjK6uy+zuwU2ldiI2TlC18ZZ2YZLLNoJXI6zYYalxRAVDM6HW395y87Q/7
-	Z1+QaKK3TyTsy7wq1vzXIGQBct7+ddSpDmH7EY5xfyxY/EM+MlqAcwaDNnnK104I
-	H8e5gK1lbaSN9/AtAogtApuHRZsCPUEbWWOn5L3j3UBP1BwK4nc8OK43a1iDW8xE
-	5wZNs8Ayo/84JGwpCUxJjcTOg7lYQOoXiQbSg6ZVNSDQ76sMI/UXv4v+tSmuMpIZ
-	uOBsqxQ3NsYY+gSbaH79cA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776416398; x=
-	1776502798; bh=UUvDMgT2JDILnPFp/rQMG5xa0/FbaPkssLGIWBPbYgo=; b=W
-	aSxT0XqmNdL6YS4/HeSJP2lsDApkXf0O9c9SWzPy8SFX8ZhYhTmisvLzDa0MuAJ2
-	7BrehUxkn7QsZTwGuhl/upRnMcM1UAWrVkvI7LYFJS7ImyG9wHlXkET/m53wU0D3
-	w03IvFqGs6GlgwRv9/BqT453wti6jJIcNrtCysHJmiIYr/0vmFOyEquKD1a62oSc
-	tGhyIZd49KLpeSTvYuk8YQp737LnM6FujUyMG5UVPvuZEqiVugDCDnzfRfz14HiS
-	11DN5i/IoZTW9PHHqOcmJ8yb+3W/ZFP5HBRKl4DiWsYaNIeqGr9jWybv6aNzRUek
-	EU0bgjIorrZ1l0HPF/Hfg==
-X-ME-Sender: <xms:jfbhaVCKzv6Y5_tboWvdprRfSdNQOWe4XLA7ZKJagNGj88goJ1BCPQ>
-    <xme:jfbhaeWXg8sJufOIzqIVXDXeu0gK5r2qqDylP8NBILdyki6WdieNCo7Zvi9XKJnla
-    C5hyto0XjpqfpjHIR9It9u_IpqRGicpVy0ZzLliu9Vi79O125Tk4DI>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegleegiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpedvhfdvkeeuudevfffftefgvdevfedvleehvddvgeejvdefhedtgeegveehfeeljeen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtth
-    hopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhrtghp
-    thhtohepshhtvghfrghnughovghsihhnghgvrhesghhmrghilhdrtghomhdprhgtphhtth
-    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhushhtihhn
-    iheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhirhhishhlrggshieskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhhsfieskh
-    gvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:jfbhaZkiRndjPCwU6sql-kOX10LyujavQxQBoN4M6zLknn8cqvafOA>
-    <xmx:jfbhaTMbcbJ58fLah-LqrDOHtB4mfjWZqP9VFCwxbPoEjLUNh71LCg>
-    <xmx:jfbhabofCGG5zweFeXghmctJU7-N5LHnIIR6i8bI2NG8mg3lhLoa1Q>
-    <xmx:jfbhacs0yuhPrjhyheW8S6qyVgAWvGv4Ym_2dYXv7pkkkmN5CH0_zg>
-    <xmx:jvbhaTPSJ6wafZHNswkUf5Vf0rZBdqmkwoEVH7znV98AIPrNVgrTg05d>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C1056700065; Fri, 17 Apr 2026 04:59:57 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="T8pzOYnQ";
+	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="oi5uSOXf"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1776416483;
+	bh=1GkrNCZpL/X+wd3koPcDl1fAtbAyop8jNVCEwtAxOe8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=T8pzOYnQ0EA7khJz/WKmaE0vDQhvgs7cylNDvPjCQ4krOQ4zBnMehU40rQcG6OW4k
+	 JVgZwNP3kqVR4LgU/JSaniEz5DpuCg8kRBoEvA0+B4Kj50lyexo4TwUj1e66j3jUQt
+	 RWe6bYHu09dy8r7ZXa8fjWflEbIoOZr3TEDT6p232EFnoFvQQoOLhWGeuro3fSDj/O
+	 o1x5gjqND6fcXfJV04jkS0VUqM9G0FqxosMHMO+a+b10z2taeKvoGrkcjSCJ8bQqsy
+	 vcJYJT0GECMHu8rdhgnpmVfUttLVQ3wy7Ekw6kUNiK22Fqn2PdehKui3zD4yQfquD5
+	 /v7k7N3eP5RyMrfe7KijIr1YAxjRBdwisieb9PrMhGP4MFhhWDTffKpHpHa/a0L20d
+	 EssgIeC+v7xE5U5gnVz4j+N8slU38AENx+tL1Ul7VDnlYRzOIMNK8B+9PMogcPbB0v
+	 KAn6fdmp9iS9HqCpV4sO20bxLMCaxQwjIxMyY/MDF+odVzOzymRO9TugR8brwfnK0B
+	 MNn4rHGoTO1JXPd9YMuHwREt4xXC0Ig0Bou682F/ZsyxhXJ0oAf+01E7oUFnmovbas
+	 kHQeoGrghl1Zh0AuNsKTWz82idjWlGlRZ9NWU5T1I7JlbMojUJpgdmXRnm91o2tnI/
+	 mvO2Fn9ILrauz5A/py58BvMk=
+Received: by sphereful.davidgow.net (Postfix, from userid 119)
+	id A350C1E6957; Fri, 17 Apr 2026 17:01:23 +0800 (AWST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
+	s=201606; t=1776416422;
+	bh=1GkrNCZpL/X+wd3koPcDl1fAtbAyop8jNVCEwtAxOe8=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=oi5uSOXfxCazPX4qfJbR8ti1qKXQwb6IvCgSGMYpFtbF3Elw/Rdoi5dG6woGFjk49
+	 mLGuscEGF8zLzXYyAwAQYVdr5tINQQ5h0p+3BpbmzUSb5G5KtQ0AvfAONJt9jRhT/M
+	 i5MG/6xLCIsO+xmrMM9jqu2QvdKWJr/BsSlkqa8aIKIk90rZEaBdz7xsSIB21Fz6xS
+	 Th/qe8QB4q4aOaDQHPHQ/WLDMWA0SnKsTRmD66DcSTIVyuwWzv5abGaZ0CUxlKjXVJ
+	 85PUnBZvG6Q3yf/9ErV9fK2AgEeri8yrWWTGQ+DvajcqMGiYx3V+YozIXI4N6Dn4fE
+	 jzFIm+ZGjDLjFBqrEONyiDH/TIbmu2gjzx/Bk6HJj3mbL3YN5sqEB/fZZ4y6BdMWfY
+	 gDFv64mxCdXPQDlsH3DxjshUMGpxOp1CjomGzm3tS+Z/vyQcOPKV07VoQGWj2TOyST
+	 F3CmB1Wxh2hC4gs/l1OOwEssh7yEmruWLp/pvFqkbJXlROOfSVX1qIQ2+5rvnkK6zC
+	 tyIbyutIrSy83OwH9nnCdOwG8dYVKDXa2NEDTHVd2qdC3x2docRhDQMLHvZGdGe5Cv
+	 kuK4Yu0iNEoxUmpdYcmL9npO/nmmBoKxrSFgrv/DUu7EChiWyFxKucwUOWs/ay44Uj
+	 awHOKk29ulTRP9OZzAevwTk8=
+Received: from [IPV6:2001:8003:8810:ea00:ed87:ca88:5326:e11d] (unknown [IPv6:2001:8003:8810:ea00:ed87:ca88:5326:e11d])
+	by sphereful.davidgow.net (Postfix) with ESMTPSA id 484AA1E6957;
+	Fri, 17 Apr 2026 17:00:22 +0800 (AWST)
+Message-ID: <b26445d9-144c-4ace-a032-b6b70772b732@davidgow.net>
+Date: Fri, 17 Apr 2026 17:00:19 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AkOrUqlAGQ43
-Date: Fri, 17 Apr 2026 10:59:17 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: =?UTF-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- "Russell King" <linux@armlinux.org.uk>, "Rob Herring" <robh@kernel.org>,
- "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>,
- "Krzysztof Kozlowski" <krzk@kernel.org>,
- "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
- "Linus Walleij" <linusw@kernel.org>, "Drew Fustini" <fustini@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Jiri Slaby" <jirislaby@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
- soc@lists.linux.dev, linux-serial@vger.kernel.org
-Message-Id: <0d80dcbe-cb46-45e5-821a-de5299d6a663@app.fastmail.com>
-In-Reply-To: <20260416-send-v4-7-e19d02b944ec@gmail.com>
-References: <20260416-send-v4-0-e19d02b944ec@gmail.com>
- <20260416-send-v4-7-e19d02b944ec@gmail.com>
-Subject: Re: [PATCH v4 7/8] ARM: dts: Declare UART1 on zx297520v3 boards
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/3] Documentation: rust: testing: add Kconfig guidance
+To: Yury Norov <ynorov@nvidia.com>, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Uladzislau Rezki <urezki@gmail.com>, Burak Emir <bqe@google.com>,
+ Yury Norov <yury.norov@gmail.com>,
+ Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
+ Will Deacon <will@kernel.org>, Peter Zijlstra <peterz@infradead.org>,
+ Mark Rutland <mark.rutland@arm.com>, Nathan Chancellor <nathan@kernel.org>,
+ Kees Cook <kees@kernel.org>, Nicolas Schier <nsc@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ Thomas Gleixner <tglx@kernel.org>, Douglas Anderson <dianders@chromium.org>,
+ Shakeel Butt <shakeel.butt@linux.dev>, Christian Brauner
+ <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
+ Tamir Duberstein <tamird@kernel.org>, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com
+References: <20260417031531.315281-1-ynorov@nvidia.com>
+ <20260417031531.315281-4-ynorov@nvidia.com>
+Content-Language: fr
+From: David Gow <david@davidgow.net>
+In-Reply-To: <20260417031531.315281-4-ynorov@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 16, 2026, at 22:19, Stefan D=C3=B6singer wrote:
->
-> The reason why I add the serial1=3Duart1 alias is to keep console=3Dtt=
-yAMA1
-> stable regardless of the other enabled UARTs. UART0, as the name
-> implies, has a lower MMIO address, but uart1 is the one that usually h=
-as
-> the boot output and console.
+Le 17/04/2026 à 11:15 AM, Yury Norov a écrit :
+> Now that rust KUnit tests are protected with Kconfig, update the
+> documentation to mention it.
+> 
+> Signed-off-by: Yury Norov <ynorov@nvidia.com>
+> ---
 
-I'm not sure I'm following here. You generally want to either make
-sure the alias matches whatever number is printed on the product
-if there are multiple numbered ports, or you just use 'serial0'
-as the only alias if there is only one port.
+Looks good to me.
 
-> +	aliases {
-> +		serial1 =3D &uart1;
-> +	};
+Reviewed-by: David Gow <david@davidgow.net>
 
-Either way, the alias should go into the board specific file, not
-the general SoC file, as a board might be using a different
-set of UARTs.
+Cheers,
+-- David
 
-> +
-> +		/* The UART clock defaults to 26 mhz. It will be replaced when the =
-zx29 clock
-> +		 * framework is added.
-> +		 */
-> +		uartclk: uartclk: clock-26000000 {
-> +			#clock-cells =3D <0>;
-> +			compatible =3D "fixed-clock";
-> +			clock-frequency =3D <26000000>;
-> +		};
-> +
-> +		uart1: serial@1408000 {
-> +			compatible =3D "arm,pl011", "arm,primecell";
-> +			arm,primecell-periphid =3D <0x001feffe>;
-> +			reg =3D <0x01408000 0x1000>;
-> +			interrupts =3D <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
-> +			clocks =3D <&uartclk>;
-> +			clock-names =3D "apb_pclk";
-> +		};
+>   Documentation/rust/testing.rst | 5 ++++-
+>   1 file changed, 4 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/rust/testing.rst b/Documentation/rust/testing.rst
+> index f43cb77bcc69..24de173471b2 100644
+> --- a/Documentation/rust/testing.rst
+> +++ b/Documentation/rust/testing.rst
+> @@ -141,10 +141,13 @@ These tests are introduced by the ``kunit_tests`` procedural macro, which takes
+>   the name of the test suite as an argument.
+>   
+>   For instance, assume we want to test the function ``f`` from the documentation
+> -tests section. We could write, in the same file where we have our function:
+> +tests section. We could write, in the same file where we have our function.
+> +Each test is protected with the corresponding Kconfig option, see
+> +rust/kernel/Kconfig.test.
+>   
+>   .. code-block:: rust
+>   
+> +	#[cfg(CONFIG_RUST_MYMOD_KUNIT_TEST)]
+>   	#[kunit_tests(rust_kernel_mymod)]
+>   	mod tests {
+>   	    use super::*;
 
-Since you know the addresses of the other uart instances, I would
-suggest you add all of them at the same time.
-
-       Arnd
