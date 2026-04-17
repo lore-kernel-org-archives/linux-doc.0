@@ -1,155 +1,152 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b3-smtp.messagingengine.com (fout-b3-smtp.messagingengine.com [202.12.124.146])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1333AB27D
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 08:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D1933A9615;
+	Fri, 17 Apr 2026 08:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.146
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776414990; cv=none; b=G7LgM3K9WvhgpXhswOsTDSANkSelNGqOoAHY22O2VE1pgfXdwGwReAchtKEQnq3nbqOzYdFCn0fma5rU3oK/GY8/7+P4rA2vQWuk054C6ShYUHaIU54HY5PvFxAg/Grq/YzK86ZOVqycOPIcgUs5e1TPJ8c1tv4+gSjGe1bNxxU=
+	t=1776416402; cv=none; b=opugV/lpwcVGU1i7e4ud1Kp1a6iYQqSRCVQKSVRmQp0kimA7P+dyUnfXpCjzp8vUVEi8GwFtqLSk0Kh8nYOvX1EaE/Jhqfj8/g0YO/PcXwZWLW0xBczcv+cdqnQMmRcsOlEU31SktbZPd+c1xuK5l6OML8M6QPW0NpmKvzu141Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776414990; c=relaxed/simple;
-	bh=+6x6QSjg9WDHOM6OfwMMX46Jbd5d/tcXlvODjbQmQhI=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wa5FdIXAWLdNZgGsuP41KbvpJYmApv3IdJHXZzoNEyqvFNdsPB+aWpwxew/TMeqnJKoQhK/CJO6Lplyu5d4MEP7/uGqaPjFGuGhbrAPRz0im+EusSLeTtsGrs60A6ULKYpNRHyHT+ZTKkAwjKpHRN/aLeI97dMhC1XentnhQFik=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmPcXyVm; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776416402; c=relaxed/simple;
+	bh=hshxd87I7o4SSyjp/EHX3u4T0PWayKVK/jIU2zs7yxM=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=g3cD2cmEuq+3GGj0Qb406NXkZT1C7Sr54T+HDCVd5pzGinT5CFHTpjolIFFJuLI04FBHGUbNbBvHtGHMblxAiCqmE75Hs3zcMz1vUveccpV0hU3VuQspRtEgp4e/kyEb1YVXocP9wVujvrlBqGC92EI0ukTTpbqM5KPmQYJWs+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=JS/UeliM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=WaSxT0Xq; arc=none smtp.client-ip=202.12.124.146
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmPcXyVm"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so444499f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 01:36:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776414987; x=1777019787; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=CS4QQsQN7RmaHyI35F2RiAWiiiGHkRaNuLXPNb9Rp1U=;
-        b=CmPcXyVmMFW/Ru5XQk+qJiv+A+2qOWiw7Xoh/2hhpSLmc0TsrJBuFPc++U+w+ubDQw
-         O2qpD1ve7P6vJQTJIjQw/mZ4qdiiLQxXM8FZ1c2egt2vwLjCNxrBThJeJVmHwMD1Ilid
-         fO0kZ1G0B8d0iStwhLTuGe1Usq/9Lf1pa1k8CMEc9AZxUtGbR9nV54nqtkys3I5Lcsl7
-         17s08aj0xJGfR9BGJ630rAWEiVF11oH6FIJRLFfjnsrYjSQyfCpPmmBvklDOIyJnbUwU
-         N3eX6bP0kR5M92glv8SXxBAKLxBF1L7cWcTg4Ytt5yKbjqd/RKKzejpgHafDUgGcEZbo
-         FzoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776414987; x=1777019787;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CS4QQsQN7RmaHyI35F2RiAWiiiGHkRaNuLXPNb9Rp1U=;
-        b=BmauADV9sgO0vNjcimC4KGR2jQ0c4vv5aV7ZO70CEsdMvx+xcvGL6yMEZkXszenI+3
-         bwrjFLneOx87nrkPxQx1OTNwVYpOvMrBagwQlUxYDO30t5FZEpNQ0ssON/6JT9Lxs1Gk
-         sIPFSivebWnIn1ZQbMYNgsIZCwhjwxAMQk216q0y6aEsmhklhmssQDyndIHEkhHBsqKg
-         NsGgPSS+mviYT2dzhokUJBOi3/+Z8KK/0dB9whCKuWh47rtTonzBJh/uaFgKuMBR34r3
-         Y4V8j/RD0m2Y8qZ1pusJd7AnEie7o6+j0v8RZTA1FdDtOeM9DEuucNRh95l/ZyriTdw6
-         3VSQ==
-X-Forwarded-Encrypted: i=1; AFNElJ97sfC1N37w3XgFpVzaCe1A0lHW+VJH85j1jBXeDgl8A6YHVQ6xcFAk5aEPp/ObHIiWb4si59xLjMc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGMQRTR3/4y6bqMOfmPu4V8JG1tXbMzd3mO3ath8LesLtvTZg/
-	TCc3I0qcviGZT168SJretjgagmsnOVDlDNBdt6Sld3qmOt6ppkrGMt/QVKRXyYRX
-X-Gm-Gg: AeBDietQ2kesl6ygEPdkFA+7Hly2z/dJhRCyCRoznsrGm6rJqXJ0FiTBm/LVQWAl3bL
-	a+mBl3+dT6Nasu6JgSXv1laVlc6kYuEKPCB/sfSrYuDJ5JofCYCCP3MUygTOjYB/G+Q2TuFViBo
-	KoRQ6rbGQslyfbMn/JHxKhkFfCcd0RYyX+E694gch3/KxSx9d9P4QFdCWvo0kQUO+0L77YJuoIY
-	uoksjSVJa/Do8Y+UZk4/GWyYklp4CQry/7QXzO7ba4iva4Lu9M4SYqBrPW1YMnk3NoBQhMcYui0
-	RosB5/500T0wKZWS5noiJjkdQxtcYuSg9pTtbyL2EsEgD69CHsymrKTA8bbettcO8u8X9sRlBId
-	mZyDyf/EXd1xDMQy15pAuuD4ARsjcj2Z9Y8a1zpu6VLdmmiZAOts4Kbrz7YMLNYXjwZUGZbSi+W
-	Mmf+9bhydEBetN5RpPuuse4ob1NbQgsbBkJWBWpITTVfxUttFs3g8R7DOKK0Qy6472+TtV5u7KF
-	vKbhIfy1Wihqv2JEmfmTxLdBlx9RCo0ceViYVeWbZ9mOazaEdT8dITo3krkudTVm+PU6erD
-X-Received: by 2002:a05:6000:2308:b0:43d:76d8:5794 with SMTP id ffacd0b85a97d-43fe3e14f8dmr2894776f8f.36.1776414987239;
-        Fri, 17 Apr 2026 01:36:27 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cc0d51sm2911996f8f.10.2026.04.17.01.36.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 17 Apr 2026 01:36:26 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Fri, 17 Apr 2026 09:36:20 +0100
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>, 
-	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Cc: Jonathan Cameron <jic23@kernel.org>, 
-	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
-	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v10 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <mhfgedq2t5lqtu6535ahdmpbvib2xzp2hmyt7ezflnf52r56jh@ze6tee7vpij3>
-References: <20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com>
- <20260415-adf41513-iio-driver-v10-2-df61046d5457@analog.com>
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="JS/UeliM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="WaSxT0Xq"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9D3DE1D001E3;
+	Fri, 17 Apr 2026 04:59:58 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Fri, 17 Apr 2026 04:59:59 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1776416398;
+	 x=1776502798; bh=UUvDMgT2JDILnPFp/rQMG5xa0/FbaPkssLGIWBPbYgo=; b=
+	JS/UeliMctoAoIjBE3RhNUS3edBlWLZsyGRgrONFKmz/CiVVFMhHNtetfjM6JtYQ
+	vhFE5tdjK6uy+zuwU2ldiI2TlC18ZZ2YZLLNoJXI6zYYalxRAVDM6HW395y87Q/7
+	Z1+QaKK3TyTsy7wq1vzXIGQBct7+ddSpDmH7EY5xfyxY/EM+MlqAcwaDNnnK104I
+	H8e5gK1lbaSN9/AtAogtApuHRZsCPUEbWWOn5L3j3UBP1BwK4nc8OK43a1iDW8xE
+	5wZNs8Ayo/84JGwpCUxJjcTOg7lYQOoXiQbSg6ZVNSDQ76sMI/UXv4v+tSmuMpIZ
+	uOBsqxQ3NsYY+gSbaH79cA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776416398; x=
+	1776502798; bh=UUvDMgT2JDILnPFp/rQMG5xa0/FbaPkssLGIWBPbYgo=; b=W
+	aSxT0XqmNdL6YS4/HeSJP2lsDApkXf0O9c9SWzPy8SFX8ZhYhTmisvLzDa0MuAJ2
+	7BrehUxkn7QsZTwGuhl/upRnMcM1UAWrVkvI7LYFJS7ImyG9wHlXkET/m53wU0D3
+	w03IvFqGs6GlgwRv9/BqT453wti6jJIcNrtCysHJmiIYr/0vmFOyEquKD1a62oSc
+	tGhyIZd49KLpeSTvYuk8YQp737LnM6FujUyMG5UVPvuZEqiVugDCDnzfRfz14HiS
+	11DN5i/IoZTW9PHHqOcmJ8yb+3W/ZFP5HBRKl4DiWsYaNIeqGr9jWybv6aNzRUek
+	EU0bgjIorrZ1l0HPF/Hfg==
+X-ME-Sender: <xms:jfbhaVCKzv6Y5_tboWvdprRfSdNQOWe4XLA7ZKJagNGj88goJ1BCPQ>
+    <xme:jfbhaeWXg8sJufOIzqIVXDXeu0gK5r2qqDylP8NBILdyki6WdieNCo7Zvi9XKJnla
+    C5hyto0XjpqfpjHIR9It9u_IpqRGicpVy0ZzLliu9Vi79O125Tk4DI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegleegiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpedvhfdvkeeuudevfffftefgvdevfedvleehvddvgeejvdefhedtgeegveehfeeljeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeduledpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheplhhinhhugiesrghrmhhlihhnuhigrdhorhhgrdhukhdprhgtphhtth
+    hopegrlhgvgigrnhgurhgvrdgsvghllhhonhhisegsohhothhlihhnrdgtohhmpdhrtghp
+    thhtohepshhtvghfrghnughovghsihhnghgvrhesghhmrghilhdrtghomhdprhgtphhtth
+    hopegtohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepfhhushhtihhn
+    iheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepjhhirhhishhlrggshieskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhhsfieskh
+    gvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:jfbhaZkiRndjPCwU6sql-kOX10LyujavQxQBoN4M6zLknn8cqvafOA>
+    <xmx:jfbhaTMbcbJ58fLah-LqrDOHtB4mfjWZqP9VFCwxbPoEjLUNh71LCg>
+    <xmx:jfbhabofCGG5zweFeXghmctJU7-N5LHnIIR6i8bI2NG8mg3lhLoa1Q>
+    <xmx:jfbhacs0yuhPrjhyheW8S6qyVgAWvGv4Ym_2dYXv7pkkkmN5CH0_zg>
+    <xmx:jvbhaTPSJ6wafZHNswkUf5Vf0rZBdqmkwoEVH7znV98AIPrNVgrTg05d>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id C1056700065; Fri, 17 Apr 2026 04:59:57 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260415-adf41513-iio-driver-v10-2-df61046d5457@analog.com>
+X-ThreadId: AkOrUqlAGQ43
+Date: Fri, 17 Apr 2026 10:59:17 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: =?UTF-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ "Russell King" <linux@armlinux.org.uk>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Conor Dooley" <conor+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzk@kernel.org>,
+ "Alexandre Belloni" <alexandre.belloni@bootlin.com>,
+ "Linus Walleij" <linusw@kernel.org>, "Drew Fustini" <fustini@kernel.org>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Jiri Slaby" <jirislaby@kernel.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
+ soc@lists.linux.dev, linux-serial@vger.kernel.org
+Message-Id: <0d80dcbe-cb46-45e5-821a-de5299d6a663@app.fastmail.com>
+In-Reply-To: <20260416-send-v4-7-e19d02b944ec@gmail.com>
+References: <20260416-send-v4-0-e19d02b944ec@gmail.com>
+ <20260416-send-v4-7-e19d02b944ec@gmail.com>
+Subject: Re: [PATCH v4 7/8] ARM: dts: Declare UART1 on zx297520v3 boards
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 26/04/15 10:51AM, Rodrigo Alencar wrote:
-> Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> precision). After the decimal point, digits beyond the specified scale
-> are ignored.
+On Thu, Apr 16, 2026, at 22:19, Stefan D=C3=B6singer wrote:
+>
+> The reason why I add the serial1=3Duart1 alias is to keep console=3Dtt=
+yAMA1
+> stable regardless of the other enabled UARTs. UART0, as the name
+> implies, has a lower MMIO address, but uart1 is the one that usually h=
+as
+> the boot output and console.
 
-...
+I'm not sure I'm following here. You generally want to either make
+sure the alias matches whatever number is printed on the product
+if there are multiple numbered ports, or you just use 'serial0'
+as the only alias if there is only one port.
 
-> +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> +{
-> +	u64 _res = 0, _frac = 0;
-> +	unsigned int rv;
-> +
-> +	if (scale > 19) /* log10(2^64) = 19.26 */
-> +		return -EINVAL;
-> +
-> +	if (*s != '.') {
-> +		rv = _parse_integer(s, 10, &_res);
-> +		if (rv & KSTRTOX_OVERFLOW)
-> +			return -ERANGE;
-> +		if (rv == 0)
-> +			return -EINVAL;
-> +		s += rv;
-> +	}
-> +
-> +	if (*s == '.' && scale) {
-> +		s++; /* skip decimal point */
-> +		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> +		if (rv & KSTRTOX_OVERFLOW)
-> +			return -ERANGE;
-> +		if (rv == 0)
-> +			return -EINVAL;
-> +		s += rv;
-> +		if (rv < scale)
-> +			_frac *= int_pow(10, scale - rv);
-> +		while (isdigit(*s)) /* truncate */
-> +			s++;
-> +	}
-> +
-> +	if (*s == '\n')
-> +		s++;
-> +	if (*s)
-> +		return -EINVAL;
-> +
-> +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> +	    check_add_overflow(_res, _frac, &_res))
-> +		return -ERANGE;
-> +
-> +	*res = _res;
-> +	return 0;
-> +}
+> +	aliases {
+> +		serial1 =3D &uart1;
+> +	};
 
-I have an alternative (slightly more complex) implementation of this function
-that handles E notation. I find this particularly handy when writting big
-values like 25 GHz when the ABI is defined in Hz, so instead of writing
-25000000000, one can just use 25e9, or 2.5e10. I found that my python code
-was printing big floating point values or really small ones using E notation
-and that was giving me -EINVAL, so I had to adjust formatting when generating
-the string input to the file. No big deal, and we would not need this here,
-but if maintainers find this useful I could add it into a v11 of this series.
+Either way, the alias should go into the board specific file, not
+the general SoC file, as a board might be using a different
+set of UARTs.
 
--- 
-Kind regards,
+> +
+> +		/* The UART clock defaults to 26 mhz. It will be replaced when the =
+zx29 clock
+> +		 * framework is added.
+> +		 */
+> +		uartclk: uartclk: clock-26000000 {
+> +			#clock-cells =3D <0>;
+> +			compatible =3D "fixed-clock";
+> +			clock-frequency =3D <26000000>;
+> +		};
+> +
+> +		uart1: serial@1408000 {
+> +			compatible =3D "arm,pl011", "arm,primecell";
+> +			arm,primecell-periphid =3D <0x001feffe>;
+> +			reg =3D <0x01408000 0x1000>;
+> +			interrupts =3D <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+> +			clocks =3D <&uartclk>;
+> +			clock-names =3D "apb_pclk";
+> +		};
 
-Rodrigo Alencar
+Since you know the addresses of the other uart instances, I would
+suggest you add all of them at the same time.
+
+       Arnd
