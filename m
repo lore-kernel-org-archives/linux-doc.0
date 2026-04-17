@@ -1,95 +1,86 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F8D3750CF
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 11:57:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88907370D5F;
+	Fri, 17 Apr 2026 12:26:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776427022; cv=none; b=EA9fhDzzMnjVaH9+1YahJY57Der8b3iI8+OgnRBrVbSpIA94YIm20iJtEcbBgUYaxhx8Bh4Sh7CMubO3gmfr/2BG2/BT28giMyrIPheAnC86anbF3zQqhhdJHmbB9HUo4ukAWaEs7DzTB45W2MSxnuNvLw1VdYLGiBbIU23l6cg=
+	t=1776428795; cv=none; b=SzwURXzhuVSfrr0V9t1vC/q6gc79croYWIRf2k8TpGkBFQCP2VvlBqiRcMhAnk0qiLwmU33EDf7SIHG9tNGgaHzLAl1edKkZ+VMAau94C8ugV+YVssWR/syMmAjfkuIyolK4/0A9VOMeowiNOOx8pEStnZHCAUK3/oTeKGSLXbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776427022; c=relaxed/simple;
-	bh=/9hByDEs1tZsUl/bDPSgLnO/m2DCUNXsUDzm566x2cA=;
+	s=arc-20240116; t=1776428795; c=relaxed/simple;
+	bh=qx+8FJ8jA0NidxGCtpVyMEUiZNEXmPexoJxKiWGCiMA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PyS2uXfmwA8NuCUNVwFJsj46NnbMMlAI/jqUMBTrgfKfJ6qLNGJNQzP6emcA10UYnVqA4sjDsXdGnDKC5kZs7sN9EPZEhMDsxm8j0J8EHOFIUe+iVK/NaAtnVD2MJO3/tehLs9tDacccp9lUcK3WCnYjV3kFS2kTAl1FTSQcRM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JrY43o6X; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=m+x+5RrY; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=JVLsXN0E; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=IiAHLP/q; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	 Content-Type:Content-Disposition:In-Reply-To; b=hdNu8T7U0ek4k7mPDc8dOKhNdlA04EW7yiyIC6JFHNfnglBu3tZRy4lXWkGiOTvICbTEu/iSQ5HNZzBxcMHCqzCxPQ4NnN+I2HWqsSA/GRI4L47iK/EQbC+X6+9tfBp/JSPe7Z/Ma+/XXgJA986ExW/Abi6QWtSqKFxgDb/qihs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vz7CRyk1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JrY43o6X";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="m+x+5RrY";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="JVLsXN0E";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="IiAHLP/q"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 5BC286A9B2;
-	Fri, 17 Apr 2026 11:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776427018; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GGB/8ndmkq0nQUxUya+Cz2jubXI4ei3cKlGky0eSZKE=;
-	b=JrY43o6Xe1ofNqWi4bvLBzThTEXmBrvj5V3MwYPNpvICe4DNVCt2qnUtLTs/4tzIjwuXmj
-	GDlfU4KhmPh1x7kKYpJRd7Ai/Cej3v/cL4CjD/TXZu5JgJbaFVj8ZKbkZ/EE5sEUTepDX+
-	vOVJEBV5zF7L+5RBJ1csivlWzDmrQMs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776427018;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GGB/8ndmkq0nQUxUya+Cz2jubXI4ei3cKlGky0eSZKE=;
-	b=m+x+5RrYcxeAH96bGN38/97b28DjQa4nIelb+rRiMRrHNy5Vxy7nPaMggllU050bL9+hdg
-	Dr/O37z373X7/2AA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=JVLsXN0E;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b="IiAHLP/q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1776427014; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GGB/8ndmkq0nQUxUya+Cz2jubXI4ei3cKlGky0eSZKE=;
-	b=JVLsXN0EPcZio2K42RMPet6VIJxxtGhRo3aUATTs3cOHrhVjKPwIyI5b+ua13mb0DGmtYq
-	5qy/LIF5vL4/lr4crEuy8E3tsx91iOLRpSbyFahjV2HR/596HVKHg01MO9M/bUcFZJlt+W
-	QgBJcRH6ntnpQSmu2UxOLGjERmW+bkQ=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1776427014;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=GGB/8ndmkq0nQUxUya+Cz2jubXI4ei3cKlGky0eSZKE=;
-	b=IiAHLP/qnnnxEzLkM4lqfzwmD9R4dBhIgE50hF/3FUm1y/Q+l/xrvk4BHxmZNbhjxOR4Gr
-	wumBQErEmRI4CYDg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 41B8F593AE;
-	Fri, 17 Apr 2026 11:56:54 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id 6qsJEAYg4mmFDwAAD6G6ig
-	(envelope-from <jack@suse.cz>); Fri, 17 Apr 2026 11:56:54 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id B8434A0B77; Fri, 17 Apr 2026 13:56:45 +0200 (CEST)
-Date: Fri, 17 Apr 2026 13:56:45 +0200
-From: Jan Kara <jack@suse.cz>
-To: Jeff Layton <jlayton@kernel.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
-	Alexander Aring <alex.aring@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
-	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
-	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Calum Mackay <calum.mackay@oracle.com>, 
-	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Subject: Re: [PATCH v2 07/28] fsnotify: add FSNOTIFY_EVENT_RENAME data type
-Message-ID: <njcjrskw4lfsjn7pjfan4xyqmk37jzlc5amgc7snbhpsrbsdnq@mawp7fdkczrk>
-References: <20260416-dir-deleg-v2-0-851426a550f6@kernel.org>
- <20260416-dir-deleg-v2-7-851426a550f6@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vz7CRyk1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC44C19425;
+	Fri, 17 Apr 2026 12:26:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776428795;
+	bh=qx+8FJ8jA0NidxGCtpVyMEUiZNEXmPexoJxKiWGCiMA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Vz7CRyk10GE9Y73tyozR48+pEWlhyTxRJNmzGuwOCJIU0ALhdbG/0xIphC16F4qBi
+	 oNvXvLxKGUSvCthYhOYcgTTgM44BCwhVYpDxXCult6wd7QVmrVTg1Q9qS3JM08i+UR
+	 t4DxTL4IozATIHJEWSeyyjwmzG3PPeS5XVYpR9C+MK8uVVLffthgAOojT+B32BwMI/
+	 mkSLqyfmDhdrreMbPB0x2ciWtkcSQcPZknPwYwRLS+ZlSgq6k24foxA9GupBuoBDPt
+	 YTbnFyMxbphWdD5MF2JflguTTF5gNHe8DlU/7GiDQPx9O5b8zVou9+g0qaO9E2PdzF
+	 rP+59js3C17/g==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id E3072F4006C;
+	Fri, 17 Apr 2026 08:26:33 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 17 Apr 2026 08:26:33 -0400
+X-ME-Sender: <xms:-SbiaR_NNX29Fol-5tVyTde8Xan6QF1Ql8exi2WW8gRE9IVJ65OtXQ>
+    <xme:-SbiaUPFJt8aEHbBHPLSBJIqS7LkcEfBGX-8lGHKWRz7AXEZntyYOb0qWRrY62iPU
+    -tz1eOj0dqZvXmuBBXYwsHydfPqB4rGDPFwpQkZNR2wnWx2CmqN8g>
+X-ME-Received: <xmr:-SbiaVNocWi5hTKsgUmcf6e2hhxZtWBRl4gFRinEAU4EfM6UrrnMnQLATOyFJw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegleekkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeffffekgeffjefgkedvjeeggedttdeljeekhffhudeiudfhiefgudeugffhheffuden
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvg
+    hrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepfeei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhg
+    pdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopehljh
+    hssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopehvsg
+    grsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhohiflhgvthht
+    sehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:-SbiaaOpzH-hGXGD8Vnb7wDUjEyPZ2Yzd3P0SNl-CTUuebWkeO-rFw>
+    <xmx:-SbiaUXLDyV9Dfmmz-EoGAYXiK572KSYrME9AJ_atGEPxDlDyLiBmQ>
+    <xmx:-SbiaaqQpl4u3MiQQmUfZ5k6NA6ZhgCUTEF3_1g-aR1_ldmxlbWGjg>
+    <xmx:-SbiaSecBy9UBAKEZg-YbcgBvEHjHQ4PBMISgK9pUxRGppKKv9YiGA>
+    <xmx:-SbiaeBxJahyYoFrTpKPYVuki05v4yhgXwmld2lBZ-Pwdx3KjNYQq4Al>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Apr 2026 08:26:32 -0400 (EDT)
+Date: Fri, 17 Apr 2026 13:26:25 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aeImfRrrvr3UoKtL@thinkstation>
+References: <20260414142354.1465950-1-kas@kernel.org>
+ <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
+ <ad50rPOseVa-SP_s@thinkstation>
+ <aeDoqFWPFxkkNB26@thinkstation>
+ <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
+ <aeFCuLJXT8VOkzH7@thinkstation>
+ <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -98,176 +89,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260416-dir-deleg-v2-7-851426a550f6@kernel.org>
-X-Spamd-Result: default: False [-2.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	RCPT_COUNT_TWELVE(0.00)[24];
-	RCVD_TLS_LAST(0.00)[];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	ARC_NA(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,goodmis.org,efficios.com,lwn.net,linuxfoundation.org,brown.name,redhat.com,talpey.com,vger.kernel.org];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received,2a07:de40:b281:104:10:150:64:97:from];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	TAGGED_RCPT(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	MISSING_XM_UA(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email,suse.cz:dkim,suse.cz:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -2.51
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 5BC286A9B2
+In-Reply-To: <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
 
-On Thu 16-04-26 10:35:08, Jeff Layton wrote:
-> Add a new fsnotify_rename_data struct and FSNOTIFY_EVENT_RENAME data
-> type that carries both the moved dentry and the inode that was
-> overwritten by the rename (if any).
+On Fri, Apr 17, 2026 at 01:43:36PM +0200, David Hildenbrand (Arm) wrote:
+> On 4/16/26 22:25, Kiryl Shutsemau wrote:
+> > On Thu, Apr 16, 2026 at 08:32:19PM +0200, David Hildenbrand (Arm) wrote:
+> >> On 4/16/26 15:49, Kiryl Shutsemau wrote:
+> >>>
+> >>> Here is an updated version:
+> >>>
+> >>> https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git/log/?h=uffd/rfc-v2
+> >>>
+> >>> will post after -rc1 is tagged.
+> >>>
+> >>> I like it more. It got substantially cleaner.
+> >>
+> >> I don't have time to look into the details just yet, but my thinking was
+> >> that
+> >>
+> >> a) It would avoid the zap+refault
+> > 
+> > Yep.
+> > 
+> >> b) We could reuse the uffd-wp PTE bit + marker to indicate/remember the
+> >>    protection, making it co-exist with NUMA hinting naturally.
+> >>
+> >> b) obviously means that we cannot use uffd-wp and uffd-rwp at the same
+> >> time in the same uffd area. I guess that should be acceptable for the
+> >> use cases we you should have in mind?
+> > 
+> > I took a different path: I still use PROT_NONE PTEs, so it cannot
+> > co-exist with NUMA balancing [fully], but WP + RWP should be fine. I
+> > need to add a test for this.
+> > 
+> > I didn't give up on NUMA balancing completely. task_numa_fault() is
+> > called on RWP fault. So it should help scheduler decisions somewhat.
+> > 
+> > I think an RWP user might want to use WP too.
+> > 
+> > Do you see this trade-off as reasonable?
 > 
-> Update fsnotify_data_inode(), fsnotify_data_dentry(), and
-> fsnotify_data_sb() to handle the new type, and add a new
-> fsnotify_data_rename_target() helper for extracting the overwritten
-> target inode.
+> One reason why the PTE bit was added for the WP case was to distinguish
+> it from other write faults.
 > 
-> Update fsnotify_move() to use the new data type for FS_RENAME and
-> FS_MOVED_TO events, passing the overwritten target inode through the
-> event data. FS_MOVED_FROM is unchanged since the source directory
-> doesn't need overwrite information.
+> I assume without a dedicated PTE bit your design will always suffer from
+> false positive notifications.
 > 
-> This is done so that fsnotify consumers like nfsd can atomically
-> observe the overwritten file when a rename replaces an existing entry,
-> without needing a separate FS_DELETE event.
-> 
-> Assisted-by: Claude (Anthropic Claude Code)
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> Leaving NUMA-balancing aside, a simple
+> mprotect(PROT_NONE)+mprotect(PROT_READ) would already be problematic to
+> distinguish both cases.
 
-Looks good. Feel free to add:
+Hm. I didn't consider this case (miss some uffd lore). Will rework to
+reuse existing PTE bit.
 
-Reviewed-by: Jan Kara <jack@suse.cz>
+Thanks for the feedback!
 
-								Honza
-
-> ---
->  include/linux/fsnotify.h         |  8 ++++++--
->  include/linux/fsnotify_backend.h | 20 ++++++++++++++++++++
->  2 files changed, 26 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/fsnotify.h b/include/linux/fsnotify.h
-> index 079c18bcdbde..bda798bc67bc 100644
-> --- a/include/linux/fsnotify.h
-> +++ b/include/linux/fsnotify.h
-> @@ -257,6 +257,10 @@ static inline void fsnotify_move(struct inode *old_dir, struct inode *new_dir,
->  	__u32 new_dir_mask = FS_MOVED_TO;
->  	__u32 rename_mask = FS_RENAME;
->  	const struct qstr *new_name = &moved->d_name;
-> +	struct fsnotify_rename_data rd = {
-> +		.moved = moved,
-> +		.target = target,
-> +	};
->  
->  	if (isdir) {
->  		old_dir_mask |= FS_ISDIR;
-> @@ -265,12 +269,12 @@ static inline void fsnotify_move(struct inode *old_dir, struct inode *new_dir,
->  	}
->  
->  	/* Event with information about both old and new parent+name */
-> -	fsnotify_name(rename_mask, moved, FSNOTIFY_EVENT_DENTRY,
-> +	fsnotify_name(rename_mask, &rd, FSNOTIFY_EVENT_RENAME,
->  		      old_dir, old_name, 0);
->  
->  	fsnotify_name(old_dir_mask, source, FSNOTIFY_EVENT_INODE,
->  		      old_dir, old_name, fs_cookie);
-> -	fsnotify_name(new_dir_mask, source, FSNOTIFY_EVENT_INODE,
-> +	fsnotify_name(new_dir_mask, &rd, FSNOTIFY_EVENT_RENAME,
->  		      new_dir, new_name, fs_cookie);
->  
->  	if (target)
-> diff --git a/include/linux/fsnotify_backend.h b/include/linux/fsnotify_backend.h
-> index 66e185bd1b1b..f8c8fb7f34ae 100644
-> --- a/include/linux/fsnotify_backend.h
-> +++ b/include/linux/fsnotify_backend.h
-> @@ -311,6 +311,7 @@ enum fsnotify_data_type {
->  	FSNOTIFY_EVENT_DENTRY,
->  	FSNOTIFY_EVENT_MNT,
->  	FSNOTIFY_EVENT_ERROR,
-> +	FSNOTIFY_EVENT_RENAME,
->  };
->  
->  struct fs_error_report {
-> @@ -335,6 +336,11 @@ struct fsnotify_mnt {
->  	u64 mnt_id;
->  };
->  
-> +struct fsnotify_rename_data {
-> +	struct dentry *moved;	/* the dentry that was renamed */
-> +	struct inode *target;	/* inode overwritten by rename, or NULL */
-> +};
-> +
->  static inline struct inode *fsnotify_data_inode(const void *data, int data_type)
->  {
->  	switch (data_type) {
-> @@ -348,6 +354,8 @@ static inline struct inode *fsnotify_data_inode(const void *data, int data_type)
->  		return d_inode(file_range_path(data)->dentry);
->  	case FSNOTIFY_EVENT_ERROR:
->  		return ((struct fs_error_report *)data)->inode;
-> +	case FSNOTIFY_EVENT_RENAME:
-> +		return d_inode(((const struct fsnotify_rename_data *)data)->moved);
->  	default:
->  		return NULL;
->  	}
-> @@ -363,6 +371,8 @@ static inline struct dentry *fsnotify_data_dentry(const void *data, int data_typ
->  		return ((const struct path *)data)->dentry;
->  	case FSNOTIFY_EVENT_FILE_RANGE:
->  		return file_range_path(data)->dentry;
-> +	case FSNOTIFY_EVENT_RENAME:
-> +		return ((struct fsnotify_rename_data *)data)->moved;
->  	default:
->  		return NULL;
->  	}
-> @@ -395,6 +405,8 @@ static inline struct super_block *fsnotify_data_sb(const void *data,
->  		return file_range_path(data)->dentry->d_sb;
->  	case FSNOTIFY_EVENT_ERROR:
->  		return ((struct fs_error_report *) data)->sb;
-> +	case FSNOTIFY_EVENT_RENAME:
-> +		return ((const struct fsnotify_rename_data *)data)->moved->d_sb;
->  	default:
->  		return NULL;
->  	}
-> @@ -430,6 +442,14 @@ static inline struct fs_error_report *fsnotify_data_error_report(
->  	}
->  }
->  
-> +static inline struct inode *fsnotify_data_rename_target(const void *data,
-> +							int data_type)
-> +{
-> +	if (data_type == FSNOTIFY_EVENT_RENAME)
-> +		return ((const struct fsnotify_rename_data *)data)->target;
-> +	return NULL;
-> +}
-> +
->  static inline const struct file_range *fsnotify_data_file_range(
->  							const void *data,
->  							int data_type)
-> 
-> -- 
-> 2.53.0
-> 
 -- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+  Kiryl Shutsemau / Kirill A. Shutemov
