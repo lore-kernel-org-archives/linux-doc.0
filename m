@@ -1,191 +1,115 @@
-Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3967D39A81A
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 08:12:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF246148850;
+	Fri, 17 Apr 2026 08:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776413543; cv=none; b=RJ2PhUieUF9CuPuYMWtPTrcnk0izxatXdOJ/88S6GpLFNFJxCXFkjl3cq28vGqkXSX5fdOkluxAwfm8WkxobrL/Diflc6lCGZWh84nFfD9n+09zpVMUEp79t3DmEqS4Q7ykAbS0Z8EIm2uONj3zM6CmnLtE78mbz2XSNDgpYmSQ=
+	t=1776413633; cv=none; b=L9wieWnDhAIziASz5uFaS4SsdpWs5htDTCNvRVjd84CoKuo3qMdCTEtSQZhPo5u8aQ4gTSFrCPde0oaRiIsnlRVrcmo5vckZzNimytSElYQb/tIcRHpcIVLv6RJvSsFaQsfS4KlXsxtB3rxHMDynPccf3fWfR8mLuSYap1DiNaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776413543; c=relaxed/simple;
-	bh=f1f8FP5MAPBZgyVtMY0NYdH9uQSsSaWjgN4QrxBbNbw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=inyxgNEhn9Lj86a2FBNubiTqgBR7II65pPhnHarof7TVM3DiDD2W+6tVAk8Ngc5ieGQT/t54iFsSxeKRTHNdzcv3eEUj/VsELk4Jb5MyhuTzQQfQtTMrO8jWVHxl+8mvK+IP4+03RiR0ikF4r+aAv0nNRU/b69ZEufXl72gc/8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bnXrsnGy; arc=none smtp.client-ip=74.125.82.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776413633; c=relaxed/simple;
+	bh=AB7kM5+zl3g8v3ZilOIEtTC6f3PJQWJBnG4VUhc+iZY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pgOCuvSL5BwA67HCtHykKaxblnqVFCc1/r2toPDdEWghRdmamzOI7Ffl0kO29vlJvxrQfayNLcitMSfdsNB3ZaX48yVYvMTpTCRnbY1FIgYoemQiw6WYQAlBw5eK/XHygjehnmEJJWzHvJ94zeGmfM4h+8JJ9S+kWcMrMAKxNvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=WiUBalMv; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bnXrsnGy"
-Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-12c726c30efso364647c88.1
-        for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 01:12:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776413541; x=1777018341; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8FVUfbekTe9VVF70JZx+Y2dELk9ZGKMrf0H0ErIcWXs=;
-        b=bnXrsnGyk78ORRttd9feF47MUZLCAEgruJmRI4R1K9Ltwde4uIw5R1LlthzFLt96WV
-         JQo6aW3OymwuHGdX5+UTmBBO19EZJGk5Ba2d6IsbE1Zx1n2K8q+XI/VQSHKDFJYIjXly
-         cCCYG1z2KrIis1DOAWnEATyz/a4quQMKB2ist6NYDivoNijS5H5lkJcSnpUdbToKzmNj
-         6dNB/sCcpHjTpi6cbYAMwDWHOE655PvkJLLkWrETXbmrSBJF/pMJ09SYhBrYJ+aOCe8P
-         jgAvOLUe9pWmwkpndU657H0DGSrRN4WZimpdLUSb1D3UlS52gNLO2MYGVCt1sgTJqonX
-         8CdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776413541; x=1777018341;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8FVUfbekTe9VVF70JZx+Y2dELk9ZGKMrf0H0ErIcWXs=;
-        b=HvUMOUtqtviXg0OSagLsnPmGttOKkUqUXYwNjIhwZC2SdP/0lZb6vbba+ylPd+ycFb
-         KWTsTTX3IjzIrLWSrRCQRMqelm7LLyJCI90LwJ6fiYYWvImuMfmWvhR+WtfDbQ78J3hA
-         7cZpdkl2A/rT42LIx7J2tAlg8beKD1iPSzhBrmOhk2MZxlrZFeFoDm20BHD/CKKCeFz4
-         9zY8j3u1xWqHH8icu7u1lEROYKHPhqHw8EZ7M6QZyPHiLEHbUgl5AlJ1Fjuc+tM+TgcP
-         41rs+aflPk0k9j7sWqGRBQVq72BYiT8mCGTvrRzdT8Y7Q3OBgewNW8HLMiiC0JFSVv5J
-         /I/w==
-X-Forwarded-Encrypted: i=1; AFNElJ/16HCG7LsuXyizDXCGNZLvXxHSBjRzD4kdUA0+Ha/hZLAERR19L17QGte36/fNBC8bvesEEEdPuUs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxndW8EDhDriLBSwNqcq1JdNJW2oqepEOF2Hp2rZODA7RG/SdMj
-	zhSvyr7QtQnNIjbudZTaFa9bpCT9Nqb9XrY7m0MaM6N9UpNXHsvVpoij
-X-Gm-Gg: AeBDievBu6EODKPMqhkbYHVvfrZmRPsy3QCjCdY4owtC23S+hUoXy7vfAznW1aF9bpO
-	MY5jaRcyOsikZfL6+w5ycsh4X447RRAFjuBjdlniZmSQp1lODbruXYaML7tMTHqAKCK6HuImrWs
-	BNLsqCyCL6qaa0yMIobw9Lte644QzX7N0Q3Sc+5rSMuxbHMpkUuzfu6kqauRAFCzwREWg4GlmW/
-	+Y1hzdXF30OWfOyhDbt/upG1Dxx4I1Bp33t/8PEBomEiygybf1OOTVxrDRceOa9revoB99+Rx4U
-	EUrxUXL9ANGVplk/qfg2o27GeqLzhQ9Jnid1nDeOTETMEfRjoQCqGkp829ZegYT/NunTa+Z7KmM
-	eEFvAOu9/CknU32rd6W8kuXlZjfkLvqdeuHRBaKIP7Nsp1wS0yBK24ImHSUbwBRwsY+n5125cme
-	ux4BkIZlDMVceTyie3vSYi8I9Na3R+AagibO3MYTPK/LEdGw==
-X-Received: by 2002:a05:7022:6b99:b0:12c:2dd7:9099 with SMTP id a92af1059eb24-12c73f9fb84mr680694c88.30.1776413541268;
-        Fri, 17 Apr 2026 01:12:21 -0700 (PDT)
-Received: from localhost.localdomain ([104.28.152.117])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c74a20c55sm1161356c88.13.2026.04.17.01.12.14
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 17 Apr 2026 01:12:20 -0700 (PDT)
-From: wang lian <lianux.mm@gmail.com>
-To: willy@infradead.org
-Cc: 21cnbao@gmail.com,
-	corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	hannes@cmpxchg.org,
-	horms@kernel.org,
-	jackmanb@google.com,
-	kuba@kernel.org,
-	kuniyu@google.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linyunsheng@huawei.com,
-	mhocko@suse.com,
-	netdev@vger.kernel.org,
-	pabeni@redhat.com,
-	surenb@google.com,
-	v-songbaohua@oppo.com,
-	vbabka@suse.cz,
-	willemb@google.com,
-	zhouhuacai@oppo.com,
-	ziy@nvidia.com,
-	wang lian <lianux.mm@gmail.com>
-Subject: Re: [RFC PATCH] mm: net: disable kswapd for high-order network buffer allocation
-Date: Fri, 17 Apr 2026 16:11:34 +0800
-Message-ID: <20260417081138.23426-1-lianux.mm@gmail.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <aO11jqD6jgNs5h8K@casper.infradead.org>
-References: <aO11jqD6jgNs5h8K@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="WiUBalMv"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=FzPtR8XBpYAtdtjQmCJHfr8Ak8KPMG6rRy1FtmV/4Ek=; b=WiUBalMv2ap5OVbiLawUg65FpJ
+	pNR7afCUfM1Y5H54gD+mxP8FYdeUTwkkA0bT3lpL+c2tHtDjv+GO30fdIjntRTwTbAd8Ac7v6SlHG
+	lqWz8sQrCTNB4Ep8rwbbWG4pbA7aV+GFKeiZJB77GSFPS8eReDRblh7k8h7G6m2tu+qF6HCe9R9IA
+	GfbsHW+OdCKYCTzghN0ZunI2/qjjk5OhnzOg4tETYlXD81TCs8hZLXOGYe9ljt3UkAVvJU0CbNX6o
+	x5sep4jdX3jQXeY7TS15OBgmnyfO4hgqG348n4PVarvlmqSUYt+ZuPwizux3jrEhwKNss9LcOpUbe
+	vgKRI+UQ==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wDeKW-00000003erK-0sn1;
+	Fri, 17 Apr 2026 08:13:36 +0000
+Date: Fri, 17 Apr 2026 01:13:36 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: Dan Williams <djbw@kernel.org>, Gregory Price <gourry@gourry.net>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan J Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <aeHrsIGagdmZJ1Fw@infradead.org>
+References: <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+ <ad7Tps4tkNbndd9Z@groves.net>
+ <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+ <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
+ <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
+ <20260416224331.GD114184@frogsfrogsfrogs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416224331.GD114184@frogsfrogsfrogs>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Hi Matthew, Barry,
+On Thu, Apr 16, 2026 at 03:43:31PM -0700, Darrick J. Wong wrote:
+> ...the memory interleaving is a rather interesting quality of famfs.
+> There's no good way to express a formulaic meta-mapping in traditional
+> iomap parlance, and famfs needs that to interleave across memory
+> controllers/dimm boxen/whatever.  Throwing individual iomaps at the
+> kernel is a very inefficient way to do that.  So I don't think there's a
+> good reason to get rid of GET_FMAP at this time...
 
-> So, we try to do an order-3 allocation. kswapd runs and ...
-> succeeds in creating order-3 pages? Or fails to?
-From our reproducer runs, both happen. We observe intermittent order-3
-successes, but also frequent high-order failures followed by order-0
-fallback.
+Why no?  We can triviall make an iomap point to multiple backing
+devices and throw in a stride/offset.  That would make btrfs
+striping (and non-degraded parity RAID reads) a lot more efficient.
 
-> If it fails, that's something we need to sort out.
-Agreed. In this workload, the bottleneck appears to be contiguity, not
-raw reclaimable memory shortage. Order-0 memory remains available while
-suitable order-3 blocks are often unavailable.
+> ...however the strongest case (IMO) would be if (having merged famfs) we
+> then merge fuse-iomap after famfs.  Then we extend the existing
+> fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
+> That enables us to analyze thoroughly the performance characteristics of:
 
-> If it succeeds, now we have several order-3 pages, great. But where do
-> they all go that we need to run kswapd again?
-In our runs, order-3 pockets do show up, but they do not last long.
-They get consumed quickly by ongoing skb demand, and the pressure returns.
+Don't go there.  I think that you two are comining up with two
+interfaces for roughly the same thing is a pretty clear indicator
+that this needs to be fully hashed out as a single interface first,
+and any kind of preliminary merging is just going to create problems.
 
-To investigate this, we built a reproducer that keeps creating memory fragments 
-while the network stack continuously requests order-3 allocations.[1][2]
-
-Raw sample output (trimmed):
----------------------------------------------------------------------------------------------------
-TIME       | BUDDYINFO (Normal Zone)        | MEMINFO                   | KSWAPD CPU & VMSTAT      
----------------------------------------------------------------------------------------------------
-11:08:11   | ord0:11622 ord3:0              | Free:96MB Avail:1309MB    | CPU: 10.0%  scan:83107932
-[*] PHASE 3: Triggering Order-3 Pressure (UDP Storm).
-11:08:15   | ord0:52079 ord3:0              | Free:273MB Avail:1300MB   | CPU: 90.9%  scan:85328881
-11:08:16   | ord0:102895 ord3:0             | Free:477MB Avail:1309MB   | CPU: 60.0%  scan:85873777
-11:08:17   | ord0:115459 ord3:5             | Free:517MB Avail:1284MB   | CPU: 54.5%  scan:86584389
-11:08:18   | ord0:115164 ord3:0             | Free:509MB Avail:1107MB   | CPU: 36.4%  scan:87083561
----------------------------------------------------------------------------------------------------
-
-The current phenomenon we observed is: Free memory is plentiful, Order-0 
-pages are abundant, and the network allocation has already successfully 
-entered the fallback-to-order-0 path. Everything seems normal on the 
-surface, yet kswapd remains trapped in a futile loop.
-
-It appears that kswapd is stuck in the following logic: 
-wakeup_kswapd -> pgdat_balance -> __zone_watermark_ok. 
-
-Specifically, in __zone_watermark_ok():
-
-        /* For a high-order request, check at least one suitable page is free */
-        for (o = order; o < NR_PAGE_ORDERS; o++) {
-                struct free_area *area = &z->free_area[o];
-                int mt;
-
-                if (!area->nr_free)
-                        continue;
-
-                for (mt = 0; mt < MIGRATE_PCPTYPES; mt++) {
-                        if (!free_area_empty(area, mt))
-                                return true;
-                }
-        }
-
-Because our reproducer keeps creating fragmentation while the network 
-stack requests order-3, this loop continues to return 'false' for the 
-high-order requirement, even though the system is functionally fine 
-with order-0. To be clear, we are not intentionally creating "artificial" 
-fragments just for the sake of it. Rather, we designed this reproducer to 
-effectively stress-test and expose the existing feedback gap in the 
-reclaim/compaction logic—helping to pinpoint why kswapd continues 
-thumping CPU cycles to satisfy a watermark that the allocator has 
-already abandoned in favor of order-0 fallback.
-
-A related discussion in [3] helps reduce vmpressure noise in this area.
-Useful, but it does not close the contiguity gap by itself: high-order
-wake/reclaim can still repeat when contiguous blocks cannot be formed.
-
-It seems the current situation directs us to take a much closer look at 
-how kswapd behaves in these scenarios. After carefully reviewing 
-everyone's input, we believe it is time to do some targeted work on 
-handling these high-order page issues. 
-
-We already have some rough ideas and plan to conduct further experiments 
-in this area. We would appreciate a broader discussion to help address 
-this potential oversight that we might have collectively missed.
-
-Links:
-[1] https://github.com/hack-kernel-just-for-fun/kswap/blob/main/kswapd_spin_repro.c
-[2] https://github.com/hack-kernel-just-for-fun/kswap/blob/main/kswapd.sh
-[3] https://lore.kernel.org/all/20260406195014.112521-1-jp.kobryn@linux.dev/#r
-
-This was reproduced and cross-checked independently by our team
-(Wang Lian <lianux.mm@gmail.com> and Kunwu Chan <kunwu.chan@gmail.com>).
-
---
-Best Regards,
-wang lian
