@@ -1,182 +1,186 @@
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6A1439C006
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 09:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.218.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776416834; cv=pass; b=loluLRYYt+jrAQ0g2kyIiha1zGjHbZbjHeb0Hb/rQ6kv6nIdAbOyMOCz58YlmhDG17tIFboTn4N+N414w0X/s69ZYNBdKApEYYWaAxArGfaTfHI07OF9rmh1AdYbDZuM+KyEES8ZWmaMiDqjOIIHouklgNqTJwIqIwFWk4U8dhs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776416834; c=relaxed/simple;
-	bh=5c9bOfL9xX1M5qYLTtO6chvkErafEILwQ1Vq/seoipk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ExutuLRPYjtezWQhZgc2eFS2hg+PFWe58xWPZrTD8GFzi99Z25UxUYYi1A/YDmjyCxls3L1wfNwpWAdZ+89NZPrmWZfS27RYRmJt06lUSJ73u0zzmSs01cNXuhy3MzsKNEcOzxfT8vKgvo3EH8vAhkSEVG8iGf3kHWddYAoHMbk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=o8DDWT/D; arc=pass smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A445A37416B;
+	Fri, 17 Apr 2026 09:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776417088; cv=none; b=O5wp3Yxx8BmXwNNtTCyB4K4Tx35NkRrrXwzGg0sEbTvVh9eqtY94sI18tPsbQ61OBiQ+E/o+QvoNtN8D7qn3QjDWtbbIliMUhillh9Lvcl40IO4Ovnix1qseJpf4QklXG2Wuq5ECdhN/YK/MZ4MbB+kE2S5R3lkb8ncHsCUXuVs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776417088; c=relaxed/simple;
+	bh=Yh3aIT0LhpqB2XvIHbuHWcgibMBlm9kzvaO+VyiZxA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uYfVgWoSxL+lpSo9FlP1ycHq9sQTcB/5Vs3gh3txrtRTAr9WCln9bUsgZwE3jyQ+iLTsiPe2HdLXhuIbsvq8Hu7nVdtBiM7V1byNo/Vaso8gnhkFn0x2U6QiCBoIqjmsLYnW7jyChxH7CkxNZMA3WWr/R27zPpidHoln4slCgTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=nLjA7rCB; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="o8DDWT/D"
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b9c6f1d1282so66445866b.3
-        for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 02:07:12 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776416831; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Nh8K1Z5BwoiRQC+F9n7Z5QfSzLxmgvcXP7P81je0pEF1df6jpuSlXjT6qMMh2eYgbF
-         DCjxUo7csU3K2xScyCjjbFFyEeEO91hi9odkhHbMRSTW+hb4kLcBGBkkJMJ7W7pRLRaM
-         o1NuY4CT2mopf9oPBic4uv9XcuxYR5udIPrv14d6bYEItx7cjrj+Z5MvUBe+0W2TysjW
-         iKvcOpRruCSGVj9C3obwJNkhi/mq1veQxLkvevp1jf9Y7oPNZ10AHPexl09eBtvGaWYV
-         HnsnH+R7TmA2JX6tOGO5D0ew74dswO3ayDiqgDJN4cdutJHuCt8txTBlhOBcIlG17CO6
-         1WjQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=5c9bOfL9xX1M5qYLTtO6chvkErafEILwQ1Vq/seoipk=;
-        fh=4LTYHarRraJDdul5cQ+Y+u/YPLDWI0wqrACKfRtumvE=;
-        b=Ani2L8qcZVXEgZ07aj57HKd8UCk4DMT1hipj9Tn7915eDruHHwYt7BmQjs6RVnslQK
-         ge7HZS6AcspX1qP8UaI9N/j+2iu8cCzZlyO+Qv8PZmtTxSpA9ndQVZnp8sMfoWW6Qq9f
-         eamdiy2m3cphLpMWKW1Phf1YSX08JfQfo2KUaVUqJ7rcy27vjtQM2xC0m+jIk/YkJxuO
-         nsmOh5LmXeY/OC7f48bVSXHWpiWs93DeW3nkv/9uUbgTv+yzD2BpPCEi5GcFGC6kZY7Q
-         i5vBqXzhzgWP+YKEktB8BWn5MtybXVL5OSAOoH6jCF6WiPJToDjJHwVOn2pvRcP3hL+k
-         AhWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776416831; x=1777021631; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5c9bOfL9xX1M5qYLTtO6chvkErafEILwQ1Vq/seoipk=;
-        b=o8DDWT/DlaErGn4DeUAkK7BgN+afJgGmhxqZ1q3b6VxSaJ4M5giKBs9fF8Qz8j2zGs
-         a2F2ywQXQY4zEE50PtC5vKXIjQ4806vwpb/MxvN1jLYoUcxK8iLtb0D9L9bfiuWIkQqd
-         REgBwyCvnuvvdXo9Y/ZqPaXI4fMEpgww0SJfq9cMzKCsnDRjqw2NseuYl7cy7HX/L1ue
-         TaBvIVGEeZ7mTsoOmTko9qfzVr35fumAY0MAzJQBeIybwwZJySQy6amvHvvjYKh2R+QV
-         P4yL/C7c1Fst1l29oFfuSgOdYkzxM/SgcvAYrCYqOmORYuQDRqRqiQcnTO/HyztDmzP7
-         QEFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776416831; x=1777021631;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=5c9bOfL9xX1M5qYLTtO6chvkErafEILwQ1Vq/seoipk=;
-        b=njpRXg/tdRAdHuNi82Vxh4lJOIBEf7djjCaNiselYJ9getXtRLT9h6WgZblPRlhJoi
-         KV5a2qgPKtBtJLj9tGSsHlsA43LaMVcylizylstHvW2G/rCNF3jgvWkgs6iS4GLCwKxo
-         msOroMpdM2dCrL2ZgB/6j5duoLGu8IqH+kEcsuV2v/d2UOlF0BymdCaM6Plzb2Fwd44t
-         vA8sAoI6vzkE5RmbswBHzk+NuBzEtVYrZoomVr9nW1kQm/t+oV/oXMj4EuUY4UHZpU90
-         jQmXuHtmlqWq6WFM0wcBY1acpzMRTF+53k2tlvDBoJcyXIZ6zhl/2xsPlwAjqhXlXAXK
-         M6hw==
-X-Forwarded-Encrypted: i=1; AFNElJ+4QUTMyTCibuGog1SaiBCDGT0ed810i3dhl37UrLOMLsXI6XNNtNw9yBC20w6/4fp/XIvy+6OUEb8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSpCfJldjHJyLkiQMjsiRSLvSt1rwl3RaS3zgJCPC6T1SBZD3v
-	q5Ag9KD8evGMN8c4h0KpZcKaCHnZjvAQ2oayEbTdM5QnwmKpRVTRzF76uydMPMWoAHLT+PBF9zn
-	hWnjTR25BQz1WGtwLkXzw3WGZc/1D23M=
-X-Gm-Gg: AeBDievWmP6hlT54XTGazjuAzTmJEs/iuVPj/dcxx7m/9kXss9W8WAIwoSgtGwdrCVx
-	aspgqwAZJig/01eZdgt0lkRjHEe8lK//r0KecGOWqwKlfBwtkZ2+98b20y8Vh0NK3y7pCSPVOiS
-	sW73LZ6RdBhH3j7ol1Yzop1liK57KatqA+fFEZ/IqTm/hNimngv47z9F2Nd9O1JD0UIWYpSM5xc
-	Px6IMFEsRbUU7IbcPVmPaj6AqnVm4IYiiiBAbiw5VIfjgScEGGzv0Uc3EE0mhymEj0+IwEhqpub
-	OvyPKTDfAvsgLjUzyAzAX6PVjtDFuHkhltqs9nsJnPhZI827Yjq1
-X-Received: by 2002:a17:907:742:b0:ba3:55bb:c380 with SMTP id
- a640c23a62f3a-ba41afe9047mr107433166b.37.1776416830641; Fri, 17 Apr 2026
- 02:07:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="nLjA7rCB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+	Reply-To:Content-ID:Content-Description;
+	bh=OtUmsssVat6H5uUWOGAgIMHCFf2EzwnMzi7lYMo5hwg=; b=nLjA7rCB3i9XrrthI/d/2fWiqZ
+	ByYEGdrrSLzqHMI+J9GEf1NxH2Q2a+W2J64WXkJNaYYLfAs9LnwitL/BtKi6FOxWxQ974SbiGUEgb
+	uWoMSAteewAwyGp5kzWuofHPxyUsk2Nff7u5DxzZsUyWkjuF3oYO9s8xK2RlDtdbPiijnfSyEnaqb
+	QAeYC8X//4jAS7helEgl1srQURzS3ArVSDTnjHF/BVNuP7wuDdqc+OnMx2sMvEOsfj4jjejBP1GPM
+	Jy2KbBW9NWcUPSWU2gwVkFiX2GUfLLHuerk3DjalmVCl+keRXqRyv3VGuOb3gDxP+BPGofUE+A6Cd
+	yAKIc4ng==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wDfE5-00FH6o-1a;
+	Fri, 17 Apr 2026 09:11:01 +0000
+Date: Fri, 17 Apr 2026 02:10:51 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Jiaqi Yan <jiaqiyan@google.com>
+Cc: Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v4 0/3] mm/memory-failure: add panic option for
+ unrecoverable pages
+Message-ID: <aeHy3-vQTQYJlGw5@gmail.com>
+References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
+ <CACw3F51PC0iB6mfbiceQ_Kh242FN8zdXOfTyE5Pa_5+gjTPPGg@mail.gmail.com>
+ <aeD6hpM3t0RZm5mW@gmail.com>
+ <CACw3F50WYH8Vmd9EXx9+3yM=FU5-1WBkNffkGucC+wSjL+=wFQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net> <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F> <CAJnrk1ad6t6CJV+xnXwhoNHrHYA3htuaVdDq47FeT60cPBzj7g@mail.gmail.com>
- <aeHXQ2EW2ivlLb_N@gourry-fedora-PF4VCD3F>
-In-Reply-To: <aeHXQ2EW2ivlLb_N@gourry-fedora-PF4VCD3F>
-From: Amir Goldstein <amir73il@gmail.com>
-Date: Fri, 17 Apr 2026 11:06:58 +0200
-X-Gm-Features: AQROBzD2EP6ID8hIkZ19dTfzX26KpQgRIz65UgWPtyN4gSS439LCb3U6ka7SEj4
-Message-ID: <CAOQ4uxhXTTyySG3tXnqNnP0edbbwUxfeeC7=CypDSyw_Mod48A@mail.gmail.com>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: Gregory Price <gourry@gourry.net>
-Cc: Joanne Koong <joannelkoong@gmail.com>, John Groves <John@groves.net>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org, 
-	Christoph Hellwig <hch@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CACw3F50WYH8Vmd9EXx9+3yM=FU5-1WBkNffkGucC+wSjL+=wFQ@mail.gmail.com>
+X-Debian-User: leitao
 
-On Fri, Apr 17, 2026 at 8:46=E2=80=AFAM Gregory Price <gourry@gourry.net> w=
-rote:
->
-> On Thu, Apr 16, 2026 at 06:24:02PM -0700, Joanne Koong wrote:
-> > On Thu, Apr 16, 2026 at 1:14=E2=80=AFPM Gregory Price <gourry@gourry.ne=
-t> wrote:
-> > >
-> > > I worry that this discussion is going to turn towards implementing a
-> > > solution grounded in parsing arbitrary formats and how to store them,
-> > > and that is completely detached from why FAMFS went this route in the
-> > > first place.
-> > >
-> > > I question whether the actual issue here lies in the interface APPEAR=
-ING
-> > > more general purpose than it actually is - and therefore inviting
-> > > attempts to over-genericize it.
-> >
-> > Would you mind clarifying this part? Are you saying that the interface
-> > and logic is *already* generic and usable for other dax-backed
-> > servers, just that everything is *named* famfs but it's not really
-> > famfs specific?
->
-> Yes.
->
-> If you just find/replace "famfs" with "dax_iomap", the structures
-> here don't really seem all *that* crazy specific - they're just
-> optimized for memory speeds instead of I/O.
->
-> There is a circular nature to this - FAMFS figured it out first, in
-> what we think is a reasonably generic way, but we can't know for sure.
->
-> John, Dan, and Darrick have all proposed reasonable ways to hedge
-> against the obvious fact the interface will not be perfect - which
-> incorporates your BPF proposal along with a reasonably straight forward
-> deprecation path that's not always possible in other arenas.
->
-> All that while solving a real (and novel) problem.
->
-> That's actually pretty damn cool.
->
-> I would urge you to consider these proposals earnestly.
->
+On Thu, Apr 16, 2026 at 09:26:08AM -0700, Jiaqi Yan wrote:
 
-Apart from your suggestion to replace s/famfs/dax_iomap/
-the fact that this logic sits in fs/fuse/famfs.c (or fuse/dax_iomap.c)
-is the other big architecture issue.
+> So we will always get the same stack trace below, right?
+> 
+>           panic+0xb4/0xc0
+>           action_result+0x278/0x340
+>           memory_failure+0x152b/0x1c80
+> 
+> IIUC, this stack trace itself doesn't provide any useful information
+> about the memory error, right? What exactly can we use from the stack
+> trace? It is just a side-effect that we failed immediately.
 
-If this logic was to be placed in fs/iomap/ as Christoph suggested,
-I think the rest of the UAPI issues could be sorted out.
+We can use it to correlate problems across a fleet of machines. Let me
+share how crash dump analysis works in large datacenters.
 
-In any case, considering the sheer amount of discussion on this thread
-I have scheduled a cross-track FS+MM+IO for Famfs and DAX iomap.
+There are thousands of crashes a day (to stay on the low ballpark), and
+different services try to correlate and categorize them into a few
+buckets, something like:
 
-I wasn't going to include Storage people at first, but since Christoph
-mentioned that stride/offset iomap could be useful for block iomap,
-I included them as well.
+	1. New crash — needs investigation
+	2. Known issue — fix is being rolled out
+	3. Hardware problem — do not spend engineering time on it
 
-Thanks,
-Amir.
+When a machine crashes at a random code path like d_lookup() 67 seconds
+after the memory error, the automated triage classifies it as a kernel
+bug in VFS/dcache and assigns it to the filesystem team for
+investigation. Engineers spend time chasing a bug that doesn't exist in
+software — it's a hardware problem.
+
+With the immediate panic at memory_failure(), the stack trace is always
+recognizable and can be automatically classified as category 3 (hardware
+problem). The static stack trace is the feature, not a limitation: it
+gives triage automation a stable signature to match on.
+
+The value isn't in what the stack trace and the panic() tells a human reading
+one crash — it's in what it tells automated systems processing thousands of
+them.
+
+> You can still correlate failure with "Memory failure: 0x1: unhandlable
+> page" and keep running until the actual fatal poison consumption takes
+> down the system. Drawback is that these will be cascading events that
+> can be "noisy". What I see is the choice between failing fast versus
+> failing safe.
+
+Correlating the "unhandlable page" log with a later crash is
+theoretically possible but breaks down in practice at scale:
+
+- The crash may happen seconds, minutes, or hours later — or never, if
+the page isn't accessed again before a reboot.
+
+- The crash happens on a different CPU, different task, different context
+
+— there's no breadcrumb linking it back to the memory error.
+
+- Automated triage systems work on stack traces and panic strings, not
+by correlating dmesg lines across time with later crashes.
+
+- The later crash looks completely different depending on the
+architecture. On arm64, you get a "synchronous external abort". On
+x86, it's a machine check exception. On some platforms, it might be a
+generic page fault or a BUG_ON in a subsystem that found inconsistent
+data. There is no single signature to match — every architecture and
+every consumption path produces a different crash, making automated
+correlation essentially impossible.
+
+- Worse, the crash may never happen at all. If the corrupted memory is
+read but the corruption doesn't trigger a fault — say, a flipped bit
+in a permission field, a size, a pointer that still maps to valid
+memory, or a data buffer — the result is silent data corruption with
+no crash to correlate against. The system continues operating on wrong
+data with no indication anything went wrong.
+
+Also, I wouldn't call continuing with known-corrupted kernel memory
+"failing safe" — it's the opposite. The kernel has no mechanism to
+fence off a poisoned slab page or page table from future access.
+Continuing is failing unsafely with a delayed, unpredictable
+consequence.
+
+
+> > Isn't the clean approach way better than the random one?
+> 
+> I don't fully agree. In the past upstream has enhanced many kernel mm
+> services (e.g. khugepaged, page migration, dump_user_range()) to
+> recover from memory error in order to improve system availability,
+> given these service or tools can fail safe. Seeing many crashes
+> pointing to a certain in-kernel service at consumption time helped us
+> decide what services we should enhance, and which service we should
+> prioritize. Of course not all kernel code can be recovered from memory
+> error, but that doesn't mean knowing what kernel code often caused
+> crash isn't useful.
+
+
+That's a fair point — consumption-time crashes have historically been
+useful for identifying which kernel services to harden. But I'd argue
+this patch doesn't prevent that analysis, it complements it.
+
+The sysctl defaults to off. Operators who want to observe where poison
+is consumed — to prioritize which services to enhance — can leave it
+disabled and get exactly the behavior they have today.
+
+But for operators running large fleets where the priority is fast
+diagnosis and machine replacement rather than kernel hardening research,
+the immediate panic is what they need. They already know the memory is
+bad, they don't need the kernel to keep running to find out which
+subsystem hits it first.
+
+Also, the services you mention — khugepaged, page migration,
+dump_user_range() — were enhanced to handle errors in user pages,
+where recovery is possible (kill the process, fail the migration). The
+pages this patch panics on — reserved pages, unknown page types — are
+kernel memory where _no_ recovery mechanism exists or is likely to exist.
+There's no service to enhance for those; the only options are crash now
+or crash later, given a crucial memory page got lost. 
+
+> Anyway, I only have a second opinion on the usefulness of a static
+> stack trace. This fail-fast option is good to have. Thanks!
+
+Thanks for the review! Just to make sure I understand your position correctly —
+are you saying you'd like changes to the patch, or is this more of a general
+observation about the tradeoff?
+
+--breno
