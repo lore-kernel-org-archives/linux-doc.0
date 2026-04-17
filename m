@@ -1,49 +1,53 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8AAB36E48D;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FDB36E496;
 	Fri, 17 Apr 2026 06:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776406287; cv=none; b=u8dJCXRkVAu8FXqVZK7E7SDRD0tm9jF6tIuFxWZM5DTXqaqwpPQPE+WE9+RPGcN11PzD4EHfowOTn8juuTwvu3rBx6Gsvhw7ZUdeeR/cAzgl/f1hR9O2fOhXUhJ5VpmNWA+5JYpRJVGMQD4HT+f0QnSvQ2/vrmSWqUDsku+FxfA=
+	t=1776406287; cv=none; b=tuO7hjUB5c0Wx9mnBRUpVygPnC6xDYvXxICRKMGVG82LoIWMu46BgMOEku8heRXF8xlCdd/j7cYZswCwoNuksPCzhATfI+WGf6AR6VX91b/qYWHMUlm65pevE+Pp4sZfOggJ5cVz4JBIBIwxjfLSyXJrroWLn9Owr2k1COaSUgE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1776406287; c=relaxed/simple;
-	bh=foSitjGjVjWkt3FOsEjErrXwoSNFIILUN9JQwZDwqYk=;
+	bh=etykI6PjHqrvsDMvEbWFzTQyXVYcIo7uusJigHM5MX8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Nc7LwFJ5W9rGCcIuzYKhHXE9Goee3lCDZtiv8DyqbRpiuX9uGX/ZcF5zmCgF9ygjOj134EHprztYO01E0ZkFRI70YRCekH7pMrAYsTod9umNW6aRoqrMAP+uYqWhpN9O/NTiZjsOkxlezZBwZP4kmvWq6KGCAg8oPqysBJyOWVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DFPxTZvw; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ahO+Egg4BnvDKz5UGrqBvqGhrWsDakWPkJef6vc6IKyY8Q64inEseF5tX/WnwVpgLih0I8JrM9YTyKOr2ngHpothmazzKVmouEUPpZ3xGRDvX1sG2aEMVdKlWjh6n+Ny69oXjx6dW0xzDLEMzLQEOeByFOxwMF8yQHGsMRb/rZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vMykoyHP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DFPxTZvw"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BD92C2BCC7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vMykoyHP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F1ABC2BCB5;
 	Fri, 17 Apr 2026 06:11:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1776406287;
-	bh=foSitjGjVjWkt3FOsEjErrXwoSNFIILUN9JQwZDwqYk=;
+	bh=etykI6PjHqrvsDMvEbWFzTQyXVYcIo7uusJigHM5MX8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DFPxTZvwQGNUIJnPeYpr1hWPfNuau/s+OaE7r4iZhlcvof5AaClBHJrh5TKv0p3dy
-	 1EYvG5pg5KhL4cqz9899f/pND84Yps4g534GoD6wn5Csirj9CvN5r3KVxUcCKqOkXP
-	 w+xvCrdSpbG39ICPqAdK86WHviL50MST1KNIg4hNF6S/heyCvXTPkLMKVRRMcAAaIy
-	 1QLtQ2fK1qk61F2d5TTaHZI2UBD0JbpzE06jSHzNrNLBiSY0dHyJYcsxciFEsNy18Y
-	 v7zm18JciTmf8qBj2TzRtJZ4e+a9ytK54YadF4i+Cz1zJ9Ib7hb9N3h+ZE+53Qqmn0
-	 PMgJhESl3brrQ==
+	b=vMykoyHP8EM+bYL/wT1QyBOZpIIcMYeHqZQ7vVR/hHePh16a9xh6kKfYmaa4VaWZR
+	 OS0WqGI3Lb/aP37rOq7xzV4z4SuY36vizePmk3XBU/ZN4hQorUmNIbNLSm1Bj2IWxd
+	 0fCmWeAhyv2uClq4vBLMLp3P9/wXUWHI8cvakx7bz+k2BPVTmlWXvNBpdmmQHmIN6i
+	 bMXV+sf/vL4r7DhKfmusjUclHBGgxSYCxbLn69T1nBoNcG7OZCyh5tBoMntWbs37NF
+	 Qklob+xLHDnZ6oKNfrYIEd1a7d4P9n4UgZBf15qFhR1vfchb7CKBo36gPVarpQ++Q+
+	 2a0WNmS7yATFQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wDcQH-0000000H8sx-2png;
+	id 1wDcQH-0000000H8sd-2GHB;
 	Fri, 17 Apr 2026 08:11:25 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-riscv@lists.infradead.org,
 	workflows@vger.kernel.org,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
 	Dan Williams <djbw@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Paul Walmsley <pjw@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>,
 	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH v2 09/11] docs: maintainers_include: improve its output
-Date: Fri, 17 Apr 2026 08:11:19 +0200
-Message-ID: <6912a6a66e6594f10e8ab886a984cf45cbe697c2.1776405189.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v2 04/11] docs: auto-generate maintainer entry profile links
+Date: Fri, 17 Apr 2026 08:11:14 +0200
+Message-ID: <47f251545c22f3eb20c811e3956385299c015438.1776405189.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1776405189.git.mchehab+huawei@kernel.org>
 References: <cover.1776405189.git.mchehab+huawei@kernel.org>
@@ -57,141 +61,80 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-There are three "types" of profiles:
-1. Profiles already included inside subsystem-specific documentation.
-   This is the most common case;
-2. Profiles that are hosted externally;
-3. Profiles that are at the same location as maintainer-handbooks.rst.
+Instead of manually creating a TOC tree for them, use the new
+tag to auto-generate its TOC.
 
-For (3), we need to create a TOC, as they don't exist elsewhere.
-
-Change the logic to create TOC just for (3), prepending the
-content of maintainer-handbooks with a sorted entry of all types,
-before the TOC.
-
-With such change, we can have an unique sorted list of profiles,
-having the subsystem names used there listed.
-
+Co-developed-by: Dan Williams <djbw@kernel.org>
+Signed-off-by: Dan Williams <djbw@kernel.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Message-ID: <9228f77b0339b8e5dea4a201ab6d4feb30cef5c2.1776176108.git.mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/maintainers_include.py | 76 +++++++++++----------
- 1 file changed, 40 insertions(+), 36 deletions(-)
+ .../maintainer/maintainer-entry-profile.rst   | 24 ++++---------------
+ .../process/maintainer-handbooks.rst          | 19 ++++++++-------
+ 2 files changed, 14 insertions(+), 29 deletions(-)
 
-diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index 7ab921820612..5413c1350bba 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -21,7 +21,7 @@ import sys
- import re
- import os.path
+diff --git a/Documentation/maintainer/maintainer-entry-profile.rst b/Documentation/maintainer/maintainer-entry-profile.rst
+index 6020d188e13d..58e2af333692 100644
+--- a/Documentation/maintainer/maintainer-entry-profile.rst
++++ b/Documentation/maintainer/maintainer-entry-profile.rst
+@@ -92,24 +92,8 @@ full series, or privately send a reminder email. This section might also
+ list how review works for this code area and methods to get feedback
+ that are not directly from the maintainer.
  
--from textwrap import indent
-+from glob import glob
+-Existing profiles
+------------------
++Maintainer Handbooks
++--------------------
  
- from docutils import statemachine
- from docutils.parsers.rst import Directive
-@@ -36,8 +36,8 @@ class MaintainersParser:
-     """Parse MAINTAINERS file(s) content"""
- 
-     def __init__(self, base_path, path):
--        self.profiles = {}
--        self.profile_urls = {}
-+        self.profile_toc = set()
-+        self.profile_entries = {}
- 
-         result = list()
-         result.append(".. _maintainers:")
-@@ -73,26 +73,24 @@ class MaintainersParser:
-             # Drop needless input whitespace.
-             line = line.rstrip()
- 
-+            #
-+            # Handle profile entries - either as files or as https refs
-+            #
-             match = re.match(r"P:\s*(Documentation/\S+)\.rst", line)
-             if match:
--                fname = os.path.relpath(match.group(1), base_path)
--                if fname.startswith("../"):
--                    if self.profiles.get(fname) is None:
--                        self.profiles[fname] = subsystem_name
--                    else:
--                        self.profiles[fname] += f", {subsystem_name}"
-+                entry = os.path.relpath(match.group(1), base_path)
-+                if "*" in entry:
-+                    for e in glob(entry):
-+                        self.profile_toc.add(e)
-+                        self.profile_entries[subsystem_name] = e
-                 else:
--                    self.profiles[fname] = None
+-For now, existing maintainer profiles are listed here; we will likely want
+-to do something different in the near future.
 -
--            match = re.match(r"P:\s*(https?://.*)", line)
--            if match:
--                url = match.group(1).strip()
--                if url not in self.profile_urls:
--                    if self.profile_urls.get(url) is None:
--                        self.profile_urls[url] = subsystem_name
--                    else:
--                        self.profile_urls[url] += f", {subsystem_name}"
+-.. toctree::
+-   :maxdepth: 1
 -
-+                    self.profile_toc.add(entry)
-+                    self.profile_entries[subsystem_name] = entry
-+            else:
-+                match = re.match(r"P:\s*(https?://.*)", line)
-+                if match:
-+                    entry = match.group(1).strip()
-+                    self.profile_entries[subsystem_name] = entry
+-   ../doc-guide/maintainer-profile
+-   ../nvdimm/maintainer-entry-profile
+-   ../arch/riscv/patch-acceptance
+-   ../process/maintainer-soc
+-   ../process/maintainer-soc-clean-dts
+-   ../driver-api/media/maintainer-entry-profile
+-   ../process/maintainer-netdev
+-   ../driver-api/vfio-pci-device-specific-driver-acceptance
+-   ../nvme/feature-and-quirk-policy
+-   ../filesystems/nfs/nfsd-maintainer-entry-profile
+-   ../filesystems/xfs/xfs-maintainer-entry-profile
+-   ../mm/damon/maintainer-profile
++For examples of other subsystem handbooks see
++Documentation/process/maintainer-handbooks.rst.
+diff --git a/Documentation/process/maintainer-handbooks.rst b/Documentation/process/maintainer-handbooks.rst
+index 3d72ad25fc6a..531985a0fae8 100644
+--- a/Documentation/process/maintainer-handbooks.rst
++++ b/Documentation/process/maintainer-handbooks.rst
+@@ -7,14 +7,15 @@ The purpose of this document is to provide subsystem specific information
+ which is supplementary to the general development process handbook
+ :ref:`Documentation/process <development_process_main>`.
  
-             # Linkify all non-wildcard refs to ReST files in Documentation/.
-             pat = r'(Documentation/([^\s\?\*]*)\.rst)'
-@@ -234,26 +232,32 @@ class MaintainersProfile(Include):
++For developers, see below for all the known subsystem specific guides.
++If the subsystem you are contributing to does not have a guide listed
++here, it is fair to seek clarification of questions raised in
++Documentation/maintainer/maintainer-entry-profile.rst.
++
++For maintainers, consider documenting additional requirements and
++expectations if submissions routinely overlook specific submission
++criteria. See Documentation/maintainer/maintainer-entry-profile.rst.
++
+ Contents:
  
-         maint = MaintainersParser(base_path, path)
- 
--        output  = ".. toctree::\n"
--        output += "   :maxdepth: 1\n\n"
-+        #
-+        # Produce a list with all maintainer profiles, sorted by subsystem name
-+        #
-+        output = ""
- 
--        items = sorted(maint.profiles.items(),
--                       key=lambda kv: (kv[1] or "", kv[0]))
--        for fname, profile in items:
--            if profile:
--                output += f"   {profile} <{fname}>\n"
-+        for profile, entry in maint.profile_entries.items():
-+            if entry.startswith("http"):
-+                if profile:
-+                    output += f"- `{profile} <{entry}>`_\n"
-+                else:
-+                    output += f"- `<{entry}>_`\n"
-             else:
--                output += f"   {fname}\n"
-+                if profile:
-+                    output += f"- :doc:`{profile} <{entry}>`\n"
-+                else:
-+                    output += f"- :doc:`<{entry}>`\n"
- 
--        output += "\n**External profiles**\n\n"
-+        #
-+        # Create a hidden TOC table with all profiles. That allows adding
-+        # profiles without needing to add them on any index.rst file.
-+        #
-+        output += "\n.. toctree::\n"
-+        output += "   :hidden:\n\n"
- 
--        items = sorted(maint.profile_urls.items(),
--                       key=lambda kv: (kv[1] or "", kv[0]))
--        for url, profile in items:
--            if profile:
--                output += f"- {profile} <{url}>\n"
--            else:
--                output += f"- {url}\n"
-+        for fname in maint.profile_toc:
-+            output += f"   {fname}\n"
- 
-         output += "\n"
- 
+-.. toctree::
+-   :numbered:
+-   :maxdepth: 2
+-
+-   maintainer-netdev
+-   maintainer-soc
+-   maintainer-soc-clean-dts
+-   maintainer-tip
+-   maintainer-kvm-x86
++.. maintainers-profile-toc::
 -- 
 2.53.0
 
