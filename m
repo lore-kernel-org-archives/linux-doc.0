@@ -1,95 +1,172 @@
-Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 386363128CA;
-	Fri, 17 Apr 2026 03:22:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28C38344D92
+	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 03:22:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776396134; cv=none; b=To+bq6xrxushf5XjrjmPfj3ykbvNgJuYwBEKcjTmAKx93mAtUYRHv2+nuAlUn5R/rNe4BM/rM9GZjkahuLqW555WiMrKpECFb7n6lNENuFprMvIcXZDBz4M748Mw/4mpl3AmZJ8hLwviggsquxoERPk5QZw/MSVvpazAc8r59VQ=
+	t=1776396157; cv=none; b=iuH1vqRHjux84KSAPbRrmaNzc0r4iBjcQ46xjIgGS5PFQzecIzmDnvouDpOyywBX6IQqiwEAfS12QaB0G0m2BvNu45RES2nugScIyk3/zv/bE5jTWz28+Dux6EZKOyI8W8LIfSFBfiXkEn/NqmFRm/xSbhO2jseDC/XuoW7m13A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776396134; c=relaxed/simple;
-	bh=86K7XkxC/v2L5UoF5U0XaLF4l4XC/tIPLraYXXMY20w=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=elNHy4cnXKJwIo3OnmAD/ZMZ7BrBMWFVFNU5M/MRPtaf845Dv8/5kz2TG9pfRI4YyJUGbZskBCQD8fyvTozOQvxW6AM8E4nZ0MOq7Isw75CG0NhjHd6eo9cVZTHx2B9hoLg5PzRE6lUzOcS8Io0hCV/NlSxv2UlmD3jm8C+NFs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=6EOdu9ab; arc=none smtp.client-ip=113.46.200.216
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1776396157; c=relaxed/simple;
+	bh=ZSZi3UpSXF8Wby9x8TqfZI7RiyaKLQaIxoAawQtBQXw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HNeckIvcOACquezpxVHoYYpGQIp6Wd2CCrlot7n2MMQKNBzvEJ6C3kA6vVNIkcdrNLcEoYlVOcJzm/wVAhg7SlFfKsEtfpXU802eKfU1glvCD9FBaBJQaQsfKe9BSXfNH24dcI9zDf7iXl70apwhhOfqjSsRH3MSfGwGjDBx+yc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XdDwL7F1; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="6EOdu9ab"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=SOq/ZxC6M8wVXHNjMQe7Rw4xaPWmBQS6yZbztjmE8kw=;
-	b=6EOdu9absDQrLD3VgjMBEJCMhp8NEszwwLk5P7IzqAGIPcDk3ND55TevuhT8VJZGzBGK1JCLT
-	/jO7I+8XocXiZgiD8T2G4pFXNQlJ0LtP7tFzeUv3Hxz62EOwYcn0zQpV+5uZGwmNpYYs3lwRRyi
-	2vVv0Ix4vAbCoeeUwDBjwE0=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4fxg4z3fH5z1T4Gh;
-	Fri, 17 Apr 2026 11:16:03 +0800 (CST)
-Received: from dggpemf500011.china.huawei.com (unknown [7.185.36.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 9AFF940576;
-	Fri, 17 Apr 2026 11:22:06 +0800 (CST)
-Received: from huawei.com (10.90.53.73) by dggpemf500011.china.huawei.com
- (7.185.36.131) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Fri, 17 Apr
- 2026 11:22:05 +0800
-From: Jinjie Ruan <ruanjinjie@huawei.com>
-To: <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<akpm@linux-foundation.org>, <bp@alien8.de>, <rdunlap@infradead.org>,
-	<pmladek@suse.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<kees@kernel.org>, <elver@google.com>, <paulmck@kernel.org>,
-	<lirongqing@baidu.com>, <safinaskar@gmail.com>, <bhelgaas@google.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<skelley@nvidia.com>
-CC: <ruanjinjie@huawei.com>
-Subject: [PATCH] docs: Update nosmt support for arm64
-Date: Fri, 17 Apr 2026 11:25:40 +0800
-Message-ID: <20260417032540.3720627-1-ruanjinjie@huawei.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XdDwL7F1"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2ad9516a653so833795ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 20:22:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776396154; x=1777000954; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=riHL8PUFIWxFVSSO9aFHtXI+aBYHRPRmwkjy7XIHGSY=;
+        b=XdDwL7F1MbngrLrDtArSW/iSMtZi5poL+fPgCjODw7mj+5ZY07DeW7Emqsm/TyzmX0
+         XSS6Tj2LK0gQrw9503Mf1pC3QUO3ms7yA/egkjTsj5teehGKYLMvIjFIpKRurYDIDIgE
+         vj3TQPpVnlEoWyTd1D/QQKsSnkVZgEYzsmWS6bJQ5t7/x11kjGUGXrh8C0u/rhbJ+Txh
+         vvIqzucmcBWyH13stjLaeg1jLsUjUeY+Ow2MTEggdxYrBlh9y4YaacLBRwd+Ve8v7FEN
+         X670taxX2pg23hXdX/jIj7a4qzt0MR37F+UxDF5rGY/42wHvhvB69C4AfGflpxjR37N4
+         O7fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776396154; x=1777000954;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=riHL8PUFIWxFVSSO9aFHtXI+aBYHRPRmwkjy7XIHGSY=;
+        b=YxOjwyDHWPJ9QYajiA9oQqMFCAeBzc4NyRf6kfKL+ES2HqXoRgeGF2mo2ZNcKKtd9e
+         oRTz3hc3VdWSgm7M/dCrGjhyZNHhzxjW1WsJ4myVqsYfaNWHhPCoNaWsgoCcd+KIJ3wN
+         3VHLHtImU0iOLIk5fICS3k3OlP/gO9QzeSuKmjE+6SWqjV1kCdkGPEjaNafxK5ELch82
+         5gN+aikToR8TAeD+zJ37OY3iNiiFj498ZAQH5AVIBw6qX6u3FSc/1SXhIPpzaZ74e9Kg
+         T819sf4tABw5N6xbYYsmKZXDef/j9Fpqoo76mDzE7o40O9e12SaZpYWz/fPKmPjQnqmv
+         9YXw==
+X-Forwarded-Encrypted: i=1; AFNElJ+6gEEOhwhtBnA/PpCk3KEq9GOUv/mEfDphRLG4ZFR9YRkElM4bVCcZ3AWi/u63oaHYe+Cz8lFs1rM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3jq96XXFMeSvFRPQZLkczSOZT52x6LuD3Bl9OJPkexrYJNsf/
+	zklq8O1aNZLWqFyDOpbQIvJbFfpS7JtX2jQCCpaXJAu7FqlAoH6nGnNi
+X-Gm-Gg: AeBDietu2DiY6+aUtXQHmTS/kZl74YxtYeSOJE6q15F6aGkXTZ1s/I8zhsCdf14QwyZ
+	XLe+GT1FmnZ1BNlv52KeadxjfJQIi/eS26h6giVYZ3v1Z/Ot+FcGsw/RW53z6XuUvnKh48iWfus
+	i3NnoyYREhPI6Lc9E1h4hxnh/8Bf71TxqofdZwSZlxhYpgyFrhUa0TzXCdpQxEofOlWczb+RPlj
+	tSK5FKvWSbnfAjC5xSVgQLEwP2J/DPoYLRKvPhxYbWn63NQa3S1cAWTFfhXBeixSAD7SbrJ0hym
+	FVqOgwRO/lCcr3CIqSuW7WnsTxPNnHimW0oIg5V5IZkeVn8uVOwGOVcJ31EoD/FU2JfcM9MaRDE
+	LbPmVpuWP2BHdW08Dro6mS8hLHeQOFJIvsNkyM+fe4sWspxMyegIbExZNK1crdcSaEjHLMR69ro
+	LILlBY9GMuVl30NGwzbrThxEJzpTp6T+UMvhoWCHluHXAIzeMqiCeFxbkzld9NCP6oH6yMe/njs
+	odX8K79J+k=
+X-Received: by 2002:a17:903:2c0e:b0:2b2:539b:d2b1 with SMTP id d9443c01a7336-2b5f9ea6173mr11262965ad.16.1776396154079;
+        Thu, 16 Apr 2026 20:22:34 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0cf3bsm3965605ad.44.2026.04.16.20.22.32
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Apr 2026 20:22:33 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <a142d5ce-e4a3-4f50-8009-f796609fb13c@roeck-us.net>
+Date: Thu, 16 Apr 2026 20:22:32 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- dggpemf500011.china.huawei.com (7.185.36.131)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
+To: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>,
+ Conor Dooley <conor@kernel.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+References: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
+ <20260416-dev_max20830-v2-1-2c7d676dc0bd@analog.com>
+ <20260416-diaphragm-corrode-494560404ed4@spud>
+ <84a5154f-1139-425e-94ae-31d7e662cd0e@roeck-us.net>
+ <20260416-scoring-secluding-c7a7235b181a@spud>
+ <PH0PR03MB635166088B7C473CF59F17D1F1202@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <PH0PR03MB635166088B7C473CF59F17D1F1202@PH0PR03MB6351.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-commit eed4583bcf9a6 ("arm64: Kconfig: Enable HOTPLUG_SMT") enable
-HOTPLUG_SMT for SMT control for arm64, but the documentation was
-not updated accordingly to reflect that ARM64 now supports control SMT
-via boot parameter and sysfs knobs:
+On 4/16/26 18:04, Torreno, Alexis Czezar wrote:
+> 
+>>>>
+>>>> On the previous version, you got an LLM comment about not having the
+>>>> interrupts property amongst other things.
+>>>> I think the other things got implemented, but I didn't see any reply
+>>>> to the bot about that?
+> 
+> I wasn't sure if it was that type of bot. I'll try replying on the other patch review.
+> I just added a note in the cover letter change log about the lacking smbalert.
+> 
+>>>> I think the answer is that it shouldn't because the pin it
+>>>> referenced doesn't exist, but when looking at the schematic I have
+>>>> to wonder if
+>>>
+>>> I had to look this up in the datasheet. A SMBus chip with no alert pin
+>>> is a bit odd, but you are correct.
+>>>
+>>>> there should be an interrupts property for dealing with "pgood"?
+>>>>
+>>> FWIW, I have never seen that. Normally such pins are used to take
+>>> devices out of reset.
+>>
+>> It's an output on this device seemingly. I don't care if the driver ignores it, but
+>> for completeness (and we like completeness with
+>> bindings) I think it should be documented as an interrupt or gpio.
+> 
+> Alright, I'll add it as an interrupt: optional power-good signal
+> 
 
-1. Boot parameters:
+Uuh, that really doesn't make any sense. Please at least make it a gpio pin,
+matching pwr-good-gpios of ti,tps65185.yaml.
 
-nosmt:          Disable SMT, can be enabled via sysfs knobs.
-nosmt=force:    Disable SMT, cannot be enabled via sysfs knobs.
-
-2. Runtime sysfs controls:
-
-Write "on", "off", "forceoff" or the number of SMT threads (1, 2, ...)
-to /sys/devices/system/cpu/smt/control.
-
-Signed-off-by: Jinjie Ruan <ruanjinjie@huawei.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cb850e5290c2..6a73eb5abae9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -4661,7 +4661,7 @@ Kernel parameters
- 	nosmt		[KNL,MIPS,PPC,EARLY] Disable symmetric multithreading (SMT).
- 			Equivalent to smt=1.
- 
--			[KNL,LOONGARCH,X86,PPC,S390] Disable symmetric multithreading (SMT).
-+			[KNL,LOONGARCH,X86,ARM64,PPC,S390] Disable symmetric multithreading (SMT).
- 			nosmt=force: Force disable SMT, cannot be undone
- 				     via the sysfs control file.
- 
--- 
-2.34.1
+Guenter
 
