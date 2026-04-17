@@ -1,129 +1,105 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE4073612F6
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 09:23:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C2E73BD64D;
+	Fri, 17 Apr 2026 11:02:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776417837; cv=none; b=OJKIo0HMrWoaFwO4k5hDAdaLaj4Ys7n+Zb+xeY0amZCiQlhuNunvmBeGv3c+/oRmV99cpIfuPqdxoDds/2Hc3ZpMVdRGQYiyHMFYMIYFgozRAYxwMUGpi5H64OzQGI1C8iPM0fo/C1ZJBx+QUGsAc8g//IzdIfrFqhR6b/j7MzE=
+	t=1776423728; cv=none; b=FBpMdAI7ABuJAWmszNigXvpwy3GVpQepPZk4yFflTe5AdtiDYtvCbVgBXnJpn4hZRUpSnrZ/Gf01O54Qi71DI30VmIVrAmxy2b06BdcLnKAuT6YdECYWB4rBHk9C0TuDbct+Uoz+AgMdUiWEgr6tVagnFL2x1lL0iNijkV6THCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776417837; c=relaxed/simple;
-	bh=bxhLWlsH38nctCN2Sqtp0FNUJjg3XOl8ORoFvMkTgNY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hQJ+H0JL60F89Wz4T9r5smPBVvlNdX/IQ17qFgP9gAFKa/+0vwKUebkLsaEM1XEri2ORJH56OmNGT2eAPgT1PiZTXh25/UOBHUjseilytHAnLZRYA8bM8agRTgPISzIMaH8JjtIf1yOiT8PMxqGH9ZoG5LTs5e2Mp27R8/gOhvY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GeHGYql+; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1776423728; c=relaxed/simple;
+	bh=RD2xZwSAN34oyYE/yDIGZVsjk5tGByOG6NLgb3CiwHk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZiXr840+RzSY1oUbX/A+YTnJCFy5E8Rxv7WaUuCopOjNepXZAD5VQ4AOV2JAJr9XTjGxrL2Vb8EvmLYX1y3FPagiiq59EyP8+zTosfl9iLqdPRR1nJquwYbJBw5bBDN8B5BdIKigspYKr+Qghjwe9+WcAOGsOgO7DHjYeJs7lQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CrzOjV3p; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GeHGYql+"
-Message-ID: <a2232eec-34b9-49d0-b671-9a184ef1e4b4@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1776417833;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bxhLWlsH38nctCN2Sqtp0FNUJjg3XOl8ORoFvMkTgNY=;
-	b=GeHGYql+K62K8092FrXUYkINVPGvfXquj4jyvdTo+JSuGTjL5B8ClIhv1zP7YKhBMDtf0/
-	NGGgAAwA2FD9QX03Un9qjIK61VERnBWP7G8rwQ7IkhurYQCIzE3WLR2PRxiZ1w2gZLXQta
-	MJuHFpGc5a2dC95vxgwH+m5V1dETojQ=
-Date: Fri, 17 Apr 2026 17:23:12 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CrzOjV3p"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AEFEC2BCB0;
+	Fri, 17 Apr 2026 11:02:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776423727;
+	bh=RD2xZwSAN34oyYE/yDIGZVsjk5tGByOG6NLgb3CiwHk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CrzOjV3poiBb1puu52YyXIKRuGOwWvMNH9wuAYttnOKLdq0iFSKLcw2Ru4KWcX9vz
+	 p/aUAfW1sWP5GzD/1FyALBZ64HgTdT4xFvsqEljUHZqFlMDE6Y3N2X3ecOZi4rjW2T
+	 0Tg+PnV6v9Y2r6uVkbFpcyKOt1tqV5H3SYTHCcnPHiBYX2sC4OvhgRMnfciVop1cjl
+	 W+AUIqNg7QU45cczLLvAqBxyhEDiY9E/OuJQoqai19M+HpKVsWM6V2NQm7PlntGNlu
+	 ytQf3jXSUzIIxSLHU7JHlx4pHs9hSOkfZ7PcCCkqXJLGCwsW5e3v3yl2VTMB/6uCiJ
+	 Z/hmg3JWUXMJA==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id EF459F40074;
+	Fri, 17 Apr 2026 07:02:05 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Fri, 17 Apr 2026 07:02:06 -0400
+X-ME-Sender: <xms:LRPiaQD7NRvGGI6zwWqzkuIbrKsRzf-riMi_XbJTYBdcYHVyNaaDaA>
+    <xme:LRPiaRyAeti_Nx7WMC2nyqRdLHucqwGwqgBvI96JHtvWZw-dYwsufYFiBcs8agnlz
+    NFFvhdfNeliG6XayXvOLLUBrFLPDX8b6qyelMiONaD3RmAgAvIeWMU>
+X-ME-Received: <xmr:LRPiafxIctvuPPL4kUIE5vLvCvDfLr-fwC-PRCBXJl82QU03-Yghbw0l963gWw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegleejtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeeuieejieffkeehfeffffdtkeelfeelhefhfefhudehjeehvdffleeuvddufefgkeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
+    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
+    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
+    grmhgvpdhnsggprhgtphhtthhopeefiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuh
+    igqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughh
+    rghtrdgtohhmpdhrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsuhhrvghnsgesghhoohhg
+    lhgvrdgtohhmpdhrtghpthhtohepvhgsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihgrmhdrhhhofihlvghtthesohhrrggtlhgvrdgtohhmpdhrtghpthhtohep
+    iihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:LRPiaRi0fIkRM59izX5QU3KhLf-I2qFhnfNUUanzQTESqVyBPDMQ5Q>
+    <xmx:LRPiaYTqSmfQGtkH14z0Zke6oAao0cPgvjOpMpAUIfuEbDocN2CNGg>
+    <xmx:LRPiaRKRhxGYIoazpX2flDljP6wGD5IHG2pMs9gPtbrajG2PFYxgPg>
+    <xmx:LRPiafP2V8jRpG8pwLTsPptBNucRmn9aWSqe6bAgCCIWzWvoCgXaSg>
+    <xmx:LRPiaTy_wSrxI2_acJSkBmHrnbs1hKulga3OLYTuQdfyRegVlTApXBIW>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 17 Apr 2026 07:02:05 -0400 (EDT)
+Date: Fri, 17 Apr 2026 12:02:03 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aeITClDuFStd7BAB@thinkstation>
+References: <20260414142354.1465950-1-kas@kernel.org>
+ <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
+ <ad50rPOseVa-SP_s@thinkstation>
+ <aeDoqFWPFxkkNB26@thinkstation>
+ <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
+ <aeFCuLJXT8VOkzH7@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] crash: Support high memory reservation for range syntax
-To: Baoquan He <baoquan.he@linux.dev>
-Cc: Baoquan He <bhe@redhat.com>, Sourabh Jain <sourabhjain@linux.ibm.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- Vivek Goyal <vgoyal@redhat.com>, Dave Young <dyoung@redhat.com>,
- kexec@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, Youling Tang <tangyouling@kylinos.cn>
-References: <20260404074103.506793-1-youling.tang@linux.dev>
- <d584d383-1862-417d-9251-153d9bcf5626@linux.ibm.com>
- <adZYpnwOxgvFMLaT@MiWiFi-R3L-srv>
- <ea389ca2-8980-4022-a7d0-d96c913f671c@linux.dev>
- <ad92ix7d7I8jsykV@MiWiFi-R3L-srv>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Youling Tang <youling.tang@linux.dev>
-In-Reply-To: <ad92ix7d7I8jsykV@MiWiFi-R3L-srv>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aeFCuLJXT8VOkzH7@thinkstation>
 
-On 4/15/26 19:29, Baoquan He wrote:
+On Thu, Apr 16, 2026 at 09:25:25PM +0100, Kiryl Shutsemau wrote:
+> > b) obviously means that we cannot use uffd-wp and uffd-rwp at the same
+> > time in the same uffd area. I guess that should be acceptable for the
+> > use cases we you should have in mind?
+> 
+> I took a different path: I still use PROT_NONE PTEs, so it cannot
+> co-exist with NUMA balancing [fully], but WP + RWP should be fine. I
+> need to add a test for this.
 
-> On 04/09/26 at 09:55am, Youling Tang wrote:
->> Hi, Baoquan
->>
->> On 4/8/26 21:32, Baoquan He wrote:
->>> On 04/08/26 at 10:01am, Sourabh Jain wrote:
->>>> Hello Youling,
->>>>
->>>> On 04/04/26 13:11, Youling Tang wrote:
->>>>> From: Youling Tang <tangyouling@kylinos.cn>
->>>>>
->>>>> The crashkernel range syntax (range1:size1[,range2:size2,...]) allows
->>>>> automatic size selection based on system RAM, but it always reserves
->>>>> from low memory. When a large crashkernel is selected, this can
->>>>> consume most of the low memory, causing subsequent hardware
->>>>> hotplug or drivers requiring low memory to fail due to allocation
->>>>> failures.
->>>> Support for high crashkernel reservation has been added to
->>>> address the above problem.
->>>>
->>>> However, high crashkernel reservation is not supported with
->>>> range-based crashkernel kernel command-line arguments.
->>>> For example: crashkernel=0M-1G:100M,1G-4G:160M,4G-8G:192M
->>>>
->>>> Many users, including some distributions, use range-based
->>>> crashkernel configuration. So, adding support for high crashkernel
->>>> reservation with range-based configuration would be useful.
->>> Sorry for late response. And I have to say sorry because I have some
->>> negative tendency on this change.
->>>
->>> We use crashkernel=xM|G and crashkernel=range1:size1[,range2:size2,...]
->>> as default setting, so that people only need to set suggested amount
->>> of memory. While crashkernel=,high|low is for advanced user to customize
->>> their crashkernel value. In that case, user knows what's high memory and
->>> low memory, and how much is needed separately to achieve their goal, e.g
->>> saving low memory, taking away more high memory.
->>>
->>> To be honest, above grammers sounds simple, right? I believe both of you
->>> know very well how complicated the current crashkernel code is. I would
->>> suggest not letting them becomre more and more complicated by extending
->>> the grammer further and further. Unless you meet unavoidable issue with
->>> the existing grammer.
->>>
->>> Here comes my question, do you meet unavoidable issue with the existing
->>> grammer when you use crashkernel=range1:size1[,range2:size2,...] and
->>> think it's not satisfactory, and at the same time crashkernel=,high|low
->>> can't meet your demand either?
->> Yes, regular users generally don't know about high memory and low memory,
->> and probably don't know how much crashkernel memory should be reserved
->> either. They mostly just use the default crashkernel parameters configured
->> by the distribution.
->>
->> For advanced users, the current grammar is sufficient, because
->> 'crashkernel=<range1>:<size1>[,<range2>:<size2>,...][@offset],>boundary'
->> can definitely be replaced with 'crashkernel=size,high'.
->>
->> The main purpose of this patch is to provide distributions with a more
->> reasonable default parameter configuration (satisfying most requirements),
->> without having to set different distribution default parameters for
->> different
->> scenarios (physical machines, virtual machines) and different machine
->> models.
-> OK, do you have a concrete case? e.g in your distros, what will you set
-> with this patchset applied? Let's see if it can cover all cases with one
-> simple and satisfying parameter.
+WP + RWP works. Test case added.
 
-For our production deployment across various hardware configurations
-(physical servers, VMs with different memory sizes), I'm planning to
-use the following crashkernel configuration:
-crashkernel=1G-4G:256M,4G-12G:384M,12G-48G:512M,48G-128G:768M,128G-:1024M,>384M
-
-Thanks,
-Youling.
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
