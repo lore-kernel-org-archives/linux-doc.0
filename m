@@ -1,328 +1,155 @@
-Received: from mx0a-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06CC3ACEF7;
-	Fri, 17 Apr 2026 08:28:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1333AB27D
+	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 08:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776414495; cv=none; b=XLu+qQ6/4OjABG/EOQBHOWXTW2sj/Bp23K0YnKd0R4YooT9k0gxMs6Kmd+yCVKNgGoAFt2ylpvSovH0vAuJvMTdRQOt55CuQa6Xoi0rtkx8kK0InQLS4gw1adHeTnUM+3W8GdxPBN38Ak+qJVkCxvdzIZrb0YCP3ayBEM681noM=
+	t=1776414990; cv=none; b=G7LgM3K9WvhgpXhswOsTDSANkSelNGqOoAHY22O2VE1pgfXdwGwReAchtKEQnq3nbqOzYdFCn0fma5rU3oK/GY8/7+P4rA2vQWuk054C6ShYUHaIU54HY5PvFxAg/Grq/YzK86ZOVqycOPIcgUs5e1TPJ8c1tv4+gSjGe1bNxxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776414495; c=relaxed/simple;
-	bh=Zu10F1h95T6wrSBA6o0Eq54vnkra5NJj/jxRwsR2vFs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=BenQUBEiRd8ru6wx4DX9+0G7sRCAKvkt+mqN7+8XhLNxyWE/qSpLWJBTs1otb+GPXMt8Yaj7bnN5wwuY/I4fs4MQ7Mv05TZ94xnXbzzricwDuJQw9Ei4VwWBT+tA4RVmUfDMqBSHlyIuf15sqbNDvyQRfs4DMd2kxi/S1rgnRkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=jg6ToWud; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	s=arc-20240116; t=1776414990; c=relaxed/simple;
+	bh=+6x6QSjg9WDHOM6OfwMMX46Jbd5d/tcXlvODjbQmQhI=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Wa5FdIXAWLdNZgGsuP41KbvpJYmApv3IdJHXZzoNEyqvFNdsPB+aWpwxew/TMeqnJKoQhK/CJO6Lplyu5d4MEP7/uGqaPjFGuGhbrAPRz0im+EusSLeTtsGrs60A6ULKYpNRHyHT+ZTKkAwjKpHRN/aLeI97dMhC1XentnhQFik=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CmPcXyVm; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="jg6ToWud"
-Received: from pps.filterd (m0167088.ppops.net [127.0.0.1])
-	by mx0a-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63H7W4e91700012;
-	Fri, 17 Apr 2026 04:27:58 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=yeWcy
-	Ld+Kyfp6FCiZol8qTT9yrwh2APvkI5SYQNZvag=; b=jg6ToWudHlyvf81SX8Snp
-	uMXmSDc081TSyCc+kICoxxXlckT4wLcizc1iMkHYB96vkTx7hFWh7ieW41D/kQcM
-	gKr/GHnrvahsup6ew/nTT/wjvAlpK4XEEZhChB+8ZroaXclo89YJLgIqxhABWtQ7
-	AOhiXsbw6FPxqGqbYUi82UJvS2FdEICQhwZDVA37ghAOG3PzmiBCfs6+VuBRfgeL
-	B+Pol/Owjv/U6IFTrQEdveceqgu73jhG/tuiaCOQJl120AN4+w+ocil0gCRUEisV
-	dibxfJMZVZ7nbYnPCNXBAhIUd5XAC/ImPz9uNPvgik76Aaul5l4874TuqVilXOn4
-	A==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0a-00128a01.pphosted.com (PPS) with ESMTPS id 4dk4cm2jjd-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Apr 2026 04:27:58 -0400 (EDT)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 63H8Rv6u010666
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 17 Apr 2026 04:27:57 -0400
-Received: from ASHBMBX8.ad.analog.com (10.64.17.5) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Fri, 17 Apr
- 2026 04:27:57 -0400
-Received: from zeus.spd.analog.com (10.66.68.11) by ashbmbx8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server id 15.2.1748.37 via Frontend
- Transport; Fri, 17 Apr 2026 04:27:57 -0400
-Received: from ATORRENO-L02.ad.analog.com ([10.66.6.191])
-	by zeus.spd.analog.com (8.15.1/8.15.1) with ESMTP id 63H8RZ9l029843;
-	Fri, 17 Apr 2026 04:27:49 -0400
-From: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Date: Fri, 17 Apr 2026 16:27:14 +0800
-Subject: [PATCH v3 2/2] hwmon: (pmbus/max20830) add driver for max20830
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CmPcXyVm"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-43cfde3c3f3so444499f8f.3
+        for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 01:36:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776414987; x=1777019787; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CS4QQsQN7RmaHyI35F2RiAWiiiGHkRaNuLXPNb9Rp1U=;
+        b=CmPcXyVmMFW/Ru5XQk+qJiv+A+2qOWiw7Xoh/2hhpSLmc0TsrJBuFPc++U+w+ubDQw
+         O2qpD1ve7P6vJQTJIjQw/mZ4qdiiLQxXM8FZ1c2egt2vwLjCNxrBThJeJVmHwMD1Ilid
+         fO0kZ1G0B8d0iStwhLTuGe1Usq/9Lf1pa1k8CMEc9AZxUtGbR9nV54nqtkys3I5Lcsl7
+         17s08aj0xJGfR9BGJ630rAWEiVF11oH6FIJRLFfjnsrYjSQyfCpPmmBvklDOIyJnbUwU
+         N3eX6bP0kR5M92glv8SXxBAKLxBF1L7cWcTg4Ytt5yKbjqd/RKKzejpgHafDUgGcEZbo
+         FzoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776414987; x=1777019787;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CS4QQsQN7RmaHyI35F2RiAWiiiGHkRaNuLXPNb9Rp1U=;
+        b=BmauADV9sgO0vNjcimC4KGR2jQ0c4vv5aV7ZO70CEsdMvx+xcvGL6yMEZkXszenI+3
+         bwrjFLneOx87nrkPxQx1OTNwVYpOvMrBagwQlUxYDO30t5FZEpNQ0ssON/6JT9Lxs1Gk
+         sIPFSivebWnIn1ZQbMYNgsIZCwhjwxAMQk216q0y6aEsmhklhmssQDyndIHEkhHBsqKg
+         NsGgPSS+mviYT2dzhokUJBOi3/+Z8KK/0dB9whCKuWh47rtTonzBJh/uaFgKuMBR34r3
+         Y4V8j/RD0m2Y8qZ1pusJd7AnEie7o6+j0v8RZTA1FdDtOeM9DEuucNRh95l/ZyriTdw6
+         3VSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ97sfC1N37w3XgFpVzaCe1A0lHW+VJH85j1jBXeDgl8A6YHVQ6xcFAk5aEPp/ObHIiWb4si59xLjMc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGMQRTR3/4y6bqMOfmPu4V8JG1tXbMzd3mO3ath8LesLtvTZg/
+	TCc3I0qcviGZT168SJretjgagmsnOVDlDNBdt6Sld3qmOt6ppkrGMt/QVKRXyYRX
+X-Gm-Gg: AeBDietQ2kesl6ygEPdkFA+7Hly2z/dJhRCyCRoznsrGm6rJqXJ0FiTBm/LVQWAl3bL
+	a+mBl3+dT6Nasu6JgSXv1laVlc6kYuEKPCB/sfSrYuDJ5JofCYCCP3MUygTOjYB/G+Q2TuFViBo
+	KoRQ6rbGQslyfbMn/JHxKhkFfCcd0RYyX+E694gch3/KxSx9d9P4QFdCWvo0kQUO+0L77YJuoIY
+	uoksjSVJa/Do8Y+UZk4/GWyYklp4CQry/7QXzO7ba4iva4Lu9M4SYqBrPW1YMnk3NoBQhMcYui0
+	RosB5/500T0wKZWS5noiJjkdQxtcYuSg9pTtbyL2EsEgD69CHsymrKTA8bbettcO8u8X9sRlBId
+	mZyDyf/EXd1xDMQy15pAuuD4ARsjcj2Z9Y8a1zpu6VLdmmiZAOts4Kbrz7YMLNYXjwZUGZbSi+W
+	Mmf+9bhydEBetN5RpPuuse4ob1NbQgsbBkJWBWpITTVfxUttFs3g8R7DOKK0Qy6472+TtV5u7KF
+	vKbhIfy1Wihqv2JEmfmTxLdBlx9RCo0ceViYVeWbZ9mOazaEdT8dITo3krkudTVm+PU6erD
+X-Received: by 2002:a05:6000:2308:b0:43d:76d8:5794 with SMTP id ffacd0b85a97d-43fe3e14f8dmr2894776f8f.36.1776414987239;
+        Fri, 17 Apr 2026 01:36:27 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cc0d51sm2911996f8f.10.2026.04.17.01.36.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 01:36:26 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Fri, 17 Apr 2026 09:36:20 +0100
+To: Rodrigo Alencar <rodrigo.alencar@analog.com>, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v10 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <mhfgedq2t5lqtu6535ahdmpbvib2xzp2hmyt7ezflnf52r56jh@ze6tee7vpij3>
+References: <20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com>
+ <20260415-adf41513-iio-driver-v10-2-df61046d5457@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20260417-dev_max20830-v3-2-0cb8d56067aa@analog.com>
-References: <20260417-dev_max20830-v3-0-0cb8d56067aa@analog.com>
-In-Reply-To: <20260417-dev_max20830-v3-0-0cb8d56067aa@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-CC: <linux-hwmon@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Alexis Czezar
- Torreno <alexisczezar.torreno@analog.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776414456; l=7505;
- i=alexisczezar.torreno@analog.com; s=20250213; h=from:subject:message-id;
- bh=Zu10F1h95T6wrSBA6o0Eq54vnkra5NJj/jxRwsR2vFs=;
- b=ews21i/rvpEQvJnz4Yf1S/iGxot0fXrl9fCshMauyHSd8nAI4Jeite0nLMiwZXyJW3BElw/Y8
- fC9ZybeUH43DkypUzMYr/Tt/X8SlF0thhpf3zt/gerEvqNUSJsWpoDl
-X-Developer-Key: i=alexisczezar.torreno@analog.com; a=ed25519;
- pk=XpXmJnRjnsKdDil6YpOlj9+44S+XYXVFnxvkbmaZ+10=
-X-ADIRuleOP-NewSCL: Rule Triggered
-X-Authority-Analysis: v=2.4 cv=dpDrzVg4 c=1 sm=1 tr=0 ts=69e1ef0e cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=IkcTkHD0fZMA:10 a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=0sLvza09kfJOxVLZPwjg:22 a=uXIjobp8t2wMuQ0fPvqm:22 a=gAnH3GRIAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=eOFfa883y_zvaPAmtb4A:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: tpdBhnty-2_WC3rpT8eAejXtdyUXBzsM
-X-Proofpoint-GUID: tpdBhnty-2_WC3rpT8eAejXtdyUXBzsM
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDA4NCBTYWx0ZWRfXzlmdKhgbbbG3
- U6BHHbW1NJXdyLIDO4xVxoYpPQwbyiCBie8KNOWFdlcjmaDHgcox8s5IKy5F4GhQT4IQtDTvvB7
- P5ZQrf1sG78GV92AWeHRXPseEyp5lbTXGvRYEWo2+F1Zhq3+Y+9sMHMqZhiFREFvaduxpSutIjs
- oyZk464wWLepjlUjGTEYqthVd+GZU2RV+FfiYE5HcYfn3v0qzst5XwW1It/kxows4uzdtUfgXkw
- 7SsMHu1ja89he/f4t+hjCthzVNyJYVe9i6OleJp4JqOMo+2WbOtaiTxj7vq+ngAw0cBicF1qKEG
- AXLS99g0ZI5T5IedAWzRGYMUJRMGzaDdH6Kfj/A0JtBvRYFBzLmJvPBSvLRTlsKd+s96DHwY433
- x1+32HWOZ7D8luADRw3uuriyduV4ngqYcziLnlwlhICrbR+Kr3B8Rz+zq9vu2qbp7rG5tCOVhXF
- yss9SV1AaAj75tk3pIg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-16_04,2026-04-16_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 suspectscore=0 spamscore=0 priorityscore=1501
- lowpriorityscore=0 impostorscore=0 clxscore=1015 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604170084
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260415-adf41513-iio-driver-v10-2-df61046d5457@analog.com>
 
-Add support for MAX20830 step-down DC-DC switching regulator with
-PMBus interface. It allows monitoring of input/output voltage,
-output current and temperature through the PMBus serial interface.
+On 26/04/15 10:51AM, Rodrigo Alencar wrote:
+> Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
+> point numbers with pre-defined scale are parsed into a 64-bit value (fixed
+> precision). After the decimal point, digits beyond the specified scale
+> are ignored.
 
-Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
----
- Documentation/hwmon/index.rst    |  1 +
- Documentation/hwmon/max20830.rst | 49 ++++++++++++++++++++++
- MAINTAINERS                      |  2 +
- drivers/hwmon/pmbus/Kconfig      |  9 ++++
- drivers/hwmon/pmbus/Makefile     |  1 +
- drivers/hwmon/pmbus/max20830.c   | 88 ++++++++++++++++++++++++++++++++++++++++
- 6 files changed, 150 insertions(+)
+...
 
-diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-index 8b655e5d6b68b90c697a52c7bf526e81d370caf7..56f7eb761be76dd627a2f34135abad05203b0582 100644
---- a/Documentation/hwmon/index.rst
-+++ b/Documentation/hwmon/index.rst
-@@ -158,6 +158,7 @@ Hardware Monitoring Kernel Drivers
-    max197
-    max20730
-    max20751
-+   max20830
-    max31722
-    max31730
-    max31760
-diff --git a/Documentation/hwmon/max20830.rst b/Documentation/hwmon/max20830.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..936e409dcc5c0898dde27d782308d4a7e1357e73
---- /dev/null
-+++ b/Documentation/hwmon/max20830.rst
-@@ -0,0 +1,49 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+Kernel driver max20830
-+======================
-+
-+Supported chips:
-+
-+  * Analog Devices MAX20830
-+
-+    Prefix: 'max20830'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.analog.com/media/en/technical-documentation/data-sheets/max20830.pdf
-+
-+Author:
-+
-+  - Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-+
-+
-+Description
-+-----------
-+
-+This driver supports hardware monitoring for Analog Devices MAX20830
-+Step-Down Switching Regulator with PMBus Interface.
-+
-+The MAX20830 is a 2.7V to 16V, 30A fully integrated step-down DC-DC switching
-+regulator. Through the PMBus interface, the device can monitor input/output
-+voltages, output current and temperature.
-+
-+The driver is a client driver to the core PMBus driver. Please see
-+Documentation/hwmon/pmbus.rst for details on PMBus client drivers.
-+
-+Sysfs entries
-+-------------
-+
-+================= ========================================
-+in1_label         "vin"
-+in1_input         Measured input voltage
-+in1_alarm         Input voltage alarm
-+in2_label         "vout1"
-+in2_input         Measured output voltage
-+in2_alarm         Output voltage alarm
-+curr1_label       "iout1"
-+curr1_input       Measured output current
-+curr1_alarm       Output current alarm
-+temp1_input       Measured temperature
-+temp1_alarm       Chip temperature alarm
-+================= ========================================
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 031c743e979521a92ed9ac67915c178ce31727bd..d6a6745e2dae29c3b8f80bbe61c54a2f5ecd9f47 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -15585,6 +15585,8 @@ L:	linux-hwmon@vger.kernel.org
- S:	Supported
- W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/hwmon/pmbus/adi,max20830.yaml
-+F:	Documentation/hwmon/max20830.rst
-+F:	drivers/hwmon/pmbus/max20830.c
- 
- MAX2175 SDR TUNER DRIVER
- M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
-diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
-index 8f4bff375ecbc355f5ed3400855c2852ec2aa5ef..987705bf45b75b7b91ccc469247909f3c3f53d77 100644
---- a/drivers/hwmon/pmbus/Kconfig
-+++ b/drivers/hwmon/pmbus/Kconfig
-@@ -365,6 +365,15 @@ config SENSORS_MAX20751
- 	  This driver can also be built as a module. If so, the module will
- 	  be called max20751.
- 
-+config SENSORS_MAX20830
-+	tristate "Analog Devices MAX20830"
-+	help
-+	  If you say yes here you get hardware monitoring support for Analog
-+	  Devices MAX20830.
-+
-+	  This driver can also be built as a module. If so, the module will
-+	  be called max20830.
-+
- config SENSORS_MAX31785
- 	tristate "Maxim MAX31785 and compatibles"
- 	help
-diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
-index 7129b62bc00f8a2e98de14004997752a856dfda2..bc52f930e0825a902a0dd1c9e2b44f2e8d577c35 100644
---- a/drivers/hwmon/pmbus/Makefile
-+++ b/drivers/hwmon/pmbus/Makefile
-@@ -36,6 +36,7 @@ obj-$(CONFIG_SENSORS_MAX16601)	+= max16601.o
- obj-$(CONFIG_SENSORS_MAX17616)	+= max17616.o
- obj-$(CONFIG_SENSORS_MAX20730)	+= max20730.o
- obj-$(CONFIG_SENSORS_MAX20751)	+= max20751.o
-+obj-$(CONFIG_SENSORS_MAX20830)	+= max20830.o
- obj-$(CONFIG_SENSORS_MAX31785)	+= max31785.o
- obj-$(CONFIG_SENSORS_MAX34440)	+= max34440.o
- obj-$(CONFIG_SENSORS_MAX8688)	+= max8688.o
-diff --git a/drivers/hwmon/pmbus/max20830.c b/drivers/hwmon/pmbus/max20830.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..b1c6985067d7c2c8eed1b00f81c8622d946acbcd
---- /dev/null
-+++ b/drivers/hwmon/pmbus/max20830.c
-@@ -0,0 +1,88 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Hardware monitoring driver for Analog Devices MAX20830
-+ *
-+ * Copyright (C) 2026 Analog Devices, Inc.
-+ */
-+
-+#include <linux/i2c.h>
-+#include <linux/mod_devicetable.h>
-+#include <linux/module.h>
-+#include "pmbus.h"
-+
-+static struct pmbus_driver_info max20830_info = {
-+	.pages = 1,
-+	.format[PSC_VOLTAGE_IN] = linear,
-+	.format[PSC_VOLTAGE_OUT] = linear,
-+	.format[PSC_CURRENT_OUT] = linear,
-+	.format[PSC_TEMPERATURE] = linear,
-+	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_IOUT |
-+		PMBUS_HAVE_TEMP |
-+		PMBUS_HAVE_STATUS_VOUT | PMBUS_HAVE_STATUS_IOUT |
-+		PMBUS_HAVE_STATUS_INPUT | PMBUS_HAVE_STATUS_TEMP,
-+};
-+
-+static int max20830_probe(struct i2c_client *client)
-+{
-+	u8 buf[I2C_SMBUS_BLOCK_MAX + 1] = {};
-+	u8 len;
-+	int ret;
-+
-+	if (!i2c_check_functionality(client->adapter,
-+				     I2C_FUNC_SMBUS_READ_I2C_BLOCK))
-+		return -ENODEV;
-+
-+	/*
-+	 * Use i2c_smbus_read_i2c_block_data() instead of
-+	 * i2c_smbus_read_block_data() to support I2C controllers
-+	 * which do not support SMBus block reads.
-+	 */
-+	ret = i2c_smbus_read_i2c_block_data(client, PMBUS_IC_DEVICE_ID,
-+					    I2C_SMBUS_BLOCK_MAX, buf);
-+	if (ret < 0)
-+		return dev_err_probe(&client->dev, ret,
-+				     "Failed to read IC_DEVICE_ID\n");
-+
-+	/* First byte is the block length (including itself). */
-+	len = buf[0];
-+	if (len != 9 || ret < len)
-+		return dev_err_probe(&client->dev, -ENODEV,
-+				     "IC_DEVICE_ID length mismatch: reported %u, read %d\n",
-+				     len, ret);
-+
-+	/* Data is at buf[1..8], so null terminator goes at buf[9]. */
-+	buf[len] = '\0';
-+	if (strncmp(buf + 1, "MAX20830", 8))
-+		return dev_err_probe(&client->dev, -ENODEV,
-+				     "Unsupported device: '%s'\n", buf + 1);
-+
-+	return pmbus_do_probe(client, &max20830_info);
-+}
-+
-+static const struct i2c_device_id max20830_id[] = {
-+	{"max20830"},
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(i2c, max20830_id);
-+
-+static const struct of_device_id max20830_of_match[] = {
-+	{ .compatible = "adi,max20830" },
-+	{ }
-+};
-+MODULE_DEVICE_TABLE(of, max20830_of_match);
-+
-+static struct i2c_driver max20830_driver = {
-+	.driver = {
-+		.name = "max20830",
-+		.of_match_table = max20830_of_match,
-+	},
-+	.probe = max20830_probe,
-+	.id_table = max20830_id,
-+};
-+
-+module_i2c_driver(max20830_driver);
-+
-+MODULE_AUTHOR("Alexis Czezar Torreno <alexisczezar.torreno@analog.com>");
-+MODULE_DESCRIPTION("PMBus driver for Analog Devices MAX20830");
-+MODULE_LICENSE("GPL");
-+MODULE_IMPORT_NS("PMBUS");
+> +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
+> +{
+> +	u64 _res = 0, _frac = 0;
+> +	unsigned int rv;
+> +
+> +	if (scale > 19) /* log10(2^64) = 19.26 */
+> +		return -EINVAL;
+> +
+> +	if (*s != '.') {
+> +		rv = _parse_integer(s, 10, &_res);
+> +		if (rv & KSTRTOX_OVERFLOW)
+> +			return -ERANGE;
+> +		if (rv == 0)
+> +			return -EINVAL;
+> +		s += rv;
+> +	}
+> +
+> +	if (*s == '.' && scale) {
+> +		s++; /* skip decimal point */
+> +		rv = _parse_integer_limit(s, 10, &_frac, scale);
+> +		if (rv & KSTRTOX_OVERFLOW)
+> +			return -ERANGE;
+> +		if (rv == 0)
+> +			return -EINVAL;
+> +		s += rv;
+> +		if (rv < scale)
+> +			_frac *= int_pow(10, scale - rv);
+> +		while (isdigit(*s)) /* truncate */
+> +			s++;
+> +	}
+> +
+> +	if (*s == '\n')
+> +		s++;
+> +	if (*s)
+> +		return -EINVAL;
+> +
+> +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
+> +	    check_add_overflow(_res, _frac, &_res))
+> +		return -ERANGE;
+> +
+> +	*res = _res;
+> +	return 0;
+> +}
+
+I have an alternative (slightly more complex) implementation of this function
+that handles E notation. I find this particularly handy when writting big
+values like 25 GHz when the ABI is defined in Hz, so instead of writing
+25000000000, one can just use 25e9, or 2.5e10. I found that my python code
+was printing big floating point values or really small ones using E notation
+and that was giving me -EINVAL, so I had to adjust formatting when generating
+the string input to the file. No big deal, and we would not need this here,
+but if maintainers find this useful I could add it into a v11 of this series.
 
 -- 
-2.34.1
+Kind regards,
 
+Rodrigo Alencar
