@@ -1,86 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88907370D5F;
-	Fri, 17 Apr 2026 12:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8ACB3A3801
+	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 13:30:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776428795; cv=none; b=SzwURXzhuVSfrr0V9t1vC/q6gc79croYWIRf2k8TpGkBFQCP2VvlBqiRcMhAnk0qiLwmU33EDf7SIHG9tNGgaHzLAl1edKkZ+VMAau94C8ugV+YVssWR/syMmAjfkuIyolK4/0A9VOMeowiNOOx8pEStnZHCAUK3/oTeKGSLXbg=
+	t=1776432632; cv=none; b=TlxA6WrJDNNGymLCBJ1vvUMtanB+YUf64PjG1nO1ZDSupqZxG+NHVDY5+BpvPuXKTK1bMFaMWSmhK5VzajeS0t30rfHi/XRCturmkmoav1m6o1WvQpVCTSrqlUMoxse4uO4AgJRJ9isCnNO2MXM6Eq3I5cUUb3Q5Qu3sLd6/0nw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776428795; c=relaxed/simple;
-	bh=qx+8FJ8jA0NidxGCtpVyMEUiZNEXmPexoJxKiWGCiMA=;
+	s=arc-20240116; t=1776432632; c=relaxed/simple;
+	bh=hkpNLJ3ybawOIa1fkGOwYhoNiDG571CgTvN9uVT7u+s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hdNu8T7U0ek4k7mPDc8dOKhNdlA04EW7yiyIC6JFHNfnglBu3tZRy4lXWkGiOTvICbTEu/iSQ5HNZzBxcMHCqzCxPQ4NnN+I2HWqsSA/GRI4L47iK/EQbC+X6+9tfBp/JSPe7Z/Ma+/XXgJA986ExW/Abi6QWtSqKFxgDb/qihs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vz7CRyk1; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=vEA2VXvM9/TwbbwbI3FqYPu6PcrDQ9DYnEpl8gj+ykyvudmZuoIKZ/FzRNGQuSOkDdbONB7ZhO6ddoIkJb3lOY//1XcQ8c5UHp/GdJXO4yXSWPTREQUPoiM9ilH7cdJ2YBSZQuJ2Ym+zQqPCpmrlal+SEB2H5m9mw0vxUnXrnjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fwqU9rc9; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vz7CRyk1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFC44C19425;
-	Fri, 17 Apr 2026 12:26:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776428795;
-	bh=qx+8FJ8jA0NidxGCtpVyMEUiZNEXmPexoJxKiWGCiMA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Vz7CRyk10GE9Y73tyozR48+pEWlhyTxRJNmzGuwOCJIU0ALhdbG/0xIphC16F4qBi
-	 oNvXvLxKGUSvCthYhOYcgTTgM44BCwhVYpDxXCult6wd7QVmrVTg1Q9qS3JM08i+UR
-	 t4DxTL4IozATIHJEWSeyyjwmzG3PPeS5XVYpR9C+MK8uVVLffthgAOojT+B32BwMI/
-	 mkSLqyfmDhdrreMbPB0x2ciWtkcSQcPZknPwYwRLS+ZlSgq6k24foxA9GupBuoBDPt
-	 YTbnFyMxbphWdD5MF2JflguTTF5gNHe8DlU/7GiDQPx9O5b8zVou9+g0qaO9E2PdzF
-	 rP+59js3C17/g==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id E3072F4006C;
-	Fri, 17 Apr 2026 08:26:33 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 17 Apr 2026 08:26:33 -0400
-X-ME-Sender: <xms:-SbiaR_NNX29Fol-5tVyTde8Xan6QF1Ql8exi2WW8gRE9IVJ65OtXQ>
-    <xme:-SbiaUPFJt8aEHbBHPLSBJIqS7LkcEfBGX-8lGHKWRz7AXEZntyYOb0qWRrY62iPU
-    -tz1eOj0dqZvXmuBBXYwsHydfPqB4rGDPFwpQkZNR2wnWx2CmqN8g>
-X-ME-Received: <xmr:-SbiaVNocWi5hTKsgUmcf6e2hhxZtWBRl4gFRinEAU4EfM6UrrnMnQLATOyFJw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdegleekkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
-    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeffffekgeffjefgkedvjeeggedttdeljeekhffhudeiudfhiefgudeugffhheffuden
-    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghr
-    shhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvg
-    hrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepfeei
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdroh
-    hrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhg
-    pdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopehljh
-    hssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopehvsg
-    grsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhohiflhgvthht
-    sehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:-SbiaaOpzH-hGXGD8Vnb7wDUjEyPZ2Yzd3P0SNl-CTUuebWkeO-rFw>
-    <xmx:-SbiaUXLDyV9Dfmmz-EoGAYXiK572KSYrME9AJ_atGEPxDlDyLiBmQ>
-    <xmx:-SbiaaqQpl4u3MiQQmUfZ5k6NA6ZhgCUTEF3_1g-aR1_ldmxlbWGjg>
-    <xmx:-SbiaSecBy9UBAKEZg-YbcgBvEHjHQ4PBMISgK9pUxRGppKKv9YiGA>
-    <xmx:-SbiaeBxJahyYoFrTpKPYVuki05v4yhgXwmld2lBZ-Pwdx3KjNYQq4Al>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 17 Apr 2026 08:26:32 -0400 (EDT)
-Date: Fri, 17 Apr 2026 13:26:25 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Peter Xu <peterx@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
- guest memory
-Message-ID: <aeImfRrrvr3UoKtL@thinkstation>
-References: <20260414142354.1465950-1-kas@kernel.org>
- <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
- <ad50rPOseVa-SP_s@thinkstation>
- <aeDoqFWPFxkkNB26@thinkstation>
- <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
- <aeFCuLJXT8VOkzH7@thinkstation>
- <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fwqU9rc9"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-506aa685d62so3428921cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 06:30:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gourry.net; s=google; t=1776432629; x=1777037429; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=xgTqv4J4Fl9HXQyBvnfY8cYHtSEuC0puU/+LlJmiu7o=;
+        b=fwqU9rc95o1LTxXbeM3xVzr/YEF6qQLLwnIhwMCPZzaaEAl6BjYzd9K4SMG+IkvcuM
+         6mF3iufDqSliJDpuDd/qFSvj6sge9Bl6ut1WQEhwxX0NgfPVSWBt/NIEhoSvE9LQky4a
+         ziPucVpAOTXZqRs1IfU6TcWSLjQa1gWhvYBhb+gLbuOTkswwRsbepenvXxOBM0cVOhdU
+         kJ8LZl5X0d7GiOhsaUPmwijnaf6SX7xQfBrOoXP+sYNxndqV9EygIoLTQephxZOm6Me6
+         iEJgTv8oYwCldLJ0rlD116HeN2ahjql2pDnql+FNBAYlDIyU7quduG/rVTPQVc1ZAxVX
+         WNEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776432629; x=1777037429;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xgTqv4J4Fl9HXQyBvnfY8cYHtSEuC0puU/+LlJmiu7o=;
+        b=Wou4M7i13lFSByAMeqPaJiR9cpp+rJUV09mCYhzNF7kvl0khg4koIuUNBVVX1UvXtb
+         hIKER9qvyOCkURvPrlunALFez/oGojmnAmgYgCETAXTUxBioo6DBrBEqsFJJZMZ/A/67
+         53pOtdme3QbVsPmzn3+A9aoNW8CpwUuR68Fsa+jjefbzjrNlEMLZJSM4MI4qmtIv16ld
+         c4xsl0JvcOC9/rBfXYS5FjJs/h9yK8JKzgxPfgzn53gY6mZ+pCiATM68g0hEoPQaozso
+         g87xbI9cDlTVX3ytaVciPctYU6dogWDgiDvMnw5aI6/pjQKA/YorDy+TLbcf8wrA2RpY
+         97Lw==
+X-Forwarded-Encrypted: i=1; AFNElJ9WwEbEB7njECfPXJvawwA5G2xaQtzSMEm44Y+ZA3aCLdq1DTyPOYj61NOvCU6lF6WTOM6PD1P7Ej0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUbeg5AW+4xtwQUPvgVvh1Hbwaqu4juPIVh+58MKgPXhY5mVVZ
+	aBuOlDYnjObZ2eUkzm4cSi9uyFYBp3YKhHMonZh78Ej5eA374TDiBFKROTzN4prqgKo=
+X-Gm-Gg: AeBDiessshN8wH5fr3uHqrXlAVQ9UlMGzq3sYuSmJHfZjrf/g9ogImuejyoOGmY/cKW
+	8ONWbhRBoQGYlL8zFhEd2w6MvJOplSMSri9y8pVZeQCnQ8hZWKt81P+FGNimHymPf9GgIGBFVAD
+	xvTs4AGd1/49miVrRFiIWoitB7d1gk2jNVDHU6yWn4tcFXRrIH1iamnXPPFTWHdru7aZSicZnWv
+	NBWX1qXXio/VqPWY2XGHLMWe+XHutdTCbvCgU5tsPHsMqGtaR9AcV8p9uSn/q2NyeuBruwd1Xu7
+	Db4IrWsB0gjiXQjNC9P11mhnzoJNiNuiAqhYpp/43hA7/Sp3wdev2kB14imLO2GY0jhH+FVpGBY
+	SdNtX9Ve07IkDFvhsjpdzSpeapvDCQ9G9b7JdZ7cxz/PR8JWuuac0IBwpDKVpFnfx6cW1M/eiLd
+	6d6TCGcvPjCzrJjoSfp5+zSIPiwlHywEAY7gAJqqcrsUDHnp5XEo1+hgEbiW8BrzmtVLeEASdFd
+	SqbCigVBPTvz5slCi9U
+X-Received: by 2002:a05:622a:1f17:b0:50d:80ee:3962 with SMTP id d75a77b69052e-50e3683091dmr40533621cf.17.1776432629479;
+        Fri, 17 Apr 2026 06:30:29 -0700 (PDT)
+Received: from gourry-fedora-PF4VCD3F (pool-108-18-109-80.washdc.ftas.verizon.net. [108.18.109.80])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50e3bf260fbsm9752291cf.10.2026.04.17.06.30.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Apr 2026 06:30:28 -0700 (PDT)
+Date: Fri, 17 Apr 2026 09:30:25 -0400
+From: Gregory Price <gourry@gourry.net>
+To: Christoph Hellwig <hch@infradead.org>
+Cc: "Darrick J. Wong" <djwong@kernel.org>, Dan Williams <djbw@kernel.org>,
+	Joanne Koong <joannelkoong@gmail.com>,
+	John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>,
+	Bernd Schubert <bernd@bsbernd.com>,
+	John Groves <john@jagalactic.com>,
+	Dan J Williams <dan.j.williams@intel.com>,
+	Bernd Schubert <bschubert@ddn.com>,
+	Alison Schofield <alison.schofield@intel.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	David Hildenbrand <david@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Chen Linxuan <chenlinxuan@uniontech.com>,
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Shivank Garg <shivankg@amd.com>,
+	Ackerley Tng <ackerleytng@google.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>,
+	"venkataravis@micron.com" <venkataravis@micron.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+Message-ID: <aeI18Q2lcxZLw-1V@gourry-fedora-PF4VCD3F>
+References: <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net>
+ <20260414185740.GA604658@frogsfrogsfrogs>
+ <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
+ <ad7Tps4tkNbndd9Z@groves.net>
+ <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
+ <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
+ <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
+ <20260416224331.GD114184@frogsfrogsfrogs>
+ <aeHrsIGagdmZJ1Fw@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -89,60 +117,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+In-Reply-To: <aeHrsIGagdmZJ1Fw@infradead.org>
 
-On Fri, Apr 17, 2026 at 01:43:36PM +0200, David Hildenbrand (Arm) wrote:
-> On 4/16/26 22:25, Kiryl Shutsemau wrote:
-> > On Thu, Apr 16, 2026 at 08:32:19PM +0200, David Hildenbrand (Arm) wrote:
-> >> On 4/16/26 15:49, Kiryl Shutsemau wrote:
-> >>>
-> >>> Here is an updated version:
-> >>>
-> >>> https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git/log/?h=uffd/rfc-v2
-> >>>
-> >>> will post after -rc1 is tagged.
-> >>>
-> >>> I like it more. It got substantially cleaner.
-> >>
-> >> I don't have time to look into the details just yet, but my thinking was
-> >> that
-> >>
-> >> a) It would avoid the zap+refault
-> > 
-> > Yep.
-> > 
-> >> b) We could reuse the uffd-wp PTE bit + marker to indicate/remember the
-> >>    protection, making it co-exist with NUMA hinting naturally.
-> >>
-> >> b) obviously means that we cannot use uffd-wp and uffd-rwp at the same
-> >> time in the same uffd area. I guess that should be acceptable for the
-> >> use cases we you should have in mind?
-> > 
-> > I took a different path: I still use PROT_NONE PTEs, so it cannot
-> > co-exist with NUMA balancing [fully], but WP + RWP should be fine. I
-> > need to add a test for this.
-> > 
-> > I didn't give up on NUMA balancing completely. task_numa_fault() is
-> > called on RWP fault. So it should help scheduler decisions somewhat.
-> > 
-> > I think an RWP user might want to use WP too.
-> > 
-> > Do you see this trade-off as reasonable?
+On Fri, Apr 17, 2026 at 01:13:36AM -0700, Christoph Hellwig wrote:
+> On Thu, Apr 16, 2026 at 03:43:31PM -0700, Darrick J. Wong wrote:
 > 
-> One reason why the PTE bit was added for the WP case was to distinguish
-> it from other write faults.
+> > ...however the strongest case (IMO) would be if (having merged famfs) we
+> > then merge fuse-iomap after famfs.  Then we extend the existing
+> > fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
+> > That enables us to analyze thoroughly the performance characteristics of:
 > 
-> I assume without a dedicated PTE bit your design will always suffer from
-> false positive notifications.
-> 
-> Leaving NUMA-balancing aside, a simple
-> mprotect(PROT_NONE)+mprotect(PROT_READ) would already be problematic to
-> distinguish both cases.
+> Don't go there.  I think that you two are comining up with two
+> interfaces for roughly the same thing is a pretty clear indicator
+> that this needs to be fully hashed out as a single interface first,
+> and any kind of preliminary merging is just going to create problems.
+>
 
-Hm. I didn't consider this case (miss some uffd lore). Will rework to
-reuse existing PTE bit.
+We're not sure how deep this rathole goes, and John's work has been
+in the rathole for a few years now.  Hence the desire to hedge.
 
-Thanks for the feedback!
+But it's obvious no decisions will be made before LSFMM - so we can
+take a breath and chew on it. Maybe we'll get there in person.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+~Gregory
