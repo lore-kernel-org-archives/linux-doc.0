@@ -1,277 +1,205 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 508FD1A682C
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 00:44:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B88149C6F;
+	Fri, 17 Apr 2026 01:05:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.135.77
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776386683; cv=pass; b=Ct8tl30q9TvftihxpiF8SaqKmrtnDNFkK9RiyIYzfeHDPHtvCgP2fhDQYzPad82e8sK+hyC7IuUhqm1bua/2yCjk/UkLrMvbgjkwnKnSgWyZcSIU9ntxcS7ijumXakn39+kMSIHYFm9D7QZvlhC/ZAtU+/AEZCHpyGMideWXJi4=
+	t=1776387912; cv=fail; b=sLOcOxmYtMMV+HJmLN6K+R6ItBqQ1oEfnRuD8EHCOPayFqYsHIpFWvE0WGAfdtowDggZ+ne/M1iSYHtefgd5UbbhFtS7gAX263TWmIGHN9gua3bfFovQTm+Yv4V0OnEVKTFQlvl1SKaFrlABrOFeWY6xdkDtLcA9/Nrq8YzHlQw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776386683; c=relaxed/simple;
-	bh=tCpq6Jo4S69VtWgQOHfdZhHmPAn9f34q/hcA9ixHo38=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iC7KeuVhllD9Bo2v3/RBm52vpV26a2LEWOl8V3Z0cscb3bCa1zIIi5eihIxu0AZnY5hM6d3GfW4GYA7q1gn8dOLkI2Oen8bARpiNYaAEsNiwoH/CddlQzK2kufvg74CoAbD29UuA67tnYWSBinNiMhRHwpnC/3v5phTOpn7BIsA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HckMoKg1; arc=pass smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776387912; c=relaxed/simple;
+	bh=A+yo2+tLSn/BbCQ5X3dO2HhP7Z+40R6xtmwn9e6hiJ8=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nOrq04x+FD4n162fP9Q/+IGTcISnW0ngLhzAgZ9he9WNPxkKCQ2y3jAJ9E6ramBIECKD0g1V3zzpyt0LlmDweZipF46K38Rk7kLnHYsPeCy/J92TnoBvyexsFb8Y9bAb7kzxdo40IXprfKTRLjBCNTU4Vdg4c3a4BhpmlrI3Z0Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=UHOCRlCt; arc=fail smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HckMoKg1"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-43d72875729so36140f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 17:44:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776386681; cv=none;
-        d=google.com; s=arc-20240605;
-        b=D3U5Y6BVJ9tBC/I4vphbfFoMjTjZR710sOAPne5Tw+ukkFDsONWWZjG03aLRM18FOX
-         hzFvaw05lTjWkbMHh9OymVP6IGcGOaG1EmJzaNlqoSkrUUqzw19jaQvskh+M7rAqOKHe
-         6b9MfBXOq9QXRG/wgey/dPm4UcyoE4k4QgBT6I//QH2oQcRQRlfDIotdviUta2t2xagh
-         FmPbZF7Lquzbs+aiFDnIQC3zs6pQVVxE/SKWx+XRWjeVq1ehwOGEfAxKt9Kt36cP1way
-         9WTvc8dITonUpsS5OIGSGoKfR1Jv0R8sUTHUoiXvBU3SjyAyVkcSPoInjbHGbbAEaG2C
-         ql0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=QaHD4Pp5DEt3l7q3lFH627j4dWsMdcfeRieD1J/u6kI=;
-        fh=5FHL/+EaCU5tLtCAIHWsubzP0Vwc/vRAIKUQ2l01Ous=;
-        b=B+hV+F6/0kmt1/AKGSvur7kvisnv8olFfNvg8m7QKhR2aU2LrkizuIv969R/2X5tDu
-         IOpq6jLSy+0Zbh8V5S/C75FKQVwrOZ9qUv5V7hOhTiiJaOqMLx0pczso6PrgR8fgscbP
-         mX4eT2K96GOp2bF5/K+uBDOrQOV3cFCt23pO9EJG9XfgKJmmGwUVTTYE1Q2RK4CNm2ic
-         /I7k7dRlQbqO7lUKyUtVbowxu9nUjRkmynvzCtqEJYYyp/OJXk1CqFHRfM/7e4shYQIr
-         Fg4fSqujH5GowhFygJL3YTJhkVNT4h6kyBmNIr7scwCnjsFxWWD91kH5eq00/tOfTe0k
-         E/Pg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776386681; x=1776991481; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=QaHD4Pp5DEt3l7q3lFH627j4dWsMdcfeRieD1J/u6kI=;
-        b=HckMoKg1WmSOkzoi2bBEHTES/NXj0R5KXSgBASRGo3Kncxj2bym0qmamncXUi/cuOr
-         fUmgWcEso/RUwJh7lY/996p9oPWsXa/HzgOwh2EiloDrVEUzIMXIPvekfdWEIpNBs2r1
-         us5DLnjV/osyZpHw1hfAUx5mqRhScYENW70Ci9t+IFOjTfMoO2//w0v9dqyi6cMnbHf+
-         VKDfRyrRp9KwVXJxgWKKmm8PyyoxGz1LNpPY9iqWcLLTUIpvGCb8odj9JEHtxZY67ZyW
-         t1tv93UYqDOa/T8t/Sst3oHRYNiNMd/dYFU9BcMybX8y4gSw3qQW85YiFahKwegV0UsD
-         im7w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776386681; x=1776991481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=QaHD4Pp5DEt3l7q3lFH627j4dWsMdcfeRieD1J/u6kI=;
-        b=EEJNVMNqOPv9WmK7j9AFxOUpEzfKhkL1X+xfomDu95ztx7zTzj32Fg22WyeHDNXFsC
-         NSiICGFQg/bX3BM7RFRroDBi9vPh74m7Xf7HytOgH+U1xQ16nv0B2eiYCtdR8z2FXiEM
-         Xzf/HSrGjckWDId42BqalATGamymZ0Wen7ITqbC8hXJhoTJEpg6w+Gb/3IUf12Dps+NO
-         kYUbTtS5dfRVb7pL1VChO631pJXnwawyg9TzeXYYW8stwruf0qc94cc7SXmffdbjJS2w
-         7Az+x5OW9M8hejFP6zoMOkvZ1GjXgW8UdOWtcplTpQ1JOyU4V27TgeSTfLn0qeIu5Gi4
-         QnXw==
-X-Forwarded-Encrypted: i=1; AFNElJ/c5gCoxzoji3jijSP0ccjvqCxWGmAseLm8n65BliVGSlJBzw9TAJvtwIgFs1MwkLHhl/HeTO40GOw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQH4I9eJjO6Lpbbj7M0jGxK2vZjCmTMx3bZVNdN9Am7osbLwEr
-	IrDbqYrpAr1zBA/GnZgKHYgd3BPpegUOgKtc/17O1JohibNjBD59q9+uDtoNJ15pHkl2VH5CWCc
-	s7Yw3gtma66u2fHr+PABaIsXMp+baLis=
-X-Gm-Gg: AeBDiesdg80wTve0fo93zsf8hm68Rmm09jnHS3wu4bp1K+tQIWKCvP1wmyt92vWwvil
-	pmCZZWUe6r6O9It52PB+JkdmN0eGizxyW1VntoadKRsSw3LjYIdp1dbuJdtrZIwgMAUnrnehOif
-	GIQV69ixSSwU1pwPI51PsA3Qz9iR5lk3W9DB1vtwRlUrV+bfYFgfJHtIqSO++nMp1kyD8s9r45D
-	zipx5onjsGVDpXD8MO7NK+Jm+CUsIofO0vIykGLKZ6KftWQm3+vhqc0tAaD2MJCr5zKcqpbnkK5
-	tMip6mSJ3s9XHDzr
-X-Received: by 2002:a05:6000:18a3:b0:43d:7ba4:6b5a with SMTP id
- ffacd0b85a97d-43fe3df25a7mr841359f8f.22.1776386680466; Thu, 16 Apr 2026
- 17:44:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="UHOCRlCt"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63H0q5ki435755;
+	Thu, 16 Apr 2026 21:04:42 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=A+yo2
+	+tLSn/BbCQ5X3dO2HhP7Z+40R6xtmwn9e6hiJ8=; b=UHOCRlCtmu0YQvWGauRIy
+	NQft0JtDUQYzyWcjrcgNzfXleyeScrUsetZCwsYDTlOzV7B81e0E/lDwxLnEfVJZ
+	zBX5RzKf1jMDxtbd5vFhghjUO/1Wu8lr/S2svmiywaqm99d+DWiPvIHPfbz6gYX4
+	99pbSQ0W0EGxYBNW0rTAnHIX+xOa5CUq/K1vQmaJ6BNbH1TOEVJ2RaRK4RxwFj5c
+	rXHnOjmlEsvAYYsMpRAfvRkdnuwUCSA2arsYjE6oMEVYdljzzu9H0qVhxbHKZsMI
+	nK2gdKwe5S5R8Y6YLbLW3wJl7O/8sWERbWu1Uvt0AT70QovA8GeMSL/T0tRvRlGT
+	g==
+Received: from dm1pr04cu001.outbound.protection.outlook.com (mail-centralusazon11010044.outbound.protection.outlook.com [52.101.61.44])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4djv6s3nca-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Thu, 16 Apr 2026 21:04:42 -0400 (EDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=r5uKnHwHy3lWU0/YOcsjjdChxuREAefg4jQ7UzOiib3YhWbO+yal9ZTUCGXrsqotFBeWdwTs+pfIfHp2GMt/D10JDhBI015ONVIWJnzCdTERJJJkEhF2YFX4B7BODsrW6+bvvEtZJbPV3hsxOY8KPyQcntKc8Epi69u8Fm+sEXEv3TpaJ9kbens2b8NNdTAOKLDfN9VhU4leAlO9MQvdSBWyiICocXiVOnvLAiAZipMPaoNDZMSniMas4kNnbQc8WnfZaHFfXOTk8r5ETtYj1LDtMqhPXG5LTGvTsmMV9jLr2PCfFXsSDgXv/4kbVvtqDvaOZDZJ2iXcj3U9MUeO2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A+yo2+tLSn/BbCQ5X3dO2HhP7Z+40R6xtmwn9e6hiJ8=;
+ b=H8Grij532ME+OID5g1jjM7YDwuMe2w9m47xgRSFpuoau0ofusg+HOwBO4cgMyU4Wm8s83trwt2OrARCDEM8AJ0rMGoIJ+tCcEV0x2j0dbb/CuH6SjflKJLo+AqFv8UQXTs/Az/g/yA1v/Dt2/5Cu7whDesnwnNViPv1p8wEgmz2Mbtjawz+Stgjd1uu0TvDxqy1qAV7ziFUfTKALKd/yP8GPCo+mw85I9frFrA/c3Km/cVhuApWOlibW6Yb4ZdwO9ovocVZtxUAee8MrR/DUwX2ozFw2Ad2ZYsO8IyOHETDpeyvytOZzMacrNCPVJ4X/Lq9UvlXoBdG+cnnQlBv1iQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
+ dkim=pass header.d=analog.com; arc=none
+Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
+ by CO1PR03MB5667.namprd03.prod.outlook.com (2603:10b6:303:95::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.25; Fri, 17 Apr
+ 2026 01:04:39 +0000
+Received: from PH0PR03MB6351.namprd03.prod.outlook.com
+ ([fe80::1578:4572:29b5:2442]) by PH0PR03MB6351.namprd03.prod.outlook.com
+ ([fe80::1578:4572:29b5:2442%6]) with mapi id 15.20.9818.017; Fri, 17 Apr 2026
+ 01:04:39 +0000
+From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
+To: Conor Dooley <conor@kernel.org>, Guenter Roeck <linux@roeck-us.net>
+CC: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah
+ Khan <skhan@linuxfoundation.org>,
+        "linux-hwmon@vger.kernel.org"
+	<linux-hwmon@vger.kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+Subject: RE: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
+Thread-Topic: [PATCH v2 1/2] dt-bindings: hwmon: pmbus: add max20830
+Thread-Index: AQHczXcJ0nOdZqqKtk+vtpI0M6ZlMLXh1uKAgAAkYYCAADpzgIAAM80A
+Date: Fri, 17 Apr 2026 01:04:39 +0000
+Message-ID:
+ <PH0PR03MB635166088B7C473CF59F17D1F1202@PH0PR03MB6351.namprd03.prod.outlook.com>
+References: <20260416-dev_max20830-v2-0-2c7d676dc0bd@analog.com>
+ <20260416-dev_max20830-v2-1-2c7d676dc0bd@analog.com>
+ <20260416-diaphragm-corrode-494560404ed4@spud>
+ <84a5154f-1139-425e-94ae-31d7e662cd0e@roeck-us.net>
+ <20260416-scoring-secluding-c7a7235b181a@spud>
+In-Reply-To: <20260416-scoring-secluding-c7a7235b181a@spud>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|CO1PR03MB5667:EE_
+x-ms-office365-filtering-correlation-id: 610e688a-0a30-40f4-e488-08de9c1d4d36
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|18002099003|22082099003|20046099003|56012099003|38070700021;
+x-microsoft-antispam-message-info:
+ mxzhCvsxDkcLeP95HVViLNaDrdpqyC6sYu4px/CHbEWw+8X8oq2DAoUlm+v5e/eLiANedOG5Fl9BH/Kt4vRjLF+qlQqpkM3A3cCo3/e02SHoCR5un1DN8pUKoOI1JMdI+qTI8uzys62EiE4lldY44SbV/nN7frs9GBtZCN/EbdyhOwNTbX4XGYNrdRaNeh/8BMn1FtcHNOj0C72PVVjkVyFHguqT29M2r8lmAkzGIJ1iVR6Fu6Np6GsaIGJtUS8EYb84OBuoqxP67HvrYlsRIHEVPIJ4Ozzaybsl48KS3YBYTEpSCM9jrkE0KhQ/TD3N+FhaajdSiOukm4HoyBOW0799wsWYenvxYRnXd/uV2wdwXmHIv3hUc1SbMxG++p3hvDtb02zicjfLIjDdDqKtEzHo2ItC5WdoVLC1Vd+W+15WHd4I/mr//yEMpscW8xN3ORf5rNX2WzL7j0aXumRHFMslxdTdKCfI2X8nPhg2zCUjEnQ0rspr44iz9mxcWtfD+MfmMj35GlaAHmpAvZ7GbH/Z+baKpf0SS2ioVTkBG0mZw7nD5WBTWeg9XdeDnTzX63Nwf6DrNIwB7rBj4A2mwuZId2+ZNRiuuW8YH/7I9dUAbtEve4uqT+xu9qXLnSPVTOPWcKj+FVMAsl8Xy8iIbFFyZAlT5+LsgUgXEsWCVCkIx1AHPrCEPLoQ15LsYAk5OJ5xi9LOZsDSujiMwF/T6pCJbDvD7oqri5Fh0TDpeZqZGXf/X4vznPSD738JbyjvY9ux4NS8jZvvhRxLVI6TW3LBqJ6KLnkeJXDiXzBFPl0=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(18002099003)(22082099003)(20046099003)(56012099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?8hCvKIQZZDEf6Kwr7mkvOAg9ekLzuYDaS2ZQrPvT3Gn8dZ3AbopWOgJfg6Pn?=
+ =?us-ascii?Q?G540KTebD9lpmlzI9moRa2hnYDFcdBQZV48lvDFOEyho7irTukYJyRgS2EMz?=
+ =?us-ascii?Q?xxHWmo1fh/OkFCxiojpN4MPya7FcWpa484B4SiZbqo+SplBI+JWnCFKhhNMw?=
+ =?us-ascii?Q?UQ79DlEX7DHaHr5UYYHiLBqRN0ZWPofet4aHoCzzVxA8m+v/T3bIbSyr74Kx?=
+ =?us-ascii?Q?io16cerVdNhM+mA/8+ikc1Sqbdco9u9cCqo+C9/rhxHzN+lIxlp3Y9RfTLOy?=
+ =?us-ascii?Q?i5qmSTymoIMM4OI8aE1hEl6CbgVohiDMUEPZKIOy52Q2v6XcrmiJaLC2ARIW?=
+ =?us-ascii?Q?1NW8ab/5NpchCP1fYwb5P0CIJvGlGuoztcp46eOwMsQF6iWstvAM5YxsQsD9?=
+ =?us-ascii?Q?STvSwKJV+atFTMFThKBBBW3m76BO1AsCtb+DfIWOqnh4XUqkOVFpDxM0RF7R?=
+ =?us-ascii?Q?Ihcl9hZsSsFbsGy6u0Fwj5gRVx1G0LNDtRymN1YEu4O3pIxD7vRZ7bVlfIzw?=
+ =?us-ascii?Q?DMVNOfRuRjqOplzrRqduDGQMZsSrPY+AFmIWxn3FWwWcuoPmEFMBKxC8YhsF?=
+ =?us-ascii?Q?TJ7XCU342hci0q0vFQ0X3bpWd2tVJ4HwL2S0NYSUCEol3J3aI7Kn4oMT6ndR?=
+ =?us-ascii?Q?yclxKqbB99GXkxJZExIpmlm7qabF91+oawKkc4lm6sSbVdFa5lzcxRnYGsEG?=
+ =?us-ascii?Q?jZl8U42qiBtNtiQ+ZPGtae2jKhTAo5/nsZDw7uPx5chuuZxBsoKpAlaAnCol?=
+ =?us-ascii?Q?pgDTD1HGmVQWOb2dAsCdSfzVfCCTx1FUMoj5kVswG3Hz1gMtrUxjwRKQQLwZ?=
+ =?us-ascii?Q?CtUdIVBXdrm8WnzHf4JCHq6wnncfIIYjFry3hm0Cy59fBqx8SjElEXbbqiDs?=
+ =?us-ascii?Q?KuPuzkgeuO1op7FYF19ZvMJGeTLspxTpSJVo3yUgkJ4ZDb7gjpAic+oQyM13?=
+ =?us-ascii?Q?mql+J/1PVpTq4eOC+C+fM5jYF9NXLVTvzb4DhJS/5fY3BUrWN0YduiQ8qKJD?=
+ =?us-ascii?Q?USxngA+0UBTtlrY5oi+oHjc6hy9bDe/cIA8yJ+fXRp+0a602a0hd3VKkaDNp?=
+ =?us-ascii?Q?WQ9r/kTa/DFfUCCGOs7QBo4vI5ZOVxie4NolDhRx3ZqGXok5DYSrrSzkXGA8?=
+ =?us-ascii?Q?AyV5XqkZOMQ+WrJyZDqlaqsErZCaw0n39Vqiq6c+/P3eqFRbft+Z7S7QveF1?=
+ =?us-ascii?Q?YDU+Uh/0UHW0NSqcquaLdpNojAisW5EKJBJidRZQPMgiJKC5DpJB9Usz5reb?=
+ =?us-ascii?Q?k5zJxoAQOGhj8L8lyuHaohf+tHaG2RkxJ5IrwUq9fWOGRvPh9Y7xRzEryvwk?=
+ =?us-ascii?Q?Ko6GKLuH2bmB+ZgHnRQ/BEV7EICnPzZT5fRtwn6C+y97bqB3S36tSC8VEMS6?=
+ =?us-ascii?Q?JPabQ4BuuId0H8+NCZN2guz6hyY2W6/Hwv3dIKYQ9KBs46wUNBfHO5+US4dk?=
+ =?us-ascii?Q?S2fQzyGO8vvsmNI3zG/JvcuH37huCH0AeBUY5rn8JcG1/utEEttLz+kVKuz9?=
+ =?us-ascii?Q?3G49gYS3celjpV0XRnKeMXhUBPnPNNjWKstds2P8BSnmDU1XZxXHJWQNV0dF?=
+ =?us-ascii?Q?zPXVgWzmH6x57o+8k5ws1u0yU6bE7qTAzNAg1KwLDpRZvmZm6k1h2cA4YSQw?=
+ =?us-ascii?Q?oEhBtKl5wTfqAzYRxaXdfQLy/9zZh07VNc0I2DEe9XucvAEEecGG7xYUVnIC?=
+ =?us-ascii?Q?DJxqVXmsbwrEaL0+FRSASe/6XWb5FtwHLwSqxwIdjzf+zsa3d4HTglq6Eqnr?=
+ =?us-ascii?Q?tnehBwxhuToYbRE4EAPzR9yyo48NVzA=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net> <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F> <43d36427-4629-4712-a262-391e64006eb5@app.fastmail.com>
- <20260416224331.GD114184@frogsfrogsfrogs>
-In-Reply-To: <20260416224331.GD114184@frogsfrogsfrogs>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 16 Apr 2026 17:44:28 -0700
-X-Gm-Features: AQROBzA3h7bYhqR2C0MA-hMnz-JkcDiwwSJMMG8OlWk7w-ds2Ru8gPIaaDYL4u4
-Message-ID: <CAJnrk1Y78UGLyAGVjiQ10PERTz1d2qcimok6bqCquy7jQYaXag@mail.gmail.com>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Dan Williams <djbw@kernel.org>, Gregory Price <gourry@gourry.net>, John Groves <John@groves.net>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
-	Dan J Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked:
+	q132qIvqd9D/hl263muudcg2kYGFrGohTqGSXIR/qdttkjF1Zfal94IiVzKvZTDfR2bp2d1U02LmpkBKDRRf9gM4oCOYejM/Vr1v9fJSBg65XXVLQOZJXtMxW8H9/C+ZozB6EbKItl8bWCqLg5ba6t/+OYIaNgxCkS250K3h0Q4iclotrImUDfD1ll5yyAbN95pfQ+afiJMT5AUHe3KGXs2skWH8AKDRVeDG8z/lYs81O68TL4C7bGOcdLerVkJi7wyteyn9jTJARKlRsV0aovNhmIrSPbFXKlPV+7GJfN5g7vjU/wYI3VxMSsJVPabSdkPSZk5Q3UQ4Uvj+R/3ulA==
+X-OriginatorOrg: analog.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 610e688a-0a30-40f4-e488-08de9c1d4d36
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Apr 2026 01:04:39.6485
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: Ue3ftqv7WsolcYaegsL8J97//SfxwRFd6wU41vwXn3z1dhp+EfdotoOuJuuoTANJSBtiqUEiTD/GtDp7SwUu9E+nFzts6MT4/EFgyq5OUN0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR03MB5667
+X-Proofpoint-ORIG-GUID: BzCq4c4QGIteJ1a2CSZ5lg60u8m_sz_m
+X-Authority-Analysis: v=2.4 cv=VvQTxe2n c=1 sm=1 tr=0 ts=69e1872a cx=c_pps
+ a=+iTzTTZpyf9i2pLb45wEOw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22
+ a=N--XFCr6TIEc_64PeIT2:22 a=Fp3gelk4GgGrfRNaFxMA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDE3MDAwOCBTYWx0ZWRfXwEAAncly9ACf
+ X2YznzY9LqGanuJk31FamlS1kFZ8y3stL68vEZe6BfqTk0DZv5lmtGc1iU0D2RKADoEi/EgoIa/
+ zNjsztd9erKBxkTKIA5PPLcK/tlby4MBUu9DW0BnTIAV4QO5x5neo/w2snOGj07uzf/yniajz+J
+ HtOa7gcoGBwkTSRWSd2AEDZ5dRKfFl4Zj/aOKxK3IT4wBR6Q4mJNefKIU1G1uf4RUDngwoqW7IC
+ kAsXT++oYfB+hI131aiv1lrok+yDHZaRwWdgc5dN0dT1izxMiI5938vKlOkxy2Z1I9dBcKr8tIa
+ gUwGnA6PDkTL6Ifuc6ooJuS33wI1CnSjfPja9ni+/inryy1zCF4R1izXkajbltoQqQuOHeSZoPA
+ OTP3TMco9irnlELuM2l5XJ39jFVTJQEP0tlq0alx67LY8CVC2QH8JY1lbMbBBieCn2MLSNsUqZo
+ Xep6DPYzBjuyHXVensQ==
+X-Proofpoint-GUID: BzCq4c4QGIteJ1a2CSZ5lg60u8m_sz_m
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-16_04,2026-04-16_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 suspectscore=0 impostorscore=0 malwarescore=0 phishscore=0
+ spamscore=0 bulkscore=0 priorityscore=1501 adultscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604070000 definitions=main-2604170008
 
-On Thu, Apr 16, 2026 at 3:43=E2=80=AFPM Darrick J. Wong <djwong@kernel.org>=
- wrote:
->
-> On Thu, Apr 16, 2026 at 01:53:27PM -0700, Dan Williams wrote:
-> >
-> >
-> > On Thu, Apr 16, 2026, at 1:14 PM, Gregory Price wrote:
-> > > On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
-> > >> On Tue, Apr 14, 2026 at 5:10=E2=80=AFPM John Groves <John@groves.net=
-> wrote:
-> > >> >
-> > >> > There is a FUSE_DAX_FMAP capability that the kernel may advertise =
-or not
-> > >> > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXD=
-EV
-> > >> > commands. In the future, if we find a way to use BPF (or some othe=
-r
-> > >> > mechanism) to avoid needing those fuse messages, the kernel could =
-be updated
-> > >> > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-=
-specific
-> > >> > code could be taken out of kernels that never advertise that capab=
-ility.
-> > >>
-> > >> I=E2=80=99m not sure the capability bit can be used like that (thoug=
-h I am
-> > >> hoping it can!). As I understand it, once the kernel advertises a
-> > >> capability, it must continue supporting it in future kernels else
-> > >> userspace programs that rely on it will break.
->
-> So don't break fuse servers.  If you wanted to (say) get rid of
-> GET_FMAP in favor of IOMAP_BEGIN, you could alter libfuse to translate a
-> fuse server's ->get_fmap implementation into the equivalent
-> ->iomap_begin, and eventually the kernel can stop making GET_FMAP calls
-> to userspace.
 
-I don't think it's this simple. We can't assume libfuse is the only
-way servers talk to the kernel. Some servers use the /dev/fuse
-interface directly. And, as I understand it, this would still break
-users who are on older versions of libfuse if they upgrade to a newer
-kernel.
-
-My reason for pushing back isn't because I don't want this to work; I
-just want to make sure that if we're going to rely on this as a safety
-hatch, then we can actually do it.
-
-Going back to what Dan said about using the capability bits for
-deprecation, "In some future kernel the famfs native option disappears
-after a deprecation period" - what does the deprecation period/process
-look like? Do you have to wait a certain amount of time before it can
-be fully removed or is it pretty immediate?
-
->
-> The trouble here is that I've also seen half a dozen projects vendoring
-> libfuse so that's a nightmare that will have to be dealt with.  But
-> maybe that doesn't even matter, because...
->
-> > > FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel i=
-s
-> > > not required to continue advertising FUSE_DAX_FMAP in perpetuity.
 > > >
-> > > Setting CONFIG_FUSE_DAX=3Dn does not mean userland "is broken", this =
-would
-> > > only be the case if FUSE_DAX_FMAP was advertised but not actually
-> > > supported.
->
-> ...the memory interleaving is a rather interesting quality of famfs.
-> There's no good way to express a formulaic meta-mapping in traditional
-> iomap parlance, and famfs needs that to interleave across memory
-> controllers/dimm boxen/whatever.  Throwing individual iomaps at the
-> kernel is a very inefficient way to do that.  So I don't think there's a
-> good reason to get rid of GET_FMAP at this time...
+> > > On the previous version, you got an LLM comment about not having the
+> > > interrupts property amongst other things.
+> > > I think the other things got implemented, but I didn't see any reply
+> > > to the bot about that?
 
-So could we make the interleaving part generic then? Striped /
-interleaved layouts are used elsewhere (eg RAID-0, md-stripe, etc.) -
-could we add a generic interleave descriptor to the uapi and use that
-for what famfs needs?
+I wasn't sure if it was that type of bot. I'll try replying on the other pa=
+tch review.
+I just added a note in the cover letter change log about the lacking smbale=
+rt.=20
 
->
-> > > If DAX were removed from the kernel (unlikely, but stick with me) thi=
-s
-> > > would be equivalent to permanently changing CONFIG_FUSE_DAX to always
-> > > off, and there would be no squabbles over whether that particular
-> > > change broke userland (there would be much strife over removing dax).
->
-> ...however the strongest case (IMO) would be if (having merged famfs) we
-> then merge fuse-iomap after famfs.  Then we extend the existing
-> fuse-iomap-bpf prototype to allow per-mount and per-inode iomap bpf ops.
-> That enables us to analyze thoroughly the performance characteristics of:
->
-> a) Using GET_FMAP as-is
->
-> b) Uploading raw iomaps (HA)
->
-> c) Uploading a single bpf program to make iomaps, exchanging fmap-style
-> mapping data into a bpf map, and having the single bpf program walk
-> through the map
->
-> d) Uploading a custom bpf program per famfs file to make iomaps.  No
-> bpfmap required, but the setup and compilation are now much more complex
->
-> Then we'll finally know which approach is the best, having broken the
-> Gordian Knot of how to merge famfs and fuse-iomap.
->
-> If we decide that (c) or (d) are actually better, then guess what?  To
-> get any of the iomap functionality, you have to set an inode flag, and
-> that (FUSE_CAP_FAMFS && FUSE_CAP_IOMAP && FUSE_ATTR_IOMAP) is the signal
-> for "don't call GET_FMAP".  FUSE_CAP_FAMFS && (!FUSE_CAP_IOMAP ||
-> !FUSE_ATTR_IOMAP) means "call GET_FMAP".
->
-> Yes, we burn a couple of fuse command values to find out, but that's all.
->
-> (TBH I still dislike GET_DAXDEV, that really should just be another
-> application of backing files, and the backing file id gets passed to
-> GET_FMAP.)
->
-> What do you all think of doing that?
-
-To be completely honest, this is orthogonal to what I was hoping we
-could discuss on this thread. My main concern is the GET_FMAP part.
-Can we make it more generic to other interleaved/striped layouts?
-
-Thanks,
-Joanne
-
->
-> > > While not a deprecation method, this is what capability bits are
-> > > designed for. Same as cpuid capability bits - just because the bit is
-> > > there doesn't mean a processor is required to support it in perpetuit=
-y.
-> > >
-> > > They're only required to support it if the bit is turned on.
-> > >
+> > > I think the answer is that it shouldn't because the pin it
+> > > referenced doesn't exist, but when looking at the schematic I have
+> > > to wonder if
 > >
-> > Right, if the protocol on day one is "user space must ask which method
-> > is available", then userspace can not be surprised when one option
-> > disappears. So to give time for the bpf approach to mature the kernel
-> > can do something like "famfs and bpf  mapping support are available".
-> > In some future kernel the famfs native option disappears after a
-> > deprecation period.
+> > I had to look this up in the datasheet. A SMBus chip with no alert pin
+> > is a bit odd, but you are correct.
 > >
-> > When folks ask 10 years from now why this ever supported optionality
-> > the explanation is "oh because famfs enjoyed first mover advantage to
-> > prove out fs semantics layered on dax devices", or "turns out there
-> > are some cases where bpf is not fast enough but it still stops the
-> > proliferation of more in kernel mapping implementations".
->
-> Yes.  We're not *capable* of determining the best mechanism unless we
-> can start shipping these things to users to get their feedback.  Only
-> then can we iterate and make real improvements.
->
-> > Something like FUSE_DAX_FMAP is always available but the backend to
-> > that is optionally native vs bpf. ...or some other arrangement to make
-> > it clear that native might be gone someday.
->
-> --D
+> > > there should be an interrupts property for dealing with "pgood"?
+> > >
+> > FWIW, I have never seen that. Normally such pins are used to take
+> > devices out of reset.
+>=20
+> It's an output on this device seemingly. I don't care if the driver ignor=
+es it, but
+> for completeness (and we like completeness with
+> bindings) I think it should be documented as an interrupt or gpio.
+
+Alright, I'll add it as an interrupt: optional power-good signal
+
+Regards,
+Alexis
