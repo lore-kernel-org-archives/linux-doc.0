@@ -1,253 +1,121 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F3A721CC59
-	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 01:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776389058; cv=pass; b=dm5RAihk+ZS2xHn5eJe4rqqip3Run64bWi3ylwln8yVJWz6IZsg5zjVFFTCAWTCjAQVJIn7Pm+BkN8LoWM7CSDfrEX8gIQdafVIt0i7UepqrxZGG1SNEVgPaFgjsG49ClfXWjj5RdAjCR2dF0m2IZCgCFKPfWDa9jplrnCcfPWE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776389058; c=relaxed/simple;
-	bh=/Wh0gdvtZWPb7hKtiDidqSqiK65wS9x8xeL5Zs7IDHE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MYQgYQPsZfxTAivKNbs9K3cg7J7wm4JMqV9FTu50npTsj2tstyFcPdYfLUsas4qwbXcYeVAEe5I4okPmRA94AawHHrjw+GIGJjXYYcPdKDgft0A4gRzIGcF/HMw+aBLMqsAS8KOcXwAP+VhmAp+RJa7U/joEo4AHaXczCx+o3Nk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=W9gj4ro7; arc=pass smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2A441C62;
+	Fri, 17 Apr 2026 01:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776390376; cv=none; b=Jgayr/u5I/e1xve2J2fDyVGVOVZuCEnZLXo4eLO4KH6NXDWBYMULTwc1DYmTCfQKR7IkgzABRxr2qaIaeVy19SWd7tdLFeI4NNvYLnE5LYmLm/OYmFTqmmZdUjhDrp5VhzJxMwBmFYJLAamShZdXiQBpW3BANvGvc22D3lzmyEw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776390376; c=relaxed/simple;
+	bh=9GV2cqGSWKW8OhRYCnTtDoSytBNAPLgGcM23mRKlFLI=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=LkLjnsNQPmWECOVy2rbCokXS2w0DnU6bqheiKnFuqIlmdia5Lq6xhBizCF1EBTIYjLjMGS6Uq7/hPNrLf02vO/pTSDbL17FvsH75zdXTVHUjUxrhkt+4V+LpARdbiBVX8vJaEDFrA36kfCQ/feCefxu1OCtW5edE7gus0I0UbUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jjx79DQo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W9gj4ro7"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-48897fd88ebso1353485e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 16 Apr 2026 18:24:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776389056; cv=none;
-        d=google.com; s=arc-20240605;
-        b=VnVMsfbjF6GCB7ilrTjuPiSl+yHTJSe+00kXPo1qD09daPHMMosZqQxVtawsC3xOPF
-         RZFo9QKYmXiFsLW2BUhFbPAGGvXE3WA1VaN4IP5dUvzVu/jjVgnYvpaBwtGRJxCsQw50
-         EWPhjN2pkM+3Jm6VpVITQnJhFzl7BhvxohNBqT8ZiNZ7LjQgKR852Ht+5vTeJbPy3zzb
-         E1CI31erpNpGNbC28B/54ypM7O2PeuHu9HxzrsxbYLrPTsHgBJ86BV3QaXhkBAqWG0Vy
-         ICTyxMkZZ+xBU3b568g8SI+9Uf5yNVuD+5IeygimPARduSS9yFUfgjApQiLDKoDEwxmu
-         b7Xw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=DF8Fi5Xe81jVgo2Oab2GxqdGUDJSWyloL5oFl/Qyv1A=;
-        fh=xahmxkjm38yf7X531PlvwfmHvg+KA/Q3Qzci9aUYJ28=;
-        b=Xv+MHgZ7jq6cdRTWdlXYUIC86ByY/uq6bbBvxpATq8gOiNNKFP22wbF3yGzvDwNb9y
-         ehr1cHPdsLcImYBQFBApcvJd/BWJy6vyVhohpcV02uUnZpqRCUawoom0L+bJ3hlQrNjf
-         gS1jpca5qFrmQvaTDHe9K0A3+Z2t0RBwJgpkDWg0mdQBRWj03+7rZiKVHhFW9gVOxzzF
-         8nW9nvQmCwHE/b8Ddi+A2cqfGUkDsr/2ZBQORVLvC8FxzUkCR33LggzZxwGr4UWXsDPo
-         n9FFJUPnN5NpvLjtU8KCTS2um5ikLWRu4rhuK3ONkRbohAwejwGoXTGDsCVjQbhSuYKy
-         662A==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776389056; x=1776993856; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DF8Fi5Xe81jVgo2Oab2GxqdGUDJSWyloL5oFl/Qyv1A=;
-        b=W9gj4ro7l4Qht7UBExmdsEqIKCUXlxGjwsv8ZmUQwvbyIaUt3gxjz0PeCzdyghw95O
-         YY81werdmPZVRzNJuGXu4sUTo5AWxiHIhLc7oNhMp/Ec1QFqOK67uZEu3GZdzRQ7Ou3c
-         l2JR+VWgG8LiOWYmO3/GLnhOlyvEHR38qvu2qSqyvFH6xxi4Xh9Ted2sN32pjAyh53dw
-         Lew6giTgyCrN6dE8l5u0nrzLoPkMz7Ka4UQ1aWX3N/35lW6UT5iPVQysL23yZn3ccnok
-         Yp9+0ELVE0FWSs/I6Cz46wgWL0sFtj1rM3GnZYDwDhbECNiV/N6nx7HXqt7KFL+DK+wl
-         ZPJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776389056; x=1776993856;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=DF8Fi5Xe81jVgo2Oab2GxqdGUDJSWyloL5oFl/Qyv1A=;
-        b=CcG7/ct34eu2awZXgO8QMWF7vUBB9PHVwk+srpmO++2dAUzERKNYryijgY/FHOCcrl
-         mUKLJHsZ4Ee5Xhavw0xT5zWnWEXVdCa2YDSB+xzVvRle7tZxaoMC+j4Vki6vwmwLcb0C
-         EGSbPESZgCkHT0YC/h0sc/Pk5tFAv5x6T+oCNULHtIgM2PetIyIDlUOhOK37Kk5br6gl
-         RoG4F6ziswkc944nAtIOjwcnI4vse/G+xBPlY0814+949Ma65QQnFXOw2oq8sDUsTszl
-         LNrHvUT6jJxX+qZ9/cjQpxZmM/MloGZHqUr0xaqNdlaRIwTkRqrIMk0Ja9KJSkSJZ5JL
-         1guQ==
-X-Forwarded-Encrypted: i=1; AFNElJ81DSkABbnC+h0CCqWQloxOYX1o+lBtQkxLgijDE7+xyzr58+Qh05G6iDVEKCrM5o9GeTGvCTe4Wsk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/EZxvpmqd4D931bKIag9vqPGTbpe24wXkT1DEu+NklyMhovys
-	Jq9VkuyWXf9v1BWndvAOzZ5iUSQ4xHZkjYFdrbH/1vm4F+CdfecIVGyoK40DZ1rhgjD1WsoqzSB
-	gvRyfDNMNwVhPVTykIkxjoD6DQq5mJ/M=
-X-Gm-Gg: AeBDiete0hI9xS1vA/4UZgUhloiwMCYOi7CHV9jjac+C3VUddzXdRiLLzyZMOiow3C7
-	IbQ8KYXSTnDGahEBm66L+IWZ46uoeIrNdpO6FNrbS3T6i76Hij/pvqmLJ6tsPwu/PM8aOEJ/ddY
-	Il25F8sdDpTuCtAMzTdZQjdkoDkbpAx2TKXuwQYBZhiZQb+fA4aCs3J2njVfoVD5or35lX3r8Vu
-	/i9OwVZaEYuHeiVh4f33MYH9QCJth0Ud6T6kpanfyE/888BSl2ljGrEnhWcApowLX484pdwRGLK
-	grOR1cyT8nJs/tMK
-X-Received: by 2002:a05:600c:3e05:b0:486:ffa3:594 with SMTP id
- 5b1f17b1804b1-488fb78049amr10083535e9.23.1776389055659; Thu, 16 Apr 2026
- 18:24:15 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jjx79DQo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 640C3C2BCB6;
+	Fri, 17 Apr 2026 01:46:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776390375;
+	bh=9GV2cqGSWKW8OhRYCnTtDoSytBNAPLgGcM23mRKlFLI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=jjx79DQoe9MufrzLSh3Zx3Y2Hn78WNvNjaveh6ypMHnSlqisXrByMOIS2yL/gkAu/
+	 +9IaRDLD2MQdO5xciiZwyL/Cc10vKWd5xtWIgBk2X5XIxj+5Nxnhax0jDG/+/jhvZA
+	 dEWxa5LZcqXhiNseYW0OB204mlXBmmHhZyGUz7fAtysA4yqr9hgKfsjAWuJEI0mLi+
+	 QeWRWqebZ/Tjbd85ZkuVe5aRzL5DMall6oG6mJG2PFsI02czOyc320INLhoL+HtKFU
+	 BxyVReG26WeQJypyvWI9fH0+SdvhCMc8c4QLhY5zpfe3numMu9XBdbNZmd54jZUFjJ
+	 T4DtWALeCCfpQ==
+Date: Fri, 17 Apr 2026 10:46:13 +0900
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
+To: Breno Leitao <leitao@debian.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ oss@malat.biz, paulmck@kernel.org, rostedt@goodmis.org,
+ kernel-team@meta.com, Kiryl Shutsemau <kirill@shutemov.name>
+Subject: Re: [PATCH v2] bootconfig: Apply early options from embedded config
+Message-Id: <20260417104613.6c7e3211f56a950814e9c9f5@kernel.org>
+In-Reply-To: <ad9wwUJ3lh_536Xy@gmail.com>
+References: <acZPZ4XKy4QynznK@gmail.com>
+	<20260327223744.f246150adc1671f7605a4f0a@kernel.org>
+	<acpzhCBEPh-tKVqg@gmail.com>
+	<acqJk-zbyjIiy6hJ@gmail.com>
+	<20260331125827.157a833882830007ea9b0b31@kernel.org>
+	<acvjcCqIAeHyIiQN@gmail.com>
+	<20260401224853.d8ed517a344c4be51d371a9c@kernel.org>
+	<ac0wz_eW5Zgi4t45@gmail.com>
+	<20260403114519.14e326a4bba019373bf3ff09@kernel.org>
+	<adTX6h4Ej5jOcONP@gmail.com>
+	<ad9wwUJ3lh_536Xy@gmail.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <CAJnrk1ZgcMuwfMpT1fXvUwBBiq9eWFHWVeOFQFFKiamGGe1RJg@mail.gmail.com>
- <ad7Tps4tkNbndd9Z@groves.net> <CAJnrk1ZWVsKW2dhAWdBkCQskoTE+hmOhPFDhyz4EtExn=GdXGA@mail.gmail.com>
- <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
-In-Reply-To: <aeFDCeqZDPI3rm3s@gourry-fedora-PF4VCD3F>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Thu, 16 Apr 2026 18:24:02 -0700
-X-Gm-Features: AQROBzBg6NgZ5CNmgS4j3SGMK0DxASOwiPBNj6lTHP6QcfR7dRhxSVmDinTDkm8
-Message-ID: <CAJnrk1ad6t6CJV+xnXwhoNHrHYA3htuaVdDq47FeT60cPBzj7g@mail.gmail.com>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: Gregory Price <gourry@gourry.net>
-Cc: John Groves <John@groves.net>, "Darrick J. Wong" <djwong@kernel.org>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, 
-	Christian Brauner <brauner@kernel.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	Chen Linxuan <chenlinxuan@uniontech.com>, James Morse <james.morse@arm.com>, 
-	Fuad Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 16, 2026 at 1:14=E2=80=AFPM Gregory Price <gourry@gourry.net> w=
-rote:
->
-> On Thu, Apr 16, 2026 at 08:56:46AM -0700, Joanne Koong wrote:
-> > On Tue, Apr 14, 2026 at 5:10=E2=80=AFPM John Groves <John@groves.net> w=
-rote:
+On Wed, 15 Apr 2026 04:15:57 -0700
+Breno Leitao <leitao@debian.org> wrote:
+
+> On Tue, Apr 07, 2026 at 03:19:09AM -0700, Breno Leitao wrote:
+> > On Fri, Apr 03, 2026 at 11:45:19AM +0900, Masami Hiramatsu wrote:
+> > > > I'm still uncertain about this approach. The goal is to identify and
+> > > > categorize the early parameters that are parsed prior to bootconfig
+> > > > initialization.
 > > >
-> > > There is a FUSE_DAX_FMAP capability that the kernel may advertise or =
-not
-> > > at init time; this capability "is" the famfs GET_FMAP AND GET_DAXDEV
-> > > commands. In the future, if we find a way to use BPF (or some other
-> > > mechanism) to avoid needing those fuse messages, the kernel could be =
-updated
-> > > to NEVER advertise the FUSE_DAX_FMAP capability. All of the famfs-spe=
-cific
-> > > code could be taken out of kernels that never advertise that capabili=
-ty.
+> > > Yes, if we support early parameters in bootconfig, we need to clarify
+> > > which parameters are inherently unsupportable, and document it.
+> > > Currently it is easy to say that it does not support the parameter
+> > > defined with "early_param()". Similary, maybe we should introduce
+> > > "arch_param()" or something like it (or support all of them).
+> > >
+> > > >
+> > > > Moreover, this work could become obsolete if bootconfig's initialization
+> > > > point shifts earlier or later in the boot sequence, necessitating
+> > > > another comprehensive analysis.
+> > >
+> > > If we can init it before calling setup_arch(), yes, we don't need to
+> > > check it. So that is another option. Do you think it is feasible to
+> > > support all of them? (Of course, theologically we can do, but the
+> > > question is the use case and requirements.)
 > >
-> > I=E2=80=99m not sure the capability bit can be used like that (though I=
- am
-> > hoping it can!). As I understand it, once the kernel advertises a
-> > capability, it must continue supporting it in future kernels else
-> > userspace programs that rely on it will break.
-> >
->
-> FUSE_DAX_FMAP is already conditional on CONFIG_FUSE_DAX, the kernel is
-> not required to continue advertising FUSE_DAX_FMAP in perpetuity.
->
-> Setting CONFIG_FUSE_DAX=3Dn does not mean userland "is broken", this woul=
-d
-> only be the case if FUSE_DAX_FMAP was advertised but not actually
-> supported.
->
-> If DAX were removed from the kernel (unlikely, but stick with me) this
-> would be equivalent to permanently changing CONFIG_FUSE_DAX to always
-> off, and there would be no squabbles over whether that particular
-> change broke userland (there would be much strife over removing dax).
->
-> While not a deprecation method, this is what capability bits are
-> designed for. Same as cpuid capability bits - just because the bit is
-> there doesn't mean a processor is required to support it in perpetuity.
->
-> They're only required to support it if the bit is turned on.
->
-> ---
->
-> I think the focus here needs to be on whether this interface ACTUALLY
-> needs to be more generic - and whether that is actually FEASIBLE.
->
-> It's not like this is a new problem - and there are real design reasons
-> why John chose this route.
->
-> The additional overhead is not trivial for FAMFS - FAMFS is not doing
-> i/o.  He already has data showing fuse caused a performance hit due to
-> overhead on open - his concern of overhead on fault being catastrophic
-> is grounded in data.
->
-> For others it's an age old problem of self-describing protocols (parsing
-> vs giant inflexible binary blobs, pick your poison).  It's extremely
-> unlikely we will find a one-size-fits-all solution that doesn't
-> eventually run right back into this same problem.
->
-> I worry that this discussion is going to turn towards implementing a
-> solution grounded in parsing arbitrary formats and how to store them,
-> and that is completely detached from why FAMFS went this route in the
-> first place.
->
-> I question whether the actual issue here lies in the interface APPEARING
-> more general purpose than it actually is - and therefore inviting
-> attempts to over-genericize it.
+> > I don't believe all early parameters can be supported by bootconfig.
+> > Some are inherently incompatible as far as I understand, while others
+> > depend on bootconfig's initialization point in the boot sequence.
+> 
+> I've developed a patch series that relocates bootconfig initialization
+> to occur before setup_arch().
+> 
+> Adopting this approach would streamline the categorization considerably,
+> as only a small subset of kernel parameters are parsed before
+> setup_arch() is called.
+> 
+> This enables a clearer distinction: parameters processed *before*
+> setup_arch() versus those handled afterward, rather than classifying
+> based on what occurs before bootconfig initialization.
+> 
+> Just to close the look and link both discussion together, the proposed
+> patch series is available at:
+> 
+> https://lore.kernel.org/all/20260415-bootconfig_earlier-v1-0-cf160175de5e@debian.org/
 
-Would you mind clarifying this part? Are you saying that the interface
-and logic is *already* generic and usable for other dax-backed
-servers, just that everything is *named* famfs but it's not really
-famfs specific? That's what I was trying to figure out - looking at
-the uapi, it seems pretty generic with defining bytes, strips, chunk
-size, etc which all seem like general concepts but the naming of it is
-so implementation-specific, eg
 
-enum fuse_famfs_file_type {
-        FUSE_FAMFS_FILE_REG,
-        FUSE_FAMFS_FILE_SUPERBLOCK,
-        FUSE_FAMFS_FILE_LOG,
-};
+Thanks for working on this series!! Let me review the series.
 
-enum famfs_ext_type {
-        FUSE_FAMFS_EXT_SIMPLE =3D 0,
-        FUSE_FAMFS_EXT_INTERLEAVE =3D 1,
-};
+BTW, I found that the current __setup(), early_param(), module_param()
+are a bit complicated, for example, __setup() and early_param() are
+stored in the different array of module_param(), and those can use
+the same parameter (e.g. console).
 
-struct fuse_famfs_simple_ext {
-        uint32_t se_devindex;
-        uint32_t reserved;
-        uint64_t se_offset;
-        uint64_t se_len;
-};
-
-struct fuse_famfs_iext { /* Interleaved extent */
-        uint32_t ie_nstrips;
-        uint32_t ie_chunk_size;
-        uint64_t ie_nbytes; /* Total bytes for this interleaved_ext;
-                             * sum of strips may be more
-                             */
-        uint64_t reserved;
-};
-
-struct fuse_famfs_fmap_header {
-        uint8_t file_type; /* enum famfs_file_type */
-        uint8_t reserved;
-        uint16_t fmap_version;
-        uint32_t ext_type; /* enum famfs_log_ext_type */
-        uint32_t nextents;
-        uint32_t reserved0;
-        uint64_t file_size;
-        uint64_t reserved1;
-};
-
-which made me think this is only famfs-specific. Are all of these
-reusable / generally applicable structs? And just to double-check, the
-computation logic in patch 6 [1] would be generic to other dax-backed
-servers as well or is that part famfs-specific?
+And as you found some of early_param() options are only applied via
+command line. Maybe we can introduce another special macro which is
+only for command line.
 
 Thanks,
-Joanne
 
-[1] https://lore.kernel.org/linux-fsdevel/0100019d43e79794-0eadcf5e-b659-43=
-f7-8fdc-dec9f4ccce14-000000@email.amazonses.com/
->
-> Is there a world here where this is solved by a name change and a
-> capability bit?  I think so.
->
-> ~Gregory
+-- 
+Masami Hiramatsu (Google) <mhiramat@kernel.org>
