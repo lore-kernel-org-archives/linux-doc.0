@@ -1,162 +1,273 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1CA935DA4C;
-	Fri, 17 Apr 2026 11:43:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B9638C42F
+	for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 11:49:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776426223; cv=none; b=KAwStqhwjVfgPEFrA9fr3w4V4VI5ZiM/ss1+87OHqDwLlysstMjQ2H/k9t81MG4cy3HsNlPVfZurXr7kuiuylYFyx5zC8E9h79Whzsquhdyw0lNgfaKmfwfo/S4aI645gSuVshGgBZPPtM6BsMC31L8q2g1xiIeAF/pADtf5QaE=
+	t=1776426553; cv=none; b=g0G3whwFBj4VGzdjIcx8yl+kO7+L0yRb/knKiNne+XiYSE72X1Giqgu2d6Ior8VwE7NLLswTjHWwYcjYxwIkFRrm+Mwk1SGnBk1CLVtrOtKPMuEXY+E0f5/kMlrdQFrqoBKXoKVg7AlO5jsqk+KUkquaAJomWZj5GsfYfHcIyjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776426223; c=relaxed/simple;
-	bh=JGgbvpvWm+Ik8ZBTXf+YL1qrGBJYpDxeijGIxjtDHkQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gOR+8PENaDKzrsVwehYpU4YeAsQi1fUzuOQImsO/Vc59ULA+ZNAmnAgKpyRNLqZE3rK8XFDVI4xuEy1ql4GViOjgl1lk3n6sNft5FNjhMwpI7Kd9BrTMBMDADHqipafiAMZy4k2JlQiXPXtXYOHLxGwBRq0MmyVhqUxVS9RSF5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rh1kWv/p; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776426553; c=relaxed/simple;
+	bh=2x6+8s34PRmlb2i1C2cRqcX+jSonW6TTU5dV5+6DUGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=oGYnPuHpuLeFLDuP7dUm+4v8jHOdViC6AwJzywmCI0w9YUO7PUXqVvMV8q8keAh0O1iaZhir9j9SUgtMNr5aF6ZY6kDVHMgHoW0daPGml9sqsxJvtNOw+aSf3BDo6sAx7UEZcMB5l94PJ472XTn0qxS+J2d+UiFevPyC/RODr2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=n31qkFQN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eID7hiG5; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=n31qkFQN; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=eID7hiG5; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rh1kWv/p"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A65EEC19425;
-	Fri, 17 Apr 2026 11:43:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776426223;
-	bh=JGgbvpvWm+Ik8ZBTXf+YL1qrGBJYpDxeijGIxjtDHkQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=rh1kWv/pWbdLIgEVHPwauDYHLUIFVZUP6FH3zD4hG9r2CQf6vxykMagcdtJFPSIIh
-	 tvy0ByCX5em5C880qRgnFn/S8aaUQANfgMCf8to2uMjMCmTq2s3rrHdNmb9hInzEHJ
-	 WMIIFTxxRM3gWA7aH/HuEO+uIXvDNsBGHX3agIUwDr2FHjMtyg8Z4+nod8NYhvHVyY
-	 HvA1V02mYmjnHe0YwVr8667tXr1ErTSWKzesTg2Nd0qQHyqrFx43Y8UNCVAvkN9ctn
-	 CF3h766uicbcARhlCRZdj/jdFjB+2gYrJdUX0NPbizpPhrgpBKqOuWk/uv54W/F0xX
-	 OHjknsEsvoAnQ==
-Message-ID: <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
-Date: Fri, 17 Apr 2026 13:43:36 +0200
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="n31qkFQN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eID7hiG5";
+	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="n31qkFQN";
+	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="eID7hiG5"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 46C286A9B1;
+	Fri, 17 Apr 2026 11:49:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776426550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hZV4dgGno8T+BMRZOHPUxoxlD1b4AiTZswKVYJ9iPYc=;
+	b=n31qkFQNRlYZbASOMDRZF5zJ7mQdileibiPoRD1I8D5OWgUY0IVttv9KhxmQHI6RQPpD6N
+	f9F2PhxqgPFuQr0tFnlzQyR2p73rBVJ6s3Rf2fP+DJFdZH+DBqWtdVAMyxR+xBX++En12l
+	wHLfqXeZzuDVQ/+PkukkaOXVxG//81Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776426550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hZV4dgGno8T+BMRZOHPUxoxlD1b4AiTZswKVYJ9iPYc=;
+	b=eID7hiG5ktoaVW8toHbXDb4ESA/AOLc28mgeLds/UVyAGueWFmUexKVDviF7/S6wKmJDM8
+	6eLjOqQznYqX/0BQ==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
+	t=1776426550; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hZV4dgGno8T+BMRZOHPUxoxlD1b4AiTZswKVYJ9iPYc=;
+	b=n31qkFQNRlYZbASOMDRZF5zJ7mQdileibiPoRD1I8D5OWgUY0IVttv9KhxmQHI6RQPpD6N
+	f9F2PhxqgPFuQr0tFnlzQyR2p73rBVJ6s3Rf2fP+DJFdZH+DBqWtdVAMyxR+xBX++En12l
+	wHLfqXeZzuDVQ/+PkukkaOXVxG//81Y=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
+	s=susede2_ed25519; t=1776426550;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=hZV4dgGno8T+BMRZOHPUxoxlD1b4AiTZswKVYJ9iPYc=;
+	b=eID7hiG5ktoaVW8toHbXDb4ESA/AOLc28mgeLds/UVyAGueWFmUexKVDviF7/S6wKmJDM8
+	6eLjOqQznYqX/0BQ==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 27725593AE;
+	Fri, 17 Apr 2026 11:49:10 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id teyWCTYe4mnZBwAAD6G6ig
+	(envelope-from <jack@suse.cz>); Fri, 17 Apr 2026 11:49:10 +0000
+Received: by quack3.suse.cz (Postfix, from userid 1000)
+	id D3DBBA0B77; Fri, 17 Apr 2026 13:49:09 +0200 (CEST)
+Date: Fri, 17 Apr 2026 13:49:09 +0200
+From: Jan Kara <jack@suse.cz>
+To: Jeff Layton <jlayton@kernel.org>
+Cc: Alexander Viro <viro@zeniv.linux.org.uk>, 
+	Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, Chuck Lever <chuck.lever@oracle.com>, 
+	Alexander Aring <alex.aring@gmail.com>, Steven Rostedt <rostedt@goodmis.org>, 
+	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	NeilBrown <neil@brown.name>, Olga Kornievskaia <okorniev@redhat.com>, 
+	Dai Ngo <Dai.Ngo@oracle.com>, Tom Talpey <tom@talpey.com>, 
+	Trond Myklebust <trondmy@kernel.org>, Anna Schumaker <anna@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Calum Mackay <calum.mackay@oracle.com>, 
+	linux-fsdevel@vger.kernel.org, linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Subject: Re: [PATCH v2 05/28] fsnotify: new tracepoint in fsnotify()
+Message-ID: <64g3qra4l7o2xm37yo3fwenbob3gdyzxdptzeabzuceegkaips@lj7ulfaltfkl>
+References: <20260416-dir-deleg-v2-0-851426a550f6@kernel.org>
+ <20260416-dir-deleg-v2-5-851426a550f6@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM guest
- memory
-To: Kiryl Shutsemau <kas@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, Peter Xu <peterx@redhat.com>,
- Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Zi Yan <ziy@nvidia.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Sean Christopherson <seanjc@google.com>, Paolo Bonzini
- <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
- kvm@vger.kernel.org
-References: <20260414142354.1465950-1-kas@kernel.org>
- <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
- <ad50rPOseVa-SP_s@thinkstation> <aeDoqFWPFxkkNB26@thinkstation>
- <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
- <aeFCuLJXT8VOkzH7@thinkstation>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aeFCuLJXT8VOkzH7@thinkstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416-dir-deleg-v2-5-851426a550f6@kernel.org>
+X-Spamd-Result: default: False [-2.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
+	RCVD_COUNT_THREE(0.00)[3];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	MIME_TRACE(0.00)[0:+];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[24];
+	RCVD_TLS_LAST(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	TO_DN_SOME(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	TAGGED_RCPT(0.00)[];
+	MISSING_XM_UA(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_CC(0.00)[zeniv.linux.org.uk,kernel.org,suse.cz,oracle.com,gmail.com,goodmis.org,efficios.com,lwn.net,linuxfoundation.org,brown.name,redhat.com,talpey.com,vger.kernel.org];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:email,suse.com:email]
+X-Spam-Flag: NO
+X-Spam-Score: -2.30
+X-Spam-Level: 
 
-On 4/16/26 22:25, Kiryl Shutsemau wrote:
-> On Thu, Apr 16, 2026 at 08:32:19PM +0200, David Hildenbrand (Arm) wrote:
->> On 4/16/26 15:49, Kiryl Shutsemau wrote:
->>>
->>> Here is an updated version:
->>>
->>> https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git/log/?h=uffd/rfc-v2
->>>
->>> will post after -rc1 is tagged.
->>>
->>> I like it more. It got substantially cleaner.
->>
->> I don't have time to look into the details just yet, but my thinking was
->> that
->>
->> a) It would avoid the zap+refault
+On Thu 16-04-26 10:35:06, Jeff Layton wrote:
+> Add a tracepoint so we can see exactly how this is being called.
 > 
-> Yep.
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+
+Looks good. Feel free to add:
+
+Reviewed-by: Jan Kara <jack@suse.cz>
+
+								Honza
+
+> ---
+>  fs/notify/fsnotify.c            |  5 ++++
+>  include/trace/events/fsnotify.h | 51 +++++++++++++++++++++++++++++++++++++++++
+>  include/trace/misc/fsnotify.h   | 35 ++++++++++++++++++++++++++++
+>  3 files changed, 91 insertions(+)
 > 
->> b) We could reuse the uffd-wp PTE bit + marker to indicate/remember the
->>    protection, making it co-exist with NUMA hinting naturally.
->>
->> b) obviously means that we cannot use uffd-wp and uffd-rwp at the same
->> time in the same uffd area. I guess that should be acceptable for the
->> use cases we you should have in mind?
+> diff --git a/fs/notify/fsnotify.c b/fs/notify/fsnotify.c
+> index 9995de1710e5..5448738635f6 100644
+> --- a/fs/notify/fsnotify.c
+> +++ b/fs/notify/fsnotify.c
+> @@ -14,6 +14,9 @@
+>  #include <linux/fsnotify_backend.h>
+>  #include "fsnotify.h"
+>  
+> +#define CREATE_TRACE_POINTS
+> +#include <trace/events/fsnotify.h>
+> +
+>  /*
+>   * Clear all of the marks on an inode when it is being evicted from core
+>   */
+> @@ -504,6 +507,8 @@ int fsnotify(__u32 mask, const void *data, int data_type, struct inode *dir,
+>  	int ret = 0;
+>  	__u32 test_mask, marks_mask = 0;
+>  
+> +	trace_fsnotify(mask, data, data_type, dir, file_name, inode, cookie);
+> +
+>  	if (path)
+>  		mnt = real_mount(path->mnt);
+>  
+> diff --git a/include/trace/events/fsnotify.h b/include/trace/events/fsnotify.h
+> new file mode 100644
+> index 000000000000..341bbd57a39b
+> --- /dev/null
+> +++ b/include/trace/events/fsnotify.h
+> @@ -0,0 +1,51 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +#undef TRACE_SYSTEM
+> +#define TRACE_SYSTEM fsnotify
+> +
+> +#if !defined(_TRACE_FSNOTIFY_H) || defined(TRACE_HEADER_MULTI_READ)
+> +#define _TRACE_FSNOTIFY_H
+> +
+> +#include <linux/tracepoint.h>
+> +
+> +#include <trace/misc/fsnotify.h>
+> +
+> +TRACE_EVENT(fsnotify,
+> +	TP_PROTO(__u32 mask, const void *data, int data_type,
+> +		 struct inode *dir, const struct qstr *file_name,
+> +		 struct inode *inode, u32 cookie),
+> +
+> +	TP_ARGS(mask, data, data_type, dir, file_name, inode, cookie),
+> +
+> +	TP_STRUCT__entry(
+> +		__field(__u32, mask)
+> +		__field(unsigned long, dir_ino)
+> +		__field(unsigned long, ino)
+> +		__field(dev_t, s_dev)
+> +		__field(int, data_type)
+> +		__field(u32, cookie)
+> +		__string(file_name, file_name ? (const char *)file_name->name : "")
+> +	),
+> +
+> +	TP_fast_assign(
+> +		__entry->mask = mask;
+> +		__entry->dir_ino = dir ? dir->i_ino : 0;
+> +		__entry->ino = inode ? inode->i_ino : 0;
+> +		__entry->s_dev = dir ? dir->i_sb->s_dev :
+> +				 inode ? inode->i_sb->s_dev : 0;
+> +		__entry->data_type = data_type;
+> +		__entry->cookie = cookie;
+> +		__assign_str(file_name);
+> +	),
+> +
+> +	TP_printk("dev=%d:%d dir=%lu ino=%lu data_type=%d cookie=0x%x mask=0x%x %s name=%s",
+> +		  MAJOR(__entry->s_dev), MINOR(__entry->s_dev),
+> +		  __entry->dir_ino, __entry->ino,
+> +		  __entry->data_type, __entry->cookie,
+> +		  __entry->mask, show_fsnotify_mask(__entry->mask),
+> +		  __get_str(file_name))
+> +);
+> +
+> +#endif /* _TRACE_FSNOTIFY_H */
+> +
+> +/* This part must be outside protection */
+> +#include <trace/define_trace.h>
+> diff --git a/include/trace/misc/fsnotify.h b/include/trace/misc/fsnotify.h
+> new file mode 100644
+> index 000000000000..a201e1bd6d8c
+> --- /dev/null
+> +++ b/include/trace/misc/fsnotify.h
+> @@ -0,0 +1,35 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * Display helpers for fsnotify events
+> + */
+> +
+> +#include <linux/fsnotify_backend.h>
+> +
+> +#define show_fsnotify_mask(mask) \
+> +	__print_flags(mask, "|", \
+> +		{ FS_ACCESS,		"ACCESS" }, \
+> +		{ FS_MODIFY,		"MODIFY" }, \
+> +		{ FS_ATTRIB,		"ATTRIB" }, \
+> +		{ FS_CLOSE_WRITE,	"CLOSE_WRITE" }, \
+> +		{ FS_CLOSE_NOWRITE,	"CLOSE_NOWRITE" }, \
+> +		{ FS_OPEN,		"OPEN" }, \
+> +		{ FS_MOVED_FROM,	"MOVED_FROM" }, \
+> +		{ FS_MOVED_TO,		"MOVED_TO" }, \
+> +		{ FS_CREATE,		"CREATE" }, \
+> +		{ FS_DELETE,		"DELETE" }, \
+> +		{ FS_DELETE_SELF,	"DELETE_SELF" }, \
+> +		{ FS_MOVE_SELF,		"MOVE_SELF" }, \
+> +		{ FS_OPEN_EXEC,		"OPEN_EXEC" }, \
+> +		{ FS_UNMOUNT,		"UNMOUNT" }, \
+> +		{ FS_Q_OVERFLOW,	"Q_OVERFLOW" }, \
+> +		{ FS_ERROR,		"ERROR" }, \
+> +		{ FS_OPEN_PERM,		"OPEN_PERM" }, \
+> +		{ FS_ACCESS_PERM,	"ACCESS_PERM" }, \
+> +		{ FS_OPEN_EXEC_PERM,	"OPEN_EXEC_PERM" }, \
+> +		{ FS_PRE_ACCESS,	"PRE_ACCESS" }, \
+> +		{ FS_MNT_ATTACH,	"MNT_ATTACH" }, \
+> +		{ FS_MNT_DETACH,	"MNT_DETACH" }, \
+> +		{ FS_EVENT_ON_CHILD,	"EVENT_ON_CHILD" }, \
+> +		{ FS_RENAME,		"RENAME" }, \
+> +		{ FS_DN_MULTISHOT,	"DN_MULTISHOT" }, \
+> +		{ FS_ISDIR,		"ISDIR" })
 > 
-> I took a different path: I still use PROT_NONE PTEs, so it cannot
-> co-exist with NUMA balancing [fully], but WP + RWP should be fine. I
-> need to add a test for this.
+> -- 
+> 2.53.0
 > 
-> I didn't give up on NUMA balancing completely. task_numa_fault() is
-> called on RWP fault. So it should help scheduler decisions somewhat.
-> 
-> I think an RWP user might want to use WP too.
-> 
-> Do you see this trade-off as reasonable?
-
-One reason why the PTE bit was added for the WP case was to distinguish
-it from other write faults.
-
-I assume without a dedicated PTE bit your design will always suffer from
-false positive notifications.
-
-Leaving NUMA-balancing aside, a simple
-mprotect(PROT_NONE)+mprotect(PROT_READ) would already be problematic to
-distinguish both cases. Zap+refault for shmem would likely have similar
-problems (we'd need a marker).
-
-I don't think a design that allows for false positives is what we really
-want, especially as it would diverge from what we already have for WP.
-
-Yes, using the PTE bit (that we already have) implies that we could, for
-now, not allow the combination of WP + RWP.
-
 -- 
-Cheers,
-
-David
+Jan Kara <jack@suse.com>
+SUSE Labs, CR
