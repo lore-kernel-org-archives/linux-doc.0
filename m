@@ -1,232 +1,73 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [207.46.229.174])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5DEB18A6A7;
-	Sat, 18 Apr 2026 09:11:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.46.229.174
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F259A36DA18;
+	Sat, 18 Apr 2026 09:11:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776503493; cv=none; b=rPQTld5ib37pi5hZroZja9bz2HoaxdJiaiiyRPOOfe++cTj5QnBcwDJpZ88bUEHPkuKu67pU3be5O6Nr4u9r0B4X0WEJoiYBokwzKxzN0HHHzlYbEya21KNesyO4c/7GXoeTspIT01T55aVyqpdFlWfjIR0ELyIVX+P/LZ4HxyU=
+	t=1776503509; cv=none; b=lkTtKikbAP4v00wrK6MDSxaC8m2AjqOE5RE8YPbQAdVEcEo9kuplAq6dCF21Ho8yYKX5Cw9QQbBV4MtWkDckurGCRdYEjmDpqRgDWsNGg5OkwxEcnpJILrVJxidl2VaJNLlQLFepsfG29eu+I7jGBakfRfPaTO3e2pB8UgWtEhk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776503493; c=relaxed/simple;
-	bh=p/hJUGszr+hzZuyEGtlC7TZs4v0EG4I0FUo0LKmkLYE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=BOlHuYb/+39gDW+nL4xpadETyW2fCOLhJF+hEBSnzEbNsfziyKckwFZ4TThJsaEmQouqhfytDM2NKCeVHTOV6lDQFnbmDJxB5hl+VfMgLkhdH/nh7PHLtNLSgY8jLtPVY4x44twlswHnHhrPSHll18FMETNDqkpwudcrK0rVaFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=207.46.229.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app1 (Coremail) with SMTP id HgEQrAAXH9+QSuNpGMPXAw--.8203S2;
-	Sat, 18 Apr 2026 17:10:40 +0800 (CST)
-Received: from pride-PowerEdge-R740.tailb307d0.ts.net (unknown [10.12.190.55])
-	by gateway (Coremail) with SMTP id _____wDXF6mLSuNpSr7ZAQ--.32600S2;
-	Sat, 18 Apr 2026 17:10:36 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org,
+	s=arc-20240116; t=1776503509; c=relaxed/simple;
+	bh=8XrR0J6f/Ozigwen3EtXhgckW7YTfzkoFDQXYPRcQ9U=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DQm75Oab95IdHIhgFXNTGCe/1TNtIz9c0Dbe3QARJOH5jUXTbTJw6GvXUNrrBJdlZCcg8//jftZ0LFThTF2EwRybXzKfT0KOdPLCXB7p8tLCN60G1rYLvLwNgr+y5cUogdtjyeacJf4Rf4XqsTRIoH8rXvE3wumL15LTHryUjyI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eEhQyFXT; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eEhQyFXT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 445E3C19424;
+	Sat, 18 Apr 2026 09:11:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776503508;
+	bh=8XrR0J6f/Ozigwen3EtXhgckW7YTfzkoFDQXYPRcQ9U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=eEhQyFXTsw7IYl8v+r+InRT08KNOYYKUYrHoDxNFUUIF4Oj9epIUFOlpRnBFakm6B
+	 495gUhZlSAvTNdYx8pU0EtwH6BTRD62Lct8aF632LTiAUl7WvK/qTAxyEBNeZx3+K/
+	 dKiwXbhWB6Zj4Qi5MNqjLn6ryWuUzlifrQcP7hupzM9AznmV99n5Bq7ZAWzJKnbdAp
+	 cNrC+V3tOjs8f/Iis086NT4I90Gt8uMVei3KJrM0oP/QIAGUBoTf6mKwXpc6iCH+21
+	 /Orp8tGfGbY/sUxYW6cc28QalsG924tUb0ZIubdzlqoPX0xRbbtJZpknFKpk5UjIsJ
+	 pwS4xZoXje4Vg==
+Date: Sat, 18 Apr 2026 10:11:41 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Nick Huang <sef1548@gmail.com>
+Cc: Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: polish how-to.rst
-Date: Sat, 18 Apr 2026 17:10:12 +0800
-Message-ID: <20260418091014.2064780-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab
+ documentation
+Message-ID: <aeNKDh8S6pXHqRFh@lucifer>
+References: <20260418000635.17499-1-sef1548@gmail.com>
+ <aeMQ36jFnCKmCSyA@casper.infradead.org>
+ <CABZAGREDHwsXMm65_WxEn=v-zTv7_eVqQzQeCRqU2Gyc0aTETQ@mail.gmail.com>
+ <CABZAGRGFpiiEr7Odd5an1+9Z+sX1C6QT2iadv-0hNhxGj8eEyg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAAXH9+QSuNpGMPXAw--.8203S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoWfGF4fKFWfWFWkJrWxXF13Jwb_yoWDtw4kpF
-	ZrKrWxKw40kFyUZryv9a13Cw1rGrZrGrW7Kr1kt3Zagry0yrZ0y3yjgF9Yqas7Wr97AFyD
-	JrZYvrWFyrWa9rUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQab7Iv0xC_tr1lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jhcTQUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+In-Reply-To: <CABZAGRGFpiiEr7Odd5an1+9Z+sX1C6QT2iadv-0hNhxGj8eEyg@mail.gmail.com>
 
-Editorial pass on the Chinese translation contributor guide.
+On Sat, Apr 18, 2026 at 02:12:22PM +0800, Nick Huang wrote:
+> Nick Huang <sef1548@gmail.com> 於 2026年4月18日週六 下午1:27寫道：
+> >
+> > Matthew Wilcox <willy@infradead.org> 於 2026年4月18日週六 下午1:04寫道：
+> > >
+> > > On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
+> > > > - Add "Overview" section explaining the slab allocator's role and purpose
+> > > > - Document the three main slab allocator implementations (SLAB, SLUB, SLOB)
+> Hi Matthew Wilcox
+> I will remove this sentence in the next version:
+> “Document the three main slab allocator implementations (SLAB, SLUB, SLOB).”
+> I’m not entirely sure I fully understand your point. If I’ve missed
+> anything, please let me know what needs to be changed. Thank you.
 
- - Fix typos: 网络通常 → 通畅; remove trailing backticks on the
-   checktransupdate.py command; mis-placed 。 → ， in the 紧急处理
-   section; 您/你 and 的/地 inconsistencies in 进阶.
- - Correct "git email" to "git send-email", matching usage
-   elsewhere in the document.
- - Replace an invalid <URL> inline form with a bare URL so Sphinx
-   renders the lore.kernel.org link.
- - Tighten grammar and wording: 针对于 → 面向; drop redundant
-   最多 before 不超过 and tautological 即可; remove double 的 in
-   您的翻译的内容; resolve ambiguity around 继续 placement in the
-   把补丁提交到邮件列表 section; and similar small fixes.
-
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/how-to.rst | 46 ++++++++++-----------
- 1 file changed, 23 insertions(+), 23 deletions(-)
-
-diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index 7ae5d8765888..a46d7395b11c 100644
---- a/Documentation/translations/zh_CN/how-to.rst
-+++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -13,20 +13,20 @@ Linux 内核中文文档翻译规范
- 过去几年，在广大社区爱好者的友好合作下，Linux 内核中文文档迎来了蓬勃的发
- 展。在翻译的早期，一切都是混乱的，社区对译稿只有一个准确翻译的要求，以鼓
- 励更多的开发者参与进来，这是从 0 到 1 的必然过程，所以早期的中文文档目录
--更加具有多样性，不过好在文档不多，维护上并没有过大的压力。
-+呈现出较强的多样性，不过好在文档不多，维护上并没有过大的压力。
- 
- 然而，世事变幻，不觉有年，现在内核中文文档在前进的道路上越走越远，很多潜
- 在的问题逐渐浮出水面，而且随着中文文档数量的增加，翻译更多的文档与提高中
- 文文档可维护性之间的矛盾愈发尖锐。由于文档翻译的特殊性，很多开发者并不会
- 一直更新文档，如果中文文档落后英文文档太多，文档更新的工作量会远大于重新
- 翻译。而且邮件列表中陆续有新的面孔出现，他们那股热情，就像燃烧的火焰，能
--瞬间点燃整个空间，可是他们的补丁往往具有个性，这会给审阅带来了很大的困难，
-+瞬间点燃整个空间，可是他们的补丁往往具有个性，这给审阅带来了很大的困难，
- reviewer 们只能耐心地指导他们如何与社区更好地合作，但是这项工作具有重复
- 性，长此以往，会渐渐浇灭 reviewer 审阅的热情。
- 
--虽然内核文档中已经有了类似的贡献指南，但是缺乏专门针对于中文翻译的，尤其
-+虽然内核文档中已经有了类似的贡献指南，但是缺乏专门面向中文翻译的，尤其
- 是对于新手来说，浏览大量的文档反而更加迷惑，该文档就是为了缓解这一问题而
--编写，目的是为提供给新手一个快速翻译指南。
-+编写，旨在为新手提供一份快速翻译指南。
- 
- 详细的贡献指南：Documentation/translations/zh_CN/process/index.rst。
- 
-@@ -145,8 +145,8 @@ Git 和邮箱配置
- 	sudo dnf install git-email
- 	vim ~/.gitconfig
- 
--这里是我的一个配置文件示范，请根据您的邮箱域名服务商提供的手册替换到对
--应的字段。
-+这里是我的一个配置文件示范，请根据您的邮箱域名服务商提供的手册替换对应
-+的字段。
- ::
- 
- 	[user]
-@@ -190,7 +190,7 @@ Git 和邮箱配置
- 译文格式要求
- ------------
- 
--	- 每行长度最多不超过 40 个字符
-+	- 每行长度不超过 40 个字符
- 	- 每行长度请保持一致
- 	- 标题的下划线长度请按照一个英文一个字符、一个中文两个字符与标题对齐
- 	- 其它的修饰符请与英文文档保持一致
-@@ -211,7 +211,7 @@ Git 和邮箱配置
- --------
- 
- 中文文档有每行 40 字符限制，因为一个中文字符等于 2 个英文字符。但是社区并
--没有那么严格，一个诀窍是将您的翻译的内容与英文原文的每行长度对齐即可，这样，
-+没有那么严格，一个诀窍是将您翻译的内容与英文原文的每行长度对齐，这样，
- 您也不必总是检查有没有超限。
- 
- 如果您的英文阅读能力有限，可以考虑使用辅助翻译工具，例如 deepseek。但是您
-@@ -309,8 +309,8 @@ warning 不需要解决::
- 
- 重新导出再次检测，重复这个过程，直到处理完所有的补丁。
- 
--最后，如果检测时没有 warning 和 error 需要被处理或者您只有一个补丁，请跳
--过下面这个步骤，否则请重新导出补丁制作封面::
-+最后，如果检测时没有需要处理的 warning 和 error，或者您只有一个补丁，请
-+跳过下面这个步骤，否则请重新导出补丁制作封面::
- 
- 	git format-patch -N --cover-letter --thread=shallow
- 	# N 要替换为补丁数量，一般 N 大于 1
-@@ -335,7 +335,7 @@ warning 不需要解决::
- 	  docs/zh_CN: add xxxxx
- 	...
- 
--如果您只有一个补丁，则可以不制作封面，即 0 号补丁，只需要执行::
-+如果您只有一个补丁，则无需制作封面（即 0 号补丁），只需执行::
- 
- 	git format-patch -1
- 
-@@ -361,13 +361,13 @@ warning 不需要解决::
- 	git send-email *.patch --to <maintainer email addr> --cc <others addr>
- 	# 一个 to 对应一个地址，一个 cc 对应一个地址，有几个就写几个
- 
--执行该命令时，请确保网络通常，邮件发送成功一般会返回 250。
-+执行该命令时，请确保网络通畅，邮件发送成功一般会返回 250。
- 
- 您可以先发送给自己，尝试发出的 patch 是否可以用 'git am' 工具正常打上。
- 如果检查正常， 您就可以放心的发送到社区评审了。
- 
--如果该步骤被中断，您可以检查一下，继续用上条命令发送失败的补丁，一定不要再
--次发送已经发送成功的补丁。
-+如果该步骤被中断，您可以检查一下，然后用上条命令继续发送失败的补丁，一定不
-+要再次发送已经发送成功的补丁。
- 
- 积极参与审阅过程并迭代补丁
- ==========================
-@@ -380,7 +380,7 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
- 
-  - 请先将您的邮箱客户端信件回复修改为 **纯文本** 格式，并去除所有签名，尤其是
-    企业邮箱。
-- - 然后点击回复按钮，并将要回复的邮件带入，
-+ - 然后点击回复按钮，并引用要回复的邮件，
-  - 在第一条评论行尾换行，输入您的回复
-  - 在第二条评论行尾换行，输入您的回复
-  - 直到处理完最后一条评论，换行空两行输入问候语和署名
-@@ -425,10 +425,10 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
- 紧急处理
- --------
- 
--如果您发送到邮件列表之后。发现发错了补丁集，尤其是在多个版本迭代的过程中；
-+如果您发送到邮件列表之后，发现发错了补丁集，尤其是在多个版本迭代的过程中；
- 自己发现了一些不妥的翻译；发送错了邮件列表……
- 
--git email 默认会抄送给您一份，所以您可以切换为审阅者的角色审查自己的补丁，
-+git send-email 默认会抄送给您一份，所以您可以切换为审阅者的角色审查自己的补丁，
- 并留下评论，描述有何不妥，将在下个版本怎么改，并付诸行动，重新提交，但是
- 注意频率，每天提交的次数不要超过两次。
- 
-@@ -437,7 +437,7 @@ git email 默认会抄送给您一份，所以您可以切换为审阅者的角
- 对于首次参与 Linux 内核中文文档翻译的新手，建议您在 linux 目录中运行以下命令：
- ::
- 
--	tools/docs/checktransupdate.py -l zh_CN``
-+	tools/docs/checktransupdate.py -l zh_CN
- 
- 该命令会列出需要翻译或更新的英文文档，结果同时保存在 checktransupdate.log 中。
- 
-@@ -446,9 +446,9 @@ git email 默认会抄送给您一份，所以您可以切换为审阅者的角
- 进阶
- ----
- 
--希望您不只是单纯的翻译内核文档，在熟悉了一起与社区工作之后，您可以审阅其他
-+希望您不只是单纯地翻译内核文档，在熟悉了与社区协作之后，您可以审阅其他
- 开发者的翻译，或者提出具有建设性的主张。与此同时，与文档对应的代码更加有趣，
--而且需要完善的地方还有很多，勇敢地去探索，然后提交你的想法吧。
-+而且需要完善的地方还有很多，勇敢地去探索，然后提交您的想法吧。
- 
- 常见的问题
- ==========
-@@ -467,7 +467,7 @@ Maintainer 回复补丁不能正常 apply
- ------------------
- 
- 大部分情况下，是由于您发送了非纯文本格式的信件，请尽量避免使用 webmail，推荐
--使用邮件客户端，比如 thunderbird，记得在设置中的回信配置那改为纯文本发送。
-+使用邮件客户端，比如 thunderbird，记得在设置的回信配置中改为纯文本发送。
- 
--如果超过了 24 小时，您依旧没有在<https://lore.kernel.org/linux-doc/>发现您的
--邮件，请联系您的网络管理员帮忙解决。
-+如果超过了 24 小时，您依旧没有在 https://lore.kernel.org/linux-doc/ 上找到您
-+的邮件，请联系您的网络管理员帮忙解决。
--- 
-2.43.0
-
+No, please don't send any more revisions of this garbage, thanks.
