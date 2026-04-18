@@ -1,112 +1,149 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BAA726290;
-	Sat, 18 Apr 2026 08:20:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A22327C09;
+	Sat, 18 Apr 2026 09:07:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776500453; cv=none; b=tTBgDlqsHGvbdlBK3GUZxyii2N4koilo6Kp+n2o++KxxewkkbX24JhDKbTQKJHUsxx708G3w8lA+w8g8Cwrt4XN7LZDAug+8Xlp6htYi3ALATRE7DSCE1O0eWYEZqktHh5I1bo1qlUVNCqrnCGBa1EaIR4gX3g288oJYW9Z8vfw=
+	t=1776503250; cv=none; b=M0lYhfIEGRVahPQO2yRF1yZW0n2RtL6zlOPW5bQqwN/7loKh/o7oMKqZDkfsq76p7kmbRMRyZNPzQ/R/fmRMRr/xusgTFW/4TcCE8yYRVPxA7/RveAQ3CQklOTnh3PzoR9VT7KnTlFVUsLRQcnuSOPvgVsu5sJeTRKnwqOKXS+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776500453; c=relaxed/simple;
-	bh=6pigEJb6MjU5WOzv3cHoV2MRbx3gnmposFMAjl091HA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=PqiBZT4xmnlP4GXI621M+xX9qGk8n8q8jkjwh+sdJNvDDsrDL6OShoPuRv8vuy67CddOWJhLRQ9hianaCH6tsL1i4XD+/TtPJp1Ay8BErNBGjFOTFfjor3MLvVKaThkKPmiPv5T7QXixtQBx5kxG3bwEiVjZDRdjZtThgGHMkpg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=JpwUrAuh reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1776503250; c=relaxed/simple;
+	bh=YA5a7LW/8SIrN7QzNwi1X4GpsR9ltQhDlTH0dSO7vFg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Zn9bGRe3uO8WKoCv5QL+XpVukb3U5NtfiSNe2YymE1qh/A5IiGHwrQ0xfWdA6IjVvQ+i0Dlh3pCEtaZiQAOiT4AwlWj0BkXDIOYM3xlA0AZ6wMXvzRqlIDcAKd+CnxbBZe0UrheqQ3rqVklBl4tIQBwrNJMDe+Qq8EpMXlNC6Kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TG7KWcuZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="JpwUrAuh"
-Received: from h205.csg.ci.i.u-tokyo.ac.jp (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 63I8EbAe001871
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 18 Apr 2026 17:15:02 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=Vpu164nWx4WQH4ej/oGZKppmfZaoPsbjbattGAiYgSg=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-Id:To:Subject:Date;
-        s=rs20250326; t=1776500102; v=1;
-        b=JpwUrAuhhIIjWvHb4Wrz851b8T5JrYXSGoHkvhkQgv9yJiGepJg5wCf4RHNzkEja
-         aolXogIXvkhi0RXOXhq9+wvqsOYWH6q96xZ7MkoVhOrO7VLg2cVvdxRXgubIZZoA
-         O8NvF/xRKHsa87n8LZw3X7/LhIDDs0jD8wIFrjiwcT7YrcGP1f2HWzk5LPeBxGxS
-         Ga4J5SAGL/nTPTWFMfPT+sm6a6xGHaYuTC7VikzXu095Kei8CdOgCV43+G52ZoVC
-         anJKg4pPQ5wBj6cA1n7/rzGSJgtAJG5YlaR5iF4A1JVlUVpzZYVVFpXGK/Jh8mrF
-         cIk/HujGJDJuvuE8qkH/cA==
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Date: Sat, 18 Apr 2026 17:14:23 +0900
-Subject: [PATCH v7 1/4] KVM: arm64: PMU: Add kvm_pmu_enabled_counter_mask()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TG7KWcuZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 736CDC19424;
+	Sat, 18 Apr 2026 09:07:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776503249;
+	bh=YA5a7LW/8SIrN7QzNwi1X4GpsR9ltQhDlTH0dSO7vFg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TG7KWcuZ4i7DPajHSII/lpzC5PZ4KQUeHsHChwpJ1RTY6ap325/2WSvpnBZwKP/QT
+	 JcPyTwh0zZCMKaBTNRIDsOKvBeC/6ZX/6tyzFxi0TEYLCGqhjW70vI0NW0xfe4qCRl
+	 LHK0ordRGNSG6KbAC1PPjahDiUzUdqyut9xrWdCG7nkU3PA3T1pY8TlZwIXqXf9L5y
+	 pE0lggIZby7ILLId6Ff/EKWvMCE+E2gOk7JnXKwj3CgIaXJkuVxEfp9rE0+QA39LgT
+	 UTfGP8jtZZ55qxBERh7/5KdkPDJdea7UBcA9T+HWRVC1X+uPWmrqgzf5WUvee4SVtz
+	 UUqxsEIGmb/Ag==
+Date: Sat, 18 Apr 2026 10:07:22 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: Nick Huang <sef1548@gmail.com>
+Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
+	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab
+ documentation
+Message-ID: <aeNGbNyPxJssnkbO@lucifer>
+References: <20260418000635.17499-1-sef1548@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260418-hybrid-v7-1-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
-        Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>
-Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kselftest@vger.kernel.org,
-        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-X-Mailer: b4 0.15-dev-5ab4c
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260418000635.17499-1-sef1548@gmail.com>
 
-This function will be useful to enumerate enabled counters.
+NAK to obvious, disrespectful, AI slop garbage.
 
-Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
----
- arch/arm64/kvm/pmu-emul.c | 22 ++++++++++++++--------
- 1 file changed, 14 insertions(+), 8 deletions(-)
+Go read https://docs.kernel.org/process/generated-content.html - especially the
+bit about dismissing crap like this.
 
-diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
-index b03dbda7f1ab..59ec96e09321 100644
---- a/arch/arm64/kvm/pmu-emul.c
-+++ b/arch/arm64/kvm/pmu-emul.c
-@@ -619,18 +619,24 @@ void kvm_pmu_handle_pmcr(struct kvm_vcpu *vcpu, u64 val)
- 	}
- }
- 
--static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc)
-+static u64 kvm_pmu_enabled_counter_mask(struct kvm_vcpu *vcpu)
- {
--	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
--	unsigned int mdcr = __vcpu_sys_reg(vcpu, MDCR_EL2);
-+	u64 mask = 0;
- 
--	if (!(__vcpu_sys_reg(vcpu, PMCNTENSET_EL0) & BIT(pmc->idx)))
--		return false;
-+	if (__vcpu_sys_reg(vcpu, MDCR_EL2) & MDCR_EL2_HPME)
-+		mask |= kvm_pmu_hyp_counter_mask(vcpu);
- 
--	if (kvm_pmu_counter_is_hyp(vcpu, pmc->idx))
--		return mdcr & MDCR_EL2_HPME;
-+	if (kvm_vcpu_read_pmcr(vcpu) & ARMV8_PMU_PMCR_E)
-+		mask |= ~kvm_pmu_hyp_counter_mask(vcpu);
-+
-+	return __vcpu_sys_reg(vcpu, PMCNTENSET_EL0) & mask;
-+}
-+
-+static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc)
-+{
-+	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
- 
--	return kvm_vcpu_read_pmcr(vcpu) & ARMV8_PMU_PMCR_E;
-+	return kvm_pmu_enabled_counter_mask(vcpu) & BIT(pmc->idx);
- }
- 
- static bool kvm_pmc_counts_at_el0(struct kvm_pmc *pmc)
+On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
+> - Add "Overview" section explaining the slab allocator's role and purpose
+> - Document the three main slab allocator implementations (SLAB, SLUB, SLOB)
 
--- 
-2.53.0
+The fact you're insanely wrong about the current state of slab only makes this
+worse.
 
+> - Highlight SLUB as the default allocator on modern systems
+
+Not default. Only...
+
+> - Add "SLUB Allocator" subsection with detailed information:
+
+There's nothing detailed...
+
+> - Explain SLUB's design goals and advantages over legacy SLAB
+
+Irrelevant, SLAB doesn't exist.
+
+> - Document its focus on simplification and performance
+
+Who cares? This isn't linked in?
+
+> - Note support for both uniprocessor and SMP systems
+
+Uniprocessor? Seriously?
+
+>
+> Signed-off-by: Nick Huang <sef1548@gmail.com>
+> ---
+>  Documentation/mm/slab.rst | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/Documentation/mm/slab.rst b/Documentation/mm/slab.rst
+> index 2bcc58ada302..2d1d093afb7b 100644
+> --- a/Documentation/mm/slab.rst
+> +++ b/Documentation/mm/slab.rst
+> @@ -4,6 +4,32 @@
+>  Slab Allocation
+>  ===============
+>
+> +Overview
+> +========
+> +
+> +The slab allocator is responsible for efficient allocation and reuse of
+> +small kernel objects. It reduces internal fragmentation and improves
+> +performance by caching frequently used objects.
+
+This sentence doesn't even make any sense.
+
+> +
+> +The Linux kernel provides multiple slab allocator implementations,
+> +including SLAB, SLUB, and SLOB. Among these, SLUB is the default
+> +allocator on most modern systems.
+
+WRONG. WRONG. WRONG.
+
+> +
+> +SLUB Allocator
+> +==============
+> +
+> +Overview
+> +--------
+> +
+> +SLUB is a slab allocator designed to replace the legacy SLAB allocator
+> +(mm/slab.c). It addresses the complexity, scalability limitations, and
+> +memory overhead of the SLAB implementation.
+
+This is useless crap? 'X is designed to replace Y which doesn't exist but let's
+mention it anyway'. How is this an overview?
+
+> +
+> +The primary goal of SLUB is to simplify slab allocation while improving
+> +performance on both uniprocessor (UP) and symmetric multiprocessing (SMP)
+> +systems.
+
+This is meaningless noise too.
+
+> +
+> +
+>  Functions and structures
+>  ========================
+>
+> --
+> 2.43.0
+>
+
+You've wasted my time, your time and other people's time. Have a think about
+that.
+
+Lorenzo
