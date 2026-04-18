@@ -1,82 +1,85 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5216628000F;
-	Sat, 18 Apr 2026 16:15:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073492E7F17;
+	Sat, 18 Apr 2026 19:24:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776528917; cv=none; b=faihc4Hz+MTY2dz5YXvob47hhRzirXyWEQwE1xTba3P5ZfvUDMS/UdXEGjgp1YO/nBySjLQsADXwUgyVkR4btoLiZtuJlwlqxUs5vH80S0E3wEBw6+QNW+1XL+Lwq8NTA38P9VeV7gWOarMQcMtIFcggrE+1zYKz3RtFrn7U6Y8=
+	t=1776540249; cv=none; b=ssOFNPw0Qm1zNR5HWjXWBmsSY5HdpxmMpyvGWSJhOSmJgOV7qBMGNmbQ6bq77ONKlHiA1ItHETLxvKNkNeYQRgaIFtgX3xAXmzIliG4c+MqSWMhJ8qW/K8aIX6cqx0aO9Y8xVQ9sjK+hj2Wk0d1lJ3CEecw2syiDGVsPHNZvZ7I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776528917; c=relaxed/simple;
-	bh=QqDs7PYPRBWen9JP1EXubiW+KO5rKnPRH0+yrINyrFE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aWdKgQdlSUcWkgtfgKDReQhHY3e2wZ+WZoWbY1Hmc0YQzZFS01ra6V2hKn1tYgi53fIrduoBg0FenGqmnRYhLxvIiliZI1xg012h8KjPQRCthYkOz285X/F6WObv0oU6LePbBThyQRQcT3BLhefsrKgq4oNoLdhQG6l3lhEe6y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=a9NCpFDe; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776540249; c=relaxed/simple;
+	bh=tdg4zOtm2+jWeFUWUcvNyKmrLirMTYPG+xQCk+Ju4qo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=b43quQEXG4JOt7oSvA0jiwO/lJAuz/RienYUW3lEJ076xwU1nUlO/YmW4p1k1gR2eCf4eQJ1mdWD5Myac69e+/DThg1/nSOawYI6N8sp4rdEcWW+U0boMWUQPVzAuR0vssgtvClqc3xXhDtLzrwZMPDm7hJNRGtdobUnxYNjiuA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tYyxCzzT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="a9NCpFDe"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=WXjaVcU0HcKrPw7CYCyN4QEtiplgwntWJoRV59jKzzU=; b=a9NCpFDeaYKGkdhDEuc6SmCNna
-	n2RKJBv1X1Fs9p8AeOFyWTDTNn3PQYo4qn9pkRbkMVIc5LhX8tVU9AHwRk24yxmqyKeGk8L0eE+a4
-	Y1DIKjkV/DdmS/+czfftl3HP7MxscyVw2Dx7oQ66kRK0N6Sk3hyHsz4KueHKeqgTdcZuEWtjbf4y6
-	KVh1SLthde9VNGjWN2kkAhrgDB4Zj60yJJhLPC+EOrAD4+ZFRzgvEum7a6IRVGnryQosi3ZrTvLRs
-	cA4BqscZscQ9Ylkn5KZyLyBQbTEBzp5GFsgLDHPdTThQE15tV1Q8mRN/VzjIZRg46QA6zEQfyF7q/
-	ir031dDw==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wE8K0-00000005jk3-3mIU;
-	Sat, 18 Apr 2026 16:15:04 +0000
-Date: Sat, 18 Apr 2026 17:15:04 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Lorenzo Stoakes <ljs@kernel.org>
-Cc: Nick Huang <sef1548@gmail.com>, Vlastimil Babka <vbabka@kernel.org>,
-	Harry Yoo <harry@kernel.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab
- documentation
-Message-ID: <aeOuCH8ydw_yzdXZ@casper.infradead.org>
-References: <20260418000635.17499-1-sef1548@gmail.com>
- <aeNGbNyPxJssnkbO@lucifer>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tYyxCzzT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4913BC19424;
+	Sat, 18 Apr 2026 19:24:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776540248;
+	bh=tdg4zOtm2+jWeFUWUcvNyKmrLirMTYPG+xQCk+Ju4qo=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tYyxCzzT1R89UW9F2aL4j7LYHsN2rKCfKC0EDNFBuJNDwkQjCYl+On/Qar2nGEqG5
+	 lIVglS5Vf8P25/YDYvj9RXRJDr2MxYn4Oic7eyF6hKLPLpJk/3CBcqdL+Q0BswIQpD
+	 R0AWU99P7Mpqlrja8f2SKT8lh/qEEQ/ct+s5a+Y1SNFKo2kH17dV+Bld8zo8KKwvtG
+	 ePSA1hGoWarmM1IGRTL11vKVaVrTMH2zuhtiLAOLt8K6B/6mjdJvRibjjqwPV1kehP
+	 xlNrxbIqJ2EHs++QY/RKgqymagtfls+kr19aLK4UZBXvaC2j39Sop+hIN/exvTZiXi
+	 bWg2JgETXrGXg==
+From: Eric Biggers <ebiggers@kernel.org>
+To: linux-crypto@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Ard Biesheuvel <ardb@kernel.org>,
+	"Jason A . Donenfeld" <Jason@zx2c4.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Eric Biggers <ebiggers@kernel.org>
+Subject: [PATCH v2 0/2] Improve the crypto library documentation
+Date: Sat, 18 Apr 2026 12:21:36 -0700
+Message-ID: <20260418192138.15556-1-ebiggers@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeNGbNyPxJssnkbO@lucifer>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Apr 18, 2026 at 10:07:22AM +0100, Lorenzo Stoakes wrote:
-> On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
-> > - Add "Overview" section explaining the slab allocator's role and purpose
-> > - Document the three main slab allocator implementations (SLAB, SLUB, SLOB)
-> 
-> The fact you're insanely wrong about the current state of slab only makes this
-> worse.
+While the crypto library already has a lot of kernel-doc, it's not being
+included in the HTML or PDF documentation (except for the SHA-3
+kernenl-doc which is already included).  Update Documentation/crypto/ to
+include it, and also add a high-level overview of the library.
 
-This is actually a new low.  We've always had to contend with people
-putting up outdated or just wrong information on web pages, and there's
-little we can do about it.  Witness all the outdated information about
-THP that's based on code that's been deleted for over a decade.
+I'd like to take this series via the libcrypto tree for 7.1.
 
-But now we've got AI trained on all this wrong/ out of date information,
-and, er, "enthusiasts" who are trying to change the correct information
-in the kernel to match what the deluded AI "thinks" should be true.
+Changed in v2:
+   - Use simple string replacement instead of regex in kdoc_parser.py
+   - Minor editorial revisions
 
-Let that sink in.
+Eric Biggers (2):
+  docs: kdoc: Expand 'at_least' when creating parameter list
+  lib/crypto: docs: Add rst documentation to Documentation/crypto/
+
+ Documentation/crypto/index.rst                |   2 +-
+ .../crypto/libcrypto-blockcipher.rst          |  19 ++
+ Documentation/crypto/libcrypto-hash.rst       |  86 +++++++++
+ Documentation/crypto/libcrypto-signature.rst  |  11 ++
+ Documentation/crypto/libcrypto-utils.rst      |   6 +
+ Documentation/crypto/libcrypto.rst            | 165 ++++++++++++++++++
+ Documentation/crypto/sha3.rst                 |   2 +
+ tools/lib/python/kdoc/kdoc_parser.py          |   5 +
+ 8 files changed, 295 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/crypto/libcrypto-blockcipher.rst
+ create mode 100644 Documentation/crypto/libcrypto-hash.rst
+ create mode 100644 Documentation/crypto/libcrypto-signature.rst
+ create mode 100644 Documentation/crypto/libcrypto-utils.rst
+ create mode 100644 Documentation/crypto/libcrypto.rst
+
+
+base-commit: 8541d8f725c673db3bd741947f27974358b2e163
+-- 
+2.53.0
 
