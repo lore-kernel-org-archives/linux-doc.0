@@ -1,194 +1,394 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out162-62-58-216.mail.qq.com (out162-62-58-216.mail.qq.com [162.62.58.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 043D932A3FF
-	for <linux-doc@vger.kernel.org>; Sat, 18 Apr 2026 05:27:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776490081; cv=pass; b=r5fm2F1W5+otK1kiKvgsEbNoer9qv0iFOkQlzAXMc2sI1asxuuJVDG27fWvWc1Pk7OYpAoJFwogLnvScOJ+yWJ5QCQEDJ28PnWeqM62LI2R6IhzVXaPG4ni7dnp9Wr9VTEz28cXoa3fEQdsrZ93zLWsALYSag2dlHf41NaE0jqs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776490081; c=relaxed/simple;
-	bh=p5uL/K4ix2xRx4H2e9iVLBLbUlB6f1DXwe1rnGkt+gs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b/D32sFxukvcBO+dlAgLU4fxauKNKhMRvuNgdyU4KVKASv07kFteaCb3BkQX1n6VDaEl8b6whGhYQATc+mZuJxnGJL1w6V0T67zQcVIqQAEJPrNmNKLvQraLLYYbD4QuEET1G0r+kFrfOucOs6YOox+WxdNOdI+39GEKekU5WAg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=scvYtEc6; arc=pass smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61C533B97B;
+	Sat, 18 Apr 2026 05:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.216
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776490541; cv=none; b=HOpWE1kSvf2X2KsGReHF81MSvFTAeShimcE18kylHEXm0d0Nk+FFYPN2iQ9/1Ee6xAUEpPT6B+pJwEuLupMLt8hY3XpwscGxM5HutPVpUZV0E1IipFa0SBU1eKj/3qOo4oHsZEmoDtdPiFwluMTZ8AbpuZ/rf8mRPTbFXn6DP9A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776490541; c=relaxed/simple;
+	bh=5sUUN9YgA2G0M8paZd7wiQPhH/kKxo7zY4phDsxa7Ns=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hkboJV8udK2wItOg9BV8uHjvROWycPZ8g+ksg7y93a+hLEH1DZnMFYG1cOasTLph4sdb6cFCmjDsqb1ysWNhiM0/9KoUt93Bll9+lo++DfOz4O4aKD/slKDK9CLbqsfozj8A73pQeTIthgKX30zOC8EBakh7w0ownAbcqqRU/84=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=TFCsg/Pr; arc=none smtp.client-ip=162.62.58.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="scvYtEc6"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-43cfbd17589so970492f8f.0
-        for <linux-doc@vger.kernel.org>; Fri, 17 Apr 2026 22:27:59 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776490078; cv=none;
-        d=google.com; s=arc-20240605;
-        b=ie5k0hom/mqxQqJkV/V1h4xz19C7ytglBsfifaOR5uTWVuFH2Um9/KycHnB7nACEwS
-         X3tnQc7e+4/a9NaaIl43xC41bXdW+wxcWEW6eR6Rsmp687sEu4/eOA+FpI1UlIgtIYM1
-         HggBwq7MU/RBUSlL8dm8wrEIGwk1Emh0GdRyAOWQt6ArEUcAoiBGrwLiuQ35zCd1QvzF
-         bTI/XU27RQ4vHU9I97tBxMIrg83WjXWsPCe/9myUQLMpjsgP5vizbDVimlIP1cmqJa0W
-         1Zx7dhcDYFGLSTVopbmF7SRr5I71VqbguXFAeEkx0Cy/GzrBsn1xB0klfqmZQyKcJLzO
-         d9Tw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=SYAGoFNrWRDm2eh1Ti+BKPYiyqx9cfyfl+NYb+/2tDg=;
-        fh=HCiT5RHjfQ7d/n7/y1AU7YeURYGivKaiVdXljWlJs/w=;
-        b=dqoj/WeQWDBTJSmDY1G2chwZ3k11sIganuBKbPC+7iytuMKftGhhRzVEmJn+mboTYd
-         6vXWxXO/Xbnb4ACGqbf+8OWLB+tvQpeLroPYkKKVh9ovKUXSHa9CGNA1xsXFxU6FqrSM
-         sBPb74LNlc8gFN/cH/wbLO9n/YQwjuurYaEzrToNX0tk3tQ3z5DEuomW82TrxKkzU6iq
-         1U0+VvPy/aHJzZIrtHM0u5/k5pHsT507Jev43pb/hnNOA4zPEPAzkZNSo4NY3gE850Lh
-         xBwseHhzTEW/TB9gpUvPkrck4siTsawQbctgSE/v/MKW/0zfElAajrwSxmhaa8Ftk6WW
-         ludA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776490078; x=1777094878; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SYAGoFNrWRDm2eh1Ti+BKPYiyqx9cfyfl+NYb+/2tDg=;
-        b=scvYtEc6cGyOGhlS/49d6WLC8kmuqe/PIOwcXRsjEPiqQSf61navmHzS+yUDLGUJMY
-         GAUntGqBoH1j3VuoNUIBwpkmJHWYMzCiEIeOzvhmDJsAr9K2SPe5fYRkeGhlUg1Sve0U
-         m4CZR4DrZHvB+simY2tW5cNCGhhhuuM49KkAdA4WjnWtfAhaSW4nNpnvngaL+10zTUmo
-         3BA8BtGkT4buVSHzQw6vLMLh/0raK1RmO/+2lwOSdOcksd2unae0DZ9rkzyzd9RxlJFl
-         FFBBcUT7B38WSr2a20dhpdzIL40hocXJjcCp7IfakpfOKbkXiJsfC6ukn5XF2eSyVBOW
-         UTsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776490078; x=1777094878;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=SYAGoFNrWRDm2eh1Ti+BKPYiyqx9cfyfl+NYb+/2tDg=;
-        b=Rk75SC4km4zb9PV6henkIxHoz0A6MVIj/aR1B1dP9BPbZEbE6zf71ivm9ughsT44U5
-         U9hta4FESquS3fSLFlJUKSYqxuhoE84+3iqMMO6E+KxuLCYSgyCI6DLYggd6o5dxbzJO
-         zDSrWWEDjeASlEW31mQwrHue5pOGUOlMCKTDBwVdNntVMEbvtOc7JNAO3jAZb9C07gox
-         vFZQz/W3auDpYpGlxpgVJZ3zDFXyNsV+jjnAdC1W2UGTzAK/KgSrTdfFTPgQfQl9ZYiq
-         K8bScyuHOHIWCwenrrN48iMv1vyz7GLs8yC3X87NWCOD2vRv6FegQugVTp+hCGT8sJwU
-         dlrQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8TjfX/zlzMcAGNFpm+M/8a1Oe44EUB+rjZlYZ5w0/N1ClMZEevYltP3dy5SHpzb2xXWlkyYbac88k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTp0jgZrE7gl1nbSSjqrxR9Etns0QoexaiI1F7Yl03JZqnj3YK
-	cYmtbCCgLYnyxCWmQfc00cuIKP/c6L6vOpH2uWYyqY6ggEb5RIuxuk5/1+r/oLkmyRwjJQaqueP
-	TLusMLmUaGagKFJSn61r8Os+YjjgiB6M=
-X-Gm-Gg: AeBDiesJSKiJGs19L9vHxGTiIMuRKdSzUnSnnrOYsJO+xbPb/1LvdGbkHDS0ni+fhPv
-	Ys5WWeFLFsW23a4pX0nDesQadoGNtOCFvTOHQD/ALewIKQWBErXZn4yFKPXdj9youxh7s5Rd49X
-	zD/EuwySOw6BthYBD7y14ibapbUAaTp8MmrwEnIQr54wujG9Z5PNGlbupzrC3aH0Fg2OoO9jAK0
-	bhIjIShz/pj699B8O5jSEzO2KQx43N16YbsFZF5aqhkV+aNUBWL0o1c5h8TKn27F9FeSQfl+xFC
-	HCiNcVkAdquvZKDfzQ==
-X-Received: by 2002:adf:fcc9:0:b0:43f:e4f1:bd9b with SMTP id
- ffacd0b85a97d-43fe4f1bdf7mr4968568f8f.30.1776490078315; Fri, 17 Apr 2026
- 22:27:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="TFCsg/Pr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1776490527; bh=z8E2gEGEd9iQ/HDaUaHx5V8NsfYFH0ntMcsFGmHI+qA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To;
+	b=TFCsg/PrUgoL5JPWyt8J7u7FH/lJ4OmjlC663AI8buuboYwbMIjUW//tLbzT2SVn0
+	 GXIg1tAsqdeUidz0jRs3bzSkc8JI1huVYXgkv+grMHBoJ9GvH+LgnyFRxOirmdceI3
+	 /yzD0fB4h+MSwYU5uEzDPyZ6UrVrUyJy1GEbKZ9M=
+Received: from [192.168.1.9] ([27.38.232.147])
+	by newxmesmtplogicsvrszb43-0.qq.com (NewEsmtp) with SMTP
+	id 88F1084E; Sat, 18 Apr 2026 13:34:15 +0800
+X-QQ-mid: xmsmtpt1776490455tf1ndeef0
+Message-ID: <tencent_70D8F75417524BB9ACD33B9223F831030407@qq.com>
+X-QQ-XMAILINFO: MuMd8wcAiX0qdjlki+vz4IGV4KsaxSuRSEQu2uolnzY7OWqvhVlnVsgMljrgBe
+	 IQJYauCyIQlF7uSaOZJV5J0buLtdUI2SavyRbKJxYBgfnKX6jr5NjBaXsqm7f7Ox0wrdJ1/ozIQ7
+	 WEOn+sCmKj2icGlMl0S2VHuLQrddoiQ6s22C6Tg+aBrmTg4u7LbljQkjJjeyiXjvVA5WWuFcq0Fo
+	 BKRUpGEU9YtK+Tj69+P9jN+DMoc1HaQ68ufVpZdQTGGrtgnynAsTsVFh8R/qWNTQcy0/XbVEPahz
+	 Y8ahOVia40PYIAgQJcSfxKoRdSIR3/5TjjKYM6qqDFr7Z1qifazsxOv+Q4P3+zblnjkssskq1URh
+	 ys0a/80gphtN2urXjSTAeq5jGUIFismt4NXCFeyItqT5f/mkuOl+1gLdgTm8OSDDBEqdd73gRYMd
+	 uWvd/PJMqp/i1kxDsGLh/IRjcUgbQ0tVlbUTazXwYQaHNUHSpIzolHr6HWLYf6K2dm2mgIdbkL+z
+	 ScuQcMiqVIXvlVzt9r4OFBzR9iZG3ry5XdjH7I2J55zQ6LttZ/FNrwFBBgwvfnb+StJqglHbPb5c
+	 ILFtcqx692Na8h3STrHchTWW7v1ic4hJ88ZL2jwIuD3e7+G6VA4H7U7kID5lYhI7dLH6u0+iy1C0
+	 wX5UGD68sIGXS8RTIxsAlqHLzJIqBqcizf0L9hbl7mFptz/xLKTbRI0hhsZ2uivzYEZrKTCHUk6L
+	 cRti5eZ9qUSUMWJjmMAYcr41+FTlkQLahZxIjJ/pMhYRwnlIl/n7ZZWPrNI5lepOdTG3M7WUFldC
+	 kA3WcVMDmLTCgIjHsgce2cUCMoDD8xP0fHv/yNuKSASqSGiQFbTbcputcu+AWpyhuZNgE8IGiqtK
+	 QKmARBkofmFoIqHap25Li4AwnvSLR/LwZsG0TUKUpuh9Imb7LxonWzkQJdCQhY1ilvT/Brx/y3UK
+	 RB+THkOhi4axsrMKSqwZaA+h+wU+Cu+cI3XNq20l/9kryorRWzyFmD0/ydcJOZ5a/aw/4SlJ7vDD
+	 sy4PMGogrHl3IgXTxkG4nFyuLn/V86m1EaU0/HutCahpoNoMwxT7DJAUuVXnIbMbHIjhZgnw==
+X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+X-OQ-MSGID: <5dc1a032-462d-41e6-aa77-879f52875006@qq.com>
+Date: Sat, 18 Apr 2026 13:34:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260418000635.17499-1-sef1548@gmail.com> <aeMQ36jFnCKmCSyA@casper.infradead.org>
-In-Reply-To: <aeMQ36jFnCKmCSyA@casper.infradead.org>
-From: Nick Huang <sef1548@gmail.com>
-Date: Sat, 18 Apr 2026 13:27:47 +0800
-X-Gm-Features: AQROBzAPUOixr-L6lL7fb9JgEK14SirwWCxHLnfBUgOConJMytgXqwkp5e8GdOo
-Message-ID: <CABZAGREDHwsXMm65_WxEn=v-zTv7_eVqQzQeCRqU2Gyc0aTETQ@mail.gmail.com>
-Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab documentation
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, David Hildenbrand <david@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>, Christoph Lameter <cl@gentwo.org>, 
-	David Rientjes <rientjes@google.com>, Roman Gushchin <roman.gushchin@linux.dev>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs/zh_CN: add module-signing Chinese translation
+To: Alex Shi <seakeel@gmail.com>, alexs@kernel.org, si.yanteng@linux.dev,
+ corbet@lwn.net
+Cc: dzm91@hust.edu.cn, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_1BF5E860CC01A1E23DC405DD92314BE16E05@qq.com>
+ <bb119ab9-a805-46c0-91ab-1f45f7a506c8@gmail.com>
+From: Yan Zhu <zhuyan2015@qq.com>
+In-Reply-To: <bb119ab9-a805-46c0-91ab-1f45f7a506c8@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Matthew Wilcox <willy@infradead.org> =E6=96=BC 2026=E5=B9=B44=E6=9C=8818=E6=
-=97=A5=E9=80=B1=E5=85=AD =E4=B8=8B=E5=8D=881:04=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
-> > - Add "Overview" section explaining the slab allocator's role and purpo=
-se
-> > - Document the three main slab allocator implementations (SLAB, SLUB, S=
-LOB)
->
-> Umm.
->
-> commit 6630e950d532
-> Author: Vlastimil Babka <vbabka@kernel.org>
-> Date:   Tue Feb 28 15:38:07 2023 +0100
->
->     mm/slob: remove slob.c
->
-> commit 16a1d968358a
-> Author: Vlastimil Babka <vbabka@kernel.org>
-> Date:   Mon Oct 2 20:43:43 2023 +0200
->
->     mm/slab: remove mm/slab.c and slab_def.h
->
-> Care to revise?
->
-Hi Matthew Wilcox
 
-Thanks for pointing this out. You are absolutely right=E2=80=94I overlooked
-the fact that SLAB and SLOB have been removed from the kernel.
-I will remove those sections and ensure the documentation focuses on
-SLUB for the v2 submission. Thanks for the correction.
 
-> > - Highlight SLUB as the default allocator on modern systems
-> > - Add "SLUB Allocator" subsection with detailed information:
-> > - Explain SLUB's design goals and advantages over legacy SLAB
-> > - Document its focus on simplification and performance
-> > - Note support for both uniprocessor and SMP systems
-> >
-> > Signed-off-by: Nick Huang <sef1548@gmail.com>
-> > ---
-> >  Documentation/mm/slab.rst | 26 ++++++++++++++++++++++++++
-> >  1 file changed, 26 insertions(+)
-> >
-> > diff --git a/Documentation/mm/slab.rst b/Documentation/mm/slab.rst
-> > index 2bcc58ada302..2d1d093afb7b 100644
-> > --- a/Documentation/mm/slab.rst
-> > +++ b/Documentation/mm/slab.rst
-> > @@ -4,6 +4,32 @@
-> >  Slab Allocation
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
-> > +Overview
-> > +=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +The slab allocator is responsible for efficient allocation and reuse o=
-f
-> > +small kernel objects. It reduces internal fragmentation and improves
-> > +performance by caching frequently used objects.
-> > +
-> > +The Linux kernel provides multiple slab allocator implementations,
-> > +including SLAB, SLUB, and SLOB. Among these, SLUB is the default
-> > +allocator on most modern systems.
-> > +
-> > +SLUB Allocator
-> > +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > +
-> > +Overview
-> > +--------
-> > +
-> > +SLUB is a slab allocator designed to replace the legacy SLAB allocator
-> > +(mm/slab.c). It addresses the complexity, scalability limitations, and
-> > +memory overhead of the SLAB implementation.
-> > +
-> > +The primary goal of SLUB is to simplify slab allocation while improvin=
-g
-> > +performance on both uniprocessor (UP) and symmetric multiprocessing (S=
-MP)
-> > +systems.
-> > +
-> > +
-> >  Functions and structures
-> >  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> >
-> > --
-> > 2.43.0
-> >
-> >
+On 4/10/2026 7:21 PM, Alex Shi wrote:
+> 
+> 
+> On 2026/4/1 23:40, Yan Zhu wrote:
+>> Translate .../admin-guide/module-signing.rst into Chinese.
+>>
+>> Update the translation through commit 0ad9a71933e7
+>> ("modsign: Enable ML-DSA module signing")
+>>
+>> Signed-off-by: Yan Zhu<zhuyan2015@qq.com>
+>> ---
+>>   .../zh_CN/admin-guide/module-signing.rst      | 242 ++++++++++++++++++
+>>   1 file changed, 242 insertions(+)
+>>   create mode 100644 Documentation/translations/zh_CN/admin-guide/ 
+>> module-signing.rst
+>>
+>> diff --git a/Documentation/translations/zh_CN/admin-guide/module- 
+>> signing.rst b/Documentation/translations/zh_CN/admin-guide/module- 
+>> signing.rst
+>> new file mode 100644
+>> index 000000000000..b8c209dd229d
+>> --- /dev/null
+>> +++ b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
+>> @@ -0,0 +1,242 @@
+>> +.. SPDX-License-Identifier: GPL-2.0
+>> +.. include:: ../disclaimer-zh_CN.rst
+>> +
+>> +:Original: Documentation/admin-guide/module-signing.rst
+>> +:翻译:
+>> + 朱岩 Yan Zhu<zhuyan2015@qq.com>
+>> +
+>> +
+>> +==========================
+>> +内核模块签名机制
+>> +==========================
+>> +
+>> +.. 目录
+>> +..
+>> +.. - 概述
+>> +.. - 配置模块签名
+>> +.. - 生成签名密钥
+>> +.. - 内核中的公钥
+>> +.. - 模块手动签名
+>> +.. - 已签名模块和剥离
+>> +.. - 加载已签名模块
+>> +.. - 无效签名和未签名模块
+>> +.. - 管理/保护私钥
+>> +
+>> +
+>> +概述
+>> +====
+>> +
+>> +内核模块签名机制在安装过程中对模块进行加密签名，然后在加载模块时检查 
+>> 签名。
+>> +这通过禁止加载未签名的模块或使用无效密钥签名的模块来提高内核安全性。
+>> +模块签名通过使恶意模块更难加载到内核中来增加安全性。
+>> +模块签名检查在内核中完成，因此不需要受信任的用户空间位。
+>> +
+>> +此机制使用 X.509 ITU-T 标准证书对涉及的公钥进行编码。
+>> +签名本身不以任何工业标准类型编码。
+>> +内置机制目前仅支持 RSA、NIST P-384 ECDSA 和 NIST FIPS-204 ML-DSA 公钥 
+>> 签名标准（尽管它是可插拔的并允许使用其他标准）。
+> 
+> This line is too long, and not align with other lines. you need to 
+> follow the coding style in documents.
+> 
+> 
+>> +对于 RSA 和 ECDSA，可以使用的可能的哈希算法是大小为 256、384 和 512 
+>> 的 SHA-2 和 SHA-3（算法由签名中的数据选择）；
+>> +ML-DSA会自行进行哈希运算，但允许与SHA512哈希算法结合用于签名属性。
+>> +
+>> +配置模块签名
+>> +============
+>> +
+>> +通过进入内核配置的 :menuselection:`Enable Loadable Module Support` 菜 
+>> 单并打开以下选项来启用模块签名机制::
+>> +
+>> +    CONFIG_MODULE_SIG    "Module signature verification"
+>> +
+>> +这有多个可用选项：
+>> +
+>> + (1) :menuselection:`Require modules to be validly signed`
+>> +     (``CONFIG_MODULE_SIG_FORCE``)
+>> +
+>> +     这指定了内核应如何处理其密钥未知或未签名的模块。
+>> +
+>> +     如果关闭（即"宽松模式"），则允许使用不可用密钥和未签名的模块，
+>> +     但内核将被标记为受污染，并且相关模块将被标记为受污染，显示字符'E'。
+>> +
+>> +     如果打开（即"限制模式"），只有具有有效签名且可由内核拥有的公钥验 
+>> 证的模块才会被加载。
+>> +     所有其他模块将生成错误。
+>> +
+>> +     无论此处的设置如何，如果模块的签名块无法解析，它将被直接拒绝。
+>> +
+>> +
+>> + (2) :menuselection:`Automatically sign all modules`
+>> +     (``CONFIG_MODULE_SIG_ALL``)
+>> +
+>> +     如果打开此选项，则在构建的 modules_install 阶段期间将自动签名模块。
+>> +     如果关闭，则必须使用以下命令手动签名模块::
+>> +
+>> +    scripts/sign-file
+>> +
+>> +
+>> + (3) :menuselection:`Which hash algorithm should modules be signed 
+>> with?`
+>> +
+>> +     这提供了安装阶段将用于签名模块的哈希算法选择：
+>> +
+>> +        =============================== 
+>> ==========================================
+>> +    ``CONFIG_MODULE_SIG_SHA256``    :menuselection:`Sign modules with 
+>> SHA-256`
+>> +    ``CONFIG_MODULE_SIG_SHA384``    :menuselection:`Sign modules with 
+>> SHA-384`
+>> +    ``CONFIG_MODULE_SIG_SHA512``    :menuselection:`Sign modules with 
+>> SHA-512`
+>> +    ``CONFIG_MODULE_SIG_SHA3_256``    :menuselection:`Sign modules 
+>> with SHA3-256`
+>> +    ``CONFIG_MODULE_SIG_SHA3_384``    :menuselection:`Sign modules 
+>> with SHA3-384`
+>> +    ``CONFIG_MODULE_SIG_SHA3_512``    :menuselection:`Sign modules 
+>> with SHA3-512`
+>> +        =============================== 
+>> ==========================================
+> 
+> Got errors here:
+> Applying: docs/zh_CN: add module-signing Chinese translation
+> /home/alexshi/linuxdoc/.git/rebase-apply/patch:87: indent with spaces.
+>          =============================== 
+> ==========================================
+> /home/alexshi/linuxdoc/.git/rebase-apply/patch:94: indent with spaces.
+>          =============================== 
+> ==========================================
+> warning: 2 lines add whitespace errors.>
+> Thanks
+> Alex
 
---=20
-Regards,
-Nick Huang
+Thanks for your review, I have fixed those issues in v3 patch.
+
+>> +
+>> +     此处选择的算法也将被构建到内核中（而不是作为模块），
+>> +     以便使用该算法签名的模块可以在不导致循环依赖的情况下检查其签名。
+>> +
+>> +
+>> + (4) :menuselection:`File name or PKCS#11 URI of module signing key`
+>> +     (``CONFIG_MODULE_SIG_KEY``)
+>> +
+>> +     将此选项设置为除默认值 ``certs/signing_key.pem`` 之外的其他值将 
+>> 禁用签名密钥的自动生成，
+>> +     并允许使用您选择的密钥对内核模块进行签名。
+>> +     提供的字符串应标识包含私钥及其对应的 PEM 格式 X.509 证书的文件，
+>> +     或者在 OpenSSL ENGINE_pkcs11 功能正常的系统上，使用 RFC7512 定义 
+>> 的 PKCS#11 URI。
+>> +     在后一种情况下，PKCS#11 URI 应引用证书和私钥。
+>> +
+>> +     如果包含私钥的 PEM 文件已加密，或者 PKCS#11 令牌需要 PIN，
+>> +     可以通过 ``KBUILD_SIGN_PIN`` 变量在构建时提供。
+>> +
+>> +
+>> + (5) :menuselection:`Additional X.509 keys for default system keyring`
+>> +     (``CONFIG_SYSTEM_TRUSTED_KEYS``)
+>> +
+>> +     此选项可设置为包含附加证书的 PEM 编码文件的文件名，
+>> +     这些证书将默认包含在系统密钥环中。
+>> +
+>> +请注意，启用模块签名会为内核构建过程添加对执行签名工具的 OpenSSL 开发 
+>> 包的依赖。
+>> +
+>> +
+>> +生成签名密钥
+>> +============
+>> +
+>> +生成和检查签名需要加密密钥对。私钥用于生成签名，相应的公钥用于检查签名。
+>> +私钥仅在构建期间需要，之后可以删除或安全存储。
+>> +公钥被构建到内核中，以便在加载模块时可以使用它来检查签名。
+>> +
+>> +在正常情况下，当 ``CONFIG_MODULE_SIG_KEY`` 保持默认值时，
+>> +如果文件中不存在密钥对，内核构建将使用 openssl 自动生成新的密钥对::
+>> +
+>> +    certs/signing_key.pem
+>> +
+>> +在构建 vmlinux 期间（公钥需要构建到 vmlinux 中）使用参数::
+>> +
+>> +    certs/x509.genkey
+>> +
+>> +文件（如果尚不存在也会生成）。
+>> +
+>> +可以在 RSA（``MODULE_SIG_KEY_TYPE_RSA``）、ECDSA 
+>> （``MODULE_SIG_KEY_TYPE_ECDSA``）
+>> +和 ML-DSA（``MODULE_SIG_KEY_TYPE_MLDSA_*``）之间选择生成 RSA 4k、NIST 
+>> P-384 密钥对或 ML-DSA 44、65 或 87 密钥对。
+>> +
+>> +强烈建议您提供自己的 x509.genkey 文件。
+>> +
+>> +最值得注意的是，在 x509.genkey 文件中，req_distinguished_name 部分应 
+>> 从默认值更改::
+>> +
+>> +    [ req_distinguished_name ]
+>> +    #O = Unspecified company
+>> +    CN = Build time autogenerated kernel key
+>> +    #emailAddress =unspecified.user@unspecified.company
+>> +
+>> +生成的 RSA 密钥大小也可以通过以下方式设置::
+>> +
+>> +    [ req ]
+>> +    default_bits = 4096
+>> +
+>> +也可以使用位于 Linux 内核源代码树根节点中的 x509.genkey 密钥生成配置 
+>> 文件和 openssl 命令手动生成公钥/私钥文件。
+>> +以下是生成公钥/私钥文件的示例::
+>> +
+>> +    openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
+>> +       -config x509.genkey -outform PEM -out kernel_key.pem \
+>> +       -keyout kernel_key.pem
+>> +
+>> +然后可以将生成的 kernel_key.pem 文件的完整路径名指定在 
+>> ``CONFIG_MODULE_SIG_KEY`` 选项中，
+>> +并且将使用其中的证书和密钥而不是自动生成的密钥对。
+>> +
+>> +
+>> +内核中的公钥
+>> +============
+>> +
+>> +内核包含一个可由 root 查看的公钥环。它们在名为 
+>> ".builtin_trusted_keys" 的密钥环中，
+>> +可以通过以下方式查看::
+>> +
+>> +    [root@deneb ~]# cat /proc/keys
+>> +    ...
+>> +    223c7853 I------     1 perm 1f030000     0     0 
+>> keyring   .builtin_trusted_keys: 1
+>> +    302d2d52 I------     1 perm 1f010000     0     0 asymmetri Fedora 
+>> kernel signing key: d69a84e6bce3d216b979e9505b3e3ef9a7118079: X509.RSA 
+>> a7118079 []
+>> +
+>> +除了专门为模块签名生成的公钥外，还可以在 
+>> ``CONFIG_SYSTEM_TRUSTED_KEYS`` 配置选项引用的 PEM 编码文件中提供其他受 
+>> 信任的证书。
+>> +
+>> +此外，架构代码可以从硬件存储中获取公钥并将其添加（例如从 UEFI 密钥数 
+>> 据库）。
+>> +
+>> +最后，可以通过以下方式添加其他公钥::
+>> +
+>> +    keyctl padd asymmetric "" [.builtin_trusted_keys-ID] <[key-file]
+>> +
+>> +例如::
+>> +
+>> +    keyctl padd asymmetric "" 0x223c7853 <my_public_key.x509
+>> +
+>> +但是，请注意，内核只允许将由已驻留在 ``.builtin_trusted_keys`` 中的密 
+>> 钥有效签名的密钥添加到 ``.builtin_trusted_keys``。
+>> +
+>> +模块手动签名
+>> +============
+>> +
+>> +要手动对模块进行签名，请使用 Linux 内核源代码树中可用的 scripts/sign- 
+>> file 工具。
+>> +该脚本需要 4 个参数：
+>> +
+>> +    1.  哈希算法（例如，sha256）
+>> +    2.  私钥文件名或 PKCS#11 URI
+>> +    3.  公钥文件名
+>> +    4.  要签名的内核模块
+>> +
+>> +以下是签名内核模块的示例::
+>> +
+>> +    scripts/sign-file sha512 kernel-signkey.priv \
+>> +        kernel-signkey.x509 module.ko
+>> +
+>> +使用的哈希算法不必与配置的算法匹配，但如果不同，
+>> +应确保哈希算法要么内置在内核中，要么可以在不需要自身的情况下加载。
+>> +
+>> +如果私钥需要密码或 PIN，可以在 $KBUILD_SIGN_PIN 环境变量中提供。
+>> +
+>> +
+>> +已签名模块和剥离
+>> +================
+>> +
+>> +已签名模块在末尾简单地附加了数字签名。模块文件末尾的字符串
+>> +``~Module signature appended~.`` 确认签名存在，但不能确认签名有效！
+>> +
+>> +已签名模块是脆弱的，因为签名在定义的ELF容器之外。
+>> +因此，一旦计算并附加签名，就不得剥离它们。
+>> +请注意，整个模块都是签名的有效载荷，包括签名时存在的任何和所有调试信息。
+>> +
+>> +
+>> +加载已签名模块
+>> +==============
+>> +
+>> +模块通过 insmod、modprobe、``init_module()`` 或 ``finit_module()`` 加 
+>> 载，
+>> +与未签名模块完全一样，因为在用户空间中不进行任何处理。
+>> +所有签名检查都在内核内完成。
+>> +
+>> +
+>> +无效签名和未签名模块
+>> +====================
+>> +
+>> +如果启用了 ``CONFIG_MODULE_SIG_FORCE`` 或在内核启动命令提供了 
+>> module.sig_enforce=1，
+>> +内核将仅加载具有有效签名且具有公钥的模块。
+>> +否则，它还将加载未签名的模块。
+>> +任何具有不匹配签名的模块将不被允许加载。
+>> +
+>> +任何具有不可解析签名的模块将被拒绝。
+>> +
+>> +
+>> +管理/保护私钥
+>> +==============
+>> +
+>> +由于私钥用于签名模块，病毒和恶意软件可以使用私钥签名模块并危害操作系统。
+>> +私钥必须被销毁或移动到安全位置，而不是保存在内核源代码树的根节点中。
+>> +
+>> +如果使用相同的私钥为多个内核配置签名模块，
+>> +必须确保模块版本信息足以防止将模块加载到不同的内核中。
+>> +要么设置 ``CONFIG_MODVERSIONS=y``，要么通过更改 ``EXTRAVERSION`` 或 
+>> ``CONFIG_LOCALVERSION`` 确保每个配置具有不同的内核发布字符串。
+>> -- 2.43.0
+>>
+
+-- 
+Yan Zhu
+
