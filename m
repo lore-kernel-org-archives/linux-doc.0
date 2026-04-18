@@ -1,445 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB91633C18B;
-	Sat, 18 Apr 2026 19:24:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11CB1FBEBC;
+	Sat, 18 Apr 2026 20:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776540249; cv=none; b=f6KVUxwQUojXRqFg9z3INZpSkmmdQq+o5PTdB9JCXKgSHU9XCday4mChuuXaNtAicX5IC/1XLD6AAnZlBCveyvK4nwk/genXlxRqfjG7vuiTwFWKlXYuXFhQms9Q/e8ZKHjXM+GqX+NmS4lnTLRhXoViI6hMCEiICin12+iudaM=
+	t=1776545136; cv=none; b=BzDc7f0P+HjMHYhCTuPfRoXrNs1XiLzKuGtXPc9a/u+vmOS5b2b+0MkTymM+gCe5ZQfXg/uIcsVhPz4kjpQG3IlTe7BVuaxpkJFWn49fY+aXAzK1JWLFyTSIrZGHCLNOwR6bJeaQ5+y9geNL6gyFkVEyAnpqot59Pg+rqFOTOHc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776540249; c=relaxed/simple;
-	bh=SlLeqFH50ELWn9dsbfyTgrsuJB7Tr5gOriR7lR/b9XQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pglQbp7ZTKV6in9VeC2eT4VX5vuWuPURnv5ixrtLn+TIKBRpuCLiuuQarJtCmFw/g0BC4/HIM04rAPaIMwG5ducdWuyfHp6NBZf/2JSBk/F8KFeAK7IkWY6V/d8Vx+qeIDAaNRossu6v8r/SA3yCQR+hwPblcgq5QDj1CcxIexU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=klRrsQr8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776545136; c=relaxed/simple;
+	bh=YpA7K3FyMvxkFGfBj4YoKfpp0f4JU61NOCW3OLNl3JU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ilhXFQf4/d6whC+L5coU1s4ttSWrUcvUq+95nT5pX7K3TxHd6cTRQ/XN2+WPDj+j9uPMgQFe0DXfgVN2xCLzBDOC08bibiGHIpOlTDTGGr01/zdn2z46ffrg37oI9yj9sjcQw34g2ZiCYSjAERoQYDcVgqAF0ZB2qSm1EheIArc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/c4/PSJ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="klRrsQr8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2AE29C2BCB7;
-	Sat, 18 Apr 2026 19:24:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776540249;
-	bh=SlLeqFH50ELWn9dsbfyTgrsuJB7Tr5gOriR7lR/b9XQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=klRrsQr8hbYw2CyG+2caPFOi0IWAQ6E27rFh7mQoO/UZ58Zw5yV0M7LV8Xmmr7zzP
-	 7f/0KG+qXPot/2+ZtxaLJ+Fsr9ssDfJbEFSuV/pqbubg0nBjvQ7FiImpsH8tl76MjS
-	 BF/YMU9PCC1rJH7aRfJJvp1CKmJEXPtkZyaHuLHQfxIqD+A6Dq+7e0lk1HL8KUBRcS
-	 BjN4WRJx0lDMSYLkaAc7PMRdpDxdMXnsBis9lXiYOnAfsOxbv7Vad9jh/z3TpQyOqd
-	 0pviEzV9HNQkyaEdQSjbCieqAwLqc/t/AYemjBHALZSp2DZKK+LuURveQSTPm8ZosM
-	 /2RP65v9aqKwA==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-crypto@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Ard Biesheuvel <ardb@kernel.org>,
-	"Jason A . Donenfeld" <Jason@zx2c4.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH v2 2/2] lib/crypto: docs: Add rst documentation to Documentation/crypto/
-Date: Sat, 18 Apr 2026 12:21:38 -0700
-Message-ID: <20260418192138.15556-3-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260418192138.15556-1-ebiggers@kernel.org>
-References: <20260418192138.15556-1-ebiggers@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/c4/PSJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776545133; x=1808081133;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=YpA7K3FyMvxkFGfBj4YoKfpp0f4JU61NOCW3OLNl3JU=;
+  b=l/c4/PSJ02eqynzhNqGezSmQcmgqSdWgM/+GMfMKjTRuL9ky0K1K1hsz
+   YS0/DyqyuD6Fr+c7oJL50l213NXsumAdHhA8DnLR3JTWnvUNsK8+zE+t3
+   CJc62LoAYUcba45imecyH2UY7T0pNvoWlUh/U+kER6ho8H5t/gCtPevus
+   aRQnDpetwKN2jtPG5AOsH7vsgZweNoiZVj4NNkOKJ3NoRplBOwfZzpPKF
+   fOLQrj+IxHDEXIBaPJxtP4tCDwEFYGmQEIiRICMwOvMMh8KK/G5iR1T1F
+   BrGuAxQsTMWFzN9zGZduLujbYs0TL8OiD7vzzA0VPr1WlzmwHeVfuJeuG
+   A==;
+X-CSE-ConnectionGUID: fS8EKUTNR5i+UxSxwgPJ2g==
+X-CSE-MsgGUID: 7vYYWy+LRICaz5uz2ZJqPA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77389289"
+X-IronPort-AV: E=Sophos;i="6.23,187,1770624000"; 
+   d="scan'208";a="77389289"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 13:45:32 -0700
+X-CSE-ConnectionGUID: Ibezv02vRT6fw+ifg8LiTA==
+X-CSE-MsgGUID: I5eUixQ0TwCD0LUXRXOL+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,187,1770624000"; 
+   d="scan'208";a="230479876"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2026 13:45:29 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wECXe-000000001iP-3Dez;
+	Sat, 18 Apr 2026 20:45:26 +0000
+Date: Sat, 18 Apr 2026 22:45:25 +0200
+From: kernel test robot <lkp@intel.com>
+To: Yan Zhu <zhuyan2015@qq.com>, seakeel@gmail.com, alexs@kernel.org,
+	si.yanteng@linux.dev, corbet@lwn.net
+Cc: oe-kbuild-all@lists.linux.dev, dzm91@hust.edu.cn,
+	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, zhuyan2015@qq.com
+Subject: Re: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
+Message-ID: <202604182216.Qpd5KifK-lkp@intel.com>
+References: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
 
-Add a documentation file Documentation/crypto/libcrypto.rst which
-provides a high-level overview of lib/crypto/.
+Hi Yan,
 
-Also add several sub-pages which include the kernel-doc for the
-algorithms that have it.  This makes the existing, quite extensive
-kernel-doc start being included in the HTML and PDF documentation.
+kernel test robot noticed the following build warnings:
 
-Note that the intent is very much *not* that everyone has to read these
-Documentation/ files.  The library is intended to be straightforward and
-use familiar conventions; generally it should be possible to dive right
-into the kernel-doc.  You shouldn't need to read a lot of documentation
-to just call `sha256()`, for example, or to run the unit tests if you're
-already familiar with KUnit.  (This differs from the traditional crypto
-API which has a larger barrier to entry.)
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v7.0 next-20260417]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Nevertheless, this seems worth adding.  Hopefully it is useful and makes
-LWN no longer consider the library to be "meticulously undocumented".
+url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhu/docs-zh_CN-add-module-signing-Chinese-translation/20260418-151621
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309%40qq.com
+patch subject: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260418/202604182216.Qpd5KifK-lkp@intel.com/reproduce)
 
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
- Documentation/crypto/index.rst                |   2 +-
- .../crypto/libcrypto-blockcipher.rst          |  19 ++
- Documentation/crypto/libcrypto-hash.rst       |  86 +++++++++
- Documentation/crypto/libcrypto-signature.rst  |  11 ++
- Documentation/crypto/libcrypto-utils.rst      |   6 +
- Documentation/crypto/libcrypto.rst            | 165 ++++++++++++++++++
- Documentation/crypto/sha3.rst                 |   2 +
- 7 files changed, 290 insertions(+), 1 deletion(-)
- create mode 100644 Documentation/crypto/libcrypto-blockcipher.rst
- create mode 100644 Documentation/crypto/libcrypto-hash.rst
- create mode 100644 Documentation/crypto/libcrypto-signature.rst
- create mode 100644 Documentation/crypto/libcrypto-utils.rst
- create mode 100644 Documentation/crypto/libcrypto.rst
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604182216.Qpd5KifK-lkp@intel.com/
 
-diff --git a/Documentation/crypto/index.rst b/Documentation/crypto/index.rst
-index 4ee667c446f99..705f186d662ba 100644
---- a/Documentation/crypto/index.rst
-+++ b/Documentation/crypto/index.rst
-@@ -11,10 +11,11 @@ for cryptographic use cases, as well as programming examples.
- 
- .. toctree::
-    :caption: Table of contents
-    :maxdepth: 2
- 
-+   libcrypto
-    intro
-    api-intro
-    architecture
- 
-    async-tx-api
-@@ -25,6 +26,5 @@ for cryptographic use cases, as well as programming examples.
-    api
-    api-samples
-    descore-readme
-    device_drivers/index
-    krb5
--   sha3
-diff --git a/Documentation/crypto/libcrypto-blockcipher.rst b/Documentation/crypto/libcrypto-blockcipher.rst
-new file mode 100644
-index 0000000000000..dd5ce2f8b5151
---- /dev/null
-+++ b/Documentation/crypto/libcrypto-blockcipher.rst
-@@ -0,0 +1,19 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Block ciphers
-+=============
-+
-+AES
-+---
-+
-+Support for the AES block cipher.
-+
-+.. kernel-doc:: include/crypto/aes.h
-+
-+DES
-+---
-+
-+Support for the DES block cipher.  This algorithm is obsolete and is supported
-+only for backwards compatibility.
-+
-+.. kernel-doc:: include/crypto/des.h
-diff --git a/Documentation/crypto/libcrypto-hash.rst b/Documentation/crypto/libcrypto-hash.rst
-new file mode 100644
-index 0000000000000..4248e6fdc9527
---- /dev/null
-+++ b/Documentation/crypto/libcrypto-hash.rst
-@@ -0,0 +1,86 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Hash functions, MACs, and XOFs
-+==============================
-+
-+AES-CMAC and AES-XCBC-MAC
-+-------------------------
-+
-+Support for the AES-CMAC and AES-XCBC-MAC message authentication codes.
-+
-+.. kernel-doc:: include/crypto/aes-cbc-macs.h
-+
-+BLAKE2b
-+-------
-+
-+Support for the BLAKE2b cryptographic hash function.
-+
-+.. kernel-doc:: include/crypto/blake2b.h
-+
-+BLAKE2s
-+-------
-+
-+Support for the BLAKE2s cryptographic hash function.
-+
-+.. kernel-doc:: include/crypto/blake2s.h
-+
-+GHASH and POLYVAL
-+-----------------
-+
-+Support for the GHASH and POLYVAL universal hash functions.  These algorithms
-+are used only as internal components of other algorithms.
-+
-+.. kernel-doc:: include/crypto/gf128hash.h
-+
-+MD5
-+---
-+
-+Support for the MD5 cryptographic hash function and HMAC-MD5.  This algorithm is
-+obsolete and is supported only for backwards compatibility.
-+
-+.. kernel-doc:: include/crypto/md5.h
-+
-+NH
-+--
-+
-+Support for the NH universal hash function.  This algorithm is used only as an
-+internal component of other algorithms.
-+
-+.. kernel-doc:: include/crypto/nh.h
-+
-+Poly1305
-+--------
-+
-+Support for the Poly1305 universal hash function.  This algorithm is used only
-+as an internal component of other algorithms.
-+
-+.. kernel-doc:: include/crypto/poly1305.h
-+
-+SHA-1
-+-----
-+
-+Support for the SHA-1 cryptographic hash function and HMAC-SHA1.  This algorithm
-+is obsolete and is supported only for backwards compatibility.
-+
-+.. kernel-doc:: include/crypto/sha1.h
-+
-+SHA-2
-+-----
-+
-+Support for the SHA-2 family of cryptographic hash functions, including SHA-224,
-+SHA-256, SHA-384, and SHA-512.  This also includes their corresponding HMACs:
-+HMAC-SHA224, HMAC-SHA256, HMAC-SHA384, and HMAC-SHA512.
-+
-+.. kernel-doc:: include/crypto/sha2.h
-+
-+SHA-3
-+-----
-+
-+The SHA-3 functions are documented in :ref:`sha3`.
-+
-+SM3
-+---
-+
-+Support for the SM3 cryptographic hash function.
-+
-+.. kernel-doc:: include/crypto/sm3.h
-diff --git a/Documentation/crypto/libcrypto-signature.rst b/Documentation/crypto/libcrypto-signature.rst
-new file mode 100644
-index 0000000000000..e80d59fa51b6a
---- /dev/null
-+++ b/Documentation/crypto/libcrypto-signature.rst
-@@ -0,0 +1,11 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Digital signature algorithms
-+============================
-+
-+ML-DSA
-+------
-+
-+Support for the ML-DSA digital signature algorithm.
-+
-+.. kernel-doc:: include/crypto/mldsa.h
-diff --git a/Documentation/crypto/libcrypto-utils.rst b/Documentation/crypto/libcrypto-utils.rst
-new file mode 100644
-index 0000000000000..9d833f47ed390
---- /dev/null
-+++ b/Documentation/crypto/libcrypto-utils.rst
-@@ -0,0 +1,6 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+Utility functions
-+=================
-+
-+.. kernel-doc:: include/crypto/utils.h
-diff --git a/Documentation/crypto/libcrypto.rst b/Documentation/crypto/libcrypto.rst
-new file mode 100644
-index 0000000000000..a1557d45b0e5a
---- /dev/null
-+++ b/Documentation/crypto/libcrypto.rst
-@@ -0,0 +1,165 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+==============
-+Crypto library
-+==============
-+
-+``lib/crypto/`` provides faster and easier access to cryptographic algorithms
-+than the traditional crypto API.
-+
-+Each cryptographic algorithm is supported via a set of dedicated functions.
-+"Crypto agility", where needed, is left to calling code.
-+
-+The crypto library functions are intended to be boring and straightforward, and
-+to follow familiar conventions.  Their primary documentation is their (fairly
-+extensive) kernel-doc.  This page just provides some extra high-level context.
-+
-+Note that the crypto library isn't entirely new.  ``lib/`` has contained some
-+crypto functions since 2005.  Rather, it's just an approach that's been expanded
-+over time as it's been found to work well.  It also largely just matches how the
-+kernel already does things elsewhere.
-+
-+Scope and intended audience
-+===========================
-+
-+The crypto library documentation is primarily meant for kernel developers who
-+need to use a particular cryptographic algorithm(s) in kernel code.  For
-+example, "I just need to compute a SHA-256 hash."  A secondary audience is
-+developers working on the crypto algorithm implementations themselves.
-+
-+If you're looking for more general information about cryptography, like the
-+differences between the different crypto algorithms or how to select an
-+appropriate algorithm, you should refer to external sources which cover that
-+type of information much more comprehensively.  If you need help selecting
-+algorithms for a new kernel feature that doesn't already have its algorithms
-+predefined, please reach out to ``linux-crypto@vger.kernel.org`` for advice.
-+
-+Code organization
-+=================
-+
-+- ``lib/crypto/*.c``: the crypto algorithm implementations
-+
-+- ``lib/crypto/$(SRCARCH)/``: architecture-specific code for crypto algorithms.
-+  It is here rather than somewhere in ``arch/`` partly because this allows
-+  generic and architecture-optimized code to be easily built into a single
-+  loadable module (when the algorithm is set to 'm' in the kconfig).
-+
-+- ``lib/crypto/tests/``: KUnit tests for the crypto algorithms
-+
-+- ``include/crypto/``: crypto headers, for both the crypto library and the
-+  traditional crypto API
-+
-+Generally, there is one kernel module per algorithm.  Sometimes related
-+algorithms are grouped into one module.  There is intentionally no common
-+framework, though there are some utility functions that multiple algorithms use.
-+
-+Each algorithm module is controlled by a tristate kconfig symbol
-+``CRYPTO_LIB_$(ALGORITHM)``.  As is the norm for library functions in the
-+kernel, these are hidden symbols which don't show up in the kconfig menu.
-+Instead, they are just selected by all the kconfig symbols that need them.
-+
-+Many of the algorithms have multiple implementations: a generic implementation
-+and architecture-optimized implementation(s).  Each module initialization
-+function, or initcall in the built-in case, automatically enables the best
-+implementation based on the available CPU features.
-+
-+Note that the crypto library doesn't use the ``crypto/``,
-+``arch/$(SRCARCH)/crypto/``, or ``drivers/crypto/`` directories.  These
-+directories are used by the traditional crypto API.  When possible, algorithms
-+in the traditional crypto API are implemented by calls into the library.
-+
-+Advantages
-+==========
-+
-+Some of the advantages of the library over the traditional crypto API are:
-+
-+- The library functions tend to be much easier to use.  For example, a hash
-+  value can be computed using only a single function call.  Most of the library
-+  functions always succeed and return void, eliminating the need to write
-+  error-handling code.  Most also accept standard virtual addresses, rather than
-+  scatterlists which are difficult and less efficient to work with.
-+
-+- The library functions are usually faster, especially for short inputs.  They
-+  call the crypto algorithms directly without inefficient indirect calls, memory
-+  allocations, string parsing, lookups in an algorithm registry, and other
-+  unnecessary API overhead.  Architecture-optimized code is enabled by default.
-+
-+- The library functions use standard link-time dependencies instead of
-+  error-prone dynamic loading by name.  There's no need for workarounds such as
-+  forcing algorithms to be built-in or adding module soft dependencies.
-+
-+- The library focuses on the approach that works the best on the vast majority
-+  of systems: CPU-based implementations of the crypto algorithms, utilizing
-+  on-CPU acceleration (such as AES instructions) when available.
-+
-+- The library uses standard KUnit tests, rather than custom ad-hoc tests.
-+
-+- The library tends to have higher assurance implementations of the crypto
-+  algorithms.  This is both due to its simpler design and because more of its
-+  code is being regularly tested.
-+
-+- The library supports features that don't fit into the rigid framework of the
-+  traditional crypto API, for example interleaved hashing and XOFs.
-+
-+When to use it
-+==============
-+
-+In-kernel users should use the library (rather than the traditional crypto API)
-+whenever possible.  Many subsystems have already been converted.  It usually
-+simplifies their code significantly and improves performance.
-+
-+Some kernel features allow userspace to provide an arbitrary string that selects
-+an arbitrary algorithm from the traditional crypto API by name.  These features
-+generally will have to keep using the traditional crypto API for backwards
-+compatibility.
-+
-+Note: new kernel features shouldn't support every algorithm, but rather make a
-+deliberate choice about what algorithm(s) to support.  History has shown that
-+making a deliberate, thoughtful choice greatly simplifies code maintenance,
-+reduces the chance for mistakes (such as using an obsolete, insecure, or
-+inappropriate algorithm), and makes your feature easier to use.
-+
-+Testing
-+=======
-+
-+The crypto library uses standard KUnit tests.  Like many of the kernel's other
-+KUnit tests, they are included in the set of tests that is run by
-+``tools/testing/kunit/kunit.py run --alltests``.
-+
-+A ``.kunitconfig`` file is also provided to run just the crypto library tests.
-+For example, here's how to run them in user-mode Linux:
-+
-+.. code-block:: sh
-+
-+    tools/testing/kunit/kunit.py run --kunitconfig=lib/crypto/
-+
-+Many of the crypto algorithms have architecture-optimized implementations.
-+Testing those requires building an appropriate kernel and running the tests
-+either in QEMU or on appropriate hardware.  Here's one example with QEMU:
-+
-+.. code-block:: sh
-+
-+    tools/testing/kunit/kunit.py run --kunitconfig=lib/crypto/ --arch=arm64 --make_options LLVM=1
-+
-+Depending on the code being tested, flags may need to be passed to QEMU to
-+emulate the correct type of hardware for the code to be reached.
-+
-+Since correctness is essential in cryptographic code, new architecture-optimized
-+code is accepted only if it can be tested in QEMU.
-+
-+Note: the crypto library also includes FIPS 140 self-tests.  These are
-+lightweight, are designed specifically to meet FIPS 140 requirements, and exist
-+*only* to meet those requirements.  Normal testing done by kernel developers and
-+integrators should use the much more comprehensive KUnit tests instead.
-+
-+API documentation
-+=================
-+
-+.. toctree::
-+   :maxdepth: 2
-+
-+   libcrypto-blockcipher
-+   libcrypto-hash
-+   libcrypto-signature
-+   libcrypto-utils
-+   sha3
-diff --git a/Documentation/crypto/sha3.rst b/Documentation/crypto/sha3.rst
-index 37640f295118b..250669c98f6ba 100644
---- a/Documentation/crypto/sha3.rst
-+++ b/Documentation/crypto/sha3.rst
-@@ -1,7 +1,9 @@
- .. SPDX-License-Identifier: GPL-2.0-or-later
- 
-+.. _sha3:
-+
- ==========================
- SHA-3 Algorithm Collection
- ==========================
- 
- .. contents::
+All warnings (new ones prefixed by >>):
+
+   Checksumming on output with GSO
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+>> Documentation/translations/zh_CN/admin-guide/module-signing.rst:157: WARNING: Inline literal start-string without end-string. [docutils]
+   Documentation/userspace-api/landlock:480: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
+
+
+vim +157 Documentation/translations/zh_CN/admin-guide/module-signing.rst
+
+   152	
+   153		openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
+   154		   -config x509.genkey -outform PEM -out kernel_key.pem \
+   155		   -keyout kernel_key.pem
+   156	
+ > 157	然后可以将生成的 kernel_key.pem 文件的完整路径名指定在
+   158	``CONFIG_MODULE_SIG_KEY``选项中，并且将使用其中的证书和密钥而不是自动生成的
+   159	密钥对。
+   160	
+   161	
+
 -- 
-2.53.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
