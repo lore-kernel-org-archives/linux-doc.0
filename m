@@ -1,109 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27AF540DFB0;
-	Sat, 18 Apr 2026 15:30:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56A582DE709;
+	Sat, 18 Apr 2026 16:13:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776526237; cv=none; b=JcSinVE16pIOjPf1it+KX4zNZT29mxdlxwU4fmARkPctNVDflKYNHOhlfJxTt649OJpZs3y+RLV1EwmGJelEtQfiQPGVOJvN95iAdv+1Alg/4av3UcaZ3mGPU6kL9TBAVtBRuNhk7E/u+AxN5/mvwHehsALHVNIcs81QUvdA00g=
+	t=1776528810; cv=none; b=k0IjfIxGHj0blhimJiOwLJzrdIOE3HdW/rdypw6yyDOdaUfXbEEhNkTmssyuSBv/SsQQ21XEwRxqvFsAZwiaxiF9ty88274a5kfW1AzJFg4vf60Wy3t+kyn7B4/Lvos6BsKg6stA9Mjl/y2FSW5ZxEgfAH3iQi+6aAdXZlMsqhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776526237; c=relaxed/simple;
-	bh=ZkqedO1+/KX2dVkAjxmTlTJE7OhLU/Oi+zD52I3fudk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W3ATNi9NLYbl5bqHQJp46RRafkz/IFZ2oPs2HnjPlFWpX6cnmnuvQ3GtqQ82J1BVB2pD/4KNswnNvFxkB/9esIfdml8/lazkUxBI4ZSP1gJqjuMCmnEgkl5hFC995GwAFKnDiFoNEJ806BtB1v8ifUX0/tqf6pyKM5FMIFhPK2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W2Lpe7la; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776528810; c=relaxed/simple;
+	bh=OfJ6hcjMSopm7dYCgXtRGXIQFhrTj3OfmSn0nbgFHls=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=QsbwZ3mwxAmtyPumX+FTrmcR8KhIsqxRzCHalWmT3/pPy3CQesnFU4YT2DA3TI3WZe8ZKzK7e67dnmDNH44LSDeILtoLy1nwHIcT/Z68O9n69+3QY9iQYCQ/21SestFWeFqIbkqQl4jVXVRB94aWUs7HEaFHEz2E1Ri8tQNshL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NOdc0XHt; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W2Lpe7la"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74699C19424;
-	Sat, 18 Apr 2026 15:30:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776526236;
-	bh=ZkqedO1+/KX2dVkAjxmTlTJE7OhLU/Oi+zD52I3fudk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W2Lpe7laQ4FtpTW1u0i+4bKpSZ80WTLPFWjyydgWKSIZMgZhq4aXGnxpdHpsf05Uq
-	 5PUJX/JbgiidwwND4yVJwvC8MdFg86SpRTD5oAAbDvL/OKm2uHeL9P1Iy5QEPS1Ws8
-	 1jYVSiL+zl7MT6NoWc4Ry4Q7bP+Ks45iBExmSpmnRquK3YnFHrEjfjiviZzcPwTiuQ
-	 mshk5ZddhUX3R1K8LYMh75MBcg2ZefkDN21+RmFvgrfObUqeFOb4aYoBgoVcmuXUbj
-	 ZJZPYUBpxLzsJaXvP/AxewXBDfvAb41Hlqy7kCXv8/qrkvFY2TlNGOt9TKo2cTUqHT
-	 Yr+WlTLh2TrtA==
-Date: Sun, 19 Apr 2026 00:30:34 +0900
-From: "Harry Yoo (Oracle)" <harry@kernel.org>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Nick Huang <sef1548@gmail.com>, Lorenzo Stoakes <ljs@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>,
-	Christoph Lameter <cl@gentwo.org>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab
- documentation
-Message-ID: <aeOjmvP2nR6ri9qr@hyeyoo>
-References: <20260418000635.17499-1-sef1548@gmail.com>
- <aeMQ36jFnCKmCSyA@casper.infradead.org>
- <CABZAGREDHwsXMm65_WxEn=v-zTv7_eVqQzQeCRqU2Gyc0aTETQ@mail.gmail.com>
- <CABZAGRGFpiiEr7Odd5an1+9Z+sX1C6QT2iadv-0hNhxGj8eEyg@mail.gmail.com>
- <aeNKDh8S6pXHqRFh@lucifer>
- <CABZAGRGCwM1PiSxennV-Uy9y1gGKjpcHeq+eOAbqSZcy3Qb55g@mail.gmail.com>
- <75b2b254-2e02-43ca-9109-9812cf3f85b2@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NOdc0XHt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776528808; x=1808064808;
+  h=date:from:to:cc:subject:message-id;
+  bh=OfJ6hcjMSopm7dYCgXtRGXIQFhrTj3OfmSn0nbgFHls=;
+  b=NOdc0XHtj1PTwnLCM2XmshS5sZEQsDMxkR8NEeqLV0w9N4ajlFFGIR0T
+   KGLZ/uNbGba0+vjM+QhNQ5PAJBgnXDJ/Kzb0HnfiYpBkUoAGaUU77IWVB
+   m5CaXRj4sDY6PRmhxIX+9DWKZnHuVCG4LU8JelNmkgGxBZblYHKMfUqIq
+   CCk/zRqEManSSjcZdyY5tG2YBNmbmbZdXnKoD9C/uBsyMCLzFK/x5oe3X
+   EQj8yHZaqy24VkTes98+Swf5v4GiahD3rMEiYODXTLpqtO76HXTNLRfy2
+   l9MOpHtcdICzewqhSYrLaTsTvPOkVpvBkQ/WUfxyOJ1QbL7lDLRDUxtps
+   w==;
+X-CSE-ConnectionGUID: gDT15W5PTWum4olHDR0TSg==
+X-CSE-MsgGUID: jU2f+6xJTcSqXSH/mX/Nww==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77586192"
+X-IronPort-AV: E=Sophos;i="6.23,186,1770624000"; 
+   d="scan'208";a="77586192"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 09:13:27 -0700
+X-CSE-ConnectionGUID: Np+9Ss+eRniy32UFCdImng==
+X-CSE-MsgGUID: zbNPn++LQO+FiDS67+srSw==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 18 Apr 2026 09:13:25 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wE8IM-000000001fV-3Zqb;
+	Sat, 18 Apr 2026 16:13:22 +0000
+Date: Sat, 18 Apr 2026 18:12:41 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-doc@vger.kernel.org
+Subject: [sailus-media-tree:metadata 50/114] htmldocs:
+ Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING:
+ duplicate label media_subdev_config_model, other instance in
+ Documentation/userspace-api/media/v4l/dev-subdev.rst
+Message-ID: <202604181837.JkmT17KM-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <75b2b254-2e02-43ca-9109-9812cf3f85b2@kernel.org>
 
-On Sat, Apr 18, 2026 at 01:20:42PM +0200, Vlastimil Babka (SUSE) wrote:
-> On 4/18/26 1:00 PM, Nick Huang wrote:
-> > Hi Lorenzo Stoakes
-> > Lorenzo Stoakes <ljs@kernel.org> 於 2026年4月18日週六 下午5:11寫道：
-> >>
-> >> On Sat, Apr 18, 2026 at 02:12:22PM +0800, Nick Huang wrote:
-> >>> Nick Huang <sef1548@gmail.com> 於 2026年4月18日週六 下午1:27寫道：
-> >>>>
-> >>>> Matthew Wilcox <willy@infradead.org> 於 2026年4月18日週六 下午1:04寫道：
-> >>>>>
-> >>>>> On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
-> >>>>>> - Add "Overview" section explaining the slab allocator's role and purpose
-> >>>>>> - Document the three main slab allocator implementations (SLAB, SLUB, SLOB)
-> >>> Hi Matthew Wilcox
-> >>> I will remove this sentence in the next version:
-> >>> “Document the three main slab allocator implementations (SLAB, SLUB, SLOB).”
-> >>> I’m not entirely sure I fully understand your point. If I’ve missed
-> >>> anything, please let me know what needs to be changed. Thank you.
-> >>
-> >> No, please don't send any more revisions of this garbage, thanks.
-> > 
-> > thank you for your guidance. I will correct my work and introduce the
-> > more recent `barn`, `sheave`, and `kmalloc_obj`.
-> > Do you think this is appropriate?
-> 
-> No, this whole thing is inappropriate from the beginning. We are not
-> going to waste more time on development-by-review for something that
-> started as undisclosed LLM slop.
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   7bb838184fdc0d716c2a06795fc6ef1f1fb8350b
+commit: 8e5bf1f62e3753a0172060ede618b246677f041e [50/114] media: Documentation: Add subdev configuration models, raw sensor model
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260418/202604181837.JkmT17KM-lkp@intel.com/reproduce)
 
-Just to be clear, Nick.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604181837.JkmT17KM-lkp@intel.com/
 
-I'm no longer willing to answer all of your questions and request for
-guidance sent in private as you keep ignoring questions & feedback
-and still looking for other "interesting" items to contribute.
+All warnings (new ones prefixed by >>):
 
-Let's not waste your and others' time.
-I don't think this is going to work out.
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:526: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:166: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:535: ./include/uapi/linux/landlock.h:189: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:6: WARNING: duplicate label media_subdev_config_model, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:35: WARNING: duplicate label media_subdev_config_model_common_raw_sensor, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+>> Documentation/userspace-api/media/v4l/subdev-config-model.rst:: WARNING: duplicate label media_subdev_config_model_common_raw_sensor_subdev, other instance in Documentation/userspace-api/media/v4l/dev-subdev.rst
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+   Documentation/userspace-api/media/drivers/camera-sensor.rst:147: WARNING: undefined label: 'media-metadata-layout-ccs' [ref.ref]
 
-Expect NACK on your future slab contributions.
+
+vim +6 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+
+     4	
+     5	Sub-device configuration models
+   > 6	===============================
+     7	
+     8	The V4L2 specification defines a subdev API that exposes three type of
+     9	configuration elements: formats, selection rectangles and controls. The
+    10	specification contains generic information about how those configuration
+    11	elements behave, but not precisely how they apply to particular hardware
+    12	features. We leave some leeway to drivers to decide how to map selection
+    13	rectangles to device features, as long as they comply with the V4L2
+    14	specification. This is needed as hardware features differ between devices, so
+    15	it's the driver's responsibility to handle this mapping.
+    16	
+    17	Unfortunately, this lack of clearly defined mapping in the specification has led
+    18	to different drivers mapping the same hardware features to different API
+    19	elements, or implementing the API elements with slightly different
+    20	behaviours. Furthermore, many drivers have implemented selection rectangles in
+    21	ways that do not comply with the V4L2 specification. All of this makes userspace
+    22	development difficult.
+    23	
+    24	Sub-device configuration models specify in detail what the user space can expect
+    25	from a sub-device in terms of V4L2 sub-device interface support, semantics
+    26	included.
+    27	
+    28	A sub-device may implement more than one configuration model at the same
+    29	time. The implemented configuration models can be obtained from the sub-device's
+    30	``V4L2_CID_CONFIG_MODEL`` control.
+    31	
+    32	.. _media_subdev_config_model_common_raw_sensor:
+    33	
+    34	Common raw camera sensor model
+  > 35	------------------------------
+    36	
 
 -- 
-Cheers,
-Harry / Hyeonggon
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
