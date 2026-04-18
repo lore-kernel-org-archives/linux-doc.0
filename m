@@ -1,117 +1,78 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11CB1FBEBC;
-	Sat, 18 Apr 2026 20:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12F021A683B;
+	Sat, 18 Apr 2026 20:50:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776545136; cv=none; b=BzDc7f0P+HjMHYhCTuPfRoXrNs1XiLzKuGtXPc9a/u+vmOS5b2b+0MkTymM+gCe5ZQfXg/uIcsVhPz4kjpQG3IlTe7BVuaxpkJFWn49fY+aXAzK1JWLFyTSIrZGHCLNOwR6bJeaQ5+y9geNL6gyFkVEyAnpqot59Pg+rqFOTOHc=
+	t=1776545403; cv=none; b=W0y2kZ38RhaTv/wKze5y2CCjMHT3R8kX2O54lI0nOiX56In2bdODY1w79yMQMKyfBvO+XWyVTwIZQtpmJWS0zNjCUGe6BR+zI8Z5n8ryDcI7H0jqiJZ1eT2kVLUiDIA66aMd4QuKJHBBVoTRP3DX0vieNtJxOnNnggV9xkbNBc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776545136; c=relaxed/simple;
-	bh=YpA7K3FyMvxkFGfBj4YoKfpp0f4JU61NOCW3OLNl3JU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ilhXFQf4/d6whC+L5coU1s4ttSWrUcvUq+95nT5pX7K3TxHd6cTRQ/XN2+WPDj+j9uPMgQFe0DXfgVN2xCLzBDOC08bibiGHIpOlTDTGGr01/zdn2z46ffrg37oI9yj9sjcQw34g2ZiCYSjAERoQYDcVgqAF0ZB2qSm1EheIArc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l/c4/PSJ; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776545403; c=relaxed/simple;
+	bh=7rRzjdaoHeUV1yvrxq1rjjB0hpgHM9ztOSPhIFTKh2s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VCvIYVMWHqF4xirKBl8WW7ZhiYLvRLS43r39kp28bzgI7vIg3B7Hrr8dQSweU0Jl+xmhiXDOwAP1+Yy8+Yxev8kL3SzlicrUjg1q9xY05PUZoIA89Lkzj1fbhdzRls+n1vw5oupECicu0jL1FCGKBf7WlTa/wRPPIfMXSzgL/6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=nLjjs5DH; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l/c4/PSJ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776545133; x=1808081133;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=YpA7K3FyMvxkFGfBj4YoKfpp0f4JU61NOCW3OLNl3JU=;
-  b=l/c4/PSJ02eqynzhNqGezSmQcmgqSdWgM/+GMfMKjTRuL9ky0K1K1hsz
-   YS0/DyqyuD6Fr+c7oJL50l213NXsumAdHhA8DnLR3JTWnvUNsK8+zE+t3
-   CJc62LoAYUcba45imecyH2UY7T0pNvoWlUh/U+kER6ho8H5t/gCtPevus
-   aRQnDpetwKN2jtPG5AOsH7vsgZweNoiZVj4NNkOKJ3NoRplBOwfZzpPKF
-   fOLQrj+IxHDEXIBaPJxtP4tCDwEFYGmQEIiRICMwOvMMh8KK/G5iR1T1F
-   BrGuAxQsTMWFzN9zGZduLujbYs0TL8OiD7vzzA0VPr1WlzmwHeVfuJeuG
-   A==;
-X-CSE-ConnectionGUID: fS8EKUTNR5i+UxSxwgPJ2g==
-X-CSE-MsgGUID: 7vYYWy+LRICaz5uz2ZJqPA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77389289"
-X-IronPort-AV: E=Sophos;i="6.23,187,1770624000"; 
-   d="scan'208";a="77389289"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Apr 2026 13:45:32 -0700
-X-CSE-ConnectionGUID: Ibezv02vRT6fw+ifg8LiTA==
-X-CSE-MsgGUID: I5eUixQ0TwCD0LUXRXOL+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,187,1770624000"; 
-   d="scan'208";a="230479876"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa010.jf.intel.com with ESMTP; 18 Apr 2026 13:45:29 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wECXe-000000001iP-3Dez;
-	Sat, 18 Apr 2026 20:45:26 +0000
-Date: Sat, 18 Apr 2026 22:45:25 +0200
-From: kernel test robot <lkp@intel.com>
-To: Yan Zhu <zhuyan2015@qq.com>, seakeel@gmail.com, alexs@kernel.org,
-	si.yanteng@linux.dev, corbet@lwn.net
-Cc: oe-kbuild-all@lists.linux.dev, dzm91@hust.edu.cn,
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, zhuyan2015@qq.com
-Subject: Re: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
-Message-ID: <202604182216.Qpd5KifK-lkp@intel.com>
-References: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="nLjjs5DH"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 83585168F;
+	Sat, 18 Apr 2026 13:49:48 -0700 (PDT)
+Received: from workstation-e142269.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 5822D3F7D8;
+	Sat, 18 Apr 2026 13:49:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1776545394; bh=7rRzjdaoHeUV1yvrxq1rjjB0hpgHM9ztOSPhIFTKh2s=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nLjjs5DH0Ua5b8R4mdWyr+b4VFdGT+bybJ9kybsMGGoO5uryBV+PaoHv4UBcB887r
+	 tY92Ya3mSHC4x01/6JDi9IuixEolf9Ky53ZV4xwkIYgVjnZmalKgqSWgXrS0EOmqjZ
+	 bgQnB2/N2PRGUL/GBEVXDAFVKulDTTPT1Txz/cNY=
+From: Wei-Lin Chang <weilin.chang@arm.com>
+To: maple-tree@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Ballance <andrewjballance@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Wei-Lin Chang <weilin.chang@arm.com>
+Subject: [RFC PATCH 0/2] Documentation: maple_tree: Improve statements on reserved values
+Date: Sat, 18 Apr 2026 21:47:52 +0100
+Message-ID: <20260418204754.120405-1-weilin.chang@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
 
-Hi Yan,
+Hi,
 
-kernel test robot noticed the following build warnings:
+While using the maple tree and reading its documentation, I found a few
+bits confusing, mainly about the reserved values. So here are some
+changes hoping to make things clearer.
 
-[auto build test WARNING on lwn/docs-next]
-[also build test WARNING on linus/master v7.0 next-20260417]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I am not familiar with the implementation, so I might be getting things
+wrong, hence this being RFC.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yan-Zhu/docs-zh_CN-add-module-signing-Chinese-translation/20260418-151621
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309%40qq.com
-patch subject: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260418/202604182216.Qpd5KifK-lkp@intel.com/reproduce)
+While looking at the code I also found that although the doc claims the
+normal API blocks reserved value stores, the code checks this using
+xa_is_advanced(), which only blocks values up to 1026, not up to the max
+maple tree reserved value 4094. For this part I am not sure whether the
+code needs to be changed or we can also improve the doc.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604182216.Qpd5KifK-lkp@intel.com/
+Any feedback is appreciated, thanks!
 
-All warnings (new ones prefixed by >>):
+Wei-Lin Chang (2):
+  Documentation: maple_tree: Point out constraint when using xa_{mk,
+    to}_value
+  Documentation: maple_tree: Clarify behavior when using reserved values
 
-   Checksumming on output with GSO
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
->> Documentation/translations/zh_CN/admin-guide/module-signing.rst:157: WARNING: Inline literal start-string without end-string. [docutils]
-   Documentation/userspace-api/landlock:480: ./security/landlock/errata/abi-4.h:5: ERROR: Unexpected section title.
-
-
-vim +157 Documentation/translations/zh_CN/admin-guide/module-signing.rst
-
-   152	
-   153		openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
-   154		   -config x509.genkey -outform PEM -out kernel_key.pem \
-   155		   -keyout kernel_key.pem
-   156	
- > 157	然后可以将生成的 kernel_key.pem 文件的完整路径名指定在
-   158	``CONFIG_MODULE_SIG_KEY``选项中，并且将使用其中的证书和密钥而不是自动生成的
-   159	密钥对。
-   160	
-   161	
+ Documentation/core-api/maple_tree.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
