@@ -1,400 +1,321 @@
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.175.55.52])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9967334165B;
-	Sat, 18 Apr 2026 06:24:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.175.55.52
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 695CF26ED35;
+	Sat, 18 Apr 2026 08:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776493497; cv=none; b=KjWYkjMtN78eGQnVx5W/fv8CJ18pE9jAZowExDpv/jvqtoPvksX2NlBP0CIxvqOLebXUNyUEjUwWnll+KcfATXpPl5Zz6gZ56RlxD/+2g7B/s065LiyU3pA6eJEgIfQGy45imbrxaVoUIiTnVBELYoq6ChucUUHKWRpmFzQs+6M=
+	t=1776500161; cv=none; b=DxkgRrvOyNeo6vw755wnVFDxpYcOQr4w4ChCd2EFYTmiVREahCo2jN4VWbQDNAY+5SHB5O7KI853IKtJRs/AonMn2m0PDxZsYa/1QinkAEnv9MurfCWAji3rOs0eeUZfPQ/PpQLtg4n4kYy8MdxvSmZy4tKkYj+XuV6jV2NSPwI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776493497; c=relaxed/simple;
-	bh=IOJVwdS2JaratErWNErNkcuuAY/CO+ASVp4PScZaOPY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zof40z2lBkP2UEbl7abkUCt3pIaWMQuhntsB0XW1nGA6vLm9GaHSnP+WF82JmIJq0ryXkwSmsETQSRzirVIyw0oYkkmVFBX23Q+sVL9GBk9gMTfCTU8o8i8qocMrKNkz1imAeOXZIWNh6OWcrzQG6ZBq554uXPIHZa0YUyC+q0c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.175.55.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.52])
-	by app2 (Coremail) with SMTP id HwEQrAD3OnWRI+NpHSv8AA--.49462S2;
-	Sat, 18 Apr 2026 14:24:17 +0800 (CST)
-Received: from [10.12.170.63] (unknown [10.12.170.63])
-	by gateway (Coremail) with SMTP id _____wAXQqGOI+NpvkvZAQ--.19196S2;
-	Sat, 18 Apr 2026 14:24:15 +0800 (CST)
-Message-ID: <c0adb271-ed5a-4732-af1b-b3e71af108af@hust.edu.cn>
-Date: Sat, 18 Apr 2026 14:24:14 +0800
+	s=arc-20240116; t=1776500161; c=relaxed/simple;
+	bh=D/mBlhNeWFlnZKdk70oNUKIffZjhnT115Xn1IrGbR9M=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=EyfJJvY5KNcRJmfz6dahTsW96o/EnAMcbdlrMsv9wYNWk3QVag0k6/WR+dgl0cydFcdb88r/uA0eNug45U+gtAfDusNR98XXWQWKGf0cyER/anwzgqJMf9Aj+ngC0WtLesWBWi/pLD9WyNwd1ZdrvtavvWrNSi3RpioodCD5M1k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=OGLitJTi reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="OGLitJTi"
+Received: from h205.csg.ci.i.u-tokyo.ac.jp (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 63I8EbAh001871
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Sat, 18 Apr 2026 17:15:03 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=aQY4SCe4DeTga+o9ZXZrePVwQV1qV3Q02J8OygHJQw0=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-Id:To:Subject:Date;
+        s=rs20250326; t=1776500103; v=1;
+        b=OGLitJTizNB3T9c5/hGQCLImtr8GgKzbQAYBXsfOk4ajsJ0LIHfzrE53fl2Ci8lQ
+         lQI74mFJjiTY1O3HYyag9yvVOKoYTDhz9lkgNPP4KeJP6ouNOW9WIs3ujWjv5cki
+         OWnZZrO7vHUBuGvg8Rvk7AdR21m2cAbE3H0EHQ6yQ2JXBWyNDFIs4cEK6PcX1ZMU
+         xZfPOfpnWpjoxeeTHUhtxWhBt93WcI30qpNdxnfythN9I12an9ZfjNVdul5jWEgH
+         EXY2gciUUjmLV1OK29gC90LiNM17zGJzKNiKncXSXOYgyZMPMM/QW5kvDdSkaN9g
+         hTDxCOyJ/qFNfgZeq2rkOQ==
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Date: Sat, 18 Apr 2026 17:14:26 +0900
+Subject: [PATCH v7 4/4] KVM: arm64: selftests: Test
+ PMU_V3_FIXED_COUNTERS_ONLY
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add module-signing Chinese translation
-To: Yan Zhu <zhuyan2015@qq.com>, Alex Shi <seakeel@gmail.com>,
- alexs@kernel.org, si.yanteng@linux.dev, corbet@lwn.net
-Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <tencent_1BF5E860CC01A1E23DC405DD92314BE16E05@qq.com>
- <bb119ab9-a805-46c0-91ab-1f45f7a506c8@gmail.com>
- <tencent_70D8F75417524BB9ACD33B9223F831030407@qq.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <tencent_70D8F75417524BB9ACD33B9223F831030407@qq.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HwEQrAD3OnWRI+NpHSv8AA--.49462S2
-Authentication-Results: app2; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3Aw4UZr4fJw1rGr4DZr15XFb_yoW8Xr4kWo
-	WfKryfCw15Kw1Ygr1rKw4UJry5J3WjgrnrCay7CrW7Jr1qk3Zaya4qy34Utay5Ar4xGF15
-	JF13Jr1UAFyUZF13n29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOg7k0a2IF6F4UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcVAKI48JMxkF7I0En4kS14v26r126r1DMxAIw2
-	8IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkEbVWU
-	JVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4
-	vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IY
-	x2IY67AKxVW8JVW5JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26c
-	xKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAF
-	wI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jfvtZUUUUU=
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260418-hybrid-v7-4-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+To: Marc Zyngier <maz@kernel.org>, Oliver Upton <oupton@kernel.org>,
+        Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>
+Cc: linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+        devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org,
+        Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+X-Mailer: b4 0.15-dev-5ab4c
 
+Assert the following:
+- KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY is unset at initialization.
+- KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY can be set.
+- Setting KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY for the first time
+  after setting an event filter results in EBUSY.
+- KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY can be set again even if an
+  event filter has already been set.
+- Setting KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY after running a VCPU
+  results in EBUSY.
+- The existing test cases pass with
+  KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY set.
 
-On 4/18/26 1:34 PM, Yan Zhu wrote:
->
->
-> On 4/10/2026 7:21 PM, Alex Shi wrote:
->>
->>
->> On 2026/4/1 23:40, Yan Zhu wrote:
->>> Translate .../admin-guide/module-signing.rst into Chinese.
->>>
->>> Update the translation through commit 0ad9a71933e7
->>> ("modsign: Enable ML-DSA module signing")
->>>
->>> Signed-off-by: Yan Zhu<zhuyan2015@qq.com>
->>> ---
->>>   .../zh_CN/admin-guide/module-signing.rst      | 242 
->>> ++++++++++++++++++
->>>   1 file changed, 242 insertions(+)
->>>   create mode 100644 Documentation/translations/zh_CN/admin-guide/ 
->>> module-signing.rst
->>>
->>> diff --git a/Documentation/translations/zh_CN/admin-guide/module- 
->>> signing.rst b/Documentation/translations/zh_CN/admin-guide/module- 
->>> signing.rst
->>> new file mode 100644
->>> index 000000000000..b8c209dd229d
->>> --- /dev/null
->>> +++ b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
->>> @@ -0,0 +1,242 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +.. include:: ../disclaimer-zh_CN.rst
->>> +
->>> +:Original: Documentation/admin-guide/module-signing.rst
->>> +:翻译:
->>> + 朱岩 Yan Zhu<zhuyan2015@qq.com>
->>> +
->>> +
->>> +==========================
->>> +内核模块签名机制
->>> +==========================
->>> +
->>> +.. 目录
->>> +..
->>> +.. - 概述
->>> +.. - 配置模块签名
->>> +.. - 生成签名密钥
->>> +.. - 内核中的公钥
->>> +.. - 模块手动签名
->>> +.. - 已签名模块和剥离
->>> +.. - 加载已签名模块
->>> +.. - 无效签名和未签名模块
->>> +.. - 管理/保护私钥
->>> +
->>> +
->>> +概述
->>> +====
->>> +
->>> +内核模块签名机制在安装过程中对模块进行加密签名，然后在加载模块时检查 
->>> 签名。
->>> +这通过禁止加载未签名的模块或使用无效密钥签名的模块来提高内核安全性。
->>> +模块签名通过使恶意模块更难加载到内核中来增加安全性。
->>> +模块签名检查在内核中完成，因此不需要受信任的用户空间位。
->>> +
->>> +此机制使用 X.509 ITU-T 标准证书对涉及的公钥进行编码。
->>> +签名本身不以任何工业标准类型编码。
->>> +内置机制目前仅支持 RSA、NIST P-384 ECDSA 和 NIST FIPS-204 ML-DSA 公钥 
->>> 签名标准（尽管它是可插拔的并允许使用其他标准）。
->>
->> This line is too long, and not align with other lines. you need to 
->> follow the coding style in documents.
->>
->>
->>> +对于 RSA 和 ECDSA，可以使用的可能的哈希算法是大小为 256、384 和 512 的 
->>> SHA-2 和 SHA-3（算法由签名中的数据选择）；
->>> +ML-DSA会自行进行哈希运算，但允许与SHA512哈希算法结合用于签名属性。
->>> +
->>> +配置模块签名
->>> +============
->>> +
->>> +通过进入内核配置的 :menuselection:`Enable Loadable Module Support` 菜 
->>> 单并打开以下选项来启用模块签名机制::
->>> +
->>> +    CONFIG_MODULE_SIG    "Module signature verification"
->>> +
->>> +这有多个可用选项：
->>> +
->>> + (1) :menuselection:`Require modules to be validly signed`
->>> +     (``CONFIG_MODULE_SIG_FORCE``)
->>> +
->>> +     这指定了内核应如何处理其密钥未知或未签名的模块。
->>> +
->>> +     如果关闭（即"宽松模式"），则允许使用不可用密钥和未签名的模块，
->>> +     
->>> 但内核将被标记为受污染，并且相关模块将被标记为受污染，显示字符'E'。
->>> +
->>> +     如果打开（即"限制模式"），只有具有有效签名且可由内核拥有的公钥验 
->>> 证的模块才会被加载。
->>> +     所有其他模块将生成错误。
->>> +
->>> +     无论此处的设置如何，如果模块的签名块无法解析，它将被直接拒绝。
->>> +
->>> +
->>> + (2) :menuselection:`Automatically sign all modules`
->>> +     (``CONFIG_MODULE_SIG_ALL``)
->>> +
->>> +     如果打开此选项，则在构建的 modules_install 
->>> 阶段期间将自动签名模块。
->>> +     如果关闭，则必须使用以下命令手动签名模块::
->>> +
->>> +    scripts/sign-file
->>> +
->>> +
->>> + (3) :menuselection:`Which hash algorithm should modules be signed 
->>> with?`
->>> +
->>> +     这提供了安装阶段将用于签名模块的哈希算法选择：
->>> +
->>> +        =============================== 
->>> ==========================================
->>> +    ``CONFIG_MODULE_SIG_SHA256``    :menuselection:`Sign modules 
->>> with SHA-256`
->>> +    ``CONFIG_MODULE_SIG_SHA384``    :menuselection:`Sign modules 
->>> with SHA-384`
->>> +    ``CONFIG_MODULE_SIG_SHA512``    :menuselection:`Sign modules 
->>> with SHA-512`
->>> +    ``CONFIG_MODULE_SIG_SHA3_256``    :menuselection:`Sign modules 
->>> with SHA3-256`
->>> +    ``CONFIG_MODULE_SIG_SHA3_384``    :menuselection:`Sign modules 
->>> with SHA3-384`
->>> +    ``CONFIG_MODULE_SIG_SHA3_512``    :menuselection:`Sign modules 
->>> with SHA3-512`
->>> +        =============================== 
->>> ==========================================
->>
->> Got errors here:
->> Applying: docs/zh_CN: add module-signing Chinese translation
->> /home/alexshi/linuxdoc/.git/rebase-apply/patch:87: indent with spaces.
->>          =============================== 
->> ==========================================
->> /home/alexshi/linuxdoc/.git/rebase-apply/patch:94: indent with spaces.
->>          =============================== 
->> ==========================================
->> warning: 2 lines add whitespace errors.>
->> Thanks
->> Alex
->
-> Thanks for your review, I have fixed those issues in v3 patch.
+Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+---
+ .../selftests/kvm/arm64/vpmu_counter_access.c      | 153 +++++++++++++++++----
+ 1 file changed, 127 insertions(+), 26 deletions(-)
 
-The revision patch should be v2. Don't skip numbers.
+diff --git a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
+index ae36325c022f..0ed0a8513b03 100644
+--- a/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
++++ b/tools/testing/selftests/kvm/arm64/vpmu_counter_access.c
+@@ -403,12 +403,7 @@ static void create_vpmu_vm(void *guest_code)
+ {
+ 	struct kvm_vcpu_init init;
+ 	uint8_t pmuver, ec;
+-	uint64_t dfr0, irq = 23;
+-	struct kvm_device_attr irq_attr = {
+-		.group = KVM_ARM_VCPU_PMU_V3_CTRL,
+-		.attr = KVM_ARM_VCPU_PMU_V3_IRQ,
+-		.addr = (uint64_t)&irq,
+-	};
++	uint64_t dfr0;
+ 
+ 	/* The test creates the vpmu_vm multiple times. Ensure a clean state */
+ 	memset(&vpmu_vm, 0, sizeof(vpmu_vm));
+@@ -434,8 +429,6 @@ static void create_vpmu_vm(void *guest_code)
+ 	TEST_ASSERT(pmuver != ID_AA64DFR0_EL1_PMUVer_IMP_DEF &&
+ 		    pmuver >= ID_AA64DFR0_EL1_PMUVer_IMP,
+ 		    "Unexpected PMUVER (0x%x) on the vCPU with PMUv3", pmuver);
+-
+-	vcpu_ioctl(vpmu_vm.vcpu, KVM_SET_DEVICE_ATTR, &irq_attr);
+ }
+ 
+ static void destroy_vpmu_vm(void)
+@@ -461,15 +454,30 @@ static void run_vcpu(struct kvm_vcpu *vcpu, uint64_t pmcr_n)
+ 	}
+ }
+ 
+-static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters, bool expect_fail)
++static void guest_code_done(void)
++{
++	GUEST_DONE();
++}
++
++static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters,
++						 bool fixed_counters_only,
++						 bool expect_fail)
+ {
+ 	struct kvm_vcpu *vcpu;
+ 	unsigned int prev;
+ 	int ret;
++	uint64_t irq = 23;
+ 
+ 	create_vpmu_vm(guest_code);
+ 	vcpu = vpmu_vm.vcpu;
+ 
++	if (fixed_counters_only)
++		vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++
++	vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
++
+ 	prev = get_pmcr_n(vcpu_get_reg(vcpu, KVM_ARM64_SYS_REG(SYS_PMCR_EL0)));
+ 
+ 	ret = __vcpu_device_attr_set(vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
+@@ -489,15 +497,15 @@ static void test_create_vpmu_vm_with_nr_counters(unsigned int nr_counters, bool
+  * Create a guest with one vCPU, set the PMCR_EL0.N for the vCPU to @pmcr_n,
+  * and run the test.
+  */
+-static void run_access_test(uint64_t pmcr_n)
++static void run_access_test(uint64_t pmcr_n, bool fixed_counters_only)
+ {
+ 	uint64_t sp;
+ 	struct kvm_vcpu *vcpu;
+ 	struct kvm_vcpu_init init;
+ 
+-	pr_debug("Test with pmcr_n %lu\n", pmcr_n);
++	pr_debug("Test with pmcr_n %lu, fixed_counters_only %d\n", pmcr_n, fixed_counters_only);
+ 
+-	test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
++	test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, false);
+ 	vcpu = vpmu_vm.vcpu;
+ 
+ 	/* Save the initial sp to restore them later to run the guest again */
+@@ -531,14 +539,14 @@ static struct pmreg_sets validity_check_reg_sets[] = {
+  * Create a VM, and check if KVM handles the userspace accesses of
+  * the PMU register sets in @validity_check_reg_sets[] correctly.
+  */
+-static void run_pmregs_validity_test(uint64_t pmcr_n)
++static void run_pmregs_validity_test(uint64_t pmcr_n, bool fixed_counters_only)
+ {
+ 	int i;
+ 	struct kvm_vcpu *vcpu;
+ 	uint64_t set_reg_id, clr_reg_id, reg_val;
+ 	uint64_t valid_counters_mask, max_counters_mask;
+ 
+-	test_create_vpmu_vm_with_nr_counters(pmcr_n, false);
++	test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, false);
+ 	vcpu = vpmu_vm.vcpu;
+ 
+ 	valid_counters_mask = get_counters_mask(pmcr_n);
+@@ -588,11 +596,11 @@ static void run_pmregs_validity_test(uint64_t pmcr_n)
+  * the vCPU to @pmcr_n, which is larger than the host value.
+  * The attempt should fail as @pmcr_n is too big to set for the vCPU.
+  */
+-static void run_error_test(uint64_t pmcr_n)
++static void run_error_test(uint64_t pmcr_n, bool fixed_counters_only)
+ {
+ 	pr_debug("Error test with pmcr_n %lu (larger than the host)\n", pmcr_n);
+ 
+-	test_create_vpmu_vm_with_nr_counters(pmcr_n, true);
++	test_create_vpmu_vm_with_nr_counters(pmcr_n, fixed_counters_only, true);
+ 	destroy_vpmu_vm();
+ }
+ 
+@@ -622,22 +630,115 @@ static bool kvm_supports_nr_counters_attr(void)
+ 	return supported;
+ }
+ 
+-int main(void)
++static void test_config(uint64_t pmcr_n, bool fixed_counters_only)
+ {
+-	uint64_t i, pmcr_n;
+-
+-	TEST_REQUIRE(kvm_has_cap(KVM_CAP_ARM_PMU_V3));
+-	TEST_REQUIRE(kvm_supports_vgic_v3());
+-	TEST_REQUIRE(kvm_supports_nr_counters_attr());
++	uint64_t i;
+ 
+-	pmcr_n = get_pmcr_n_limit();
+ 	for (i = 0; i <= pmcr_n; i++) {
+-		run_access_test(i);
+-		run_pmregs_validity_test(i);
++		run_access_test(i, fixed_counters_only);
++		run_pmregs_validity_test(i, fixed_counters_only);
+ 	}
+ 
+ 	for (i = pmcr_n + 1; i < ARMV8_PMU_MAX_COUNTERS; i++)
+-		run_error_test(i);
++		run_error_test(i, fixed_counters_only);
++}
++
++static void test_fixed_counters_only(void)
++{
++	struct kvm_pmu_event_filter filter = { .nevents = 0 };
++	struct kvm_vm *vm;
++	struct kvm_vcpu *running_vcpu;
++	struct kvm_vcpu *stopped_vcpu;
++	struct kvm_vcpu_init init;
++	int ret;
++	uint64_t irq = 23;
++
++	create_vpmu_vm(guest_code);
++	ret = __vcpu_has_device_attr(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY);
++	if (ret) {
++		TEST_ASSERT(ret == -1 && errno == ENXIO,
++			    KVM_IOCTL_ERROR(KVM_HAS_DEVICE_ATTR, ret));
++		destroy_vpmu_vm();
++		return;
++	}
++
++	/* Assert that FIXED_COUNTERS_ONLY is unset at initialization. */
++	ret = __vcpu_device_attr_get(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++	TEST_ASSERT(ret == -1 && errno == ENXIO,
++		    KVM_IOCTL_ERROR(KVM_GET_DEVICE_ATTR, ret));
++
++	/* Assert that setting FIXED_COUNTERS_ONLY succeeds. */
++	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++
++	/* Assert that getting FIXED_COUNTERS_ONLY succeeds. */
++	vcpu_device_attr_get(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++
++	/*
++	 * Assert that setting FIXED_COUNTERS_ONLY again succeeds even if an
++	 * event filter has already been set.
++	 */
++	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_FILTER, &filter);
++
++	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++
++	destroy_vpmu_vm();
++
++	create_vpmu_vm(guest_code);
++
++	/*
++	 * Assert that setting FIXED_COUNTERS_ONLY results in EBUSY if an event
++	 * filter has already been set while FIXED_COUNTERS_ONLY has not.
++	 */
++	vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_FILTER, &filter);
++
++	ret = __vcpu_device_attr_set(vpmu_vm.vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++	TEST_ASSERT(ret == -1 && errno == EBUSY,
++		    KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
++
++	destroy_vpmu_vm();
++
++	/*
++	 * Assert that setting FIXED_COUNTERS_ONLY after running a VCPU results
++	 * in EBUSY.
++	 */
++	vm = vm_create(2);
++	vm_ioctl(vm, KVM_ARM_PREFERRED_TARGET, &init);
++	init.features[0] |= (1 << KVM_ARM_VCPU_PMU_V3);
++	running_vcpu = aarch64_vcpu_add(vm, 0, &init, guest_code_done);
++	stopped_vcpu = aarch64_vcpu_add(vm, 1, &init, guest_code_done);
++	kvm_arch_vm_finalize_vcpus(vm);
++	vcpu_device_attr_set(running_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_IRQ, &irq);
++	vcpu_device_attr_set(running_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++			     KVM_ARM_VCPU_PMU_V3_INIT, NULL);
++	vcpu_run(running_vcpu);
++
++	ret = __vcpu_device_attr_set(stopped_vcpu, KVM_ARM_VCPU_PMU_V3_CTRL,
++				     KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY, NULL);
++	TEST_ASSERT(ret == -1 && errno == EBUSY,
++		    KVM_IOCTL_ERROR(KVM_SET_DEVICE_ATTR, ret));
++
++	kvm_vm_free(vm);
++
++	test_config(0, true);
++}
++
++int main(void)
++{
++	TEST_REQUIRE(kvm_has_cap(KVM_CAP_ARM_PMU_V3));
++	TEST_REQUIRE(kvm_supports_vgic_v3());
++	TEST_REQUIRE(kvm_supports_nr_counters_attr());
++
++	test_config(get_pmcr_n_limit(), false);
++	test_fixed_counters_only();
+ 
+ 	return 0;
+ }
 
-Dongliang Mu
-
->
->>> +
->>> +     此处选择的算法也将被构建到内核中（而不是作为模块），
->>> +     以便使用该算法签名的模块可以在不导致循环依赖的情况下检查其签名。
->>> +
->>> +
->>> + (4) :menuselection:`File name or PKCS#11 URI of module signing key`
->>> +     (``CONFIG_MODULE_SIG_KEY``)
->>> +
->>> +     将此选项设置为除默认值 ``certs/signing_key.pem`` 之外的其他值将 
->>> 禁用签名密钥的自动生成，
->>> +     并允许使用您选择的密钥对内核模块进行签名。
->>> +     提供的字符串应标识包含私钥及其对应的 PEM 格式 X.509 证书的文件，
->>> +     或者在 OpenSSL ENGINE_pkcs11 功能正常的系统上，使用 RFC7512 定义 
->>> 的 PKCS#11 URI。
->>> +     在后一种情况下，PKCS#11 URI 应引用证书和私钥。
->>> +
->>> +     如果包含私钥的 PEM 文件已加密，或者 PKCS#11 令牌需要 PIN，
->>> +     可以通过 ``KBUILD_SIGN_PIN`` 变量在构建时提供。
->>> +
->>> +
->>> + (5) :menuselection:`Additional X.509 keys for default system keyring`
->>> +     (``CONFIG_SYSTEM_TRUSTED_KEYS``)
->>> +
->>> +     此选项可设置为包含附加证书的 PEM 编码文件的文件名，
->>> +     这些证书将默认包含在系统密钥环中。
->>> +
->>> +请注意，启用模块签名会为内核构建过程添加对执行签名工具的 OpenSSL 开发 
->>> 包的依赖。
->>> +
->>> +
->>> +生成签名密钥
->>> +============
->>> +
->>> +生成和检查签名需要加密密钥对。私钥用于生成签名，相应的公钥用于检查签名。 
->>>
->>> +私钥仅在构建期间需要，之后可以删除或安全存储。
->>> +公钥被构建到内核中，以便在加载模块时可以使用它来检查签名。
->>> +
->>> +在正常情况下，当 ``CONFIG_MODULE_SIG_KEY`` 保持默认值时，
->>> +如果文件中不存在密钥对，内核构建将使用 openssl 自动生成新的密钥对::
->>> +
->>> +    certs/signing_key.pem
->>> +
->>> +在构建 vmlinux 期间（公钥需要构建到 vmlinux 中）使用参数::
->>> +
->>> +    certs/x509.genkey
->>> +
->>> +文件（如果尚不存在也会生成）。
->>> +
->>> +可以在 RSA（``MODULE_SIG_KEY_TYPE_RSA``）、ECDSA 
->>> （``MODULE_SIG_KEY_TYPE_ECDSA``）
->>> +和 ML-DSA（``MODULE_SIG_KEY_TYPE_MLDSA_*``）之间选择生成 RSA 4k、NIST 
->>> P-384 密钥对或 ML-DSA 44、65 或 87 密钥对。
->>> +
->>> +强烈建议您提供自己的 x509.genkey 文件。
->>> +
->>> +最值得注意的是，在 x509.genkey 文件中，req_distinguished_name 部分应 
->>> 从默认值更改::
->>> +
->>> +    [ req_distinguished_name ]
->>> +    #O = Unspecified company
->>> +    CN = Build time autogenerated kernel key
->>> +    #emailAddress =unspecified.user@unspecified.company
->>> +
->>> +生成的 RSA 密钥大小也可以通过以下方式设置::
->>> +
->>> +    [ req ]
->>> +    default_bits = 4096
->>> +
->>> +也可以使用位于 Linux 内核源代码树根节点中的 x509.genkey 密钥生成配置 
->>> 文件和 openssl 命令手动生成公钥/私钥文件。
->>> +以下是生成公钥/私钥文件的示例::
->>> +
->>> +    openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
->>> +       -config x509.genkey -outform PEM -out kernel_key.pem \
->>> +       -keyout kernel_key.pem
->>> +
->>> +然后可以将生成的 kernel_key.pem 文件的完整路径名指定在 
->>> ``CONFIG_MODULE_SIG_KEY`` 选项中，
->>> +并且将使用其中的证书和密钥而不是自动生成的密钥对。
->>> +
->>> +
->>> +内核中的公钥
->>> +============
->>> +
->>> +内核包含一个可由 root 查看的公钥环。它们在名为 ".builtin_trusted_keys" 
->>> 的密钥环中，
->>> +可以通过以下方式查看::
->>> +
->>> +    [root@deneb ~]# cat /proc/keys
->>> +    ...
->>> +    223c7853 I------     1 perm 1f030000     0     0 keyring   
->>> .builtin_trusted_keys: 1
->>> +    302d2d52 I------     1 perm 1f010000     0     0 asymmetri 
->>> Fedora kernel signing key: d69a84e6bce3d216b979e9505b3e3ef9a7118079: 
->>> X509.RSA a7118079 []
->>> +
->>> +除了专门为模块签名生成的公钥外，还可以在 ``CONFIG_SYSTEM_TRUSTED_KEYS`` 
->>> 配置选项引用的 PEM 编码文件中提供其他受 信任的证书。
->>> +
->>> +此外，架构代码可以从硬件存储中获取公钥并将其添加（例如从 UEFI 密钥数 
->>> 据库）。
->>> +
->>> +最后，可以通过以下方式添加其他公钥::
->>> +
->>> +    keyctl padd asymmetric "" [.builtin_trusted_keys-ID] <[key-file]
->>> +
->>> +例如::
->>> +
->>> +    keyctl padd asymmetric "" 0x223c7853 <my_public_key.x509
->>> +
->>> +但是，请注意，内核只允许将由已驻留在 ``.builtin_trusted_keys`` 中的密 
->>> 钥有效签名的密钥添加到 ``.builtin_trusted_keys``。
->>> +
->>> +模块手动签名
->>> +============
->>> +
->>> +要手动对模块进行签名，请使用 Linux 内核源代码树中可用的 scripts/sign- 
->>> file 工具。
->>> +该脚本需要 4 个参数：
->>> +
->>> +    1.  哈希算法（例如，sha256）
->>> +    2.  私钥文件名或 PKCS#11 URI
->>> +    3.  公钥文件名
->>> +    4.  要签名的内核模块
->>> +
->>> +以下是签名内核模块的示例::
->>> +
->>> +    scripts/sign-file sha512 kernel-signkey.priv \
->>> +        kernel-signkey.x509 module.ko
->>> +
->>> +使用的哈希算法不必与配置的算法匹配，但如果不同，
->>> +应确保哈希算法要么内置在内核中，要么可以在不需要自身的情况下加载。
->>> +
->>> +如果私钥需要密码或 PIN，可以在 $KBUILD_SIGN_PIN 环境变量中提供。
->>> +
->>> +
->>> +已签名模块和剥离
->>> +================
->>> +
->>> +已签名模块在末尾简单地附加了数字签名。模块文件末尾的字符串
->>> +``~Module signature appended~.`` 确认签名存在，但不能确认签名有效！
->>> +
->>> +已签名模块是脆弱的，因为签名在定义的ELF容器之外。
->>> +因此，一旦计算并附加签名，就不得剥离它们。
->>> +请注意，整个模块都是签名的有效载荷，包括签名时存在的任何和所有调试信息。 
->>>
->>> +
->>> +
->>> +加载已签名模块
->>> +==============
->>> +
->>> +模块通过 insmod、modprobe、``init_module()`` 或 ``finit_module()`` 加 
->>> 载，
->>> +与未签名模块完全一样，因为在用户空间中不进行任何处理。
->>> +所有签名检查都在内核内完成。
->>> +
->>> +
->>> +无效签名和未签名模块
->>> +====================
->>> +
->>> +如果启用了 ``CONFIG_MODULE_SIG_FORCE`` 或在内核启动命令提供了 
->>> module.sig_enforce=1，
->>> +内核将仅加载具有有效签名且具有公钥的模块。
->>> +否则，它还将加载未签名的模块。
->>> +任何具有不匹配签名的模块将不被允许加载。
->>> +
->>> +任何具有不可解析签名的模块将被拒绝。
->>> +
->>> +
->>> +管理/保护私钥
->>> +==============
->>> +
->>> +由于私钥用于签名模块，病毒和恶意软件可以使用私钥签名模块并危害操作系统。 
->>>
->>> +私钥必须被销毁或移动到安全位置，而不是保存在内核源代码树的根节点中。
->>> +
->>> +如果使用相同的私钥为多个内核配置签名模块，
->>> +必须确保模块版本信息足以防止将模块加载到不同的内核中。
->>> +要么设置 ``CONFIG_MODVERSIONS=y``，要么通过更改 ``EXTRAVERSION`` 或 
->>> ``CONFIG_LOCALVERSION`` 确保每个配置具有不同的内核发布字符串。
->>> -- 2.43.0
->>>
->
+-- 
+2.53.0
 
