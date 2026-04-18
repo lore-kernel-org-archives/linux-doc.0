@@ -1,77 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F2D239E7D;
-	Sat, 18 Apr 2026 23:23:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B11F33A6F9;
+	Sat, 18 Apr 2026 23:50:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776554624; cv=none; b=QotxA3Mmom5wuFYItbxUxkyxwqP5/SwPmvwvXG77QLPc0cKNdzI2/Ibg7BnsDT3p5vqavzFx1iq30OiRaH5wb7HtD7AY60tDEa+JrBnS859/m7pqLsQjX4XAJNwnIye9XGtKSkM8zdIwlE+HDXd9h84deT1GBLOUZCL5qTDO9Sk=
+	t=1776556234; cv=none; b=NTGT2KhWTOwOOpkUat7xvhiR6FuBQtByqQa5Uh/Sur1zGLm5MfyFWWNvkUIV4RzrlpW2Kpm7+66yd5ZEBvtJW46E1VFVKA+iDvs50T0he/b/R5S/p5luaWomYuy9iEziES7vVcPtwocJ4Chxx/DAYNcvRyANtzan24lRFsDitIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776554624; c=relaxed/simple;
-	bh=EN4E/GrqbYdPOgLIBqgWr38ogwnBqfZGz13yZYWr8n8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mocEQT8xa3liIGuT1UwKnr1AkO0rWdWklZPgw3TsusHaE3TiZ7x4tkmf7N66YqC8O77s8yWxvttN14qSmiCLtGk8k1lYHQtQRfN9qvv9vOi8byIlvDGZxshxjdkSFykuUeNGNsTpqJA9S19Lka0daPZibHPK64BVqp4jOXJmuUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mWxZUm6X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776556234; c=relaxed/simple;
+	bh=dQ/SqREdljKaVD6FfxunTIxAFSkkkoOEwyMiQXg1J2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CK9ZkRWePYBIcab3WpYFTylQfnXGC9+XweqKhcnfza9QjoF3iQIHUeOJMCpzn2MKvJbUyqh1kDJDYoDOSOuxjtcWw7cIDPGiIMisxr+rEVloNgoNWTYOpyCj5TdBWB0AKJC0Qex9gsNQR3PoYvHQvizOWtLzIx731ezWat0cf0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=1AniFgrr; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mWxZUm6X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E48CC19424;
-	Sat, 18 Apr 2026 23:23:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776554623;
-	bh=EN4E/GrqbYdPOgLIBqgWr38ogwnBqfZGz13yZYWr8n8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mWxZUm6XTycHh/nkgrMYCvZs1DWnZ4t+PwgeWrTlerO7gq64Xx50U6lgpyQlisvgs
-	 rjkvIM5hfNir9rGSAghnYnSC7KOBc8GECMR84ppBRmhh+yheZYPd31Ri//N6CTChS+
-	 hbHifpx29e4QakZUkXHPKJOB5ZWVEX7rMFfGrwzZCNWPomWfcbw7lpGG9uXKJkllwR
-	 foAJKyy1Plv/Mig9O88N696UpfHNpLuR3h800RHbXaEHulN4L8W+8aBvs70XmZUbCb
-	 J3Yxbzd7kPOs/FkoD1ft/pzimkeLhUIFPOuyx+G8i0OEc5HQHdXAaraaTms6cHq0Vp
-	 o9MPZ5dLxke9Q==
-Date: Sat, 18 Apr 2026 16:23:38 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Piyush Patle <piyushpatle228@gmail.com>
-Cc: Nicolas Schier <nsc@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kbuild@vger.kernel.org, linux-doc@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Chen Pei <cp0613@linux.alibaba.com>,
-	Randy Dunlap <rdunlap@infradead.org>, Arnd Bergmann <arnd@arndb.de>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] kbuild: document generation of offset header files
-Message-ID: <20260418232338.GA1729151@ax162>
-References: <20260410221257.191517-1-piyushpatle228@gmail.com>
- <CAMB+xkY2judiZiTV7S1DpHuFdZg6WNzpNnn2k0zEUxXmxfBpnw@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="1AniFgrr"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=YM5E7+SXOIPlDYq+DPbzWN/4sPXvf11J2R9Hmvn4ugs=; b=1AniFgrrELUzAjer3HaD+1Vylh
+	xwHkc6Cu9tDNIj9HmPHzb+61aQkimzAE2AxHH08jXeUOe921hK8ukyY2c1XS2+FPzsfEvmF2VNi9e
+	MPbS60birS7+EIDK2cVnUnN7MXSbBEQ8/J2w3Ql1z49YHgQyzuj+SCTdx5L1SeNtjN3ErUMsp2h09
+	caozrYPnQ3s9ofVV5rTL6zdfXPvZ8zEFhjLLtQAL10JrZLSBnnIepE0yOAH3bRVB1/Ec1erAuVytw
+	5lqc+PSUNDlMJAOS8w8CloaKaoVFyFwDyuVZltfBmK+bqVaHGIM3tkXJgioS+felafsxtJnSBzJWs
+	3kuluxnA==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wEFQY-00000005Knn-0rbq;
+	Sat, 18 Apr 2026 23:50:20 +0000
+Message-ID: <7c3599f4-8b2a-45af-a99e-6cae8e8c1468@infradead.org>
+Date: Sat, 18 Apr 2026 16:50:16 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMB+xkY2judiZiTV7S1DpHuFdZg6WNzpNnn2k0zEUxXmxfBpnw@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] docs: kdoc: Expand 'at_least' when creating
+ parameter list
+To: Eric Biggers <ebiggers@kernel.org>, linux-crypto@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, Ard Biesheuvel <ardb@kernel.org>,
+ "Jason A . Donenfeld" <Jason@zx2c4.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20260418192138.15556-1-ebiggers@kernel.org>
+ <20260418192138.15556-2-ebiggers@kernel.org>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260418192138.15556-2-ebiggers@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Piyush,
 
-On Sat, Apr 18, 2026 at 07:08:33PM +0530, Piyush Patle wrote:
-> On Sat, Apr 11, 2026 at 3:43 AM Piyush Patle <piyushpatle228@gmail.com> wrote:
-> >
-> > Replace the placeholder reference with a description of how Kbuild
-> > generates offset header files such as include/generated/asm-offsets.h.
-> >
-> > Remove the corresponding TODO entry now that this is documented.
-> >
-> > Signed-off-by: Piyush Patle <piyushpatle228@gmail.com>
-...
-> Gentle ping on this patch.
+
+On 4/18/26 12:21 PM, Eric Biggers wrote:
+> sphinx doesn't know that the kernel headers do:
 > 
-> I’d appreciate any feedback whenever you get time, or let me know if I
-> should resend/rework anything.
+>     #define at_least static
+> 
+> Do this replacement before declarations are passed to it.
+> 
+> This prevents errors like the following from appearing once the
+> lib/crypto/ kernel-doc is wired up to the sphinx build:
+> 
+>    linux/Documentation/crypto/libcrypto:128: ./include/crypto/sha2.h:773: WARNING: Error in declarator or parameters
+> Error in declarator or parameters
+> Invalid C declaration: Expected ']' in end of array operator. [error at 59]
+>   void sha512_final (struct sha512_ctx *ctx, u8 out[at_least SHA512_DIGEST_SIZE])
+> 
+> Acked-by: Jonathan Corbet <corbet@lwn.net>
+> Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
+> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
 
-Thanks for the ping. This is still in my review/handling queue but given
-that we are in the merge window for 7.1, I am not looking at 7.2
-material until 7.1-rc1 is out.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Cheers,
-Nathan
+> ---
+>  tools/lib/python/kdoc/kdoc_parser.py | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+> index 74af7ae47aa47..c3f966da533e0 100644
+> --- a/tools/lib/python/kdoc/kdoc_parser.py
+> +++ b/tools/lib/python/kdoc/kdoc_parser.py
+> @@ -437,10 +437,15 @@ class KernelDoc:
+>  
+>          for arg in args.split(splitter):
+>              # Ignore argument attributes
+>              arg = KernRe(r'\sPOS0?\s').sub(' ', arg)
+>  
+> +            # Replace '[at_least ' with '[static '.  This allows sphinx to parse
+> +            # array parameter declarations like 'char A[at_least 4]', where
+> +            # 'at_least' is #defined to 'static' by the kernel headers.
+> +            arg = arg.replace('[at_least ', '[static ')
+> +
+>              # Strip leading/trailing spaces
+>              arg = arg.strip()
+>              arg = KernRe(r'\s+').sub(' ', arg, count=1)
+>  
+>              if arg.startswith('#'):
+
+-- 
+~Randy
