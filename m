@@ -1,98 +1,187 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DCE930F803;
-	Sun, 19 Apr 2026 11:30:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B1B1E8320;
+	Sun, 19 Apr 2026 11:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776598202; cv=none; b=q/f25+cTRf7giH6y+/vdJtAPnFhnzqIJ/zkDPF+Q954P/HC+ZiTaqwPdYb00R3svpXxpKLGEDadWJREII4RQMbVlWNJMXbQiBl8p8CL7own6uhYk1yyLuFxAWG9qdKuh2Kv9vwqMtZYhVg1TFgVCR3lr49yRPYNXeHU/ecg+SEg=
+	t=1776598437; cv=none; b=BXbMC4QBPauCEqCQ+kd2eYRYPAZndjC8EmCaZNumkOLhgvIHQDIWLRkPa39WzhMpelr6EEb5TyFlyIpeYU0YoTa+daUW2blORtunW5t+FfeLRJjKME+c562Ga25kCybMdt0JFNOcbdQFSb917ga0KcLCb9VtwCZsitr2J7d7H3s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776598202; c=relaxed/simple;
-	bh=CHB4/6+0UEiC/NOhE0jTVNiOoZM6X5MNmZ8tDCiMuYk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A0VBQxnsSNK2LgBhDjyptqzJg8WbcUjAYIDHpga8+n4Pkz85J0JnQg/UGlbj9+YvB85TfY8Yyx6kuMhnw/DZGom4svI18RyPV3HAV4fVnP8Rleqhn/ghQKoz5mN+OFDzj97D3/Ph3XmEMSlUHFhaXNAHubNCuBa70woqdDDzqtM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OLA4WNsv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776598437; c=relaxed/simple;
+	bh=xM9ohwe+AgsnejiWiMGGpSHKTz/jZIwXDKy3kqRPqYc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WP16SqHpFYzQjnc4xVczykBWWUSXBr6jN7Cz3nNgq5OeZdRCbvCXZxcfkpvEhuUO1gYl0QVhu2z2FBSR/ojn8ZnfvF8lG5wafzrXGU788lyMLGeAOpyfhezVa52aXbat1GrUcYMhVSARggZyzyY6YKbhzHPvvIVGsXHMK4BVDe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uqbJgX2l; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OLA4WNsv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 225EAC2BCAF;
-	Sun, 19 Apr 2026 11:29:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776598201;
-	bh=CHB4/6+0UEiC/NOhE0jTVNiOoZM6X5MNmZ8tDCiMuYk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=OLA4WNsveo1tU8lw+9Wf0KVQhwYkwgLbftZ6QU0ltrNthIzHFh7YY84NHYLb3NtFL
-	 QGLu+DKfL53LBBBPKzmkCtqinWSZKaOBMnt9rEzXvxQw7qHbxmYFNjEnmymMK5uSor
-	 CIvO10CDqrx+Z5lpe41cMEmctEOp/TQOERZNKce5usKvpWOO5CgCjQI3kBM6EODIu3
-	 wPwBYqmDjVZ8JjwhGpRQejOKfHgIsFZs3OF4rXpUnP89cnVlZWbdyHOTDNTTGbGzx9
-	 l9RPRTc10XMMfc49NaBJTovd6fQntVXC7Pu1XpsIvnGc53N8rhOMEBi90Atci9Rca/
-	 QjNfUOYuMYIuA==
-Date: Sun, 19 Apr 2026 12:29:50 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
- <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] iio: tsl2772: add support for Avago
- APDS9900/9901 ALS/Proximity sensor
-Message-ID: <20260419122950.67355f4c@jic23-huawei>
-In-Reply-To: <20260419083125.35572-3-clamor95@gmail.com>
-References: <20260419083125.35572-1-clamor95@gmail.com>
-	<20260419083125.35572-3-clamor95@gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uqbJgX2l"
+Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4fz62J4XKwz9tJN;
+	Sun, 19 Apr 2026 13:33:44 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776598424;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xM9ohwe+AgsnejiWiMGGpSHKTz/jZIwXDKy3kqRPqYc=;
+	b=uqbJgX2ll+E8Yumo0eZu0DgkD4Dnn1pPPbG4ypYVfW2SnmSaVCrxSuC8Z5gX+IAfgXB2fG
+	q2ZCMCOKgH8X5ddtnO6NUmU84fMBbFBTgRRXvlAOAZOlg/I8L72FRbZVC6n9wkuCYw1TAG
+	4cu6egFOKvljfvZr9D8FU8MqYxf29sQ0H9hdHZSMFwfl2OOjywxsOtUHNgng7C6IsCSO8i
+	OU1cq0SOL2quD2m/kSUk8cnGc3FFfuhf0P2pV3pr45d1px+EBYWcG3FNyl8CLLIRXP5h47
+	596+BNPLQqEzlJKxVqo+08KXc41MZuh7iDf4jsrEeqhZJpVS13rliJPxcXzwNA==
+Message-ID: <295490d9bd8b9d519dda5c4551e7dbaf36492a8a.camel@mailbox.org>
+Subject: Re: [PATCH] Documentation: adopt new coding style of type-aware
+ kmalloc-family
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, 	linux-doc@vger.kernel.org
+Cc: lrcu@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	workflows@vger.kernel.org, linux-sound@vger.kernel.org,
+ rcu@vger.kernel.org, 	linux-media@vger.kernel.org, Kees Cook
+ <kees@kernel.org>
+Date: Sun, 19 Apr 2026 13:33:39 +0200
+In-Reply-To: <87se8rw8df.fsf@trenco.lwn.net>
+References: <20260419065824.165921-4-manuelebner@mailbox.org>
+	 <87se8rw8df.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 6a05aa517499d7df5df
+X-MBO-RS-META: zyx7q81brcdyo8qt7s4pbdr11dh6toyf
 
-On Sun, 19 Apr 2026 11:31:23 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+On Sun, 2026-04-19 at 04:29 -0600, Jonathan Corbet wrote:
+> Manuel Ebner <manuelebner@mailbox.org> writes:
+>=20
+> > Update the documentation to reflect new type-aware kmalloc-family as
+> > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and
+> > family")
+> >=20
+> > ptr =3D kmalloc(sizeof(*ptr), gfp);
+> > =C2=A0-> ptr =3D kmalloc_obj(*ptr, gfp);
+> > ptr =3D kmalloc(sizeof(struct some_obj_name), gfp);
+> > =C2=A0-> ptr =3D kmalloc_obj(*ptr, gfp);
+> > ptr =3D kzalloc(sizeof(*ptr), gfp);
+> > =C2=A0-> ptr =3D kzalloc_obj(*ptr, gfp);
+> > ptr =3D kmalloc_array(count, sizeof(*ptr), gfp);
+> > =C2=A0-> ptr =3D kmalloc_objs(*ptr, count, gfp);
+> > ptr =3D kcalloc(count, sizeof(*ptr), gfp);
+> > =C2=A0-> ptr =3D kzalloc_objs(*ptr, count, gfp);
+> >=20
+> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+>=20
+> Just to be sure, did you write this patch yourself, or did you use some
+> sort of coding assistant?
 
-> The Avago APDS990x has the same register set as the TAOS/AMS TSL2772 so
-> just add the correct bindings and the appropriate LUX table derived from
-> the values in the datasheet. Driver was tested on the LG Optimus Vu P895.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-Hi Svyatoslav,
+I wrote the patch myself.
 
-Just one small thing. 
+> Adding Kees, who did this work and might have something to add here.
 
-Experience has given me a strong aversion to the use of wildcards
-in naming within drivers.  They go wrong too often because companies
-can seem to resist using similar names for very different parts.
+Thanks.
 
-> ---
->  drivers/iio/light/tsl2772.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
-> 
-> diff --git a/drivers/iio/light/tsl2772.c b/drivers/iio/light/tsl2772.c
-> index c8f15ba95267..8dab34bf00ca 100644
-> --- a/drivers/iio/light/tsl2772.c
-> +++ b/drivers/iio/light/tsl2772.c
-> @@ -127,6 +127,7 @@ enum {
->  	tmd2672,
->  	tsl2772,
->  	tmd2772,
-> +	apds990x,
 
-As above, just name this after one of the supported parts. apds9900
-That doesn't stop you using it for multiple compatible devices.
+> > ---
+> > =C2=A0.../RCU/Design/Requirements/Requirements.rst=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 +++---
+> > =C2=A0Documentation/RCU/listRCU.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0Documentation/RCU/whatisRCU.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+>=20
+> This patch will surely need to be split up; the RCU folks, for example,
+> will want to evaluate the change separately.
 
-Same applies for all the uses of x as a wildcard.
+will do that in [v2]
 
-thanks,
+>=20
+> > =C2=A0Documentation/core-api/kref.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+> > =C2=A0Documentation/core-api/list.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+> > =C2=A0Documentation/core-api/memory-allocation.rst=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+> > =C2=A0Documentation/driver-api/mailbox.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 4 ++--
+> > =C2=A0Documentation/driver-api/media/v4l2-fh.rst=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0Documentation/kernel-hacking/locking.rst=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+> > =C2=A0Documentation/locking/locktypes.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 4 ++--
+> > =C2=A0Documentation/process/coding-style.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 8 ++++---=
+-
+> > =C2=A0.../sound/kernel-api/writing-an-alsa-driver.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 12 ++++++------
+> > =C2=A0Documentation/spi/spi-summary.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 4 ++--
+> > =C2=A0.../translations/it_IT/kernel-hacking/locking.rst=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 4 ++--
+> > =C2=A0.../translations/it_IT/locking/locktypes.rst=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 4 ++--
+> > =C2=A0.../translations/it_IT/process/coding-style.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0.../translations/sp_SP/process/coding-style.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0Documentation/translations/zh_CN/core-api/kref.rst=C2=A0=C2=A0 |=
+=C2=A0 4 ++--
+> > =C2=A0.../translations/zh_CN/process/coding-style.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0.../zh_CN/video4linux/v4l2-framework.txt=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A0.../translations/zh_TW/process/coding-style.rst=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 |=C2=A0 2 +-
+> > =C2=A021 files changed, 42 insertions(+), 42 deletions(-)
+> >=20
+> > diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst
+> > b/Documentation/RCU/Design/Requirements/Requirements.rst
+> > index b5cdbba3ec2e..faca5a9c8c12 100644
+> > --- a/Documentation/RCU/Design/Requirements/Requirements.rst
+> > +++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+> > @@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` an=
+d ``-
+> > >b`` fields.
+> > =C2=A0
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 1 bool add_gp_buggy(int a, i=
+nt b)
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 2 {
+> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3=C2=A0=C2=A0 p =3D kmalloc(sizeo=
+f(*p), GFP_KERNEL);
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 3=C2=A0=C2=A0 p =3D kmalloc_obj(*=
+p, GFP_KERNEL);
+>=20
+> So you have not gone with the "implicit GFP_KERNEL" approach that Linus
+> added.=C2=A0 Given that, I assume, he wanted that to be the normal style,=
+ we
+> should probably go with it.
 
-Jonathan
+I scanned those 8 replies by Linus, but i can't figure out what you mean wi=
+th
+implicit GFP_Kernel approach, can you give me a hint?
 
->  	apds9930,
->  };
+https://lore.kernel.org/all/?q=3Dslab%3A+Introduce+kmalloc_obj%28%29+and+fa=
+mily+f%3Atorvalds
 
+> Thanks,
+>=20
+> jon
+
+Thanks,
+
+manuel
