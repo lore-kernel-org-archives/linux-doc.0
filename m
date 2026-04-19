@@ -1,214 +1,133 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36E711A6831
-	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 20:58:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8042E218ADD;
+	Sun, 19 Apr 2026 22:10:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776632331; cv=none; b=IGKHa22ukR2ZTUUele21TWqz3Qev5ofZ3pVZnZeauDAVUKHJ9FpRGF2Lv4/DOkY5AVvKglIYiazdI1txPUNn7dxtMSdILkKZZHR4giQ0969cH9WqUOmIBG17bVJgZz0zuFys8+9P9Nc29fM6Osblxig6sZkIO8SnF8QdQoXioP0=
+	t=1776636633; cv=none; b=gGy/G+ol929JYlG3uOavm3YIf0Bil49YMv5D+P7nmTQDnvrgAHvPusDPqyxebTdGMxHIph3ZbhV73OyYykQUhkl2F/5GFgrdCBw1meQU8cfhZw0ltrjlpZ9edNGMLETHaKW9bUo0qCwqMwR5M3WV0+bdRmx1iHTXAJkQMAlMcMg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776632331; c=relaxed/simple;
-	bh=pYvmXJK7ShyAWrktEqqDf1tPWzEOyHMDPfk9MXaez1I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=marGPiWvbbIkkr84atsb8GyO5hPTk57ZzSGG91dMbJhZz+H9Vat8RaDitNqz+mQdf/wH18+o6KBTDKU9nYQn8H7YofAaEkwVxrWbnwRMfYcN2KC7QosoDRfdrEQYdKl3qGQ8ic4jGq+o7j2KnJsm3pGRGxgfNlrpFBmItXP5Glk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=layalina.io; spf=pass smtp.mailfrom=layalina.io; dkim=pass (2048-bit key) header.d=layalina-io.20251104.gappssmtp.com header.i=@layalina-io.20251104.gappssmtp.com header.b=irGx09Zc; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=layalina.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=layalina.io
+	s=arc-20240116; t=1776636633; c=relaxed/simple;
+	bh=hCBtdPf9RjQ3ObbW9oa4vAuiyqv3ryG2GcwBmj+BBdE=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=l18s8P/f17U442M0vRfiA5B8XpIt51T3wFTLUSIjLfvNqOoZxSkxmnTqD0TZKqIq7cr+qeSbUt0iE2KvNT3hCrTutDHDMj6bMkABdTR8Izee+Orb4v+aurBkr0PV/YmrU0oHCVZITmXkMTERvw31UVm4PxB90jbT9OqIbrNYzvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=FutQJw28; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=vd/XTF3T; arc=none smtp.client-ip=103.168.172.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=layalina-io.20251104.gappssmtp.com header.i=@layalina-io.20251104.gappssmtp.com header.b="irGx09Zc"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-6715006f4f7so3637031a12.2
-        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 13:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=layalina-io.20251104.gappssmtp.com; s=20251104; t=1776632328; x=1777237128; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=xCNzisutGUqqxIciIB6xqQwTkTHvKFiC4Ptsq6txWYA=;
-        b=irGx09ZctFZKGiPjq4hZTKKo5Kc+84vRyjC54bQKYAXPzzOhjfoXcWUDsNSUzJU1+Q
-         l8S7JfZU8trC8n7OnBIoc1Ghprb31reKfy1JDP6iYVsk0SKUDHEBbu47hvLsvqHXPbGf
-         5WnXVBDfOS4DURgFNP7E73h4SvFHOJwLx/hFt++5I0jq02n0EjP8N0JYezdeSh1bqotv
-         2n+qALcYyaDxIZuCPduwEXH51YIKixLHirUGuMVAPh+IDV35vP8m+kHjxZ1hvwzVJxkt
-         d7sdpyBD8CeT6xW51vjKrKO4c+6gmNfcUXsppgXJKyTr57W4xJUIFXAYJEfaXvVyG054
-         ZjWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776632328; x=1777237128;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xCNzisutGUqqxIciIB6xqQwTkTHvKFiC4Ptsq6txWYA=;
-        b=KQaYG8pC75zdoZyJHJvjz0m5ulSyt9g2LO3Vh7glr204q9BCZg7TAi5/EZMnLQduaG
-         Oakn03X7HKcRAenGNCQk+L5rns0X45vvN+H7S475lJ/wzLQ/Mk/ggaLuPoClf0Lwie/q
-         wynILUDAXQVcjztCcfqHIF5gOWNqSQsmFj/LB+2ljaILdyt4ziTyQO+XIkQMozD7wMs7
-         G3fcdsEa/qWOCKnpSTT2KXS62xaw1YFllXyfkXzpAPeLm//722crM0Rjdzdc9E+2bDwC
-         MKJYjGf07DuA8gRs1FmIFJlmIwnFBI8s8sa++hxgRCIscDH8wQkgs49aDpIeJ4PmvL19
-         xbiQ==
-X-Forwarded-Encrypted: i=1; AFNElJ8qxc4YUt88BZl8ks+jxZ4gulBXapVM2LMWcWNTbCkCUcHl33v0RUjhdjqZ+Cm+ZWyKb+rv7pPWpss=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywe5Mos424hg55Uak87oTt2lnLYONxNY5995fLCC8N/K8O+0frR
-	46M8GYt+FNxdYX2IEy6HeusbG/fjqO1aivNGCd6x10Zz36StNzO9Jdu3gXfq9dvLzKw=
-X-Gm-Gg: AeBDietSauGRWiTIXSGz49G9qWKYJC/GTdBAwZF38AADIjZz4u0DpLl3Xfk67IFAMTT
-	m0PQUVsn6VP4uX078lnxBAjGH18LxalBrFn98k95NwiW6GYTrLv+HK3hAVq7qrcv9Jbw85KVvBg
-	JXIMqdU8yImivg/lmy4Gza3sa3KW5X22NgQtZKsb4UUsUJ7MoJreFh8c6+mWdeIYbSZ/htMGdlL
-	I4B4fiwDlyFzOtP+XZ1tJcOZZsSPPvh7gt3Tp95FinukOcGupISs485VMbm1JBOZ3ruxrw+pgO6
-	3cm54jzi54X7VTY77twdgYIUro19VzqCcuUq2G0NaunKsoFaW+1UNe5YUg/h8R4N57p9gpp0wnR
-	OJ3kbu3H3Iq9zDOcAFCDjIrCcZjAlYwAx98Qgi7/fQvP6yl851evls7uG/X/IR7eBpak6pFy57e
-	f32NK0DHRGkLYa0gjLdQsTUhW3O1Ba
-X-Received: by 2002:a17:907:72d3:b0:b97:1d24:c004 with SMTP id a640c23a62f3a-ba419a54651mr494153366b.21.1776632328475;
-        Sun, 19 Apr 2026 13:58:48 -0700 (PDT)
-Received: from airbuntu ([146.70.179.102])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ba45121109csm284759166b.6.2026.04.19.13.58.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 13:58:48 -0700 (PDT)
-Date: Sun, 19 Apr 2026 21:58:45 +0100
-From: Qais Yousef <qyousef@layalina.io>
-To: Juri Lelli <juri.lelli@redhat.com>
-Cc: Ingo Molnar <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ben Segall <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Qais Yousef <qyousef@google.com>,
-	Clark Williams <williams@redhat.com>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Tommaso Cucinotta <tommaso.cucinotta@santannapisa.it>,
-	Luca Abeni <luca.abeni@santannapisa.it>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Carlos Llamas <cmllamas@google.com>,
-	Alice Ryhl <aliceryhl@google.com>
-Subject: Re: [PATCH RFC 0/4] sched/deadline: Add soft/reclaim mode via
- SCHED_OTHER demotion
-Message-ID: <20260419205845.3off5qfgzcfwrznj@airbuntu>
-References: <20260219-upstream-deadline-demotion-v1-0-528b96e53d12@redhat.com>
+	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="FutQJw28";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="vd/XTF3T"
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id C58AA14000A7;
+	Sun, 19 Apr 2026 18:10:29 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-02.internal (MEProxy); Sun, 19 Apr 2026 18:10:29 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1776636629;
+	 x=1776723029; bh=rFkd2WdJ+FVyOXY1EUv5Gki37/4tABHQ3mRheY4SK+k=; b=
+	FutQJw28V49F4uN8E8Fu3uRRyxijO73RzZ0QMAsYF+bu0HXNfIIoPfdPN43XtPBi
+	CuKlmyyL9EW9AXh4Vj0/xuRrsun2ind2mYjNmkFYDHGrfiEOOLK+iIVuBugQ4jXp
+	uYMhVAFu19QhW46UHP0rLGWUZb+b53KtdNS/7E4iLm0fDxZeLI7hZWwTziFiep2K
+	XBh2nl6WlRKDqZ9Wf/U413EP3xpclQTdkISQCs/rPnxWnibGvqc/wgl69qJR2MyX
+	HMl3ufUUvdrN7sB2P9QmBxJPvGxdexjQAsE1SbMWwOpUwAEsWn+zzGNB8/zwY2r7
+	GxP/PtUmMd9QMXEZLVQufw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776636629; x=
+	1776723029; bh=rFkd2WdJ+FVyOXY1EUv5Gki37/4tABHQ3mRheY4SK+k=; b=v
+	d/XTF3Tk0YcKGtYv+U29sAwOccoPDRqS9vcqGDs9SMriBSVimn0ALHPm7qMdjj7I
+	bYWZz+EhUQT28huTjAxvey1W2H8UX8F7yXepI6TZZZaFPFJWeLAwftRyrLxqUs86
+	ubvGucWpCTUcBwg2FBuCa2R6m6Qr/h0vmP+/JZf0vHC1qXQzS8Pfeo4npflEL9lN
+	bgvI3vm8/Yb15HsugExAC/ZIzb9SUKa47KGnyZwZvJfqEQbKbG8ycrXSrL2Vu/xt
+	PA5Ok3VCI6yWoVy5AzJFj1tF0DmSb91GnWYYZ7qAPasooUDNWRQg8Ewr03GDyCJ7
+	WXr1P4iezg7+5ANlOCsHQ==
+X-ME-Sender: <xms:1FLlae3XKB7bA0o48JuhLHTCk7ztVdb26i5f4H482Wbb0IhadXO-MA>
+    <xme:1FLlab6xbfndxW3bdqRJ5j3r0IJg5Re3w_pxipul-Wdxy3q46SAycW8W5iv3vXkUq
+    BAKlj18sL03VlfACswSVgBDYknRPjAeND0Y6d29OQN0m8a9A7Tcd7o>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehieektdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdforghrkhcu
+    rfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrg
+    eqnecuggftrfgrthhtvghrnhepudefgfelhefgveffheehuedtudefffetiedtvedthefg
+    vdeuvdefgeeiiefhieegnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdq
+    lhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedutddpmhhouggvpe
+    hsmhhtphhouhhtpdhrtghpthhtohepmhgvsegsrhhighhhrghmtggrmhhpsggvlhhlrdgt
+    ohhmpdhrtghpthhtohepuggvrhgvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomh
+    dprhgtphhtthhopehnihhnrggunhgrihhktdejsehgmhgrihhlrdgtohhmpdhrtghpthht
+    ohepfigprghrmhhinhesghhmgidruggvpdhrtghpthhtohepshhkhhgrnheslhhinhhugi
+    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdq
+    mhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegtohhrsg
+    gvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgv
+    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
+    gvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:1FLladi7VfckJsrL2W5xtwuFLLQgZGVvjsUOM0KjcXPFmdUjv3Cqnw>
+    <xmx:1FLlaQSR3TPFWu2ZsFqD5WzrkKNdGTz6Wo2MnSa_L4ekG5KyDAORRw>
+    <xmx:1FLlaWaankT6ErbNm0640f-NllGvYvw6FzFI7cpsSX_vfYlfVIdx1A>
+    <xmx:1FLlaVQ0LHe-h9mXK_J-Sx08E8316e9g4d9tK12dxtkfz0-zu22qVg>
+    <xmx:1VLlaSAIHvscsbrn_yNZA4zSi8bFg2y8U0_NvUfLj-5_VV_JxuTKB7tc>
+Feedback-ID: ibe194615:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 77DC52CE3F94; Sun, 19 Apr 2026 18:10:28 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260219-upstream-deadline-demotion-v1-0-528b96e53d12@redhat.com>
-
-On 02/19/26 14:37, Juri Lelli wrote:
-> Hi All,
-> 
-> This RFC introduces a bandwidth reclaiming mechanism for SCHED_DEADLINE
-> tasks through temporary demotion to SCHED_NORMAL when runtime is
-> exhausted. This resurrects and refines the demotion concept from the
-> original SCHED_DEADLINE development circa 2010, focusing exclusively on
-> SCHED_NORMAL demotion.
-> 
-> Discussions about the feature have been resurfacing over the years and I
-> wanted to check for feasibility and real interest. Found a little time
-> to play around with the idea and this is the result of that.
-> 
-> When a DEADLINE task with SCHED_FLAG_DL_DEMOTION exhausts its runtime
-> budget, the scheduler demotes it to SCHED_NORMAL rather than throttling
-> it until the next period. The task continues execution competing fairly
-> with other normal tasks, using the nice value specified in
-> sched_attr.sched_nice. At the next period boundary, the replenishment
-> timer automatically promotes the task back to SCHED_DEADLINE with a
-> fresh runtime budget.
-> 
-> This provides a "soft(er) real-time" mode where tasks get timing
-> guarantees when within budget but gracefully degrade to best-effort
-> execution during overruns rather than being suspended. The bandwidth
-> reservation remains in place during demotion, making the mechanism
-> transparent from an admission control perspective similar to throttling.
-
-I think this can be useful for IPC like binder. Sadly binder can be used
-excessively even when not necessary, which can easily add more overhead.
-
-If we can use DL to give them 0.25-0.5ms chance to finish quickly otherwise
-demote them to fair, that might be an interesting experiment.
-
-Adding Carlos and Alice in case they're interested in looking at this ;-)
-
-If the patches can be merged, it'd be easier to backport and construct an
-experiment in general.
-
-(once globbing is available constructing such experiments with schedqos would
-be easy)
+X-ThreadId: Ab0JQVG51Pnw
+Date: Sun, 19 Apr 2026 18:10:08 -0400
+From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
+To: "Ninad Naik" <ninadnaik07@gmail.com>,
+ "Derek J . Clark" <derekjohn.clark@gmail.com>, "Armin Wolf" <W_Armin@gmx.de>,
+ "Jonathan Corbet" <corbet@lwn.net>, skhan@linuxfoundation.org
+Cc: 
+ "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ me@brighamcampbell.com, linux-kernel-mentees@lists.linux.dev
+Message-Id: <b94cef14-d02d-4544-abb5-ead7db6eaa72@app.fastmail.com>
+In-Reply-To: <20260419170835.347910-1-ninadnaik07@gmail.com>
+References: <20260419170835.347910-1-ninadnaik07@gmail.com>
+Subject: Re: [PATCH] Documentation: fix spelling mistake "Minumum" -> "Minimum"
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
 
-Thanks
 
---
-Qais Yousef
-
-> 
-> Key design aspects:
-> 
-> The implementation focuses solely on SCHED_NORMAL demotion, unlike
-> earlier proposals that suggested multiple demotion targets including RT
-> and DL postponement. Simpler and maybe enough?
-> 
-> The feature reuses the existing sched_attr.sched_nice field to specify
-> the nice value during demotion, avoiding new UAPI additions while
-> maintaining ABI compatibility. This is orthogonal to GRUB
-> (SCHED_FLAG_RECLAIM) - tasks can combine both mechanisms for
-> opportunistic reclaiming through accounting and continued execution
-> through demotion (at least in principle, didn't actually test it yet :).
-> 
-> Demoted tasks cannot migrate between CPUs. This simplification keeps
-> bandwidth accounting straightforward by ensuring the reservation stays
-> on the original CPU throughout demotion. Migration is re-enabled after
-> promotion or explicit parameter changes via sched_setattr().
-> 
-> The bandwidth accounting follows the throttling model rather than full
-> class switching. Dequeue operations omit DEQUEUE_SAVE to keep the
-> reservation in this_bw (admission control bandwidth). Running bandwidth
-> (enforcement) is handled at 0-lag time for tasks that sleep while
-> demoted, maintaining correct GRUB accounting.
-> 
-> Explicit sched_setattr() calls on demoted tasks cancel the demotion
-> state and perform full bandwidth cleanup including inactive timer
-> handling and cpuset tracking. The replenishment timer remains armed but
-> fires harmlessly when it detects the task is no longer DEADLINE.
-> 
-> This posting is very much experimental. I added AI generated tests
-> (included here just for reference) that helped checking a few cases
-> during implementation. However, I am quite sure I'm missing several
-> additional cases that can cause breakage. Test it at your own risk! :P
-> 
-> Based on original work by Dario Faggioli:
-> https://lore.kernel.org/lkml/1288334546.8661.161.camel@Palantir/
-> 
-> As always comments and questions are more than welcome.
-> 
-> Series also available at
-> 
-> git@github.com:jlelli/linux.git upstream/deadline-demotion
-> 
-> Signed-off-by: Juri Lelli <juri.lelli@redhat.com>
+On Sun, Apr 19, 2026, at 1:08 PM, Ninad Naik wrote:
+> There is a spelling mistake in Documentation/wmi/devices/lenovo-wmi-other.rst.
+> Fixing it.
+>
+> Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
 > ---
-> Juri Lelli (4):
->       sched/deadline: Implement reclaim/soft mode through SCHED_OTHER demotion
->       sched/doc: Document SCHED_DEADLINE demotion feature
->       DEBUG selftests/sched: Add tests for SCHED_DEADLINE demotion feature
->       DEBUG selftests/sched: Add simple demonstration of SCHED_DEADLINE demotion
-> 
->  Documentation/scheduler/sched-deadline.rst         |  54 +++
->  include/linux/sched.h                              |  10 +
->  include/uapi/linux/sched.h                         |   4 +-
->  include/uapi/linux/sched/types.h                   |   8 +
->  kernel/sched/deadline.c                            | 213 +++++++++-
->  kernel/sched/fair.c                                |   8 +
->  kernel/sched/sched.h                               |  15 +-
->  kernel/sched/syscalls.c                            |   8 +
->  tools/testing/selftests/sched/.gitignore           |   3 +
->  tools/testing/selftests/sched/Makefile             |   4 +-
->  tools/testing/selftests/sched/README_dl_demotion   |  83 ++++
->  tools/testing/selftests/sched/dl_demotion_demo.c   | 239 +++++++++++
->  tools/testing/selftests/sched/dl_demotion_stress.c | 208 ++++++++++
->  tools/testing/selftests/sched/dl_demotion_test.c   | 460 +++++++++++++++++++++
->  .../selftests/sched/run_dl_demotion_with_trace.sh  |  71 ++++
->  15 files changed, 1382 insertions(+), 6 deletions(-)
-> ---
-> base-commit: e34881c84c255bc300f24d9fe685324be20da3d1
-> change-id: 20260218-upstream-deadline-demotion-19511e741055
-> 
-> Best regards,
-> --  
-> Juri Lelli <juri.lelli@redhat.com>
-> 
+>  Documentation/wmi/devices/lenovo-wmi-other.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst 
+> b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> index 01d471156738..1d0410500d3f 100644
+> --- a/Documentation/wmi/devices/lenovo-wmi-other.rst
+> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> @@ -144,5 +144,5 @@ data using the `bmfdec 
+> <https://github.com/pali/bmfdec>`_ utility:
+>      [WmiDataId(1), read, Description("Mode.")] uint32 NumOfFans;
+>      [WmiDataId(2), read, Description("Fan ID."), 
+> WmiSizeIs("NumOfFans")] uint32 FanId[];
+>      [WmiDataId(3), read, Description("Maximum Fan Speed."), 
+> WmiSizeIs("NumOfFans")] uint32 FanMaxSpeed[];
+> -    [WmiDataId(4), read, Description("Minumum Fan Speed."), 
+> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
+> +    [WmiDataId(4), read, Description("Minimum Fan Speed."), 
+> WmiSizeIs("NumOfFans")] uint32 FanMinSpeed[];
+>    };
+> -- 
+> 2.53.0
+Looks good.
+Reviewed-by: Mark Pearson <mpearson-lenovo@squebb.ca>
