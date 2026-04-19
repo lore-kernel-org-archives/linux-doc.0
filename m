@@ -1,244 +1,566 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40DB33FE27
-	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 04:26:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DA6175A77;
+	Sun, 19 Apr 2026 07:02:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776572794; cv=none; b=msdjnoO4hIQJTvWliU6OLbA+VlqkKNOpyk3f/++It/k+LtW/NsSlJOEAlY5h24ut4qKrXqx0sKV9w7P5/RF1NMpUf0g0XSUdzUOqDaPvmDHOPGDjIzVOMe8+h5oDXYuBDFzgM356webThsjPnez9yJC5iQze4FeXHKB+P3XD1DI=
+	t=1776582181; cv=none; b=mGAJClzULpKPCPF8VXdZ66ov5yIcN29kg487+VeuUWY2R1uFOfyH+kZKZk2L6EqmD+7fTG2gnGUflCrv4R3rS4bU1hhTywtONEhf3P3MI5W3gvkm1ooKueT0CPefm1dyb85f8hkXAf956GuyJGGIdHRvT0MoUoOJMcRTLn/KqAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776572794; c=relaxed/simple;
-	bh=S508cP1yZslNSbKv0FAXNIDkX2zVJDf06fpTroAG+R0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=e4PipVvxPa5NOF+2I3mUF/TwBwj8NlSpnRSW0dm7gniLS/ApQqD8DGosZOBrZOse7Ooi/H+hO0F8wxpTAnTkaEIhcjAv6S5AXqWvfzNVnrPkaiNPjRTeeqOKhAkpwpoFXa3N7TFNRLsZjb2fcTDbYv4eLQDVgPD6a7fyUpRyaHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oNzwooKU; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776582181; c=relaxed/simple;
+	bh=hTvGMfxFrbeulD1/XvjLht3aGqrgGLm6ISn7V3fAPrU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YcgbMo8q/wht36etWZFOvkYS0mzoeeFKepb7IV+6B5rA30EwjKLtLj8XXGvIa0EVFgIXofBVuoFLQOeXgTeYBWlv9ALJuljAKW4EB9cyloCUOzyOgYskNdpWvXOiH/q23UCSguRIVMUeUJ9R/EyYQm3/Yoc3FJK09RXTDhjRVWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=B+Vrafri; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=uPLVwv5f; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oNzwooKU"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2d9916deb14so3759596eec.0
-        for <linux-doc@vger.kernel.org>; Sat, 18 Apr 2026 21:26:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776572790; x=1777177590; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Dns9bM6fc8u8pLco2XqNcLByz5759WEqyjVFudH5F6U=;
-        b=oNzwooKU+U23CZQT43mPFlglQSgViP/ki+XiqMWgPx7J0bgPamiCZLwktXGmxAjAKm
-         49nMHYxSrEoGPPLF5C3D9Bm055bxf6ArZxKFa5BUCDRjt1fkbfIQtRd0f5nyYi5aC0qI
-         XG2atAfCnc424vvB6QeO4temjoXrqae9qqlEUSC1vWAinLcSe2Pebgak/b7PFZBPKvVc
-         P3pn9HLgrM4wCkIKNbzAe92hvE2474u2yp3bmEzSmJioUhf6nH4MT0r5Hi+iR8sblDhJ
-         V9+q7f8/JMaomOLw1eB4jnt1DWPl/wFA0Fu9+95sOmHYlWBlDTGAMPT7MWQ7AZjMqSHQ
-         598A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776572790; x=1777177590;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Dns9bM6fc8u8pLco2XqNcLByz5759WEqyjVFudH5F6U=;
-        b=r5ohSSjn4aX9cR75g1CnglMgOxib4eFl+UfXj90CazFpzsI3gJcHRjM4r0cBLTQQOO
-         b5dAD09EV2UEB1+rteWy4fgYk0gceJaSBnU5bKv6unZPTPm67Vhcx+mNDDhEhCu5aMs3
-         ytykbgt6LDB05bud8wkBg7VnauRSXJwTJlREEacuHAlJLM5uIHru0e312T2vrTnrGnn+
-         1CtqKBVfOZ+4rDDO/ns79cUBN33G2witEIhx5jPJ75HL4HdFSG51daPjD5z2aPcdu4os
-         jbgCAoKiws7iSKzyhBVI9tqEzxlm9MGTzskZ7zTCV8isrF/EwHCQDq0lw56tOSuCwtD+
-         eOyA==
-X-Forwarded-Encrypted: i=1; AFNElJ81O033kofL73QOLlVB/imbaW/zdzfVlYvUDOn2TznZf+BEjubXFcsyVnInmu7PzyS1ilryA9H/Leo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxVO0/6X/Wp0PsKEDFo2Jlzokh4oMiR4zaAJhfSnhBg8/LzNyes
-	5HObDnMqhhK4gRRPCZX3T4DZEhklaK/mjaZJ0w9SwygPubIHSkEE1Wiv
-X-Gm-Gg: AeBDievIvoa+Ui94vG3nsCI6kGuUpawJl4abfBhmVv/ppDou80OIwrO4/NrEIC2LBSq
-	znjSbdk/WsDTy6n7oWEdl8Vko5oaXI2XtMPa+3xzqsmIfq6BtDGn4WlfQ47m2epH4mXQMa0aU8t
-	BXgFGHNCeArK27RQUUvtYr/2iZ2v5SoAadPXPtsegfQE9PdUK4SySFTTQdmVIFxIXGbgMHR2JAy
-	GjyzJ+pE8H8zHXmTRMnLP+xbzrNnBPXTpP2b0i5M4EvXZRz3r8p1oedp3a9sgRdR4R/UThth6SD
-	W5oZIZlXdsrjJT89hOHRn/w9+RlOsxEjlsdo/nK4SGEdbGpWvQtx9vPiCQcZC9J1ysZfhmBXplP
-	uP+x8jpK9un3Mo9Ow94xFZsE40FgFa1p89O5YbVgTJcHeQ+Q52yrwSDxnz5zYd/kUcEZhWYImJc
-	XmPvWhXYtz9GjFqiIBHb4QbhlxNOkQhpCTeceGfz+KoYtOstP+M0Df0UPTqGgMvxU6qOG8SIJ3q
-	E19vi6T7V/J7nU=
-X-Received: by 2002:a05:7300:d717:b0:2e2:a64b:63b5 with SMTP id 5a478bee46e88-2e479c08fa4mr5027351eec.18.1776572790122;
-        Sat, 18 Apr 2026 21:26:30 -0700 (PDT)
-Received: from lappy (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53dcb487bsm8796469eec.31.2026.04.18.21.26.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Apr 2026 21:26:29 -0700 (PDT)
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: Jiri Kosina <jikos@kernel.org>,
-	Benjamin Tissoires <bentiss@kernel.org>
-Cc: "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
-	Lambert Fan <fanzhaoming@anopc.com>,
-	Zhouwang Huang <honjow311@gmail.com>,
-	"Derek J . Clark" <derekjohn.clark@gmail.com>,
-	linux-input@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v4 5/5] HID: hid-oxp: Add Vibration Intensity Attribute
-Date: Sat, 18 Apr 2026 21:26:24 -0700
-Message-ID: <20260419042624.625746-6-derekjohn.clark@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260419042624.625746-1-derekjohn.clark@gmail.com>
-References: <20260419042624.625746-1-derekjohn.clark@gmail.com>
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="B+Vrafri";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="uPLVwv5f"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4fz01k0jKbz9vTB;
+	Sun, 19 Apr 2026 09:02:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776582170;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g6J4MGkzU3mz1DM7QBmypCRzrlUzbakev5EVGVZUWFs=;
+	b=B+Vrafri+rhpD6rgvx1Kpalul+LaSFJSgT7Hk+1DOSnp0yYueyj6dsKePEZFY1vZfYc0XP
+	6ux0vpqTkcVQ8dGNbEIqJRIx3zAHHOcFvD1oJVxGB4WhV9z74OjZ6KYpK8//RQmFt7KszY
+	PJ0jCnMk/g9zld1jV/CuNnnqUzrcl2SsiVj3sm9kHxjBvyYX4jtxfN4m2Tu6w8JN7XJnET
+	rnyZz1iKHriTmM7wwi06Q+fV73S1Cz3kIASDMC10qVS06d5nUeC0csY21B+ymrQ0yS82ng
+	mbv2EM+F0Dh+GSf4H2qm1Fve976FOC3MkkJpNbs3s4fvKm7jIG65+ey/3onfDQ==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1776582168;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=g6J4MGkzU3mz1DM7QBmypCRzrlUzbakev5EVGVZUWFs=;
+	b=uPLVwv5fgr9bRjNeoELDyjb/KHKIGtN0p0uLbG3tEdiyqhfy7zR7UJnLZlU4Uw7io5fx8x
+	w72L/4maAutHGkXgz1Em7gr96Y1PsKx18ON/dAX/XLpRCp7rFABBEij17wzhh+2oEzG8Qo
+	tPmbB7SzTZismzoyYp6yywiL91PMIjVaDb6nnNOwqaxeio7DhGMPNk6YgCgAgfzC6CFEF+
+	YsS4Cq2hylmv/QTRQfnmz5kd0xI0RaBpy1hMbKSTJzpOjYG0JI47scPq76Z+qjmbYJFqtn
+	+xvheRwAuzwO2DVdrCdOmOcqqlNCIMzrLPRc7lhT58lUuANkuRsCas5+9oIsew==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org
+Cc: lrcu@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Sun, 19 Apr 2026 08:58:25 +0200
+Message-ID: <20260419065824.165921-4-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: iojoyhsbyqjcp7xfk5fzic49jq3m3s51
+X-MBO-RS-ID: 9471a05634737bb57b1
 
-Adds attribute for setting the rumble intensity level. This setting must
-be re-applied after the gamepad mode is set as doing so resets this to
-the default value.
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj() and family")
 
-Reviewed-by: Zhouwang Huang <honjow311@gmail.com>
-Tested-by: Zhouwang Huang <honjow311@gmail.com>
-Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
+ptr = kmalloc(sizeof(struct some_obj_name), gfp);
+ -> ptr = kmalloc_obj(*ptr, gfp);
+ptr = kzalloc(sizeof(*ptr), gfp);
+ -> ptr = kzalloc_obj(*ptr, gfp);
+ptr = kmalloc_array(count, sizeof(*ptr), gfp);
+ -> ptr = kmalloc_objs(*ptr, count, gfp);
+ptr = kcalloc(count, sizeof(*ptr), gfp);
+ -> ptr = kzalloc_objs(*ptr, count, gfp);
+
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
 ---
- drivers/hid/hid-oxp.c | 78 +++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 78 insertions(+)
+ .../RCU/Design/Requirements/Requirements.rst         |  6 +++---
+ Documentation/RCU/listRCU.rst                        |  2 +-
+ Documentation/RCU/whatisRCU.rst                      |  4 ++--
+ Documentation/core-api/kref.rst                      |  4 ++--
+ Documentation/core-api/list.rst                      |  4 ++--
+ Documentation/core-api/memory-allocation.rst         |  4 ++--
+ Documentation/driver-api/mailbox.rst                 |  4 ++--
+ Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
+ Documentation/kernel-hacking/locking.rst             |  4 ++--
+ Documentation/locking/locktypes.rst                  |  4 ++--
+ Documentation/process/coding-style.rst               |  8 ++++----
+ .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
+ Documentation/spi/spi-summary.rst                    |  4 ++--
+ .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
+ .../translations/it_IT/locking/locktypes.rst         |  4 ++--
+ .../translations/it_IT/process/coding-style.rst      |  2 +-
+ .../translations/sp_SP/process/coding-style.rst      |  2 +-
+ Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
+ .../translations/zh_CN/process/coding-style.rst      |  2 +-
+ .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
+ .../translations/zh_TW/process/coding-style.rst      |  2 +-
+ 21 files changed, 42 insertions(+), 42 deletions(-)
 
-diff --git a/drivers/hid/hid-oxp.c b/drivers/hid/hid-oxp.c
-index 52002d4cbd0b..20a54f337220 100644
---- a/drivers/hid/hid-oxp.c
-+++ b/drivers/hid/hid-oxp.c
-@@ -34,6 +34,7 @@ enum oxp_function_index {
- 	OXP_FID_GEN1_RGB_SET =		0x07,
- 	OXP_FID_GEN1_RGB_REPLY =	0x0f,
- 	OXP_FID_GEN2_TOGGLE_MODE =	0xb2,
-+	OXP_FID_GEN2_RUMBLE_SET =	0xb3,
- 	OXP_FID_GEN2_KEY_STATE =	0xb4,
- 	OXP_FID_GEN2_STATUS_EVENT =	0xb8,
- };
-@@ -181,6 +182,7 @@ static struct oxp_hid_cfg {
- 	struct mutex cfg_mutex; /*ensure single synchronous output report*/
- 	u8 rgb_brightness;
- 	u8 gamepad_mode;
-+	u8 rumble_intensity;
- 	u8 rgb_effect;
- 	u8 rgb_speed;
- 	u8 rgb_en;
-@@ -266,6 +268,11 @@ static const char *const oxp_rgb_effect_text[] = {
- 	[OXP_EFFECT_MONO_LIST] = "monocolor",
- };
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index b5cdbba3ec2e..faca5a9c8c12 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` and ``->b`` fields.
  
-+enum oxp_rumble_side_index {
-+	OXP_RUMBLE_LEFT = 0x00,
-+	OXP_RUMBLE_RIGHT,
-+};
-+
- struct oxp_gen_1_rgb_report {
- 	u8 report_id;
- 	u8 message_id;
-@@ -341,6 +348,7 @@ static int oxp_hid_raw_event_gen_1(struct hid_device *hdev,
+        1 bool add_gp_buggy(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -228,7 +228,7 @@ their rights to reorder this code as follows:
  
- static int oxp_gen_2_property_out(enum oxp_function_index fid, u8 *data, u8 data_size);
- static int oxp_set_buttons(void);
-+static int oxp_rumble_intensity_set(u8 intensity);
+        1 bool add_gp_buggy_optimized(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -264,7 +264,7 @@ shows an example of insertion:
  
- static void oxp_mcu_init_fn(struct work_struct *work)
- {
-@@ -368,6 +376,12 @@ static void oxp_mcu_init_fn(struct work_struct *work)
- 	if (ret)
- 		dev_err(&drvdata.hdev->dev,
- 			"Error: Failed to set gamepad mode: %i\n", ret);
-+
-+	/* Set vibration level */
-+	ret = oxp_rumble_intensity_set(drvdata.rumble_intensity);
-+	if (ret)
-+		dev_err(&drvdata.hdev->dev,
-+			"Error: Failed to set rumble intensity: %i\n", ret);
- }
+        1 bool add_gp(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p, GFP_KERNEL);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+index d8bb98623c12..48c7272a4ccc 100644
+--- a/Documentation/RCU/listRCU.rst
++++ b/Documentation/RCU/listRCU.rst
+@@ -276,7 +276,7 @@ The RCU version of audit_upd_rule() is as follows::
  
- static int oxp_hid_raw_event_gen_2(struct hid_device *hdev,
-@@ -514,6 +528,14 @@ static ssize_t gamepad_mode_store(struct device *dev,
+ 		list_for_each_entry(e, list, list) {
+ 			if (!audit_compare_rule(rule, &e->rule)) {
+-				ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
++				ne = kmalloc_obj(*entry, GFP_ATOMIC);
+ 				if (ne == NULL)
+ 					return -ENOMEM;
+ 				audit_copy_rule(&ne->rule, &e->rule);
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index a1582bd653d1..770aab8ea36a 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -468,7 +468,7 @@ uses of RCU may be found in listRCU.rst and NMI-RCU.rst.
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
  
- 	drvdata.gamepad_mode = data[0];
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp, GFP_KERNEL);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+@@ -570,7 +570,7 @@ The foo_update_a() function might then be written as follows::
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
  
-+	if (drvdata.gamepad_mode == OXP_GP_MODE_DEBUG)
-+		return count;
-+
-+	/* Re-apply rumble settings as switching gamepad mode will override */
-+	ret = oxp_rumble_intensity_set(drvdata.rumble_intensity);
-+	if (ret)
-+		return ret;
-+
- 	return count;
- }
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp, GFP_KERNEL);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
+index 8db9ff03d952..1c14c036699d 100644
+--- a/Documentation/core-api/kref.rst
++++ b/Documentation/core-api/kref.rst
+@@ -40,7 +40,7 @@ kref_init as so::
  
-@@ -857,6 +879,59 @@ static ssize_t button_mapping_options_show(struct device *dev,
- }
- static DEVICE_ATTR_RO(button_mapping_options);
+      struct my_data *data;
  
-+static int oxp_rumble_intensity_set(u8 intensity)
-+{
-+	u8 header[15] = { 0x02, 0x38, 0x02, 0xe3, 0x39, 0xe3, 0x39, 0xe3,
-+			  0x39, 0x01, intensity, 0x05, 0xe3, 0x39, 0xe3 };
-+	u8 footer[9] = { 0x39, 0xe3, 0x39, 0xe3, 0xe3, 0x02, 0x04, 0x39, 0x39 };
-+	size_t footer_size = ARRAY_SIZE(footer);
-+	size_t header_size = ARRAY_SIZE(header);
-+	u8 data[59] = { 0x0 };
-+	size_t data_size = ARRAY_SIZE(data);
-+
-+	memcpy(data, header, header_size);
-+	memcpy(data + data_size - footer_size, footer, footer_size);
-+
-+	return oxp_gen_2_property_out(OXP_FID_GEN2_RUMBLE_SET, data, data_size);
-+}
-+
-+static ssize_t rumble_intensity_store(struct device *dev,
-+				      struct device_attribute *attr, const char *buf,
-+				      size_t count)
-+{
-+	int ret;
-+	u8 val;
-+
-+	ret = kstrtou8(buf, 10, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val < 0 || val > 5)
-+		return -EINVAL;
-+
-+	ret = oxp_rumble_intensity_set(val);
-+	if (ret)
-+		return ret;
-+
-+	drvdata.rumble_intensity = val;
-+
-+	return count;
-+}
-+
-+static ssize_t rumble_intensity_show(struct device *dev,
-+				     struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "%i\n", drvdata.rumble_intensity);
-+}
-+static DEVICE_ATTR_RW(rumble_intensity);
-+
-+static ssize_t rumble_intensity_range_show(struct device *dev,
-+					   struct device_attribute *attr, char *buf)
-+{
-+	return sysfs_emit(buf, "0-5\n");
-+}
-+static DEVICE_ATTR_RO(rumble_intensity_range);
-+
- #define OXP_DEVICE_ATTR_RW(_name, _group)                                     \
- 	static ssize_t _name##_store(struct device *dev,                      \
- 				     struct device_attribute *attr,           \
-@@ -948,6 +1023,8 @@ static struct attribute *oxp_cfg_attrs[] = {
- 	&dev_attr_gamepad_mode.attr,
- 	&dev_attr_gamepad_mode_index.attr,
- 	&dev_attr_reset_buttons.attr,
-+	&dev_attr_rumble_intensity.attr,
-+	&dev_attr_rumble_intensity_range.attr,
- 	NULL,
- };
+-     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     data = kmalloc_obj(*data, GFP_KERNEL);
+      if (!data)
+             return -ENOMEM;
+      kref_init(&data->refcount);
+@@ -100,7 +100,7 @@ thread to process::
+ 	int rv = 0;
+ 	struct my_data *data;
+ 	struct task_struct *task;
+-	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	data = kmalloc_obj(*data, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	kref_init(&data->refcount);
+diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
+index 241464ca0549..86cd0a1b77ea 100644
+--- a/Documentation/core-api/list.rst
++++ b/Documentation/core-api/list.rst
+@@ -112,7 +112,7 @@ list:
  
-@@ -1422,6 +1499,7 @@ static int oxp_cfg_probe(struct hid_device *hdev, u16 up)
- 	INIT_DELAYED_WORK(&drvdata.oxp_btn_queue, oxp_btn_queue_fn);
+           /* State 1 */
  
- 	drvdata.gamepad_mode = OXP_GP_MODE_XINPUT;
-+	drvdata.rumble_intensity = 5;
+-          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
++          grock = kzalloc_obj(*grock, GFP_KERNEL);
+           if (!grock)
+                   return -ENOMEM;
+           grock->name = "Grock";
+@@ -123,7 +123,7 @@ list:
  
- 	INIT_DELAYED_WORK(&drvdata.oxp_mcu_init, oxp_mcu_init_fn);
- 	mod_delayed_work(system_wq, &drvdata.oxp_mcu_init, msecs_to_jiffies(50));
+           /* State 2 */
+ 
+-          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
++          dimitri = kzalloc_obj(*dimitri, GFP_KERNEL);
+           if (!dimitri)
+                   return -ENOMEM;
+           dimitri->name = "Dimitri";
+diff --git a/Documentation/core-api/memory-allocation.rst b/Documentation/core-api/memory-allocation.rst
+index 0f19dd524323..8379775f17d3 100644
+--- a/Documentation/core-api/memory-allocation.rst
++++ b/Documentation/core-api/memory-allocation.rst
+@@ -135,7 +135,7 @@ Selecting memory allocator
+ The most straightforward way to allocate memory is to use a function
+ from the kmalloc() family. And, to be on the safe side it's best to use
+ routines that set memory to zero, like kzalloc(). If you need to
+-allocate memory for an array, there are kmalloc_array() and kcalloc()
++allocate memory for an array, there are kmalloc_objs() and kzalloc_objs()
+ helpers. The helpers struct_size(), array_size() and array3_size() can
+ be used to safely calculate object sizes without overflowing.
+ 
+@@ -151,7 +151,7 @@ sizes, the alignment is guaranteed to be at least the largest power-of-two
+ divisor of the size.
+ 
+ Chunks allocated with kmalloc() can be resized with krealloc(). Similarly
+-to kmalloc_array(): a helper for resizing arrays is provided in the form of
++to kmalloc_objs(): a helper for resizing arrays is provided in the form of
+ krealloc_array().
+ 
+ For large allocations you can use vmalloc() and vzalloc(), or directly
+diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
+index 463dd032b96c..4bcd73a99115 100644
+--- a/Documentation/driver-api/mailbox.rst
++++ b/Documentation/driver-api/mailbox.rst
+@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
+ 		struct async_pkt ap;
+ 		struct sync_pkt sp;
+ 
+-		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
+-		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
++		dc_sync = kzalloc_obj(*dc_sync, GFP_KERNEL);
++		dc_async = kzalloc_obj(*dc_async, GFP_KERNEL);
+ 
+ 		/* Populate non-blocking mode client */
+ 		dc_async->cl.dev = &pdev->dev;
+diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
+index a934caa483a4..38319130ebf5 100644
+--- a/Documentation/driver-api/media/v4l2-fh.rst
++++ b/Documentation/driver-api/media/v4l2-fh.rst
+@@ -42,7 +42,7 @@ Example:
+ 
+ 		...
+ 
+-		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
++		my_fh = kzalloc_obj(*my_fh, GFP_KERNEL);
+ 
+ 		...
+ 
+diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
+index dff0646a717b..d02e62367c4f 100644
+--- a/Documentation/kernel-hacking/locking.rst
++++ b/Documentation/kernel-hacking/locking.rst
+@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
+     {
+             struct object *obj;
+ 
+-            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++            if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                     return -ENOMEM;
+ 
+             strscpy(obj->name, name, sizeof(obj->name));
+@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
+              struct object *obj;
+     +        unsigned long flags;
+ 
+-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++             if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                      return -ENOMEM;
+     @@ -63,30 +64,33 @@
+              obj->id = id;
+diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
+index 37b6a5670c2f..ac1ad722a9e7 100644
+--- a/Documentation/locking/locktypes.rst
++++ b/Documentation/locking/locktypes.rst
+@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
+ works perfectly::
+ 
+   raw_spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ But this code fails on PREEMPT_RT kernels because the memory allocator is
+ fully preemptible and therefore cannot be invoked from truly atomic
+@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
+ preemption on PREEMPT_RT kernels::
+ 
+   spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ 
+ bit spinlocks
+diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
+index 35b381230f6e..a3bf75dc7c88 100644
+--- a/Documentation/process/coding-style.rst
++++ b/Documentation/process/coding-style.rst
+@@ -936,7 +936,7 @@ used.
+ ---------------------
+ 
+ The kernel provides the following general purpose memory allocators:
+-kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
++kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
+ vzalloc().  Please refer to the API documentation for further information
+ about them.  :ref:`Documentation/core-api/memory-allocation.rst
+ <memory_allocation>`
+@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ The alternative form where struct name is spelled out hurts readability and
+ introduces an opportunity for a bug when the pointer variable type is changed
+@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc_array(n, sizeof(...), ...);
++	p = kmalloc_objs(*ptr, n, ...);
+ 
+ The preferred form for allocating a zeroed array is the following:
+ 
+ .. code-block:: c
+ 
+-	p = kcalloc(n, sizeof(...), ...);
++	p = kzalloc_objs(*ptr, n, ...);
+ 
+ Both forms check for overflow on the allocation size n * sizeof(...),
+ and return NULL if that occurred.
+diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+index 895752cbcedd..12433612aa9c 100644
+--- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
++++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
+@@ -266,7 +266,7 @@ to details explained in the following section.
+               ....
+ 
+               /* allocate a chip-specific data with zero filled */
+-              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++              chip = kzalloc_obj(*chip, GFP_KERNEL);
+               if (chip == NULL)
+                       return -ENOMEM;
+ 
+@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
+   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
+                      0, &card);
+   .....
+-  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++  chip = kzalloc_obj(*chip, GFP_KERNEL);
+ 
+ The chip record should have the field to hold the card pointer at least,
+ 
+@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
+                       return -ENXIO;
+               }
+ 
+-              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++              chip = kzalloc_obj(*chip, GFP_KERNEL);
+               if (chip == NULL) {
+                       pci_disable_device(pci);
+                       return -ENOMEM;
+@@ -1737,7 +1737,7 @@ callback::
+   {
+           struct my_pcm_data *data;
+           ....
+-          data = kmalloc(sizeof(*data), GFP_KERNEL);
++          data = kmalloc_obj(*data, GFP_KERNEL);
+           substream->runtime->private_data = data;
+           ....
+   }
+@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
+ assign private data, you should define a destructor, too. The
+ destructor function is set in the ``private_free`` field::
+ 
+-  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
++  struct mydata *p = kmalloc_obj(*p, GFP_KERNEL);
+   hw->private_data = p;
+   hw->private_free = mydata_free;
+ 
+@@ -3833,7 +3833,7 @@ chip data individually::
+           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
+                              0, &card);
+           ....
+-          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
++          chip = kzalloc_obj(*chip, GFP_KERNEL);
+           ....
+           card->private_data = chip;
+           ....
+diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
+index 6e21e6f86912..7ad6af76c247 100644
+--- a/Documentation/spi/spi-summary.rst
++++ b/Documentation/spi/spi-summary.rst
+@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
+ 	{
+ 		struct mysoc_spi_data *pdata2;
+ 
+-		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
++		pdata2 = kmalloc_obj(*pdata2, GFP_KERNEL);
+ 		*pdata2 = pdata;
+ 		...
+ 		if (n == 2) {
+@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
+ 			return -ENODEV;
+ 
+ 		/* get memory for driver's per-chip state */
+-		chip = kzalloc(sizeof *chip, GFP_KERNEL);
++		chip = kzalloc(*chip, GFP_KERNEL);
+ 		if (!chip)
+ 			return -ENOMEM;
+ 		spi_set_drvdata(spi, chip);
+diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+index 4c21cf60f775..acca89a3743a 100644
+--- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
++++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
+@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
+     {
+             struct object *obj;
+ 
+-            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++            if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                     return -ENOMEM;
+ 
+             strscpy(obj->name, name, sizeof(obj->name));
+@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
+              struct object *obj;
+     +        unsigned long flags;
+ 
+-             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
++             if ((obj = kmalloc_obj(*obj, GFP_KERNEL)) == NULL)
+                      return -ENOMEM;
+     @@ -63,30 +64,33 @@
+              obj->id = id;
+diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
+index 1c7056283b9d..d5fa36aa05cc 100644
+--- a/Documentation/translations/it_IT/locking/locktypes.rst
++++ b/Documentation/translations/it_IT/locking/locktypes.rst
+@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
+ memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
+ 
+   raw_spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
+ memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
+@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
+ PREEMPT_RT::
+ 
+   spin_lock(&lock);
+-  p = kmalloc(sizeof(*p), GFP_ATOMIC);
++  p = kmalloc_obj(*p, GFP_ATOMIC);
+ 
+ 
+ bit spinlocks
+diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
+index c0dc786b8474..2a499412a2e3 100644
+--- a/Documentation/translations/it_IT/process/coding-style.rst
++++ b/Documentation/translations/it_IT/process/coding-style.rst
+@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ La forma alternativa, dove il nome della struttura viene scritto interamente,
+ peggiora la leggibilità e introduce possibili bachi quando il tipo di
+diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
+index 7d63aa8426e6..44c93d5f6beb 100644
+--- a/Documentation/translations/sp_SP/process/coding-style.rst
++++ b/Documentation/translations/sp_SP/process/coding-style.rst
+@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ La forma alternativa donde se deletrea el nombre de la estructura perjudica
+ la legibilidad, y presenta una oportunidad para un error cuando se cambia
+diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
+index b9902af310c5..fcff01e99852 100644
+--- a/Documentation/translations/zh_CN/core-api/kref.rst
++++ b/Documentation/translations/zh_CN/core-api/kref.rst
+@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
+ 
+      struct my_data *data;
+ 
+-     data = kmalloc(sizeof(*data), GFP_KERNEL);
++     data = kmalloc_obj(*data, GFP_KERNEL);
+      if (!data)
+             return -ENOMEM;
+      kref_init(&data->refcount);
+@@ -106,7 +106,7 @@ Kref规则
+ 	int rv = 0;
+ 	struct my_data *data;
+ 	struct task_struct *task;
+-	data = kmalloc(sizeof(*data), GFP_KERNEL);
++	data = kmalloc_obj(*data, GFP_KERNEL);
+ 	if (!data)
+ 		return -ENOMEM;
+ 	kref_init(&data->refcount);
+diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
+index 5a342a024c01..55d5da974d89 100644
+--- a/Documentation/translations/zh_CN/process/coding-style.rst
++++ b/Documentation/translations/zh_CN/process/coding-style.rst
+@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
+ 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
+diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+index f0be21a60a0f..ba43c5c4797c 100644
+--- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
++++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
+@@ -799,7 +799,7 @@ int my_open(struct file *file)
+ 
+ 	...
+ 
+-	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
++	my_fh = kzalloc_obj(*my_fh, GFP_KERNEL);
+ 
+ 	...
+ 
+diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
+index e2ba97b3d8bb..63c78982a1af 100644
+--- a/Documentation/translations/zh_TW/process/coding-style.rst
++++ b/Documentation/translations/zh_TW/process/coding-style.rst
+@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
+ 
+ .. code-block:: c
+ 
+-	p = kmalloc(sizeof(*p), ...);
++	p = kmalloc_obj(*p, ...);
+ 
+ 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
+ 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
 -- 
 2.53.0
 
