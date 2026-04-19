@@ -1,119 +1,138 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 712061A9FB7
-	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 12:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D34651BC2A;
+	Sun, 19 Apr 2026 13:17:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776601549; cv=none; b=qME67aJ05Wjjkz5cccdghwdfAQdQoqS1Fx64Z8XD5znJ38f7iqZgdO3x+/DCHjZEvNTPxtzqigk8Xc3UZsSw/KPB2OEdGYVuDb+RqfpgKfM01a8MderpD6SG2JNO+DoJIBGYqACkKBlNFx17MjG0l+K9jvVKSxvEgTYYiOOR4Tk=
+	t=1776604644; cv=none; b=tKQ4enyVMT7Kj+m2fyFa1vXIib70JgKkRVfNJwghYwcRU39f3n5EmAcQNUr+cUB6RLnr6jIq2p4YUn4c2LQmJjfdKv/3gCszC1cqMN7qg5PmiuY1uqVtEgbe/xWQ63AQD9RzhOMgFNzRJVYWFjnjSfsHx3YuSjMrJwT3lJ/PjZY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776601549; c=relaxed/simple;
-	bh=00HYRBh4QBdVhx94851qBR+cTM28MyExi69+YRYYmRo=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=j0oB8Qi02CB9iloLHgu1qBWY7UoSVkQQ7icJ2XKraU5yNYKUGsNrd6qc7GkN/qxXAjAl8J1C5boejugTKp77Sf3xrPGQepQTfyH0yVNAXNBdqpAi9nGN9JLK3Y5JolpHMxil5xEUUT6RmHcJ5+Za81AdCzRMBP0eE60nbznuFcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxmeCBP5; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776604644; c=relaxed/simple;
+	bh=ohdmWo16vNUrAsv5m1BvZ6YSb/zDYTUqhQnVl/n0QOk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uqd0oSqOhmhEvtC7V92xEJPMhgtpyehDhjPtfxN2vWux79hH8K+6yyf+/PTLvt1m3A/ehCnmXvLbZpbVgw6rrXT1rpvBfyzF/JyJ0Yu/3R8GPVgbruTWb3NqNrdeRqn/jQJBHYH38BgTbcxh3J2MJEvrNrmD0X9AFYs/+xkNynU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CTB/pcxt; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxmeCBP5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776601547; x=1808137547;
-  h=date:from:to:cc:subject:message-id;
-  bh=00HYRBh4QBdVhx94851qBR+cTM28MyExi69+YRYYmRo=;
-  b=fxmeCBP55W8zcakEbQxPg4UELtzjRjOiDYl8ur6tzhgf6PmjC38Hh7H1
-   ah9WyA4IdORpJAOVz6BWxpipUBNEx8Ci4s2iGVENglYeV7BPsaVGkJIZP
-   yCEKZdH1hJwXZcr+LpZNuSKbkaCu6bo9BniEtklld1/VxJFEHtyshCBQP
-   znY+uTO1t2jktQbvKfCGOvpPxU7zGa132akhTP4WChBKT/0B6LZXxSzlb
-   AMj0tOMJu4BSWtRL/WsXc8sgkX9/5qmWQ1GzKKz8Nsy8kImtFXGwW27Qu
-   ljqMnQToNIz/csSxuL2sXuEvuJh/HsoAJv2prB98Bh3gPEQl/7gZiay93
-   w==;
-X-CSE-ConnectionGUID: FwUpGpK6R3mmDr+Vb3PgKA==
-X-CSE-MsgGUID: 49kcp29MTSiurP2AdaJovA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77726099"
-X-IronPort-AV: E=Sophos;i="6.23,188,1770624000"; 
-   d="scan'208";a="77726099"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Apr 2026 05:25:47 -0700
-X-CSE-ConnectionGUID: cCk/MwbyTP6UwZnUOExQaw==
-X-CSE-MsgGUID: h1U6uSAiQA+6dK/yJaRHyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,188,1770624000"; 
-   d="scan'208";a="236467633"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa005.fm.intel.com with ESMTP; 19 Apr 2026 05:25:45 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wERDb-000000001y9-0krO;
-	Sun, 19 Apr 2026 12:25:43 +0000
-Date: Sun, 19 Apr 2026 14:24:54 +0200
-From: kernel test robot <lkp@intel.com>
-To: Rodrigo Alencar <rodrigo.alencar@analog.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/iio/ad9910.rst:451: WARNING: Block
- quote ends without a blank line; unexpected unindent. [docutils]
-Message-ID: <202604191436.eNqraDV2-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CTB/pcxt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB1DC2BCAF;
+	Sun, 19 Apr 2026 13:17:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776604644;
+	bh=ohdmWo16vNUrAsv5m1BvZ6YSb/zDYTUqhQnVl/n0QOk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CTB/pcxtd5Y5AgVqa7kH0u50Yh0y17fIweATDD/xLjI/qILdgtSPZ0hb6RwRNrCVu
+	 hP2RTuD8ab8cDa/jxzv9WHZToe0EH3B5htkqov1Q+seanVeW9ut+L3c7F+lqyLXK4d
+	 q4FNrUG+lY9nrb0BXTdN+05RDdP3eCw6iILObkGjIKeVWr3yebJ/2jctVJLFM5vA+n
+	 GwDCxCgUaT3EMQHkUekg423BeMvL+r+WfM/b3LlGJfDr1/ELSg1NRiSy2tyoy+m1bD
+	 RfAz6QZjRHZUtxjqVJXlZNILuwSdK6tB5BwcVlhNjJ08ZEsFHsn999hHuKL8lWeuoe
+	 w6++5U6ZGrVhQ==
+Date: Sun, 19 Apr 2026 14:17:17 +0100
+From: Lorenzo Stoakes <ljs@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Matthew Wilcox <willy@infradead.org>, Nick Huang <sef1548@gmail.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Michal Hocko <mhocko@suse.com>, Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab
+ documentation
+Message-ID: <aeTTw4gziJigaNbU@lucifer>
+References: <20260418000635.17499-1-sef1548@gmail.com>
+ <aeNGbNyPxJssnkbO@lucifer>
+ <aeOuCH8ydw_yzdXZ@casper.infradead.org>
+ <c113f667-f897-42cc-a0e5-b8a0bbd91be3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c113f667-f897-42cc-a0e5-b8a0bbd91be3@kernel.org>
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Rodrigo-Alencar-via-B4-Relay/dt-bindings-iio-frequency-add-ad9910/20260419-104913
-head:   5ac9bfbe149f0815ff3156530d694c8c4a39dc75
-commit: 5ac9bfbe149f0815ff3156530d694c8c4a39dc75 docs: iio: add documentation for ad9910 driver
-date:   9 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260419/202604191436.eNqraDV2-lkp@intel.com/reproduce)
+On Sun, Apr 19, 2026 at 10:35:44AM +0200, David Hildenbrand (Arm) wrote:
+> On 4/18/26 18:15, Matthew Wilcox wrote:
+> > On Sat, Apr 18, 2026 at 10:07:22AM +0100, Lorenzo Stoakes wrote:
+> >> On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
+> >>> - Add "Overview" section explaining the slab allocator's role and purpose
+> >>> - Document the three main slab allocator implementations (SLAB, SLUB, SLOB)
+> >>
+> >> The fact you're insanely wrong about the current state of slab only makes this
+> >> worse.
+> >
+> > This is actually a new low.  We've always had to contend with people
+> > putting up outdated or just wrong information on web pages, and there's
+> > little we can do about it.  Witness all the outdated information about
+> > THP that's based on code that's been deleted for over a decade.
+> >
+> > But now we've got AI trained on all this wrong/ out of date information,
+> > and, er, "enthusiasts" who are trying to change the correct information
+> > in the kernel to match what the deluded AI "thinks" should be true.
+> >
+> > Let that sink in.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604191436.eNqraDV2-lkp@intel.com/
+Ugh ye gawds. My attitude is nip this in the bud early.
 
-All warnings (new ones prefixed by >>):
+I'm very harsh in response to these things for a reason - firstly, it's rude,
+obnoxious + disrespectful, so a negative response is wholly appropriate.
 
-   Runtime Survivability
-   ===================== [docutils]
-   Documentation/iio/ad9910.rst:444: ERROR: Unexpected indentation. [docutils]
-   Documentation/iio/ad9910.rst:447: ERROR: Unexpected indentation. [docutils]
->> Documentation/iio/ad9910.rst:451: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/iio/ad9910.rst:452: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/iio/ad9910.rst:459: ERROR: Unexpected indentation. [docutils]
-   Documentation/mm/memfd_preservation:7: ./mm/memfd_luo.c:13: ERROR: Unexpected section title.
+But more importantly, I want to SET A PRECEDENT that if you send this crap
+you'll get a VERY negative response.
 
+Clueless but good faith or bad faith - it's straight up plagiarism and that's
+totally unacceptable.
 
-vim +451 Documentation/iio/ad9910.rst
+> >
+>
+> I think we should make it very clear that we don't want doc updates from someone
+> that is not a renowned expert in that area or wants to become an expert in that
+> area (and already discussed working on the docs with maintainers/experts).
+>
+> Otherwise we'll have this same discussion over and over again.
+>
+> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> index 7aa2a88869083..8c5721001c8bb 100644
+> --- a/Documentation/mm/index.rst
+> +++ b/Documentation/mm/index.rst
+> @@ -7,6 +7,11 @@ of Linux.  If you are looking for advice on simply allocating
+> memory,
+>   see the :ref:`memory_allocation`.  For controlling and tuning guides,
+>   see the :doc:`admin guide <../admin-guide/mm/index>`.
+>
+> +A lot of documentation in this guide is still incomplete. If you are not
+> +a renowned expert in the specific area, but you want to contribute bigger
+> +chunks of documentation, talk to the respective MM experts first. LLM
+> +generated slop from non-experts will be rejected without further comments.
+> +
+>   .. toctree::
+>      :maxdepth: 1
+>
+>
+>
+> LLMs are just the tip of the iceberg. It will all be developmend-by review with
+> inexperienced contributors. And we are only willing to put in the effort to
+> teach contributors if the contributors are not actually worth our time: i.e.,
+> LLM kiddies that will actually stick around and help the subsystem in the long run.
+>
+>
+> The whole doc update stuff is similar to people just grepping for TODOs in the
+> kernel and then using an LLM to produce code they have no idea about.
+>
+> It's the evolution of typo fixes: review load without any benefit.
 
-   440	
-   441	- 72-byte header:
-   442	  - 4-byte big-endian word count: number of 32-bit words to be loaded (0-1024)
-   443	  - 4-byte big-endian CFR1 value: configuration for the CFR1 register. Only
-   444	    bits relevant to RAM mode (data destination and internal profile control)
-   445	    are considered. Other bits are ignored and have no effect.
-   446	    - Bits [30:29]: RAM data destination:
-   447	      - 00: frequency
-   448	      - 01: phase
-   449	      - 10: amplitude
-   450	      - 11: polar
- > 451	    - Bits [20:17]: Internal profile control (see Table 14 of the datasheet).
-   452	  - 8 sets of 8-byte big-endian profile data for profiles 0-7. Each set contains:
-   453	    - Bits [55:40]: Address step rate value
-   454	    - Bits [39:30]: End address for the profile
-   455	    - Bits [23:14]: Start address for the profile
-   456	    - Bit [5]: no-dwell high for ramp-up mode
-   457	    - Bit [3]: zero-crossing for direct-switch mode
-   458	    - Bits [2:0]: operating mode:
-   459	      - 000: direct switch
-   460	      - 001: ramp-up
-   461	      - 010: bidirectional
-   462	      - 011: bidirectional continuous
-   463	      - 100: ramp-up continuous
-   464	- Followed by the specified number of 32-bit big-endian data words.
-   465	
+Agree with all of that!
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Let's do that, happy to give tags on a patch for the above :)
+
+>
+> --
+> Cheers,
+>
+> David
+>
+
+Cheers, Lorenzo
