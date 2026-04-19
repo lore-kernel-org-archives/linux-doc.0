@@ -1,66 +1,66 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629543264FD
-	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 13:29:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1005F33998
+	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 13:32:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776605355; cv=none; b=BnToIlPdmfxa6EZF4e5TWpyYAw3wxo8YQiVZp3AZBNodrymRuDmFpMru7ShZOCkFt4GNoi3aIB0RC5Lv3PR9P+Lu2T+zlegXbrkx35Kw5gNT5FViOKc9qMulrRS6C6EU0DGGMv9u4UAvypx7LkwtW3TI7JIebYgtzxiMsf38r3E=
+	t=1776605538; cv=none; b=FIZnpO6cp0RvrFsBkovp+sK42LjcqeVvo6Y3GzjB52AQE3AsbKUQhsHeVIcvQeypaVe211peKMK9QsT68fXlKyF6W/PgNHDdOVGGv0vxwozpTPpGj/T7bye4LZFY5xjrslmzYuaq0QMdDOsISkFKkKOxHrXasj27LwFbEBoj7GE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776605355; c=relaxed/simple;
-	bh=cSBVALX9ZImnt4wPdTFwahD9dgEaTNoRu0al8mLrEE0=;
+	s=arc-20240116; t=1776605538; c=relaxed/simple;
+	bh=Ip0d5DBUyVPoheUjyQr7rQwV+qiRzFMzu6K11BbxV18=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CbCg+HqCPxqRf/cwCE/Plrt1d7brtKMDC+IIZ6ugKHunRFToewGq9oGh4o/eRps0zXwAWmXvrBEcFO2uW7dT4lmtQcdgQRLLJDzTNGaphDZOCuRTLJHoGQ5ea5h5YSwS+J2WH3jGikQdvlGPHnyfyeRZvgTTD28+V64AZ9otrg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bs9RDslr; arc=none smtp.client-ip=209.85.210.173
+	 In-Reply-To:Content-Type; b=R3uXC1euoyP4JO3SQqX33q6kNFwpNiK+zp882MjzKBeNEDp2rYRS//vqppfCzM7i/cK/yb4DYcpDIuFmMz9HWcn6ErRtxrMa30vbGqT5hEN/FiL9nbRg/Y8c2ncP1KBjucNzRihkCVeQKyyT4EZrWbhzcuaKWrvxirUHC4bS8xU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F29PskMG; arc=none smtp.client-ip=209.85.216.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bs9RDslr"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-82f9fdfc965so398939b3a.1
-        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 06:29:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F29PskMG"
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35d94f4ee36so1217096a91.3
+        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 06:32:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776605352; x=1777210152; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776605535; x=1777210335; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XCVR1MKQUoXRqRb4YD6q9jlpVAXsnIACpomQCNmaj/4=;
-        b=bs9RDslrKP/HBgLgow3c3jmiZGqcTZgvtZVfHCrPoDfvEdpjyyfvZw6FkF6M+Du5rn
-         ASWhrT2nhkW4B25U/CUyqj1ox6KXF63XvG2ceP1mbD8Vzj4Zo6ERtr00AYV4a+H7oibF
-         Llu8YNje9Emobp63At5Qi2Bucw9uqbQSRodbm6thmurtEIwrCu91+jdgTqhyqkh2kpWh
-         UI4ej2I2hOyukQRdx+FIBbpbuBpU2lzh+q84Yq7jskOYhipmZe331Dy+ICYHG3U2EJjr
-         X5hDpRDHo/D5Nnqvme4AvHjzuu+SQRRqGDYvMqhvjYLH59cWPHrMdtCm0iVJjZWlMJnS
-         qs4A==
+        bh=G3DpD3/Bkr5HjkEtcV7j+/UczsLnwKJAPJ6W22c8oNg=;
+        b=F29PskMGj4eQzTgN20iO9LcseuPyHzLs9b7IxnP3iy2R7ZMqR/0gy/ZgLMqvPhfHLa
+         6glJp2gEnL7IQwhEuDr5ACSojJniuKMEGB984etacVgMNcoWEu+PArMFXrqpaN6KC62R
+         +xsVHchF+aGIsiwrjNCqgET8rpxJ7DeYhLa8J+DKqB/U1vo+Zz0kWakUVIhjKc1AVoko
+         DGcfM+468KRRv2qu0c8OKP/dPybIR5zzFeUgnFPqpANVcKxbTU9WVL6d9rtjHR3zXiEG
+         3+JK1EAWtLVImakMmlDOhJOIwDUGkhuHpS8OOAdTkD5dJqINkMZKYgtpCCHf02XB4tB0
+         ZpFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776605352; x=1777210152;
+        d=1e100.net; s=20251104; t=1776605535; x=1777210335;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=XCVR1MKQUoXRqRb4YD6q9jlpVAXsnIACpomQCNmaj/4=;
-        b=NyBmKC8jydTvrUVEUXMzZrW0FRze+vUk102O4AYJCNFkpI0H88prWZNIG4EHkJO5w+
-         f0O8OcL1bflAXMfpwUnZP5UZBwHh6ccWRC6F7f32FBzy+P+lNsJLqFxu8/R+qDNq/UlA
-         Qp3LRGB/ElCvx6w1RAjy9D8SUg2Jzk/cIHNcgz5SxhGBrul7+189NMzb4ToOFxSanfk8
-         ZjMMN/cQOfFIKGwaeZ0z991mRIL8a6Z0ZbRqDJGlZ2iRjqZZ5aVYRbJ7HESnQMHPc6gI
-         5EIxxCsId8/gMdFLgnl9BWBC8T0Gu2DpsEenSXxn+dJhtBLfa+kTq0m45pEzVGosh0kE
-         VwFw==
-X-Gm-Message-State: AOJu0Yyc7v9qKccjUHKpFLpU7Wgq6g+uICVfR0fPlyhBWd+xsagTZ0kD
-	7XojDea/x/cU/kFPuLC87DTjgYzurloIOTlPfdaJciXx+bvFLB10i5MO
-X-Gm-Gg: AeBDietqsKM9ebhqVGcuwy3zR2zhsvxn7rG+YAUQkWaZ4Ukk5/+SbgFRLSoDrjNMF9f
-	enzjLw21PlE1oouVQV+xPIoLDcQxY7gpmcUIbHu9GSLCiFmXzzQ+43nPp2TqxTBMrPWKcwesTVH
-	MafBXve8OQ3kYhMlixvcuzVA1EzkXUxNzOFKtZ5K0TXK+hLa2OLZmvtTDe2fSRX2doxCIgCvrCf
-	UJvYdXAk+9m5EdmSkDB+2S89otNrTh3gDAhyMCUhXqYMnoGNNUq0gTRP4T3Wn9iV088ZyMQz0MW
-	9+DagMOjfQ9G3yCmgs92N6yLEXmi3aZyVn1dsch/qd48xgEKCYW1lh/r+No8YWg0me1n+Yc6PtY
-	xK0LPqUdtksBGf8WUofcbtqe6nyjYXpjYD7X17s+Ys8YzXXixZh4cxoGcwD3FJsmsKwrRrjKz2p
-	W97y3ekS87RcXvcA1fVKq29PnYtmlxAvHvY0UwWWU4FjknXj+T0RYswGE0D2jQF7WelvggTfbSy
-	TU=
-X-Received: by 2002:a05:6a00:2288:b0:82c:e76b:c68c with SMTP id d2e1a72fcca58-82f8c3f2b00mr10126561b3a.0.1776605351546;
-        Sun, 19 Apr 2026 06:29:11 -0700 (PDT)
+        bh=G3DpD3/Bkr5HjkEtcV7j+/UczsLnwKJAPJ6W22c8oNg=;
+        b=PkeYdA+FfkoQJc6s/alP2FMFvugJU9lwGbb7znuetHP8qbRAEIYxRMMku/rXolsbo/
+         r5NnSRuLDrcVeY/dDz3Po4cYySCpU+LTwVww1KEgiqkiGv50Cyt3KJCoC1eqljpMJNKK
+         i3Aok8ucUF6mmBqqXnfKaEYAOB9/OHeyNw+2xYrr4E6MRe5AiHNPVo9k20ghCJ3+0wFX
+         1u1T0eVE4nfBEANKip1v5moYBely+Fv2mS6Xa026FfIAJLfu0Ivmu2oXc6cwnyvpYy4K
+         hiwNYzS64kSO4xxNEENEgYuE6MMdusmKK5RwQGObjYWR9cqibYQOM9W6WKekyu+GVGUZ
+         FSmQ==
+X-Gm-Message-State: AOJu0Yzhowf2TRA1155iNL3X1jP8hBuj0fY4ZxHmlaM6peVzq5ojc51K
+	IPKywmCi6aKdkyRUG3yguHBn02W7idNCpolLhWTfO4CdreL+W74g7ph6
+X-Gm-Gg: AeBDiesanYvcsvii/nwAJ1BsquXwDTEqouX7jbVGf7SrpGgnJVOdCUSQMdfbJiZrx97
+	pZThxpbnXzFS5FCzUXyzV1xi1P36XqYMMqtkXOhSqXYirDYkkCkvITIPXSCk2dCW0mynk9rZmRE
+	iiXnY0DemZsSvSZ+nyfQVHRLCT3O/DhNXV0tnErAvru1QkHvXZ6qhnmEnqrHOAX7tRf4Xkai6qh
+	hs11DZEk88fO2QZW3mDSfwxxUf5YZPHf6Uy0oadGzgdPk0cqogMyJkVOApr/nk5l1ftUm/zdAjI
+	/LF06IJZXUF6giH36NpvyKHHd4FjVTDrXfGsyKNBTVrCSJY5v3MJprr2sLG8cUqIGbGX0swbyfD
+	0tPm+loCxGf7a8Z4tCHdMb1FR+8lPVfu8JkqZNyuHVKzRN+Na9YKQZOZkBVgx8+deMpMVJpnwDP
+	zq8VwhTvL54a79IqEsrGFpT7ePydxS1nRfWrUKB/QsueVFgQ0WLyYEy3qdaX40KisfNnhbraYbJ
+	00=
+X-Received: by 2002:a17:90a:e7d0:b0:35c:1695:24a3 with SMTP id 98e67ed59e1d1-361404945e0mr11011086a91.23.1776605535354;
+        Sun, 19 Apr 2026 06:32:15 -0700 (PDT)
 Received: from ?IPV6:240e:38b:d99:bc01:3499:eb40:121b:8539? ([240e:38b:d99:bc01:3499:eb40:121b:8539])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8e981c07sm9090030b3a.1.2026.04.19.06.28.59
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff90dsm73698045ad.11.2026.04.19.06.32.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Apr 2026 06:29:10 -0700 (PDT)
-Message-ID: <471e921e-d595-492d-8a29-4bdd52526ac9@gmail.com>
-Date: Sun, 19 Apr 2026 21:28:45 +0800
+        Sun, 19 Apr 2026 06:32:14 -0700 (PDT)
+Message-ID: <74d5a331-9b44-43ae-90a6-8099b65f4845@gmail.com>
+Date: Sun, 19 Apr 2026 21:32:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,190 +68,45 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: polish how-to.rst
-To: Dongliang Mu <dzm91@hust.edu.cn>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260418091014.2064780-1-dzm91@hust.edu.cn>
+Subject: Re: [PATCH] docs/zh_CN: add --no-merges to git log example in
+ how-to.rst
+To: Ben Guo <ben.guo@openatom.club>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ hust-os-kernel-patches@googlegroups.com
+References: <20260416042647.3646595-1-ben.guo@openatom.club>
 Content-Language: en-US
 From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20260418091014.2064780-1-dzm91@hust.edu.cn>
+In-Reply-To: <20260416042647.3646595-1-ben.guo@openatom.club>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Applied thanks!
 
-On 2026/4/18 17:10, Dongliang Mu wrote:
-> Editorial pass on the Chinese translation contributor guide.
+On 2026/4/16 12:26, Ben Guo wrote:
+> Add --no-merges flag to prevent referencing merge commits in the
+> through-commit field of translation commit messages.
 > 
->   - Fix typos: 网络通常 → 通畅; remove trailing backticks on the
->     checktransupdate.py command; mis-placed 。 → ， in the 紧急处理
->     section; 您/你 and 的/地 inconsistencies in 进阶.
->   - Correct "git email" to "git send-email", matching usage
->     elsewhere in the document.
->   - Replace an invalid <URL> inline form with a bare URL so Sphinx
->     renders the lore.kernel.org link.
->   - Tighten grammar and wording: 针对于 → 面向; drop redundant
->     最多 before 不超过 and tautological 即可; remove double 的 in
->     您的翻译的内容; resolve ambiguity around 继续 placement in the
->     把补丁提交到邮件列表 section; and similar small fixes.
-> 
-> Assisted-by:Claude:claude-opus-4-6
-> Signed-off-by: Dongliang Mu<dzm91@hust.edu.cn>
+> Signed-off-by: Ben Guo<ben.guo@openatom.club>
 > ---
->   Documentation/translations/zh_CN/how-to.rst | 46 ++++++++++-----------
->   1 file changed, 23 insertions(+), 23 deletions(-)
+>   Documentation/translations/zh_CN/how-to.rst | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
 > diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-> index 7ae5d8765888..a46d7395b11c 100644
+> index 7ae5d876588..39ed7054fa3 100644
 > --- a/Documentation/translations/zh_CN/how-to.rst
 > +++ b/Documentation/translations/zh_CN/how-to.rst
-> @@ -13,20 +13,20 @@ Linux 内核中文文档翻译规范
->   过去几年，在广大社区爱好者的友好合作下，Linux 内核中文文档迎来了蓬勃的发
->   展。在翻译的早期，一切都是混乱的，社区对译稿只有一个准确翻译的要求，以鼓
->   励更多的开发者参与进来，这是从 0 到 1 的必然过程，所以早期的中文文档目录
-> -更加具有多样性，不过好在文档不多，维护上并没有过大的压力。
-> +呈现出较强的多样性，不过好在文档不多，维护上并没有过大的压力。
+> @@ -257,7 +257,9 @@ Git 和邮箱配置
 >   
->   然而，世事变幻，不觉有年，现在内核中文文档在前进的道路上越走越远，很多潜
->   在的问题逐渐浮出水面，而且随着中文文档数量的增加，翻译更多的文档与提高中
->   文文档可维护性之间的矛盾愈发尖锐。由于文档翻译的特殊性，很多开发者并不会
->   一直更新文档，如果中文文档落后英文文档太多，文档更新的工作量会远大于重新
->   翻译。而且邮件列表中陆续有新的面孔出现，他们那股热情，就像燃烧的火焰，能
-> -瞬间点燃整个空间，可是他们的补丁往往具有个性，这会给审阅带来了很大的困难，
-> +瞬间点燃整个空间，可是他们的补丁往往具有个性，这给审阅带来了很大的困难，
->   reviewer 们只能耐心地指导他们如何与社区更好地合作，但是这项工作具有重复
->   性，长此以往，会渐渐浇灭 reviewer 审阅的热情。
+>   	Update the translation through commit b080e52110ea
+>   	("docs: update self-protection __ro_after_init status")
+> -	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
+> +	# 请执行 git log --no-merges --oneline <您翻译的英文文档路径>
+> +	# 并替换上述内容。注意：应引用实际修改文件内容的 commit，
+> +	# 而非 merge commit
 >   
-> -虽然内核文档中已经有了类似的贡献指南，但是缺乏专门针对于中文翻译的，尤其
-> +虽然内核文档中已经有了类似的贡献指南，但是缺乏专门面向中文翻译的，尤其
->   是对于新手来说，浏览大量的文档反而更加迷惑，该文档就是为了缓解这一问题而
-> -编写，目的是为提供给新手一个快速翻译指南。
-> +编写，旨在为新手提供一份快速翻译指南。
->   
->   详细的贡献指南：Documentation/translations/zh_CN/process/index.rst。
->   
-> @@ -145,8 +145,8 @@ Git 和邮箱配置
->   	sudo dnf install git-email
->   	vim ~/.gitconfig
->   
-> -这里是我的一个配置文件示范，请根据您的邮箱域名服务商提供的手册替换到对
-> -应的字段。
-> +这里是我的一个配置文件示范，请根据您的邮箱域名服务商提供的手册替换对应
-> +的字段。
->   ::
->   
->   	[user]
-> @@ -190,7 +190,7 @@ Git 和邮箱配置
->   译文格式要求
->   ------------
->   
-> -	- 每行长度最多不超过 40 个字符
-> +	- 每行长度不超过 40 个字符
->   	- 每行长度请保持一致
->   	- 标题的下划线长度请按照一个英文一个字符、一个中文两个字符与标题对齐
->   	- 其它的修饰符请与英文文档保持一致
-> @@ -211,7 +211,7 @@ Git 和邮箱配置
->   --------
->   
->   中文文档有每行 40 字符限制，因为一个中文字符等于 2 个英文字符。但是社区并
-> -没有那么严格，一个诀窍是将您的翻译的内容与英文原文的每行长度对齐即可，这样，
-> +没有那么严格，一个诀窍是将您翻译的内容与英文原文的每行长度对齐，这样，
->   您也不必总是检查有没有超限。
->   
->   如果您的英文阅读能力有限，可以考虑使用辅助翻译工具，例如 deepseek。但是您
-> @@ -309,8 +309,8 @@ warning 不需要解决::
->   
->   重新导出再次检测，重复这个过程，直到处理完所有的补丁。
->   
-> -最后，如果检测时没有 warning 和 error 需要被处理或者您只有一个补丁，请跳
-> -过下面这个步骤，否则请重新导出补丁制作封面::
-> +最后，如果检测时没有需要处理的 warning 和 error，或者您只有一个补丁，请
-> +跳过下面这个步骤，否则请重新导出补丁制作封面::
->   
->   	git format-patch -N --cover-letter --thread=shallow
->   	# N 要替换为补丁数量，一般 N 大于 1
-> @@ -335,7 +335,7 @@ warning 不需要解决::
->   	  docs/zh_CN: add xxxxx
->   	...
->   
-> -如果您只有一个补丁，则可以不制作封面，即 0 号补丁，只需要执行::
-> +如果您只有一个补丁，则无需制作封面（即 0 号补丁），只需执行::
->   
->   	git format-patch -1
->   
-> @@ -361,13 +361,13 @@ warning 不需要解决::
->   	git send-email *.patch --to <maintainer email addr> --cc <others addr>
->   	# 一个 to 对应一个地址，一个 cc 对应一个地址，有几个就写几个
->   
-> -执行该命令时，请确保网络通常，邮件发送成功一般会返回 250。
-> +执行该命令时，请确保网络通畅，邮件发送成功一般会返回 250。
->   
->   您可以先发送给自己，尝试发出的 patch 是否可以用 'git am' 工具正常打上。
->   如果检查正常， 您就可以放心的发送到社区评审了。
->   
-> -如果该步骤被中断，您可以检查一下，继续用上条命令发送失败的补丁，一定不要再
-> -次发送已经发送成功的补丁。
-> +如果该步骤被中断，您可以检查一下，然后用上条命令继续发送失败的补丁，一定不
-> +要再次发送已经发送成功的补丁。
->   
->   积极参与审阅过程并迭代补丁
->   ==========================
-> @@ -380,7 +380,7 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
->   
->    - 请先将您的邮箱客户端信件回复修改为 **纯文本** 格式，并去除所有签名，尤其是
->      企业邮箱。
-> - - 然后点击回复按钮，并将要回复的邮件带入，
-> + - 然后点击回复按钮，并引用要回复的邮件，
->    - 在第一条评论行尾换行，输入您的回复
->    - 在第二条评论行尾换行，输入您的回复
->    - 直到处理完最后一条评论，换行空两行输入问候语和署名
-> @@ -425,10 +425,10 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
->   紧急处理
->   --------
->   
-> -如果您发送到邮件列表之后。发现发错了补丁集，尤其是在多个版本迭代的过程中；
-> +如果您发送到邮件列表之后，发现发错了补丁集，尤其是在多个版本迭代的过程中；
->   自己发现了一些不妥的翻译；发送错了邮件列表……
->   
-> -git email 默认会抄送给您一份，所以您可以切换为审阅者的角色审查自己的补丁，
-> +git send-email 默认会抄送给您一份，所以您可以切换为审阅者的角色审查自己的补丁，
->   并留下评论，描述有何不妥，将在下个版本怎么改，并付诸行动，重新提交，但是
->   注意频率，每天提交的次数不要超过两次。
->   
-> @@ -437,7 +437,7 @@ git email 默认会抄送给您一份，所以您可以切换为审阅者的角
->   对于首次参与 Linux 内核中文文档翻译的新手，建议您在 linux 目录中运行以下命令：
->   ::
->   
-> -	tools/docs/checktransupdate.py -l zh_CN``
-> +	tools/docs/checktransupdate.py -l zh_CN
->   
->   该命令会列出需要翻译或更新的英文文档，结果同时保存在 checktransupdate.log 中。
->   
-> @@ -446,9 +446,9 @@ git email 默认会抄送给您一份，所以您可以切换为审阅者的角
->   进阶
->   ----
->   
-> -希望您不只是单纯的翻译内核文档，在熟悉了一起与社区工作之后，您可以审阅其他
-> +希望您不只是单纯地翻译内核文档，在熟悉了与社区协作之后，您可以审阅其他
->   开发者的翻译，或者提出具有建设性的主张。与此同时，与文档对应的代码更加有趣，
-> -而且需要完善的地方还有很多，勇敢地去探索，然后提交你的想法吧。
-> +而且需要完善的地方还有很多，勇敢地去探索，然后提交您的想法吧。
->   
->   常见的问题
->   ==========
-> @@ -467,7 +467,7 @@ Maintainer 回复补丁不能正常 apply
->   ------------------
->   
->   大部分情况下，是由于您发送了非纯文本格式的信件，请尽量避免使用 webmail，推荐
-> -使用邮件客户端，比如 thunderbird，记得在设置中的回信配置那改为纯文本发送。
-> +使用邮件客户端，比如 thunderbird，记得在设置的回信配置中改为纯文本发送。
->   
-> -如果超过了 24 小时，您依旧没有在<https://lore.kernel.org/linux-doc/>发现您的
-> -邮件，请联系您的网络管理员帮忙解决。
-> +如果超过了 24 小时，您依旧没有在https://lore.kernel.org/linux-doc/ 上找到您
-> +的邮件，请联系您的网络管理员帮忙解决。
-> -- 2.43.0
-> 
+>   	Signed-off-by: Yanteng Si<si.yanteng@linux.dev>
+>   	# 如果您前面的步骤正确执行，该行会自动显示，否则请检查 gitconfig 文件
+> -- 2.53.0
 
