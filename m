@@ -1,158 +1,106 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4FC1E5724;
-	Sun, 19 Apr 2026 19:05:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 767322DAFCB
+	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 19:06:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776625505; cv=none; b=tiJdRdhH77WmXjVDsy++meUcO7PU/uKhn0UNTb6Q/q5Uid1F6E795JdbY61vqQp4eXszpt++PRh3AE908zdWbu9tlqw9QAzfIfWbobdsPxOsqGkfMey5v+xF8GmAmKtAf8mwyBmJO3kxoD8iiXU2oZnpO07ygAmDKuWBvJPlxWk=
+	t=1776625597; cv=none; b=V7KNwoKKTol4Zcb+KBXuFuHP/zg8WmTk3jY7fRKPfJ75b8McRcBlJCnRi3e6KpA/dmvtTaPGrn6mfyQ+Eq3FlEexys21GCp3CxxlvzEPSU0mZVlVe2RF5gh6t38komuFrJLdtfMh+QchIXz7IepB0CPYL516LDR0vXe82l/ZUig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776625505; c=relaxed/simple;
-	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=pX2ARztFG0o9u+bW2RVgGpdd9QcaUBoQJyInZAmiv8nI2ycl16+4+if0rhYsrC3Qx383SC509gBoVI6NW4zirNJc3HIeoVvvYOjD9AHr/+5O003I9mKveRJ/plvhbeRE+iWLku7wdSGBgFh/meP2ZEmCfpT3xsCpQ1KTgDeEGOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVChCz/D; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776625597; c=relaxed/simple;
+	bh=toOFf2xg142rVKdQsq5pdhGPVdznNk8pu3Hk5d0NOts=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YRuMPZCHbBL/OcwT3vxOO6D1P4PCkaZzVsmw2MY7dwOgriWtbZVnN+lp67AZKqQ+QaMXkq6cHSiQMdiLmAdIWy0+0tkjl2MYsmOKdF1p9cEzdzyeuo5uqVrFVDF9yp6Pksll8hGArDvs1RyUZ9dP1tB4xslFCLB9hXsydo1vN7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WTeUfGQR; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVChCz/D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B7D3C2BCAF;
-	Sun, 19 Apr 2026 19:05:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776625504;
-	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=DVChCz/DdGfBg9+KCUerv/hol4dJ8KH4nuQxdYFJA5hBJm/2t3v3xJz92Dwlpt+3J
-	 MZDAWfNYlyvPc4Q/7CpFyUYWZYJ1XI9VPu9l7W6hmIsPSIB4D5zsUvALa+CYeyDmNf
-	 KTULdMz1jgGTsejlNu2ULnMFCbeignRNcWbteuheL5FMKDpxlXFzSkRYmWj7TVsdI4
-	 6Jb+oqfSIuB2bWyKc+zSCUl+pZ1fh27qdEfe1t5/d6xb9CHEcn//fLCcfleSZN+X9o
-	 MAmIwoucwj0DRcqMq6C1gqji25KN8dSMYGkUaV69vYfuUxZXE8kCYKEKReydlJKaQr
-	 XzgCcV+GCSd+w==
-Date: Sun, 19 Apr 2026 21:04:56 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt
- <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
- <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Dan Williams
- <djbw@kernel.org>, Benno Lossin <lossin@kernel.org>
-Subject: Re: [PATCH v2 00/11] Auto-generate maintainer profile entries
-Message-ID: <20260419210456.1f3911a0@foz.lan>
-In-Reply-To: <9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
-References: <cover.1776405189.git.mchehab+huawei@kernel.org>
-	<9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WTeUfGQR"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2b2429f98d0so11880245ad.2
+        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 12:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776625596; x=1777230396; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xYwumL6ukXBAj/RoXbmDU80+PEG893ZgwxOy7tBa+0w=;
+        b=WTeUfGQRH0GwJ71BnR2Q8ONqp1pYQOF5fB3LbkpfMWv8/kqWOSNgxTecNIWTH+bAbw
+         zqPLRumgAkiziz7pcobaPz9GnAAZqMSlgwT5S+742lPYZRb0SCvtbzfy6jdqubBe/RCa
+         rrb+pw7xibhU0FQVpdPEeb971mYzYRdBbNH8CbJ29nEJU6tTBILRkPhNUzpsgvzHjIO6
+         65k4N6AugHi50yENYA7zLIVfaNjs/MeyivTGDg69jcSAWUXhECpCLjQHf010r4F1z+Cz
+         LvtsrmLXdlCBdkx/Pk/OP6cuEj71xa3QhtjJRBzYVNLMP2xoMXBPI3+2qBY749JIyjtI
+         nnVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776625596; x=1777230396;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xYwumL6ukXBAj/RoXbmDU80+PEG893ZgwxOy7tBa+0w=;
+        b=ekTMqagthvHWB2OSkF1YT9axP7oYKlQfCmObKMwSAr6vZjEaSz268gQIAc5bGGCk/l
+         iqhqk2hupNZeKDL7UfXpfmnJyssckGDm79b8x4Ir2idy7xl28vK98v6WWd3REMtYUrzX
+         pvClowAVPydOpd7EDLE4E3naIOjjbbia3N6tlODZcqHQxepWv/vTCXtcR0mCO/XrBNc1
+         QvOQQs0dmIIPCGGotM+pwZj0tNVGV8d9az/GZLGBOEpnnYXR/1Ka0e5lixH90lmfzzSi
+         4/TPVls45COnbGdoSIZvbD9tUufUh9SmfGclz8dhxlWDBFQHTm6FT7MQ2zXE3FIy9qP0
+         TUKQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8KmZ+h9sy1ewfylHPpPLqlf90NrQ7A6vEku4YfiZpwdVcWQqTXyDWohu+stQw9i/50yZc1vsh5GlY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywaJzIO50cbhrU9MGwbYpa5kcw/TWoVcLfqBuJsKsPJGlASySN
+	Yk74+EHT1R7STtFtFjdr5T66G+lfpO70ZY4mNg7GcxOBXDEykpVlgGG5
+X-Gm-Gg: AeBDieuRFGhohTlIRS1yghyWmf9ZLPcKk/geTJHznDdO0PanOvKMdPzGVM7sTyQ3EhF
+	CswWKtDrPI9yCet3ZbFYps1PZeSHUzFzNA1NkcgeJ34+BxshJwyTs7bVkQVOvIlHqdw/sVgjL/p
+	nB0Hjhi3fqhAepK6vjBvjfrJ8ygDHmcCxFvS2cspkcLqGHFmQ81rR6u7CnMzXjFaFAgOZKQyvZw
+	TkSQ3qbuyVpVvnxl4kOhFU/DhWBFcunRhTv3i3ZvSMTC7xyZVdvLSQ0dTYpiEPtDeEQzAfKfP3r
+	x9pxWazZVTQz7CeKNmUXuty03WzIowZ9UO7iNhi0ed2Hg/b6hz+xr0LAvJgZVsXVFh+g4aKp+gL
+	VmAMGFpvKpon0rvHaK0AUiuXcqKnZDx3h1iYbbnpi9k1lIvoL1VpILPZ0f2eqdTARIYllVVcjdP
+	hGTYgC2RjExJbWE2r4y7heqWMqm94ZBiEszRKIcNSfXUCYqWaHa/Xyj0j6AkCH6OiVctK0z2Zvk
+	4yO7ldRMSU+U6bcEA==
+X-Received: by 2002:a17:902:da8f:b0:2ae:cb0e:fd59 with SMTP id d9443c01a7336-2b5f9e773f5mr115776375ad.8.1776625595761;
+        Sun, 19 Apr 2026 12:06:35 -0700 (PDT)
+Received: from fedora ([103.181.54.97])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5faa17632sm81585585ad.24.2026.04.19.12.06.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Apr 2026 12:06:35 -0700 (PDT)
+From: Ninad Naik <ninadnaik07@gmail.com>
+To: rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	me@brighamcampbell.com,
+	linux-kernel-mentees@lists.linux.dev,
+	Ninad Naik <ninadnaik07@gmail.com>
+Subject: [PATCH] Documentation: fix spelling mistake "stucture" -> "structure"
+Date: Mon, 20 Apr 2026 00:15:27 +0530
+Message-ID: <20260419184527.779828-1-ninadnaik07@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Sat, 18 Apr 2026 17:05:56 -0700
-Randy Dunlap <rdunlap@infradead.org> wrote:
+Fixing a spelling mistake in Documentation/trace/histogram-design.rst.
 
-> On 4/16/26 11:11 PM, Mauro Carvalho Chehab wrote:
-> > Hi Jon,
-> > 
-> > This patch series change the way maintainer entry profile links
-> > are added to the documentation. Instead of having an entry for
-> > each of them at an ReST file, get them from MAINTAINERS content.
-> > 
-> > That should likely make easier to maintain, as there will be a single
-> > point to place all such profiles.
-> > 
-> > The output is a per-subsystem sorted (*) series of links shown as a
-> > list like this:
-> > 
-> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
-> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
-> >     - Arm/Tesla Fsd Soc Support
-> >     ...
-> >     - Xfs Filesystem
-> > 
-> > Please notice that the series is doing one logical change per patch.
-> > I could have merged some changes altogether, but I opted doing it
-> > in small steps to help reviews. If you prefer, feel free to merge
-> > maintainers_include changes on merge.
-> > 
-> > There is one interesting side effect of this series: there is no
-> > need to add rst files containing profiles inside a TOC tree: Just
-> > creating the file anywhere inside Documentation and adding a P entry
-> > is enough. Adding them to a TOC won't hurt.
-> > 
-> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
-> > Suggested-by: Dan Williams <djbw@kernel.org>
-> > Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-> > 
-> > (*) At the end, I opted to use sorted(), just to ensure it, even
-> >     knowing that MAINTAINER entries are supposed to be sorted, as
-> >     the cost of sorting ~20 already-sorted entries is negligible.
-> > 
-> > ---
-> > 
-> > v2:
-> >   - I placed the to MAINTAINERS changes at the beginning.
-> >   - fix a bug when O=DOCS is used;
-> >   - proper handle glob "P" entries (just in case, no profiles use it ATM);
-> >   - when SPHINXDIRS=process, instead of producing warnings, point to
-> >     entries at https://docs.kernel.org;
-> >   - MAINTAINERS parsing now happens just once;
-> >   - The output won't be numered for entries inside numered TOC trees;
-> >   - TOC tree is now hidden;
-> >   - instead of display a TOC tree, it shows a list of profiles,
-> >     ordered and named after file system name taken from MAINTAINERS file;
-> >   - At the output list, both https and file profiles are shown the same
-> >     way.
-> > 
-> > Mauro Carvalho Chehab (11):
-> >   MAINTAINERS: add an entry for media maintainers profile
-> >   MAINTAINERS: add maintainer-tip.rst to X86
-> >   docs: maintainers_include: auto-generate maintainer profile TOC
-> >   docs: auto-generate maintainer entry profile links
-> >   docs: maintainers_include: use a better title for profiles
-> >   docs: maintainers_include: add external profile URLs
-> >   docs: maintainers_include: preserve names for files under process/
-> >   docs: maintainers_include: Only show main entry for profiles
-> >   docs: maintainers_include: improve its output
-> >   docs: maintainers_include: fix support for O=dir
-> >   docs: maintainers_include: parse MAINTAINERS just once
-> > 
-> >  .../maintainer/maintainer-entry-profile.rst   |  24 +--
-> >  .../process/maintainer-handbooks.rst          |  17 +-
-> >  Documentation/sphinx/maintainers_include.py   | 161 +++++++++++++++---
-> >  MAINTAINERS                                   |   2 +
-> >  4 files changed, 150 insertions(+), 54 deletions(-)
-> >   
-> 
-> Just a note, not asking for a change or fix:
-> 
-> AFAICT, all P: entries are now listed nicely except for:
-> 
-> P:	rust/pin-init/CONTRIBUTING.md
+Signed-off-by: Ninad Naik <ninadnaik07@gmail.com>
+---
+ Documentation/trace/histogram-design.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-That's because it doesn't follow what's expected for "P":
-either a file that Sphinx can read (rst files), placed inside
-Documentation/ and added to Sphinx toctree or an external html URL. 
+diff --git a/Documentation/trace/histogram-design.rst b/Documentation/trace/histogram-design.rst
+index e92f56ebd0b5..41a726cd3536 100644
+--- a/Documentation/trace/histogram-design.rst
++++ b/Documentation/trace/histogram-design.rst
+@@ -247,7 +247,7 @@ field's size and offset, is used to grab that subkey's data from the
+ current trace record.
+ 
+ Note, the hist field function use to be a function pointer in the
+-hist_field stucture. Due to spectre mitigation, it was converted into
++hist_field structure. Due to spectre mitigation, it was converted into
+ a fn_num and hist_fn_call() is used to call the associated hist field
+ function that corresponds to the fn_num of the hist_field structure.
+ 
+-- 
+2.53.0
 
-The way it is, the subsystem profile regex won't get it.
-
-While it is not hard to add an exception, IMO the best would be
-to do:
-
-	$ pandoc -fgfm -trst rust/pin-init/CONTRIBUTING.md > Documentation/process/pin-init.rst
-	$ sed -i s,rust/pin-init/CONTRIBUTING.md,Documentation/process/pin-init.rst, MAINTAINERS 
-	$ git rm rust/pin-init/CONTRIBUTING.md
-	$ git add Documentation/process/pin-init.rst
-	$ git commit -as
-
-> 
-> so for the series:
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-> Tested-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks!
-
-Mauro
