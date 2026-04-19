@@ -1,119 +1,120 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A46137D12E;
-	Sun, 19 Apr 2026 14:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 623A625EF87;
+	Sun, 19 Apr 2026 16:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776609296; cv=none; b=pqRES3oC8IMXTy6pTB5dlYk/FwUeghCKKHXH7TcoKNtzCuCfIYajgrr5oHpWtclGBwYVS8RCh9Pgpix+RmCsfJyPuS7BobcUJEtfiXUgt9+XpkxZlg/i3ih8MK2sRWf4GaNF69ygpXsQq52TfUc75EUHjV3hrG4ei5U6fk23+JY=
+	t=1776615748; cv=none; b=Y+CXdYIajqCE6pIKSwsU9En9uCxwmqJ8lsfU18Qel2IqAnfSziNU/6Mzcn+aeaRq6ky20AiFAiblcv3psSeI0QiPd/ciek7U2Gwhtm/KPKwXO6Xa3wbPEPDzFWaDKFXd510vraX2A94lGLx2WPdg2o2+nggzzRF/yG/clKOky6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776609296; c=relaxed/simple;
-	bh=OPx8O9OYxVipA24HAer+gnhYq6XtrF4PKMKTsL1iRy0=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l7NREmxGed28bKiFJavQXMFFb/5z73cMWjDFXNJtwVXIwvZKFqlP97iAOErDUDU5qYUrSEtqIXIDd6QGJxtOm9DcgNcwOHZy+Npc+ZfuRyFATtghKvbSrjRlmljkR2EGXSNv7+KvLKeozToSge6lf/LkhHe0eg3S9tilUBRL+6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLd5NYX0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776615748; c=relaxed/simple;
+	bh=uuX5wbb87BSHGqTmGCjd1pM65NAyqoWXjrA1NFxqpJU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bjt3Wh4LjIIZXWR8ZGwH7mZKrdecZSqeRYnNe+eFiTiTMfCNtEJeOEEBeDAOFjDAYszfAI/djkbTV0+6UT+/kz7VDclxEBcwonDYTHuX7ArZrvr0+GfY0wWd/EbNzjEs/UqHP3fPWEAqqZEKpqS5tpPhP5e5EobFjSdAyCvu+wQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jV9C1m9b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLd5NYX0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6572C2BCAF;
-	Sun, 19 Apr 2026 14:34:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jV9C1m9b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB3FC2BCAF;
+	Sun, 19 Apr 2026 16:22:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776609295;
-	bh=OPx8O9OYxVipA24HAer+gnhYq6XtrF4PKMKTsL1iRy0=;
+	s=k20201202; t=1776615748;
+	bh=uuX5wbb87BSHGqTmGCjd1pM65NAyqoWXjrA1NFxqpJU=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=aLd5NYX01/n8EbtB7Djb5saIze5EfciDiFDuH/LEdD6cwKVZmN1vFFCV2HNdgzomp
-	 KtQWGmVSJpSHpBEnHpr1Q2QZCkk5OYMYueK5IlZJN6fUxQ7QS0lgOVKo7t5y0aryjJ
-	 4XftYT8LHyK6vJhmHelm2hns2vFlgAPcu+z0kRFhK2pt/A3NHyCD6B4P79T5p4tY30
-	 G4RTIrb0Bm2N/kOBY9gJC2wbz9uIgMmnTUIJ2s4dFIisoHhCvb3rQSUSxXIkUlrU0o
-	 517Rm6iChYR1OEuD+oKPtS1BSJoXRRqdV7fMp3p314hI1TegwoxbiI0TEw8sahJToe
-	 LhER4l3ELHIcQ==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wETEb-0000000CqLm-1aIO;
-	Sun, 19 Apr 2026 14:34:53 +0000
-Date: Sun, 19 Apr 2026 15:34:52 +0100
-Message-ID: <87mryzauib.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	devel@daynix.com,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v7 2/4] KVM: arm64: PMU: Protect the list of PMUs with RCU
-In-Reply-To: <20260418-hybrid-v7-2-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-	<20260418-hybrid-v7-2-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	b=jV9C1m9bs18kahYDx4v7Z/3Q5BGZEeZu7w00Y3HNWUS1tfRSwXH2eH1iKi5/L6+t+
+	 jtQfuspOHTdeESnvC3zjlQNwZepFkkbSo+8fsvfcvrH6hf0pdjV0VOZCY/RnmD4V+A
+	 eeGA3DGqC/OINruJXRalsLXyTyWfEHp8VUcAQnBimeVWFlHTCXfLQIK4oOQi8BGacF
+	 ncE3R0mJ2cDN6TIJY1Z2V0e0HQG7F28PJyW5BzsmtX0843+3HFzVNf5L/XYehoTHqF
+	 XG2KfkhZxcmhYrR8oReRd/ZOdr5efFuno1AmwFBY/BIR52Xd+3B91SNJXHp6oUYy7h
+	 Ehc6rJo6xyA9A==
+Date: Sun, 19 Apr 2026 17:22:16 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] misc: Remove old APDS990x driver
+Message-ID: <20260419172216.3cf10e51@jic23-huawei>
+In-Reply-To: <CAPVz0n1qrSYr16zSSqRHuTWVkRfdC+c9w+mxAhtzgfHzL41XFw@mail.gmail.com>
+References: <20260419083125.35572-1-clamor95@gmail.com>
+	<20260419083125.35572-4-clamor95@gmail.com>
+	<20260419143346.45ed78c2@jic23-huawei>
+	<CAPVz0n1qrSYr16zSSqRHuTWVkRfdC+c9w+mxAhtzgfHzL41XFw@mail.gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: odaki@rsg.ci.i.u-tokyo.ac.jp, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, kees@kernel.org, gustavoars@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Sat, 18 Apr 2026 09:14:24 +0100,
-Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
-> 
-> Convert the list of PMUs to a RCU-protected list that has primitives to
-> avoid read-side contention.
-> 
-> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-> ---
->  arch/arm64/kvm/pmu-emul.c | 14 ++++++--------
->  1 file changed, 6 insertions(+), 8 deletions(-)
-> 
-> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
-> index 59ec96e09321..ef5140bbfe28 100644
-> --- a/arch/arm64/kvm/pmu-emul.c
-> +++ b/arch/arm64/kvm/pmu-emul.c
-> @@ -7,9 +7,9 @@
->  #include <linux/cpu.h>
->  #include <linux/kvm.h>
->  #include <linux/kvm_host.h>
-> -#include <linux/list.h>
->  #include <linux/perf_event.h>
->  #include <linux/perf/arm_pmu.h>
-> +#include <linux/rculist.h>
->  #include <linux/uaccess.h>
->  #include <asm/kvm_emulate.h>
->  #include <kvm/arm_pmu.h>
-> @@ -26,7 +26,6 @@ static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc);
->  
->  bool kvm_supports_guest_pmuv3(void)
->  {
-> -	guard(mutex)(&arm_pmus_lock);
->  	return !list_empty(&arm_pmus);
+On Sun, 19 Apr 2026 16:41:24 +0300
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-Please read include/linux/rculist.h and the discussion about the
-interaction of list_empty() with RCU-protected lists. How about using
-list_first_or_null_rcu() for peace of mind?
+> =D0=BD=D0=B4, 19 =D0=BA=D0=B2=D1=96=D1=82. 2026=E2=80=AF=D1=80. =D0=BE 16=
+:33 Jonathan Cameron <jic23@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Sun, 19 Apr 2026 11:31:24 +0300
+> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > =20
+> > > The Avago APDS9900/9901 ALS/Proximity sensor is now supported by tsl2=
+772
+> > > IIO driver so there is no need to keep this old implementation. Remov=
+e it.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  Documentation/misc-devices/apds990x.rst |  128 --- =20
+> > Sashiko AI reviewing is now running on anything that hits linux-iio@vge=
+r.kernel.org
+> >
+> > I'm slowly getting into the habit of checking out what it finds though
+> > I'm 500+ emails behind so it might not be that thorough today :*
+> >
+> > Anyhow, it caught an easy one here.
+> >
+> > This file is referenced from Documentation/misc-devices/index.rst
+> > so that needs an update as well.
+> > =20
+>=20
+> Good catch, index was not updated, I will do so in v3.
+>=20
+> > There is the obvious point of ABI compatibility raised as well, but giv=
+en
+> > we don't seem to be getting much push back on that maybe that's not a s=
+ignificant
+> > concern. =20
+>=20
+> I did not found any ABI in the Documentation/ABI regarding this sensor
+> using grep, maybe you are more familiar?
+Doesn't matter if it's documented explicitly (many older drivers are not).
+The question is whether anyone has supported parts and userspace code that
+makes use of the sysfs files this driver provides.
 
-Thanks,
+Their userspace will be broken by dropping it.  The lack of upstream users
+makes this less critical but it can be argued it's still a possible regress=
+ion.
 
-	M.
+Jonathan
 
--- 
-Jazz isn't dead. It just smells funny.
+>=20
+> >
+> > Jonathan
+> > =20
+> > >  drivers/misc/Kconfig                    |   10 -
+> > >  drivers/misc/Makefile                   |    1 -
+> > >  drivers/misc/apds990x.c                 | 1284 ---------------------=
+--
+> > >  include/linux/platform_data/apds990x.h  |   65 --
+> > >  5 files changed, 1488 deletions(-)
+> > >  delete mode 100644 Documentation/misc-devices/apds990x.rst
+> > >  delete mode 100644 drivers/misc/apds990x.c
+> > >  delete mode 100644 include/linux/platform_data/apds990x.h =20
+
