@@ -1,112 +1,88 @@
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1005F33998
-	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 13:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 980538834;
+	Sun, 19 Apr 2026 13:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776605538; cv=none; b=FIZnpO6cp0RvrFsBkovp+sK42LjcqeVvo6Y3GzjB52AQE3AsbKUQhsHeVIcvQeypaVe211peKMK9QsT68fXlKyF6W/PgNHDdOVGGv0vxwozpTPpGj/T7bye4LZFY5xjrslmzYuaq0QMdDOsISkFKkKOxHrXasj27LwFbEBoj7GE=
+	t=1776605637; cv=none; b=bKFmRkPer4kqsgOg2itRRhHkKn4CJ8k2WcaUXIgkv+pUyNXu6xEouK/dFCzLisRubw1yPVroBUQ3nEUwRZpKeiIWo850QfzvpDCWKkkmS55zaAfSkpT+hN0gCgES1NKvf1xKLZTK0Fz8N/KyC+sd9g966X6bFAoHPGTFE7VLIHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776605538; c=relaxed/simple;
-	bh=Ip0d5DBUyVPoheUjyQr7rQwV+qiRzFMzu6K11BbxV18=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R3uXC1euoyP4JO3SQqX33q6kNFwpNiK+zp882MjzKBeNEDp2rYRS//vqppfCzM7i/cK/yb4DYcpDIuFmMz9HWcn6ErRtxrMa30vbGqT5hEN/FiL9nbRg/Y8c2ncP1KBjucNzRihkCVeQKyyT4EZrWbhzcuaKWrvxirUHC4bS8xU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F29PskMG; arc=none smtp.client-ip=209.85.216.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776605637; c=relaxed/simple;
+	bh=PN0KWt9UBkV0/n988jdngDmSjDH7FRRxV8CnMr1y2M4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Bfy+63HgjI7rwHDHdMSQhmCjo9eBGUUzBKMwtbtJ3vnLAvecEWoxJi6+p8SOKarkgv2GoEegKNxtMNDVeLd9djGWUAtu4tF/aIsJ/nfTvyaRFv/Xxqr3NzBsTGM+U5LdV44xcgdOIP/brtdsrz95O+PsyqXKVOoiBc0xjx7FJ70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fz5J/ILx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F29PskMG"
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-35d94f4ee36so1217096a91.3
-        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 06:32:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776605535; x=1777210335; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=G3DpD3/Bkr5HjkEtcV7j+/UczsLnwKJAPJ6W22c8oNg=;
-        b=F29PskMGj4eQzTgN20iO9LcseuPyHzLs9b7IxnP3iy2R7ZMqR/0gy/ZgLMqvPhfHLa
-         6glJp2gEnL7IQwhEuDr5ACSojJniuKMEGB984etacVgMNcoWEu+PArMFXrqpaN6KC62R
-         +xsVHchF+aGIsiwrjNCqgET8rpxJ7DeYhLa8J+DKqB/U1vo+Zz0kWakUVIhjKc1AVoko
-         DGcfM+468KRRv2qu0c8OKP/dPybIR5zzFeUgnFPqpANVcKxbTU9WVL6d9rtjHR3zXiEG
-         3+JK1EAWtLVImakMmlDOhJOIwDUGkhuHpS8OOAdTkD5dJqINkMZKYgtpCCHf02XB4tB0
-         ZpFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776605535; x=1777210335;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=G3DpD3/Bkr5HjkEtcV7j+/UczsLnwKJAPJ6W22c8oNg=;
-        b=PkeYdA+FfkoQJc6s/alP2FMFvugJU9lwGbb7znuetHP8qbRAEIYxRMMku/rXolsbo/
-         r5NnSRuLDrcVeY/dDz3Po4cYySCpU+LTwVww1KEgiqkiGv50Cyt3KJCoC1eqljpMJNKK
-         i3Aok8ucUF6mmBqqXnfKaEYAOB9/OHeyNw+2xYrr4E6MRe5AiHNPVo9k20ghCJ3+0wFX
-         1u1T0eVE4nfBEANKip1v5moYBely+Fv2mS6Xa026FfIAJLfu0Ivmu2oXc6cwnyvpYy4K
-         hiwNYzS64kSO4xxNEENEgYuE6MMdusmKK5RwQGObjYWR9cqibYQOM9W6WKekyu+GVGUZ
-         FSmQ==
-X-Gm-Message-State: AOJu0Yzhowf2TRA1155iNL3X1jP8hBuj0fY4ZxHmlaM6peVzq5ojc51K
-	IPKywmCi6aKdkyRUG3yguHBn02W7idNCpolLhWTfO4CdreL+W74g7ph6
-X-Gm-Gg: AeBDiesanYvcsvii/nwAJ1BsquXwDTEqouX7jbVGf7SrpGgnJVOdCUSQMdfbJiZrx97
-	pZThxpbnXzFS5FCzUXyzV1xi1P36XqYMMqtkXOhSqXYirDYkkCkvITIPXSCk2dCW0mynk9rZmRE
-	iiXnY0DemZsSvSZ+nyfQVHRLCT3O/DhNXV0tnErAvru1QkHvXZ6qhnmEnqrHOAX7tRf4Xkai6qh
-	hs11DZEk88fO2QZW3mDSfwxxUf5YZPHf6Uy0oadGzgdPk0cqogMyJkVOApr/nk5l1ftUm/zdAjI
-	/LF06IJZXUF6giH36NpvyKHHd4FjVTDrXfGsyKNBTVrCSJY5v3MJprr2sLG8cUqIGbGX0swbyfD
-	0tPm+loCxGf7a8Z4tCHdMb1FR+8lPVfu8JkqZNyuHVKzRN+Na9YKQZOZkBVgx8+deMpMVJpnwDP
-	zq8VwhTvL54a79IqEsrGFpT7ePydxS1nRfWrUKB/QsueVFgQ0WLyYEy3qdaX40KisfNnhbraYbJ
-	00=
-X-Received: by 2002:a17:90a:e7d0:b0:35c:1695:24a3 with SMTP id 98e67ed59e1d1-361404945e0mr11011086a91.23.1776605535354;
-        Sun, 19 Apr 2026 06:32:15 -0700 (PDT)
-Received: from ?IPV6:240e:38b:d99:bc01:3499:eb40:121b:8539? ([240e:38b:d99:bc01:3499:eb40:121b:8539])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fa9ff90dsm73698045ad.11.2026.04.19.06.32.08
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Apr 2026 06:32:14 -0700 (PDT)
-Message-ID: <74d5a331-9b44-43ae-90a6-8099b65f4845@gmail.com>
-Date: Sun, 19 Apr 2026 21:32:06 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fz5J/ILx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4A3ACC2BCAF;
+	Sun, 19 Apr 2026 13:33:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776605637;
+	bh=PN0KWt9UBkV0/n988jdngDmSjDH7FRRxV8CnMr1y2M4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Fz5J/ILxpY7243N/yp4TIQIb3TSI04aTmab6+fS/DMEyW/6A09NubwZKXFCbgnSGf
+	 b60HmkbVGSTTV1EVwF9IayrJrw+qT3058CQlrb3ti2KnkWymyqcVJ3a7q+CXuxoB+k
+	 pTjID+rJvoU0UPvOC6bXzwq7p641KD4uTXjGVqQ+z+8XLbnUimi0KOdCz2IZOrW6VI
+	 9svlhO9k63UQyuaPICLWp7entRxw54ioTyfqMEDslnW+uBX2dB1zZe08/oanBGnmhJ
+	 AakfHLN+SNe9+cCnE74luUXeX5DL+1D6Xc+/XFqXxvEHIoma974i/nLR5ojeol6KP+
+	 qapnIKY4k/Ysg==
+Date: Sun, 19 Apr 2026 14:33:46 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: David Lechner <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Arnd Bergmann <arnd@arndb.de>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] misc: Remove old APDS990x driver
+Message-ID: <20260419143346.45ed78c2@jic23-huawei>
+In-Reply-To: <20260419083125.35572-4-clamor95@gmail.com>
+References: <20260419083125.35572-1-clamor95@gmail.com>
+	<20260419083125.35572-4-clamor95@gmail.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/zh_CN: add --no-merges to git log example in
- how-to.rst
-To: Ben Guo <ben.guo@openatom.club>, Alex Shi <alexs@kernel.org>,
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
- Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- hust-os-kernel-patches@googlegroups.com
-References: <20260416042647.3646595-1-ben.guo@openatom.club>
-Content-Language: en-US
-From: Alex Shi <seakeel@gmail.com>
-In-Reply-To: <20260416042647.3646595-1-ben.guo@openatom.club>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Applied thanks!
+On Sun, 19 Apr 2026 11:31:24 +0300
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
 
-On 2026/4/16 12:26, Ben Guo wrote:
-> Add --no-merges flag to prevent referencing merge commits in the
-> through-commit field of translation commit messages.
+> The Avago APDS9900/9901 ALS/Proximity sensor is now supported by tsl2772
+> IIO driver so there is no need to keep this old implementation. Remove it.
 > 
-> Signed-off-by: Ben Guo<ben.guo@openatom.club>
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->   Documentation/translations/zh_CN/how-to.rst | 4 +++-
->   1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-> index 7ae5d876588..39ed7054fa3 100644
-> --- a/Documentation/translations/zh_CN/how-to.rst
-> +++ b/Documentation/translations/zh_CN/how-to.rst
-> @@ -257,7 +257,9 @@ Git 和邮箱配置
->   
->   	Update the translation through commit b080e52110ea
->   	("docs: update self-protection __ro_after_init status")
-> -	# 请执行 git log --oneline <您翻译的英文文档路径>，并替换上述内容
-> +	# 请执行 git log --no-merges --oneline <您翻译的英文文档路径>
-> +	# 并替换上述内容。注意：应引用实际修改文件内容的 commit，
-> +	# 而非 merge commit
->   
->   	Signed-off-by: Yanteng Si<si.yanteng@linux.dev>
->   	# 如果您前面的步骤正确执行，该行会自动显示，否则请检查 gitconfig 文件
-> -- 2.53.0
+>  Documentation/misc-devices/apds990x.rst |  128 ---
+Sashiko AI reviewing is now running on anything that hits linux-iio@vger.kernel.org
 
+I'm slowly getting into the habit of checking out what it finds though
+I'm 500+ emails behind so it might not be that thorough today :*
+
+Anyhow, it caught an easy one here.
+
+This file is referenced from Documentation/misc-devices/index.rst
+so that needs an update as well.
+ 
+There is the obvious point of ABI compatibility raised as well, but given
+we don't seem to be getting much push back on that maybe that's not a significant
+concern.
+
+Jonathan
+
+>  drivers/misc/Kconfig                    |   10 -
+>  drivers/misc/Makefile                   |    1 -
+>  drivers/misc/apds990x.c                 | 1284 -----------------------
+>  include/linux/platform_data/apds990x.h  |   65 --
+>  5 files changed, 1488 deletions(-)
+>  delete mode 100644 Documentation/misc-devices/apds990x.rst
+>  delete mode 100644 drivers/misc/apds990x.c
+>  delete mode 100644 include/linux/platform_data/apds990x.h
