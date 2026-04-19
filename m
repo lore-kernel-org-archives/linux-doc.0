@@ -1,443 +1,428 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2A62AD10;
-	Sun, 19 Apr 2026 00:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776558010; cv=pass; b=MzoY5kZlqJC0pYTTOCMKorpR1U8XEgWGOGtlkKVjeqrwDOayKml57UNgDlb3slorgm4iUkOErKBFh6+WjlWVVYN42KRe3tPqx3rMhjmxilm90jIi/WSL7/UZFrp4wlEg367op7jHLS3Bsa6ORNS/QZgj46UXVjFgGRzO7dgJnGU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776558010; c=relaxed/simple;
-	bh=+bQBSJ+QNDhBxAWGD1OAInjZqvOLsE+zMP/noRhXUaw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=k6mSkWSFZWsEnkj9jCxnQentTXZhDJrRHweLC2Olm2Up2OOtSTPmwnNYmaP4rUgpO2PvaFNJG4hPm6uS9+f2Ajejne7AnK0tNj64lgfO96BTYZZjtNrczddZI90rSSYDdQsAvv7A/2Gn4BaHGuldlcuvkWNdsxxn6g7YXhaucM8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=bJY0/b9l; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="bJY0/b9l"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id B1125109F2540;
-	Sun, 19 Apr 2026 09:11:02 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id IxcgE6Ex8CrX; Sun, 19 Apr 2026 09:10:56 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1776557456;
-	b=QDXEYJ1+DdujOOXjc0x0NpBwq3h+SLcmWdxfrEqEx90z0hUWITyA9olkVg/JZKdOacE4
-	 Jubb8s3McdHSWmOyr7hoNjM+xcPiFi9qkbzufyhazaaMaKZtVg74Fq0GShiGIny7IOyPg
-	 t04vwOjNDJ6HyIJw0D7rDdO95T0AiE/VPM=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1776557456;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=4+FAFwqFL65UGh9gFVOCyWR0XLr3igFvwUX3mVt7gcY=;
-	b=IZwJFrhAwB76OlJc6Q3bJmhdrMPAiGIP2JEZxDjVaO/41sBfvzT1aScWSaFpKqMh2FDp
-	 mPS8QC3FFQ+zOFj48vWRtZ5qVQ0z3SzknTQlm/H8dH+r2T5TJppT4PMo46QyOjqJ0BFt3
-	 aE71AWvZA4Dd6zm6MrogsDT4YeLSo+ckNU=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 3B7D9109F2894; Sun, 19 Apr 2026 09:10:56 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 3B7D9109F2894
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1776557456;
-	bh=4+FAFwqFL65UGh9gFVOCyWR0XLr3igFvwUX3mVt7gcY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=bJY0/b9lHPbz5BHExmFL5EFUIG2guy5Z1huYKVPvfpr1/KFySy0n0XVi4WC8RR4uk
-	 Tgdus1fvbNJ5X4xjTdT4/v6jZRN9N0aiS9FMkO5I9F0R9Wrwfd18GVCd2Mx+6Qtszt
-	 DOqhhr2YuJK6FAXHeJ9Sp1aiSLf08TFoRM5VoOr4=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	akiyks@gmail.com,
-	weibu@redadmin.org
-Subject: [PATCH] docs/ja_JP: translate more of submitting-patches.rst
-Date: Sun, 19 Apr 2026 09:10:51 +0900
-Message-ID: <20260419001051.389599-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC99434D39B;
+	Sun, 19 Apr 2026 03:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776568846; cv=none; b=V+dpsRF/zVYvM1TBybpjLbNxsfjWjXkT62XYVmgWh3Mvx78l+FUjTMpXrVbdpiwt8N/O6tXMqoigwvClW187qRwr9w+fh3unpYDDRtj8y9DYNtcvkIzeZQqUqhqp8sv1mT/Hi2+f2OMx1XTyEs1pvUQ5a3J2pp79EYAr7AteSYQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776568846; c=relaxed/simple;
+	bh=PXc6hyXKDcEY7RmOWgHFcGF/sEXM/S5Z7zZBjQlJmkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NAzg8knKYlNWuSN3ITBsgcUOnVs7+BguP8d79ugz9d4f2w7JRJXmUAMs7gh6eU2Om7vbREdKg572mRQDkEGFWun594rcpnmsoclZmbI1Qjdpwr1pWD30YFPkNxV4zKIhDIUsebqQE8LeOwiqMQAx1L6kwiDswHeKNqNzj4n8qzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=52.237.72.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
+Received: from hust.edu.cn (unknown [172.16.0.50])
+	by app1 (Coremail) with SMTP id HgEQrACHS9zpSeRpLc_bAw--.13182S2;
+	Sun, 19 Apr 2026 11:20:09 +0800 (CST)
+Received: from [192.168.1.7] (unknown [58.19.1.172])
+	by gateway (Coremail) with SMTP id _____wDHv9bkSeRpI3nXAA--.10727S2;
+	Sun, 19 Apr 2026 11:20:06 +0800 (CST)
+Message-ID: <d07b46ff-4425-4e17-8cac-4d323f0b355c@hust.edu.cn>
+Date: Sun, 19 Apr 2026 11:20:03 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
+To: Yan Zhu <zhuyan2015@qq.com>
+Cc: alexs@kernel.org, seakeel@gmail.com, si.yanteng@linux.dev,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
+ <984f3b99-23e6-4931-a79e-7ed7cd47c04f@hust.edu.cn>
+ <tencent_91B9F750970BCBFEAC86BBACA3DF31480407@qq.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <tencent_91B9F750970BCBFEAC86BBACA3DF31480407@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:HgEQrACHS9zpSeRpLc_bAw--.13182S2
+Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
+X-Coremail-Antispam: 1UD129KBjvAXoWfJr1DuF1DGF1xGFW5Xw1UWrg_yoW8XF4Duo
+	WrKr93uw1Ykw1Ygr1rKw48Jry5J3WjgrnrCay7CrW7Jr1qk3Z2yayqy345tay5Ar4xGF15
+	JF13Ar1UAFyUZF13n29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUOg7k0a2IF6w1UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x07jhcTQUUUUU=
+X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Translate the "Separate your changes", "Style-check your changes",
-and "Select the recipients for your patch" sections in
-Documentation/translations/ja_JP/process/submitting-patches.rst.
 
-Keep the wording close to the English text and wrap lines to match
-the style used in the surrounding Japanese translation.
+On 4/18/26 10:15 PM, Yan Zhu wrote:
+> Hi Dongliang,
+>
+> On 4/18/2026 2:20 PM, Dongliang Mu wrote:
+>>
+>> On 4/18/26 12:45 PM, Yan Zhu wrote:
+>>> Translate .../admin-guide/module-signing.rst into Chinese.
+>>>
+>>> Update the translation through commit 0ad9a71933e7
+>>> ("modsign: Enable ML-DSA module signing")
+>>>
+>>> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+>>> ---
+>>
+>> Hi Yan,
+>>
+>> Please remember to add your changelog under the "---". For example, 
+>> v1-  >v2: XXX
+>>
+>
+> I replied to the email according to the guidance of how-to.rst in the 
+> Chinese thanslation. There was no special explanation there, so I 
+> thought that the Chinese translation did not need the explanation of 
+> version change. I think I should resend a patch to fill in this 
+> description. 
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- .../ja_JP/process/submitting-patches.rst      | 166 ++++++++++++++++++
- 1 file changed, 166 insertions(+)
+I will submit a follow-up patch to add detailed explanations once my 
+polish patch is merged.
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index 91bd79a0e9dc..e1adab466507 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -180,3 +180,169 @@ lore.kernel.org =E3=81=AE=E3=83=A1=E3=83=83=E3=82=BB=
-=E3=83=BC=E3=82=B8=E3=82=A2=E3=83=BC=E3=82=AB=E3=82=A4=E3=83=96=E3=82=B5=E3=
-=83=BC=E3=83=93=E3=82=B9=E3=82=92=E4=BD=BF=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=
-=A0
-=20
-     $ git log -1 --pretty=3Dfixes 54a4f0239f2e
-     Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the num=
-ber of pages it actually freed")
-+
-+.. _split_changes:
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B
-+--------------
-+
-+=E5=90=84 **=E8=AB=96=E7=90=86=E7=9A=84=E3=81=AA=E5=A4=89=E6=9B=B4** =E3=
-=81=AF=E3=80=81=E5=80=8B=E5=88=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=
-=AB
-+=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=81=9F=E3=81=A8=E3=81=88=E3=81=B0=E3=80=81=E5=8D=98=E4=B8=80=E3=81=AE=
-=E3=83=89=E3=83=A9=E3=82=A4=E3=83=90=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E5=
-=A4=89=E6=9B=B4=E3=81=AE=E4=B8=AD=E3=81=AB
-+=E3=83=90=E3=82=B0=E4=BF=AE=E6=AD=A3=E3=81=A8=E6=80=A7=E8=83=BD=E6=94=B9=
-=E5=96=84=E3=81=AE=E4=B8=A1=E6=96=B9=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=8C=E3=
-=81=A6=E3=81=84=E3=82=8B=E3=81=AA=E3=82=89=E3=80=81
-+=E3=81=9D=E3=82=8C=E3=82=89=E3=81=AF 2 =E3=81=A4=E4=BB=A5=E4=B8=8A=E3=81=
-=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=
-=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=BE=E3=81=9F=E3=80=81=E5=A4=89=E6=9B=B4=E3=81=AB API =E3=81=AE=E6=9B=
-=B4=E6=96=B0=E3=81=A8=E3=80=81=E3=81=9D=E3=81=AE=E6=96=B0=E3=81=97=E3=81=84=
- API =E3=82=92
-+=E4=BD=BF=E3=81=86=E6=96=B0=E3=81=97=E3=81=84=E3=83=89=E3=83=A9=E3=82=A4=
-=E3=83=90=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B=E3=
-=81=AA=E3=82=89=E3=80=81
-+=E3=81=9D=E3=82=8C=E3=82=89=E3=81=AF 2 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=
-=83=E3=83=81=E3=81=AB=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=
-=E3=81=84=E3=80=82
-+
-+=E4=B8=80=E6=96=B9=E3=80=81=E5=A4=9A=E6=95=B0=E3=81=AE=E3=83=95=E3=82=A1=
-=E3=82=A4=E3=83=AB=E3=81=AB=E5=AF=BE=E3=81=97=E3=81=A6 1 =E3=81=A4=E3=81=AE=
-=E5=A4=89=E6=9B=B4=E3=82=92=E8=A1=8C=E3=81=86
-+=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81=E3=81=9D=E3=82=8C=E3=82=89=E3=82=92 1=
- =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=81=BE=E3=81=A8=
-=E3=82=81=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=A4=E3=81=BE=E3=82=8A=E3=80=811 =E3=81=A4=E3=81=AE=E8=AB=96=E7=90=86=
-=E7=9A=84=E3=81=AA=E5=A4=89=E6=9B=B4=E3=81=AF
-+1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=8F=8E=E3=82=81=
-=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E8=A6=9A=E3=81=88=E3=81=A6=E3=81=8A=E3=81=8F=E3=81=B9=E3=81=8D=E7=82=B9=
-=E3=81=AF=E3=80=81=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=AC=E3=
-=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=AB
-+=E3=81=A8=E3=81=A3=E3=81=A6=E7=90=86=E8=A7=A3=E3=81=97=E3=82=84=E3=81=99=
-=E3=81=8F=E3=80=81=E6=A4=9C=E8=A8=BC=E3=81=A7=E3=81=8D=E3=82=8B=E5=A4=89=E6=
-=9B=B4=E3=81=AB
-+=E3=81=AA=E3=81=A3=E3=81=A6=E3=81=84=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A0=
-=E3=80=81=E3=81=A8=E3=81=84=E3=81=86=E3=81=93=E3=81=A8=E3=81=A7=E3=81=99=E3=
-=80=82
-+=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=AF=E3=80=81=E3=81=9D=E3=82=8C=
-=E8=87=AA=E4=BD=93=E3=81=AE=E5=A6=A5=E5=BD=93=E6=80=A7=E3=81=AB=E3=82=88=E3=
-=81=A3=E3=81=A6
-+=E6=AD=A3=E5=BD=93=E5=8C=96=E3=81=A7=E3=81=8D=E3=81=AA=E3=81=91=E3=82=8C=
-=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E5=AE=8C=E6=88=90=E3=81=95=E3=81=9B=E3=82=8B=
-=E3=81=9F=E3=82=81=E3=81=AB=E3=80=81=E3=81=82=E3=82=8B=E3=83=91=E3=83=83=E3=
-=83=81=E3=81=8C
-+=E5=88=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E4=BE=9D=E5=AD=98=
-=E3=81=99=E3=82=8B=E3=81=AE=E3=81=A7=E3=81=82=E3=82=8C=E3=81=B0=E3=80=81
-+=E3=81=9D=E3=82=8C=E3=81=A7=E3=82=82=E6=A7=8B=E3=81=84=E3=81=BE=E3=81=9B=
-=E3=82=93=E3=80=82=E3=81=9D=E3=81=AE=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E8=AA=AC=E6=98=8E=E3=81=AB **"this pa=
-tch depends on patch X"**
-+=E3=81=A8=E6=9B=B8=E3=81=84=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E4=B8=80=E9=80=A3=E3=81=AE=E3=83=91=E3=83=83=
-=E3=83=81=E3=81=AB=E5=88=86=E3=81=91=E3=82=8B=E9=9A=9B=E3=81=AF=E3=80=81
-+=E3=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E4=B8=AD=E3=81=AE=E5=90=84=E3=83=91=
-=E3=83=83=E3=83=81=E3=82=92=E9=81=A9=E7=94=A8=E3=81=97=E3=81=9F=E5=BE=8C=E3=
-=81=A7=E3=82=82=E3=80=81
-+=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=8C=E6=AD=A3=E3=81=97=E3=81=8F=
-=E3=83=93=E3=83=AB=E3=83=89=E3=81=95=E3=82=8C=E3=80=81=E6=AD=A3=E5=B8=B8=E3=
-=81=AB=E5=8B=95=E4=BD=9C=E3=81=99=E3=82=8B
-+=E3=81=93=E3=81=A8=E3=82=92=E3=80=81=E7=89=B9=E3=81=AB=E6=B3=A8=E6=84=8F=
-=E3=81=97=E3=81=A6=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=
-=81=95=E3=81=84=E3=80=82
-+=E5=95=8F=E9=A1=8C=E3=81=AE=E8=BF=BD=E8=B7=A1=E3=81=AB ``git bisect`` =E3=
-=82=92=E4=BD=BF=E3=81=86=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AF=E3=80=81
-+=E3=81=82=E3=81=AA=E3=81=9F=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=B7=
-=E3=83=AA=E3=83=BC=E3=82=BA=E3=82=92=E4=BB=BB=E6=84=8F=E3=81=AE=E5=9C=B0=E7=
-=82=B9=E3=81=A7
-+=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=
-=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E9=80=94=E4=B8=AD=E3=81=A7=E3=83=90=E3=
-=82=B0=E3=82=92
-+=E6=8C=81=E3=81=A1=E8=BE=BC=E3=82=81=E3=81=B0=E3=80=81=E5=BD=BC=E3=82=89=
-=E3=81=AB=E6=84=9F=E8=AC=9D=E3=81=95=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=
-=81=AF
-+=E3=81=AA=E3=81=84=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=80=82
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=BB=E3=83=83=E3=83=88=E3=82=92=E3=81=93=
-=E3=82=8C=E4=BB=A5=E4=B8=8A=E5=B0=8F=E3=81=95=E3=81=8F=E3=81=A7=E3=81=8D=E3=
-=81=AA=E3=81=84=E3=81=AA=E3=82=89=E3=80=81
-+=E4=B8=80=E5=BA=A6=E3=81=AB=E6=8A=95=E7=A8=BF=E3=81=99=E3=82=8B=E3=81=AE=
-=E3=81=AF 15 =E5=80=8B=E7=A8=8B=E5=BA=A6=E3=81=BE=E3=81=A7=E3=81=AB=E3=81=
-=97=E3=81=A6=E3=80=81
-+=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=A8=E7=B5=B1=E5=90=88=E3=82=92=
-=E5=BE=85=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+
-+=E5=A4=89=E6=9B=B4=E3=81=AE=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E3=82=92=
-=E7=A2=BA=E8=AA=8D=E3=81=99=E3=82=8B
-+------------------------
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=9F=BA=E6=9C=AC=E7=9A=84=E3=81=AA=
-=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E9=81=95=E5=8F=8D=E3=81=8C=E3=81=AA=E3=
-=81=84=E3=81=8B
-+=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AF
-+Documentation/process/coding-style.rst
-+=E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=
-=E3=81=84=E3=80=82
-+=E3=81=93=E3=82=8C=E3=82=92=E6=80=A0=E3=82=8B=E3=81=A8=E3=80=81=E5=8D=98=
-=E3=81=AB=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=AE=E6=99=82=E9=
-=96=93=E3=82=92
-+=E7=84=A1=E9=A7=84=E3=81=AB=E3=81=99=E3=82=8B=E3=81=A0=E3=81=91=E3=81=A7=
-=E3=81=AA=E3=81=8F=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=81=AF
-+=E3=81=8A=E3=81=9D=E3=82=89=E3=81=8F=E8=AA=AD=E3=81=BE=E3=82=8C=E3=82=82=
-=E3=81=9B=E3=81=9A=E3=81=AB=E5=8D=B4=E4=B8=8B=E3=81=95=E3=82=8C=E3=81=BE=E3=
-=81=99=E3=80=82
-+
-+=E9=87=8D=E8=A6=81=E3=81=AA=E4=BE=8B=E5=A4=96=E3=81=8C 1 =E3=81=A4=E3=81=
-=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92
-+=E3=81=82=E3=82=8B=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=8B=E3=82=89=
-=E5=88=A5=E3=81=AE=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=B8=E7=A7=BB=E5=
-=8B=95=E3=81=99=E3=82=8B
-+=E5=A0=B4=E5=90=88=E3=81=A7=E3=81=99=E3=80=82=E3=81=93=E3=81=AE=E3=81=A8=
-=E3=81=8D=E3=81=AF=E3=80=81=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E7=A7=BB=E5=
-=8B=95=E3=81=99=E3=82=8B
-+=E3=81=9D=E3=81=AE=E5=90=8C=E3=81=98=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=
-=E4=B8=AD=E3=81=A7=E3=80=81=E7=A7=BB=E5=8B=95=E3=81=97=E3=81=9F=E3=82=B3=E3=
-=83=BC=E3=83=89=E3=81=AB
-+=E4=B8=80=E5=88=87=E6=89=8B=E3=82=92=E5=8A=A0=E3=81=88=E3=81=A6=E3=81=AF=
-=E3=81=84=E3=81=91=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+=E3=81=9D=E3=81=86=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=A7=E3=80=81=
-=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E7=A7=BB=E5=8B=95=E3=81=A8=E3=81=84=E3=
-=81=86=E8=A1=8C=E7=82=BA=E3=81=A8=E3=80=81
-+=E3=81=9D=E3=81=AE=E4=B8=8A=E3=81=AB=E5=8A=A0=E3=81=88=E3=81=9F=E5=A4=89=
-=E6=9B=B4=E3=81=A8=E3=82=92=E6=98=8E=E7=A2=BA=E3=81=AB=E5=8C=BA=E5=88=A5=E3=
-=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=93=E3=82=8C=E3=81=AF=E5=AE=9F=E9=9A=9B=E3=81=AE=E5=B7=AE=E5=88=86=
-=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=E5=A4=A7=E3=81=84=E3=
-=81=AB=E5=8A=A9=E3=81=91=E3=80=81
-+=E3=83=84=E3=83=BC=E3=83=AB=E3=81=8C=E3=82=B3=E3=83=BC=E3=83=89=E8=87=AA=
-=E4=BD=93=E3=81=AE=E5=B1=A5=E6=AD=B4=E3=82=92=E3=80=81=E3=82=88=E3=82=8A=E6=
-=AD=A3=E7=A2=BA=E3=81=AB
-+=E8=BF=BD=E8=B7=A1=E3=81=99=E3=82=8B=E5=8A=A9=E3=81=91=E3=81=AB=E3=82=82=
-=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E6=8F=90=E5=87=BA=E5=89=8D=E3=81=AB=E3=80=81=E3=83=91=E3=83=83=E3=83=81=
-=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=
-=83=BC
-+(``scripts/checkpatch.pl``) =E3=81=A7
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=
-=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=
-=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=83=BC=E3=81=AF=E6=8C=87=E9=87=9D=E3=
-=81=A8=E3=81=97=E3=81=A6
-+=E8=A6=8B=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=82=E3=82=8A=E3=80=81=
-=E4=BA=BA=E9=96=93=E3=81=AE=E5=88=A4=E6=96=AD=E3=81=AE=E4=BB=A3=E3=82=8F=E3=
-=82=8A=E3=81=A7=E3=81=AF
-+=E3=81=AA=E3=81=84=E3=81=93=E3=81=A8=E3=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=
-=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E9=81=95=E5=8F=8D=E3=82=92=E6=AE=8B=E3=81=97=E3=81=9F=E6=96=B9=E3=81=8C=
-=E3=82=B3=E3=83=BC=E3=83=89=E3=81=A8=E3=81=97=E3=81=A6=E8=A6=8B=E3=82=84=E3=
-=81=99=E3=81=84=E3=81=AA=E3=82=89=E3=80=81
-+=E3=81=9D=E3=81=AE=E3=81=BE=E3=81=BE=E3=81=AB=E3=81=97=E3=81=A6=E3=81=8A=
-=E3=81=8F=E6=96=B9=E3=81=8C=E3=82=88=E3=81=84=E5=A0=B4=E5=90=88=E3=82=82=E3=
-=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=83=BC=E3=81=AF 3 =E3=81=A4=E3=81=
-=AE=E3=83=AC=E3=83=99=E3=83=AB=E3=81=A7=E5=A0=B1=E5=91=8A=E3=81=97=E3=81=BE=
-=E3=81=99:
-+
-+ - ERROR: =E9=96=93=E9=81=95=E3=81=A3=E3=81=A6=E3=81=84=E3=82=8B=E5=8F=AF=
-=E8=83=BD=E6=80=A7=E3=81=8C=E9=9D=9E=E5=B8=B8=E3=81=AB=E9=AB=98=E3=81=84=E3=
-=82=82=E3=81=AE
-+ - WARNING: =E6=85=8E=E9=87=8D=E3=81=AA=E3=83=AC=E3=83=93=E3=83=A5=E3=83=
-=BC=E3=81=8C=E5=BF=85=E8=A6=81=E3=81=AA=E3=82=82=E3=81=AE
-+ - CHECK: =E8=80=83=E6=85=AE=E3=82=92=E8=A6=81=E3=81=99=E3=82=8B=E3=82=82=
-=E3=81=AE
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E6=AE=8B=E3=81=97=E3=81=9F=E9=81=95=
-=E5=8F=8D=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81=E3=81=99=E3=
-=81=B9=E3=81=A6
-+=E7=90=86=E7=94=B1=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=A7=E3=81=8D=E3=81=AA=
-=E3=81=91=E3=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=
-=80=82
-+
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=AE=9B=E5=85=88=E3=82=92=E9=81=B8=
-=E6=8A=9E=E3=81=99=E3=82=8B
-+----------------------
-+
-+=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=
-=E3=80=81=E3=81=9D=E3=81=AE=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E7=AE=A1=E7=
-=90=86=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B
-+=E9=81=A9=E5=88=87=E3=81=AA=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=
-=E3=83=A0=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=A8
-+=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=
-=E3=81=AF=E3=80=81=E5=BF=85=E3=81=9A Cc =E3=81=AB
-+=E5=85=A5=E3=82=8C=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82MA=
-INTAINERS =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=82=84
-+=E3=82=BD=E3=83=BC=E3=82=B9=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E6=94=B9=
-=E8=A8=82=E5=B1=A5=E6=AD=B4=E3=82=92=E8=AA=BF=E3=81=B9=E3=81=A6=E3=80=81
-+=E8=AA=B0=E3=81=8C=E3=81=9D=E3=81=AE=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=
-=E3=81=8B=E3=82=92=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=
-=81=95=E3=81=84=E3=80=82
-+=E3=81=93=E3=81=AE=E6=AE=B5=E9=9A=8E=E3=81=A7=E3=81=AF ``scripts/get_maint=
-ainer.pl`` =E3=81=8C
-+=E3=81=A8=E3=81=A6=E3=82=82=E5=BD=B9=E3=81=AB=E7=AB=8B=E3=81=A1=E3=81=BE=
-=E3=81=99
-+=EF=BC=88=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E3=83=91=E3=82=B9=E3=82=92=
-=E5=BC=95=E6=95=B0=E3=81=A8=E3=81=97=E3=81=A6
-+``scripts/get_maintainer.pl`` =E3=81=AB
-+=E6=B8=A1=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=EF=BC=89=
-=E3=80=82
-+=E4=BD=9C=E6=A5=AD=E5=AF=BE=E8=B1=A1=E3=81=AE=E3=82=B5=E3=83=96=E3=82=B7=
-=E3=82=B9=E3=83=86=E3=83=A0=E3=81=A7=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=
-=81=8C
-+=E8=A6=8B=E3=81=A4=E3=81=8B=E3=82=89=E3=81=AA=E3=81=84=E5=A0=B4=E5=90=88=
-=E3=81=AF=E3=80=81Andrew Morton
-+(akpm@linux-foundation.org) =E3=81=8C
-+=E6=9C=80=E5=BE=8C=E3=81=AE=E6=89=8B=E6=AE=B5=E3=81=A8=E3=81=AA=E3=82=8B=
-=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=
-=E3=81=AF=E3=80=81=E3=83=87=E3=83=95=E3=82=A9=E3=83=AB=E3=83=88=E3=81=A7
-+linux-kernel@vger.kernel.org =E3=82=92
-+=E4=BD=BF=E3=81=86=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=80=82=E3=81=9F=
-=E3=81=A0=E3=81=97=E3=80=81=E3=81=93=E3=81=AE=E3=83=AA=E3=82=B9=E3=83=88=E3=
-=81=AF
-+=E6=B5=81=E9=87=8F=E3=81=8C=E5=A4=9A=E3=81=84=E3=81=9F=E3=82=81=E3=80=81=
-=E7=9B=AE=E3=82=92=E9=80=9A=E3=81=95=E3=81=AA=E3=81=8F=E3=81=AA=E3=81=A3=E3=
-=81=9F
-+=E9=96=8B=E7=99=BA=E8=80=85=E3=82=82=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=82=
-=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+=E3=81=A8=E3=81=AF=E3=81=84=E3=81=88=E3=80=81=E7=84=A1=E9=96=A2=E4=BF=82=
-=E3=81=AA=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=
-=83=88=E3=82=84
-+=E7=84=A1=E9=96=A2=E4=BF=82=E3=81=AA=E4=BA=BA=E3=80=85=E3=81=AB=E3=82=B9=
-=E3=83=91=E3=83=A0=E3=82=92=E9=80=81=E3=82=89=E3=81=AA=E3=81=84=E3=81=A7=E3=
-=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=A2=E9=80=A3=E3=81=AE=E3=83=A1=
-=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=81=AE=E5=
-=A4=9A=E3=81=8F=E3=81=AF
-+kernel.org =E3=81=A7=E9=81=8B=E5=96=B6=E3=81=95=E3=82=8C=E3=81=A6=E3=81=8A=
-=E3=82=8A=E3=80=81=E3=81=9D=E3=81=AE=E4=B8=80=E8=A6=A7=E3=81=AF
-+https://subspace.kernel.org =E3=81=A7
-+=E7=A2=BA=E8=AA=8D=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82=E3=81=9F=
-=E3=81=A0=E3=81=97=E3=80=81=E4=BB=96=E6=89=80=E3=81=A7=E9=81=8B=E5=96=B6=E3=
-=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B
-+=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=A2=E9=80=A3=E3=81=AE=E3=83=AA=
-=E3=82=B9=E3=83=88=E3=82=82=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E5=8F=96=E3=82=8A=E8=
-=BE=BC=E3=81=BE=E3=82=8C=E3=82=8B
-+=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E5=A4=89=E6=9B=B4=E3=81=AB=E3=81=A4=
-=E3=81=84=E3=81=A6=E3=80=81=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AA=E8=A3=81=E5=
-=AE=9A=E8=80=85=E3=81=AF
-+Linus Torvalds =E3=81=A7=E3=81=99=E3=80=82
-+=E5=BD=BC=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=A2=E3=83=89=E3=83=AC=
-=E3=82=B9=E3=81=AF
-+<torvalds@linux-foundation.org> =E3=81=A7=E3=81=99=E3=80=82
-+Linus =E3=81=AF=E5=A4=A7=E9=87=8F=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB=E3=
-=82=92=E5=8F=97=E3=81=91=E5=8F=96=E3=81=A3=E3=81=A6=E3=81=8A=E3=82=8A=E3=80=
-=81
-+=E7=8F=BE=E6=99=82=E7=82=B9=E3=81=A7=E3=81=AF=E5=BD=BC=E3=81=AB=E7=9B=B4=
-=E6=8E=A5=E5=B1=8A=E3=81=8F=E3=83=91=E3=83=83=E3=83=81=E3=81=AF
-+=E3=81=94=E3=81=8F=E3=82=8F=E3=81=9A=E3=81=8B=E3=81=AA=E3=81=AE=E3=81=A7=
-=E3=80=81=E9=80=9A=E5=B8=B8=E3=81=AF=E5=BD=BC=E3=81=AB=E3=83=A1=E3=83=BC=E3=
-=83=AB=E3=82=92
-+=E9=80=81=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E3=81=A7=E3=81=8D=E3=82=8B=
-=E3=81=A0=E3=81=91=E9=81=BF=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=
-=81=84=E3=80=82
-+
-+=E6=82=AA=E7=94=A8=E5=8F=AF=E8=83=BD=E3=81=AA=E3=82=BB=E3=82=AD=E3=83=A5=
-=E3=83=AA=E3=83=86=E3=82=A3=E3=83=90=E3=82=B0=E3=82=92=E4=BF=AE=E6=AD=A3=E3=
-=81=99=E3=82=8B
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=81=82=E3=82=8B=E3=81=AA=E3=82=89=
-=E3=80=81=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AF
-+security@kernel.org =E3=81=AB=E9=80=81=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=
-=E3=81=95=E3=81=84=E3=80=82
-+=E6=B7=B1=E5=88=BB=E3=81=AA=E3=83=90=E3=82=B0=E3=81=AB=E3=81=A4=E3=81=84=
-=E3=81=A6=E3=81=AF=E3=80=81=E3=83=87=E3=82=A3=E3=82=B9=E3=83=88=E3=83=AA=E3=
-=83=93=E3=83=A5=E3=83=BC=E3=82=BF=E3=81=8C
-+=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E3=81=B8=E3=83=91=E3=83=83=E3=83=81=
-=E3=82=92=E8=A1=8C=E3=81=8D=E6=B8=A1=E3=82=89=E3=81=9B=E3=82=8B=E6=99=82=E9=
-=96=93=E3=82=92
-+=E7=A2=BA=E4=BF=9D=E3=81=99=E3=82=8B=E3=81=9F=E3=82=81=E3=80=81=E7=9F=AD=
-=E6=9C=9F=E9=96=93=E3=81=AE embargo =E3=82=92
-+=E6=A4=9C=E8=A8=8E=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=
-=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+=E3=81=9D=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=A0=B4=E5=90=88=E3=80=81=
-=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92
-+=E5=85=AC=E9=96=8B=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=
-=E3=82=B9=E3=83=88=E3=81=AB=E9=80=81=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=
-=81=AA=E3=81=84=E3=81=AE=E3=81=AF
-+=E5=BD=93=E7=84=B6=E3=81=A7=E3=81=99=E3=80=82Documentation/process/securit=
-y-bugs.rst
-+=E3=82=82=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=
-=E3=81=84=E3=80=82
-+
-+=E3=83=AA=E3=83=AA=E3=83=BC=E3=82=B9=E6=B8=88=E3=81=BF=E3=82=AB=E3=83=BC=
-=E3=83=8D=E3=83=AB=E3=81=AE=E6=B7=B1=E5=88=BB=E3=81=AA=E3=83=90=E3=82=B0=E3=
-=82=92
-+=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=AF=
-=E3=80=81=E6=AC=A1=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E8=A1=8C=E3=82=92
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AE sign-off =E6=AC=84=E3=81=AB=E5=85=A5=
-=E3=82=8C=E3=81=A6=E3=80=81
-+stable =E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=B8=E5=90=91=E3=81=91=E3=
-=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84::
-+
-+  Cc: stable@vger.kernel.org
-+
-+=E3=81=93=E3=82=8C=E3=81=AF=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=AE=E5=AE=9B=
-=E5=85=88=E3=81=A7=E3=81=AF=E3=81=AA=E3=81=84=E7=82=B9=E3=81=AB
-+=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82=E3=81=BE=E3=81=9F=E3=80=81=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=
-=81=AB=E5=8A=A0=E3=81=88=E3=81=A6
-+Documentation/process/stable-kernel-rules.rst
-+=E3=82=82=E8=AA=AD=E3=82=93=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82
-+
-+=E5=A4=89=E6=9B=B4=E3=81=8C=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=
-=E9=96=93=E3=81=A8=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AE
-+=E3=82=A4=E3=83=B3=E3=82=BF=E3=83=BC=E3=83=95=E3=82=A7=E3=83=BC=E3=82=B9=
-=E3=81=AB=E5=BD=B1=E9=9F=BF=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=
-=80=81
-+MAINTAINERS =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=AB=E8=A8=98=E8=BC=
-=89=E3=81=95=E3=82=8C=E3=81=9F
-+MAN-PAGES =E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=B8 man-pages =E7=94=
-=A8=E3=81=AE
-+=E3=83=91=E3=83=83=E3=83=81=E3=80=81=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=
-=E3=82=82=E5=A4=89=E6=9B=B4=E9=80=9A=E7=9F=A5=E3=82=92=E9=80=81=E3=81=A3=E3=
-=81=A6=E3=80=81
-+=E3=81=9D=E3=81=AE=E6=83=85=E5=A0=B1=E3=81=8C=E3=83=9E=E3=83=8B=E3=83=A5=
-=E3=82=A2=E3=83=AB=E3=83=9A=E3=83=BC=E3=82=B8=E3=81=AB
-+=E5=8F=8D=E6=98=A0=E3=81=95=E3=82=8C=E3=82=8B=E3=82=88=E3=81=86=E3=81=AB=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=E9=96=93 API =E3=81=AE=E5=A4=
-=89=E6=9B=B4=E3=81=AF=E3=80=81
-+linux-api@vger.kernel.org =E3=81=AB=E3=82=82
-+Cc =E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
---=20
-2.47.3
+The existing description in how-to.rst only briefly introduces 
+patchsets, and requires developers to include changelog information in 
+the cover letter at Line 407. But it lacks concrete example, I will add 
+one example to show how to do this.
+
+>
+>> And I wonder where the v2 patch is as I don't find it in my mbox. Do 
+>> I miss something?
+>
+> There may be something wrong with the mailbox. I see that you are in 
+> the copy list for the v2 patch. The link is 
+> https://lore.kernel.org/lkml/tencent_0101EEFDDBC5D532222BFE0EF2487DCC0805@qq.com
+
+Ah, I have located the v2 patch in my local mbox. The confusion arose 
+because you replied to my v1 patch, and subsequently submitted v3. It's 
+fine now.
+
+Dongliang Mu
+
+>> Dongliang Mu
+>>
+>>> .../zh_CN/admin-guide/module-signing.rst      | 249 ++++++++++++++++++
+>>>   1 file changed, 249 insertions(+)
+>>>   create mode 100644 Documentation/translations/zh_CN/admin-guide/ 
+>>> module-signing.rst
+>>>
+>>> diff --git a/Documentation/translations/zh_CN/admin-guide/module- 
+>>> signing.rst b/Documentation/translations/zh_CN/admin-guide/module- 
+>>> signing.rst
+>>> new file mode 100644
+>>> index 000000000000..04b0f1cbafd5
+>>> --- /dev/null
+>>> +++ b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
+>>> @@ -0,0 +1,249 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +.. include:: ../disclaimer-zh_CN.rst
+>>> +
+>>> +:Original: Documentation/admin-guide/module-signing.rst
+>>> +:翻译:
+>>> + 朱岩 Yan Zhu <zhuyan2015@qq.com>
+>>> +
+>>> +
+>>> +==========================
+>>> +内核模块签名机制
+>>> +==========================
+>>> +
+>>> +.. 目录
+>>> +..
+>>> +.. - 概述
+>>> +.. - 配置模块签名
+>>> +.. - 生成签名密钥
+>>> +.. - 内核中的公钥
+>>> +.. - 模块手动签名
+>>> +.. - 已签名模块和剥离
+>>> +.. - 加载已签名模块
+>>> +.. - 无效签名和未签名模块
+>>> +.. - 管理/保护私钥
+>>> +
+>>> +
+>>> +概述
+>>> +====
+>>> +
+>>> +内核模块签名机制在安装过程中对模块进行加密签名，然后在加载模块时检查 
+>>> 签名。这
+>>> +通过禁止加载未签名的模块或使用无效密钥签名的模块来提高内核安全性。模 
+>>> 块签名通
+>>> +过使恶意模块更难加载到内核中来增加安全性。模块签名检查在内核中完成， 
+>>> 因此不需
+>>> +要受信任的用户空间位。
+>>> +
+>>> +此机制使用 X.509 ITU-T 标准证书对涉及的公钥进行编码。签名本身不以任何 
+>>> 工业标准
+>>> +类型编码。内置机制目前仅支持 RSA、NIST P-384 ECDSA 和 NIST FIPS-204 
+>>> ML-DSA
+>>> +公钥签名标准（尽管它是可插拔的并允许使用其他标准）。对于 RSA 和 
+>>> ECDSA，可以使
+>>> +用的可能的哈希算法是大小为 256、384 和 512 的 SHA-2 和 SHA-3（算法由 
+>>> 签名中的
+>>> +数据选择）；ML-DSA会自行进行哈希运算，但允许与SHA512哈希算法结合用于 
+>>> 签名属性。
+>>> +
+>>> +配置模块签名
+>>> +============
+>>> +
+>>> +通过进入内核配置的 :menuselection:`Enable Loadable Module Support` 菜 
+>>> 单并打
+>>> +开以下选项来启用模块签名机制::
+>>> +
+>>> +    CONFIG_MODULE_SIG    "Module signature verification"
+>>> +
+>>> +这有多个可用选项：
+>>> +
+>>> + (1) :menuselection:`Require modules to be validly signed`
+>>> +     (``CONFIG_MODULE_SIG_FORCE``)
+>>> +
+>>> +     这指定了内核应如何处理其密钥未知或未签名的模块。
+>>> +
+>>> +     如果关闭（即"宽松模式"），则允许使用不可用密钥和未签名的模块，但 
+>>> 内核将被
+>>> +     标记为受污染，并且相关模块将被标记为受污染，显示字符'E'。
+>>> +
+>>> +     如果打开（即"限制模式"），只有具有有效签名且可由内核拥有的公钥验 
+>>> 证的模块
+>>> +     才会被加载。所有其他模块将生成错误。
+>>> +
+>>> +     无论此处的设置如何，如果模块的签名块无法解析，它将被直接拒绝。
+>>> +
+>>> +
+>>> + (2) :menuselection:`Automatically sign all modules`
+>>> +     (``CONFIG_MODULE_SIG_ALL``)
+>>> +
+>>> +     如果打开此选项，则在构建的 modules_install 
+>>> 阶段期间将自动签名模块。
+>>> +     如果关闭，则必须使用以下命令手动签名模块::
+>>> +
+>>> +    scripts/sign-file
+>>> +
+>>> +
+>>> + (3) :menuselection:`Which hash algorithm should modules be signed 
+>>> with?`
+>>> +
+>>> +     这提供了安装阶段将用于签名模块的哈希算法选择：
+>>> +
+>>> +    =============================== 
+>>> ==========================================
+>>> +    ``CONFIG_MODULE_SIG_SHA256``    :menuselection:`Sign modules 
+>>> with SHA-256`
+>>> +    ``CONFIG_MODULE_SIG_SHA384``    :menuselection:`Sign modules 
+>>> with SHA-384`
+>>> +    ``CONFIG_MODULE_SIG_SHA512``    :menuselection:`Sign modules 
+>>> with SHA-512`
+>>> +    ``CONFIG_MODULE_SIG_SHA3_256``    :menuselection:`Sign modules 
+>>> with SHA3-256`
+>>> +    ``CONFIG_MODULE_SIG_SHA3_384``    :menuselection:`Sign modules 
+>>> with SHA3-384`
+>>> +    ``CONFIG_MODULE_SIG_SHA3_512``    :menuselection:`Sign modules 
+>>> with SHA3-512`
+>>> +    =============================== 
+>>> ==========================================
+>>> +
+>>> +     此处选择的算法也将被构建到内核中（而不是作为模块），以便使用该算 
+>>> 法签名的
+>>> +     模块可以在不导致循环依赖的情况下检查其签名。
+>>> +
+>>> +
+>>> + (4) :menuselection:`File name or PKCS#11 URI of module signing key`
+>>> +     (``CONFIG_MODULE_SIG_KEY``)
+>>> +
+>>> +     将此选项设置为除默认值 ``certs/signing_key.pem`` 之外的其他值将 
+>>> 禁用签名
+>>> +     密钥的自动生成，并允许使用您选择的密钥对内核模块进行签名。提供的 
+>>> 字符串应
+>>> +     标识包含私钥及其对应的 PEM 格式 X.509 证书的文件，或者在 OpenSSL
+>>> +     ENGINE_pkcs11 功能正常的系统上，使用 RFC7512 定义的 PKCS#11 
+>>> URI。在后一
+>>> +     种情况下，PKCS#11 URI 应引用证书和私钥。
+>>> +
+>>> +     如果包含私钥的 PEM 文件已加密，或者 PKCS#11 令牌需要 PIN，可以通过 
+>>>
+>>> +     ``KBUILD_SIGN_PIN`` 变量在构建时提供。
+>>> +
+>>> +
+>>> + (5) :menuselection:`Additional X.509 keys for default system keyring`
+>>> +     (``CONFIG_SYSTEM_TRUSTED_KEYS``)
+>>> +
+>>> +     此选项可设置为包含附加证书的 PEM 编码文件的文件名，这些证书将默 
+>>> 认包含在
+>>> +     系统密钥环中。
+>>> +
+>>> +请注意，启用模块签名会为内核构建过程添加对执行签名工具的OpenSSL开发包 
+>>> 的依赖。
+>>> +
+>>> +
+>>> +生成签名密钥
+>>> +============
+>>> +
+>>> +生成和检查签名需要加密密钥对。私钥用于生成签名，相应的公钥用于检查签 
+>>> 名。私钥
+>>> +仅在构建期间需要，之后可以删除或安全存储。公钥被构建到内核中，以便在 
+>>> 加载模块
+>>> +时可以使用它来检查签名。
+>>> +
+>>> +在正常情况下，当 ``CONFIG_MODULE_SIG_KEY`` 保持默认值时，如果文件中不 
+>>> 存在密
+>>> +钥对，内核构建将使用 openssl 自动生成新的密钥对::
+>>> +
+>>> +    certs/signing_key.pem
+>>> +
+>>> +在构建 vmlinux 期间（公钥需要构建到 vmlinux 中）使用参数::
+>>> +
+>>> +    certs/x509.genkey
+>>> +
+>>> +文件（如果尚不存在也会生成）。
+>>> +
+>>> +可以在 RSA（``MODULE_SIG_KEY_TYPE_RSA``）、
+>>> +ECDSA（``MODULE_SIG_KEY_TYPE_ECDSA``）和
+>>> +ML-DSA（``MODULE_SIG_KEY_TYPE_MLDSA_*``）之间选择生成 RSA 4k、NIST 
+>>> P-384
+>>> +密钥对或 ML-DSA 44、65 或 87 密钥对。
+>>> +
+>>> +强烈建议您提供自己的 x509.genkey 文件。
+>>> +
+>>> +最值得注意的是，在 x509.genkey 文件中，req_distinguished_name 部分应 
+>>> 从默认值
+>>> +更改::
+>>> +
+>>> +    [ req_distinguished_name ]
+>>> +    #O = Unspecified company
+>>> +    CN = Build time autogenerated kernel key
+>>> +    #emailAddress = unspecified.user@unspecified.company
+>>> +
+>>> +生成的 RSA 密钥大小也可以通过以下方式设置::
+>>> +
+>>> +    [ req ]
+>>> +    default_bits = 4096
+>>> +
+>>> +也可以使用位于 Linux 内核源代码树根节点中的 x509.genkey 密钥生成配置 
+>>> 文件和
+>>> +openssl 命令手动生成公钥/私钥文件。以下是生成公钥/私钥文件的示例::
+>>> +
+>>> +    openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
+>>> +       -config x509.genkey -outform PEM -out kernel_key.pem \
+>>> +       -keyout kernel_key.pem
+>>> +
+>>> +然后可以将生成的 kernel_key.pem 文件的完整路径名指定在
+>>> +``CONFIG_MODULE_SIG_KEY``选项中，并且将使用其中的证书和密钥而不是自动 
+>>> 生成的
+>>> +密钥对。
+>>> +
+>>> +
+>>> +内核中的公钥
+>>> +============
+>>> +
+>>> +内核包含一个可由 root 查看的公钥环。它们在名为 ".builtin_trusted_keys" 
+>>> 的密
+>>> +钥环中，可以通过以下方式查看::
+>>> +
+>>> +    [root@deneb ~]# cat /proc/keys
+>>> +    ...
+>>> +    223c7853 I------     1 perm 1f030000     0     0 keyring   
+>>> .builtin_trusted_keys: 1
+>>> +    302d2d52 I------     1 perm 1f010000     0     0 asymmetri 
+>>> Fedora kernel signing key: d69a84e6bce3d216b979e9505b3e3ef9a7118079: 
+>>> X509.RSA a7118079 []
+>>> +
+>>> +除了专门为模块签名生成的公钥外，还可以在 ``CONFIG_SYSTEM_TRUSTED_KEYS`` 
+>>> 配置
+>>> +选项引用的 PEM 编码文件中提供其他受信任的证书。
+>>> +
+>>> +此外，架构代码可以从硬件存储中获取公钥并将其添加（例如从 UEFI 密钥数 
+>>> 据库）。
+>>> +
+>>> +最后，可以通过以下方式添加其他公钥::
+>>> +
+>>> +    keyctl padd asymmetric "" [.builtin_trusted_keys-ID] <[key-file]
+>>> +
+>>> +例如::
+>>> +
+>>> +    keyctl padd asymmetric "" 0x223c7853 <my_public_key.x509
+>>> +
+>>> +但是，请注意，内核只允许将由已驻留在 ``.builtin_trusted_keys`` 中的密 
+>>> 钥有效
+>>> +签名的密钥添加到 ``.builtin_trusted_keys``。
+>>> +
+>>> +模块手动签名
+>>> +============
+>>> +
+>>> +要手动对模块进行签名，请使用 Linux 内核源代码树中可用的 scripts/sign- 
+>>> file 工
+>>> +具。该脚本需要 4 个参数：
+>>> +
+>>> +    1.  哈希算法（例如，sha256）
+>>> +    2.  私钥文件名或 PKCS#11 URI
+>>> +    3.  公钥文件名
+>>> +    4.  要签名的内核模块
+>>> +
+>>> +以下是签名内核模块的示例::
+>>> +
+>>> +    scripts/sign-file sha512 kernel-signkey.priv \
+>>> +        kernel-signkey.x509 module.ko
+>>> +
+>>> +使用的哈希算法不必与配置的算法匹配，但如果不同，应确保哈希算法要么内 
+>>> 置在内核
+>>> +中，要么可以在不需要自身的情况下加载。
+>>> +
+>>> +如果私钥需要密码或 PIN，可以在 $KBUILD_SIGN_PIN 环境变量中提供。
+>>> +
+>>> +
+>>> +已签名模块和剥离
+>>> +================
+>>> +
+>>> +已签名模块在末尾简单地附加了数字签名。模块文件末尾的字符串
+>>> +``~Module signature appended~.`` 确认签名存在，但不能确认签名有效！
+>>> +
+>>> +已签名模块是脆弱的，因为签名在定义的ELF容器之外。因此，一旦计算并附加 
+>>> 签名，就
+>>> +不得剥离它们。请注意，整个模块都是签名的有效载荷，包括签名时存在的任 
+>>> 何和所有
+>>> +调试信息。
+>>> +
+>>> +
+>>> +加载已签名模块
+>>> +==============
+>>> +
+>>> +模块通过 insmod、modprobe、``init_module()`` 或 ``finit_module()`` 加 
+>>> 载，
+>>> +与未签名模块完全一样，因为在用户空间中不进行任何处理。
+>>> +所有签名检查都在内核内完成。
+>>> +
+>>> +
+>>> +无效签名和未签名模块
+>>> +====================
+>>> +
+>>> +如果启用了 ``CONFIG_MODULE_SIG_FORCE`` 或在内核启动命令提供了
+>>> +module.sig_enforce=1，内核将仅加载具有有效签名且具有公钥的模块。否 
+>>> 则，它还将
+>>> +加载未签名的模块。任何具有不匹配签名的模块将不被允许加载。
+>>> +
+>>> +任何具有不可解析签名的模块将被拒绝。
+>>> +
+>>> +
+>>> +管理/保护私钥
+>>> +==============
+>>> +
+>>> +由于私钥用于签名模块，病毒和恶意软件可以使用私钥签名模块并危害操作系 
+>>> 统。私钥
+>>> +必须被销毁或移动到安全位置，而不是保存在内核源代码树的根节点中。
+>>> +
+>>> +如果使用相同的私钥为多个内核配置签名模块，必须确保模块版本信息足以防 
+>>> 止将模块
+>>> +加载到不同的内核中。要么设置 ``CONFIG_MODVERSIONS=y``，要么通过更改
+>>> +``EXTRAVERSION`` 或 ``CONFIG_LOCALVERSION`` 确保每个配置具有不同的内 
+>>> 核发布字
+>>> +符串。
+>
 
