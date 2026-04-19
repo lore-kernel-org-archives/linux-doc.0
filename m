@@ -1,575 +1,250 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3BBA2F84F;
-	Sun, 19 Apr 2026 17:19:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F871A256E
+	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 18:58:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776619167; cv=none; b=TyH56q/eZy1FBOKa+x80gyJ/UZg5+L3dpzquvO/fU5C8gwiUh33yfXXiIbgf2ZrAVJahgkDxs7EHZk7SJ8ColrgDfX1jYfzlQpDdVuBhBvi9q0rGqPcxUWHtD2Rylq8p/fGp0aI74fIfImZeZmMu25zaVlaWzGicCbj+ImS4vUQ=
+	t=1776625122; cv=none; b=JjhiRK7t0XTXAA5YzMwLTSaqRK64K6r1Qage7jJ8vK7kVBEaqNmvHdGJZ98cNyNBtBZUs6lliZqRVUxp7BamEMkkUSEnTidhZFm8a3uc1zKTRPGrwJX3g3c7WsAUv/VpoI7Ql0Dk6JCC/Br/BLRdfw023lw5Ghs3nGeScsVH0R4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776619167; c=relaxed/simple;
-	bh=2CwC4Vn7ztmj//74bYUVGn7SYcQe8ES/A/kctks28yQ=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cygc1A8zKh3DusP344XwcQnXLs5bFvcybkQsQLcfKOeYOaCMykHtK+0H+dKoGw7wpw3ivlSrM0crK2I7xC0hrYdafsKRYWRsvwOAG3hxHir1bp+c3E9S0XP3e9n57CUoo554OIku/uHuZrrRBI20XjdN+89/kzeLvesa1M58pH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X9o87yeQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776625122; c=relaxed/simple;
+	bh=KxyOm/oivm0BpTIm7i8kXRVzm0f7MN13ba2p+o3ikYk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=helUhCVzzJzKziilwYHOthz7vff+3wd9P9PJXThTJHdnKCrd1o1oNjY/gNnQHqcXi1Oy0KGDUk6IXrIXwXH+ROI4cBY5g1ZvwF4qET9U+dWej1JYrkBikQ7E2ii2yTikJREAxWUt0w9A93b5M/la+mAPNupmjEmFpSAvJHretxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E5JY00BT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X9o87yeQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F12F4C2BCAF;
-	Sun, 19 Apr 2026 17:19:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776619167;
-	bh=2CwC4Vn7ztmj//74bYUVGn7SYcQe8ES/A/kctks28yQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=X9o87yeQh8SGQZ+v7j+Gd0uqa0xJs7u5OIdrKgzZw/xoNxDR+wQRLcoTxujiwMcFc
-	 oKbPf4UxDLRKN+IcffQOuYwGav30ElNG727bvm26FftDm8kVwBerqbXN8OFHLWXA8z
-	 jCj8vLl1Hh4QlKs7GVMsFWEBY06Yropw9PyFPfeN0Fnk9AxbvewIzOR04BDtKJExsH
-	 ehZyiN9tS8GbFSxjsElA3nyeVFtUJutYMutmY7yiue2qPhT6bTmIHcgKL2s0yegeJ/
-	 3m+zD861alIcG/Yw2Gl+hrZNuCYN30wuVATGFeTE0teVlbsx4hMfEzr3BYTnmQ0/vG
-	 2e8s6pZS0PUpw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=lobster-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wEVno-0000000Crmd-1Wu9;
-	Sun, 19 Apr 2026 17:19:24 +0000
-Date: Sun, 19 Apr 2026 18:19:23 +0100
-Message-ID: <87ldeic1gk.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E5JY00BT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776625119;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yy5vk9Dp4ItrgUo2V4M7nrMoaDvOeSA2Soef+4DJRew=;
+	b=E5JY00BToox/DPxskJjFolDeKudwKAQp3ctKNXES/vEfFSUDMiVVCNtL+A9p2p6BQCc3CP
+	R34LGkNrrHvXmQZjFNIdO6OZ+B+agn9Mkld6KrxHZSbeXCMm8MjpOmL4krNgGINdIh926k
+	GqwkP5HhN6VQmEUVC1oU3m1UGimCCVw=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-1-HXVqmU7gNNK66kPtndohEw-1; Sun,
+ 19 Apr 2026 14:58:36 -0400
+X-MC-Unique: HXVqmU7gNNK66kPtndohEw-1
+X-Mimecast-MFC-AGG-ID: HXVqmU7gNNK66kPtndohEw_1776625115
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1EB41195608D;
+	Sun, 19 Apr 2026 18:58:35 +0000 (UTC)
+Received: from p1.redhat.com (unknown [10.22.74.5])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B7F571956095;
+	Sun, 19 Apr 2026 18:58:13 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	devel@daynix.com,
-	kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v7 3/4] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
-In-Reply-To: <20260418-hybrid-v7-3-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-	<20260418-hybrid-v7-3-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: aarcange@redhat.com,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	npache@redhat.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com
+Subject: [PATCH 7.2 v16 00/13] khugepaged: mTHP support
+Date: Sun, 19 Apr 2026 12:57:37 -0600
+Message-ID: <20260419185750.260784-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: odaki@rsg.ci.i.u-tokyo.ac.jp, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, kees@kernel.org, gustavoars@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Sat, 18 Apr 2026 09:14:25 +0100,
-Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
-> 
-> On a heterogeneous arm64 system, KVM's PMU emulation is based on the
-> features of a single host PMU instance. When a vCPU is migrated to a
-> pCPU with an incompatible PMU, counters such as PMCCNTR_EL0 stop
-> incrementing.
-> 
-> Although this behavior is permitted by the architecture, Windows does
-> not handle it gracefully and may crash with a division-by-zero error.
-> 
-> The current workaround requires VMMs to pin vCPUs to a set of pCPUs
-> that share a compatible PMU. This is difficult to implement correctly in
-> QEMU/libvirt, where pinning occurs after vCPU initialization, and it
-> also restricts the guest to a subset of available pCPUs.
-> 
-> Introduce the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY attribute to
-> create a "fixed-counters-only" PMU. When set, KVM exposes a PMU that is
-> compatible with all pCPUs but that does not support programmable
-> event counters which may have different feature sets on different PMUs.
-> 
-> This allows Windows guests to run reliably on heterogeneous systems
-> without crashing, even without vCPU pinning, and enables VMMs to
-> schedule vCPUs across all available pCPUs, making full use of the host
-> hardware.
->
-> Much like KVM_ARM_VCPU_PMU_V3_IRQ and other read-write attributes, this
-> attribute provides a getter that facilitates kernel and userspace
-> debugging/testing.
+The following series provides khugepaged with the capability to collapse
+anonymous memory regions to mTHPs.
 
-OK, so that's the sales pitch. But how is it implemented? I would like
-to be able to read a high-level description of the implementation
-trade-offs.
+To achieve this we generalize the khugepaged functions to no longer depend
+on PMD_ORDER. Then during the PMD scan, we use a bitmap to track individual
+pages that are occupied (!none/zero). After the PMD scan is done, we use
+the bitmap to find the optimal mTHP sizes for the PMD range. The
+restriction on max_ptes_none is removed during the scan, to make sure we
+account for the whole PMD range in the bitmap. When no mTHP size is
+enabled, the legacy behavior of khugepaged is maintained.
 
-> 
-> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-> ---
->  Documentation/virt/kvm/devices/vcpu.rst |  29 ++++++
->  arch/arm64/include/asm/kvm_host.h       |   2 +
->  arch/arm64/include/uapi/asm/kvm.h       |   1 +
->  arch/arm64/kvm/arm.c                    |   1 +
->  arch/arm64/kvm/pmu-emul.c               | 155 +++++++++++++++++++++++---------
->  include/kvm/arm_pmu.h                   |   2 +
->  6 files changed, 147 insertions(+), 43 deletions(-)
-> 
-> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
-> index 60bf205cb373..e0aeb1897d77 100644
-> --- a/Documentation/virt/kvm/devices/vcpu.rst
-> +++ b/Documentation/virt/kvm/devices/vcpu.rst
-> @@ -161,6 +161,35 @@ explicitly selected, or the number of counters is out of range for the
->  selected PMU. Selecting a new PMU cancels the effect of setting this
->  attribute.
->  
-> +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
-> +------------------------------------------------------
-> +
-> +:Parameters: no additional parameter in kvm_device_attr.addr
-> +
-> +:Returns:
-> +
-> +	 =======  =====================================================
-> +	 -EBUSY   Attempted to set after initializing PMUv3 or running
-> +		  VCPU, or attempted to set for the first time after
-> +		  setting an event filter
-> +	 -ENXIO   Attempted to get before setting
-> +	 -ENODEV  Attempted to set while PMUv3 not supported
-> +	 =======  =====================================================
-> +
-> +If set, PMUv3 will be emulated without programmable event counters. The VCPU
-> +will use any compatible hardware PMU. This attribute is particularly useful on
+We currently only support max_ptes_none values of 0 or HPAGE_PMD_NR - 1
+(ie 511). If any other value is specified, the kernel will emit a warning
+and no mTHP collapse will be attempted. If a mTHP collapse is attempted,
+but contains swapped out, or shared pages, we don't perform the collapse.
+It is now also possible to collapse to mTHPs without requiring the PMD THP
+size to be enabled. These limitations are to prevent collapse "creep"
+behavior. This prevents constantly promoting mTHPs to the next available
+size, which would occur because a collapse introduces more non-zero pages
+that would satisfy the promotion condition on subsequent scans.
 
-Not quite "any PMU". It will use *the* PMU of the physical CPU,
-irrespective of the implementation.
 
-> +heterogeneous systems where different hardware PMUs cover different physical
-> +CPUs. The compatibility of hardware PMUs can be checked with
-> +KVM_ARM_VCPU_PMU_V3_SET_PMU. All VCPUs in a VM share this attribute. It isn't
-> +possible to set it for the first time if a PMU event filter is already present.
+Patch 1-2:   Generalize hugepage_vma_revalidate and alloc_charge_folio
+	     for arbitrary orders.
+Patch 3:     Rework max_ptes_* handling into helper functions
+Patch 4-5:   Generalize __collapse_huge_page_* and collapse_huge_page
+Patch 6:     Skip collapsing mTHP to smaller orders
+Patch 7-8:   Add per-order mTHP statistics and tracepoints
+Patch 9:     Introduce collapse_allowable_orders helper function
+Patch 10-12: Introduce bitmap and mTHP collapse support, fully enabled
+Patch 13:    Documentation
 
-"for the first time" gives the impression that it will work if you try
-again. I'd rather we say that "This feature is incompatible with the
-existence of a PMU event filter".
+Testing:
+- Built for x86_64, aarch64, ppc64le, and s390x
+- ran all arches on test suites provided by the kernel-tests project
+- internal testing suites: functional testing and performance testing
+- selftests mm
+- I created a test script that I used to push khugepaged to its limits
+   while monitoring a number of stats and tracepoints. The code is
+   available here[1] (Run in legacy mode for these changes and set mthp
+   sizes to inherit)
+   The summary from my testings was that there was no significant
+   regression noticed through this test. In some cases my changes had
+   better collapse latencies, and was able to scan more pages in the same
+   amount of time/work, but for the most part the results were consistent.
+- redis testing. I did some testing with these changes along with my defer
+  changes (see followup [2] post for more details). We've decided to get
+  the mTHP changes merged first before attempting the defer series.
+- some basic testing on 64k page size.
+- lots of general use.
 
-Furthermore, the architecture currently describes *two* fixed-function
-counters (cycles and instructions), while KVM only expose the cycle
-counter. I'm all for the extra abstraction, but what does it mean for
-migration if we enable FEAT_PMUv3_ICNTR?
+V16 Changes:
+- This was quite the respin, so hopefully everything is ok! I dropped
+  some acks/rb on patches that changed significantly. Major changes
+  are related to the locking cleanup in collapse_huge_page().
+  sorry if i missed any feedback there was quite a bit of minor requests
+- New cleanup patch: introduce collapse_max_ptes_none/shared/swap()
+  helpers, absorbing madvise_collapse special-casing (David)
+- Merge "introduce collapse_max_ptes_none helper" into the generalize
+  __collapse_huge_page_* patch, dropping the separate patch (David)
+- Simplify collapse_huge_page() locking: move mmap_read_unlock() to
+  caller, remove mmap_locked tracking parameter entirely (Lorenzo)
+- Use enum tva_type instead of bool is_khugepaged in
+  collapse_allowable_orders() (David, Lorenzo)
+- collapse_allowable_orders() takes (vma, tva_flags), accesses
+  vma->vm_flags internally (Lorenzo)
+- Rename mthp_* functions to collapse_mthp_* prefix (David, Lorenzo)
+- Use MAX_PTRS_PER_PTE consistently for bitmap ops (Lorenzo)
+- Downgrade BUG_ON() to WARN_ON_ONCE() in collapse_huge_page() (Lorenzo)
+- Add /*expect_anon=*/true annotation to revalidate calls (Lorenzo)
+- Pull common spin_lock + WARN_ON_ONCE out of PMD/mTHP branch (Lorenzo)
+- Fix pteval declaration style; use end_addr variable (Lorenzo)
+- Use ternary for result assignment in collapse_scan_pmd() (Lorenzo)
+- Improve anon_vma locking comment for mTHP case (Lorenzo)
+- Document why skip-smaller-order isn't done in scan phase (David)
+- Make documentation of max_ptes_none mTHP behavior (only 0 and
+  HPAGE_PMD_NR-1 supported) in admin guide more apparent. (David, Lorenzo)
+- Collect new Acks/RB tags from v15 review
 
-> +
-> +Note that KVM will not make any attempts to run the VCPU on the physical CPUs
-> +with compatible hardware PMUs. This is entirely left to userspace. However,
-> +attempting to run the VCPU on an unsupported CPU will fail and KVM_RUN will
-> +return with exit_reason = KVM_EXIT_FAIL_ENTRY and populate the fail_entry struct
-> +by setting hardware_entry_failure_reason field to
-> +KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED and the cpu field to the processor id.
-> +
+V15: https://lore.kernel.org/all/20260226031741.230674-1-npache@redhat.com
+V14: https://lore.kernel.org/all/20260122192841.128719-1-npache@redhat.com
+V13: https://lore.kernel.org/all/20251201174627.23295-1-npache@redhat.com
+V12: https://lore.kernel.org/all/20251022183717.70829-1-npache@redhat.com
+V11: https://lore.kernel.org/all/20250912032810.197475-1-npache@redhat.com
+V10: https://lore.kernel.org/all/20250819134205.622806-1-npache@redhat.com
+V9 : https://lore.kernel.org/all/20250714003207.113275-1-npache@redhat.com
+V8 : https://lore.kernel.org/all/20250702055742.102808-1-npache@redhat.com
+V7 : https://lore.kernel.org/all/20250515032226.128900-1-npache@redhat.com
+V6 : https://lore.kernel.org/all/20250515030312.125567-1-npache@redhat.com
+V5 : https://lore.kernel.org/all/20250428181218.85925-1-npache@redhat.com
+V4 : https://lore.kernel.org/all/20250417000238.74567-1-npache@redhat.com
+V3 : https://lore.kernel.org/all/20250414220557.35388-1-npache@redhat.com
+V2 : https://lore.kernel.org/all/20250211003028.213461-1-npache@redhat.com
+V1 : https://lore.kernel.org/all/20250108233128.14484-1-npache@redhat.com
 
-This is mostly a copy-paste of the previous section. How relevant is
-this to the fixed-counters-only feature? If the whole point of this
-stuff is to ensure compatibility across CPUs with different PMU
-implementations, surely what you describe here is the opposite of what
-you want.
+A big thanks to everyone that has reviewed, tested, and participated in
+the development process. Its been a great experience working with all of
+you on this endeavor.
 
-My preference would be to move this to a separate patch in any case,
-more on that below.
+[1] - https://gitlab.com/npache/khugepaged_mthp_test
+[2] - https://lore.kernel.org/lkml/20250515033857.132535-1-npache@redhat.com/
 
->  2. GROUP: KVM_ARM_VCPU_TIMER_CTRL
->  =================================
->  
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index 59f25b85be2b..b59e0182472c 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -353,6 +353,8 @@ struct kvm_arch {
->  #define KVM_ARCH_FLAG_WRITABLE_IMP_ID_REGS		10
->  	/* Unhandled SEAs are taken to userspace */
->  #define KVM_ARCH_FLAG_EXIT_SEA				11
-> +	/* PMUv3 is emulated without progammable event counters */
-> +#define KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY	12
->  	unsigned long flags;
->  
->  	/* VM-wide vCPU feature set */
-> diff --git a/arch/arm64/include/uapi/asm/kvm.h b/arch/arm64/include/uapi/asm/kvm.h
-> index a792a599b9d6..474c84fa757f 100644
-> --- a/arch/arm64/include/uapi/asm/kvm.h
-> +++ b/arch/arm64/include/uapi/asm/kvm.h
-> @@ -436,6 +436,7 @@ enum {
->  #define   KVM_ARM_VCPU_PMU_V3_FILTER		2
->  #define   KVM_ARM_VCPU_PMU_V3_SET_PMU		3
->  #define   KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS	4
-> +#define   KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY	5
->  #define KVM_ARM_VCPU_TIMER_CTRL		1
->  #define   KVM_ARM_VCPU_TIMER_IRQ_VTIMER		0
->  #define   KVM_ARM_VCPU_TIMER_IRQ_PTIMER		1
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 620a465248d1..dca16ca26d32 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -634,6 +634,7 @@ void kvm_arch_vcpu_load(struct kvm_vcpu *vcpu, int cpu)
->  	if (has_vhe())
->  		kvm_vcpu_load_vhe(vcpu);
->  	kvm_arch_vcpu_load_fp(vcpu);
-> +	kvm_vcpu_load_pmu(vcpu);
->  	kvm_vcpu_pmu_restore_guest(vcpu);
->  	if (kvm_arm_is_pvtime_enabled(&vcpu->arch))
->  		kvm_make_request(KVM_REQ_RECORD_STEAL, vcpu);
-> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
-> index ef5140bbfe28..d1009c144581 100644
-> --- a/arch/arm64/kvm/pmu-emul.c
-> +++ b/arch/arm64/kvm/pmu-emul.c
-> @@ -326,7 +326,10 @@ u64 kvm_pmu_implemented_counter_mask(struct kvm_vcpu *vcpu)
->  
->  static void kvm_pmc_enable_perf_event(struct kvm_pmc *pmc)
->  {
-> -	if (!pmc->perf_event) {
-> +	struct kvm_vcpu *vcpu = kvm_pmc_to_vcpu(pmc);
-> +
-> +	if (!pmc->perf_event ||
-> +	    !cpumask_test_cpu(vcpu->cpu, &to_arm_pmu(pmc->perf_event->pmu)->supported_cpus)) {
->  		kvm_pmu_create_perf_event(pmc);
->  		return;
->  	}
-> @@ -667,10 +670,8 @@ static bool kvm_pmc_counts_at_el2(struct kvm_pmc *pmc)
->  	return kvm_pmc_read_evtreg(pmc) & ARMV8_PMU_INCLUDE_EL2;
->  }
->  
-> -static int kvm_map_pmu_event(struct kvm *kvm, unsigned int eventsel)
-> +static int kvm_map_pmu_event(struct arm_pmu *pmu, unsigned int eventsel)
->  {
-> -	struct arm_pmu *pmu = kvm->arch.arm_pmu;
-> -
->  	/*
->  	 * The CPU PMU likely isn't PMUv3; let the driver provide a mapping
->  	 * for the guest's PMUv3 event ID.
+Baolin Wang (1):
+  mm/khugepaged: run khugepaged for all orders
 
-This refactor should be in its own patch. This sort of minor change is
-adding noise to the mean of the patch, for no good reason.
+Dev Jain (1):
+  mm/khugepaged: generalize alloc_charge_folio()
 
-> @@ -681,6 +682,23 @@ static int kvm_map_pmu_event(struct kvm *kvm, unsigned int eventsel)
->  	return eventsel;
->  }
->  
-> +static struct arm_pmu *kvm_pmu_probe_armpmu(int cpu)
-> +{
-> +	struct arm_pmu_entry *entry;
-> +	struct arm_pmu *pmu;
-> +
-> +	guard(rcu)();
-> +
-> +	list_for_each_entry_rcu(entry, &arm_pmus, entry) {
-> +		pmu = entry->arm_pmu;
-> +
-> +		if (cpumask_test_cpu(cpu, &pmu->supported_cpus))
-> +			return pmu;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
->  /**
->   * kvm_pmu_create_perf_event - create a perf event for a counter
->   * @pmc: Counter context
-> @@ -694,6 +712,12 @@ static void kvm_pmu_create_perf_event(struct kvm_pmc *pmc)
->  	int eventsel;
->  	u64 evtreg;
->  
-> +	if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &vcpu->kvm->arch.flags)) {
-> +		arm_pmu = kvm_pmu_probe_armpmu(vcpu->cpu);
-> +		if (!arm_pmu)
-> +			return;
+Nico Pache (11):
+  mm/khugepaged: generalize hugepage_vma_revalidate for mTHP support
+  mm/khugepaged: rework max_ptes_* handling with helper functions
+  mm/khugepaged: generalize __collapse_huge_page_* for mTHP support
+  mm/khugepaged: generalize collapse_huge_page for mTHP collapse
+  mm/khugepaged: skip collapsing mTHP to smaller orders
+  mm/khugepaged: add per-order mTHP collapse failure statistics
+  mm/khugepaged: improve tracepoints for mTHP orders
+  mm/khugepaged: introduce collapse_allowable_orders helper function
+  mm/khugepaged: Introduce mTHP collapse support
+  mm/khugepaged: avoid unnecessary mTHP collapse attempts
+  Documentation: mm: update the admin guide for mTHP collapse
 
-How is it possible to not get a PMU here? We don't expose the PMU to a
-guest at all if there are CPUs without PMUs, see the comment in
-kvm_host_pmu_init(). So I'd expect this to never fail.
+ Documentation/admin-guide/mm/transhuge.rst |  81 ++-
+ include/linux/huge_mm.h                    |   5 +
+ include/linux/khugepaged.h                 |   6 +-
+ include/trace/events/huge_memory.h         |  34 +-
+ mm/huge_memory.c                           |  13 +-
+ mm/khugepaged.c                            | 623 ++++++++++++++++-----
+ mm/vma.c                                   |   6 +-
+ tools/testing/vma/include/stubs.h          |   3 +-
+ 8 files changed, 589 insertions(+), 182 deletions(-)
 
-> +	}
-> +
->  	evtreg = kvm_pmc_read_evtreg(pmc);
->  
->  	kvm_pmu_stop_counter(pmc);
-> @@ -722,7 +746,7 @@ static void kvm_pmu_create_perf_event(struct kvm_pmc *pmc)
->  	 * Don't create an event if we're running on hardware that requires
->  	 * PMUv3 event translation and we couldn't find a valid mapping.
->  	 */
-> -	eventsel = kvm_map_pmu_event(vcpu->kvm, eventsel);
-> +	eventsel = kvm_map_pmu_event(arm_pmu, eventsel);
->  	if (eventsel < 0)
->  		return;
->  
-> @@ -810,42 +834,6 @@ void kvm_host_pmu_init(struct arm_pmu *pmu)
->  	list_add_tail_rcu(&entry->entry, &arm_pmus);
->  }
->  
-> -static struct arm_pmu *kvm_pmu_probe_armpmu(void)
-> -{
-> -	struct arm_pmu_entry *entry;
-> -	struct arm_pmu *pmu;
-> -	int cpu;
-> -
-> -	guard(rcu)();
-> -
-> -	/*
-> -	 * It is safe to use a stale cpu to iterate the list of PMUs so long as
-> -	 * the same value is used for the entirety of the loop. Given this, and
-> -	 * the fact that no percpu data is used for the lookup there is no need
-> -	 * to disable preemption.
-> -	 *
-> -	 * It is still necessary to get a valid cpu, though, to probe for the
-> -	 * default PMU instance as userspace is not required to specify a PMU
-> -	 * type. In order to uphold the preexisting behavior KVM selects the
-> -	 * PMU instance for the core during vcpu init. A dependent use
-> -	 * case would be a user with disdain of all things big.LITTLE that
-> -	 * affines the VMM to a particular cluster of cores.
-> -	 *
-> -	 * In any case, userspace should just do the sane thing and use the UAPI
-> -	 * to select a PMU type directly. But, be wary of the baggage being
-> -	 * carried here.
-> -	 */
-> -	cpu = raw_smp_processor_id();
-> -	list_for_each_entry_rcu(entry, &arm_pmus, entry) {
-> -		pmu = entry->arm_pmu;
-> -
-> -		if (cpumask_test_cpu(cpu, &pmu->supported_cpus))
-> -			return pmu;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -
 
-Same thing for the refactoring of this function. Moving it, changing
-the signature and moving the comment somewhere else would be better
-placed on its own.
+base-commit: 4569c01e84d440f1f6c79df1e13e9c86a9fb80ca
+--
+2.53.0
 
->  static u64 __compute_pmceid(struct arm_pmu *pmu, bool pmceid1)
->  {
->  	u32 hi[2], lo[2];
-> @@ -888,6 +876,9 @@ u64 kvm_pmu_get_pmceid(struct kvm_vcpu *vcpu, bool pmceid1)
->  	u64 val, mask = 0;
->  	int base, i, nr_events;
->  
-> +	if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &vcpu->kvm->arch.flags))
-> +		return 0;
-> +
->  	if (!pmceid1) {
->  		val = compute_pmceid0(cpu_pmu);
->  		base = 0;
-> @@ -915,6 +906,26 @@ u64 kvm_pmu_get_pmceid(struct kvm_vcpu *vcpu, bool pmceid1)
->  	return val & mask;
->  }
->  
-> +void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu)
-> +{
-> +	unsigned long mask = kvm_pmu_enabled_counter_mask(vcpu);
-> +	struct kvm_pmc *pmc;
-> +	struct arm_pmu *cpu_pmu;
-
-Move these to be inside the loop.
-
-> +	int i;
-> +
-> +	for_each_set_bit(i, &mask, 32) {
-> +		pmc = kvm_vcpu_idx_to_pmc(vcpu, i);
-> +		if (!pmc->perf_event)
-> +			continue;
-> +
-> +		cpu_pmu = to_arm_pmu(pmc->perf_event->pmu);
-> +		if (!cpumask_test_cpu(vcpu->cpu, &cpu_pmu->supported_cpus)) {
-> +			kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
-> +			break;
-> +		}
-> +	}
-> +}
-> +
-
-Why do we need to inflict this on VMs that do not have the fixed
-counter restriction?
-
-And even then, all you have to reconfigure is the cycle counter. So
-why the loop? All we want to find out is whether the cycle counter is
-instantiated on the PMU that matches the current CPU.
-
->  void kvm_vcpu_reload_pmu(struct kvm_vcpu *vcpu)
->  {
->  	u64 mask = kvm_pmu_implemented_counter_mask(vcpu);
-> @@ -1016,6 +1027,9 @@ u8 kvm_arm_pmu_get_max_counters(struct kvm *kvm)
->  {
->  	struct arm_pmu *arm_pmu = kvm->arch.arm_pmu;
->  
-> +	if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags))
-> +		return 0;
-> +
->  	/*
->  	 * PMUv3 requires that all event counters are capable of counting any
->  	 * event, though the same may not be true of non-PMUv3 hardware.
-> @@ -1070,7 +1084,24 @@ static void kvm_arm_set_pmu(struct kvm *kvm, struct arm_pmu *arm_pmu)
->   */
->  int kvm_arm_set_default_pmu(struct kvm *kvm)
->  {
-> -	struct arm_pmu *arm_pmu = kvm_pmu_probe_armpmu();
-> +	/*
-> +	 * It is safe to use a stale cpu to iterate the list of PMUs so long as
-> +	 * the same value is used for the entirety of the loop. Given this, and
-> +	 * the fact that no percpu data is used for the lookup there is no need
-> +	 * to disable preemption.
-> +	 *
-> +	 * It is still necessary to get a valid cpu, though, to probe for the
-> +	 * default PMU instance as userspace is not required to specify a PMU
-> +	 * type. In order to uphold the preexisting behavior KVM selects the
-> +	 * PMU instance for the core during vcpu init. A dependent use
-> +	 * case would be a user with disdain of all things big.LITTLE that
-> +	 * affines the VMM to a particular cluster of cores.
-> +	 *
-> +	 * In any case, userspace should just do the sane thing and use the UAPI
-> +	 * to select a PMU type directly. But, be wary of the baggage being
-> +	 * carried here.
-> +	 */
-> +	struct arm_pmu *arm_pmu = kvm_pmu_probe_armpmu(raw_smp_processor_id());
->  
->  	if (!arm_pmu)
->  		return -ENODEV;
-> @@ -1098,6 +1129,7 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
->  				break;
->  			}
->  
-> +			clear_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags);
-
-Why does this need to be cleared? I'd rather we make sure it is never
-set the first place.
-
->  			kvm_arm_set_pmu(kvm, arm_pmu);
->  			cpumask_copy(kvm->arch.supported_cpus, &arm_pmu->supported_cpus);
->  			ret = 0;
-> @@ -1108,11 +1140,42 @@ static int kvm_arm_pmu_v3_set_pmu(struct kvm_vcpu *vcpu, int pmu_id)
->  	return ret;
->  }
->  
-> +static int kvm_arm_pmu_v3_set_pmu_fixed_counters_only(struct kvm_vcpu *vcpu)
-> +{
-> +	struct kvm *kvm = vcpu->kvm;
-> +	struct arm_pmu_entry *entry;
-> +	struct arm_pmu *arm_pmu;
-> +	struct cpumask *supported_cpus = kvm->arch.supported_cpus;
-> +
-> +	lockdep_assert_held(&kvm->arch.config_lock);
-> +
-> +	if (kvm_vm_has_ran_once(kvm) ||
-> +	    (kvm->arch.pmu_filter &&
-> +	     !test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags)))
-> +		return -EBUSY;
-> +
-> +	set_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags);
-> +	kvm_arm_set_nr_counters(kvm, 0);
-> +	cpumask_clear(supported_cpus);
-
-What is the purpose of this cpumask_clear()? Under what conditions can
-you have something else?
-
-> +
-> +	guard(rcu)();
-> +
-> +	list_for_each_entry_rcu(entry, &arm_pmus, entry) {
-> +		arm_pmu = entry->arm_pmu;
-> +		cpumask_or(supported_cpus, supported_cpus, &arm_pmu->supported_cpus);
-
-Why isn't supported_cpus directly set to possible_cpus? Isn't that the
-base requirement that you can run on any CPU at all?
-
-> +	}
-> +
-> +	return 0;
-> +}
-> +
->  static int kvm_arm_pmu_v3_set_nr_counters(struct kvm_vcpu *vcpu, unsigned int n)
->  {
->  	struct kvm *kvm = vcpu->kvm;
->  
-> -	if (!kvm->arch.arm_pmu)
-> +	lockdep_assert_held(&kvm->arch.config_lock);
-> +
-> +	if (!kvm->arch.arm_pmu &&
-> +	    !test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &kvm->arch.flags))
->  		return -EINVAL;
->  
->  	if (n > kvm_arm_pmu_get_max_counters(kvm))
-> @@ -1227,6 +1290,8 @@ int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
->  
->  		return kvm_arm_pmu_v3_set_nr_counters(vcpu, n);
->  	}
-> +	case KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY:
-> +		return kvm_arm_pmu_v3_set_pmu_fixed_counters_only(vcpu);
->  	case KVM_ARM_VCPU_PMU_V3_INIT:
->  		return kvm_arm_pmu_v3_init(vcpu);
->  	}
-> @@ -1253,6 +1318,9 @@ int kvm_arm_pmu_v3_get_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
->  		irq = vcpu->arch.pmu.irq_num;
->  		return put_user(irq, uaddr);
->  	}
-> +	case KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY:
-> +		if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY, &vcpu->kvm->arch.flags))
-
-With 6 occurrences of this test_bit(), it feels like it'd be valuable
-to have a dedicate predicate to help with readability.
-
-> +			return 0;
->  	}
->  
->  	return -ENXIO;
-> @@ -1266,6 +1334,7 @@ int kvm_arm_pmu_v3_has_attr(struct kvm_vcpu *vcpu, struct kvm_device_attr *attr)
->  	case KVM_ARM_VCPU_PMU_V3_FILTER:
->  	case KVM_ARM_VCPU_PMU_V3_SET_PMU:
->  	case KVM_ARM_VCPU_PMU_V3_SET_NR_COUNTERS:
-> +	case KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY:
->  		if (kvm_vcpu_has_pmu(vcpu))
->  			return 0;
->  	}
-> diff --git a/include/kvm/arm_pmu.h b/include/kvm/arm_pmu.h
-> index 96754b51b411..1375cbaf97b2 100644
-> --- a/include/kvm/arm_pmu.h
-> +++ b/include/kvm/arm_pmu.h
-> @@ -56,6 +56,7 @@ void kvm_pmu_software_increment(struct kvm_vcpu *vcpu, u64 val);
->  void kvm_pmu_handle_pmcr(struct kvm_vcpu *vcpu, u64 val);
->  void kvm_pmu_set_counter_event_type(struct kvm_vcpu *vcpu, u64 data,
->  				    u64 select_idx);
-> +void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu);
->  void kvm_vcpu_reload_pmu(struct kvm_vcpu *vcpu);
->  int kvm_arm_pmu_v3_set_attr(struct kvm_vcpu *vcpu,
->  			    struct kvm_device_attr *attr);
-> @@ -161,6 +162,7 @@ static inline u64 kvm_pmu_get_pmceid(struct kvm_vcpu *vcpu, bool pmceid1)
->  static inline void kvm_pmu_update_vcpu_events(struct kvm_vcpu *vcpu) {}
->  static inline void kvm_vcpu_pmu_restore_guest(struct kvm_vcpu *vcpu) {}
->  static inline void kvm_vcpu_pmu_restore_host(struct kvm_vcpu *vcpu) {}
-> +static inline void kvm_vcpu_load_pmu(struct kvm_vcpu *vcpu) {}
->  static inline void kvm_vcpu_reload_pmu(struct kvm_vcpu *vcpu) {}
->  static inline u8 kvm_arm_pmu_get_pmuver_limit(void)
->  {
-> 
-
-In conclusion, I find this patch to be rather messy. For a start, it
-needs to be split in at least 5 patches:
-
-- at least two for the refactoring
-- one for the PMU core changes
-- one for the UAPI
-- one for documentation
-
-I'd also like some clarification on how this is intended to work if we
-enable FEAT_PMUv3_ICNTR, because the definition seems to be designed
-to encompass all fixed-function counters, and I expect this to grow
-over time.
-
-I'm also not planning to look at the selftest at this stage.
-
-Thanks,
-
-	M.
-
--- 
-Jazz isn't dead. It just smells funny.
