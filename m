@@ -1,162 +1,70 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E47E1B81CA;
-	Sun, 19 Apr 2026 08:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1E441E8320;
+	Sun, 19 Apr 2026 08:42:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776587752; cv=none; b=jBHT53C1CbNV7Shf3WNAtOD5faR6PdcbIk/6F/3zi9JsHjwayTG/hISgPu4cxcu9jM3g0u6TLCUlgsQj0JHZurFkpTdS2ImexdK0V+fiEQKqX2I2ZYpgX0eT8JOW7GlCimPfhtiuBNdEQdayOpmdex2x3x+FcVT1R71gZoDAqqg=
+	t=1776588144; cv=none; b=lF9GO+r9f1Pcas0elv+tqX+Dux3jW21KU3N1fn6OBhXmW5+c1W8+lAwVOEZ+dcOxuJFbBVUNhIZQbyaQ4Hb+4ca7uHA/VftA1MlGStRc0Ugt2YyO1bgfEg/RQs68fzSHwtLH5YcEgAHAV65x1cCcB3QddW9dW0sA/5gJmpWtOag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776587752; c=relaxed/simple;
-	bh=y597qofYZdSX714IE89e9Oo2LtyecIQOslkgREpFM+Y=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=i7ttNMkX3FDBBkb/LMKrN2WJRRI731n9vL6Zu9WKfGHEqRI9kkvp8bGT7b3SFcey3jotpbw9T8sA9zrR0eiaxPHvKeTyIW28+558cs+Sr+o0iDiYOwbaBeRJfkpdENstGEfEWuxfuakhihdLXfm9mtkPb5N4Z0/37jPUQQzmEmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SvlMf0GQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776588144; c=relaxed/simple;
+	bh=MOL7VmBpAWH10DRxbdQF2yMii79Js7aAazFeqba1Et4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DRvwaz0vBPBTP0jDWb+mfRwb/oifG+1CYsGItEmo7F3pU8fiOiSE/Z1x759SRGpNPItDU5xcvGrb/jUxmfrJRcwL94YMywb/fiWcEREHiVMDVnd5+GWxKtSsZwbI2OzFSjXVYpYxakwVtKvyjAoj8gMo+SMcqjCBCexHz9PkI5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=i7/XB3Wu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SvlMf0GQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D47DCC2BCAF;
-	Sun, 19 Apr 2026 08:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776587752;
-	bh=y597qofYZdSX714IE89e9Oo2LtyecIQOslkgREpFM+Y=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=SvlMf0GQBMk9U13reL2kVKRkLRuZslq2FUTFwBCyGYz/UlxCOgkz4TT2ymfsht95+
-	 hjHLeki7r/Q+wFPRRug3Ij6o44LRnDxF6S2dPK1mB0KVCYzjzUUvt9hhEgMdtBxHte
-	 zsyjjmzBFenTqXqXz+XsRlmIBZ1x6jFKf3l6yOiQLIf0JCCj5+yu2U5L7Vwr4C1atz
-	 Xo78iefJMxoqvJX/I6OUyqnuLfQWgtSVRM84X9eQQusoFOcRDIqLGvfZh35Yv0yUlD
-	 02T6ZkGa9QQUe0hoDaU3hHr0iEP64a3UJUWDUubkNMClAS5Q+zohVgrJB454bhpRFe
-	 9Ak2U9ejiOQ6g==
-Message-ID: <c113f667-f897-42cc-a0e5-b8a0bbd91be3@kernel.org>
-Date: Sun, 19 Apr 2026 10:35:44 +0200
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="i7/XB3Wu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C89FAC2BCAF;
+	Sun, 19 Apr 2026 08:42:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776588143;
+	bh=MOL7VmBpAWH10DRxbdQF2yMii79Js7aAazFeqba1Et4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i7/XB3Wuf5bSTDFleMu2lB3nxGebqJLARqhfemi8uIbNA0+d/wqmW8+zCYzIFyTiB
+	 7tvX0TYAzP3GkqLcV2cxDE1h9sD1MloIyaFvUftuYwabUL1Nf1rq++yYhQtk/Mvp5u
+	 HNqQ+aC1HQwFUz/xcZs6SQnGS5DWHlB71U5+906M=
+Date: Sun, 19 Apr 2026 10:42:20 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>, Randy Dunlap <rdunlap@infradead.org>,
+	linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] misc: Remove old APDS990x driver
+Message-ID: <2026041913-coziness-fragrant-74ad@gregkh>
+References: <20260419083125.35572-1-clamor95@gmail.com>
+ <20260419083125.35572-4-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab
- documentation
-To: Matthew Wilcox <willy@infradead.org>, Lorenzo Stoakes <ljs@kernel.org>
-Cc: Nick Huang <sef1548@gmail.com>, Vlastimil Babka <vbabka@kernel.org>,
- Harry Yoo <harry@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>,
- Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>,
- Roman Gushchin <roman.gushchin@linux.dev>,
- "Liam R . Howlett" <Liam.Howlett@oracle.com>, Mike Rapoport
- <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
- Michal Hocko <mhocko@suse.com>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260418000635.17499-1-sef1548@gmail.com>
- <aeNGbNyPxJssnkbO@lucifer> <aeOuCH8ydw_yzdXZ@casper.infradead.org>
-Content-Language: en-US
-In-Reply-To: <aeOuCH8ydw_yzdXZ@casper.infradead.org>
-Autocrypt: addr=david@kernel.org; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260419083125.35572-4-clamor95@gmail.com>
 
-On 4/18/26 18:15, Matthew Wilcox wrote:
-> On Sat, Apr 18, 2026 at 10:07:22AM +0100, Lorenzo Stoakes wrote:
->> On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
->>> - Add "Overview" section explaining the slab allocator's role and purpose
->>> - Document the three main slab allocator implementations (SLAB, SLUB, SLOB)
->>
->> The fact you're insanely wrong about the current state of slab only makes this
->> worse.
+On Sun, Apr 19, 2026 at 11:31:24AM +0300, Svyatoslav Ryhel wrote:
+> The Avago APDS9900/9901 ALS/Proximity sensor is now supported by tsl2772
+> IIO driver so there is no need to keep this old implementation. Remove it.
 > 
-> This is actually a new low.  We've always had to contend with people
-> putting up outdated or just wrong information on web pages, and there's
-> little we can do about it.  Witness all the outdated information about
-> THP that's based on code that's been deleted for over a decade.
-> 
-> But now we've got AI trained on all this wrong/ out of date information,
-> and, er, "enthusiasts" who are trying to change the correct information
-> in the kernel to match what the deluded AI "thinks" should be true.
-> 
-> Let that sink in.
-> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  Documentation/misc-devices/apds990x.rst |  128 ---
+>  drivers/misc/Kconfig                    |   10 -
+>  drivers/misc/Makefile                   |    1 -
+>  drivers/misc/apds990x.c                 | 1284 -----------------------
+>  include/linux/platform_data/apds990x.h  |   65 --
+>  5 files changed, 1488 deletions(-)
+>  delete mode 100644 Documentation/misc-devices/apds990x.rst
+>  delete mode 100644 drivers/misc/apds990x.c
+>  delete mode 100644 include/linux/platform_data/apds990x.h
 
-I think we should make it very clear that we don't want doc updates from someone
-that is not a renowned expert in that area or wants to become an expert in that
-area (and already discussed working on the docs with maintainers/experts).
-
-Otherwise we'll have this same discussion over and over again.
-
-diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-index 7aa2a88869083..8c5721001c8bb 100644
---- a/Documentation/mm/index.rst
-+++ b/Documentation/mm/index.rst
-@@ -7,6 +7,11 @@ of Linux.  If you are looking for advice on simply allocating
-memory,
-  see the :ref:`memory_allocation`.  For controlling and tuning guides,
-  see the :doc:`admin guide <../admin-guide/mm/index>`.
-
-+A lot of documentation in this guide is still incomplete. If you are not
-+a renowned expert in the specific area, but you want to contribute bigger
-+chunks of documentation, talk to the respective MM experts first. LLM
-+generated slop from non-experts will be rejected without further comments.
-+
-  .. toctree::
-     :maxdepth: 1
-
-
-
-LLMs are just the tip of the iceberg. It will all be developmend-by review with
-inexperienced contributors. And we are only willing to put in the effort to
-teach contributors if the contributors are not actually worth our time: i.e.,
-LLM kiddies that will actually stick around and help the subsystem in the long run.
-
-
-The whole doc update stuff is similar to people just grepping for TODOs in the
-kernel and then using an LLM to produce code they have no idea about.
-
-It's the evolution of typo fixes: review load without any benefit.
-
--- 
-Cheers,
-
-David
-
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
