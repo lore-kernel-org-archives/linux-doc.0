@@ -1,232 +1,158 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489532D5A01
-	for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 19:02:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A4FC1E5724;
+	Sun, 19 Apr 2026 19:05:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776625344; cv=none; b=EVMB1UHi2KIjhwdsuERNFopqijivVKBFvZhHjbU39qjlNK4+I1UG6TXC1Cc5AjXBbYHCePVf1wYGdfa2UDPtL0UFgbwDjkdsHJwU7MVP76FJsUr1Iy2+Q4CcSW59uPORAp83PaAG1vQrqgEigO6MmiNvNjrL/C4YSi1v6AUbmDU=
+	t=1776625505; cv=none; b=tiJdRdhH77WmXjVDsy++meUcO7PU/uKhn0UNTb6Q/q5Uid1F6E795JdbY61vqQp4eXszpt++PRh3AE908zdWbu9tlqw9QAzfIfWbobdsPxOsqGkfMey5v+xF8GmAmKtAf8mwyBmJO3kxoD8iiXU2oZnpO07ygAmDKuWBvJPlxWk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776625344; c=relaxed/simple;
-	bh=zansVm5T2WAjzye9o7pv93toFYW0Nj4Zn6PSIfwQxDo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NJLFl7UwshCy8umOQ3QxM6MS5iJy2HoafGOtIZKxwc+ESbOuHqHA93nUwaoxR3oNRzNWY4Armc5/nJdxtMNyaqbec+pvwmU8AzMWGZh7/fZNvMzjPovC7OF1BIdI6m1W22EBY2ljrrICuOrA0J5GEmrA/hWuAiwvesa33SwylJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=B1588n4r; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776625505; c=relaxed/simple;
+	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=pX2ARztFG0o9u+bW2RVgGpdd9QcaUBoQJyInZAmiv8nI2ycl16+4+if0rhYsrC3Qx383SC509gBoVI6NW4zirNJc3HIeoVvvYOjD9AHr/+5O003I9mKveRJ/plvhbeRE+iWLku7wdSGBgFh/meP2ZEmCfpT3xsCpQ1KTgDeEGOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DVChCz/D; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="B1588n4r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776625342;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=WbaolfbnRxGZaI+LbysHzTSE/a3XUQ1Jm7g+xQscRIs=;
-	b=B1588n4riZcHUAPZjNbKOiBA3bOAXGNebjcP6v1zjcPuv7jsRQJ4eIKIje+O8WEVwWGPZG
-	dVy16XZ5zVUTVr7IvXQVpuOizPcq+oXnPcKAB8WfJJ5MyHpGtQoY6roosdwzg1bd53/n1P
-	h0gA8l49cdgSVJKXB9ZvgiUkLf2SEos=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-433-ph47BixWNc64nih335XQRQ-1; Sun,
- 19 Apr 2026 15:02:19 -0400
-X-MC-Unique: ph47BixWNc64nih335XQRQ-1
-X-Mimecast-MFC-AGG-ID: ph47BixWNc64nih335XQRQ_1776625337
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D31211956089;
-	Sun, 19 Apr 2026 19:02:17 +0000 (UTC)
-Received: from p1.redhat.com (unknown [10.22.74.5])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5E2CC195608E;
-	Sun, 19 Apr 2026 19:02:02 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: aarcange@redhat.com,
-	akpm@linux-foundation.org,
-	anshuman.khandual@arm.com,
-	apopple@nvidia.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	byungchul@sk.com,
-	catalin.marinas@arm.com,
-	cl@gentwo.org,
-	corbet@lwn.net,
-	dave.hansen@linux.intel.com,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jack@suse.cz,
-	jackmanb@google.com,
-	jannh@google.com,
-	jglisse@google.com,
-	joshua.hahnjy@gmail.com,
-	kas@kernel.org,
-	lance.yang@linux.dev,
-	Liam.Howlett@oracle.com,
-	ljs@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com,
-	mhiramat@kernel.org,
-	mhocko@suse.com,
-	npache@redhat.com,
-	peterx@redhat.com,
-	pfalcato@suse.de,
-	rakie.kim@sk.com,
-	raquini@redhat.com,
-	rdunlap@infradead.org,
-	richard.weiyang@gmail.com,
-	rientjes@google.com,
-	rostedt@goodmis.org,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shivankg@amd.com,
-	sunnanyong@huawei.com,
-	surenb@google.com,
-	thomas.hellstrom@linux.intel.com,
-	tiwai@suse.de,
-	usamaarif642@gmail.com,
-	vbabka@suse.cz,
-	vishal.moola@gmail.com,
-	wangkefeng.wang@huawei.com,
-	will@kernel.org,
-	willy@infradead.org,
-	yang@os.amperecomputing.com,
-	ying.huang@linux.alibaba.com,
-	ziy@nvidia.com,
-	zokeefe@google.com,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH 7.2 v16 13/13] Documentation: mm: update the admin guide for mTHP collapse
-Date: Sun, 19 Apr 2026 12:57:50 -0600
-Message-ID: <20260419185750.260784-14-npache@redhat.com>
-In-Reply-To: <20260419185750.260784-1-npache@redhat.com>
-References: <20260419185750.260784-1-npache@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DVChCz/D"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B7D3C2BCAF;
+	Sun, 19 Apr 2026 19:05:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776625504;
+	bh=0o6iXnNdqdajO9sJAzsWeXyZ6igvpK08RjfL8VZgRvc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=DVChCz/DdGfBg9+KCUerv/hol4dJ8KH4nuQxdYFJA5hBJm/2t3v3xJz92Dwlpt+3J
+	 MZDAWfNYlyvPc4Q/7CpFyUYWZYJ1XI9VPu9l7W6hmIsPSIB4D5zsUvALa+CYeyDmNf
+	 KTULdMz1jgGTsejlNu2ULnMFCbeignRNcWbteuheL5FMKDpxlXFzSkRYmWj7TVsdI4
+	 6Jb+oqfSIuB2bWyKc+zSCUl+pZ1fh27qdEfe1t5/d6xb9CHEcn//fLCcfleSZN+X9o
+	 MAmIwoucwj0DRcqMq6C1gqji25KN8dSMYGkUaV69vYfuUxZXE8kCYKEKReydlJKaQr
+	 XzgCcV+GCSd+w==
+Date: Sun, 19 Apr 2026 21:04:56 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: Albert Ou <aou@eecs.berkeley.edu>, Jonathan Corbet <corbet@lwn.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Paul Walmsley <pjw@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
+ <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Dan Williams
+ <djbw@kernel.org>, Benno Lossin <lossin@kernel.org>
+Subject: Re: [PATCH v2 00/11] Auto-generate maintainer profile entries
+Message-ID: <20260419210456.1f3911a0@foz.lan>
+In-Reply-To: <9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
+References: <cover.1776405189.git.mchehab+huawei@kernel.org>
+	<9bcb8053-2eb6-4327-ae3f-2a23321c4c3e@infradead.org>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.51; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Now that we can collapse to mTHPs lets update the admin guide to
-reflect these changes and provide proper guidance on how to utilize it.
+On Sat, 18 Apr 2026 17:05:56 -0700
+Randy Dunlap <rdunlap@infradead.org> wrote:
 
-Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 49 +++++++++++++---------
- 1 file changed, 29 insertions(+), 20 deletions(-)
+> On 4/16/26 11:11 PM, Mauro Carvalho Chehab wrote:
+> > Hi Jon,
+> > 
+> > This patch series change the way maintainer entry profile links
+> > are added to the documentation. Instead of having an entry for
+> > each of them at an ReST file, get them from MAINTAINERS content.
+> > 
+> > That should likely make easier to maintain, as there will be a single
+> > point to place all such profiles.
+> > 
+> > The output is a per-subsystem sorted (*) series of links shown as a
+> > list like this:
+> > 
+> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
+> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
+> >     - Arm/Tesla Fsd Soc Support
+> >     ...
+> >     - Xfs Filesystem
+> > 
+> > Please notice that the series is doing one logical change per patch.
+> > I could have merged some changes altogether, but I opted doing it
+> > in small steps to help reviews. If you prefer, feel free to merge
+> > maintainers_include changes on merge.
+> > 
+> > There is one interesting side effect of this series: there is no
+> > need to add rst files containing profiles inside a TOC tree: Just
+> > creating the file anywhere inside Documentation and adding a P entry
+> > is enough. Adding them to a TOC won't hurt.
+> > 
+> > Reported-by: Randy Dunlap <rdunlap@infradead.org>
+> > Suggested-by: Dan Williams <djbw@kernel.org>
+> > Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
+> > 
+> > (*) At the end, I opted to use sorted(), just to ensure it, even
+> >     knowing that MAINTAINER entries are supposed to be sorted, as
+> >     the cost of sorting ~20 already-sorted entries is negligible.
+> > 
+> > ---
+> > 
+> > v2:
+> >   - I placed the to MAINTAINERS changes at the beginning.
+> >   - fix a bug when O=DOCS is used;
+> >   - proper handle glob "P" entries (just in case, no profiles use it ATM);
+> >   - when SPHINXDIRS=process, instead of producing warnings, point to
+> >     entries at https://docs.kernel.org;
+> >   - MAINTAINERS parsing now happens just once;
+> >   - The output won't be numered for entries inside numered TOC trees;
+> >   - TOC tree is now hidden;
+> >   - instead of display a TOC tree, it shows a list of profiles,
+> >     ordered and named after file system name taken from MAINTAINERS file;
+> >   - At the output list, both https and file profiles are shown the same
+> >     way.
+> > 
+> > Mauro Carvalho Chehab (11):
+> >   MAINTAINERS: add an entry for media maintainers profile
+> >   MAINTAINERS: add maintainer-tip.rst to X86
+> >   docs: maintainers_include: auto-generate maintainer profile TOC
+> >   docs: auto-generate maintainer entry profile links
+> >   docs: maintainers_include: use a better title for profiles
+> >   docs: maintainers_include: add external profile URLs
+> >   docs: maintainers_include: preserve names for files under process/
+> >   docs: maintainers_include: Only show main entry for profiles
+> >   docs: maintainers_include: improve its output
+> >   docs: maintainers_include: fix support for O=dir
+> >   docs: maintainers_include: parse MAINTAINERS just once
+> > 
+> >  .../maintainer/maintainer-entry-profile.rst   |  24 +--
+> >  .../process/maintainer-handbooks.rst          |  17 +-
+> >  Documentation/sphinx/maintainers_include.py   | 161 +++++++++++++++---
+> >  MAINTAINERS                                   |   2 +
+> >  4 files changed, 150 insertions(+), 54 deletions(-)
+> >   
+> 
+> Just a note, not asking for a change or fix:
+> 
+> AFAICT, all P: entries are now listed nicely except for:
+> 
+> P:	rust/pin-init/CONTRIBUTING.md
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index eebb1f6bbc6c..0ef13c451ac8 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -63,7 +63,8 @@ often.
- THP can be enabled system wide or restricted to certain tasks or even
- memory ranges inside task's address space. Unless THP is completely
- disabled, there is ``khugepaged`` daemon that scans memory and
--collapses sequences of basic pages into PMD-sized huge pages.
-+collapses sequences of basic pages into huge pages of either PMD size
-+or mTHP sizes, if the system is configured to do so.
- 
- The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
- interface and using madvise(2) and prctl(2) system calls.
-@@ -219,10 +220,10 @@ this behaviour by writing 0 to shrink_underused, and enable it by writing
- 	echo 0 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 	echo 1 > /sys/kernel/mm/transparent_hugepage/shrink_underused
- 
--khugepaged will be automatically started when PMD-sized THP is enabled
-+khugepaged will be automatically started when any THP size is enabled
- (either of the per-size anon control or the top-level control are set
- to "always" or "madvise"), and it'll be automatically shutdown when
--PMD-sized THP is disabled (when both the per-size anon control and the
-+all THP sizes are disabled (when both the per-size anon control and the
- top-level control are "never")
- 
- process THP controls
-@@ -264,11 +265,6 @@ support the following arguments::
- Khugepaged controls
- -------------------
- 
--.. note::
--   khugepaged currently only searches for opportunities to collapse to
--   PMD-sized THP and no attempt is made to collapse to other THP
--   sizes.
--
- khugepaged runs usually at low frequency so while one may not want to
- invoke defrag algorithms synchronously during the page faults, it
- should be worth invoking defrag at least in khugepaged. However it's
-@@ -296,11 +292,11 @@ allocation failure to throttle the next allocation attempt::
- The khugepaged progress can be seen in the number of pages collapsed (note
- that this counter may not be an exact count of the number of pages
- collapsed, since "collapsed" could mean multiple things: (1) A PTE mapping
--being replaced by a PMD mapping, or (2) All 4K physical pages replaced by
--one 2M hugepage. Each may happen independently, or together, depending on
--the type of memory and the failures that occur. As such, this value should
--be interpreted roughly as a sign of progress, and counters in /proc/vmstat
--consulted for more accurate accounting)::
-+being replaced by a PMD mapping, or (2) physical pages replaced by one
-+hugepage of various sizes (PMD-sized or mTHP). Each may happen independently,
-+or together, depending on the type of memory and the failures that occur.
-+As such, this value should be interpreted roughly as a sign of progress,
-+and counters in /proc/vmstat consulted for more accurate accounting)::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/pages_collapsed
- 
-@@ -308,16 +304,20 @@ for each pass::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/full_scans
- 
--``max_ptes_none`` specifies how many extra small pages (that are
--not already mapped) can be allocated when collapsing a group
--of small pages into one large page::
-+``max_ptes_none`` specifies how many empty (none/zero) pages are allowed
-+when collapsing a group of small pages into one large page::
- 
- 	/sys/kernel/mm/transparent_hugepage/khugepaged/max_ptes_none
- 
--A higher value leads to use additional memory for programs.
--A lower value leads to gain less thp performance. Value of
--max_ptes_none can waste cpu time very little, you can
--ignore it.
-+For PMD-sized THP collapse, this directly limits the number of empty pages
-+allowed in the 2MB region.
-+
-+For mTHP collapse, only 0 or (HPAGE_PMD_NR - 1) are supported. Any other value
-+will emit a warning and no mTHP collapse will be attempted.
-+
-+A higher value allows more empty pages, potentially leading to more memory
-+usage but better THP performance. A lower value is more conservative and
-+may result in fewer THP collapses.
- 
- ``max_ptes_swap`` specifies how many pages can be brought in from
- swap when collapsing a group of pages into a transparent huge page::
-@@ -337,6 +337,15 @@ that THP is shared. Exceeding the number would block the collapse::
- 
- A higher value may increase memory footprint for some workloads.
- 
-+.. note::
-+   For mTHP collapse, khugepaged does not support collapsing regions that
-+   contain shared or swapped out pages, as this could lead to continuous
-+   promotion to higher orders. The collapse will fail if any shared or
-+   swapped PTEs are encountered during the scan.
-+
-+   Currently, madvise_collapse only supports collapsing to PMD-sized THPs
-+   and does not attempt mTHP collapses.
-+
- Boot parameters
- ===============
- 
--- 
-2.53.0
+That's because it doesn't follow what's expected for "P":
+either a file that Sphinx can read (rst files), placed inside
+Documentation/ and added to Sphinx toctree or an external html URL. 
 
+The way it is, the subsystem profile regex won't get it.
+
+While it is not hard to add an exception, IMO the best would be
+to do:
+
+	$ pandoc -fgfm -trst rust/pin-init/CONTRIBUTING.md > Documentation/process/pin-init.rst
+	$ sed -i s,rust/pin-init/CONTRIBUTING.md,Documentation/process/pin-init.rst, MAINTAINERS 
+	$ git rm rust/pin-init/CONTRIBUTING.md
+	$ git add Documentation/process/pin-init.rst
+	$ git commit -as
+
+> 
+> so for the series:
+> Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+> Tested-by: Randy Dunlap <rdunlap@infradead.org>
+
+Thanks!
+
+Mauro
