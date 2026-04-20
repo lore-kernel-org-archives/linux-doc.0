@@ -1,176 +1,119 @@
-Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8F74A02;
-	Mon, 20 Apr 2026 07:17:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 825443815E2;
+	Mon, 20 Apr 2026 08:21:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776669476; cv=none; b=hKLQ5C4gMsHEbA+R5RGPf6GKIaMqxDW/C/3RFT9P0BZZi60g+6YmV9RJXUJ1ZYUwE3owi1ywWNKX9eyRlhX22V4ATmY1gXQcxWcBrXX5VVtuTnoolfG+h2mGHe5FjTEJkFVjMMy72CyD37s+lf1sb3FVNt3PtEdVTy/l9wy94fk=
+	t=1776673272; cv=none; b=fP0FuXj/kx0/hbWAUv2ZxWDJQu7WIuofDjDf5X6kMMkm3nLtd4rEh2smu13oIg1VuFhPbKYpl9VmZsH1o5pYugwidLU9vnqqCy9gn4SGzu2ttyWRqGNTkCPyclLwJmHuwJBHcJkYpBgZ28Ig0sfnYAjyw7F+uAawlBywORu46HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776669476; c=relaxed/simple;
-	bh=h7cVXMLbrvTvY+A6EhWUyavAlncNfGx/ABBI3U9Y1VU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=U0qZKWgDAOVJRuqTPL1I/siXqCHhSyzcnlF8Bry3M/4MHjpOFYdMlSXxmUOQaprMgYeuAarI9Hu6vu6yZHhimz7djGiEans2NTGrBIkvTb3xmfIo/itY3aOvHKjM1Pz92mtO03YLZlUrPRmazvsbS23GZJqVl1Y2xtS0qT/3MUs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=APXUqz2j reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+	s=arc-20240116; t=1776673272; c=relaxed/simple;
+	bh=Hox/NHC7DWBH5XJcwgjkput1zansHFHSyXXfPoX2t5k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WBloDX08B9dGDGerU+8x6RxH+ttNbxARKLp5ylfuSXkNjgDoNTnpZt18oi4ydskw5NJIenOvD26pa9VPHjcBWb/yJUJjzl6FSUE7+LrZ1/cr8ch7YvycalV5ibhU1qqtXpQxjW61UN+Umt+tDxlGksGcNnFoCRdcoNa7rOdsalc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DwYz1E8L; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="APXUqz2j"
-Received: from [133.11.54.205] (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
-	(authenticated bits=0)
-	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 63K7H3FD094475
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Mon, 20 Apr 2026 16:17:03 +0900 (JST)
-	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
-DKIM-Signature: a=rsa-sha256; bh=0Vf/ig+2VJ+qKyawl6wvubkKzkh75f9RwRdOhQAcrwI=;
-        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
-        h=From:Message-ID:To:Subject:Date;
-        s=rs20250326; t=1776669423; v=1;
-        b=APXUqz2jiH7GGh4C/kSSbquiyIjX0IN59+Fnp3fr3PwncA0Y2oLV20pYlcaK8kwj
-         crJEWRowgPUz3uPtEc0GdxcNuPoS+Y6JcJHTsoVZSwsCdUQroPb9PAnFolqEzPVq
-         1L4gGQx+oOjniadg5MlGy7YS/zz6eLKcidbwWNxbAiLFzDAxUkTm26Z4+O55FKoW
-         EjRCpoRmCmRY8k+EkBSLvQQvdVnrbA7HKsgZYSZdYviCl7q0+xkuOpU02uWdnvPS
-         pSs+HffGl+YEDz7vbOzPpG+roOp+g15+iJKBt6m4TLMv4o52MK8ENMco4hJbQ0Ws
-         nsNU8L6hbqYUvs+5y5Lvew==
-Message-ID: <2ffd2759-e299-4b3d-9f04-d2ab14d92465@rsg.ci.i.u-tokyo.ac.jp>
-Date: Mon, 20 Apr 2026 16:17:03 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DwYz1E8L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776673269; x=1808209269;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=Hox/NHC7DWBH5XJcwgjkput1zansHFHSyXXfPoX2t5k=;
+  b=DwYz1E8LUtEFZIzm+WqNkfWyOpU8tpvKG+WgYZDWPWuDWyepJ6hqBKiT
+   6HST9fJImirxJ28jLSCP5p7YbDmKaKgoKa7Rw0tNiIU0e4MPPYfowMfrS
+   1WxKDlXyJjR1MFThhNpa4XsVt4ouUp0dezlLWU/ZY7qBECzKPCSu63Q/s
+   IEFq6rrbdk+pWFkZV5JPRiTAKDDsNMjBMin8XSnr06GVvcIoIocG69qJx
+   a2+GdLKRM2IPq4+e8QMpOHzpmFZtXXDTbfRYqBOHUcTQ+lC65uTQLa16k
+   2PzvOp/q8lIme7JHRixgdoFnoH3VXcWHijapgZ2ACu2hdpcgJiVW3qAPC
+   w==;
+X-CSE-ConnectionGUID: pWT3f+qkRXq4mgqpgqHgKQ==
+X-CSE-MsgGUID: 2AnngaU1S2uNr2HM6ftDBA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77708023"
+X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
+   d="scan'208";a="77708023"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 01:21:08 -0700
+X-CSE-ConnectionGUID: V2u56sirQEKzIe9a6xKgIw==
+X-CSE-MsgGUID: kLqsftOGQ3+po7Gfon1drg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
+   d="scan'208";a="269695083"
+Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.90])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 01:21:04 -0700
+Date: Mon, 20 Apr 2026 11:21:02 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Svyatoslav Ryhel <clamor95@gmail.com>,
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] misc: Remove old APDS990x driver
+Message-ID: <aeXh7j410AxESy4U@ashevche-desk.local>
+References: <20260419083125.35572-1-clamor95@gmail.com>
+ <20260419083125.35572-4-clamor95@gmail.com>
+ <20260419143346.45ed78c2@jic23-huawei>
+ <CAPVz0n1qrSYr16zSSqRHuTWVkRfdC+c9w+mxAhtzgfHzL41XFw@mail.gmail.com>
+ <20260419172216.3cf10e51@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 2/4] KVM: arm64: PMU: Protect the list of PMUs with RCU
-To: Marc Zyngier <maz@kernel.org>
-Cc: Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-        Suzuki K Poulose <suzuki.poulose@arm.com>,
-        Zenghui Yu
- <yuzenghui@huawei.com>,
-        Catalin Marinas <catalin.marinas@arm.com>,
-        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
-        kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
- <20260418-hybrid-v7-2-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
- <87mryzauib.wl-maz@kernel.org>
- <483e5cf2-a54c-4781-ac6d-49f5bc7128ba@rsg.ci.i.u-tokyo.ac.jp>
- <86se8q15eo.wl-maz@kernel.org>
-Content-Language: en-US
-From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-In-Reply-To: <86se8q15eo.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260419172216.3cf10e51@jic23-huawei>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-On 2026/04/20 16:01, Marc Zyngier wrote:
-> On Mon, 20 Apr 2026 07:21:45 +0100,
-> Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
->>
->> On 2026/04/19 23:34, Marc Zyngier wrote:
->>> On Sat, 18 Apr 2026 09:14:24 +0100,
->>> Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
->>>>
->>>> Convert the list of PMUs to a RCU-protected list that has primitives to
->>>> avoid read-side contention.
->>>>
->>>> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
->>>> ---
->>>>    arch/arm64/kvm/pmu-emul.c | 14 ++++++--------
->>>>    1 file changed, 6 insertions(+), 8 deletions(-)
->>>>
->>>> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
->>>> index 59ec96e09321..ef5140bbfe28 100644
->>>> --- a/arch/arm64/kvm/pmu-emul.c
->>>> +++ b/arch/arm64/kvm/pmu-emul.c
->>>> @@ -7,9 +7,9 @@
->>>>    #include <linux/cpu.h>
->>>>    #include <linux/kvm.h>
->>>>    #include <linux/kvm_host.h>
->>>> -#include <linux/list.h>
->>>>    #include <linux/perf_event.h>
->>>>    #include <linux/perf/arm_pmu.h>
->>>> +#include <linux/rculist.h>
->>>>    #include <linux/uaccess.h>
->>>>    #include <asm/kvm_emulate.h>
->>>>    #include <kvm/arm_pmu.h>
->>>> @@ -26,7 +26,6 @@ static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc);
->>>>      bool kvm_supports_guest_pmuv3(void)
->>>>    {
->>>> -	guard(mutex)(&arm_pmus_lock);
->>>>    	return !list_empty(&arm_pmus);
->>>
->>> Please read include/linux/rculist.h and the discussion about the
->>> interaction of list_empty() with RCU-protected lists. How about using
->>> list_first_or_null_rcu() for peace of mind?
->>
->> list_first_or_null_rcu() is useful to replace a sequence of
->> list_empty() and list_first_entry() that is protected by a lock, but
->> this function instead requires the invariant that nobody deletes an
->> element from the list, and list_first_or_null_rcu() does not allow
->> removing the requirement.
->>
->> The header file says:
->>> Where are list_empty_rcu() and list_first_entry_rcu()?
->>>
->>> They do not exist because they would lead to subtle race conditions:
->>>
->>> if (!list_empty_rcu(mylist)) {
->>> 	struct foo *bar = list_first_entry_rcu(mylist, struct foo,
->>> 					       list_member);
->>> 	do_something(bar);
->>> }
->>>
->>> The list might be non-empty when list_empty_rcu() checks it, but it
->>> might have become empty by the time that list_first_entry_rcu()
->>> rereads the ->next pointer, which would result in a SEGV.
->>>
->>> When not using RCU, it is OK for list_first_entry() to re-read that
->>> pointer because both functions should be protected by some lock that
->>> blocks writers.
->>>
->>> When using RCU, list_empty() uses READ_ONCE() to fetch the
->>> RCU-protected ->next pointer and then compares it to the address of
->>> the  list head.  However, it neither dereferences this pointer nor
->>> provides  this pointer to its caller.  Thus, READ_ONCE() suffices
->>> (that is,  rcu_dereference() is not needed), which means that
->>> list_empty() can be used anywhere you would want to use
->>> list_empty_rcu().  Just don't expect anything useful to happen if you
->>> do a subsequent lockless call to list_first_entry_rcu()!!!
->>>
->>> See list_first_or_null_rcu for an alternative.
->>
->> However, kvm_supports_guest_pmuv3() locked a mutex when calling
->> list_empty() and unlocked it immediately after that, instead of
->> re-reading list_first_entry(). This construct inherently had a race
->> condition with code that deletes an element; when the caller of
->> kvm_supports_guest_pmuv3() decides to enable guest PMUv3, the host PMU
->> may have been gone. But it was still safe because no one deletes an
->> element.
->>
->> The same logic also applies when using RCU. As the comment says, we
->> can use list_empty() instead of the hypothetical list_empty_rcu()
->> macro because we don't expect it to magically enable something like
->> list_first_entry_rcu(). This function instead keep relying on the fact
->> that no one deletes an element of the list.
+On Sun, Apr 19, 2026 at 05:22:16PM +0100, Jonathan Cameron wrote:
+> On Sun, 19 Apr 2026 16:41:24 +0300
+> Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+> > нд, 19 квіт. 2026 р. о 16:33 Jonathan Cameron <jic23@kernel.org> пише:
+> > > On Sun, 19 Apr 2026 11:31:24 +0300
+> > > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+
+...
+
+> > > There is the obvious point of ABI compatibility raised as well, but given
+> > > we don't seem to be getting much push back on that maybe that's not a significant
+> > > concern.  
+> > 
+> > I did not found any ABI in the Documentation/ABI regarding this sensor
+> > using grep,
+
+The code is what is in use, it has an ABI. The question if it's in use or not.
+
+> > maybe you are more familiar?
+
+> Doesn't matter if it's documented explicitly (many older drivers are not).
+> The question is whether anyone has supported parts and userspace code that
+> makes use of the sysfs files this driver provides.
 > 
-> And that's exactly the sort of thing I am trying to plan for. *Should*
-> we introduce a way to remove PMUs from the list, this predicate
-> becomes unsafe.
+> Their userspace will be broken by dropping it.  The lack of upstream users
+> makes this less critical but it can be argued it's still a possible regression.
 
-Perhaps so. In regards to this series, I'd rather like to keep it out of 
-scope as the requirement is not new.
+Usual recommendation is to google, and check Debian code search engine.
+I randomly chose a couple of sysfs nodes and only kernel code refers to them.
+So, at least there is a good sign that it likely not in use. But one has
+to perform more checks (all attributes, more sources of information) and
+summarise that in the commit message.
 
-> 
-> So I want at least a comment explaining this to the unsuspecting
-> reader, as this is rather subtle.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I agree. I had to put some effort to understand the previous 
-mutex-protected implementation and to design the new RCU-protected one. 
-I'll add one with the next version.
 
-Regards,
-Akihiko Odaki
