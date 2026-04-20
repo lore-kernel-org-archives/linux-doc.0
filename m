@@ -1,144 +1,101 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3BE39D6EB
-	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 10:43:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776681826; cv=pass; b=RVgGdL5EFLHASkjNCphzxoDnT7qCg18qZvTrCAdROLbi2bXrJhuKFWwKCSAKBE/IQeALIpabIJ5qq1jZWvr1bgwCZcHo31cSPbSl/G0n2UGRwtqufLsoehW6pfMSrNkUAZZmCAlBtp+vbSraQCj8w4oE346Vr4XCXzsiZgS9JtY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776681826; c=relaxed/simple;
-	bh=DlHI3ioMHq0MOalAY/xQaHVREbCO6W+fHPlV0QJvFf4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ILG/8DdSOInQVYpp1TnYR1ZdfJuo4vUwPtVRK4TeeKVdz0UGaoV9WsGnJ25txjjC3gcsm2yMwUZ6ZbEJJxdZicgaFjrSbfsoLgD8W6znNDmH7+n7p0LuyxH+vJNbamI+fXoyRriGCehOCSAj6TBAQiH6KtxaK7xU4MT3EHSA7OA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F5anO9+q; arc=pass smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E0D339EF1B
+	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 11:46:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776685566; cv=none; b=FQoszwzrlDzuWpw7xLpxlscGHQ62XUuvgCXvuSfDqhZfItHXnIH0IRC2udCamTUwHcfnYZIvqa1pQX/0MSaE8K0nN5T9650Gn5Fwq3EmLT04X5UkD1qMVc38XcFM+7U9YEHaTgQJrc5KhFZxFNan5I3ZVYl/TRW+YiYREUj44yo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776685566; c=relaxed/simple;
+	bh=e0AJAUNOmNDd6/YhHvW3gryjlpU5u5Opr7QfNUASCWY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W7ujJSypBk+u797kql7Mt/XmAupnjf6mYcw+Y4erucQa1n24mfGboaf4IWAmbLdMWqqzjvlLtEQn03/9wGvrg/VPKK+dYaaJs1pxpzNOHq9WLCzvMawEed9H8NMmAN6WhQfuSiiZdsOtifEUUsK+X5oY7PdHR0mpdZ5XPgeZTSs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P8pZ1/um; arc=none smtp.client-ip=209.85.210.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F5anO9+q"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso4146875e9.0
-        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 03:43:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776681823; cv=none;
-        d=google.com; s=arc-20240605;
-        b=IUPYj+noJcwozsyA6EFfnVM8iGeAi3OHPN1rPebiCHpPd509Xv+TwkcUYcE5Z7Ueoc
-         ozIRTvTF8nV79vMuFtynGBL0qt6w4cqfnKQ3rv8LANK9mWHWXsyDzqy4NZTXIA8gLBb3
-         sqck0MoIpmgwk2zp4FIr3wkIIMIeUijjSRyM/oZgdFOCeI5U6qrfnPayClwjd2GmlAXz
-         b022E3SH8u+8NBz1bxbnuZQwIVT3lKBkA9mcja7QVetla2bfkEt3t31Dy67kusneOtsb
-         DeEjmQbhAXP3Zg1GsuzAXX/ZWci2UFfYEtqmxWMcSjMGNAodx8SHNt1y+fbmqj7MOBL4
-         eX/Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=wdriMOYuqf1JuyNyCdurWt3dDtXG7MpE23d9jM/g5eI=;
-        fh=PWgVOrllgObzZkBvDb4O0gaBuf9jbO/ZtexVHLASIPc=;
-        b=X2EoXsNdyVfY8VH+yp3sKZHkuKFZu/OOmL2HLvyuFut9NOcrQIp/6coyHW1Sn/OWs5
-         ko4XVjX43X47ODMO29LeRXzcwsdhksG24tFxJ7n86Qvbd9lJsxK6F+qdTS1G2BMtOS0m
-         jLAhBQCz3rvgzBszvvj2iSvFOpDMd4ktggxUpH0RFh9PknhR7zaPSIUCB8bhta2bQXqo
-         zfkum5T2G5uEjX7aMazT849bYXeNc4+tVV9ZuqPMKSB8VQZSt81Ayvle4krZ343wFo9d
-         Mbu3tI+xmmZmMlN4sPC1WfZYXBKQerSDTLEAfvv7QQdjvWCtjAFTTd+yyH89JtQ+1MXI
-         LbWw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P8pZ1/um"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82fbdd60b64so381918b3a.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 04:46:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776681823; x=1777286623; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wdriMOYuqf1JuyNyCdurWt3dDtXG7MpE23d9jM/g5eI=;
-        b=F5anO9+qzPtCq0FNTORS4bzPEyikZ7MTkz/Wxja1EUMMfcg/n1hpV0Uvmq1r+GlrOW
-         PV45zLTmNsTNlAsdYey94tdeHiJCyiz0oe09AR4Z1vfFPaEKjfsMu9Dx8K+Y0DINBMWu
-         Na1F2/LPNCCjfXuKDGuPMHVt5bi8MAGu10yXEIYmhiEROjUcoarSlO1iFUuZp4gX0NUR
-         XG2Py8ao30VeHoDqzA988xccug1rFeMs5WqkwoeiH+Eqt+ssjvUdOJUCuR9NwPTSNGB4
-         gBK8qh6hE5QTaF8KaD4k08tW7Xlu6Pru+L6fV84M9e3dVnMgtdM1Pfnb44gkj52Pa47m
-         n0Fg==
+        d=gmail.com; s=20251104; t=1776685563; x=1777290363; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=9QQ2J1q7j/KIwNXKtt8cG0N80aWhIRJXk717uRg6Vhg=;
+        b=P8pZ1/umD/WldT+HMUn15g6iMXiLOUNWhP+2FA7mDoS207yeBRUqGairgx1Ot8ylqu
+         /+k/3MnxT3kVjwX2cftuTkuwJcM5onuk3/7g04AykAFQggBhg27ftp8ytTZz7UKoczaU
+         8OoGAehv0oRgu7sOetgfCgVobUcqrohSdOYH4S5HcAgUOXAEkKqa21WFJSL+BZtVSpNb
+         OBRK28mX8dFyqsfigbWxnGynwnaJ9fR+yWnaTNTjcctpf64Flis+Ma0RPPJ5yqR7xpU9
+         TFuu07SUnontNZeJ9VoNWBHrfAjVvrIkhqhyWmmZl+0rqrbekkR01/Y75aOIWm4Guy8X
+         Ihiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776681823; x=1777286623;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=wdriMOYuqf1JuyNyCdurWt3dDtXG7MpE23d9jM/g5eI=;
-        b=AeLVge+ETB2wYaoP/a7sU3hESjQm1NIty3maZsObT+O7uvUYNZFshA8/1JqNf1K+KP
-         p4uqafYXnIku+DzdFXB7RYwTrgKOTtAlHGfuwF5cq80xkqBnj0mV9+0Bs8MvJVA6YH75
-         RYrx2lGg4yRjBUANLk9syJXMlZA1c8Dh7CCguWc23WIWoxSRdIu1rYphmEhCYKDW3qF8
-         YS6SetjzmMaU42z43x62yg049sPodrQXCN5jdKjJqM3zSvKO3gbesD/00GnYGHZgdgvK
-         UDRWLWBPZJ9EiGZeo2d67JMv6wWbEYxl4k231bJWGjpaECvxOo6ML6vD5ymccpkZ0taf
-         TjAw==
-X-Forwarded-Encrypted: i=1; AFNElJ/b10+a47l41kLK1ReCY8wjq5iqwxZsFD/oUKnKDScKqgIXXgNV+fJ5KGcoFYjoKEw7xSsKg/M964k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwbJ/JOnHh5Z8IjJQzU51xWp67WZfhYsgE5cJ1AK1SHo+8g8Axv
-	yTQH7eAHg9gN8tzDA50nUcgCf7lAuDz77DC1zWVevud5PMM1IX3bbrQTBeKl/YrQkYTCGtF7rqM
-	aDE0ROdNWbMzNvHkWPWAoHAZdE7y3zMc=
-X-Gm-Gg: AeBDies/Csnl0VXY6iZ1mOHWYYdnycINOQ8ywvVzEP+ODLr0M7irQmlkAV9iYCqgalt
-	IWN/9BhmcUBIhKJYyEWstPvhxUHJ1pm1cEHECjhtJtybArebg9TUJPFo6j+6P3xDgeboPdHkjbr
-	+aYswpvxTG1PCV7Ux+z5k7y6oqtHbLCntCMnGOEUPWdEX1ZeRSazXPnl1tKzrt3u64j+whYTqz9
-	Lp0IDxv0E/WW7oMMzIx9h27XN9i+YNPDbP3z6CmyGgYcCKwMhUHvJsTuPamSs8nG9ry+K9P39Bd
-	ifH1Rg5gK5jCMyzZSm3on4V0rzME8qrsKr9fpA6v1fY0lGUhBKUpXH+prZQbWg3qTTDb80ob/GG
-	5QrhK6fY=
-X-Received: by 2002:a5d:4b81:0:b0:43f:e721:76ca with SMTP id
- ffacd0b85a97d-43fe7217864mr10702499f8f.45.1776681822491; Mon, 20 Apr 2026
- 03:43:42 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776685563; x=1777290363;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9QQ2J1q7j/KIwNXKtt8cG0N80aWhIRJXk717uRg6Vhg=;
+        b=bZ1/D/GEjo1/5J1WZpIbu+mfECz1pMitgiInNsl6RRDNFLvEWWhvEqAj+K4VK+sp0t
+         ZX7mcUt9g84RMJ34woV1GjCcORectj5JIjlHkMQPvHWzcrkuQGNP+bfQfkaf8khuo0WT
+         qyYJV2C8s1iPdL/AqMQKlFMJkFwitSU8akUji6vNwxlq2ImGNSPmDq1J8v/WFMW9MMaT
+         1Nge5cI+GM6wN+Hxn3gRO8rhah917P9TrXDqztHQ/K9vv9HaNpirHKrmbn6ejWZ1Y/vN
+         S72pufwwIVN4tvBY+JZ/4W6hfO5afAdDQZdoU/SSh+Gs2YnzXHHcEjMy8rVJNcsUsX2G
+         16XQ==
+X-Gm-Message-State: AOJu0YwTN+ppEjfW1b9Cn8TpU8azG+E1dQYNi/iQPC0WYa/DPKPBm8oR
+	CWHBt2sJfHWMzxsbh8TCrgHQ5+NKMGQWupGNazfKBJm19BR7PFXo8j1W
+X-Gm-Gg: AeBDietdaxJK5pUflEo89KxVPN9g+rKdtGyiylO56bBUbIu88HOS5UmMcnijOtBr/zP
+	hMLxOulvIRDw7Z6bJerFZtC6ik76A+qwJIMR1rhZuxC1W8ZngK6jJ3+zU3irGqW3uXERDevteT+
+	/pbvH5HOs3BCNu0VEJZOQE7qmI+WwRxooVs4WXSl8zBEzIy7BDuSdy1mk7Dd1naGvc9/qg02RBY
+	qVTl2A+h3f5EayWDwyD96Sp/Thsdc1HijlHAwet+CTojb0G1+qbkwl/eF68l6h2XuwqcAcE6VHd
+	98dF5K7APUSv32fW2V2iXpNDhsdHjYj3fR/F4omNfZ/7Ts4+uXj2fLE93aaWEpIPGhvasm2W7MW
+	nwS969V/swBdLeZmxRy9TUi7cYZy/bN2ghUQqZKu4Yn0FlHT3oYvyTKaPEjvNUNxApbYUCbx+LU
+	2PYOKQOaiCIBLNvV8KqwznKEICt/na7JpS6qM/vw5A4Nxq5w==
+X-Received: by 2002:a05:6a00:4b54:b0:82f:6e39:d90f with SMTP id d2e1a72fcca58-82f8c93d102mr13145150b3a.39.1776685562678;
+        Mon, 20 Apr 2026 04:46:02 -0700 (PDT)
+Received: from localhost ([220.247.131.23])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ebe68ebsm11598567b3a.47.2026.04.20.04.46.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Apr 2026 04:46:02 -0700 (PDT)
+From: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+To: netdev@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+Subject: [PATCH] docs: maintainer-netdev: fix typo in "targeting"
+Date: Mon, 20 Apr 2026 17:45:53 +0600
+Message-ID: <20260420114554.1026-1-islamarifulshoikat@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260418000635.17499-1-sef1548@gmail.com> <aeNGbNyPxJssnkbO@lucifer>
- <aeOuCH8ydw_yzdXZ@casper.infradead.org> <c113f667-f897-42cc-a0e5-b8a0bbd91be3@kernel.org>
- <aeTTw4gziJigaNbU@lucifer> <CABZAGRHXtjzGJrgR1NAmVHFMP9eL5zZr3DaTAtAvywv_1sOHdw@mail.gmail.com>
- <87jyu2w2rs.fsf@trenco.lwn.net>
-In-Reply-To: <87jyu2w2rs.fsf@trenco.lwn.net>
-From: Nick Huang <sef1548@gmail.com>
-Date: Mon, 20 Apr 2026 18:43:31 +0800
-X-Gm-Features: AQROBzBZHx8GRi3NzcgXlhRjqdOVlbvZpCVncN88SDSfN9NuGphI-_yYe0lxFoQ
-Message-ID: <CABZAGRHKq8SUnbXu5jGEP28fXozMbp1CJi+8215Ytqq66FvJzw@mail.gmail.com>
-Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab documentation
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Lorenzo Stoakes <ljs@kernel.org>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Matthew Wilcox <willy@infradead.org>, Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Hao Li <hao.li@linux.dev>, 
-	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Jonathan Corbet <corbet@lwn.net> =E6=96=BC 2026=E5=B9=B44=E6=9C=8820=E6=97=
-=A5=E9=80=B1=E4=B8=80 =E4=B8=8B=E5=8D=882:43=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Nick Huang <sef1548@gmail.com> writes:
->
-> > I am really sorry for causing trouble for everyone. I would like to
-> > ask which aspect of mine was disrespectful, so that I can be more
-> > careful next time.
-> >
-> > If I want to make this kind of change, should I send an [RFC patch] to
-> > ask for everyone's opinion?
->
-> If you want to be respectful, start by reading what has been sent to
-> you; the problems with your submission were well explained, more than
-> once.
->
-> To reiterate:
->
-> - Do not send LLM-generated material without marking it as such as
->   described in our developer documentation.
->
-> - Do not attempt to document systems that you do not, yourself,
->   understand; you have no hope of getting it right, and you will only
->   succeed in wasting the time of the people who have to review your
->   changes.
->
-> The point of documentation is to be informative, accurate, and useful;
-> simply filling in a bunch of words is not helpful to anybody.
->
-> Thanks,
->
-> jon
+Fix spelling mistake "targgeting" -> "targeting" in
+maintainer-netdev.rst
 
-Thank you for your feedback.
+No functional change.
 
---=20
-Regards,
-Nick Huang
+Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
+---
+ Documentation/process/maintainer-netdev.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Documentation/process/maintainer-netdev.rst b/Documentation/process/maintainer-netdev.rst
+index bda93b459a05..ec7b9aa2877f 100644
+--- a/Documentation/process/maintainer-netdev.rst
++++ b/Documentation/process/maintainer-netdev.rst
+@@ -528,7 +528,7 @@ The exact rules a driver must follow to acquire the ``Supported`` status:
+    status will be withdrawn.
+ 
+ 5. Test failures due to bugs either in the driver or the test itself,
+-   or lack of support for the feature the test is targgeting are
++   or lack of support for the feature the test is targeting are
+    *not* a basis for losing the ``Supported`` status.
+ 
+ netdev CI will maintain an official page of supported devices, listing their
+-- 
+2.43.0
+
