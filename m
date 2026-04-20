@@ -1,257 +1,420 @@
 Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACAD3390CB3;
-	Mon, 20 Apr 2026 11:57:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D3D639EF09;
+	Mon, 20 Apr 2026 12:03:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776686258; cv=none; b=RkdeKrElstIYipEtXxTa5yDiD1VhKyaSg9SNffsrmzf6FznK0IAC9e4i80M//vE7MKc22chuvJ2jF1ln84+vyqHbqczeeaFODnEPahN73p19I7aI6sC1BU1klzOspTkqQqjWSarkGXsUNHBxaeHsb3P+0MC2SrNCo0g4wtuzqAM=
+	t=1776686617; cv=none; b=a40n6MCTbsH1u6E/NQP0nXdO7uViF/HA+cTiej9ZrjgkSlgKz6Hta5y7+AmWwD6cYG4agK5CcxdY/BuEB9JbfqoLO+Df85T7LURzc2HKqZWdIUGAQnkG8X9SFlSKnNGc+PqJdbOYkC9IGxGmYZml0Q3TcjNvKq0wKHOYxtsMK3o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776686258; c=relaxed/simple;
-	bh=kh5G84OfUAXlOVFQ4NLmr1beJ6eqcoYzqvGlM23haTM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dfIpTSI05qfAQGeh/8XeSCXzhM9H7lWl8NlVo+egLCtQIXnb7F5N3tjTqCB+44gMVuJM6KpNTkvJsCwFsmhkombWbqgU8B7F8bg+wTHku/LBWw+ZHBfY1/ZLXHKPPHpK77D7CNsKQDxoSXoFKuUkm/JBHXJrPLl9qHFJATy0vNE=
+	s=arc-20240116; t=1776686617; c=relaxed/simple;
+	bh=kN/64UXEl1tK+gZtw5mSTbPfntQC/sQnwWNGtzSzK7k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eNKpW9AN9OVMynK0InpR4vKIwkJbViKwNLvcID/PpgHM3nhyV6/cOnJo4J27rWrMuauZBoTWHmbh2AJoBcW+X/pjwQLwoMPpFTFP22gGdWns2Gu9rFDnhiBBkb2ujkMBqg/M3USgP+IcoEW/wCuU3VxEmAI34uekWFYV+/rbSQk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
 Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrAAXH9+PFOZpR6DjAw--.22101S2;
-	Mon, 20 Apr 2026 19:57:03 +0800 (CST)
-Received: from pride-PowerEdge-R740.tailb307d0.ts.net (unknown [10.12.190.55])
-	by gateway (Coremail) with SMTP id _____wD3owWIFOZpRTfcAA--.13417S2;
-	Mon, 20 Apr 2026 19:57:00 +0800 (CST)
-From: Dongliang Mu <dzm91@hust.edu.cn>
-To: Alex Shi <alexs@kernel.org>,
-	Yanteng Si <si.yanteng@linux.dev>,
-	Dongliang Mu <dzm91@hust.edu.cn>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] docs/zh_CN: restructure how-to.rst patch submission workflow
-Date: Mon, 20 Apr 2026 19:56:46 +0800
-Message-ID: <20260420115647.2718959-1-dzm91@hust.edu.cn>
-X-Mailer: git-send-email 2.43.0
+	by app1 (Coremail) with SMTP id HgEQrADn7t4CFuZplKbjAw--.20612S2;
+	Mon, 20 Apr 2026 20:03:14 +0800 (CST)
+Received: from [10.12.168.245] (unknown [10.12.168.245])
+	by gateway (Coremail) with SMTP id _____wCHgAf+FeZpaDzcAA--.12962S2;
+	Mon, 20 Apr 2026 20:03:11 +0800 (CST)
+Message-ID: <0576be8b-89f5-48d3-b568-1ae0403a52c8@hust.edu.cn>
+Date: Mon, 20 Apr 2026 20:03:09 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
+To: Yan Zhu <zhuyan2015@qq.com>
+Cc: alexs@kernel.org, seakeel@gmail.com, si.yanteng@linux.dev,
+ corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
+ <984f3b99-23e6-4931-a79e-7ed7cd47c04f@hust.edu.cn>
+ <tencent_91B9F750970BCBFEAC86BBACA3DF31480407@qq.com>
+From: Dongliang Mu <dzm91@hust.edu.cn>
+In-Reply-To: <tencent_91B9F750970BCBFEAC86BBACA3DF31480407@qq.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrAAXH9+PFOZpR6DjAw--.22101S2
+X-CM-TRANSID:HgEQrADn7t4CFuZplKbjAw--.20612S2
 Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvJXoW3Xr4xuF43WFy7Cr4DJFyfXrb_yoW3KF13pF
-	ZF9ryxG397XF1UArWrWa1UAr1xXFZ7tay2gr1vq3ZYqryjyr9Yg3y5K3sYq3srGryxJr43
-	ua4FvrWDCrnavwUanT9S1TB71UUUUj7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUQIb7Iv0xC_KF4lb4IE77IF4wAFc2x0x2IEx4CE42xK8VAvwI8I
-	cIk0rVWrJVCq3wA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK021l84ACjcxK6xIIjx
-	v20xvE14v26F1j6w1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j6r4UJwA2z4x0Y4vE
-	x4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AKxVW0oVCq3wAaw2AFwI0_JF
-	0_Jw1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF
-	0cIa020Ex4CE44I27wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0EF7xvrVAajcxG14v26r
-	4UJVWxJr1lYx0E74AGY7Cv6cx26r4fZr1UJr1lYx0Ec7CjxVAajcxG14v26r4UJVWxJr1l
-	Ox8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JMxkF7I0En4kS14v26r126r1DMx
-	AIw28IcxkI7VAKI48JMxAIw28IcVCjz48v1sIEY20_GFW3Jr1UJwCFx2IqxVCFs4IE7xkE
-	bVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r1j6r18MI8I3I0E74
-	80Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_JF0_Jw1lIxkGc2Ij64vIr41lIxAIcVC0
-	I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04
-	k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7Cj
-	xVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU0MxRDUUUUU==
+X-Coremail-Antispam: 1UD129KBjvAXoW3Aw4UZr4fJw1rGr45GryDJrb_yoW8XrWUGo
+	WrKryfuw1Ykw1Ygr1rKw48Jry5J3WjgrnrCay7CrW7Jr1qk3Zayayqy345tay5Ar4xGF15
+	J3W3Ar1UAFyUZF13n29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
+	AaLaJ3UjIYCTnIWjp_UUUOy7k0a2IF6F4UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
+	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
+	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
+	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
+	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
+	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
+	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
+	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
+	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
+	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
+	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
+	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
+	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
+	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
 X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
 
-Split "导出补丁和制作封面" into separate "导出补丁" and
-"为补丁集制作封面" sections, and document the single-patch
-(git format-patch -1) and multi-patch (-N) flows side by side
-so new contributors do not have to infer one from the other.
 
-Replace the invalid "git am --amend" invocations with "git commit
---amend" in both the checkpatch fix-up and the iteration sections.
+On 4/18/26 10:15 PM, Yan Zhu wrote:
+> Hi Dongliang,
+>
+> On 4/18/2026 2:20 PM, Dongliang Mu wrote:
+>>
+>> On 4/18/26 12:45 PM, Yan Zhu wrote:
+>>> Translate .../admin-guide/module-signing.rst into Chinese.
+>>>
+>>> Update the translation through commit 0ad9a71933e7
+>>> ("modsign: Enable ML-DSA module signing")
+>>>
+>>> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
+>>> ---
+>>
+>> Hi Yan,
+>>
+>> Please remember to add your changelog under the "---". For example, 
+>> v1-  >v2: XXX
+>>
+>
+> I replied to the email according to the guidance of how-to.rst in the 
+> Chinese thanslation. There was no special explanation there, so I 
+> thought that the Chinese translation did not need the explanation of 
+> version change. I think I should resend a patch to fill in this 
+> description.
 
-Expand the iteration section with a worked v2 example showing where the
-changelog goes relative to the --- separator, and describe how v3/v4
-changelogs stack newest-on-top.
+https://lore.kernel.org/all/20260420115647.2718959-1-dzm91@hust.edu.cn/
 
-Finally, add a note reminding submitters to carry Reviewed-by tags from
-reviewers into the next revision, placed below Signed-off-by.
+I sent a new patch to explain how to deal with changelog.
 
-Assisted-by: Claude:claude-opus-4-7
-Signed-off-by: Dongliang Mu <dzm91@hust.edu.cn>
----
- Documentation/translations/zh_CN/how-to.rst | 105 ++++++++++++++------
- 1 file changed, 77 insertions(+), 28 deletions(-)
+Dongliang Mu
 
-diff --git a/Documentation/translations/zh_CN/how-to.rst b/Documentation/translations/zh_CN/how-to.rst
-index 3dcf6754d1df..9ec2384e1e76 100644
---- a/Documentation/translations/zh_CN/how-to.rst
-+++ b/Documentation/translations/zh_CN/how-to.rst
-@@ -269,13 +269,22 @@ Git 和邮箱配置
- **请注意** 以上四行，缺少任何一行，您都将会在第一轮审阅后返工，如果您需要一个
- 更加明确的示例，请对 zh_CN 目录执行 git log。
- 
--导出补丁和制作封面
--------------------
-+导出补丁
-+--------
-+
-+这个时候，可以导出补丁，做发送邮件列表最后的准备了。对于单个补丁，
-+命令行执行::
-+
-+	git format-patch -1
-+
-+然后命令行会输出类似下面的内容::
-+
-+	0001-docs-zh_CN-add-xxxxxxxx.patch
- 
--这个时候，可以导出补丁，做发送邮件列表最后的准备了。命令行执行::
-+如果您有多个补丁，命令行执行::
- 
- 	git format-patch -N
--	# N 要替换为补丁数量，一般 N 大于等于 1
-+	# N 要替换为补丁数量，一般 N 大于 1
- 
- 然后命令行会输出类似下面的内容::
- 
-@@ -290,13 +299,12 @@ Git 和邮箱配置
- 
- 	./scripts/checkpatch.pl *.patch
- 
--参考脚本输出，解决掉所有的 error 和 warning，通常情况下，只有下面这个
-+参考脚本输出，解决掉所有的 error 和 warning。通常情况下，只有下面这个
- warning 不需要解决::
- 
- 	WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
- 
--一个简单的解决方法是一次只检查一个补丁，然后打上该补丁，直接对译文进行修改，
--然后执行以下命令为补丁追加更改::
-+对于单个补丁，解决方案很简单，只需要打上该补丁，直接对译文进行修改，为补丁追加后续更改::
- 
- 	git checkout docs-next
- 	git checkout -b test-trans-new
-@@ -304,15 +312,21 @@ warning 不需要解决::
- 	./scripts/checkpatch.pl 0001-xxxxx.patch
- 	# 直接修改您的翻译
- 	git add .
--	git am --amend
-+	git commit --amend
- 	# 保存退出
--	git am 0002-xxxxx.patch
--	……
- 
--重新导出再次检测，重复这个过程，直到处理完所有的补丁。
-+随后，重新导出补丁再次检测，重复这个过程，直到处理完所有 warning 和
-+error。
-+
-+如果您有多个补丁，请按补丁集中补丁顺序对每个补丁重复上述流程，一次只处理
-+一个，不要一次 git am 多个补丁。全部处理完毕后再重新导出并再次测试。
- 
--最后，如果检测时没有需要处理的 warning 和 error，或者您只有一个补丁，请
--跳过下面这个步骤，否则请重新导出补丁制作封面::
-+为补丁集制作封面
-+----------------
-+
-+对于单个补丁，请跳过本节。
-+
-+如果您有多个补丁，则需要为补丁集制作一份封面，即 0 号补丁::
- 
- 	git format-patch -N --cover-letter --thread=shallow
- 	# N 要替换为补丁数量，一般 N 大于 1
-@@ -329,18 +343,14 @@ warning 不需要解决::
- 	vim 0000-cover-letter.patch
- 
- 	...
--	Subject: [PATCH 0/N] *** SUBJECT HERE *** #修改该字段，概括您的补丁集都做了哪些事情
-+	Subject: [PATCH 0/N] *** SUBJECT HERE *** # 修改该字段，概括您的补丁集都做了哪些事情
- 
--	*** BLURB HERE ***			  #修改该字段，详细描述您的补丁集做了哪些事情
-+	*** BLURB HERE ***			  # 修改该字段，详细描述您的补丁集做了哪些事情
- 
- 	Yanteng Si (1):
- 	  docs/zh_CN: add xxxxx
- 	...
- 
--如果您只有一个补丁，则无需制作封面（即 0 号补丁），只需执行::
--
--	git format-patch -1
--
- 把补丁提交到邮件列表
- ====================
- 
-@@ -392,28 +402,67 @@ reviewer 的评论，做到每条都有回复，每个回复都落实到位。
- 迭代补丁
- --------
- 
--建议您每回复一条评论，就修改一处翻译。然后重新生成补丁，相信您现在已经具
--备了灵活使用 git am --amend 的能力。
-+建议您每回复一条评论，就修改一处翻译，然后重新生成补丁，相信您现在
-+已经具备了灵活使用 git am 与 git commit --amend 的能力。
- 
--每次迭代一个补丁，不要一次多个::
-+对于单个补丁，每回复完评论后修改、追加::
- 
--	git am <您要修改的补丁>
-+	git am 0001-xxxxx.patch
- 	# 直接对文件进行您的修改
- 	git add .
- 	git commit --amend
- 
--当您将所有的评论落实到位后，导出第二版补丁，并修改封面::
-+当您将所有的评论落实到位后，导出第二版补丁::
- 
--	git format-patch -N -v 2 --cover-letter --thread=shallow
-+	git format-patch -1 -v 2
-+
-+命令行会输出 v2-0001-xxxxx.patch。打开该文件，在 --- 分割线下方追加
-+changelog。注意，分割线以下的内容不会进入 git 提交历史，仅作为邮件中的
-+说明供 reviewer 检查::
-+
-+	Subject: [PATCH v2] docs/zh_CN: add xxxxxx translation
-+
-+	Translate .../xxx.rst into Chinese.
-+
-+	Signed-off-by: Yanteng Si <si.yanteng@linux.dev>
-+	---
-+	v1->v2:
-+	  - 修正第二节的错别字，Reviewer-A 提出的意见
-+	  - 根据 Reviewer-B 的建议调整段落顺序
- 
--打开 0 号补丁，在 BLURB HERE 处编写相较于上个版本，您做了哪些改动。
-+	 Documentation/translations/zh_CN/xxx.rst | 100 ++++++
-+	 1 file changed, 100 insertions(+)
- 
--然后执行::
-+后续迭代 v3、v4 …… 时，新的 changelog 放在最上面，旧的保留在下方，按
-+从新到旧的顺序叠加。例如 v3 补丁的 --- 下方::
- 
--	git send-email v2* --to <maintainer email addr> --cc <others addr>
-+	---
-+	v2->v3:
-+	  - ...本次相较 v2 的改动...
-+	v1->v2:
-+	  - ...上一次相较 v1 的改动...
-+
-+然后发送::
-+
-+	git send-email v2-0001-*.patch --to <maintainer email addr> --cc <others addr>
-+
-+如果您有多个补丁，迭代时请按以下原则：每次只迭代一个补丁，不要一次多个，
-+每个补丁独立重复上述流程。所有评论落实到位后，导出 v2 时附带封面::
-+
-+	git format-patch -N -v 2 --cover-letter --thread=shallow
-+
-+打开 0 号补丁，在 BLURB HERE 处写明整组补丁相较 v1 的总体改动，格式
-+同上面的单个补丁 changelog 示例。如果某个补丁需要单独说明，可在该
-+补丁文件的 --- 分割线下方追加单个补丁的 changelog。最后执行::
-+
-+	git send-email v2-*.patch --to <maintainer email addr> --cc <others addr>
- 
- 这样，新的一版补丁就又发送到邮件列表等待审阅，之后就是重复这个过程。
- 
-+此外，如果审阅者或维护者在邮件回复中给出了 Reviewed-by tag，请在下
-+一版补丁的 commit 信息中加入该 tag，放在 Signed-off-by 行的下方，以
-+便维护者合入时保留您的审阅记录。
-+
- 审阅周期
- --------
- 
--- 
-2.43.0
+>
+>> And I wonder where the v2 patch is as I don't find it in my mbox. Do 
+>> I miss something?
+>
+> There may be something wrong with the mailbox. I see that you are in 
+> the copy list for the v2 patch. The link is 
+> https://lore.kernel.org/lkml/tencent_0101EEFDDBC5D532222BFE0EF2487DCC0805@qq.com
+>
+>> Dongliang Mu
+>>
+>>> .../zh_CN/admin-guide/module-signing.rst      | 249 ++++++++++++++++++
+>>>   1 file changed, 249 insertions(+)
+>>>   create mode 100644 Documentation/translations/zh_CN/admin-guide/ 
+>>> module-signing.rst
+>>>
+>>> diff --git a/Documentation/translations/zh_CN/admin-guide/module- 
+>>> signing.rst b/Documentation/translations/zh_CN/admin-guide/module- 
+>>> signing.rst
+>>> new file mode 100644
+>>> index 000000000000..04b0f1cbafd5
+>>> --- /dev/null
+>>> +++ b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
+>>> @@ -0,0 +1,249 @@
+>>> +.. SPDX-License-Identifier: GPL-2.0
+>>> +.. include:: ../disclaimer-zh_CN.rst
+>>> +
+>>> +:Original: Documentation/admin-guide/module-signing.rst
+>>> +:翻译:
+>>> + 朱岩 Yan Zhu <zhuyan2015@qq.com>
+>>> +
+>>> +
+>>> +==========================
+>>> +内核模块签名机制
+>>> +==========================
+>>> +
+>>> +.. 目录
+>>> +..
+>>> +.. - 概述
+>>> +.. - 配置模块签名
+>>> +.. - 生成签名密钥
+>>> +.. - 内核中的公钥
+>>> +.. - 模块手动签名
+>>> +.. - 已签名模块和剥离
+>>> +.. - 加载已签名模块
+>>> +.. - 无效签名和未签名模块
+>>> +.. - 管理/保护私钥
+>>> +
+>>> +
+>>> +概述
+>>> +====
+>>> +
+>>> +内核模块签名机制在安装过程中对模块进行加密签名，然后在加载模块时检查 
+>>> 签名。这
+>>> +通过禁止加载未签名的模块或使用无效密钥签名的模块来提高内核安全性。模 
+>>> 块签名通
+>>> +过使恶意模块更难加载到内核中来增加安全性。模块签名检查在内核中完成， 
+>>> 因此不需
+>>> +要受信任的用户空间位。
+>>> +
+>>> +此机制使用 X.509 ITU-T 标准证书对涉及的公钥进行编码。签名本身不以任何 
+>>> 工业标准
+>>> +类型编码。内置机制目前仅支持 RSA、NIST P-384 ECDSA 和 NIST FIPS-204 
+>>> ML-DSA
+>>> +公钥签名标准（尽管它是可插拔的并允许使用其他标准）。对于 RSA 和 
+>>> ECDSA，可以使
+>>> +用的可能的哈希算法是大小为 256、384 和 512 的 SHA-2 和 SHA-3（算法由 
+>>> 签名中的
+>>> +数据选择）；ML-DSA会自行进行哈希运算，但允许与SHA512哈希算法结合用于 
+>>> 签名属性。
+>>> +
+>>> +配置模块签名
+>>> +============
+>>> +
+>>> +通过进入内核配置的 :menuselection:`Enable Loadable Module Support` 菜 
+>>> 单并打
+>>> +开以下选项来启用模块签名机制::
+>>> +
+>>> +    CONFIG_MODULE_SIG    "Module signature verification"
+>>> +
+>>> +这有多个可用选项：
+>>> +
+>>> + (1) :menuselection:`Require modules to be validly signed`
+>>> +     (``CONFIG_MODULE_SIG_FORCE``)
+>>> +
+>>> +     这指定了内核应如何处理其密钥未知或未签名的模块。
+>>> +
+>>> +     如果关闭（即"宽松模式"），则允许使用不可用密钥和未签名的模块，但 
+>>> 内核将被
+>>> +     标记为受污染，并且相关模块将被标记为受污染，显示字符'E'。
+>>> +
+>>> +     如果打开（即"限制模式"），只有具有有效签名且可由内核拥有的公钥验 
+>>> 证的模块
+>>> +     才会被加载。所有其他模块将生成错误。
+>>> +
+>>> +     无论此处的设置如何，如果模块的签名块无法解析，它将被直接拒绝。
+>>> +
+>>> +
+>>> + (2) :menuselection:`Automatically sign all modules`
+>>> +     (``CONFIG_MODULE_SIG_ALL``)
+>>> +
+>>> +     如果打开此选项，则在构建的 modules_install 
+>>> 阶段期间将自动签名模块。
+>>> +     如果关闭，则必须使用以下命令手动签名模块::
+>>> +
+>>> +    scripts/sign-file
+>>> +
+>>> +
+>>> + (3) :menuselection:`Which hash algorithm should modules be signed 
+>>> with?`
+>>> +
+>>> +     这提供了安装阶段将用于签名模块的哈希算法选择：
+>>> +
+>>> +    =============================== 
+>>> ==========================================
+>>> +    ``CONFIG_MODULE_SIG_SHA256``    :menuselection:`Sign modules 
+>>> with SHA-256`
+>>> +    ``CONFIG_MODULE_SIG_SHA384``    :menuselection:`Sign modules 
+>>> with SHA-384`
+>>> +    ``CONFIG_MODULE_SIG_SHA512``    :menuselection:`Sign modules 
+>>> with SHA-512`
+>>> +    ``CONFIG_MODULE_SIG_SHA3_256``    :menuselection:`Sign modules 
+>>> with SHA3-256`
+>>> +    ``CONFIG_MODULE_SIG_SHA3_384``    :menuselection:`Sign modules 
+>>> with SHA3-384`
+>>> +    ``CONFIG_MODULE_SIG_SHA3_512``    :menuselection:`Sign modules 
+>>> with SHA3-512`
+>>> +    =============================== 
+>>> ==========================================
+>>> +
+>>> +     此处选择的算法也将被构建到内核中（而不是作为模块），以便使用该算 
+>>> 法签名的
+>>> +     模块可以在不导致循环依赖的情况下检查其签名。
+>>> +
+>>> +
+>>> + (4) :menuselection:`File name or PKCS#11 URI of module signing key`
+>>> +     (``CONFIG_MODULE_SIG_KEY``)
+>>> +
+>>> +     将此选项设置为除默认值 ``certs/signing_key.pem`` 之外的其他值将 
+>>> 禁用签名
+>>> +     密钥的自动生成，并允许使用您选择的密钥对内核模块进行签名。提供的 
+>>> 字符串应
+>>> +     标识包含私钥及其对应的 PEM 格式 X.509 证书的文件，或者在 OpenSSL
+>>> +     ENGINE_pkcs11 功能正常的系统上，使用 RFC7512 定义的 PKCS#11 
+>>> URI。在后一
+>>> +     种情况下，PKCS#11 URI 应引用证书和私钥。
+>>> +
+>>> +     如果包含私钥的 PEM 文件已加密，或者 PKCS#11 令牌需要 PIN，可以通过 
+>>>
+>>> +     ``KBUILD_SIGN_PIN`` 变量在构建时提供。
+>>> +
+>>> +
+>>> + (5) :menuselection:`Additional X.509 keys for default system keyring`
+>>> +     (``CONFIG_SYSTEM_TRUSTED_KEYS``)
+>>> +
+>>> +     此选项可设置为包含附加证书的 PEM 编码文件的文件名，这些证书将默 
+>>> 认包含在
+>>> +     系统密钥环中。
+>>> +
+>>> +请注意，启用模块签名会为内核构建过程添加对执行签名工具的OpenSSL开发包 
+>>> 的依赖。
+>>> +
+>>> +
+>>> +生成签名密钥
+>>> +============
+>>> +
+>>> +生成和检查签名需要加密密钥对。私钥用于生成签名，相应的公钥用于检查签 
+>>> 名。私钥
+>>> +仅在构建期间需要，之后可以删除或安全存储。公钥被构建到内核中，以便在 
+>>> 加载模块
+>>> +时可以使用它来检查签名。
+>>> +
+>>> +在正常情况下，当 ``CONFIG_MODULE_SIG_KEY`` 保持默认值时，如果文件中不 
+>>> 存在密
+>>> +钥对，内核构建将使用 openssl 自动生成新的密钥对::
+>>> +
+>>> +    certs/signing_key.pem
+>>> +
+>>> +在构建 vmlinux 期间（公钥需要构建到 vmlinux 中）使用参数::
+>>> +
+>>> +    certs/x509.genkey
+>>> +
+>>> +文件（如果尚不存在也会生成）。
+>>> +
+>>> +可以在 RSA（``MODULE_SIG_KEY_TYPE_RSA``）、
+>>> +ECDSA（``MODULE_SIG_KEY_TYPE_ECDSA``）和
+>>> +ML-DSA（``MODULE_SIG_KEY_TYPE_MLDSA_*``）之间选择生成 RSA 4k、NIST 
+>>> P-384
+>>> +密钥对或 ML-DSA 44、65 或 87 密钥对。
+>>> +
+>>> +强烈建议您提供自己的 x509.genkey 文件。
+>>> +
+>>> +最值得注意的是，在 x509.genkey 文件中，req_distinguished_name 部分应 
+>>> 从默认值
+>>> +更改::
+>>> +
+>>> +    [ req_distinguished_name ]
+>>> +    #O = Unspecified company
+>>> +    CN = Build time autogenerated kernel key
+>>> +    #emailAddress = unspecified.user@unspecified.company
+>>> +
+>>> +生成的 RSA 密钥大小也可以通过以下方式设置::
+>>> +
+>>> +    [ req ]
+>>> +    default_bits = 4096
+>>> +
+>>> +也可以使用位于 Linux 内核源代码树根节点中的 x509.genkey 密钥生成配置 
+>>> 文件和
+>>> +openssl 命令手动生成公钥/私钥文件。以下是生成公钥/私钥文件的示例::
+>>> +
+>>> +    openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
+>>> +       -config x509.genkey -outform PEM -out kernel_key.pem \
+>>> +       -keyout kernel_key.pem
+>>> +
+>>> +然后可以将生成的 kernel_key.pem 文件的完整路径名指定在
+>>> +``CONFIG_MODULE_SIG_KEY``选项中，并且将使用其中的证书和密钥而不是自动 
+>>> 生成的
+>>> +密钥对。
+>>> +
+>>> +
+>>> +内核中的公钥
+>>> +============
+>>> +
+>>> +内核包含一个可由 root 查看的公钥环。它们在名为 ".builtin_trusted_keys" 
+>>> 的密
+>>> +钥环中，可以通过以下方式查看::
+>>> +
+>>> +    [root@deneb ~]# cat /proc/keys
+>>> +    ...
+>>> +    223c7853 I------     1 perm 1f030000     0     0 keyring   
+>>> .builtin_trusted_keys: 1
+>>> +    302d2d52 I------     1 perm 1f010000     0     0 asymmetri 
+>>> Fedora kernel signing key: d69a84e6bce3d216b979e9505b3e3ef9a7118079: 
+>>> X509.RSA a7118079 []
+>>> +
+>>> +除了专门为模块签名生成的公钥外，还可以在 ``CONFIG_SYSTEM_TRUSTED_KEYS`` 
+>>> 配置
+>>> +选项引用的 PEM 编码文件中提供其他受信任的证书。
+>>> +
+>>> +此外，架构代码可以从硬件存储中获取公钥并将其添加（例如从 UEFI 密钥数 
+>>> 据库）。
+>>> +
+>>> +最后，可以通过以下方式添加其他公钥::
+>>> +
+>>> +    keyctl padd asymmetric "" [.builtin_trusted_keys-ID] <[key-file]
+>>> +
+>>> +例如::
+>>> +
+>>> +    keyctl padd asymmetric "" 0x223c7853 <my_public_key.x509
+>>> +
+>>> +但是，请注意，内核只允许将由已驻留在 ``.builtin_trusted_keys`` 中的密 
+>>> 钥有效
+>>> +签名的密钥添加到 ``.builtin_trusted_keys``。
+>>> +
+>>> +模块手动签名
+>>> +============
+>>> +
+>>> +要手动对模块进行签名，请使用 Linux 内核源代码树中可用的 scripts/sign- 
+>>> file 工
+>>> +具。该脚本需要 4 个参数：
+>>> +
+>>> +    1.  哈希算法（例如，sha256）
+>>> +    2.  私钥文件名或 PKCS#11 URI
+>>> +    3.  公钥文件名
+>>> +    4.  要签名的内核模块
+>>> +
+>>> +以下是签名内核模块的示例::
+>>> +
+>>> +    scripts/sign-file sha512 kernel-signkey.priv \
+>>> +        kernel-signkey.x509 module.ko
+>>> +
+>>> +使用的哈希算法不必与配置的算法匹配，但如果不同，应确保哈希算法要么内 
+>>> 置在内核
+>>> +中，要么可以在不需要自身的情况下加载。
+>>> +
+>>> +如果私钥需要密码或 PIN，可以在 $KBUILD_SIGN_PIN 环境变量中提供。
+>>> +
+>>> +
+>>> +已签名模块和剥离
+>>> +================
+>>> +
+>>> +已签名模块在末尾简单地附加了数字签名。模块文件末尾的字符串
+>>> +``~Module signature appended~.`` 确认签名存在，但不能确认签名有效！
+>>> +
+>>> +已签名模块是脆弱的，因为签名在定义的ELF容器之外。因此，一旦计算并附加 
+>>> 签名，就
+>>> +不得剥离它们。请注意，整个模块都是签名的有效载荷，包括签名时存在的任 
+>>> 何和所有
+>>> +调试信息。
+>>> +
+>>> +
+>>> +加载已签名模块
+>>> +==============
+>>> +
+>>> +模块通过 insmod、modprobe、``init_module()`` 或 ``finit_module()`` 加 
+>>> 载，
+>>> +与未签名模块完全一样，因为在用户空间中不进行任何处理。
+>>> +所有签名检查都在内核内完成。
+>>> +
+>>> +
+>>> +无效签名和未签名模块
+>>> +====================
+>>> +
+>>> +如果启用了 ``CONFIG_MODULE_SIG_FORCE`` 或在内核启动命令提供了
+>>> +module.sig_enforce=1，内核将仅加载具有有效签名且具有公钥的模块。否 
+>>> 则，它还将
+>>> +加载未签名的模块。任何具有不匹配签名的模块将不被允许加载。
+>>> +
+>>> +任何具有不可解析签名的模块将被拒绝。
+>>> +
+>>> +
+>>> +管理/保护私钥
+>>> +==============
+>>> +
+>>> +由于私钥用于签名模块，病毒和恶意软件可以使用私钥签名模块并危害操作系 
+>>> 统。私钥
+>>> +必须被销毁或移动到安全位置，而不是保存在内核源代码树的根节点中。
+>>> +
+>>> +如果使用相同的私钥为多个内核配置签名模块，必须确保模块版本信息足以防 
+>>> 止将模块
+>>> +加载到不同的内核中。要么设置 ``CONFIG_MODVERSIONS=y``，要么通过更改
+>>> +``EXTRAVERSION`` 或 ``CONFIG_LOCALVERSION`` 确保每个配置具有不同的内 
+>>> 核发布字
+>>> +符串。
+>
 
