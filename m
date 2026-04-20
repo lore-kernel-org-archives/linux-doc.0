@@ -1,151 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D1F53A0E8D
-	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 12:29:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF0A439EF2E
+	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 13:00:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776688168; cv=none; b=iNY7efuQ0AGmq3QTu/Z3175J8Hg3o42SsWaBH1bUozeX1EgkNwVKmRPeO0IRDIDqnrQqeuFsLAmTYopk37JOMrKPKwxchqn/t8JwfjZywElXegGcV3f1Bmn5yWgheL99aasL4Bjs0EBYrmlFX/TuWOOMJg15E/M6WoprUJxLFTY=
+	t=1776690008; cv=none; b=njwILbdVBEYEs1ruiOv2Vnl5oNG/14d4c6E7u68iQHrzBpJbKjZR6YlxxQyxIPKf2RL3S+Tyr0i/bF2JWPkvvTFPHS77qiT9XhoSSvSic67Mkxy2vWOMAM3OHSbWdh02ClCMWb13FAa6NtqBgxyoblhKmUtEXNU+9MMAJOSGrWA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776688168; c=relaxed/simple;
-	bh=zZnQ0VlElyX2HJ1r9qLjSAlH1p2ZV3USi55ESS5GWuQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=dbz7XxTNGPiqNIy/SydBEWIeGcrXIvv3mu6EbJ9yT/5gKTyDudO9C8c42wHbM1l5xjZ8XdVbMdQ8HC4pAmJyOFJx0quF+T+mrhHK8RTlrrWfRAZJGdHeXYhhjSc0SYpCt9YXLN9UUWxjeJF5tG3K+M/h6xzog0frkmmMfoEzY7E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Hd+259sp; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776690008; c=relaxed/simple;
+	bh=7KBlejIvP9GYkvGq/Eewp40lkCCUrrwheyp05BtprLU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=uaG4nvza7zH8umwduEfH3R7zsO31f6KE9WZ6s2Ihf/2h3wKEcRPXdKnwwIF3uarW/utIKqNoQ0EJg92bXehxA+55+suXWot3jVeMuFCYlA333761PvB8vaDIVvJTI95MpdQ5jwmX6tWma25Upk3iJdKhaH+ch//0ZdG8hbbMqSo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MQoIeY4X; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Hd+259sp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776688166;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MQoIeY4X"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776689994;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eC+Gw15PYY2xMCVGISwvaMfqiq/SdhUQydGUlDgpOjE=;
-	b=Hd+259sp+qw08wNbATIuE+P743sMBiOS2YJfCYEG28XNvQT30u3dfmNc54RJX56ikjXfnJ
-	qKmOIXSZK0aN7LF15uZBQtWWYLdDppIfynuUFvbpZ4DK1cdL4ZpxbFAHMTK+Xc1rMLPhWc
-	n6GwUWcZzL53UD6EZl8PyzP5a0t8Or8=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-384-jGrVKFOPNCSD5jKV5mRJEQ-1; Mon,
- 20 Apr 2026 08:29:23 -0400
-X-MC-Unique: jGrVKFOPNCSD5jKV5mRJEQ-1
-X-Mimecast-MFC-AGG-ID: jGrVKFOPNCSD5jKV5mRJEQ_1776688160
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B6451955DD1;
-	Mon, 20 Apr 2026 12:29:19 +0000 (UTC)
-Received: from [192.168.1.153] (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DAEBF1956095;
-	Mon, 20 Apr 2026 12:29:13 +0000 (UTC)
-From: Albert Esteve <aesteve@redhat.com>
-Date: Mon, 20 Apr 2026 14:28:07 +0200
-Subject: [PATCH v7 5/5] kunit: Add documentation for warning backtrace
- suppression API
+	bh=mOUWkybK3eiKfeEN3c1AmWJrSYfchS2TwUw3TqjAFDY=;
+	b=MQoIeY4X5Tdero87dcxHKdE+OYa7VsCpsSJjLcOM1TCiKHbDh2FyVtVy84CraYpnnMGluW
+	ZfgNtlHxHkCKuP9jHjbWOg4ofUkXfWnsh0dP28SEBEzGOYxol1VVySbGKw1K914r6bLOAU
+	OF1M4yVsHuKD6orXWNTNGxPdZWj6LnE=
+From: Usama Arif <usama.arif@linux.dev>
+To: Nico Pache <npache@redhat.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com
+Subject: Re: [PATCH 7.2 v16 01/13] mm/khugepaged: generalize hugepage_vma_revalidate for mTHP support
+Date: Mon, 20 Apr 2026 05:59:42 -0700
+Message-ID: <20260420125943.3443828-1-usama.arif@linux.dev>
+In-Reply-To: <20260419185750.260784-2-npache@redhat.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260420-kunit_add_support-v7-5-e8bc6e0f70de@redhat.com>
-References: <20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com>
-In-Reply-To: <20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com>
-To: Arnd Bergmann <arnd@arndb.de>, 
- Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, 
- Rae Moar <raemoar63@gmail.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
- linux-doc@vger.kernel.org, peterz@infradead.org, 
- Guenter Roeck <linux@roeck-us.net>, 
- Linux Kernel Functional Testing <lkft@linaro.org>, 
- Dan Carpenter <dan.carpenter@linaro.org>, 
- Alessandro Carminati <acarmina@redhat.com>, 
- Albert Esteve <aesteve@redhat.com>, Kees Cook <kees@kernel.org>, 
- David Gow <david@davidgow.net>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1776688120; l=2318;
- i=aesteve@redhat.com; s=20260303; h=from:subject:message-id;
- bh=4lfzAn+gO6eKqXz4dSBewHEkwDQyO+2TvU94oaKAI+c=;
- b=+ZaIrx/JeqPsEIaFDyLvWFz4pvg2lbnhOY5zt6oosncq1QDT0Y5Q0/25t1JHOMOw24diZyoFj
- vqfK/ASGW5lCGqqXJLSNqwsl+LQanP8755c4a2aGKmzwc++v0RYLD87
-X-Developer-Key: i=aesteve@redhat.com; a=ed25519;
- pk=YSFz6sOHd2L45+Fr8DIvHTi6lSIjhLZ5T+rkxspJt1s=
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-From: Guenter Roeck <linux@roeck-us.net>
+On Sun, 19 Apr 2026 12:57:38 -0600 Nico Pache <npache@redhat.com> wrote:
 
-Document API functions for suppressing warning backtraces.
+> For khugepaged to support different mTHP orders, we must generalize this
+> to check if the PMD is not shared by another VMA and that the order is
+> enabled.
+> 
+> No functional change in this patch. Also correct a comment about the
+> functionality of the revalidation and fix a double space issues.
+> 
+> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Co-developed-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  mm/khugepaged.c | 20 ++++++++++++--------
+>  1 file changed, 12 insertions(+), 8 deletions(-)
+> 
 
-Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-Reviewed-by: Kees Cook <keescook@chromium.org>
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: David Gow <davidgow@google.com>
-Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-Signed-off-by: Albert Esteve <aesteve@redhat.com>
----
- Documentation/dev-tools/kunit/usage.rst | 30 +++++++++++++++++++++++++++++-
- 1 file changed, 29 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-index ebd06f5ea4550..76e85412f240e 100644
---- a/Documentation/dev-tools/kunit/usage.rst
-+++ b/Documentation/dev-tools/kunit/usage.rst
-@@ -157,6 +157,34 @@ Alternatively, one can take full control over the error message by using
- 	if (some_setup_function())
- 		KUNIT_FAIL(test, "Failed to setup thing for testing");
- 
-+Suppressing warning backtraces
-+------------------------------
-+
-+Some unit tests trigger warning backtraces either intentionally or as side
-+effect. Such backtraces are normally undesirable since they distract from
-+the actual test and may result in the impression that there is a problem.
-+
-+Such backtraces can be suppressed with **task scope suppression**: while
-+``START`` / ``END`` is active on the current task, the backtrace and stack
-+dump from warnings on that task are suppressed. Wrap the call from your test
-+in that window, like shown in the following code.
-+
-+.. code-block:: c
-+
-+	static void some_test(struct kunit *test)
-+	{
-+		KUNIT_START_SUPPRESSED_WARNING(test);
-+		trigger_backtrace();
-+		KUNIT_END_SUPPRESSED_WARNING(test);
-+	}
-+
-+``KUNIT_SUPPRESSED_WARNING_COUNT()`` returns the number of suppressed backtraces.
-+If the suppressed backtrace was triggered on purpose, this can be used to check
-+if the backtrace was actually triggered.
-+
-+.. code-block:: c
-+
-+	KUNIT_EXPECT_EQ(test, KUNIT_SUPPRESSED_WARNING_COUNT(), 1);
- 
- Test Suites
- ~~~~~~~~~~~
-@@ -1211,4 +1239,4 @@ For example:
- 		dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
- 
- 		// Everything is cleaned up automatically when the test ends.
--	}
-\ No newline at end of file
-+	}
-
--- 
-2.52.0
-
+Acked-by: Usama Arif <usama.arif@linux.dev>
