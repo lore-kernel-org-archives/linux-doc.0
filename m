@@ -1,128 +1,162 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AF834EF00;
-	Mon, 20 Apr 2026 18:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECE143AE6FA;
+	Mon, 20 Apr 2026 18:27:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776708498; cv=none; b=CXmntu47OJEebHfkCgqxQq0MlagTgnpHdr3KmtumFOyUQt5/rkFtT0LTe/hSLGybv0WTZnULg9DiaEaR9VdZSPMktF7uotJFN0hzQte9K7yfDTj3dr0U2uUVV9Tb6IVRxYXbhdG/7Wwgyb9VUTwYfkrFo4vysN38HDKUpf+prO4=
+	t=1776709658; cv=none; b=d0BjXdPCfZbz6km9ZCW53J1zyef+dFeMSZXudeVf9VgNeA6o80ez9CS7MmY9QcDC3+LgmN4NJhD6vebd5xC2ZKJtkNfmH21y5Z7ed/GFnjmKMVIrNMCpuJMbk9LTG0av7E/45b/3oAid2JHemXJGrXhJW0iAWLCbJSrIDVP5BnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776708498; c=relaxed/simple;
-	bh=jiKs6ZJoVpcVKKjIgsqvSL9z9lkxeqRL5Yg3zihEUog=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=pqv7I5c1KK5jWy8OL3QhYHoavt4ePy3wzknNfBHsMA3x4KTYy29yRocTwNuoYzcrp6lCcdg8622/K8ysmWavJLU1d2OcEVpUhwrdrIIi5mNMfx6oNjW97jlJemnO7b4W8K0SfekUf96zSim6fJOMrlw1qEOxsns9fk4jSGEizFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca; spf=pass smtp.mailfrom=squebb.ca; dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b=csONNvIS; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Gaf1DxYI; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=squebb.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=squebb.ca
+	s=arc-20240116; t=1776709658; c=relaxed/simple;
+	bh=crdJxpMqnI0FctJec9g0X+pzhKKjposYgdqmd28MBlo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uetnT7Iuv8nkTc+MAqUd4NCFAwEFEnoOPaf5oIf9x7yigDPq7UL/t15XwlCTsWh5i4tUY7u+Wh0+bVBe1GN9J8nzpB01sPejc6d9IUeGwNSjAbYffCAarFw4Ix+xWtpFNWsIEJAdULMKsTceXgytD7FpD6OSlaou/Vbb+J28lSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kaWAWf0K; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=squebb.ca header.i=@squebb.ca header.b="csONNvIS";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Gaf1DxYI"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 519587A01E8;
-	Mon, 20 Apr 2026 14:08:15 -0400 (EDT)
-Received: from phl-imap-08 ([10.202.2.84])
-  by phl-compute-02.internal (MEProxy); Mon, 20 Apr 2026 14:08:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=squebb.ca; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1776708495;
-	 x=1776794895; bh=daniOWyt82clBCpPF91tefseu6u3nUNzlAoqxcM2Kak=; b=
-	csONNvISozAsFO+FTVUIS0cx83a77Qh3l5FhbNrriGo+FRsjHlON0DRaq51y1iFw
-	3POgYBALXs9TFxfcQ8FvtsHOXkHp5/4BAZ7WtVT+tDukmjzcHrXyGXz5v/C3/Bgn
-	/zIgy1UMASCdINe2lQNdEB3XgY0B8WSz/p7GS22wzR2tRmuwvdK77xGCad7874Uw
-	CySacyGOZOsHvq/URaBXSqZjGlDid7dF1YVq6o4UUp4Ovia7zj36t7z/CVpGsS9Z
-	nB+yvNOrHw0LKidPHfR+n1nQ0VHBeM6XMiEde7OHTxU8AMhDVb+b6stNMkx2sncs
-	KmbcgbNVLHRNR0uJxK/2kg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1776708495; x=
-	1776794895; bh=daniOWyt82clBCpPF91tefseu6u3nUNzlAoqxcM2Kak=; b=G
-	af1DxYIYouBEZJttUvxWxR2BKcaq/w+qkBnBJE5zdAnb0KPcjrTSqenSh/U3RR9p
-	PFy/EmJpqQdOWd2vv/YnI/6IQm1MhTkg7kCny2Ko0BWPOMAS+pYRHi8ljtRyLTMk
-	qQOL5OMfgowqxuhDwhbEnJJFF8awT1nlV226MoD7q9HDhJndtqDsmmif+PMen9So
-	R7dnRk2gPkgSmUM9aWy8m9/gx3MSrbrGVjbjtV0EzY70fQspPfUCXDmeSCmF4zXt
-	O8KREBjQJXSUyBmNaRetcRgnhJ2HzSndp6or37Zlthj4Bx0XjVUbFJj11Vc7xFmH
-	w7OKvchKiDtBLEudfr75w==
-X-ME-Sender: <xms:jmvmaTivBH--eDyI2tN77VWx266gpKVhiUSQu5EzrkpsNp2IktTtPg>
-    <xme:jmvmaa2-mT12HbbWpShiupUZsXYTZtBcEr5rUz84HKdkjZyIYCdkTSMwM7Z9VdLp9
-    7ORAKr-lMA6opOoX-82yZlN6brBqNdOYqjpY3mc4ije9yOxt-9At6Fo>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdehledvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdforghrkhcu
-    rfgvrghrshhonhdfuceomhhpvggrrhhsohhnqdhlvghnohhvohesshhquhgvsggsrdgtrg
-    eqnecuggftrfgrthhtvghrnheptdffvefgtefhveetuddvfeelveektdduvdelgfehgfei
-    keffjeetjeevffektdfhnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhush
-    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmphgvrghrshhonhdq
-    lhgvnhhovhhosehsqhhuvggssgdrtggrpdhnsggprhgtphhtthhopedutddpmhhouggvpe
-    hsmhhtphhouhhtpdhrtghpthhtohepmhgvsegsrhhighhhrghmtggrmhhpsggvlhhlrdgt
-    ohhmpdhrtghpthhtohepuggvrhgvkhhjohhhnhdrtghlrghrkhesghhmrghilhdrtghomh
-    dprhgtphhtthhopehnihhnrggunhgrihhktdejsehgmhgrihhlrdgtohhmpdhrtghpthht
-    ohepfigprghrmhhinhesghhmgidruggvpdhrtghpthhtohepshhkhhgrnheslhhinhhugi
-    hfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhdq
-    mhgvnhhtvggvsheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegtohhrsg
-    gvtheslhifnhdrnhgvthdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgv
-    rhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:jmvmacu7cD8DG0ozzuz2V1gX9Nkqrut9mAZYstwndyU90bYv2IQp7g>
-    <xmx:jmvmaXvdVNcR6upF1gSq5vUdZx1GzUG_irMCfPOOUnVU2xhmYwa7Uw>
-    <xmx:jmvmaRET0bweJMopTau_gVSb0du6Hnhc9Vimfngd9ZKpUfSQ2mBHTA>
-    <xmx:jmvmaSM3t4TB2-NkEsvBE37ZcQYTzetm0jPV06yhPLGTcTY0sc7t-g>
-    <xmx:j2vmaTrM9nIutg3DwEMtLE8pXO8PeqKdepl5fN43fV7XOApRRNAWdUci>
-Feedback-ID: ibe194615:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id C5A022CE3F95; Mon, 20 Apr 2026 14:08:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kaWAWf0K"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=tLIX+xxXAjemUdxSYuHOuwKYeKdsGBn4WrCDh+lQ6mw=; b=kaWAWf0KMUTkQbFigTk+u+H8bm
+	0fdGUmtJavbSvVWGggAzL5BiyMtURI1pMB2HaC4UCMrEAAzImymyNZnmlv19BNyh69epGlwMUVzW6
+	FpoTE2a65d8UGLYwYb44iCZYqDoJIfRNQGlKciMyICkLlpU8JeQNzacE9hRTR4FQoF/TaeW//XNk2
+	yFiCo8KQraXB3vwIMKCMssd+Q3GV/2E79ZZfd7KpzNrY0t6A/EvLEPawi9SUHsTEvuJGcRHjJh0gZ
+	L87WP+nPgztOoAN2oUCeZfpHTK1ExYTIUeAIHfiE4dyqEWdXdTeNmq68Kt62uS0gtGz5u1Spr0T1J
+	kjxYX3nw==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wEtL1-00000008rF3-3xNc;
+	Mon, 20 Apr 2026 18:27:15 +0000
+Date: Mon, 20 Apr 2026 19:27:15 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Jane Chu <jane.chu@oracle.com>
+Cc: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
+	osalvador@suse.de, lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, corbet@lwn.net,
+	skhan@linuxfoundation.org, hughd@google.com,
+	baolin.wang@linux.alibaba.com, peterx@redhat.com,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/6] hugetlb: open-code hugetlb folio lookup index
+ conversion
+Message-ID: <aeZwAz6PcdlqSnJ2@casper.infradead.org>
+References: <20260409234158.837786-1-jane.chu@oracle.com>
+ <20260409234158.837786-2-jane.chu@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Ab0JQVG51Pnw
-Date: Mon, 20 Apr 2026 14:07:53 -0400
-From: "Mark Pearson" <mpearson-lenovo@squebb.ca>
-To: "Jonathan Corbet" <corbet@lwn.net>,
- "Derek J . Clark" <derekjohn.clark@gmail.com>,
- "Ninad Naik" <ninadnaik07@gmail.com>, "Armin Wolf" <W_Armin@gmx.de>,
- skhan@linuxfoundation.org
-Cc: 
- "platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- me@brighamcampbell.com, linux-kernel-mentees@lists.linux.dev
-Message-Id: <caeb609a-499f-4eab-91a2-2d85665631ea@app.fastmail.com>
-In-Reply-To: <87fr4qw2jy.fsf@trenco.lwn.net>
-References: <20260419170835.347910-1-ninadnaik07@gmail.com>
- <b94cef14-d02d-4544-abb5-ead7db6eaa72@app.fastmail.com>
- <BAA4F3A7-E892-4904-95A6-64B177CDA7AD@gmail.com>
- <87fr4qw2jy.fsf@trenco.lwn.net>
-Subject: Re: [PATCH] Documentation: fix spelling mistake "Minumum" -> "Minimum"
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260409234158.837786-2-jane.chu@oracle.com>
 
+On Thu, Apr 09, 2026 at 05:41:52PM -0600, Jane Chu wrote:
+> This patch removes `filemap_lock_hugetlb_folio()` and open-codes
+> the index conversion at each call site, making it explicit when
+> hugetlb code is translating a hugepage index into the base-page index
+> expected by `filemap_lock_folio()`
 
-On Mon, Apr 20, 2026, at 2:47 AM, Jonathan Corbet wrote:
-> "Derek J. Clark" <derekjohn.clark@gmail.com> writes:
->
->> The MOF spelling mistakes are well known. We've left them is as to
->> ensure match with what the hardware actually reports.
->>
->> See: https://lore.kernel.org/platform-driver-x86/cfd7977e-d612-4e08-a68a-65fed8e164b6@gmx.de
->>
->> I suppose if we're going to continue getting these types or PR I
->> should add a note to the documentation. I'll add that soon.
->
-> Perhaps worth adding, but I'm not sure I would expect it to help.  The
-> people generating these patches aren't putting much attention into the
-> context surrounding them.
->
-I'd forgotten that previous discussion - sorry.
+I think this is too large a piece to break off in a single patch.
+The first thing I did was look at hugetlbfs_read_iter() and wonder
+why we're not able to use generic_file_read_iter() here?  It used
+to be necessary because we used to index the page cache in units
+of hsize, but now we don't, it seems to me that we could use
+generic_file_read_iter() instead.
 
-Part of the problem (I know I had this many years ago when I got started) is being told the best way to get involved in kernel development and learn the process is to find small things to fix (spelling mistakes, documentation, comments etc). I suspect that's accelerated with AI identifying them too :)
+Now, what hugetlbfs_read_iter() does have is support for hwpoison
+handling.  I suspect this is something we want in
+generic_file_read_iter(), it's just nobody's done it yet.
 
-What if we fix the typo, and add a comment highlighting that the vendor documentation/MOF/whatever is wrong? Then everybody is 'happy'? (or at least we'll get less emails about it)
+So perhaps that's patch 1 -- add hwpoison support to
+generic_file_read_iter().  Then patch 2 removes hugetlbfs_read_iter() in
+favour of using generic_file_read_iter().  
 
-Mark
+Patch 3 is purely this:
+(and you can put my Reviewed-by on it).
+
+> @@ -652,10 +652,10 @@ static void hugetlbfs_zero_partial_page(struct hstate *h,
+>  					loff_t start,
+>  					loff_t end)
+>  {
+> -	pgoff_t idx = start >> huge_page_shift(h);
+> +	pgoff_t index = start >> PAGE_SHIFT; 
+>  	struct folio *folio;
+>  
+> -	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+> +	folio = filemap_lock_folio(mapping, index);
+>  	if (IS_ERR(folio))
+>  		return;
+>  
+
+Now for patch 4 ...
+
+> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+> index a786034ac95c..38b39eaf46cc 100644
+> --- a/mm/hugetlb.c
+> +++ b/mm/hugetlb.c
+> @@ -5724,7 +5724,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+>  	 * before we get page_table_lock.
+>  	 */
+>  	new_folio = false;
+> -	folio = filemap_lock_hugetlb_folio(h, mapping, vmf->pgoff);
+> +	folio = filemap_lock_folio(mapping, vmf->pgoff << huge_page_order(h));
+>  	if (IS_ERR(folio)) {
+>  		size = i_size_read(mapping->host) >> huge_page_shift(h);
+>  		if (vmf->pgoff >= size)
+
+This points to a horrible problem.  Everywhere else in the VM has
+vmf->pgoff in PAGE_SIZE units, and of course hugetlb works in units of
+hpagesize.  So this is an entirely different piece of work where we
+convert vmf->pgoff to be in units of PAGE_SIZE.  That'll be fun!
+
+> @@ -6208,7 +6208,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>  
+>  	if (is_continue) {
+>  		ret = -EFAULT;
+> -		folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+> +		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
+>  		if (IS_ERR(folio))
+>  			goto out;
+>  		folio_in_pagecache = true;
+
+This is a much smaller (more contained) problem.  At least idx is local
+to this function, so you can calculate it using linear_page_index()
+and modify the whole function.
+
+Finally, you can delete filemap_lock_hugetlb_folio():
+
+> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+> index 9c098a02a09e..c64c6e5e50f5 100644
+> --- a/include/linux/hugetlb.h
+> +++ b/include/linux/hugetlb.h
+> @@ -829,12 +829,6 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
+>  	return huge_page_size(h) / 512;
+>  }
+>  
+> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+> -				struct address_space *mapping, pgoff_t idx)
+> -{
+> -	return filemap_lock_folio(mapping, idx << huge_page_order(h));
+> -}
+> -
+>  #include <asm/hugetlb.h>
+>  
+>  #ifndef is_hugepage_only_range
+> @@ -1106,12 +1100,6 @@ static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio
+>  	return NULL;
+>  }
+>  
+> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+> -				struct address_space *mapping, pgoff_t idx)
+> -{
+> -	return NULL;
+> -}
+> -
+>  static inline int isolate_or_dissolve_huge_folio(struct folio *folio,
+>  						struct list_head *list)
+>  {
