@@ -1,227 +1,476 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6862C2EA75E;
-	Mon, 20 Apr 2026 13:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715D733BBCC
+	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 13:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776693199; cv=none; b=OEATqB0g52NmSdCCIWzCDLjLP2q4swubpW9w55rdNES6DK77KXzMkXYlwUOjucg/2rSlVjUzCnOyM1HU+SafC/OvmGsn7Ld2Mxk+XxcTJw4bGFSZv+jStTYVStpby6meW2zetauI2rKozfbgHpLJVeIiUit+uTVJUduucCckmVE=
+	t=1776693377; cv=none; b=AB/qBJdR8xoMxJP2k+DXxAM/VAhuiJVmXwO2IHPmZPEO6ejSWbkRxdeTUBKQfsYrY+RVpeLY1Tlb2w/sVspvRCn1KhT9YXaWWd1frDVGhlIVm2jluUBPqLxmpKkIghkbGmoumRUhxaQDblua65eVVe+TSMFGeToBonL+Xg1G8P4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776693199; c=relaxed/simple;
-	bh=/2WX7QRrreqNa1lPcnWhMEbZ0TkX/QFlLwzbB3DhuUg=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HUfLQbJHOmdiU1r7Gc4u/2b3r60RkIuTkMNoJ7lLchsSwAoETvEeBGuqrMHM8Zp9vZ7q8LLhJFH3uZG8mHcz0HrAuQLM1eFR8jvk8px/HGfSM2KZ8UM/f5V79e6CTrrYwyh+XqDLGOqZlo2Wy1CEv5IxncF5OSSHD/tlJtf8Lm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CLHDrjXd; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776693377; c=relaxed/simple;
+	bh=n7oguGeFaZejDsa+0jOJ5kFAifRyjvVqd/+RDSn3ZA0=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=Q1PBatoc1eJ2IELdWLFkaV6VpAD40DxDn2FpjfOcMwTjzUgqONJfnP1xLPTwUbCIU3usZSWtPuCsdp3YQnEIXnyAdfihlxId+FRE3wvcyrwCgswaqraFaVT9RYy3G5IocDKm9LAUctvGS3Ol5SOyuZvmCiGCURnYGiBlzOYsanM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vLaTKWNN; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CLHDrjXd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CEB41C19425;
-	Mon, 20 Apr 2026 13:53:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776693199;
-	bh=/2WX7QRrreqNa1lPcnWhMEbZ0TkX/QFlLwzbB3DhuUg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CLHDrjXdglACtNImEqi28IDMMq7a5VhtuFLdyxVmCXCyceC4zd94riRPfAVgYMPA0
-	 EvhnwhPlhqZSYz1oW/9EpYgcRqCh0KlVGeYyKv0OaJ+I3bcrttEzeUId2W6blRETn6
-	 m47ogPkO9Fvt5G3+IJTKRSl230r0zn/MAa3H5V2XJ7nKn4yOY0wRf2BX6yvvqTy3QP
-	 MzM+0VSDOTi2+sUr92tv5K+/QzK2ZzxE0ur6/57SeB/VszFCS0E3IiRytMNb1KD7pn
-	 iveHZNnTVhLopLxmDmSXERfBw8mGUtEfPMeRPcdm2RvxvO53fB17/KW31sQf6hOor2
-	 FJmdjbmlZxbHw==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.2)
-	(envelope-from <maz@kernel.org>)
-	id 1wEp3s-0000000D5cc-1J1N;
-	Mon, 20 Apr 2026 13:53:16 +0000
-Date: Mon, 20 Apr 2026 14:53:15 +0100
-Message-ID: <86ldeh20xg.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
-Cc: Oliver Upton <oupton@kernel.org>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu
- <yuzenghui@huawei.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <shuah@kernel.org>,
-	linux-arm-kernel@lists.infradead.org,
-	kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org,
-	devel@daynix.com,
-	kvm@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vLaTKWNN"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1776693363;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iRj72wK+FCQB3Q8xdRrZNsXn0FIfDJ87LTYopLumO9A=;
+	b=vLaTKWNNU6/vG2fZehdj+5Nz+ewgUOFxb0ZpxRe/OFBJIZe+Zs0uk9TbH9AbMSl/0MT/oz
+	3DyN97FMaNdil2vqX2i+OiHo6dTbulwv6e5Vh2NWUFi6qF8FgRZ3nV++jvj0Gc6dmCDZ3H
+	DFxO0c3WxF+agDrZ5qIwyAFlWhsuLoY=
+From: Usama Arif <usama.arif@linux.dev>
+To: Nico Pache <npache@redhat.com>
+Cc: Usama Arif <usama.arif@linux.dev>,
 	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: Re: [PATCH v7 3/4] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
-In-Reply-To: <ad44c69e-2f99-4f31-81b4-faae52eea080@rsg.ci.i.u-tokyo.ac.jp>
-References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-	<20260418-hybrid-v7-3-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
-	<87ldeic1gk.wl-maz@kernel.org>
-	<06c6664c-7f0c-47b2-babf-ba2a541fd9f2@rsg.ci.i.u-tokyo.ac.jp>
-	<86qzoa0xj6.wl-maz@kernel.org>
-	<ad44c69e-2f99-4f31-81b4-faae52eea080@rsg.ci.i.u-tokyo.ac.jp>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	anshuman.khandual@arm.com,
+	apopple@nvidia.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	byungchul@sk.com,
+	catalin.marinas@arm.com,
+	cl@gentwo.org,
+	corbet@lwn.net,
+	dave.hansen@linux.intel.com,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jack@suse.cz,
+	jackmanb@google.com,
+	jannh@google.com,
+	jglisse@google.com,
+	joshua.hahnjy@gmail.com,
+	kas@kernel.org,
+	lance.yang@linux.dev,
+	Liam.Howlett@oracle.com,
+	ljs@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	matthew.brost@intel.com,
+	mhiramat@kernel.org,
+	mhocko@suse.com,
+	peterx@redhat.com,
+	pfalcato@suse.de,
+	rakie.kim@sk.com,
+	raquini@redhat.com,
+	rdunlap@infradead.org,
+	richard.weiyang@gmail.com,
+	rientjes@google.com,
+	rostedt@goodmis.org,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shivankg@amd.com,
+	sunnanyong@huawei.com,
+	surenb@google.com,
+	thomas.hellstrom@linux.intel.com,
+	tiwai@suse.de,
+	usamaarif642@gmail.com,
+	vbabka@suse.cz,
+	vishal.moola@gmail.com,
+	wangkefeng.wang@huawei.com,
+	will@kernel.org,
+	willy@infradead.org,
+	yang@os.amperecomputing.com,
+	ying.huang@linux.alibaba.com,
+	ziy@nvidia.com,
+	zokeefe@google.com
+Subject: Re: [PATCH 7.2 v16 04/13] mm/khugepaged: generalize __collapse_huge_page_* for mTHP support
+Date: Mon, 20 Apr 2026 06:55:53 -0700
+Message-ID: <20260420135554.27067-1-usama.arif@linux.dev>
+In-Reply-To: <20260419185750.260784-5-npache@redhat.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: odaki@rsg.ci.i.u-tokyo.ac.jp, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, kees@kernel.org, gustavoars@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, 20 Apr 2026 13:07:15 +0100,
-Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
+On Sun, 19 Apr 2026 12:57:41 -0600 Nico Pache <npache@redhat.com> wrote:
+
+> generalize the order of the __collapse_huge_page_* and collapse_max_*
+> functions to support future mTHP collapse.
 > 
-> On 2026/04/20 18:51, Marc Zyngier wrote:
-> > On Mon, 20 Apr 2026 09:36:16 +0100,
-> > Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
-> >> 
-> >> On 2026/04/20 2:19, Marc Zyngier wrote:
-> >>> On Sat, 18 Apr 2026 09:14:25 +0100,
-> >>> Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
-> >>>> 
-> >>>> On a heterogeneous arm64 system, KVM's PMU emulation is based on the
-> >>>> features of a single host PMU instance. When a vCPU is migrated to a
-> >>>> pCPU with an incompatible PMU, counters such as PMCCNTR_EL0 stop
-> >>>> incrementing.
-> >>>> 
-> >>>> Although this behavior is permitted by the architecture, Windows does
-> >>>> not handle it gracefully and may crash with a division-by-zero error.
-> >>>> 
-> >>>> The current workaround requires VMMs to pin vCPUs to a set of pCPUs
-> >>>> that share a compatible PMU. This is difficult to implement correctly in
-> >>>> QEMU/libvirt, where pinning occurs after vCPU initialization, and it
-> >>>> also restricts the guest to a subset of available pCPUs.
-> >>>> 
-> >>>> Introduce the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY attribute to
-> >>>> create a "fixed-counters-only" PMU. When set, KVM exposes a PMU that is
-> >>>> compatible with all pCPUs but that does not support programmable
-> >>>> event counters which may have different feature sets on different PMUs.
-> >>>> 
-> >>>> This allows Windows guests to run reliably on heterogeneous systems
-> >>>> without crashing, even without vCPU pinning, and enables VMMs to
-> >>>> schedule vCPUs across all available pCPUs, making full use of the host
-> >>>> hardware.
-> >>>> 
-> >>>> Much like KVM_ARM_VCPU_PMU_V3_IRQ and other read-write attributes, this
-> >>>> attribute provides a getter that facilitates kernel and userspace
-> >>>> debugging/testing.
-> >>> 
-> >>> OK, so that's the sales pitch. But how is it implemented? I would like
-> >>> to be able to read a high-level description of the implementation
-> >>> trade-offs.
-> >> 
-> >> Implementation-wise it is very trivial. Essentially the following
-> >> addition in kvm_arm_pmu_v3_get_attr() is the entire implementation:
-> >> +	case KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY:
-> >> +		if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
-> >> &vcpu->kvm->arch.flags))
-> >> +			return 0;
-> >> 
-> >> Both its functionality and code complexity is trivial. So we can argue that:
-> >> - the functionality is too trivial to be useful or
-> >> - the interface/implementation complexity is so trivial that it does not
-> >>    incur maintenance burden
-> >> 
-> >> In this case the selftest uses the getter so I was more inclined to
-> >> have it, but adding one just for the selftest sounds too ad-hoc, so
-> >> here I looked into other attributes to ensure that it was not
-> >> introducing inconsistency with existing interfaces.
-> >> 
-> >> As the result, I found there are other read-write attributes; in fact
-> >> there are more read-write attributes than write-only ones.
-> > 
-> > You're completely missing the point. I'm referring to the whole of the
-> > commit message, which is more of a marketing slide than a technical
-> > description.
+> The current mechanism for determining collapse with the
+> khugepaged_max_ptes_none value is not designed with mTHP in mind. This
+> raises a key design issue: if we support user defined max_pte_none values
+> (even those scaled by order), a collapse of a lower order can introduces
+> an feedback loop, or "creep", when max_ptes_none is set to a value greater
+> than HPAGE_PMD_NR / 2.
 > 
-> In terms of implementation, the obvious tradeoff is that it adds more
-> code to implement the feature. One thing to note is that
-> kvm_vcpu_load_pmu() is added and is called each time a vCPU migrates
-> across pCPUs. The heavy part, making the KVM_REQ_RELOAD_PMU request,
-> only happens when the feature is enabled.
-
-Well, that's what I want to see. The repeated blurb about Windows
-being broken is cover letter material, but not fir for a commit
-message.
-
-[...]
-
-> >>> "for the first time" gives the impression that it will work if you try
-> >>> again. I'd rather we say that "This feature is incompatible with the
-> >>> existence of a PMU event filter".
-> >> 
-> >> The following sequence will work:
-> >> 1. Set KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
-> >> 2. Set KVM_ARM_VCPU_PMU_V3_FILTER
-> >> 3. Set KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
-> >> 
-> >> This is to make the behavior conistent with KVM_ARM_VCPU_PMU_V3_SET_PMU.
-> > 
-> > I don't think this is correct. Filtering is completely at odds with
-> > this patch, and I don't want to have to reason about the combination.
+> With this configuration, a successful collapse to order N will populate
+> enough pages to satisfy the collapse condition on order N+1 on the next
+> scan. This leads to unnecessary work and memory churn.
 > 
-> kvm_arm_pmu_v3_set_pmu() has the following condition:
+> To fix this issue introduce a helper function that will limit mTHP
+> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
+> This effectively supports two modes:
 > 
-> if (kvm_vm_has_ran_once(kvm) ||
->     (kvm->arch.pmu_filter && kvm->arch.arm_pmu != arm_pmu)) {
-> 	ret = -EBUSY;
-> 	break;
-> }
+> - max_ptes_none=0: never introduce new none-pages for mTHP collapse.
+> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
+>   available mTHP order.
 > 
-> kvm_arm_pmu_v3_set_pmu_fixed_counters_only() has the corresponding
-> condition for consistency:
+> This removes the possiblilty of "creep", while not modifying any uAPI
+> expectations. A warning will be emitted if any non-supported
+> max_ptes_none value is configured with mTHP enabled.
 > 
-> if (kvm_vm_has_ran_once(kvm) ||
->     (kvm->arch.pmu_filter &&
->      !test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
-> 	       &kvm->arch.flags)))
-> 	return -EBUSY;
+> mTHP collapse will not honor the khugepaged_max_ptes_shared or
+> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
+> shared or swapped entry.
 > 
-> We can of course kill the PMU event filter for
-> FIXED_COUNTERS_ONLY. The filter is effectively no-op with
-> FIXED_COUNTERS_ONLY and I don't think that consistency matters much.
-
-We shouldn't allow weird combinations in the UAPI. Since it makes no
-sense to have both fixed-function *and* filters, we should make them
-mutually exclusive.
-
-[...]
-
-> >> I expect migration will be handled with the conventional register
-> >> getters and setters, but please share if you have a concern.
-> > 
-> > At the very least I want to see some documentation explaining that.
+> No functional changes in this patch; however it defines future behavior
+> for mTHP collapse.
 > 
-> What kind of documentation do you expect?
+> Co-developed-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  mm/khugepaged.c | 124 ++++++++++++++++++++++++++++++++++--------------
+>  1 file changed, 88 insertions(+), 36 deletions(-)
+> 
 
-A description of what counters are exposed by this feature, and what
-architectural features they are dependent on.
+Small nits. Most might not need change.
 
-> If we change kvm_vcpu_load_pmu() to avoid for_each_set_bit(), there
-> would be a good chance to forget updating it when mechanically
-> updating existing for_each_set_bit() instances, so it is a candidate
-> for documentation. But I don't have a good idea where to place it
-> either.
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index f42b55421191..283bb63854a5 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -352,51 +352,86 @@ static bool pte_none_or_zero(pte_t pte)
+>   * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
+>   * @cc: The collapse control struct
+>   * @vma: The vma to check for userfaultfd
+> + * @order: The folio order being collapsed to
+>   *
+>   * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
+> - * empty page.
+> + * empty page. For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the
+> + * configured khugepaged_max_ptes_none value.
+> + *
+> + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
+> + * of 0 or (KHUGEPAGED_MAX_PTES_LIMIT). Any other value will emit a warning and
+> + * no mTHP collapse will be attempted
+>   *
+>   * Return: Maximum number of empty PTEs allowed for the collapse operation
+>   */
+> -static unsigned int collapse_max_ptes_none(struct collapse_control *cc,
+> -		struct vm_area_struct *vma)
+> +static int collapse_max_ptes_none(struct collapse_control *cc,
+> +		struct vm_area_struct *vma, unsigned int order)
+>  {
+>  	if (vma && userfaultfd_armed(vma))
+>  		return 0;
+>  	if (!cc->is_khugepaged)
+>  		return HPAGE_PMD_NR;
+> -	return khugepaged_max_ptes_none;
+> +	if (is_pmd_order(order))
+> +		return khugepaged_max_ptes_none;
+> +	/* Zero/non-present collapse disabled. */
+> +	if (!khugepaged_max_ptes_none)
+> +		return 0;
+> +	if (khugepaged_max_ptes_none == KHUGEPAGED_MAX_PTES_LIMIT)
+> +		return (1 << order) - 1;
+> +
 
-The moment we introduce FEAT_PMUv3_ICNTR, the whole PMUv3 emulation
-will catch fire anyway, as we already limit ourselves to 32 bits for
-reset and nesting switch.
+There are 2 reads of khugepaged_max_ptes_none here.
+A concurrent sysctl write between reads can yield "0 then non-zero" or "LIMIT
+then mid-value".
 
-So this will be a major redesign anyway. If you are really worried,
-leave a comment in there.
+Would be good to just snapshot once at the start of the function and use that
+value?
 
-	M.
+> +	pr_warn_once("mTHP collapse only supports max_ptes_none values of 0 or %u\n",
+> +		      KHUGEPAGED_MAX_PTES_LIMIT);
 
--- 
-Without deviation from the norm, progress is not possible.
+IMO, warn_once can get lost quickly in dmesg. Maybe pr_warn_ratelimited?
+
+Not sure what others opinions are..
+
+> +	return -EINVAL;
+>  }
+>  
+>  /**
+>   * collapse_max_ptes_shared - Calculate maximum allowed shared PTEs for collapse
+>   * @cc: The collapse control struct
+> + * @order: The folio order being collapsed to
+>   *
+>   * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
+>   * shared page.
+>   *
+> + * For mTHP collapses, we currently dont support collapsing memory with
+> + * shared memory.
+> + *
+>   * Return: Maximum number of shared PTEs allowed for the collapse operation
+>   */
+> -static unsigned int collapse_max_ptes_shared(struct collapse_control *cc)
+> +static unsigned int collapse_max_ptes_shared(struct collapse_control *cc,
+> +		unsigned int order)
+>  {
+>  	if (!cc->is_khugepaged)
+>  		return HPAGE_PMD_NR;
+> +	if (!is_pmd_order(order))
+> +		return 0;
+> +
+>  	return khugepaged_max_ptes_shared;
+>  }
+>  
+>  /**
+>   * collapse_max_ptes_swap - Calculate maximum allowed swap PTEs for collapse
+>   * @cc: The collapse control struct
+> + * @order: The folio order being collapsed to
+>   *
+>   * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
+>   * swap page.
+>   *
+> + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
+> + * khugepaged_max_ptes_swap value.
+> + *
+> + * For mTHP collapses, we currently dont support collapsing memory with
+> + * swapped out memory.
+> + *
+>   * Return: Maximum number of swap PTEs allowed for the collapse operation
+>   */
+> -static unsigned int collapse_max_ptes_swap(struct collapse_control *cc)
+> +static unsigned int collapse_max_ptes_swap(struct collapse_control *cc,
+> +		unsigned int order)
+>  {
+>  	if (!cc->is_khugepaged)
+>  		return HPAGE_PMD_NR;
+> +	if (!is_pmd_order(order))
+> +		return 0;
+> +
+>  	return khugepaged_max_ptes_swap;
+>  }
+>  
+> @@ -590,18 +625,22 @@ static void release_pte_pages(pte_t *pte, pte_t *_pte,
+>  
+>  static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  		unsigned long start_addr, pte_t *pte, struct collapse_control *cc,
+> -		struct list_head *compound_pagelist)
+> +		unsigned int order, struct list_head *compound_pagelist)
+>  {
+> +	const unsigned long nr_pages = 1UL << order;
+>  	struct page *page = NULL;
+>  	struct folio *folio = NULL;
+>  	unsigned long addr = start_addr;
+>  	pte_t *_pte;
+>  	int none_or_zero = 0, shared = 0, referenced = 0;
+>  	enum scan_result result = SCAN_FAIL;
+> -	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma);
+> -	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc);
+> +	int max_ptes_none = collapse_max_ptes_none(cc, vma, order);
+> +	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, order);
+> +
+> +	if (max_ptes_none < 0)
+> +		return result;
+
+Would a dedicated SCAN_INVALID_PTES_NONE make more sense here instead
+of SCAN_FAIL?
+
+>  
+> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
+> +	for (_pte = pte; _pte < pte + nr_pages;
+>  	     _pte++, addr += PAGE_SIZE) {
+>  		pte_t pteval = ptep_get(_pte);
+>  		if (pte_none_or_zero(pteval)) {
+> @@ -734,18 +773,18 @@ static enum scan_result __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>  }
+>  
+>  static void __collapse_huge_page_copy_succeeded(pte_t *pte,
+> -						struct vm_area_struct *vma,
+> -						unsigned long address,
+> -						spinlock_t *ptl,
+> -						struct list_head *compound_pagelist)
+> +		struct vm_area_struct *vma, unsigned long address,
+> +		spinlock_t *ptl, unsigned int order,
+> +		struct list_head *compound_pagelist)
+>  {
+> -	unsigned long end = address + HPAGE_PMD_SIZE;
+> +	const unsigned long nr_pages = 1UL << order;
+> +	unsigned long end = address + (PAGE_SIZE << order);
+>  	struct folio *src, *tmp;
+>  	pte_t pteval;
+>  	pte_t *_pte;
+>  	unsigned int nr_ptes;
+>  
+> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR; _pte += nr_ptes,
+> +	for (_pte = pte; _pte < pte + nr_pages; _pte += nr_ptes,
+>  	     address += nr_ptes * PAGE_SIZE) {
+>  		nr_ptes = 1;
+>  		pteval = ptep_get(_pte);
+> @@ -798,13 +837,11 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
+>  }
+>  
+>  static void __collapse_huge_page_copy_failed(pte_t *pte,
+> -					     pmd_t *pmd,
+> -					     pmd_t orig_pmd,
+> -					     struct vm_area_struct *vma,
+> -					     struct list_head *compound_pagelist)
+> +		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> +		unsigned int order, struct list_head *compound_pagelist)
+>  {
+> +	const unsigned long nr_pages = 1UL << order;
+>  	spinlock_t *pmd_ptl;
+> -
+
+Shouldn't remove the newline above?
+
+>  	/*
+>  	 * Re-establish the PMD to point to the original page table
+>  	 * entry. Restoring PMD needs to be done prior to releasing
+> @@ -818,7 +855,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>  	 * Release both raw and compound pages isolated
+>  	 * in __collapse_huge_page_isolate.
+>  	 */
+> -	release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
+> +	release_pte_pages(pte, pte + nr_pages, compound_pagelist);
+>  }
+>  
+>  /*
+> @@ -838,16 +875,16 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>   */
+>  static enum scan_result __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+>  		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> -		unsigned long address, spinlock_t *ptl,
+> +		unsigned long address, spinlock_t *ptl, unsigned int order,
+>  		struct list_head *compound_pagelist)
+>  {
+> +	const unsigned long nr_pages = 1UL << order;
+>  	unsigned int i;
+>  	enum scan_result result = SCAN_SUCCEED;
+> -
+
+Same here?
+
+>  	/*
+>  	 * Copying pages' contents is subject to memory poison at any iteration.
+>  	 */
+> -	for (i = 0; i < HPAGE_PMD_NR; i++) {
+> +	for (i = 0; i < nr_pages; i++) {
+>  		pte_t pteval = ptep_get(pte + i);
+>  		struct page *page = folio_page(folio, i);
+>  		unsigned long src_addr = address + i * PAGE_SIZE;
+> @@ -866,10 +903,10 @@ static enum scan_result __collapse_huge_page_copy(pte_t *pte, struct folio *foli
+>  
+>  	if (likely(result == SCAN_SUCCEED))
+>  		__collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
+> -						    compound_pagelist);
+> +						    order, compound_pagelist);
+>  	else
+>  		__collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
+> -						 compound_pagelist);
+> +						 order, compound_pagelist);
+>  
+>  	return result;
+>  }
+> @@ -1040,12 +1077,12 @@ static enum scan_result check_pmd_still_valid(struct mm_struct *mm,
+>   * Returns result: if not SCAN_SUCCEED, mmap_lock has been released.
+>   */
+>  static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
+> -		struct vm_area_struct *vma, unsigned long start_addr, pmd_t *pmd,
+> -		int referenced)
+> +		struct vm_area_struct *vma, unsigned long start_addr,
+> +		pmd_t *pmd, int referenced, unsigned int order)
+
+Will probably find out in later reviews, but there is tracepoint in __collapse_huge_page_swapin.
+Would be good to add order in that tracepoint if you are adding order here?
+
+>  {
+>  	int swapped_in = 0;
+>  	vm_fault_t ret = 0;
+> -	unsigned long addr, end = start_addr + (HPAGE_PMD_NR * PAGE_SIZE);
+> +	unsigned long addr, end = start_addr + (PAGE_SIZE << order);
+>  	enum scan_result result;
+>  	pte_t *pte = NULL;
+>  	spinlock_t *ptl;
+> @@ -1077,6 +1114,19 @@ static enum scan_result __collapse_huge_page_swapin(struct mm_struct *mm,
+>  		    pte_present(vmf.orig_pte))
+>  			continue;
+>  
+> +		/*
+> +		 * TODO: Support swapin without leading to further mTHP
+> +		 * collapses. Currently bringing in new pages via swapin may
+> +		 * cause a future higher order collapse on a rescan of the same
+> +		 * range.
+> +		 */
+> +		if (!is_pmd_order(order)) {
+
+Would it be good to introduce this in the patch that activates it? No strong
+preference btw. Just that its dead code in this patch itself.
+
+> +			pte_unmap(pte);
+> +			mmap_read_unlock(mm);
+> +			result = SCAN_EXCEED_SWAP_PTE;
+> +			goto out;
+> +		}
+> +
+>  		vmf.pte = pte;
+>  		vmf.ptl = ptl;
+>  		ret = do_swap_page(&vmf);
+> @@ -1196,7 +1246,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+>  		 * that case.  Continuing to collapse causes inconsistency.
+>  		 */
+>  		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
+> -						     referenced);
+> +						     referenced, HPAGE_PMD_ORDER);
+>  		if (result != SCAN_SUCCEED)
+>  			goto out_nolock;
+>  	}
+> @@ -1244,6 +1294,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+>  	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+>  	if (pte) {
+>  		result = __collapse_huge_page_isolate(vma, address, pte, cc,
+> +						      HPAGE_PMD_ORDER,
+>  						      &compound_pagelist);
+>  		spin_unlock(pte_ptl);
+>  	} else {
+> @@ -1274,6 +1325,7 @@ static enum scan_result collapse_huge_page(struct mm_struct *mm, unsigned long a
+>  
+>  	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+>  					   vma, address, pte_ptl,
+> +					   HPAGE_PMD_ORDER,
+>  					   &compound_pagelist);
+>  	pte_unmap(pte);
+>  	if (unlikely(result != SCAN_SUCCEED))
+> @@ -1318,9 +1370,9 @@ static enum scan_result collapse_scan_pmd(struct mm_struct *mm,
+>  	unsigned long addr;
+>  	spinlock_t *ptl;
+>  	int node = NUMA_NO_NODE, unmapped = 0;
+> -	unsigned int max_ptes_none = collapse_max_ptes_none(cc, vma);
+> -	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc);
+> -	unsigned int max_ptes_swap = collapse_max_ptes_swap(cc);
+> +	int max_ptes_none = collapse_max_ptes_none(cc, vma, HPAGE_PMD_ORDER);
+> +	unsigned int max_ptes_shared = collapse_max_ptes_shared(cc, HPAGE_PMD_ORDER);
+> +	unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
+>  
+>  	VM_BUG_ON(start_addr & ~HPAGE_PMD_MASK);
+>  
+> @@ -2371,8 +2423,8 @@ static enum scan_result collapse_scan_file(struct mm_struct *mm,
+>  	int present, swap;
+>  	int node = NUMA_NO_NODE;
+>  	enum scan_result result = SCAN_SUCCEED;
+> -	unsigned int max_ptes_none = collapse_max_ptes_none(cc, NULL);
+> -	unsigned int max_ptes_swap = collapse_max_ptes_swap(cc);
+> +	int max_ptes_none = collapse_max_ptes_none(cc, NULL, HPAGE_PMD_ORDER);
+> +	unsigned int max_ptes_swap = collapse_max_ptes_swap(cc, HPAGE_PMD_ORDER);
+>  
+>  	present = 0;
+>  	swap = 0;
+> -- 
+> 2.53.0
+> 
+> 
