@@ -1,119 +1,146 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FBBF2BE05F;
-	Mon, 20 Apr 2026 23:17:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7734531327D;
+	Mon, 20 Apr 2026 23:35:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776727051; cv=fail; b=vC3KdNrHqCbFK3LtRsfVi4Kjs+pOi22r/I1emYA7lA4lpvLRksH6YUZDYVwNLkqaAyxIKZ6wnH4V7HSfsrQT+Qxff2xjhOneZXKTv96LQ8W2dCK4PQ6lj3Q9TaQj/ikNJNZ0Jqb6QX5WFQGUJ26hKTPD5gXhoQNRUvaNHv4mKAM=
+	t=1776728111; cv=fail; b=Omh9AbSV7lX2CpZW+ZuQgLHxpY5e9K8T6B+IXS3srG5yFkXVmOj41UMMV0bRvpfBo3rvzc84uoh/6fCxqNM1S26uLjxzFcqz+JiYXhOiFXxuhxlfDMOrzBiX2icDyxJI8j++BukEqAxnbuQeOGZrsxWk8BslU7ybsR9dO/3SArI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776727051; c=relaxed/simple;
-	bh=TB/BCMK7N+fjr4DWUUwLTAOIfoOl4M1JdG9PZUwo/Bg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ffscqjX1CVZGf8ljmRIP8nlIj2ew8H3nnbx5m3Z4S+T9lCM6K9MQEfwqK1aSfeDISMVnAMYV5e/1SXh36PIYAi1cl4QStaoiGo45m49eX7n6a2qQZ8nFNBIfpkMpICCPmMRIJEiUqrRzwYU6uNph97mklRfOo5bAIsGDuXCu53Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ACX7NoZ7; arc=fail smtp.client-ip=192.198.163.10
+	s=arc-20240116; t=1776728111; c=relaxed/simple;
+	bh=twJiCUzRRUmZUXod4n+8SOV8xcNvTvTZ1syY57usY9c=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RjEaCnn2OBp24CPaoAGr0NGBZ5YQhoNQIbVt9O/5fL6vK2/JJfNVBVWZDR/hst/oo0RqNNWj/XiFo+AeaYyTdqsx8fuKr15T6cPXjYurpUlor7xiCSwdHm2dqCQTogvLyqQkP+S+k+uCbvFcJ9cgN0ANfYOLnNbtshqW4VWRapg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GUQgFsTY; arc=fail smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ACX7NoZ7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GUQgFsTY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776727049; x=1808263049;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=TB/BCMK7N+fjr4DWUUwLTAOIfoOl4M1JdG9PZUwo/Bg=;
-  b=ACX7NoZ7kDUzcZIWblUTSVsX9DE3WMPXf9lSGGtQw4WDcePz7Y2SxKjT
-   UvsQLHOJajBEMZXRK+nLNSWoxKFT7jW1fa58hnc0JI8XMcFL38tpjEydM
-   jDAgtexCRtDuPX0CYzDJXs6Q1cEtwEzOi5jglNhq+b5B8bibf1CTXdFer
-   eXnR1P+48nB0FrpIGTyZ2sx1F3lVETA86KaM727FFAdFhaoPaf+z3jj+B
-   CEJif8fQLT9t4uOK7O8/YF5HlM4Y7m1mbZZYKzzgsIdOfLLvyX8c+Ww2/
-   0vM0BsrGEdpgg2pErknMBnyXopsVpQioPbNVKNsyZu18dbYWwNajRoojf
+  t=1776728110; x=1808264110;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=twJiCUzRRUmZUXod4n+8SOV8xcNvTvTZ1syY57usY9c=;
+  b=GUQgFsTY3HezV/WcGFy5UumiqIf5gMeAWKIO4+ME9VHvDW3ujSubgrBv
+   qB61jYERl93ZfAKtO2O1Zn7GNS00MmogEJ1w42OBXPxAGhl80rf5k6Zhy
+   BAKVJRSKpXu1tnH9oWazDePU7k1vxaNNshDkSBU9ylTsPjLR4LtV9lRk+
+   7TanPP5Ir/Wvy/k/elLAN5R3e8YVv5h6AZTqIhm0spU+qIlO1Hxt4Gk7L
+   V162p/CLjTtERkyFdKTSBq06LSPU6oWM8hxaCq7cscy2eC/Q+6sPCgCK+
+   sK3SwxR5TRctMh3pw6cm+G8W0ZokFqYOqwAZBh5NG2H1iYV5aRTeAXKKp
    w==;
-X-CSE-ConnectionGUID: UtXshJOBRqOg3NPP4cq7rA==
-X-CSE-MsgGUID: qtKLpJeIQnue/8Uqumfc6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="89029629"
+X-CSE-ConnectionGUID: OMBoFMB+ScS/x5oRy3juAw==
+X-CSE-MsgGUID: 2Dmzaa2CQaKxEAFzo7GF9A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="89123528"
 X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="89029629"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:17:27 -0700
-X-CSE-ConnectionGUID: q998My9/S/KBvp5Musw5fA==
-X-CSE-MsgGUID: HkIPCggqRgWop6fUdujYAg==
+   d="scan'208";a="89123528"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:34:25 -0700
+X-CSE-ConnectionGUID: JK32nRetTn268VnXk0ludQ==
+X-CSE-MsgGUID: CEiPnAMxS86jY9EmoZxP7A==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="227525986"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:17:26 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+   d="scan'208";a="230988172"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 16:34:22 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 20 Apr 2026 16:17:25 -0700
-Received: from ORSEDG901.ED.cps.intel.com (10.7.248.11) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ 15.2.2562.37; Mon, 20 Apr 2026 16:34:21 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 20 Apr 2026 16:17:25 -0700
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.57)
- by edgegateway.intel.com (134.134.137.111) with Microsoft SMTP Server
+ 15.2.2562.37 via Frontend Transport; Mon, 20 Apr 2026 16:34:21 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.64) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 20 Apr 2026 16:17:25 -0700
+ 15.2.2562.37; Mon, 20 Apr 2026 16:34:20 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ep23xy0UU6RQlGkJNRJVJ0PN7WWaLsUczDFGsFEf6riTpbOn7BRd6jWxqoHSW1XQyytF6BN9mZRHAdFiuwN3b/BKTJCwMc/FUO7OrwF+P3dk8IgUAbcn13Rzce062gzfHm3TpOuIffffzgVJFq277hzZ+CX7mqEMXArxNxOkpPIG0lHZwfWzbjfhUa3nyVrMSl9MS6mvXvU0qbS2m/22gRJ7wGef+dG8eOSZLdD5ANP/GhspJVH7v00+XL8ZYP1Iouz18nZ5zspClERFtn/CcvQ+1qn0axDHDlH6xnojSLzpWGPXSjxU1RxhE5d6Hi91+Ffix++WnZZK8JoZwYwb4w==
+ b=SIRfH6O99ZhURJ0f7e15aMSUWrJTYKtNbzW7tB/zxLoYYVL1rWwm9VVcEjRLaYo3mMjexz+6l0IEXHtyIvGg7auYdCt+Y49vSK3f7lZu38hyK2QYxhVkVVw7mc/+iGKi0T6tLXAz+rZIcDHF/z2/JSCaceuLB6URAb+WjViIlzt2ML+4twQwDdPi7ZZD1QWNjhPah8/N+oUP+BkAFIFr4ch8vywDiOwyh5EtU6NG+MOwKtmYKnMKlreYEQUbhJMOWQeaKA/q7FtJrIk8qkhqDv3EYXnV7j3CpTdYckg4zoC6l7kKdFHcQr2fVmnlpheRZ9Dj7kzLW6Grl8+MrAcROw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=siJfWTPpgxMjJVfRib7JItNFHzHigA0puEOA1LJjIHU=;
- b=ltN+yMv5u7qEgVqXdnk+zuWWelPwh2YLV5V838uCbWbbPVecwjJj8l1+Tqp3As86bCJUEpHJEgRPHaB+iMWnkIdbwTsveq9yiTYBV7eTWnwHsr0Kmm7OHqgt0cmO85RxRFQd0rioIGyAVJxoyU23dWbPEJ7o7bB7nhQvXdpvlquK49JCZHmP8DSs0mQL76qu1td2oPmMo/bvrXGWNP5g/BlVqKqunBAj3vUTtGn7GHBtqmjqAe55YUcgiep8tZvEb+/O+ENZk75KXAUA9yLAl1SHHwBIbBg5kqrYEwXURXyHpI1OsgGxH5+iUryET58l0gqEDTnOWTtasG9mCOc1Wg==
+ bh=spTcw3ghozzJrH9SqYTvpIbtxp82ucYFakFPrwOptRU=;
+ b=Nz90jLzYgQlqrYKUUhXLkJf0+NY3DZr4LdhLMT1wjBub8oR0y+lugtn7mNsZojXp5uS4vDfglscsSyx0LBG4iFDihuyIchnVCqnJxQu9iaLCMGZA9pWd/QCOQqzBdTr61ybh8+yVzzI9YPfyvcJVnhBPoxYMDKpXwWsNb8zIaKokX7tsxX1dkV8HIYy1VsCySWSJaSBajOVb1tqJCaLxY/RPQ3e5mWuYP80jYuTEEhr6OiRDONw0b9Lb+c3XwNI+BNLKHcplR5IenOJV5lzt3L+YSNHQqF4+bLMbAB1doewjJx0Phx482e+6f4yV3GVraFkeBjhRi6CrJ3gUsSLlwA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com (2603:10b6:f:fc02::9)
- by SJ1PR11MB6180.namprd11.prod.outlook.com (2603:10b6:a03:459::14) with
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA1PR11MB7892.namprd11.prod.outlook.com (2603:10b6:208:3fc::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.8; Mon, 20 Apr
- 2026 23:17:21 +0000
-Received: from DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891]) by DS4PPF0BAC23327.namprd11.prod.outlook.com
- ([fe80::a195:49d4:38c5:3891%8]) with mapi id 15.20.9846.014; Mon, 20 Apr 2026
- 23:17:21 +0000
-Date: Mon, 20 Apr 2026 16:17:09 -0700
-From: Alison Schofield <alison.schofield@intel.com>
-To: John Groves <john@jagalactic.com>
-CC: John Groves <John@groves.net>, Miklos Szeredi <miklos@szeredi.hu>, "Dan
- Williams" <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>,
-	"John Groves" <jgroves@micron.com>, John Groves <jgroves@fastmail.com>,
-	"Jonathan Corbet" <corbet@lwn.net>, Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>, Jan
- Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>, David
- Hildenbrand <david@kernel.org>, Christian Brauner <brauner@kernel.org>,
-	"Darrick J . Wong" <djwong@kernel.org>, Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi
-	<shajnocz@redhat.com>, "Joanne Koong" <joannelkoong@gmail.com>, Josef Bacik
-	<josef@toxicpanda.com>, "Bagas Sanjaya" <bagasdotme@gmail.com>, James Morse
-	<james.morse@arm.com>, Fuad Tabba <tabba@google.com>, Sean Christopherson
-	<seanjc@google.com>, Shivank Garg <shivankg@amd.com>, Ackerley Tng
-	<ackerleytng@google.com>, Gregory Price <gourry@gourry.net>, Aravind Ramesh
-	<arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V4 1/2] daxctl: Add support for famfs mode
-Message-ID: <aeaz9TecrINXaHcR@aschofie-mobl2.lan>
-References: <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
- <20260118223629.92852-1-john@jagalactic.com>
- <0100019bd340cdd5-89036a70-3ef5-4c34-abf8-07a3ea4d9f92-000000@email.amazonses.com>
- <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.15; Mon, 20 Apr
+ 2026 23:34:14 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d%5]) with mapi id 15.20.9846.014; Mon, 20 Apr 2026
+ 23:34:14 +0000
+Message-ID: <741aa53e-461c-4a1a-a701-6060d42012f8@intel.com>
+Date: Mon, 20 Apr 2026 16:34:09 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
+ support to the resctrl subsystem
+To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "tony.luck@intel.com"
+	<tony.luck@intel.com>, "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+	"james.morse@arm.com" <james.morse@arm.com>, "tglx@kernel.org"
+	<tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+CC: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "x86@kernel.org"
+	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
+	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
+	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
+	<vschneid@redhat.com>, "kas@kernel.org" <kas@kernel.org>,
+	"rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "pmladek@suse.com"
+	<pmladek@suse.com>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
+	"dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>, "kees@kernel.org"
+	<kees@kernel.org>, "elver@google.com" <elver@google.com>,
+	"paulmck@kernel.org" <paulmck@kernel.org>, "lirongqing@baidu.com"
+	<lirongqing@baidu.com>, "safinaskar@gmail.com" <safinaskar@gmail.com>,
+	"fvdl@google.com" <fvdl@google.com>, "seanjc@google.com" <seanjc@google.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"xin@zytor.com" <xin@zytor.com>, "tiala@microsoft.com" <tiala@microsoft.com>,
+	"chang.seok.bae@intel.com" <chang.seok.bae@intel.com>, "Lendacky, Thomas"
+	<Thomas.Lendacky@amd.com>, "elena.reshetova@intel.com"
+	<elena.reshetova@intel.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"eranian@google.com" <eranian@google.com>, "peternewman@google.com"
+	<peternewman@google.com>
+References: <cover.1773347820.git.babu.moger@amd.com>
+ <30deeb5b-d2ec-4f85-aa4f-c21400df3486@amd.com>
+ <83ae0c18-5c5e-4b52-901d-4126fe7c141b@intel.com>
+ <5a740f47-d3f3-45af-9d8c-ebcf3dd89c0d@amd.com>
+ <3305c18e-9e50-4df0-b9f1-c61028628967@intel.com>
+ <c6f574b7-fe5f-49ae-9865-0e4dbb2f9803@amd.com>
+ <efc269f8-bf98-4f12-8d76-1fee564be84c@intel.com>
+ <0ae2b267-4527-4251-9136-6afdc3fc97a5@amd.com>
+ <72297351-2954-4318-81b6-7de409e5552c@intel.com>
+ <20aaacfb-9601-4343-a5d5-f3df6152155b@amd.com>
+ <43880b7b-b390-4e7f-8c2a-46cde9e3b051@intel.com>
+ <bb9f62f1-0c79-4d29-9866-c39d08c3a774@amd.com>
+ <5a273b0f-8225-4e9e-924e-884183734659@intel.com>
+ <73c46024-4cf2-4f03-9268-d4378825fa87@amd.com>
+ <973067bf-6e6c-446a-a81a-713840d701a9@intel.com>
+ <90f4a692-1c27-4967-bf12-ec3cb597681d@amd.com>
+ <68a551ea-d9f0-436a-9bef-e35fd027bb95@intel.com>
+ <39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com>
+ <b74cfe34-e23e-49e3-beb4-d5639d42d5cc@intel.com>
+ <99a2da36-6a21-4a99-98e0-3c9a4cf7ecf6@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <99a2da36-6a21-4a99-98e0-3c9a4cf7ecf6@amd.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
-X-ClientProxiedBy: SJ0PR03CA0292.namprd03.prod.outlook.com
- (2603:10b6:a03:39e::27) To DS4PPF0BAC23327.namprd11.prod.outlook.com
- (2603:10b6:f:fc02::9)
+X-ClientProxiedBy: MW4PR04CA0116.namprd04.prod.outlook.com
+ (2603:10b6:303:83::31) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -121,293 +148,169 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS4PPF0BAC23327:EE_|SJ1PR11MB6180:EE_
-X-MS-Office365-Filtering-Correlation-Id: 46b628ec-9ce0-4673-9021-08de9f32f8fd
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB7892:EE_
+X-MS-Office365-Filtering-Correlation-Id: d86348f2-27d3-4410-6fab-08de9f3554cc
 X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: Jnjpg5vqNiE3bq3JOULO8nq5frXw86E7ttudNrWwWzyjbUtQ6dRV8p/EitpsyiihkhsbXFx8qlOTW4EsFI3sYwJJUHf453hy/PvHGZASXC/UNHAhhA02MH/JfU7fr2gHMYQAgU9FbZKLcp6xuCZquQZtdfLA8k1L0htCEbemUhBlXclIlmDwc59sg3Wwizj6UgaB9joEp09MMfD0GWjk/rmZ3q8BABpDRPHxXAz4C4zjOkV5nmqidWYJSfdOBTitr+BXV8sMQIVLjL1NHcw82bMCFKxA8lZ5CVrUCJU/g6F7t8n+S3v/T/+6b0XRcgn3BRiHNlU5f31Q9tnLZ76SouLx7M5YlZ1cIkDJLjjfVoKKkAZsJ2p/lCLRlyB8MtfNZnTwyycIYMpKAuA+Mqy/2SXQHqXtT4qMgPc58iKoVsD1CAgoyhM2i91KvEubqiXlRtsw762uBfP6NKnKFJ8WIOoNMfqAL6T86skNXAeGSp2iemXUMRIVG7hZ4rLRDlyhYxjp++JkyrkM7JxcGXiixnKZ4IIEHVKWDZOByWDaqduPTQBoIROZgXH5X29iuhw13Bvs9FFZc5QtYSVzufSWcj8Tdshr2zpKO/inKj65bQ+OCf0JGjmgL4mXadOSqPU001B0fjVKRamzR28cwlB4Zw6HVsd/dcjJs124okEMG590A2jZXW4f7sWAcsI1fEZKAk+ilgdTg3IT/a0GeqDgeyopexIysUAl57ePrP+UdtSa9l8rKnUq7KYdb3BNTle9
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF0BAC23327.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: /SVMtkFqav5rCahwkiTLgVdi9iXaYf6D5bIDpLyaXpMtlf36KqN557gtWfWkOgxZssS+iY4h96PUZmioYcOfH5GyMSqNe/zo+gp5BOmBjgPReBJ3L7fMlMg4TNEuvHeK/l8GbCpFUnnwrGsge0w5HtZrAEY1MEfNDN9eZjTp4BI8LJDMyAMAjf23HzaXcz0OGrSqvTRdB36TrGBaJCnkQzZt9ln6qUt/M6fyPTfpD71DGxNhOTvPCeIH/G6NVKdQXMrhJJK1nlmP6qKH0mbC6OtJQRkpDbc9a6Qn9xCsRK6flzRH5ZE53kzcnqrgaeykOCXKKZEr14skcPJt3MtxmkC0qtMqEpo0AdBdZeCciiV/2UnxDjZU4fDL/CeAm6NRBdC8OV/AQ03r4QovwHdpsZb6BxU/PBasX+aeWNYiRB1I/wYFN2/xO2DWa6/9Sd198AcpeDkkfHVxdcoTbhXaSkxNqtHNaKU1n8GXuaxk76nCpdmtyWK5mPGFC/GCk9DgQDrBCJiDdhnW64U3a2m6oQMxd9eLUN9Yr0QTzogtX1BRY/hQcLw1nBKoAH5NVbsjAXV5I0hWTN1RsoUua4+ON0NC0XMvmoRDVOj/aWN8CaELwQfRJ5NqKSu7Ai+eP0RgiwS01fOL3FvMqwLNC7rpaoe4Pkj8XLm2O53Rs1bdNs43Gwbp5PymM8Sg9HtKP8z/6g/NYsgEzEDOph2B6DYKaICYxIcWsi8FRPMRoeT/3Go=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?R3NqMnZmKzYzU0p6MzJYclB3R2VkMVI5Wmd6U1h0TWxlK3ZuT3lCTnRqTEo2?=
- =?utf-8?B?Z3BZZ09wV3N0NTdHY0VqNGZvQ2RJTkFmRnp3WlRqS0oxaCtERjlTODBwTWhC?=
- =?utf-8?B?Sm5GZW80TjdXbzVuWVAxZE91TUVFODFVTlBIN2ViSVcxQVZoVEVEOUxTdWVt?=
- =?utf-8?B?eGkwR0FtK2dEUDdvVVArVWs4QUNWZjRQQVo1YkRONkQzVGI3TGhreVd3bmtn?=
- =?utf-8?B?anMvU2dBMUpLUGgxZGR6UURJRHBqM2lUWVVYMVFzVDYvNWpVa005dXFrWFFj?=
- =?utf-8?B?OHRKZ1FwY2xnMlBtWVJJdERLUTBndEFaNGhRYlorL0V4ZHI3bzg0Q216dzJi?=
- =?utf-8?B?YW9aOGNTMHErYkI4Qm52UFVhdEZ5YkV5K2hmbzlPMWpaTWhxaXh2SEFzOElp?=
- =?utf-8?B?UUZuYW1qclpQK1JGS1E5SFVWT2lvS0ZuNTh1UU1rTklaZXp4czVBcFVjWXM0?=
- =?utf-8?B?eTN2dGFkZ1Awd1B3OFZJa1B4cVdydWloYWpKdE5zZkdiNlp6NWloWGdURVAr?=
- =?utf-8?B?THZTK1liYnVQblR1Y1hyZ0FmNlZ2eHU4Q0h3VnZGTWpwQk5IZmFCWnJFM2pM?=
- =?utf-8?B?clNBSDBCdUlMY0c4eDBLUm5Qa3l5UTM2UnZ0TTJ6aVBXTzhsSFNPY0hpYmZn?=
- =?utf-8?B?QytJZ2EzYUUwWWxzdEtjRytWMlBRRTNOZ0ZtZkpCd3N1djdVdEFpRm5udkF2?=
- =?utf-8?B?SHVxQW1kWjNJSlRrWkJ0M1Z1T3MyN29MTEtGRGpvWVdSY1kvRUk0Rjh4UmtU?=
- =?utf-8?B?OHp5OCtWZEdjdnFjVWFuckZCVGNiMEcwOVR2TVRuVEJEVlg0VEpSQVhFUGJI?=
- =?utf-8?B?T01YZmVSanFzMnJXVlF2UmhjcTFoYlZmUmlqbURtM0ZjcE8vVXlJVWd5ZnA5?=
- =?utf-8?B?cWdyTVgwY29oNzhnSWdPNXhEWTh6WkZETk0yUFMzM0h5Y09ic3Y4aWpwYVph?=
- =?utf-8?B?aG96cjdPbHNUekF3bkFuSFNJSUY1ZlNBSXZMb3lwZjV5N042dXVIL0VHTUkw?=
- =?utf-8?B?cG1oamlyemVJSlVVZXFIY3B6QW1WUDIvWXBnb3NzQjNlQUg5b3JVL0Y5eGJi?=
- =?utf-8?B?QW9WVlNRd2E1dWhFLzZPb0g5STIrNEZuOEdsVXhwT1lxUEhlM2VuWk9rSXcv?=
- =?utf-8?B?ZWNWa2FVZFVUTjVyT25wcnJWM0cyZmlGbVlVR0NqZFhTNk5ncGtTMTVZZ203?=
- =?utf-8?B?NXZuOXdGTGlMd2dBTVVvNmkrWWI2cHlUOGtQV1M2NVh5OWdnMkNoWWl0ZXRo?=
- =?utf-8?B?eTZENjB2V2svTVU2Z3hLcE9CSlU4NHFQMTZLcFZ2L042SWhkUmc0RXVNTGp0?=
- =?utf-8?B?S2lLLzdYUE9xSUlVcXhIWGMrYjRPc01zNUlZc1puS3hSU2VkR3AwL042ejU2?=
- =?utf-8?B?NVJSbXhVN0tUSVROVVJLclMrVUpTM3VMbXdnWFNIdURGQ1N3Rkc2WWkycWl4?=
- =?utf-8?B?Y1FsRUs0bTFBRzgyZlN2SkVqYnAva2xSNHF6SmJLVTUrRzNCRjNCdy96K1VP?=
- =?utf-8?B?WWNWT2s2MEpQVXVCaHVPdHVEaHNCcTNaVzFSMUh0Tm9tQ3FGRmxzODUydzQ5?=
- =?utf-8?B?RUFpK1lUUVBZbG93K3dBaHFsMUNhc3VFUjYrc1JJRkMyNHFCcUQ0ODU0bmI3?=
- =?utf-8?B?L3NPWUFHeEJUeXJRN3U2WlhaTGladm5xam01bnIzZS9hWkFHSkU0bk04UXJY?=
- =?utf-8?B?RThjUlBlc2dUZEhaWGcySXlSOTVxMWNMZGVBa1V0b2tNN1RsbnBUNWc3VXVn?=
- =?utf-8?B?R3BuMHUzSks0eHd4bVNRbGUrKzRuZlhZVTdhSzlhOTl2SHMyTDk0N25Fb3dJ?=
- =?utf-8?B?UnRVT2tDZWtXNFpDNlhvRFYvUXN2R0QrUmJ1ZDFPQWdnTXZQSG9SL2hxUHYy?=
- =?utf-8?B?Y2JicWdDVlNVbXVpb3BkWlBhM0g3YXVuekNGTGZPeHg0YS8vTEFXajExSSsr?=
- =?utf-8?B?dG9QR0xxQXl1elIxRFlHKzREUmhMUjd4bnVBN0ZvV3dSM3k4Z0ZlUkxTQ3lk?=
- =?utf-8?B?V1NEU00zTDlIdU8rQXo3YXMyVmpnRkRSNGdiWHp0MVFwVEhCUVlNT04zSjFt?=
- =?utf-8?B?a09HK3FYKzBVNUtsbENobWtxc0VhT1NSOEM4ZXZONXZ3YzdWck5VbVVER0lO?=
- =?utf-8?B?Q2tPSnZCNGlsUzg4N3pRbWdHbWxEejdjVEVRWWtVbTh2d1NGdVhOU2tOL1E4?=
- =?utf-8?B?ZzZxdDRscWllRHJNeGNLZENVYnIrL1dQYWdoeEZZS0V6azBuS0wxYnZ6endG?=
- =?utf-8?B?YmxQS2RKUUNJTjdqa1JoR0JLcTJ2N0diVXVBeTh1Z3ExR0VlZjVEazUybXVP?=
- =?utf-8?B?VjlZZ2R3L2g5SWtUZ0h4TjZ4RmZUbk0xVlQxWjNWK0JLb3FPYVI1T0tVbFZo?=
- =?utf-8?Q?j9kherq7JTOqiNsA=3D?=
-X-Exchange-RoutingPolicyChecked: UtQukaajIKhYeCRfEccz1whIE89gjOtTg1YW2/5VIHGQ0rtQEUSVgl++KR8yFZINoRYaexSeBi1csWZAguCvW8Y6XzTeoF3/0Wz/MMysPaVyJfOpaJrOGTLVR1OUvve2cBgSXvs3vuNjEedgWQy3YieyXyuPxzESHeAFLQpcCkn9fmrPa6nZai7ZrxEzu/JOvfe5m8YWulPpFOgDwS1wIG8i080U91QS2yDDEWGJTlwNjhuxN7ZvWpzpDzaVXc5H1TOuqjpvkHrViUqO34n4Y1GlngvLTuQCk/A7WfdOmtnLJHu3+hrK+IAqCWPiapTArk/SBOP0CZ+ohS+B+rCSGA==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46b628ec-9ce0-4673-9021-08de9f32f8fd
-X-MS-Exchange-CrossTenant-AuthSource: DS4PPF0BAC23327.namprd11.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVV2ak0zUUpaZ0Y5dDg4eFRvck5NbTdLdk10d2g1MDE1NFJsZUR2dkJtVS9y?=
+ =?utf-8?B?Zm5UMjBXS0JJOWJIWFpnT0xEZ2JzbUpVZk9MMFl1SmNxUTllcjdwcm1idWFK?=
+ =?utf-8?B?RG9uTU82eVUrc2RqU2xRWXBtUDdITVVIWHc4cmlZSGhtV0RldEV2SllMSjFJ?=
+ =?utf-8?B?SkFvUGJkMW5ZZTBkNVlrM2M0amd6c0hBRXowSitxejg0WWc0UUhFdjFqaFNW?=
+ =?utf-8?B?T0NNVFdWSTMzS2RJNzhqelJ0VThvQjRlQ28vVWp0SDg0RmJBUnVVeE1SNTM5?=
+ =?utf-8?B?VmpXa0I0T2ZJQVV0cG5pNGE3SVJNNmdwdnk2K0NaQjRVb3QxYUR6dmVrZmlw?=
+ =?utf-8?B?eHlPSlVralN4NDExNllwa2JmUmwvaFFWdFNoc0t5cHVSNisrWjB2WjBsdlJk?=
+ =?utf-8?B?Y1pUUVBZM0RWL2N3Tkc0VG1TWDczSjU5OVVtWlVPV0V6cXlUUnprQVROamdL?=
+ =?utf-8?B?TFlTVFJXVDQrVWkxQ0xPN2U3bVgvNVFVQjRkWCtXVndUSlVvQUFXU2ZscGtO?=
+ =?utf-8?B?WUl3blJyRDVtWXZmcGdLUVg1OFVYdEwwV3IyaVZVZk4vMWhEN0ljQmxPK2VR?=
+ =?utf-8?B?UndzZU8zZEJoczRnWnhEaldBdWM0aTlqbDRpQmM4bzF1SnhyM1p5MXB2dGl0?=
+ =?utf-8?B?cngzQ0YwRkt0NXB0QnNTT0FzOWM5SEpJVUIwVEVSTUpBSFVhOG5xSEd3YVor?=
+ =?utf-8?B?b1BtK3pWOWRYZ2xUMTV6a3Ivd3JIU3pkMkgySDF5Z2Vnc2UyTnFhc2JBTml5?=
+ =?utf-8?B?WTZobzRWb1QwT2MvN1RxcHhrY0x4QzZKdzg5ZmVvaEIzTjcwc3RzUFdCcEhi?=
+ =?utf-8?B?V1lhaGwralVuZDlFeUpjS1RYMUwydXliWjVDa21QZCtaQU1KdU54aHNIaWlh?=
+ =?utf-8?B?QktoV0VmK3ljK1BrN0RlR081ZzRnZlhKL0JBRm5oRVR6b0ZIaHBkOW5BcFg2?=
+ =?utf-8?B?VXNjdERsZjFoNUg0UXpRb0Jxa2NyNHRrWVAxOEU3RzlsODlvKzVJYzJTalVF?=
+ =?utf-8?B?TUVORTlYRzNQK0FUVnoxK3pCdkVDMFpzTzlxdzRvM3JPOXdzeUxCSHByMnZy?=
+ =?utf-8?B?eWZRMzJWbFpZampoWVV3TE5OUkJRQlBFMXMrcks2MGpmS1p2SnF5WEk0bnpO?=
+ =?utf-8?B?K3JMcjRhSTVxalJHam4zNUxBS0dvTXFqdmx3aDlNNjBoL2FqUTc4aDRFTnQ5?=
+ =?utf-8?B?bjZwOWsrRUxSY2tUeDFaQ3ROMjFXdTlZSW15T0FDLzJucGlUR2JFeEh3Rklp?=
+ =?utf-8?B?S1BDM2djSlJ4YndyZjZsUFdwdWIwa2QzRlowTTl6b2x2NmJ4UzJtUEYxdllo?=
+ =?utf-8?B?VkFuWVJ3b01XRDhRSGg2cXdqVkpFeERxRStJbXV5d2VQTFNtMGpXUTdiRmFo?=
+ =?utf-8?B?QUlURzdSbFFzeGNiYUhnWW1ncC9TdnpnVCt1clpPejBIR2xpZ2lJQkM1ellu?=
+ =?utf-8?B?K3NZK3l1a2hwZUh4M0loM2laYWJDdnNReEVId1k2S1ZJaHNQc0NpaFI4OC9E?=
+ =?utf-8?B?QXMzVFJaQzAwV2tiKy80clIxY0VGUkNIeUF2YUpMNkphazRJNWEveGNCVlJp?=
+ =?utf-8?B?aHlGOVhmVDllbGxSaCtvRGVXN0ZFZERkNExHblJ3VC9VMzRlWUZ4S0d4UEVw?=
+ =?utf-8?B?S1NKOUlsYURxUVQxSGdxVDFaRmJsZjZrTC8ySnpiTFpZeHllWVVEQ3BtZ1lK?=
+ =?utf-8?B?Snk3VHFWRzF0VW1kM1UzWGF4MHZmK0dLS3d0amxGMkFzek8rVHNBY21KdUVN?=
+ =?utf-8?B?QmY0dWN1Zk1iRENXc0EvYnNuMlhwSmJsbldVd2VvYVROTHUvTnF3ZzRNWC9o?=
+ =?utf-8?B?NXNLKzNFa3FHajRtcWs3dVhKTzVtWW9SZE9wNnNSMENJM3lRRXpVTWdRWEhO?=
+ =?utf-8?B?Zjg4SDZaTDh2d0MzY0ZYMUpDOVVKNVpjWDBHcUJKbkJ1Nm50YkF2NmVFYXl5?=
+ =?utf-8?B?bGtUNitoVURlRjk1NWo2eHplUHNEVFhIWGljL2M4OHNxOEUzbDQyejFtZUtk?=
+ =?utf-8?B?L0ZzTytOTHorNCtDZHZTYW5xQWVFck9kK1ZNZzl5bFZ1ajBUeXhVb25OZkt0?=
+ =?utf-8?B?Wks3ZzQ4SWsyb2NscTNFdE5GdUJTV2tKVHpNVmZmQkFoVkVJQndhYUVzVkY5?=
+ =?utf-8?B?WGFXVVJNc0c5OTJ5Q29obGFWU1I4d2VEWkJ2b3lsZjZqRlN6Uk9JbVBxWHVw?=
+ =?utf-8?B?WlVRYks4am1VWEJuLzVxT3Fkb3k0UE1ydUY3NWt3ZnZMRzlZOGc1emtqdmNt?=
+ =?utf-8?B?d2xWVkduV1A3aHVLbWdRL3VOb2VHdkxITDAyUmwwTVh5YWJZNElrOFFONno0?=
+ =?utf-8?B?NkdMNjMxU3RPRXVpWWRjUFhVakJJcStjeFRGZlo3eWRGMUo1MURZR2NZVEFE?=
+ =?utf-8?Q?jYmVcLp/uAsfJq9o=3D?=
+X-Exchange-RoutingPolicyChecked: aYfHQiWgOo0uufxz0tdWLZBLw1cX3SpyKIo8slcEZgD6tgn1cK/tWVtFsfaeLxSJzkyiX8M/EvMFUIqTAVQl8hQRMz4W+p95BGNwlTUw+2V95feUmsBZEkjgC0HLsIUU+kUIR8YmzB9mAe1kXp/l02w7I9UwbRD13bwHp29oU6xSlmlm5Re8jBO3pj4tSSmk8x6W/kokNnAeZKrjaliZcIgsAuRIHEO62f6oGnZnS15Io73cRu3+lBbMSV3dwIGjfUlqg322IAjVHRWbbRK/MNxUk6EzENz7ARsXhFbl8/RdEUlDhVxAwjcjch6509W/s/yXXJgNbmboQ1fqzBPz6w==
+X-MS-Exchange-CrossTenant-Network-Message-Id: d86348f2-27d3-4410-6fab-08de9f3554cc
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 23:17:21.0867
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Apr 2026 23:34:13.9213
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jCL5AtockpYWWK1zwQ6mfitaWUnj4mwHAIrj7iA06kYF2HcWyxVSK02S+Srivr5jc20rV2fkRSWr47oSGgQf9k1ZFWB0/RpHWttzeqsbltk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR11MB6180
+X-MS-Exchange-CrossTenant-UserPrincipalName: 079fTUDrYMMT48NoehXjMs4jK4i7QJOnEHCGO/S0bxADK0l+QwngkqMENE8q4pAaTE+x76LozJ//QuvDi2XieYaiMsUYSlwvK02gRKTq3vM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7892
 X-OriginatorOrg: intel.com
 
-On Thu, Feb 26, 2026 at 06:00:41PM -0800, Alison Schofield wrote:
-> On Sun, Jan 18, 2026 at 10:36:38PM +0000, John Groves wrote:
-> > From: John Groves <John@Groves.net>
-> > 
+Hi Babu,
 
-Hi John,
+On 4/20/26 3:59 PM, Moger, Babu wrote:
+> On 4/20/2026 5:03 PM, Reinette Chatre wrote:
+>> On 4/20/26 12:38 PM, Babu Moger wrote:
 
-This is where I left off with the actual changes to "daxctl" for FAMFS.
-We need a new rev of this ndctl set that includes both patches rebased
-on ndctl pending and addressing the review comments below for daxctl.
-(Although I've used more recent branches, I haven't looked at whether
-these issues were addressed in the code.)
+>>> The current mode change behavior is very restrictive.
+>>>
+>>> For example:
+>>>
+>>> # cat info/kernel_mode
+>>>        inherit_ctrl_and_mon
+>>>        [global_assign_ctrl_assign_mon_per_cpu]
+>>>         global_assign_ctrl_inherit_mon_per_cpu
+>>>
+>>>
+>>> # cat info/kernel_mode_assignment
+>>>       ctrl1/mon1/
+>>>
+>>> In this state, we cannot change kernel_mode to inherit_ctrl_and_mon. The expectation, however, is that inherit_ctrl_and_mon should always map to the RDTCTRL_GROUP.
+>>
+>> Could you please provide details behind the "we cannot change kernel_mode to
+>> inherit_ctrl_and_mon" statement? Why is this not possible?
+>>
+>> I do not see "inherit_ctrl_and_mon" to map to *any* group though. Expectation is
+>> that when user changes mode to "inherit_ctrl_and_mon" then
+>> info/kernel_mode_assignment would become invisible to user space.
+> 
+> Ok. That is fine.
+> 
+> 
+> Sorry for not making it clear. Let’s consider the following scenario.
+> 
+> The system boots with these default settings:
+> 
+> # cat info/kernel_mode
+> [inherit_ctrl_and_mon]
+> global_assign_ctrl_assign_mon_per_cpu
+> global_assign_ctrl_inherit_mon_per_cpu
+> 
+> 
+> At this point, the interface info/kernel_mode_assignment is not visible.
+> 
+> Next, lets create a new control group:
+> 
+> # mkdir ctrl1
+> 
+> We want to designate this group as the new kernel-mode group.
+> 
+> First operation: Change the mode:
+> 
+> # echo "global_assign_ctrl_inherit_mon_per_cpu" > info/kernel_mode
+> 
+> At this stage, only the kernel mode is being changed. However, there is no way to know which control group the user intends to assign to kernel mode. All we know here is the selected mode.
+> 
+> After this operation, the info/kernel_mode_assignment interface should become visible. But the question is: what should it contain or point to at this moment?
 
-With a new rev, I'll take another look at ensuring a dax device is
-available for the unit test.
+This was considered as part of original proposal per
+https://lore.kernel.org/lkml/2ab556af-095b-422b-9396-f845c6fd0342@intel.com/ 
+(search for "default value") where the idea was that the group
+should be initialized to the default group.
 
-Thanks!
+> 
+> # cat info/kernel_mode_assignment
+> ??
 
---Alison
+After
+# echo "global_assign_ctrl_inherit_mon_per_cpu" > info/kernel_mode
+# cat info/kernel_mode_assignment
+/
 
+After
+# echo "global_assign_ctrl_assign_mon_per_cpu" > info/kernel_mode
+# cat info/kernel_mode_assignment
+//
 
-> > Putting a daxdev in famfs mode means binding it to fsdev_dax.ko
-> > (drivers/dax/fsdev.c). Finding a daxdev bound to fsdev_dax means
-> > it is in famfs mode.
-> > 
-> > The test is added to the destructive test suite since it
-> > modifies device modes.
+(although this is where previous discussion comes in on how interface
+can become inconsistent depending on what the previous kernel mode was)
+
 > 
-> Make it clear that it is added in a separate patch. (and assume you
-> can drop the destructive part too.)
+> Next operation: Assign the group
 > 
-> > 
-> > With devdax, famfs, and system-ram modes, the previous logic that assumed
-> > 'not in mode X means in mode Y' needed to get slightly more complicated
-> > 
-> > Add explicit mode detection functions:
-> > - daxctl_dev_is_famfs_mode(): check if bound to fsdev_dax driver
-> > - daxctl_dev_is_devdax_mode(): check if bound to device_dax driver
+> # echo "ctrl1//" > info/kernel_mode_assignment
 > 
 > 
-> The precedence check (ram->famfs->devdax->unknown) now happens in multiple
-> places. How about adding a daxctl_dev_get_mode() helper to centralize that.
-> It could be private for now, unless you expect external users to need it.
+> Now the intended control group (ctrl1) is explicitly specified for kernel mode. In summary, changing the kernel mode requires two distinct inputs:
 > 
-> daxctl_dev_is_famfs_mode() and _is_devdax_mode() are nearly identical aside
-> from the module name. Refactoring the shared part into a single helper will
-> also make it easier to add a daxctl_dev_get_mode() without duplicating the
-> precedence logic.
-> 
-> > 
-> > Fix mode transition logic in device.c:
-> > - disable_devdax_device(): verify device is actually in devdax mode
-> > - disable_famfs_device(): verify device is actually in famfs mode
-> > - All reconfig_mode_*() functions now explicitly check each mode
-> > - Handle unknown mode with error instead of wrong assumption
-> 
-> Wondering about 'Fix' mode transition logic. Was prior logic broken and
-> should any of these changes be in a precursor patch that is a 'fix'.
+> - Selecting the kernel mode.
+> - Specifying the control group to be used for that mode.
 > 
 > 
-> > 
-> > Modify json.c to show 'unknown' if device is not in a recognized mode.
+> Hope this makes sense.
 > 
-> I think this means disabled devices will always look unknown even when
-> the intended mode is devdax or famfs, but disabled. This seems to
-> change the meaning of mode from 'configured' to 'active' personality.
-> Can you detect the configured mode even when disabled?
-> Perhaps a man page change about this new behavior?
-> 
-> snip
-> 
-> 
-> >  
-> > @@ -724,11 +767,21 @@ static int reconfig_mode_system_ram(struct daxctl_dev *dev)
-> >  	}
-> >  
-> >  	if (daxctl_dev_is_enabled(dev)) {
-> > -		rc = disable_devdax_device(dev);
-> > -		if (rc < 0)
-> > -			return rc;
-> > -		if (rc > 0)
-> 
-> Please check the return code semantics.
-> This gets rid of the <0 vs >0 distinction. That means a '1' skip
-> becomes an error return to the caller. Is that what you want?
-> 
-> Previously, we had a return 1 from disable_devdax_device for
-> “not applicable / already in other mode” and I think that is now
-> gone.
-> 
-> 
-> > +		if (mem) {
-> > +			/* already in system-ram mode */
-> >  			skip_enable = 1;
-> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
-> > +			rc = disable_famfs_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
-> > +			rc = disable_devdax_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else {
-> > +			fprintf(stderr, "%s: unknown mode\n", devname);
-> > +			return -EINVAL;
-> > +		}
-> >  	}
-> >  
-> 
-> snip
-> 
-> >  static int reconfig_mode_devdax(struct daxctl_dev *dev)
-> >  {
-> > +	struct daxctl_memory *mem = daxctl_dev_get_memory(dev);
-> > +	const char *devname = daxctl_dev_get_devname(dev);
-> >  	int rc;
-> >  
-> >  	if (daxctl_dev_is_enabled(dev)) {
-> > -		rc = disable_system_ram_device(dev);
-> > -		if (rc)
-> > -			return rc;
-> > +		if (mem) {
-> > +			rc = disable_system_ram_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
-> > +			rc = disable_famfs_device(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
-> > +			/* already in devdax mode, just re-enable */
-> > +			rc = daxctl_dev_disable(dev);
-> > +			if (rc)
-> 
-> disable_* helpers print an error message on disable failure.
-> Seems this should too.
-> 
-> 
-> > +				return rc;
-> > +		} else {
-> > +			fprintf(stderr, "%s: unknown mode\n", devname);
-> > +			return -EINVAL;
-> > +		}
-> >  	}
-> >  
-> >  	rc = daxctl_dev_enable_devdax(dev);
-> > @@ -801,6 +870,40 @@ static int reconfig_mode_devdax(struct daxctl_dev *dev)
-> >  	return 0;
-> >  }
-> >  
-> > +static int reconfig_mode_famfs(struct daxctl_dev *dev)
-> > +{
-> > +	struct daxctl_memory *mem = daxctl_dev_get_memory(dev);
-> > +	const char *devname = daxctl_dev_get_devname(dev);
-> > +	int rc;
-> > +
-> > +	if (daxctl_dev_is_enabled(dev)) {
-> > +		if (mem) {
-> > +			fprintf(stderr,
-> > +				"%s is in system-ram mode, must be in devdax mode to convert to famfs\n",
-> > +				devname);
-> > +			return -EINVAL;
-> > +		} else if (daxctl_dev_is_famfs_mode(dev)) {
-> > +			/* already in famfs mode, just re-enable */
-> > +			rc = daxctl_dev_disable(dev);
-> > +			if (rc)
-> > +				return rc;
-> > +		} else if (daxctl_dev_is_devdax_mode(dev)) {
-> > +			rc = disable_devdax_device(dev);
-> > +			if (rc)
-> 
-> and here too...the disable error message.
-> 
-> 
-> > +				return rc;
-> > +		} else {
-> > +			fprintf(stderr, "%s: unknown mode\n", devname);
-> > +			return -EINVAL;
-> > +		}
-> > +	}
-> > +
-> > +	rc = daxctl_dev_enable_famfs(dev);
-> > +	if (rc)
-> > +		return rc;
-> > +
-> > +	return 0;
-> > +}
-> 
-> snip
-> 
-> > +DAXCTL_EXPORT int daxctl_dev_is_famfs_mode(struct daxctl_dev *dev)
-> > +{
-> > +	const char *devname = daxctl_dev_get_devname(dev);
-> > +	struct daxctl_ctx *ctx = daxctl_dev_get_ctx(dev);
-> > +	char *mod_path, *mod_base;
-> > +	char path[200];
-> 
-> We have PATH_MAX for the above.
-> 
-> > +	const int len = sizeof(path);
-> > +
-> > +	if (!device_model_is_dax_bus(dev))
-> > +		return false;
-> > +
-> > +	if (!daxctl_dev_is_enabled(dev))
-> > +		return false;
-> > +
-> > +	if (snprintf(path, len, "%s/driver", dev->dev_path) >= len) {
-> > +		err(ctx, "%s: buffer too small!\n", devname);
-> > +		return false;
-> > +	}
-> > +
-> > +	mod_path = realpath(path, NULL);
-> > +	if (!mod_path)
-> 
-> Maybe a dbg() level err msg here
-> 
-> > +		return false;
-> > +
-> > +	mod_base = basename(mod_path);
-> 
-> Please use path_basename() because of this:
-> https://lore.kernel.org/all/20260116043056.542346-1-alison.schofield@intel.com/
-> 
-> Give me a minute ;) to push that to the pending branch and you can
-> work from there: https://github.com/pmem/ndctl/commits/pending/
-> 
-> snip to end.
+Understood. Could you please elaborate what the problem is with making it so?
+Are you trying to eliminate one per-CPU register write? Is this something that
+ends up being very expensive? I assumed that a register designed to support
+modification during context switch should be fast. Or is it the IPI you are
+concerned about? Please help me to understand what the actual problem is that
+you are trying to solve.
+I think it is reasonable to start with defaults when changing the mode which
+I do not expect users to change often.
+
+Reinette
+
