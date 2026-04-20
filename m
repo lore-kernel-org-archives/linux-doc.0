@@ -1,113 +1,363 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF2A303A0A;
-	Mon, 20 Apr 2026 08:41:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D20D2C11F1;
+	Mon, 20 Apr 2026 09:52:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776674503; cv=none; b=tbJ14Rbs6w/Cn5D/ZK6GPJW0aJpIjaB6Qyi4bwYWJ84FD/YDVM1s4lnaykjGr8tR2y+qGFA415aqCNhWVX24X6VjBwq6CjcpLVWSOmYhqL49MzA4K8Gm8rmTkjx0Ozk+sJq15ZEfGIGHPKwL27tM2pR06KaODygLhJNxTVuswZs=
+	t=1776678721; cv=none; b=hfMAXAgZIJQWVI5fNqtkt87yGJQsMWMHqDznV1m2OmGvb6SwmGc+I5WPDK4u00G1aa7bI8zGuUycjuOioA4HC96j13IO74CpCG6fv+XQ37P+7FL8VgjX/Z7Gmn2qqlQWUbBOM4ZXm+d4lIBlKYzp9QmdrQHluUE3u7KKEzuXcqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776674503; c=relaxed/simple;
-	bh=hqFLWvMnHtD7k5CCC1+CJvhLbI1x/FBeWUF2UPXFIq4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PzcpRCrMk3Hiy/SmiKRcYl6wM411VL5lCDyk6mtp48UKDxhVxWrnITWKdJeQUC0V8N0Ln70vdIS8pQa6aoxuVgWZW5fq+OsWk3hI1vGqLWCpFKM29VVXCVbtPVz+TlJOQAnI4KYmGAU4y5/Hzy/IL7L2qmtnw6zZsvGSPMjcKBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=V7l+dm49; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776678721; c=relaxed/simple;
+	bh=XYhx9+CFohe0iWyUB9sZOynfbxZLAMSrZvs0/XibZHw=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RILJKqn2rsN1P4cdEbjPGCCb4pMQdW9/QF9zKKrpApzvjhB4Lxiz3gkt4SfdgI/MKKG3ByzzWhzgNazTsOz1tPo9jWsuOTO/VXY91/EciS+hebXw7tDtv3G7buSHZsfGak5BC3JSmyupSM6KaDKFATm8RHFn08v9b5aBdETJHPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gLcSna+Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="V7l+dm49"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776674501; x=1808210501;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=hqFLWvMnHtD7k5CCC1+CJvhLbI1x/FBeWUF2UPXFIq4=;
-  b=V7l+dm49YKkrcs1m7v4yb7fy1IMoTPRua13GrHbUyF9Vm2uIMAxBDfp8
-   37jhw7rsqdeC3PGqcGHaZo/6Y//+guFRs144/UNNU18aZ68Y7AXzoG3Ls
-   jju6NzPDM5CDvaxbM66nuSTYPZVN03UmWXLjxAobW/XXdZltclvM9LpbE
-   4kQXBPJWp0SaHFXkPK1JN2oBUkB8ooTHQ7i35w7QdqD8fZLe73/g57cQ3
-   9pLs1ln/fixCHXhKlvF0XRzbMBirVQUnr3dTPU6lfWN2MO6tBLBrfcqwE
-   lsGHUKYebZxYKsSkNVcenHp9kvUp3z/C+vHNuDZ048wNCMIzNVoFHCqXB
-   Q==;
-X-CSE-ConnectionGUID: E9zqP4diQB6pdHz5Rr14ig==
-X-CSE-MsgGUID: KaIThdOAT0SpLTKJDwKpmA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="95146091"
-X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="95146091"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 01:41:40 -0700
-X-CSE-ConnectionGUID: 6GLblZMtQBK7Gn0XuQpwMQ==
-X-CSE-MsgGUID: SP+ZPJ94Sse0CHR/p0kEUg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,189,1770624000"; 
-   d="scan'208";a="231574172"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.90])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 01:41:36 -0700
-Date: Mon, 20 Apr 2026 11:41:33 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Jonathan Cameron <jic23@kernel.org>,
-	Svyatoslav Ryhel <clamor95@gmail.com>,
-	David Lechner <dlechner@baylibre.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gLcSna+Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C80F5C19425;
+	Mon, 20 Apr 2026 09:52:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776678721;
+	bh=XYhx9+CFohe0iWyUB9sZOynfbxZLAMSrZvs0/XibZHw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=gLcSna+Q6Yk8c35tT8OV/c6Mq0u6l8OWNuBwMXESWipUaU6r3wJgKVht+lG4Xmd8M
+	 I1gmZPtEPoqVjEWVHuBFTJSD63ep0KvmMz/riSc+pc9a2cF8/LB/xBjB7zyRT0VE5N
+	 8+Io6FUZzWUGTgn33z9WmPQPZ/y1JI8DIYWUFSAIIMKfJaXfMvSUtfPyI22e6odlsK
+	 yDYKDgQpN3uQ1tKc1CrDteF2V7AUY6l8mmJ7Y1pGC9YjGE8CDPjb5ux8mlAkKYQGIz
+	 1UJGcUO2EoCpnLdlk0r/6wRAiBQiBxoOglYo2DO62tT3vjidQAmwtayWS4ikVqcMp6
+	 S9NxbQOgckMWQ==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wElIM-0000000D19Y-1hWs;
+	Mon, 20 Apr 2026 09:51:58 +0000
+Date: Mon, 20 Apr 2026 10:51:57 +0100
+Message-ID: <86qzoa0xj6.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Oliver Upton <oupton@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu
+ <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>, linux-iio@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] misc: Remove old APDS990x driver
-Message-ID: <aeXmvaFIbTlxqNO0@ashevche-desk.local>
-References: <20260419083125.35572-1-clamor95@gmail.com>
- <20260419083125.35572-4-clamor95@gmail.com>
- <20260419143346.45ed78c2@jic23-huawei>
- <CAPVz0n1qrSYr16zSSqRHuTWVkRfdC+c9w+mxAhtzgfHzL41XFw@mail.gmail.com>
- <20260419172216.3cf10e51@jic23-huawei>
- <aeXh7j410AxESy4U@ashevche-desk.local>
- <68c671b4-6754-49df-9fdb-2b3382033fb3@app.fastmail.com>
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	devel@daynix.com,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v7 3/4] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
+In-Reply-To: <06c6664c-7f0c-47b2-babf-ba2a541fd9f2@rsg.ci.i.u-tokyo.ac.jp>
+References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+	<20260418-hybrid-v7-3-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+	<87ldeic1gk.wl-maz@kernel.org>
+	<06c6664c-7f0c-47b2-babf-ba2a541fd9f2@rsg.ci.i.u-tokyo.ac.jp>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <68c671b4-6754-49df-9fdb-2b3382033fb3@app.fastmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: odaki@rsg.ci.i.u-tokyo.ac.jp, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, kees@kernel.org, gustavoars@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, Apr 20, 2026 at 10:33:22AM +0200, Arnd Bergmann wrote:
-> On Mon, Apr 20, 2026, at 10:21, Andy Shevchenko wrote:
-> > On Sun, Apr 19, 2026 at 05:22:16PM +0100, Jonathan Cameron wrote:
-> >> On Sun, 19 Apr 2026 16:41:24 +0300 Svyatoslav Ryhel <clamor95@gmail.com> wrote:
-> >> > нд, 19 квіт. 2026 р. о 16:33 Jonathan Cameron <jic23@kernel.org> пише:
+On Mon, 20 Apr 2026 09:36:16 +0100,
+Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
 > 
-> >> Their userspace will be broken by dropping it.  The lack of upstream users
-> >> makes this less critical but it can be argued it's still a possible regression.
-> >
-> > Usual recommendation is to google, and check Debian code search engine.
-> > I randomly chose a couple of sysfs nodes and only kernel code refers to them.
-> > So, at least there is a good sign that it likely not in use. But one has
-> > to perform more checks (all attributes, more sources of information) and
-> > summarise that in the commit message.
+> On 2026/04/20 2:19, Marc Zyngier wrote:
+> > On Sat, 18 Apr 2026 09:14:25 +0100,
+> > Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
+> >> 
+> >> On a heterogeneous arm64 system, KVM's PMU emulation is based on the
+> >> features of a single host PMU instance. When a vCPU is migrated to a
+> >> pCPU with an incompatible PMU, counters such as PMCCNTR_EL0 stop
+> >> incrementing.
+> >> 
+> >> Although this behavior is permitted by the architecture, Windows does
+> >> not handle it gracefully and may crash with a division-by-zero error.
+> >> 
+> >> The current workaround requires VMMs to pin vCPUs to a set of pCPUs
+> >> that share a compatible PMU. This is difficult to implement correctly in
+> >> QEMU/libvirt, where pinning occurs after vCPU initialization, and it
+> >> also restricts the guest to a subset of available pCPUs.
+> >> 
+> >> Introduce the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY attribute to
+> >> create a "fixed-counters-only" PMU. When set, KVM exposes a PMU that is
+> >> compatible with all pCPUs but that does not support programmable
+> >> event counters which may have different feature sets on different PMUs.
+> >> 
+> >> This allows Windows guests to run reliably on heterogeneous systems
+> >> without crashing, even without vCPU pinning, and enables VMMs to
+> >> schedule vCPUs across all available pCPUs, making full use of the host
+> >> hardware.
+> >> 
+> >> Much like KVM_ARM_VCPU_PMU_V3_IRQ and other read-write attributes, this
+> >> attribute provides a getter that facilitates kernel and userspace
+> >> debugging/testing.
+> > 
+> > OK, so that's the sales pitch. But how is it implemented? I would like
+> > to be able to read a high-level description of the implementation
+> > trade-offs.
 > 
-> I think in this case it's sufficient to point out that there is no
-> devicetree support in the driver, and no pre-DT board file ever
-> declared a platform_device with apds990x_platform_data in mainline
-> kernels. The ambient light sensor drivers in drivers/misc/ were
-> all added in before the change from boardfile to DT, and from custom
-> ABI to drivers/iio.
+> Implementation-wise it is very trivial. Essentially the following
+> addition in kvm_arm_pmu_v3_get_attr() is the entire implementation:
+> +	case KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY:
+> +		if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
+> &vcpu->kvm->arch.flags))
+> +			return 0;
+> 
+> Both its functionality and code complexity is trivial. So we can argue that:
+> - the functionality is too trivial to be useful or
+> - the interface/implementation complexity is so trivial that it does not
+>   incur maintenance burden
+> 
+> In this case the selftest uses the getter so I was more inclined to
+> have it, but adding one just for the selftest sounds too ad-hoc, so
+> here I looked into other attributes to ensure that it was not
+> introducing inconsistency with existing interfaces.
+> 
+> As the result, I found there are other read-write attributes; in fact
+> there are more read-write attributes than write-only ones.
 
-Works for me. I am all for removing old and legacy (especially non-FW node
-compatible) code.
+You're completely missing the point. I'm referring to the whole of the
+commit message, which is more of a marketing slide than a technical
+description.
+
+I really don't care about the getter at this stage, which while
+pointless, does not make things more awful than they already are.
+
+> 
+> > 
+> >> 
+> >> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+> >> ---
+> >>   Documentation/virt/kvm/devices/vcpu.rst |  29 ++++++
+> >>   arch/arm64/include/asm/kvm_host.h       |   2 +
+> >>   arch/arm64/include/uapi/asm/kvm.h       |   1 +
+> >>   arch/arm64/kvm/arm.c                    |   1 +
+> >>   arch/arm64/kvm/pmu-emul.c               | 155 +++++++++++++++++++++++---------
+> >>   include/kvm/arm_pmu.h                   |   2 +
+> >>   6 files changed, 147 insertions(+), 43 deletions(-)
+> >> 
+> >> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+> >> index 60bf205cb373..e0aeb1897d77 100644
+> >> --- a/Documentation/virt/kvm/devices/vcpu.rst
+> >> +++ b/Documentation/virt/kvm/devices/vcpu.rst
+> >> @@ -161,6 +161,35 @@ explicitly selected, or the number of counters is out of range for the
+> >>   selected PMU. Selecting a new PMU cancels the effect of setting this
+> >>   attribute.
+> >>   +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+> >> +------------------------------------------------------
+> >> +
+> >> +:Parameters: no additional parameter in kvm_device_attr.addr
+> >> +
+> >> +:Returns:
+> >> +
+> >> +	 =======  =====================================================
+> >> +	 -EBUSY   Attempted to set after initializing PMUv3 or running
+> >> +		  VCPU, or attempted to set for the first time after
+> >> +		  setting an event filter
+> >> +	 -ENXIO   Attempted to get before setting
+> >> +	 -ENODEV  Attempted to set while PMUv3 not supported
+> >> +	 =======  =====================================================
+> >> +
+> >> +If set, PMUv3 will be emulated without programmable event counters. The VCPU
+> >> +will use any compatible hardware PMU. This attribute is particularly useful on
+> > 
+> > Not quite "any PMU". It will use *the* PMU of the physical CPU,
+> > irrespective of the implementation.
+> 
+> I think:
+> 
+> - this comment
+> - one on the KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED note
+> - one on kvm_pmu_create_perf_event()
+> - and one on kvm_arm_pmu_v3_set_pmu_fixed_counters_only()
+> 
+> All boil down into one question: will it support all possible CPUs, or
+> will it support a subset? Let me answer here:
+> 
+> This patch is written to support a subset instead of all possible
+> CPUs. If a pCPU does not have a compatible PMU, the pCPU will not be
+> supported and cause KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED.
+
+This is not a thing. Either *all* the CPUs have a PMU that can be used
+for KVM, or PMU support is not offered to guests. That's a hard line
+in the sand. And the code already upholds this by checking the
+sanitised PMUVer field.
+
+>
+> This patch does not enforce all possible CPUs are covered by the
+> compatible PMUs. Theoretically speaking,
+> kvm_arm_pmu_get_pmuver_limit() enables the PMU emulation when real
+> PMUv3 hardware covers all possible CPUs *or* the relevant registers
+> can be trapped with IMPDEF, so some pCPU may not have a compatible PMU
+> and only provide the IMPDEF trapping.
+
+How is that possible? Please describe the case where that can happen,
+and I will make sure that such a system stops booting. The intent is
+definitely that that:
+
+- for early CPUs, we take the minimal capability of all CPUs
+
+- for late CPUs, either they match at least the capability recorded by
+  early CPUs, or they don't boot.
+
+> Practically, I don't think any sane configuration will ever have such
+> a subset support, so we can explicitly enforce all possible CPUs are
+> covered by the compatible PMUs if desired.
+
+That's not just desired. This is a requirement. And it is already
+enforced AFAICS.
+
+> 
+> > 
+> >> +heterogeneous systems where different hardware PMUs cover different physical
+> >> +CPUs. The compatibility of hardware PMUs can be checked with
+> >> +KVM_ARM_VCPU_PMU_V3_SET_PMU. All VCPUs in a VM share this attribute. It isn't
+> >> +possible to set it for the first time if a PMU event filter is already present.
+> > 
+> > "for the first time" gives the impression that it will work if you try
+> > again. I'd rather we say that "This feature is incompatible with the
+> > existence of a PMU event filter".
+> 
+> The following sequence will work:
+> 1. Set KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+> 2. Set KVM_ARM_VCPU_PMU_V3_FILTER
+> 3. Set KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+> 
+> This is to make the behavior conistent with KVM_ARM_VCPU_PMU_V3_SET_PMU.
+
+I don't think this is correct. Filtering is completely at odds with
+this patch, and I don't want to have to reason about the combination.
+
+[...]
+
+> >> +	int i;
+> >> +
+> >> +	for_each_set_bit(i, &mask, 32) {
+> >> +		pmc = kvm_vcpu_idx_to_pmc(vcpu, i);
+> >> +		if (!pmc->perf_event)
+> >> +			continue;
+> >> +
+> >> +		cpu_pmu = to_arm_pmu(pmc->perf_event->pmu);
+> >> +		if (!cpumask_test_cpu(vcpu->cpu, &cpu_pmu->supported_cpus)) {
+> >> +			kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
+> >> +			break;
+> >> +		}
+> >> +	}
+> >> +}
+> >> +
+> > 
+> > Why do we need to inflict this on VMs that do not have the fixed
+> > counter restriction?
+> 
+> This function is to re-create the perf_event in case the current
+> perf_event does not support the pCPU because e.g., the pCPU is a
+> E-core while the perf_event only covers the P-cores.
+
+That's not what I meant. This code is only here to support the
+fixed-function feature. It makes no sense outside of it, because *we
+don't support counter migration across implementations*.
+
+So what's the purpose of this stuff for the normal KVM setup?
+
+> 
+> > 
+> > And even then, all you have to reconfigure is the cycle counter. So
+> > why the loop? All we want to find out is whether the cycle counter is
+> > instantiated on the PMU that matches the current CPU.
+> 
+> I just wanted to avoid hardcoding assumptions on the fixed
+> counter(s). FEAT_PMUv3_ICNTR will be naturaly handled with a loop, for
+> example.
+
+Well, not that loop, since ICNTR is counter 32. So please let's stop
+the nonsense and only add what is required?
+
+[...]
+
+> >>   +
+> >> clear_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
+> >> &kvm->arch.flags);
+> > 
+> > Why does this need to be cleared? I'd rather we make sure it is never
+> > set the first place.
+> 
+> KVM_ARM_VCPU_PMU_V3_SET_PMU and
+> KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY can be set on the same
+> VCPU. The last KVM_ARM_VCPU_PMU_V3_SET_PMU or
+> KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY setting will be effective.
+> 
+> A VMM may try set these attributes to check if the setting is
+> supported. For example, the RFC QEMU patch first uses
+> KVM_ARM_VCPU_PMU_V3_SET_PMU to find a compatible PMU that covers all
+> pCPUs, and then falls back to
+> KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY. The order of such probing is
+> up to the VMM.
+
+KVM_ARM_VCPU_PMU_V3_SET_PMU is not a probing mechanism. You must probe
+the PMUs by looking in /sys/bus/event_source/devices/, like kvmtool
+does.
+
+So there is no reason to support this stuff, and the two flags should
+be made mutually exclusive.
+
+[...]
+
+> >>
+> > 
+> > In conclusion, I find this patch to be rather messy. For a start, it
+> > needs to be split in at least 5 patches:
+> > 
+> > - at least two for the refactoring
+> > - one for the PMU core changes
+> > - one for the UAPI
+> > - one for documentation
+> 
+> That clarifies the expected granurarity of patches. The next version
+> will be in that layout, perhaps with more patches if an additional
+> change. Thanks for the guidance.
+> 
+> > 
+> > I'd also like some clarification on how this is intended to work if we
+> > enable FEAT_PMUv3_ICNTR, because the definition seems to be designed
+> > to encompass all fixed-function counters, and I expect this to grow
+> > over time.
+> 
+> Indeed the UAPI was designed to encompass all fixed-function counters
+> as suggested by Oliver.
+> 
+> To support the UAPI, the implementation avoids hardcoding the
+> assumption on the fixed counter(s). FEAT_PMUv3_INCTR will be naturaly
+> supported once the common code is properly updated (i.e., the size of
+> the event counter bitmask is grown the corresponding registers are
+> wired up with a proper check of the feature.)
+> 
+> I expect migration will be handled with the conventional register
+> getters and setters, but please share if you have a concern.
+
+At the very least I want to see some documentation explaining that.
+
+Thanks,
+
+	M.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+Without deviation from the norm, progress is not possible.
