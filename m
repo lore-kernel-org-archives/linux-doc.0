@@ -1,25 +1,39 @@
-Received: from zg8tmja2lje4os4yms4ymjma.icoremail.net (zg8tmja2lje4os4yms4ymjma.icoremail.net [206.189.21.223])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D3D639EF09;
-	Mon, 20 Apr 2026 12:03:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=206.189.21.223
+Received: from www3579.sakura.ne.jp (www3579.sakura.ne.jp [49.212.243.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E86217A305;
+	Mon, 20 Apr 2026 12:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=49.212.243.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776686617; cv=none; b=a40n6MCTbsH1u6E/NQP0nXdO7uViF/HA+cTiej9ZrjgkSlgKz6Hta5y7+AmWwD6cYG4agK5CcxdY/BuEB9JbfqoLO+Df85T7LURzc2HKqZWdIUGAQnkG8X9SFlSKnNGc+PqJdbOYkC9IGxGmYZml0Q3TcjNvKq0wKHOYxtsMK3o=
+	t=1776686893; cv=none; b=TmxcjOtBho5/OYJlH538NcNn7knMywIm8trsf63KuqJRtMFpK0nPfCOnhHTLSjmjpep2pYsB2V4BD/BOjdSUoqkJvIYiVQp+48WduMuLLiUcKySyI9oZY9Ffb6MGXQMtPdH9sWBkZxkiaoBmhKCWYfTAKaKDRQFhr5ji8oKVuXM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776686617; c=relaxed/simple;
-	bh=kN/64UXEl1tK+gZtw5mSTbPfntQC/sQnwWNGtzSzK7k=;
+	s=arc-20240116; t=1776686893; c=relaxed/simple;
+	bh=dIbC/SDZoQjLyj3i5wL+OjmBtDXFYM6j1mSBuSXj66A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eNKpW9AN9OVMynK0InpR4vKIwkJbViKwNLvcID/PpgHM3nhyV6/cOnJo4J27rWrMuauZBoTWHmbh2AJoBcW+X/pjwQLwoMPpFTFP22gGdWns2Gu9rFDnhiBBkb2ujkMBqg/M3USgP+IcoEW/wCuU3VxEmAI34uekWFYV+/rbSQk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn; spf=pass smtp.mailfrom=hust.edu.cn; arc=none smtp.client-ip=206.189.21.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hust.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hust.edu.cn
-Received: from hust.edu.cn (unknown [172.16.0.50])
-	by app1 (Coremail) with SMTP id HgEQrADn7t4CFuZplKbjAw--.20612S2;
-	Mon, 20 Apr 2026 20:03:14 +0800 (CST)
-Received: from [10.12.168.245] (unknown [10.12.168.245])
-	by gateway (Coremail) with SMTP id _____wCHgAf+FeZpaDzcAA--.12962S2;
-	Mon, 20 Apr 2026 20:03:11 +0800 (CST)
-Message-ID: <0576be8b-89f5-48d3-b568-1ae0403a52c8@hust.edu.cn>
-Date: Mon, 20 Apr 2026 20:03:09 +0800
+	 In-Reply-To:Content-Type; b=Dg/zMuMJyR+ztf/JTWcpZlGQjoZUJmY23dp0T/SAuKHbXZd3OFFZGBwIvbRorDDKHhwsS4MrP8YMV1n2CDWQBQj2faCnaFwd6jLhsMOk06lLnIqrKzozXVjprEr9459cIs/hz0y47xTh5LJBWWa7lHUEG8PVMP4yXhAWFE+VjVs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp; dkim=fail (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b=j5w++ARO reason="key not found in DNS"; arc=none smtp.client-ip=49.212.243.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rsg.ci.i.u-tokyo.ac.jp
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=rsg.ci.i.u-tokyo.ac.jp header.i=@rsg.ci.i.u-tokyo.ac.jp header.b="j5w++ARO"
+Received: from [133.11.54.205] (h205.csg.ci.i.u-tokyo.ac.jp [133.11.54.205])
+	(authenticated bits=0)
+	by www3579.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 63KC7Hq6039258
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Mon, 20 Apr 2026 21:07:17 +0900 (JST)
+	(envelope-from odaki@rsg.ci.i.u-tokyo.ac.jp)
+DKIM-Signature: a=rsa-sha256; bh=X3xyOUVDZuLC/5XI0816FBtwBZa8y8tYdcbO0N0eS3I=;
+        c=relaxed/relaxed; d=rsg.ci.i.u-tokyo.ac.jp;
+        h=From:Message-ID:To:Subject:Date;
+        s=rs20250326; t=1776686837; v=1;
+        b=j5w++AROJFK9hvfK610kpcnBX0FZ+xiqACla7A2e6jZXphC4kXBfSLhwnTBm3Sw+
+         Xxv9jBN7EPrpmtjSN6jOAC+kQWRnPG08iINzA0Ya5MotAzZP49vynlibgpIIiwSl
+         JG8h8i7L2nRX8Gae88bAZm5lB1JXMDvjqLPypecbGJekzyUNfMW/MShpDLCUBq/B
+         T47j8mZJB+SyAN4fymNnD3sOfXVXaMr1ecCcoQCTdn6SSuuALjysdMPSKcttizwT
+         r0hm0nNZNkVUD3lRuWwK8n7ViQ6+6jdvT/PJwblabq5qhA91C19uNPLF2+hEVxqX
+         /0EeQWKF2839cd1ZAJEyFw==
+Message-ID: <ad44c69e-2f99-4f31-81b4-faae52eea080@rsg.ci.i.u-tokyo.ac.jp>
+Date: Mon, 20 Apr 2026 21:07:15 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -27,394 +41,358 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs/zh_CN: add module-signing Chinese translation
-To: Yan Zhu <zhuyan2015@qq.com>
-Cc: alexs@kernel.org, seakeel@gmail.com, si.yanteng@linux.dev,
- corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <tencent_99B2EE128E02C6CC1120DE135D4A2DA5B309@qq.com>
- <984f3b99-23e6-4931-a79e-7ed7cd47c04f@hust.edu.cn>
- <tencent_91B9F750970BCBFEAC86BBACA3DF31480407@qq.com>
-From: Dongliang Mu <dzm91@hust.edu.cn>
-In-Reply-To: <tencent_91B9F750970BCBFEAC86BBACA3DF31480407@qq.com>
+Subject: Re: [PATCH v7 3/4] KVM: arm64: PMU: Introduce FIXED_COUNTERS_ONLY
+To: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oupton@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Zenghui Yu
+ <yuzenghui@huawei.com>,
+        Catalin Marinas <catalin.marinas@arm.com>,
+        Will Deacon <will@kernel.org>, Kees Cook <kees@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Shuah Khan <shuah@kernel.org>, linux-arm-kernel@lists.infradead.org,
+        kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+ <20260418-hybrid-v7-3-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+ <87ldeic1gk.wl-maz@kernel.org>
+ <06c6664c-7f0c-47b2-babf-ba2a541fd9f2@rsg.ci.i.u-tokyo.ac.jp>
+ <86qzoa0xj6.wl-maz@kernel.org>
+Content-Language: en-US
+From: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+In-Reply-To: <86qzoa0xj6.wl-maz@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:HgEQrADn7t4CFuZplKbjAw--.20612S2
-Authentication-Results: app1; spf=neutral smtp.mail=dzm91@hust.edu.cn;
-X-Coremail-Antispam: 1UD129KBjvAXoW3Aw4UZr4fJw1rGr45GryDJrb_yoW8XrWUGo
-	WrKryfuw1Ykw1Ygr1rKw48Jry5J3WjgrnrCay7CrW7Jr1qk3Zayayqy345tay5Ar4xGF15
-	J3W3Ar1UAFyUZF13n29KB7ZKAUJUUUUx529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3
-	AaLaJ3UjIYCTnIWjp_UUUOy7k0a2IF6F4UM7kC6x804xWl1xkIjI8I6I8E6xAIw20EY4v2
-	0xvaj40_Wr0E3s1l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7
-	IYx2IY67AKxVW7JVWDJwA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVWxJVW8Jr1l84ACjcxK
-	6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_GcCE3s1ln4kS14v26r
-	126r1DM2vYz4IE04k24VAvwVAKI4IrM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI
-	12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj64x0Y40En7xvr7AKxV
-	W8Jr0_Cr1UMcIj6x8ErcxFaVAv8VW8uFyUJr1UMcIj6xkF7I0En7xvr7AKxVW8Jr0_Cr1U
-	McvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCY1x0262kKe7AKxVWUAVWUtwCF04
-	k20xvY0x0EwIxGrwCF04k20xvE74AGY7Cv6cx26r4fZr1UJr1l4I8I3I0E4IkC6x0Yz7v_
-	Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8Gjc
-	xK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0xvE2Ix0
-	cI8IcVAFwI0_JFI_Gr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE42xK8V
-	AvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E
-	14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUVYhFDUUUU
-X-CM-SenderInfo: asqsiiirqrkko6kx23oohg3hdfq/
+Content-Transfer-Encoding: 7bit
 
-
-On 4/18/26 10:15 PM, Yan Zhu wrote:
-> Hi Dongliang,
->
-> On 4/18/2026 2:20 PM, Dongliang Mu wrote:
+On 2026/04/20 18:51, Marc Zyngier wrote:
+> On Mon, 20 Apr 2026 09:36:16 +0100,
+> Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
 >>
->> On 4/18/26 12:45 PM, Yan Zhu wrote:
->>> Translate .../admin-guide/module-signing.rst into Chinese.
+>> On 2026/04/20 2:19, Marc Zyngier wrote:
+>>> On Sat, 18 Apr 2026 09:14:25 +0100,
+>>> Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
+>>>>
+>>>> On a heterogeneous arm64 system, KVM's PMU emulation is based on the
+>>>> features of a single host PMU instance. When a vCPU is migrated to a
+>>>> pCPU with an incompatible PMU, counters such as PMCCNTR_EL0 stop
+>>>> incrementing.
+>>>>
+>>>> Although this behavior is permitted by the architecture, Windows does
+>>>> not handle it gracefully and may crash with a division-by-zero error.
+>>>>
+>>>> The current workaround requires VMMs to pin vCPUs to a set of pCPUs
+>>>> that share a compatible PMU. This is difficult to implement correctly in
+>>>> QEMU/libvirt, where pinning occurs after vCPU initialization, and it
+>>>> also restricts the guest to a subset of available pCPUs.
+>>>>
+>>>> Introduce the KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY attribute to
+>>>> create a "fixed-counters-only" PMU. When set, KVM exposes a PMU that is
+>>>> compatible with all pCPUs but that does not support programmable
+>>>> event counters which may have different feature sets on different PMUs.
+>>>>
+>>>> This allows Windows guests to run reliably on heterogeneous systems
+>>>> without crashing, even without vCPU pinning, and enables VMMs to
+>>>> schedule vCPUs across all available pCPUs, making full use of the host
+>>>> hardware.
+>>>>
+>>>> Much like KVM_ARM_VCPU_PMU_V3_IRQ and other read-write attributes, this
+>>>> attribute provides a getter that facilitates kernel and userspace
+>>>> debugging/testing.
 >>>
->>> Update the translation through commit 0ad9a71933e7
->>> ("modsign: Enable ML-DSA module signing")
->>>
->>> Signed-off-by: Yan Zhu <zhuyan2015@qq.com>
->>> ---
+>>> OK, so that's the sales pitch. But how is it implemented? I would like
+>>> to be able to read a high-level description of the implementation
+>>> trade-offs.
 >>
->> Hi Yan,
+>> Implementation-wise it is very trivial. Essentially the following
+>> addition in kvm_arm_pmu_v3_get_attr() is the entire implementation:
+>> +	case KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY:
+>> +		if (test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
+>> &vcpu->kvm->arch.flags))
+>> +			return 0;
 >>
->> Please remember to add your changelog under the "---". For example, 
->> v1-  >v2: XXX
+>> Both its functionality and code complexity is trivial. So we can argue that:
+>> - the functionality is too trivial to be useful or
+>> - the interface/implementation complexity is so trivial that it does not
+>>    incur maintenance burden
 >>
->
-> I replied to the email according to the guidance of how-to.rst in the 
-> Chinese thanslation. There was no special explanation there, so I 
-> thought that the Chinese translation did not need the explanation of 
-> version change. I think I should resend a patch to fill in this 
+>> In this case the selftest uses the getter so I was more inclined to
+>> have it, but adding one just for the selftest sounds too ad-hoc, so
+>> here I looked into other attributes to ensure that it was not
+>> introducing inconsistency with existing interfaces.
+>>
+>> As the result, I found there are other read-write attributes; in fact
+>> there are more read-write attributes than write-only ones.
+> 
+> You're completely missing the point. I'm referring to the whole of the
+> commit message, which is more of a marketing slide than a technical
 > description.
 
-https://lore.kernel.org/all/20260420115647.2718959-1-dzm91@hust.edu.cn/
+In terms of implementation, the obvious tradeoff is that it adds more 
+code to implement the feature. One thing to note is that 
+kvm_vcpu_load_pmu() is added and is called each time a vCPU migrates 
+across pCPUs. The heavy part, making the KVM_REQ_RELOAD_PMU request, 
+only happens when the feature is enabled.
 
-I sent a new patch to explain how to deal with changelog.
-
-Dongliang Mu
-
->
->> And I wonder where the v2 patch is as I don't find it in my mbox. Do 
->> I miss something?
->
-> There may be something wrong with the mailbox. I see that you are in 
-> the copy list for the v2 patch. The link is 
-> https://lore.kernel.org/lkml/tencent_0101EEFDDBC5D532222BFE0EF2487DCC0805@qq.com
->
->> Dongliang Mu
+> 
+> I really don't care about the getter at this stage, which while
+> pointless, does not make things more awful than they already are.
+> 
 >>
->>> .../zh_CN/admin-guide/module-signing.rst      | 249 ++++++++++++++++++
->>>   1 file changed, 249 insertions(+)
->>>   create mode 100644 Documentation/translations/zh_CN/admin-guide/ 
->>> module-signing.rst
 >>>
->>> diff --git a/Documentation/translations/zh_CN/admin-guide/module- 
->>> signing.rst b/Documentation/translations/zh_CN/admin-guide/module- 
->>> signing.rst
->>> new file mode 100644
->>> index 000000000000..04b0f1cbafd5
->>> --- /dev/null
->>> +++ b/Documentation/translations/zh_CN/admin-guide/module-signing.rst
->>> @@ -0,0 +1,249 @@
->>> +.. SPDX-License-Identifier: GPL-2.0
->>> +.. include:: ../disclaimer-zh_CN.rst
->>> +
->>> +:Original: Documentation/admin-guide/module-signing.rst
->>> +:翻译:
->>> + 朱岩 Yan Zhu <zhuyan2015@qq.com>
->>> +
->>> +
->>> +==========================
->>> +内核模块签名机制
->>> +==========================
->>> +
->>> +.. 目录
->>> +..
->>> +.. - 概述
->>> +.. - 配置模块签名
->>> +.. - 生成签名密钥
->>> +.. - 内核中的公钥
->>> +.. - 模块手动签名
->>> +.. - 已签名模块和剥离
->>> +.. - 加载已签名模块
->>> +.. - 无效签名和未签名模块
->>> +.. - 管理/保护私钥
->>> +
->>> +
->>> +概述
->>> +====
->>> +
->>> +内核模块签名机制在安装过程中对模块进行加密签名，然后在加载模块时检查 
->>> 签名。这
->>> +通过禁止加载未签名的模块或使用无效密钥签名的模块来提高内核安全性。模 
->>> 块签名通
->>> +过使恶意模块更难加载到内核中来增加安全性。模块签名检查在内核中完成， 
->>> 因此不需
->>> +要受信任的用户空间位。
->>> +
->>> +此机制使用 X.509 ITU-T 标准证书对涉及的公钥进行编码。签名本身不以任何 
->>> 工业标准
->>> +类型编码。内置机制目前仅支持 RSA、NIST P-384 ECDSA 和 NIST FIPS-204 
->>> ML-DSA
->>> +公钥签名标准（尽管它是可插拔的并允许使用其他标准）。对于 RSA 和 
->>> ECDSA，可以使
->>> +用的可能的哈希算法是大小为 256、384 和 512 的 SHA-2 和 SHA-3（算法由 
->>> 签名中的
->>> +数据选择）；ML-DSA会自行进行哈希运算，但允许与SHA512哈希算法结合用于 
->>> 签名属性。
->>> +
->>> +配置模块签名
->>> +============
->>> +
->>> +通过进入内核配置的 :menuselection:`Enable Loadable Module Support` 菜 
->>> 单并打
->>> +开以下选项来启用模块签名机制::
->>> +
->>> +    CONFIG_MODULE_SIG    "Module signature verification"
->>> +
->>> +这有多个可用选项：
->>> +
->>> + (1) :menuselection:`Require modules to be validly signed`
->>> +     (``CONFIG_MODULE_SIG_FORCE``)
->>> +
->>> +     这指定了内核应如何处理其密钥未知或未签名的模块。
->>> +
->>> +     如果关闭（即"宽松模式"），则允许使用不可用密钥和未签名的模块，但 
->>> 内核将被
->>> +     标记为受污染，并且相关模块将被标记为受污染，显示字符'E'。
->>> +
->>> +     如果打开（即"限制模式"），只有具有有效签名且可由内核拥有的公钥验 
->>> 证的模块
->>> +     才会被加载。所有其他模块将生成错误。
->>> +
->>> +     无论此处的设置如何，如果模块的签名块无法解析，它将被直接拒绝。
->>> +
->>> +
->>> + (2) :menuselection:`Automatically sign all modules`
->>> +     (``CONFIG_MODULE_SIG_ALL``)
->>> +
->>> +     如果打开此选项，则在构建的 modules_install 
->>> 阶段期间将自动签名模块。
->>> +     如果关闭，则必须使用以下命令手动签名模块::
->>> +
->>> +    scripts/sign-file
->>> +
->>> +
->>> + (3) :menuselection:`Which hash algorithm should modules be signed 
->>> with?`
->>> +
->>> +     这提供了安装阶段将用于签名模块的哈希算法选择：
->>> +
->>> +    =============================== 
->>> ==========================================
->>> +    ``CONFIG_MODULE_SIG_SHA256``    :menuselection:`Sign modules 
->>> with SHA-256`
->>> +    ``CONFIG_MODULE_SIG_SHA384``    :menuselection:`Sign modules 
->>> with SHA-384`
->>> +    ``CONFIG_MODULE_SIG_SHA512``    :menuselection:`Sign modules 
->>> with SHA-512`
->>> +    ``CONFIG_MODULE_SIG_SHA3_256``    :menuselection:`Sign modules 
->>> with SHA3-256`
->>> +    ``CONFIG_MODULE_SIG_SHA3_384``    :menuselection:`Sign modules 
->>> with SHA3-384`
->>> +    ``CONFIG_MODULE_SIG_SHA3_512``    :menuselection:`Sign modules 
->>> with SHA3-512`
->>> +    =============================== 
->>> ==========================================
->>> +
->>> +     此处选择的算法也将被构建到内核中（而不是作为模块），以便使用该算 
->>> 法签名的
->>> +     模块可以在不导致循环依赖的情况下检查其签名。
->>> +
->>> +
->>> + (4) :menuselection:`File name or PKCS#11 URI of module signing key`
->>> +     (``CONFIG_MODULE_SIG_KEY``)
->>> +
->>> +     将此选项设置为除默认值 ``certs/signing_key.pem`` 之外的其他值将 
->>> 禁用签名
->>> +     密钥的自动生成，并允许使用您选择的密钥对内核模块进行签名。提供的 
->>> 字符串应
->>> +     标识包含私钥及其对应的 PEM 格式 X.509 证书的文件，或者在 OpenSSL
->>> +     ENGINE_pkcs11 功能正常的系统上，使用 RFC7512 定义的 PKCS#11 
->>> URI。在后一
->>> +     种情况下，PKCS#11 URI 应引用证书和私钥。
->>> +
->>> +     如果包含私钥的 PEM 文件已加密，或者 PKCS#11 令牌需要 PIN，可以通过 
+>>>>
+>>>> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+>>>> ---
+>>>>    Documentation/virt/kvm/devices/vcpu.rst |  29 ++++++
+>>>>    arch/arm64/include/asm/kvm_host.h       |   2 +
+>>>>    arch/arm64/include/uapi/asm/kvm.h       |   1 +
+>>>>    arch/arm64/kvm/arm.c                    |   1 +
+>>>>    arch/arm64/kvm/pmu-emul.c               | 155 +++++++++++++++++++++++---------
+>>>>    include/kvm/arm_pmu.h                   |   2 +
+>>>>    6 files changed, 147 insertions(+), 43 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/virt/kvm/devices/vcpu.rst b/Documentation/virt/kvm/devices/vcpu.rst
+>>>> index 60bf205cb373..e0aeb1897d77 100644
+>>>> --- a/Documentation/virt/kvm/devices/vcpu.rst
+>>>> +++ b/Documentation/virt/kvm/devices/vcpu.rst
+>>>> @@ -161,6 +161,35 @@ explicitly selected, or the number of counters is out of range for the
+>>>>    selected PMU. Selecting a new PMU cancels the effect of setting this
+>>>>    attribute.
+>>>>    +1.6 ATTRIBUTE: KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+>>>> +------------------------------------------------------
+>>>> +
+>>>> +:Parameters: no additional parameter in kvm_device_attr.addr
+>>>> +
+>>>> +:Returns:
+>>>> +
+>>>> +	 =======  =====================================================
+>>>> +	 -EBUSY   Attempted to set after initializing PMUv3 or running
+>>>> +		  VCPU, or attempted to set for the first time after
+>>>> +		  setting an event filter
+>>>> +	 -ENXIO   Attempted to get before setting
+>>>> +	 -ENODEV  Attempted to set while PMUv3 not supported
+>>>> +	 =======  =====================================================
+>>>> +
+>>>> +If set, PMUv3 will be emulated without programmable event counters. The VCPU
+>>>> +will use any compatible hardware PMU. This attribute is particularly useful on
 >>>
->>> +     ``KBUILD_SIGN_PIN`` 变量在构建时提供。
->>> +
->>> +
->>> + (5) :menuselection:`Additional X.509 keys for default system keyring`
->>> +     (``CONFIG_SYSTEM_TRUSTED_KEYS``)
->>> +
->>> +     此选项可设置为包含附加证书的 PEM 编码文件的文件名，这些证书将默 
->>> 认包含在
->>> +     系统密钥环中。
->>> +
->>> +请注意，启用模块签名会为内核构建过程添加对执行签名工具的OpenSSL开发包 
->>> 的依赖。
->>> +
->>> +
->>> +生成签名密钥
->>> +============
->>> +
->>> +生成和检查签名需要加密密钥对。私钥用于生成签名，相应的公钥用于检查签 
->>> 名。私钥
->>> +仅在构建期间需要，之后可以删除或安全存储。公钥被构建到内核中，以便在 
->>> 加载模块
->>> +时可以使用它来检查签名。
->>> +
->>> +在正常情况下，当 ``CONFIG_MODULE_SIG_KEY`` 保持默认值时，如果文件中不 
->>> 存在密
->>> +钥对，内核构建将使用 openssl 自动生成新的密钥对::
->>> +
->>> +    certs/signing_key.pem
->>> +
->>> +在构建 vmlinux 期间（公钥需要构建到 vmlinux 中）使用参数::
->>> +
->>> +    certs/x509.genkey
->>> +
->>> +文件（如果尚不存在也会生成）。
->>> +
->>> +可以在 RSA（``MODULE_SIG_KEY_TYPE_RSA``）、
->>> +ECDSA（``MODULE_SIG_KEY_TYPE_ECDSA``）和
->>> +ML-DSA（``MODULE_SIG_KEY_TYPE_MLDSA_*``）之间选择生成 RSA 4k、NIST 
->>> P-384
->>> +密钥对或 ML-DSA 44、65 或 87 密钥对。
->>> +
->>> +强烈建议您提供自己的 x509.genkey 文件。
->>> +
->>> +最值得注意的是，在 x509.genkey 文件中，req_distinguished_name 部分应 
->>> 从默认值
->>> +更改::
->>> +
->>> +    [ req_distinguished_name ]
->>> +    #O = Unspecified company
->>> +    CN = Build time autogenerated kernel key
->>> +    #emailAddress = unspecified.user@unspecified.company
->>> +
->>> +生成的 RSA 密钥大小也可以通过以下方式设置::
->>> +
->>> +    [ req ]
->>> +    default_bits = 4096
->>> +
->>> +也可以使用位于 Linux 内核源代码树根节点中的 x509.genkey 密钥生成配置 
->>> 文件和
->>> +openssl 命令手动生成公钥/私钥文件。以下是生成公钥/私钥文件的示例::
->>> +
->>> +    openssl req -new -nodes -utf8 -sha256 -days 36500 -batch -x509 \
->>> +       -config x509.genkey -outform PEM -out kernel_key.pem \
->>> +       -keyout kernel_key.pem
->>> +
->>> +然后可以将生成的 kernel_key.pem 文件的完整路径名指定在
->>> +``CONFIG_MODULE_SIG_KEY``选项中，并且将使用其中的证书和密钥而不是自动 
->>> 生成的
->>> +密钥对。
->>> +
->>> +
->>> +内核中的公钥
->>> +============
->>> +
->>> +内核包含一个可由 root 查看的公钥环。它们在名为 ".builtin_trusted_keys" 
->>> 的密
->>> +钥环中，可以通过以下方式查看::
->>> +
->>> +    [root@deneb ~]# cat /proc/keys
->>> +    ...
->>> +    223c7853 I------     1 perm 1f030000     0     0 keyring   
->>> .builtin_trusted_keys: 1
->>> +    302d2d52 I------     1 perm 1f010000     0     0 asymmetri 
->>> Fedora kernel signing key: d69a84e6bce3d216b979e9505b3e3ef9a7118079: 
->>> X509.RSA a7118079 []
->>> +
->>> +除了专门为模块签名生成的公钥外，还可以在 ``CONFIG_SYSTEM_TRUSTED_KEYS`` 
->>> 配置
->>> +选项引用的 PEM 编码文件中提供其他受信任的证书。
->>> +
->>> +此外，架构代码可以从硬件存储中获取公钥并将其添加（例如从 UEFI 密钥数 
->>> 据库）。
->>> +
->>> +最后，可以通过以下方式添加其他公钥::
->>> +
->>> +    keyctl padd asymmetric "" [.builtin_trusted_keys-ID] <[key-file]
->>> +
->>> +例如::
->>> +
->>> +    keyctl padd asymmetric "" 0x223c7853 <my_public_key.x509
->>> +
->>> +但是，请注意，内核只允许将由已驻留在 ``.builtin_trusted_keys`` 中的密 
->>> 钥有效
->>> +签名的密钥添加到 ``.builtin_trusted_keys``。
->>> +
->>> +模块手动签名
->>> +============
->>> +
->>> +要手动对模块进行签名，请使用 Linux 内核源代码树中可用的 scripts/sign- 
->>> file 工
->>> +具。该脚本需要 4 个参数：
->>> +
->>> +    1.  哈希算法（例如，sha256）
->>> +    2.  私钥文件名或 PKCS#11 URI
->>> +    3.  公钥文件名
->>> +    4.  要签名的内核模块
->>> +
->>> +以下是签名内核模块的示例::
->>> +
->>> +    scripts/sign-file sha512 kernel-signkey.priv \
->>> +        kernel-signkey.x509 module.ko
->>> +
->>> +使用的哈希算法不必与配置的算法匹配，但如果不同，应确保哈希算法要么内 
->>> 置在内核
->>> +中，要么可以在不需要自身的情况下加载。
->>> +
->>> +如果私钥需要密码或 PIN，可以在 $KBUILD_SIGN_PIN 环境变量中提供。
->>> +
->>> +
->>> +已签名模块和剥离
->>> +================
->>> +
->>> +已签名模块在末尾简单地附加了数字签名。模块文件末尾的字符串
->>> +``~Module signature appended~.`` 确认签名存在，但不能确认签名有效！
->>> +
->>> +已签名模块是脆弱的，因为签名在定义的ELF容器之外。因此，一旦计算并附加 
->>> 签名，就
->>> +不得剥离它们。请注意，整个模块都是签名的有效载荷，包括签名时存在的任 
->>> 何和所有
->>> +调试信息。
->>> +
->>> +
->>> +加载已签名模块
->>> +==============
->>> +
->>> +模块通过 insmod、modprobe、``init_module()`` 或 ``finit_module()`` 加 
->>> 载，
->>> +与未签名模块完全一样，因为在用户空间中不进行任何处理。
->>> +所有签名检查都在内核内完成。
->>> +
->>> +
->>> +无效签名和未签名模块
->>> +====================
->>> +
->>> +如果启用了 ``CONFIG_MODULE_SIG_FORCE`` 或在内核启动命令提供了
->>> +module.sig_enforce=1，内核将仅加载具有有效签名且具有公钥的模块。否 
->>> 则，它还将
->>> +加载未签名的模块。任何具有不匹配签名的模块将不被允许加载。
->>> +
->>> +任何具有不可解析签名的模块将被拒绝。
->>> +
->>> +
->>> +管理/保护私钥
->>> +==============
->>> +
->>> +由于私钥用于签名模块，病毒和恶意软件可以使用私钥签名模块并危害操作系 
->>> 统。私钥
->>> +必须被销毁或移动到安全位置，而不是保存在内核源代码树的根节点中。
->>> +
->>> +如果使用相同的私钥为多个内核配置签名模块，必须确保模块版本信息足以防 
->>> 止将模块
->>> +加载到不同的内核中。要么设置 ``CONFIG_MODVERSIONS=y``，要么通过更改
->>> +``EXTRAVERSION`` 或 ``CONFIG_LOCALVERSION`` 确保每个配置具有不同的内 
->>> 核发布字
->>> +符串。
->
+>>> Not quite "any PMU". It will use *the* PMU of the physical CPU,
+>>> irrespective of the implementation.
+>>
+>> I think:
+>>
+>> - this comment
+>> - one on the KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED note
+>> - one on kvm_pmu_create_perf_event()
+>> - and one on kvm_arm_pmu_v3_set_pmu_fixed_counters_only()
+>>
+>> All boil down into one question: will it support all possible CPUs, or
+>> will it support a subset? Let me answer here:
+>>
+>> This patch is written to support a subset instead of all possible
+>> CPUs. If a pCPU does not have a compatible PMU, the pCPU will not be
+>> supported and cause KVM_EXIT_FAIL_ENTRY_CPU_UNSUPPORTED.
+> 
+> This is not a thing. Either *all* the CPUs have a PMU that can be used
+> for KVM, or PMU support is not offered to guests. That's a hard line
+> in the sand. And the code already upholds this by checking the
+> sanitised PMUVer field.
+> 
+>>
+>> This patch does not enforce all possible CPUs are covered by the
+>> compatible PMUs. Theoretically speaking,
+>> kvm_arm_pmu_get_pmuver_limit() enables the PMU emulation when real
+>> PMUv3 hardware covers all possible CPUs *or* the relevant registers
+>> can be trapped with IMPDEF, so some pCPU may not have a compatible PMU
+>> and only provide the IMPDEF trapping.
+> 
+> How is that possible? Please describe the case where that can happen,
+> and I will make sure that such a system stops booting. The intent is
+> definitely that that:
+> 
+> - for early CPUs, we take the minimal capability of all CPUs
+> 
+> - for late CPUs, either they match at least the capability recorded by
+>    early CPUs, or they don't boot.
 
+All CPUs may trap the relevant registers with IMPDEF but some of them 
+may not have compatible PMUs. As I wrote in the previous email, I don't 
+think it will happen in practice.
+
+> 
+>> Practically, I don't think any sane configuration will ever have such
+>> a subset support, so we can explicitly enforce all possible CPUs are
+>> covered by the compatible PMUs if desired.
+> 
+> That's not just desired. This is a requirement. And it is already
+> enforced AFAICS.
+> 
+>>
+>>>
+>>>> +heterogeneous systems where different hardware PMUs cover different physical
+>>>> +CPUs. The compatibility of hardware PMUs can be checked with
+>>>> +KVM_ARM_VCPU_PMU_V3_SET_PMU. All VCPUs in a VM share this attribute. It isn't
+>>>> +possible to set it for the first time if a PMU event filter is already present.
+>>>
+>>> "for the first time" gives the impression that it will work if you try
+>>> again. I'd rather we say that "This feature is incompatible with the
+>>> existence of a PMU event filter".
+>>
+>> The following sequence will work:
+>> 1. Set KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+>> 2. Set KVM_ARM_VCPU_PMU_V3_FILTER
+>> 3. Set KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY
+>>
+>> This is to make the behavior conistent with KVM_ARM_VCPU_PMU_V3_SET_PMU.
+> 
+> I don't think this is correct. Filtering is completely at odds with
+> this patch, and I don't want to have to reason about the combination.
+
+kvm_arm_pmu_v3_set_pmu() has the following condition:
+
+if (kvm_vm_has_ran_once(kvm) ||
+     (kvm->arch.pmu_filter && kvm->arch.arm_pmu != arm_pmu)) {
+	ret = -EBUSY;
+	break;
+}
+
+kvm_arm_pmu_v3_set_pmu_fixed_counters_only() has the corresponding 
+condition for consistency:
+
+if (kvm_vm_has_ran_once(kvm) ||
+     (kvm->arch.pmu_filter &&
+      !test_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
+	       &kvm->arch.flags)))
+	return -EBUSY;
+
+We can of course kill the PMU event filter for FIXED_COUNTERS_ONLY. The 
+filter is effectively no-op with FIXED_COUNTERS_ONLY and I don't think 
+that consistency matters much.
+
+> 
+> [...]
+> 
+>>>> +	int i;
+>>>> +
+>>>> +	for_each_set_bit(i, &mask, 32) {
+>>>> +		pmc = kvm_vcpu_idx_to_pmc(vcpu, i);
+>>>> +		if (!pmc->perf_event)
+>>>> +			continue;
+>>>> +
+>>>> +		cpu_pmu = to_arm_pmu(pmc->perf_event->pmu);
+>>>> +		if (!cpumask_test_cpu(vcpu->cpu, &cpu_pmu->supported_cpus)) {
+>>>> +			kvm_make_request(KVM_REQ_RELOAD_PMU, vcpu);
+>>>> +			break;
+>>>> +		}
+>>>> +	}
+>>>> +}
+>>>> +
+>>>
+>>> Why do we need to inflict this on VMs that do not have the fixed
+>>> counter restriction?
+>>
+>> This function is to re-create the perf_event in case the current
+>> perf_event does not support the pCPU because e.g., the pCPU is a
+>> E-core while the perf_event only covers the P-cores.
+> 
+> That's not what I meant. This code is only here to support the
+> fixed-function feature. It makes no sense outside of it, because *we
+> don't support counter migration across implementations*.
+> 
+> So what's the purpose of this stuff for the normal KVM setup?
+
+None. It's only for this feature. We can add a check of the feature flag 
+at the beginning of the function to avoid that loop.
+
+> 
+>>
+>>>
+>>> And even then, all you have to reconfigure is the cycle counter. So
+>>> why the loop? All we want to find out is whether the cycle counter is
+>>> instantiated on the PMU that matches the current CPU.
+>>
+>> I just wanted to avoid hardcoding assumptions on the fixed
+>> counter(s). FEAT_PMUv3_ICNTR will be naturaly handled with a loop, for
+>> example.
+> 
+> Well, not that loop, since ICNTR is counter 32. So please let's stop
+> the nonsense and only add what is required?
+> 
+> [...]
+> 
+>>>>    +
+>>>> clear_bit(KVM_ARCH_FLAG_PMU_V3_FIXED_COUNTERS_ONLY,
+>>>> &kvm->arch.flags);
+>>>
+>>> Why does this need to be cleared? I'd rather we make sure it is never
+>>> set the first place.
+>>
+>> KVM_ARM_VCPU_PMU_V3_SET_PMU and
+>> KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY can be set on the same
+>> VCPU. The last KVM_ARM_VCPU_PMU_V3_SET_PMU or
+>> KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY setting will be effective.
+>>
+>> A VMM may try set these attributes to check if the setting is
+>> supported. For example, the RFC QEMU patch first uses
+>> KVM_ARM_VCPU_PMU_V3_SET_PMU to find a compatible PMU that covers all
+>> pCPUs, and then falls back to
+>> KVM_ARM_VCPU_PMU_V3_FIXED_COUNTERS_ONLY. The order of such probing is
+>> up to the VMM.
+> 
+> KVM_ARM_VCPU_PMU_V3_SET_PMU is not a probing mechanism. You must probe
+> the PMUs by looking in /sys/bus/event_source/devices/, like kvmtool
+> does.
+> 
+> So there is no reason to support this stuff, and the two flags should
+> be made mutually exclusive.
+
+Thanks for the pointer. I'll make a change to make the flags mutually 
+exclusive and test it with an amended QEMU patch that follows what 
+kvmtool does.
+
+> 
+> [...]
+> 
+>>>>
+>>>
+>>> In conclusion, I find this patch to be rather messy. For a start, it
+>>> needs to be split in at least 5 patches:
+>>>
+>>> - at least two for the refactoring
+>>> - one for the PMU core changes
+>>> - one for the UAPI
+>>> - one for documentation
+>>
+>> That clarifies the expected granurarity of patches. The next version
+>> will be in that layout, perhaps with more patches if an additional
+>> change. Thanks for the guidance.
+>>
+>>>
+>>> I'd also like some clarification on how this is intended to work if we
+>>> enable FEAT_PMUv3_ICNTR, because the definition seems to be designed
+>>> to encompass all fixed-function counters, and I expect this to grow
+>>> over time.
+>>
+>> Indeed the UAPI was designed to encompass all fixed-function counters
+>> as suggested by Oliver.
+>>
+>> To support the UAPI, the implementation avoids hardcoding the
+>> assumption on the fixed counter(s). FEAT_PMUv3_INCTR will be naturaly
+>> supported once the common code is properly updated (i.e., the size of
+>> the event counter bitmask is grown the corresponding registers are
+>> wired up with a proper check of the feature.)
+>>
+>> I expect migration will be handled with the conventional register
+>> getters and setters, but please share if you have a concern.
+> 
+> At the very least I want to see some documentation explaining that.
+
+What kind of documentation do you expect? If we change 
+kvm_vcpu_load_pmu() to avoid for_each_set_bit(), there would be a good 
+chance to forget updating it when mechanically updating existing 
+for_each_set_bit() instances, so it is a candidate for documentation. 
+But I don't have a good idea where to place it either.
+
+Regards,
+Akihiko Odaki
