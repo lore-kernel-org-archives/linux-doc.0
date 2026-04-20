@@ -1,322 +1,225 @@
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9551DC1AB
-	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 00:27:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776644832; cv=none; b=UPkyyBgWKqdtkFQc0685yuedW2c84NU7hvbra3FSBBY5ldznA7WHjbK+yLaNz8/h1Yi24o/qrPBhjZiSXTjHVh+zHqPUCdUfVo/iH3iXAOREgYTk/vPW5NLWu6sy/MdlrcWsvFo2cKxUV7XZGGjPF/6E5djgGnL+tO1Dwjct6GE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776644832; c=relaxed/simple;
-	bh=jcDub0vbMzoXjGv/GsvA5y2RfAALs2OusUBmV8GXOcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cAM2iLf/datVu5RuAQ9lztrNwlCKLt2uCr6efJQNVrIwVaAIZYfQyWRszhEgm4eiDGjptvCV4utFft69KM0SmufALoH94E282aTY7QbiC9VWwqkqS1NjMar+zt547p1PHq85uvDt6Jcu3RdoGijTBF7iUg/rR9qONhPUD63wgQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=QT+43ALR; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5255313B584
+	for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 04:52:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776660758; cv=pass; b=bmakL0c702k5ZrQe311CbRUtb2bbWDPUhY5RI+jx0gB9cQBzLxl3/IKDMHVIsliX2VErQP32CfE67tMnR6WCd7i7BavAbT3hAxVoxshHjk9iMT723WBxxCDvmaOOGk4wHokeyu0KPeH5snpTSWzDLRFpJSXpad/cffoGIPN87yA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776660758; c=relaxed/simple;
+	bh=5GcZyOTwFG2YfXD/hzXxggS63CFdN4+bqq5LgarFcwo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=slrDbo3F70FSXeNqE4YuqhphjrHMG/d5eeL+rwbGSCI7C0svan/zY1F8MYPECkJhcGaYsgNIu5kXqxFvjHJ+pzVKZInG8J5RZv+O6VTnIQlMVVHtUSzZPuXKerIOpSFUlIVHjFxXNm8I0Dna6u4RZOMApurcpuulTpRJUiK2kU0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CB775Eqc; arc=pass smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="QT+43ALR"
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-50d6b9bca48so35838951cf.2
-        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 17:27:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CB775Eqc"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d7645adbdso1427797f8f.1
+        for <linux-doc@vger.kernel.org>; Sun, 19 Apr 2026 21:52:37 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776660756; cv=none;
+        d=google.com; s=arc-20240605;
+        b=aQ7BFpPsPDqQ5ruVNCcsjB8n57OI6Z2fAAc9pLC7gMw7Dq8qszHwyBVLJkquRL3oPC
+         GpsEQ7pNgIQ+vf6W51YtIE8pTVsm/npxAriNcOc05Ar6z8KfLAxKs+raUBOjwFgcmwLJ
+         x/wAxANqUERDcT+uh6cW2PwdRXmccxs3WxenBP5iAMu78At/WngFX6L6EdkiO/HkgfcH
+         uiIHlqHA/dzgOQOEat+YxZBj5GWFvqtP1jVuIqT+65uelA68UuW1XVuF3HmibnZKtPRo
+         FFncqtOs4Z/z7ZSMiZdvEOwNttnDQlGmF26f30048bH5IwEplL2YVNi8/ZCjdBidLvDv
+         lDXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=TTkXYM3+vM/fkB3bQ583so5PgFgZAXqx93KFOXQCWO0=;
+        fh=6cHgLo/umlijSIGcxJlBojs3pwsbi+D63uynGOr7haQ=;
+        b=U30WtcLR1c1FizNcUaT+8sK+6SThOM5ZlBkN6gmgDRm4rdU63e9ODDm/6/p+iHKszL
+         Q1gRg4v654pUdVyIM2ipc55XWkEV/aNPMmmFgXG245UVZzzMtb9+GayZhm1bIj8k/fuA
+         c2MUWG59Dg3XJVVOECSxSHCYa6HavIq8KeW2U/H81y0aJTQQplIZdQQ5XmBpApHG2Wxw
+         owN/5edXH7ZnJ6cNJUU0XXUk/CCUi2UwUoqP428Tfx0NDAZ+iGao5X8aMf6l7jO5TJSo
+         z70jhKCYgYvA1QQVaKPIEQOyciokx2grxQiirFmJfio7FSSd4A8UcVDr1rt9GCSjnA83
+         1woQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776644828; x=1777249628; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zrD5eQohrM7vmkJyoHhlIOR1pMETtOYOExt8SJ3jjbA=;
-        b=QT+43ALR78u2QDBaQIgBDicQn2H3xbH0nsBOiXISlqIbzCpA1/YFCgclgnmv2FcW9J
-         60kcqVQt2GoWUn6ih08Qv+JYWUZ55zF+NVvlsSj3Ersgl9TOdmWNVmBhDDLU4QMMBIo0
-         3uukfdj0W9TNzg06as9rbSXO7xvv067GLssddV3/7Gvlhzepx/yKOG7Rg+W+VIwj5gUl
-         4gRkGYkDdUFeoy6774tYCqYrTaX5Z/DXdQiCXYGQ+wQJKAESLs/8bHmcmvTm8Iz+sk/n
-         K4h0b7XABCzcEePqv1DdFcXca9iw/WxPhQ/U+lXR6rRhKskwFB7hGrKRrYSOwQXZMD8m
-         vTQQ==
+        d=gmail.com; s=20251104; t=1776660756; x=1777265556; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=TTkXYM3+vM/fkB3bQ583so5PgFgZAXqx93KFOXQCWO0=;
+        b=CB775EqcDV45+OCLYltEDN04q/awu211DbVCdnecHIwI/Lt63sCXGi19FwtY12oVnq
+         JVKDtZLY29CVfGTgNoxm+++fFfF99WTCpkmxTHuZoqaiDuuXImwFVoGxKH2PZvD+1PJL
+         hY1tBfhAVHqS5rGApnuPOmpjlUJYgBl06P722Jx0TqnWYGebU0ag+D5qhlMT6/HwSD3u
+         RE22orHokY+pkmchqICD9rjXZv92SqJnzQ1FZZYmaZ7PeSvSKkyM+USzn59juP79sW1O
+         uUuBhh1g4pnYlzjEFMF/968L7jjJRE1QcLbdkVrVHgLK2h9u6coMc0WvGcdSlTsbHji/
+         zKNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776644828; x=1777249628;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zrD5eQohrM7vmkJyoHhlIOR1pMETtOYOExt8SJ3jjbA=;
-        b=LTgDD0rkjl96YRNF/8XhThOrOxCoRwyZp66BgI78EOqazE8v80PFdsGVPRDdhMmcvg
-         9rKWm9o3meRYBmay+ltRkAiZ0Ps9A5M5TgSdJTefPuFBpd+IwaGjLci1fN3FaZ1w/cWD
-         SJLg2KtS9qyACtIGX+5bZGpR5l3X7ei99VqzLPQj6T4MO3fgw6F0VPFkJNam+wNnImYs
-         btLlxE15guXIx6gG3Ndx4SAfyeHTZbaeqAS738uUCVaTqjh0hVUdvUGdWd1Ceop65fvg
-         mJgqQU6uDWn1KTu7vvsoZ/jHtqq4ExdtGITSMAkkTybcVEFSeN8rn+Xx7LFkCQFNuWnL
-         PvbQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9mDO1LH71SXG2OU8kHz77wq1vA1K089F+IlPtfkGAZpfAvVL0C6HBMA+PRAqhoaZKbx1i1Z9spJoc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxUzmgNmZ4MsGnlVFXdv5PT0Q1NCVSoNkTlHEQGPnP26uUiCdP
-	Z4NgdGQ40XlSdyHdyIhsMoH4Ht8P+NuTSZD8qf+0Utx30BRAStUENMVI6cYjhGb9JsQ=
-X-Gm-Gg: AeBDietcGuS6Lrft5fMMTpDoT40RSwWBjzmj+BQ6+PDfFgfUkcRMAByWAARRtypwmAY
-	uRytVsoPqh/DPJ8x+9VDyFyH2pberWirI/UET4m+jbRersQeE6NANOH81xy8pRh/kKqAmJKgcWf
-	fSeiR1ohNNMV6rg9+bMPzoZf3tCvNIjQS/oVe7LalpLG7yFPDH3L8/yufaJj5Nnbzndh6fsblW9
-	yDnyRRlnRDmExCY9sdf9TGhiHSFNIVEq73kl0yimiLcehPgF53Z8rFVVZSgESJLNXEkcmZf+/ne
-	fRa0b3LTj8BgHfM6ScX0/JUioRvP3OxQKr/MDZ5G0FaPUozAnLbF6NblTcElr3br8pVnoozp6KZ
-	Is5PQbT8Qt8Klo3lrQdpjvyxjhgLunj2BwwPyCwmnOCbMOOfJKq00l4Y8Hdq9YUl8v7jdKHkek3
-	+DPvUCmSWTQgH5IYaDoEOcvRGSZWeXmJYYCNhMLGw9jU9ANeg93/Xc7Sud7b7/2R2qVDMz/QV9H
-	b0HPM8Dk++dM++4sAmpLCY=
-X-Received: by 2002:ac8:5ac9:0:b0:50d:7c4b:5c5b with SMTP id d75a77b69052e-50e3682827amr179637411cf.5.1776644828349;
-        Sun, 19 Apr 2026 17:27:08 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-108-28-184-223.washdc.fios.verizon.net. [108.28.184.223])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-50e392c7b26sm71614241cf.5.2026.04.19.17.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Apr 2026 17:27:07 -0700 (PDT)
-Date: Sun, 19 Apr 2026 20:27:04 -0400
-From: Gregory Price <gourry@gourry.net>
-To: John Groves <John@groves.net>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
-References: <adkDq0m5Wt9YhJ8A@groves.net>
- <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
- <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
- <aeUU8hMwPij2WvfF@groves.net>
+        d=1e100.net; s=20251104; t=1776660756; x=1777265556;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=TTkXYM3+vM/fkB3bQ583so5PgFgZAXqx93KFOXQCWO0=;
+        b=pHtsZj2wSNBVUb9YN9Pfa+G/AcSTJqxY3qoDBOId9stDHtLwAx9smYrMemDdOGJUUs
+         7Q1onVFheGaTzSG+lOIMZxBgIjfl5h/YKhrgCznke95nF6xJZvCViCsitAU5URsOBgJO
+         Rx8GKjytBL0rTleBJCr1mK41tMJCQy/JzRk8e03lrZaA5gdpajCRYks8TjDwui6YIiqW
+         hLdM/XNxRqgts4gUpFkwxLeIR8faNJVGL4v7asMk+oZw1qsy+P7jf6GeGBNMNmKnTObz
+         PKwZTWB03TNZCxr5CDFvEw5YXfmrTxkKz9v3AWPFgPMQB9gR4S0k39W2j8jeAoKKDkih
+         Ei7g==
+X-Forwarded-Encrypted: i=1; AFNElJ9z5IiyJ2eu7wifQCuKQow1EW60raUgPuzW+skF6FwpFBp/bhSC79M7dsZHuI/dfCn6bCH4TulYFAo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyEKH63k6syTwlauah1l6OywCl4yKg7EsOGlsKAHJRPwJm4KEYw
+	9znVq2cgUhchcAfKJZzwolgWVHBbxLyMO3SshEHosh0nzIS2cHKch73/+jEkAY+vEsBpn7T5NDd
+	bcKVxVutpAH01jpp0xTa0Gu5278/biAs=
+X-Gm-Gg: AeBDievGSAYIZecejCPZVoGLQoia1oArr0IOWkp79wsXIhXAePO8P1gu8CI/RJVYD5X
+	mZLtqUcWm+0CjfseG+eSF2bDCneWnNu4/HrqGbnuPG5AToAxZPSk0qfehHLQnorKc3ERuw2QyEd
+	Prc+/Nmhnvy1vkOkZJYD2/OTVVQw1g9g90WHjQOmEx2ddcPxZIVgtF/pj+EX87KzSQdEv/nGph+
+	96TkzhBT2pRCqt1EYTC98XL7uCGgkZHEhWgdB8OO88A9aruoFeQJGsR3urFD+WqFqSLuWNUjp+U
+	HpBiLuwAt4iteOek1jme9bsMiiXb2lEnY/TQgi42bIKNkFUltcU=
+X-Received: by 2002:a05:6000:1785:b0:43c:fc5c:a9fe with SMTP id
+ ffacd0b85a97d-43fe3dbf4e7mr17847813f8f.20.1776660755454; Sun, 19 Apr 2026
+ 21:52:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeUU8hMwPij2WvfF@groves.net>
-
-On Sun, Apr 19, 2026 at 03:36:30PM -0500, John Groves wrote:
-> On 26/04/15 10:16AM, David Hildenbrand (Arm) wrote:
-> > On 4/15/26 00:20, Gregory Price wrote:
-> > > On Tue, Apr 14, 2026 at 11:57:40AM -0700, Darrick J. Wong wrote:
-> 
-> Gregory's code, in the current form, still uses two new fuse messages,
-> GET_FMAP and GET_DAXDEV, but it makes the fmap message format opaque by
-> removing fmap format structs from the uapi. It also uses two BPF programs.
-> One BPF program parses and validates the GET_FMAP payload for every file,
-> and hangs it from a 'void *' in each fuse_inode (just like the current famfs
-> code). The other BPF program is called during vma faults and reads the 
-> fuse_inode->'void *' in order to handle faults the same way famfs-fuse does
-> today, but via BPF instead.
-> 
-
-I'll just lay out what i've done and why.
-
-For John's sanity, if there are NACKs, knowing sooner rather than later
-would be a kindness.
-
-=== Problem: Any lookup() in iomap_begin() is too much overhead.
-
-No dax-backed server will want to eat the cost of a lookup() that
-could be multiple microseconds on what should be a 1-5us soft-fault.
-
-Joanne's prototype had this:
-
-   meta = bpf_map_lookup_elem(&inode_map, &nodeid);
-
-But it was offsetting a single pointer dereference:
-
-   struct fuse_inode *fi = get_fuse_inode(inode);
-   struct famfs_file_meta *meta = fi->famfs_meta;
-
-Not all O(1) are created equal here.
-
-   A single L3 LLC miss plus page table walk can cost you ~100ns.
-   If that pointer was cache-hot, it's almost free.
-
-   A pointer chase through any structure is N x ~100ns.
-   This is unlikely to ever be sufficiently cache hot by comparison.
-
-So, lets just avoid this problem altogether.
-
-
-===  Requirements
-
-1) No hard-coded OMF structures in the FUSE API.
-
-   While RAID0 style interleaving isn't exactly fancy or novel,
-   folks think this should not be in the kernel headers.
-
-   (I'm not going to argue, I think the argument is pointless)
-
-
-2) imap_begin() needs metadata accessible on the order of a single
-   pointer dereference - which is what John has implemented.
-
-
-3) open() needs to validate the metadata and identify DAX devices
-
-   a) it needs to validate the DAX devices are available and
-      acquire them / set them up / etc.  This is a kernel-side op.
-
-   b) it needs to validate the addressing information is valid for
-      the relevant dax devices
-
-   Both GET_FMAP and GET_DAXDEV are avoided if the metadata is
-   already cached or the DAXDEV is already setup.  So keeping these
-   separate is actually important.
-
-
-Joanne's code deals with #1 - but it doesn't handle #2 or #3.
-(It also doesn't handle GET_DAXDEV at all).
-
-John's code mananges #2 and #3 by having the fuse-server pass meta data
-on open() via GET_FMAP and GET_DAXDEV.
-
-  GET_FMAP acquires the meta data on how dax devices are used
-
-  GET_DAXDEV just translates an ID to specific dax device.
-  iomap_being() then uses the OMF to do the mapping.
-
-But it does this by hard-coding the format into kernel headers.
-
-
-===  Observation: Add a BPF dax_fmap_parse() on open() 
-
-Pair Joanne's suggestion with John's GET_FMAP/GET_DAXDEV operations.
-
-  struct fuse_dax_fmap_ops {
-      char name[FUSE_DAX_FMAP_OPS_NAME_LEN];   // 16 bytes
-      int (*dax_fmap_parse)(struct fuse_dax_fmap_parse_ctx *ctx);
-      int (*iomap_begin)(struct fuse_dax_fmap_resolve_ctx *ctx,
-                         struct fuse_iomap_io *io);
-  };
-
-This parse function is used to do filesystem specific setup the (such as
-populate the dax bitmap) based on filesystem-specific per-file metadata.
-
-In John's case, essentially all it does is populate the dax bitmap and
-toss the data onto fi->dax_fmap.meta.
-
-Pseudo code:
-
-  fuse_dax_fmap_open(inode):
-      fmap_size = send_GET_FMAP(inode, fmap_buf)
-
-      /* Make space to store the metadata */
-      meta_buf = kzalloc(meta_size)
-      ctx = { ... }
-      kern = { .ctx, .blob = blob, .meta_buf = meta_buf }
-
-      /* Parse the metadata: i.e. fill out the daxdev bitmap */
-      fc->dax_fmap_ops->dax_fmap_parse(&ctx)
-
-      /* Call GET_DAXDEV for any new dax devices */
-      resolve_dev_bitmap(ctx.dev_bitmap)
-
-      /* cache the meta data on the inode */
-      inode_lock()
-      fi->dax_fmap.meta      = meta_buf
-      ... etc etc ...
-      inode_unlock()
-
-And otherwise, imap_begin() works exactly as Joanne proposed, but with
-in-kernel cached data instead of the bpfmap.
-
-  const struct dax_simple_meta *meta = (const struct dax_simple_meta *)
-                   bpf_fuse_dax_resolve_get_meta(ctx, 0, sizeof(*meta));
-
-And since both parse() and iomap_begin() are bpf programs - and they're
-the only consumers of the metadata - FUSE itself no longer needs to know
-anything about the server's particular strategy to use the dax devices.
-
-  struct fuse_inode {
-      ...
-  #if IS_ENABLED(CONFIG_FUSE_DAX_FMAP)
-      struct {
-          void    *meta;
-          u32      meta_size;
-          u64      file_size;
-      } dax_fmap;
-  #endif
-  };
-
-Just a big ol' honkin' void* that otherwise gets ignored.
-
-(Note: while i'm not a BPF wizard, this pattern seems well established in
-       existing BPF code, i found code in the network stack that caches
-       data on kernel objects this way as well)
-
-==== Caveats
-
-1) We don't know the overhead BPF introduces in the fault path.
-
-My napkin math (and best understanding of BPF) suggests:
-
-   1) trampoline / vtable for bpf ops (iomap_begin func)
-   2) retpoline cost of BPF (assuming this is on, safe assumption)
-   3) bpf_fuse_dax_resolve_get_meta() overhead (extra pointer deref)
-
-This *should* (i think) amount to an extra pointer dereference, a longjump,
-and a retpoline, which hopefully is <100ns since any extra pointer
-derefs here SHOULD be cache-hot (hard to know).
-
-It's not 0 overhead, and if the average fault time is 1us then every
-additional 10ns not an insignificant cost.
-
-But this is napkin math.  John will collect data.
-
-
-2) FUSE needs to be ok with the BPF-driven changes:
-
-https://github.com/joannekoong/linux/commits/prototype_generic_iomap_dax/
-
-
-3) FUSE needs to be ok with GET_FMAP/GET_DAXDEV as opaque meta-data
-   handlers for DAX devices.
-
-   That means there is no default parser or format. If you don't
-   register ops, these functions are functionally dead.
-
-   (probably fine to enforce during init, which is what i did)
-
-
-4) As John said: MM needs to be good with it.
-
-   Any server using DAX like this already essentially has CAP_SYS_RAWIO
-   for DAX, and most likely some form of CAP_SYS_ADMIN.
-
-   Additionally, as folks have pointed out, the resolution to PTE is
-   bounded by dax device extents, so it's not entirely arbitrary.
-
-===
-
-As mentioned at the start - you'd be doing John a kindness if there are
-clear and obvious NACK's to be had here.
-
-~Gregory
+References: <20260418000635.17499-1-sef1548@gmail.com> <aeNGbNyPxJssnkbO@lucifer>
+ <aeOuCH8ydw_yzdXZ@casper.infradead.org> <c113f667-f897-42cc-a0e5-b8a0bbd91be3@kernel.org>
+ <aeTTw4gziJigaNbU@lucifer>
+In-Reply-To: <aeTTw4gziJigaNbU@lucifer>
+From: Nick Huang <sef1548@gmail.com>
+Date: Mon, 20 Apr 2026 12:52:25 +0800
+X-Gm-Features: AQROBzDtqw0sj7vxacea9IIB6u61yKmS3jNiRESpvNHOCSzoOOtvbaVRitY5ACc
+Message-ID: <CABZAGRHXtjzGJrgR1NAmVHFMP9eL5zZr3DaTAtAvywv_1sOHdw@mail.gmail.com>
+Subject: Re: [PATCH] docs: Add overview and SLUB allocator sections to slab documentation
+To: Lorenzo Stoakes <ljs@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
+	Vlastimil Babka <vbabka@kernel.org>, Harry Yoo <harry@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, Hao Li <hao.li@linux.dev>, 
+	Christoph Lameter <cl@gentwo.org>, David Rientjes <rientjes@google.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Lorenzo Stoakes <ljs@kernel.org> =E6=96=BC 2026=E5=B9=B44=E6=9C=8819=E6=97=
+=A5=E9=80=B1=E6=97=A5 =E4=B8=8B=E5=8D=889:17=E5=AF=AB=E9=81=93=EF=BC=9A
+>
+> On Sun, Apr 19, 2026 at 10:35:44AM +0200, David Hildenbrand (Arm) wrote:
+> > On 4/18/26 18:15, Matthew Wilcox wrote:
+> > > On Sat, Apr 18, 2026 at 10:07:22AM +0100, Lorenzo Stoakes wrote:
+> > >> On Sat, Apr 18, 2026 at 12:06:19AM +0000, Nick Huang wrote:
+> > >>> - Add "Overview" section explaining the slab allocator's role and p=
+urpose
+> > >>> - Document the three main slab allocator implementations (SLAB, SLU=
+B, SLOB)
+> > >>
+> > >> The fact you're insanely wrong about the current state of slab only =
+makes this
+> > >> worse.
+> > >
+> > > This is actually a new low.  We've always had to contend with people
+> > > putting up outdated or just wrong information on web pages, and there=
+'s
+> > > little we can do about it.  Witness all the outdated information abou=
+t
+> > > THP that's based on code that's been deleted for over a decade.
+> > >
+> > > But now we've got AI trained on all this wrong/ out of date informati=
+on,
+> > > and, er, "enthusiasts" who are trying to change the correct informati=
+on
+> > > in the kernel to match what the deluded AI "thinks" should be true.
+> > >
+> > > Let that sink in.
+>
+> Ugh ye gawds. My attitude is nip this in the bud early.
+>
+> I'm very harsh in response to these things for a reason - firstly, it's r=
+ude,
+> obnoxious + disrespectful, so a negative response is wholly appropriate.
+>
+> But more importantly, I want to SET A PRECEDENT that if you send this cra=
+p
+> you'll get a VERY negative response.
+>
+> Clueless but good faith or bad faith - it's straight up plagiarism and th=
+at's
+> totally unacceptable.
+>
+> > >
+> >
+> > I think we should make it very clear that we don't want doc updates fro=
+m someone
+> > that is not a renowned expert in that area or wants to become an expert=
+ in that
+> > area (and already discussed working on the docs with maintainers/expert=
+s).
+> >
+> > Otherwise we'll have this same discussion over and over again.
+> >
+> > diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+> > index 7aa2a88869083..8c5721001c8bb 100644
+> > --- a/Documentation/mm/index.rst
+> > +++ b/Documentation/mm/index.rst
+> > @@ -7,6 +7,11 @@ of Linux.  If you are looking for advice on simply all=
+ocating
+> > memory,
+> >   see the :ref:`memory_allocation`.  For controlling and tuning guides,
+> >   see the :doc:`admin guide <../admin-guide/mm/index>`.
+> >
+> > +A lot of documentation in this guide is still incomplete. If you are n=
+ot
+> > +a renowned expert in the specific area, but you want to contribute big=
+ger
+> > +chunks of documentation, talk to the respective MM experts first. LLM
+> > +generated slop from non-experts will be rejected without further comme=
+nts.
+> > +
+> >   .. toctree::
+> >      :maxdepth: 1
+> >
+> >
+> >
+> > LLMs are just the tip of the iceberg. It will all be developmend-by rev=
+iew with
+> > inexperienced contributors. And we are only willing to put in the effor=
+t to
+> > teach contributors if the contributors are not actually worth our time:=
+ i.e.,
+> > LLM kiddies that will actually stick around and help the subsystem in t=
+he long run.
+> >
+> >
+> > The whole doc update stuff is similar to people just grepping for TODOs=
+ in the
+> > kernel and then using an LLM to produce code they have no idea about.
+> >
+> > It's the evolution of typo fixes: review load without any benefit.
+>
+> Agree with all of that!
+>
+> Let's do that, happy to give tags on a patch for the above :)
+>
+> >
+> > --
+> > Cheers,
+> >
+> > David
+> >
+>
+> Cheers, Lorenzo
+Hi Lorenzo Stoakes
+
+
+I am really sorry for causing trouble for everyone. I would like to
+ask which aspect of mine was disrespectful, so that I can be more
+careful next time.
+
+If I want to make this kind of change, should I send an [RFC patch] to
+ask for everyone's opinion?
+
+Sorry, I really am not very clear about the process.
+--=20
+Regards,
+Nick Huang
