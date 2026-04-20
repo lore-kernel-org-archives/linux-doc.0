@@ -1,74 +1,180 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A948A382393;
-	Mon, 20 Apr 2026 06:47:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A2BA288C08;
+	Mon, 20 Apr 2026 07:01:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776667670; cv=none; b=FJHGILd3wVklsI1yxGrEiApG9dKZkqKYdPvF/peapOVZXWz1ZZA5SP/qLbqcyC0isXJstbEDjA9sVISKRk2nkdhYuyw3XDWdWbuFSDrofi91DqRnZ6dkkG92awWX6I3wCd5KW+UCIx1cXEKeqRiourtz8+6Wihdw7TLzeipjD34=
+	t=1776668515; cv=none; b=Kn1qUmUFfW4q6iA5rM49cR/2Rf7458yQrymAG9LZmziWHF9oWh45+/gx4fVKcqxujm4rXb+X8hnzz6bRxd6sCUP5AfszyKziHJaxM1PvLaaLv616qeWYqGvrOCvoa86ulX5gaIADwVFLDUtPhxRFLmx+dmHEbqjo4Kl0E9uO6S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776667670; c=relaxed/simple;
-	bh=dDxqaIpXl8IU90dprHiFQaMd1LW33EZrRRzof1h3aW4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=OS/sCMJJQcxONTWUWEMcmFgHVhhj9U7f9up9xy08PPVGw2XtmgeeNsI4rhcsTDmziWi0eA08RzMB5PcX4xcHEZgiI4plSWn1pOz4C2GvBUobbC6LDJf47410S0O1l6ozm82M8Yt2J9dUiyC+GjxPPxFg3Y3rXKdLofwZCXOSzzY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rgP934gZ; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1776668515; c=relaxed/simple;
+	bh=2HubVmemKYFSrpjdVlLvyLMzuA44GJ7AxdEWaTIopnc=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OK2wyIhOWXa5us76790Qw0ygWzVIB3ike1cQ7r3tqfTFoYEW9m8mNYxBYfVxx0vBlmDIv/Z5FWzwCIF7Y6yKvi3dX7cVIcV7kAnh2xL9/UpDQNngFpKVgWz72DnLXu7wZ8HBMbeYmTSnZFdESVJ+8PyFtmwwbmI0UgZKUZpU7No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YOoS5Wx6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rgP934gZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7097740B0C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1776667669; bh=PieXwmhelCRNgShPmCotsV7L6Glc/4XyC9e+/Os+ghA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=rgP934gZ3O6CiZ/43sfHGrv2cnvTQpyVFvcUg1vfuyuXslIJvyTPmPKSWVTRwP69P
-	 g0UmY/HgQYyS7vItMDavi85UCZcP1MtTskDdRudPjwxSM1+bVo6vSKq/PAa7gV///h
-	 DLiEpYbxIAO9CnjYAzWZmoOwOB5HVam4jgFccoywROp1jitAfqGmxXYo67nxaYc84n
-	 iR8w3h9rgrMy3dMpVzy8D79Ol/YUX9BBjq7wWcRIv1ruErKR7on0M4V83JnresQz9f
-	 osesOAv/+ZTxfGvLUK58/fUkCNQ6dOqma6ic8AZrUPfBA5rGzr8x5kH7inu3aewUGS
-	 RdgcmRdYxFRrA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7097740B0C;
-	Mon, 20 Apr 2026 06:47:48 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>, Mark Pearson
- <mpearson-lenovo@squebb.ca>, Ninad Naik <ninadnaik07@gmail.com>, Armin
- Wolf <W_Armin@gmx.de>, skhan@linuxfoundation.org
-Cc: "platform-driver-x86@vger.kernel.org"
- <platform-driver-x86@vger.kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, me@brighamcampbell.com,
- linux-kernel-mentees@lists.linux.dev
-Subject: Re: [PATCH] Documentation: fix spelling mistake "Minumum" -> "Minimum"
-In-Reply-To: <BAA4F3A7-E892-4904-95A6-64B177CDA7AD@gmail.com>
-References: <20260419170835.347910-1-ninadnaik07@gmail.com>
- <b94cef14-d02d-4544-abb5-ead7db6eaa72@app.fastmail.com>
- <BAA4F3A7-E892-4904-95A6-64B177CDA7AD@gmail.com>
-Date: Mon, 20 Apr 2026 00:47:45 -0600
-Message-ID: <87fr4qw2jy.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YOoS5Wx6"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95BBFC19425;
+	Mon, 20 Apr 2026 07:01:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776668514;
+	bh=2HubVmemKYFSrpjdVlLvyLMzuA44GJ7AxdEWaTIopnc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=YOoS5Wx6pMZKMZlHW21lbBbviCZhxubZdgxsA5GEOdEF+RMDw+un8C/pDE2dE88W1
+	 QIPOW1WJ9wC+EUw+ikTEoHL/aHm8POBVuM99jhiygKKqp8sluMUIQKxs7Fm8q45l2R
+	 FD/lAPTX3x51DyEOcxfERLKVSxw1mOFWkJ/Q1RDJ6woo8j5PXAMGu76M75jfBaxvMQ
+	 iB5Eg8bM2xbBf1fSvLksohlm4V1RiGmP+aAr4E3Qq5cK5Op3ox663otj5ljWjc1psQ
+	 6c8cEwZgIq1aYGMGHLnhY7HX6UXVDMByfegV4FefqoJqMO0NS8404or0Dzmw/FM0O/
+	 qC9LVkf/tnk6w==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.98.2)
+	(envelope-from <maz@kernel.org>)
+	id 1wEidk-0000000CylX-00qd;
+	Mon, 20 Apr 2026 07:01:52 +0000
+Date: Mon, 20 Apr 2026 08:01:51 +0100
+Message-ID: <86se8q15eo.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+Cc: Oliver Upton <oupton@kernel.org>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu
+ <yuzenghui@huawei.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <shuah@kernel.org>,
+	linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org,
+	devel@daynix.com,
+	kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v7 2/4] KVM: arm64: PMU: Protect the list of PMUs with RCU
+In-Reply-To: <483e5cf2-a54c-4781-ac6d-49f5bc7128ba@rsg.ci.i.u-tokyo.ac.jp>
+References: <20260418-hybrid-v7-0-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+	<20260418-hybrid-v7-2-2bf39ad009bf@rsg.ci.i.u-tokyo.ac.jp>
+	<87mryzauib.wl-maz@kernel.org>
+	<483e5cf2-a54c-4781-ac6d-49f5bc7128ba@rsg.ci.i.u-tokyo.ac.jp>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: odaki@rsg.ci.i.u-tokyo.ac.jp, oupton@kernel.org, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, kees@kernel.org, gustavoars@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org, devel@daynix.com, kvm@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-"Derek J. Clark" <derekjohn.clark@gmail.com> writes:
-
-> The MOF spelling mistakes are well known. We've left them is as to
-> ensure match with what the hardware actually reports.
+On Mon, 20 Apr 2026 07:21:45 +0100,
+Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
+> 
+> On 2026/04/19 23:34, Marc Zyngier wrote:
+> > On Sat, 18 Apr 2026 09:14:24 +0100,
+> > Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp> wrote:
+> >> 
+> >> Convert the list of PMUs to a RCU-protected list that has primitives to
+> >> avoid read-side contention.
+> >> 
+> >> Signed-off-by: Akihiko Odaki <odaki@rsg.ci.i.u-tokyo.ac.jp>
+> >> ---
+> >>   arch/arm64/kvm/pmu-emul.c | 14 ++++++--------
+> >>   1 file changed, 6 insertions(+), 8 deletions(-)
+> >> 
+> >> diff --git a/arch/arm64/kvm/pmu-emul.c b/arch/arm64/kvm/pmu-emul.c
+> >> index 59ec96e09321..ef5140bbfe28 100644
+> >> --- a/arch/arm64/kvm/pmu-emul.c
+> >> +++ b/arch/arm64/kvm/pmu-emul.c
+> >> @@ -7,9 +7,9 @@
+> >>   #include <linux/cpu.h>
+> >>   #include <linux/kvm.h>
+> >>   #include <linux/kvm_host.h>
+> >> -#include <linux/list.h>
+> >>   #include <linux/perf_event.h>
+> >>   #include <linux/perf/arm_pmu.h>
+> >> +#include <linux/rculist.h>
+> >>   #include <linux/uaccess.h>
+> >>   #include <asm/kvm_emulate.h>
+> >>   #include <kvm/arm_pmu.h>
+> >> @@ -26,7 +26,6 @@ static bool kvm_pmu_counter_is_enabled(struct kvm_pmc *pmc);
+> >>     bool kvm_supports_guest_pmuv3(void)
+> >>   {
+> >> -	guard(mutex)(&arm_pmus_lock);
+> >>   	return !list_empty(&arm_pmus);
+> > 
+> > Please read include/linux/rculist.h and the discussion about the
+> > interaction of list_empty() with RCU-protected lists. How about using
+> > list_first_or_null_rcu() for peace of mind?
+> 
+> list_first_or_null_rcu() is useful to replace a sequence of
+> list_empty() and list_first_entry() that is protected by a lock, but
+> this function instead requires the invariant that nobody deletes an
+> element from the list, and list_first_or_null_rcu() does not allow
+> removing the requirement.
 >
-> See: https://lore.kernel.org/platform-driver-x86/cfd7977e-d612-4e08-a68a-65fed8e164b6@gmx.de
->
-> I suppose if we're going to continue getting these types or PR I
-> should add a note to the documentation. I'll add that soon.
+> The header file says:
+> > Where are list_empty_rcu() and list_first_entry_rcu()?
+> >
+> > They do not exist because they would lead to subtle race conditions:
+> >
+> > if (!list_empty_rcu(mylist)) {
+> >	struct foo *bar = list_first_entry_rcu(mylist, struct foo,
+> >					       list_member);
+> >	do_something(bar);
+> > }
+> >
+> > The list might be non-empty when list_empty_rcu() checks it, but it
+> > might have become empty by the time that list_first_entry_rcu()
+> > rereads the ->next pointer, which would result in a SEGV.
+> >
+> > When not using RCU, it is OK for list_first_entry() to re-read that
+> > pointer because both functions should be protected by some lock that
+> > blocks writers.
+> >
+> > When using RCU, list_empty() uses READ_ONCE() to fetch the
+> > RCU-protected ->next pointer and then compares it to the address of
+> > the  list head.  However, it neither dereferences this pointer nor
+> > provides  this pointer to its caller.  Thus, READ_ONCE() suffices
+> > (that is,  rcu_dereference() is not needed), which means that
+> > list_empty() can be used anywhere you would want to use
+> > list_empty_rcu().  Just don't expect anything useful to happen if you
+> > do a subsequent lockless call to list_first_entry_rcu()!!!
+> >
+> > See list_first_or_null_rcu for an alternative.
+> 
+> However, kvm_supports_guest_pmuv3() locked a mutex when calling
+> list_empty() and unlocked it immediately after that, instead of
+> re-reading list_first_entry(). This construct inherently had a race
+> condition with code that deletes an element; when the caller of
+> kvm_supports_guest_pmuv3() decides to enable guest PMUv3, the host PMU
+> may have been gone. But it was still safe because no one deletes an
+> element.
+> 
+> The same logic also applies when using RCU. As the comment says, we
+> can use list_empty() instead of the hypothetical list_empty_rcu()
+> macro because we don't expect it to magically enable something like
+> list_first_entry_rcu(). This function instead keep relying on the fact
+> that no one deletes an element of the list.
 
-Perhaps worth adding, but I'm not sure I would expect it to help.  The
-people generating these patches aren't putting much attention into the
-context surrounding them.
+And that's exactly the sort of thing I am trying to plan for. *Should*
+we introduce a way to remove PMUs from the list, this predicate
+becomes unsafe.
 
-Thanks,
+So I want at least a comment explaining this to the unsuspecting
+reader, as this is rather subtle.
 
-jon
+	M.
+
+-- 
+Without deviation from the norm, progress is not possible.
