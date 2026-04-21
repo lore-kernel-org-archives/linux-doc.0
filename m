@@ -1,97 +1,77 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B79227FB35;
-	Tue, 21 Apr 2026 04:58:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D412DEA74;
+	Tue, 21 Apr 2026 06:03:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776747497; cv=none; b=FmSQPPTA9rI15byI7ET1BBofwUIlUJmIuXhF6VIvHQr8Ej6hOWMuEIgkLe0Zt11MV/lqqNAbjX94xi/bBuztrE96/Al7dIt5p+co2yNJ7b5Rb24x9d92RS8CqYneQ05CcRw7ZYk19HL9LvN26X648LGqD1UiQ/C02rjIt8NDb2g=
+	t=1776751436; cv=none; b=KnaUPrBz7DF+yZgkL3GgkkE5bbUsi67+pzoLmlhz30/jewsJ+dNm82QjGZr8sujWgZdi0kl658gJ42dSzT9n3HRcP0suxPODDxaRbEOSjwML69ARhEuXRDUsfZEx3plxxpF4KOM5jnzMnb0RF7LovK9axIqpS9MaHY8+H0QtORU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776747497; c=relaxed/simple;
-	bh=RzdQvxvjncNtiwz+LfigQHgUZc1LPQ7GlJttmJ/tAzo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cg8FzMH4FM8s1dUlUoTwGQ/D/lZBosieY9HU30Jv/Kl7Hf9MDNNkpTrbMPPFs7gxYKaI6MzOjhcb0PkJt07V0Oz5BvC2sarP0B70NUte+nkUnxwyaUVk0FbyehcvxPMIljONSY8fli5fHQAF4YnlbHf5gS4z1+vQGUY3sqDT8WQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bysuRRY7; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1776751436; c=relaxed/simple;
+	bh=39MG2Se+/eyfVMM8XJDbfOL9SLmB52vW2YmkOjx7r20=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ikeQ0yO+rpVlDY8BeHTVP431rcxheDunb8FJgHZfQ68AH/93Pw0vaA63ZjkPTSzKT7F60ON/lX3HJ4CRLFtOItvOLjqO/tjeLaEsUntTtBDUpJ9cExj2pZtxk7wvGoZOXkRHMgseMxO+DkSuh1FnpCI47stF0iHaCtD7PsMMzRw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=bgmjUyCx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bysuRRY7"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=sWELmUNLrj+Rw+ev0cu4eeG06hoBoAV7zKwuPQRtKy0=; b=bysuRRY7eAxaTJ1ySj1io7PZGk
-	2k6nNkf1Tp12Ti3QJ4YO+Q9p4CMiYhYTT+dA6JcCaFB412kWRo4ERmYpi2thJczSfL/1Zdq7W+97A
-	YY76gpLprFUvnw3sL/jdguMoUJfYNOSKPKYXbohfIwSgfUQegumJR0H3XXN4EwEhHNG72yOa0c8Zs
-	bXgyE4CeVt7JdzpNvfJGjFCjgT61oC5mYEFS9RZPVjpRtNXPfDvuIT9U5qXqP3sKUaQeHBefGXo2u
-	x0RR41R+GF4PSw4lIwwHJxQiFOO7Y/VWmF8Sopw92Wez+6LgWlqd4Wci6dv7UQfhOR0SZqOrsIS20
-	xigXIJHw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wF3BV-000000082KY-1xqd;
-	Tue, 21 Apr 2026 04:58:05 +0000
-Message-ID: <49403d1f-fe82-4a39-8326-90e787e4da42@infradead.org>
-Date: Mon, 20 Apr 2026 21:58:04 -0700
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="bgmjUyCx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6839AC2BCB0;
+	Tue, 21 Apr 2026 06:03:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776751435;
+	bh=39MG2Se+/eyfVMM8XJDbfOL9SLmB52vW2YmkOjx7r20=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bgmjUyCxe1lDtznRkSQdMrrR5WAhkEdyjcYyknvtpLYZMokfXpFgYp5S8MmFmADwg
+	 +dxfqHOlEMagE/PLX1d+6Hv4yL7DkVwB/aHgeXv2fkYG1OxBw3sxHMq+YI3ZBkWJ7I
+	 +tGnwR/zN5LpYqZfvI6OO6veC1eV6qNHAhsdbDu4=
+Date: Tue, 21 Apr 2026 08:03:53 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
+	corbet@lwn.net, skhan@linuxfoundation.org, marcel@holtmann.org,
+	luiz.dentz@gmail.com, mchehab+huawei@kernel.org,
+	jani.nikula@intel.com, demarchi@kernel.org, rdunlap@infradead.org,
+	justonli@chromium.org, ivecera@redhat.com,
+	jonathan.cameron@huawei.com, kees@kernel.org,
+	marco.crivellari@suse.com, ferr.lambarginio@gmail.com,
+	nihaal@cse.iitm.ac.in, mingo@kernel.org, tglx@kernel.org,
+	linmq006@gmail.com, linux-doc@vger.kernel.org,
+	linux-bluetooth@vger.kernel.org
+Subject: Re: [PATCH net-deletions] net: remove ISDN subsystem and Bluetooth
+ CMTP
+Message-ID: <2026042144-crispness-perfected-6cff@gregkh>
+References: <20260421022108.1299678-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: fix typos in Documentation/PCI/
-To: josh ziegler <joshziegler76@gmail.com>, bhelgaas@google.com,
- corbet@lwn.net
-Cc: skhan@linuxfoundation.org, linux-pci@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260421012059.251492-1-joshziegler76@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260421012059.251492-1-joshziegler76@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260421022108.1299678-1-kuba@kernel.org>
 
-
-
-On 4/20/26 6:20 PM, josh ziegler wrote:
-> Fix "chose" -> "choose" in pci.rst
-> Fix "result an" -> "result in an" in pciebus-howto.rst
+On Mon, Apr 20, 2026 at 07:21:07PM -0700, Jakub Kicinski wrote:
+> Remove the ISDN (mISDN, CAPI) subsystem and Bluetooth CMTP protocol
+> from the kernel tree.
 > 
-> Signed-off-by: josh ziegler <joshziegler76@gmail.com>
-
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
-
-> ---
->  Documentation/PCI/pci.rst           | 2 +-
->  Documentation/PCI/pciebus-howto.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> ISDN is a pretty old technology and it's unclear whether anyone still
+> uses it. I went over the last few years of git history and all the
+> commits are either tree-wide conversions or syzbot/static analyzer
+> fixes.
 > 
-> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
-> index f4d2662871ab..be35e9a1ee75 100644
-> --- a/Documentation/PCI/pci.rst
-> +++ b/Documentation/PCI/pci.rst
-> @@ -338,7 +338,7 @@ the PCI_IRQ_MSI and PCI_IRQ_MSIX flags will fail, so try to always
->  specify PCI_IRQ_INTX as well.
->  
->  Drivers that have different interrupt handlers for MSI/MSI-X and
-> -legacy INTx should chose the right one based on the msi_enabled
-> +legacy INTx should choose the right one based on the msi_enabled
->  and msix_enabled flags in the pci_dev structure after calling
->  pci_alloc_irq_vectors.
->  
-> diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
-> index 375d9ce171f6..9cc133ccdeec 100644
-> --- a/Documentation/PCI/pciebus-howto.rst
-> +++ b/Documentation/PCI/pciebus-howto.rst
-> @@ -97,7 +97,7 @@ register its service with the PCI Express Port Bus driver (see
->  section 5.2.1 & 5.2.2). It is important that a service driver
->  initializes the pcie_port_service_driver data structure, included in
->  header file /include/linux/pcieport_if.h, before calling these APIs.
-> -Failure to do so will result an identity mismatch, which prevents
-> +Failure to do so will result in an identity mismatch, which prevents
->  the PCI Express Port Bus driver from loading a service driver.
->  
->  pcie_port_service_register
+> When we discussed removal in the past IIRC there were some concerns
+> about ISDN still being used in parts of Germany. Unfortunately, the
+> code base is quite old, none of the current maintainers are familiar
+> with it and AI tools will have a field day finding bugs here.
+> 
+> Delete this code and preserve it in an out-of-tree repository
+> for any remaining users:
+> https://github.com/linux-netdev/mod-orphan
+> 
+> UAPI constants AF_ISDN/PF_ISDN and the SELinux isdn_socket class
+> are preserved for ABI stability, but the rest of uAPI is removed.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 
--- 
-~Randy
+Acked-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
