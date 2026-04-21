@@ -1,337 +1,414 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C7C37F8A2
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 03:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776740876; cv=none; b=bm7EEh6/n6G3FroZZ5TSIGADA9HkQVt5evmspG+tXSGHwX7XlGDq4wuwCu7/KCRAEHciBkICMIlauBixBdyOboSy+LXTLzzFVJkm2ZufZWGMWy8ebgVW1Z4pO+HgHPipBv/Wh8N3nlu+iLPGIZ2BWLuVHbWzqxSs2U1QjiDAm+c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776740876; c=relaxed/simple;
-	bh=pdahzaI6TYYLoH1na7BPnX7x2KDai2pfXdzq/9hklYw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DNUIpv/w1Jra2kzcykmk5Ca6zystXrsKNkBfLnkf/0PEFzDYFbI21J42Mvi+hU5LocB9BdLUR07BxTSdl2JatoPzNNLqVd9PM/zvKIZ1nRkUl90hOmdoYArH8dDQyacnCoraK+LYhHY3K/2NKmLSpdJ9eMK19Ya6oH0KmU4pgC8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Bm9x71Zw; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9258234214A
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 03:12:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776741154; cv=pass; b=Rhb2xqtABiQ8KIcn/Ld3/z0lb2iah9eterbcBmVq+H2Xx+Wg0/TuCetUupZwoGIzs48Z4Rj2JhVvenPZbVXSwyyQef4eYEZThC2JnzW2QHDOmLloauHCIjEQcqsX63nKaPug6S5TRyH6oEwpw1R4Y2dI0Xz2ZKm2nSvNk4YGpXE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776741154; c=relaxed/simple;
+	bh=TB7+xGKrDA/gq1bgPQ89IONDVihb+vSN5EBGdRTMuSM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=A8wvhYiaFbVxcp6l0WwYaUJBe8QEMFo28bQeFLFfHOTaXmf2YHGeZKzj8wsGl5BSaBqUuS4JtH+uwXknWpW+rx4TM5zPdYx5JRFgPm02WByMnuhzvAfrRoE8hL4v1hvBvAV2+VX67VKC/0ZnN/lNCL5iOLm0xGcOb7zNSoEagFk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxTOuq2i; arc=pass smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bm9x71Zw"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776740874;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=id5gu+CSXzoxxDihrOTSOMQURNR0EZCi73AeA6doMCM=;
-	b=Bm9x71ZwYqhNoTiKmYPwc6BBhyIMnMlZyMS2VKu81R1meaWt5epLNi1ZgB0jBfn41au6nc
-	whNxBb+0S5c5OeIW//tQehOFlwOLwtrvRkt7hV+XZ+Q+J8lAc9qrzWwELazeObiFFA97Pe
-	4qs55BOtEHNMeYjScNjONJc3UdI5PaY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-113-eswoHUPCNHOcZgPwTq7aKQ-1; Mon,
- 20 Apr 2026 23:07:48 -0400
-X-MC-Unique: eswoHUPCNHOcZgPwTq7aKQ-1
-X-Mimecast-MFC-AGG-ID: eswoHUPCNHOcZgPwTq7aKQ_1776740863
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AFC621800367;
-	Tue, 21 Apr 2026 03:07:43 +0000 (UTC)
-Received: from llong-thinkpadp16vgen1.westford.csb (unknown [10.22.65.81])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id C546C19560AB;
-	Tue, 21 Apr 2026 03:07:36 +0000 (UTC)
-From: Waiman Long <longman@redhat.com>
-To: Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	=?UTF-8?q?Michal=20Koutn=C3=BD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	Haiyang Zhang <haiyangz@microsoft.com>,
-	Wei Liu <wei.liu@kernel.org>,
-	Dexuan Cui <decui@microsoft.com>,
-	Long Li <longli@microsoft.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
-	Joel Fernandes <joelagnelf@nvidia.com>,
-	Josh Triplett <josh@joshtriplett.org>,
-	Boqun Feng <boqun@kernel.org>,
-	Uladzislau Rezki <urezki@gmail.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Lai Jiangshan <jiangshanlai@gmail.com>,
-	Zqiang <qiang.zhang@linux.dev>,
-	Anna-Maria Behnsen <anna-maria@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Chen Ridong <chenridong@huaweicloud.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Juri Lelli <juri.lelli@redhat.com>,
-	Vincent Guittot <vincent.guittot@linaro.org>,
-	Dietmar Eggemann <dietmar.eggemann@arm.com>,
-	Ben Segall <bsegall@google.com>,
-	Mel Gorman <mgorman@suse.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-hyperv@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	rcu@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	Costa Shulyupin <cshulyup@redhat.com>,
-	Qiliang Yuan <realwujing@gmail.com>,
-	Waiman Long <longman@redhat.com>
-Subject: [PATCH 23/23] cgroup/cpuset: Documentation and kselftest updates
-Date: Mon, 20 Apr 2026 23:03:51 -0400
-Message-ID: <20260421030351.281436-24-longman@redhat.com>
-In-Reply-To: <20260421030351.281436-1-longman@redhat.com>
-References: <20260421030351.281436-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxTOuq2i"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfd1f9fd1so2274928f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 20:12:31 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776741150; cv=none;
+        d=google.com; s=arc-20240605;
+        b=MSqzYmrjMjQW6Iq+W7mu8cUj+S/2Nlf/B5EnRjWQ29Hvj98x7BEtZlnh5WjqP+m1AQ
+         ZWJYziuk4UmNydF50zOtgmZQum+ToCpUZBrF+pjom3B6WH72CJfqpKeIZj7Nj/qohN4X
+         Sb/zbH2IDUnYJ2AZuXKOo7QXqKosetbQrGQvzr7FfBLyZ3GaFwLCif3ylg7s9WxzvNXB
+         qRfwL8lt31L1lzqXIKCcn7qK7zGZstroA3bbmZO8qM95pz4Kk+HOEijKTsBuKv6DUwtE
+         SDcebw2tP7w1aJguvKrP3d9ihEIsgj+N9/a9JIHbm5Dv8xWFxITd0wZ7ojS5OK2fUj3p
+         9n5Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=LZ3Z6vV4CUJEh8+FzQ0fKNGkP73y+YgkoPeSqUJ+lTQ=;
+        fh=pKuFS9Jcg7EaBKNLtCRkhuBzJzM0jl85llZbEi1Z/G4=;
+        b=Tk/ADGNdlElwE8tC+RepOEz8rIy4gOUiFZmrlYuNOnYDm/jmQYQlJc0aHv6HwwgeLJ
+         e4/22pPK++91pAHy9DTQ9VfFvsMj3ChDc6OAQZXowLp7C5pSdjz3G+mzGsZFmk71nPmy
+         4LSTUWv1wH0hxVU+Wp6eofiwHrE9aCjYwl7QhNiHnD7iidZF9GDNfWk7iaUX/Me/4xZj
+         hDk2a0LMB0q3y0JK2lf8A3a+XbzJqETFCKPu2A0Jlx6QhEu5ey6m2QPqoETCZ02XkobO
+         1JVijzWPp3xZ6Eonuz74hbd8FBtgNdpXJ72+ZFQKSNk9tVZoB2T3xFNdntSiw92U/ynr
+         C/Rg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776741150; x=1777345950; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LZ3Z6vV4CUJEh8+FzQ0fKNGkP73y+YgkoPeSqUJ+lTQ=;
+        b=VxTOuq2ieOjSjIZ+NwszhYIOdTwi+J+IRon7g2KD5rLrdhK/ZSkM+ox5fjDA2GoFw5
+         YPjlFML6JTgNZoeuudQUXrrTlxB6flI9CIa5RVP2G/q6VwIzCX2Fb9ww6x3ToWMknZZb
+         eaDNfHWikMxuISa9bZAcQl7EjGSzIX0oydjtdoyrjRiYGW2of4ZZGsfZzayK1PedtdyG
+         gyatBD8ohcP504ab4FtfzMBIUy+qMlse7WsPYfkQhONdImqOR7Ti0HAe2lZoD8eR5mJZ
+         3H8dBhuYe+ZgwtUdf+kz6gUvf45iXt6RB+eOHBmH9SJio1cHxA1Rb1txmdOFwXu9gxKY
+         erPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776741150; x=1777345950;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=LZ3Z6vV4CUJEh8+FzQ0fKNGkP73y+YgkoPeSqUJ+lTQ=;
+        b=SRtoGi9HAM0925sYuNf7t/6heIvuaH4QUzKx8l/EOWvcUD5/OejsKlwH4iYzKn+man
+         CREssyrOafsJC7jDJBFi5/7rtqe5noTWgMKu8tl3iEypdDVure7z9ykKtc3f1yte/6Li
+         Pu5vx9G2qZChqacRxYVCh89V8b7x+P+CPgdCzKpcCFv8DyqT5dlukaL2dOMglWsIZP71
+         2LNigCFCOH8KHiX/8rZKGLZekz3ADYZYab1u0wmv16uzM9hgN9FRLpRZOgG1Fk+RBjOW
+         kXIDF203gbL92w4HwWvVFpNn/M7Nz4/t4o/fpjGCBgFbHb0BZuXRpTNnotMo7Qv3BuQa
+         3eyA==
+X-Forwarded-Encrypted: i=1; AFNElJ+b46xpQ182to9GwvCwXP77sC/swgUxZQ+h8akrn7THeP8ACk64Yu3OqzsdRXLi1pKPrKeQa3EAeWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwW6JrN12m07cIuhUVI9Vnt6mCM+tt1wNWgG2J/Zf9qE/xc2PIS
+	CAnxcOwj3pqpwLukCdrSyPUlC5JnjfiAFeplOm8KnyfrM398aaHnj784zdtiYR2EcG/nSboopCB
+	91yowWHYvpQUz0dijHHVeVXSpQl+vm2s=
+X-Gm-Gg: AeBDieuCTUkb86xrsaiY5fNFCejdZ0tsm8Cuu3a3WK2LmhLPrTzcqSxU2MAQJHN705V
+	ru4cQU6iADIcdNZWizkIyMB3C8MbKzhm71bh7OMMGlhc7AL1QSaOQjfV6wzcA1aGwuFnSoTD1ED
+	P2b1LOcVtyjEYNlowXWVP2hFNAJ5s9tyJoszJr5sdCuf/7vZd8npwOklNRTSLheftYdofQTftah
+	0+jHyLsCjnD4UXAiXp0La1FiNvyHSyhMheBCCW8DU7Bw4H89ABaaaLdzwbaECy990WwtMnmOPYH
+	BOnj1aRLefYmDUUG
+X-Received: by 2002:a05:6000:2282:b0:43d:7a97:78a2 with SMTP id
+ ffacd0b85a97d-43fe3e09218mr24740414f8f.28.1776741149536; Mon, 20 Apr 2026
+ 20:12:29 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+References: <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
+ <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
+ <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
+ <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
+ <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F> <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
+ <aeUU8hMwPij2WvfF@groves.net> <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
+In-Reply-To: <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
+From: Joanne Koong <joannelkoong@gmail.com>
+Date: Mon, 20 Apr 2026 20:12:17 -0700
+X-Gm-Features: AQROBzCXrJPeZRWF5tNFcpUVaUlS3AP6Uy-uF-YDGWgd26fL7TVr2aqUE1sGo-8
+Message-ID: <CAJnrk1ZpPS9rOoBqOBRsqTu0Zgk=aoYzpYZ0mAVDCoeewtLhcg@mail.gmail.com>
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: Gregory Price <gourry@gourry.net>
+Cc: John Groves <John@groves.net>, "David Hildenbrand (Arm)" <david@kernel.org>, 
+	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
+	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
+	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
+	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
+	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
+	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
+	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
+	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-As CPU hotplug is now being used to enable runtime update to the list
-of nohz_full and managed_irq CPUs, we should avoid using CPU 0 in the
-formation of isolated partition as CPU 0 may not be able to be brought
-offline like in the case of x86-64 architecture. So a number of the
-test cases in test_cpuset_prs.sh will have to be updated accordingly.
+On Sun, Apr 19, 2026 at 5:27=E2=80=AFPM Gregory Price <gourry@gourry.net> w=
+rote:
+>
+> On Sun, Apr 19, 2026 at 03:36:30PM -0500, John Groves wrote:
+> > On 26/04/15 10:16AM, David Hildenbrand (Arm) wrote:
+> > > On 4/15/26 00:20, Gregory Price wrote:
+> > > > On Tue, Apr 14, 2026 at 11:57:40AM -0700, Darrick J. Wong wrote:
+> >
+> > Gregory's code, in the current form, still uses two new fuse messages,
+> > GET_FMAP and GET_DAXDEV, but it makes the fmap message format opaque by
+> > removing fmap format structs from the uapi. It also uses two BPF progra=
+ms.
+> > One BPF program parses and validates the GET_FMAP payload for every fil=
+e,
+> > and hangs it from a 'void *' in each fuse_inode (just like the current =
+famfs
+> > code). The other BPF program is called during vma faults and reads the
+> > fuse_inode->'void *' in order to handle faults the same way famfs-fuse =
+does
+> > today, but via BPF instead.
+> >
+>
 
-A new test will also be run in offline isn't allowed in CPU 0 to verify
-that using CPU 0 as part of an isolated partition will fail.
+Thanks John for running the benchmarks on your hardware. And thanks
+Gregory for your work on this too.
 
-The cgroup-v2.rst is also updated to reflect the new capability of using
-CPU hotplug to enable run time change to the nohz_full and managed_irq
-CPU lists.
+> I'll just lay out what i've done and why.
+>
+> For John's sanity, if there are NACKs, knowing sooner rather than later
+> would be a kindness.
+>
+> =3D=3D=3D Problem: Any lookup() in iomap_begin() is too much overhead.
+>
+> No dax-backed server will want to eat the cost of a lookup() that
+> could be multiple microseconds on what should be a 1-5us soft-fault.
+>
+> Joanne's prototype had this:
+>
+>    meta =3D bpf_map_lookup_elem(&inode_map, &nodeid);
+>
+> But it was offsetting a single pointer dereference:
+>
+>    struct fuse_inode *fi =3D get_fuse_inode(inode);
+>    struct famfs_file_meta *meta =3D fi->famfs_meta;
+>
+> Not all O(1) are created equal here.
+>
+>    A single L3 LLC miss plus page table walk can cost you ~100ns.
+>    If that pointer was cache-hot, it's almost free.
+>
+>    A pointer chase through any structure is N x ~100ns.
+>    This is unlikely to ever be sufficiently cache hot by comparison.
+>
+> So, lets just avoid this problem altogether.
+>
+>
+> =3D=3D=3D  Requirements
+>
+> 1) No hard-coded OMF structures in the FUSE API.
+>
+>    While RAID0 style interleaving isn't exactly fancy or novel,
+>    folks think this should not be in the kernel headers.
+>
+>    (I'm not going to argue, I think the argument is pointless)
+>
+>
+> 2) imap_begin() needs metadata accessible on the order of a single
+>    pointer dereference - which is what John has implemented.
+>
+>
+> 3) open() needs to validate the metadata and identify DAX devices
+>
+>    a) it needs to validate the DAX devices are available and
+>       acquire them / set them up / etc.  This is a kernel-side op.
+>
+>    b) it needs to validate the addressing information is valid for
+>       the relevant dax devices
+>
+>    Both GET_FMAP and GET_DAXDEV are avoided if the metadata is
+>    already cached or the DAXDEV is already setup.  So keeping these
+>    separate is actually important.
+>
+>
+> Joanne's code deals with #1 - but it doesn't handle #2 or #3.
+> (It also doesn't handle GET_DAXDEV at all).
 
-Since there is a slight performance overhead to enable runtime changes
-to nohz_full CPU list, users have to explicitly opt in by adding a
-"nohz_ful" kernel command line parameter with or without a CPU list.
+It handles #3 by removing GET_DAXDEV as a fuse op and having the
+daxdev initialization / setup routed through FUSE_IOMAP_CONFIG at
+iomap initialization time instead, which integrates with the generic
+iomap infrastruture/uapi additions Darrick added in his fuse-iomap
+series [1].
 
-Signed-off-by: Waiman Long <longman@redhat.com>
----
- Documentation/admin-guide/cgroup-v2.rst       | 35 +++++++---
- .../selftests/cgroup/test_cpuset_prs.sh       | 70 +++++++++++++++++--
- 2 files changed, 92 insertions(+), 13 deletions(-)
+In this series the GET_DAXDEV op gets sent lazily on file opens but
+it's still not clear to me why this is necessary. imo device setup
+should happen logically as part of iomap configuration and it seems
+more efficient to have devices validated/acquired before any files are
+opened. I thihnk that makes things a lot simpler on the kernel side in
+other ways (eg we can get rid of famfs_dax_devlist / famfs_daxdev /
+famfs_devlist_sem / famfs_update_daxdev_table() /
+famfs_fuse_get_daxdev() altogether). It also saves the famfs server
+the roundtrip context switching cost if we get rid of GET_DAXDEV and
+move it to iomap initialization time, which will improve FUSE_OPEN
+performance for famfs. Maybe there's something I'm missing here as to
+why the daxdev initialization has to be done lazily on open?
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 8ad0b2781317..e97fc031eb86 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2604,11 +2604,12 @@ Cpuset Interface Files
- 
- 	It accepts only the following input values when written to.
- 
--	  ==========	=====================================
-+	  ==========	===============================================
- 	  "member"	Non-root member of a partition
- 	  "root"	Partition root
--	  "isolated"	Partition root without load balancing
--	  ==========	=====================================
-+	  "isolated"	Partition root without load balancing and other
-+		        OS noises
-+	  ==========	===============================================
- 
- 	A cpuset partition is a collection of cpuset-enabled cgroups with
- 	a partition root at the top of the hierarchy and its descendants
-@@ -2652,11 +2653,29 @@ Cpuset Interface Files
- 	partition or scheduling domain.  The set of exclusive CPUs is
- 	determined by the value of its "cpuset.cpus.exclusive.effective".
- 
--	When set to "isolated", the CPUs in that partition will be in
--	an isolated state without any load balancing from the scheduler
--	and excluded from the unbound workqueues.  Tasks placed in such
--	a partition with multiple CPUs should be carefully distributed
--	and bound to each of the individual CPUs for optimal performance.
-+	When set to "isolated", the CPUs in that partition will be in an
-+	isolated state without any load balancing from the scheduler and
-+	excluded from the unbound workqueues as well as other OS noises.
-+	Tasks placed in such a partition with multiple CPUs should be
-+	carefully distributed and bound to each of the individual CPUs
-+	for optimal performance.
-+
-+	As CPU hotplug, if supported, is used to improve the degree of
-+	CPU isolation close to the "nohz_full" kernel boot parameter.
-+	In some architectures, like x86-64, the boot CPU (typically CPU
-+	0) cannot be brought offline, so the boot CPU should not be used
-+	for forming isolated partitions.  The "nohz_full" kernel boot
-+	parameter needs to be present to enable full dynticks support
-+	and RCU no-callback CPU mode for CPUs in isolated partitions
-+	even if the optional cpu list isn't provided.
-+
-+	Using CPU hotplug for creating or destroying an isolated
-+	partition can cause latency spike in applications running
-+	in other isolated partitions.  A reserved list of CPUs can
-+	optionally be put in the "nohz_full" kernel boot parameter to
-+	alleviate this problem.  When these reserved CPUs are used for
-+	isolated partitions, CPU hotplug won't need to be invoked and
-+	so there won't be latency spike in other isolated partitions.
- 
- 	A partition root ("root" or "isolated") can be in one of the
- 	two possible states - valid or invalid.  An invalid partition
-diff --git a/tools/testing/selftests/cgroup/test_cpuset_prs.sh b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-index a56f4153c64d..eebb4122b581 100755
---- a/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-+++ b/tools/testing/selftests/cgroup/test_cpuset_prs.sh
-@@ -67,6 +67,12 @@ then
- 	echo Y > /sys/kernel/debug/sched/verbose
- fi
- 
-+# Enable dynamic debug message if available
-+DYN_DEBUG=/proc/dynamic_debug/control
-+[[ -f $DYN_DEBUG ]] && {
-+	echo "file kernel/cpu.c +p" > $DYN_DEBUG
-+}
-+
- cd $CGROUP2
- echo +cpuset > cgroup.subtree_control
- 
-@@ -84,6 +90,15 @@ echo member > test/cpuset.cpus.partition
- echo "" > test/cpuset.cpus
- [[ $RESULT -eq 0 ]] && skip_test "Child cgroups are using cpuset!"
- 
-+#
-+# If nohz_full parameter is specified and nohz_full file exists, CPU hotplug
-+# will be used to modify nohz_full cpumask to include all the isolated CPUs
-+# in cpuset isolated partitions.
-+#
-+NOHZ_FULL=/sys/devices/system/cpu/nohz_full
-+BOOT_NOHZ_FULL=$(fmt -1 /proc/cmdline | grep "^nohz_full")
-+[[ "$BOOT_NOHZ_FULL" = nohz_full ]] && CHK_NOHZ_FULL=1
-+
- #
- # If isolated CPUs have been reserved at boot time (as shown in
- # cpuset.cpus.isolated), these isolated CPUs should be outside of CPUs 0-8
-@@ -318,8 +333,8 @@ TEST_MATRIX=(
- 	# Invalid to valid local partition direct transition tests
- 	" C1-3:P2  X4:P2    .      .      .      .      .      .     0 A1:1-3|XA1:1-3|A2:1-3:XA2: A1:P2|A2:P-2 1-3"
- 	" C1-3:P2  X4:P2    .      .      .    X3:P2    .      .     0 A1:1-2|XA1:1-3|A2:3:XA2:3 A1:P2|A2:P2 1-3"
--	" C0-3:P2    .      .    C4-6   C0-4     .      .      .     0 A1:0-4|B1:5-6 A1:P2|B1:P0"
--	" C0-3:P2    .      .    C4-6 C0-4:C0-3  .      .      .     0 A1:0-3|B1:4-6 A1:P2|B1:P0 0-3"
-+	" C1-3:P2    .      .    C4-6   C1-4     .      .      .     0 A1:1-4|B1:5-6 A1:P2|B1:P0"
-+	" C1-3:P2    .      .    C4-6 C1-4:C1-3  .      .      .     0 A1:1-3|B1:4-6 A1:P2|B1:P0 1-3"
- 
- 	# Local partition invalidation tests
- 	" C0-3:X1-3:P2 C1-3:X2-3:P2 C2-3:X3:P2 \
-@@ -329,8 +344,8 @@ TEST_MATRIX=(
- 	" C0-3:X1-3:P2 C1-3:X2-3:P2 C2-3:X3:P2 \
- 				   .      .    C4:X     .      .     0 A1:1-3|A2:1-3|A3:2-3|XA2:|XA3: A1:P2|A2:P-2|A3:P-2 1-3"
- 	# Local partition CPU change tests
--	" C0-5:P2  C4-5:P1  .      .      .    C3-5     .      .     0 A1:0-2|A2:3-5 A1:P2|A2:P1 0-2"
--	" C0-5:P2  C4-5:P1  .      .    C1-5     .      .      .     0 A1:1-3|A2:4-5 A1:P2|A2:P1 1-3"
-+	" C1-5:P2  C4-5:P1  .      .      .    C3-5     .      .     0 A1:1-2|A2:3-5 A1:P2|A2:P1 1-2"
-+	" C1-5:P2  C4-5:P1  .      .    C2-5     .      .      .     0 A1:2-3|A2:4-5 A1:P2|A2:P1 2-3"
- 
- 	# cpus_allowed/exclusive_cpus update tests
- 	" C0-3:X2-3 C1-3:X2-3 C2-3:X2-3 \
-@@ -442,6 +457,21 @@ TEST_MATRIX=(
- 	"   C0-3     .      .    C4-5   X3-5     .      .      .     1 A1:0-3|B1:4-5"
- )
- 
-+#
-+# Test matrix to verify that using CPU 0 in isolated (local or remote) partition
-+# will fail when offline isn't allowed for CPU 0.
-+#
-+CPU0_ISOLCPUS_MATRIX=(
-+	#  old-A1 old-A2 old-A3 old-B1 new-A1 new-A2 new-A3 new-B1 fail ECPUs Pstate ISOLCPUS
-+	#  ------ ------ ------ ------ ------ ------ ------ ------ ---- ----- ------ --------
-+	"   C0-3     .      .    C4-5     P2     .      .      .     0 A1:0-3|B1:4-5 A1:P-2"
-+	"   C1-3     .      .      .      P2     .      .      .     0 A1:1-3 A1:P2"
-+	"   C1-3     .      .      .    P2:C0-3  .      .      .     0 A1:0-3 A1:P-2"
-+	"  CX0-3   C0-3     .      .       .     P2     .      .     0 A1:0-3|A2:0-3 A2:P-2"
-+	"  CX0-3 C0-3:X1-3  .      .       .     P2     .      .     0 A1:0|A2:1-3 A2:P2"
-+	"  CX0-3 C0-3:X1-3  .      .       .   P2:X0-3  .      .     0 A1:0-3|A2:0-3 A2:P-2"
-+)
-+
- #
- # Cpuset controller remote partition test matrix.
- #
-@@ -513,7 +543,7 @@ write_cpu_online()
- 		}
- 	fi
- 	echo $VAL > $CPUFILE
--	pause 0.05
-+	pause 0.10
- }
- 
- #
-@@ -654,6 +684,8 @@ dump_states()
- 		[[ -e $PCPUS  ]] && echo "$PCPUS: $(cat $PCPUS)"
- 		[[ -e $ISCPUS ]] && echo "$ISCPUS: $(cat $ISCPUS)"
- 	done
-+	# Dump nohz_full
-+	[[ -f $NOHZ_FULL ]] && echo "nohz_full: $(cat $NOHZ_FULL)"
- }
- 
- #
-@@ -789,6 +821,18 @@ check_isolcpus()
- 		EXPECTED_SDOMAIN=$EXPECTED_ISOLCPUS
- 	fi
- 
-+	#
-+	# Check if nohz_full match cpuset.cpus.isolated if nohz_boot parameter
-+	# specified with no parameter.
-+	#
-+	[[ -f $NOHZ_FULL && "$BOOT_NOHZ_FULL" = nohz_full ]] && {
-+		NOHZ_FULL_CPUS=$(cat $NOHZ_FULL)
-+		[[ "$ISOLCPUS" != "$NOHZ_FULL_CPUS" ]] && {
-+			echo "nohz_full ($NOHZ_FULL_CPUS) does not match cpuset.cpus.isolated ($ISOLCPUS)"
-+			return 1
-+		}
-+	}
-+
- 	#
- 	# Appending pre-isolated CPUs
- 	# Even though CPU #8 isn't used for testing, it can't be pre-isolated
-@@ -1070,6 +1114,21 @@ run_remote_state_test()
- 	echo "All $I tests of $TEST PASSED."
- }
- 
-+#
-+# Testing CPU 0 isolated partition test when offline is disabled
-+#
-+run_cpu0_isol_test()
-+{
-+	# Skip the test if CPU0 offline is allowed or if nohz_full kernel
-+	# boot parameter is missing.
-+	CPU0_ONLINE=/sys/devices/system/cpu/cpu0/online
-+	[[ -f $CPU0_ONLINE ]] && return
-+	grep -q -w nohz_full /proc/cmdline
-+	[[ $? -ne 0 ]] && return
-+
-+	run_state_test CPU0_ISOLCPUS_MATRIX
-+}
-+
- #
- # Testing the new "isolated" partition root type
- #
-@@ -1207,6 +1266,7 @@ test_inotify()
- trap cleanup 0 2 3 6
- run_state_test TEST_MATRIX
- run_remote_state_test REMOTE_TEST_MATRIX
-+run_cpu0_isol_test
- test_isolated
- test_inotify
- echo "All tests PASSED."
--- 
-2.53.0
+I think Darrick had also mentioned something earlier about how he
+thinks GET_DAXDEV should be another application of backing files [2] -
+I like this idea too, as it gets rid of the GET_DAXDEV op and reuses
+fuse's existing infrastructure.
 
+[1] https://lore.kernel.org/linux-fsdevel/177188734695.3935739.819885401100=
+4837207.stgit@frogsfrogsfrogs/
+[2] https://lore.kernel.org/linux-fsdevel/20260416224331.GD114184@frogsfrog=
+sfrogs/
+
+>
+> John's code mananges #2 and #3 by having the fuse-server pass meta data
+> on open() via GET_FMAP and GET_DAXDEV.
+>
+>   GET_FMAP acquires the meta data on how dax devices are used
+>
+>   GET_DAXDEV just translates an ID to specific dax device.
+>   iomap_being() then uses the OMF to do the mapping.
+>
+> But it does this by hard-coding the format into kernel headers.
+>
+>
+> =3D=3D=3D  Observation: Add a BPF dax_fmap_parse() on open()
+>
+> Pair Joanne's suggestion with John's GET_FMAP/GET_DAXDEV operations.
+>
+>   struct fuse_dax_fmap_ops {
+>       char name[FUSE_DAX_FMAP_OPS_NAME_LEN];   // 16 bytes
+>       int (*dax_fmap_parse)(struct fuse_dax_fmap_parse_ctx *ctx);
+
+Just a note for later, if the bpf approach gets pursued further:
+instead of making this a dax specific ops, I think this needs to be
+integrated interface-wise with Darrick's fuse-iomap work since he does
+the same thing. I think dax_fmap_parse() could be renamed to something
+like iomap_setup(), where userspace can use this to do any sort of
+generic setup, whether that's mapping related or dax related or not.
+In my mind, the dax vs non dax distinction is handled by the fuse
+iomap plumbing that chooses which iomap entry points to call,  but
+beyond that,  the callbacks and struct ops themselves should be
+generic enough to be shared between the two.
+
+>       int (*iomap_begin)(struct fuse_dax_fmap_resolve_ctx *ctx,
+>                          struct fuse_iomap_io *io);
+>   };
+>
+> This parse function is used to do filesystem specific setup the (such as
+> populate the dax bitmap) based on filesystem-specific per-file metadata.
+>
+> In John's case, essentially all it does is populate the dax bitmap and
+> toss the data onto fi->dax_fmap.meta.
+>
+> Pseudo code:
+>
+>   fuse_dax_fmap_open(inode):
+>       fmap_size =3D send_GET_FMAP(inode, fmap_buf)
+>
+>       /* Make space to store the metadata */
+>       meta_buf =3D kzalloc(meta_size)
+>       ctx =3D { ... }
+>       kern =3D { .ctx, .blob =3D blob, .meta_buf =3D meta_buf }
+>
+>       /* Parse the metadata: i.e. fill out the daxdev bitmap */
+>       fc->dax_fmap_ops->dax_fmap_parse(&ctx)
+>
+>       /* Call GET_DAXDEV for any new dax devices */
+>       resolve_dev_bitmap(ctx.dev_bitmap)
+>
+>       /* cache the meta data on the inode */
+>       inode_lock()
+>       fi->dax_fmap.meta      =3D meta_buf
+>       ... etc etc ...
+>       inode_unlock()
+>
+> And otherwise, imap_begin() works exactly as Joanne proposed, but with
+> in-kernel cached data instead of the bpfmap.
+>
+>   const struct dax_simple_meta *meta =3D (const struct dax_simple_meta *)
+>                    bpf_fuse_dax_resolve_get_meta(ctx, 0, sizeof(*meta));
+
+another note for later, if the benchmarks prove promising and after
+the LSF discussions we decide to go with this approach: imo we
+could/should repurpose this into a generic
+bpf_fuse_iomap_get_inode_meta() that returns a bounded pointer into
+whatever opaque blob was cached on the inode during iomap_setup(),
+where it'd be a generic kfunc serving both the dax and non-dax case
+for any kind of mapping layout
+
+>
+> And since both parse() and iomap_begin() are bpf programs - and they're
+> the only consumers of the metadata - FUSE itself no longer needs to know
+> anything about the server's particular strategy to use the dax devices.
+>
+>   struct fuse_inode {
+>       ...
+>   #if IS_ENABLED(CONFIG_FUSE_DAX_FMAP)
+>       struct {
+>           void    *meta;
+>           u32      meta_size;
+>           u64      file_size;
+
+I don't think file_size is needed here? seems like we could just
+derive this from i_size_read(inode)?
+
+>       } dax_fmap;
+
+/s/dax_fmap/iomap
+
+>   #endif
+>   };
+>
+> Just a big ol' honkin' void* that otherwise gets ignored.
+>
+> (Note: while i'm not a BPF wizard, this pattern seems well established in
+>        existing BPF code, i found code in the network stack that caches
+>        data on kernel objects this way as well)
+>
+> =3D=3D=3D=3D Caveats
+>
+> 1) We don't know the overhead BPF introduces in the fault path.
+>
+> My napkin math (and best understanding of BPF) suggests:
+>
+>    1) trampoline / vtable for bpf ops (iomap_begin func)
+>    2) retpoline cost of BPF (assuming this is on, safe assumption)
+>    3) bpf_fuse_dax_resolve_get_meta() overhead (extra pointer deref)
+>
+> This *should* (i think) amount to an extra pointer dereference, a longjum=
+p,
+> and a retpoline, which hopefully is <100ns since any extra pointer
+> derefs here SHOULD be cache-hot (hard to know).
+>
+> It's not 0 overhead, and if the average fault time is 1us then every
+> additional 10ns not an insignificant cost.
+>
+> But this is napkin math.  John will collect data.
+>
+>
+> 2) FUSE needs to be ok with the BPF-driven changes:
+>
+> https://github.com/joannekoong/linux/commits/prototype_generic_iomap_dax/
+>
+>
+> 3) FUSE needs to be ok with GET_FMAP/GET_DAXDEV as opaque meta-data
+>    handlers for DAX devices.
+
+I think we could kill GET_DAXDEV and for GET_FMAP, we could make this
+a generic FUSE_IOMAP_GETMAP where the server can set a flag on open to
+indicate whether the mapping blob should be fetched or not.
+>
+>    That means there is no default parser or format. If you don't
+>    register ops, these functions are functionally dead.
+>
+>    (probably fine to enforce during init, which is what i did)
+>
+>
+> 4) As John said: MM needs to be good with it.
+>
+>    Any server using DAX like this already essentially has CAP_SYS_RAWIO
+>    for DAX, and most likely some form of CAP_SYS_ADMIN.
+>
+>    Additionally, as folks have pointed out, the resolution to PTE is
+>    bounded by dax device extents, so it's not entirely arbitrary.
+>
+> =3D=3D=3D
+>
+> As mentioned at the start - you'd be doing John a kindness if there are
+> clear and obvious NACK's to be had here.
+
+I don't have a NACK on what you wrote above, thank you for your work
+on this and bridging it into John's famfs server.
+
+As I understand it, Amir also scheduled a cross-track FS+MM+IO session
+at LSF to discuss famfs and dax iomap. Christoph had posted a
+suggestion in another message about solving this problem with adding
+generic stride/offset multi-device support to fs/iomap, and I'm hoping
+the LSF session will shed more light on this, as that to me seems the
+cleanest solution and would pretty much give everyone what they want
+(including getting famfs unblocked, as I think with this approach we
+would just need to figure out the generic stride/offset format for the
+fuse iomap uapi, and could have the interleaving logic living in fuse
+initially with fs/iomap migrations done post-merge). In the meantime,
+I think it's really helpful getting the data points on how bpf
+performs, thank you for running the benchmarks on your setup, John.
+
+Thanks,
+Joanne
+>
+> ~Gregory
