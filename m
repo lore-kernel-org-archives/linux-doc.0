@@ -1,220 +1,117 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3279F386C39
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482C23D1718
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:45:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776778868; cv=none; b=NmjaEiZgDYRMWcakItg02sXvOPsZo1YOvUtpIZHOZw04GFN5u0AusuVL8Lby9gbK3mX+6T6VbADmTS0f8jf//m9W5HB4ypeTUnugc3S9ItHpKmYubXmnjnXRxJTTYdVJuJ0MJxE2VW9gq9Vgb2CiptyV6iRZ8sr9a6OSWqgSJYk=
+	t=1776779109; cv=none; b=OmPryZiTmffy4/oXuxJSUWAtlNgguSc3HqUjxKOL3656ozDcHXivLtnLhnhgLUtuHWNU05cY+Xos3B6Blds+Aj75D6EzJsNak6DFS1pic9I8BT4ekbZ0qB4AHAKZdC2dW0PjAHGwBRHHJIIUQI0y7ky4eNHvJfk3yneXgcy3Q14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776778868; c=relaxed/simple;
-	bh=1qkmzEPpOn0WsVtWIvDwXPc6+Pac7JxnTTdnxAJRuwc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a4N1v5UDFuLNsfK1HTMCJAjaD2rVJ7souxEUxH3mlt/xfIvp6fEcDOCPjNBJ0kpzw4U4CnuZGXO1IyCD6/wZ85fO6KMNx/XaDZef6p2rw+pS0Hj+L551T/n3zwWAu0phV4vxO+AQhKRmpNQZnScHVllnX7uUFmOPCTsTfECq3Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NbGnFQx7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIrCOiZh; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=NbGnFQx7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=CIrCOiZh; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1776779109; c=relaxed/simple;
+	bh=bksQ0Ol5sH++UgZ7eh1JZKghAgg2lGd7XkvUWodW28Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qZvHKDLC3SFiTYQJxDdd2RjAyLjfaoLoS6vbaL6tY24sLA3VbJiFIPkqTFieJiagF5i39Qgr9c6gX5KuskSpQ3AbiEJw0bcWD4r8RFCLTh0VS7dFJ1FT91cP+17g+IBmL5BbXG/9mEaFyIWfr4ihAnKP2uxp0Li6Y0LeQDTiaRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20251104.gappssmtp.com header.i=@networkplumber-org.20251104.gappssmtp.com header.b=cClBgcUC; arc=none smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=networkplumber.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NbGnFQx7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIrCOiZh";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="NbGnFQx7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="CIrCOiZh"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 836186A8E7;
-	Tue, 21 Apr 2026 13:41:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776778865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9ITFroz+aSKCNLiWxZ0t6vq+9V9TeDmNiPNzzUbtT84=;
-	b=NbGnFQx7sVIVfVQZ6gpy/zs4PvEYT2zdzRGTndhDNQTaJqwfH6DHTKW/5p70Pu+lxppls7
-	H0s4kFcJh565Quv5TCYrStFCiMdQ2/mSvydVBVyh3iXCIrx358qHZ7BD+hnumTp2ZqjHxC
-	xsUAmvhHPsQ4fRFfnsyGXFJzW9Sivac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776778865;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9ITFroz+aSKCNLiWxZ0t6vq+9V9TeDmNiPNzzUbtT84=;
-	b=CIrCOiZhf+e38T8JFDa5nqTtkPxE8R/ZylHelKHa5D4ejjvDAe7HZ4i3ey7ru95Ssa0bYt
-	ogaZrnL/MqL7UXDw==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=NbGnFQx7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=CIrCOiZh
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1776778865; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9ITFroz+aSKCNLiWxZ0t6vq+9V9TeDmNiPNzzUbtT84=;
-	b=NbGnFQx7sVIVfVQZ6gpy/zs4PvEYT2zdzRGTndhDNQTaJqwfH6DHTKW/5p70Pu+lxppls7
-	H0s4kFcJh565Quv5TCYrStFCiMdQ2/mSvydVBVyh3iXCIrx358qHZ7BD+hnumTp2ZqjHxC
-	xsUAmvhHPsQ4fRFfnsyGXFJzW9Sivac=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1776778865;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=9ITFroz+aSKCNLiWxZ0t6vq+9V9TeDmNiPNzzUbtT84=;
-	b=CIrCOiZhf+e38T8JFDa5nqTtkPxE8R/ZylHelKHa5D4ejjvDAe7HZ4i3ey7ru95Ssa0bYt
-	ogaZrnL/MqL7UXDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 9BFCC593AF;
-	Tue, 21 Apr 2026 13:41:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id kGLiJHB+52kmHAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 13:41:04 +0000
-Message-ID: <73f82fb6-7449-4a48-a5df-96cdbc48e240@suse.de>
-Date: Tue, 21 Apr 2026 15:41:04 +0200
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20251104.gappssmtp.com header.i=@networkplumber-org.20251104.gappssmtp.com header.b="cClBgcUC"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1279eced0b9so6118445c88.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 06:45:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=networkplumber-org.20251104.gappssmtp.com; s=20251104; t=1776779106; x=1777383906; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=C2J0baGW2c8ot7ZAwlVMoVMOKmtoMvPmfiKlkz6ZsUc=;
+        b=cClBgcUC24FdpKU2JnH4Pa8ghonAWun66lvlqsMc0TS6SM3qmynBXdFhPo3KpyVpL3
+         DKjBYtxguUkFOqMANugRC3jAVyxb1ZX6dIcyw6hwUjpTwr1XE7gW3u5T4G0BSoU/31g9
+         voXRPi2wMK0NpJqP4ugLXin628LoKtljsRGv2qYTQYKQ6RgT80/ydejV1z85/MIC+w+h
+         lnDc+oJqG4bbglJfzOb+2uxxrAF0hOKL+mnm99VJMHoiInwmUg1N6YN+idWC2RW0UxMd
+         SofU7/kyVRijZ8CC5mVA4YW0PPNBSr1Z3vkxdLcRafiF67aAhqK1yY1Iz+bZuYcc2sdm
+         Pmmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776779106; x=1777383906;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=C2J0baGW2c8ot7ZAwlVMoVMOKmtoMvPmfiKlkz6ZsUc=;
+        b=Jsx3Wdqh63LvmulgakoabfRBGGG5QMwMz+QzbIriqeAKnXqnj6C+GIowVw5oToW8Mu
+         oNp2a7FR7yPZXe0cqXlAyewPXKyVOpgE3J6SkPL6jW6whYEHWoN7bLZGfA0yUccS8XrT
+         +mFqI8uAG3zLkyM8pf5gZ2GEl0AEe/ui3ps9YlOnJCvhXCyGIM8q7zEg1ZdEic+MEdRs
+         EWwriSbSyRt1gur6pXq0cTqg0kWulKZH/yNRuZ0j+BvV0ncmaLI9RrKynCoRkpLRmO6N
+         LE6yLDs7EwbJz7h0BFdqauqJrDwqbGNIY/bqez3NCFS9ql2X+TdBcMtOQJV2YPmE1DDB
+         MBRA==
+X-Forwarded-Encrypted: i=1; AFNElJ/TFz1bA4+jEIaxZHBlVMsrav/cFv/WuddDk88W215IcZUqJTphTHHFAsVdxrUmeC+izW6n1UoBNzs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIoG0GiNdEW16Avz6nke4q90VyqvTBDSh8sFtlFRnKgLKTP1n2
+	OmvJcNkqnF6Tcg7jLJnFq1qS8pKULeaX/bqVy5lb0uKZAMcu31F6SuKJcKTSYuXeP/M=
+X-Gm-Gg: AeBDietwrXn1pKICQcanfyVTiLPjztz7/zTh+mb2aLVbAlH27imVfUDAH/bXy0z1pw7
+	aTwtURmLe/IXM4CUSYHEqT/QJIlqpPMGA5jm3NMvlPHBELKHlClKlt6WUsbP3QxxaAxeLC6VONa
+	mre1UIs8teMGjAFJ3Qn2LTVRVePq3jlqwvEAvpO48ON1GdGUDZIn/PNlIHw4cX9ruQtil0u7LHh
+	4if5VU5+lSiU4XQ3Ytk1zbuLIu/KrOHph0MGfOqTXZ12TwWOXjNopn2MUOt/IFw+iP4I3amsZ7P
+	SVEq7FP+Za/+PYkNLZuYcQp+OSqYmQKPMIQloO3bddfogo26JtfDGOek6n4yg99wHv08yBubT3w
+	i2q5H+1WfqpJYY3a5QlytaB4WBDBbErgQP3EkxoptrH46HCtJ07hlV5F+GQgENLj4RCMKtWnGas
+	ePxy2RXkwKn7mCt8kcjyzfR5nhYKvIaRBExruXInXu16M5Tw==
+X-Received: by 2002:a05:693c:2b15:b0:2c1:3f85:747 with SMTP id 5a478bee46e88-2e47a1027d4mr10807993eec.21.1776779106079;
+        Tue, 21 Apr 2026 06:45:06 -0700 (PDT)
+Received: from phoenix.local ([104.202.41.210])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d8b944bsm19250116eec.28.2026.04.21.06.45.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Apr 2026 06:45:05 -0700 (PDT)
+Date: Tue, 21 Apr 2026 06:45:01 -0700
+From: Stephen Hemminger <stephen@networkplumber.org>
+To: Jakub Kicinski <kuba@kernel.org>
+Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
+ pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
+ carlos.bilbao@kernel.org, avadhut.naik@amd.com, alexs@kernel.org,
+ si.yanteng@linux.dev, dzm91@hust.edu.cn, 2023002089@link.tyut.edu.cn,
+ tsbogend@alpha.franken.de, dsahern@kernel.org, jani.nikula@intel.com,
+ mchehab+huawei@kernel.org, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, tytso@mit.edu, herbert@gondor.apana.org.au,
+ ebiggers@kernel.org, johannes.berg@intel.com, geert@linux-m68k.org,
+ pablo@netfilter.org, tglx@kernel.org, mashiro.chen@mailbox.org,
+ mingo@kernel.org, dqfext@gmail.com, jreuter@yaina.de, sdf@fomichev.me,
+ pkshih@realtek.com, enelsonmoore@gmail.com, mkl@pengutronix.de,
+ toke@toke.dk, kees@kernel.org, crossd@gmail.com, jlayton@kernel.org,
+ wangliang74@huawei.com, aha310510@gmail.com, takamitz@amazon.co.jp,
+ kuniyu@google.com, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
+Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
+ (hamradio) subsystem
+Message-ID: <20260421064501.4d71b943@phoenix.local>
+In-Reply-To: <20260421021824.1293976-1-kuba@kernel.org>
+References: <20260421021824.1293976-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/20] drm/mode-config: Mention drm_mode_config_reset()
- culprits
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jyri Sarha <jyri.sarha@iki.fi>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Andrzej Hajda <andrzej.hajda@intel.com>,
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
- Samuel Holland <samuel@sholland.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
- <20260320-drm-mode-config-init-v2-3-c63f1134e76c@kernel.org>
- <8f111841-bb88-4cbb-a3ae-b26ac2f252cb@suse.de>
- <20260421-satisfied-teal-serval-640ded@houat>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <20260421-satisfied-teal-serval-640ded@houat>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spamd-Result: default: False [-3.01 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	SUSPICIOUS_RECIPS(1.50)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[38];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_CC(0.00)[linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kernel.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com,lists.freedesktop.org,vger.kernel.org,collabora.com,lists.infradead.org,lists.linux.dev];
-	RCVD_TLS_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_SOME(0.00)[];
-	TAGGED_RCPT(0.00)[renesas];
-	MID_RHS_MATCH_FROM(0.00)[];
-	R_RATELIMIT(0.00)[to_ip_from(RL7gneoo7ydcsn9o76mxr5d8pb)];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:dkim,suse.de:mid,suse.com:url,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -3.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 836186A8E7
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi
+On Mon, 20 Apr 2026 19:18:23 -0700
+Jakub Kicinski <kuba@kernel.org> wrote:
 
-Am 21.04.26 um 15:18 schrieb Maxime Ripard:
-> Hi Thomas,
->
-> On Tue, Apr 21, 2026 at 03:08:03PM +0200, Thomas Zimmermann wrote:
->> Hi
->>
->> Am 20.03.26 um 17:27 schrieb Maxime Ripard:
->>> drm_mode_config_reset() does not reset drm_private_states by design.
->>>
->>> This is especially significant for the DP MST and tunneling code that
->>> expect to be preserved across a suspend/resume cycle, where
->>> drm_mode_config_reset() is also used.
->> Do we really? There's drm_mode_config_helper_suspend/resume(). Why would
->> drivers do a drm_mode_config_reset().
-> drm_mode_config_helper_resume() will call drm_atomic_helper_resume()
-> that call drm_mode_config_reset(). So (most) drivers will not directly
-> call it, but it is going to be called still.
+> Remove the amateur radio (AX.25, NET/ROM, ROSE) protocol implementation
+> and all associated hamradio device drivers from the kernel tree.
+> This set of protocols has long been a huge bug/syzbot magnet,
+> and since nobody stepped up to help us deal with the influx
+> of the AI-generated bug reports we need to move it out of tree
+> to protect our sanity.
+> 
+> The code is moved to an out-of-tree repo:
+> https://github.com/linux-netdev/mod-orphan
+> if it's cleaned up and reworked there we can accept it back.
+> 
+> Minimal stub headers are kept for include/net/ax25.h (AX25_P_IP,
+> AX25_ADDR_LEN, ax25_address) and include/net/rose.h (ROSE_ADDR_LEN)
+> so that the conditional integration code in arp.c and tun.c continues
+> to compile and work when the out-of-tree modules are loaded.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> ---
 
-I see, thanks. I guess you're right when you say that 
-drm_mode_config_reset() is overloaded. LOL.
+Acked-by: Stephen Hemminger <stephen@networkplumber.org>
 
-Best regards
-Thomas
-
-
->
-> Maxime
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
-GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
-
-
+PS: once this is merged will remove these protos from iproute2 as well
