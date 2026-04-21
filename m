@@ -1,86 +1,81 @@
-Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 482C23D1718
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8843A875F
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776779109; cv=none; b=OmPryZiTmffy4/oXuxJSUWAtlNgguSc3HqUjxKOL3656ozDcHXivLtnLhnhgLUtuHWNU05cY+Xos3B6Blds+Aj75D6EzJsNak6DFS1pic9I8BT4ekbZ0qB4AHAKZdC2dW0PjAHGwBRHHJIIUQI0y7ky4eNHvJfk3yneXgcy3Q14=
+	t=1776779238; cv=none; b=SzRpzqqnjnr9koNONehneLqCDbFxqovVI7rNnqTwul/CUGJuwgSYd4rpWcNZ4170wydEwXolq8EzrD1GHFyXelmhvIWqeoLHBreJTdmZ2wOd869/yhb7gG12vVBhNI/3jhr5CjOqD/RbonufwR0FZud9UgSfQhd6FF1H/C4zTEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776779109; c=relaxed/simple;
-	bh=bksQ0Ol5sH++UgZ7eh1JZKghAgg2lGd7XkvUWodW28Y=;
+	s=arc-20240116; t=1776779238; c=relaxed/simple;
+	bh=cPnsphPvzsrHtnf1o8LVbV3zHViJj9GbATvXL4hU8vs=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qZvHKDLC3SFiTYQJxDdd2RjAyLjfaoLoS6vbaL6tY24sLA3VbJiFIPkqTFieJiagF5i39Qgr9c6gX5KuskSpQ3AbiEJw0bcWD4r8RFCLTh0VS7dFJ1FT91cP+17g+IBmL5BbXG/9mEaFyIWfr4ihAnKP2uxp0Li6Y0LeQDTiaRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20251104.gappssmtp.com header.i=@networkplumber-org.20251104.gappssmtp.com header.b=cClBgcUC; arc=none smtp.client-ip=74.125.82.54
+	 MIME-Version:Content-Type; b=Taj/vEptFId5WGo4S3BuAQsIH9tL7FS3K7SmaPhjYjnhtL7mnsK9Vf1raVylY2wBJMPjBteMLQvHV9QT/vlqZ7qWOCwprVkVGungKjIalsrgkobzVydVBi3NR+ICvmkSTBSK4xu2SpfJYigWIwi96lH4DjwU9JmBY90dofR4/jI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org; spf=pass smtp.mailfrom=networkplumber.org; dkim=pass (2048-bit key) header.d=networkplumber-org.20251104.gappssmtp.com header.i=@networkplumber-org.20251104.gappssmtp.com header.b=vo/UrfbJ; arc=none smtp.client-ip=209.85.167.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=networkplumber.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=networkplumber.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=networkplumber-org.20251104.gappssmtp.com header.i=@networkplumber-org.20251104.gappssmtp.com header.b="cClBgcUC"
-Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-1279eced0b9so6118445c88.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 06:45:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=networkplumber-org.20251104.gappssmtp.com header.i=@networkplumber-org.20251104.gappssmtp.com header.b="vo/UrfbJ"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-479d5ff103aso951339b6e.0
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 06:47:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=networkplumber-org.20251104.gappssmtp.com; s=20251104; t=1776779106; x=1777383906; darn=vger.kernel.org;
+        d=networkplumber-org.20251104.gappssmtp.com; s=20251104; t=1776779236; x=1777384036; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=C2J0baGW2c8ot7ZAwlVMoVMOKmtoMvPmfiKlkz6ZsUc=;
-        b=cClBgcUC24FdpKU2JnH4Pa8ghonAWun66lvlqsMc0TS6SM3qmynBXdFhPo3KpyVpL3
-         DKjBYtxguUkFOqMANugRC3jAVyxb1ZX6dIcyw6hwUjpTwr1XE7gW3u5T4G0BSoU/31g9
-         voXRPi2wMK0NpJqP4ugLXin628LoKtljsRGv2qYTQYKQ6RgT80/ydejV1z85/MIC+w+h
-         lnDc+oJqG4bbglJfzOb+2uxxrAF0hOKL+mnm99VJMHoiInwmUg1N6YN+idWC2RW0UxMd
-         SofU7/kyVRijZ8CC5mVA4YW0PPNBSr1Z3vkxdLcRafiF67aAhqK1yY1Iz+bZuYcc2sdm
-         Pmmg==
+        bh=ncZC6vM9FFS1oO5nJct87+zQrMiu09u9moJUQ3KEN4o=;
+        b=vo/UrfbJvKLB2plXoOTGIHW8XsWBJ/onm4e3AsV0Jeh6iaIETIG1cG8W06GfzZ/lbH
+         50aCIeGvZvniGCR7fMpEz/GdjifxuXxFiPP6gO/bvkNFaER05kO1QcBa7OOMiulcxK0H
+         WqCchgvPPUKnx8PbQRiPaWqcCsD8V9BkVeZgSWzvtErowJDBV2JIXpVzTsa/JjWA1/i3
+         DJng/kIIVcFeHXhRrxeIVdhV+aRyBEBLapNrTXk6wjvdiyUkD3l6Md9GioPd05dYKmTJ
+         NP5vYK0LUhP7dW7FlWpBKKTvA44Hv74FwVOCf006ePfm4yYIyQld5qV0eQk4dRikNkma
+         JtbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776779106; x=1777383906;
+        d=1e100.net; s=20251104; t=1776779236; x=1777384036;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=C2J0baGW2c8ot7ZAwlVMoVMOKmtoMvPmfiKlkz6ZsUc=;
-        b=Jsx3Wdqh63LvmulgakoabfRBGGG5QMwMz+QzbIriqeAKnXqnj6C+GIowVw5oToW8Mu
-         oNp2a7FR7yPZXe0cqXlAyewPXKyVOpgE3J6SkPL6jW6whYEHWoN7bLZGfA0yUccS8XrT
-         +mFqI8uAG3zLkyM8pf5gZ2GEl0AEe/ui3ps9YlOnJCvhXCyGIM8q7zEg1ZdEic+MEdRs
-         EWwriSbSyRt1gur6pXq0cTqg0kWulKZH/yNRuZ0j+BvV0ncmaLI9RrKynCoRkpLRmO6N
-         LE6yLDs7EwbJz7h0BFdqauqJrDwqbGNIY/bqez3NCFS9ql2X+TdBcMtOQJV2YPmE1DDB
-         MBRA==
-X-Forwarded-Encrypted: i=1; AFNElJ/TFz1bA4+jEIaxZHBlVMsrav/cFv/WuddDk88W215IcZUqJTphTHHFAsVdxrUmeC+izW6n1UoBNzs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIoG0GiNdEW16Avz6nke4q90VyqvTBDSh8sFtlFRnKgLKTP1n2
-	OmvJcNkqnF6Tcg7jLJnFq1qS8pKULeaX/bqVy5lb0uKZAMcu31F6SuKJcKTSYuXeP/M=
-X-Gm-Gg: AeBDietwrXn1pKICQcanfyVTiLPjztz7/zTh+mb2aLVbAlH27imVfUDAH/bXy0z1pw7
-	aTwtURmLe/IXM4CUSYHEqT/QJIlqpPMGA5jm3NMvlPHBELKHlClKlt6WUsbP3QxxaAxeLC6VONa
-	mre1UIs8teMGjAFJ3Qn2LTVRVePq3jlqwvEAvpO48ON1GdGUDZIn/PNlIHw4cX9ruQtil0u7LHh
-	4if5VU5+lSiU4XQ3Ytk1zbuLIu/KrOHph0MGfOqTXZ12TwWOXjNopn2MUOt/IFw+iP4I3amsZ7P
-	SVEq7FP+Za/+PYkNLZuYcQp+OSqYmQKPMIQloO3bddfogo26JtfDGOek6n4yg99wHv08yBubT3w
-	i2q5H+1WfqpJYY3a5QlytaB4WBDBbErgQP3EkxoptrH46HCtJ07hlV5F+GQgENLj4RCMKtWnGas
-	ePxy2RXkwKn7mCt8kcjyzfR5nhYKvIaRBExruXInXu16M5Tw==
-X-Received: by 2002:a05:693c:2b15:b0:2c1:3f85:747 with SMTP id 5a478bee46e88-2e47a1027d4mr10807993eec.21.1776779106079;
-        Tue, 21 Apr 2026 06:45:06 -0700 (PDT)
+        bh=ncZC6vM9FFS1oO5nJct87+zQrMiu09u9moJUQ3KEN4o=;
+        b=Mw4pkOixK07GgAGkcsS90AC7HsnFGlAb17kUdtmUERmsyLafzZV/y0EKcFc6UkCTX7
+         ohxrYy/n+tY8s5evYmRALccUvLbDfwsGxXhHNjIuG/N+sCjqVXTZ/QubSzizlvZ8y87K
+         22O1b2kqMdpj4ApvgPPQ82HZsFUphbN/QZ43Ll0yeMV5Ykmay7SsU9dIF3149OpwRLhW
+         KJ0f5+WFdxTPZRio4+3NTaVOni/pfcZ7MObx7xOGinj3net1T9x9zdoTH1GHKACx+ng1
+         9MTn0OGgklt0sfUKnG4MNGY6Yxz/ct8Qw8183wQqURMvTzy8kyBra5ASYzBUcvUb3V13
+         4FnQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8nyk/HT7Nw7Eu5ZAAAJTDgBeQqgmWnPXL3i3SmR5K59h928P+m0npROrO2Z0ZmborXhkuUIPlZvWs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEvTZOH31eyeQvj459biK6Jg1Zpj2iDBUxNHSLsWClugcHpisS
+	5Iwn9GQHl8YxjqP+/14oi1Bkv4r5iQSnyd3k8R7eJipM3G6UY3ZqxRtmZIMoAyRsUAw=
+X-Gm-Gg: AeBDieuwX+2T6rGa7Hl8Yn3Et+U4KpFM23Iff1CFhaTg8if1ZGrbKpP4fHEB3ywSEfE
+	j1Qp+J6JrWUlriCTEdeR0Ly8Z469UCnN6KHp8lWBbPiahnMliB4qfN6r202jz+XmjY8WPuVf3pf
+	AeBz3q7Mj2aKG/4D+v34p1d2SCh3J80Nkv0yZMIrkGgBJmgtbj71+2sqxVbbd13M3mo8Ls0KRIL
+	vKzROn9m5WUI4kUrbj3jQwb929focYdaYTEF6cc6LI48S5GJr1bTd2J4DllZp8zhT0ELCj6xZga
+	riC2KlS44nga6J64JhuPVHLs7jmPWZm7TZeMJz6cb2a/N9TUACAi4ydeN6DVyCv8ZQxfBjuXbta
+	nSin/fbSBc/dQO/9yNs7TvZvXMkBj6gt/k1TNNeVbE75akZJn0gJC9ae3xj27Z3X2m/zZyY5KKi
+	o7tm78QqOWeEL7w2ABNB3c9uptMxnvNOpRc7ubEUVOvesAeQ==
+X-Received: by 2002:a05:6808:1a06:b0:463:ab56:9ec5 with SMTP id 5614622812f47-4799c8f3109mr9384478b6e.16.1776779236082;
+        Tue, 21 Apr 2026 06:47:16 -0700 (PDT)
 Received: from phoenix.local ([104.202.41.210])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2e53d8b944bsm19250116eec.28.2026.04.21.06.45.03
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-4799feaabf2sm8808115b6e.4.2026.04.21.06.47.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 06:45:05 -0700 (PDT)
-Date: Tue, 21 Apr 2026 06:45:01 -0700
+        Tue, 21 Apr 2026 06:47:15 -0700 (PDT)
+Date: Tue, 21 Apr 2026 06:47:11 -0700
 From: Stephen Hemminger <stephen@networkplumber.org>
 To: Jakub Kicinski <kuba@kernel.org>
 Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
  pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, federico.vaga@vaga.pv.it,
- carlos.bilbao@kernel.org, avadhut.naik@amd.com, alexs@kernel.org,
- si.yanteng@linux.dev, dzm91@hust.edu.cn, 2023002089@link.tyut.edu.cn,
- tsbogend@alpha.franken.de, dsahern@kernel.org, jani.nikula@intel.com,
- mchehab+huawei@kernel.org, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, tytso@mit.edu, herbert@gondor.apana.org.au,
- ebiggers@kernel.org, johannes.berg@intel.com, geert@linux-m68k.org,
- pablo@netfilter.org, tglx@kernel.org, mashiro.chen@mailbox.org,
- mingo@kernel.org, dqfext@gmail.com, jreuter@yaina.de, sdf@fomichev.me,
- pkshih@realtek.com, enelsonmoore@gmail.com, mkl@pengutronix.de,
- toke@toke.dk, kees@kernel.org, crossd@gmail.com, jlayton@kernel.org,
- wangliang74@huawei.com, aha310510@gmail.com, takamitz@amazon.co.jp,
- kuniyu@google.com, linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
-Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
- (hamradio) subsystem
-Message-ID: <20260421064501.4d71b943@phoenix.local>
-In-Reply-To: <20260421021824.1293976-1-kuba@kernel.org>
-References: <20260421021824.1293976-1-kuba@kernel.org>
+ skhan@linuxfoundation.org, marcel@holtmann.org, luiz.dentz@gmail.com,
+ mchehab+huawei@kernel.org, jani.nikula@intel.com,
+ gregkh@linuxfoundation.org, demarchi@kernel.org, rdunlap@infradead.org,
+ justonli@chromium.org, ivecera@redhat.com, jonathan.cameron@huawei.com,
+ kees@kernel.org, marco.crivellari@suse.com, ferr.lambarginio@gmail.com,
+ nihaal@cse.iitm.ac.in, mingo@kernel.org, tglx@kernel.org,
+ linmq006@gmail.com, linux-doc@vger.kernel.org,
+ linux-bluetooth@vger.kernel.org
+Subject: Re: [PATCH net-deletions] net: remove ISDN subsystem and Bluetooth
+ CMTP
+Message-ID: <20260421064711.04e3e71a@phoenix.local>
+In-Reply-To: <20260421022108.1299678-1-kuba@kernel.org>
+References: <20260421022108.1299678-1-kuba@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -90,28 +85,32 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon, 20 Apr 2026 19:18:23 -0700
+On Mon, 20 Apr 2026 19:21:07 -0700
 Jakub Kicinski <kuba@kernel.org> wrote:
 
-> Remove the amateur radio (AX.25, NET/ROM, ROSE) protocol implementation
-> and all associated hamradio device drivers from the kernel tree.
-> This set of protocols has long been a huge bug/syzbot magnet,
-> and since nobody stepped up to help us deal with the influx
-> of the AI-generated bug reports we need to move it out of tree
-> to protect our sanity.
+> Remove the ISDN (mISDN, CAPI) subsystem and Bluetooth CMTP protocol
+> from the kernel tree.
 > 
-> The code is moved to an out-of-tree repo:
+> ISDN is a pretty old technology and it's unclear whether anyone still
+> uses it. I went over the last few years of git history and all the
+> commits are either tree-wide conversions or syzbot/static analyzer
+> fixes.
+> 
+> When we discussed removal in the past IIRC there were some concerns
+> about ISDN still being used in parts of Germany. Unfortunately, the
+> code base is quite old, none of the current maintainers are familiar
+> with it and AI tools will have a field day finding bugs here.
+> 
+> Delete this code and preserve it in an out-of-tree repository
+> for any remaining users:
 > https://github.com/linux-netdev/mod-orphan
-> if it's cleaned up and reworked there we can accept it back.
 > 
-> Minimal stub headers are kept for include/net/ax25.h (AX25_P_IP,
-> AX25_ADDR_LEN, ax25_address) and include/net/rose.h (ROSE_ADDR_LEN)
-> so that the conditional integration code in arp.c and tun.c continues
-> to compile and work when the out-of-tree modules are loaded.
+> UAPI constants AF_ISDN/PF_ISDN and the SELinux isdn_socket class
+> are preserved for ABI stability, but the rest of uAPI is removed.
 > 
 > Signed-off-by: Jakub Kicinski <kuba@kernel.org>
 > ---
 
 Acked-by: Stephen Hemminger <stephen@networkplumber.org>
 
-PS: once this is merged will remove these protos from iproute2 as well
+Will remove it from iproute2-next as well
