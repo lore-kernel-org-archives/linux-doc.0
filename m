@@ -1,414 +1,273 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9258234214A
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 03:12:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C0D3845B7;
+	Tue, 21 Apr 2026 03:17:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.8
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776741154; cv=pass; b=Rhb2xqtABiQ8KIcn/Ld3/z0lb2iah9eterbcBmVq+H2Xx+Wg0/TuCetUupZwoGIzs48Z4Rj2JhVvenPZbVXSwyyQef4eYEZThC2JnzW2QHDOmLloauHCIjEQcqsX63nKaPug6S5TRyH6oEwpw1R4Y2dI0Xz2ZKm2nSvNk4YGpXE=
+	t=1776741459; cv=fail; b=nFQBNIi9wXTIJYcswSaS6Nad9ZSxMvpJHKn8a8QObD95BAkT2R3Vz9nPiFksY8uJxELdcDXnlD81Lee3e+odRHJWN/Egn2ptsJBHPm8LchanvwowN3i+32xpJx8+7LgFCMdvvg/VLkjATveiCvNtvwqVzBkR7GFn7Z38BdgUV6s=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776741154; c=relaxed/simple;
-	bh=TB7+xGKrDA/gq1bgPQ89IONDVihb+vSN5EBGdRTMuSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=A8wvhYiaFbVxcp6l0WwYaUJBe8QEMFo28bQeFLFfHOTaXmf2YHGeZKzj8wsGl5BSaBqUuS4JtH+uwXknWpW+rx4TM5zPdYx5JRFgPm02WByMnuhzvAfrRoE8hL4v1hvBvAV2+VX67VKC/0ZnN/lNCL5iOLm0xGcOb7zNSoEagFk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VxTOuq2i; arc=pass smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776741459; c=relaxed/simple;
+	bh=IY2SpDGjFV/HQxENAiojbkIAv0Rz/HRJFbNjgs6Kis0=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HEfmPpQZgRVa6xaDHQjR1rP/O98lNrTSSRuHQ/X+5pg1dus8v9St3u/2boBbUNbMkFLI9tp4f4wkCRrzk1bO6O4ywMUjVfuIA4M29WvcJIgymKBTPd+zu0uknT90dfvctskc4hNRb8yYgoM4QnBNY9nC1OeDf6peoK17qGfwUjU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g8cgiDnZ; arc=fail smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VxTOuq2i"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43cfd1f9fd1so2274928f8f.3
-        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 20:12:31 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776741150; cv=none;
-        d=google.com; s=arc-20240605;
-        b=MSqzYmrjMjQW6Iq+W7mu8cUj+S/2Nlf/B5EnRjWQ29Hvj98x7BEtZlnh5WjqP+m1AQ
-         ZWJYziuk4UmNydF50zOtgmZQum+ToCpUZBrF+pjom3B6WH72CJfqpKeIZj7Nj/qohN4X
-         Sb/zbH2IDUnYJ2AZuXKOo7QXqKosetbQrGQvzr7FfBLyZ3GaFwLCif3ylg7s9WxzvNXB
-         qRfwL8lt31L1lzqXIKCcn7qK7zGZstroA3bbmZO8qM95pz4Kk+HOEijKTsBuKv6DUwtE
-         SDcebw2tP7w1aJguvKrP3d9ihEIsgj+N9/a9JIHbm5Dv8xWFxITd0wZ7ojS5OK2fUj3p
-         9n5Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=LZ3Z6vV4CUJEh8+FzQ0fKNGkP73y+YgkoPeSqUJ+lTQ=;
-        fh=pKuFS9Jcg7EaBKNLtCRkhuBzJzM0jl85llZbEi1Z/G4=;
-        b=Tk/ADGNdlElwE8tC+RepOEz8rIy4gOUiFZmrlYuNOnYDm/jmQYQlJc0aHv6HwwgeLJ
-         e4/22pPK++91pAHy9DTQ9VfFvsMj3ChDc6OAQZXowLp7C5pSdjz3G+mzGsZFmk71nPmy
-         4LSTUWv1wH0hxVU+Wp6eofiwHrE9aCjYwl7QhNiHnD7iidZF9GDNfWk7iaUX/Me/4xZj
-         hDk2a0LMB0q3y0JK2lf8A3a+XbzJqETFCKPu2A0Jlx6QhEu5ey6m2QPqoETCZ02XkobO
-         1JVijzWPp3xZ6Eonuz74hbd8FBtgNdpXJ72+ZFQKSNk9tVZoB2T3xFNdntSiw92U/ynr
-         C/Rg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776741150; x=1777345950; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LZ3Z6vV4CUJEh8+FzQ0fKNGkP73y+YgkoPeSqUJ+lTQ=;
-        b=VxTOuq2ieOjSjIZ+NwszhYIOdTwi+J+IRon7g2KD5rLrdhK/ZSkM+ox5fjDA2GoFw5
-         YPjlFML6JTgNZoeuudQUXrrTlxB6flI9CIa5RVP2G/q6VwIzCX2Fb9ww6x3ToWMknZZb
-         eaDNfHWikMxuISa9bZAcQl7EjGSzIX0oydjtdoyrjRiYGW2of4ZZGsfZzayK1PedtdyG
-         gyatBD8ohcP504ab4FtfzMBIUy+qMlse7WsPYfkQhONdImqOR7Ti0HAe2lZoD8eR5mJZ
-         3H8dBhuYe+ZgwtUdf+kz6gUvf45iXt6RB+eOHBmH9SJio1cHxA1Rb1txmdOFwXu9gxKY
-         erPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776741150; x=1777345950;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=LZ3Z6vV4CUJEh8+FzQ0fKNGkP73y+YgkoPeSqUJ+lTQ=;
-        b=SRtoGi9HAM0925sYuNf7t/6heIvuaH4QUzKx8l/EOWvcUD5/OejsKlwH4iYzKn+man
-         CREssyrOafsJC7jDJBFi5/7rtqe5noTWgMKu8tl3iEypdDVure7z9ykKtc3f1yte/6Li
-         Pu5vx9G2qZChqacRxYVCh89V8b7x+P+CPgdCzKpcCFv8DyqT5dlukaL2dOMglWsIZP71
-         2LNigCFCOH8KHiX/8rZKGLZekz3ADYZYab1u0wmv16uzM9hgN9FRLpRZOgG1Fk+RBjOW
-         kXIDF203gbL92w4HwWvVFpNn/M7Nz4/t4o/fpjGCBgFbHb0BZuXRpTNnotMo7Qv3BuQa
-         3eyA==
-X-Forwarded-Encrypted: i=1; AFNElJ+b46xpQ182to9GwvCwXP77sC/swgUxZQ+h8akrn7THeP8ACk64Yu3OqzsdRXLi1pKPrKeQa3EAeWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwW6JrN12m07cIuhUVI9Vnt6mCM+tt1wNWgG2J/Zf9qE/xc2PIS
-	CAnxcOwj3pqpwLukCdrSyPUlC5JnjfiAFeplOm8KnyfrM398aaHnj784zdtiYR2EcG/nSboopCB
-	91yowWHYvpQUz0dijHHVeVXSpQl+vm2s=
-X-Gm-Gg: AeBDieuCTUkb86xrsaiY5fNFCejdZ0tsm8Cuu3a3WK2LmhLPrTzcqSxU2MAQJHN705V
-	ru4cQU6iADIcdNZWizkIyMB3C8MbKzhm71bh7OMMGlhc7AL1QSaOQjfV6wzcA1aGwuFnSoTD1ED
-	P2b1LOcVtyjEYNlowXWVP2hFNAJ5s9tyJoszJr5sdCuf/7vZd8npwOklNRTSLheftYdofQTftah
-	0+jHyLsCjnD4UXAiXp0La1FiNvyHSyhMheBCCW8DU7Bw4H89ABaaaLdzwbaECy990WwtMnmOPYH
-	BOnj1aRLefYmDUUG
-X-Received: by 2002:a05:6000:2282:b0:43d:7a97:78a2 with SMTP id
- ffacd0b85a97d-43fe3e09218mr24740414f8f.28.1776741149536; Mon, 20 Apr 2026
- 20:12:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g8cgiDnZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776741457; x=1808277457;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=IY2SpDGjFV/HQxENAiojbkIAv0Rz/HRJFbNjgs6Kis0=;
+  b=g8cgiDnZ2CBQYbQ+pQ3orQer/77csRP7vqKZUKiwPx2m6WL/g/c3Yib5
+   FF8arO95YAh1g27ixf89zxZiyLbGG1L34ObeeBB3MMQkgwiDEPliuX5IH
+   V5c9b90HnVSUs/iRwCK0d3WGBoFBzuhZUCysLvnPyRmPOBdtLNt4ynk9R
+   OzlVm9mzBuVMPGIwK+EcZsl8FE40VEsk+U9VMFv6NRN6hQ0k7tN31f6dJ
+   IuBj+whvlFyj2hJBCQxMRDjSe8b5O8fKrFr060hikLgmLigfk7ARLN8eg
+   u4mnYE6vFfhXCNeMTL1ZeyDjHAh4NkYmiFQhCwKat/nqcxNA4T/kOToL8
+   A==;
+X-CSE-ConnectionGUID: TdD3N/MRRvCOImRCT9AJ9g==
+X-CSE-MsgGUID: OaTVJA+yROe3fkY1JeVzpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="95225214"
+X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
+   d="scan'208";a="95225214"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 20:17:36 -0700
+X-CSE-ConnectionGUID: X34ONPPIS8aiB9KaZ2cTKg==
+X-CSE-MsgGUID: juHqjvIzTCa3crGLnxdmzA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
+   d="scan'208";a="229231944"
+Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 20:17:36 -0700
+Received: from FMSMSX903.amr.corp.intel.com (10.18.126.92) by
+ fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 20 Apr 2026 20:17:36 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Mon, 20 Apr 2026 20:17:36 -0700
+Received: from CY7PR03CU001.outbound.protection.outlook.com (40.93.198.70) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Mon, 20 Apr 2026 20:17:34 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=K3XPU5IYOGZDFx2drZUO1pVikhkCcnvT7eQ0n0jwhVesyo9cC9VfH9jbnhZqZAtFEY9BIy0I2Wf/rbfKqYMgagPjm6sHLcQUQCFyDxHlSy/p0ybWGB6KbmQ54lPtD2lVDyU99UrKwTiHO/QfaC4wmskmvC6lUC2ZYZcHi0dqPp9ljiPwVvfaKYzICZoEMUPw7oRvlTGzl8ksSeX5U//hLzBjSbkPSzBU0SGxaeujXrBlqj90MEGDjYMpyjCDDvaOxByet2Ucbyto9zTwm0Var4JrbEjzsA9yBlTCx1er2+sD68W249hM0SV4HLE+lFwXhX7tVP9yoDb1ArYdxt7VYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tyA2VDSydsp8ewxOqjwRjvJstA24zXRxFWjadPYB9XU=;
+ b=Xu89NxrSOs9UB/OxaGjCdK9XWAqL7Sp+Z2QBuLEkErDnaEF+RRSLgk3mwoyvDvErs2h+EmyndHHaSJVrzdQ602kmUzpjMt+BETql6/gIxNkd77GLbEFnOm9XCzDyEgQeMou7F8b1VCbgw4rJNEZFpg/d++jzTj5HCqjHKKR/geoRhFFx9tBTrQnlcRyR/k0IqsIg5eYKOGIw1PWd2XHY6iDefgdOAEgI9UZX26ilJuIloAASG5NoCNs5MIiDOSwBUPyyQsz6KfxmR5AtjDTxtqERj8XGRgjuHk8SOYHLeZo2MA9sWbkfCqEbL07gc3z5x8W405FmpoCwDeMnCSdehQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA3PR11MB9062.namprd11.prod.outlook.com (2603:10b6:208:577::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.15; Tue, 21 Apr
+ 2026 03:17:24 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d%5]) with mapi id 15.20.9846.014; Tue, 21 Apr 2026
+ 03:17:24 +0000
+Message-ID: <71099958-1ddf-40dc-8a3c-aa13d0c56fee@intel.com>
+Date: Mon, 20 Apr 2026 20:17:19 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
+ support to the resctrl subsystem
+To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "tony.luck@intel.com"
+	<tony.luck@intel.com>, "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
+	"james.morse@arm.com" <james.morse@arm.com>, "tglx@kernel.org"
+	<tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+	<bp@alien8.de>, "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+CC: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "x86@kernel.org"
+	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
+	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
+	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
+	<vschneid@redhat.com>, "kas@kernel.org" <kas@kernel.org>,
+	"rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "pmladek@suse.com"
+	<pmladek@suse.com>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
+	"dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>, "kees@kernel.org"
+	<kees@kernel.org>, "elver@google.com" <elver@google.com>,
+	"paulmck@kernel.org" <paulmck@kernel.org>, "lirongqing@baidu.com"
+	<lirongqing@baidu.com>, "safinaskar@gmail.com" <safinaskar@gmail.com>,
+	"fvdl@google.com" <fvdl@google.com>, "seanjc@google.com" <seanjc@google.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"xin@zytor.com" <xin@zytor.com>, "tiala@microsoft.com" <tiala@microsoft.com>,
+	"chang.seok.bae@intel.com" <chang.seok.bae@intel.com>, "Lendacky, Thomas"
+	<Thomas.Lendacky@amd.com>, "elena.reshetova@intel.com"
+	<elena.reshetova@intel.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"eranian@google.com" <eranian@google.com>, "peternewman@google.com"
+	<peternewman@google.com>
+References: <cover.1773347820.git.babu.moger@amd.com>
+ <5a740f47-d3f3-45af-9d8c-ebcf3dd89c0d@amd.com>
+ <3305c18e-9e50-4df0-b9f1-c61028628967@intel.com>
+ <c6f574b7-fe5f-49ae-9865-0e4dbb2f9803@amd.com>
+ <efc269f8-bf98-4f12-8d76-1fee564be84c@intel.com>
+ <0ae2b267-4527-4251-9136-6afdc3fc97a5@amd.com>
+ <72297351-2954-4318-81b6-7de409e5552c@intel.com>
+ <20aaacfb-9601-4343-a5d5-f3df6152155b@amd.com>
+ <43880b7b-b390-4e7f-8c2a-46cde9e3b051@intel.com>
+ <bb9f62f1-0c79-4d29-9866-c39d08c3a774@amd.com>
+ <5a273b0f-8225-4e9e-924e-884183734659@intel.com>
+ <73c46024-4cf2-4f03-9268-d4378825fa87@amd.com>
+ <973067bf-6e6c-446a-a81a-713840d701a9@intel.com>
+ <90f4a692-1c27-4967-bf12-ec3cb597681d@amd.com>
+ <68a551ea-d9f0-436a-9bef-e35fd027bb95@intel.com>
+ <39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com>
+ <b74cfe34-e23e-49e3-beb4-d5639d42d5cc@intel.com>
+ <99a2da36-6a21-4a99-98e0-3c9a4cf7ecf6@amd.com>
+ <741aa53e-461c-4a1a-a701-6060d42012f8@intel.com>
+ <e8530c71-fde2-4522-8b46-a24efb13b681@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <e8530c71-fde2-4522-8b46-a24efb13b681@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0012.namprd03.prod.outlook.com
+ (2603:10b6:303:8f::17) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <adkDq0m5Wt9YhJ8A@groves.net> <38744253-efa3-41c5-a491-b177a4a4c835@bsbernd.com>
- <adlBcwJjLOQDAR65@groves.net> <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net> <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F> <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
- <aeUU8hMwPij2WvfF@groves.net> <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
-In-Reply-To: <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Mon, 20 Apr 2026 20:12:17 -0700
-X-Gm-Features: AQROBzCXrJPeZRWF5tNFcpUVaUlS3AP6Uy-uF-YDGWgd26fL7TVr2aqUE1sGo-8
-Message-ID: <CAJnrk1ZpPS9rOoBqOBRsqTu0Zgk=aoYzpYZ0mAVDCoeewtLhcg@mail.gmail.com>
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-To: Gregory Price <gourry@gourry.net>
-Cc: John Groves <John@groves.net>, "David Hildenbrand (Arm)" <david@kernel.org>, 
-	"Darrick J. Wong" <djwong@kernel.org>, Miklos Szeredi <miklos@szeredi.hu>, 
-	Bernd Schubert <bernd@bsbernd.com>, John Groves <john@jagalactic.com>, 
-	Dan Williams <dan.j.williams@intel.com>, Bernd Schubert <bschubert@ddn.com>, 
-	Alison Schofield <alison.schofield@intel.com>, John Groves <jgroves@micron.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Bagas Sanjaya <bagasdotme@gmail.com>, Chen Linxuan <chenlinxuan@uniontech.com>, 
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>, 
-	Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>, 
-	Ackerley Tng <ackerleytng@google.com>, Aravind Ramesh <arramesh@micron.com>, 
-	Ajay Joshi <ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>, 
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>, 
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>, djbw@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA3PR11MB9062:EE_
+X-MS-Office365-Filtering-Correlation-Id: 162f7a74-0aaf-425b-b114-08de9f5481dd
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|366016|376014|921020|56012099003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: v7EKY4FAchGKlg7H0Zwz2hqvdXOmts8uhn3jfsvA5lPnCQ3HgXoXHsFXwHEUC2P0M0dtz2Qw278pZaeZ4WaIuwdbhx0gIzSQiL31yWk1IiKrXTFqzeJDCWCyaNy+qQh7wyDSnIoyg4s08q45Vk3cWui700gg9hcDOgNCDUgPvp0njvjpw+ECGC/KuEfiVV2XJnrsxLcOoWCekeXvYApq9oxW7wdP7rcMyVNxMhW26eIQURtgD+kYZ64YngMhBlHvYxdm8doVo8zEaAc2LZLrIkYtFpezOzrALZ6A6fve8vJULgMIOvPCL/zwn0JDFsihc0DOQ4EouUcRFP3OEfJUio7/HMC2YJNLZ8F1s1WQqyAsbcjr+9+y+j/ORQjN65PAuIg02JRYPvLAEZ1UHbmkOUDDFEh4N4yvbNWAc4iG+aYPKhlWQaqRQqbiTUt1DDIToTEp5/ZoKQyjoHNw4rFtkAcX8upDMmbgXIDKgq2MHOl86qh1IjVNWBeV9HV6vGqIjWddNRKA2TLjZI4z9dQLRsPai972iOTATyAYRQebJbgCQYOR2TyGFxnltlYRv52sMGT/JATDh/gTP5VoUsYYwgGIXBovCTiezjo1gWnffdEqy08tVSJ2bkhdWKJDn5aySiOeELTswD/CJ6oUwo0XHz5yYgrqc29EBL6+ZErELanM+SqKOam146qT/9KLvi5e8XE1mENa80CNBFaIN+aaNs9n6hA6aEOkbYoNiCo7+jqzztZ28SLG/nipHA9dwCjH
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(366016)(376014)(921020)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UFpCbmNVekNNbkxGZjdXQlFwdlJxMWl4NVNlMklvbjJTMElkdXYxOFNna2x3?=
+ =?utf-8?B?Yi9OZ0NIREovYXVIVkdmazhHUTh6YVhLcCtuUVhKMTNlQVdEcVh6blVubHhp?=
+ =?utf-8?B?V0haOVFxR3IvWGNzNVI3RHpyMGQ3VUFZaGNtaDgrRk9KTU1hUENmci9rVyt4?=
+ =?utf-8?B?Zy9iQTNlRzFSVmRVZzdOS3pCdzZNNDJqVmZQaG9nNkUvSkZsV0VSUDYvV2c5?=
+ =?utf-8?B?aDlOOUIxdkpaN2hMZHZlQUtQQlhTSFlrdUxzSHhtc2ROVHVGaDlIdk12RVlS?=
+ =?utf-8?B?RUoraitnaVdoY045dVk4bE41NEZlTE40MFlCSGVVR1NjQW0zQlFuVDlYOVlL?=
+ =?utf-8?B?NDlKUnpBMVkvaUZnU2JvVHQrb2g5aklidGQ5M3ozZ3VWNkczS0tIRVdpZXk5?=
+ =?utf-8?B?c0NvN3NHSE5qNDVXT3QwY3lUTTd2NDlqOXJPVDAxQ1o2T3psSlE4cWJVNmlH?=
+ =?utf-8?B?aHR6TTF2bnIvWVJqTk8vYTZwTEFLZi9rV21aOEMrWVdQZG1QbW1uOTBNNno2?=
+ =?utf-8?B?dE4xYVdFSGlmWTBURW51VkJGVVc5S1dYY0EyWTlBaGxlMm9TYTJJbitWZnhi?=
+ =?utf-8?B?czJBOXVCTlU1dUh3UU1DUzN3UWRkcFZZUHhHU3haN1I1NE14MjlwQ3hveVlK?=
+ =?utf-8?B?akxXU0RabStLc0tacVVBWVJBVmVLZW1LYytnVmZPbWlvd0w0QVBZYUt0Vlc2?=
+ =?utf-8?B?ZGtUWU1YVmtQTmtiazUyOXNGWVo1K1F0TVY0bzhRM2M1Zkw5VDRRWUJ2YmNm?=
+ =?utf-8?B?SmhEYTFvRlFkZmQ1TkpwRmp5NlNkWStKeTJ6M3dGb29vb2VlODErV29KUDRO?=
+ =?utf-8?B?a0VCei9vQ1VLRGRNVUdGR2VJV1lyeDRXNlE1Z2N1SjI0aDVnM2Z3cG1nN0Z4?=
+ =?utf-8?B?R05VZXBNUEpYbHNJOGxOQTNwdmVyTVVOWXFCWGlSbktpbHFzTWJyYXlvZEFv?=
+ =?utf-8?B?YitwRmRkSUVtY1N6K3pPZVJFQitERG1oSDNkeUtET05pN2tDT2t5bnlXZDAv?=
+ =?utf-8?B?VGo3bUFFa1dqTXByR3lYOEI3aGxnRUFsNHUzb3g5YlFRTjdMcVYzeEdqNjBC?=
+ =?utf-8?B?Q29WY2s2MlA4djY3Mmk3bFJrcStHc1dPcjNDUXFIenVlaEV1YnhBQjR4OElW?=
+ =?utf-8?B?b3diRzk5cVpZVy8zS3JCRllHRHNkK2lCcnloRzFVTUlXbWYxdStKdEZvTGVp?=
+ =?utf-8?B?blBjc0NZVEVyMHR4cUh0SEdzQTAxYVRKb3VPLzUxVENNaXN3dFdCSFc4Vm1K?=
+ =?utf-8?B?ajUya2pOSHBCbVNBeEdNeVNlN1N3c3NTcmF4b3FNSWFnRmU1ci9ZM2NaUGJN?=
+ =?utf-8?B?dXk0L1FUVkZDMGdweHY0ajg4bDVtaHlEYVFIdzJmNXFWSE1lNmE5OFpVUU8v?=
+ =?utf-8?B?djJYUUVvdkRibmx1bko4eXI1dytWR2NJWEp4djVhMDFaSm1wV3VadHBVcElp?=
+ =?utf-8?B?WS9uMXBQS2Q5cnZBNndQQk5lSFJ4MFNDTnNNcHp4eUxPRmtpMjE1dEFsYlYy?=
+ =?utf-8?B?VUFnMkhmQWlXS3BqM1pySkhNRnNYNGNRYmU0ck05ZFd3N3VKZE9EdFEvZzMz?=
+ =?utf-8?B?dXFWVHM0UWk5NXRnR2E4TUw3U0pxUzcrbzF2YlM3QnpWTHBqaWk1MmdlSXBN?=
+ =?utf-8?B?b0N6Ymc5QUxha0grTy9LV1Roa0x2RG80SFA0c0UvN0RpWkYyMmplRVdaemRT?=
+ =?utf-8?B?UWZpS0VZai91RmJzMHRrUWxvQ1dJQVJKMDdtcVd6djFDMkJSVEVOWFJJOThL?=
+ =?utf-8?B?QU5UZ2tCai83UUNHV2s4aVV3Ui84NU9wRld5OWtDcTVoTHlSL1loQVZGOWdx?=
+ =?utf-8?B?WXZCUjRkS3RtSVRCRlMzcTJWSWtWUVg4MFpyNGxncDlyNTg5d21xVGsrcXJ6?=
+ =?utf-8?B?SktQY1JwUFNmRTZSemJwZGxodUZtdzkzZnY2cW9lcXBHNWo5K3JjVUhvQ3li?=
+ =?utf-8?B?VEdQQzQ4R2xsTnNjUHVSbFVFWGJpd2gvSFN3Qk9SY1psR3Y0cHdhY1RDcDVx?=
+ =?utf-8?B?SFZwV3JxSzRaNHR3TUFFeUlBZ1V2ZE9ndHgvUi9hNk1kZzBzT1Mzc3gxR01P?=
+ =?utf-8?B?c2ZoS24vM0M1b0xJV1c3VEEzU2lQdDJXYy9oanUraUFZZ1dYejRnVmZXb0pH?=
+ =?utf-8?B?Y0NCaC9GZG1SVlJvdEw5YXFSZ1ExWXJDQnVaR013WUdrUW5KdlJ0ZFB3OGJ1?=
+ =?utf-8?B?K2syNG53c3BFZ0VBYnFGdWxySTMvN3Ezb3I5YU1aeXlCdDBJQVVYeGJlUlkx?=
+ =?utf-8?B?NHQ1VFNHVXhoWS9kQTFKWnhTWC9qcnpiRUxZRUdQZkNTUzNVT3MzN2hJR1Bj?=
+ =?utf-8?B?VndmYnRqRndjNXV0MGVJRUpYb1dFcHpFd2JZd2NBRjgzNkkyT3c1VzJKbFlG?=
+ =?utf-8?Q?reaCuUTR6OT9dvdk=3D?=
+X-Exchange-RoutingPolicyChecked: Ygl9BEo0A0spPweXQ9sipOuDeqVbEdGe7kHyUPou3xaHGKE+TIHFTsIEOvN4XP5riWbc56hcPmWhRmH3nGnI457ziOJKcxCzn7+XrVkmwzAWzA+DM80N57Gus9poD7BzX54RBi0+2CmHF2g/bygM6+E02OVeAZYteb3kRpKsHFUxERsyIbSW8mSuBpXlZlvi02Z+fvLwUUPX8KNsEHyGoOCCzCFRk9sX3mGJk+oO14wD7zFBLOWtqLrS2dvF+STXz+icgFof4NnsaPnpp27XdlHP0dG6tHMMWb9oFRWj5jeJPjW4j6+6G/4e1QjvBQpgV6meG28FbnqpbexKA3k2Zg==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 162f7a74-0aaf-425b-b114-08de9f5481dd
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 03:17:23.9389
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QXwGeT7WSTY42GeqR0+7eo6r3KEvQ3/ZFEA7zWFydu7mKPgQvA4Cqf8+rwqTOc136kWBVlncBrhHWtV/ZRn/bxt35fM5gA++cMp2oPxVdFM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9062
+X-OriginatorOrg: intel.com
 
-On Sun, Apr 19, 2026 at 5:27=E2=80=AFPM Gregory Price <gourry@gourry.net> w=
-rote:
->
-> On Sun, Apr 19, 2026 at 03:36:30PM -0500, John Groves wrote:
-> > On 26/04/15 10:16AM, David Hildenbrand (Arm) wrote:
-> > > On 4/15/26 00:20, Gregory Price wrote:
-> > > > On Tue, Apr 14, 2026 at 11:57:40AM -0700, Darrick J. Wong wrote:
-> >
-> > Gregory's code, in the current form, still uses two new fuse messages,
-> > GET_FMAP and GET_DAXDEV, but it makes the fmap message format opaque by
-> > removing fmap format structs from the uapi. It also uses two BPF progra=
-ms.
-> > One BPF program parses and validates the GET_FMAP payload for every fil=
-e,
-> > and hangs it from a 'void *' in each fuse_inode (just like the current =
-famfs
-> > code). The other BPF program is called during vma faults and reads the
-> > fuse_inode->'void *' in order to handle faults the same way famfs-fuse =
-does
-> > today, but via BPF instead.
-> >
->
+Hi Babu,
 
-Thanks John for running the benchmarks on your hardware. And thanks
-Gregory for your work on this too.
+On 4/20/26 5:40 PM, Moger, Babu wrote:
+> 
+> We already discussed moving back to the default group on every mode
+> switch. Doing so here would once again cause extra MSR writes on
+> each mode transition, which is undesirable.
+> 
 
-> I'll just lay out what i've done and why.
->
-> For John's sanity, if there are NACKs, knowing sooner rather than later
-> would be a kindness.
->
-> =3D=3D=3D Problem: Any lookup() in iomap_begin() is too much overhead.
->
-> No dax-backed server will want to eat the cost of a lookup() that
-> could be multiple microseconds on what should be a 1-5us soft-fault.
->
-> Joanne's prototype had this:
->
->    meta =3D bpf_map_lookup_elem(&inode_map, &nodeid);
->
-> But it was offsetting a single pointer dereference:
->
->    struct fuse_inode *fi =3D get_fuse_inode(inode);
->    struct famfs_file_meta *meta =3D fi->famfs_meta;
->
-> Not all O(1) are created equal here.
->
->    A single L3 LLC miss plus page table walk can cost you ~100ns.
->    If that pointer was cache-hot, it's almost free.
->
->    A pointer chase through any structure is N x ~100ns.
->    This is unlikely to ever be sufficiently cache hot by comparison.
->
-> So, lets just avoid this problem altogether.
->
->
-> =3D=3D=3D  Requirements
->
-> 1) No hard-coded OMF structures in the FUSE API.
->
->    While RAID0 style interleaving isn't exactly fancy or novel,
->    folks think this should not be in the kernel headers.
->
->    (I'm not going to argue, I think the argument is pointless)
->
->
-> 2) imap_begin() needs metadata accessible on the order of a single
->    pointer dereference - which is what John has implemented.
->
->
-> 3) open() needs to validate the metadata and identify DAX devices
->
->    a) it needs to validate the DAX devices are available and
->       acquire them / set them up / etc.  This is a kernel-side op.
->
->    b) it needs to validate the addressing information is valid for
->       the relevant dax devices
->
->    Both GET_FMAP and GET_DAXDEV are avoided if the metadata is
->    already cached or the DAXDEV is already setup.  So keeping these
->    separate is actually important.
->
->
-> Joanne's code deals with #1 - but it doesn't handle #2 or #3.
-> (It also doesn't handle GET_DAXDEV at all).
+Needing to avoid extra MSR writes in resctrl is not so absolute. Consider, for
+example, how resctrl initializes default allocations when a new resource group is
+created. resctrl aims to initialize with sane defaults and the user is expected to
+follow with desired allocations.
 
-It handles #3 by removing GET_DAXDEV as a fuse op and having the
-daxdev initialization / setup routed through FUSE_IOMAP_CONFIG at
-iomap initialization time instead, which integrates with the generic
-iomap infrastruture/uapi additions Darrick added in his fuse-iomap
-series [1].
+I am not against optimizing, I just want to be careful with such general statements.
 
-In this series the GET_DAXDEV op gets sent lazily on file opens but
-it's still not clear to me why this is necessary. imo device setup
-should happen logically as part of iomap configuration and it seems
-more efficient to have devices validated/acquired before any files are
-opened. I thihnk that makes things a lot simpler on the kernel side in
-other ways (eg we can get rid of famfs_dax_devlist / famfs_daxdev /
-famfs_devlist_sem / famfs_update_daxdev_table() /
-famfs_fuse_get_daxdev() altogether). It also saves the famfs server
-the roundtrip context switching cost if we get rid of GET_DAXDEV and
-move it to iomap initialization time, which will improve FUSE_OPEN
-performance for famfs. Maybe there's something I'm missing here as to
-why the daxdev initialization has to be done lazily on open?
+Considering your proposal in https://lore.kernel.org/lkml/39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com/:
 
-I think Darrick had also mentioned something earlier about how he
-thinks GET_DAXDEV should be another application of backing files [2] -
-I like this idea too, as it gets rid of the GET_DAXDEV op and reuses
-fuse's existing infrastructure.
+I do not think we should make info/kernel_mode read-only. If I understand correctly
+doing so would accommodate AMD PLZA but it ignores the discussions on how resctrl could
+support MPAM ... or do you perhaps have proposal on how MPAM can be supported when considering
+your proposal? Even if you do not want to consider MPAM - what if the PLZA_PQR register's
+scope becomes per-CPU in the next version of AMD PLZA?
 
-[1] https://lore.kernel.org/linux-fsdevel/177188734695.3935739.819885401100=
-4837207.stgit@frogsfrogsfrogs/
-[2] https://lore.kernel.org/linux-fsdevel/20260416224331.GD114184@frogsfrog=
-sfrogs/
+The idea behind info/kernel_mode is that the active mode it identifies indicates which
+configuration files exist to configure the active mode. Since the mode may not always
+depend on global configuration, for which info/kernel_mode_assignment was created, but instead
+rely on per-resource group files, I do not see how resctrl can build on a read-only
+info/kernel_mode backed by a mode and group change via info/kernel_mode_assignment.
+Specifically, MPAM support may not use info/kernel_mode_assignment at all.
+Instead, MPAM may use something like described in https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
 
->
-> John's code mananges #2 and #3 by having the fuse-server pass meta data
-> on open() via GET_FMAP and GET_DAXDEV.
->
->   GET_FMAP acquires the meta data on how dax devices are used
->
->   GET_DAXDEV just translates an ID to specific dax device.
->   iomap_being() then uses the OMF to do the mapping.
->
-> But it does this by hard-coding the format into kernel headers.
->
->
-> =3D=3D=3D  Observation: Add a BPF dax_fmap_parse() on open()
->
-> Pair Joanne's suggestion with John's GET_FMAP/GET_DAXDEV operations.
->
->   struct fuse_dax_fmap_ops {
->       char name[FUSE_DAX_FMAP_OPS_NAME_LEN];   // 16 bytes
->       int (*dax_fmap_parse)(struct fuse_dax_fmap_parse_ctx *ctx);
+Could we perhaps consider dropping info/kernel_mode_assignment entirely for
+AMD PLZA's global allocations? Similar to what you suggest, the mode and
+group assignment could be done via the info/kernel_mode file instead?
 
-Just a note for later, if the bpf approach gets pursued further:
-instead of making this a dax specific ops, I think this needs to be
-integrated interface-wise with Darrick's fuse-iomap work since he does
-the same thing. I think dax_fmap_parse() could be renamed to something
-like iomap_setup(), where userspace can use this to do any sort of
-generic setup, whether that's mapping related or dax related or not.
-In my mind, the dax vs non dax distinction is handled by the fuse
-iomap plumbing that chooses which iomap entry points to call,  but
-beyond that,  the callbacks and struct ops themselves should be
-generic enough to be shared between the two.
+Thinking about this more since the CPUs allocation is global, these could *theoretically*
+be included also (but see later).
+This could mean that "kernel_mode_cpus" and "kernel_mode_cpus_list" could be dropped?
+Although, this may complicate the interface since user space may want a convenient way
+to modify just CPUs independently from needing to repeat the mode and group every time.
 
->       int (*iomap_begin)(struct fuse_dax_fmap_resolve_ctx *ctx,
->                          struct fuse_iomap_io *io);
->   };
->
-> This parse function is used to do filesystem specific setup the (such as
-> populate the dax bitmap) based on filesystem-specific per-file metadata.
->
-> In John's case, essentially all it does is populate the dax bitmap and
-> toss the data onto fi->dax_fmap.meta.
->
-> Pseudo code:
->
->   fuse_dax_fmap_open(inode):
->       fmap_size =3D send_GET_FMAP(inode, fmap_buf)
->
->       /* Make space to store the metadata */
->       meta_buf =3D kzalloc(meta_size)
->       ctx =3D { ... }
->       kern =3D { .ctx, .blob =3D blob, .meta_buf =3D meta_buf }
->
->       /* Parse the metadata: i.e. fill out the daxdev bitmap */
->       fc->dax_fmap_ops->dax_fmap_parse(&ctx)
->
->       /* Call GET_DAXDEV for any new dax devices */
->       resolve_dev_bitmap(ctx.dev_bitmap)
->
->       /* cache the meta data on the inode */
->       inode_lock()
->       fi->dax_fmap.meta      =3D meta_buf
->       ... etc etc ...
->       inode_unlock()
->
-> And otherwise, imap_begin() works exactly as Joanne proposed, but with
-> in-kernel cached data instead of the bpfmap.
->
->   const struct dax_simple_meta *meta =3D (const struct dax_simple_meta *)
->                    bpf_fuse_dax_resolve_get_meta(ctx, 0, sizeof(*meta));
+Consider, for example:
 
-another note for later, if the benchmarks prove promising and after
-the LSF discussions we decide to go with this approach: imo we
-could/should repurpose this into a generic
-bpf_fuse_iomap_get_inode_meta() that returns a bounded pointer into
-whatever opaque blob was cached on the inode during iomap_setup(),
-where it'd be a generic kfunc serving both the dax and non-dax case
-for any kind of mapping layout
+# echo "global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/;cpus_list=5-8" > info/kernel_mode
 
->
-> And since both parse() and iomap_begin() are bpf programs - and they're
-> the only consumers of the metadata - FUSE itself no longer needs to know
-> anything about the server's particular strategy to use the dax devices.
->
->   struct fuse_inode {
->       ...
->   #if IS_ENABLED(CONFIG_FUSE_DAX_FMAP)
->       struct {
->           void    *meta;
->           u32      meta_size;
->           u64      file_size;
+Having named fields (a) makes this extensible, (b) output does not need to be split among files,
+and (c) "inherit_ctrl_and_mon" can continue to be supported.
 
-I don't think file_size is needed here? seems like we could just
-derive this from i_size_read(inode)?
+The named fields could be made optional, if group is omitted then it will become the
+default resource group, and if cpus/cpus_list is omitted then it will default to all CPUs.
+This may not be intuitive since a user may expect that not mentioning a field means
+that the field is left untouched. Have you considered this scenario in your proposal?
 
->       } dax_fmap;
+As an alternative the group could be made a required field and "kernel_mode_cpus"/"kernel_mode_cpuslist"
+can stay? This may be the simplest approach.
 
-/s/dax_fmap/iomap
+Output could still use [] to indicate the active mode that includes its properties.
+I find to be more intuitive interface where output more closely matches input.
 
->   #endif
->   };
->
-> Just a big ol' honkin' void* that otherwise gets ignored.
->
-> (Note: while i'm not a BPF wizard, this pattern seems well established in
->        existing BPF code, i found code in the network stack that caches
->        data on kernel objects this way as well)
->
-> =3D=3D=3D=3D Caveats
->
-> 1) We don't know the overhead BPF introduces in the fault path.
->
-> My napkin math (and best understanding of BPF) suggests:
->
->    1) trampoline / vtable for bpf ops (iomap_begin func)
->    2) retpoline cost of BPF (assuming this is on, safe assumption)
->    3) bpf_fuse_dax_resolve_get_meta() overhead (extra pointer deref)
->
-> This *should* (i think) amount to an extra pointer dereference, a longjum=
-p,
-> and a retpoline, which hopefully is <100ns since any extra pointer
-> derefs here SHOULD be cache-hot (hard to know).
->
-> It's not 0 overhead, and if the average fault time is 1us then every
-> additional 10ns not an insignificant cost.
->
-> But this is napkin math.  John will collect data.
->
->
-> 2) FUSE needs to be ok with the BPF-driven changes:
->
-> https://github.com/joannekoong/linux/commits/prototype_generic_iomap_dax/
->
->
-> 3) FUSE needs to be ok with GET_FMAP/GET_DAXDEV as opaque meta-data
->    handlers for DAX devices.
-
-I think we could kill GET_DAXDEV and for GET_FMAP, we could make this
-a generic FUSE_IOMAP_GETMAP where the server can set a flag on open to
-indicate whether the mapping blob should be fetched or not.
->
->    That means there is no default parser or format. If you don't
->    register ops, these functions are functionally dead.
->
->    (probably fine to enforce during init, which is what i did)
->
->
-> 4) As John said: MM needs to be good with it.
->
->    Any server using DAX like this already essentially has CAP_SYS_RAWIO
->    for DAX, and most likely some form of CAP_SYS_ADMIN.
->
->    Additionally, as folks have pointed out, the resolution to PTE is
->    bounded by dax device extents, so it's not entirely arbitrary.
->
-> =3D=3D=3D
->
-> As mentioned at the start - you'd be doing John a kindness if there are
-> clear and obvious NACK's to be had here.
-
-I don't have a NACK on what you wrote above, thank you for your work
-on this and bridging it into John's famfs server.
-
-As I understand it, Amir also scheduled a cross-track FS+MM+IO session
-at LSF to discuss famfs and dax iomap. Christoph had posted a
-suggestion in another message about solving this problem with adding
-generic stride/offset multi-device support to fs/iomap, and I'm hoping
-the LSF session will shed more light on this, as that to me seems the
-cleanest solution and would pretty much give everyone what they want
-(including getting famfs unblocked, as I think with this approach we
-would just need to figure out the generic stride/offset format for the
-fuse iomap uapi, and could have the interleaving logic living in fuse
-initially with fs/iomap migrations done post-merge). In the meantime,
-I think it's really helpful getting the data points on how bpf
-performs, thank you for running the benchmarks on your setup, John.
-
-Thanks,
-Joanne
->
-> ~Gregory
+Reinette
