@@ -1,119 +1,67 @@
-Received: from SN4PR0501CU005.outbound.protection.outlook.com (mail-southcentralusazon11011064.outbound.protection.outlook.com [40.93.194.64])
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020111.outbound.protection.outlook.com [52.101.195.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7159C288C08;
-	Tue, 21 Apr 2026 15:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.194.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9C4223707;
+	Tue, 21 Apr 2026 15:09:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.111
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784121; cv=fail; b=dA/LlEZFsB0ZnnoE+jSnrqeqtq+ESdp5cNPI/KmkDYPbRdrlnMB66tef0zo+GA1EVN6Rk8Bz+m/f45PElgsuuRcFhNDYSxrTH/+CtlZWYAvABI0zMExyihVkYCR+DARyk577MKcFrmrC3voA/u6YfM/R3L+V0PjhxMQ6auez+n8=
+	t=1776784164; cv=fail; b=dUghETQu1pgiJ115k+ZDTJ8/xH7hyXX32DEPa8tVYW7JpXVKP4eIIv3GAJClM5+yPthyn55mC+HG8knQfmeI4T/e+dT0+gKPQrJJ/Onq5T+xMhH4CXSRbt9J8nTZVFzAy1BEScxu4dCdr0HJW0QFAAmXvYmqiL/FPjITJxOejs4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784121; c=relaxed/simple;
-	bh=wm6tFnPw4syVVc8p5CnxCuCyBCR2mPndoEnzmBx2HJ0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=Sl5VjBJ9OblppzUsVroJOtRzXOYk0UCz9T4N6sn//X/U/PeT5zFRG/+1Idg9xnTSInDQcCOdn3JOFa5GTYdudCRwyFx4SPFcsOmvJbjp415+sH24RDoAURQhA+sJO6YFfMWDuCCHLdHPGAQeSZlNNl4KRIWrv39kRNbAKYYw8Sg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ELVR5JOU; arc=fail smtp.client-ip=40.93.194.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ELVR5JOU"
+	s=arc-20240116; t=1776784164; c=relaxed/simple;
+	bh=Ou6XDmGU/+yf6PkVQsY/pgWaSnpk9SM9Or7u9OYcngE=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=MPfRg5lPHzJRDGKdHVXkvtVF7A9oSD5mguc7q16ROo4NTC+F2hlMMYkOdmqsuwNlLMgF5ktFmr+nCCwFpdlMPc6z8QahfJe++Wvy5Lc2nliiYuNn3cdXbVtphga5KWZH0puXxsOCv1r6YOk6N/9jyG/trj5OLxRj3BdQSa1xIcU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.195.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SnD2rnq5Qi1leNMSEW7eT4X0yurrw5Ir9fjtvazPQNNEZyRPVgl2X0kmU5lhjLkW3+RTi2wQNfHsj9S5Go+njV9ZUq618RnMiod/mwADrMsw526TZ1snwtRtD7Iz+0oyHG2GnKW+B6nlq8ADJ9rGgPWBWUlb03jxaIzLB1NnnUwNDyZKqioCGUT771SLOsGOcz4gYuekxMDHBZ9hESf+zLnvJwSn5Cxv6fleCOFrguRCkmuNnYIsCTes+WgD6kxb8udrb3ITtdLNDiMJwtwS3tJdCHQwmII+XehvYNKdsJ0RySk4UmOfybG1wcy45ITqI3ORsf4e3kBWe+hcnv4l/A==
+ b=kF4eHOc+tQtNNBlvDzShuKB2eDUq3er9l9j2sl3sUDRBeJQxiYY88qNMNyGWjGRlNf/DQG1eXQ71OVNQAXGIsn/XOe1rwCIgpTmuHqaAW+fDmUraipBgc3oECBCPlKW/7TYMI1eU9qTRx6cKPz0kUnZEOEZ0VNg3I0IxeToq1MxbXj5UNrW6R8rs0J8DpYmlX1CT2zjmhjEJTr5Vb3aQMgDwZ01lSBsZKhnB/ZRX5f3NYkLBxMBisHtXqBtkkAOQdzWxVymioq8K5734yWpIw8DCBcBJHEE1z5txkR5FPA18ZT0UShe+5HSiUMUptxPOJqkkAmO2piOVtfofpTCndQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ztSQAXbNEdCO+8IlHWWX2TBBCor695MXMuNXET9Hu2Q=;
- b=sN9nEfow8Y+Ig3ZAgofYt81iiDjwWkAO+VLxR49LAYK09lUV8fKUtQd2WFfOPN9L3q/g/plSZQqlLFaD4x/hCrSJ+t//Jp5knZwDMeZPKcfuqLZN2HDd0DIjZax9rKGq/Ij0RLBaB1AS4oj1W6dqwV23db0ADkdWlRHW9qOiwuwcBtYERy3zGkCFTw42ByAEgWcrBiDJzMJMcohC4lJb4VrsW2ZfDrsAfyRvisO22FMvaPXmpLYu8uPk5/A6juQydRsbyMvKlwVyD0TxPwtm4VOWo8X4P89dq7q5yYnVaRpT7YgfybDDsIhnOXSDLhfq4wsdPqZJLj7eklH97ofBEQ==
+ bh=or5MawNv8W1aR61bNaB6qLQf+0Ki6N0X5rxvjFHA5RM=;
+ b=c3g412UXRBSZtVXy12CRQBFdDs9qbKygWMXiqWMrX0uU3jIM0B+ic8RZGiuQbDrsvvyAn+XsFSNJTgYNk21o395yQgHULjVv1gWE1NNnJLpN2rK/SBJbRlFS69TOiwZ3CC1AMM4qZcPrU2VtqVSKNCn6tRYxMrcUABgAxF0t1mfo8/WOSBr1ZKTHyaZclQ4mmfo83tWeSVJC/ZmGZ/zIgWbcbbuTSG11YwIdWGnjf3L88qQosWUsLC+UgKeFjNNOEiOF94/Xi6LnqUylpNwwv6HClW5YkbMBwLp8Vi2F2FO2UJGSSafGckiTL+YOQ4i4thVhHXIGUMRq/MYv5GP77w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ztSQAXbNEdCO+8IlHWWX2TBBCor695MXMuNXET9Hu2Q=;
- b=ELVR5JOUcG2Q84Wh7qmiHOfL9unHEdF0P5mymhzFY8daRG6zii2k+/5yTT02JKSlyn1Deb+x6jY6aYzvZwvlSc3l0NcOqraZ5A+oYfV3wm1XK1I/Fb2nXpBUnetuz6eUStK8ZPoVnfA3hjoZL5WqsfFVBzgwW0bvB43TaE+7FsU=
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc) by SA1PR12MB7038.namprd12.prod.outlook.com
- (2603:10b6:806:24d::10) with Microsoft SMTP Server (version=TLS1_2,
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO8P123MB7795.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3dd::9) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
- 2026 15:08:33 +0000
-Received: from IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::ca9:67f1:6872:decc]) by IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- ([fe80::ca9:67f1:6872:decc%6]) with mapi id 15.20.9846.014; Tue, 21 Apr 2026
- 15:08:33 +0000
-Message-ID: <e624f652-f0a6-4926-a0ab-c4486d41eb6d@amd.com>
-Date: Tue, 21 Apr 2026 10:08:28 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
- support to the resctrl subsystem
-To: Reinette Chatre <reinette.chatre@intel.com>, "Moger, Babu"
- <bmoger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
- "tony.luck@intel.com" <tony.luck@intel.com>,
- "Dave.Martin@arm.com" <Dave.Martin@arm.com>,
- "james.morse@arm.com" <james.morse@arm.com>,
- "tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
- "bp@alien8.de" <bp@alien8.de>,
- "dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
-Cc: "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
- "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
- "peterz@infradead.org" <peterz@infradead.org>,
- "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
- "vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
- "dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>,
- "rostedt@goodmis.org" <rostedt@goodmis.org>,
- "bsegall@google.com" <bsegall@google.com>, "mgorman@suse.de"
- <mgorman@suse.de>, "vschneid@redhat.com" <vschneid@redhat.com>,
- "kas@kernel.org" <kas@kernel.org>,
- "rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "pmladek@suse.com" <pmladek@suse.com>,
- "rdunlap@infradead.org" <rdunlap@infradead.org>,
- "dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>,
- "kees@kernel.org" <kees@kernel.org>, "elver@google.com" <elver@google.com>,
- "paulmck@kernel.org" <paulmck@kernel.org>,
- "lirongqing@baidu.com" <lirongqing@baidu.com>,
- "safinaskar@gmail.com" <safinaskar@gmail.com>,
- "fvdl@google.com" <fvdl@google.com>, "seanjc@google.com"
- <seanjc@google.com>,
- "pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
- "xin@zytor.com" <xin@zytor.com>, "tiala@microsoft.com"
- <tiala@microsoft.com>, "chang.seok.bae@intel.com"
- <chang.seok.bae@intel.com>, "Lendacky, Thomas" <Thomas.Lendacky@amd.com>,
- "elena.reshetova@intel.com" <elena.reshetova@intel.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-coco@lists.linux.dev" <linux-coco@lists.linux.dev>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "eranian@google.com" <eranian@google.com>,
- "peternewman@google.com" <peternewman@google.com>
-References: <cover.1773347820.git.babu.moger@amd.com>
- <3305c18e-9e50-4df0-b9f1-c61028628967@intel.com>
- <c6f574b7-fe5f-49ae-9865-0e4dbb2f9803@amd.com>
- <efc269f8-bf98-4f12-8d76-1fee564be84c@intel.com>
- <0ae2b267-4527-4251-9136-6afdc3fc97a5@amd.com>
- <72297351-2954-4318-81b6-7de409e5552c@intel.com>
- <20aaacfb-9601-4343-a5d5-f3df6152155b@amd.com>
- <43880b7b-b390-4e7f-8c2a-46cde9e3b051@intel.com>
- <bb9f62f1-0c79-4d29-9866-c39d08c3a774@amd.com>
- <5a273b0f-8225-4e9e-924e-884183734659@intel.com>
- <73c46024-4cf2-4f03-9268-d4378825fa87@amd.com>
- <973067bf-6e6c-446a-a81a-713840d701a9@intel.com>
- <90f4a692-1c27-4967-bf12-ec3cb597681d@amd.com>
- <68a551ea-d9f0-436a-9bef-e35fd027bb95@intel.com>
- <39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com>
- <b74cfe34-e23e-49e3-beb4-d5639d42d5cc@intel.com>
- <99a2da36-6a21-4a99-98e0-3c9a4cf7ecf6@amd.com>
- <741aa53e-461c-4a1a-a701-6060d42012f8@intel.com>
- <e8530c71-fde2-4522-8b46-a24efb13b681@amd.com>
- <71099958-1ddf-40dc-8a3c-aa13d0c56fee@intel.com>
-Content-Language: en-US
-From: Babu Moger <babu.moger@amd.com>
-In-Reply-To: <71099958-1ddf-40dc-8a3c-aa13d0c56fee@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ 2026 15:09:17 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
+ 15:09:17 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: tglx@kernel.org,
+	akpm@linux-foundation.org,
+	bp@alien8.de,
+	rdunlap@infradead.org,
+	dave.hansen@linux.intel.com,
+	feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com,
+	dapeng1.mi@linux.intel.com,
+	kees@kernel.org,
+	elver@google.com,
+	paulmck@kernel.org,
+	lirongqing@baidu.com,
+	bhelgaas@google.com,
+	bigeasy@linutronix.de,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] docs: kernel-parameters: document scope of irqaffinity= parameter
+Date: Tue, 21 Apr 2026 11:09:11 -0400
+Message-ID: <20260421150911.42404-1-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: DS7PR03CA0297.namprd03.prod.outlook.com
- (2603:10b6:5:3ad::32) To IA0PPF9A76BB3A6.namprd12.prod.outlook.com
- (2603:10b6:20f:fc04::bdc)
+Content-Type: text/plain
+X-ClientProxiedBy: CH2PR11CA0022.namprd11.prod.outlook.com
+ (2603:10b6:610:54::32) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -121,174 +69,170 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: IA0PPF9A76BB3A6:EE_|SA1PR12MB7038:EE_
-X-MS-Office365-Filtering-Correlation-Id: e773abcb-48d3-48cc-bc46-08de9fb7da5f
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO8P123MB7795:EE_
+X-MS-Office365-Filtering-Correlation-Id: 149839a2-3017-41d7-ef8d-08de9fb7f4a6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|18002099003|56012099003|22082099003|921020;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	GApIARQ7nm+YhBAz2rdtAnEcvOYvt1fcBdVtps19kBEtLKjlHjdageDHblO7sWIPhavp0K2B+eSXwAG997EsOY32Xg1IdKmJ7KiZHOTeCM91607otVfwcQRybSj4n/F5tCHdp6w/EzU6vQMd1/nE7YAJgdNMXQx3M7rG3j5uTpHGhkziMWW0VngxUcXgm2fdc6kV6HWb16Ul/9Pp3z18ZtYsvu0iHig7hxf30CXXAOdyAl85NszwT4g4Vdm6OnHtFOb+2UB4f8ncUBJUWJoIT19ebZ9wVUxohUF9PTyE98EM9ufrCbRQn1n+1SD3kN2BH9J4RrjDWpMlBg2Qk1DNZZgx9JrMNtS5Q2Xf0Dnx8mSBvF3tyCLdroByyIdss/cTg6SSL0vJmdfoap4AQECqDG0xgq1SiPmMN6O8WUINu4yeTpl42Uw++Jn9voK+Br8Q/pQexc3FUz18MMUUz4TziwTyofZ0fua0jLWZhT7KPEqePRmWnku13AcJVbkqKX4acDSqmDQ8KtRXoZVf3OJOJhQXIUXJ67GgSmnQa5oKg9GemHDolPVUUADlJxE2e2swX5ABdVctTiKvnMoTT76jT8Kdc7X1OxTs4mPEsNCWKRup5evOzZRuz5+i2k3jDeMhPRU/MNWQirN7WdMU+3HVIsPTrUAGR/Oyu37yvJEcy4Av/dcwA7BBg6NzRNOXdfyXBz9Mnba9Sr3YrMgruGlUs/gziKGzPhynNmbfowLIAjDzEt4BHJJ/hDg/9Iv7eTEs
+	g/Z6BD6JrJ+zDxhZklHOV5tYlhFMZa1gK7yPGLN80mIkMtzZyWlbZ8uT3K6cLrOEpYip7OVmNnQa3Uf6C73Q3Oj29G3hxrCROWZu08JaDy9Romt1JzyqlcJ53qc+U6CD3+82XV2Wxxu/gFdUkUrhmLzwBWsQTqS/I8WZBnSVz2ip9vU9QdcZPj6B3cS7V60eT9/E5x6Adt1KRHTO/OO9gzkhmgf5s0miAqSnp+yiaqdzB6B2w+K9pHbKKFgZ6tmg/GrLKdf14CohZujNl0pxAf5ZnFUJjycht8vtnwdvs1Yknx46jnS4hB9lLZ6GGw485i6dVmpKRhGO9+FoZVD6VJWBAgLPFdLlBo331grMIk1N/dSJnCp+boK1L2JbtgqN+QwsDHPevKZ98xgLULQ9fEdBGH0Pr/pfPDS64tNxMocE4BIkd+l5VUcpKZVwSBg5vzy32BFA+fUMTmnpgfggv+S28G3Au6OpRsuhs/eks5Ew1+6jmu6U73dSJkW2ckM7fiCVQzQqN/GiQIUblnAA43yesKgJt+R0CowS+mji6yZmAbvUhSVYsgw8RwlmU5fqyZAButs9W8KTIxuzl7kWFlrJfiT+SqaJH21XTXdE1GIARyyo0CQmYnZgHvAcdzPTWGbsPkbtudNIvtzTAhs1JNAE7DXwCKxb+bO+4zLQj6uOj6iJjf5PMbearPykIRZLwGAq3HvsiWYCVwesnYGhmNUiGJBbT+ei1giYWzY00j0=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF9A76BB3A6.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(18002099003)(56012099003)(22082099003)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(18002099003)(56012099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?MVNRbDRtazlraW10WHN3OVVrRU16bXQ1blRPQVJvZ2h1bVdDQmhkVTJXd0Uz?=
- =?utf-8?B?NjRERnJuTGM0RHNDb09wRVU4R3owVU9Nb2pzdTM0VEZNOUZtaGMvZmQwU1dk?=
- =?utf-8?B?Nm1Pd05DWXRKNy9nWDV1SnBLc1hyaEJRVmxQVWVnS2FucmZ4RDNJQlkxVTlw?=
- =?utf-8?B?Q0tGZnJoYzhvRlEwWWRjYWpSSFBsaXh2SjVQN2twVUlNaEM2cForTlk3YXc3?=
- =?utf-8?B?OVhEK2VDcG8yQWU3YmZTWTQ0NjVJTkZsUmtNTG9vTWVqVnlrYW00SFAwNk1E?=
- =?utf-8?B?b1JrWHA2bFIwaHRqOVV6dEV1TGpmYU5QdGVoZDhJNUJ3OEdvQ1lhOUZ4Ymt5?=
- =?utf-8?B?QzlRYmIzVGdUaHNJQThDeERnMk4rTkw3dnBGYW1SNW03MDVvVm9iZE90NGZY?=
- =?utf-8?B?dSs2RlNNTk5TNkN4R0VIWVU2ZGQ2aGl6RFVyWElReWRGMkdWNkhyMjNYQVF6?=
- =?utf-8?B?YUpRdzQrNlN0VzM5ZW04UUZPbHNoZjc2ZklGOHhLYWVSbFJQeG9WUmhzd041?=
- =?utf-8?B?SFg4TEs2ZnNLOW5IZGhudFo3R0h1c2RZamt1b1dva3dLQW9uMkpxRlkxSitX?=
- =?utf-8?B?WFhnbnhSVjRGRkpyU096WFdNeHNjWEpId3dZaDhXNXR6R2Zrc1BCL2pza2M4?=
- =?utf-8?B?dXNnaGFoWjVscHFoejE5V3lIbE1Oczg5V1gzcFI5ZGNGZlN6M1BSVm5SRmth?=
- =?utf-8?B?R1hxblNPa3dXK3luUE5RcTVpNWxETXN1ZnZselUzSU83cTZLcGtteTBRNzFF?=
- =?utf-8?B?bHVUNCt5dlU1Ky9CcVJCeUdGeS9ya2lxZlUxSVhVcDJKRGROdk5ESXF5ODlr?=
- =?utf-8?B?WXRQQlJrOXRZSXFYcFFtWnlRWTVISFlNRm0rNlMrZlVvRVlPakZIclk0SlY2?=
- =?utf-8?B?SjNkbmdKVDNhUUhyeEJlRWQ5bnA4UWFKSnZacDJnNGgweVhwYVRHZHM3S0p1?=
- =?utf-8?B?UUUxczRBRU1aNnpOaWlwSDd2dkNUdjcxdGxSY3E2cnlWNG01WXRQenBiMWh3?=
- =?utf-8?B?cUQ3MTBlMjh0V3FaVnczQWYvbHNsOGUzTEZZalNkaFMySnRzSjBqM0ZDaGRS?=
- =?utf-8?B?bXpZVTJJcG51RGdGajlGTEUyZE11dUZoSngwVFhka2dWUmlmakFOODAxbU4v?=
- =?utf-8?B?SG5TV01ETDl6WWVlVHY3TUFJQlJLbHhhc1JjNGd1UEVXWnVJUDlFL0ZVWlFn?=
- =?utf-8?B?UkNQUDNZTFR6NXVkQ3kvQUs0ejBxbmI5bmVLK2piMmMyWS90ajBGNjl2T3BB?=
- =?utf-8?B?U0NodG9mT2Jjc045UWdIV25sdkxKcVdRVlR5Mmt4Mld2Rmpva1YwaFBDdWl6?=
- =?utf-8?B?MG5hUkdqRmpBR21OcFVUUnFWbVJibExmZ2RWNVFRVkNFbVdyb1N0TnNXSW5h?=
- =?utf-8?B?QjBTd21TU1lNejU4djk3aGFveFFqL3l3b1BqVVpQMkNMKytVa2orL1gzclB1?=
- =?utf-8?B?T1l0OWZIcXArZXZ2YWhPeUlwTWgwSG1ESG9IMWNjUGh4dUxYL3pXYzZneUQy?=
- =?utf-8?B?cU0zblF3S09Ma3FKT0NVWFpNZGRCVlQ4MWNsNUtEcTFudnNTVkNrR3pXL3l3?=
- =?utf-8?B?YUJnMTF0L0VVcmhYMENETHNnMnlzS05ad1Brbm1FRllMWlh4VXlnb0k0OWw1?=
- =?utf-8?B?OUZXTEpxVEx5SDBMNnhCbnlBempLSU03OGswNVJ0dUdWWE5PTXJzODRvQ203?=
- =?utf-8?B?NDRMYjBCa3Y4SUs1ZnY2NWJQZUgvcEJqeGZjdDl1Z2tUcW85SytuNkRNamor?=
- =?utf-8?B?akxQMUJxZEgydjYxbGFoYjlMNlQyZVlyWnBaR3N1ODZ4V2RFWlF6QWpLcTc2?=
- =?utf-8?B?NGVwVDhsNVpMVzB5elJDSzdSOVRQUXljSk43MVZBY2VtY05kbnNUTGRYTFBS?=
- =?utf-8?B?dEtqM0xsMnE3ZDBkQk0xd1NzRk13THZsVkhwOEM0RTdlQTA4NVVNa0poanVa?=
- =?utf-8?B?dzh5RzJ0RGJvZmNIVVdwNnV4dnkzeC9xdzVDVlVQSkZ1aHZQaTlHRW5mcUFz?=
- =?utf-8?B?QmIwejFwdUt0RVIweEVuM3JWMHFJNTg2Si9uZmZLcS9aUXRtdHRxTmdRTWxm?=
- =?utf-8?B?MkVKdGdSbzJRTFFOMWdWeDJLTXR6VkhDbVZOZzIxSUUxTUhhYUg0NFkyZ21P?=
- =?utf-8?B?d3FQanRWZlJQVldUZjF5L2NCbzRsdmRodEZSNjZTMVNucjRnUVpmRVB2YmQ4?=
- =?utf-8?B?WDVGWS90RG56Nkt1Tm11Z051L1ZHdWdBd2VMVFBGUGRCSnAxV2VzelVpUVRr?=
- =?utf-8?B?RVBIRkxZUzg2aE5POVpuSEtwVTlFOWVsWVNRRW9hZm90cDgyM2RLWnNjRkRM?=
- =?utf-8?Q?lV18x1AlvuH5JSfJA3?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e773abcb-48d3-48cc-bc46-08de9fb7da5f
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF9A76BB3A6.namprd12.prod.outlook.com
+	=?us-ascii?Q?nHcyRLe+WTfMfiXdRSiBT/2Zm+TsfDgYrkw2fNgAlVo72i/HmJfA30IxV3sO?=
+ =?us-ascii?Q?zjpfkTSIFYle9lzz4YtnrsXBLAnyI0Ja8hCxSsk2H2APLVshATQjFbVMVws0?=
+ =?us-ascii?Q?jSvKM1artd1l2mwmjIwzwWu6/goJ087x+9e0gy5Z5pYuiahai30ShHuof8Zl?=
+ =?us-ascii?Q?cwmqcoRvPD3NxW8lAQEHN8pQct9tD2iykr0+/XM9VIbaL4lQLkdsDUF4d601?=
+ =?us-ascii?Q?eawou2e7RfufP5Y2ZvNKtYshSEHQ5aYAhP2grIhshtzgxnXyC3XJF/WP1zMQ?=
+ =?us-ascii?Q?1TLTryqbcdnBViM9jjjj25uIOEk9B1dVV0vivdOA0M1fEJ2tF2IwktrhQ/Tk?=
+ =?us-ascii?Q?ZFnt9oNLSLZDSSB96bBNC6F29w0M+tYu88BFDAgzXt01VX8oSDSWBWTu2PcV?=
+ =?us-ascii?Q?mSR0PjpnOnSCpwCF16vlXQL+c952ok9S24XmxGekXNgoni+NA+xtKaRfbndp?=
+ =?us-ascii?Q?XyllRqbp//gR7rgu5SOrNJSIQrrhvSjovzXXwyxEI24A22e/7GXUFyi7RBSj?=
+ =?us-ascii?Q?2Ql7Iyc89M0bm7oCXHebiGGRsYMNqvBuQuQKHGzRptwr9cr573v8HsjP9cfQ?=
+ =?us-ascii?Q?rvT6Vuqrdmi4OVXYPPcgpcWAHtTr4vC6+vuymldgclgRpU5Z/8fJcmWbsL9T?=
+ =?us-ascii?Q?hyo3KLRc9nIjR/khIf6dq83DQcTbgcLmk1xT+MJml/Ze2A39hkgYdL2KqZj/?=
+ =?us-ascii?Q?DOdx0svMB3DC1M9zkJTwRqhShnnkVeNulok+amuj1PnN4HfBFtrZYMeqZNfy?=
+ =?us-ascii?Q?cBIDjYGKmMRSp8HcSnmO1P446FKovcZqNW4Nxm+WBONuy0RxUlNpBYZ3PmP3?=
+ =?us-ascii?Q?2OA8TTooG93s3G1jqFeA4DgVjkBGtVmkzEs0w8C2R9Afg4OO5nYKnHJvpExm?=
+ =?us-ascii?Q?rVcOaZPZVgJ3IGRvpoNC9JrcmeFFFJ4lhFwD8SamGGfWmed5WY1/hW+nuJZG?=
+ =?us-ascii?Q?bR82QHPTKBlyMrdBMXXe31yAVelxzTE74YEqWky4N/D4t96wTL1GMT8JZawm?=
+ =?us-ascii?Q?xOgnXIXTpN6HHpN9usgrUMmuQtzSPGzbx8n4hRMJektl/r/sna/EL403zYGU?=
+ =?us-ascii?Q?R+Of4wioLgVASkYIM2WBQ6HIOAU+yzSZowtRq7+5thyrStqoddQ19Nyd2T2G?=
+ =?us-ascii?Q?l/RGIh4+jpvJ+l8KuMg8600KjnaZSAFSzF0y7XRUTIXBSMzak6juKUkpFUAU?=
+ =?us-ascii?Q?DigZJHpKbyn4Nicf8TW+MfpeOb99cKVcTuVm2CphzJzOv/O8v1g9gDsY+ppV?=
+ =?us-ascii?Q?CIjgKxrQK2ddt0GKBY514eRHtI6NrNu0o9OXDOeWlgyGVHWa3vhV2TXfDsO7?=
+ =?us-ascii?Q?LEJTy5GUVyw+XCIUa5jezCT8iAapskPzADlVPL4bvRgRT9cstLIw/AqHbr0r?=
+ =?us-ascii?Q?yOo3D4ANrP1UctbgtXw8I4tGERJbyBklIKU48GxLy51eAoK+/ejD+hI+4OWv?=
+ =?us-ascii?Q?25s/5+09cskV5eNCo+ptDOFHfeaJJyuqNuUUwVt13kKx3milomiO3+KvBqpd?=
+ =?us-ascii?Q?wgJrtXPGHqnqWwF0YxEy9rzGOa6GyJAm+W+zs03YGJvS3mRYPU9lX9dSrcW5?=
+ =?us-ascii?Q?jPpAgASKUUH/GLuzjk/pt84owgalQLJX+5WCBzoB1tKYknIU2ugSJVkp3CbX?=
+ =?us-ascii?Q?xm2YHqpB1JtSyMLOK8u7ACNdSrxbMNGUvy4ogVBPYEsnIKQ9MRbJOC9VtA+s?=
+ =?us-ascii?Q?z/YHhXjPmLDnVP0e+jbn+H9v9lEATva4v/sQXsuVP94naFsr1qMVZat41DMo?=
+ =?us-ascii?Q?6tike7FBvQ=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 149839a2-3017-41d7-ef8d-08de9fb7f4a6
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 15:08:33.3776
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 15:09:16.9038
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MK2ZfgpcMjczIfjm0cdP/35D5FztZ4JNP9Ue/divxX8clg94tkwezXcM5IGLfEly
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7038
+X-MS-Exchange-CrossTenant-UserPrincipalName: LnMNYGDonAUzWigfHI9cOYJVpQmX4RFXxV0VOR68W2g49c2LadL92jJxrOlu2+eHVGaNwi0AxgjCubgwkUoahw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P123MB7795
 
-Hi Reinette,
+There is a common misconception that the "irqaffinity=" boot parameter
+acts as a global override for all hardware interrupts. In reality, it
+only sets the irq_default_affinity mask, which is explicitly ignored
+by managed interrupts (e.g., modern multiqueue storage controllers).
 
-On 4/20/26 22:17, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 4/20/26 5:40 PM, Moger, Babu wrote:
->>
->> We already discussed moving back to the default group on every mode
->> switch. Doing so here would once again cause extra MSR writes on
->> each mode transition, which is undesirable.
->>
-> 
-> Needing to avoid extra MSR writes in resctrl is not so absolute. Consider, for
-> example, how resctrl initializes default allocations when a new resource group is
-> created. resctrl aims to initialize with sane defaults and the user is expected to
-> follow with desired allocations.
-> 
-> I am not against optimizing, I just want to be careful with such general statements.
-> 
-> Considering your proposal in https://lore.kernel.org/lkml/39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com/:
-> 
-> I do not think we should make info/kernel_mode read-only. If I understand correctly
-> doing so would accommodate AMD PLZA but it ignores the discussions on how resctrl could
-> support MPAM ... or do you perhaps have proposal on how MPAM can be supported when considering
-> your proposal? Even if you do not want to consider MPAM - what if the PLZA_PQR register's
-> scope becomes per-CPU in the next version of AMD PLZA?
-> 
-> The idea behind info/kernel_mode is that the active mode it identifies indicates which
-> configuration files exist to configure the active mode. Since the mode may not always
-> depend on global configuration, for which info/kernel_mode_assignment was created, but instead
-> rely on per-resource group files, I do not see how resctrl can build on a read-only
-> info/kernel_mode backed by a mode and group change via info/kernel_mode_assignment.
-> Specifically, MPAM support may not use info/kernel_mode_assignment at all.
-> Instead, MPAM may use something like described in https://lore.kernel.org/lkml/aYyxAPdTFejzsE42@e134344.arm.com/
-> 
-> Could we perhaps consider dropping info/kernel_mode_assignment entirely for
-> AMD PLZA's global allocations? Similar to what you suggest, the mode and
-> group assignment could be done via the info/kernel_mode file instead?
-> 
-> Thinking about this more since the CPUs allocation is global, these could *theoretically*
-> be included also (but see later).
-> This could mean that "kernel_mode_cpus" and "kernel_mode_cpus_list" could be dropped?
-> Although, this may complicate the interface since user space may want a convenient way
-> to modify just CPUs independently from needing to repeat the mode and group every time.
-> 
-> Consider, for example:
-> 
-> # echo "global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/;cpus_list=5-8" > info/kernel_mode
+This patch updates kernel-parameters.txt to document this limitation,
+directs users to "isolcpus=managed_irq" and
+Documentation/core-api/irq/managed_irq.rst for further details.
+Additionally, it updates managed_irq.rst to provide a debugfs example
+demonstrating the IRQD_AFFINITY_MANAGED state flag.
 
-This looks reasonable.
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+---
+Changes in v1 [1]:
+ - Provided an example of a managed IRQ using CONFIG_GENERIC_IRQ_DEBUGFS
+ - Referenced Documentation/core-api/irq/managed_irq.rst
 
-> 
-> Having named fields (a) makes this extensible, (b) output does not need to be split among files,
-> and (c) "inherit_ctrl_and_mon" can continue to be supported.
-> 
-> The named fields could be made optional, if group is omitted then it will become the
-> default resource group, and if cpus/cpus_list is omitted then it will default to all CPUs.
-> This may not be intuitive since a user may expect that not mentioning a field means
-> that the field is left untouched. Have you considered this scenario in your proposal?
-> 
-> As an alternative the group could be made a required field and "kernel_mode_cpus"/"kernel_mode_cpuslist"
-> can stay? This may be the simplest approach.
+[1]: https://lore.kernel.org/lkml/20260414200245.1153919-1-atomlin@atomlin.com/
+---
+ .../admin-guide/kernel-parameters.txt         | 11 ++++
+ Documentation/core-api/irq/managed_irq.rst    | 53 ++++++++++++++++++-
+ 2 files changed, 62 insertions(+), 2 deletions(-)
 
-How about keeping a single option to update the CPUs using 
-kernel_mode_cpus / kernel_mode_cpuslist within the group?
-
-Should we consider removing the per‑CPU extension altogether? By 
-default, the mode already applies to all online CPUs, and any per‑CPU 
-requirements can be handled within the group using kernel_mode_cpus / 
-kernel_mode_cpuslist.
-
-
-# echo "global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/
-
-Why do we still need to keep the "inherit_ctrl_and_mon"?  By default all 
-the groups in the system falls in this category it is not plza enabled 
-group.
-
-
-System boots up with following options if PLZA is supported.
-
-# cat info/kernel_mode
-       global_assign_ctrl_assign_mon_per_cpu
-       global_assign_ctrl_inherit_mon_per_cpu
-
-No groups are associated with kernel mode at this point.
-
-# echo "global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/" > 
-info/kernel_mode
-
-# cat info/kernel_mode
-   global_assign_ctrl_assign_mon_per_cpu:group=ctrl1/mon1/
-   global_assign_ctrl_inherit_mon_per_cpu
-
-
-# echo "global_assign_ctrl_inherit_mon_per_cpu:group=//" > info/kernel_mode
-
-
-# cat info/kernel_mode
-   global_assign_ctrl_assign_mon_per_cpu
-   global_assign_ctrl_inherit_mon_per_cpu:group=//
-
-
-How does this look?
-
-Thanks
-Babu
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index cf3807641d89..365c4931700a 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2726,6 +2726,17 @@ Kernel parameters
+ 	irqaffinity=	[SMP] Set the default irq affinity mask
+ 			The argument is a cpu list, as described above.
+ 
++			Note: This parameter only sets the default affinity
++			for unmanaged interrupts (e.g., legacy single-queue
++			devices or unmanaged pre/post vectors). It is
++			explicitly ignored by managed interrupts, such as
++			those utilised by modern multiqueue storage
++			controllers. To isolate CPUs from managed
++			interrupts, see "isolcpus=managed_irq".
++
++			For further details see:
++			Documentation/core-api/irq/managed_irq.rst
++
+ 	irqchip.gicv2_force_probe=
+ 			[ARM,ARM64,EARLY]
+ 			Format: <bool>
+diff --git a/Documentation/core-api/irq/managed_irq.rst b/Documentation/core-api/irq/managed_irq.rst
+index 05e295f3c289..8e973a7d1bd1 100644
+--- a/Documentation/core-api/irq/managed_irq.rst
++++ b/Documentation/core-api/irq/managed_irq.rst
+@@ -80,9 +80,58 @@ The following examples assume a system with 8 CPUs.
+     /proc/irq/48/effective_affinity_list:0
+     /proc/irq/48/smp_affinity_list:7
+ 
+-  This can be verified via the debugfs interface
+-  (/sys/kernel/debug/irq/irqs/48). The dstate field will include
++  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
++  enabled, this can be verified via the debugfs interface (e.g.,
++  /sys/kernel/debug/irq/irqs/48). The dstate field will include
+   IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
++  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
++
++    # cat /sys/kernel/debug/irq/irqs/87
++    handler:  handle_edge_irq
++    device:   0000:41:00.0
++    status:   0x00000000
++    istate:   0x00004000
++    ddepth:   0
++    wdepth:   0
++    dstate:   0x19601200
++		IRQD_ACTIVATED
++		IRQD_IRQ_STARTED
++		IRQD_SINGLE_TARGET
++		IRQD_AFFINITY_SET
++		IRQD_AFFINITY_MANAGED
++		IRQD_AFFINITY_ON_ACTIVATE
++		IRQD_HANDLE_ENFORCE_IRQCTX
++    node:     0
++    affinity: 9
++    effectiv: 9
++    pending:
++    domain:  IR-PCI-MSIX-0000:41:00.0-12
++     hwirq:   0x8
++     chip:    IR-PCI-MSIX-0000:41:00.0
++      flags:   0x430
++		 IRQCHIP_SKIP_SET_WAKE
++		 IRQCHIP_ONESHOT_SAFE
++
++      address_hi: 0x00000000
++      address_lo: 0xfee00000
++      msg_data:   0x00000008
++     parent:
++	domain:  AMD-IR-3-14
++	 hwirq:   0x41000000
++	 chip:    AMD-IR
++	  flags:   0x0
++	 parent:
++	    domain:  VECTOR
++	     hwirq:   0x57
++	     chip:    APIC
++	      flags:   0x0
++	     Vector:    33
++	     Target:     9
++	     move_in_progress: 0
++	     is_managed:       1
++	     can_reserve:      0
++	     has_reserved:     0
++	     cleanup_pending:  0
+ 
+ - A QEMU instance is booted with "-device virtio-scsi-pci,num_queues=2"
+   and the kernel command line includes:
+-- 
+2.51.0
 
