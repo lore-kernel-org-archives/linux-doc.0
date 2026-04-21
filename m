@@ -1,177 +1,141 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFE83A4F58
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 14:30:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A38C132937A
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 14:30:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776781819; cv=none; b=liF/IkRazeiN15Bh0EM63NMItVNu+d+K71DH+BoIP0gQCFy6BVcK+MJ1/5/V2udTy/OOedAbN6OGgI7Igb4KsNMesWJ0VqXAAKANxWFKiGDuIocQGuRuZe2pg4OQqFYGJlTD0QwRQmAqevTNv+w5Yh6ud0cyU7SX5aEXBZI5B0Q=
+	t=1776781826; cv=none; b=R58q9SV8lfpP8F9KRx4fbw1B80BmEi5LX2t/0THAYNqnhT0DGWxWcn98lOIFFFuNLdgPDJ6e7aLS1MnueMI6AvEtWEqrGor7EUvKFO0SzNuPkK5wTNrwcvtITIW+N0xOAVoKeqXEbGEqL8cgtIlP1BPK7d/Ltw5b9q2LSg4S/Gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776781819; c=relaxed/simple;
-	bh=OOpDos/Z9VaSP4OAHAzHjn2FVBZGB3TMPAJ8x0XR0vE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=unAu8grm4aQU3yrVBpFPdUIJRTMFBvue87/TbACYCJRWZgVCLoVqeCRcv/fofylLH5a3eRTBtJc6yIfSKjkh4oeb1qTa9ohSsfv4kdbmujZbkGuhyQJCBQdXgyxo3jR+ZZCz40MYYb19pUNxg7+odweaBVxUce7/qLy0eFa820c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=HNkNC2gI; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1776781826; c=relaxed/simple;
+	bh=wzm7TkfUtsdkCf+9WRD+mx0ZLEZab+prGzlMMBHO+zg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=guJwx7ZWj4Z7kfe4Ch3QZj1wOiU2vLu54f9LGh7kqEHcSILV+FmoY4NCyAvoA7LAadYlI7HRk/vHyhuA5zIeu33k+AavmB8CzTgPOblYrMwqbsanQBZtHgWzCb+n+JdOsngEOMbBKHMYwD7uIFAq/YahqSErAGuuh3UmRE/57NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YbV/cz7r; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="HNkNC2gI"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-8ec37d52c0dso207035185a.0
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 07:30:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1776781817; x=1777386617; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=J5FC0V63oKQuJOmL33I9jXWd+zejUzRlce9wtAa95Fk=;
-        b=HNkNC2gI2eee0tIfC7zlTHK7o7liYfOU+2qWrUmMuIJhiv808HBeCaTB00/dh1kfEc
-         75GibcrGetQgVIcD/DGPJ5RtqR91E6MZzRcOezTyV8FtTqc+B4JVXIR4lRsy7Th0UfNH
-         Oh5TpA0f+5JkuzRqs+QQFPEZNImMjLBkW1q9CXsKQpyEuUvrhLCGEpKGttnFqofxB5QU
-         v/NyiNdDAsnNozXE3Ite2steK0jDTBwuQznep6tHX9RyEtIt3y8xmyJDJLHiqvX5/JqR
-         VvVU30LAv80bt/gsCSp2zvZvBBidUjYNGQ7UbuwNksfaX0QiGtjg0GoYL0xq9y6VYwl5
-         8v1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776781817; x=1777386617;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=J5FC0V63oKQuJOmL33I9jXWd+zejUzRlce9wtAa95Fk=;
-        b=mWeTbfqU7Jb4Petaw+UQ+yX1RQ4+BXuzRCy5eAfOvr0ueD/MSqienN0ea9c59pVfx5
-         LhGSSJpLXXN/F48w0HZyVkHkYGOe358TgZpdkm/51rdhTIOoYkqm+TPp+rkigh2NNUSW
-         7N5z1Zr0fYOjiGo0luqh77epYAtQ9ZnfaEn2gAAiSkhtGBaFGlpeFBJ7KALXiU7AGhLc
-         5UM9Hl/pUqWgfagP8n7OZFuGzCcZXVQ+ykS0A7e9ETCWteI2ZV6YGFSExRgBfdZ1zBBJ
-         UU9E7KKKVITjjtl/1sRg8cSexeC2XOKjipRA55CjRtGhgxgjgrwPUzpV6FQVaCTHgIfJ
-         H2aA==
-X-Forwarded-Encrypted: i=1; AFNElJ9g6vTh5cUBvRugAzysHDULdfmRoeQ357BubU5kZxEO3GchLZ6z1s7V42sc+l9blINuVlg97ExOlNY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOef4g89ndKg0D/uuzucFcYMlTB5yMA2v9V480DQ/jrRtSp/l8
-	ZMpJQSTfiFGAKPdutNBh/Im17ODJPW/sqrpNgGYr83U5aVZVjvShaDMfEmCFuvOGS6U=
-X-Gm-Gg: AeBDiesbXPxbj+0S43yTwRWfGFkjdgBrz/2oyYjxhsx1uo3ADodJf4C6nGT4VAKwZS6
-	g8KBBlLEyy1ftZbwUlWrBBUwrCOouTFD/EWDbMWHxx4TOWNRFHQ2N71jEQi6FByLdDSv9Rq7NFH
-	uucwNt+pB+bz9H4vBg0ZaboznWl9oXf6gggvw7/C9/m4dPMX/50X8y8eUUiknOlFPM6/tjTqf+c
-	9b5lZxV5oSqjAMslD9fzE19IFygddgw1SXK1y6M2K7SZs8g2un/jXy6rklbzPE0RZuoncqF3NgI
-	b57aBm+4/8HY7xzO7lQC/5FpyqFbswePMKmUQb5EaS2zv0PdkFmRzwoS1Pipkj0SHts+xjATqVi
-	mFpNopzzi64rTQhRDd93MntHXaS27HvMCEkKyl7rsJxKXQB6IvK3MQu1prVz4JSVOtf5WWmYjHz
-	FHf4NBT6DqcE1n+4LFt9b7mIgGQVWc9e8aw3NXmgJYMuXxXx8=
-X-Received: by 2002:a05:620a:17a3:b0:8ee:e011:a77a with SMTP id af79cd13be357-8eee011add0mr229077285a.13.1776781814650;
-        Tue, 21 Apr 2026 07:30:14 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F ([2607:fb90:a81f:533:271b:a845:9f29:eff0])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8eb19632130sm612607285a.41.2026.04.21.07.30.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 07:30:14 -0700 (PDT)
-Date: Tue, 21 Apr 2026 10:30:08 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Joanne Koong <joannelkoong@gmail.com>
-Cc: John Groves <John@groves.net>,
-	"David Hildenbrand (Arm)" <david@kernel.org>,
-	"Darrick J. Wong" <djwong@kernel.org>,
-	Miklos Szeredi <miklos@szeredi.hu>,
-	Bernd Schubert <bernd@bsbernd.com>,
-	John Groves <john@jagalactic.com>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	Alison Schofield <alison.schofield@intel.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shivank Garg <shivankg@amd.com>,
-	Ackerley Tng <ackerleytng@google.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>,
-	"venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
-	djbw@kernel.org
-Subject: Re: [PATCH V10 00/10] famfs: port into fuse
-Message-ID: <aeeJ8Lgg2z0X-NC_@gourry-fedora-PF4VCD3F>
-References: <adlBcwJjLOQDAR65@groves.net>
- <CAJnrk1a06zkUmXW5EFiUmgAoFauwtzsYvnotaPH0ifVtyh7iDQ@mail.gmail.com>
- <CAJfpegvVTcV89=q3L326aGQjhduBcv7PVg5QKftGLjNZmCLmaw@mail.gmail.com>
- <ad4_jFsR951c2Mtn@groves.net>
- <20260414185740.GA604658@frogsfrogsfrogs>
- <ad69tTnx5YkD4Y9K@gourry-fedora-PF4VCD3F>
- <f254f6fc-dc06-4612-82d7-35bb10dbd32e@kernel.org>
- <aeUU8hMwPij2WvfF@groves.net>
- <aeVy2MzucnrLlOQx@gourry-fedora-PF4VCD3F>
- <CAJnrk1ZpPS9rOoBqOBRsqTu0Zgk=aoYzpYZ0mAVDCoeewtLhcg@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YbV/cz7r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776781823;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TWylwziUJR6+djO988m8SXRnsaLXz4wU91J/b9HxTcg=;
+	b=YbV/cz7r9U1RW85Z52XozpZRqK/cBxpucRO4JzKQREXFMzd9IBUCgb6j86rKahMLFDRstu
+	0X9CQzYYIyoNMgCgF2iDb3i4/7iKTo8U1QNP20BK92kjfVOHhwbcD88PNNJmvdRKPccqFq
+	DYFBKpjShbqX54H62RsHWu68VndoaNE=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-97-OuySZZZCNne9e9u0fHq2OQ-1; Tue,
+ 21 Apr 2026 10:30:16 -0400
+X-MC-Unique: OuySZZZCNne9e9u0fHq2OQ-1
+X-Mimecast-MFC-AGG-ID: OuySZZZCNne9e9u0fHq2OQ_1776781809
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CE80619560AB;
+	Tue, 21 Apr 2026 14:30:08 +0000 (UTC)
+Received: from [10.22.81.187] (unknown [10.22.81.187])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3068C1800660;
+	Tue, 21 Apr 2026 14:30:00 +0000 (UTC)
+Message-ID: <46e1989c-d0a3-46c4-9a9f-3476789b9dc1@redhat.com>
+Date: Tue, 21 Apr 2026 10:29:59 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 16/23] genirq/cpuhotplug: Use RCU to protect access of
+ HK_TYPE_MANAGED_IRQ cpumask
+To: Thomas Gleixner <tglx@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
+ <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, Chen Ridong <chenridong@huaweicloud.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+ Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ rcu@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
+ Qiliang Yuan <realwujing@gmail.com>
+References: <20260421030351.281436-1-longman@redhat.com>
+ <20260421030351.281436-17-longman@redhat.com> <87qzo8bs9m.ffs@tglx>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <87qzo8bs9m.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAJnrk1ZpPS9rOoBqOBRsqTu0Zgk=aoYzpYZ0mAVDCoeewtLhcg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Mon, Apr 20, 2026 at 08:12:17PM -0700, Joanne Koong wrote:
-> On Sun, Apr 19, 2026 at 5:27 PM Gregory Price <gourry@gourry.net> wrote:
-> >
-> >   struct fuse_dax_fmap_ops {
-> >       char name[FUSE_DAX_FMAP_OPS_NAME_LEN];   // 16 bytes
-> >       int (*dax_fmap_parse)(struct fuse_dax_fmap_parse_ctx *ctx);
-> 
-> Just a note for later, if the bpf approach gets pursued further:
-> instead of making this a dax specific ops, I think this needs to be
-> integrated interface-wise with Darrick's fuse-iomap work since he does
-> the same thing. I think dax_fmap_parse() could be renamed to something
-> like iomap_setup(), where userspace can use this to do any sort of
-> generic setup, whether that's mapping related or dax related or not.
-> In my mind, the dax vs non dax distinction is handled by the fuse
-> iomap plumbing that chooses which iomap entry points to call,  but
-> beyond that,  the callbacks and struct ops themselves should be
-> generic enough to be shared between the two.
-> 
+On 4/21/26 5:02 AM, Thomas Gleixner wrote:
+> On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
+>
+>> As HK_TYPE_MANAGED_IRQ cpumask is going to be changeable at run time,
+>> use RCU to protect access to the cpumask.
+>>
+>> To enable the new HK_TYPE_MANAGED_IRQ cpumask to take effect, the
+>> following steps can be done.
+> Can be done?
+>
+>>   1) Update the HK_TYPE_MANAGED_IRQ cpumask to take out the newly isolated
+>>      CPUs and add back the de-isolated CPUs.
+>>   2) Tear down the affected CPUs to cause irq_migrate_all_off_this_cpu()
+>>      to be called on the affected CPUs to migrate the irqs to other
+>>      HK_TYPE_MANAGED_IRQ housekeeping CPUs.
+>>   3) Bring up the previously offline CPUs to invoke
+>>      irq_affinity_online_cpu() to allow the newly de-isolated CPUs to
+>>      be used for managed irqs.
+> Which previously offline CPUs?
+This part should go into another patch.
+>
+>> diff --git a/kernel/irq/manage.c b/kernel/irq/manage.c
+>> index 2e8072437826..8270c4de260b 100644
+>> --- a/kernel/irq/manage.c
+>> +++ b/kernel/irq/manage.c
+>> @@ -263,6 +263,7 @@ int irq_do_set_affinity(struct irq_data *data, const struct cpumask *mask, bool
+>>   	    housekeeping_enabled(HK_TYPE_MANAGED_IRQ)) {
+>>   		const struct cpumask *hk_mask;
+>>   
+>> +		guard(rcu)();
+>>   		hk_mask = housekeeping_cpumask(HK_TYPE_MANAGED_IRQ);
+>>   
+>>   		cpumask_and(tmp_mask, mask, hk_mask);
+> How is this hunk related to $Subject?
 
-I think this is reasonable.  I'm not a FUSE wizard either, but I would
-presume the iomap_setup() process would just essentially be John's
-existing GET_FMAP / GET_DAXDEV code bundled.
+The subject is actually about using RCU to protect access to 
+housekeeping cpumask. There are extra info in the commit  log that 
+should go to another patch.
 
-GET_DAXDEV happens lazily to save him the round-trips to userland if the
-DAXDEVs have already been seen previously.  I think your proposal does
-in fact save him further round trips, and it would probably solve the
-performance impact he saw from porting to FUSE.
+Cheers,
+Longman
 
-> > And otherwise, imap_begin() works exactly as Joanne proposed, but with
-> > in-kernel cached data instead of the bpfmap.
-> >
-> >   const struct dax_simple_meta *meta = (const struct dax_simple_meta *)
-> >                    bpf_fuse_dax_resolve_get_meta(ctx, 0, sizeof(*meta));
-> 
-> another note for later, if the benchmarks prove promising and after
-> the LSF discussions we decide to go with this approach: imo we
-> could/should repurpose this into a generic
-> bpf_fuse_iomap_get_inode_meta() that returns a bounded pointer into
-> whatever opaque blob was cached on the inode during iomap_setup(),
-> where it'd be a generic kfunc serving both the dax and non-dax case
-> for any kind of mapping layout
-> 
+>
 
-Note that Christian Brauner just said he preferred not having dedicated
-bpf storage in struct inode [1].
-
-sans BPF, is there value in such a metadata blob existing?
-
-If there was a generic format, then I suppose the blob storage would not
-be BPF specific, it would just overload it (simple union).
-
-[1] https://lore.kernel.org/linux-fsdevel/20260421-arsch-gelernt-e0b5bcd8a7ff@brauner/T/#m8fea90f5ed4a1b23bdc2563d978948b263b2030b
-
-~Gregory
