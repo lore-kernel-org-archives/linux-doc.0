@@ -1,271 +1,216 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B195E17B50A;
-	Tue, 21 Apr 2026 00:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.16
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776730923; cv=fail; b=b/YjgRA3muNUSwgq5mqHBPAILyntmsShxoTnU5LwH+wHV6YfLX/NqJqoHtBfqlMQ88nIDVupqNSZ2KDSBX/nBH5zvu08ZNJGb7UCMKhSZqPAOeVXmWFp26SEZ6SuNkgYub5Rp8/UuNhXKKqhdEGPfBP86KmFv3mPdMEpUA6itWU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776730923; c=relaxed/simple;
-	bh=0L37Kp15vk3LiB8Vk4icAXKPCauxu695P07iWZAnWVc=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=lRjDxd/nmxqKD4+lAXZAwkxF8qG75ic5k2JU0ql/+IpcrCGRgo/P7San458gSHVryZqaRBC/bjAZtvMTN9Ve+YXJyTLSKmYyD9oMh/DcfVLV6FFw+J+Fpg+adk3QMman729pkaNeUUfe20xN5T7EsSA9zoJc4dCxe+gTEv1/qHE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DpKDDr8u; arc=fail smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DBC18FC80
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 00:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776731267; cv=none; b=Kci2nbsCjsiVUO7Q1QorPsI/1y39N7+4L2u3DORcs1yA5wzHRXwnKQeHEkwHGAtwgMtgpr2yqez55NZ7fQcT1/ay8FQvDSru21H92mF52WMJj6gPxyKd0UylnKAfZuQb2CRnq7lh5dNzqUS6vtqLT49qbVTJdPw3WEgGuE1dtn0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776731267; c=relaxed/simple;
+	bh=XRYVcSoqqfH9DQ61xNZQgGEV0cfKqdM4C9/1yqbmydg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ejqeI3g38PDdrx/dClX4kmvUBwSOraISi4xTz/6dp5nUlxSpsRVv3o4lX8zmPyuyFpf8KndmWcYnM/i7Emlv33bbQYFFM5tdb/cPg8+gsx2d4h1zpxb7+xjwPzGDtaiaJCIGAFm5wjevfzF1n/fGbGmXwUgOjpvwArdHWa7qh0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sD1f3tcq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DpKDDr8u"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776730922; x=1808266922;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=0L37Kp15vk3LiB8Vk4icAXKPCauxu695P07iWZAnWVc=;
-  b=DpKDDr8ukA4rHW4686aHgNo1foC0Q2PiOrm1ukTvsMmxNao0hiRdmqg6
-   I3iXuSplCXgEzqyXtivMsdDbz/xSLQtBN+CBNl6cf8TJY0JRBuNHL7THx
-   lSHO2a9wQNse/pjRPq7Xwi0cvfkkwqtA2Owm0QQqEvH/OWcTd+fZScQEf
-   MFwAoAT1tmA8r+QLQylaSU6dtpQiSh4YjX//YgK8ZRkfUj/uqAtm+ObMd
-   Xvyk1r+aPGRFp1vgsK5Df7NrT97MHAwPlgMB/7nIo59S23FoOG+VTWn5d
-   0l0jRkEm1zhj9rOdAQdn/arw8562XRRbwhOuqA/3QkBJAFI8YVfL8/JVQ
-   g==;
-X-CSE-ConnectionGUID: uRQYokQDS+KbycBmxr8fZg==
-X-CSE-MsgGUID: 6F6M1xApR2qoh+s7XvCp8Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11762"; a="77839078"
-X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="77839078"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 17:22:02 -0700
-X-CSE-ConnectionGUID: o/u/GSoAQCyVUI2UXVK4vA==
-X-CSE-MsgGUID: jMhD7maQSt23zb7cdZ0F6w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,190,1770624000"; 
-   d="scan'208";a="236846817"
-Received: from fmsmsx903.amr.corp.intel.com ([10.18.126.92])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Apr 2026 17:22:00 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx903.amr.corp.intel.com (10.18.126.92) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 20 Apr 2026 17:22:00 -0700
-Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Mon, 20 Apr 2026 17:22:00 -0700
-Received: from BYAPR05CU005.outbound.protection.outlook.com (52.101.85.8) by
- edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Mon, 20 Apr 2026 17:22:00 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HPxyZiS9wa+JUHN2pWUW21/4HrO3gv0hJX21ZLu5dJYWlRkhL4fm3lJWyCs9IW2fM738m4dMLZyrQBuaQdo5r2HWw2q1VnhxrCAJH/8YTTZZp8phtmths8ZmSoXh0ESATrLaQNSR1niSlTs7lboddljJd+Sbnou3DopDDokI5dxxKOxMJJjAj4T+84W80a06KKFlA/aRRfjnQApJimtZJMmecvr4PLOyUxsZ3tHVMCi2sA+StHyqukzMHXZ8U5oZqAvKEZJH5T2Ko32zaq9yIqu+ieTCtOVXrwWAXBQva3IgvLO7gMzyqJhmv17IKLGT1Xh/VwIL1f7PAr49sEvNgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KglKSwgRQgnctHsXTGYQzqC8dLTgKGIhMzM/kGQmpns=;
- b=i1L7/cs9jOZ27ov2C6cNHjV+LE2BociahwslQa2ke0Q1StVMmsd4PorHK5+Adezi/m4eV2vVDABArxMPVPdVfbWNmFBriXUeilPLpC1ohNA8B0/flqNkcrpto2L+OTATViQIPvHuV2bZ32G56KJ41o83ttw5S6j4IOEf/fvN2qXFsxOcgv2+392y4arLcAcqQwXEfNXisv6caWb7bKGKYo49m7W7TKC3iPj7RzG2MXFVFuSP01Bqt+7/KkuG2qHuCBdO1TUABfSFSTi57nshpGIvy5SbT+RShCqOvYnHPrYFFVyhNlzU4959T1VJX195IUjXyepuXhvTHc9L74JVUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by BL3PR11MB6481.namprd11.prod.outlook.com (2603:10b6:208:3bc::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.15; Tue, 21 Apr
- 2026 00:21:56 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::bfe:4ce1:556:4a9d%5]) with mapi id 15.20.9846.014; Tue, 21 Apr 2026
- 00:21:56 +0000
-Message-ID: <58b8fe0c-80f6-4ba2-abbe-90d0ceee6daa@intel.com>
-Date: Mon, 20 Apr 2026 17:21:50 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
- support to the resctrl subsystem
-To: "Luck, Tony" <tony.luck@intel.com>, "Moger, Babu" <bmoger@amd.com>
-CC: Babu Moger <babu.moger@amd.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"Dave.Martin@arm.com" <Dave.Martin@arm.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "tglx@kernel.org" <tglx@kernel.org>,
-	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>, "x86@kernel.org"
-	<x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
-	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
-	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
-	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
-	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
-	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
-	<vschneid@redhat.com>, "kas@kernel.org" <kas@kernel.org>,
-	"rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "pmladek@suse.com"
-	<pmladek@suse.com>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
-	"dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>, "kees@kernel.org"
-	<kees@kernel.org>, "elver@google.com" <elver@google.com>,
-	"paulmck@kernel.org" <paulmck@kernel.org>, "lirongqing@baidu.com"
-	<lirongqing@baidu.com>, "safinaskar@gmail.com" <safinaskar@gmail.com>,
-	"fvdl@google.com" <fvdl@google.com>, "seanjc@google.com" <seanjc@google.com>,
-	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
-	"xin@zytor.com" <xin@zytor.com>, "tiala@microsoft.com" <tiala@microsoft.com>,
-	"chang.seok.bae@intel.com" <chang.seok.bae@intel.com>, "Lendacky, Thomas"
-	<Thomas.Lendacky@amd.com>, "elena.reshetova@intel.com"
-	<elena.reshetova@intel.com>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-coco@lists.linux.dev"
-	<linux-coco@lists.linux.dev>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"eranian@google.com" <eranian@google.com>, "peternewman@google.com"
-	<peternewman@google.com>
-References: <43880b7b-b390-4e7f-8c2a-46cde9e3b051@intel.com>
- <bb9f62f1-0c79-4d29-9866-c39d08c3a774@amd.com>
- <5a273b0f-8225-4e9e-924e-884183734659@intel.com>
- <73c46024-4cf2-4f03-9268-d4378825fa87@amd.com>
- <973067bf-6e6c-446a-a81a-713840d701a9@intel.com>
- <90f4a692-1c27-4967-bf12-ec3cb597681d@amd.com>
- <68a551ea-d9f0-436a-9bef-e35fd027bb95@intel.com>
- <39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com>
- <b74cfe34-e23e-49e3-beb4-d5639d42d5cc@intel.com>
- <99a2da36-6a21-4a99-98e0-3c9a4cf7ecf6@amd.com>
- <aea-wdaZAWl2Al1h@agluck-desk3>
-Content-Language: en-US
-From: Reinette Chatre <reinette.chatre@intel.com>
-In-Reply-To: <aea-wdaZAWl2Al1h@agluck-desk3>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0308.namprd04.prod.outlook.com
- (2603:10b6:303:82::13) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sD1f3tcq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1EA9C2BCB4
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 00:27:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776731266;
+	bh=XRYVcSoqqfH9DQ61xNZQgGEV0cfKqdM4C9/1yqbmydg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=sD1f3tcqiZA4jGxJv5GIVTC7qXdVR9I1oiSA+jlV1WLD3S330lZMex5vSd6hGUpa4
+	 KR6wiWQnhsft2mh+KYD+CfUfk5IF5MOcmnBgPh5J0udUIDKyD8ybmyoL6WpuLf1eU+
+	 Fh9pyKWPC/nDIDAhBBBYXgMGvt6y/61lMvPmEP8c5HadrhaRfSEd+yva3hyTudmZzP
+	 hB5qDlfL34z2jcbNdpkgdWr0+qnfzA6ZxSod2iRek2ywWBswoQ0fHZk7eS+LhEUn9a
+	 1+Y9r6c5X4PqH2f8pPwVjd7pPh/1BmyoixYSo22AoG8okUyMuGl4HbPqfldiN3sXMZ
+	 akg10FHhJ7ymA==
+Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12c55e3858cso9200521c88.0
+        for <linux-doc@vger.kernel.org>; Mon, 20 Apr 2026 17:27:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9OwYAHVbbRe8PJju8Ya552fxDlG5sbr+N5b2CG30Y7rDf2O9w4BfU/9vqaWvapZSWNGSH5+9Jw1G0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzZ23DYs+i1ESt/435CxUHY70kbu3tYS5HMkLVpLfXBpvLuTM1p
+	h6a0+cb6iNFQNxxDB4ro74Ngm3h6s99E6n6OcmgRcZ2Pb7r5PVI3StZxMRL/06HHKTsuoOBShwa
+	JP22HtiyNvf1PkEWR+nzatyQW6o9FBXw=
+X-Received: by 2002:a05:7022:129:b0:12a:68cc:3efb with SMTP id
+ a92af1059eb24-12c73f9303fmr9341550c88.16.1776731266134; Mon, 20 Apr 2026
+ 17:27:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|BL3PR11MB6481:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6323ddc-9383-4ab5-fc51-08de9f3bfe26
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info: cNLalT8j9PVngSnuVnOIWqXMdrZ9YlZ1OxaIa/3F1vQKf7wkW9JiUtf5CDckkXQY7EVm0NXtIFY0vqePmizNHx74GPfnHr2ypzNCnuCtWWDOfPaVpdN82WsBmVtlO7JqPUm8va/FCIZ257EIsw7WEojR4qAIcQ3vrKyiUAX9gqgmgpZJvwEkP2Y6mpnqnlXe8rkFzhtcQ84GZLlHuSApkvyPbzAk0FfCYkzjnx5Azd6Elrn5PDU7tAp1yYOIkMfIT+uUBRSEgjwBojOoAgKMA4raO/vJDOdTC8kc5fqwu1VqM6zD1Hn3ZzUVOJy68quXyn0OeZ/U/9AvvpKf46UNx5BjYdkzDZypdPvz8F74fGwxy22QHIx2Rog5awrZFPMw3ovmBkivngPwddAbqzSDjMhAW79x0ud5gpjv4AOYMSjjQmk4en3XvXDC4821j6ZYhGjErbwSQMJQApMX0rhm5KgKRTe8pAB0AuyxLjRR/Yw2qe0/hr4myu/XcO4Ei6x4lITJXFS0RU+yYin4tF73qVD2JSAJVQJ/nSU+0p5yg7en5sBqvqZNpqDwYJZGq3dOlM0SO4CCW4DBhkfgERbHmo5tiawkUq1lIqptIfU/xcRzXKQIsnWqNZ/daH8QwslegGVAwaeScyWRvuxWIfzJCvIMDCiJ31wCgqN0rERcTuw/GoxmstWB14r3F4abq1qX0pMyuxWHPngo4fq7qKNho+pzbnlbmdpImf8TM9prT74=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?TmZWc3dTRWdIS25rdDZENXVyYXZITEpOOWV6eDBXRS90MytabXhpMkhSdXo4?=
- =?utf-8?B?LzB0OXo1VXhNQmRNNDVScEdwSGxHQnI0QUNDajJ4UGlvWUUyc2lsWVg4M2NI?=
- =?utf-8?B?bjljMjZXUkNwSUwyNndnNTVvNjdORXVRVHMySTBkYzYrRTJMVDNQRG1yOG9G?=
- =?utf-8?B?UngvSzk3eFp5UkJja0VZU0dKUStmd29qOEszaEprY0hPZDUvZzJHS0FTQks5?=
- =?utf-8?B?bkxvRCtCK3JBakFWYjBRRnFUQ0d3M0pCMDcxdTh2SFNYYUpSRG1WTFJncE1Q?=
- =?utf-8?B?b2ZMdngySmQwdU1BaEFFRmVPRU9iZmFheitMWXJEMnRKOXgxMEd2a1FROGNH?=
- =?utf-8?B?MHVsWUIxa3k0QlhEUjgxbUtKTlR0OVFTN0MweU02SXlDa1JJL3hvNGNyeDRi?=
- =?utf-8?B?MERZRjJWN0RuZHV6ZEcvZWhpNzQvQXQycUNySXpzZDN4YVMyQVJCK0tjRUYw?=
- =?utf-8?B?bjg0UDJZaTBsMXl2UEYxT054RUZPcXhkZFB3MmJNMTdiV2pnV0pVNVR5cDFE?=
- =?utf-8?B?N01ORW9XdFZqQmxZR0pZcWlKa0JHUTNta21wT1RTSU9aTXJnTnZkWjltVEto?=
- =?utf-8?B?ZkIvb1duWitzcFlwWU9KdVo3c1hXM21nL3k0VlpmWVIwRzU5SDJPVllYZFVN?=
- =?utf-8?B?dE1OQWdQdVdJTzlOZW5qcGZXN2JSNnBNcnl6ZDZuQmVneitZRGM5QXlkRTE3?=
- =?utf-8?B?WGxiS2IwekJhdzJSYTBsYVlYSzllbCtVeDBSV0VxZFVZWlJ0SEdyMlptLytN?=
- =?utf-8?B?NmxyUGdzWGVQeGxzMTl3VFE5RTN3cE5SdG1VZ0JBNTJqZWRNQmRsZkhmUUlH?=
- =?utf-8?B?ODBmSkVDdis2eThCNmJGNGxsRUJpMVJiUEVIa3l1V1doUllwbjEzc20vZTFK?=
- =?utf-8?B?Mk1ZaW80VHZDYjVjd0RiaThnUFNXV2NtVGZMWjBodFNzaXAxQXFTZ2ZJMTBK?=
- =?utf-8?B?TzgvTUFlTVRRcTRFNlFIKzY1a205c2d5WllZamtDTG5YQmlWVmRuczhmanM0?=
- =?utf-8?B?ekZmRHVkWHN6VkVmcnFPYU5KZ3p2TGM0SWxRZ0ZTZ2FzT25jbThaWjVpY3kx?=
- =?utf-8?B?VGJYODRLNjl2WkNvdE5NQnpGUEdKN0N4UGpLWlJubEFmTGFXYk16bU1VdDNH?=
- =?utf-8?B?QzZUVWtnTVR0UExJd1VRS0hDRmFHQklPd3ZhZ2g5UW1SVlBHS09QVWU1bnM3?=
- =?utf-8?B?a2dMRVVjN2JwNi9ld0N0MnFYMnRIN0J1L0VycGd5N1VzZkF3NXlSZ2YvOUJT?=
- =?utf-8?B?bmdENG5kMjhHMGMvbGdsYnBwQm1NekZOeU5ncVV1SHJ4TnBMSHJBNUFpQXhy?=
- =?utf-8?B?Qkt5Q1U5UDlKQThDWEphVGNtK0pnZElWeUZ4K3hrNklTelk5VEFFMG5BamV3?=
- =?utf-8?B?Tk1jR2Y3MkV3eVVKVGdUZ1hFTFhoR3JFYjVKVzNGNCtxcnVVc3VpKzAzZzMz?=
- =?utf-8?B?b1hJeUh4SDA3L0IzZmtmME9hYlZ4YUFJOG4xUjV3TlpNVUpjOW0wUlE2ck5i?=
- =?utf-8?B?aTRnb1dWMkU5SU1NTlBYZzBKWUVGR1JxS3hLZUhQMERJMWJBNnU4Z09NeXBl?=
- =?utf-8?B?OHh1eEhFWGlyRHF2RnNLc3R0MDRGMm1xenFlVDA3K2VMRXFJU2Z6QzRLcFRZ?=
- =?utf-8?B?ZXpxZFIydmoyNmRqVWczcy8rcFlCdmRjaEZYcXlzMUg4MjFPaFVtYkRJQjBF?=
- =?utf-8?B?dW05NXl5OFlRamJaeXNGdmI2YXdHdldpRUd6dkRDaTlxODFzajlObkIvV1Zt?=
- =?utf-8?B?WnkxeFgxOG12U1FrQy96eWhTVTdqVGc4UzB3RVNCaWFNM0Z1U0tKbWd3eXBS?=
- =?utf-8?B?NXBOQVJkdUx5cXJVQTJDZGwwTHdLem9GMkdhYnVXd1RkNnllV05tZlJ2NGJx?=
- =?utf-8?B?RUNXTDRoeUhwaHZJemNaQ2IyU0JOTEZIQmpOTk5aRFd4RVRiV2ZGdUMxNXZJ?=
- =?utf-8?B?RG9PcHU4RFB5RVN0a2EwbGplaDU5SU9adjMvK3NncHpua0hlQ1RmdEhMejdM?=
- =?utf-8?B?YUdOeGI1aHRBc2w3MTloWGRIaWtmUW1hTWhEYW5YVGt5bTJTbmgvY1NodTgw?=
- =?utf-8?B?VThYdk1lODl3N3I2bmE0dHJiUy9qZllucy9qMURnSXBYOFB1SVJ1VWlzNEx5?=
- =?utf-8?B?WFJTaW9QUE9HT2NSM3NaUFNVdzB5MlJBVXVZelMxblFPWVRjRVpCV2ZORkZY?=
- =?utf-8?B?UWxCUDJmM2UwL2pCRFgyNEVSS0VnK29aNDd6M1g2SEFwSXc1RTh5L2Z4dnhG?=
- =?utf-8?B?aUVPSnFMVUdLdkVPK3hlYjVxakp6WWx6UjJkL2FFODI5Z052LzhnYTJDbEQy?=
- =?utf-8?B?d3IwbzhmN2dwcHV0TGhveGwvOXF4bzRLaVNIMWs4L3dYckhEZFdvRk1sSW5N?=
- =?utf-8?Q?MNzp/a+tP83MonC8=3D?=
-X-Exchange-RoutingPolicyChecked: sXDco4eMtDYou6XYjdFk2z+iQ3dbAED2Hw9odv2rvO/TbuL/7HCEL107dMg70Vs43GVXt+TTh9ULhlyITvomvVUaYcnsKWA1B76lUIk0OLrWvvRl9hVhJ1ZEMwme0m91FWo2jTVF8TOUdKJPDSBEUcDQeCDNP0u0+fwkUZ8+kKKCwF8WNmIz4Ab7y9CY1KQy49WvrAGRlJtPn+IOi9IvmbjdQMBkezA/GnjOdyZsIPo4YSPfxxOOCEslrPsjLc2F8335jLqPiQj5vt1DDzF45OTvy8OUXcyho1g1dM8YPRN/hVf/g86GJbRr1sgxVB4kee2wfh7e+UPrLNJaesCfCQ==
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6323ddc-9383-4ab5-fc51-08de9f3bfe26
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 00:21:55.9092
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CGFAYHCRYhO6nC371rGOfMIsbmG6Zmjl44OGYb8fHaAUD/EDeieO8JJm1bg2JYJ4/unRd8rjVx7rQgDv8HrgZgXQlgstp5PBiO6cFC4/mnY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6481
-X-OriginatorOrg: intel.com
+References: <20260420212653.438685-1-bboscaccy@linux.microsoft.com> <20260420212653.438685-11-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20260420212653.438685-11-bboscaccy@linux.microsoft.com>
+From: Fan Wu <wufan@kernel.org>
+Date: Mon, 20 Apr 2026 17:27:34 -0700
+X-Gmail-Original-Message-ID: <CAKtyLkEEjzcjptcN8DU70HfDJ7bw18S2mtgFPUyn9P46QUhsmQ@mail.gmail.com>
+X-Gm-Features: AQROBzA82f5m-fKWLXZaGuSgKj9BtyvKQk95_F9gjtfs5CIlyux5ZxRV-aWEB8E
+Message-ID: <CAKtyLkEEjzcjptcN8DU70HfDJ7bw18S2mtgFPUyn9P46QUhsmQ@mail.gmail.com>
+Subject: Re: [PATCH v5 10/10] ipe: Add BPF program load policy enforcement via
+ Hornet integration
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Paul Moore <paul@paul-moore.com>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	"Dr. David Alan Gilbert" <linux@treblig.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	James.Bottomley@hansenpartnership.com, dhowells@redhat.com, 
+	Fan Wu <wufan@kernel.org>, Ryan Foster <foster.ryan.r@gmail.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, 
+	Song Liu <song@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tony,
+On Mon, Apr 20, 2026 at 2:27=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
+>
+> Add support for the bpf_prog_load_post_integrity LSM hook, enabling IPE
+> to make policy decisions about BPF program loading based on integrity
+> verdicts provided by the Hornet LSM.
+>
+> New policy operation:
+>   op=3DBPF_PROG_LOAD - Matches BPF program load events
+>
+> New policy properties:
+>   bpf_signature=3DNONE      - No Verdict
+>   bpf_signature=3DOK        - Program signature and map hashes verified
+>   bpf_signature=3DUNSIGNED  - No signature provided
+>   bpf_signature=3DPARTIALSIG - Signature OK but no map hash data
+>   bpf_signature=3DUNKNOWNKEY - Cert not trusted
+>   bpf_signature=3DUNEXPECTED - An unexpected hash value was encountered
+>   bpf_signature=3DFAULT      - System error during verification
+>   bpf_signature=3DBADSIG    - Signature or map hash verification failed
+>   bpf_keyring=3DBUILTIN     - Program was signed using a builtin keyring
+>   bpf_keyring=3DSECONDARY   - Program was signed using the secondary keyr=
+ing
+>   bpf_keyring=3DPLATFORM    - Program was signed using the platform keyri=
+ng
+>   bpf_kernel=3DTRUE         - Program originated from kernelspace
+>   bpf_kernel=3DFALSE        - Program originated from userspace
+>
+> These properties map directly to the lsm_integrity_verdict enum values
+> provided by the Hornet LSM through security_bpf_prog_load_post_integrity.
+>
+> The feature is gated on CONFIG_IPE_PROP_BPF_SIGNATURE which depends on
+> CONFIG_SECURITY_HORNET.
+>
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+> ---
 
-On 4/20/26 5:03 PM, Luck, Tony wrote:
->> The system boots with these default settings:
->>
->> # cat info/kernel_mode
->> [inherit_ctrl_and_mon]
->> global_assign_ctrl_assign_mon_per_cpu
->> global_assign_ctrl_inherit_mon_per_cpu
->>
->>
->> At this point, the interface info/kernel_mode_assignment is not visible.
->>
->> Next, lets create a new control group:
->>
->> # mkdir ctrl1
-> 
-> This allocates a CLOSID and an RMID for this group.
-> 
->> We want to designate this group as the new kernel-mode group.
->>
->> First operation: Change the mode:
->>
->> # echo "global_assign_ctrl_inherit_mon_per_cpu" > info/kernel_mode
-> 
-> This mode needs a CLOSID for PLZA, but doesn't need an RMID.
-> 
->> At this stage, only the kernel mode is being changed. However, there is no
->> way to know which control group the user intends to assign to kernel mode.
->> All we know here is the selected mode.
->>
->> After this operation, the info/kernel_mode_assignment interface should
->> become visible. But the question is: what should it contain or point to at
->> this moment?
->>
->> # cat info/kernel_mode_assignment
->> ??
->>
->> Next operation: Assign the group
->>
->> # echo "ctrl1//" > info/kernel_mode_assignment
-> 
-> Now ring0 code is using the CLOSID from the ctrl1 group.
+...
 
-... and user space tasks also continue to use the CLOSID from the
-ctrl1 group.
-It is up to user space to decide if a group is dedicated to kernel
-mode or not. resctrl does not enforce it.
+> diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
+> index 0ae54a880405a..03541e5bb7f60 100644
+> --- a/security/ipe/hooks.c
+> +++ b/security/ipe/hooks.c
+> @@ -340,3 +340,40 @@ int ipe_inode_setintegrity(const struct inode *inode=
+,
+>         return -EINVAL;
+>  }
+>  #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
+> +
+> +#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
+> +/**
+> + * ipe_bpf_prog_load_post_integrity() - ipe security hook for BPF progra=
+m load.
+> + * @prog: Supplies the BPF program being loaded.
+> + * @attr: Supplies the bpf syscall attributes.
+> + * @token: Supplies the BPF token, if any.
+> + * @kernel: Whether the call originated from the kernel.
+> + * @lsmid: Supplies the LSM ID of the integrity provider.
+> + * @verdict: Supplies the integrity verdict from the provider (e.g. Horn=
+et).
+> + *
+> + * This LSM hook is called after an integrity verification LSM (such as =
+Hornet)
+> + * has evaluated a BPF program's cryptographic signature. IPE uses the v=
+erdict
+> + * to make a policy-based allow/deny decision.
+> + *
+> + * Return:
+> + * * %0                - Success
+> + * * %-EACCES  - Did not pass IPE policy
+> + */
+> +int ipe_bpf_prog_load_post_integrity(struct bpf_prog *prog,
+> +                                    union bpf_attr *attr,
+> +                                    struct bpf_token *token,
+> +                                    bool kernel,
+> +                                    const struct lsm_id *lsmid,
+> +                                    enum lsm_integrity_verdict verdict)
+> +{
+> +       struct ipe_eval_ctx ctx =3D IPE_EVAL_CTX_INIT;
+> +
+> +       ctx.op =3D IPE_OP_BPF_PROG_LOAD;
+> +       ctx.hook =3D IPE_HOOK_BPF_PROG_LOAD;
+> +       ctx.bpf_verdict =3D verdict;
+> +       ctx.bpf_keyring_id =3D attr->keyring_id;
+> +       ctx.bpf_kernel =3D kernel;
+> +
+> +       return ipe_evaluate_event(&ctx);
+> +}
+> +#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
+> diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
+> index 07db373327402..95b74f7899750 100644
+> --- a/security/ipe/hooks.h
+> +++ b/security/ipe/hooks.h
+> @@ -10,6 +10,7 @@
+>  #include <linux/security.h>
+>  #include <linux/blk_types.h>
+>  #include <linux/fsverity.h>
+> +#include <linux/bpf.h>
+>
+>  enum ipe_hook_type {
+>         IPE_HOOK_BPRM_CHECK =3D 0,
+> @@ -18,6 +19,7 @@ enum ipe_hook_type {
+>         IPE_HOOK_MPROTECT,
+>         IPE_HOOK_KERNEL_READ,
+>         IPE_HOOK_KERNEL_LOAD,
+> +       IPE_HOOK_BPF_PROG_LOAD,
+>         __IPE_HOOK_MAX
+>  };
+>
+> @@ -52,4 +54,13 @@ int ipe_inode_setintegrity(const struct inode *inode, =
+enum lsm_integrity_type ty
+>                            const void *value, size_t size);
+>  #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
+>
+> +#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
+> +int ipe_bpf_prog_load_post_integrity(struct bpf_prog *prog,
+> +                                    union bpf_attr *attr,
+> +                                    struct bpf_token *token,
+> +                                    bool kernel,
+> +                                    const struct lsm_id *lsmid,
+> +                                    enum lsm_integrity_verdict verdict);
+> +#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
+> +
+>  #endif /* _IPE_HOOKS_H */
+> diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
+> index 495bb765de1b8..6502d4ddc641c 100644
+> --- a/security/ipe/ipe.c
+> +++ b/security/ipe/ipe.c
+> @@ -60,6 +60,9 @@ static struct security_hook_list ipe_hooks[] __ro_after=
+_init =3D {
+>  #ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
+>         LSM_HOOK_INIT(inode_setintegrity, ipe_inode_setintegrity),
+>  #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
+> +#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
+> +       LSM_HOOK_INIT(bpf_prog_load_post_integrity, ipe_bpf_prog_load_pos=
+t_integrity),
+> +#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
+>  };
+>
 
-> 
-> But the RMID for this group isn't used.
+IPE only registers bpf_prog_load_post_integrity(), which fires only
+when Hornet calls security_bpf_prog_load_post_integrity. If Hornet
+isn't enabled via lsm=3D, this hook never triggers, and an IPE policy
+like "DEFAULT op=3DBPF_PROG_LOAD action=3DDENY" silently allows every
+load.
 
-RMID is still used by user mode that maintains existing behavior concerning
-this group when considering its tasks/cpus/cpus_list files. RMID assigned to this
-group is just not used for kernel mode.
+I think IPE should register bpf_prog_load() as well, post_integrity()
+should only store the verdict to a per-prog blob, and bpf_prog_load
+reads it and evaluates policy.
 
-> 
-> Are we OK with "wasting" an RMID in this way?
-
-How do you see this RMID as "wasted"?
-
-> 
-> Maybe it doesn't matter too much for AMD as you would just
-> avoid assigning any counters to this group. But should Intel
-> get around to doing PLZA-like functionality, that's a real
-> loss of an RMID that might be useful elsewhere.
-
-Reinette
+-Fan
