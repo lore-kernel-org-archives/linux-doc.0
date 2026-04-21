@@ -1,65 +1,65 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8D553DD537
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 20:24:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 297463DE430
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 20:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776803059; cv=none; b=n+SNZmPQ6izVyN1IqD4ELXXWs4PYsM2etAfzsWK8loa5S6knpcl7V1avJ+L0sfrEsudLm86mYl8WKBaLmQj9dqVyik9Vp+RZGCNZuMdrNXA3N9IUqnxwI2NBe2Fc02ytSKJW0Cm5qkLTXhGsByw7NJWWE0x/ibNfVw0Dlpm4548=
+	t=1776803063; cv=none; b=HrMB3KfkhUe42DmesuaaMvwcQuSbw8+whfjGdugvbV/5sgWybdpzoC+jRuXAi4L3pfawuR39+QjQMDddltSZ2tgEHA96sgkZ4O1pEecZdRZvjdyFUMdq40w3ycdjLQQoJjx8wNd3krfR/oXQZoP4XIdpvs5v1TvAhi/vgDEhJKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776803059; c=relaxed/simple;
-	bh=bcZL6JaMJmYjP1GrCucF3MvLsGgnYnN6AERlSCKFxuw=;
+	s=arc-20240116; t=1776803063; c=relaxed/simple;
+	bh=CEUKetRzVzn2Xnwq6XKvSjU6QTqMzQIFYZ7UZd5Gyq8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=t3g/hXTloE45lx7VCpo8sZjAPfYi1ARVEHfqOKx2qXCjyJedWMEZxqAhorfEBFbXhnV2oyfYlrcJByxj2/eS0TT8PZavyYfbv+Y6NlTkLkAtOkjXSBAuuu5JzM6QpI3BR6/w+m/KCfF3mVHA2u+2+/ckYOsQ4Pn/CSFQcR1MN6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=brkvMHfj; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:To:Cc; b=F3ABxTx+072Tn7RuS1WJdY9bfpqBLJwJ/lux4uFDipE9SeSySU0DSukzlXOsJ1JwuAxMNSbAKJdTOOCiB8pfmOHGpUlVgfZeb7A+olYRz+ojRPelcwlnJiwE7vEbjinQejfgYP1QwJNmKXZfoJr1jFJJ25STtuVxKthQoGHMhGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UDW+8n8p; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="brkvMHfj"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4891cd41959so27631525e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:24:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UDW+8n8p"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891e86fabeso34085625e9.1
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:24:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776803056; x=1777407856; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1776803060; x=1777407860; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hrKQc7l+XFg4iIUWlxu0BOHb3VOIwsvvvVOXDcvZfFI=;
-        b=brkvMHfjcZqDET7b79OMCFsKAy6vrP2MNCwMlRBim13ohygZMblsiu7VFSn46DCTJH
-         FPi42AT+vi7q5tA953o9VWFwz6kvs5HLtHKuGC1DroY7zswbg5fHhGQVMgBnmdvxSYM9
-         EInS6nGAAnaNyq7D+/ooLAuKpDPGrrYRzzWk6aSXSMpt/Bj9TV6sUufnLB2MWyVjdp/3
-         WcaXgwqkW0vjLoxzC7Kjkb0OGJrmZSAWn0aB4I9+/loJ+uVZuokMK0KCq/bVJ7zLdOpz
-         pz/updRTmYS2kqKOgOJOmj1fkIri6d6ka9SbV+Uem+4J7qy+C1/ziyX23xBZiDw78m86
-         xOhA==
+        bh=EBJ+hPnmdJzo3k/g70RHgYIGur+PsmZcEVdmZLkZuHg=;
+        b=UDW+8n8pZKTy5M5Mw+TRx1ngXKrAGqxdOSYQn1ZwnieZ2rvZbKWcAdbJPTCQfxB020
+         a+4vBlN4fEjR5B2DgDAA1iE2iH/9VnBD1+WXvgBwNGYCk7O194R8a5Iiw2Aoxnw8yMaP
+         Ut13+07HlQk0JrDv2C5pB0Iwahq+NSQkpL1kFXrPvC7ceg/0ixpYzbSWPHqVPraZdKuH
+         JLLqLVMNjCJZ/Q5re94H134pb8MBLanOLMT873G0lTpebfxjttSI4yljyFEEP/wpDr1J
+         I+tunIrVPdl4PoFxCascWS0R+B8PDValGagLQWOyAiijEhJqWgQIYLcCITryAquLfwp3
+         Eqkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776803056; x=1777407856;
+        d=1e100.net; s=20251104; t=1776803060; x=1777407860;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=hrKQc7l+XFg4iIUWlxu0BOHb3VOIwsvvvVOXDcvZfFI=;
-        b=UReCES7nirpIPdi2Xett/ZSh99YHYCLUJXUY3mLEKi/OCpSabro9wi5HzDzZXtAKcT
-         w2mZo4AHCI5U6G0dPCWGdSdvtsmy39Em3zxppNRT3gjxyVfJJQgTdNAhtdwBGW7z+Ov5
-         Tu/qnB+yVuxLcNvlGATFyFh4slp/bG/FP5nKDCN29UOaNa9i2Hbpr/HUpfhq1cZgGMCN
-         KqaMl88HmI4aa4IhJflXhoC6y/O+xCRfpdbqonTYuyO8XoXquqT4ejdIz+nrVIOUMDXQ
-         LwcTOdmoVruVQOzYnnc19KmtKVm5gnVEzsGu9gZTTKFfvqPDUnOTbSMiAsfYGpwNxu42
-         yLkg==
-X-Gm-Message-State: AOJu0Yy1FkgPOCpnp5rnaUEdlcrzRZiKxpKybIXymQdoZBnnShPhkJh/
-	ayaaqLWda/QCeuOFQRDpS/00mu9kHs/bGftMskXJbjuyPHvUAUt7mErr
-X-Gm-Gg: AeBDietnYwRxAbaunkdlMnE3SmBc6V3xWI8K7SZDlX7ELDFH7Xzhfx+WwiWN+7eVQiy
-	Pd9vdHMG4k7cR7ueQN2XnDY03dllDPnEbX4iP1qqtoxyB5oamR2Z0EGvuK8D+qr/s8/1yG2KeQU
-	Omf8Ak04j80+RQyFfPzl8dkMChrxHQ3gZ3kF//UwsyATGWdv5Vb3P5B89QNt8PEDG5Epvm0Kz4M
-	FBpWQjD2OTNyciWuf5jEJe8ZbYDBC42Ly27ycbzVZfAtZ2cqbLWGP2mmzUsqtEpTGALQfW0M9Lr
-	k/KjgbfwaYke1x2r1dV8fiIq5BLmxiaxPf5al0QRBK83THnwtuAy6uD0DmgP8pmMNOiTTXl7Qbe
-	cOaM5L8Abk/33bkybP5RP6yvO9JfONJrcXuGhXFLA8npzBCF/suMK8WqcOizinqxPtRPnm/8s6P
-	7uY+0Wfe9jTpjqggkUd3MTHvPyYoM0MdoQ+JQwsU9v0/lu
-X-Received: by 2002:a05:600c:3f0c:b0:48a:563c:c8e0 with SMTP id 5b1f17b1804b1-48a563cd16bmr52543355e9.1.1776803055952;
-        Tue, 21 Apr 2026 13:24:15 -0700 (PDT)
+        bh=EBJ+hPnmdJzo3k/g70RHgYIGur+PsmZcEVdmZLkZuHg=;
+        b=DWw3mzsERqEEycWm3q70Ov74LGhYz/RI2BNMM3/EmLiNs012d7B4q3Me2ebda013Uc
+         ok+XMFCRIc+DEayo2KJuzOBzhjngbji6uFevNeTbsH9+RzoLDGMwwSsJ/6ItXp6Y9SGh
+         AqRiQgF4wD0owcGyfL0dKRWKpcMLalZ7JGOS+rvExW2tHGqDMc3bpNRiuYz171AsE5yg
+         eGBhxxq3IlG/VXBCIyf5dUEUZ+1kGgg+y7ghPo38DPpy8QRAzRGpd8rCdbspa4dA9If4
+         I5mE4EeGLrQ+bMScPSYkJFTidsdK5Fl6HNRzAlNOCReqDbCkMlkBG6VVbZWF5MioXYZ+
+         +U7w==
+X-Gm-Message-State: AOJu0YxDVAxpYx19BIkrn0U/3wfTGOs6UX2qJjKzj6R8kcpMGA1/HyBY
+	/zru7Cx+QRN9+dkHLyW1kAjppc3tI7BTlyLYsbo76yQHjfV87r4bGVty
+X-Gm-Gg: AeBDieuEKU6QcWg6zT6YgiAUgKG1UUE5MhTejNeun4Aa/p8CBAnjjKE9RkN8nqQUkcf
+	AFd/+xtxLeFWEsLk+JcDY+9V5n3zsA/biFbrBtDREBWbKR3hDW28UjlwYB0oK5vybZ6/07zG8Tj
+	q5nGVciv3QvnplCd82QVG/Z8FE6PWrRfIs+3jJ+Uotr/LyxV96/d0sMMjiNzKJrSenWde4F5YK+
+	XonCMfSiNGV2IfJbPYducZR70hVzR2RAylIxe2w2VFitDQvgpcm2bbPmYJ0WXlalxzuDkiEQgoD
+	WL37Hx6FItjt3qHsWHDRdDjG5E+I0e+CO0E/frntRqeWle6kY6boe/QTHdnmF6Y6DuY8X6C2UYD
+	BNPpUea68JgQkGn/VqH6UYe1xMnS83v+XSjT4wQdKK+XYVbu9yOMYSgi6ukV3d3CNHHfVDWz8mR
+	aogUV72djenSB8qJ79RTne4cOZY618f6zAzmmUMdiDPp1+
+X-Received: by 2002:a05:600c:308a:b0:489:6c22:e081 with SMTP id 5b1f17b1804b1-4896c22e217mr83386305e9.0.1776803060488;
+        Tue, 21 Apr 2026 13:24:20 -0700 (PDT)
 Received: from [192.168.0.2] ([197.250.227.85])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f82bbsm655989805e9.3.2026.04.21.13.24.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f82bbsm655989805e9.3.2026.04.21.13.24.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 13:24:15 -0700 (PDT)
+        Tue, 21 Apr 2026 13:24:20 -0700 (PDT)
 From: =?utf-8?q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
-Date: Tue, 21 Apr 2026 23:23:12 +0300
-Subject: [PATCH v5 4/8] ARM: zte: Add support for zx29 low level debug
+Date: Tue, 21 Apr 2026 23:23:13 +0300
+Subject: [PATCH v5 5/8] ARM: dts: Add an armv7 timer for zx297520v3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20260421-send-v5-4-ace038e63515@gmail.com>
+Message-Id: <20260421-send-v5-5-ace038e63515@gmail.com>
 References: <20260421-send-v5-0-ace038e63515@gmail.com>
 In-Reply-To: <20260421-send-v5-0-ace038e63515@gmail.com>
 To: Jonathan Corbet <corbet@lwn.net>, 
@@ -86,95 +86,79 @@ Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  soc@lists.linux.dev, linux-serial@vger.kernel.org, 
  =?utf-8?q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2584;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2135;
  i=stefandoesinger@gmail.com; h=from:subject:message-id;
- bh=bcZL6JaMJmYjP1GrCucF3MvLsGgnYnN6AERlSCKFxuw=;
- b=owEBiQJ2/ZANAwAIAT0TvMhUTxoiAcsmYgBp59zX4XZpqJm/bAck0HkLxUrrrjMXwXBe3jhd+
- SHDrsE5S+qJAk8EAAEIADkWIQRDFvS2qgVbJ5UyXWw9E7zIVE8aIgUCaefc1xsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQPRO8yFRPGiJOKQ//cKJXPZhc6xj89Aoz835lqG/ynjMUHt6
- m+E4crpk2fLayoYewo/esnT1CN+EW18PmLWs2kxLtjPm7ivJsdINaSAt512JIMU+6Lk7RBB8ebq
- oQJiAjOmKStP5gNkjU1Uc6Ul98pwLsp/0nypp4W5wU6txNObDrPjy0YFxviB2gmzw0Qlnz+o7QZ
- gP2OP5ZOgnakYatT+mw1Fp7HxBEp7DkRBlnnsYzI9mIWqlrAJrEuW178f2GPHtb7SQ9WEmRgOLJ
- wAuR+UDtQ9QDLSRlx5ZLPsWRMDzcPJikQrqMnPUydkKOu6N/2s8XLrQANMzUFDt/Q5IepmjVcUL
- R8mIvJ2+AQNHo6GJ6BKEb0z/eeKZjymfS95I9KB7dr5ZehhWMmqu5VBxCjrTkJtW0osneBBCqPJ
- UJLk0Air00jviSGTxAQf/WTGI+bLFD2ETmiTG/sJdmtEQdPxRjp3kuhyTLMj8rYdcpKUJ6P9Gpi
- OkiPaqH5p+TiWQEQNgMJI16HYEwrHAmk1GJef/Adw+PX0Vb3AI+egyO3noWsqj+3ZwIigHOg0k0
- ATBaLiK0NtV1enGb6UP4wCPfXGpJZskWqSZk/2djdGBcDBhfuF1alsUWhz5wljPRhCFXFzmZ4uG
- NVms2xfe3dKoVbBFPyIkZi83bhOddBLuLbZUK8/QJ+sSTN9XrxEw=
+ bh=CEUKetRzVzn2Xnwq6XKvSjU6QTqMzQIFYZ7UZd5Gyq8=;
+ b=owEBiQJ2/ZANAwAIAT0TvMhUTxoiAcsmYgBp59zXF6GMMLpNkq4WwPjAfftYcRTaZJtkuzLOe
+ KXRFnrgIfeJAk8EAAEIADkWIQRDFvS2qgVbJ5UyXWw9E7zIVE8aIgUCaefc1xsUgAAAAAAEAA5t
+ YW51MiwyLjUrMS4xMiwyLDIACgkQPRO8yFRPGiK8xhAAldsqjYe8+3h/X86yla+u17rfI//QK+v
+ +A4g3kwBFOtoQ4YkoXtFlmKNU60WhO3ldAyJruXz0oONJCiUGJVhQdevJ6gJgTGtbFxWrFd62OG
+ TpeCV0pwDt69klMWhqnis/g8QTr1XydLXrExyn59UcGmkzMiT+namcriwxgM7xXxZKeDxQ9w6S/
+ A9+oVVuDBIfCc7ZwisT03KEmHMnhWy/mTY/9Ggzwgu23EHu63ztG+sePZ/nAI5Vqml31qmTpgox
+ 18zynyLmwOSAvGMPGpnfI3bq2ldQwf+JsbyS1qRvI/lNXPTEG1AgIIlXgX0qF2r4ZRtV5GqByR0
+ QZzbBYy7jO4f6n3dEE/T+hrPGJpdv8edlkFOYbEv3Pu3+2tmCIa6dup5VjLjkLMS89ERRnvvW62
+ c7eWCocyYyWgow/ptUwWJ5NLIhY4XsYe67F35wFukL0irgRrfDYLaKVYNS90fEPjULHLhpYpgSn
+ wwnlChwvKoS9BJLqY8a3cJszrQdI03ujbootk6HZVjuE15Jx7a/P470qo6sviolSF+rmWsA0iuG
+ 7qWOhsm2ToVSrk5f47Fm0rI56oD9QDQLiJFXq2IIDYNSIol8ez7QWvqlvfiPZKeCHNVVGMQYcCt
+ fEy9cxesmM3Pq2mT5aNKIPDB79epR6RVMymRSpe3VxKmldcfrKLU=
 X-Developer-Key: i=stefandoesinger@gmail.com; a=openpgp;
  fpr=4F9C2C8728019633893EBBB98CB81F9A72BBA155
 
-This is based on the removed zx29 code. A separate (more complicated)
-patch will re-add the register map to the pl011 serial driver.
+The stock kernel does not use this timer, but it seems to work fine. The
+board has other board-specific timers that would need a driver and I see
+no reason to bother with them since the arm standard timer works.
+
+The caveat is the non-standard GIC setup needed to handle the timer's
+level-low PPI. This is the responsibility of the boot loader and
+documented in Documentation/arch/arm/zte/zx297520v3.rst.
 
 Signed-off-by: Stefan Dösinger <stefandoesinger@gmail.com>
-
 ---
+ arch/arm/boot/dts/zte/zx297520v3.dtsi | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
-I am unsure about the virtual address. It doesn't seem to matter, as
-long as it is a valid address. This address is based on the old removed
-code. Is there a rule-of-thumb physical to virtual mapping I can use to
-give a sensible default value?
----
- arch/arm/Kconfig.debug         | 12 ++++++++++++
- arch/arm/include/debug/pl01x.S |  7 +++++++
- 2 files changed, 19 insertions(+)
-
-diff --git a/arch/arm/Kconfig.debug b/arch/arm/Kconfig.debug
-index 366f162e147d..98d8a5a60048 100644
---- a/arch/arm/Kconfig.debug
-+++ b/arch/arm/Kconfig.debug
-@@ -1331,6 +1331,16 @@ choice
- 		  This option selects UART0 on VIA/Wondermedia System-on-a-chip
- 		  devices, including VT8500, WM8505, WM8650 and WM8850.
+diff --git a/arch/arm/boot/dts/zte/zx297520v3.dtsi b/arch/arm/boot/dts/zte/zx297520v3.dtsi
+index 0fff00f910d6..903050c684cb 100644
+--- a/arch/arm/boot/dts/zte/zx297520v3.dtsi
++++ b/arch/arm/boot/dts/zte/zx297520v3.dtsi
+@@ -20,6 +20,21 @@ cpu@0 {
+ 		};
+ 	};
  
-+	config DEBUG_ZTE_ZX
-+		bool "Kernel low-level debugging via zx29 UART"
-+		select DEBUG_UART_PL01X
-+		depends on ARCH_ZTE
-+		help
-+		  Say Y here if you are enabling ZTE zx297520v3 SOC and need
-+		  debug UART support. This UART is a PL011 with different
-+		  register addresses. The UART for boot messages on zx29 boards
-+		  is usually UART1 and is operating at 921600 8N1.
++	timer {
++		compatible = "arm,armv7-timer";
++		interrupts = <GIC_PPI 13 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_PPI 14 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_PPI 11 IRQ_TYPE_LEVEL_LOW>,
++			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>;
++		clock-frequency = <26000000>;
++		interrupt-parent = <&gic>;
++		/* I don't think uboot sets CNTVOFF and the stock kernel doesn't use the
++		 * arm timer at all. Since this is a single CPU system I don't think it
++		 * really matters that the offset is random though.
++		 */
++		arm,cpu-registers-not-fw-configured;
++	};
 +
- 	config DEBUG_ZYNQ_UART0
- 		bool "Kernel low-level debugging on Xilinx Zynq using UART0"
- 		depends on ARCH_ZYNQ
-@@ -1545,6 +1555,7 @@ config DEBUG_UART_8250
+ 	soc {
+ 		#address-cells = <1>;
+ 		#size-cells = <1>;
+@@ -27,6 +42,15 @@ soc {
+ 		interrupt-parent = <&gic>;
+ 		ranges;
  
- config DEBUG_UART_PHYS
- 	hex "Physical base address of debug UART"
-+	default 0x01408000 if DEBUG_ZTE_ZX
- 	default 0x01c28000 if DEBUG_SUNXI_UART0
- 	default 0x01c28400 if DEBUG_SUNXI_UART1
- 	default 0x01d0c000 if DEBUG_DAVINCI_DA8XX_UART1
-@@ -1701,6 +1712,7 @@ config DEBUG_UART_VIRT
- 	default 0xf31004c0 if DEBUG_MESON_UARTAO
- 	default 0xf4090000 if DEBUG_LPC32XX
- 	default 0xf4200000 if DEBUG_GEMINI
-+	default 0xf4708000 if DEBUG_ZTE_ZX
- 	default 0xf6200000 if DEBUG_PXA_UART1
- 	default 0xf7000000 if DEBUG_SUN9I_UART0
- 	default 0xf7000000 if DEBUG_S3C64XX_UART && DEBUG_S3C_UART0
-diff --git a/arch/arm/include/debug/pl01x.S b/arch/arm/include/debug/pl01x.S
-index c7e02d0628bf..0c7bfa4c10db 100644
---- a/arch/arm/include/debug/pl01x.S
-+++ b/arch/arm/include/debug/pl01x.S
-@@ -8,6 +8,13 @@
- */
- #include <linux/amba/serial.h>
- 
-+#ifdef CONFIG_DEBUG_ZTE_ZX
-+#undef UART01x_DR
-+#undef UART01x_FR
-+#define UART01x_DR     0x04
-+#define UART01x_FR     0x14
-+#endif
-+
- #ifdef CONFIG_DEBUG_UART_PHYS
- 		.macro	addruart, rp, rv, tmp
- 		ldr	\rp, =CONFIG_DEBUG_UART_PHYS
++		/* The GIC has a non-standard way of configuring ints between level-low/level
++		 * high or rising edge/falling edge at 0xf2202070 and onwards. See AP_INT_MODE_BASE
++		 * and AP_PPI_MODE_REG in the ZTE kernel, although the offsets in the kernel source
++		 * seem wrong.
++		 *
++		 * Everything defaults to active-high/rising edge, but the timer is active-low. We
++		 * currently rely on the boot loader to change timer IRQs to active-low for us for
++		 * now.
++		 */
+ 		gic: interrupt-controller@f2000000 {
+ 			compatible = "arm,gic-v3";
+ 			interrupt-controller;
 
 -- 
 2.53.0
