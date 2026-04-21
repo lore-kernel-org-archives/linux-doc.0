@@ -1,214 +1,66 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D6F32860B
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 20:24:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+Received: from winds.org (winds.org [68.75.195.9])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0562F284693;
+	Tue, 21 Apr 2026 20:53:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.75.195.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776803079; cv=none; b=dnolkiNFygNd+4/OV23tr6n57Lh9zF2egZqDbAERdyxe9MDCmi0yGONvVl+DHhji+5Qm0z/GZNDClZLIViAwGFJNVcxkv0Ji9eImEEnmIDWXJ1Qz8LfCbBQu2AMiy8fdd580JPyCjf/jPF8+GtxJha/ACOMVFNoUTMubWERMr6w=
+	t=1776804799; cv=none; b=V7KRisv04vHnvRFFCn4SA7KCpTnwPXVTW/2p/qa0htLUAg9XTLgusCUf1yGJbIQGR2is4yUhwquU9gMj/HVdu1Wy7qewXVGHvCv/yiLoDK1n5iCMLIdY0+IQgXzR0rGYJrNIuc8D8d2O54OzGuOk3lxwA01BoaYY1rHa1OkEmyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776803079; c=relaxed/simple;
-	bh=JKyBYy0ZVb6KOG4qaXsDDYoua79I9QXXZhqASx+hdt4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=LSpI1z5LvYoHxcx+SjVh7OUpATQeAoqJRp1jUfooyS00X3aYIZuaF1pYOpsJ37W7ccYixz+9gawiKYAI5gjhBNpisHt5s1cOEs5X+8UrCmAPnLF9q6jUP6keJboYwAGWR7Yi6j4XbKhfZ1t1onm/76OJywWbfklbWuk9icLN6YQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PZvRaH7U; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PZvRaH7U"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4891c0620bcso22401945e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 13:24:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776803076; x=1777407876; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=44WhVXZvjCMS4S4DPww0qJ5SDrGxnVaZzuAI8zkpcIo=;
-        b=PZvRaH7UKY74vnuvMushXEuI3LObwz8j0Zug5v+Auv+2Ijs4qH/K+GfNaOxggj72h1
-         0NICWHh9lnCJiPbeSp6cKg1Gt0ikxXMu9DO0xbSa5ar8PO2d+SabMGgXqktxEfrOkT8D
-         7/a6w8CdFoal4gJzWt2C+9n6XmK9gxMJyc4fCv+ngwHX1qZkhR2QePZ9znzGaCV+JE5R
-         w+Jyx7yz/YOYNG0XDFdL8IMGp0gXQ4Xwiwq1T7TkS10WEgPEKYlVDadwP30QGUFTvJAD
-         Mk6CYf8ZMJk9xTjCkHyAJj6pYrSMi3ibMTxVipnhcWoFgpzLUIDl2N+kQWdQLf1ilqTc
-         Lp2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776803076; x=1777407876;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=44WhVXZvjCMS4S4DPww0qJ5SDrGxnVaZzuAI8zkpcIo=;
-        b=BwFzlZ7waepUkF71wNJHdEnwbWRXA6wlo2YYx9SvjY2Ot4W2nMulPwnYNZpn34JGyI
-         tB4du+bTDda/JSp67GVvBDnAV1CvMsuWS0vH1gMd3OhLu15fqNtZDuhqq17L4dGZXJqF
-         XvaM9jH4BiTmyOSZFov3khmM6XeOyxJT2MAJkR3L0JOLrF7wclX4kqIDZousWcMObFXd
-         XORs5zFHToZtT2K2hJtUPOzTjdASVc9SLDlhlYk16iKhxDXbhJ1H8H0hcRFcV3Wsel3k
-         n1kRpo/CB2JZAJpV9g/ybww21FcHyOQpKlww2kMiD4olhO/bMFAtPU3o6kHT4PbQD+1m
-         HjGA==
-X-Gm-Message-State: AOJu0YxtjqnTW+mK19W7+3OeGLBCSHxpjRKCqRRCu/QWjd1+SWe707sW
-	bpDeLb5AxrMGYpiL4dG/sjXAemEvdLgFlE2a0SGF4itBB4JyzRLviAzj
-X-Gm-Gg: AeBDievjn28WgjbGEO9MUz0QvKprufrFchSkI5PasfS1ILRp09A1Ijv+fZPdq7sujUl
-	hU/cqTRGKq7HYLYxd5QF+3+Vb/UFU35XqtkPmV28A9BNSQgMWChAEAEOXa3sPabmmvA+vCce1Q9
-	g3qqELIWZF+HjxTdvmYtbqF46GzeX3gkTO5cc+RMEOGl28Ai7wSHV9h5ych+vAtD4RL+eCZ5jNa
-	SU46TDHGLEh1apqKdcaVkBVZVeF2WVEbbvXwTEwcQzNlYHpZraZJL8gL5NRUmU0vDHv8RKl5PRV
-	BsJW7kj2Fl+AMBkEMzTh3cJSg4W4ayB8Efyb9Y3c8V4okKu3/EX3s4LYLblxbwpjjJ5qb6i+++Z
-	E5goo7QgqbfbzvUN8pOOzCSmAqMlulWtA9zbAv54Tj2DONQ/uPKhY4tVkqbQTZ0NPuK6M3ljqpQ
-	HqLNQ45+VVviWoqPhC6SreDaPKdDdrJqPwm2X+YB8jl4Ne
-X-Received: by 2002:a05:600c:3150:b0:480:3ad0:93bf with SMTP id 5b1f17b1804b1-488fb7930famr289331985e9.24.1776803075829;
-        Tue, 21 Apr 2026 13:24:35 -0700 (PDT)
-Received: from [192.168.0.2] ([197.250.227.85])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-488fc0f82bbsm655989805e9.3.2026.04.21.13.24.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Apr 2026 13:24:35 -0700 (PDT)
-From: =?utf-8?q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
-Date: Tue, 21 Apr 2026 23:23:16 +0300
-Subject: [PATCH v5 8/8] ARM: defconfig: Add a zx29 defconfig file
+	s=arc-20240116; t=1776804799; c=relaxed/simple;
+	bh=QoFZGLINUdvi6hni0vd5/nD8B8jGX/+CNG7TXvDoxS0=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=SchCJpNtSyo25c23VGWrwpibVdrXi1JNic9dlvteJG829LLgAGqq8sM6mtW1pvexFFphdFJti2nrRMPgCQ9IcrGbMfryoWGcyNagg8xwN3RBma8JK+JfIVBTa36SW+3LfNWJl0sAQm/rWE0draSh6jukjKkRAdnRimH4++7gfZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=winds.org; spf=pass smtp.mailfrom=winds.org; arc=none smtp.client-ip=68.75.195.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=winds.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=winds.org
+Received: by winds.org (Postfix, from userid 100)
+	id 1F55B8F95F82; Tue, 21 Apr 2026 16:44:11 -0400 (EDT)
+Received: from localhost (localhost [127.0.0.1])
+	by winds.org (Postfix) with ESMTP id 1E49A13369000;
+	Tue, 21 Apr 2026 16:44:11 -0400 (EDT)
+Date: Tue, 21 Apr 2026 16:44:11 -0400 (EDT)
+From: Byron Stanoszek <gandalf@winds.org>
+To: Andrew Lunn <andrew@lunn.ch>
+cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+    linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH net 00/18] Remove a number of ISA and PCMCIA Ethernet
+ drivers
+In-Reply-To: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
+Message-ID: <71d319ef-cd49-e8a8-70dd-cf0763ac6305@winds.org>
+References: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260421-send-v5-8-ace038e63515@gmail.com>
-References: <20260421-send-v5-0-ace038e63515@gmail.com>
-In-Reply-To: <20260421-send-v5-0-ace038e63515@gmail.com>
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
- Krzysztof Kozlowski <krzk@kernel.org>, 
- Alexandre Belloni <alexandre.belloni@bootlin.com>, 
- Linus Walleij <linusw@kernel.org>, Drew Fustini <fustini@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Jiri Slaby <jirislaby@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, 
- soc@lists.linux.dev, linux-serial@vger.kernel.org, 
- =?utf-8?q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2988;
- i=stefandoesinger@gmail.com; h=from:subject:message-id;
- bh=JKyBYy0ZVb6KOG4qaXsDDYoua79I9QXXZhqASx+hdt4=;
- b=owEBiQJ2/ZANAwAIAT0TvMhUTxoiAcsmYgBp59zXRxxeM3L6LvFEMDOBnIMJkPxSOas2y9Hdv
- YIpcJkPyi2JAk8EAAEIADkWIQRDFvS2qgVbJ5UyXWw9E7zIVE8aIgUCaefc1xsUgAAAAAAEAA5t
- YW51MiwyLjUrMS4xMiwyLDIACgkQPRO8yFRPGiLiQBAAiaNU2eJnnUvEamsnIJPjVgniN25uL7S
- Yz5non9ycX+C5T/F5q/bvsnDlJnrp67/GJdSQV/6xw51Wbf76xQKhVCWDajplvbXeoRwEVAXm/z
- bNEXRIrKGFwCpfzOWEeeV5YKbTOvanUR8ihbUD/yyC5v0o8FjKPE1dlQLjKXXpFxe87lGLqMIQv
- 8b5qZZQ7TkXTXRUJF+ewbW0+R+a2DngtivcmR/gyiYp72726qmz8vPgc3FJCRAfikX8CqFDV4BW
- QRGrbyhs1vGvmK1K0dIlozq300idh70L2qHfXaIcJyIsAUYVoEmgX3FEoo93hjLzYDt1+/lVM6o
- jhv0NYcLZY7IlgEqXcwVt5/3qI0CanPXu+Gpt0TeadNgb6bqLFqqHZ0F5OiOI3AbksJtM6SvTR3
- ikgM2RCl+rRsSFm4wj/FrVWP1UUikjbhsZVOdQvG31kpNXH+8ZNikjOjbDHzqhpg9e3IyQ58Zc0
- NMO2ZT0kLeKpRgZLm0f6SHN+1iQeONIkpMVicPQ6lDnmG0B6/F2IhtMQezweQeNFBZPpdsuCuO1
- tydkNzBBPsH/0bd3Ln/4D1lWz5tCnU4UBHva87yQuhrCkbdthOv7M9YjQpj94glLXh5ODR4iLFl
- CZ4xgNN2zsYRGwj6oc8p7fs45yQLWU/ebZ3Fggnl2Wztnt11p1v4=
-X-Developer-Key: i=stefandoesinger@gmail.com; a=openpgp;
- fpr=4F9C2C8728019633893EBBB98CB81F9A72BBA155
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-This enables existing drivers that already are (UART) or will be (USB,
-GPIO) necessary to operate this board even if they aren't declared in
-the DTS yet.
+On Tue, 21 Apr 2026, Andrew Lunn wrote:
 
-Signed-off-by: Stefan Dösinger <stefandoesinger@gmail.com>
----
- arch/arm/configs/zx29_defconfig | 89 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 89 insertions(+)
+> These old drivers have not been much of a Maintenance burden until
+> recently. Now there are more newbies using AI and fuzzers finding
+> issues, resulting in more work for Maintainers. Fixing these old
+> drivers make little sense, if it is not clear they have users.
+>
+>      drivers: net: 3com: 3c59x: Remove this driver
 
-diff --git a/arch/arm/configs/zx29_defconfig b/arch/arm/configs/zx29_defconfig
-new file mode 100644
-index 000000000000..a78decd1d525
---- /dev/null
-+++ b/arch/arm/configs/zx29_defconfig
-@@ -0,0 +1,89 @@
-+CONFIG_SYSVIPC=y
-+CONFIG_BLK_DEV_INITRD=y
-+# CONFIG_RD_BZIP2 is not set
-+# CONFIG_RD_LZMA is not set
-+# CONFIG_RD_XZ is not set
-+# CONFIG_RD_LZ4 is not set
-+CONFIG_EXPERT=y
-+CONFIG_KALLSYMS_ALL=y
-+CONFIG_MMU=y
-+CONFIG_ARCH_MULTI_V7=y
-+CONFIG_ARCH_ZTE=y
-+CONFIG_SOC_ZX297520V3=y
-+# FIXME: There is no PSCI on this board, but ARM_GIC_V3 depends on it
-+CONFIG_ARM_PSCI=y
-+CONFIG_ARM_APPENDED_DTB=y
-+CONFIG_CMDLINE="console=ttyAMA0 earlyprintk root=/dev/ram rw"
-+# CONFIG_SUSPEND is not set
-+CONFIG_BINFMT_FLAT=y
-+# CONFIG_UEVENT_HELPER is not set
-+# CONFIG_STANDALONE is not set
-+# CONFIG_PREVENT_FIRMWARE_BUILD is not set
-+# CONFIG_ALLOW_DEV_COREDUMP is not set
-+CONFIG_BLK_DEV_RAM=y
-+CONFIG_BLK_DEV_RAM_COUNT=4
-+CONFIG_CPU_FREQ=y
-+CONFIG_CPUFREQ_DT_PLATDEV=y
-+CONFIG_PM=y
-+CONFIG_PM_CLK=y
-+CONFIG_PM_GENERIC_DOMAINS=y
-+CONFIG_NET=y
-+CONFIG_PACKET=y
-+CONFIG_UNIX=y
-+CONFIG_INET=y
-+CONFIG_DEVTMPFS=y       # FIXME: This is specific to my initrd. Remove before upstream
-+CONFIG_DEVTMPFS_MOUNT=y
-+# CONFIG_INPUT_MOUSEDEV is not set
-+CONFIG_KEYBOARD_GPIO_POLLED=y
-+CONFIG_GPIOLIB=y
-+CONFIG_OF_GPIO=y
-+CONFIG_GPIO_GENERIC_PLATFORM=y
-+# CONFIG_INPUT_MOUSE is not set
-+# CONFIG_SERIO is not set
-+CONFIG_VT_HW_CONSOLE_BINDING=y
-+CONFIG_SERIAL_AMBA_PL011=y
-+CONFIG_SERIAL_AMBA_PL011_CONSOLE=y
-+CONFIG_SERIAL_OF_PLATFORM=y
-+CONFIG_SERIAL_DEV_BUS=y
-+CONFIG_SERIAL_DEV_CTRL_TTYPORT=y
-+# CONFIG_HW_RANDOM is not set
-+CONFIG_MFD_SYSCON=y
-+# CONFIG_HID is not set
-+CONFIG_PINCTRL=y
-+CONFIG_GENERIC_PINCTRL_GROUPS=y
-+CONFIG_PINMUX=y
-+CONFIG_GENERIC_PINMUX_FUNCTIONS=y
-+CONFIG_PINCONF=y
-+CONFIG_GENERIC_PINCONF=y
-+CONFIG_RESET_CONTROLLER=y
-+CONFIG_POWER_RESET=y
-+CONFIG_RESET_SIMPLE=y
-+CONFIG_LEDS_GPIO=y
-+CONFIG_USB_DWC2=y
-+CONFIG_USB_GADGET=y
-+CONFIG_MTD=y
-+CONFIG_MTD_OF_PARTS=y
-+CONFIG_MTD_BLKDEVS=y
-+CONFIG_MTD_BLOCK=y
-+CONFIG_MTD_SPI_NAND=y
-+CONFIG_SPI_MASTER=y
-+CONFIG_MMC=y
-+CONFIG_MMC_DW=y
-+CONFIG_MMC_DW_PLTFM=y
-+CONFIG_STMMAC_ETH=y
-+CONFIG_STMMAC_PLATFORM=y
-+CONFIG_MDIO_BUS=y
-+CONFIG_REGULATOR=y
-+CONFIG_REGULATOR_FIXED_VOLTAGE=y
-+CONFIG_SRAM=y
-+CONFIG_MISC_FILESYSTEMS=y
-+CONFIG_JFFS2_FS=y
-+CONFIG_CONFIG_TMPFS=y
-+CONFIG_PRINTK_TIME=y
-+CONFIG_EARLY_PRINTK=y
-+CONFIG_DEBUG_LL=y
-+CONFIG_DEBUG_ZTE_ZX=y
-+CONFIG_DEBUG_LL_INCLUDE="debug/pl01x.S"
-+CONFIG_DEBUG_UART_PL01X=y
-+CONFIG_DEBUG_UART_PHYS=0x01408000
-+CONFIG_DEBUG_UART_VIRT=0xf4708000
+Hi Andrew,
 
--- 
-2.53.0
+I happen to still use this driver on several hundred industrial PC
+installations that were outfitted with 3com 3C905-B & CX cards 15+ years ago.
+The old hardware still runs, therefore those cards haven't needed to be
+replaced. I keep these systems up to date with the latest Linux kernel roughly
+once per year.
+
+I understand the maintenance burden, but I would be delighted to continue
+receiving bug fixes for this driver via the mainline Linux kernel if you are
+still willing to continue to support it.
+
+Thanks and best regards,
+  -Byron
 
