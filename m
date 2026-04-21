@@ -1,94 +1,143 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1CA63CF67C;
-	Tue, 21 Apr 2026 14:18:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8FE3009CB
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 14:22:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776781122; cv=none; b=V/QjWfIemoUtkTAcZnJx1zyT3/eAApCFpzjszDAKLOgv5r/7S0HVV0BcrFLo9zc2xRR3MmesX85drr08ghYf9Y/MFph7eKP34kKEcHzRTX52j+Z/nyHSQSoPUfxoTLBRePmWm5nmvoiRcuzdAmLaPb4bDLr29nESQrb3Kpx7SsY=
+	t=1776781341; cv=none; b=mQV0c1bTxALWNa6MMj7iJeZny0gXVZadm76C0nV+VcPw+rkZDSk+xd95lLQfsfARQkPUVakHGWuxactaDI80SdCRECTVISPiPF/1QLcpqrehZFA+L594XXKzqmfMuYkZDe+yFU3k9LRLVmYZ/RDMS3j00mJ5s9eCnmMqbpnzuYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776781122; c=relaxed/simple;
-	bh=vAu2TZe4KLTTnExsF79HZ16TqzLObTuSThMNMoqwYmo=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:Content-Disposition; b=UFVGTarzdiHyfATXjO4+MKCw4HsgrTMkSpvBM7c9q2KzVr4lMXb6qST1a/FTLT9G+qXTVZWfDEW267oRwtje5anM2RrD6dCsI/Tar9ISezLa7TI6B8FVICnLYd9HYEjN6GVXyiA1YmiTBRX5zGQJPczTmTwjGn4PpM0XPkc71Cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DU2TyQmQ; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1776781341; c=relaxed/simple;
+	bh=r+fOxns+jmr0M0EyFWMcq/R4Njx5zASRZz9Y1X+qpvY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=vCogdi9FjfRuOI0OPjDmcTk2sXVfsWmcB3k7nS5w2bb5hdXXN3z2AcCjIRukVhQdQiejWdlOT1PXj+NzrCkLoQFG3b4YlW/zGfkl81mCxxW75Up96sa8VjfSSoGzQOb4YzpSTBkWpQDLSMLob/JMWZNSGmJilE8cawEjoGqx7us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SUwRnkBD; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DU2TyQmQ"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0D1825DC;
-	Tue, 21 Apr 2026 07:18:34 -0700 (PDT)
-Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28ACA3F915;
-	Tue, 21 Apr 2026 07:18:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1776781120; bh=vAu2TZe4KLTTnExsF79HZ16TqzLObTuSThMNMoqwYmo=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=DU2TyQmQAdeK7LaY99ERkB/P2rD92ghDuIBKbHU6l8oH8aVSyeuqUaXTzQZZME4pS
-	 3Cma8C6BrCfnkUqZx1mWuRt1mElr+RuJm0OJoKWjz0NS+id2zVAQUoRqox3MEZXy2j
-	 +eYt99Ev0UEajRaFBOa6mkGWCp0dShOF6OHK89AU=
-From: Leonardo Bras <leo.bras@arm.com>
-To: Tian Zheng <zhengtian10@huawei.com>
-Cc: Leonardo Bras <leo.bras@arm.com>,
-	maz@kernel.org,
-	oupton@kernel.org,
-	catalin.marinas@arm.com,
-	corbet@lwn.net,
-	pbonzini@redhat.com,
-	will@kernel.org,
-	yuzenghui@huawei.com,
-	wangzhou1@hisilicon.com,
-	liuyonglong@huawei.com,
-	Jonathan.Cameron@huawei.com,
-	yezhenyu2@huawei.com,
-	linuxarm@huawei.com,
-	joey.gouly@arm.com,
-	kvmarm@lists.linux.dev,
-	kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	suzuki.poulose@arm.com
-Subject: Re: [PATCH v3 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF events
-Date: Tue, 21 Apr 2026 15:18:28 +0100
-Message-ID: <aeeHNMqDx5Yipt_K@devkitleo>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <acpfD3YjMpEdL5KZ@devkitleo>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-5-zhengtian10@huawei.com> <acQj5grOdZT8LUGp@devkitleo> <e3253959-0340-4c13-a980-a599e090a6de@huawei.com> <acabezCO4B5BE40Q@devkitleo> <4e800c1e-25db-4aa2-b100-63434973de93@huawei.com> <acpfD3YjMpEdL5KZ@devkitleo>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SUwRnkBD"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776781339;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=dWjWRROifEq97+No/LV67J9L8ZDl4T0+6eN/kJ0ejKE=;
+	b=SUwRnkBDtdsc8xJhoQilMUrpIrnMmZ3AbCYtUcQQ7PI4fzZtr0viVWwolLF6UeBSa9Rp2y
+	QhhDViqxmGv0hqUzUJrDHo72xZOYs7T/lYASDbQUdZ3nSLj2XxqYNY95wy4gf755qvIfg9
+	FIXK7Ds9YnZ8AtY9V5QMZR+LM+W5EFc=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-36-t9Gcpr49M6KwwY5DsipUnQ-1; Tue,
+ 21 Apr 2026 10:22:18 -0400
+X-MC-Unique: t9Gcpr49M6KwwY5DsipUnQ-1
+X-Mimecast-MFC-AGG-ID: t9Gcpr49M6KwwY5DsipUnQ_1776781333
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 98BA819560B9;
+	Tue, 21 Apr 2026 14:22:11 +0000 (UTC)
+Received: from [10.22.81.187] (unknown [10.22.81.187])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 187903000C26;
+	Tue, 21 Apr 2026 14:22:02 +0000 (UTC)
+Message-ID: <149748c4-7fbd-47a5-acc9-c480033e1907@redhat.com>
+Date: Tue, 21 Apr 2026 10:22:02 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 05/23] tick: Pass timer tick job to an online HK CPU in
+ tick_cpu_dying()
+To: Thomas Gleixner <tglx@kernel.org>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
+ <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, Chen Ridong <chenridong@huaweicloud.com>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+ Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ rcu@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
+ Qiliang Yuan <realwujing@gmail.com>
+References: <20260421030351.281436-1-longman@redhat.com>
+ <20260421030351.281436-6-longman@redhat.com> <87zf2wbsli.ffs@tglx>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <87zf2wbsli.ffs@tglx>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Mon, Mar 30, 2026 at 12:31:28PM +0100, Leonardo Bras wrote:
-> On Sat, Mar 28, 2026 at 02:05:25PM +0800, Tian Zheng wrote:
-> > 
-> > On 3/27/2026 11:00 PM, Leonardo Bras wrote:
-> > > On Fri, Mar 27, 2026 at 03:35:29PM +0800, Tian Zheng wrote:
-> > > > On 3/26/2026 2:05 AM, Leonardo Bras wrote:
-> > > > > Hello Tian,
-> > > > > 
-> > > > > I am currently working on HACDBS enablement(which will be rebased on top of
-> > > > > this patchset) and due to the fact HACDBS and HDBSS are kind of
-> > > > > complementary I will sometimes come with some questions for issues I have
-> > > > > faced myself on that part. :)
-> > > > > 
-> > > > > (see below)
-> > > > 
-> > > > Of course! Happy to exchange ideas and learn together.
-> > > :)
+On 4/21/26 4:55 AM, Thomas Gleixner wrote:
+> On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
+>> In tick_cpu_dying(), if the dying CPU is the current timekeeper,
+>> it has to pass the job over to another CPU. The current code passes
+>> it to another online CPU. However, that CPU may not be a timer tick
+>> housekeeping CPU.  If that happens, another CPU will have to manually
+>> take it over again later. Avoid this unnecessary work by directly
+>> assigning an online housekeeping CPU.
+>>
+>> Use READ_ONCE/WRITE_ONCE() to access tick_do_timer_cpu in case the
+>> non-HK CPUs may not be in stop machine in the future.
+> 'may not be in the future' is yet more handwaving without
+> content. Please write your change logs in a way so that people who have
+> not spent months on this can follow.
+>
+>> @@ -394,12 +395,19 @@ int tick_cpu_dying(unsigned int dying_cpu)
+>>   {
+>>   	/*
+>>   	 * If the current CPU is the timekeeper, it's the only one that can
+>> -	 * safely hand over its duty. Also all online CPUs are in stop
+>> -	 * machine, guaranteed not to be idle, therefore there is no
+>> +	 * safely hand over its duty. Also all online housekeeping CPUs are
+>> +	 * in stop machine, guaranteed not to be idle, therefore there is no
+>>   	 * concurrency and it's safe to pick any online successor.
+>>   	 */
+>> -	if (tick_do_timer_cpu == dying_cpu)
+>> -		tick_do_timer_cpu = cpumask_first(cpu_online_mask);
+>> +	if (READ_ONCE(tick_do_timer_cpu) == dying_cpu) {
+>> +		unsigned int new_cpu;
+>> +
+>> +		guard(rcu)();
+> What's this guard for?
+>
+>> +		new_cpu = cpumask_first_and(cpu_online_mask, housekeeping_cpumask(HK_TYPE_TICK));
+> Why has this to use housekeeping_cpumask() and does not use
+> tick_nohz_full_mask?
 
-Hello Tian,
+The RCU guard is for accessing the HK_TYPE_TICK(HK_TYPE_KERNEL_NOISE) 
+cpumask. tick_nohz_full_mask cpumask is actually the inverse of 
+HK_TYPE_TICK cpumask. Yes, I could use cpumask_first_andnot() with 
+tick_nohz_full_mask. If we make tick_nohz_full_mask an RCU protected 
+pointer, we still need the guard.
 
-On the above, HACDBS depends on HACDBSIRQ which can be announced by either 
-device-tree or ACPI. 
+Cheers,
+Longman
 
-Do you think it's ok for it to be ACPI only, for now?
-
-Thanks!
-Leo
