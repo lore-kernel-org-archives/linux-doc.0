@@ -1,176 +1,186 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011052.outbound.protection.outlook.com [40.107.208.52])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C8D3D904B;
-	Tue, 21 Apr 2026 15:15:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.52
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784522; cv=fail; b=TDZ3Y6Y8ufkHS3uJlrvnNlsFd3B8Fqkgy2/qh6RenTnxk+wKqQdg4/AYGPgqLqR3w7Mz1ECYBRcl0y3JKzaH6lH0KwAx0zyFf2GC3y0yX0vWSlGq/Nv6uAfyvrTXM3Isl2AZOP2raCaXdjY2djjcy7ZYOe7++EutIaBe9D09I2M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784522; c=relaxed/simple;
-	bh=evuOQINKiHZk3u7evyvDdfYq5kR5U/iJfFocftEFQto=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GdnPD18IFkdyTowKu7nrM1ZEFThGr305TSE+aa/4cV5J8hNH+gKhiNgmLhI90yfmyMGoI5pLmsy2wcH/rcWRZLrZ5IesuBus2r2zUPkgvy1ds9CD9X63q7fmGTQzjSBgmD3nZWYYiITTprE81yoArcQ+zZZAs6lU1YSYBMUgAH4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=aWvLjKBS; arc=fail smtp.client-ip=40.107.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9CC282F02;
+	Tue, 21 Apr 2026 15:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776784861; cv=none; b=sG0MHFqzcUZlNW59ABkRHYmcUGJKAG3JC/I2jsCA+kgjdIwFgPwkXQ4j4TrL+7TOJvaXSko3TsjXxAG/rWEoIUWQXr+1leaoLLxz5afaKzC84l8oD0uDL3xUt8zikW/QliqGWpW7OYHI8zgxcoEUoAxbrqtb2lpL09EITFIeuak=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776784861; c=relaxed/simple;
+	bh=F/at9kvrP0ftyUXa1QoDHgWWt9+7e9KsyBp2so8oQso=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Tt6ZMyPaTPe3bGwVCiLdLO0jCOIhdz55cFXzQ5T9Q4DUwbwJpfdOPXD39I7otxKnFthkNkDZL0m0KpZgpAqu7oNaXBsaLXcqeomKhQzdu/Sfnkd/GnbDazMN5VVeUN5ss8XxdpI92VCaKYmk3GpQq7tac23ZP+iDspWTlSWINa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kSTNTUxu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="aWvLjKBS"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bT2HhKXi0PPWqvXMfCB6TblM38gnqOCb2tfnbqn38YNR8LX7RPwVoX+zUjOV9tMQi211+wAHpZUcqSNfCoXRvSxKr+s2CkonNUDJuSwm6DeashU+9g0blrjgHo9+IOBsHANoNxqyYuJQvw8KI/fYWhuidYLJq6IKkJO0362Q8DHaE8a1E43xTcgYDOiNy2bvWRkLw0QfvxICdXSzPQx6yriXiud0l/N/tmOqXWl6r5gC73wqUY+MqYxT1qeFVh6PS30ZqKOnPdmoSK/rUridUuBWENsNYAL48cep26jEzT+Qc1ouADN9mpulOMFsZEh847lVd/XiGG2Ws0qpDRd6pg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NNGZoRtGzn3pxbozcSKCgGnF7yVJwhh5k9GDhRb7t2c=;
- b=VzKwN6PcIdqohqRKnkZ/V09vq04fs9hkMvKhdGLjtIbbAH1PLnPG1ejzZyUPe8OX70GrK04+8AFLDhnBLK4P6ggRc/H7tu6WnLnmo62upCUdECtEUli/7jBtoh5tPRqpkvWl7jHoCcPjyt/PupPoB2D2Mov6gRxAI0ZhvIQ6TbDUnxblVZvR+deYNVqX/nNjKtuZVEUgOc+MJPDwkczqvc4u4OzS0Ywdse1cmygTSlnBf/FkiLo4mph13gS6Ru12M0WE1t3UClBhRcL0vr//uw5w0TBoFjirS0Tp6ciVah3ANA+v2LFfNjRmrmRWwgQE3DOEp4N+ZZFXRtMzOpmy1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NNGZoRtGzn3pxbozcSKCgGnF7yVJwhh5k9GDhRb7t2c=;
- b=aWvLjKBSN/E8QxlEftPDCDQ0JUQgH51aWTwByfBm2uFDuXs8IQmBZ1vBW1KXNCrMNoC4xgbvK+wQ4pkJB3l+LyXNUU4WPMBzoCzAOfJO+uZetlfPEhnfXoPsy1WNzKejutMOBiDfCMkdE8LKabc/Y37tuXMMjif/aLU0dt5B6r85CdOfJs5KtKveHA5nQbZB6dm5R/aIhbfccfem4RpqVYveOqafOovGHbbU0ZKxh6RQ653qUUYvt4EY/pOrfE3z28FfJiKnmytQcAfl/CcwkBY7IhhG9vvCgd06DQ1qkvMa5TtHXb4sto1pjt8kRjS0azK+WWLD8S68vThsR9GXLQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com (2603:10b6:8:252::5) by
- IA0PR12MB7749.namprd12.prod.outlook.com (2603:10b6:208:432::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.15; Tue, 21 Apr
- 2026 15:15:17 +0000
-Received: from DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2]) by DS7PR12MB9473.namprd12.prod.outlook.com
- ([fe80::f01d:73d2:2dda:c7b2%4]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
- 15:15:17 +0000
-From: Zi Yan <ziy@nvidia.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
- Lorenzo Stoakes <ljs@kernel.org>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Matthew Wilcox <willy@infradead.org>, Harry Yoo <harry@kernel.org>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/mm: clarify that we are not looking for LLM
- generated content
-Date: Tue, 21 Apr 2026 11:15:14 -0400
-X-Mailer: MailMate (2.0r6290)
-Message-ID: <F3B8194C-9068-4D89-BD89-A756497CF05D@nvidia.com>
-In-Reply-To: <20260420-llmdoc-v1-1-47d2091177c4@kernel.org>
-References: <20260420-llmdoc-v1-1-47d2091177c4@kernel.org>
-Content-Type: text/plain
-X-ClientProxiedBy: BLAPR03CA0022.namprd03.prod.outlook.com
- (2603:10b6:208:32b::27) To DS7PR12MB9473.namprd12.prod.outlook.com
- (2603:10b6:8:252::5)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kSTNTUxu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D8B2C2BCB0;
+	Tue, 21 Apr 2026 15:21:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1776784861;
+	bh=F/at9kvrP0ftyUXa1QoDHgWWt9+7e9KsyBp2so8oQso=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kSTNTUxuJ37MXFp3pSpIMdOS40laH/EwZEvvafMj20wmOvojcusZdLaDlk16oH+dO
+	 8ppHDiTS5MR1Akmk2kAgbyZCw+upDYVlToxmmW9yRoe7uozquBxIffCUiQO2btwOMt
+	 7QxKOVT4jLFsek9pQHTWW/Krw78JV4q2Mpr7++wQ=
+Date: Tue, 21 Apr 2026 17:20:58 +0200
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Shashank Balaji <shashank.mahadasyam@sony.com>
+Cc: Kay Sievers <kay.sievers@vrfy.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rahul Bukte <rahul.bukte@sony.com>,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
+ lookup_or_create_module_kobject()
+Message-ID: <2026042154-overcast-starry-2872@gregkh>
+References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+ <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
+ <2026042126-majesty-skyline-b76f@gregkh>
+ <aeeQ5x1uMKT6cyxp@JPC00244420>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB9473:EE_|IA0PR12MB7749:EE_
-X-MS-Office365-Filtering-Correlation-Id: b9ecc049-77a1-49a6-259f-08de9fb8cbb6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	kUhGz0HCA30n5Y7PtyrqOtzfA/4jJxWH1eyrIA6M7mkG1ERIfL9keearWrPBIPngytdQzShcTBW1K3OQIWdU1oHclmqdljKbwWgYnyhw6I0OCiMys0p30Ocagc+TJcR6mN80wd2+oJQIX0d+Oza0QrrTUSsbmZ5xyhN23nW218Dy52NOCmdiKkY/CWiJIgY5UpgV1Oq72zzpcibQHoqO83Gi9amISOAz7nI/7vi8wb1RzWz/wjWLMG/keYGdHODnLACVWwdqHR6BZpTVFFhNFhGX4pnfWhuJHjaLOaG0M7oX01p/I4HqcqzgEF28d66wr58K765V6tyM9X1bj4jC2/+jDk9JIWGcJEKyoAnpySc9KSkZTH68c8ogoOjlZMGRRrouWrOVKYd5UQ8xzmVRMH9m5swtueFJ0jpXIpf8i6JUfQTk+SJqhDaDP2/pmMMkoXSK0IR9Ca7u4oqATGO0FOgV4oL+SNFhFk45sdZMHHzFJYJhU7qmrMwKBpZrY/PJkfMRHUv9dVdcOwWuiWfakIzwqw9daeohNajfdcnkekw3j3+ixjkOGdJS/576iWvokFteGFKSLc1ckpkbQjKHdQ5XQMvPl8N4/knBgKQ92AbAUty/BFs9V+bhr0cVFO9p3rhTm6KGW8XvP889fY31AjtH2K85H4Xw+AQ/9emfFulFBRJpZosDchqfg+1a2niM0nRBk7sTzOz8WOZZNTiY6XDoN03+cZ12kIzKa3idPNc=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB9473.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?hLBeTGFtAwZZYGDHBhyNuY6C0XhxEc+MoTAsK4ncjzV1oQHrd95z0JkJBeTL?=
- =?us-ascii?Q?v1RW7bmBbMoLcmrACtivyUCLRXuEdW9mK9RR6KfUftBRM8q2I75+Rb09UcPw?=
- =?us-ascii?Q?z4j1M1YnSmbsTdZzGkXNlEitbaadMxRdWsa3kOCra08MBTfjjD7QZ2muKo9l?=
- =?us-ascii?Q?XVFR0/FJEmq71Fm8zvwcX/V+W/jQyECcmhjSj+jkg8ExvFMuV+PB1NXjkbtx?=
- =?us-ascii?Q?ob7lFH2FfNLD+IeyWn+bcBaLSLA+0cS28JICVL7C3hLracbRC0w/efKgffNr?=
- =?us-ascii?Q?JBTfXgtMbX09WVMLAG78uexz6byhXOsZwdYgrBR1/1CtuN1RUYa92TQHldDk?=
- =?us-ascii?Q?GJOKsBcXLb/67u+dQrdL/3VqCjydTRoZK7uybMFgOYEKDa9CA7LBJnEXa1Sm?=
- =?us-ascii?Q?mmd4xssWXtkch3cy8C/3+tinF+PkbIHC9wGvv/fR/QkGqwvR2Kqz8cdJQYZF?=
- =?us-ascii?Q?EHWL/EPT3qxlQakwROIOCMXFr7+X3DxF8KFDQiFU7h/xFueNeNENLcY6Zfzx?=
- =?us-ascii?Q?nxkJqHsqjYDMvXkHvsTwkMXfr/7Hqqdgp6/8bCWnOZSSLvANxY1S7Mdib3ng?=
- =?us-ascii?Q?uvqlp16kau+F28YUXmTH3igSuCYBpNuJwiS4GGvfihG6s2IBQXFGBRnk62uJ?=
- =?us-ascii?Q?RZs7UVV5zcVA7PfQagFK/k9n2lTGZWZhJkHlbY/Btxcp573CYb5j/O7p/Kvb?=
- =?us-ascii?Q?dRRGccO+z3wUmfEm9K/F+YnwZA7O0YDwGhgEaprSCPSENtqjEhX5TKTBVtUZ?=
- =?us-ascii?Q?6NHMBA11Yxyq5VIlajpIUVYe0r8Zhl4mzUTSL8bdWmcA+3XPVxVgAR6aINQW?=
- =?us-ascii?Q?uAOTJPmpcWJIAsDiPcD9VPl8CJ/uHtHwcP+A3yu400OqVmGc5Dbl4e/b4SpA?=
- =?us-ascii?Q?TXwjZS+E2nonc6C6tgQU6mL5VIIhgc6shqYycC0pLKnBbmdXMH3sQ3Il3gx2?=
- =?us-ascii?Q?FS4pdoOBhvDYIblWNk4IXDfka2H1l9cDW4nAX/wfxE/vLETQNi8wANOWYdcf?=
- =?us-ascii?Q?loENEEu8fIjq8SXJPgfEi/4AxT/9Q86kpzYLcXuK6gmGeoB3Ll6VEEj5i0pB?=
- =?us-ascii?Q?f0sxvqbQZ9eGshhbVZ20lfsJUjZs5Y6NyRZdnp3WhmpIIzAF7UD7h4WZH60K?=
- =?us-ascii?Q?ZtCPoMKYN+41Sl95vzRTpd29Z651JySfCecLm9D6GtHJEQoxsV/jWGBA+DMn?=
- =?us-ascii?Q?m4nwtQEnGRCLQd2P5s23v1ycjLq9BYniYBPXeuRMPhWFFj6tuEPJy2d6kpKy?=
- =?us-ascii?Q?wao1fafPML2WhD/c8d7vEjP1Pi5O9cMnfBKBNBFiwAXOeydBtK0CXxHGPl88?=
- =?us-ascii?Q?v7PXeqrRxqSzhEhz7CIB4ekYd5mYKfFV3zn9suO7K2NABiLTJLWRlPokEUEH?=
- =?us-ascii?Q?HgwDnG9Aof7F+OUEV5Fg34yjH1Kl/k6+ivm8VmZ7pUVqXxE2s/Kmpta0TXru?=
- =?us-ascii?Q?5kEIIUj+B+r4cisixHb7rHovBHCn9ioH4Cgzy0SUicEm0a7DOHkyj8IcxlSH?=
- =?us-ascii?Q?3mq+ECceQqpfY/MX9/EntgyJFqF69Njcy/JQ0eNvIQV7plkch2EV7ZrHilSG?=
- =?us-ascii?Q?ojjbn4Pzq/vji6pWpjmDPiJfjc0SApzpWzJO+oPXwSDUL9anWWEVzSpOohTa?=
- =?us-ascii?Q?W8sVfbC5abNHBdQ9FYuEepMVRD/AvDn1cb5LdkB6GHAIg0nK8mjvCmr5K54p?=
- =?us-ascii?Q?Ju6u1F3mnGlz+i43As9qwyZvYyspPr1NxoagdMT/YUwNQ8yD225kD7OXxooi?=
- =?us-ascii?Q?pphQ6UkJLA=3D=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b9ecc049-77a1-49a6-259f-08de9fb8cbb6
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB9473.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 15:15:17.5329
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JI3SZOsNN4/q8z7RT82Vu2vydz/tuYOKp6Q00TKV0ND1wTfMaf+0GcfSvpuzYAJ4
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7749
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aeeQ5x1uMKT6cyxp@JPC00244420>
 
-On 20 Apr 2026, at 17:03, David Hildenbrand (Arm) wrote:
+On Tue, Apr 21, 2026 at 11:59:51PM +0900, Shashank Balaji wrote:
+> Hi Greg,
+> 
+> Thanks for the quick feedback!
+> 
+> On Tue, Apr 21, 2026 at 08:27:10AM +0200, Greg Kroah-Hartman wrote:
+> > On Tue, Apr 21, 2026 at 03:02:34PM +0900, Shashank Balaji wrote:
+> > > module_kset is initialized in a subsys_initcall. If a built-in driver tries to
+> > > register before subsys_initcall with its struct device_driver's mod_name set,
+> > > then a null module_kset is dereferenced via this call trace:
+> > > 
+> > >      [    0.095865] Call trace:
+> > >      [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
+> > >      [    0.096150]  kset_find_obj+0x24/0x104
+> > >      [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
+> > >      [    0.096274]  module_add_driver+0xd4/0x138
+> > >      [    0.096328]  bus_add_driver+0x16c/0x268
+> > >      [    0.096380]  driver_register+0x68/0x100
+> > >      [    0.096428]  __platform_driver_register+0x24/0x30
+> > >      [    0.096486]  tegra194_cbb_init+0x24/0x30
+> > >      [    0.096540]  do_one_initcall+0xdc/0x250
+> > >      [    0.096608]  do_initcall_level+0x9c/0xd0
+> > >      [    0.096660]  do_initcalls+0x54/0x94
+> > >      [    0.096706]  do_basic_setup+0x20/0x2c
+> > >      [    0.096753]  kernel_init_freeable+0xc8/0x154
+> > >      [    0.096807]  kernel_init+0x20/0x1a0
+> > >      [    0.096851]  ret_from_fork+0x10/0x20
+> > > 
+> > > So, return null in lookup_or_create_module_kobject() if module_kset is null.
+> > > Existing callers handle null already.
+> > > 
+> > > Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
+> > 
+> > This isn't a bugfix.
+> 
+> I'll drop it in the next version.
+> 
+> > > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> > > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> > > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> > > ---
+> > > This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
+> > > to register from a pure_initcall, and with the next patch adding mod_name, this
+> > > null deref is hit.
+> > 
+> > So this isn't a bug, it's a "don't do that" type of thing :)
+> > 
+> > > ---
+> > >  kernel/params.c | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > > 
+> > > diff --git a/kernel/params.c b/kernel/params.c
+> > > index 74d620bc2521..881c7328c059 100644
+> > > --- a/kernel/params.c
+> > > +++ b/kernel/params.c
+> > > @@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
+> > >  	struct kobject *kobj;
+> > >  	int err;
+> > >  
+> > > +	if (!module_kset)
+> > > +		return NULL;
+> > 
+> > Are you sure that making this change is going to be ok?
+> > mod_sysfs_init() should have been called first as the module has to be
+> > created before it can be looked up.
+> > 
+> > As you are wanting "built in" drivers to show up here, you are going to
+> > beat the call to param_sysfs_init(), so don't do that.  Make sure that
+> > the drivers are NOT called before then.
+> 
+> The reason lookup_or_create_module_kobject() can be reached with module_kset == NULL
+> is that some platform drivers register before subsys_initcall: tegra194_cbb and
+> tegra234_cbb at pure_initcall, plus roughly 375 others at core_initcall/arch_initcall
+> (208 arch, 154 core, plus 2 pure and 13 _sync variants). These are dominated by
+> pinctrl, clk, interconnect, gpio, and mailbox drivers across six SoC vendor trees
+> (Qualcomm, MediaTek, Freescale, Samsung, Tegra, HiSilicon).
 
-> Let's make it clear that we are not looking for LLM generated content
-> from contributors not familiar with the details of MM, as it shifts the
-> real work onto reviewers.
->
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
-> ---
->  Documentation/mm/index.rst | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
+That's not good, everyone wants to be first.  It's amazing it works at
+all sometimes...
 
-Acked-by: Zi Yan <ziy@nvidia.com>
+> Given that, three ways forward:
+> 
+>   1. Move module_kset creation out of param_sysfs_init() (currently
+>      subsys_initcall) and call it directly from do_basic_setup()
+>      before do_initcalls(). This is the cleanest fix from a
+>      correctness angle: every initcall level sees a live
+>      module_kset. But it touches init/main.c and kernel/params.c,
+>      crosses two subsystem trees. I haven't fully audited
+>      dependencies at do_basic_setup() time.
 
->
-> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-> index 7aa2a8886908..13a79f5d092c 100644
-> --- a/Documentation/mm/index.rst
-> +++ b/Documentation/mm/index.rst
-> @@ -7,6 +7,19 @@ of Linux.  If you are looking for advice on simply allocating memory,
->  see the :ref:`memory_allocation`.  For controlling and tuning guides,
->  see the :doc:`admin guide <../admin-guide/mm/index>`.
->
-> +.. note::
-> +
-> +  Unfortunately, parts of this guide are still incomplete or missing.
-> +  While we appreciate contributions, documentation in this area is hard
-> +  to get right and requires a lot of attention to detail.  New contributors
-> +  should reach out to the relevant maintainers early.
-> +
-> +  This guide is expected to reflect reality, which requires contributors
-> +  to have a detailed understanding.  Documentation generated with LLMs
-> +  by contributors unfamiliar with these details shifts the real work onto
-> +  reviewers, which is why such contributions will be rejected without
-> +  further comment.
-> +
->  .. toctree::
->     :maxdepth: 1
->
->
-> ---
-> base-commit: da6b5aae84beb0917ecb0c9fbc71169d145397ff
-> change-id: 20260420-llmdoc-21bf5fadbd6f
->
-> Best regards,
-> -- 
-> David Hildenbrand (Arm) <david@kernel.org>
+That's one way, OR dynamically create the kset the first time it is
+asked for.
 
+>   2. Demote the ~377 early-initcall platform drivers to
+>      subsys_initcall or later. Impractical at scale given coordination
+>      across six vendor trees, and many of these levels seem to be
+>      architecturally required.
 
-Best Regards,
-Yan, Zi
+Ick, yeah, that is sure to be a nightmare as there will be regressions.
+
+>   3. (This patch) Guard lookup_or_create_module_kobject() against
+>      NULL module_kset. Drivers registered before subsys_initcall
+>      don't get the /sys/.../module symlink, but they don't get it
+>      today either (drv->mod_name is NULL pre-patch, so the
+>      else-if (drv->mod_name) branch in module_add_driver() isn't
+>      taken). Verified on arm64: /sys/module/tegra194_cbb/ does not
+>      exist on a booted defconfig with or without my series. The
+>      guard preserves that exact state while letting the
+>      device_initcall majority get their symlinks as designed.
+
+THat's going to confuse people as to why some have the link and others
+do not.  How about moving it earlier OR creating it dynamically when
+first needed?
+
+thanks,
+
+greg k-h
