@@ -1,329 +1,148 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E73B17A305;
-	Tue, 21 Apr 2026 16:17:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776788243; cv=none; b=be9+ceFdtGwKv4iVVAsu9/iJPsdsk0xvtRZoPkKfbWkLGXrhVFAcLePXoJA1Nop6DEO94R7HdnIgmK/G4gAHnqkSGtVXF9zj+gRCpdUZmWNlTZigNNuzrL7m1YadXmBBxGDtHGk0TN0j3t0UU5EEeJ6BJlm7lZfaAISF62oVCUU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776788243; c=relaxed/simple;
-	bh=Rx0BZ0cGJyVS+dN5uBo9yCytt0x7FN65QdU72qTNcHk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=orZCmGlour1mf+Obfzyv0aILUvxr2SNusKRiiS2vhJ/o2GhmXB37KUjhKNCza0roS6J+oPTCyDG/3YFZ+s+W6sQclNxuYRbVOcfSo97MzvbhONoRpN0sWuYgQXi7a00S8jvccJTiQGgbWGgRWdfyobiK+NaacKRawa4xtCHDk+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ahhch9gB; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90BE3344D82
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 16:18:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.180
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776788282; cv=pass; b=KWA2AA/dT5acqnti/tP4OMxolH00C16sb0VwCqCFGSxlNYduxyHQMcnPanDUYHtOHQ1mYLPzIXm0tyzlLMGEPwjyO0MtUGPP1q8lUyCLlWrmXypy5KQlePzzcyULjibL26escr1TWSpBNT/OLhiPiFw4InBLtgx8Vut/2QHh2F0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776788282; c=relaxed/simple;
+	bh=bpNWPmQUmtbAf0gai0ctu6DBVgpxv6rlo0i3uJ04sWg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RiqZq7WgTLSnOINStTsyFSmR2IXQWcMUb5nvxL2ZUjODcWmz1FajqRt8a9taJe3Me/DxwtYu2Tlz04MmujLw2Z0pBhw/SxC05pJZJETKDFY9MvfBriGNykaAgB+F4SfkIia+YA24/LKHQMIlNcevM7hZK8uffL9D7Re/Rtz6WtA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BhtOqGe7; arc=pass smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ahhch9gB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34A94C2BCB0;
-	Tue, 21 Apr 2026 16:17:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776788243;
-	bh=Rx0BZ0cGJyVS+dN5uBo9yCytt0x7FN65QdU72qTNcHk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=ahhch9gBqz/Ve5ejormjhbp/fGLuEMSKMeJvSPfKLgXSEsKtz89Vwup2jgYC8nLDe
-	 Zp+lH2/C0AVFS1vzhG8gZzNZFgd3VusAuaIBSQKDxJw188DJJeMBdYDeakSvd7+oYe
-	 6nKGi2J1lzsu/nfStubv7mMmHLU1WhEkLhAvS1rlYdogvbuTNbrXWXGhQqjGe4KgKY
-	 zuufkAkWuhRPr1z7ETBcFDbYdhLraiWBpGNQsfFUzJHoXACSQ8T3aL5mVqRW8Fsc0J
-	 ys6TVdVbj2sqmRLJZr+9J8jjmIn+pNevv3LUfTeNcnB9jfCtChovAUy01SomG7pYNJ
-	 kqjI3wV4527+A==
-From: Thomas Gleixner <tglx@kernel.org>
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes
- Weiner <hannes@cmpxchg.org>, Michal =?utf-8?Q?Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Catalin
- Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, "K. Y.
- Srinivasan" <kys@microsoft.com>, Haiyang Zhang <haiyangz@microsoft.com>,
- Wei Liu <wei.liu@kernel.org>, Dexuan Cui <decui@microsoft.com>, Long Li
- <longli@microsoft.com>, Guenter Roeck <linux@roeck-us.net>, Frederic
- Weisbecker <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>, Joel Fernandes
- <joelagnelf@nvidia.com>, Josh Triplett <josh@joshtriplett.org>, Boqun Feng
- <boqun@kernel.org>, Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt
- <rostedt@goodmis.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Chen Ridong <chenridong@huaweicloud.com>, Peter
- Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>, Dietmar Eggemann
- <dietmar.eggemann@arm.com>, Ben Segall <bsegall@google.com>, Mel Gorman
- <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, K Prateek
- Nayak <kprateek.nayak@amd.com>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
- rcu@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
- Qiliang Yuan <realwujing@gmail.com>, Waiman Long <longman@redhat.com>
-Subject: Re: [PATCH 18/23] cpu/hotplug: Add a new cpuhp_offline_cb() API
-In-Reply-To: <20260421030351.281436-19-longman@redhat.com>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-19-longman@redhat.com>
-Date: Tue, 21 Apr 2026 18:17:19 +0200
-Message-ID: <87o6jcb84w.ffs@tglx>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BhtOqGe7"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-79a46260385so43630627b3.3
+        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 09:18:00 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1776788279; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ip3n5E1Tc8H9sQOCWnGnYzRIN8yaj6IqCt3Fo54Wvb+NIo5QZn6Ebjap+8SK3+NQji
+         DLnmxiDgFLfBI9y8A5Z3RvGE5/j/BP5d9P4KWfda/KlB2IBhl7vgZjWCUGBQuDWhMMEC
+         ffihbKk0D3tKtLiR7ErSYccsldOq2hcEHYR0tDoAi4ou0Sjso+Y/QUZiw3F/mtj+sV/O
+         G/NxWWenyu9kQuu62ov/58sffxDmVr4yzIhlNDYVREiDJQb1AvxUV7C2zO0jWo07SVEQ
+         ifN2UON9+Cx8Bfu9Nhn4ikOBNnUtFgK/pQ+17vAYok6dcwt4vBoAY4bV95Wov7wObuGo
+         ZLXg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=WlejQ2Tpf6EuBEgAofXCiHYBLX5AECYqklHU2vA9qDI=;
+        fh=R9Ent+QnsbW8x0/fTB9h1L74PHVspwt8FatPoHcp4fQ=;
+        b=KrnDQmexC8wA70IN4+pmaYUitax9GRKYEAHWxr/zolSqRW2z3cc+TS0I4vUPAHrw/Z
+         0w9RzCya9nQRxHJpwnnkBZLtrN/+iOQDFs/nD8Y0UbxIfqScYqtPeTvFdYU7YNiBPr17
+         gutfKWmFE6DLq7bRgI8ZvA2lxaMYAEHxLpcBZjelINzQKAbxSis/zExk3+gkkqVl5arc
+         ukQ5rS2O8iMvSZEC/gDSOIa6+oc4JT/9Zszy91ONTA/L8ZufLGzOhR9YmxpmdVQSnRMv
+         DZgO5Vsp3JVLZ6hknHN09JK3FRtB54HiRWJ0lz9duzJ6TT23kLFPyrSoHKkZyd8iw77y
+         E1Zw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776788279; x=1777393079; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WlejQ2Tpf6EuBEgAofXCiHYBLX5AECYqklHU2vA9qDI=;
+        b=BhtOqGe7RRiIumgDU5cmNdklvcPueg50lKI4WWG2/cDxTXZQlGpSViHfQ9efN+5Z8m
+         EAyLwYe5saHRlKuBwhm/6CyS7NTsTr5fsc4wzlS8p26QcC7X+PGNgtHaCIqEkW6WItdK
+         170UggOhkbPuef5armjmTEHwX6L76lT4T7pcbdJOGn5I3CEuKP0PlXUWEVGSRKUp27Bt
+         NSKsBfmVSz7FIV4650sZtzBIWN67QdJ4yaUNTx+g2itL5c3EXIukyEO5O0rXDNO9+gT4
+         CUHca599zSnFtZDldiQdna7j4annw/YRubSH4Ij4/3ppVf92s7h0rM5Cz5GKlBbBisva
+         nZSw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776788279; x=1777393079;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=WlejQ2Tpf6EuBEgAofXCiHYBLX5AECYqklHU2vA9qDI=;
+        b=ItRyc22migH7v4oTnkPsL/n7Ssxu/nQTu9XorpumUB4PeDKZ6ibLjYApJHlBA42Okh
+         7g6ZWSB1KPYD7TivD1PMyeVQVre56UzNuDn5YL+/82HGP++g9oCzq8JW2ir2jgYWHKAy
+         E7ykD3HWQUiLrRV89I9nrjk6HjZ3Qf0AbzcxKP+De2Gsj6qvnsm4kngKXsLUBH646232
+         gKw/nLMZPaRpuJTIFwwROJanoTYU4AHl3kCSawpv1PIfIzF44jsIklyxpPCEhwr1ZuUN
+         qJ0dphLD9y5UaXj6qt9DuKXZVN5RKqvKNoxa4MGoJMWN4eRJgfja/01m1I+IsVSs28r0
+         E1EQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9vGByRipstIQWBNpMboFrCr3NPKTF11wSdiH8KscY+3fGCYX+qd/xsjo6AMTbGQZmEqUNODEys9V0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yywhcnl6JBI/q5qup3dPkZ0CsXBo4vTLmsRz+7INRbLe/bt+LI2
+	XUh7cmElFCn1bNP/AemoOel6B8lB1wzAd0CEX7XbGMao7jY6rNGd4rHD2QcjGAcj3bDD2hm6Li2
+	3ZewOWlkJP8dq292NJo2D4IoAN5AZqnc=
+X-Gm-Gg: AeBDietXhhPaPsymuFrubDH/FJ8sZvhhYlWYh7eZWustMycfZlEK3WthOAKXD5LCiUi
+	+68AlNlN/3cMQj2qUY8owVh+nXXpsuys731R+/RoSG1su0eRwp4VFKwXczo3nHU3purGN6ogU0z
+	B9rkSjsX69AW88S9oxYNaR+aIffRBazJInqHUTiAU+hHo9ewWPE47ZeEqaMy08R0fh3VhC63VtR
+	bwbM7CspUw9ZRPZg4U9sn4jqRS5hQRfOVaAfyJu5RHavKzdWepc+j/aJirPkGpWQufNn36fpmTz
+	6K9b0dFeumDyEEMwqKuDzpSg4/8iIAkEcjM1okEmz9sblXqfJbK2p/xnXvNMolybuGunSkWgYJf
+	z+P+mKixKgnWOG9llpnzTqGwBH6D2J30VXtMO
+X-Received: by 2002:a05:690c:60c1:b0:7ba:f129:3770 with SMTP id
+ 00721157ae682-7baf129489fmr85282657b3.5.1776788279397; Tue, 21 Apr 2026
+ 09:17:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-
-On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
-> Add a new cpuhp_offline_cb() API that allows us to offline a set of
-> CPUs one-by-one, run the given callback function and then bring those
-> CPUs back online again while inhibiting any concurrent CPU hotplug
-> operations from happening.
-
-Please provide a properly structured change log which explains the
-context, the problem and the solution in separate paragraphs and this
-order. This is not new. It's documented...
-
-> This new API can be used to enable runtime adjustment of nohz_full and
-> isolcpus boot command line options. A new cpuhp_offline_cb_mode flag
-> is also added to signal that the system is in this offline callback
-> transient state so that some hotplug operations can be optimized out
-> if we choose to.
-
-We chose nothing.
-
-> +#include <linux/cpumask_types.h>
-
-What for? This header only needs a 'struct cpumask' forward declaration
-so that the compiler can handle the pointer argument, no?
-
-> +typedef int (*cpuhp_cb_t)(void *arg);
-
-You couldn't come up with a more generic name for this, right?
-
->  struct device;
->  
->  extern int lockdep_is_cpus_held(void);
-> @@ -29,6 +31,8 @@ void clear_tasks_mm_cpumask(int cpu);
->  int remove_cpu(unsigned int cpu);
->  int cpu_device_down(struct device *dev);
->  void smp_shutdown_nonboot_cpus(unsigned int primary_cpu);
-> +int cpuhp_offline_cb(struct cpumask *mask, cpuhp_cb_t func, void *arg);
-
-Ditto.
-
-> +extern bool cpuhp_offline_cb_mode;
-
-Groan. The only users are in the cpusets code which invokes this muck
-and should therefore know what's going on, no?
-
->  #else /* CONFIG_HOTPLUG_CPU */
->  
-> @@ -43,6 +47,11 @@ static inline void cpu_hotplug_disable(void) { }
->  static inline void cpu_hotplug_enable(void) { }
->  static inline int remove_cpu(unsigned int cpu) { return -EPERM; }
->  static inline void smp_shutdown_nonboot_cpus(unsigned int primary_cpu) { }
-> +static inline int cpuhp_offline_cb(struct cpumask *mask, cpuhp_cb_t func, void *arg)
-> +{
-> +	return -EPERM;
-
--EPERM?
-
-> +/**
-> + * cpuhp_offline_cb - offline CPUs, invoke callback function & online CPUs afterward
-> + * @mask: A mask of CPUs to be taken offline and then online
-> + * @func: A callback function to be invoked while the given CPUs are offline
-> + * @arg:  Argument to be passed back to the callback function
-> + *
-> + * Return: 0 if successful, an error code otherwise
-> + */
-> +int cpuhp_offline_cb(struct cpumask *mask, cpuhp_cb_t func, void *arg)
-> +{
-> +	int off_cpu, on_cpu, ret, ret2 = 0;
-> +
-> +	if (WARN_ON_ONCE(cpumask_empty(mask) ||
-> +	   !cpumask_subset(mask, cpu_online_mask)))
-> +		return -EINVAL;
-
-No line break required. You have 100 characters.
-
-But what's worse is that the access to cpu_online_mask is not protected
-against a concurrent CPU hotplug operation.
-
-> +
-> +	pr_debug("%s: begin (CPU list = %*pbl)\n", __func__, cpumask_pr_args(mask));
-
-Tracing?
-
-> +	lock_device_hotplug();
-> +	cpuhp_offline_cb_mode = true;
-> +	/*
-> +	 * If all offline operations succeed, off_cpu should become nr_cpu_ids.
-> +	 */
-> +	for_each_cpu(off_cpu, mask) {
-> +		ret = device_offline(get_cpu_device(off_cpu));
-> +		if (unlikely(ret))
-> +			break;
-> +	}
-> +	if (!ret)
-> +		ret = func(arg);
-> +
-> +	/* Bring previously offline CPUs back online */
-> +	for_each_cpu(on_cpu, mask) {
-> +		int retries = 0;
-> +
-> +		if (on_cpu == off_cpu)
-> +			break;
-> +
-> +retry:
-> +		ret2 = device_online(get_cpu_device(on_cpu));
-> +
-> +		/*
-> +		 * With the unlikely event that CPU hotplug is disabled while
-> +		 * this operation is in progress, we will need to wait a bit
-> +		 * for hotplug to hopefully be re-enabled again. If not, print
-> +		 * a warning and return the error.
-> +		 *
-> +		 * cpu_hotplug_disabled is supposed to be accessed while
-> +		 * holding the cpu_add_remove_lock mutex. So we need to
-> +		 * use the data_race() macro to access it here.
-> +		 */
-> +		while ((ret2 == -EBUSY) && data_race(cpu_hotplug_disabled) &&
-> +		       (++retries <= 5)) {
-> +			msleep(20);
-> +			if (!data_race(cpu_hotplug_disabled))
-> +				goto retry;
-> +		}
-> +		if (ret2) {
-> +			pr_warn("%s: Failed to bring CPU %d back online!\n",
-> +				__func__, on_cpu);
-
-Provide a proper text and not this silly __func__ thing.
-
-> +			break;
-> +		}
-> +	}
-
-TBH. This is unreviewable gunk and the whole 'unlikely event that CPU
-hotplug is disabled' is just a lazy hack.
-
-All of this can be avoided including this made up callback function.
-
-It's not rocket science to provide:
-
-     1) A function which serializes against any other CPU hotplug
-        related action.
-
-     2) A function which brings the CPUs in a given CPU mask down
-
-     3) A function which brings the CPUs in a given CPU mask up
-
-     4) A function which undoes #1
-
-Yeah I know, it's more work and not convoluted enough. But see below.
-
-That brings me to that other hack namely cpuhp_offline_cb_mode, which
-you self described as such in patch 21/23:
-
-> +	/*
-> +	 * Hack: In cpuhp_offline_cb_mode, pretend all partitions are empty
-> +	 * to prevent unnecessary partition invalidation.
-> +	 */
-> +	if (cpuhp_offline_cb_mode)
-> +		return false;
-> +
-
-We are not merging hacks. End of story. But you knew that already, no?
-
-Let's take a step back and see what you really need to achieve:
-
-  1) Update tick_nohz_full_mask
-  2) Update the managed interrupt mask
-  3) Update CPU sets
-
-Independent of the direction of this update you need to ensure that the
-affected functionality keeps working correctly.
-
-You achieve that by bulk offlining the affected CPUs, invoking a magic
-callback and then bulk onlining the affected CPUs again, which requires
-that ill defined cpuhp_offline_cb_mode hackery and probably some more
-hacks all over the place.
-
-You can achieve the same by doing CPU by CPU operations in the right
-order without this mode hack, when you establish proper limitations for
-this:
-
-  At no point in time it's allowed to empty a CPU set or a affected CPU
-  mask, except when you completely undo the isolation of CPUs.
-
-  That can be computed upfront w/o changing anything at all. Once the
-  validity is established, the update can proceed. Or you can leave it
-  to user space which can keep the pieces if it gets it wrong.
-
-That's a reasonable limitation as there is absolutely zero justification
-to support something like:
-
-       housekeeping_cpus = [CPU 0], isolated_cpus = [CPU 1]
-  ---> housekeeping_cpus = [CPU 1], isolated_cpus = [CPU 0]
-
-just because we can with enough horrible hacks.
-
-If you get that out of the way, then a CPU by CPU update becomes the
-obvious and simplest solution. The ordering constraints can be computed
-in user space upfront and there is no reason to do any of this in the
-kernel itself except for an eventual validation step. It might be a tad
-slower, but this is all but a hotpath operation.
-
-Just for the record. I suggested exactly this more than a year ago and
-it's still the right thing to do.
-
-And of course neither your cover letter nor any of the patches give a
-proper rationale why you think that your bulk hackery is better. For the
-very simple reason that there is no rationale at all.
-
-This bulk muck is doomed when your ultimate goal is to avoid the stop
-machine dance. With a per CPU update it is actually doable without more
-ill defined hacks all over the place.
-
-   1) Bring down the CPU to CPUHP_AP_SCHED_WAIT_EMPTY, which is the last
-      state before stop machine is invoked.
-
-      At that point:
-
-         - no user space thread is running on the CPU anymore
-
-         - everything related to this CPU has been shut down or moved
-           elsewhere
-
-         - interrupt managed device queues are quiesced if the CPU was
-           the last online one in the queue affinity mask. If not the
-           interrupt might still be affine to the CPU, but there is at
-           least one other CPU available in the mask.
-
-   2) Update the tick NOHZ handover
-
-      This can be done without going into stop machine by providing a
-      hotplug callback right between CPUHP_AP_SMPBOOT_THREADS and
-      CPUHP_AP_IRQ_AFFINITY_ONLINE.
-
-      That's trivial enough to achieve and can work independently of
-      NOHZ full.
-
-   3) Rework the affinity management, so that interrupt affinities can
-      be reassigned in the CPUHP_AP_IRQ_AFFINITY_ONLINE state.
-
-      That needs a lot of thoughts, but there is no real reason why it
-      can't work.
-
-   4) Flip the housekeeping CPU masks in sched_cpu_wait_empty() after
-      balance_hotplug_wait().
-
-   5) Bring the CPU online again.
-
-For #2 and #3 to work you need a separate CPU mask which avoids touching
-CPU online mask. For #3 this needs some more work to avoid reassigning the
-interrupts once sparse_irq_lock is dropped, but the bulk is achieved
-with the separate CPU mask.
-
-No?
-
-Thanks,
-
-        tglx
-
+References: <20260421021824.1293976-1-kuba@kernel.org> <20260421065507.2c5e3ba7@phoenix.local>
+In-Reply-To: <20260421065507.2c5e3ba7@phoenix.local>
+From: Dan Cross <crossd@gmail.com>
+Date: Tue, 21 Apr 2026 12:17:23 -0400
+X-Gm-Features: AQROBzBxInpXswvKS4PlaD90HmpltOzEo3_9ivTaP46UHDxuQQ1dPVwgB3AoVnI
+Message-ID: <CAEoi9W6ZRw6aEh62Xbgkg-TW8URHbVp6dHTT9krFiTkotjTuTA@mail.gmail.com>
+Subject: Re: [PATCH net-deletions] net: remove ax25 and amateur radio
+ (hamradio) subsystem
+To: stephen@networkplumber.org
+Cc: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net, netdev@vger.kernel.org, 
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch, 
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
+	federico.vaga@vaga.pv.it, carlos.bilbao@kernel.org, avadhut.naik@amd.com, 
+	alexs@kernel.org, si.yanteng@linux.dev, dzm91@hust.edu.cn, 
+	2023002089@link.tyut.edu.cn, tsbogend@alpha.franken.de, dsahern@kernel.org, 
+	jani.nikula@intel.com, mchehab+huawei@kernel.org, gregkh@linuxfoundation.org, 
+	jirislaby@kernel.org, tytso@mit.edu, herbert@gondor.apana.org.au, 
+	ebiggers@kernel.org, johannes.berg@intel.com, geert@linux-m68k.org, 
+	pablo@netfilter.org, tglx@kernel.org, mashiro.chen@mailbox.org, 
+	mingo@kernel.org, dqfext@gmail.com, jreuter@yaina.de, sdf@fomichev.me, 
+	pkshih@realtek.com, enelsonmoore@gmail.com, mkl@pengutronix.de, toke@toke.dk, 
+	kees@kernel.org, jlayton@kernel.org, wangliang74@huawei.com, 
+	aha310510@gmail.com, takamitz@amazon.co.jp, kuniyu@google.com, 
+	linux-doc@vger.kernel.org, linux-mips@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, Apr 21, 2026 at 9:55=E2=80=AFAM Stephen Hemminger
+<stephen@networkplumber.org> wrote:
+> On Mon, 20 Apr 2026 19:18:23 -0700
+> Jakub Kicinski <kuba@kernel.org> wrote:
+> > Remove the amateur radio (AX.25, NET/ROM, ROSE) protocol implementation
+> > and all associated hamradio device drivers from the kernel tree.
+> > This set of protocols has long been a huge bug/syzbot magnet,
+> > and since nobody stepped up to help us deal with the influx
+> > of the AI-generated bug reports we need to move it out of tree
+> > to protect our sanity.
+> >
+> > The code is moved to an out-of-tree repo:
+> > https://github.com/linux-netdev/mod-orphan
+> > if it's cleaned up and reworked there we can accept it back.
+>
+> It would be good if these protocols could be done in userspace
+> or with BPF?
+
+Consensus for a userspace implementation is what folks on linux-hams
+seem to be converging on.
+
+The amateur radio protocols are more or less specific to low-speed
+links, they are not particularly coupled to anything else that
+requires running in the kernel, and the main coupling point (IP over
+AX.25) can be implemented via TAP/TUN.
+
+There are several popular packages that already implement AX.25 and
+NET/ROM in user-space (for the interested, LinBPQ seems to be the
+canonical example).  The main missing piece is ROSE, but it is likely
+easier to add that to an existing package, or potentially something
+brand new, than keep it in the kernel.
+
+There's no compelling reason to keep these protocols in the kernel,
+whether in-tree or out-of-tree; at least, one has not been
+articulated.
+
+        - Dan C.
