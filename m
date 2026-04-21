@@ -1,190 +1,272 @@
-Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C693C3BE0;
-	Tue, 21 Apr 2026 15:10:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784205; cv=none; b=OLfJ0q4dzLvP8wjgX7ZlX9Kx2rsC5RE0GKkiRxSFgiZT+FosZ84SsQQ2gj6Ao99Qn5CY48vDRSidA8R6333M4FFu0WU3enpnd/tRglqAFZ+Fja813W5U3cpnhohNMUeDefDZY3aWGJKO+E4Ng3e8p4lwxMSi5Cr8g1UcdYnlPRY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784205; c=relaxed/simple;
-	bh=cmyaupRqmbN/ULerERzNae8aSi2Orqym5ZZqoD7wXoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ccmAuAnuj9BsOBccu57ycObcRNjBK6qkJGWuWkDq1deXTItjxxXbsY8/cXOrZXDHuHq3Oo+kQiDaCr00uIJgP3+ofdJoSWJsHVLblPpZTIhfn31jSPIdTtc9QOrOvYHZKRdQtBQ9ezSJ0VF1S4gHYw5KAzdMG1NYtCa/WD+W4w0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=nejCsAOZ; arc=none smtp.client-ip=211.125.140.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ACC43D75C5;
+	Tue, 21 Apr 2026 15:11:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.19
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776784295; cv=fail; b=VIZLYaJX0c+EZhhc9liDk0Ajot8N6kkhLQy6+Vw2h84wmo/kQsdL5uKK/mubLtgek3cG9jzORagrPjozebkHHuMHMmOthWTnCwW8srlfiNlSyU3t2T46/aTcR0s5HEbEBHSu3q3pI5L1AQyqMW8OOO3gleQEbWMSQPidDCekK7s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776784295; c=relaxed/simple;
+	bh=xc5Y2YY1EGsuzc1Sp8M4kumKUfF8KLM1NxienoTui74=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=KUIRw536s2OhSh90Ht2y6JZIyzdUw39E5YjkTqwN6H+a99dhyVA9iRzk1W/y+NkyYI6c9aUNDI+k1sJe8/0JO7MdRzc5md0GLAiSqK5lY8pMHyLoDZlpNAzRXiLt+1hnoc6jZcGlyrh8Sxkh/wRWqDy3PQZI6gPhmMCA2Ety+U8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GWPL7p5Q; arc=fail smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="nejCsAOZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1776784203; x=1808320203;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GWPL7p5Q"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776784294; x=1808320294;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=x3We8v/cWP2gtcTXE3xZoQ0CkfHEqYxB8F5njBD+WhU=;
-  b=nejCsAOZTzrV0/b8dJyjNDZYr4UtWC86s65LdFy3atmIt5RKUfmiZ+P+
-   TZhdjEQFLPzlX/lQute90/YM6NVMnVhulQyzyzsqVlWTLFuE477V1Y/Hc
-   DQwcrkTMFlR1NmpjDStPTk4gKHwsVz782BsXHd/Qzy9oCXV0iFU1W2bkv
-   9d57x5JD5ZuCC3tChc6mCY/vJfTXvo8iOPx41VcWjXzOg9mCy6/UL0Row
-   9t2W0MbRkQpVcGOwQRm4hqRuFu0eC4L6EgPOzPcBewhX/EspkshNyo80s
-   TFmt0iG+V9ImMwPElc9uEDBvfHSgtbaWwBNenO0N5/BijOu3ya864T4k6
-   A==;
-X-CSE-ConnectionGUID: lzDwW2ygQdid+6fWuPfpJg==
-X-CSE-MsgGUID: Lln1Gd4NSN61cqDw3K4cKA==
-Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
-  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:59:52 +0900
-X-CSE-ConnectionGUID: 3RyYrMSERUKfI0QHkYxSQQ==
-X-CSE-MsgGUID: 6ScaAiufTta8VQMfoRcw9g==
-X-IronPort-AV: E=Sophos;i="6.23,191,1770562800"; 
-   d="scan'208";a="603084691"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
-  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:59:53 +0900
-Date: Tue, 21 Apr 2026 23:59:51 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Kay Sievers <kay.sievers@vrfy.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rahul Bukte <rahul.bukte@sony.com>,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
- lookup_or_create_module_kobject()
-Message-ID: <aeeQ5x1uMKT6cyxp@JPC00244420>
-References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
- <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
- <2026042126-majesty-skyline-b76f@gregkh>
+   in-reply-to:mime-version;
+  bh=xc5Y2YY1EGsuzc1Sp8M4kumKUfF8KLM1NxienoTui74=;
+  b=GWPL7p5Qzv4CRdZbJn16xrZZuCzw9pG6apVb2oEm9Xqn6ugVy7zpwAtX
+   C6agCVfCOGPFfLP55YxVzevTGloTUYP+gyZgZzelJ852bK+Fkq/KL4Qw9
+   r5LVLCkhX+vYdUJ7xUcNGHjuVrPP3Q7migIzwkUHdyZW7P2X0emR2GU7F
+   EZFIGqJGgBb85Mf+V2UDsB4KHfIdHFKghn/eEPDMRhT9LUIUU7Dnc++mc
+   0a5ScAb7UVRCOETEnBHuEIzmGMzJmlBoNTMp/ONFS9SDn3Rc5y6tbz5ml
+   pH274aPug40ol21IhzWSxUKZGKBCW8qeRTIyEzWciTdYZNZvdsAR99RbK
+   g==;
+X-CSE-ConnectionGUID: 0NnvbSyATPaWyF0fRqrgtA==
+X-CSE-MsgGUID: I7caETs1Q7m5ABaoSviKFw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="76753209"
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="76753209"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:11:33 -0700
+X-CSE-ConnectionGUID: vgQU7vgCRZWpndYuZ8+T9w==
+X-CSE-MsgGUID: Pqe1op1XR5KSjy3BDWeoJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,191,1770624000"; 
+   d="scan'208";a="228896957"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 08:11:31 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 21 Apr 2026 08:11:31 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 21 Apr 2026 08:11:31 -0700
+Received: from BL2PR02CU003.outbound.protection.outlook.com (52.101.52.34) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 21 Apr 2026 08:11:31 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RfTyejSH4CjfsDUNdxFIM6lk7dAQHkz98t8HcvtNJsvtV6GHS60Z+PHi8rt5bYDxXObXp5zrDm2xBtXFGx3zkSvv5o+kfdtoeVj88ZSAUQ9d6Fk5Uhhik5TkmT8M9u3eKK49eA5uEqW7VNumJsvj4I9avAOgzcYcHBpgXT5WMX1AxuIj3GUB+3RL8SMbFn6YDyFOrJ4DYzAcCqN7v6NYF6DZ1vafE5aJ/xVUtTKyhMq1TL7QS3FYzsxpzJPIfeg7syndQRtCbxxOtNfbsuRjWoFNLirdUDb7jtKRFNUzQ4zHDHFha6K7xAN4/5KVUTNPDk+rw9CGweZmv9VmWuvxBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uMTQSqLZZP+L7/jkn95vbO03oBRmYVRp6IvAXbIOgHo=;
+ b=JZ6OuCmVWtonRVSzO9cTy5SFnhvs8/bwJ35Wuvq1pfzJyzVFhgdYfAxGJVumV2TDRzKmG38ZPCUEjv+R7RK6tAKjKlNYRiSZhwyeO+/k+JDL1GU4xo2i0QHB5x8SSyT02LgBHveSGx/0MGYA2UYVfkOpYTBbQcWFwKoHk57txZDSjaFPUx5li+qdZ3RTkE9h0vQyujgJucHKPLzJZO5ReHWAI/QM1Lmt6sh+3UWO+kQaejcpkjJZ/+SSZfGQyTKJhn3c32II1tx+/sDDr1EAeoh5SnYif/p2cm+HZ7T62WBaa3Y33vzzFlzjrqb1YoFugDhjsR+WBmAaYdBem2A6ZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com (2603:10b6:a03:48a::9)
+ by DS0PR11MB7409.namprd11.prod.outlook.com (2603:10b6:8:153::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
+ 2026 15:11:27 +0000
+Received: from SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6]) by SJ1PR11MB6083.namprd11.prod.outlook.com
+ ([fe80::3454:2577:75f2:60a6%7]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
+ 15:11:27 +0000
+Date: Tue, 21 Apr 2026 08:11:24 -0700
+From: "Luck, Tony" <tony.luck@intel.com>
+To: Reinette Chatre <reinette.chatre@intel.com>
+CC: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "Dave.Martin@arm.com"
+	<Dave.Martin@arm.com>, "james.morse@arm.com" <james.morse@arm.com>,
+	"tglx@kernel.org" <tglx@kernel.org>, "mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "dave.hansen@linux.intel.com"
+	<dave.hansen@linux.intel.com>, "skhan@linuxfoundation.org"
+	<skhan@linuxfoundation.org>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "peterz@infradead.org"
+	<peterz@infradead.org>, "juri.lelli@redhat.com" <juri.lelli@redhat.com>,
+	"vincent.guittot@linaro.org" <vincent.guittot@linaro.org>,
+	"dietmar.eggemann@arm.com" <dietmar.eggemann@arm.com>, "rostedt@goodmis.org"
+	<rostedt@goodmis.org>, "bsegall@google.com" <bsegall@google.com>,
+	"mgorman@suse.de" <mgorman@suse.de>, "vschneid@redhat.com"
+	<vschneid@redhat.com>, "kas@kernel.org" <kas@kernel.org>,
+	"rick.p.edgecombe@intel.com" <rick.p.edgecombe@intel.com>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>, "pmladek@suse.com"
+	<pmladek@suse.com>, "rdunlap@infradead.org" <rdunlap@infradead.org>,
+	"dapeng1.mi@linux.intel.com" <dapeng1.mi@linux.intel.com>, "kees@kernel.org"
+	<kees@kernel.org>, "elver@google.com" <elver@google.com>,
+	"paulmck@kernel.org" <paulmck@kernel.org>, "lirongqing@baidu.com"
+	<lirongqing@baidu.com>, "safinaskar@gmail.com" <safinaskar@gmail.com>,
+	"fvdl@google.com" <fvdl@google.com>, "seanjc@google.com" <seanjc@google.com>,
+	"pawan.kumar.gupta@linux.intel.com" <pawan.kumar.gupta@linux.intel.com>,
+	"xin@zytor.com" <xin@zytor.com>, "tiala@microsoft.com" <tiala@microsoft.com>,
+	"chang.seok.bae@intel.com" <chang.seok.bae@intel.com>, "Lendacky, Thomas"
+	<Thomas.Lendacky@amd.com>, "elena.reshetova@intel.com"
+	<elena.reshetova@intel.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"eranian@google.com" <eranian@google.com>, "peternewman@google.com"
+	<peternewman@google.com>
+Subject: Re: [PATCH v2 00/16] fs,x86/resctrl: Add kernel-mode (e.g., PLZA)
+ support to the resctrl subsystem
+Message-ID: <aeeTnL3aisKgPJG-@agluck-desk3>
+References: <5a273b0f-8225-4e9e-924e-884183734659@intel.com>
+ <73c46024-4cf2-4f03-9268-d4378825fa87@amd.com>
+ <973067bf-6e6c-446a-a81a-713840d701a9@intel.com>
+ <90f4a692-1c27-4967-bf12-ec3cb597681d@amd.com>
+ <68a551ea-d9f0-436a-9bef-e35fd027bb95@intel.com>
+ <39e0c786-cc35-4555-bfb9-ff7cd758c423@amd.com>
+ <b74cfe34-e23e-49e3-beb4-d5639d42d5cc@intel.com>
+ <99a2da36-6a21-4a99-98e0-3c9a4cf7ecf6@amd.com>
+ <aea-wdaZAWl2Al1h@agluck-desk3>
+ <58b8fe0c-80f6-4ba2-abbe-90d0ceee6daa@intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <58b8fe0c-80f6-4ba2-abbe-90d0ceee6daa@intel.com>
+X-ClientProxiedBy: BYAPR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:a03:c0::20) To SJ1PR11MB6083.namprd11.prod.outlook.com
+ (2603:10b6:a03:48a::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026042126-majesty-skyline-b76f@gregkh>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PR11MB6083:EE_|DS0PR11MB7409:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1cf25305-4ab6-4417-1306-08de9fb84268
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016|22082099003|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info: BhNjda9vfuh5+qzGXFSQ/kZh+DcBjHVWV8314JgoRvn7Pq3eWVnjuqRvqLGAmS+CsB6qO6jbJBDVwr6V+rg6JDoD3imQiduGDq7reL8fl+Fn8a157AWEWiyp+WsVMfxNs494rzJfcsosrp+enJ1lifooHqxBKW0VhohAfHvL/PxWjLc5zHMz1HLrTKkER/wd4UJKcTd8op33LpyC3ZfaCFqgbh5uyzoevGFqo9/7uFbF3NanKlOAe+aiBjZRcLWlgdtriP62Qiw4jVcr/4k9c7/q8jfnnP8I9lri50SDWkEflYINEr9vA/yijc/pGOGDWdqp6EO1KKQSGoHhosnLy5zaXgseCY3LWcwWsBbbQh6JgY97KB/5crFg1OvqQp5mJBk30pkRXznArwciF2FGyYWWO97P4ny3dU8HzrkzjmHLI95GXnOK2F+zS/+95AEOd9lYbW8jgMWeIREXqG4Xwn+jxOGLURabZG42K8xb26NXxKQ700mKAc4TAdR/Dh3Cp8tI0Rzi//8IDsnrZLns/mRqYaixXGpndgZ20bOHmCzkiZESSLNiOJaJLSdgMWOSnzYyt6QWW14H4TKsU6ViY9aPzmsgfuXA4IgpPeY92/PpjctSGK4pfTG7U63vmkIWohttsknqlCxBsTFlcS+OZfa/kuU37SECOfIlTK1xzmfNyVk3sfxPuVo4O93/eJc01D2OQirij+40TPjllUwSxOo4V1dLYrK8XlRh2GpNz0w=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ1PR11MB6083.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ybNZcQtk4g6JZh+z26Y59KE8UnxvsawMoQif+pY7tx9ZhrqbBftwRrkrIgoW?=
+ =?us-ascii?Q?FS88XLgcGjshLZxREGdRZa4qqRZWvmh0xSMHvbtSUSLZmosl613mX63RMjtU?=
+ =?us-ascii?Q?hA4BvYWCMNvwUfuLd6O4rnrd14uHYgfHspIgyN7PMl8Z/Kv4v832Z2zo3bMN?=
+ =?us-ascii?Q?BLHHOp2sPzRVYnVq3crSiq9hWxD3x6NnztYpE5x0XTEnt866t1N7HjESZXFp?=
+ =?us-ascii?Q?ylO81mKGjWw+TK3Kz+jMwLEtuEd2u7G8tblixagY81sVQdXuXqp3eQiN/gO2?=
+ =?us-ascii?Q?RY+80tLp2/FnHp0k38KprOXtdoIqNiQUVy3r1aFoAL2l/qJ1PAty9IsIGA4G?=
+ =?us-ascii?Q?Wa+cRPX3f+Hub3EdGyn0rlX3Il9iq7PeNECxiSqdyIfeoY3hWYY2J/5REbI4?=
+ =?us-ascii?Q?OMEKadxvHJxiXNlXikyVvZfe02qc5QlajCgfcS0gpQydjzl/JsplwrVy7pQu?=
+ =?us-ascii?Q?bq/T5o9am9uAEJeB9EAgqhi3caVKXg+g4ThhOeYS7YdfnK/XBPxkT80bYR7M?=
+ =?us-ascii?Q?7ZQN6IhjcuPVWdeA6B4lUvyc4jv/81wFw4clzKhtmI4D39iKDJc4ccBJ7l1R?=
+ =?us-ascii?Q?SlxODQulAnrvp4noFjqVCoh2gmjKzQvSj+9r3DdQpW9E7UXwh/GPzPyBSXDk?=
+ =?us-ascii?Q?UXN+/GAUabrOlsAjBVBC4VdrOdX9vlTAqahhzY5bT9ITaPsQ5v8zkI+Zq7iw?=
+ =?us-ascii?Q?CiZAMfoRaQ9w6z6sjJ3I8AUYYv8cL27bDvI9Taxsl5Asq2zCAf0bFVa+hbZU?=
+ =?us-ascii?Q?3tpqtejfYfZJfjFJyeoGufpLFCh43W9Yo0i+LtECRI0v2gB23ImXSalXtxhZ?=
+ =?us-ascii?Q?dvvldzLvCqsCL/Rng571rrnzBB0hrjowzGxbWcOiX+QfY1qmx+EQlE81ZLLa?=
+ =?us-ascii?Q?WO0+8u26iVGTXjZ5OJTaYvt+xZuBYNUMayBfxUteAfgN4wY1I+Kjjg6FTxYw?=
+ =?us-ascii?Q?B489kJi67djxWChmNUGa02Lp4cL9nl0HB8A3c8yhzpHj2aFYXSyoItET8/km?=
+ =?us-ascii?Q?yu+2Bbwga9MoA+PTm5eoD+6bLshjavRKl4KNkx3H8TWqSF2sgNVt7aCW2meI?=
+ =?us-ascii?Q?YJaKNwgWO81wKv4wlxsqAq9FoZiAf47a8pATVKJHw8JvEgGxbAQbvxAkkduc?=
+ =?us-ascii?Q?2btmv9YEmqjNUyj0U4P7XukkpdB80SBxmGQmP1uVuUjM2f3284M96yVRx1AN?=
+ =?us-ascii?Q?IX1c6n2MDTa/1DXU9uZXhk56/8qvk8vm1KX8dCiJ9k2Rl7z3954qGufdHerN?=
+ =?us-ascii?Q?YG/tHkK7uN6mqhwtY6aNsqWQC4Zsw9JGO7SXc5IiAl0n8fP0f9+SCbRk9BFZ?=
+ =?us-ascii?Q?PIx3RnSSswodrW/2Tzm1S94MEwfEhbBEyjagLBlErrDKjTSJhY0pf6ir79uA?=
+ =?us-ascii?Q?5/jJ03tGvA2sonlnZ7Rpog4jaJwtOvBK7FzXVpb04cri0/ZLovzDY4ifvjy+?=
+ =?us-ascii?Q?4qekeRaw2ag+FYDLb85iuFE7qMY/0H50DlbcaI+UO9KL/SGAkWo2opvV2Ryd?=
+ =?us-ascii?Q?7h5pisYJfFNpAKW9fa8VAAIAd96OcslIc4A7KeYnVEA5ftJkK+cmO62+Sp4D?=
+ =?us-ascii?Q?ce9CLZvece3jX5QqPClNy/iQfvIJSJ+t0J3zwuMrfo0tT/ho9Qd/djBkZ9qW?=
+ =?us-ascii?Q?onzSZgslQtR/6BrHeZAMo4kNglnuqJ8FVxnmugDgoEZ5eOVV77A1OoCZxW3n?=
+ =?us-ascii?Q?a0nGQGo6MIrOMEFwaT+R8HgnCAy9qmRR0pFxTDl2GH+TemCt8im1R44y69i7?=
+ =?us-ascii?Q?PBhPLJdd8w=3D=3D?=
+X-Exchange-RoutingPolicyChecked: DjYTyUo30RX45TDlP0SDCXe3/ioeZYqA3oLfMq/c21WG8hgCNGHr3z9ZxDl3Uj/zHoUDyPzpvr6bxXvoJlZVdKPU7jY+hy33GZ/qPXRlasye3yCOSV8JgsOquI38MJ0V/a+jsBNYttwPKzaJKetv5f6V2VpwITxm36a0irHRUrkAIcL2P3W5+e7h3ebiqL424j1nLokorduY6eRxnCX3LWbye0tPi8/rKzV5jTgZuVe5EE5uQYJqSKouYqClMy2FkBNLssD2vMmcrN5rAK52PC+vsOytr1dCUNZl9XZKuyL7sp8ZLJOo0k5I0IWO5c8l+x5EfOuCtFwRkLtqJ1sgig==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cf25305-4ab6-4417-1306-08de9fb84268
+X-MS-Exchange-CrossTenant-AuthSource: SJ1PR11MB6083.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 15:11:27.3317
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: X1K6QvRm1dlQAMI6NciPoMlb3U+r6M5khOdEhIQugTUet1UaKfm79WXiaOhPdc9B9w4DkZeWXq6GSi/rjEDOcg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7409
+X-OriginatorOrg: intel.com
 
-Hi Greg,
-
-Thanks for the quick feedback!
-
-On Tue, Apr 21, 2026 at 08:27:10AM +0200, Greg Kroah-Hartman wrote:
-> On Tue, Apr 21, 2026 at 03:02:34PM +0900, Shashank Balaji wrote:
-> > module_kset is initialized in a subsys_initcall. If a built-in driver tries to
-> > register before subsys_initcall with its struct device_driver's mod_name set,
-> > then a null module_kset is dereferenced via this call trace:
+On Mon, Apr 20, 2026 at 05:21:50PM -0700, Reinette Chatre wrote:
+> Hi Tony,
+> 
+> On 4/20/26 5:03 PM, Luck, Tony wrote:
+> >> The system boots with these default settings:
+> >>
+> >> # cat info/kernel_mode
+> >> [inherit_ctrl_and_mon]
+> >> global_assign_ctrl_assign_mon_per_cpu
+> >> global_assign_ctrl_inherit_mon_per_cpu
+> >>
+> >>
+> >> At this point, the interface info/kernel_mode_assignment is not visible.
+> >>
+> >> Next, lets create a new control group:
+> >>
+> >> # mkdir ctrl1
 > > 
-> >      [    0.095865] Call trace:
-> >      [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
-> >      [    0.096150]  kset_find_obj+0x24/0x104
-> >      [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
-> >      [    0.096274]  module_add_driver+0xd4/0x138
-> >      [    0.096328]  bus_add_driver+0x16c/0x268
-> >      [    0.096380]  driver_register+0x68/0x100
-> >      [    0.096428]  __platform_driver_register+0x24/0x30
-> >      [    0.096486]  tegra194_cbb_init+0x24/0x30
-> >      [    0.096540]  do_one_initcall+0xdc/0x250
-> >      [    0.096608]  do_initcall_level+0x9c/0xd0
-> >      [    0.096660]  do_initcalls+0x54/0x94
-> >      [    0.096706]  do_basic_setup+0x20/0x2c
-> >      [    0.096753]  kernel_init_freeable+0xc8/0x154
-> >      [    0.096807]  kernel_init+0x20/0x1a0
-> >      [    0.096851]  ret_from_fork+0x10/0x20
+> > This allocates a CLOSID and an RMID for this group.
 > > 
-> > So, return null in lookup_or_create_module_kobject() if module_kset is null.
-> > Existing callers handle null already.
+> >> We want to designate this group as the new kernel-mode group.
+> >>
+> >> First operation: Change the mode:
+> >>
+> >> # echo "global_assign_ctrl_inherit_mon_per_cpu" > info/kernel_mode
 > > 
-> > Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
-> 
-> This isn't a bugfix.
-
-I'll drop it in the next version.
-
-> > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> > ---
-> > This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
-> > to register from a pure_initcall, and with the next patch adding mod_name, this
-> > null deref is hit.
-> 
-> So this isn't a bug, it's a "don't do that" type of thing :)
-> 
-> > ---
-> >  kernel/params.c | 3 +++
-> >  1 file changed, 3 insertions(+)
+> > This mode needs a CLOSID for PLZA, but doesn't need an RMID.
 > > 
-> > diff --git a/kernel/params.c b/kernel/params.c
-> > index 74d620bc2521..881c7328c059 100644
-> > --- a/kernel/params.c
-> > +++ b/kernel/params.c
-> > @@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
-> >  	struct kobject *kobj;
-> >  	int err;
-> >  
-> > +	if (!module_kset)
-> > +		return NULL;
+> >> At this stage, only the kernel mode is being changed. However, there is no
+> >> way to know which control group the user intends to assign to kernel mode.
+> >> All we know here is the selected mode.
+> >>
+> >> After this operation, the info/kernel_mode_assignment interface should
+> >> become visible. But the question is: what should it contain or point to at
+> >> this moment?
+> >>
+> >> # cat info/kernel_mode_assignment
+> >> ??
+> >>
+> >> Next operation: Assign the group
+> >>
+> >> # echo "ctrl1//" > info/kernel_mode_assignment
+> > 
+> > Now ring0 code is using the CLOSID from the ctrl1 group.
 > 
-> Are you sure that making this change is going to be ok?
-> mod_sysfs_init() should have been called first as the module has to be
-> created before it can be looked up.
+> ... and user space tasks also continue to use the CLOSID from the
+> ctrl1 group.
+> It is up to user space to decide if a group is dedicated to kernel
+> mode or not. resctrl does not enforce it.
 > 
-> As you are wanting "built in" drivers to show up here, you are going to
-> beat the call to param_sysfs_init(), so don't do that.  Make sure that
-> the drivers are NOT called before then.
+> > 
+> > But the RMID for this group isn't used.
+> 
+> RMID is still used by user mode that maintains existing behavior concerning
+> this group when considering its tasks/cpus/cpus_list files. RMID assigned to this
+> group is just not used for kernel mode.
 
-The reason lookup_or_create_module_kobject() can be reached with module_kset == NULL
-is that some platform drivers register before subsys_initcall: tegra194_cbb and
-tegra234_cbb at pure_initcall, plus roughly 375 others at core_initcall/arch_initcall
-(208 arch, 154 core, plus 2 pure and 13 _sync variants). These are dominated by
-pinctrl, clk, interconnect, gpio, and mailbox drivers across six SoC vendor trees
-(Qualcomm, MediaTek, Freescale, Samsung, Tegra, HiSilicon).
+True, that the RMID is used if the user makes assignments using tasks/cpus/cpus_list
+for the ctrl1 group. But they might not do that.
 
-Given that, three ways forward:
+> 
+> > 
+> > Are we OK with "wasting" an RMID in this way?
+> 
+> How do you see this RMID as "wasted"?
 
-  1. Move module_kset creation out of param_sysfs_init() (currently
-     subsys_initcall) and call it directly from do_basic_setup()
-     before do_initcalls(). This is the cleanest fix from a
-     correctness angle: every initcall level sees a live
-     module_kset. But it touches init/main.c and kernel/params.c,
-     crosses two subsystem trees. I haven't fully audited
-     dependencies at do_basic_setup() time.
+Suppose the user doesn't assign tasks to the ctrl1 group?
 
-  2. Demote the ~377 early-initcall platform drivers to
-     subsys_initcall or later. Impractical at scale given coordination
-     across six vendor trees, and many of these levels seem to be
-     architecturally required.
+Perhaps the resources they want to make available to the kernel do
+not exactly match with resources that they want to provide to any
+tasks. In this case the RMID is wasted.
 
-  3. (This patch) Guard lookup_or_create_module_kobject() against
-     NULL module_kset. Drivers registered before subsys_initcall
-     don't get the /sys/.../module symlink, but they don't get it
-     today either (drv->mod_name is NULL pre-patch, so the
-     else-if (drv->mod_name) branch in module_add_driver() isn't
-     taken). Verified on arm64: /sys/module/tegra194_cbb/ does not
-     exist on a booted defconfig with or without my series. The
-     guard preserves that exact state while letting the
-     device_initcall majority get their symlinks as designed.
+> > 
+> > Maybe it doesn't matter too much for AMD as you would just
+> > avoid assigning any counters to this group. But should Intel
+> > get around to doing PLZA-like functionality, that's a real
+> > loss of an RMID that might be useful elsewhere.
+> 
+> Reinette
 
-I went with option 3 because it preserves observable behaviour
-everywhere and keeps the series scoped to driver-core. If you'd
-rather I do option 1 instead, I'm happy to.
-
-Thanks,
-Shashank
+-Tony
