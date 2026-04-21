@@ -1,238 +1,190 @@
-Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020111.outbound.protection.outlook.com [52.101.195.111])
+Received: from jpms-ob01.noc.sony.co.jp (jpms-ob01.noc.sony.co.jp [211.125.140.164])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC9C4223707;
-	Tue, 21 Apr 2026 15:09:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.111
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784164; cv=fail; b=dUghETQu1pgiJ115k+ZDTJ8/xH7hyXX32DEPa8tVYW7JpXVKP4eIIv3GAJClM5+yPthyn55mC+HG8knQfmeI4T/e+dT0+gKPQrJJ/Onq5T+xMhH4CXSRbt9J8nTZVFzAy1BEScxu4dCdr0HJW0QFAAmXvYmqiL/FPjITJxOejs4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784164; c=relaxed/simple;
-	bh=Ou6XDmGU/+yf6PkVQsY/pgWaSnpk9SM9Or7u9OYcngE=;
-	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=MPfRg5lPHzJRDGKdHVXkvtVF7A9oSD5mguc7q16ROo4NTC+F2hlMMYkOdmqsuwNlLMgF5ktFmr+nCCwFpdlMPc6z8QahfJe++Wvy5Lc2nliiYuNn3cdXbVtphga5KWZH0puXxsOCv1r6YOk6N/9jyG/trj5OLxRj3BdQSa1xIcU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.195.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kF4eHOc+tQtNNBlvDzShuKB2eDUq3er9l9j2sl3sUDRBeJQxiYY88qNMNyGWjGRlNf/DQG1eXQ71OVNQAXGIsn/XOe1rwCIgpTmuHqaAW+fDmUraipBgc3oECBCPlKW/7TYMI1eU9qTRx6cKPz0kUnZEOEZ0VNg3I0IxeToq1MxbXj5UNrW6R8rs0J8DpYmlX1CT2zjmhjEJTr5Vb3aQMgDwZ01lSBsZKhnB/ZRX5f3NYkLBxMBisHtXqBtkkAOQdzWxVymioq8K5734yWpIw8DCBcBJHEE1z5txkR5FPA18ZT0UShe+5HSiUMUptxPOJqkkAmO2piOVtfofpTCndQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=or5MawNv8W1aR61bNaB6qLQf+0Ki6N0X5rxvjFHA5RM=;
- b=c3g412UXRBSZtVXy12CRQBFdDs9qbKygWMXiqWMrX0uU3jIM0B+ic8RZGiuQbDrsvvyAn+XsFSNJTgYNk21o395yQgHULjVv1gWE1NNnJLpN2rK/SBJbRlFS69TOiwZ3CC1AMM4qZcPrU2VtqVSKNCn6tRYxMrcUABgAxF0t1mfo8/WOSBr1ZKTHyaZclQ4mmfo83tWeSVJC/ZmGZ/zIgWbcbbuTSG11YwIdWGnjf3L88qQosWUsLC+UgKeFjNNOEiOF94/Xi6LnqUylpNwwv6HClW5YkbMBwLp8Vi2F2FO2UJGSSafGckiTL+YOQ4i4thVhHXIGUMRq/MYv5GP77w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
- dkim=pass header.d=atomlin.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=atomlin.com;
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
- by LO8P123MB7795.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:3dd::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Tue, 21 Apr
- 2026 15:09:17 +0000
-Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.016; Tue, 21 Apr 2026
- 15:09:17 +0000
-From: Aaron Tomlin <atomlin@atomlin.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org
-Cc: tglx@kernel.org,
-	akpm@linux-foundation.org,
-	bp@alien8.de,
-	rdunlap@infradead.org,
-	dave.hansen@linux.intel.com,
-	feng.tang@linux.alibaba.com,
-	pawan.kumar.gupta@linux.intel.com,
-	dapeng1.mi@linux.intel.com,
-	kees@kernel.org,
-	elver@google.com,
-	paulmck@kernel.org,
-	lirongqing@baidu.com,
-	bhelgaas@google.com,
-	bigeasy@linutronix.de,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] docs: kernel-parameters: document scope of irqaffinity= parameter
-Date: Tue, 21 Apr 2026 11:09:11 -0400
-Message-ID: <20260421150911.42404-1-atomlin@atomlin.com>
-X-Mailer: git-send-email 2.51.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: CH2PR11CA0022.namprd11.prod.outlook.com
- (2603:10b6:610:54::32) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:70::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15C693C3BE0;
+	Tue, 21 Apr 2026 15:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.164
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776784205; cv=none; b=OLfJ0q4dzLvP8wjgX7ZlX9Kx2rsC5RE0GKkiRxSFgiZT+FosZ84SsQQ2gj6Ao99Qn5CY48vDRSidA8R6333M4FFu0WU3enpnd/tRglqAFZ+Fja813W5U3cpnhohNMUeDefDZY3aWGJKO+E4Ng3e8p4lwxMSi5Cr8g1UcdYnlPRY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776784205; c=relaxed/simple;
+	bh=cmyaupRqmbN/ULerERzNae8aSi2Orqym5ZZqoD7wXoA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ccmAuAnuj9BsOBccu57ycObcRNjBK6qkJGWuWkDq1deXTItjxxXbsY8/cXOrZXDHuHq3Oo+kQiDaCr00uIJgP3+ofdJoSWJsHVLblPpZTIhfn31jSPIdTtc9QOrOvYHZKRdQtBQ9ezSJ0VF1S4gHYw5KAzdMG1NYtCa/WD+W4w0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=nejCsAOZ; arc=none smtp.client-ip=211.125.140.164
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="nejCsAOZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1776784203; x=1808320203;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=x3We8v/cWP2gtcTXE3xZoQ0CkfHEqYxB8F5njBD+WhU=;
+  b=nejCsAOZTzrV0/b8dJyjNDZYr4UtWC86s65LdFy3atmIt5RKUfmiZ+P+
+   TZhdjEQFLPzlX/lQute90/YM6NVMnVhulQyzyzsqVlWTLFuE477V1Y/Hc
+   DQwcrkTMFlR1NmpjDStPTk4gKHwsVz782BsXHd/Qzy9oCXV0iFU1W2bkv
+   9d57x5JD5ZuCC3tChc6mCY/vJfTXvo8iOPx41VcWjXzOg9mCy6/UL0Row
+   9t2W0MbRkQpVcGOwQRm4hqRuFu0eC4L6EgPOzPcBewhX/EspkshNyo80s
+   TFmt0iG+V9ImMwPElc9uEDBvfHSgtbaWwBNenO0N5/BijOu3ya864T4k6
+   A==;
+X-CSE-ConnectionGUID: lzDwW2ygQdid+6fWuPfpJg==
+X-CSE-MsgGUID: Lln1Gd4NSN61cqDw3K4cKA==
+Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
+  by jpms-ob01.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:59:52 +0900
+X-CSE-ConnectionGUID: 3RyYrMSERUKfI0QHkYxSQQ==
+X-CSE-MsgGUID: 6ScaAiufTta8VQMfoRcw9g==
+X-IronPort-AV: E=Sophos;i="6.23,191,1770562800"; 
+   d="scan'208";a="603084691"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
+  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Apr 2026 23:59:53 +0900
+Date: Tue, 21 Apr 2026 23:59:51 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Kay Sievers <kay.sievers@vrfy.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Mike Leach <mike.leach@linaro.org>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
+	Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Rahul Bukte <rahul.bukte@sony.com>,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>, linux-kernel@vger.kernel.org,
+	driver-core@lists.linux.dev, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
+ lookup_or_create_module_kobject()
+Message-ID: <aeeQ5x1uMKT6cyxp@JPC00244420>
+References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+ <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
+ <2026042126-majesty-skyline-b76f@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO8P123MB7795:EE_
-X-MS-Office365-Filtering-Correlation-Id: 149839a2-3017-41d7-ef8d-08de9fb7f4a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|18002099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	g/Z6BD6JrJ+zDxhZklHOV5tYlhFMZa1gK7yPGLN80mIkMtzZyWlbZ8uT3K6cLrOEpYip7OVmNnQa3Uf6C73Q3Oj29G3hxrCROWZu08JaDy9Romt1JzyqlcJ53qc+U6CD3+82XV2Wxxu/gFdUkUrhmLzwBWsQTqS/I8WZBnSVz2ip9vU9QdcZPj6B3cS7V60eT9/E5x6Adt1KRHTO/OO9gzkhmgf5s0miAqSnp+yiaqdzB6B2w+K9pHbKKFgZ6tmg/GrLKdf14CohZujNl0pxAf5ZnFUJjycht8vtnwdvs1Yknx46jnS4hB9lLZ6GGw485i6dVmpKRhGO9+FoZVD6VJWBAgLPFdLlBo331grMIk1N/dSJnCp+boK1L2JbtgqN+QwsDHPevKZ98xgLULQ9fEdBGH0Pr/pfPDS64tNxMocE4BIkd+l5VUcpKZVwSBg5vzy32BFA+fUMTmnpgfggv+S28G3Au6OpRsuhs/eks5Ew1+6jmu6U73dSJkW2ckM7fiCVQzQqN/GiQIUblnAA43yesKgJt+R0CowS+mji6yZmAbvUhSVYsgw8RwlmU5fqyZAButs9W8KTIxuzl7kWFlrJfiT+SqaJH21XTXdE1GIARyyo0CQmYnZgHvAcdzPTWGbsPkbtudNIvtzTAhs1JNAE7DXwCKxb+bO+4zLQj6uOj6iJjf5PMbearPykIRZLwGAq3HvsiWYCVwesnYGhmNUiGJBbT+ei1giYWzY00j0=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(18002099003)(56012099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?nHcyRLe+WTfMfiXdRSiBT/2Zm+TsfDgYrkw2fNgAlVo72i/HmJfA30IxV3sO?=
- =?us-ascii?Q?zjpfkTSIFYle9lzz4YtnrsXBLAnyI0Ja8hCxSsk2H2APLVshATQjFbVMVws0?=
- =?us-ascii?Q?jSvKM1artd1l2mwmjIwzwWu6/goJ087x+9e0gy5Z5pYuiahai30ShHuof8Zl?=
- =?us-ascii?Q?cwmqcoRvPD3NxW8lAQEHN8pQct9tD2iykr0+/XM9VIbaL4lQLkdsDUF4d601?=
- =?us-ascii?Q?eawou2e7RfufP5Y2ZvNKtYshSEHQ5aYAhP2grIhshtzgxnXyC3XJF/WP1zMQ?=
- =?us-ascii?Q?1TLTryqbcdnBViM9jjjj25uIOEk9B1dVV0vivdOA0M1fEJ2tF2IwktrhQ/Tk?=
- =?us-ascii?Q?ZFnt9oNLSLZDSSB96bBNC6F29w0M+tYu88BFDAgzXt01VX8oSDSWBWTu2PcV?=
- =?us-ascii?Q?mSR0PjpnOnSCpwCF16vlXQL+c952ok9S24XmxGekXNgoni+NA+xtKaRfbndp?=
- =?us-ascii?Q?XyllRqbp//gR7rgu5SOrNJSIQrrhvSjovzXXwyxEI24A22e/7GXUFyi7RBSj?=
- =?us-ascii?Q?2Ql7Iyc89M0bm7oCXHebiGGRsYMNqvBuQuQKHGzRptwr9cr573v8HsjP9cfQ?=
- =?us-ascii?Q?rvT6Vuqrdmi4OVXYPPcgpcWAHtTr4vC6+vuymldgclgRpU5Z/8fJcmWbsL9T?=
- =?us-ascii?Q?hyo3KLRc9nIjR/khIf6dq83DQcTbgcLmk1xT+MJml/Ze2A39hkgYdL2KqZj/?=
- =?us-ascii?Q?DOdx0svMB3DC1M9zkJTwRqhShnnkVeNulok+amuj1PnN4HfBFtrZYMeqZNfy?=
- =?us-ascii?Q?cBIDjYGKmMRSp8HcSnmO1P446FKovcZqNW4Nxm+WBONuy0RxUlNpBYZ3PmP3?=
- =?us-ascii?Q?2OA8TTooG93s3G1jqFeA4DgVjkBGtVmkzEs0w8C2R9Afg4OO5nYKnHJvpExm?=
- =?us-ascii?Q?rVcOaZPZVgJ3IGRvpoNC9JrcmeFFFJ4lhFwD8SamGGfWmed5WY1/hW+nuJZG?=
- =?us-ascii?Q?bR82QHPTKBlyMrdBMXXe31yAVelxzTE74YEqWky4N/D4t96wTL1GMT8JZawm?=
- =?us-ascii?Q?xOgnXIXTpN6HHpN9usgrUMmuQtzSPGzbx8n4hRMJektl/r/sna/EL403zYGU?=
- =?us-ascii?Q?R+Of4wioLgVASkYIM2WBQ6HIOAU+yzSZowtRq7+5thyrStqoddQ19Nyd2T2G?=
- =?us-ascii?Q?l/RGIh4+jpvJ+l8KuMg8600KjnaZSAFSzF0y7XRUTIXBSMzak6juKUkpFUAU?=
- =?us-ascii?Q?DigZJHpKbyn4Nicf8TW+MfpeOb99cKVcTuVm2CphzJzOv/O8v1g9gDsY+ppV?=
- =?us-ascii?Q?CIjgKxrQK2ddt0GKBY514eRHtI6NrNu0o9OXDOeWlgyGVHWa3vhV2TXfDsO7?=
- =?us-ascii?Q?LEJTy5GUVyw+XCIUa5jezCT8iAapskPzADlVPL4bvRgRT9cstLIw/AqHbr0r?=
- =?us-ascii?Q?yOo3D4ANrP1UctbgtXw8I4tGERJbyBklIKU48GxLy51eAoK+/ejD+hI+4OWv?=
- =?us-ascii?Q?25s/5+09cskV5eNCo+ptDOFHfeaJJyuqNuUUwVt13kKx3milomiO3+KvBqpd?=
- =?us-ascii?Q?wgJrtXPGHqnqWwF0YxEy9rzGOa6GyJAm+W+zs03YGJvS3mRYPU9lX9dSrcW5?=
- =?us-ascii?Q?jPpAgASKUUH/GLuzjk/pt84owgalQLJX+5WCBzoB1tKYknIU2ugSJVkp3CbX?=
- =?us-ascii?Q?xm2YHqpB1JtSyMLOK8u7ACNdSrxbMNGUvy4ogVBPYEsnIKQ9MRbJOC9VtA+s?=
- =?us-ascii?Q?z/YHhXjPmLDnVP0e+jbn+H9v9lEATva4v/sQXsuVP94naFsr1qMVZat41DMo?=
- =?us-ascii?Q?6tike7FBvQ=3D=3D?=
-X-OriginatorOrg: atomlin.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 149839a2-3017-41d7-ef8d-08de9fb7f4a6
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2026 15:09:16.9038
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: LnMNYGDonAUzWigfHI9cOYJVpQmX4RFXxV0VOR68W2g49c2LadL92jJxrOlu2+eHVGaNwi0AxgjCubgwkUoahw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO8P123MB7795
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026042126-majesty-skyline-b76f@gregkh>
 
-There is a common misconception that the "irqaffinity=" boot parameter
-acts as a global override for all hardware interrupts. In reality, it
-only sets the irq_default_affinity mask, which is explicitly ignored
-by managed interrupts (e.g., modern multiqueue storage controllers).
+Hi Greg,
 
-This patch updates kernel-parameters.txt to document this limitation,
-directs users to "isolcpus=managed_irq" and
-Documentation/core-api/irq/managed_irq.rst for further details.
-Additionally, it updates managed_irq.rst to provide a debugfs example
-demonstrating the IRQD_AFFINITY_MANAGED state flag.
+Thanks for the quick feedback!
 
-Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
----
-Changes in v1 [1]:
- - Provided an example of a managed IRQ using CONFIG_GENERIC_IRQ_DEBUGFS
- - Referenced Documentation/core-api/irq/managed_irq.rst
+On Tue, Apr 21, 2026 at 08:27:10AM +0200, Greg Kroah-Hartman wrote:
+> On Tue, Apr 21, 2026 at 03:02:34PM +0900, Shashank Balaji wrote:
+> > module_kset is initialized in a subsys_initcall. If a built-in driver tries to
+> > register before subsys_initcall with its struct device_driver's mod_name set,
+> > then a null module_kset is dereferenced via this call trace:
+> > 
+> >      [    0.095865] Call trace:
+> >      [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
+> >      [    0.096150]  kset_find_obj+0x24/0x104
+> >      [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
+> >      [    0.096274]  module_add_driver+0xd4/0x138
+> >      [    0.096328]  bus_add_driver+0x16c/0x268
+> >      [    0.096380]  driver_register+0x68/0x100
+> >      [    0.096428]  __platform_driver_register+0x24/0x30
+> >      [    0.096486]  tegra194_cbb_init+0x24/0x30
+> >      [    0.096540]  do_one_initcall+0xdc/0x250
+> >      [    0.096608]  do_initcall_level+0x9c/0xd0
+> >      [    0.096660]  do_initcalls+0x54/0x94
+> >      [    0.096706]  do_basic_setup+0x20/0x2c
+> >      [    0.096753]  kernel_init_freeable+0xc8/0x154
+> >      [    0.096807]  kernel_init+0x20/0x1a0
+> >      [    0.096851]  ret_from_fork+0x10/0x20
+> > 
+> > So, return null in lookup_or_create_module_kobject() if module_kset is null.
+> > Existing callers handle null already.
+> > 
+> > Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
+> 
+> This isn't a bugfix.
 
-[1]: https://lore.kernel.org/lkml/20260414200245.1153919-1-atomlin@atomlin.com/
----
- .../admin-guide/kernel-parameters.txt         | 11 ++++
- Documentation/core-api/irq/managed_irq.rst    | 53 ++++++++++++++++++-
- 2 files changed, 62 insertions(+), 2 deletions(-)
+I'll drop it in the next version.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index cf3807641d89..365c4931700a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2726,6 +2726,17 @@ Kernel parameters
- 	irqaffinity=	[SMP] Set the default irq affinity mask
- 			The argument is a cpu list, as described above.
- 
-+			Note: This parameter only sets the default affinity
-+			for unmanaged interrupts (e.g., legacy single-queue
-+			devices or unmanaged pre/post vectors). It is
-+			explicitly ignored by managed interrupts, such as
-+			those utilised by modern multiqueue storage
-+			controllers. To isolate CPUs from managed
-+			interrupts, see "isolcpus=managed_irq".
-+
-+			For further details see:
-+			Documentation/core-api/irq/managed_irq.rst
-+
- 	irqchip.gicv2_force_probe=
- 			[ARM,ARM64,EARLY]
- 			Format: <bool>
-diff --git a/Documentation/core-api/irq/managed_irq.rst b/Documentation/core-api/irq/managed_irq.rst
-index 05e295f3c289..8e973a7d1bd1 100644
---- a/Documentation/core-api/irq/managed_irq.rst
-+++ b/Documentation/core-api/irq/managed_irq.rst
-@@ -80,9 +80,58 @@ The following examples assume a system with 8 CPUs.
-     /proc/irq/48/effective_affinity_list:0
-     /proc/irq/48/smp_affinity_list:7
- 
--  This can be verified via the debugfs interface
--  (/sys/kernel/debug/irq/irqs/48). The dstate field will include
-+  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
-+  enabled, this can be verified via the debugfs interface (e.g.,
-+  /sys/kernel/debug/irq/irqs/48). The dstate field will include
-   IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
-+  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
-+
-+    # cat /sys/kernel/debug/irq/irqs/87
-+    handler:  handle_edge_irq
-+    device:   0000:41:00.0
-+    status:   0x00000000
-+    istate:   0x00004000
-+    ddepth:   0
-+    wdepth:   0
-+    dstate:   0x19601200
-+		IRQD_ACTIVATED
-+		IRQD_IRQ_STARTED
-+		IRQD_SINGLE_TARGET
-+		IRQD_AFFINITY_SET
-+		IRQD_AFFINITY_MANAGED
-+		IRQD_AFFINITY_ON_ACTIVATE
-+		IRQD_HANDLE_ENFORCE_IRQCTX
-+    node:     0
-+    affinity: 9
-+    effectiv: 9
-+    pending:
-+    domain:  IR-PCI-MSIX-0000:41:00.0-12
-+     hwirq:   0x8
-+     chip:    IR-PCI-MSIX-0000:41:00.0
-+      flags:   0x430
-+		 IRQCHIP_SKIP_SET_WAKE
-+		 IRQCHIP_ONESHOT_SAFE
-+
-+      address_hi: 0x00000000
-+      address_lo: 0xfee00000
-+      msg_data:   0x00000008
-+     parent:
-+	domain:  AMD-IR-3-14
-+	 hwirq:   0x41000000
-+	 chip:    AMD-IR
-+	  flags:   0x0
-+	 parent:
-+	    domain:  VECTOR
-+	     hwirq:   0x57
-+	     chip:    APIC
-+	      flags:   0x0
-+	     Vector:    33
-+	     Target:     9
-+	     move_in_progress: 0
-+	     is_managed:       1
-+	     can_reserve:      0
-+	     has_reserved:     0
-+	     cleanup_pending:  0
- 
- - A QEMU instance is booted with "-device virtio-scsi-pci,num_queues=2"
-   and the kernel command line includes:
--- 
-2.51.0
+> > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> > ---
+> > This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
+> > to register from a pure_initcall, and with the next patch adding mod_name, this
+> > null deref is hit.
+> 
+> So this isn't a bug, it's a "don't do that" type of thing :)
+> 
+> > ---
+> >  kernel/params.c | 3 +++
+> >  1 file changed, 3 insertions(+)
+> > 
+> > diff --git a/kernel/params.c b/kernel/params.c
+> > index 74d620bc2521..881c7328c059 100644
+> > --- a/kernel/params.c
+> > +++ b/kernel/params.c
+> > @@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
+> >  	struct kobject *kobj;
+> >  	int err;
+> >  
+> > +	if (!module_kset)
+> > +		return NULL;
+> 
+> Are you sure that making this change is going to be ok?
+> mod_sysfs_init() should have been called first as the module has to be
+> created before it can be looked up.
+> 
+> As you are wanting "built in" drivers to show up here, you are going to
+> beat the call to param_sysfs_init(), so don't do that.  Make sure that
+> the drivers are NOT called before then.
 
+The reason lookup_or_create_module_kobject() can be reached with module_kset == NULL
+is that some platform drivers register before subsys_initcall: tegra194_cbb and
+tegra234_cbb at pure_initcall, plus roughly 375 others at core_initcall/arch_initcall
+(208 arch, 154 core, plus 2 pure and 13 _sync variants). These are dominated by
+pinctrl, clk, interconnect, gpio, and mailbox drivers across six SoC vendor trees
+(Qualcomm, MediaTek, Freescale, Samsung, Tegra, HiSilicon).
+
+Given that, three ways forward:
+
+  1. Move module_kset creation out of param_sysfs_init() (currently
+     subsys_initcall) and call it directly from do_basic_setup()
+     before do_initcalls(). This is the cleanest fix from a
+     correctness angle: every initcall level sees a live
+     module_kset. But it touches init/main.c and kernel/params.c,
+     crosses two subsystem trees. I haven't fully audited
+     dependencies at do_basic_setup() time.
+
+  2. Demote the ~377 early-initcall platform drivers to
+     subsys_initcall or later. Impractical at scale given coordination
+     across six vendor trees, and many of these levels seem to be
+     architecturally required.
+
+  3. (This patch) Guard lookup_or_create_module_kobject() against
+     NULL module_kset. Drivers registered before subsys_initcall
+     don't get the /sys/.../module symlink, but they don't get it
+     today either (drv->mod_name is NULL pre-patch, so the
+     else-if (drv->mod_name) branch in module_add_driver() isn't
+     taken). Verified on arm64: /sys/module/tegra194_cbb/ does not
+     exist on a booted defconfig with or without my series. The
+     guard preserves that exact state while letting the
+     device_initcall majority get their symlinks as designed.
+
+I went with option 3 because it preserves observable behaviour
+everywhere and keeps the series scoped to driver-core. If you'd
+rather I do option 1 instead, I'm happy to.
+
+Thanks,
+Shashank
