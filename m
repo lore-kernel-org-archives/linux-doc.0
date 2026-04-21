@@ -1,138 +1,94 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FABD3D6CB4
-	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 14:14:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1CA63CF67C;
+	Tue, 21 Apr 2026 14:18:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776780875; cv=none; b=LAmr5ruj164wMsRPTwVaR2MWKkKYAvmcX1Cyq9FLcAN9pVkBBFX+CBZIMEp7PLCGeLXmLi/EFyVk1hOH6lxZ1SdktuSyn7TX+PYbgtBya62xJ/lVD1VL10Jbus/qtYkmxws8E+l9Z2LUSrMtRs//nhw6BoQOM5v1gLCk5sRMij4=
+	t=1776781122; cv=none; b=V/QjWfIemoUtkTAcZnJx1zyT3/eAApCFpzjszDAKLOgv5r/7S0HVV0BcrFLo9zc2xRR3MmesX85drr08ghYf9Y/MFph7eKP34kKEcHzRTX52j+Z/nyHSQSoPUfxoTLBRePmWm5nmvoiRcuzdAmLaPb4bDLr29nESQrb3Kpx7SsY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776780875; c=relaxed/simple;
-	bh=9EVLxOxko56ykP0XKUiXqVA16ePSpExPWd0qgmq91lU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KZCVG83PsjWia5FQOXDqtgdW3URGu+7haGyF0afWFwnmGW16pyYtcL3mwAS/e2Larr+MfurNt62Mrx/yI3v6172vuy9WLL1XoW/aL9dMvOhOYj8YMfP3zLf9Okmyh+fRugheonuEmPcLbrhkPyg5NIH4jIbOmJjAOqBiQt04pzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X6EJdM/R; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1776781122; c=relaxed/simple;
+	bh=vAu2TZe4KLTTnExsF79HZ16TqzLObTuSThMNMoqwYmo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=UFVGTarzdiHyfATXjO4+MKCw4HsgrTMkSpvBM7c9q2KzVr4lMXb6qST1a/FTLT9G+qXTVZWfDEW267oRwtje5anM2RrD6dCsI/Tar9ISezLa7TI6B8FVICnLYd9HYEjN6GVXyiA1YmiTBRX5zGQJPczTmTwjGn4PpM0XPkc71Cc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DU2TyQmQ; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X6EJdM/R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1776780872;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=HkSs5q895BkMlUjroUvolg58w1rFDrf/FdQnm8MeJy4=;
-	b=X6EJdM/RtjDjReZQfPnd3mjMKjLa754CmfF4hjpqFuaZtDTeppGLuE3//QpAv2q/5Kpu8p
-	GUuW5HKZHm+AKfLnPmTft5f8pN+8nayGbqEtuOrtoufIgiH7NmtyT7wFHIBvOdE8P4ScP2
-	nYGClbN3SQME8NyRM9oQMgYbT4wBpiM=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-307-g7Ym5ECUP9WJNDNti_MzuQ-1; Tue,
- 21 Apr 2026 10:14:28 -0400
-X-MC-Unique: g7Ym5ECUP9WJNDNti_MzuQ-1
-X-Mimecast-MFC-AGG-ID: g7Ym5ECUP9WJNDNti_MzuQ_1776780862
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1011E18002C0;
-	Tue, 21 Apr 2026 14:14:20 +0000 (UTC)
-Received: from [10.22.81.187] (unknown [10.22.81.187])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 67E2A19560AB;
-	Tue, 21 Apr 2026 14:14:10 +0000 (UTC)
-Message-ID: <3b796360-81e4-4f90-9b19-8a9f21cbac07@redhat.com>
-Date: Tue, 21 Apr 2026 10:14:09 -0400
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DU2TyQmQ"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0D1825DC;
+	Tue, 21 Apr 2026 07:18:34 -0700 (PDT)
+Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 28ACA3F915;
+	Tue, 21 Apr 2026 07:18:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1776781120; bh=vAu2TZe4KLTTnExsF79HZ16TqzLObTuSThMNMoqwYmo=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=DU2TyQmQAdeK7LaY99ERkB/P2rD92ghDuIBKbHU6l8oH8aVSyeuqUaXTzQZZME4pS
+	 3Cma8C6BrCfnkUqZx1mWuRt1mElr+RuJm0OJoKWjz0NS+id2zVAQUoRqox3MEZXy2j
+	 +eYt99Ev0UEajRaFBOa6mkGWCp0dShOF6OHK89AU=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	will@kernel.org,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	liuyonglong@huawei.com,
+	Jonathan.Cameron@huawei.com,
+	yezhenyu2@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	suzuki.poulose@arm.com
+Subject: Re: [PATCH v3 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF events
+Date: Tue, 21 Apr 2026 15:18:28 +0100
+Message-ID: <aeeHNMqDx5Yipt_K@devkitleo>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <acpfD3YjMpEdL5KZ@devkitleo>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-5-zhengtian10@huawei.com> <acQj5grOdZT8LUGp@devkitleo> <e3253959-0340-4c13-a980-a599e090a6de@huawei.com> <acabezCO4B5BE40Q@devkitleo> <4e800c1e-25db-4aa2-b100-63434973de93@huawei.com> <acpfD3YjMpEdL5KZ@devkitleo>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/23] tick/nohz: Make nohz_full parameter optional
-To: Thomas Gleixner <tglx@kernel.org>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
- <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Chen Ridong <chenridong@huaweicloud.com>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
- rcu@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
- Qiliang Yuan <realwujing@gmail.com>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-4-longman@redhat.com> <875x5kd88d.ffs@tglx>
-Content-Language: en-US
-From: Waiman Long <longman@redhat.com>
-In-Reply-To: <875x5kd88d.ffs@tglx>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On 4/21/26 4:32 AM, Thomas Gleixner wrote:
-> On Mon, Apr 20 2026 at 23:03, Waiman Long wrote:
->> To provide nohz_full tick support, there is a set of tick dependency
->> masks that need to be evaluated on every IRQ and context switch.
-> s/IRQ/interrupt/
->
-> This is a changelog and not a SMS service.
->> Switching on nohz_full tick support at runtime will be problematic
->> as some of the tick dependency masks may not be properly set causing
->> problem down the road.
-> That's useless blurb with zero content.
->
->> Allow nohz_full boot option to be specified without any
->> parameter to force enable nohz_full tick support without any
->> CPU in the tick_nohz_full_mask yet. The context_tracking_key and
->> tick_nohz_full_running flag will be enabled in this case to make
->> tick_nohz_full_enabled() return true.
-> I kinda can crystal-ball what you are trying to say here, but that does
-> not make it qualified as a proper change log.
->
->> There is still a small performance overhead by force enable nohz_full
->> this way. So it should only be used if there is a chance that some
->> CPUs may become isolated later via the cpuset isolated partition
->> functionality and better CPU isolation closed to nohz_full is desired.
-> Why has this key to be enabled on boot if there are no CPUs in the
-> isolated mask?
->
-> If you want to manage this dynamically at runtime then enable the key
-> once CPUs are isolated. Yes, it's more work, but that avoids the "should
-> only be used" nonsense and makes this more robust down the road.
+On Mon, Mar 30, 2026 at 12:31:28PM +0100, Leonardo Bras wrote:
+> On Sat, Mar 28, 2026 at 02:05:25PM +0800, Tian Zheng wrote:
+> > 
+> > On 3/27/2026 11:00 PM, Leonardo Bras wrote:
+> > > On Fri, Mar 27, 2026 at 03:35:29PM +0800, Tian Zheng wrote:
+> > > > On 3/26/2026 2:05 AM, Leonardo Bras wrote:
+> > > > > Hello Tian,
+> > > > > 
+> > > > > I am currently working on HACDBS enablement(which will be rebased on top of
+> > > > > this patchset) and due to the fact HACDBS and HDBSS are kind of
+> > > > > complementary I will sometimes come with some questions for issues I have
+> > > > > faced myself on that part. :)
+> > > > > 
+> > > > > (see below)
+> > > > 
+> > > > Of course! Happy to exchange ideas and learn together.
+> > > :)
 
-OK, I will try to make it fully dynamic. Of course, it will be more work.
+Hello Tian,
 
-Cheers,
-Longman
+On the above, HACDBS depends on HACDBSIRQ which can be announced by either 
+device-tree or ACPI. 
 
-> Thanks,
->
->          tglx
->
->
+Do you think it's ok for it to be ACPI only, for now?
 
+Thanks!
+Leo
