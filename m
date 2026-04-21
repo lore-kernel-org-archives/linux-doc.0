@@ -1,186 +1,242 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9CC282F02;
-	Tue, 21 Apr 2026 15:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 638B926ED3A
+	for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 15:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776784861; cv=none; b=sG0MHFqzcUZlNW59ABkRHYmcUGJKAG3JC/I2jsCA+kgjdIwFgPwkXQ4j4TrL+7TOJvaXSko3TsjXxAG/rWEoIUWQXr+1leaoLLxz5afaKzC84l8oD0uDL3xUt8zikW/QliqGWpW7OYHI8zgxcoEUoAxbrqtb2lpL09EITFIeuak=
+	t=1776785597; cv=none; b=AkEAuEr24g8Oe0gq/k4yEuKlVy2LjysUCdTU8jsRAqOHDjS7HNbriG86+O0TATKR+aOPVR4XfR/OaegJoelIxi7Fnm/wAB+bP23gmLp1EakaxrX1ugW75ZS92pyPYIob86Z8YTkRdwz7vdzfObaqOBcRf4b/UZiYlBOvL00eCvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776784861; c=relaxed/simple;
-	bh=F/at9kvrP0ftyUXa1QoDHgWWt9+7e9KsyBp2so8oQso=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tt6ZMyPaTPe3bGwVCiLdLO0jCOIhdz55cFXzQ5T9Q4DUwbwJpfdOPXD39I7otxKnFthkNkDZL0m0KpZgpAqu7oNaXBsaLXcqeomKhQzdu/Sfnkd/GnbDazMN5VVeUN5ss8XxdpI92VCaKYmk3GpQq7tac23ZP+iDspWTlSWINa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=kSTNTUxu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776785597; c=relaxed/simple;
+	bh=4HCqlredMvZcIrM331g6VN/NBvl4OPY6fmlDozL/Vhk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=DOfnO5sOevKLGpWXgzK/BlA4f7pKi+DOUiatnugO2Vl/lcveOv/H6AwbiwLS+L5ytfl4WPv5gR4tXxMP5LgJMI7OXtSpLu9qxUhSXhePKPi8WR4NZ5hFRfEm6HM6pyxCrwgCkVP8ieEv9XskujBYbjXjmmuaG8piJD2iLduGucA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=myUPr+Qp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s+BkHr6u; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=myUPr+Qp; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=s+BkHr6u; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="kSTNTUxu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D8B2C2BCB0;
-	Tue, 21 Apr 2026 15:21:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1776784861;
-	bh=F/at9kvrP0ftyUXa1QoDHgWWt9+7e9KsyBp2so8oQso=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kSTNTUxuJ37MXFp3pSpIMdOS40laH/EwZEvvafMj20wmOvojcusZdLaDlk16oH+dO
-	 8ppHDiTS5MR1Akmk2kAgbyZCw+upDYVlToxmmW9yRoe7uozquBxIffCUiQO2btwOMt
-	 7QxKOVT4jLFsek9pQHTWW/Krw78JV4q2Mpr7++wQ=
-Date: Tue, 21 Apr 2026 17:20:58 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Kay Sievers <kay.sievers@vrfy.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
-	Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Rahul Bukte <rahul.bukte@sony.com>,
-	Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-kernel@vger.kernel.org,
-	driver-core@lists.linux.dev, coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] kernel: param: handle NULL module_kset in
- lookup_or_create_module_kobject()
-Message-ID: <2026042154-overcast-starry-2872@gregkh>
-References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
- <20260421-acpi_mod_name-v2-1-e73f9310dad3@sony.com>
- <2026042126-majesty-skyline-b76f@gregkh>
- <aeeQ5x1uMKT6cyxp@JPC00244420>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="myUPr+Qp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s+BkHr6u";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="myUPr+Qp";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="s+BkHr6u"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id B0F5E6A802;
+	Tue, 21 Apr 2026 15:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776785593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=myUPr+QpRF4WtLcNjixUKa0ud64dMsnpoDCcqvCwNNrhAgITLF8N65ERogFyvD5APfuRST
+	x6KWdHiPuCyp9WIBfM3vdigV9So2sh5bK/6F57vORI78crkPVyJjJ7Cc8tviPhal3W6j4C
+	fLmyiOkjNpoDZHXhBne/VI4EzmhuTOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776785593;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=s+BkHr6uvgvgVh8gq49iW9+Wul2pWSUGKY14MfoNmYcX18wz8lyosBn3TYqjOCnv+rfL3D
+	UJMFT12T+Smh4MDw==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1776785593; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=myUPr+QpRF4WtLcNjixUKa0ud64dMsnpoDCcqvCwNNrhAgITLF8N65ERogFyvD5APfuRST
+	x6KWdHiPuCyp9WIBfM3vdigV9So2sh5bK/6F57vORI78crkPVyJjJ7Cc8tviPhal3W6j4C
+	fLmyiOkjNpoDZHXhBne/VI4EzmhuTOQ=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1776785593;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=KGBRDYkLHlArRH5KcbZ2sx3yZc8GF62CbNbF3CSJ5J0=;
+	b=s+BkHr6uvgvgVh8gq49iW9+Wul2pWSUGKY14MfoNmYcX18wz8lyosBn3TYqjOCnv+rfL3D
+	UJMFT12T+Smh4MDw==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AF8DE593AF;
+	Tue, 21 Apr 2026 15:33:12 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id w6UhKbiY52k1CwAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Tue, 21 Apr 2026 15:33:12 +0000
+Message-ID: <dd39f423-1598-4749-8c95-98b8daf69680@suse.de>
+Date: Tue, 21 Apr 2026 17:33:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeeQ5x1uMKT6cyxp@JPC00244420>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 15/20] drm/drv: Call drm_mode_config_create_state() by
+ default
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jyri Sarha <jyri.sarha@iki.fi>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Andrzej Hajda <andrzej.hajda@intel.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Laurent Pinchart <Laurent.pinchart@ideasonboard.com>,
+ Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>,
+ Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>,
+ Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>,
+ Samuel Holland <samuel@sholland.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+ intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-15-c63f1134e76c@kernel.org>
+ <79cc30d5-80b5-4d87-a3ad-36d6fad98853@suse.de>
+Content-Language: en-US
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <79cc30d5-80b5-4d87-a3ad-36d6fad98853@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	SUSPICIOUS_RECIPS(1.50)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	MIME_TRACE(0.00)[0:+];
+	FUZZY_RATELIMITED(0.00)[rspamd.com];
+	TO_DN_SOME(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[37];
+	TAGGED_RCPT(0.00)[];
+	MID_RHS_MATCH_FROM(0.00)[];
+	R_RATELIMIT(0.00)[to_ip_from(RLyhjdboxbrjk5hnijtjs4kbm6)];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_TO(0.00)[kernel.org,linux.intel.com,gmail.com,ffwll.ch,lwn.net,linuxfoundation.org,oss.qualcomm.com,iki.fi,ideasonboard.com,intel.com,linaro.org,kwiboo.se,emersion.fr,amd.com,igalia.com,redhat.com,ursulin.net,sholland.org,raspberrypi.com];
+	RCVD_TLS_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,suse.com:url,suse.de:mid]
+X-Spam-Flag: NO
+X-Spam-Score: -2.80
+X-Spam-Level: 
 
-On Tue, Apr 21, 2026 at 11:59:51PM +0900, Shashank Balaji wrote:
-> Hi Greg,
-> 
-> Thanks for the quick feedback!
-> 
-> On Tue, Apr 21, 2026 at 08:27:10AM +0200, Greg Kroah-Hartman wrote:
-> > On Tue, Apr 21, 2026 at 03:02:34PM +0900, Shashank Balaji wrote:
-> > > module_kset is initialized in a subsys_initcall. If a built-in driver tries to
-> > > register before subsys_initcall with its struct device_driver's mod_name set,
-> > > then a null module_kset is dereferenced via this call trace:
-> > > 
-> > >      [    0.095865] Call trace:
-> > >      [    0.095999]  _raw_spin_lock+0x4c/0x6c (P)
-> > >      [    0.096150]  kset_find_obj+0x24/0x104
-> > >      [    0.096209]  lookup_or_create_module_kobject+0x2c/0xd8
-> > >      [    0.096274]  module_add_driver+0xd4/0x138
-> > >      [    0.096328]  bus_add_driver+0x16c/0x268
-> > >      [    0.096380]  driver_register+0x68/0x100
-> > >      [    0.096428]  __platform_driver_register+0x24/0x30
-> > >      [    0.096486]  tegra194_cbb_init+0x24/0x30
-> > >      [    0.096540]  do_one_initcall+0xdc/0x250
-> > >      [    0.096608]  do_initcall_level+0x9c/0xd0
-> > >      [    0.096660]  do_initcalls+0x54/0x94
-> > >      [    0.096706]  do_basic_setup+0x20/0x2c
-> > >      [    0.096753]  kernel_init_freeable+0xc8/0x154
-> > >      [    0.096807]  kernel_init+0x20/0x1a0
-> > >      [    0.096851]  ret_from_fork+0x10/0x20
-> > > 
-> > > So, return null in lookup_or_create_module_kobject() if module_kset is null.
-> > > Existing callers handle null already.
-> > > 
-> > > Fixes: f30c53a873d0 ("MODULES: add the module name for built in kernel drivers")
-> > 
-> > This isn't a bugfix.
-> 
-> I'll drop it in the next version.
-> 
-> > > Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> > > Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> > > Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
-> > > ---
-> > > This bug is triggered by the next patch on arm64 defconfig: tegra194-cbb tries
-> > > to register from a pure_initcall, and with the next patch adding mod_name, this
-> > > null deref is hit.
-> > 
-> > So this isn't a bug, it's a "don't do that" type of thing :)
-> > 
-> > > ---
-> > >  kernel/params.c | 3 +++
-> > >  1 file changed, 3 insertions(+)
-> > > 
-> > > diff --git a/kernel/params.c b/kernel/params.c
-> > > index 74d620bc2521..881c7328c059 100644
-> > > --- a/kernel/params.c
-> > > +++ b/kernel/params.c
-> > > @@ -752,6 +752,9 @@ lookup_or_create_module_kobject(const char *name)
-> > >  	struct kobject *kobj;
-> > >  	int err;
-> > >  
-> > > +	if (!module_kset)
-> > > +		return NULL;
-> > 
-> > Are you sure that making this change is going to be ok?
-> > mod_sysfs_init() should have been called first as the module has to be
-> > created before it can be looked up.
-> > 
-> > As you are wanting "built in" drivers to show up here, you are going to
-> > beat the call to param_sysfs_init(), so don't do that.  Make sure that
-> > the drivers are NOT called before then.
-> 
-> The reason lookup_or_create_module_kobject() can be reached with module_kset == NULL
-> is that some platform drivers register before subsys_initcall: tegra194_cbb and
-> tegra234_cbb at pure_initcall, plus roughly 375 others at core_initcall/arch_initcall
-> (208 arch, 154 core, plus 2 pure and 13 _sync variants). These are dominated by
-> pinctrl, clk, interconnect, gpio, and mailbox drivers across six SoC vendor trees
-> (Qualcomm, MediaTek, Freescale, Samsung, Tegra, HiSilicon).
 
-That's not good, everyone wants to be first.  It's amazing it works at
-all sometimes...
 
-> Given that, three ways forward:
-> 
->   1. Move module_kset creation out of param_sysfs_init() (currently
->      subsys_initcall) and call it directly from do_basic_setup()
->      before do_initcalls(). This is the cleanest fix from a
->      correctness angle: every initcall level sees a live
->      module_kset. But it touches init/main.c and kernel/params.c,
->      crosses two subsystem trees. I haven't fully audited
->      dependencies at do_basic_setup() time.
+Am 21.04.26 um 15:38 schrieb Thomas Zimmermann:
+> Hi
+>
+> Am 20.03.26 um 17:27 schrieb Maxime Ripard:
+>> Almost all drivers, and our documented skeleton, call
+>> drm_mode_config_reset() prior to calling drm_dev_register() to
+>> initialize its DRM object states.
+>>
+>> Now that we have drm_mode_config_create_state() to create that initial
+>> state if it doesn't exist, we can call it directly in
+>> drm_dev_register(). That way, we know that the initial atomic state will
+>> always be allocated without any boilerplate.
+>>
+>> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+>> ---
+>>   drivers/gpu/drm/drm_drv.c | 4 ++++
+>>   1 file changed, 4 insertions(+)
+>>
+>> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+>> index 
+>> 2915118436ce8a6640cfb0c59936031990727ed1..820106d56ab399a39cac56d98662b5ddbcae8ded 
+>> 100644
+>> --- a/drivers/gpu/drm/drm_drv.c
+>> +++ b/drivers/gpu/drm/drm_drv.c
+>> @@ -1097,10 +1097,14 @@ int drm_dev_register(struct drm_device *dev, 
+>> unsigned long flags)
+>>         if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+>>           ret = drm_modeset_register_all(dev);
+>>           if (ret)
+>>               goto err_unload;
+>> +
+>> +        ret = drm_mode_config_create_state(dev);
+>> +        if (ret)
+>> +            goto err_unload;
+>
+> Way too late. Lets rather go through drivers and call this where they 
+> currently call drm_mode_config_reset() for initialization. This can be 
+> a single-patch mass conversion IMHO.
 
-That's one way, OR dynamically create the kset the first time it is
-asked for.
+On a second thought, can't we modify the suspend code and leave the 
+reset as-is for now?  I'd still be interested to use reset as a means of 
+initializing the hardware or loading state on probe. So keeping the 
+_reset() calls in place might be helpful for that.
 
->   2. Demote the ~377 early-initcall platform drivers to
->      subsys_initcall or later. Impractical at scale given coordination
->      across six vendor trees, and many of these levels seem to be
->      architecturally required.
+What's the long-term plan here?
 
-Ick, yeah, that is sure to be a nightmare as there will be regressions.
+Best regards
+Thomas
 
->   3. (This patch) Guard lookup_or_create_module_kobject() against
->      NULL module_kset. Drivers registered before subsys_initcall
->      don't get the /sys/.../module symlink, but they don't get it
->      today either (drv->mod_name is NULL pre-patch, so the
->      else-if (drv->mod_name) branch in module_add_driver() isn't
->      taken). Verified on arm64: /sys/module/tegra194_cbb/ does not
->      exist on a booted defconfig with or without my series. The
->      guard preserves that exact state while letting the
->      device_initcall majority get their symlinks as designed.
+>
+> Best regards
+> Thomas
+>
+>>       }
+>>       drm_panic_register(dev);
+>>       drm_client_sysrq_register(dev);
+>>         DRM_INFO("Initialized %s %d.%d.%d for %s on minor %d\n",
+>>
+>
 
-THat's going to confuse people as to why some have the link and others
-do not.  How about moving it earlier OR creating it dynamically when
-first needed?
+-- 
+--
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Frankenstr. 146, 90461 Nürnberg, Germany, www.suse.com
+GF: Jochen Jaser, Andrew McDonald, Werner Knoblich, (HRB 36809, AG Nürnberg)
 
-thanks,
 
-greg k-h
