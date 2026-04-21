@@ -1,90 +1,97 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0D43231836;
-	Tue, 21 Apr 2026 04:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B79227FB35;
+	Tue, 21 Apr 2026 04:58:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776746985; cv=none; b=Hq2VG5ChnaUf8fKKVt1CqDkh1q8a74IvUyRmyt5Fy/QQXlPumz4S4Bu7XTHfb3gaKD/58V5TrbTVJCagP7HB3OfHD7Ch4SnbzY4YCyHXnOakwzifBRf7yeb1nFrJqmN1Gx/OIYh8Z5+1RxH9Xyjbrg81BtJbHzTE37SdOXBH6A4=
+	t=1776747497; cv=none; b=FmSQPPTA9rI15byI7ET1BBofwUIlUJmIuXhF6VIvHQr8Ej6hOWMuEIgkLe0Zt11MV/lqqNAbjX94xi/bBuztrE96/Al7dIt5p+co2yNJ7b5Rb24x9d92RS8CqYneQ05CcRw7ZYk19HL9LvN26X648LGqD1UiQ/C02rjIt8NDb2g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776746985; c=relaxed/simple;
-	bh=ka4gbLZs99fExMD1yc1xEuZ3x1da439G/UiyCjNMmiQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=goy/5zpH21yEsuv8ucMBLnlykPtn2Q7QPPiUC5mwUg1QNi6hY1KFlYREOylgvtQE7AnC8ebocYT3oV/3Olz+mXUoRszXCpKPgdYGNuuZeUlrT8g9rDOzdMyb+FymJEQ+gHIx1bEP8o8Ym2Xlv5ZTBuMpDjsQIFIfYkyXBO7tecY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VxAXPIWx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776747497; c=relaxed/simple;
+	bh=RzdQvxvjncNtiwz+LfigQHgUZc1LPQ7GlJttmJ/tAzo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cg8FzMH4FM8s1dUlUoTwGQ/D/lZBosieY9HU30Jv/Kl7Hf9MDNNkpTrbMPPFs7gxYKaI6MzOjhcb0PkJt07V0Oz5BvC2sarP0B70NUte+nkUnxwyaUVk0FbyehcvxPMIljONSY8fli5fHQAF4YnlbHf5gS4z1+vQGUY3sqDT8WQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=bysuRRY7; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VxAXPIWx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 19FB8C2BCB5;
-	Tue, 21 Apr 2026 04:49:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776746985;
-	bh=ka4gbLZs99fExMD1yc1xEuZ3x1da439G/UiyCjNMmiQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VxAXPIWxB31Jk6/Qmby4wm0jEL0HHoppbsPaygsvseRuCttTk7XJFZPTDRTfu/968
-	 sVgGpFssrD5yjsRi1eEs/w2v4V+0904KUXmvohuEvax8kBK9jjs9+Q8IwWCa8iCbaz
-	 uyUHho97AL/Gs0H4FpKrOFHa9lQ13/tdcX2Lu8mTn5yl3EbU2s5PTj3yez608G8l4m
-	 U3m6/LootpFAl/x1f84gJgMI8L+y1dB60kzpCjHDMAsw/9XamrkvuqtQg/ZtN4pGG1
-	 gUCE3ZK30H/owzyhL1i/hpPrMvow3RJBJ9Uls6iGb18KKEuxjDNlkjI8zZlpTu9ab4
-	 vyrcMRQs2AZkw==
-From: SeongJae Park <sj@kernel.org>
-To: 
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [RFC PATCH 1/2] Docs/admin-guide/mm/damon/usage: mark scheme filters sysfs dir as deprecated
-Date: Mon, 20 Apr 2026 21:49:26 -0700
-Message-ID: <20260421044928.141388-2-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260421044928.141388-1-sj@kernel.org>
-References: <20260421044928.141388-1-sj@kernel.org>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="bysuRRY7"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=sWELmUNLrj+Rw+ev0cu4eeG06hoBoAV7zKwuPQRtKy0=; b=bysuRRY7eAxaTJ1ySj1io7PZGk
+	2k6nNkf1Tp12Ti3QJ4YO+Q9p4CMiYhYTT+dA6JcCaFB412kWRo4ERmYpi2thJczSfL/1Zdq7W+97A
+	YY76gpLprFUvnw3sL/jdguMoUJfYNOSKPKYXbohfIwSgfUQegumJR0H3XXN4EwEhHNG72yOa0c8Zs
+	bXgyE4CeVt7JdzpNvfJGjFCjgT61oC5mYEFS9RZPVjpRtNXPfDvuIT9U5qXqP3sKUaQeHBefGXo2u
+	x0RR41R+GF4PSw4lIwwHJxQiFOO7Y/VWmF8Sopw92Wez+6LgWlqd4Wci6dv7UQfhOR0SZqOrsIS20
+	xigXIJHw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wF3BV-000000082KY-1xqd;
+	Tue, 21 Apr 2026 04:58:05 +0000
+Message-ID: <49403d1f-fe82-4a39-8326-90e787e4da42@infradead.org>
+Date: Mon, 20 Apr 2026 21:58:04 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: fix typos in Documentation/PCI/
+To: josh ziegler <joshziegler76@gmail.com>, bhelgaas@google.com,
+ corbet@lwn.net
+Cc: skhan@linuxfoundation.org, linux-pci@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260421012059.251492-1-joshziegler76@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260421012059.251492-1-joshziegler76@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-The alternatives of 'filters/' directory, namely 'core_filters/' and
-'ops_filters/', can fully support all the features 'filters/' directory
-can do, and provide better user experience.   Having 'filters/'
-directory is only confusing to users.  Announce it as deprecated on the
-usage document.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index d5548e460857c..918c14a8e852b 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -486,9 +486,10 @@ layers.  Filters that requested by ``core_filters`` and ``ops_filters`` will be
- installed before those of ``filters``.  All three directories have same files.
- 
- Use of ``filters`` directory can make expecting evaluation orders of given
--filters with the files under directory bit confusing.  Users are hence
--recommended to use ``core_filters`` and ``ops_filters`` directories.  The
--``filters`` directory could be deprecated in future.
-+filters with the files under directory bit confusing.  For the reason,
-+``filters`` directory is deprecated.  It is still functioning, but it will be
-+broken and eventually removed in near future.  Users should use
-+``core_filters`` and ``ops_filters`` directories instead.
- 
- In the beginning, the directory has only one file, ``nr_filters``.  Writing a
- number (``N``) to the file creates the number of child directories named ``0``
+On 4/20/26 6:20 PM, josh ziegler wrote:
+> Fix "chose" -> "choose" in pci.rst
+> Fix "result an" -> "result in an" in pciebus-howto.rst
+> 
+> Signed-off-by: josh ziegler <joshziegler76@gmail.com>
+
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+
+> ---
+>  Documentation/PCI/pci.rst           | 2 +-
+>  Documentation/PCI/pciebus-howto.rst | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/PCI/pci.rst b/Documentation/PCI/pci.rst
+> index f4d2662871ab..be35e9a1ee75 100644
+> --- a/Documentation/PCI/pci.rst
+> +++ b/Documentation/PCI/pci.rst
+> @@ -338,7 +338,7 @@ the PCI_IRQ_MSI and PCI_IRQ_MSIX flags will fail, so try to always
+>  specify PCI_IRQ_INTX as well.
+>  
+>  Drivers that have different interrupt handlers for MSI/MSI-X and
+> -legacy INTx should chose the right one based on the msi_enabled
+> +legacy INTx should choose the right one based on the msi_enabled
+>  and msix_enabled flags in the pci_dev structure after calling
+>  pci_alloc_irq_vectors.
+>  
+> diff --git a/Documentation/PCI/pciebus-howto.rst b/Documentation/PCI/pciebus-howto.rst
+> index 375d9ce171f6..9cc133ccdeec 100644
+> --- a/Documentation/PCI/pciebus-howto.rst
+> +++ b/Documentation/PCI/pciebus-howto.rst
+> @@ -97,7 +97,7 @@ register its service with the PCI Express Port Bus driver (see
+>  section 5.2.1 & 5.2.2). It is important that a service driver
+>  initializes the pcie_port_service_driver data structure, included in
+>  header file /include/linux/pcieport_if.h, before calling these APIs.
+> -Failure to do so will result an identity mismatch, which prevents
+> +Failure to do so will result in an identity mismatch, which prevents
+>  the PCI Express Port Bus driver from loading a service driver.
+>  
+>  pcie_port_service_register
+
 -- 
-2.47.3
+~Randy
