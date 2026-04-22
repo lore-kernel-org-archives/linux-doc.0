@@ -1,131 +1,63 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 658F3137750;
-	Wed, 22 Apr 2026 00:26:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C7761A683E;
+	Wed, 22 Apr 2026 01:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776817583; cv=none; b=lkZwGe2YOj8AUpzk95wm5doE/W2OeqNKHg3ufc2p1xNCMNyp8vzN4DlyD1P9QQ3niySHuzMQTSbnXk5/7DxZZDYCaPyWJVS1eiZ6dUNEMy32ugDLr6wByzGYxhewl156CKJ4fLx7r/K0uy5gyRXqekIoLsoCx2S+oe2Czcp8MCc=
+	t=1776821959; cv=none; b=fd6fm5lLRqTLwIaIFfJJGMKrkNVFKy575EG9Fk7FMAKklV85eO1ANSti3/ODuOwz/GuO4P/NavNO3xCOb6RDjByJpSsbbWoq54l33OQtOzwpDXsyLnSSf7pc0bclCcpo/DHgTbLr7pPA20UBDOUnN2GVmNyUL2wz5Vz7F+sJpd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776817583; c=relaxed/simple;
-	bh=jqBAEzAIAkAs5KK0c26HBfL5HhvElj7G2+7Aq7pEawY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ISRV/nKLlqarcInYLrEe6Jvly+Rett1/uzvBOE0ceaOtqKZjxFxDR2RQoBb+6UPaaylYTkdi6jdfbAazkU5GrZb98Ptj5gWJJs3ZMKNDnNEv2TcCBkIwqQq2eejOkx+oiP9dZzVZLEOsgebJy2h36OY9L4ZHLwB1i6gReZw9UG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AfWfAYVV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776821959; c=relaxed/simple;
+	bh=kXDdz6fh1tHiWWOVkx/MOqXVrqSnDJZ0bxKziJBaOyc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=STUy8eCMoVY9gauG1hYXHiBd86c0QR3EGsIC9U3IXx3WJr9k0a1/W82UTge/Mp7ies0Q9BacYD8h2oPdAtOhdck6KcDxMrW3DCwHlaYJKPkrGPvN5IebmooFf1L7WqfdC5wwDUXb7qoqZhH/aLSnFxEjXVMRVBdQ+HELuR6We2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JaJAPuDv; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AfWfAYVV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34DE9C2BCB0;
-	Wed, 22 Apr 2026 00:26:21 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JaJAPuDv"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E0CCC2BCB0;
+	Wed, 22 Apr 2026 01:39:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776817583;
-	bh=jqBAEzAIAkAs5KK0c26HBfL5HhvElj7G2+7Aq7pEawY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AfWfAYVV308wNpkitQfHp/i3Vv5ItGGWY2XqHA/y9idxCYm3dPzbSK+1q5SSNH6QK
-	 DsOwfy745VLjMiMxHcKCq6uTftlyufiRX44wgFujFSOigdKnuHKMyIYbWJW0dnCZry
-	 gJJe6OSYz8y79D39pR0T8X0/y2Zqr0TkD8jmzC2m9WHa2+j0bD/tngildZbAJ4zUlK
-	 eM2Hg0B3R5Uch2WC4xDPUI0ZVJS+OwSVimBYSur8g0v7HEu7AFTJMa8N7db6oAY7EC
-	 0T/KpkGxdNkaUTu2q/8Lam6bV19HUx2qf8ZYxfd1xFvzAcrzqClGURW5mWc/w1v7Oq
-	 DJ/3mdtpqSKhw==
-Date: Wed, 22 Apr 2026 00:26:19 +0000
-From: Yosry Ahmed <yosry@kernel.org>
-To: Nhat Pham <nphamcs@gmail.com>
-Cc: kasong@tencent.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org, 
-	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com, 
-	yosry.ahmed@linux.dev, yuanchu@google.com, zhengqi.arch@bytedance.com, ziy@nvidia.com, 
-	kernel-team@meta.com, riel@surriel.com
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-Message-ID: <aegUoOiUbjUAH5aT@google.com>
-References: <20260320192735.748051-1-nphamcs@gmail.com>
+	s=k20201202; t=1776821958;
+	bh=kXDdz6fh1tHiWWOVkx/MOqXVrqSnDJZ0bxKziJBaOyc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JaJAPuDvw0JuXVFO9/L1rWLgI1PpSEKd+0nGXW1+43e2VVxkSOfOU80a66n2GQbwW
+	 KvyIvjWrVT1IKDJu6oM8VXZyhbC5vUpcnT58TE/Tn9jm2sALkpQRo4ApJ7TuTRAC67
+	 mOSAUBX6nFzq+UtkRDipeJbIvdUtXoRNA+K/crhFrqEdTTmq8zPb1zJaHk15KSgwFi
+	 9txjI7lLxzfAOUL51/Kp9I4WBcce9DwhECeSojMTuK6MZ414gCaDwK5nGd5gbgB0TY
+	 5Cki5he9gFpwWQImTTFLmPF5egpHagzNKPG4ZJhHO1TZjUhNaB2XgPUuQEh7TEgsZ7
+	 QyonEZkth7kbA==
+Date: Tue, 21 Apr 2026 18:39:17 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net 00/18] Remove a number of ISA and PCMCIA Ethernet
+ drivers
+Message-ID: <20260421183917.0dc30ff8@kernel.org>
+In-Reply-To: <87441489-afea-44c4-afd9-8f1693b32ce6@lunn.ch>
+References: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
+	<87441489-afea-44c4-afd9-8f1693b32ce6@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260320192735.748051-1-nphamcs@gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Mar 20, 2026 at 12:27:14PM -0700, Nhat Pham wrote:
-> 
-> This patch series is based on 6.19. There are a couple more
-> swap-related changes in mainline that I would need to coordinate
-> with, but I still want to send this out as an update for the
-> regressions reported by Kairui Song in [15]. It's probably easier
-> to just build this thing rather than dig through that series of
-> emails to get the fix patch :)
-> 
-> Changelog:
-> * v4 -> v5:
->     * Fix a deadlock in memcg1_swapout (reported by syzbot [16]).
->     * Replace VM_WARN_ON(!spin_is_locked()) with lockdep_assert_held(),
->       and use guard(rcu) in vswap_cpu_dead
->       (reported by Peter Zijlstra [17]).
-> * v3 -> v4:
->     * Fix poor swap free batching behavior to alleviate a regression
->       (reported by Kairui Song).
->     * Fix assorted kernel build errors reported by kernel test robots
->       in the case of CONFIG_SWAP=n.
-> * RFC v2 -> v3:
->     * Implement a cluster-based allocation algorithm for virtual swap
->       slots, inspired by Kairui Song and Chris Li's implementation, as
->       well as Johannes Weiner's suggestions. This eliminates the lock
-> 	  contention issues on the virtual swap layer.
->     * Re-use swap table for the reverse mapping.
->     * Remove CONFIG_VIRTUAL_SWAP.
->     * Reducing the size of the swap descriptor from 48 bytes to 24
->       bytes, i.e another 50% reduction in memory overhead from v2.
->     * Remove swap cache and zswap tree and use the swap descriptor
->       for this.
->     * Remove zeromap, and replace the swap_map bytemap with 2 bitmaps
->       (one for allocated slots, and one for bad slots).
->     * Rebase on top of 6.19 (7d0a66e4bb9081d75c82ec4957c50034cb0ea449)
-> 	* Update cover letter to include new benchmark results and discussion
-> 	  on overhead in various cases.
-> * RFC v1 -> RFC v2:
->     * Use a single atomic type (swap_refs) for reference counting
->       purpose. This brings the size of the swap descriptor from 64 B
->       down to 48 B (25% reduction). Suggested by Yosry Ahmed.
->     * Zeromap bitmap is removed in the virtual swap implementation.
->       This saves one bit per physical swapfile slot.
->     * Rearrange the patches and the code change to make things more
->       reviewable. Suggested by Johannes Weiner.
->     * Update the cover letter a bit.
-> 
-> This patch series implements the virtual swap space idea, based on Yosry's
-> proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
-> inputs from Johannes Weiner. The same idea (with different
-> implementation details) has been floated by Rik van Riel since at least
-> 2011 (see [8]).
+On Tue, 21 Apr 2026 21:53:38 +0200 Andrew Lunn wrote:
+> There should be 18 patches in this series, but it seems like b4 send
+> and exim are not working together too tell and have truncated it to 10
+> :-(
 
-Unfortuantely, I haven't been able to keep up with virtual swap and swap
-table development, as my time is mostly being spent elsewhere these
-days. I do have a question tho, which might have already been answered
-or is too naive/stupid -- so apologies in advance.
+Looks like they ended up coming thru and got nom-nomed by the AIs,
+which flagged some omissions (in docs mostly). So I'll keep the series
+as "changes requested".
 
-Given the recent advancements in the swap table and that most metadata
-and the swap cache are already being pulled into it, is it possible to
-use the swap table in the virtual swap layer instead of the xarray?
-
-Basically pull the swap table one layer higher, and have it point to
-either a zswap entry or a physical swap slot (or others in the future)?
-If my understanding is correct, we kinda get the best of both worlds and
-reuse the integration already done by the swap table with the swap
-cache, as well as the lock paritioning.
-
-In this world, the clusters would be in the virtual swap space, and we'd
-create the clusters on-demand as needed.
-
-Does this even work or make the least amount of sense (I guess the
-question is for both Nhat and Kairui)?
+Please feel free to ignore the 24h limit for this. We need the
+deletions shipped to Linus by Thu.
