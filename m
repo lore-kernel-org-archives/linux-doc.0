@@ -1,70 +1,99 @@
-Received: from mail-08.mail-europe.com (mail-08.mail-europe.com [57.129.93.249])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A2A5372B4B;
-	Wed, 22 Apr 2026 07:48:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.129.93.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2481C3C1410
+	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 09:13:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776844117; cv=none; b=mNJzIj0YLJgYalggpTdQVwa9lq4DdXNSet439GZe4FQVDbRz3oyQtYkYSwKy1m+DMtW4trqLWGxeTX34hX83rtoEU5LsRhVOOEF4ky3DM1heDYym5O2n2oBrUBbFAQzMlHUnoM43yzyaS62KeCM7DRfyfx+1aUP0r8ppFlxU0lM=
+	t=1776849202; cv=none; b=KO8Cm3IAP6YFbvDVq3EJrcaH7W66VvEllf8uV/PpG8Yxm3kiLi8YqU40eACgaEwKNoBvRIQ4AOtzRwKhj/CpbFYh7nQp3gVjBLlHxSx5LWHVRZKclwUN3grAdGns81zyc56G6H8gGYDQdO+tHbZjcs6/EHUaKRfRJ2h61GHW76s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776844117; c=relaxed/simple;
-	bh=1WW5ypgL9+kd4wByKxBwZgxmVkHgEWeyIpu4HP8j2iQ=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=WaUsQQzHl9W4hNSbDIB9CW93yzkAqdQ7HtSzO+ON+Bkc2YA7ib4DCoM0kwymvIQlkHD0IowFyLF60ugEVwDBSj+9x4Tg9dnADlFHmtrFRoKMKzl4J5kFSMeZZ1rTKS9X7OC3enUtOBzyS3F6ldwmBsVvfoktW/cBMFqYPMIbxLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=truealter.com; spf=pass smtp.mailfrom=truealter.com; dkim=pass (2048-bit key) header.d=truealter.com header.i=@truealter.com header.b=w1D7Rcr7; arc=none smtp.client-ip=57.129.93.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=truealter.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=truealter.com
+	s=arc-20240116; t=1776849202; c=relaxed/simple;
+	bh=jqGw01x33DhS5aeU49v/Mka+0a7do3a5KwJhwuhUuqk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=IIHSK80nYXqhItiCOsBh/Gnzw5LTrxpspozcO5mLgTy7YvHi0nvOIOtPe2KLZucniHCf0eqPKsSQLZtIJCTJAD/v2weXtDoQi3O+I+7b+HMScVMO2aOs7/N4aBj2aWPUWqV/iiQt6fJjJYrk/72QeV4iFy0gqJepIQUTto6Kpmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmrQvy9G; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=truealter.com header.i=@truealter.com header.b="w1D7Rcr7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=truealter.com;
-	s=protonmail; t=1776844097; x=1777103297;
-	bh=rRvrYoTdSRGxha4x+rUEL++YYnP3AcflnWJircooC8s=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=w1D7Rcr79w3dfmcPjnATsR6DUZCaBYTKmApNA4wuTGL6NwP5yHYHRCchkZ8guH3hM
-	 lC9J+Q4sFd2TvmYsfCUfZ5/70FNBSIMSiikYU2wHnLm0ATkA2LH79ElaXk9sGoqh10
-	 YPbZPzFuoWNM2etNIKfuhce3Rp4b7EbPNFf29+qHPqvUzW1fMTxtN8l0aF9XaHmmIF
-	 TXgOO1eOmVrdUkGgsS1PFZTVLw8wySjKqxh4SZTQ4TOE3fO2SUVjNfNFabcMtHunHs
-	 DXTDOsyqSSzCm0hIzsbLbJ19ogRykFyimO/kDw6qeBRx0UnWyPiitXFSq595gTA5NP
-	 fokIAbvjXBvmQ==
-Date: Wed, 22 Apr 2026 07:48:14 +0000
-To: Konstantin Ryabitsev <mricon@kernel.org>
-From: Blake <blake@truealter.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, workflows@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Documentation: coding-assistants: add optional Acted-By: trailer
-Message-ID: <eSjEj2dXsx6UutDw5totTZVDMBnsHRCESU-GOUPU_GknJKufOv1hPFzgRCy5TNq4xC5lxVhBKvKP76dKTclmMPw7nr0uIS5bgJabhXO9Ldk=@truealter.com>
-In-Reply-To: <20260421-simple-dingo-of-piety-d033ad@meerkat>
-References: <20260420142741.3187814-1-blake@truealter.com> <20260421-simple-dingo-of-piety-d033ad@meerkat>
-Feedback-ID: 187617253:user:proton
-X-Pm-Message-ID: f717befa548383b2a5ed552aeacf885e3498e8d1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmrQvy9G"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43d572f7437so3440826f8f.1
+        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 02:13:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1776849199; x=1777453999; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/otYovZDuesUe7jQPZmu+0R6E/qDznQJDykppq+S9E4=;
+        b=cmrQvy9GsZpTehdjrKDddZ/pZ0/clv1D4ygYn3LOPsF7tkqfbHyX7AI+wYczsi2Ulx
+         2hQ25QhoW7WVoYX8WCUDAIGiv+eQxOz4rqYo2IC+mtk5n/Ry/HgtFBtSeWPR6kTrRvgO
+         a6ravUPCMXsQKUuXGgkFB56UBzDeixp4zfsSdOJgFcgTv/590a9sMUzpUDEBiyoqo8Im
+         nBc7/PWHHCAp0dUzJrZQ3ITKSmOOLMtSCL8ZQgHgnw8BEYtml91IUcDHg7f48pzf6ddB
+         hExCDHc4FApOLgzpTa2HGYq21E0vW8nr0RbUJvp2w3ufDh7ogg5ZfI7OV9xYCiCVkqrA
+         /Gqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776849199; x=1777453999;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=/otYovZDuesUe7jQPZmu+0R6E/qDznQJDykppq+S9E4=;
+        b=LvgPzLwuKuKRsA14ikufIvcvCcOWaN45KOTB42rgS05Us6UQX7CXVlvZ3knEHKzbVW
+         uyUUtco7q5xdjY95tWU5sHIE2cfujOXqQJv6ahlx6IQww/8y/i/00iIFcSPyICGoZB1w
+         mOO7Xmt3HiCpsbeeNu6DjIsJekn7O7RW5OnhlpBfvs2dJ+qj5wg8hM1wpAJHhz3ry84L
+         LGWRByLO2VRQGCnoXiawP7sXN7mLeJPAqg0vPERADifu1NrdFEpZ78pb6gYU+GFjswKH
+         4b/CP3fLMl8iyM113SijbbHh/KgnuZLZisTWjzhgAcKDFtBtIvDGS8a7IXd0mpJBiwO7
+         xaOg==
+X-Forwarded-Encrypted: i=1; AFNElJ+iwVsGseG/xOeJP8M1YiGvcUoTUx+bfBdeqboSgDMxN7HCokFWdiaO0sZ1eCVUArUQFe3ZM9Fk7DA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzFFXIBvxhsdaIqxE1C+CtY6BWjaqiuIJ6FLtgIBahIKBA70vHM
+	qFQ8vGjdM9hgGQ9Ya96mtG7tznHY/K4lbjzo8X+eJWukAFsEp/CTb75H
+X-Gm-Gg: AeBDietmdA1dyzQC9Pd0VjvTfT0Te2JHemvm5YBSNRPbE0rxBb/A0M/Z+h6M99qMzx+
+	/GANoXvMTlKRfZIkxW13cPDI5dDPboD+t0GXHz/Jxs0GeG/WVjI7UmBoQDOuyVuxitkEFntZAgp
+	2VYUluMJ+Sd/MiBgAMsXAshh3//VvPd+jm3WBIsqo1cmjqi3i7Uj3kFPcvcR3utI4APgOIWgw1h
+	TKwCJ6RaJUCgCP4PYKrxypuvx53bcuQnJm3JGkrgDy/rkuloGwqAcpF6OvGwetf/XgdRmv2R9IS
+	eBCHr5jUb3AoFTGGCmxvrRWV+fEVG4FIyvGs5qv3FnSJ4S2HlgCf2iN5fFr5b5As0jBAC5+BbL+
+	VHsr5+4q8kIzxoeRJwktXg4rTUU5STRql1w4AlXNv91CmuB3CiPaD1DYFm6b0XWs2LSInViWiZn
+	CscgtaAxsn6cctkBPRdTePodJmaCw92l+x8Bi6w3tVuxOsz5k6YQ6SEbBA9vaIgPlAMoYZB4u1R
+	fGh1Bi9GOH0ZA==
+X-Received: by 2002:a05:6000:2085:b0:43c:fe66:43ec with SMTP id ffacd0b85a97d-43fe3dcbed7mr33744158f8f.14.1776849199309;
+        Wed, 22 Apr 2026 02:13:19 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d112sm48660815f8f.29.2026.04.22.02.13.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 02:13:18 -0700 (PDT)
+Date: Wed, 22 Apr 2026 10:13:16 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net 00/18] Remove a number of ISA and PCMCIA Ethernet
+ drivers
+Message-ID: <20260422101316.0efdcf24@pumpkin>
+In-Reply-To: <CAFr9PXn1ixyhD42OswoyGZ=W-O-oZygUGpRNm2dcAuYBNgtmQw@mail.gmail.com>
+References: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
+	<CAFr9PXn1ixyhD42OswoyGZ=W-O-oZygUGpRNm2dcAuYBNgtmQw@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Konstantin, Vlastimil, all - thankyou for the close reading.
+On Wed, 22 Apr 2026 07:03:19 +0900
+Daniel Palmer <daniel@0x0f.com> wrote:
 
-Two things I had wrong I would like to correct:
+...
+> Maybe we could add a special thing in the maintainers for "this is
+> code only crazy people use" and have a rule to ignore untested AI
+> generated patches for it? :)
 
-1. DCO real-name requirement (Vlastimil) - commit d4563201f33a
-   removed that framing; my earlier reply to Greg that
-   Signed-off-by requires a legal name was based on pre-change
-   Documentation. Retracted.
+Is marking them EXPERT or BROKEN enough?
+(Or a similar new option.)
 
-2. Tree-hash stability across git am (Konstantin) - agreed.
-   Mbox transit and apply-on-current-HEAD drift will invalidate
-   Ed25519 tree signatures on the majority of kernel patch
-   submissions. The draft's rationale-for-tree-hash-signing
-   section overstates operational viability for patch-based
-   workflows an produces a real gap.
-
-Withdrawing this patch and will take the scheme to the git list
-first as recommended. Thank you all for your time and
-consideration.
-
-Blake
+	David
