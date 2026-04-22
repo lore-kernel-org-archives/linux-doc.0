@@ -1,30 +1,30 @@
-Received: from mail.mifritscher.de (mifritscher.de [188.40.170.105])
+Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0BE30BF66;
-	Wed, 22 Apr 2026 06:30:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.170.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7062F31D366;
+	Wed, 22 Apr 2026 06:39:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776839408; cv=none; b=b5gHdRejg2ZKEho20gdvVg8Y+XLe1LgpHh0mJuzRu/Hww3CAH3g6j5A62u65TOUvl361nULnxo3Cx64e8kn65/Tz7w/Z32i4qLMseStmXOj5vdjFyVuixknIBgU2RIdneWHy5B30klmelg0SYDQaaKp2EJsEvUMtpT4CBeLziKk=
+	t=1776839991; cv=none; b=ubi8fsCt1YlwNTO9/+7yFf0518ZUd/bmrMffppvDWwXhORJgACdXz9lbQHS/VnSj2YifgtubvKAkSxf6UnygfxLqG9pafVRfhOslpg7idv4JX/K9ia+ze3rxBvBFkxFMJsr9jPYW6hSYZ4pqJOcrUsYIwMPkEBOPjGqVx8X2ePY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776839408; c=relaxed/simple;
-	bh=PQDH0StJ0KIoBnt92ufDDtB+6lCycOXf+fmbqNg6G80=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=EpczAZYdA5Rn3QoskGtpHiiXrxB5an5crY8bKkzcwqPUPl0UkA54cTQLjlk2tHSiCXuouMc7DyQ8/uY7j9pJBsE/pSKl+C/oH9PNpkis7eXa8VlYbT4d2joVESuiiVxpl6/AwpuS8FNcnLk8xd5ZGwDThsWEmGeP1/lSYrXJF2M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net; spf=pass smtp.mailfrom=fritscher.net; arc=none smtp.client-ip=188.40.170.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritscher.net
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.mifritscher.de (Postfix) with ESMTP id 647263B272A;
-	Wed, 22 Apr 2026 08:21:29 +0200 (CEST)
-X-Virus-Scanned: Debian amavis at mifritscher.vserverkompetenz.de
-Received: from mail.mifritscher.de ([127.0.0.1])
- by localhost (mail.mifritscher.vserverkompetenz.de [127.0.0.1]) (amavis, port 10024)
- with ESMTP id P_bomKo3Iizb; Wed, 22 Apr 2026 08:21:28 +0200 (CEST)
-Received: from [IPV6:2001:4091:a244:8430:d203:b460:8d76:8c29] (unknown [IPv6:2001:4091:a244:8430:d203:b460:8d76:8c29])
-	by mail.mifritscher.de (Postfix) with ESMTPSA id 5DF253B2613;
-	Wed, 22 Apr 2026 08:21:28 +0200 (CEST)
-Message-ID: <73e3a34c-f1dc-403b-b007-18ff85d66ea1@fritscher.net>
-Date: Wed, 22 Apr 2026 08:21:23 +0200
+	s=arc-20240116; t=1776839991; c=relaxed/simple;
+	bh=8auo9fApI0AJJbM0oVqd4iDvIZsHR0GHU8PCbKdtgfE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nEhnGlESkxk5sTuFyBRbXIkhzrOCb3a9m6NVJMgX5h698N9L6IaDoJzJnGGMxyXwfdPUnlx1I3gpIIZb/V8RPGtu/hmYgiGiRa6PX89OP81YlWNyIueKxfpE6A0OBr8SHCHG7g1GSK05fbutgELtbW6ibiBjAWzTBpLWKfF088Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.198])
+	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4g0qMJ3lLGzKHMN6;
+	Wed, 22 Apr 2026 14:39:24 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.128])
+	by mail.maildlp.com (Postfix) with ESMTP id CB50540600;
+	Wed, 22 Apr 2026 14:39:44 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP4 (Coremail) with SMTP id gCh0CgBnBMIubehpzQ43BQ--.59576S2;
+	Wed, 22 Apr 2026 14:39:44 +0800 (CST)
+Message-ID: <48f5e1f5-bfb0-44cc-ae6a-14f66158796f@huaweicloud.com>
+Date: Wed, 22 Apr 2026 14:39:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -32,70 +32,244 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Michael Fritscher <michael@fritscher.net>
-Subject: Re: [PATCH net 14/18] drivers: net: xircom: xirc2ps: Remove this
- driver
-To: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>
-Content-Language: de-DE
-Autocrypt: addr=michael@fritscher.net; keydata=
- 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
- J8ECEUyP
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 02/23] sched/isolation: Enhance housekeeping_update() to
+ support updating more than one HK cpumask
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
+ <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+ Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ rcu@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
+ Qiliang Yuan <realwujing@gmail.com>
+References: <20260421030351.281436-1-longman@redhat.com>
+ <20260421030351.281436-3-longman@redhat.com>
+Content-Language: en-US
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20260421030351.281436-3-longman@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:gCh0CgBnBMIubehpzQ43BQ--.59576S2
+X-Coremail-Antispam: 1UD129KBjvJXoW3GFyrGF4kGw1fAF4xGFyxAFb_yoW7Kw4Dpr
+	Z8W3y3GFWkJr13G3s8Zw1DJr4rWw4kCw1vk3sxWw15tFy2g3WkA3409F9xJr97ur9rCr17
+	ZFZ8KwsIgFyjyrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
+	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
+	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+	xUVZ2-UUUUU
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-Good day,
 
-actually, I do use Xircom PCMCIA network cards (yes, the 16 bit ones) on 
-Lenovo X60/X61 laptops as a second LAN card for server maintenances with 
-current 64 bit distros (e.g. Debian Trixie, which I plan to update to 
-Trixie+1 when available). Why? Because I have them and they are working ;-)
 
-Best regards
-Michael Fritscher
+On 2026/4/21 11:03, Waiman Long wrote:
+> The housekeeping_update() function currently allows update to the
+> HK_TYPE_DOMAIN cpumask only. As we are going to enable dynamic
+> modification of the other housekeeping cpumasks, we need to extend
+> it to support passing in the information about the HK cpumask(s) to
+> be updated.  In cases where some HK cpumasks happen to be the same,
+> it will be more efficient to update multiple HK cpumasks in one single
+> call instead of calling it multiple times. Extend housekeeping_update()
+> to support that as well.
+> 
+> Also add the restriction that passed in isolated cpumask parameter
+> of housekeeping_update() must include all the CPUs isolated at boot
+> time. This is currently the case for cpuset anyway.
+> 
+> Signed-off-by: Waiman Long <longman@redhat.com>
+> ---
+>  include/linux/sched/isolation.h |  2 +-
+>  kernel/cgroup/cpuset.c          |  2 +-
+>  kernel/sched/isolation.c        | 99 +++++++++++++++++++++++----------
+>  3 files changed, 71 insertions(+), 32 deletions(-)
+> 
+> diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
+> index d1707f121e20..a17f16e0156e 100644
+> --- a/include/linux/sched/isolation.h
+> +++ b/include/linux/sched/isolation.h
+> @@ -51,7 +51,7 @@ extern const struct cpumask *housekeeping_cpumask(enum hk_type type);
+>  extern bool housekeeping_enabled(enum hk_type type);
+>  extern void housekeeping_affine(struct task_struct *t, enum hk_type type);
+>  extern bool housekeeping_test_cpu(int cpu, enum hk_type type);
+> -extern int housekeeping_update(struct cpumask *isol_mask);
+> +extern int housekeeping_update(struct cpumask *isol_mask, unsigned long flags);
+>  extern void __init housekeeping_init(void);
+>  
+>  #else
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index 1335e437098e..a4eccb0ec0d1 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -1354,7 +1354,7 @@ static void cpuset_update_sd_hk_unlock(void)
+>  		 */
+>  		mutex_unlock(&cpuset_mutex);
+>  		cpus_read_unlock();
+> -		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus));
+> +		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
+>  		mutex_unlock(&cpuset_top_mutex);
+>  	} else {
+>  		cpuset_full_unlock();
+> diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
+> index 9ec9ae510dc7..965d6f8fe344 100644
+> --- a/kernel/sched/isolation.c
+> +++ b/kernel/sched/isolation.c
+> @@ -120,48 +120,87 @@ bool housekeeping_test_cpu(int cpu, enum hk_type type)
+>  }
+>  EXPORT_SYMBOL_GPL(housekeeping_test_cpu);
+>  
+> -int housekeeping_update(struct cpumask *isol_mask)
+> -{
+> -	struct cpumask *trial, *old = NULL;
+> -	int err;
+> +/* HK type processing table */
+> +static struct {
+> +	int type;
+> +	int boot_type;
+> +} hk_types[] = {
+> +	{ HK_TYPE_DOMAIN,       HK_TYPE_DOMAIN_BOOT	  },
+> +	{ HK_TYPE_MANAGED_IRQ,  HK_TYPE_MANAGED_IRQ_BOOT  },
+> +	{ HK_TYPE_KERNEL_NOISE, HK_TYPE_KERNEL_NOISE_BOOT }
+> +};
+>  
+> -	trial = kmalloc(cpumask_size(), GFP_KERNEL);
+> -	if (!trial)
+> -		return -ENOMEM;
+> +#define HK_TYPE_CNT	ARRAY_SIZE(hk_types)
+>  
+> -	cpumask_andnot(trial, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT), isol_mask);
+> -	if (!cpumask_intersects(trial, cpu_online_mask)) {
+> -		kfree(trial);
+> -		return -EINVAL;
+> +int housekeeping_update(struct cpumask *isol_mask, unsigned long flags)
+> +{
+> +	struct cpumask *trial[HK_TYPE_CNT];
+> +	int i, err = 0;
+> +
+> +	for (i = 0; i < HK_TYPE_CNT; i++) {
+> +		int type = hk_types[i].type;
+> +		int boot = hk_types[i].boot_type;
+> +
+> +		trial[i] = NULL;
+> +		if (flags & BIT(type)) {
+> +			trial[i] = kmalloc(cpumask_size(), GFP_KERNEL);
+> +			if (!trial[i]) {
+> +				err = -ENOMEM;
+> +				goto out;
+> +			}
+> +			/*
+> +			 * The new HK cpumask must be a subset of its boot
+> +			 * cpumask.
+> +			 */
+> +			cpumask_andnot(trial[i], cpu_possible_mask, isol_mask);
+> +			if (!cpumask_intersects(trial[i], cpu_online_mask) ||
+> +			    !cpumask_subset(trial[i], housekeeping_cpumask(boot))) {
+> +				i++;
+> +				err = -EINVAL;
+> +				goto out;
+> +			}
+> +		}
+>  	}
+>  
+
+The i++ here is confusing. Wouldn't it be more readable to just use
+kfree(trial[i]) and then break out?
+
+>  	if (!housekeeping.flags)
+>  		static_branch_enable(&housekeeping_overridden);
+>  
+> -	if (housekeeping.flags & HK_FLAG_DOMAIN)
+> -		old = housekeeping_cpumask_dereference(HK_TYPE_DOMAIN);
+> -	else
+> -		WRITE_ONCE(housekeeping.flags, housekeeping.flags | HK_FLAG_DOMAIN);
+> -	rcu_assign_pointer(housekeeping.cpumasks[HK_TYPE_DOMAIN], trial);
+> -
+> -	synchronize_rcu();
+> -
+> -	pci_probe_flush_workqueue();
+> -	mem_cgroup_flush_workqueue();
+> -	vmstat_flush_workqueue();
+> +	for (i = 0; i < HK_TYPE_CNT; i++) {
+> +		int type =  hk_types[i].type;
+> +		struct cpumask *old;
+>  
+> -	err = workqueue_unbound_housekeeping_update(housekeeping_cpumask(HK_TYPE_DOMAIN));
+> -	WARN_ON_ONCE(err < 0);
+> +		if (!trial[i])
+> +			continue;
+> +		old = NULL;
+> +		if (housekeeping.flags & BIT(type))
+> +			old = housekeeping_cpumask_dereference(type);
+> +		rcu_assign_pointer(housekeeping.cpumasks[type], trial[i]);
+> +		trial[i] = old;
+> +	}
+>  
+> -	err = tmigr_isolated_exclude_cpumask(isol_mask);
+> -	WARN_ON_ONCE(err < 0);
+> +	if ((housekeeping.flags & flags) != flags)
+> +		WRITE_ONCE(housekeeping.flags, housekeeping.flags | flags);
+>  
+> -	err = kthreads_update_housekeeping();
+> -	WARN_ON_ONCE(err < 0);
+> +	synchronize_rcu();
+>  
+> -	kfree(old);
+> +	if (flags & HK_FLAG_DOMAIN) {
+> +		/*
+> +		 * HK_TYPE_DOMAIN specific callbacks
+> +		 */
+> +		pci_probe_flush_workqueue();
+> +		mem_cgroup_flush_workqueue();
+> +		vmstat_flush_workqueue();
+> +
+> +		WARN_ON_ONCE(workqueue_unbound_housekeeping_update(
+> +				housekeeping_cpumask(HK_TYPE_DOMAIN)) < 0);
+> +		WARN_ON_ONCE(tmigr_isolated_exclude_cpumask(isol_mask) < 0);
+> +		WARN_ON_ONCE(kthreads_update_housekeeping() < 0);
+> +	}
+>  
+> -	return 0;
+> +out:
+> +	while (--i >= 0)
+> +		kfree(trial[i]);
+> +	return err;
+>  }
+>  
+>  void __init housekeeping_init(void)
+
+-- 
+Best regards,
+Ridong
 
