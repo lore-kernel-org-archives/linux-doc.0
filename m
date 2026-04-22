@@ -1,51 +1,51 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6023375F9A;
-	Wed, 22 Apr 2026 15:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B334231717F;
+	Wed, 22 Apr 2026 16:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776872982; cv=none; b=l1xpfObuNwkKP4pCKwqPZvEjxpUKwnwRYG0yNB5l81pomoq66p+6F9Gy7alD/wr0fCWpq1frJb0NFNzEzOOYGJd3w+pef09LT3vecddjCcoT9kZI/gU1BRP/gVGUBQ+lC5Vt/5jHDT8iYfNeipFiGr/MoLqNy+eBYLs0QK3jnMY=
+	t=1776874643; cv=none; b=DtQDjMgbK+MmpkAvz1yS02mSM4opoyf+f2G7ub0JmYNDSkEY/NJ/BkmCJA0I6E7K97+NslmRQbOEZSrlsgrsJULFgrSTIoYOGzJNeoWY0yn3kaChV/gu/569RO88A7C/u/wrFPAbrrVDGlZugQtnGTB4YV7qzoKG9sdjT9Lkb1U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776872982; c=relaxed/simple;
-	bh=riHHVLqImjXHOko8Jk1i1dh3X2lF7U6GwHdwGvhso/g=;
+	s=arc-20240116; t=1776874643; c=relaxed/simple;
+	bh=/LQIFMF9HQ0eexfo+GChSIyHFe3HUIpOs/MwKFAydwQ=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cNYZ4ZAp15EwICqkMwQIjyl4srIbCptrJKakjOTB8jh5BaVq15JdqLQUnM2Ulm9IP+U9TZ1URx6KKgblLJ0G4MlQUlK27DPVWCvqviQ0nF9yqMOIqbAQg8edUvk/8Eqh8com8s0leCpKVIjqbHiCkE11VOSb38KzJGsq6kPOrcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BmFVAS9L; arc=none smtp.client-ip=198.175.65.9
+	 Content-Type:MIME-Version; b=hJ0TUf+vz7BTwhDyk0Ttsa9GdWpCZAIFjRFOYY27KzfaPTDQxGN+cH0xz1MJVrqSnqYz3hPRzYe/BWQJe/nd3Hc+D0pVW9DpDVPDvYf+Z+GnK+Een0BK3ejUdJpQanfEp7duu0jY6Uco1pzEssSxUVk3aJIquYpgbvDaA1jqC9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOHRZ5SO; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmFVAS9L"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOHRZ5SO"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776872979; x=1808408979;
+  t=1776874641; x=1808410641;
   h=message-id:subject:from:to:cc:date:in-reply-to:
    references:content-transfer-encoding:mime-version;
-  bh=riHHVLqImjXHOko8Jk1i1dh3X2lF7U6GwHdwGvhso/g=;
-  b=BmFVAS9LnvgFAaF47VUVzSjF1yLhenVoPvyPHKZdtRKgI4eAESYv86VF
-   t/mzHYM/+0LNZqS83iVADLH/0BF36gzYsBhLXUqcVO6ON0csMzHoWcgpn
-   hO5uEceOM9jmEaJxaXHVjqTA+JnCqGofbmHPM66YMs57uE1bY8P6dj7fS
-   e5o/PFSkSDj8sm9kZ6/ndxnbQb5lP9ITHPeNdLBwbv0sB9CYnjhqSNRSi
-   OsVTHnmsjNvALU0tVlKoZ0lpJ6GPYnaxkjfOU5pSVfdjZpbHOa1x7VG/r
-   d2+sncdC1HfwviVf5pdDO7DsjAJgwwk6VnXqBeH85EGshHJ12puRS2pc8
-   Q==;
-X-CSE-ConnectionGUID: oZ2Fol6RSVi+cFKD0a6jXw==
-X-CSE-MsgGUID: cL3jEvdfSLS7AJKLPko0zA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="100483991"
+  bh=/LQIFMF9HQ0eexfo+GChSIyHFe3HUIpOs/MwKFAydwQ=;
+  b=nOHRZ5SO3oWJKX7OriLnLUQV9SVyl/Zk5XYChV4BE2+KkEJ1j1IktUIU
+   yu2qEcX9XUdrySt7I2N+Gesyn1gB7E+Zyvc5FonosEF/64K1cWFqab7dT
+   a0aRG3l314zCtqJjBbmcN9S01S4ZODzrpnDPPKuY+eebBwf/cZOTIDtmF
+   dZu5wzxcadsMveCXr9gVhmlzqq8KKyOkC+vO5W/M/hG+oFLgKD984HETe
+   8tdVUXEnirYImob8RZQSQaqlvmEEIfc6fiYs1Dnxu2tQBSBxSI2/2CHlU
+   YpImZEDZ+spJMsxsHJHyFZQWIRH/yhQTnY+Zci8d9iUcPvlgZnWWGV+Vr
+   g==;
+X-CSE-ConnectionGUID: ajF0WLpsRYagXPaH0X5ekg==
+X-CSE-MsgGUID: zS/oJMPfTRK2ulQKEAovdg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="88529846"
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="100483991"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 08:49:38 -0700
-X-CSE-ConnectionGUID: C8Ee5GzYRxuGR3LEI3RlDw==
-X-CSE-MsgGUID: dtx3aqx2R9ySx3ByHGjSdw==
+   d="scan'208";a="88529846"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:17:20 -0700
+X-CSE-ConnectionGUID: 8vGVsw0RQa+t7/rJaPsOyg==
+X-CSE-MsgGUID: ppxpvPD9QGCaHvfRueNAxQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="229720573"
+   d="scan'208";a="227813224"
 Received: from spandruv-desk2.jf.intel.com ([10.88.27.176])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 08:49:37 -0700
-Message-ID: <3f5125cd88361c88fa7604eba262c82f1cc20c2f.camel@linux.intel.com>
-Subject: Re: [PATCH v3 1/2] platform/x86/intel-uncore-freq: Rename
- instance_id
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:17:19 -0700
+Message-ID: <b0f831a9f9c59563b16de702b4e4c37c2279b45c.camel@linux.intel.com>
+Subject: Re: [PATCH v3 2/2] platform/x86/intel-uncore-freq: Expose instance
+ ID in the sysfs
 From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
 To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
  skhan@linuxfoundation.org, 	ilpo.jarvinen@linux.intel.com,
@@ -53,10 +53,10 @@ To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
 Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
 	linux-doc@vger.kernel.org, Maciej Wieczor-Retman
 	 <maciej.wieczor-retman@intel.com>
-Date: Wed, 22 Apr 2026 08:49:37 -0700
-In-Reply-To: <4d983157199cf0e163597df254e2dc629878b818.1775665057.git.m.wieczorretman@pm.me>
+Date: Wed, 22 Apr 2026 09:17:19 -0700
+In-Reply-To: <b9ae8d5f1ab86bcdb1a8636fa48865a9e49e2e21.1775665057.git.m.wieczorretman@pm.me>
 References: <cover.1775665057.git.m.wieczorretman@pm.me>
-	 <4d983157199cf0e163597df254e2dc629878b818.1775665057.git.m.wieczorretman@pm.me>
+	 <b9ae8d5f1ab86bcdb1a8636fa48865a9e49e2e21.1775665057.git.m.wieczorretman@pm.me>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
@@ -70,108 +70,211 @@ MIME-Version: 1.0
 On Wed, 2026-04-08 at 16:27 +0000, Maciej Wieczor-Retman wrote:
 > From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
 >=20
-> The "instance" word has a specific meaning in TPMI. It is a physical
-> index related to compute dies and IO dies present on a single TPMI
-> partition (which is also a single TPMI device). It's used for mapping
-> MMIO blocks for direct TPMI register access.
+> Insufficient data is exported to allow direct access to TPMI
+> registers
+> through MMIO. On non-partitioned systems domain_id can be used both
+> for
+> mapping CPUs to their compute die IDs and for mapping die indices to
+> their MMIO memory blocks presented to userspace via TPMI debugfs.
+> However on partitioned systems the debugfs association doesn't work
+> anymore. This is due to how TPMI partitioning influences domain_id
+> calculation. The previous association is lost on partitioned systems
+> in
+> order to keep using domain_id for mapping CPUs to compute dies.
 >=20
-> The currently used "instance_id" uncore_data struct field is a
-> sequentially generated value that's used for appending to uncore
-> directories inside the /sys/devices/system/cpu/intel_uncore_frequency
-> directory. It has no relation to the physical TPMI elements.
+> Expose the instance ID in sysfs that's unique in the scope of one
+> TPMI
+> partition (and hence one TPMI device). It's a physical index into
+> mapped
+> MMIO blocks and can be used by userspace to figure out how to
+> directly
+> access TPMI registers.
 >=20
-
-In future, It is always better to say no functional changes as this is
-just renaming.
-
 > Signed-off-by: Maciej Wieczor-Retman
 > <maciej.wieczor-retman@intel.com>
-> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+
 > ---
 > Changelog v3:
-> - Add Srinivas' Acked-by.
+> - Change sprintf -> sysfs_emit in show_instance_id().
+> - Change part of patch message 'MMIO memory blocks mapped' -> 'MMIO
+> =C2=A0 memory blocks presented to userspace...'
+> - Change assigning function to static inline.
 >=20
 > Changelog v2:
-> - Redid the first paragraph to better describe what "instance" is.
-> - Rename seqname_id to seqnum_id to emphasize it's a sequential
-> number
-> =C2=A0 not sequential name.
+> - Redo the patch message.
+> - Redo the function comment that assigns instance_id.
+> - Modify the documentation.
 >=20
-> =C2=A0.../x86/intel/uncore-frequency/uncore-frequency-common.c=C2=A0=C2=
-=A0=C2=A0 | 6 +++-
-> --
-> =C2=A0.../x86/intel/uncore-frequency/uncore-frequency-common.h=C2=A0=C2=
-=A0=C2=A0 | 4 ++--
-> =C2=A02 files changed, 5 insertions(+), 5 deletions(-)
+> =C2=A0.../pm/intel_uncore_frequency_scaling.rst=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++++++
+> =C2=A0.../uncore-frequency/uncore-frequency-common.c=C2=A0=C2=A0=C2=A0 | =
+10 ++++++++++
+> =C2=A0.../uncore-frequency/uncore-frequency-common.h=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 6 +++++-
+> =C2=A0.../uncore-frequency/uncore-frequency-tpmi.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 | 15
+> ++++++++++++++-
+> =C2=A04 files changed, 36 insertions(+), 2 deletions(-)
 >=20
+> diff --git a/Documentation/admin-
+> guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-
+> guide/pm/intel_uncore_frequency_scaling.rst
+> index d367ba4d744a..b43ad4d5e333 100644
+> --- a/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+> +++ b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
+> @@ -88,8 +88,15 @@ and "fabric_cluster_id" in the directory.
+> =C2=A0
+> =C2=A0Attributes in each directory:
+> =C2=A0
+> +``instance_id``
+> +	This attribute is used to get die indices in userspace
+> mapped MMIO
+> +	blocks. Indices are local to a single TPMI partition. Needed
+> for direct
+> +	TPMI register access.
+> +
+> =C2=A0``domain_id``
+> =C2=A0	This attribute is used to get the power domain id of this
+> instance.
+> +	Indices are unique in all TPMI partitions on a given CPU
+> package. Can be
+> +	used to map compute dies to corresponding CPUs.
+> =C2=A0
+> =C2=A0``die_id``
+> =C2=A0	This attribute is used to get the Linux die id of this
+> instance.
 > diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
 > frequency-common.c b/drivers/platform/x86/intel/uncore-
 > frequency/uncore-frequency-common.c
-> index 7070c94324e0..25ab511ed8d2 100644
+> index 25ab511ed8d2..3b554418a7a3 100644
 > --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
 > common.c
 > +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
 > common.c
-> @@ -268,7 +268,7 @@ int uncore_freq_add_entry(struct uncore_data
-> *data, int cpu)
-> =C2=A0		if (ret < 0)
-> =C2=A0			goto uncore_unlock;
-> =C2=A0
-> -		data->instance_id =3D ret;
-> +		data->seqnum_id =3D ret;
-> =C2=A0		scnprintf(data->name, sizeof(data->name),
-> "uncore%02d", ret);
-> =C2=A0	} else {
-> =C2=A0		scnprintf(data->name, sizeof(data->name),
-> "package_%02d_die_%02d",
-> @@ -281,7 +281,7 @@ int uncore_freq_add_entry(struct uncore_data
-> *data, int cpu)
-> =C2=A0	ret =3D create_attr_group(data, data->name);
-> =C2=A0	if (ret) {
-> =C2=A0		if (data->domain_id !=3D UNCORE_DOMAIN_ID_INVALID)
-> -			ida_free(&intel_uncore_ida, data-
-> >instance_id);
-> +			ida_free(&intel_uncore_ida, data-
-> >seqnum_id);
-> =C2=A0	} else {
-> =C2=A0		data->control_cpu =3D cpu;
-> =C2=A0		data->valid =3D true;
-> @@ -301,7 +301,7 @@ void uncore_freq_remove_die_entry(struct
-> uncore_data *data)
-> =C2=A0	data->control_cpu =3D -1;
-> =C2=A0	data->valid =3D false;
-> =C2=A0	if (data->domain_id !=3D UNCORE_DOMAIN_ID_INVALID)
-> -		ida_free(&intel_uncore_ida, data->instance_id);
-> +		ida_free(&intel_uncore_ida, data->seqnum_id);
-> =C2=A0
-> =C2=A0	mutex_unlock(&uncore_lock);
+> @@ -29,6 +29,13 @@ static ssize_t show_domain_id(struct kobject
+> *kobj, struct kobj_attribute *attr,
+> =C2=A0	return sysfs_emit(buf, "%u\n", data->domain_id);
 > =C2=A0}
+> =C2=A0
+> +static ssize_t show_instance_id(struct kobject *kobj, struct
+> kobj_attribute *attr, char *buf)
+> +{
+> +	struct uncore_data *data =3D container_of(attr, struct
+> uncore_data, instance_id_kobj_attr);
+> +
+> +	return sysfs_emit(buf, "%u\n", data->instance_id);
+> +}
+> +
+> =C2=A0static ssize_t show_fabric_cluster_id(struct kobject *kobj, struct
+> kobj_attribute *attr, char *buf)
+> =C2=A0{
+> =C2=A0	struct uncore_data *data =3D container_of(attr, struct
+> uncore_data, fabric_cluster_id_kobj_attr);
+> @@ -200,6 +207,9 @@ static int create_attr_group(struct uncore_data
+> *data, char *name)
+> =C2=A0	if (data->domain_id !=3D UNCORE_DOMAIN_ID_INVALID) {
+> =C2=A0		init_attribute_root_ro(domain_id);
+> =C2=A0		data->uncore_attrs[index++] =3D &data-
+> >domain_id_kobj_attr.attr;
+> +		init_attribute_root_ro(instance_id);
+> +		data->uncore_attrs[index++] =3D &data-
+> >instance_id_kobj_attr.attr;
+> +
+> =C2=A0		init_attribute_root_ro(fabric_cluster_id);
+> =C2=A0		data->uncore_attrs[index++] =3D &data-
+> >fabric_cluster_id_kobj_attr.attr;
+> =C2=A0		init_attribute_root_ro(package_id);
 > diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
 > frequency-common.h b/drivers/platform/x86/intel/uncore-
 > frequency/uncore-frequency-common.h
-> index 0abe850ef54e..0d5fd91ee0aa 100644
+> index 0d5fd91ee0aa..e319448dc1a4 100644
 > --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
 > common.h
 > +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
 > common.h
-> @@ -35,7 +35,7 @@
-> =C2=A0 * @die_id:		Die id for this instance
+> @@ -36,6 +36,7 @@
 > =C2=A0 * @domain_id:		Power domain id for this instance
 > =C2=A0 * @cluster_id:		cluster id in a domain
-> - * @instance_id:	Unique instance id to append to directory
+> =C2=A0 * @seqnum_id:		Unique sequential id to append to directory
 > name
-> + * @seqnum_id:		Unique sequential id to append to directory
-> name
+> + * @instance_id:	Die indices or feature instances for a
+> single TPMI device
 > =C2=A0 * @name:		Sysfs entry name for this instance
 > =C2=A0 * @agent_type_mask:	Bit mask of all hardware agents for this
 > domain
 > =C2=A0 * @uncore_attr_group:	Attribute group storage
-> @@ -71,7 +71,7 @@ struct uncore_data {
-> =C2=A0	int die_id;
+> @@ -56,6 +57,7 @@
+> =C2=A0 * @elc_floor_freq_khz_kobj_attr: Storage for kobject attribute
+> elc_floor_freq_khz
+> =C2=A0 * @agent_types_kobj_attr: Storage for kobject attribute agent_type
+> =C2=A0 * @die_id_kobj_attr:	Attribute storage for die_id information
+> + * @instance_id_kobj_attr: Attribute storage for instance_id value
+> =C2=A0 * @uncore_attrs:	Attribute storage for group creation
+> =C2=A0 *
+> =C2=A0 * This structure is used to encapsulate all data related to uncore
+> sysfs
+> @@ -72,6 +74,7 @@ struct uncore_data {
 > =C2=A0	int domain_id;
 > =C2=A0	int cluster_id;
-> -	int instance_id;
-> +	int seqnum_id;
+> =C2=A0	int seqnum_id;
+> +	int instance_id;
 > =C2=A0	char name[32];
 > =C2=A0	u16=C2=A0 agent_type_mask;
+> =C2=A0
+> @@ -90,7 +93,8 @@ struct uncore_data {
+> =C2=A0	struct kobj_attribute elc_floor_freq_khz_kobj_attr;
+> =C2=A0	struct kobj_attribute agent_types_kobj_attr;
+> =C2=A0	struct kobj_attribute die_id_kobj_attr;
+> -	struct attribute *uncore_attrs[15];
+> +	struct kobj_attribute instance_id_kobj_attr;
+> +	struct attribute *uncore_attrs[16];
+> =C2=A0};
+> =C2=A0
+> =C2=A0#define UNCORE_DOMAIN_ID_INVALID	-1
+> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
+> frequency-tpmi.c b/drivers/platform/x86/intel/uncore-
+> frequency/uncore-frequency-tpmi.c
+> index 1237d9570886..32d03bee09a0 100644
+> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
+> tpmi.c
+> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
+> tpmi.c
+> @@ -385,7 +385,19 @@ static u8 io_die_index_next;
+> =C2=A0/* Lock to protect io_die_start, io_die_index_next */
+> =C2=A0static DEFINE_MUTEX(domain_lock);
+> =C2=A0
+> -static void set_domain_id(int id,=C2=A0 int num_resources,
+> +static inline void set_instance_id(int id, struct
+> tpmi_uncore_cluster_info *cluster_info)
+> +{
+> +	/*
+> +	 * On non-partitioned systems domain_id can be used for
+> mapping both
+> +	 * CPUs to compute die IDs and physical die indexes to MMIO
+> mapped
+> +	 * memory. However on partitioned systems domain_id loses
+> the second
+> +	 * association. Therefore instance_id should be used for
+> that instead,
+> +	 * while domain_id should still be used to match CPUs to
+> compute dies.
+> +	 */
+> +	cluster_info->uncore_data.instance_id =3D id;
+> +}
+> +
+> +static void set_domain_id(int id, int num_resources,
+> =C2=A0			=C2=A0 struct oobmsm_plat_info *plat_info,
+> =C2=A0			=C2=A0 struct tpmi_uncore_cluster_info
+> *cluster_info)
+> =C2=A0{
+> @@ -686,6 +698,7 @@ static int uncore_probe(struct auxiliary_device
+> *auxdev, const struct auxiliary_
+> =C2=A0			set_cdie_id(i, cluster_info, plat_info);
+> =C2=A0
+> =C2=A0			set_domain_id(i, num_resources, plat_info,
+> cluster_info);
+> +			set_instance_id(i, cluster_info);
+> =C2=A0
+> =C2=A0			cluster_info->uncore_root =3D tpmi_uncore;
 > =C2=A0
