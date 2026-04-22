@@ -1,174 +1,119 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71292314A79
-	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 02:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.54
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776824356; cv=pass; b=k25/mvlfW5OMVso4TVh2BiG0qACmReub8HJI79w73q8pFvOEeEcBFWzB7zalNutrMHDYYkF5/IelnJljWZE2c04C5/9sFHLUSjlpSfI1lrplK1fa1UmADkeYdbHZClHS1IFSwGrBoWXzcFIbP5UXnfthR0nn3qkrv/Uy60Fi6aE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776824356; c=relaxed/simple;
-	bh=/P3Rk4TtuDYfsPdnBrw4iKE8r+bV3HKR+Fx10JBb+ns=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DF7irLnHF66YhFUQxSwwT2wFWopERmwczThkQaUdEhk2vwvFOzUdnXzU46VUQG9EQTBHNHLCbvR/qAn7fix7AV0Y4OIcF1tVwNN3cKdSxaPY3CWKVjry5HGmKwTg4l8/2u/qIlS6BVcqaDgZAi2L0nFI8EcKuWFxzuK2GZaAxR0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sjZn0BUQ; arc=pass smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E69939B956;
+	Wed, 22 Apr 2026 02:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776826166; cv=none; b=rFdFAWB6+5+fNakIkFVMbZYWwqMJTnq5MOYpPxvxL21gGpwKyAElspbzgAHzBy4nzs/sIatITnJOu0h1FjdPJHVUm9dzk7y23KGXJ4SZb4jikKHvl5o42ktq8+bmjQmhbu8arEO5dlu22u/ZcO6ha59vxHzvZ1Y/DohMHNn7FMU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776826166; c=relaxed/simple;
+	bh=Ckvk77EAjeLTIX2wgILkBII6n2w7CsOm7zuEfDu+i+s=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=u9Cp01cw2/5GSynAZt/a6bLoSTTcj1CsBVkM4o7Y0JpFhRaWpYnTj8rJbwTYItZVI22WexRoVVzYTJixYGaHoVAXVD9qte11tAWPieguSVUWgn76xj994aAZgRZ5hwozbImS/JBcwMxrshJHKn2LXQGTLLnx+fDu9k38O1qbdB8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Xz2ZZ71U; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sjZn0BUQ"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-670f6ae9c7dso6633223a12.2
-        for <linux-doc@vger.kernel.org>; Tue, 21 Apr 2026 19:19:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776824354; cv=none;
-        d=google.com; s=arc-20240605;
-        b=I1mdYdfDfzMoH+fp4bGa4Nxhj2265XN9gOM47l6uz8ReZ21I9wD57btWLtI2gNFDqV
-         XOivCB1SCor15OC1nDAaeZ07HmBwLqyjyAOEnq1J/uUGxglE7NSn5hxvBZF3WLVth/ej
-         swV+xIB1jUCxWEQ+hQYRtZIp/ZY3FkNC9U9JLifownRhlMRezaK3Q1Q1YeC7E6SU6r7u
-         wnfvSP8eoSvKRKvDKsyx909Yd0PCYREbKfse0Kj+Wto1ex3ze03uu5MccDHf+bsR2r2f
-         U0OSLU/B6m5F5B3PmzMrE9kb2xX4gVQU3cR5li/7Rqh6KPf3nx5qbkXcUozmEWD5fD2A
-         rqvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=/P3Rk4TtuDYfsPdnBrw4iKE8r+bV3HKR+Fx10JBb+ns=;
-        fh=fa8l77RuH8WUVxpdlserBEBBOnYwpRnogBQb+BlRD2I=;
-        b=BkDtpYCBA7qY04ztCOlOhyIfjPl1NsK+FbC5W0HWCwCNkyz4eTZlOIQMSMQK2qzWdG
-         wS11Jdt9y5+9L0FoNZ3cUKp1XONhzUIKwcIA2vKUqfIC6ItM3XpZoCFkbDZe2T9RgBEL
-         tEOPwts8dBUFpVGvpKNQOL9WRDuSs1NLDKTWglu11BkH1zBUdUdkMv71BM4LOJDOtMUC
-         1HqtCFE6c7GI/lOZlTEpcikDk2oB+jHgDaD1mjiAyWap22t0w9lLbL+kyheNrxno4uz3
-         7a4V9Cw7T7HQtnEHiEv7u66idSjgCMxyXCeXruAldFHZvp2r4nCQU86usuFAt9J45i/d
-         bP+Q==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776824354; x=1777429154; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/P3Rk4TtuDYfsPdnBrw4iKE8r+bV3HKR+Fx10JBb+ns=;
-        b=sjZn0BUQljheTtpVl7ncqNF7+J9T11OG/6zfZHc9VdBEewdvtBX9uo0LZxv3sZ6QU7
-         sJD5pmmU+ZjQt6AAl6Op4qvAK9geAUB7bkt8Z1UMbBXIciceeoZtIzKs7Nh1+g7xTUyC
-         vIhjiOn5QpOYFmQpmVvgGOG/U2q03Z6JFLPe4k+42EvA/J7A3beQOoLAs7zEGneOuJlw
-         iLo7wca2mXlH5m7Cn3vkzYQBisUnIlRtkz1DN+WcSs9Ixlg5U5Sd1uMaqncjtJH3YDQy
-         zREFK03OAIaP2/4jpybYQOBi+FlXbWEDy7UzEpY3GYtPKi7VJxM0BJhW5dH2Qg6Q2hSm
-         /Lag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776824354; x=1777429154;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/P3Rk4TtuDYfsPdnBrw4iKE8r+bV3HKR+Fx10JBb+ns=;
-        b=UaLpUHAiJoEC4I2sgkj7bTL50tXJSQVtc19u04H6TGT+rsSncwp7f7uLzhPHs2ntvb
-         T4gw/JvVORh9hmkISs7NCAxwC5Zq3cu9rdJlQ0uyrQFtu8bHxnm6mZVYv5/fajaXXMQ7
-         Ms7LWKqaELJRhmqIcnofaTKyHpKiFA+oizcZU53wGPo7vNTOZMfXhi0afQKMA2PCQLOZ
-         2Dakk+3S/7MvN9Jh+Ji6nUTwswZX2IWDzQOcmeb6PWZK4/XE+2mVOhsfjLFQvtsPwEP/
-         Me+mjGuPWCykzzX7F2VIL364FpQqzjZWEnLHNYXUgtRcqC26GAm2+dOAgfzrtPgPhxQ0
-         BFIw==
-X-Forwarded-Encrypted: i=1; AFNElJ94iPrfb25pwgMIrruQaBWnVuo7VpHPZlXa2Bf5SzUVo9fZt9EfGwwmbOwzkXoK8f8KBvZqGDmG6jY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyG1IOfb9nt9IUtSdmAJFa5pB6Nke2DvpNZbePohtkeGw22Gvfy
-	OigBzxoiEx3mkrjLZVE83H0akEfRND4DmFPmvFbjMSoT1K+hG9Tpxuol3QJUd0tMLd0OFcGB+pm
-	leP/bRSFV1hOeunq2GpstL2Ts8XAGuJk=
-X-Gm-Gg: AeBDiesrlDGYr1TPerbNu1Ee4ss/TTNNEMYS/oP748H/CcwRlGqhPZNQ5NL6oiet4Wc
-	y7I4R53I9S4Q5C0oT+SZLzU+MAy4aANpBK7bzczz2VtHGNI+gpXrEXAXJZiP8MA1aAdofE5bUh6
-	CoznxowO32AW2EpO4P9r0dPoouhuCUNYArFRZjiu2Hz33RQ8GjbflO0jEp+FEv4dfegq5b0JzQk
-	HbofNqmQOXVInx3cY+s21OqOGDhjYeiajj/BKyV3sG3ryjHGTOqbXqJPGj0ZZgVXtjke8ZA6quR
-	bwhof1+PocN6vhgJ0wbg6TA+nm9GrkXNyGyYw7IeXY1jzltmlME=
-X-Received: by 2002:a05:6402:26d6:b0:676:d863:ce29 with SMTP id
- 4fb4d7f45d1cf-676d863cf85mr1407081a12.28.1776824353486; Tue, 21 Apr 2026
- 19:19:13 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Xz2ZZ71U"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=JzDqbIKbIFSBf7sqhcVwocNSInW3q3vKEWkmrJICE7w=;
+	b=Xz2ZZ71UomY77wBHhzvPxFmV8ZCOpnBnRoyr71FEAt5K+U2wQIngcGVNvpJOP9BwQyVYSYBTw
+	hY9WMDAE2jgjvJRwdaNOvqvR5+bVlJYFK46LtfBbd5zwNeeyu/a9CwWJZqpiGX5d6bgqppOa8Cr
+	4YRlZpqmV/9SMPnVB3qYkTw=
+Received: from mail.maildlp.com (unknown [172.19.162.197])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4g0k6G6kc3zpSwY;
+	Wed, 22 Apr 2026 10:42:46 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id 231CC40569;
+	Wed, 22 Apr 2026 10:49:11 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Apr 2026 10:49:10 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Wed, 22 Apr 2026 10:49:09 +0800
+Subject: Re: [PATCH v4 0/3] mm/memory-failure: add panic option for
+ unrecoverable pages
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <299a6968-1813-39f3-de28-3fcec6f3d182@huawei.com>
+Date: Wed, 22 Apr 2026 10:49:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
-In-Reply-To: <aegUoOiUbjUAH5aT@google.com>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Wed, 22 Apr 2026 10:18:35 +0800
-X-Gm-Features: AQROBzDy3s1eJBSM4ivRYyuVreJ6HWEvbaw8uJ7B00A6nArMH1jrA77MWD0vRmM
-Message-ID: <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, 
-	cgroups@vger.kernel.org, chengming.zhou@linux.dev, chrisl@kernel.org, 
-	corbet@lwn.net, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
-	hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
-	joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, 
-	ryan.roberts@arm.com, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
-	surenb@google.com, tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-On Wed, Apr 22, 2026 at 8:26=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
->
-> On Fri, Mar 20, 2026 at 12:27:14PM -0700, Nhat Pham wrote:
-> >
-> > This patch series implements the virtual swap space idea, based on Yosr=
-y's
-> > proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
-> > inputs from Johannes Weiner. The same idea (with different
-> > implementation details) has been floated by Rik van Riel since at least
-> > 2011 (see [8]).
->
-> Unfortuantely, I haven't been able to keep up with virtual swap and swap
-> table development, as my time is mostly being spent elsewhere these
-> days. I do have a question tho, which might have already been answered
-> or is too naive/stupid -- so apologies in advance.
+On 2026/4/15 20:54, Breno Leitao wrote:
+> When the memory failure handler encounters an in-use kernel page that it
+> cannot recover (slab, page tables, kernel stacks, vmalloc, etc.), it
+> currently logs the error as "Ignored" and continues operation.
+> 
+> This leaves corrupted data accessible to the kernel, which will inevitably
+> cause either silent data corruption or a delayed crash when the poisoned memory
+> is next accessed.
+> 
+> This is a common problem on large fleets. We frequently observe multi-bit ECC
+> errors hitting kernel slab pages, where memory_failure() fails to recover them
+> and the system crashes later at an unrelated code path, making root cause
+> analysis unnecessarily difficult.
+> 
+> Here is one specific example from production on an arm64 server: a multi-bit
+> ECC error hit a dentry cache slab page, memory_failure() failed to recover it
+> (slab pages are not supported by the hwpoison recovery mechanism), and 67
+> seconds later d_lookup() accessed the poisoned cache line causing
+> a synchronous external abort:
+> 
+>     [88690.479680] [Hardware Error]: error_type: 3, multi-bit ECC
+>     [88690.498473] Memory failure: 0x40272d: unhandlable page.
+>     [88690.498619] Memory failure: 0x40272d: recovery action for
+>                    get hwpoison page: Ignored
+>     ...
+>     [88757.847126] Internal error: synchronous external abort:
+>                    0000000096000410 [#1] SMP
+>     [88758.061075] pc : d_lookup+0x5c/0x220
+> 
+> This series adds a new sysctl vm.panic_on_unrecoverable_memory_failure
+> (default 0) that, when enabled, panics immediately on unrecoverable
+> memory failures. This provides a clean crash dump at the time of the
+> error, which is far more useful for diagnosis than a random crash later
+> at an unrelated code path.
+> 
+> This also categorizes reserved pages as MF_MSG_KERNEL, and panics on
+> unknown page types (MF_MSG_UNKNOWN).
+> 
+> Note that dynamically allocated kernel memory (SLAB/SLUB, vmalloc,
+> kernel stacks, page tables) shares the MF_MSG_GET_HWPOISON return path
+> with transient refcount races, so it is intentionally excluded from the
+> panic conditions to avoid false positives.
+> 
+> Signed-off-by: Breno Leitao <leitao@debian.org>
 
-Hi Yosry,
+It might be helpful to add some information from [1].
 
-Not a stupid question at all=E2=80=94it's actually spot on. :)
+Thanks for your work.
 
->
-> Given the recent advancements in the swap table and that most metadata
-> and the swap cache are already being pulled into it, is it possible to
-> use the swap table in the virtual swap layer instead of the xarray?
->
-> Basically pull the swap table one layer higher, and have it point to
-> either a zswap entry or a physical swap slot (or others in the future)?
-> If my understanding is correct, we kinda get the best of both worlds and
-> reuse the integration already done by the swap table with the swap
-> cache, as well as the lock paritioning.
->
-> In this world, the clusters would be in the virtual swap space, and we'd
-> create the clusters on-demand as needed.
->
-> Does this even work or make the least amount of sense (I guess the
-> question is for both Nhat and Kairui)?
->
-
-Yes, this absolutely works. In fact, I previously posted a working RFC
-based on this idea. In that series, clusters are dynamically
-allocated, allowing the swap space to be dynamically sized
-(essentially infinite) while reusing all the existing infrastructure:
-https://lore.kernel.org/all/20260220-swap-table-p4-v1-0-104795d19815@tencen=
-t.com/
-
-The only missing pieces are a few helpers like folio_realloc_swap()
-and folio_migrate_swap() for lower layer allocation and migration. I
-prototyped this locally and it wasn't difficult to implement.
-Furthermore, this approach works perfectly with YoungJun's tiering
-work with zero conflicts, the dynamic layer can be runtime or
-per-memcg optional.
-
-To move this forward, I've stripped out the RFC features and memcg
-behavior changes, and recently sent a V3 that focuses purely on the
-infrastructure. It introduces no behavior changes or new features,
-just optimizations.
-
-It cleans up a lot of allocation and ordering, as well as memcg
-swap lookups. Since some of these problems were also observed in the
-vss discussion, I think this will make things easier for all of us:
-https://lore.kernel.org/all/20260421-swap-table-p4-v3-0-2f23759a76bc@tencen=
-t.com/
+[1] https://lore.kernel.org/all/aeHy3-vQTQYJlGw5@gmail.com/
