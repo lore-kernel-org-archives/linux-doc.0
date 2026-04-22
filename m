@@ -1,145 +1,153 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A831B31F995
-	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 14:48:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776869295; cv=pass; b=bbPded6+NObNpkXRHybU9zpkK7Pb8hYPzHwLqjqDXlHRjxmZEJZRbQmZyQf+I5t11eB5pAZN2QSOE5Q5BFLhWfdHh7PA2aL+UPXv13LQb+xE4zEw8yf3xADDEj9cGAdtUHtj+4TmUs/46hVHm9qNv0BVpTo7Yavfuz51Np5Eqho=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776869295; c=relaxed/simple;
-	bh=tfnBijA/tHgHM0lSvhKY7uny8mkDHsaIhjWoI77S9Es=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cyDXJLO3R4Am8/IZpi2ExfGkgm2D1OnzvXJPdPHoEeFIGdBR3qPcHOlqIW3vuXT+aHam4j9HkfQfGVNjcaUxEKh+5zsDtgq0DOGMiqMPkwjGriJ65cY7epZeUCOLwGZobUSq+P7sPAuS9uQKiFH8n1V73FQaer5IKQkgTfcBC1Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bb1ShRys; arc=pass smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC1CC23E33D
+	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 14:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776869739; cv=none; b=LVFN4uAezTbt6cbf4gFAQCqHNLUOGhVBZ01LqCoLJY1fYLDSRhfVn/Bfu78n2QXmhAOUQBV+r2N5ZY00jVx57V8HIo605zzNIoPGWRLXos1TFMqp0u46kgPynWA+NiuvEgYoojQMI8Nq4E/44sgl5Fv7nRq7yCc/aO93hAlL5eg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776869739; c=relaxed/simple;
+	bh=mdFMI//Id30zN2aq8g2ejgZDnQWsIKMzLh12OdRaYN8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QjeLD/zmo3p4iLsxpx8B6OxOOTUO7e02wtPDLEfmAg+i1HbxSv9INqMeEtiaPNb7GIqp7HKCJ3ZI/yvC/VbXBQt7plT+33k76JypNfPFbh4S22scFkLYf0+1e/eYmKPI2KiriNjERiaaOO7TwjkHClIduVZBI00KZLR2NPbbsKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MP2ZhiPY; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bb1ShRys"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-441209fb77eso1347164f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 07:48:13 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776869292; cv=none;
-        d=google.com; s=arc-20240605;
-        b=JEFXhpRacGB3w6dU07kyLke/747k6FQ0U9t4f922/Zny/WjNQyFOqMjLObY9H4z8Fh
-         giix0acoP5Sf0yidzJ9O7hIEdpGA5esIU5Dr4hJYPHtbqRoQ9kzOolXK9J1LN1z6D9f6
-         gjl97LmcldtKifEF4WxYfW00SO8DB/pGcLjDh4iYCWI4mBjooTC7Kh2x54b1J3zfBUgO
-         Kvxv4PFvbPjvbQN5Ks7b12yZXeaaAE/gFb8gkwqZqk6ZNXWapjvO8M7gKWOfJlQ9wTjB
-         UYQcE1AADWH2wHKhCI5rx6gOfuqe0sWHa1wvaaIwXbTuL1M/wQTh6jMOgZsMnxZsjIc1
-         A1KA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=tfnBijA/tHgHM0lSvhKY7uny8mkDHsaIhjWoI77S9Es=;
-        fh=XEsqDP4ZTNLxiMs9vnpB5LmgPXJGz742wn57wq+zZck=;
-        b=e2Gnz4Jo9b5nNpTjSNOArEd8BN75lehdLvvnWR3wK0y3kJcKNyTYTnW56LWWVejd3I
-         1RrFyCm6JUz9zgAG8gaPSNJQJY2tCnQSJiSZDznD/KEygao02iiONkikUh67aov65uv6
-         LQ0RDzNMQmfodKVJ/GecQi4Lot9G1udQ5781U+N8Zq4f6XKeVJqDLlRcRGyOCd9sl/ZJ
-         etw3yfETrJSwJIooG4leGxErzZ1Q6hH679H9udMYDZcJ2JJTQ2NedXEODRmrcFLZiP73
-         vSv0zw/eHDdt1kC2HwpOUbw7mSfw6TBJicUQcatoyH37f7jGFYQpm+wmWSV0Ge8j+M3R
-         JujA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MP2ZhiPY"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35fb16e56efso3663356a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 07:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776869292; x=1777474092; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tfnBijA/tHgHM0lSvhKY7uny8mkDHsaIhjWoI77S9Es=;
-        b=bb1ShRysobJfv/guBXGH2tIQfvbJBdXF37+QGzOj6A0jZcum/r49058R8xu4XpGfk1
-         MaxgLaeXFrngS6o48HliqwXVOUOhfWNflD3LXRspe9YhVzxR1AcbKW9pljOMbzeL4yxO
-         vLVbWAB+nKgn90E85+kPvheBuhUPnNS2oTeBazDiWElY3wOKGCBl8C/NjbA5FnVcImRO
-         RoUGscdYiQR64jcqkyKdaeY0RygSVzEu1xUW5ctXCsgYcHEt1MLusjO+28jwXtpMkMs+
-         mf1oIo0UcRoDwuNgfN5Wgclg+XaMwQV5gOTBhEt5DEc1WEh4YdlZQmAbiBRpK+2odnY/
-         b2tQ==
+        d=linaro.org; s=google; t=1776869737; x=1777474537; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=TgygZcdqXMYTxXtA4zUWZDxXXuEyYRzJdq/+ENx9HQQ=;
+        b=MP2ZhiPY7Mst+WnMtFyTXC9L6gJ/ZhzZocB4FafR22ANIzhW6BWoTIdSNJwjMRKie1
+         AU/wsv5xLpC3H5f46xrt1sMNm7+9udlX8LkTnpjHwSIV8kzvcvGJgvmzxoQlS2ZfGPl4
+         mCqhs0ugHKhgGt/B9KKTunNM6pWkxv3wdrDdKHg7sfqAzlqDSIEWazPuG7Oz049WO0eN
+         DbLHbRnRt4MwGhSLFi5IvKD6uVEMEt4CjwxMxE6u4aysueToy2Lfv5i2MQAaVfJTm0VT
+         RQ3+9zvE84LZ0TW2gp40WvozjsBTK26oWmYTTAlXorUQIsf8r5rbFIgmM94/a+kep8gx
+         Pulw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776869292; x=1777474092;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=tfnBijA/tHgHM0lSvhKY7uny8mkDHsaIhjWoI77S9Es=;
-        b=bbby4E7vYG73w5wG7nTinx3NOTvKvPdLHWRX6cqg40Ish6FopA1J+s1odqXDhISm6f
-         uK08VHtA3FzskZvGKrmaYPUEesLRBG9N7e3F37i1HefC4st7gPR07mqUXmh5qTh1HWBl
-         XN+OhBBhMA7Q3/FQ5AlQU1DO64R548ZXMew1SGc+PpUgy1ZYnwlCHTWWTiE1ETeVGWU9
-         RdxOOAOuuc6mUSsWuNPO8VBa5da7UFw/LH60gHBnWPMfWloaoCzclKIi5GddP0VQZ1Hr
-         Ppy00Xb0r75+1cJrQC7RsLjrxRzyGcqMRZ8MYS4xwzlzZM9yIzZ+sBY9eiteiMdWIyJD
-         gSkQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/qnIBWHYvOBpnkKLURohMJKBzzKIarewiCRiWfAGR0m9jLV59yORbFOcn01sxLVN+zFYZgVasPcOM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyIpH+SihMLRzYiYssujld91Pf4UN4paDidRm5DJYJkbi+vqBA6
-	qReOx+dCeKIwHAXHaGxUowXPFHz27tI2W02uJuPKppX1bhAEUmLos3UAyNYEBn3Oqoe8p5HRoPN
-	1j7TJi8k/F82V2EzQ0IRh61Pl9K+7Lb8=
-X-Gm-Gg: AeBDietUuawhGCpS6NHU83D2yHZfTGKKZem33MkIIcvGIy1FzTrNpWaGXUydfZrGf77
-	KzEJ2rLSl9xFcAUDRdH6FO0vplLShzMmCNRkYY10vmjDzm68fpD2YGkbCXi+rY4xSbhVGwEdw5X
-	wJzM49wqCIRNrcuMsp0VQ3U4GaxLThp6qFhIjyN6JTSgHfnYZbM/8IwcK8Ohkbq5k/WEtzvNv+4
-	MT6wBrN+7H32leaJxRsdBjCEufyrzGxxd/BjCSX7Yhpi5yJ1R80jrr57+XjgrcSMiUpl/TFL8tB
-	erjXgDmSl6avyMRivRlErL0DWmDXIXJmsrlDnQ/nRlevMPElcPLEZHJpDxBhy/OM7Qjd+J1B1On
-	9JHQQo1OxNIj6kX35dHnKQotFUDOAk7KLgiwu
-X-Received: by 2002:a05:6000:2dc6:b0:43d:7512:6f7b with SMTP id
- ffacd0b85a97d-43fe3f35785mr36196268f8f.5.1776869291840; Wed, 22 Apr 2026
- 07:48:11 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1776869737; x=1777474537;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TgygZcdqXMYTxXtA4zUWZDxXXuEyYRzJdq/+ENx9HQQ=;
+        b=orFVoTGDCMfgDWaCzbdMoQEA7mz6Ko79uqswhtKbKNSA/K2qUr5QkE4s245rsPUjJG
+         t93W1L3ckGs9ZfWxksM+m+agDqLPAUq9pCHwzIaFzaWghMf/IfhuRjK/0lSQYpuJxQMk
+         8hYoji13TMJ8eWunVvZ/cAFqvOo6YkaDF8sqEdb4jX64+Ro3vLXxwgEP43PAQSiSeYbS
+         aMFM1DCEGGDgP1Bhkfi/sOshlU0EAwGF8d8eQW/21g3VFH6ae1PCwQ+/qSAplK08XrsY
+         3uRXEy8MrYHynA9Kwf0oKES8NpfNpELmUa7RbCf7PiKG8jFxnNJl544sY7d7i1W9e/fT
+         JpNw==
+X-Forwarded-Encrypted: i=1; AFNElJ/YmdehghsOr+wj35zxJNgEnyQD7CUBGqM5A/TR/IdLa/GSLzq4CONkZaNMIOecDP3V3S5LawhI8lQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPkiEmhBw7PX/0JjxGLMEF6UJOybtQ9ZuqwH7vm+K3HJd7uVh1
+	KtrAdc9TRQXK8TJngioM5AIy6OK12WyWSZyREfaRi9fpnQ1tYE6HsgqkrAoJgxLT/ls=
+X-Gm-Gg: AeBDies7P7RRm67UCngzSUF8q1AXqpn8ShmUlQU9Comt6N/oSScv2rZr7wf43fn55Oo
+	KQFSDBunjTdmPJWOPfSvcweq4hO5bXe1XkUvMMdgHP0lg2LVuvMYkPGllx6cmlRX8da1vEeh9iP
+	BWz+HeaY0w+aiftuhqa04adkBt8mXT4cE5nUFvA3pL33PAg9D22doceIfLSQQVh3UwlW0Z8Vscy
+	RJcgdNvyU0GahnVUFSv8vDXp0SEznRVpHOtvcPBlykTflOaDj5MlhX2pQgq1Ui7ex4XRnjlgUJS
+	WWlK2Go6JNqcp81Qci46K4X6Ah9wvZD+u0DyEsKMb3cA2bo25eeyfwCEE8PEL7NwQiPtzOBfo/1
+	ep3U6iTQfRXXq513o5dO8nVAX7MBr0HUE/okUtO0Pl3WKlKQ5YcUisEREtJ+/6jowi7mU7VgYIW
+	Tyh7+BR4K0caXqq7FucoC9ePp5bo5CaDolRV5aokK4z4644oKS
+X-Received: by 2002:a17:90b:2ecc:b0:35a:1762:92fc with SMTP id 98e67ed59e1d1-361404a0678mr23611737a91.26.1776869737067;
+        Wed, 22 Apr 2026 07:55:37 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:fd65:9224:aee7:cdd9])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b5fab0cf81sm164424055ad.43.2026.04.22.07.55.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Apr 2026 07:55:36 -0700 (PDT)
+Date: Wed, 22 Apr 2026 08:55:33 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Zhang Xiaolei <zxl434815272@gmail.com>
+Cc: corbet@lwn.net, ebiggers@kernel.org, andersson@kernel.org,
+	ardb@kernel.org, skhan@linuxfoundation.org,
+	linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-remoteproc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: staging: fix various typos and grammar issues
+Message-ID: <aejhZQl0Yke9ZDIa@p14s>
+References: <20260416105854.788-1-zxl434815272@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <acLbnMAPrHCpoIpr@laps> <20260325011853.657295-1-sashal@kernel.org>
- <c7a8310e-501f-48a8-8ad5-0a40d8b3836b@oracle.com>
-In-Reply-To: <c7a8310e-501f-48a8-8ad5-0a40d8b3836b@oracle.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Wed, 22 Apr 2026 07:48:00 -0700
-X-Gm-Features: AQROBzA3qHbWnHv7v7Pdc9rqcoF99lBmBFrCQdAyyZbQ78QmK7wYiCIv_i6_yA8
-Message-ID: <CAADnVQKshVai_srj_X_T-1AG3QH=VHymDO7Z4JowLcbC+jjReg@mail.gmail.com>
-Subject: Re: [RFC] btf: split core BTF parsing out of BPF subsystem into kernel/btf/
-To: Alan Maguire <alan.maguire@oracle.com>
-Cc: Sasha Levin <sashal@kernel.org>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, 
-	Alexey Dobriyan <adobriyan@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Borislav Petkov <bp@alien8.de>, bpf <bpf@vger.kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Dave Hansen <dave.hansen@linux.intel.com>, 
-	David Gow <davidgow@google.com>, Helge Deller <deller@gmx.de>, 
-	Geert Uytterhoeven <geert@linux-m68k.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Juergen Gross <jgross@suse.com>, Josh Poimboeuf <jpoimboe@kernel.org>, 
-	Kees Cook <kees@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-modules@vger.kernel.org, Masahiro Yamada <masahiroy@kernel.org>, 
-	"Luis R. Rodriguez" <mcgrof@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Petr Mladek <pmladek@suse.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Steven Rostedt <rostedt@goodmis.org>, Thomas Gleixner <tglx@kernel.org>, 
-	Vlastimil Babka <vbabka@kernel.org>, X86 ML <x86@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260416105854.788-1-zxl434815272@gmail.com>
 
-On Wed, Apr 22, 2026 at 3:44=E2=80=AFAM Alan Maguire <alan.maguire@oracle.c=
-om> wrote:
->
-> On 25/03/2026 01:18, Sasha Levin wrote:
-> > Move BTF type format parsing and inspection code out of the BPF
-> > subsystem into its own kernel/bf/ directory, separating core BTF
-> > functionality from BPF-specific extensions.
-> >
-> > CONFIG_DEBUG_INFO_BTF currently depends on CONFIG_BPF_SYSCALL, which
-> > prevents embedded, automotive, and safety-critical environments from
-> > using BTF. These platforms often disable BPF for security and size
-> > reasons but would benefit from BTF type information for crash
-> > diagnostics and debugging.
-> >
->
-> I had a go at a refactor in this area too, and it's pretty tricky. How ab=
-out
-> we start with a smaller goal; making /sys/kernel/btf available to userspa=
-ce
-> on systems without CONFIG_BPF_SYSCALL? This would just involve a small re=
-factor
-> of the BTF module-related stuff in kernel/bpf/btf.c, moving it to btf_mod=
-ule.c
-> or similar say. No need to split out BTF parsing APIs from those actively=
- used in
-> validating BPF etc, since a non-BPF_SYSCALL system would not need to pars=
-e BTF
-> in the kernel (just make it available in sysfs.
+On Thu, Apr 16, 2026 at 06:58:53PM +0800, Zhang Xiaolei wrote:
+> Fix a few typographical and grammatical issues across several
+> staging documentation files to improve readability:
+> - crc32.rst: replace "decide in" with "decide on"
+> - lzo.rst: replace "independent on" with "independent of"
+> - remoteproc.rst: fix word order in dependent clause
+> - static-keys.rst: add hyphen to "low-level"
+> 
+> Signed-off-by: Zhang Xiaolei <zxl434815272@gmail.com>
+> ---
+>  Documentation/staging/crc32.rst       | 2 +-
+>  Documentation/staging/lzo.rst         | 2 +-
+>  Documentation/staging/remoteproc.rst  | 2 +-
 
-Small refactor is ok, but in general I'm not interested
-in complicating code for systems without CONFIG_BPF_SYSCALL.
+Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org>
+
+>  Documentation/staging/static-keys.rst | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/staging/crc32.rst b/Documentation/staging/crc32.rst
+> index 64f3dd430a6c..fc0d9564b99c 100644
+> --- a/Documentation/staging/crc32.rst
+> +++ b/Documentation/staging/crc32.rst
+> @@ -119,7 +119,7 @@ the byte-at-a-time table method, popularized by Dilip V. Sarwate,
+>  v.31 no.8 (August 1988) p. 1008-1013.
+>  
+>  Here, rather than just shifting one bit of the remainder to decide
+> -in the correct multiple to subtract, we can shift a byte at a time.
+> +on the correct multiple to subtract, we can shift a byte at a time.
+>  This produces a 40-bit (rather than a 33-bit) intermediate remainder,
+>  and the correct multiple of the polynomial to subtract is found using
+>  a 256-entry lookup table indexed by the high 8 bits.
+> diff --git a/Documentation/staging/lzo.rst b/Documentation/staging/lzo.rst
+> index f65b51523014..2d48b2667dd2 100644
+> --- a/Documentation/staging/lzo.rst
+> +++ b/Documentation/staging/lzo.rst
+> @@ -75,7 +75,7 @@ Description
+>       are called under the assumption that a certain number of bytes follow
+>       because it has already been guaranteed before parsing the instructions.
+>       They just have to "refill" this credit if they consume extra bytes. This
+> -     is an implementation design choice independent on the algorithm or
+> +     is an implementation design choice independent of the algorithm or
+>       encoding.
+>  
+>  Versions
+> diff --git a/Documentation/staging/remoteproc.rst b/Documentation/staging/remoteproc.rst
+> index 5c226fa076d6..c117b060e76c 100644
+> --- a/Documentation/staging/remoteproc.rst
+> +++ b/Documentation/staging/remoteproc.rst
+> @@ -24,7 +24,7 @@ handlers, and then all rpmsg drivers will then just work
+>  (for more information about the virtio-based rpmsg bus and its drivers,
+>  please read Documentation/staging/rpmsg.rst).
+>  Registration of other types of virtio devices is now also possible. Firmwares
+> -just need to publish what kind of virtio devices do they support, and then
+> +just need to publish what kind of virtio devices they support, and then
+>  remoteproc will add those devices. This makes it possible to reuse the
+>  existing virtio drivers with remote processor backends at a minimal development
+>  cost.
+> diff --git a/Documentation/staging/static-keys.rst b/Documentation/staging/static-keys.rst
+> index b0a519f456cf..e8dc3a87c381 100644
+> --- a/Documentation/staging/static-keys.rst
+> +++ b/Documentation/staging/static-keys.rst
+> @@ -90,7 +90,7 @@ out-of-line true branch. Thus, changing branch direction is expensive but
+>  branch selection is basically 'free'. That is the basic tradeoff of this
+>  optimization.
+>  
+> -This lowlevel patching mechanism is called 'jump label patching', and it gives
+> +This low-level patching mechanism is called 'jump label patching', and it gives
+>  the basis for the static keys facility.
+>  
+>  Static key label API, usage and examples
+> -- 
+> 2.53.0.windows.2
+> 
