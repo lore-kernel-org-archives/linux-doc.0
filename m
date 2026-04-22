@@ -1,83 +1,79 @@
-Received: from mail.mifritscher.de (mifritscher.de [188.40.170.105])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19683D1CC6;
-	Wed, 22 Apr 2026 12:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.170.105
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F9D3D1CD4;
+	Wed, 22 Apr 2026 12:50:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776861987; cv=none; b=WxEuxX3F9ZB1lkD5z7Ye2Lg9NDV7miW3T/BDNMUNi0VyWZp/UDvznKDrHawnP5pIJCjKkcO4ChZd/BqIwgqnhAqQvtDPnpSxgDeLWlcozEWhkRW9nRFT36fzs/HN8B5pjoUOJ9jc8KUyZ9EMxUFabWweYyrhtqLaClvBOSdyD4Y=
+	t=1776862256; cv=none; b=rUWuaYL28WTN/q3GVAUpz9by3a8nyja6adAJxXCKmflZXUmZyY3r0cDvcelZv7zzjUnw55bnGRQfm9aTH5gJLxeyQSJpVnCDSG3Peo4/ivD+QJh7KIj13/Eolb2uy72GnWpObNUx0IJ4Nb5aM0IPbjByK2czpeSl7igozv8bhOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776861987; c=relaxed/simple;
-	bh=5XDs8cWdZXpGBsh4Aa38JGEB+lFfhkffirPSTw1NeOE=;
-	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
-	 Message-ID:Content-Type; b=iEuvF5PiSP3tHcMrXMhUviuyF1+MX/qtZYnjmIn6yslaRMA2ps9jVqVYetncAurAa95P1ClEGQI8xLNpwJVNziA+NkOrLQixD5sMxIeXtq7jT601I91Bck5NtQCX0hiSIolLb391+bHt5cNncpSNZ0RkB/GAIpAN/wt1rG8VmWw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net; spf=pass smtp.mailfrom=fritscher.net; arc=none smtp.client-ip=188.40.170.105
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritscher.net
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.mifritscher.de (Postfix) with ESMTP id 6CE2B3B2728;
-	Wed, 22 Apr 2026 14:46:23 +0200 (CEST)
-X-Virus-Scanned: Debian amavis at mifritscher.vserverkompetenz.de
-Received: from mail.mifritscher.de ([127.0.0.1])
- by localhost (mail.mifritscher.vserverkompetenz.de [127.0.0.1]) (amavis, port 10024)
- with ESMTP id Q2U_6VBKJUms; Wed, 22 Apr 2026 14:46:22 +0200 (CEST)
-Received: from mifritscher.de (localhost.localdomain [127.0.0.1])
-	by mail.mifritscher.de (Postfix) with ESMTPA id D83063B2618;
-	Wed, 22 Apr 2026 14:46:22 +0200 (CEST)
+	s=arc-20240116; t=1776862256; c=relaxed/simple;
+	bh=Fgj6xtcADYBiMOCmjmwMUsvpQWp1JAxbkSX6keLfX9s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NpcopXB2HgFnc54t6HVQSTa9Wh6hr4QPXg+6+EZGEvt2R8GRkmdAi6hnppoadbZ/KVQtoQmVm2pP3APRblLN71rjP4GH+es1J/YdYarzDP44JQPdF+GRIA8FRzWTKqI1ZVjD8BY1j9AJDf886VeLRftQTBEnBMkCzQcgTuCgVc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=JT4MU7Mn; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="JT4MU7Mn"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=yvBLQ3Qq3dOR+X4ePHZ/PQRix44xFL2TY/QPkI/uQF0=; b=JT4MU7Mn/vFoS4+ilrzuuIwoNb
+	WFwbvtsK9uizD6w77N+TIwyXs95XWlrr7NxmJYdb+2b5eU6toFtYBWZpkYTR5+ajjCko2tmpdvgKB
+	wfJSFHmgragW193BKmpIFHwHp6h6EHLs7IcbVZFHp2s+yB8Y7ABnWEgcb9s9yNq9E+bA=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wFX2U-00H21R-KX; Wed, 22 Apr 2026 14:50:46 +0200
+Date: Wed, 22 Apr 2026 14:50:46 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Daniel Palmer <daniel@0x0f.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH net 06/18] drivers: net: amd: Remove hplance and mvme147
+Message-ID: <f902909f-7eb9-4b7a-bb01-82f680cfe695@lunn.ch>
+References: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
+ <20260421-v7-0-0-net-next-driver-removal-v1-v1-6-69517c689d1f@lunn.ch>
+ <CAFr9PXk=3md2oVDqFbmQLNiVMkRr32pHMPNSeskdTpM-1huB=A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Wed, 22 Apr 2026 14:46:22 +0200
-From: michael@fritscher.net
-To: Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net 14/18] drivers: net: xircom: xirc2ps: Remove this
- driver
-In-Reply-To: <408d1987-6ecb-4d3b-afed-8e202c8ff21d@lunn.ch>
-References: <73e3a34c-f1dc-403b-b007-18ff85d66ea1@fritscher.net>
- <408d1987-6ecb-4d3b-afed-8e202c8ff21d@lunn.ch>
-Message-ID: <e36510873a1909a1bfd9a05cde99fef0@fritscher.net>
-X-Sender: michael@fritscher.net
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFr9PXk=3md2oVDqFbmQLNiVMkRr32pHMPNSeskdTpM-1huB=A@mail.gmail.com>
 
-Am 2026-04-22 14:15, schrieb Andrew Lunn:
-> On Wed, Apr 22, 2026 at 08:21:23AM +0200, Michael Fritscher wrote:
->> Good day,
->> 
->> actually, I do use Xircom PCMCIA network cards (yes, the 16 bit ones) 
->> on
->> Lenovo X60/X61 laptops as a second LAN card for server maintenances 
->> with
->> current 64 bit distros (e.g. Debian Trixie, which I plan to update to
->> Trixie+1 when available). Why? Because I have them and they are 
->> working ;-)
+On Wed, Apr 22, 2026 at 06:38:28AM +0900, Daniel Palmer wrote:
+> Hi Andrew,
 > 
-> Hi Michael
+> On Wed, 22 Apr 2026 at 04:39, Andrew Lunn <andrew@lunn.ch> wrote:
+> >
+> > These drivers use the 7990 core with wrappers for the HP300 and
+> > Motorola MVME147 SBC circa 1998. It is unlikely they are used with a
+> > modern kernel.
 > 
-> I will drop this from the patchset for the moment.
-> 
-> Would you be willing to take up the Maintainer role for it?
-> 
-> 	Andrew
+> I have an MVME147 blinking away running mainline using the mvme147 driver.
+> I think some of these need to be CC'd to the specific arch lists so
+> the few people using them get a chance to pipe up.
 
-Hello Andrew,
+That is part of the problem. No MAINTAINERs entry. so
+./scripts/get_maintainers.py does not add an Cc: to the list.
 
-thanks! If someone mentors me I could try... I have experience with C 
-programming, esp. in the embedded world, but (almost) no experience with 
-the Linux kernel development.
-But regression tests etc. can be conducted by me - on 32 and 64 bit 
-machines. The oldest being a P120, the newest the mentioned X61 with its 
-C2D CPU.
+> I think I'm the last person to have touched the mvme147, I don't mind
+> being a maintainer for it.
 
-Best regards
-Michael
+Please submit an entry for MAINTAINERs.
+
+I will drop this patch.
+
+  Andrew
