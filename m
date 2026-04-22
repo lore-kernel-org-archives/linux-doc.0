@@ -1,139 +1,177 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99CC32B9A8;
-	Wed, 22 Apr 2026 15:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6023375F9A;
+	Wed, 22 Apr 2026 15:49:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776871404; cv=none; b=e2sOdHWCm4zp1DPLBct2mHV4RQJ/wfyr+kqnlglPtCyMkwq8F6w5iuyASID2qgKui7EYwCx30cq0J3P9xV0AfPhlY8WTeqQuwsfxdC9xyp4xsDCGs1wZtyZYfb8q8jXtbljKDTC4gklnmv3bvLKU89W+CBhKGtDAMpyAq4y9FOw=
+	t=1776872982; cv=none; b=l1xpfObuNwkKP4pCKwqPZvEjxpUKwnwRYG0yNB5l81pomoq66p+6F9Gy7alD/wr0fCWpq1frJb0NFNzEzOOYGJd3w+pef09LT3vecddjCcoT9kZI/gU1BRP/gVGUBQ+lC5Vt/5jHDT8iYfNeipFiGr/MoLqNy+eBYLs0QK3jnMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776871404; c=relaxed/simple;
-	bh=jQDpzWuCXmdv1F1/abjSy27qegTNfY6jEbfNbv1hbXI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gKgglMedmVI3HC4/3IRLaV/l0+EUX2ICyrBjQVhqOgYglCB3P4I92nhTHQOro9ayHlpv7/KxRS9Azbvr4xcU0okpQTz53ZeSlqJFi8a+puMyQeGgXVfcusWJLBg7fMZjzVl0UJjN/52rEzLS7vRlbgHnG9txxLAhnygsC0P2Ne0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=vxcEGDX9; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1776872982; c=relaxed/simple;
+	bh=riHHVLqImjXHOko8Jk1i1dh3X2lF7U6GwHdwGvhso/g=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=cNYZ4ZAp15EwICqkMwQIjyl4srIbCptrJKakjOTB8jh5BaVq15JdqLQUnM2Ulm9IP+U9TZ1URx6KKgblLJ0G4MlQUlK27DPVWCvqviQ0nF9yqMOIqbAQg8edUvk/8Eqh8com8s0leCpKVIjqbHiCkE11VOSb38KzJGsq6kPOrcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BmFVAS9L; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="vxcEGDX9"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=2d38+AL4M7Yw85ZULCXmHoMpmyNuNJJ0+LlK7sbOybg=; b=vxcEGDX94dL0ogQnI/K3g9DG2T
-	WCdhIwcCdrHhlXKEiXiLQ8Kncy491mxHIfpCglgVNrGCPIlnaTKohTjC+mpA3h0Tbp35yW+UkHV5b
-	AGPC3bW4hDP0kdi3Zg2Uthj2vNtGVrHs2D+mdqqD7AvT5v+uAtliF38IyrP4qifMsCaMgzL9Kntgp
-	leG+7xPtRnNhFP123fCkfJPLAZ+nWHQY/TbbGZ7R6HOOZC0jIksJOeMM840mVYz/fsz+w9GDmDzQv
-	BriTxxfmim57F3os9xXv4aG+0HbR20JMtsF/onkRyX3UOsNKmDObeeeW3Nwaww+Q38JddLxlUVbFk
-	i2jP8FSw==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wFZQ3-001iIv-2o;
-	Wed, 22 Apr 2026 15:23:16 +0000
-Date: Wed, 22 Apr 2026 08:23:10 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Miaohe Lin <linmiaohe@huawei.com>
-Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, kernel-team@meta.com, Naoya Horiguchi <nao.horiguchi@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, David Hildenbrand <david@kernel.org>, 
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
-	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>
-Subject: Re: [PATCH v4 3/3] Documentation: document
- panic_on_unrecoverable_memory_failure sysctl
-Message-ID: <aejnmh3xlHsuKfP3@gmail.com>
-References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
- <20260415-ecc_panic-v4-3-2d0277f8f601@debian.org>
- <7b4a6659-e2e5-5e63-2952-c7a840ffcdec@huawei.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BmFVAS9L"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776872979; x=1808408979;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=riHHVLqImjXHOko8Jk1i1dh3X2lF7U6GwHdwGvhso/g=;
+  b=BmFVAS9LnvgFAaF47VUVzSjF1yLhenVoPvyPHKZdtRKgI4eAESYv86VF
+   t/mzHYM/+0LNZqS83iVADLH/0BF36gzYsBhLXUqcVO6ON0csMzHoWcgpn
+   hO5uEceOM9jmEaJxaXHVjqTA+JnCqGofbmHPM66YMs57uE1bY8P6dj7fS
+   e5o/PFSkSDj8sm9kZ6/ndxnbQb5lP9ITHPeNdLBwbv0sB9CYnjhqSNRSi
+   OsVTHnmsjNvALU0tVlKoZ0lpJ6GPYnaxkjfOU5pSVfdjZpbHOa1x7VG/r
+   d2+sncdC1HfwviVf5pdDO7DsjAJgwwk6VnXqBeH85EGshHJ12puRS2pc8
+   Q==;
+X-CSE-ConnectionGUID: oZ2Fol6RSVi+cFKD0a6jXw==
+X-CSE-MsgGUID: cL3jEvdfSLS7AJKLPko0zA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="100483991"
+X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
+   d="scan'208";a="100483991"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 08:49:38 -0700
+X-CSE-ConnectionGUID: C8Ee5GzYRxuGR3LEI3RlDw==
+X-CSE-MsgGUID: dtx3aqx2R9ySx3ByHGjSdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
+   d="scan'208";a="229720573"
+Received: from spandruv-desk2.jf.intel.com ([10.88.27.176])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 08:49:37 -0700
+Message-ID: <3f5125cd88361c88fa7604eba262c82f1cc20c2f.camel@linux.intel.com>
+Subject: Re: [PATCH v3 1/2] platform/x86/intel-uncore-freq: Rename
+ instance_id
+From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
+To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
+ skhan@linuxfoundation.org, 	ilpo.jarvinen@linux.intel.com,
+ hansg@kernel.org, corbet@lwn.net
+Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Maciej Wieczor-Retman
+	 <maciej.wieczor-retman@intel.com>
+Date: Wed, 22 Apr 2026 08:49:37 -0700
+In-Reply-To: <4d983157199cf0e163597df254e2dc629878b818.1775665057.git.m.wieczorretman@pm.me>
+References: <cover.1775665057.git.m.wieczorretman@pm.me>
+	 <4d983157199cf0e163597df254e2dc629878b818.1775665057.git.m.wieczorretman@pm.me>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7b4a6659-e2e5-5e63-2952-c7a840ffcdec@huawei.com>
-X-Debian-User: leitao
 
-On Wed, Apr 22, 2026 at 11:43:16AM +0800, Miaohe Lin wrote:
-> On 2026/4/15 20:55, Breno Leitao wrote:
-> > Add documentation for the new vm.panic_on_unrecoverable_memory_failure
-> > sysctl, describing the three categories of failures that trigger a
-> > panic and noting which kernel page types are not yet covered.
-> > 
-> > Signed-off-by: Breno Leitao <leitao@debian.org>
-> > ---
-> >  Documentation/admin-guide/sysctl/vm.rst | 37 +++++++++++++++++++++++++++++++++
-> >  1 file changed, 37 insertions(+)
-> > 
-> > diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
-> > index 97e12359775c9..592ce9ec38c4b 100644
-> > --- a/Documentation/admin-guide/sysctl/vm.rst
-> > +++ b/Documentation/admin-guide/sysctl/vm.rst
-> > @@ -67,6 +67,7 @@ Currently, these files are in /proc/sys/vm:
-> >  - page-cluster
-> >  - page_lock_unfairness
-> >  - panic_on_oom
-> > +- panic_on_unrecoverable_memory_failure
-> >  - percpu_pagelist_high_fraction
-> >  - stat_interval
-> >  - stat_refresh
-> > @@ -925,6 +926,42 @@ panic_on_oom=2+kdump gives you very strong tool to investigate
-> >  why oom happens. You can get snapshot.
-> >  
-> >  
-> > +panic_on_unrecoverable_memory_failure
-> > +======================================
-> > +
-> > +When a hardware memory error (e.g. multi-bit ECC) hits a kernel page
-> > +that cannot be recovered by the memory failure handler, the default
-> > +behaviour is to ignore the error and continue operation.  This is
-> > +dangerous because the corrupted data remains accessible to the kernel,
-> > +risking silent data corruption or a delayed crash when the poisoned
-> > +memory is next accessed.
-> > +
-> > +When enabled, this sysctl triggers a panic on three categories of
-> > +unrecoverable failures: reserved kernel pages, non-buddy kernel pages
-> > +with zero refcount (e.g. tail pages of high-order allocations), and
-> > +pages whose state cannot be classified as recoverable.
-> > +
-> > +Note that some kernel page types — such as slab objects, vmalloc
-> > +allocations, kernel stacks, and page tables — share a failure path
-> > +with transient refcount races and are not currently covered by this
-> > +option. I.e, do not panic when not confident of the page status.
-> > +
-> > +For many environments it is preferable to panic immediately with a clean
-> > +crash dump that captures the original error context, rather than to
-> > +continue and face a random crash later whose cause is difficult to
-> > +diagnose.
-> 
-> Should we add some userful cases to show the real-world application scenarios?
+On Wed, 2026-04-08 at 16:27 +0000, Maciej Wieczor-Retman wrote:
+> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+>=20
+> The "instance" word has a specific meaning in TPMI. It is a physical
+> index related to compute dies and IO dies present on a single TPMI
+> partition (which is also a single TPMI device). It's used for mapping
+> MMIO blocks for direct TPMI register access.
+>=20
+> The currently used "instance_id" uncore_data struct field is a
+> sequentially generated value that's used for appending to uncore
+> directories inside the /sys/devices/system/cpu/intel_uncore_frequency
+> directory. It has no relation to the physical TPMI elements.
+>=20
 
-Yes, good idea. What about something like:
+In future, It is always better to say no functional changes as this is
+just renaming.
 
-Use cases
----------
-
-This option is most useful in environments where unattributed crashes
-are expensive to debug or where data integrity must take precedence
-over availability:
-
-* Large fleets, where multi-bit ECC errors on kernel pages are observed
-  regularly and post-mortem analysis of an unrelated downstream crash
-  (often seconds to minutes after the original error) consumes
-  significant engineering effort.
-
-* Systems configured with kdump, where panicking at the moment of the
-  hardware error produces a vmcore that still contains the faulting
-  address, the affected page state, and the originating MCE/GHES
-  record — context that is typically lost by the time a delayed crash
-  occurs.
-
-* High-availability clusters that rely on fast, deterministic node
-  failure for failover, and prefer an immediate panic over silent data
-  corruption propagating to replicas or persistent storage.
+> Signed-off-by: Maciej Wieczor-Retman
+> <maciej.wieczor-retman@intel.com>
+> Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+> ---
+> Changelog v3:
+> - Add Srinivas' Acked-by.
+>=20
+> Changelog v2:
+> - Redid the first paragraph to better describe what "instance" is.
+> - Rename seqname_id to seqnum_id to emphasize it's a sequential
+> number
+> =C2=A0 not sequential name.
+>=20
+> =C2=A0.../x86/intel/uncore-frequency/uncore-frequency-common.c=C2=A0=C2=
+=A0=C2=A0 | 6 +++-
+> --
+> =C2=A0.../x86/intel/uncore-frequency/uncore-frequency-common.h=C2=A0=C2=
+=A0=C2=A0 | 4 ++--
+> =C2=A02 files changed, 5 insertions(+), 5 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
+> frequency-common.c b/drivers/platform/x86/intel/uncore-
+> frequency/uncore-frequency-common.c
+> index 7070c94324e0..25ab511ed8d2 100644
+> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
+> common.c
+> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
+> common.c
+> @@ -268,7 +268,7 @@ int uncore_freq_add_entry(struct uncore_data
+> *data, int cpu)
+> =C2=A0		if (ret < 0)
+> =C2=A0			goto uncore_unlock;
+> =C2=A0
+> -		data->instance_id =3D ret;
+> +		data->seqnum_id =3D ret;
+> =C2=A0		scnprintf(data->name, sizeof(data->name),
+> "uncore%02d", ret);
+> =C2=A0	} else {
+> =C2=A0		scnprintf(data->name, sizeof(data->name),
+> "package_%02d_die_%02d",
+> @@ -281,7 +281,7 @@ int uncore_freq_add_entry(struct uncore_data
+> *data, int cpu)
+> =C2=A0	ret =3D create_attr_group(data, data->name);
+> =C2=A0	if (ret) {
+> =C2=A0		if (data->domain_id !=3D UNCORE_DOMAIN_ID_INVALID)
+> -			ida_free(&intel_uncore_ida, data-
+> >instance_id);
+> +			ida_free(&intel_uncore_ida, data-
+> >seqnum_id);
+> =C2=A0	} else {
+> =C2=A0		data->control_cpu =3D cpu;
+> =C2=A0		data->valid =3D true;
+> @@ -301,7 +301,7 @@ void uncore_freq_remove_die_entry(struct
+> uncore_data *data)
+> =C2=A0	data->control_cpu =3D -1;
+> =C2=A0	data->valid =3D false;
+> =C2=A0	if (data->domain_id !=3D UNCORE_DOMAIN_ID_INVALID)
+> -		ida_free(&intel_uncore_ida, data->instance_id);
+> +		ida_free(&intel_uncore_ida, data->seqnum_id);
+> =C2=A0
+> =C2=A0	mutex_unlock(&uncore_lock);
+> =C2=A0}
+> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
+> frequency-common.h b/drivers/platform/x86/intel/uncore-
+> frequency/uncore-frequency-common.h
+> index 0abe850ef54e..0d5fd91ee0aa 100644
+> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
+> common.h
+> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
+> common.h
+> @@ -35,7 +35,7 @@
+> =C2=A0 * @die_id:		Die id for this instance
+> =C2=A0 * @domain_id:		Power domain id for this instance
+> =C2=A0 * @cluster_id:		cluster id in a domain
+> - * @instance_id:	Unique instance id to append to directory
+> name
+> + * @seqnum_id:		Unique sequential id to append to directory
+> name
+> =C2=A0 * @name:		Sysfs entry name for this instance
+> =C2=A0 * @agent_type_mask:	Bit mask of all hardware agents for this
+> domain
+> =C2=A0 * @uncore_attr_group:	Attribute group storage
+> @@ -71,7 +71,7 @@ struct uncore_data {
+> =C2=A0	int die_id;
+> =C2=A0	int domain_id;
+> =C2=A0	int cluster_id;
+> -	int instance_id;
+> +	int seqnum_id;
+> =C2=A0	char name[32];
+> =C2=A0	u16=C2=A0 agent_type_mask;
+> =C2=A0
