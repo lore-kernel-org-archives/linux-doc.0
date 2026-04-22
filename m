@@ -1,280 +1,304 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B334231717F;
-	Wed, 22 Apr 2026 16:17:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776874643; cv=none; b=DtQDjMgbK+MmpkAvz1yS02mSM4opoyf+f2G7ub0JmYNDSkEY/NJ/BkmCJA0I6E7K97+NslmRQbOEZSrlsgrsJULFgrSTIoYOGzJNeoWY0yn3kaChV/gu/569RO88A7C/u/wrFPAbrrVDGlZugQtnGTB4YV7qzoKG9sdjT9Lkb1U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776874643; c=relaxed/simple;
-	bh=/LQIFMF9HQ0eexfo+GChSIyHFe3HUIpOs/MwKFAydwQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hJ0TUf+vz7BTwhDyk0Ttsa9GdWpCZAIFjRFOYY27KzfaPTDQxGN+cH0xz1MJVrqSnqYz3hPRzYe/BWQJe/nd3Hc+D0pVW9DpDVPDvYf+Z+GnK+Een0BK3ejUdJpQanfEp7duu0jY6Uco1pzEssSxUVk3aJIquYpgbvDaA1jqC9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nOHRZ5SO; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59B2220B80B;
+	Wed, 22 Apr 2026 16:45:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776876356; cv=fail; b=Kt6TDikqjHjdNMrre5ppSZDtdpzOpqEtkgDFbRDa7g47iXm0SqwUzkoJynhuhW21MI/XRvhWNFxg/m9ZaZjCPZ/2QhIForPXFQF8485S610T3soCjMNV4/4beQ5Z6Bw02yJ8hgQabFTgK+x/8X8J5OpZm6j/Vx4IHxgOED8hgdw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776876356; c=relaxed/simple;
+	bh=EXmzdwZMLJERRMViQLYql5jyPaRzTFfDRFJ7Fbg13SM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=SQd3tg8JaDgTVCCMWe4N41xl5CiQOJGviIBJXDwSWGGCgcGQCKAJ4OBsZKJwqydFWt5RHxrN5ojKgUKYHtZTIGqH8nIA7u3s4Ls4suvXR1HiaqGCCmWhEkMZi3AmzMUNmGEKd23VVb8r8f40XPqkMFGHH+rhSGPkEd2pb1g12/s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Fj7NZByP; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=xmrc0EtF; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nOHRZ5SO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776874641; x=1808410641;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=/LQIFMF9HQ0eexfo+GChSIyHFe3HUIpOs/MwKFAydwQ=;
-  b=nOHRZ5SO3oWJKX7OriLnLUQV9SVyl/Zk5XYChV4BE2+KkEJ1j1IktUIU
-   yu2qEcX9XUdrySt7I2N+Gesyn1gB7E+Zyvc5FonosEF/64K1cWFqab7dT
-   a0aRG3l314zCtqJjBbmcN9S01S4ZODzrpnDPPKuY+eebBwf/cZOTIDtmF
-   dZu5wzxcadsMveCXr9gVhmlzqq8KKyOkC+vO5W/M/hG+oFLgKD984HETe
-   8tdVUXEnirYImob8RZQSQaqlvmEEIfc6fiYs1Dnxu2tQBSBxSI2/2CHlU
-   YpImZEDZ+spJMsxsHJHyFZQWIRH/yhQTnY+Zci8d9iUcPvlgZnWWGV+Vr
-   g==;
-X-CSE-ConnectionGUID: ajF0WLpsRYagXPaH0X5ekg==
-X-CSE-MsgGUID: zS/oJMPfTRK2ulQKEAovdg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="88529846"
-X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="88529846"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:17:20 -0700
-X-CSE-ConnectionGUID: 8vGVsw0RQa+t7/rJaPsOyg==
-X-CSE-MsgGUID: ppxpvPD9QGCaHvfRueNAxQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="227813224"
-Received: from spandruv-desk2.jf.intel.com ([10.88.27.176])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:17:19 -0700
-Message-ID: <b0f831a9f9c59563b16de702b4e4c37c2279b45c.camel@linux.intel.com>
-Subject: Re: [PATCH v3 2/2] platform/x86/intel-uncore-freq: Expose instance
- ID in the sysfs
-From: srinivas pandruvada <srinivas.pandruvada@linux.intel.com>
-To: Maciej Wieczor-Retman <m.wieczorretman@pm.me>,
- skhan@linuxfoundation.org, 	ilpo.jarvinen@linux.intel.com,
- hansg@kernel.org, corbet@lwn.net
-Cc: linux-kernel@vger.kernel.org, platform-driver-x86@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Maciej Wieczor-Retman
-	 <maciej.wieczor-retman@intel.com>
-Date: Wed, 22 Apr 2026 09:17:19 -0700
-In-Reply-To: <b9ae8d5f1ab86bcdb1a8636fa48865a9e49e2e21.1775665057.git.m.wieczorretman@pm.me>
-References: <cover.1775665057.git.m.wieczorretman@pm.me>
-	 <b9ae8d5f1ab86bcdb1a8636fa48865a9e49e2e21.1775665057.git.m.wieczorretman@pm.me>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Fj7NZByP";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="xmrc0EtF"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63MBmOsc2558566;
+	Wed, 22 Apr 2026 16:44:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=iGffhCpWV6pE9k2sfamAp0oZAk+Mnr4jwnSFXd24X/A=; b=
+	Fj7NZByP4V9uKTeT/f8VCHKWRKH1rpCti6crerqTiyyuv0FfeQH3Pxq1RY+mTtqK
+	8PcU3j2IIpUCi47YhOnARSnEmxl8iBI8sPkSclnR8hJxg4VzXz5Pbo+xdwzPeG1D
+	FsmzZj2PhbdyUdtj9Yazm1/yGjFSjPSU1EV8e6A2/fG6jBvkLafei/slnLNV2Vuq
+	2Kx802WK0wztjNSt1XdzjYrtpsFlZhesotV1+ehX/KY0IphuJv7+qVNgCw283q2V
+	J1/j5WL+S3BxkP6wyOZN+SPfn2zKinJfykFbE/ICXTBB4CbjlR4lLxtGx41HAnBG
+	rE791JpucsATPqftVMAKXw==
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 4dpha59j05-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Apr 2026 16:44:49 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.7/8.18.1.7) with ESMTP id 63MGfKmu030255;
+	Wed, 22 Apr 2026 16:44:49 GMT
+Received: from bn1pr04cu002.outbound.protection.outlook.com (mail-eastus2azon11010047.outbound.protection.outlook.com [52.101.56.47])
+	by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 4dpjjqfvdr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 22 Apr 2026 16:44:49 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rPi2D5rvfiJupWp8eKH/VL0kmFJYiJiM+o3z+bVhpl0xzYIOSDni1XlYllF5uddpGh1ADlhuztGkPVQ3SghWRVs0Z/WS4R8OsAr7Q0vV0rjW81fYfcNLF1VWZ1wOajQJwBdQ73eHVK9+HBd/Vys1gk3UPdGi0o4fEQpQgNN8lsLxjdnD5lJxzCgzHk9ucgh8wWZDKqI349hVblpkOueWEAxVbnJWVk3lnvMMTKkuUucnu8k/cYiUTLVqBA0ZrNA1Js4HI0qIvYpiq49VoDXY9+qrzcaPbnDme5SDEJ8ufTCfxOLh53yvLD3VtteOFoG2g1rF9mek5LdWwXxlV1MoHQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=iGffhCpWV6pE9k2sfamAp0oZAk+Mnr4jwnSFXd24X/A=;
+ b=gZs0tVS7HDDHfUQA7eIY+6sW1x4ozi4mvtoHS/avB+LbV595ZnY/7qY+wmiHTa4hm8unW3t0sjcIyhPtfdLjO2w1lfpel8RiMhPkY/vye2cHy4ovC9UoQdqw0mwGbh95VzIS+Rf6/HCAbBt7ZWQy3Iip1+OOjOB7NK/Ik5ZB3fZIMud7LkuRdzbfXwr4TwRX97QQS1PZYeh7xpSRj705T1PRT1G2BhFHj7APPaLBlbpK5RTX465pjJOdCx1xeaav698Zvy2dbW37byT0LHp2+LsOSbUO6AHIsuY5pTQcZ7n0T9yqFaPBA/n5/hOGpXfNx0egc3w5C6T/fsmC/vwcmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=iGffhCpWV6pE9k2sfamAp0oZAk+Mnr4jwnSFXd24X/A=;
+ b=xmrc0EtF4PN1iaSjkShmNRgsPBJSREI7AQ/epJTcvnEsphrdbXDPL0SUGTloRJRtjV/EffMLhXI5V/wfpjUO5TVxaLi4kERzD9uKDeQu1vwO4H2GQV3lEWWgVhZ+3RoA4rw0D0LwvAqzvhmL8Wc2hnObxr3T6biVY2LYH1mKLSE=
+Received: from DS0PR10MB7364.namprd10.prod.outlook.com (2603:10b6:8:fe::6) by
+ DSVPR10MB997821.namprd10.prod.outlook.com (2603:10b6:8:383::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.16; Wed, 22 Apr
+ 2026 16:44:46 +0000
+Received: from DS0PR10MB7364.namprd10.prod.outlook.com
+ ([fe80::a4df:c903:e1aa:322f]) by DS0PR10MB7364.namprd10.prod.outlook.com
+ ([fe80::a4df:c903:e1aa:322f%3]) with mapi id 15.20.9846.019; Wed, 22 Apr 2026
+ 16:44:45 +0000
+Message-ID: <a36c592b-0456-4551-9a53-f513233cc129@oracle.com>
+Date: Wed, 22 Apr 2026 09:44:40 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/6] hugetlb: open-code hugetlb folio lookup index
+ conversion
+To: Matthew Wilcox <willy@infradead.org>
+Cc: akpm@linux-foundation.org, david@kernel.org, muchun.song@linux.dev,
+        osalvador@suse.de, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+        vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+        corbet@lwn.net, skhan@linuxfoundation.org, hughd@google.com,
+        baolin.wang@linux.alibaba.com, peterx@redhat.com, linux-mm@kvack.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260409234158.837786-1-jane.chu@oracle.com>
+ <20260409234158.837786-2-jane.chu@oracle.com>
+ <aeZwAz6PcdlqSnJ2@casper.infradead.org>
+Content-Language: en-US
+From: jane.chu@oracle.com
+In-Reply-To: <aeZwAz6PcdlqSnJ2@casper.infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BYAPR06CA0004.namprd06.prod.outlook.com
+ (2603:10b6:a03:d4::17) To DS0PR10MB7364.namprd10.prod.outlook.com
+ (2603:10b6:8:fe::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR10MB7364:EE_|DSVPR10MB997821:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2ddac1fb-a279-4aeb-741c-08dea08e75cb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	WIk5A3tsuiuxaigd4MxnC0sbz/8cJLyBNXS1qJby3byVoh3lIBmzmXuirV8OpGmgbQaDUyGu/Ba472telthX0Ly3J8DFFRBLN4e4ZNuwpmHjkIurcNwx2wyqr39JXbod/a+kGB+SUb6QtpwX79zWRotsm4Z2K7UIlxWhqSC6MpTbOq3jkAvmglsQEm1o2kIs7m1sGiN4h2TeXO9zYux2knO3Y7osPjgDbk2wWAuM+aVHot2Md77BrQH3rmw62VcFYh9qkCo3Tx2fDAS2vqF5de7vjFhVSpxMA+hMwxvX3G5mMjSRzyYehVXHZZBFzdiEunxhqR4ilKEUzcVwd6SuTa4JBUHpl4ePbPtNmAGExRHV8pZIAjy5FWEw2IcOnC3z/5w0E6gcfQfa/rwU2BZ85HbwfyP0sRaMUh/VjmYExJEBtF2JChrRB+S4jMWtMDUFp/z0lLhYI9BmoY7jLe5sz4QJ/9p8HTI7RYZ3otq/PfzAYUcYZLo7/0fwCVKt9bq2xIz7dCw/gKA93MoLN6pKlTbfBfZ7nURTtEYH4ktypKZx0QG2Gc1tNPWAP8y4xPp3/44U/eDUFiWN6UgYms3r8rKsDVy5b+U8BBa6S2MIJr832E5J2uT1zg1TnYl5HRRsZtZ3V8lHBojaek+82y410Amx0RaCRT/On+LQFdMzsrlRXd4gC/+8+dbSUkJ0OgXPwPUzp3MhhvU8ZpWqMuoMrzqFak6fIGvl7zSzLINyrKQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR10MB7364.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YkhSQWptOHE5VWN5Z0ZHZ25jaHpjRWlldllRR01EMmFtY0tZOStOZlVRdVBY?=
+ =?utf-8?B?cWVoME5lWkZQMFV5UExzRGdiMlJSL0t2WE9HNm01aEozcFlLNWhNcmdNU09Z?=
+ =?utf-8?B?OFpXUlpERXVGTTd4Z2pQSENTeGtqREtJeEhUVllzc2ozQUVIOS9QK0RMOFVr?=
+ =?utf-8?B?bVlSQm4wV1RCUEc4VEJmdThxLys2QS92ZVpHQllqd1Nlb1R5cGxQMHJHeHVJ?=
+ =?utf-8?B?SUxtQm5ETUVLdTVOelBKcW1Qc0o3TUs0YndFaW5MT2dzYnpueFl5NjZwVzBI?=
+ =?utf-8?B?TUt5akFrY2VLcnIxcDVucFhaZE5KNmo2bENpOUZKTGQ0ZkQ5ZUJsRzFkQVlZ?=
+ =?utf-8?B?cVZLMDNlYTFhNXVsR3RqMW42Qy9zendtU2FTbFMvazFjbEpaWVM1THZSTE40?=
+ =?utf-8?B?cmc1UUlxL1ZlMnNrcVVFV1JEL29paXdWaWJqVmI2dGQweDNpUmlMby9Jc09H?=
+ =?utf-8?B?OGR3dWRlUDVOTHRQdmVINjB1Ym1RVFJHUUJkZ29hNUxuZTlSTGNJaFZsVXI2?=
+ =?utf-8?B?UmtIQTNmdmdyY2tWWS95d2JjY2dvSm8zY0RQM0VyUHdWdytLNUN4Q1dWcmZH?=
+ =?utf-8?B?ZFRwS01qVnQwc0tWSTY4MGp5eit5SWZJSzlIbXlRVnNOTW5MeVQ4TG14R1U4?=
+ =?utf-8?B?Y0swdTlLMEJIUXJ6amgzbGtWcXArMEovblFzaXNrQkRnWW9CclVYWmQxQ0Fs?=
+ =?utf-8?B?QXZrZmY5cUd3MkNIQjRRTVBwMFI1c095aURlY05NRGJzcU8vT1ZOd2lnaTVo?=
+ =?utf-8?B?dlU0UWs0UHNTcGY2N3QyaTA1WFlNbk1mQTJmRU9odmVnVTI5eWxPNkJoKyts?=
+ =?utf-8?B?cFMxRmt4aXhGUzc0ZnIzekJ0UUQ1eVZuRlNPU0lhTUVGdmROZnNxd1lvSjcw?=
+ =?utf-8?B?bjFqU0VjcVk2OGtKK0FjOE1nVUZEbXBiZTBnQTdFc2hOclFDei9pT2hIQktw?=
+ =?utf-8?B?YXRPYkZGd1ZyTTRBak5vak5HRTJJZjRJeE8yK1NxcEJPU2h1ZDNDS0d3cTFn?=
+ =?utf-8?B?S3U1ZHRGalNUdGxVMlN4dS9wOEw1WlVFZXdTZForVVJ0VXREeVFuRjl3SndS?=
+ =?utf-8?B?RDhZUmt2RWs3SUIvVitvQ3lTSVg1dVBnajRJQmZCQUFmNFltWG9xOEdxN2l4?=
+ =?utf-8?B?dDBtV2ptanlnTmNUMzFvWlhiNU9OdVZQM1hsMjk1Tk1ubEZGbjZQVVN4bE42?=
+ =?utf-8?B?KzY2WTBrd0tFRnJwSFVpaFpoSWJtaHlza0JNOFV5eEZRODFpaFBPakwxazFp?=
+ =?utf-8?B?UzIwL1ROeXBuWERVQWh6Ynl5bVg4S2RPc1FKYjJtcWVhL0JCZ0pIcVczQkhs?=
+ =?utf-8?B?MXNIOVJpUnNOUkdPYkorUFhXSmpsWXl2MXZ1bVlhSllJRE11cmFyQWJWZU9L?=
+ =?utf-8?B?dlhpV2I1NzJVZm51U2o3eGtkUmZQcHRxMlBBNGdHNjhOVUhiSzAvOEpYR3dO?=
+ =?utf-8?B?VTNaMnY4dmpaQ1pRb21RUGllRUIzOFllVTgvekUvQi9BQzlsUG9UOHcyZU5V?=
+ =?utf-8?B?TURRRG04b2Vxcm9xUk04ZkZpQXRwMWlWWkdsRFFQWjBTZ3dER1hMMndMMlNw?=
+ =?utf-8?B?TE5uODl3cHFOVWt2bzZxRWNSQnV6aU1xM3RFRWRFVmxudit6eTdZV3dYOHo0?=
+ =?utf-8?B?U0kxWm5JdE1kT2pJVXpwdmN1ODJRTUtqREtjNVpJeUZGWS9VS2hpQmZ3ZmVV?=
+ =?utf-8?B?TCtHUXdNUW9KclFIMGlWSWo0OVp0WDhtWXZLbktaT1BZekV1UXF6RnVXdFdt?=
+ =?utf-8?B?bUNERS8vNGIycXRIMjcrbG9ZUE5Yb0VySFprSnYvMGsvT3llODVSWVp1czRj?=
+ =?utf-8?B?MHorNnpuU3RPWmwzNnpjMlJCMFNOS3loVVlYNVJEWXFNUm5qSTJLak8zMjFN?=
+ =?utf-8?B?VTVXbGJGL1ZoaVoxNHNXOEZuZkxiMlg5UjNmNkpGNlJXYktUb2xkNzJVNGdO?=
+ =?utf-8?B?YStoYWphS0JqSzlvUXJrUjY5aDM5WXFjMVp3NG4rMUFxdXJWQmZZaE1Cemx1?=
+ =?utf-8?B?SDNpdE1seTRtK3lyU2N1ZUJCT3l5TTk4N1krN3pXZGY1czdFTngwb09mcVZq?=
+ =?utf-8?B?RGFGWTA5cVdhVTN2TkJLOTF4bldKbGFvVnRlSnUrM01ha1hlcjJ1SDZ3c3FP?=
+ =?utf-8?B?QlRWNzRoVUxQcHZoVWFuRHBubUtsTngxMGhjSjVpeGIvdFh6UG9GMlFIQkdL?=
+ =?utf-8?B?NzU5eWJpMXBuN2tPVU1mYU56RWFTWXBGK1A0aVgrYWZqeUFBUkk3TGpReGUz?=
+ =?utf-8?B?ODlObDZhTUxQbWs0Um80eWRtclJlQXpwV1dxeUVwdlNjZXc5U09Bbi85YXpL?=
+ =?utf-8?B?a1hiZXVvR0tGazUxNW5NdDY4dFN3azJEUGxZYWRocGQxS1ZwaGpUUT09?=
+X-Exchange-RoutingPolicyChecked:
+	Ce0K5FsBAWA+3tuaZlOyupf+FXVPZ+FhoSNYrTpsVvt2+eg0z13KqvrTsX7G7CvN4l/bW7vSFaw5D3qkgNoAoWtBKzfPx4x+T85TMfC8IDS9SAqktOdk8K8TxPXImzHmk4KlXJ/YT3hqHuWMDNkoYvdzWd0DU+S5Q3hG5ktj2sU9fFuRHQgxNwJFNHCRXbr8czmvgwM7lARRKbKZEXhSd5L6vVrycHkWHk9NVm4WnGeAmUDJGhKWHrDt7o6JPRgKb9QRM284W5qxO8Fa5Rh2yOlT+pSMz5lQfZl/DDfXXk+Vm+1/oHREhz2umKmP0gz4fJsZSddvDMS9u3+GFegsSQ==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	1uslenc3UCgvcmq8lhKpbQkx/oa8FlG9rDYv/kfcxm20NUrtrSlsUOsw+1qdw6GmkJifhNMHYmJlc3/RMOt2h1e2Z7kTC/rnQIlvpG27/kTuA6qEPFOTyo+c89H//YJBQpakVvXcIsuqyY8ROVpnHBmLEwBQer4gudgp0JrNlRpYunDi9kSp+BFofV8nv0of8HN3JXUIm5xvYPHwRey33XF6/tYBkTs/1ChW71DBWMHoq1jrwXZEPRi+0RpebdoAKSYt2F7po4f4Ypuuu0tPIXG3SeJFA5Dhl9+RU2xj/aIs6Zb1yahvlPeIl2oOHVsAs2bDIQVv5T6UbYaEOGFw2sxt+jyW9JYx/AC5mWMiz8EyVc3nqM4MygDckEjE0rABiinurCKANbNpRsKDvgujFaorLLV1kJcp5FLFvJ6DO/SEGnIMhHGRD4yEvgZQeE96YsZrkq26/4/q80SpR1lceUJemixbL8zicQ/p9YubAGwyYSiJl5mbdIufGJaFPCKwY4rqGpXo+YunhWoK35KmKjN4z/tMRbp+PIGAx7cymZA/C+pcUGoJ9pWSMgmIr3SW6WYI83QLbuRuIXBDXmHL7Fq4twl7waer0ys5/iZHnNo=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2ddac1fb-a279-4aeb-741c-08dea08e75cb
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR10MB7364.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2026 16:44:45.8162
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 17yvjleydCjMrfjjYSwgQwiC13RTQl65IS1fakRLTinDEt6NLklSnoyIU6bV/2nrwhsmgcaKV0nwg++mURox3Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR10MB997821
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-04-22_01,2026-04-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ spamscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 malwarescore=0
+ mlxscore=0 mlxlogscore=999 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2604200000 definitions=main-2604220162
+X-Proofpoint-GUID: Cq8yCHWSVe1EviWC87sKPmkY5OsGN4HD
+X-Authority-Analysis: v=2.4 cv=QM5YgALL c=1 sm=1 tr=0 ts=69e8fb02 b=1 cx=c_pps
+ a=zPCbziy225d3KhSqZt3L1A==:117 a=zPCbziy225d3KhSqZt3L1A==:17
+ a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=A5OVakUREuEA:10 a=GoEa3M9JfhUA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=jiCTI4zE5U7BLdzWsZGv:22 a=BqU2WV_vvsyTyxaotp0D:22 a=96wP7kw-SJ_3bd_VmpIA:9
+ a=QEXdDO2ut3YA:10 cc=ntf awl=host:12291
+X-Proofpoint-ORIG-GUID: Cq8yCHWSVe1EviWC87sKPmkY5OsGN4HD
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDIyMDE2MiBTYWx0ZWRfX3dxs3oZWKaC4
+ iDN+Gms05wVooC/P4f9M2c+dJcF9XKynrTHlfb1RDOg1Lk+vURWIjcEiGhfGT3DFuOuhUkaGqfi
+ EAm7QL7VDegTanlKu06GcS3vSDOkD2embscVNqvf8RNQShQsd6A1aruuVlSKE/g0U+zLSRBPW2d
+ /4+QGXteSNWO5cQTBsyyEZaerIm4xYIlpNkQYpJRFip2crEaOb/jyFGnTwGeVMqBtQiPYhc1X0A
+ GjB6d8MNeoIwzLw44ap4pKEHMqov3PTY/hXmVVOD+Fp69An6t83Vx32Qpf1sLu9GLeMfrmBl3/g
+ Tyk8/wlPbG/Z3GRTPxE6nJvNwmiIGRCidjnr0CO0B5+QpKM+sc7l0DvaPEqeedRSQ0rEIIyNALR
+ Z4s3GfjQFvYEx9Iq00oCKOVBVB/YJUY9wZr+R0I79ryuHi6Fk+zm/S3wCQs8DqWaOZ9T/vvXrpf
+ gFol3NPrvYSOpyIHetNIHx3oixnF93mDWPPGbvjI=
 
-On Wed, 2026-04-08 at 16:27 +0000, Maciej Wieczor-Retman wrote:
-> From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
->=20
-> Insufficient data is exported to allow direct access to TPMI
-> registers
-> through MMIO. On non-partitioned systems domain_id can be used both
-> for
-> mapping CPUs to their compute die IDs and for mapping die indices to
-> their MMIO memory blocks presented to userspace via TPMI debugfs.
-> However on partitioned systems the debugfs association doesn't work
-> anymore. This is due to how TPMI partitioning influences domain_id
-> calculation. The previous association is lost on partitioned systems
-> in
-> order to keep using domain_id for mapping CPUs to compute dies.
->=20
-> Expose the instance ID in sysfs that's unique in the scope of one
-> TPMI
-> partition (and hence one TPMI device). It's a physical index into
-> mapped
-> MMIO blocks and can be used by userspace to figure out how to
-> directly
-> access TPMI registers.
->=20
-> Signed-off-by: Maciej Wieczor-Retman
-> <maciej.wieczor-retman@intel.com>
-Acked-by: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
 
-> ---
-> Changelog v3:
-> - Change sprintf -> sysfs_emit in show_instance_id().
-> - Change part of patch message 'MMIO memory blocks mapped' -> 'MMIO
-> =C2=A0 memory blocks presented to userspace...'
-> - Change assigning function to static inline.
->=20
-> Changelog v2:
-> - Redo the patch message.
-> - Redo the function comment that assigns instance_id.
-> - Modify the documentation.
->=20
-> =C2=A0.../pm/intel_uncore_frequency_scaling.rst=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++++++
-> =C2=A0.../uncore-frequency/uncore-frequency-common.c=C2=A0=C2=A0=C2=A0 | =
-10 ++++++++++
-> =C2=A0.../uncore-frequency/uncore-frequency-common.h=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 6 +++++-
-> =C2=A0.../uncore-frequency/uncore-frequency-tpmi.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 15
-> ++++++++++++++-
-> =C2=A04 files changed, 36 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/admin-
-> guide/pm/intel_uncore_frequency_scaling.rst b/Documentation/admin-
-> guide/pm/intel_uncore_frequency_scaling.rst
-> index d367ba4d744a..b43ad4d5e333 100644
-> --- a/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-> +++ b/Documentation/admin-guide/pm/intel_uncore_frequency_scaling.rst
-> @@ -88,8 +88,15 @@ and "fabric_cluster_id" in the directory.
-> =C2=A0
-> =C2=A0Attributes in each directory:
-> =C2=A0
-> +``instance_id``
-> +	This attribute is used to get die indices in userspace
-> mapped MMIO
-> +	blocks. Indices are local to a single TPMI partition. Needed
-> for direct
-> +	TPMI register access.
-> +
-> =C2=A0``domain_id``
-> =C2=A0	This attribute is used to get the power domain id of this
-> instance.
-> +	Indices are unique in all TPMI partitions on a given CPU
-> package. Can be
-> +	used to map compute dies to corresponding CPUs.
-> =C2=A0
-> =C2=A0``die_id``
-> =C2=A0	This attribute is used to get the Linux die id of this
-> instance.
-> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
-> frequency-common.c b/drivers/platform/x86/intel/uncore-
-> frequency/uncore-frequency-common.c
-> index 25ab511ed8d2..3b554418a7a3 100644
-> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> common.c
-> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> common.c
-> @@ -29,6 +29,13 @@ static ssize_t show_domain_id(struct kobject
-> *kobj, struct kobj_attribute *attr,
-> =C2=A0	return sysfs_emit(buf, "%u\n", data->domain_id);
-> =C2=A0}
-> =C2=A0
-> +static ssize_t show_instance_id(struct kobject *kobj, struct
-> kobj_attribute *attr, char *buf)
-> +{
-> +	struct uncore_data *data =3D container_of(attr, struct
-> uncore_data, instance_id_kobj_attr);
-> +
-> +	return sysfs_emit(buf, "%u\n", data->instance_id);
-> +}
-> +
-> =C2=A0static ssize_t show_fabric_cluster_id(struct kobject *kobj, struct
-> kobj_attribute *attr, char *buf)
-> =C2=A0{
-> =C2=A0	struct uncore_data *data =3D container_of(attr, struct
-> uncore_data, fabric_cluster_id_kobj_attr);
-> @@ -200,6 +207,9 @@ static int create_attr_group(struct uncore_data
-> *data, char *name)
-> =C2=A0	if (data->domain_id !=3D UNCORE_DOMAIN_ID_INVALID) {
-> =C2=A0		init_attribute_root_ro(domain_id);
-> =C2=A0		data->uncore_attrs[index++] =3D &data-
-> >domain_id_kobj_attr.attr;
-> +		init_attribute_root_ro(instance_id);
-> +		data->uncore_attrs[index++] =3D &data-
-> >instance_id_kobj_attr.attr;
-> +
-> =C2=A0		init_attribute_root_ro(fabric_cluster_id);
-> =C2=A0		data->uncore_attrs[index++] =3D &data-
-> >fabric_cluster_id_kobj_attr.attr;
-> =C2=A0		init_attribute_root_ro(package_id);
-> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
-> frequency-common.h b/drivers/platform/x86/intel/uncore-
-> frequency/uncore-frequency-common.h
-> index 0d5fd91ee0aa..e319448dc1a4 100644
-> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> common.h
-> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> common.h
-> @@ -36,6 +36,7 @@
-> =C2=A0 * @domain_id:		Power domain id for this instance
-> =C2=A0 * @cluster_id:		cluster id in a domain
-> =C2=A0 * @seqnum_id:		Unique sequential id to append to directory
-> name
-> + * @instance_id:	Die indices or feature instances for a
-> single TPMI device
-> =C2=A0 * @name:		Sysfs entry name for this instance
-> =C2=A0 * @agent_type_mask:	Bit mask of all hardware agents for this
-> domain
-> =C2=A0 * @uncore_attr_group:	Attribute group storage
-> @@ -56,6 +57,7 @@
-> =C2=A0 * @elc_floor_freq_khz_kobj_attr: Storage for kobject attribute
-> elc_floor_freq_khz
-> =C2=A0 * @agent_types_kobj_attr: Storage for kobject attribute agent_type
-> =C2=A0 * @die_id_kobj_attr:	Attribute storage for die_id information
-> + * @instance_id_kobj_attr: Attribute storage for instance_id value
-> =C2=A0 * @uncore_attrs:	Attribute storage for group creation
-> =C2=A0 *
-> =C2=A0 * This structure is used to encapsulate all data related to uncore
-> sysfs
-> @@ -72,6 +74,7 @@ struct uncore_data {
-> =C2=A0	int domain_id;
-> =C2=A0	int cluster_id;
-> =C2=A0	int seqnum_id;
-> +	int instance_id;
-> =C2=A0	char name[32];
-> =C2=A0	u16=C2=A0 agent_type_mask;
-> =C2=A0
-> @@ -90,7 +93,8 @@ struct uncore_data {
-> =C2=A0	struct kobj_attribute elc_floor_freq_khz_kobj_attr;
-> =C2=A0	struct kobj_attribute agent_types_kobj_attr;
-> =C2=A0	struct kobj_attribute die_id_kobj_attr;
-> -	struct attribute *uncore_attrs[15];
-> +	struct kobj_attribute instance_id_kobj_attr;
-> +	struct attribute *uncore_attrs[16];
-> =C2=A0};
-> =C2=A0
-> =C2=A0#define UNCORE_DOMAIN_ID_INVALID	-1
-> diff --git a/drivers/platform/x86/intel/uncore-frequency/uncore-
-> frequency-tpmi.c b/drivers/platform/x86/intel/uncore-
-> frequency/uncore-frequency-tpmi.c
-> index 1237d9570886..32d03bee09a0 100644
-> --- a/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> tpmi.c
-> +++ b/drivers/platform/x86/intel/uncore-frequency/uncore-frequency-
-> tpmi.c
-> @@ -385,7 +385,19 @@ static u8 io_die_index_next;
-> =C2=A0/* Lock to protect io_die_start, io_die_index_next */
-> =C2=A0static DEFINE_MUTEX(domain_lock);
-> =C2=A0
-> -static void set_domain_id(int id,=C2=A0 int num_resources,
-> +static inline void set_instance_id(int id, struct
-> tpmi_uncore_cluster_info *cluster_info)
-> +{
-> +	/*
-> +	 * On non-partitioned systems domain_id can be used for
-> mapping both
-> +	 * CPUs to compute die IDs and physical die indexes to MMIO
-> mapped
-> +	 * memory. However on partitioned systems domain_id loses
-> the second
-> +	 * association. Therefore instance_id should be used for
-> that instead,
-> +	 * while domain_id should still be used to match CPUs to
-> compute dies.
-> +	 */
-> +	cluster_info->uncore_data.instance_id =3D id;
-> +}
-> +
-> +static void set_domain_id(int id, int num_resources,
-> =C2=A0			=C2=A0 struct oobmsm_plat_info *plat_info,
-> =C2=A0			=C2=A0 struct tpmi_uncore_cluster_info
-> *cluster_info)
-> =C2=A0{
-> @@ -686,6 +698,7 @@ static int uncore_probe(struct auxiliary_device
-> *auxdev, const struct auxiliary_
-> =C2=A0			set_cdie_id(i, cluster_info, plat_info);
-> =C2=A0
-> =C2=A0			set_domain_id(i, num_resources, plat_info,
-> cluster_info);
-> +			set_instance_id(i, cluster_info);
-> =C2=A0
-> =C2=A0			cluster_info->uncore_root =3D tpmi_uncore;
-> =C2=A0
+On 4/20/2026 11:27 AM, Matthew Wilcox wrote:
+> On Thu, Apr 09, 2026 at 05:41:52PM -0600, Jane Chu wrote:
+>> This patch removes `filemap_lock_hugetlb_folio()` and open-codes
+>> the index conversion at each call site, making it explicit when
+>> hugetlb code is translating a hugepage index into the base-page index
+>> expected by `filemap_lock_folio()`
+> 
+> I think this is too large a piece to break off in a single patch.
+> The first thing I did was look at hugetlbfs_read_iter() and wonder
+> why we're not able to use generic_file_read_iter() here?  It used
+> to be necessary because we used to index the page cache in units
+> of hsize, but now we don't, it seems to me that we could use
+> generic_file_read_iter() instead.
+> 
+> Now, what hugetlbfs_read_iter() does have is support for hwpoison
+> handling.  I suspect this is something we want in
+> generic_file_read_iter(), it's just nobody's done it yet.
+> 
+> So perhaps that's patch 1 -- add hwpoison support to
+> generic_file_read_iter().  Then patch 2 removes hugetlbfs_read_iter() in
+> favour of using generic_file_read_iter().
+> 
+> Patch 3 is purely this:
+> (and you can put my Reviewed-by on it).
+> 
+>> @@ -652,10 +652,10 @@ static void hugetlbfs_zero_partial_page(struct hstate *h,
+>>   					loff_t start,
+>>   					loff_t end)
+>>   {
+>> -	pgoff_t idx = start >> huge_page_shift(h);
+>> +	pgoff_t index = start >> PAGE_SHIFT;
+>>   	struct folio *folio;
+>>   
+>> -	folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+>> +	folio = filemap_lock_folio(mapping, index);
+>>   	if (IS_ERR(folio))
+>>   		return;
+>>   
+> 
+> Now for patch 4 ...
+> 
+>> diff --git a/mm/hugetlb.c b/mm/hugetlb.c
+>> index a786034ac95c..38b39eaf46cc 100644
+>> --- a/mm/hugetlb.c
+>> +++ b/mm/hugetlb.c
+>> @@ -5724,7 +5724,7 @@ static vm_fault_t hugetlb_no_page(struct address_space *mapping,
+>>   	 * before we get page_table_lock.
+>>   	 */
+>>   	new_folio = false;
+>> -	folio = filemap_lock_hugetlb_folio(h, mapping, vmf->pgoff);
+>> +	folio = filemap_lock_folio(mapping, vmf->pgoff << huge_page_order(h));
+>>   	if (IS_ERR(folio)) {
+>>   		size = i_size_read(mapping->host) >> huge_page_shift(h);
+>>   		if (vmf->pgoff >= size)
+> 
+> This points to a horrible problem.  Everywhere else in the VM has
+> vmf->pgoff in PAGE_SIZE units, and of course hugetlb works in units of
+> hpagesize.  So this is an entirely different piece of work where we
+> convert vmf->pgoff to be in units of PAGE_SIZE.  That'll be fun!
+> 
+>> @@ -6208,7 +6208,7 @@ int hugetlb_mfill_atomic_pte(pte_t *dst_pte,
+>>   
+>>   	if (is_continue) {
+>>   		ret = -EFAULT;
+>> -		folio = filemap_lock_hugetlb_folio(h, mapping, idx);
+>> +		folio = filemap_lock_folio(mapping, idx << huge_page_order(h));
+>>   		if (IS_ERR(folio))
+>>   			goto out;
+>>   		folio_in_pagecache = true;
+> 
+> This is a much smaller (more contained) problem.  At least idx is local
+> to this function, so you can calculate it using linear_page_index()
+> and modify the whole function.
+> 
+> Finally, you can delete filemap_lock_hugetlb_folio():
+
+Thanks Matthew, these are great suggestions and I am looking into them.
+Main concern is potential performance impact, will find out.
+
+Thanks a lot!
+-jane
+
+> 
+>> diff --git a/include/linux/hugetlb.h b/include/linux/hugetlb.h
+>> index 9c098a02a09e..c64c6e5e50f5 100644
+>> --- a/include/linux/hugetlb.h
+>> +++ b/include/linux/hugetlb.h
+>> @@ -829,12 +829,6 @@ static inline unsigned int blocks_per_huge_page(struct hstate *h)
+>>   	return huge_page_size(h) / 512;
+>>   }
+>>   
+>> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+>> -				struct address_space *mapping, pgoff_t idx)
+>> -{
+>> -	return filemap_lock_folio(mapping, idx << huge_page_order(h));
+>> -}
+>> -
+>>   #include <asm/hugetlb.h>
+>>   
+>>   #ifndef is_hugepage_only_range
+>> @@ -1106,12 +1100,6 @@ static inline struct hugepage_subpool *hugetlb_folio_subpool(struct folio *folio
+>>   	return NULL;
+>>   }
+>>   
+>> -static inline struct folio *filemap_lock_hugetlb_folio(struct hstate *h,
+>> -				struct address_space *mapping, pgoff_t idx)
+>> -{
+>> -	return NULL;
+>> -}
+>> -
+>>   static inline int isolate_or_dissolve_huge_folio(struct folio *folio,
+>>   						struct list_head *list)
+>>   {
+
