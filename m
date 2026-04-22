@@ -1,170 +1,83 @@
-Received: from sphereful.davidgow.net (sphereful.davidgow.net [203.29.242.92])
+Received: from mail.mifritscher.de (mifritscher.de [188.40.170.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74BB02E06E6;
-	Wed, 22 Apr 2026 12:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.29.242.92
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19683D1CC6;
+	Wed, 22 Apr 2026 12:46:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.170.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776860673; cv=none; b=arOvpt5THYoXOPBaSCdDf5M7/6ta1QUg6TWSMObbIr8L+HmpzIRsAZpmXbsXhgbIoYIP0YsDjhgyhse7+2BbQ3z8RMqxN/iJAdwIuIo+4SXCCNmwrn5gziU+v1KAqW00zqfVuV16ApKkaMzGfl2lsynljdeJiOyFr/Y4SPyQBDk=
+	t=1776861987; cv=none; b=WxEuxX3F9ZB1lkD5z7Ye2Lg9NDV7miW3T/BDNMUNi0VyWZp/UDvznKDrHawnP5pIJCjKkcO4ChZd/BqIwgqnhAqQvtDPnpSxgDeLWlcozEWhkRW9nRFT36fzs/HN8B5pjoUOJ9jc8KUyZ9EMxUFabWweYyrhtqLaClvBOSdyD4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776860673; c=relaxed/simple;
-	bh=ny7vkY2fzG8mTBwVqO/QMWlF9EzgUJFVVOKu/qUlYIE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KgiR79Oy5gwZXEZNYFvXCUI2egpUWuZ+L6XXsVWZ15pvmT9VHw2CJdyFAvQWPY+EoX9JoiHJetlXpDMJ2/iN31ChrpjYAt79s+u5Nt7jQUZRHIspehY8V54EsYjY7xayEggrgD0UZBuneXVJ4EWnVsqUiMsHawvH8Blzc52vAig=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net; spf=pass smtp.mailfrom=davidgow.net; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=qRCsrzNZ; dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b=n6gHOe9B; arc=none smtp.client-ip=203.29.242.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=davidgow.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=davidgow.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="qRCsrzNZ";
-	dkim=pass (4096-bit key) header.d=davidgow.net header.i=@davidgow.net header.b="n6gHOe9B"
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1776860670;
-	bh=ny7vkY2fzG8mTBwVqO/QMWlF9EzgUJFVVOKu/qUlYIE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qRCsrzNZiGWtSdrdwr/hmGo/C8Z/qq6pUTCWmlRWVwbJQfGR7erqeOGfZ28AFDDDS
-	 t6ZlYnqoVr3YHODm1Jesc7GuiF8XUECcY/nJiNxPDlxFZwkQv9dmfl02Ry/mbVCQoN
-	 XAtJY8syOpjXHtoyF7sKnIIvpdgN77ZxVIWTpCOUx4K+wvBtmEMfU0zoV6WpvTxhF6
-	 z0yRNqTc139QZX6AkgvzkuBJ658k1pLPjLv33fNKOUv7OCfkwFvjfRZPWMi/96y6c+
-	 4QjbVBCVIpUunvx6q2WKkN//c7PiZMzUXn54zOEAjG2ILkV9BaCG+WJc5379nGZn4O
-	 5EyDv1mRt0rTSdAlGpG7usEb5v+TsIL6BkTL25di9TtVzcBjPeP1dYA3DIEK4+Tr6k
-	 uTpEBZnETOqomLZBZEQLujWkTNd7jBhPzSWSB6/ockOALkg0CuOxq0lW2giBwdlUVQ
-	 wMbtRwyDYeJVphzVheQ/XSILn5gQqsTnyl0EzkygOaxAGMvClG2EAnR8ayNusJawoR
-	 xYNtafNn/L2idzLW2H3PMH5QIxvxH18/MEXxxuzhzAXZVlfDuRygE7folOBcbMKxT8
-	 QxVH8SKrc87a/z3jDY6YXLQMmijzk/Uozad3R87117mOPOu2DHBQloh2Ysp/IxuVUH
-	 Gb2PvUznx50Uq8KuXBQCBMGw=
-Received: by sphereful.davidgow.net (Postfix, from userid 119)
-	id 968261E8DA3; Wed, 22 Apr 2026 20:24:30 +0800 (AWST)
-X-Spam-Level: 
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=davidgow.net;
-	s=201606; t=1776860426;
-	bh=ny7vkY2fzG8mTBwVqO/QMWlF9EzgUJFVVOKu/qUlYIE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n6gHOe9BzQy5I3LJfAPshR0ULJLuaobMTsQFvc9SrmIERn8nsNVk7EqptPSNkMfO/
-	 cxx2CYXvt38+3n71zY7BgVrGflkZlKVu8Fwv2bw5vbcJYZvLVr5dxrDWLPW6j3IYVV
-	 a1EzTAinrVYdri3M5EACB1zKxq6OOoxvAzxXfbmORh/Nn4VA7wg4EdvOl4gDfzGp/k
-	 yL7VLMqzA0AmRw9PWueFo487n3Q3IIgSoFxFFFBeeTPi21T6iz4/VRYSuuysbstjKh
-	 M3qYq1cbK7WIttnxGU79k5IjeRo7Cdbd6UVELtrREnkKuzQX8Bb3wt9RVUuJHIOKH9
-	 /sw0wkPu1e7r7mzTOmcHyS51v/uirWu3K0xtsm8XKSFoLCkYNXEwj/DX4mO9BSUXVY
-	 dqroH6mm63smzh1FyucpJpLnPwZ553BMSBy1+2j7LeDQPMYihOhZaP6wSSb8jtryAa
-	 VZDaFmc6SW7woWtCbaceE8iZykCpmW/dBWKYOqebaSh7Pb3jNCFr88wk/htV6j4D/k
-	 Cu/QEQ3zPJU+z3k2yiEb4DJ3wySFGBj4P1vwirHw3q4udLumafxgfoPswZpOFuDdPI
-	 uLjPnuRfU4/mm1wa56MN62Ya5mopAUSGL39f71SfNN1YrCQe1yScgo4cLDEuJYk2nj
-	 U1bsR2ays0hRqFVvOz0Xvthg=
-Received: from [IPV6:2001:8003:8810:ea00:ed87:ca88:5326:e11d] (unknown [IPv6:2001:8003:8810:ea00:ed87:ca88:5326:e11d])
-	by sphereful.davidgow.net (Postfix) with ESMTPSA id 943BD1E8D95;
-	Wed, 22 Apr 2026 20:20:26 +0800 (AWST)
-Message-ID: <0bd3f863-207d-4994-92cb-ec9999c0bc1b@davidgow.net>
-Date: Wed, 22 Apr 2026 20:20:26 +0800
+	s=arc-20240116; t=1776861987; c=relaxed/simple;
+	bh=5XDs8cWdZXpGBsh4Aa38JGEB+lFfhkffirPSTw1NeOE=;
+	h=MIME-Version:Date:From:To:Cc:Subject:In-Reply-To:References:
+	 Message-ID:Content-Type; b=iEuvF5PiSP3tHcMrXMhUviuyF1+MX/qtZYnjmIn6yslaRMA2ps9jVqVYetncAurAa95P1ClEGQI8xLNpwJVNziA+NkOrLQixD5sMxIeXtq7jT601I91Bck5NtQCX0hiSIolLb391+bHt5cNncpSNZ0RkB/GAIpAN/wt1rG8VmWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net; spf=pass smtp.mailfrom=fritscher.net; arc=none smtp.client-ip=188.40.170.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritscher.net
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.mifritscher.de (Postfix) with ESMTP id 6CE2B3B2728;
+	Wed, 22 Apr 2026 14:46:23 +0200 (CEST)
+X-Virus-Scanned: Debian amavis at mifritscher.vserverkompetenz.de
+Received: from mail.mifritscher.de ([127.0.0.1])
+ by localhost (mail.mifritscher.vserverkompetenz.de [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id Q2U_6VBKJUms; Wed, 22 Apr 2026 14:46:22 +0200 (CEST)
+Received: from mifritscher.de (localhost.localdomain [127.0.0.1])
+	by mail.mifritscher.de (Postfix) with ESMTPA id D83063B2618;
+	Wed, 22 Apr 2026 14:46:22 +0200 (CEST)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 5/5] kunit: Add documentation for warning backtrace
- suppression API
-To: Albert Esteve <aesteve@redhat.com>, Arnd Bergmann <arnd@arndb.de>,
- Brendan Higgins <brendan.higgins@linux.dev>, Rae Moar <raemoar63@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>
-Cc: linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com,
- dri-devel@lists.freedesktop.org, workflows@vger.kernel.org,
- linux-doc@vger.kernel.org, peterz@infradead.org,
- Guenter Roeck <linux@roeck-us.net>,
- Linux Kernel Functional Testing <lkft@linaro.org>,
- Dan Carpenter <dan.carpenter@linaro.org>,
- Alessandro Carminati <acarmina@redhat.com>, Kees Cook <kees@kernel.org>
-References: <20260420-kunit_add_support-v7-0-e8bc6e0f70de@redhat.com>
- <20260420-kunit_add_support-v7-5-e8bc6e0f70de@redhat.com>
-Content-Language: fr
-From: David Gow <david@davidgow.net>
-In-Reply-To: <20260420-kunit_add_support-v7-5-e8bc6e0f70de@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Date: Wed, 22 Apr 2026 14:46:22 +0200
+From: michael@fritscher.net
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+ <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH net 14/18] drivers: net: xircom: xirc2ps: Remove this
+ driver
+In-Reply-To: <408d1987-6ecb-4d3b-afed-8e202c8ff21d@lunn.ch>
+References: <73e3a34c-f1dc-403b-b007-18ff85d66ea1@fritscher.net>
+ <408d1987-6ecb-4d3b-afed-8e202c8ff21d@lunn.ch>
+Message-ID: <e36510873a1909a1bfd9a05cde99fef0@fritscher.net>
+X-Sender: michael@fritscher.net
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
 
-Le 20/04/2026 à 8:28 PM, Albert Esteve a écrit :
-> From: Guenter Roeck <linux@roeck-us.net>
+Am 2026-04-22 14:15, schrieb Andrew Lunn:
+> On Wed, Apr 22, 2026 at 08:21:23AM +0200, Michael Fritscher wrote:
+>> Good day,
+>> 
+>> actually, I do use Xircom PCMCIA network cards (yes, the 16 bit ones) 
+>> on
+>> Lenovo X60/X61 laptops as a second LAN card for server maintenances 
+>> with
+>> current 64 bit distros (e.g. Debian Trixie, which I plan to update to
+>> Trixie+1 when available). Why? Because I have them and they are 
+>> working ;-)
 > 
-> Document API functions for suppressing warning backtraces.
+> Hi Michael
 > 
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Reviewed-by: Kees Cook <keescook@chromium.org>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Reviewed-by: David Gow <davidgow@google.com>
-> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-> Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> ---
-
-Thanks -- it's always good to have documentation.
-
-Apart from one note below, this looks good to me.
-
-Reviewed-by: David Gow <david@davidgow.net>
-
-Cheers,
--- David
-
->   Documentation/dev-tools/kunit/usage.rst | 30 +++++++++++++++++++++++++++++-
->   1 file changed, 29 insertions(+), 1 deletion(-)
+> I will drop this from the patchset for the moment.
 > 
-> diff --git a/Documentation/dev-tools/kunit/usage.rst b/Documentation/dev-tools/kunit/usage.rst
-> index ebd06f5ea4550..76e85412f240e 100644
-> --- a/Documentation/dev-tools/kunit/usage.rst
-> +++ b/Documentation/dev-tools/kunit/usage.rst
-> @@ -157,6 +157,34 @@ Alternatively, one can take full control over the error message by using
->   	if (some_setup_function())
->   		KUNIT_FAIL(test, "Failed to setup thing for testing");
->   
-> +Suppressing warning backtraces
-> +------------------------------
-> +
-> +Some unit tests trigger warning backtraces either intentionally or as side
-> +effect. Such backtraces are normally undesirable since they distract from
-> +the actual test and may result in the impression that there is a problem.
-> +
-> +Such backtraces can be suppressed with **task scope suppression**: while
-> +``START`` / ``END`` is active on the current task, the backtrace and stack
-> +dump from warnings on that task are suppressed. Wrap the call from your test
-> +in that window, like shown in the following code.
-> +
-> +.. code-block:: c
-> +
-> +	static void some_test(struct kunit *test)
-> +	{
-> +		KUNIT_START_SUPPRESSED_WARNING(test);
-> +		trigger_backtrace();
-> +		KUNIT_END_SUPPRESSED_WARNING(test);
-> +	}
-> +
-> +``KUNIT_SUPPRESSED_WARNING_COUNT()`` returns the number of suppressed backtraces.
-> +If the suppressed backtrace was triggered on purpose, this can be used to check
-> +if the backtrace was actually triggered.
-> +
-> +.. code-block:: c
-> +
-> +	KUNIT_EXPECT_EQ(test, KUNIT_SUPPRESSED_WARNING_COUNT(), 1);
-
-
-It might be worth noting that all of these must be in the same function, 
-and the KUNIT_START_SUPPRESSED_WARNING() must be first. (And, in 
-addition, there can't be more than one START/END pair per-function).
-
-Of course, if the implementation is changed, that wouldn't be necessary. :-)
->   
->   Test Suites
->   ~~~~~~~~~~~
-> @@ -1211,4 +1239,4 @@ For example:
->   		dev_managed_string = devm_kstrdup(fake_device, "Hello, World!");
->   
->   		// Everything is cleaned up automatically when the test ends.
-> -	}
-> \ No newline at end of file
-> +	}
+> Would you be willing to take up the Maintainer role for it?
 > 
+> 	Andrew
 
+Hello Andrew,
+
+thanks! If someone mentors me I could try... I have experience with C 
+programming, esp. in the embedded world, but (almost) no experience with 
+the Linux kernel development.
+But regression tests etc. can be conducted by me - on 32 and 64 bit 
+machines. The oldest being a P120, the newest the mentioned X61 with its 
+C2D CPU.
+
+Best regards
+Michael
