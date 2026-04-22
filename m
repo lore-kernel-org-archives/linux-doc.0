@@ -1,133 +1,80 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19A2841760;
-	Wed, 22 Apr 2026 16:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054183803D7
+	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 16:58:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776876771; cv=none; b=eGcCucyP696P0ZcES0IQqxoFvw4p1Of8kO1goCc9mn+yhL5RSxDG8CCZxBHQmbqKzhDhsW7qx/l5xr/JkqOSewTFK4pqDAJkWfvDMhH+VINkhyZyJmowcuAVHh+MElA9ODs8wwexW1IdvMwIshfgOZG8J2l98/nhSqaVFh3N5FY=
+	t=1776877088; cv=none; b=JlhAOKu3jnXU38GgFM6e/xZ6l+FaavOXwJKVgGuSTDjHF3kRshXZ+1HlEOAF2a+ZSc1LBhLIQMXpsl08VPOCBZfPnwADK9yzrwz7HUcCLr89ocJ80MRq8s2Q2Junbf9q2dpvQUE5qfAzaB9beEuHErezWaMXh1qatcwm3+3uCOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776876771; c=relaxed/simple;
-	bh=BOQQ5+dDeyDGN5ehIWoCsWYAl95m1SowanHJoLBt+GM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QWJDOCBBfkwP+79wLEBGGFn0FwP8QbadIg1nnjn1m0OTu7vuUcx/k5pd7eMNPJq7HNxZ1LgKHmpQ6x56hi0CfdP7TG0Qqv9hUWmmM/xRfkQFrWueiT4PHMhpGJqNQqM1AIQbvAjE+r9uIbhcUpbIWlhBU84uIjPSJWSCJI2777g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mijp4cMr; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776877088; c=relaxed/simple;
+	bh=/A4nX0A+l8sOuG116fKpTo9ngJstZ6QdGb/oOGOWiNQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=FznJhwC/wb5Iybf/XgsBFSR0r/V7MN3Zgmm4J05lRjA/K4MYcHWdOETTm26oNezCPShqPTArz68AcYX4wL8p77G7SEUKScNrK208zB5FKmQp441+8wbMAPOTmPUr4MUE79+KXfmt1prct5eacvhQhYjv9kYeUmZTnkYsTfAW+i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sLjrwuRY; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mijp4cMr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776876770; x=1808412770;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=BOQQ5+dDeyDGN5ehIWoCsWYAl95m1SowanHJoLBt+GM=;
-  b=Mijp4cMrOwAwiGlOL3qlHYSbtwG4iZ/1TUnUcWiQ7Tu3Wg5UwWMdITOf
-   yPkZGXy34PkKH197+LHEcS1Ha0NSVAe7CLeDxBN39iYOBbGGKIyisOogl
-   /g65ov1OE3Seqm7xLKvQsXAKuhFhX+xHUBJG7HaaO8NplbrzlIFkAe7gV
-   cH2iZ47YjfB3OHRy0x7+Q3cYh9pyOW1uLZzu+FkOlSFEZvyAkolpoAvDy
-   oBYfOigGmXYLzrOKO6lFdLh9SqM2tfu3ZJkRBl2/qW0OlFury/Yk3KwEc
-   MsR18j3z33ZuWYu3dqy013b5uCIm0iRfCXwH7hz4tTbOTskRvIhsp3wAg
-   A==;
-X-CSE-ConnectionGUID: e7Is4ITsQ5ySxlBYrHGWtQ==
-X-CSE-MsgGUID: HsOiKWNTT8GI2YwoXDnvRw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="76867785"
-X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="76867785"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:52:49 -0700
-X-CSE-ConnectionGUID: UGBdbc8dTh6yJlJW1c7kXA==
-X-CSE-MsgGUID: kaGngltQRXK3CWkBzrcj4w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,193,1770624000"; 
-   d="scan'208";a="237384331"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.244.10])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 09:52:43 -0700
-Date: Wed, 22 Apr 2026 19:52:40 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, victoria@system76.com,
-	sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
-	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito@redhat.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v4 02/37] drm/blend: Get a rotation name from it's
- bitfield
-Message-ID: <aej82CO0l9_O1sX2@intel.com>
-References: <20260422-vkms-all-config-v4-0-dbb52e9aadc3@bootlin.com>
- <20260422-vkms-all-config-v4-2-dbb52e9aadc3@bootlin.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sLjrwuRY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=sR85nwy3EOg+TAggxv5JPs2F0l0/vULYj7a/wiOe72A=; b=sLjrwuRYKiaOKGKTt1ha68ej78
+	tOsTblmVwd0YmpastpYftkB06q13EAC2P4tkPU+tmAo7VQYxEiu9HjlvnutU/RGfsD4feZPp2LMnQ
+	1nC8C3nVQtG+mVqKwDk0QjHoNIwi+EphGjGe2vnnZt2dMYEuw7zlVjL7z4YR8jBkwCLdOBWBQ7jmm
+	LoQmIcKH0xTSFbr47r0/oszeqgqQn/P57iW1kNdAsuTUXf6cQsC5VmlcAL+psZHvLnoipXcmef0Gh
+	pRocR8IvCLJdJZHvzGQGxHrfRobhAjwppjurNpYY2BzXyHThUx5xyPDlSLu6nreb43/EKb3aEyR/H
+	Pdqt1ZYw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wFatl-0000000AXgx-04QO;
+	Wed, 22 Apr 2026 16:58:01 +0000
+Message-ID: <b845c448-1655-4860-9b6d-93d6f8426740@infradead.org>
+Date: Wed, 22 Apr 2026 09:58:00 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260422-vkms-all-config-v4-2-dbb52e9aadc3@bootlin.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+User-Agent: Mozilla Thunderbird
+Subject: Re: docs: Stale website link in trace/rv/monitor_sched.rst
+To: Matteo Martelli <matteo.martelli@codethink.co.uk>,
+ Jonathan Corbet <corbet@lwn.net>, Gabriele Monaco <gmonaco@redhat.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
+References: <403330813c60b650873c54c68042e066@codethink.co.uk>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <403330813c60b650873c54c68042e066@codethink.co.uk>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 22, 2026 at 06:47:59PM +0200, Louis Chauvet wrote:
-> Having the rotation/reflection name from its value can be useful for
-> debugging purpose. Extract the rotation property table and implement
-> drm_get_rotation_name.
-> 
-> Reviewed-by: José Expósito <jose.exposito@redhat.com>
-> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/drm_blend.c | 35 ++++++++++++++++++++++++++---------
->  include/drm/drm_blend.h     |  2 ++
->  2 files changed, 28 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> index 1f3af27d2418..11d8e13caea3 100644
-> --- a/drivers/gpu/drm/drm_blend.c
-> +++ b/drivers/gpu/drm/drm_blend.c
-> @@ -256,6 +256,31 @@ int drm_plane_create_alpha_property(struct drm_plane *plane)
->  }
->  EXPORT_SYMBOL(drm_plane_create_alpha_property);
->  
-> +static const struct drm_prop_enum_list rotation_props[] = {
-> +	{ __builtin_ffs(DRM_MODE_ROTATE_0) - 1,   "rotate-0" },
-> +	{ __builtin_ffs(DRM_MODE_ROTATE_90) - 1,  "rotate-90" },
-> +	{ __builtin_ffs(DRM_MODE_ROTATE_180) - 1, "rotate-180" },
-> +	{ __builtin_ffs(DRM_MODE_ROTATE_270) - 1, "rotate-270" },
-> +	{ __builtin_ffs(DRM_MODE_REFLECT_X) - 1,  "reflect-x" },
-> +	{ __builtin_ffs(DRM_MODE_REFLECT_Y) - 1,  "reflect-y" },
-> +};
-> +
-> +/**
-> + * drm_get_rotation_name - Return the name of a rotation
-> + * @rotation: The rotation mask (DRM_MODE_ROTATE_* | DRM_MODE_REFLECT_*)
-> + *
-> + * Returns: the name of the rotation type (unknown) if rotation is not
-> + * a known rotation/reflection
-> + */
-> +const char *drm_get_rotation_name(unsigned int rotation)
-> +{
-> +	if (rotation < ARRAY_SIZE(rotation_props))
-> +		return rotation_props[rotation].name;
 
-The value is a bitmask. This does not work.
+
+On 4/22/26 3:35 AM, Matteo Martelli wrote:
+> 
+> Hi all,
+> 
+> I came across the Documentation/trace/rv/monitor_sched.rst document and found
+> out that the link under references is stale as it points to what looks like a
+> scam website.
+> 
+> The link was added in [1] together with the first version of the document.
+> 
+> I'm just reporting without a patch as I don't know what the new link should be.
+> 
+> [1]: https://lore.kernel.org/all/20250305140406.350227-9-gmonaco@redhat.com/
+> 
+> Best regards,
+> Matteo Martelli
+> 
+
+archive.org's latest archive of it is at:
+https://web.archive.org/web/20250820090002/https://bristot.me/linux-task-model/
+
+but what to do with that?
 
 -- 
-Ville Syrjälä
-Intel
+~Randy
+
