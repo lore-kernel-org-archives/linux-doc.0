@@ -1,102 +1,101 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from mail.mifritscher.de (mifritscher.de [188.40.170.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDC430F934;
-	Wed, 22 Apr 2026 05:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C0BE30BF66;
+	Wed, 22 Apr 2026 06:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.40.170.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776836542; cv=none; b=lIN7Dpbyl7Nc2opw/MGECyhKqAT8tenPufI8eB/NGHgpRsGsJ0pol/VTSZbRyIjFQ+CwNMEo0gZ9TtTeAwev0Du4j+4JKt9M8hrJEbC+spNzi6eoRg3g0Mt2AD29xwDQR65QxVMrod+Gxj9RsZhd8n4JPXeuRSp4OKm88goNcLQ=
+	t=1776839408; cv=none; b=b5gHdRejg2ZKEho20gdvVg8Y+XLe1LgpHh0mJuzRu/Hww3CAH3g6j5A62u65TOUvl361nULnxo3Cx64e8kn65/Tz7w/Z32i4qLMseStmXOj5vdjFyVuixknIBgU2RIdneWHy5B30klmelg0SYDQaaKp2EJsEvUMtpT4CBeLziKk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776836542; c=relaxed/simple;
-	bh=IuHHzt4Q7AsQTVMSQh1iItGR2nKMpYGnQsu7gSUH/c4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZQKCCocku6NyQOPh4uDiBTRV2/c6DIf+/gjpUaJAWS+k9wzI5FZ8R/LiFoQz/F1/AO8RTei0IXSk6hMnwwLfsXIGqWtSwl6E+Ip6HiaYBqur9zY5PkKB0kzDEdQmSOXOvBBeX9Tk8Ws1xRLrsZDO+XHwtTd1trQXJ26rTujvVBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=KaFioBzg; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="KaFioBzg"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=LYoTaFQjJZPUSyJ5irSiuSmcDT4iSqItHhyvLoqVYF8=; t=1776836538;
-	x=1777441338; b=KaFioBzgrQaa2ntQtWO3O5WK+d1rFqADHY8TzJpNKW+IIdZy0lrKBcTGXL1G3
-	uFHr4O/RNbIhjbbMbqN+mQt7A3miAL72wBnd3go4pvNan7j5MMj/no/n25jnA08FKAJwMCRThgDsr
-	efBOVPwx80iQjBZJGMwhnCPmIqw5f2KSkxFzWeFQ3h2V46T1woXUMxXCFS6BXEMyXY5uJiQjKRuGc
-	AYBJXLmRgqnjk0m8w66fUX/MHzWLAGV779eksRsDKtU+UosnmAI7T+NzAMdi8JRCXeQXud2W1IXge
-	anYuRDE7Ldgr4mPjV+aieunKLbgT6aXhshaLA1rpNc8m1yjffw==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1wFQLd-00000003sXq-1hlX; Wed, 22 Apr 2026 07:42:05 +0200
-Received: from dynamic-002-242-147-051.2.242.pool.telefonica.de ([2.242.147.51] helo=suse-laptop.fritz.box)
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1wFQLd-00000000xSy-0iz8; Wed, 22 Apr 2026 07:42:05 +0200
-Message-ID: <0856a42d87b62d3ab7890c348b1fe9c83e630784.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH net 00/18] Remove a number of ISA and PCMCIA Ethernet
- drivers
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>,  Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Date: Wed, 22 Apr 2026 07:42:04 +0200
-In-Reply-To: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
-References: 
-	<20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	s=arc-20240116; t=1776839408; c=relaxed/simple;
+	bh=PQDH0StJ0KIoBnt92ufDDtB+6lCycOXf+fmbqNg6G80=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=EpczAZYdA5Rn3QoskGtpHiiXrxB5an5crY8bKkzcwqPUPl0UkA54cTQLjlk2tHSiCXuouMc7DyQ8/uY7j9pJBsE/pSKl+C/oH9PNpkis7eXa8VlYbT4d2joVESuiiVxpl6/AwpuS8FNcnLk8xd5ZGwDThsWEmGeP1/lSYrXJF2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net; spf=pass smtp.mailfrom=fritscher.net; arc=none smtp.client-ip=188.40.170.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fritscher.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fritscher.net
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.mifritscher.de (Postfix) with ESMTP id 647263B272A;
+	Wed, 22 Apr 2026 08:21:29 +0200 (CEST)
+X-Virus-Scanned: Debian amavis at mifritscher.vserverkompetenz.de
+Received: from mail.mifritscher.de ([127.0.0.1])
+ by localhost (mail.mifritscher.vserverkompetenz.de [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id P_bomKo3Iizb; Wed, 22 Apr 2026 08:21:28 +0200 (CEST)
+Received: from [IPV6:2001:4091:a244:8430:d203:b460:8d76:8c29] (unknown [IPv6:2001:4091:a244:8430:d203:b460:8d76:8c29])
+	by mail.mifritscher.de (Postfix) with ESMTPSA id 5DF253B2613;
+	Wed, 22 Apr 2026 08:21:28 +0200 (CEST)
+Message-ID: <73e3a34c-f1dc-403b-b007-18ff85d66ea1@fritscher.net>
+Date: Wed, 22 Apr 2026 08:21:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+User-Agent: Mozilla Thunderbird
+From: Michael Fritscher <michael@fritscher.net>
+Subject: Re: [PATCH net 14/18] drivers: net: xircom: xirc2ps: Remove this
+ driver
+To: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Andrew Lunn <andrew@lunn.ch>
+Content-Language: de-DE
+Autocrypt: addr=michael@fritscher.net; keydata=
+ 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
+ J8ECEUyP
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Andrew,
+Good day,
 
-On Tue, 2026-04-21 at 14:31 -0500, Andrew Lunn wrote:
-> These old drivers have not been much of a Maintenance burden until
-> recently. Now there are more newbies using AI and fuzzers finding
-> issues, resulting in more work for Maintainers. Fixing these old
-> drivers make little sense, if it is not clear they have users.
->=20
-> These are all ISA and PCMCIA Ethernet devices, mostly from the last
-> century, a couple from 2001 or 2002. It seems unlikely they are still
-> used. However, remove them one patch at a time so they can be brought
-> back if somebody still has the hardware, runs modern kernels and wants
-> to take up the roll of driver Maintainer.
+actually, I do use Xircom PCMCIA network cards (yes, the 16 bit ones) on 
+Lenovo X60/X61 laptops as a second LAN card for server maintenances with 
+current 64 bit distros (e.g. Debian Trixie, which I plan to update to 
+Trixie+1 when available). Why? Because I have them and they are working ;-)
 
-They might still be used for retro-computing on various non-x86 computers
-such as Alphas, older SPARC systems, PA-RISC and 68000 systems. Please don'=
-t
-assume that every computer is just an x86 computer.
+Best regards
+Michael Fritscher
 
-As for the AI-generated bug reports, I assume this will settle down sooner
-or later when reporters realize not every issue is being addressed. Anyone
-who is still using this old hardware won't be using them on machines direct=
-ly
-connected to the internet.
-
-So, why bother? Just ignore those bug reports.
-
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
