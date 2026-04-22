@@ -1,111 +1,105 @@
-Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
+Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6373BF689;
-	Wed, 22 Apr 2026 09:49:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3E63C277B;
+	Wed, 22 Apr 2026 10:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776851369; cv=none; b=KFmnlGUx3iKLyIPiCYYZKrpw97KJYTlN5Bk6aHYZugA4r3m0JSviM854SjgVRbtbFdP8/ylqBtDlC1UZcKRIsAeUPobJ8m2xpo0/r+gujl8A1+5I9FGmWW79108kV3rH3E479ClfBMRup9lL5ePw07QLlf5jDCNm7/oVxK4yPSs=
+	t=1776854717; cv=none; b=Cc0XKRsU/AhLOGvPuZZ6VD+IacfXl8AC0tAW1adOxmJBCt5sgypZT+/HslKANY2fRoAcZVINPhRFNIi3nQO34FVjIPmXmqE4esmUjR0GCTyRvZn7cKPSC217Mzc/PFIi4bZyEZizHZ9D7TAmOfNThix4c6TGrE9BsMBnrP4y2Cs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776851369; c=relaxed/simple;
-	bh=15chuYpccSlT6UpH8TNwNGnGHfksA7xi4fPhMzJSTtA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Q1SQvVqzfcgX5J76iIPnX2+MTFSTANDuKL0OSutYLY/Olj4K9xTiyCtnznUlYSmri33uVLf1XVkqEFhy+M1Qo+xDhh1jTHbxn20ntB4VUNbDh29ixfjlugBkxwjN8+PTIaQXDOALb/hWvA00jsvQPI1sJApdLb1rGLoI1ZFABoo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=DgMUIV9B; arc=none smtp.client-ip=211.125.139.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+	s=arc-20240116; t=1776854717; c=relaxed/simple;
+	bh=v2a5FraOdc2dV95xHacv/Tb64RjV51isslI60fgVfa8=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=HvEwGNyJtT0PR1bbDrV8BW7ohatrCWJtX+g5jrbXxvOGKXVCWGCj9mdZe5Zu7GfJifica4ULYKNmiP5vs+v8bfhMrtBoNiu+PHLQWPFxGCTK6vak4gXKFOJDKU7UFTkVBmWujNw4dIGEMfuxN+wDT8IejFr31QnZLmH4xfQLkhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DYJMmGIb; arc=none smtp.client-ip=103.168.172.148
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="DgMUIV9B"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1776851368; x=1808387368;
-  h=from:date:subject:mime-version:content-transfer-encoding:
-   message-id:references:in-reply-to:to:cc;
-  bh=oCL1gEFUP1wdiZ4mPtneZFBWlCiHxBCt8+1MrSojH7w=;
-  b=DgMUIV9BHTGiqw/rwcBi3frMa/ERShyUqL2eFvb6QtgC4SF2vvCIBBtc
-   DjJKU2RsAy38weI5fvy2to2+5ZHVhW/IVZ6Tav3GC7aZ37Wxtz78HRtLa
-   QbhhFYeLBW1TZSId3E+087rZtRGP7/WjwO6HOtLTMmzAKxp+au2FFlxlF
-   7e7xTdoUXfsRN2SVAO97+7fySNfSoeo5idu0xSwqDxOkSb1/cFzEtdv/3
-   X9rB/DoF1e9QcCUUxRyX5cBFaIyoGSeahDMla0rNX5XWfYmKAQHd0TDkU
-   TRjD4SOFbBmosxaodC6Te2FqEpsfP4CaBywES6Grwcp5sP9L4vOL/1zQ6
-   g==;
-X-CSE-ConnectionGUID: l7LAwCMhRimrHXZdQZKJcA==
-X-CSE-MsgGUID: BC4Up8KvSqe2F/ELC/B7xg==
-Received: from unknown (HELO jpmta-ob02-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::7])
-  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 18:49:20 +0900
-X-CSE-ConnectionGUID: SgthmcMQRTCdknWd7vVZsw==
-X-CSE-MsgGUID: Ta60PQwYQQmW9I62Z0fNyw==
-X-IronPort-AV: E=Sophos;i="6.23,192,1770562800"; 
-   d="scan'208";a="51446140"
-Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
-  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP; 22 Apr 2026 18:49:18 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-Date: Wed, 22 Apr 2026 18:49:06 +0900
-Subject: [PATCH v3 4/4] docs: driver-api: add mod_name argument to
- __platform_register_drivers()
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DYJMmGIb"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id BE2C5EC0530;
+	Wed, 22 Apr 2026 06:45:14 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Wed, 22 Apr 2026 06:45:14 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776854714; x=1776941114; bh=w1yxN6tr6bpwlPeIBT7a54lyLgshzwZVuMM
+	UiX19j+Q=; b=DYJMmGIb8/DvRW2kiyZTzLMHIA5ZQokWhy7ved5GrE78m5W5ogs
+	9BRUeY8oQjJ92ZEcHy74UOGjxCNvfAm4X2AwdteWYvrD86wyGH9aUMZ/LEoyVk0c
+	vA3WrZxez5maakt8UX2aWb2CzJCcDFBitu0E7zA7wKmWnOP9BNelNGO+Wqy5RhfW
+	WxdTgFgWGI2wURMkW/ZKCO88FXEZbBeo4i9tJovF3u+7wL+igrZ2QfbuK5FwmI1V
+	J3HhbsP/+HR83WZj+KqW1Ci4ZojxYQL9sV8+/xI7HMuk3Sr4BOJGvkek73CU7yoG
+	7c8h1pesCQaADn/SXGiBCv3/8yefK6Hh9rw==
+X-ME-Sender: <xms:uqboaQYUt3GrwH5PKAbXDWrqNA_OZo-mBrfRveHGfHreLnT0j3K0WQ>
+    <xme:uqboaTi8d7v0T7AqKfxGzJ1LY5FNGpaggFX8XFRxuC3ZCXROq_gGj-0-JSYkM6bYf
+    TYzjjzH5V1_QE5PuLx-8V6yr34N2Kv91IWzgWk1OAyPjUoVMbXvJ48>
+X-ME-Received: <xmr:uqboaaeBTkInTvwOr9bomA97nt-t2RlNDYv1HQEdxLKtCTegeV6NRb1uALmJc4-SBOFs_8pFZzkM9E4GFF5HUnHmQBVjhuvDIQE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeigedtiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfvhhgr
+    ihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepleeuheelheekgfeuvedtveetjeekhfffkeeffffftdfgjeevkeegfedvueehueel
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthh
+    grihhnsehlihhnuhigqdhmieekkhdrohhrghdpnhgspghrtghpthhtohepuddvpdhmohgu
+    vgepshhmthhpohhuthdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtph
+    htthhopegrnhgurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpthhtohepuggr
+    vhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesgh
+    hoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgt
+    phhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtohephhhorhhmsh
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhr
+    tghpthhtohepshhkhhgrnheslhhinhhugihfohhunhgurghtihhonhdrohhrgh
+X-ME-Proxy: <xmx:uqboaam8R27j7I05wOpxBGdfax_tGr5NOqO_boruyzRKhM4Mq4elWQ>
+    <xmx:uqboaXxLx15kLawTGEAdZb7MjAKn1Aq543hzQw7aACqtS9b9vPpLCg>
+    <xmx:uqboaVwraux5KwsML9T4wAoxtaA7cV6mwHDbTLg8AtBRtbssn4l-Kg>
+    <xmx:uqboafUo42Vl8CA-0fMCURUGA0jwsfYQSL7Nmjaw-BEI6tBPvaaNBw>
+    <xmx:uqboaZRTBPY8uLTxwR9hrarQBFvAEdzPXyHcb5rtDA0_QQyfJDK-Reg6>
+Feedback-ID: i58a146ae:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Apr 2026 06:45:12 -0400 (EDT)
+Date: Wed, 22 Apr 2026 20:45:23 +1000 (AEST)
+From: Finn Thain <fthain@linux-m68k.org>
+To: Andrew Lunn <andrew@lunn.ch>
+cc: Andrew Lunn <andrew+netdev@lunn.ch>, 
+    "David S. Miller" <davem@davemloft.net>, 
+    Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+    Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+    linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+    linux-doc@vger.kernel.org
+Subject: Re: [PATCH net 00/18] Remove a number of ISA and PCMCIA Ethernet
+ drivers
+In-Reply-To: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
+Message-ID: <17fae078-66bb-1d22-3b19-d5491a9fbb53@linux-m68k.org>
+References: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260422-acpi_mod_name-v3-4-a184eff9ff6f@sony.com>
-References: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
-In-Reply-To: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
- Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, 
- Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
- Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
- Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
- Richard Cochran <richardcochran@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: Rahul Bukte <rahul.bukte@sony.com>, 
- Shashank Balaji <shashank.mahadasyam@sony.com>, 
- linux-kernel@vger.kernel.org, coresight@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev, 
- rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
- Daniel Palmer <daniel.palmer@sony.com>, Tim Bird <tim.bird@sony.com>
-X-Mailer: b4 0.16-dev-3bfbc
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1071;
- i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
- bh=15chuYpccSlT6UpH8TNwNGnGHfksA7xi4fPhMzJSTtA=;
- b=owGbwMvMwCU2bX1+URVTXyjjabUkhswXM2cEchoeX80oYratR2Gj5Zx04SJxhcVGOZ+TJkb7O
- L9antrWUcrCIMbFICumyFKqVP1r74qgJT1nXivCzGFlAhnCwMUpABMJY2Nk+HNF00Fs57JPb8Uy
- XdVs19vsf8i6w+K/728jkSYh54ItnowMx7R93hRNCX8S8Stqo8+qT9IKK45LeT3mv7H9mHSG+KL
- NLAA=
-X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
- fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
+Content-Type: text/plain; charset=us-ascii
 
-Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
----
- Documentation/driver-api/driver-model/platform.rst | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/driver-model/platform.rst b/Documentation/driver-api/driver-model/platform.rst
-index cf5ff48d3115..9673470bded2 100644
---- a/Documentation/driver-api/driver-model/platform.rst
-+++ b/Documentation/driver-api/driver-model/platform.rst
-@@ -70,7 +70,8 @@ Kernel modules can be composed of several platform drivers. The platform core
- provides helpers to register and unregister an array of drivers::
- 
- 	int __platform_register_drivers(struct platform_driver * const *drivers,
--				      unsigned int count, struct module *owner);
-+				      unsigned int count, struct module *owner,
-+				      const char *mod_name);
- 	void platform_unregister_drivers(struct platform_driver * const *drivers,
- 					 unsigned int count);
- 
+On Tue, 21 Apr 2026, Andrew Lunn wrote:
 
--- 
-2.43.0
+> These old drivers have not been much of a Maintenance burden until 
+> recently.
 
+They are not much of a maintenance burden because they are small, mature 
+and stable.
+
+> Now there are more newbies using AI and fuzzers finding issues, 
+> resulting in more work for Maintainers.
+
+AI helps find issues but AI also helps resolve issues.
+
+> Fixing these old drivers make little sense, if it is not clear they have 
+> users.
+> 
+
+Removing these old drivers makes little sense, if the issues were only 
+noticed by AI and not by actual users.
