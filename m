@@ -1,169 +1,196 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF3138839F;
-	Wed, 22 Apr 2026 09:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB3A3BF689;
+	Wed, 22 Apr 2026 09:49:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776850506; cv=none; b=C1PBQwJ5BuIs+Ja24+S4JPWrSujpZ4J7Nl7Rfgb30TxVZRqQ0IOQIu48tqGQNf/QTERQWqEVe0MW5g76CaYbkJ+c4MRZfLCSEtxJbYLv6HPz0RrkwfKPtTkJsJeeiIcSKXhpiuDgOH1QMOXquQ8coYk4kMSv2twetUrZWN9T4OY=
+	t=1776851363; cv=none; b=RqjdTpieFpn7JO7YfCM8Lm+csxHXizaqORKaERHdfl8ZkSHr06HsB8lTnSfs0zSDQypa3z+m8bxWrtbtmJBN2ZUccdxsVDZiNDjVQSxpALnzKPrsOqXQTZ4hC1V5GMJ2LxeW7BbarLACYYzI+da6eO4AHD6cB1nPCIjwhku0k8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776850506; c=relaxed/simple;
-	bh=p7P8V6Ltow3mGw8KRZMBasw50nMRtXyR1TO6duHL6BA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mIw5WC2SJhrqZZNPSvmb/d+lSaY1KbySphunpRj8BXoB9ZKt7bD8Z8iO+9ItQNQT+82Hjp0SB3Hk47C7CSnfrQu06LxFzhTOlnOcWl33UtgoMVBPKNjuoSQNp4dhusPLMSRsTAa2Vb71E3bndj504qVAYIf48zxBWrddb757rPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.177])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4g0vFR72LmzKHMd7;
-	Wed, 22 Apr 2026 17:34:35 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.112])
-	by mail.maildlp.com (Postfix) with ESMTP id 773F1405F2;
-	Wed, 22 Apr 2026 17:34:56 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP1 (Coremail) with SMTP id cCh0CgD3mwY+luhpInw6BQ--.28182S2;
-	Wed, 22 Apr 2026 17:34:55 +0800 (CST)
-Message-ID: <e37620c6-b198-48e1-a991-ad614058e882@huaweicloud.com>
-Date: Wed, 22 Apr 2026 17:34:54 +0800
+	s=arc-20240116; t=1776851363; c=relaxed/simple;
+	bh=GmzcpVaW54kBYM6ZNlSdGdXppvRENvMzYTTYU+OtJCg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 In-Reply-To:References:To:Cc; b=Db4DKeCeVz1W6x5Uhyw/q9gkdu9jH7g24mPd332LjcLjT63l1XV6GoKB3nUuJ6nfp7Yg+UjmyPORJm12j6xY/Z0UvevYqK5cdHhr79eOcFks+uWM3muomqSfhykkUxAyNHic7Qgyx+6yFoU8AmlW1dYOQoNMZKnrHdeqX5qjroU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=X22GW9lO; arc=none smtp.client-ip=211.125.139.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="X22GW9lO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1776851361; x=1808387361;
+  h=from:subject:date:message-id:mime-version:
+   content-transfer-encoding:in-reply-to:references:to:cc;
+  bh=9pkPs3Vc6paRjccGHW+dfs6voI0geE6f+u37jCbP6Uo=;
+  b=X22GW9lOam21pcus23JOa2fzK9rVgi9kqPvlGLXzvICX2QVyFI0kNAE0
+   ErPXzjgg3hEtJ2SYnSOVnHo2Xh2sZGkLMaZXpsZa2F6FhTrkOg2mYvPMI
+   QPmCw2KhtxgM4vpZdymKFQjQJONQkEQyAc+Axl06hhe4QskRQ6DAklA25
+   FPSKWTuQGwYpqD6163h45eCzAb3pDh7PxSl0qtYP6jJuGSDnRqccvY6uv
+   lW2q06qluIMMy5ewtl0ktl+iVEof4viiYnvkU1/OeC2La6mu7tb+8mUXH
+   bk65GObg5tUQEtRLXJYkI24i2wiNqBYvsVNLY5v01zAhRAMA2eUbPUA0H
+   Q==;
+X-CSE-ConnectionGUID: 7Xt0J3viRl67boqiGRfIaw==
+X-CSE-MsgGUID: kF9Mr6N5Tvy6VftGJxKBdw==
+Received: from unknown (HELO jpmta-ob02-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::7])
+  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 18:49:15 +0900
+X-CSE-ConnectionGUID: GBF2ZWP0TpeP2oXg7nUOEQ==
+X-CSE-MsgGUID: b0ydDtKiSKCjtrykRa7W3Q==
+X-IronPort-AV: E=Sophos;i="6.23,192,1770562800"; 
+   d="scan'208";a="51446125"
+Received: from unknown (HELO [127.0.1.1]) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
+  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP; 22 Apr 2026 18:49:13 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Subject: [PATCH v3 0/4] Enable sysfs module symlink for more built-in
+ drivers
+Date: Wed, 22 Apr 2026 18:49:02 +0900
+Message-Id: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 08/23] arm64: topology: Use RCU to protect access to
- HK_TYPE_TICK cpumask
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
- <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
- rcu@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
- Qiliang Yuan <realwujing@gmail.com>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-9-longman@redhat.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20260421030351.281436-9-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:cCh0CgD3mwY+luhpInw6BQ--.28182S2
-X-Coremail-Antispam: 1UD129KBjvJXoW7AFyrurW5uryUCr4UKF1UGFg_yoW8tw18pr
-	45Gws0krWjgFnrA343X3ZF9r1F93s3Jwn0ka93CF1Fkw43CF18KFnYkr15Wr4xuw1Dur4I
-	yrZ5tFWSga47JFDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUv2b4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
-	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
-	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4UJVWxJrUvcSsGvfC2KfnxnUUI43ZEXa
-	7IU0EksDUUUUU==
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAI6Z6GkC/3WN0Q6CIBhGX8VxHU3AMLvqPVpzCD9Jm+DAWM757
+ oHduLYuz/ad8y0ogDcQ0KVYkIdognE2ATsUSPbCPgAblRjRkvKyIhwLOZp2cKq1YgCseXUSNQf
+ G6g4lZ/SgzXvr3e5fDq/uCXLKkbzoTZicn7fDSPLuXzsSXGIiKtVwrc5cNtfg7HyUbkA5HelOp
+ uRXpkmGmumGkVIJxXbyuq4fC4SJz/gAAAA=
+X-Change-ID: 20260416-acpi_mod_name-f645a76e337b
+In-Reply-To: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+References: <20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>, 
+ Mike Leach <mike.leach@linaro.org>, James Clark <james.clark@linaro.org>, 
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>, 
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ "Rafael J. Wysocki" <rafael@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
+ Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, 
+ Gary Guo <gary@garyguo.net>, 
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, 
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+ Richard Cochran <richardcochran@gmail.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: Rahul Bukte <rahul.bukte@sony.com>, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>, 
+ linux-kernel@vger.kernel.org, coresight@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev, 
+ rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Daniel Palmer <daniel.palmer@sony.com>, Tim Bird <tim.bird@sony.com>
+X-Mailer: b4 0.16-dev-3bfbc
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4781;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=GmzcpVaW54kBYM6ZNlSdGdXppvRENvMzYTTYU+OtJCg=;
+ b=owGbwMvMwCU2bX1+URVTXyjjabUkhswXM6fLrX8v6BaSdzKn8GzPj74bYVsWpS8RMPkifqmFe
+ bf/8806HaUsDGJcDLJiiiylStW/9q4IWtJz5rUizBxWJpAhDFycAjAR3oMM/9M/3JbctTpeakV2
+ hOv0xa4CzJqzt5+pP7usMctY61NaczYjwzeOGE8GwSr1NdJNZUpS7z4vttCRCYsIzasuvmO75Pt
+ JNgA=
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=75227BFABDA852A48CCCEB2196AF6F727A028E55
 
+struct device_driver's mod_name is not set by a number of bus' driver registration
+functions. Without that, built-in drivers don't have the module symlink in sysfs.
+We want this to go from unbound driver name -> module name -> kernel config name.
+This is useful on embedded platforms to minimize kernel config, reduce kernel size,
+and reduce boot time.
 
+In order to achieve this, mod_name has to be set to KBUILD_MODNAME, and this has
+to be done for all buses which don't yet do this.
 
-On 2026/4/21 11:03, Waiman Long wrote:
-> As the HK_TYPE_TICK cpumask is going to be changeable at run time, we
-> need to use RCU to protect access to the cpumask to prevent it from
-> going away in the middle of the operation.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  arch/arm64/kernel/topology.c | 17 ++++++++++++++---
->  1 file changed, 14 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/arm64/kernel/topology.c b/arch/arm64/kernel/topology.c
-> index b32f13358fbb..48f150801689 100644
-> --- a/arch/arm64/kernel/topology.c
-> +++ b/arch/arm64/kernel/topology.c
-> @@ -173,6 +173,7 @@ void arch_cpu_idle_enter(void)
->  	if (!amu_fie_cpu_supported(cpu))
->  		return;
->  
-> +	guard(rcu)();
->  	/* Kick in AMU update but only if one has not happened already */
->  	if (housekeeping_cpu(cpu, HK_TYPE_TICK) &&
->  	    time_is_before_jiffies(per_cpu(cpu_amu_samples.last_scale_update, cpu)))
-> @@ -187,11 +188,16 @@ int arch_freq_get_on_cpu(int cpu)
->  	unsigned int start_cpu = cpu;
->  	unsigned long last_update;
->  	unsigned int freq = 0;
-> +	bool hk_cpu;
->  	u64 scale;
->  
->  	if (!amu_fie_cpu_supported(cpu) || !arch_scale_freq_ref(cpu))
->  		return -EOPNOTSUPP;
->  
-> +	scoped_guard(rcu) {
-> +		hk_cpu = housekeeping_cpu(cpu, HK_TYPE_TICK);
-> +	}
-> +
+Here are some treewide stats:
+- 110 registration functions across all bus types
+- 20 of them set mod_name
+- Remaining 90 do not set mod_name:
+    1. 36 functions under pattern 1:
+        They have a __register function + register macro. KBUILD_MODNAME needs to
+        be passed and the function needs to take mod_name as input.
+    2. 42 functions under pattern 2:
+        These have no macro wrapper. They need a double-underscore rename + macro
+        wrapper to make them similar to pattern 1.
+    3. Remaining 12 do not have such a clean registration interface. More analysis
+       is required.
 
-Should we put this into a while loop, since cpu might be changed to ref_cpu?
+We plan to start with pattern 1, since it's the easiest category of changes.
+Within that, for now we're only sending the platform patch. If we get the go-ahead
+on that, we'll send the remaining ones.
 
->  	while (1) {
->  
->  		amu_sample = per_cpu_ptr(&cpu_amu_samples, cpu);
-> @@ -204,16 +210,21 @@ int arch_freq_get_on_cpu(int cpu)
->  		 * (and thus freq scale), if available, for given policy: this boils
->  		 * down to identifying an active cpu within the same freq domain, if any.
->  		 */
-> -		if (!housekeeping_cpu(cpu, HK_TYPE_TICK) ||
-> +		if (!hk_cpu ||
->  		    time_is_before_jiffies(last_update + msecs_to_jiffies(AMU_SAMPLE_EXP_MS))) {
->  			struct cpufreq_policy *policy = cpufreq_cpu_get(cpu);
-> +			bool hk_intersects;
->  			int ref_cpu;
->  
->  			if (!policy)
->  				return -EINVAL;
->  
-> -			if (!cpumask_intersects(policy->related_cpus,
-> -						housekeeping_cpumask(HK_TYPE_TICK))) {
-> +			scoped_guard(rcu) {
-> +				hk_intersects = cpumask_intersects(policy->related_cpus,
-> +							housekeeping_cpumask(HK_TYPE_TICK));
-> +			}
-> +
-> +			if (!hk_intersects) {
->  				cpufreq_cpu_put(policy);
->  				return -EOPNOTSUPP;
->  			}
+Patch 3 depends on patches 1 and 2.
 
--- 
+Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+Changes in v3:
+- Initialize module_kset on-demand (Greg)
+- Make coresight driver registration happen through a macro (Greg)
+- Split up the patch adding mod_name to platform driver registrations (Greg)
+- Link to v2: https://patch.msgid.link/20260421-acpi_mod_name-v2-0-e73f9310dad3@sony.com
+
+Changes in v2:
+- Drop acpi patch, send platform instead (Rafael)
+- Link to v1: https://patch.msgid.link/20260416-acpi_mod_name-v1-0-1a4d96fd86c9@sony.com
+
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+To: Mike Leach <mike.leach@linaro.org>
+To: James Clark <james.clark@linaro.org>
+To: Alexander Shishkin <alexander.shishkin@linux.intel.com>
+To: Maxime Coquelin <mcoquelin.stm32@gmail.com>
+To: Alexandre Torgue <alexandre.torgue@foss.st.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+To: Danilo Krummrich <dakr@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+To: Boqun Feng <boqun@kernel.org>
+To: Gary Guo <gary@garyguo.net>
+To: Björn Roy Baron <bjorn3_gh@protonmail.com>
+To: Benno Lossin <lossin@kernel.org>
+To: Andreas Hindborg <a.hindborg@kernel.org>
+To: Alice Ryhl <aliceryhl@google.com>
+To: Trevor Gross <tmgross@umich.edu>
+To: Richard Cochran <richardcochran@gmail.com>
+To: Jonathan Corbet <corbet@lwn.net>
+To: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org
+Cc: coresight@lists.linaro.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: driver-core@lists.linux.dev
+Cc: rust-for-linux@vger.kernel.org
+Cc: linux-doc@vger.kernel.org
+Cc: Shashank Balaji <shashank.mahadasyam@sony.com>
+Cc: Rahul Bukte <rahul.bukte@sony.com>
+Cc: Daniel Palmer <daniel.palmer@sony.com>
+Cc: Tim Bird <tim.bird@sony.com>
+
+---
+Shashank Balaji (4):
+      kernel: param: initialize module_kset on-demand
+      coresight: pass THIS_MODULE implicitly through a macro
+      driver core: platform: set mod_name in driver registration
+      docs: driver-api: add mod_name argument to __platform_register_drivers()
+
+ Documentation/driver-api/driver-model/platform.rst |  3 +-
+ drivers/base/platform.c                            | 21 +++++++----
+ drivers/hwtracing/coresight/coresight-catu.c       |  2 +-
+ drivers/hwtracing/coresight/coresight-core.c       |  9 ++---
+ drivers/hwtracing/coresight/coresight-cpu-debug.c  |  3 +-
+ drivers/hwtracing/coresight/coresight-funnel.c     |  3 +-
+ drivers/hwtracing/coresight/coresight-replicator.c |  3 +-
+ drivers/hwtracing/coresight/coresight-stm.c        |  2 +-
+ drivers/hwtracing/coresight/coresight-tmc-core.c   |  2 +-
+ drivers/hwtracing/coresight/coresight-tnoc.c       |  2 +-
+ drivers/hwtracing/coresight/coresight-tpdm.c       |  3 +-
+ drivers/hwtracing/coresight/coresight-tpiu.c       |  2 +-
+ include/linux/coresight.h                          |  7 ++--
+ include/linux/platform_device.h                    | 17 ++++-----
+ kernel/params.c                                    | 41 +++++++++++++---------
+ rust/kernel/platform.rs                            |  4 ++-
+ 16 files changed, 72 insertions(+), 52 deletions(-)
+---
+base-commit: 6596a02b207886e9e00bb0161c7fd59fea53c081
+change-id: 20260416-acpi_mod_name-f645a76e337b
+
 Best regards,
-Ridong
+--  
+Shashank Balaji <shashank.mahadasyam@sony.com>
 
