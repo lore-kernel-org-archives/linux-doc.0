@@ -1,275 +1,175 @@
-Received: from dggsgout12.his.huawei.com (dggsgout12.his.huawei.com [45.249.212.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7062F31D366;
-	Wed, 22 Apr 2026 06:39:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF5E92FE579;
+	Wed, 22 Apr 2026 06:45:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776839991; cv=none; b=ubi8fsCt1YlwNTO9/+7yFf0518ZUd/bmrMffppvDWwXhORJgACdXz9lbQHS/VnSj2YifgtubvKAkSxf6UnygfxLqG9pafVRfhOslpg7idv4JX/K9ia+ze3rxBvBFkxFMJsr9jPYW6hSYZ4pqJOcrUsYIwMPkEBOPjGqVx8X2ePY=
+	t=1776840319; cv=none; b=oKgpwnxHuQvoCTJ7gzvpn64aWAxB1tY8gDJRNhcdI1rDH4idukrJcM2La0sorzsYot9Gi+nlW+bOadFgkMYHC48TPfUcCXJwpb55hW/mAgJgTgbamV19Th5Yp7SHA7gisotbzxl/gMRxVfMIkqtr0cnVTuuBLhMrdkprWuvofGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776839991; c=relaxed/simple;
-	bh=8auo9fApI0AJJbM0oVqd4iDvIZsHR0GHU8PCbKdtgfE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nEhnGlESkxk5sTuFyBRbXIkhzrOCb3a9m6NVJMgX5h698N9L6IaDoJzJnGGMxyXwfdPUnlx1I3gpIIZb/V8RPGtu/hmYgiGiRa6PX89OP81YlWNyIueKxfpE6A0OBr8SHCHG7g1GSK05fbutgELtbW6ibiBjAWzTBpLWKfF088Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.198])
-	by dggsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4g0qMJ3lLGzKHMN6;
-	Wed, 22 Apr 2026 14:39:24 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.128])
-	by mail.maildlp.com (Postfix) with ESMTP id CB50540600;
-	Wed, 22 Apr 2026 14:39:44 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP4 (Coremail) with SMTP id gCh0CgBnBMIubehpzQ43BQ--.59576S2;
-	Wed, 22 Apr 2026 14:39:44 +0800 (CST)
-Message-ID: <48f5e1f5-bfb0-44cc-ae6a-14f66158796f@huaweicloud.com>
-Date: Wed, 22 Apr 2026 14:39:42 +0800
+	s=arc-20240116; t=1776840319; c=relaxed/simple;
+	bh=pYMxzy5OOvpaaRU5o941SfAWX+eqdO8KE44KbLMbd7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BeOS6R7vC8nAz7Bg0kepm7PvF28QRHknJOX80HutlJARGlnExGtPHuOpmHv0i+V5+5269Lq7oC75ZKra9QYdzhzXmEM/4l/jdcKN8dx19DuyzUBgyd61nUPAy8aNNfML2TlvmV3U7rHHXBeF1VQFvH9fHcbTCQSYegUMMZQc5po=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ddhmfalq; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ddhmfalq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8D6DC2BCB3;
+	Wed, 22 Apr 2026 06:45:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776840319;
+	bh=pYMxzy5OOvpaaRU5o941SfAWX+eqdO8KE44KbLMbd7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DdhmfalqLLHd9GLo6AHzXaUb59GTRlMbd3z7X7bpR4gWre4PnQaPyczOtXwMb+2mp
+	 BdG7O6F0DvzQAcj98JCSOKe85mfMwLGD1dfGxCGhN/F5X+3AGCymvlsnXfBoBmzkvz
+	 8WpGL1jYe7h93YrA2b573sIPOGpri5F+9AGTyTW6HxKMQSnQjVhBLb9NDNiqvvw6jp
+	 aU/3Gc5qf1x1Cq5jyBoYHFt4eIEAC1V4XJwZZViYGgwXHUIZx8Lb2PjP4UHvGMeV01
+	 3OHS4wdTfZe0l68e9D+HnIc698iXzzT6EDYtqrQWCovkuGH01IBk2fCy51S/JXgEvY
+	 02//vyIBdljvw==
+Date: Wed, 22 Apr 2026 08:45:16 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Jyri Sarha <jyri.sarha@iki.fi>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, Simon Ser <contact@emersion.fr>, 
+	Harry Wentland <harry.wentland@amd.com>, Melissa Wen <mwen@igalia.com>, 
+	Sebastian Wick <sebastian.wick@redhat.com>, Alex Hung <alex.hung@amd.com>, 
+	Jani Nikula <jani.nikula@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>, 
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, Tvrtko Ursulin <tursulin@ursulin.net>, 
+	Chen-Yu Tsai <wens@kernel.org>, Samuel Holland <samuel@sholland.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, =?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, 
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v2 15/20] drm/drv: Call drm_mode_config_create_state() by
+ default
+Message-ID: <20260422-vermilion-bumblebee-from-betelgeuse-cffbc1@houat>
+References: <20260320-drm-mode-config-init-v2-0-c63f1134e76c@kernel.org>
+ <20260320-drm-mode-config-init-v2-15-c63f1134e76c@kernel.org>
+ <79cc30d5-80b5-4d87-a3ad-36d6fad98853@suse.de>
+ <dd39f423-1598-4749-8c95-98b8daf69680@suse.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/23] sched/isolation: Enhance housekeeping_update() to
- support updating more than one HK cpumask
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
- <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
- rcu@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
- Qiliang Yuan <realwujing@gmail.com>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-3-longman@redhat.com>
-Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20260421030351.281436-3-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:gCh0CgBnBMIubehpzQ43BQ--.59576S2
-X-Coremail-Antispam: 1UD129KBjvJXoW3GFyrGF4kGw1fAF4xGFyxAFb_yoW7Kw4Dpr
-	Z8W3y3GFWkJr13G3s8Zw1DJr4rWw4kCw1vk3sxWw15tFy2g3WkA3409F9xJr97ur9rCr17
-	ZFZ8KwsIgFyjyrDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
-	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
-	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
-	xUVZ2-UUUUU
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="mmuav45v5xyeg7x4"
+Content-Disposition: inline
+In-Reply-To: <dd39f423-1598-4749-8c95-98b8daf69680@suse.de>
 
 
+--mmuav45v5xyeg7x4
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v2 15/20] drm/drv: Call drm_mode_config_create_state() by
+ default
+MIME-Version: 1.0
 
-On 2026/4/21 11:03, Waiman Long wrote:
-> The housekeeping_update() function currently allows update to the
-> HK_TYPE_DOMAIN cpumask only. As we are going to enable dynamic
-> modification of the other housekeeping cpumasks, we need to extend
-> it to support passing in the information about the HK cpumask(s) to
-> be updated.  In cases where some HK cpumasks happen to be the same,
-> it will be more efficient to update multiple HK cpumasks in one single
-> call instead of calling it multiple times. Extend housekeeping_update()
-> to support that as well.
-> 
-> Also add the restriction that passed in isolated cpumask parameter
-> of housekeeping_update() must include all the CPUs isolated at boot
-> time. This is currently the case for cpuset anyway.
-> 
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  include/linux/sched/isolation.h |  2 +-
->  kernel/cgroup/cpuset.c          |  2 +-
->  kernel/sched/isolation.c        | 99 +++++++++++++++++++++++----------
->  3 files changed, 71 insertions(+), 32 deletions(-)
-> 
-> diff --git a/include/linux/sched/isolation.h b/include/linux/sched/isolation.h
-> index d1707f121e20..a17f16e0156e 100644
-> --- a/include/linux/sched/isolation.h
-> +++ b/include/linux/sched/isolation.h
-> @@ -51,7 +51,7 @@ extern const struct cpumask *housekeeping_cpumask(enum hk_type type);
->  extern bool housekeeping_enabled(enum hk_type type);
->  extern void housekeeping_affine(struct task_struct *t, enum hk_type type);
->  extern bool housekeeping_test_cpu(int cpu, enum hk_type type);
-> -extern int housekeeping_update(struct cpumask *isol_mask);
-> +extern int housekeeping_update(struct cpumask *isol_mask, unsigned long flags);
->  extern void __init housekeeping_init(void);
->  
->  #else
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index 1335e437098e..a4eccb0ec0d1 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -1354,7 +1354,7 @@ static void cpuset_update_sd_hk_unlock(void)
->  		 */
->  		mutex_unlock(&cpuset_mutex);
->  		cpus_read_unlock();
-> -		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus));
-> +		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
->  		mutex_unlock(&cpuset_top_mutex);
->  	} else {
->  		cpuset_full_unlock();
-> diff --git a/kernel/sched/isolation.c b/kernel/sched/isolation.c
-> index 9ec9ae510dc7..965d6f8fe344 100644
-> --- a/kernel/sched/isolation.c
-> +++ b/kernel/sched/isolation.c
-> @@ -120,48 +120,87 @@ bool housekeeping_test_cpu(int cpu, enum hk_type type)
->  }
->  EXPORT_SYMBOL_GPL(housekeeping_test_cpu);
->  
-> -int housekeeping_update(struct cpumask *isol_mask)
-> -{
-> -	struct cpumask *trial, *old = NULL;
-> -	int err;
-> +/* HK type processing table */
-> +static struct {
-> +	int type;
-> +	int boot_type;
-> +} hk_types[] = {
-> +	{ HK_TYPE_DOMAIN,       HK_TYPE_DOMAIN_BOOT	  },
-> +	{ HK_TYPE_MANAGED_IRQ,  HK_TYPE_MANAGED_IRQ_BOOT  },
-> +	{ HK_TYPE_KERNEL_NOISE, HK_TYPE_KERNEL_NOISE_BOOT }
-> +};
->  
-> -	trial = kmalloc(cpumask_size(), GFP_KERNEL);
-> -	if (!trial)
-> -		return -ENOMEM;
-> +#define HK_TYPE_CNT	ARRAY_SIZE(hk_types)
->  
-> -	cpumask_andnot(trial, housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT), isol_mask);
-> -	if (!cpumask_intersects(trial, cpu_online_mask)) {
-> -		kfree(trial);
-> -		return -EINVAL;
-> +int housekeeping_update(struct cpumask *isol_mask, unsigned long flags)
-> +{
-> +	struct cpumask *trial[HK_TYPE_CNT];
-> +	int i, err = 0;
-> +
-> +	for (i = 0; i < HK_TYPE_CNT; i++) {
-> +		int type = hk_types[i].type;
-> +		int boot = hk_types[i].boot_type;
-> +
-> +		trial[i] = NULL;
-> +		if (flags & BIT(type)) {
-> +			trial[i] = kmalloc(cpumask_size(), GFP_KERNEL);
-> +			if (!trial[i]) {
-> +				err = -ENOMEM;
-> +				goto out;
-> +			}
-> +			/*
-> +			 * The new HK cpumask must be a subset of its boot
-> +			 * cpumask.
-> +			 */
-> +			cpumask_andnot(trial[i], cpu_possible_mask, isol_mask);
-> +			if (!cpumask_intersects(trial[i], cpu_online_mask) ||
-> +			    !cpumask_subset(trial[i], housekeeping_cpumask(boot))) {
-> +				i++;
-> +				err = -EINVAL;
-> +				goto out;
-> +			}
-> +		}
->  	}
->  
+Hi Thomas,
 
-The i++ here is confusing. Wouldn't it be more readable to just use
-kfree(trial[i]) and then break out?
+On Tue, Apr 21, 2026 at 05:33:12PM +0200, Thomas Zimmermann wrote:
+> Am 21.04.26 um 15:38 schrieb Thomas Zimmermann:
+> > Hi
+> >=20
+> > Am 20.03.26 um 17:27 schrieb Maxime Ripard:
+> > > Almost all drivers, and our documented skeleton, call
+> > > drm_mode_config_reset() prior to calling drm_dev_register() to
+> > > initialize its DRM object states.
+> > >=20
+> > > Now that we have drm_mode_config_create_state() to create that initial
+> > > state if it doesn't exist, we can call it directly in
+> > > drm_dev_register(). That way, we know that the initial atomic state w=
+ill
+> > > always be allocated without any boilerplate.
+> > >=20
+> > > Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> > > ---
+> > > =A0 drivers/gpu/drm/drm_drv.c | 4 ++++
+> > > =A0 1 file changed, 4 insertions(+)
+> > >=20
+> > > diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
+> > > index 2915118436ce8a6640cfb0c59936031990727ed1..820106d56ab399a39cac5=
+6d98662b5ddbcae8ded
+> > > 100644
+> > > --- a/drivers/gpu/drm/drm_drv.c
+> > > +++ b/drivers/gpu/drm/drm_drv.c
+> > > @@ -1097,10 +1097,14 @@ int drm_dev_register(struct drm_device *dev,
+> > > unsigned long flags)
+> > > =A0 =A0=A0=A0=A0=A0 if (drm_core_check_feature(dev, DRIVER_MODESET)) {
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D drm_modeset_register_all(dev);
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0 if (ret)
+> > > =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto err_unload;
+> > > +
+> > > +=A0=A0=A0=A0=A0=A0=A0 ret =3D drm_mode_config_create_state(dev);
+> > > +=A0=A0=A0=A0=A0=A0=A0 if (ret)
+> > > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto err_unload;
+> >=20
+> > Way too late. Lets rather go through drivers and call this where they
+> > currently call drm_mode_config_reset() for initialization. This can be a
+> > single-patch mass conversion IMHO.
 
->  	if (!housekeeping.flags)
->  		static_branch_enable(&housekeeping_overridden);
->  
-> -	if (housekeeping.flags & HK_FLAG_DOMAIN)
-> -		old = housekeeping_cpumask_dereference(HK_TYPE_DOMAIN);
-> -	else
-> -		WRITE_ONCE(housekeeping.flags, housekeeping.flags | HK_FLAG_DOMAIN);
-> -	rcu_assign_pointer(housekeeping.cpumasks[HK_TYPE_DOMAIN], trial);
-> -
-> -	synchronize_rcu();
-> -
-> -	pci_probe_flush_workqueue();
-> -	mem_cgroup_flush_workqueue();
-> -	vmstat_flush_workqueue();
-> +	for (i = 0; i < HK_TYPE_CNT; i++) {
-> +		int type =  hk_types[i].type;
-> +		struct cpumask *old;
->  
-> -	err = workqueue_unbound_housekeeping_update(housekeeping_cpumask(HK_TYPE_DOMAIN));
-> -	WARN_ON_ONCE(err < 0);
-> +		if (!trial[i])
-> +			continue;
-> +		old = NULL;
-> +		if (housekeeping.flags & BIT(type))
-> +			old = housekeeping_cpumask_dereference(type);
-> +		rcu_assign_pointer(housekeeping.cpumasks[type], trial[i]);
-> +		trial[i] = old;
-> +	}
->  
-> -	err = tmigr_isolated_exclude_cpumask(isol_mask);
-> -	WARN_ON_ONCE(err < 0);
-> +	if ((housekeeping.flags & flags) != flags)
-> +		WRITE_ONCE(housekeeping.flags, housekeeping.flags | flags);
->  
-> -	err = kthreads_update_housekeeping();
-> -	WARN_ON_ONCE(err < 0);
-> +	synchronize_rcu();
->  
-> -	kfree(old);
-> +	if (flags & HK_FLAG_DOMAIN) {
-> +		/*
-> +		 * HK_TYPE_DOMAIN specific callbacks
-> +		 */
-> +		pci_probe_flush_workqueue();
-> +		mem_cgroup_flush_workqueue();
-> +		vmstat_flush_workqueue();
-> +
-> +		WARN_ON_ONCE(workqueue_unbound_housekeeping_update(
-> +				housekeeping_cpumask(HK_TYPE_DOMAIN)) < 0);
-> +		WARN_ON_ONCE(tmigr_isolated_exclude_cpumask(isol_mask) < 0);
-> +		WARN_ON_ONCE(kthreads_update_housekeeping() < 0);
-> +	}
->  
-> -	return 0;
-> +out:
-> +	while (--i >= 0)
-> +		kfree(trial[i]);
-> +	return err;
->  }
->  
->  void __init housekeeping_init(void)
+I think that was Ville's main objection too. He suggested to do it in
+the object initialization instead, but I believe it would be too early.
 
--- 
-Best regards,
-Ridong
+> On a second thought, can't we modify the suspend code and leave the reset
+> as-is for now?=A0 I'd still be interested to use reset as a means of
+> initializing the hardware or loading state on probe. So keeping the _rese=
+t()
+> calls in place might be helpful for that.
+>=20
+> What's the long-term plan here?
 
+So, the way I was thinking about this is reset is done for several
+things right now: initial state creation and software reset, and
+hardware reset.
+
+The latter isn't really commonly used. Most drivers, basically all
+drivers that use the reset helpers, will not perform the hardware reset
+as part of drm_mode_config_reset but will do it in probe or similar.
+
+This is also a concern for hardware state read-out, since you don't want
+that reset to happen.
+
+So, eventually, I wanted to have something like try a readout, and if it
+fails for any reason (disabled, unsupported, or failing to perform the
+readout), we fallback to allocating a pristine state + resetting the
+hardware.
+
+To do that, we need create_state introduced here both for the readout
+and non-readout paths, but also a (possibly device wide?) hw_reset hook
+that will *only* reset the device without affecting the software state.
+
+So:
+ - probe with readout would be create_state + readout_state for all objects
+ - probe without readout would be create_state + hw_reset for all objects
+ - resume would be create_state + hw_reset for a limited number of objects
+
+And then we don't need .reset at all anymore and / or can implement
+drm_mode_config_reset() on top of that.
+
+I wanted to work on that next when done with this series.
+
+Maxime
+
+--mmuav45v5xyeg7x4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaehueAAKCRAnX84Zoj2+
+dk+SAYDSxsLLjUkEwpwBzrLclRVmyy7Pnj03L4U6OuOb8UUQK/YHd8u6ZI0Y5Fn8
+lXwP3SkBgIJRm9gxqUlt2WlYOp3xz6AwEEaxd7tHd6n7tpSv6KJ44hNAwTVtgZFI
+mLpzKOrOQg==
+=tglw
+-----END PGP SIGNATURE-----
+
+--mmuav45v5xyeg7x4--
