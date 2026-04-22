@@ -1,167 +1,113 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD6D36B07B;
-	Wed, 22 Apr 2026 07:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD6A930E858;
+	Wed, 22 Apr 2026 07:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776841750; cv=none; b=Fsri+isfKJ+vhOBOFsq+9AXTFLDrQ7hnCO3luTSa9d0HXx3krzchCTFgqRyCgDIY1MqHbNKm7xm27fQpu6/CrZZSUuWuFHC02C2TZImU1HKQuT61A3R7RGwMwNAE1Q4X6U66sm/qW3ZJ8XRmxP8kqAvAbKsajGH5XlnyAyzUCLI=
+	t=1776841764; cv=none; b=pOwXhwO4gsgbs79wMlicEnKlDIy7k6+oDY+G8BsnxHyLH4JgddsRyFG2LV0JnxTez1l9KGrQ3EzsHAYw1b8iDhrKleY2+ZH3bl9BYp7NfjoFOGJ3jFHokkC1vaAvWewvJfIGamv3OZnipVWF4X2cX1WEAlqdkYYe5XfBVPF60Fs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776841750; c=relaxed/simple;
-	bh=Lh8pVmomFkOo4amu9fFZXflKJKs84bSrFxYYo4jSUvY=;
+	s=arc-20240116; t=1776841764; c=relaxed/simple;
+	bh=pt6vRwU9dnqGT2fXxn6LaZWHRKbzGK7R13ATw3Np780=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DS35DCmLUiWkNiBvL7VpASbZk4JUxYXrrHhC9P9H9us/0lRYr4xaaSHWR6s5iCqCvK95HFWCAQOTMJ7+lg89aIC3vw2+TliOyLKiQMaiLSRrLP49HiHxE9Qv1ZFk9GV6C4lC052F4heC5vI9OtKKkwTC6j56ParCDkQy7Pfyjcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAjWEFK7; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=jW1J5dFjTkH4HpXjQ1+TqJziqY4pCs+jYwsJg89vDc4M+3MKtgCzTmfAmItwP8HtrcE01cAjs78ZfHAsqYXwbEEmSrKeeRo9eyU8t4RI4QDhs0f54tzmvtYqC4B5KFsi2MVVm4DQtfUMzy9cX+he7YJfNOVx1eByySc1gUGdqYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ocR0RmEA; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAjWEFK7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776841748; x=1808377748;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Lh8pVmomFkOo4amu9fFZXflKJKs84bSrFxYYo4jSUvY=;
-  b=DAjWEFK79OhPmQCmtyCpRD+xz+iYKLeRUxsn49jLGI9FBJrGLGSHlqcG
-   silKH1PM7a3mp8jUQSyygG6EiaYowHQTjSddG5k1y46TA+jfMDAS3L6p9
-   1YNB6PLDvmXAMyPW4qE+EeNgOpvkSWgDhlvPRsQMA/5P3xEIXb24YNbty
-   EfTY5PV+23jFpus4jdLGMPukU69aEHdF8eYlEizRdbCbF+EnMv6akeeEs
-   d7u4u95y3VB6Gp/ScVUR0lPNugYeuG/UUPQbVssbfCIKA0crxItPflYDm
-   l855q4hs0KGocZJbMTg7ft8axausbPcSmJMS+7MByAdTCMNYXFXCpVTHn
-   Q==;
-X-CSE-ConnectionGUID: x/lfibuySdqTS2D0MpNRBg==
-X-CSE-MsgGUID: 8eskCpziS2qpLSpdPrrIIA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11763"; a="77664709"
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="77664709"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:09:06 -0700
-X-CSE-ConnectionGUID: fjM2gdKWR9eNgwZD5Z38eQ==
-X-CSE-MsgGUID: LjAD8xsKRN6CT5YLUknGHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,192,1770624000"; 
-   d="scan'208";a="225777795"
-Received: from smoticic-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.201])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 00:08:59 -0700
-Date: Wed, 22 Apr 2026 10:08:57 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: davem@davemloft.net, netdev@vger.kernel.org, edumazet@google.com,
-	pabeni@redhat.com, andrew+netdev@lunn.ch, horms@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org, linux@armlinux.org.uk,
-	tsbogend@alpha.franken.de, maddy@linux.ibm.com, mpe@ellerman.id.au,
-	npiggin@gmail.com, chleroy@kernel.org, 3chas3@gmail.com,
-	razor@blackwall.org, idosch@nvidia.com, jani.nikula@intel.com,
-	mchehab+huawei@kernel.org, tytso@mit.edu,
-	herbert@gondor.apana.org.au, geert@linux-m68k.org,
-	ebiggers@kernel.org, johannes.berg@intel.com,
-	jonathan.cameron@huawei.com, kees@kernel.org, kuniyu@google.com,
-	fourier.thomas@gmail.com, rdunlap@infradead.org,
-	akpm@linux-foundation.org, linux-doc@vger.kernel.org,
-	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
-	bridge@lists.linux.dev, dwmw2@infradead.org
-Subject: Re: [PATCH net-deletions v2] net: remove unused ATM protocols and
- legacy ATM device drivers
-Message-ID: <aeh0CV3UQw1quCXv@ashevche-desk.local>
-References: <20260422041846.2035118-1-kuba@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ocR0RmEA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7702C19425;
+	Wed, 22 Apr 2026 07:09:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776841764;
+	bh=pt6vRwU9dnqGT2fXxn6LaZWHRKbzGK7R13ATw3Np780=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ocR0RmEA2q20N3jyHu6qk8p4XBtc9iuezpQqUOMzKVTW77ueoyRUqObM+GjUJhp7e
+	 KSzvIyaDQgM6+mJKf6RUybwYjPy85QbpFMlQOjs15xw4tCX2IgG6MoCfmRqsWBNDjB
+	 3DP7cOA/nqsx8Ms3s63ksIi88I+s0DB89E7crl4TBk/mj49GoKrP77LWGWivqQ7h0C
+	 OrXvZuQxnBggPK9TamyN1ESSBYMNY4hz7Ey1uTbWl/iyuiKvrIJaLAhUgxc5m739G/
+	 uRLzG/7EeJutf6i01pvepoC209B+xQfSnPkKYh7MI2Hp5UbZC2Gpo+iFaH/7oSJx3C
+	 p1+OH2TxXZ20w==
+Date: Wed, 22 Apr 2026 09:09:21 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Stefan =?utf-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Linus Walleij <linusw@kernel.org>, 
+	Drew Fustini <fustini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, soc@lists.linux.dev, 
+	linux-serial@vger.kernel.org
+Subject: Re: [PATCH v5 3/8] ARM: dts: Add D-Link DWR-932M support
+Message-ID: <20260422-white-dugong-of-temperance-09c610@quoll>
+References: <20260421-send-v5-0-ace038e63515@gmail.com>
+ <20260421-send-v5-3-ace038e63515@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260422041846.2035118-1-kuba@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260421-send-v5-3-ace038e63515@gmail.com>
 
-On Tue, Apr 21, 2026 at 09:18:44PM -0700, Jakub Kicinski wrote:
-> Remove the ATM protocol modules and PCI/SBUS ATM device drivers
-> that are no longer in active use.
-> 
-> The ATM core protocol stack, PPPoATM, BR2684, and USB DSL modem
-> drivers (drivers/usb/atm/) are retained in-tree to maintain PPP
-> over ATM (PPPoA) and PPPoE-over-BR2684 support for DSL connections.
-> 
-> Removed ATM protocol modules:
->  - net/atm/clip.c - Classical IP over ATM (RFC 2225)
->  - net/atm/lec.c - LAN Emulation Client (LANE)
->  - net/atm/mpc.c, mpoa_caches.c, mpoa_proc.c - Multi-Protocol Over ATM
-> 
-> Removed PCI/SBUS ATM device drivers (drivers/atm/):
->  - adummy, atmtcp - software/testing ATM devices
->  - eni - Efficient Networks ENI155P (OC-3, ~1995)
->  - fore200e - FORE Systems 200E PCI/SBUS (OC-3, ~1999)
->  - he - ForeRunner HE (OC-3/OC-12, ~2000)
->  - idt77105 - IDT 77105 25 Mbps ATM PHY
->  - idt77252 - IDT 77252 NICStAR II (OC-3, ~2000)
->  - iphase - Interphase ATM PCI (OC-3/DS3/E3)
->  - lanai - Efficient Networks Speedstream 3010
->  - nicstar - IDT 77201 NICStAR (155/25 Mbps, ~1999)
->  - solos-pci - Traverse Technologies ADSL2+ PCI
->  - suni - PMC S/UNI SONET PHY library
-> 
-> Also clean up references in:
->  - net/bridge/ - remove ATM LANE hook (br_fdb_test_addr_hook,
->    br_fdb_test_addr)
->  - net/core/dev.c - remove br_fdb_test_addr_hook export
->  - defconfig files - remove ATM driver config options
-> 
-> The removed code is moved to an out-of-tree module package (mod-orphan).
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> v2:
->  - keep BR2684
->  - correct the claim that Traverse Technologies is defunct,
->    I'm still deleting the solos driver, chances are nobody uses it.
->    Easy enough to revert back in since core is still around.
->    The guiding principle is to keep USB modems and delete
->    the rest as USB ADSL2+ CPEs were most popular historically.
-> v1: https://lore.kernel.org/20260421021943.1295109-1-kuba@kernel.org
-> 
-> CC: corbet@lwn.net
-> CC: skhan@linuxfoundation.org
-> CC: linux@armlinux.org.uk
-> CC: tsbogend@alpha.franken.de
-> CC: maddy@linux.ibm.com
-> CC: mpe@ellerman.id.au
-> CC: npiggin@gmail.com
-> CC: chleroy@kernel.org
-> CC: 3chas3@gmail.com
-> CC: razor@blackwall.org
-> CC: idosch@nvidia.com
-> CC: jani.nikula@intel.com
-> CC: mchehab+huawei@kernel.org
-> CC: tytso@mit.edu
-> CC: herbert@gondor.apana.org.au
-> CC: geert@linux-m68k.org
-> CC: ebiggers@kernel.org
-> CC: johannes.berg@intel.com
-> CC: jonathan.cameron@huawei.com
-> CC: kees@kernel.org
-> CC: kuniyu@google.com
-> CC: fourier.thomas@gmail.com
-> CC: andriy.shevchenko@intel.com
-> CC: rdunlap@infradead.org
-> CC: akpm@linux-foundation.org
-> CC: linux-doc@vger.kernel.org
-> CC: linux-mips@vger.kernel.org
-> CC: linuxppc-dev@lists.ozlabs.org
-> CC: bridge@lists.linux.dev
-> CC: dwmw2@infradead.org
-> CC: herbert@gondor.apana.org.au
+On Tue, Apr 21, 2026 at 11:23:11PM +0300, Stefan D=C3=B6singer wrote:
+> This adds base DT definition for zx297520v3 and one board that consumes i=
+t.
+>=20
+> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
 
-Acked-by: Andy Shevchenko <andriy.shevchenko@intel.com>
+subject - missing zte prefix.
 
-P.S.
-Since it's almost removal and it will go via netdev tree (same tree you are
-maintaining, I suppose) the -D would have a big help to review the changes
-(and not see removals at all, as 32k lines of one email is too much).
+Please use subject prefixes matching the subsystem. You can get them for
+example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
+your patch is touching. For bindings, the preferred subjects are
+explained here:
+https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patch=
+es.html#i-for-patch-submitters
 
--- 
-With Best Regards,
-Andy Shevchenko
 
+=2E..
+
+> +/ {
+> +	#address-cells =3D <1>;
+> +	#size-cells =3D <1>;
+> +
+> +	cpus {
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <0>;
+> +
+> +		cpu@0 {
+> +			device_type =3D "cpu";
+> +			compatible =3D "arm,cortex-a53";
+> +			reg =3D <0>;
+> +		};
+> +	};
+> +
+> +	soc {
+> +		#address-cells =3D <1>;
+> +		#size-cells =3D <1>;
+> +		compatible =3D "simple-bus";
+> +		interrupt-parent =3D <&gic>;
+> +		ranges;
+> +
+> +		gic: interrupt-controller@f2000000 {
+> +			compatible =3D "arm,gic-v3";
+> +			interrupt-controller;
+> +			#interrupt-cells =3D <3>;
+> +			#address-cells =3D <1>;
+> +			#size-cells =3D <1>;
+> +			reg =3D <0xf2000000 0x10000>,
+> +			      <0xf2040000 0x20000>;
+> +		};
+
+This is pretty incomplete DTS. The first submission must have a working,
+basic device support which requires at least one interface, e.g. serial.
+
+Otherwise how is this usable?
+
+Best regards,
+Krzysztof
 
