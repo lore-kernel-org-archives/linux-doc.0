@@ -1,157 +1,153 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5825936C5A1;
-	Wed, 22 Apr 2026 20:27:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644552C15A9;
+	Wed, 22 Apr 2026 21:10:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776889630; cv=none; b=ddIpr2IfXECHTTBEfcw66E+VII7Rc9kVUjv7ghLCL/ldw+8KanehWKQ2xfrY8HkUzbDAuyKIvTKYhaI7BhjVjR0CDryEUcYyHOhwuz/y+4DVqdpH1UJbU7svvXEJ/KC9WsBfmmf4jylD9mHZybsududYd/R+EEOQVUTv7bkeT9k=
+	t=1776892243; cv=none; b=eXXUWSiO6gywqH04X5E6JJvk5/7yeVBpfGWDnjUHcGDkiXHlNbHOqdjPIIEbnCjo/92zsr0k/kQV4QHv1hvdSfFbVvs+xHAKUK3XKDTBjvseoboWLym//+eKdpUBlsc9/QHmL+BtDsJDj82YdWawsYf6PTY3XHGrwkIqsrYtHnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776889630; c=relaxed/simple;
-	bh=iAUPsm1LDedItMRxQEDcJahVt/xXTKZHOJ4OvRDP31A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gt380cGVWdoCXj+0wCHEmP5PgymhNXO/OOfz9gF/MePJI8HUNkMXtOJHFPYyIFLIUFeMTwJKsyKdOGeRhnaApxMExxDnZ0mypN3ISN+Hnk3v2LWZ+kvxJT8hghtt54T1KFWw/Ce/L6ZSOkQ8Wmg+Wutf3gRkySdWY5oK9qkDqUM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uumehj9Y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776892243; c=relaxed/simple;
+	bh=OSqg33zu69B18EgZ4Qom6kiYvb5WvGdOXyD/733bQeo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iWJGEbo7aimxfhD4XCKtD23jlAJHPI20Oq2FP2mYHdhWNKJwH8rvvbwYhPdX+asS+Nko+hM9cvznLn32UV/qjJi16rV5gdBREiG+BpMgf07m8NwwjOSSxuUkEJAP5t/4HqQyqCDm3akIUOWq+FKyQdi7jM+VunDg7Uj3qBeNrRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fluxnic.net; spf=pass smtp.mailfrom=fluxnic.net; dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b=UKmJgASW; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UzyNDugL; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fluxnic.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fluxnic.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uumehj9Y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1693BC19425;
-	Wed, 22 Apr 2026 20:27:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776889629;
-	bh=iAUPsm1LDedItMRxQEDcJahVt/xXTKZHOJ4OvRDP31A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uumehj9Yhkcy08Kf8dZ5rOV9nlZTiDXyKcpJXqDHKVVoiLk0k4R/Iy6e4t19WkMGG
-	 K79QlrrLYLsB3ybo4i+jp5gpal9jxBdG0SseGXmwpqJeEQBj/meOaPH+R8eO4m9C6B
-	 04Qpi6ue/mTejuseYYk2F2F0wMb/Pq3coHzcHWBAredtZrQR1mOBynQKXVaK7ySeAh
-	 rGK823XHnPX8G1WtvZ6+m/ROAsxVAqC7fH1XwK6oiJM316apDUAUs7oP0hkRXMRG0a
-	 6jzoEnGRKMnv0OjAZBjz53YtNgPl9drRCxuEGaxZnOzzeSGNKO8hJqRkjU3FhVfBG7
-	 VDOt1f/R7p/BA==
-Date: Wed, 22 Apr 2026 20:27:06 +0000
-From: Yosry Ahmed <yosry@kernel.org>
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, Liam.Howlett@oracle.com, 
-	akpm@linux-foundation.org, apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, cgroups@vger.kernel.org, 
-	chengming.zhou@linux.dev, chrisl@kernel.org, corbet@lwn.net, david@kernel.org, 
-	dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com, 
-	jannh@google.com, joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, ryan.roberts@arm.com, 
-	shakeel.butt@linux.dev, shikemeng@huaweicloud.com, surenb@google.com, tglx@kernel.org, 
-	vbabka@suse.cz, weixugc@google.com, ying.huang@linux.alibaba.com, 
-	yosry.ahmed@linux.dev, yuanchu@google.com, zhengqi.arch@bytedance.com, ziy@nvidia.com, 
-	kernel-team@meta.com, riel@surriel.com
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-Message-ID: <aektdlD4npMVThu3@google.com>
-References: <20260320192735.748051-1-nphamcs@gmail.com>
- <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=fluxnic.net header.i=@fluxnic.net header.b="UKmJgASW";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UzyNDugL"
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfout.stl.internal (Postfix) with ESMTP id BF17A1D0028C;
+	Wed, 22 Apr 2026 17:10:40 -0400 (EDT)
+Received: from phl-frontend-01 ([10.202.2.160])
+  by phl-compute-04.internal (MEProxy); Wed, 22 Apr 2026 17:10:40 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fluxnic.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1776892240; x=1776978640; bh=ho5guMm1HwTA2x/cC0OWy
+	tNH8h1h5PyjKMZ+eQuo8aA=; b=UKmJgASW6Cpz5I5/zud553i+UN1yxbX59Y841
+	kwkOh3C+zCgdU0RZTESrnTL/4/CGWhswYpIZkmoOT1X/l9EOVRxigGq3JILdzuZ6
+	m5OGLf00tfZgUc/2mz9jEnryV5rKhfGSen8CjABIpq9KY0qvFqvAiy3PgWY25We8
+	1RH5Nnno0l8VQ7L31BfjbEuFTB3XblRhaC+Ksg9GMb6qhDjq0XNw4D1V9zYd7hPS
+	Ic8rkCjQ8xAqXp51EYlfkVDi1ucIjHmwZBHHxtckdOjfN8bzv4D+jjynV2W8EVSq
+	Th1VnhOHHFdhfTXSi74iYpm/fKfR02pN03FbaFbdRtqexOyQw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1776892240; x=1776978640; bh=ho5guMm1HwTA2x/cC0OWytNH8h1h5PyjKMZ
+	+eQuo8aA=; b=UzyNDugLo7xOV3mHUOdO+pc78XlzW+KuMh17boQ6ocE0uQOKQ8g
+	m8SuU9hf5QPOzQAbW8G4lJ9wCMRDyvKp3behrjD5q5/odwFO6UIhaZhjLzwFAxz4
+	weDz+KqxX7mqWNyTevW35oXNHvxCYTGWi7qzB8qk7iN8HgvwhW7Jslmq7Qj/UNrj
+	GtbDau2b+4v2BR4BJLkgNaIO234VD55ztVym1I5BYrKlBmScAcBTfMEcM79JCeD3
+	DYLptEvmLYdWo7+Jkb84Ke2iYz2fctQKMZVk5p493Nu90+kpRCUjQDrU/HRdVoQJ
+	f8lamgox64LWkigzAG3japc4wPHDWfl55iw==
+X-ME-Sender: <xms:UDnpaYElzECl6OZOVJpQLbIklhOp0GkNoxZ-X9k1M5LZmmscygSIHg>
+    <xme:UDnpaZFhVFri6Q3R201UmDZXPi6ari8F-W8C-qF4Qa77j6krCvID61TIKhT896kq0
+    rD9awuYoC9iLXZ8i7UhbsQEiDP96EpZqd0oCoPmpHAgaFcjBo96>
+X-ME-Received: <xmr:UDnpaVNMo1_2Z9rNEk7_ZAKyLDBtuuPKZUlh6ZRg1UsQ6YUM4AuAb0D_GGr_9R7ZyjwixzRvjjXf3OKk1dp9ILiV-6ka454J7KIRFl6C>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeiheefudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefhvfevufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefpihgtohhlrghsucfr
+    ihhtrhgvuceonhhitghosehflhhugihnihgtrdhnvghtqeenucggtffrrghtthgvrhhnpe
+    ehhfefteeuieetiefgffeileevtefhudelgeehleetheduteeuvdejffffvdfhveenucev
+    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihgtohesfh
+    hluhignhhitgdrnhgvthdpnhgspghrtghpthhtohepfedpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheplhhinhhugi
+    dqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhk
+    vghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:UDnpaYGSL9B2IgDJ7PbBb8RP6zDIuO-uDGKyqNVAWtg1pG__ebjZXQ>
+    <xmx:UDnpacNQoLzXrLl-4k3RjwkCStBk0vdDVAkmlPFBP7qSAJCQbXUpKg>
+    <xmx:UDnpaZ9VxEmnI0u8coqonA2PPBAjMmP4KWDPqeFtAjtXSOipSf4Lyw>
+    <xmx:UDnpaYRcAwwhRwwuDQU4teVZ-pIblbiUkxoRA9_A29hAqfBtoZ9JJA>
+    <xmx:UDnpaY3-IHRtJny-9Pg2s6-R7K_mhjPOPh6C4iFnUyew7t0vcjqtniFG>
+Feedback-ID: i58514971:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Apr 2026 17:10:40 -0400 (EDT)
+Received: from xanadu.lan (_gateway [192.168.1.1])
+	by yoda.fluxnic.net (Postfix) with ESMTPSA id 8DF0B15FA094;
+	Wed, 22 Apr 2026 17:10:39 -0400 (EDT)
+From: Nicolas Pitre <nico@fluxnic.net>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 1/2] Documentation: filesystems: cramfs: correct stale hard-link and endianness claims
+Date: Wed, 22 Apr 2026 17:10:38 -0400
+Message-ID: <20260422211039.270552-1-nico@fluxnic.net>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
 
-On Wed, Apr 22, 2026 at 10:18:35AM +0800, Kairui Song wrote:
-> On Wed, Apr 22, 2026 at 8:26 AM Yosry Ahmed <yosry@kernel.org> wrote:
-> >
-> > On Fri, Mar 20, 2026 at 12:27:14PM -0700, Nhat Pham wrote:
-> > >
-> > > This patch series implements the virtual swap space idea, based on Yosry's
-> > > proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
-> > > inputs from Johannes Weiner. The same idea (with different
-> > > implementation details) has been floated by Rik van Riel since at least
-> > > 2011 (see [8]).
-> >
-> > Unfortuantely, I haven't been able to keep up with virtual swap and swap
-> > table development, as my time is mostly being spent elsewhere these
-> > days. I do have a question tho, which might have already been answered
-> > or is too naive/stupid -- so apologies in advance.
-> 
-> Hi Yosry,
-> 
-> Not a stupid question at all—it's actually spot on. :)
-> 
-> >
-> > Given the recent advancements in the swap table and that most metadata
-> > and the swap cache are already being pulled into it, is it possible to
-> > use the swap table in the virtual swap layer instead of the xarray?
-> >
-> > Basically pull the swap table one layer higher, and have it point to
-> > either a zswap entry or a physical swap slot (or others in the future)?
-> > If my understanding is correct, we kinda get the best of both worlds and
-> > reuse the integration already done by the swap table with the swap
-> > cache, as well as the lock paritioning.
-> >
-> > In this world, the clusters would be in the virtual swap space, and we'd
-> > create the clusters on-demand as needed.
-> >
-> > Does this even work or make the least amount of sense (I guess the
-> > question is for both Nhat and Kairui)?
-> >
-> 
-> Yes, this absolutely works. In fact, I previously posted a working RFC
-> based on this idea. In that series, clusters are dynamically
-> allocated, allowing the swap space to be dynamically sized
-> (essentially infinite) while reusing all the existing infrastructure:
-> https://lore.kernel.org/all/20260220-swap-table-p4-v1-0-104795d19815@tencent.com/
+Two paragraphs in cramfs.rst have been misleading for a long time:
 
-There are a few aspects that I don't agree with in this RFC, and I think
-Nhat and Johannes raised most of them. Mostly that I don't want to
-expose ghost swapfiles or similar to userspace.
+ - "Hard links are supported, but hard linked files will still have
+   a link count of 1": mkcramfs does not preserve hard links; it
+   deduplicates by content (eliminate_doubles()).  Two names for
+   the same on-disk inode in the source tree become two separate
+   (content-shared) entries in the image, and cramfs always reports
+   a link count of 1.
 
-I think userspace's view of swapfiles should remain the same and reflect
-the physical swap slots. The virtual swap layer should be completely
-transparent in this case. Userspace shouldn't need to configure it in
-any way.
+ - "Currently, cramfs must be written and read with architectures of
+   the same endianness ... PAGE_SIZE == 4096 ... is a bug, but it
+   hasn't been decided what the best fix is": the endianness
+   situation has been settled for years -- the kernel checks for
+   CRAMFS_MAGIC_WEND in cramfs_fill_super() and refuses the mount,
+   and mkcramfs has gained -B / -L for producing images of the
+   opposite endianness from the build host (useful for cross-builds,
+   but the reader still needs to match).  Restate this accurately.
 
-In an ideal world, the only noticeable change from userspace is that
-with zswap, compressed pages would stop using slots in the swapfile and
-charging the memcg for them -- and that zswap would work even without a
-swapfile, by just enabling it. This is admittedly a user-visible
-behavioral change, but I am hoping that's a good one that we can live
-with.
+Signed-off-by: Nicolas Pitre <nico@fluxnic.net>
+---
+ Documentation/filesystems/cramfs.rst | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-If there are real concerns about this, we can discuss things like a knob
-or config option to keep charging zswap pages as swap slots (ew..) or
-only allow zswap with a real swapfile (double ew..). But I am really
-hoping we can get away with changing the semantics without doing this.
+diff --git a/Documentation/filesystems/cramfs.rst b/Documentation/filesystems/cramfs.rst
+index afbdbde98bd2..221c0bf91b9c 100644
+--- a/Documentation/filesystems/cramfs.rst
++++ b/Documentation/filesystems/cramfs.rst
+@@ -28,8 +28,10 @@ Only the low 8 bits of gid are stored.  The current version of
+ mkcramfs simply truncates to 8 bits, which is a potential security
+ issue.
+ 
+-Hard links are supported, but hard linked files
+-will still have a link count of 1 in the cramfs image.
++Hard links are not preserved.  mkcramfs deduplicates files with
++identical content, but two names for the same on-disk inode in the
++source tree become two separate (content-shared) entries in the
++image, and cramfs always reports a link count of 1.
+ 
+ Cramfs directories have no ``.`` or ``..`` entries.  Directories (like
+ every other file on cramfs) always have a link count of 1.  (There's
+@@ -40,12 +42,16 @@ No timestamps are stored in a cramfs, so these default to the epoch
+ the update lasts only as long as the inode is cached in memory, after
+ which the timestamp reverts to 1970, i.e. moves backwards in time.
+ 
+-Currently, cramfs must be written and read with architectures of the
+-same endianness, and can be read only by kernels with PAGE_SIZE
+-== 4096.  At least the latter of these is a bug, but it hasn't been
+-decided what the best fix is.  For the moment if you have larger pages
+-you can just change the #define in mkcramfs.c, so long as you don't
+-mind the filesystem becoming unreadable to future kernels.
++The on-disk layout is host-endian: the kernel does not swab, and
++refuses to mount an image whose endianness does not match the CPU.
++For cross-builds, mkcramfs -B / -L forces the output endianness so
++that a host of one endianness can produce an image for a target of
++the other.
++
++The on-disk block size is fixed at 4096 bytes.  On systems with a
++larger PAGE_SIZE you can change the #define in mkcramfs.c, with the
++caveat that the resulting image will only be readable on kernels
++configured for the same PAGE_SIZE.
+ 
+ 
+ Memory Mapped cramfs image
+-- 
+2.53.0
 
-We can add extra interfaces for virtual swap as needed, e.g. virtual
-swapoff that you mentioned to clear the swap cache, or stats about the
-virtual swap space (which translates to memory overhead).
-
-There are also a few missing pieces like different memcg charging, but
-these were already pointed out, and we can figure them out as we go.
-
-Nhat/Johannes, WDYT? Am I missing somthing?
-
-> 
-> The only missing pieces are a few helpers like folio_realloc_swap()
-> and folio_migrate_swap() for lower layer allocation and migration. I
-> prototyped this locally and it wasn't difficult to implement.
-> Furthermore, this approach works perfectly with YoungJun's tiering
-> work with zero conflicts, the dynamic layer can be runtime or
-> per-memcg optional.
-> 
-> To move this forward, I've stripped out the RFC features and memcg
-> behavior changes, and recently sent a V3 that focuses purely on the
-> infrastructure. It introduces no behavior changes or new features,
-> just optimizations.
-> 
-> It cleans up a lot of allocation and ordering, as well as memcg
-> swap lookups. Since some of these problems were also observed in the
-> vss discussion, I think this will make things easier for all of us:
-> https://lore.kernel.org/all/20260421-swap-table-p4-v3-0-2f23759a76bc@tencent.com/
-
-Yeah I saw that (but didn't really have time to do anything else about
-it). Splitting this out is definitely the right thing to do, and the
-series looks great from a very high level. Awesome work, as usual :)
