@@ -1,66 +1,67 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C871DF73C
-	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 13:17:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A367323AE87
+	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 13:37:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776863863; cv=none; b=GFSFo01Kod278diRPQNcjK/FjxgpKDywkWnsM5Zk7CCK1d3/0LjOpVh/+5slGzZdrNrvpDjEmPVmtm/GKEShMFhU5x43rWvvylH3SMrfZwHLSfgKXLzGA9HetdJzNI5Cly2xtDtY4mXMfq5yWyvwPjN1EHEpEgU1LuKomqKjRPY=
+	t=1776865053; cv=none; b=mKOMvVvp7B/vTPJbFQYT2/7kSGDsqc2Fe+P++uqsbKeFCUCDvb/ofmrxnG4HnGTz5XdxUeDGkqRV3TcXM/krKvpATyI0I8J+APCfRlBq+FKr6+9eKvTpdzGx2jXE0uC03f7GuC6Uu4efCN3NOIUv2cnnYwWwaN08UDQ9DGlossM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776863863; c=relaxed/simple;
-	bh=4GxuuyMSlQ6NLADvS5Z35ENS8872BjLa9uyc5U0J7N0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R99CWC4TPnNunEK4XS3LT61gfgMjhwVq9EDVUk6z/9/rPRUri4HnmdrKWEsIWj3uk1AtxFsvuB6hG16AQ4ZpM01QJlpSbGUXrXBbmOxZmKcZH5/XzqWr4N2GLz6YexO+PxlL3Ya7KsWnuykGD9L7gIX5fsHjWz5MrIrRa2XvK1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org; spf=none smtp.mailfrom=blackwall.org; dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b=Y7/ELOLK; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=blackwall.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=blackwall.org
+	s=arc-20240116; t=1776865053; c=relaxed/simple;
+	bh=2Ru/KnN7m2/UNKZBdjvYEm0is6y/YS598qRiX4BTtk4=;
+	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=ECrU1FXwTNxxAUJg4JLXlEahB9tLdDahdK4U/+oy6ldt5+K7i8taabvvTdeDXhNbJpN9nuEA4INUs/CLSXN7lKtHx7gpCl2bs9b/K6L50iwHUXvIIgWGEbNfsLglMc3Bexkg3u8JG1L3X2a+FSn6dOKCHIleN0JmoGlvKCk5CBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtec.com; spf=pass smtp.mailfrom=qtec.com; dkim=pass (2048-bit key) header.d=qtec.com header.i=@qtec.com header.b=Rj6TktD+; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qtec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qtec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=blackwall.org header.i=@blackwall.org header.b="Y7/ELOLK"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4852b81c73aso45946275e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 06:17:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=qtec.com header.i=@qtec.com header.b="Rj6TktD+"
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-59e5aa4ca41so5391091e87.2
+        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 06:37:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=blackwall.org; s=google; t=1776863860; x=1777468660; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5JlgsJdPL7wtu5Mt7X6K/pCay7xHXG85EOpMzec21jg=;
-        b=Y7/ELOLKnoTe2wwHbCwpojhW6wz4lD68qmQPn3TjWeFQPJxnOgOcuNSGM/doVPhAIS
-         Yb0uv1QjTjDnyVBd294lVFHNBjpj/H7kgwQyIGFBsRjbhYJnRbT8QvwLv4hg/T9u/HeA
-         YTFNj3rdfn+Yiqn1KKm2farh527kYj/rKED28Z9rkcrahE5j3WpBgJOKw7liqeoVJW42
-         aPrPFgXXnMi7Po53c+ZN3cksKBP71WGUwyH9dpQaaBYQEkHhhOYlyRB+LjJrDXbQFdV4
-         2ajdEKkNWks6yLEM+jRU+tETirV6s6COXVInsDSH2WmG7lgRxueSCkmKTVwFxT+qrd5o
-         7CZw==
+        d=qtec.com; s=google; t=1776865049; x=1777469849; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Ru/KnN7m2/UNKZBdjvYEm0is6y/YS598qRiX4BTtk4=;
+        b=Rj6TktD+ozJJQLa05elinNYPCapDUGE263cLwXP3sDBapP8WLT6SmEZgFydluxD1+5
+         eHmwOXLk9mbOqSMxHjFUJb0FNVdL3jhq1iPnIS7eIMQTjlfheMzqdS45ZX0ncgQdJTLZ
+         kIi5mYzvmBk/UHaZZ65xWxtGVExetefDXwyT9PQt+7vxHnruNQTXdkeZ4ZJmlGwn9Bbd
+         rurdwnwvCos4wlBNPoTKnvtIToAHhhemCxOmVnWLYfdW9nC8HmMWmkI5jR4iql3+0UaI
+         iNJyMrFWF1jtOmjM/3XI9Ky5Q5J42hsxutb+2hkTmjEs7TejiMMJqZ56sF8f9DZn0yAO
+         O+7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776863860; x=1777468660;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5JlgsJdPL7wtu5Mt7X6K/pCay7xHXG85EOpMzec21jg=;
-        b=HbFCpicZuHsy08kR3KcX0PG6lDm1Lqm2J9VVbYMCb9Q9WI2+xBz9s/MnUKBagYpGVb
-         Xecwgm8ohf+6e1mZHoH1JvLFQDDGtpzmtlb+JlY5yXRCLslu4AWCyIkcwYNbpiX6hpN5
-         Z+C8AesmAK/YJVRUJzvyOYeItgZLXwxbUa6oA+hnClK0R/pwdb40WeRG5TwgYLtZFYdK
-         IG5z7+4PmdQYqDMWTWmuPij8IkAl1Ptsd+IOsxazgNXu9lxcsbFWgaMUnSKTqmrkCIoB
-         BpEbeIJhvf7nAxHmtrUA7ljm34N290h2uEIhh+u6XIKbHB4/HYRHJQX2SxUWc8blI+xK
-         2mdw==
-X-Forwarded-Encrypted: i=1; AFNElJ+QzIdMCvfwGuKWELdsEZfvXtGGGvhqqCErGCgnxPIgkw9StMHlctTTb6FpXLsJgAFxyu2DdGrRUPI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyR7mgb7RgThN61ICaZD1rdh5wo/dkXo/Al2n//OaXoiNQFLuW1
-	b7/VFcGRXbU3Je0krnWI7jsCl02NJKH7GkNhejol8a97HIlXRKYZBTVc/guQGrsGwYc=
-X-Gm-Gg: AeBDietUR8SyP7Yz1dNv+GvtWs7EeHjFXywuHuFiHs9Vg4wzcpDDiDaesC9Ex7TmxNj
-	fRaf72PDzehvdLE1pMoY38GQyGloTINszfwTnOTiDFejim4Lpz0HRQ+rUmXIRb2qDFFqMGFddRk
-	De9TCTMp76QSEhtV6e0OOC803DBitL/FF7+dIObEF49gwlg8xiZ8MbN4LHB+3npqeycHslm4Kbb
-	utE/v6PzxdTjqE3ddRqhlYxAOf+6Y0pba2tOoseD47SwxJ91xEORMGrDCINFu9vTD4TimZsWCCk
-	XeYsy7hoy6daZJ+uy9+/8Gz+CGQ7xJIY6/T70UzTYyQ35+jac0k5h5j7I5f7yl3hVfNEXlYR5S8
-	qxxLr4Gc1N6F6b8v9JdOwWOrmCzus60krC9imqMkkO/rG+Dtp/S77YRji6Klah09QuoHCNuAneg
-	dVpG0/LlhjES1QYoUyG1c56itAgyfu34q37imIZHRtq6VqvKKKmIKDie2U7vrEWu7F
-X-Received: by 2002:a05:600c:890c:b0:485:3ff1:d5ed with SMTP id 5b1f17b1804b1-488fb739cd9mr265621335e9.1.1776863859192;
-        Wed, 22 Apr 2026 06:17:39 -0700 (PDT)
-Received: from [192.168.0.161] (78-154-15-182.ip.btc-net.bg. [78.154.15.182])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d6casm41495844f8f.32.2026.04.22.06.17.36
+        d=1e100.net; s=20251104; t=1776865049; x=1777469849;
+        h=content-transfer-encoding:subject:from:to:content-language
+         :user-agent:mime-version:date:message-id:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2Ru/KnN7m2/UNKZBdjvYEm0is6y/YS598qRiX4BTtk4=;
+        b=m80qD4+JLNR3cDKM6jOUQS+TirEzuSKbE/OFbv2wMRWiX0O4m7v9Kfg1EAphymfkBC
+         R+RyMdGsNkIfmmWN2P038o9q4JEdwY6Jt/gUoYhOjHft6p/rLj8cpZG5NfWGToAKFlRH
+         raHKw/dJSIt6bqsiYmWKmGTG5eeHZKYby/mfXGWRfSD0AuE8RCHf+MMLPvF8YM/XDgAl
+         12O7jerDnTKrvseYHYSdg24/BDO6f/8fQeer/gSDBXGYwSiqjxzbNlZVKkqsMV1sE9js
+         +22H+ZAeyaTVRl7bu4GP/p28iESPoWBUPKd/ARKwn4oRqiBqH48R6MVz5l3+paH8QBec
+         mTtQ==
+X-Gm-Message-State: AOJu0YzbsmuzpIx79aXKv4V94rlbEwq55Chxl+SIwCNLK45fr3jyUgaZ
+	xQ4cS7UGGrc4Wz0YaRi5R5Mu+sIY1LujLnXvKkMjGlnRU7/eLNhpfJkQujZrKdDNoaITb7i2L9c
+	aTo5Y8mO7hEXOBFqygDGk9m2aDXUABum9pjLl4hsvMUaSHZGe3iXgnAAkkFZ9odEYuFvGwNoUWt
+	ItiPBwfIuLCe/RO0dTVO47sixU39oYt8YLe6s=
+X-Gm-Gg: AeBDieseei4DcM1mCTVyNnq3N8Eu4mfgkEPQ1WPUKaygMMrfHXx1CStZraRH655/JC4
+	fUJnYyANl3A7N1goGYAgwibv5E7JGz6dL6uwnxa2G/CpJwBcd81hfMHTPAATd9Vdw2k/JxT1R3Z
+	reOxmP/jMZDmOSbYL9Ww6jZBTPVRCM86ebaGkOVTpFbFCwk2qgoG/pI+TvJFsAiigfB8yQXcNW1
+	s447wU7WVUqhx2Qs9n8feuHyIjQSGssy8SPON+GzqT35RT0DN5N18S1NlCCAr8CI5OVHy/H4GWA
+	n9sR1eYR4zlbW83kjz3sesiQZgKjuGJ5lT7B/gltYFL+UCzjJoPB+myJ7AlP7X9WVAhkz7myBPo
+	uG1DGsNHIjYOEjAab1D7MIlcW1KkchoVhB6Wx/jq0To4FEx0ex5FmT1bXoryB0S+Pp9de6Ga9Zk
+	bgnPyPtR+JSeLH4dy/CHd2BMWDLGuROgeFVL9arSM53ASp3fQPrubaNsQso932Vw/hxVfB7wPdL
+	maS
+X-Received: by 2002:a05:6512:12c6:b0:5a4:12a4:856f with SMTP id 2adb3069b0e04-5a4172e7bb4mr6349835e87.30.1776865048593;
+        Wed, 22 Apr 2026 06:37:28 -0700 (PDT)
+Received: from [192.168.2.46] (cpe.ge-3-0-8-100.ryvnqe10.dk.customer.tdc.net. [80.197.57.18])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb6f0bfdsm36880561fa.26.2026.04.22.06.37.27
+        for <linux-doc@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 06:17:38 -0700 (PDT)
-Message-ID: <46196178-51e0-4744-9154-bbad895568d6@blackwall.org>
-Date: Wed, 22 Apr 2026 16:17:36 +0300
+        Wed, 22 Apr 2026 06:37:27 -0700 (PDT)
+Message-ID: <35f1379c-41eb-422b-9441-393af5bddf31@qtec.com>
+Date: Wed, 22 Apr 2026 15:37:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,206 +69,26 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-deletions v2] net: remove unused ATM protocols and
- legacy ATM device drivers
-Content-Language: en-US, bg
-To: Jakub Kicinski <kuba@kernel.org>, davem@davemloft.net
-Cc: netdev@vger.kernel.org, edumazet@google.com, pabeni@redhat.com,
- andrew+netdev@lunn.ch, horms@kernel.org, corbet@lwn.net,
- skhan@linuxfoundation.org, linux@armlinux.org.uk, tsbogend@alpha.franken.de,
- maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
- chleroy@kernel.org, 3chas3@gmail.com, idosch@nvidia.com,
- jani.nikula@intel.com, mchehab+huawei@kernel.org, tytso@mit.edu,
- herbert@gondor.apana.org.au, geert@linux-m68k.org, ebiggers@kernel.org,
- johannes.berg@intel.com, jonathan.cameron@huawei.com, kees@kernel.org,
- kuniyu@google.com, fourier.thomas@gmail.com, andriy.shevchenko@intel.com,
- rdunlap@infradead.org, akpm@linux-foundation.org, linux-doc@vger.kernel.org,
- linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
- bridge@lists.linux.dev, dwmw2@infradead.org
-References: <20260422041846.2035118-1-kuba@kernel.org>
-From: Nikolay Aleksandrov <razor@blackwall.org>
-In-Reply-To: <20260422041846.2035118-1-kuba@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Language: en-US
+To: linux-doc@vger.kernel.org
+From: Daniel Lundberg Pedersen <dlp@qtec.com>
+Subject: Incorrect auto formatting of struct
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/04/2026 07:18, Jakub Kicinski wrote:
-> Remove the ATM protocol modules and PCI/SBUS ATM device drivers
-> that are no longer in active use.
-> 
-> The ATM core protocol stack, PPPoATM, BR2684, and USB DSL modem
-> drivers (drivers/usb/atm/) are retained in-tree to maintain PPP
-> over ATM (PPPoA) and PPPoE-over-BR2684 support for DSL connections.
-> 
-> Removed ATM protocol modules:
->   - net/atm/clip.c - Classical IP over ATM (RFC 2225)
->   - net/atm/lec.c - LAN Emulation Client (LANE)
->   - net/atm/mpc.c, mpoa_caches.c, mpoa_proc.c - Multi-Protocol Over ATM
-> 
-> Removed PCI/SBUS ATM device drivers (drivers/atm/):
->   - adummy, atmtcp - software/testing ATM devices
->   - eni - Efficient Networks ENI155P (OC-3, ~1995)
->   - fore200e - FORE Systems 200E PCI/SBUS (OC-3, ~1999)
->   - he - ForeRunner HE (OC-3/OC-12, ~2000)
->   - idt77105 - IDT 77105 25 Mbps ATM PHY
->   - idt77252 - IDT 77252 NICStAR II (OC-3, ~2000)
->   - iphase - Interphase ATM PCI (OC-3/DS3/E3)
->   - lanai - Efficient Networks Speedstream 3010
->   - nicstar - IDT 77201 NICStAR (155/25 Mbps, ~1999)
->   - solos-pci - Traverse Technologies ADSL2+ PCI
->   - suni - PMC S/UNI SONET PHY library
-> 
-> Also clean up references in:
->   - net/bridge/ - remove ATM LANE hook (br_fdb_test_addr_hook,
->     br_fdb_test_addr)
->   - net/core/dev.c - remove br_fdb_test_addr_hook export
->   - defconfig files - remove ATM driver config options
-> 
-> The removed code is moved to an out-of-tree module package (mod-orphan).
-> 
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> ---
-> v2:
->   - keep BR2684
->   - correct the claim that Traverse Technologies is defunct,
->     I'm still deleting the solos driver, chances are nobody uses it.
->     Easy enough to revert back in since core is still around.
->     The guiding principle is to keep USB modems and delete
->     the rest as USB ADSL2+ CPEs were most popular historically.
-> v1: https://lore.kernel.org/20260421021943.1295109-1-kuba@kernel.org
-> 
-> CC: corbet@lwn.net
-> CC: skhan@linuxfoundation.org
-> CC: linux@armlinux.org.uk
-> CC: tsbogend@alpha.franken.de
-> CC: maddy@linux.ibm.com
-> CC: mpe@ellerman.id.au
-> CC: npiggin@gmail.com
-> CC: chleroy@kernel.org
-> CC: 3chas3@gmail.com
-> CC: razor@blackwall.org
-> CC: idosch@nvidia.com
-> CC: jani.nikula@intel.com
-> CC: mchehab+huawei@kernel.org
-> CC: tytso@mit.edu
-> CC: herbert@gondor.apana.org.au
-> CC: geert@linux-m68k.org
-> CC: ebiggers@kernel.org
-> CC: johannes.berg@intel.com
-> CC: jonathan.cameron@huawei.com
-> CC: kees@kernel.org
-> CC: kuniyu@google.com
-> CC: fourier.thomas@gmail.com
-> CC: andriy.shevchenko@intel.com
-> CC: rdunlap@infradead.org
-> CC: akpm@linux-foundation.org
-> CC: linux-doc@vger.kernel.org
-> CC: linux-mips@vger.kernel.org
-> CC: linuxppc-dev@lists.ozlabs.org
-> CC: bridge@lists.linux.dev
-> CC: dwmw2@infradead.org
-> CC: herbert@gondor.apana.org.au
-> ---
->   MAINTAINERS                                   |    3 +-
->   Documentation/.renames.txt                    |    2 -
->   .../device_drivers/atm/fore200e.rst           |   66 -
->   .../networking/device_drivers/atm/index.rst   |    2 -
->   .../networking/device_drivers/atm/iphase.rst  |  193 -
->   drivers/atm/Kconfig                           |  325 --
->   drivers/net/Kconfig                           |    2 -
->   net/atm/Kconfig                               |   37 -
->   drivers/Makefile                              |    1 -
->   drivers/atm/Makefile                          |   32 -
->   net/atm/Makefile                              |    4 -
->   drivers/atm/eni.h                             |  136 -
->   drivers/atm/fore200e.h                        |  973 -----
->   drivers/atm/he.h                              |  845 ----
->   drivers/atm/idt77105.h                        |   92 -
->   drivers/atm/idt77252.h                        |  816 ----
->   drivers/atm/idt77252_tables.h                 |  781 ----
->   drivers/atm/iphase.h                          | 1452 -------
->   drivers/atm/midway.h                          |  266 --
->   drivers/atm/nicstar.h                         |  759 ----
->   drivers/atm/suni.h                            |  242 --
->   drivers/atm/tonga.h                           |   21 -
->   drivers/atm/zeprom.h                          |   35 -
->   net/atm/lec.h                                 |  155 -
->   net/atm/lec_arpc.h                            |   97 -
->   net/atm/mpc.h                                 |   65 -
->   net/atm/mpoa_caches.h                         |   99 -
->   net/bridge/br_private.h                       |    4 -
->   drivers/atm/adummy.c                          |  202 -
->   drivers/atm/atmtcp.c                          |  513 ---
->   drivers/atm/eni.c                             | 2321 ----------
->   drivers/atm/fore200e.c                        | 3012 -------------
->   drivers/atm/he.c                              | 2861 -------------
->   drivers/atm/idt77105.c                        |  376 --
->   drivers/atm/idt77252.c                        | 3797 -----------------
->   drivers/atm/iphase.c                          | 3283 --------------
->   drivers/atm/lanai.c                           | 2603 -----------
->   drivers/atm/nicstar.c                         | 2759 ------------
->   drivers/atm/nicstarmac.c                      |  244 --
->   drivers/atm/solos-attrlist.c                  |   83 -
->   drivers/atm/solos-pci.c                       | 1496 -------
->   drivers/atm/suni.c                            |  391 --
->   net/atm/clip.c                                |  960 -----
->   net/atm/lec.c                                 | 2274 ----------
->   net/atm/mpc.c                                 | 1538 -------
->   net/atm/mpoa_caches.c                         |  565 ---
->   net/atm/mpoa_proc.c                           |  307 --
->   net/bridge/br.c                               |    7 -
->   net/bridge/br_fdb.c                           |   29 -
->   net/core/dev.c                                |    7 -
->   arch/arm/configs/ixp4xx_defconfig             |    5 -
->   arch/mips/configs/gpr_defconfig               |   13 -
->   arch/mips/configs/mtx1_defconfig              |   13 -
->   arch/powerpc/configs/ppc6xx_defconfig         |    9 -
->   drivers/atm/.gitignore                        |    5 -
->   drivers/atm/nicstarmac.copyright              |   61 -
->   56 files changed, 2 insertions(+), 37237 deletions(-)
->   delete mode 100644 Documentation/networking/device_drivers/atm/fore200e.rst
->   delete mode 100644 Documentation/networking/device_drivers/atm/iphase.rst
->   delete mode 100644 drivers/atm/Kconfig
->   delete mode 100644 drivers/atm/Makefile
->   delete mode 100644 drivers/atm/eni.h
->   delete mode 100644 drivers/atm/fore200e.h
->   delete mode 100644 drivers/atm/he.h
->   delete mode 100644 drivers/atm/idt77105.h
->   delete mode 100644 drivers/atm/idt77252.h
->   delete mode 100644 drivers/atm/idt77252_tables.h
->   delete mode 100644 drivers/atm/iphase.h
->   delete mode 100644 drivers/atm/midway.h
->   delete mode 100644 drivers/atm/nicstar.h
->   delete mode 100644 drivers/atm/suni.h
->   delete mode 100644 drivers/atm/tonga.h
->   delete mode 100644 drivers/atm/zeprom.h
->   delete mode 100644 net/atm/lec.h
->   delete mode 100644 net/atm/lec_arpc.h
->   delete mode 100644 net/atm/mpc.h
->   delete mode 100644 net/atm/mpoa_caches.h
->   delete mode 100644 drivers/atm/adummy.c
->   delete mode 100644 drivers/atm/atmtcp.c
->   delete mode 100644 drivers/atm/eni.c
->   delete mode 100644 drivers/atm/fore200e.c
->   delete mode 100644 drivers/atm/he.c
->   delete mode 100644 drivers/atm/idt77105.c
->   delete mode 100644 drivers/atm/idt77252.c
->   delete mode 100644 drivers/atm/iphase.c
->   delete mode 100644 drivers/atm/lanai.c
->   delete mode 100644 drivers/atm/nicstar.c
->   delete mode 100644 drivers/atm/nicstarmac.c
->   delete mode 100644 drivers/atm/solos-attrlist.c
->   delete mode 100644 drivers/atm/solos-pci.c
->   delete mode 100644 drivers/atm/suni.c
->   delete mode 100644 net/atm/clip.c
->   delete mode 100644 net/atm/lec.c
->   delete mode 100644 net/atm/mpc.c
->   delete mode 100644 net/atm/mpoa_caches.c
->   delete mode 100644 net/atm/mpoa_proc.c
->   delete mode 100644 drivers/atm/.gitignore
->   delete mode 100644 drivers/atm/nicstarmac.copyright
-> 
+Hi
 
-FWIW,
-Reviewed-by: Nikolay Aleksandrov <razor@blackwall.org>
+I've just noticed that between v6.16 and v6.17 the documentation has started to
+highlight struct that are not structs, e.g `struct inside`:
+
+https://www.kernel.org/doc/html/v6.17/driver-api/media/v4l2-device.html
+
+Previously it did not highlight this as a struct:
+
+https://www.kernel.org/doc/html/v6.16/driver-api/media/v4l2-device.html
+
+I couldn't find anything about whether this is intentional and thus needs doc
+fixes, or if it was already reported, it's not that easy to search for.
 
 
+Regards Daniel
