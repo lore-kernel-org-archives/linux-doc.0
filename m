@@ -1,99 +1,127 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2481C3C1410
-	for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 09:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E012F3C1991;
+	Wed, 22 Apr 2026 09:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776849202; cv=none; b=KO8Cm3IAP6YFbvDVq3EJrcaH7W66VvEllf8uV/PpG8Yxm3kiLi8YqU40eACgaEwKNoBvRIQ4AOtzRwKhj/CpbFYh7nQp3gVjBLlHxSx5LWHVRZKclwUN3grAdGns81zyc56G6H8gGYDQdO+tHbZjcs6/EHUaKRfRJ2h61GHW76s=
+	t=1776850026; cv=none; b=GzUfucn9zL7cpX/ldSUxDNejFZCS38B89tBhq6A2qmKB/ssTflg4XS1I4GHqXggoFNBgocO918zvxUs1L7/31RNc1K8mMOvXQtUWn48kOnNhbj3cKB7GHq0imgXXMtQR4q1NnKtNvwIbaWlPMy2AT9GOIfpb7BwCAnlCZPfXrHY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776849202; c=relaxed/simple;
-	bh=jqGw01x33DhS5aeU49v/Mka+0a7do3a5KwJhwuhUuqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IIHSK80nYXqhItiCOsBh/Gnzw5LTrxpspozcO5mLgTy7YvHi0nvOIOtPe2KLZucniHCf0eqPKsSQLZtIJCTJAD/v2weXtDoQi3O+I+7b+HMScVMO2aOs7/N4aBj2aWPUWqV/iiQt6fJjJYrk/72QeV4iFy0gqJepIQUTto6Kpmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cmrQvy9G; arc=none smtp.client-ip=209.85.221.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1776850026; c=relaxed/simple;
+	bh=XSXtvCEOw1rXi02T2nIM3gho4XRJ3rOy8aCyH/Flzh4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TpFpJp03Owt5eJQthBn1Wm3m0UbDfxZDBxjw6Y1rrAyp6Gjamlw6RZynrnINh9mdtBVtj/BgjxChGLcq63VUVX9E624f3DtcieS3npg8tqm0YrS+mfKMC/pv09PD2uwI2d6i8n3fQmPCtDJyB9b9PBdy/NGXfOkSvuBgO1ib1vw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fW8rW8oH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cmrQvy9G"
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-43d572f7437so3440826f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 02:13:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776849199; x=1777453999; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/otYovZDuesUe7jQPZmu+0R6E/qDznQJDykppq+S9E4=;
-        b=cmrQvy9GsZpTehdjrKDddZ/pZ0/clv1D4ygYn3LOPsF7tkqfbHyX7AI+wYczsi2Ulx
-         2hQ25QhoW7WVoYX8WCUDAIGiv+eQxOz4rqYo2IC+mtk5n/Ry/HgtFBtSeWPR6kTrRvgO
-         a6ravUPCMXsQKUuXGgkFB56UBzDeixp4zfsSdOJgFcgTv/590a9sMUzpUDEBiyoqo8Im
-         nBc7/PWHHCAp0dUzJrZQ3ITKSmOOLMtSCL8ZQgHgnw8BEYtml91IUcDHg7f48pzf6ddB
-         hExCDHc4FApOLgzpTa2HGYq21E0vW8nr0RbUJvp2w3ufDh7ogg5ZfI7OV9xYCiCVkqrA
-         /Gqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776849199; x=1777453999;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=/otYovZDuesUe7jQPZmu+0R6E/qDznQJDykppq+S9E4=;
-        b=LvgPzLwuKuKRsA14ikufIvcvCcOWaN45KOTB42rgS05Us6UQX7CXVlvZ3knEHKzbVW
-         uyUUtco7q5xdjY95tWU5sHIE2cfujOXqQJv6ahlx6IQww/8y/i/00iIFcSPyICGoZB1w
-         mOO7Xmt3HiCpsbeeNu6DjIsJekn7O7RW5OnhlpBfvs2dJ+qj5wg8hM1wpAJHhz3ry84L
-         LGWRByLO2VRQGCnoXiawP7sXN7mLeJPAqg0vPERADifu1NrdFEpZ78pb6gYU+GFjswKH
-         4b/CP3fLMl8iyM113SijbbHh/KgnuZLZisTWjzhgAcKDFtBtIvDGS8a7IXd0mpJBiwO7
-         xaOg==
-X-Forwarded-Encrypted: i=1; AFNElJ+iwVsGseG/xOeJP8M1YiGvcUoTUx+bfBdeqboSgDMxN7HCokFWdiaO0sZ1eCVUArUQFe3ZM9Fk7DA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFFXIBvxhsdaIqxE1C+CtY6BWjaqiuIJ6FLtgIBahIKBA70vHM
-	qFQ8vGjdM9hgGQ9Ya96mtG7tznHY/K4lbjzo8X+eJWukAFsEp/CTb75H
-X-Gm-Gg: AeBDietmdA1dyzQC9Pd0VjvTfT0Te2JHemvm5YBSNRPbE0rxBb/A0M/Z+h6M99qMzx+
-	/GANoXvMTlKRfZIkxW13cPDI5dDPboD+t0GXHz/Jxs0GeG/WVjI7UmBoQDOuyVuxitkEFntZAgp
-	2VYUluMJ+Sd/MiBgAMsXAshh3//VvPd+jm3WBIsqo1cmjqi3i7Uj3kFPcvcR3utI4APgOIWgw1h
-	TKwCJ6RaJUCgCP4PYKrxypuvx53bcuQnJm3JGkrgDy/rkuloGwqAcpF6OvGwetf/XgdRmv2R9IS
-	eBCHr5jUb3AoFTGGCmxvrRWV+fEVG4FIyvGs5qv3FnSJ4S2HlgCf2iN5fFr5b5As0jBAC5+BbL+
-	VHsr5+4q8kIzxoeRJwktXg4rTUU5STRql1w4AlXNv91CmuB3CiPaD1DYFm6b0XWs2LSInViWiZn
-	CscgtaAxsn6cctkBPRdTePodJmaCw92l+x8Bi6w3tVuxOsz5k6YQ6SEbBA9vaIgPlAMoYZB4u1R
-	fGh1Bi9GOH0ZA==
-X-Received: by 2002:a05:6000:2085:b0:43c:fe66:43ec with SMTP id ffacd0b85a97d-43fe3dcbed7mr33744158f8f.14.1776849199309;
-        Wed, 22 Apr 2026 02:13:19 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d112sm48660815f8f.29.2026.04.22.02.13.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Apr 2026 02:13:18 -0700 (PDT)
-Date: Wed, 22 Apr 2026 10:13:16 +0100
-From: David Laight <david.laight.linux@gmail.com>
-To: Daniel Palmer <daniel@0x0f.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH net 00/18] Remove a number of ISA and PCMCIA Ethernet
- drivers
-Message-ID: <20260422101316.0efdcf24@pumpkin>
-In-Reply-To: <CAFr9PXn1ixyhD42OswoyGZ=W-O-oZygUGpRNm2dcAuYBNgtmQw@mail.gmail.com>
-References: <20260421-v7-0-0-net-next-driver-removal-v1-v1-0-69517c689d1f@lunn.ch>
-	<CAFr9PXn1ixyhD42OswoyGZ=W-O-oZygUGpRNm2dcAuYBNgtmQw@mail.gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fW8rW8oH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 300A4C19425;
+	Wed, 22 Apr 2026 09:27:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776850025;
+	bh=XSXtvCEOw1rXi02T2nIM3gho4XRJ3rOy8aCyH/Flzh4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fW8rW8oH3Zc32i8I3WGhWbQgmqOQKPT6gmk4fL2A7usxNc9F5NFFDRh4v+xNfaQkQ
+	 sh5xmCFr7QeNBkx1UZEBXgjEQnmllo3w7bxebHJ41r/S380l5A4Lnq6z78cfADpCHf
+	 JvONOpjWbbGLy87jnRV99MswY6ifyOlCnJe5Rrr5rOV25RC7VbomMVCFAcCbyvU4hn
+	 1QCqqks9KBG3Ah3iBAeJlBBr4fSZdxfSbI0DamZu75Ld1yt86YzUbOGFW5YYhiS4m3
+	 7z8qA7SgDS+aQm/+5cTNVdO8XtiIC7TAPZtT1AmObHBUUEjx0t53Aa5XfsthRa9gvS
+	 8/8ikfI0ZNuqQ==
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 375E6F40069;
+	Wed, 22 Apr 2026 05:27:04 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Wed, 22 Apr 2026 05:27:04 -0400
+X-ME-Sender: <xms:aJToaeGii4IM0oL6w5d9DlxZY3J34dusHidJOAQXLgxR_JTVDGQCyg>
+    <xme:aJToad0Ul418c1XPvY5j--gNP5mTl49gtqYfgphTeOn1ICkf_UmQy3NXxAS3wq9BG
+    NJ99eKbxEncWGVE7MVsMuCQMSN12LZk5LZkSG7ZLzIQZqixnHUxC_c>
+X-ME-Received: <xmr:aJToaeWov4PpwQe5q92KBYrsgst-IOJcGq9KUBqEPWgZnkyw2V4ddXjAIzZCzQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeifeeludcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeeuieejieffkeehfeffffdtkeelfeelhefhfefhudehjeehvdffleeuvddufefgkeen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrih
+    hllhdomhgvshhmthhprghuthhhphgvrhhsohhnrghlihhthidqudeiudduiedvieehhedq
+    vdekgeeggeejvdekqdhkrghspeepkhgvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnh
+    grmhgvpdhnsggprhgtphhtthhopeefiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuh
+    igqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughh
+    rghtrdgtohhmpdhrtghpthhtoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoh
+    eprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehsuhhrvghnsgesghhoohhg
+    lhgvrdgtohhmpdhrtghpthhtohepvhgsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehlihgrmhdrhhhofihlvghtthesohhrrggtlhgvrdgtohhmpdhrtghpthhtohep
+    iihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:aJToac1TuZDXfFwGRdKOtg1b447Z32xwhaJLPFiNfasgDF-0BKtUBg>
+    <xmx:aJToaSf7bUXXrkiDOgQqd6YfId5bSLgjAU5kG26CSzkCZ7t6PKo1ew>
+    <xmx:aJToaeT_HeYfJdQGHfRSP2cjHnz9A1PvUdNFY3H4v5as0SDQQ5z40A>
+    <xmx:aJToadkTSABajhQ1iNy4XkkRzKKnBSjuz186wCOy5HZsK4bzmG2-_g>
+    <xmx:aJToaapUOmAHDxHH5oNJEiX7nbl8UAhRgZuVgIHxUCaomgEUar_uEr38>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 22 Apr 2026 05:27:03 -0400 (EDT)
+Date: Wed, 22 Apr 2026 10:27:02 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aeiUGtFgmYB9M18L@thinkstation>
+References: <55019037-4f1c-4d9c-83ee-3a844d8f3d5e@kernel.org>
+ <ad50rPOseVa-SP_s@thinkstation>
+ <aeDoqFWPFxkkNB26@thinkstation>
+ <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
+ <aeFCuLJXT8VOkzH7@thinkstation>
+ <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+ <aeImfRrrvr3UoKtL@thinkstation>
+ <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aed6fHLrIdahbdY3@thinkstation>
 
-On Wed, 22 Apr 2026 07:03:19 +0900
-Daniel Palmer <daniel@0x0f.com> wrote:
+On Tue, Apr 21, 2026 at 03:33:27PM +0100, Kiryl Shutsemau wrote:
+> > 3) Some other stuff needs a second thought, like
+> > 
+> > diff --git a/mm/gup.c b/mm/gup.c
+> > index 8e7dc2c6ee738..08fc18f1290d4 100644
+> > --- a/mm/gup.c
+> > +++ b/mm/gup.c
+> > @@ -695,7 +695,8 @@ static inline bool can_follow_write_pmd(pmd_t pmd, struct page *page,
+> >  	/* ... and a write-fault isn't required for other reasons. */
+> >  	if (pmd_needs_soft_dirty_wp(vma, pmd))
+> >  		return false;
+> > -	return !userfaultfd_huge_pmd_wp(vma, pmd);
+> > +	return !userfaultfd_huge_pmd_wp(vma, pmd) &&
+> > +	       !userfaultfd_huge_pmd_rwp(vma, pmd);
+> >  }
+> > 
+> > How can a pte be writable and prot_none at the same time? Maybe just confused AI
+> > output that you should carefully double check before sending that out officially.
+> 
+> Note that this path is for !pmd_write() case to begin with. It serves
+> FOLL_FORCE case. I believe this check is correct: we don't want to allow
+> to write to such pages even with FOLL_FORCE.
+> 
+> But looking around, I missed gup_can_follow_protnone() modification. It
+> has to return false for RWP.
 
-...
-> Maybe we could add a special thing in the maintainers for "this is
-> code only crazy people use" and have a rule to ignore untested AI
-> generated patches for it? :)
+With gup_can_follow_protnone() fixed, the checks in
+can_follow_write_pmd/pte() are redundant. Will drop them.
 
-Is marking them EXPERT or BROKEN enough?
-(Or a similar new option.)
-
-	David
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
