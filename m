@@ -1,75 +1,65 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from isilmar-4.linta.de (isilmar-4.linta.de [136.243.71.142])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6523CD8BE;
-	Thu, 23 Apr 2026 03:40:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD8E237C923;
+	Thu, 23 Apr 2026 05:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=136.243.71.142
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776915649; cv=none; b=OzrhsSebly7qomeeK2ypVT0v0KkNBniHzZuHwqWyay/LBqJsd2J8r/vh515hsKlOyLPyMKE6+MYj1kwLJhQFyCg5j8T0pVO/YvVe/hPclwn1VXelyR/Z8pRLcHrWxMDj0MA5OPK2xg+LjFFwx082zQtxwj6EZfRnLZAKpcG83p4=
+	t=1776923884; cv=none; b=lNVCG4CY7kexMB8U2ZeJU+5ihOKje/70CVvhpc5sY6dkH9a9TRv2euS5MEzXEm8ObEW1+Pt/R5k72951JjeRjg5PayEAy2mw3ImetoStWbPxa8DLXk+Xd1XTY2zTdUtBQcrmtzobDrhrZ4rke8S7ubUcKZUeEnM8JCGgwVUlmFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776915649; c=relaxed/simple;
-	bh=PBP8Do9+jY8Po+AUnnom+GQUGYAYu8/xp/VLJGo+qkk=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=uzMlWImLRqpS+Z59VgA6CoinqxBEg95Dr9Tvya2F1nAPhwwsWBWHhCMyqSFsyp0eY3zYyCR4q4N2inBvNu5aMmzef4nq8E9jP4XPAQ/Jep/DxK31xVl7esyWgvrXwelcftLcM5tsF6rZw1+9BUkAIqzOmNBTIU8rpH+IBA7vBVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G3zvnRZ7; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G3zvnRZ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 076FAC2BCB2;
-	Thu, 23 Apr 2026 03:40:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776915649;
-	bh=PBP8Do9+jY8Po+AUnnom+GQUGYAYu8/xp/VLJGo+qkk=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=G3zvnRZ7C54tXWArsyKqN1jHlhMhUMohHrmF3fNpL+N3kX2PbFWqIx0sZbihCmaU3
-	 EVlqqKY7b1o9nsy/sKzfPVhIFl0svUF2icLmZs5X0i4xjJVxcF6pZcZBCUQBrTPfKa
-	 CsSh6aF2jb6Y+cV4kvljmGF7CAjAPIrwCGW6N+cFraWxh6k+oAFpHhXfu3igSfSNHv
-	 pPD8oOJR6pqdXvV1gH0kZ5WlL9Vs0w3BDxXtVEfU3/fe0nwXlQNE920+g3WPe8wYT3
-	 PgYTSpZThcxA3w5qnd2tAXyfdPxwAPzleQxCOjBuGESxHMzMcQGXeygSQQMcf+YAjG
-	 dAWqCDxZsFCrA==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 3FF013809A86;
-	Thu, 23 Apr 2026 03:40:12 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1776923884; c=relaxed/simple;
+	bh=17CWfY63CJpkL5X3N8B6Nj5ektoHahVkJ4AqnzUiJpo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LugwxR5VU2tuVSA9c05D9GQIPkQSYOpWprzFr5JZYfi5AROAMpj3VfXj9rX2gG3CqTiiUwcO3l05mzc0p8MQHCDOyKun2gdMPO7f01pvk3xlph0uFvpHLSODhn8E1oIUYI2LFQhnPXkmgnxjsHZFzOLA11IBGfIq+V52GT7JkeE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net; spf=pass smtp.mailfrom=dominikbrodowski.net; arc=none smtp.client-ip=136.243.71.142
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dominikbrodowski.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=dominikbrodowski.net
+Received: by isilmar-4.linta.de (Postfix, from userid 1000)
+	id A64F52006ED; Thu, 23 Apr 2026 05:49:24 +0000 (UTC)
+Date: Thu, 23 Apr 2026 07:49:24 +0200
+From: Dominik Brodowski <linux@dominikbrodowski.net>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michael Fritscher <michael@fritscher.net>,
+	Byron Stanoszek <gandalf@winds.org>,
+	Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net v2 13/15] drivers: net: 8390: pcnet: Remove this
+ driver
+Message-ID: <aemy5Lm9B2dLItdd@isilmar-4.linta.de>
+References: <20260422-v7-0-0-net-next-driver-removal-v1-v2-0-08a5b59784d5@lunn.ch>
+ <20260422-v7-0-0-net-next-driver-removal-v1-v2-13-08a5b59784d5@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH] docs: maintainer-netdev: fix typo in "targeting"
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177691561079.4145271.10604908503481958282.git-patchwork-notify@kernel.org>
-Date: Thu, 23 Apr 2026 03:40:10 +0000
-References: <20260420114554.1026-1-islamarifulshoikat@gmail.com>
-In-Reply-To: <20260420114554.1026-1-islamarifulshoikat@gmail.com>
-To: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- workflows@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260422-v7-0-0-net-next-driver-removal-v1-v2-13-08a5b59784d5@lunn.ch>
 
-Hello:
-
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Mon, 20 Apr 2026 17:45:53 +0600 you wrote:
-> Fix spelling mistake "targgeting" -> "targeting" in
-> maintainer-netdev.rst
+On Wed, Apr 22, 2026 at 01:01:56PM -0500, Andrew Lunn wrote:
+> The pcnet was written by David A. Hindsh in 1999. It is an PCMCIA
+> device, so unlikely to be used with modern kernels.
 > 
-> No functional change.
-> 
-> Signed-off-by: Ariful Islam Shoikot <islamarifulshoikat@gmail.com>
-> 
-> [...]
+> Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+> ---
+>  drivers/net/ethernet/8390/Kconfig    |   11 -
+>  drivers/net/ethernet/8390/Makefile   |    1 -
+>  drivers/net/ethernet/8390/pcnet_cs.c | 1717 ----------------------------------
 
-Here is the summary with links:
-  - docs: maintainer-netdev: fix typo in "targeting"
-    https://git.kernel.org/netdev/net/c/645d044d7e5c
+NACK for this one. This is the most common PCMCIA networking device, so
+should be removed only once the rest of the PCMCIA subsystem is removed.
+For the other removals of PCMCIA device drivers in this series:
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+	Acked-by: Dominik Brodowski <linux@dominikbrodowski.net>
 
-
+Thanks,
+	Dominik
