@@ -1,67 +1,30 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9651E5B68
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 00:33:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C78ECA4E;
+	Thu, 23 Apr 2026 01:11:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776904440; cv=none; b=V2qxySpq0Dzt7buXEks2Tw8YxURKEybVS7YZF1a78H9tYBpgAf+yWZBPHCZv+vyndOsmCKPFGFYoNANwnDt15aamA0OymlfKpNr0c2juI6ce+FP8gvcBlJ4xR2AevOqa8PtcDgXxpjrXk2HL4V889Dy+ntQAX5iqoY6lEbCHg54=
+	t=1776906676; cv=none; b=bJxtXhPF/aRmVHnDnmsNXEjRrF9L3DVByYLyfZjx3CApYaQCx+xkYZuOFw4ZWOURhkA3HqP3W9o+bk+2xMe2+OjbjcQUJPLBIx8ttK+sqclIOhjlhtblop6NN3XoU9t7nbP8HKFY8Y4Za1BTBJ270cmoE0QmGK+9BpqsSd/IFFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776904440; c=relaxed/simple;
-	bh=71Iax6tAQzAMvfV3tt7igBBJEKZ7hj60454GsDQk71w=;
+	s=arc-20240116; t=1776906676; c=relaxed/simple;
+	bh=6IEjWa5Bp2HmWAT63DqZwaxugME+cvx69VMEGChpnTc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DhsYST1aUBq+GJIyOuHjjHe+CyOqiBZ7ebWMtu2HF1oU0TKYP48NBC/Upm+xDPhyeWoa69VJkwtGref0mCGyjbXt1IP/eKyhzFgYc0Osx8kV9lfrsaFbAsSfa1TFwhlPPOckRAjSaNQ10WLh/9fMMe8Mx5BTKGJBuivZojns7sg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F8EgQXaq; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F8EgQXaq"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-35da9692ec3so5323960a91.1
-        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 17:33:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776904438; x=1777509238; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=P60mcQXYiISPKoUfdmDOOluoif0cLkUH9C1lfxMoAi4=;
-        b=F8EgQXaqh/1abtV/bF7RQ5CRShwUmGprblR42RnkBvjbHwy81fh8IDqSvFbRnU5c89
-         JX04RpeuJtiaADzyY0vwD1Z9dDHfeCAxKhmuchsQi1DOGnlmyhgjiU8C4j/6dHcFFYuD
-         r0+2E4PeZX1cwvUAZ0N61CzCiDa7BVQrcipov043cx2rSYKfvo3Jf+kFGRZSgHitzERW
-         ovp0bB3pijd73PXL5mKIbek5E12KUy9o94UKP1gjmfJyX0OTz/TfJ3T5qLumSEdUyFze
-         yI+T15N6KO/NteQg6EzUMxakWfYP6k63v1FYBX2oDIahMhhJ54WH3XzZV2yse/pUnOuN
-         /NQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776904438; x=1777509238;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=P60mcQXYiISPKoUfdmDOOluoif0cLkUH9C1lfxMoAi4=;
-        b=rz9aW9v6Z9X0nf7ozMHWzTFdmuISxMg9tzWxA7DDcQsVi0hYJUmziK7wxI8r10oRVg
-         ofFwqBdsvoyqWsI3SHhzR+UPNWGpU0oSZhC2EsKKBzfMJ8oGX6KMgp4KNicPwC4Z6ei0
-         EUxca//0AAswTop+bhTXTNaK8W64HgOXmaZvk2mQAo4A6Jw4xelKdp0mlXy170k6OKTq
-         60YMgVAKq9FORazhUULN1rUA9hdSi/UKtI30njJjDJHhTKzL+ovPg3M435rjYcmKgPYK
-         tLcS5FYlgB9XPRImYxVLntPY3Fn4QalVu8rC4hmKsK6Q2Yp0d1MvfBozMeYrUzM1UQ/g
-         GX6g==
-X-Forwarded-Encrypted: i=1; AFNElJ/TXwp2zb0UPNtzHQHIblzJcsWU8Dx7gDA4eaBBA3sf02EyvE9iH9Eznqi7FxCbbg1s6EFeonWcxOc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwPKJTKOU61t9rLjJTKjIxmCESOeE7nSCgSJPgdP96Wgqfo4SSA
-	/2WbTUWwJBQ3eKRME6rHfc9XrSiKv4EDNrfswumK6brDbWDEiUPm+Rf2
-X-Gm-Gg: AeBDietpyjH1gZ2P84Cz4AgFYFTapeRxTIJTlRd+E0+PfKsBtiMYaMpR+VSbv/yoSuD
-	Mw2xTccjTEMcda+L2xXAPlBkcz1hzfCo+ksZcfPrgs0sMOQOUX8MhsdtgndfpSQRltisqCn/fyx
-	NF8vhVU0XXTDUOTpCoXKIFEwK+gsvdBa4uQVtV0w6J+iG1du8LE0Cp0jqc7vgpMulbqi5Ro6Fpq
-	cLnEEDmbt8pHvgvknmugQGgnQT7sg8o8LbJYhTXZT1VcTWFnsQoq/6svNuevkHHY0LzMGmXBkOg
-	mYyYPbRDpnX/v4B7bItPBoyCQ2v2fr5jtQYxcMvQzYu9btJ+idtkNcFghfJp9uphpfCwWgROtp7
-	JvwK2FTARq+qLQO2m/b6kgSSZi9VjiykCnqf7ohmL1XB1Z+V6fblUE4JTvDnpZ456boaV7Sww9D
-	Yuh/hf2ZVvAwiSkOdutiWw4gveLwcGcoYbdpdXmj40KPw8C+BpKLrv5QGP9toYCcF7Xjfo1bvy7
-	AP2USU=
-X-Received: by 2002:a17:90b:3f4d:b0:35d:8f3d:c554 with SMTP id 98e67ed59e1d1-36140468b12mr26997113a91.13.1776904438468;
-        Wed, 22 Apr 2026 17:33:58 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-361410a7a9fsm18200810a91.12.2026.04.22.17.33.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Apr 2026 17:33:57 -0700 (PDT)
-Message-ID: <d299c3f8-f448-46e8-a513-3e17de131af4@gmail.com>
-Date: Thu, 23 Apr 2026 09:33:55 +0900
+	 In-Reply-To:Content-Type; b=WVRejSmhhCgsxKtvPEj58Bj3JmWHQnjc2iachVRVjxev+oxqR+ZeQwazuZfDNjxSM9mBV/KwnyRB11mXfm+zcSxImBubeMqKL+uVwQe2Za2GMLYtKCSiaw7vnd6FaE8Xw61t+cNEL0fO965Kjc3CNVrVsAchaY6qqNJtaXLkdzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
+Received: from mail.maildlp.com (unknown [172.19.163.170])
+	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4g1J0p05thzYQtjP;
+	Thu, 23 Apr 2026 09:10:02 +0800 (CST)
+Received: from mail02.huawei.com (unknown [10.116.40.252])
+	by mail.maildlp.com (Postfix) with ESMTP id C684140561;
+	Thu, 23 Apr 2026 09:11:00 +0800 (CST)
+Received: from [10.67.111.176] (unknown [10.67.111.176])
+	by APP3 (Coremail) with SMTP id _Ch0CgAnHbehcelp3eGGBQ--.59173S2;
+	Thu, 23 Apr 2026 09:10:59 +0800 (CST)
+Message-ID: <e8824498-f8ec-496a-a21c-d1dc594f4c8e@huaweicloud.com>
+Date: Thu, 23 Apr 2026 09:10:57 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,71 +32,152 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs/ja_JP: translate more of submitting-patches.rst
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20260419001051.389599-1-weibu@redadmin.org>
+Subject: Re: [PATCH 19/23] cgroup/cpuset: Improve check for calling
+ housekeeping_update()
+To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
+ <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+ Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ rcu@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
+ Qiliang Yuan <realwujing@gmail.com>
+References: <20260421030351.281436-1-longman@redhat.com>
+ <20260421030351.281436-20-longman@redhat.com>
 Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260419001051.389599-1-weibu@redadmin.org>
+From: Chen Ridong <chenridong@huaweicloud.com>
+In-Reply-To: <20260421030351.281436-20-longman@redhat.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-CM-TRANSID:_Ch0CgAnHbehcelp3eGGBQ--.59173S2
+X-Coremail-Antispam: 1UD129KBjvJXoWxCw1UJF1UurW7urWktr13urg_yoW5AFy5pr
+	yUWrW3t345trs7u343Xwn7Wry0gw48GF17KasxG3WrGF9rZFn2yry0kFnxCry8uwnxGryU
+	ZF9rWws29a4UArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
+	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
+	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
+	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
+	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
+	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
+	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
+	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
+	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
+	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
+	CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
+	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
+	xUVZ2-UUUUU
+X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
 
-On Sun, 19 Apr 2026 09:10:51 +0900, Akiyoshi Kurita wrote:
-> Translate the "Separate your changes", "Style-check your changes",
-> and "Select the recipients for your patch" sections in
-> Documentation/translations/ja_JP/process/submitting-patches.rst.
+
+
+On 2026/4/21 11:03, Waiman Long wrote:
+> By making sure that isolated_hk_cpus matches isolated_cpus at boot time,
+> we can more accurately determine if calling housekeeping_update()
+> is needed by comparing if the two cpumasks are equal. The
+> update_housekeeping flag still have a use in cpuset_handle_hotplug()
+> to determine if a work function should be queued to invoke
+> cpuset_update_sd_hk_unlock() as it is not supposed to look at
+> isolated_hk_cpus without holding cpuset_top_mutex.
 > 
-> Keep the wording close to the English text and wrap lines to match
-> the style used in the surrounding Japanese translation.
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+
+Currently, isolated_hk_cpus is updated within the cpuset_mutex critical section
+(before mutex_unlock(&cpuset_mutex)) in cpuset_update_sd_hk_unlock. Therefore, I
+think update_housekeeping can now be removed.
+
+> Signed-off-by: Waiman Long <longman@redhat.com>
 > ---
->  .../ja_JP/process/submitting-patches.rst      | 166 ++++++++++++++++++
->  1 file changed, 166 insertions(+)
-
-So, if I am counting lines in the English doc right, corresponding
-3 sections are at lines 166--275.  275-166+1 = 110.
-Why is your translation taking 50% more lines?
-
+>  kernel/cgroup/cpuset.c | 36 ++++++++++++++++++++----------------
+>  1 file changed, 20 insertions(+), 16 deletions(-)
 > 
-> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> index 91bd79a0e9dc..e1adab466507 100644
-> --- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-> +++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> @@ -180,3 +180,169 @@ lore.kernel.org のメッセージアーカイブサービスを使ってくだ
+> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+> index a4eccb0ec0d1..1b0c50b46a49 100644
+> --- a/kernel/cgroup/cpuset.c
+> +++ b/kernel/cgroup/cpuset.c
+> @@ -1339,26 +1339,29 @@ static void cpuset_update_sd_hk_unlock(void)
+>  	__releases(&cpuset_mutex)
+>  	__releases(&cpuset_top_mutex)
+>  {
+> +	update_housekeeping = false;
+> +
+>  	/* force_sd_rebuild will be cleared in rebuild_sched_domains_locked() */
+>  	if (force_sd_rebuild)
+>  		rebuild_sched_domains_locked();
 >  
->      $ git log -1 --pretty=fixes 54a4f0239f2e
->      Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the number of pages it actually freed")
+> -	if (update_housekeeping) {
+> -		update_housekeeping = false;
+> -		cpumask_copy(isolated_hk_cpus, isolated_cpus);
+> -
+> -		/*
+> -		 * housekeeping_update() is now called without holding
+> -		 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
+> -		 * is still being held for mutual exclusion.
+> -		 */
+> -		mutex_unlock(&cpuset_mutex);
+> -		cpus_read_unlock();
+> -		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
+> -		mutex_unlock(&cpuset_top_mutex);
+> -	} else {
+> +	if (cpumask_equal(isolated_hk_cpus, isolated_cpus)) {
+> +		/* No housekeeping cpumask update needed */
+>  		cpuset_full_unlock();
+> +		return;
+>  	}
 > +
-> +.. _split_changes:
-
-No, this will collide with the label in the English doc.
-Please remember Sphinx treats these labels as global.
-
-Also, there is no reference to this label in this patch.
-Labels should be added only when they are referred to.
-
+> +	cpumask_copy(isolated_hk_cpus, isolated_cpus);
 > +
-> +変更を分割する
-> +--------------
-> +
-> +各 **論理的な変更** は、個別のパッチに
-> +分けてください。
-> +
-> +たとえば、単一のドライバに対する変更の中に
-> +バグ修正と性能改善の両方が含まれているなら、
-> +それらは 2 つ以上のパッチに分けてください。
-> +また、変更に API の更新と、その新しい API を
-> +使う新しいドライバが含まれているなら、
-> +それらは 2 つのパッチに分けてください。
+> +	/*
+> +	 * housekeeping_update() is now called without holding
+> +	 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
+> +	 * is still being held for mutual exclusion.
+> +	 */
+> +	mutex_unlock(&cpuset_mutex);
+> +	cpus_read_unlock();
+> +	WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
+> +	mutex_unlock(&cpuset_top_mutex);
+>  }
+>  
+>  /*
+> @@ -3692,10 +3695,11 @@ int __init cpuset_init(void)
+>  
+>  	BUG_ON(!alloc_cpumask_var(&cpus_attach, GFP_KERNEL));
+>  
+> -	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT))
+> +	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT)) {
+>  		cpumask_andnot(isolated_cpus, cpu_possible_mask,
+>  			       housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
+> -
+> +		cpumask_copy(isolated_hk_cpus, isolated_cpus);
+> +	}
+>  	return 0;
+>  }
+>  
 
-Ah, this time, you are breaking lines at 25 wide-char.
-Why??? This doesn't help my reviewing at all.
-Be consistent with yourself, please.
-
-Thanks, Akira
-
-[...]
-
+-- 
+Best regards,
+Ridong
 
