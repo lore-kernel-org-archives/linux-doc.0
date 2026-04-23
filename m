@@ -1,45 +1,45 @@
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C221F1B142D;
-	Thu, 23 Apr 2026 19:07:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 502CB34A783;
+	Thu, 23 Apr 2026 19:07:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776971234; cv=pass; b=It7W+1AdbDVitMGFGaTS7uoixSNihLe8lcxs1qX5Ve0YbSn2HgxVIuVIaBJIwkK9yPrxdia+RE8G+H19ojUUxRn5+KC/VJQyx+A525IfdWAuHvNpsr8JNBhbtn7FVM2tDvPuC5xLSUYOM9Ok9MPCnKr+hx2WLsak2uGwftCtLr4=
+	t=1776971256; cv=pass; b=qd2SEoTyl4wJT8qOROlIEfotBza3qTYxlsPsYAvRTNPiUG+iFz6jXgUj3vAAe8xBCa8aeeSk7fu147/BxK2BImDlC0eCXgaWF9hYy39vxmJpLDCcSoNUguMPNuxW9NWx5bchMJYr4oKxGfzUrI0rSFkYPfYX9J6COk/QXCLX6sk=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776971234; c=relaxed/simple;
-	bh=33Ww8J2K75Ej72XAJU8c8NggzCA+pSde82fd+km3Om4=;
+	s=arc-20240116; t=1776971256; c=relaxed/simple;
+	bh=Gq2zVyodpalKCiRGLacoX5onv1mynYWGtTW5ARzkp8w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=SDk5dL1KsWAOFPUICg9q3nXS9XQ3Xn+J/luYPskKVHn7rDGG46dE4epy8f1hKzoS5NakUbvH5URFyeX22X6k+VxFemukf8udqidIh+67AhYW495UfJ5ZgvsSEavKuMYmuWLpj3NF28mm9zNHZNPpwGlxLXHYsgJ5HBJEXNDgTKs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=BPo2Rv7B; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:To:Cc; b=PU+aWSmJy5zuYZYqKo7cwozfgdNnZe0PF/utRhO5wUTr+fv6x6zdXLKueU23/TsiVO712ZqJPqHvADWP2DfICoZhqYDGm7GnlNLUe/1xuPrjNN09ZXGcuJ+eMN8Np6/aCGysIa3vVtIe9C8dAgyd4usbDzZTeEb/Dn8r7b8lMsE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=co3sw1lQ; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="BPo2Rv7B"
-ARC-Seal: i=1; a=rsa-sha256; t=1776971148; cv=none; 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="co3sw1lQ"
+ARC-Seal: i=1; a=rsa-sha256; t=1776971202; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=NF6DydrZLyBiCugu8rR4XvNc2q+BMhEF8NBVCt+75ZYDRFnGW1YGrvbRs5F8/MFzoJ7SgliqSWxnhPqelwPs9iTZehK27i7z5qzvrtbCuono1BaN9bUAqUU2lOy626FSGoELpihv1Zv6dzMPw2DnZlfZ+YpUMYS+51vnUaC5C9A=
+	b=nzuNAuwMXJ4tbxUll/WiH1VtwYfPXVC/i73jtZ1ruKusWZ+sU2u/zLh1duuXf816DqNUmxt6RTVHm9KZsRuFwdKbwhtVgTysZHWODdRzNqoIxy9FoMWiT7zZKaBlsP/V5Y+ecmLJPz3sXzfMbIFzKqF+2iSH9p+41RxFPQ5pD8g=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1776971148; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=I6mnIoMwQGSuHjHjLVfRnXnzAB6xS7ZmlkuOJOt+Ckg=; 
-	b=WgA8cRuXdv2tQqj2KoOrzdUk6uBQ7/b52oA75MURllzKEAAkVti+EoUxSe00kue15NauEGhCbh+yYEl3Iz2GFkoLZ1e0tDCf36L0+D5K72tjws0sytRCSXFVxZCocp8/3FqhWBOloGpwvsk6HGYhrMwON+NVVCSxo0EU1h6QPLA=
+	t=1776971202; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=0xYZ/VN88MQKainBWxRpganxXiV9Dos9K+S4AIneorA=; 
+	b=eKe3lGEKmm7G84DCyXmkFDSdlkLxEqCSbwLJigEb5TTDYfxGMBTEUU7JHFRpvmhLVgbZc1YBHpGdB6bNhiFHeWkWm/u7+LiyCOipdGKInHEqZW4sX5W7HoEp8+oocbsLoV7fSwSLfZYfBBZixFeqcWjoZzOzCdDt9k1UvquPGJI=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
 	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776971148;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776971202;
 	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=I6mnIoMwQGSuHjHjLVfRnXnzAB6xS7ZmlkuOJOt+Ckg=;
-	b=BPo2Rv7B9Q5/oWVAWuMi9stEwQUC7qpl4f5VGvSHeWo8cPQMFAO3LR+p4qRgBvnT
-	zSEZoKEHM11hnrchE6xl9bilFIyWkwXbRhnmEE4j5XvQ17exxT9h+4Lh5C6cO7/gOzh
-	nrasvzbQqGHWVIPUrcD3UhfimUp2GTTy8+EM0b/4=
-Received: by mx.zohomail.com with SMTPS id 1776971147273150.05999320541366;
-	Thu, 23 Apr 2026 12:05:47 -0700 (PDT)
+	bh=0xYZ/VN88MQKainBWxRpganxXiV9Dos9K+S4AIneorA=;
+	b=co3sw1lQzqYIZcOz0zcb6T9swDYN+vereBbOwAMUC9feh2LK9myOXtStJQZP0OOC
+	KOncfvNJNQSufMwdfe9LWJ8YSNJ/CLsmYBIBcZUc0XeMEPV750DlwdoLYtQ/CWv6QP4
+	LDiw9AUR1oe67pFoPEih1wcJBUA2QRytWRlvZZcE=
+Received: by mx.zohomail.com with SMTPS id 1776971199895620.5506730332631;
+	Thu, 23 Apr 2026 12:06:39 -0700 (PDT)
 From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 23 Apr 2026 21:03:38 +0200
-Subject: [PATCH v14 15/28] drm/rockchip: Add YUV422 output mode constants
- for VOP2
+Date: Thu, 23 Apr 2026 21:03:45 +0200
+Subject: [PATCH v14 22/28] drm/connector: Register color format property on
+ HDMI connectors
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -48,7 +48,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260423-color-format-v14-15-449a419ccbd4@collabora.com>
+Message-Id: <20260423-color-format-v14-22-449a419ccbd4@collabora.com>
 References: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
 In-Reply-To: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
 To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
@@ -77,40 +77,37 @@ Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org,
  intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
  linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org, 
  Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Andy Yan <andyshrk@163.com>
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 X-Mailer: b4 0.15.2
 
-The Rockchip display controller has a general YUV422 output mode, and
-some SoC-specific connector-specific output modes for RK3576.
+The drmm_connector_hdmi_init function can figure out what DRM color
+formats are supported by a particular connector based on the supported
+HDMI format bitmask that's passed in.
 
-Add them, based on the values in downstream and the TRM (dsp_out_mode in
-RK3576 TRM Part 2, register POST*_CTRL_POST_DSP_CTRL).
+Use it to register the drm color format property.
 
-Reviewed-by: Andy Yan <andyshrk@163.com>
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 ---
- drivers/gpu/drm/rockchip/rockchip_drm_drv.h | 4 ++++
+ drivers/gpu/drm/drm_connector.c | 4 ++++
  1 file changed, 4 insertions(+)
 
-diff --git a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-index 2e86ad00979c..4705dc6b8bd7 100644
---- a/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-+++ b/drivers/gpu/drm/rockchip/rockchip_drm_drv.h
-@@ -30,10 +30,14 @@
- #define ROCKCHIP_OUT_MODE_P565		2
- #define ROCKCHIP_OUT_MODE_BT656		5
- #define ROCKCHIP_OUT_MODE_S888		8
-+#define ROCKCHIP_OUT_MODE_YUV422	9
- #define ROCKCHIP_OUT_MODE_S888_DUMMY	12
- #define ROCKCHIP_OUT_MODE_YUV420	14
- /* for use special outface */
- #define ROCKCHIP_OUT_MODE_AAAA		15
-+/* SoC specific output modes */
-+#define ROCKCHIP_OUT_MODE_YUV422_RK3576_DP	12
-+#define ROCKCHIP_OUT_MODE_YUV422_RK3576_HDMI	13
+diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+index 41a5ab1e563e..b91c1f76355e 100644
+--- a/drivers/gpu/drm/drm_connector.c
++++ b/drivers/gpu/drm/drm_connector.c
+@@ -627,6 +627,10 @@ int drmm_connector_hdmi_init(struct drm_device *dev,
+ 	if (max_bpc > 8)
+ 		drm_connector_attach_hdr_output_metadata_property(connector);
  
- /* output flags */
- #define ROCKCHIP_OUTPUT_DSI_DUAL	BIT(0)
++	ret = drm_connector_attach_color_format_property(connector, supported_formats);
++	if (ret)
++		return ret;
++
+ 	connector->hdmi.funcs = hdmi_funcs;
+ 
+ 	return 0;
 
 -- 
 2.53.0
