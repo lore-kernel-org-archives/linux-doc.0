@@ -1,119 +1,110 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E4D1BBBE5;
-	Thu, 23 Apr 2026 15:27:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785F926738D;
+	Thu, 23 Apr 2026 15:55:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776958020; cv=none; b=Loat87DjH56ZbAAma/hO7aWhA2dpigAMB9QQuKoxW0AP0X+ehCO47TnOp2btsHERF+Y0GQFhP+onBNS0uDI1ayjIxPX/7mv37NGL83ntt3OyL7nbRkqx8ZHMDsjuWVhg8CYtP9YPZx9xu56pqwO3mAWr4XgerT30DvJJl+ezZMw=
+	t=1776959719; cv=none; b=arjWL3002vousgZDGCxPp/Pp9z5Y353+1BBHcw/tU3FwortyXxMYH7WYISUnKz11Y7hr89po2c53Je7nfRVJ8N/ze7+b/PUnhIq/zmo48CBBqqScYw9jmt8Ggx/Y+yxMHw/YgqtydhK7xGSbedIB01nLNrrJgwDtrsczQoM/hu8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776958020; c=relaxed/simple;
-	bh=rZwPd8cFxLllHoQN41ZESM/RH4oP1GdssZqfN7zr0FY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O2mvLQGfBrLJr0f3o1iAwNdfyHXSWSpbXH3skbfwmJKmwi7+qLA2O+1703EoYpRqi9ZRVDNQBjrCviTJ6R6oLNrWqZrZMqq6nrrEQcvwUJ1/qcqEU4A1NPtNPSwUNBEvgan0Z31N8DZAsGOZxUxB0ldOZ0eYRhOqsTDWRlIW9+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D10g+2Ak; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776959719; c=relaxed/simple;
+	bh=AGfg1kvvwi9/8mQHoYmLe5MvRC1gFyoT4GJgItX+9gg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kWy+DKyvGE9iMcr0E89F1amNyrBFz01hWJPU8EkZYWeHnCh8/n2+JIrwBegRYg6GXznDObZOlsE1G8ALDnjpNxhkEOvdvYohPXbU4whBqeqS2xtLXv4Tqec4UJX3KIOoZBk52N6l2clHCNCoMUqC3jm6Thf4aaZiC/tNHV0iaKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SP0GGQsU; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D10g+2Ak"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38421C2BCAF;
-	Thu, 23 Apr 2026 15:26:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776958019;
-	bh=rZwPd8cFxLllHoQN41ZESM/RH4oP1GdssZqfN7zr0FY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D10g+2Ak2125VWHKGYBaBN0/Yfsw5P0ktqQrS8Fgo1XYsoE8L/GBD5YKeoHxfzEc+
-	 IKjkFLIqAPS3dYuLMjTUn09dlyWrI+CvAl4Ggg0VWACSY7/lvv3ZG3sDDVM36mNIbJ
-	 sGZ9dJGFiLj/ECHIVEZSpgU8662R0Q8bJHp6VRlPsI5t0cO3vE6CI3Gg7EHecU4KxY
-	 bWvOjtMl5hTf2RTKfYzjEuOFoxqE9BRPybjbNEPsvvRkBixUjZ95zWX4pZm5Is5LpZ
-	 6jzmuH1QnRRChCttetJ4ZR3STff1U+y03oPtUauJsNS+rN1dzMI11frL7W4XzZoqbM
-	 aAmlDPe+3yxzg==
-Date: Thu, 23 Apr 2026 16:26:55 +0100
-From: Lee Jones <lee@kernel.org>
-To: =?iso-8859-1?Q?Bj=F6rn?= Persson <Bjorn@xn--rombobjrn-67a.se>
-Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: leds: uleds: Make the documentation match the code.
-Message-ID: <20260423152655.GF170138@google.com>
-References: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SP0GGQsU"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=Z7AQNeKGJVR/FcqvlyvAjc1g6j67QN9Za2A6dddIjp8=; b=SP0GGQsU6Keot8S+ymFqTLSs6r
+	N3Ak92y5slT5DLq0XCZUstqE+sVNCz/I33nH34lyXmdX/6VnTKk/sOiDIwon1oacxhFsm1niLHfJK
+	RlIawbU+N3Se/xUabk7q3qLpSCuqFL4ZKBGdfl6e3RJ9q6Fv5Px8I7qRkv5iw2T0Sr/YYuDuFgz3U
+	HxlH32FLBtcOJnZJbh8vTvjJj5dbhIFGLq4NcWfT11aFQlR59HHhd1c2ejqpDXkqx952w3bLJoYbn
+	DOieUXgwvCFLVamkQxD/SUydLDWHk6lXqXxHsXQfXXugFpj0RQHSLwkUAp8p2jR2JScYAzGnjX0ob
+	UuOtk02g==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wFwOP-0000000Bv9E-0GPJ;
+	Thu, 23 Apr 2026 15:55:05 +0000
+Message-ID: <e1a0e7ab-8cdb-4c60-abcd-82c4e0be6e97@infradead.org>
+Date: Thu, 23 Apr 2026 08:55:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in
+ table of contents
+To: Baolin Liu <liubaolin12138@163.com>, corbet@lwn.net,
+ skhan@linuxfoundation.org, surenb@google.com, cyphar@cyphar.com,
+ witcher@wiredspace.de
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, wangguanyu@vivo.com,
+ Baolin Liu <liubaolin@kylinos.cn>
+References: <20260423065642.11218-1-liubaolin12138@163.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260423065642.11218-1-liubaolin12138@163.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, 02 Apr 2026, Björn Persson wrote:
+Hi--
 
-> From: Björn Persson <Bjorn@Rombobjörn.se>
+Why is "ext4" in the Subject?
+Probably just drop that word?
+
+
+On 4/22/26 11:56 PM, Baolin Liu wrote:
+> From: Baolin Liu <liubaolin@kylinos.cn>
 > 
-> · max_brightness must be set. Leaving it uninitialized or just omitting it
->   won't work.
-
-What are these points?  How do you even type one of those?
-
-Anyway, proper sentences / paragraphs is better.
-
-> · The maximum brightness is not 255 but the value given to max_brightness.
+> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
+> documentation") removed the IDE section but left its table of
+> contents entry behind.
+> Fix the stale entry and renumber the following sections.
 > 
-> · Brightness values must be read as ints, not bytes.
-> 
-> · The ints are signed, so the word "unsigned" is misleading.
-> 
-> Signed-off-by: Björn Persson <Bjorn@Rombobjörn.se>
+> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 > ---
->  Documentation/leds/uleds.rst | 18 +++++++++++-------
->  1 file changed, 11 insertions(+), 7 deletions(-)
+>  Documentation/filesystems/proc.rst | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/Documentation/leds/uleds.rst b/Documentation/leds/uleds.rst
-> index 83221098009c..9875a0fa4185 100644
-> --- a/Documentation/leds/uleds.rst
-> +++ b/Documentation/leds/uleds.rst
-> @@ -17,16 +17,20 @@ structure to it (found in kernel public header file linux/uleds.h)::
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 7ce02573a3d9..70db35987ee1 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+>    1	Collecting System Information
+>    1.1	Process-Specific Subdirectories
+>    1.2	Kernel data
+> -  1.3	IDE devices in /proc/ide
+> -  1.4	Networking info in /proc/net
+> -  1.5	SCSI info
+> -  1.6	Parallel port info in /proc/parport
+> -  1.7	TTY info in /proc/tty
+> -  1.8	Miscellaneous kernel statistics in /proc/stat
+> -  1.9	Ext4 file system parameters
+> +  1.3	Networking info in /proc/net
+> +  1.4	SCSI info
+> +  1.5	Parallel port info in /proc/parport
+> +  1.6	TTY info in /proc/tty
+> +  1.7	Miscellaneous kernel statistics in /proc/stat
+> +  1.8	Ext4 file system parameters
+> +  1.9	/proc/consoles - Shows registered system consoles
 >  
->      struct uleds_user_dev {
->  	char name[LED_MAX_NAME_SIZE];
-> +	int max_brightness;
->      };
+>    2	Modifying System Parameters
 >  
-> -A new LED class device will be created with the name given. The name can be
-> -any valid sysfs device node name, but consider using the LED class naming
-> -convention of "devicename:color:function".
-> +A new LED class device will be created with the given name and maximum
 
-Did you mean to revers "name given"?  A "given name" usually means
-something else.
+Where/how is this Table of Contents used?
 
-> +brightness. The name can be any valid sysfs device node name, but consider
-> +using the LED class naming convention of "devicename:color:function".
->  
-> -The current brightness is found by reading a single byte from the character
-> -device. Values are unsigned: 0 to 255. Reading will block until the brightness
-> -changes. The device node can also be polled to notify when the brightness value
-> -changes.
-> +Although max_brightness is a signed int, only positive values are valid:
-> +1 to INT_MAX.
-
-What about 0?
-
-> +The current brightness is found by reading a whole int from the character
-
-Try not to shorten names in documentation "integer".
-
-Why do we need to specify "whole"?
-
-> +device. The possible values are 0 to max_brightness. Reading will block until
-> +the brightness changes. The device node can also be polled to notify when the
-> +brightness value changes.
->  
->  The LED class device will be removed when the open file handle to /dev/uleds
->  is closed.
-> -- 
-> 2.53.0
-> 
+But yes, the intent of the patch is good.
+Thanks.
 
 -- 
-Lee Jones [李琼斯]
+~Randy
+
