@@ -1,235 +1,225 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F42C311C35
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 06:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776925025; cv=pass; b=Fpd9NkjXfLRzBgYvRJgklGfzja40LYb1Pags1RTcHVo0izwNpPrIOvGodaqKZOYpShNuwBE/Ikj/EcDXaD5x1aQXXCP/bsfyU/CqvsalAA5KrGevPghh/mGvWaEJ9jup5zEx5Wtn9w1jlvbWQZnKWWyhxkVZVxvFqCJNNlN2yg8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776925025; c=relaxed/simple;
-	bh=6qrM7qsAzBHvv/VI+HqLPPP6FQ3qhsBu/FQQBvDaXwA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XHgtX+iLq45swlRpkT+2MNY4iIwHwLddBvoasaLWctETm/Awa5kyZUw5+BtP2CHn8oOhdCRzjvOL0EhAlk4oLphZoqlnmXMJ1e2keenpDS3583VWS4DGTuqy5460yCl6c9RGdgfAQXuyYTQWMc6a6NNK3FNWJnYiCPff2KeaAQ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QiE0EZ3N; arc=pass smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAEB6349AFF;
+	Thu, 23 Apr 2026 06:17:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776925029; cv=none; b=Z+ouV5QBnjZ+M7I7Cvf8nW6hNrmzCHvB4ffbahgDhfcvhS9cymP1vR1v3ixYhkyvc6NYGyiTi71qctXX6lpq0Clpk8kmDS/8JadfTkl3hOtB0rKge+WB97QKJpESvuyOfBoj3YAzFNq5R0bpeO9c/r1Wy0LQ+Zej1COmyPx62O0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776925029; c=relaxed/simple;
+	bh=MDBefYv2Cx35/Fjv4DQ54o5bDvSakfUN5tck9FJHLDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bbaocqWrMJ9/gf+OOAZ80LzoJ6IFel4JkVoJa1EmaGFvemeYJ2yFsZ5H8ZcmEoDX4dgNhSoYl6wqo00z+Kk751/sH5pgP9VKWTKoIa3h01U9n6m8R57apr6Cw4QpnF7PrMB5fZJhPzdcvkhPb8WYspwezPNehpgn9hleqJo4/Hg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WxvmAsbx; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QiE0EZ3N"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-66e8cf72a93so7509134a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 22 Apr 2026 23:17:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1776925022; cv=none;
-        d=google.com; s=arc-20240605;
-        b=YSbAxNg6DfaFstDMi7GhWEhdV0aBJ/pkIePM3tm29aXxKMhmaUBIcdv48ZiRIHEuOh
-         rh0f9rB2iM1Q5UZ+XmFPZKTxwTjXrYRPoaRTyDMLxLksCKlTW+VdWebsxuKwzy7hvd5B
-         fyMLph9TjtN0S6d38gh3EWQBuVxNCYPZbvK+vtaNlsx8s679YA3LkBzj894oNfXj9YuG
-         hupxBaQQeoMfUGUgZGP8UJFTiZOo34KjWWronlFW3NDcpJuSXNO3rkfjBBgVZ+lnqE43
-         ZC4ySsEsXX2oHaQCnRQjbu9+E6++uEIkwKpIiK379YMPNRCD/045opGiX6varZYv7ebI
-         dNpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=6qrM7qsAzBHvv/VI+HqLPPP6FQ3qhsBu/FQQBvDaXwA=;
-        fh=QNNnfzCJqDqlm87zO1SB3c5dj2Sy7bzX1c4nsJWnvCY=;
-        b=T5uyv1YWpQnWbtaTtkYm2MP2niO5GTmqeO//Q5o5K4hVvYGE9Dn8qKGyD96Rl8wgVG
-         TTZ+qL9DDGO/6LCJimTYT9XMbSrWYtHOHgpVylx+xaqvNjmK77cRblKKyLBcd/AZZF6Y
-         c5I4GCSlRSSlpG5FmFR0ES7nDj7WO9wczbJWEbR+x1PsrrX6rKxL7eTIaHwfTxhfpRWB
-         oqeKvN5D+l7OasNUJZ8BAcAs11DDJDC2WUDMgadaNkd7AfGkWuVUAKD83b2srt8xNbW2
-         3e0qviR/AsxMonXkPJ4oSBa+te+YHiWJ384jqWqocPgRH1WpuufWIq508R7qVQZM7i9u
-         v5pQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1776925022; x=1777529822; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6qrM7qsAzBHvv/VI+HqLPPP6FQ3qhsBu/FQQBvDaXwA=;
-        b=QiE0EZ3N0WWs7sjQT9MKYZYIZ2U2YU8qiddqC3SrIzrCXbfj8HCaw2vtaizUqRInkU
-         Db0O/lsAUrxbyaAYQ/jnJsfimlP4cx9vLzkw4pv39xmnQXluTdCju+RER4AneGVUNApW
-         Zn7lMi5mJ9IWQORoaX+LE0IZxboXD9p0RAVd9vE+TuXLkXsCNjtESrLdM1Q4O1Olo9YB
-         k7FuW/QSR+r/o6CdHwr6PQhwzuMKasKKH9ewgYj//5aSimW8dTmAa3UaB86UVPt8aikV
-         JLeue3Rlv6+WBg3VnWKJreSuSkCO1pjkwUKXsNXZ7r4uFhH8zBpPILM5rPgbxyN1LWjc
-         rm2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776925022; x=1777529822;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=6qrM7qsAzBHvv/VI+HqLPPP6FQ3qhsBu/FQQBvDaXwA=;
-        b=tOacO2qOxTo38Yani0yQvMwU0Xtyll5xt67YD/I8p/3Agy3aXn1JUn18BLa0PZvQGm
-         Kv/3r6VJN7iyw+jGS8a2ID5xX3F/G3r1s2jJjLOP9bU3+Vl1vQxpPXk/U3Al5Z70tCqE
-         s8BE3fJLqV7nclnDcejoIlEkKYxtUI1pSgCoHFaIswUt+5Fe+yk7yEFavZY8Nb2xuQwW
-         kpog8rD0FQu7cte30ZHhEK9fj+al+HzBSVWDNXwMbkGDvzEGFArf+YPnCB7hxhvaaS+C
-         0AWzjxSMXa2bYism7qQgmh3UOz1ntABjPei4VTHo9DQqaG5AuX4HrBIjdSWEJVGRX0UE
-         ZVbg==
-X-Forwarded-Encrypted: i=1; AFNElJ+zNWNZYJkXOSBte3awVNyO9MTRXTp2DW/cNCs+b4I/0VZiXm65rDKDs7NDifM2lAfu9D76C5sxMqw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZIqSaI2fGMw9DYveAZq73/g6AApaG1uSJESw26hlwsLqM3HgX
-	pBxsZTZ8JTPhVpKr0gs+CFShOW/j8FS5xJdimtw9pWUSaZVk+nKp0bDhjIQzBWCp2tmPfPUdw/q
-	ueJF84k4wy5MCe1znihwpIyuVMXov6AM=
-X-Gm-Gg: AeBDieug8avadTHUdXbLM///A+xqaLGgVSuKGv0+6tJXzQPCsU/BHEd3F4JJGUkzJKh
-	P5a8BSmueZ2sIt1wOlgsfpjqQ8vRLwHv6jX77tAiUsn4hBwwXNhaX/j3XGmSQW7Tz4TptRLyy0T
-	62pYY167N77A5kNVN5LRcNUB+3qHCc4McEcR0/actjhA5A2KGDLAwLKtiptlVOsfQP/ED83IMD6
-	JrJE/QVSVrlz26bsWRrvxURrpgY5xD+5y1MAWQGNzuqeGREsAD5ScZk0Nar8a0rq2cwbm4M5a6u
-	qlt7Dg1UG9sor+lgK1jtVjfmdxHUs9BKWjbW8sKDOMHDZcJ0+GY=
-X-Received: by 2002:a05:6402:24cd:b0:66b:aa56:ee5c with SMTP id
- 4fb4d7f45d1cf-672bffd3a22mr10256938a12.28.1776925021636; Wed, 22 Apr 2026
- 23:17:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WxvmAsbx"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776925028; x=1808461028;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=MDBefYv2Cx35/Fjv4DQ54o5bDvSakfUN5tck9FJHLDc=;
+  b=WxvmAsbxvxut8zEQaOd4N2RYwdAxi7OyiJwjGMb54q/XbRgrvDwTVxHS
+   lNSdTnO302ZpiPS33aCLmZ5t6DZ18cHUGa9GKGrbE+Wxr2FMU6TW8jaFh
+   brLAGR0HY+BqgTRNfyCOuGpyQMZ/BjIcz4QsCBVHVfaFYfrD9QzW61yVD
+   S4CcgB0TMqpsXD1trIY2rg6xbvw/bA2gCDSyIxg2eRMA/C4beBRwtnfll
+   ZPjPYc9AEQXCoWdSHYTLXHXazEOTYCCA/CSgtL0VbM6A+/6aZJ7n+bWKV
+   cOzYYfkcG538fXwklcam1/uKrwPMg1n4oHBiRm62LuTv/qI/dduF4e9Mm
+   Q==;
+X-CSE-ConnectionGUID: G8i/CIT5SPC/aI423cMq+A==
+X-CSE-MsgGUID: rlthUkqcSNWg12KNFwKvzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77868544"
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="77868544"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 23:17:07 -0700
+X-CSE-ConnectionGUID: XxydoqnBRbWIxYpGuSrc6A==
+X-CSE-MsgGUID: HdaxvPKpRHyl5Pk7ytkGuA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="231684503"
+Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 23:17:07 -0700
+Date: Wed, 22 Apr 2026 23:17:06 -0700
+From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+To: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
+	Nikolay Borisov <nik.borisov@suse.com>,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	David Kaplan <david.kaplan@amd.com>,
+	Sean Christopherson <seanjc@google.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
+	Jiri Olsa <jolsa@kernel.org>,
+	"David S. Miller" <davem@davemloft.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andy Lutomirski <luto@kernel.org>,
+	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
+	David Ahern <dsahern@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Baron <jbaron@akamai.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	Asit Mallick <asit.k.mallick@intel.com>,
+	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: [PATCH v11 09/12] x86/vmscape: Use static_call() for predictor flush
+Message-ID: <20260422-vmscape-bhb-v11-9-b18e0cf32af4@linux.intel.com>
+X-Mailer: b4 0.16-dev
+References: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com> <aektdlD4npMVThu3@google.com>
-In-Reply-To: <aektdlD4npMVThu3@google.com>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Thu, 23 Apr 2026 14:16:24 +0800
-X-Gm-Features: AQROBzBVGp3guci_2n97e7eFyFpR7BCikY1iYf4lyc9Y4ueJzJNdB9B8Zs-KyXM
-Message-ID: <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, Liam.Howlett@oracle.com, akpm@linux-foundation.org, 
-	apopple@nvidia.com, axelrasmussen@google.com, baohua@kernel.org, 
-	baolin.wang@linux.alibaba.com, bhe@redhat.com, byungchul@sk.com, 
-	cgroups@vger.kernel.org, chengming.zhou@linux.dev, chrisl@kernel.org, 
-	corbet@lwn.net, david@kernel.org, dev.jain@arm.com, gourry@gourry.net, 
-	hannes@cmpxchg.org, hughd@google.com, jannh@google.com, 
-	joshua.hahnjy@gmail.com, lance.yang@linux.dev, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pm@vger.kernel.org, lorenzo.stoakes@oracle.com, matthew.brost@intel.com, 
-	mhocko@suse.com, muchun.song@linux.dev, npache@redhat.com, pavel@kernel.org, 
-	peterx@redhat.com, peterz@infradead.org, pfalcato@suse.de, rafael@kernel.org, 
-	rakie.kim@sk.com, roman.gushchin@linux.dev, rppt@kernel.org, 
-	ryan.roberts@arm.com, shakeel.butt@linux.dev, shikemeng@huaweicloud.com, 
-	surenb@google.com, tglx@kernel.org, vbabka@suse.cz, weixugc@google.com, 
-	ying.huang@linux.alibaba.com, yosry.ahmed@linux.dev, yuanchu@google.com, 
-	zhengqi.arch@bytedance.com, ziy@nvidia.com, kernel-team@meta.com, 
-	riel@surriel.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
 
-On Thu, Apr 23, 2026 at 4:27=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
->
-> On Wed, Apr 22, 2026 at 10:18:35AM +0800, Kairui Song wrote:
-> > On Wed, Apr 22, 2026 at 8:26=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> =
-wrote:
-> > >
-> > > On Fri, Mar 20, 2026 at 12:27:14PM -0700, Nhat Pham wrote:
-> > > >
-> > > > This patch series implements the virtual swap space idea, based on =
-Yosry's
-> > > > proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
-> > > > inputs from Johannes Weiner. The same idea (with different
-> > > > implementation details) has been floated by Rik van Riel since at l=
-east
-> > > > 2011 (see [8]).
-> > >
-> > > Unfortuantely, I haven't been able to keep up with virtual swap and s=
-wap
-> > > table development, as my time is mostly being spent elsewhere these
-> > > days. I do have a question tho, which might have already been answere=
-d
-> > > or is too naive/stupid -- so apologies in advance.
-> >
-> > Hi Yosry,
-> >
-> > Not a stupid question at all=E2=80=94it's actually spot on. :)
-> >
-> > >
-> > > Given the recent advancements in the swap table and that most metadat=
-a
-> > > and the swap cache are already being pulled into it, is it possible t=
-o
-> > > use the swap table in the virtual swap layer instead of the xarray?
-> > >
-> > > Basically pull the swap table one layer higher, and have it point to
-> > > either a zswap entry or a physical swap slot (or others in the future=
-)?
-> > > If my understanding is correct, we kinda get the best of both worlds =
-and
-> > > reuse the integration already done by the swap table with the swap
-> > > cache, as well as the lock paritioning.
-> > >
-> > > In this world, the clusters would be in the virtual swap space, and w=
-e'd
-> > > create the clusters on-demand as needed.
-> > >
-> > > Does this even work or make the least amount of sense (I guess the
-> > > question is for both Nhat and Kairui)?
-> > >
-> >
-> > Yes, this absolutely works. In fact, I previously posted a working RFC
-> > based on this idea. In that series, clusters are dynamically
-> > allocated, allowing the swap space to be dynamically sized
-> > (essentially infinite) while reusing all the existing infrastructure:
-> > https://lore.kernel.org/all/20260220-swap-table-p4-v1-0-104795d19815@te=
-ncent.com/
->
-> There are a few aspects that I don't agree with in this RFC, and I think
-> Nhat and Johannes raised most of them. Mostly that I don't want to
-> expose ghost swapfiles or similar to userspace.
->
-> I think userspace's view of swapfiles should remain the same and reflect
-> the physical swap slots. The virtual swap layer should be completely
-> transparent in this case. Userspace shouldn't need to configure it in
-> any way.
+Adding more mitigation options at exit-to-userspace for VMSCAPE would
+usually require a series of checks to decide which mitigation to use. In
+this case, the mitigation is done by calling a function, which is decided
+at boot. So, adding more feature flags and multiple checks can be avoided
+by using static_call() to the mitigating function.
 
-That approach is definitely doable. For example, with that RFC we
-could simply drop the interface I introduced and enable it via a
-different knob, and that would be very close to it. :)
+Replace the flag-based mitigation selector with a static_call(). This also
+frees the existing X86_FEATURE_IBPB_EXIT_TO_USER.
 
-Using a swapfile to represent the virtual layer externally just made
-it more flexible. I agree that the RFC design was a bit confusing and
-could be improved. There is no technical difficulty in hiding it from
-userspace; it's mostly a design choice. And even if we don't use a
-swapfile to represent it internally, all the other infrastructure can
-still be reused without much modification.
+Suggested-by: Dave Hansen <dave.hansen@linux.intel.com>
+Tested-by: Jon Kohler <jon@nutanix.com>
+Acked-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+---
+ arch/x86/Kconfig                     | 1 +
+ arch/x86/include/asm/cpufeatures.h   | 2 +-
+ arch/x86/include/asm/entry-common.h  | 7 +++----
+ arch/x86/include/asm/nospec-branch.h | 3 +++
+ arch/x86/kernel/cpu/bugs.c           | 9 ++++++++-
+ arch/x86/kvm/x86.c                   | 2 +-
+ 6 files changed, 17 insertions(+), 7 deletions(-)
 
-Using a swapfile does have its benefits, though. For example, the
-virtual layer could act as an ordinary tier following YoungJun's
-design:
-https://lore.kernel.org/linux-mm/20260421055323.940344-1-youngjun.park@lge.=
-com/
-It also means we wouldn't need to introduce things like a new,
-virtual-specific swapoff mechanism.
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index e2df1b147184..5b8def9ddb98 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2720,6 +2720,7 @@ config MITIGATION_TSA
+ config MITIGATION_VMSCAPE
+ 	bool "Mitigate VMSCAPE"
+ 	depends on KVM
++	depends on HAVE_STATIC_CALL
+ 	default y
+ 	help
+ 	  Enable mitigation for VMSCAPE attacks. VMSCAPE is a hardware security
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index dbe104df339b..b4d529dd6d30 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -503,7 +503,7 @@
+ #define X86_FEATURE_TSA_SQ_NO		(21*32+11) /* AMD CPU not vulnerable to TSA-SQ */
+ #define X86_FEATURE_TSA_L1_NO		(21*32+12) /* AMD CPU not vulnerable to TSA-L1 */
+ #define X86_FEATURE_CLEAR_CPU_BUF_VM	(21*32+13) /* Clear CPU buffers using VERW before VMRUN */
+-#define X86_FEATURE_IBPB_EXIT_TO_USER	(21*32+14) /* Use IBPB on exit-to-userspace, see VMSCAPE bug */
++/* Free */
+ #define X86_FEATURE_ABMC		(21*32+15) /* Assignable Bandwidth Monitoring Counters */
+ #define X86_FEATURE_MSR_IMM		(21*32+16) /* MSR immediate form instructions */
+ #define X86_FEATURE_SGX_EUPDATESVN	(21*32+17) /* Support for ENCLS[EUPDATESVN] instruction */
+diff --git a/arch/x86/include/asm/entry-common.h b/arch/x86/include/asm/entry-common.h
+index 78b143673ca7..783e7cb50cae 100644
+--- a/arch/x86/include/asm/entry-common.h
++++ b/arch/x86/include/asm/entry-common.h
+@@ -4,6 +4,7 @@
+ 
+ #include <linux/randomize_kstack.h>
+ #include <linux/user-return-notifier.h>
++#include <linux/static_call_types.h>
+ 
+ #include <asm/nospec-branch.h>
+ #include <asm/io_bitmap.h>
+@@ -94,10 +95,8 @@ static inline void arch_exit_to_user_mode_prepare(struct pt_regs *regs,
+ 	 */
+ 	choose_random_kstack_offset(rdtsc());
+ 
+-	/* Avoid unnecessary reads of 'x86_predictor_flush_exit_to_user' */
+-	if (cpu_feature_enabled(X86_FEATURE_IBPB_EXIT_TO_USER) &&
+-	    this_cpu_read(x86_predictor_flush_exit_to_user)) {
+-		write_ibpb();
++	if (unlikely(this_cpu_read(x86_predictor_flush_exit_to_user))) {
++		static_call_cond(vmscape_predictor_flush)();
+ 		this_cpu_write(x86_predictor_flush_exit_to_user, false);
+ 	}
+ }
+diff --git a/arch/x86/include/asm/nospec-branch.h b/arch/x86/include/asm/nospec-branch.h
+index 0381db59c39d..066fd8095200 100644
+--- a/arch/x86/include/asm/nospec-branch.h
++++ b/arch/x86/include/asm/nospec-branch.h
+@@ -542,6 +542,9 @@ static inline void indirect_branch_prediction_barrier(void)
+ 			    :: "rax", "rcx", "rdx", "memory");
+ }
+ 
++#include <linux/static_call_types.h>
++DECLARE_STATIC_CALL(vmscape_predictor_flush, write_ibpb);
++
+ /* The Intel SPEC CTRL MSR base value cache */
+ extern u64 x86_spec_ctrl_base;
+ DECLARE_PER_CPU(u64, x86_spec_ctrl_current);
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 636280c612f0..bfc0e41697f6 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -144,6 +144,13 @@ EXPORT_SYMBOL_GPL(cpu_buf_idle_clear);
+  */
+ DEFINE_STATIC_KEY_FALSE(switch_mm_cond_l1d_flush);
+ 
++/*
++ * Controls how vmscape is mitigated e.g. via IBPB or BHB-clear
++ * sequence. This defaults to no mitigation.
++ */
++DEFINE_STATIC_CALL_NULL(vmscape_predictor_flush, write_ibpb);
++EXPORT_STATIC_CALL_FOR_KVM(vmscape_predictor_flush);
++
+ #undef pr_fmt
+ #define pr_fmt(fmt)	"mitigations: " fmt
+ 
+@@ -3133,7 +3140,7 @@ static void __init vmscape_update_mitigation(void)
+ static void __init vmscape_apply_mitigation(void)
+ {
+ 	if (vmscape_mitigation == VMSCAPE_MITIGATION_IBPB_EXIT_TO_USER)
+-		setup_force_cpu_cap(X86_FEATURE_IBPB_EXIT_TO_USER);
++		static_call_update(vmscape_predictor_flush, write_ibpb);
+ }
+ 
+ #undef pr_fmt
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 45d7cfedc507..5582056b2fa1 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -11463,7 +11463,7 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
+ 	 * set for the CPU that actually ran the guest, and not the CPU that it
+ 	 * may migrate to.
+ 	 */
+-	if (cpu_feature_enabled(X86_FEATURE_IBPB_EXIT_TO_USER))
++	if (static_call_query(vmscape_predictor_flush))
+ 		this_cpu_write(x86_predictor_flush_exit_to_user, true);
+ 
+ 	/*
 
-> In an ideal world, the only noticeable change from userspace is that
-> with zswap, compressed pages would stop using slots in the swapfile and
-> charging the memcg for them -- and that zswap would work even without a
-> swapfile, by just enabling it. This is admittedly a user-visible
-> behavioral change, but I am hoping that's a good one that we can live
-> with.
+-- 
+2.34.1
 
-Totally agree with the ideal end goal for zswap. just not sure if
-that's the right place to start for this usage, zswap doesn't always
-apply. For instance, we have SSDs with built-in compression,
-software-based storage stacks with built-in compression and
-deduplication, swap over RDMA, and, most notably, ZRAM users. They
-don't necessarily need zswap or a virtual layer, and the upper layer
-better be as much simplified as possible.
 
-> If there are real concerns about this, we can discuss things like a knob
-> or config option to keep charging zswap pages as swap slots (ew..) or
-> only allow zswap with a real swapfile (double ew..). But I am really
-> hoping we can get away with changing the semantics without doing this.
->
-> We can add extra interfaces for virtual swap as needed, e.g. virtual
-> swapoff that you mentioned to clear the swap cache, or stats about the
-> virtual swap space (which translates to memory overhead).
-
-Good suggestions.
-
-> > It cleans up a lot of allocation and ordering, as well as memcg
-> > swap lookups. Since some of these problems were also observed in the
-> > vss discussion, I think this will make things easier for all of us:
-> > https://lore.kernel.org/all/20260421-swap-table-p4-v3-0-2f23759a76bc@te=
-ncent.com/
->
-> Yeah I saw that (but didn't really have time to do anything else about
-> it). Splitting this out is definitely the right thing to do, and the
-> series looks great from a very high level. Awesome work, as usual :)
-
-Thanks!
