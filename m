@@ -1,188 +1,115 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F086330FF31
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 14:23:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DAD13126B2;
+	Thu, 23 Apr 2026 14:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776954185; cv=none; b=GDVi3ht30aN2vYyon79/DUvkC38drxChrfsWRc/i5a8WMUHUWmRIxlWRkrS06jjyVDTjlMuRDod87uRUodFj7Hv/1N4hAh2Qbp0vVoftjKFxCltgqsOiBPVqNJ0EPkqxxR1iH1oIcpGNMKUdAzhEcz649Qpsa4MS1MATB26ls5k=
+	t=1776954435; cv=none; b=H6YaLMHpAO9bj1ZAvAhCN8cAQPVlGZBQu7b/GTQJixkGeTkK2dSf6IWMwVKyqHvpGsMmckVJMKi5rEE5FeXLlVmjS+rR+VCib1msXDBktwcnCwifSn9Eqh7wVjYLNgsqIA6VFWnAAs3xOgelYuEyYobbbrcTskhvXEplGU2UjvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776954185; c=relaxed/simple;
-	bh=MGdfy9yaf8HxMuACdSsx4ikbM0d570wL102osgBQL7E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pRBW/hz6yzyJ5vvvyiuhcfJUVDJJ0DNjpj06imz+U0Fa8YLaRscDqLF6BKFYSTTd+UsrQXmtZofbldIOGjjPwVegE3GV7SfpCxPVFC/NcrdmIstiABEDXFE0YHgF44wdv+hQzcaTEmb9xlDQeqEZFB8rurHwhYBbJ33ikYbywJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=d+gPprh1; arc=none smtp.client-ip=185.246.84.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1776954435; c=relaxed/simple;
+	bh=ZAmfY2GvQu1V+jZW4Q7JR569GmwjElVH8qZhAxn7gDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pqu3gYBr/Fpr9ehtu395KjqUwvahC2bEANoBC3+TD5JNUJ1Hx/GokHZR+Pb52FlQH0zD09Vnd8QvUFvHJskvDg5nt0aFiB5O+XNtm8H4bKnZcPdntVOK0PtgRx0NTAvA4bcLjUOExi5ZgVJx9uKcgihHoSaptWNsb5yuXFDw+4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e6TbTKra; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="d+gPprh1"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 744281A33C7;
-	Thu, 23 Apr 2026 14:23:00 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4427C60495;
-	Thu, 23 Apr 2026 14:23:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 40E9C1072053A;
-	Thu, 23 Apr 2026 16:22:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1776954179; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=Y2x0WxHDMpLj4447G7b2L2W0rwGQGINgtz7bfN5M0/A=;
-	b=d+gPprh1q0YgQWLLeRSKxGFbvuKkwGxP8Eooh0dE4cwmGLFjRwA31s6SSUKuSJDR7nLHum
-	XI76Q81YtfSLvaRxq/ENVvm7ubWmMm2XrqnryFTl27bOQEdVv/JmFFrJMdsU2+3e27VNEE
-	uUhb0rGeZPPsDNHbmYOLcUiK42Pd4DF6K56OiUOirtl7b+wwGHbp6erc/tnoAuyXQnxoUU
-	yDesxraaXx5Fv9jCtiF5dIoAoraeeIJRd8KiG8uDpGl0azBX5wkXcO8ZdIMdsxxEtO+Y+8
-	GXjx3rglYpdM9uefPcZYh+B6bM+OWtaHrB2MJ/ZrmyyRK6o3ZViWuGM8sfuvrg==
-Message-ID: <d09a169d-2324-4fac-b08a-750e79bdfb81@bootlin.com>
-Date: Thu, 23 Apr 2026 16:22:11 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e6TbTKra"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBC54C2BCB9;
+	Thu, 23 Apr 2026 14:27:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776954435;
+	bh=ZAmfY2GvQu1V+jZW4Q7JR569GmwjElVH8qZhAxn7gDY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=e6TbTKraQPr2vhcn+/z0+5leztca56h0cv39qFusb+C5AJl8cN+xFr53pEzXrl7pO
+	 FNmKh3LOG2clnXKHBI8F222Yio7XScD3a43RVx/n3tJ9XGzR4mjQ4TTD6iuaThzWtE
+	 wpa5wS6kQJDL/h98SLKgFizRFTYVs7rKqLiAcNNRU2PO+NpiIZIVHYr6WkoFN2zom5
+	 fsxXGaVcEQ74oL+gHP75vzCvYzR/5EBk9fTjttJBbr6aDmbe87Jl/CMXPDs9mGX8++
+	 jswsFmZXl098tfmybnEoYEkIHe4RreFfzVUjH/4B+mLb9V37UOxx/5J2vC1g9Bt+/W
+	 Tf/yzrurTzr1g==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id E0313F40069;
+	Thu, 23 Apr 2026 10:27:13 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 23 Apr 2026 10:27:13 -0400
+X-ME-Sender: <xms:QSzqaTPm8wdWHwg2j0DX5hhDMnOfiwy16200E9LcT2a7ngV41L6iKA>
+    <xme:QSzqadN2q1OZDI4SZQ8lZ99xkTM8WvVWTyFq5CdRvHHab2n1uHXdI_G-dMBjghpeB
+    hhmnZK464FHunZQ5pEnCb6KM_sOgA1LYnIzeeasj87DkJCffe4pEeQ>
+X-ME-Received: <xmr:QSzqaee-p29QqJ5pFCrwyGPW8nAnHKMf6TwYv5WQJhLA-T_2pteoRNRTJaRtTA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeijeeflecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeffffekgeffjefgkedvjeeggedttdeljeekhffhudeiudfhiefgudeugffhheffuden
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvg
+    hrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepfeei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdroh
+    hrghdprhgtphhtthhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhg
+    pdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrthdrtghomhdprhgtphhtthhopehljh
+    hssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopehvsg
+    grsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhohiflhgvthht
+    sehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:QSzqaScL1Sq18Ji3k7GR_C3kYOIwTh1a0PFju3Qj78BeO_ZPzl8elg>
+    <xmx:QSzqaed187upZan3EjNy-LSBhaiFnb-MTjyNu9LUKy0oKQbHpoCdFg>
+    <xmx:QSzqaTncyeMNfJ5ALD2DgO1g9Z-J-RxHSdEobw-ymjklGofzD8KSKg>
+    <xmx:QSzqaY4AC_jLQKdRVHNzF20QADvHSu1BYwjzDWXX1FfophAEYFJl9g>
+    <xmx:QSzqaTsYgpmlo_KX0645hdFuasUQnZhIXzPDXmrnjsJXqvD9u2A14MHU>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Apr 2026 10:27:13 -0400 (EDT)
+Date: Thu, 23 Apr 2026 15:27:11 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Peter Xu <peterx@redhat.com>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aeorZMvKwu8zKX5i@thinkstation>
+References: <ad50rPOseVa-SP_s@thinkstation>
+ <aeDoqFWPFxkkNB26@thinkstation>
+ <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
+ <aeFCuLJXT8VOkzH7@thinkstation>
+ <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+ <aeImfRrrvr3UoKtL@thinkstation>
+ <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
+ <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 02/37] drm/blend: Get a rotation name from it's
- bitfield
-To: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Melissa Wen <melissa.srw@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Miguel Ojeda <ojeda@kernel.org>, Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- victoria@system76.com, sebastian.wick@redhat.com,
- thomas.petazzoni@bootlin.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- llvm@lists.linux.dev, =?UTF-8?B?Sm9zw6kgRXhww7NzaXRv?=
- <jose.exposito@redhat.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>
-References: <20260422-vkms-all-config-v4-0-dbb52e9aadc3@bootlin.com>
- <20260422-vkms-all-config-v4-2-dbb52e9aadc3@bootlin.com>
- <aej82CO0l9_O1sX2@intel.com>
- <d9a66f6a-e07c-4bc2-bd91-8b9cb2994760@bootlin.com>
- <aen13JEWrKXiqRw4@intel.com>
-From: Louis Chauvet <louis.chauvet@bootlin.com>
-Content-Language: en-US
-In-Reply-To: <aen13JEWrKXiqRw4@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
 
+On Wed, Apr 22, 2026 at 08:39:50PM +0200, David Hildenbrand (Arm) wrote:
+> On 4/21/26 16:33, Kiryl Shutsemau wrote:
+> > On Tue, Apr 21, 2026 at 03:03:56PM +0200, David Hildenbrand (Arm) wrote:
+> >> On 4/19/26 16:33, Kiryl Shutsemau wrote:
+> >>>
+> >>> See https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git uffd/rfc-v3
+> >>>
 
+RFCv4 addresses all your feedback plus more :)
 
-On 4/23/26 12:35, Ville Syrjälä wrote:
-> On Thu, Apr 23, 2026 at 10:47:38AM +0200, Louis Chauvet wrote:
->>
->>
->> On 4/22/26 18:52, Ville Syrjälä wrote:
->>> On Wed, Apr 22, 2026 at 06:47:59PM +0200, Louis Chauvet wrote:
->>>> Having the rotation/reflection name from its value can be useful for
->>>> debugging purpose. Extract the rotation property table and implement
->>>> drm_get_rotation_name.
->>>>
->>>> Reviewed-by: José Expósito <jose.exposito@redhat.com>
->>>> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
->>>> ---
->>>>    drivers/gpu/drm/drm_blend.c | 35 ++++++++++++++++++++++++++---------
->>>>    include/drm/drm_blend.h     |  2 ++
->>>>    2 files changed, 28 insertions(+), 9 deletions(-)
->>>>
->>>> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
->>>> index 1f3af27d2418..11d8e13caea3 100644
->>>> --- a/drivers/gpu/drm/drm_blend.c
->>>> +++ b/drivers/gpu/drm/drm_blend.c
->>>> @@ -256,6 +256,31 @@ int drm_plane_create_alpha_property(struct drm_plane *plane)
->>>>    }
->>>>    EXPORT_SYMBOL(drm_plane_create_alpha_property);
->>>>    
->>>> +static const struct drm_prop_enum_list rotation_props[] = {
->>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_0) - 1,   "rotate-0" },
->>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_90) - 1,  "rotate-90" },
->>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_180) - 1, "rotate-180" },
->>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_270) - 1, "rotate-270" },
->>>> +	{ __builtin_ffs(DRM_MODE_REFLECT_X) - 1,  "reflect-x" },
->>>> +	{ __builtin_ffs(DRM_MODE_REFLECT_Y) - 1,  "reflect-y" },
->>>> +};
->>>> +
->>>> +/**
->>>> + * drm_get_rotation_name - Return the name of a rotation
->>>> + * @rotation: The rotation mask (DRM_MODE_ROTATE_* | DRM_MODE_REFLECT_*)
->>>> + *
->>>> + * Returns: the name of the rotation type (unknown) if rotation is not
->>>> + * a known rotation/reflection
->>>> + */
->>>> +const char *drm_get_rotation_name(unsigned int rotation)
->>>> +{
->>>> +	if (rotation < ARRAY_SIZE(rotation_props))
->>>> +		return rotation_props[rotation].name;
->>>
->>> The value is a bitmask. This does not work.
->>>
->>
->> That true, the documentation is not clear.
->>
->> Take a look at patch 15 [1] for the usage. Is it better if I change the
->> documentation to:
->>
->> drm_get_rotation_name - Returns the name of a rotation/reflection
->> bitmask (with only one bit set).
->> @rotation: Bitmask with a single bit set.
->> Name of the rotation/reflection, or "(unknown)" if invalid.
->>
->> [1]:https://lore.kernel.org/all/20260422-vkms-all-config-v4-15-dbb52e9aadc3@bootlin.com/
-> 
-> For that kind of local thing I don't think it should be called
-> drm_get_rotation_name(). Also your docs seem to disagree with the
-> implementation.
+https://git.kernel.org/pub/scm/linux/kernel/git/kas/linux.git uffd/rfc-v4
 
-I didn't remembered well, yes, this implementation takes the *index* of 
-the bitmask. So documentation is:
+Still plan to post it after v7.1-rc1 (unless you want it earlier).
 
-drm_get_rotation_name - Returns the name of a rotation/reflection
-@rotation: Bit index of the requested rotation (0 = DRM_MODE_ROTATE_0, 1 
-= DRM_MODE_ROTATE_90, ...)
-Returns: Name of the rotation/reflection, or "(unknown)" if invalid.
+The patchet is pretty good shape in my eyes and will probably drop RFC
+tag.
 
-> But this does sound like a useful thing to have, eg. in
-> drm_atomic_plane_print_state().
-
-I agree this can be a common implementation. Do you think the following 
-implementation can be the "common implementation"?
-
-static const char* drm_get_rotation_name(int rotation_index) {
-	return rotation_props[rotation_index].name
-}
-
-void drm_get_rotation_str(int rotation, char *buf, int buflen) {
-     u32 offset = 0;
-     while (offset < ARRAY_SIZE(rotation_props))
-         if (1 << offset && rotation)
-             snprintf(buf,buflen,"%s ",drm_get_rotation_name(offset));
-}
-
-An other solution can be format macro (inspiration from IGT, I don't 
-know if this is accepted in the kernel):
-
-#define DRM_ROTATION_FMT "%s %s %s %s %s %s"
-#define DRM_ROTATION_FMT_ARGS(rot) \
-	rot & 0x1 << 0 ? drm_get_rotation_name(0) : "", \
-	rot & 0x1 << 1 ? drm_get_rotation_name(1) : "", \
-	rot & 0x1 << 2 ? drm_get_rotation_name(2) : "", \
-	rot & 0x1 << 3 ? drm_get_rotation_name(3) : "", \
-	rot & 0x1 << 4 ? drm_get_rotation_name(4) : "", \
-	rot & 0x1 << 5 ? drm_get_rotation_name(5) : ""
-
-> We already have at least one implementation of this in
-> i915/display/intel_display_debugfs.c, although with a bit more
-> terse format (and with somewhat weird "FLIP" terminology) to
-> make it not eat so much screen real estate.
-
-I think it is better to have a consistent naming and use the enumeration 
-name everywhere, but if you think intel is better, I can switch.
-
-Thanks,
-Louis Chauvet
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
