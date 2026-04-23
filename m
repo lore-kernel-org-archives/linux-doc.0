@@ -1,156 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5B62310777;
-	Thu, 23 Apr 2026 06:17:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E8B22D238A;
+	Thu, 23 Apr 2026 07:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776925075; cv=none; b=jXFCBIvivshCYQPR2n95uk0TBjctDc3hgQAhY7dN/TFeFFaNwv1C9oX4DvF+nqQYBj+DUsOOSwyFhIpclUujf3u2EKSLMxAOb/RjRoFVSeLMiI4dgBZrQ7yGiVnuS97odp/hDp4hxzsj4DIhXKBIX5NPPsoaBMT+x2BvytzHf/Q=
+	t=1776927835; cv=none; b=rF/qiqL4olVyRpmBf0TdYbvREgWA8Icpl65xk43WOxg6X+Zynn0JBI8fFWE1a6clb5B4EIh8rYYFr2rC9t+zn1gopAVQsYXSfax7HQH+RbGw1lmM7VRFwbduDa5Gzo1gpPbfzhWB96iLT5S8hAZRpVIqhmZehvMdOOjotYOeiT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776925075; c=relaxed/simple;
-	bh=b6MuRVTf/ZgA9L22eiHzgpdsNzUtE5SipssmAjn0OuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=q5ziba7oKYUFVGaP7jrd+VeXjyqyMZt+ovYGo9LF5sd1095OF/LG4j71J+G87qPQrGFCU2EYlmatHqUtRGlzJ6CibBkxaD/EM6Kr20+E4mUEWTcMkUM3BE+FZx6PI/wEy1QPqhdCKgVeHnylRxEgVKXPSf2H34TPL9pZReCdRlc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bCj3YTNO; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1776927835; c=relaxed/simple;
+	bh=YLYU8XfQw1ShZha/3LAE4XUUIXuxyEoIlVbIlIaxSrc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hwTjl1WOFKlsPEBY/0rAAxymOntAALfcQwz4m94hoYVkVlnrs8gmkOaBO898aS8wqZLaAd4q7vs2i/1AVSXOhidltPwkYyRmHn5P2kURv7IGwTmeSeBT5s8Q5f1ziuXQVmQfUfFB4F2EveY0AqzTFAWYi2RIKCBhvoWDwtV4TS8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=AiiMhJ+j; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bCj3YTNO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776925074; x=1808461074;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b6MuRVTf/ZgA9L22eiHzgpdsNzUtE5SipssmAjn0OuY=;
-  b=bCj3YTNOJJ+0bpJZbCMlkL2fCcPybdY6VP56M0YVzUXVDG4T2jDLhWr1
-   4x2tRTBzHZzTu5TS5+870ntFcd7jLrceDUnGp0RpZjT1RDlqPlr0gqB09
-   bIVyexesLw1Sh34n33kgSSxs1MMQ+A/dtABUv+uuoaMV4KGOzL9K1l+fa
-   mdNB1oFKeTfOTdKPwg6fAwveXOf7vIXmkzz64GsxINQnw2hh2aJzNcs96
-   yC255KgLFuoePoXI3klMl8g5oCsn/CA/3R/s33FqGiwBD+ITfHTqTqgfq
-   OA29AgZAWOXwTUSlvDJzzaomMstw8Jc1ns1Xf/C4KR/WHP/mtoxGKuuCc
-   g==;
-X-CSE-ConnectionGUID: RDG7+Fw9SwKy91R9WQ55TA==
-X-CSE-MsgGUID: fUtcQbmTT4ij4CWLdm14OQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="100539497"
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="100539497"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 23:17:53 -0700
-X-CSE-ConnectionGUID: S+yNJqCWSamNx0R/Nab0pw==
-X-CSE-MsgGUID: ldGozOmnSMCeaNdo8u1hhA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="229899249"
-Received: from guptapa-desk.jf.intel.com (HELO desk) ([10.165.239.46])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2026 23:17:52 -0700
-Date: Wed, 22 Apr 2026 23:17:52 -0700
-From: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
-To: x86@kernel.org, Jon Kohler <jon@nutanix.com>,
-	Nikolay Borisov <nik.borisov@suse.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Josh Poimboeuf <jpoimboe@kernel.org>,
-	David Kaplan <david.kaplan@amd.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>, KP Singh <kpsingh@kernel.org>,
-	Jiri Olsa <jolsa@kernel.org>,
-	"David S. Miller" <davem@davemloft.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Andy Lutomirski <luto@kernel.org>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
-	David Ahern <dsahern@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Jason Baron <jbaron@akamai.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	Asit Mallick <asit.k.mallick@intel.com>,
-	Tao Zhang <tao1.zhang@intel.com>, bpf@vger.kernel.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH v11 12/12] x86/vmscape: Add cmdline vmscape=on to override
- attack vector controls
-Message-ID: <20260422-vmscape-bhb-v11-12-b18e0cf32af4@linux.intel.com>
-X-Mailer: b4 0.16-dev
-References: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="AiiMhJ+j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-ID:MIME-Version; bh=jZ
+	DM/MPL4KN6SxEBTt3RvBNteI30ONR7LBkpXjDMaaU=; b=AiiMhJ+j81wG8sn4bM
+	4ZDGVAZgWngP+KlsjXQ7XrX+M05XmiiiJcVOR58ChQdRzSe4XzI/9U94gdOVzZmF
+	8qQ+VCg3M7EFg3XSpxSULncLe4zPXaCpIaPa+tAQA9u/ZNZJ3JXss2Ym0xSrWhkb
+	oB1Zrp/J72GkpPnu7oxqGR+qY=
+Received: from liubaolin-VMware-Virtual-Platform (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wBX_3mswulp1DMzBQ--.23039S2;
+	Thu, 23 Apr 2026 14:56:45 +0800 (CST)
+From: Baolin Liu <liubaolin12138@163.com>
+To: corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	surenb@google.com,
+	cyphar@cyphar.com,
+	witcher@wiredspace.de
+Cc: linux-kernel@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	liubaolin12138@163.com,
+	wangguanyu@vivo.com,
+	Baolin Liu <liubaolin@kylinos.cn>
+Subject: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in table of contents
+Date: Thu, 23 Apr 2026 14:56:42 +0800
+Message-ID: <20260423065642.11218-1-liubaolin12138@163.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wBX_3mswulp1DMzBQ--.23039S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WFWfGF17KFyUur1xAw45Awb_yoW8Xry8pF
+	WrAr1agw18GF1UWw17Ar4xWrW7Aa4Ika1jqa9F9r1ftrn8Z3sa9w13t3W5AFy8GryrAayF
+	qFs7Kryavr47AF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pimhF7UUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6Q2we2npwq28-AAA3A
 
-In general, individual mitigation knobs override the attack vector
-controls. For VMSCAPE, =ibpb exists but nothing to select BHB clearing
-mitigation. The =force option would select BHB clearing when supported, but
-with a side-effect of also forcing the bug, hence deploying the mitigation
-on unaffected parts too.
+From: Baolin Liu <liubaolin@kylinos.cn>
 
-Add a new cmdline option vmscape=on to enable the mitigation based on the
-VMSCAPE variant the CPU is affected by.
+Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
+documentation") removed the IDE section but left its table of
+contents entry behind.
+Fix the stale entry and renumber the following sections.
 
-Reviewed-by: Nikolay Borisov <nik.borisov@suse.com>
-Tested-by: Jon Kohler <jon@nutanix.com>
-Signed-off-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
 ---
- Documentation/admin-guide/hw-vuln/vmscape.rst   | 4 ++++
- Documentation/admin-guide/kernel-parameters.txt | 2 ++
- arch/x86/kernel/cpu/bugs.c                      | 2 ++
- 3 files changed, 8 insertions(+)
+ Documentation/filesystems/proc.rst | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/Documentation/admin-guide/hw-vuln/vmscape.rst b/Documentation/admin-guide/hw-vuln/vmscape.rst
-index 7c40cf70ad7a..2558a5c3d956 100644
---- a/Documentation/admin-guide/hw-vuln/vmscape.rst
-+++ b/Documentation/admin-guide/hw-vuln/vmscape.rst
-@@ -117,3 +117,7 @@ The mitigation can be controlled via the ``vmscape=`` command line parameter:
+diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+index 7ce02573a3d9..70db35987ee1 100644
+--- a/Documentation/filesystems/proc.rst
++++ b/Documentation/filesystems/proc.rst
+@@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+   1	Collecting System Information
+   1.1	Process-Specific Subdirectories
+   1.2	Kernel data
+-  1.3	IDE devices in /proc/ide
+-  1.4	Networking info in /proc/net
+-  1.5	SCSI info
+-  1.6	Parallel port info in /proc/parport
+-  1.7	TTY info in /proc/tty
+-  1.8	Miscellaneous kernel statistics in /proc/stat
+-  1.9	Ext4 file system parameters
++  1.3	Networking info in /proc/net
++  1.4	SCSI info
++  1.5	Parallel port info in /proc/parport
++  1.6	TTY info in /proc/tty
++  1.7	Miscellaneous kernel statistics in /proc/stat
++  1.8	Ext4 file system parameters
++  1.9	/proc/consoles - Shows registered system consoles
  
-    Choose the mitigation based on the VMSCAPE variant the CPU is affected by.
-    (default when CONFIG_MITIGATION_VMSCAPE=y)
-+
-+ * ``vmscape=on``:
-+
-+   Same as ``auto``, except that it overrides attack vector controls.
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3853c7109419..98204d464477 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -8383,6 +8383,8 @@ Kernel parameters
- 					  unaffected processors
- 			auto		- (default) use IBPB or BHB clear
- 					  mitigation based on CPU
-+			on		- same as "auto", but override attack
-+					  vector control
+   2	Modifying System Parameters
  
- 	vsyscall=	[X86-64,EARLY]
- 			Controls the behavior of vsyscalls (i.e. calls to
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index fbdb137720c4..4e0b77fb21dd 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -3088,6 +3088,8 @@ static int __init vmscape_parse_cmdline(char *str)
- 	} else if (!strcmp(str, "force")) {
- 		setup_force_cpu_bug(X86_BUG_VMSCAPE);
- 		vmscape_mitigation = VMSCAPE_MITIGATION_ON;
-+	} else if (!strcmp(str, "on")) {
-+		vmscape_mitigation = VMSCAPE_MITIGATION_ON;
- 	} else if (!strcmp(str, "auto")) {
- 		vmscape_mitigation = VMSCAPE_MITIGATION_AUTO;
- 	} else {
-
 -- 
-2.34.1
-
+2.51.0
 
