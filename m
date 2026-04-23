@@ -1,110 +1,164 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 715C93BF673;
-	Thu, 23 Apr 2026 09:28:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABCF539C01D;
+	Thu, 23 Apr 2026 10:35:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776936505; cv=none; b=c7bTzqJ1iBLkHOxoDGNjH0/NLST7Qx97enKc0stZg8YR6agjkxBkuWXW5IhuYRiQOHWaCCFiwrSY5eaIO+kVCVzs798mUWKtKHew83IF281KnuDI9GJ0heT3K35zpxhj5CUNkO9gvdlsgSg0c/La0h6qEGWL0o6SABPQQRrQqCo=
+	t=1776940522; cv=none; b=Xck/299H3rZjX/4CJDyCV5V1SB8hXgWHBjLkAyslEvCdO90uVzzUp5jE6ZHV3PgzslnSfcNxapWuWePBduwRJbJBTR1FuU/WqYvygKHtIImU3Num1TRL78fc1blVSGpIsll8aokxHteFJdmQ/RkXcGEZnsExMiq0ztYcdgTvilc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776936505; c=relaxed/simple;
-	bh=HuBA0Qzq/DYd0rcngJlieMV/XLHFFCqFQhkapYaGSQw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ArgDXBNPFHybZ8XPIePaSqc/fHww1KgluGLSrsag27kGM4n0hsDM4dobAKDdT4RTVTD41Cl1uHG1WlFTAWETFkqQqbru5Pccccil19i4TqshctCHhuJljOShL6BtBD+Z4YJEL92DMO1ZVwCIpY3ej0s9wuq54YJQjgOPZUd0Pac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=IuUl4oxF; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	s=arc-20240116; t=1776940522; c=relaxed/simple;
+	bh=LOWQyjTZFchwJDE1fKhJEmvroSlaHMZYHU7jXZMx7pk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=X5ok+ktD9qaOLZJk2CzhAHyobArUoCM11D61jEwIoaHH61DtyYsTJPjNEQVXiOxqcxebmHYk/V1BCbaTptR23fpI97Yo3/fBPHJTQiTV8QnAOn0Yha1ZwSI4YJbiOj8DqGDD7BgDSz+Uv44bKcKy+BvRZJGGeWk93ecWC08k5aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZyGNpwIS; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="IuUl4oxF"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=zeWo4E4PlcntrIRoAt4bWIDzaFjt/YqZgC2/aPWnV5w=; t=1776936502;
-	x=1777541302; b=IuUl4oxFjrX7RAQBfg6A9FUElSPdccwLFvOxZMchQmLQ/xT1gt3lyyAHfOPhP
-	bo1Pk7p2WYLFWG5BQ0lQyBpTdD8t0ydCMsnNLlIg7m7hYYECVuTv0KY9cVGa328bKIL+xfE+RlJxP
-	JhIslN1QEDRf3EuFypWWkag3Z+7RFRvC/R/Ibmw9M/Saih/VnEe239eP0arZftkkoS4cwH66S9QWb
-	7mlbZTqKf6hQATgsXAzK6gmwiVytzZs1fdi0uwWL9mW6D7gzqv99x+W2MKV8GSsY0NEVk/VQlr+lu
-	zBIzur5yuKhje9+FyAeTRUFffNiURygjzxXo0naDiu11V0LnQQ==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1wFqM1-000000004TA-0qZk; Thu, 23 Apr 2026 11:28:13 +0200
-Received: from p5dc559e1.dip0.t-ipconnect.de ([93.197.89.225] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1wFqM0-000000033VG-3woU; Thu, 23 Apr 2026 11:28:13 +0200
-Message-ID: <aee0393e2a2bd5a5d0bf8aee758122633e54aa06.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH net v2 10/15] drivers: net: cirrus: mac89x0: Remove this
- driver
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Daniel Palmer <daniel@0x0f.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>, Andrew Lunn <andrew@lunn.ch>,
-  Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet	 <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni	 <pabeni@redhat.com>, Simon Horman
- <horms@kernel.org>, Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, Michael Fritscher	 <michael@fritscher.net>,
- Byron Stanoszek <gandalf@winds.org>, 	linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, linux-doc@vger.kernel.org,  linux-m68k
- <linux-m68k@lists.linux-m68k.org>
-Date: Thu, 23 Apr 2026 11:28:11 +0200
-In-Reply-To: <CAFr9PXnECog56b+Jq9TBohhQ4oBB3hGV1pHj6OstOSLqkOpcTQ@mail.gmail.com>
-References: 
-	<20260422-v7-0-0-net-next-driver-removal-v1-v2-0-08a5b59784d5@lunn.ch>
-	 <20260422-v7-0-0-net-next-driver-removal-v1-v2-10-08a5b59784d5@lunn.ch>
-	 <CAMuHMdV-vF6sTvAi8kKzxGwZ9YUSBO1Qta5PDCRbA0zr-LEp_w@mail.gmail.com>
-	 <c0c80113af470b265650405fa24deefe2d82ea24.camel@physik.fu-berlin.de>
-	 <CAFr9PXnECog56b+Jq9TBohhQ4oBB3hGV1pHj6OstOSLqkOpcTQ@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZyGNpwIS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776940519; x=1808476519;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=LOWQyjTZFchwJDE1fKhJEmvroSlaHMZYHU7jXZMx7pk=;
+  b=ZyGNpwISzRlRGIMsB4m1znZW2fZDeOTo5sD1r/LF+amN2S4fbvyel2aU
+   nrojMvUavw6i7LUde4dgiAReDBnGzpskTKrAxZuAfHOlPhw1UMKVuk2cc
+   Jh8Gj8QOf1I4+7WVMsRNhMCHZ7JUDlhTcRQOu86D0fWvdp5Mzd+qcgdEQ
+   MtzaW6ujpMNtDnqW5paIcda5qib/hyI7uBV3oHqxPPBF5qQs2QXMMdKTS
+   0PpkOWRaSn098HS8+YtBrkjokyteqFJCt8eo4XoKmpUmv+O/Pof6KxEuQ
+   Hio/EpUUSmDyaFhBRAeygT4gV3z+end7DBKeKd2+OJXtQBtqt6MOiPzu6
+   g==;
+X-CSE-ConnectionGUID: DLGpBsSLQDC+RY1kmi5cUg==
+X-CSE-MsgGUID: WCQ5JHccRwO7jhKdHhUyzg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="81513163"
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="81513163"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 03:35:18 -0700
+X-CSE-ConnectionGUID: Vc2/agFjQ7u0x/DoVEi9UQ==
+X-CSE-MsgGUID: j7Siiu+eQLuhYWXUogB/IA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="232529290"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.188])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 03:35:11 -0700
+Date: Thu, 23 Apr 2026 13:35:08 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Melissa Wen <melissa.srw@gmail.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>, victoria@system76.com,
+	sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
+	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
+	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito@redhat.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: Re: [PATCH v4 02/37] drm/blend: Get a rotation name from it's
+ bitfield
+Message-ID: <aen13JEWrKXiqRw4@intel.com>
+References: <20260422-vkms-all-config-v4-0-dbb52e9aadc3@bootlin.com>
+ <20260422-vkms-all-config-v4-2-dbb52e9aadc3@bootlin.com>
+ <aej82CO0l9_O1sX2@intel.com>
+ <d9a66f6a-e07c-4bc2-bd91-8b9cb2994760@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <d9a66f6a-e07c-4bc2-bd91-8b9cb2994760@bootlin.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
 
-Hi Daniel,
+On Thu, Apr 23, 2026 at 10:47:38AM +0200, Louis Chauvet wrote:
+> 
+> 
+> On 4/22/26 18:52, Ville Syrjälä wrote:
+> > On Wed, Apr 22, 2026 at 06:47:59PM +0200, Louis Chauvet wrote:
+> >> Having the rotation/reflection name from its value can be useful for
+> >> debugging purpose. Extract the rotation property table and implement
+> >> drm_get_rotation_name.
+> >>
+> >> Reviewed-by: José Expósito <jose.exposito@redhat.com>
+> >> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> >> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> >> ---
+> >>   drivers/gpu/drm/drm_blend.c | 35 ++++++++++++++++++++++++++---------
+> >>   include/drm/drm_blend.h     |  2 ++
+> >>   2 files changed, 28 insertions(+), 9 deletions(-)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
+> >> index 1f3af27d2418..11d8e13caea3 100644
+> >> --- a/drivers/gpu/drm/drm_blend.c
+> >> +++ b/drivers/gpu/drm/drm_blend.c
+> >> @@ -256,6 +256,31 @@ int drm_plane_create_alpha_property(struct drm_plane *plane)
+> >>   }
+> >>   EXPORT_SYMBOL(drm_plane_create_alpha_property);
+> >>   
+> >> +static const struct drm_prop_enum_list rotation_props[] = {
+> >> +	{ __builtin_ffs(DRM_MODE_ROTATE_0) - 1,   "rotate-0" },
+> >> +	{ __builtin_ffs(DRM_MODE_ROTATE_90) - 1,  "rotate-90" },
+> >> +	{ __builtin_ffs(DRM_MODE_ROTATE_180) - 1, "rotate-180" },
+> >> +	{ __builtin_ffs(DRM_MODE_ROTATE_270) - 1, "rotate-270" },
+> >> +	{ __builtin_ffs(DRM_MODE_REFLECT_X) - 1,  "reflect-x" },
+> >> +	{ __builtin_ffs(DRM_MODE_REFLECT_Y) - 1,  "reflect-y" },
+> >> +};
+> >> +
+> >> +/**
+> >> + * drm_get_rotation_name - Return the name of a rotation
+> >> + * @rotation: The rotation mask (DRM_MODE_ROTATE_* | DRM_MODE_REFLECT_*)
+> >> + *
+> >> + * Returns: the name of the rotation type (unknown) if rotation is not
+> >> + * a known rotation/reflection
+> >> + */
+> >> +const char *drm_get_rotation_name(unsigned int rotation)
+> >> +{
+> >> +	if (rotation < ARRAY_SIZE(rotation_props))
+> >> +		return rotation_props[rotation].name;
+> > 
+> > The value is a bitmask. This does not work.
+> > 
+> 
+> That true, the documentation is not clear.
+> 
+> Take a look at patch 15 [1] for the usage. Is it better if I change the 
+> documentation to:
+> 
+> drm_get_rotation_name - Returns the name of a rotation/reflection 
+> bitmask (with only one bit set).
+> @rotation: Bitmask with a single bit set.
+> Name of the rotation/reflection, or "(unknown)" if invalid.
+> 
+> [1]:https://lore.kernel.org/all/20260422-vkms-all-config-v4-15-dbb52e9aadc3@bootlin.com/
 
-On Thu, 2026-04-23 at 17:52 +0900, Daniel Palmer wrote:
-> Hi Adrian,
->=20
-> On Thu, 23 Apr 2026 at 16:10, John Paul Adrian Glaubitz
-> <glaubitz@physik.fu-berlin.de> wrote:
-> > > Macs do run modern kernels.
-> >=20
-> > Retrocomputing still is not well regarded by some maintainers, it seems=
- :-(.
->=20
-> I've found bugs in drivers by plugging those things into exotic
-> hardware like my Amiga 4000 and Ultra5 [0].
-> So, it's not totally pointless. And having a shader capable Amiga[1]
-> is pretty cool.
+For that kind of local thing I don't think it should be called
+drm_get_rotation_name(). Also your docs seem to disagree with the
+implementation. 
 
-Not only that. Those exotic architectures also help iron out generic kernel
-bugs and give new maintainers an possibility to get their feet wet.
+But this does sound like a useful thing to have, eg. in
+drm_atomic_plane_print_state().
 
-> Sad to see fun stuff getting pushed out by basically spam bots. :(
+We already have at least one implementation of this in
+i915/display/intel_display_debugfs.c, although with a bit more
+terse format (and with somewhat weird "FLIP" terminology) to
+make it not eat so much screen real estate.
 
-It's not so much pushed out by spam bots but by the commercialization of th=
-e
-Linux kernel. Many developers think that the sole purpose of the Linux kern=
-el
-is to run on modern commodity hardware.
-
-Adrian
-
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+-- 
+Ville Syrjälä
+Intel
