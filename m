@@ -1,96 +1,262 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2698B3806C2;
-	Thu, 23 Apr 2026 18:35:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F42D3AEF47
+	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 18:37:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776969306; cv=none; b=IIiWjKOMQjY0xzDJ3XTNBt1FenFG0+f6/dGNwgGVmBp+Vua2esxUrnn5FcrkLzXl/G0/mKeSnetQpYiLQKupF7wM42M++ubf7BrOjG/6oog92T/Lyp2oPzAaQ3eWRRwQw8xEJY8RdLP+2evSp5LgAwDT84nQvBc02s0vpEPuQYA=
+	t=1776969472; cv=none; b=Lvk3bd2aWchOL3fo9ReKmU/sWmEBtAKnFc3U0sscl1OtRnvNMccgclAxtXGI4bLwRG7GlD/qzi2zysItu1sAEiF4uVZcYg+tYnpmktYe6+wxWFFLJM6y8xY6d+wdUIP0n0FkUIqho4D6LRpEUx96VWMyPZuXCWe/Gf4FgVJ4TQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776969306; c=relaxed/simple;
-	bh=sO4srb2VfWYzH/iq+j6SCQoI0NwsiN5Eg5HwtcphrfQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CIBbHqZQArtl3jbqh2GcCTcYRm15Jbrlg8bve7prlEGGIGI58G/CPMilCmm90qTpm+wgMga547ryS9IX4DkGovhW5fU1ALY+rdB6BWzQe47GVcSx5TBAD88vskMptr5S6GQTNGEbj7yvmw05nt6qxO6nNhfEInoTd2jBfc8vjSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2EH6I2M; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1776969472; c=relaxed/simple;
+	bh=pLogyO6U0JGk6ooB0P4t5Xcvy9poB88Kwj5skPGIyDY=;
+	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Subject:
+	 References:In-Reply-To; b=bdUhKBt89odIaKmwn0iQYChx1UGM8d3SFD/J2AC6BoOiIIyKbjajSCyEz2IrebjqR4IAXXSuDTwO//Um1Z1nDzEnJiGc2UC/JMkxmqXRj6wEtDYm5D3sU+WJK2u8FbRFBLLYl5j3TQgDblPlpPfGKR5JyEqQuDZ0yXjmiLrV+CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=SYtzxNgy; arc=none smtp.client-ip=209.85.219.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2EH6I2M"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC00C2BCAF;
-	Thu, 23 Apr 2026 18:35:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776969305;
-	bh=sO4srb2VfWYzH/iq+j6SCQoI0NwsiN5Eg5HwtcphrfQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q2EH6I2MU46cVNjfe6mgYcU7k7iQyidgG9KJuR9tJBz7RCfmDe2J5CRM+KDrAFgvK
-	 NxDIDqjdOXMsj/3tuPRYOcA5QDh9eWQSJjWoIyRyNPyS0v+U/AWcEWh28tFbNdldBs
-	 HSHQLkcsEwAPvVfjflnroQhaQI0W/00kHGCsLUje3ZDcxE/MoVpfBw3/0KU07SoqXe
-	 kQWBx6r2EeE/gky/lZSq+zv9H0Ur/vs+zdXJzz/C34AhxoqJgVUKgYh6aIVqAiX1r/
-	 hU6yfsDAXeW2OW4TxkPvKsRavpCFcqJfH+VNtDnnWAe+VOoEGufMwDG6W9rH3eYtJ4
-	 H4NSzgkiNvi9w==
-Date: Thu, 23 Apr 2026 19:34:59 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Jean-Philippe Brucker <jpb@kernel.org>
-Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
-	Fuad Tabba <tabba@google.com>, Mark Rutland <mark.rutland@arm.com>,
-	Ben Horgan <ben.horgan@arm.com>,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>
-Subject: Re: [PATCH v10 14/30] KVM: arm64: Implement SME vector length
- configuration
-Message-ID: <3d9e19c7-2e56-43cb-bcea-53d305c35baf@sirena.org.uk>
-References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
- <20260306-kvm-arm64-sme-v10-14-43f7683a0fb7@kernel.org>
- <20260318175317.GL2390801@myrica>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="SYtzxNgy"
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8a4b8c3a30bso79532696d6.3
+        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 11:37:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1776969467; x=1777574267; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:to:from:content-transfer-encoding
+         :mime-version:message-id:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7WuJ9ZclNJckM0eVZPQcmoslgmsrrdaxBWMSl5N+wUo=;
+        b=SYtzxNgyK/MxdkMZ22OgKhaWjtmTyZtOUJx+VQxElxF7Bl5ijvJoQ+2TCUPMO7NBYd
+         xuZXeh48GikngxwIn9xWdxroCm/fWosOCCF8VDtYnsASvIgUzxP43a6KwYqOTPJQL1af
+         N2eK3fr9AWE7WVjP1+c+b+pCCX5ySXQ3nYRV+6GullDe6D32z/fh0/wEmvjPj3YgsR84
+         /v4D8u03VkmmFFGuUp4Xmk78E5rInidiz8uZxi6RXYFkudne/hQVxp6uveKgiQQ7ErdE
+         fq8LF18vHseYhYZ5ilamchLPtMEyQE8DL2uG5ZBU+jJxm4202j4/xHzD3HowBiVXgSU+
+         hQQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1776969467; x=1777574267;
+        h=in-reply-to:references:subject:to:from:content-transfer-encoding
+         :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7WuJ9ZclNJckM0eVZPQcmoslgmsrrdaxBWMSl5N+wUo=;
+        b=ZLQhquGR7DurXnr8GGU2X0KBO2pvfn5lI2rvTDG17vWc2spgr28bvVBtGtqIcKmuZA
+         +h5DRlMTH+9v/kxo1JiFB8IkBRL4mEuNYtnVUVZqGaN7z5yf5ja4UZmul3fXvHlsT1Fm
+         FT3jFV+OQI0ikC/hMy70ZdnaXNZXJwoUz4r4VWlctatiqdUEpXD9kI6NpTfvqHQKXjOK
+         SyRgPIjer9IoxOjcOjf1gOXjzR2rpQciE2K0W7iUlGZyBdPsXNYEoFVghoqpHXjZ4yfN
+         MSWXMAf7d7Mvp9LgaCzcrOrJVAwu7FicI59bHv8uBjgmhNjUOie06vKAS/ZJWBi68HCb
+         y2LA==
+X-Forwarded-Encrypted: i=1; AFNElJ/jJp1qebP7NK5JBw08cbRI8J73JxcifePSx8j9BbMUHl0hrpHPkXIT+e7i4IDzjTZFSMnijRazebQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDXXrkfpW7lnUQ08S0oTAqJZ2SzVA9FYgfCtyEL7KsEQ6qB1AS
+	EfyUhdYjyd0SUPYcca4KUZLt6Es6DSEMijudq/BPiUGZlU9s2m+xHLHPTLQAfcULfw==
+X-Gm-Gg: AeBDies9kcmk3DrLBd5A78uwTfP8D5hFbI6wix0Nwf1/66ds/FHCOReF0JsS3JalK7J
+	FfjZEggZxgEzfuqjHHGYAECGQOWvlAOLKS9bFJQCzeyUYHNMUERUIf+bBwhUTuu7TiAKk9aLjda
+	IkMJ+E7Ji6FhKhaIMO6KxMpFQtYh2a5ISrRxeWZG9Quys5y5r+zjiX1utmuc30qBk+Un/CtAeow
+	IvIUMie1Zoihzt5PE02fcKsTrYfD+EcBs9EDmxdgmBX5X1EQpqnAo9VkZs7CXTTG0/zTcVJil3j
+	mraB5+c3UAAueo14ovZa9SDe1hWCySVXFXDt9c4edmgRJLnp5hTjg1DaFRmMb/D0uxlhO8bTKPq
+	J6VWs1GpxMG3D+mYoVo6XPjcpdH10El19SoxZjsvf+P3zoOAvRjXnGSxavHPsDlwqcLYVb5nki+
+	b5HQOtboxI0ET4S+puDa6G5sRz7jJW9yXSR0K2P2c45lJds1TJ7qZrMtdKbbKOJKeCg7TCQGvDV
+	OPPNpY=
+X-Received: by 2002:a05:6214:3c8c:b0:8b1:f069:3fc6 with SMTP id 6a1803df08f44-8b1f06946f6mr255771196d6.40.1776969466835;
+        Thu, 23 Apr 2026 11:37:46 -0700 (PDT)
+Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02aea5ebcsm165040706d6.44.2026.04.23.11.37.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Apr 2026 11:37:45 -0700 (PDT)
+Date: Thu, 23 Apr 2026 14:37:45 -0400
+Message-ID: <7e924e82fbdfb5091f0436fe9ecac2b8@paul-moore.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="fhbhbXVDBdOem/hg"
-Content-Disposition: inline
-In-Reply-To: <20260318175317.GL2390801@myrica>
-X-Cookie: I'm hungry, time to eat lunch.
+MIME-Version: 1.0 
+Content-Type: text/plain; charset=UTF-8 
+Content-Transfer-Encoding: 8bit 
+X-Mailer: pstg-pwork:20260423_1403/pstg-lib:20260423_1403/pstg-pwork:20260423_1403
+From: Paul Moore <paul@paul-moore.com>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, "Blaise Boscaccy" <bboscaccy@linux.microsoft.com>, "Jonathan Corbet" <corbet@lwn.net>, "" , "James Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, "Andrew Morton" <akpm@linux-foundation.org>, James.Bottomley@HansenPartnership.com, dhowells@redhat.com, "Fan Wu" <wufan@kernel.org>, "Ryan Foster" <foster.ryan.r@gmail.com>, "Randy Dunlap" <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "Song Liu" <song@kernel.org>
+Subject: Re: [PATCH v5 6/10] security: Hornet LSM
+References: <20260420212653.438685-7-bboscaccy@linux.microsoft.com>
+In-Reply-To: <20260420212653.438685-7-bboscaccy@linux.microsoft.com>
 
+On Apr 20, 2026 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
+> 
+> This adds the Hornet Linux Security Module which provides enhanced
+> signature verification and data validation for eBPF programs. This
+> allows users to continue to maintain an invariant that all code
+> running inside of the kernel has actually been signed and verified, by
+> the kernel.
+> 
+> This effort builds upon the currently excepted upstream solution. It
+> further hardens it by providing deterministic, in-kernel checking of
+> map hashes to solidify auditing along with preventing TOCTOU attacks
+> against lskel map hashes.
+> 
+> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
+> determines the extent which the eBFP program is signed and defers to
+> other LSMs for policy decisions.
+> 
+> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+> Nacked-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+> ---
+>  Documentation/admin-guide/LSM/Hornet.rst | 321 +++++++++++++++++++++
+>  Documentation/admin-guide/LSM/index.rst  |   1 +
+>  MAINTAINERS                              |   9 +
+>  include/linux/oid_registry.h             |   3 +
+>  include/uapi/linux/lsm.h                 |   1 +
+>  security/Kconfig                         |   3 +-
+>  security/Makefile                        |   1 +
+>  security/hornet/Kconfig                  |  11 +
+>  security/hornet/Makefile                 |   7 +
+>  security/hornet/hornet.asn1              |  13 +
+>  security/hornet/hornet_lsm.c             | 346 +++++++++++++++++++++++
+>  11 files changed, 715 insertions(+), 1 deletion(-)
+>  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+>  create mode 100644 security/hornet/Kconfig
+>  create mode 100644 security/hornet/Makefile
+>  create mode 100644 security/hornet/hornet.asn1
+>  create mode 100644 security/hornet/hornet_lsm.c
 
---fhbhbXVDBdOem/hg
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+While I think this is looking pretty reasonable, I think Fan had some
+feedback which merits a reply.  I also spotted some references to the
+secondary keyring in the docs which need to be updated (below).
 
-On Wed, Mar 18, 2026 at 05:53:17PM +0000, Jean-Philippe Brucker wrote:
-> On Fri, Mar 06, 2026 at 05:01:06PM +0000, Mark Brown wrote:
+> diff --git a/Documentation/admin-guide/LSM/Hornet.rst b/Documentation/admin-guide/LSM/Hornet.rst
+> new file mode 100644
+> index 0000000000000..af5e9cd9d83a8
+> --- /dev/null
+> +++ b/Documentation/admin-guide/LSM/Hornet.rst
+> @@ -0,0 +1,321 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +======
+> +Hornet
+> +======
+> +
+> +Hornet is a Linux Security Module that provides extensible signature
+> +verification for eBPF programs. This is selectable at build-time with
+> +``CONFIG_SECURITY_HORNET``.
+> +
+> +Overview
+> +========
+> +
+> +Hornet addresses concerns from users who require strict audit trails and
+> +verification guarantees for eBPF programs, especially in
+> +security-sensitive environments. Many production systems need assurance
+> +that only authorized, unmodified eBPF programs are loaded into the
+> +kernel. Hornet provides this assurance through cryptographic signature
+> +verification.
+> +
+> +When an eBPF program is loaded via the ``bpf()`` syscall, Hornet
+> +verifies a PKCS#7 signature attached to the program instructions. The
+> +signature is checked against the kernel's secondary keyring using the
 
-> > +/* Current for the hypervisor */
+This version now supports using the keyring specified in the bpf_attr
+union (presumably for maximum compatibility with KP's signature scheme),
+which is good, but the docs need to be updated.
 
-> Not sure what this means, isn't it also current for the guest?
+See below, but I would probably make a note that LSMs providing
+enforcement of BPF signatures will likely want to check what keyring was
+used to verify the signature, e.g. a trusted keyring vs a user supplied
+keyring.
 
-If it has multiple VLs available then the guest may select between them,
-including choosing one smaller than what is configured in the hypervisor
-- for example a guest running at EL1 can set a lower VL in ZCR_EL1 or
-SMCR_EL1 than is configured in the corresponding EL2 register.  This has
-been something that has frequently needed clarification.
+> +existing kernel cryptographic infrastructure. In addition to signing the
+> +program bytecode, Hornet supports signing SHA-256 hashes of associated
+> +BPF maps, enabling integrity verification of map contents at load time
+> +and at runtime.
+> +
+> +After verification, Hornet classifies the program into one of the
+> +following integrity states and passes the result to a downstream LSM hook
+> +(``bpf_prog_load_post_integrity``), allowing other security modules to
+> +make policy decisions based on the verification outcome:
+> +
+> +``LSM_INT_VERDICT_OK``
+> +  The program signature and all map hashes verified successfully.
+> +
+> +``LSM_INT_VERDICT_UNSIGNED``
+> +  No signature was provided with the program.
+> +
+> +``LSM_INT_VERDICT_PARTIALSIG``
+> +  The program signature verified, but the signature did not contain
+> +  hornet map hash data.
+> +
+> +``LSM_INT_VERDICT_UNKNOWNKEY``
+> +  The signing certificate is not trusted in the secondary keyring,
 
---fhbhbXVDBdOem/hg
-Content-Type: application/pgp-signature; name="signature.asc"
+Another secondary keyring mention.
 
------BEGIN PGP SIGNATURE-----
+> +``LSM_INT_VERDICT_FAULT``
+> +  A system error occured during verification.
+> +
+> +``LSM_INT_VERDICT_UNEXPECTED``
+> +  An unexpected map hash value was encountered.
+> +
+> +``LSM_INT_VERDICT_BADSIG``
+> +  The signature or a map hash failed verification.
+> +
+> +Hornet itself does not enforce a policy on whether unsigned or partially
+> +signed programs should be rejected. It delegates that decision to
+> +downstream LSMs via the ``bpf_prog_load_post_integrity`` hook, making it
+> +a composable building block in a larger security architecture.
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnqZlIACgkQJNaLcl1U
-h9ATfwf/QhCSHLUmuQXd95wc/Z+Kj+6TXzijHxGpEyfpplwzdDt8nNHkGlM17bQY
-jEgvX0Ei5B5X3iJx03W1fZO7dT94He6vQelfDPipVZbVEpd6IEUmDj2XxHW4lE9D
-+duYNIz3P8RgHuE29tagB4PeF5PUPrLEX04QeEkS61Y1dk047LBjyF06ykyh/7xg
-NrJNKO9QxJF3GTLkDHjeMBBT98mtHS5UOjX21qo74Hn5V/VXLs7Ud6HhMeJQwO5K
-MpDbtR4xv5IQRgz8Pqh9t0XtUM0a//15LizuqPsUDKV79VxWPtSV7mPDFY0F5O5+
-Xgv2T1qQUfg9TgDhQh2oD4IG3nNmPg==
-=tX7F
------END PGP SIGNATURE-----
+This might be a good place to document that in addition to the verdicts
+described above, LSMs providing enforcement should also consider the
+keyring used for verification.
 
---fhbhbXVDBdOem/hg--
+> +Known Limitations
+> +=================
+> +
+> +- Hornet requires programs to use :doc:`light skeletons
+> +  </bpf/libbpf/libbpf_naming_convention>` (lskels) for the signing
+> +  workflow, as the tooling operates on lskel-generated headers.
+> +
+> +- A maximum of 64 maps per program can be tracked for hash
+> +  verification.
+> +
+> +- Map hash verification requires the maps to be frozen before loading.
+> +  Maps that are not frozen at load time will cause verification to fail
+> +  when their hashes are included in the signature.
+> +
+> +- Hornet relies on the kernel's secondary keyring
+> +  (``VERIFY_USE_SECONDARY_KEYRING``) for certificate trust. Keys must
+> +  be provisioned into this keyring before programs can be verified.
+
+... another spot.
+
+> +- The only hashing algorithm available is SHA256 due to it be hardcoded
+> +  in the bpf subsystem.
+
+...
+
+> +Signature Verification Flow
+> +---------------------------
+> +
+> +The following describes what happens when a userspace program calls
+> +``bpf(BPF_PROG_LOAD, ...)`` with a signature attached:
+> +
+> +1. The ``bpf_prog_load_integrity`` LSM hook is invoked.
+> +
+> +2. Hornet reads the signature from the userspace buffer specified by
+> +   ``attr->signature`` (with length ``attr->signature_size``).
+> +
+> +3. The PKCS#7 signature is verified against the program instructions
+> +   using ``verify_pkcs7_signature()`` with the kernel's secondary
+> +   keyring.
+
+I believe this is the last mention of the secondary keyring.
+
+> +4. The PKCS#7 message is parsed and its trust chain is validated via
+> +   ``validate_pkcs7_trust()``.
+> +
+> +5. Hornet extracts the authenticated attribute identified by
+> +   ``OID_hornet_data`` (OID ``2.25.316487325684022475439036912669789383960``)
+> +   from the PKCS#7 message. This attribute contains an ASN.1-encoded set
+> +   of map index/hash pairs.
+> +
+> +6. For each map hash entry, Hornet retrieves the corresponding BPF map
+> +   via its file descriptor, confirms it is frozen, computes its SHA-256
+> +   hash, and compares it against the signed hash.
+> +
+> +7. The resulting integrity verdict is passed to the
+> +   ``bpf_prog_load_post_integrity`` hook so that downstream LSMs can
+> +   enforce policy.
+
+--
+paul-moore.com
