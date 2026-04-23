@@ -1,53 +1,53 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F28A73BBA12
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 21:22:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B16B36D9E0
+	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 21:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776979368; cv=none; b=JY9GCgsY6kyyHX9cabb3xfRBgPNDGlHvry3j6MOjxEeUnGuCNt8ZyBB8TLYoaQXCGsAxcSOy7MpMfgyA7VcPf4BOFU2RR5NSAztfdRQluRiOXH4JTuZjNyuvy+nLzSYsLTBxFbE1QvUXmsDC5v9+M4Y4o/3/kKqSi2jCKJ9V64A=
+	t=1776979404; cv=none; b=DHRXHtMlWgXfT4KU0mPsUNdfX5B5kTB5y+gZ0WDbiV9uRjY01YaLU87SgTiN/OUOf3dZQXRTnjsWi+Tdxqd7RIkuC1iIZzEMweOB74ZsP1KCDW2YuuyF6ljruyCOLBU1R7oh+H0AeHsZ2oZ0Uzb2AhzpePdLsm+nNUpEwMZg8vY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776979368; c=relaxed/simple;
+	s=arc-20240116; t=1776979404; c=relaxed/simple;
 	bh=VEr3YGdqak3FVQ9/ao+xXZ+w5i00Ao9Ssj4jC1ZGrN4=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Content-Type; b=MIIjCGZrjwzBDUAG/nFkC3Umw74bu8KLiNAJEYDzMqvQG2NMWPHJRAIIFOpJvGGjQm6mWyBgaxpGBEOFr2CNQLwR5o5OOhdPmR3DV6GleDBK45QtMwAnZRi0xAGezzmG4YAenASctmyG96C58xCvpYZf1hTjCyNZ73m72UL80H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mbdpiwSs; arc=none smtp.client-ip=209.85.214.201
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=cwqq0nXnTLkOfgEZLKMncsI0JtAGcxytBFU4WJaZEd+/ElDkXL0rR7euTx26f9V8sPcpaiAnpdxs2PI6S/ohUzc8t4t5RbojicKz4wjQegWtEy6wtslRfASBMvWsZipTi4gu211MgZS61IsaUdY/0dHPZflj7tPXxMRGpFquq+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rRWCMvt+; arc=none smtp.client-ip=209.85.210.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mbdpiwSs"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2b461b36990so76308585ad.3
-        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 14:22:44 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rRWCMvt+"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-82fa860e71eso3068414b3a.0
+        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 14:23:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776979364; x=1777584164; darn=vger.kernel.org;
-        h=to:from:subject:message-id:mime-version:date:from:to:cc:subject
+        d=google.com; s=20251104; t=1776979400; x=1777584200; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
          :date:message-id:reply-to;
         bh=kl+pv05082o4iUYPTAspfzDZexWtIImSBuw1JtCkgoE=;
-        b=mbdpiwSsOjUrW5IGSArA8vhCsSEPPwz2w+bbEWubZTO96PjGKHHS5tMk5qhx652vy6
-         +awzGC6QYXoiKEy35HALvsrTZ/vVlQiEzQHSBIl3IWjUMJ1JieM9EC/kNtUZ8XDtbD/h
-         aqbTKe7/kqhyarZfTJTVM7vO+SD1uwLNLfTH8Sr50+aMHJtTvW3EAtOrmNEE9IZuetBh
-         /oZIXW7tuOe//zpx2YeccBk1FwckkFk37JYnTgTWdFcvVZYNx5oBphjWv44q6rSfN3uZ
-         28jC2Fc4/nupjzq5lk9ZL4gzkKCqY9IgCUfqgh31qC2rvAoe2jpoKWs4lzzy68DJ2Qs5
-         hfKg==
+        b=rRWCMvt+h3PuppHXtLZezVhdlbTA6Zcppj/YDQyrcfzPTnaUic3TJSS4WZEEFToKZ4
+         hEgQpNpVRv8gRkBu1sDU7vCK7zVgprhCR+uKNqWD5ekIVs9NuMHykxG6bAZCuyGWqOo2
+         3s4nIdJuc4+p+IbpII6D85umhWozlMypAM/g3v4o6wzAjU63wzDYHkOFUxDwMTJF49Dt
+         qyHK7BFIdFPCp17JVgtXnLU9nqmtzrNFx2W2gHxNraGMrJDptUc9L/5HvoljMOYPtuP+
+         nupJDKyfqQQMDfsnaYfPFEnCku6OY/dzydgbL+IznzQlYY5uNjkIfuBDr8ZIEIemZvO6
+         l/2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776979364; x=1777584164;
-        h=to:from:subject:message-id:mime-version:date:x-gm-message-state
+        d=1e100.net; s=20251104; t=1776979400; x=1777584200;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
         bh=kl+pv05082o4iUYPTAspfzDZexWtIImSBuw1JtCkgoE=;
-        b=HQ9NF67XYXq7/nMPnpS/zgKcDyU9IsuRDrkGvxDGZWyAWMTmxUZqLeLfLovWPvKfQO
-         1r+nPjnX0lofWzfNYq+AwMJqXsI/4wrr3kgLJSFRBaskzOxfdt6AuasSSyKc/6BYXM8e
-         bra9QzakTvoWbGFKzInIMk1zxMD2ZnPtAiB6DeSBjt27wMy4oGr9p8+PwPkYKVJNGijC
-         nr6NXS9v49TX9QIaim8kjCxMMhwR2Jh1xCf5uUETySmwVb/umdtugqYTxQwPtepfrefT
-         s1NCFG1Zaq+zmv6wgzrs082Emz87qfWOUu8+0K4yqpeVHzF42lpJtu5WZqizq5ekOl6N
-         YI/w==
-X-Forwarded-Encrypted: i=1; AFNElJ9U81VCPeoF3oRmcwLbfUAxL7lX0+HYiOzpUQeAhv+pvVI3cJ7VFM19niOUdIbAeI9rZPIUJ0MWxrc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOX7Sz27rI4aoY7omb7ICu4ggSk0X1NsqildWnrA9kuKJQNvYF
-	BLYufDvgGRf7O3KMhLms4fVAfI6qwaOWsONAbLjU44IXLkKTm1u8PGeOo50aHAOqNVV/P0Bqssn
-	705IsfLj2pp6icA==
-X-Received: from plnx22.prod.google.com ([2002:a17:902:8216:b0:2ae:ce70:7c80])
+        b=sto1atOFX6/nyhTwHyW1eCZ4AJBUIdbgigbO1gS3jyMDnABux/cEeRFjVFU6Ek1u3V
+         o7RUAXS+YrGvFTE6bqN4L5dQJUph4K1hDS5taRHk+CARygBF/n9Gxw3+HYHGPZvwELs2
+         mOhBcKWr0d2eJSJdb0xpkhnQA0L/d5Z4VU+ogjQAtN+MzCDxi5JaiSp16Q0pTZYlhQiQ
+         xr1ZeDT0+QsXdWskr9+SHZcvvgvJ7m1rhzD+rPx0q7Mer2Pkr7QK9019hI2zmkWvwoW1
+         AWdCd2X52mlsVh19L9MSV+bRk2WVIOSCqZiceHLC5C3wKkla5c/IZCYQR+OqxMJ3qQjV
+         CEiQ==
+X-Forwarded-Encrypted: i=1; AFNElJ88vf960Rm0EcLDE1Vwa93H169EE7NufroIdb9JQKTdEbAEKp6wgtvRTc5nHQGORF3BcT1fiE6NUvI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzjOfLwgq8eb0NFg4ukq3/ufQKqODYmck4dj6hbQsdz4OeIvDiH
+	AcykA2eqeSDdUp4bwv0IJDNZLokGtlL5hSnQRWlxf/6MZ/+gafYILo57zP+/M7Q/aEGuBTRbwrA
+	UtRDl66teR7gzTA==
+X-Received: from pfhx15.prod.google.com ([2002:a05:6a00:188f:b0:82f:3c29:a283])
  (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:7d8c:b0:2b4:604c:ec6f with SMTP id d9443c01a7336-2b5f9f86840mr213628685ad.32.1776979363647;
- Thu, 23 Apr 2026 14:22:43 -0700 (PDT)
-Date: Thu, 23 Apr 2026 21:22:31 +0000
+ 2002:a05:6a00:bd0a:b0:82f:74b2:7fba with SMTP id d2e1a72fcca58-82f8c7dd0d9mr31341067b3a.4.1776979399901;
+ Thu, 23 Apr 2026 14:23:19 -0700 (PDT)
+Date: Thu, 23 Apr 2026 21:23:04 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,12 +55,23 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 X-Mailer: git-send-email 2.54.0.rc2.544.gc7ae2d5bb8-goog
-Message-ID: <20260423212242.3431136-1-dmatlack@google.com>
+Message-ID: <20260423212316.3431746-1-dmatlack@google.com>
 Subject: [PATCH v4 00/11] PCI: liveupdate: PCI core support for Live Update
 From: David Matlack <dmatlack@google.com>
-To: dmatlack@google.com, iommu@lists.linux.dev, kexec@lists.infradead.org, 
+To: iommu@lists.linux.dev, kexec@lists.infradead.org, 
 	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
 	linux-pci@vger.kernel.org
+Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
+	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
 Content-Type: text/plain; charset="UTF-8"
 
 This series can be found on GitHub:
