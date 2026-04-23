@@ -1,145 +1,96 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B413A872A;
-	Thu, 23 Apr 2026 18:08:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2698B3806C2;
+	Thu, 23 Apr 2026 18:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776967684; cv=none; b=HZAiAtQdm1vdEVoRcEincIaWdDiHJUVGQnilCrl6U95wLD+MzfYlF3Q5QIeTI2boWmQ2LuKorGbO2fg403sdLmVQaoPpQ9pBBdBFlAekdfprQyrv5T78avRavD3s+oLlZLzG26Rb/NqGE0jUBBJOFni3ez3VFqbImfKXkpx0MzI=
+	t=1776969306; cv=none; b=IIiWjKOMQjY0xzDJ3XTNBt1FenFG0+f6/dGNwgGVmBp+Vua2esxUrnn5FcrkLzXl/G0/mKeSnetQpYiLQKupF7wM42M++ubf7BrOjG/6oog92T/Lyp2oPzAaQ3eWRRwQw8xEJY8RdLP+2evSp5LgAwDT84nQvBc02s0vpEPuQYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776967684; c=relaxed/simple;
-	bh=fUtnL9qRpoANwM3bPHlOiGowL2i2i1ePLUkXdrCF8M8=;
+	s=arc-20240116; t=1776969306; c=relaxed/simple;
+	bh=sO4srb2VfWYzH/iq+j6SCQoI0NwsiN5Eg5HwtcphrfQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PFPu6c5xsCy8DwPUSwj4ZAdrdcVhURfrbk4aYDh3cL5Xy0MhyAfv62y0eKc4aps9fi44QUd7Lw7hACCW9cd8Ddxu6DlZOVSUt7n1ktOnobNv7Ktga5jB8genRVOSPUHY2dOlIYMJ9HN5JXRkKIIMTbNuFYr/Cq8wf0F+37mZ/Is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAP3ZIAR; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIBbHqZQArtl3jbqh2GcCTcYRm15Jbrlg8bve7prlEGGIGI58G/CPMilCmm90qTpm+wgMga547ryS9IX4DkGovhW5fU1ALY+rdB6BWzQe47GVcSx5TBAD88vskMptr5S6GQTNGEbj7yvmw05nt6qxO6nNhfEInoTd2jBfc8vjSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2EH6I2M; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAP3ZIAR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55978C4AF0B;
-	Thu, 23 Apr 2026 18:08:03 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2EH6I2M"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCC00C2BCAF;
+	Thu, 23 Apr 2026 18:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1776967683;
-	bh=fUtnL9qRpoANwM3bPHlOiGowL2i2i1ePLUkXdrCF8M8=;
+	s=k20201202; t=1776969305;
+	bh=sO4srb2VfWYzH/iq+j6SCQoI0NwsiN5Eg5HwtcphrfQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hAP3ZIARBqueoN9RFilIOZs+UJq6a6x9Enmg84t8Usw7oQUBeSKkK4ZPIb7xzSUYu
-	 oUIsnNj65y6jrspk5WdGMHIoY5kg4ytXH1NL33s66LoxvcJvd+cx8tdqpQBX93pZvp
-	 LCNNdUgwNNPyVaZ4S7d232awap213vIhzXg1e+DvNFkUksTZGXboF1Xax3jdyoNbjR
-	 jvLeaT5nf3App95sC5MiAbOi8IVTGruuKLoVADY3xUDaQqAWXrdU8c2Wd56lVfyWee
-	 wSkDxYDdmdrZizKwNW0eqIkLU1akChNOaQts8wFZQ/SLsBX7u57LnVxkkFu7Ezv5N2
-	 Fi7VP3VTfO/UA==
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 618A6F4006B;
-	Thu, 23 Apr 2026 14:08:02 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-06.internal (MEProxy); Thu, 23 Apr 2026 14:08:02 -0400
-X-ME-Sender: <xms:AmDqafKne51c23t3lOUfwu3m9Jat5CujNgYxp6RC3pVv8n1E5ApPhg>
-    <xme:AmDqaSaPnjQM5JuaZTSQ7uK_5VTA28rKQMlnqvZXZWf--t9BbghNabwV-_s1AV9Hx
-    3AREOoCahoWWPLLRniuN8x1J2BrT2C-zrldhyy7PEvNwOT2cydEMw>
-X-ME-Received: <xmr:AmDqaT6shwVvN1bYvTKiFRpp--F0ku9VmqAT3BGObH8t1GaOQCMYWgum0DBytQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeijeekfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
-    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
-    hnpeffffekgeffjefgkedvjeeggedttdeljeekhffhudeiudfhiefgudeugffhheffuden
-    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghr
-    shhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvg
-    hrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepfeei
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehpvghtvghrgiesrhgvughhrghtrd
-    gtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
-    rghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehljh
-    hssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhg
-    pdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopehvsg
-    grsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhohiflhgvthht
-    sehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:AmDqaTJDnWhOA6Lo5VS3-3zpSTgB3bAOxPGZpGcQWjdEIwFuZdcZSQ>
-    <xmx:AmDqaZY0sSALVtS7asmIB8MYX0nPAO4sjU53qds5bVXfXSrKC7Ur7w>
-    <xmx:AmDqabxGOc2JRHlMYEDYv15bQ-MaKvilloF3PHIY3GW_bvq3v5r5IA>
-    <xmx:AmDqaVUM8UDa_Zh5-pPT75bjmmW8iNzLWo2YmuCcUZxlgN1lsXJlKg>
-    <xmx:AmDqafblfb_m5kSp-CjhTquEbv5wDlCyHGQsZxMnJDje3tAR6gHC6Kz1>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Apr 2026 14:08:01 -0400 (EDT)
-Date: Thu, 23 Apr 2026 19:08:00 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Peter Xu <peterx@redhat.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
- guest memory
-Message-ID: <aeo5IPpQi7onyjTF@thinkstation>
-References: <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
- <aeFCuLJXT8VOkzH7@thinkstation>
- <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
- <aeImfRrrvr3UoKtL@thinkstation>
- <aeTnlQUOOh-dHG8z@thinkstation>
- <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
- <aed6fHLrIdahbdY3@thinkstation>
- <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
- <aeorZMvKwu8zKX5i@thinkstation>
- <aeoxnuGKO3uqS2kG@x1.local>
+	b=Q2EH6I2MU46cVNjfe6mgYcU7k7iQyidgG9KJuR9tJBz7RCfmDe2J5CRM+KDrAFgvK
+	 NxDIDqjdOXMsj/3tuPRYOcA5QDh9eWQSJjWoIyRyNPyS0v+U/AWcEWh28tFbNdldBs
+	 HSHQLkcsEwAPvVfjflnroQhaQI0W/00kHGCsLUje3ZDcxE/MoVpfBw3/0KU07SoqXe
+	 kQWBx6r2EeE/gky/lZSq+zv9H0Ur/vs+zdXJzz/C34AhxoqJgVUKgYh6aIVqAiX1r/
+	 hU6yfsDAXeW2OW4TxkPvKsRavpCFcqJfH+VNtDnnWAe+VOoEGufMwDG6W9rH3eYtJ4
+	 H4NSzgkiNvi9w==
+Date: Thu, 23 Apr 2026 19:34:59 +0100
+From: Mark Brown <broonie@kernel.org>
+To: Jean-Philippe Brucker <jpb@kernel.org>
+Cc: Marc Zyngier <maz@kernel.org>, Joey Gouly <joey.gouly@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Will Deacon <will@kernel.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Oliver Upton <oupton@kernel.org>, Dave Martin <Dave.Martin@arm.com>,
+	Fuad Tabba <tabba@google.com>, Mark Rutland <mark.rutland@arm.com>,
+	Ben Horgan <ben.horgan@arm.com>,
+	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+	linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	Peter Maydell <peter.maydell@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>
+Subject: Re: [PATCH v10 14/30] KVM: arm64: Implement SME vector length
+ configuration
+Message-ID: <3d9e19c7-2e56-43cb-bcea-53d305c35baf@sirena.org.uk>
+References: <20260306-kvm-arm64-sme-v10-0-43f7683a0fb7@kernel.org>
+ <20260306-kvm-arm64-sme-v10-14-43f7683a0fb7@kernel.org>
+ <20260318175317.GL2390801@myrica>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="fhbhbXVDBdOem/hg"
+Content-Disposition: inline
+In-Reply-To: <20260318175317.GL2390801@myrica>
+X-Cookie: I'm hungry, time to eat lunch.
+
+
+--fhbhbXVDBdOem/hg
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aeoxnuGKO3uqS2kG@x1.local>
 
-On Thu, Apr 23, 2026 at 10:50:06AM -0400, Peter Xu wrote:
-> Hello, Kiryl,
-> 
-> On Thu, Apr 23, 2026 at 03:27:11PM +0100, Kiryl Shutsemau wrote:
-> > The patchet is pretty good shape in my eyes and will probably drop RFC
-> > tag.
-> 
-> I still have some high level questions not yet got answered.  Do you want
-> to answer them?
-> 
-> https://lore.kernel.org/all/ad59TxAHNwFWH7Cc@x1.local/
+On Wed, Mar 18, 2026 at 05:53:17PM +0000, Jean-Philippe Brucker wrote:
+> On Fri, Mar 06, 2026 at 05:01:06PM +0000, Mark Brown wrote:
 
-Sorry, reply to this got lost in my TODO list.
+> > +/* Current for the hypervisor */
 
-> In summary, it's about:
-> 
-> - Whether we have explored other approaches on page hotness tracking
+> Not sure what this means, isn't it also current for the guest?
 
-So, for read/write tracking we have clear_refs=1, page_idle and DAMON.
-Did I miss something?
+If it has multiple VLs available then the guest may select between them,
+including choosing one smaller than what is configured in the hypervisor
+- for example a guest running at EL1 can set a lower VL in ZCR_EL1 or
+SMCR_EL1 than is configured in the corresponding EL2 register.  This has
+been something that has frequently needed clarification.
 
-clear_refs is process-wide hammer. And you can miss a hot page if it
-races with LRU rotation.
+--fhbhbXVDBdOem/hg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-page_idle needs rmap. It will not scale.
+-----BEGIN PGP SIGNATURE-----
 
-DAMON is built around sampling. It is good for working set estimation,
-but I don't think it is directly useful for eviction decision. It can
-miss hot pages. LRU rotation will also loose info.
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmnqZlIACgkQJNaLcl1U
+h9ATfwf/QhCSHLUmuQXd95wc/Z+Kj+6TXzijHxGpEyfpplwzdDt8nNHkGlM17bQY
+jEgvX0Ei5B5X3iJx03W1fZO7dT94He6vQelfDPipVZbVEpd6IEUmDj2XxHW4lE9D
++duYNIz3P8RgHuE29tagB4PeF5PUPrLEX04QeEkS61Y1dk047LBjyF06ykyh/7xg
+NrJNKO9QxJF3GTLkDHjeMBBT98mtHS5UOjX21qo74Hn5V/VXLs7Ud6HhMeJQwO5K
+MpDbtR4xv5IQRgz8Pqh9t0XtUM0a//15LizuqPsUDKV79VxWPtSV7mPDFY0F5O5+
+Xgv2T1qQUfg9TgDhQh2oD4IG3nNmPg==
+=tX7F
+-----END PGP SIGNATURE-----
 
-None of them gives comparable capabilities.
-
-We also need a mechanism to atomically evict pages.
-
-> - Whether read protection is required for an userspace swap system
->   (e.g. did you get time to have a look at umap?)
-
-I looked at it briefly, so I can miss details.
-
-IIUC, in absence of read tracking it doesn't collect hotness information
-at all. The eviction is based on fault-in time: the oldest faulted-in
-page gets evicted first. I guess it is fine if you don't care much about
-refault cost. Like, if your workload fits into memory completely and
-refaults are rare.
-
-That's not my case.
-
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+--fhbhbXVDBdOem/hg--
