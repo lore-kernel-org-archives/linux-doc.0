@@ -1,78 +1,52 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43FA83EAC76
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 11:56:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C96B3537D0;
+	Thu, 23 Apr 2026 12:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776945361; cv=none; b=ivW8kxd9e2sDd/+keqHVCMVMVr0kPHurjaiHJqzoO8PV+VOj3MyYM//Igpi0Sowp24k6DrU8cL2RGUzx5oU4Gemd1uU52DJquqL9zSQs0BFLOjswsePfjTymZfTFIOUpkFioqTWdud9FTNvD+/RdZ5Ox1qABawaPWKd2I8Kq2+A=
+	t=1776945866; cv=none; b=OXBfyTVWCXK5QE6ltwjAPCHwU/uOHfmgK58HvaH6xsKWDvSndux3uGa7PZfdHv/NDHz8j4bF0OyxMMOibJYABK8p5flXaVPjOAFjZfG6GS5TbheFdAyecXXyXAiQ95wiw4ArQCdFs6d5+Jkn+r8So0OKLCACeZmQv3ZZ80s6JP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776945361; c=relaxed/simple;
-	bh=JF9irIFagLPIK1lfqZ6vDtG1xKITRFwUL8zyZE4043I=;
+	s=arc-20240116; t=1776945866; c=relaxed/simple;
+	bh=I3tKf4yCmZd/s+7DqMHfh1vBYnGdF6LurI3O+UpcPXE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JE158rGjoMWufjwmZ/mnkedzQJLe8E4ssycsS2dSwFDFlukiJbsWCWfxPA+6yj7XfII2JrMXKNQhzejGuRZnafBEHWs9LlSCILawN3E4kOKnmTF1O4DRAQ+r07Iip5DqAVnVhdtxKQ6h8PwVIFGLco20+Zsmu1wDCH7SwSZb/1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=QWaYamuq; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=FgBpT4/looflGOoNzIgyRlWnYoiViWD+RbnbxhRMN05CleL7nlf8YW5Prumf1Oob1mZwekeJVD2NEiqscft4ThOX9OX6HHcs6iqtRoo55XLOtXsYBEdpzPfA2B1C0oYY9+V4vw7xdbm5iseWe53PMFh6N/cLVqStp+HipWHg4jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=BqBqnbyH; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="QWaYamuq"
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4891b0786beso39942705e9.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 04:56:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1776945359; x=1777550159; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=siDGmpSQgWAHKUux8b13NOof/DcmZ5a9QBx3K/qFpTk=;
-        b=QWaYamuqEnqMW3a8OyZOVXP/SUaPNAtm4OUUS4By/i+7TdLqG+rXEb1HYtcrEt0otQ
-         8LSOxL2fb5LXSdv03gQAXxYCdRoNVujvnt2tykoUQAei4ke7XPOmsudyPhdrs6kmFK0s
-         FLIIi5Z/GoXrB4VjT+vyJQBBxrFcGmOxU/FCjhDDcZdkIVGgoswOlsdu4xjSl7yBLfIh
-         5GrMQUlDdN+n1S7TQuzbEQ1ig0QBRc20OCEXS1vaOa8yNYuVrlHOY1Q7d5q3aM6/PJLP
-         LOa8qsacFtWJFj9Ny2M6iXtVfaZqcnnRZJVDw3Yz+flANytPzsYKRAqpXRTUZjVEklQk
-         K7uA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776945359; x=1777550159;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=siDGmpSQgWAHKUux8b13NOof/DcmZ5a9QBx3K/qFpTk=;
-        b=N++2PA/WuVKE89aCDvP0QfqFFhCPqItbAld4yqWndSbXYc+++AaZ8k2t/OopZU4NtE
-         xBDAXeZkrf+SIxBSa+ww71BBqwdhE7owBYHb9T26sLgPE9WMcbqdW3eA5qjSG/3dfpAz
-         KmOBesCvliNxSCqgk6bAJisYsAf/FKUYF1ZA/2+SIeAAcB1mXxuW0hZLBMaCliTIo4EP
-         uW05rGg0njAo4Z0FFxJ+EupS0puUCSJUhv/fLVA8Ju+ehR++WSgRWPlQsk3uo4XT4S2w
-         b9Yu//vBCgsW/203PXL1aYsGXa5hsF/SDa+SArjPAJG1S93+2ugpq5Rw/8d2QgeRANEa
-         AXzg==
-X-Gm-Message-State: AOJu0YwBNABUOqtm8jvOJbAmqfwBrNyVB5kFKclcdJDuAmjiTeow7scY
-	Bmud/HpVprT4duoZWXRXWXIsObEuL5h4tuN0+n+VwEAkGm5eaudTaOqICek+N263T5U=
-X-Gm-Gg: AeBDiesPWWbGQAVlW6SEmFdwkH0TSCPDAy/dIJFWy50GHOBE4XkM/yq5V08+rtFe5oV
-	PCD5xjzHFXQOZUGGzk1b/YLGHqH4N3ZlXsjjdsFEo0MKI6M5Sk+9jr4bIFyHnf80Obzj75uK/Cw
-	kOKE+tF8IxwxH3zfbSrUERIGLgko96yRwrfLHJ5V1YGLW8YROk9Ak2oyDAdsmh79l/3+Cdcp4h3
-	XLaPOHtGCIMZI115VmuHr4SiEI3ghXKH9ZsbhzCD4b3WuIfUHOuHPvYpBmt8HsCMytTJnXTEsaH
-	id3eU8eXNQ7Qd2W9JbaB1W68GjOUm5XWfWH0VAhPH+Nxnd9IW5ZxnsSVTWZFZeS5ZGQzo+Uzu4b
-	FfEFXLLG1+IIBB5PHgT0WewJYG0RwZZa+cjeG5R47nD2sC2uN1EksmgbyNrcFa16dyNExFAFImF
-	uowAzQVlnDlad84pGWmVq//XXZ3DLFQvBZ2LmTxXjTp2p44oM=
-X-Received: by 2002:a05:600c:a10e:b0:485:3b9e:caa7 with SMTP id 5b1f17b1804b1-488fb773f38mr287588885e9.23.1776945358704;
-        Thu, 23 Apr 2026 04:55:58 -0700 (PDT)
-Received: from localhost (109-81-17-171.rct.o2.cz. [109.81.17.171])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e591cesm71273809f8f.36.2026.04.23.04.55.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 04:55:58 -0700 (PDT)
-Date: Thu, 23 Apr 2026 13:55:57 +0200
-From: Michal Hocko <mhocko@suse.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-doc@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="BqBqnbyH"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=USXOe+2GVLHL+20wlkJr5Rs1Oe/LDBqgq93gZrDLmLU=; b=BqBqnbyH8KKOKkHAk6Xr3oecgB
+	+NRks7XQ1VbWvKNgYQeWyO00R1UsyEddMmafWk9USYC2rsYoZbaarzFUjoQ+u9cDRKDmYI78wJ1Z/
+	pbFOPf0tMPYKf9P7T4dq3QBSuYGd1ShhX6y9b4g9Kbt7l6msk2qkTyQbnZB1Ax4VY7Rw=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wFsmw-00HEpo-2k; Thu, 23 Apr 2026 14:04:10 +0200
+Date: Thu, 23 Apr 2026 14:04:10 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Dominik Brodowski <linux@dominikbrodowski.net>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Matthew Wilcox <willy@infradead.org>, Harry Yoo <harry@kernel.org>,
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs/mm: clarify that we are not looking for LLM
- generated content
-Message-ID: <aeoIzYSnJK8YeZEb@tiehlicka>
-References: <20260420-llmdoc-v1-1-47d2091177c4@kernel.org>
+	Geert Uytterhoeven <geert@linux-m68k.org>,
+	Michael Fritscher <michael@fritscher.net>,
+	Byron Stanoszek <gandalf@winds.org>,
+	Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net v2 13/15] drivers: net: 8390: pcnet: Remove this
+ driver
+Message-ID: <97a5bd32-5080-4dd7-91c6-dcb65e154481@lunn.ch>
+References: <20260422-v7-0-0-net-next-driver-removal-v1-v2-0-08a5b59784d5@lunn.ch>
+ <20260422-v7-0-0-net-next-driver-removal-v1-v2-13-08a5b59784d5@lunn.ch>
+ <aemy5Lm9B2dLItdd@isilmar-4.linta.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,55 +55,23 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260420-llmdoc-v1-1-47d2091177c4@kernel.org>
+In-Reply-To: <aemy5Lm9B2dLItdd@isilmar-4.linta.de>
 
-On Mon 20-04-26 23:03:16, David Hildenbrand wrote:
-> Let's make it clear that we are not looking for LLM generated content
-> from contributors not familiar with the details of MM, as it shifts the
-> real work onto reviewers.
+On Thu, Apr 23, 2026 at 07:49:24AM +0200, Dominik Brodowski wrote:
+> On Wed, Apr 22, 2026 at 01:01:56PM -0500, Andrew Lunn wrote:
+> > The pcnet was written by David A. Hindsh in 1999. It is an PCMCIA
+> > device, so unlikely to be used with modern kernels.
+> > 
+> > Signed-off-by: Andrew Lunn <andrew@lunn.ch>
+> > ---
+> >  drivers/net/ethernet/8390/Kconfig    |   11 -
+> >  drivers/net/ethernet/8390/Makefile   |    1 -
+> >  drivers/net/ethernet/8390/pcnet_cs.c | 1717 ----------------------------------
 > 
-> Signed-off-by: David Hildenbrand (Arm) <david@kernel.org>
+> NACK for this one. This is the most common PCMCIA networking device, so
+> should be removed only once the rest of the PCMCIA subsystem is removed.
 
-Acked-by: Michal Hocko <mhocko@suse.com>
-Thanks!
+Please submit a patch to MAINTAINERS making yourself the Maintainer of
+this driver, if you want to keep it around.
 
-> ---
->  Documentation/mm/index.rst | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
-> index 7aa2a8886908..13a79f5d092c 100644
-> --- a/Documentation/mm/index.rst
-> +++ b/Documentation/mm/index.rst
-> @@ -7,6 +7,19 @@ of Linux.  If you are looking for advice on simply allocating memory,
->  see the :ref:`memory_allocation`.  For controlling and tuning guides,
->  see the :doc:`admin guide <../admin-guide/mm/index>`.
->  
-> +.. note::
-> +
-> +  Unfortunately, parts of this guide are still incomplete or missing.
-> +  While we appreciate contributions, documentation in this area is hard
-> +  to get right and requires a lot of attention to detail.  New contributors
-> +  should reach out to the relevant maintainers early.
-> +
-> +  This guide is expected to reflect reality, which requires contributors
-> +  to have a detailed understanding.  Documentation generated with LLMs
-> +  by contributors unfamiliar with these details shifts the real work onto
-> +  reviewers, which is why such contributions will be rejected without
-> +  further comment.
-> +
->  .. toctree::
->     :maxdepth: 1
->  
-> 
-> ---
-> base-commit: da6b5aae84beb0917ecb0c9fbc71169d145397ff
-> change-id: 20260420-llmdoc-21bf5fadbd6f
-> 
-> Best regards,
-> -- 
-> David Hildenbrand (Arm) <david@kernel.org>
-
--- 
-Michal Hocko
-SUSE Labs
+	Andrew
