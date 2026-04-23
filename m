@@ -1,96 +1,117 @@
-Received: from outpost1.zedat.fu-berlin.de (outpost1.zedat.fu-berlin.de [130.133.4.66])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B030F306B1B;
-	Thu, 23 Apr 2026 07:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=130.133.4.66
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C8B337699;
+	Thu, 23 Apr 2026 07:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776928268; cv=none; b=E94yuSHrKUAfq+fOBbr1nejc3TO0tCWwSF8KTVAD2mJPWr4HBoomDD5prkiYVlVz3re1OUtlMfMkoQ8IIwLo1YPfxrFzc7GmUelbQ+lC0sDiKjuQ7VUiO7plMYQWlBMaE/rj+0WlNZvw0pv9a6ajCRlVq7qpOl49jkV679RTBp0=
+	t=1776930822; cv=none; b=etPX1SBUfxFMT8qlV9O3YVHvimqFfPaUUsQp7oxtrzXc9TUVZvZl1BWUFO7Khj5YjVq1S8hDmkEHDfB7bXz9mE/1hpeX8ipSVAiE2Onl2FMoL3BUkiTHWBsZjwMWvxKgeUxCKzF0OiDocX3YAS8iRswug/FXs6le/oEJ5rEOAVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776928268; c=relaxed/simple;
-	bh=LYQjav1+M0ex3hpkWVMK2sCF5Dqe6CRgVEjdIRc8Raw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ewTyBg53f6tCAytIEuSAztX45ToeNEIlmZQF7WYQYectPwKjHo1yKTTTRfgVONue7nS20jX2gFWHD+HK23CW/8kQJHw+d+TlowZeFEC0+g2mOLad1EzPbu8Iw91rgCpvFGg8rB3HH43t6L4UhhMtt9qu6b8EzlLj6uBnYL7mffM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de; spf=pass smtp.mailfrom=zedat.fu-berlin.de; dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b=iZehZlWn; arc=none smtp.client-ip=130.133.4.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=physik.fu-berlin.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zedat.fu-berlin.de
+	s=arc-20240116; t=1776930822; c=relaxed/simple;
+	bh=4Q3alcc3k9cVvnJzyMRTqGyURqykgMXdDEUAJ0yJG/0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s1yZghC68gkHwqy7nfKcpJmq1gvwgyTzVbHah0lnBYvnvWa2RgCjyho0Fuqx4Sy0lcGBJ5+aHfy4txZdNrat2d6flm7dx5OgX0iohuUE1NY4aV8XElYL3OYIsgecHAXBBKCDjT63wgn0I8i5zhrjZskjUmSXZxqqks/A7b//n1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVpDAZ7/; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fu-berlin.de header.i=@fu-berlin.de header.b="iZehZlWn"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=fu-berlin.de; s=fub01; h=MIME-Version:Content-Transfer-Encoding:
-	Content-Type:References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:From:
-	Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:In-Reply-To:
-	References; bh=xf2383DMdOzCTXTOjjwO8eiUKdwPb5DTudpvtG9JtQg=; t=1776928265;
-	x=1777533065; b=iZehZlWn9mDHvCQ6KHQXTiGjpSo8XYmR3mEt1I1501X04oR1FlznQXjKAXqks
-	NPP+m+/K9j/qcDF9Ztg6qhQbwDL3jYLsGY74DxcEGN3lvxsKyXBFp7AwqpFropFpJAdoPCj+5d2Rp
-	3OO8pvIQqzvBlN6lrfhXUwu6wWMLgFPskijx5aZxCFfjoY2xlOxoBItWmHqaCWyBRO/3yx29IhYo4
-	6JsiZ65vXI6XNSSD+I5vJFhH4EK6sZIqlbfyHE0hEjfIMKYNkme6rgT76F0TQEnA/Z9E8R/t2xPqS
-	e3JR2jDIu2hTnjBqfh9Jmqs/DDmpgdcYsMHeHGxRdGfWIiIx+A==;
-Received: from inpost2.zedat.fu-berlin.de ([130.133.4.69])
-          by outpost.zedat.fu-berlin.de (Exim 4.99)
-          with esmtps (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@zedat.fu-berlin.de>)
-          id 1wFoCy-00000003DnR-04e0; Thu, 23 Apr 2026 09:10:44 +0200
-Received: from p5dc559e1.dip0.t-ipconnect.de ([93.197.89.225] helo=[192.168.178.61])
-          by inpost2.zedat.fu-berlin.de (Exim 4.99)
-          with esmtpsa (TLS1.3)
-          tls TLS_AES_256_GCM_SHA384
-          (envelope-from <glaubitz@physik.fu-berlin.de>)
-          id 1wFoCx-00000002VRm-3CBv; Thu, 23 Apr 2026 09:10:43 +0200
-Message-ID: <c0c80113af470b265650405fa24deefe2d82ea24.camel@physik.fu-berlin.de>
-Subject: Re: [PATCH net v2 10/15] drivers: net: cirrus: mac89x0: Remove this
- driver
-From: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
-To: Geert Uytterhoeven <geert@linux-m68k.org>, Andrew Lunn <andrew@lunn.ch>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,  Simon Horman
- <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  Michael Fritscher <michael@fritscher.net>,
- Byron Stanoszek <gandalf@winds.org>, Daniel Palmer <daniel@0x0f.com>, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org,  linux-m68k <linux-m68k@lists.linux-m68k.org>
-Date: Thu, 23 Apr 2026 09:10:42 +0200
-In-Reply-To: <CAMuHMdV-vF6sTvAi8kKzxGwZ9YUSBO1Qta5PDCRbA0zr-LEp_w@mail.gmail.com>
-References: 
-	<20260422-v7-0-0-net-next-driver-removal-v1-v2-0-08a5b59784d5@lunn.ch>
-	 <20260422-v7-0-0-net-next-driver-removal-v1-v2-10-08a5b59784d5@lunn.ch>
-	 <CAMuHMdV-vF6sTvAi8kKzxGwZ9YUSBO1Qta5PDCRbA0zr-LEp_w@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.60.1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVpDAZ7/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1776930821; x=1808466821;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=4Q3alcc3k9cVvnJzyMRTqGyURqykgMXdDEUAJ0yJG/0=;
+  b=bVpDAZ7/7y5Eag/I4D+MOR2CD/y8gPkmUw+Gg5VTEycvp/GNpR+6oBZO
+   5ILzjhzTGj+kI8a/0JeIJocDG3g5gMhhGiFbakn3JjfAZiJBCXmNT2YqJ
+   NHyJwMWTvW9L2EvJFCAr+yG2DeVKomdUDLULOUNSyA6UR4+EpC+AIuoQV
+   UYjk9TPs7eNikoSbdWNWVqHWUViAaK72iHQlbT47PoVtXaTZ96FeLoqhd
+   wxP3GCySAaCOhuX/k8yQk6cQeVQZEOAj3kX7pygkCS1yo3Eno9Fy2a8gB
+   L6uHWJUpFjCF4jfKxxxj9LlYEXsZ+Mp4RAL62ftuJXamyjUvnvY/xs0bi
+   A==;
+X-CSE-ConnectionGUID: kB9pLGG1SPazyW6O0iaZKQ==
+X-CSE-MsgGUID: Z5s/G+xnTE2LtzeOzEihAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11764"; a="77595758"
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="77595758"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 00:53:41 -0700
+X-CSE-ConnectionGUID: oloRMtPmSCax/2pqcSRMMA==
+X-CSE-MsgGUID: 6a5xSc8VTxmeZrNbkaejHg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
+   d="scan'208";a="236952191"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.163])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 00:53:31 -0700
+Date: Thu, 23 Apr 2026 10:53:29 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Philip Prindeville <philipp_subx@redfish-solutions.com>
+Cc: David Woodhouse <dwmw2@infradead.org>, Jakub Kicinski <kuba@kernel.org>,
+	davem@davemloft.net,
+	openwrt-devel <openwrt-devel@lists.openwrt.org>,
+	Guy Ellis <guy@traverse.com.au>, netdev@vger.kernel.org,
+	edumazet@google.com, pabeni@redhat.com, andrew+netdev@lunn.ch,
+	horms@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org,
+	linux@armlinux.org.uk, tsbogend@alpha.franken.de,
+	maddy@linux.ibm.com, mpe@ellerman.id.au, npiggin@gmail.com,
+	chleroy@kernel.org, 3chas3@gmail.com, razor@blackwall.org,
+	idosch@nvidia.com, jani.nikula@intel.com, mchehab+huawei@kernel.org,
+	tytso@mit.edu, herbert@gondor.apana.org.au, geert@linux-m68k.org,
+	ebiggers@kernel.org, johannes.berg@intel.com,
+	jonathan.cameron@huawei.com, kees@kernel.org, kuniyu@google.com,
+	fourier.thomas@gmail.com, rdunlap@infradead.org,
+	akpm@linux-foundation.org, linux-doc@vger.kernel.org,
+	linux-mips@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+	bridge@lists.linux.dev
+Subject: Re: [PATCH net-deletions v2] net: remove unused ATM protocols and
+ legacy ATM device drivers
+Message-ID: <aenP-TVgF-PrayEu@ashevche-desk.local>
+References: <20260422041846.2035118-1-kuba@kernel.org>
+ <accbbcdf0ec14ae4d3f21ef5da7091bdcbd6574f.camel@infradead.org>
+ <68316F0B-2442-4492-A041-E57EFC58AC08@redfish-solutions.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Original-Sender: glaubitz@physik.fu-berlin.de
-X-ZEDAT-Hint: PO
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <68316F0B-2442-4492-A041-E57EFC58AC08@redfish-solutions.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Geert,
+On Wed, Apr 22, 2026 at 08:41:27PM -0600, Philip Prindeville wrote:
+> > On Apr 22, 2026, at 7:05 AM, David Woodhouse <dwmw2@infradead.org> wrote:
+> > On Tue, 2026-04-21 at 21:18 -0700, Jakub Kicinski wrote:
 
-On Thu, 2026-04-23 at 09:07 +0200, Geert Uytterhoeven wrote:
-> CC linux-m68k
->=20
-> On Thu, 23 Apr 2026 at 02:29, Andrew Lunn <andrew@lunn.ch> wrote:
-> > The mac89x0 was written by Russell Nelson in 1996. It is an MAC
->=20
-> It is based on the ISA cs89x0 driver, written by Russell Nelson.
->=20
-> > device, so unlikely to be used with modern kernels.
->=20
-> Macs do run modern kernels.
+...
 
-Retrocomputing still is not well regarded by some maintainers, it seems :-(=
-.
+> >>    I'm still deleting the solos driver, chances are nobody uses it.
+> >>    Easy enough to revert back in since core is still around.
+> >>    The guiding principle is to keep USB modems and delete
+> >>    the rest as USB ADSL2+ CPEs were most popular historically.
+> > 
+> > Still not entirely convinced; I worked on both USB ATM modems and on
+> > Solos, and the Solos is both the most modern and the only one I still
+> > actually have. And the only one we have native support for that could
+> > ever do full 24Mb/s ADSL2+, I believe.
+> > 
+> > If we drop it, OpenWrt will need to drop support for these, which I
+> > think were quite popular at the time; there were a few UK resellers:
+> > https://openwrt.org/toh/traverse/geos1_1
+> > 
+> > I still don't actually care *enough* to try to find an ADSL line I
+> > could plug one into for testing though... :)
+> 
+> I have 3 boards lying around if anyone wants them.
 
-Adrian
+The problem as I understand it is in one's willing to maintain and
+support that driver while doing regular testing...
 
---=20
- .''`.  John Paul Adrian Glaubitz
-: :' :  Debian Developer
-`. `'   Physicist
-  `-    GPG: 62FF 8A75 84E0 2956 9546  0006 7426 3B37 F5B5 F913
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
