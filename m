@@ -1,318 +1,232 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013052.outbound.protection.outlook.com [52.101.72.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815EE1E885A;
-	Thu, 23 Apr 2026 19:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0F939182F;
+	Thu, 23 Apr 2026 19:08:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776971287; cv=pass; b=KH+XozxlbAbTltFptovhnPruVOzhkOIqK+ZjIAwp4anwzSSKitKC8oJPR1/n+OPn42lJSltH0LipIL4mk+3xTUconB32lQ9alFfi7TmfEB+cKfb4ukW46+Z81C+rPL+NQjI+VVQSFwybTHBbsQl/fhvi9pZ4SrnP0Z1BPQlq2Cw=
+	t=1776971293; cv=fail; b=Wy7b1w6A3tpu2V/GGL8JIoPYSsxGixvBUF/p1bBJCvOI9L2UDkezx9SHeLuMe4bX9/eATJZHzgvwtjNsJ/COcuJCsxON/rPYsD92dIAbH9jmWS7/SiY2bbWrpTKMmbLGlApS4L3hb7MszO4VZAI3F6uZnlrXDDuE0cZzf99d924=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776971287; c=relaxed/simple;
-	bh=t4JruUNsiR+2zbz1zHNZDw9bNHKcK9e6SysxgpPFHMk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=k43pTmFK8kogDI1VfTZf6lOPEO2XHxaNg1BRf5ZaDeBG/0S1YnNI27323Nz8ZJT7BZmy1PABoPbdIwEM8DOxcHMRCOikE+U4PtoGihCyAEJyk4iypfwAS9hICU3aSLXtCbOUjXwhz2u0un9R+BQqYzXOUK0eKXTUwWMxxYs6Cpo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=NsSXvARW; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1776971293; c=relaxed/simple;
+	bh=SAbxC2qgJ8z4+1Q1J2vPTB5rFOqJbf4yWmNnxkQX7fE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=qFw8FvHFigHD+UQUuiFWn+iV4V6T2+NzCcRn+zLldCoOJO0rmgeEjscPYqbITaw+aWMkXoG625jiHgWjKrBxWhByQInNFDV0JdIOnoNQbLjEWvg4X9zoHn4FGBxjWUG2ABvCwMJYJsMng4o9Qu6YJcjZ0VGJ5vDXB/qoN6zmnzc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=H721eNAU; arc=fail smtp.client-ip=52.101.72.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="NsSXvARW"
-ARC-Seal: i=1; a=rsa-sha256; t=1776971230; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=MvtUbT0EWkZD5vlvcYR4JTvYMIQglSzZCxW/MdDTB64hT5b2R5TeEB5ANsdfGi3GxPz7G+kNwMfMDEoPPesWd/itSGXzZZoQi36l1t4hZv4zXqfHgoFF21rINW1VlgQThhFsfdwEaIx4VVcxYM1x7w2LwfEjrXHPLWT8AipovD0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1776971230; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=mW0Ja2FbkQHM1K+7Np14cKRo9Q3SNA4jFH3nNeqjQjs=; 
-	b=jS/YJIxpO9EccrepS25MVU6nbmxc8KtOjhNXJtzXb0K2ASfxKVTnKI0xrjJhoxwcTKwEHtZA6WGYQcaKESfB4veNm5C2H97nTzRMljOWEMzqAY/L7bUkiq1g+QRm9Plj5ZeFf45L76p1uRSQfNzmnGJFsJ1hYizmBVM8TnfRxcY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1776971230;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=mW0Ja2FbkQHM1K+7Np14cKRo9Q3SNA4jFH3nNeqjQjs=;
-	b=NsSXvARWy2Ow968hPuvcYUSZH+9VzUQkuGLnnW9eXSqrV0+n2kLKSSrWueIS7Sms
-	B4pfjiIIqAxr52xc9Sx5jEI9WniYPSEK2fMqqn+tQX4wIlAIKuA7CD1OUmUhPNpjrZl
-	6uajF5lN79QrjIEJXmLMnem4YMQBo0B1OldFV15Q=
-Received: by mx.zohomail.com with SMTPS id 177697122942670.00416904047358;
-	Thu, 23 Apr 2026 12:07:09 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Thu, 23 Apr 2026 21:03:49 +0200
-Subject: [PATCH v14 26/28] drm/tests: bridge: Add test for HDMI output bus
- formats helper
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="H721eNAU"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M3WcWfKqgL2To1TWAp6i6G5IXtn1n7XN/AShNNDdv6ASIYnYTkbdD8nN+3QpNpBb6GXzKeVqnOJxJYvZ24lG7zCgTC2QdAsg6JOnrtXb4jcyQVu9cG7la4xIS85tcAb3Hx0cGujpvei0ta6A0Bg6rqdxUIf34ABqH6s3d+uGORl6L8vvGR/46xf76b1DEafDxcLrxO+TEgs6dCtWd7bca6sIsUDEgkbpkK4HPW6LOFeO4SN5BEJew3reWv4rvlu/2ABUoJSpWW9tniSz+X5ZAE3K+y9780CKR5gP5T6vi/lPiJ9OgNh/+POu7PqurD6b9S0pWb0W/JVaDqP4XnheFw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SAbxC2qgJ8z4+1Q1J2vPTB5rFOqJbf4yWmNnxkQX7fE=;
+ b=NdfA/7jsbDk/HITQmy2ebSyf9X712jKie5k5fmS8kNX4yHLuMdVGU8NkXUmnBr2JpI/FGIUd5qkk+Hq/Tdz+VV17K4ue44zUchVk628WBddQWeVtAANKt4xp32lG0mpQtShYKu036Jslzz4AkdcgcohDvQKoSiY5UOb253mmr6HGTyK2DhBD9/GcvhVh5rXIRLWljS6/WUW2r4ulK5Nzftr61un2qMfaCuAOXlqGBZnwwTscwSprws3l1jPRwsrzbQ3XfoDBuktP7X0U9FJCS+0RgX88f9YoCPDLkyt+WvyGnhXb4Xiq5CGBlSeHJLcl8pfqc6MPddmGy/FXiKazYA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SAbxC2qgJ8z4+1Q1J2vPTB5rFOqJbf4yWmNnxkQX7fE=;
+ b=H721eNAUEPlqvJRNSM9lusa96WUGyeZFPBy2awV3cNR0m38oA3M+NXgSMa9ETsRp2rsrhTEm4UJC2jpQh+sVlOL3Zl3Osv6S7C+EavELGgb8Oj3z2ftDWj6H0e86floHZP92nOeVbDAEmIIn9AEItA3P0DNAoqRh2QdmkAKoPwFdANhrWdliTTrL5DzENvTXLPg2bmvH+wiLxU2DWS6XIMobXLT/9bUDbGYuxRVg1vv2gy/NocECva4gZ4ai5DxVEIV2CChRPCARSZ9DGJMEcMWnXqL6Y4wlgxxfhQaUtI8S+0/7idjt51fGoFLsUcLtpSeGn3sj0zcUEVYyedLw2w==
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by AS5PR04MB10044.eurprd04.prod.outlook.com (2603:10a6:20b:682::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.17; Thu, 23 Apr
+ 2026 19:08:07 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9846.021; Thu, 23 Apr 2026
+ 19:08:07 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: Mathieu Poirier <mathieu.poirier@linaro.org>, Andrew Lunn <andrew@lunn.ch>
+CC: Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn
+ Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>, Sascha Hauer
+	<s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix
+ Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng
+ Fan <peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>
+Subject: Re: [PATCH v13 0/4] Enable Remote GPIO over RPMSG on i.MX Platform
+Thread-Topic: [PATCH v13 0/4] Enable Remote GPIO over RPMSG on i.MX Platform
+Thread-Index: AQHc01SE13wCpB8JwEe/WT6W+mkoYw==
+Date: Thu, 23 Apr 2026 19:08:07 +0000
+Message-ID:
+ <PAXPR04MB9185AFF861DA3C4B8A8FB1B8892A2@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
+ <CANLsYkypRaFTTP7MLLLR+=AB5JnRTA4i130qvWzB1qoAuM9FWQ@mail.gmail.com>
+In-Reply-To:
+ <CANLsYkypRaFTTP7MLLLR+=AB5JnRTA4i130qvWzB1qoAuM9FWQ@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|AS5PR04MB10044:EE_
+x-ms-office365-filtering-correlation-id: 1ac45f3f-1055-41f6-c8be-08dea16ba735
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|7416014|376014|1800799024|366016|56012099003|38070700021|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ JBrCsKcpYlupcH1cZcymHkr8jh2LcEhx1fDUb5GgfT6cNDsdNhNEfag9XiU1FxpS0E3qJplXPQVvbhjeLmUIGrE0PQ5cXvrQi5NEmmcp3XWBmmz0yuxnedpu42eJh4A+VPesSP9xpLJ6YAmwFse5IJ6yzY1ZJX/yL6Z/usI2EoGGLsyIU1z4uSfDT8t9LRexhbOsWxJcfpGIdzNqAxnkIhmZFbD7I9SlZeLlAWJ/jRAw0IjxKZs4Mzyn04uFXJdp7kTouBPvKRuj5vNSJpaH1Au+3eBZmFT3It8IjfeQFpow1xK0iNAJuvS1UlxB4eqy05WEu+shYT5RSZmjgGU3Tcd5FYE0v69mRvPeuvcgz1xwmHmnCxUOiuoO2M9Q9DzL2apwt1MyJSlLiCM+iJ26NX7bXUrrGfxKXuY6QqJPL5QQEqIbGwHRa/i5QCjL5fnSvlNHDXvsAxYiPwPPK6p898+74zasOMkoliRZ0MpLuC7U8iF3Ps5dJv7tnz06JGGzDsADAl4g4B5bjlwO8OWWrjy/Am4S78JMivdRfbfgXPE+Dbqqr3zEufc2P1bfJ/UjjptoC7w9y9gjnHqCKueTDY7MKHMRweJxldNjFCbqIpIQ56Zjxy99r7g+2k2kbDmxAKP9D9lkVOsbEfJgWaIAXvXmK58Xr7AtCVyCODqtwyFNW3OhTf0suYxpZePvdb8fBgU7Yr684tzpaRay7wi7iVwC2Gf94eQebAGI+YloVb0K+Sbwcf8YSvzIRYu10vgJD1qqU065XFGH/qY94hhNvx/i0tUEyt5fKsNS9SusnKM=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(7416014)(376014)(1800799024)(366016)(56012099003)(38070700021)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?ZUhNZkJEYVhLSjZka3p0SDFGZ3BCdWlyZmxnciszRitJYnNSN2Z3aU05Z2FY?=
+ =?utf-8?B?YW8rRUpRMy96em9pc2FlM1V4aTBHWU8wcCtMQ2NmbUhKNkpyTHlDcWkrbGVx?=
+ =?utf-8?B?cThwdWhUSnJtdi9sOUtaeWJqTVRVQytnUWNzKzFnU0JaYXYxWnNQREtTQjJY?=
+ =?utf-8?B?TThMVmdMSHQ0SWhpK3FpclN1TzZXZi9nSUxvcHpwRE9SYmpVY2EvREhROGNP?=
+ =?utf-8?B?QldFbFRtcU0raStHWnFkYWROeVVkL1ZUNHBBUmhkbXlFY0JscnhpN2JrMmV4?=
+ =?utf-8?B?QzRxSE9jZWhocXh5OVIvc2NiSVZkT1ZwQVNCSW5pd1VVMitIWGs3QU1qRWhm?=
+ =?utf-8?B?OHBFVFREQjZUcmVhZWNaWFZIdU14dUhIWlh6WTVLWkY0TGsrN2QxUW5JWHdi?=
+ =?utf-8?B?VC9KWmhqR3lqSTJFL015cXRGRXZIMStMUGVycXlCTnVVQjY2TWNtQVdJWUdN?=
+ =?utf-8?B?UTVTNkROL2d1WUV1NGh1cVg4R2xIZVpJU1RKdzVqYW1tNmZiVWkzOG5XblBZ?=
+ =?utf-8?B?K1FkMHowOThJaGtzVURQZEdzdGp2L2tWVFM1QW1jeFpuaFdXQTNCZVM3RkJ3?=
+ =?utf-8?B?NFR4cmZDbWRCcFViUTM5Qm15Y21sNGMxbWEvZHVBdlBvL0I0VnNNbTdBaXI1?=
+ =?utf-8?B?ZUIzdmxPTlk1SnROTlVWOG9nNFR2bkw1bzkzRU5oZFAxYld4c0N3dmUzQm80?=
+ =?utf-8?B?NkRXZFhPUWxkNjdUd0Jha250Z2QzYWFLblFETDE0Vy91UFFGaTZyUG9kZm9t?=
+ =?utf-8?B?SFdmRCs1clpRUGExSmV2amw4NFVDZjNsV2FRWWFoNUFPd0wvUzFuUjJEakdQ?=
+ =?utf-8?B?cmRQbXZWRjQza2gxMWFIQm05Yk1uNnA1TEtnVC9adFd0QlFUbG5qeVZ1NWZF?=
+ =?utf-8?B?N3hLREROU0kyUjFPQWtqclJyK3p5cXBOQlh1Z0dSTFZBdlRsaENVbE0zMWZ1?=
+ =?utf-8?B?M1p0OXVmZmNSQmdrZU9GaGNXWmMrNUUxZmZacVpLSTRLS1lxaHd3azduZGxX?=
+ =?utf-8?B?WEdWS2l0dHdKLyszQUhhOCtJZnFPQXRLMUh5aDY4NnJvZllGdm14YkNtL1o0?=
+ =?utf-8?B?M2FnTEVvYWJmMWVhY285Q21vMnJMOFAxaE5Ia2hpdzRESkJUdW5sLytMOUtv?=
+ =?utf-8?B?VDQ4KzBXVWw3QVZFbFJOSzJCT203bkZZS3Q5S2d2WWhSNVdpei9LeC9SZnBi?=
+ =?utf-8?B?WHQ1TzVEOERLR1VBZkhyVmhzdlNwUkU4NTFqVHM4OEpWUTVCSXpmMHA3dGli?=
+ =?utf-8?B?RjdDZERoMzljQVd2T1cvTS9qcllmNGVob3RIQjhCVUFRSEVOUWNnQ001cDY3?=
+ =?utf-8?B?UDdMWXVBVFg5SG5wa095bi9nR1ZOL3pTQWw1SWlqUGxFbEwvRnNFdWErY3lC?=
+ =?utf-8?B?ZkpYT3ErVi9DSEwyTlhkaG1FTDdIaEp6cm9CMmVvOTByc0s0b09ZT1ZCaUdx?=
+ =?utf-8?B?eE5xZ1VIUU14ZzZReW5WU3J5TkwrSlRrWlU5dDc1a1ZIL1N3d3djZG9YNXN1?=
+ =?utf-8?B?dEJFR0pkRlVreGhmYXpGNnJ0b1QrcmZ6ZDBlbUtuZ0JhQ3VGYzZXQ3Z3c3NL?=
+ =?utf-8?B?WStmRFRTVFlSdUVyVUhqL3VGa2VzWlRwQTg1S2tjeWZuWG82OC9FdVBDOVA1?=
+ =?utf-8?B?dmpGRk9ib1YzblZKK1ljanZ1eEFkTE5uWkd4TGdLUHB4YSs5NXMxcWVKMzhU?=
+ =?utf-8?B?a1dRZE5LMVJTc1RMbTdGenAxV3VTU0FtTVNTZml6UmFmcTBqWFFQcFRBZzZo?=
+ =?utf-8?B?R0U2ZjNieldGZm5xWE1CODZSOTNyUzhkR0N4SkJGa0I5RFJXSjJWTytZK2xz?=
+ =?utf-8?B?WUR1ZU1JOWVRTklPYWp3OTk3MW9QUk91ZGxqbnRiWjVIckJIYTdmVEptWUFw?=
+ =?utf-8?B?dEFOd0RheExoY2ZSc1B5eHMvcXJtSWVHekU3ZUJNMXl0Smx0dFhFMDFtdnc2?=
+ =?utf-8?B?NmEyeGFXTm1lY3ZmK3lMUHk0OVg3eXpLUU1zQVNGaTF1c2Y1ZEZIQ1BMUXg5?=
+ =?utf-8?B?VXAwbExQWTU1WFc1MVdBL01Jdzg3dlF6UUZLTml2S3ppK2Rwb0wxTkRqYWpn?=
+ =?utf-8?B?TFBkNno4Nzk5ZFNhcWlUWWwwaXdTakxVVUhDM3lHM0pTOVJLbDlFNGpIOVQ3?=
+ =?utf-8?B?aUszS3ZuMVg2Zk05NG1BTUpORXo2Z3RLaWpVcVBFalB3NjFIa1FaSlAweVo0?=
+ =?utf-8?B?VXpsZVhNdFhzblJZZmt0MlVTM2FDZVFrZDFiYXNHcHcwZlZtc1BDd3dDVmtI?=
+ =?utf-8?B?MFhxYkREaHlzSGFUdDRzTC96bXZMbER0MGpoL2JHK2tHUHJTWVJXeERvaUdM?=
+ =?utf-8?Q?u+5nEBD3ZdPN+dC/b5?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260423-color-format-v14-26-449a419ccbd4@collabora.com>
-References: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
-In-Reply-To: <20260423-color-format-v14-0-449a419ccbd4@collabora.com>
-To: Harry Wentland <harry.wentland@amd.com>, Leo Li <sunpeng.li@amd.com>, 
- Rodrigo Siqueira <siqueira@igalia.com>, 
- Alex Deucher <alexander.deucher@amd.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Andy Yan <andy.yan@rock-chips.com>, 
- Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Dmitry Baryshkov <lumag@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, Rob Herring <robh@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Cc: kernel@collabora.com, amd-gfx@lists.freedesktop.org, 
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-doc@vger.kernel.org, wayland-devel@lists.freedesktop.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.15.2
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1ac45f3f-1055-41f6-c8be-08dea16ba735
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Apr 2026 19:08:07.1958
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 1d6JyrrBWtHpLwwKZTxUb3J6qFnFeoVg18wevzxixNNhmxQpnNMwwPBBPE3x74JDWJUwpjgvh4MfHR4Hg6KhUg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB10044
 
-The common atomic_get_output_bus_fmts helper for HDMI bridge connectors,
-called drm_atomic_helper_bridge_get_hdmi_output_bus_fmts, should return
-an array of output bus formats depending on the supported formats of the
-connector, and the current output BPC.
-
-Add a test to exercise some of this helper.
-
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- drivers/gpu/drm/tests/drm_bridge_test.c | 184 ++++++++++++++++++++++++++++++++
- 1 file changed, 184 insertions(+)
-
-diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/tests/drm_bridge_test.c
-index cb821c606070..d9bd930b1197 100644
---- a/drivers/gpu/drm/tests/drm_bridge_test.c
-+++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-@@ -5,6 +5,7 @@
- #include <linux/cleanup.h>
- #include <linux/media-bus-format.h>
- 
-+#include <drm/drm_atomic_helper.h>
- #include <drm/drm_atomic_state_helper.h>
- #include <drm/drm_atomic_uapi.h>
- #include <drm/drm_bridge.h>
-@@ -118,6 +119,28 @@ static const struct drm_bridge_funcs drm_test_bridge_atomic_funcs = {
- 	.atomic_reset		= drm_atomic_helper_bridge_reset,
- };
- 
-+static int dummy_clear_infoframe(struct drm_bridge *bridge)
-+{
-+	return 0;
-+}
-+
-+static int dummy_write_infoframe(struct drm_bridge *bridge, const u8 *buffer,
-+				 size_t len)
-+{
-+	return 0;
-+}
-+
-+static const struct drm_bridge_funcs drm_test_bridge_bus_fmts_funcs = {
-+	.atomic_get_output_bus_fmts	= drm_atomic_helper_bridge_get_hdmi_output_bus_fmts,
-+	.atomic_destroy_state		= drm_atomic_helper_bridge_destroy_state,
-+	.atomic_duplicate_state		= drm_atomic_helper_bridge_duplicate_state,
-+	.atomic_reset			= drm_atomic_helper_bridge_reset,
-+	.hdmi_write_avi_infoframe	= dummy_write_infoframe,
-+	.hdmi_write_hdmi_infoframe	= dummy_write_infoframe,
-+	.hdmi_clear_avi_infoframe	= dummy_clear_infoframe,
-+	.hdmi_clear_hdmi_infoframe	= dummy_clear_infoframe,
-+};
-+
- /**
-  * struct fmt_tuple - a tuple of input/output MEDIA_BUS_FMT_*
-  */
-@@ -539,6 +562,83 @@ drm_test_bridge_chain_init(struct kunit *test, unsigned int num_bridges,
- 	return priv;
- }
- 
-+static struct drm_bridge_init_priv *
-+drm_test_bridge_hdmi_init(struct kunit *test, const struct drm_bridge_funcs *funcs,
-+			  unsigned int supported_formats, int max_bpc)
-+{
-+	struct drm_bridge_init_priv *priv;
-+	struct drm_encoder *enc;
-+	struct drm_bridge *bridge;
-+	struct drm_device *drm;
-+	struct device *dev;
-+	int ret;
-+
-+	dev = drm_kunit_helper_alloc_device(test);
-+	if (IS_ERR(dev))
-+		return ERR_CAST(dev);
-+
-+	priv = drm_kunit_helper_alloc_drm_device(test, dev,
-+						 struct drm_bridge_init_priv, drm,
-+						 DRIVER_MODESET | DRIVER_ATOMIC);
-+	if (IS_ERR(priv))
-+		return ERR_CAST(priv);
-+
-+	priv->test_bridge = devm_drm_bridge_alloc(dev, struct drm_bridge_priv, bridge, funcs);
-+	if (IS_ERR(priv->test_bridge))
-+		return ERR_CAST(priv->test_bridge);
-+
-+	priv->test_bridge->data = priv;
-+
-+	drm = &priv->drm;
-+	priv->plane = drm_kunit_helper_create_primary_plane(test, drm,
-+							    NULL,
-+							    NULL,
-+							    NULL, 0,
-+							    NULL);
-+	if (IS_ERR(priv->plane))
-+		return ERR_CAST(priv->plane);
-+
-+	priv->crtc = drm_kunit_helper_create_crtc(test, drm,
-+						  priv->plane, NULL,
-+						  NULL,
-+						  NULL);
-+	if (IS_ERR(priv->crtc))
-+		return ERR_CAST(priv->crtc);
-+
-+	enc = &priv->encoder;
-+	ret = drmm_encoder_init(drm, enc, NULL, DRM_MODE_ENCODER_TMDS, NULL);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	enc->possible_crtcs = drm_crtc_mask(priv->crtc);
-+
-+	bridge = &priv->test_bridge->bridge;
-+	bridge->type = DRM_MODE_CONNECTOR_HDMIA;
-+	bridge->supported_formats = supported_formats;
-+	bridge->max_bpc = max_bpc;
-+	bridge->ops |= DRM_BRIDGE_OP_HDMI;
-+	bridge->vendor = "LNX";
-+	bridge->product = "KUnit";
-+
-+	ret = drm_kunit_bridge_add(test, bridge);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	ret = drm_bridge_attach(enc, bridge, NULL, 0);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	priv->connector = drm_bridge_connector_init(drm, enc);
-+	if (IS_ERR(priv->connector))
-+		return ERR_CAST(priv->connector);
-+
-+	drm_connector_attach_encoder(priv->connector, enc);
-+
-+	drm_mode_config_reset(drm);
-+
-+	return priv;
-+}
-+
- /*
-  * Test that drm_bridge_get_current_state() returns the last committed
-  * state for an atomic bridge.
-@@ -786,10 +886,94 @@ static void drm_test_drm_bridge_helper_reset_crtc_legacy(struct kunit *test)
- 	KUNIT_EXPECT_EQ(test, bridge_priv->disable_count, 1);
- }
- 
-+/*
-+ * Test that a bridge using the drm_atomic_helper_bridge_get_hdmi_output_bus_fmts()
-+ * function for &drm_bridge_funcs.atomic_get_output_bus_fmts behaves as expected
-+ * for an HDMI connector bridge. Does so by creating an HDMI bridge connector
-+ * with RGB444, YCBCR444, and YCBCR420 (but not YCBCR422) as supported formats,
-+ * sets the output depth to 8 bits per component, and then validates the returned
-+ * list of bus formats.
-+ */
-+static void drm_test_drm_bridge_helper_hdmi_output_bus_fmts(struct kunit *test)
-+{
-+	struct drm_connector_state *conn_state;
-+	struct drm_bridge_state *bridge_state;
-+	struct drm_modeset_acquire_ctx ctx;
-+	struct drm_bridge_init_priv *priv;
-+	struct drm_crtc_state *crtc_state;
-+	struct drm_atomic_state *state;
-+	struct drm_display_mode *mode;
-+	unsigned int num_output_fmts;
-+	struct drm_bridge *bridge;
-+	u32 *out_bus_fmts;
-+	int ret;
-+
-+	priv = drm_test_bridge_hdmi_init(test, &drm_test_bridge_bus_fmts_funcs,
-+					 BIT(DRM_OUTPUT_COLOR_FORMAT_RGB444) |
-+					 BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR444) |
-+					 BIT(DRM_OUTPUT_COLOR_FORMAT_YCBCR420),
-+					 12);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, priv);
-+
-+	bridge = &priv->test_bridge->bridge;
-+
-+	drm_modeset_acquire_init(&ctx, 0);
-+
-+	state = drm_kunit_helper_atomic_state_alloc(test, &priv->drm, &ctx);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, state);
-+
-+retry_commit:
-+	conn_state = drm_atomic_get_connector_state(state, priv->connector);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, conn_state);
-+
-+	conn_state->hdmi.output_bpc = 8;
-+
-+	mode = drm_kunit_display_mode_from_cea_vic(test, &priv->drm, 16);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, mode);
-+
-+	ret = drm_atomic_set_crtc_for_connector(conn_state, priv->crtc);
-+	if (ret == -EDEADLK) {
-+		drm_modeset_backoff(&ctx);
-+		goto retry_commit;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	crtc_state = drm_atomic_get_crtc_state(state, priv->crtc);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, crtc_state);
-+
-+	ret = drm_atomic_set_mode_for_crtc(crtc_state, mode);
-+	if (ret == -EDEADLK) {
-+		drm_modeset_backoff(&ctx);
-+		goto retry_commit;
-+	}
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	crtc_state->enable = true;
-+	crtc_state->active = true;
-+
-+	bridge_state = drm_atomic_get_bridge_state(state, bridge);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, bridge_state);
-+
-+	out_bus_fmts = bridge->funcs->atomic_get_output_bus_fmts(
-+		bridge, bridge_state, crtc_state, conn_state, &num_output_fmts);
-+	KUNIT_EXPECT_NOT_NULL(test, out_bus_fmts);
-+	KUNIT_EXPECT_EQ(test, num_output_fmts, 3);
-+
-+	KUNIT_EXPECT_EQ(test, out_bus_fmts[0], MEDIA_BUS_FMT_RGB888_1X24);
-+	KUNIT_EXPECT_EQ(test, out_bus_fmts[1], MEDIA_BUS_FMT_YUV8_1X24);
-+	KUNIT_EXPECT_EQ(test, out_bus_fmts[2], MEDIA_BUS_FMT_UYYVYY8_0_5X24);
-+
-+	drm_modeset_drop_locks(&ctx);
-+	drm_modeset_acquire_fini(&ctx);
-+
-+	kfree(out_bus_fmts);
-+}
-+
- static struct kunit_case drm_bridge_helper_reset_crtc_tests[] = {
- 	KUNIT_CASE(drm_test_drm_bridge_helper_reset_crtc_atomic),
- 	KUNIT_CASE(drm_test_drm_bridge_helper_reset_crtc_atomic_disabled),
- 	KUNIT_CASE(drm_test_drm_bridge_helper_reset_crtc_legacy),
-+	KUNIT_CASE(drm_test_drm_bridge_helper_hdmi_output_bus_fmts),
- 	{ }
- };
- 
-
--- 
-2.53.0
-
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogTWF0aGlldSBQb2lyaWVy
+IDxtYXRoaWV1LnBvaXJpZXJAbGluYXJvLm9yZz4NCj4gU2VudDogVGh1cnNkYXksIEFwcmlsIDIz
+LCAyMDI2IDc6NTMgQU0NCj4gVG86IFNoZW53ZWkgV2FuZyA8c2hlbndlaS53YW5nQG54cC5jb20+
+OyBBbmRyZXcgTHVubiA8YW5kcmV3QGx1bm4uY2g+DQo+IENjOiBMaW51cyBXYWxsZWlqIDxsaW51
+c3dAa2VybmVsLm9yZz47IEJhcnRvc3ogR29sYXN6ZXdza2kgPGJyZ2xAa2VybmVsLm9yZz47DQo+
+IEpvbmF0aGFuIENvcmJldCA8Y29yYmV0QGx3bi5uZXQ+OyBSb2IgSGVycmluZyA8cm9iaEBrZXJu
+ZWwub3JnPjsgS3J6eXN6dG9mDQo+IEtvemxvd3NraSA8a3J6aytkdEBrZXJuZWwub3JnPjsgQ29u
+b3IgRG9vbGV5IDxjb25vcitkdEBrZXJuZWwub3JnPjsgQmpvcm4NCj4gQW5kZXJzc29uIDxhbmRl
+cnNzb25Aa2VybmVsLm9yZz47IEZyYW5rIExpIDxmcmFuay5saUBueHAuY29tPjsgU2FzY2hhIEhh
+dWVyDQo+IDxzLmhhdWVyQHBlbmd1dHJvbml4LmRlPjsgU2h1YWggS2hhbiA8c2toYW5AbGludXhm
+b3VuZGF0aW9uLm9yZz47IGxpbnV4LQ0KPiANCj4gT25jZSBhZ2FpbiBBbmRyZXcgTHVubiB3YXMg
+bGVmdCBvdXQuDQo+IA0KDQpTZWVtcyBhbiBpc3N1ZSBvZiBnZXRfbWFpbnRhaW5lci5wbCwgYnV0
+IGhlIGlzIGluY2x1ZGVkIGluIHRoZSB0aHJlYWQgZm9yIHRoZSBncGlv4oCRcnBtc2cgZHJpdmVy
+IHBhdGNoLi4NCkNjOiBBbmRyZXcgTHVubiA8YW5kcmV3QGx1bm4uY2g+DQoNCj4gT24gV2VkLCAy
+MiBBcHIgMjAyNiBhdCAxNToyOSwgU2hlbndlaSBXYW5nIDxzaGVud2VpLndhbmdAbnhwLmNvbT4N
+Cj4gd3JvdGU6DQo+ID4NCj4gPiBTdXBwb3J0IHRoZSByZW1vdGUgZGV2aWNlcyBvbiB0aGUgcmVt
+b3RlIHByb2Nlc3NvciB2aWEgdGhlIFJQTVNHIGJ1cw0KPiA+IG9uIGkuTVggcGxhdGZvcm0uDQo+
+ID4NCj4gPiBDaGFuZ2VzIGluIHYxMzoNCj4gPiAgLSBkcm9wIHRoZSBzdXBwb3J0IGZvciBsZWdh
+Y3kgTlhQIGZpcm13YXJlLg0KPiA+ICAtIHJlbW92ZSB0aGUgZml4ZWRfdXAgaG9va3MgZnJvbSB0
+aGUgcnBtc2cgZ3BpbyBkcml2ZXIuDQo+ID4gIC0gY29kZSBjbGVhbnVwLg0KPiA+DQo+ID4gQ2hh
+bmdlcyBpbiB2MTI6DQo+ID4gIC0gRml4ZWQgdGhlICJ1bmRlcmxpbmUiIHdhcm5pbmcgcmVwb3J0
+ZWQgYnkgUmFuZHkuDQo+ID4NCj4gPiBDaGFuZ2VzIGluIHYxMToNCj4gPiAgLSBFeHBhbmQgUlBN
+U0cgZm9yIHRoZSBmaXJzdCB0aW1lIHBlciBTaHVhaCdzIHJldmlldyBjb21tZW50Lg0KPiA+DQo+
+ID4gQ2hhbmdlcyBpbiB2MTA6DQo+ID4gIC0gVXBkYXRlIGdwaW8tcnBtc2cucnN0IGFjY29yZGlu
+ZyB0byBEYW5pZWwgQmFsdXRhJ3MgcmV2aWV3IGNvbW1lbnRzLg0KPiA+ICAtIEFkZCBhIGtlcm5l
+bCBDT05GSUcgZm9yIGZpeGVkIHVwIGhhbmRsZXJzIGFuZCBvbmx5IGVuYWJsZSBpdCBvbg0KPiA+
+ICAgIGkuTVggcHJvZHVjdHMuDQo+ID4gIC0gRml4ZWQgYnVncyByZXBvcnRlZCBieSBrZXJuZWwg
+dGVzdCByb2JvdC4NCj4gPg0KPiA+IENoYW5nZXMgaW4gdjk6DQo+ID4gIC0gUmV1c2UgdGhlIGdw
+aW8tdmlydGlvIGRlc2lnbiBmb3IgY29tbWFuZCBhbmQgSVJRIHR5cGUgZGVmaW5pdGlvbnMuDQo+
+ID4gIC0gUmVtb3ZlIG1zZ19pZCwgdmVyc2lvbiwgYW5kIHZlbmRvciBmaWVsZHMgZnJvbSB0aGUg
+Z2VuZXJpYyBwcm90b2NvbC4NCj4gPiAgLSBBZGQgZml4ZWQtdXAgaGFuZGxlcnMgdG8gc3VwcG9y
+dCBsZWdhY3kgZmlybXdhcmUuDQo+ID4NCj4gPiBDaGFuZ2VzIGluIHY4Og0KPiA+ICAtIEFkZCAi
+ZGVwZW5kcyBvbiBSRU1PVEVQUk9DIiBpbiBLY29uZmlnIHRvIGZpeCB0aGUgYnVpbGQgZXJyb3Ig
+cmVwb3J0ZWQNCj4gPiAgICBieSB0aGUga2VybmVsIHRlc3Qgcm9ib3QuDQo+ID4gIC0gTW92ZSB0
+aGUgLnJzdCBwYXRjaCBiZWZvcmUgdGhlIC55YW1sIHBhdGNoLg0KPiA+ICAtIEhhbmRsZSB0aGUg
+Im5ncGlvcyIgRFQgcHJvcGVydHkgYmFzZWQgb24gQW5kcmV3J3MgZmVlZGJhY2suDQo+ID4NCj4g
+PiBDaGFuZ2VzIGluIHY3Og0KPiA+ICAtIFJld29ya2VkIHRoZSBkcml2ZXIgdG8gdXNlIHRoZSBy
+cG1zZ19kcml2ZXIgZnJhbWV3b3JrIGluc3RlYWQgb2YNCj4gPiAgICBwbGF0Zm9ybV9kcml2ZXIs
+IGJhc2VkIG9uIGZlZWRiYWNrIGZyb20gQmpvcm4gYW5kIEFybmF1ZC4NCj4gPiAgLSBVcGRhdGVk
+IGdwaW8tcnBtc2cueWFtbCBhbmQgaW14X3Jwcm9jLnlhbWwgYWNjb3JkaW5nIHRvIGNvbW1lbnRz
+IGZyb20NCj4gPiAgICBSb2IgYW5kIEFybmF1ZC4NCj4gPiAgLSBGdXJ0aGVyIHJlZmluZW1lbnRz
+IHRvIGdwaW8tcnBtc2cueWFtbCBwZXIgQXJuYXVkJ3MgZmVlZGJhY2suDQo+ID4NCj4gPiBDaGFu
+Z2VzIGluIHY2Og0KPiA+ICAtIG1ha2UgdGhlIGRyaXZlciBtb3JlIGdlbmVyaWMgd2l0aCB0aGUg
+YWN0aW9ucyBiZWxvdzoNCj4gPiAgICAgIHJlbmFtZSB0aGUgZHJpdmVyIGZpbGUgdG8gZ3Bpby1y
+cG1zZy5jDQo+ID4gICAgICByZW1vdmUgdGhlIGlteCByZWxhdGVkIGluZm8gaW4gdGhlIGZ1bmN0
+aW9uIGFuZCB2YXJpYWJsZSBuYW1lcw0KPiA+ICAgICAgcmVuYW1lIHRoZSBpbXhfcnBtc2cuaCB0
+byBycGRldl9pbmZvLmgNCj4gPiAgICAgIGNyZWF0ZSBhIGdwaW8tcnBtc2cueWFtbCBhbmQgcmVm
+ZXIgaXQgaW4gaW14X3Jwcm9jLnlhbWwNCj4gPiAgLSB1cGRhdGUgdGhlIGdwaW8tcnBtc2cucnN0
+IGFjY29yZGluZyB0byB0aGUgZmVlZGJhY2sgZnJvbSBBbmRyZXcgYW5kDQo+ID4gICAgbW92ZSB0
+aGUgc291cmNlIGZpbGUgdG8gZHJpdmVyLWFwaS9ncGlvDQo+ID4gIC0gZml4IHRoZSBidWcgcmVw
+b3J0ZWQgYnkgWmhvbmdxaXUgSGFuDQo+ID4gIC0gcmVtb3ZlIHRoZSBJMkMgcmVsYXRlZCBpbmZv
+DQo+ID4NCj4gPiBDaGFuZ2VzIGluIHY1Og0KPiA+ICAtIG1vdmUgdGhlIGdwaW8tcnBtc2cucnN0
+IGZyb20gYWRtaW4tZ3VpZGUgdG8gc3RhZ2luZyBkaXJlY3RvcnkgYWZ0ZXINCj4gPiAgICBkaXNj
+dXNzaW9uIHdpdGggUmFuZHkgRHVubGFwLg0KPiA+ICAtIGFkZCBpbmNsdWRlIGZpbGVzIHdpdGgg
+c29tZSBjb2RlIGltcHJvdmVtZW50cyBwZXIgQmFydG9zeidzIGNvbW1lbnRzLg0KPiA+DQo+ID4g
+Q2hhbmdlcyBpbiB2NDoNCj4gPiAgLSBhZGQgYSBkb2N1bWVudGF0aW9uIHRvIGRlc2NyaWJlIHRo
+ZSB0cmFuc3BvcnQgcHJvdG9jb2wgcGVyIEFuZHJldydzDQo+ID4gICAgY29tbWVudHMuDQo+ID4g
+IC0gYWRkIGEgbmV3IGhhbmRsZXIgdG8gZ2V0IHRoZSBncGlvIGRpcmVjdGlvbi4NCj4gPg0KPiA+
+IENoYW5nZXMgaW4gdjM6DQo+ID4gIC0gZml4IHZhcmlvdXMgZm9ybWF0IGlzc3VlIGFuZCByZXR1
+cm4gdmFsdWUgY2hlY2sgcGVyIFBlbmcgJ3MgcmV2aWV3DQo+ID4gICAgY29tbWVudHMuDQo+ID4g
+IC0gYWRkIHRoZSBsb2dpYyB0byBhbHNvIHBvcHVsYXRlIHRoZSBzdWJub2RlcyB3aGljaCBhcmUg
+bm90IGluIHRoZQ0KPiA+ICAgIGRldmljZSBtYXAgcGVyIEFybmF1ZCdzIHJlcXVlc3QuIChpbiBp
+bXhfcnByb2MuYykNCj4gPiAgLSB1cGRhdGUgdGhlIHlhbWwgcGVyIEZyYW5rJ3MgcmV2aWV3IGNv
+bW1lbnRzLg0KPiA+DQo+ID4gQ2hhbmdlcyBpbiB2MjoNCj4gPiAgLSByZS1pbXBsZW1lbnRlZCB0
+aGUgZ3BpbyBkcml2ZXIgcGVyIExpbnVzIFdhbGxlaWoncyBmZWVkYmFjayBieSB1c2luZw0KPiA+
+ICAgIEdQSU9MSUJfSVJRQ0hJUCBoZWxwZXIgbGlicmFyeS4NCj4gPiAgLSBmaXggdmFyaW91cyBm
+b3JtYXQgaXNzdWUgcGVyIE1hdGhpZXUvUGVuZyAncyByZXZpZXcgY29tbWVudHMuDQo+ID4gIC0g
+dXBkYXRlIHRoZSB5YW1sIGRvYyBwZXIgUm9iJ3MgZmVlZGJhY2sNCj4gPg0KPiA+IFNoZW53ZWkg
+V2FuZyAoNCk6DQo+ID4gICBkb2NzOiBkcml2ZXItYXBpOiBncGlvOiBycG1zZyBncGlvIGRyaXZl
+ciBvdmVyIHJwbXNnIGJ1cw0KPiA+ICAgZHQtYmluZGluZ3M6IHJlbW90ZXByb2M6IGlteF9ycHJv
+YzogQWRkICJycG1zZyIgc3Vibm9kZSBzdXBwb3J0DQo+ID4gICBncGlvOiBycG1zZzogYWRkIGdl
+bmVyaWMgcnBtc2cgR1BJTyBkcml2ZXINCj4gPiAgIGFybTY0OiBkdHM6IGlteDh1bHA6IEFkZCBy
+cG1zZyBub2RlIHVuZGVyIGlteF9ycHJvYw0KPiA+DQo+ID4gIC4uLi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL2dwaW8vZ3Bpby1ycG1zZy55YW1sICB8ICA1NSArKw0KPiA+ICAuLi4vYmluZGluZ3MvcmVt
+b3RlcHJvYy9mc2wsaW14LXJwcm9jLnlhbWwgICAgfCAgNTMgKysNCj4gPiAgRG9jdW1lbnRhdGlv
+bi9kcml2ZXItYXBpL2dwaW8vZ3Bpby1ycG1zZy5yc3QgIHwgMjY2ICsrKysrKysrDQo+ID4gIERv
+Y3VtZW50YXRpb24vZHJpdmVyLWFwaS9ncGlvL2luZGV4LnJzdCAgICAgICB8ICAgMSArDQo+ID4g
+IGFyY2gvYXJtNjQvYm9vdC9kdHMvZnJlZXNjYWxlL2lteDh1bHAuZHRzaSAgICB8ICAyNSArDQo+
+ID4gIGRyaXZlcnMvZ3Bpby9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAxNyAr
+DQo+ID4gIGRyaXZlcnMvZ3Bpby9NYWtlZmlsZSAgICAgICAgICAgICAgICAgICAgICAgICB8ICAg
+MSArDQo+ID4gIGRyaXZlcnMvZ3Bpby9ncGlvLXJwbXNnLmMgICAgICAgICAgICAgICAgICAgICB8
+IDU3MyArKysrKysrKysrKysrKysrKysNCj4gPiAgOCBmaWxlcyBjaGFuZ2VkLCA5OTEgaW5zZXJ0
+aW9ucygrKQ0KPiA+ICBjcmVhdGUgbW9kZSAxMDA2NDQNCj4gPiBEb2N1bWVudGF0aW9uL2Rldmlj
+ZXRyZWUvYmluZGluZ3MvZ3Bpby9ncGlvLXJwbXNnLnlhbWwNCj4gPiAgY3JlYXRlIG1vZGUgMTAw
+NjQ0IERvY3VtZW50YXRpb24vZHJpdmVyLWFwaS9ncGlvL2dwaW8tcnBtc2cucnN0DQo+ID4gIGNy
+ZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL2dwaW8vZ3Bpby1ycG1zZy5jDQo+ID4NCj4gPiAtLQ0K
+PiA+IDIuNDMuMA0KPiA+DQo=
