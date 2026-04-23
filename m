@@ -1,221 +1,119 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0E231DDBF;
-	Thu, 23 Apr 2026 15:24:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48E4D1BBBE5;
+	Thu, 23 Apr 2026 15:27:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776957875; cv=none; b=cL4rCXQsflcr6DL5HjBDtYOq/jQ4CgRkkkbewdY8mZ8U6o0xbVm054qRaWSo4QjKK9R1dmT38izTClAhj4HcWTtQ5peph970RH1XqmUPtVK7lH1qcsPHxEZORdTNOV5TVvi7PHI+ebQzxHvJBPdvlkVOU/bStXcF8iObr7qtZt4=
+	t=1776958020; cv=none; b=Loat87DjH56ZbAAma/hO7aWhA2dpigAMB9QQuKoxW0AP0X+ehCO47TnOp2btsHERF+Y0GQFhP+onBNS0uDI1ayjIxPX/7mv37NGL83ntt3OyL7nbRkqx8ZHMDsjuWVhg8CYtP9YPZx9xu56pqwO3mAWr4XgerT30DvJJl+ezZMw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776957875; c=relaxed/simple;
-	bh=kPFzWuMbdFt2nPhBPZwueyc2evZNIfr6vYq45ngvAh8=;
+	s=arc-20240116; t=1776958020; c=relaxed/simple;
+	bh=rZwPd8cFxLllHoQN41ZESM/RH4oP1GdssZqfN7zr0FY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bu0lc90D5KyggvZi1it5vK5F5qvbDym9J+8fWKcXTyfz/ZZkB37CxXtXVVRmzeMOlJIRoD7npuFXpFc6myY56YSl989DCSFPawPyzGE4UlvDIt7c2u0qYbnay19+utsQhP4Ovsojqa0iX0HPp09QM61bDGrdxAs3UIhI2afO2jA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BJIgUP1t; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=O2mvLQGfBrLJr0f3o1iAwNdfyHXSWSpbXH3skbfwmJKmwi7+qLA2O+1703EoYpRqi9ZRVDNQBjrCviTJ6R6oLNrWqZrZMqq6nrrEQcvwUJ1/qcqEU4A1NPtNPSwUNBEvgan0Z31N8DZAsGOZxUxB0ldOZ0eYRhOqsTDWRlIW9+w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D10g+2Ak; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BJIgUP1t"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776957874; x=1808493874;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=kPFzWuMbdFt2nPhBPZwueyc2evZNIfr6vYq45ngvAh8=;
-  b=BJIgUP1t+X2oG3w5tkSGoN0JaaMKdF8Qh290vh+aCMrUFeD1zzC7O+vG
-   u0M8dreOeFKd54abzU700hs0Y4xd/P0p3oyvI/BpvSOJhNOYeRHKtF9Mq
-   8lsnm3if/wnh97Qo4t6VvoUw2eZwMjYD/B3FQRTR/EsJH+/lepd6S+Hh7
-   sTKLLB/yBQMYjVsh7PGc1ls12cIpxKC7d2EsrdMSd2+OhiOJlhbywv384
-   cmUDgcF20ZX7vpHko8eoCjx8oiRnnWoGRJYR41cjhcrLV91cvpqpXY73G
-   GQsB2ps+Hw712BFuJJh0p3RBT2eC6hGhUcZCEOGXw6l5klLcEDpGnoU43
-   g==;
-X-CSE-ConnectionGUID: /lYbrFWqS6qKOYmu1+tpOA==
-X-CSE-MsgGUID: zkN60e6JShiS7TKAfLheEQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="95489211"
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="95489211"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 08:24:33 -0700
-X-CSE-ConnectionGUID: 1x2Qcjl2SUSwlxSdUqyFVw==
-X-CSE-MsgGUID: B3viLWVOTV2i7BAAGDSaJQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,194,1770624000"; 
-   d="scan'208";a="230021107"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.188])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 08:24:27 -0700
-Date: Thu, 23 Apr 2026 18:24:24 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Haneen Mohammed <hamohammed.sa@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Melissa Wen <melissa.srw@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, jose.exposito89@gmail.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, victoria@system76.com,
-	sebastian.wick@redhat.com, thomas.petazzoni@bootlin.com,
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, llvm@lists.linux.dev,
-	=?iso-8859-1?Q?Jos=E9_Exp=F3sito?= <jose.exposito@redhat.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>
-Subject: Re: [PATCH v4 02/37] drm/blend: Get a rotation name from it's
- bitfield
-Message-ID: <aeo5qPyOFoWd_F29@intel.com>
-References: <20260422-vkms-all-config-v4-0-dbb52e9aadc3@bootlin.com>
- <20260422-vkms-all-config-v4-2-dbb52e9aadc3@bootlin.com>
- <aej82CO0l9_O1sX2@intel.com>
- <d9a66f6a-e07c-4bc2-bd91-8b9cb2994760@bootlin.com>
- <aen13JEWrKXiqRw4@intel.com>
- <d09a169d-2324-4fac-b08a-750e79bdfb81@bootlin.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D10g+2Ak"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38421C2BCAF;
+	Thu, 23 Apr 2026 15:26:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776958019;
+	bh=rZwPd8cFxLllHoQN41ZESM/RH4oP1GdssZqfN7zr0FY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D10g+2Ak2125VWHKGYBaBN0/Yfsw5P0ktqQrS8Fgo1XYsoE8L/GBD5YKeoHxfzEc+
+	 IKjkFLIqAPS3dYuLMjTUn09dlyWrI+CvAl4Ggg0VWACSY7/lvv3ZG3sDDVM36mNIbJ
+	 sGZ9dJGFiLj/ECHIVEZSpgU8662R0Q8bJHp6VRlPsI5t0cO3vE6CI3Gg7EHecU4KxY
+	 bWvOjtMl5hTf2RTKfYzjEuOFoxqE9BRPybjbNEPsvvRkBixUjZ95zWX4pZm5Is5LpZ
+	 6jzmuH1QnRRChCttetJ4ZR3STff1U+y03oPtUauJsNS+rN1dzMI11frL7W4XzZoqbM
+	 aAmlDPe+3yxzg==
+Date: Thu, 23 Apr 2026 16:26:55 +0100
+From: Lee Jones <lee@kernel.org>
+To: =?iso-8859-1?Q?Bj=F6rn?= Persson <Bjorn@xn--rombobjrn-67a.se>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: leds: uleds: Make the documentation match the code.
+Message-ID: <20260423152655.GF170138@google.com>
+References: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <d09a169d-2324-4fac-b08a-750e79bdfb81@bootlin.com>
-X-Patchwork-Hint: comment
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+In-Reply-To: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
 
-On Thu, Apr 23, 2026 at 04:22:11PM +0200, Louis Chauvet wrote:
-> 
-> 
-> On 4/23/26 12:35, Ville Syrj‰l‰ wrote:
-> > On Thu, Apr 23, 2026 at 10:47:38AM +0200, Louis Chauvet wrote:
-> >>
-> >>
-> >> On 4/22/26 18:52, Ville Syrj‰l‰ wrote:
-> >>> On Wed, Apr 22, 2026 at 06:47:59PM +0200, Louis Chauvet wrote:
-> >>>> Having the rotation/reflection name from its value can be useful for
-> >>>> debugging purpose. Extract the rotation property table and implement
-> >>>> drm_get_rotation_name.
-> >>>>
-> >>>> Reviewed-by: JosÈ ExpÛsito <jose.exposito@redhat.com>
-> >>>> Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> >>>> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> >>>> ---
-> >>>>    drivers/gpu/drm/drm_blend.c | 35 ++++++++++++++++++++++++++---------
-> >>>>    include/drm/drm_blend.h     |  2 ++
-> >>>>    2 files changed, 28 insertions(+), 9 deletions(-)
-> >>>>
-> >>>> diff --git a/drivers/gpu/drm/drm_blend.c b/drivers/gpu/drm/drm_blend.c
-> >>>> index 1f3af27d2418..11d8e13caea3 100644
-> >>>> --- a/drivers/gpu/drm/drm_blend.c
-> >>>> +++ b/drivers/gpu/drm/drm_blend.c
-> >>>> @@ -256,6 +256,31 @@ int drm_plane_create_alpha_property(struct drm_plane *plane)
-> >>>>    }
-> >>>>    EXPORT_SYMBOL(drm_plane_create_alpha_property);
-> >>>>    
-> >>>> +static const struct drm_prop_enum_list rotation_props[] = {
-> >>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_0) - 1,   "rotate-0" },
-> >>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_90) - 1,  "rotate-90" },
-> >>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_180) - 1, "rotate-180" },
-> >>>> +	{ __builtin_ffs(DRM_MODE_ROTATE_270) - 1, "rotate-270" },
-> >>>> +	{ __builtin_ffs(DRM_MODE_REFLECT_X) - 1,  "reflect-x" },
-> >>>> +	{ __builtin_ffs(DRM_MODE_REFLECT_Y) - 1,  "reflect-y" },
-> >>>> +};
-> >>>> +
-> >>>> +/**
-> >>>> + * drm_get_rotation_name - Return the name of a rotation
-> >>>> + * @rotation: The rotation mask (DRM_MODE_ROTATE_* | DRM_MODE_REFLECT_*)
-> >>>> + *
-> >>>> + * Returns: the name of the rotation type (unknown) if rotation is not
-> >>>> + * a known rotation/reflection
-> >>>> + */
-> >>>> +const char *drm_get_rotation_name(unsigned int rotation)
-> >>>> +{
-> >>>> +	if (rotation < ARRAY_SIZE(rotation_props))
-> >>>> +		return rotation_props[rotation].name;
-> >>>
-> >>> The value is a bitmask. This does not work.
-> >>>
-> >>
-> >> That true, the documentation is not clear.
-> >>
-> >> Take a look at patch 15 [1] for the usage. Is it better if I change the
-> >> documentation to:
-> >>
-> >> drm_get_rotation_name - Returns the name of a rotation/reflection
-> >> bitmask (with only one bit set).
-> >> @rotation: Bitmask with a single bit set.
-> >> Name of the rotation/reflection, or "(unknown)" if invalid.
-> >>
-> >> [1]:https://lore.kernel.org/all/20260422-vkms-all-config-v4-15-dbb52e9aadc3@bootlin.com/
-> > 
-> > For that kind of local thing I don't think it should be called
-> > drm_get_rotation_name(). Also your docs seem to disagree with the
-> > implementation.
-> 
-> I didn't remembered well, yes, this implementation takes the *index* of 
-> the bitmask. So documentation is:
-> 
-> drm_get_rotation_name - Returns the name of a rotation/reflection
-> @rotation: Bit index of the requested rotation (0 = DRM_MODE_ROTATE_0, 1 
-> = DRM_MODE_ROTATE_90, ...)
-> Returns: Name of the rotation/reflection, or "(unknown)" if invalid.
-> 
-> > But this does sound like a useful thing to have, eg. in
-> > drm_atomic_plane_print_state().
-> 
-> I agree this can be a common implementation. Do you think the following 
-> implementation can be the "common implementation"?
-> 
-> static const char* drm_get_rotation_name(int rotation_index) {
-> 	return rotation_props[rotation_index].name
-> }
-> 
-> void drm_get_rotation_str(int rotation, char *buf, int buflen) {
->      u32 offset = 0;
->      while (offset < ARRAY_SIZE(rotation_props))
->          if (1 << offset && rotation)
->              snprintf(buf,buflen,"%s ",drm_get_rotation_name(offset));
-> }
-> 
-> An other solution can be format macro (inspiration from IGT, I don't 
-> know if this is accepted in the kernel):
-> 
-> #define DRM_ROTATION_FMT "%s %s %s %s %s %s"
-> #define DRM_ROTATION_FMT_ARGS(rot) \
-> 	rot & 0x1 << 0 ? drm_get_rotation_name(0) : "", \
-> 	rot & 0x1 << 1 ? drm_get_rotation_name(1) : "", \
-> 	rot & 0x1 << 2 ? drm_get_rotation_name(2) : "", \
-> 	rot & 0x1 << 3 ? drm_get_rotation_name(3) : "", \
-> 	rot & 0x1 << 4 ? drm_get_rotation_name(4) : "", \
-> 	rot & 0x1 << 5 ? drm_get_rotation_name(5) : ""
+On Thu, 02 Apr 2026, Bj√∂rn Persson wrote:
 
-We do use those in places (eg. DRM_RECT_*). Sadly all ideas about nice
-improvements to printk() formats pretty much died with the "can't
-break the printf function attribute stuff", so macros might be the best
-thing we can do.
-
-I'd be OK with macros. Would just need to decide what the resulting
-string should look like. Eg. is " " a good separator or would something
-else be nicer to keep the grouping more clear? Or should we maybe put
-some brackets/etc. around it?
-
+> From: Bj√∂rn Persson <Bjorn@Rombobj√∂rn.se>
 > 
-> > We already have at least one implementation of this in
-> > i915/display/intel_display_debugfs.c, although with a bit more
-> > terse format (and with somewhat weird "FLIP" terminology) to
-> > make it not eat so much screen real estate.
-> 
-> I think it is better to have a consistent naming and use the enumeration 
-> name everywhere, but if you think intel is better, I can switch.
+> ¬∑ max_brightness must be set. Leaving it uninitialized or just omitting it
+>   won't work.
 
-4*"rotation-" + 2*"reflect-" + a bit more for the actual values
-can make for a very long string. Too long, I suspect.
+What are these points?  How do you even type one of those?
+
+Anyway, proper sentences / paragraphs is better.
+
+> ¬∑ The maximum brightness is not 255 but the value given to max_brightness.
+> 
+> ¬∑ Brightness values must be read as ints, not bytes.
+> 
+> ¬∑ The ints are signed, so the word "unsigned" is misleading.
+> 
+> Signed-off-by: Bj√∂rn Persson <Bjorn@Rombobj√∂rn.se>
+> ---
+>  Documentation/leds/uleds.rst | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/leds/uleds.rst b/Documentation/leds/uleds.rst
+> index 83221098009c..9875a0fa4185 100644
+> --- a/Documentation/leds/uleds.rst
+> +++ b/Documentation/leds/uleds.rst
+> @@ -17,16 +17,20 @@ structure to it (found in kernel public header file linux/uleds.h)::
+>  
+>      struct uleds_user_dev {
+>  	char name[LED_MAX_NAME_SIZE];
+> +	int max_brightness;
+>      };
+>  
+> -A new LED class device will be created with the name given. The name can be
+> -any valid sysfs device node name, but consider using the LED class naming
+> -convention of "devicename:color:function".
+> +A new LED class device will be created with the given name and maximum
+
+Did you mean to revers "name given"?  A "given name" usually means
+something else.
+
+> +brightness. The name can be any valid sysfs device node name, but consider
+> +using the LED class naming convention of "devicename:color:function".
+>  
+> -The current brightness is found by reading a single byte from the character
+> -device. Values are unsigned: 0 to 255. Reading will block until the brightness
+> -changes. The device node can also be polled to notify when the brightness value
+> -changes.
+> +Although max_brightness is a signed int, only positive values are valid:
+> +1 to INT_MAX.
+
+What about 0?
+
+> +The current brightness is found by reading a whole int from the character
+
+Try not to shorten names in documentation "integer".
+
+Why do we need to specify "whole"?
+
+> +device. The possible values are 0 to max_brightness. Reading will block until
+> +the brightness changes. The device node can also be polled to notify when the
+> +brightness value changes.
+>  
+>  The LED class device will be removed when the open file handle to /dev/uleds
+>  is closed.
+> -- 
+> 2.53.0
+> 
 
 -- 
-Ville Syrj‰l‰
-Intel
+Lee Jones [ÊùéÁêºÊñØ]
