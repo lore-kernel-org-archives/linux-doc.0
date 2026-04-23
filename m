@@ -1,183 +1,153 @@
-Received: from dggsgout11.his.huawei.com (dggsgout11.his.huawei.com [45.249.212.51])
+Received: from canpmsgout03.his.huawei.com (canpmsgout03.his.huawei.com [113.46.200.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C78ECA4E;
-	Thu, 23 Apr 2026 01:11:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BF01E89C;
+	Thu, 23 Apr 2026 02:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776906676; cv=none; b=bJxtXhPF/aRmVHnDnmsNXEjRrF9L3DVByYLyfZjx3CApYaQCx+xkYZuOFw4ZWOURhkA3HqP3W9o+bk+2xMe2+OjbjcQUJPLBIx8ttK+sqclIOhjlhtblop6NN3XoU9t7nbP8HKFY8Y4Za1BTBJ270cmoE0QmGK+9BpqsSd/IFFY=
+	t=1776909949; cv=none; b=hNigWBNR+TI6Y1CfUX6fMkQZfzQBVIvyuIykWuUDAUsgFhln7xqEJ0kiADjvoiOtoOCf7RPPui++jVRwNLCcq2lWDwKW3gk4ZOAnTTy9DvZ1EgfnlGIm1stetwCUSiGiWeL68N6p+doiFTzMLdpfu/Uhy1JcxJXwYtTbaprrr0E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776906676; c=relaxed/simple;
-	bh=6IEjWa5Bp2HmWAT63DqZwaxugME+cvx69VMEGChpnTc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WVRejSmhhCgsxKtvPEj58Bj3JmWHQnjc2iachVRVjxev+oxqR+ZeQwazuZfDNjxSM9mBV/KwnyRB11mXfm+zcSxImBubeMqKL+uVwQe2Za2GMLYtKCSiaw7vnd6FaE8Xw61t+cNEL0fO965Kjc3CNVrVsAchaY6qqNJtaXLkdzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com; spf=pass smtp.mailfrom=huaweicloud.com; arc=none smtp.client-ip=45.249.212.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=huaweicloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huaweicloud.com
-Received: from mail.maildlp.com (unknown [172.19.163.170])
-	by dggsgout11.his.huawei.com (SkyGuard) with ESMTPS id 4g1J0p05thzYQtjP;
-	Thu, 23 Apr 2026 09:10:02 +0800 (CST)
-Received: from mail02.huawei.com (unknown [10.116.40.252])
-	by mail.maildlp.com (Postfix) with ESMTP id C684140561;
-	Thu, 23 Apr 2026 09:11:00 +0800 (CST)
-Received: from [10.67.111.176] (unknown [10.67.111.176])
-	by APP3 (Coremail) with SMTP id _Ch0CgAnHbehcelp3eGGBQ--.59173S2;
-	Thu, 23 Apr 2026 09:10:59 +0800 (CST)
-Message-ID: <e8824498-f8ec-496a-a21c-d1dc594f4c8e@huaweicloud.com>
-Date: Thu, 23 Apr 2026 09:10:57 +0800
+	s=arc-20240116; t=1776909949; c=relaxed/simple;
+	bh=T6bLXk43eUeyWzPWwibRN2p18/vBew15Yzh5hqfUYp0=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=OxAYDVDhVSnonIgsEGVZdpveX/TAFr0gNWetqTDbLyWPgybJEybRchVp5+8IbYSTUunRpBLZOiF7lRo/3g0idehRU9a5kaN/i0DDU37bFmdHNxSrU6wW83uhU9vi+ISV8cd3YrTzWFTaAN0MTdZ/DHn423MyN7X1kMn51tjRO18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=Vv/FDFU1; arc=none smtp.client-ip=113.46.200.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="Vv/FDFU1"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=Jnsom+L1FSLBtHHuwYUTLSZW44zxnrid8A0mijOuEuE=;
+	b=Vv/FDFU1jBbJtskweEPXJ9jFdZNcPdD7wqEUubS4Zt54nkD5PEkJ3la3xRd7OlbPri+x6JKmv
+	XbyQGZ85+ZsYteZFIqSCEqlgyBPNGejvN4JlwPnC/jHpwQAmhdw6foil6zf7ShelexpN7HCENnn
+	YmJ4/6CAs47XIXHV1bZKglw=
+Received: from mail.maildlp.com (unknown [172.19.162.223])
+	by canpmsgout03.his.huawei.com (SkyGuard) with ESMTPS id 4g1K5d5pD6zpStt;
+	Thu, 23 Apr 2026 09:59:17 +0800 (CST)
+Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id A947640571;
+	Thu, 23 Apr 2026 10:05:43 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 23 Apr 2026 10:05:43 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Thu, 23 Apr 2026 10:05:42 +0800
+Subject: Re: [PATCH v4 3/3] Documentation: document
+ panic_on_unrecoverable_memory_failure sysctl
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
+ <20260415-ecc_panic-v4-3-2d0277f8f601@debian.org>
+ <7b4a6659-e2e5-5e63-2952-c7a840ffcdec@huawei.com>
+ <aejnmh3xlHsuKfP3@gmail.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <4cca0bb0-8b7e-cd87-4f3b-627e6fd3f549@huawei.com>
+Date: Thu, 23 Apr 2026 10:05:42 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/23] cgroup/cpuset: Improve check for calling
- housekeeping_update()
-To: Waiman Long <longman@redhat.com>, Tejun Heo <tj@kernel.org>,
- Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
- <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- "K. Y. Srinivasan" <kys@microsoft.com>,
- Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
- Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
- Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
- <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
- Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
- Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
- <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
- Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
- Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
- Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
- <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
- Vincent Guittot <vincent.guittot@linaro.org>,
- Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
- <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
- Valentin Schneider <vschneid@redhat.com>,
- K Prateek Nayak <kprateek.nayak@amd.com>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>
-Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
- rcu@vger.kernel.org, netdev@vger.kernel.org,
- linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
- Qiliang Yuan <realwujing@gmail.com>
-References: <20260421030351.281436-1-longman@redhat.com>
- <20260421030351.281436-20-longman@redhat.com>
+In-Reply-To: <aejnmh3xlHsuKfP3@gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-From: Chen Ridong <chenridong@huaweicloud.com>
-In-Reply-To: <20260421030351.281436-20-longman@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-CM-TRANSID:_Ch0CgAnHbehcelp3eGGBQ--.59173S2
-X-Coremail-Antispam: 1UD129KBjvJXoWxCw1UJF1UurW7urWktr13urg_yoW5AFy5pr
-	yUWrW3t345trs7u343Xwn7Wry0gw48GF17KasxG3WrGF9rZFn2yry0kFnxCry8uwnxGryU
-	ZF9rWws29a4UArDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUvFb4IE77IF4wAFF20E14v26rWj6s0DM7CY07I20VC2zVCF04k2
-	6cxKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4
-	vEj48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7Cj
-	xVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x
-	0267AKxVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40EFcxC0VAKzVAqx4xG
-	6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr0_Gr1lOx8S6xCaFV
-	Cjc4AY6r1j6r4UM4x0Y48IcVAKI48JM4IIrI8v6xkF7I0E8cxan2IY04v7MxkF7I0En4kS
-	14v26rWY6Fy7MxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I
-	8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWrXVW8
-	Jr1lIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7
-	CjxVAFwI0_Cr0_Gr1UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AK
-	xVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvj
-	xUVZ2-UUUUU
-X-CM-SenderInfo: hfkh02xlgr0w46kxt4xhlfz01xgou0bp/
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-
-
-On 2026/4/21 11:03, Waiman Long wrote:
-> By making sure that isolated_hk_cpus matches isolated_cpus at boot time,
-> we can more accurately determine if calling housekeeping_update()
-> is needed by comparing if the two cpumasks are equal. The
-> update_housekeeping flag still have a use in cpuset_handle_hotplug()
-> to determine if a work function should be queued to invoke
-> cpuset_update_sd_hk_unlock() as it is not supposed to look at
-> isolated_hk_cpus without holding cpuset_top_mutex.
+On 2026/4/22 23:23, Breno Leitao wrote:
+> On Wed, Apr 22, 2026 at 11:43:16AM +0800, Miaohe Lin wrote:
+>> On 2026/4/15 20:55, Breno Leitao wrote:
+>>> Add documentation for the new vm.panic_on_unrecoverable_memory_failure
+>>> sysctl, describing the three categories of failures that trigger a
+>>> panic and noting which kernel page types are not yet covered.
+>>>
+>>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>>> ---
+>>>  Documentation/admin-guide/sysctl/vm.rst | 37 +++++++++++++++++++++++++++++++++
+>>>  1 file changed, 37 insertions(+)
+>>>
+>>> diff --git a/Documentation/admin-guide/sysctl/vm.rst b/Documentation/admin-guide/sysctl/vm.rst
+>>> index 97e12359775c9..592ce9ec38c4b 100644
+>>> --- a/Documentation/admin-guide/sysctl/vm.rst
+>>> +++ b/Documentation/admin-guide/sysctl/vm.rst
+>>> @@ -67,6 +67,7 @@ Currently, these files are in /proc/sys/vm:
+>>>  - page-cluster
+>>>  - page_lock_unfairness
+>>>  - panic_on_oom
+>>> +- panic_on_unrecoverable_memory_failure
+>>>  - percpu_pagelist_high_fraction
+>>>  - stat_interval
+>>>  - stat_refresh
+>>> @@ -925,6 +926,42 @@ panic_on_oom=2+kdump gives you very strong tool to investigate
+>>>  why oom happens. You can get snapshot.
+>>>  
+>>>  
+>>> +panic_on_unrecoverable_memory_failure
+>>> +======================================
+>>> +
+>>> +When a hardware memory error (e.g. multi-bit ECC) hits a kernel page
+>>> +that cannot be recovered by the memory failure handler, the default
+>>> +behaviour is to ignore the error and continue operation.  This is
+>>> +dangerous because the corrupted data remains accessible to the kernel,
+>>> +risking silent data corruption or a delayed crash when the poisoned
+>>> +memory is next accessed.
+>>> +
+>>> +When enabled, this sysctl triggers a panic on three categories of
+>>> +unrecoverable failures: reserved kernel pages, non-buddy kernel pages
+>>> +with zero refcount (e.g. tail pages of high-order allocations), and
+>>> +pages whose state cannot be classified as recoverable.
+>>> +
+>>> +Note that some kernel page types — such as slab objects, vmalloc
+>>> +allocations, kernel stacks, and page tables — share a failure path
+>>> +with transient refcount races and are not currently covered by this
+>>> +option. I.e, do not panic when not confident of the page status.
+>>> +
+>>> +For many environments it is preferable to panic immediately with a clean
+>>> +crash dump that captures the original error context, rather than to
+>>> +continue and face a random crash later whose cause is difficult to
+>>> +diagnose.
+>>
+>> Should we add some userful cases to show the real-world application scenarios?
 > 
-
-Currently, isolated_hk_cpus is updated within the cpuset_mutex critical section
-(before mutex_unlock(&cpuset_mutex)) in cpuset_update_sd_hk_unlock. Therefore, I
-think update_housekeeping can now be removed.
-
-> Signed-off-by: Waiman Long <longman@redhat.com>
-> ---
->  kernel/cgroup/cpuset.c | 36 ++++++++++++++++++++----------------
->  1 file changed, 20 insertions(+), 16 deletions(-)
+> Yes, good idea. What about something like:
 > 
-> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
-> index a4eccb0ec0d1..1b0c50b46a49 100644
-> --- a/kernel/cgroup/cpuset.c
-> +++ b/kernel/cgroup/cpuset.c
-> @@ -1339,26 +1339,29 @@ static void cpuset_update_sd_hk_unlock(void)
->  	__releases(&cpuset_mutex)
->  	__releases(&cpuset_top_mutex)
->  {
-> +	update_housekeeping = false;
-> +
->  	/* force_sd_rebuild will be cleared in rebuild_sched_domains_locked() */
->  	if (force_sd_rebuild)
->  		rebuild_sched_domains_locked();
->  
-> -	if (update_housekeeping) {
-> -		update_housekeeping = false;
-> -		cpumask_copy(isolated_hk_cpus, isolated_cpus);
-> -
-> -		/*
-> -		 * housekeeping_update() is now called without holding
-> -		 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
-> -		 * is still being held for mutual exclusion.
-> -		 */
-> -		mutex_unlock(&cpuset_mutex);
-> -		cpus_read_unlock();
-> -		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
-> -		mutex_unlock(&cpuset_top_mutex);
-> -	} else {
-> +	if (cpumask_equal(isolated_hk_cpus, isolated_cpus)) {
-> +		/* No housekeeping cpumask update needed */
->  		cpuset_full_unlock();
-> +		return;
->  	}
-> +
-> +	cpumask_copy(isolated_hk_cpus, isolated_cpus);
-> +
-> +	/*
-> +	 * housekeeping_update() is now called without holding
-> +	 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
-> +	 * is still being held for mutual exclusion.
-> +	 */
-> +	mutex_unlock(&cpuset_mutex);
-> +	cpus_read_unlock();
-> +	WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
-> +	mutex_unlock(&cpuset_top_mutex);
->  }
->  
->  /*
-> @@ -3692,10 +3695,11 @@ int __init cpuset_init(void)
->  
->  	BUG_ON(!alloc_cpumask_var(&cpus_attach, GFP_KERNEL));
->  
-> -	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT))
-> +	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT)) {
->  		cpumask_andnot(isolated_cpus, cpu_possible_mask,
->  			       housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
-> -
-> +		cpumask_copy(isolated_hk_cpus, isolated_cpus);
-> +	}
->  	return 0;
->  }
->  
+> Use cases
+> ---------
+> 
+> This option is most useful in environments where unattributed crashes
+> are expensive to debug or where data integrity must take precedence
+> over availability:
+> 
+> * Large fleets, where multi-bit ECC errors on kernel pages are observed
+>   regularly and post-mortem analysis of an unrelated downstream crash
+>   (often seconds to minutes after the original error) consumes
+>   significant engineering effort.
+> 
+> * Systems configured with kdump, where panicking at the moment of the
+>   hardware error produces a vmcore that still contains the faulting
+>   address, the affected page state, and the originating MCE/GHES
+>   record — context that is typically lost by the time a delayed crash
+>   occurs.
+> 
+> * High-availability clusters that rely on fast, deterministic node
+>   failure for failover, and prefer an immediate panic over silent data
+>   corruption propagating to replicas or persistent storage.
 
--- 
-Best regards,
-Ridong
+This would be really helpful. Thanks!
 
