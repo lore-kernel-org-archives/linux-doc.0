@@ -1,159 +1,82 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55D543C455F
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 21:23:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C62C11F1932;
+	Thu, 23 Apr 2026 22:02:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776979428; cv=none; b=sWCU/vm6hp9cDCgCd6qDp/FshekDmpiSdoUG+PPcWS5Uz2KGP1tljZyxPkslIOUTzAZiWjfoQxOwI2Utz+l09LgFAXEdFs/l3irQxyhSjsKzCyj21q/j2QA+nOyA4zJyX6sfkDIvvz/8TidwZXD5MfCg20A2sNtlEyUsauMM5ZI=
+	t=1776981761; cv=none; b=herrVonBIAIaHt6ujP5XTtYFcjNTk+FL6hXH5NDWkDjwgcbDz3FtLrzv7qs2DZhmLni7VBhBtBdRfxxtO3GgFEtiIz3fzivoXEdzKlvdcBKbdIOMKm4hTdyYx8GbvEX6NI7GnrT15r3o0vsCL6pA+WI9J1/ZWc5d6Owkt3M235c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776979428; c=relaxed/simple;
-	bh=TAk9N0onkf1LhiBL762i+SXrkfm+35fT9FFl7hPmejg=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dd0R3EvzVAtzeu4ZHNjG45PszP+M+cHMQNMhu+UsY666ybxzNXABiiQjE9nvl8QyfrBygXTQ0xmDpKDpynzeSEs914sYT3H/2NvrM7Rug1Mv+M4x2/g8xbgq6vOQ4j+sXomXmPQVPPtZhts1/2lNtFWqnuToUTx1vd3gG6MvgQU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JKgJaVln; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--dmatlack.bounces.google.com
+	s=arc-20240116; t=1776981761; c=relaxed/simple;
+	bh=iesPwsztrmjzqui51g0i4ZUJjHRh01BEx/nK4WBofiE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=TfS0ADj0l8IkFp/FFk1gJOjhE5Kk4tbhSlKeS2AZl+O+NQaeqcuVkpEFvnOCBOnHboVf1m+NE/a5m8bR8Z+3D1KVQdz9uCSE9zg/d8qWGRKHWAMQt4egvIc0M9stAJDp8IM8sJVYc9EYsY5Ajybq4LrhBkIdPsBSRNwWZJsM6iI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nICZytuC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JKgJaVln"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2b2e8bba2e6so100401415ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 14:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1776979420; x=1777584220; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4E3v8P9Bgd+PvGMRS8uoO/TIv3RrWRtb2HfczKdNV9k=;
-        b=JKgJaVlnR8hG+u7YpR5pb79KVryCkxD8SKpnMekLWmpAIJRl+oUGY+B5CsJE0YShSo
-         l853HXv0wtILtDRYHOUPMdEs7E79lCAzHNbXLX/TMHc1pH+3EaIPW6N5+A/uGs+Gng13
-         Z8L+KqtKLsgLT2yFRNz7tFFm2OsWkwCGXjNU15uiPMGVNCqK9EDUYlG6UVFKqYf9bS4q
-         8f31+D0vW+zZm8Y/raiL+xPaAjZcN3naU43OgaWKmZM1xtdmaf2UsZT/GQs+Hn4a9/zX
-         wZsDkQeBvaQhM1a3qL94fgzo0aR/Gx+Y7I7iER4cHQ/ulsaYgtmM0OdrnIkuP80LRQNH
-         TEKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776979420; x=1777584220;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4E3v8P9Bgd+PvGMRS8uoO/TIv3RrWRtb2HfczKdNV9k=;
-        b=D6M3OXdOJ4rkrfX9Ois5JaEd06GSZwOnfgRmvdcGjq2tdu/e1Infn94Yjlsdld23tv
-         N3wHP9/qKuIuppHXGmxuig6gprjlFFkC6UX03CppLI5EzvCFhYGshJKVu7l+vmB4s0jH
-         cFyqNp4H9EsuTi955fIFPv87LpIbi2VH/uRWOAekqsy/wspLiBQZ3hn+TPHpMe1Je5Ub
-         uvsoktGY/94OEHKyA5fyrZsXM2wYYfDbi7Jgva3gS3+/CZ32i2ljFgCPizmxM64zlnB+
-         3M+3rUH4xMKsWMnviLisnW+UiZ39lA5S3GwnkA/xi/9Ocg9RtKZUwV4UsdIws9HXyItV
-         qeAQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+uHzhnCxyXVXHfwgnDDBrDTHOQcI7HrxDD8p381/HPiWf/SyYbnRyJQk4o+hfL6WLZ2nLgyIzYg28=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx6gMkgLHHDrmO/d/lZeZLkyk4J84igWJTyhS7dFa3sEvrZQM2R
-	Ay/W2IizJRVCIxOnitPL5APgUJ4XpeDDgUdP/RXd/4or+a9JlHLhUAePaPBUpZH6RXWD9O6FAri
-	+EwhQblG0ueaiDA==
-X-Received: from plon6.prod.google.com ([2002:a17:903:1a86:b0:2b2:c9d2:11fd])
- (user=dmatlack job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:2984:b0:2b0:4f9a:b794 with SMTP id d9443c01a7336-2b5f9fd146amr301151585ad.37.1776979419527;
- Thu, 23 Apr 2026 14:23:39 -0700 (PDT)
-Date: Thu, 23 Apr 2026 21:23:15 +0000
-In-Reply-To: <20260423212316.3431746-1-dmatlack@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nICZytuC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E931FC2BCAF;
+	Thu, 23 Apr 2026 22:02:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776981761;
+	bh=iesPwsztrmjzqui51g0i4ZUJjHRh01BEx/nK4WBofiE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=nICZytuCKFQx1NjUGnK00MlvMZ6BTkRxWuArGYeg7uSAoyotoI5/n4t5tcrHYpN5E
+	 X8GHApH6zuetYq6cytvOKH8mh3lUPOlm/zyXh+nsvfKowVoc09bNmUIZqmFh+xc2ig
+	 AEpr9ftRmvzoQJrUt0gbv2fzKbvdFTgQhbn8WZ8Jqvtx6hcmc2R0cVyo1j1SJEwJvD
+	 0rtpedsKqqsFQTse7FsMeb8gzXK7EsoKsGiZ3ZfOZMaV1/vQ7qh3iWXfSsN+aJIDGJ
+	 dP2a1MaJ6DXgdShAvpMDtlLnm46sNF+D4bgElxfEICpjqQJo8qmNhBhI2AebrByk8R
+	 cgtgFUn1MgGyQ==
+Date: Thu, 23 Apr 2026 15:02:40 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>
+Cc: Daniel Palmer <daniel@0x0f.com>, Geert Uytterhoeven
+ <geert@linux-m68k.org>, Andrew Lunn <andrew@lunn.ch>, Andrew Lunn
+ <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet	 <edumazet@google.com>, Paolo Abeni	 <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Jonathan Corbet	 <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Michael Fritscher	 <michael@fritscher.net>,
+ Byron Stanoszek <gandalf@winds.org>, linux-kernel@vger.kernel.org,
+ netdev@vger.kernel.org, linux-doc@vger.kernel.org, linux-m68k
+ <linux-m68k@lists.linux-m68k.org>
+Subject: Re: [PATCH net v2 10/15] drivers: net: cirrus: mac89x0: Remove this
+ driver
+Message-ID: <20260423150240.07c350a2@kernel.org>
+In-Reply-To: <aee0393e2a2bd5a5d0bf8aee758122633e54aa06.camel@physik.fu-berlin.de>
+References: <20260422-v7-0-0-net-next-driver-removal-v1-v2-0-08a5b59784d5@lunn.ch>
+	<20260422-v7-0-0-net-next-driver-removal-v1-v2-10-08a5b59784d5@lunn.ch>
+	<CAMuHMdV-vF6sTvAi8kKzxGwZ9YUSBO1Qta5PDCRbA0zr-LEp_w@mail.gmail.com>
+	<c0c80113af470b265650405fa24deefe2d82ea24.camel@physik.fu-berlin.de>
+	<CAFr9PXnECog56b+Jq9TBohhQ4oBB3hGV1pHj6OstOSLqkOpcTQ@mail.gmail.com>
+	<aee0393e2a2bd5a5d0bf8aee758122633e54aa06.camel@physik.fu-berlin.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260423212316.3431746-1-dmatlack@google.com>
-X-Mailer: git-send-email 2.54.0.rc2.544.gc7ae2d5bb8-goog
-Message-ID: <20260423212316.3431746-12-dmatlack@google.com>
-Subject: [PATCH v4 11/11] Documentation: PCI: Add documentation for Live Update
-From: David Matlack <dmatlack@google.com>
-To: iommu@lists.linux.dev, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Matlack <dmatlack@google.com>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add documentation files for the PCI subsystem's participation in Live
-Update.
+On Thu, 23 Apr 2026 11:28:11 +0200 John Paul Adrian Glaubitz wrote:
+> > > Retrocomputing still is not well regarded by some maintainers, it seems :-(.  
+> > 
+> > I've found bugs in drivers by plugging those things into exotic
+> > hardware like my Amiga 4000 and Ultra5 [0].
+> > So, it's not totally pointless. And having a shader capable Amiga[1]
+> > is pretty cool.  
+> 
+> Not only that. Those exotic architectures also help iron out generic kernel
+> bugs and give new maintainers an possibility to get their feet wet.
+> 
+> > Sad to see fun stuff getting pushed out by basically spam bots. :(  
+> 
+> It's not so much pushed out by spam bots but by the commercialization of the
+> Linux kernel. Many developers think that the sole purpose of the Linux kernel
+> is to run on modern commodity hardware.
 
-These documentation files are generated from the kernel-doc comments
-in the PCI Live Update source code. They describe the File-Lifecycle
-Bound (FLB) API, the device tracking API, and the specific policies
-applied to preserved devices (such as bus number inheritance and bus
-mastering preservation).
+Please send that MAINTAINERS patch to designate yourselves
+as maintainers (like Daniel already did for another driver).
+This is the ideal outcome.
 
-Signed-off-by: David Matlack <dmatlack@google.com>
----
- Documentation/PCI/index.rst           |  1 +
- Documentation/PCI/liveupdate.rst      | 23 +++++++++++++++++++++++
- Documentation/core-api/liveupdate.rst |  1 +
- MAINTAINERS                           |  1 +
- 4 files changed, 26 insertions(+)
- create mode 100644 Documentation/PCI/liveupdate.rst
-
-diff --git a/Documentation/PCI/index.rst b/Documentation/PCI/index.rst
-index 5d720d2a415e..23fb737ac969 100644
---- a/Documentation/PCI/index.rst
-+++ b/Documentation/PCI/index.rst
-@@ -20,3 +20,4 @@ PCI Bus Subsystem
-    controller/index
-    boot-interrupts
-    tph
-+   liveupdate
-diff --git a/Documentation/PCI/liveupdate.rst b/Documentation/PCI/liveupdate.rst
-new file mode 100644
-index 000000000000..04c9b675e8df
---- /dev/null
-+++ b/Documentation/PCI/liveupdate.rst
-@@ -0,0 +1,23 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+
-+===========================
-+PCI Support for Live Update
-+===========================
-+
-+.. kernel-doc:: drivers/pci/liveupdate.c
-+   :doc: PCI Live Update
-+
-+PCI Preservation ABI
-+====================
-+
-+.. kernel-doc:: include/linux/kho/abi/pci.h
-+   :doc: PCI File-Lifecycle Bound (FLB) Live Update ABI
-+
-+.. kernel-doc:: include/linux/kho/abi/pci.h
-+   :internal:
-+
-+See Also
-+========
-+
-+ * :doc:`/core-api/liveupdate`
-+ * :doc:`/core-api/kho/index`
-diff --git a/Documentation/core-api/liveupdate.rst b/Documentation/core-api/liveupdate.rst
-index 5a292d0f3706..d56a7760978a 100644
---- a/Documentation/core-api/liveupdate.rst
-+++ b/Documentation/core-api/liveupdate.rst
-@@ -70,3 +70,4 @@ See Also
- 
- - :doc:`Live Update uAPI </userspace-api/liveupdate>`
- - :doc:`/core-api/kho/index`
-+- :doc:`PCI </PCI/liveupdate>`
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 94af31837375..42dbac2c2ed3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -20564,6 +20564,7 @@ Q:	https://patchwork.kernel.org/project/linux-pci/list/
- B:	https://bugzilla.kernel.org
- C:	irc://irc.oftc.net/linux-pci
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
-+F:	Documentation/PCI/liveupdate.rst
- F:	drivers/pci/liveupdate.c
- F:	include/linux/kho/abi/pci.h
- 
--- 
-2.54.0.rc2.544.gc7ae2d5bb8-goog
-
+We want to be welcoming in the community. But being a part
+of the community means participating in _work_.
