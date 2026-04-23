@@ -1,262 +1,225 @@
-Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F42D3AEF47
-	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 18:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B54703A9623
+	for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 18:57:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776969472; cv=none; b=Lvk3bd2aWchOL3fo9ReKmU/sWmEBtAKnFc3U0sscl1OtRnvNMccgclAxtXGI4bLwRG7GlD/qzi2zysItu1sAEiF4uVZcYg+tYnpmktYe6+wxWFFLJM6y8xY6d+wdUIP0n0FkUIqho4D6LRpEUx96VWMyPZuXCWe/Gf4FgVJ4TQE=
+	t=1776970662; cv=none; b=dAv8OKRDembNR0AjLBOpTwzqUaNAY64S8ED/V0HGtosJeXw1IpJl1LlmEP5lrP7ioNuKl6dxx239NcH4RXBYyvphIgA4zGHlrWTcIzqxNgxEPlVOgi2QeIAybyK7KV7PXv18v9clt5PUmJT1WuXRTGmih+UgEUjwy1oTbK/26kY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776969472; c=relaxed/simple;
-	bh=pLogyO6U0JGk6ooB0P4t5Xcvy9poB88Kwj5skPGIyDY=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Subject:
-	 References:In-Reply-To; b=bdUhKBt89odIaKmwn0iQYChx1UGM8d3SFD/J2AC6BoOiIIyKbjajSCyEz2IrebjqR4IAXXSuDTwO//Um1Z1nDzEnJiGc2UC/JMkxmqXRj6wEtDYm5D3sU+WJK2u8FbRFBLLYl5j3TQgDblPlpPfGKR5JyEqQuDZ0yXjmiLrV+CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=SYtzxNgy; arc=none smtp.client-ip=209.85.219.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1776970662; c=relaxed/simple;
+	bh=niKZtqlAI1WXLJcvUDuBu11wIBF8OMXhnVzDxso+PGk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D2TjWITVmI7+4JkwpIig1xH4OHOTQGPUvuDKf7wFIy+3E+kCQYA+jaHr0Sz2mnprB9SCaAc972gmc9qs76CA5KWmQkiYwg5cf55XIu0zQCRYeJ1AG4MaNE54z60hXEZ74EOR8UK2z2dlKD+1qZU++ySfNAZjmawp4oeDXsqAo/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QUa591AV; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=AgztHeEI; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="SYtzxNgy"
-Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-8a4b8c3a30bso79532696d6.3
-        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 11:37:48 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QUa591AV";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="AgztHeEI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1776970659;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=1v3UsaiegGHksvrF9Y9nL/7mOWH7jtFrC/O6F2cdKbA=;
+	b=QUa591AV2FsxmkvhWB/xaVqHdwAYltrhMywZQU5c+kpbZCl1L37mHzsXbhmaBefk9/2OzZ
+	vuiW3bu/wDiayYyK9YarYGChFuU/l2b/02/+mkDZ3MWx9gel01R6OtBvPD6NwXR9+pbDTx
+	+MkcASa9N9Cnecs4TtvBDQ29KzG4Jj4=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-141-sgEZngiQPsCyV1LiSdUNVA-1; Thu, 23 Apr 2026 14:57:38 -0400
+X-MC-Unique: sgEZngiQPsCyV1LiSdUNVA-1
+X-Mimecast-MFC-AGG-ID: sgEZngiQPsCyV1LiSdUNVA_1776970658
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8cb706313beso879441085a.3
+        for <linux-doc@vger.kernel.org>; Thu, 23 Apr 2026 11:57:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1776969467; x=1777574267; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :mime-version:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7WuJ9ZclNJckM0eVZPQcmoslgmsrrdaxBWMSl5N+wUo=;
-        b=SYtzxNgyK/MxdkMZ22OgKhaWjtmTyZtOUJx+VQxElxF7Bl5ijvJoQ+2TCUPMO7NBYd
-         xuZXeh48GikngxwIn9xWdxroCm/fWosOCCF8VDtYnsASvIgUzxP43a6KwYqOTPJQL1af
-         N2eK3fr9AWE7WVjP1+c+b+pCCX5ySXQ3nYRV+6GullDe6D32z/fh0/wEmvjPj3YgsR84
-         /v4D8u03VkmmFFGuUp4Xmk78E5rInidiz8uZxi6RXYFkudne/hQVxp6uveKgiQQ7ErdE
-         fq8LF18vHseYhYZ5ilamchLPtMEyQE8DL2uG5ZBU+jJxm4202j4/xHzD3HowBiVXgSU+
-         hQQg==
+        d=redhat.com; s=google; t=1776970658; x=1777575458; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=1v3UsaiegGHksvrF9Y9nL/7mOWH7jtFrC/O6F2cdKbA=;
+        b=AgztHeEIo7PBdPr/uPTovGczchhKQsjm2o9qprPcO7MTX2DaYetqhNGj5pxHmbHnTH
+         CeGt9UcOhNsDJnOBMBoEBwkf5Lsd3M05zXFDkr+oeRT1Xb7FhdRba/piFktf6mpEDK7K
+         vNhORcUYfB3hpsc1nvAyZKFGGoMRCw3u/QdqamzjU8QRV9bh6cc0nFhSypoPVqKjycog
+         wfaEGir/cSQRbZkMJ9ufO33/jARJxMQp3QIQXYGn+9q4gfLHltyWdo6RZMVkIcHtqBgT
+         ll6bOKhedUgwhJ5sr4ds+TtIv2lmZEFh51CS2yOVnvZ2C6fqvjgPbgfRkwGtI+StzdO+
+         HDXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1776969467; x=1777574267;
-        h=in-reply-to:references:subject:to:from:content-transfer-encoding
-         :mime-version:message-id:date:x-gm-gg:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20251104; t=1776970658; x=1777575458;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7WuJ9ZclNJckM0eVZPQcmoslgmsrrdaxBWMSl5N+wUo=;
-        b=ZLQhquGR7DurXnr8GGU2X0KBO2pvfn5lI2rvTDG17vWc2spgr28bvVBtGtqIcKmuZA
-         +h5DRlMTH+9v/kxo1JiFB8IkBRL4mEuNYtnVUVZqGaN7z5yf5ja4UZmul3fXvHlsT1Fm
-         FT3jFV+OQI0ikC/hMy70ZdnaXNZXJwoUz4r4VWlctatiqdUEpXD9kI6NpTfvqHQKXjOK
-         SyRgPIjer9IoxOjcOjf1gOXjzR2rpQciE2K0W7iUlGZyBdPsXNYEoFVghoqpHXjZ4yfN
-         MSWXMAf7d7Mvp9LgaCzcrOrJVAwu7FicI59bHv8uBjgmhNjUOie06vKAS/ZJWBi68HCb
-         y2LA==
-X-Forwarded-Encrypted: i=1; AFNElJ/jJp1qebP7NK5JBw08cbRI8J73JxcifePSx8j9BbMUHl0hrpHPkXIT+e7i4IDzjTZFSMnijRazebQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwDXXrkfpW7lnUQ08S0oTAqJZ2SzVA9FYgfCtyEL7KsEQ6qB1AS
-	EfyUhdYjyd0SUPYcca4KUZLt6Es6DSEMijudq/BPiUGZlU9s2m+xHLHPTLQAfcULfw==
-X-Gm-Gg: AeBDies9kcmk3DrLBd5A78uwTfP8D5hFbI6wix0Nwf1/66ds/FHCOReF0JsS3JalK7J
-	FfjZEggZxgEzfuqjHHGYAECGQOWvlAOLKS9bFJQCzeyUYHNMUERUIf+bBwhUTuu7TiAKk9aLjda
-	IkMJ+E7Ji6FhKhaIMO6KxMpFQtYh2a5ISrRxeWZG9Quys5y5r+zjiX1utmuc30qBk+Un/CtAeow
-	IvIUMie1Zoihzt5PE02fcKsTrYfD+EcBs9EDmxdgmBX5X1EQpqnAo9VkZs7CXTTG0/zTcVJil3j
-	mraB5+c3UAAueo14ovZa9SDe1hWCySVXFXDt9c4edmgRJLnp5hTjg1DaFRmMb/D0uxlhO8bTKPq
-	J6VWs1GpxMG3D+mYoVo6XPjcpdH10El19SoxZjsvf+P3zoOAvRjXnGSxavHPsDlwqcLYVb5nki+
-	b5HQOtboxI0ET4S+puDa6G5sRz7jJW9yXSR0K2P2c45lJds1TJ7qZrMtdKbbKOJKeCg7TCQGvDV
-	OPPNpY=
-X-Received: by 2002:a05:6214:3c8c:b0:8b1:f069:3fc6 with SMTP id 6a1803df08f44-8b1f06946f6mr255771196d6.40.1776969466835;
-        Thu, 23 Apr 2026 11:37:46 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b02aea5ebcsm165040706d6.44.2026.04.23.11.37.45
+        bh=1v3UsaiegGHksvrF9Y9nL/7mOWH7jtFrC/O6F2cdKbA=;
+        b=gPCGZDdLUrgr/dwnjkG8/cR+H3IuGC4nlbT2OE0rvrlhrIND0rYyx+NPJPu95rx4YD
+         TQVsre/lVoQ/sqm6FAknXArkcztv9rhmhrBCcEoarSuLNZWJ84onY6VaXVJhnNSCmLOb
+         Fyv3aLr/DWjDP4N8NlW9qTJKb/Mk1p7lQjyo23x2piCTGi+HcC7GNlzoYN+UZqVY5p91
+         zMLEv5GrNf7MP+BNTrqyk7gsmjBXIPkbcrZXIWRpxO4++yrnSBPMj0AKSHXB3/A3/pkC
+         guKsyzK/TsHKyVY6BNgYvQYu77cxFCTX1iB75rpdybvElYEbOgh4Qka2Ct9awYK+h3pE
+         41gg==
+X-Forwarded-Encrypted: i=1; AFNElJ9dcIntHFizbsLkM/11jiKnT1tevSbaxgj58jPj6MfaJ8pzrX6cG5QfEQnBFP1y+gjjVurq0iYAiqU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwsZ5NR+mmNT1lr4/jMgr7xDw40aOrOmPYguCeOkn1EPcblrWyO
+	vGNDv9Mi1JwbajAww9jmjQbZRUBrUhQ8zYW7aLuI7gWimzUC9WtP7N4QY4YIsBHahON/dYwCWWU
+	Wxh+mhbCUKA+dEQfL8EjXnI4P0muinslJX4nWftNDNeP6b/pm46HUw0DWaRiKCg==
+X-Gm-Gg: AeBDietu0LwdUv7cltHTDmIat4g81iL3PhZdkU0lDeYAB4dGGjJl3FJiwQhAGgFxDo4
+	D+NR0dATezbyLBbdT6RSzTpsZqY3BuP7mntuuFeskfxhyifrcl//lD4N+D0JkGs+aTfvOIy+p6B
+	rSkFo34TFIadrOuYEwzk2UJOE0S/wY/9RwTQZV/T1oboGCdw70oC+Fq1B+NUL9MJpCModEL+Snp
+	Aze2WN1IFtzR4lYzpqcMnDvq4VUZ0qIODvKLkwgmBWaW12Ca6wz8lP3dAvr/ia/PRGdj953Hhem
+	7WTTCm2umDhmDwN7Rz3efMymOnS8szYgYsrGsNRjcr8au214NuQMoyejAIsZgoEYAnteBnimWp2
+	DhytOMdM1Jj8qi/SMSG9eHHU36y9wlEpKonSCoUEVOhd1F7/xKGleRZt1Zw==
+X-Received: by 2002:a05:620a:9042:b0:8ec:c4a7:f8fc with SMTP id af79cd13be357-8ecc4a80004mr1612411085a.43.1776970657796;
+        Thu, 23 Apr 2026 11:57:37 -0700 (PDT)
+X-Received: by 2002:a05:620a:9042:b0:8ec:c4a7:f8fc with SMTP id af79cd13be357-8ecc4a80004mr1612405685a.43.1776970657173;
+        Thu, 23 Apr 2026 11:57:37 -0700 (PDT)
+Received: from x1.local ([142.189.10.167])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8ebce6ef86dsm1023174085a.30.2026.04.23.11.57.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Apr 2026 11:37:45 -0700 (PDT)
-Date: Thu, 23 Apr 2026 14:37:45 -0400
-Message-ID: <7e924e82fbdfb5091f0436fe9ecac2b8@paul-moore.com>
+        Thu, 23 Apr 2026 11:57:36 -0700 (PDT)
+Date: Thu, 23 Apr 2026 14:57:34 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aeprnnccJeyHB2rt@x1.local>
+References: <aeFCuLJXT8VOkzH7@thinkstation>
+ <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+ <aeImfRrrvr3UoKtL@thinkstation>
+ <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
+ <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
+ <aeorZMvKwu8zKX5i@thinkstation>
+ <aeoxnuGKO3uqS2kG@x1.local>
+ <aeo5IPpQi7onyjTF@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20260423_1403/pstg-lib:20260423_1403/pstg-pwork:20260423_1403
-From: Paul Moore <paul@paul-moore.com>
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, "Blaise Boscaccy" <bboscaccy@linux.microsoft.com>, "Jonathan Corbet" <corbet@lwn.net>, "" , "James Morris" <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, =?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>, =?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>, "Dr. David Alan Gilbert" <linux@treblig.org>, "Andrew Morton" <akpm@linux-foundation.org>, James.Bottomley@HansenPartnership.com, dhowells@redhat.com, "Fan Wu" <wufan@kernel.org>, "Ryan Foster" <foster.ryan.r@gmail.com>, "Randy Dunlap" <rdunlap@infradead.org>, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, bpf@vger.kernel.org, "Song Liu" <song@kernel.org>
-Subject: Re: [PATCH v5 6/10] security: Hornet LSM
-References: <20260420212653.438685-7-bboscaccy@linux.microsoft.com>
-In-Reply-To: <20260420212653.438685-7-bboscaccy@linux.microsoft.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aeo5IPpQi7onyjTF@thinkstation>
 
-On Apr 20, 2026 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
+On Thu, Apr 23, 2026 at 07:08:00PM +0100, Kiryl Shutsemau wrote:
+> On Thu, Apr 23, 2026 at 10:50:06AM -0400, Peter Xu wrote:
+> > Hello, Kiryl,
+> > 
+> > On Thu, Apr 23, 2026 at 03:27:11PM +0100, Kiryl Shutsemau wrote:
+> > > The patchet is pretty good shape in my eyes and will probably drop RFC
+> > > tag.
+> > 
+> > I still have some high level questions not yet got answered.  Do you want
+> > to answer them?
+> > 
+> > https://lore.kernel.org/all/ad59TxAHNwFWH7Cc@x1.local/
 > 
-> This adds the Hornet Linux Security Module which provides enhanced
-> signature verification and data validation for eBPF programs. This
-> allows users to continue to maintain an invariant that all code
-> running inside of the kernel has actually been signed and verified, by
-> the kernel.
+> Sorry, reply to this got lost in my TODO list.
+
+No worries.
+
 > 
-> This effort builds upon the currently excepted upstream solution. It
-> further hardens it by providing deterministic, in-kernel checking of
-> map hashes to solidify auditing along with preventing TOCTOU attacks
-> against lskel map hashes.
+> > In summary, it's about:
+> > 
+> > - Whether we have explored other approaches on page hotness tracking
 > 
-> Target map hashes are passed in via PKCS#7 signed attributes. Hornet
-> determines the extent which the eBFP program is signed and defers to
-> other LSMs for policy decisions.
+> So, for read/write tracking we have clear_refs=1, page_idle and DAMON.
+> Did I miss something?
 > 
-> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-> Nacked-by: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-> ---
->  Documentation/admin-guide/LSM/Hornet.rst | 321 +++++++++++++++++++++
->  Documentation/admin-guide/LSM/index.rst  |   1 +
->  MAINTAINERS                              |   9 +
->  include/linux/oid_registry.h             |   3 +
->  include/uapi/linux/lsm.h                 |   1 +
->  security/Kconfig                         |   3 +-
->  security/Makefile                        |   1 +
->  security/hornet/Kconfig                  |  11 +
->  security/hornet/Makefile                 |   7 +
->  security/hornet/hornet.asn1              |  13 +
->  security/hornet/hornet_lsm.c             | 346 +++++++++++++++++++++++
->  11 files changed, 715 insertions(+), 1 deletion(-)
->  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
->  create mode 100644 security/hornet/Kconfig
->  create mode 100644 security/hornet/Makefile
->  create mode 100644 security/hornet/hornet.asn1
->  create mode 100644 security/hornet/hornet_lsm.c
+> clear_refs is process-wide hammer. And you can miss a hot page if it
+> races with LRU rotation.
+> 
+> page_idle needs rmap. It will not scale.
 
-While I think this is looking pretty reasonable, I think Fan had some
-feedback which merits a reply.  I also spotted some references to the
-secondary keyring in the docs which need to be updated (below).
+Yes. If you would benefit from a per-mm page_idle, then it may apply to us
+too if we will be enforced to implement full-userspace swap in QEMU.
 
-> diff --git a/Documentation/admin-guide/LSM/Hornet.rst b/Documentation/admin-guide/LSM/Hornet.rst
-> new file mode 100644
-> index 0000000000000..af5e9cd9d83a8
-> --- /dev/null
-> +++ b/Documentation/admin-guide/LSM/Hornet.rst
-> @@ -0,0 +1,321 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +======
-> +Hornet
-> +======
-> +
-> +Hornet is a Linux Security Module that provides extensible signature
-> +verification for eBPF programs. This is selectable at build-time with
-> +``CONFIG_SECURITY_HORNET``.
-> +
-> +Overview
-> +========
-> +
-> +Hornet addresses concerns from users who require strict audit trails and
-> +verification guarantees for eBPF programs, especially in
-> +security-sensitive environments. Many production systems need assurance
-> +that only authorized, unmodified eBPF programs are loaded into the
-> +kernel. Hornet provides this assurance through cryptographic signature
-> +verification.
-> +
-> +When an eBPF program is loaded via the ``bpf()`` syscall, Hornet
-> +verifies a PKCS#7 signature attached to the program instructions. The
-> +signature is checked against the kernel's secondary keyring using the
+That's also why I suggested (in my previous reply) that we split the
+requirement: one is for hotness tracking, the other is about read-inclusive
+trapping (v.s. wr-protect only traps).
 
-This version now supports using the keyring specified in the bpf_attr
-union (presumably for maximum compatibility with KP's signature scheme),
-which is good, but the docs need to be updated.
+> 
+> DAMON is built around sampling. It is good for working set estimation,
+> but I don't think it is directly useful for eviction decision. It can
+> miss hot pages. LRU rotation will also loose info.
 
-See below, but I would probably make a note that LSMs providing
-enforcement of BPF signatures will likely want to check what keyring was
-used to verify the signature, e.g. a trusted keyring vs a user supplied
-keyring.
+Exactly.  If we need to collect ACCESS bit (or anything similar) for
+eviction accuracy pusrpose, IIUC we need per-page info, we can't estimate
+by sampling.
 
-> +existing kernel cryptographic infrastructure. In addition to signing the
-> +program bytecode, Hornet supports signing SHA-256 hashes of associated
-> +BPF maps, enabling integrity verification of map contents at load time
-> +and at runtime.
-> +
-> +After verification, Hornet classifies the program into one of the
-> +following integrity states and passes the result to a downstream LSM hook
-> +(``bpf_prog_load_post_integrity``), allowing other security modules to
-> +make policy decisions based on the verification outcome:
-> +
-> +``LSM_INT_VERDICT_OK``
-> +  The program signature and all map hashes verified successfully.
-> +
-> +``LSM_INT_VERDICT_UNSIGNED``
-> +  No signature was provided with the program.
-> +
-> +``LSM_INT_VERDICT_PARTIALSIG``
-> +  The program signature verified, but the signature did not contain
-> +  hornet map hash data.
-> +
-> +``LSM_INT_VERDICT_UNKNOWNKEY``
-> +  The signing certificate is not trusted in the secondary keyring,
+> 
+> None of them gives comparable capabilities.
 
-Another secondary keyring mention.
+I want to see if some of your work can be generalized so we can use too,
+and we can also work together.
 
-> +``LSM_INT_VERDICT_FAULT``
-> +  A system error occured during verification.
-> +
-> +``LSM_INT_VERDICT_UNEXPECTED``
-> +  An unexpected map hash value was encountered.
-> +
-> +``LSM_INT_VERDICT_BADSIG``
-> +  The signature or a map hash failed verification.
-> +
-> +Hornet itself does not enforce a policy on whether unsigned or partially
-> +signed programs should be rejected. It delegates that decision to
-> +downstream LSMs via the ``bpf_prog_load_post_integrity`` hook, making it
-> +a composable building block in a larger security architecture.
+> 
+> We also need a mechanism to atomically evict pages.
 
-This might be a good place to document that in addition to the verdicts
-described above, LSMs providing enforcement should also consider the
-keyring used for verification.
+Yes, this is the 2nd question below, and btw uffd-wp can also achieve this.
 
-> +Known Limitations
-> +=================
-> +
-> +- Hornet requires programs to use :doc:`light skeletons
-> +  </bpf/libbpf/libbpf_naming_convention>` (lskels) for the signing
-> +  workflow, as the tooling operates on lskel-generated headers.
-> +
-> +- A maximum of 64 maps per program can be tracked for hash
-> +  verification.
-> +
-> +- Map hash verification requires the maps to be frozen before loading.
-> +  Maps that are not frozen at load time will cause verification to fail
-> +  when their hashes are included in the signature.
-> +
-> +- Hornet relies on the kernel's secondary keyring
-> +  (``VERIFY_USE_SECONDARY_KEYRING``) for certificate trust. Keys must
-> +  be provisioned into this keyring before programs can be verified.
+> 
+> > - Whether read protection is required for an userspace swap system
+> >   (e.g. did you get time to have a look at umap?)
+> 
+> I looked at it briefly, so I can miss details.
+> 
+> IIUC, in absence of read tracking it doesn't collect hotness information
+> at all. The eviction is based on fault-in time: the oldest faulted-in
 
-... another spot.
+For example, let's imagine if we can have a per-mm idle page tracker, would
+it work for you to collect hotness info?
 
-> +- The only hashing algorithm available is SHA256 due to it be hardcoded
-> +  in the bpf subsystem.
+The other idea is, no matter whether we use MGLRU or legacy LRU, if we can
+expose a better interface to share hotness info from kernel to userspace,
+would it be possible?
 
-...
+> page gets evicted first. I guess it is fine if you don't care much about
+> refault cost. Like, if your workload fits into memory completely and
+> refaults are rare.
 
-> +Signature Verification Flow
-> +---------------------------
-> +
-> +The following describes what happens when a userspace program calls
-> +``bpf(BPF_PROG_LOAD, ...)`` with a signature attached:
-> +
-> +1. The ``bpf_prog_load_integrity`` LSM hook is invoked.
-> +
-> +2. Hornet reads the signature from the userspace buffer specified by
-> +   ``attr->signature`` (with length ``attr->signature_size``).
-> +
-> +3. The PKCS#7 signature is verified against the program instructions
-> +   using ``verify_pkcs7_signature()`` with the kernel's secondary
-> +   keyring.
+One thing to mention is, if we have any hotness tracking facility ready
+above (e.g. per-mm idle page tracking) we _will_ trap read faults too; it's
+just that it'll be much faster (when it's hardware ACCESS bit).
 
-I believe this is the last mention of the secondary keyring.
+So if I'm not wrong, what I am trying to discuss as a full userspace swap
+system will always trap read too for most of the cases.
 
-> +4. The PKCS#7 message is parsed and its trust chain is validated via
-> +   ``validate_pkcs7_trust()``.
-> +
-> +5. Hornet extracts the authenticated attribute identified by
-> +   ``OID_hornet_data`` (OID ``2.25.316487325684022475439036912669789383960``)
-> +   from the PKCS#7 message. This attribute contains an ASN.1-encoded set
-> +   of map index/hash pairs.
-> +
-> +6. For each map hash entry, Hornet retrieves the corresponding BPF map
-> +   via its file descriptor, confirms it is frozen, computes its SHA-256
-> +   hash, and compares it against the signed hash.
-> +
-> +7. The resulting integrity verdict is passed to the
-> +   ``bpf_prog_load_post_integrity`` hook so that downstream LSMs can
-> +   enforce policy.
+The difference is only about that 5ms (in case of 30s+5ms example I gave in
+the other email).  Your RW protection will also trap that 5ms, what I
+described won't: when a decision is made, we wr-protect the page, any read
+on top of it will still go through so it will trigger a refault.  My point
+is, that 5ms missing over 30s (in reality maybe more than 30s) sampling
+window (which covered read accesses) isn't a major issue, and IMHO it's not
+a strong enough reason to include the whole RW feature.
 
---
-paul-moore.com
+The other thing is, as I mentioned in the other email, I still don't know
+how the current RW protection would work for anonymous.  I don't yet think
+the user swapper can read the anon page with RW-protected pgtables.  So far
+my understanding is maybe you only care about shmem so it's fine, but it'll
+always be great to confirm with you.
+
+Thanks,
+
+> 
+> That's not my case.
+> 
+> -- 
+>   Kiryl Shutsemau / Kirill A. Shutemov
+> 
+
+-- 
+Peter Xu
+
