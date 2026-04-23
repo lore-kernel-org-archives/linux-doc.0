@@ -1,138 +1,145 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 594CA389458;
-	Thu, 23 Apr 2026 17:00:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18B413A872A;
+	Thu, 23 Apr 2026 18:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776963630; cv=none; b=tyxSd2rDLqqSt5BR6JNQzVgitTtmOOv54R44qfEg33umjFL2UKA/EYGggvw3i8wy9sfr07kwLdYxvLd0uLENdWGXEYe/mL6HRVDOktgeCjDG98acpR4tSxSku6WpDq1RI+SpZGOiBRDNvnBDM05PBAnSFVm87ZP7cuX6VlRG7GQ=
+	t=1776967684; cv=none; b=HZAiAtQdm1vdEVoRcEincIaWdDiHJUVGQnilCrl6U95wLD+MzfYlF3Q5QIeTI2boWmQ2LuKorGbO2fg403sdLmVQaoPpQ9pBBdBFlAekdfprQyrv5T78avRavD3s+oLlZLzG26Rb/NqGE0jUBBJOFni3ez3VFqbImfKXkpx0MzI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776963630; c=relaxed/simple;
-	bh=BIlzZJefjy1vIQjn3xfRlUsz1PH77jv+SclZT4pp1I8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qC9QNY0R6edqbeVydoNIUoExpXkiX4PjNeZ2QsR4caGrL2c7XV5uqGawmNlEGnWAbUWWXb4Gh8b28HOX/4HnU4DthJ2thin/TIjoZyfbcjume6/vnLJPk6B37CvoIYxRDt9IMYOa/P7D3+U2Uex+c4rmxpp73xyg/rB0HLWdkaY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P4w7y/gh; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1776967684; c=relaxed/simple;
+	bh=fUtnL9qRpoANwM3bPHlOiGowL2i2i1ePLUkXdrCF8M8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PFPu6c5xsCy8DwPUSwj4ZAdrdcVhURfrbk4aYDh3cL5Xy0MhyAfv62y0eKc4aps9fi44QUd7Lw7hACCW9cd8Ddxu6DlZOVSUt7n1ktOnobNv7Ktga5jB8genRVOSPUHY2dOlIYMJ9HN5JXRkKIIMTbNuFYr/Cq8wf0F+37mZ/Is=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hAP3ZIAR; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P4w7y/gh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1776963629; x=1808499629;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=BIlzZJefjy1vIQjn3xfRlUsz1PH77jv+SclZT4pp1I8=;
-  b=P4w7y/gh06TlxfzDLfhzBTw+IYn3Mfghgq4LVnLP0x3UALVfqDAFVYt1
-   OlIz8EdeMe+erA/PrTjxZNtGUTXKiS87SiLwB10uFsf/sRG7u0D0nUojy
-   VZ3wIdpvimzP4hV/6Cyz81iWlYp9ucs4YTVSI/kttQZLhrn0Qk3xo4o2j
-   s/mfCyXJnMqeAYtdgMvIw+Zopx/k5bkMxnPXP17VZpeIyB7WvDpLHvuzM
-   kM3+sjNTVEGF7mZt2+nLCf1x8kwnqnr9PdS5AY7jte5Wmio51I71EBeBh
-   +nOdSQ1XW9dQ5UyfL0z5Y5enN4n8Y648/pkV2/fInam21mOil+RQeIMXJ
-   Q==;
-X-CSE-ConnectionGUID: cxCeR9ZIQNmX752oxR7tLQ==
-X-CSE-MsgGUID: svyMV1lvR+my2JrhI6UDOg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11765"; a="77957154"
-X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
-   d="scan'208";a="77957154"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 10:00:27 -0700
-X-CSE-ConnectionGUID: WNOToX61S7ewW+QNIt/7bw==
-X-CSE-MsgGUID: kYdVgoB7SwOizbZxjAeVZw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,195,1770624000"; 
-   d="scan'208";a="256013272"
-Received: from aduenasd-mobl5.amr.corp.intel.com (HELO [10.125.108.10]) ([10.125.108.10])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2026 10:00:25 -0700
-Message-ID: <090435af-fe89-46bf-b8e6-75f41163cab2@intel.com>
-Date: Thu, 23 Apr 2026 10:00:18 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hAP3ZIAR"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55978C4AF0B;
+	Thu, 23 Apr 2026 18:08:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1776967683;
+	bh=fUtnL9qRpoANwM3bPHlOiGowL2i2i1ePLUkXdrCF8M8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hAP3ZIARBqueoN9RFilIOZs+UJq6a6x9Enmg84t8Usw7oQUBeSKkK4ZPIb7xzSUYu
+	 oUIsnNj65y6jrspk5WdGMHIoY5kg4ytXH1NL33s66LoxvcJvd+cx8tdqpQBX93pZvp
+	 LCNNdUgwNNPyVaZ4S7d232awap213vIhzXg1e+DvNFkUksTZGXboF1Xax3jdyoNbjR
+	 jvLeaT5nf3App95sC5MiAbOi8IVTGruuKLoVADY3xUDaQqAWXrdU8c2Wd56lVfyWee
+	 wSkDxYDdmdrZizKwNW0eqIkLU1akChNOaQts8wFZQ/SLsBX7u57LnVxkkFu7Ezv5N2
+	 Fi7VP3VTfO/UA==
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 618A6F4006B;
+	Thu, 23 Apr 2026 14:08:02 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Thu, 23 Apr 2026 14:08:02 -0400
+X-ME-Sender: <xms:AmDqafKne51c23t3lOUfwu3m9Jat5CujNgYxp6RC3pVv8n1E5ApPhg>
+    <xme:AmDqaSaPnjQM5JuaZTSQ7uK_5VTA28rKQMlnqvZXZWf--t9BbghNabwV-_s1AV9Hx
+    3AREOoCahoWWPLLRniuN8x1J2BrT2C-zrldhyy7PEvNwOT2cydEMw>
+X-ME-Received: <xmr:AmDqaT6shwVvN1bYvTKiFRpp--F0ku9VmqAT3BGObH8t1GaOQCMYWgum0DBytQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeijeekfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefmihhrhihlucfu
+    hhhuthhsvghmrghuuceokhgrsheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrh
+    hnpeffffekgeffjefgkedvjeeggedttdeljeekhffhudeiudfhiefgudeugffhheffuden
+    ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruhhthhhpvghr
+    shhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedqkhgrsheppehkvg
+    hrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpthhtohepfeei
+    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehpvghtvghrgiesrhgvughhrghtrd
+    gtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    rghkphhmsehlihhnuhigqdhfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehljh
+    hssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrphhptheskhgvrhhnvghlrdhorhhg
+    pdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphhtthhopehvsg
+    grsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhohiflhgvthht
+    sehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:AmDqaTJDnWhOA6Lo5VS3-3zpSTgB3bAOxPGZpGcQWjdEIwFuZdcZSQ>
+    <xmx:AmDqaZY0sSALVtS7asmIB8MYX0nPAO4sjU53qds5bVXfXSrKC7Ur7w>
+    <xmx:AmDqabxGOc2JRHlMYEDYv15bQ-MaKvilloF3PHIY3GW_bvq3v5r5IA>
+    <xmx:AmDqaVUM8UDa_Zh5-pPT75bjmmW8iNzLWo2YmuCcUZxlgN1lsXJlKg>
+    <xmx:AmDqafblfb_m5kSp-CjhTquEbv5wDlCyHGQsZxMnJDje3tAR6gHC6Kz1>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 23 Apr 2026 14:08:01 -0400 (EDT)
+Date: Thu, 23 Apr 2026 19:08:00 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aeo5IPpQi7onyjTF@thinkstation>
+References: <1a499781-1115-44bc-adbf-2ac3769354ca@kernel.org>
+ <aeFCuLJXT8VOkzH7@thinkstation>
+ <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+ <aeImfRrrvr3UoKtL@thinkstation>
+ <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
+ <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
+ <aeorZMvKwu8zKX5i@thinkstation>
+ <aeoxnuGKO3uqS2kG@x1.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/12] VMSCAPE optimization for BHI variant
-To: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, x86@kernel.org,
- Jon Kohler <jon@nutanix.com>, Nikolay Borisov <nik.borisov@suse.com>,
- "H. Peter Anvin" <hpa@zytor.com>, Josh Poimboeuf <jpoimboe@kernel.org>,
- David Kaplan <david.kaplan@amd.com>, Sean Christopherson
- <seanjc@google.com>, Borislav Petkov <bp@alien8.de>,
- Dave Hansen <dave.hansen@linux.intel.com>,
- Peter Zijlstra <peterz@infradead.org>, Alexei Starovoitov <ast@kernel.org>,
- Daniel Borkmann <daniel@iogearbox.net>, Andrii Nakryiko <andrii@kernel.org>,
- KP Singh <kpsingh@kernel.org>, Jiri Olsa <jolsa@kernel.org>,
- "David S. Miller" <davem@davemloft.net>,
- David Laight <david.laight.linux@gmail.com>,
- Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
- Ingo Molnar <mingo@redhat.com>, David Ahern <dsahern@kernel.org>,
- Martin KaFai Lau <martin.lau@linux.dev>, Eduard Zingerman
- <eddyz87@gmail.com>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jason Baron <jbaron@akamai.com>, Alice Ryhl <aliceryhl@google.com>,
- Steven Rostedt <rostedt@goodmis.org>, Ard Biesheuvel <ardb@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-kernel@vger.kernel.org, kvm@vger.kernel.org,
- Asit Mallick <asit.k.mallick@intel.com>, Tao Zhang <tao1.zhang@intel.com>,
- bpf@vger.kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260422-vmscape-bhb-v11-0-b18e0cf32af4@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aeoxnuGKO3uqS2kG@x1.local>
 
-On 4/22/26 23:14, Pawan Gupta wrote:
-> v11:
-> - Use ifdef EXPORT_SYMBOL_FOR_KVM guard for EXPORT_STATIC_CALL_FOR_KVM()
->   definition. It is not practical to define one but not the other. (Sean)
-> - Collected tags.
+On Thu, Apr 23, 2026 at 10:50:06AM -0400, Peter Xu wrote:
+> Hello, Kiryl,
+> 
+> On Thu, Apr 23, 2026 at 03:27:11PM +0100, Kiryl Shutsemau wrote:
+> > The patchet is pretty good shape in my eyes and will probably drop RFC
+> > tag.
+> 
+> I still have some high level questions not yet got answered.  Do you want
+> to answer them?
+> 
+> https://lore.kernel.org/all/ad59TxAHNwFWH7Cc@x1.local/
 
-The feedback here seems to be winding down. I'll plan to queue this
-after -rc1 unless something else big comes up.
+Sorry, reply to this got lost in my TODO list.
+
+> In summary, it's about:
+> 
+> - Whether we have explored other approaches on page hotness tracking
+
+So, for read/write tracking we have clear_refs=1, page_idle and DAMON.
+Did I miss something?
+
+clear_refs is process-wide hammer. And you can miss a hot page if it
+races with LRU rotation.
+
+page_idle needs rmap. It will not scale.
+
+DAMON is built around sampling. It is good for working set estimation,
+but I don't think it is directly useful for eviction decision. It can
+miss hot pages. LRU rotation will also loose info.
+
+None of them gives comparable capabilities.
+
+We also need a mechanism to atomically evict pages.
+
+> - Whether read protection is required for an userspace swap system
+>   (e.g. did you get time to have a look at umap?)
+
+I looked at it briefly, so I can miss details.
+
+IIUC, in absence of read tracking it doesn't collect hotness information
+at all. The eviction is based on fault-in time: the oldest faulted-in
+page gets evicted first. I guess it is fine if you don't care much about
+refault cost. Like, if your workload fits into memory completely and
+refaults are rare.
+
+That's not my case.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
