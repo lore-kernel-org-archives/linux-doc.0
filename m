@@ -1,140 +1,77 @@
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A01366DCF;
-	Fri, 24 Apr 2026 06:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C51345CBD
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 07:06:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777013707; cv=none; b=kDvV6+8FQENEmkGyXkTc3liOPQBatubktjamPs1YdJCTtKgcES2AsZVvUe4fkO0fgg3I5oepzKjRFShHs8AX9cPEMJ/T8kA2xeKZRaX534coShaXolS21h3Uo2xK/R4jq1caqbgvoFidru1lWqeaEOMUVyGKo0Ik+3JeA5S5/hQ=
+	t=1777014361; cv=none; b=Hhl7iHh1596eWNYziy2uhTM9aMYxSPWnz6SgPWnuRnwRyhI/DsDwCpT84mwJRE4ofRL3C2YvdOgoMojHT2cJVxUTlpTmvxwWL7ONZ9G+yTRInSlaKbvkAmeNsflyH3LqivbqBJ1gSQ2NA6BXvBmB9f9+qk5CVX3BwottIJC3HRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777013707; c=relaxed/simple;
-	bh=YqWoWua2/Wc7PHuce4f8sh3BLnmIUCvUaupWZksb8eQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=raHNO+A1AcCOwQS1EavqdFoiydrCNdQ6YNE/mN8QtPVcAXPX2tJ193lTsPyd16B/ohKKunPmRN+a2H/bTm56U4IhM79m2Gy5YiZAhuPBN9UwlDr+JIgFQl7/rq6wpf0Dswn1zwwdzFNSsI26et09AGSzRC3EX8p9AJSpxnPEvfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XW7ENsMR; arc=none smtp.client-ip=220.197.31.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+	s=arc-20240116; t=1777014361; c=relaxed/simple;
+	bh=0/sC3xbHX91SFc6+u2OW880xg51KottdLmNCvxxcEqc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bRMAbt0C8VYdVF6oNZy75svYMu0hNke5TtczuPB4ol40eDLU9cKdsi+705PArRZs052MgeahLtCraGy0bAnlv2nbQqEojEPEkHG4iGXxNMbF2S9Gzw0dVcQPiqULsLAlLs16JkzSgDhMvi3tBogRamKm3Mvymllj+xZYbH307F8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TW5KiS9Y; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XW7ENsMR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
-	Content-Type; bh=fJGZRW6SJwvAmPVVxVjo5olSr7jogTPEZBPW//VV6+4=;
-	b=XW7ENsMRoP5RA5dPhXrgveLwXiFnuho2tQqrc77d/oS4mtmqRz+Us+sVMUv8GD
-	na1NSzm7RVUqIXwZW+c/eBvv/zWp6EuRlb+k8EFCpNrAMVlQyoHg3dhNABg500Nm
-	kLf8uX1Tm3MpJt1/9r4lrj5gL84ZIgZ0djet9BLKwuG+w=
-Received: from [192.168.56.68] (unknown [])
-	by gzsmtp5 (Coremail) with SMTP id QCgvCgB3eeuFE+tpeZn3BA--.109S2;
-	Fri, 24 Apr 2026 14:54:04 +0800 (CST)
-Message-ID: <255bdd69-e0f0-4300-864a-15fd077ea748@163.com>
-Date: Fri, 24 Apr 2026 14:53:54 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TW5KiS9Y"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62143C2BCC9
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 07:05:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777014359;
+	bh=0/sC3xbHX91SFc6+u2OW880xg51KottdLmNCvxxcEqc=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=TW5KiS9Y784yt8KM1XFWshhpxYqEmWvwSwhluCtKApdksdpwJs9m+BVMNubJk0RSq
+	 B8u06aG8Ph29If4I0Y16LPNb3gUFT9wiWi6xu9KAIpLEUHpA4vam9+Ql3xA1XplEfG
+	 XAYVEPSsOZYg56JMdBvhWmvPEPGxgxic+VyBbOyROzxsj1RusWMSeRyzYCX5iQLR8+
+	 Mw3yPZzX7u+eitAC3lxBtisahpOM/hWQhoLzZJkStwtJhr87C6CvZdBU+eXSRj2rYg
+	 9reNDcNAr/1z/PGIXT+jvvhZbtPVTGYR5XhBrXvb38Vujn+SVn2hh77oFsakG6VY2Q
+	 XpUV2mG6mSyqw==
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-5a10d130b37so7477387e87.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 00:05:59 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8hCNaeR3w2F7sJuWfcfe+XbpKzAxsm/0NbY1H+DIBqpG3h+mth06T5XEFyrLPZQtAFnA1YAdKq3sk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy6a70wJdZco5NqamINj+RNZfNFVjUGAijgD0sbmo5YwF9fcizt
+	jTmEfU3ksXsF+tnubFH0jqTBLLa6sbaH4JGU1gWCDbwInj52yoCAz5NCaI6521K7HsGMGCl49LK
+	MZP7gcMqFIN1hm0c8G2oa/SJO/MTitu4=
+X-Received: by 2002:a05:6512:3c8c:b0:5a2:b86b:56c2 with SMTP id
+ 2adb3069b0e04-5a4172a2e97mr10579597e87.21.1777014358009; Fri, 24 Apr 2026
+ 00:05:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in
- table of contents
-To: Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
- skhan@linuxfoundation.org, surenb@google.com, cyphar@cyphar.com,
- witcher@wiredspace.de
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, wangguanyu@vivo.com,
- Baolin Liu <liubaolin@kylinos.cn>
-References: <20260423065642.11218-1-liubaolin12138@163.com>
- <e1a0e7ab-8cdb-4c60-abcd-82c4e0be6e97@infradead.org>
- <1c59927a-2768-472e-bf89-34133a03749e@163.com>
- <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
-From: liubaolin <liubaolin12138@163.com>
-In-Reply-To: <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:QCgvCgB3eeuFE+tpeZn3BA--.109S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxWFyxXr4kXr4xWF47Xw1DZFb_yoW5Cr1fpF
-	W5J3W3ta1UGF1UGrnrKw1xZr4qya4xtayUWFnFg34Igr90ywnagr43tF15uF97Gr18Jay0
-	qr17Ka43Zry3AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U5sqAUUUUU=
-X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6gw9CGnrE4yxZQAA3a
+References: <20260421-send-v5-0-ace038e63515@gmail.com> <20260421-send-v5-6-ace038e63515@gmail.com>
+In-Reply-To: <20260421-send-v5-6-ace038e63515@gmail.com>
+From: Linus Walleij <linusw@kernel.org>
+Date: Fri, 24 Apr 2026 09:05:46 +0200
+X-Gmail-Original-Message-ID: <CAD++jLmbWmj+tyefBm=sFGzxQMxY+H4h5TRUD7N7x=kL_ZdqEw@mail.gmail.com>
+X-Gm-Features: AQROBzD_BbBKfIuVI61TLisBat5ysC5wN22oHTVtH8oB5cdnAJpZ64NHEl1Cquo
+Message-ID: <CAD++jLmbWmj+tyefBm=sFGzxQMxY+H4h5TRUD7N7x=kL_ZdqEw@mail.gmail.com>
+Subject: Re: [PATCH v5 6/8] amba/serial: amba-pl011: Bring back zx29 UART support
+To: =?UTF-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Krzysztof Kozlowski <krzk@kernel.org>, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	Drew Fustini <fustini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	devicetree@vger.kernel.org, soc@lists.linux.dev, linux-serial@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, Apr 21, 2026 at 10:24=E2=80=AFPM Stefan D=C3=B6singer
+<stefandoesinger@gmail.com> wrote:
 
+> This is based on code removed in commit 89d4f98ae90d ("ARM: remove zte
+> zx platform"). I did not bring back the zx29-uart .compatible as the
+> arm,primecell-periphid does the job.
+>
+> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
 
-在 2026/4/24 10:54, Randy Dunlap 写道:
-> 
-> 
-> On 4/23/26 7:44 PM, liubaolin wrote:
->>
->>
->> 在 2026/4/23 23:55, Randy Dunlap 写道:
->>> Hi--
->>>
->>> Why is "ext4" in the Subject?
->>> Probably just drop that word?
+I like this.
+Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Dear Randy Dunlap,
-    I apologize for missing the first part of your email. You're right, 
-the commit message title should remove the word"ext4". I will submit a 
-v2 patch to fix this error later. Thank you for your review.
-
-Thanks,
-Baolin
-
->>>
->>>
->>> On 4/22/26 11:56 PM, Baolin Liu wrote:
->>>> From: Baolin Liu <liubaolin@kylinos.cn>
->>>>
->>>> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
->>>> documentation") removed the IDE section but left its table of
->>>> contents entry behind.
->>>> Fix the stale entry and renumber the following sections.
->>>>
->>>> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
->>>> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
->>>> ---
->>>>    Documentation/filesystems/proc.rst | 14 +++++++-------
->>>>    1 file changed, 7 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
->>>> index 7ce02573a3d9..70db35987ee1 100644
->>>> --- a/Documentation/filesystems/proc.rst
->>>> +++ b/Documentation/filesystems/proc.rst
->>>> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
->>>>      1    Collecting System Information
->>>>      1.1    Process-Specific Subdirectories
->>>>      1.2    Kernel data
->>>> -  1.3    IDE devices in /proc/ide
->>>> -  1.4    Networking info in /proc/net
->>>> -  1.5    SCSI info
->>>> -  1.6    Parallel port info in /proc/parport
->>>> -  1.7    TTY info in /proc/tty
->>>> -  1.8    Miscellaneous kernel statistics in /proc/stat
->>>> -  1.9    Ext4 file system parameters
->>>> +  1.3    Networking info in /proc/net
->>>> +  1.4    SCSI info
->>>> +  1.5    Parallel port info in /proc/parport
->>>> +  1.6    TTY info in /proc/tty
->>>> +  1.7    Miscellaneous kernel statistics in /proc/stat
->>>> +  1.8    Ext4 file system parameters
->>>> +  1.9    /proc/consoles - Shows registered system consoles
->>>>        2    Modifying System Parameters
->>>>    
->>>
->>> Where/how is this Table of Contents used?
->>>
->>> But yes, the intent of the patch is good.
->>> Thanks.
->>>
->> Hello, this directory contains the subsequent content of the file proc.rst.
->>
->> My modification is due to a previous commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
->> which removed "1.3 IDE devices in /proc/ide" from the subsequent content and modified the labels of the various items.
->> However, this previous commit forgot to remove "1.3 IDE devices in /proc/ide" from the directory itself.
->> This caused a misalignment between the directory entry and the actual subsequent content items.
->>
->> My modification is to remove the "1.3 IDE devices in /proc/ide" that was forgotten in the previous commit and correct the labels of the other subsequent items.
-> 
-> Yes, I understood all of that, but I had questions (which you ignored).
-> 
-
-
+Yours,
+Linus Walleij
