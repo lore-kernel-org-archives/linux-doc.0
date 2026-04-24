@@ -1,305 +1,507 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010032.outbound.protection.outlook.com [40.93.198.32])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f67.google.com (mail-ot1-f67.google.com [209.85.210.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6461237C107;
-	Fri, 24 Apr 2026 20:19:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.32
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777061971; cv=fail; b=EXNH2i50WCSFAdWH8OeWqzFU4L1qm9iA2GK7viwzNyYhcAtqB7U5Ozxuwp/rZ6tWhbTFsArhchcyhrs4+8wcIbbPWR9iR++movGoXj7hFSQ0sz7Azv2fsSBdSrIanJ5qJKPJLN/FxWi3J4qwXeM752hFyrMXmldLlJ+WlTcM3KA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777061971; c=relaxed/simple;
-	bh=UeTNcDOO/NJTVJYkr5n8XEJh8Jdwc0zMBefNOhVd/1o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=G2prrbi713rD2H4VHu1gtRFZM0g3U5neFi9Wmj1U/QFUgfNF1MK/IpzDFWVAdQ4RTczgubp2I1k38xw3nur4WDVaPcBdXWpMiY5LGWdPW+yBHhvKMUBM2SsQxaCJlklzAbhJ0DJwkMx7cnHQ0brkqVjelsp8P7E+lG9nynQJMdE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dIV8kYTb; arc=fail smtp.client-ip=40.93.198.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CF73FB7DC
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 20:34:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.67
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777062900; cv=none; b=M9ZpeFbywGmMz+VQbxuny3vqMXJKhVMWXq2a3cS8WjV6kxqFfaBqVFBMkgOHxlxJWrvQpRahlL6V8ZR27QM66WVkYO3za10Jp7GGMoQCU0CTfACV4U0CGftxKixLKLyhIqBnMjuwX8wF0Mv0dEpoKETqmA1koQNgYEwNw61kfDo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777062900; c=relaxed/simple;
+	bh=dKg047W87wFIP2swOVB2oZBfrsTAUsKFjBpxXBmxDXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TXP78jOZdItqjmy3UYGHkZcFieMnoAwC5GZho7zvtqHM1nUVTYEQ2Xj+LRsL11IjbDqV7ElqRNO2EVKkWklnNIiMoISb8TuKoM7eDr3i4HrGVJKZcJObN7Uofau+OdF5HrSOeLrhb55HMMUDpBxEDbBiqFDD8H64SkISUOIkrUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TFdQJCR+; arc=none smtp.client-ip=209.85.210.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dIV8kYTb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KSPSoNYyUapFsTJ+hgSv5+4jSQo0hSEZXm4xD+JGgW7AxcB+5bFkmEpimD0qFMfmodiKlUH3n+9DcsTL4jwzx8mNrgv+I3S5e3jqCIhq9ewrjXY+7pLCnYNxRMaz+KfeRStxdLXWZoFLf6I47NbR7sGzLrP2+cbf4gpRs1V4vXNk46+Y4IEx3/D3BNoKMLWPrnNFoGQAGn5OwJeCpedE1ZmTfpPg4g/mFOghSELMYrJqbSBpuB3vAX6Q+5VUoxjEV300CT+4rC+tAJ4aavZkNdtEIjJXcGXu8lgb7/csRMWky9DptRN4L9nzOy775TTZM1kexyrAlFfmxM2g2Gjgng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9v2w4pq1FLndtWxZUYPatJR+oW1t24IipFKyEGJ6ZoU=;
- b=JApSRMJItkEkGQPM+24MZ9oKrLF9tciU5yheKBeFzK3fw62kc8Sqo+sMiFt/OBwPQDTLikkO8ILCVWafHyjwk4QVE3RMThVF2Hlv5GYwI34F6cCzEzFGc6vY4XhZMZoYeybPyhEJoUxK3Bt41s/tlmnhaHHEjRQr6/ol2ZYHGYLLRRGq4TEocjE1hj9NWCUupojKDLbD4CO/dkdwG2nVgzTGBNpXoWi42rYGsJ/GCJAEP82phIp26MhfJpFcH6avNs7+mmWRuN7w1Y1CeyibZ/0GIMvI+5olWHzirCW+gmfQF7i0BJ4Xph6UsWYyu8eHr6pXUm01saL3O5wJp5zomg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9v2w4pq1FLndtWxZUYPatJR+oW1t24IipFKyEGJ6ZoU=;
- b=dIV8kYTbqKkgKoRBwdmbrrkEkOFY3+bavTKB9IaA2v96xPDvS1jSVI/TPczP7f3PDWTWkoHQhDK/S2wEufevlb8zsHwRLlFTI+7SRPdNdWETd3kodXfkICT1zUQtyBCpFSItvlkkLL72wU5/azaKfhPPMTX+vniDOsUdnEnwRq7jzHudlxU29SCKISkUg16/ihtDskbX5dljAUMQMbVp6z8QuZLzkK3fk5O22u/2PvyDTdzTztmujvkRO5ZqHEKZGb7uw5fD0Tvwrz6cLVlYXoWFkKFR1M478B4/3dciN8JNucgRrCUERYVISyEyk1yIHMWOHCwFm4BkxwQMRzWhVw==
-Received: from CH5P222CA0010.NAMP222.PROD.OUTLOOK.COM (2603:10b6:610:1ee::28)
- by PH7PR12MB6857.namprd12.prod.outlook.com (2603:10b6:510:1af::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
- 2026 20:19:23 +0000
-Received: from CH2PEPF00000145.namprd02.prod.outlook.com
- (2603:10b6:610:1ee:cafe::53) by CH5P222CA0010.outlook.office365.com
- (2603:10b6:610:1ee::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Fri,
- 24 Apr 2026 20:19:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH2PEPF00000145.mail.protection.outlook.com (10.167.244.102) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Fri, 24 Apr 2026 20:19:22 +0000
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 24 Apr
- 2026 13:19:03 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 24 Apr
- 2026 13:19:02 -0700
-Received: from sumitg-l4t.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
- Transport; Fri, 24 Apr 2026 13:18:56 -0700
-From: Sumit Gupta <sumitg@nvidia.com>
-To: <rafael@kernel.org>, <viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <zhenglifeng1@huawei.com>,
-	<zhanjie9@hisilicon.com>, <corbet@lwn.net>, <skhan@linuxfoundation.org>,
-	<rdunlap@infradead.org>, <mario.limonciello@amd.com>,
-	<linux-pm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <mochs@nvidia.com>, <bbasu@nvidia.com>,
-	<sumitg@nvidia.com>
-Subject: [PATCH v2] cpufreq: CPPC: add autonomous mode boot parameter support
-Date: Sat, 25 Apr 2026 01:48:14 +0530
-Message-ID: <20260424201814.230071-1-sumitg@nvidia.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TFdQJCR+"
+Received: by mail-ot1-f67.google.com with SMTP id 46e09a7af769-7d4c383f2fcso6948427a34.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 13:34:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777062898; x=1777667698; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=92bmG5mdwkOb6S734aAYKrvcPKrn24NTG3MKYhd6SJk=;
+        b=TFdQJCR+jY9B6KLMK20km51Z17loW1p060RarDKEpAZlrIyL74SD8q+mUyTVn+xIhX
+         D+k1Ug4J99ETTeXZI/BaCxqxpQnZ7vyedKQnV/xGo4g4BXmQ8B8qbo7s9xI7O2lULWEk
+         kGCBMhbU6ubBizqvHhs5NAXmIh9rM+GkLZMyuXuf4cSFNBP10qAvsm19UCNSfm5Jb7hV
+         EhoHEVpHBzRFiYy/efKZh+CYu/RbxEeT/qQPPh1nAlz/wra5d9nUBAaJ/Dpx9aeWX1se
+         2ylXH2rjlLUBCnuM3jxW4/lkk/8oujXxUL08Jaq6KTMSfRuinIoa8KrwBrix9uVB8sSU
+         tR0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777062898; x=1777667698;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=92bmG5mdwkOb6S734aAYKrvcPKrn24NTG3MKYhd6SJk=;
+        b=r0qja32QQF9xd1U6QmGfl8gwi4g01l9UD7lEifEkgobX5wyoPC8gmvp+RtCbYdPeXV
+         h6nlgUa4xKM3KX0JwlrScIkSPba7NJKl+t7BCXiBA1c2/AvD83nROmzROfAmqEtnFPJE
+         WffRx0pt6cOyddtnv63dcRvpl6EAh1lLKt+dWopXnKHqLgmrLKg6RMcWGXo3rAuTFJak
+         HjdRV+qFQMVho+0QAFJCbJrswJqOgWRWJWYPtqg+IloS5vlTi3CNXasTspmXZqNRG815
+         +1r3DgX/YkcZi5lc5CsEQFtoRUm6wUR4XUN8YKFhGRWO5ztHvJ0oi6YBC/xsjqMbSojf
+         DxJg==
+X-Forwarded-Encrypted: i=1; AFNElJ/bJQBOkKxPt7EHQJdV/TbkiwRYZ1p9+SydMCKFwDrVj6qTWw6OCfDdifbU8I+IyOYaUnaaUt5Eeuk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYCt/sY0XSfZM4mQXW/Aqfig2XiR/FUTPiBiFmRG0PEaBLDWfO
+	tmkJF3CLTCBkQqFdL7TkaZ5DT86t6R0ejvz7f5jB6BnovBdEfj0EK/E=
+X-Gm-Gg: AeBDievzi8ygJt8r0eKuFY98q3VbimR6FbB0zm+KhK2grVRo1eIdIFbiajL/tmU9kgx
+	9nCXmPBalV0MfxfCk6gXMgYBOGUahO91+1UF4l/DaLDVtl5sm1mCLlRp5FIk3dTDfoeKJ5tgQd+
+	VpJ/wgIkVpexUTANuSeM+3BrF82vHFk5HIDuLjJDRGyowigJ3UNRWO1smSt2RBNvIDPjOA0zRDg
+	0kPx046PnHVQyEc3wTL4A4FgnZA7z6aytgooxziEXjGPsoHnrhO45wYqqAi9GKGmOidexN9Rh4n
+	81YnYFVuheAA5J+FkViwMDD4WHqIZnzEP6NHGhARD4wdPxX0bTvRS/4zYFuboHHOS9KKglp/vWW
+	Q48WTnn+R5r3Ve6bVFJ7jzipeShdp3OQG2q2V/nHD54gsD6qjelI9Z0mInogXXns7VPywYO3MpO
+	7h00zyANbmROa+SI7yYN9PSv58SWnH4U4WsV1qvyaECxRj2FBInibh9l0GiNPbwmZmmK/QsBObU
+	KRfpcnhWX6wMaocLaINHmE=
+X-Received: by 2002:a05:6830:6d56:b0:7dc:d2ad:fb29 with SMTP id 46e09a7af769-7dcd2ae018bmr12849116a34.24.1777062897420;
+        Fri, 24 Apr 2026 13:34:57 -0700 (PDT)
+Received: from localhost (23-116-43-216.lightspeed.sntcca.sbcglobal.net. [23.116.43.216])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7dc975034e7sm20050939a34.6.2026.04.24.13.34.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 13:34:56 -0700 (PDT)
+From: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+To: sj@kernel.org,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com,
+	ravis.opensrc@gmail.com
+Subject: [PATCH v7] mm/damon: add node_eligible_mem_bp goal metric
+Date: Fri, 24 Apr 2026 13:34:48 -0700
+Message-ID: <20260424203448.5040-1-ravis.opensrc@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-NVConfidentiality: public
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: ExternallySecured
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF00000145:EE_|PH7PR12MB6857:EE_
-X-MS-Office365-Filtering-Correlation-Id: 257a86f5-ef2a-43a8-df11-08dea23ec633
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700016|921020|13003099007|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	M6nixraRb6+hfkrj5gzb9NogRPFrDQUsiIeyDJ5q0x3wCGz0au2DNVAtzQ+PIDquGyEg+B2XTX59dBiMTYL7XLcQXGntEX0amrNK4gSNVfNJkGoZErkGvyXeni1AL0iu/CNQgj4BqvRZkNsEnfjqzXPjtN4mnp8ujkQysCIMwOqWLMC5SM02vU04T2IN/3pvy3ahfhmxe3K6BwrVVe0L2EtiFHlLt4ww1coWLrZ4DpyrLM/recYHmQv+8TuH8XR2tql1qX/8raWACOgTVh8c375ACny9ZEx9Ri1JncFWsoe0Vcy1W5hLNR+kQpUt1V//klfTwXqxA6KNrVOoKMMiyV5j+LMSRhXHR3yECdWB8FTPZiY06rpOpZ04C65iar4ppvN/Hyq2tXlzMbBpIRKG5+/b6RIUNWh2Fw7YrG9ypUVfDu33R3HOibk6I7flKLZ+iQY2ZiJL6uw3lTPWhF86WWIJxNvxCW5K1zE5SCKvxD6j+gXHtZ9xs74yChl8DYY8CFv+2aA+qmgJx1RSUxFlqQZAczOhzHhY4nKyg44Q7u7dqtTLD7JtCI/ng+yt9WagPqpnia80SrA9PEXf6b70277fyRKfpd4p0kb4pdXQk6qsE6KxTdP/WZMfk0hSUftcNi3TWx/+fp6i7IQcWhaP0qKzDyGK3IXh9pc+Fj9fvR68Kh5ZJta3H8JxJslJfrm3oWOxLSTOxZSIiBWlVH/jGEa2U069LmmCl11J8xbwqjGyaXC0ICCzdidRY30yxHHFwBPiC2nTG7LhmFbf9FjP2avTeuy5sqNdPpzQ0Q+G3jR4+zReEJzZEp4FKhhB/sLu
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700016)(921020)(13003099007)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	lc8cLpEWDnaxK3t71iqLSTQ2N+HFGHWhRqq7U5oXRxXeJErlh+Kq6TIXyeLi6WwWYqtGePGtEmG0qpFquBSxpK1XGQfY/WurMba9NEcYeSqkPGH/Mv7fzx/aegMOzr49VzewVZ9tCTsg6eQJA8z2SXmCbNjY9LMOtpetPceGVQroVyTk54hQoxtKDe4J7q6DsLrQMxlqDHOIClvtGDQsJO9muXsZszx5w7rrrIT5OfxqQ7V98B3zya0vJZks9WXF1mfnts+IEUJRU0W6241B2M5Nz9Its9g2njczI6Qqhb/FnOZP4nif2Kq2LaYnqYNfr9Yv15FtUyQyVFLwnn8QSjg+ro4rU3JNJ2WEXJ9uT0lfBKNjXJZ5HlSAkvHsibzB7X9N8ay8ziIY2jfhZmkwr4w3GcEAfu7LuSeBmJlQPoL8+xyky1APGCEl885hE/GU
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 20:19:22.8578
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 257a86f5-ef2a-43a8-df11-08dea23ec633
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF00000145.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6857
 
-Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
-CPPC autonomous performance selection on all CPUs at system startup.
-When autonomous mode is enabled, the hardware automatically adjusts
-CPU performance based on workload demands using Energy Performance
-Preference (EPP) hints.
+Background and Motivation
+=========================
 
-When auto_sel_mode=1:
-- Configure all CPUs for autonomous operation on first init
-- Set EPP to performance preference (0x0)
-- Use HW min/max_perf when available; otherwise initialize from caps
-- Clamp desired_perf to bounds before enabling autonomous mode
-- Hardware controls frequency instead of the OS governor
+In heterogeneous memory systems, controlling memory distribution across
+NUMA nodes is essential for performance optimization. This patch enables
+system-wide page distribution with target-state goals such as "maintain
+60% of scheme-eligible memory on DRAM" using PA-mode DAMON schemes.
 
-The boot parameter is applied only during first policy initialization.
-Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
+Rather than using absolute thresholds, this metric tracks the ratio of
+memory that matches each scheme's access pattern filters on a target
+node, enabling the quota system to automatically adjust migration
+aggressiveness to maintain the desired distribution.
 
-This patch depends on patch [2] ("cpufreq: Set policy->min and max
-as real QoS constraints") so that the policy->min/max set in
-cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
-during init.
+What This Metric Measures
+=========================
 
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
-Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
+node_eligible_mem_bp:
+    scheme_eligible_bytes_on_node / total_scheme_eligible_bytes * 10000
+
+The metric iterates through each scheme's eligible regions and uses
+damon_get_folio() to determine NUMA node placement of each folio.
+
+Two-Scheme Setup for Hot Page Distribution
+==========================================
+
+For maintaining hot memory on DRAM (node 0) and CXL (node 1) in a 6:4
+ratio (per SeongJae Park's suggestion):
+
+    PULL scheme: migrate_hot to node 0
+      goal: node_eligible_mem_bp, nid=0, target=6000
+      "Move hot pages to DRAM if less than 60% of hot data is in DRAM"
+
+    PUSH scheme: migrate_hot to node 1
+      goal: node_eligible_mem_bp, nid=1, target=4000
+      "Move hot pages to CXL if less than 40% of hot data is in CXL"
+
+Each scheme independently measures its own eligible memory and adjusts
+its quota to achieve its target ratio. The schemes work in concert
+through DAMON's unified monitoring context, with the quota autotuner
+balancing their relative aggressiveness.
+
+Implementation Details
+======================
+
+Key implementation considerations:
+- Uses phys_addr_t for byte calculations to prevent overflow on 32-bit
+  architectures with large memory configurations
+- Includes cond_resched() per region to prevent CPU soft lockups when
+  processing large numbers of regions
+- Validates that ops type is DAMON_OPS_PADDR in both damon_commit_ctx()
+  (for clear error feedback) and the metric function (defensive check)
+- Properly handles folio alignment when region addresses fall within
+  large folios by calculating exact overlap
+
+The implementation requires CONFIG_DAMON_PADDR since damon_get_folio()
+is only available for physical address space monitoring.
+
+Testing Results
+===============
+
+Functionally tested on a two-node heterogeneous memory system with DRAM
+(node 0) and CXL memory (node 1). A PUSH+PULL scheme configuration using
+migrate_hot actions was used to reach a target hot memory ratio between
+the two tiers.
+
+With the TEMPORAL tuner, the system converges quickly to the target
+distribution. The tuner drives esz to maximum when under goal and to
+zero once the goal is met, forming a simple on/off feedback loop that
+stabilizes at the desired ratio.
+
+With the CONSIST tuner, the scheme still converges but more slowly, as
+it migrates and then throttles itself based on quota feedback. The time
+to reach the goal varies depending on workload intensity.
+
+Note: This metric works with both TEMPORAL and CONSIST goal tuners.
+
+Suggested-by: SeongJae Park <sj@kernel.org>
+Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 ---
-v[1] -> v2:
-- Call cppc_set_enable() unconditionally so CPPC is enabled for both
-  OS-driven and autonomous modes.
-- Init min/max from caps instead of cppc_cpufreq_update_perf_limits()
-  as policy->min/max aren't yet populated.
+ include/linux/damon.h    |   3 +
+ mm/damon/core.c          | 171 +++++++++++++++++++++++++++++++++++----
+ mm/damon/sysfs-schemes.c |   7 ++
+ 3 files changed, 165 insertions(+), 16 deletions(-)
 
-[1] https://lore.kernel.org/lkml/20260317151053.2361475-1-sumitg@nvidia.com/
-[2] https://lore.kernel.org/lkml/20260423084731.1090384-2-pierre.gondois@arm.com/
----
- .../admin-guide/kernel-parameters.txt         | 13 +++
- drivers/cpufreq/cppc_cpufreq.c                | 89 +++++++++++++++++--
- 2 files changed, 97 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 0a1abed1b93c..751817b0573a 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1067,6 +1067,19 @@ Kernel parameters
- 			policy to use. This governor must be registered in the
- 			kernel before the cpufreq driver probes.
+diff --git a/include/linux/damon.h b/include/linux/damon.h
+index f2cdb7c3f5e6..986b8c902585 100644
+--- a/include/linux/damon.h
++++ b/include/linux/damon.h
+@@ -159,6 +159,8 @@ enum damos_action {
+  * @DAMOS_QUOTA_NODE_MEMCG_FREE_BP:	MemFree ratio of a node for a cgroup.
+  * @DAMOS_QUOTA_ACTIVE_MEM_BP:		Active to total LRU memory ratio.
+  * @DAMOS_QUOTA_INACTIVE_MEM_BP:	Inactive to total LRU memory ratio.
++ * @DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:	Scheme-eligible memory ratio of a
++ *					node in basis points (0-10000).
+  * @NR_DAMOS_QUOTA_GOAL_METRICS:	Number of DAMOS quota goal metrics.
+  *
+  * Metrics equal to larger than @NR_DAMOS_QUOTA_GOAL_METRICS are unsupported.
+@@ -172,6 +174,7 @@ enum damos_quota_goal_metric {
+ 	DAMOS_QUOTA_NODE_MEMCG_FREE_BP,
+ 	DAMOS_QUOTA_ACTIVE_MEM_BP,
+ 	DAMOS_QUOTA_INACTIVE_MEM_BP,
++	DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP,
+ 	NR_DAMOS_QUOTA_GOAL_METRICS,
+ };
  
-+	cppc_cpufreq.auto_sel_mode=
-+			[CPU_FREQ] Enable ACPI CPPC autonomous performance
-+			selection. When enabled, hardware automatically adjusts
-+			CPU frequency on all CPUs based on workload demands.
-+			In Autonomous mode, Energy Performance Preference (EPP)
-+			hints guide hardware toward performance (0x0) or energy
-+			efficiency (0xff).
-+			Requires ACPI CPPC autonomous selection register support.
-+			Format: <bool>
-+			Default: 0 (disabled)
-+			0: use cpufreq governors
-+			1: enable if supported by hardware
-+
- 	cpu_init_udelay=N
- 			[X86,EARLY] Delay for N microsec between assert and de-assert
- 			of APIC INIT to start processors.  This delay occurs
-diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-index 02db03d03755..672fc3058190 100644
---- a/drivers/cpufreq/cppc_cpufreq.c
-+++ b/drivers/cpufreq/cppc_cpufreq.c
-@@ -28,6 +28,9 @@
+diff --git a/mm/damon/core.c b/mm/damon/core.c
+index 3dbbbfdeff71..4ac805205261 100644
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -13,10 +13,14 @@
+ #include <linux/memcontrol.h>
+ #include <linux/mm.h>
+ #include <linux/psi.h>
++#include <linux/sched.h>
+ #include <linux/slab.h>
+ #include <linux/string.h>
+ #include <linux/string_choices.h>
  
- static struct cpufreq_driver cppc_cpufreq_driver;
++/* for damon_get_folio() used by node eligible memory metrics */
++#include "ops-common.h"
++
+ #define CREATE_TRACE_POINTS
+ #include <trace/events/damon.h>
  
-+/* Autonomous Selection boot parameter */
-+static bool auto_sel_mode;
-+
- #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
- static enum {
- 	FIE_UNSET = -1,
-@@ -656,6 +659,14 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
- 	caps = &cpu_data->perf_caps;
- 	policy->driver_data = cpu_data;
+@@ -1326,11 +1330,25 @@ static int damon_commit_targets(
+ int damon_commit_ctx(struct damon_ctx *dst, struct damon_ctx *src)
+ {
+ 	int err;
++	struct damos *scheme;
++	struct damos_quota_goal *goal;
  
-+	/*
-+	 * Enable CPPC for both OS-driven and autonomous modes.
-+	 * The Enable register is optional - some platforms may not support it
-+	 */
-+	ret = cppc_set_enable(cpu, true);
-+	if (ret && ret != -EOPNOTSUPP)
-+		pr_warn("Failed to enable CPPC for CPU%d (%d)\n", cpu, ret);
-+
- 	min = cppc_perf_to_khz(caps, caps->lowest_nonlinear_perf);
- 	max = cppc_perf_to_khz(caps, policy->boost_enabled ?
- 			caps->highest_perf : caps->nominal_perf);
-@@ -711,11 +722,71 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
- 	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
- 	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
+ 	dst->maybe_corrupted = true;
+ 	if (!is_power_of_2(src->min_region_sz))
+ 		return -EINVAL;
  
--	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
--	if (ret) {
--		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
--			 caps->highest_perf, cpu, ret);
--		goto out;
-+	/*
-+	 * Enable autonomous mode on first init if boot param is set.
-+	 * Check last_governor to detect first init and skip if auto_sel
-+	 * is already enabled.
-+	 */
-+	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-+	    !cpu_data->perf_ctrls.auto_sel) {
-+		/* Init min/max_perf from caps if not already set by HW. */
-+		if (!cpu_data->perf_ctrls.min_perf)
-+			cpu_data->perf_ctrls.min_perf = caps->lowest_nonlinear_perf;
-+		if (!cpu_data->perf_ctrls.max_perf)
-+			cpu_data->perf_ctrls.max_perf = policy->boost_enabled ?
-+				caps->highest_perf : caps->nominal_perf;
++	/* node_eligible_mem_bp metric requires PADDR ops */
++	if (src->ops.id != DAMON_OPS_PADDR) {
++		damon_for_each_scheme(scheme, src) {
++			struct damos_quota *quota = &scheme->quota;
 +
-+		cpu_data->perf_ctrls.desired_perf =
-+			clamp_t(u32, cpu_data->perf_ctrls.desired_perf,
-+				cpu_data->perf_ctrls.min_perf,
-+				cpu_data->perf_ctrls.max_perf);
-+
-+		policy->cur = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.desired_perf);
-+
-+		/* EPP is optional - some platforms may not support it */
-+		ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
-+		if (ret && ret != -EOPNOTSUPP)
-+			pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
-+		else if (!ret)
-+			cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
-+
-+		/* Program min/max/desired into CPPC regs before enabling auto_sel. */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret) {
-+			pr_debug("Err setting perf for autonomous mode CPU:%d ret:%d\n",
-+				 cpu, ret);
-+			goto out;
++			damos_for_each_quota_goal(goal, quota) {
++				if (goal->metric == DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP)
++					return -EINVAL;
++			}
 +		}
-+
-+		ret = cppc_set_auto_sel(cpu, true);
-+		if (ret && ret != -EOPNOTSUPP) {
-+			pr_warn("Failed autonomous config for CPU%d (%d)\n",
-+				cpu, ret);
-+			goto out;
-+		}
-+		if (!ret)
-+			cpu_data->perf_ctrls.auto_sel = true;
 +	}
 +
-+	if (cpu_data->perf_ctrls.auto_sel) {
-+		/* Sync policy limits from HW when autonomous mode is active */
-+		policy->min = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.min_perf ?:
-+					       caps->lowest_nonlinear_perf);
-+		policy->max = cppc_perf_to_khz(caps,
-+					       cpu_data->perf_ctrls.max_perf ?:
-+					       (policy->boost_enabled ?
-+						caps->highest_perf :
-+						caps->nominal_perf));
-+	} else {
-+		/* Normal mode: governors control frequency */
-+		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-+		if (ret) {
-+			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-+				 caps->highest_perf, cpu, ret);
-+			goto out;
+ 	err = damon_commit_schemes(dst, src);
+ 	if (err)
+ 		return err;
+@@ -2287,7 +2305,112 @@ static unsigned long damos_get_node_memcg_used_bp(
+ 		numerator = i.totalram - used_pages;
+ 	return mult_frac(numerator, 10000, i.totalram);
+ }
+-#else
++
++#ifdef CONFIG_DAMON_PADDR
++/*
++ * damos_calc_eligible_bytes() - Calculate raw eligible bytes per node.
++ * @c:		The DAMON context.
++ * @s:		The scheme.
++ * @nid:	The target NUMA node id.
++ * @total:	Output for total eligible bytes across all nodes.
++ *
++ * Iterates through each folio in eligible regions to accurately determine
++ * which node the memory resides on. Returns eligible bytes on the specified
++ * node and sets *total to the sum across all nodes.
++ *
++ * Note: This function requires damon_get_folio() from ops-common.c, which is
++ * only available when CONFIG_DAMON_PADDR is enabled. It also requires the
++ * context to be using PADDR operations for meaningful results.
++ */
++static phys_addr_t damos_calc_eligible_bytes(struct damon_ctx *c,
++		struct damos *s, int nid, phys_addr_t *total)
++{
++	struct damon_target *t;
++	struct damon_region *r;
++	phys_addr_t total_eligible = 0;
++	phys_addr_t node_eligible = 0;
++
++	damon_for_each_target(t, c) {
++		damon_for_each_region(r, t) {
++			phys_addr_t addr, end_addr;
++
++			if (!__damos_valid_target(r, s))
++				continue;
++
++			/* Convert from core address units to physical bytes */
++			addr = (phys_addr_t)r->ar.start * c->addr_unit;
++			end_addr = (phys_addr_t)r->ar.end * c->addr_unit;
++			while (addr < end_addr) {
++				struct folio *folio;
++				phys_addr_t folio_start, folio_end;
++				phys_addr_t overlap_start, overlap_end;
++				phys_addr_t counted;
++
++				folio = damon_get_folio(PHYS_PFN(addr));
++				if (!folio) {
++					addr += PAGE_SIZE;
++					continue;
++				}
++
++				/*
++				 * Calculate exact overlap between the region
++				 * [addr, end_addr) and the folio range.
++				 * The folio may start before addr if addr is
++				 * in the middle of a large folio.
++				 */
++				folio_start = PFN_PHYS(folio_pfn(folio));
++				folio_end = folio_start + folio_size(folio);
++
++				overlap_start = max(addr, folio_start);
++				overlap_end = min(end_addr, folio_end);
++
++				if (overlap_end > overlap_start) {
++					counted = overlap_end - overlap_start;
++					total_eligible += counted;
++					if (folio_nid(folio) == nid)
++						node_eligible += counted;
++				}
++
++				/* Advance past the entire folio */
++				addr = folio_end;
++				folio_put(folio);
++			}
++			cond_resched();
 +		}
- 	}
- 
- 	cppc_cpufreq_cpu_fie_init(policy);
-@@ -1035,10 +1106,18 @@ static int __init cppc_cpufreq_init(void)
- 
- static void __exit cppc_cpufreq_exit(void)
++	}
++
++	*total = total_eligible;
++	return node_eligible;
++}
++
++static unsigned long damos_get_node_eligible_mem_bp(struct damon_ctx *c,
++		struct damos *s, int nid)
++{
++	phys_addr_t total_eligible = 0;
++	phys_addr_t node_eligible;
++
++	if (c->ops.id != DAMON_OPS_PADDR)
++		return 0;
++
++	if (nid < 0 || nid >= MAX_NUMNODES || !node_online(nid))
++		return 0;
++
++	node_eligible = damos_calc_eligible_bytes(c, s, nid, &total_eligible);
++
++	if (!total_eligible)
++		return 0;
++
++	return mult_frac((unsigned long)node_eligible, 10000,
++			(unsigned long)total_eligible);
++}
++#else /* CONFIG_DAMON_PADDR */
++static unsigned long damos_get_node_eligible_mem_bp(struct damon_ctx *c,
++		struct damos *s, int nid)
++{
++	return 0;
++}
++#endif /* CONFIG_DAMON_PADDR */
++#else /* CONFIG_NUMA */
+ static __kernel_ulong_t damos_get_node_mem_bp(
+ 		struct damos_quota_goal *goal)
  {
-+	unsigned int cpu;
+@@ -2299,7 +2422,13 @@ static unsigned long damos_get_node_memcg_used_bp(
+ {
+ 	return 0;
+ }
+-#endif
 +
-+	for_each_present_cpu(cpu)
-+		cppc_set_auto_sel(cpu, false);
-+
- 	cpufreq_unregister_driver(&cppc_cpufreq_driver);
- 	cppc_freq_invariance_exit();
++static unsigned long damos_get_node_eligible_mem_bp(struct damon_ctx *c,
++		struct damos *s, int nid)
++{
++	return 0;
++}
++#endif /* CONFIG_NUMA */
+ 
+ /*
+  * Returns LRU-active or inactive memory to total LRU memory size ratio.
+@@ -2319,7 +2448,8 @@ static unsigned int damos_get_in_active_mem_bp(bool active_ratio)
+ 	return mult_frac(inactive, 10000, total);
  }
  
-+module_param(auto_sel_mode, bool, 0444);
-+MODULE_PARM_DESC(auto_sel_mode, "Enable CPPC autonomous performance selection at boot");
-+
- module_exit(cppc_cpufreq_exit);
- MODULE_AUTHOR("Ashwin Chaugule");
- MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
+-static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
++static void damos_set_quota_goal_current_value(struct damon_ctx *c,
++		struct damos *s, struct damos_quota_goal *goal)
+ {
+ 	u64 now_psi_total;
+ 
+@@ -2345,19 +2475,24 @@ static void damos_set_quota_goal_current_value(struct damos_quota_goal *goal)
+ 		goal->current_value = damos_get_in_active_mem_bp(
+ 				goal->metric == DAMOS_QUOTA_ACTIVE_MEM_BP);
+ 		break;
++	case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
++		goal->current_value = damos_get_node_eligible_mem_bp(c, s,
++				goal->nid);
++		break;
+ 	default:
+ 		break;
+ 	}
+ }
+ 
+ /* Return the highest score since it makes schemes least aggressive */
+-static unsigned long damos_quota_score(struct damos_quota *quota)
++static unsigned long damos_quota_score(struct damon_ctx *c, struct damos *s)
+ {
+ 	struct damos_quota_goal *goal;
++	struct damos_quota *quota = &s->quota;
+ 	unsigned long highest_score = 0;
+ 
+ 	damos_for_each_quota_goal(goal, quota) {
+-		damos_set_quota_goal_current_value(goal);
++		damos_set_quota_goal_current_value(c, s, goal);
+ 		highest_score = max(highest_score,
+ 				mult_frac(goal->current_value, 10000,
+ 					goal->target_value));
+@@ -2366,17 +2501,19 @@ static unsigned long damos_quota_score(struct damos_quota *quota)
+ 	return highest_score;
+ }
+ 
+-static void damos_goal_tune_esz_bp_consist(struct damos_quota *quota)
++static void damos_goal_tune_esz_bp_consist(struct damon_ctx *c, struct damos *s)
+ {
+-	unsigned long score = damos_quota_score(quota);
++	struct damos_quota *quota = &s->quota;
++	unsigned long score = damos_quota_score(c, s);
+ 
+ 	quota->esz_bp = damon_feed_loop_next_input(
+ 			max(quota->esz_bp, 10000UL), score);
+ }
+ 
+-static void damos_goal_tune_esz_bp_temporal(struct damos_quota *quota)
++static void damos_goal_tune_esz_bp_temporal(struct damon_ctx *c, struct damos *s)
+ {
+-	unsigned long score = damos_quota_score(quota);
++	struct damos_quota *quota = &s->quota;
++	unsigned long score = damos_quota_score(c, s);
+ 
+ 	if (score >= 10000)
+ 		quota->esz_bp = 0;
+@@ -2389,9 +2526,9 @@ static void damos_goal_tune_esz_bp_temporal(struct damos_quota *quota)
+ /*
+  * Called only if quota->ms, or quota->sz are set, or quota->goals is not empty
+  */
+-static void damos_set_effective_quota(struct damos_quota *quota,
+-		struct damon_ctx *ctx)
++static void damos_set_effective_quota(struct damon_ctx *c, struct damos *s)
+ {
++	struct damos_quota *quota = &s->quota;
+ 	unsigned long throughput;
+ 	unsigned long esz = ULONG_MAX;
+ 
+@@ -2402,9 +2539,9 @@ static void damos_set_effective_quota(struct damos_quota *quota,
+ 
+ 	if (!list_empty(&quota->goals)) {
+ 		if (quota->goal_tuner == DAMOS_QUOTA_GOAL_TUNER_CONSIST)
+-			damos_goal_tune_esz_bp_consist(quota);
++			damos_goal_tune_esz_bp_consist(c, s);
+ 		else if (quota->goal_tuner == DAMOS_QUOTA_GOAL_TUNER_TEMPORAL)
+-			damos_goal_tune_esz_bp_temporal(quota);
++			damos_goal_tune_esz_bp_temporal(c, s);
+ 		esz = quota->esz_bp / 10000;
+ 	}
+ 
+@@ -2415,7 +2552,7 @@ static void damos_set_effective_quota(struct damos_quota *quota,
+ 		else
+ 			throughput = PAGE_SIZE * 1024;
+ 		esz = min(throughput * quota->ms, esz);
+-		esz = max(ctx->min_region_sz, esz);
++		esz = max(c->min_region_sz, esz);
+ 	}
+ 
+ 	if (quota->sz && quota->sz < esz)
+@@ -2452,7 +2589,9 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
+ 	/* First charge window */
+ 	if (!quota->total_charged_sz && !quota->charged_from) {
+ 		quota->charged_from = jiffies;
+-		damos_set_effective_quota(quota, c);
++		damos_set_effective_quota(c, s);
++		if (trace_damos_esz_enabled())
++			damos_trace_esz(c, s, quota);
+ 	}
+ 
+ 	/* New charge window starts */
+@@ -2467,7 +2606,7 @@ static void damos_adjust_quota(struct damon_ctx *c, struct damos *s)
+ 		quota->charged_sz = 0;
+ 		if (trace_damos_esz_enabled())
+ 			cached_esz = quota->esz;
+-		damos_set_effective_quota(quota, c);
++		damos_set_effective_quota(c, s);
+ 		if (trace_damos_esz_enabled() && quota->esz != cached_esz)
+ 			damos_trace_esz(c, s, quota);
+ 	}
+diff --git a/mm/damon/sysfs-schemes.c b/mm/damon/sysfs-schemes.c
+index 245d63808411..f21191d31f58 100644
+--- a/mm/damon/sysfs-schemes.c
++++ b/mm/damon/sysfs-schemes.c
+@@ -1094,6 +1094,10 @@ struct damos_sysfs_qgoal_metric_name damos_sysfs_qgoal_metric_names[] = {
+ 		.metric = DAMOS_QUOTA_INACTIVE_MEM_BP,
+ 		.name = "inactive_mem_bp",
+ 	},
++	{
++		.metric = DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP,
++		.name = "node_eligible_mem_bp",
++	},
+ };
+ 
+ static ssize_t target_metric_show(struct kobject *kobj,
+@@ -2685,6 +2689,9 @@ static int damos_sysfs_add_quota_score(
+ 			}
+ 			goal->nid = sysfs_goal->nid;
+ 			break;
++		case DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP:
++			goal->nid = sysfs_goal->nid;
++			break;
+ 		default:
+ 			break;
+ 		}
+
+base-commit: 277a7fae172bb4a598e0d4144ffb2ff6207fedb3
 -- 
-2.34.1
+2.43.0
 
