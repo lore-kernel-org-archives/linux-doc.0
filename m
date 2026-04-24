@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03FCA3D813E;
-	Fri, 24 Apr 2026 14:01:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2B03DBD4F;
+	Fri, 24 Apr 2026 14:01:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777039285; cv=none; b=ZqctjhGCP7HQQNngdZvWA8Tmmjt1spwvF7bXgadhTvVT09u63H3vG6iCVt7vxxoHSk4K4+zEVSevQEeZs8OlX5zdcmnyUjtdE9emkVAYTzx15nG72edm00nF2kC+R7seXTqAQnQzbeQkvVenwt2YpZEb2aP1G4bpOiYTTSdU6+c=
+	t=1777039287; cv=none; b=h4nS3OmwzcxBjnAW2slg0QcMhe6vL6cGBXjhLtK0P4H4WLjhp57A0feXFuooBJ6JuyS75AXuKwYVlw7+5ksDX4jN+SOL95uvG+Afi4xH5YXWdyjYnHpKDyD6+tJvTI9LEzrFeG8pWgbLCvg3wYttTuHYbiOl3NQ04Yr1vbzYBMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777039285; c=relaxed/simple;
-	bh=jn2J3yA0J0jkmQB7t5ls5b/AEhdqnAVp7d4GDg/Z45k=;
+	s=arc-20240116; t=1777039287; c=relaxed/simple;
+	bh=OMk8G83SwVj9TZi6pSd7RKvp6NWeeiZOhOo5iK9u9hw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OoPUkkQxqpe4QLuKBbz5fhxUJbvZd48MtYLXsJmBBcPoorEhTnj9iHJ+dS8HoYqHqmJTbgO4/N5Gd7GK9k1xrkVxp1v6vuae+ni5eH1iJkI6Dg80WBkchdI72z2GHNRFXzElRqG87GrBJvhuABHUg2yiHGNSsQTSVoUcQWH9eWU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N4LFlvWX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=DcWNwikIx1QhSeni1TJYwb4YUt3Xu6eEIKmM2hDILQ6slLtd89edS0DwF0BJTKWUE44XNM4gaFCs5G/0DO8jzzMAzgU9u3XmmBTsHBJuk7l/m7MMAuR2lu0X/3MuHS/MbhKikHd5CG37gFN+vI/5sAyUeBsa/OEz6ob0pp4QstU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g3/mycHd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N4LFlvWX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 927D0C2BCB2;
-	Fri, 24 Apr 2026 14:01:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g3/mycHd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93D1CC2BCB5;
+	Fri, 24 Apr 2026 14:01:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777039284;
-	bh=jn2J3yA0J0jkmQB7t5ls5b/AEhdqnAVp7d4GDg/Z45k=;
+	s=k20201202; t=1777039286;
+	bh=OMk8G83SwVj9TZi6pSd7RKvp6NWeeiZOhOo5iK9u9hw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=N4LFlvWXRa+nC2LrxZiweANVn2sW/mtDJtn9Hc8U2IyjZIgSy4LNgQs+IcGbxKtKB
-	 SQXc/kEvUje04JOPH7+CFjBAkhuNvJ1+mJpMKSbR3Ape53qEz2rSthY8WkOHr+x/AD
-	 NerivrUMmvutjugXmGXWN2xhWSt5Eg1Z+HGbi1TwI2Sj41+fdZ0AVNy+sVEUVCKVPG
-	 tLwhV6Z90OosV7D6kFMR/VPDcZwTKg+fgxFgCAHVlS42dHsnn/IJeYntXseH2xsUih
-	 orNQgIAhSM/STtN+hJVaSrAZAogD0kKuva7+i6hCEbPLvJar+PoD4pQMRXPnUSHvQp
-	 ApS4f2wWVf0jQ==
+	b=g3/mycHdG1w/wHSq1REskac8ra3x8JGBb1lHFVdN7P1hhPz4Y0FiwTGP9U5OFZxIi
+	 dYhnt5nfG9T3kn2yS21djgpX2Ka6gViUNDTCqV8LO7TWnxnfM9q4jlg2LxGQNcPlvK
+	 Ib2XS1nIVnxGi2NIi9+0gs3M7ijhNPin3sYOoANBE2DQOul5r2n5IaV1r+N0vcLiXr
+	 nK3vUQ/xjUNY5n7Kn4nTCwnXXNTci6GmJREghaIm2+UQYMn/YZOo5a/GD5qiOvMTLh
+	 TGcGpTLT/bfxLUj6ha8qaheYrBhIZg9m7mMYIpD2urYuIaLP8Hk4kpelirNJPO0Tsx
+	 kGLemIdZExQEw==
 From: Sasha Levin <sashal@kernel.org>
 To: akpm@linux-foundation.org,
 	david@kernel.org,
@@ -46,9 +46,9 @@ Cc: ljs@kernel.org,
 	Sasha Levin <sashal@nvidia.com>,
 	Sanif Veeras <sveeras@nvidia.com>,
 	"Claude:claude-opus-4-7" <noreply@anthropic.com>
-Subject: [RFC 1/7] mm: add generic dual-bitmap consistency primitives
-Date: Fri, 24 Apr 2026 10:00:50 -0400
-Message-ID: <20260424140056.2094777-2-sashal@kernel.org>
+Subject: [RFC 2/7] mm: add page consistency checker header
+Date: Fri, 24 Apr 2026 10:00:51 -0400
+Message-ID: <20260424140056.2094777-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260424140056.2094777-1-sashal@kernel.org>
 References: <20260424140056.2094777-1-sashal@kernel.org>
@@ -62,286 +62,113 @@ Content-Transfer-Encoding: 8bit
 
 From: Sasha Levin <sashal@nvidia.com>
 
-Add a header-only library implementing a pair-of-complementary-bitmaps
-integrity primitive: maintain two bitmaps where primary[i] == !secondary[i]
-for every bit i, and detect corruption by checking that invariant.
+Define the interface for CONFIG_DEBUG_PAGE_CONSISTENCY. The API mirrors
+the pattern used by page_table_check: inline wrapper functions check a
+static key before calling the out-of-line tracking implementation, so
+that callers in the allocator hot path only pay for a predicted-not-taken
+branch when the feature is built in but not active.
 
-The motivation (silent metadata corruption that KASAN/KFENCE cannot see,
-plus the functional-safety argument for wanting this in the kernel) is
-described in the cover letter; this patch only introduces the building
-block.
-
-The primary bitmap uses 1 for "allocated" and 0 for "free"; the secondary
-uses the opposite convention. dual_bitmap_set() and dual_bitmap_clear()
-update both bitmaps and return the previous primary bit so callers can
-distinguish a real state transition from a double-alloc or double-free.
-dual_bitmap_validate() walks every word and returns the number of words
-that fail the invariant.
-
-Concurrency note: set and clear perform two independent atomic bit
-operations against the primary and secondary bitmaps, so the invariant
-is transiently violated between those two ops. A concurrent reader can
-observe an inconsistent pair on a healthy kernel. The validation
-helpers absorb this by retrying a small number of times with cpu_relax()
-and, after the retries, issuing an smp_rmb() and re-reading. Real
-corruption is persistent and survives the retries; transient races
-resolve within a few cpu_relax() loops. This keeps the update path
-lock-free at the cost of a bounded false-positive probability under
-extreme write rates, which is acceptable for a fail-stop integrity
-check.
+The header is kept separate from the implementation so the hooks in
+page_alloc.c can be added without pulling in implementation details.
 
 Based-on-patch-by: Sanif Veeras <sveeras@nvidia.com>
 Assisted-by: Claude:claude-opus-4-7 <noreply@anthropic.com>
 Signed-off-by: Sasha Levin <sashal@nvidia.com>
 ---
- MAINTAINERS                 |  10 ++
- include/linux/dual_bitmap.h | 216 ++++++++++++++++++++++++++++++++++++
- 2 files changed, 226 insertions(+)
- create mode 100644 include/linux/dual_bitmap.h
+ include/linux/page_consistency.h | 84 ++++++++++++++++++++++++++++++++
+ 1 file changed, 84 insertions(+)
+ create mode 100644 include/linux/page_consistency.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d1cc0e12fe1f..81b1f44215b3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19972,6 +19972,16 @@ F:	mm/page-writeback.c
- F:	mm/readahead.c
- F:	mm/truncate.c
- 
-+PAGE CONSISTENCY CHECKER
-+M:	Sasha Levin <sashal@kernel.org>
-+L:	linux-mm@kvack.org
-+S:	Maintained
-+F:	Documentation/mm/page_consistency.rst
-+F:	include/linux/dual_bitmap.h
-+F:	include/linux/page_consistency.h
-+F:	mm/page_consistency.c
-+F:	mm/page_consistency_test.c
-+
- PAGE POOL
- M:	Jesper Dangaard Brouer <hawk@kernel.org>
- M:	Ilias Apalodimas <ilias.apalodimas@linaro.org>
-diff --git a/include/linux/dual_bitmap.h b/include/linux/dual_bitmap.h
+diff --git a/include/linux/page_consistency.h b/include/linux/page_consistency.h
 new file mode 100644
-index 000000000000..136822267be1
+index 000000000000..f335fa3d6c5d
 --- /dev/null
-+++ b/include/linux/dual_bitmap.h
-@@ -0,0 +1,216 @@
++++ b/include/linux/page_consistency.h
+@@ -0,0 +1,84 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
-+ * Dual-bitmap consistency primitives
++ * Dual-bitmap page consistency checking
 + *
-+ * Provides a generic library for maintaining dual bitmaps with the invariant
-+ * that (primary == ~secondary). This pattern is useful for detecting
-+ * single-bit memory corruption in bitmap-based data structures.
++ * Provides corruption detection for page allocations using complementary
++ * bitmaps where the invariant (primary == ~secondary) must hold.
 + *
 + * Based on NVIDIA safety research.
 + */
-+#ifndef _LINUX_DUAL_BITMAP_H
-+#define _LINUX_DUAL_BITMAP_H
++#ifndef _LINUX_PAGE_CONSISTENCY_H
++#define _LINUX_PAGE_CONSISTENCY_H
 +
 +#include <linux/types.h>
-+#include <linux/bitops.h>
-+#include <linux/bitmap.h>
-+#include <linux/bug.h>
-+#include <asm/barrier.h>
-+#include <linux/processor.h>
++#include <linux/mm_types.h>
 +
-+/* Number of retries for transient inconsistencies from concurrent updates */
-+#define DUAL_BITMAP_RETRY_COUNT 3
-+
-+/* Bitmap indices */
-+enum dual_bitmap_index {
-+	DUAL_BITMAP_PRIMARY = 0,	/* 0=free, 1=allocated */
-+	DUAL_BITMAP_SECONDARY = 1,	/* 0=allocated, 1=free (complement) */
-+	DUAL_BITMAP_COUNT = 2
++/* Return codes for page consistency checking */
++enum page_consistency_result {
++	PAGE_CONSISTENCY_OK = 0,
++	PAGE_CONSISTENCY_MISMATCH,
++	PAGE_CONSISTENCY_NOT_TRACKED,
 +};
 +
-+/**
-+ * struct dual_bitmap - Dual bitmap structure
-+ * @bitmap: Array of two bitmap pointers [PRIMARY, SECONDARY]
-+ * @nbits: Number of bits in each bitmap
-+ */
-+struct dual_bitmap {
-+	unsigned long *bitmap[DUAL_BITMAP_COUNT];
-+	unsigned int nbits;
-+};
++#ifdef CONFIG_DEBUG_PAGE_CONSISTENCY
++
++#include <linux/jump_label.h>
++DECLARE_STATIC_KEY_FALSE(page_consistency_enabled);
++
++/* Initialization - called during mm_core_init() */
++void __init page_consistency_init(void);
++
++/* Core tracking functions */
++void __page_consistency_alloc(struct page *page, unsigned int order);
++void __page_consistency_free(struct page *page, unsigned int order);
++
++/* Validation functions */
++enum page_consistency_result page_consistency_check_page(struct page *page);
++enum page_consistency_result page_consistency_validate_all(void);
 +
 +/**
-+ * dual_bitmap_consistent_word - Check if a word pair maintains the invariant
-+ * @primary: Primary bitmap word
-+ * @secondary: Secondary bitmap word
++ * page_consistency_alloc - Track page allocation
++ * @page: Allocated page
++ * @order: Allocation order
 + *
-+ * Returns true if primary == ~secondary
++ * Called from post_alloc_hook() to track page allocations.
++ * The static key avoids the out-of-line tracking call until initialization.
 + */
-+static inline bool dual_bitmap_consistent_word(unsigned long primary,
-+					       unsigned long secondary)
++static inline void page_consistency_alloc(struct page *page, unsigned int order)
 +{
-+	return primary == ~secondary;
++	if (static_branch_unlikely(&page_consistency_enabled))
++		__page_consistency_alloc(page, order);
 +}
 +
 +/**
-+ * dual_bitmap_set - Set bit in dual bitmap (mark as allocated)
-+ * @db: Dual bitmap structure
-+ * @bit: Bit position to set
++ * page_consistency_free - Track page free
++ * @page: Page being freed
++ * @order: Free order
 + *
-+ * Sets bit in primary and clears corresponding bit in secondary.
-+ * Returns the old value of the primary bit (true if was already set).
++ * Called from free_pages_prepare() to track page frees.
++ * The static key avoids the out-of-line tracking call until initialization.
 + */
-+static inline bool dual_bitmap_set(struct dual_bitmap *db, unsigned long bit)
++static inline void page_consistency_free(struct page *page, unsigned int order)
 +{
-+	bool was_set;
-+
-+	if (WARN_ON_ONCE(bit >= db->nbits))
-+		return false;
-+
-+	was_set = test_and_set_bit(bit, db->bitmap[DUAL_BITMAP_PRIMARY]);
-+	test_and_clear_bit(bit, db->bitmap[DUAL_BITMAP_SECONDARY]);
-+
-+	return was_set;
++	if (static_branch_unlikely(&page_consistency_enabled))
++		__page_consistency_free(page, order);
 +}
 +
-+/**
-+ * dual_bitmap_clear - Clear bit in dual bitmap (mark as free)
-+ * @db: Dual bitmap structure
-+ * @bit: Bit position to clear
-+ *
-+ * Clears bit in primary and sets corresponding bit in secondary.
-+ * Returns the old value of the primary bit (true if was set).
-+ */
-+static inline bool dual_bitmap_clear(struct dual_bitmap *db, unsigned long bit)
++#else /* !CONFIG_DEBUG_PAGE_CONSISTENCY */
++
++static inline void __init page_consistency_init(void) {}
++static inline void page_consistency_alloc(struct page *page, unsigned int order) {}
++static inline void page_consistency_free(struct page *page, unsigned int order) {}
++
++static inline enum page_consistency_result page_consistency_check_page(struct page *page)
 +{
-+	bool was_set;
-+
-+	if (WARN_ON_ONCE(bit >= db->nbits))
-+		return false;
-+
-+	was_set = test_and_clear_bit(bit, db->bitmap[DUAL_BITMAP_PRIMARY]);
-+	test_and_set_bit(bit, db->bitmap[DUAL_BITMAP_SECONDARY]);
-+
-+	return was_set;
++	return PAGE_CONSISTENCY_OK;
 +}
 +
-+/**
-+ * dual_bitmap_test - Test if bit is set in primary bitmap
-+ * @db: Dual bitmap structure
-+ * @bit: Bit position to test
-+ *
-+ * Returns true if bit is set in primary (allocated), false if clear (free).
-+ */
-+static inline bool dual_bitmap_test(const struct dual_bitmap *db,
-+				    unsigned long bit)
++static inline enum page_consistency_result page_consistency_validate_all(void)
 +{
-+	if (WARN_ON_ONCE(bit >= db->nbits))
-+		return false;
-+
-+	return test_bit(bit, db->bitmap[DUAL_BITMAP_PRIMARY]);
++	return PAGE_CONSISTENCY_OK;
 +}
 +
-+/**
-+ * dual_bitmap_consistent - Check consistency of a single bit
-+ * @db: Dual bitmap structure
-+ * @bit: Bit position to check
-+ *
-+ * Returns true if the bit values are consistent (primary != secondary).
-+ * Uses retry logic to handle transient inconsistencies from concurrent
-+ * updates - real corruption persists while races resolve quickly.
-+ */
-+static inline bool dual_bitmap_consistent(const struct dual_bitmap *db,
-+					  unsigned long bit)
-+{
-+	int retries = DUAL_BITMAP_RETRY_COUNT;
-+
-+	if (WARN_ON_ONCE(bit >= db->nbits))
-+		return false;
-+
-+	do {
-+		bool primary = test_bit(bit, db->bitmap[DUAL_BITMAP_PRIMARY]);
-+		bool secondary = test_bit(bit, db->bitmap[DUAL_BITMAP_SECONDARY]);
-+
-+		if (primary != secondary)
-+			return true;  /* Consistent */
-+
-+		/* Inconsistent - could be transient race, retry */
-+		cpu_relax();
-+	} while (--retries > 0);
-+
-+	/*
-+	 * Inconsistent after retries. Issue a read barrier and check
-+	 * one last time to rule out stale/reordered reads.
-+	 *
-+	 * Note: the two test_bit() calls are still non-atomic w.r.t.
-+	 * each other, so a concurrent set/clear between them can cause
-+	 * a transient false positive. This is acceptable because real
-+	 * corruption is persistent and will be caught on the next check.
-+	 */
-+	smp_rmb();
-+	return test_bit(bit, db->bitmap[DUAL_BITMAP_PRIMARY]) !=
-+	       test_bit(bit, db->bitmap[DUAL_BITMAP_SECONDARY]);
-+}
-+
-+/**
-+ * dual_bitmap_validate - Validate entire dual bitmap
-+ * @db: Dual bitmap structure
-+ *
-+ * Checks that the invariant (primary == ~secondary) holds for all words.
-+ * Uses retry logic to handle transient inconsistencies from concurrent
-+ * updates - real corruption persists while races resolve quickly.
-+ * Returns the number of inconsistent words found (0 = all consistent).
-+ *
-+ * Note: this is a cold-path diagnostic function kept inline for
-+ * header-only library simplicity. It should not be called in hot paths.
-+ */
-+static inline unsigned long dual_bitmap_validate(const struct dual_bitmap *db)
-+{
-+	unsigned int words = BITS_TO_LONGS(db->nbits);
-+	unsigned long violations = 0;
-+	unsigned int i;
-+
-+	for (i = 0; i < words; i++) {
-+		unsigned long primary, secondary;
-+		int retries = DUAL_BITMAP_RETRY_COUNT;
-+
-+		do {
-+			primary = READ_ONCE(db->bitmap[DUAL_BITMAP_PRIMARY][i]);
-+			secondary = READ_ONCE(db->bitmap[DUAL_BITMAP_SECONDARY][i]);
-+
-+			if (dual_bitmap_consistent_word(primary, secondary))
-+				break;  /* Consistent, move to next word */
-+
-+			cpu_relax();
-+		} while (--retries > 0);
-+
-+		if (retries == 0) {
-+			/*
-+			 * Inconsistent after retries. Issue a read
-+			 * barrier and re-read to rule out stale/reordered
-+			 * memory views before declaring corruption.
-+			 */
-+			smp_rmb();
-+			primary = READ_ONCE(db->bitmap[DUAL_BITMAP_PRIMARY][i]);
-+			secondary = READ_ONCE(db->bitmap[DUAL_BITMAP_SECONDARY][i]);
-+			if (!dual_bitmap_consistent_word(primary, secondary))
-+				violations++;
-+		}
-+	}
-+
-+	return violations;
-+}
-+
-+/**
-+ * dual_bitmap_init - Initialize dual bitmap to empty state
-+ * @db: Dual bitmap structure
-+ *
-+ * Sets primary to all zeros (nothing allocated) and secondary to all ones.
-+ * The bitmaps must already be allocated before calling this.
-+ */
-+static inline void dual_bitmap_init(struct dual_bitmap *db)
-+{
-+	bitmap_zero(db->bitmap[DUAL_BITMAP_PRIMARY], db->nbits);
-+	bitmap_fill(db->bitmap[DUAL_BITMAP_SECONDARY], db->nbits);
-+}
-+
-+#endif /* _LINUX_DUAL_BITMAP_H */
++#endif /* CONFIG_DEBUG_PAGE_CONSISTENCY */
++#endif /* _LINUX_PAGE_CONSISTENCY_H */
 -- 
 2.53.0
 
