@@ -1,80 +1,104 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32BE3DA7D7;
-	Fri, 24 Apr 2026 14:40:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2CE53E0250;
+	Fri, 24 Apr 2026 14:49:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777041629; cv=none; b=i+WehUIny+RVy5LKMslNLxEZ9DrCgxueTrcNKsvOoLxNsOm+H1rO2+I5Y8GzU3kO5GgxQVOtN0vO4cs87SnVzwDrlxRI1hpbsvtrVWRU4cXOgJ3OC8SbIDXisPcq4sMPvlPhR2nphc6ct1LkiTkL/y7RJMCaJAew6SiXYfFmrew=
+	t=1777042154; cv=none; b=O0/jg1IecLL7BOOeqa73YgG5WC0em+tDN5mBJ89/RrkwvVgK+jdWKbYIAOMoyYfv3fgbEuYirqvRFeXu45RKTYfCsI/7G1IqmUMSGkWyD4nJ7XdgvlQkysjY+5mf+YMlUNjzcHgh7AAEPViCw+98kEVApo/aKPEX3u6+wgmtvDY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777041629; c=relaxed/simple;
-	bh=x8irZ8p1nU8JtdbkHO84ODZq0Xtwpnt4kgEqRc4mR5s=;
+	s=arc-20240116; t=1777042154; c=relaxed/simple;
+	bh=N3KRDFRWCC7Nko2EDRm46i09HlpWUKUQ8/WalpyXK0c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B2WnK10JxtGqtMWhb/+P5LLqmfMRlAecdh5LWjtQezEdPcYqDBnWJJr8e6Ijow8gi1QrCrNPOgiE6vilz+7Zq9z2RnAZPWuLbDCrbSh4Six5vlqBPAg+CqmTa59Yh8409HDMGrZ93uJF1TQWBnWNUYSZcVAqZi4uP/rHLzuORmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=sVfAMZEf; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=P5uCAWE38GuohiEBik5Sq1GhdfjjwSUxDhYYoxHw5OO5bYTDoMAO2DKb/9M6xKvUThQgBCusvF8OJ6uJITsrtrFyrRAWnt9VN3LZWLYYJPMnadlsPYU18MrBUqRDyX2kKkk5aHeYeN7GksWLi5wy4VBIOVMP3dvKBHwM+fEX3ts=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Qzc4YfJ9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="sVfAMZEf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=MZWsZXfkCJdG85BGLfewXfKgzlxRh9RmyEDX14KHVAs=; b=sVfAMZEfh7q1NDuffqvDWC4ruC
-	BopU9PZQ2Y7bl9TT2MytBxrPPv2LMUeuTZI1Kk5nkD66ytloA0VRKNjeIgYS1TCMI+v4YQJCPOpAk
-	IrfrVcGu3H04M/0rDDpAg4+nPOPaMxcywtVSg5LqqJbGLF2LiIEuWr+BNkSayHw6rI8/Z8ogg281L
-	NPevIFXsYO39nwDJRKkhbqurwqcZxQs8W2aTahxB0NImCywDnEXjAvPHFmSdoJR03L/Q+qvscT2wM
-	O7IjwD4R4atdXyGpyDRoOSEzapT2Kx3AqgoWeyUAQKaxFi8CJuUwORcAuYJv0YHCXHoIHuKy0gSKh
-	7XZzuaGA==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wGHhI-003F2t-1K;
-	Fri, 24 Apr 2026 14:40:00 +0000
-Date: Fri, 24 Apr 2026 07:39:54 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Matthew Wilcox <willy@infradead.org>
-Cc: Miaohe Lin <linmiaohe@huawei.com>, 
-	Naoya Horiguchi <nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 0/4] mm/memory-failure: add panic option for
- unrecoverable pages
-Message-ID: <aeuANP7U9IEzA2X_@gmail.com>
-References: <20260424-ecc_panic-v5-0-a35f4b50425c@debian.org>
- <aett0XmQ1EPSDdnY@casper.infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Qzc4YfJ9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82E77C2BCB2;
+	Fri, 24 Apr 2026 14:49:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777042154;
+	bh=N3KRDFRWCC7Nko2EDRm46i09HlpWUKUQ8/WalpyXK0c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Qzc4YfJ9NTx+KD7S0Xp53xzlAPbzzkgMXPKPiC8gXSIon4KBsyhscCVPWLqAvZvwh
+	 zTaZ7QYY4far8/rL5R8wnT/eUkudetpRKmWvl64J/Mb/vmCieSBVQj5zpc2Q/BTj29
+	 invfCMEjPF+8KvwrlPO2Q8iG2mlyyt1ASk9cs8vPNJ8E+O2Gu+WpUSe145g6HNNMc3
+	 DTJ6HJ1eaFo4Dt3wo70jjdLm28YLbU11QaljXqYQaBIYnW/m/WX/yKsYFG6ucxOSi5
+	 ImV2VxvRIsMV+kbu/KzNKo/hN22ocHGj5tVABPsOGZzh45U9d6VAttOe0/RCgTw9pM
+	 tRubiRxjLFWPg==
+Date: Fri, 24 Apr 2026 10:49:13 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org,
+	Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org,
+	surenb@google.com, mhocko@suse.com, skhan@linuxfoundation.org,
+	jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com,
+	linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Sasha Levin <sashal@nvidia.com>,
+	Sanif Veeras <sveeras@nvidia.com>,
+	"Claude:claude-opus-4-7" <noreply@anthropic.com>
+Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
+Message-ID: <aeuC6TJ4XowazVZj@laps>
+References: <20260424140056.2094777-1-sashal@kernel.org>
+ <20260424140056.2094777-5-sashal@kernel.org>
+ <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <aett0XmQ1EPSDdnY@casper.infradead.org>
-X-Debian-User: leitao
+In-Reply-To: <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org>
 
-On Fri, Apr 24, 2026 at 02:19:13PM +0100, Matthew Wilcox wrote:
-> On Fri, Apr 24, 2026 at 05:23:58AM -0700, Breno Leitao wrote:
-> > This is a common problem on large fleets. We frequently observe multi-bit ECC
-> > errors hitting kernel slab pages, where memory_failure() fails to recover them
-> > and the system crashes later at an unrelated code path, making root cause
-> > analysis unnecessarily difficult.
-> 
-> Who is "we"?  Please attribute your patches to your employer by putting
-> their name in brackets after yours.  My ~/.gitconfig has:
-> 
-> [user]
->         name = Matthew Wilcox (Oracle)
+On Fri, Apr 24, 2026 at 04:25:41PM +0200, David Hildenbrand (Arm) wrote:
+>> +	/*
+>> +	 * Size bitmaps to cover the full PFN range including any holes.
+>> +	 * Holes waste a few bits but a flat bitmap keeps the indexing
+>> +	 * trivial (pfn - min_pfn) and avoids additional data structures
+>> +	 * that would themselves be subject to corruption.  This matches
+>> +	 * the approach used by pageblock_flags.
+>> +	 */
+>> +	pc_state.min_pfn = PHYS_PFN(memblock_start_of_DRAM());
+>> +	pc_state.max_pfn = PHYS_PFN(memblock_end_of_DRAM());
+>> +	spanned_pfns = pc_state.max_pfn - pc_state.min_pfn;
+>> +	if (!spanned_pfns || spanned_pfns > UINT_MAX) {
+>> +		pr_err("PFN span %lu cannot be represented by bitmap APIs, feature disabled\n",
+>> +		       spanned_pfns);
+>> +		return;
+>> +	}
+>> +
+>> +	pc_state.db.nbits = spanned_pfns;
+>> +
+>> +	bitmap_bytes = BITS_TO_LONGS(pc_state.db.nbits) * sizeof(unsigned long);
+>> +
+>> +	pr_info("Initializing: PFN range [%lu-%lu), %u bits (%zu KB per bitmap)\n",
+>> +		pc_state.min_pfn, pc_state.max_pfn, pc_state.db.nbits,
+>> +		bitmap_bytes / 1024);
+>> +
+>> +	/* Allocate primary bitmap (zeroed by memblock_alloc) */
+>> +	pc_state.db.bitmap[DUAL_BITMAP_PRIMARY] =
+>> +		memblock_alloc(bitmap_bytes, SMP_CACHE_BYTES);
+>> +	if (!pc_state.db.bitmap[DUAL_BITMAP_PRIMARY]) {
+>> +		pr_err("Failed to allocate primary bitmap, feature disabled\n");
+>> +		return;
+>> +	}
+>>
+>
+>One bitmap that covers all sparse memory available at boot.
+>
+>Conclusion: Just horrible.
 
-Thank you for the feedback. You're absolutely right - I avoided
-"we" entirely since it lacks proper attribution. This is something
-I catch before subimtting patches, but this one went through. 
+Depends on who's looking at the code :)
 
-I'll update the commit message when I respin the series
+I picked it for auditability: covering the whole range with two
+memblock_alloc'd arrays means the only thing on the lookup path is the bitmap
+words themselves, which is what the dual-bitmap invariant already checks.
+
+We could go with per-section bitmaps which will fix the waste but pull
+mem_section[] into the trust boundary, so we'd have to start validating it too.
+
+-- 
+Thanks,
+Sasha
