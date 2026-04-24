@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B1933ADBA;
-	Fri, 24 Apr 2026 18:26:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F226A33D4F0;
+	Fri, 24 Apr 2026 18:28:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777055218; cv=none; b=FilIOHiqaozZnvaehVPCpLyEiJXvuU1p1iR3JvYzvB33SzWUqQszyXyK/5bpMCfSMaXTlwkR9bzv3/d4LQH1hDICg2dgCPS/YCQ+VPryXNaMQee5oIqcOgJz+TaHFuy66QxzuGXA20GKMRAxavnXL8J8prKxL6GVFUnmFArfZj4=
+	t=1777055304; cv=none; b=lQboMblvYjtIrJsk0yhlqKmENu4/zIKFHUDQl6YA075X5e+mrOdL7w3hTa1nx72Z3ZvMLk+zDsS+pRgfFY84DSoOoln6PbqjBI2W5o/eFscBy6YEfw4l41dwz46rEDGBb21ddQSm1jsSMtLqcIpSLagWqrTpsbiLatTXtdM1cLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777055218; c=relaxed/simple;
-	bh=jE+zr5OC/t8vyDfTHUxqFb6gZ02duNQ6SztJCyxGuqE=;
+	s=arc-20240116; t=1777055304; c=relaxed/simple;
+	bh=nsCK8lA2BzQi4jFTXuDqLHYn5FbisryKK3hHm2rfaCQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P9Li2xIxkjJL7nq5qHOP4MMFnoTyWwOKLKMCNUDm04062kSc0F4Dr21Rs7/1fpDCLjkKX8cqBpbkdm/qxz3KTX8sW8lH5V2KEs84GSj5WTiG8Ttn5TgDUAJWpOCZ5y7wt+5cMuXf/T+ZWXC8co5BroS6k2WuLwqEGUdo7rLJpw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+/3vppJ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=WYlRlDYtz9QcfJ4T0ilrStLvhNPSjpG0ZAOGxWfbpONzL1zaE2Z2IdVJMNKpXx3tfV+dpEOZ/qD6YzNeg2IgdB6ioYbAHyD93O8yxjaQ4cDyuoRMK1qSGokuERW8STQOaUWD9zNjnaAo1MFhau0woHsbvoGxQc8UpmUPtmVd9Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n1BTff07; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+/3vppJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE05C19425;
-	Fri, 24 Apr 2026 18:26:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1BTff07"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30E6C2BCB0;
+	Fri, 24 Apr 2026 18:28:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777055217;
-	bh=jE+zr5OC/t8vyDfTHUxqFb6gZ02duNQ6SztJCyxGuqE=;
+	s=k20201202; t=1777055303;
+	bh=nsCK8lA2BzQi4jFTXuDqLHYn5FbisryKK3hHm2rfaCQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=u+/3vppJBKOOpM3X1nw7OU1ci2VL3WwTteFLA23ZxyYPekT8sRH+NkSv9MryHCfw4
-	 ByyOzoUTfzuyMEq/N4IgIhqN4WwV1+MnscD2fDaeHpW4WJ0ogBhoE1jWFzymx3Puf4
-	 1rYxvxeXeOquKGwELqQ7LltCH/S5/mb5bogRPhMUmN96sLIjY7OgKyhUK/2zKbdJwB
-	 7k5V7SoTeMWJpZTuTKG7gXD9PiZnMH7VOi2O4Cwbc8TdX+SnK+7XsIFe1yE9W9O8M+
-	 JhrG9BNe+RbqZQeYPpuGmN5a9kscoHzq/1/9EA062MO0XLZDAiWAJcsgmVHQGIjBUw
-	 XW7ksSG+PnkYQ==
-Message-ID: <1dea839c-8a26-4fb4-b432-a866e31572ba@kernel.org>
-Date: Fri, 24 Apr 2026 20:26:49 +0200
+	b=n1BTff07OGkd3Ad8zf+5Bg+/axUDSkNbg4CLYAhI1ceEUwVlSFzuGBu8va3AnWbfm
+	 R9MDSh1MWXNVKGAfKQZhvO7Xh601sjrX7CiCWftSrNhbp76H9xrctIXgNkXfdqc+5J
+	 p9vNHjPyrVzsjO/5J6nMqkebRtSgewFkQKOUJJTzCVOhEfTkBEU/hSNYD4gsQbxsb5
+	 OGZjVoSabsi/F7bgQcZ1cFU1UoghdExt9DoSMe7U1D+VwL4tC2GqdEzpeQLHFmPH4u
+	 yzPQh1OYyts/vthGnzJmF2OYhJ8dkwv8ep3mF9KXPaIz2SI/wc7zRj7t1iMUbQXcoj
+	 hyT5th/hP8pYA==
+Message-ID: <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org>
+Date: Fri, 24 Apr 2026 20:28:14 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -36,7 +36,8 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-To: Sasha Levin <sashal@kernel.org>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>,
+ Sasha Levin <sashal@kernel.org>
 Cc: akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org,
  Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org,
  surenb@google.com, mhocko@suse.com, skhan@linuxfoundation.org,
@@ -47,6 +48,7 @@ Cc: akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org,
 References: <20260424140056.2094777-1-sashal@kernel.org>
  <20260424140056.2094777-5-sashal@kernel.org>
  <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org> <aeuC6TJ4XowazVZj@laps>
+ <aeuFnuiYDBjttEKt@plex>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -93,53 +95,40 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <aeuC6TJ4XowazVZj@laps>
+In-Reply-To: <aeuFnuiYDBjttEKt@plex>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 4/24/26 16:49, Sasha Levin wrote:
-> On Fri, Apr 24, 2026 at 04:25:41PM +0200, David Hildenbrand (Arm) wrote:
->>> +    /*
->>> +     * Size bitmaps to cover the full PFN range including any holes.
->>> +     * Holes waste a few bits but a flat bitmap keeps the indexing
->>> +     * trivial (pfn - min_pfn) and avoids additional data structures
->>> +     * that would themselves be subject to corruption.  This matches
->>> +     * the approach used by pageblock_flags.
->>> +     */
->>> +    pc_state.min_pfn = PHYS_PFN(memblock_start_of_DRAM());
->>> +    pc_state.max_pfn = PHYS_PFN(memblock_end_of_DRAM());
->>> +    spanned_pfns = pc_state.max_pfn - pc_state.min_pfn;
->>> +    if (!spanned_pfns || spanned_pfns > UINT_MAX) {
->>> +        pr_err("PFN span %lu cannot be represented by bitmap APIs, feature
->>> disabled\n",
->>> +               spanned_pfns);
->>> +        return;
->>> +    }
->>> +
->>> +    pc_state.db.nbits = spanned_pfns;
->>> +
->>> +    bitmap_bytes = BITS_TO_LONGS(pc_state.db.nbits) * sizeof(unsigned long);
->>> +
->>> +    pr_info("Initializing: PFN range [%lu-%lu), %u bits (%zu KB per bitmap)\n",
->>> +        pc_state.min_pfn, pc_state.max_pfn, pc_state.db.nbits,
->>> +        bitmap_bytes / 1024);
->>> +
->>> +    /* Allocate primary bitmap (zeroed by memblock_alloc) */
->>> +    pc_state.db.bitmap[DUAL_BITMAP_PRIMARY] =
->>> +        memblock_alloc(bitmap_bytes, SMP_CACHE_BYTES);
->>> +    if (!pc_state.db.bitmap[DUAL_BITMAP_PRIMARY]) {
->>> +        pr_err("Failed to allocate primary bitmap, feature disabled\n");
->>> +        return;
->>> +    }
+On 4/24/26 17:06, Pasha Tatashin wrote:
+> On 04-24 10:49, Sasha Levin wrote:
+>> On Fri, Apr 24, 2026 at 04:25:41PM +0200, David Hildenbrand (Arm) wrote:
 >>>
+>>> One bitmap that covers all sparse memory available at boot.
+>>>
+>>> Conclusion: Just horrible.
 >>
->> One bitmap that covers all sparse memory available at boot.
+>> Depends on who's looking at the code :)
 >>
->> Conclusion: Just horrible.
+>> I picked it for auditability: covering the whole range with two
+>> memblock_alloc'd arrays means the only thing on the lookup path is the bitmap
+>> words themselves, which is what the dual-bitmap invariant already checks.
 > 
-> Depends on who's looking at the code :)
+> The issue is that we are going back in time to a flat memory,
+> without NUMA or hotplug support. We need an abstraction that avoids
+> allocating this memory in enormous contiguous chunks, as thit approach
+> will not work on modern hardware.
+> 
+>>
+>> We could go with per-section bitmaps which will fix the waste but pull
+>> mem_section[] into the trust boundary, so we'd have to start validating it too.
+> 
+> Page-ext provides all of these capabilities, but as you described in the
+> cover letter, it does not meet your requirements. Therefore, I believe
+> a new abstraction layer is needed.
 
-Or who generated that code ;)
+If we decided that we want this (and I am not convinced), we definitely want
+something that supports sparsity and, in particular, something that support
+memory hotplug.
 
 -- 
 Cheers,
