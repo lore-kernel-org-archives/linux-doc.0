@@ -1,144 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8139A3E1224
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 18:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05B1933ADBA;
+	Fri, 24 Apr 2026 18:26:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777054098; cv=none; b=MSrmwTCRYPINNeD9aTI6du2X5yKMvLOzOCnGGVIiX6X8bQd6YqEs+GDdXCY53LPdCeHZl5uZHzDefAJbJ4yEswOiW3Ji8xcjkO/0xktCsN9tWC3GZXKhGBjzY/jxttJyd1iMaSqRrgf9lgNaCvnRACgoHtgj+CMs7Zi/vBqwhlI=
+	t=1777055218; cv=none; b=FilIOHiqaozZnvaehVPCpLyEiJXvuU1p1iR3JvYzvB33SzWUqQszyXyK/5bpMCfSMaXTlwkR9bzv3/d4LQH1hDICg2dgCPS/YCQ+VPryXNaMQee5oIqcOgJz+TaHFuy66QxzuGXA20GKMRAxavnXL8J8prKxL6GVFUnmFArfZj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777054098; c=relaxed/simple;
-	bh=55X1Ukfwu/jt9RcvEySRhlxyGt44Y5O6N4aHBq/JXP4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nvqd4oWkuHQ0QmnNwjV+uVPA5JVQ+t15QGv2xodyRQMD4LSs312O/TGGUtJdmR0JqVwiNfvrt3y40ssLWCDci8+NLS3fNA4yAuUsgRuyFF58zfpRvlPRY1yUkAj3u8yauP5A8MdjhwcwNnV2hJmGnCJk8/EFWGrvZ2kAnyYux2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AksPa0TK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777055218; c=relaxed/simple;
+	bh=jE+zr5OC/t8vyDfTHUxqFb6gZ02duNQ6SztJCyxGuqE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=P9Li2xIxkjJL7nq5qHOP4MMFnoTyWwOKLKMCNUDm04062kSc0F4Dr21Rs7/1fpDCLjkKX8cqBpbkdm/qxz3KTX8sW8lH5V2KEs84GSj5WTiG8Ttn5TgDUAJWpOCZ5y7wt+5cMuXf/T+ZWXC8co5BroS6k2WuLwqEGUdo7rLJpw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u+/3vppJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AksPa0TK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D1E2C2BCB0
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 18:08:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u+/3vppJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEE05C19425;
+	Fri, 24 Apr 2026 18:26:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777054098;
-	bh=55X1Ukfwu/jt9RcvEySRhlxyGt44Y5O6N4aHBq/JXP4=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=AksPa0TK94G95mOVyxizQ6IJd/DC7Jh74PX7tJ5S9e10bVvw4lPROnSbfV7XwnIie
-	 VpjKcYg08Y9LX5ZGOIzhgl7wspRdAlNTNKAbAv1dUWik9h1S3NcaYhWLYvMB7FJOI0
-	 55aM/60AHenFDCAIyQLxtHJLnPVCBPJEDxWwePDlENj4E8kpvYl/jJr1jORPHPc8Gr
-	 Dkgt+CeX8jwe2++pz7a4ytorIAhsEQtcjyi6f3CoQVq+KaJdqJT6jNMEObEYAcgkf+
-	 ktnwfrNU+pR+AIi0sjSeriXwtlXh2HAlcBpC2SV6PAKE+h0PMMmcK/eGNqQJ69pmmY
-	 10d+fap16Zfxw==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ba67b332bbaso924705766b.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 11:08:18 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8qARkDw7es8amNMi316LE2QSxRSC4agBKZk+LJLaJbPuH2r3ThElwqlcxsG0t/n9/bVQU1Ee4KJUY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyKAa38W+3vOFogd1Yo3FvI8jmLF1cAWJmYA8j+2hV3hx5aArFJ
-	dPeEMqnb1lTruEPpAmvIlEJQwbw4GtexYJ2UbRCvXAsozzu4wdCbV1DHH7Fl82TPt8UikIF/TFl
-	0ygyPnFnzXzWzi+VKhivgMUhj1xqYx0c=
-X-Received: by 2002:a17:907:3c8a:b0:ba8:2ebd:dfb6 with SMTP id
- a640c23a62f3a-ba82ebde295mr1194657766b.23.1777054096988; Fri, 24 Apr 2026
- 11:08:16 -0700 (PDT)
+	s=k20201202; t=1777055217;
+	bh=jE+zr5OC/t8vyDfTHUxqFb6gZ02duNQ6SztJCyxGuqE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=u+/3vppJBKOOpM3X1nw7OU1ci2VL3WwTteFLA23ZxyYPekT8sRH+NkSv9MryHCfw4
+	 ByyOzoUTfzuyMEq/N4IgIhqN4WwV1+MnscD2fDaeHpW4WJ0ogBhoE1jWFzymx3Puf4
+	 1rYxvxeXeOquKGwELqQ7LltCH/S5/mb5bogRPhMUmN96sLIjY7OgKyhUK/2zKbdJwB
+	 7k5V7SoTeMWJpZTuTKG7gXD9PiZnMH7VOi2O4Cwbc8TdX+SnK+7XsIFe1yE9W9O8M+
+	 JhrG9BNe+RbqZQeYPpuGmN5a9kscoHzq/1/9EA062MO0XLZDAiWAJcsgmVHQGIjBUw
+	 XW7ksSG+PnkYQ==
+Message-ID: <1dea839c-8a26-4fb4-b432-a866e31572ba@kernel.org>
+Date: Fri, 24 Apr 2026 20:26:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
- <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
- <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com> <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
-In-Reply-To: <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Fri, 24 Apr 2026 11:08:05 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
-X-Gm-Features: AQROBzDr9_UVPkP7ii9e54NOgh6DRtA53gr5DNXjoPLdfydsZ8BCWlPjRr_6fms
-Message-ID: <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
-	Byungchul Park <byungchul@sk.com>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
-	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
-	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
-	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
-	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
-	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
+To: Sasha Levin <sashal@kernel.org>
+Cc: akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org,
+ Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, skhan@linuxfoundation.org,
+ jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Sasha Levin <sashal@nvidia.com>, Sanif Veeras <sveeras@nvidia.com>,
+ "Claude:claude-opus-4-7" <noreply@anthropic.com>
+References: <20260424140056.2094777-1-sashal@kernel.org>
+ <20260424140056.2094777-5-sashal@kernel.org>
+ <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org> <aeuC6TJ4XowazVZj@laps>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <aeuC6TJ4XowazVZj@laps>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 23, 2026 at 9:16=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wrot=
-e:
->
-> Yosry Ahmed <yosry@kernel.org> =E4=BA=8E 2026=E5=B9=B44=E6=9C=8824=E6=97=
-=A5=E5=91=A8=E4=BA=94 04:48=E5=86=99=E9=81=93=EF=BC=9A
-> > > Using a swapfile does have its benefits, though. For example, the
-> > > virtual layer could act as an ordinary tier following YoungJun's
-> > > design:
-> > > https://lore.kernel.org/linux-mm/20260421055323.940344-1-youngjun.par=
-k@lge.com/
-> >
-> > Hmm I didn't look too closely at this but I don't understand how
-> > making it a swapfile helps with tiering? If anything, I think it makes
-> > tiering more difficult. For tiering to work, we need an
-> > abstraction/redirection layer, such that we don't need to update the
-> > page tables (or shmem pagecache) if we demote/promote pages. That is
-> > exactly the use case for a virtual swap layer. The page tables point
-> > at a virtual swap ID and the backend could change transparently (e.g.
-> > for zswap writeback, or tiering).
-> >
-> > If we make the virtual layer a swapfile, how do we demote/promote
-> > without updating page tables?
-> >
-> > IOW, I think the whole reason we want a virtual layer is to separate
-> > the backends, which would facilitate tiering. If the virtual layer is
-> > itself a swapfile, wouldn't it become one of the tiers?
->
-> That's exactly what I hoped, virtual layer being part of the tier.
-> Tier could be set up per task / cgroup. So is the virtual tier.
+On 4/24/26 16:49, Sasha Levin wrote:
+> On Fri, Apr 24, 2026 at 04:25:41PM +0200, David Hildenbrand (Arm) wrote:
+>>> +    /*
+>>> +     * Size bitmaps to cover the full PFN range including any holes.
+>>> +     * Holes waste a few bits but a flat bitmap keeps the indexing
+>>> +     * trivial (pfn - min_pfn) and avoids additional data structures
+>>> +     * that would themselves be subject to corruption.  This matches
+>>> +     * the approach used by pageblock_flags.
+>>> +     */
+>>> +    pc_state.min_pfn = PHYS_PFN(memblock_start_of_DRAM());
+>>> +    pc_state.max_pfn = PHYS_PFN(memblock_end_of_DRAM());
+>>> +    spanned_pfns = pc_state.max_pfn - pc_state.min_pfn;
+>>> +    if (!spanned_pfns || spanned_pfns > UINT_MAX) {
+>>> +        pr_err("PFN span %lu cannot be represented by bitmap APIs, feature
+>>> disabled\n",
+>>> +               spanned_pfns);
+>>> +        return;
+>>> +    }
+>>> +
+>>> +    pc_state.db.nbits = spanned_pfns;
+>>> +
+>>> +    bitmap_bytes = BITS_TO_LONGS(pc_state.db.nbits) * sizeof(unsigned long);
+>>> +
+>>> +    pr_info("Initializing: PFN range [%lu-%lu), %u bits (%zu KB per bitmap)\n",
+>>> +        pc_state.min_pfn, pc_state.max_pfn, pc_state.db.nbits,
+>>> +        bitmap_bytes / 1024);
+>>> +
+>>> +    /* Allocate primary bitmap (zeroed by memblock_alloc) */
+>>> +    pc_state.db.bitmap[DUAL_BITMAP_PRIMARY] =
+>>> +        memblock_alloc(bitmap_bytes, SMP_CACHE_BYTES);
+>>> +    if (!pc_state.db.bitmap[DUAL_BITMAP_PRIMARY]) {
+>>> +        pr_err("Failed to allocate primary bitmap, feature disabled\n");
+>>> +        return;
+>>> +    }
+>>>
+>>
+>> One bitmap that covers all sparse memory available at boot.
+>>
+>> Conclusion: Just horrible.
+> 
+> Depends on who's looking at the code :)
 
-Just to clarify. I don't think virtual swap should be one of the
-tiers. I think it should be the mechanism through which we implement
-tiering (see above). I am not sure if that's what you meant.
+Or who generated that code ;)
 
->
-> A standalone implementation of the virtual layer is more heavy than
-> being a swapfile. Actually I think at this point, it is the word
-> "swapfile" is misleading now. We may rename it to "swap mapping" or
-> something. A swap mapping could be physical or virtual. Virtual
-> mapping can realloc from physical ones (redirect), and swapoff of
-> physical ones just read its data into virtual mapping's swap cache.
+-- 
+Cheers,
 
-I don't understand this part, please clarify. In my mind, all
-references to swap entries from outside backend code should refer to a
-virtual swap ID, which could be pointing to physical swap or zswap or
-something else.
-
-I *think* what you're saying is that we should make that optional, but
-I don't see how this would work. If a page table is pointing at a swap
-slot in a swapfile, we cannot do tiering or zswap writeback or
-anything dynamic without updating page tables. So even if the system
-starts off with one swapfile, we cannot assume we won't add more and
-set up tiering (or enable zswap) after that, right?
-
-I guess we'll keep the swap table in the swapfile and then we'll have
-it point to a different backend, but I really don't like this design.
-It's unnecessarily complicated in my opinion. Page tables will either
-refer to a virtual swap ID or a physical swap slot.
-
-I think we can simply have swap tables representing the virtual swap
-space and pointing at the backend directly, whether or not we have
-zswap or tiering set up or not. Is the overhead really that bad?
+David
