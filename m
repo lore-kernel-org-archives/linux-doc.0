@@ -1,46 +1,46 @@
-Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011003.outbound.protection.outlook.com [52.101.62.3])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011025.outbound.protection.outlook.com [40.107.208.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC41221FB6;
-	Fri, 24 Apr 2026 01:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F57B275AF5;
+	Fri, 24 Apr 2026 01:42:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.25
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776994966; cv=fail; b=rEyhFqivQ9ouSpek2j1PNRSk/P2JuOG07QUMYHAK013nrR402g2iZdfr+yrcDxIKDLHhCqMu9mOzquu0T4/c+CY8uAA1BAW0f+xD7BH14//dQtovvC7eCpSZlaQj6aWHkG9cZS993Fu78vjyQ0yG14p8+rf6WpC3V9TuqUjrthY=
+	t=1776994978; cv=fail; b=NvV/k8/nCpwpV9rQL3OsEN8GYWjBt+ahli2iwTMJobsoNGWSh1PCstqcfeg+2Ivh9DKkPKMvzX216pUmb+Sj0UKmEV3ZUuQwVhQ6v288NIa+krZQrQrrZCD/YeXMU24UzPhFwjJ8yzj9ElLxghClJtsv0SxmjRCrfuO1Xa3wUpA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776994966; c=relaxed/simple;
-	bh=P9gxabS214FtfseD1Ets9G2z224I5958R4xglhbnyoE=;
+	s=arc-20240116; t=1776994978; c=relaxed/simple;
+	bh=Gj5oRpiD816M1tOTcRDCqJSaQFxyzgcV/lw8MZPWdTU=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QlGgLJNcmtxPK392cCPXhgZi2VyV1l+sQaIW0871+PtAKh4DA0/ZPG70iIIA2RDUgE63whF+LPpNwbgwMEH8nXGvnb9byy5bIYKgwMSjAtufAV8Qx2Cx8kPUdseNXOetD2PRGSSZjmLQvTYqNX9JDoGc09euGXfyagZ0QhTy9uQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=sc83SGrs; arc=fail smtp.client-ip=52.101.62.3
+	 MIME-Version:Content-Type; b=R926AZKNb/DkkPcMsBCV+SSVLwdnZGVGpStjueQGOfE+NKoKS20k0w5Plunj0gR7F50/E32smLcwKnLW2iCszGRqxk2AxFPW76czIZ9RIkeroADkp8wU7M8OM9hznyJbaYeg/jI08xXVwfDVYPEGZnDHGBsXtWQd5vyL3L6lZZA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Kkm3XfDf; arc=fail smtp.client-ip=40.107.208.25
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="sc83SGrs"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Kkm3XfDf"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bM2jwiDAjRR9A0sMcGzEKnnm2xIwLNsLHlTqXzW1Uaqo1sJhdSfo+wjzx1gIhd/U1R5Bq40NGhy9F2Vlh/0T36PX6Ud8lG0sagOpm2pAgI6see29Ym0WmK3cDXJ3AQGiQWHKQrOKf42VFVgYfPrdLe9pXZnFqGiyxNzAO2BhO+jNfVJxvr64uoPffpuzcjiQAFn8YUHTwc66knGwZX84h3WsuYx8acBgxpUaXdFhHI7aSgxRtk++UxOZkyFiF8E5kSedzeLkjg8jjM/pQ3/OVTO9jo+S2w37Bwa7fUiGFqoTtbZ4mLDfa8GJq9E4C1EG8hsefHWO8YnnwNM0uUEY+w==
+ b=kQbgbuWqwTZvjZeLbJB5Kv3VXFpIFwnv355u3OkesDM9TBg+oCiLzWTHzuTvODoEyzAhoQzC8PVAUDKxjvgVJj1X/H0hUUFHaPq9l2U3KMq67PY9O0eBfnzvV3RD1l3Cf7C/+T9avjM85uk4lUjvK7Vn+wOqrbIzRVHUSPp4qQRIWYJNH7OkcpvXVElmXGjDM03i6qzDVCXDb5qt6JGCU8Fpgs9jjTCg9XfTAqcAUGIoYn687AgdUQzekh7iox+PDCy6slHSajPW/xQL9et/3VEJ3uxHtsyPIz2GpgrMtgY2umBa+xg/i8vbSM1H+X2FomGpzGEBV5ORTQlEub7YYQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0ag4noiOKk5zHgydfGN5emJYFhpWCGEQitV5uqjxXKc=;
- b=G/PhpcUC4KhlBVJbTRwy18OSOVsFr8kax4JaA09P2sl1cJsCxdUm1X1LTDg0+GVdQ23BPRdzCISDqew68qACL/Ir2Buaku1lYAr/nQc9+0ZBNSb8yoYJz3WBbtTu/99Glt3ihFwqGvvKCF6j9/wR8sXdy/uJx0QlZmdQXUHRyggMQGdwM5DN2dFMoBuR9UMO4I5OyKE2SnLv5S7yVIKhejSw/lP/R7NMNypBFAwQpXOivvRu9BH+5piVaA7XPvDbufCoJviTB+BjHApEgfJztoLPuran7dnpL97zw+6dU2HUuDNHhyjcCvgZNGTo7ARlA0QCXN94agS2aRl9d5xqbQ==
+ bh=2p0xJ1NFRSJ/j5SJuEgKgGcF8fpQ8bmZIhLIbph9CV4=;
+ b=pxAf3vbMj2wDPX5knLJRr9/M6G/AZ9vJUZkwbut4NZpjrd5eLuWh/Ie09rMkHSfLFmaSN0i8u6wXGq9YaGrJSDysQPNr/dHBGduWv7GcxEQILu3bMQ31hKuhMKKmOMTljLwZ7yebjzk0L61pRQbgOh8b7w40aX2TEhGxAxUXF0mbgslufDwTSkf9in+pSGb4li5zG3dN4gC7fGFhS+Y3FyxP+Vuopm+33FVwtmJJb8jFRp44uWHvgZGSw2Ln6eEZ4WUdeyBHqbxmpPu1I40NhY7PyDg+xNHYXv/p/RHv2WzqSnjPsonK9kgBb1RpBzV6D/j+zcq8DPjRz+FOOY3kIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0ag4noiOKk5zHgydfGN5emJYFhpWCGEQitV5uqjxXKc=;
- b=sc83SGrswNbxI4TwKoPwQuYt030s5tc9+/7DsE5CQICjwJCIMpkJiSwWHINHakfvcYZvi+Upse/1b78NThM4vfYEPT4mt8toxsicSiNfNqq2YaxxtVet7u5WYgiCo88x1X7aV9fKj8Mbb6SOUR2GlUekJQlad+uK9QQ91IIi4Ts=
-Received: from BY5PR04CA0002.namprd04.prod.outlook.com (2603:10b6:a03:1d0::12)
- by CH3PR12MB8236.namprd12.prod.outlook.com (2603:10b6:610:121::6) with
+ bh=2p0xJ1NFRSJ/j5SJuEgKgGcF8fpQ8bmZIhLIbph9CV4=;
+ b=Kkm3XfDfa8ThSKK6SnP8AsrtGo0MrlzPDlN7gn8cMlEMarUhQnT4UUmmGuRYKL63g3zxLLJCKrmPGaMrk1+cLN7JTWIQmApo6ykgKWmabPV5WrFb3InEPU1olJqMMUp26+sQM7etxd67JfMg59lvRKSk0tDPeBnN0uJNJL5gUjo=
+Received: from MW4PR04CA0077.namprd04.prod.outlook.com (2603:10b6:303:6b::22)
+ by DSWPR12MB999177.namprd12.prod.outlook.com (2603:10b6:8:36f::12) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Fri, 24 Apr
- 2026 01:42:29 +0000
-Received: from MWH0EPF000A6730.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0:cafe::1f) by BY5PR04CA0002.outlook.office365.com
- (2603:10b6:a03:1d0::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.21 via Frontend Transport; Fri,
- 24 Apr 2026 01:42:28 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.12; Fri, 24 Apr
+ 2026 01:42:51 +0000
+Received: from MWH0EPF000A6733.namprd04.prod.outlook.com
+ (2603:10b6:303:6b:cafe::11) by MW4PR04CA0077.outlook.office365.com
+ (2603:10b6:303:6b::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Fri,
+ 24 Apr 2026 01:42:50 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -48,13 +48,13 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
 Received: from satlexmb07.amd.com (165.204.84.17) by
- MWH0EPF000A6730.mail.protection.outlook.com (10.167.249.22) with Microsoft
+ MWH0EPF000A6733.mail.protection.outlook.com (10.167.249.25) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Fri, 24 Apr 2026 01:42:28 +0000
+ 15.20.9846.18 via Frontend Transport; Fri, 24 Apr 2026 01:42:50 +0000
 Received: from ruby-9651host.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 23 Apr
- 2026 20:42:26 -0500
+ 2026 20:42:35 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
 	<tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
@@ -70,9 +70,9 @@ CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <Dave.Martin@arm.com>,
 	<elena.reshetova@intel.com>, <xin@zytor.com>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
 	<peternewman@google.com>
-Subject: [PATCH v2 5/8] fs/resctrl: Add the documentation for Global Memory Bandwidth Allocation
-Date: Fri, 24 Apr 2026 01:41:35 +0000
-Message-ID: <908eab1408bc4e0a90c6e68b43288778b62f3da4.1776980182.git.babu.moger@amd.com>
+Subject: [PATCH v2 6/8] x86,fs/resctrl: Add support for Global Slow Memory Bandwidth Allocation
+Date: Fri, 24 Apr 2026 01:41:36 +0000
+Message-ID: <743d6ced9c35dd19f3eab5359c0ada6057873a0d.1776980182.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <cover.1776980182.git.babu.moger@amd.com>
 References: <cover.1776980182.git.babu.moger@amd.com>
@@ -88,118 +88,130 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6730:EE_|CH3PR12MB8236:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6ec7814e-ec65-4a68-d2ee-08dea1a2be9a
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6733:EE_|DSWPR12MB999177:EE_
+X-MS-Office365-Filtering-Correlation-Id: e2f7f3bf-2c92-4f9f-ea40-08dea1a2cbb5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700016|20046099003|22082099003|56012099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|36860700016|82310400026|376014|7416014|20046099003|22082099003|13003099007|56012099003|18002099003;
 X-Microsoft-Antispam-Message-Info:
-	UrpG9SqHYBTtq18uct/knhHrgHG1Rpxewr4uOde9fy6aNYqEwFDk5ySdinHWbx0Vt2i4/+stHlvNAjVKItCs7nbYB1YuDPDsUpgMAN0cQh9tVGFyTxU3intmgmhNjObPLjx8PlVsRz0RrT9dwjhes0TFDd/y/UCgj4j0/pnKFneebXIhsw1ONuRz5OwXaBmjkI+kaIHezCdAH2/a5S5vJNLYKDIoZJUjoRrmry5e4fMWjMN3nHzv2WZ2n0sU+uBiVtecxvFrdabiqWtKGaZyzsklaJvZkcxbdOwzdl+m11M7oQN43Eee789dg8ueG+u6LPTceYeYJ+YdKhfHuScflNhfzvmtLYzwqbWgI6oPOsHbq3zsfwO19SKPEp6BwS/2YN4r8xMkkRQjTpBnkQheQ65RHHk5vk8I3SvD+6pcr6pj69p/0Aq2jqaDtjPmGcB44RHkOYruO7Cg719cWfNrBKKtbvgvJSPdQ5zg8/RH8Fbx2W+PoPzNBCboDZWZXHyg9JUC5O9DcqJz7IQna6gP5miz4FhKgq83RHnDvKJdaUHzfedeHTfg0+DO302eg004CVrkkUnn5aTOBQFkwVwtkMz6MdlLa1ZXcEPmRRCS8K2d2by0stN2oMARGvh15yztB7PbLAPttpQu6/+vjijvi1q4RwoGE/B0z8efdXMZPQqeQTkhBnAegR7+rMixh4XTABR+vA5ZOnndJqQteGfML/puvXzU6lcl+p9SYxoUsSJzmFoFLRk+U2vp7df70lrSDOEoaVmJra+EDAjIJcLN/g==
+	l1x9hPPJDqazSS6TxsJKPvxCu9M5xcx0+Ihy2lOpVAQxecst9h+HCnNvEX8Eo8AK/3N0jz+g/Klk0Jdlxoi1nB7Z9MwinTIwxm5b1ryqRhsXOMLnPoyLvBvHYYN5vgWNG0DwkEjN0rl+gMdU7MUDzgRcMpD+07y4q+sJDy3E388Nq+rl/RuVyimYFB5FfrAlKKY8LwFFbyHxvwUterrjtmowdTBDVS3gvNqqZDQfLJYxmIpNnIPzNknFyf17W22PyAJD8z2WaPw1eA0gpyz/5Ce0+wW+4D36JfKA10EXBCRKyJ2wXrDtR9ymqneQmQzXs1OuwmXqESMS19TF5WVcTsFGKsbkOsT9Ka1Xet+m1TQIbpJ21MXYH2T3rVs0B+BbkokhR/hrKA+I5rgLL2iOJq1XXRub0dTx1tFoB61ZxFPgqf3bB4DB0+dIUKf8X08PXfcGMTyVQRbvqCC9FiQtokCHPICEo9/VtqPMr2btHJ1xWNCCENyvG1BOKXFZ01dGXYyoFoHDmW4h4MvSXSQRL7QeYa2K+4bUAF/4hjejokA5vLwCF/pA7AI3tcZylrrCC9jG48oNzN6wDOlLQqQkz93uycNNc+mavg8BhrLYmgCTD2EJL3ghrZAs04xB/5ilr5kFGg/Fxx21rX2p7Bd+EMyvXg1lVfk/Sn5l8/Xull/me95F9cz/XYOv2Dnirf7iiQ5UQkoX9mtp+Hs2rk2Uw8Cst0aa2MDBKNGNabX04mKqngNaQxBWbFfB4FOWBfs/WsCODLkvAmuUwSu6NuLzbA==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700016)(20046099003)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(36860700016)(82310400026)(376014)(7416014)(20046099003)(22082099003)(13003099007)(56012099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	LkKeWXgIGFD+0OzTx+Mb8TKmzGLJRcsOvv6AuwOdOcNTCAYDHLM4nI3BDqs4yGQ85GKZ/XQWf5hI7jnMQlifMN5m2IY5/4jFMfzWPekXz+V8eJ2whjmLbdCJgkd2FgrK80g7wAOFXRAOR3WRDFvOuIIlX7piUIBfbGfVf0n8IIVotM5/UpxBZUMUM4F34ev6n3f9+Rr5Azh6pOuxATE2yGBHs38ciJRkav4pIAlKnePMB4zXuR3eGCXQhDY8p/7Z+lqMDY5dk0zpUivd026ZBO5/MrybfNQy/aDVC2ZEOiRX0uEFd0bzmMGS71dW/FfmA76/FdCSppoJAF4symE6XbFCfQ5Au/PsXHTrfSNGxtYRjwi6X3XqEtoj/LHWQanhtBaiBJbqj5Qc+/u/EdzNgH9zP3fknkGSJft31TWfKuCEfVR4UEu/QxU0mF9pPZzx
+	ge6AvUMhUYIs1x/yNEft6ymjMtNCxg4wIvWAgcVV62wdzDokfTbDDcGVj3GP8BZlXWnw+2Mt/Wnq5zCE+CWwj9r/FEtToXoh+jZRvF8zRWYMDcIyMLnALTWkDoh5RRDAXjwXdd5TAPhA04h+Ak190pbeS7gFxt9U6XHzZ0ls5g1qIz8HH/lijSnikYgJWquEcZOpFiUdWVWp9HUR+dGuHEIz9JfiFpAxTPQQ3x1E2o8uIwd5XWH8gQjKwnCnGmr6FJ3Cy6V4uFYt0SUMSbR5s3E3Gfq21UHKkMjatKuDocTtbj8DC8GT1xy+TSpLhnQdNiflBsbpixfxwVaT17t8X8RgbqCQPQHT9fz/vtXp9CGdmuyIxbRVVACwW/JtHpRgBfN5bhagZs/hpF/3Sk89ZyM4ysVwnWExvRVspkz7HlQU7KdlcvcTsADYdy6IuUWA
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 01:42:28.6945
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 01:42:50.6829
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ec7814e-ec65-4a68-d2ee-08dea1a2be9a
+X-MS-Exchange-CrossTenant-Network-Message-Id: e2f7f3bf-2c92-4f9f-ea40-08dea1a2cbb5
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	MWH0EPF000A6730.namprd04.prod.outlook.com
+	MWH0EPF000A6733.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8236
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSWPR12MB999177
 
-GMBA (added to resctrl by the earlier patches in this series) is a new DRAM
-bandwidth allocation resource that applies limits across multiple QoS (L3)
-domains rather than per-L3 like MBA. Each GMBA control domain is aligned to
-the system's NPS (Nodes Per Socket) configuration. In the schemata file the
-resource is exposed under the label "GMB" (not "GMBA", to match resctrl's
-short-label convention) with values in multiples of 1 GB/s.
+AMD PQoS Global Slow Memory Bandwidth Enforcement (GLSBE) is an extension
+to GLBE that lets software specify slow-memory bandwidth limits for groups
+of threads that span multiple QoS domains. GLSBE operates within the same
+GLBE control domains defined by GLBE.
 
-Document GMBA in Documentation/filesystems/resctrl.rst:
-- Add GMBA to the resctrl feature table at the top of the file.
-- Add a "Global Memory Bandwidth Allocation (GMBA)" section describing the
-  resource, its control domain and the schemata syntax/unit.
-- Add a "Reading/writing the schemata file (on AMD systems) with GMBA
-  feature" section with a self-consistent worked example.
+Like GLBE, the GLSBE control domain is by default aligned to the system's
+NPS (Nodes Per Socket) configuration, a BIOS-level setting on AMD
+processors that determines how many NUMA (Non-Uniform Memory Access) nodes
+each CPU socket is divided into.
+
+Support for GLSBE is indicated by CPUID leaf 0x80000020, ECX=0, EBX bit 8.
+When this bit is set to 1, the platform supports GLSBE.
+
+Because AMD Slow Memory Bandwidth Enforcement is exposed to resctrl as
+SMBA, Global Slow Memory Bandwidth Enforcement is exposed as GSMBA to keep
+the naming consistent.
+
+Add following changes to support GLSBE:
+
+  - Add X86_FEATURE_GSMBA and its scattered-CPUID entry
+    (0x80000020 EBX[8]).
+  - Add RDT_FLAG_GSMBA and the corresponding rdt_options entry so the
+    existing rdt= kernel parameter accepts "gsmba".
+
+The GLSBE feature is documented in:
+
+  AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
+  Publication # 69193 Revision 1.00, Issue Date March 2026
+
+available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
 
 Signed-off-by: Babu Moger <babu.moger@amd.com>
 ---
-v2: Describe GMBA's distinguishing characteristics (NPS-aligned control
-    domain, per-L3 span, DRAM target).
-    Added examples to update GMB schemata.
+v2: Clarify that the GLSBE control domain is aligned to NPS and that NPS
+    is configured via the BIOS setup utility.
 ---
- Documentation/filesystems/resctrl.rst | 39 +++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/x86/include/asm/cpufeatures.h              | 1 +
+ arch/x86/kernel/cpu/resctrl/core.c              | 2 ++
+ arch/x86/kernel/cpu/scattered.c                 | 1 +
+ 4 files changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index b003bed339fd..901d059800fa 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -28,6 +28,7 @@ SMBA (Slow Memory Bandwidth Allocation)				""
- BMEC (Bandwidth Monitoring Event Configuration)			""
- ABMC (Assignable Bandwidth Monitoring Counters)			""
- SDCIAE (Smart Data Cache Injection Allocation Enforcement)	""
-+GMBA (Global Memory Bandwidth Allocation)			""
- =============================================================== ================================
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index f23cad453f17..03c89f90da84 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6452,7 +6452,7 @@ Kernel parameters
+ 	rdt=		[HW,X86,RDT]
+ 			Turn on/off individual RDT features. List is:
+ 			cmt, mbmtotal, mbmlocal, l3cat, l3cdp, l2cat, l2cdp,
+-			mba, gmba, smba, bmec, abmc, sdciae, energy[:guid],
++			mba, gmba, smba, gsmba, bmec, abmc, sdciae, energy[:guid],
+ 			perf[:guid].
+ 			E.g. to turn on cmt and turn off mba use:
+ 				rdt=cmt,!mba
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 356f7a11d47c..947935fee7c5 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -516,6 +516,7 @@
+ 						      */
+ #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for 4k vCPUs */
+ #define X86_FEATURE_GMBA		(21*32+21) /* Global Memory Bandwidth Allocation */
++#define X86_FEATURE_GSMBA		(21*32+22) /* Global Slow Memory Bandwidth Enforcement */
  
- Historically, new features were made visible by default in /proc/cpuinfo. This
-@@ -964,6 +965,23 @@ Memory bandwidth domain is L3 cache.
- 
- 	MB:<cache_id0>=bw_MiBps0;<cache_id1>=bw_MiBps1;...
- 
-+Global Memory Bandwidth Allocation (GMBA)
-+-----------------------------------------
-+
-+AMD hardware supports Global Memory Bandwidth Allocation (GMBA). GMBA
-+provides a mechanism for software to specify bandwidth limits for groups
-+of threads that span multiple QoS (L3) domains. Each such collection of
-+QoS domains is called a GMBA control domain and is aligned to the system's
-+NPS (Nodes Per Socket) configuration. NPS is a BIOS-level setting on AMD
-+processors that selects how many NUMA (Non-Uniform Memory Access) nodes
-+each CPU socket is divided into.
-+
-+The bandwidth domain for GMBA is the GMBA control domain. GMBA is exposed
-+in the schemata file under the resource label ``GMB``, with values
-+expressed in multiples of 1 GB/s::
-+
-+	GMB:<domain_id0>=bw_GBps0;<domain_id1>=bw_GBps1;...
-+
- Slow Memory Bandwidth Allocation (SMBA)
- ---------------------------------------
- AMD hardware supports Slow Memory Bandwidth Allocation (SMBA).
-@@ -1018,6 +1036,27 @@ For example, to allocate 2GB/s limit on the first cache id:
-     MB:0=2048;1=  16;2=2048;3=2048
-     L3:0=ffff;1=ffff;2=ffff;3=ffff
- 
-+Reading/writing the schemata file (on AMD systems) with GMBA feature
-+--------------------------------------------------------------------
-+Reading the schemata file shows the current bandwidth limit on every
-+GMBA control domain. Values are in multiples of 1 GB/s.
-+
-+For example, to set an 8 GB/s limit on GMBA control domain 0, leaving
-+control domain 1 at its previous limit:
-+
-+::
-+
-+  # cat schemata
-+    GMB:0=4096;1=4096
-+     MB:0=8192;1=8192;2=8192;3=8192
-+     L3:0=ffff;1=ffff;2=ffff;3=ffff
-+
-+  # echo "GMB:0=8" > schemata
-+  # cat schemata
-+    GMB:0=   8;1=4096
-+     MB:0=8192;1=8192;2=8192;3=8192
-+     L3:0=ffff;1=ffff;2=ffff;3=ffff
-+
- Reading/writing the schemata file (on AMD systems) with SMBA feature
- --------------------------------------------------------------------
- Reading and writing the schemata file is the same as without SMBA in
+ /*
+  * BUG word(s)
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index 22114ff84bfa..667ff3eb57f5 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -838,6 +838,7 @@ enum {
+ 	RDT_FLAG_MBA,
+ 	RDT_FLAG_GMBA,
+ 	RDT_FLAG_SMBA,
++	RDT_FLAG_GSMBA,
+ 	RDT_FLAG_BMEC,
+ 	RDT_FLAG_ABMC,
+ 	RDT_FLAG_SDCIAE,
+@@ -866,6 +867,7 @@ static struct rdt_options rdt_options[]  __ro_after_init = {
+ 	RDT_OPT(RDT_FLAG_MBA,	    "mba",	X86_FEATURE_MBA),
+ 	RDT_OPT(RDT_FLAG_GMBA,	    "gmba",	X86_FEATURE_GMBA),
+ 	RDT_OPT(RDT_FLAG_SMBA,	    "smba",	X86_FEATURE_SMBA),
++	RDT_OPT(RDT_FLAG_GSMBA,	    "gsmba",	X86_FEATURE_GSMBA),
+ 	RDT_OPT(RDT_FLAG_BMEC,	    "bmec",	X86_FEATURE_BMEC),
+ 	RDT_OPT(RDT_FLAG_ABMC,	    "abmc",	X86_FEATURE_ABMC),
+ 	RDT_OPT(RDT_FLAG_SDCIAE,    "sdciae",	X86_FEATURE_SDCIAE),
+diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+index 077cf452c257..7a57453a3dcb 100644
+--- a/arch/x86/kernel/cpu/scattered.c
++++ b/arch/x86/kernel/cpu/scattered.c
+@@ -61,6 +61,7 @@ static const struct cpuid_bit cpuid_bits[] = {
+ 	{ X86_FEATURE_ABMC,			CPUID_EBX,  5, 0x80000020, 0 },
+ 	{ X86_FEATURE_SDCIAE,			CPUID_EBX,  6, 0x80000020, 0 },
+ 	{ X86_FEATURE_GMBA,			CPUID_EBX,  7, 0x80000020, 0 },
++	{ X86_FEATURE_GSMBA,			CPUID_EBX,  8, 0x80000020, 0 },
+ 	{ X86_FEATURE_TSA_SQ_NO,		CPUID_ECX,  1, 0x80000021, 0 },
+ 	{ X86_FEATURE_TSA_L1_NO,		CPUID_ECX,  2, 0x80000021, 0 },
+ 	{ X86_FEATURE_AMD_WORKLOAD_CLASS,	CPUID_EAX, 22, 0x80000021, 0 },
 -- 
 2.43.0
 
