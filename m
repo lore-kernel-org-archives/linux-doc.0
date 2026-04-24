@@ -1,71 +1,60 @@
-Received: from jpms-ob02-os7.noc.sony.co.jp (jpms-ob02-os7.noc.sony.co.jp [211.125.139.72])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B3DE35F197;
-	Fri, 24 Apr 2026 09:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.72
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 555B03624BC;
+	Fri, 24 Apr 2026 10:08:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777022234; cv=none; b=gWP3w2WYsZcAgFEzP/0n8wqu4XmY1LQlgn89aR7ziUQHqO3ER7IvpoL7DulgMvalDrR+p2W1EVjCkj1tU1/SJ6HnrxsNqfoD7pv0wBP7obkHEVWkWSAdOB+/CSkPRCT14TDBn+Z+IIQ+JXqA4YKwW+YS6QQnPXfMKRb5mIJohcI=
+	t=1777025315; cv=none; b=D2/AxiPfwARzgR9DMFjbL2iJdIXZrZvrDppowAlgtKOf4hssdbsIgrJ4Nsi1FHLAQ7v3eIcNquAhCwEX7E8wL3tSTyRrh6Kld6OxM+7Cq7LgipntnMHR7fFQzhvYSryjZLlqu+qzIwgl+S60PElfUGo6iDljt9XHcW1jSzxh7JA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777022234; c=relaxed/simple;
-	bh=bkoHMU+PeltrWkn2kqvecUbCA/8Rd74DWc3ZLYVgJnY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L1Z7KN/HNkMccCgGwxtmzHoSlSC7vNShsDgxZVknQkHo/7JAMGl7gNx3p5Uxzsbbd6hoVTWJkGiUd8+aLzJeajhG9wb/cjqV8MrmsdrFixZNo15DthfA46E/jJmzW4dtz1lt5tg0rXu7CBXND8bK6iPDaAnxWX1UOKWTIXTsVLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=eIkZ10rl; arc=none smtp.client-ip=211.125.139.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
+	s=arc-20240116; t=1777025315; c=relaxed/simple;
+	bh=x20Ic161sKUwYRA6ryFZm4hIWfUOKk542S8QeGSaRlw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:Content-Disposition; b=In6cdt3OSpaSwBhmm2M5SSnfb/Xvrokn9aXKW9IT+tkPfT+NbL9mONiLV3XFQTfp7KkI7P2YGvinA7leJOBe2cw1C0Ys5ACY1oV0zaCwHBgmHoMCf0pCqsRLLoppCM8VB3od5jgiVU6eow/AmIBefntR86BP/htzC5cUdvUOryw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=RO/fAHz4; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="eIkZ10rl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1777022232; x=1808558232;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=z3CeKJzlL9L5e/i5qCTLBtx/7vOhA4o/U3gUBdeSPBo=;
-  b=eIkZ10rleqGhU3gsCsKfwLwhpgLkHcybQYBf6W3QGVXxoB6EzbD8rP/R
-   VvQd1UiRRt3p4u1uQBLmeAZ+UcB6xbfV/Wi0//ZM4KrnPzeW6iV0cu4TX
-   1xT9wfREBh7yMK+Ij4NZU0Oe51+j8/5Mp+OLrtdXsPWaWsNEABbSeTD69
-   3tPb/ZQFwwraaoXWaykXyttS6XuyV++jr4ccFN7upx/FIehsFvBqW8sDS
-   dVBnhPk5PNFdT1KRFcuuK2zCgkZPjKcaRxsDiypYD7TiXBAXNiG7K5kLB
-   YfroeKBoWyTqtwGgAKcxz5lk3es+2dBbsIDjfX5feZUsYTI/HEj0+6WLH
-   Q==;
-X-CSE-ConnectionGUID: 7Efae///SaurgvisRCOVdg==
-X-CSE-MsgGUID: 5ezjX6wOQ+y0lNUwRC1fZQ==
-Received: from unknown (HELO jpmta-ob01-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::6])
-  by jpms-ob02-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 18:17:04 +0900
-X-CSE-ConnectionGUID: vg91C+9wTYuqSdSyCqL2wA==
-X-CSE-MsgGUID: qQfXLFtnQi2pXFgzuVJRUA==
-X-IronPort-AV: E=Sophos;i="6.23,196,1770562800"; 
-   d="scan'208";a="62774146"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
-  by jpmta-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 18:17:04 +0900
-Date: Fri, 24 Apr 2026 18:16:59 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>
-Subject: Re: [PATCH v3 1/4] kernel: param: initialize module_kset on-demand
-Message-ID: <aes1C8oJs3Vxnj6y@JPC00244420>
-References: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
- <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="RO/fAHz4"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 343E71BC0;
+	Fri, 24 Apr 2026 03:08:28 -0700 (PDT)
+Received: from devkitleo.cambridge.arm.com (devkitleo.cambridge.arm.com [10.1.196.90])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 358933F641;
+	Fri, 24 Apr 2026 03:08:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1777025313; bh=x20Ic161sKUwYRA6ryFZm4hIWfUOKk542S8QeGSaRlw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=RO/fAHz4w6tvV0tSr5IiP9uY7Vpvlt8ixeEw8Een+yh4bUys4r8C/Y9PL6dsRTgnI
+	 At4+HDGbiLUoAT3XFkrO0n7AEEritCUqh/AVLOwsAswJ9HEztUYiEhAtWKQpnMwLky
+	 g411WdNzZ6wH5t9Q5l/U80d9VZdfG9tUyFijm8jE=
+From: Leonardo Bras <leo.bras@arm.com>
+To: Tian Zheng <zhengtian10@huawei.com>
+Cc: Leonardo Bras <leo.bras@arm.com>,
+	maz@kernel.org,
+	oupton@kernel.org,
+	catalin.marinas@arm.com,
+	corbet@lwn.net,
+	pbonzini@redhat.com,
+	will@kernel.org,
+	yuzenghui@huawei.com,
+	wangzhou1@hisilicon.com,
+	liuyonglong@huawei.com,
+	Jonathan.Cameron@huawei.com,
+	yezhenyu2@huawei.com,
+	linuxarm@huawei.com,
+	joey.gouly@arm.com,
+	kvmarm@lists.linux.dev,
+	kvm@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org,
+	suzuki.poulose@arm.com
+Subject: Re: [PATCH v3 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF events
+Date: Fri, 24 Apr 2026 11:08:25 +0100
+Message-ID: <aetBGXkIbHaHm0L6@devkitleo>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <0403d30d-e75e-4922-b8c1-8cae349f3dc2@huawei.com>
+References: <20260225040421.2683931-1-zhengtian10@huawei.com> <20260225040421.2683931-5-zhengtian10@huawei.com> <acQj5grOdZT8LUGp@devkitleo> <e3253959-0340-4c13-a980-a599e090a6de@huawei.com> <acabezCO4B5BE40Q@devkitleo> <4e800c1e-25db-4aa2-b100-63434973de93@huawei.com> <acpfD3YjMpEdL5KZ@devkitleo> <aeeHNMqDx5Yipt_K@devkitleo> <0403d30d-e75e-4922-b8c1-8cae349f3dc2@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -74,99 +63,54 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 22, 2026 at 06:49:03PM +0900, Shashank Balaji wrote:
-> module_kset is initialized in param_sysfs_init(), a subsys_initcall. A number
-> of platform drivers register themselves prior to subsys_initcalls. With an
-> upcoming patch ("driver core: platform: set mod_name in driver registration")
-> that sets their mod_name in struct device_driver, lookup_or_create_module()
-> will be called for those drivers, which calls kset_find_object(module_kset, mod_name).
-> This fails because module_kset isn't alive yet.
+On Fri, Apr 24, 2026 at 02:48:26PM +0800, Tian Zheng wrote:
 > 
-> Fix this by initializing module_kset on-demand in lookup_or_create_module().
-> Retain the param_sysfs_init() subsys_initcall to ensure that module_kset is
-> live after subsys_initcalls (assuming no OOM) for any users who may need it,
-> on the off chance that it wasn't init'd on-demand because of no
-> pre-subsys_initcall drivers.
+> On 4/21/2026 10:18 PM, Leonardo Bras wrote:
+> > On Mon, Mar 30, 2026 at 12:31:28PM +0100, Leonardo Bras wrote:
+> > > On Sat, Mar 28, 2026 at 02:05:25PM +0800, Tian Zheng wrote:
+> > > > On 3/27/2026 11:00 PM, Leonardo Bras wrote:
+> > > > > On Fri, Mar 27, 2026 at 03:35:29PM +0800, Tian Zheng wrote:
+> > > > > > On 3/26/2026 2:05 AM, Leonardo Bras wrote:
+> > > > > > > Hello Tian,
+> > > > > > > 
+> > > > > > > I am currently working on HACDBS enablement(which will be rebased on top of
+> > > > > > > this patchset) and due to the fact HACDBS and HDBSS are kind of
+> > > > > > > complementary I will sometimes come with some questions for issues I have
+> > > > > > > faced myself on that part. :)
+> > > > > > > 
+> > > > > > > (see below)
+> > > > > > Of course! Happy to exchange ideas and learn together.
+> > > > > :)
+> > Hello Tian,
+> > 
+> > On the above, HACDBS depends on HACDBSIRQ which can be announced by either
+> > device-tree or ACPI.
+> > 
+> > Do you think it's ok for it to be ACPI only, for now?
+> > 
+> > Thanks!
+> > Leo
 > 
-> This on-demand path can trigger before subsys_initcall. kset_create_and_add()
-> be should safe in those contexts because the allocator is up and running by then,
-> no userspace to start uevent helper or listen to a uevent socket.
+> Hi Leo,
 > 
-> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
-> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> No problem with ACPI-only for HACDBSIRQ for now.
+
+Awesome!
+I got it all working on my side, so I will try to send a freestanding patch 
+with the required needs from HDBSS :)
+
 > 
-> ---
+> Feel free to let me know if you have any questions while working
+> on HACDBS on top of HDBSS.
 > 
-> Patch 3 depends on this patch.
-> ---
->  kernel/params.c | 41 +++++++++++++++++++++++++----------------
->  1 file changed, 25 insertions(+), 16 deletions(-)
+
+Will do:)
+
+Thanks!
+Leo
+
+
+> Tian
 > 
-> diff --git a/kernel/params.c b/kernel/params.c
-> index 74d620bc2521..f25d6fda159c 100644
-> --- a/kernel/params.c
-> +++ b/kernel/params.c
-> @@ -745,6 +745,26 @@ void module_param_sysfs_remove(struct module *mod)
->  }
->  #endif
->  
-> +static int uevent_filter(const struct kobject *kobj)
-> +{
-> +	const struct kobj_type *ktype = get_ktype(kobj);
-> +
-> +	if (ktype == &module_ktype)
-> +		return 1;
-> +	return 0;
-> +}
-> +
-> +static const struct kset_uevent_ops module_uevent_ops = {
-> +	.filter = uevent_filter,
-> +};
-> +
-> +static struct kset *__init_or_module ensure_module_kset(void)
-> +{
-> +	if (!module_kset)
-> +		module_kset = kset_create_and_add("module", &module_uevent_ops, NULL);
-> +	return module_kset;
-> +}
-
-Sashiko's review [1]:
-
-	Could this cause a race condition if multiple threads try to initialize
-	module_kset concurrently?
-
-	If asynchronous driver registration triggers this path concurrently before
-	subsys_initcalls, is it possible for both threads to see module_kset as NULL:
-
-	Thread 1
-	    if (!module_kset)
-		module_kset = kset_create_and_add("module", &module_uevent_ops, NULL);
-		/* Succeeds and assigns a valid kset */
-
-	Thread 2
-	    if (!module_kset)
-		module_kset = kset_create_and_add("module", &module_uevent_ops, NULL);
-		/* Fails due to duplicate name and returns NULL */
-
-	If Thread 2 overwrites module_kset with NULL after Thread 1 succeeds, wouldn't
-	this orphan the kset created by Thread 1 and cause all subsequent callers to
-	fail? Does this initialization need synchronization to prevent this?
-
-While all pre-subsys_initcall platform driver registration happens
-synchronously now, on the boot cpu, asynchronous registration may be
-introduced in the future which would silently break this patch. Either
-way, it would be better to be safe with a mutex.
-
-I also noticed another problem with this patch: kset_create_and_add() is
-called as long as module_kset is not set. So in the case of OOM, init
-will be attempted as long as it succeeds, even beyond subsys_initcall.
-While the current behaviour is to init only in subsys_initcall.
-
-Both of these can be fixed with a DO_ONCE_SLEEPABLE-based
-initialization.
-
-[1] https://sashiko.dev/#/patchset/20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com?part=1
