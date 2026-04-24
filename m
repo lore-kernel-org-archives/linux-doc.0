@@ -1,162 +1,169 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB093AEF54
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 11:23:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27D73BD641
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 11:37:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777029831; cv=none; b=GMSrhR/CVhCO+425I7I/KLjOlK2qzS5n5Myzjn+83IF8PwtHHa0cT8j0J2mo/a20q7MQ0kk8cVa8BG0Ee2wwv0p/BngN8mWjy8ASFikoNphqF1rOCY5C7TbQ9pqbOps1CnORZwftF1el2uN0lvYSQ1g4Uhmyd1Gy1FlVbIZKTKA=
+	t=1777030659; cv=none; b=G0pFARc1vCK6Q4rgeNZdy6+mLuHhSN57vGun8q8fzhv1Je5Fv/bZUZcya6xDYl6PAQvFuQkF10n7pyLwYLv77wcE60bL+GfogKvM0IsAcs0qhHVzgShK2UbJe9cdMVN/bZv4aZHMJvyRQo8otkXPH9daWRj7nviAIhCwOeLLLjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777029831; c=relaxed/simple;
-	bh=CRAdYzX9+jNsTYs4h8ctNWZTdaCBBbrpEXxcu4w9zCQ=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=GoAPLrys1r/EM7KolvZZx96+tGQ7BKjGzEZCs4buWkdyTzVP3OvkdIArrNpwOc7VO12852ELN1AQ+oys0tq5bAlEP3tj+Cfk65dXp/5YV5ZDMDpUjn2ouYKcRbCcjceCJXvGFb9FBCw1VNa3z6g/S8P29sug94fUFZOYnKDF190=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hobNOn+j; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777030659; c=relaxed/simple;
+	bh=pQAkkgwBTm0wMFjEsUuolfLk3Se7Aw+kEEZDfgUAj2I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XemVATT+9xrpA2aIXo5FrO9L3QO01f00SVpO0bC6Z0CWoGvIuPwTNibUmn9D5URN+KSxojTc5q0mFaFUaqoLYU8T9O0RzVx+bl0aX7VnVetqa3g/jFNe6aTIyt9BnVYnU3QrM9yUhrKcyssvrAmI4xcw4f1PWavQdTQpDt2rNEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzBIP5ab; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hobNOn+j"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d76dd4ee8so7009999f8f.2
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 04:23:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777029828; x=1777634628; darn=vger.kernel.org;
-        h=to:references:message-id:cc:date:in-reply-to:from:subject
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+t+DJdjmBiSqlx1/PpjPe0tKhCBDYlA3fqYW1n4w00o=;
-        b=hobNOn+jNnkILFM0B2lWuWoYhwhZrFxY9Geg77nhWKIxfnXfF8/kdCXUqF3IAH6N85
-         +MnXX+X/ryx3Bsb6GDGsnU+E7gsrj0IJK8lZwR8RlhREjSRMJ/+Qt3zcDdkIFIWaTjFD
-         2KBPkIHZyxjw8xEjD+3KFJm4otmxlu+Dn1hPLmAPSw7NNGBzdT7P3K0buEHgORui9RC5
-         fBO+PBMgPIhhQCJ8Yay1I9UptXXghC2VGHRzgaS9ncV7xSj+i+cSKniM8nvvEqnLqnDp
-         CxNPHUOaxAc63WJRXFxdlW/xuJ9/fDR33uXVXIiqCTPauSSSLmEoEGo/B+t28aL6Yc5r
-         zAaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777029828; x=1777634628;
-        h=to:references:message-id:cc:date:in-reply-to:from:subject
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+t+DJdjmBiSqlx1/PpjPe0tKhCBDYlA3fqYW1n4w00o=;
-        b=cQJmHobmt9AGwHagHrjSdfD50cLZeLiqHUunXidz1XOoQuCYCWcgQ4V5Wh/NEjGK3I
-         sEY1g7Z7FlxyWuWYo2rbA4aeGz6Dc3LzBX6N2ZBryUuvBmt7glDMtX4UH9iNyVgg0Cb+
-         5wh00/dV3uDfCCmOiJgmR3M20ZHZQTAhLNjZCFvPWE3xHDFiFPfbbAci5QT1zL9a5BhC
-         yddKKQ9AW1kMOd73hKQ+PzAAHSr4m+sos+MikgerP3vkvJKZkOfZ6RYOTdctvMev0u3t
-         MX8uvG/zcV0mWvb7e/N9KelV26+oigx4haTBUAxbIlrUqTyjeC9/cbh2YlDTwpO3LVJZ
-         gYcg==
-X-Forwarded-Encrypted: i=1; AFNElJ/thdUJkSph5OgvtjFc5t5nsOdrKvPU0DJCOFDeVzkwla5Iy78k2Pzz+zE/WcFRKCpsHdle92lkXWE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4PRm3hzVkv1OAHOYbCm5FyD1BhJHH9th0WV74a3PyWYSFaKYP
-	ntn0x7jmiNTBIRoKJq4UH69npEwy9SbRTQEbCW4gCNV7iVc6zQ+MPlU2
-X-Gm-Gg: AeBDietNHHELu9zmfsTnkm4BJV125/Ot5H2BI+NUan2bqbAQiDz9HqNF7m9YOp8/9MS
-	zsq0T2jPpbFryY3thFRZHyVLsut67f+DS4Sy4dtHG6oD0/tX1B4z68UksVhGuWie/WkS9QIA1l/
-	adB/KLAlVaTFo4JNyXI8i0ARcOn/OTR0wIPc3O6YmE76018znjvJ915x7EowgErNOvoh7aMWpkg
-	8qp5D1YobZAzMlrSE1jZ8RNt/0u5szvknYAfSf4F6oGaZA3raE2l5iBOFSNyax2MmswTPO5YwXy
-	s2Q90yyLtchV+CDL9olFje6EDxOtR574wMOMsbRf4TFAT2r7h+SrJnoGDBhas7IRnPscquw3RSo
-	cF9S5MdGe3wTYuScsFtC3eU3ntQaUsO1hKfh33ewguxTkxDARIhxSsNEUCVM8yDOXQSkArNfiYM
-	JQ9Mmu361DfslW0dv/u6SxF0eLbfeSCY7CF4kyxxjj8Eaf
-X-Received: by 2002:a05:6000:240e:b0:439:ae2a:755e with SMTP id ffacd0b85a97d-43fe3e0b606mr48159269f8f.23.1777029828055;
-        Fri, 24 Apr 2026 04:23:48 -0700 (PDT)
-Received: from smtpclient.apple ([197.250.51.46])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb1365sm63645843f8f.7.2026.04.24.04.23.43
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 24 Apr 2026 04:23:47 -0700 (PDT)
-Content-Type: multipart/signed;
-	boundary="Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26";
-	protocol="application/pgp-signature";
-	micalg=pgp-sha256
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzBIP5ab"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DBAFC19425;
+	Fri, 24 Apr 2026 11:37:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777030658;
+	bh=pQAkkgwBTm0wMFjEsUuolfLk3Se7Aw+kEEZDfgUAj2I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nzBIP5abjjPiZZKk8KmpEKOCx55UR2CcQo4kIqsUQXfA5UyKUBcFG6fL+eKBcY8h+
+	 Z/IfrfmDAAZ1oTeJyQgyK7Tne3nUUZDa89ct2P6caB9rXKFqCCe4EcsScpHzDGFzeY
+	 ZOr9zDzVzse/BEdiDRVjawbGvPPmtHFoHnJfkatWPHbyZr0JPu6QKpCbMJTeGj3Feh
+	 ZyVyaI03ezjru7DS4fm2FbV7yfpGkqG79XotEA98ZaMGW//j2ekaeioZXvojXXT9g9
+	 MVCJK/66fQqSt2ToUupcd7+2VDC/LsTQhO8gEr6GA/W3ei3jI14fr6IZXuhXPmP0Tg
+	 G9IeHmtC0ynOQ==
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 45D00F40068;
+	Fri, 24 Apr 2026 07:37:37 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-02.internal (MEProxy); Fri, 24 Apr 2026 07:37:37 -0400
+X-ME-Sender: <xms:AVbraWr5w8IN3pcVGoXPYYrMPDysCLNSoP-_ZN9t0HOo2Qko1JiDbg>
+    <xme:AVbraT4POzjwfmz4bT4yoZElgbWGQUHeFUgunMRWU2Ng-pHHGGDRmMhmkiPRm26SJ
+    sVpYz2SFbvKgtSkjzeY7zEIW244lEasDLHm0ADNoc4lJACEkWDdwWU>
+X-ME-Received: <xmr:AVbraXbGXxDYOWhmrT7HaBaIytopftSXGzadskJ8-cynWYp8WJVqyh8cEZsWkA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeileelfecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekrodttddtjeenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhephfffieehtdegkeelkeegkeeijefhieeitdevledujeeuteekgfetveejjeeiteek
+    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
+    curfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgv
+    rhhsohhnrghlihhthidqudeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkh
+    gvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeef
+    iedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrth
+    drtghomhdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplh
+    hjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvh
+    gsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvght
+    thesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
+X-ME-Proxy: <xmx:AVbraQq9zuliAnRVDPxVtBQJGJxFL_QUAhEOzsJ1QnuDy8699f1iyw>
+    <xmx:AVbraY4lWjncW9FwD2xl5yl8EK0PYAnkDSbFag9Yr96vAKFnGgQudA>
+    <xmx:AVbraVSwRkroFnFwWJ0ASMKYBKsCFLz4T3EDzFpRp6go0R1lLWqdLA>
+    <xmx:AVbraQ2SpbTiy1zowaVMJ8EHvAfhpIeWkeiS40LSPhc1Gdn3NRXYIA>
+    <xmx:AVbraU4lHgmjedtxDgLxYgfTvjFaJxZKG-9HWwH7MyOScA--VfxBgiGu>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Apr 2026 07:37:36 -0400 (EDT)
+Date: Fri, 24 Apr 2026 12:37:35 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aetHWMZyEEIEzsJZ@thinkstation>
+References: <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
+ <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
+ <aeorZMvKwu8zKX5i@thinkstation>
+ <aeoxnuGKO3uqS2kG@x1.local>
+ <aeo5IPpQi7onyjTF@thinkstation>
+ <aeprnnccJeyHB2rt@x1.local>
+ <17b0dc02-eee3-46d6-9afb-5f81a3a20216@kernel.org>
+ <aep8tsYFfr_Xe54q@x1.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
-Subject: Re: [PATCH v5 1/8] ARM: zte: Add zx297520v3 platform support
-From: =?utf-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
-In-Reply-To: <CAD++jL=am0f+sgBSFYQCdcFOvFWgPETn_pSgVdzETJ3_yUNqgw@mail.gmail.com>
-Date: Fri, 24 Apr 2026 14:23:29 +0300
-Cc: Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Russell King <linux@armlinux.org.uk>,
- Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Arnd Bergmann <arnd@arndb.de>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Drew Fustini <fustini@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Jiri Slaby <jirislaby@kernel.org>,
- linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- devicetree@vger.kernel.org,
- soc@lists.linux.dev,
- linux-serial@vger.kernel.org
-Message-Id: <BF5EABA2-3168-48A2-AE2D-D8EE2CF88E9F@gmail.com>
-References: <20260421-send-v5-0-ace038e63515@gmail.com>
- <20260421-send-v5-1-ace038e63515@gmail.com>
- <CAD++jL=am0f+sgBSFYQCdcFOvFWgPETn_pSgVdzETJ3_yUNqgw@mail.gmail.com>
-To: Linus Walleij <linusw@kernel.org>
-X-Mailer: Apple Mail (2.3864.500.181)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aep8tsYFfr_Xe54q@x1.local>
+
+On Thu, Apr 23, 2026 at 04:10:30PM -0400, Peter Xu wrote:
+> On Thu, Apr 23, 2026 at 09:25:30PM +0200, David Hildenbrand (Arm) wrote:
+> > > 
+> > > The other thing is, as I mentioned in the other email, I still don't know
+> > > how the current RW protection would work for anonymous.  I don't yet think
+> > > the user swapper can read the anon page with RW-protected pgtables.  So far
+> > > my understanding is maybe you only care about shmem so it's fine, but it'll
+> > > always be great to confirm with you.
 
 
---Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+That's true. We use vhost and therefore shmem in our setup.
+
+One idea I had about how to make atomic eviction for anon is extending
+process_vm_read() and process_madvise():
+
+- Add a flag to process_vm_read() to bypass the protnone check on
+  accessible (or only RWP?) VMAs.
+
+- Allow process_madvise(MADV_DONTNEED) when the caller already has
+  ptrace write access to the target.
+
+The standing objection to remote DONTNEED has been "destructive", but
+process_vm_writev() already lets a ptrace-capable caller overwrite
+arbitrary anon with attacker-chosen content. DONTNEED is strictly
+weaker — it zeroes, it does not inject — so the trust model is already
+established.
+
+> > I wonder if uffdio_move could be used for a swapper implementation instead?
+
+I considered it. UFFDIO_MOVE can in principle relocate the cold folio
+into a staging VMA inside the VMM, which then reads it and drops it.
+The downside is the VMM has to maintain a second address range and
+serialise eviction through it. A purpose-built primitive — something
+like UFFDIO_EVICT that zaps the PTE and returns the folio contents
+(optionally to an fd for io_uring) — seems cleaner.
 
 
+> If RW is justified to be useful first, maybe.
+> 
+> I had a gut feeling Kirill's use case doesn't use anon at all, then if
+> nobody needs it we can still decide to not support anon.
+> 
+> > 
+> > If we ever have to read from a protnone page, maybe we could teach ptrace access
+> > to do it, or have something that can read from prot_none areas -- like
+> > uffdio_copy, which can write to prot-none areas.
+> 
+> Somethinig like swap_access() in my proposal can also partly achieve that.
+> 
+> https://lore.kernel.org/all/aYuad2k75iD9bnBE@x1.local/
 
-> Am 24.04.2026 um 10:06 schrieb Linus Walleij <linusw@kernel.org>:
->=20
-> On Tue, Apr 21, 2026 at 10:24=E2=80=AFPM Stefan D=C3=B6singer
-> <stefandoesinger@gmail.com> wrote:
->=20
->> This SoC is used in low end LTE-to-WiFi routers, for example some =
-D-Link
->> DWR 932 revisions, ZTE K10, ZLT S10 4G, but also models that are =
-branded
->> and sold by ISPs themselves. They are widespread in Africa, China,
->> Russia and Eastern Europe.
->>=20
->> This SoC is a relative of the zx296702 and zx296718 that had some
->> upstream support until commit 89d4f98ae90d ("ARM: remove zte zx
->> platform"). My eventual goal is to enable OpenWRT to run on these
->> devices.
->>=20
->> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
->=20
-> Didn't I review this already? I don't remember, anyway:
-> Reviewed-by: Linus Walleij <linusw@kernel.org>
+A maccess()-style primitive that reads through PROT_NONE is a reasonable
+building block and overlaps with part of what UFFDIO_EVICT would need.
 
-Yes, you did, but the previous version, and after I sent this one.
+> There, it was only about reading from swap so far, though.  But that one
+> might be easier to be extended to read PROT_NONE and directly put data into
+> buffer user specified (ps: in my local tree impl I named it maccess() to
+> pair with mincore(), but it doesn't really matter; it doesn't even need to
+> be a syscall..).
+> 
+> To me, the interfacing is not a major issue.  The major question I have is
+> why RW protection can help in swap system impl when we already have uffd-wp.
+> 
+> So I want to make sure the use case can't be implemented by uffd-wp already.
+> Because that's really what we might do for QEMU.
 
-And if I understand the b4 docs correctly, the Reviewed-by tags are sort =
-of handled client side: I have to tell b4 to fetch trailers, and then it =
-will add it when I send my v6 with Krzysztof's request to squash =
-patches.
+Race-free eviction can definitely be implemented with uffd-wp already.
+But not proper working set discovery.
 
 
---Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmnrUrEACgkQPRO8yFRP
-GiKRrQ//d0i3JtN4eqnwGJS0KDoAetBNQXiNUwHJGszPaUlMzi1beDOdsTFk7Who
-t8GNv9VvwjuR7Agxy+B9vNltnZanU6djJKQhm1+Qd7AvlC86ueKD2tGZUxpmuipl
-37Poxi+E1zUTG68RTaJz1p0utLhaZkiCjVJzmTQgJJq3mAfYp8ycFI29IgdGHJCN
-612a3nSFm1l6vz8a+qSX9kQG1UnTYQjsavu1ACxQp9Kk1Xga1G+atLgfXTTY3Aav
-LjzHpAl+B0szQ84Zb05ZpJ1jiZYnMrDrIlNu1hv9/PTddXHyL2ISI+0um5OCvJ6n
-61iXnVpyJlrscV1Iqs23VwxKx+y3rnV1JIlf/j4n1nwkJ5LQLxRWuYUpmK71uwKt
-8WtiK3AD9VxnQvfVtAn2ltUaCLeeE+pZpSwnOvI31AOrwwZQ3ckSqkYRYVwnxVZZ
-hkYMk1IfqjRPdMgMjyAqKEPZ5hOqYC5eqd68uM0HAXpYnUT/FNxGw/+sV7oX3qyY
-eVho0WqhoeBEAezLTQ+GeCNlLirDpHwT2Y8NHYxSTlIQuwhwClwRPjdXCyS9adcF
-eCz32rEZFS75z0LG701LB+MlMhblYEkGiAm3DEsFo4778ft7kfWC5N3GJLbu31SX
-1/xC0sqkBY5zF5gvLXwtw0kEniW7PzEgc3oc2N3T37x4mk/WGfo=
-=+4QJ
------END PGP SIGNATURE-----
-
---Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26--
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
