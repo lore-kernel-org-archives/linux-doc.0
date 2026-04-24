@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7733DBD55;
-	Fri, 24 Apr 2026 14:01:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 935B73DC4CA;
+	Fri, 24 Apr 2026 14:01:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777039292; cv=none; b=Hci/wqhvMRY5Z1UXLz+U9QuF0SYiD4MA/SHNmZXfSyKYHOj8I5ExD/mD0jOcyy++dv111SDXtd/14xNwUzf0ap/0ol/yesfb0GcuTevDo+aFeIDfkeYkjWo6E9V/Y8TxjTXe9pOEmKHZJTCX2UMttZ3CjeyLwLXiUBPvZsMlcek=
+	t=1777039294; cv=none; b=blCkSy6s7V41uTPn4zpSvoxO7Hn+DxZcaBHo306lQc1GV+9KV6QOxT5nyqukDaBt+HoTlWxpna1DywE5tl6A4DwTi8UM6dbap74Wv/lCJaUJrbomLAXxSMjWilkxfniczL+xMMqXFClxPYMtDte2nrfFvunq0hNxsQcddtmNEIM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777039292; c=relaxed/simple;
-	bh=ArDqKUGEZwiJhWfrZPmHU41Dcmah9WrzPqg0XPgBvRA=;
+	s=arc-20240116; t=1777039294; c=relaxed/simple;
+	bh=TBKrtjv7+bLe3/01VBt+c7tfJ2DPrZzmNjtiYrqNDtg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=mm8DSY+uCvWrH64HOLpctsbBAgPNzJ+YIvUoFeIrH5Nm3Q4pctqWDoqP8QYvwgYP6uXQfTno588LeYbDUjRNL8Oi+6s394OZ2I590+WyMRwBb3QmGnFJqYkCuhE0/ARgVeDT5Zr63FdlQVF4oNcfiBYCzVaEPqpULwnRGRVs+kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CaG0oB7y; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=t/WpFcEfp+S5lJ9wY56TDmTBKf5aTqVNmXBm/PlyATOQz4XMk29akJ9SF2TXqR/0B/mUd9Jbt9c+ipDHkuER/AdH8OPgHqwToBiUDC05NjqPbyThKC/tMhcpwEroEmfMivGvvzPbjg8PXbQoIovLyY71SLM5R5aPJNHcj+jRjnM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lWd+BY+X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CaG0oB7y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9E47CC19425;
-	Fri, 24 Apr 2026 14:01:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lWd+BY+X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F2C1C2BCB2;
+	Fri, 24 Apr 2026 14:01:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777039292;
-	bh=ArDqKUGEZwiJhWfrZPmHU41Dcmah9WrzPqg0XPgBvRA=;
+	s=k20201202; t=1777039294;
+	bh=TBKrtjv7+bLe3/01VBt+c7tfJ2DPrZzmNjtiYrqNDtg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=CaG0oB7yE/8MMkLVNptpROnS8QY0hY7zRDigwMad2xHJ4WdtE7xWL9Qy53kDSK4I+
-	 vW8Zc/EkjFXCWK59rgGUEcHesVVv+GWXB6weOest7y+gCIf+ljKWTNcOkHW09GAHAD
-	 fPcJPxYVJ9g7qDykJeX/fVPlBS11BRHXyzJGxNBBAO9ClIyUOFu0u+o/BY5UItOpfy
-	 KOD7k7XOZkMkMqnnwxHCOmjXFqoXjCSEN0X2HwAP+tGW8z1DiPGx81VY8JjyttZGmQ
-	 XDrPZR9EsX6fJwfl2Nwy+pawBhFinnvEg+H6Lmgy8aIrTEOqvEvExqFwDHdFpGqGjq
-	 BCeAktUcwFnWg==
+	b=lWd+BY+X4r0dkO9VbE+etNI+pKWnytTiTzOSKdmSp+7vmV8Ojf342Ge77uF1k9BlB
+	 KvsGTjRejWodx3rv4U/vgPAv06riz63gFti0yJDRlZaV0f5eFxbxSn4x+8NaHsruIP
+	 PAliqU2OUAkrWZY9MGTnmX4oXUQ06hc+3sn1vxskkPZyRc/w3dmlAQjI2UA9elNsZr
+	 /NYOB58iwuXMHJqYGpnWPYQHhQnPJle+sp8cmcNE7p2n597BYz77oP5zmcE8KvkzEh
+	 WXtqjH7wrTrbiaSIK1yG8EFZglKjmXS75h/uCNTg8ww/n+6QdnLiwOxIo4ZqeWJwJD
+	 D0ujBonCYLlGA==
 From: Sasha Levin <sashal@kernel.org>
 To: akpm@linux-foundation.org,
 	david@kernel.org,
@@ -46,9 +46,9 @@ Cc: ljs@kernel.org,
 	Sasha Levin <sashal@nvidia.com>,
 	Sanif Veeras <sveeras@nvidia.com>,
 	"Claude:claude-opus-4-7" <noreply@anthropic.com>
-Subject: [RFC 5/7] mm/page_alloc: integrate page consistency hooks
-Date: Fri, 24 Apr 2026 10:00:54 -0400
-Message-ID: <20260424140056.2094777-6-sashal@kernel.org>
+Subject: [RFC 6/7] Documentation/mm: add page consistency checker documentation
+Date: Fri, 24 Apr 2026 10:00:55 -0400
+Message-ID: <20260424140056.2094777-7-sashal@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260424140056.2094777-1-sashal@kernel.org>
 References: <20260424140056.2094777-1-sashal@kernel.org>
@@ -62,102 +62,260 @@ Content-Transfer-Encoding: 8bit
 
 From: Sasha Levin <sashal@nvidia.com>
 
-Wire up the page consistency checker with the page allocator by adding
-tracking hooks in the allocation and free paths. The hooks follow the
-same pattern already established by page_owner and page_table_check,
-inserting calls at the points where page state transitions occur.
+Add documentation for the page consistency checker feature. The document
+explains the dual-bitmap algorithm, describes the configuration options,
+and covers the debugfs interface for monitoring and validation.
 
-In post_alloc_hook(), a call to page_consistency_alloc() is added after
-the page_table_check_alloc() call. This records the allocation in both
-bitmaps, setting the primary bit and clearing the secondary bit for each
-page in the allocation.
+The algorithm section explains how the complementary bitmaps work: the
+primary bitmap uses 1 for allocated and 0 for free, while the secondary
+bitmap uses the opposite convention. This redundancy means any single-bit
+corruption in either bitmap will cause a detectable violation of the
+invariant that primary[bit] must equal ~secondary[bit].
 
-In __free_pages_prepare(), calls to page_consistency_free() are added
-in both the early-return path for the hwpoison check and the normal
-exit path. These calls clear the primary bitmap and set the secondary
-bitmap, maintaining the complementary relationship that enables
-corruption detection. The free hook lives in the internal
-__free_pages_prepare() rather than its free_pages_prepare() wrapper so
-that every free path (including the bulk folio free path) is observed
-exactly once.
-
-Initialization is hooked into mm_core_init() immediately before
-memblock_free_all(), while memblock is still active so it can use
-memblock_alloc() for the bitmaps, and after kho_memory_init() so that
-any memory handed back by a kexec-handover source has already been
-accounted.
+The document also explains the intentional limitation around double-free
+detection. During boot, free_reserved_area() releases pages that were
+never allocated through the buddy allocator. Flagging these as errors
+would generate many false positives, so double-free detection is
+deferred until after boot completes.
 
 Based-on-patch-by: Sanif Veeras <sveeras@nvidia.com>
 Assisted-by: Claude:claude-opus-4-7 <noreply@anthropic.com>
 Signed-off-by: Sasha Levin <sashal@nvidia.com>
 ---
- mm/mm_init.c    | 9 +++++++++
- mm/page_alloc.c | 4 ++++
- 2 files changed, 13 insertions(+)
+ Documentation/mm/index.rst            |   1 +
+ Documentation/mm/page_consistency.rst | 211 ++++++++++++++++++++++++++
+ 2 files changed, 212 insertions(+)
+ create mode 100644 Documentation/mm/page_consistency.rst
 
-diff --git a/mm/mm_init.c b/mm/mm_init.c
-index df34797691bd..4d9495fb8789 100644
---- a/mm/mm_init.c
-+++ b/mm/mm_init.c
-@@ -22,6 +22,7 @@
- #include <linux/kmemleak.h>
- #include <linux/kfence.h>
- #include <linux/page_ext.h>
-+#include <linux/page_consistency.h>
- #include <linux/pti.h>
- #include <linux/pgtable.h>
- #include <linux/stackdepot.h>
-@@ -2717,6 +2718,14 @@ void __init mm_core_init(void)
- 	 */
- 	kho_memory_init();
- 
-+	/*
-+	 * page_consistency_init() must run while memblock is active so it
-+	 * can use memblock_alloc() for the bitmaps.  Boot-time reserved pages
-+	 * may be freed before SYSTEM_RUNNING without ever having been allocated
-+	 * through the buddy allocator, so the checker suppresses double-free
-+	 * reports until boot has completed.
-+	 */
-+	page_consistency_init();
- 	memblock_free_all();
- 	mem_init();
- 	kmem_cache_init();
-diff --git a/mm/page_alloc.c b/mm/page_alloc.c
-index 2d4b6f1a554e..ae8f619875e9 100644
---- a/mm/page_alloc.c
-+++ b/mm/page_alloc.c
-@@ -46,6 +46,7 @@
- #include <linux/sched/mm.h>
- #include <linux/page_owner.h>
- #include <linux/page_table_check.h>
-+#include <linux/page_consistency.h>
- #include <linux/memcontrol.h>
- #include <linux/ftrace.h>
- #include <linux/lockdep.h>
-@@ -1374,6 +1375,7 @@ __always_inline bool __free_pages_prepare(struct page *page,
- 		/* Do not let hwpoison pages hit pcplists/buddy */
- 		reset_page_owner(page, order);
- 		page_table_check_free(page, order);
-+		page_consistency_free(page, order);
- 		pgalloc_tag_sub(page, 1 << order);
- 
- 		/*
-@@ -1432,6 +1434,7 @@ __always_inline bool __free_pages_prepare(struct page *page,
- 	page->private = 0;
- 	reset_page_owner(page, order);
- 	page_table_check_free(page, order);
-+	page_consistency_free(page, order);
- 	pgalloc_tag_sub(page, 1 << order);
- 
- 	if (!PageHighMem(page) && !(fpi_flags & FPI_TRYLOCK)) {
-@@ -1888,6 +1891,7 @@ inline void post_alloc_hook(struct page *page, unsigned int order,
- 
- 	set_page_owner(page, order, gfp_flags);
- 	page_table_check_alloc(page, order);
-+	page_consistency_alloc(page, order);
- 	pgalloc_tag_add(page, current, 1 << order);
- }
- 
+diff --git a/Documentation/mm/index.rst b/Documentation/mm/index.rst
+index 7aa2a8886908..bef6c9bbc976 100644
+--- a/Documentation/mm/index.rst
++++ b/Documentation/mm/index.rst
+@@ -57,6 +57,7 @@ documentation, or deleted if it has served its purpose.
+    page_frags
+    page_owner
+    page_table_check
++   page_consistency
+    remap_file_pages
+    split_page_table_lock
+    transhuge
+diff --git a/Documentation/mm/page_consistency.rst b/Documentation/mm/page_consistency.rst
+new file mode 100644
+index 000000000000..dd1bde68f1a5
+--- /dev/null
++++ b/Documentation/mm/page_consistency.rst
+@@ -0,0 +1,211 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++=======================
++Page Consistency Checker
++=======================
++
++The page consistency checker is a debugging feature that uses dual
++complementary bitmaps to detect corruption in page allocation tracking.
++It maintains the invariant that for every bit position, the primary
++bitmap value equals the bitwise complement of the secondary bitmap value.
++
++Overview
++========
++
++Memory corruption can silently flip bits in kernel data structures,
++leading to difficult-to-diagnose failures. The page consistency checker
++addresses this by maintaining redundant tracking of page allocation
++state. Any single-bit corruption in either bitmap will cause a detectable
++inconsistency, allowing the corruption to be caught rather than causing
++silent data corruption or mysterious crashes later.
++
++The bitmaps are flat, covering the entire PFN range from
++``memblock_start_of_DRAM()`` to ``memblock_end_of_DRAM()`` including any
++holes in physical memory. This is a deliberate design choice: simple
++``pfn - min_pfn`` indexing is trivially auditable, which matters for a
++safety mechanism. Sparse or section-aware indexing would add auxiliary
++data structures that could themselves be subject to corruption. See
++`Limitations`_ for a detailed analysis of memory overhead including
++holes.
++
++The approach is based on NVIDIA safety research and is
++particularly useful for safety-critical systems requiring Freedom From
++Interference (FFI) guarantees per ISO 26262 (ASIL-D) and IEC 61508
++(SIL-3).
++
++Algorithm
++=========
++
++The checker maintains two bitmaps tracking page allocation state:
++
++Primary bitmap
++  Bit set to 1 when page is allocated, 0 when free.
++
++Secondary bitmap
++  Bit set to 0 when page is allocated, 1 when free.
++
++The invariant that must always hold is::
++
++    primary[bit] == ~secondary[bit]
++
++When a page is allocated, the checker sets the bit in the primary bitmap
++and clears it in the secondary bitmap. When freed, it clears in primary
++and sets in secondary. If the operation finds the bit already in the
++expected final state, a double-allocation or double-free has occurred.
++
++Full validation can be performed by checking that every word in the
++primary bitmap equals the bitwise complement of the corresponding word
++in the secondary bitmap.
++
++Concurrency Handling
++====================
++
++The dual-bitmap update operations (set/clear) modify both bitmaps with
++separate atomic operations. This creates a brief window where a concurrent
++validation could observe a transient inconsistency.
++
++The implementation handles this by retrying validation when an inconsistency
++is detected. Real memory corruption is persistent and will fail all retries.
++Transient inconsistencies from concurrent updates resolve quickly and pass
++on retry.
++
++Double-Free Detection
++=====================
++
++Double-free detection is deferred until the system is fully running. During
++boot, free_reserved_area() and free_initmem() release memory pages that were
++never allocated through the buddy allocator. These would appear as double-frees
++but are expected behavior.
++
++The checker uses ``system_state >= SYSTEM_RUNNING`` to determine when boot
++is complete. This state is reached only after all init memory has been freed,
++ensuring no false positives from legitimate boot-time freeing. Any attempt to
++free a page that is not marked as allocated after this point will be flagged
++as a violation.
++
++Configuration
++=============
++
++The feature is controlled by two Kconfig options:
++
++``CONFIG_DEBUG_PAGE_CONSISTENCY``
++  Enable the page consistency checker. Memory overhead is two bits per
++  PFN in the spanned range (start to end of DRAM, including holes),
++  roughly 4 MB total for a 64 GB system. When this option is disabled,
++  the allocator hooks compile away. When enabled, a static key gates
++  tracking until initialization succeeds.
++
++``CONFIG_DEBUG_PAGE_CONSISTENCY_PANIC``
++  When enabled, the kernel will panic immediately upon detecting a
++  consistency violation. When disabled, a warning with a stack trace
++  is emitted and execution continues. Safety-critical systems should
++  enable this option.
++
++Debugfs Interface
++=================
++
++When CONFIG_DEBUG_FS is enabled, the checker exposes files under
++``/sys/kernel/debug/page_consistency/``:
++
++``stats``
++  Read-only file showing tracking statistics::
++
++    pages_tracked:       12345
++    alloc_count:         67890
++    free_count:          55545
++    violations_detected: 0
++    bitmap_size_bits:    1048576
++    pfn_range:           [256-1048831]
++
++``validate``
++  Write-only file. Writing any value triggers a full validation of
++  all bitmap words. Returns success if all words are consistent,
++  or -EIO if any violations are found.
++
++Usage
++=====
++
++To use the page consistency checker:
++
++1. Enable ``CONFIG_DEBUG_PAGE_CONSISTENCY`` in your kernel configuration.
++
++2. Optionally enable ``CONFIG_DEBUG_PAGE_CONSISTENCY_PANIC`` if you want
++   the kernel to halt immediately upon detecting corruption.
++
++3. Boot the kernel. The checker will automatically initialize and begin
++   tracking page allocations.
++
++4. Monitor statistics via debugfs::
++
++     cat /sys/kernel/debug/page_consistency/stats
++
++5. Trigger manual validation::
++
++     echo 1 > /sys/kernel/debug/page_consistency/validate
++
++Limitations
++===========
++
++As described in `Overview`_, the bitmaps use a flat layout covering the
++entire spanned PFN range, including any holes. Bits corresponding to
++holes are initialized to the free state and remain inert; they maintain
++the complement invariant and never trigger false positives. The kernel's
++own ``pageblock_flags`` bitmaps use the same flat approach, sizing to
++``zone->spanned_pages`` which includes holes.
++
++Memory overhead
++---------------
++
++The cost is 2 bits per PFN in the range (1 bit per bitmap x 2 bitmaps),
++allocated via ``memblock_alloc()`` before the buddy allocator is
++available. A hole wastes ``hole_size / PAGE_SIZE / 8`` bytes per bitmap.
++In practice the waste from holes is negligible::
++
++  System         Holes    Per-bitmap size   Hole waste   Waste/bitmap
++  -----------    ------   ---------------   ----------   ------------
++  64 GB, flat    none     2 MB              0            0%
++  256 GB, flat   none     8 MB              0            0%
++  256 GB         4 GB     8.1 MB            128 KB       1.5%
++  1 TB           16 GB    32.5 MB           512 KB       1.5%
++
++On x86_64 the typical hole between low memory (below 4 GB) and high
++memory is the largest source of waste. On arm64 with
++``memblock_start_of_DRAM()`` typically at 0x80000000 (2 GB), holes
++within the DRAM range are generally small or absent.
++
++Other limitations
++-----------------
++
++The feature is incompatible with ``CONFIG_MEMORY_HOTPLUG`` because the
++bitmaps are sized at boot based on the initial physical memory range.
++Hot-added memory would fall outside the tracked PFN range and be silently
++ignored.
++
++Boot-time reserved pages are not tracked as allocations. Freeing such a
++page before ``SYSTEM_RUNNING`` is expected and is ignored by the
++double-free detector. Freeing an untracked reserved page after boot is
++reported as a double-free.
++
++The feature detects corruption in the tracking bitmaps themselves, not
++corruption in the actual page contents. For page content verification,
++see CONFIG_PAGE_POISONING.
++
++Implementation Details
++======================
++
++The checker hooks into the page allocator at two points:
++
++- ``post_alloc_hook()`` calls ``page_consistency_alloc()`` after a
++  successful allocation.
++
++- ``free_pages_prepare()`` calls ``page_consistency_free()`` when pages
++  are being returned to the allocator.
++
++Both hooks use static keys (``static_branch_unlikely``) so the overhead
++is a single no-op when the feature is disabled.
++
++The bitmaps are allocated during ``mm_core_init()`` using
++``memblock_alloc()`` before ``memblock_free_all()`` releases memblock
++memory to the buddy allocator. The secondary bitmap is initialized with
++all bits set to 1, establishing the initial complementary relationship
++with the zeroed primary bitmap.
 -- 
 2.53.0
 
