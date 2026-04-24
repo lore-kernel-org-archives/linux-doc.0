@@ -1,110 +1,125 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A35CE194C96;
-	Fri, 24 Apr 2026 21:12:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008A71DA62E;
+	Fri, 24 Apr 2026 21:42:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777065172; cv=none; b=TG3DcaMiM5lLgponEzmmznMwUvexdFDowhCXXGT8+l0ZMWMTlj4wlwxOF/s/FXINCE67540NS9In2clNRiEhMdJxbHIVvSY1R/8NkIJS0yJQuY4bsX5Nw8P0Q4Kxa3Q2q013IEKj1Kf9e/tC4THDYTbUN7ohJXp0eEXCrDGYcS0=
+	t=1777066961; cv=none; b=CWEjTWKvs4OYZD9MJ/OxjCUy4PX7JrWFPW+VU/i65UwpoAARtlMjQt32N6u58O9oPutziv/s87t4suvlCt8GhhW7I2u092EnfQUpSXA+vRH0/QBQvrgtO4d2qEuFRgWgBaeoxMs/I8LwC5yVZD3GeGOl9o2I62B+Hi9Ab29gQ88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777065172; c=relaxed/simple;
-	bh=NyikAh4tm5Tv7STEBSnCqg4DtovJNqyU4Fb7MI1sEhY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XH2KY9XYRsAm74SmxrkN/r3GZGRiPxnS/5TUx8RyJLf1D1L55JtBsfb2TPfflkisW1KDOKhNFH5WBPIe6SC84pj6eqSWOLym0+aTDlm9dRpVyFy1dWSzJE3P/PbCEBHMIyJXHa4g8d440zY/N/oWqL/1RG//vQgIOSW+IDPO9Zg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TGDN99yu; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777066961; c=relaxed/simple;
+	bh=J05J3Wn5TYFabkSWc2/o463TQ8jERm4fczlxjTzBr38=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=dXlDX3Hb38orzDRZX6xjVGWR9ZEUS46LId2g0oywEiytNpQVzh1ERkuvmYC5gZab+KIA6E0CkMtkEANTnHHejxp6wlpVox8cq/F6I+eF/82oCHm+DRo/s9sH22lpPzqva0UsZlh0e+8CsFGoODAX8KjvdaEUx0v3tYOVoHrRfrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dsuEPuBG; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TGDN99yu"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=8PzjeiGcbLPGB7W2FflvnqZlR4Sy4gQvM3bCbeF+Jhg=; b=TGDN99yuCtcPOl0JlU3sSfwcH5
-	fx8xtU2wwXHAkIvlXe4EEM0axMcUf7gpxYh7jqgLEG341rxCWjDY1gCmvqVoO6NZPdGbBEkLbQepf
-	obybtZz1s5IcBvQg1nvKOqKnNxkuZSjeJEGbQpTA+iviw5hQXYNoBK7ix1eGG4Xnhg+pF8OjTN6pf
-	x1cMpw0ZnsPCUCuw0HbtuxHigv0q+eHHa4kbrErhANRhf2tEWz8PRyZknBzctEOFSKSe6IFhZkIpC
-	6mTmliK8Xf5UV66+9v+HshTf+xQQ2Q7e8bDNq7e922ROggjX1EGMveLObwEWH/lrbpY72rLRLrpAU
-	QiPqlZaw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wGNpM-0000000DlGf-1h8t;
-	Fri, 24 Apr 2026 21:12:44 +0000
-Message-ID: <df3b6729-ed3b-42e3-9a8a-f77ebf827dd7@infradead.org>
-Date: Fri, 24 Apr 2026 14:12:43 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dsuEPuBG"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777066960; x=1808602960;
+  h=from:date:subject:mime-version:content-transfer-encoding:
+   message-id:to:cc;
+  bh=J05J3Wn5TYFabkSWc2/o463TQ8jERm4fczlxjTzBr38=;
+  b=dsuEPuBGlo7yLnOoUCHGsNFz7EE/9W8nF68L0GJYluO2mRvRPcByqIvQ
+   bXypnfux9Y85Bo4iY4QnwQokjc+1k/w+BcZUQEBz43MmcVUZhuxazl+qX
+   OY95Y5UbLmFhuLtBaYmrc+loSePkoI+ufW/C9UHzt3VzpB8XgoSKC4sCm
+   d1LD9lmS7OMy9rNB7NXxoazWQLxEziDoIKpd6qhslcQmrU2WHtPmh1vkA
+   cs6YyllcsYAnev/jno4wmQmgKL1xp048+L0LPeNsCTNQt5B1+cmDP6kZI
+   xKGUH9CwPFUxHLiz4zHKzpiC66vw7OF3bATcJWvDh1//FxfKLA0rhdjKY
+   w==;
+X-CSE-ConnectionGUID: fwzRH5axT9Sewvv9bc/eMQ==
+X-CSE-MsgGUID: ULVCYR0aSw25GGkN2Q0gYw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11766"; a="78072914"
+X-IronPort-AV: E=Sophos;i="6.23,197,1770624000"; 
+   d="scan'208";a="78072914"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 14:42:40 -0700
+X-CSE-ConnectionGUID: XVCL0VGdQLOE9XIrGR1rfg==
+X-CSE-MsgGUID: upIIAJh4Tnmh2raBcUbeJg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,197,1770624000"; 
+   d="scan'208";a="232952502"
+Received: from unknown (HELO [172.25.112.21]) ([172.25.112.21])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2026 14:42:39 -0700
+From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+Date: Fri, 24 Apr 2026 14:41:13 -0700
+Subject: [PATCH] Documentation: intel_pstate: Fix description of asymmetric
+ packing with SMT
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 v2] Documentation: proc: fix section numbering in table
- of contents
-To: Baolin Liu <liubaolin12138@163.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, cyphar@cyphar.com, vbabka@kernel.org,
- surenb@google.com
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, Baolin Liu <liubaolin@kylinos.cn>
-References: <20260424090654.19229-1-liubaolin12138@163.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260424090654.19229-1-liubaolin12138@163.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20260424-rneri-fix-intel-pstate-doc-smt-asym-packing-v1-1-317bf7d5c362@linux.intel.com>
+X-B4-Tracking: v=1; b=H4sIAHjj62kC/x2NMQrDMAwAvxI0V2CLJkO/UjoYW01EG8VYpqSE/
+ L2i4w13d4BxEza4DQc0/ojJpg7xMkBeks6MUpyBAk3hSoRNXcCn7Cja+Y3VeuqMZctoa8dk3xV
+ ryi/RGSOHQDGNXCYCL9bGLv5v98d5/gASFT80fQAAAA==
+To: "Rafael J. Wysocki" <rafael@kernel.org>, 
+ Viresh Kumar <viresh.kumar@linaro.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>, 
+ Ricardo Neri <ricardo.neri@intel.com>, linux-pm@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777066890; l=2733;
+ i=ricardo.neri-calderon@linux.intel.com; s=20250602;
+ h=from:subject:message-id; bh=J05J3Wn5TYFabkSWc2/o463TQ8jERm4fczlxjTzBr38=;
+ b=F4JUMwWjByHlhXX/kj0knAOz6o+FRWdwTK7qPn/J7OPM9urhRcOcVYFiS3CMRXhxcoQA+2Dvl
+ F92h2HmF1LJBcfdjQcp3VWLRYd6nC+YqtLwn5AHwt7YUQnmB8d6Xd+e
+X-Developer-Key: i=ricardo.neri-calderon@linux.intel.com; a=ed25519;
+ pk=NfZw5SyQ2lxVfmNMaMR6KUj3+0OhcwDPyRzFDH9gY2w=
 
+The patchset [1], of which commits 046a5a95c3b0 ("x86/sched/itmt: Give all
+SMT siblings of a core the same priority") and 995998ebdebd ("x86/sched:
+Remove SD_ASYM_PACKING from the SMT domain flags") are part, overhauled how
+the scheduler handles asym_packing on x86 hybrid processors with SMT. It
+removed SD_ASYM_PACKING from the x86 SMT scheduling domain and made all SMT
+siblings of a core share the same priority. As a result, asym_packing
+operates only across physical cores, spreading tasks among them and only
+using idle SMT siblings once all physical cores are busy.
 
+Fix the documentation to reflect this behavior.
 
-On 4/24/26 2:06 AM, Baolin Liu wrote:
-> From: Baolin Liu <liubaolin@kylinos.cn>
-> 
-> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
-> documentation") removed the IDE section but left its table of
-> contents entry behind.
-> Fix the stale entry and renumber the following sections.
-> 
-> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
-> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+Fixes: f20af84c29b2 ("cpufreq: intel_pstate: Document hybrid processor support")
+Link: https://lore.kernel.org/r/20230406203148.19182-1-ricardo.neri-calderon@linux.intel.com [1]
+Signed-off-by: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+---
+ Documentation/admin-guide/pm/intel_pstate.rst | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-LGTM.
-Acked-by: Randy Dunlap <rdunlap@infradead.org>
+diff --git a/Documentation/admin-guide/pm/intel_pstate.rst b/Documentation/admin-guide/pm/intel_pstate.rst
+index fde967b0c2e0..25fe5d88fea6 100644
+--- a/Documentation/admin-guide/pm/intel_pstate.rst
++++ b/Documentation/admin-guide/pm/intel_pstate.rst
+@@ -355,11 +355,12 @@ HyperThreading (HT) in the context of Intel processors, is enabled on at least
+ one core, ``intel_pstate`` assigns performance-based priorities to CPUs.  Namely,
+ the priority of a given CPU reflects its highest HWP performance level which
+ causes the CPU scheduler to generally prefer more performant CPUs, so the less
+-performant CPUs are used when the other ones are fully loaded.  However, SMT
+-siblings (that is, logical CPUs sharing one physical core) are treated in a
+-special way such that if one of them is in use, the effective priority of the
+-other ones is lowered below the priorities of the CPUs located in the other
+-physical cores.
++performant CPUs are used when the other ones are fully loaded.  SMT siblings
++(that is, logical CPUs sharing one physical core) are given the same priority.
++The scheduler can pull tasks from lower-priority cores and place them on any
++sibling.  Since the scheduler spreads tasks among physical cores, tasks will be
++placed on the SMT siblings of physical cores only after all physical cores are
++busy.
+ 
+ This approach maximizes performance in the majority of cases, but unfortunately
+ it also leads to excessive energy usage in some important scenarios, like video
 
-I note that the html-generated TOC is already correct;
-e.g., https://docs.kernel.org/filesystems/proc.html#networking-info-in-proc-net
-is already section 1.3.
+---
+base-commit: fbfb6bd927c9ac6ea155471cc7ced8e16b37c2cb
+change-id: 20260422-rneri-fix-intel-pstate-doc-smt-asym-packing-1e0021a5ed62
 
-AFAICT, this TOC is for users/readers who use an editor or pager
-to read this file, but the patch is useful in that setting.
-
-> ---
->  Documentation/filesystems/proc.rst | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-> index 7ce02573a3d9..70db35987ee1 100644
-> --- a/Documentation/filesystems/proc.rst
-> +++ b/Documentation/filesystems/proc.rst
-> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
->    1	Collecting System Information
->    1.1	Process-Specific Subdirectories
->    1.2	Kernel data
-> -  1.3	IDE devices in /proc/ide
-> -  1.4	Networking info in /proc/net
-> -  1.5	SCSI info
-> -  1.6	Parallel port info in /proc/parport
-> -  1.7	TTY info in /proc/tty
-> -  1.8	Miscellaneous kernel statistics in /proc/stat
-> -  1.9	Ext4 file system parameters
-> +  1.3	Networking info in /proc/net
-> +  1.4	SCSI info
-> +  1.5	Parallel port info in /proc/parport
-> +  1.6	TTY info in /proc/tty
-> +  1.7	Miscellaneous kernel statistics in /proc/stat
-> +  1.8	Ext4 file system parameters
-> +  1.9	/proc/consoles - Shows registered system consoles
->  
->    2	Modifying System Parameters
->  
-
+Best regards,
 -- 
-~Randy
+Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+
