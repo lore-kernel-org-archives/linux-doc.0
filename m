@@ -1,40 +1,32 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D675F32AAC6;
-	Fri, 24 Apr 2026 06:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89A01366DCF;
+	Fri, 24 Apr 2026 06:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777013318; cv=none; b=GOIUmMricNqRZ3niV+tqqjHJNUdDzV0n/ZtJgY1anRZFE6ZhGKB2Gwn0oHQcNIU8GFXcdKD/F+6IxIKdcoEDjXsfIkQ8uPvQy5mxSfcpv0UdefsIRWcNtoCVhBlJs32aLUJcUQcJHIvN/QJR1xhU5JWDVJ4m8XjB8AvFoA+v7eI=
+	t=1777013707; cv=none; b=kDvV6+8FQENEmkGyXkTc3liOPQBatubktjamPs1YdJCTtKgcES2AsZVvUe4fkO0fgg3I5oepzKjRFShHs8AX9cPEMJ/T8kA2xeKZRaX534coShaXolS21h3Uo2xK/R4jq1caqbgvoFidru1lWqeaEOMUVyGKo0Ik+3JeA5S5/hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777013318; c=relaxed/simple;
-	bh=0wOOuJYHpYbOuEeycs12zNp1Rnfrdks0Fil+00MPKdM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nvZt6VRMq2O9+FsmVbhg0+qZW2tjE3B3tbxKd+xwaANVzlZ2mv73fLChlf8f79XRnRxsd7zyr16rOUGsi2041EJOWgRNZf6oYbTHOIEVDauAPIUkLs3zdIpOxWPgF9KyfXTmPWvZpAw1pQZ7/iUEp5WzY1BcqNi1ymAKF0sfAOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=DPpgY3/S; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1777013707; c=relaxed/simple;
+	bh=YqWoWua2/Wc7PHuce4f8sh3BLnmIUCvUaupWZksb8eQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=raHNO+A1AcCOwQS1EavqdFoiydrCNdQ6YNE/mN8QtPVcAXPX2tJ193lTsPyd16B/ohKKunPmRN+a2H/bTm56U4IhM79m2Gy5YiZAhuPBN9UwlDr+JIgFQl7/rq6wpf0Dswn1zwwdzFNSsI26et09AGSzRC3EX8p9AJSpxnPEvfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=XW7ENsMR; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="DPpgY3/S"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=0wOOuJYHpYbOuEeycs12zNp1Rnfrdks0Fil+00MPKdM=;
-	b=DPpgY3/SfNnZvib1urs+Yfyun56s9Ml4uYUtkoTnCjHagEI862zCQ98Mm0uv7Kv5WMucEYxVE
-	/0N5//JNhot9mldmWAhp0DwClZd9KdKYDAhpr6g38pR7C5MCM8CtB68TQPGZpf1drJ7UHRIafJp
-	j5d1FwoAyQSHAjPU7KsNtrc=
-Received: from mail.maildlp.com (unknown [172.19.163.127])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4g23Kg1SZnznTVg;
-	Fri, 24 Apr 2026 14:42:15 +0800 (CST)
-Received: from kwepemr100010.china.huawei.com (unknown [7.202.195.125])
-	by mail.maildlp.com (Postfix) with ESMTPS id 08CAA402AB;
-	Fri, 24 Apr 2026 14:48:28 +0800 (CST)
-Received: from [10.67.120.103] (10.67.120.103) by
- kwepemr100010.china.huawei.com (7.202.195.125) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.36; Fri, 24 Apr 2026 14:48:27 +0800
-Message-ID: <0403d30d-e75e-4922-b8c1-8cae349f3dc2@huawei.com>
-Date: Fri, 24 Apr 2026 14:48:26 +0800
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="XW7ENsMR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Message-ID:Date:MIME-Version:Subject:To:From:
+	Content-Type; bh=fJGZRW6SJwvAmPVVxVjo5olSr7jogTPEZBPW//VV6+4=;
+	b=XW7ENsMRoP5RA5dPhXrgveLwXiFnuho2tQqrc77d/oS4mtmqRz+Us+sVMUv8GD
+	na1NSzm7RVUqIXwZW+c/eBvv/zWp6EuRlb+k8EFCpNrAMVlQyoHg3dhNABg500Nm
+	kLf8uX1Tm3MpJt1/9r4lrj5gL84ZIgZ0djet9BLKwuG+w=
+Received: from [192.168.56.68] (unknown [])
+	by gzsmtp5 (Coremail) with SMTP id QCgvCgB3eeuFE+tpeZn3BA--.109S2;
+	Fri, 24 Apr 2026 14:54:04 +0800 (CST)
+Message-ID: <255bdd69-e0f0-4300-864a-15fd077ea748@163.com>
+Date: Fri, 24 Apr 2026 14:53:54 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -42,64 +34,107 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/5] KVM: arm64: Enable HDBSS support and handle HDBSSF
- events
-To: Leonardo Bras <leo.bras@arm.com>
-CC: <maz@kernel.org>, <oupton@kernel.org>, <catalin.marinas@arm.com>,
-	<corbet@lwn.net>, <pbonzini@redhat.com>, <will@kernel.org>,
-	<yuzenghui@huawei.com>, <wangzhou1@hisilicon.com>, <liuyonglong@huawei.com>,
-	<Jonathan.Cameron@huawei.com>, <yezhenyu2@huawei.com>, <linuxarm@huawei.com>,
-	<joey.gouly@arm.com>, <kvmarm@lists.linux.dev>, <kvm@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <skhan@linuxfoundation.org>,
-	<suzuki.poulose@arm.com>
-References: <20260225040421.2683931-1-zhengtian10@huawei.com>
- <20260225040421.2683931-5-zhengtian10@huawei.com>
- <acQj5grOdZT8LUGp@devkitleo>
- <e3253959-0340-4c13-a980-a599e090a6de@huawei.com>
- <acabezCO4B5BE40Q@devkitleo>
- <4e800c1e-25db-4aa2-b100-63434973de93@huawei.com>
- <acpfD3YjMpEdL5KZ@devkitleo> <aeeHNMqDx5Yipt_K@devkitleo>
-From: Tian Zheng <zhengtian10@huawei.com>
-In-Reply-To: <aeeHNMqDx5Yipt_K@devkitleo>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemr100010.china.huawei.com (7.202.195.125)
+Subject: Re: [PATCH v1 v1] Documentation: proc: fix ext4 section numbering in
+ table of contents
+To: Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
+ skhan@linuxfoundation.org, surenb@google.com, cyphar@cyphar.com,
+ witcher@wiredspace.de
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-doc@vger.kernel.org, wangguanyu@vivo.com,
+ Baolin Liu <liubaolin@kylinos.cn>
+References: <20260423065642.11218-1-liubaolin12138@163.com>
+ <e1a0e7ab-8cdb-4c60-abcd-82c4e0be6e97@infradead.org>
+ <1c59927a-2768-472e-bf89-34133a03749e@163.com>
+ <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
+From: liubaolin <liubaolin12138@163.com>
+In-Reply-To: <8668e0f3-49c1-4748-97ab-00ee2befde10@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:QCgvCgB3eeuFE+tpeZn3BA--.109S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxWFyxXr4kXr4xWF47Xw1DZFb_yoW5Cr1fpF
+	W5J3W3ta1UGF1UGrnrKw1xZr4qya4xtayUWFnFg34Igr90ywnagr43tF15uF97Gr18Jay0
+	qr17Ka43Zry3AFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07U5sqAUUUUU=
+X-CM-SenderInfo: xolxutxrol0iasrtmqqrwthudrp/xtbC6gw9CGnrE4yxZQAA3a
 
 
-On 4/21/2026 10:18 PM, Leonardo Bras wrote:
-> On Mon, Mar 30, 2026 at 12:31:28PM +0100, Leonardo Bras wrote:
->> On Sat, Mar 28, 2026 at 02:05:25PM +0800, Tian Zheng wrote:
->>> On 3/27/2026 11:00 PM, Leonardo Bras wrote:
->>>> On Fri, Mar 27, 2026 at 03:35:29PM +0800, Tian Zheng wrote:
->>>>> On 3/26/2026 2:05 AM, Leonardo Bras wrote:
->>>>>> Hello Tian,
->>>>>>
->>>>>> I am currently working on HACDBS enablement(which will be rebased on top of
->>>>>> this patchset) and due to the fact HACDBS and HDBSS are kind of
->>>>>> complementary I will sometimes come with some questions for issues I have
->>>>>> faced myself on that part. :)
->>>>>>
->>>>>> (see below)
->>>>> Of course! Happy to exchange ideas and learn together.
->>>> :)
-> Hello Tian,
->
-> On the above, HACDBS depends on HACDBSIRQ which can be announced by either
-> device-tree or ACPI.
->
-> Do you think it's ok for it to be ACPI only, for now?
->
-> Thanks!
-> Leo
 
-Hi Leo,
+在 2026/4/24 10:54, Randy Dunlap 写道:
+> 
+> 
+> On 4/23/26 7:44 PM, liubaolin wrote:
+>>
+>>
+>> 在 2026/4/23 23:55, Randy Dunlap 写道:
+>>> Hi--
+>>>
+>>> Why is "ext4" in the Subject?
+>>> Probably just drop that word?
 
-No problem with ACPI-only for HACDBSIRQ for now.
+Dear Randy Dunlap,
+    I apologize for missing the first part of your email. You're right, 
+the commit message title should remove the word"ext4". I will submit a 
+v2 patch to fix this error later. Thank you for your review.
 
-Feel free to let me know if you have any questions while working
-on HACDBS on top of HDBSS.
+Thanks,
+Baolin
 
-Tian
+>>>
+>>>
+>>> On 4/22/26 11:56 PM, Baolin Liu wrote:
+>>>> From: Baolin Liu <liubaolin@kylinos.cn>
+>>>>
+>>>> Commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE
+>>>> documentation") removed the IDE section but left its table of
+>>>> contents entry behind.
+>>>> Fix the stale entry and renumber the following sections.
+>>>>
+>>>> Fixes: e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+>>>> Signed-off-by: Baolin Liu <liubaolin@kylinos.cn>
+>>>> ---
+>>>>    Documentation/filesystems/proc.rst | 14 +++++++-------
+>>>>    1 file changed, 7 insertions(+), 7 deletions(-)
+>>>>
+>>>> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+>>>> index 7ce02573a3d9..70db35987ee1 100644
+>>>> --- a/Documentation/filesystems/proc.rst
+>>>> +++ b/Documentation/filesystems/proc.rst
+>>>> @@ -23,13 +23,13 @@ fixes/update part 1.1  Stefani Seibold <stefani@seibold.net>    June 9 2009
+>>>>      1    Collecting System Information
+>>>>      1.1    Process-Specific Subdirectories
+>>>>      1.2    Kernel data
+>>>> -  1.3    IDE devices in /proc/ide
+>>>> -  1.4    Networking info in /proc/net
+>>>> -  1.5    SCSI info
+>>>> -  1.6    Parallel port info in /proc/parport
+>>>> -  1.7    TTY info in /proc/tty
+>>>> -  1.8    Miscellaneous kernel statistics in /proc/stat
+>>>> -  1.9    Ext4 file system parameters
+>>>> +  1.3    Networking info in /proc/net
+>>>> +  1.4    SCSI info
+>>>> +  1.5    Parallel port info in /proc/parport
+>>>> +  1.6    TTY info in /proc/tty
+>>>> +  1.7    Miscellaneous kernel statistics in /proc/stat
+>>>> +  1.8    Ext4 file system parameters
+>>>> +  1.9    /proc/consoles - Shows registered system consoles
+>>>>        2    Modifying System Parameters
+>>>>    
+>>>
+>>> Where/how is this Table of Contents used?
+>>>
+>>> But yes, the intent of the patch is good.
+>>> Thanks.
+>>>
+>> Hello, this directory contains the subsequent content of the file proc.rst.
+>>
+>> My modification is due to a previous commit e24ccaaf7ec4 ("block: remove last remaining traces of IDE documentation")
+>> which removed "1.3 IDE devices in /proc/ide" from the subsequent content and modified the labels of the various items.
+>> However, this previous commit forgot to remove "1.3 IDE devices in /proc/ide" from the directory itself.
+>> This caused a misalignment between the directory entry and the actual subsequent content items.
+>>
+>> My modification is to remove the "1.3 IDE devices in /proc/ide" that was forgotten in the previous commit and correct the labels of the other subsequent items.
+> 
+> Yes, I understood all of that, but I had questions (which you ignored).
+> 
+
 
