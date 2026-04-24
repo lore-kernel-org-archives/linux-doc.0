@@ -1,144 +1,182 @@
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFE1B28850D
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 15:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDBFA2D8DC4;
+	Fri, 24 Apr 2026 15:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777043193; cv=none; b=H/KBpWf1amEDHEQ112DhT9xmEOMsTObFnHRWzYlA8upg3bsmB9yD43QEXWkTRn/YPxNnY4bDxJ0cjXQHonGT4miv1ERUbiQx5fmLOMYfpc8LzIPmwrIt+4BFkY8SKJcIWXNKWkEOU3zKMdUi99IXC53dnbRXepeqXghRo/lbgS0=
+	t=1777043958; cv=none; b=EOL83x1EMhYM6brh77VOjgTRRD+qLKPJky2XJnKvOXtmKjX14s1HDoGFDa7YxUPo8Sn/gR6H3YOytYe2VIzy+pqVXFT6L/Eit+6dusHFTwXHHzERv1K7oxLhtI1gWTcwvfQp8XnGkRzwDQ8LvRbNg0TylcHsY33gfZSd2e0iPbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777043193; c=relaxed/simple;
-	bh=lPEfpzwiNnp4Us4njDeq7FVgaVJSVyeUSX/+2EeR9Qc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SwVtB/9Qq8Ea+ybqqlPsQavIYub+LwzpB1dA04UKL2Bt08Cq8aH2fUbIFNXJPHfUXEgcfPHJFqlIfB9EN90mquH1/dtUOHyjkuhFLfBlD7IlLNYtbXcOEFTm0cgjljk3wA/mzkr/1Ha2FzDB6EAs4lr/DzNX3b/ulXyi8IDOtgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=GOPxrBkP; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1777043958; c=relaxed/simple;
+	bh=38HZnkF49GgvZX+AquY+zMX+HOu8oPVpHVWQCi1dfno=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zy80DjlY3KSb7IRbsi8yK+d/sWGpiD0/+oGmMVgWy1kx2Nd65N2REgjXJCs6Zayi+7T0PMLf3qECBBaXPvcW3TpzYJN1jQI181YaV7RwXRuj8I4lo13y0X7zUr2B0iwgEUlx/AbJK+lCLqIDmUTfoFMLLfJJHjdjZFR2eVYIyK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZgOSxhNR; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="GOPxrBkP"
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-8eb5ad01402so645953085a.2
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 08:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1777043191; x=1777647991; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=39aR5XRbrEXV24JT5m2euVHnJMBsT6ax8xLhWEkFjFY=;
-        b=GOPxrBkPOYadJ71PWBHijiwmG4jt2QTQPo7Ldlm9LvEFlroJxbBPN5NTiTotOsTXgi
-         Q3asdwlCzTB8cdjIwWPzSUDM4VZNSi4d0jp5iG8f1tKorNGcqs+Ujeo69f1/P85WmS9A
-         qoriXj6lCjE58zRaO+H+1XOJ1FyzBR7u/aGIRhrIIfAmIqyyTs7vKWHAI2M6+jH4gg8u
-         fd/tXPdx1Hrzz+hCzqibA8vr0sdBLlyiryyQONtp6gOgQ18SL6PbBD9GfPlZt1S9NUPw
-         kiPLzzb84D3k9i6Rj0niYATkYuduDf/TC8JGIl1algwwp+CIJYLEyLn6JN9ziAzD4yWA
-         G0Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777043191; x=1777647991;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=39aR5XRbrEXV24JT5m2euVHnJMBsT6ax8xLhWEkFjFY=;
-        b=RCLeroZLmKQLPnxMox02pockB+pGgum1LD/0omEW8gDM+SyAtYTP19j0CUbvp5xHis
-         dkmdAkrXwv6pEecIaYCKS5glCr0R8paDOshABVNAegShCtykBvsD+DJWEIDJAXFmx1Gx
-         Ca0SO0PcgID/oUKVSmpZCahPOuTCQaPArtvUqLutakTsr68PSKEr8VPv2zU3EUfgVHlZ
-         F6+0HFu8SB365SNabUFoTEEJOZCLZkXamqGVQ2qq6wA1sY7veWhUQqA4jomCOeeU36T+
-         el91tVEMe2tqA9sFE4tlWzAtz9cwREdQLVRm5yCtpy9tkzBWujs4hoPGYbf//e7hpxtD
-         s5Pg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZkJh+UmdY0XoQUhW5YHLlrfdaMZghDNiSLz/DZkrm4op0kMxjzUF0FdjDDNLLXseqfLtaTI900Qg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwgLhFCnL/t1LdDbw4Z24UM+4PFvQu3FKscdpBfQDAQJ2n60+nV
-	pjSS/xp19+IND3ESqiphBGG3XwX9cEAy2XeS8fD30ojab5dmAiE3nK9WeF8kTC3ZeJY=
-X-Gm-Gg: AeBDietyXw7JJsnrHq9YU3yP7f2BLQuVbXwN8+l6UUYlJzqbe1zbmE38wJXU7UVWFBP
-	VghFGkGo+mj/AWlm+fh4MhGkcx70gvAE1j/c6ynvh5J3+royENh90Ll1G4a2qj48Qg6vBrOWIG/
-	YTjCfRLtKfcfk4ckef7kAGTfbqG6pz9bmQkOZNV2tMZkhFVqgvin6w79o5aqWdd6ZedtN/asDB2
-	cUnQeqkkyWvSLBzEA8xNUdqXO/+2qlywA5YbK33NxCjjcdlbYP+h7xDPoDeXnFKHEe1Umu55j3J
-	QQkbEzT1/hJYOa2KMdfnXKd/dBzZw0TMqZK0gJwJFvcir835knKacA3/Vi7HCNwdrKR/8g9DkOJ
-	QhzJpyrQwDjmfuxEYpAG+vs/9VGERT65edlz46YRI/Iq9760LMe/3pI6lwo+/e3a0f+oZeQn1ZW
-	sEILjTlje0BGcipaQv3j68dXbd2G95HRV/wqHb9bu1E+ZQ9oqLid2ps+Mrgftsrg==
-X-Received: by 2002:a05:620a:4623:b0:8cb:62c3:3690 with SMTP id af79cd13be357-8e78f443268mr4562871085a.13.1777043190723;
-        Fri, 24 Apr 2026 08:06:30 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d9abce59sm2293120385a.46.2026.04.24.08.06.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Apr 2026 08:06:30 -0700 (PDT)
-Date: Fri, 24 Apr 2026 15:06:28 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com, 
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com, mhocko@suse.com, 
-	skhan@linuxfoundation.org, jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, 
-	linux-mm@kvack.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sasha Levin <sashal@nvidia.com>, Sanif Veeras <sveeras@nvidia.com>, 
-	"Claude:claude-opus-4-7" <noreply@anthropic.com>
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-Message-ID: <aeuFnuiYDBjttEKt@plex>
-References: <20260424140056.2094777-1-sashal@kernel.org>
- <20260424140056.2094777-5-sashal@kernel.org>
- <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org>
- <aeuC6TJ4XowazVZj@laps>
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZgOSxhNR"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D9CE1BB2;
+	Fri, 24 Apr 2026 08:19:04 -0700 (PDT)
+Received: from [10.1.26.15] (e122027.cambridge.arm.com [10.1.26.15])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDC363F7B4;
+	Fri, 24 Apr 2026 08:19:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1777043949; bh=38HZnkF49GgvZX+AquY+zMX+HOu8oPVpHVWQCi1dfno=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZgOSxhNRWDomjPidKTJbJirA9pvNd8ZF/01IoIl8eZ23xGienv7PyL2UJPkjAPzVH
+	 sxNpa00THjMiv/r8eB/hHcOOg/7TTgedzuW03SW0DjufRPsdqSoaZAyMBQAMlkXZbq
+	 R9Ps7ae8xgU2TvXbENtWAgmI1mAWXAHq0hCnax5A=
+Message-ID: <2da968e4-96b0-481c-b51b-44d546c9315f@arm.com>
+Date: Fri, 24 Apr 2026 16:19:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aeuC6TJ4XowazVZj@laps>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/3] drm/fdinfo: Add "evicted" memory accounting
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ kernel@collabora.com, linux-doc@vger.kernel.org
+References: <20260423-panthor-bo-reclaim-observability-v3-0-60af32164a4f@collabora.com>
+ <20260423-panthor-bo-reclaim-observability-v3-1-60af32164a4f@collabora.com>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20260423-panthor-bo-reclaim-observability-v3-1-60af32164a4f@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 04-24 10:49, Sasha Levin wrote:
-> On Fri, Apr 24, 2026 at 04:25:41PM +0200, David Hildenbrand (Arm) wrote:
-> > > +	/*
-> > > +	 * Size bitmaps to cover the full PFN range including any holes.
-> > > +	 * Holes waste a few bits but a flat bitmap keeps the indexing
-> > > +	 * trivial (pfn - min_pfn) and avoids additional data structures
-> > > +	 * that would themselves be subject to corruption.  This matches
-> > > +	 * the approach used by pageblock_flags.
-> > > +	 */
-> > > +	pc_state.min_pfn = PHYS_PFN(memblock_start_of_DRAM());
-> > > +	pc_state.max_pfn = PHYS_PFN(memblock_end_of_DRAM());
-> > > +	spanned_pfns = pc_state.max_pfn - pc_state.min_pfn;
-> > > +	if (!spanned_pfns || spanned_pfns > UINT_MAX) {
-> > > +		pr_err("PFN span %lu cannot be represented by bitmap APIs, feature disabled\n",
-> > > +		       spanned_pfns);
-> > > +		return;
-> > > +	}
-> > > +
-> > > +	pc_state.db.nbits = spanned_pfns;
-> > > +
-> > > +	bitmap_bytes = BITS_TO_LONGS(pc_state.db.nbits) * sizeof(unsigned long);
-> > > +
-> > > +	pr_info("Initializing: PFN range [%lu-%lu), %u bits (%zu KB per bitmap)\n",
-> > > +		pc_state.min_pfn, pc_state.max_pfn, pc_state.db.nbits,
-> > > +		bitmap_bytes / 1024);
-> > > +
-> > > +	/* Allocate primary bitmap (zeroed by memblock_alloc) */
-> > > +	pc_state.db.bitmap[DUAL_BITMAP_PRIMARY] =
-> > > +		memblock_alloc(bitmap_bytes, SMP_CACHE_BYTES);
-> > > +	if (!pc_state.db.bitmap[DUAL_BITMAP_PRIMARY]) {
-> > > +		pr_err("Failed to allocate primary bitmap, feature disabled\n");
-> > > +		return;
-> > > +	}
-> > > 
-> > 
-> > One bitmap that covers all sparse memory available at boot.
-> > 
-> > Conclusion: Just horrible.
+On 23/04/2026 13:33, Nicolas Frattaroli wrote:
+> Currently, there's no way to know for certain how much GPU memory was
+> swapped out. The difference between total and resident memory would
+> include newly allocated pages, which are not resident, but also aren't
+> swapped out.
 > 
-> Depends on who's looking at the code :)
+> Add a new drm_gem_object_status so drivers can signal when an object has
+> been evicted to swap, and add a new "evicted" counter to
+> drm_memory_stats.
 > 
-> I picked it for auditability: covering the whole range with two
-> memblock_alloc'd arrays means the only thing on the lookup path is the bitmap
-> words themselves, which is what the dual-bitmap invariant already checks.
-
-The issue is that we are going back in time to a flat memory,
-without NUMA or hotplug support. We need an abstraction that avoids
-allocating this memory in enormous contiguous chunks, as thit approach
-will not work on modern hardware.
-
+> Due to how the supported_flags bitmask is determined, the "evicted"
+> count won't be printed to fdinfo if there's no swapped out pages.
 > 
-> We could go with per-section bitmaps which will fix the waste but pull
-> mem_section[] into the trust boundary, so we'd have to start validating it too.
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-Page-ext provides all of these capabilities, but as you described in the
-cover letter, it does not meet your requirements. Therefore, I believe
-a new abstraction layer is needed.
+One NIT below, but either way:
 
-Pasha
+Reviewed-by: Steven Price <steven.price@arm.com>
+
+> ---
+>  Documentation/gpu/drm-usage-stats.rst | 6 ++++++
+>  drivers/gpu/drm/drm_file.c            | 8 ++++++++
+>  include/drm/drm_file.h                | 2 ++
+>  include/drm/drm_gem.h                 | 2 ++
+>  4 files changed, 18 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
+> index 24d3012ca7a6..11570976095e 100644
+> --- a/Documentation/gpu/drm-usage-stats.rst
+> +++ b/Documentation/gpu/drm-usage-stats.rst
+> @@ -200,6 +200,12 @@ One practical example of this could be the presence of unsignaled fences in a
+>  GEM buffer reservation object. Therefore, the active category is a subset of the
+>  resident category.
+>  
+> +- drm-evicted-<region>: <uint> [KiB|MiB]
+> +
+> +The total size of buffers that have been evicted and are currently in swap
+> +space. Only present if there are buffers that are currently swapped out, and the
+
+NIT: Technically the memory may not be swapped out. Evicted memory is
+memory which has been unpinned by the driver, whether the swap
+infrastructure has actually moved it to swap is another matter.
+
+Thanks,
+
+Steve
+
+> +driver implements reporting of this type of memory.
+> +
+>  Implementation Details
+>  ======================
+>  
+> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
+> index ec820686b302..5078172976c0 100644
+> --- a/drivers/gpu/drm/drm_file.c
+> +++ b/drivers/gpu/drm/drm_file.c
+> @@ -868,6 +868,7 @@ int drm_memory_stats_is_zero(const struct drm_memory_stats *stats)
+>  		stats->private == 0 &&
+>  		stats->resident == 0 &&
+>  		stats->purgeable == 0 &&
+> +		stats->evicted == 0 &&
+>  		stats->active == 0);
+>  }
+>  EXPORT_SYMBOL(drm_memory_stats_is_zero);
+> @@ -901,6 +902,10 @@ void drm_print_memory_stats(struct drm_printer *p,
+>  	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
+>  		drm_fdinfo_print_size(p, prefix, "purgeable", region,
+>  				      stats->purgeable);
+> +
+> +	if (supported_status & DRM_GEM_OBJECT_EVICTED)
+> +		drm_fdinfo_print_size(p, prefix, "evicted", region,
+> +				      stats->evicted);
+>  }
+>  EXPORT_SYMBOL(drm_print_memory_stats);
+>  
+> @@ -954,6 +959,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+>  
+>  		if (s & DRM_GEM_OBJECT_PURGEABLE)
+>  			status.purgeable += add_size;
+> +
+> +		if (s & DRM_GEM_OBJECT_EVICTED)
+> +			status.evicted += add_size;
+>  	}
+>  	spin_unlock(&file->table_lock);
+>  
+> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
+> index 6ee70ad65e1f..213dfecac342 100644
+> --- a/include/drm/drm_file.h
+> +++ b/include/drm/drm_file.h
+> @@ -500,6 +500,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
+>   * @resident: Total size of GEM objects backing pages
+>   * @purgeable: Total size of GEM objects that can be purged (resident and not active)
+>   * @active: Total size of GEM objects active on one or more engines
+> + * @evicted: Total size of GEM objects that have been evicted to swap
+>   *
+>   * Used by drm_print_memory_stats()
+>   */
+> @@ -509,6 +510,7 @@ struct drm_memory_stats {
+>  	u64 resident;
+>  	u64 purgeable;
+>  	u64 active;
+> +	u64 evicted;
+>  };
+>  
+>  enum drm_gem_object_status;
+> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> index 86f5846154f7..b42ea2e582cf 100644
+> --- a/include/drm/drm_gem.h
+> +++ b/include/drm/drm_gem.h
+> @@ -53,6 +53,7 @@ struct drm_gem_object;
+>   * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
+>   * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
+>   * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active submission
+> + * @DRM_GEM_OBJECT_EVICTED: object is evicted to swap
+>   *
+>   * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
+>   * and drm_show_fdinfo().  Note that an object can report DRM_GEM_OBJECT_PURGEABLE
+> @@ -67,6 +68,7 @@ enum drm_gem_object_status {
+>  	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
+>  	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
+>  	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
+> +	DRM_GEM_OBJECT_EVICTED   = BIT(3),
+>  };
+>  
+>  /**
+> 
+
