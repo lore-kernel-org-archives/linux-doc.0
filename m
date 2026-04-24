@@ -1,174 +1,160 @@
-Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21F57083C;
-	Fri, 24 Apr 2026 17:54:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.126.83.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E20D26F476;
+	Fri, 24 Apr 2026 17:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777053274; cv=none; b=iZqCtqe4UxqSDiRY4sHOl4pfZvThycNHtGSVO38EGU9KfoXPF1bPsX8SYv313MaT7lieaaPa1tTTIb1t8LFF9/wxcnI8KOvFXjhsnMs5P3b/n/PkqadYTp3ADc6SvI+2k7yxXqFVVDoVnVPCljY0lUQEsFVO0nsU3/+wE3L/p30=
+	t=1777053447; cv=none; b=b3O+i3a0vAsVjtnflQVRhGfthdX88gwQqeqeZzUgZ09e83WMXH8sryDABWPQ0tA8syj/ADssuSzJBU1WRRCdyC+tM8wcwn5Pnj3F7VK499209QdIH908jCxUYAiWw+/k0uL0LTixTHKIdKEwLgYcqRyNNFu+LzryEbkMxZ6smM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777053274; c=relaxed/simple;
-	bh=WgaMls5U0OisShyTrOkS3PZGbJmhUxFf2DHxM/lugSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FB1TVbops3lneNrnq4BRE0PQhX1QJBslqgMohbCra6ASLU9j4NeEvtqLci/rzm21MwGU4iseT/9u1KO2aLvaECmPoAHv3hPLII1/SelOEo1dixibTlkpjqEBN0GQREtXVA3MO4t1xOBvQmQIm+qktwNlLB7mAKmA2H9f3+TYo7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=WIxSJJEC; arc=none smtp.client-ip=188.126.83.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se
+	s=arc-20240116; t=1777053447; c=relaxed/simple;
+	bh=5rA2QJpQdjH30aXwBWROi5azH6CiU2oSJWc6XuEEHCU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=GHmPGPrc6QmBUxucbQlzGbP/ueELblsuEKiYjTvnWqM3eNAdG0uBFh+6FnCKzA3VsGX4wdfGIN4+PeNg9hqBBEbXb/xGbPZPIsErJY3IYtGwqxn9G3lRJFU/MAdfKXTUbBlrJEhBmy1aNM9INuWI8Zfyr7uaX6mq4YT//D09ZqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=DiQX2jKS; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=yZIE/V/i; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b="WIxSJJEC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
-	s=a; t=1777052848; bh=WgaMls5U0OisShyTrOkS3PZGbJmhUxFf2DHxM/lugSY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:From:Sender:Reply-To:Original-From:
-	 Organization:To:CC:Subject:Original-Subject:Date:Message-ID:
-	 In-Reply-To:References:Original-Message-ID:
-	 Disposition-Notification-To:Disposition-Notification-Options:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 Content-Features:Content-Alternative:Content-Location:
-	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
-	b=WIxSJJECF4clUw9o2wcK+Ae/BBNemkQwAni0uL3lPekcgQ/y0Efoc2WJwDfJHwi5i
-	 us17B/huKxwsWgly1VNypyXt+7B3XAoUNgNO4B7/BjQdTaNzN+jyY4CFvJ1IbrEYeS
-	 t38cjmM/D1ghDeNHmYfkCP2cRkRi/niuDXFlEhDp94F0c2g0jxO6p+gwjHGKvumP/E
-	 nPk07gOjv4X1gS5x34oXobV5cwKSRoc3E0e4RmqsYE9uOre7VNMDdHIXOQ4GQ274Ek
-	 KJkiIKkc0Vc2/cg2QPB/5xccTQ9f4wpKQ7pYs9C0NPKJ0zPb6wZnlZPhQxU3ryxuzL
-	 O7rU4VYKf1+gQ==
-Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
-	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPSA id 137CD407E8F7;
-	Fri, 24 Apr 2026 19:47:28 +0200 (CEST)
-Date: Fri, 24 Apr 2026 19:47:14 +0200
-From: =?UTF-8?B?QmrDtnJu?= Persson <Bjorn@xn--rombobjrn-67a.se>
-To: Lee Jones <lee@kernel.org>
-Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: leds: uleds: Make the documentation match the
- code.
-Message-ID: <20260424194714.71de0ef6@tag.xn--rombobjrn-67a.se>
-In-Reply-To: <20260423152655.GF170138@google.com>
-References: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
- <20260423152655.GF170138@google.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="DiQX2jKS";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="yZIE/V/i"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g2LJh3bK2z9v09;
+	Fri, 24 Apr 2026 19:57:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777053444;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/jpFSfh8pkq9hgF4XdFn4gci7nJHZiQrNi+Cn4q3ldM=;
+	b=DiQX2jKScEebIIsItGKvTu8w4TlEZEK5EJ1cxL3qtrx+u+a2HefIH/spvYOFb3vBGn0jFu
+	b/yzMeqBhVwiTKCybbQgn3Xc8l3pEuk13jJfhasxbf8PVZzr8Igz9hONffM29xo2Ie+PkR
+	DdRAxJC6yaGuDVmK7S4+R8DzzrAlGpT2Es9hCmvf4HCd9Mo9OFlAXUXmwUXgM2uuIUMZNQ
+	GqrhqgRi5dqkC3V4fxxAZnevI3pZU93YyALt/u2DI5yA8yY00XAVuEHZ8vQuuMdmZlJ3JM
+	pSVedQGOW3NtKUWCeErAVWrABI1acLwhtk2tsZLdRqtRGjNjnGKxb12NZCwUcQ==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777053442;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/jpFSfh8pkq9hgF4XdFn4gci7nJHZiQrNi+Cn4q3ldM=;
+	b=yZIE/V/ioNkek2NIKv9qymxY2/zs5EY/Ens7Jn/IXiZgh3TbOvxIxXBNGpKIXLyDrYh4Nw
+	8fNtIgEqZ14LnwpG7p0lznCpCw0mXseRzZQfhCtA725d1PdsoG85VUolU5JxlU2JceNoRy
+	Z0mDPkaFsDne21Vn9hovQA0x2+0b9NhmnbvPa6cGHdCeEZGOCZcoFhry4ivyOyoqEXVXzT
+	prwMsZYhvlDV3R8HzoEV3LrAxPpqf0DsNRU+D6nGHlL4QhMNKwaG4zFbUj6yRUXGsPntwt
+	YGOi6b/yyOVxTXdmqLG6lIUCNYzSknnJG9WTGAQ+orcXjeZyghqfEKCUlNJscw==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	rcu@vger.kernel.org
+Cc: Kees Cook <kees@kernel.org>,
+	linux-mm@kvack.org,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v3 2/3] Documentation: RCU: adopt new coding style of type-aware kmalloc-family
+Date: Fri, 24 Apr 2026 19:55:55 +0200
+Message-ID: <20260424175553.258412-3-manuelebner@mailbox.org>
+In-Reply-To: <20260424174743.257951-2-manuelebner@mailbox.org>
+References: <20260424174743.257951-2-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/9p1HensKdgWEdofuDRm2axt";
- protocol="application/pgp-signature"; micalg=pgp-sha512
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: e0518762b50c9cfe4f5
+X-MBO-RS-META: fexjjn3ftc9wehobct5zrowsq8uu389o
 
---Sig_/9p1HensKdgWEdofuDRm2axt
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Update Documentation/RCU/* to reflect new type-aware kmalloc-family
+as suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+and family")
 
-Lee Jones wrote:
-> On Thu, 02 Apr 2026, Bj=C3=B6rn Persson wrote:
->=20
-> > From: Bj=C3=B6rn Persson <Bjorn@Rombobj=C3=B6rn.se>
-> >=20
-> > =C2=B7 max_brightness must be set. Leaving it uninitialized or just omi=
-tting it
-> >   won't work. =20
->=20
-> What are these points?  How do you even type one of those?
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr);
 
-The bullet point is the character U+00B7 middle dot. I type it with
-AltGr-period on a Swedish keyboard in Fedora. I don't know what keymap
-your distro uses for your keyboard. I hear some keyboards lack an AltGr
-key.
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Acked-by: Paul E. McKenney
+---
+Acked-by see 
+https://lore.kernel.org/linux-doc/7a49fee0-09c8-4a48-9506-d9172ef024b0@paulmck-laptop/
 
-> Anyway, proper sentences / paragraphs is better.
+ Documentation/RCU/Design/Requirements/Requirements.rst | 6 +++---
+ Documentation/RCU/listRCU.rst                          | 2 +-
+ Documentation/RCU/whatisRCU.rst                        | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-You mean you dislike bulleted lists?
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index b5cdbba3ec2e..faca5a9c8c12 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` and ``->b`` fields.
+ 
+        1 bool add_gp_buggy(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -228,7 +228,7 @@ their rights to reorder this code as follows:
+ 
+        1 bool add_gp_buggy_optimized(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -264,7 +264,7 @@ shows an example of insertion:
+ 
+        1 bool add_gp(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+index d8bb98623c12..48c7272a4ccc 100644
+--- a/Documentation/RCU/listRCU.rst
++++ b/Documentation/RCU/listRCU.rst
+@@ -276,7 +276,7 @@ The RCU version of audit_upd_rule() is as follows::
+ 
+ 		list_for_each_entry(e, list, list) {
+ 			if (!audit_compare_rule(rule, &e->rule)) {
+-				ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
++				ne = kmalloc_obj(*entry, GFP_ATOMIC);
+ 				if (ne == NULL)
+ 					return -ENOMEM;
+ 				audit_copy_rule(&ne->rule, &e->rule);
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index a1582bd653d1..770aab8ea36a 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -468,7 +468,7 @@ uses of RCU may be found in listRCU.rst and NMI-RCU.rst.
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
+ 
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+@@ -570,7 +570,7 @@ The foo_update_a() function might then be written as follows::
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
+ 
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+-- 
+2.53.0
 
-Or if you mean that the first sentence doesn't begin with a capital M,
-that's because identifiers are case-sensitive in C. There is no
-Max_brightness, and if it were defined, it would be different from
-max_brightness.
-
-Otherwise I don't understand what you mean with "proper sentences", as
-I don't see any grammatical errors.
-
-> > -A new LED class device will be created with the name given. The name c=
-an be
-> > -any valid sysfs device node name, but consider using the LED class nam=
-ing
-> > -convention of "devicename:color:function".
-> > +A new LED class device will be created with the given name and maximum=
- =20
->=20
-> Did you mean to revers "name given"?  A "given name" usually means
-> something else.
-
-I felt that "the name and maximum brightness given" would be
-grammatically awkward.
-
-To prevent misinterpretation, how about replacing "given" with a
-synonym? Perhaps "the specified name and maximum brightness"? Another
-option is "the given maximum brightness and name", but it feels a
-little odd to mention the brightness before the name.
-
-> > +Although max_brightness is a signed int, only positive values are vali=
-d:
-> > +1 to INT_MAX. =20
->=20
-> What about 0?
-
-That will get you an EINVAL from uleds.c =E2=80=93 presumably because a
-brightness interval from 0 to 0 would be pointless. That LED would never
-be lit.
-
-> > +The current brightness is found by reading a whole int from the charac=
-ter =20
->=20
-> Try not to shorten names in documentation "integer".
-
-The type is named "int" in C. There are many integer types, but it would
-be wrong to try to read a uint16_t or a size_t or any other integer
-type. The document needs to use the actual type name to make it clear to
-the reader that they must read sizeof(int) bytes.
-
-> Why do we need to specify "whole"?
-
-Because you can't read it piecemeal. Usually when you read from a disk
-file, a pipe, a TCP socket or some other bytestream, the system call
-will let you read one byte at a time if you want. A reader might assume
-that /dev/uleds works the same way.
-
-=46rom a datagram socket you can read the beginning of a datagram and
-discard the part that doesn't fit in your buffer. To a reader with a
-little-endian system and max_brightness =E2=89=A4 255, it might seem logical
-that they'd be able to read the first byte and discard the bits that
-will always be zero.
-
-I thought "whole" would communicate to the reader that they must read
-sizeof(int) bytes in a single system call.
-
-It seems this wording wasn't enough to get the point across that it's
-necessary to read an int, a whole int, and nothing but an int. Do you
-think the document needs to expound that point more?
-
-Bj=C3=B6rn Persson
-
---Sig_/9p1HensKdgWEdofuDRm2axt
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signatur
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEE52SginNFTPmg+iBb4Tha3NZK5j8FAmnrrKIACgkQ4Tha3NZK
-5j8YZA//ZF4R7F0CtoUSf9Oj6W+8/spe9/angJSTShMpi0oAv9xIy2rGhcXh21++
-F1ErxzPhHNj4wtxLvDicugdo0TbrR9aZuk8nTrLz2iXYHKMDbi6Fdb8Zy14I9Twx
-fsYC5yYvYCUoOs3URzvV9oGqt6iIfD0l+819GsCHRxd4kxdynGhbBdaDB4+9kksM
-W3h92eEaSwTYcTr32q89c3fxzig7lZMZ1zRNi838GKjdcQlWDJOeal3kgleG4kVy
-LQlhmzb7oJesriasAbzYh97MQP/GbGF4ArGFncj6AvEOLLMo88xaPiKZbHKgLKz2
-iwMr4AsmW7mnHx9ke2GadbXE1g9TatS8L4R+DWhKiKvrZ10jCQgFdjAkh71YRV6g
-6Yga+Q/qt1AUhwgJ2U8pDMjj3c+pqeJOS/Tbr2Hhz/BIrLSqdPG5Jy0cTfirxtS0
-0UxbHh6lRlwKlTnJxVaB2ogJhgUzTZs8cv2SsJ1lm8Iwj0U3eqQVpas7a7YzCUTZ
-j+j/Cca2KLP7mEpCuQ0+ztZJK0S5IpLV6ECjmIdpnvj6Ey4Ooi/eCbhFZD4Z/4mX
-9JMEVJcJnoCyNLSFit92VDOZUYbrK0nrL1hNUzN5Ho+J67dE2kNydJ7jA76nBBzD
-VaxDL2zearSyyrQw/t63slBxwM7GNpx3exrVnU3AkzX1X7yXY64=
-=+z4K
------END PGP SIGNATURE-----
-
---Sig_/9p1HensKdgWEdofuDRm2axt--
