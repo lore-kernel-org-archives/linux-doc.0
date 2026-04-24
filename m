@@ -1,80 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27D73BD641
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 11:37:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15BB63BE629
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 11:51:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777030659; cv=none; b=G0pFARc1vCK6Q4rgeNZdy6+mLuHhSN57vGun8q8fzhv1Je5Fv/bZUZcya6xDYl6PAQvFuQkF10n7pyLwYLv77wcE60bL+GfogKvM0IsAcs0qhHVzgShK2UbJe9cdMVN/bZv4aZHMJvyRQo8otkXPH9daWRj7nviAIhCwOeLLLjU=
+	t=1777031511; cv=none; b=CBdI2yQfCdfDU7HG2U1GJx1hCoz/ML7sjN/WbkxrcXH87ANQVWGRJYSuA7yPY04057rZcHNbg6+7yCVxBwQdU3B1dVP+BK2UDSPLwa12UD9dGWYjKZbIklvzyAckYTxLd+qoi3R8U7uj6EL06z+/i8w8lxkr7iRdTnyXNJBvBho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777030659; c=relaxed/simple;
-	bh=pQAkkgwBTm0wMFjEsUuolfLk3Se7Aw+kEEZDfgUAj2I=;
+	s=arc-20240116; t=1777031511; c=relaxed/simple;
+	bh=IXqkzhjdS3SL5Z8Nxy9tqGO8aU/DK+0un1yN9Rbn0xE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XemVATT+9xrpA2aIXo5FrO9L3QO01f00SVpO0bC6Z0CWoGvIuPwTNibUmn9D5URN+KSxojTc5q0mFaFUaqoLYU8T9O0RzVx+bl0aX7VnVetqa3g/jFNe6aTIyt9BnVYnU3QrM9yUhrKcyssvrAmI4xcw4f1PWavQdTQpDt2rNEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nzBIP5ab; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=p5lp6wCYc1I+5Jv6s3+ZUN/vq7UFObcUSaJIJG3127+xIF9OYPxCSGo4WAACBpa/0f8I+PYvIUd2ayE/JPB2dotopGp7+smIkQ+bbYR7Q0F1bfHVyE8SMFEOg4uvMRplMvWTiRQiVAjgk/l8FzzvMGzWC1IxSXwe3ql4/b+S6Vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WtwYNfEx; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=KdQ9Lijl; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nzBIP5ab"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DBAFC19425;
-	Fri, 24 Apr 2026 11:37:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777030658;
-	bh=pQAkkgwBTm0wMFjEsUuolfLk3Se7Aw+kEEZDfgUAj2I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nzBIP5abjjPiZZKk8KmpEKOCx55UR2CcQo4kIqsUQXfA5UyKUBcFG6fL+eKBcY8h+
-	 Z/IfrfmDAAZ1oTeJyQgyK7Tne3nUUZDa89ct2P6caB9rXKFqCCe4EcsScpHzDGFzeY
-	 ZOr9zDzVzse/BEdiDRVjawbGvPPmtHFoHnJfkatWPHbyZr0JPu6QKpCbMJTeGj3Feh
-	 ZyVyaI03ezjru7DS4fm2FbV7yfpGkqG79XotEA98ZaMGW//j2ekaeioZXvojXXT9g9
-	 MVCJK/66fQqSt2ToUupcd7+2VDC/LsTQhO8gEr6GA/W3ei3jI14fr6IZXuhXPmP0Tg
-	 G9IeHmtC0ynOQ==
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 45D00F40068;
-	Fri, 24 Apr 2026 07:37:37 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Fri, 24 Apr 2026 07:37:37 -0400
-X-ME-Sender: <xms:AVbraWr5w8IN3pcVGoXPYYrMPDysCLNSoP-_ZN9t0HOo2Qko1JiDbg>
-    <xme:AVbraT4POzjwfmz4bT4yoZElgbWGQUHeFUgunMRWU2Ng-pHHGGDRmMhmkiPRm26SJ
-    sVpYz2SFbvKgtSkjzeY7zEIW244lEasDLHm0ADNoc4lJACEkWDdwWU>
-X-ME-Received: <xmr:AVbraXbGXxDYOWhmrT7HaBaIytopftSXGzadskJ8-cynWYp8WJVqyh8cEZsWkA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeileelfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekrodttddtjeenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhephfffieehtdegkeelkeegkeeijefhieeitdevledujeeuteekgfetveejjeeiteek
-    necuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehkihhrihhllhdomhgvshhmthhprghuthhhphgv
-    rhhsohhnrghlihhthidqudeiudduiedvieehhedqvdekgeeggeejvdekqdhkrghspeepkh
-    gvrhhnvghlrdhorhhgsehshhhuthgvmhhovhdrnhgrmhgvpdhnsggprhgtphhtthhopeef
-    iedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepphgvthgvrhigsehrvgguhhgrth
-    drtghomhdprhgtphhtthhopegurghvihgusehkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheplh
-    hjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehsuhhrvghnsgesghhoohhglhgvrdgtohhmpdhrtghpthhtohepvh
-    gsrggskhgrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihgrmhdrhhhofihlvght
-    thesohhrrggtlhgvrdgtohhmpdhrtghpthhtohepiihihiesnhhvihguihgrrdgtohhm
-X-ME-Proxy: <xmx:AVbraQq9zuliAnRVDPxVtBQJGJxFL_QUAhEOzsJ1QnuDy8699f1iyw>
-    <xmx:AVbraY4lWjncW9FwD2xl5yl8EK0PYAnkDSbFag9Yr96vAKFnGgQudA>
-    <xmx:AVbraVSwRkroFnFwWJ0ASMKYBKsCFLz4T3EDzFpRp6go0R1lLWqdLA>
-    <xmx:AVbraQ2SpbTiy1zowaVMJ8EHvAfhpIeWkeiS40LSPhc1Gdn3NRXYIA>
-    <xmx:AVbraU4lHgmjedtxDgLxYgfTvjFaJxZKG-9HWwH7MyOScA--VfxBgiGu>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Apr 2026 07:37:36 -0400 (EDT)
-Date: Fri, 24 Apr 2026 12:37:35 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Peter Xu <peterx@redhat.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WtwYNfEx";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="KdQ9Lijl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777031509;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=GPTaXwfQ0pC1v72UmTco14ZekCM1pyHL+NlaDMIoFPc=;
+	b=WtwYNfExDRDHNJodo1Pt6+HhZzPSTR8wR8+ymtag+VmiDeApi4kAYCslbLT7xNvK1I+FCB
+	dTeCzwQ66dDTjFus/ESs3LnmTmU1RjCzK8a8P26qdyJ/0noL9+wx0THWuCLhuoEpsgbGe+
+	bvpBr19XoVAn2sCZ/bUtsr0QYqZna1g=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-407-_1Jf2Z_uNyGn5ULX4guRRQ-1; Fri, 24 Apr 2026 07:51:48 -0400
+X-MC-Unique: _1Jf2Z_uNyGn5ULX4guRRQ-1
+X-Mimecast-MFC-AGG-ID: _1Jf2Z_uNyGn5ULX4guRRQ_1777031508
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-8acadca1ac4so216452996d6.0
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 04:51:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777031507; x=1777636307; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GPTaXwfQ0pC1v72UmTco14ZekCM1pyHL+NlaDMIoFPc=;
+        b=KdQ9LijlYdyIePsA96+0tQrmQ/2KInYM+BppFx9SFezDqQyzH06iA1iHysYqS0fgeV
+         BXBu4HfK5C5yhLx+xc/nvy1Rx96JCNzAursLSYlEtYnA/X5hIN+Anejxf/treDAJG+1L
+         w2I/O7qyBPn2iIeDPjNRCGLlZWw7OflePeRzMeXjyG39Ua2rdln5FzRU02xDUd3f3i+V
+         5mH55cBxZzAum7NWuy5IJGRxG4eC+z6H6Y+qO430IcgUrDL4Am/huCZG9i6UMxC1yq3I
+         gpkT8SwvitwqTy3i8v++Udr4KLgg4Nm4OdWTWgzJY6F+/r2S7rCcmTvyz1z/MHkrqR0V
+         MSSA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777031507; x=1777636307;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GPTaXwfQ0pC1v72UmTco14ZekCM1pyHL+NlaDMIoFPc=;
+        b=DHnUoiOOelYfvne8En3dLGoh+kF8aTjXJr6rPwcK8Jj34lA9ygNbFi0gDmYqFwGMfm
+         GYkuUhYjdckESLXlarzit2LW9mZI0yHDXTzcO7PHW9PVVNoG1AMEE8m145KDsOMkFpE0
+         2EYVPYXIPo/YoXbpLR7wV4IO6y8gtixbgmzC9dc6Iz3hSUcw/NWF/o3EgPqioCJv91Zj
+         eiebFN4N+UQ+wdNljl4Wu9je+/cFQwUUedw15MvYqcZU+Vj49RBKaq0gvsdR9Fimsp2/
+         w/CjjKnJY99M70p7NG/rVes8S4sEcrrlqDmwMvjjlUNX982HAcSx4oCuYCrRw6zzpoel
+         cuyQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/ByWCUAZ54T4o460oSNsw9z9ICjOiYLcjWslxUvx1dlQOue0gBM8Fd8CxYNiEXIvrckdtxlZcuIQo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8wIaD6+b3URuwR3VNpHvInAp1zw9vbmnzzQehfPzpik9ShV8G
+	LXmiTSYwWAJlR8SUgQWq7mui5eZ8XeSfGGH2T8cswjMwRgAXk49bDA1FO2YJh4MWz/2OobwpdTC
+	Fy8J+tQgCHyNbLxcXoYdMV6hFlMLZm1Nkv5UXNu7bXBGcN+jckXxdiudc+xAbfA==
+X-Gm-Gg: AeBDiet80HU4UZAbdD0JSfCT4N6t+Yrdz5xMNWY/sSBTeTZCRjTnY00sfwZXal30qEf
+	v50kNQ/Q3DBiI2ZvCHPKHedNNmucsukbl9qV0ktmemVlpw+k4yND3oyIiJ0nXRTJyJa0tGhhQ4a
+	cNp3e2Q3SHheKbgFxHX39sFqj5EeU8WUIMbi2bv97Z8uaJR9EWYjJn6ZxjrFoCoJLy+eUX89iHO
+	Az0ZyyLxozx71rXYtNe0b2F8R/OxFjdCgEf2n47MygQNZh99ccOE0U7UzhXDn1D2qC68p1J75lu
+	T24nleHf6yEeAz9lLZ+QFVdOxTQOnkqOK+wiwegVRs1ew4XgNx92ES47glgSXvylaOJbiTm1N/1
+	uY2RhJIOjfZh4UeSewIAef57UfHOYobCm1fncGWcX89fuPbMuVPKGBK8i4w==
+X-Received: by 2002:a05:620a:5698:b0:8eb:605f:6cd6 with SMTP id af79cd13be357-8eb605f8de1mr2383250385a.60.1777031507379;
+        Fri, 24 Apr 2026 04:51:47 -0700 (PDT)
+X-Received: by 2002:a05:620a:5698:b0:8eb:605f:6cd6 with SMTP id af79cd13be357-8eb605f8de1mr2383245685a.60.1777031506710;
+        Fri, 24 Apr 2026 04:51:46 -0700 (PDT)
+Received: from x1.local ([142.189.10.167])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-8e7d64cce76sm1958573085a.14.2026.04.24.04.51.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Apr 2026 04:51:46 -0700 (PDT)
+Date: Fri, 24 Apr 2026 07:51:44 -0400
+From: Peter Xu <peterx@redhat.com>
+To: Kiryl Shutsemau <kas@kernel.org>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Lorenzo Stoakes <ljs@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Sean Christopherson <seanjc@google.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
 Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
  guest memory
-Message-ID: <aetHWMZyEEIEzsJZ@thinkstation>
-References: <aeTnlQUOOh-dHG8z@thinkstation>
+Message-ID: <aetZUOINzfTXChLL@x1.local>
+References: <aeImfRrrvr3UoKtL@thinkstation>
+ <aeTnlQUOOh-dHG8z@thinkstation>
  <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
  <aed6fHLrIdahbdY3@thinkstation>
  <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
@@ -82,8 +104,7 @@ References: <aeTnlQUOOh-dHG8z@thinkstation>
  <aeoxnuGKO3uqS2kG@x1.local>
  <aeo5IPpQi7onyjTF@thinkstation>
  <aeprnnccJeyHB2rt@x1.local>
- <17b0dc02-eee3-46d6-9afb-5f81a3a20216@kernel.org>
- <aep8tsYFfr_Xe54q@x1.local>
+ <aes7b17nG0cXrtEd@thinkstation>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,77 +114,110 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aep8tsYFfr_Xe54q@x1.local>
+In-Reply-To: <aes7b17nG0cXrtEd@thinkstation>
 
-On Thu, Apr 23, 2026 at 04:10:30PM -0400, Peter Xu wrote:
-> On Thu, Apr 23, 2026 at 09:25:30PM +0200, David Hildenbrand (Arm) wrote:
+On Fri, Apr 24, 2026 at 11:34:48AM +0100, Kiryl Shutsemau wrote:
+> On Thu, Apr 23, 2026 at 02:57:34PM -0400, Peter Xu wrote:
+> > On Thu, Apr 23, 2026 at 07:08:00PM +0100, Kiryl Shutsemau wrote:
+> > > > - Whether read protection is required for an userspace swap system
+> > > >   (e.g. did you get time to have a look at umap?)
 > > > 
-> > > The other thing is, as I mentioned in the other email, I still don't know
-> > > how the current RW protection would work for anonymous.  I don't yet think
-> > > the user swapper can read the anon page with RW-protected pgtables.  So far
-> > > my understanding is maybe you only care about shmem so it's fine, but it'll
-> > > always be great to confirm with you.
-
-
-That's true. We use vhost and therefore shmem in our setup.
-
-One idea I had about how to make atomic eviction for anon is extending
-process_vm_read() and process_madvise():
-
-- Add a flag to process_vm_read() to bypass the protnone check on
-  accessible (or only RWP?) VMAs.
-
-- Allow process_madvise(MADV_DONTNEED) when the caller already has
-  ptrace write access to the target.
-
-The standing objection to remote DONTNEED has been "destructive", but
-process_vm_writev() already lets a ptrace-capable caller overwrite
-arbitrary anon with attacker-chosen content. DONTNEED is strictly
-weaker — it zeroes, it does not inject — so the trust model is already
-established.
-
-> > I wonder if uffdio_move could be used for a swapper implementation instead?
-
-I considered it. UFFDIO_MOVE can in principle relocate the cold folio
-into a staging VMA inside the VMM, which then reads it and drops it.
-The downside is the VMM has to maintain a second address range and
-serialise eviction through it. A purpose-built primitive — something
-like UFFDIO_EVICT that zaps the PTE and returns the folio contents
-(optionally to an fd for io_uring) — seems cleaner.
-
-
-> If RW is justified to be useful first, maybe.
-> 
-> I had a gut feeling Kirill's use case doesn't use anon at all, then if
-> nobody needs it we can still decide to not support anon.
-> 
+> > > I looked at it briefly, so I can miss details.
+> > > 
+> > > IIUC, in absence of read tracking it doesn't collect hotness information
+> > > at all. The eviction is based on fault-in time: the oldest faulted-in
 > > 
-> > If we ever have to read from a protnone page, maybe we could teach ptrace access
-> > to do it, or have something that can read from prot_none areas -- like
-> > uffdio_copy, which can write to prot-none areas.
+> > For example, let's imagine if we can have a per-mm idle page tracker, would
+> > it work for you to collect hotness info?
+> >
+> > The other idea is, no matter whether we use MGLRU or legacy LRU, if we can
+> > expose a better interface to share hotness info from kernel to userspace,
+> > would it be possible?
 > 
-> Somethinig like swap_access() in my proposal can also partly achieve that.
+> I don't see how either fits our problem.
 > 
-> https://lore.kernel.org/all/aYuad2k75iD9bnBE@x1.local/
+> Both page_idle and the LRUs (legacy or MGLRU) track accesses on physical
+> memory. We need visibility in the virtual address space domain.
 
-A maccess()-style primitive that reads through PROT_NONE is a reasonable
-building block and overlaps with part of what UFFDIO_EVICT would need.
+Yes they are, but ACCESS bit isn't.  ACCESS bit is only about virtual
+mapping or any similar mapping (like EPT's access bit).
 
-> There, it was only about reading from swap so far, though.  But that one
-> might be easier to be extended to read PROT_NONE and directly put data into
-> buffer user specified (ps: in my local tree impl I named it maccess() to
-> pair with mincore(), but it doesn't really matter; it doesn't even need to
-> be a syscall..).
+What I described with per-mm tracking (either we call it per-mm idle page
+tracking or using other interface) is about relying on ACCESS bit, not
+pgtable changes using RWP.  IMHO It's more efficient and it will also
+achieve your goal of VA tracking.
+
+In your case (and also ours), if you're looking for VMs running virtual
+machines, I think you need both pgtable's ACCESS bit and EPT-similar ACCESS
+bit.  Here what's redundant is rmap, not ACCESS bit tracking.  When both
+MMU and secondary MMU supports hardware access tracking, AFAIU it's faster
+than RWP.
+
 > 
-> To me, the interfacing is not a major issue.  The major question I have is
-> why RW protection can help in swap system impl when we already have uffd-wp.
+> We don't care which physical page backs a given guest address at any
+> moment. We want to know which piece of the user's dataset is cold, and
+> the answer has to be indifferent to kernel actions underneath: the
+> tracking must survive migration and swap-out. RWP gives us that — the
+
+This is exactly what we hit...  that's the reason why I was trying to
+propose a new API to read directly from swap (swap_access) or similar.
+
+Btw, from another perspective, I believe we could also persist ACCESS bit
+across migration or swap out.
+
+For migration, see e.g. remove_migration_pte() has:
+
+		if (!softleaf_is_migration_young(entry))
+			pte = pte_mkold(pte);
+
+For swap, it's different.  Normally, if an userapp would manage page
+hotness, it will record the hotness within the userspace with whatever
+algorithm it wants.  Then it will also survive host swap happening because
+that hotness is per-VA.  It should be deduced from any hotness tracking
+system it previously used to sample (and it still can be idle page
+tracking, even if not efficient enough; when the VM page isn't mapped
+anywhere else, rmap is pure overhead, it doesn't introduce false positives).
+
+> uffd-wp bit is preserved across swap PTEs and migration entries, so the
+> "this VA was declared cold" marker stays attached to the VA. A
+> physical-side tracker loses its state the moment the folio is freed or
+> replaced: a refaulted folio is a fresh object with no history.
 > 
-> So I want to make sure the use case can't be implemented by uffd-wp already.
-> Because that's really what we might do for QEMU.
+> Scaling goes the same way. Per-mm tracking of the form RWP does can
+> scale with the working set. A physical-side tracker scales with all folios
+> on the LRU/memcg, then needs an rmap walk per folio to map back to a
+> VA — which is exactly the reason page_idle doesn't scale for this use
+> case today.
+> 
+> There is also a cgroup-level confound: memcg hotness mixes guest memory
+> with the VMM's own (worker threads, I/O buffers, vhost-user rings).
+> VMA-scoped tracking is the natural unit regardless of the migration
+> story.
 
-Race-free eviction can definitely be implemented with uffd-wp already.
-But not proper working set discovery.
+This kind of further proved you're using shmem and you have separate
+mappings.
 
+Again, when with a per-mm idle page tracking these issue should all be
+gone.  That per-mm idle page tracking needs to:
+
+  - Ignore rmap so it's VA based
+  - Still consider secondary MMUs, hence mmu young notifier needs to present
+  - Work based on ACCESS bit (to leverage hardware tracking accelerations),
+    rather than relying on a kernel fault to set the access mark, which
+    should be more efficient.
+
+The other thing is, could you please still answer why RWP is required for
+swap impl in general?  It's not yet mentioned in the reply.
+
+Personally I really feel like we're looking at very similar problems.  It
+is a great news to me, because if you can convince me on the new api it
+means our use case may likely also adopt the approach, vice versa.
+
+It would be great to share the new interface no matter what it is, instead
+of trying to push different ones.
+
+Thanks,
 
 -- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+Peter Xu
+
