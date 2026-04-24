@@ -1,212 +1,283 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from LO3P265CU004.outbound.protection.outlook.com (mail-uksouthazon11020101.outbound.protection.outlook.com [52.101.196.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 677003FA5C4
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 19:12:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777057952; cv=none; b=NVqG+qqZrMNbC9fsEzTdsCMb0SuiLN2jJlgzHmnLT4MeBgxiB47P56LGIAtAGyNkEki2KD0WLCbUVmBbj7usw6mZQLnsNQMD5WtK5R8vi5s5btkTc+29TwjfSyvNalMRt7/5Tl7bbhDalbkYRhNGs3hNcfKt/rR1qjiyKQU8WMY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777057952; c=relaxed/simple;
-	bh=KmheunmqoD7qmRe40GYg7//W4Bdndm96gaU0yeszTyU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=DHgM2zJkOuOq/TIglw3BEIXei4gEkNexU2tV/mx1lT5xpqjPeAOTDGmlZwiXWFpg09ld4GBsoHLqylkcDs1UODWyRebI6naFyGWCyBSEnhHmd3nHhrzvUpMpxCVJEFSxxxxkp9CpOlkE20SLsfkSsgbL95M8lIiHRI2DZdbLIKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F4+4pap+; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6989136895D;
+	Fri, 24 Apr 2026 19:26:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.196.101
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777058766; cv=fail; b=J44zlWZCjfk6UsZG+zaxLCj8U+Ip3V90JiAqbOpv+qv4Yhzri3IIp7YzITlh9dtNee0TH/VvA/4vHFH7y8kWeuNYmFCvYZbk5C0oV89bsJbWAaqaE9+aiguYpGe1kiWp2xXwPVWc65aKNNjSlvQttn7eH3prFWrYrQ7qthgMfAw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777058766; c=relaxed/simple;
+	bh=lPviIkATm0tOCJaQaLAqOXHJfMwc66HjmuMnPstCdL4=;
+	h=Content-Type:Date:Message-Id:Subject:From:To:Cc:References:
+	 In-Reply-To:MIME-Version; b=r0v/fkwWV8T+eInMLmUJvsvFlExd6hW8EHCgGD8bZzRnFzYtkLAfFuzbh4hV0lSWmOw55sdI+xZSunY40Efr1Wu3q2iv30rSic4SFDX1fqfzYvZr/6nYwk3meQLLReLOU2VHy8+2Cw1GR7StwVuO/UTabFYTR4jhM5rLA10Nw/4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=NImdIh9H; arc=fail smtp.client-ip=52.101.196.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F4+4pap+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15A1FC2BCFB
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 19:12:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777057952;
-	bh=KmheunmqoD7qmRe40GYg7//W4Bdndm96gaU0yeszTyU=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=F4+4pap+k3NIvaz6hOcr8KAuk8o0/EVvhqo4GgLnYt4BOdbudhQeKo+DhA3LVYZ0U
-	 53CelfISuIniJTrTNv6cNQ5ZXr/Wp77zjcX7b5+kyn++e6zEqJGtFh3sCIg5Py/Qsi
-	 u71Pg+hSzpYFk8vz8xSTB3Vf6ldBJ7g2tupkcswSnTvRQKE2FrZQxaICyR99vnSKz8
-	 bQZaUnsOJo+OXUKq4PfUOMrhjGspdLlVNQQV9S1bTEAorfLN40qh8td6gnbBdFGcpj
-	 D+0pICd++/uLneWVDqspEPTbB34/6nBZrQTmj1pUqtAXbTLjlunKGB9FjbcgECLZ8q
-	 lQ22mh7HzmjeQ==
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ba67b332bbaso932215566b.0
-        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 12:12:32 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ9A70En+7g3lV/qTKhtxCTKBMQDBTmie/I+rcUFWQKSWHhIGbOvw1SVr3dDr2mSmuZcAZbZe7Ec1qI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTigruBMPVRsS5a8aiv2EaH0lF/7JBTiCVvUsR1KaeUtxS5aYt
-	t+8OePrcO0RfAT9PY91VLStIPfzv0gcNyVMyVDCiDnkrLDo6BeqBTEk8FDyo1uFd4g0YMSoIJ67
-	UaoJsErRF6gUUlBkAf62/rKIQAnTNOC0=
-X-Received: by 2002:a17:907:61a5:b0:b8e:796a:fd5d with SMTP id
- a640c23a62f3a-ba41b3dee51mr1299551766b.39.1777057950683; Fri, 24 Apr 2026
- 12:12:30 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="NImdIh9H"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=qPJSYj2oDhubaCriarin9xO3QGNKCVMmYl1zeVHnuYXvNXMa+mm4EINAnISImRqCIJzxWCCOmNdzkAX2bbBa9JUXaBAZqtFOYg+kVTecbn8tbQdBJS+wq/xrbgTFaa6rfO1Wn9nziKXiqvdHEU68/VLo4ZyTLEWDjzOFhfovOFmR/5xHNIbg42RMCXBTohqULOA+g877aw064Fwg6dwuUadHT4ZfgVqeBCeslFp5cB86bC1FylKqK7mQuJ7vStor/6DlPVQW0CZfaXTzu0Ng/0B7QOjClP0nSIio6fnXXhUPpFcY8yz+7slLml0jvqobWraq4H16WuZKDUtOm82sJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ph9tK+wEInRKOFsfsLm/eSjv8AIJDC30WzRRRTv3SHo=;
+ b=d65/I5R0rpf86ulm+S4P+NwBdcmQ4D+gw8fPc3HQM5SIA48Frhxos/K9yLytUJbVdvwAqbd31cZyfB5tQvBT8DAak1QbsJhruzm26FR+nDHQV5NFU1x4eW9/xqdR6jqRXSSeYIOzYuy3ajlK2SP8O6Fulc5bjFYa/QLOPmBM4+AeyNvTPz+mH09eOwAI6ruFAMo/LVSV1KGdn2GHpJI0Ibt9zxD0130Cd6HJ74mUq8wCCP1Mg0zNwFVx0j9dBEn+oi1zM3H3lLVZIBJPD+hwnQvP3+8kOVq3JNwGaMAw0VomU+XWAXsy8nH3nbtjig49S135vcCaPeEV6I5topJNGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ph9tK+wEInRKOFsfsLm/eSjv8AIJDC30WzRRRTv3SHo=;
+ b=NImdIh9HLce7W6ye4Mc2GhiixGEqtRZhDSfYox86ZpbfhJQVS0rdsyXwvj1aZ65eZGErq+EkfGVfr8dagnYj5vMK4drcjV9l5Sm85O4QmzCPwpHyj2g5pyCYwA4XZn4sGEj/5dblNf5WhM7atCdOU6s/R+i3MBjL+tp0J2/EVM0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO2P265MB7217.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:32e::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.22; Fri, 24 Apr
+ 2026 19:26:01 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9846.021; Fri, 24 Apr 2026
+ 19:26:01 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Apr 2026 20:26:00 +0100
+Message-Id: <DI1MR8ORSJ2B.2M6Y3TMBMVVPI@garyguo.net>
+Subject: Re: [PATCH v3 1/4] kernel: param: initialize module_kset on-demand
+From: "Gary Guo" <gary@garyguo.net>
+To: "Shashank Balaji" <shashank.mahadasyam@sony.com>, "Suzuki K Poulose"
+ <suzuki.poulose@arm.com>, "Mike Leach" <mike.leach@linaro.org>, "James
+ Clark" <james.clark@linaro.org>, "Alexander Shishkin"
+ <alexander.shishkin@linux.intel.com>, "Maxime Coquelin"
+ <mcoquelin.stm32@gmail.com>, "Alexandre Torgue"
+ <alexandre.torgue@foss.st.com>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>,
+ "Danilo Krummrich" <dakr@kernel.org>, "Miguel Ojeda" <ojeda@kernel.org>,
+ "Boqun Feng" <boqun@kernel.org>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <lossin@kernel.org>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Alice
+ Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>, "Richard
+ Cochran" <richardcochran@gmail.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Shuah Khan" <skhan@linuxfoundation.org>
+Cc: "Rahul Bukte" <rahul.bukte@sony.com>, <linux-kernel@vger.kernel.org>,
+ <coresight@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+ <driver-core@lists.linux.dev>, <rust-for-linux@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, "Daniel Palmer" <daniel.palmer@sony.com>, "Tim
+ Bird" <tim.bird@sony.com>
+X-Mailer: aerc 0.21.0
+References: <20260422-acpi_mod_name-v3-0-a184eff9ff6f@sony.com>
+ <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
+In-Reply-To: <20260422-acpi_mod_name-v3-1-a184eff9ff6f@sony.com>
+X-ClientProxiedBy: LO6P123CA0010.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:338::14) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
- <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
- <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
- <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
- <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com> <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
-In-Reply-To: <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Fri, 24 Apr 2026 12:12:17 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com>
-X-Gm-Features: AQROBzC1SEAi52wg78oFj6rZAsnu9X4A0he_tCTRosEu2pR3Wwk9OtpK8VSGi4U
-Message-ID: <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
-	Byungchul Park <byungchul@sk.com>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
-	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
-	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
-	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
-	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
-	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO2P265MB7217:EE_
+X-MS-Office365-Filtering-Correlation-Id: c62731bc-ce1e-45c5-24e0-08dea23751ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|10070799003|22082099003|56012099003|18002099003|18096099003|921020;
+X-Microsoft-Antispam-Message-Info:
+	DoA7nnC/p3lgkeKpfu0FwTBXmBTl/WlxO5+9ttc1egmUFxNVtPS8kPfm0wHHSLRUZIaA78WCf6XaqBiHdDftrqAnaBLeKU4dvMAnN1Z+2UZl0eKB9hWz3Adm5dbAORtW+FmvsGlumE8MMAWBhlAjXCWYy8Gzzx636H1jdg+fAdA9QSkxe9GwqrD4xGzBeyOXDuZ/42xtuoMD0OPvJ324iuVfxtPqA4h7PtPI9/0vGfYysJYmH/TmTxDK9tr5doXsGhvLiqwPC+wzevxXPUZa4AQHsTH4jGjjqjiQ9gH6mHcd71ioyZQfncaA8p+qD/4itZbEaIGZxQzWf0Um/5zA2ENaUsC9MC8amOHby0iW6HIti+L4je9NQbElBAzaIgqOjqVPsUFXE3siZ/BeU8yyAHQH/r8jeFTFIacmElzLKN1Paro8diVZ0aLF6Tj1YrRP/ycffnl9TL2huA4bUr2kg8ibOBHMnBEo0EMuhTSSBj2byVTMDDDA/QlZYQrUpNUefJOJs7rZQqRCNugUYCtBRsipSK2uzIg862P0m1cHSNxev8UZsfKeF3JABC+R8QWpPia9d8O9tQHK54hJYKdWNAJC3s1QKGbXf2eY1+X4XcDd8bNKbdcdcgC1zg3MMJt9RXOIQt4xiTqHXT3lvvd2vkFoQhxsClzcih3FKQcUwIMWhW/SVHYYQF9qF81+ywuN9u6Qf9R41/x3eEToKqfewfBvKBnHAAm6lwRNsTh7tDI5Tx4yP3c2hS5HkjYZgveKtzqXDFGi4QYRXd3fvZGtGQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(10070799003)(22082099003)(56012099003)(18002099003)(18096099003)(921020);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YjJwVEFOVTVveVZpR2FGSHJOUm9rdmE5ck5rUHlTdjNacEZVeEpJd1FRUmdK?=
+ =?utf-8?B?TFFvUEcybENlaG9pbStyZjBjYWNWRXF5UXU1cFkxL283angrL3NOUHRRL2ht?=
+ =?utf-8?B?MEx2UjdqT2x6NlRLN2V6bDhOSjBSb3lYMmdadFcrek1XaC9ERmN1TmphWk5j?=
+ =?utf-8?B?WjNZeWF2TVFuZkk4UjQzNU1ldW0yditza2gvOGcrdHZWdTVXd1RJbU1jWVRF?=
+ =?utf-8?B?Y3BaZ0UzS0ozamNtWStRS2xYZjZMeXJOcC80cldwUzcwMXgycjNoejYrSTRI?=
+ =?utf-8?B?NGxodW0yUlpOcGtEWlBTSFVzSlBMWiszNDhEQkQ4SDgvbm9XOGRkbFBOK25P?=
+ =?utf-8?B?YTd2RWZBdXI3ZkFPeTZ1eEdsRTBqQWFVT1VadE9wWGI0Q092VFRBQXJNY1NW?=
+ =?utf-8?B?TWdkUG5vM3J5V1NMZW1tMnB0VTdrNXZ0TGtlZFhwVGd4WWFHL0lrbk1HRENZ?=
+ =?utf-8?B?dTMyZ2ZncitkN0prTDEzd05ETllaMXVtS0VVNUVuL0NnTTdZUGN6eWJ1YUIz?=
+ =?utf-8?B?MnFJNXU4TmNvWFpXUE0ydXpuSWFVYXYzaHNQcktyZllEZFFERERsOUJmZTJM?=
+ =?utf-8?B?T1JubCtRYWRpd2ZuZVNpVEU0QmdJeFdaOVJUTnhDQlhTYWR2b3U3bDkwODBp?=
+ =?utf-8?B?Ui9uT1Z2WE12LzU1NytNaWd5OFEzT2VOem1CaG9XUnF4V09zYmJMWmdEdnZZ?=
+ =?utf-8?B?LzNWRnNuanordzZxRkpHY2hsNlFFVStUcW5pd0NOMDgzVUNVK3Z0UHA2S2ZI?=
+ =?utf-8?B?bmZhZGt6bDlDb2ZYVmtEMjhlaWswcTkzd2NVeFZpOGIwN1pzUVVzWENnUnR6?=
+ =?utf-8?B?RC95TUFlTHNjMTliU3dZZlV6QmNsekNrVW0zc3J4b1NVemRiMUhqdkozNk1p?=
+ =?utf-8?B?NUdiWnR3eUEvNm5ZVXY3MlIzUzNZRzZzSjAvVWI0R1JRakVSL25pZ3YxM2ND?=
+ =?utf-8?B?VDMyeTE1VkoxNHN3NWw0YW1SVWdrZzROMUErZ1NpWDM3cm9CMi91NkZSSXlh?=
+ =?utf-8?B?dUlaNngvZ1BPRVR4cXpURkh6Z2FDTnM0NTJnSERJRDhud0xYdmNLVitKTXFu?=
+ =?utf-8?B?ZWRhUUhEVjB3N0hmakx1Ym51djNRaXIvOUZjaFFKUms5ciszaFNlNTQyb3hL?=
+ =?utf-8?B?d2ZwMzBaVkxhN0JXVFF4RTBWeG1VN3JLeUZuS3ZnZ0tacDRiL2hGNXFiQXZi?=
+ =?utf-8?B?RHl1VFprVDUzdDNFdkVLT0hqK1ZPRnFVZ1h4K1VWNmdQb2s2WlZGdjFRZDJ4?=
+ =?utf-8?B?MHA4dlBXUVBTMlYxalg0Y0xJWmw1K1Zua0hSTzJoSUtPZ1JPK0haVEE4NzhG?=
+ =?utf-8?B?dExjMktXL3JVUnFKajlEL2JDZTl6aTIzU2p2QVczeEFreGVrVWJ5Wm1MQUNK?=
+ =?utf-8?B?eSt4UkhhaEp6ZEloSkhiOUk3TnBnSW5nanlUV216RkhIOGVsYUNaTDdoc1RF?=
+ =?utf-8?B?NW0waWE3aUFxWUozMkFXWGh3eWJPMUhJZG1hQ1VTbkQwT1MvZ1hrRi90K2Zj?=
+ =?utf-8?B?MjRpRlQ5dVljUlBEY1pYZjZvL2ViZUVBMmNkdFZhcFp6NFhvM2JFU0ZRQkxa?=
+ =?utf-8?B?THRlUVRYNFQwM3FmWWxFRlZJQW1ZTSsxcnBpa2NFa2c2S0dKYmFPQmp0NnpJ?=
+ =?utf-8?B?ekxTVjdoUWdwckk3WXZsajZpQUNIeU0xSWJ5cUhtMFQ1TmJ6b2dxbHg4OHZw?=
+ =?utf-8?B?MUkzbHRicHB4bWVUVFM2MTNkZVlHOXdSODJlZ2pld0RubkwxeEhWVWRNcmgy?=
+ =?utf-8?B?Z00xRm5pL0NLMVRGc3lCazViWWZOTnBuS2wyeUVhNkxUcjltOEE1SHhqbGR2?=
+ =?utf-8?B?MGcwaWZCVzY1SE4rbVA5N1k5Rzk0WnFKU0tUK3pXVW50SlJkRXR3MGZDcmNS?=
+ =?utf-8?B?N05PanhTVEMrbDdrU0FNUkgzeHZ1L2l3THA0Zm1LcUFnVDlpTlErV0F4d2V2?=
+ =?utf-8?B?Y05TTVRkcUZ0akxReHZreEtZL0swQldreWY3MGpCK1N4alNZZklLb1NqRjVs?=
+ =?utf-8?B?TXhXbEx3SisxbTl4OCtaekVIV3BlaGc3STNLZ0x0SVZGQStaM0I1TEY1REk1?=
+ =?utf-8?B?STNtRU1mdlNuZzlGNnNQdGhoRGVrblYyeUFqVGN0QXlSWVE4Z2MxdnFyUzNN?=
+ =?utf-8?B?empIVkRSRC95OGc2WmZ1M3BKNDRVdWxETUUrYUVqOXhJUnppU3hIRFZHNktj?=
+ =?utf-8?B?Wlk3aERDUzdFMm1oZW5mRWdwMWRsT3dHNDV6OXB6eGpLbVZFWEx4Uk45Q1hp?=
+ =?utf-8?B?aUlaZE9LQ2xCaU9LckhMQXNWczB3Si96NG5ZTTZ4eVp1OHpCRStFVjk4Tkhv?=
+ =?utf-8?B?OVdsWHpwcCs5RGxpMUFrS04vcjhacW1LVVgraE9iSTluWkVJNHlJQT09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: c62731bc-ce1e-45c5-24e0-08dea23751ff
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 19:26:01.6558
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: XD5x1aq6apc+4pOfLHONymZ0IqWmKZnNYNXVK7/FZ6qDXQRBM073ceXv+oYO7d2tuY+bifF8EgbjOHvLhm3lIQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO2P265MB7217
 
-> > > > IOW, I think the whole reason we want a virtual layer is to separate
-> > > > the backends, which would facilitate tiering. If the virtual layer is
-> > > > itself a swapfile, wouldn't it become one of the tiers?
-> > >
-> > > That's exactly what I hoped, virtual layer being part of the tier.
-> > > Tier could be set up per task / cgroup. So is the virtual tier.
-> >
-> > Just to clarify. I don't think virtual swap should be one of the
-> > tiers. I think it should be the mechanism through which we implement
-> > tiering (see above). I am not sure if that's what you meant.
+On Wed Apr 22, 2026 at 10:49 AM BST, Shashank Balaji wrote:
+> module_kset is initialized in param_sysfs_init(), a subsys_initcall. A nu=
+mber
+> of platform drivers register themselves prior to subsys_initcalls. With a=
+n
+> upcoming patch ("driver core: platform: set mod_name in driver registrati=
+on")
+> that sets their mod_name in struct device_driver, lookup_or_create_module=
+()
+> will be called for those drivers, which calls kset_find_object(module_kse=
+t, mod_name).
+> This fails because module_kset isn't alive yet.
 >
-> YoungJun's swap tier have been working pretty well without the virtual part:
-> https://lore.kernel.org/linux-mm/20260421055323.940344-1-youngjun.park@lge.com/
+> Fix this by initializing module_kset on-demand in lookup_or_create_module=
+().
+> Retain the param_sysfs_init() subsys_initcall to ensure that module_kset =
+is
+> live after subsys_initcalls (assuming no OOM) for any users who may need =
+it,
+> on the off chance that it wasn't init'd on-demand because of no
+> pre-subsys_initcall drivers.
+>
+> This on-demand path can trigger before subsys_initcall. kset_create_and_a=
+dd()
+> be should safe in those contexts because the allocator is up and running =
+by then,
+> no userspace to start uevent helper or listen to a uevent socket.
+>
+> Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Co-developed-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Rahul Bukte <rahul.bukte@sony.com>
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+>
+> ---
+>
+> Patch 3 depends on this patch.
+> ---
+>  kernel/params.c | 41 +++++++++++++++++++++++++----------------
+>  1 file changed, 25 insertions(+), 16 deletions(-)
+>
+> diff --git a/kernel/params.c b/kernel/params.c
+> index 74d620bc2521..f25d6fda159c 100644
+> --- a/kernel/params.c
+> +++ b/kernel/params.c
+> @@ -745,6 +745,26 @@ void module_param_sysfs_remove(struct module *mod)
+>  }
+>  #endif
+> =20
+> +static int uevent_filter(const struct kobject *kobj)
+> +{
+> +	const struct kobj_type *ktype =3D get_ktype(kobj);
+> +
+> +	if (ktype =3D=3D &module_ktype)
+> +		return 1;
+> +	return 0;
+> +}
+> +
+> +static const struct kset_uevent_ops module_uevent_ops =3D {
+> +	.filter =3D uevent_filter,
+> +};
+> +
+> +static struct kset *__init_or_module ensure_module_kset(void)
+> +{
+> +	if (!module_kset)
+> +		module_kset =3D kset_create_and_add("module", &module_uevent_ops, NULL=
+);
+> +	return module_kset;
+> +}
+> +
+>  struct module_kobject * __init_or_module
+>  lookup_or_create_module_kobject(const char *name)
+>  {
+> @@ -752,6 +772,9 @@ lookup_or_create_module_kobject(const char *name)
+>  	struct kobject *kobj;
+>  	int err;
+> =20
+> +	if (!ensure_module_kset())
+> +		return NULL;
+> +
+>  	kobj =3D kset_find_obj(module_kset, name);
+>  	if (kobj)
+>  		return to_module_kobject(kobj);
+> @@ -911,19 +934,6 @@ static const struct sysfs_ops module_sysfs_ops =3D {
+>  	.store =3D module_attr_store,
+>  };
+> =20
+> -static int uevent_filter(const struct kobject *kobj)
+> -{
+> -	const struct kobj_type *ktype =3D get_ktype(kobj);
+> -
+> -	if (ktype =3D=3D &module_ktype)
+> -		return 1;
+> -	return 0;
+> -}
+> -
+> -static const struct kset_uevent_ops module_uevent_ops =3D {
+> -	.filter =3D uevent_filter,
+> -};
+> -
+>  struct kset *module_kset;
+> =20
+>  static void module_kobj_release(struct kobject *kobj)
+> @@ -940,7 +950,7 @@ const struct kobj_type module_ktype =3D {
+>  };
+> =20
+>  /*
+> - * param_sysfs_init - create "module" kset
+> + * param_sysfs_init - create module_kset if not already done
+>   *
+>   * This must be done before the initramfs is unpacked and
+>   * request_module() thus becomes possible, because otherwise the
+> @@ -948,8 +958,7 @@ const struct kobj_type module_ktype =3D {
+>   */
+>  static int __init param_sysfs_init(void)
+>  {
+> -	module_kset =3D kset_create_and_add("module", &module_uevent_ops, NULL)=
+;
+> -	if (!module_kset) {
+> +	if (!ensure_module_kset()) {
+>  		printk(KERN_WARNING "%s (%d): error creating kset\n",
+>  			__FILE__, __LINE__);
+>  		return -ENOMEM;
 
-Does this do promotion/demotion of swap entries?
+I don't think lazily creation of module_kset is the correct approach.
 
-> > > A standalone implementation of the virtual layer is more heavy than
-> > > being a swapfile. Actually I think at this point, it is the word
-> > > "swapfile" is misleading now. We may rename it to "swap mapping" or
-> > > something. A swap mapping could be physical or virtual. Virtual
-> > > mapping can realloc from physical ones (redirect), and swapoff of
-> > > physical ones just read its data into virtual mapping's swap cache.
-> >
-> > I don't understand this part, please clarify. In my mind, all
-> > references to swap entries from outside backend code should refer to a
-> > virtual swap ID, which could be pointing to physical swap or zswap or
-> > something else.
->
-> For example just reserve a type (e.g. type 0) as the virtual type?
-> (type is really a bad naming though).
->
-> The that swap file (or swap mapping) will be
->
-> I was trying that based on this:
-> https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d19815@tencent.com/
->
-> It seems to work and the only thing we need is actually just something
-> like this one in VSS:
-> https://lore.kernel.org/linux-mm/20260320192735.748051-15-nphamcs@gmail.com/
->
-> This part:
-> + /* fall back to physical swap device */
-> + if (!vswap_alloc_swap_slot(folio)) {
->
-> We do a folio_realloc_swap if folio->swap have type 0.
->
-> Which means, if there is no virtual device / mapping / file / space
-> (I'm not sure how to name it at this point :) ), the ordinary swap
-> routine is just still there untouched.
->
-> If there is one, and it's being used, then, it is still the ordinary
-> swap routine, just do an extra allocation (and the extra allocation
-> strictly follows YoungJun's tier rule), which is same with VSS, but
-> everything is reused. From a user or high level interface perspective,
-> this can be designed with no difference as VSS. Just with a few
-> bonuses: being per memcg / task / runtime optional, zero overhead if
-> not enabled, and reusing all the infra.
->
-> BTW this deferred allocation (in VSS or dynamic swap mapping, similar
-> thing) is actually a bit concerning to me as well. It changes the
-> common swapout routine and maybe worth reconsideration (e.g.
-> activate_locked_split and mTHP stats is now ignored?), being optional
-> for now also seems safer.
+The only thing that param_sysfs_init does is create a kset_create_and_add, =
+which
+can be done really early. Driver core creates a couple of them during
+initialization too.
 
-I am not sure if I understand you correctly. I think what you're proposing is:
+This is ultimately just an init order problem, and you need things to be
+initialized earlier. Given lack of dependency of anything else, this could =
+just
+be a pure_initcall which will be initialized before everything else.
 
-- Page tables either point directly to a swap slot, or to a virtual swap entry.
-- By default, page tables just point to swap slots maintaining current behavior.
-- If we have multiple backends (e.g. zswap or tiering), we use virtual
-swap entry instead.
-- The physical swapfile has clusters and swap tables (status quo).
-- Virtual swap is implemented with clusters and swap tables in a
-virtual space, and each table entry points to an underlying swap slot
-or zswap entry.
-- If a page table has a physical swap slot, and we need to do tiering,
-we basically "make it virtual" by making the swap table of the
-physical swapfile point at a virtual swap entry? or another physical
-swapfile? Not sure.
-
-In this design we have swap tables in both the virtual swap space as
-well as the physical swapfile, right? How does this work? Where does
-the metadata/swapcache live?
-
-I am not sure if I got it right, I am a bit confused.
-
->
-> > I *think* what you're saying is that we should make that optional, but
-> > I don't see how this would work. If a page table is pointing at a swap
-> > slot in a swapfile, we cannot do tiering or zswap writeback or
-> > anything dynamic without updating page tables. So even if the system
-> > starts off with one swapfile, we cannot assume we won't add more and
-> > set up tiering (or enable zswap) after that, right?
-> >
-> > I guess we'll keep the swap table in the swapfile and then we'll have
-> > it point to a different backend, but I really don't like this design.
-> > It's unnecessarily complicated in my opinion. Page tables will either
-> > refer to a virtual swap ID or a physical swap slot.
->
-> Or in another word, they are all just swap entries, and the swap layer
-> handles things internally.
->
-> > I think we can simply have swap tables representing the virtual swap
-> > space and pointing at the backend directly, whether or not we have
-> > zswap or tiering set up or not. Is the overhead really that bad?
->
-> Right... I mean with two layers you will likely have >16 bytes
-> overhead, and double lookup.
-
-Why >16 bytes? Do we need anything extra other than the reverse
-mapping? Also why do we need a double lookup?
-
-> And I have been thinking about cutting
-> down the memory usage to 3 bytes. And you can't make the lower /
-> physical layer just a bitmap if you want a reverse mapping, and so far
-> many things do require that. If we make the reverse mapping optional
-> it might be more complicated than the thing we discussed.
->
-> I don't think the thing I described above is that complicated reading
-> all the code and solutions so far. Maybe some better abstraction can
-> help?
-
-I don't think I quite understand it yet, maybe I am the problem :)
-
->
-> I've seen some vendors doing swap using UFFD just to cut down the
-> overhead or having a highly customized backend solution for swap, so I
-> was hoping the kernel part could be as minimal as possible.
-
-Interesting.
+Best,
+Gary
