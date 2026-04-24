@@ -1,122 +1,232 @@
-Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010046.outbound.protection.outlook.com [52.101.56.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82BE64;
-	Fri, 24 Apr 2026 01:03:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776992638; cv=none; b=QrW9YSKZ8b7qxV+NsG0BBG9gLdA6NBonr0BRjsB/8YtXVmQLqs3sb7YqRplZEfCLOvEGnzQyeM0xTamsGmTNlDABIQ8YOPvf30stRaAGlZ54JvDGCGeVxWnpTZ2zvmG3XHRMY7zGVbGNFGtPXQFIRQAfnFX2AK/3+ETagslIx7Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776992638; c=relaxed/simple;
-	bh=uT7gY4BRtjgaPX9PaajJO75AEADj3vGoYf34NRUkepE=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=jRAbaIutzR3B0KLS/U3hT1RlfCJC1jusqc0MVqHZmSSOTMUVocwrNzUZi9LF5D+J89kha/8MYoMo22vSNbZC4zXgKciZAIJHePUff7aDBw4Z9cewA8cKeYyIXKYrlwWYQ8y5tQBaIPr0m2sU/ajosjqjwf/Y/Sc7pBIdaEuRzFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=none smtp.mailfrom=linux-m68k.org; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=DkkSk2sZ; arc=none smtp.client-ip=202.12.124.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9355D262808;
+	Fri, 24 Apr 2026 01:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1776994914; cv=fail; b=lpmaPLWaFOlpoTEqijm1epYEO8sL+GJ5sPlh3BimqRe9+wT254XVcBNXcSOxqlDBvmObQ8bSHhDYPjO1iT7AKJR+piqziGpGHBPP7aepFwRJy+NczIh1PzaiZC+YtnA+7rB+NwAN9xEKtn14bMpZm7xzSbxXcPUjaCOaDYLfy1o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1776994914; c=relaxed/simple;
+	bh=GcBjEFbslGJ4B9vpF7K7KKm7RSjJTZUp1w+yAUFaGvY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r5OrDSKaYZLXGIAWI/ECGnJGkvUIpi+/tL0emdinMQf7BHZNgFSiAR8377+f/mQ2+RP6vrVtMAOZ3+sfQmFL/JPr0EfYaWwh/Q/SMO2X7OIaiDlIfa8uYWTIc8optz7f+cTVgi1icWwPA1z9D557RE2z1IRT25CPEQytEhJ+F8s=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DC2pYO4p; arc=fail smtp.client-ip=52.101.56.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="DkkSk2sZ"
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 23B767A0184;
-	Thu, 23 Apr 2026 21:03:55 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 23 Apr 2026 21:03:55 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1776992634; x=1777079034; bh=rXMg7ku8R+JFnmla+6SGcWBeA0b7hTg/AD+
-	QEyM9OnE=; b=DkkSk2sZMghdgvHOCh2vJqPFixGiQYiF/pPQBAIBhyDG/jCucsB
-	lq7BJofCWG0pYPqhzIt4NP54Q0owled+gydYNhb+IPkFrxh1D2x7I/hcNTUWHCip
-	sj97mQSBxopfg74854n+KEuzPhM5Fn7Rzc+UT0R+R264Ai4n3Tc/wHVXKmTlhNZ6
-	eLBdD/JaiwjHQ2zp8qR9GukdmSzujQpCK+t/03QVk67/i6YCRipuwiNmRDLGBxrn
-	dT7W443tTovkKwQY+nUSyEVqXak8aBQIUzAKw7OpWc73fFEo5Nbdcnx7DuXAcIq5
-	wNSmp5+oQav6nZgAPQE+6YML0n+Oo0RHg0w==
-X-ME-Sender: <xms:eMHqaQQObEnmHyjxO9SmcFPARqnDhlNSje4pWmaBRcEzCEmkyxt8dg>
-    <xme:eMHqafImZB2uOsfTRJv4iBIernwUSSibtdQ5FgVQb4v_6_Rv8TamjvPljZdA5Jx7V
-    lzpx7wkhs6vOps7L8nZxirjt102Fs96s75XyCe8TEmGKffqVr_jUng>
-X-ME-Received: <xmr:eMHqaXHAcN2-R24bCe4acyhvj_ieBX1Nda-6-qIST52PaquMRtplNqdO0LEgMezE3IMU737EumstSD8EmefzuG6A-uPMK5Sdp1U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeikeeiiecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefujgfkfhggtgesthdtredttddtvdenucfhrhhomhephfhinhhnucfvhhgr
-    ihhnuceofhhthhgrihhnsehlihhnuhigqdhmieekkhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepleeuheelheekgfeuvedtveetjeekhfffkeeffffftdfgjeevkeegfedvueehueel
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepfhhthh
-    grihhnsehlihhnuhigqdhmieekkhdrohhrghdpnhgspghrtghpthhtohepudekpdhmohgu
-    vgepshhmthhpohhuthdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepghhlrghusghithiisehphhihshhikhdrfhhuqdgsvghrlhhinhdruggvpdhr
-    tghpthhtohepuggrnhhivghlsedtgidtfhdrtghomhdprhgtphhtthhopehgvggvrhhtse
-    hlihhnuhigqdhmieekkhdrohhrghdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgt
-    hhdprhgtphhtthhopegrnhgurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpth
-    htohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgr
-    iigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrth
-    drtghomh
-X-ME-Proxy: <xmx:eMHqacQsCgDgUpkdMpJ7lRjIDDACgZ4OqRerysW9vkEYisKXaRCvTw>
-    <xmx:ecHqaQUx43qxvgiwPWL9Y139sZ98TQrP5aAwvvoIUe7McFxGpR3sGA>
-    <xmx:ecHqabi6RQxL0-iHr-8xqmA0SiYO2obMIXVcG9IfDaaMIXEUpMROTw>
-    <xmx:ecHqaZciAUM081Ydoa2dPBMCTN0_hLONMIL3_b01EXuoiF2p5IQEzg>
-    <xmx:esHqaSk2g-35ngOG1BQQKF3w17i9wTrZeZ3lSrneWIqz2g5wtBEVSH5B>
-Feedback-ID: i58a146ae:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 23 Apr 2026 21:03:50 -0400 (EDT)
-Date: Fri, 24 Apr 2026 11:04:02 +1000 (AEST)
-From: Finn Thain <fthain@linux-m68k.org>
-To: Jakub Kicinski <kuba@kernel.org>
-cc: John Paul Adrian Glaubitz <glaubitz@physik.fu-berlin.de>, 
-    Daniel Palmer <daniel@0x0f.com>, Geert Uytterhoeven <geert@linux-m68k.org>, 
-    Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-    "David S. Miller" <davem@davemloft.net>, 
-    Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, 
-    Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    Shuah Khan <skhan@linuxfoundation.org>, 
-    Michael Fritscher <michael@fritscher.net>, 
-    Byron Stanoszek <gandalf@winds.org>, linux-kernel@vger.kernel.org, 
-    netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-m68k <linux-m68k@lists.linux-m68k.org>
-Subject: Re: [PATCH net v2 10/15] drivers: net: cirrus: mac89x0: Remove this
- driver
-In-Reply-To: <20260423150240.07c350a2@kernel.org>
-Message-ID: <31926a28-658a-1df9-d5bc-2b010891e7e7@linux-m68k.org>
-References: <20260422-v7-0-0-net-next-driver-removal-v1-v2-0-08a5b59784d5@lunn.ch> <20260422-v7-0-0-net-next-driver-removal-v1-v2-10-08a5b59784d5@lunn.ch> <CAMuHMdV-vF6sTvAi8kKzxGwZ9YUSBO1Qta5PDCRbA0zr-LEp_w@mail.gmail.com>
- <c0c80113af470b265650405fa24deefe2d82ea24.camel@physik.fu-berlin.de> <CAFr9PXnECog56b+Jq9TBohhQ4oBB3hGV1pHj6OstOSLqkOpcTQ@mail.gmail.com> <aee0393e2a2bd5a5d0bf8aee758122633e54aa06.camel@physik.fu-berlin.de> <20260423150240.07c350a2@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DC2pYO4p"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Nxk43lbXMIt2jVorZS7MR1AgrR8F9V13z34is71KeKGXHcOZPIYUIKvbCwZq3vFr+vcBZJy4XONq7v2bTCrqIWMjgklzQ7j0Bmc5YL3ecOchKn+civf5Toz0wWSZvdxAUBybQnmw9ttTFRDhx+oNEDftgwRI1v2dqAzcqd3uvulZ50VIecHl2glW9bvR0bX0ZFl89IOZ//AVr+Cyr7hHyRSxWpZCvJphaFpGUCiMomt3Tb2pfdRyXDaQsC7w6h5I3NP93rtqzEqn91tEDTkwvC5k/pxkTiZF1aQjpLeHVlgXy1waueS4EY8iS/AnjLqh8/gOvOLRoEBlHVjEJzbreA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Cz+i6hW8TW2C/g2NaCFCxHX09XY0ebhxWC2Flp9DPmA=;
+ b=ArO1AN7mjNzZdzQGpF8Hea9TgG17onegJkb/LL7atpA4pc1X+WZboohF66RlfsBObtSCQIgmPKX9JZd1SJfxRp1y49GySvybh7YXregAA8CxgaZx2jyfCwbldqIBp9QR+36OXs2I3ZRoP8VHkL2Gg6a9DzoBN/kieQHFBN1Z3EIQM7rfGT8cgoqLQ3lAyezW5Q0H9naUi3hmlvI+79Jun8yoU4Nkj6LW0Qt8OzpGeoh05NDcI867IZcVxmrv0eTapZ/vaNel6n5U+pdqXrbj/GoNEzYW9Wmy9QrfycaQunvBi0Wz4DEp7d7Zb/VaA4qzbTL3h2ZrScPGiLIVvcc3LQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Cz+i6hW8TW2C/g2NaCFCxHX09XY0ebhxWC2Flp9DPmA=;
+ b=DC2pYO4p1DElEOYRjhqnWn9dkF/jLGgyMvVeuu1Cg6SJ6Y+SmsuuF4+aL6PhgE0TQHqQgPdhANJuRD6ESOxOLtitnJeTPs9Uvj8jXAsld/4vL4QtBZ5ZuGqkFwDFRH5KDyRNRu3+V9jOtp3HYl/Qmp7ieLe0o12d3M84vq/yBfI=
+Received: from SJ0PR05CA0038.namprd05.prod.outlook.com (2603:10b6:a03:33f::13)
+ by DS0PR12MB8456.namprd12.prod.outlook.com (2603:10b6:8:161::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Fri, 24 Apr
+ 2026 01:41:47 +0000
+Received: from MWH0EPF000A6735.namprd04.prod.outlook.com
+ (2603:10b6:a03:33f:cafe::28) by SJ0PR05CA0038.outlook.office365.com
+ (2603:10b6:a03:33f::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.21 via Frontend Transport; Fri,
+ 24 Apr 2026 01:41:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
+Received: from satlexmb07.amd.com (165.204.84.17) by
+ MWH0EPF000A6735.mail.protection.outlook.com (10.167.249.27) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9846.18 via Frontend Transport; Fri, 24 Apr 2026 01:41:46 +0000
+Received: from ruby-9651host.amd.com (10.180.168.240) by satlexmb07.amd.com
+ (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 23 Apr
+ 2026 20:41:44 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
+	<tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
+	<dave.hansen@linux.intel.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <babu.moger@amd.com>, <hpa@zytor.com>,
+	<akpm@linux-foundation.org>, <rdunlap@infradead.org>,
+	<dapeng1.mi@linux.intel.com>, <kees@kernel.org>, <elver@google.com>,
+	<lirongqing@baidu.com>, <ebiggers@kernel.org>, <paulmck@kernel.org>,
+	<seanjc@google.com>, <pawan.kumar.gupta@linux.intel.com>, <nikunj@amd.com>,
+	<yazen.ghannam@amd.com>, <peterz@infradead.org>, <chang.seok.bae@intel.com>,
+	<kim.phillips@amd.com>, <thomas.lendacky@amd.com>, <naveen@kernel.org>,
+	<elena.reshetova@intel.com>, <xin@zytor.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>
+Subject: [PATCH v2 0/8] x86/resctrl: Support for AMD Global (Slow) Memory Bandwidth Allocation
+Date: Fri, 24 Apr 2026 01:41:30 +0000
+Message-ID: <cover.1776980182.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
+ (10.181.42.216)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|DS0PR12MB8456:EE_
+X-MS-Office365-Filtering-Correlation-Id: 287431ce-e85b-4331-cc76-08dea1a2a556
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700016|1800799024|7416014|376014|30052699003|82310400026|13003099007|56012099003|18002099003|20046099003;
+X-Microsoft-Antispam-Message-Info:
+	CW4Y5/MZ0uq4KQnvkA8RSOIAq872Iu/2O8KvNJT+GEBhTMxLrs9EYLbZ46i83kGl/bDwbnpiYaMvSIQTVKGjC8mBhkyzg5nC67sNIGv39NN3xtMkc5P1iQHtJcj8bcIA+tFW3rC1NHvtp3juIDG8MvYFmmLv4Tn3dtRt0UBtX5Z5cALegpI9cZi1jzDoUSqXrS12DO65GzwET/fOJjfQAAqtEEAyTni0My6no5HGuxftjmGgUnxHZYF9GmhXtjxfh4qdrJwSsgrHgH+EudY/ZF+S958S3c34bLpkycN3FCw46f/7ekI6VFGtKAN0P2lMpEvY2302HzshIK6XZLeg7/UCD5wIS4fHjgmwQ+IZObWYKexKHdb+Dut6owCNg9boox1a+HDBdvzwNxJyiN88vHlZ0Z2qv45CR1yXbCHIwC7xGCbEWhulgK6jz3v8OJzkOFWjqLXh6PpeSVQO0vnxn15Zd9jByO/7Ia2kf7NLM8b6+mmll7li7rJvqnp8nZGAPCanbXpyiqNmO9OrxHHfz3D/Yj3Aqg7NGp/1VIXyYVAGwvBtm5GME/qo623XWpSN9cD6ENkhf6zhLyXon2PvHOQ6BhrrTQWUBgGEkUI5z7NipOfiNmSeBrSKF7hqQvazc3if/06yEZhqshxlS8dzDQQo+tqdOKNtYQhB+T4ZH2o1o2c0XCA9jolXu8n0fKY9A3M3z/ylzk1TG3QV8noq7ungJUsCMwdG6J5su1JdcF1V3IUCfe3CCxIufjmH9/WOhR6xmADHcHKBU6/RWqYT5OECWGeM0cEUxetwSx5YvyQ=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(7416014)(376014)(30052699003)(82310400026)(13003099007)(56012099003)(18002099003)(20046099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	DE7xvWd5a63hkrfhmcAIOWSxc55BQYlNlrOMXkJVBQdNRuzCGJZvmsdSmG/ZnC0WrGOen0ProCIBm2AL/aRZZTiPIjuvscO1TGfyF6w4AA3oTw/9vrhPz2rBoqH6NlLoNDjArjmYBFOIqqnxjMvZG0zGIMFM2C0jo0BTdm7b8zw1awC5DXfdkpSn0tNSJ1xgCXgO6VRWCa9cyWhpMvEM531QtgUEDhBxjpCMsFPFhQW0YU/usVjiL0lzzeKar5nNve/LZJU0+nFKF7SHf6RHTN/VdA3v5rd3vAR4Ys3kwOlhBVJ+ucsCWG89yWVa2AgukDvJzQZNxH9yT55aNSC/nH0fSmeZQQIH6A+WZTE25WBzO0V43gdx7A+A8/ziWey5HHz8Tf5R4xaq4aTPgyFNzKWmP8+v+nLH4aOIoZVutmp2Ujj13SG0QBkla/EleiBH
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 01:41:46.3073
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 287431ce-e85b-4331-cc76-08dea1a2a556
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	MWH0EPF000A6735.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8456
 
 
-On Thu, 23 Apr 2026, Jakub Kicinski wrote:
+This series adds resctrl support for two new AMD memory-bandwidth
+allocation features:
 
-> We want to be welcoming in the community. But being a part of the 
-> community means participating in _work_.
-> 
+  - GMBA  - Global Memory Bandwidth Allocation (hardware name: GLBE).
+            Bounds DRAM bandwidth for groups of threads that span
+            multiple L3 QoS domains, rather than being per-L3 like MBA.
 
-The work of testing drivers requires that maintainers have ready access to 
-actual hardware. Behavioural simulation like QEMU does not cut it.  
-Therefore, it sounds like you're going to need someone with actual clout 
-to mandate that drivers must have maintainers and those maintainers must 
-have access to working hardware, or those drivers get placed on a removal 
-schedule along with _every_ other orphaned module across the entire tree.
+  - GSMBA - Global Slow Memory Bandwidth Allocation (hardware name:
+            GLSBE). The CXL.memory / slow-memory counterpart of GMBA,
+            analogous to how SMBA relates to MBA.
 
-That way, you get to chase _all_ freeloaders regardless of whether they 
-are unpaid enthusiasts or foundation sponsors. Surely you'd find out what 
-"welcoming" really means -- but you would get to remove a _lot_ of code.
+Both features share a new "NPS-node" control domain: a set of QoS (L3)
+domains grouped together and aligned to the system's NPS (Nodes Per
+Socket) BIOS configuration. Although the control domain is NPS-scoped,
+the underlying bandwidth-limit MSRs (MSR_IA32_GMBA_BW_BASE 0xc0000600,
+MSR_IA32_GSMBA_BW_BASE 0xc0000680) are instantiated per L3. Programming
+a single control domain therefore requires writing the MSR on one CPU
+per L3 that the domain spans - a new pattern for resctrl. Patches 2/8
+and 3/8 introduce that infrastructure so the new resources can reuse
+it.
 
-Far more likely, you'd find out that the typical Linux user is actually a 
-retro computing enthusiast because he's using some device that's over 5 
-years old, and the employer of the maintainer of the relevant driver got 
-assigned to something more profitable years ago and all their old hardware 
-got tossed out in the last office move. (What was that saying about those 
-who live in silica houses?)
+The features are documented in:
 
-Anyway, I think there is a better way. Let's score every module based on 
-cost/benefit to the "community". We can use retail sales volume as a proxy 
-for the former quantity (in unadjusted dollars) and use module size (in 
-lines of code) as proxy for the latter. If nothing else, that would show 
-us which modules are more or less valuable to the community, relative to 
-the average module.
+  AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
+  Publication # 69193 Revision 1.00, Issue Date March 2026
+
+available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
+
+Series overview
+---------------
+
+Patches 1-5 to enable GMBA:
+
+  1/8  x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
+
+  2/8  x86/resctrl: Add RESCTRL_NPS_NODE scope for AMD NPS-aligned domains
+       Add a new ctrl_scope value for resctrl resources whose control
+       domain spans multiple L3s within an NPS node.
+
+  3/8  x86/resctrl: Update control MSRs per L3 for NPS-scoped resources
+       Add resctrl_arch_update_nps(): builds a cpumask with one CPU per
+       distinct L3 in the domain, then issues rdt_ctrl_update() via
+       smp_call_function_many() on that mask. Falls back to the full
+       domain mask if the scratch masks cannot be built. Route
+       resctrl_arch_update_domains() and resctrl_arch_reset_all_ctrls()
+       through this helper when ctrl_scope == RESCTRL_NPS_NODE.
+
+  4/8  x86,fs/resctrl: Add the resource for Global Memory Bandwidth Allocation
+       Register RDT_RESOURCE_GMBA in rdt_resources_all[] with
+       ctrl_scope=RESCTRL_NPS_NODE and schema_fmt=RANGE, add commands to
+       discover feature details.
+
+  5/8  fs/resctrl: Add the documentation for Global Memory Bandwidth Allocation
+       Add examples in Documentation/filesystems/resctrl.rst.
+
+Patches 6-8 to enable GSMBA in the same shape:
+
+  6/8  x86,fs/resctrl: Add support for Global Slow Memory Bandwidth Allocation
+
+  7/8  x86,fs/resctrl: Add the resource for Global Slow Memory Bandwidth Allocation
+       Register RDT_RESOURCE_GSMBA with ctrl_scope=RESCTRL_NPS_NODE.
+
+  8/8  fs/resctrl: Add the documentation for Global Slow Memory Bandwidth Allocation
+       Add examples in Documentation/filesystems/resctrl.rst.
+
+Changes since v1
+----------------
+  - Earlier sent RFC(v1) with Global Bandwidth Enforcement (GLBE) and
+    Privilege Level Zero Association (PLZA). This series only handles
+    Global Memory Bandwidth Allocation. Both the features are sent separately.
+
+  - Documentation
+      * Fixed grammar in the GMBA / GSMBA sections of resctrl.rst.
+      * Added examples to update GMBA and GSMBA in resctrl.rst documentation.
+
+  - Major changes are releated to RESCTRL_NPS_NODE scope handling.
+
+  - Commit messages
+      * Reworked the changelogs in all the patches.
+
+Previous Revisions:
+v1 : https://lore.kernel.org/lkml/cover.1769029977.git.babu.moger@amd.com/
+---
+
+base-commit: 216fe4b3e06754e73c79a88b1df7e9806e41f29d
+
+Signed-off-by: Babu Moger <babu.moger@amd.com>
+
+Babu Moger (8):
+  x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
+  x86/resctrl: Add RESCTRL_NPS_NODE scope for AMD NPS-aligned domains
+  x86/resctrl: Update control MSRs per L3 for NPS-scoped resources
+  x86,fs/resctrl: Add the resource for Global Bandwidth Allocation
+  fs/resctrl: Add the documentation for Global Memory Bandwidth
+    Allocation
+  x86,fs/resctrl: Add support for Global Slow Memory Bandwidth
+    Allocation
+  x86,fs/resctrl: Add the resource for Global Slow Memory Bandwidth
+    Allocation
+  fs/resctrl: Add the documentation for Global Slow Memory Bandwidth
+    Allocation
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/filesystems/resctrl.rst         |  81 ++++++++++++++
+ arch/x86/include/asm/cpufeatures.h            |   3 +-
+ arch/x86/include/asm/msr-index.h              |   2 +
+ arch/x86/kernel/cpu/resctrl/core.c            | 101 +++++++++++++++++-
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |  90 +++++++++++++++-
+ arch/x86/kernel/cpu/resctrl/internal.h        |   1 +
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        |  15 ++-
+ arch/x86/kernel/cpu/scattered.c               |   2 +
+ fs/resctrl/ctrlmondata.c                      |   5 +-
+ fs/resctrl/rdtgroup.c                         |  25 ++++-
+ include/linux/resctrl.h                       |   3 +
+ 12 files changed, 313 insertions(+), 17 deletions(-)
+
+-- 
+2.43.0
+
