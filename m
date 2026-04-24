@@ -1,480 +1,174 @@
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7788033555F;
-	Fri, 24 Apr 2026 17:52:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21F57083C;
+	Fri, 24 Apr 2026 17:54:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.126.83.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777053158; cv=none; b=ZxTxN1xFxuYV63TKvZzD1RlKU6CPGvkIouGeeuiyh9xhoHXKD5NczN8NklqJEel778EzGDtSOblaD4DMZn8idbau4pBBuJtK/VJWka6vjg9u/OMLCSBZe59yj/vVf9ldvQr5pCKYEJ2QB31V08siQDxwnvM0+BfgUgXKVz04Txw=
+	t=1777053274; cv=none; b=iZqCtqe4UxqSDiRY4sHOl4pfZvThycNHtGSVO38EGU9KfoXPF1bPsX8SYv313MaT7lieaaPa1tTTIb1t8LFF9/wxcnI8KOvFXjhsnMs5P3b/n/PkqadYTp3ADc6SvI+2k7yxXqFVVDoVnVPCljY0lUQEsFVO0nsU3/+wE3L/p30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777053158; c=relaxed/simple;
-	bh=ZVw1cJ2t1degYNBFcX1lM5AjJWrP2Ykw4E8zWNS3NFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=V1NDb2OzNBBXab1+27JGk51Hxogq8TuywY+IF4j0KHsKqQxIuHdDtWcIQCSgiUh6HN3Tx1k7HLhu1qUxzlA2KTielB8OEAr7Vfpr+Kc2XhXzf22OPsZYnB05sGxyaHucDBxwDAO8jHLzdeEvaE6ZN+rO24R23wggwXroHn9zfg8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=nm8mYTb0; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=VP9RoJ5H; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777053274; c=relaxed/simple;
+	bh=WgaMls5U0OisShyTrOkS3PZGbJmhUxFf2DHxM/lugSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FB1TVbops3lneNrnq4BRE0PQhX1QJBslqgMohbCra6ASLU9j4NeEvtqLci/rzm21MwGU4iseT/9u1KO2aLvaECmPoAHv3hPLII1/SelOEo1dixibTlkpjqEBN0GQREtXVA3MO4t1xOBvQmQIm+qktwNlLB7mAKmA2H9f3+TYo7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=WIxSJJEC; arc=none smtp.client-ip=188.126.83.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="nm8mYTb0";
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="VP9RoJ5H"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4g2LC5436Rz9v09;
-	Fri, 24 Apr 2026 19:52:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777053153;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=nm8mYTb08t43c8nFpk+IRDk5KKB7zSBMPjW0nk9RsHy/dGY6NRqtEs3K6FsZjFqMFbRSxC
-	M7MVCDvX7nHEZDhNxHN7NIydNv4itYaaFq6draj8c1jeKmWxRBzdxqPIGe70K328h57TA2
-	jtuzWSb6mWRlwp9ObXdqnlrz14JQgHwAZPlSOy2ctUICLzh2JRcbl5yo/DgeAnvYSkfqFB
-	WiZZrYcVmqsR8IhZG6Wedms2WBv1+M3nuaPMv7l8sgonj4Anf68iRWzuOLkzZ3r0aFaMZ6
-	qQWkrv2wGPyYC+XeYCE+j936MiQrMlUvcnPtmj8KZL0wMn82qldZbQAwa8Rj0g==
-From: Manuel Ebner <manuelebner@mailbox.org>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777053151;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ddmDedl83zXNIObRm6zW5Jzs9CzNkrFziMH4FhbMenE=;
-	b=VP9RoJ5HzPBvXr+IN02j+eHBaFjw8jTLH+Z/8lMFH/AIb3PN6GB/jRcbXvbwB8XXWHLhOc
-	04bj6PFdVnXFTbz+w2iFxeCTj4Ef8o4khj67l49mPuTCCqnpLF+ehxua9vcLq/FtY/4grQ
-	ehyAF5g92JeMqQWzrMVl0FBwk0an6qbuLAESSo8a1yb1OrYo6vo5TxpGHPjW3MAX+eprK9
-	AoSqmTQoJtNFqcMN7p5WIadPoQtPsjzKAtyr36y4d1T7P230OJXu4Qe7qLv+WJN7WoF095
-	iSNLCVoSTCbPaD/a0xaGHZKBCMxQSe+6O5BPa6tHI158/HfdoL8anburfKQgdQ==
-To: Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	linux-doc@vger.kernel.org
-Cc: Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org,
-	Manuel Ebner <manuelebner@mailbox.org>
-Subject: [PATCH v3 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Fri, 24 Apr 2026 19:51:40 +0200
-Message-ID: <20260424175141.258168-2-manuelebner@mailbox.org>
-In-Reply-To: <20260424174743.257951-2-manuelebner@mailbox.org>
-References: <20260424174743.257951-2-manuelebner@mailbox.org>
+	dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b="WIxSJJEC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
+	s=a; t=1777052848; bh=WgaMls5U0OisShyTrOkS3PZGbJmhUxFf2DHxM/lugSY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:From:Sender:Reply-To:Original-From:
+	 Organization:To:CC:Subject:Original-Subject:Date:Message-ID:
+	 In-Reply-To:References:Original-Message-ID:
+	 Disposition-Notification-To:Disposition-Notification-Options:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 Content-Features:Content-Alternative:Content-Location:
+	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
+	b=WIxSJJECF4clUw9o2wcK+Ae/BBNemkQwAni0uL3lPekcgQ/y0Efoc2WJwDfJHwi5i
+	 us17B/huKxwsWgly1VNypyXt+7B3XAoUNgNO4B7/BjQdTaNzN+jyY4CFvJ1IbrEYeS
+	 t38cjmM/D1ghDeNHmYfkCP2cRkRi/niuDXFlEhDp94F0c2g0jxO6p+gwjHGKvumP/E
+	 nPk07gOjv4X1gS5x34oXobV5cwKSRoc3E0e4RmqsYE9uOre7VNMDdHIXOQ4GQ274Ek
+	 KJkiIKkc0Vc2/cg2QPB/5xccTQ9f4wpKQ7pYs9C0NPKJ0zPb6wZnlZPhQxU3ryxuzL
+	 O7rU4VYKf1+gQ==
+Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
+	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPSA id 137CD407E8F7;
+	Fri, 24 Apr 2026 19:47:28 +0200 (CEST)
+Date: Fri, 24 Apr 2026 19:47:14 +0200
+From: =?UTF-8?B?QmrDtnJu?= Persson <Bjorn@xn--rombobjrn-67a.se>
+To: Lee Jones <lee@kernel.org>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, linux-leds@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] docs: leds: uleds: Make the documentation match the
+ code.
+Message-ID: <20260424194714.71de0ef6@tag.xn--rombobjrn-67a.se>
+In-Reply-To: <20260423152655.GF170138@google.com>
+References: <20260402220811.4804DD8F722@tag.xn--rombobjrn-67a.se>
+ <20260423152655.GF170138@google.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/9p1HensKdgWEdofuDRm2axt";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
+
+--Sig_/9p1HensKdgWEdofuDRm2axt
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-MBO-RS-ID: 8820d89aad0e4e8209e
-X-MBO-RS-META: g45oidfyf1w6moxjguhzu5rkks79nhda
+Content-Transfer-Encoding: quoted-printable
 
-Update the documentation to reflect new type-aware kmalloc-family as
-suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-and family")
+Lee Jones wrote:
+> On Thu, 02 Apr 2026, Bj=C3=B6rn Persson wrote:
+>=20
+> > From: Bj=C3=B6rn Persson <Bjorn@Rombobj=C3=B6rn.se>
+> >=20
+> > =C2=B7 max_brightness must be set. Leaving it uninitialized or just omi=
+tting it
+> >   won't work. =20
+>=20
+> What are these points?  How do you even type one of those?
 
-ptr = kmalloc(sizeof(*ptr), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kmalloc(sizeof(struct some_obj_name), gfp);
- -> ptr = kmalloc_obj(*ptr);
-ptr = kzalloc(sizeof(*ptr), gfp);
- -> ptr = kzalloc_obj(*ptr);
-ptr = kmalloc_array(count, sizeof(*ptr), gfp);
- -> ptr = kmalloc_objs(*ptr, count);
-ptr = kcalloc(count, sizeof(*ptr), gfp);
- -> ptr = kzalloc_objs(*ptr, count);
+The bullet point is the character U+00B7 middle dot. I type it with
+AltGr-period on a Swedish keyboard in Fedora. I don't know what keymap
+your distro uses for your keyboard. I hear some keyboards lack an AltGr
+key.
 
-Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
----
- Documentation/core-api/kref.rst                      |  4 ++--
- Documentation/core-api/list.rst                      |  4 ++--
- Documentation/driver-api/mailbox.rst                 |  4 ++--
- Documentation/driver-api/media/v4l2-fh.rst           |  2 +-
- Documentation/kernel-hacking/locking.rst             |  4 ++--
- Documentation/locking/locktypes.rst                  |  4 ++--
- Documentation/process/coding-style.rst               |  8 ++++----
- .../sound/kernel-api/writing-an-alsa-driver.rst      | 12 ++++++------
- Documentation/spi/spi-summary.rst                    |  4 ++--
- .../translations/it_IT/kernel-hacking/locking.rst    |  4 ++--
- .../translations/it_IT/locking/locktypes.rst         |  4 ++--
- .../translations/it_IT/process/coding-style.rst      |  2 +-
- .../translations/sp_SP/process/coding-style.rst      |  2 +-
- Documentation/translations/zh_CN/core-api/kref.rst   |  4 ++--
- .../translations/zh_CN/process/coding-style.rst      |  2 +-
- .../zh_CN/video4linux/v4l2-framework.txt             |  2 +-
- .../translations/zh_TW/process/coding-style.rst      |  2 +-
- 18 files changed, 36 insertions(+), 36 deletions(-)
+> Anyway, proper sentences / paragraphs is better.
 
-diff --git a/Documentation/core-api/kref.rst b/Documentation/core-api/kref.rst
-index 8db9ff03d952..1c14c036699d 100644
---- a/Documentation/core-api/kref.rst
-+++ b/Documentation/core-api/kref.rst
-@@ -40,7 +40,7 @@ kref_init as so::
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -100,7 +100,7 @@ thread to process::
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-index 241464ca0549..86cd0a1b77ea 100644
---- a/Documentation/core-api/list.rst
-+++ b/Documentation/core-api/list.rst
-@@ -112,7 +112,7 @@ list:
- 
-           /* State 1 */
- 
--          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
-+          grock = kzalloc_obj(*grock);
-           if (!grock)
-                   return -ENOMEM;
-           grock->name = "Grock";
-@@ -123,7 +123,7 @@ list:
- 
-           /* State 2 */
- 
--          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
-+          dimitri = kzalloc_obj(*dimitri);
-           if (!dimitri)
-                   return -ENOMEM;
-           dimitri->name = "Dimitri";
-diff --git a/Documentation/driver-api/mailbox.rst b/Documentation/driver-api/mailbox.rst
-index 463dd032b96c..4bcd73a99115 100644
---- a/Documentation/driver-api/mailbox.rst
-+++ b/Documentation/driver-api/mailbox.rst
-@@ -87,8 +87,8 @@ a message and a callback function to the API and return immediately).
- 		struct async_pkt ap;
- 		struct sync_pkt sp;
- 
--		dc_sync = kzalloc(sizeof(*dc_sync), GFP_KERNEL);
--		dc_async = kzalloc(sizeof(*dc_async), GFP_KERNEL);
-+		dc_sync = kzalloc_obj(*dc_sync);
-+		dc_async = kzalloc_obj(*dc_async);
- 
- 		/* Populate non-blocking mode client */
- 		dc_async->cl.dev = &pdev->dev;
-diff --git a/Documentation/driver-api/media/v4l2-fh.rst b/Documentation/driver-api/media/v4l2-fh.rst
-index a934caa483a4..38319130ebf5 100644
---- a/Documentation/driver-api/media/v4l2-fh.rst
-+++ b/Documentation/driver-api/media/v4l2-fh.rst
-@@ -42,7 +42,7 @@ Example:
- 
- 		...
- 
--		my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+		my_fh = kzalloc_obj(*my_fh);
- 
- 		...
- 
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index dff0646a717b..d02e62367c4f 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -442,7 +442,7 @@ to protect the cache and all the objects within it. Here's the code::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -517,7 +517,7 @@ which are taken away, and the ``+`` are lines which are added.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/locking/locktypes.rst b/Documentation/locking/locktypes.rst
-index 37b6a5670c2f..ac1ad722a9e7 100644
---- a/Documentation/locking/locktypes.rst
-+++ b/Documentation/locking/locktypes.rst
-@@ -498,7 +498,7 @@ allocating memory.  Thus, on a non-PREEMPT_RT kernel the following code
- works perfectly::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- But this code fails on PREEMPT_RT kernels because the memory allocator is
- fully preemptible and therefore cannot be invoked from truly atomic
-@@ -507,7 +507,7 @@ while holding normal non-raw spinlocks because they do not disable
- preemption on PREEMPT_RT kernels::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/process/coding-style.rst b/Documentation/process/coding-style.rst
-index 35b381230f6e..a3bf75dc7c88 100644
---- a/Documentation/process/coding-style.rst
-+++ b/Documentation/process/coding-style.rst
-@@ -936,7 +936,7 @@ used.
- ---------------------
- 
- The kernel provides the following general purpose memory allocators:
--kmalloc(), kzalloc(), kmalloc_array(), kcalloc(), vmalloc(), and
-+kmalloc(), kzalloc(), kmalloc_objs(), kzalloc_objs(), vmalloc(), and
- vzalloc().  Please refer to the API documentation for further information
- about them.  :ref:`Documentation/core-api/memory-allocation.rst
- <memory_allocation>`
-@@ -945,7 +945,7 @@ The preferred form for passing a size of a struct is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- The alternative form where struct name is spelled out hurts readability and
- introduces an opportunity for a bug when the pointer variable type is changed
-@@ -959,13 +959,13 @@ The preferred form for allocating an array is the following:
- 
- .. code-block:: c
- 
--	p = kmalloc_array(n, sizeof(...), ...);
-+	p = kmalloc_objs(*ptr, n, ...);
- 
- The preferred form for allocating a zeroed array is the following:
- 
- .. code-block:: c
- 
--	p = kcalloc(n, sizeof(...), ...);
-+	p = kzalloc_objs(*ptr, n, ...);
- 
- Both forms check for overflow on the allocation size n * sizeof(...),
- and return NULL if that occurred.
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 895752cbcedd..12433612aa9c 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -266,7 +266,7 @@ to details explained in the following section.
-               ....
- 
-               /* allocate a chip-specific data with zero filled */
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL)
-                       return -ENOMEM;
- 
-@@ -628,7 +628,7 @@ After allocating a card instance via :c:func:`snd_card_new()`
-   err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                      0, &card);
-   .....
--  chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+  chip = kzalloc_obj(*chip);
- 
- The chip record should have the field to hold the card pointer at least,
- 
-@@ -747,7 +747,7 @@ destructor and PCI entries. Example code is shown first, below::
-                       return -ENXIO;
-               }
- 
--              chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+              chip = kzalloc_obj(*chip);
-               if (chip == NULL) {
-                       pci_disable_device(pci);
-                       return -ENOMEM;
-@@ -1737,7 +1737,7 @@ callback::
-   {
-           struct my_pcm_data *data;
-           ....
--          data = kmalloc(sizeof(*data), GFP_KERNEL);
-+          data = kmalloc_obj(*data);
-           substream->runtime->private_data = data;
-           ....
-   }
-@@ -3301,7 +3301,7 @@ You can then pass any pointer value to the ``private_data``. If you
- assign private data, you should define a destructor, too. The
- destructor function is set in the ``private_free`` field::
- 
--  struct mydata *p = kmalloc(sizeof(*p), GFP_KERNEL);
-+  struct mydata *p = kmalloc_obj(*p);
-   hw->private_data = p;
-   hw->private_free = mydata_free;
- 
-@@ -3833,7 +3833,7 @@ chip data individually::
-           err = snd_card_new(&pci->dev, index[dev], id[dev], THIS_MODULE,
-                              0, &card);
-           ....
--          chip = kzalloc(sizeof(*chip), GFP_KERNEL);
-+          chip = kzalloc_obj(*chip);
-           ....
-           card->private_data = chip;
-           ....
-diff --git a/Documentation/spi/spi-summary.rst b/Documentation/spi/spi-summary.rst
-index 6e21e6f86912..7ad6af76c247 100644
---- a/Documentation/spi/spi-summary.rst
-+++ b/Documentation/spi/spi-summary.rst
-@@ -249,7 +249,7 @@ And SOC-specific utility code might look something like::
- 	{
- 		struct mysoc_spi_data *pdata2;
- 
--		pdata2 = kmalloc(sizeof *pdata2, GFP_KERNEL);
-+		pdata2 = kmalloc_obj(*pdata2);
- 		*pdata2 = pdata;
- 		...
- 		if (n == 2) {
-@@ -373,7 +373,7 @@ a bus (appearing under /sys/class/spi_master).
- 			return -ENODEV;
- 
- 		/* get memory for driver's per-chip state */
--		chip = kzalloc(sizeof *chip, GFP_KERNEL);
-+		chip = kzalloc(*chip);
- 		if (!chip)
- 			return -ENOMEM;
- 		spi_set_drvdata(spi, chip);
-diff --git a/Documentation/translations/it_IT/kernel-hacking/locking.rst b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-index 4c21cf60f775..acca89a3743a 100644
---- a/Documentation/translations/it_IT/kernel-hacking/locking.rst
-+++ b/Documentation/translations/it_IT/kernel-hacking/locking.rst
-@@ -462,7 +462,7 @@ e tutti gli oggetti che contiene. Ecco il codice::
-     {
-             struct object *obj;
- 
--            if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+            if ((obj = kmalloc_obj(*obj)) == NULL)
-                     return -ENOMEM;
- 
-             strscpy(obj->name, name, sizeof(obj->name));
-@@ -537,7 +537,7 @@ sono quelle rimosse, mentre quelle ``+`` sono quelle aggiunte.
-              struct object *obj;
-     +        unsigned long flags;
- 
--             if ((obj = kmalloc(sizeof(*obj), GFP_KERNEL)) == NULL)
-+             if ((obj = kmalloc_obj(*obj)) == NULL)
-                      return -ENOMEM;
-     @@ -63,30 +64,33 @@
-              obj->id = id;
-diff --git a/Documentation/translations/it_IT/locking/locktypes.rst b/Documentation/translations/it_IT/locking/locktypes.rst
-index 1c7056283b9d..d5fa36aa05cc 100644
---- a/Documentation/translations/it_IT/locking/locktypes.rst
-+++ b/Documentation/translations/it_IT/locking/locktypes.rst
-@@ -488,7 +488,7 @@ o rwlock_t. Per esempio, la sezione critica non deve fare allocazioni di
- memoria. Su un kernel non-PREEMPT_RT il seguente codice funziona perfettamente::
- 
-   raw_spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- Ma lo stesso codice non funziona su un kernel PREEMPT_RT perché l'allocatore di
- memoria può essere oggetto di prelazione e quindi non può essere chiamato in un
-@@ -497,7 +497,7 @@ trattiene un blocco *non-raw* perché non disabilitano la prelazione sui kernel
- PREEMPT_RT::
- 
-   spin_lock(&lock);
--  p = kmalloc(sizeof(*p), GFP_ATOMIC);
-+  p = kmalloc_obj(*p, GFP_ATOMIC);
- 
- 
- bit spinlocks
-diff --git a/Documentation/translations/it_IT/process/coding-style.rst b/Documentation/translations/it_IT/process/coding-style.rst
-index c0dc786b8474..2a499412a2e3 100644
---- a/Documentation/translations/it_IT/process/coding-style.rst
-+++ b/Documentation/translations/it_IT/process/coding-style.rst
-@@ -943,7 +943,7 @@ Il modo preferito per passare la dimensione di una struttura è il seguente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa, dove il nome della struttura viene scritto interamente,
- peggiora la leggibilità e introduce possibili bachi quando il tipo di
-diff --git a/Documentation/translations/sp_SP/process/coding-style.rst b/Documentation/translations/sp_SP/process/coding-style.rst
-index 7d63aa8426e6..44c93d5f6beb 100644
---- a/Documentation/translations/sp_SP/process/coding-style.rst
-+++ b/Documentation/translations/sp_SP/process/coding-style.rst
-@@ -955,7 +955,7 @@ La forma preferida para pasar el tamaño de una estructura es la siguiente:
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- La forma alternativa donde se deletrea el nombre de la estructura perjudica
- la legibilidad, y presenta una oportunidad para un error cuando se cambia
-diff --git a/Documentation/translations/zh_CN/core-api/kref.rst b/Documentation/translations/zh_CN/core-api/kref.rst
-index b9902af310c5..fcff01e99852 100644
---- a/Documentation/translations/zh_CN/core-api/kref.rst
-+++ b/Documentation/translations/zh_CN/core-api/kref.rst
-@@ -52,7 +52,7 @@ kref可以出现在数据结构体中的任何地方。
- 
-      struct my_data *data;
- 
--     data = kmalloc(sizeof(*data), GFP_KERNEL);
-+     data = kmalloc_obj(*data);
-      if (!data)
-             return -ENOMEM;
-      kref_init(&data->refcount);
-@@ -106,7 +106,7 @@ Kref规则
- 	int rv = 0;
- 	struct my_data *data;
- 	struct task_struct *task;
--	data = kmalloc(sizeof(*data), GFP_KERNEL);
-+	data = kmalloc_obj(*data);
- 	if (!data)
- 		return -ENOMEM;
- 	kref_init(&data->refcount);
-diff --git a/Documentation/translations/zh_CN/process/coding-style.rst b/Documentation/translations/zh_CN/process/coding-style.rst
-index 5a342a024c01..55d5da974d89 100644
---- a/Documentation/translations/zh_CN/process/coding-style.rst
-+++ b/Documentation/translations/zh_CN/process/coding-style.rst
-@@ -813,7 +813,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一种传递方式中，sizeof 的操作数是结构体的名字，这样会降低可读性，并且可能
- 会引入 bug。有可能指针变量类型被改变时，而对应的传递给内存分配函数的 sizeof
-diff --git a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-index f0be21a60a0f..ba43c5c4797c 100644
---- a/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-+++ b/Documentation/translations/zh_CN/video4linux/v4l2-framework.txt
-@@ -799,7 +799,7 @@ int my_open(struct file *file)
- 
- 	...
- 
--	my_fh = kzalloc(sizeof(*my_fh), GFP_KERNEL);
-+	my_fh = kzalloc_obj(*my_fh);
- 
- 	...
- 
-diff --git a/Documentation/translations/zh_TW/process/coding-style.rst b/Documentation/translations/zh_TW/process/coding-style.rst
-index e2ba97b3d8bb..63c78982a1af 100644
---- a/Documentation/translations/zh_TW/process/coding-style.rst
-+++ b/Documentation/translations/zh_TW/process/coding-style.rst
-@@ -827,7 +827,7 @@ Documentation/translations/zh_CN/core-api/memory-allocation.rst 。
- 
- .. code-block:: c
- 
--	p = kmalloc(sizeof(*p), ...);
-+	p = kmalloc_obj(*p, ...);
- 
- 另外一種傳遞方式中，sizeof 的操作數是結構體的名字，這樣會降低可讀性，並且可能
- 會引入 bug。有可能指針變量類型被改變時，而對應的傳遞給內存分配函數的 sizeof
--- 
-2.53.0
+You mean you dislike bulleted lists?
 
+Or if you mean that the first sentence doesn't begin with a capital M,
+that's because identifiers are case-sensitive in C. There is no
+Max_brightness, and if it were defined, it would be different from
+max_brightness.
+
+Otherwise I don't understand what you mean with "proper sentences", as
+I don't see any grammatical errors.
+
+> > -A new LED class device will be created with the name given. The name c=
+an be
+> > -any valid sysfs device node name, but consider using the LED class nam=
+ing
+> > -convention of "devicename:color:function".
+> > +A new LED class device will be created with the given name and maximum=
+ =20
+>=20
+> Did you mean to revers "name given"?  A "given name" usually means
+> something else.
+
+I felt that "the name and maximum brightness given" would be
+grammatically awkward.
+
+To prevent misinterpretation, how about replacing "given" with a
+synonym? Perhaps "the specified name and maximum brightness"? Another
+option is "the given maximum brightness and name", but it feels a
+little odd to mention the brightness before the name.
+
+> > +Although max_brightness is a signed int, only positive values are vali=
+d:
+> > +1 to INT_MAX. =20
+>=20
+> What about 0?
+
+That will get you an EINVAL from uleds.c =E2=80=93 presumably because a
+brightness interval from 0 to 0 would be pointless. That LED would never
+be lit.
+
+> > +The current brightness is found by reading a whole int from the charac=
+ter =20
+>=20
+> Try not to shorten names in documentation "integer".
+
+The type is named "int" in C. There are many integer types, but it would
+be wrong to try to read a uint16_t or a size_t or any other integer
+type. The document needs to use the actual type name to make it clear to
+the reader that they must read sizeof(int) bytes.
+
+> Why do we need to specify "whole"?
+
+Because you can't read it piecemeal. Usually when you read from a disk
+file, a pipe, a TCP socket or some other bytestream, the system call
+will let you read one byte at a time if you want. A reader might assume
+that /dev/uleds works the same way.
+
+=46rom a datagram socket you can read the beginning of a datagram and
+discard the part that doesn't fit in your buffer. To a reader with a
+little-endian system and max_brightness =E2=89=A4 255, it might seem logical
+that they'd be able to read the first byte and discard the bits that
+will always be zero.
+
+I thought "whole" would communicate to the reader that they must read
+sizeof(int) bytes in a single system call.
+
+It seems this wording wasn't enough to get the point across that it's
+necessary to read an int, a whole int, and nothing but an int. Do you
+think the document needs to expound that point more?
+
+Bj=C3=B6rn Persson
+
+--Sig_/9p1HensKdgWEdofuDRm2axt
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signatur
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCgAdFiEE52SginNFTPmg+iBb4Tha3NZK5j8FAmnrrKIACgkQ4Tha3NZK
+5j8YZA//ZF4R7F0CtoUSf9Oj6W+8/spe9/angJSTShMpi0oAv9xIy2rGhcXh21++
+F1ErxzPhHNj4wtxLvDicugdo0TbrR9aZuk8nTrLz2iXYHKMDbi6Fdb8Zy14I9Twx
+fsYC5yYvYCUoOs3URzvV9oGqt6iIfD0l+819GsCHRxd4kxdynGhbBdaDB4+9kksM
+W3h92eEaSwTYcTr32q89c3fxzig7lZMZ1zRNi838GKjdcQlWDJOeal3kgleG4kVy
+LQlhmzb7oJesriasAbzYh97MQP/GbGF4ArGFncj6AvEOLLMo88xaPiKZbHKgLKz2
+iwMr4AsmW7mnHx9ke2GadbXE1g9TatS8L4R+DWhKiKvrZ10jCQgFdjAkh71YRV6g
+6Yga+Q/qt1AUhwgJ2U8pDMjj3c+pqeJOS/Tbr2Hhz/BIrLSqdPG5Jy0cTfirxtS0
+0UxbHh6lRlwKlTnJxVaB2ogJhgUzTZs8cv2SsJ1lm8Iwj0U3eqQVpas7a7YzCUTZ
+j+j/Cca2KLP7mEpCuQ0+ztZJK0S5IpLV6ECjmIdpnvj6Ey4Ooi/eCbhFZD4Z/4mX
+9JMEVJcJnoCyNLSFit92VDOZUYbrK0nrL1hNUzN5Ho+J67dE2kNydJ7jA76nBBzD
+VaxDL2zearSyyrQw/t63slBxwM7GNpx3exrVnU3AkzX1X7yXY64=
+=+z4K
+-----END PGP SIGNATURE-----
+
+--Sig_/9p1HensKdgWEdofuDRm2axt--
