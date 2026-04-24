@@ -1,33 +1,49 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F226A33D4F0;
-	Fri, 24 Apr 2026 18:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC133F54A9
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 18:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777055304; cv=none; b=lQboMblvYjtIrJsk0yhlqKmENu4/zIKFHUDQl6YA075X5e+mrOdL7w3hTa1nx72Z3ZvMLk+zDsS+pRgfFY84DSoOoln6PbqjBI2W5o/eFscBy6YEfw4l41dwz46rEDGBb21ddQSm1jsSMtLqcIpSLagWqrTpsbiLatTXtdM1cLU=
+	t=1777055594; cv=none; b=RiLKi1lUZbe8iRtowYIjPsGHYXlI73H10BZ5361wG0to3BruadL0WFiyQ2+OAWxykqji5mxLe5irxbA0evUvDi/vh7RD3LCEDH6fGY+LnsOmSNT641PUD1H7olqtTGHb6NKQ3BdUMn4eGPAV2w4klYaKBDbgBoOcs3MgUInhJq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777055304; c=relaxed/simple;
-	bh=nsCK8lA2BzQi4jFTXuDqLHYn5FbisryKK3hHm2rfaCQ=;
+	s=arc-20240116; t=1777055594; c=relaxed/simple;
+	bh=5KKtAI6jaBrVREHQpySmvtkbvTyy3jqrl7fEoimPtZY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WYlRlDYtz9QcfJ4T0ilrStLvhNPSjpG0ZAOGxWfbpONzL1zaE2Z2IdVJMNKpXx3tfV+dpEOZ/qD6YzNeg2IgdB6ioYbAHyD93O8yxjaQ4cDyuoRMK1qSGokuERW8STQOaUWD9zNjnaAo1MFhau0woHsbvoGxQc8UpmUPtmVd9Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n1BTff07; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=Fn2+Et7FMVTJNbFW/ecf2j6owqQOffBZpaFXE3matXWBjljLeFCHychulptAVr6E1N2Z+UiciyM6d3KRdkP4I578ogKmYywcflbZJRZVAgnBM6rEa+W0ouCM293ebvw8w1hz3VEqKZKi1WXGqWNXzH9UWL5+0cT9QVwpxxp/Z5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iGbdGzzE; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n1BTff07"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F30E6C2BCB0;
-	Fri, 24 Apr 2026 18:28:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777055303;
-	bh=nsCK8lA2BzQi4jFTXuDqLHYn5FbisryKK3hHm2rfaCQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n1BTff07OGkd3Ad8zf+5Bg+/axUDSkNbg4CLYAhI1ceEUwVlSFzuGBu8va3AnWbfm
-	 R9MDSh1MWXNVKGAfKQZhvO7Xh601sjrX7CiCWftSrNhbp76H9xrctIXgNkXfdqc+5J
-	 p9vNHjPyrVzsjO/5J6nMqkebRtSgewFkQKOUJJTzCVOhEfTkBEU/hSNYD4gsQbxsb5
-	 OGZjVoSabsi/F7bgQcZ1cFU1UoghdExt9DoSMe7U1D+VwL4tC2GqdEzpeQLHFmPH4u
-	 yzPQh1OYyts/vthGnzJmF2OYhJ8dkwv8ep3mF9KXPaIz2SI/wc7zRj7t1iMUbQXcoj
-	 hyT5th/hP8pYA==
-Message-ID: <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org>
-Date: Fri, 24 Apr 2026 20:28:14 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iGbdGzzE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777055589;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/+Ofdg4jOEN9y2ToBzvsak04ExFbOMNwCGnfdG4OLXM=;
+	b=iGbdGzzEYfGIf062JcV2HCXfUPfx4RTrVhxBfW76Zk0h/SJFGDvjcnKNfpVVt7VXNVm/Jq
+	WzSshcwKX9OrZmoPwK1tung/vsvzkFGUAzEHPM3GUbCpnOFhXcZs4LDCuabV7uZPOiIKih
+	n92KeKu7I82WwsFM11b1wQK8/f5WNvA=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-665-wNN_jrdwPo6U_kJxLlYKOg-1; Fri,
+ 24 Apr 2026 14:33:03 -0400
+X-MC-Unique: wNN_jrdwPo6U_kJxLlYKOg-1
+X-Mimecast-MFC-AGG-ID: wNN_jrdwPo6U_kJxLlYKOg_1777055577
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D7825195608B;
+	Fri, 24 Apr 2026 18:32:55 +0000 (UTC)
+Received: from [10.22.88.143] (unknown [10.22.88.143])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 4304319560AB;
+	Fri, 24 Apr 2026 18:32:45 +0000 (UTC)
+Message-ID: <2658f7a3-5156-4cc5-86c4-b23627e4b5f2@redhat.com>
+Date: Fri, 24 Apr 2026 14:32:45 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,102 +51,137 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-To: Pasha Tatashin <pasha.tatashin@soleen.com>,
- Sasha Levin <sashal@kernel.org>
-Cc: akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org,
- Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org,
- surenb@google.com, mhocko@suse.com, skhan@linuxfoundation.org,
- jackmanb@google.com, hannes@cmpxchg.org, ziy@nvidia.com, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- Sasha Levin <sashal@nvidia.com>, Sanif Veeras <sveeras@nvidia.com>,
- "Claude:claude-opus-4-7" <noreply@anthropic.com>
-References: <20260424140056.2094777-1-sashal@kernel.org>
- <20260424140056.2094777-5-sashal@kernel.org>
- <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org> <aeuC6TJ4XowazVZj@laps>
- <aeuFnuiYDBjttEKt@plex>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
+Subject: Re: [PATCH 19/23] cgroup/cpuset: Improve check for calling
+ housekeeping_update()
+To: Chen Ridong <chenridong@huaweicloud.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?=
+ <mkoutny@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ "K. Y. Srinivasan" <kys@microsoft.com>,
+ Haiyang Zhang <haiyangz@microsoft.com>, Wei Liu <wei.liu@kernel.org>,
+ Dexuan Cui <decui@microsoft.com>, Long Li <longli@microsoft.com>,
+ Guenter Roeck <linux@roeck-us.net>, Frederic Weisbecker
+ <frederic@kernel.org>, "Paul E. McKenney" <paulmck@kernel.org>,
+ Neeraj Upadhyay <neeraj.upadhyay@kernel.org>,
+ Joel Fernandes <joelagnelf@nvidia.com>, Josh Triplett
+ <josh@joshtriplett.org>, Boqun Feng <boqun@kernel.org>,
+ Uladzislau Rezki <urezki@gmail.com>, Steven Rostedt <rostedt@goodmis.org>,
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+ Lai Jiangshan <jiangshanlai@gmail.com>, Zqiang <qiang.zhang@linux.dev>,
+ Anna-Maria Behnsen <anna-maria@linutronix.de>, Ingo Molnar
+ <mingo@kernel.org>, Thomas Gleixner <tglx@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>,
+ Vincent Guittot <vincent.guittot@linaro.org>,
+ Dietmar Eggemann <dietmar.eggemann@arm.com>, Ben Segall
+ <bsegall@google.com>, Mel Gorman <mgorman@suse.de>,
+ Valentin Schneider <vschneid@redhat.com>,
+ K Prateek Nayak <kprateek.nayak@amd.com>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-hyperv@vger.kernel.org, linux-hwmon@vger.kernel.org,
+ rcu@vger.kernel.org, netdev@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Costa Shulyupin <cshulyup@redhat.com>,
+ Qiliang Yuan <realwujing@gmail.com>
+References: <20260421030351.281436-1-longman@redhat.com>
+ <20260421030351.281436-20-longman@redhat.com>
+ <e8824498-f8ec-496a-a21c-d1dc594f4c8e@huaweicloud.com>
 Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aeuFnuiYDBjttEKt@plex>
-Content-Type: text/plain; charset=UTF-8
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <e8824498-f8ec-496a-a21c-d1dc594f4c8e@huaweicloud.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On 4/24/26 17:06, Pasha Tatashin wrote:
-> On 04-24 10:49, Sasha Levin wrote:
->> On Fri, Apr 24, 2026 at 04:25:41PM +0200, David Hildenbrand (Arm) wrote:
->>>
->>> One bitmap that covers all sparse memory available at boot.
->>>
->>> Conclusion: Just horrible.
+On 4/22/26 9:10 PM, Chen Ridong wrote:
+>
+> On 2026/4/21 11:03, Waiman Long wrote:
+>> By making sure that isolated_hk_cpus matches isolated_cpus at boot time,
+>> we can more accurately determine if calling housekeeping_update()
+>> is needed by comparing if the two cpumasks are equal. The
+>> update_housekeeping flag still have a use in cpuset_handle_hotplug()
+>> to determine if a work function should be queued to invoke
+>> cpuset_update_sd_hk_unlock() as it is not supposed to look at
+>> isolated_hk_cpus without holding cpuset_top_mutex.
 >>
->> Depends on who's looking at the code :)
+> Currently, isolated_hk_cpus is updated within the cpuset_mutex critical section
+> (before mutex_unlock(&cpuset_mutex)) in cpuset_update_sd_hk_unlock. Therefore, I
+> think update_housekeeping can now be removed.
+
+That is true. I will remove in the next version.
+
+Thanks,
+Longman
+
+>
+>> Signed-off-by: Waiman Long <longman@redhat.com>
+>> ---
+>>   kernel/cgroup/cpuset.c | 36 ++++++++++++++++++++----------------
+>>   1 file changed, 20 insertions(+), 16 deletions(-)
 >>
->> I picked it for auditability: covering the whole range with two
->> memblock_alloc'd arrays means the only thing on the lookup path is the bitmap
->> words themselves, which is what the dual-bitmap invariant already checks.
-> 
-> The issue is that we are going back in time to a flat memory,
-> without NUMA or hotplug support. We need an abstraction that avoids
-> allocating this memory in enormous contiguous chunks, as thit approach
-> will not work on modern hardware.
-> 
->>
->> We could go with per-section bitmaps which will fix the waste but pull
->> mem_section[] into the trust boundary, so we'd have to start validating it too.
-> 
-> Page-ext provides all of these capabilities, but as you described in the
-> cover letter, it does not meet your requirements. Therefore, I believe
-> a new abstraction layer is needed.
+>> diff --git a/kernel/cgroup/cpuset.c b/kernel/cgroup/cpuset.c
+>> index a4eccb0ec0d1..1b0c50b46a49 100644
+>> --- a/kernel/cgroup/cpuset.c
+>> +++ b/kernel/cgroup/cpuset.c
+>> @@ -1339,26 +1339,29 @@ static void cpuset_update_sd_hk_unlock(void)
+>>   	__releases(&cpuset_mutex)
+>>   	__releases(&cpuset_top_mutex)
+>>   {
+>> +	update_housekeeping = false;
+>> +
+>>   	/* force_sd_rebuild will be cleared in rebuild_sched_domains_locked() */
+>>   	if (force_sd_rebuild)
+>>   		rebuild_sched_domains_locked();
+>>   
+>> -	if (update_housekeeping) {
+>> -		update_housekeeping = false;
+>> -		cpumask_copy(isolated_hk_cpus, isolated_cpus);
+>> -
+>> -		/*
+>> -		 * housekeeping_update() is now called without holding
+>> -		 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
+>> -		 * is still being held for mutual exclusion.
+>> -		 */
+>> -		mutex_unlock(&cpuset_mutex);
+>> -		cpus_read_unlock();
+>> -		WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
+>> -		mutex_unlock(&cpuset_top_mutex);
+>> -	} else {
+>> +	if (cpumask_equal(isolated_hk_cpus, isolated_cpus)) {
+>> +		/* No housekeeping cpumask update needed */
+>>   		cpuset_full_unlock();
+>> +		return;
+>>   	}
+>> +
+>> +	cpumask_copy(isolated_hk_cpus, isolated_cpus);
+>> +
+>> +	/*
+>> +	 * housekeeping_update() is now called without holding
+>> +	 * cpus_read_lock and cpuset_mutex. Only cpuset_top_mutex
+>> +	 * is still being held for mutual exclusion.
+>> +	 */
+>> +	mutex_unlock(&cpuset_mutex);
+>> +	cpus_read_unlock();
+>> +	WARN_ON_ONCE(housekeeping_update(isolated_hk_cpus, BIT(HK_TYPE_DOMAIN)));
+>> +	mutex_unlock(&cpuset_top_mutex);
+>>   }
+>>   
+>>   /*
+>> @@ -3692,10 +3695,11 @@ int __init cpuset_init(void)
+>>   
+>>   	BUG_ON(!alloc_cpumask_var(&cpus_attach, GFP_KERNEL));
+>>   
+>> -	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT))
+>> +	if (housekeeping_enabled(HK_TYPE_DOMAIN_BOOT)) {
+>>   		cpumask_andnot(isolated_cpus, cpu_possible_mask,
+>>   			       housekeeping_cpumask(HK_TYPE_DOMAIN_BOOT));
+>> -
+>> +		cpumask_copy(isolated_hk_cpus, isolated_cpus);
+>> +	}
+>>   	return 0;
+>>   }
+>>   
 
-If we decided that we want this (and I am not convinced), we definitely want
-something that supports sparsity and, in particular, something that support
-memory hotplug.
-
--- 
-Cheers,
-
-David
