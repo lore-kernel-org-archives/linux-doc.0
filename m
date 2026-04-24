@@ -1,33 +1,33 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDBFA2D8DC4;
-	Fri, 24 Apr 2026 15:19:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 554E02E8B9B;
+	Fri, 24 Apr 2026 15:19:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777043958; cv=none; b=EOL83x1EMhYM6brh77VOjgTRRD+qLKPJky2XJnKvOXtmKjX14s1HDoGFDa7YxUPo8Sn/gR6H3YOytYe2VIzy+pqVXFT6L/Eit+6dusHFTwXHHzERv1K7oxLhtI1gWTcwvfQp8XnGkRzwDQ8LvRbNg0TylcHsY33gfZSd2e0iPbc=
+	t=1777043962; cv=none; b=YkDGRrDHQUzpS1ofPh+pdtmg9Gb4ca4LMaTo8flAAKNbtYPXkAfOZAddntCyAjNlvrDmS2UxVGo4pJuSMuRlBLKesgxvqN6JCtrHC3EhRLBvggi04d7tf/27oHEUet8ynLqTiJn2mUh+K4YZNNkFJ3wrNhZwiCUBFr5O6ekGVlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777043958; c=relaxed/simple;
-	bh=38HZnkF49GgvZX+AquY+zMX+HOu8oPVpHVWQCi1dfno=;
+	s=arc-20240116; t=1777043962; c=relaxed/simple;
+	bh=cEi4t4R7z5qw7S83+FnxUKjQs4TGfmgaCpSsRrd+oWg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zy80DjlY3KSb7IRbsi8yK+d/sWGpiD0/+oGmMVgWy1kx2Nd65N2REgjXJCs6Zayi+7T0PMLf3qECBBaXPvcW3TpzYJN1jQI181YaV7RwXRuj8I4lo13y0X7zUr2B0iwgEUlx/AbJK+lCLqIDmUTfoFMLLfJJHjdjZFR2eVYIyK0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=ZgOSxhNR; arc=none smtp.client-ip=217.140.110.172
+	 In-Reply-To:Content-Type; b=Vau0cUKmJdxrsnr4R/uzUl4LeNtGF1ThKoPiutkN6+EekECP7f6E2d80j0nEmWAqj095wS114K7Q1eDepbfp92ee/oPtAkqrRnfZD4dDggDbML5j19QN35IscAQPgsL5Z+LZ7NFR/isQh9WaYiVY5mzezcWMTGclblOV70USJLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=e6Kq0Vb6; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="ZgOSxhNR"
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="e6Kq0Vb6"
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6D9CE1BB2;
-	Fri, 24 Apr 2026 08:19:04 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 608B4358A;
+	Fri, 24 Apr 2026 08:19:07 -0700 (PDT)
 Received: from [10.1.26.15] (e122027.cambridge.arm.com [10.1.26.15])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id BDC363F7B4;
-	Fri, 24 Apr 2026 08:19:06 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 57D733F7B4;
+	Fri, 24 Apr 2026 08:19:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777043949; bh=38HZnkF49GgvZX+AquY+zMX+HOu8oPVpHVWQCi1dfno=;
+	t=1777043952; bh=cEi4t4R7z5qw7S83+FnxUKjQs4TGfmgaCpSsRrd+oWg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZgOSxhNRWDomjPidKTJbJirA9pvNd8ZF/01IoIl8eZ23xGienv7PyL2UJPkjAPzVH
-	 sxNpa00THjMiv/r8eB/hHcOOg/7TTgedzuW03SW0DjufRPsdqSoaZAyMBQAMlkXZbq
-	 R9Ps7ae8xgU2TvXbENtWAgmI1mAWXAHq0hCnax5A=
-Message-ID: <2da968e4-96b0-481c-b51b-44d546c9315f@arm.com>
-Date: Fri, 24 Apr 2026 16:19:04 +0100
+	b=e6Kq0Vb6k+R0Yqtpabc6n8T2gQya3cHrC8F4K3qrqnW9RLg9750Z9Skd5hsfL/L4f
+	 P7XMVWG54EFWNhgQw8SKanLkpB88MkYN8BdG4TmbqcLEZpOOfGW/xIltJT3qrneJwO
+	 wRWCx66HHiLghfcYnARi95AnXovVArijMz0fo7Ig=
+Message-ID: <145ed843-37c9-45cd-8f07-604d03fdc5df@arm.com>
+Date: Fri, 24 Apr 2026 16:19:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,7 +35,8 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/3] drm/fdinfo: Add "evicted" memory accounting
+Subject: Re: [PATCH v3 2/3] drm/panthor: Implement evicted status for GEM
+ objects
 To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -46,137 +47,157 @@ To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
 Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
  kernel@collabora.com, linux-doc@vger.kernel.org
 References: <20260423-panthor-bo-reclaim-observability-v3-0-60af32164a4f@collabora.com>
- <20260423-panthor-bo-reclaim-observability-v3-1-60af32164a4f@collabora.com>
+ <20260423-panthor-bo-reclaim-observability-v3-2-60af32164a4f@collabora.com>
 From: Steven Price <steven.price@arm.com>
 Content-Language: en-GB
-In-Reply-To: <20260423-panthor-bo-reclaim-observability-v3-1-60af32164a4f@collabora.com>
+In-Reply-To: <20260423-panthor-bo-reclaim-observability-v3-2-60af32164a4f@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 23/04/2026 13:33, Nicolas Frattaroli wrote:
-> Currently, there's no way to know for certain how much GPU memory was
-> swapped out. The difference between total and resident memory would
-> include newly allocated pages, which are not resident, but also aren't
-> swapped out.
+> For fdinfo to be able to fill its evicted counter with data, panthor
+> needs to keep track of whether a GEM object has ever been reclaimed.
+> Just checking whether the pages are resident isn't enough, as newly
+> allocated objects also won't be resident.
 > 
-> Add a new drm_gem_object_status so drivers can signal when an object has
-> been evicted to swap, and add a new "evicted" counter to
-> drm_memory_stats.
+> Do this with a new atomic_t member on panthor_gem_object. It's increased
+> when an object gets evicted by the shrinker, and saturates at INT_MAX.
+> This means that once an object has been evicted at least once, its
+> reclaim counter will never return to 0.
 > 
-> Due to how the supported_flags bitmask is determined, the "evicted"
-> count won't be printed to fdinfo if there's no swapped out pages.
+> Due to this, it's possible to distinguish evicted non-resident pages
+> from newly allocated non-resident pages by checking whether
+> reclaimed_count is != 0
+> 
+> Use this new member to then set the appropriate DRM_GEM_OBJECT_EVICTED
+> status flag for fdinfo.
+> 
+> Also add a new column and status flag to the panthor gems debugfs: the
+> column is the number of times an object has been evicted, whereas the
+> flag indicates whether it currently is evicted.
 > 
 > Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-
-One NIT below, but either way:
 
 Reviewed-by: Steven Price <steven.price@arm.com>
 
 > ---
->  Documentation/gpu/drm-usage-stats.rst | 6 ++++++
->  drivers/gpu/drm/drm_file.c            | 8 ++++++++
->  include/drm/drm_file.h                | 2 ++
->  include/drm/drm_gem.h                 | 2 ++
->  4 files changed, 18 insertions(+)
+>  drivers/gpu/drm/panthor/panthor_gem.c | 18 ++++++++++++++----
+>  drivers/gpu/drm/panthor/panthor_gem.h | 10 ++++++++++
+>  2 files changed, 24 insertions(+), 4 deletions(-)
 > 
-> diff --git a/Documentation/gpu/drm-usage-stats.rst b/Documentation/gpu/drm-usage-stats.rst
-> index 24d3012ca7a6..11570976095e 100644
-> --- a/Documentation/gpu/drm-usage-stats.rst
-> +++ b/Documentation/gpu/drm-usage-stats.rst
-> @@ -200,6 +200,12 @@ One practical example of this could be the presence of unsignaled fences in a
->  GEM buffer reservation object. Therefore, the active category is a subset of the
->  resident category.
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 69cef05b6ef7..b6fe20b7e6d0 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -687,6 +687,8 @@ static void panthor_gem_evict_locked(struct panthor_gem_object *bo)
+>  	if (drm_WARN_ON_ONCE(bo->base.dev, !bo->backing.pages))
+>  		return;
 >  
-> +- drm-evicted-<region>: <uint> [KiB|MiB]
+> +	atomic_add_unless(&bo->reclaimed_count, 1, INT_MAX);
 > +
-> +The total size of buffers that have been evicted and are currently in swap
-> +space. Only present if there are buffers that are currently swapped out, and the
-
-NIT: Technically the memory may not be swapped out. Evicted memory is
-memory which has been unpinned by the driver, whether the swap
-infrastructure has actually moved it to swap is another matter.
-
-Thanks,
-
-Steve
-
-> +driver implements reporting of this type of memory.
-> +
->  Implementation Details
->  ======================
+>  	panthor_gem_dev_map_cleanup_locked(bo);
+>  	panthor_gem_backing_cleanup_locked(bo);
+>  	panthor_gem_update_reclaim_state_locked(bo, NULL);
+> @@ -788,6 +790,8 @@ static enum drm_gem_object_status panthor_gem_status(struct drm_gem_object *obj)
 >  
-> diff --git a/drivers/gpu/drm/drm_file.c b/drivers/gpu/drm/drm_file.c
-> index ec820686b302..5078172976c0 100644
-> --- a/drivers/gpu/drm/drm_file.c
-> +++ b/drivers/gpu/drm/drm_file.c
-> @@ -868,6 +868,7 @@ int drm_memory_stats_is_zero(const struct drm_memory_stats *stats)
->  		stats->private == 0 &&
->  		stats->resident == 0 &&
->  		stats->purgeable == 0 &&
-> +		stats->evicted == 0 &&
->  		stats->active == 0);
+>  	if (drm_gem_is_imported(&bo->base) || bo->backing.pages)
+>  		res |= DRM_GEM_OBJECT_RESIDENT;
+> +	else if (atomic_read(&bo->reclaimed_count))
+> +		res |= DRM_GEM_OBJECT_EVICTED;
+>  
+>  	return res;
 >  }
->  EXPORT_SYMBOL(drm_memory_stats_is_zero);
-> @@ -901,6 +902,10 @@ void drm_print_memory_stats(struct drm_printer *p,
->  	if (supported_status & DRM_GEM_OBJECT_PURGEABLE)
->  		drm_fdinfo_print_size(p, prefix, "purgeable", region,
->  				      stats->purgeable);
-> +
-> +	if (supported_status & DRM_GEM_OBJECT_EVICTED)
-> +		drm_fdinfo_print_size(p, prefix, "evicted", region,
-> +				      stats->evicted);
->  }
->  EXPORT_SYMBOL(drm_print_memory_stats);
+> @@ -1595,6 +1599,7 @@ static void panthor_gem_debugfs_print_flag_names(struct seq_file *m)
+>  	static const char * const gem_state_flags_names[] = {
+>  		[PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT] = "imported",
+>  		[PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT] = "exported",
+> +		[PANTHOR_DEBUGFS_GEM_STATE_EVICTED_BIT] = "evicted",
+>  	};
 >  
-> @@ -954,6 +959,9 @@ void drm_show_memory_stats(struct drm_printer *p, struct drm_file *file)
+>  	static const char * const gem_usage_flags_names[] = {
+> @@ -1625,6 +1630,7 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+>  {
+>  	enum panthor_gem_reclaim_state reclaim_state = bo->reclaim_state;
+>  	unsigned int refcount = kref_read(&bo->base.refcount);
+> +	int reclaimed_count = atomic_read(&bo->reclaimed_count);
+>  	char creator_info[32] = {};
+>  	size_t resident_size;
+>  	u32 gem_usage_flags = bo->debugfs.flags;
+> @@ -1638,16 +1644,20 @@ static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
 >  
->  		if (s & DRM_GEM_OBJECT_PURGEABLE)
->  			status.purgeable += add_size;
+>  	snprintf(creator_info, sizeof(creator_info),
+>  		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> -	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd0x%-16lx",
+> +	seq_printf(m, "%-32s%-16d%-16d%-11d%-16zd%-16zd0x%-16lx",
+>  		   creator_info,
+>  		   bo->base.name,
+>  		   refcount,
+> +		   reclaimed_count,
+>  		   bo->base.size,
+>  		   resident_size,
+>  		   drm_vma_node_start(&bo->base.vma_node));
+>  
+>  	if (drm_gem_is_imported(&bo->base))
+>  		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+> +	else if (!resident_size && reclaimed_count)
+> +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EVICTED;
 > +
-> +		if (s & DRM_GEM_OBJECT_EVICTED)
-> +			status.evicted += add_size;
+>  	if (bo->base.dma_buf)
+>  		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+>  
+> @@ -1671,8 +1681,8 @@ static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+>  
+>  	panthor_gem_debugfs_print_flag_names(m);
+>  
+> -	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset       state      usage       label\n");
+> -	seq_puts(m, "----------------------------------------------------------------------------------------------------------------------------------------------\n");
+> +	seq_puts(m, "created-by                      global-name     refcount        evictions  size            resident-size   file-offset       state      usage       label\n");
+> +	seq_puts(m, "---------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+>  
+>  	scoped_guard(mutex, &ptdev->gems.lock) {
+>  		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+> @@ -1680,7 +1690,7 @@ static void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+>  		}
 >  	}
->  	spin_unlock(&file->table_lock);
 >  
-> diff --git a/include/drm/drm_file.h b/include/drm/drm_file.h
-> index 6ee70ad65e1f..213dfecac342 100644
-> --- a/include/drm/drm_file.h
-> +++ b/include/drm/drm_file.h
-> @@ -500,6 +500,7 @@ void drm_send_event_timestamp_locked(struct drm_device *dev,
->   * @resident: Total size of GEM objects backing pages
->   * @purgeable: Total size of GEM objects that can be purged (resident and not active)
->   * @active: Total size of GEM objects active on one or more engines
-> + * @evicted: Total size of GEM objects that have been evicted to swap
->   *
->   * Used by drm_print_memory_stats()
->   */
-> @@ -509,6 +510,7 @@ struct drm_memory_stats {
->  	u64 resident;
->  	u64 purgeable;
->  	u64 active;
-> +	u64 evicted;
+> -	seq_puts(m, "==============================================================================================================================================\n");
+> +	seq_puts(m, "=========================================================================================================================================================\n");
+>  	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+>  		   totals.size, totals.resident, totals.reclaimable);
+>  }
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index ae0491d0b121..56d63137b4eb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -19,12 +19,16 @@ struct panthor_vm;
+>  enum panthor_debugfs_gem_state_flags {
+>  	PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT = 0,
+>  	PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT = 1,
+> +	PANTHOR_DEBUGFS_GEM_STATE_EVICTED_BIT = 2,
+>  
+>  	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
+>  	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT),
+>  
+>  	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
+>  	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EVICTED: GEM BO is evicted to swap. */
+> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EVICTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_EVICTED_BIT),
 >  };
 >  
->  enum drm_gem_object_status;
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 86f5846154f7..b42ea2e582cf 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -53,6 +53,7 @@ struct drm_gem_object;
->   * @DRM_GEM_OBJECT_RESIDENT: object is resident in memory (ie. not unpinned)
->   * @DRM_GEM_OBJECT_PURGEABLE: object marked as purgeable by userspace
->   * @DRM_GEM_OBJECT_ACTIVE: object is currently used by an active submission
-> + * @DRM_GEM_OBJECT_EVICTED: object is evicted to swap
->   *
->   * Bitmask of status used for fdinfo memory stats, see &drm_gem_object_funcs.status
->   * and drm_show_fdinfo().  Note that an object can report DRM_GEM_OBJECT_PURGEABLE
-> @@ -67,6 +68,7 @@ enum drm_gem_object_status {
->  	DRM_GEM_OBJECT_RESIDENT  = BIT(0),
->  	DRM_GEM_OBJECT_PURGEABLE = BIT(1),
->  	DRM_GEM_OBJECT_ACTIVE    = BIT(2),
-> +	DRM_GEM_OBJECT_EVICTED   = BIT(3),
->  };
+>  enum panthor_debugfs_gem_usage_flags {
+> @@ -172,6 +176,12 @@ struct panthor_gem_object {
+>  	/** @reclaim_state: Cached reclaim state */
+>  	enum panthor_gem_reclaim_state reclaim_state;
 >  
->  /**
+> +	/**
+> +	 * @reclaimed_count: How many times object has been evicted to swap.
+> +	 * The count saturates at %INT_MAX and will never wrap around to 0.
+> +	 */
+> +	atomic_t reclaimed_count;
+> +
+>  	/**
+>  	 * @exclusive_vm_root_gem: Root GEM of the exclusive VM this GEM object
+>  	 * is attached to.
 > 
 
