@@ -1,137 +1,141 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C0237FF56;
-	Fri, 24 Apr 2026 10:19:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB62C374745
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 10:34:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777025998; cv=none; b=aYE6Th12w0UpdaQKe3bVndmFQpBzDJ0srbpIgFZncYeIMphdfVBVqwVNC8Aq7CZTvWn5Xn+aEXcLxr48VuoJwADuGpFFExB2jPEAicUf9/XKxPiIEbezvCL2ecttb572a/LOIXewi+4Ue9s6iGfRMowif82CJy4kwXx75LacqdI=
+	t=1777026892; cv=none; b=ip7UWt/LHR1KfDoYLf3A+uOc6ZvjiUmjB5ndcJFNGqHgJshZREUhzIz51dV/1ZvYpK5w1LjD7nreyVByjEopALKttSh+MwKLKDuv25qTCnKtOyia/D4mKotdnN8GuZMycFoTbwxti5Zt0W8yyN+X5HVqGdQsymUeiDcehXAC5Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777025998; c=relaxed/simple;
-	bh=TZEBUuL8MVAGlaofV/40p+UHuNP/Fq0bzLy0YsAq1bg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=l25KqOVVCQeWj1+Ya3pAJKlD7aoav7rBk3qIIkG5/0bkWiLpWzoYEtnMv+sPRMb+EuXNK1IDy8qK0F7ugXLOAB6QyHN7GIUH4D+AJilc/GuHFbHQGDZ6+8H5fmhL3NZ/JdaT0ISWRPGvJrlEIoygVRhj6JJzcocL7Lp4kXiItm8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ui8mGOMx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777026892; c=relaxed/simple;
+	bh=PEyb6FtGbI/y7wrR0DER3IIKFWzjINJX60KL18Yzo7c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WeN4/272nY3WaizD32SVJcPzk6ooQ96SAdJ4ioKo94lT+jRtio6V0v1BCTwTNRTWzcS2/NMBBVc1vU7uhX7aGEEz0OWnJA06US11avaT2qktPHmJjS1e22BJ2YflBhn0dtfEmPxUjH3XvD8ulE1WJXBqJc1o6uQ8D3X0LMWtHYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AzPE19aI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ui8mGOMx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69FCFC2BCB5;
-	Fri, 24 Apr 2026 10:19:57 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzPE19aI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2692CC2BCB4;
+	Fri, 24 Apr 2026 10:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777025997;
-	bh=TZEBUuL8MVAGlaofV/40p+UHuNP/Fq0bzLy0YsAq1bg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ui8mGOMxLJhCc/Sp7guVq6ejeKKGinM9ndcB+/SE3t6ov5jLw30SwSLXKlCDoSVpL
-	 cRo2ktRmTsJ4Xn5XrS4GjZr9mQFqgj79WYqNPaWTZQQhucat+eJBMz03nfSqf177uq
-	 8n5tod+6zwJp4B9S+vLIMt5cqPLQIt7I7Tm4VULE/W2x5o7ZFe3HdQ8hhyf+4GqhcM
-	 G0d9g9VNE5qFa2adzTdwwxPvCTOfEKyNuEIXyTGBcKoCZ8zQuyUZ1+OboruLvenqTr
-	 7TZzRkVlrqeA7t1gj298zEFXRUQHI0QiuQZA4gWJg98hcMin7GkFYJuXqmuqFf25Uj
-	 fNDC3Pbqp/i8A==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Fri, 24 Apr 2026 12:19:00 +0200
-Subject: [PATCH v3 20/20] drm/bridge_connector: Convert to
- atomic_create_state
+	s=k20201202; t=1777026891;
+	bh=PEyb6FtGbI/y7wrR0DER3IIKFWzjINJX60KL18Yzo7c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AzPE19aIZMgleOj/9Q7vqfwN9bsj9eXevrDOI8GRSdwxw+lk6cdJetqiieBdiQveT
+	 vyjhKFYAWIx0OboZGTxjR7SxzElRboGrqBA7wyqsAfh/A2rzelHLROqcleYL3Mrkt+
+	 YNmCNLzcKDtYT1Rax37fg649Gx74TdctTD1h6EGbXlEuJ/Xyi9uQZXbVbA+RADYK0c
+	 UwpFbbq8bpY7D21KSX5uN4EkXkTAg7SsT8YLRmg7y7HJ47lL1HYnUvyhTeU4ZWmPeG
+	 /TM3uIQvoOg5FY4QfhVQdAwCo8tSgVEmXMkkgr9tOXhduJeHAT7oP4UoFJb/JzORLv
+	 6y8HrPtoEzLQA==
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 38E5CF40068;
+	Fri, 24 Apr 2026 06:34:50 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Fri, 24 Apr 2026 06:34:50 -0400
+X-ME-Sender: <xms:Skfrac-9Tfj0ayWIBJIyngPd4UlMGsnZuiY2Oelqutif3fZ89iuzgw>
+    <xme:SkfraTNg1kxr5_buB3DEXyDvBCKG4GgTfo0nWqyAN6dyJ9vDnG1M4d2_CcatbFkHf
+    uC8G8SDCtNyHrsZb0n-pTk_58d3N0hdZ5Zueu8mn01R4yd_aXmCjM0>
+X-ME-Received: <xmr:SkfraYMAqtZJXSqD1tnl6ecYoMkMELXZiL5l-qals8ZbGO6s1wuIwfBVKC0ypA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeileektdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepmfhirhihlhcu
+    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepiefgvddtkeevjefhhedtudeuueeikeejkedvgffgtdekgeeiveejvdegtedvhefg
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopehpvghtvghrgiesrhgvughhrghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskh
+    gvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurght
+    ihhonhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhrghdprhgtphhtth
+    hopehrphhptheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohho
+    ghhlvgdrtghomhdprhgtphhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhirghmrdhhohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthho
+    peiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:SkfraROW4DK729VqpkvKr_9pXjP4KoM5f2Ijx0pGvl9ajs3wr547_w>
+    <xmx:SkfrafUWOGIT00cIGKIOwesTuYnJ7J989uaVVotDzWIgsw5j_hZNsw>
+    <xmx:SkfraZrqDgPEAmJatscUh4DMeUJmyMI_-RQaPUOMUT-77ArD7thZGA>
+    <xmx:SkfraVeHg_mWZ1zZqHIOmbwfIE1rZc8UvSJL51nsn7j2yohQ9UZJxw>
+    <xmx:SkfraVC1daTB8U6MHmddnRPSUtC-87Qe-I1RWKoYXacKv5v0ffkmLpEm>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 24 Apr 2026 06:34:49 -0400 (EDT)
+Date: Fri, 24 Apr 2026 11:34:48 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
+	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
+ guest memory
+Message-ID: <aes7b17nG0cXrtEd@thinkstation>
+References: <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
+ <aeImfRrrvr3UoKtL@thinkstation>
+ <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
+ <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
+ <aeorZMvKwu8zKX5i@thinkstation>
+ <aeoxnuGKO3uqS2kG@x1.local>
+ <aeo5IPpQi7onyjTF@thinkstation>
+ <aeprnnccJeyHB2rt@x1.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260424-drm-mode-config-init-v3-20-8b68d9db0d8b@kernel.org>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
-In-Reply-To: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, 
- Jyri Sarha <jyri.sarha@iki.fi>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Andrzej Hajda <andrzej.hajda@intel.com>, 
- Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
- Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
- Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Simon Ser <contact@emersion.fr>, Harry Wentland <harry.wentland@amd.com>, 
- Melissa Wen <mwen@igalia.com>, Sebastian Wick <sebastian.wick@redhat.com>, 
- Alex Hung <alex.hung@amd.com>, Jani Nikula <jani.nikula@linux.intel.com>, 
- Rodrigo Vivi <rodrigo.vivi@intel.com>, 
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>, 
- Tvrtko Ursulin <tursulin@ursulin.net>, Chen-Yu Tsai <wens@kernel.org>, 
- Samuel Holland <samuel@sholland.org>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- =?utf-8?q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>, 
- Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
-Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>, 
- intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, 
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2233; i=mripard@kernel.org;
- h=from:subject:message-id; bh=TZEBUuL8MVAGlaofV/40p+UHuNP/Fq0bzLy0YsAq1bg=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDJmvnScaZpgGxJpuPbCeu7f94dJNje92d5xwurj29fSUu
- j3lUme1OqayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEHhsw1lc+Y7xmxPX7R3rR
- is5tLMzLpD8t2JV7YdK0TXJuvDv8Gb/dm5c806Wi6v39LQocVgueSjHWmayZ/uln5S0evwCFopu
- neNqkp7xuimLgn9mbcrZmy7KC3T8T/918JHGhyDRwC8uRqmYHAA==
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aeprnnccJeyHB2rt@x1.local>
 
-The connector created by drm_bridge_connector only initializes a
-pristine state in reset, which is equivalent to what
-atomic_create_state would expect. Convert to it.
+On Thu, Apr 23, 2026 at 02:57:34PM -0400, Peter Xu wrote:
+> On Thu, Apr 23, 2026 at 07:08:00PM +0100, Kiryl Shutsemau wrote:
+> > > - Whether read protection is required for an userspace swap system
+> > >   (e.g. did you get time to have a look at umap?)
+> > 
+> > I looked at it briefly, so I can miss details.
+> > 
+> > IIUC, in absence of read tracking it doesn't collect hotness information
+> > at all. The eviction is based on fault-in time: the oldest faulted-in
+> 
+> For example, let's imagine if we can have a per-mm idle page tracker, would
+> it work for you to collect hotness info?
+>
+> The other idea is, no matter whether we use MGLRU or legacy LRU, if we can
+> expose a better interface to share hotness info from kernel to userspace,
+> would it be possible?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/display/drm_bridge_connector.c | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
+I don't see how either fits our problem.
 
-diff --git a/drivers/gpu/drm/display/drm_bridge_connector.c b/drivers/gpu/drm/display/drm_bridge_connector.c
-index d72f29b73be3..4b310fe505b4 100644
---- a/drivers/gpu/drm/display/drm_bridge_connector.c
-+++ b/drivers/gpu/drm/display/drm_bridge_connector.c
-@@ -263,26 +263,33 @@ static void drm_bridge_connector_debugfs_init(struct drm_connector *connector,
- 		if (bridge->funcs->debugfs_init)
- 			bridge->funcs->debugfs_init(bridge, root);
- 	}
- }
- 
--static void drm_bridge_connector_reset(struct drm_connector *connector)
-+static struct drm_connector_state *
-+drm_bridge_connector_create_state(struct drm_connector *connector)
- {
- 	struct drm_bridge_connector *bridge_connector =
- 		to_drm_bridge_connector(connector);
-+	struct drm_connector_state *conn_state;
-+
-+	conn_state = drm_atomic_helper_connector_create_state(connector);
-+	if (IS_ERR(conn_state))
-+		return conn_state;
- 
--	drm_atomic_helper_connector_reset(connector);
- 	if (bridge_connector->bridge_hdmi)
- 		__drm_atomic_helper_connector_hdmi_state_init(connector,
--							      connector->state);
-+							      conn_state);
-+
-+	return conn_state;
- }
- 
- static const struct drm_connector_funcs drm_bridge_connector_funcs = {
--	.reset = drm_bridge_connector_reset,
- 	.detect = drm_bridge_connector_detect,
- 	.force = drm_bridge_connector_force,
- 	.fill_modes = drm_helper_probe_single_connector_modes,
-+	.atomic_create_state = drm_bridge_connector_create_state,
- 	.atomic_duplicate_state = drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
- 	.debugfs_init = drm_bridge_connector_debugfs_init,
- 	.oob_hotplug_event = drm_bridge_connector_oob_hotplug_event,
- };
+Both page_idle and the LRUs (legacy or MGLRU) track accesses on physical
+memory. We need visibility in the virtual address space domain.
+
+We don't care which physical page backs a given guest address at any
+moment. We want to know which piece of the user's dataset is cold, and
+the answer has to be indifferent to kernel actions underneath: the
+tracking must survive migration and swap-out. RWP gives us that — the
+uffd-wp bit is preserved across swap PTEs and migration entries, so the
+"this VA was declared cold" marker stays attached to the VA. A
+physical-side tracker loses its state the moment the folio is freed or
+replaced: a refaulted folio is a fresh object with no history.
+
+Scaling goes the same way. Per-mm tracking of the form RWP does can
+scale with the working set. A physical-side tracker scales with all folios
+on the LRU/memcg, then needs an rmap walk per folio to map back to a
+VA — which is exactly the reason page_idle doesn't scale for this use
+case today.
+
+There is also a cgroup-level confound: memcg hotness mixes guest memory
+with the VMM's own (worker threads, I/O buffers, vhost-user rings).
+VMA-scoped tracking is the natural unit regardless of the migration
+story.
 
 -- 
-2.53.0
-
+  Kiryl Shutsemau / Kirill A. Shutemov
