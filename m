@@ -1,45 +1,46 @@
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010046.outbound.protection.outlook.com [52.101.56.46])
+Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012046.outbound.protection.outlook.com [40.107.209.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9355D262808;
-	Fri, 24 Apr 2026 01:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C332621CA13;
+	Fri, 24 Apr 2026 01:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.46
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1776994914; cv=fail; b=lpmaPLWaFOlpoTEqijm1epYEO8sL+GJ5sPlh3BimqRe9+wT254XVcBNXcSOxqlDBvmObQ8bSHhDYPjO1iT7AKJR+piqziGpGHBPP7aepFwRJy+NczIh1PzaiZC+YtnA+7rB+NwAN9xEKtn14bMpZm7xzSbxXcPUjaCOaDYLfy1o=
+	t=1776994927; cv=fail; b=iebeDCh9CiaZFfpo6eFNoHPZYnhcmyivGjgFUkUyKVlUJ+b0QnTFkfPKo0nqokVPmB2PfCSLT1CNmfIUlhARAx3fxbw/XuDo7JEmU6Q7aYKWN6hpSCHf6ERsA5BWKJXvEZ1gyblE1ztlhz1ticBau2N2AWacBSmpavHNtExOTBU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1776994914; c=relaxed/simple;
-	bh=GcBjEFbslGJ4B9vpF7K7KKm7RSjJTZUp1w+yAUFaGvY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r5OrDSKaYZLXGIAWI/ECGnJGkvUIpi+/tL0emdinMQf7BHZNgFSiAR8377+f/mQ2+RP6vrVtMAOZ3+sfQmFL/JPr0EfYaWwh/Q/SMO2X7OIaiDlIfa8uYWTIc8optz7f+cTVgi1icWwPA1z9D557RE2z1IRT25CPEQytEhJ+F8s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=DC2pYO4p; arc=fail smtp.client-ip=52.101.56.46
+	s=arc-20240116; t=1776994927; c=relaxed/simple;
+	bh=W/yon1B2dGcVmFtEYzNYLVY9IkaPFkca929U0oi02YU=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=aDRmpH6p/GJXS/DkpTFlFHFz0hcXpdft5xJWJkFBaGYysSBHHvGrMlXmd3aD1wTI3VKSmv34+0uK4A2eXzY91uudOtddrTn5nUnTQ2f1RzVNVQ36WIbIx2Ckabj/m2VvX4vIhTTr394voBeXwu0l3QM/IZD1jaL/zuZcRVeRSHA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Yh5xsE15; arc=fail smtp.client-ip=40.107.209.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="DC2pYO4p"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Yh5xsE15"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nxk43lbXMIt2jVorZS7MR1AgrR8F9V13z34is71KeKGXHcOZPIYUIKvbCwZq3vFr+vcBZJy4XONq7v2bTCrqIWMjgklzQ7j0Bmc5YL3ecOchKn+civf5Toz0wWSZvdxAUBybQnmw9ttTFRDhx+oNEDftgwRI1v2dqAzcqd3uvulZ50VIecHl2glW9bvR0bX0ZFl89IOZ//AVr+Cyr7hHyRSxWpZCvJphaFpGUCiMomt3Tb2pfdRyXDaQsC7w6h5I3NP93rtqzEqn91tEDTkwvC5k/pxkTiZF1aQjpLeHVlgXy1waueS4EY8iS/AnjLqh8/gOvOLRoEBlHVjEJzbreA==
+ b=vKCaFwKMESoJh97fQplSTuZtnVZbAcV8lxSnys7/OU8rTcDL4YbTZxzIm1FAnl1/XlvW1wrbrhlNBmcOX4wc5hVICddnDPUKmeFJUs9hOTK9jtZdVawk4343ZJNFSKjP1Zh4b2rK3zvOL2LHf/kL7qIZRxTUlomDIeHMP+cJZyDncnQcp4FHkgY0b893O7V0c944D7YyhkhIC5AoXrccokmr8nUjytvAp73/CxzjinG0SVlVw+DhOLV7ALthbnuUFwzSmedZKP5SkXz9fnKqkVsgis1lCtGICJLN4HeXN25knHMiZaCOAc93MShgvlFdkwNgNB91I2BDuyo7KtlRiA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Cz+i6hW8TW2C/g2NaCFCxHX09XY0ebhxWC2Flp9DPmA=;
- b=ArO1AN7mjNzZdzQGpF8Hea9TgG17onegJkb/LL7atpA4pc1X+WZboohF66RlfsBObtSCQIgmPKX9JZd1SJfxRp1y49GySvybh7YXregAA8CxgaZx2jyfCwbldqIBp9QR+36OXs2I3ZRoP8VHkL2Gg6a9DzoBN/kieQHFBN1Z3EIQM7rfGT8cgoqLQ3lAyezW5Q0H9naUi3hmlvI+79Jun8yoU4Nkj6LW0Qt8OzpGeoh05NDcI867IZcVxmrv0eTapZ/vaNel6n5U+pdqXrbj/GoNEzYW9Wmy9QrfycaQunvBi0Wz4DEp7d7Zb/VaA4qzbTL3h2ZrScPGiLIVvcc3LQ==
+ bh=gOpKVyiLQY0SaFWJg+xtMVyX2l2P4FF3XU+VfAL9mYM=;
+ b=Hfon24YRGJDW8cj/sCvtF88rHCfKYwB7yUw2NJP2y2nS8cGKnEhmiSgFyiZG3Uuc+teb4yuVwy4kAt0IsEWXlvcQPWkT+uw0cz+b6cFTzNjcp0MJmZTe2LIGnHc8AMFY3ks3lR5cKbDpiTdrzMFmLe6nDADhh10MHfYTM6r7uxu1RPR1rKxau/c5T3QAB5uyZr5FDQZP+Pbj62ua1ObFPmmnDzf5zd28wkn3dOyuLrDXFxsND179dgzKoOPXoM//F+gd8KRW0bdUlUO4TXnXGjawVpmwM5Jhto2eRmurl1zAG3f72TXOWmeJDevGQcKR9vMq/1b5eRiV0252H5ACbw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Cz+i6hW8TW2C/g2NaCFCxHX09XY0ebhxWC2Flp9DPmA=;
- b=DC2pYO4p1DElEOYRjhqnWn9dkF/jLGgyMvVeuu1Cg6SJ6Y+SmsuuF4+aL6PhgE0TQHqQgPdhANJuRD6ESOxOLtitnJeTPs9Uvj8jXAsld/4vL4QtBZ5ZuGqkFwDFRH5KDyRNRu3+V9jOtp3HYl/Qmp7ieLe0o12d3M84vq/yBfI=
-Received: from SJ0PR05CA0038.namprd05.prod.outlook.com (2603:10b6:a03:33f::13)
- by DS0PR12MB8456.namprd12.prod.outlook.com (2603:10b6:8:161::8) with
+ bh=gOpKVyiLQY0SaFWJg+xtMVyX2l2P4FF3XU+VfAL9mYM=;
+ b=Yh5xsE15HxgLZV/cFruvRETIZ4zxR56KwF7/5UpzVpW77pB+QpBZiBdxsLOUPJ2gg85FmuJWzGIMzerigUO/LtbNM5mePUdr2wZ3G7b7NjN24k+aP+KS8QwerNbOq++6mTMVkhtebZ83HMA9MUVOg+EcijVDC8T2DnYx61A8G1M=
+Received: from SJ0PR05CA0052.namprd05.prod.outlook.com (2603:10b6:a03:33f::27)
+ by IA1PR12MB8311.namprd12.prod.outlook.com (2603:10b6:208:3fa::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.21; Fri, 24 Apr
- 2026 01:41:47 +0000
+ 2026 01:41:56 +0000
 Received: from MWH0EPF000A6735.namprd04.prod.outlook.com
- (2603:10b6:a03:33f:cafe::28) by SJ0PR05CA0038.outlook.office365.com
- (2603:10b6:a03:33f::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.21 via Frontend Transport; Fri,
- 24 Apr 2026 01:41:46 +0000
+ (2603:10b6:a03:33f:cafe::be) by SJ0PR05CA0052.outlook.office365.com
+ (2603:10b6:a03:33f::27) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.22 via Frontend Transport; Fri,
+ 24 Apr 2026 01:41:55 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -49,11 +50,11 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
 Received: from satlexmb07.amd.com (165.204.84.17) by
  MWH0EPF000A6735.mail.protection.outlook.com (10.167.249.27) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Fri, 24 Apr 2026 01:41:46 +0000
+ 15.20.9846.18 via Frontend Transport; Fri, 24 Apr 2026 01:41:55 +0000
 Received: from ruby-9651host.amd.com (10.180.168.240) by satlexmb07.amd.com
  (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 23 Apr
- 2026 20:41:44 -0500
+ 2026 20:41:52 -0500
 From: Babu Moger <babu.moger@amd.com>
 To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
 	<tglx@kernel.org>, <mingo@redhat.com>, <bp@alien8.de>,
@@ -69,10 +70,12 @@ CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <Dave.Martin@arm.com>,
 	<elena.reshetova@intel.com>, <xin@zytor.com>, <linux-doc@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
 	<peternewman@google.com>
-Subject: [PATCH v2 0/8] x86/resctrl: Support for AMD Global (Slow) Memory Bandwidth Allocation
-Date: Fri, 24 Apr 2026 01:41:30 +0000
-Message-ID: <cover.1776980182.git.babu.moger@amd.com>
+Subject: [PATCH v2 1/8] x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
+Date: Fri, 24 Apr 2026 01:41:31 +0000
+Message-ID: <be504233d697c0e9a09eb798088467f0bad665fe.1776980182.git.babu.moger@amd.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <cover.1776980182.git.babu.moger@amd.com>
+References: <cover.1776980182.git.babu.moger@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -85,148 +88,154 @@ X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
  (10.181.42.216)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|DS0PR12MB8456:EE_
-X-MS-Office365-Filtering-Correlation-Id: 287431ce-e85b-4331-cc76-08dea1a2a556
+X-MS-TrafficTypeDiagnostic: MWH0EPF000A6735:EE_|IA1PR12MB8311:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51d6f99c-dbeb-488a-abf7-08dea1a2aac3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700016|1800799024|7416014|376014|30052699003|82310400026|13003099007|56012099003|18002099003|20046099003;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700016|82310400026|13003099007|22082099003|18002099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	CW4Y5/MZ0uq4KQnvkA8RSOIAq872Iu/2O8KvNJT+GEBhTMxLrs9EYLbZ46i83kGl/bDwbnpiYaMvSIQTVKGjC8mBhkyzg5nC67sNIGv39NN3xtMkc5P1iQHtJcj8bcIA+tFW3rC1NHvtp3juIDG8MvYFmmLv4Tn3dtRt0UBtX5Z5cALegpI9cZi1jzDoUSqXrS12DO65GzwET/fOJjfQAAqtEEAyTni0My6no5HGuxftjmGgUnxHZYF9GmhXtjxfh4qdrJwSsgrHgH+EudY/ZF+S958S3c34bLpkycN3FCw46f/7ekI6VFGtKAN0P2lMpEvY2302HzshIK6XZLeg7/UCD5wIS4fHjgmwQ+IZObWYKexKHdb+Dut6owCNg9boox1a+HDBdvzwNxJyiN88vHlZ0Z2qv45CR1yXbCHIwC7xGCbEWhulgK6jz3v8OJzkOFWjqLXh6PpeSVQO0vnxn15Zd9jByO/7Ia2kf7NLM8b6+mmll7li7rJvqnp8nZGAPCanbXpyiqNmO9OrxHHfz3D/Yj3Aqg7NGp/1VIXyYVAGwvBtm5GME/qo623XWpSN9cD6ENkhf6zhLyXon2PvHOQ6BhrrTQWUBgGEkUI5z7NipOfiNmSeBrSKF7hqQvazc3if/06yEZhqshxlS8dzDQQo+tqdOKNtYQhB+T4ZH2o1o2c0XCA9jolXu8n0fKY9A3M3z/ylzk1TG3QV8noq7ungJUsCMwdG6J5su1JdcF1V3IUCfe3CCxIufjmH9/WOhR6xmADHcHKBU6/RWqYT5OECWGeM0cEUxetwSx5YvyQ=
+	Gae/G+s4QVnBMz1o7c61yWdh3+Wh8Ny1krrx9eSObklEjpWyUY0+UVq+imVFghkNKWCfer1GiIoky9+v8OF8wh0W9ZZd2umEL2BZIYRpSXrVlTsTJx3Of2ynJJjc0kbP95L/AU/fqxzVpL+lcgd0FRFm94GiOVUSBFM7XiEWCv8QKPd/gH6g95MhrZPHv1Ok4kujk6BfzJs87HlCTokwdUbmmsimcBe/J39DDGZalQIb3U/dye/xQuj0z0jNc4rPOtHesTWxYXZgKFPjPW4pAfnjG03aed9DAqBBNlS4h4Rr9Cn1EMZtHlq67qyVZQ+zpRWKNPkbVlFQWRJ2UWBjATm/Dyln+/1TFSVFBx6O7fzLtUNo2nFytY2xsatvPkZq8yfK7rzNAaNADsvgpYYC0MiXwyIFUtLPafD9U3Sb6s5NHnUTA2NC3QCzhXRGP/HBe+5YuWSF6kRfLqaWXANXgwl/jyaUfqOEHEh75R0pf9lma64O23Hl+A36Y2LQtu3mF8C0/qmAp1eQYphbrMMWM5hLo9g4ahEs6XbsURwPjkYJ/XThBTk6UexFMVSJRBz2vgHGzAXPvYHnS8mbcsyE/046sRdHKmDEgUTM18tjsM7Q/eb1oJMfPz8GX4HHb7jg9HTEATFRloVM0PtcngpWkYP6WtvmLSEybUGZwl+c5cPlyPkFoSPO0FjYzQv1eaunrakjMIKmM8PadYP578pWYa9pVrVpbgs6yvRpFaznLKOgxaxXXgLslhDj6T1D0kNbK0d/AfFA+Hv7goIRmGVBtw==
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(7416014)(376014)(30052699003)(82310400026)(13003099007)(56012099003)(18002099003)(20046099003);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700016)(82310400026)(13003099007)(22082099003)(18002099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	DE7xvWd5a63hkrfhmcAIOWSxc55BQYlNlrOMXkJVBQdNRuzCGJZvmsdSmG/ZnC0WrGOen0ProCIBm2AL/aRZZTiPIjuvscO1TGfyF6w4AA3oTw/9vrhPz2rBoqH6NlLoNDjArjmYBFOIqqnxjMvZG0zGIMFM2C0jo0BTdm7b8zw1awC5DXfdkpSn0tNSJ1xgCXgO6VRWCa9cyWhpMvEM531QtgUEDhBxjpCMsFPFhQW0YU/usVjiL0lzzeKar5nNve/LZJU0+nFKF7SHf6RHTN/VdA3v5rd3vAR4Ys3kwOlhBVJ+ucsCWG89yWVa2AgukDvJzQZNxH9yT55aNSC/nH0fSmeZQQIH6A+WZTE25WBzO0V43gdx7A+A8/ziWey5HHz8Tf5R4xaq4aTPgyFNzKWmP8+v+nLH4aOIoZVutmp2Ujj13SG0QBkla/EleiBH
+	Pd6OAaJRdymymuGlgK0KLuwUSeu9WrFbm8L1r4JaAqFwZqfWU4tRFR0H74SY0OfcJx3a8o1ruptqsXI4qpKGQI3e+Gn58C+MYbaiXnpdiaQF9cCV3N1BeJcrgSLb2nh+G4A0A1m2v84iyNggDFnj/MGN5BnYmM++eeFsQQqYKtixLJqCHE4zdaV8rrWwn9OkJux24BToEEXk6c5eJI9yq/K3nj7neKSE9BnvmREKsfAFLY2n35WYBaTtMinLlv980XhnmkgYs7BCuWYlPqSv8b/G/QQH5wfNR4MG7jlpxVRbSdZSUOJzO2mihi3WUk4qMwDsQIrqF4yFAuaXbbWwjCX25WDujFlQSXF+aeuiLfDA8nTpxyErJwIHlKb9j1Q6mZBYijrEZMKZT4TT5jz9V7wW/5WPRs5zzwo9Jc62pM2pUVrGyWXsOdShwbT0oW8O
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 01:41:46.3073
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2026 01:41:55.3573
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 287431ce-e85b-4331-cc76-08dea1a2a556
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51d6f99c-dbeb-488a-abf7-08dea1a2aac3
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
 	MWH0EPF000A6735.namprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8456
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB8311
 
+On AMD systems, the existing MBA feature allows the user to set a bandwidth
+limit for each QoS domain. However, multiple QoS domains share system
+memory bandwidth as a resource. In order to ensure that system memory
+bandwidth is not over-utilized, the user must statically partition the
+available system bandwidth between the active QoS domains. Active domains
+are those that have at least one thread running in them. If a QoS domain is
+not active, its bandwidth allocation is not used by any thread and is
+effectively wasted. On the other hand, if a QoS domain is active but its
+bandwidth allocation is too low, threads running in that domain may not be
+able to utilize the full potential of the system memory bandwidth. This
+typically results in system memory being under-utilized since not all QoS
+domains are using their full bandwidth allocation.
 
-This series adds resctrl support for two new AMD memory-bandwidth
-allocation features:
+AMD PQoS Global Bandwidth Enforcement (GLBE) provides a mechanism for
+software to specify bandwidth limits for groups of threads that span
+multiple QoS domains. This collection of QoS domains is referred to as a
+GLBE control domain. The GLBE ceiling sets a maximum limit on memory
+bandwidth in GLBE control domain. Bandwidth is shared by all threads in a
+Class of Service (COS) across every QoS domain managed by the GLBE control
+domain. The GLBE control domain is configurable using the BIOS setup
+utility.
 
-  - GMBA  - Global Memory Bandwidth Allocation (hardware name: GLBE).
-            Bounds DRAM bandwidth for groups of threads that span
-            multiple L3 QoS domains, rather than being per-L3 like MBA.
+By default the GLBE control domain is aligned to system NPS (Nodes Per
+Socket) configuration. NPS is a BIOS-level setting on AMD processors
+that determines how many NUMA (Non Uniform Memory Access) nodes each CPU
+socket is divided into. NPS allows administrators to tune memory locality,
+bandwidth, and latency for different workloads.
 
-  - GSMBA - Global Slow Memory Bandwidth Allocation (hardware name:
-            GLSBE). The CXL.memory / slow-memory counterpart of GMBA,
-            analogous to how SMBA relates to MBA.
+GLBE support is reported through CPUID.8000_0020_EBX_x0[GLBE] (bit 7). When
+this bit is set to 1, the platform supports GLBE.
 
-Both features share a new "NPS-node" control domain: a set of QoS (L3)
-domains grouped together and aligned to the system's NPS (Nodes Per
-Socket) BIOS configuration. Although the control domain is NPS-scoped,
-the underlying bandwidth-limit MSRs (MSR_IA32_GMBA_BW_BASE 0xc0000600,
-MSR_IA32_GSMBA_BW_BASE 0xc0000680) are instantiated per L3. Programming
-a single control domain therefore requires writing the MSR on one CPU
-per L3 that the domain spans - a new pattern for resctrl. Patches 2/8
-and 3/8 introduce that infrastructure so the new resources can reuse
-it.
+Since the AMD Memory Bandwidth Enforcement feature is represented as MBA,
+the Global Bandwidth Enforcement feature will be shown as GMBA to maintain
+consistent naming.
 
-The features are documented in:
+Add GMBA support to resctrl and introduce a kernel parameter that allows
+enabling or disabling the feature at boot time.
 
-  AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
-  Publication # 69193 Revision 1.00, Issue Date March 2026
+The GLBE feature details are documented in:
+
+  AMD64 Zen6 Platform Quality of Service (PQOS) Extensions:
+  Publication # 69193 Revision: 1.00, Issue Date: March 2026
 
 available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
 
-Series overview
----------------
-
-Patches 1-5 to enable GMBA:
-
-  1/8  x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
-
-  2/8  x86/resctrl: Add RESCTRL_NPS_NODE scope for AMD NPS-aligned domains
-       Add a new ctrl_scope value for resctrl resources whose control
-       domain spans multiple L3s within an NPS node.
-
-  3/8  x86/resctrl: Update control MSRs per L3 for NPS-scoped resources
-       Add resctrl_arch_update_nps(): builds a cpumask with one CPU per
-       distinct L3 in the domain, then issues rdt_ctrl_update() via
-       smp_call_function_many() on that mask. Falls back to the full
-       domain mask if the scratch masks cannot be built. Route
-       resctrl_arch_update_domains() and resctrl_arch_reset_all_ctrls()
-       through this helper when ctrl_scope == RESCTRL_NPS_NODE.
-
-  4/8  x86,fs/resctrl: Add the resource for Global Memory Bandwidth Allocation
-       Register RDT_RESOURCE_GMBA in rdt_resources_all[] with
-       ctrl_scope=RESCTRL_NPS_NODE and schema_fmt=RANGE, add commands to
-       discover feature details.
-
-  5/8  fs/resctrl: Add the documentation for Global Memory Bandwidth Allocation
-       Add examples in Documentation/filesystems/resctrl.rst.
-
-Patches 6-8 to enable GSMBA in the same shape:
-
-  6/8  x86,fs/resctrl: Add support for Global Slow Memory Bandwidth Allocation
-
-  7/8  x86,fs/resctrl: Add the resource for Global Slow Memory Bandwidth Allocation
-       Register RDT_RESOURCE_GSMBA with ctrl_scope=RESCTRL_NPS_NODE.
-
-  8/8  fs/resctrl: Add the documentation for Global Slow Memory Bandwidth Allocation
-       Add examples in Documentation/filesystems/resctrl.rst.
-
-Changes since v1
-----------------
-  - Earlier sent RFC(v1) with Global Bandwidth Enforcement (GLBE) and
-    Privilege Level Zero Association (PLZA). This series only handles
-    Global Memory Bandwidth Allocation. Both the features are sent separately.
-
-  - Documentation
-      * Fixed grammar in the GMBA / GSMBA sections of resctrl.rst.
-      * Added examples to update GMBA and GSMBA in resctrl.rst documentation.
-
-  - Major changes are releated to RESCTRL_NPS_NODE scope handling.
-
-  - Commit messages
-      * Reworked the changelogs in all the patches.
-
-Previous Revisions:
-v1 : https://lore.kernel.org/lkml/cover.1769029977.git.babu.moger@amd.com/
----
-
-base-commit: 216fe4b3e06754e73c79a88b1df7e9806e41f29d
-
 Signed-off-by: Babu Moger <babu.moger@amd.com>
+---
+v2: Updated the commit message to include more details about active QoS domains.
+    Updated the commit message to clarify that the GLBE control domain is
+    configurable using the BIOS setup utility is aligned to NPS.
+    Added link to the PQOS spec.
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ arch/x86/include/asm/cpufeatures.h              | 2 +-
+ arch/x86/kernel/cpu/resctrl/core.c              | 2 ++
+ arch/x86/kernel/cpu/scattered.c                 | 1 +
+ 4 files changed, 5 insertions(+), 2 deletions(-)
 
-Babu Moger (8):
-  x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
-  x86/resctrl: Add RESCTRL_NPS_NODE scope for AMD NPS-aligned domains
-  x86/resctrl: Update control MSRs per L3 for NPS-scoped resources
-  x86,fs/resctrl: Add the resource for Global Bandwidth Allocation
-  fs/resctrl: Add the documentation for Global Memory Bandwidth
-    Allocation
-  x86,fs/resctrl: Add support for Global Slow Memory Bandwidth
-    Allocation
-  x86,fs/resctrl: Add the resource for Global Slow Memory Bandwidth
-    Allocation
-  fs/resctrl: Add the documentation for Global Slow Memory Bandwidth
-    Allocation
-
- .../admin-guide/kernel-parameters.txt         |   2 +-
- Documentation/filesystems/resctrl.rst         |  81 ++++++++++++++
- arch/x86/include/asm/cpufeatures.h            |   3 +-
- arch/x86/include/asm/msr-index.h              |   2 +
- arch/x86/kernel/cpu/resctrl/core.c            | 101 +++++++++++++++++-
- arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |  90 +++++++++++++++-
- arch/x86/kernel/cpu/resctrl/internal.h        |   1 +
- arch/x86/kernel/cpu/resctrl/rdtgroup.c        |  15 ++-
- arch/x86/kernel/cpu/scattered.c               |   2 +
- fs/resctrl/ctrlmondata.c                      |   5 +-
- fs/resctrl/rdtgroup.c                         |  25 ++++-
- include/linux/resctrl.h                       |   3 +
- 12 files changed, 313 insertions(+), 17 deletions(-)
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index cf3807641d89..f23cad453f17 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6452,7 +6452,7 @@ Kernel parameters
+ 	rdt=		[HW,X86,RDT]
+ 			Turn on/off individual RDT features. List is:
+ 			cmt, mbmtotal, mbmlocal, l3cat, l3cdp, l2cat, l2cdp,
+-			mba, smba, bmec, abmc, sdciae, energy[:guid],
++			mba, gmba, smba, bmec, abmc, sdciae, energy[:guid],
+ 			perf[:guid].
+ 			E.g. to turn on cmt and turn off mba use:
+ 				rdt=cmt,!mba
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 1d506e5d6f46..356f7a11d47c 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -508,7 +508,6 @@
+ #define X86_FEATURE_ABMC		(21*32+15) /* Assignable Bandwidth Monitoring Counters */
+ #define X86_FEATURE_MSR_IMM		(21*32+16) /* MSR immediate form instructions */
+ #define X86_FEATURE_SGX_EUPDATESVN	(21*32+17) /* Support for ENCLS[EUPDATESVN] instruction */
+-
+ #define X86_FEATURE_SDCIAE		(21*32+18) /* L3 Smart Data Cache Injection Allocation Enforcement */
+ #define X86_FEATURE_CLEAR_CPU_BUF_VM_MMIO (21*32+19) /*
+ 						      * Clear CPU buffers before VM-Enter if the vCPU
+@@ -516,6 +515,7 @@
+ 						      * and purposes if CLEAR_CPU_BUF_VM is set).
+ 						      */
+ #define X86_FEATURE_X2AVIC_EXT		(21*32+20) /* AMD SVM x2AVIC support for 4k vCPUs */
++#define X86_FEATURE_GMBA		(21*32+21) /* Global Memory Bandwidth Allocation */
+ 
+ /*
+  * BUG word(s)
+diff --git a/arch/x86/kernel/cpu/resctrl/core.c b/arch/x86/kernel/cpu/resctrl/core.c
+index 7667cf7c4e94..269265d98ad7 100644
+--- a/arch/x86/kernel/cpu/resctrl/core.c
++++ b/arch/x86/kernel/cpu/resctrl/core.c
+@@ -795,6 +795,7 @@ enum {
+ 	RDT_FLAG_L2_CAT,
+ 	RDT_FLAG_L2_CDP,
+ 	RDT_FLAG_MBA,
++	RDT_FLAG_GMBA,
+ 	RDT_FLAG_SMBA,
+ 	RDT_FLAG_BMEC,
+ 	RDT_FLAG_ABMC,
+@@ -822,6 +823,7 @@ static struct rdt_options rdt_options[]  __ro_after_init = {
+ 	RDT_OPT(RDT_FLAG_L2_CAT,    "l2cat",	X86_FEATURE_CAT_L2),
+ 	RDT_OPT(RDT_FLAG_L2_CDP,    "l2cdp",	X86_FEATURE_CDP_L2),
+ 	RDT_OPT(RDT_FLAG_MBA,	    "mba",	X86_FEATURE_MBA),
++	RDT_OPT(RDT_FLAG_GMBA,	    "gmba",	X86_FEATURE_GMBA),
+ 	RDT_OPT(RDT_FLAG_SMBA,	    "smba",	X86_FEATURE_SMBA),
+ 	RDT_OPT(RDT_FLAG_BMEC,	    "bmec",	X86_FEATURE_BMEC),
+ 	RDT_OPT(RDT_FLAG_ABMC,	    "abmc",	X86_FEATURE_ABMC),
+diff --git a/arch/x86/kernel/cpu/scattered.c b/arch/x86/kernel/cpu/scattered.c
+index 837d6a4b0c28..077cf452c257 100644
+--- a/arch/x86/kernel/cpu/scattered.c
++++ b/arch/x86/kernel/cpu/scattered.c
+@@ -60,6 +60,7 @@ static const struct cpuid_bit cpuid_bits[] = {
+ 	{ X86_FEATURE_BMEC,			CPUID_EBX,  3, 0x80000020, 0 },
+ 	{ X86_FEATURE_ABMC,			CPUID_EBX,  5, 0x80000020, 0 },
+ 	{ X86_FEATURE_SDCIAE,			CPUID_EBX,  6, 0x80000020, 0 },
++	{ X86_FEATURE_GMBA,			CPUID_EBX,  7, 0x80000020, 0 },
+ 	{ X86_FEATURE_TSA_SQ_NO,		CPUID_ECX,  1, 0x80000021, 0 },
+ 	{ X86_FEATURE_TSA_L1_NO,		CPUID_ECX,  2, 0x80000021, 0 },
+ 	{ X86_FEATURE_AMD_WORKLOAD_CLASS,	CPUID_EAX, 22, 0x80000021, 0 },
 -- 
 2.43.0
 
