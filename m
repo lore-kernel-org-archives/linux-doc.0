@@ -1,141 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB62C374745
-	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 10:34:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EB093AEF54
+	for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 11:23:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777026892; cv=none; b=ip7UWt/LHR1KfDoYLf3A+uOc6ZvjiUmjB5ndcJFNGqHgJshZREUhzIz51dV/1ZvYpK5w1LjD7nreyVByjEopALKttSh+MwKLKDuv25qTCnKtOyia/D4mKotdnN8GuZMycFoTbwxti5Zt0W8yyN+X5HVqGdQsymUeiDcehXAC5Eo=
+	t=1777029831; cv=none; b=GMSrhR/CVhCO+425I7I/KLjOlK2qzS5n5Myzjn+83IF8PwtHHa0cT8j0J2mo/a20q7MQ0kk8cVa8BG0Ee2wwv0p/BngN8mWjy8ASFikoNphqF1rOCY5C7TbQ9pqbOps1CnORZwftF1el2uN0lvYSQ1g4Uhmyd1Gy1FlVbIZKTKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777026892; c=relaxed/simple;
-	bh=PEyb6FtGbI/y7wrR0DER3IIKFWzjINJX60KL18Yzo7c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WeN4/272nY3WaizD32SVJcPzk6ooQ96SAdJ4ioKo94lT+jRtio6V0v1BCTwTNRTWzcS2/NMBBVc1vU7uhX7aGEEz0OWnJA06US11avaT2qktPHmJjS1e22BJ2YflBhn0dtfEmPxUjH3XvD8ulE1WJXBqJc1o6uQ8D3X0LMWtHYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AzPE19aI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777029831; c=relaxed/simple;
+	bh=CRAdYzX9+jNsTYs4h8ctNWZTdaCBBbrpEXxcu4w9zCQ=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=GoAPLrys1r/EM7KolvZZx96+tGQ7BKjGzEZCs4buWkdyTzVP3OvkdIArrNpwOc7VO12852ELN1AQ+oys0tq5bAlEP3tj+Cfk65dXp/5YV5ZDMDpUjn2ouYKcRbCcjceCJXvGFb9FBCw1VNa3z6g/S8P29sug94fUFZOYnKDF190=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hobNOn+j; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AzPE19aI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2692CC2BCB4;
-	Fri, 24 Apr 2026 10:34:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777026891;
-	bh=PEyb6FtGbI/y7wrR0DER3IIKFWzjINJX60KL18Yzo7c=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AzPE19aIZMgleOj/9Q7vqfwN9bsj9eXevrDOI8GRSdwxw+lk6cdJetqiieBdiQveT
-	 vyjhKFYAWIx0OboZGTxjR7SxzElRboGrqBA7wyqsAfh/A2rzelHLROqcleYL3Mrkt+
-	 YNmCNLzcKDtYT1Rax37fg649Gx74TdctTD1h6EGbXlEuJ/Xyi9uQZXbVbA+RADYK0c
-	 UwpFbbq8bpY7D21KSX5uN4EkXkTAg7SsT8YLRmg7y7HJ47lL1HYnUvyhTeU4ZWmPeG
-	 /TM3uIQvoOg5FY4QfhVQdAwCo8tSgVEmXMkkgr9tOXhduJeHAT7oP4UoFJb/JzORLv
-	 6y8HrPtoEzLQA==
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 38E5CF40068;
-	Fri, 24 Apr 2026 06:34:50 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Fri, 24 Apr 2026 06:34:50 -0400
-X-ME-Sender: <xms:Skfrac-9Tfj0ayWIBJIyngPd4UlMGsnZuiY2Oelqutif3fZ89iuzgw>
-    <xme:SkfraTNg1kxr5_buB3DEXyDvBCKG4GgTfo0nWqyAN6dyJ9vDnG1M4d2_CcatbFkHf
-    uC8G8SDCtNyHrsZb0n-pTk_58d3N0hdZ5Zueu8mn01R4yd_aXmCjM0>
-X-ME-Received: <xmr:SkfraYMAqtZJXSqD1tnl6ecYoMkMELXZiL5l-qals8ZbGO6s1wuIwfBVKC0ypA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdeileektdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtugfgjgesthekredttddtjeenucfhrhhomhepmfhirhihlhcu
-    ufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvg
-    hrnhepiefgvddtkeevjefhhedtudeuueeikeejkedvgffgtdekgeeiveejvdegtedvhefg
-    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
-    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
-    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
-    hnrghmvgdpnhgspghrtghpthhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgtphht
-    thhopehpvghtvghrgiesrhgvughhrghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheprghkphhmsehlihhnuhigqdhfohhunhgurght
-    ihhonhdrohhrghdprhgtphhtthhopehljhhssehkvghrnhgvlhdrohhrghdprhgtphhtth
-    hopehrphhptheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohho
-    ghhlvgdrtghomhdprhgtphhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhirghmrdhhohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthho
-    peiiihihsehnvhhiughirgdrtghomh
-X-ME-Proxy: <xmx:SkfraROW4DK729VqpkvKr_9pXjP4KoM5f2Ijx0pGvl9ajs3wr547_w>
-    <xmx:SkfrafUWOGIT00cIGKIOwesTuYnJ7J989uaVVotDzWIgsw5j_hZNsw>
-    <xmx:SkfraZrqDgPEAmJatscUh4DMeUJmyMI_-RQaPUOMUT-77ArD7thZGA>
-    <xmx:SkfraVeHg_mWZ1zZqHIOmbwfIE1rZc8UvSJL51nsn7j2yohQ9UZJxw>
-    <xmx:SkfraVC1daTB8U6MHmddnRPSUtC-87Qe-I1RWKoYXacKv5v0ffkmLpEm>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 24 Apr 2026 06:34:49 -0400 (EDT)
-Date: Fri, 24 Apr 2026 11:34:48 +0100
-From: Kiryl Shutsemau <kas@kernel.org>
-To: Peter Xu <peterx@redhat.com>
-Cc: "David Hildenbrand (Arm)" <david@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>, 
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, 
-	Vlastimil Babka <vbabka@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	Zi Yan <ziy@nvidia.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson <seanjc@google.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, kvm@vger.kernel.org
-Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM
- guest memory
-Message-ID: <aes7b17nG0cXrtEd@thinkstation>
-References: <4c635703-3d8d-4cfa-bb98-7f6f5fcbe547@kernel.org>
- <aeImfRrrvr3UoKtL@thinkstation>
- <aeTnlQUOOh-dHG8z@thinkstation>
- <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
- <aed6fHLrIdahbdY3@thinkstation>
- <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
- <aeorZMvKwu8zKX5i@thinkstation>
- <aeoxnuGKO3uqS2kG@x1.local>
- <aeo5IPpQi7onyjTF@thinkstation>
- <aeprnnccJeyHB2rt@x1.local>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hobNOn+j"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-43d76dd4ee8so7009999f8f.2
+        for <linux-doc@vger.kernel.org>; Fri, 24 Apr 2026 04:23:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777029828; x=1777634628; darn=vger.kernel.org;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+t+DJdjmBiSqlx1/PpjPe0tKhCBDYlA3fqYW1n4w00o=;
+        b=hobNOn+jNnkILFM0B2lWuWoYhwhZrFxY9Geg77nhWKIxfnXfF8/kdCXUqF3IAH6N85
+         +MnXX+X/ryx3Bsb6GDGsnU+E7gsrj0IJK8lZwR8RlhREjSRMJ/+Qt3zcDdkIFIWaTjFD
+         2KBPkIHZyxjw8xEjD+3KFJm4otmxlu+Dn1hPLmAPSw7NNGBzdT7P3K0buEHgORui9RC5
+         fBO+PBMgPIhhQCJ8Yay1I9UptXXghC2VGHRzgaS9ncV7xSj+i+cSKniM8nvvEqnLqnDp
+         CxNPHUOaxAc63WJRXFxdlW/xuJ9/fDR33uXVXIiqCTPauSSSLmEoEGo/B+t28aL6Yc5r
+         zAaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777029828; x=1777634628;
+        h=to:references:message-id:cc:date:in-reply-to:from:subject
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+t+DJdjmBiSqlx1/PpjPe0tKhCBDYlA3fqYW1n4w00o=;
+        b=cQJmHobmt9AGwHagHrjSdfD50cLZeLiqHUunXidz1XOoQuCYCWcgQ4V5Wh/NEjGK3I
+         sEY1g7Z7FlxyWuWYo2rbA4aeGz6Dc3LzBX6N2ZBryUuvBmt7glDMtX4UH9iNyVgg0Cb+
+         5wh00/dV3uDfCCmOiJgmR3M20ZHZQTAhLNjZCFvPWE3xHDFiFPfbbAci5QT1zL9a5BhC
+         yddKKQ9AW1kMOd73hKQ+PzAAHSr4m+sos+MikgerP3vkvJKZkOfZ6RYOTdctvMev0u3t
+         MX8uvG/zcV0mWvb7e/N9KelV26+oigx4haTBUAxbIlrUqTyjeC9/cbh2YlDTwpO3LVJZ
+         gYcg==
+X-Forwarded-Encrypted: i=1; AFNElJ/thdUJkSph5OgvtjFc5t5nsOdrKvPU0DJCOFDeVzkwla5Iy78k2Pzz+zE/WcFRKCpsHdle92lkXWE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4PRm3hzVkv1OAHOYbCm5FyD1BhJHH9th0WV74a3PyWYSFaKYP
+	ntn0x7jmiNTBIRoKJq4UH69npEwy9SbRTQEbCW4gCNV7iVc6zQ+MPlU2
+X-Gm-Gg: AeBDietNHHELu9zmfsTnkm4BJV125/Ot5H2BI+NUan2bqbAQiDz9HqNF7m9YOp8/9MS
+	zsq0T2jPpbFryY3thFRZHyVLsut67f+DS4Sy4dtHG6oD0/tX1B4z68UksVhGuWie/WkS9QIA1l/
+	adB/KLAlVaTFo4JNyXI8i0ARcOn/OTR0wIPc3O6YmE76018znjvJ915x7EowgErNOvoh7aMWpkg
+	8qp5D1YobZAzMlrSE1jZ8RNt/0u5szvknYAfSf4F6oGaZA3raE2l5iBOFSNyax2MmswTPO5YwXy
+	s2Q90yyLtchV+CDL9olFje6EDxOtR574wMOMsbRf4TFAT2r7h+SrJnoGDBhas7IRnPscquw3RSo
+	cF9S5MdGe3wTYuScsFtC3eU3ntQaUsO1hKfh33ewguxTkxDARIhxSsNEUCVM8yDOXQSkArNfiYM
+	JQ9Mmu361DfslW0dv/u6SxF0eLbfeSCY7CF4kyxxjj8Eaf
+X-Received: by 2002:a05:6000:240e:b0:439:ae2a:755e with SMTP id ffacd0b85a97d-43fe3e0b606mr48159269f8f.23.1777029828055;
+        Fri, 24 Apr 2026 04:23:48 -0700 (PDT)
+Received: from smtpclient.apple ([197.250.51.46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4cb1365sm63645843f8f.7.2026.04.24.04.23.43
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 24 Apr 2026 04:23:47 -0700 (PDT)
+Content-Type: multipart/signed;
+	boundary="Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26";
+	protocol="application/pgp-signature";
+	micalg=pgp-sha256
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aeprnnccJeyHB2rt@x1.local>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3864.500.181\))
+Subject: Re: [PATCH v5 1/8] ARM: zte: Add zx297520v3 platform support
+From: =?utf-8?Q?Stefan_D=C3=B6singer?= <stefandoesinger@gmail.com>
+In-Reply-To: <CAD++jL=am0f+sgBSFYQCdcFOvFWgPETn_pSgVdzETJ3_yUNqgw@mail.gmail.com>
+Date: Fri, 24 Apr 2026 14:23:29 +0300
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Russell King <linux@armlinux.org.uk>,
+ Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Drew Fustini <fustini@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>,
+ linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org,
+ soc@lists.linux.dev,
+ linux-serial@vger.kernel.org
+Message-Id: <BF5EABA2-3168-48A2-AE2D-D8EE2CF88E9F@gmail.com>
+References: <20260421-send-v5-0-ace038e63515@gmail.com>
+ <20260421-send-v5-1-ace038e63515@gmail.com>
+ <CAD++jL=am0f+sgBSFYQCdcFOvFWgPETn_pSgVdzETJ3_yUNqgw@mail.gmail.com>
+To: Linus Walleij <linusw@kernel.org>
+X-Mailer: Apple Mail (2.3864.500.181)
 
-On Thu, Apr 23, 2026 at 02:57:34PM -0400, Peter Xu wrote:
-> On Thu, Apr 23, 2026 at 07:08:00PM +0100, Kiryl Shutsemau wrote:
-> > > - Whether read protection is required for an userspace swap system
-> > >   (e.g. did you get time to have a look at umap?)
-> > 
-> > I looked at it briefly, so I can miss details.
-> > 
-> > IIUC, in absence of read tracking it doesn't collect hotness information
-> > at all. The eviction is based on fault-in time: the oldest faulted-in
-> 
-> For example, let's imagine if we can have a per-mm idle page tracker, would
-> it work for you to collect hotness info?
->
-> The other idea is, no matter whether we use MGLRU or legacy LRU, if we can
-> expose a better interface to share hotness info from kernel to userspace,
-> would it be possible?
 
-I don't see how either fits our problem.
+--Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=utf-8
 
-Both page_idle and the LRUs (legacy or MGLRU) track accesses on physical
-memory. We need visibility in the virtual address space domain.
 
-We don't care which physical page backs a given guest address at any
-moment. We want to know which piece of the user's dataset is cold, and
-the answer has to be indifferent to kernel actions underneath: the
-tracking must survive migration and swap-out. RWP gives us that — the
-uffd-wp bit is preserved across swap PTEs and migration entries, so the
-"this VA was declared cold" marker stays attached to the VA. A
-physical-side tracker loses its state the moment the folio is freed or
-replaced: a refaulted folio is a fresh object with no history.
 
-Scaling goes the same way. Per-mm tracking of the form RWP does can
-scale with the working set. A physical-side tracker scales with all folios
-on the LRU/memcg, then needs an rmap walk per folio to map back to a
-VA — which is exactly the reason page_idle doesn't scale for this use
-case today.
+> Am 24.04.2026 um 10:06 schrieb Linus Walleij <linusw@kernel.org>:
+>=20
+> On Tue, Apr 21, 2026 at 10:24=E2=80=AFPM Stefan D=C3=B6singer
+> <stefandoesinger@gmail.com> wrote:
+>=20
+>> This SoC is used in low end LTE-to-WiFi routers, for example some =
+D-Link
+>> DWR 932 revisions, ZTE K10, ZLT S10 4G, but also models that are =
+branded
+>> and sold by ISPs themselves. They are widespread in Africa, China,
+>> Russia and Eastern Europe.
+>>=20
+>> This SoC is a relative of the zx296702 and zx296718 that had some
+>> upstream support until commit 89d4f98ae90d ("ARM: remove zte zx
+>> platform"). My eventual goal is to enable OpenWRT to run on these
+>> devices.
+>>=20
+>> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
+>=20
+> Didn't I review this already? I don't remember, anyway:
+> Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-There is also a cgroup-level confound: memcg hotness mixes guest memory
-with the VMM's own (worker threads, I/O buffers, vhost-user rings).
-VMA-scoped tracking is the natural unit regardless of the migration
-story.
+Yes, you did, but the previous version, and after I sent this one.
 
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+And if I understand the b4 docs correctly, the Reviewed-by tags are sort =
+of handled client side: I have to tell b4 to fetch trailers, and then it =
+will add it when I send my v6 with Krzysztof's request to squash =
+patches.
+
+
+--Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+	filename=signature.asc
+Content-Type: application/pgp-signature;
+	name=signature.asc
+Content-Description: Message signed with OpenPGP
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmnrUrEACgkQPRO8yFRP
+GiKRrQ//d0i3JtN4eqnwGJS0KDoAetBNQXiNUwHJGszPaUlMzi1beDOdsTFk7Who
+t8GNv9VvwjuR7Agxy+B9vNltnZanU6djJKQhm1+Qd7AvlC86ueKD2tGZUxpmuipl
+37Poxi+E1zUTG68RTaJz1p0utLhaZkiCjVJzmTQgJJq3mAfYp8ycFI29IgdGHJCN
+612a3nSFm1l6vz8a+qSX9kQG1UnTYQjsavu1ACxQp9Kk1Xga1G+atLgfXTTY3Aav
+LjzHpAl+B0szQ84Zb05ZpJ1jiZYnMrDrIlNu1hv9/PTddXHyL2ISI+0um5OCvJ6n
+61iXnVpyJlrscV1Iqs23VwxKx+y3rnV1JIlf/j4n1nwkJ5LQLxRWuYUpmK71uwKt
+8WtiK3AD9VxnQvfVtAn2ltUaCLeeE+pZpSwnOvI31AOrwwZQ3ckSqkYRYVwnxVZZ
+hkYMk1IfqjRPdMgMjyAqKEPZ5hOqYC5eqd68uM0HAXpYnUT/FNxGw/+sV7oX3qyY
+eVho0WqhoeBEAezLTQ+GeCNlLirDpHwT2Y8NHYxSTlIQuwhwClwRPjdXCyS9adcF
+eCz32rEZFS75z0LG701LB+MlMhblYEkGiAm3DEsFo4778ft7kfWC5N3GJLbu31SX
+1/xC0sqkBY5zF5gvLXwtw0kEniW7PzEgc3oc2N3T37x4mk/WGfo=
+=+4QJ
+-----END PGP SIGNATURE-----
+
+--Apple-Mail=_EE2E18C8-0A52-4302-9DA1-BBDF2F1ACD26--
