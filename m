@@ -1,415 +1,126 @@
-Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1FF81339A4;
-	Sat, 25 Apr 2026 12:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777119009; cv=pass; b=RIKWTS3IM2QxfxKYos93RueKQwbc16LQy6ryMQCNawdeDC4khS0sF11UIYcV+NOz7nvmyOjQ5M30RfUvKbm8OnN4kxcQNpzpSJ496Us1c/+Ne0I1vutSfYFdybQrCImvGXJqqJTw2DANti2mM9s8Ptpx1JDIge9KtAC8ZwpcVws=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777119009; c=relaxed/simple;
-	bh=q/9WQF8+dtYVr4wVixB8d/d+vzTa+P+NIp0vQ2udURc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=NV+ryQ9HmBt3+GIpvjTcQNXs8jBf8Pb1bBX0FTrnzOn7ZfzoePP+m166HHkm8+cWXcR/Fhzjl23OfYoIQz1PVkjj6Bn8r5+/d2jKo3JsYu05xZk1YeclHWYoC76UotXikwloDDQ7hN3qC+ZgXBxnyzGkhr5R+MVq+p2RL/zncC0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=YFEgZswI; arc=pass smtp.client-ip=222.228.43.154
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A7C36EA98
+	for <linux-doc@vger.kernel.org>; Sat, 25 Apr 2026 12:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777121693; cv=none; b=R3TxQ4+AEs+7puE4xHEAXnpI/1LSBx4/kUY53fKZBmupBMID9WXwZLBmLD3xsqdPgbTDHurYc9aQw5pCdga3zpn9r+naLS+p3smwLm1oWJTcL/a4AviFfq/nz31oalbSPMzS3/HAiqwbKJrSiD2QMxwpqMK9JNRBK9vHXvEjhkA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777121693; c=relaxed/simple;
+	bh=Qu18/WAxy7pSgmSjN5nfIZEKo5O/oY2bbdaVU7rwZZ8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qp+rJKJx97NIYa11MRc7j06xkmcNaXwJrUK3RjpfT2JmgxmBiH9hn+nQN2pUBsAbRG5GeKHSfLLnJ+Uf8dUeOEsVu8ivq9YdPJsfrf06VFAWJSbR/zUGGZTqEpGM2yTmvMqmoSj/4QZp5SREM1emYTPlNwraNU/E3O1ETGk2uuI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UosU/PAv; arc=none smtp.client-ip=209.85.208.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="YFEgZswI"
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 56155109F2894;
-	Sat, 25 Apr 2026 21:09:54 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id qyMt0qxedQ0x; Sat, 25 Apr 2026 21:09:43 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
-	t=1777118983;
-	b=Si30g+Ef/EFxx/cAxiwlHxRBpXJzJMyTLQncwcgRze8u4I68Dkz+OMTYsZPW3LedodXQ
-	 59QYSVmk4k/TklvxRtbQqD90d+Ie8b7SfoBMesLlasr7gC5VA8Eng+6s1NxCpTHJIvZUY
-	 RXoWhhuR/IxDpYkecHQltx123axxmB1s98=
-ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
-	c=relaxed/relaxed; t=1777118983;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
-	bh=YupkD1mq+ehdYIXwTRTv87Ot0jGVgiqxR5QSLldhUhA=;
-	b=Nf8PVLLinNnNVLvJYJSHty2TSItH5tcfKXf70HHq9Nx52LP3GcHibjBUDbGT1yoTdnIc
-	 MtdbhMHVgAqWpzbT3mvORU7rUj3jzo6hcq7E2+J+PSHfy1QWuTaoOinkIjTzQgdKtamL1
-	 vk9f0Xh+Pm41vnEvHT3MBoQlVLSql2QQoo=
-ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 3443D109F288C; Sat, 25 Apr 2026 21:09:43 +0900 (JST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 3443D109F288C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1777118983;
-	bh=YupkD1mq+ehdYIXwTRTv87Ot0jGVgiqxR5QSLldhUhA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=YFEgZswI+lPuvgiCu74Vbwf6Uc582HwUqy5kkRKRO7+XSIa/HKLwvvnlX8hS2XLCP
-	 RMy8HUD7RGrtlYUF2PQbEhB/TW3wygPLwXdTzWP5b60UvV5OxnpLTF1PSaxU5YezcU
-	 sjKf5lFeXJWojMApE22hIgp/fldRqEizqc5IuibA=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	corbet@lwn.net,
-	akiyks@gmail.com,
-	weibu@redadmin.org
-Subject: [PATCH v2] docs/ja_JP: translate more of submitting-patches.rst
-Date: Sat, 25 Apr 2026 21:09:41 +0900
-Message-ID: <20260425120941.1290861-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UosU/PAv"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e7d983f50so96660131fa.1
+        for <linux-doc@vger.kernel.org>; Sat, 25 Apr 2026 05:54:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777121689; x=1777726489; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=i9MujvPFIO9IoskE4wX3Cu5o3M/qCzpzUl97wUtWfqQ=;
+        b=UosU/PAv0isJRPeZQE2P66vBgoqiyoHtvQ0cC4/vXOMqJKf5WB1g/yrJFUOLqHBy2Y
+         IfK69gcCMZBmOgP25yJ4ZRC7Xj8XmI2/av3miOpGz8kLhfTaqm0y7986ApG8F1J9GvFF
+         5fssw37jVTo5I8+YNtNTaaxe83abLMHGlt6xedpyYUUd4yhwAtans0RNIgXsoH73LC7K
+         mpdlcsElkgWKZSTdwkoz1sr4mkJzpWXNEJB4BuNUMSV4LCwE/WSE+7rP0CZfOyoYBxJe
+         IzLr+P7bCHO7dwBV8nF9k6f//bw1vYhs+T8ym2/6jx2oe24M0kmII3KCIBHQfvS0/R21
+         I7gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777121689; x=1777726489;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i9MujvPFIO9IoskE4wX3Cu5o3M/qCzpzUl97wUtWfqQ=;
+        b=WJ68p9h2+uKZfI4Yn7AxB44KBq8g0GE4oVz0nsmYrBbb0EHurWCjGoDbzr/qkx5BgR
+         fr/Jp9t06Hi9DvDGe09rWnNMa+eUTtl47M4BIcw/on9jIfJ9/laevCqcAv/4u9F7bDiq
+         w0U5vPeD52WLG+uqN+6HcVMALVepKnt1S4lAuQSKAMUljMIuVO0T4oBy1d7BsKSB7wxR
+         iOTpNjbCo0b0+e9tViyYlqwvu1m4MLsMjjm6TJQdbV3peyHiFvPd7FpTbSbsAneAfelf
+         49+QF07M3rd8XL8Oq4iQXGGBN+rww9Kf0KEocAfIu/N2fVzmnx2IjkkbaIDwm66xWrF1
+         nfdQ==
+X-Forwarded-Encrypted: i=1; AFNElJ+YP8i2+JkxUc7enxA4CRpyBW3CM4cSkzbD0ddp1dPbDW0qIiSlZd3E3fqL7p8jvTFvp+engDzGjpE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUA+QOef78JRQmIWr2qJAgp+DGjbBMPcCtNN/+C+vhZ1brhxQD
+	MUQmCcgZ749J3QZhyNhU0iSV19996R2/z125cqBnvAl71yWh09zwbS3/
+X-Gm-Gg: AeBDievK4YQetyNZGYJJG3v+0K4s4bWXP2YTl3AXhGK7kf0lJTPRciXy9LvdqH28Sbi
+	PEPdEdAyKLhAxF5DsQG/oCJhIjsrJhw1z/5kTypEty8UXTtJgHxBLRuihMXHvHCNaU7Wils9yHZ
+	sk/5rWQdjUgJqyHLS29wR+HOAfTp7vOxeGqI8v5q7c56I1t6BQmu4kkLbY6AQ8IoJGT6sprl5Uh
+	8P5ZoqeevU6VXTAZKC7TuvGwtVVNnXaDBg82Z8OydpK71DF4NeBpVEEyLwBuPp2tJeTr2x/vQZt
+	ScSh69CXVKYXMWIrO7hhDJ7KXz7LpkXlQ+0wbpIvI52Ik3pQkXI6fueW+DEvSacUudxRir/eumW
+	dYpcNMxBCoqyqBB4ieHinUqzW0pk2OsOExgtmqegG8o8BW+0mPmDwXgYh5LSysPLW1gBrxt2UaY
+	FF5mHrbno2oObBmMGPrmd3EKY=
+X-Received: by 2002:a05:651c:4188:b0:389:f0d9:398c with SMTP id 38308e7fff4ca-38ec7b42f03mr88438351fa.31.1777121688906;
+        Sat, 25 Apr 2026 05:54:48 -0700 (PDT)
+Received: from xeon ([188.163.112.56])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb5f6b20sm58334271fa.18.2026.04.25.05.54.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2026 05:54:48 -0700 (PDT)
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+To: Jonathan Cameron <jic23@kernel.org>,
+	David Lechner <dlechner@baylibre.com>,
+	=?UTF-8?q?Nuno=20S=C3=A1?= <nuno.sa@analog.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3 0/3] Update APDS990x ALS to support device trees
+Date: Sat, 25 Apr 2026 15:54:26 +0300
+Message-ID: <20260425125429.65154-1-clamor95@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Translate the "Separate your changes", "Style-check your changes",
-and "Select the recipients for your patch" sections in
-Documentation/translations/ja_JP/process/submitting-patches.rst.
+Document Avago APDS9900/9901 ALS/Proximity sensor in schema and add its support
+to tsl2772 driver.
 
-Keep the wording close to the English text and wrap lines to match
-the style used in the surrounding Japanese translation.
-
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
 ---
-v2:
- - drop conflicting label
- - rewrap lines more consistently
+Changes in v3:
+- switched from apds990x to apds9900 in the driver
+- fixed misc-devices/index.rts
+- expanded and adjusted commit descriptions
 
- .../ja_JP/process/submitting-patches.rst      | 122 ++++++++++++++++++
- 1 file changed, 122 insertions(+)
+Changes in v2:
+- dropped all previous patches
+- apds990x was documented in tsl2772.yaml
+- apds990x support was added to tsl2772.c
+- original apds990x driver removed from misc
+---
 
-diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
-t b/Documentation/translations/ja_JP/process/submitting-patches.rst
-index 91bd79a0e9dc..67f19a9a325d 100644
---- a/Documentation/translations/ja_JP/process/submitting-patches.rst
-+++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
-@@ -180,3 +180,125 @@ lore.kernel.org =E3=81=AE=E3=83=A1=E3=83=83=E3=82=BB=
-=E3=83=BC=E3=82=B8=E3=82=A2=E3=83=BC=E3=82=AB=E3=82=A4=E3=83=96=E3=82=B5=E3=
-=83=BC=E3=83=93=E3=82=B9=E3=82=92=E4=BD=BF=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=
-=A0
-=20
-     $ git log -1 --pretty=3Dfixes 54a4f0239f2e
-     Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the num=
-ber of pages it actually freed")
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B
-+--------------
-+
-+=E5=90=84 **=E8=AB=96=E7=90=86=E7=9A=84=E3=81=AA=E5=A4=89=E6=9B=B4** =E3=
-=81=AF=E3=80=81=E5=80=8B=E5=88=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=
-=AB
-+=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=81=9F=E3=81=A8=E3=81=88=E3=81=B0=E3=80=81=E5=8D=98=E4=B8=80=E3=81=AE=
-=E3=83=89=E3=83=A9=E3=82=A4=E3=83=90=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E5=
-=A4=89=E6=9B=B4=E3=81=AB=E3=83=90=E3=82=B0=E4=BF=AE=E6=AD=A3=E3=81=A8=E6=80=
-=A7=E8=83=BD=E6=94=B9=E5=96=84=E3=81=AE
-+=E4=B8=A1=E6=96=B9=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=8C=E3=82=8B=E3=81=AA=
-=E3=82=89=E3=80=81=E3=81=9D=E3=82=8C=E3=82=89=E3=81=AF 2 =E3=81=A4=E4=BB=A5=
-=E4=B8=8A=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB
-+=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=
-=E5=A4=89=E6=9B=B4=E3=81=AB API =E3=81=AE=E6=9B=B4=E6=96=B0=E3=81=A8=E3=80=
-=81=E3=81=9D=E3=81=AE=E6=96=B0=E3=81=97=E3=81=84 API =E3=82=92=E4=BD=BF=E3=
-=81=86
-+=E6=96=B0=E3=81=97=E3=81=84=E3=83=89=E3=83=A9=E3=82=A4=E3=83=90=E3=81=8C=
-=E5=90=AB=E3=81=BE=E3=82=8C=E3=82=8B=E3=81=AA=E3=82=89=E3=80=81=E3=81=9D=E3=
-=82=8C=E3=82=89=E3=81=AF 2 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=
-=81=AB
-+=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E4=B8=80=E6=96=B9=E3=80=81=E5=A4=9A=E6=95=B0=E3=81=AE=E3=83=95=E3=82=A1=
-=E3=82=A4=E3=83=AB=E3=81=AB=E5=AF=BE=E3=81=97=E3=81=A6=E5=8D=98=E4=B8=80=E3=
-=81=AE=E5=A4=89=E6=9B=B4=E3=82=92=E8=A1=8C=E3=81=86=E5=A0=B4=E5=90=88=E3=81=
-=AF=E3=80=81=E3=81=9D=E3=82=8C=E3=82=89=E3=82=92
-+1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=81=BE=E3=81=A8=
-=E3=82=81=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=A4=E3=
-=81=BE=E3=82=8A=E3=80=811 =E3=81=A4=E3=81=AE=E8=AB=96=E7=90=86=E7=9A=84=E3=
-=81=AA=E5=A4=89=E6=9B=B4=E3=81=AF
-+1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=90=AB=E3=82=81=
-=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=80=82
-+
-+=E8=A6=9A=E3=81=88=E3=81=A6=E3=81=8A=E3=81=8F=E3=81=B9=E3=81=8D=E7=82=B9=
-=E3=81=AF=E3=80=81=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=AC=E3=
-=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=AB=E7=90=86=E8=A7=A3=E3=81=97=E3=82=
-=84=E3=81=99=E3=81=8F=E3=80=81
-+=E6=A4=9C=E8=A8=BC=E3=81=A7=E3=81=8D=E3=82=8B=E5=A4=89=E6=9B=B4=E3=81=A7=
-=E3=81=82=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A0=E3=81=A8=E3=81=84=E3=81=86=E3=
-=81=93=E3=81=A8=E3=81=A7=E3=81=99=E3=80=82=E5=90=84=E3=83=91=E3=83=83=E3=83=
-=81=E3=81=AF=E3=80=81
-+=E3=81=9D=E3=82=8C=E8=87=AA=E4=BD=93=E3=81=AE=E5=A6=A5=E5=BD=93=E6=80=A7=
-=E3=81=A7=E6=AD=A3=E5=BD=93=E5=8C=96=E3=81=A7=E3=81=8D=E3=81=AA=E3=81=91=E3=
-=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E5=AE=8C=E6=88=90=E3=81=95=E3=81=9B=E3=82=8B=
-=E3=81=9F=E3=82=81=E3=81=AB=E3=80=81=E3=81=82=E3=82=8B=E3=83=91=E3=83=83=E3=
-=83=81=E3=81=8C=E5=88=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E4=BE=
-=9D=E5=AD=98=E3=81=99=E3=82=8B=E3=81=AA=E3=82=89=E3=80=81
-+=E3=81=9D=E3=82=8C=E3=81=A7=E3=82=82=E6=A7=8B=E3=81=84=E3=81=BE=E3=81=9B=
-=E3=82=93=E3=80=82=E5=8D=98=E3=81=AB=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=
-=81=AE=E8=AA=AC=E6=98=8E=E3=81=AB
-+**"this patch depends on patch X"** =E3=81=A8=E8=A8=98=E3=81=97=E3=81=A6=
-=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E5=A4=89=E6=9B=B4=E3=82=92=E4=B8=80=E9=80=A3=E3=81=AE=E3=83=91=E3=83=83=
-=E3=83=81=E3=81=AB=E5=88=86=E3=81=91=E3=82=8B=E9=9A=9B=E3=81=AF=E3=80=81=E3=
-=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E4=B8=AD=E3=81=AE=E5=90=84=E3=83=91=E3=83=
-=83=E3=83=81=E3=82=92
-+=E9=81=A9=E7=94=A8=E3=81=97=E3=81=9F=E5=BE=8C=E3=81=A7=E3=82=82=E3=80=81=
-=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=8C=E6=AD=A3=E3=81=97=E3=81=8F=E3=
-=83=93=E3=83=AB=E3=83=89=E3=81=95=E3=82=8C=E3=80=81=E6=AD=A3=E5=B8=B8=E3=81=
-=AB=E5=8B=95=E4=BD=9C=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92
-+=E7=89=B9=E3=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=A6=E7=A2=BA=E8=AA=8D=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E5=95=8F=E9=
-=A1=8C=E3=81=AE=E8=BF=BD=E8=B7=A1=E3=81=AB ``git bisect`` =E3=82=92
-+=E4=BD=BF=E3=81=86=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AF=E3=80=81=E3=81=82=
-=E3=81=AA=E3=81=9F=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=B7=E3=83=AA=E3=
-=83=BC=E3=82=BA=E3=82=92=E4=BB=BB=E6=84=8F=E3=81=AE=E5=9C=B0=E7=82=B9=E3=81=
-=A7=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B
-+=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
-=E9=80=94=E4=B8=AD=E3=81=A7=E3=83=90=E3=82=B0=E3=82=92=E6=8C=81=E3=81=A1=E8=
-=BE=BC=E3=82=81=E3=81=B0=E3=80=81=E5=BD=BC=E3=82=89=E3=81=AB=E6=84=9F=E8=AC=
-=9D=E3=81=95=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AF
-+=E3=81=AA=E3=81=84=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=80=82
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=BB=E3=83=83=E3=83=88=E3=82=92=E3=81=93=
-=E3=82=8C=E4=BB=A5=E4=B8=8A=E5=B0=8F=E3=81=95=E3=81=8F=E3=81=A7=E3=81=8D=E3=
-=81=AA=E3=81=84=E3=81=AA=E3=82=89=E3=80=81=E4=B8=80=E5=BA=A6=E3=81=AB=E6=8A=
-=95=E7=A8=BF=E3=81=99=E3=82=8B=E3=81=AE=E3=81=AF
-+15 =E5=80=8B=E7=A8=8B=E5=BA=A6=E3=81=BE=E3=81=A7=E3=81=AB=E3=81=97=E3=81=
-=A6=E3=80=81=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=A8=E7=B5=B1=E5=90=88=
-=E3=82=92=E5=BE=85=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=
-=80=82
-+
-+
-+=E5=A4=89=E6=9B=B4=E3=81=AE=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E3=82=92=
-=E7=A2=BA=E8=AA=8D=E3=81=99=E3=82=8B
-+------------------------
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=9F=BA=E6=9C=AC=E7=9A=84=E3=81=AA=
-=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E9=81=95=E5=8F=8D=E3=81=8C=E3=81=AA=E3=
-=81=84=E3=81=8B=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
-=95=E3=81=84=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AF
-+Documentation/process/coding-style.rst =E3=82=92=E5=8F=82=E7=85=A7=E3=81=
-=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E3=81=93=E3=82=8C=E3=82=92=E6=80=A0=E3=82=8B=E3=81=A8=E3=80=81=E5=8D=98=
-=E3=81=AB=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=AE=E6=99=82=E9=
-=96=93=E3=82=92=E7=84=A1=E9=A7=84=E3=81=AB=E3=81=99=E3=82=8B=E3=81=A0=E3=81=
-=91=E3=81=A7=E3=81=AA=E3=81=8F=E3=80=81
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AF=E3=81=8A=E3=81=9D=E3=82=89=E3=81=8F=
-=E8=AA=AD=E3=81=BE=E3=82=8C=E3=82=82=E3=81=9B=E3=81=9A=E3=81=AB=E5=8D=B4=E4=
-=B8=8B=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E5=A4=A7=E3=81=8D=E3=81=AA=E4=BE=8B=E5=A4=96=E3=81=8C 1 =E3=81=A4=E3=81=
-=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=
-=E3=81=82=E3=82=8B=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=8B=E3=82=89=E5=
-=88=A5=E3=81=AE
-+=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=B8=E7=A7=BB=E5=8B=95=E3=81=99=
-=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=A7=E3=81=99=E3=80=82=E3=81=93=E3=81=AE=E3=
-=81=A8=E3=81=8D=E3=81=AF=E3=80=81=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E7=A7=
-=BB=E5=8B=95=E3=81=99=E3=82=8B
-+=E3=81=9D=E3=81=AE=E5=90=8C=E3=81=98=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=
-=E4=B8=AD=E3=81=A7=E3=80=81=E7=A7=BB=E5=8B=95=E3=81=97=E3=81=9F=E3=82=B3=E3=
-=83=BC=E3=83=89=E3=82=92=E4=B8=80=E5=88=87=E5=A4=89=E6=9B=B4=E3=81=97=E3=81=
-=A6=E3=81=AF=E3=81=84=E3=81=91=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+=E3=81=9D=E3=81=86=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=A7=E3=80=81=
-=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E7=A7=BB=E5=8B=95=E3=81=A8=E3=81=84=E3=
-=81=86=E8=A1=8C=E7=82=BA=E3=81=A8=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=
-=AE=E5=A4=89=E6=9B=B4=E3=81=A8=E3=82=92
-+=E6=98=8E=E7=A2=BA=E3=81=AB=E5=8C=BA=E5=88=A5=E3=81=A7=E3=81=8D=E3=81=BE=
-=E3=81=99=E3=80=82=E3=81=93=E3=82=8C=E3=81=AF=E5=AE=9F=E9=9A=9B=E3=81=AE=E5=
-=B7=AE=E5=88=86=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=E5=A4=
-=A7=E3=81=84=E3=81=AB=E5=8A=A9=E3=81=91=E3=80=81
-+=E3=83=84=E3=83=BC=E3=83=AB=E3=81=8C=E3=82=B3=E3=83=BC=E3=83=89=E8=87=AA=
-=E4=BD=93=E3=81=AE=E5=B1=A5=E6=AD=B4=E3=82=92=E3=82=88=E3=82=8A=E9=81=A9=E5=
-=88=87=E3=81=AB=E8=BF=BD=E8=B7=A1=E3=81=A7=E3=81=8D=E3=82=8B=E3=82=88=E3=81=
-=86=E3=81=AB=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
-+
-+=E6=8F=90=E5=87=BA=E5=89=8D=E3=81=AB=E3=80=81=E3=83=91=E3=83=83=E3=83=81=
-=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=
-=83=BC
-+(``scripts/checkpatch.pl``) =E3=81=A7=E3=83=91=E3=83=83=E3=83=81=E3=82=92=
-=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=
-=80=82
-+=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=
-=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=83=BC=E3=81=AF=E6=8C=87=E9=87=9D=E3=
-=81=A8=E3=81=97=E3=81=A6=E8=A6=8B=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=
-=82=E3=82=8A=E3=80=81
-+=E4=BA=BA=E9=96=93=E3=81=AE=E5=88=A4=E6=96=AD=E3=81=AB=E5=8F=96=E3=81=A3=
-=E3=81=A6=E4=BB=A3=E3=82=8F=E3=82=8B=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF=E3=
-=81=AA=E3=81=84=E3=81=93=E3=81=A8=E3=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=
-=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+=E9=81=95=E5=8F=8D=E3=81=8C=E3=81=82=E3=81=A3=E3=81=A6=E3=82=82=E3=80=81=
-=E3=81=9D=E3=81=AE=E6=96=B9=E3=81=8C=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E8=
-=A6=8B=E6=A0=84=E3=81=88=E3=81=8C=E3=82=88=E3=81=84=E3=81=AA=E3=82=89=E3=80=
-=81
-+=E3=81=9D=E3=81=AE=E3=81=BE=E3=81=BE=E3=81=AB=E3=81=97=E3=81=A6=E3=81=8A=
-=E3=81=8F=E3=81=AE=E3=81=8C=E6=9C=80=E5=96=84=E3=81=A7=E3=81=97=E3=82=87=E3=
-=81=86=E3=80=82
-+
-+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=83=BC=E3=81=AF 3 =E3=81=A4=E3=81=
-=AE=E3=83=AC=E3=83=99=E3=83=AB=E3=81=A7=E5=A0=B1=E5=91=8A=E3=81=97=E3=81=BE=
-=E3=81=99:
-+
-+ - ERROR: =E9=96=93=E9=81=95=E3=81=A3=E3=81=A6=E3=81=84=E3=82=8B=E5=8F=AF=
-=E8=83=BD=E6=80=A7=E3=81=8C=E9=9D=9E=E5=B8=B8=E3=81=AB=E9=AB=98=E3=81=84=E3=
-=82=82=E3=81=AE
-+ - WARNING: =E6=85=8E=E9=87=8D=E3=81=AA=E3=83=AC=E3=83=93=E3=83=A5=E3=83=
-=BC=E3=82=92=E8=A6=81=E3=81=99=E3=82=8B=E3=82=82=E3=81=AE
-+ - CHECK: =E6=A4=9C=E8=A8=8E=E3=82=92=E8=A6=81=E3=81=99=E3=82=8B=E3=82=82=
-=E3=81=AE
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E6=AE=8B=E3=81=97=E3=81=9F=E9=81=95=
-=E5=8F=8D=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81=E3=81=99=E3=
-=81=B9=E3=81=A6=E7=90=86=E7=94=B1=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=A7=E3=81=
-=8D=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0
-+=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+
-+
-+=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=AE=9B=E5=85=88=E3=82=92=E9=81=B8=
-=E6=8A=9E=E3=81=99=E3=82=8B
-+----------------------
-+
-+=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=E3=81=AF=E3=80=81=E3=81=9D=
-=E3=81=AE=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E4=BF=9D=E5=AE=88=E3=81=99=E3=
-=82=8B=E9=81=A9=E5=88=87=E3=81=AA=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=
-=86=E3=83=A0=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=A8
-+=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=
-=E3=82=92=E3=80=81=E5=BF=85=E3=81=9A Cc =E3=81=AB=E5=85=A5=E3=82=8C=E3=81=
-=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E8=AA=B0=E3=81=8C=E3=81=9D=
-=E3=81=AE
-+=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=8B=E3=81=AF=E3=80=81MAINTAINERS=
- =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=A8=E3=82=BD=E3=83=BC=E3=82=B9=
-=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E6=94=B9=E8=A8=82=E5=B1=A5=E6=AD=B4=E3=
-=82=92
-+=E8=AA=BF=E3=81=B9=E3=81=A6=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=
-=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AE=E6=AE=B5=E9=9A=8E=E3=
-=81=A7=E3=81=AF ``scripts/get_maintainer.pl``
-+=E3=81=8C=E9=9D=9E=E5=B8=B8=E3=81=AB=E5=BD=B9=E7=AB=8B=E3=81=A1=E3=81=BE=
-=E3=81=99=EF=BC=88=E3=83=91=E3=83=83=E3=83=81=E3=81=B8=E3=81=AE=E3=83=91=E3=
-=82=B9=E3=82=92=E5=BC=95=E6=95=B0=E3=81=A8=E3=81=97=E3=81=A6
-+``scripts/get_maintainer.pl`` =E3=81=AB=E6=B8=A1=E3=81=97=E3=81=A6=E3=81=
-=8F=E3=81=A0=E3=81=95=E3=81=84=EF=BC=89=E3=80=82=E4=BD=9C=E6=A5=AD=E4=B8=AD=
-=E3=81=AE
-+=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=81=AE=E3=83=A1=
-=E3=83=B3=E3=83=86=E3=83=8A=E3=81=8C=E8=A6=8B=E3=81=A4=E3=81=8B=E3=82=89=E3=
-=81=AA=E3=81=84=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81Andrew Morton
-+(akpm@linux-foundation.org) =E3=81=8C=E6=9C=80=E5=BE=8C=E3=81=AE=E6=89=8B=
-=E6=AE=B5=E3=81=A8=E3=81=AA=E3=82=8B=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=
-=81=A7=E3=81=99=E3=80=82
-+
-+=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=
-=E3=81=AF=E3=80=81=E3=83=87=E3=83=95=E3=82=A9=E3=83=AB=E3=83=88=E3=81=A7
-+linux-kernel@vger.kernel.org =E3=82=92=E4=BD=BF=E3=81=86=E3=81=B9=E3=81=8D=
-=E3=81=A7=E3=81=99=E3=81=8C=E3=80=81=E3=81=93=E3=81=AE=E3=83=AA=E3=82=B9=E3=
-=83=88=E3=81=AE
-+=E6=B5=81=E9=87=8F=E3=81=8C=E5=A4=9A=E3=81=84=E3=81=9F=E3=82=81=E3=80=81=
-=E7=9B=AE=E3=82=92=E9=80=9A=E3=81=95=E3=81=AA=E3=81=8F=E3=81=AA=E3=81=A3=E3=
-=81=9F=E9=96=8B=E7=99=BA=E8=80=85=E3=82=82=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=
-=82=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+=E3=81=A8=E3=81=AF=E3=81=84=E3=81=88=E3=80=81=E7=84=A1=E9=96=A2=E4=BF=82=
-=E3=81=AA=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=
-=83=88=E3=82=84=E7=84=A1=E9=96=A2=E4=BF=82=E3=81=AA=E4=BA=BA=E3=80=85=E3=81=
-=AB
-+=E3=82=B9=E3=83=91=E3=83=A0=E3=82=92=E9=80=81=E3=82=89=E3=81=AA=E3=81=84=
-=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=A2=E9=80=A3=E3=81=AE=E3=83=A1=
-=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=81=AE=E5=
-=A4=9A=E3=81=8F=E3=81=AF kernel.org =E3=81=A7
-+=E9=81=8B=E5=96=B6=E3=81=95=E3=82=8C=E3=81=A6=E3=81=8A=E3=82=8A=E3=80=81=
-=E3=81=9D=E3=81=AE=E4=B8=80=E8=A6=A7=E3=81=AF https://subspace.kernel.org =
-=E3=81=A7
-+=E7=A2=BA=E8=AA=8D=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82=E3=81=9F=
-=E3=81=A0=E3=81=97=E3=80=81=E4=BB=96=E6=89=80=E3=81=A7=E9=81=8B=E5=96=B6=E3=
-=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=
-=AB=E9=96=A2=E9=80=A3=E3=81=AE
-+=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=
-=E3=82=82=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
-+
-+Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E6=8E=A1=E7=94=A8=E3=
-=81=95=E3=82=8C=E3=82=8B=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E5=A4=89=E6=9B=
-=B4=E3=81=AE=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AA=E8=A3=81=E5=AE=9A=E8=80=85=
-=E3=81=AF
-+Linus Torvalds =E3=81=A7=E3=81=99=E3=80=82=E5=BD=BC=E3=81=AE=E3=83=A1=E3=
-=83=BC=E3=83=AB=E3=82=A2=E3=83=89=E3=83=AC=E3=82=B9=E3=81=AF
-+<torvalds@linux-foundation.org> =E3=81=A7=E3=81=99=E3=80=82Linus =E3=81=AF=
-=E5=A4=A7=E9=87=8F=E3=81=AE
-+=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=92=E5=8F=97=E3=81=91=E5=8F=96=E3=81=A3=
-=E3=81=A6=E3=81=8A=E3=82=8A=E3=80=81=E7=8F=BE=E6=99=82=E7=82=B9=E3=81=A7=E3=
-=81=AF=E5=BD=BC=E3=81=AB=E7=9B=B4=E6=8E=A5=E5=B1=8A=E3=81=8F=E3=83=91=E3=83=
-=83=E3=83=81=E3=81=AF
-+=E3=81=94=E3=81=8F=E3=82=8F=E3=81=9A=E3=81=8B=E3=81=AA=E3=81=AE=E3=81=A7=
-=E3=80=81=E9=80=9A=E5=B8=B8=E3=81=AF=E5=BD=BC=E3=81=AB=E3=83=A1=E3=83=BC=E3=
-=83=AB=E3=82=92=E9=80=81=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E6=A5=B5=E5=8A=
-=9B
-+=E9=81=BF=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E6=82=AA=E7=94=A8=E5=8F=AF=E8=83=BD=E3=81=AA=E3=82=BB=E3=82=AD=E3=83=A5=
-=E3=83=AA=E3=83=86=E3=82=A3=E3=83=90=E3=82=B0=E3=82=92=E4=BF=AE=E6=AD=A3=E3=
-=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=81=82=E3=82=8B=E3=81=
-=AA=E3=82=89=E3=80=81
-+=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92 security@kernel.org=
- =E3=81=AB=E9=80=81=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
-=E3=80=82
-+=E6=B7=B1=E5=88=BB=E3=81=AA=E3=83=90=E3=82=B0=E3=81=AB=E3=81=A4=E3=81=84=
-=E3=81=A6=E3=81=AF=E3=80=81=E3=83=87=E3=82=A3=E3=82=B9=E3=83=88=E3=83=AA=E3=
-=83=93=E3=83=A5=E3=83=BC=E3=82=BF=E3=81=8C=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=
-=BC=E3=81=AB
-+=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E9=85=8D=E5=B8=83=E3=81=A7=E3=81=8D=
-=E3=82=8B=E3=82=88=E3=81=86=E3=80=81=E7=9F=AD=E6=9C=9F=E9=96=93=E3=81=AE em=
-bargo =E3=81=8C=E6=A4=9C=E8=A8=8E=E3=81=95=E3=82=8C=E3=82=8B
-+=E5=A0=B4=E5=90=88=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
-=E3=81=9D=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=A0=B4=E5=90=88=E3=80=81=E3=
-=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E5=85=AC=E9=96=8B
-+=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=
-=E3=81=AB=E9=80=81=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=AF=E3=81=82=E3=
-=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
-+Documentation/process/security-bugs.rst =E3=82=82=E5=8F=82=E7=85=A7=E3=81=
-=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E3=83=AA=E3=83=AA=E3=83=BC=E3=82=B9=E6=B8=88=E3=81=BF=E3=82=AB=E3=83=BC=
-=E3=83=8D=E3=83=AB=E3=81=AE=E6=B7=B1=E5=88=BB=E3=81=AA=E3=83=90=E3=82=B0=E3=
-=82=92=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=
-=AF=E3=80=81
-+=E6=AC=A1=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E8=A1=8C=E3=82=92=E3=83=91=
-=E3=83=83=E3=83=81=E3=81=AE sign-off =E6=AC=84=E3=81=AB=E5=85=A5=E3=82=8C=
-=E3=82=8B=E3=81=93=E3=81=A8=E3=81=A7=E3=80=81
-+stable =E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=B8=E5=90=91=E3=81=91=E3=
-=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84::
-+
-+  Cc: stable@vger.kernel.org
-+
-+=E3=81=93=E3=82=8C=E3=81=AF=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=AE=E5=8F=97=
-=E4=BF=A1=E8=80=85=E3=81=A7=E3=81=AF=E3=81=AA=E3=81=84=E3=81=93=E3=81=A8=E3=
-=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=
-=84=E3=80=82
-+=E3=81=BE=E3=81=9F=E3=80=81=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AB=
-=E5=8A=A0=E3=81=88=E3=81=A6
-+Documentation/process/stable-kernel-rules.rst =E3=82=82=E8=AA=AD=E3=82=93=
-=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
-+
-+=E5=A4=89=E6=9B=B4=E3=81=8C=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E3=83=A9=
-=E3=83=B3=E3=83=89=E3=81=A8=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AE=E3=
-=82=A4=E3=83=B3=E3=82=BF=E3=83=BC=E3=83=95=E3=82=A7=E3=83=BC=E3=82=B9=E3=81=
-=AB
-+=E5=BD=B1=E9=9F=BF=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81MA=
-INTAINERS =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=AB=E8=A8=98=E8=BC=89=
-=E3=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B
-+MAN-PAGES =E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=AB man-pages =E3=83=
-=91=E3=83=83=E3=83=81=E3=80=81=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=A8=E3=82=82
-+=E5=A4=89=E6=9B=B4=E3=81=AE=E9=80=9A=E7=9F=A5=E3=82=92=E9=80=81=E3=81=A3=
-=E3=81=A6=E3=80=81=E6=83=85=E5=A0=B1=E3=81=8C=E3=83=9E=E3=83=8B=E3=83=A5=E3=
-=82=A2=E3=83=AB=E3=83=9A=E3=83=BC=E3=82=B8=E3=81=AB
-+=E5=8F=8D=E6=98=A0=E3=81=95=E3=82=8C=E3=82=8B=E3=82=88=E3=81=86=E3=81=AB=
-=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=83=A6=E3=
-=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=E9=96=93 API =E3=81=AE=E5=A4=89=E6=9B=B4=
-=E3=81=AF=E3=80=81
-+linux-api@vger.kernel.org =E3=81=AB=E3=82=82 Cc =E3=81=97=E3=81=A6=E3=81=
-=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
---=20
-2.47.3
+Svyatoslav Ryhel (3):
+  dt-bindings: iio: light: Document Avago APDS9900/9901 ALS/Proximity
+    sensor
+  iio: tsl2772: Add support for Avago APDS9900/9901 ALS/Proximity sensor
+  misc: Remove old APDS990x driver
+
+ .../bindings/iio/light/tsl2772.yaml           |    2 +
+ Documentation/misc-devices/apds990x.rst       |  128 --
+ Documentation/misc-devices/index.rst          |    1 -
+ drivers/iio/light/tsl2772.c                   |   16 +
+ drivers/misc/Kconfig                          |   10 -
+ drivers/misc/Makefile                         |    1 -
+ drivers/misc/apds990x.c                       | 1284 -----------------
+ include/linux/platform_data/apds990x.h        |   65 -
+ 8 files changed, 18 insertions(+), 1489 deletions(-)
+ delete mode 100644 Documentation/misc-devices/apds990x.rst
+ delete mode 100644 drivers/misc/apds990x.c
+ delete mode 100644 include/linux/platform_data/apds990x.h
+
+-- 
+2.51.0
 
