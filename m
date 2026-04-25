@@ -1,139 +1,88 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AA83EEBB;
-	Sat, 25 Apr 2026 15:40:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F6AD303C87;
+	Sat, 25 Apr 2026 16:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777131619; cv=none; b=s90I5m8Mn7KIY0UejyqHMWxPLtG9XprffY+UCNbIeiqkrUflyoT/dDVcPOCSLO5cuA++34LewS+YiFgQ+EWlB8Ka279C8eCtTLs3mZj3anCl2wTCoo3G3ty1wg3t9E5zuQU0ksU2KngN5KoDUXLDrfS50lBBYHD94Y0kILu4QOE=
+	t=1777133387; cv=none; b=KA9UHv4mHlPQ88WxVn+bZ88aWw++szb5ABDEmtqTV+A0nKKSr+TrYMukt0RzYhibTXC+FdXc1bkjmUET9JFkAkzgEAfZtBs+SMoaaFZSsW91srs1A+2C99EEWTLG13WqdCOBBy+eV3qjz2r42QaVpCFOp8Fqr6SHCNmD/yebxt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777131619; c=relaxed/simple;
-	bh=VzTg/Xy1t4oLKHrGQj6YqVosIbUPBj9J66CgenmVdEU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=s0BWv1xPbZhmsFAcwzVx9oY1rP8hmUGqTS6L1z4vB7eCqzmIlw7yfqVCYvebOO8NyTeyJ4XMz6MCjw4onz4MPhr5n7xjXHR3FhGAXxwbXLK1V/GOvk6+DlCjczjSzxCF4o512taMDvexEPAyY0ZNX39aSp6nEZK1T0JzNl1Megs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L851jsn8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777133387; c=relaxed/simple;
+	bh=B/lgklGe1J5JXKAyck0MPX6Wmp6wz1ndCOue9ot4ns8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Eytvke8SyTvNpkfXReiI5m4gCF9P2yZ12EP65ZQjSTo1ZDrWVjQXo175NBijYdCOxC3akiG7hrIXlvdGEx8dYErajSXnmgRIMj1IQecPxZiDY4TDuA0zRYvE+vCj9qmZo4iaOZFo2XH+PDErvxxMF248/Ck22QT4xv7LX73MJMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tzPVVKPi; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L851jsn8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 776E4C2BCB0;
-	Sat, 25 Apr 2026 15:40:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tzPVVKPi"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81E6C2BCB0;
+	Sat, 25 Apr 2026 16:09:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777131618;
-	bh=VzTg/Xy1t4oLKHrGQj6YqVosIbUPBj9J66CgenmVdEU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=L851jsn8pOZSp/E2hqdDJS0/YrI/bFbBSM4bvvOO8jx5WPYuKqxHjZazAyKgUwljg
-	 NMi9UYlBiOdgJgLDiAceIBo8HX82AxMLsF7V1POsmNSqSdcZmvGw/EcC7kIPGCM8TP
-	 gnxsyyvPkY42v0xeffrEVGmRVF1Fn3J3Aq22iUBvRndHldtEYtk+B0DdyGFxTmfa87
-	 c1mzDIm0vVD26tTV9Wrv4ockpGBXfXOACJ41gMOqv5yxv202ZNKTmkLs4hr+bvPcuR
-	 aymw8rmfPJq4q2SJ+9T6vaAcvlP+qvUD3bsuwNDlFllXwBDHyzte+f5EYvptmj7GC2
-	 rqe8edXzjKHMg==
-Date: Sat, 25 Apr 2026 16:40:06 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-Cc: Rodrigo Alencar <rodrigo.alencar@analog.com>,
- linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org, David Lechner
- <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>, David
- Laight <david.laight.linux@gmail.com>
-Subject: Re: [PATCH v10 02/11] lib: kstrtox: add kstrtoudec64() and
- kstrtodec64()
-Message-ID: <20260425164006.17b75faf@jic23-huawei>
-In-Reply-To: <mhfgedq2t5lqtu6535ahdmpbvib2xzp2hmyt7ezflnf52r56jh@ze6tee7vpij3>
-References: <20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com>
-	<20260415-adf41513-iio-driver-v10-2-df61046d5457@analog.com>
-	<mhfgedq2t5lqtu6535ahdmpbvib2xzp2hmyt7ezflnf52r56jh@ze6tee7vpij3>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1777133387;
+	bh=B/lgklGe1J5JXKAyck0MPX6Wmp6wz1ndCOue9ot4ns8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tzPVVKPihQ9cAeGJzgRwLIjBHoZIftqV9ajNQhJmX+k02XFjVI5kgwRu8DbVr7QMn
+	 J7qIPnY+opMqspKI6iSzRLacFQnXaP/MLfT3tYBBFWGjefvrRFp+bvVN2AcJ6XSjup
+	 NOeJCnWOZdKz0JOSS+bQlO5gjgYhAHNn3FtpUY6EFm/RmRlJiA3P10UY43WhMwAQ2x
+	 fiOmqIyXgDWVZm+leyJJ/a5MxbkfFftUuPk/i0P2gISGXCL3SL8o4NZX10cKpSNoQu
+	 iNsOT06S0XKdPzDyHFoe85HoMkjwetveI1r7TC4Ak41RonQQgqkl/lQX5LG+VBpybP
+	 lD8B5e2YkPIIQ==
+Date: Sat, 25 Apr 2026 12:09:45 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: "David Hildenbrand (Arm)" <david@kernel.org>
+Cc: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>, akpm@linux-foundation.org,
+	corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+	skhan@linuxfoundation.org, jackmanb@google.com, hannes@cmpxchg.org,
+	ziy@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC 0/7] mm: dual-bitmap page allocator consistency checker
+Message-ID: <aeznSeoi1qFAVu3n@laps>
+References: <20260424140056.2094777-1-sashal@kernel.org>
+ <b001932c-e376-462e-895a-5e4a9c7c0dc5@kernel.org>
+ <aeuZcY0u_7PIQb6R@laps>
+ <b2a15eea-6ed9-4b35-af68-4586554ad2a3@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <b2a15eea-6ed9-4b35-af68-4586554ad2a3@kernel.org>
 
-On Fri, 17 Apr 2026 09:36:20 +0100
-Rodrigo Alencar <455.rodrigo.alencar@gmail.com> wrote:
+On Sat, Apr 25, 2026 at 07:51:10AM +0200, David Hildenbrand (Arm) wrote:
+>On 4/24/26 18:25, Sasha Levin wrote:
+>> On Fri, Apr 24, 2026 at 05:42:53PM +0200, Vlastimil Babka (SUSE) wrote:
+>>> On 4/24/26 16:00, Sasha Levin wrote:
+>>>> Existing memory debugging tools - KASAN, KFENCE, page_poisoning - detect
+>>>> access violations and content corruption, but none of them can detect
+>>>> silent corruption in the page allocator's own metadata. If a hardware
+>>>> bit flip corrupts an allocation bitmap, the allocator hands out a page
+>>>
+>>> An allocation what? The page allocator is a buddy allocator, it has no
+>>> bitmap to track free/allocated state of pages?
+>>
+>> You're right, the cover letter is misleading there. Buddy doesn't use a bitmap:
+>> PageBuddy lives in page_type, the free list is a list, and page->private holds
+>> the order. The dual-bitmap is new metadata the feature adds, maintained from
+>> the alloc/free hooks.
+>
+>Given that you have PageBuddy (first "bit"), could we use a second bit in page_ext?
 
-> On 26/04/15 10:51AM, Rodrigo Alencar wrote:
-> > Add helpers that parses decimal numbers into 64-bit number, i.e., decimal
-> > point numbers with pre-defined scale are parsed into a 64-bit value (fixed
-> > precision). After the decimal point, digits beyond the specified scale
-> > are ignored.  
-> 
-> ...
-> 
-> > +static int _kstrtoudec64(const char *s, unsigned int scale, u64 *res)
-> > +{
-> > +	u64 _res = 0, _frac = 0;
-> > +	unsigned int rv;
-> > +
-> > +	if (scale > 19) /* log10(2^64) = 19.26 */
-> > +		return -EINVAL;
-> > +
-> > +	if (*s != '.') {
-> > +		rv = _parse_integer(s, 10, &_res);
-> > +		if (rv & KSTRTOX_OVERFLOW)
-> > +			return -ERANGE;
-> > +		if (rv == 0)
-> > +			return -EINVAL;
-> > +		s += rv;
-> > +	}
-> > +
-> > +	if (*s == '.' && scale) {
-> > +		s++; /* skip decimal point */
-> > +		rv = _parse_integer_limit(s, 10, &_frac, scale);
-> > +		if (rv & KSTRTOX_OVERFLOW)
-> > +			return -ERANGE;
-> > +		if (rv == 0)
-> > +			return -EINVAL;
-> > +		s += rv;
-> > +		if (rv < scale)
-> > +			_frac *= int_pow(10, scale - rv);
-> > +		while (isdigit(*s)) /* truncate */
-> > +			s++;
-> > +	}
-> > +
-> > +	if (*s == '\n')
-> > +		s++;
-> > +	if (*s)
-> > +		return -EINVAL;
-> > +
-> > +	if (check_mul_overflow(_res, int_pow(10, scale), &_res) ||
-> > +	    check_add_overflow(_res, _frac, &_res))
-> > +		return -ERANGE;
-> > +
-> > +	*res = _res;
-> > +	return 0;
-> > +}  
-> 
-> I have an alternative (slightly more complex) implementation of this function
-> that handles E notation. I find this particularly handy when writting big
-> values like 25 GHz when the ABI is defined in Hz, so instead of writing
-> 25000000000, one can just use 25e9, or 2.5e10. I found that my python code
-> was printing big floating point values or really small ones using E notation
-> and that was giving me -EINVAL, so I had to adjust formatting when generating
-> the string input to the file. No big deal, and we would not need this here,
-> but if maintainers find this useful I could add it into a v11 of this series.
-> 
+Hmm... Thats an interesting idea.
 
-I'd rather we didn't slow this one down. However I'm waiting on some tags
-on this patch from folk who are more familiar with these parsers than
-I am.  Given discussion, Andy or David Laight perhaps?
-+CC David - please make sure to include folk who have been active
-in discussion of earlier versions to decrease chance they miss the new
-one.
+I can see two concerns with something like this:
 
-Maybe start a discussion about whether adding e notation as a separate
-thread after this has merged?
+1. The checker has to be live before memblock_free_all() hands pages to buddy.
+page_ext isn't fully up that early I think.
 
-Jonathan
+2. page_type encodes buddy, offline, slab tags, etc... and a page that isn't
+PageBuddy isn't necessarily allocated through alloc_pages. The invariant gets
+case-y.
 
+But let me think about it a bit more.
 
+-- 
+Thanks,
+Sasha
