@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9E9263F34;
-	Sat, 25 Apr 2026 05:51:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A596263F34;
+	Sat, 25 Apr 2026 05:57:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777096278; cv=none; b=IbTMCCNXUfCmCh6C6mLKb999cjAj91LaBwXZcUPNm41h+Pfe85CGBy8mYylLg/0odRT8KGar8+xhRMTkJGm9tojQHjbdtyGI1ySO5CXICeSTfzaV1w2D9PQ9xxmg9ZHRlqk5Z8313WoI+BbE7+VHdckbjvJ0A/yXmdlgJgvDCfI=
+	t=1777096620; cv=none; b=aeuH5xJTDTpbJX6R/0SawTZJ5IEebS6X7lMbrJa9hT0q7ri7iLwSNC2R1M/ftlH+52QgRyB6hrLpz2HRpXW/Dg6N29DtUij4NTeD29zbz2RkaQM8cXH9OF/8TLUZJVINZNRiJN07lPcFWnQ57veNxP3tL5w7ToJWbRdiaHDNtzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777096278; c=relaxed/simple;
-	bh=1TX6ihQk3kucuVDvqFiea8KYgGnEz+xLRlMxsOzGOA4=;
+	s=arc-20240116; t=1777096620; c=relaxed/simple;
+	bh=Tm1RVF/otoy7t8GU5QzG858Hip+jjhcSOcigpbnnIKY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rL7nSA+6aBpGavq/knyBoTZKHs5zXqskuLr1Hkpvdl+JVu4P8A31SRNTgGz09ZmrVB4RZZo5wUVBHBquq/zhkdtyahc58vboc4+WTKVdR+fR0/Ln2n5SZEJCjmiwDdTqXEX/6b8Sup94W54zcyGK1Wn29fWiEQlJMoAYJtd1D9c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n4kzHdFk; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=K+DDL6EA4xiCL6zPciHIwQE64OzK+4DNGK+uLjXznQx1VGSEnd42Rbd5uQ6vXUoBQQmbqgLSBgiTmbLkg6bFI+8ooCgvXM6D4saL9BjAzebtU35LFDsv1qHX9YJ1SvZuo0w7xPtaAriCGGetLhPmmYT14PNhtlhN40fUiubLoDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=csaj2/sP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n4kzHdFk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43358C2BCB0;
-	Sat, 25 Apr 2026 05:51:12 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="csaj2/sP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD955C2BCB0;
+	Sat, 25 Apr 2026 05:56:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777096278;
-	bh=1TX6ihQk3kucuVDvqFiea8KYgGnEz+xLRlMxsOzGOA4=;
+	s=k20201202; t=1777096620;
+	bh=Tm1RVF/otoy7t8GU5QzG858Hip+jjhcSOcigpbnnIKY=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n4kzHdFkS93dzBf/0sB8LNKsZ13c/FMalJ7qio3iOrsEsZ7KoSTLEFgzargeBcq+d
-	 91GPSZFDSYKszIoGvVWUcz4DBGBcNf/fGVAheD01TE6yF3/oM/FF2HA4YprwGHF8YC
-	 HmX2P/Ex08ZqCO8bd/tQoXuXA6iN8Z2uBkWM69wbTQhDPR3Q0Nmfh4pfyzsuEO9W1f
-	 Lp/Fnq+oVLRj8WQ1OBEpzbF5vmN6zREJhq3cBavYShrRFJiYGAYG+hxtZAiRVGG9dA
-	 Za/4kBiS4LglmJRU758hdOa5ybFwfbSnO3RsKBwcDgP/VN9eQX/4DO3RF9ii8tmYSd
-	 2szB50df5VyvQ==
-Message-ID: <b2a15eea-6ed9-4b35-af68-4586554ad2a3@kernel.org>
-Date: Sat, 25 Apr 2026 07:51:10 +0200
+	b=csaj2/sPuUjak144yih/NYw1vSry/TXCHzWpoDZcz5rAcuuVYu5iInicKb4zlCr44
+	 w9BepnEXbI6L9DWYUaTMPSi6oeEGk7YcprFxmNZus0KmJ4M5azn8XHPlou0JYacw+h
+	 bDvFfwrtUnik8NSo1Gm7EzIXQazOuvmYF2mWkscyHv85tIwo2FAqHrxyOovalwtkGE
+	 FHiuWIzk5oN8en9lg33iJ/GvC8hEbbBfsyEi5oGw6YUXwmHbVDdhDNCIbdUtvfSzXj
+	 8W3+FjlTTLkY0fd5L+eBYd6NWQQo70jpddYtlprwAlT/rvNwT11pUuqG12oFU3uNA3
+	 lIqP29VveexVA==
+Message-ID: <602b431e-244e-4171-bc82-6ba7ee71fe65@kernel.org>
+Date: Sat, 25 Apr 2026 07:56:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,16 +35,26 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 0/7] mm: dual-bitmap page allocator consistency checker
-To: Sasha Levin <sashal@kernel.org>,
- "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: akpm@linux-foundation.org, corbet@lwn.net, ljs@kernel.org,
- Liam.Howlett@oracle.com, rppt@kernel.org, surenb@google.com,
- mhocko@suse.com, skhan@linuxfoundation.org, jackmanb@google.com,
- hannes@cmpxchg.org, ziy@nvidia.com, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260424140056.2094777-1-sashal@kernel.org>
- <b001932c-e376-462e-895a-5e4a9c7c0dc5@kernel.org> <aeuZcY0u_7PIQb6R@laps>
+Subject: Re: [RFC, PATCH 00/12] userfaultfd: working set tracking for VM guest
+ memory
+To: Peter Xu <peterx@redhat.com>
+Cc: Kiryl Shutsemau <kas@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+ Vlastimil Babka <vbabka@kernel.org>,
+ "Liam R . Howlett" <Liam.Howlett@oracle.com>, Zi Yan <ziy@nvidia.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Sean Christopherson <seanjc@google.com>, Paolo Bonzini
+ <pbonzini@redhat.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kvm@vger.kernel.org
+References: <aeImfRrrvr3UoKtL@thinkstation> <aeTnlQUOOh-dHG8z@thinkstation>
+ <34f75083-29a3-4860-8a6e-94551d37ac6a@kernel.org>
+ <aed6fHLrIdahbdY3@thinkstation>
+ <b77d559b-215e-460a-a268-e63b8273ef42@kernel.org>
+ <aeorZMvKwu8zKX5i@thinkstation> <aeoxnuGKO3uqS2kG@x1.local>
+ <aeo5IPpQi7onyjTF@thinkstation> <aeprnnccJeyHB2rt@x1.local>
+ <17b0dc02-eee3-46d6-9afb-5f81a3a20216@kernel.org> <aep8tsYFfr_Xe54q@x1.local>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -91,27 +101,55 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <aeuZcY0u_7PIQb6R@laps>
+In-Reply-To: <aep8tsYFfr_Xe54q@x1.local>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 4/24/26 18:25, Sasha Levin wrote:
-> On Fri, Apr 24, 2026 at 05:42:53PM +0200, Vlastimil Babka (SUSE) wrote:
->> On 4/24/26 16:00, Sasha Levin wrote:
->>> Existing memory debugging tools - KASAN, KFENCE, page_poisoning - detect
->>> access violations and content corruption, but none of them can detect
->>> silent corruption in the page allocator's own metadata. If a hardware
->>> bit flip corrupts an allocation bitmap, the allocator hands out a page
+On 4/23/26 22:10, Peter Xu wrote:
+> On Thu, Apr 23, 2026 at 09:25:30PM +0200, David Hildenbrand (Arm) wrote:
+>>>
+>>> The other thing is, as I mentioned in the other email, I still don't know
+>>> how the current RW protection would work for anonymous.  I don't yet think
+>>> the user swapper can read the anon page with RW-protected pgtables.  So far
+>>> my understanding is maybe you only care about shmem so it's fine, but it'll
+>>> always be great to confirm with you.
 >>
->> An allocation what? The page allocator is a buddy allocator, it has no
->> bitmap to track free/allocated state of pages?
+>> I wonder if uffdio_move could be used for a swapper implementation instead?
 > 
-> You're right, the cover letter is misleading there. Buddy doesn't use a bitmap:
-> PageBuddy lives in page_type, the free list is a list, and page->private holds
-> the order. The dual-bitmap is new metadata the feature adds, maintained from
-> the alloc/free hooks.
+> If RW is justified to be useful first, maybe.
+> 
+> I had a gut feeling Kirill's use case doesn't use anon at all, then if
+> nobody needs it we can still decide to not support anon.
+> 
+>>
+>> If we ever have to read from a protnone page, maybe we could teach ptrace access
+>> to do it, or have something that can read from prot_none areas -- like
+>> uffdio_copy, which can write to prot-none areas.
+> 
+> Somethinig like swap_access() in my proposal can also partly achieve that.
 
-Given that you have PageBuddy (first "bit"), could we use a second bit in page_ext?
+Looks more like the hammer for the nail here: we could fault the page in just
+fine, while keeping it mapped prot_none and keeping the uffd-rwp pte bit set.
+
+I was rather thinking of some uffd-specific thing that can read from a uffd-rwp
+protected pte without trigger uffd.
+
+> 
+> https://lore.kernel.org/all/aYuad2k75iD9bnBE@x1.local/
+> 
+> There, it was only about reading from swap so far, though.  But that one
+> might be easier to be extended to read PROT_NONE and directly put data into
+> buffer user specified (ps: in my local tree impl I named it maccess() to
+> pair with mincore(), but it doesn't really matter; it doesn't even need to
+> be a syscall..).
+> 
+> To me, the interfacing is not a major issue.  The major question I have is
+> why RW protection can help in swap system impl when we already have uffd-wp.
+> 
+> So I want to make sure the use case can't be implemented by uffd-wp already.
+> Because that's really what we might do for QEMU.
+
+There has to be some added value indeed.
 
 -- 
 Cheers,
