@@ -1,143 +1,113 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F59B26ED37;
-	Sat, 25 Apr 2026 16:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCBF4A07;
+	Sat, 25 Apr 2026 16:40:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777135097; cv=none; b=uKCtzdDjFuWLmuNnwVRk4ZT/+N00jSGlwRPa7W5C0pJON+CJnJsB4CLSny3A79+eFgXxA+wX/DJ4Jj4FpNKyAAvq+XTalIIhIqEgu1dAwOP6y1A306DXRRb4migHnA66NljJYvu3o99R7Lnh3pWa2jgiLYR7A723KGlajW85qV0=
+	t=1777135233; cv=none; b=o8S7p5xhOE4ZxwNkobvXRsM9DcHPz75N0Hj/iJAwbP3dTcRgOgKlerjCy802EiGCNfNTomplPAr0oiHB3ob765pYQQ0uD1tPeAlVgzFFbhaGwrJKmoNzmAiXsUH7eP1teHzvfc3cmqXWkBtEZbWxE9neNnJ24WvcTVujbS8a7zg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777135097; c=relaxed/simple;
-	bh=EQaknTyW5xfrIybCdsauIZdStSASsj39zFLJnMiJgm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Wp33NQe3tK2bfUaRS5xfFn6RpnYuxMw4kcrUcx4lpBipF2lOFHObVcGXAAk5aYMt+RRa2Xty3iPph+Am3nH/ASdCKxduAbIyAZKCL9k9BLJPLgE7xI+dxu5tzsfX+IQ3/fSeRPWlJNlynXJvHqxSE9c+PXp7UdSAUf4aunCNMRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dkp8MEy6; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777135233; c=relaxed/simple;
+	bh=BQt+8EYpwF0VE3VbmyyQcqzXuxK9+TLYXM4VynjhgXE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RPQaB5LhjV4s3gD73v/bXZiMYQPch9ivSngUWQqhrQ9ngwxt/gT41C6FTlmixKCei22b6henCINs6mGrdvhMTjdxXI2RCG/6DAvCQVaqUvGRxoBXwyTc5eAKWmAK9xRD3Y4n9ShvKbFzX6AtE2NbgTOgMl/gNE6raKw4QoIfeN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=braZCck+; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dkp8MEy6"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 00F4CC2BCB0;
-	Sat, 25 Apr 2026 16:38:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="braZCck+"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33229C2BCB0;
+	Sat, 25 Apr 2026 16:40:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777135097;
-	bh=EQaknTyW5xfrIybCdsauIZdStSASsj39zFLJnMiJgm4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dkp8MEy6yFyo6oGIcyMXEu1jfTy/7hNVAesl76XcrbMoLka631A+jjV3mUGp2nK0c
-	 c8uou1pbzxT1Gbu4kKSXLNyV4QSkOPHlSeBZlMd/Xdsk4terPUz48fqhUkqncAQUqB
-	 WbOT43uXx5U/gMI6w2dwjJANUgXXjMC0xaU58GZg3Q4MXp9M6j+dtXWcQMfqqJk2Ve
-	 B6zYvzGkkIqJr4Kur/pmx/AMOPPSqE5FWGinQ+/J+89+tBObJgNrkZaDxVM+1v/H4J
-	 L0cfYdvHWg5YYSfSMvPQ/iOKQKZtFjjqrqRYEgSyxaYxM0Oo041NY1zmypkMBSFc1T
-	 bAUpyfNeU0Q5w==
-Date: Sat, 25 Apr 2026 12:38:15 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
-	corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com,
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
-	mhocko@suse.com, skhan@linuxfoundation.org, jackmanb@google.com,
-	hannes@cmpxchg.org, ziy@nvidia.com, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sasha Levin <sashal@nvidia.com>, Sanif Veeras <sveeras@nvidia.com>,
-	"Claude:claude-opus-4-7" <noreply@anthropic.com>
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-Message-ID: <aezt96xgz_qyf4d-@laps>
-References: <20260424140056.2094777-1-sashal@kernel.org>
- <20260424140056.2094777-5-sashal@kernel.org>
- <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org>
- <aeuC6TJ4XowazVZj@laps>
- <aeuFnuiYDBjttEKt@plex>
- <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org>
- <aev-DS4YTp5soVPd@laps>
- <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org>
+	s=k20201202; t=1777135232;
+	bh=BQt+8EYpwF0VE3VbmyyQcqzXuxK9+TLYXM4VynjhgXE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=braZCck+EHwnhwmm7F462k80ZGZsnbS9S7EqfAK2KBGE5D0myN30ZJ3p878YPELR/
+	 1G7JESsTEFKXGZSbN88C1/ViL8wb+sID4/JB8469r4o1ix+iePIaTqIqfio/gnjPAq
+	 elQsjHBZxQIlrDgZLpO4CkZTuhLs0vl5WBJs6Po9LVIxZIwz48nxWxgRPRhD2jyPrM
+	 qWrzayYzwG15CoF8sfYH5OkLZ6/lQYNaBUwLqTkrF9X3v7XA0uqSBu+SzEpUPG2eDA
+	 djVch2fKk4OqFsMLq3asA08iSNv6GLAzrw8n9paqvJOmIxu4tYVEIgJ3R45q9WJCyb
+	 7Tk9kmlMkV/hg==
+Date: Sat, 25 Apr 2026 17:40:22 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
+ linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
+ <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
+ <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v10 10/11] docs: iio: add documentation for adf41513
+ driver
+Message-ID: <20260425174022.0d1a6bd9@jic23-huawei>
+In-Reply-To: <20260415-adf41513-iio-driver-v10-10-df61046d5457@analog.com>
+References: <20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com>
+	<20260415-adf41513-iio-driver-v10-10-df61046d5457@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Apr 25, 2026 at 07:30:56AM +0200, David Hildenbrand (Arm) wrote:
->On 4/25/26 01:34, Sasha Levin wrote:
->> On Fri, Apr 24, 2026 at 08:28:14PM +0200, David Hildenbrand (Arm) wrote:
->>> On 4/24/26 17:06, Pasha Tatashin wrote:
->>>>
->>>> The issue is that we are going back in time to a flat memory,
->>>> without NUMA or hotplug support. We need an abstraction that avoids
->>>> allocating this memory in enormous contiguous chunks, as thit approach
->>>> will not work on modern hardware.
->>>>
->>>>
->>>> Page-ext provides all of these capabilities, but as you described in the
->>>> cover letter, it does not meet your requirements. Therefore, I believe
->>>> a new abstraction layer is needed.
->>>
->>> If we decided that we want this (and I am not convinced), we definitely want
->>> something that supports sparsity and, in particular, something that support
->>> memory hotplug.
->>
->> Makes sense. Let me take a few days and see if I can find some middle ground
->> here.
->>
->
->"The natural question is why not use page_ext. The key objection from a
->safety perspective is that page_ext stores per-page metadata in memory
->that is itself subject to the same hardware faults we're trying to
->detect. The dual-bitmap approach works because the two bitmaps are
->independent allocations - corruption in one is caught by comparison
->with the other."
->
->So you want to have two bits per page, whereby both bits come from in dependent
->pages I assume?
+On Wed, 15 Apr 2026 10:51:53 +0100
+Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 
-Ideally completely different DIMMs (though as you point out later, we can't
-easily make this happen).
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> Add documentation for ADF41513 driver, which describes the device
+> driver files and shows how userspace may consume the ABI for various
+> tasks.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+>  Documentation/iio/adf41513.rst | 199 +++++++++++++++++++++++++++++++++++++++++
+>  Documentation/iio/index.rst    |   1 +
+>  MAINTAINERS                    |   1 +
+>  3 files changed, 201 insertions(+)
+> 
+> diff --git a/Documentation/iio/adf41513.rst b/Documentation/iio/adf41513.rst
+> new file mode 100644
+> index 000000000000..4193c825b532
+> --- /dev/null
+> +++ b/Documentation/iio/adf41513.rst
+> @@ -0,0 +1,199 @@
 
->Storing one bit in page_ext and one bit in page flags would be possible if we
->had a spare bit in page flags ...  We could allocate two bitmaps per memory section.
+> +2. Device attributes
+> +====================
+> +
+> +The ADF41513 driver provides the following IIO extended attributes for
+> +frequency control and monitoring:
+> +
+> +Each IIO device has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
+> +where X is the IIO index of the device. Under these folders reside a set of
+> +device files that provide access to the synthesizer's functionality.
+> +
+> +The following table shows the ADF41513 related device files:
+> +
+> ++----------------------+-------------------------------------------------------+
+> +| Device file          | Description                                           |
+> ++======================+=======================================================+
+> +| frequency            | RF output frequency control and readback (Hz)         |
+> ++----------------------+-------------------------------------------------------+
+> +| frequency_resolution | Target frequency resolution control (Hz)              |
+> ++----------------------+-------------------------------------------------------+
+> +| powerdown            | Power management control (0=active, 1=power down)     |
+> ++----------------------+-------------------------------------------------------+
+> +| phase                | RF output phase adjustment and readback (radians)     |
+> ++----------------------+-------------------------------------------------------+
 
-Right, I think that the approach you proposed is roughly equivalent spatially
-(though I'd need to check with the safety folks here).
+These seem to be truncated as the out_altvoltage0_ prefix isn't mentioned.
+Fine to do that but add a note to say that more clearly.
+I briefly read this as 'new ABI' though the examples a at the end of the file
+make it clear that we are simply missing the prefix.
 
->But the real question is: how far away do these bits have to be in memory to be
->considered "independent" and not prone to the same corruption?
->
->1 bit?
->1 byte?
->64 byte?
->4096 byte?
->???
 
-The notes I have from the research side of things (which should be taken with a
-grain of salt) are something along the lines of:
 
-  - ~79% are a single bit corruption
-  - ~9% are row faults, so multiple bit corruption within ~8kb
-  - ~4% are bank faults, so multiple bit corruption within ~512mb
-
-Obviously the numbers would be very different depending on usecase, hardware,
-physical location (did you know bits are more likely to flip in higher
-altitudes?)...
-
->"Embedding both in page_ext means a single fault could
->corrupt both the tracking data and its redundant copy in the same
->allocation region."
->
->I might be wrong, but isn't that the case for any such fault, as you don't 100%
->know how the DIMM is organized internally?
->
->Do we really expect that a MCE event would, for example, very likely corrupt two
->neighboring bits, or two bits in the same byte etc? What are the odds that we care?
-
-For something like a datacenter deployment I'd agree with you - the odds are
-too low to care. For an unsupervised self driving vehicle, where there's no
-human (locally or remotely) available to take over, I'd like the odds to be as
-low as possible :)
-
->It's hard to tell here which part of this work is "too research focused". For
->example, if I were to write a paper about that, I would make such claims to make
->it sound more complicated than it needs to be :)
-
--- 
-Thanks,
-Sasha
