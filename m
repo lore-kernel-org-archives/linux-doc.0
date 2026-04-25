@@ -1,164 +1,160 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94B402B9A4;
-	Sat, 25 Apr 2026 05:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112275CDF1;
+	Sat, 25 Apr 2026 05:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777095065; cv=none; b=DMvdhN400u0BVLeYEWoUayPKa3dh4Ax9riWosjL34an4dq2z4R1CF0OayfOSrhsGR4eZEVdQw+JoD6PGTZRbwTxP9Ih139rOLRj/zaM22/XA2BfGlxzOcerg0zeaqG+rriZBMaXkZpdAqiP0eEV80OFj4O04Y5fP8SKX0eFPadw=
+	t=1777095685; cv=none; b=uMtyJV9g9oG4MK2pRUaXMs+ixpSZqk602q261sRtZ7D7sjuOfRXDe0rR9vFweB++vcBi9WpOk721XnQpM5Hd+Cg1+Jfx9N/aAC1VkjeQK8UHadR67XvedDRaWoJsW7HqtB/rt2Brkv6LOTZPFpNumgwFDqehreGbJTB++EDneRY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777095065; c=relaxed/simple;
-	bh=+42vCSXJu+YT6e/EV0HGcmeCkiK/R9NkN3Va4VSdmwY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dKurQdrDHAkoNmEYqHqUR2o9afX6P7e+pViRbmhpKMnzU/z/Y6qd9H1yLPO6/Eff4WnDVrLVzDROQSEhSlwbJCM5TyV5hezuSXja31Mlf231W/le9RZztWpwdGxAfCkDu+diy1qpKWxJabXxQbiZYjTjzU/pAp32JXFmV1JAYk4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jYysDsHk; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777095685; c=relaxed/simple;
+	bh=rSGR3AR0m8Ij/PV5Oqw2GgCPF1gXz4burjiZJh16MP8=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=QTvavsD3ls2x4nnQoFgJBEtcwCykxuvIbNfQQnvxFETxL5NS71DGI8tGr393I8KVfDkyIz9/MgUZxl7THR86aJjMNctusDTjLKNPX2lqmNlMgeatAUxkYZNc317OyWLPfsANw9tr/MhVSig67dYq3uOb1Oq9kCpjE0Rzl6CbfTA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=NOO5DGf5; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Tdp0XVzw; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jYysDsHk"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F001C2BCB2;
-	Sat, 25 Apr 2026 05:30:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777095065;
-	bh=+42vCSXJu+YT6e/EV0HGcmeCkiK/R9NkN3Va4VSdmwY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=jYysDsHkvzw4w3++oWoxcKUL5tUhrDt3tudCV04MV1nF6s9NwRS4bhdI529+APIVp
-	 ejYWAhExQ58uN+VhVKMTGIyFuUp8YKZYbyBJ649BnZt401mdS16uq9UohqyGyvLPpo
-	 EVe9C/S246G1qZ9H1DiWlXVk64R5SqUWekLWPAeVIign7HTq9u+iQ5ko68UpXhr0Uo
-	 lbV4kFk/bGyYYa2rJpbcN1koXSnY/Ei8FcxGEh9asrApLEawwiYlYYWIkDqJkOWmm5
-	 82sP/HTZ71rZSx7i8vDUdxsLDNpZKssDXnn20eRmqB/85UuLgUMzcbAAqCVWAChA91
-	 7NCRl6Yncqz1g==
-Message-ID: <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org>
-Date: Sat, 25 Apr 2026 07:30:56 +0200
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="NOO5DGf5";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Tdp0XVzw"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4g2dwq1fWXz9tm7;
+	Sat, 25 Apr 2026 07:41:15 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777095675;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L1U+Lzz1qrYnndGzgY0hK0tfu2XW3iifx6J3/jCY6ZA=;
+	b=NOO5DGf5VHaE2zSaG8d4Eyy9VXNnwIrp1C7MqDKmImHFjez7ISyF2QtwJ5e6HyKjZ1C00V
+	kxW18MfngRdxrNhpmB2qUMNENQgr21fhmOpMUIzXLe691L4Gq8p0t4AO1Ucre6AfJCEdym
+	d/7YdwYEw7vL888GQRkPXD4Wvy2gKgX43TMEJv1THMSOEo/VRBvU2kSxpF2AR0gk/sbd2T
+	Vc245H3CAxWaRch/uSG03J3AF/0LQcheTAMLSOtIrAC50CyRaVVKJOeYfJK7cKj+MGtclL
+	J2zoRj9z+sCxpqn39rKXEjucf/Eqlulu+N/QzFcxKE/EXW8J6OYp6S0rFFR/cw==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777095673;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=L1U+Lzz1qrYnndGzgY0hK0tfu2XW3iifx6J3/jCY6ZA=;
+	b=Tdp0XVzwyZ66Pp0J9qNYYK+uc4Iwyjt711kR+T2fvjpkKQIbEZkSrqfrMmqL25ozLORdAo
+	KE4PY4S/ggutcL/U6Df5AFS5Fz01a4zDzoAdcAEHeOLlY6YpbfqCW8FSWdK1+zgOGL1umF
+	/BNzK4kQA3OO0DR1x4GuqvpHxR18SUG94vSoteVxFStJgR55QCVd9Hl3AiX/rnkxNSV2Kp
+	oepNqQNAw8jp1dya6W2npFoypVQLrj8jps8ua71KVzZhP5xliB75jz2qLJEPI7riM2fWcw
+	6a1eTdRJLeAwVqQZXPpuTGPSo04YXVbBN3d8pETX1ATJDPxxsuATabtTLNUjDw==
+To: paulmck@kernel.org
+Cc: corbet@lwn.net,
+	kees@kernel.org,
+	linux-doc@vger.kernel.org,
+	manuelebner@mailbox.org,
+	rcu@vger.kernel.org,
+	skhan@linuxfoundation.org
+Subject: [PATCH v3 2/3] Documentation: RCU: adopt new coding style of type-aware kmalloc-family
+Date: Sat, 25 Apr 2026 07:39:22 +0200
+Message-ID: <20260425053920.272388-3-manuelebner@mailbox.org>
+In-Reply-To: <7a49fee0-09c8-4a48-9506-d9172ef024b0@paulmck-laptop>
+References: <7a49fee0-09c8-4a48-9506-d9172ef024b0@paulmck-laptop>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-To: Sasha Levin <sashal@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
- corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- skhan@linuxfoundation.org, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sasha Levin <sashal@nvidia.com>,
- Sanif Veeras <sveeras@nvidia.com>,
- "Claude:claude-opus-4-7" <noreply@anthropic.com>
-References: <20260424140056.2094777-1-sashal@kernel.org>
- <20260424140056.2094777-5-sashal@kernel.org>
- <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org> <aeuC6TJ4XowazVZj@laps>
- <aeuFnuiYDBjttEKt@plex> <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org>
- <aev-DS4YTp5soVPd@laps>
-From: "David Hildenbrand (Arm)" <david@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=david@kernel.org; keydata=
- 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
- qIws/H2t
-In-Reply-To: <aev-DS4YTp5soVPd@laps>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-META: p5n7fqecu8qcsz3shzj3ypu6u3i79smt
+X-MBO-RS-ID: fb2fc64301aaf637227
 
-On 4/25/26 01:34, Sasha Levin wrote:
-> On Fri, Apr 24, 2026 at 08:28:14PM +0200, David Hildenbrand (Arm) wrote:
->> On 4/24/26 17:06, Pasha Tatashin wrote:
->>>
->>> The issue is that we are going back in time to a flat memory,
->>> without NUMA or hotplug support. We need an abstraction that avoids
->>> allocating this memory in enormous contiguous chunks, as thit approach
->>> will not work on modern hardware.
->>>
->>>
->>> Page-ext provides all of these capabilities, but as you described in the
->>> cover letter, it does not meet your requirements. Therefore, I believe
->>> a new abstraction layer is needed.
->>
->> If we decided that we want this (and I am not convinced), we definitely want
->> something that supports sparsity and, in particular, something that support
->> memory hotplug.
-> 
-> Makes sense. Let me take a few days and see if I can find some middle ground
-> here.
-> 
+Update Documentation/RCU/* to reflect new type-aware kmalloc-family
+as suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+and family")
 
-"The natural question is why not use page_ext. The key objection from a
-safety perspective is that page_ext stores per-page metadata in memory
-that is itself subject to the same hardware faults we're trying to
-detect. The dual-bitmap approach works because the two bitmaps are
-independent allocations - corruption in one is caught by comparison
-with the other."
+ptr = kmalloc(sizeof(*ptr), gfp);
+ -> ptr = kmalloc_obj(*ptr);
 
-So you want to have two bits per page, whereby both bits come from in dependent
-pages I assume?
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Acked-by: Paul E. McKenney <paulmck@kernel.org>
+---
+in the prior mail i forgot the e-mail address of Paul
+Acked-by see 
+https://lore.kernel.org/linux-doc/7a49fee0-09c8-4a48-9506-d9172ef024b0@paulmck-laptop/
 
-Storing one bit in page_ext and one bit in page flags would be possible if we
-had a spare bit in page flags ...  We could allocate two bitmaps per memory section.
+ Documentation/RCU/Design/Requirements/Requirements.rst | 6 +++---
+ Documentation/RCU/listRCU.rst                          | 2 +-
+ Documentation/RCU/whatisRCU.rst                        | 4 ++--
+ 3 files changed, 6 insertions(+), 6 deletions(-)
 
-But the real question is: how far away do these bits have to be in memory to be
-considered "independent" and not prone to the same corruption?
-
-1 bit?
-1 byte?
-64 byte?
-4096 byte?
-???
-
-"Embedding both in page_ext means a single fault could
-corrupt both the tracking data and its redundant copy in the same
-allocation region."
-
-I might be wrong, but isn't that the case for any such fault, as you don't 100%
-know how the DIMM is organized internally?
-
-Do we really expect that a MCE event would, for example, very likely corrupt two
-neighboring bits, or two bits in the same byte etc? What are the odds that we care?
-
-It's hard to tell here which part of this work is "too research focused". For
-example, if I were to write a paper about that, I would make such claims to make
-it sound more complicated than it needs to be :)
-
+diff --git a/Documentation/RCU/Design/Requirements/Requirements.rst b/Documentation/RCU/Design/Requirements/Requirements.rst
+index b5cdbba3ec2e..faca5a9c8c12 100644
+--- a/Documentation/RCU/Design/Requirements/Requirements.rst
++++ b/Documentation/RCU/Design/Requirements/Requirements.rst
+@@ -206,7 +206,7 @@ non-\ ``NULL``, locklessly accessing the ``->a`` and ``->b`` fields.
+ 
+        1 bool add_gp_buggy(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -228,7 +228,7 @@ their rights to reorder this code as follows:
+ 
+        1 bool add_gp_buggy_optimized(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+@@ -264,7 +264,7 @@ shows an example of insertion:
+ 
+        1 bool add_gp(int a, int b)
+        2 {
+-       3   p = kmalloc(sizeof(*p), GFP_KERNEL);
++       3   p = kmalloc_obj(*p);
+        4   if (!p)
+        5     return -ENOMEM;
+        6   spin_lock(&gp_lock);
+diff --git a/Documentation/RCU/listRCU.rst b/Documentation/RCU/listRCU.rst
+index d8bb98623c12..48c7272a4ccc 100644
+--- a/Documentation/RCU/listRCU.rst
++++ b/Documentation/RCU/listRCU.rst
+@@ -276,7 +276,7 @@ The RCU version of audit_upd_rule() is as follows::
+ 
+ 		list_for_each_entry(e, list, list) {
+ 			if (!audit_compare_rule(rule, &e->rule)) {
+-				ne = kmalloc(sizeof(*entry), GFP_ATOMIC);
++				ne = kmalloc_obj(*entry, GFP_ATOMIC);
+ 				if (ne == NULL)
+ 					return -ENOMEM;
+ 				audit_copy_rule(&ne->rule, &e->rule);
+diff --git a/Documentation/RCU/whatisRCU.rst b/Documentation/RCU/whatisRCU.rst
+index a1582bd653d1..770aab8ea36a 100644
+--- a/Documentation/RCU/whatisRCU.rst
++++ b/Documentation/RCU/whatisRCU.rst
+@@ -468,7 +468,7 @@ uses of RCU may be found in listRCU.rst and NMI-RCU.rst.
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
+ 
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
+@@ -570,7 +570,7 @@ The foo_update_a() function might then be written as follows::
+ 		struct foo *new_fp;
+ 		struct foo *old_fp;
+ 
+-		new_fp = kmalloc(sizeof(*new_fp), GFP_KERNEL);
++		new_fp = kmalloc_obj(*new_fp);
+ 		spin_lock(&foo_mutex);
+ 		old_fp = rcu_dereference_protected(gbl_foo, lockdep_is_held(&foo_mutex));
+ 		*new_fp = *old_fp;
 -- 
-Cheers,
+2.53.0
 
-David
