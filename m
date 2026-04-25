@@ -1,52 +1,52 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FCBF4A07;
-	Sat, 25 Apr 2026 16:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340E539B497;
+	Sat, 25 Apr 2026 17:50:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777135233; cv=none; b=o8S7p5xhOE4ZxwNkobvXRsM9DcHPz75N0Hj/iJAwbP3dTcRgOgKlerjCy802EiGCNfNTomplPAr0oiHB3ob765pYQQ0uD1tPeAlVgzFFbhaGwrJKmoNzmAiXsUH7eP1teHzvfc3cmqXWkBtEZbWxE9neNnJ24WvcTVujbS8a7zg=
+	t=1777139443; cv=none; b=OP32vKwXBca76w3II3BUSchtv17oAKG5SlQCDBXKAPy/g54gCJieK6pKwmvgtJNJ/j8tayYaOl3RbDRvIA5/wOCuT25tUiqb+tx5OA7gLZXB54/Rjh0MP2jMtZetRmo3Y4HsV/D6KxH01WtzajjA9dhFmtkGI0ztuLk0S5v8qp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777135233; c=relaxed/simple;
-	bh=BQt+8EYpwF0VE3VbmyyQcqzXuxK9+TLYXM4VynjhgXE=;
+	s=arc-20240116; t=1777139443; c=relaxed/simple;
+	bh=Eq1gWbdZCyBkPLyU8ZI7KGDNpjNSiEaS1D+uvztVezk=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RPQaB5LhjV4s3gD73v/bXZiMYQPch9ivSngUWQqhrQ9ngwxt/gT41C6FTlmixKCei22b6henCINs6mGrdvhMTjdxXI2RCG/6DAvCQVaqUvGRxoBXwyTc5eAKWmAK9xRD3Y4n9ShvKbFzX6AtE2NbgTOgMl/gNE6raKw4QoIfeN8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=braZCck+; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=sBO0RWbRPzFy35H7frU7629+M6G3PXBpSMYCFT6uFavNZfX56a0kh52inzbU8B3LTYiBi6xGhdbN3u45/boL4A+6lFppx6XdROQmyyj3yr4S+oi5JV/slMVcKuEjllVB/NEAjBrkks/hvN3VcL4qSJeyVU7xpkjwW8NR5f86kcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FVxMT9NE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="braZCck+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33229C2BCB0;
-	Sat, 25 Apr 2026 16:40:27 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FVxMT9NE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8C5C4AF1C;
+	Sat, 25 Apr 2026 17:50:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777135232;
-	bh=BQt+8EYpwF0VE3VbmyyQcqzXuxK9+TLYXM4VynjhgXE=;
+	s=k20201202; t=1777139442;
+	bh=Eq1gWbdZCyBkPLyU8ZI7KGDNpjNSiEaS1D+uvztVezk=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=braZCck+EHwnhwmm7F462k80ZGZsnbS9S7EqfAK2KBGE5D0myN30ZJ3p878YPELR/
-	 1G7JESsTEFKXGZSbN88C1/ViL8wb+sID4/JB8469r4o1ix+iePIaTqIqfio/gnjPAq
-	 elQsjHBZxQIlrDgZLpO4CkZTuhLs0vl5WBJs6Po9LVIxZIwz48nxWxgRPRhD2jyPrM
-	 qWrzayYzwG15CoF8sfYH5OkLZ6/lQYNaBUwLqTkrF9X3v7XA0uqSBu+SzEpUPG2eDA
-	 djVch2fKk4OqFsMLq3asA08iSNv6GLAzrw8n9paqvJOmIxu4tYVEIgJ3R45q9WJCyb
-	 7Tk9kmlMkV/hg==
-Date: Sat, 25 Apr 2026 17:40:22 +0100
+	b=FVxMT9NETDxJ0HO1pCnX4MSfJsyyRyC0Fbn1Ja0AOjAkO/s9g0NF0cN8kd7e/JGQW
+	 WQICJhgz8AR+HBSG/FADsC0A2SnH6qRZt/CRW2uwVBrRVGK18Xge55RFJjSCDIktM2
+	 4fGZt8E4nxSFgx58l7hR3XfZi3XzHL1ohjsn9J+B2cjkdKMjpwvz1fOPlEtwYhyy0r
+	 X5TkXeskeHTWIZKvJl+6v86LKI2TiD/X73qMlu+YxVlbWQ1O5BISKtQe2CLaFJ42NI
+	 d2RrSQtwMN9arEXeuALwEkTgey1H97RsYm/GMaNkpJMrJIRCAfRi70pIxHaOciEN1H
+	 xN7XmJLdM6+Og==
+Date: Sat, 25 Apr 2026 18:50:28 +0100
 From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-kernel@vger.kernel.org,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Andrew Morton
- <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, Steven Rostedt
- <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky
- <senozhatsky@chromium.org>, Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH v10 10/11] docs: iio: add documentation for adf41513
- driver
-Message-ID: <20260425174022.0d1a6bd9@jic23-huawei>
-In-Reply-To: <20260415-adf41513-iio-driver-v10-10-df61046d5457@analog.com>
-References: <20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com>
-	<20260415-adf41513-iio-driver-v10-10-df61046d5457@analog.com>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v8 3/6] iio: adc: ad4691: add triggered buffer support
+Message-ID: <20260425185028.6023661e@jic23-huawei>
+In-Reply-To: <20260416-ad4692-multichannel-sar-adc-driver-v8-3-c415bd048fa3@analog.com>
+References: <20260416-ad4692-multichannel-sar-adc-driver-v8-0-c415bd048fa3@analog.com>
+	<20260416-ad4692-multichannel-sar-adc-driver-v8-3-c415bd048fa3@analog.com>
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -54,60 +54,85 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Apr 2026 10:51:53 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+On Thu, 16 Apr 2026 12:18:48 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Add documentation for ADF41513 driver, which describes the device
-> driver files and shows how userspace may consume the ABI for various
-> tasks.
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> From: Radu Sabau <radu.sabau@analog.com>
+>=20
+> Add buffered capture support using the IIO triggered buffer framework.
+>=20
+> CNV Burst Mode: the GP pin identified by interrupt-names in the device
+> tree is configured as DATA_READY output. The IRQ handler stops
+> conversions and fires the IIO trigger; the trigger handler executes a
+> pre-built SPI message that reads all active channels from the AVG_IN
+> accumulator registers and then resets accumulator state and restarts
+> conversions for the next cycle.
+>=20
+> Manual Mode: CNV is tied to SPI CS so each transfer simultaneously
+> reads the previous result and starts the next conversion (pipelined
+> N+1 scheme). At preenable time a pre-built, optimised SPI message of
+> N+1 transfers is constructed (N channel reads plus one NOOP to drain
+> the pipeline). The trigger handler executes the message in a single
+> spi_sync() call and collects the results. An external trigger (e.g.
+> iio-trig-hrtimer) is required to drive the trigger at the desired
+> sample rate.
+>=20
+> Both modes share the same trigger handler and push a complete scan =E2=80=
+=94
+> one u16 slot per channel at its scan_index position, followed by a
+> timestamp =E2=80=94 to the IIO buffer via iio_push_to_buffers_with_ts().
+>=20
+> The CNV Burst Mode sampling frequency (PWM period) is exposed as a
+> buffer-level attribute via IIO_DEVICE_ATTR.
+>=20
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+Hi Radu,
+
+A couple of comments inline, but only for things to change
+if you end up doing a v9 for other reasons.
+
+thanks,
+
+Jonathan
+
 > ---
->  Documentation/iio/adf41513.rst | 199 +++++++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst    |   1 +
->  MAINTAINERS                    |   1 +
->  3 files changed, 201 insertions(+)
-> 
-> diff --git a/Documentation/iio/adf41513.rst b/Documentation/iio/adf41513.rst
-> new file mode 100644
-> index 000000000000..4193c825b532
-> --- /dev/null
-> +++ b/Documentation/iio/adf41513.rst
-> @@ -0,0 +1,199 @@
+>  drivers/iio/adc/Kconfig  |   2 +
+>  drivers/iio/adc/ad4691.c | 537 +++++++++++++++++++++++++++++++++++++++++=
+++++--
+>  2 files changed, 524 insertions(+), 15 deletions(-)
+>=20
+> diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
+> index 3685a03aa8dc..d498f16c0816 100644
+> --- a/drivers/iio/adc/Kconfig
+> +++ b/drivers/iio/adc/Kconfig
 
-> +2. Device attributes
-> +====================
-> +
-> +The ADF41513 driver provides the following IIO extended attributes for
-> +frequency control and monitoring:
-> +
-> +Each IIO device has a device folder under ``/sys/bus/iio/devices/iio:deviceX``,
-> +where X is the IIO index of the device. Under these folders reside a set of
-> +device files that provide access to the synthesizer's functionality.
-> +
-> +The following table shows the ADF41513 related device files:
-> +
-> ++----------------------+-------------------------------------------------------+
-> +| Device file          | Description                                           |
-> ++======================+=======================================================+
-> +| frequency            | RF output frequency control and readback (Hz)         |
-> ++----------------------+-------------------------------------------------------+
-> +| frequency_resolution | Target frequency resolution control (Hz)              |
-> ++----------------------+-------------------------------------------------------+
-> +| powerdown            | Power management control (0=active, 1=power down)     |
-> ++----------------------+-------------------------------------------------------+
-> +| phase                | RF output phase adjustment and readback (radians)     |
-> ++----------------------+-------------------------------------------------------+
+> @@ -84,19 +104,23 @@ enum ad4691_ref_ctrl {
+>  	AD4691_VREF_5P0   =3D 4,
+>  };
+> =20
+> -struct ad4691_chip_info {
+> +struct ad4691_channel_info {
+>  	const struct iio_chan_spec *channels;
 
-These seem to be truncated as the out_altvoltage0_ prefix isn't mentioned.
-Fine to do that but add a note to say that more clearly.
-I briefly read this as 'new ABI' though the examples a at the end of the file
-make it clear that we are simply missing the prefix.
+We could mark this __counted_by_ptr()  but that's new so no drivers
+are doing so yet.  At somepoint I'll have a look at whether it's
+worth pushing it into existing drivers and if it is do this
+one at that time.  If you are respinning for other reasons though
+then nice to have.
 
-
+> -	const char *name;
+>  	unsigned int num_channels;
+> +};
+> +
+> +struct ad4691_chip_info {
+> +	const char *name;
+>  	unsigned int max_rate;
+> +	const struct ad4691_channel_info *sw_info;
+>  };
+I'm not going to ask you to respin just for this, but it would have
+been neater to push this factoring out of channels + num_channels
+into the previous patch.
 
