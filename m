@@ -1,136 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00F8F1A9F8C;
-	Sat, 25 Apr 2026 18:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA4D8371046
+	for <linux-doc@vger.kernel.org>; Sat, 25 Apr 2026 18:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777141927; cv=none; b=rjbhcpQxtzLpOZjOuhlaGURETCfd1A1YUwpT3xEs2e4GyAhIGm2R69fhlsfUT2SgNc1A8gZivP1n+Wa0xNUvb48lj9VAhhJ2m7xyt2BhgMnJrw2k6e1OXEkl4ZwVLPq0rSODm+pR/mAEPDu8HmVZVCh9GJk5NnsUyqbz1hDWLc4=
+	t=1777143321; cv=none; b=ic7JOZm40Z0yg/5dLfGM3F2cvkDBeKOnsgKuzkKl9LGd7QCb4VM1Z0/tOHn4Zop3svVbD2vSsEUsYPuygsOb2E42kST5Pp6/3ND5c3cdb1vpIdjWJP2800njPX18eZDzJge3MuSOAif7RtT6dvZpMIkv0bsDQe7NFIqVtzKSKsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777141927; c=relaxed/simple;
-	bh=FLjGSUxfmVrj9s85Y91kN/Rh54l5tbngbBRVZAeMXLw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kuKQVZ5URJgUbf1aafZ/mlqTxidw6Cvn+uOjHHUnCP5xwvJ9MTfrvq+VwV3QN9agU9jEMc2VnavzlxJ8/8uQAQVmOFGR8wiPnrCNX5K3BHaHKezAXE/isaAZL8H+3+TbsV1D4cZt4E+tcDja6cd7kF4W3wv+ShzAD4yU1CNz4yE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZmpgNkeJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777143321; c=relaxed/simple;
+	bh=6PC5k/wB15iovttGKhDrvKcF72yoyScM3QZMtUPjQSo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=R/+6Q7BMFcRiAiQ1RrtC5jL/tfZLz7Sd1grVtrA/6ox0sZQiDgfIVBMm9GIAd2K51UqsEaqloAQ6S21nhdTrkhT2St7giPNSILertLMs8m3YT0OTOzGXD6nlaNTjQLktJYgNKLB9R+I3pFdQw87Ws96PwJet2qILZ4nKNUFJxq4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Lh457qgi; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZmpgNkeJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC239C2BCB0;
-	Sat, 25 Apr 2026 18:31:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777141926;
-	bh=FLjGSUxfmVrj9s85Y91kN/Rh54l5tbngbBRVZAeMXLw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZmpgNkeJr2QlntRxed9Wzx9+sM6vLXZ1VOI4M15lJq7Wa+ueFM58tml3IcwNgY54A
-	 j3rhEo3MPaqtBDPRkScLx13JGB2m3dNYRmOan3qXtd3FS/FGUuFYNYABp2EtP2INrZ
-	 af0L5QMjyXsIZ28oiv/TqxFl+Ld4zc+NO9dCMVhJLhX1+9N5XUGXqwYgTvJoVpXMD2
-	 YcvI9THChERbyois++w5mFDqLEALKDSAm/fJw21FW8Jt1XZCLtq+NxVGzX3N3YTJVz
-	 kbSKhpyRP0VpPjZUchF/BS0FlFEtpp+nkhUOX/kG2aAkpAPU8thPaJ7wSmGtFjLtSC
-	 2oGpqTDbCm4Rw==
-Date: Sat, 25 Apr 2026 19:31:52 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org, Conor Dooley <conor.dooley@microchip.com>
-Subject: Re: [PATCH v8 0/6] iio: adc: ad4691: add driver for AD4691
- multichannel SAR ADC family
-Message-ID: <20260425193152.38f80bf1@jic23-huawei>
-In-Reply-To: <20260416-ad4692-multichannel-sar-adc-driver-v8-0-c415bd048fa3@analog.com>
-References: <20260416-ad4692-multichannel-sar-adc-driver-v8-0-c415bd048fa3@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Lh457qgi"
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-38ea6a5a0b3so87407791fa.3
+        for <linux-doc@vger.kernel.org>; Sat, 25 Apr 2026 11:55:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777143318; x=1777748118; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gJITLO9f82dhzr/WR0Vgm9oDU311eY+/4fzqp2zrKeQ=;
+        b=Lh457qgisV6ZK+UdoVSJciORTc7YuO4PV7tqpteXbXTPAbR8RYLVHGxCMIc0eJ10Os
+         +y+9uGVlHU0a1ISNPlJjDVqLUmvwAIw2mpGU8K2ye4GZqjfyp5mEvbtYOtin1xcfTxT1
+         K+Y94mje9MWJIGC9te8yfXD0VLYeY1kd1e0VHXlQ+kyyFGx02D6YlinWhngGifSFUAkl
+         NBZx/YCoodWr+vAPmi2wnRLe53zfo+7wePxTr9tjWpWtP+cZZAvPZ2pv4CGzB1ZmnS8+
+         2IZ5O/zOWWQWbXYuo8qiXU2ZZP4U7tkl7WQ7BHrvGgohuZ7YKuxZWC0bwUGBaHPT29Hp
+         V0tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777143318; x=1777748118;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gJITLO9f82dhzr/WR0Vgm9oDU311eY+/4fzqp2zrKeQ=;
+        b=Xk1203qTvf22dJ+uAkqxIO7Mlyqg/Sxl78cYvJ7/7qxmSix6smt82Bd4CvQeaQJI8x
+         Zca4vQCH1twtxlIN9MeCF4WwEFUQvOXp3LRo5W3hYVLe0LUS+oIwX497V+4JiNO1l6lc
+         17ophi1guRak8GPH+plhTmCSNP1g+HxJ7Qil7D7M3LcVzrJERrlymNfyfl6LK71FuMWq
+         +woDqb0UAzMOMrPYgLGXD4THngAjquysNbm2AzejR+fWjhX4/BtqwQ6DqUZDGyt2Q+5N
+         Dz38hvlg+agL4tHjH89kH6gfQaC3VXtTO2V/MinojOh7KWRRpnyKRn/w4+8q81dQRuff
+         US8Q==
+X-Forwarded-Encrypted: i=1; AFNElJ+DwMcoJZQlf4r6Jag7AVElLMZhuaEshEVCpSTKaFXmKbxBika8ZUx1sfK8ETz3TtYOLF7fs/jIk8c=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9MibcDTYCP6qaHiZQOkZi0SHR9ClM95kNsgXWF9wRID1rxPnw
+	eV7RoPfy9txdcaAdH8Jn2/YB+3NplZMDcg4Xyaa7KINF644goaG6nng=
+X-Gm-Gg: AeBDiesN0UXuqQRxJNxqzett7NQlU8VqIuhTCatXGDbRNA+2q7wJxq9/9Xk48wSeccc
+	XKi4v0ddeUx9Ge2E6O9cUyaw+is225x0lt+JHFf17lFlpj5fIuzPGyAZhmHE0K0LnUHIk89LCld
+	HTGVSrQXdqMpmRiTrbnYDE8pcDzL2K9RXclSkE2Fu3uYMkeYl440rgRi1QLw6xIsGfzacco27CD
+	cetk+qr0gB47YKdzwhJEbFmM5KC5SGTZmITNYAc8B2U01trv3qtsbQrI9kUsG1WGhh6pMG+h+5/
+	vIO3MxqjkS8MGwtSCFCjCnGMSCRhvEh2kyY2sXb+cFhAJa53OVQYbz0Ami004XWqPUot4BHO3mx
+	Mqm4rCT6pH/HDaWejdsepJWIFoh/sMFL4XoQcYyQMuJUk8GZf9nE8qMzFrcoRDybQWbGJWgJGjv
+	oJPQr+zBb4Rlz/jPF5ELVwScUZ0wT+6gOb2w==
+X-Received: by 2002:a2e:be1d:0:b0:38e:49e6:a376 with SMTP id 38308e7fff4ca-38ec7acfa4dmr137809241fa.22.1777143317812;
+        Sat, 25 Apr 2026 11:55:17 -0700 (PDT)
+Received: from p183 ([178.172.147.163])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-38ecb4f54ffsm57552711fa.1.2026.04.25.11.55.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 25 Apr 2026 11:55:17 -0700 (PDT)
+Date: Sat, 25 Apr 2026 21:57:29 +0300
+From: Alexey Dobriyan <adobriyan@gmail.com>
+To: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Cc: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v10 02/11] lib: kstrtox: add kstrtoudec64() and
+ kstrtodec64()
+Message-ID: <4b7b42fb-e3db-4218-9deb-ad609e07bfb0@p183>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-On Thu, 16 Apr 2026 12:18:45 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
+Rodrigo Alencar wrote:
 
-> This series adds support for the Analog Devices AD4691 family of
-> high-speed, low-power multichannel successive approximation register
-> (SAR) ADCs with an SPI-compatible serial interface.
->=20
-> The family includes:
->   - AD4691: 16-channel, 500 kSPS
->   - AD4692: 16-channel, 1 MSPS
->   - AD4693: 8-channel, 500 kSPS
->   - AD4694: 8-channel, 1 MSPS
->=20
-> The devices support two operating modes, auto-detected from the device
-> tree:
->   - CNV Burst Mode: external PWM drives CNV independently of SPI;
->                     DATA_READY on a GP pin signals end of conversion
->   - Manual Mode: CNV tied to SPI CS; each SPI transfer reads
->                   the previous conversion result and starts the
->                   next (pipelined N+1 scheme)
->=20
-> A new driver is warranted rather than extending ad4695: the AD4691
-> data path uses an accumulator-register model =E2=80=94 results are read f=
-rom
-> AVG_IN registers, with ACC_MASK, ADC_SETUP, DEVICE_SETUP, and
-> GPIO_MODE registers controlling the sequencer =E2=80=94 none of which exi=
-st
-> in AD4695. CNV Burst Mode (PWM drives CNV independently of SPI) and
-> Manual Mode (pipelined N+1 transfers) also have no equivalent in
-> AD4695's command-embedded single-cycle protocol.
->=20
-> The series is structured as follows:
->   1/6 - DT bindings (YAML schema) and MAINTAINERS entry
->   2/6 - Initial driver: register map via custom regmap callbacks,
->         IIO read_raw/write_raw, both operating modes, single-channel
->         reads via internal oscillator (Autonomous Mode)
->   3/6 - Triggered buffer support: IRQ-driven (DATA_READY on a GP pin
->         selected via interrupt-names) for CNV Burst Mode; external IIO
->         trigger for Manual Mode to handle the pipelined N+1 SPI protocol
->   4/6 - SPI Engine offload support: DMA-backed high-throughput
->         capture path using the SPI offload subsystem
->   5/6 - Per-channel oversampling ratio support for CNV Burst Mode
->   6/6 - Driver documentation (Documentation/iio/ad4691.rst)
->=20
-> Datasheets:
->   https://www.analog.com/en/products/ad4691.html
->   https://www.analog.com/en/products/ad4692.html
->   https://www.analog.com/en/products/ad4693.html
->   https://www.analog.com/en/products/ad4694.html
->=20
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-drivers/iio/adc/ad4691.c: note: in included file:                          =
-          =20
-./include/linux/bitmap.h:845:55: warning: shift too big (64) for type unsig=
-ned long  =20
-./include/linux/bitmap.h:845:55: warning: shift too big (64) for type unsig=
-ned long  =20
-./include/linux/bitmap.h:845:55: warning: shift too big (64) for type unsig=
-ned long  =20
-./include/linux/bitmap.h:845:55: warning: shift too big (64) for type unsig=
-ned long
+> kstrtoudec64
+> kstrtodec64
 
-=46rom sparse.  I think it's a false positive.
-It's the bitmap_read() calls - probably the the nbits parameter.
-Using bitmap_read() to copy the whole bitmap is unusual so maybe this is a =
-corner
-case that isn't handled.=20
+The only comment I have is to maybe sneak in "fixed point" into names
+somehow. Or change to kstrtou64_scaled() because return type is not real
+fixed point type.
 
-Any ideas?  I'm going to assume it's a false positive due to the ACCESS_PRI=
-VATE()
-confusing sparse.
-
-So with that in mind, series applied to the testing branch of iio.git.
-
-thanks,
-
-Jonathan
+	A.lexey
