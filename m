@@ -1,115 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BCE2882B6;
-	Sun, 26 Apr 2026 11:01:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A6E840DFD5;
+	Sun, 26 Apr 2026 11:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777201310; cv=none; b=UTpLzoi2OTLk9ZVElbNIjv/O983Riq6Ml9UkJc1W70rW8mRkxIAGANZjbumywwcuFijX7itgxz49ZTZ1ZgrPL5p6VwIMuI6WvTFQJkfYkYLADSMe3IRtUR8C395nAFj7IV2vGDL7xmKC7BQIOceUHQqJY0xZpJHD/pwXhklI0i8=
+	t=1777202622; cv=none; b=nBLQVOp7Hj2e97yDTlx8/hqBTJqtcNKMogpc+CwDtAO1QASHBaI8J0gaH6CFVAs9M9g4YKTCpowqeCii9JX2+QY+IarmMXsNjGADFluRYCLSZZfINkhpkH++49nbcegzLt52NKpwCVXJzl0u7CUtF0GWoOJWgBhNKzlYf+eYOcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777201310; c=relaxed/simple;
-	bh=5mbT5zxJLttGO9IREsSuDDnHGoOb579Xt7g8NCSKqGo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bpwkakXqQcM6VWwrWWxvzsZdapsDn8jWZuoWojhC0ydXoG/TJB70bp3RLlPBVPaDb8ZT5+CBmGLFa8psztgl9jeJHBjEbLHn1N+wjaSpjtgmrKJTWEK3sPs2ucGmZQWO7EEq22+o3khbx+CGHsy04DZyR6TSaNbtJkyCjabxes0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8tXNY3f; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777202622; c=relaxed/simple;
+	bh=DGvehEq54IMbZLtde2Rjsx6Hc9dnpi1SOR/oYcsq62s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ClvGrlDgu9xE7xVC1JVTvijq79O1Sy3l98rJBxmwqCGc4uhYWXSqvNuChwb46xtKcjvZXOYl+YJUUc5HCltQ+ce9elaFEVNkkzCODVXimsMMFU5u8OKaRwUjsxVu7PcsGQbw4Go4WzyX0OjJWntLx9iVp7sEc+jhFOYU1WpI4pk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=i4F3TzZM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8tXNY3f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF72C2BCAF;
-	Sun, 26 Apr 2026 11:01:43 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="i4F3TzZM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E264CC2BCAF;
+	Sun, 26 Apr 2026 11:23:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777201310;
-	bh=5mbT5zxJLttGO9IREsSuDDnHGoOb579Xt7g8NCSKqGo=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J8tXNY3fYHJBBvA/VMVCTzeMAlg7/Q4PdaCuLa6ffOydAiPMmjIjDOCMhBgmkgf3/
-	 8++bCPFlnU+9jUVXXVNnqoNKlmTqQ8tq2VCDZSJLmaMeM/1OHnfqv89h0CmerKAQht
-	 Y6V3Th9yK9j3cymhdrd79fea6t7TidchIGtVTh4VEwpHWewzsBibbyOSoCznVzkpSQ
-	 hp0i/m0GnWu3ccbfc46PsT1riC6PQIgHE663KFulWy7Kzz8y96fgWd+yLGXWS1BlRb
-	 OfmSGXsX+ZjFQJoI6dI1DUwg7v//qEb63h3J1AcjckZl2nyOwTo2kyT9/5Qmt6FqHe
-	 g8PWJIcnUVn/A==
-Date: Sun, 26 Apr 2026 12:01:39 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v3 1/9] dt-bindings: iio: frequency: add ad9910
-Message-ID: <20260426120139.3fb8f3da@jic23-huawei>
-In-Reply-To: <20260417-ad9910-iio-driver-v3-1-29b93712a228@analog.com>
-References: <20260417-ad9910-iio-driver-v3-0-29b93712a228@analog.com>
-	<20260417-ad9910-iio-driver-v3-1-29b93712a228@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1777202622;
+	bh=DGvehEq54IMbZLtde2Rjsx6Hc9dnpi1SOR/oYcsq62s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i4F3TzZM5j1Nzw4YQRcvKhC8mni8FU3aZ7h3UgAmY1C50RzTHNtzSp24kPKVHxizM
+	 V/U+k7pIR6LWhcPgOGesH6/hntk8DY/4q2xRK14HnsGBfCoWQikyPJlzchTZ8tB7Sh
+	 DE4MHbq2axnqGpdPBhTpIZq7lHk5re1hVFmrNkktr0zOHfpkr19z57StGERkXtNOso
+	 iyu5WDCystkZinb3HKo0B2uaobpH+MmiWWGGjGYixvP9fEy0pOrulAdr5Ce/1lzib/
+	 x8PUONfwtYR03cadSZJCU2kWc9tIkrtIYQPPPNZNw5srPywcdO2CMp7uOpgp01Dgp/
+	 R7vddL/7MyPdA==
+Date: Sun, 26 Apr 2026 07:23:40 -0400
+From: Sasha Levin <sashal@kernel.org>
+To: Joe Perches <joe@perches.com>
+Cc: dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, mricon@kernel.org,
+	corbet@lwn.net, skhan@linuxfoundation.org, apw@canonical.com,
+	workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] checkpatch: add --json output mode
+Message-ID: <ae31vGWp-t8GiAHs@laps>
+References: <20260408172435.1268067-1-sashal@kernel.org>
+ <20260425200431.4088895-1-sashal@kernel.org>
+ <c8722587377c3bc4be03f7d04bd45912@perches.com>
+ <ae1XUFURKgdG6lGh@laps>
+ <1f8e71e117fbe7ff43723a863fd598c0568c4938.camel@perches.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <1f8e71e117fbe7ff43723a863fd598c0568c4938.camel@perches.com>
 
-On Fri, 17 Apr 2026 09:17:30 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+On Sat, Apr 25, 2026 at 06:12:13PM -0700, Joe Perches wrote:
+>On Sat, 2026-04-25 at 20:07 -0400, Sasha Levin wrote:
+>> On Sat, Apr 25, 2026 at 02:52:35PM -0700, Joe Perches wrote:
+>> On 2026-04-25 13:04, Sasha Levin wrote:
+>> Add a --json flag to checkpatch.pl that emits structured JSON output,
+>> > > making results machine-parseable for CI systems, IDE integrations, and
+>> > > AI-assisted code review tools.
+>> > []
+>> > > A separate --json-pretty flag emits the same JSON in a pretty-printed
+>> > > (indented, multi-line) form for human reading
+>> > Why not just always use pretty?
+>> > Would a script care?
+>>
+>> Who's the intended consumer for the --json-pretty?
+>>
+>> I my mind, --json is there to make it easier for tooling to process the output.
+>
+>Agree, but does the pretty output make it harder for tooling?
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
-> configurations for clocks, DAC current, reset and basic GPIO control.
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> ---
->  .../bindings/iio/frequency/adi,ad9910.yaml         | 189 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 196 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
-> new file mode 100644
-> index 000000000000..61e879bca5c2
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
+For real JSON parsers, no - they handle either form fine.
+                                                                                                                                                                           
+The one issue is multi-file invocations: --json emits one compact document per
+file per line (NDJSON), which lets plain-shell consumers do `while read line;
+do ...` or pipe through grep/awk/head. Pretty mode loses that property because
+each document spans multiple lines, so consumers need a
+streaming JSON parser.
 
-...
-
-> +
-> +  reset-gpios:
-> +    description:
-> +      GPIOs controlling the Main Device reset.
-> +
-> +  io-reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO controlling the I/O_RESET pin.
-> +
-> +  powerdown-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO controlling the EXT_PWR_DWN pin.
-> +
-> +  update-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO controlling the I/O_UPDATE pin.
-> +
-> +  profile-gpios:
-> +    minItems: 3
-> +    maxItems: 3
-> +    description:
-> +      GPIOs controlling the PROFILE[2:0] pins for profile selection.
-> +
-> +  sync-err-gpios:
-> +    maxItems: 1
-> +    description:
-> +      GPIO used to read SYNC_SMP_ERR pin status.
-Looking at the datasheet there are a few other things that might want to be here.
-
-pll-lock for example might be wired to a gpio to allow a check that lock has
-occurred.  Maybe sync-samp-err as well though possibly that one wants to be an
-interrupt?
-
+-- 
+Thanks,
+Sasha
