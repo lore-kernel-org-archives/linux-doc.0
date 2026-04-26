@@ -1,506 +1,484 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazon11022114.outbound.protection.outlook.com [52.101.96.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E15FEEBB;
-	Sun, 26 Apr 2026 13:10:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777209020; cv=none; b=uushzJVfrbzW/snkOYvqVRKorJyulw5dEE7bFnlsRuGPIT1jnDgfHsYr+vlABsDyxso2xKmDHTVGJrhKDnBGbqOEJRanpKVWRlXZDSDeZTa7Ov+jrZnyy2/4YEwwO6ffmflFLf+DBQfHi2ELGxQtoEEkNQVwZMi4e/tWxh641hQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777209020; c=relaxed/simple;
-	bh=M88+FGeSHNYEn4+846epwLjqCVNm33ezLGjx3Tt8I0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UaYN48TRhk1tpaiXNO2oQOcd8GYJ1GKguvfZx35FkZQo1NWyveO/b3REGXWxzPIzHlvWlOUaWfuf7WPybzKGFfyfsMkNW87mYNo3QH0OjY42UtPpRxOryMgVkkpf7pYl2zQFZrBTE9WHF+Bne9BSHHEvEBrn1naE1bctiOxWGLU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZNolzSd3; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZNolzSd3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 72443C2BCAF;
-	Sun, 26 Apr 2026 13:10:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777209020;
-	bh=M88+FGeSHNYEn4+846epwLjqCVNm33ezLGjx3Tt8I0s=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ZNolzSd3IGDKr7yO0/6LNuZ/ekCJbQrkIRAxtef58+35D6yCy0OWfsegOGZ7D3yaC
-	 qZJ/3BTgfSRw6NCwgRnXm5347RkiyptKk1VqlXLTBtDXEoHBdNlynZK4Rjjyv88Qrv
-	 84aCOC70PHz6caSp94j6kqjGbqQCMVSjRLXCHDrwEWQ6KDjAhQhNOG4odU3nggGLrG
-	 p8NNp7chDVJya8+YGdjjoDRNzBHnqmHM6EhgoUWIZNkn64Hcolz0PjWi+twYVMdFT3
-	 H2qWNvlrC3V1ET9Uiy3uTJ7/rGtar/yX7DUXWHXqg+33hbujC1Vyr3f2lcJ7NNurFs
-	 zD3pjG59/GIig==
-Date: Sun, 26 Apr 2026 14:10:07 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Rodrigo Alencar via B4 Relay
- <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
- Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
- Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
- Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
- R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v3 9/9] docs: iio: add documentation for ad9910
- driver
-Message-ID: <20260426141007.345c76e4@jic23-huawei>
-In-Reply-To: <20260417-ad9910-iio-driver-v3-9-29b93712a228@analog.com>
-References: <20260417-ad9910-iio-driver-v3-0-29b93712a228@analog.com>
-	<20260417-ad9910-iio-driver-v3-9-29b93712a228@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BB051A316E;
+	Sun, 26 Apr 2026 16:01:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.96.114
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777219298; cv=fail; b=fqfoIRywaFUhCvOAnKMktygNs78blXbzxAZIrqnHOmNEYpjs7vl8QNo1zF0bccm8WLar8Pz4EWBpMvk7KPlIS4a/JAAEWOgnm7jHOcHCZ1pTki8UKzo0PqK9q1A5PO6gYZTdA/sHxLYfqNeSVqQE7KoElVVeuPNWX7yDhX4Lr+M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777219298; c=relaxed/simple;
+	bh=e/2Z7xj2YhlZfonTHLA0RzmrMkzRaoCfLZHwy+9GKf8=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=czh1zMspjhM8CL8HXlWBPIw5cbNJHAlGlnhjDPLbvGzwCX+nlZgxrwx9ZnPbJac32B8Kuyf/4pjVyvkg3dOJkP74jxwkqCejPdD8fgW94SocFb0vTOWYy2XCi5q06PWZby5Tt53dAFCmT8myW617Kg7MydASdlmVz4+s2etcD08=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com; spf=pass smtp.mailfrom=atomlin.com; arc=fail smtp.client-ip=52.101.96.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=atomlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atomlin.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X6GFG2EyZJme0J0Luq5qjaGWGz6Vn6YebY3NdRw1O2GKLiaqgGUyToRGyjRDlWrqisfP7SEkdrpaKsYILLXxph1y2lqpJeJcxfXgA+wGHGnZrZfcni1wqLnP4M2qfP0qNArzwIuQEk4ubOA2Zv2Zh03Dw/2tlxfFno5iOHnRZvsTyDKxxFxM7lZrXqw85zYY+vYKs+J1ASCK28bjo6NEXmm6Fthv4nBjVb8dJrzo2oT5gE93YfYhv887b1mMt/CjR77oxpZE2IRCpfLsSAazjZmaGS9tWlHnG7hI5IHKL69P7z8QrLVGnV4lUD2GO/VxMXfn/xNvipaNffOXRBzFUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=82eWCZQTMp5AQGbSvH1DNX28M55vaqbXn1ExBCzjXnw=;
+ b=v/ecpjwGca73GjZgV0VdzNkg+Uzb6sCEbV1xuHzJZmCJRkdJ6BcGHkPHlnaRAEIT2iFFOQdqa7uKHH4Gr1d2Gp4JGTHlNiVMgydrF7Tkk5NvaXhHGIj3e0WvY6BO6atKx1eLU5qm2xYokuQxAZ07Z440zDpji2SgDdtguxFeS/rX8aLLUof/MzUU6hwLsDAaXfrhWSBRc9eFzYZMXkIqOD3UfTAagYjrPel4P62+IBxkX+eOCf865rELZaPAF0IdS3AGgVYYm3uoFi/8bgGFYpCMCwAAuCBt7dUMeYL0DQCW1UeustvwJwz/8BJQk26bWjAvx/LxJ02WMTsTJXKRsg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=atomlin.com; dmarc=pass action=none header.from=atomlin.com;
+ dkim=pass header.d=atomlin.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=atomlin.com;
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:70::10)
+ by LO0P123MB6784.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:309::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.25; Sun, 26 Apr
+ 2026 16:01:32 +0000
+Received: from CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf]) by CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ ([fe80::de8e:2e4f:6c6:f3bf%2]) with mapi id 15.20.9846.021; Sun, 26 Apr 2026
+ 16:01:31 +0000
+From: Aaron Tomlin <atomlin@atomlin.com>
+To: rafael@kernel.org,
+	dakr@kernel.org,
+	pavel@kernel.org,
+	lenb@kernel.org
+Cc: zhongqiu.han@oss.qualcomm.com,
+	akpm@linux-foundation.org,
+	bp@alien8.de,
+	pmladek@suse.com,
+	rdunlap@infradead.org,
+	feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com,
+	kees@kernel.org,
+	elver@google.com,
+	arnd@arndb.de,
+	fvdl@google.com,
+	lirongqing@baidu.com,
+	bhelgaas@google.com,
+	neelx@suse.com,
+	sean@ashe.io,
+	mproche@gmail.com,
+	chjohnst@gmail.com,
+	nick.lange@gmail.com,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v5] PM: QoS: Introduce boot parameter pm_qos_resume_latency_us
+Date: Sun, 26 Apr 2026 12:01:27 -0400
+Message-ID: <20260426160127.292486-1-atomlin@atomlin.com>
+X-Mailer: git-send-email 2.51.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BN1PR10CA0024.namprd10.prod.outlook.com
+ (2603:10b6:408:e0::29) To CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:400:70::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CWLP123MB3523:EE_|LO0P123MB6784:EE_
+X-MS-Office365-Filtering-Correlation-Id: c323ebd2-b6b9-43fc-3091-08dea3ad154b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	TWWD2ntkEF3XfDWhsTJCjyCERVjH2yQ77wD4VA7H+NXDUqPrgbzoKkk3CwSMUD5vBo+GyNrrW6xcmWV2eEkjUek6eRqBZZ+tKBtaWSBMj3H3d+GEK1tFT5IyeU0PSblRKghbNqKiSuNAiIci2FQZtysZagaPtbjRm2AzfA5oN7V5DIM56q5UHfjsWkJfsDR1vLT/+eZkXmP04Pp3bnB36t8EWa7EMI9vV6I5Ti+i/6DLPEYywlBG1aARSUpKVA6HQz3JC057FXw5Fj6zNInEy7pRQOgSm6B1HRjy2I1Eo+P5B42PhOxmlKdAuVusaI0YeBVk+BuflSJW9jQYKUGXz4vljib68ziIWVynm5dkaKj2FBM7XDS6VJ/UK/Ey9IRftav0v69/mp/hBeoKJMRjqApRjVwgl/ZKKvBosyG7DLvcHu4Lwa6gm7dOTB+tdZSecvwRSkm59lpd6w3I/SSWiTL9z66jIvGGzlopPeTN8KenOs601FzhakZEIZBPX5y35kyJVY6Iwl2wFBtFrLJTiH2YMcfiSDb6YZPenGr6ph0+ySYoo9RVowsZgyWdQDj4FNKGn8qeh5nYvChn1i/ummmDJVBSFcTvmnfbjc4s89zbmQgYYaJ+oKyOCq7BYjhG17qYlOWPpS8w2X5FJQHMzQ2qDNgeOVqcCmUNmO+W48qYRGQO4CGeOdT070uCkoT6kgCwaYhP7gCv54B5oggud+J9P+KxqR05uHh4Eknnifk=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(56012099003)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EthO9+pcmLXQ6IPcg9KA/5s4NEWrKwPGDc4eIHg7acGU1WQMl03lpkeFaiYz?=
+ =?us-ascii?Q?fYsfkEAg/qQhifgDVXW5Zz+J1wV1azJ8udd6OOL2fBwxO8tp42MoXgd2Tu7/?=
+ =?us-ascii?Q?PrLjbOUTgnKx0JMnJMvQT/ATfhYeFiU3XX9jVOl80CLosAvm38cLTIFvU3jZ?=
+ =?us-ascii?Q?cRvkUo539u76dvMTFXodxNcBPUZxWe2KYB1Vuooip5IN20koOWA4JCZNPG11?=
+ =?us-ascii?Q?Y7RzNxA9KTTZDy1YBT6RYcJYSfbqoUy3iQqVd5F697vALKpyyuVdSTRoIJxb?=
+ =?us-ascii?Q?onAuwHpZyfDzWuLQtj30N1m7miAUDKp0yxFNAJPh45sbWc8e6wNDOzbJZTdE?=
+ =?us-ascii?Q?wZYyuYwofLySDgihNxqL8FleEsWQ4uQL1ruU+zWagLm/Frhhzx3FaceA9uLM?=
+ =?us-ascii?Q?3LNYvcHE06EDXbnAxidF+sSLVDSgUW0xo1ep+182F9E1K6OmvNzQUcSvVGFf?=
+ =?us-ascii?Q?ndfA2p0d5OlLLX38oU0vI9DLjR52v4ci5qrRCemu13xkLJWd1L+gUtTQyZPS?=
+ =?us-ascii?Q?B16+DXnh6I4oDmybBESDtO40c6nMljAccJ/U3eYfwQprl3cgmJgxsatIFFJs?=
+ =?us-ascii?Q?02BEowEvu4q+RLBpjNAFWdCvUpbv/P0VvE2ae0rSWplNj5iOpn/lqdCsT0Rp?=
+ =?us-ascii?Q?iIJtKltj4PXlgxOoBTegRWlGbyxEsYeRLOcm+msl0eFDatC3WoY2xPp+9pI/?=
+ =?us-ascii?Q?JdZJQmWEp0bXNeWHbnE5uXpLcMEAlQLcInZ+aGIIdQ6ZlPWgctEnLIf4Zn0U?=
+ =?us-ascii?Q?Xj5j37E/l6mC7JfgvPvii/jVod1t4wPXLXrZcpvQI2dSP6N8Cg1Gh3BEMl87?=
+ =?us-ascii?Q?A5a3kc5+lRGQKXEnyO4ZUyZvUqXRYvEu51wWo4mV4/sC5OmAUnIJZ9BIDRTo?=
+ =?us-ascii?Q?NlIyB1nfiU25vrVGDaSuNqBua94MlwqITXOh0f/gA8SdBv0twFfPYljyFz/1?=
+ =?us-ascii?Q?4pY0cHQYvte83sBm23AXgs7E+VShj5tEJ/1kwendo8moQRwO3O6cotrzs+IP?=
+ =?us-ascii?Q?cLiqZK2EcwLYfrjOvd3MUJtFWfgUxLbpFuO/rv5xNaru1Jv4Xeb8BL9MDYBi?=
+ =?us-ascii?Q?7s9oQR2mXl0MznCQeYGErC/68sc5v+bpL7w9dZs+3uK6g2SyGzZNmz90gX2l?=
+ =?us-ascii?Q?0Cxkpw34SIrcXy4+3rGlHNiaDgNiYpjOTIfp+Tn3KYyVOrFA7U6zHf3d5uYL?=
+ =?us-ascii?Q?xyfchUrKZDEEr17GXZ9nazOc31qAdXgaPcJyGBiQYqTq1UusJCGhxwnUUIZG?=
+ =?us-ascii?Q?FQpm8b4PhfaI5kER7WrTaaT4PgjOtcCs91xXjjg5xSlAi43EN3J1h5E9fVeP?=
+ =?us-ascii?Q?JYEnWUQi7xQB+SUKKViRBYq7ohkc8B1MHk3wn0hMmm7wLM5O+c9fOeYDPkK4?=
+ =?us-ascii?Q?MvdB7y9M+NcqXpHSOWH/UNGudGiKQDaKZRHFh48EutTGoc3r5eYAUtwqmR8u?=
+ =?us-ascii?Q?T93xURDi8JS5I6CkDtCjzxD6H0DrJG2qrB50fbGTIuvF1smKQ0cCQtNokxEM?=
+ =?us-ascii?Q?lWhdzFvWU0NS8Rr7WK0TPTlAZTO80jba23IsUFHdGvZVWSvSH3q5yDfDQ+71?=
+ =?us-ascii?Q?l1C1vx8WF8Ap9JeHBwyebiT6irKtR335NB4Eb9AOYXlCJk/K0q3rwtLYynZx?=
+ =?us-ascii?Q?5WOnkXQ+3u7ytrpjf28IcJTPcGSvpex1ouKEhWCUUOmiEGwF/i+QPkrCgp+h?=
+ =?us-ascii?Q?X/uFoXm4Yd7UdsDPHJiq5poRecVB5X3yCGc1fiU9Szjir0qaYWkVshejJxCE?=
+ =?us-ascii?Q?EfFhpy7QKg=3D=3D?=
+X-OriginatorOrg: atomlin.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c323ebd2-b6b9-43fc-3091-08dea3ad154b
+X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB3523.GBRP123.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Apr 2026 16:01:31.7924
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e6a32402-7d7b-4830-9a2b-76945bbbcb57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +iNwbvKWSHzUpy+RgJlrCm2GpOT3civDiFs+KqS+ag13CL0L85K8vqCvjAyp0ISh1vKGGyaYXxMrdIyos9ZAig==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO0P123MB6784
 
-On Fri, 17 Apr 2026 09:17:38 +0100
-Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
+Hi Rafael, Danilo, Pavel, Len,
 
-> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Add documentation for the AD9910 DDS IIO driver, which describes channels,
-> DDS modes, attributes and ABI usage examples.
-> 
-> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+Users currently lack a mechanism to define granular, per-CPU PM QoS
+resume latency constraints during the early boot phase.
 
-Hi Rodrigo,
+While the idle=poll boot parameter exists, it enforces a global
+override, forcing all CPUs in the system to "poll". This global approach
+is not suitable for asymmetric workloads where strict latency guarantees
+are required only on specific critical CPUs, while housekeeping or
+non-critical CPUs should be allowed to enter deeper idle states to save
+energy.
 
-I think this is getting close to something workable subject to some tweaks
-to not make the priority thing visible and use rate of change parameters
-so /Sec rather than steps.
+Additionally, the existing sysfs interface
+(/sys/devices/system/cpu/cpuN/power/pm_qos_resume_latency_us) becomes
+available only after userspace initialisation. This is too late to
+prevent deep C-state entry during the early kernel boot phase, which may
+be required for debugging early boot hangs related to C-state
+transitions or for workloads requiring strict latency guarantees
+immediately upon system start.
 
-Given this defines the ABI for a whole class of new devices that are
-rather complex, one concern is whether whatever we define here is general
-enough to be useful.  
+This patch introduces the pm_qos_resume_latency_us kernel boot
+parameter, which allows users to specify distinct resume latency
+constraints for specific CPU ranges.
 
-Do you have any other DDS in your queue to upstream? Maybe it's worth
-sanity checking the ABI against them to see if it is fit for purpose?
+	Syntax: pm_qos_resume_latency_us=range:value;range:value...
 
-Thanks,
+This boot parameter mirrors the sysfs interface behaviour: the special
+string "n/a" imposes a 0us latency constraint (polling), while the
+integer 0 removes the constraint entirely.
 
-Jonathan
+For example:
 
-> ---
->  Documentation/iio/ad9910.rst | 586 +++++++++++++++++++++++++++++++++++++++++++
->  Documentation/iio/index.rst  |   1 +
->  MAINTAINERS                  |   1 +
->  3 files changed, 588 insertions(+)
-> 
-> diff --git a/Documentation/iio/ad9910.rst b/Documentation/iio/ad9910.rst
-> new file mode 100644
-> index 000000000000..a79819b5afe5
-> --- /dev/null
-> +++ b/Documentation/iio/ad9910.rst
-> @@ -0,0 +1,586 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +
-> +=============
-> +AD9910 driver
-> +=============
-> +
-> +DDS (Direct Digital Synthesizer) driver for the Analog Devices Inc. AD9910.
-More conventional to do term then acronym.
+	"pm_qos_resume_latency_us=0:n/a;1-15:20"
 
-Direct Digital Synthesizer (DDS) driver ..
+Forces CPU 0 to poll on idle; constrains CPUs 1-15 to not enter a sleep
+state that takes longer than 20 us to wake up. All other CPUs will have
+the default (no resume latency) applied.
 
-> +The module name is ``ad9910``.
-> +
-> +* `AD9910 <https://www.analog.com/en/products/ad9910.html>`_
-> +
-> +The AD9910 is a 1 GSPS DDS with a 14-bit DAC, driven over SPI. The driver
+Implementation Details:
 
-Controlled maybe rather than driven?  Driven sort of implies that the SPI bus
-is driving the output at 1G.
+	- The parameter string is captured via __setup() and parsed in
+	  an early_initcall() to ensure suitable memory allocators are
+	  available.
 
-> +exposes the device through the IIO ``altvoltage`` channel type and supports
-...
+	- Constraints are stored in a read-only linked list.
 
-> +DDS modes
-> +=========
-> +
-> +The AD9910 supports multiple modes of operation that can be configured
-> +independently or in combination. Such modes and their corresponding IIO channels
-> +are described in this section. The following tables are extracted from the
-> +AD9910 datasheet and summarizes the control parameters for each mode and their
-> +priority when multiple sources are enabled simultaneously:
+	- The constraints are queried and applied in register_cpu().
+	  This ensures the latency requirement is active immediately
+	  upon CPU registration, effectively acting as a "birth"
+	  constraint before the cpuidle governor takes over.
 
-Maybe add a bit on what priority means.  Does it mean that only the highest
-priority one is acted on?  If so why do we need to expose that others are
-enabled? Just report only the highest priority one as enabled.
+	- The parsing logic enforces a "First Match Wins" policy: if a
+	  CPU falls into multiple specified ranges, the latency value
+	  from the first matching entry is used.
 
-I can see the hardware needs to do priority so it knows where to go when
-a given source is disabled but from a software point of view that
-can be controlled by us enabling that next item (and the driver does
-things in the right order to get the appropriate transition)
+	- The constraints persist across CPU hotplug events.
 
-That may mean that if all modes are disabled, we have to disable any output
-but seems doable.
+Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+---
+Changes since v4 [1]:
+ - Modified the parsing logic so the boot parameter perfectly mirrors the
+   existing sysfs interface. Passing the integer 0 now explicitly removes
+   the constraint (i.e., maps to PM_QOS_RESUME_LATENCY_NO_CONSTRAINT), and
+   the special string "n/a" safely imposes a 0us latency constraint
+   (polling on idle)
 
-> +
-> +.. flat-table:: DDS Frequency Control
-> +   :header-rows: 1
-> +
-> +   * - Priority
-> +     - Data Source
-> +     - Conditions
-> +
-> +   * - Highest Priority
-> +     - RAM
-> +     - RAM enabled and data destination is frequency
-> +
-> +   * -
-> +     - DRG
-> +     - DRG enabled and data destination is frequency
-> +
-> +   * -
-> +     - Parallel data and FTW (frequency_offset)
-> +     - Parallel data port enabled and data destination is frequency
-> +
-> +   * -
-> +     - FTW (frequency)
-> +     - RAM enabled and data destination is not frequency
-> +
-> +   * -
-> +     - FTW (frequency) in single tone channel for the active profile
-> +     - DRG enabled and data destination is not frequency
-> +
-> +   * -
-> +     - FTW (frequency) in single tone channel for the active profile
-> +     - Parallel data port enabled and data destination is not frequency
-> +
-> +   * - Lowest Priority
-> +     - FTW (frequency) in single tone channel for the active profile
-> +     - None
+ - Changed the outer tuple delimiter from a comma (",") to a semicolon
+   (";"). This prevents strsep() from breaking standard, non-contiguous
+   CPU lists (e.g., "0,2:n/a;4-7:20")
 
-> +
-> +Single tone mode
-> +----------------
-> +
-> +Single tone is the baseline operating mode. The ``profile[Y]`` channels
-> +provides enable, frequency, phase and amplitude control:
-> +
-> +.. flat-table::
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Unit
-> +     - Description
-> +
-> +   * - ``en``
-> +     - boolean
-> +     - Enable/disable profile Y. Only one profile can be active at a
-> +       time. Then enabling a profile disables the current active profile.
-> +       Disabling an active profile enables the next profile in ascending order,
-> +       wrapping around from 7 to 0.
+ - Moved the cpumask_or() coverage update to the end of the parsing loop
 
-That passing on to the next one seems rather non user friendly.  Can we just
-disable the whole unit under those conditions instead?  As above that may mean
-turning of the output entirely.  So to change mode it would always be transition
-to the one that is enabled.  A disable of a given channel results in no output.
+ - Updated documentation to reflect the new semicolon delimiter and updated
+   semantic behavior in Documentation/admin-guide/kernel-parameters.txt
 
+Changes since v3 [2]:
+ - Moved pm_qos_get_boot_cpu_latency_limit() declaration out of the
+   CONFIG_PM #ifdef block, as qos.c is compiled regardless
 
-> +
-> +   * - ``frequency``
-> +     - Hz
-> +     - Output frequency. Range [0, SYSCLK/2). Stored in the profile's frequency
-> +       tuning word (FTW).
-> +
-> +   * - ``phase``
-> +     - rad
-> +     - Phase offset. Range [0, 2*pi). Stored in the profile's phase offset word
-> +       (POW).
-> +
-> +   * - ``scale``
-> +     - fractional
-> +     - Amplitude scale factor. Range [0, 1]. Stored in the profile's amplitude
-> +       scale factor (ASF).
-> +
-> +Profile switching is allowed while RAM mode is enabled. In that case single tone
-> +parameters are stored in a shadow register and are not written to hardware until
-> +RAM mode is disabled.
+Changes since v2 [3]:
+ - Add pr_fmt() to standardise log prefixes (Zhongqiu Han)
+ - Drop <asm/setup.h> by duplicating the command line with kstrdup()
+   (Zhongqiu Han)
+ - Fix init_pm_qos_resume_latency_us_setup() error path to return -ENOMEM
+   (Zhongqiu Han)
 
-This is only visible to userspace because of the priority thing?  If we hide
-that away to transition from RAM to this mode would just mean enabling this mode.
+Changes since v1 [4]:
+ - Removed boot_option_idle_override == IDLE_POLL check
+ - Decoupled implementation from CONFIG_CPU_IDLE
+ - Added kernel-parameters.txt documentation
+ - Renamed internal setup functions for consistency
 
-> +
-> +Usage examples
-> +^^^^^^^^^^^^^^
-> +
-> +Set the active profile to 2 and configure a 100 MHz tone:
-> +
-> +.. code-block:: bash
-> +
-> +	echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage103_en
-> +	echo 100000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage103_frequency
-> +	echo 0.5 > /sys/bus/iio/devices/iio:device0/out_altvoltage103_scale
-> +	echo 0 > /sys/bus/iio/devices/iio:device0/out_altvoltage103_phase
+[1]: https://lore.kernel.org/lkml/20260308190421.46657-1-atomlin@atomlin.com/
+[2]: https://lore.kernel.org/lkml/20260307200736.4192234-1-atomlin@atomlin.com/
+[3]: https://lore.kernel.org/lkml/20260128033143.3456074-2-atomlin@atomlin.com/
+[4]: https://lore.kernel.org/lkml/20260123010024.3301276-1-atomlin@atomlin.com/
 
-I'd expect to set frequency scale and phase before moving to the tone. Other wise
-we get random garbage until those are set.  So probably reorder the example.
-Fine to say you can also modify them live, but that isn't the most common thing
-to do.
-> +
-> +Read back the current single tone frequency:
-> +
-> +.. code-block:: bash
-> +
-> +	cat /sys/bus/iio/devices/iio:device0/out_altvoltage103_frequency
-> +
-> +Parallel port mode
-> +------------------
-> +
+ .../admin-guide/kernel-parameters.txt         |  22 +++
+ drivers/base/cpu.c                            |   5 +-
+ include/linux/pm_qos.h                        |   1 +
+ kernel/power/qos.c                            | 153 ++++++++++++++++++
+ 4 files changed, 179 insertions(+), 2 deletions(-)
 
-...
-
-> +
-> +Usage examples
-> +^^^^^^^^^^^^^^
-> +
-> +Enable parallel port with a frequency scale of 16 and a 50 MHz offset:
-> +
-> +.. code-block:: bash
-> +
-> +	echo 16 > /sys/bus/iio/devices/iio:device0/out_altvoltage110_frequency_scale
-> +	echo 50000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage110_frequency_offset
-> +  echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage110_en
-Odd indent.
-
-> +
-> +Digital ramp generator (DRG)
-> +----------------------------
-> +
-> +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
-> +hardware. It is controlled through three channels: a parent control channel
-> +(``digital_ramp_generator``) and two child ramp channels
-> +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
-> +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_step``
-> +sets the destination to frequency.
-> +
-> +Control channel attributes
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +.. flat-table::
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Unit
-> +     - Description
-> +
-> +   * - ``en``
-> +     - boolean
-> +     - Enable/disable the DRG.
-> +
-> +Ramp channel attributes
-> +^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The ``digital_ramp_up`` and ``digital_ramp_down`` channels share the same
-> +attribute set but configure ascending and descending ramp parameters
-> +independently:
-> +
-> +.. flat-table::
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Unit
-> +     - Description
-> +
-> +   * - ``en``
-> +     - boolean
-> +     - Enable/disable the ramp no-dwell behavior. Enabling both creates a
-> +       bidirectional continuous ramp (Triangular pattern). Other configurations
-> +       creates a single-shot ramp at the trasition of the DRCTL pin: ramp-up
-
-transition
-
-> +       only, ramp-down only or bidirectional with dwell at the limits.
-
-Feels a little unintuitive to use the generic enable for this.
-We might need a specific control for this one. 
-
-> +
-> +   * - ``frequency``
-> +     - Hz
-> +     - Frequency ramp limit. Range [0, SYSCLK/2).
-> +
-> +   * - ``phase``
-> +     - rad
-> +     - Phase ramp limit. Range [0, 2*pi).
-> +
-> +   * - ``scale``
-> +     - fractional
-> +     - Amplitude scale ramp limit. Range [0, 1).
-> +
-> +   * - ``sampling_frequency``
-> +     - Hz
-> +     - Ramp clock rate: SYSCLK / (4 * divider).
-> +
-> +   * - ``frequency_step``
-> +     - Hz
-> +     - Per-tick frequency increment/decrement. Range [0, SYSCLK/2).
-
-So this was the bit I referred to earlier.  Normally we do
-rate of change measurements for this stuff rather than what happens on
-each tick (based on how we handle things like ROC events)
-
-So could we make these
-	``frequency_roc`` units HZ/Sec
-etc?  Then from the mix configured would need to work out the optimum
-tick to deliver it.
-
-I suppose it's possible that someone might want a stepped frequency
-though which would break this approach?  Does anyone actually do that?
-If so we'd need to keep the samping_frequency but then control _roc
-with that in mind.
-
-
-> +
-> +   * - ``phase_step``
-> +     - rad
-> +     - Per-tick phase increment/decrement. Range [0, 2*pi).
-> +
-> +   * - ``scale_step``
-> +     - fractional
-> +     - Per-tick amplitude scale increment/decrement. Range [0, 1).
-> +
-> +Usage examples
-> +^^^^^^^^^^^^^^
-> +
-> +Configure a frequency sweep from 40 MHz to 60 MHz at a 1 kHz step:
-> +
-> +.. code-block:: bash
-> +
-> +	# Enable both no-dwell modes for a bidirectional ramp
-> +	echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_en
-> +  echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_en
-
-Fix indents as mix of tabs and spaces.  As above I think using this enable
-for no dwell is not going to generalize well.  I think we need new ABI for this
-though I'm open to anyone suggesting something we can reuse.
-
-> +
-> +	# Set ramp limits
-> +	echo 60000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_frequency
-> +	echo 40000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_frequency
-> +
-> +	# Set ramp step size to 1 kHz
-> +	echo 1000 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_frequency_step
-> +	echo 1000 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_frequency_step
-> +
-> +	# Set ramp rate at 25 MHz
-> +	echo 25000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_sampling_frequency
-> +  echo 25000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_sampling_frequency
-> +
-> +	# Enable the DRG
-> +	echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage120_en
-> +
-> +RAM mode
-> +--------
-> +
-> +The AD9910 contains a 1024 x 32-bit RAM that can be loaded with waveform data
-> +and played back to modulate frequency, phase, amplitude, or polar (phase +
-> +amplitude) parameters.
-> +
-> +RAM control channel attributes
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +.. flat-table::
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Unit
-> +     - Description
-> +
-> +   * - ``en``
-> +     - boolean
-> +     - Enable/disable RAM playback. Toggling swaps profile registers between
-> +       single tone and RAM configurations across all 8 profiles.
-
-So this might be a fly in the ointment of my previous comment about using
-enable of profile to turn off ram.  I guess disabling RAM drops into the
-matched number tone profile?  That's a pain but not disastrous. We'd have
-to only allow transitions by enabling the match number tone profile.
-
-So transitions allowed would be
-
-	tone_profileX -> ram_profileX
-	tone_profileX -> tone_profileY
-	ram_profileX -> tone_profileX
-	ram_profileX -> ram_profileY
-
-But not
-	tone_profileX -> ram_profileY
-where X!=Y
-
-> +
-> +   * - ``frequency``
-> +     - Hz
-> +     - Frequency tuning word used as the single tone frequency when
-> +       RAM destination is not ``frequency``. Range [0, SYSCLK/2).
-> +
-> +   * - ``phase``
-> +     - rad
-> +     - Phase offset word used as the single tone phase when RAM destination
-> +       is not ``phase``. Range [0, 2*pi).
-> +
-> +   * - ``sampling_frequency``
-> +     - Hz
-> +     - RAM playback step rate of the active profile, which controls how fast the
-> +       address counter advances: SYSCLK / (4 * step_rate).
-
-Why do we care what the sysclk relationship is? It's ticking in HZ.
-
-> +
-> +Output shift keying (OSK)
-This is a new one on me... 
-> +-------------------------
-> +
-> +OSK controls the output amplitude envelope, allowing the output to be ramped
-> +on/off rather than switched abruptly.
-
-> +
-> +.. flat-table::
-> +   :header-rows: 1
-> +
-> +   * - Attribute
-> +     - Unit
-> +     - Description
-> +
-> +   * - ``en``
-> +     - boolean
-> +     - Enable/disable OSK.
-> +
-> +   * - ``scale``
-> +     - fractional
-> +     - Target amplitude for the OSK ramp. 14-bit ASF field. Range [0, 1).
-> +
-> +   * - ``sampling_frequency``
-> +     - Hz
-> +     - OSK ramp rate: SYSCLK / (4 * divider).
-> +
-> +   * - ``pinctrl_en``
-> +     - boolean
-> +     - Enable manual external pin control. When enabled, the OSK pin directly
-> +       gates the output on/off instead of using the automatic ramp.
-
-I wonder if we should split the various OSK modes into different channels given
-only some properties apply to each of automatic and manual modes. Also I think
-automatic mode is meaningless without pinctrl_en (so that can be replaced
-by simply enabling that mode).  I have no idea if anyone cares about pin ctrl
-with manual mode or not?  That one seems even more odd.
-
-> +
-> +   * - ``scale_step``
-> +     - fractional
-> +     - Automatic OSK amplitude step. Writing non-zero enables automatic OSK
-> +       and sets the per-tick increment. Writing ``0`` disables it. Rounded to
-> +       nearest hardware step: 0.000061, 0.000122, 0.000244 or 0.000488.
-
-Similar thing about rate of change of amplitude fitting better with current ABI
-than step does.
-
-...
-
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 6a3d6bd0746c..1beb4f82e038 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2238,6 +2238,28 @@ Kernel parameters
+ 	icn=		[HW,ISDN]
+ 			Format: <io>[,<membase>[,<icn_id>[,<icn_id2>]]]
+ 
++	pm_qos_resume_latency_us=	[KNL,EARLY]
++			Format: <cpu-list>:<value>[;<cpu-list>:<value>...]
++
++			Establish per-CPU resume latency constraints. These constraints
++			are applied immediately upon CPU registration and persist
++			across CPU hotplug events.
++
++			For example:
++				"pm_qos_resume_latency_us=0:n/a;1-15:20"
++
++			This restricts CPU 0 to a 0us resume latency (effectively
++			forcing polling) and limits CPUs 1-15 to C-states with a
++			maximum exit latency of 20us. All other CPUs remain
++			unconstrained by this parameter.
++
++			This boot parameter mirrors the sysfs interface behaviour.
++			The special string "n/a" imposes a 0us latency constraint
++			(polling), while the integer 0 removes the constraint.
++
++			NOTE: The parsing logic enforces a "First Match Wins" policy.
++			If a CPU is included in multiple specified ranges, the latency
++			value from the first matching entry takes precedence.
+ 
+ 	idle=		[X86,EARLY]
+ 			Format: idle=poll, idle=halt, idle=nomwait
+diff --git a/drivers/base/cpu.c b/drivers/base/cpu.c
+index c6c57b6f61c6..1dea5bcd76a0 100644
+--- a/drivers/base/cpu.c
++++ b/drivers/base/cpu.c
+@@ -416,6 +416,7 @@ EXPORT_SYMBOL_GPL(cpu_subsys);
+ int register_cpu(struct cpu *cpu, int num)
+ {
+ 	int error;
++	s32 resume_latency;
+ 
+ 	cpu->node_id = cpu_to_node(num);
+ 	memset(&cpu->dev, 0x00, sizeof(struct device));
+@@ -436,8 +437,8 @@ int register_cpu(struct cpu *cpu, int num)
+ 
+ 	per_cpu(cpu_sys_devices, num) = &cpu->dev;
+ 	register_cpu_under_node(num, cpu_to_node(num));
+-	dev_pm_qos_expose_latency_limit(&cpu->dev,
+-					PM_QOS_RESUME_LATENCY_NO_CONSTRAINT);
++	resume_latency = pm_qos_get_boot_cpu_latency_limit(num);
++	dev_pm_qos_expose_latency_limit(&cpu->dev, resume_latency);
+ 	set_cpu_enabled(num, true);
+ 
+ 	return 0;
+diff --git a/include/linux/pm_qos.h b/include/linux/pm_qos.h
+index 6cea4455f867..65ce276282e8 100644
+--- a/include/linux/pm_qos.h
++++ b/include/linux/pm_qos.h
+@@ -142,6 +142,7 @@ int pm_qos_update_target(struct pm_qos_constraints *c, struct plist_node *node,
+ bool pm_qos_update_flags(struct pm_qos_flags *pqf,
+ 			 struct pm_qos_flags_request *req,
+ 			 enum pm_qos_req_action action, s32 val);
++s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu);
+ 
+ #ifdef CONFIG_CPU_IDLE
+ s32 cpu_latency_qos_limit(void);
+diff --git a/kernel/power/qos.c b/kernel/power/qos.c
+index f7d8064e9adc..1c854e02ada0 100644
+--- a/kernel/power/qos.c
++++ b/kernel/power/qos.c
+@@ -18,6 +18,8 @@
+  * global CPU latency QoS requests and frequency QoS requests are provided.
+  */
+ 
++#define pr_fmt(fmt) "pm_qos: " fmt
++
+ /*#define DEBUG*/
+ 
+ #include <linux/pm_qos.h>
+@@ -34,6 +36,9 @@
+ #include <linux/kernel.h>
+ #include <linux/debugfs.h>
+ #include <linux/seq_file.h>
++#include <linux/cpumask.h>
++#include <linux/cpu.h>
++#include <linux/list.h>
+ 
+ #include <linux/uaccess.h>
+ #include <linux/export.h>
+@@ -209,6 +214,154 @@ bool pm_qos_update_flags(struct pm_qos_flags *pqf,
+ 	return prev_value != curr_value;
+ }
+ 
++static LIST_HEAD(pm_qos_boot_list);
++static char *pm_qos_resume_latency_cmdline __initdata;
++
++struct pm_qos_boot_entry {
++	struct list_head node;
++	struct cpumask mask;
++	s32 latency;
++};
++
++static int __init pm_qos_resume_latency_us_setup(char *str)
++{
++	pm_qos_resume_latency_cmdline = str;
++	return 1;
++}
++__setup("pm_qos_resume_latency_us=", pm_qos_resume_latency_us_setup);
++
++/**
++ * init_pm_qos_resume_latency_us_setup - Parse the pm_qos_resume_latency_us boot parameter.
++ *
++ * Parses the kernel command line option "pm_qos_resume_latency_us=" to establish
++ * per-CPU resume latency constraints. These constraints are applied
++ * immediately when a CPU is registered.
++ *
++ * Syntax: pm_qos_resume_latency_us=<cpu-list>:<value>[;<cpu-list>:<value>...]
++ * Example: pm_qos_resume_latency_us=0-3:n/a;4-7:20
++ *
++ * The parsing logic enforces a "First Match Wins" policy. If a CPU is
++ * covered by multiple entries in the list, only the first valid entry
++ * applies. Any subsequent overlapping ranges for that CPU are ignored.
++ *
++ * Return: 0 on success, or a negative error code on failure.
++ */
++static int __init init_pm_qos_resume_latency_us_setup(void)
++{
++	char *token, *cmd, *cmd_copy;
++	struct pm_qos_boot_entry *entry, *tentry;
++	cpumask_var_t covered;
++	int ret = 0;
++
++	if (!pm_qos_resume_latency_cmdline)
++		return 0;
++
++	cmd_copy = kstrdup(pm_qos_resume_latency_cmdline, GFP_KERNEL);
++	if (!cmd_copy)
++		return -ENOMEM;
++
++	if (!zalloc_cpumask_var(&covered, GFP_KERNEL)) {
++		pr_warn("Failed to allocate memory for parsing boot parameter\n");
++		ret = -ENOMEM;
++		goto free_cmd_copy;
++	}
++
++	cmd = cmd_copy;
++	while ((token = strsep(&cmd, ";")) != NULL) {
++		char *str_range, *str_val;
++
++		str_range = strsep(&token, ":");
++		str_val = token;
++
++		if (!str_val) {
++			pr_warn("Missing value range %s\n", str_range);
++			continue;
++		}
++
++		entry = kzalloc(sizeof(*entry), GFP_KERNEL);
++		if (!entry) {
++			pr_warn("Failed to allocate memory for boot entry\n");
++			ret = -ENOMEM;
++			goto cleanup;
++		}
++
++		if (cpulist_parse(str_range, &entry->mask)) {
++			pr_warn("Failed to parse cpulist range %s\n", str_range);
++			kfree(entry);
++			continue;
++		}
++
++		cpumask_andnot(&entry->mask, &entry->mask, covered);
++		if (cpumask_empty(&entry->mask)) {
++			pr_warn("Entry %s already covered, ignoring\n", str_range);
++			kfree(entry);
++			continue;
++		}
++
++		if (!strcmp(str_val, "n/a")) {
++			entry->latency = 0;
++		} else if (kstrtos32(str_val, 0, &entry->latency)) {
++			pr_warn("Invalid latency requirement value %s\n", str_val);
++			kfree(entry);
++			continue;
++		} else if (entry->latency == 0) {
++			entry->latency = PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
++		}
++
++		if (entry->latency < 0) {
++			pr_warn("Latency requirement cannot be negative: %d\n", entry->latency);
++			kfree(entry);
++			continue;
++		}
++
++		cpumask_or(covered, covered, &entry->mask);
++
++		list_add_tail(&entry->node, &pm_qos_boot_list);
++	}
++
++	free_cpumask_var(covered);
++	kfree(cmd_copy);
++	return 0;
++
++cleanup:
++	list_for_each_entry_safe(entry, tentry, &pm_qos_boot_list, node) {
++		list_del(&entry->node);
++		kfree(entry);
++	}
++	free_cpumask_var(covered);
++free_cmd_copy:
++	kfree(cmd_copy);
++	return ret;
++}
++early_initcall(init_pm_qos_resume_latency_us_setup);
++
++/**
++ * pm_qos_get_boot_cpu_latency_limit - Get boot-time latency limit for a CPU.
++ * @cpu: Logical CPU number to check.
++ *
++ * Checks the read-only boot-time constraints list to see if a specific
++ * PM QoS latency override was requested for this CPU via the kernel
++ * command line.
++ *
++ * Return: The latency limit in microseconds if a constraint exists,
++ * or PM_QOS_RESUME_LATENCY_NO_CONSTRAINT if no boot override applies.
++ */
++s32 pm_qos_get_boot_cpu_latency_limit(unsigned int cpu)
++{
++	struct pm_qos_boot_entry *entry;
++
++	if (list_empty(&pm_qos_boot_list))
++		return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
++
++	list_for_each_entry(entry, &pm_qos_boot_list, node) {
++		if (cpumask_test_cpu(cpu, &entry->mask))
++			return entry->latency;
++	}
++
++	return PM_QOS_RESUME_LATENCY_NO_CONSTRAINT;
++}
++EXPORT_SYMBOL_GPL(pm_qos_get_boot_cpu_latency_limit);
++
+ #ifdef CONFIG_CPU_IDLE
+ /* Definitions related to the CPU latency QoS. */
+ 
+-- 
+2.51.0
 
