@@ -1,75 +1,115 @@
-Received: from relay.hostedemail.com (smtprelay0012.hostedemail.com [216.40.44.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C413F2C0F6D;
-	Sun, 26 Apr 2026 09:48:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7BCE2882B6;
+	Sun, 26 Apr 2026 11:01:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777196882; cv=none; b=Lpri5B6Y0cawIGVxiOtTnC1mCO6YxnjgIl8Jixa3wZBEA114NbbOJKS7oZVkPGS9aFxPVxXfxaEya12OmkLujEBY/VQiXJQlxd5JCiGAmZ4FJCIUlMGY7thHG5CbWPGKIfZSZP7Xla4DKFHfA1EceNbRTY5EH1BsWTXTtmHONT4=
+	t=1777201310; cv=none; b=UTpLzoi2OTLk9ZVElbNIjv/O983Riq6Ml9UkJc1W70rW8mRkxIAGANZjbumywwcuFijX7itgxz49ZTZ1ZgrPL5p6VwIMuI6WvTFQJkfYkYLADSMe3IRtUR8C395nAFj7IV2vGDL7xmKC7BQIOceUHQqJY0xZpJHD/pwXhklI0i8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777196882; c=relaxed/simple;
-	bh=7JOrDVh6TB/L9jeyBO3Xkbxew1LnHEVOKgwzPr3wb/M=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GKoeSGj14iw1IM84XtRv9V3VTvjiYCqAL60f9we6j8fH95PxlSU6zLF5YUKjrhbEynUyTUpkpGo0XZ0S5a1OWtdA23/jj5b25PHFJ8GrjymrXaI3eQPuKbZt4JEZcMqIg3bB33r5/AfJju799P31ep/lbssq2UvQ6KIduB7Ve0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
-Received: from omf01.hostedemail.com (lb01b-stub [10.200.18.250])
-	by unirelay09.hostedemail.com (Postfix) with ESMTP id 7241A8B383;
-	Sun, 26 Apr 2026 09:47:54 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf01.hostedemail.com (Postfix) with ESMTPA id BE73260011;
-	Sun, 26 Apr 2026 09:47:51 +0000 (UTC)
-Message-ID: <01ba7d10ebbac30d1325d23ecdc8fb63c614e0d1.camel@perches.com>
-Subject: Re: [PATCH v3] checkpatch: add --json output mode
-From: Joe Perches <joe@perches.com>
-To: Sasha Levin <sashal@kernel.org>, dwaipayanray1@gmail.com, 
-	lukas.bulwahn@gmail.com
-Cc: mricon@kernel.org, corbet@lwn.net, skhan@linuxfoundation.org, 
-	apw@canonical.com, workflows@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Sun, 26 Apr 2026 02:47:50 -0700
-In-Reply-To: <20260425200431.4088895-1-sashal@kernel.org>
-References: <20260408172435.1268067-1-sashal@kernel.org>
-	 <20260425200431.4088895-1-sashal@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.3 (3.58.3-1.fc43) 
+	s=arc-20240116; t=1777201310; c=relaxed/simple;
+	bh=5mbT5zxJLttGO9IREsSuDDnHGoOb579Xt7g8NCSKqGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bpwkakXqQcM6VWwrWWxvzsZdapsDn8jWZuoWojhC0ydXoG/TJB70bp3RLlPBVPaDb8ZT5+CBmGLFa8psztgl9jeJHBjEbLHn1N+wjaSpjtgmrKJTWEK3sPs2ucGmZQWO7EEq22+o3khbx+CGHsy04DZyR6TSaNbtJkyCjabxes0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J8tXNY3f; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J8tXNY3f"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEF72C2BCAF;
+	Sun, 26 Apr 2026 11:01:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777201310;
+	bh=5mbT5zxJLttGO9IREsSuDDnHGoOb579Xt7g8NCSKqGo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=J8tXNY3fYHJBBvA/VMVCTzeMAlg7/Q4PdaCuLa6ffOydAiPMmjIjDOCMhBgmkgf3/
+	 8++bCPFlnU+9jUVXXVNnqoNKlmTqQ8tq2VCDZSJLmaMeM/1OHnfqv89h0CmerKAQht
+	 Y6V3Th9yK9j3cymhdrd79fea6t7TidchIGtVTh4VEwpHWewzsBibbyOSoCznVzkpSQ
+	 hp0i/m0GnWu3ccbfc46PsT1riC6PQIgHE663KFulWy7Kzz8y96fgWd+yLGXWS1BlRb
+	 OfmSGXsX+ZjFQJoI6dI1DUwg7v//qEb63h3J1AcjckZl2nyOwTo2kyT9/5Qmt6FqHe
+	 g8PWJIcnUVn/A==
+Date: Sun, 26 Apr 2026 12:01:39 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Rodrigo Alencar via B4 Relay
+ <devnull+rodrigo.alencar.analog.com@kernel.org>
+Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-hardening@vger.kernel.org, Lars-Peter
+ Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Philipp
+ Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah
+ Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, "Gustavo A.
+ R. Silva" <gustavoars@kernel.org>
+Subject: Re: [PATCH RFC v3 1/9] dt-bindings: iio: frequency: add ad9910
+Message-ID: <20260426120139.3fb8f3da@jic23-huawei>
+In-Reply-To: <20260417-ad9910-iio-driver-v3-1-29b93712a228@analog.com>
+References: <20260417-ad9910-iio-driver-v3-0-29b93712a228@analog.com>
+	<20260417-ad9910-iio-driver-v3-1-29b93712a228@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: BE73260011
-X-Stat-Signature: umxo31hpdi7fg6xawwfw159qcy3uraoy
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX18dvq6Drm8d51f5kR9uzwoYSmJ/wUNaASU=
-X-HE-Tag: 1777196871-967770
-X-HE-Meta: U2FsdGVkX1/8IXMSr4DT7TQ87uT2mMFcW5C02vKWfhh5C+/U7xpzIxaWbKQ3R58YwVoEzW84XVwKWuyR5qU2AqbAHV3pzt2Za4GGTpvGeTp5Gr3iNNPTsU5u/PsUFxfms1JS0a8iS8d4qSvukRfnBmAwswR8xyJZ8vqJw4ctmPRIdJS5S94iJx039JFKwLagNpU7DXot96GOoajd3cCiCfYyOW0Quy9wbRGTCS+uYnr5/opCs9CmZEmL7Uvgv7eTteFLcNa17U9lE+AenC2QR5hu2xQDms4X8AKIXTtduGBd7jSGJlUKK/c0VdIteMjK
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, 2026-04-25 at 16:04 -0400, Sasha Levin wrote:
+On Fri, 17 Apr 2026 09:17:30 +0100
+Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
 
-> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-[]
-> @@ -2403,6 +2426,24 @@ sub report_dump {
->  	our @report;
->  }
-> =20
-> +sub json_print_result {
-> +	my ($filename, $total_errors, $total_warnings, $total_checks,
-> +	    $total_lines, $issues, $used_types, $ignored_types) =3D @_;
-> +	my %result =3D (
-> +		filename       =3D> $filename,
-> +		total_errors   =3D> $total_errors,
-> +		total_warnings =3D> $total_warnings,
-> +		total_checks   =3D> $total_checks,
-> +		total_lines    =3D> $total_lines,
-> +		issues         =3D> $issues,
-> +	);
-> +	$result{used_types}    =3D $used_types    if (defined $used_types);
-> +	$result{ignored_types} =3D $ignored_types if (defined $ignored_types);
-> +	my $json_encoder =3D JSON::PP->new->canonical->utf8;
+> From: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> 
+> DT-bindings for AD9910, a 1 GSPS DDS with 14-bit DAC. It includes
+> configurations for clocks, DAC current, reset and basic GPIO control.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
+> ---
+>  .../bindings/iio/frequency/adi,ad9910.yaml         | 189 +++++++++++++++++++++
+>  MAINTAINERS                                        |   7 +
+>  2 files changed, 196 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
+> new file mode 100644
+> index 000000000000..61e879bca5c2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/iio/frequency/adi,ad9910.yaml
 
-Maybe canonical isn't great as it outputs keys in alphabetic order.
-The output may be more sensible in the defined order.
+...
+
+> +
+> +  reset-gpios:
+> +    description:
+> +      GPIOs controlling the Main Device reset.
+> +
+> +  io-reset-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO controlling the I/O_RESET pin.
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO controlling the EXT_PWR_DWN pin.
+> +
+> +  update-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO controlling the I/O_UPDATE pin.
+> +
+> +  profile-gpios:
+> +    minItems: 3
+> +    maxItems: 3
+> +    description:
+> +      GPIOs controlling the PROFILE[2:0] pins for profile selection.
+> +
+> +  sync-err-gpios:
+> +    maxItems: 1
+> +    description:
+> +      GPIO used to read SYNC_SMP_ERR pin status.
+Looking at the datasheet there are a few other things that might want to be here.
+
+pll-lock for example might be wired to a gpio to allow a check that lock has
+occurred.  Maybe sync-samp-err as well though possibly that one wants to be an
+interrupt?
+
