@@ -1,227 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E724926B764;
-	Sun, 26 Apr 2026 17:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B67F38F620;
+	Sun, 26 Apr 2026 19:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777223991; cv=none; b=oh9hDHBcZxCEYDdsKDgdYU0xPZVN5e/gtU/1dMWq6JnOOEpCSQc0hqZvYK6IqPkv4t6jAynPRQFXuZWaasXGe7Xe/3cnb5a1chugVYH/yExpoPeD/71RNHSUDUpEojKzEy8Fy5tcUcYtq6d5Qt48wUQPsmIyGJ8O0JVVY7/IILw=
+	t=1777232032; cv=none; b=LrWXN1nuU0Cd5x8oM4BPz0sI17qOtXO/aMIIG4rbrhpmUlO4gMw48fcaQ08RJrbVBGtF1chc5C90buSeRBTQ5tC1q4cRvxhS/zEMwsn3aF+IgLDP76kOoFhO7iGTrJc47tu7QUrb15BSwh7RXf+NfURSVH79O2fKFhUa8rHe9GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777223991; c=relaxed/simple;
-	bh=lG1Berrhw8hjbikGqYFQyztxo7nbWehNH0Od6lNtYYc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=kr+OUQEgexKtGfUZ+pn9dktvTChS//RmQuXbhrEEQKE9wE92Fd7EEiFQpqbjdq62q0QJUnC7T60RLh5q3RcUxcJf3GLoejr/GOA7f9KcplfrtML3ENcsoy0eihiewSAL1blHTH/wDT0RtiDYT5Att0GXfYDxiNah85WG08Qi/M0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eFoY0CZr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777232032; c=relaxed/simple;
+	bh=rowAobkvjvgRAl9b2Z+s1osOF3rOUoboO3vWjoI8Lls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bnx0XLAzROr+Wxl4peUYKras0pDI5JL8xWhmzq4X4r3k9R+wjbEJH5fKNK0Pg49vYN2NdQB+6+jFpe0k12UEATKlDMLlt6z+Js1Q/jMPT8dP95Y/LpZzynpkijP6kgAN9GehfskROe/Q1QJCy3zr+UwS+pid3ib5lapfUoXPW8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SHn9/CcB; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eFoY0CZr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52D22C2BCAF;
-	Sun, 26 Apr 2026 17:19:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777223990;
-	bh=lG1Berrhw8hjbikGqYFQyztxo7nbWehNH0Od6lNtYYc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eFoY0CZr8kKoqAnhi+7eySYA2quK4t4kPOsEwhfU6iP+W8C5Pn6/xu+vVDwI8ldkX
-	 9aa/g64vL/kSvXd5zqupofYMCl9Cq+jX4eIiZ2mKTEupYa/U5ir5mdvqX2IcNa6rsv
-	 4Ht9AxiGHQKUlFHjrdPXvZOPE8z2W5E3bIXtw77zZ1g5cW1pXpbUeA+NBcd2kjM+R7
-	 Q54O2vdV2XVc41XZfIk8GfGT1RPnZNsgdShFPsddRkTlInvCp1MbWU2D6/DP6vI4HY
-	 54KGfsA5wrgRYXdSvSILQw33qE1QsbQ20RBVuUpp3gCFrbshhDHc/U8kii6m7DWJEx
-	 +x6OILNks7EQg==
-From: SeongJae Park <sj@kernel.org>
-To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	damon@lists.linux.dev,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	bijan311@gmail.com,
-	ajayjoshi@micron.com,
-	honggyu.kim@sk.com,
-	yunjeong.mun@sk.com
-Subject: Re: [PATCH v8] mm/damon: add node_eligible_mem_bp goal metric
-Date: Sun, 26 Apr 2026 10:19:40 -0700
-Message-ID: <20260426171941.86007-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260426003245.2687-1-ravis.opensrc@gmail.com>
-References: 
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SHn9/CcB"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=erN5Eko4E2V4Yz0/dGauB34cs6LKxfw0CRMRc+yw92o=; b=SHn9/CcBBQDF9LsodmANeb+kg1
+	eh3hEkrt9rbWx5x03q0GvpqqxbnLVdeIaa2j2GwpGaXwL1IJWyzpiXh9vrNcS8IPiPI0AobuRsn/n
+	Rz0+tb/IIIMqXkqJYSHD30dMH04Zvor3NJyyJ74i2USBAJF9nV6AlKZJJy6+tt+b4mSdkfm1xN+O8
+	uK7uhr1Bz3hdUTFgVOGv12snWsBYyIut5t4+LbaUdMUlWtRyerXmBOi+7GUmXwrO5n9BtlsafS31Z
+	CDyH8Cfsl/STZ7Ct10ITszqQdFZqFOc5h3clDRf4OjDtPnkdF1zxj/o6YfjVXWJT9cesj3zywX2rn
+	4efqT6bg==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wH5EW-0000000FnFY-2GSN;
+	Sun, 26 Apr 2026 19:33:36 +0000
+Message-ID: <be1548a6-9859-477f-8728-be6b1dac862b@infradead.org>
+Date: Sun, 26 Apr 2026 12:33:34 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
+ not a security bug
+To: Willy Tarreau <w@1wt.eu>, greg@kroah.com
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ skhan@linuxfoundation.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Greg KH <gregkh@linuxfoundation.org>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-3-w@1wt.eu>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260426163914.19449-3-w@1wt.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sat, 25 Apr 2026 17:32:45 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
 
-> Background and Motivation
-> =========================
-> 
-> In heterogeneous memory systems, controlling memory distribution across
-> NUMA nodes is essential for performance optimization. This patch enables
-> system-wide page distribution with target-state goals such as "maintain
-> 60% of scheme-eligible memory on DRAM" using PA-mode DAMON schemes.
-> 
-> Rather than using absolute thresholds, this metric tracks the ratio of
-> memory that matches each scheme's access pattern filters on a target
-> node, enabling the quota system to automatically adjust migration
-> aggressiveness to maintain the desired distribution.
-> 
-> What This Metric Measures
-> =========================
-> 
-> node_eligible_mem_bp:
->     scheme_eligible_bytes_on_node / total_scheme_eligible_bytes * 10000
-> 
-> Two-Scheme Setup for Hot Page Distribution
-> ==========================================
-> 
-> For maintaining 60% of hot memory on DRAM (node 0) and 40% on CXL
-> (node 1):
-> 
->     PULL scheme: migrate_hot to node 0
->       goal: node_eligible_mem_bp, nid=0, target=6000
->       addr filter: node 1 address range (only migrate FROM CXL)
->       "Move hot pages to DRAM if less than 60% of hot data is in DRAM"
-> 
->     PUSH scheme: migrate_hot to node 1
->       goal: node_eligible_mem_bp, nid=1, target=4000
->       addr filter: node 0 address range (only migrate FROM DRAM)
->       "Move hot pages to CXL if less than 40% of hot data is in CXL"
-> 
-> Each scheme independently measures its own eligible memory and adjusts
-> its quota to achieve its target ratio. The schemes work in concert
-> through DAMON's unified monitoring context, with the quota autotuner
-> balancing their relative aggressiveness.
-> 
-> Implementation Details
-> ======================
-> 
-> The implementation adds a new quota goal metric type
-> DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP to the existing DAMOS quota goal
-> framework. When this metric is configured for a scheme:
-> 
-> 1. During each quota adjustment cycle, damos_get_node_eligible_mem_bp()
->    is called to calculate the current memory distribution.
-> 
-> 2. The function iterates through all regions that match the scheme's
->    access pattern (via __damos_valid_target()) and calculates:
->    - Total eligible bytes across all nodes
->    - Eligible bytes specifically on the target node (goal->nid)
-> 
-> 3. For each eligible region, damos_calc_eligible_bytes() walks through
->    the physical address range, using damon_get_folio() to look up
->    each folio and determine its NUMA node via folio_nid().
-> 
-> 4. Large folios are handled by calculating the exact overlap between
->    the region boundaries and folio boundaries, ensuring accurate
->    byte counts even when regions partially span folios.
-> 
-> 5. The ratio (node_eligible / total_eligible * 10000) is returned
->    as basis points, which the quota autotuner uses to adjust the
->    scheme's effective quota size (esz).
-> 
-> The implementation requires CONFIG_DAMON_PADDR since damon_get_folio()
-> is only available for physical address space monitoring.
-> 
-> Testing Results
-> ===============
-> 
-> Functionally tested on a two-node heterogeneous memory system with DRAM
-> (node 0) and CXL memory (node 1). A PUSH+PULL scheme configuration using
-> migrate_hot actions was used to reach a target hot memory ratio between
-> the two tiers.
-> 
-> With the TEMPORAL tuner, the system converges quickly to the target
-> distribution. The tuner drives esz to maximum when under goal and to
-> zero once the goal is met, forming a simple on/off feedback loop that
-> stabilizes at the desired ratio.
-> 
-> With the CONSIST tuner, the scheme still converges but more slowly, as
-> it migrates and then throttles itself based on quota feedback. The time
-> to reach the goal varies depending on workload intensity.
-> 
-> Note: This metric works with both TEMPORAL and CONSIST goal tuners.
-> 
-> Suggested-by: SeongJae Park <sj@kernel.org>
-> Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
 
-Assuming below two minor things are addressed,
-
-Reviewed-by: SeongJae Park <sj@kernel.org>
-
-[...]
-> +static unsigned long damos_get_node_eligible_mem_bp(struct damon_ctx *c,
-> +		struct damos *s, int nid)
-> +{
-> +	phys_addr_t total_eligible = 0;
-> +	phys_addr_t node_eligible;
-> +
-> +	if (c->ops.id != DAMON_OPS_PADDR)
-> +		return 0;
-> +
-> +	if (nid < 0 || nid >= MAX_NUMNODES || !node_online(nid))
-> +		return 0;
-> +
-> +	node_eligible = damos_calc_eligible_bytes(c, s, nid, &total_eligible);
-> +
-> +	if (!total_eligible)
-> +		return 0;
-> +
-> +	return mult_frac((unsigned long)node_eligible, 10000,
-> +			(unsigned long)total_eligible);
-
-Sashiko found [1] total_eligible after the casting could be zero on 32bit
-system, resulting in divide-by-zero.  As I also replied to Sashiko review,
-could you please fix this?  It seems we can simply remove the castings.
-
-[...]
-> @@ -2389,9 +2528,9 @@ static void damos_goal_tune_esz_bp_temporal(struct damos_quota *quota)
->  /*
->   * Called only if quota->ms, or quota->sz are set, or quota->goals is not empty
->   */
-> -static void damos_set_effective_quota(struct damos_quota *quota,
-> -		struct damon_ctx *ctx)
-> +static void damos_set_effective_quota(struct damon_ctx *c, struct damos *s)
-
-Sorry for finding this late.  Could we keep the dmon_ctx parameter name?
-Otherwise, we introduce unnecessary change below.
-
-If the mult_frac() divide-by-zero is not a real issue, I wouldn't insist this
-change.  But, if we will make a new version, let's do this together.
-
->  {
-> +	struct damos_quota *quota = &s->quota;
->  	unsigned long throughput;
->  	unsigned long esz = ULONG_MAX;
+On 4/26/26 9:39 AM, Willy Tarreau wrote:
+> The use of automated tools to find bugs in random locations of the kernel
+> induces a raise of security reports even if most of them should just be
+> reported as regular bugs. This patch is an attempt at drawing a line
+> between what qualifies as a security bug and what does not, hoping to
+> improve the situation.
+> 
+> Cc: Greg KH <gregkh@linuxfoundation.org>
+> Cc: Leon Romanovsky <leon@kernel.org>
+> Suggested-by: Leon Romanovsky <leon@kernel.org>
+> Signed-off-by: Willy Tarreau <w@1wt.eu>
+> ---
+> 
+> Leon, while we started this list before our discussion, I reused most of
+> your proposal which was more comprehensive, and merged our initial work
+> into it. I added you in Suggested-by: but I think that Co-developed-by:
+> would be more suitable. If so, for this you'll have to also sign-off the
+> patch. It's as you prefer, I personally don't care.
+> 
+> ---
+>  Documentation/process/security-bugs.rst | 50 +++++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+> 
+> diff --git a/Documentation/process/security-bugs.rst b/Documentation/process/security-bugs.rst
+> index a8a8fc724e8c8..7cc3a1970ca00 100644
+> --- a/Documentation/process/security-bugs.rst
+> +++ b/Documentation/process/security-bugs.rst
+> @@ -66,6 +66,56 @@ In addition, the following information are highly desirable:
+>      the issue appear. It is useful to share them, as they can be helpful to
+>      keep end users protected during the time it takes them to apply the fix.
 >  
-> @@ -2402,9 +2541,9 @@ static void damos_set_effective_quota(struct damos_quota *quota,
->  
->  	if (!list_empty(&quota->goals)) {
->  		if (quota->goal_tuner == DAMOS_QUOTA_GOAL_TUNER_CONSIST)
-> -			damos_goal_tune_esz_bp_consist(quota);
-> +			damos_goal_tune_esz_bp_consist(c, s);
->  		else if (quota->goal_tuner == DAMOS_QUOTA_GOAL_TUNER_TEMPORAL)
-> -			damos_goal_tune_esz_bp_temporal(quota);
-> +			damos_goal_tune_esz_bp_temporal(c, s);
->  		esz = quota->esz_bp / 10000;
->  	}
->  
-> @@ -2415,7 +2554,7 @@ static void damos_set_effective_quota(struct damos_quota *quota,
->  		else
->  			throughput = PAGE_SIZE * 1024;
->  		esz = min(throughput * quota->ms, esz);
-> -		esz = max(ctx->min_region_sz, esz);
-> +		esz = max(c->min_region_sz, esz);
+> +What qualifies as a security bug
+> +--------------------------------
+> +
+> +It is important that most bugs are handled publicly so as to involve the widest
+> +possible audience and find the best solution.  By nature, bugs that are handled
+> +in closed discussions between a small set of participants are less likely to
+> +produce the best possible fix (e.g., risk of missing valid use cases, limited
+> +testing abilities).
+> +
+> +It turns out that the majority of the bugs reported to the security team are
+> +just regular bugs that have been improperly qualified as security bugs due to a
+> +misunderstanding of the Linux kernel's threat model, and ought to have been
+> +sent through the normal channels described in
+> +'Documentation/admin-guide/reporting-issues.rst'.
 
-Above change is unnecessarily introduced.  Could we keep the old damon_ctx
-parameter name?
+Remove the <'> marks and let automarkup handle the filename.
 
-[1] https://lore.kernel.org/20260426005341.B393EC2BCB0@smtp.kernel.org
-
-
-Thanks,
-SJ
-
-[...]
+-- 
+~Randy
