@@ -1,531 +1,292 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F8C238F951
-	for <linux-doc@vger.kernel.org>; Sun, 26 Apr 2026 20:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E5EB1DE8BE;
+	Sun, 26 Apr 2026 20:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777236147; cv=none; b=mOj5f6cRl2TLrmz6dO0db1lc729ENH4Xr6h05ctRPCVk2oWDpXzzvac900ZVfUA9/6tTHkxplJUe5w+UzAjk7VzDvCL7G0ynbd8zDy6c+jcHFXHFVTCWTrzdYkpBBQKN/by6yhD+jDvBrmyFLp9pC4Fty45REotNKmgmtOpzvcE=
+	t=1777236755; cv=none; b=Sr2fP4SYpBaZe3gyAjkVl2E2oupz3lIXiMKcI/0Mt2hiIGrFTpxli+XyfaqX5J4MC18maTGGTDa12U2pjFs88OsRr74SawdsLJGCmzc0nYitCX++kwwLNAmHw4iL3td3EDvyUvw+KY1EsEklxAutn1jDTdH2F9lqLqFUfk4Z8fg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777236147; c=relaxed/simple;
-	bh=ykKXvnSRz9iUDo4K56DOvU0a/sVIIS4s5xC3DhWdMXw=;
-	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=I/ygiTpZYmUV59OpEPUc8C9zeQxPaHtP7iiQ+hKssYt2Sba15Z3tUVEm0bKrSgDSDJN779IKi5FVZpJjHd1nki9lWTD++vXxlC26vS0PuS4QW6z4iw87LhHYr46tViCe4435G0mmMrpca6SDc4k4fOhOmf0hjbwyM6ZW+cnwWZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=REPVPzGD; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777236755; c=relaxed/simple;
+	bh=WxWvBmm0LZfVg5AjkZ36lir3AfpAPctV6FKdU/pjfLQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=nH3+FWFN3jEWNG/aCggnacYZ27qYki/Y2NhaPUrdMcGLDJmb4v1Ykh0asuelpiATjR2OJEBIUtTkdfrmWmBrIcdmpaysjwertrQy54cgOwaYDkI9JXwJPTuJ1La9wdF9h2Sb7duXNpUl1DDyxrcdMJIQR8hvWCUIDhzqIm7W9p0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NmTB/zGa; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="REPVPzGD"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-48334ee0aeaso99436715e9.1
-        for <linux-doc@vger.kernel.org>; Sun, 26 Apr 2026 13:42:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777236143; x=1777840943; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=OR4oZS/Wc9pjklJHF6eAzgSWKS/rksyyMF49+wAiASo=;
-        b=REPVPzGDtLZLhmr1ZX+3GUAsyCX50xObnw0Rv3Gh1J+0A0FK/lqdfONF9y/jSXJ/dH
-         BBsoG9X0iQQxI0hemGReyxE9vVNBZMCoNhFm9azXXP3RNNofgCt0VjcMuybYLV6jYTVM
-         c6rheYehM3/lSQ3qNn0RmwN1spdI1H7uZLO8KPqyfIanPYGL7SLW83s5U7RJPluwWlrU
-         LuXcMJm1QyakBZpIDoIiYmGgcp0je2Qeo60bRA8brDPvTQCU2810BL9wYB8MjpSzg0iG
-         pKdwwTSAGXz5qQEnZjpVdDExodIisaDb8faVUyi6jbBXFnZlHkU8QWXJXYiMFw48LZAP
-         /fwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777236143; x=1777840943;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OR4oZS/Wc9pjklJHF6eAzgSWKS/rksyyMF49+wAiASo=;
-        b=PoNcb/RdYB1A4q+A7If0VaqiYmV0uv62PBymrKszOX1u94EMhhyApi89cz5jWfcXw+
-         UfmekYw/5ZLUw9Ul3iQURMSJe64J4MbHBw0Tt2kGx1KY+nIeN0VVlBc/Ai2Sfx+2j1jc
-         6W+DoJAiFksMu4bu50x7U7taGkEXAxRO5NwNKrRnVAlkvXGLhraki9Wa7uDC9Ps1Homg
-         rV+DSWSJ5G7D1vaRMRjGVwe6XWRg8DEljk90saAcHfjD1VQ1AOTMbsGWHfxb1RS/yFHW
-         gUSZAI06QN8Ey6LcqrrrTpRJ7lL4SB052ZxZL7UtXB59EVQmH9sls2+fyS3NyrqZ0O+Y
-         BYtA==
-X-Forwarded-Encrypted: i=1; AFNElJ+UzvihtvdaMDjBI2g3hvDirEBD2+ER2uywJYFf4YQY2Ci6+kOcq5RBMl3zbMlLHmxfhv0VVd1yIzo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu558fknbp8O5vXCEfQsycZsOJQBAyM9Ge8HRSVah/ritvowcz
-	eIaE+ebrhec1j8LjZmd8AIlIYAAEOxAfED3JHK0R6hBlGSo632Jn06c7
-X-Gm-Gg: AeBDies/bBV0P5vY2CiD9kG6B2z4MQLS6Dk3PtUWeoUo/qKNlNvACagC085F8oMBAJJ
-	mu83mWqimF5UEfPdJUTglvEzdWKDkq2fzbNtPxEcQASXU7tQiCYtLqCXUMVAuC2xZxr/fz3cHMH
-	cLHJtCE5upE75dH0/AC4UrBE56+2RWiRj0bA0QiJboG7942/x5AYUtfAQ0+b6kAg+zqJO4D5wCm
-	37MHGycFnlijFfWI03eUt3CR0eYTrw5sB9jMU7eisnhAl0QC2Aj+UAsp2laP8fiLJAIPDZWEKgX
-	cw91mxSK8HttoHdt3F5bLwVWWVFK6CrRFWJKDGEuPuOe1TRqaZu1tplAJCa3NQbAsropJr32sGm
-	7+Cb96/Y3SplN+I6S9KagNWH6w3A9l53yv0n0ebaO4mg28a8rvP/dnuWMpvNU3sB5XfLqq3UwkD
-	e0Vpz2EWvKlzuJ05hLBRbgpdtQOGwG/6mbWzgR6kT62avxt/3XxVEk6uO2JDRGxDFj9vdO1aAiG
-	XjUxIplLbJf/eHNmKq2MoiZyMTbChI5nMrefFb9YX+gSEe2pkv0Vk7PdvGp
-X-Received: by 2002:a05:600c:46cb:b0:488:ac01:72de with SMTP id 5b1f17b1804b1-488fb7451e4mr589339335e9.5.1777236143203;
-        Sun, 26 Apr 2026 13:42:23 -0700 (PDT)
-Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-43fe4e4d6casm74951410f8f.32.2026.04.26.13.42.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Apr 2026 13:42:22 -0700 (PDT)
-From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
-X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
-Date: Sun, 26 Apr 2026 21:42:15 +0100
-To: Jonathan Cameron <jic23@kernel.org>, 
-	Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Cc: rodrigo.alencar@analog.com, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, David Lechner <dlechner@baylibre.com>, 
-	Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Kees Cook <kees@kernel.org>, 
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: Re: [PATCH RFC v3 9/9] docs: iio: add documentation for ad9910 driver
-Message-ID: <lkvrmc6y2z45b4qsmaxg3c2iaiar6hjmim3hdbkxqx3536yx3p@o6h7de4ire2d>
-References: <20260417-ad9910-iio-driver-v3-0-29b93712a228@analog.com>
- <20260417-ad9910-iio-driver-v3-9-29b93712a228@analog.com>
- <20260426141007.345c76e4@jic23-huawei>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NmTB/zGa"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C24C2BCAF;
+	Sun, 26 Apr 2026 20:52:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777236754;
+	bh=WxWvBmm0LZfVg5AjkZ36lir3AfpAPctV6FKdU/pjfLQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=NmTB/zGaPmAdpd80S+HXHEDUf0uXzdPa5Dj6ei7/vnqLPdt79eZd/q2HgAgJgmZFC
+	 l8iZ66IpFhH+3b0Ip3yp6L3o6KqGDioB7HBX+QTq/+C/1bMd1Evkj8KinUQtOFZ/lf
+	 3Dc2EKxzRHXoxYrdZjSC+byGkLpMNCB6tuUML6Ok5qjNGevYOPpc89RRij9onvEoz+
+	 Z1Xyc3i9v2XORNhfNfmCbA0b/c46fNbVX9VqCTlWKD+TqarI2uaMfSrDygxHaBNdHl
+	 efOket+drnaSr197jO8hhaCZ53zyIqWFZ4IxrRyq+pQ5alwBpPFB6ZFwJBEBa4MyRo
+	 KIfZYi0WhyqKQ==
+From: SeongJae Park <sj@kernel.org>
+To: 
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-trace-kernel@vger.kernel.org
+Subject: [RFC PATCH 00/19] mm/damon: introduce data attributes monitoring
+Date: Sun, 26 Apr 2026 13:52:01 -0700
+Message-ID: <20260426205222.93895-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260426141007.345c76e4@jic23-huawei>
+Content-Transfer-Encoding: 8bit
 
-On 26/04/26 02:10PM, Jonathan Cameron wrote:
-> On Fri, 17 Apr 2026 09:17:38 +0100
-> Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org> wrote:
-> 
-> > From: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> > 
-> > Add documentation for the AD9910 DDS IIO driver, which describes channels,
-> > DDS modes, attributes and ABI usage examples.
-> > 
-> > Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
-> 
-> Hi Rodrigo,
-> 
-> I think this is getting close to something workable subject to some tweaks
-> to not make the priority thing visible and use rate of change parameters
-> so /Sec rather than steps.
+TL; DR
+======
 
-I am not sure about this one. Getting the value into units per seconds will
-increase the range of values by a lot, e.g., for the frequency case the step
-size can range from a few Hz up to the entire supported range (hundreds of
-MHz), and if you consider that one would often have the sampling_frequency
-at 250 MHz... an attribute frequency_roc could have an order of 10^17 Hz/s,
-and I am not sure how practical is that, although it can have a physical meaning,
-like a "chirp slope".
+Extend DAMON for monitoring general data attributes other than accesses.
+This is for enabling light-weight page type (e.g., belonging cgroup)
+aware monitoring in short term.  In long term, this will help extending
+DAMON for multiple access events capture primitives (e.g., page faults
+and PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring
+and Operations eNgine" in long term.
 
-> 
-> Given this defines the ABI for a whole class of new devices that are
-> rather complex, one concern is whether whatever we define here is general
-> enough to be useful.  
-> 
-> Do you have any other DDS in your queue to upstream? Maybe it's worth
-> sanity checking the ABI against them to see if it is fit for purpose?
+Background: High Cost of Page Level Properties Monitoring
+=========================================================
 
-Not really, still the only DDS. Other DDS of the same family have a similar
-Digital Ramp Generator with controls over ramp limits, rates and step. 
+DAMON is initially introduced as a Data Access MONitor.  It has been
+extended for not only access monitoring but also data access-aware
+system operations (DAMOS).  But still the monitoring part is only for
+data accesses.
 
-...
+Data access patterns is good information, but some users need more
+holistic views.  Particularly, users want to show the access pattern
+information together with the types of the memory.  For example, users
+who work for making huge pages efficiently want to know how much of
+DAMON-found hot/cold regions are backed by huge pages.  Users who run
+multiple workloads with different cgroups want to know how much of
+DAMON-found hot/cold regions belong to specific cgroups.
 
-> > +DDS modes
-> > +=========
-> > +
-> > +The AD9910 supports multiple modes of operation that can be configured
-> > +independently or in combination. Such modes and their corresponding IIO channels
-> > +are described in this section. The following tables are extracted from the
-> > +AD9910 datasheet and summarizes the control parameters for each mode and their
-> > +priority when multiple sources are enabled simultaneously:
-> 
-> Maybe add a bit on what priority means.  Does it mean that only the highest
-> priority one is acted on?  If so why do we need to expose that others are
-> enabled? Just report only the highest priority one as enabled.
-> 
-> I can see the hardware needs to do priority so it knows where to go when
-> a given source is disabled but from a software point of view that
-> can be controlled by us enabling that next item (and the driver does
-> things in the right order to get the appropriate transition)
-> 
-> That may mean that if all modes are disabled, we have to disable any output
-> but seems doable.
+For the user demand, we developed a DAMOS extension for page level
+properties based monitoring [1], which has landed on 6.14.  Using the
+feature, users can inform the page level data properties that they are
+interested in, in a flexible format that uses DAMOS filters.  Then,
+DAMON applies the filters to each folio of the entire DAMON region and
+lets users know how many bytes of memory in each DAMON region passed the
+given filters.
 
-That is a bit complicated, as you can see, this part has modes that target
-one DDS parameter or multiple (destinations: phase, frequency, amplitude).
-Also, multiple modes can coexist, when they target different parameters/destination.
-At the same time, RAM mode complicates everything because even though it targets
-one specific parameter, once it is enabled influences the base mode for the
-other parameters because single-tone is off. I have ordered the mode channels so
-that higher index have higher priority, so that can be a bit clearer.
+This gives page level detailed and deterministic information to users.
+But, because the operation is done at page level, the overhead is
+proportional to the memory size.  It was useful for test or debugging
+purposes on a small number of machines.  But it was obviously too heavy
+to be enabled always on all machines running the real user workloads.
+For real world workloads, it was recommended to use the feature with
+user-space controlled sampling approaches.  For example, users could do
+the page level monitoring only once per hour, on randomly selected one
+percent of machines of their fleet.  If the runtime and the  size of the
+fleet is long and big enough, it should provide statistically meaningful
+data.
 
-Right now, all the controls are provided, what might be missing is a way
-to query which level of those priorities is currently active, but those levels
-are not the same thing as the controls. If we turn the priority levels into the
-controls themselves it would be a different ABI and it would get a lot messy.
-That is why I am dumping this priority table in this document! =(
+But users are too busy to implement such controls on their own.
 
-> > +
-> > +.. flat-table:: DDS Frequency Control
-> > +   :header-rows: 1
-> > +
-> > +   * - Priority
-> > +     - Data Source
-> > +     - Conditions
-> > +
-> > +   * - Highest Priority
-> > +     - RAM
-> > +     - RAM enabled and data destination is frequency
-> > +
-> > +   * -
-> > +     - DRG
-> > +     - DRG enabled and data destination is frequency
-> > +
-> > +   * -
-> > +     - Parallel data and FTW (frequency_offset)
-> > +     - Parallel data port enabled and data destination is frequency
-> > +
-> > +   * -
-> > +     - FTW (frequency)
-> > +     - RAM enabled and data destination is not frequency
-> > +
-> > +   * -
-> > +     - FTW (frequency) in single tone channel for the active profile
-> > +     - DRG enabled and data destination is not frequency
-> > +
-> > +   * -
-> > +     - FTW (frequency) in single tone channel for the active profile
-> > +     - Parallel data port enabled and data destination is not frequency
-> > +
-> > +   * - Lowest Priority
-> > +     - FTW (frequency) in single tone channel for the active profile
-> > +     - None
-> 
-> > +
-> > +Single tone mode
-> > +----------------
-> > +
-> > +Single tone is the baseline operating mode. The ``profile[Y]`` channels
-> > +provides enable, frequency, phase and amplitude control:
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``en``
-> > +     - boolean
-> > +     - Enable/disable profile Y. Only one profile can be active at a
-> > +       time. Then enabling a profile disables the current active profile.
-> > +       Disabling an active profile enables the next profile in ascending order,
-> > +       wrapping around from 7 to 0.
-> 
-> That passing on to the next one seems rather non user friendly.  Can we just
-> disable the whole unit under those conditions instead?  As above that may mean
-> turning of the output entirely.  So to change mode it would always be transition
-> to the one that is enabled.  A disable of a given channel results in no output.
+Data Attributes Monitoring
+==========================
 
-Yes, I can go for the software powerdown in that case! and the powerdown attribute
-could be removed?
+Extend DAMON to monitor not only data accesses, but also general data
+attributes.  Do the extension while keeping the main promise of DAMON,
+the bounded and best-effort minimum overhead.
 
-> 
-> > +
-> > +   * - ``frequency``
-> > +     - Hz
-> > +     - Output frequency. Range [0, SYSCLK/2). Stored in the profile's frequency
-> > +       tuning word (FTW).
-> > +
-> > +   * - ``phase``
-> > +     - rad
-> > +     - Phase offset. Range [0, 2*pi). Stored in the profile's phase offset word
-> > +       (POW).
-> > +
-> > +   * - ``scale``
-> > +     - fractional
-> > +     - Amplitude scale factor. Range [0, 1]. Stored in the profile's amplitude
-> > +       scale factor (ASF).
-> > +
-> > +Profile switching is allowed while RAM mode is enabled. In that case single tone
-> > +parameters are stored in a shadow register and are not written to hardware until
-> > +RAM mode is disabled.
-> 
-> This is only visible to userspace because of the priority thing?  If we hide
-> that away to transition from RAM to this mode would just mean enabling this mode.
+Allow users to specify what data attributes in addition to the data
+access they want to monitor.  Users can install one 'data probe' per
+data attribute of their interest for this purpose.  The 'data probe'
+should be able to be applied to any memory, and determine if the given
+memory has the appropriate data attribute.  E.g., if memory of physical
+address 42 belongs to cgroup A.  Each 'data probe' is configured with
+filters that are very similar to the DAMOS filters.
 
-Partially, but the real reason is that single-tone and RAM shares the same profile
-registers. So I have things cached, which allows user to change single-tone stuff
-while RAM is enabled.
+When DAMON checks if each sampling address memory of each region is
+accessed since the last check, it applies data probes if registered.
+Same to the number of access check-positive samples accounting
+(nr_accesses), it accounts the number of each data probe-positive
+samples in another per-region counters array, namely 'probe_hits'. When
+DAMON resets nr_accesses every aggregation interval, it resets
+'probe_hits' together.
 
-...
+Users can read 'probe_hits' just before the values are reset.  In this
+way, users can know how many hot/cold memory regions have data
+attributes of their interest.  E.g., 30 percent of this system's hot
+memory is belonging to cgroup A and 80 percent of the hot cgroup A
+memory is backed by huge pages.
 
-> > +Digital ramp generator (DRG)
-> > +----------------------------
-> > +
-> > +The DRG produces linear frequency, phase or amplitude sweeps using dedicated
-> > +hardware. It is controlled through three channels: a parent control channel
-> > +(``digital_ramp_generator``) and two child ramp channels
-> > +(``digital_ramp_up``, ``digital_ramp_down``). DRG destination is set when
-> > +ramp attributes are written, i.e. writing to ``frequency`` or ``frequency_step``
-> > +sets the destination to frequency.
-> > +
-> > +Control channel attributes
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``en``
-> > +     - boolean
-> > +     - Enable/disable the DRG.
-> > +
-> > +Ramp channel attributes
-> > +^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +The ``digital_ramp_up`` and ``digital_ramp_down`` channels share the same
-> > +attribute set but configure ascending and descending ramp parameters
-> > +independently:
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``en``
-> > +     - boolean
-> > +     - Enable/disable the ramp no-dwell behavior. Enabling both creates a
-> > +       bidirectional continuous ramp (Triangular pattern). Other configurations
-> > +       creates a single-shot ramp at the trasition of the DRCTL pin: ramp-up
-> 
-> transition
-> 
-> > +       only, ramp-down only or bidirectional with dwell at the limits.
-> 
-> Feels a little unintuitive to use the generic enable for this.
-> We might need a specific control for this one. 
+Patches Sequence
+================
 
-How about dwell_en, but it might not sound that generic. I used "enable" because:
-- no-dwell high means a ramp-up pattern (only enabling the ramp-up channel)
-- no-dwell low means a ramp-down pattern (only enabling the ramp-down channel)
-- both no-dwell is a continuous ramp that goes up and down. (both enabled)
-The last case is a bit off though, when both are disabled we get the normal mode, which
-is also a ramps up and down, but dwelling in the limits.
- 
-> > +
-> > +   * - ``frequency``
-> > +     - Hz
-> > +     - Frequency ramp limit. Range [0, SYSCLK/2).
-> > +
-> > +   * - ``phase``
-> > +     - rad
-> > +     - Phase ramp limit. Range [0, 2*pi).
-> > +
-> > +   * - ``scale``
-> > +     - fractional
-> > +     - Amplitude scale ramp limit. Range [0, 1).
-> > +
-> > +   * - ``sampling_frequency``
-> > +     - Hz
-> > +     - Ramp clock rate: SYSCLK / (4 * divider).
-> > +
-> > +   * - ``frequency_step``
-> > +     - Hz
-> > +     - Per-tick frequency increment/decrement. Range [0, SYSCLK/2).
-> 
-> So this was the bit I referred to earlier.  Normally we do
-> rate of change measurements for this stuff rather than what happens on
-> each tick (based on how we handle things like ROC events)
-> 
-> So could we make these
-> 	``frequency_roc`` units HZ/Sec
-> etc?  Then from the mix configured would need to work out the optimum
-> tick to deliver it.
-> 
-> I suppose it's possible that someone might want a stepped frequency
-> though which would break this approach?  Does anyone actually do that?
-> If so we'd need to keep the samping_frequency but then control _roc
-> with that in mind.
+First eight patches implement the core feature, interface and the
+working support.  Patch 1 introduces data probe data structure, namely
+damon_probe.  Patch 2 extends damon_ctx for installing data probes.
+Patch 3 introduces another data structure for filters of each data
+probe, namely damon_filter.  Patch 4 updates damon_ctx commit function
+to handle the probes.  Patch 5 extends damon_region for the per-region
+per-probe positive samples counter, namely probe_hits.  Patch 6 extends
+damon_operations for applying probes on the underlying DAMON operations
+implementation.  Patch 7 updates kdamond_fn() to invoke the probes
+applying callback.  Patch 8 finally implements the probes support on
+paddr ops.
 
-yeah... frequency steps would make sense when the user controls when to
-perform the updates, or when it comes from certain events.
+Eight changes for user interface (patches 9-16) come next.  Patches 9-13
+implements sysfs directories and files for setting data probes, namely
+probes directory, probe directory, filters directory, filter directory
+and filter directory internal files, respectively.  Patch 14 connects
+the user inputs that are made via the sysfs files to DAMON core.
+Patch 15 implements sysfs files for showing the per-region per-probe
+positive samples count, namely probe_hits.  Patch 16 introduces a new
+tracepoint for showing the counts via tracefs.
 
-sampling frequency defines the timing and this roc attr would
-also depend on timing... there would be two options:
-* ignore updating ramp step when sampling freq is updated. Here roc
-  would have a different value when readback.
-* cache the "requested" roc and use it update ramp step when sampling
-  freq is updated, so roc remains with the value initially configured. 
+Patch 14 adds a selftest for the sysfs files.
 
-> 
-> > +
-> > +   * - ``phase_step``
-> > +     - rad
-> > +     - Per-tick phase increment/decrement. Range [0, 2*pi).
-> > +
-> > +   * - ``scale_step``
-> > +     - fractional
-> > +     - Per-tick amplitude scale increment/decrement. Range [0, 1).
-> > +
-> > +Usage examples
-> > +^^^^^^^^^^^^^^
-> > +
-> > +Configure a frequency sweep from 40 MHz to 60 MHz at a 1 kHz step:
-> > +
-> > +.. code-block:: bash
-> > +
-> > +	# Enable both no-dwell modes for a bidirectional ramp
-> > +	echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_en
-> > +  echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_en
-> 
-> Fix indents as mix of tabs and spaces.  As above I think using this enable
-> for no dwell is not going to generalize well.  I think we need new ABI for this
-> though I'm open to anyone suggesting something we can reuse.
+Patches 15 and 16 documents the design and usage of the new feature,
+respectively.
 
-I suggested dwell_en, and I am not sure what else could be used here.
-Something like hold_en could work and sounds more generic.. not sure.  
+Discussions
+===========
 
-> > +
-> > +	# Set ramp limits
-> > +	echo 60000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_frequency
-> > +	echo 40000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_frequency
-> > +
-> > +	# Set ramp step size to 1 kHz
-> > +	echo 1000 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_frequency_step
-> > +	echo 1000 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_frequency_step
-> > +
-> > +	# Set ramp rate at 25 MHz
-> > +	echo 25000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage121_sampling_frequency
-> > +  echo 25000000 > /sys/bus/iio/devices/iio:device0/out_altvoltage122_sampling_frequency
-> > +
-> > +	# Enable the DRG
-> > +	echo 1 > /sys/bus/iio/devices/iio:device0/out_altvoltage120_en
-> > +
-> > +RAM mode
-> > +--------
-> > +
-> > +The AD9910 contains a 1024 x 32-bit RAM that can be loaded with waveform data
-> > +and played back to modulate frequency, phase, amplitude, or polar (phase +
-> > +amplitude) parameters.
-> > +
-> > +RAM control channel attributes
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``en``
-> > +     - boolean
-> > +     - Enable/disable RAM playback. Toggling swaps profile registers between
-> > +       single tone and RAM configurations across all 8 profiles.
-> 
-> So this might be a fly in the ointment of my previous comment about using
-> enable of profile to turn off ram.  I guess disabling RAM drops into the
-> matched number tone profile?  That's a pain but not disastrous. We'd have
-> to only allow transitions by enabling the match number tone profile.
-> 
-> So transitions allowed would be
-> 
-> 	tone_profileX -> ram_profileX
-> 	tone_profileX -> tone_profileY
-> 	ram_profileX -> tone_profileX
-> 	ram_profileX -> ram_profileY
-> 
-> But not
-> 	tone_profileX -> ram_profileY
-> where X!=Y
+This allows the page properties monitoring with overhead that is low
+enough to be enabled always on real world workloads.  Because the
+sampling time for access check is reused for data attributes check,  the
+upper-bounded and best-effort minimum overhead of DAMON is kept.
+Because the sampling memory for access check is reused for data
+attributes check, additional overhead is minimum.
 
-No, there is only one RAM enable bit, once it is on, all single tone
-profiles go away (all profile registers are repurposed for RAM mode
-usage).
+Still DAMOS-based page level properties monitoring should be useful,
+because it provides a deterministic page level information.  When in
+doubt of the sampling based information, running DAMOS-based one
+together and comparing the results would be useful, for debugging and
+tuning.
 
-> > +
-> > +   * - ``frequency``
-> > +     - Hz
-> > +     - Frequency tuning word used as the single tone frequency when
-> > +       RAM destination is not ``frequency``. Range [0, SYSCLK/2).
-> > +
-> > +   * - ``phase``
-> > +     - rad
-> > +     - Phase offset word used as the single tone phase when RAM destination
-> > +       is not ``phase``. Range [0, 2*pi).
-> > +
-> > +   * - ``sampling_frequency``
-> > +     - Hz
-> > +     - RAM playback step rate of the active profile, which controls how fast the
-> > +       address counter advances: SYSCLK / (4 * step_rate).
-> 
-> Why do we care what the sysclk relationship is? It's ticking in HZ.
+Plan for Dropping RFC tag
+=========================
 
-Can be removed, but just to point out that the configured value will adjust to the
-value where the divider is an integer. Maybe the user should be aware of that.
+The user ABI for reading probe_hits is not yet convincing.  It is
+exposed to users by a tracepoint and new sysfs file.  For the
+tracepoint, a new one namely damon:damon_aggregated_v2 is introduced.
+The name is not convincing, and its internal mechanism seems to have
+room to be improved before dropping RFC.  For the sysfs, a file under
+the DAMOS-tried region directory namely 'probe_hits' is added.  Reading
+it returns four probe_hits values with ',' as a separator.  With the
+maximum number of data probes, this should work.  This can make future
+changes of the limit difficult.  I will try to find a better way before
+dropping the RFC tag.  Maybe 'probe_hits/' directory having files of
+name '0' to 'N-1' for each of user-registered 'N' data probes.
 
-> > +
-> > +Output shift keying (OSK)
-> This is a new one on me... 
-> > +-------------------------
-> > +
-> > +OSK controls the output amplitude envelope, allowing the output to be ramped
-> > +on/off rather than switched abruptly.
-> 
-> > +
-> > +.. flat-table::
-> > +   :header-rows: 1
-> > +
-> > +   * - Attribute
-> > +     - Unit
-> > +     - Description
-> > +
-> > +   * - ``en``
-> > +     - boolean
-> > +     - Enable/disable OSK.
-> > +
-> > +   * - ``scale``
-> > +     - fractional
-> > +     - Target amplitude for the OSK ramp. 14-bit ASF field. Range [0, 1).
-> > +
-> > +   * - ``sampling_frequency``
-> > +     - Hz
-> > +     - OSK ramp rate: SYSCLK / (4 * divider).
-> > +
-> > +   * - ``pinctrl_en``
-> > +     - boolean
-> > +     - Enable manual external pin control. When enabled, the OSK pin directly
-> > +       gates the output on/off instead of using the automatic ramp.
-> 
-> I wonder if we should split the various OSK modes into different channels given
-> only some properties apply to each of automatic and manual modes. Also I think
-> automatic mode is meaningless without pinctrl_en (so that can be replaced
-> by simply enabling that mode).  I have no idea if anyone cares about pin ctrl
-> with manual mode or not?  That one seems even more odd.
+I'm currently hoping to drop the RFC tag by 7.2-rc1.
 
-OSK is either in manual or auto:
-* In manual mode the OSK pin enables and disables the output based on its level.
-* In auto, the OSK pin controls the direction the amplitude updates. 
+Future Works: Short Term
+========================
 
-If we enable RAM mode, and other modes do not target amplitude, the only way to
-manually configure the amplitude in software (i.e. without using an OSK gpio)
-is going manual mode (scale_step == 0), disable this pinctrl_en and then set the
-scale property (ASF register). That is the only reason I added this property.
+This series is introducing only a single type of data attribute:
+anonymous page.  Once this is landed, I will extend it for
+cgroup-belonging, so that we can do cgroup-level monitoring with low
+overhead.  After that, I may further work on supporting all DAMOS filter
+types.  And as demands are found, we could extend the types.
 
-> > +
-> > +   * - ``scale_step``
-> > +     - fractional
-> > +     - Automatic OSK amplitude step. Writing non-zero enables automatic OSK
-> > +       and sets the per-tick increment. Writing ``0`` disables it. Rounded to
-> > +       nearest hardware step: 0.000061, 0.000122, 0.000244 or 0.000488.
-> 
-> Similar thing about rate of change of amplitude fitting better with current ABI
-> than step does.
+This version of implementation is limiting the maximum number of data
+probes to four.  I will try to find a way to remove the limit in future,
+if it is easy to do.  I personally think it should be enough for common
+use cases, though, and therefore not giving high priority at the moment.
 
-ok... and this one is still missing the correspondent available attr.
+Future Works: Long Term
+=======================
 
+There are user requests for extending DAMON with detailed access
+information, for example, per-CPUs/threads/read/writes monitoring.  For
+that, I was working [2] on extending DAMON to use page fault events as
+another access check primitives, and making the infrastructure flexible
+for future use of yet another access check primitive.  Actually there is
+another ongoing work [3] for extending DAMON with PMU events.  The
+motivation of the work is reducing the overhead, though.
+
+In my work [2], I was introducing a new interface for access sampling
+primitives control.  Now I think this data probe interface can be used
+for that, too.  That is, data access becomes just one type of data
+attribute.  Also, pg_idle-confirmed access, page fault-confirmed access,
+and PMU event-confirmed access will be different types of data
+attributes.
+
+The regions adjustment mechanism is currently working based on the
+access information.  That's because DAMON is designed for data access
+monitoring.  That is, data access information is the primary interest,
+and therefore DAMON adjusts regions in a way that can best-present the
+information.
+
+Once data access becomes just one of data attributes, there is no reason
+to think data access that special.  There might be some users not
+interested in access at all but want to know the location of memory of
+specific type.  Data probes interface will allow doing that.  Further,
+we could extend the interface to let users set any data attribute as the
+'primary' attribute.  Then, DAMON will split and merge regions in a way
+that can best-present the 'primary' attributes.
+
+DAMOS will also be extended, to specify targets based on not only the
+data access pattern, but all user-registered data attributes.  From this
+stage, we may be able to call DAMON as a "Data Attributes Monitoring and
+Operations eNgine".
+
+[1] https://lore.kernel.org/20250106193401.109161-1-sj@kernel.org
+[2] https://lore.kernel.org/20251208062943.68824-1-sj@kernel.org/
+[3] https://lore.kernel.org/20260423004211.7037-1-akinobu.mita@gmail.com
+
+SeongJae Park (19):
+  mm/damon/core: introduce struct damon_probe
+  mm/damon/core: embed damon_probe objects in damon_ctx
+  mm/damon/core: introduce damon_filter
+  mm/damon/core: commit probes
+  mm/damon/core: introduce damon_region->probe_hits
+  mm/damon/core: introduce damon_ops->apply_probes
+  mm/damon/core: do data attributes monitoring
+  mm/damon/paddr: support data attributes monitoring
+  mm/damon/sysfs: implement probes dir
+  mm/damon/sysfs: implement probe dir
+  mm/damon/sysfs: implement filters directory
+  mm/damon/sysfs: implement filter dir
+  mm/damon/sysfs: implement filter dir files
+  mm/damon/sysfs: setup probes on DAMON core API parameters
+  mm/damon/sysfs-schemes: implement tried_region/probe_hits file
+  mm/damon: trace probe_hits
+  selftests/damon/sysfs.sh: test probes dir
+  Docs/mm/damon/design: document data attributes monitoring
+  Docs/admin-guide/mm/damon/usage: document data attributes monitoring
+
+ Documentation/admin-guide/mm/damon/usage.rst |  44 +-
+ Documentation/mm/damon/design.rst            |  37 ++
+ include/linux/damon.h                        |  60 +++
+ include/trace/events/damon.h                 |  41 ++
+ mm/damon/core.c                              | 182 +++++++
+ mm/damon/paddr.c                             |  45 ++
+ mm/damon/sysfs-schemes.c                     |  30 ++
+ mm/damon/sysfs.c                             | 502 +++++++++++++++++++
+ tools/testing/selftests/damon/sysfs.sh       |  48 ++
+ 9 files changed, 982 insertions(+), 7 deletions(-)
+
+
+base-commit: 8f22aa2e28454419ed2031119ad32ea4a6c9f1f1
 -- 
-Kind regards,
-
-Rodrigo Alencar
+2.47.3
