@@ -1,110 +1,122 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E6A34AAE3
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 21:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777324814; cv=none; b=FPDT2Mb+1T+c4ms4eBKGDOS6H7CGV2XzfJN+X+PPkM5BqeWBWxDw5RF/dAjGqWPlRMFTMlNldHd3MWVrasSAu2hQnTi3Sd9g5SvxeW7vR+VvSkdTbnnSkYYiXvOsrgtmB9HOZJ8EhQtvADJvoHWtvl+s13XzY30n/5cmZhwzJR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777324814; c=relaxed/simple;
-	bh=wCXqIOOlIDnSn6wujP2KbKL2ztP/1h1QOB0MF5jkUzE=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=NPNx4ka9pjFN7AlroRU+6anD4nxKUVgvs4w3ot295ois7OPvb6F7FPciZ4MT6Cn892xqusAVu5Eg8dV/0M3XIaxNrLhgXdP+StJm1qS+hbBz8YVWyj0jgEh1q4xrp9TqupYCWVfiorQfKKvOr2qVNPGsmafsskWrCUg3zdStYjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S0ltqXpB; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C44EE242D6A
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 21:31:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.172
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777325505; cv=pass; b=jM5X2YiSfewsZmWlLh7cTLVBZ6h1gKhJ6kLfYAZDoa+oPd8XxsKUxlmhj1raaIg1G2DJLRQsG5Xz+vtREvrgfpq2sxxaXX/HYbBeJJilG2fa20Lw0UNv/9xiVSSnZJQUNDtW2xGc5k7x/V7qXYUgCqmvhvfJ7weDO7Gg/xPLEyE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777325505; c=relaxed/simple;
+	bh=XxyXGFehDCe0pfONU0BVHIsiW5Y6i0tO8AG04f++XSk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kTQ+Up/m+YGU1Z6OqIsrDEQZdG+ghm8H8IhME4HS86WH3VGICSXUhcpKzPmtqaGeV2qqdGGCKQ9vZCgWBLQm5HRYf3vCNyeFC9yW4chPrTfkZBoIGHiJWb16HZO1jbKsgHuM/dB2m/fITKh2lb5JqZiYdzeusEFN/Daf/p/BhWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GMA/GD85; arc=pass smtp.client-ip=209.85.208.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S0ltqXpB"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82f74f0e3c6so7012426b3a.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 14:20:12 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GMA/GD85"
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-38e9653b580so119113781fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 14:31:42 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777325501; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T2zD1y6u5OmqMRJU5g9NEVdQWNLg8CIxLkS/y5Uk5S8bS0h9A5RaED8znVdnqPnVij
+         JPg5Qywpo2sOy1cUjxJxNkL+KS9/FDSzpWjTljG49AZCSfOomsDa7QfEWbxKnBGa/9EM
+         KqK28JDKGJuXx/qe7N6gUf0QaXiRV0Q8LPTDCS41gLCYg1cVejd2jQkfbXIyUiZ6ewl9
+         FC9PODfVpN+93Ogd8f6d1wfBrccRZmm4Bdm8vK4XOD/ITGdOC2yKcecP1OWM+D1+O5xO
+         HpG/eVsAs4SaNZv4aQrtwq1zdlKRjmpvdYewpSUndDVMG4eJFVUwcC/e7Svsapj7jgv9
+         l1Yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=4fbSZrcbEX7pFS60K+snXC2z4cFQZ67H6ZAP0NTDTDM=;
+        fh=FvK1jsms5qFbQZhO2lmR1IP4rkFCYWMQOhO8dMwrlnc=;
+        b=cuW6tAxeCAXGOxatr4BAG6SZcv3hDgMThmakND8jzke/bmxWn7RmL8xcNzJnb2zvpe
+         jfHEqxbvUw5updBpwHH+3gDk86Bgvt9tS9s55aHmwu2VPMn32q+hgO7tRgtQoiSYC+RZ
+         Ri9c4h3OdJgCFCdjsDrAR2hJ75IXcEFfcpf7MBAJXE3oISZBO9av60uewqTHemiqB38a
+         OFEuSaXhJ9Im0YaAwlJxtpiWBrJcDU2EwnKaaJhhji8t+4aplq6l7zys3+ZCgQ5rXji6
+         o3hCW112xrpJaCA62vUEi33YojTDYSF04GFyJoHfkp46u3ILDOhLVfJp5hbzNuBIp7fA
+         nu9A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777324812; x=1777929612; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=L/MdLtT/yrkXJOR0VhZtn2A+WvIE3I+Wl3TlhiqBWNg=;
-        b=S0ltqXpB/1X5RzLmttfSNPuKUVDOgZNT/ZNx4LZJ5lrYLCRPb+WNJp8NKpDsV1rv1A
-         p4F2WcT/qB3uVk19pUgJH5+/ZeBdnzHaBWy9F2oBn/ZZlxYlMAu+ooB5Mc00Sm2UCblT
-         BpFXTbttLSQqKz/mCRc+T89+FhRa831hCglH77YDMSXfue+Cn1YlkFjqwJgpPe1Fyo5N
-         Gerh0PE1Ie0PRe1XU16OXrI/ag3s2DP8VXBSukJFGOltSYKLS8AQ6+40eSGDeF7YQpI6
-         XhJIbWL+GJ5zY//Kp9sa8XHO0ars3PS7a5amowYGe6TnNEq4Ve94frChExt0DWsuX4tV
-         OhPw==
+        d=google.com; s=20251104; t=1777325501; x=1777930301; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4fbSZrcbEX7pFS60K+snXC2z4cFQZ67H6ZAP0NTDTDM=;
+        b=GMA/GD85zEEHmut25/kka0RPb4oHoMoH4eR0YGpu24JrcbVz+UsJiiiJ04vxZXXjLG
+         rjo+LSj5O6azoj7oMNvIlC+cY1+oOBZk6Tam0PWDBigUfEOLIEKK68cU9FuNAX6cBn5l
+         0PGzLLrVEF1cD7rE09HjIsRsdXPF70qaxCZPuB07uLBI7xZ7Qpg3MUC79t8zCIRYIjVm
+         j6o47V1iGBrlKzMBGjHplWZSxAGLzTS3GVMVNMfPEU4Kfjl6m27E2azIiE80KbmKgoE1
+         wqnDrY/cz9FVJiBgRNzD/wWmGJcL0zoYMGKpDXN+JBTyzJsdgQENR1U9gK6RvON31CXw
+         lwWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777324812; x=1777929612;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=L/MdLtT/yrkXJOR0VhZtn2A+WvIE3I+Wl3TlhiqBWNg=;
-        b=YdjxoovTWZKSKakyHCNwzXo5f7GaPFuMRgLYUwMZgEU8Iu86GWMk0vlA8z0BAgIgHd
-         oYGdSZUzGiYe4UODO/Ocu4dJdMYCuvRrLEHOAtmAec7foMfSh5NsUAWIcJcmfIZBVCtc
-         z27puVy/hdBcW+Fw6LOFpjflEshz/fCL9jUaru9hZ9YQRVy1F/gWYg1aLmivPik2Kl0B
-         WKytunQqbqbnibyGuvp4H1UeOFxKlX91vNM/vmMx/RGEjSy0et9nfZK1gsuC/aLtqv/E
-         tg3ztWeZ+UfsrwtGJMm8L+wqS2+uIX5g1h1zbsZx79lzexNY6jg+ileMxrx3Dqrskgyi
-         UJ4Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+wrLAE18qUFR1WELeFjL3+Hl6DxLDVqFoUwgoS631bJkrifRKrE2nkwS6ew9WwEPdKJyEgLtsSaD8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/S+7uYnp6u7/tpr01cDF3LfhnxsD94S+ieUytCsB3vzGixvXQ
-	lWibGu1LiCMfyyoA3QV1SHNcpjIaYHEAPL/JFGbXFAe3peQObeJgO8dijyq52bAyShyPffidHap
-	6YZeh5Q==
-X-Received: from pfoo23.prod.google.com ([2002:a05:6a00:1a17:b0:82f:aad4:3985])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:408b:b0:82d:29f:d003
- with SMTP id d2e1a72fcca58-834ddb0bbeamr173477b3a.12.1777324811618; Mon, 27
- Apr 2026 14:20:11 -0700 (PDT)
-Date: Mon, 27 Apr 2026 14:20:10 -0700
-In-Reply-To: <20260427204847.112899-4-tycho@kernel.org>
+        d=1e100.net; s=20251104; t=1777325501; x=1777930301;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=4fbSZrcbEX7pFS60K+snXC2z4cFQZ67H6ZAP0NTDTDM=;
+        b=V0rGBOpUbsxEbN7GlULQJbY7FEPCHFn+D/SbaxLdhxNmWB49ZGSZkKrU8qEyREoNP1
+         ytPMvEiVf+VoyAgWPbdiPgPvtw1cRaNOyBtaU/2lldzy/3e0ZR+X3pHi7oMzrs8/Sz7Y
+         huOqE6BX/O39QkDYLJmQcpvAltQ51z7itR/x5ljgIlKE3EI8M7KtdPiVpnxnYJUuvd5d
+         aHw1J5SRGSESirj+ixVyajWlRjTKonUUXJ+mctZiu7PhR2pOMp9BXFff+JJiAmmLzbNf
+         GYpZU1Fz7FOZ/LSaf5LQZf2AH1a1bkGdw+xdfLZdZ7rvbYbYQI7nhgS1dGX2kkbjSgOR
+         +k5w==
+X-Forwarded-Encrypted: i=1; AFNElJ/eGyu8oMuupyyNpXa0kUj7KmfwYi2My/Q0TZOGs1axe2PHBBrHNgz7mSw0dlARTkLH7BW7gdioGRo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx84Iz140fPRE9/3ncKJAv/0HvkGuz3Ok73Kyf40ohczUoLgUmA
+	LvXKliRjbUM7DsrCjCJdMMKBZqyPG0Vh+lAUqV/fowAhaD+iG226k5emh50oCWtUs+RIcmVkhZP
+	s2yTbwfWmhHtx1G/C5T/BLFnLFMgViRv39BnupePm
+X-Gm-Gg: AeBDiesYni5/qNZc+uSSPE7l6vTr6OoUmqNo2HpEKycVI8VmmLF/LzMnaBGo4QHpwsR
+	SG2XGYlhPE0GMCa8J/EGZNCSKNiVfl7t+4dP2URHI2tTKCY2PwypPHHLGws3xpA7wSovADmyTdi
+	nYnyqf5r3CwvqKfBHacIjkxr5/yQX1ub6QQ6t4jEZRzDygMO46d7n8Q7gCRDMn6sDot9a+3HOmE
+	LCVYJSmF2Kuj+w2GvR0HRhrHHwmPVpTEo8sfckq+flZSn7K2O3Y+BMrvGoxPYwMjIxRuJeapnQ4
+	5UQahENa+6e6q1IrE+kKTP2VVSNu6w==
+X-Received: by 2002:a05:6512:3c8f:b0:5a4:505:f62f with SMTP id
+ 2adb3069b0e04-5a746411871mr173644e87.6.1777325500555; Mon, 27 Apr 2026
+ 14:31:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260427204847.112899-1-tycho@kernel.org> <20260427204847.112899-4-tycho@kernel.org>
-Message-ID: <ae_TCofu4bHP_Ch-@google.com>
-Subject: Re: [PATCH v2 3/4] KVM: SEV: Add the kvm-amd.rapl_disable module parameter
-From: Sean Christopherson <seanjc@google.com>
-To: Tycho Andersen <tycho@kernel.org>
-Cc: Ashish Kalra <ashish.kalra@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, linux-crypto@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Kim Phillips <kim.phillips@amd.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+References: <20260423212316.3431746-2-dmatlack@google.com> <20260427210529.GA186381@bhelgaas>
+In-Reply-To: <20260427210529.GA186381@bhelgaas>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 27 Apr 2026 14:31:11 -0700
+X-Gm-Features: AVHnY4K95rEzKgWcXKT0jFnCdsBpr0VFFFUI48Oher6g49BqIzQIKoHjNP8bc8M
+Message-ID: <CALzav=c=99653vuRa0S6cyAuTfP-PWFpOdopYArihOBLor6eQA@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] PCI: liveupdate: Set up FLB handler for the PCI core
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
+	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
+	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
+	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	Robin Murphy <robin.murphy@arm.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026, Tycho Andersen wrote:
-> From: "Tycho Andersen (AMD)" <tycho@kernel.org>
-> 
-> Add a user-visible way to set the RAPL_DIS bit for SNP init.
-> 
-> Since setting RAPL_DIS affects the whole system, put the module parameter
-> in kvm_amd instead of in the CCP driver to hopefully make it more obvious
-> to admins.
-> 
-> Signed-off-by: Tycho Andersen (AMD) <tycho@kernel.org>
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 5 +++++
->  arch/x86/kvm/svm/sev.c                          | 8 ++++++++
->  2 files changed, 13 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 4d0f545fb3ec..2b50eed8664c 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -3207,6 +3207,11 @@ Kernel parameters
->  			max_snp_asid == min_sev_asid-1, will effectively make
->  			SEV-ES unusable.
->  
-> +	kvm-amd.rapl_disable=	[KVM,AMD] Whether to disable RAPL
-> +			(Running Average Power Limit) when initializing the SNP
-> +			firmware. This disables the counters for the entire system until an
-> +			SNP shutdown command is issued.
+On Mon, Apr 27, 2026 at 2:05=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
 
-I'm pretty sure I said this earlier: KVM absolutely should not be able to disable
-RAPL for the entire system.  That needs to be a power management thing.  KVM then
-needs to communicate (and enforce?) the policy to userspace.
+> > +++ b/MAINTAINERS
+> > @@ -20555,6 +20555,18 @@ L:   linux-pci@vger.kernel.org
+> >  S:   Supported
+> >  F:   Documentation/PCI/pci-error-recovery.rst
+> >
+> > +PCI LIVE UPDATE
+> > +M:   Bjorn Helgaas <bhelgaas@google.com>
+>
+> I don't think I want to be the primary contact here.  I'll see patches
+> regardless since they're on linux-pci.
+
+Ack, I will drop this line from v5.
