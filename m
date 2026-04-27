@@ -1,113 +1,108 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9D41361DC3;
-	Mon, 27 Apr 2026 10:49:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA65E2F12C5
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 10:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777286972; cv=none; b=nExJnLY2279HygBspPMVD6c+T/3Xmx8O3hRpzya+H+3MsP6BKsf/9351BhvcA+BzOOP7G9/IPmy2U5y5Aa31/+bmIS3vlQQmoUPg3dEX3BfDRjxbwdykzbpB7175HO7IkYyOeAK86blIR+PDSVP8W/wj2Ts3gwBUdxdY4UO+9t0=
+	t=1777287047; cv=none; b=r8R4jejCtW16/cYhPhF8KEdxd8WBx+pWPT1GFFOOmPD9bY6qoevg+xcooK7D658usiISiyVJJaOIG1JzC8B3Avt4egQg/+6aSe4tw0BdWUhe+fHv2VgA8JOCbA2IUvKt1lzPJuqKsghe3xdXLcYioGupkChPnC3hfmkolJX7rxY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777286972; c=relaxed/simple;
-	bh=1NDqOAekPri/m4O8impoBtCDJFr+DiW4Ny0SINZ8vm4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Rw3FAsf98LnPlKoDzIuH1oOpmLYyqj07Kfj7v/UEuyOClg+tdbHtmzQoitNzXF1NKF4atcgET9oBhofizOm1h6eScEaakdwKfvNqYLMjAZkTwmxWtQkRk3gPV9e8DbEWCh+ZEJBFn00G+QJ6w4XUdvu9VehQ9vT83l14tq5OkLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=HybofPmE; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+	s=arc-20240116; t=1777287047; c=relaxed/simple;
+	bh=zl87Po6zv+ejdEpB80YZMFUZL+X0od7QrwVhwGH2On8=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=H1UOnEHN0EcPzUdKmXOpKTjQip3TzBobI34oIr/R1rhn+vVCMdtQMBq0Aec31aqbNjPKt8dqs2RhpmrlhqTN+X9cgbpUP5+36ObvcnZ0BsQ22Jrc8FlpWvAspDhsK1LUG0cCCsDa7THQc7W8uRyp/PZgKtA4oYrmeM5m2Pubpdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Y7ha5gb9; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="HybofPmE"
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 87BBB1684;
-	Mon, 27 Apr 2026 03:49:24 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9BD633F62B;
-	Mon, 27 Apr 2026 03:49:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1777286970; bh=1NDqOAekPri/m4O8impoBtCDJFr+DiW4Ny0SINZ8vm4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=HybofPmElUWxhJiHsWQ0t8uWuAGLg77UZdYEmqbP0Vvm0a9mwb+0sCN01sSw/7Ah2
-	 7Q409dAH+foOqVQ2Lo3Gun2f++NmwGlOfy5rXY9PrLwwi/GgeNHzZv1y9+pIPJxEaG
-	 rNrCwutKSV6vMlGLmesc0H4+GCSPYVfFvnAbT2ko=
-Date: Mon, 27 Apr 2026 11:49:14 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Shashank Balaji <shashank.mahadasyam@sony.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
-	Rahul Bukte <rahul.bukte@sony.com>, linux-kernel@vger.kernel.org,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	driver-core@lists.linux.dev, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, Daniel Palmer <daniel.palmer@sony.com>,
-	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org
-Subject: Re: [PATCH v4 2/4] coresight: pass THIS_MODULE implicitly through a
- macro
-Message-ID: <20260427104914.GG929984@e132581.arm.com>
-References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
- <20260427-acpi_mod_name-v4-2-22b42240c9bf@sony.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Y7ha5gb9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777287045; x=1808823045;
+  h=date:from:to:cc:subject:message-id;
+  bh=zl87Po6zv+ejdEpB80YZMFUZL+X0od7QrwVhwGH2On8=;
+  b=Y7ha5gb9zzqJyGmTdw9gF53skhOehnubavl71mWeKUuXdT4lPqwFsTrm
+   FwVYgvLI0pAsUPVNzb8jxAG6cdm1hL7Q/iLl4m0SZbCFeWyy3/kIv3rZW
+   IBnc1dATQoAUm/DjjLLH7fabsflbFETjce6MM1iouAvOeHKG9UKDwgLPL
+   oKTHTNwlExfrPqs0esLYevVmt1dPhLVYRev4hyFuiZL/8bUbNwlLtWl2c
+   z62iFOP4CurT5OtUmvCHFXUPTiWgUOYz6AGA4NVMI/Q8LyB0C86Lf1cAX
+   D68fQpvpmWfqqA2B7P93gKecjyBT001yKKt0xoLWPV13cOuleFSohblFr
+   A==;
+X-CSE-ConnectionGUID: r31bRVISQfKTAmt5MxKimg==
+X-CSE-MsgGUID: gnjwPSU7TyGri3d271nhLw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11768"; a="77329210"
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="77329210"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Apr 2026 03:50:44 -0700
+X-CSE-ConnectionGUID: Zqvemqv8RASQjj92OHuzxw==
+X-CSE-MsgGUID: iAjEWndWSDGfnNCBAjmjkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,201,1770624000"; 
+   d="scan'208";a="257128478"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa001.fm.intel.com with ESMTP; 27 Apr 2026 03:50:43 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wHJY0-0000000040z-3m8F;
+	Mon, 27 Apr 2026 10:50:40 +0000
+Date: Mon, 27 Apr 2026 12:49:45 +0200
+From: kernel test robot <lkp@intel.com>
+To: Sen Wang <sen@ti.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+ linux-doc@vger.kernel.org
+Subject: [broonie-ci:asoc-7.2 29998/30000] htmldocs:
+ Documentation/sound/codecs/tas675x.rst:659: WARNING: Title underline too
+ short.
+Message-ID: <202604271204.SpaDre2F-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427-acpi_mod_name-v4-2-22b42240c9bf@sony.com>
 
-Hi Shashank,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git asoc-7.2
+head:   a960faa424ae459a7843da2734fa51580814b89a
+commit: ba46edca354e66d71d176bb88fe1c01594c45871 [29998/30000] Documentation: sound: Add TAS675x codec mixer controls documentation
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260427/202604271204.SpaDre2F-lkp@intel.com/reproduce)
 
-On Mon, Apr 27, 2026 at 11:41:22AM +0900, Shashank Balaji wrote:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604271204.SpaDre2F-lkp@intel.com/
 
-[...]
+All warnings (new ones prefixed by >>):
 
-> --- a/drivers/hwtracing/coresight/coresight-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-core.c
-> @@ -1694,7 +1694,7 @@ static void __exit coresight_exit(void)
->  module_init(coresight_init);
->  module_exit(coresight_exit);
->  
-> -int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
-> +int __coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
->  			  struct platform_driver *pdev_drv, struct module *owner)
->  {
->  	int ret;
-> @@ -1713,7 +1713,7 @@ int coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
->  	amba_driver_unregister(amba_drv);
->  	return ret;
->  }
-> -EXPORT_SYMBOL_GPL(coresight_init_driver);
-> +EXPORT_SYMBOL_GPL(__coresight_init_driver);
+   Checksumming on output with GSO
+   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ [docutils]
+   MAINTAINERS:40: WARNING: Inline strong start-string without end-string. [docutils]
+>> Documentation/sound/codecs/tas675x.rst:659: WARNING: Title underline too short.
+--
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
+   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
+   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
+>> Documentation/sound/codecs/tas675x.rst: WARNING: document isn't included in any toctree [toc.not_included]
+   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
 
-For consistency, we usually use prefix "__" for internal functions.
 
-Could you rename this function as:
+vim +659 Documentation/sound/codecs/tas675x.rst
 
-  int coresight_init_driver_with_owner(..., struct module *owner);
+   657	
+   658	Overtemperature Shutdown (0x87)
+ > 659	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   660	
+   661	  ========  ==========================================
+   662	  Bits      Description
+   663	  ========  ==========================================
+   664	  [4]       Global OTSD
+   665	  [3:0]     CH1-CH4 OTSD respectively
+   666	  ========  ==========================================
+   667	
 
-> +#define coresight_init_driver(drv, amba_drv, pdev_drv) \
-> +	__coresight_init_driver(drv, amba_drv, pdev_drv, THIS_MODULE)
-> +int __coresight_init_driver(const char *drv, struct amba_driver *amba_drv,
->  			  struct platform_driver *pdev_drv, struct module *owner);
-
-Please first function declaration, then followed by the macro to
-define coresight_init_driver().
-
-With above changes:
-
-Reviewed-by: Leo Yan <leo.yan@arm.com>
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
