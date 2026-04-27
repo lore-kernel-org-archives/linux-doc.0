@@ -1,214 +1,285 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B789E3E95BD
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:23:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6B7A259C80;
+	Mon, 27 Apr 2026 18:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777314201; cv=none; b=nvLkycsjWfU5Op+49+tH2sr2e13R2K2DrL6/gJyfl1140NHK8OehCHn/4LqO32FjYD1PKIU+9AZpegWGwFyqn0acwIDYvjIpJGzxMGTdyqJkqUerqcMUy+YZmrVSByu00CIkSpXRGSR/YspRnvdiOPFJS4VhHYQjBUrmKRG3tok=
+	t=1777315671; cv=none; b=B395l1MTPlscZeZk0Yh1c/99kdy+ht8CE+eE0C2Cc1+U4ViLuxKaHYdjLu/Drld8XeXaq/BUK5VtqsJ5XRazxm2CQnfzyH7HTfQg9xclcIp/2lJyIoE+tUHnI8V2lgotJwPFWw4oaqq0flEwPHLgtJeuq8CG5SlEdwIlzbt3V38=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777314201; c=relaxed/simple;
-	bh=7e7Tf2MGPPvF7IQtCfLfncjsVrLZZIHywY4b/DUulQo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k0lvd+ZLDbjerq7LDwvRksWEYt0grVNkhBlRiiQ0oyms2CWPh8ziEB5nzzWvVGJtW8BpIJueKnpeyyMG4XVsbDIjs2E03flkkAYaJ84+8ROdffGHryFuBhKuM9hSjIpCz2cVjr47uZ1kv44zRzwmvf6CDKA5aWh2ohUwyT3DMok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AxtXtoW9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777315671; c=relaxed/simple;
+	bh=Lg+jFWtt8pEZR/KkohQlS7XqKx6QyZnHruBwrYXyz10=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ntQkcs7R+tFkbS70dpaxgvopbkwfNlpRo7zA/jrKx11myONTiry0fojzkKv1LqdGDrS4FBHSgoTSdUDbxeKq0OFTbqe9hZi4NIIQCwQinpVGXGIm4zDaqODhXfeqiBEETGUNF4Bh08zCwtg9SQusHzqRxp+X/6j79PAtSVC8/Tc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cmjEZol5; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AxtXtoW9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93700C2BCB6
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:23:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777314201;
-	bh=7e7Tf2MGPPvF7IQtCfLfncjsVrLZZIHywY4b/DUulQo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=AxtXtoW91Szs1ppf6YGfwYILqEnqNth9WCmpuZQNj+WzMjxYOBk7QwDAhz5wXitVh
-	 GIJWN65tEr5z7Rhs3yVwPrmHtxOk0jGUEGxOzHF7dKLLi3fyNFBH9BhQ9qhasVS8Ov
-	 Yw/L3ly9WTIehMz5N26+6UUt8f1MqAwBtpOZW8XqeotLPH7v5XDxczg7HjMSvSYPnz
-	 oe13yt1zt2PIamae0azrqg8NnTtIGoUVubvm+A/shtxSo5YpdQ3pnhAICf+sMObQ/2
-	 WIM7KNQ1LS27df/0Co9YDsl6DAxCHX3uNRIHOgkhBmhQKbjugIW9jzLHTKzD/8qF3L
-	 Wg8qXelz6C3yA==
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67845996252so8046691a12.3
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 11:23:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8cw+knBe+ZhCpwX80a3Ny2FDY/HMWCsEfkOZ6IB5AasLwyC3HByTHl6iloQTMvq/bFIEEZ7Ne6SWY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrR4MlZnsvm9R2xfrkc2X94uMxahRPv+Dh3BlSQuHtzRn981vK
-	e0lviPFi6hlQXS8IpoRB3Aze10XxDkNvVr0tB2SD3DDD+IU29EQtG3TGF2wwfx9JNXl6VFLdKx5
-	KaHN+m9MZ9SiRNcVew6qSZMRefCYFsL4=
-X-Received: by 2002:a17:907:8b95:b0:ba8:8c8c:1c5d with SMTP id
- a640c23a62f3a-bb7fd089780mr894166b.47.1777314199304; Mon, 27 Apr 2026
- 11:23:19 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cmjEZol5"
+Received: from localhost (unknown [52.148.138.235])
+	by linux.microsoft.com (Postfix) with ESMTPSA id E249A20B716A;
+	Mon, 27 Apr 2026 11:47:47 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com E249A20B716A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1777315668;
+	bh=S4tzZTHVVwx4dE5q55trjuPou8rUVW9NKtUsR+YVAxQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cmjEZol5n8EEvl93N6WXvZ/B3Z6d2+Hp0UmiD/Ox5Af+pe8fIxtkwd1dvkRKkWOUa
+	 5abA7q+8En19G5GEOu5St1WIegpcN4MQ5bqVKnj0Vprr5Ue7paKmos8vQ89Zu+BJ0v
+	 SgTFjCNrDtKoq0bcX9wEqEP8qZW/2b479wPNxwgw=
+Date: Mon, 27 Apr 2026 11:47:45 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: David Matlack <dmatlack@google.com>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org, Adithya Jayachandran
+ <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex
+ Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris
+ Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, Jason
+ Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet
+ <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky
+ <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport
+ <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja
+ <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, Will Deacon
+ <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu
+ <yi.l.liu@intel.com>, jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v4 05/11] PCI: liveupdate: Inherit bus numbers during
+ Live Update
+Message-ID: <20260427114745.00000656@linux.microsoft.com>
+In-Reply-To: <20260423212316.3431746-6-dmatlack@google.com>
+References: <20260423212316.3431746-1-dmatlack@google.com>
+	<20260423212316.3431746-6-dmatlack@google.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
- <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
- <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
- <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
- <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
- <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
- <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com> <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
-In-Reply-To: <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Mon, 27 Apr 2026 11:23:07 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
-X-Gm-Features: AVHnY4JSrF4JaGtUa9RGykJDx4LJmM53x95FeUNsFKceHbvA9vScOToLoywkb9c
-Message-ID: <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
-	Byungchul Park <byungchul@sk.com>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
-	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
-	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
-	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
-	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
-	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 24, 2026 at 12:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wro=
-te:
->
-> On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wr=
-ote
-> > > https://lore.kernel.org/linux-mm/20260421055323.940344-1-youngjun.par=
-k@lge.com/
-> >
-> > Does this do promotion/demotion of swap entries?
->
-> Not yet, let's do things step by step.
->
-> > > For example just reserve a type (e.g. type 0) as the virtual type?
-> > > (type is really a bad naming though).
-> > >
-> > > The that swap file (or swap mapping) will be
-> > >
-> > > I was trying that based on this:
-> > > https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d=
-19815@tencent.com/
-> > >
-> > > It seems to work and the only thing we need is actually just somethin=
-g
-> > > like this one in VSS:
-> > > https://lore.kernel.org/linux-mm/20260320192735.748051-15-nphamcs@gma=
-il.com/
-> > >
-> > > This part:
-> > > + /* fall back to physical swap device */
-> > > + if (!vswap_alloc_swap_slot(folio)) {
-> > >
-> > > We do a folio_realloc_swap if folio->swap have type 0.
-> > >
-> > > Which means, if there is no virtual device / mapping / file / space
-> > > (I'm not sure how to name it at this point :) ), the ordinary swap
-> > > routine is just still there untouched.
-> > >
-> > > If there is one, and it's being used, then, it is still the ordinary
-> > > swap routine, just do an extra allocation (and the extra allocation
-> > > strictly follows YoungJun's tier rule), which is same with VSS, but
-> > > everything is reused. From a user or high level interface perspective=
-,
-> > > this can be designed with no difference as VSS. Just with a few
-> > > bonuses: being per memcg / task / runtime optional, zero overhead if
-> > > not enabled, and reusing all the infra.
-> > >
-> > > BTW this deferred allocation (in VSS or dynamic swap mapping, similar
-> > > thing) is actually a bit concerning to me as well. It changes the
-> > > common swapout routine and maybe worth reconsideration (e.g.
-> > > activate_locked_split and mTHP stats is now ignored?), being optional
-> > > for now also seems safer.
-> >
-> > I am not sure if I understand you correctly. I think what you're propos=
-ing is:
-> >
-> > - Page tables either point directly to a swap slot, or to a virtual swa=
-p entry.
-> > - By default, page tables just point to swap slots maintaining current =
-behavior.
->
-> I mean, they are all swap entries, nothing special from the page table
-> side. Swap subsystems handle things internally.
->
-> > - If we have multiple backends (e.g. zswap or tiering), we use virtual
-> > swap entry instead.
->
-> Actually that can just follow the swap priority, or tier rule. Even if
-> virtual mapping exists, it can be bypassed. e.g. you have a large NBD
-> and don't care about either fragmentation or compression for offline
-> workload cgroups, then why use a virtual layer for them which could
-> double the kmem usage or spend more CPU? Setup is a different issue
-> which can be discussed.
->
-> > - The physical swapfile has clusters and swap tables (status quo).
-> > - Virtual swap is implemented with clusters and swap tables in a
-> > virtual space, and each table entry points to an underlying swap slot
-> > or zswap entry.
-> > - If a page table has a physical swap slot, and we need to do tiering,
-> > we basically "make it virtual" by making the swap table of the
-> > physical swapfile point at a virtual swap entry? or another physical
-> > swapfile? Not sure.
->
-> They are still ordinary swap entries, nothing special. The virtual
-> space is also just a ordinary swap file (or swap mapping), which is
-> easy to do:
-> https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d1981=
-5@tencent.com/
->
-> Then its virtual_table will have a different set of swap entries. (I
-> left that part undone though).
->
-> > > Right... I mean with two layers you will likely have >16 bytes
-> > > overhead, and double lookup.
-> >
-> > Why >16 bytes? Do we need anything extra other than the reverse
-> > mapping? Also why do we need a double lookup?
->
-> You will have to store at least the following info: memcg (2 bytes),
-> shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
-> bytes, since you have to address a full virtual swap space). And some
-> type info is also needed. Part of them can be shrinked but still,
-> scientifically, merging two layers into one is considered a kind of
-> optimization.
->
-> You need lookup the virtual layer, then the lower layer for many
-> decision making, is was discussed before to introduce more cache bit
-> or things like that and I think that is getting over complex, reminds
-> me of the slot cache or HAS_CACHE thing...:
-> https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8fcyz=
-VOKE14-O+Dw@mail.gmail.com/
+Hi David,
 
-I think that's where the disconnect is. You are considering these two
-separate layers, each with its own metadata. The metadata should only
-live in one place.
+On Thu, 23 Apr 2026 21:23:09 +0000
+David Matlack <dmatlack@google.com> wrote:
 
-If we only have swap tables in the virtual swap layer (with the
-metadata), backends do not have to carry the metadata. In this case,
-backends should only have a reverse mapping (if needed), and some
-internal data structure (e.g. bitmaps) to track usage.
+> Inherit bus numbers from the previous kernel during a Live Update when
+> one or more PCI devices are being preserved.
+> 
+> During a Live Update, preserved devices must be allowed to continue
+> performing memory transactions so the kernel cannot change the fabric
+> topology, including bus numbers, since that would require disabling
+> and flushing any memory transactions first.
+> 
+> To keep things simple, inherit the secondary and subordinate bus
+> numbers on all bridges if any PCI devices were preserved (i.e. even
+> bridges without any downstream endpoints that were preserved). This
+> avoids accidentally assigning a bridge a new window that overlaps
+> with a preserved device that is downstream of a different bridge.
+> 
+> If a bridge is enumerated with a broken topology or has no bus numbers
+> set during a Live Update, refuse to assign it new bus numbers and
+> refuse to enumerate devices below it. This is a safety measure to
+> prevent topology conflicts.
+> 
+> Require that CONFIG_CARDBUS is not enabled to enable
+> CONFIG_PCI_LIVEUPDATE since inheriting bus numbers on PCI-to-CardBus
+> bridges requires additional work but is not a priority at the moment.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  .../admin-guide/kernel-parameters.txt         |  6 +++-
+>  drivers/pci/Kconfig                           |  2 +-
+>  drivers/pci/liveupdate.c                      | 28
+> +++++++++++++++++++ drivers/pci/probe.c                           |
+> 21 +++++++++++--- include/linux/pci.h                           |  1 +
+>  5 files changed, 52 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt
+> b/Documentation/admin-guide/kernel-parameters.txt index
+> cf3807641d89..f412a4b77fb7 100644 ---
+> a/Documentation/admin-guide/kernel-parameters.txt +++
+> b/Documentation/admin-guide/kernel-parameters.txt @@ -5156,7 +5156,11
+> @@ Kernel parameters explicitly which ones they are.
+>  		assign-busses	[X86] Always assign all PCI bus
+>  				numbers ourselves, overriding
+> -				whatever the firmware may have done.
+> +				whatever the firmware may have done.
+> Ignored
+> +				during a Live Update, where the
+> kernel must
+> +				inherit the PCI topology (including
+> bus numbers)
+> +				to avoid interrupting ongoing memory
+> +				transactions of preserved devices.
+>  		usepirqmask	[X86] Honor the possible IRQ mask
+> stored in the BIOS $PIR table. This is needed on
+>  				some systems with broken BIOSes,
+> notably diff --git a/drivers/pci/Kconfig b/drivers/pci/Kconfig
+> index 08398cbe970c..6ef457ff9d08 100644
+> --- a/drivers/pci/Kconfig
+> +++ b/drivers/pci/Kconfig
+> @@ -330,7 +330,7 @@ config VGA_ARB_MAX_GPUS
+>  
+>  config PCI_LIVEUPDATE
+>  	bool "PCI Live Update Support (EXPERIMENTAL)"
+> -	depends on PCI && LIVEUPDATE
+> +	depends on PCI && LIVEUPDATE && !CARDBUS
+>  	help
+>  	  Enable PCI core support for preserving PCI devices across
+> Live Update. This, in combination with support in a device's driver,
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index c0a30d16d9b8..cf8cff134a75 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -93,6 +93,19 @@
+>   * bound to the correct driver. i.e. The PCI core does not protect
+> against a
+>   * device getting preserved by driver A in the outgoing kernel and
+> then getting
+>   * bound to driver B in the incoming kernel.
+> + *
+> + * BDF Stability
+> + * =============
+> + *
+> + * The PCI core guarantees that incoming preserved devices can be
+> identified by
+> + * the same bus, device, and function numbers as prior to kexec. To
+> accomplish
+> + * this, the PCI core always inherits the secondary and subordinate
+> bus numbers
+> + * assigned to bridges during enumeration, rather than assigning new
+> ones (the
+> + * PCI core assumes that the previous kernel established a sane
+> topology).
+> + *
+> + * If a misconfigured or unconfigured bridge is encountered during
+> enumeration
+> + * while there are incoming preserved devices, it's secondary and
+> subordinate
+> + * bus numbers will be cleared and devices below it will not be
+> enumerated. */
+>  
+>  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+> @@ -354,6 +367,21 @@ void pci_liveupdate_setup_device(struct pci_dev
+> *dev) if (!xa)
+>  		return;
+>  
+> +	/*
+> +	 * During a Live Update, preserved devices are allowed to
+> continue
+> +	 * performing memory transactions. The kernel must not
+> change the fabric
+> +	 * topology, including bus numbers, since that would require
+> disabling
+> +	 * and flushing any memory transactions first.
+> +	 *
+> +	 * To keep things simple, inherit the secondary and
+> subordinate bus
+> +	 * numbers on _all_ bridges if _any_ PCI devices were
+> preserved (i.e.
+> +	 * even bridges without any downstream endpoints that were
+> preserved).
+> +	 * This avoids accidentally assigning a bridge a new window
+> that
+> +	 * overlaps with a preserved device that is downstream of a
+> different
+> +	 * bridge.
+> +	 */
+> +	dev->liveupdate_inherit_buses = true;
+> +
+This flag never gets cleared after the incoming kernel boot up, what if
+the user does a manual rescan via sysfs? i.e.
+# echo 1 > /sys/bus/pci/rescan
+pcibios_assign_all_busses() will never gets called for this device, and
+may hit this
+	if (dev->liveupdate_inherit_buses) {
+		pci_err(dev, "Cannot reconfigure bridge during
+		Live Update!\n");
 
-This is difficult to achieve if the virtual swap layer is optional,
-because then the metadata can live in different places. This is why I
-think we should have a virtual swap layer that all swap entries go
-through and all metadata live in (where today's swap tables would
-live). Backends then only carry backend-specific data (e.g.
-compression handles for zswap, slots bitmap of swapfiles, etc). In
-this world I *think* the reverse mapping could end up being optional,
-depending on what we need it for.
+So, maybe clear it in pci_liveupdate_finish()?
+
+>  	key = pci_ser_xa_key(pci_domain_nr(dev->bus),
+> pci_dev_id(dev)); dev_ser = xa_load(xa, key);
+>  
+> diff --git a/drivers/pci/probe.c b/drivers/pci/probe.c
+> index 938a28e4a7a0..fa26f4170add 100644
+> --- a/drivers/pci/probe.c
+> +++ b/drivers/pci/probe.c
+> @@ -1374,6 +1374,14 @@ bool pci_ea_fixed_busnrs(struct pci_dev *dev,
+> u8 *sec, u8 *sub) return true;
+>  }
+>  
+> +static bool pci_should_assign_new_buses(struct pci_dev *dev)
+> +{
+> +	if (dev->liveupdate_inherit_buses)
+> +		return false;
+> +
+> +	return pcibios_assign_all_busses();
+> +}
+> +
+>  /*
+>   * pci_scan_bridge_extend() - Scan buses behind a bridge
+>   * @bus: Parent bus the bridge is on
+> @@ -1401,6 +1409,7 @@ static int pci_scan_bridge_extend(struct
+> pci_bus *bus, struct pci_dev *dev, int max, unsigned int
+> available_buses, int pass)
+>  {
+> +	const bool assign_new_buses =
+> pci_should_assign_new_buses(dev); struct pci_bus *child;
+>  	u32 buses;
+>  	u16 bctl;
+> @@ -1453,8 +1462,7 @@ static int pci_scan_bridge_extend(struct
+> pci_bus *bus, struct pci_dev *dev, goto out;
+>  	}
+>  
+> -	if ((secondary || subordinate) &&
+> -	    !pcibios_assign_all_busses() && !broken) {
+> +	if ((secondary || subordinate) && !assign_new_buses &&
+> !broken) { unsigned int cmax, buses;
+>  
+>  		/*
+> @@ -1496,8 +1504,7 @@ static int pci_scan_bridge_extend(struct
+> pci_bus *bus, struct pci_dev *dev,
+>  		 * do in the second pass.
+>  		 */
+>  		if (!pass) {
+> -			if (pcibios_assign_all_busses() || broken)
+> -
+> +			if (assign_new_buses || broken)
+>  				/*
+>  				 * Temporarily disable forwarding of
+> the
+>  				 * configuration cycles on all
+> bridges in @@ -1511,6 +1518,12 @@ static int
+> pci_scan_bridge_extend(struct pci_bus *bus, struct pci_dev *dev, goto
+> out; }
+>  
+> +		if (dev->liveupdate_inherit_buses) {
+> +			pci_err(dev, "Cannot reconfigure bridge
+> during Live Update!\n");
+> +			pci_err(dev, "Downstream devices will not be
+> enumerated!\n");
+> +			goto out;
+> +		}
+> +
+>  		/* Clear errors */
+>  		pci_write_config_word(dev, PCI_STATUS, 0xffff);
+>  
+> diff --git a/include/linux/pci.h b/include/linux/pci.h
+> index dd6b26ca9462..9a602b322e3c 100644
+> --- a/include/linux/pci.h
+> +++ b/include/linux/pci.h
+> @@ -511,6 +511,7 @@ struct pci_dev {
+>  	unsigned int	rom_bar_overlap:1;	/* ROM BAR
+> disable broken */ unsigned int	rom_attr_enabled:1;	/*
+> Display of ROM attribute enabled? */ unsigned int
+> non_mappable_bars:1;	/* BARs can't be mapped to user-space  */
+> +	unsigned int	liveupdate_inherit_buses:1; /* Inherit
+> bus numbers due to Live Update */ pci_dev_flags_t dev_flags;
+>  	atomic_t	enable_cnt;	/* pci_enable_device has
+> been called */ 
+
