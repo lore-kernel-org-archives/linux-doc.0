@@ -1,122 +1,196 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A308C3233E8;
-	Mon, 27 Apr 2026 15:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4795B3314D9;
+	Mon, 27 Apr 2026 15:12:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777302465; cv=none; b=gQOFUDK7JBpwKrry8ZCjwZwk/WLrrhB4gz0AjBb+m1dDSQsYtzTany7s1CRHvn58kn8qZSDa9OQJxq6bC8AytybiKNNfyxgd7ajSxnpIwwerP+Awurk6sKnISKTpYNoJnqbw82ilMYNNbrxET+0NehmCBkvf9JlMrvm1bkq82vA=
+	t=1777302760; cv=none; b=pM5RBZLz14vOVydtzres+7Otv6iTUjVRKAzT7znaL5PmbunSTFn0sNjxXF0AlYyfYgs8JyNLRHHAhFzgqoH1ab0a1iIqxNREb1kdbyCNMbvTgfu4x1BN31GFVOZ7t1Z6e5pPjiefxHHxdEo0YmjJVRlncZ5jwoY2O9uHLTQcIm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777302465; c=relaxed/simple;
-	bh=AQBxmjsjMhhbyqKfFr7H9MV/bPUCpy2HbZrxuKFDX0s=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=du9OmfhXIhmtcM/6ekKZ/I8o1lfOE8bsHqxolsx+BdYlfHwLpYcFGdLwvY8WVI6Gzq0h0OBhCZ+5oYQ446fuC5iqWlMCNSS2upju0JEYW0FowDm0YQ90vNpZ2L2G8kF0Xz4Do+piozEtzGF3Yq+DHJ0VFx7klXVL2MZlW28qY5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=L97hAbzA; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=3gs6wQg2; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1777302760; c=relaxed/simple;
+	bh=zI5vHsvRGeABhz8+PYlJ/EahgR6YXI9rVwoXD7+ThEw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OYVnrYSFddxAkiY4iWkf6k3AHV7JdOcdxoHeAshzea9gMsUmqKtTW/xg96N3NCGp16muFjfJscczmFnUAqfqBexLcfeETY87pqFWpGsp2CAeNpCU2zY/mKKNPAiP+5xJ2QVOHMlLdDtEeov4+R68MRBoVod4RMS+M4xi059plgQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TJH0uQrr; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="L97hAbzA";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="3gs6wQg2"
-Date: Mon, 27 Apr 2026 17:07:39 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777302461;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=TuSwYV0esKE1jACuhMi6TAI9cIJLaL1At8AYSskrutY=;
-	b=L97hAbzA1IN7PymXEVNLpmW1MGj3uNH/0w0+F2nMCtikamwDRrYBX0zM6pM7xWrTn/bxfr
-	wItHlJRvDX/VVS1OpOacL9M4uZltbe3Dm6ntHQUiUAVEgZXk5nOO7GJ4Ks8AEnNPjn73nB
-	dQ4opEED4/KEpk/2tvXQvzvJlzpE8ZEdLXY6rUXzQwE/AsHf4ZA5AHVT1szPN1o9ruAIvG
-	hHJ/jjXDtLNsSSy55agn82LmZcTAYKX/UWty7Q3Mak+1yax8hQjuYuK9Hm0Tk9FnvJi8wE
-	U25/+ziq8W2QBY8rFbgJtDnRKHHuKGy4qxfwEwLG2Hv+CcK2v4sdU8EoioNzkw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777302461;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=TuSwYV0esKE1jACuhMi6TAI9cIJLaL1At8AYSskrutY=;
-	b=3gs6wQg2/UubVXyK0CTCxJGM33Mil8AWZUQYd1aEq8GrfWR+g2OUeqTig3j5RT9MkZXs/v
-	bFuSyOcCJTaMpHBg==
-From: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-To: Frederic Weisbecker <frederic@kernel.org>
-Cc: LKML <linux-kernel@vger.kernel.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	Marco Crivellari <marco.crivellari@suse.com>,
-	Michal Hocko <mhocko@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>, Phil Auld <pauld@redhat.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vlastimil Babka <vbabka@suse.cz>, Waiman Long <longman@redhat.com>,
-	linux-doc@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TJH0uQrr"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26352C2BCB4;
+	Mon, 27 Apr 2026 15:12:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777302759;
+	bh=zI5vHsvRGeABhz8+PYlJ/EahgR6YXI9rVwoXD7+ThEw=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TJH0uQrr4r3lQ4SuRm8wQheI46NGHnjW0QSkdAQJJsu2EKy+VSXazj2JF1TM4hI+/
+	 y2J5lRBaWoR34EDo5PTi/ir2Xwo0j1Ajr/SEEE/bOpV6XpNQ803wlXUP1NP9sl02mr
+	 Bw1MWIzuC9PCYv23QUAJnAyAFqF70+0jE9QvtK9kskHcnV55eFAhsKFhu/FQFHi7X5
+	 k5OFiJomVq6+m/bmS6qpa9l9qkkSKHuUVWpEWQnxWCtU/b822T8eq9k5tctOtnVvJG
+	 9m8LLjyNgoAchDQzm1+gt+Vc5bQPrD7JuEyjSD/Rg0+c6wth3tgA3OZPEKZW191Wfb
+	 hq3vYfKKtkRjw==
+From: SeongJae Park <sj@kernel.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: SeongJae Park <sj@kernel.org>,
+	"Liam R. Howlett" <liam@infradead.org>,
+	Brendan Higgins <brendan.higgins@linux.dev>,
+	David Gow <davidgow@davidgow.net>,
+	David Hildenbrand <david@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	Michal Hocko <mhocko@suse.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Shuah Khan <shuah@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	John Ogness <john.ogness@linutronix.de>
-Subject: [PATCH] Documentation/kernel-parameters: Remove "Deprecated" from
- isolcpus=
-Message-ID: <20260427150739.bwVmmkj2@linutronix.de>
+	Suren Baghdasaryan <surenb@google.com>,
+	Vlastimil Babka <vbabka@kernel.org>,
+	damon@lists.linux.dev,
+	kunit-dev@googlegroups.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCH v2 00/10] mm/damon: let DAMON be paused and resumed
+Date: Mon, 27 Apr 2026 08:12:19 -0700
+Message-ID: <20260427151231.113429-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-The isolcpus= option has been marked as deprecated in 2017. Back then it
-was desired for the domain sub option to be configured dynamically at
-runtime instead using this boot command line which provides a static
-configuration. In the meantime this option was extended by other sub
-options which don't have runtime counterpart or it does not make sense
-to provide one.
+DAMON utilizes a few mechanisms that enhance itself over time. Adaptive
+regions adjustment, goal-based DAMOS quota auto-tuning and monitoring
+intervals auto-tuning like self-training mechanisms are such examples.
+It also adds access frequency stability information (age) to the
+monitoring results, which makes it enhanced over time.
 
-The deprecated part always referred to the default `domain' sub option
-but it was not obvious. Also the reasoning behind the deprecation is
-sort of dubious: There is nothing wrong with a static configuration if
-there is no desired to reconfigure. This is useful on systems which
-have one purpose and the CPU partition configuration is not changed for
-the entire lifetime.
+Sometimes users have to stop DAMON.  In this case, DAMON internal state
+that enhanced over the time of the last execution simply goes away.
+Restarted DAMON have to train itself and enhance its output from the
+scratch.  This makes DAMON less useful in such cases.  Introducing three
+such use cases below.
 
-Remove the "Deprecated" note. Remove the part of the description which
-suggest to use cpuset.sched_load_balance and instead point to the
-documentation file which explains how to use cpusets to configure this
-at runtime.
+Investigation of DAMON.  It is best to do the investigation online,
+especially when it is a production environment.  DAMON therefore
+provides features for such online investigations, including DAMOS stats,
+monitoring result snapshot exposure, and multiple tracepoints.  When
+those are insufficient, and there are additional clues that could be
+interfered by DAMON, users have to temporarily stop DAMON to collect the
+additional clues.  It is not very useful since many of DAMON internal
+clues are gone when DAMON is stopped.  The loss of the monitoring
+results that improved over time is also problematic, especially in
+production environments.
 
-Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
----
- Documentation/admin-guide/kernel-parameters.txt | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+Monitoring of workloads that have different user-known phases.  For
+example, in Android, applications are known to have very different
+access patterns and behaviors when they are running on the foreground
+and the background.  It can therefore be useful to separate monitoring
+of apps based on whether they are running on the foreground and on the
+background.  Having two DAMON threads per application that paused and
+resumed for the apps foreground/background switches can be useful for
+the purpose.  But such pause/resume of the execution is not supported.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4d0f545fb3ec5..367931fe8da56 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -2755,7 +2755,6 @@ Kernel parameters
- 			Format: <RDP>,<reset>,<pci_scan>,<verbosity>
- 
- 	isolcpus=	[KNL,SMP,ISOL] Isolate a given set of CPUs from disturbance.
--			[Deprecated - use cpusets instead]
- 			Format: [flag-list,]<cpu-list>
- 
- 			Specify one or more CPUs to isolate from disturbances
-@@ -2780,11 +2779,10 @@ Kernel parameters
- 			  Isolate from the general SMP balancing and scheduling
- 			  algorithms. Note that performing domain isolation this way
- 			  is irreversible: it's not possible to bring back a CPU to
--			  the domains once isolated through isolcpus. It's strongly
--			  advised to use cpusets instead to disable scheduler load
--			  balancing through the "cpuset.sched_load_balance" file.
--			  It offers a much more flexible interface where CPUs can
--			  move in and out of an isolated set anytime.
-+			  the domains once isolated through this boot time
-+			  configuration. Use cpusets for a dynamic configuration
-+			  which can be altered at runtime. For details see
-+			  Documentation/admin-guide/cpu-isolation.rst.
- 
- 			  You can move a process onto or off an "isolated" CPU via
- 			  the CPU affinity syscalls or cpuset.
+Tests of DAMON.  A few DAMON selftests are using drgn to dump the
+internal DAMON status.  The tests show if the dumped status is the same
+as what the test code expected.  Because DAMON keeps running and
+modifying its internal status, there are chances of data races that can
+cause false test results.  Stopping DAMON can avoid the race.  But,
+since the internal state of DAMON is dropped, the test coverage will be
+limited.
+
+Let DAMON execution be paused and resumed without loss of the internal
+state, to overhaul the limitations.  For this, introduce a new DAMON
+context parameter, namely 'pause'.  API callers can update it while the
+context is running, using the online parameters update functions
+(damon_commit_ctx() and damon_call()).  Once it is set, kdamond_fn()
+main loop will do only limited works excluding the monitoring and DAMOS
+works, while sleeping sampling intervals per the work.  The limited
+works include handling of the online parameters update.  Hence users can
+unset the 'pause' parameter again.  Once it is unset, kdamond_fn() main
+loop will do all the work again (resumed).  Under the paused state, it
+also does stop condition checks and handling of it, so that paused DAMON
+can also be stopped if needed.  Expose the feature to the user space via
+DAMON sysfs interface.  Also, update existing drgn-based tests to test
+and use the feature.
+
+Tests
+=====
+
+I confirmed the feature functionality using real time tracing ('perf
+trace' or 'trace-cmd stream') of damon:damon_aggregated DAMON
+tracepoint.  By pausing and resuming the DAMON execution, I was able to
+see the trace stops and continued as expected.  Note that the pause
+feature support is added to DAMON user-space tool (damo) after v3.1.9.
+Users can use '--pause_ctx' command line option of damo for that, and I
+actually used it for my test.  The extended drgn-based selftests are
+also testing a part of the functionality.
+
+Patches Sequence
+================
+
+Patch 1 introduces the new core API for the pause feature.  Patch 2
+extend DAMON sysfs interface for the new parameter.  Patches 3-5 update
+design, usage and ABI documents for the new sysfs file, respectively.
+The following five patches are for tests.  Patch 6 implements a new
+kunit test for the pause parameter online commitment.  Patches 7 and 8
+extend DAMON selftest helpers to support the new feature.  Patch 9
+extends selftest to test the commitment of the feature.  Finally, patch
+10 updates existing selftest to be safe from the race condition using
+the pause/resume feature.
+
+Changelog
+=========
+
+Changes from RFC v5
+(https://lore.kernel.org/20260323231538.84452-1-sj@kernel.org)
+- Rebase to latest mm-new.
+- Drop RFC tag again.
+Changes from RFC v4
+(https://lore.kernel.org/20260322155728.81434-1-sj@kernel.org)
+- Fix typo: selftets.
+- Fix wrong selftests kdamonds resume iteration.
+Changes from v1 (or, RFC v3)
+(https://lore.kernel.org/20260321181343.93971-1-sj@kernel.org)
+- Add RFC tag again.
+- Handle maybe_corrupted inside pause-loop.
+- Reduce unnecessary commits in sysfs.py selftest.
+Changes from RFC v2
+(https://lore.kernel.org/20260319052157.99433-1-sj@kernel.org)
+- Move damon_ctx->pause to public fields section.
+- Wordsmith design doc change.
+- Fix unintended resume of contexts in multiple contexts use case.
+- Rebase to latest mm-new.
+Changes from RFC v1
+(https://lore.kernel.org/20260315210012.94846-1-sj@kernel.org)
+- Continuously cancel new damos_walk() requests when paused.
+- Initialize damon_sysfs_context->pause.
+- Make sysfs.py dump-purpose pausing to work for all contexts.
+
+SeongJae Park (10):
+  mm/damon/core: introduce damon_ctx->paused
+  mm/damon/sysfs: add pause file under context dir
+  Docs/mm/damon/design: update for context pause/resume feature
+  Docs/admin-guide/mm/damon/usage: update for pause file
+  Docs/ABI/damon: update for pause sysfs file
+  mm/damon/tests/core-kunit: test pause commitment
+  selftests/damon/_damon_sysfs: support pause file staging
+  selftests/damon/drgn_dump_damon_status: dump pause
+  selftests/damon/sysfs.py: check pause on assert_ctx_committed()
+  selftests/damon/sysfs.py: pause DAMON before dumping status
+
+ .../ABI/testing/sysfs-kernel-mm-damon         |  7 ++++
+ Documentation/admin-guide/mm/damon/usage.rst  | 12 ++++--
+ Documentation/mm/damon/design.rst             |  7 ++++
+ include/linux/damon.h                         |  2 +
+ mm/damon/core.c                               |  9 +++++
+ mm/damon/sysfs.c                              | 31 +++++++++++++++
+ mm/damon/tests/core-kunit.h                   |  4 ++
+ tools/testing/selftests/damon/_damon_sysfs.py | 10 ++++-
+ .../selftests/damon/drgn_dump_damon_status.py |  1 +
+ tools/testing/selftests/damon/sysfs.py        | 39 +++++++++++++++++++
+ 10 files changed, 117 insertions(+), 5 deletions(-)
+
+
+base-commit: c12c06c4198f28d4d2bb48cc9608dbbfb020bf43
 -- 
-2.53.0
-
-
+2.47.3
