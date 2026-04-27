@@ -1,50 +1,49 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3AF2FFDE1;
-	Mon, 27 Apr 2026 09:51:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C26C3B38BB;
+	Mon, 27 Apr 2026 09:53:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777283501; cv=none; b=slrsSUX4oWYZ9k2b46HYIKRFF9VnQOuRZCCJC92awWu3j5z4N2QNaxyhhPEqE8g5Tpc7IiaM3eOesLCUu72CT+Bf7B0g7Bc6wp6kO2ZenI0qd8JTvqoyTrJzgs5tffzeu02HM6Ql1VsKKtqrBndwKDWUpuokZEo1JYWEdjDAdAk=
+	t=1777283630; cv=none; b=b25FHGn4WE/7eW4j/PaYyI15mbTFboeSJNqyll4mrBblHBLldDhmAsdbdgdV9r+rbJywUXovyeq/KfwrZStP562C0koapaSA1ppfktXnya7cPRSKwKZ0UgYZ056e75Ae0+a2ArlX/Kpf+2QRVSNqwXZS1KSQreTrrWEnzgLNtMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777283501; c=relaxed/simple;
-	bh=Kj6PQx4RerOpWgc0G4nt/I29ZZ1s0Mnhgll4A9+2ZFM=;
+	s=arc-20240116; t=1777283630; c=relaxed/simple;
+	bh=ea+Mvx5S01M4VKG0AyGoyugnnnZfJlNqJxhN+zmQIxg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=cZsq+m6x/irLaf49jO2mn/Ou3jWGhEbuGnsx+uQZcphc9eHq9Pi/+Rmc+x0aE5TN5cxJ25XaU5JHXpG5tUwFmcdL9M+EjirRgtCkRXHqDOELZmUlMNG0u/AxxWH3dWjQaasEkkVFxS3KDqtBcI6dbkzA8IbpNahsrQCmchoMM3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=dJ5FQ6tW; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=QxzU7l/NEyJnF94Z37XA/RUeNXZps1ZugyATTod2kH22gmmVHmUXK6X/hdzNGulln0wCU89ZAgPtJfk3dRgrPeSP1xLI7W763uAG6YBLFPuV7wuyEGaYxhLrlIgA+CROfdXKfwo0Bxaq771KqedeDccPWgiw6dPYixqzWC961PU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=s4DiWQwl; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="dJ5FQ6tW"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net D2FA542B3D
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="s4DiWQwl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3E37C41098
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777283499; bh=U24W61a/YNqgXNzTblTVizxNJMBlhwv2QrqYIkMe9VQ=;
+	t=1777283059; bh=O88PCqcFi/EeosDz7K3Y0PjI72DPvObH/v0jHWveF2Q=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=dJ5FQ6tWKgyAF6jjFtQ4OOOm4xXHPG9W6DpztzKlFulKnALB/vCJHqDaL6vYOEa6v
-	 KoKEFzsJSm7fiDeXLA/0jqRZEEcgAKJyCz9IS1R0WDpTtWhOxYUWVq8oHMPHj9JgVw
-	 UY/kP8z82suf68ewf3WON44ZRJ9WhRXgLd/pkLo9kjZvCLpIPjujNSmyk4jPAAQSSR
-	 xUdmlsL8Z3tED1QPpjrTep5ax5O7hR77R+9QHlYUMBR7GTKUkd28hlevSrtwoxqRbz
-	 3ThM6Sn+HELH9tMzOURezCwLo5TXZts0lYuNWDdudpymU47qsa1WQlE1hl43GbOnfK
-	 EuxaekXVzq/cg==
+	b=s4DiWQwlJqaXywKjxSGy/4tPBS4g6Ew8+6vww9MiJwv+2uYfDVsbnXnDlfn/2n64I
+	 SV3+DZjxEQUzd1KY1y+KyhcF44cnLmtECKfoayawH1aSgYHVtBkS877RnZKgjL0sRx
+	 TfZTaNDF/AjGHU1jQw8aACrjxXbcI1Y2GjfkldbbSXfKft80LBCkAWlZryvwMYCDWn
+	 c6kTxCGdVv4E3OC3W7JoJuxOnjhSTT2gwA1TeTj5jnjfOxPehuTWf7X8txYu+kvOrl
+	 KIrl5ktppGGQ6DI+I36JFQHtJUOAneGh65WPm0qe2cem3ngSROhtrBl32jjRaQVD9o
+	 CFzbc9ZnGULAQ==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id D2FA542B3D;
-	Mon, 27 Apr 2026 09:51:38 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 3E37C41098;
+	Mon, 27 Apr 2026 09:44:18 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, Kees Cook
- <kees@kernel.org>, linux-kernel@vger.kernel.org
-Cc: workflows@vger.kernel.org, linux-mm@kvack.org, Geert Uytterhoeven
- <geert@linux-m68k.org>, Manuel Ebner <manuelebner@mailbox.org>
-Subject: Re: [PATCH v3 3/3] Documentation: deprecated.rst: kmalloc-family:
- mark argument as optional
-In-Reply-To: <20260424175740.258522-2-manuelebner@mailbox.org>
-References: <20260424174743.257951-2-manuelebner@mailbox.org>
- <20260424175740.258522-2-manuelebner@mailbox.org>
-Date: Mon, 27 Apr 2026 03:51:35 -0600
-Message-ID: <871pg0ras8.fsf@trenco.lwn.net>
+To: Gabriele Monaco <gmonaco@redhat.com>, rdunlap@infradead.org, Steven
+ Rostedt <rostedt@goodmis.org>, Gabriele Monaco <gmonaco@redhat.com>,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: matteo.martelli@codethink.co.uk, skhan@linuxfoundation.org
+Subject: Re: [PATCH] Documentation/rv: Replace stale website link
+In-Reply-To: <20260427085526.111835-1-gmonaco@redhat.com>
+References: <b845c448-1655-4860-9b6d-93d6f8426740@infradead.org>
+ <20260427085526.111835-1-gmonaco@redhat.com>
+Date: Mon, 27 Apr 2026 03:44:15 -0600
+Message-ID: <875x5crb4g.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -53,47 +52,36 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
+Gabriele Monaco <gmonaco@redhat.com> writes:
 
-> put the optional argument (gfp) in square brackets
-> add whitespace for readability
+> The sched monitor page was linking to Daniel's website which is now
+> down. The main purpose of the link was to point to a source for the
+> models from the original author and that can be found also in his
+> published paper.
 >
-> eg. ptr = kmalloc_obj(*ptr, gfp);
->  -> ptr = kmalloc_obj(*ptr [, gfp] );
+> Replace the link with a reference to Daniel's "A thread synchronization
+> model for the PREEMPT_RT Linux kernel" which can be found online and
+> includes the models definitions as well as the work behind them (not the
+> original patches but since they're based on a 5.0 kernel and are mostly
+> included upstream, there's little value in keeping them in the docs).
 >
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
 > ---
->  Documentation/process/deprecated.rst | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  Documentation/trace/rv/monitor_sched.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index fed56864d036..b431993fd08e 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -392,12 +392,12 @@ allocations. For example, these open coded assignments::
+> diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+> index 0b96d6e147c6..661171bd7c5e 100644
+> --- a/Documentation/trace/rv/monitor_sched.rst
+> +++ b/Documentation/trace/rv/monitor_sched.rst
+> @@ -365,4 +365,4 @@ constraints when processing the events::
+>  References
+>  ----------
 >  
->  become, respectively::
->  
-> -	ptr = kmalloc_obj(*ptr, gfp);
-> -	ptr = kzalloc_obj(*ptr, gfp);
-> -	ptr = kmalloc_objs(*ptr, count, gfp);
-> -	ptr = kzalloc_objs(*ptr, count, gfp);
-> -	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
-> -	__auto_type ptr = kmalloc_obj(struct foo, gfp);
-> +	ptr = kmalloc_obj(*ptr [, gfp] );
-> +	ptr = kzalloc_obj(*ptr [, gfp] );
-> +	ptr = kmalloc_objs(*ptr, count [, gfp] );
-> +	ptr = kzalloc_objs(*ptr, count [, gfp] );
-> +	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-> +	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
->  
+> -[1] - https://bristot.me/linux-task-model
+> +[1] - Daniel Bristot de Oliveira et al.: A thread synchronization model for the PREEMPT_RT Linux kernel, J. Syst. Archit., 2020.
 
-Marking the GFP argument as optional is fine, but the documentation
-should surely say what the default is.
-
-There are, of course, other kmalloc()-related entries in that file that
-could use an update, but that is a job for another time, I guess.
-
-Thanks,
+Since, as you say, it can be found online, is there a reason not to
+include a link here?
 
 jon
