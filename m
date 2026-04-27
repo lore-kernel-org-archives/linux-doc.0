@@ -1,145 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54EA3EDAA2;
-	Mon, 27 Apr 2026 18:56:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777316190; cv=none; b=GEA/u9dmM6L92+4YJfZW7vd7vftP0J2/w1G6X9qFm6OokUz3pYaCMiUcI0BBMnDBTc3weAbCPy/6/pX+jOLeR4IEnImRfWb93e6qiFv4tiaTwH1Nm2SXJUrw/kfkQO+acCma765Ayvfycxvj5JjdKfwpQeaww+ln0LZS2tR+1D4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777316190; c=relaxed/simple;
-	bh=MpePPJ1H5FdPyHmRmIns0IGr3K1GdEibm8qRgpRvHlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSgtjP+MUnIecr+YtrmJcRGnC6vWgnWc5xWQLQ2JPMSajMKmi4Ai1iaaFInhA2K3on3jV1vovM2KTl0Vy2pw4U12X6Ukwi9nxtK0QUgMeArTBkfHAY6a1CvLfBULqzpdUGkXjZybXtmL8QrmLOzqKJlx7rMyDX0D259ILMXE4d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G9238WJ7; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C5C03E8C59
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:57:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.171
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777316242; cv=pass; b=UKqFgzcwH7bb6K8auwzPSbemqkDHd2luijQPdy+ESrc9qmEktKFImvAN0aSJgnvSmrdjUYg7uo4C6m68410in5BwZMFpLxpcJSu85gx8aYBpCbF0ucPpScwImvy6e4F/FRPxIcYOVFgrnKYd2ty/82SQCvBO/jmZyUyglr95zNc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777316242; c=relaxed/simple;
+	bh=DDNNIqkIGd79GFDvWgXKCnKvFpN60AdJ3nOosKMNMyk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=oGMQZCk7Fn6i1EQO0XlHPQ8BaqPsF0gCSOltvtIGK7qaKrXLc34vejVYCtdOrfHTNNTqfr4wOqLs3UtLU0F7uRAO/NQR2yaEzPq47UN2A8g/GsCn5OiK3OPe2t/Ve8qqlAOWBemYD11fO1RgFKqFF9e7VS4nDe61LBbvVDmV+IQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=UclVOq1t; arc=pass smtp.client-ip=209.85.208.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G9238WJ7"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F0876C19425;
-	Mon, 27 Apr 2026 18:56:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777316190;
-	bh=MpePPJ1H5FdPyHmRmIns0IGr3K1GdEibm8qRgpRvHlM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G9238WJ7iV4t1t3oKjhnDqXFZakWlqZ4NNess3dlMDMIZDHFzAz+6JpkMSch/DGdq
-	 yqRIdGKSMaWAyjx2gBngUZs5V4pr2d5q93yVOB3ZvorK6njgG5HQgFeuDEtn0oRHXF
-	 Ckwmx05EscNn7uKnmfgSB+miF+SNL+JE9vaSYRwImrmW+Ot2mJKBqA7a6Nyv/IjMcw
-	 bUtDgf8BO0YijpQhD1orjHfpR3dfUMxKBSl2P06VHVraZvhkcBFNBcaS1Y+7bBLpE3
-	 MaTPGUsbci4BfS2Q1OcojHi9GuML14TlOK15iKFoR3hB5d2dIuYbrWifEuU9CaLMO8
-	 YpkWky560Hz5Q==
-Date: Mon, 27 Apr 2026 14:56:28 -0400
-From: Sasha Levin <sashal@kernel.org>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
-	corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com,
-	vbabka@kernel.org, rppt@kernel.org, surenb@google.com,
-	mhocko@suse.com, skhan@linuxfoundation.org, jackmanb@google.com,
-	hannes@cmpxchg.org, ziy@nvidia.com, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sasha Levin <sashal@nvidia.com>, Sanif Veeras <sveeras@nvidia.com>,
-	"Claude:claude-opus-4-7" <noreply@anthropic.com>
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-Message-ID: <ae-xXHUGfDiFcBUk@laps>
-References: <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org>
- <aeuC6TJ4XowazVZj@laps>
- <aeuFnuiYDBjttEKt@plex>
- <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org>
- <aev-DS4YTp5soVPd@laps>
- <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org>
- <aezt96xgz_qyf4d-@laps>
- <f910969d-1071-4174-bd42-da45cb6f9749@kernel.org>
- <ae9ucgtCNf0JQtGu@laps>
- <c50aeb03-538b-4dca-9a81-ab84bc19a333@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="UclVOq1t"
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-38e7d984096so116260731fa.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 11:57:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777316239; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Yp7VkQJ0NGNyAFmL3Ek91PWhmmip5NZ4ydCLg+LphbC1GqMNXwKcr3VWip4whAV9p+
+         3uTm4PQ5zOJyofppH9v21XvcSR4lNOG4Qvh+fKppcvgdowc9uT8/98ds6H0IUD/4ioXa
+         bmYXLu8Rq/LKjz39nVwKWel4VPMVt5gJSINxT9HfGzBfeDTBSmGv0NXGnMXPdoXq2zbo
+         eJPxL0UjdVtfS6/OOJPDS7i53PIW0OccEcHcSrUPXI174ENNRSp1MZ8OslYP/+FlpjON
+         mvH0G0TDJntyStJF1mK2JLcMrCUneu8HMITd93hv/O0OP3KlnwhF4ZFqEP4DppaWwOQl
+         0Z1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=wr02yN3/yZBXI2xon5jDCKdawxJYqqpUq3piVXy5yYI=;
+        fh=r8fChdrV74iYvqH1qCuxwSDJvVWZlLjK8YbeoHds3CY=;
+        b=kDXocvHMk8AU4y1tjw49aUtg9cUYihyB2afbVaT9hU0j0VCk4BdI+smVcXfsKq48Gy
+         G7BDYiydRYCJnEr+gyHTq9aw/leElRu+4DKN4IoMROWrq4aXQnZ/K+YwkzJ3VXi17p5k
+         LTho26RPTB79apcU0Y8dfxjxJwIP53oOgNscfDLbdDrvc2dzabO/Zn1isGMC1D7OUGuK
+         wwYvgyxKdkVMiKocM5UjPV80pzf7qfCptYG7YpELfnAhA74l2McLI2nT6eH82rRtV8wV
+         oBWUUi+VcnpjCCM18YSW6vFdT2wXLZRcgx8g4NVC7iy/EQf0RM2lCIia0TBERarKyTvv
+         d4lw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777316239; x=1777921039; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wr02yN3/yZBXI2xon5jDCKdawxJYqqpUq3piVXy5yYI=;
+        b=UclVOq1td6B5U0mvtxgD4CZ0pGhK6883kjDt84nzaVhA5Lfmv0O4Hk5sjFuTfaoSoZ
+         s02Fct0MiWn2RR1lAu/SLpVhys+/zvqSVnGTJHz2/UNyyaEitRJ8EHpBZmsFaGyOxqjf
+         t4csL9I8X9hS32t1dp8rcJHRauxr9AGAcx59JbhAHw05+2qeIzL7gnctKWCKubH9HkWn
+         7Sva5wtaNUuYrwKUC/yZL1tdzbjQg66KWK7V8+Mk7dVaYR2UFdTtXKX9W25x40wnaYXz
+         ATmLcuWAc4SzPkIkzqh8NFeBGwEt6u7fjLLBX+fBYzZ+rM07DT6rst4JIdie1jWN8j1s
+         Ddng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777316239; x=1777921039;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wr02yN3/yZBXI2xon5jDCKdawxJYqqpUq3piVXy5yYI=;
+        b=Pi15mmOrQMBfmcQ71zG6dHFlesRTmPKJ9jiVoyrnKp9aeZwoFqkfOCjKHuA4eNsUSH
+         lGpP7cs3g1dHf47TPrfHmwrvyWE8uNBZwyDVbWdIONG599jHLSVQx2x9Tsoo1fwIm+Tv
+         fwPhugFh44kI4kwDglVoZ2dfl4c6SuXAY063v2bA2iyV8N9LS3ljFWESMhC+E2fUID3A
+         DUk9si5j6g8yESE6A/tiaylx9qDeaGDVxryM0Pji6mwRZfDsiHKi8Ivm9RGho5ffx4k+
+         j1XEdVCYUDb5u4UvOJFYy+WnP0TeWidn8jA+bN6IkFfEYjvD1RtgNyci3aVQrWtz4gAl
+         K8jA==
+X-Forwarded-Encrypted: i=1; AFNElJ9OB1CSaHZCRaMOrBVT0ngrM+iUG1QR534u0/UMI5S4Ng5C7pk+CZ0beVbk2RufTi5NH3TSj1z36YA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywn6M9tB+6QXYyHL1645JY0czKd/WPJlhmjTifVFJ3T0xIYd2fP
+	yK6TdvGTIlw4puAaitfaK0oTvL3ylI7FtDuZ/+rZRjarOIE1VFqxazqVVPwLT0wEbmyzqwlrqlT
+	OzfsBliqITj6W6QICqr3OpPGLXFuZUA/rih0Ya/Ex
+X-Gm-Gg: AeBDiet/JLiJUypccyeqNHecCbhXNbT6VszhlObPUOPxZRQbvqJ8xS0gmfFOWCqZXCb
+	5syhzUMwYe35nuKDcEaD0FEEDJFZfzaH0hIpS3L+6RD3qQt6U2ahsUTfj1qvviaoJ+Y7fNka48a
+	Zgt+uDEp+jcHJCoMQB5MtqXr396RdPBEjZDFtpdqgZtUqiGtaTwjdzMtt1tSJZyRvSmoI98WyxW
+	8M0xVg0uI7dKZpUwXyfZZ+tIRUhGpAVBsZE+ExQuTui9umDogd3ZoyKbNDUW55rOARwppatmqdH
+	LLiw5+m55Jw15k0qzmhvjh8cRN9RZQ==
+X-Received: by 2002:a05:6512:3c98:b0:5a4:b18:427e with SMTP id
+ 2adb3069b0e04-5a7466047eemr34628e87.1.1777316239065; Mon, 27 Apr 2026
+ 11:57:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <c50aeb03-538b-4dca-9a81-ab84bc19a333@kernel.org>
+References: <20260423212316.3431746-1-dmatlack@google.com> <20260423212316.3431746-3-dmatlack@google.com>
+ <20260427085725.00005283@linux.microsoft.com>
+In-Reply-To: <20260427085725.00005283@linux.microsoft.com>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 27 Apr 2026 11:56:51 -0700
+X-Gm-Features: AVHnY4IwEsFxMBzAHVS8KxW2Zq56dU7ADRcx7gdZfScIG7qn-IMwc1DMcXI8nOc
+Message-ID: <CALzav=di-fMMPgTEzfWagRgXCWox9CB4XiRhZcVAzc3dUzzfHg@mail.gmail.com>
+Subject: Re: [PATCH v4 02/11] PCI: liveupdate: Track outgoing preserved PCI devices
+To: Jacob Pan <jacob.pan@linux.microsoft.com>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
+	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Will Deacon <will@kernel.org>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026 at 05:40:34PM +0200, David Hildenbrand (Arm) wrote:
->>>>
->>>> For something like a datacenter deployment I'd agree with you - the odds are
->>>> too low to care. For an unsupervised self driving vehicle, where there's no
->>>> human (locally or remotely) available to take over, I'd like the odds to be as
->>>> low as possible :)
->>>
->>> I thought that people usually use special RT OSes (with proven logic etc) for
->>> any safety-related systems. Using Linux on the core safety system sounds ...
->>> scary.
->>
->> RT OSes are indeed the current approach.
->>
->> s/scary/exciting ;)
->
->Not so exciting for the passengers ;)
->
->>
->>> But, I'd expect corruption of other data (user pages? page tables?) a much
->>> bigger problem than page al locator metdata? What am I missing that this here is
->>> -- in context of the bigger problems there -- a thing we particularly care about?
->>
->> You are very correct! The allocator work was fairly standalone, so it was an
->> easy first project to tackle.
->
->But in general, wouldn't we just expect ECC memory to give us an MCE, so we can
->detect what was corrupted and act accordingly?
->
->That's how it usually works: hw detects a memory corruption and injects an MCE.
->We detect that we corrupted memmap state and kill the kernel.
->
->Why does ECC not help here?
+On Mon, Apr 27, 2026 at 8:57=E2=80=AFAM Jacob Pan <jacob.pan@linux.microsof=
+t.com> wrote:
 
-It helps, but it's not enough. ECC doesn't detect all errors (For example,
-SECDED corrects single-bit, detects double-bit, but triple-bit errors can land
-on a different valid codeword).
+> > +int pci_liveupdate_preserve(struct pci_dev *dev)
+> > +{
+> > +     struct pci_ser *ser;
+> > +     int i, ret;
+> > +
+> > +     guard(mutex)(&pci_flb_outgoing_lock);
+> > +
+> > +     ret =3D liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void
+> > **)&ser);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     if (!ser)
+> > +             return -ENOENT;
+> > +
+> > +     if (dev->is_virtfn)
+> > +             return -EINVAL;
+> This can be left outside the mutex?
 
->> In general, the approach depends on what we're trying to defend from:
->>
->> 1. bugs: an ASI-like MMU enforced "context" system.
->> 2. physics: just like in most other areas - lots of redundancy. For example,
->> consider redundant variables in safety critical code which exists as two
->> copies: var_v1 = value and var_v2 = value XOR mask. When accessing them, read
->> both copies, XOR the second back, compare.
->>
->> There were a few sessions back in LPC about this. Here's the one from Bryan
->> Huntsman which gives a good overview:
->> https://www.youtube.com/watch?v=ie_ClBCed94
->
->Thanks, but I fundamentally don't understand how RAS capabilities interact here?
->We have mm/memory-failure.c for a reason :)
-
-We do, but self driving safety requires way more than the current hardware can
-provide.
-
-I'll point you to https://dl.acm.org/doi/10.1145/2775054.2694348 , which
-researched these issues in a datacenter environment (so no sun exposure,
-temperature controlled, designed to avoid electromagnetic interference).
-
-"We call a fault that generates an error larger than 2 bits in an ECC word an
-undetectable-by-SECDED fault. A fault is undetectable-by-SECDED if it affects
-more than two bits in any ECC word, and the data written to that location does
-not match the value produced by the fault."
-
-[...]
-
-"A Cielo node has 288 DRAM devices, so this translates to 6048, 518, and 57.6
-FIT per node for vendors A, B, and C, respectively. This translates to one
-undetected error every 0.8 days, every 9.5 days, and every 85 days on a machine
-the size of Cielo."
-
-[...]
-
-"Our main conclusion from this data is that SEC-DED ECC is poorly suited to
-modern DRAM subsystems. The rate of undetected errors is too high to justify
-its use in very large scale systems comprised of thousands of nodes where
-fidelity of results is critical."
-
-The passengers you've mentioned before would be excited if they knew how high
-the bar is around their safety :)
-
--- 
-Thanks,
-Sasha
+Yes indeed. I will move it out in v5. Thanks!
