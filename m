@@ -1,151 +1,283 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07373B6C0E
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 11:15:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29CE6256C8B;
+	Mon, 27 Apr 2026 11:46:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777288541; cv=none; b=pAbhn0+bjLzfp36RvzZFWm/+cvYrlq/vY7NdAGLQRb58R++GoWBtXss8DHsPPDOr2zXC6BwqBUX1juwitI7wkfn4ea6iJAAjRnCTpBlhDhsrlU14hwEtX2073AJNbnP1zRYsTHXJHH1W+vkFhDFIp3C3r9gK39gCrkOi4QNZT1Q=
+	t=1777290377; cv=none; b=USYBsTmBZ7UG3RsFLIOCh2NTNyGkqEB0t0rRyyhhUFQvbLdc8ay3zS+jbVusvo9WBQUeghZvy67w7gakr17fBVxhm48knHPwqFgcltqOGFnpVNUdECKZNjB+AqcsMS9KuqS6SV6OH0WZXfX78WHZHMwceYeCVgFct6vRABLLpto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777288541; c=relaxed/simple;
-	bh=zlrr2Yu1uoM/mY1F/y5KY8NvkTswYtCilqPxh/eNl9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XrPKfMx4XnfgjJddtXR8Ree5096wqnC0h51jeYGN4GDxNOG/er42YMd7bSXxWokOq2EFco7VNHH2FpRUERf92M96NjijtY1MKOSKp2Fr7TGuzsL91uiwVH+d24S12gisbdsnYdYtiZMnroMn5LOjNPw7W6UUQei+n3DXtP4npeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=FUXp3eM7; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1777290377; c=relaxed/simple;
+	bh=yH/KPwWvmfYCExNGgLiDTlHxi4/ezYbz7xmeMUYZTIE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sBfMYHs+LpZzEz6YuJ2qxeAbXAtKL1Y/yTWTtjIYGf85FT3INXIQ9qFa8iXaEMH+4j1gY0B7MplUMWcKr8MlqEtoUrK44MzMKdPnwESVo0FyoAoAP5gHyCw3ozsgpuxQpSWD5PCR4Rstfcswfnm7BuD+Hdkt2YQMjK2L7N5IX7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Laks6fkq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="FUXp3eM7"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-82f83bd32efso7524534b3a.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 04:15:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1777288539; x=1777893339; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=4Rje4x4SovYBJkB2QxRF5jrWyY5IZK3xvV8YvRMucwE=;
-        b=FUXp3eM7naSgV5IwSdhb6InelulGm26+3yaMSmn9fP/RcPVquIXPhJ92iTZZd/4f1H
-         Jg5KkWaq3ByGm0OeTLTgshlVH4MrSRVkmetSPlg7+eqd84FlY8eWUsSBefWflYUJBXzA
-         RWbNtfaWxPdTnYe7LQ7/1OJK+sYFis1cZSJk90frWxFAYyYwH/5eYTgrieAecr+IneeN
-         tZPp6syW9Kq5pGdGrkNl2F9ZxLWi7bE6cOiXK7WrlsEP2Bolee6AmVvndulSqiteR5hJ
-         QE8H2Ok3tZEkpHLv5Wu3mQgzioMjrddXjbG64pBaLjFGJc0VVXhIqRmwvPx3PhDxcwEt
-         RLGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777288539; x=1777893339;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4Rje4x4SovYBJkB2QxRF5jrWyY5IZK3xvV8YvRMucwE=;
-        b=DuhlFuG1A+TlW8TF345Y0TQ5K1ya7VPAFrOdJ/3e7gO0InHuR5XwWnt1/vhxsrKDB2
-         LNlzKt0M4ObsMTwGYF62/FFeRKXxe7MjkKTj6OI3A6wNy+X6x3wYvt61NuO5SZLdrvwM
-         /Ic+uzqYB+cuTxVAX9E3Wrrz6NHKnuDDbJPHquj1mwA/8Y4MEJtcXmED9VHMMKcBjgD2
-         v0kJ6sQvJbag9r6dj+NVAsW978fKQ8p4bOoiyezsLYLmwEAE5Pn9XIeD8/AIApOMb8wf
-         lYFwRpTnmV5i8GEwBS+UquM2U/1M6B35HAHOImaxGwhYA1wE+vfpBPa1iLoB+18M9QT7
-         U85A==
-X-Forwarded-Encrypted: i=1; AFNElJ/sWRWg2HFrm52jUwnD7s/VDu3Ny2Epg6rwwIW/FNd5bshqPlPmLAICHNHJPvha4pYKi9jDaP3BjJE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF9GM/MzJvQmXXelAKhQlxL9tn8VBRBb1Q1bjh4BHE37zVvd8b
-	5gQllK3vIZ2Ue8PCwHY2RpBJ78jhVxqqtuOeEiCIyemabjDu4OekLa/LcnR/4aonhR4=
-X-Gm-Gg: AeBDietkmx+Z2Ar8SwTgEuv6Q/eSv2lSQHsAeBhs5QFRlZSL1AZBVIuQH6eMX3KpxLg
-	t6dw3ar6UN7MnJzsVrRtjPTmJiIEPDYqJCQKwJJoohgXdlN3367FR9YkL2onLJqijStOzfiC9JY
-	g8tk/TruO0izfWFuYFeIFGONnwkNtZq4Smn+BblexawItovH5Ha1UntLjLthdOpck4JuP0TYVJp
-	8dq7qlxWvMWRr3abaKG7RDxdA33ooqkUq3rXY41X8DEeDew21tduCMq4xrh69vF9W+R6FibtSqt
-	9guBsrellMyhZqT1QQ2E84HaahBDe3I1jFta7MmFBiRDhLxol05BadQ6OJJxLWZxmXGQn+7q5q4
-	HO/q1HE3huNwjtFXNCmPL8N2B0vZ05QC+Fg9TfaSq+6etRncZ0ha8XwxNLZDxRDAAciXgY++oBx
-	UpOnda25qNr7NzQ/FMndgUSqpdvU+wmP9F0J6FwwikB9gijv3KkOSCoYg2Va926djaiaVYJ6Yrj
-	VOaQy4=
-X-Received: by 2002:a05:6a00:2e15:b0:82f:f4d:23c1 with SMTP id d2e1a72fcca58-82f8c943269mr42638930b3a.44.1777288539329;
-        Mon, 27 Apr 2026 04:15:39 -0700 (PDT)
-Received: from TAO-BU2-SWA-3 (60-250-242-163.hinet-ip.hinet.net. [60.250.242.163])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-82f8ec0307esm32600350b3a.53.2026.04.27.04.15.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 04:15:38 -0700 (PDT)
-Date: Mon, 27 Apr 2026 11:15:34 +0000
-From: Brian Chiang <chiang.brian@inventec.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 2/2] hwmon: (pmbus/lx1308) Add support for LX1308
-Message-ID: <sin7miac7dzupdvtnrngzvnkqqqqaojb7ige6465gajigiezsa@o3gsylu4shig>
-References: <20260422-add-support-lx1308-v1-0-9b8322f45aae@inventec.com>
- <20260422-add-support-lx1308-v1-2-9b8322f45aae@inventec.com>
- <20260423-simple-uber-labrador-0b9b36@quoll>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Laks6fkq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32902C2BCB8;
+	Mon, 27 Apr 2026 11:46:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777290376;
+	bh=yH/KPwWvmfYCExNGgLiDTlHxi4/ezYbz7xmeMUYZTIE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Laks6fkqlGrot57VY5VoYz1XsRHsmm3QMv4Da6Byfv5wtiikI6POdsFAOgSf62PoC
+	 J5CUeu6fu4eGLG9C8GWHyHNHkyx5nOQAPVI6hys3uauXtja5cwSB6lo3BzMhJzNPPZ
+	 zsEvM7+KLz/x0zK+JbAlCH3lhpKRbtgXQ8WKBkHtIMz5/qaaGMa4/yZKDIvwm+lYMi
+	 3/0+t8m99/xtDbKqQ6+i/YMWNN9s78gU7PpYwCWbjCTJlV1EBNsjK7CuE3Qa7eNWlP
+	 lLnxYvI6wautyXQkrf3nE6eKOgn9uLRi5wNDwmfoPoz+GDSCOVXxlqW9pApsuzf10M
+	 CBjAH//mS8ifg==
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 4F817F40069;
+	Mon, 27 Apr 2026 07:46:15 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Mon, 27 Apr 2026 07:46:15 -0400
+X-ME-Sender: <xms:h0zvaX04mV6K3HGSrWdzZF_Q9N9v_GmRtkxHT9NiM6sgsnat9C8QMw>
+    <xme:h0zvaaCiYzeKikQ8bpaHOB3Fdqjmmu5tKYs5tBd_ABY_hBDn7zpxBC6KhGVYGPKXb
+    oywxSMQXpwCnWTJryQgOQApHx1CrrVX169K7-reY_lA83pdtrm7JNM>
+X-ME-Received: <xmr:h0zvaQY-xQ0py8uPPf8RTeQSmFRoXJu_wNef5M1btw93PSxHYQJ7miY7ouQ9IQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeeiudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofggtgfgsehtkeertdertd
+    ejnecuhfhrohhmpedfmfhirhihlhcuufhhuhhtshgvmhgruhculdfovghtrgdmfdcuoehk
+    rghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnhepvdelveehjeejveevte
+    fgjedvhfdtffethffhteetgfekjeefgfekudfhtdfhhefhnecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtphgruh
+    hthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedqkhgr
+    sheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtghpth
+    htohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrkhhpmheslhhinhhu
+    gidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheprhhpphhtsehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughhrghtrdgtohhmpdhrtghpthht
+    ohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhjsheskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgtphht
+    thhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrdhhoh
+    iflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughirgdr
+    tghomh
+X-ME-Proxy: <xmx:h0zvaWbdGObNdKtk5BVuGEwjA5Uw-YZh9cd-mkk7ICv5M3Sh8dQFyQ>
+    <xmx:h0zvaRk7UKzLmWTivA8YzKR-zSXK_NjlBjz7bColJlaMzg67mqzr-Q>
+    <xmx:h0zvaYSxlpvZeAWey6bwculxjei_KQ077EPqFCEWk2ke-z1DXGVFgg>
+    <xmx:h0zvaWVTRxDYoBmIWX3om8TV_PSOjuWD3EFhaOCfsdPIkslRLl6c0g>
+    <xmx:h0zvaetuCdPPBM1yLDMoMkcrz9K5lX6r65F9nMzV_83pTU648RSMTHl1>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 27 Apr 2026 07:46:13 -0400 (EDT)
+From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
+To: akpm@linux-foundation.org,
+	rppt@kernel.org,
+	peterx@redhat.com,
+	david@kernel.org
+Cc: ljs@kernel.org,
+	surenb@google.com,
+	vbabka@kernel.org,
+	Liam.Howlett@oracle.com,
+	ziy@nvidia.com,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	jthoughton@google.com,
+	aarcange@redhat.com,
+	sj@kernel.org,
+	usama.arif@linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kernel-team@meta.com,
+	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
+Subject: [PATCH 00/14] userfaultfd: working set tracking for VM guest memory
+Date: Mon, 27 Apr 2026 12:45:48 +0100
+Message-ID: <20260427114607.4068647-1-kas@kernel.org>
+X-Mailer: git-send-email 2.51.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20260423-simple-uber-labrador-0b9b36@quoll>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+This series adds userfaultfd support for tracking the working set of
+VM guest memory, so a VMM can identify cold pages and evict them to
+tiered or remote storage.
 
->> +
->> +static struct pmbus_driver_info lx1308_info = {
->> +	.pages = 1,
->> +	.format[PSC_VOLTAGE_IN] = linear,
->> +	.format[PSC_VOLTAGE_OUT] = linear,
->> +	.format[PSC_CURRENT_IN] = linear,
->> +	.format[PSC_CURRENT_OUT] = linear,
->> +	.format[PSC_POWER] = linear,
->> +	.format[PSC_TEMPERATURE] = linear,
->> +
->> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT
->> +		| PMBUS_HAVE_IIN | PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT
->> +		| PMBUS_HAVE_PIN | PMBUS_HAVE_POUT
->> +		| PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP
->> +		| PMBUS_HAVE_STATUS_INPUT,
->> +
->> +	.read_word_data  = lx1308_read_word_data,
->> +	.write_word_data = lx1308_write_word_data,
->> +};
->> +
->> +static const struct i2c_device_id lx1308_id[] = {
->> +	{ "lx1308" },
->> +	{ }
->> +};
->
->All ID tables should be next to each other, usually just before the
->struct with driver.
+== Problem ==
 
-Will reorganize in v2 - i2c_device_id and of_device_id tables grouped
-together immediately before struct i2c_driver.
+A VMM managing guest memory needs to:
 
->
->> +
->> +MODULE_DEVICE_TABLE(i2c, lx1308_id);
->> +
->
->...
->
->> +	if (ret != 12 || buf[0] != 'V')
->> +		return dev_err_probe(&client->dev, -ENODEV,
->> +				     "Unsupported Manufacturer Revision '%s'\n", buf);
->> +	return pmbus_do_probe(client, &lx1308_info);
->> +}
->> +
->> +static const struct of_device_id lx1308_of_match[] = {
->> +	{ .compatible = "luxshare,lx1308" },
->
->Where is the rest of your compatibles? Do not document ABI which is
->unused. submitting-patches in DT forbids that.
+  1. detect which pages are still being touched (working-set
+     tracking);
+  2. safely evict cold pages to slower tiered or remote storage;
+  3. fetch them back on demand when accessed again.
 
-Addressed in the patch 1/2 reply: the variant compatibles encode only
-mechanical differences (pin length, pin-14 assignment, output cap) that
-are invisible to software. In v2 I will drop them from the binding and
-move to trivial-devices.yaml with a single "luxshare,lx1308" compatible.
+== Approach ==
 
->
->> +	{ }
->> +};
->> +
->> +MODULE_DEVICE_TABLE(of, lx1308_of_match);
->
->Best regards,
->Krzysztof
->
+UFFDIO_REGISTER_MODE_RWP is a new userfaultfd registration mode, in
+parallel with the existing MODE_MISSING / MODE_WP / MODE_MINOR. It
+uses the same mechanism on every backing -- anon, shmem, hugetlbfs:
 
-Best regards,
-Brian
+  - PAGE_NONE on the PTE (the same primitive NUMA balancing uses)
+    makes the page inaccessible while keeping it resident;
+  - the uffd PTE bit (the one MODE_WP already owns) marks the entry
+    as "userfaultfd-tracked" so the protnone fault path can tell an
+    RWP fault apart from an mprotect(PROT_NONE) or NUMA hinting
+    fault.
+
+VM_UFFD_WP and VM_UFFD_RWP are mutually exclusive per VMA, so the
+same PTE bit safely carries both meanings depending on the
+registered VMA flag.
+
+In sync mode, the kernel delivers a UFFD_PAGEFAULT_FLAG_RWP message
+to the registered handler, and the handler resolves the fault with
+UFFDIO_RWPROTECT clearing MODE_RWP. In async mode
+(UFFD_FEATURE_RWP_ASYNC), the fault is auto-resolved in-place: the
+kernel restores the original PTE permissions and the faulting thread
+continues without a userfaultfd message ever being delivered.
+Userspace then learns which pages were touched by reading
+PAGE_IS_ACCESSED out of PAGEMAP_SCAN -- pages whose uffd bit is
+still set were not re-accessed since the last RWP cycle.
+
+UFFDIO_RWPROTECT is the protect/unprotect ioctl, mirroring
+UFFDIO_WRITEPROTECT.
+
+UFFDIO_SET_MODE flips RWP_ASYNC <-> sync at runtime under
+mmap_write_lock(), so a VMM can run in async mode for detection and switch
+to sync for race-free eviction without re-registering the userfaultfd.
+
+== Typical VMM workflow ==
+
+  /* arm */
+  UFFDIO_API(features = RWP | RWP_ASYNC)
+  UFFDIO_REGISTER(MODE_RWP)
+
+  /* detection cycle */
+  UFFDIO_RWPROTECT(range, RWP)
+  sleep(interval)
+  PAGEMAP_SCAN(!PAGE_IS_ACCESSED) -> cold pages
+
+  /* eviction */
+  UFFDIO_SET_MODE(disable = RWP_ASYNC)                  /* sync */
+  pwrite(cold) + fallocate(FALLOC_FL_PUNCH_HOLE, cold)  /* races trapped */
+  UFFDIO_SET_MODE(enable  = RWP_ASYNC)                  /* resume */
+
+== Series layout ==
+
+Patches 1 to 3 are preparatory:
+
+  1: decouple protnone helpers from CONFIG_NUMA_BALANCING.
+  2-3: rename _PAGE_BIT_UFFD_WP, pte_uffd_wp() and friends to drop the
+       _WP suffix, since the bit now carries WP and RWP meaning
+       depending on the VMA flag. The SCAN_PTE_UFFD enum's ftrace
+       output string is intentionally kept as "pte_uffd_wp" so
+       trace-based tooling does not silently break.
+
+Patches 4 to 7 add the in-kernel mechanism:
+
+  4: VM_UFFD_RWP VMA flag and CONFIG_USERFAULTFD_RWP.
+  5: MM_CP_UFFD_RWP change_protection() primitive (PAGE_NONE +
+     uffd bit, plus a RESOLVE counterpart).
+  6: marker preservation across swap, device-exclusive, migration,
+     fork, mremap, UFFDIO_MOVE, hugetlb copy, and mprotect().
+  7: handle VM_UFFD_RWP in khugepaged, rmap, and GUP.
+
+Patches 8 to 12 wire the userspace surface:
+
+   8: UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT plumbing.
+   9: RWP fault delivery and exposure of UFFDIO_REGISTER_MODE_RWP.
+  10: PAGE_IS_ACCESSED in PAGEMAP_SCAN.
+  11: UFFD_FEATURE_RWP_ASYNC for async fault resolution.
+  12: UFFDIO_SET_MODE for runtime sync/async toggle.
+
+Patches 13 and 14 are tests and documentation.
+
+== Notable changes since the RFC ==
+
+  - MODE_MINOR-extension dropped in favour of a dedicated MODE_RWP;
+    UFFDIO_DEACTIVATE replaced by UFFDIO_RWPROTECT (mirror of
+    UFFDIO_WRITEPROTECT).
+  - shmem and hugetlbfs are no longer zapped on protect; they go
+    through the same PAGE_NONE + uffd-bit mechanism as anon, so the
+    RWP semantics are uniform across all three backings.
+  - PAGE_IS_UFFD_DEACTIVATED in PAGEMAP_SCAN renamed to
+    PAGE_IS_ACCESSED; the value reported is now an "accessed since
+    the last RWP cycle" signal, scoped to VM_UFFD_RWP VMAs and
+    distinct from PAGE_IS_WRITTEN.
+  - SET_MODE scope reduced to UFFD_FEATURE_RWP_ASYNC only; the
+    runtime escalation path that auto-enabled WP_UNPOPULATED has
+    been removed.
+
+Kiryl Shutsemau (Meta) (14):
+  mm: decouple protnone helpers from CONFIG_NUMA_BALANCING
+  mm: rename uffd-wp PTE bit macros to uffd
+  mm: rename uffd-wp PTE accessors to uffd
+  mm: add VM_UFFD_RWP VMA flag
+  mm: add MM_CP_UFFD_RWP change_protection() flag
+  mm: preserve RWP marker across PTE rewrites
+  mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+  userfaultfd: add UFFDIO_REGISTER_MODE_RWP and UFFDIO_RWPROTECT
+    plumbing
+  mm/userfaultfd: add RWP fault delivery and expose
+    UFFDIO_REGISTER_MODE_RWP
+  mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+  userfaultfd: add UFFD_FEATURE_RWP_ASYNC for async fault resolution
+  userfaultfd: add UFFDIO_SET_MODE for runtime sync/async toggle
+  selftests/mm: add userfaultfd RWP tests
+  Documentation/userfaultfd: document RWP working set tracking
+
+ Documentation/admin-guide/mm/pagemap.rst     |  13 +-
+ Documentation/admin-guide/mm/userfaultfd.rst | 211 +++++-
+ Documentation/filesystems/proc.rst           |   1 +
+ arch/arm64/Kconfig                           |   1 +
+ arch/arm64/include/asm/pgtable-prot.h        |   8 +-
+ arch/arm64/include/asm/pgtable.h             |  47 +-
+ arch/loongarch/Kconfig                       |   1 +
+ arch/loongarch/include/asm/pgtable.h         |   4 +-
+ arch/powerpc/include/asm/book3s/64/pgtable.h |   8 +-
+ arch/powerpc/platforms/Kconfig.cputype       |   1 +
+ arch/riscv/Kconfig                           |   1 +
+ arch/riscv/include/asm/pgtable-bits.h        |  12 +-
+ arch/riscv/include/asm/pgtable.h             |  59 +-
+ arch/s390/Kconfig                            |   1 +
+ arch/s390/include/asm/hugetlb.h              |  12 +-
+ arch/s390/include/asm/pgtable.h              |   4 +-
+ arch/x86/Kconfig                             |   1 +
+ arch/x86/include/asm/pgtable.h               |  56 +-
+ arch/x86/include/asm/pgtable_types.h         |  16 +-
+ fs/proc/task_mmu.c                           |  98 ++-
+ fs/userfaultfd.c                             | 246 ++++++-
+ include/asm-generic/hugetlb.h                |  18 +-
+ include/asm-generic/pgtable_uffd.h           |  32 +-
+ include/linux/huge_mm.h                      |   7 +
+ include/linux/leafops.h                      |   4 +-
+ include/linux/mm.h                           |  46 +-
+ include/linux/mm_inline.h                    |   4 +-
+ include/linux/pgtable.h                      |  22 +-
+ include/linux/swapops.h                      |   4 +-
+ include/linux/userfaultfd_k.h                |  76 +-
+ include/trace/events/huge_memory.h           |   2 +-
+ include/trace/events/mmflags.h               |   7 +
+ include/uapi/linux/fs.h                      |   1 +
+ include/uapi/linux/userfaultfd.h             |  54 +-
+ init/Kconfig                                 |   8 +
+ mm/Kconfig                                   |   9 +
+ mm/debug_vm_pgtable.c                        |   4 +-
+ mm/huge_memory.c                             | 145 +++-
+ mm/hugetlb.c                                 | 146 +++-
+ mm/internal.h                                |   4 +-
+ mm/khugepaged.c                              |  38 +-
+ mm/memory.c                                  | 123 +++-
+ mm/migrate.c                                 |  20 +-
+ mm/migrate_device.c                          |   8 +-
+ mm/mprotect.c                                |  62 +-
+ mm/mremap.c                                  |  17 +-
+ mm/page_table_check.c                        |   8 +-
+ mm/rmap.c                                    |  18 +-
+ mm/swapfile.c                                |   9 +-
+ mm/userfaultfd.c                             | 104 ++-
+ tools/include/uapi/linux/fs.h                |   1 +
+ tools/testing/selftests/mm/uffd-unit-tests.c | 734 +++++++++++++++++++
+ 52 files changed, 2124 insertions(+), 412 deletions(-)
+
+-- 
+2.51.2
+
