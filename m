@@ -1,61 +1,93 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAC57366072;
-	Mon, 27 Apr 2026 20:28:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2E2A31E844
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 20:41:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777321697; cv=none; b=MUE2A+qG/oqG6MOYrIy/0ZGRKyWQAbEq9evW4wXj9Ft7u9Ih85fydQMkGgYTo0k6DSdMU3XudL7Y+Z7xlRUTX8Bv0F/abNtH9vG6vNiGuamf460O75CTDNuF7ZSnpIvbT8AyTGQ69pbAqitf5bDJo3UKq70MAaGVljhGBlM1D9c=
+	t=1777322465; cv=none; b=FwE7N6HWM/qKjtTxPb6XJeFSaGfs8UMVrGcBHuerk9hWXJFbGwD9StPNb8/5rq/rUmY+3odG9wpr5t3ZyUyXnLWpDdLYPXaBkBf2kqPhRmMVDaec/fDA4bevefKfQcahxkAvf3SfPeGuEvRaFFp2aNlLZgQzdZK06zl0EbH3F74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777321697; c=relaxed/simple;
-	bh=V23+FncfRih0vg6hWFTVq/hfs0/6m3e5YdaqQfSqJpA=;
+	s=arc-20240116; t=1777322465; c=relaxed/simple;
+	bh=VtybxAi8wqTRTXeCEm16Hr4v3bL40QteE/s5Hrb0gmM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Cp0gOh3NrGktw1goqqwoev8s42Kw+KMzyeC1HnhHK7kTqPpP+s1kjUzcs9N9D82xujnjz+wRqt+rnCH9m6FchYJXoqr/xnDUypAdRacsCtnqjD5KA/1IXazWfmREXs8cyw20Gn7vJl47HJEokyAPOaCqRWOUu6LY67U07H/8tR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=rLlesqLi; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	 Content-Type:Content-Disposition:In-Reply-To; b=S1RdriQV72deDw3nphXpbzLCq8/hDrMAbYVf/cqYCEEB5dGn3yPtb6zVpLaWWb7DhvyMP5jQOi2Gonda6JbsLNJvI9wg+NicFgkgrklrhTlybKbYujCzQ7jutLFzPdIl9f7nkaswvhr460cB6b+hXNsh30ryd5o2HFqTkappCRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=l+74P8y5; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="rLlesqLi"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=bCKUIAH5AFpDTEzRcLChuiZZK/DaK7fLHicMM3GjPeU=; b=rLlesqLi6cgTfWUu5jNjMHVnJc
-	WFSU29sFZ7PYpE/EtDJrxlyl9K4R4lTFz3LpB3gxa3gy6IjKwY0rG8OaHwJUN5RJGxmXdMCZuuAfW
-	AhzQWMvhNGLPqSnoCVhJCMAATNyF4t3Z8rO3EO6V0Zj2ca/0yQjQaKX7UIsq5FxqX4+M=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wHSYk-000Dgw-4C; Mon, 27 Apr 2026 22:28:02 +0200
-Date: Mon, 27 Apr 2026 22:28:02 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: "Padhi, Beleswar" <b-padhi@ti.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="l+74P8y5"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-35691a231a7so7107190a91.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 13:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777322463; x=1777927263; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=4wM+QOtZ9yfNrPXhT14ztNpzNE+UB64YzKseERpnZeo=;
+        b=l+74P8y5IvcIyLCJhWfduUcJY6PExFFYPz7uwWtbcQhdHNz+n3ynRYHkqzW7G+vjGm
+         fuaW8tW8lVe6yUmC13/ZSNz1n6C1Ml1F0I144uxlRL2b0YspkmehWAZK1X0LolD68Rm4
+         j2G6tb7gaeV7op3zWdAlUQQepJ2oHb3jxYMbW1a7nQfKa/Tj5TUcCNtF9m4iRYCIGK+r
+         bbqH2ou7D+xISbfUIeRJl8moQ6zWgopeljKQ9nwGYV+J/zwB1M3oDwoc9agR5lrd3bYq
+         Jdr5a7dfzTp5lyy7V8wqooLMB8P5J+pRbEbVkJzDS5ZmXDi1FkswzutNpTATkTRgnElg
+         tx1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777322463; x=1777927263;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4wM+QOtZ9yfNrPXhT14ztNpzNE+UB64YzKseERpnZeo=;
+        b=Wt03ZBK+NSP03eKfoUgJS90BVfkAdschd18HPxi/KOqWwbv3p5S2xxrh1yb73qH9Lx
+         3rgcPYCA3J3m9aNXx/JNTmrkEw/4rNjHsLutsxnXBIdOT3EGmILzgIFAgg4E9OA3gAYo
+         74HhROHEQpHDPQ1pKbGV4TWQ9DaMAfuSyj0tMC/3tOaao/JrM393cmlGO6Hx/1pLaJWz
+         4WJqbmgV74/zEgPPTmeoKB/DXmCQvHlL1g9zZ4uVKBJ4vMmKDzXkbOlRMf5FZizWWanX
+         RIiCFC3hY+qVwG4ZzcPJkyeazTOD59QwDCGnfwAKo2vbx33YNyS/wQnJqs68ZMJA1qag
+         Ldzg==
+X-Forwarded-Encrypted: i=1; AFNElJ+Mhln+tUpYL4ssIvCH12Z2WvKDfgnYs8GeWBhFbwTpS0w46ea3YWwwMebTuoxkvAiANx8H1Uvhnvo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzQYDmE/iUVrwgFdxt2OyQ5yNhuvnP5jLHD0kmzluCDPmYiR6Ba
+	S7ouXOcsf2oa4nec55bCIjkMFGwiiMCMnkN81+NdOmE4+wKZdyfCqeVu7sy7DfONHg==
+X-Gm-Gg: AeBDiesuuYpKSHec7GkvuF3KHhsNFCMc5UGACcvlPx9p22V6XS1vN+g+Q4WZMg7febJ
+	AGDjLr8ikP1RjFiSTxn00+gIxdgYSF2wlLBRvrODCwgLqv8dQTfEts2M64wpJ5e5LYdORLQWsgn
+	IjxYmXkbLjE1BNU0JoYTXZwgtvHCcFnTi7gfKs8rW1pHnra448KwBdyP8UUYkEFCbHLpOAgyqXL
+	N4oB7/bOPFKsSRPYh2Gpq11XBpp0NjY+I9QKU9Tjab39Bk5suTMrmKMJWA8ysAvzuJSAiYVyp4n
+	0GUC0TwYS4EQuL759iKJqCpaEczVExJJwD0LQMuNoZcgzdHHiGNSwme/BH0vAvID+q/ahxSj1ne
+	AxVbQoOjEy8w5qlrv3hJEOmlcVSdhuuQ4mU0izWEKQY4TxrZuk+yOlqR8qYMdknCZy/JJiR6qOy
+	YCfR6+E9Qa8XVbaMRYyvZ0es4bvzCc0ChGUsJVem3CZdDiRO1sBdwH5lkvtBrKPxC+sx2aQagWV
+	HjZLZBvrGdgnfE7
+X-Received: by 2002:a17:902:c412:b0:2ae:57e6:616c with SMTP id d9443c01a7336-2b97c3cba0cmr1478985ad.3.1777322462621;
+        Mon, 27 Apr 2026 13:41:02 -0700 (PDT)
+Received: from google.com (76.9.127.34.bc.googleusercontent.com. [34.127.9.76])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b97ac784c5sm3813795ad.45.2026.04.27.13.41.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 27 Apr 2026 13:41:01 -0700 (PDT)
+Date: Mon, 27 Apr 2026 20:40:58 +0000
+From: David Matlack <dmatlack@google.com>
+To: Jacob Pan <jacob.pan@linux.microsoft.com>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Pratyush Yadav <pratyush@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch>
-References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
- <20260422212849.1240591-4-shenwei.wang@nxp.com>
- <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
- <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v4 05/11] PCI: liveupdate: Inherit bus numbers during
+ Live Update
+Message-ID: <ae_J2pRWFf5qjZXb@google.com>
+References: <20260423212316.3431746-1-dmatlack@google.com>
+ <20260423212316.3431746-6-dmatlack@google.com>
+ <20260427114745.00000656@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,51 +96,76 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+In-Reply-To: <20260427114745.00000656@linux.microsoft.com>
 
-> > > +struct rpmsg_gpio_packet {
-> > > +     u8 type;        /* Message type */
-> > > +     u8 cmd;         /* Command code */
-> > > +     u8 port_idx;
-> > > +     u8 line;
-> > > +     u8 val1;
-> > > +     u8 val2;
-> > > +};
+On 2026-04-27 11:47 AM, Jacob Pan wrote:
+> On Thu, 23 Apr 2026 21:23:09 +0000
+> David Matlack <dmatlack@google.com> wrote:
+
+> > To keep things simple, inherit the secondary and subordinate bus
+> > numbers on all bridges if any PCI devices were preserved (i.e. even
+> > bridges without any downstream endpoints that were preserved). This
+> > avoids accidentally assigning a bridge a new window that overlaps
+> > with a preserved device that is downstream of a different bridge.
 > > 
+> > If a bridge is enumerated with a broken topology or has no bus numbers
+> > set during a Live Update, refuse to assign it new bus numbers and
+> > refuse to enumerate devices below it. This is a safety measure to
+> > prevent topology conflicts.
 > > 
-> > Could you please document the fields in these structs (and the below ones too)?
-> > From the code, it looks like while sending a message from Linux to Firmware; val1
-> > and val2 are used to describe the values to set. Whereas while receiving a
-> > response, val1 represents a possible error code, and val2 represents the actual
-> > message of get type queries. If that is so, you might want to change the variable
-> > names to be more descriptive and also use a union.
+> > Require that CONFIG_CARDBUS is not enabled to enable
+> > CONFIG_PCI_LIVEUPDATE since inheriting bus numbers on PCI-to-CardBus
+> > bridges requires additional work but is not a priority at the moment.
 > > 
+> > Signed-off-by: David Matlack <dmatlack@google.com>
+
+> > +	/*
+> > +	 * During a Live Update, preserved devices are allowed to
+> > continue
+> > +	 * performing memory transactions. The kernel must not
+> > change the fabric
+> > +	 * topology, including bus numbers, since that would require
+> > disabling
+> > +	 * and flushing any memory transactions first.
+> > +	 *
+> > +	 * To keep things simple, inherit the secondary and
+> > subordinate bus
+> > +	 * numbers on _all_ bridges if _any_ PCI devices were
+> > preserved (i.e.
+> > +	 * even bridges without any downstream endpoints that were
+> > preserved).
+> > +	 * This avoids accidentally assigning a bridge a new window
+> > that
+> > +	 * overlaps with a preserved device that is downstream of a
+> > different
+> > +	 * bridge.
+> > +	 */
+> > +	dev->liveupdate_inherit_buses = true;
+> > +
+> This flag never gets cleared after the incoming kernel boot up, what if
+> the user does a manual rescan via sysfs? i.e.
+> # echo 1 > /sys/bus/pci/rescan
+> pcibios_assign_all_busses() will never gets called for this device, and
+> may hit this
+> 	if (dev->liveupdate_inherit_buses) {
+> 		pci_err(dev, "Cannot reconfigure bridge during
+> 		Live Update!\n");
 > 
-> The fields in the two structs are fairly self-explanatory. Do we really need the additional comments?
-> The previous version of the patch used a union, which was updated to support the fixed_up hooks. 
-> Now that the fixed_up hooks have been removed, I can revert this back to the union-based implementation.
+> So, maybe clear it in pci_liveupdate_finish()?
 
-I thought you had already adopted the virtio message format?
+I think we can allo wa rescan to assign new bus numbers once all devices
+go through pci_liveupdate_finish() by clearing
+dev->liveupdate_inherit_buses on all devices in pci_flb_finish(). We
+would need to hold pci_rescan_remove_lock to avoid this racing with such
+a rescan.
 
+Now that you bring up /sys/bus/pci/rescan... I think we also need to
+set dev->liveupdate_inherit_buses in the outgoing kernel, to avoid bus
+numbers changing on outgoing preserved devices. pci_flb_preserve()
+should take pci_rescan_remove_lock and set dev->liveupdate_inherit_buses
+on all devices, and pci_flb_unpreserve() should do the opposite.
 
-/* Possible values of the status field */
-#define VIRTIO_GPIO_STATUS_OK			0x0
-#define VIRTIO_GPIO_STATUS_ERR			0x1
-
-struct virtio_gpio_response {
-	__u8 status;
-	__u8 value;
-};
-
-Seems pretty obvious what status means. value depends on the request,
-get_direction actually uses it, and it can be one of
-
-#define VIRTIO_GPIO_DIRECTION_NONE		0x00
-#define VIRTIO_GPIO_DIRECTION_OUT		0x01
-#define VIRTIO_GPIO_DIRECTION_IN		0x02
-
-and gpio_get uses it as a bool for the state of the GPIO.
-
-Why do we need all the complexity for val1, val2, etc?
-
-  Andrew
+If we did all then then /sys/bus/pci/rescan can work like normal as long
+as no devices are preserved (incoming or outgoing). If any devices are
+preserved then dev->liveupdate_inherit_buses gets set to prevent bus
+numbers from changing during a possible rescan.
