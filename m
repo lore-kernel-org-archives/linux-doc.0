@@ -1,126 +1,131 @@
-Received: from canpmsgout06.his.huawei.com (canpmsgout06.his.huawei.com [113.46.200.221])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13A1132F770;
-	Mon, 27 Apr 2026 02:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E69A35E92B;
+	Mon, 27 Apr 2026 03:38:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777257907; cv=none; b=k2SxPVT3j3NT/z6Hcol7F6xTau72bcr0EImn0cM5AQ+IFqxBxhw0vr7N2eqfTQvpwGOXZ1yzvJ10r5TU91dumfTCpMG1JA1JQngJhKJNpEaNBr06wQ2fG9P+FwFfgB35hztJN/6n0GA7lZvMA4tNkY8k4F14C0US2IgtfZ1GvNg=
+	t=1777261080; cv=none; b=f89MNaetJRwwFmN7SnJOmRFb+xGeheb77Qu7mk3lYmABCeGj+sIJhFeQgJ5KIDDdmOFBaWJyejX0yfZ3pyZHOYjwTOqqEaMC2AyjEw006IVhOCYk/u5aPWf58L1ugVQiWiHepdBYs18DOoxH00Lv7CcV+gYaG4ru1rySAbaA3Qw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777257907; c=relaxed/simple;
-	bh=8Uok67MP7EbWJODR59a3+L/ftclFTn41JLRc2Kz179Q=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=avuvZrG0W074HVgMNKZfQ9GDJm1m1ZZVQVMglt+JVYr0c4yFS8ZDrD8vjRCLCbQnIMAdM88bwaaSfzWYkAwfuv0ol+H1000GwTAHXNRTxft07bk/kPLKTw6sjJfEbGIGlrt4npzb6O9bzGcYUxz6jxSJeqcIAc37pjW5l5a0t1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=JaDKlWAX; arc=none smtp.client-ip=113.46.200.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1777261080; c=relaxed/simple;
+	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+	h=MIME-Version:Content-Type:Subject:From:To:Cc:In-Reply-To:
+	 References:Date:Message-Id; b=JM9WRBd4lay/DMsA2S74RCLPaCyq+mGzAS9Jog94uuZjSLM0cxErLw2sgm3d7on6Cs0Ek0kLp3yU7L/VCIvqmSNM9bNSdjfuTPC/dP23a47kDvpxOHHx/wOKkllDTWlos1UG5notr/0DvWsrb0gyhOj30J8CxD4E45PB04ylEag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ueDIdW2Q; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="JaDKlWAX"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=XYl/EI6HUrKkXy66gKXetGu+BfOANz47rhqED+fRSzU=;
-	b=JaDKlWAXp2AGsZ7JdIIvish4dDgPf+AXd1JZpzMRqxq/L1qudEp1YvSy+qdvVuWRLUSCuVDyG
-	oiCEAOP/DnqWFtEsI4kZCdzKyMLTvJnUmqY/93+ZbK3BGpjQurWOBw/iZ3JHcmp0bWUxjt8aKgt
-	Hm/B1QmUY2za+ndqvD6ISxQ=
-Received: from mail.maildlp.com (unknown [172.19.162.197])
-	by canpmsgout06.his.huawei.com (SkyGuard) with ESMTPS id 4g3nn31XhpzRhR4;
-	Mon, 27 Apr 2026 10:38:31 +0800 (CST)
-Received: from dggemv706-chm.china.huawei.com (unknown [10.3.19.33])
-	by mail.maildlp.com (Postfix) with ESMTPS id A905540569;
-	Mon, 27 Apr 2026 10:44:56 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv706-chm.china.huawei.com (10.3.19.33) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 27 Apr 2026 10:44:56 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Mon, 27 Apr 2026 10:44:55 +0800
-Subject: Re: [PATCH v4 2/3] mm/memory-failure: add panic option for
- unrecoverable pages
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
-	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
-	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam
- R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>
-References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
- <20260415-ecc_panic-v4-2-2d0277f8f601@debian.org>
- <6b505601-747a-0812-7544-63a8ab3cffce@huawei.com>
- <aejlg62nxcF_5g2v@gmail.com>
- <c1517ad3-91d1-2ea1-efa7-0f29415d513d@huawei.com>
- <aeta8Ifvmqi6-E8w@gmail.com>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <5e05384e-740e-b374-2370-01f96d1dac9f@huawei.com>
-Date: Mon, 27 Apr 2026 10:44:55 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ueDIdW2Q"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A26B3C19425;
+	Mon, 27 Apr 2026 03:37:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777261080;
+	bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+	h=Subject:From:To:Cc:In-Reply-To:References:Date:From;
+	b=ueDIdW2QNALDTJ/C2+Pao0DLtIk/kUmxy2nFeMoFOMQSyhS2o72k/23L9IoqrjhQ+
+	 eqhnZW+rv6AklFPQbXcCcP+Ra2rzb5EXUrhSUHOn7/4GzJ/n5EjPxiQCPFX4XmJIgl
+	 YxVt1FGwO9KkqD0oEOIyDwqi6ShV5ZPOupOyJ0wnZ3ALzdo2D+8n2rA8d8Kkcgy8Zf
+	 Ceu6H4sb3xZmrZGWLAEND5rlnksFEL/BNJOcHA7m+V8EpsGjqrRXR4/NrasNa7QIs3
+	 IgBVuUGTdkaOD93o8vk5UvMfD5xZ/nJVd7hlni3sZCBTECxNdEiRlPuFBnuin+Upvm
+	 QeVDF4WHotxzA==
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <aeta8Ifvmqi6-E8w@gmail.com>
 Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100001.china.huawei.com (7.221.188.238) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification
+ framework
+From: Nathan Chancellor <nathan@kernel.org>
+To: Sasha Levin <sashal@kernel.org>
+Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org, 
+ Thomas Gleixner <tglx@kernel.org>, "Paul E . McKenney" <paulmck@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Dmitry Vyukov <dvyukov@google.com>, 
+ Randy Dunlap <rdunlap@infradead.org>, Cyril Hrubis <chrubis@suse.cz>, 
+ Kees Cook <kees@kernel.org>, Jake Edge <jake@lwn.net>, 
+ David Laight <david.laight.linux@gmail.com>, 
+ Askar Safin <safinaskar@zohomail.com>, 
+ Gabriele Paoloni <gpaoloni@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Christian Brauner <brauner@kernel.org>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Andrew Morton <akpm@linux-foundation.org>, 
+ Masahiro Yamada <masahiroy@kernel.org>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Ingo Molnar <mingo@redhat.com>, 
+ Arnd Bergmann <arnd@arndb.de>
+In-Reply-To: <20260424165130.2306833-2-sashal@kernel.org>
+References: <20260424165130.2306833-1-sashal@kernel.org>
+ <20260424165130.2306833-2-sashal@kernel.org>
+Date: Sun, 26 Apr 2026 23:37:45 -0400
+Message-Id: <177726106581.2478607.12645653803520391071.b4-review@b4>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1542; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=3lD5uG9ZXrIgOwKv6Um8sK6s94l7Kup9XM0KiGIDbKk=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJnvbgm1r5pyv/K7x/Tv7+cZzqk2VsnvUDl6munyJTXvs
+ Koa+1qfjlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjCR/UYMf0U11lj1XX7AtCjO
+ fXF2kv/PvgNKjmblB63e8+xfICtkfImRYVLPkjsTOQI7GiX0LqTO2iJ2suHBWkY15dq1Ir8eHhY
+ 8wA4A
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On 2026/4/24 20:01, Breno Leitao wrote:
-> On Thu, Apr 23, 2026 at 10:38:19AM +0800, Miaohe Lin wrote:
->>> are you suggesting I drop MF_MSG_KERNEL_HIGH_ORDER from here, or, document this
->>> will not hit userspace pages?
->>
->> No, maybe we should rule out or document above rare case if I'm not miss something.
-> 
-> Good catch. A buddy page being concurrently allocated to userspace can
-> briefly satisfy get_hwpoison_page() == 0 && !is_free_buddy_page(), and
-> that page is recoverable via the standard SIGBUS path — panicking on
-> it would be wrong.
-> 
-> The page allocator can't filter it out either.
-> 
-> check_new_pages() is gated by is_check_pages_enabled() and is a no-op
-> when CONFIG_DEBUG_VM=n.
-> 
-> For v6 I'll try to rule out the race inside panic_on_unrecoverable_mf() so
-> action_result() stays unchanged:
-> 
-> 	case MF_MSG_KERNEL_HIGH_ORDER:
-> 	p = pfn_to_online_page(pfn);
-> 	if (!p)
-> 		return true;
-> 	cpu_relax();
-> 	return page_count(p) == 0 &&
-> 		!PageLRU(p) &&
-> 		!page_mapped(p) &&
-> 		!page_folio(p)->mapping &&
-> 		!is_free_buddy_page(p);
-> 
-> 
-> A buddy page being allocated must transit rmqueue() → prep_new_page() →
-> post_alloc_hook() before the caller can use it. Each step either bumps
-> _refcount or sets state we can observe (PageLRU, ->mapping). cpu_relax()
-> lets that remote-CPU progress become visible before we resample.
-> 
-> A genuine non-buddy high-order kernel tail page stays unowned across the
-> recheck, so the panic still fires on the case this series targets.
-> 
-> The window is much narrowed now, not eliminated — I'll say so in the changelog.
-> 
-> I also added a selftest that enables the sysctl, injects MADV_HWPOISON
-> on a userspace anon page in a forked child, and asserts SIGBUS (not a
-> panic). I've been running this in a loop for hours, and I haven't seen any
-> false positive.
+On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
+> diff --git a/kernel/Makefile b/kernel/Makefile
+> index 6785982013dc..564315153643 100644
+> --- a/kernel/Makefile
+> +++ b/kernel/Makefile
+> @@ -59,6 +59,9 @@ obj-y += dma/
+>  obj-y += entry/
+>  obj-y += unwind/
+>  obj-$(CONFIG_MODULES) += module/
+> +obj-$(CONFIG_KAPI_SPEC) += api/
+> +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
+> +obj- += api/
 
-The userspace anon pages are already allocated. Those pages are in a stable state.
-So your selftest cannot test above window. Or am I miss something?
+If $(CONFIG_KAPI_SPEC) is not set, shouldn't
 
-Thanks.
-.
+  obj-$(CONFIG_KAPI_SPEC) += api/
+
+evaluate to
+
+  obj- += api/
+
+anyways? Why the duplication? This is the only place in the kernel where
+this would be needed?
+
+>
+> diff --git a/kernel/api/.gitignore b/kernel/api/.gitignore
+> new file mode 100644
+> index 000000000000..ca2f632621cf
+> --- /dev/null
+> +++ b/kernel/api/.gitignore
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +/generated_api_specs.c
+
+This appears unused?
+
+>
+> diff --git a/kernel/api/Kconfig b/kernel/api/Kconfig
+> new file mode 100644
+> index 000000000000..d1072728742a
+> --- /dev/null
+> +++ b/kernel/api/Kconfig
+> @@ -0,0 +1,77 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +#
+> +# Kernel API Specification Framework Configuration
+> +#
+> +
+> +config KAPI_SPEC
+> +	bool "Kernel API Specification Framework"
+> +	default n
+
+I think 'default n' is tautological since 'n' is the default for all
+bool symbols. Consider dropping it on all symbols throughtout this file.
+
+-- 
+Nathan Chancellor <nathan@kernel.org>
