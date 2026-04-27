@@ -1,113 +1,117 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF333AB274;
-	Mon, 27 Apr 2026 14:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2C683A9D8B;
+	Mon, 27 Apr 2026 14:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777301168; cv=none; b=m0QzAccsrlhSAQEciASSoD09rq7CoaUoCTd3Rg18Pj3z7gIEksfXXj0JyHQOS7KNd+f75UEFarEE2IlN7l8ydcQ0uyFhht1RabFz6eLTCJRjVjJu2wM6rocgcms46iTDIILegN0x+NHX1Yd5RbVpAjbz58V/b3Qtl+vLOFyxbig=
+	t=1777301365; cv=none; b=k1yaMvrwTcgBaa18dCfWoxfx6wptxgrsY/gWWgNVZh7NzwHFRRH0607CvrFLJXJ4uhtjV05cwUNutUZtXNP/nYvygOQMckYKSi6p8FGuQI4p8dGlLBE4NYuvjzsCROYwTHLT20cqye/BjHis42Yu/NqS2NnvcvydBFezT3V5lh4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777301168; c=relaxed/simple;
-	bh=9bOQyceFqVVaiIYzsp+CzkVSPcb894AUd8r8NRaXx3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D4BX6mHeqzWUoqqhAJnEgfpX/sDIb4QFJCf/9UIUnAPlLTh1pHkwJtGp2N5witAWJ4Vcr1m9P+bsmyM3fQ1nMGJP29ktrY5aW1OWoDmmAKvYVFt6kDoUs5NIF7q1kK9JjRXJsFeY/1AJdePT8XAJUlnsgq8tvBJv6vZrhzEvPy8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=none smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=W5Wp1neS; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=debian.org
+	s=arc-20240116; t=1777301365; c=relaxed/simple;
+	bh=Pie6H9kqpjFwLcPtbrm+7WML7Q1A98k1SS00JCWV22g=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=IxnnwlU6khcadKJTA/3yq+Qmho7mW9miki8NwU259a03SXEXce7+JTUZprwJCEUBBJyuv5oudHEhhOHtjIvy4dVnHHnldxdXT0asjCcrcUIRWsQOC0JYgnKu2hVIJy18zhpGV4HIGWdDRUaxPeMADJFLR03ZTfHeMv5UAyqdzHA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SYMuM5TF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="W5Wp1neS"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=8SUkHRDbaC9aZSa+oEHyg1Tzg2ppQcm4MIPmCZq/6ek=; b=W5Wp1neSmz5WcLXieabX6NdOIa
-	/vIMKR3XDwBY7vq7gRwuR4TKoy35qj/UUZ0zgGzJ+TQH87QwodOzx3msj8XbBY3YL8TI/vTQlsEcm
-	q/yJ1o902d12aYqnr4+kEkLg+zkuyZNKMDrW8KOwBOxPoohzsRjkRBVW6wD3Gn1uOlESQf7hqBbMW
-	JT7RJjxrMTKBekEc6MfeLPKnmfWHsJP9jJcc/EMyMVHBprz2sOxG3FgaFFDnNgab8aX9k2AKpXW2m
-	kww5UFBHZ4GW7aj7c/oJMwfgwxnfvEa++1Dt5uatbhtsx/DrNtScv024D7pkGoeL16hdhnYczFseu
-	iVigaT1Q==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wHNDS-005YR3-2h;
-	Mon, 27 Apr 2026 14:45:43 +0000
-Date: Mon, 27 Apr 2026 07:45:37 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: linmiaohe@huawei.com, nao.horiguchi@gmail.com, 
-	akpm@linux-foundation.org, corbet@lwn.net, skhan@linuxfoundation.org, david@kernel.org, 
-	ljs@kernel.org, Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org, 
-	surenb@google.com, mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 1/4] mm/memory-failure: report MF_MSG_KERNEL for
- reserved pages
-Message-ID: <ae92WpsjxQ71BE9Q@gmail.com>
-References: <20260424-ecc_panic-v5-1-a35f4b50425c@debian.org>
- <20260427123330.92847-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SYMuM5TF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F271AC19425;
+	Mon, 27 Apr 2026 14:49:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777301365;
+	bh=Pie6H9kqpjFwLcPtbrm+7WML7Q1A98k1SS00JCWV22g=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SYMuM5TFKXTJ6aCxcFBt93wMfV9JuHwsLvhTYblz2FPcqf2pCbAtc6mF0vovH3sRO
+	 d97a2kliIigXgAOmBV1dSVNdDki1NFxWsNx+br6CEN+P0r+v05nmfz2D1jm/qwqN/g
+	 Bka0Kb68aOjHfApRXOEcOhdBIJihZW1JaIew4Lt438T6le8Qz1kfzUcvtCaTxYwAU0
+	 i6PZdY9fgU9hnZZkI2JA4uFJ+ubmpwm87J26kiNfT6gqVD9x6RetS80mVUpbgZPr5I
+	 2fPEig6U/gMRQ0xU/ImslkSjgwwSG0pjh+EhuI0QsemcInFfMjxs4kSHuJvBwFqozo
+	 g22bxt4NjwXeg==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [PATCH v9.1] mm/damon: add node_eligible_mem_bp goal metric
+Date: Mon, 27 Apr 2026 07:49:13 -0700
+Message-ID: <20260427144914.112106-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260427010209.843-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260427123330.92847-1-lance.yang@linux.dev>
-X-Debian-User: leitao
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27, 2026 at 08:33:30PM +0800, Lance Yang wrote:
-> 
-> On Fri, Apr 24, 2026 at 05:23:59AM -0700, Breno Leitao wrote:
-> >When get_hwpoison_page() returns a negative value, distinguish
-> >reserved pages from other failure cases by reporting MF_MSG_KERNEL
-> >instead of MF_MSG_GET_HWPOISON. Reserved pages belong to the kernel
-> >and should be classified accordingly for proper handling.
-> >
-> >Acked-by: Miaohe Lin <linmiaohe@huawei.com>
-> >Signed-off-by: Breno Leitao <leitao@debian.org>
-> >---
-> > mm/memory-failure.c | 11 ++++++++++-
-> > 1 file changed, 10 insertions(+), 1 deletion(-)
-> >
-> >diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-> >index ee42d43613097..7b67e43dafbd1 100644
-> >--- a/mm/memory-failure.c
-> >+++ b/mm/memory-failure.c
-> >@@ -2432,7 +2432,16 @@ int memory_failure(unsigned long pfn, int flags)
-> > 		}
-> > 		goto unlock_mutex;
-> > 	} else if (res < 0) {
-> >-		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
-> >+		/*
-> >+		 * PageReserved is stable here: reserved pages have
-> >+		 * PG_reserved set at boot or by drivers and are never
-> >+		 * freed through the page allocator.
-> >+		 */
-> 
-> Not necessarily. PG_reserved is not a permanent lifetime property for
-> every page that has carried it.
-> 
-> page-flags.h says early reserved pages may later have PG_reserved
-> cleared and then be given to the page allocator :)
-> 
-> At least some drivers also clear PG_reserved when releasing pages they
-> marked reserved.
-> 
-> Would it be clearer to say that pages with PG_reserved set are not
-> currently managed by the page allocator, rather than saying reserved
-> pages are never freed through the page allocator?
+On Sun, 26 Apr 2026 18:02:09 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+[...]
+> +static phys_addr_t damos_calc_eligible_bytes(struct damon_ctx *c,
+> +		struct damos *s, int nid, phys_addr_t *total)
+> +{
+> +	struct damon_target *t;
+> +	struct damon_region *r;
+> +	phys_addr_t total_eligible = 0;
+> +	phys_addr_t node_eligible = 0;
+> +
+> +	damon_for_each_target(t, c) {
+> +		damon_for_each_region(r, t) {
+> +			phys_addr_t addr, end_addr;
+> +
+> +			if (!__damos_valid_target(r, s))
+> +				continue;
+> +
+> +			/* Convert from core address units to physical bytes */
+> +			addr = (phys_addr_t)r->ar.start * c->addr_unit;
+> +			end_addr = (phys_addr_t)r->ar.end * c->addr_unit;
+> +			while (addr < end_addr) {
+> +				struct folio *folio;
+> +				phys_addr_t folio_start, folio_end;
+> +				phys_addr_t overlap_start, overlap_end;
+> +				phys_addr_t counted;
+> +
+> +				folio = damon_get_folio(PHYS_PFN(addr));
+> +				if (!folio) {
+> +					addr = PAGE_ALIGN_DOWN(addr + PAGE_SIZE);
+> +					continue;
+> +				}
 
-Would a comment like the following look better?
+Sashiko found this could result in an infinite loop if 'addr + PAGE_SIZE'
+overflows.  The probability is quite low, but could we fix this?  Maybe like
+below?
 
-  /*
-   * Pages with PG_reserved set are not currently managed by the
-   * page allocator (memblock-reserved memory, driver reservations,
-   * etc.), so classify them as kernel-owned for reporting.
-   */
-  if (PageReserved(p))
-      res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+'''
+--- a/mm/damon/core.c
++++ b/mm/damon/core.c
+@@ -2349,7 +2349,10 @@ static phys_addr_t damos_calc_eligible_bytes(struct damon_ctx *c,
 
-Thanks for the review,
---breno
+                                folio = damon_get_folio(PHYS_PFN(addr));
+                                if (!folio) {
+-                                       addr = PAGE_ALIGN_DOWN(addr + PAGE_SIZE);
++                                       addr = PAGE_ALIGN_DOWN(addr +
++                                                       PAGE_SIZE);
++                                       if (!addr)
++                                               break;
+                                        continue;
+                                }
+'''
+
+Ravi, could you please post one more version (maybe v9.2) with the abive fix if
+it looks good to you?
+
+[1] https://lore.kernel.org/20260427012429.D25C2C2BCAF@smtp.kernel.org
+
+
+Thanks,
+SJ
+
+[...]
