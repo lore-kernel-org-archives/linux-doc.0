@@ -1,127 +1,87 @@
-Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2851721D3F5
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 15:58:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67E662FFDEA;
+	Mon, 27 Apr 2026 16:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777305484; cv=none; b=g6qxDW4gBC+Eqp43gJQXnea4xPshsP6NOf28Ut6DtvmMsBm9irWFIDM+A/BZaVt+u3WhSzLbirwVE3H85m2KO3VXW4vaqo1I1hjhYJffz8EOP217Wjkl9bYLkmMbw0501Bd4+8JOzy/U6JQuLVH+HBIlFE+3SWblM9zQyQDso6I=
+	t=1777306198; cv=none; b=r3PFwKqY+x7gzJHbdTiBrgsbt2BWlzrcpxgVfHt89tFHor5jlR4+e5QQHaJ8jMqXaRSu3MmxytBUj9OrRyyn8FeqxznbKyfhanQKmDnpc0mgWn/swH0SEOQyRjrRYXkK3SytMYz7UBOMsaUZeQJi1ZVCG9fDA022RpUPyTxW7/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777305484; c=relaxed/simple;
-	bh=WNcCv2dYJaAVCb27nOY+hxf7Ohx8wEqh/8daXbYI+Tc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RukD7ibJ33PYHsdLD/qaXuddNVwHOqNFjlkzAolUuvhdGWuX69l3JX2c3o6BJ1JxgyYbaDLx0ydZiGoCIeD1fPgpo0HVk87Ni9+dACFNjZ05gEaZDZQqyYJ8gknX1G5smCtjKTHfxf7sTeCnhFim9JmBT8u513RwQy+2y5hyrOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xLewC43e; arc=none smtp.client-ip=95.215.58.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777306198; c=relaxed/simple;
+	bh=6PCjWpf/TcX1fr3PqzO0NoxIcrlrRFRlClDFHnZ2Gg4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H0wRYQNaFkIV0gy1qNuzfRcyqzn679FUUKKjLa+ZeQbO2dZHuXpERs7KZQE6TECl8S8WkY9I3iolYuoVZ8SKYoxZvftpUDKbPGkG0/CUHFFnfGi380G3y/5vpWWxAzzl25041cLS0JAb2BcZAW4eNkN+c+pFbxlrttjbA1KPj5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=rPv1oHYj; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xLewC43e"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777305480;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tDtbus8CxHrwyQM3OMQxzeKwt9hPmc6cbwSAuU/oDr8=;
-	b=xLewC43eXTp7cTNuezMPBEADJ3J7iL+BrYFniYehOCZGgKBxD6ZhQZp07xLW6DCG+UmilV
-	IOkePLTdKPAeFsDUqJWTK6ciN34NHPccn51FnevfhPh34nyCSvwRY+ENY2bUVVvl6mVJTS
-	i788J1u1a8TuefrI+2Erz7vnZpZ6rU0=
-From: Lance Yang <lance.yang@linux.dev>
-To: leitao@debian.org
-Cc: linmiaohe@huawei.com,
-	nao.horiguchi@gmail.com,
-	akpm@linux-foundation.org,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	david@kernel.org,
-	ljs@kernel.org,
-	Liam.Howlett@oracle.com,
-	vbabka@kernel.org,
-	rppt@kernel.org,
-	surenb@google.com,
-	mhocko@suse.com,
-	shuah@kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kernel-team@meta.com,
-	Lance Yang <lance.yang@linux.dev>
-Subject: Re: [PATCH v5 1/4] mm/memory-failure: report MF_MSG_KERNEL for reserved pages
-Date: Mon, 27 Apr 2026 23:57:39 +0800
-Message-Id: <20260427155739.1643-1-lance.yang@linux.dev>
-In-Reply-To: <20260427123330.92847-1-lance.yang@linux.dev>
-References: <20260427123330.92847-1-lance.yang@linux.dev>
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="rPv1oHYj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1777306194; bh=UEjUKyheWtRvd0JjqNjN5By2/ywWhTc/J/VtxRqj6OM=;
+	h=From:Message-ID:From;
+	b=rPv1oHYjYNoBExAId4ifyKCQWhVV/vlLkfUD8ua8NEUAYgHiFM0MIruxYsibxh552
+	 /RpYBh5AEei1YdUPzoUOID8BWYYiL32G8IHLGoCdoM0NjnZF0rxBZLr+k/mv6uxfMV
+	 Xu97LTOe7i+7nqjhTV08cBRrtiEpO7aorqgFlnk4=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id A868CC0B69;
+	Mon, 27 Apr 2026 18:09:54 +0200 (CEST)
+Date: Mon, 27 Apr 2026 18:09:54 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Greg KH <greg@kroah.com>
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] Documentation: security-bugs: do not systematically
+ Cc the security team
+Message-ID: <ae-KUtEGB0qv1BcR@1wt.eu>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-2-w@1wt.eu>
+ <2026042727-recital-twiddling-eb22@gregkh>
+ <ae9_ljvxw5I9arzQ@1wt.eu>
+ <2026042727-unselect-unlaced-37bb@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026042727-unselect-unlaced-37bb@gregkh>
 
+On Mon, Apr 27, 2026 at 09:33:12AM -0600, Greg KH wrote:
+> On Mon, Apr 27, 2026 at 05:24:06PM +0200, Willy Tarreau wrote:
+> > On Mon, Apr 27, 2026 at 07:49:08AM -0600, Greg KH wrote:
+> > > On Sun, Apr 26, 2026 at 06:39:12PM +0200, Willy Tarreau wrote:
+> > > > With the increase of automated reports, the security team is dealing
+> > > > with way more messages than really needed. The reporting process works
+> > > > well with most teams so there is no need to systematically involve the
+> > > > security team in reports.
+> > > > 
+> > > > Let's suggest to keep it for small lists of recipients, to cover the
+> > > > risk of lost messages (spam, vacation etc) but to avoid it for larger
+> > > > teams.
+> > > > 
+> > > > Cc: Greg KH <gregkh@linuxfoundation.org>
+> > > > Cc: Leon Romanovsky <leon@kernel.org>
+> > > > Signed-off-by: Willy Tarreau <w@1wt.eu>
+> > > 
+> > > This is going to cut down on emails to us a bunch, which might be good,
+> > > or not, as now we'll not have a way to know what's going on overall.
+> > > But hey, let's try it and see what happens!
+> > 
+> > Or maybe we could suggest that first reports from a reporter should
+> > always Cc the list ? After all, every time we asked to drop the list
+> > was for senders at their 5th or 10th submission. Maybe we could just
+> > say that the list members prefer not being repetitively CCed by the
+> > same submitters to invest more time on newcomers ?
+> 
+> Yes, that might be better, otherwise maintainers are going to get some
+> pretty foolish reports with out the context of howing to properly at
+> least push back on them, like we have gotten good at doing :)
 
-On Mon, Apr 27, 2026 at 08:33:30PM +0800, Lance Yang wrote:
->
->On Fri, Apr 24, 2026 at 05:23:59AM -0700, Breno Leitao wrote:
->>When get_hwpoison_page() returns a negative value, distinguish
->>reserved pages from other failure cases by reporting MF_MSG_KERNEL
->>instead of MF_MSG_GET_HWPOISON. Reserved pages belong to the kernel
->>and should be classified accordingly for proper handling.
->>
->>Acked-by: Miaohe Lin <linmiaohe@huawei.com>
->>Signed-off-by: Breno Leitao <leitao@debian.org>
->>---
->> mm/memory-failure.c | 11 ++++++++++-
->> 1 file changed, 10 insertions(+), 1 deletion(-)
->>
->>diff --git a/mm/memory-failure.c b/mm/memory-failure.c
->>index ee42d43613097..7b67e43dafbd1 100644
->>--- a/mm/memory-failure.c
->>+++ b/mm/memory-failure.c
->>@@ -2432,7 +2432,16 @@ int memory_failure(unsigned long pfn, int flags)
->> 		}
->> 		goto unlock_mutex;
->> 	} else if (res < 0) {
->>-		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
->>+		/*
->>+		 * PageReserved is stable here: reserved pages have
->>+		 * PG_reserved set at boot or by drivers and are never
->>+		 * freed through the page allocator.
->>+		 */
->
->Not necessarily. PG_reserved is not a permanent lifetime property for
->every page that has carried it.
->
->page-flags.h says early reserved pages may later have PG_reserved
->cleared and then be given to the page allocator :)
->
->At least some drivers also clear PG_reserved when releasing pages they
->marked reserved.
->
->Would it be clearer to say that pages with PG_reserved set are not
->currently managed by the page allocator, rather than saying reserved
->pages are never freed through the page allocator?
->
->Otherwise, LGTM.
+Yes, and more importantly, we know how to react while some maintainers
+getting their first report are stressed. Let me try to rework it.
 
-Ouch, I missed one more thing ...
-
-Sashiko pointed out that[1]
-
-> +		if (PageReserved(p))
-
-"Can this introduce a use-after-free risk on the struct page?"
-
-get_any_page() may put the page before returning -EIO. After that ref is
-dropped, PageReserved(p) is not safe, IIUC :(
-
-Maybe just cache it before the call?
-
-is_reserved = PageReserved(p);
-res = get_hwpoison_page(p, flags);
-
-[1] https://sashiko.dev/#/patchset/20260424-ecc_panic-v5-0-a35f4b50425c@debian.org
+Thanks!
+Willy
