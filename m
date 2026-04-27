@@ -1,156 +1,128 @@
-Received: from mail-dl1-f47.google.com (mail-dl1-f47.google.com [74.125.82.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E2BD3C9EFE
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 13:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1358F3CAE80
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 13:39:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777296965; cv=none; b=cHLblDm6iSbj0vk5QaKmHElfSLBa1Y/CFT/Zuwwf2G0J/zcu26AXQklmIg9veoTauejBIofCH/FJHliiaF4uyCPoIRbnefijjJhpHc5CRFLKV8d6M10B9JJm27pMhWOX9KCkhjN9d5TsBEJx9NfwSX/667Hb4KZTwwo4sb1A/9c=
+	t=1777297175; cv=none; b=HDrWvKbjnaLMAEMa1MyPiDL8+ZMLaPznNgiGBid4E3cm1q2WemOLzB/oGBispJq8wWTzMAQELVux0sAIai/LbNriWTBHB9dZdGZrVSt72miEkvnqgZTfZGNC/8xI396uxKOmo4OBVWYKcUtXWiS/Mt2acXj/pBXwnrI8DCbCeAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777296965; c=relaxed/simple;
-	bh=9+YTaoHi6AUnV53wc+wLNAIofGBOoco2IeNrsUcHObc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KYq9fF/62PU/hO4dgG5M/dsjEc+Z4bMMmFPEDhD2BC3d5aKloNa7uRqx2+yzapVu9FqvZt2X2FI9gHqta2+mkw6YvwTYgGGXStkGhyb0Fq1wBJRqZqYwUOFNipBv8YGL8Q6SpqnBj3gDn+hrHKRVRodoiR/NPpNoZoGuGxYU2sM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g2RL3Or6; arc=none smtp.client-ip=74.125.82.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777297175; c=relaxed/simple;
+	bh=Y0VpK42OYFPVZikAyTfNSBvKDn3CI0iZPkZRiBCaizg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=fRNFoB8Nt4LIbvX4zW/N1FwTJFNGO8CvMLfx+lfg6oB3sKiHaYtw9uMCb3XTRZghs74pWGEOAPlYqKDM1Mi0O2BOeJfMyvr+zuZp8CSt0yjsrEUmLWDCf+smqeNlePDCbtsCSc+SQvIMRhsHouRSliHP+x4G4G6+6hFtcrNj3FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=0BnMPsQ1; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g2RL3Or6"
-Received: by mail-dl1-f47.google.com with SMTP id a92af1059eb24-12dbd0f7ecaso189407c88.0
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 06:36:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777296963; x=1777901763; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=kxCTuEl8zowJOknqs6HeBONoTBllsQbaXXd4jTyNdMY=;
-        b=g2RL3Or6CoBNClfLwnE/JqrmqGXpn1ilEGZeWczm6kX60qltjcKvhpjYzOMuFRuHtl
-         C8pliJuPQ/sRDsP/fJwPerFHR/BURx58bMs3gtQAr9V4F06VdygqVAqxj2BC0h8tsQnD
-         eAqjUIdR5Ltqf6IBU5rTaOsVtUAGdLMkVbnDXTiMGRLw3aJqwLq5RcPofQumXAB5oT7s
-         LktujdU+SCdOxe9+3+GCdbplNkaBexh+/KbZUWOIUKdOMVeGi/a7+z7Vte+0S2ikSkLj
-         8NT5LInIgpfJn9z1vO4o7hswBJIIEoB6uaEQBNLUWOiJkG9QqNVlQdhDjrma4t+Jsa5V
-         X3bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777296963; x=1777901763;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kxCTuEl8zowJOknqs6HeBONoTBllsQbaXXd4jTyNdMY=;
-        b=FJzquGXOi0j/zayFr/tQlbm8sBgINN7ppSHXXbrqXzlB9n8Zz+boWew4cVSqs+HhK6
-         F4cpnbW6hlopVGfpjKbiUE4fC6iqgmRC7v/vvHoRQN6F1O+933yXSeOcfpEsSL+XDFkw
-         DYktgMJzprCylceAEQUvQNTbzSEu1oyBcjIdmL/3XtFubYS/TzRNyvCV2EaR0o64rB9u
-         m9GXicU14Jn30yr0k5Hq9DkktHkmUlmu8AVykAZjhNN6Wvkcau0/oWoLmLGNU0DRXomT
-         ow6i8A4cI6xdTK5u3pphhA0ndfVk5lZZyBMQOIBgOyTLNwiaYmrp6OyI6WV17LyRfA4l
-         LBlw==
-X-Forwarded-Encrypted: i=1; AFNElJ+OSUk0oa320aFis7QfEujgjLOieuCn0S6LcdE2cyrtXZFEtkAxcIVPiXeXR0PXUjb0OMN1j9xG+Ps=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxFG2n+6pAqHMdAOE1uP4vPUI3NuxxbsFPUoYCBZvqi/vIBHB+F
-	EDRBa0Ba3veYWAPN3D75MT6CbWSJSfx/KoOYJOsRjEY4vZdvLQCTmZ9j
-X-Gm-Gg: AeBDietParBIcwfC/tqv3/a1UZSp4fFfWWF12oEagtFcSh9T53uh3teAXnmEJI79z0w
-	jiR4V2fzBR/Wi5Jrm9fwjziItKQkPHgNWKSkIIua4ZShz1d3FkC0/9laqf6peTJEvWsyeZ6xQKf
-	abwzZTzCXsDMDldEuEED798P07GrU4Ae6eVHTt6YvUXTM7eRhTfA/HW45cyiU4zz+t2G6yX48TF
-	/gQSZ5/TgdkLGR/juUhNt8l35AtPHsZT5imHVwPXHAYkV+4+wUpphZurdZg6KKw4VFc8jHHFs7o
-	7ZNpwBgLlMWhsqGuBMa3iDpM+tAydYXmhV940MumRtuVN9Y9GKZE1vjdIdp8LPRNZbrbCxfIajS
-	v3Ddn9wF46tIHK43aVhNVxoGiS8BNhTxrqSesXL3KOb6Py6WT1qG6ZziHQrkhdX1xK15oaAOiED
-	LBJ76iTeQg1iVAEELYKYWKmfugXQu9AR78/sO/zvLM+1HqV8p+j+w/0PMbbIE4EkXENsTBXrRRo
-	AuiRhm9II8=
-X-Received: by 2002:a05:7022:383:b0:128:cf86:d1e8 with SMTP id a92af1059eb24-12c73fa708emr24734104c88.29.1777296962368;
-        Mon, 27 Apr 2026 06:36:02 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12c74a18a2bsm66978412c88.10.2026.04.27.06.36.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Apr 2026 06:36:01 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <c59f9d11-d79d-46f8-b48d-9a2cd7921510@roeck-us.net>
-Date: Mon, 27 Apr 2026 06:35:59 -0700
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="0BnMPsQ1"
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 480EF1A3444;
+	Mon, 27 Apr 2026 13:39:31 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 1EE3C600D1;
+	Mon, 27 Apr 2026 13:39:31 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id BAC70107281FE;
+	Mon, 27 Apr 2026 15:39:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1777297170; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=u0HjnDBlJRHnuFJtZhpcX7G+V9nt/9IjO9ARqXr88uE=;
+	b=0BnMPsQ1Mmc9LvCCnGpqxVA1xDxrZqHjoeHF9/iGUyJIV3DgfY5EnNblpDt+Gi4wIq2/m2
+	W7L2mdfEIpgUxtwz2M6bS2ibD5Vtiz4JFkdlVpzcwrAW55TssuDA+0+C9Ycl6S9LdfA7Zv
+	gyC9kDdAvQHGS8BYWzZ9y8BPNdQfrZKAwN56HqsRT6GCJsjOhMN1T9ykLnd4phHO2NuVTx
+	KD1B0MM5zBC7RpaWcHIdaWKSrMFuN5Ro0MawTW3n6h6zeB3gSDYL7WYYARytouoRgFp2SI
+	8Ezvjq7bIs7hBIdKez/Zy9em8tj3DAAPxNRgWHHHDb37reO14YW1XFdCFXM9TA==
+From: Miquel Raynal <miquel.raynal@bootlin.com>
+To: <Takahiro.Kuwano@infineon.com>
+Cc: <pratyush@kernel.org>,  <mwalle@kernel.org>,  <richard@nod.at>,
+  <vigneshr@ti.com>,  <corbet@lwn.net>,  <sean.anderson@linux.dev>,
+  <thomas.petazzoni@bootlin.com>,  <STLin2@winbond.com>,
+  <linux-mtd@lists.infradead.org>,  <linux-kernel@vger.kernel.org>,
+  <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v4 17/27] mtd: spi-nor: debugfs: Add locking support
+In-Reply-To: <c8521e12e49040ce8683f81692644574@infineon.com> (Takahiro
+	Kuwano's message of "Fri, 10 Apr 2026 04:39:22 +0000")
+References: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
+	<20260403-winbond-v6-18-rc1-spi-nor-swp-v4-17-833dab5e7288@bootlin.com>
+	<c8521e12e49040ce8683f81692644574@infineon.com>
+User-Agent: mu4e 1.12.7; emacs 30.2
+Date: Mon, 27 Apr 2026 15:39:27 +0200
+Message-ID: <87h5owh69c.fsf@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: (pmbus/lx1308) Add LX1308 support
-To: Brian Chiang <chiang.brian@inventec.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20260422-add-support-lx1308-v1-0-9b8322f45aae@inventec.com>
- <20260422-add-support-lx1308-v1-1-9b8322f45aae@inventec.com>
- <20260423-free-blond-boobook-ceae7e@quoll>
- <bnyp2ct63m2p2ln52lnmrxjrh7bgwfcelekeptbj6j3vgygpae@og4y7ul7gumz>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <bnyp2ct63m2p2ln52lnmrxjrh7bgwfcelekeptbj6j3vgygpae@og4y7ul7gumz>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Last-TLS-Session-Version: TLSv1.3
 
-On 4/27/26 04:15, Brian Chiang wrote:
-...
->> No properties? Looks like suitable for trivial bundings.
-> 
-> Agreed. Since there are no device-specific properties and software-wise
-> this is a single device, I will drop the standalone binding in v2 and
-> add a single entry to trivial-devices.yaml:
-> 
->    - description: Luxshare LX1308 12V/860W digital DC/DC power module
->      compatible: luxshare,lx1308
-> 
-> The mechanical variant information will be documented in
-> Documentation/hwmon/lx1308.rst (sent in patch 2/2) so integrators can
-> still find it, without polluting the ABI.
-> 
+Hello SPI NOR foks,
 
-Mechanical variants are irrelevant for the driver, and may change over time.
-Please drop entirely, or maybe just state that multiple mechanical variants
-are available and refer to the datasheet for details.
+On 10/04/2026 at 04:39:22 GMT, <Takahiro.Kuwano@infineon.com> wrote:
 
-Thanks,
-Guenter
+>> The ioctl output may be counter intuitive in some cases. Asking for a
+>> "locked status" over a region that is only partially locked will return
+>> "unlocked" whereas in practice maybe the biggest part is actually
+>> locked.
+>>=20
+>> Knowing what is the real software locking state through debugfs would be
+>> very convenient for development/debugging purposes, hence this proposal
+>> for adding an extra block at the end of the file: a "locked sectors"
+>> array which lists every section, if it is locked or not, showing both
+>> the address ranges and the sizes in numbers of blocks.
+>>=20
+>> Here is an example of output, what is after the "sector map" is new.
+>>=20
+>> $ cat /sys/kernel/debug/spi-nor/spi0.0/params
+>> name            (null)
+>> id              ef a0 20 00 00 00
+>> size            64.0 MiB
+>> write size      1
+>> page size       256
+>> address nbytes  4
+>> flags           HAS_SR_TB | 4B_OPCODES | HAS_4BAIT | HAS_LOCK | HAS_16BI=
+T_SR | HAS_SR_TB_BIT6 | HAS_4BIT_BP |
+>> SOFT_RESET | NO_WP
+>>=20
+>> opcodes
+>>  read           0xec
+>>   dummy cycles  6
+>>  erase          0xdc
+>>  program        0x34
+>>  8D extension   none
+>>=20
+>> protocols
+>>  read           1S-4S-4S
+>>  write          1S-1S-4S
+>>  register       1S-1S-1S
+>>=20
+>> erase commands
+>>  21 (4.00 KiB) [1]
+>>  dc (64.0 KiB) [3]
+>>  c7 (64.0 MiB)
+>>=20
+>> sector map
+>>  region (in hex)   | erase mask | overlaid
+>>  ------------------+------------+---------
+>>  00000000-03ffffff |     [   3] | no
+>>=20
+>> locked sectors
+>>  region (in hex)   | status   | #blocks
+>>  ------------------+----------+--------
+>>  00000000-03ffffff | unlocked | 1024
+>>=20
+>> Signed-off-by: Miquel Raynal <miquel.raynal@bootlin.com>
 
+I don't want to be too pushy but this series has been pending for a
+while, there are real fixes inside, it (IMO) greatly improve the
+documentation, adds a testing procedure, gives a friendly interface to
+understand what is locked, etc. I am working on clarifying and improving
+the Winbond vendor driver even more now and I need these changes to get
+in for the cleanup to continue. Can someone bump spi-nor/next on top of
+v7.1-rc1 and apply this? Unless there are more changes, of course.
+
+Thanks a lot!
+Miqu=C3=A8l
