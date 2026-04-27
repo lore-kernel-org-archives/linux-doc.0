@@ -1,83 +1,69 @@
-Received: from smtp185.sjtu.edu.cn (smtp185.sjtu.edu.cn [202.120.2.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA392370D54;
-	Mon, 27 Apr 2026 06:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.120.2.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B66371063;
+	Mon, 27 Apr 2026 06:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777271412; cv=none; b=He57IwPJ8iaMnkAKhU2fgyoyQtPZ5Uz0ai5OBFcRYdy0JgJAwu1TUYcNYjPQnDb5Ve4hYi/QS96wfYee+lw45KX8QwIPtjMT+eNvqAedwGbbtFlr97H2TaGdn/IyaBaz4Js7P9BrB889gZTEv3m2uUrE4DaBHarFk333tOcT+/U=
+	t=1777272631; cv=none; b=V72JbV/AYBvo8j7x/9QzHBLB37B8K9nwd3Xr4YQFwFuvel0jq+hENLovHB9UpAKHjzbTrv9zTbaIiQ3zB2NWtM7UH2Xv69JGN2JZ0kDCFvcNeIBxWPZZaOWb0HcHxazNg2e59hSQ8olTp6Zifdnh7Vh7nU629kk7kQe5eiJC5Pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777271412; c=relaxed/simple;
-	bh=k7FXG2e/EV/GJJSCGDqsYjbBQrgk+18Y2MXRX65qSoU=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=ofw7qP8dKfw/byPPUa/5nUukmGpzGmipcQbuC1SDufqkG4KRYEoa9tAxcv9AKgXE7AHxTGYzdygz+ReACZklLAeELY2HIt7P56SPNvJoWVHTz+MjNWndCBGeJEF3a2SqFn4N4EfZ/yW10BjGjf50czIj6i26awaF62fyT5XM4hM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sjtu.edu.cn; spf=pass smtp.mailfrom=sjtu.edu.cn; dkim=pass (2048-bit key) header.d=sjtu.edu.cn header.i=@sjtu.edu.cn header.b=CSwgEdst; arc=none smtp.client-ip=202.120.2.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sjtu.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjtu.edu.cn
+	s=arc-20240116; t=1777272631; c=relaxed/simple;
+	bh=Dla8YPisQpFUiP5CnszIEM85dQreW5Y1H3GYNrZPlik=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YanTu6oaL+9MWQYQEP3xkiGFF2URIOht0hfYi4o4ELu12FeseC7qjqxVOjGw+t8BYm+SauhDXGCYeUdqSZkE/gbiO7ehgW75zC7Bc10w6ZdqC1R7gW/nYQli2RaO91G5baNklUDfGlUwsIbyyY7KODg/oC4aEPyRmea5clKGFnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GCkc95Sx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sjtu.edu.cn header.i=@sjtu.edu.cn header.b="CSwgEdst"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sjtu.edu.cn;
-	s=default; t=1777270866;
-	bh=k7FXG2e/EV/GJJSCGDqsYjbBQrgk+18Y2MXRX65qSoU=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject;
-	b=CSwgEdstly7B72IwKWTHhbDtU1N7meh5Pfl9ZqiNWq+Gic8lcBgwzyCxl726lhz/U
-	 u9KVRBx7Tb0UHBRCJ6NcmpEuBjPSE3eAzP0ehQXZEVGD5vS2Wap/3ebIu0dB5R0deu
-	 djA9gfE3NKxJ7DAja1D0htzIYLYuTXFKoqXDBTGC8pcMi1OW3Z3QRh+hZJPdyyoZic
-	 zdMrsD20NEY9yXOodq3VF40T88eVRtp1eBIv0HUoTVy5TeeHTu6btQyD6j3zexqY1p
-	 Lua4RdWxp/ahZev4oEC/BVGs+Ut3bzf2jaJqjIGtOTodk6OfHPEvFNUyC5tFU/BRzn
-	 I+Ead7DoH3R7A==
-Received: from mta90.sjtu.edu.cn (unknown [10.118.0.90])
-	by smtp185.sjtu.edu.cn (Postfix) with ESMTPS id EC18E385A6E;
-	Mon, 27 Apr 2026 06:21:05 +0000 (UTC)
-Received: from mstore137.sjtu.edu.cn (unknown [10.118.0.137])
-	by mta90.sjtu.edu.cn (Postfix) with ESMTP id B841737C878;
-	Mon, 27 Apr 2026 14:21:05 +0800 (CST)
-Date: Mon, 27 Apr 2026 14:21:05 +0800 (CST)
-From: SUVONOV BUNYOD <b.suvonov@sjtu.edu.cn>
-To: akpm <akpm@linux-foundation.org>, vbabka@kernel.org, 
-	linux-mm <linux-mm@kvack.org>
-Cc: rostedt <rostedt@goodmis.org>, mhiramat <mhiramat@kernel.org>, 
-	mathieu desnoyers <mathieu.desnoyers@efficios.com>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
-	linux-kernel <linux-kernel@vger.kernel.org>, surenb@google.com, 
-	mhocko@suse.com, jackmanb@google.com, hannes <hannes@cmpxchg.org>, 
-	ziy@nvidia.com, david <david@kernel.org>, 
-	vishal moola <vishal.moola@gmail.com>, corbet@lwn.net, 
-	skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Message-ID: <222049437.2315342.1777270865090.JavaMail.zimbra@sjtu.edu.cn>
-In-Reply-To: <20260427060142.131055-1-b.suvonov@sjtu.edu.cn>
-References: <20260425091335.346504-1-b.suvonov@sjtu.edu.cn> <20260427060142.131055-1-b.suvonov@sjtu.edu.cn>
-Subject: Re: [PATCH v2] mm/page_alloc: trace PCP refills and PCP zone lock
- usage
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GCkc95Sx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F754C19425;
+	Mon, 27 Apr 2026 06:50:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777272631;
+	bh=Dla8YPisQpFUiP5CnszIEM85dQreW5Y1H3GYNrZPlik=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GCkc95Sx9kdNbmFV/rzdEM1yffrI/VxN+1rAlBSULk+BxBPjpu/hzOR3B+aUJODsu
+	 7imrTdTNeRDqM6lfzTHSjlStp8XLPrL6jHCsPXwQgzEhgPv9Vf6qrby0yZ5dYY85uj
+	 tLM8W1PyeDVLeX3ZDZD6qFlEBKY6W9FHX1cHZLJlNhNQAr8qBPweYZIek8zsbbiqZW
+	 xjap0l0S7bYTm3PAoM06R+QU6tnd1A1uCf5oV58uLycNDBcW3v4tRfXsdWUPM8yApS
+	 MSe/MY5WRjcZrVdGgJ6kn6oKGeQ6XtEb7VMWNHI5ZQPGIty77U4nxCM9BaO+vtIzl3
+	 u42tUzPkTRBog==
+Date: Mon, 27 Apr 2026 08:50:27 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Stefan =?utf-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Russell King <linux@armlinux.org.uk>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Linus Walleij <linusw@kernel.org>, 
+	Drew Fustini <fustini@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org, soc@lists.linux.dev, 
+	linux-serial@vger.kernel.org
+Subject: Re: [PATCH v6 1/6] dt-bindings: arm: zte: Add D-Link DWR932M board
+ based on zx297520v3 SoC
+Message-ID: <20260427-neat-quoll-of-current-fed19c@quoll>
+References: <20260426-send-v6-0-d49efa72bb09@gmail.com>
+ <20260426-send-v6-1-d49efa72bb09@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=GB2312
-Content-Transfer-Encoding: 7bit
-X-Mailer: Zimbra 10.0.18_GA_4835 (ZimbraWebClient - FF149 (Linux)/10.0.18_GA_4828)
-Thread-Topic: mm/page_alloc: trace PCP refills and PCP zone lock usage
-Thread-Index: cvNpGKS1fD456U+LMNaVmpa/8ckf2g==
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20260426-send-v6-1-d49efa72bb09@gmail.com>
 
-Thank you for reviewing v1 Vishal,
+On Sun, Apr 26, 2026 at 02:54:14PM +0300, Stefan D=C3=B6singer wrote:
+> This adds a new binding file for ZTE, containing their zx297520v3 SoC
+> and one board (D-Link DWR-932M) based on it.
+>=20
+> Signed-off-by: Stefan D=C3=B6singer <stefandoesinger@gmail.com>
+>=20
+> ---
 
-All of your concerns except for the last one should be covered in v2.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 
-> If you're trying to trace all pages as they come onto the pcp lists,
-> should you also account for the free_frozen_page_commit() path?
->
->>          }
->>          spin_unlock_irqrestore(&zone->lock, flags);
+Best regards,
+Krzysztof
 
-No, the intent is not to trace every insertion into PCP lists. This patch
-is trying to make buddy <-> PCP traffic observable by adding a new
-mm_page_pcpu_refill event symmetric with the existing mm_page_pcpu_drain
-event.
-
-I also added additional zone_locked tracepoints because my research is
-focusing on analyzing which kernel mm subsystems and other parts are
-under stress for a given workload. The best way to see it for PCP would
-be to count zone lock acquirings as the whole purpose of PCP is to lower
-number of zone lock acquiring in first place.
