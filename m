@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBF1266581;
-	Mon, 27 Apr 2026 19:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4883EF0AB;
+	Mon, 27 Apr 2026 19:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777318632; cv=none; b=eIeDnpoCFutVtF2JmueeYUMUkbEx/zAIJTghluOZ6/2JzJ5WKwvpkumMAHviT/Fo/1zn4h3fYYt8xdnAn7HHv8xbmrsvZZ7xDFZsbwTSs4Rwdy2oDzIJt1GhXY/YGvH/vb1qakxp2zQ1TCYNsOx0goQf+0083oI/bfP4DcECUyI=
+	t=1777318910; cv=none; b=EN7oSY3fuHJuEXukaooTsFVqR8amqDCrQajoCVq5qaqy6LJw50BKdRSVWpiKoxOa3jvsFArG+i37Jcf/6nMGDCS9bpggAZQVRnw2bpoUyVOBUvnfh2roPdt6lpZtoOgLQJxowsO5xi6rNPVJ52yXESjTyRVCmPV+JdO6PmviYbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777318632; c=relaxed/simple;
-	bh=sYmKObJMhnp7jy264AilvXj9lD+eqjDwhHG7MFsMTtA=;
+	s=arc-20240116; t=1777318910; c=relaxed/simple;
+	bh=jqHLqVhMq+si5t6zdmANYEG+sciG4MaJhOm7qVM3/XM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W8WDpjbxkfaNSLBACqTJw9f6rwcloP/oWdHUJjrepUQkPwHJFlv8NsPGQcx6RS/sp4v8dvGgpr9faM15KvQHgSxvLB+7IiVgY4BlwUmz1v7rzd0eIvzBqvQCcctgSGWwrkh+I6gSNmLHdDDrs4yKxFBVfjRihFdAVuiRcRG4hSo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EfhmJXK2; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=VNGPYBbmaQ1TMIP1s3xuPxny/YG5ELxgMP/7qtF9dmwgYUqnmv4Sg2DbEC2xZiT/j9wj8bCudP0ro1uY9LX+PbKdyjY3iTv1tqtktUQnmf8LW8ZiRTjBmP1Q6uqHCpciwCjgCnw+FeF2ZaBy/fpthTIKzhiT1jX9SaEdAdtSHyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YJ2sQPBU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EfhmJXK2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73861C19425;
-	Mon, 27 Apr 2026 19:37:06 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YJ2sQPBU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D844AC19425;
+	Mon, 27 Apr 2026 19:41:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777318632;
-	bh=sYmKObJMhnp7jy264AilvXj9lD+eqjDwhHG7MFsMTtA=;
+	s=k20201202; t=1777318910;
+	bh=jqHLqVhMq+si5t6zdmANYEG+sciG4MaJhOm7qVM3/XM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EfhmJXK2MOebbFDynHs0e6ErEa+rR2fV5oPwMls7eMi5DhkgqFFrMxyutV36q8HmK
-	 jSOorctS20K28WCUspXTRYb6tn6OjdGbIrPSo/Oq21tzGBI1fVdXH29EPZAw5RHoke
-	 DDQQzzqBy+mYBUVQFpdpoTNB/XeWlNDii5FuiXObRKRN1CxRqGeg22rkLk+vtIdxoK
-	 34seLrxMRA/Xg++UkPSqlQ6X/KUl4EX6WlLr+aGuczFFTAYeOp/UN5KEL8U7y+j+Wc
-	 c9PtR7/0VgsfXri/FktT7d6SBqQxteh482P1+7pQVyl/LS/tn12GXvHgprGuk8/hbM
-	 7VZxkVldOZhPw==
-Message-ID: <36d82055-67f3-4c29-a605-a9848a28f7cb@kernel.org>
-Date: Mon, 27 Apr 2026 21:37:02 +0200
+	b=YJ2sQPBUIylRzAo3mxf6Nhm724kU65Z9v+W/MDzEsLK94GAuVoZhPwwWZCXj5Il90
+	 ylbki6bnVxWgs89zBNMtLu6rhC0K0vCojZYgJd/+kyOP74CwyHwQX46D6ybpo0QAsy
+	 oQCJGNTLEnyIrzPcfcN4gcLvxRKVqIE5E2NEV+lUm3Bcf2BRAVes0TDuq4IF/Ob/wq
+	 dAQXlAYNZmAjK+1TRurBmgbmdfvRX160CR8pq/uzHTcTsgWMhZKAMruNFvOCuPw6/q
+	 emV3S/kESWt7U6fOJogxNMJytyjLj7geapaYIZf4rvYKepFWg8R9Y3FuGNn6+hNAT7
+	 j3h4J0KO+Hqsw==
+Message-ID: <06c7e6a7-60af-480e-afd9-700e985ca2ba@kernel.org>
+Date: Mon, 27 Apr 2026 21:41:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,22 +35,30 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-To: Sasha Levin <sashal@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
- corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- skhan@linuxfoundation.org, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sasha Levin <sashal@nvidia.com>,
- Sanif Veeras <sveeras@nvidia.com>,
- "Claude:claude-opus-4-7" <noreply@anthropic.com>
-References: <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org>
- <aeuC6TJ4XowazVZj@laps> <aeuFnuiYDBjttEKt@plex>
- <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org> <aev-DS4YTp5soVPd@laps>
- <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org> <aezt96xgz_qyf4d-@laps>
- <f910969d-1071-4174-bd42-da45cb6f9749@kernel.org> <ae9ucgtCNf0JQtGu@laps>
- <c50aeb03-538b-4dca-9a81-ab84bc19a333@kernel.org> <ae-xXHUGfDiFcBUk@laps>
+Subject: Re: [PATCH 7.2 v16 02/13] mm/khugepaged: generalize
+ alloc_charge_folio()
+To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: aarcange@redhat.com, akpm@linux-foundation.org,
+ anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
+ baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com,
+ cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com,
+ dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org, hughd@google.com,
+ jack@suse.cz, jackmanb@google.com, jannh@google.com, jglisse@google.com,
+ joshua.hahnjy@gmail.com, kas@kernel.org, lance.yang@linux.dev,
+ Liam.Howlett@oracle.com, ljs@kernel.org, mathieu.desnoyers@efficios.com,
+ matthew.brost@intel.com, mhiramat@kernel.org, mhocko@suse.com,
+ peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, raquini@redhat.com,
+ rdunlap@infradead.org, richard.weiyang@gmail.com, rientjes@google.com,
+ rostedt@goodmis.org, rppt@kernel.org, ryan.roberts@arm.com,
+ shivankg@amd.com, sunnanyong@huawei.com, surenb@google.com,
+ thomas.hellstrom@linux.intel.com, tiwai@suse.de, usamaarif642@gmail.com,
+ vbabka@suse.cz, vishal.moola@gmail.com, wangkefeng.wang@huawei.com,
+ will@kernel.org, willy@infradead.org, yang@os.amperecomputing.com,
+ ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
+References: <20260419185750.260784-1-npache@redhat.com>
+ <20260419185750.260784-3-npache@redhat.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -97,59 +105,30 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <ae-xXHUGfDiFcBUk@laps>
+In-Reply-To: <20260419185750.260784-3-npache@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-
->>
->> Thanks, but I fundamentally don't understand how RAS capabilities interact here?
->> We have mm/memory-failure.c for a reason :)
+On 4/19/26 20:57, Nico Pache wrote:
+> From: Dev Jain <dev.jain@arm.com>
 > 
-> We do, but self driving safety requires way more than the current hardware can
-> provide.
+> Pass order to alloc_charge_folio() and update mTHP statistics.
 > 
-> I'll point you to https://dl.acm.org/doi/10.1145/2775054.2694348 , which
-> researched these issues in a datacenter environment (so no sun exposure,
-> temperature controlled, designed to avoid electromagnetic interference).
-> 
-> "We call a fault that generates an error larger than 2 bits in an ECC word an
-> undetectable-by-SECDED fault. A fault is undetectable-by-SECDED if it affects
-> more than two bits in any ECC word, and the data written to that location does
-> not match the value produced by the fault."
-> 
-> [...]
-> 
-> "A Cielo node has 288 DRAM devices, so this translates to 6048, 518, and 57.6
-> FIT per node for vendors A, B, and C, respectively. This translates to one
-> undetected error every 0.8 days, every 9.5 days, and every 85 days on a machine
-> the size of Cielo."
-> 
-> [...]
-> 
-> "Our main conclusion from this data is that SEC-DED ECC is poorly suited to
-> modern DRAM subsystems. The rate of undetected errors is too high to justify
-> its use in very large scale systems comprised of thousands of nodes where
-> fidelity of results is critical."
+> Reviewed-by: Wei Yang <richard.weiyang@gmail.com>
+> Reviewed-by: Lance Yang <lance.yang@linux.dev>
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Reviewed-by: Lorenzo Stoakes <ljs@kernel.org>
+> Reviewed-by: Zi Yan <ziy@nvidia.com>
+> Acked-by: David Hildenbrand (Arm) <david@kernel.org>
+> Co-developed-by: Nico Pache <npache@redhat.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
 
-Yes, I read before that ECC is insufficient to detect certain bitflips.
+Your SOB should come last, the order represents the history of this patch:
 
-But I don't understand how this patch set here is going to move the needle in
-any reasonable way?
-
-You have your magical self-driving car algorithm.
-
-Bitflips can corrupt your algorithm, your data, the kernel image, your user page
-tables, your kernel page tables. Even a pointer to a bitmap :)
-
-... and we worry about the state of allocated vs. free pages.
-
-Please enlighten me!
-
-> 
-> The passengers you've mentioned before would be excited if they knew how high
-> the bar is around their safety :)
-Heh :)
+Signed-off-by: Dev Jain <dev.jain@arm.com>
+Co-developed-by: Nico Pache <npache@redhat.com>
+Signed-off-by: Nico Pache <npache@redhat.com>
 
 -- 
 Cheers,
