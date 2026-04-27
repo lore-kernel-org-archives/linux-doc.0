@@ -1,106 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-177.mta1.migadu.com (out-177.mta1.migadu.com [95.215.58.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B69C3346AF;
-	Mon, 27 Apr 2026 15:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5E6335571
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 15:14:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777302762; cv=none; b=Tz958GkeM37LumQSGsw8AaXYC/6VfQyN7oEOIwbaso6H2V4E38/+hgeqwQylAOOGyJjqikGlHtdROzI49p/Lsq5n0W8EXB1YZHZRWvzb58lidzfPmzxxKYYgdDjeGI2Izcols6V3VQ0oiQ245/aBUO5XZGhsErbJJHG6kwO+Kks=
+	t=1777302877; cv=none; b=acJmjDgx+WMlSGw3MzdqpsT6WXSClpdGRXGSH7gakCRy3mwbGqwb+dtyUwlhSya8bTLHAa4nkhmj6lkm080XAxHDz3newdXT46yP5wt43kqZewS3qn5NdykVmVVk4DeQpKllYjqfHrFYmWNBpE0WnwXAIk8q1wbOJvdkqcmQaQ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777302762; c=relaxed/simple;
-	bh=O8n0uNGYuU+EcM7S/clzxsj2TzvWbNFjQtjX/Z2/CrA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H/J8TXKUyRAhSuqsg78Iqw04/bIf6IJfDXWAPgkR+Ud+mtG6DPff5IfxR7rMk8M8nmV0Ok0dGHyzzjS7QfsBN8ZKQWcsel0fJcMStZXt8fBJmbOxr72zspS0LocmS0FtHeSH5yXBZoVwXdttXI0AOEpnZHKWBa3x+GJkkcy9RmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gv4wDjq8; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777302877; c=relaxed/simple;
+	bh=NVDk0P+CGmZ2vwxtn0eqjXzzPrGTerfSTxm0fU1Ip0A=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q9hQK70nh7fd+UB7ZPMYoWwiY5eulYdbaY++3eYB/dGUOYvH/S/sA3A4IPVbcqosLp83fG+RS4u6hSXnqRNoWFmHIzyGfAH165nKYygaOa0vxH+/2gIANojvsCmKLdiYyybdsl59USUuxqELnrJhwUpgoAV3uM0vI6FObNtOjvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=lOr3L0Tr; arc=none smtp.client-ip=95.215.58.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gv4wDjq8"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A77CC2BCC4;
-	Mon, 27 Apr 2026 15:12:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777302762;
-	bh=O8n0uNGYuU+EcM7S/clzxsj2TzvWbNFjQtjX/Z2/CrA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gv4wDjq8pC8MRYUp9YxDIQ9gWsfPychqKhZZqC5yjyusZ6ff9VMKcopk44UjgHSF6
-	 mBCIXP78F9f2D7tsQVdhGGPTRaa/iOMW3SZfLCvJyoopRxkoltdEG16ODitiwn8qI8
-	 BrhwdyUyT+otrpYI9SUcTRtOFQ74srhH8d8tB7DCuR2JdcU4/pxF+ly3HDWSketLZs
-	 lHbPouUda6elQAGc49DFl1f7oE6mbs2pAHv7wBB9jKpBCXmo6fD+rUiIzPAtSxkaPV
-	 qfyffWXOuvTaWY6L40CekFRFO4BdLMMnj/fLugA4VmYfdgFSJh3YsU7sjynUwQm3iz
-	 4KP0klz1+ZQHA==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH v2 04/10] Docs/admin-guide/mm/damon/usage: update for pause file
-Date: Mon, 27 Apr 2026 08:12:23 -0700
-Message-ID: <20260427151231.113429-5-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260427151231.113429-1-sj@kernel.org>
-References: <20260427151231.113429-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lOr3L0Tr"
+Message-ID: <b2c0fedc-0641-4c51-9426-879c6878a2e5@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1777302864;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6UgDbcmIJGZlRjzn8XIrNR1a7hkzoZAPPy0uySZ/X8o=;
+	b=lOr3L0TrmrYswkMnhmVGOjNxRAxxODxJ+wIm/s2Pa5435yehAW/WXL7l7sreR9iNnPs28P
+	xtQ8QSqfCzL3to5dmce73+RBVowv255ePLqtsPGWDWy9Ome+rt/c7JeckpVBkXQ6ZNcjW9
+	vxZ4jiONxJWFr2Up/G+bVKbnvQlvAVI=
+Date: Mon, 27 Apr 2026 23:14:11 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v5 1/4] mm/memory-failure: report MF_MSG_KERNEL for
+ reserved pages
+Content-Language: en-US
+To: Breno Leitao <leitao@debian.org>
+Cc: linmiaohe@huawei.com, nao.horiguchi@gmail.com, akpm@linux-foundation.org,
+ corbet@lwn.net, skhan@linuxfoundation.org, david@kernel.org, ljs@kernel.org,
+ Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org,
+ surenb@google.com, mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, kernel-team@meta.com
+References: <20260424-ecc_panic-v5-1-a35f4b50425c@debian.org>
+ <20260427123330.92847-1-lance.yang@linux.dev> <ae92WpsjxQ71BE9Q@gmail.com>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Lance Yang <lance.yang@linux.dev>
+In-Reply-To: <ae92WpsjxQ71BE9Q@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-Update DAMON usage document for the DAMON context execution pause/resume
-feature.
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
----
- Documentation/admin-guide/mm/damon/usage.rst | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/damon/usage.rst b/Documentation/admin-guide/mm/damon/usage.rst
-index 534e1199cf091..bfdb717441f05 100644
---- a/Documentation/admin-guide/mm/damon/usage.rst
-+++ b/Documentation/admin-guide/mm/damon/usage.rst
-@@ -66,7 +66,8 @@ comma (",").
-     │ :ref:`kdamonds <sysfs_kdamonds>`/nr_kdamonds
-     │ │ :ref:`0 <sysfs_kdamond>`/state,pid,refresh_ms
-     │ │ │ :ref:`contexts <sysfs_contexts>`/nr_contexts
--    │ │ │ │ :ref:`0 <sysfs_context>`/avail_operations,operations,addr_unit
-+    │ │ │ │ :ref:`0 <sysfs_context>`/avail_operations,operations,addr_unit,
-+    │ │ │ │   pause
-     │ │ │ │ │ :ref:`monitoring_attrs <sysfs_monitoring_attrs>`/
-     │ │ │ │ │ │ intervals/sample_us,aggr_us,update_us
-     │ │ │ │ │ │ │ intervals_goal/access_bp,aggrs,min_sample_us,max_sample_us
-@@ -194,9 +195,9 @@ details).  At the moment, only one context per kdamond is supported, so only
- contexts/<N>/
- -------------
- 
--In each context directory, three files (``avail_operations``, ``operations``
--and ``addr_unit``) and three directories (``monitoring_attrs``, ``targets``,
--and ``schemes``) exist.
-+In each context directory, four files (``avail_operations``, ``operations``,
-+``addr_unit`` and ``pause``) and three directories (``monitoring_attrs``,
-+``targets``, and ``schemes``) exist.
- 
- DAMON supports multiple types of :ref:`monitoring operations
- <damon_design_configurable_operations_set>`, including those for virtual address
-@@ -214,6 +215,9 @@ reading from the ``operations`` file.
- ``addr_unit`` file is for setting and getting the :ref:`address unit
- <damon_design_addr_unit>` parameter of the operations set.
- 
-+``pause`` file is for setting and getting the :ref:`pause request
-+<damon_design_execution_model_and_data_structures>` parameter of the context.
-+
- .. _sysfs_monitoring_attrs:
- 
- contexts/<N>/monitoring_attrs/
--- 
-2.47.3
+On 2026/4/27 22:45, Breno Leitao wrote:
+> On Mon, Apr 27, 2026 at 08:33:30PM +0800, Lance Yang wrote:
+>>
+>> On Fri, Apr 24, 2026 at 05:23:59AM -0700, Breno Leitao wrote:
+>>> When get_hwpoison_page() returns a negative value, distinguish
+>>> reserved pages from other failure cases by reporting MF_MSG_KERNEL
+>>> instead of MF_MSG_GET_HWPOISON. Reserved pages belong to the kernel
+>>> and should be classified accordingly for proper handling.
+>>>
+>>> Acked-by: Miaohe Lin <linmiaohe@huawei.com>
+>>> Signed-off-by: Breno Leitao <leitao@debian.org>
+>>> ---
+>>> mm/memory-failure.c | 11 ++++++++++-
+>>> 1 file changed, 10 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+>>> index ee42d43613097..7b67e43dafbd1 100644
+>>> --- a/mm/memory-failure.c
+>>> +++ b/mm/memory-failure.c
+>>> @@ -2432,7 +2432,16 @@ int memory_failure(unsigned long pfn, int flags)
+>>> 		}
+>>> 		goto unlock_mutex;
+>>> 	} else if (res < 0) {
+>>> -		res = action_result(pfn, MF_MSG_GET_HWPOISON, MF_IGNORED);
+>>> +		/*
+>>> +		 * PageReserved is stable here: reserved pages have
+>>> +		 * PG_reserved set at boot or by drivers and are never
+>>> +		 * freed through the page allocator.
+>>> +		 */
+>>
+>> Not necessarily. PG_reserved is not a permanent lifetime property for
+>> every page that has carried it.
+>>
+>> page-flags.h says early reserved pages may later have PG_reserved
+>> cleared and then be given to the page allocator :)
+>>
+>> At least some drivers also clear PG_reserved when releasing pages they
+>> marked reserved.
+>>
+>> Would it be clearer to say that pages with PG_reserved set are not
+>> currently managed by the page allocator, rather than saying reserved
+>> pages are never freed through the page allocator?
+> 
+> Would a comment like the following look better?
+> 
+>    /*
+>     * Pages with PG_reserved set are not currently managed by the
+>     * page allocator (memblock-reserved memory, driver reservations,
+>     * etc.), so classify them as kernel-owned for reporting.
+>     */
+>    if (PageReserved(p))
+>        res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
+
+Works for me, thanks.
