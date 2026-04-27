@@ -1,35 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC1FE3D34BA;
-	Mon, 27 Apr 2026 14:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25DBD3D412D;
+	Mon, 27 Apr 2026 14:22:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777299755; cv=none; b=JralyUHY6Ni+cCSnzT/mHCNgvRjRMZ9AMZOTL71Gn+Dcs0LgJVz9iAdIUU5K61Sjr4OBZienwW/aono9THS0JW4mqHBWdJrIP7O5BMZAvd+n9Ei9yUqF9MvG4YYBuXlXiAOa+Mk34FuqNVAvwjg0cDzOyPvKtQW1jNxbXMjgH1o=
+	t=1777299756; cv=none; b=lWq8poC8N1GQeov5Qy3bVaRiANfHL/WzgqyCFCKpa8FWkPJUiXR/j8ug8h2xWGhnh/03cU2C81eaGxDa/3FMFv491T9FKXMaBHMEMBjWvBIMDwxKhn0ppaxtXQjs2InEdK8UzDvL3r9kGst2ZZZhXybyb8AHTAOJUlNdu4rucbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777299755; c=relaxed/simple;
-	bh=yDbfJtWAfvQ/qhk2RPsW8RGaJCDeeTNMtQ/iIuIjsIA=;
+	s=arc-20240116; t=1777299756; c=relaxed/simple;
+	bh=E3XaUZpwsbd6HDm3kWl1GEnwhRzHLxZQZYqA7/UzEm8=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gRF9sIaOv1JW0863wpd3lIkv0wsKnASy6L0cCBxhNH8ZpjcTNh5gwPdJIY8nnF8VhH2ovCSo1zncNlVskl7Nbyw4cz2UfGPwBbCjxtIUSp9p0iR6oi3/wnZhT6BIhzNGgsG6v7iGHg1HYL3GE5O7bZ5A2rmf0AVMnz6lxIyTK28=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Mz1ODkev; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=ZPEaF7MsEsg30uwdeo9D/5MUouP/o7uf42FvKFiIp8Myk0zriEW8lcNx4tZvwOsYHcoxvJYTTtn0gefH1+/mqDes8ipWUDT5uUC2+9EuVWr5+uHwN/99F8COCYCUEnAjaU0Fj5kYnWerQnHHGa/Mze0iSe6vwxZLKN9K/uMSt1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BOteI6RP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Mz1ODkev"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F96BC2BCB7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BOteI6RP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFB0AC2BCB9;
 	Mon, 27 Apr 2026 14:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1777299755;
-	bh=yDbfJtWAfvQ/qhk2RPsW8RGaJCDeeTNMtQ/iIuIjsIA=;
+	bh=E3XaUZpwsbd6HDm3kWl1GEnwhRzHLxZQZYqA7/UzEm8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Mz1ODkevkS59ZL/Qj3MnHx1QPKpMvCimI0lPx3/AITa2C88Ll99AX9eIVgptSFKxt
-	 0SXMGaMcxCTIA/RBDDrkYLK2lmD2Sc5Z3TzH+/07trUaV+GFns6NbJd1qQlpLLzRl6
-	 sIEm+PmJFYZn11iJnhqIU+c+tjUcuJWLmaBrpJSNI+250R1k+a80xfzRzfi+m0Zljn
-	 Grj7v9UzerlRN402+lmg2Gtsn3+ULQ0I3QS3qTL00lmRRM3RIUyUchF+bMzfczZzSh
-	 GjZEJl046o3yqiPhb8GMtrSQ2XpnxkDhDDVB7ouzRNUB/wSesuc9w+BKVy9baVZGsC
-	 83YAcZCVaSXIA==
+	b=BOteI6RP2hQ5Z8VatsZNOi56HYMeReNNnUeCHpMNypzzBRNowIuk5Q8afZX9a9PuO
+	 inRDkHUDgcbnLqyqZtlcSfqh385oY7p8gL7HPeMKCAGXbLLsWW8Zrv/w9JTrUsMiFk
+	 UtN4rbfUJtOKV3ntu63AfKhdrOURcxVTzkKyihzDFDLs1Jj36eJc3mwhwGM+zBYTfj
+	 NFn4knlPTflKCWqQigA8KnTSurceJAf7JKMFLBeRkyavSHY3yjObIRgLyDa8dtHGFI
+	 3/jp1tdUMpjiR+Dnq7mU1oflgRB8F1V1PCRsId/w5nF3dxYcCP2NWBXmUOOdrk+pTv
+	 EY8vQwRsQ/bQQ==
 Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wHMr3-0000000C8RI-3LGz;
-	Mon, 27 Apr 2026 16:22:33 +0200
+	id 1wHMr4-0000000C8Ti-0aGO;
+	Mon, 27 Apr 2026 16:22:34 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
@@ -39,11 +39,10 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-riscv@lists.infradead.org,
 	workflows@vger.kernel.org,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Dan Williams <djbw@kernel.org>,
 	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v4 02/10] docs: maintainers_include: auto-generate maintainer profile TOC
-Date: Mon, 27 Apr 2026 16:22:20 +0200
-Message-ID: <eac5fb166bcbf0f267e762d72b150bbf248ff057.1777295258.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v4 04/10] docs: maintainers_include: use a better title for profiles
+Date: Mon, 27 Apr 2026 16:22:22 +0200
+Message-ID: <8ce9c77c4d8c98e6bad37d838b0e359c8416040c.1777295258.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <cover.1777295258.git.mchehab+huawei@kernel.org>
 References: <cover.1777295258.git.mchehab+huawei@kernel.org>
@@ -57,161 +56,73 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Add a feature to allow auto-generating media entry profiles from the
-corresponding field inside MAINTAINERS file(s).
+As we're picking the name of the subsystem from MAINTAINERS,
+also use its subsystem name for the titles.
 
-Suggested-by: Dan Williams <djbw@kernel.org>
-Closes: https://lore.kernel.org/linux-doc/69dd6299440be_147c801005b@djbw-dev.notmuch/
-Acked-by: Dan Williams <djbw@kernel.org>
 Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
 Tested-by: Randy Dunlap <rdunlap@infradead.org>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Message-ID: <4e9512a3d05942c98361d06d60a118d7c78762b6.1776176108.git.mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/maintainers_include.py | 93 +++++++++++++++++----
- 1 file changed, 76 insertions(+), 17 deletions(-)
+ Documentation/sphinx/maintainers_include.py | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index 519ad18685b2..1dac83bf1a65 100755
+index 1dac83bf1a65..cf428db7599c 100755
 --- a/Documentation/sphinx/maintainers_include.py
 +++ b/Documentation/sphinx/maintainers_include.py
-@@ -21,6 +21,8 @@ import sys
- import re
- import os.path
+@@ -36,7 +36,7 @@ class MaintainersParser:
+     """Parse MAINTAINERS file(s) content"""
  
-+from textwrap import indent
-+
- from docutils import statemachine
- from docutils.parsers.rst import Directive
- from docutils.parsers.rst.directives.misc import Include
-@@ -30,20 +32,11 @@ def ErrorString(exc):  # Shamelessly stolen from docutils
- 
- __version__  = '1.0'
- 
--def setup(app):
--    app.add_directive("maintainers-include", MaintainersInclude)
--    return dict(
--        version = __version__,
--        parallel_read_safe = True,
--        parallel_write_safe = True
--    )
-+class MaintainersParser:
-+    """Parse MAINTAINERS file(s) content"""
- 
--class MaintainersInclude(Include):
--    """MaintainersInclude (``maintainers-include``) directive"""
--    required_arguments = 0
--
--    def parse_maintainers(self, path):
--        """Parse all the MAINTAINERS lines into ReST for human-readability"""
-+    def __init__(self, base_path, path):
-+        self.profiles = list()
+     def __init__(self, base_path, path):
+-        self.profiles = list()
++        self.profiles = {}
  
          result = list()
          result.append(".. _maintainers:")
-@@ -78,6 +71,12 @@ class MaintainersInclude(Include):
-             # Drop needless input whitespace.
-             line = line.rstrip()
+@@ -54,6 +54,7 @@ class MaintainersParser:
+         prev = None
+         field_prev = ""
+         field_content = ""
++        subsystem_name = None
  
-+            match = re.match(r"P:\s*(Documentation/\S+)\.rst", line)
-+            if match:
-+                fname = os.path.relpath(match.group(1), base_path)
-+                if fname not in self.profiles:
-+                    self.profiles.append(fname)
-+
+         for line in open(path):
+             # Have we reached the end of the preformatted Descriptions text?
+@@ -75,7 +76,10 @@ class MaintainersParser:
+             if match:
+                 fname = os.path.relpath(match.group(1), base_path)
+                 if fname not in self.profiles:
+-                    self.profiles.append(fname)
++                    if self.profiles.get(fname) is None:
++                        self.profiles[fname] = subsystem_name
++                    else:
++                        self.profiles[fname] += f", {subsystem_name}"
+ 
              # Linkify all non-wildcard refs to ReST files in Documentation/.
              pat = r'(Documentation/([^\s\?\*]*)\.rst)'
-             m = re.search(pat, line)
-@@ -165,12 +164,23 @@ class MaintainersInclude(Include):
-             for separated in field_content.split('\n'):
-                 result.append(separated)
+@@ -112,6 +116,8 @@ class MaintainersParser:
+                     output = field_content + "\n\n"
+                     field_content = ""
  
--        output = "\n".join(result)
-+        self.output = "\n".join(result)
++                    subsystem_name = line.title()
 +
-+        # Create a TOC class
-+
-+class MaintainersInclude(Include):
-+    """MaintainersInclude (``maintainers-include``) directive"""
-+    required_arguments = 0
-+
-+    def emit(self, base_path, path):
-+        """Parse all the MAINTAINERS lines into ReST for human-readability"""
-+
-+        output = MaintainersParser(base_path, path).output
-+
-         # For debugging the pre-rendered results...
-         #print(output, file=open("/tmp/MAINTAINERS.rst", "w"))
+                     # Collapse whitespace in subsystem name.
+                     heading = re.sub(r"\s+", " ", line)
+                     output = output + "%s\n%s" % (heading, "~" * len(heading))
+@@ -217,7 +223,13 @@ class MaintainersProfile(Include):
  
--        self.state_machine.insert_input(
--          statemachine.string2lines(output), path)
-+        self.state_machine.insert_input(statemachine.string2lines(output), path)
+         output  = ".. toctree::\n"
+         output += "   :maxdepth: 2\n\n"
+-        output += indent("\n".join(profiles), "   ")
++
++        items = sorted(profiles.items(), key=lambda kv: (kv[1] or "", kv[0]))
++        for fname, profile in items:
++            if profile:
++                output += f"   {profile} <{fname}>\n"
++            else:
++                output += f"   {fname}\n"
  
-     def run(self):
-         """Include the MAINTAINERS file as part of this reST file."""
-@@ -186,12 +196,61 @@ class MaintainersInclude(Include):
+         self.state_machine.insert_input(statemachine.string2lines(output), path)
  
-         # Append "MAINTAINERS"
-         path = os.path.join(path, "MAINTAINERS")
-+        base_path = os.path.dirname(self.state.document.document.current_source)
- 
-         try:
-             self.state.document.settings.record_dependencies.add(path)
--            lines = self.parse_maintainers(path)
-+            lines = self.emit(base_path, path)
-         except IOError as error:
-             raise self.severe('Problems with "%s" directive path:\n%s.' %
-                       (self.name, ErrorString(error)))
- 
-         return []
-+
-+class MaintainersProfile(Include):
-+    required_arguments = 0
-+
-+    def emit(self, base_path, path):
-+        """Parse all the MAINTAINERS lines looking for profile entries"""
-+
-+        profiles = MaintainersParser(base_path, path).profiles
-+
-+        output  = ".. toctree::\n"
-+        output += "   :maxdepth: 2\n\n"
-+        output += indent("\n".join(profiles), "   ")
-+
-+        self.state_machine.insert_input(statemachine.string2lines(output), path)
-+
-+    def run(self):
-+        """Include the MAINTAINERS file as part of this reST file."""
-+        if not self.state.document.settings.file_insertion_enabled:
-+            raise self.warning('"%s" directive disabled.' % self.name)
-+
-+        # Walk up source path directories to find Documentation/../
-+        path = self.state_machine.document.attributes['source']
-+        path = os.path.realpath(path)
-+        tail = path
-+        while tail != "Documentation" and tail != "":
-+            (path, tail) = os.path.split(path)
-+
-+        # Append "MAINTAINERS"
-+        path = os.path.join(path, "MAINTAINERS")
-+        base_path = os.path.dirname(self.state.document.document.current_source)
-+
-+        try:
-+            self.state.document.settings.record_dependencies.add(path)
-+            lines = self.emit(base_path, path)
-+        except IOError as error:
-+            raise self.severe('Problems with "%s" directive path:\n%s.' %
-+                      (self.name, ErrorString(error)))
-+
-+        return []
-+
-+def setup(app):
-+    app.add_directive("maintainers-include", MaintainersInclude)
-+    app.add_directive("maintainers-profile-toc", MaintainersProfile)
-+    return dict(
-+        version = __version__,
-+        parallel_read_safe = True,
-+        parallel_write_safe = True
-+    )
 -- 
 2.53.0
 
