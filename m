@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1F73385BE;
-	Mon, 27 Apr 2026 15:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9844D347BC1;
+	Mon, 27 Apr 2026 15:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777304443; cv=none; b=OmpsdKgaeP/eNhA5MXaardK3zAddNMDAflVJPBTvYFv6Ygvp7D87qaUEK+bpCuGtI2P8tPbystxYNJP63yvZNhFO3wXk2+5JP/gdaRYqTL1U8EQVALbkg4IdsFKNaOUMQqYQeVTTmT1uxIZoBOikR7dz88mWkghM0vdNQNLOhf4=
+	t=1777304977; cv=none; b=XvKQjDIQpxOPiUeuYTf5rrk3D6x9HYVU6qKODJF9mTn4IRMkvJp5patkgyk0/Y/DZ3QaTOKmM+OZA8EUJQI7TxfX18kJQ/QO+T96q8jDlJDdVmrs+ETvrPKNt49GhtZGJwO3mlEQ2HiLK2NKUYrN4GfbLVkqTFeSIru0d4Ck59Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777304443; c=relaxed/simple;
-	bh=c8ztL5UJrnKIx/gGq3C03wQiSe/tIOB3pUyZvRG+qEY=;
+	s=arc-20240116; t=1777304977; c=relaxed/simple;
+	bh=RnyH3VaJp9iG+DCxp6sKhHFXhoXkGIg/w2D9Ek0Oh5Q=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SzIZGs+ZytAdWBm/yUvwn6qGYOeCnODBdWGNJeTti2e27WoESR1dByFkdqapwkrSmqdavbxVQb7S1E/moq71XP8MejtxW+ahQ00ntW61godtjHEJ+ijEFBzUnnQRBI4Ni3oeN5U+l2b8nIKNFPG3HBtObovSULN3XYKLZz5y8oY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mUWPmibx; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=nizY87n/AnKB0cTg6M7gnT4BUNkQusdoTBqpfon/3y6M8Uxi88Xtc0TIlQUf5Lf5yIulbps7MjpF5G/RAfX4fxf/UzV/Cv0Is2gvV7JxWYuNeA+PZoKz2Kb2hMheQqQOtIIdpEJ5u5E++cf0uoTuUPnIeck8LHUijyUbNr7ijXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MI6yBmVH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mUWPmibx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32E84C19425;
-	Mon, 27 Apr 2026 15:40:37 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MI6yBmVH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5E7C19425;
+	Mon, 27 Apr 2026 15:49:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777304443;
-	bh=c8ztL5UJrnKIx/gGq3C03wQiSe/tIOB3pUyZvRG+qEY=;
+	s=k20201202; t=1777304977;
+	bh=RnyH3VaJp9iG+DCxp6sKhHFXhoXkGIg/w2D9Ek0Oh5Q=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mUWPmibx6XGiHzbFEs7Q45k7h6/CeaHuAHbjRnQNotmsWKgFaOgF4Thugm9BA15E4
-	 ssViSqsIK/A49KyM3PkCBLRtdA39SeG4grMveEhu0+Vq0DxpA5lBl1M5QAK4X6AHqt
-	 tSwxoyLHsmqdi/VuI1u6Feu8i9f3ScduyyuVzt2t9bHgzHfCl4PiLDqSyPVG0BiFK1
-	 O7pTqpztSboqGVB09gRretT2FHBO6LAXojisdHqCAH3y/TN8T4lSJr4Mh1G9dOvpYX
-	 nEFw4+p/i7tSKDH6opba6CZB7xqiGQbbnLpT69yCQ5KBlDgik3xfb6ZWFc9VhvNWi8
-	 gHjPQimeD6xgw==
-Message-ID: <c50aeb03-538b-4dca-9a81-ab84bc19a333@kernel.org>
-Date: Mon, 27 Apr 2026 17:40:34 +0200
+	b=MI6yBmVHD6NdSnTMBO36N9sU6nMr/OjWEqGqd2jCLjCEWVVf7dk6mjXJGk2yQaK+E
+	 PhAYxUVn5EV8LITl1X+gPSXptKRIM68RrM34vUt2DrcVNMQao53KTVeexPSpg28oD3
+	 f0L2Wus9WpPXxriMmieKZnpDtIBoXuIfbtGyEw9UGVFgV4dr1WPwrtXnNPuVkTAPhX
+	 d0LlPk1CCsyBnddzt+4T76XT6w7AfRcUNgeHf3g8/28A86Jer16wSp+KT0ISHT+EgH
+	 O4pOx9y4K1R9LRkKGLNNOayXWpdALpsycItvZHn9moremGmL8FZrXgwn+NY/5Arsfd
+	 IEXCtXz5ZIQlw==
+Message-ID: <9d365395-051a-436b-9017-352ebc889770@kernel.org>
+Date: Mon, 27 Apr 2026 17:49:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,23 +35,21 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
-To: Sasha Levin <sashal@kernel.org>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
- corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com, vbabka@kernel.org,
- rppt@kernel.org, surenb@google.com, mhocko@suse.com,
- skhan@linuxfoundation.org, jackmanb@google.com, hannes@cmpxchg.org,
- ziy@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Sasha Levin <sashal@nvidia.com>,
- Sanif Veeras <sveeras@nvidia.com>,
- "Claude:claude-opus-4-7" <noreply@anthropic.com>
-References: <20260424140056.2094777-1-sashal@kernel.org>
- <20260424140056.2094777-5-sashal@kernel.org>
- <4b961a07-b72d-4c8a-ab49-23f61ed12b53@kernel.org> <aeuC6TJ4XowazVZj@laps>
- <aeuFnuiYDBjttEKt@plex> <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org>
- <aev-DS4YTp5soVPd@laps> <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org>
- <aezt96xgz_qyf4d-@laps> <f910969d-1071-4174-bd42-da45cb6f9749@kernel.org>
- <ae9ucgtCNf0JQtGu@laps>
+Subject: Re: [PATCH v5 2/4] mm/memory-failure: add panic option for
+ unrecoverable pages
+To: Breno Leitao <leitao@debian.org>, Miaohe Lin <linmiaohe@huawei.com>,
+ Naoya Horiguchi <nao.horiguchi@gmail.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Shuah Khan <shuah@kernel.org>
+Cc: linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ kernel-team@meta.com
+References: <20260424-ecc_panic-v5-0-a35f4b50425c@debian.org>
+ <20260424-ecc_panic-v5-2-a35f4b50425c@debian.org>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -98,57 +96,48 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <ae9ucgtCNf0JQtGu@laps>
+In-Reply-To: <20260424-ecc_panic-v5-2-a35f4b50425c@debian.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
->>>
->>> For something like a datacenter deployment I'd agree with you - the odds are
->>> too low to care. For an unsupervised self driving vehicle, where there's no
->>> human (locally or remotely) available to take over, I'd like the odds to be as
->>> low as possible :)
->>
->> I thought that people usually use special RT OSes (with proven logic etc) for
->> any safety-related systems. Using Linux on the core safety system sounds ...
->> scary.
-> 
-> RT OSes are indeed the current approach.
-> 
-> s/scary/exciting ;)
+> +	switch (type) {
+> +	case MF_MSG_KERNEL:
+> +	case MF_MSG_UNKNOWN:
+> +		return true;
+> +	case MF_MSG_KERNEL_HIGH_ORDER:
+> +		/*
+> +		 * Rule out a concurrent buddy allocation: give the
+> +		 * allocator a moment to finish prep_new_page() and
+> +		 * re-check. A genuine high-order kernel tail page stays
+> +		 * unowned; an in-flight allocation will have bumped the
+> +		 * refcount, attached a mapping, or placed the page on
+> +		 * an LRU by now.
+> +		 */
+> +		p = pfn_to_online_page(pfn);
+> +		if (!p)
+> +			return true;
+> +		/*
+> +		 * Yield so a concurrent allocator on another CPU can
+> +		 * finish prep_new_page() and have its writes become
+> +		 * visible before we resample the page state.
+> +		 */
+> +		cpu_relax();
+> +		return page_count(p) == 0 &&
+> +		       !PageLRU(p) &&
+> +		       !page_mapped(p) &&
+> +		       !page_folio(p)->mapping &&
+> +		       !is_free_buddy_page(p);
 
-Not so exciting for the passengers ;)
+I don't get what you are doing here. The right way to check for a tail page is
+not by checking the refcount.
 
-> 
->> But, I'd expect corruption of other data (user pages? page tables?) a much
->> bigger problem than page al locator metdata? What am I missing that this here is
->> -- in context of the bigger problems there -- a thing we particularly care about?
-> 
-> You are very correct! The allocator work was fairly standalone, so it was an
-> easy first project to tackle.
+Further, you are not holding a folio reference? If so, calling
+page_mapped/folio_mapped is shaky. On concurrent folio split you can trigger a
+VM_WARN_ON_FOLIO().
 
-But in general, wouldn't we just expect ECC memory to give us an MCE, so we can
-detect what was corrupted and act accordingly?
 
-That's how it usually works: hw detects a memory corruption and injects an MCE.
-We detect that we corrupted memmap state and kill the kernel.
-
-Why does ECC not help here?
-
-> 
-> In general, the approach depends on what we're trying to defend from:
-> 
-> 1. bugs: an ASI-like MMU enforced "context" system.
-> 2. physics: just like in most other areas - lots of redundancy. For example,
-> consider redundant variables in safety critical code which exists as two
-> copies: var_v1 = value and var_v2 = value XOR mask. When accessing them, read
-> both copies, XOR the second back, compare.
-> 
-> There were a few sessions back in LPC about this. Here's the one from Bryan
-> Huntsman which gives a good overview:
-> https://www.youtube.com/watch?v=ie_ClBCed94
-
-Thanks, but I fundamentally don't understand how RAS capabilities interact here?
-We have mm/memory-failure.c for a reason :)
+Maybe folio_snapshot() is what you are looking for, if you are in fact not
+holding a reference?
 
 -- 
 Cheers,
