@@ -1,270 +1,99 @@
-Received: from canpmsgout08.his.huawei.com (canpmsgout08.his.huawei.com [113.46.200.223])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21A339A074;
-	Mon, 27 Apr 2026 08:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.223
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B753A759D
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 08:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777278277; cv=none; b=AUS7BTHctK3mk3MVVv7XaSPC5N8bk8WRArwxN2Yl94161biWOArvkAv2yVyKKcGiMTjUfFutrhQ4BGZDaSLhlXUJOYqkZYUG+GFYzskr9jLCR0RQslyP3NyoUcnLhLiXeuDuMCeL8HZYFV5ChaeYk1Y8CDZ4rIWjAkwq4GFWOaI=
+	t=1777280164; cv=none; b=qPc5lw/f+CV9TDiMbyGgt3kgf61kI7TP+dySEXbJMoQqPbNa50ICE4LFFrAHVMoSxFQBkVUV8F4p19x5w8/faqEJO//DVoc+NbiAiWSraglR+Wc1DJQHEtQu8f8rr0B23TFfVRCdlLHOYu1yRgCa+EjAdo6Z+11ovAOMnSUcZRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777278277; c=relaxed/simple;
-	bh=JoGYb5w+i7KAOj6ztX7K6yR7qMHfcXzHYJAIVcebOaI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=c4hxC8BPc+pZTjH/YlpUCfHDNvWjacV/mznDYK7oQSw4pxSWdLlNGnIhjpEmXpO1OG+KcsWFj+3vTPQDgwJZCQ5uLxxT3s7wVhKQ8y4g1x76l93VPCF7vHFLZkGS2GnQrjEMu+SfBWfp1rqe6WabSarmuY5OAHPFVsFd8qptQgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=113.46.200.223
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.163.214])
-	by canpmsgout08.his.huawei.com (SkyGuard) with ESMTPS id 4g3xJp4TSGzmV6X;
-	Mon, 27 Apr 2026 16:18:02 +0800 (CST)
-Received: from kwepemf200017.china.huawei.com (unknown [7.202.181.10])
-	by mail.maildlp.com (Postfix) with ESMTPS id B59DB4056C;
-	Mon, 27 Apr 2026 16:24:29 +0800 (CST)
-Received: from [10.67.121.58] (10.67.121.58) by kwepemf200017.china.huawei.com
- (7.202.181.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Mon, 27 Apr
- 2026 16:24:28 +0800
-Message-ID: <a4ed690a-50d6-4bfe-8810-86a75d7b51e3@hisilicon.com>
-Date: Mon, 27 Apr 2026 16:24:27 +0800
+	s=arc-20240116; t=1777280164; c=relaxed/simple;
+	bh=e0ZEwjP6zD/rHV0Vqf4IhTgvBZ9ZV3aiRT8Rjtw6vew=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=DP9gOCPqN1tOt88I9uNejTonT6Jej1BoO7M6Bv2nFor6hDYzsNW3bTD3ouDC8bJ4h4Hs/Nhsfs/3mQnigqEJXZbW5nz+jEEBkmazbATreo7drSnY9uhpPHDm1SP1PK/duqMpWR4Kcbx9NDPG8plXxbiUy8wYhe+IP8iKfxy7o2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rl2hR8Qp; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rl2hR8Qp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777280162;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bdy7/E7tkeTBGH0DMuZvkxgqLNb/8QzaFC1QjP7ThlA=;
+	b=Rl2hR8QpjJTGQXEoFO4tkfQ4Z8cG2RMxPkTMJOb0Vr+vbMWiCtE6rFFAqm8zQAg7Nck6/q
+	ve8AfCBEQ9Vh+Vi9E3r4Az34YNYHZRqnfTXvIkukqTvU+jlz7u5MJ9Xux459ggp4Ac5lQv
+	yhhjz7JSovvirYca65f3sGgLCt49KI8=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-97-A77rpIBbOyeDLZquVehGew-1; Mon,
+ 27 Apr 2026 04:55:58 -0400
+X-MC-Unique: A77rpIBbOyeDLZquVehGew-1
+X-Mimecast-MFC-AGG-ID: A77rpIBbOyeDLZquVehGew_1777280156
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0908119560B4;
+	Mon, 27 Apr 2026 08:55:56 +0000 (UTC)
+Received: from fedora-pc.redhat.corp (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id ED2DC1800352;
+	Mon, 27 Apr 2026 08:55:52 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: rdunlap@infradead.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Gabriele Monaco <gmonaco@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: matteo.martelli@codethink.co.uk,
+	skhan@linuxfoundation.org
+Subject: [PATCH] Documentation/rv: Replace stale website link
+Date: Mon, 27 Apr 2026 10:55:24 +0200
+Message-ID: <20260427085526.111835-1-gmonaco@redhat.com>
+In-Reply-To: <b845c448-1655-4860-9b6d-93d6f8426740@infradead.org>
+References: <b845c448-1655-4860-9b6d-93d6f8426740@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] cpufreq: CPPC: add autonomous mode boot parameter
- support
-To: Sumit Gupta <sumitg@nvidia.com>, <rafael@kernel.org>,
-	<viresh.kumar@linaro.org>, <pierre.gondois@arm.com>,
-	<ionela.voinescu@arm.com>, <zhenglifeng1@huawei.com>, <corbet@lwn.net>,
-	<skhan@linuxfoundation.org>, <rdunlap@infradead.org>,
-	<mario.limonciello@amd.com>, <linux-pm@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <linux-tegra@vger.kernel.org>, <treding@nvidia.com>,
-	<jonathanh@nvidia.com>, <vsethi@nvidia.com>, <ksitaraman@nvidia.com>,
-	<sanjayc@nvidia.com>, <mochs@nvidia.com>, <bbasu@nvidia.com>
-References: <20260424201814.230071-1-sumitg@nvidia.com>
-Content-Language: en-US
-From: Jie Zhan <zhanjie9@hisilicon.com>
-In-Reply-To: <20260424201814.230071-1-sumitg@nvidia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: kwepems200002.china.huawei.com (7.221.188.68) To
- kwepemf200017.china.huawei.com (7.202.181.10)
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
+The sched monitor page was linking to Daniel's website which is now
+down. The main purpose of the link was to point to a source for the
+models from the original author and that can be found also in his
+published paper.
 
-Hi Sumit,
+Replace the link with a reference to Daniel's "A thread synchronization
+model for the PREEMPT_RT Linux kernel" which can be found online and
+includes the models definitions as well as the work behind them (not the
+original patches but since they're based on a 5.0 kernel and are mostly
+included upstream, there's little value in keeping them in the docs).
 
-In general, I would expect this parameter only toggles on auto_sel by
-default.  IIUC, other CPPC configurations (min/max/desired perf, EPP,
-enable) are optional and not closely related to this.
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+---
+ Documentation/trace/rv/monitor_sched.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Why including those stuff here?
+diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+index 0b96d6e147c6..661171bd7c5e 100644
+--- a/Documentation/trace/rv/monitor_sched.rst
++++ b/Documentation/trace/rv/monitor_sched.rst
+@@ -365,4 +365,4 @@ constraints when processing the events::
+ References
+ ----------
+ 
+-[1] - https://bristot.me/linux-task-model
++[1] - Daniel Bristot de Oliveira et al.: A thread synchronization model for the PREEMPT_RT Linux kernel, J. Syst. Archit., 2020.
 
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+-- 
+2.53.0
 
-Please see other questions inline.
-
-Thanks!
-Jie
-
-On 4/25/2026 4:18 AM, Sumit Gupta wrote:
-> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
-> CPPC autonomous performance selection on all CPUs at system startup.
-> When autonomous mode is enabled, the hardware automatically adjusts
-> CPU performance based on workload demands using Energy Performance
-> Preference (EPP) hints.
-> 
-> When auto_sel_mode=1:
-> - Configure all CPUs for autonomous operation on first init
-> - Set EPP to performance preference (0x0)
-> - Use HW min/max_perf when available; otherwise initialize from caps
-> - Clamp desired_perf to bounds before enabling autonomous mode
-> - Hardware controls frequency instead of the OS governor
-> 
-> The boot parameter is applied only during first policy initialization.
-> Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
-> 
-> This patch depends on patch [2] ("cpufreq: Set policy->min and max
-> as real QoS constraints") so that the policy->min/max set in
-> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
-> during init.
-> 
-> Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
-> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
-> ---
-> v[1] -> v2:
-> - Call cppc_set_enable() unconditionally so CPPC is enabled for both
->   OS-driven and autonomous modes.
-Why adding this in v2?
-This looks like a separate issue since setting CPPC Enable reg doesn't seem
-to be related with autonomous control.
-> - Init min/max from caps instead of cppc_cpufreq_update_perf_limits()
->   as policy->min/max aren't yet populated.
-> 
-> [1] https://lore.kernel.org/lkml/20260317151053.2361475-1-sumitg@nvidia.com/
-> [2] https://lore.kernel.org/lkml/20260423084731.1090384-2-pierre.gondois@arm.com/
-> ---
->  .../admin-guide/kernel-parameters.txt         | 13 +++
->  drivers/cpufreq/cppc_cpufreq.c                | 89 +++++++++++++++++--
->  2 files changed, 97 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index 0a1abed1b93c..751817b0573a 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1067,6 +1067,19 @@ Kernel parameters
->  			policy to use. This governor must be registered in the
->  			kernel before the cpufreq driver probes.
->  
-> +	cppc_cpufreq.auto_sel_mode=
-> +			[CPU_FREQ] Enable ACPI CPPC autonomous performance
-> +			selection. When enabled, hardware automatically adjusts
-> +			CPU frequency on all CPUs based on workload demands.
-> +			In Autonomous mode, Energy Performance Preference (EPP)
-> +			hints guide hardware toward performance (0x0) or energy
-> +			efficiency (0xff).
-> +			Requires ACPI CPPC autonomous selection register support.
-> +			Format: <bool>
-> +			Default: 0 (disabled)
-> +			0: use cpufreq governors
-> +			1: enable if supported by hardware
-> +
->  	cpu_init_udelay=N
->  			[X86,EARLY] Delay for N microsec between assert and de-assert
->  			of APIC INIT to start processors.  This delay occurs
-> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
-> index 02db03d03755..672fc3058190 100644
-> --- a/drivers/cpufreq/cppc_cpufreq.c
-> +++ b/drivers/cpufreq/cppc_cpufreq.c
-> @@ -28,6 +28,9 @@
->  
->  static struct cpufreq_driver cppc_cpufreq_driver;
->  
-> +/* Autonomous Selection boot parameter */
-> +static bool auto_sel_mode;
-> +
->  #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->  static enum {
->  	FIE_UNSET = -1,
-> @@ -656,6 +659,14 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->  	caps = &cpu_data->perf_caps;
->  	policy->driver_data = cpu_data;
->  
-> +	/*
-> +	 * Enable CPPC for both OS-driven and autonomous modes.
-> +	 * The Enable register is optional - some platforms may not support it
-> +	 */
-> +	ret = cppc_set_enable(cpu, true);
-> +	if (ret && ret != -EOPNOTSUPP)
-> +		pr_warn("Failed to enable CPPC for CPU%d (%d)\n", cpu, ret);
-> +
->  	min = cppc_perf_to_khz(caps, caps->lowest_nonlinear_perf);
->  	max = cppc_perf_to_khz(caps, policy->boost_enabled ?
->  			caps->highest_perf : caps->nominal_perf);
-> @@ -711,11 +722,71 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->  	policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
->  	cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
->  
-> -	ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-> -	if (ret) {
-> -		pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-> -			 caps->highest_perf, cpu, ret);
-> -		goto out;
-> +	/*
-> +	 * Enable autonomous mode on first init if boot param is set.
-> +	 * Check last_governor to detect first init and skip if auto_sel
-> +	 * is already enabled.
-> +	 */
-> +	if (auto_sel_mode && policy->last_governor[0] == '\0' &&
-> +	    !cpu_data->perf_ctrls.auto_sel) {
-> +		/* Init min/max_perf from caps if not already set by HW. */
-> +		if (!cpu_data->perf_ctrls.min_perf)
-> +			cpu_data->perf_ctrls.min_perf = caps->lowest_nonlinear_perf;
-> +		if (!cpu_data->perf_ctrls.max_perf)
-> +			cpu_data->perf_ctrls.max_perf = policy->boost_enabled ?
-> +				caps->highest_perf : caps->nominal_perf;
-Is it automatically adjusted when switching boost on and off?
-> +
-> +		cpu_data->perf_ctrls.desired_perf =
-> +			clamp_t(u32, cpu_data->perf_ctrls.desired_perf,
-> +				cpu_data->perf_ctrls.min_perf,
-> +				cpu_data->perf_ctrls.max_perf);
-Why do we need to clamp desire_perf here?
-> +
-> +		policy->cur = cppc_perf_to_khz(caps,
-> +					       cpu_data->perf_ctrls.desired_perf);
-> +
-> +		/* EPP is optional - some platforms may not support it */
-> +		ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
-Why setting this to PERFORMANCE by default?
-A platform can have its own default EPP value.  This would override that.
-> +		if (ret && ret != -EOPNOTSUPP)
-> +			pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
-> +		else if (!ret)
-> +			cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
-> +
-> +		/* Program min/max/desired into CPPC regs before enabling auto_sel. */
-> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-> +		if (ret) {
-> +			pr_debug("Err setting perf for autonomous mode CPU:%d ret:%d\n",
-> +				 cpu, ret);
-> +			goto out;
-Shouldn't this be pr_warn(), or even pr_err(), if it needs to bail out?
-
-However, IIUC setting min/max/desired perf is optional for auto_sel, so
-better to pr_info() and continue setting auto_sel?
-> +		}
-> +
-> +		ret = cppc_set_auto_sel(cpu, true);
-> +		if (ret && ret != -EOPNOTSUPP) {
-> +			pr_warn("Failed autonomous config for CPU%d (%d)\n",
-> +				cpu, ret);
-> +			goto out;
-Bailing out here would end up without DVFS support.
-Can we fall back to the normal OS directed mode?
-> +		}
-> +		if (!ret)
-> +			cpu_data->perf_ctrls.auto_sel = true;
-> +	}
-> +
-> +	if (cpu_data->perf_ctrls.auto_sel) {
-> +		/* Sync policy limits from HW when autonomous mode is active */
-> +		policy->min = cppc_perf_to_khz(caps,
-> +					       cpu_data->perf_ctrls.min_perf ?:
-> +					       caps->lowest_nonlinear_perf);
-> +		policy->max = cppc_perf_to_khz(caps,
-> +					       cpu_data->perf_ctrls.max_perf ?:
-> +					       (policy->boost_enabled ?
-> +						caps->highest_perf :
-> +						caps->nominal_perf));
-> +	} else {
-> +		/* Normal mode: governors control frequency */
-> +		ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
-> +		if (ret) {
-> +			pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
-> +				 caps->highest_perf, cpu, ret);
-> +			goto out;
-> +		}
->  	}
->  
->  	cppc_cpufreq_cpu_fie_init(policy);
-> @@ -1035,10 +1106,18 @@ static int __init cppc_cpufreq_init(void)
->  
->  static void __exit cppc_cpufreq_exit(void)
->  {
-> +	unsigned int cpu;
-> +
-> +	for_each_present_cpu(cpu)
-> +		cppc_set_auto_sel(cpu, false);
-> +
->  	cpufreq_unregister_driver(&cppc_cpufreq_driver);
->  	cppc_freq_invariance_exit();
->  }
->  
-> +module_param(auto_sel_mode, bool, 0444);
-> +MODULE_PARM_DESC(auto_sel_mode, "Enable CPPC autonomous performance selection at boot");
-> +
->  module_exit(cppc_cpufreq_exit);
->  MODULE_AUTHOR("Ashwin Chaugule");
->  MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
