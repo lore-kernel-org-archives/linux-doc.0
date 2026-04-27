@@ -1,116 +1,214 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF1A3D6CD4
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.169
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777313861; cv=pass; b=V2fC5FLy+ZL4SyoOLuzFpHnljFm9yAVmhRBT3xNEBUafxrfDJC9ticCWMVvHAinLW6UaQ9pdzIkSgjHnwK4Ki47Es7VFJqyxwvpXBR1ZJbI6PUaYULHqgZq+gax3CILvsHzLieKILxo6NAAJH8Ph4LSy03T68tlE6cTxwUxogFM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777313861; c=relaxed/simple;
-	bh=9/qaeE/0ilnaSX4v7PgMbmfkJgUdA4noaM/lruNOwSc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B789E3E95BD
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:23:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777314201; cv=none; b=nvLkycsjWfU5Op+49+tH2sr2e13R2K2DrL6/gJyfl1140NHK8OehCHn/4LqO32FjYD1PKIU+9AZpegWGwFyqn0acwIDYvjIpJGzxMGTdyqJkqUerqcMUy+YZmrVSByu00CIkSpXRGSR/YspRnvdiOPFJS4VhHYQjBUrmKRG3tok=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777314201; c=relaxed/simple;
+	bh=7e7Tf2MGPPvF7IQtCfLfncjsVrLZZIHywY4b/DUulQo=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RDe/V4bszhxubI30hS2x9Rzo7JoTz0efZFGflrtLQxx7qHJAP72N14XrnFRpZWIOnYRQe0nLqMbx4o+HRyQTiHfbW9Vbmbarl5cBRf1K6hwwqPvUAAiS6WXNzUBRiENK5vwNh3HT+7FzvX5hdd2/e0dJ5Rm4VjIqhwPZnVAnNgw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=glFmjU6E; arc=pass smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 To:Cc:Content-Type; b=k0lvd+ZLDbjerq7LDwvRksWEYt0grVNkhBlRiiQ0oyms2CWPh8ziEB5nzzWvVGJtW8BpIJueKnpeyyMG4XVsbDIjs2E03flkkAYaJ84+8ROdffGHryFuBhKuM9hSjIpCz2cVjr47uZ1kv44zRzwmvf6CDKA5aWh2ohUwyT3DMok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AxtXtoW9; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="glFmjU6E"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2daaab98000so624859eec.2
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 11:17:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777313859; cv=none;
-        d=google.com; s=arc-20240605;
-        b=AvkZsXNg3udyM6uQpq6XmZSygMAEKfA3IbLrZBCpdp+fzhUKXPHIY5Q8Je9GQ0Ivw2
-         5ExIJsAxgE/o3Osj2siHtKkO/CPBWHGwmNHn7d6uCg81gDzvE3nQMFADYkMxFSCFkr47
-         r4yoG3fg+ld2maDwKNJ7cH6I7Nce3OL92pFhY/FhQny3jJQvfDeE6ZQ/rstnVnHQEFue
-         vd0Rw7vnNBn1SYT49ebxaQ0E/tSBQhpcp6cKMpUpLEkm95znwBa3GK1qywkzGNL+YR7I
-         ScJfCAGcC2AncUmbguPwWmLBXgb/1dQ5vQ/zYy/nbDGODEk3KcMvjRvSoX1Nv5XFRN1m
-         kh6Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=9/qaeE/0ilnaSX4v7PgMbmfkJgUdA4noaM/lruNOwSc=;
-        fh=I1mgUKtLrIBHcLdpBanKWxPVk8Zg+T1Xpqk5w99a0Rs=;
-        b=jpu8S1eyG/hg0+0HPj8Es/mt1gWNc17+s1Qr+bZdQ0i+vu8MZqyRDjy0G0nGSPv7y8
-         mpE0Qa6mrwwSkM8S+gpy9TsDJTseBIocEDdQmJMvy0P9nDVj5qNVTJQGetHntt0WLsoP
-         HOuD+gK7WCkyt5JllDK5nnHwOKa+JfemeibzVdFa1sh9xTA2e4sviOop/eUKzNRHji+P
-         O2+dUBYylOAEX+tPwm53Xf9idbnSfU/WzkpBB2ilNDdTMQWfNdreYO+Vp+8vtYAkk8+K
-         ICuWA3o/x4Xz7AGHilCj71Z2C8z3Iu2RsK3S4QzQe8Z4c9ujxMRqi0AHHaLxcwr2HrVk
-         BBtg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777313859; x=1777918659; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9/qaeE/0ilnaSX4v7PgMbmfkJgUdA4noaM/lruNOwSc=;
-        b=glFmjU6EpjjAmhiikI6XyaFsKJNvPO6HcmffI26zxMT2J75+KxOkQTNJUcFky7EHrz
-         Was/gi/mwwiPC8xzzs1jaGtvKdg8OAbByjvFCCLV2mRxOVVYwdeZAEwZe533nxvLhr8d
-         Y9B9kfL8JpPbwc8VQSPUDIFyN6t7ZgauNbtpDGIxoRZ/K1xQ7Wgur48eOUSGQGTOPZXb
-         AobmO1h0ltu4Y1oLfTkv7DebUNcPLFRqVOd3p8XRIBu/FDpF5fcf4WJCimX6s5oHv/KB
-         KHAbJ3Wm6ys2hFKoprpTZVjFKLNIAAqzqnPvOLLbDmdz4vziEuVeim8guKR/j4kTcjEs
-         Q/aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777313859; x=1777918659;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=9/qaeE/0ilnaSX4v7PgMbmfkJgUdA4noaM/lruNOwSc=;
-        b=ViiKPROYTTYlH141ZLfBqEr7XJHSYZSePkzhjv7xsRngHxIyK6VJ+trUO2BOcG2orF
-         s2pxaMiwo9xfTfxlbfaKlLbHgW9r2ASpJLL4WYaBGJy9Nz3LxF+4PMVsAheVK8VRE8xl
-         +Kf47yRhzc3c6ugFOyEbfVWrmkm3EGbk+wcnew/FCfuH5CQdrnK3KiuiORCFy8uV5fvf
-         kgRQh5jhszRwxUOoxBJuBXsBbekYtUR+C2Y6KxpJVPHKxMgFbwy8uYuOHFh7/rIV51WV
-         o+JjFbDE98yKcO0sykQ2JczOMOGjYvA/85bbL1Snj4CS749/2i4XdSgECPjIog1/moTC
-         qAWg==
-X-Forwarded-Encrypted: i=1; AFNElJ/wwiZSeAjoWyZTepF6pPq9QrARHxKkeaHRg+CDASfSNHmAfEnvwxxrnQlHkqe2hksu2GlqZC+s22M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxT1pGjMWKExCE8ixZu2Qc9AoPoeRrz+ZVv1kRO7HEBMzQDPIg/
-	Zq9Zg6IBKGXlzLrJQyiq1ObQVEEJAxM20LjlFVtED284ZosSwyNfOy/LIJ+GmVIxtmHDy9RRssM
-	DTRD2xDOB1OK6Y4f8gl2ie7YzwwL4oKk=
-X-Gm-Gg: AeBDievirpk/vFudAvRiOa0UUPizlzd7akO1KGhey2jg1eJ3jtIjxATOA1OfxrE6xkC
-	gqK6HzPNT8Ow7P/YYtSLcv5AIrr+RsXq5y4sXsEyYlO6/X9GhMuhQb0cnnaDgGLrd2Q7Z+WH0a/
-	N3kGyoN19z92DmhtTSO1oFWt8fgymvXr94Q9UYzuR5Zpivixijj5I5nZsRDtbF8GE3YbeCGwBuQ
-	gpf7VwRE7GA/2BWzQZnuc+Ho/pqnVgYWbDRAH/FQntVVq+fzO7f3o+nHZb0vozxF1MXgIAq52SJ
-	wX/rNK2dVs6yjYvW8XYwTXy9njqZfPAihA5SPXlZVbDWNiLxnl/Y9+iW83I+U/GyRLPf5zD51vI
-	7+D8NagPDeX73IAuamzK1ZR+u7fS6FjfOLg==
-X-Received: by 2002:a05:693c:2c17:b0:2bd:d8e6:90a0 with SMTP id
- 5a478bee46e88-2ed09b8126cmr15513eec.3.1777313859385; Mon, 27 Apr 2026
- 11:17:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AxtXtoW9"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93700C2BCB6
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777314201;
+	bh=7e7Tf2MGPPvF7IQtCfLfncjsVrLZZIHywY4b/DUulQo=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=AxtXtoW91Szs1ppf6YGfwYILqEnqNth9WCmpuZQNj+WzMjxYOBk7QwDAhz5wXitVh
+	 GIJWN65tEr5z7Rhs3yVwPrmHtxOk0jGUEGxOzHF7dKLLi3fyNFBH9BhQ9qhasVS8Ov
+	 Yw/L3ly9WTIehMz5N26+6UUt8f1MqAwBtpOZW8XqeotLPH7v5XDxczg7HjMSvSYPnz
+	 oe13yt1zt2PIamae0azrqg8NnTtIGoUVubvm+A/shtxSo5YpdQ3pnhAICf+sMObQ/2
+	 WIM7KNQ1LS27df/0Co9YDsl6DAxCHX3uNRIHOgkhBmhQKbjugIW9jzLHTKzD/8qF3L
+	 Wg8qXelz6C3yA==
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-67845996252so8046691a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 11:23:21 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8cw+knBe+ZhCpwX80a3Ny2FDY/HMWCsEfkOZ6IB5AasLwyC3HByTHl6iloQTMvq/bFIEEZ7Ne6SWY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzrR4MlZnsvm9R2xfrkc2X94uMxahRPv+Dh3BlSQuHtzRn981vK
+	e0lviPFi6hlQXS8IpoRB3Aze10XxDkNvVr0tB2SD3DDD+IU29EQtG3TGF2wwfx9JNXl6VFLdKx5
+	KaHN+m9MZ9SiRNcVew6qSZMRefCYFsL4=
+X-Received: by 2002:a17:907:8b95:b0:ba8:8c8c:1c5d with SMTP id
+ a640c23a62f3a-bb7fd089780mr894166b.47.1777314199304; Mon, 27 Apr 2026
+ 11:23:19 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427174429.779474-1-julianbraha@gmail.com> <20260427174429.779474-3-julianbraha@gmail.com>
-In-Reply-To: <20260427174429.779474-3-julianbraha@gmail.com>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 27 Apr 2026 20:17:26 +0200
-X-Gm-Features: AVHnY4KhSNd-WIZ0NrsCVBGrVQlV_jyP2VI5mbSl8TQVMeY9TM9-9Itbq43tbOU
-Message-ID: <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
-To: Julian Braha <julianbraha@gmail.com>
-Cc: akpm@linux-foundation.org, ljs@kernel.org, arnd@arndb.de, 
-	gregkh@linuxfoundation.org, masahiroy@kernel.org, nathan@kernel.org, 
-	nsc@kernel.org, ojeda@kernel.org, corbet@lwn.net, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
+ <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
+ <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
+ <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
+ <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
+ <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
+ <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
+ <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com> <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
+In-Reply-To: <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Mon, 27 Apr 2026 11:23:07 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
+X-Gm-Features: AVHnY4JSrF4JaGtUa9RGykJDx4LJmM53x95FeUNsFKceHbvA9vScOToLoywkb9c
+Message-ID: <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
+	Byungchul Park <byungchul@sk.com>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
+	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
+	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
+	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
+	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
+	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
+	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 27, 2026 at 7:44=E2=80=AFPM Julian Braha <julianbraha@gmail.com=
-> wrote:
+On Fri, Apr 24, 2026 at 12:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wro=
+te:
 >
-> +kconfirm also requires the Cargo package manager and an internet
-> +connection for compilation of its dependencies.
+> On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wr=
+ote
+> > > https://lore.kernel.org/linux-mm/20260421055323.940344-1-youngjun.par=
+k@lge.com/
+> >
+> > Does this do promotion/demotion of swap entries?
+>
+> Not yet, let's do things step by step.
+>
+> > > For example just reserve a type (e.g. type 0) as the virtual type?
+> > > (type is really a bad naming though).
+> > >
+> > > The that swap file (or swap mapping) will be
+> > >
+> > > I was trying that based on this:
+> > > https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d=
+19815@tencent.com/
+> > >
+> > > It seems to work and the only thing we need is actually just somethin=
+g
+> > > like this one in VSS:
+> > > https://lore.kernel.org/linux-mm/20260320192735.748051-15-nphamcs@gma=
+il.com/
+> > >
+> > > This part:
+> > > + /* fall back to physical swap device */
+> > > + if (!vswap_alloc_swap_slot(folio)) {
+> > >
+> > > We do a folio_realloc_swap if folio->swap have type 0.
+> > >
+> > > Which means, if there is no virtual device / mapping / file / space
+> > > (I'm not sure how to name it at this point :) ), the ordinary swap
+> > > routine is just still there untouched.
+> > >
+> > > If there is one, and it's being used, then, it is still the ordinary
+> > > swap routine, just do an extra allocation (and the extra allocation
+> > > strictly follows YoungJun's tier rule), which is same with VSS, but
+> > > everything is reused. From a user or high level interface perspective=
+,
+> > > this can be designed with no difference as VSS. Just with a few
+> > > bonuses: being per memcg / task / runtime optional, zero overhead if
+> > > not enabled, and reusing all the infra.
+> > >
+> > > BTW this deferred allocation (in VSS or dynamic swap mapping, similar
+> > > thing) is actually a bit concerning to me as well. It changes the
+> > > common swapout routine and maybe worth reconsideration (e.g.
+> > > activate_locked_split and mTHP stats is now ignored?), being optional
+> > > for now also seems safer.
+> >
+> > I am not sure if I understand you correctly. I think what you're propos=
+ing is:
+> >
+> > - Page tables either point directly to a swap slot, or to a virtual swa=
+p entry.
+> > - By default, page tables just point to swap slots maintaining current =
+behavior.
+>
+> I mean, they are all swap entries, nothing special from the page table
+> side. Swap subsystems handle things internally.
+>
+> > - If we have multiple backends (e.g. zswap or tiering), we use virtual
+> > swap entry instead.
+>
+> Actually that can just follow the swap priority, or tier rule. Even if
+> virtual mapping exists, it can be bypassed. e.g. you have a large NBD
+> and don't care about either fragmentation or compression for offline
+> workload cgroups, then why use a virtual layer for them which could
+> double the kmem usage or spend more CPU? Setup is a different issue
+> which can be discussed.
+>
+> > - The physical swapfile has clusters and swap tables (status quo).
+> > - Virtual swap is implemented with clusters and swap tables in a
+> > virtual space, and each table entry points to an underlying swap slot
+> > or zswap entry.
+> > - If a page table has a physical swap slot, and we need to do tiering,
+> > we basically "make it virtual" by making the swap table of the
+> > physical swapfile point at a virtual swap entry? or another physical
+> > swapfile? Not sure.
+>
+> They are still ordinary swap entries, nothing special. The virtual
+> space is also just a ordinary swap file (or swap mapping), which is
+> easy to do:
+> https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d1981=
+5@tencent.com/
+>
+> Then its virtual_table will have a different set of swap entries. (I
+> left that part undone though).
+>
+> > > Right... I mean with two layers you will likely have >16 bytes
+> > > overhead, and double lookup.
+> >
+> > Why >16 bytes? Do we need anything extra other than the reverse
+> > mapping? Also why do we need a double lookup?
+>
+> You will have to store at least the following info: memcg (2 bytes),
+> shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
+> bytes, since you have to address a full virtual swap space). And some
+> type info is also needed. Part of them can be shrinked but still,
+> scientifically, merging two layers into one is considered a kind of
+> optimization.
+>
+> You need lookup the virtual layer, then the lower layer for many
+> decision making, is was discussed before to introduce more cache bit
+> or things like that and I think that is getting over complex, reminds
+> me of the slot cache or HAS_CACHE thing...:
+> https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8fcyz=
+VOKE14-O+Dw@mail.gmail.com/
 
-This will be quite surprising -- I think any `make` call should avoid
-touching the network and should allow working while offline as long as
-one has set up things beforehand.
+I think that's where the disconnect is. You are considering these two
+separate layers, each with its own metadata. The metadata should only
+live in one place.
 
-i.e. I think tools and dependencies in general should be fetched
-and/or installed beforehand, and then yes, `make` may use them,
-without touching the network (e.g. passing `--offline` or `--frozen`).
+If we only have swap tables in the virtual swap layer (with the
+metadata), backends do not have to carry the metadata. In this case,
+backends should only have a reverse mapping (if needed), and some
+internal data structure (e.g. bitmaps) to track usage.
 
-Cheers,
-Miguel
+This is difficult to achieve if the virtual swap layer is optional,
+because then the metadata can live in different places. This is why I
+think we should have a virtual swap layer that all swap entries go
+through and all metadata live in (where today's swap tables would
+live). Backends then only carry backend-specific data (e.g.
+compression handles for zswap, slots bitmap of swapfiles, etc). In
+this world I *think* the reverse mapping could end up being optional,
+depending on what we need it for.
