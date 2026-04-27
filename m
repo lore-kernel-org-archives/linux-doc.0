@@ -1,87 +1,110 @@
-Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CF3C34D901;
-	Mon, 27 Apr 2026 16:49:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0584B2F28FC;
+	Mon, 27 Apr 2026 16:50:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777308588; cv=none; b=utbzXILHHzN79JPSsUFeluiTRr37YelCIr2tJ373vjV5gl5lbIVev02WD4KiMVyLptDWCINuXrIicRMIBH+vcRX7ssZQZ6D3KbXyq/CJqxkPcnx8njDK9C2Wd552DSZEQmGWVIqr/OzjHBurzWF5zIZtOKDSZ+GtZgf4vuk8fb8=
+	t=1777308661; cv=none; b=FIPI60IAypEKLFQcVX+H1ms4zqAk6BWl8g0WZXmodPkr/sf/AeciC1VAVx9aU+pe0/bzhr0EFyLzPOAD+KDU4nHdnUgnhDsHYzCG0vHUMa4kaKryk0Hen82MO3xRL4Oh5Tramp33YDVWb0Z/ujzSmrc9tM8/YDgRo8eDQ3D0vGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777308588; c=relaxed/simple;
-	bh=GD+FWSrLGI2MA69Dj9+jLdx8fRUxq0j4IKM4VhNhstQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uagamFZrGKK1Z6LF1GGlVPK8gzT2/bcF9/dEl9h8WIyxfZ76nBHE7Z5KL4Wwr9YBsZFsd7x/bF8BghqDZNR+Y3PNQGTud3efs1NRl0H6BLffkHrFq+CcJCZ75iASZe9KyOFFsndwEqOJWdmrnIcxb+QnTQIBv5Gfv78w+Qc5rjg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org; spf=pass smtp.mailfrom=goodmis.org; arc=none smtp.client-ip=216.40.44.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=goodmis.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=goodmis.org
-Received: from omf03.hostedemail.com (lb01a-stub [10.200.18.249])
-	by unirelay10.hostedemail.com (Postfix) with ESMTP id 7F598C0360;
-	Mon, 27 Apr 2026 16:49:42 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: rostedt@goodmis.org) by omf03.hostedemail.com (Postfix) with ESMTPA id 0C4AF60011;
-	Mon, 27 Apr 2026 16:49:37 +0000 (UTC)
-Date: Mon, 27 Apr 2026 12:49:50 -0400
-From: Steven Rostedt <rostedt@goodmis.org>
-To: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
-Cc: Frederic Weisbecker <frederic@kernel.org>, LKML
- <linux-kernel@vger.kernel.org>, Gabriele Monaco <gmonaco@redhat.com>, Ingo
- Molnar <mingo@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Marcelo
- Tosatti <mtosatti@redhat.com>, Marco Crivellari
- <marco.crivellari@suse.com>, Michal Hocko <mhocko@kernel.org>, "Paul E .
- McKenney" <paulmck@kernel.org>, Peter Zijlstra <peterz@infradead.org>, Phil
- Auld <pauld@redhat.com>, Thomas Gleixner <tglx@linutronix.de>, Valentin
- Schneider <vschneid@redhat.com>, Vlastimil Babka <vbabka@suse.cz>, Waiman
- Long <longman@redhat.com>, linux-doc@vger.kernel.org, Bagas Sanjaya
- <bagasdotme@gmail.com>, Shuah Khan <skhan@linuxfoundation.org>, John Ogness
- <john.ogness@linutronix.de>
-Subject: Re: [PATCH] Documentation/kernel-parameters: Remove "Deprecated"
- from isolcpus=
-Message-ID: <20260427124950.012d0d42@gandalf.local.home>
-In-Reply-To: <20260427150739.bwVmmkj2@linutronix.de>
-References: <20260427150739.bwVmmkj2@linutronix.de>
-X-Mailer: Claws Mail 3.20.0git84 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	s=arc-20240116; t=1777308661; c=relaxed/simple;
+	bh=6r3XAMpgYbyM2eyCP4NpvBlVyLsyGxzHZWs+M3qjJG0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uaKDsErU9WKbhKgDHSqvAG/PuqfKIEJgLHH5anLb8xydJm6Mdp5aVk9jea2srWywmq6D7W5GxMlIVDFWChXVTF7PkoqhYCdulbXhm3Jvf0AZ6YM27zbDCwt+CRq8RW7uX7bKSb94cKdNW5pH4GhAj3CdFuaM4I5Vsgyu0LJs0fw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=TjE3dI91; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="TjE3dI91"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=WEpbWAMzRMwdAe2pI34IchbmL7/zApzmHQrs2eWfTVs=; b=TjE3dI91e7viFgl/PYJ3axr6aq
+	Faf9nVzEvJSwoPt2vbyUWngq03yJ/CouTv8UTPUxDXYXW45v4KUgiGV0P9AkNK87yB2kGzOHV9H67
+	gWVrLhF0Bfc+3F+25ySR1cGx3h0D0Ks5TDW38QM0yrqOizkJxZOVUU3Olg7/57V6/6CreuC+35WtL
+	ljlGgqGteIt1UXLV6oqyacipxWJoOblxTWa0WjSVutWPrhn2WZQYDibfskLSK+HZ+M1YBIttZ9OdU
+	Ay3FX2ULxaNuwCgCwFlM/CYvEIIZIvibDhfaxdhAoOj6aX39CF/fhi+nUB3Gsbr7QEKKwFD02iD/q
+	b03crZ5A==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wHPAb-0000000HOA2-4Amg;
+	Mon, 27 Apr 2026 16:50:54 +0000
+Message-ID: <f841e9f6-9d0b-4e10-a930-fdd74a74b9b9@infradead.org>
+Date: Mon, 27 Apr 2026 09:50:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] Documentation/rv: Replace stale website link
+To: Gabriele Monaco <gmonaco@redhat.com>, Steven Rostedt
+ <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: matteo.martelli@codethink.co.uk, skhan@linuxfoundation.org
+References: <20260427131709.170505-2-gmonaco@redhat.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260427131709.170505-2-gmonaco@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Server: rspamout07
-X-Rspamd-Queue-Id: 0C4AF60011
-X-Stat-Signature: ueewz8dhbfdriwgwh79ot1741w4ea5eh
-X-Session-Marker: 726F737465647440676F6F646D69732E6F7267
-X-Session-ID: U2FsdGVkX1+KrldTU+oRxmwita6pgl4nJxxng3F61ag=
-X-HE-Tag: 1777308577-201242
-X-HE-Meta: U2FsdGVkX1+A+tRtBD/TBOHWy8sBfv3FhwYACpGyoKtmyrGDtX4tQ1IIEPYVeIykdryo0/O8UiJX0SXx6lOSdOsZucHE4gwpuwOcMnaUtAvOQDxWt03s+eo89N7zrTMEPfuDY46j2BCeXBxFNM+a0NU2tPLSMqqygy355NR2r/7Q/+/CgqXfdjoWMvfOYQi+cj11ake/SvV6s4NiG/FzTzjw2giOTdKtkIQxyiUNMir0L/dF3fDXF6fvkvKuShnQO1gsaaeYrMiZrp46OYR2xQMY1KlrVBj4yL1ecRP1txtzsBnIB2YJjw30JYsF1pv+Ns1GpkfNXi7Zhe9+KXR4nq81LQGFdGLeO+qlOeXQUR+XleqS1hUgD/xJHe2xqFK/
 
-On Mon, 27 Apr 2026 17:07:39 +0200
-Sebastian Andrzej Siewior <bigeasy@linutronix.de> wrote:
 
-> The isolcpus= option has been marked as deprecated in 2017. Back then it
-> was desired for the domain sub option to be configured dynamically at
-> runtime instead using this boot command line which provides a static
-> configuration. In the meantime this option was extended by other sub
-> options which don't have runtime counterpart or it does not make sense
-> to provide one.
+
+On 4/27/26 6:17 AM, Gabriele Monaco wrote:
+> The sched monitor page was linking to Daniel's website which is now
+> down. The main purpose of the link was to point to a source for the
+> models from the original author and that can be found also in his
+> published paper.
 > 
-> The deprecated part always referred to the default `domain' sub option
-> but it was not obvious. Also the reasoning behind the deprecation is
-> sort of dubious: There is nothing wrong with a static configuration if
-> there is no desired to reconfigure. This is useful on systems which
-> have one purpose and the CPU partition configuration is not changed for
-> the entire lifetime.
+> Replace the link with a reference to Daniel's "A thread synchronization
+> model for the PREEMPT_RT Linux kernel" which can be found online and
+> includes the models definitions as well as the work behind them (not the
+> original patches but since they're based on a 5.0 kernel and are mostly
+> included upstream, there's little value in keeping them in the docs).
 > 
-> Remove the "Deprecated" note. Remove the part of the description which
-> suggest to use cpuset.sched_load_balance and instead point to the
-> documentation file which explains how to use cpusets to configure this
-> at runtime.
-> 
-> Signed-off-by: Sebastian Andrzej Siewior <bigeasy@linutronix.de>
+> Fixes: 03abeaa63c08 ("Documentation/rv: Add docs for the sched monitors")
+> Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
 > ---
->  Documentation/admin-guide/kernel-parameters.txt | 10 ++++------
->  1 file changed, 4 insertions(+), 6 deletions(-)
+> V2: Add link to the PDF and fixed RST references
+> 
+>  Documentation/trace/rv/monitor_sched.rst | 7 +++++--
+>  1 file changed, 5 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+> index 0b96d6e147c6..d3ba7edc202f 100644
+> --- a/Documentation/trace/rv/monitor_sched.rst
+> +++ b/Documentation/trace/rv/monitor_sched.rst
+> @@ -36,7 +36,7 @@ Specifications
+>  --------------
+>  
+>  The specifications included in sched are currently a work in progress, adapting the ones
+> -defined in by Daniel Bristot in [1].
+> +defined by Daniel Bristot in [1]_.
+>  
+>  Currently we included the following:
+>  
+> @@ -365,4 +365,7 @@ constraints when processing the events::
+>  References
+>  ----------
+>  
+> -[1] - https://bristot.me/linux-task-model
+> +.. [1] Daniel Bristot de Oliveira et al.:
+> +       `A thread synchronization model for the PREEMPT_RT Linux kernel
+> +       <https://www.iris.sssup.it/bitstream/11382/533630/1/Elsevier-JSA-2020.pdf>`_,
+> +       J. Syst. Archit., 2020.
+> 
+> base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
 
-Acked-by: Steven Rostedt <rostedt@goodmis.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
 
--- Steve
+although I don't care for the "J. Syst. Archit." abbreviation.
+Does JSA use that? Not that I can see.
+
+thanks.
+-- 
+~Randy
