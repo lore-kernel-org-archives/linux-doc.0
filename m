@@ -1,344 +1,218 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B053A784A
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 11:48:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17A4E386C31;
+	Mon, 27 Apr 2026 12:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777290489; cv=none; b=pbTwdU3y6oYBVN8kYhKSKQHcF0Ffm3agYqGNHyX3E5lPRR9f9PXNZnirDpful5GRDTp2zrKA3XTB5HM+7jg87z8Jqc5GH0YNBvARfOhSPNx6830mtcyeF0zxcg6fYqLsmPO1P6yjthryl8ONhFery9l/72FywW9JCuA/zsFu1sY=
+	t=1777291804; cv=none; b=SNqsUFJ5tvHRw52DFpyken7FtD1Zg/wSmutVvYFvpSDz3hPVCvnMlwW7pKTIgPlcMfy7ZZw9xFZPjNYiuXUiIdraPKGF9VQTDZ2O8adlo0bAPLBChbAIPeMkw6skL4n5oNLtLsMFRx8L764hJOAezQSZLU1ieKKTRA21faTQgVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777290489; c=relaxed/simple;
-	bh=pjmD2rpWCTaX/fu8VNsiLzZf3zO/e5i0dzsoenQP/qg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=c/4I75xCDqPk13WAe6GZAgAI3dQHjer/kZoSQD4W5SpCZpacN+5ge92zuowdZqpCfWnrvWKgOUrkcXeRu/oYU8hTFTBxpATxJ86KOU9SaBHYqJnitTSGG0BMR+OxlI3p9S4peH0YZi+FRLwnrNgOtIJ94rQL1SZHl5PTLIQyjJg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O7gBAPoR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777291804; c=relaxed/simple;
+	bh=bV2ndRXStbhZ2JNRS2ODSnm9jpg5L9ozE8bdTGsPo48=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=sIxwnelDZh8fHp5TGIvtp587KLpt/z8Fe72sGpvApgp8vn5nw4Xg5FCr1CCtzw5eBIBbVqBsNATolx9Af0/c8NuFplPTa7RK3T+fqPMIk+5DNeOOiThUj6feO+HooIrycfJCa3Xg9qckIrvlLlbk1v3kpbuk8rGRjKoeOtijEIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eMwH+xOC; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O7gBAPoR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDD3BC4AF09;
-	Mon, 27 Apr 2026 11:48:08 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eMwH+xOC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE5FFC19425;
+	Mon, 27 Apr 2026 12:10:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777290489;
-	bh=pjmD2rpWCTaX/fu8VNsiLzZf3zO/e5i0dzsoenQP/qg=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=O7gBAPoRN7OpkMaur6cH9VpqNyNmw3fv3zNQOigJejeBqwr+VoIhqnt8BAUz75A6n
-	 4W0m+4sopJjPubKP6ES01G/OhspOCer+CC/SU0zoDnYSuNEInSXR2LEgo7KtFTWJpH
-	 c+grh1VyfSk7fzzgW4qV2zaNFTpn47mJUl69YAZ5js8ijvg9bMQ8flfDTSl4GwCxyN
-	 agXu+0NhyEtFkXp+py79KBvA7mW8dqB3XYSc40jk1paz0tx42dijZ82nda09NXNxg+
-	 Mk+SAwTd6P3LvkGWTVlDQ2kLCNdxmwcpxBLzuYe0GZ88fZJulS75cmnI5Q/LYd81yW
-	 A5A6V6KxUA0nw==
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 15FDAF40069;
-	Mon, 27 Apr 2026 07:48:08 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-01.internal (MEProxy); Mon, 27 Apr 2026 07:48:08 -0400
-X-ME-Sender: <xms:-EzvaekTZyx5qVbzGFEDxvU_StAcrPifBl41S1Tk_r6Kp8rhavt0Ng>
-    <xme:-EzvaZwXvbrFUKEHfYlDscqkn7QVCrAlnPHuY6xRL2ghfg0jiS3SIPcgJVJVSD6f2
-    _U3GZFhPefLD78fGUrvaAQtrUAjnVrJQacDiqV-67V6sp1ElDaNSw>
-X-ME-Received: <xmr:-EzvaVJ1Rrpcst0AmAzbM-acln8iL3li_S8DFBZMd5UVZ-HyL-CeXKoFyA2HZg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdejkeeiudcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecunecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertd
-    ertdejnecuhfhrohhmpedfmfhirhihlhcuufhhuhhtshgvmhgruhculdfovghtrgdmfdcu
-    oehkrghssehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnhephfdvfedvveejve
-    ehhffhvedufedujeefuddvkeehleduhfeihfehudejffffiefgnecuvehluhhsthgvrhfu
-    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirhhilhhlodhmvghsmhhtph
-    gruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheehqddvkeeggeegjedvkedq
-    khgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrdhnrghmvgdpnhgspghrtg
-    hpthhtohepvdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegrkhhpmheslhhi
-    nhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoheprhhpphhtsehkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughhrghtrdgtohhmpdhrtghp
-    thhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhjsheskhgvrh
-    hnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohhoghhlvgdrtghomhdprhgt
-    phhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhirghmrd
-    hhohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthhopeiiihihsehnvhhiughi
-    rgdrtghomh
-X-ME-Proxy: <xmx:-EzvacKw21LaXNJMXCZyLXnXadXxqN12RkCJu6M4OaCWBXIO69Ch9Q>
-    <xmx:-EzvaUXh-KXNWOJWE29bn8QGh3V47iKVqWc4c8Pg2BW4cidBjBT82Q>
-    <xmx:-EzvaUD6QMZ6mWC9wjVoxVP65ESaeOEDg4NnW-zzevwE6L121jhCPg>
-    <xmx:-EzvaXEzcU3n9hCJORUJJftNQACO3pwzRo2pF1lJ0MBKZj7sAAR5PA>
-    <xmx:-EzvaQecOHD1Y6YsCN9oPVNEkjaBvP4xDltJmuX64Wb8kqfceoK5DMan>
-Feedback-ID: i10464835:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 27 Apr 2026 07:48:06 -0400 (EDT)
-From: "Kiryl Shutsemau (Meta)" <kas@kernel.org>
-To: akpm@linux-foundation.org,
-	rppt@kernel.org,
-	peterx@redhat.com,
-	david@kernel.org
-Cc: ljs@kernel.org,
-	surenb@google.com,
-	vbabka@kernel.org,
-	Liam.Howlett@oracle.com,
-	ziy@nvidia.com,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	seanjc@google.com,
-	pbonzini@redhat.com,
-	jthoughton@google.com,
-	aarcange@redhat.com,
-	sj@kernel.org,
-	usama.arif@linux.dev,
-	linux-mm@kvack.org,
+	s=k20201202; t=1777291803;
+	bh=bV2ndRXStbhZ2JNRS2ODSnm9jpg5L9ozE8bdTGsPo48=;
+	h=From:To:Cc:Subject:Date:From;
+	b=eMwH+xOCVlLRba18hcp6Fp537KYBQzyl7+AtZ10zXKSEKdlA3hZUXc9LjPhjzyOD0
+	 6Xl+WZPw4VeNwydLy+LjqyuPtdweiJmmmGY7au0BZtGamI+Bo+zg4olocoadZrLhnK
+	 Q+Eb4wwL/Al5DLbKm+PyTxfAep1z6L5h7gxZsEDav46Lfrb9dxIpKwImVfwvtC8QVm
+	 Fhir1ZuKk2q5XOruUfjegceCdO2f6ePVIn6eUYj4rmi7NzxGItKYjZU9YLlah/2WH5
+	 GwEx0Xd4frColjlLgigmcI+lZogDKaE1S10OV/WWTZVb+rMXrjkNCgVU9k+jcDEZWl
+	 B9pHfUddbft9g==
+From: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>
+To: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>
+Cc: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
 	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	kvm@vger.kernel.org,
-	kernel-team@meta.com,
-	"Kiryl Shutsemau (Meta)" <kas@kernel.org>
-Subject: [PATCH 14/14] Documentation/userfaultfd: document RWP working set tracking
-Date: Mon, 27 Apr 2026 12:46:02 +0100
-Message-ID: <20260427114607.4068647-15-kas@kernel.org>
-X-Mailer: git-send-email 2.51.2
-In-Reply-To: <20260427114607.4068647-1-kas@kernel.org>
-References: <20260427114607.4068647-1-kas@kernel.org>
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] fprobe: Add unregister_fprobe_sync() for synchronous unregistration
+Date: Mon, 27 Apr 2026 21:09:58 +0900
+Message-ID:  <177729179863.401400.6063130067239479972.stgit@mhiramat.tok.corp.google.com>
+X-Mailer: git-send-email 2.54.0.rc2.544.gc7ae2d5bb8-goog
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Add an admin-guide section covering UFFDIO_REGISTER_MODE_RWP:
+From: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 
-  - sync and async fault models;
-  - UFFDIO_RWPROTECT semantics;
-  - UFFD_FEATURE_RWP_ASYNC;
-  - UFFDIO_SET_MODE runtime mode flips.
+Currently, unregister_fprobe() removes the ftrace hooks but does not
+wait for the RCU grace period to expire. This is efficient for batch
+unregistration of multiple fprobes (to avoid multiple RCU grace period
+latencies), but it leaves a window where probe handlers might still be
+running on other CPUs after the function returns.
+If a caller needs to free the fprobe structure or unload the module
+immediately after unregistration, they must manually call
+synchronize_rcu() to prevent use-after-free issues.
 
-It also covers typical VMM working-set-tracking workflow from detection
-loop through sync-mode eviction and back to async.
+To simplify this use case, introduce unregister_fprobe_sync(). This
+function unregisters the fprobe and waits for the RCU grace period to
+complete before returning.
 
-Signed-off-by: Kiryl Shutsemau <kas@kernel.org>
-Assisted-by: Claude:claude-opus-4-6
+Also, update the documentation of unregister_fprobe() to clarify its
+non-blocking behavior and suggest using unregister_fprobe_sync() for the
+last probe in a batch. Finally, update the fprobe sample module to use
+the synchronous version on exit to ensure safe module unloading.
+And add a fix to use synchronous version in the sample code and
+trace_fprobe (unexpected error case).
+
+Signed-off-by: Masami Hiramatsu (Google) <mhiramat@kernel.org>
 ---
- Documentation/admin-guide/mm/userfaultfd.rst | 201 ++++++++++++++++++-
- 1 file changed, 195 insertions(+), 6 deletions(-)
+ Documentation/trace/fprobe.rst  |   15 ++++++++++++---
+ include/linux/fprobe.h          |    5 +++++
+ kernel/trace/fprobe.c           |   30 ++++++++++++++++++++++++++++++
+ kernel/trace/trace_fprobe.c     |    9 +++++++--
+ samples/fprobe/fprobe_example.c |    2 +-
+ 5 files changed, 55 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/admin-guide/mm/userfaultfd.rst b/Documentation/admin-guide/mm/userfaultfd.rst
-index 1e533639fd50..c6304ddcf238 100644
---- a/Documentation/admin-guide/mm/userfaultfd.rst
-+++ b/Documentation/admin-guide/mm/userfaultfd.rst
-@@ -275,16 +275,16 @@ tracking and it can be different in a few ways:
-   - Dirty information will not get lost if the pte was zapped due to
-     various reasons (e.g. during split of a shmem transparent huge page).
+diff --git a/Documentation/trace/fprobe.rst b/Documentation/trace/fprobe.rst
+index 95998b189ae3..eee4860ab29a 100644
+--- a/Documentation/trace/fprobe.rst
++++ b/Documentation/trace/fprobe.rst
+@@ -65,6 +65,12 @@ To disable (remove from functions) this fprobe, call::
  
--  - Due to a reverted meaning of soft-dirty (page clean when uffd-wp bit
--    set; dirty when uffd-wp bit cleared), it has different semantics on
--    some of the memory operations.  For example: ``MADV_DONTNEED`` on
-+  - Due to a reverted meaning of soft-dirty (page clean when the uffd bit
-+    is set; dirty when the uffd bit is cleared), it has different semantics
-+    on some of the memory operations.  For example: ``MADV_DONTNEED`` on
-     anonymous (or ``MADV_REMOVE`` on a file mapping) will be treated as
--    dirtying of memory by dropping uffd-wp bit during the procedure.
-+    dirtying of memory by dropping the uffd bit during the procedure.
+   unregister_fprobe(&fp);
  
- The user app can collect the "written/dirty" status by looking up the
--uffd-wp bit for the pages being interested in /proc/pagemap.
-+uffd bit for the pages being interested in /proc/pagemap.
++Or if you need to wait for the RCU grace period to ensure no handlers
++are running on any CPU (e.g., before freeing the `fprobe` structure),
++use::
++
++  unregister_fprobe_sync(&fp);
++
+ You can temporally (soft) disable the fprobe by::
  
--The page will not be under track of uffd-wp async mode until the page is
-+The page will not be under track of userfaultfd-wp async mode until the page is
- explicitly write-protected by ``ioctl(UFFDIO_WRITEPROTECT)`` with the mode
- flag ``UFFDIO_WRITEPROTECT_MODE_WP`` set.  Trying to resolve a page fault
- that was tracked by async mode userfaultfd-wp is invalid.
-@@ -307,6 +307,195 @@ transparent to the guest, we want that same address range to act as if it was
- still poisoned, even though it's on a new physical host which ostensibly
- doesn't have a memory error in the exact same spot.
+   disable_fprobe(&fp);
+@@ -81,9 +87,12 @@ Same as ftrace, the registered callbacks will start being called some time
+ after the register_fprobe() is called and before it returns. See
+ Documentation/trace/ftrace.rst.
  
-+Read-Write Protection
-+---------------------
-+
-+``UFFDIO_REGISTER_MODE_RWP`` enables read-write protection tracking on a
-+memory range. It is similar to (but faster than) ``mprotect(PROT_NONE)``
-+combined with a signal handler; unlike ``mprotect(PROT_NONE)``, RWP only
-+traps accesses to *present* PTEs, so accesses to unpopulated addresses in a
-+protected range fall through to the normal missing-page path. It uses the
-+PROT_NONE hinting mechanism (same as NUMA balancing) to make pages
-+inaccessible while keeping them resident in memory. Works on anonymous,
-+shmem, and hugetlbfs memory.
-+
-+This is designed for VM memory managers that need to track the working set
-+of guest memory for cold page eviction to tiered or remote storage.
-+
-+**Setup:**
-+
-+1. Open a userfaultfd and enable ``UFFD_FEATURE_RWP`` via ``UFFDIO_API``.
-+   Optionally request ``UFFD_FEATURE_RWP_ASYNC`` as well — it requires
-+   ``UFFD_FEATURE_RWP`` to be set in the same ``UFFDIO_API`` call.
-+
-+2. Register the guest memory range with ``UFFDIO_REGISTER_MODE_RWP``
-+   (and ``UFFDIO_REGISTER_MODE_MISSING`` if evicted pages will need to be
-+   fetched back from storage).
-+
-+**Feature availability:**
-+
-+RWP is built on top of two kernel primitives: a spare PTE bit owned by
-+userfaultfd (``CONFIG_HAVE_ARCH_USERFAULTFD_WP``) and arch support for
-+present-but-inaccessible PTEs (``CONFIG_ARCH_HAS_PTE_PROTNONE``). When both
-+are available on a 64-bit kernel, the build selects
-+``CONFIG_USERFAULTFD_RWP=y`` and the ``VM_UFFD_RWP`` VMA flag becomes
-+available.
-+
-+``UFFD_FEATURE_RWP`` and ``UFFD_FEATURE_RWP_ASYNC`` are masked out of the
-+features returned by ``UFFDIO_API`` when the running kernel or architecture
-+cannot support them — for example 32-bit kernels (where ``VM_UFFD_RWP`` is
-+unavailable), kernels built without ``CONFIG_USERFAULTFD_RWP``, and
-+architectures whose ptes cannot carry the uffd bit at runtime (e.g. riscv
-+without the ``SVRSW60T59B`` extension). ``UFFDIO_API`` does not fail;
-+unsupported bits are simply absent from ``uffdio_api.features`` on return.
-+VMMs should inspect the returned ``features`` after ``UFFDIO_API`` and fall
-+back to another tracking method when RWP is unavailable.
-+
-+**Protecting and Unprotecting:**
-+
-+Use ``UFFDIO_RWPROTECT`` to protect or unprotect a range, mirroring the
-+``UFFDIO_WRITEPROTECT`` interface::
-+
-+    struct uffdio_rwprotect rwp = {
-+        .range = { .start = addr, .len = len },
-+        .mode = UFFDIO_RWPROTECT_MODE_RWP,  /* protect */
-+    };
-+    ioctl(uffd, UFFDIO_RWPROTECT, &rwp);
-+
-+Setting ``UFFDIO_RWPROTECT_MODE_RWP`` sets PROT_NONE on present PTEs in the
-+range. Pages stay resident and their physical frames are preserved — only
-+access permissions are removed.
-+
-+Clearing ``UFFDIO_RWPROTECT_MODE_RWP`` restores normal VMA permissions and
-+wakes any faulting threads (unless ``UFFDIO_RWPROTECT_MODE_DONTWAKE`` is set).
-+
-+**Scope of protection:**
-+
-+RWP protection is a property of *present* PTEs. ``UFFDIO_RWPROTECT`` only
-+affects entries that are already populated. Unpopulated addresses within
-+the range remain unpopulated; when first accessed they fault through the
-+normal missing path (``do_anonymous_page()``, ``do_swap_page()``,
-+``finish_fault()``) and the resulting PTE is not RWP-protected. To observe
-+the population itself, co-register the range with
-+``UFFDIO_REGISTER_MODE_MISSING``.
-+
-+Protection is preserved across page reclaim: a page swapped out while
-+RWP-protected carries the marker on its swap entry, and swap-in restores
-+the PROT_NONE state so the first access after swap-in still faults. The
-+same applies to pages temporarily replaced by migration entries.
-+
-+Operations that drop the PTE entirely — ``MADV_DONTNEED`` on anonymous
-+memory, hole-punch on shmem, truncation of a file mapping — also drop the
-+RWP marker: the next access re-populates the range without protection.
-+Unlike WP (which persists via ``PTE_MARKER_UFFD_WP``), there is no
-+persistent RWP marker today. The VMM needs to re-arm the range with
-+``UFFDIO_RWPROTECT`` after any operation that explicitly frees PTEs.
-+
-+**Fault Handling:**
-+
-+When a protected page is accessed:
-+
-+- **Sync mode** (default): The faulting thread blocks and a
-+  ``UFFD_PAGEFAULT_FLAG_RWP`` message is delivered to the userfaultfd
-+  handler. The handler resolves the fault with ``UFFDIO_RWPROTECT``
-+  (clearing ``MODE_RWP``), which restores the PTE permissions and wakes
-+  the faulting thread.
-+
-+- **Async mode** (``UFFD_FEATURE_RWP_ASYNC``): The kernel automatically
-+  restores PTE permissions and the thread continues without blocking. No
-+  message is delivered to the handler.
-+
-+**Runtime Mode Switching:**
-+
-+``UFFDIO_SET_MODE`` toggles ``UFFD_FEATURE_RWP_ASYNC`` at runtime, allowing
-+the VMM to switch between lightweight async detection and safe sync
-+eviction without re-registering. The toggle takes ``mmap_write_lock()`` to
-+ensure all in-flight faults complete before the mode change takes effect.
-+
-+**Cold Page Detection with PAGEMAP_SCAN:**
-+
-+RWP-protected PTEs carry the uffd PTE bit; the fault-resolution path
-+clears it. ``PAGEMAP_SCAN`` reports ``PAGE_IS_ACCESSED`` once the bit is
-+clear on a ``VM_UFFD_RWP`` VMA, so inverting it efficiently reports the
-+still-protected (cold) pages::
-+
-+    struct pm_scan_arg arg = {
-+        .size = sizeof(arg),
-+        .start = guest_mem_start,
-+        .end = guest_mem_end,
-+        .vec = (uint64_t)regions,
-+        .vec_len = regions_len,
-+        .category_mask = PAGE_IS_ACCESSED,
-+        .category_inverted = PAGE_IS_ACCESSED,
-+        .return_mask = PAGE_IS_ACCESSED,
-+    };
-+    long n = ioctl(pagemap_fd, PAGEMAP_SCAN, &arg);
-+
-+The returned ``page_region`` array contains contiguous cold ranges that can
-+then be evicted.
-+
-+**Cleanup:**
-+
-+When the userfaultfd is closed or the range is unregistered, all PROT_NONE
-+PTEs are automatically restored to their normal VMA permissions. This
-+prevents pages from becoming permanently inaccessible.
-+
-+**VMM Working Set Tracking Workflow:**
-+
-+A typical VMM lifecycle for cold page eviction to tiered storage::
-+
-+    /* One-time setup */
-+    uffd = userfaultfd(O_CLOEXEC | O_NONBLOCK);
-+    ioctl(uffd, UFFDIO_API, &(struct uffdio_api){
-+        .api = UFFD_API,
-+        .features = UFFD_FEATURE_RWP | UFFD_FEATURE_RWP_ASYNC,
-+    });
-+    ioctl(uffd, UFFDIO_REGISTER, &(struct uffdio_register){
-+        .range = { guest_mem, guest_size },
-+        .mode = UFFDIO_REGISTER_MODE_RWP |
-+                UFFDIO_REGISTER_MODE_MISSING,
-+    });
-+
-+    /* Tracking loop */
-+    while (vm_running) {
-+        /* 1. Detection phase (async — no vCPU stalls) */
-+        ioctl(uffd, UFFDIO_RWPROTECT, &(struct uffdio_rwprotect){
-+            .range = full_range,
-+            .mode = UFFDIO_RWPROTECT_MODE_RWP });
-+        sleep(tracking_interval);
-+
-+        /* 2. Find cold pages (uffd bit still set) */
-+        ioctl(pagemap_fd, PAGEMAP_SCAN, &(struct pm_scan_arg){
-+            .category_mask = PAGE_IS_ACCESSED,
-+            .category_inverted = PAGE_IS_ACCESSED,
-+            .return_mask = PAGE_IS_ACCESSED,
-+            ...
-+        });
-+
-+        /* 3. Switch to sync for safe eviction */
-+        ioctl(uffd, UFFDIO_SET_MODE,
-+              &(struct uffdio_set_mode){
-+                  .disable = UFFD_FEATURE_RWP_ASYNC });
-+
-+        /* 4. Evict cold pages (vCPU faults block in handler) */
-+        for each cold range:
-+            pwrite(storage_fd, cold_addr, len, offset);
-+            madvise(cold_addr, len, MADV_DONTNEED);
-+
-+        /* 5. Resume async tracking */
-+        ioctl(uffd, UFFDIO_SET_MODE,
-+              &(struct uffdio_set_mode){
-+                  .enable = UFFD_FEATURE_RWP_ASYNC });
-+    }
-+
-+During step 4, if a vCPU accesses a cold page being evicted, it blocks
-+with a ``UFFD_PAGEFAULT_FLAG_RWP`` fault. The handler can either let it
-+wait (the eviction completes, ``MADV_DONTNEED`` fires, the fault retries as
-+``MISSING`` and is resolved with ``UFFDIO_COPY`` from storage) or unprotect
-+it immediately with ``UFFDIO_RWPROTECT``.
-+
-+This workflow works identically for anonymous, shmem, and hugetlbfs memory.
-+
- QEMU/KVM
- ========
+-Also, the unregister_fprobe() will guarantee that both enter and exit
+-handlers are no longer being called by functions after unregister_fprobe()
+-returns as same as unregister_ftrace_function().
++Also, the `unregister_fprobe_sync()` will guarantee that both enter and exit
++handlers are no longer being called by functions after it returns.
++On the other hand, `unregister_fprobe()` does not wait for the RCU grace period,
++so handlers might still be running on other CPUs for a short time after it returns.
++This is useful when you unregister multiple fprobes in a batch to avoid
++waiting for the RCU grace period for each one.
  
--- 
-2.51.2
+ The fprobe entry/exit handler
+ =============================
+diff --git a/include/linux/fprobe.h b/include/linux/fprobe.h
+index 0a3bcd1718f3..6ae452e250a1 100644
+--- a/include/linux/fprobe.h
++++ b/include/linux/fprobe.h
+@@ -94,6 +94,7 @@ int register_fprobe(struct fprobe *fp, const char *filter, const char *notfilter
+ int register_fprobe_ips(struct fprobe *fp, unsigned long *addrs, int num);
+ int register_fprobe_syms(struct fprobe *fp, const char **syms, int num);
+ int unregister_fprobe(struct fprobe *fp);
++int unregister_fprobe_sync(struct fprobe *fp);
+ bool fprobe_is_registered(struct fprobe *fp);
+ int fprobe_count_ips_from_filter(const char *filter, const char *notfilter);
+ #else
+@@ -113,6 +114,10 @@ static inline int unregister_fprobe(struct fprobe *fp)
+ {
+ 	return -EOPNOTSUPP;
+ }
++static inline int unregister_fprobe_sync(struct fprobe *fp)
++{
++	return -EOPNOTSUPP;
++}
+ static inline bool fprobe_is_registered(struct fprobe *fp)
+ {
+ 	return false;
+diff --git a/kernel/trace/fprobe.c b/kernel/trace/fprobe.c
+index cc49ebd2a773..5f3e48385a47 100644
+--- a/kernel/trace/fprobe.c
++++ b/kernel/trace/fprobe.c
+@@ -1097,6 +1097,9 @@ static int unregister_fprobe_nolock(struct fprobe *fp)
+  * @fp: A fprobe data structure to be unregistered.
+  *
+  * Unregister fprobe (and remove ftrace hooks from the function entries).
++ * Note: This function does not wait for RCU grace period, since user
++ * may use several fprobes (and then unregister them one by one). In that
++ * case, it is recommended to use unregister_fprobe_sync() for the last fprobe.
+  *
+  * Return 0 if @fp is unregistered successfully, -errno if not.
+  */
+@@ -1110,6 +1113,33 @@ int unregister_fprobe(struct fprobe *fp)
+ }
+ EXPORT_SYMBOL_GPL(unregister_fprobe);
+ 
++/**
++ * unregister_fprobe_sync() - Unregister fprobe synchronously with RCU grace period.
++ * @fp: A fprobe data structure to be unregistered.
++ *
++ * Unregister fprobe (and remove ftrace hooks from the function entries) and
++ * wait for the RCU grace period to finish. This is useful for preventing
++ * the fprobe from being used after it is unregistered.
++ *
++ * Return 0 if @fp is unregistered successfully, -errno if not.
++ */
++int unregister_fprobe_sync(struct fprobe *fp)
++{
++	int ret;
++
++	guard(mutex)(&fprobe_mutex);
++	if (!fp || !fprobe_registered(fp))
++		return -EINVAL;
++
++	ret = unregister_fprobe_nolock(fp);
++	if (ret)
++		return ret;
++
++	synchronize_rcu();
++	return 0;
++}
++EXPORT_SYMBOL_GPL(unregister_fprobe_sync);
++
+ static int __init fprobe_initcall(void)
+ {
+ 	rhltable_init(&fprobe_ip_table, &fprobe_rht_params);
+diff --git a/kernel/trace/trace_fprobe.c b/kernel/trace/trace_fprobe.c
+index 9f5f08c0e7c2..fa5b41f7f306 100644
+--- a/kernel/trace/trace_fprobe.c
++++ b/kernel/trace/trace_fprobe.c
+@@ -845,8 +845,13 @@ static int __register_trace_fprobe(struct trace_fprobe *tf)
+ /* Internal unregister function - just handle fprobe and flags */
+ static void __unregister_trace_fprobe(struct trace_fprobe *tf)
+ {
+-	if (trace_fprobe_is_registered(tf))
+-		unregister_fprobe(&tf->fp);
++	/*
++	 * Here, @tf must NOT be busy, so it MUST be unregistered already.
++	 * But if it is unexpectedly registered, unregister it synchronously.
++	 */
++	if (WARN_ON_ONCE(trace_fprobe_is_registered(tf)))
++		unregister_fprobe_sync(&tf->fp);
++
+ 	if (tf->tuser) {
+ 		tracepoint_user_put(tf->tuser);
+ 		tf->tuser = NULL;
+diff --git a/samples/fprobe/fprobe_example.c b/samples/fprobe/fprobe_example.c
+index bfe98ce826f3..382d2f67672a 100644
+--- a/samples/fprobe/fprobe_example.c
++++ b/samples/fprobe/fprobe_example.c
+@@ -142,7 +142,7 @@ static int __init fprobe_init(void)
+ 
+ static void __exit fprobe_exit(void)
+ {
+-	unregister_fprobe(&sample_probe);
++	unregister_fprobe_sync(&sample_probe);
+ 
+ 	pr_info("fprobe at %s unregistered. %ld times hit, %ld times missed\n",
+ 		symbol, nhit, sample_probe.nmissed);
 
