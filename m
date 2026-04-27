@@ -1,99 +1,78 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6B753A759D
-	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 08:56:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B36A12C21D9
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 09:11:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777280164; cv=none; b=qPc5lw/f+CV9TDiMbyGgt3kgf61kI7TP+dySEXbJMoQqPbNa50ICE4LFFrAHVMoSxFQBkVUV8F4p19x5w8/faqEJO//DVoc+NbiAiWSraglR+Wc1DJQHEtQu8f8rr0B23TFfVRCdlLHOYu1yRgCa+EjAdo6Z+11ovAOMnSUcZRM=
+	t=1777281065; cv=none; b=ScXQfdPXjDM3WbQ6iz9xj2I3w+c2IRT8WRrqCHltRDlAYq+6vlYW/vzmLAitZ9UIA8zFdHyH3SuggD66ewxKOILJ2TFd/WnmNzMugsHCARqNPRWY5ih4Gkyo4DeTqgGGEINRRzgu2xT5uLkvpvZT4DXsqSIO1shAqPhmrGRfSf0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777280164; c=relaxed/simple;
-	bh=e0ZEwjP6zD/rHV0Vqf4IhTgvBZ9ZV3aiRT8Rjtw6vew=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=DP9gOCPqN1tOt88I9uNejTonT6Jej1BoO7M6Bv2nFor6hDYzsNW3bTD3ouDC8bJ4h4Hs/Nhsfs/3mQnigqEJXZbW5nz+jEEBkmazbATreo7drSnY9uhpPHDm1SP1PK/duqMpWR4Kcbx9NDPG8plXxbiUy8wYhe+IP8iKfxy7o2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rl2hR8Qp; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777281065; c=relaxed/simple;
+	bh=qaSxrvp/mwC13Q7utahNJ1rzVTRO2S3htqAsC9VGCkg=;
+	h=From:In-Reply-To:MIME-Version:References:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gbXsmvAeGYzIH+3b+ED3TvKL6QepzLgfz8x6JufFUw7shj9ReOM/VOStmQpS5r3juYi4EO45EkGE8RjXZCw4V5mq9oqRBCh67fo2ydmaRKTJ+2olTBz0YtN4l/UNBByT+hDzRHYOhIvNR1/0gIwKbWORjhD4nrNj8nYXzsdnX3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KqQVpv2k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rl2hR8Qp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777280162;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bdy7/E7tkeTBGH0DMuZvkxgqLNb/8QzaFC1QjP7ThlA=;
-	b=Rl2hR8QpjJTGQXEoFO4tkfQ4Z8cG2RMxPkTMJOb0Vr+vbMWiCtE6rFFAqm8zQAg7Nck6/q
-	ve8AfCBEQ9Vh+Vi9E3r4Az34YNYHZRqnfTXvIkukqTvU+jlz7u5MJ9Xux459ggp4Ac5lQv
-	yhhjz7JSovvirYca65f3sGgLCt49KI8=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-97-A77rpIBbOyeDLZquVehGew-1; Mon,
- 27 Apr 2026 04:55:58 -0400
-X-MC-Unique: A77rpIBbOyeDLZquVehGew-1
-X-Mimecast-MFC-AGG-ID: A77rpIBbOyeDLZquVehGew_1777280156
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0908119560B4;
-	Mon, 27 Apr 2026 08:55:56 +0000 (UTC)
-Received: from fedora-pc.redhat.corp (headnet01.pony-001.prod.iad2.dc.redhat.com [10.2.32.101])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id ED2DC1800352;
-	Mon, 27 Apr 2026 08:55:52 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: rdunlap@infradead.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: matteo.martelli@codethink.co.uk,
-	skhan@linuxfoundation.org
-Subject: [PATCH] Documentation/rv: Replace stale website link
-Date: Mon, 27 Apr 2026 10:55:24 +0200
-Message-ID: <20260427085526.111835-1-gmonaco@redhat.com>
-In-Reply-To: <b845c448-1655-4860-9b6d-93d6f8426740@infradead.org>
-References: <b845c448-1655-4860-9b6d-93d6f8426740@infradead.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KqQVpv2k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80149C2BCC7
+	for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 09:11:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777281065;
+	bh=qaSxrvp/mwC13Q7utahNJ1rzVTRO2S3htqAsC9VGCkg=;
+	h=From:In-Reply-To:References:Date:Subject:To:Cc:From;
+	b=KqQVpv2klHN4COV6/FkHtGLvqgVFkUMT4XFJC65IOX6sG8xMXlBbILxqhy0DGLHWT
+	 vRkBVrRrDhpzCvGLu4x32fB8S1yW0vfAc9KlRyvTuVA++qzvvZEGgFHssDxbhTY4ti
+	 YnDMuXH7ZAKlVt9ROPxf+WG47KUlD6NKy82YEtUa897rWPOPFsAEtVEzvdP7ZBnypv
+	 JbS6iOftOzhUtF19JtppvA8EkIF5VcT64Q9HY2QYf7Gakp6+pYjsfsZFQ/kGnFVaKQ
+	 OSAeMrjCj7B4Ho9+Bq9FPX/4VanruG3fMzWDo++g8MHRY+pS5xHcs48rAbcymojK/l
+	 n+6JnUbG3655g==
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-38ddd8d3b7fso75893451fa.3
+        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 02:11:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ9ASqXC6MlPvtUunLPGta2Be8s/vlrX8NDm70W5uCClJmmxh5O7z3enW9R0tSBXAEHa/3eiND7B7hE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxVu/5Ax/Y807nPEb58JIHN/wZ7g+wqOFgo/pzU0SY9XT4GKe1V
+	YZ/je5iRhEqCipaL6d2JbE5hWbiVuHK1bLsw4Lt59ta+83rXqxOVMiY8DHnwOtYgKInWIGCGmD5
+	WlOsfS6cGYTmWQcMGkrczK9G3hmSzpjnrA6C/jFIr9Q==
+X-Received: by 2002:a05:651c:1594:b0:385:dde5:1bf3 with SMTP id
+ 38308e7fff4ca-38ec77fafbbmr120389861fa.6.1777281064121; Mon, 27 Apr 2026
+ 02:11:04 -0700 (PDT)
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 27 Apr 2026 05:11:03 -0400
+Received: from 969154062570 named unknown by gmailapi.google.com with
+ HTTPREST; Mon, 27 Apr 2026 05:11:03 -0400
+From: Bartosz Golaszewski <brgl@kernel.org>
+In-Reply-To: <20260426232705.422938-1-rdunlap@infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+References: <20260426232705.422938-1-rdunlap@infradead.org>
+Date: Mon, 27 Apr 2026 05:11:03 -0400
+X-Gmail-Original-Message-ID: <CAMRc=McUr8Tuv9+LNQ0=ufj1z4Tstp_ujmL=r7bXrLaBXg4E5g@mail.gmail.com>
+X-Gm-Features: AVHnY4J-trfR2TwyypS6Hanf_46Aygty1UjX_AoYiPK6iXgvv9gAsNjcaBTj1Gw
+Message-ID: <CAMRc=McUr8Tuv9+LNQ0=ufj1z4Tstp_ujmL=r7bXrLaBXg4E5g@mail.gmail.com>
+Subject: Re: [PATCH] Documentation: ABI: sysfs-class-reboot-mode-reboot_modes:
+ fix doc warnings
+To: Randy Dunlap <rdunlap@infradead.org>
+Cc: linux-pm@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	Bartosz Golaszewski <brgl@kernel.org>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Shivendra Pratap <shivendra.pratap@oss.qualcomm.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The sched monitor page was linking to Daniel's website which is now
-down. The main purpose of the link was to point to a source for the
-models from the original author and that can be found also in his
-published paper.
+On Mon, 27 Apr 2026 01:27:05 +0200, Randy Dunlap <rdunlap@infradead.org> said:
+> Repair the docs build warnings in this file by unindenting the description,
+> adding blank lines, and using `` to quote *arg.
+>
+> WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
+> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: ERROR: Unexpected indentation. [docutils]
+> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: ERROR: Unexpected indentation. [docutils]
+> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: WARNING: Inline emphasis start-string without end-string. [docutils]
+> Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:1: ERROR: Unexpected indentation. [docutils]
+>
+> Fixes: d3da03025e6d ("Documentation: ABI: Add sysfs-class-reboot-mode-reboot_modes")
+> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+> ---
 
-Replace the link with a reference to Daniel's "A thread synchronization
-model for the PREEMPT_RT Linux kernel" which can be found online and
-includes the models definitions as well as the work behind them (not the
-original patches but since they're based on a 5.0 kernel and are mostly
-included upstream, there's little value in keeping them in the docs).
-
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/trace/rv/monitor_sched.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-index 0b96d6e147c6..661171bd7c5e 100644
---- a/Documentation/trace/rv/monitor_sched.rst
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -365,4 +365,4 @@ constraints when processing the events::
- References
- ----------
- 
--[1] - https://bristot.me/linux-task-model
-+[1] - Daniel Bristot de Oliveira et al.: A thread synchronization model for the PREEMPT_RT Linux kernel, J. Syst. Archit., 2020.
-
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
--- 
-2.53.0
-
+Reviewed-by: Bartosz Golaszewski <bartosz.golaszewski@oss.qualcomm.com>
