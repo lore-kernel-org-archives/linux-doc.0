@@ -1,147 +1,199 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 616C038E100;
-	Mon, 27 Apr 2026 20:50:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B62D93A9D8B;
+	Mon, 27 Apr 2026 20:56:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777323051; cv=none; b=sug3wAAvnxLp8hdQfGonAet8u15Faov4TB0Yn6a4tJjWMe/DP/39+V/60cyxf42kVPFGq6gYzIhxVCQty9r2Shso1EjGpaubZS1R4tjgfBImCbhNvvBOp3jvmLhhRuU6kXRpeJnbG1llixuPiIABVMBiLvIbSU4Kh1z0DRGpU7s=
+	t=1777323392; cv=none; b=P3g1iFbLwv79Lit6CHDeB8Pv8g0+JHpf1JqWNz1h/zlqA9z/U8z30qGNgDWO1NFzc8xo0xFlRx8yjJRxrXNN+wLzAyv0UZlusSrDcdWPXYDHiw2uCA5YkBsYi+hH/dLVznULANSVZYITri1kK6f+745kamtN9FMvMV3bGIn6LQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777323051; c=relaxed/simple;
-	bh=esH8GoW/x0f4F3LQ0BiNpL6uFiMcPBcjR+T948qhS/A=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=JMcRfUSLAcWpkYGKc2CFgE/oKnONJ+QcDpT6OYjD4Gsa8wBRhlsm4TLRx2gSmu2ojcYm+kasv2csC2u7LruQYeMXfgC+w90eNP1m7B89xEI0PMxtCqjdrIlZAV0VqWEVfgolNQGjHUxHSZAefgsqt8ZMRHFW6d8RLtgjA6VuafM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zif4KKi0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777323392; c=relaxed/simple;
+	bh=Sc3eIFNVvhEoZXn/JdBRF/OA3UoVeO6ICBTHeMO+Wk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WMDCGwouYbFd8RLGIrRHpwRZ20LheXxy46GmgnrrcGPH4CDkkYsHeIiNmcQ7nGvgK8CuFP34u0hZCVXljHMr7G4cTOsS+a6vOgWhKaBWe5ckknCrnKOynyod6sKXrA37rAMD2RTLpBfzOBiQ8FfgOIVW0llgxwm6305Cy7D5dwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=g3klIaNv; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zif4KKi0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A24CC19425;
-	Mon, 27 Apr 2026 20:50:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777323049;
-	bh=esH8GoW/x0f4F3LQ0BiNpL6uFiMcPBcjR+T948qhS/A=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Zif4KKi0l2HAdsKn4T3m4qINJILeE3GEdBTZPHgxd+050ZSlrwrTNVGRC6F0fkCEu
-	 3Sk3kszX5JQbISumyKPCHQjHjAR2CnjAaE+iTyQjAaf7ObJoayDIunEBNVZsDafVcb
-	 vNOjpgPCAxReOOT49cOi0ZHr07WcmTx8YoHsbYczlbAsnX5zjAYuUGnYt4DZvkHAUv
-	 PpWWFCgLnsFTW3yPcHrvMdn2in4t6vaeuwRi6B8Qgo4pu0nTBUjXGe/Q49bL2Tk4uJ
-	 L2l6HKd3yZF53lBTiSaprOJ2/tYITX7BE7UR3PlmOT1eMJZ2ou8vRV8ltEifpobpRd
-	 ONC75s7s2vGLg==
-From: Tycho Andersen <tycho@kernel.org>
-To: Ashish Kalra <ashish.kalra@amd.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	John Allen <john.allen@amd.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Sean Christopherson <seanjc@google.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Gleixner <tglx@kernel.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Shuah Khan <shuah@kernel.org>
-Cc: linux-crypto@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kim Phillips <kim.phillips@amd.com>,
-	Alexey Kardashevskiy <aik@amd.com>,
-	"Tycho Andersen (AMD)" <tycho@kernel.org>,
-	Nikunj A Dadhania <nikunj@amd.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Dapeng Mi <dapeng1.mi@linux.intel.com>,
-	Kees Cook <kees@kernel.org>,
-	Marco Elver <elver@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Li RongQing <lirongqing@baidu.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH v2 4/4] KVM: selftests: Add a smoke test support for RAPL_DIS
-Date: Mon, 27 Apr 2026 14:48:47 -0600
-Message-ID: <20260427204847.112899-5-tycho@kernel.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260427204847.112899-1-tycho@kernel.org>
-References: <20260427204847.112899-1-tycho@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="g3klIaNv"
+Received: from localhost (unknown [20.29.225.195])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 80A2820B716A;
+	Mon, 27 Apr 2026 13:56:28 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 80A2820B716A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1777323389;
+	bh=w4+T1q5j1gjl12AzNykoZ9kgKNsM0AyLqJTGq2x4mJw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=g3klIaNv0aZDwiuY6aSr9d1ovw1UNaC1yS0v955Li3fu510xl6luT8FxEwoEqgsV9
+	 qO5XgODem35nBKQSBw1Y/oPQwo73ezTIvaKLd6m9LDkmCPmXDtkuNmar6v6P8E4uZZ
+	 NJTPwgA90pNAQX3lXJdDUBe1VtE8QmuErhznSO4I=
+Date: Mon, 27 Apr 2026 13:56:25 -0700
+From: Jacob Pan <jacob.pan@linux.microsoft.com>
+To: David Matlack <dmatlack@google.com>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org, Adithya Jayachandran
+ <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, Alex
+ Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris
+ Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, Jason
+ Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet
+ <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, Leon Romanovsky
+ <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport
+ <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, Pasha Tatashin
+ <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>,
+ Pratyush Yadav <pratyush@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja
+ <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, Will Deacon
+ <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu
+ <yi.l.liu@intel.com>, jacob.pan@linux.microsoft.com
+Subject: Re: [PATCH v4 08/11] PCI: liveupdate: Require preserved devices are
+ in immutable singleton IOMMU groups
+Message-ID: <20260427135625.0000413e@linux.microsoft.com>
+In-Reply-To: <20260423212316.3431746-9-dmatlack@google.com>
+References: <20260423212316.3431746-1-dmatlack@google.com>
+	<20260423212316.3431746-9-dmatlack@google.com>
+Organization: LSG
+X-Mailer: Claws Mail 3.21.0 (GTK+ 2.24.33; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: "Tycho Andersen (AMD)" <tycho@kernel.org>
+Hi David,
 
-If the hardware supports the RAPL_DIS policy bit and the ccp has been
-loaded with the RAPL_DIS bit set, make sure a VM can
-actually start using it.
+On Thu, 23 Apr 2026 21:23:12 +0000
+David Matlack <dmatlack@google.com> wrote:
 
-Signed-off-by: Tycho Andersen (AMD) <tycho@kernel.org>
----
- tools/testing/selftests/kvm/include/x86/sev.h |  1 +
- .../selftests/kvm/x86/sev_smoke_test.c        | 24 ++++++++++++++++++-
- 2 files changed, 24 insertions(+), 1 deletion(-)
+> Restrict support for preserving PCI devices across Live Update to
+> devices in immutable singleton IOMMU groups. A device's group is
+> considered immutable if all bridges upstream from the device up to the
+> root port have the required ACS features enabled.
+> 
+> Since ACS flags are inherited across a Live Update for preserved
+> devices and all the way up to the root port, the preserved device
+> should be in a singleton IOMMU group after kexec in the new kernel.
+> 
+> This change should still permit all the current use-cases for PCI
+> device preservation across Live Update, since it is intended to be
+> used in Cloud enviroments which should have the required ACS features
+> enabled for virtualization purposes.
+> 
+> If a device is part of a multi-device IOMMU group, preserving it will
+> now fail with an error. This restriction may be lifted in the future
+> if support for preserving multi-device groups is desired.
+> 
+> Signed-off-by: David Matlack <dmatlack@google.com>
+> ---
+>  drivers/iommu/iommu.c    | 35 +++++++++++++++++++++++++++++++++++
+>  drivers/pci/liveupdate.c |  6 ++++++
+>  include/linux/iommu.h    |  7 +++++++
+>  3 files changed, 48 insertions(+)
+> 
+> diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
+> index 61c12ba78206..782e73a9d45f 100644
+> --- a/drivers/iommu/iommu.c
+> +++ b/drivers/iommu/iommu.c
+> @@ -1664,6 +1664,41 @@ struct iommu_group *pci_device_group(struct
+> device *dev) }
+>  EXPORT_SYMBOL_GPL(pci_device_group);
+>  
+> +bool pci_device_group_immutable_singleton(struct pci_dev *dev)
+> +{
+> +	struct iommu_group *group;
+> +	struct group_device *d;
+> +	struct pci_bus *bus;
+> +	int nr_devices = 0;
+> +
+> +	group = iommu_group_get(&dev->dev);
+> +	if (!group)
+> +		return false;
+This may not work for noiommu mode where we could have a null group.
+Maybe I can add special case later?
 
-diff --git a/tools/testing/selftests/kvm/include/x86/sev.h b/tools/testing/selftests/kvm/include/x86/sev.h
-index 1af44c151d60..2bbac9cd192a 100644
---- a/tools/testing/selftests/kvm/include/x86/sev.h
-+++ b/tools/testing/selftests/kvm/include/x86/sev.h
-@@ -28,6 +28,7 @@ enum sev_guest_state {
- #define SNP_POLICY_SMT		(1ULL << 16)
- #define SNP_POLICY_RSVD_MBO	(1ULL << 17)
- #define SNP_POLICY_DBG		(1ULL << 19)
-+#define SNP_POLICY_RAPL_DIS	(1ULL << 23)
- 
- #define GHCB_MSR_TERM_REQ	0x100
- 
-diff --git a/tools/testing/selftests/kvm/x86/sev_smoke_test.c b/tools/testing/selftests/kvm/x86/sev_smoke_test.c
-index 1a49ee391586..15c848749de6 100644
---- a/tools/testing/selftests/kvm/x86/sev_smoke_test.c
-+++ b/tools/testing/selftests/kvm/x86/sev_smoke_test.c
-@@ -243,6 +243,18 @@ static void test_sev_smoke(void *guest, u32 type, u64 policy)
+> +	mutex_lock(&group->mutex);
+> +
+> +	for_each_group_device(group, d)
+> +		nr_devices++;
+> +
+> +	mutex_unlock(&group->mutex);
+> +	iommu_group_put(group);
+nit:
+	scoped_guard(mutex, &group->mutex) {
+        	for_each_group_device(group, d)
+                	nr_devices++;
  	}
- }
- 
-+static u64 supported_policy_mask(void)
-+{
-+	int kvm_fd = open_kvm_dev_path_or_exit();
-+	u64 policy_mask = 0;
-+
-+	kvm_device_attr_get(kvm_fd, KVM_X86_GRP_SEV,
-+			    KVM_X86_SNP_POLICY_BITS,
-+			    &policy_mask);
-+	close(kvm_fd);
-+	return policy_mask;
-+}
-+
- int main(int argc, char *argv[])
- {
- 	TEST_REQUIRE(kvm_cpu_has(X86_FEATURE_SEV));
-@@ -252,8 +264,18 @@ int main(int argc, char *argv[])
- 	if (kvm_cpu_has(X86_FEATURE_SEV_ES))
- 		test_sev_smoke(guest_sev_es_code, KVM_X86_SEV_ES_VM, SEV_POLICY_ES);
- 
--	if (kvm_cpu_has(X86_FEATURE_SEV_SNP))
-+	if (kvm_cpu_has(X86_FEATURE_SEV_SNP)) {
-+		u64 supported_policy = supported_policy_mask();
-+
- 		test_sev_smoke(guest_snp_code, KVM_X86_SNP_VM, snp_default_policy());
- 
-+		if (supported_policy & SNP_POLICY_RAPL_DIS &&
-+		    kvm_get_module_param_bool("kvm_amd", "rapl_disable")) {
-+			u64 policy = snp_default_policy() | SNP_POLICY_RAPL_DIS;
-+
-+			test_sev_smoke(guest_snp_code, KVM_X86_SNP_VM, policy);
-+		}
-+	}
-+
- 	return 0;
- }
--- 
-2.53.0
+> +
+> +	if (nr_devices != 1)
+> +		return false;
+> +
+> +	for (bus = dev->bus; !pci_is_root_bus(bus); bus =
+> bus->parent) {
+> +		if (!bus->self)
+> +			continue;
+> +
+> +		if (!pci_acs_path_enabled(bus->self, NULL,
+> REQ_ACS_FLAGS))
+> +			return false;
+> +
+> +		break;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  /* Get the IOMMU group for device on fsl-mc bus */
+>  struct iommu_group *fsl_mc_device_group(struct device *dev)
+>  {
+> diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+> index a9a89f7bd3e5..54a90ff02bdd 100644
+> --- a/drivers/pci/liveupdate.c
+> +++ b/drivers/pci/liveupdate.c
+> @@ -133,6 +133,7 @@
+>  #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+>  
+>  #include <linux/io.h>
+> +#include <linux/iommu.h>
+>  #include <linux/kexec_handover.h>
+>  #include <linux/kho/abi/pci.h>
+>  #include <linux/liveupdate.h>
+> @@ -359,6 +360,11 @@ int pci_liveupdate_preserve(struct pci_dev *dev)
+>  	if (dev->is_virtfn)
+>  		return -EINVAL;
+>  
+> +	if (!pci_device_group_immutable_singleton(dev)) {
+> +		pci_warn(dev, "Device preservation limited to
+> immutable singleton iommu groups\n");
+> +		return -EINVAL;
+> +	}
+> +
+>  	if (dev->liveupdate_outgoing)
+>  		return -EBUSY;
+>  
+> diff --git a/include/linux/iommu.h b/include/linux/iommu.h
+> index e587d4ac4d33..6f5d1dec3f89 100644
+> --- a/include/linux/iommu.h
+> +++ b/include/linux/iommu.h
+> @@ -1096,6 +1096,8 @@ extern struct iommu_group
+> *generic_device_group(struct device *dev); struct iommu_group
+> *fsl_mc_device_group(struct device *dev); extern struct iommu_group
+> *generic_single_device_group(struct device *dev); 
+> +bool pci_device_group_immutable_singleton(struct pci_dev *dev);
+> +
+>  /**
+>   * struct iommu_fwspec - per-device IOMMU instance data
+>   * @iommu_fwnode: firmware handle for this device's IOMMU
+> @@ -1528,6 +1530,11 @@ static inline int
+> pci_dev_reset_iommu_prepare(struct pci_dev *pdev) static inline void
+> pci_dev_reset_iommu_done(struct pci_dev *pdev) {
+>  }
+> +
+> +static inline bool pci_device_group_immutable_singleton(struct
+> pci_dev *dev) +{
+> +	return false;
+> +}
+>  #endif /* CONFIG_IOMMU_API */
+>  
+>  #ifdef CONFIG_IRQ_MSI_IOMMU
 
