@@ -1,197 +1,161 @@
-Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010069.outbound.protection.outlook.com [52.101.69.69])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 151AB3B9DAD;
-	Tue, 28 Apr 2026 15:25:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.69
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777389912; cv=fail; b=FIdtp3IcUadyq4awGD5sEoOKAYvF9Ur1YbE+/qDESHpRFU6lBG4pEF1XI9jLO75s0tV5VtysK4yjDquHliBM5ZrH1j73r68fNntN5A2cyqN4cJOI541sv2LscgLVmxNN3MsYz287T7Z5oviHOhrfnqMxRtg9VVqICe0iwU+oxZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777389912; c=relaxed/simple;
-	bh=9sOObn3YVJWuRJsiJIvMhejNMlhSrfgm22w3/DHpE/U=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WZ6xeTm6gPMHrKzVptIbqwq2EDH9+khu7ejC/TVq2T/ztsql/IDhxW90kF2LBx+HkWrG5glwVJ9ZcfKdNtYlW93yHvekrrnya3VWjGD95CuKMqWIuMmTm/JtU4Zr9+piJp7TQ1YJYyi3Ll+7O4HXyfbgKdyqAmqCg6gXc1aFgyQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=ZuLUDVVb; arc=fail smtp.client-ip=52.101.69.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AFF3A6F16;
+	Tue, 28 Apr 2026 15:31:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777390269; cv=none; b=uTW5Dt/jifFxY2Gq8/FJmuzJyfgDhjVWAU8lhK1OsXhjVEv6dY0WnoUpfp77khWlv6qm+Sry+/g31aJFkeU0xfxwsQPP3HJ74OS9RIt3GMCelgrtB4swaiY+UZ3a5EovZt/tyJl+jmXk1IWy7Xcl/hArABKS7wuX+qm9oW03S4w=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777390269; c=relaxed/simple;
+	bh=dCSRhnFrakZnTo4Xpc4kvr9Rlo4/ax/YxLWl2hghJ5A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=EkqaOfeJxMLeqElJ9E/xHI4XDrNH5u3ki4UexBti/wpjqQWMSEi+fcJT+gH8K6ezYbLJTdQqXFywVlAkdYpBEE6vI/mC3gbQOWAqj4IPK2q3V9HnxZ0bdOv4/RUkPvXSK1qTMvEpmaMXQWl2KHpj9bn0wKhEf8n9hydt33TiF/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N1VUL26b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="ZuLUDVVb"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gZteZxObMFBP7uuEJ3/251fqN7oY6fHHmH/2C2JVeC9EZIxmLfHzebEC9RESJym3dMzHJANvTVwtBnQRHwa+rOx3lAMYrVrLfkn7zE/ze0f59cmN2yzOHkJjjNyMwmeNl9NGMZpKzSTFbj8XqAJZpxCo9b7HLQj7TvsqaT1nVH8w60RUnsf71iJQdOC1hG/8QqQF2IjDsgjOuzPWWY75N6xOOHqpyaY57qZs5ZKDycljICxevvTbo0hmmx7F/rHExpRxh+Qq5b86gQ0F9O8fAqXRxL6whyXCk1Yu2VdSR8WwnzjBn18XRT5tJOJ3B5l2bLgQNEtgPrZH0eHsoT/DDw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CGD6RxoxX6lDKGlM5omIho+1cUcv4EKjDXw5+y7M/iM=;
- b=hp0PkCUNHgBZ+rjEW30gjkLVsMW0R/8jgIV9aehVnHdF7FzEqeJw5HeNql/A40mB1GwnGYxftV7FOUWcyGE3gseUDcOBp8uav9VJck8lsFe+UcwtK6F7Jc/cj8N4EBgOAI4cWkDrnk/gvpUYizGEp/krex2Olz65DaYCqFp71yKfjUwcZVjBk7xjLArlL94z3sjhZQJyzdPQ2EvWn2kysNc7vOwqHds3S+MrTwFKYy3pepEYe2W91seei/gAjQbe9QzrF2Y77/rIBtg9858AfsWiseukB/Dj0M81+nF5tM+fmlhDcq4yeDVigxYPkotamkuj8xs4J3jjNgiuiHQ4cQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CGD6RxoxX6lDKGlM5omIho+1cUcv4EKjDXw5+y7M/iM=;
- b=ZuLUDVVbdPGgKczXlSe3BU0625MDxIcvcUbONfxjzxFomJZ/3qQ25qEDiO4QEBb+Pq1f+fwUS7BvMJ7FKLwFfncJHfMfmUeGfuPH0wO4gnQW06PvCRm2WJD9ZcLG/kE3k7Evv00Tj/GN9P5KATmheFU7rUuEikYKvjVyBJXhFoQO39C9Wpdzz8ttTRuG9fazJjLeqqTneucVA/k6yVdNH//CKwxHXKZoKqrFUHjdxkYy1cuShwInbysCSPWjznP8C3BDt0HcDEiAWXVNedCeNndCmDc/l0l7dgQqm9HjRL2Xmcclfq2eqg4Ai9k6tyhImudgeHb8XtCSFZdMsZFhmA==
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
- by GV1PR04MB9197.eurprd04.prod.outlook.com (2603:10a6:150:28::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
- 2026 15:24:59 +0000
-Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
- ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
- 15:24:59 +0000
-From: Shenwei Wang <shenwei.wang@nxp.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: "Padhi, Beleswar" <b-padhi@ti.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Mathieu
- Poirier <mathieu.poirier@linaro.org>, Frank Li <frank.li@nxp.com>, Sascha
- Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng
- Fan <peng.fan@nxp.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
-	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Topic: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Thread-Index: AQHc1yMsF6UDQFRi6kOYiNzJyAtVRg==
-Date: Tue, 28 Apr 2026 15:24:59 +0000
-Message-ID:
- <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
-References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
- <20260422212849.1240591-4-shenwei.wang@nxp.com>
- <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
- <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch>
- <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
-In-Reply-To: <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|GV1PR04MB9197:EE_
-x-ms-office365-filtering-correlation-id: abbc6569-66e5-4d38-63db-08dea53a4f69
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|19092799006|7416014|38070700021|18002099003|56012099003|22082099003;
-x-microsoft-antispam-message-info:
- 0TYPigsvZxBj4EEEQRV+sGI4d9vzzbWF9Hw1R8Lb9S49wNXg5TuBufwBIUnDrXt+g/KuixUy849l7W2BeH5b0aKd2asgBfdxMBA1dVeoH3X0k2jo8Fhum2vKLKUExdcruLi9np6f3T85mr0Tgn7q5vI9UdkNQDUXqeXeGqPqtH75DmrbcVDupYt2iHSL0xFP3kUT+lzP7I0sKs0Dmqpfi+njt6escSY2scDuHchn/3vpbSDwsmCTPgkJUqo4U82QE13w8NY+v8yAqUZZY06VGPTvW7ID9h1HgWqAFoIcyIUBzWH97ZesTuF8OgmqEN5/R9LOj85L0+D7HbLPPbv9mDRjiRQ3TuaQIh1TDNOGuKcATfriy0ptFMWbkwWi6C9a1eZA/T2fkd7+Or8/RooOFHU69hVYicNz1Z5W6qvl4OROHuFqxWZW9qNVrSTh+pvHaznAludUOVB9m2b38+fYSw99saLvdtHyvlcw/GVDdCTVtQ+xcIesObHAXNSR6gW0NvZ4Df+/+FSqgQy7qnyeKkGGHtkH5CNPaqj9T109sxQ3YuZrI488tjrDRT7agKmVYgJ+NVtQ/1s7gFmUBeNLLHfvAB6TNep8BuUHN2TmijdnAHY1cfEH4K8YaZPfZuPdw6EITmPIaesOGy3onKh0FUlakIDh6Z250paB51sKPrv1UhaLeGJUl0zpniAygY1sSr9ryq3i9KQVJ5H5zV0PZDOsCD5PgpyKxw5siAr9HhOeMjCQeSwVcg5jhSKEA2ofH/Izuziiib6vprE5oU4yR/U/K7ykhV/jKiOynN51yuo=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(19092799006)(7416014)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?avPgPfLv3nbZm0Zwo8osJbZMaw6n5GEEVqwB/zBVYATie9TR8iaRBL+ziO/K?=
- =?us-ascii?Q?CahVp4RP0uyIuEJzTRwCHBgAPZsiL6xMXnwwOH4JblZQHnmt7LctWQiee/X5?=
- =?us-ascii?Q?KgBYDo8Jj0ntlbe5gJptk2DLiAytDDeInIh/wobSvngcf3TEgpXa6P8gJ+Qu?=
- =?us-ascii?Q?wu9Gk3l7eAE4FfzUo04G2xo7zp9H/3/2pQyXYpveYKgGLlsVSfGqqiLj4/tI?=
- =?us-ascii?Q?AusMeXngUc/pefc7Hy6ZNwAZXSjgGE53i02sfmTDEeZV2RGm+kSK2N7BeJrt?=
- =?us-ascii?Q?+WCwdAWC4XumG0LaFJjAF6SB3OFhG2o9aSF2737YsrT+mLx9SkiJeYIhdDOB?=
- =?us-ascii?Q?u3UBiH5mqkNtXJIJMFb0uhtBvqffmyh/ikBCmzLt0iKlidkpXQ7Db7Yu4V69?=
- =?us-ascii?Q?eRhCY+h3zR7vuK1sj3Itvy1jW0HHQvMLrvfZBUmVy0bGsIA08pQ+8tw4UDHO?=
- =?us-ascii?Q?ypWVasv38dqx12S8jtygG9RknCqP4vMfVDrE8Fcr36HOQ49N95DoA+lR78Xo?=
- =?us-ascii?Q?UDLu/Osq6ENdLK9BILRacPTwCK3xCAl1+Tp5SOXGyMPCUjH6ugTEnAF7QhpO?=
- =?us-ascii?Q?wXcBUKXpI4EoeFfrpYqI0iQZDGU5b1CUQji44XG9b94txhpF2ij3RQPZH4nM?=
- =?us-ascii?Q?/FzlbEn7OKPJrtemvUIzzL7GsLVwzCcVTS+mkgFFuJGzK2byE/TWBsXomJXp?=
- =?us-ascii?Q?cE40c5dbaccTABd1E0nPSYbIUeVfnkTMKCJLv1WJWXDysUECAh5U8EbrEXfz?=
- =?us-ascii?Q?Hbsc0vm7XCld04jNDnF7bQ2SkGamysDu9wWLu98Ox9qWIOwT0RqJS5TgdRgH?=
- =?us-ascii?Q?lvJeUV3du3izI2oi/XRBYCXlOttNjDPSVbUV5E91xiknyBWFLmrXeNVLqWZ5?=
- =?us-ascii?Q?rzx5VWUWhy63/vTfnhtSPmRAncNKOKOkHjd6FhDnvrWu6l/N+4ZG+P5kxTMa?=
- =?us-ascii?Q?AqhOuYhUkH5kpiHvIrzCd6bslIWWIddEU5LN9WfNYLibDR/eQ9yn4knXmsh0?=
- =?us-ascii?Q?pxsbJhEq6wKgXdfjWE+H9xJ878O+Pa4bx+IwapDUQO8ju9+mgpI7+Ov0B2BG?=
- =?us-ascii?Q?lvPS0oAv6RZCQeT47yLSL4It0GniCykJE6V/6dBvxd8VNSNLY9e0DofaUQEN?=
- =?us-ascii?Q?Xz8N7p6bY2w54MWvZb05Ri2lh+GGwVGEnQWDpUETSRhswXpuC2/iWV14+Vqm?=
- =?us-ascii?Q?YAHHdN7VLvKVxlbqOlYgWQzRij07AnAM0biQqgmzJpKwMvErlutRJ3DPJ8xE?=
- =?us-ascii?Q?FeVwqSCdxmr6dyfsdOJrmSu+rk1XsHWjTrzujiGFQI4QGa9Gifhfwoe9dKwx?=
- =?us-ascii?Q?mV7JulsDunBkOVE0gsdgciDdjDs8hT8uVgie6G9LF4a6MrvhtlgEFDxIqobp?=
- =?us-ascii?Q?xmouL3v2IYNTD9YcnAh5iyu3DXS/3REPNxExPQhFyFQpadj+Qx27gK/p60ng?=
- =?us-ascii?Q?aKC+nS562WOymZuoJbv/Tkg1gGDR7/r9YCN9YzAdHKBLBM24oIYxBoJKpp2c?=
- =?us-ascii?Q?bMrEOJ21SAq7L6Pmrzk2odTSBoZGZMN8SG9g0nkPLIquoIHZs51PhOC3B+Ej?=
- =?us-ascii?Q?EWkQZ3jO7h/STds349swNcdMPtSNZwlFuK+lRm9jYdUbVlIbO7XD7EHoGViF?=
- =?us-ascii?Q?NDnLqsYaf+ajt+YesN7dn/la8UI7ZbVtAi6Swb4aD9hFbXHpfRqYXP9krhsn?=
- =?us-ascii?Q?DAwLPoXiAH1HpHgcmKOSxv+VnJ2geWAWM9aTP75cfjglah7x?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N1VUL26b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C67AEC2BCAF;
+	Tue, 28 Apr 2026 15:31:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777390269;
+	bh=dCSRhnFrakZnTo4Xpc4kvr9Rlo4/ax/YxLWl2hghJ5A=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=N1VUL26bqPJE+qR9QHl9MpzVHe7s19tUMLOM8oSd8Aw7sdJz1FDoc68i9hMQ3btSp
+	 zOSQbpUuv57a4Yp64721BiKjJdrI7j7yaVbzWOeIoXSwT7ONxBz8BYbqSzUIkooYJG
+	 i1vTzHIb3DxBarHHVeS1CVAiXEmuGRxhq9Y6H+NfZmyLYankMFdBVfz7D3amrDck67
+	 UvEtzDxk9uNfY8ZXZ6JCZswnapzu1XOewROvNrnfELHl+z8Gv99PVgJid1nsmZ3mKA
+	 fn6PDn0XItXI7YHh0q4kKSHukMAc3ZJ5hXNuJYFrNI1OGkqKrio93OZsrKC+t3XXFk
+	 DrBnA06ssbDGA==
+From: SeongJae Park <sj@kernel.org>
+To: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	damon@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	akpm@linux-foundation.org,
+	corbet@lwn.net,
+	bijan311@gmail.com,
+	ajayjoshi@micron.com,
+	honggyu.kim@sk.com,
+	yunjeong.mun@sk.com
+Subject: Re: [PATCH v9.2] mm/damon: add node_eligible_mem_bp goal metric
+Date: Tue, 28 Apr 2026 08:31:06 -0700
+Message-ID: <20260428153106.125910-1-sj@kernel.org>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260428030520.701-1-ravis.opensrc@gmail.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: abbc6569-66e5-4d38-63db-08dea53a4f69
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 15:24:59.1673
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: q68oycKNYc/1VV/w//tcE2N6xMOoX5Z0M9k7ZZSFmx21pO5ehKRbCBPgj77YmIlUhC84ljVVTVm/MT/ZWSsUgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9197
+Content-Transfer-Encoding: 8bit
+
+On Mon, 27 Apr 2026 20:05:20 -0700 Ravi Jonnalagadda <ravis.opensrc@gmail.com> wrote:
+
+> Background and Motivation
+> =========================
+> 
+> In heterogeneous memory systems, controlling memory distribution across
+> NUMA nodes is essential for performance optimization. This patch enables
+> system-wide page distribution with target-state goals such as "maintain
+> 60% of scheme-eligible memory on DRAM" using PA-mode DAMON schemes.
+> 
+> Rather than using absolute thresholds, this metric tracks the ratio of
+> memory that matches each scheme's access pattern filters on a target
+> node, enabling the quota system to automatically adjust migration
+> aggressiveness to maintain the desired distribution.
+> 
+> What This Metric Measures
+> =========================
+> 
+> node_eligible_mem_bp:
+>     scheme_eligible_bytes_on_node / total_scheme_eligible_bytes * 10000
+> 
+> Two-Scheme Setup for Hot Page Distribution
+> ==========================================
+> 
+> For maintaining 60% of hot memory on DRAM (node 0) and 40% on CXL
+> (node 1):
+> 
+>     PULL scheme: migrate_hot to node 0
+>       goal: node_eligible_mem_bp, nid=0, target=6000
+>       addr filter: node 1 address range (only migrate FROM CXL)
+>       "Move hot pages to DRAM if less than 60% of hot data is in DRAM"
+> 
+>     PUSH scheme: migrate_hot to node 1
+>       goal: node_eligible_mem_bp, nid=1, target=4000
+>       addr filter: node 0 address range (only migrate FROM DRAM)
+>       "Move hot pages to CXL if less than 40% of hot data is in CXL"
+> 
+> Each scheme independently measures its own eligible memory and adjusts
+> its quota to achieve its target ratio. The schemes work in concert
+> through DAMON's unified monitoring context, with the quota autotuner
+> balancing their relative aggressiveness.
+> 
+> Implementation Details
+> ======================
+> 
+> The implementation adds a new quota goal metric type
+> DAMOS_QUOTA_NODE_ELIGIBLE_MEM_BP to the existing DAMOS quota goal
+> framework. When this metric is configured for a scheme:
+> 
+> 1. During each quota adjustment cycle, damos_get_node_eligible_mem_bp()
+>    is called to calculate the current memory distribution.
+> 
+> 2. The function iterates through all regions that match the scheme's
+>    access pattern (via __damos_valid_target()) and calculates:
+>    - Total eligible bytes across all nodes
+>    - Eligible bytes specifically on the target node (goal->nid)
+> 
+> 3. For each eligible region, damos_calc_eligible_bytes() walks through
+>    the physical address range, using damon_get_folio() to look up
+>    each folio and determine its NUMA node via folio_nid().
+> 
+> 4. Large folios are handled by calculating the exact overlap between
+>    the region boundaries and folio boundaries, ensuring accurate
+>    byte counts even when regions partially span folios.
+> 
+> 5. The ratio (node_eligible / total_eligible * 10000) is returned
+>    as basis points, which the quota autotuner uses to adjust the
+>    scheme's effective quota size (esz).
+> 
+> The implementation requires CONFIG_DAMON_PADDR since damon_get_folio()
+> is only available for physical address space monitoring.
+> 
+> Testing Results
+> ===============
+> 
+> Functionally tested on a two-node heterogeneous memory system with DRAM
+> (node 0) and CXL memory (node 1). A PUSH+PULL scheme configuration using
+> migrate_hot actions was used to reach a target hot memory ratio between
+> the two tiers.
+> 
+> With the TEMPORAL tuner, the system converges quickly to the target
+> distribution. The tuner drives esz to maximum when under goal and to
+> zero once the goal is met, forming a simple on/off feedback loop that
+> stabilizes at the desired ratio.
+> 
+> With the CONSIST tuner, the scheme still converges but more slowly, as
+> it migrates and then throttles itself based on quota feedback. The time
+> to reach the goal varies depending on workload intensity.
+> 
+> Note: This metric works with both TEMPORAL and CONSIST goal tuners.
+> 
+> Suggested-by: SeongJae Park <sj@kernel.org>
+> Signed-off-by: Ravi Jonnalagadda <ravis.opensrc@gmail.com>
+> Reviewed-by: SeongJae Park <sj@kernel.org>
+
+So, this looks good to me.  I find no blocker [1] from Sashiko review, too.  I
+added this to damon/next tree.  Unless others find concerns or this is added to
+mm-new by Andrew soon, I will repost this for mm-new merge.
+
+[1] https://lore.kernel.org/20260428035754.116202-1-sj@kernel.org
 
 
+Thanks,
+SJ
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Monday, April 27, 2026 3:49 PM
-> To: Shenwei Wang <shenwei.wang@nxp.com>
-> Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij <linusw@kernel.org>;
-> Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>;
-> Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Fra=
-nk Li
-> <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
-> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
-> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Tea=
-m
-> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
-> Golaszewski <brgl@bgdev.pl>
-> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO dr=
-iver
-> > > struct virtio_gpio_response {
-> > >         __u8 status;
-> > >         __u8 value;
-> > > };
->=20
-> > It is the same message format. Please see the message definition
-> (GET_DIRECTION) below:
->=20
-> > +   +-----+-----+-----+-----+-----+----+
-> > +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
-> > +   | 1   | 2   |port |line | err | dir|
-> > +   +-----+-----+-----+-----+-----+----+
->=20
-> Sorry, but i don't see how two u8 vs six u8 are the same message format.
->=20
-
-Some changes to the message format are necessary.
-
-Virtio uses two communication channels (virtqueues): one for requests and r=
-eplies, and a second one for events.=20
-In contrast, rpmsg provides only a single communication channel, so a type =
-field is required to distinguish between=20
-different kinds of messages.
-
-Since rpmsg replies and events share the same message format, an additional=
- line is introduced to handle both cases.
-
-Finally, rpmsg supports multiple GPIO controllers, so a port field is added=
- to uniquely identify the target controller.
-
-Shenwei
-
->        Andrew
+[...]
