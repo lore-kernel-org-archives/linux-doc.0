@@ -1,211 +1,140 @@
-Received: from canpmsgout12.his.huawei.com (canpmsgout12.his.huawei.com [113.46.200.227])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91DCA392829;
-	Tue, 28 Apr 2026 02:22:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.227
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 525812877F4
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 02:51:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777342940; cv=none; b=pZHifRGMUlpvZQZYryBCZeP/bunHyosCLT6rvdHSVvvBXDdUbjVreabZMdjfarfwxc2sXVAyabhnxbCwf57/RiLUntKZkSyvh613+SOHYtmrKBRMxQ8tKht+tJg/TJIKJcIFt6ijJZhtLHAh2noMKIuUa+ULO0WOMYx8KmvUqB0=
+	t=1777344676; cv=none; b=VZaBMCcDVDGkhZBi4mxoSKGcmSWfH/LI9Y8dm8tBJCAScAZF00+9KQoG/v8L35e1KJRVrn5Ry+hTQuryYu4iS0DWSBcmD/TRMElOFJELbWc3dshDaCNUHB1oj7kpe4BR5lm11UUG/GLhzKGxwwkYzmTuMadD2cVCl8g4ADBU7SU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777342940; c=relaxed/simple;
-	bh=94slqjkIQVyhe/A12lRNTfUa9WB3u29FMPa8rxdScTg=;
-	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=hOuxXt69a2G2jFm0YHvhYhiAxsYsk1razv6Zwkx+hVp3L7DUY/F+xsE2VhFAEtXANRLn7q+hSSf8qf+1RjjDHuk7oko2/9IjttxBoJAVUPdM5XORe1WCZPqyz2kUQIf8oeDDBGUfCchTmfVhKT1fg3fb5xsH0m9RMhmUpRBzkLY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pqFmWNTk; arc=none smtp.client-ip=113.46.200.227
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+	s=arc-20240116; t=1777344676; c=relaxed/simple;
+	bh=5tAsicEN9TVt+IvhjOKJUDCTMN/dMWKyeKNyaXDwWHE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VqDy3gw6vv6pP0OdDXG5mG/sPGuEBO3eMYJFeuBDUSzgUrHwlon3bz1ChabPtNBs220REoHyWMIrYqwvczZ7cUJoL9Cn2WtX3WsBJr2aKPm4mDUBcXs14qGASXW3Rcb5XFNVboJpHSDd1npwI/EXXJj8PCxpQLgY42vzZmybLj0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MpdyZdO/; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pqFmWNTk"
-dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
-	c=relaxed/relaxed; q=dns/txt;
-	h=From;
-	bh=slP5ntnfvW78WgZpNY2pjWv8ZV6WHz7JT2kbRbb2KJ4=;
-	b=pqFmWNTkK87kfZU/JQ4oAl25srib3lq/JTh7+sRo25TEI+3y5H6bRMZjg1E3mf7OgQ3g2c22s
-	ONcOVvkx5Mp5aksFISBORfwQ7ZDUVBmPY+rTkUjU2SGsBGnQDewO3WK7GVtD1CfDVQhhvEpKXDh
-	hRtgiZaJ5qlUB++Kzi2Z0BI=
-Received: from mail.maildlp.com (unknown [172.19.163.200])
-	by canpmsgout12.his.huawei.com (SkyGuard) with ESMTPS id 4g4PCT1JyvznTWv;
-	Tue, 28 Apr 2026 10:15:01 +0800 (CST)
-Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
-	by mail.maildlp.com (Postfix) with ESMTPS id CC7804055B;
-	Tue, 28 Apr 2026 10:22:12 +0800 (CST)
-Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
- dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 28 Apr 2026 10:22:12 +0800
-Received: from [10.173.124.160] (10.173.124.160) by
- kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 28 Apr 2026 10:22:11 +0800
-Subject: Re: [PATCH v5 4/4] selftests/mm: regression test for
- panic_on_unrecoverable_memory_failure
-To: Breno Leitao <leitao@debian.org>
-CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<kernel-team@meta.com>, Naoya Horiguchi <nao.horiguchi@gmail.com>, "Andrew
- Morton" <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett"
-	<Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport
-	<rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>, Michal Hocko
-	<mhocko@suse.com>, Shuah Khan <shuah@kernel.org>
-References: <20260424-ecc_panic-v5-0-a35f4b50425c@debian.org>
- <20260424-ecc_panic-v5-4-a35f4b50425c@debian.org>
-From: Miaohe Lin <linmiaohe@huawei.com>
-Message-ID: <4d8cdc38-113d-f268-a0de-d77dd2337635@huawei.com>
-Date: Tue, 28 Apr 2026 10:22:11 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MpdyZdO/"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-82f351ca23cso5571763b3a.2
+        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 19:51:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777344675; x=1777949475; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tzt3pC4zStkp/GC4Vrd+1imFmAV4J33ni2HfXNqbHpQ=;
+        b=MpdyZdO/08yjGAAup5IbR1MX7jMWqijxvDzzFL4RFLFbycVzXCXf/9lwXKTLolRQsi
+         zHl1wIv1rZHf0+55hpquAa1DoXXfQl8QlapWPeY9ctMtdXEpXiK85JtLdNryT4kSFPHv
+         A3xaTzxZJTVI+oLXcViTohBlWA3eXySFWKtrbwdg7PC8nvcAF1ca5MEb/ZvSDkqWJvqP
+         EpGqOugLhpU4ueXB9PDXDr+BiUDW4at+LCzvPuUfhV4WKGzVV1MI6KVUkxAukdwWmgd6
+         F2wj83BaMGkztmboFbsw/DgDkBKZgXBZ33p0/TaLUK0onDeWn9L73JP1fvB7gTWvJJJa
+         AEjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777344675; x=1777949475;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Tzt3pC4zStkp/GC4Vrd+1imFmAV4J33ni2HfXNqbHpQ=;
+        b=DsJL6Q7aY3VI/E/zMsorZfv4kYAj22OdeV6gsw+QxxEN4gtpHQOHT5eEDK61FKvLgm
+         GBQdl+Uo8xPnDuW4g6DKZF/Nfvmj4Hgc3GKs21XwmBF6x0d2fhX3tdwJzlkT0LEBEc/R
+         jCfXK0BKrL3Wvhl5y2Ch3IVcdGiZFKGojVEfM/3T9r2sS/84yS7Rmub5rYqMv8WwiJlH
+         nJJW/qmNdbKW3QWZKG3s0LMLZvNcYem/RACBw1bxT6ZmtxKtkzoLKUSfmwkhIBO+VQpy
+         b2xe1FHUm4+Qn9bPJjfyssVioF1iJYw4LFlIbes0vU0G9q59eLLRARfVTUi9VG+5uYMY
+         +Sng==
+X-Forwarded-Encrypted: i=1; AFNElJ96h/9p3HoCLqazDyJmaupb/Cih+u7LM1VoxtmOE+XGvQqYI6+nz/ErQn3WfaEzPpWF997+Fr7Zdmk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPPbJr7soESPa+FTxTAw9CGl1ymZFD+RonqAYjXKeubw4YSteo
+	jgNLSwOaP2arrWmYF3KB4NTCICvvRM6MOjhx5bZmRSljpbD0T/rrhq4z
+X-Gm-Gg: AeBDietuWnYTVnUBl4VZLvE5vlUwFXTmb7PsOX33mdRopVS8FYIjhGUoJy2Ga42WrrL
+	dhZNl10bzrgO+nIpAqyEJaL1NmIM7fX5qIuOAwlX0DhWW/bA/ypwSRDb3fktMW3VcOhbRJAviYy
+	JVMWzGENj0V9l/2Dy+K/LEqKgmdEt1jtBxRjsO7e4TrVyF5YkBDw7PXPzpZ+6DdP4zy4waGQcwc
+	xBs4Nu104OmV04RGUZdsfiFIu+W+5sMEjw/EP0D50RFofpxnIBJBcssc4/s3w7o5iD/F54jiVfL
+	38Fzy2JVIyNqhCgCU68z2x5rWxqBT9q4Y00vwnL7+NDb8fliwkDSSmQ8wPOtt65WaHGNRKAry49
+	igYf9Q7j3MVnF7YUXaJVrIyA6lav5RrEsqVu+ih+HQBWoGeBnyOMZ4oHMpdFZ1/3Jux0Jl5oFuI
+	ijlSIq55wVvk2meXCz26S8ezlngtuNuXTc//AMJpEn5z/usYHvkQmhhPfu228kjqBpj+rQoM3z+
+	1EjndNShhM=
+X-Received: by 2002:a05:6a00:2d85:b0:82c:dd31:b83d with SMTP id d2e1a72fcca58-834ddc5879cmr1097788b3a.38.1777344674276;
+        Mon, 27 Apr 2026 19:51:14 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834daf6a41esm897453b3a.49.2026.04.27.19.51.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Apr 2026 19:51:13 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <b00aa24c-b399-42c0-85b2-6aafb1618331@roeck-us.net>
+Date: Mon, 27 Apr 2026 19:51:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20260424-ecc_panic-v5-4-a35f4b50425c@debian.org>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] watchdog: remove driver for integrated WDT of ZFx86
+ 486-based SoC
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ linux-watchdog@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260428014806.35400-1-enelsonmoore@gmail.com>
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
- kwepemq500010.china.huawei.com (7.202.194.235)
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAmgrMyQFCSbODQkACgkQyx8mb86fmYGcWRAA
+ oRwrk7V8fULqnGGpBIjp7pvR187Yzx+lhMGUHuM5H56TFEqeVwCMLWB2x1YRolYbY4MEFlQg
+ VUFcfeW0OknSr1s6wtrtQm0gdkolM8OcCL9ptTHOg1mmXa4YpW8QJiL0AVtbpE9BroeWGl9v
+ 2TGILPm9mVp+GmMQgkNeCS7Jonq5f5pDUGumAMguWzMFEg+Imt9wr2YA7aGen7KPSqJeQPpj
+ onPKhu7O/KJKkuC50ylxizHzmGx+IUSmOZxN950pZUFvVZH9CwhAAl+NYUtcF5ry/uSYG2U7
+ DCvpzqOryJRemKN63qt1bjF6cltsXwxjKOw6CvdjJYA3n6xCWLuJ6yk6CAy1Ukh545NhgBAs
+ rGGVkl6TUBi0ixL3EF3RWLa9IMDcHN32r7OBhw6vbul8HqyTFZWY2ksTvlTl+qG3zV6AJuzT
+ WdXmbcKN+TdhO5XlxVlbZoCm7ViBj1+PvIFQZCnLAhqSd/DJlhaq8fFXx1dCUPgQDcD+wo65
+ qulV/NijfU8bzFfEPgYP/3LP+BSAyFs33y/mdP8kbMxSCjnLEhimQMrSSo/To1Gxp5C97fw5
+ 3m1CaMILGKCmfI1B8iA8zd8ib7t1Rg0qCwcAnvsM36SkrID32GfFbv873bNskJCHAISK3Xkz
+ qo7IYZmjk/IJGbsiGzxUhvicwkgKE9r7a1rOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAmgrMyQFCSbODQkACgkQyx8mb86fmYHlgg/9
+ H5JeDmB4jsreE9Bn621wZk7NMzxy9STxiVKSh8Mq4pb+IDu1RU2iLyetCY1TiJlcxnE362kj
+ njrfAdqyPteHM+LU59NtEbGwrfcXdQoh4XdMuPA5ADetPLma3YiRa3VsVkLwpnR7ilgwQw6u
+ dycEaOxQ7LUXCs0JaGVVP25Z2hMkHBwx6BlW6EZLNgzGI2rswSZ7SKcsBd1IRHVf0miwIFYy
+ j/UEfAFNW+tbtKPNn3xZTLs3quQN7GdYLh+J0XxITpBZaFOpwEKV+VS36pSLnNl0T5wm0E/y
+ scPJ0OVY7ly5Vm1nnoH4licaU5Y1nSkFR/j2douI5P7Cj687WuNMC6CcFd6j72kRfxklOqXw
+ zvy+2NEcXyziiLXp84130yxAKXfluax9sZhhrhKT6VrD45S6N3HxJpXQ/RY/EX35neH2/F7B
+ RgSloce2+zWfpELyS1qRkCUTt1tlGV2p+y2BPfXzrHn2vxvbhEn1QpQ6t+85FKN8YEhJEygJ
+ F0WaMvQMNrk9UAUziVcUkLU52NS9SXqpVg8vgrO0JKx97IXFPcNh0DWsSj/0Y8HO/RDkGXYn
+ FDMj7fZSPKyPQPmEHg+W/KzxSSfdgWIHF2QaQ0b2q1wOSec4Rti52ohmNSY+KNIW/zODhugJ
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260428014806.35400-1-enelsonmoore@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 2026/4/24 20:24, Breno Leitao wrote:
-> Add a test that enables vm.panic_on_unrecoverable_memory_failure and
-> injects MADV_HWPOISON on a userspace anonymous page. The page must
-> still be recovered via SIGBUS — it must not trigger a kernel panic.
+On 4/27/26 18:48, Ethan Nelson-Moore wrote:
+> The machzwd driver supports the integrated watchdog of the ZF Micro
+> ZFx86 SoC, which contains a 486-compatible core [1]. Since 486
+> support was removed in commit 8b793a92d862 ("x86/cpu: Remove
+> M486/M486SX/ELAN support"), the driver is no longer useful, Remove it.
 > 
-> This is the regression test for the panic_on_unrecoverable_mf()
-> recheck: a buddy page being concurrently allocated to userspace can
-> briefly land on the MF_MSG_KERNEL_HIGH_ORDER branch (refcount 0, not in
-> buddy), and without the recheck the kernel would panic on what is
-> actually a recoverable userspace page.
+> [1] https://www.zfmicro.com/zfx86.html
 > 
-> Run in a forked child so the SIGBUS path is fully exercised; if the
-> kernel ever regresses and panics, the host VM dies and the harness
-> reports the binary as never returning, which is itself a clear
-> failure signal.
-> 
-> Skips when the sysctl is not present (feature not built in) or when
-> the test cannot write to it (insufficient privilege). Saves and
-> restores the original sysctl value.
-> 
-> Signed-off-by: Breno Leitao <leitao@debian.org>
+> Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
 
-Thanks for adding a selftest. Some comments below.
-
-> ---
->  tools/testing/selftests/mm/memory-failure.c | 84 +++++++++++++++++++++++++++++
->  1 file changed, 84 insertions(+)
-> 
-> diff --git a/tools/testing/selftests/mm/memory-failure.c b/tools/testing/selftests/mm/memory-failure.c
-> index 032ed952057c6..9cb8d694aee94 100644
-> --- a/tools/testing/selftests/mm/memory-failure.c
-> +++ b/tools/testing/selftests/mm/memory-failure.c
-> @@ -17,9 +17,13 @@
->  #include <sys/vfs.h>
->  #include <linux/magic.h>
->  #include <errno.h>
-> +#include <sys/wait.h>
-> +#include <stdlib.h>
->  
->  #include "vm_util.h"
->  
-> +#define PANIC_SYSCTL "/proc/sys/vm/panic_on_unrecoverable_memory_failure"
-> +
->  enum inject_type {
->  	MADV_HARD,
->  	MADV_SOFT,
-> @@ -355,4 +359,84 @@ TEST_F(memory_failure, dirty_pagecache)
->  	ASSERT_EQ(close(fd), 0);
->  }
->  
-> +static int read_sysctl_int(const char *path, int *out)
-> +{
-> +	char buf[16];
-> +	int fd, n;
-> +
-> +	fd = open(path, O_RDONLY);
-> +	if (fd < 0)
-> +		return -1;
-> +	n = read(fd, buf, sizeof(buf) - 1);
-> +	close(fd);
-> +	if (n <= 0)
-> +		return -1;
-> +	buf[n] = '\0';
-> +	*out = atoi(buf);
-> +	return 0;
-> +}
-> +
-> +static int write_sysctl_int(const char *path, int val)
-> +{
-> +	char buf[16];
-> +	int fd, len, ret = 0;
-> +
-> +	fd = open(path, O_WRONLY);
-> +	if (fd < 0)
-> +		return -1;
-> +	len = snprintf(buf, sizeof(buf), "%d\n", val);
-> +	if (write(fd, buf, len) != len)
-> +		ret = -1;
-> +	close(fd);
-> +	return ret;
-> +}
-
-There are write_sysfs and read_sysfs in vm_util.c. Can we reuse those?
-
-> +
-> +/*
-> + * Regression test for vm.panic_on_unrecoverable_memory_failure.
-> + *
-> + * With the sysctl on, hwpoison injection on a userspace anonymous page
-> + * must still be recovered via SIGBUS — it must not trigger a kernel
-> + * panic. This guards the panic_on_unrecoverable_mf() recheck that rules
-> + * out concurrent buddy allocations being misclassified as unrecoverable
-> + * kernel pages (MF_MSG_KERNEL_HIGH_ORDER).
-> + *
-> + * If the kernel regresses and panics, the host VM dies and the test
-> + * harness will report the binary as never having returned — which is
-> + * itself a clear failure signal.
-> + */
-> +TEST(panic_on_unrecoverable_user_page)
-> +{
-> +	unsigned long page_size;
-> +	int saved, status;
-> +	void *addr;
-> +	pid_t pid;
-> +
-> +	if (read_sysctl_int(PANIC_SYSCTL, &saved))
-> +		SKIP(return, "%s not available\n", PANIC_SYSCTL);
-> +	if (write_sysctl_int(PANIC_SYSCTL, 1))
-> +		SKIP(return, "cannot enable %s (need root?)\n", PANIC_SYSCTL);
-> +
-> +	page_size = sysconf(_SC_PAGESIZE);
-> +
-> +	pid = fork();
-> +	ASSERT_NE(pid, -1);
-> +	if (pid == 0) {
-> +		addr = mmap(NULL, page_size, PROT_READ | PROT_WRITE,
-> +			    MAP_ANONYMOUS | MAP_PRIVATE, -1, 0);
-> +		if (addr == MAP_FAILED)
-> +			_exit(1);
-> +		*(volatile char *)addr = 1;
-> +		if (madvise(addr, page_size, MADV_HWPOISON))
-> +			_exit(2);
-> +		FORCE_READ(*(volatile char *)addr);
-> +		_exit(0); /* unreachable: SIGBUS expected */
-> +	}
-> +
-> +	ASSERT_EQ(waitpid(pid, &status, 0), pid);
-> +	write_sysctl_int(PANIC_SYSCTL, saved);
-> +
-> +	ASSERT_TRUE(WIFSIGNALED(status));
-> +	ASSERT_EQ(WTERMSIG(status), SIGBUS);
-> +}
-
-Could you restructure this test using the similar format as other functions, e.g. TEST_F(memory_failure, anon), in
-this file? It would be good to keep them in same style.
-
-Thanks.
-.
-
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
