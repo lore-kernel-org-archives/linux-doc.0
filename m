@@ -1,117 +1,154 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E94633AD9B
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 17:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB3833AD9D;
+	Tue, 28 Apr 2026 17:09:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777395681; cv=none; b=JJO+50HmTSiR0T7qA6WqWdjosOH6bX0vKgIdNH2Ml2t4opTqQjw8HfLrrdM1WCX8ceSU+lgg8nDIh4TRrbjtvoSITPy3JgPbS5DJzlbgCnUyNavPbzz17HOQlQL2Vx3rwbK+XRTfwh9tsAXYAoE76JtL5gTWB2F3xu/KQyoDQL4=
+	t=1777396183; cv=none; b=uioFx6CGHj7P3XrgtZXZi0pK1kk3NkAP33hZyU+8/ozUAYmq55cJMLWAyaSn+oFh1wd0jwQVRKhRMfo/QJsY9c7ZK6oIVQnWjSpiowaXtvJoDpCVWgyKKpFtE1My8gSpzy5GGzq1xi6HypqbAPZzgouT+cCPvJz+HQHVxdUPaOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777395681; c=relaxed/simple;
-	bh=24rly7mTR46SDbTB9/GpQSpB0zd1Sg4TfmU1mBbtSvw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TgnsroqugKhjbxT6dQ6Yaz26NTjlGLV1u4anKamF2OI/iUoBLKZ9qFuvxryACf5SSzrfVhrzPZsa+0e96E6r08fb08IhtuVTNRtxtWVj4C5RaXX+CujP1r2Wq58rbwx9/nImHwWcRdthdryD7VgGZzyd3JNTj+Cxrjf74UWe3s0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CLrbqULd; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777396183; c=relaxed/simple;
+	bh=T//AuRVq+IjivDs5/dRujik2iW7yzHKWkQ6eRMrrilg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mrtayZmQlR5EcrVNraQaUCvGxdz3lTL247WJlMnGiK4LjSZUVr9bb/gSQNYQMyvxim03pVhPjwFJPhubtlwMnlM+Z2xfvtR4/1emOIVnZW2kSzwp6ksKW1GkIPHdm5T0MQowaz/jHfY6x68cpugU4fi6VwVvQk0HZ8Yuq5gMNPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dLBtWskZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CLrbqULd"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-488b0e1b870so199598355e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 10:01:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777395679; x=1778000479; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=24rly7mTR46SDbTB9/GpQSpB0zd1Sg4TfmU1mBbtSvw=;
-        b=CLrbqULdQIzR8A8Zn7tf756a+u48fg7UF0UZ0JVC8xYnNxP71vYXEcGT+H6RvEGtTD
-         8jqfLKsIvz/GDJh8ZtwBvYOyDsa7wlD7g/HsGYI6HVdcgpl5STYh7+rcxb8cnhuvUFBE
-         ceVFsqfOSCyyjvbu1WPwKo3vpe93XhIva7slM8uonlUTbSzMPfvNP901ysdI9qE22yyx
-         FFZjhIhvxN97/EcZJwcZEv6Tom4Y6sx/L1Jxevipi1Nwwovdde9g2LM0jPOD1kb+5Ue9
-         W26KfXJw/SNvTmFRjE5ayrcdwY/MnejsKZ4aF1yO/UoZrM1k2yHnTgkEjQUOuvJ/RFAs
-         628g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777395679; x=1778000479;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=24rly7mTR46SDbTB9/GpQSpB0zd1Sg4TfmU1mBbtSvw=;
-        b=ZyvY3GPQd/LbsZo5kEaVbr/2IelFXkdUhUFdsfiWf2hu7kvlVsN35e3lIl42DWbZQ3
-         sV0gnt4/IvTEbYFe4hY3l/JiodwZo0QalcFYylbPxZI3g94XPVEQ51seXCuBLmsLErRX
-         665iWBuXHE1YkYEZJLJh1Gg2hSmM9M+MQI2JmOqHgbKgRHZAvILT1KSt6DPtfjh2PEEt
-         VEJ3dOVgjoG6cljlxHO478BW9JEUKu4/8nvHIiHrJcAACxz3a+F/3l5S8LEDtZIk5dwG
-         Ts7lz1PNPHF75IPAtENqeUBFXKFKJNFZVuZ/awabuogLDIBc9OwOhWkAoewiYdu7jFLP
-         ioOQ==
-X-Forwarded-Encrypted: i=1; AFNElJ+crvHskLTtdv8670ea+iw7DW7XyW338etYNmqm8AKpSX4fj1t6E5f9gDL5fIDXNA37OzRqMkMBuW8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi3M+HbKBt4Byr+kh7dEzadbTRCr44wtS9Jm1WB1cuEMaiC6yj
-	B3NGg5vfo5WetZx1AW4d51w3KynbZYQGjKjX/reM++ng1MhUoem85pQr
-X-Gm-Gg: AeBDiesX0NxJ+BqbLxPJdfKnXa+9Kz3lCcrOuDz2IODb1/bU2Iy1Q5IU4eSlAFh94nA
-	FYxtgipaL+xkbYz7sqmu2ntnaqyqezjS25L51NslF4WYjZDshmKkcgfvpgmJO1z5t9Vtow4oy2/
-	OHjv3mEcyk2clN1kUv/YCO0vC8EeXqTI49g9oxPP2ZqNL/stZNsJhcU2K074cahnMP6HllKKRq8
-	045MGXf+b0rF/PIXlLQf4OB9YedbCc6Tajw110jF/KbtOFfKQO67gYJxPQ8pdKYzyTWjzkdyhuE
-	YZo/Qk1HzJ+G+30nH4fnz2wZMO+mUETwZzla3MfocU8cDLMT1f0vxCQDoHC9aqCkHO6FVviPKHQ
-	QApPsQM81nQnGvmYr/Diu1hh66+gxIVg5B+hXDJiZX01bqcEPG0aNadID/qkMkghiXGQAr9Hm51
-	UaLWHZFL4a5fgUqAQgM1eY8xo7ozG4VqAZrEeMoQHVwdctZvtazhUOq7QNOZxPaJjkKz8SoQ==
-X-Received: by 2002:a05:6000:2586:b0:441:1e8e:d8fd with SMTP id ffacd0b85a97d-44790753399mr154751f8f.29.1777395678473;
-        Tue, 28 Apr 2026 10:01:18 -0700 (PDT)
-Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463f5b50ccsm6953389f8f.24.2026.04.28.10.01.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Apr 2026 10:01:17 -0700 (PDT)
-Sender: Julian Braha <julian.braha@gmail.com>
-Message-ID: <d72badf8-7d70-4caa-96a9-d77e00bbb536@gmail.com>
-Date: Tue, 28 Apr 2026 18:01:15 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dLBtWskZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C367FC2BCAF;
+	Tue, 28 Apr 2026 17:09:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777396183;
+	bh=T//AuRVq+IjivDs5/dRujik2iW7yzHKWkQ6eRMrrilg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dLBtWskZWsUOulpCMcM3MWdEy2V50NpVihohHQMHXb88VzuLBO3/AihpWT2iwwOHr
+	 lHyVF/YMmhwRnZ/56n+H+0g8TWUVuE65lk1OnAytBvQyGsnierH84fuTEvvGW6SVC9
+	 3mCqTLMjgJjtXflXp9g8ZNzHrjpvKFjzjoPShpN8dah36uTTiuPPFzwwuQShDKoHOo
+	 vFLTAHkRhIm566JKzLLMdlhKJdFfX+WKf2rsBc9HStsrvvVtZZS3xLQvHTjMGvUUnY
+	 tEApBiH4wTe1Xcty8O3g9zKw1LRX1xqUInjyV1cTs4B4H1jeaG18e7Z+73yiY6OWaK
+	 wofzdVW9iAANQ==
+Date: Tue, 28 Apr 2026 11:09:38 -0600
+From: Tycho Andersen <tycho@kernel.org>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Tom Lendacky <thomas.lendacky@amd.com>, 
+	Ashish Kalra <ashish.kalra@amd.com>, John Allen <john.allen@amd.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@kernel.org>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+	Shuah Khan <shuah@kernel.org>, linux-crypto@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Kim Phillips <kim.phillips@amd.com>, Alexey Kardashevskiy <aik@amd.com>, 
+	Nikunj A Dadhania <nikunj@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Randy Dunlap <rdunlap@infradead.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
+	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
+	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] KVM: SEV: Add the kvm-amd.rapl_disable module
+ parameter
+Message-ID: <afDnw8WYpr7TqEHS@tycho.pizza>
+References: <20260427204847.112899-1-tycho@kernel.org>
+ <20260427204847.112899-4-tycho@kernel.org>
+ <ae_TCofu4bHP_Ch-@google.com>
+ <afDJZQHNi-qdcEEe@tycho.pizza>
+ <afDYCpbeT0HsXTMF@google.com>
+ <20f94bed-2843-44ab-877c-3e68bd4314f8@amd.com>
+ <afDkcpcQ5vPsjQkO@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
-To: Arnd Bergmann <arnd@arndb.de>,
- Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, ljs@kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-References: <20260427174429.779474-1-julianbraha@gmail.com>
- <20260427174429.779474-3-julianbraha@gmail.com>
- <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
- <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com>
-Content-Language: en-US
-From: Julian Braha <julianbraha@gmail.com>
-In-Reply-To: <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afDkcpcQ5vPsjQkO@google.com>
 
-On Mon, Apr 27, 2026 at 9:34 PM Arnd Bergmann <arnd@arndb.de> wrote:
-> It would also be helpful to reduce the number of hard dependencies
-> and ideally only rely on packages that are already shipping in common
-> distros.
->
-> From the dependency list, it appears that the majority of dependencies
-> here are only indirectly pulled in by 'reqwest'. I guess is only
-> required for dead-link checking, so maybe that part could be
-> made optional?
+On Tue, Apr 28, 2026 at 09:46:42AM -0700, Sean Christopherson wrote:
+> On Tue, Apr 28, 2026, Tom Lendacky wrote:
+> > On 4/28/26 10:53, Sean Christopherson wrote:
+> > > On Tue, Apr 28, 2026, Tycho Andersen wrote:
+> > >> On Mon, Apr 27, 2026 at 02:20:10PM -0700, Sean Christopherson wrote:
+> > >>> I'm pretty sure I said this earlier: KVM absolutely should not be able to disable
+> > >>> RAPL for the entire system.  That needs to be a power management thing.
+> > >>
+> > >> You definitely noted "not CCP", I don't think I quite understood what
+> > >> that meant though:
+> > >> https://lore.kernel.org/all/aZ86BZWi-GLiHvmt@tycho.pizza/
+> > >>
+> > >> I'm a little worried that putting it in power management will generate
+> > >> some weird dependencies, or weakref symbols that can't change things
+> > >> if they are loaded independently of kvm_amd or something. But let me
+> > >> see what I can come up with.
+> > > 
+> > > Ugh, and it's not even powerman per se, it's actually a module in perf.  Oof.
+> > > 
+> > > I 100% agree it'll be tricky, but I also stand by comments that neither the CCP
+> > > driver or KVM should be allowed to silently pull the rug out from under the RAPL
+> > > module.
+> > 
+> > Maybe something that can be added to the current sev= kernel command line
+> > parameter, e.g. sev=norapl, or such?
+> 
+> Yeah.  The only question I have is if we expect end users to want to disable RAPL
+> at runtime.  If so, then we probably want a sysfs knob or something.
+> 
+> However, letting RAPL be toggled on/off will introduce some amount of complexity,
+> as the kernel would need to negotiate/coordinate with the RAPL perf module and
+> with the CPP driver to ensure RAPL stays in the "correct" state.  E.g. if the
+> perf module is loaded, then RAPL is effectively pinned "on".  And if SNP has been
+> initialized with RAPL_DIS, then RAPL is effectively pinned "off".  Blech.
+> 
+> > Maybe even with a kernel config option for a default value?
+> 
+> Probably overkill?
+> 
+> > On SNP_SHUTDOWN it will be re-enabled if it was disabled.
+> 
+> Stating the obvious, if we do this, we open the can of worms I described above.
 
-Thanks Arnd, I've done a deep dive on this, and found a number of ways
-to reduce the size of the vendored dependencies:
+Unfortunately that's how the firmware works and since we do a shutdown
+on module unload, if you have ccp=m this is the behavior.
 
-1. replace the reqwest dependency with the smaller ureq,
-2. remove rustls as a dependency, and instead expect the user's system
-to have openssl,
-3. filter out unneeded artifacts (e.g. none of their tests or
-docs),
-4. filter out non-linux platform support
+Maybe it makes sense to go the other way: have perf look for a ccp
+symbol that's loaded that says whether RAPL is usable or not, and
+refuse to allow access to the counters if it is? But it looks like
+there are several UAPIs for this (perf, /dev/amd-hsmp-*, sysfs), so
+it's not just one place, which is also ugly.
 
-With all of this, the size of the entire tool source with dependencies
-is under 50mb (about the same as the perf tool).
+> > >>> KVM then needs to communicate (and enforce?) the policy to
+> > >>> userspace.
+> > >>
+> > >> KVM doesn't need to enforce anything, the SEV firmware will generate a
+> > >> launch error for policy violation if it's not supported.
+> > >>
+> > >> For communicating to userspace if it's not a kvm module parameter, one
+> > >> option is to mask it off in sev_get_snp_supported_policy() if it was
+> > 
+> > Did you mean sev_get_snp_policy_bits() or were you referring to the KVM
+> > ioctl() for retrieving them?
 
-And then an internet connection can be avoided when using Make.
+I was thinking of the ioctl() for retrieving them, but doing the
+masking in sev_get_snp_policy_bits() since it would be able to
+remember whether RAPL_DIS was set or not. Of course I merged the two
+in my head when typing the sentence :)
 
-- Julian Braha
+> > >> initialized without the support. Then it'll be visible via
+> > >> KVM_X86_SNP_POLICY_BITS.
+> > > 
+> > > Ya, this is what I was envisioning.
+> > 
+> > It's still a valid policy bit (if supported by the platform), so I don't
+> > think masking it off is appropriate.
+> 
+> But it's not fully supported, no?  I.e. won't the VM fail if it requests RAPL_DIS?
+> 
+> Ooh, presumably the subtle difference is that on a platform without RAPL_DIS at
+> all, the VM will successfully launch and thus could run with RAPL enabled even
+> if the VM requested RAPL_DIS?
+
+I haven't tested this, but I would hope what you describe an error. I
+think Tom means it's supported by the architecture, it just needs to
+be enabled via reconfiguration.
+
+Tycho
