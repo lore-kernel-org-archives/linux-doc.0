@@ -1,202 +1,99 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DF1044D033
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 17:50:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4F314534B2
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 18:02:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777398640; cv=none; b=TTuMkdzxod65Wf3/T3GBXWUllKSatyhKaoj1JMb3kXasJbMHSaufDKXo87/jaejWm+4kwc0jcZTdnCdC7YgyHEtd+EW0SjH4PhfGjqbdrmgC8smumn5MzyQMouLrotXYFId5yIMbaPTxVsvwxaOcKyg7fJelaSx94A+nyUAsTG4=
+	t=1777399345; cv=none; b=Y0pDdvuswVXkPIH3A3/UPbX2bz4PhWsPqH6ASMF1Aom629mBv/0SS78fXhCa2rYQ+4/ULLhcU12gy22tCTGmHJ8mlst2PjM9hTZLQrQwbrrZ5FdeeBRsut97Qzkt0HadhabjRHmdz1QdJ1iY9Xm11COvh9zPFLLMzXdDvwSnn4U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777398640; c=relaxed/simple;
-	bh=FgWjBTA/iLlK6ZCp3kZQBVGLSatIbrMyuIlDbArJh+w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bo78eeYTAr/JOh3YKVKVwyiV6nFj0OhIk0yD4feh059igQ+TPc4nneIZrqVW4zPRKfaWrvfxabp6fkuLNHc9Tzw2aYimOvW6rDq8n/lPJqcldv0r4INDw/ILEzwRsxSc/YNAG2eWw0y/5MdaBPN7+PhymoJ5sjLlN3O20ofFfEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b=jaT4LlZ1; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1777399345; c=relaxed/simple;
+	bh=dYGwWwtkKlPo1deJLx9BodMTvAxpwgOxdsVgFmjZsoM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=imB0WBmqBzryqxYoAALczIfyTml+KJqLZUOmAGgJ9y50UG9d3jPsUwAskWOJ8wFbYUswEJZQpZO8KGmCf3ZyhFjSPddeqML7PK9PceTxN1Oky+VJfAIgG7xbh8IhrI4hYUvIXjcYQvMfLD42mX/zo5mbr0TCM1oiFBOWXKkfwP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N+ZQXjDe; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen.com header.i=@soleen.com header.b="jaT4LlZ1"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-8aca2726f61so139367566d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 10:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen.com; s=google; t=1777398638; x=1778003438; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=nLQfCSN8EWjiFZX7iYk3vg7MUEyfn/VCYlErQ2TNxjE=;
-        b=jaT4LlZ1oETFgnwlwi7ZBhZz5MkAIAJJHjj4PXzkdiL6JVOI9TA/gGkIh0CpKp2kgz
-         WLY/cQtvrC5UZ8svQOj14k+MdAyHQ+EOWHo3t+NDIbFHcWEx57EwFxBsWMwQn1B6g1sq
-         IREspNP5pHiiUCtOlQu0QrL2tjBHgjFKzfHt78V6Wis6QqX2ogVXbUMUGcqPKPeEFhix
-         CCYDVKdqigCKl1qhFY0wUctMCPdApbzMAYTtwtSVfdGZzdKkHOfvoCCZ1CibPK9marqf
-         EC5Vh2Dchb+UDLE9uVmVYETncWFHEpJByhzD47powJj9mGaiRZV7LHnBCzKlWgQRyhMj
-         nnSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777398638; x=1778003438;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nLQfCSN8EWjiFZX7iYk3vg7MUEyfn/VCYlErQ2TNxjE=;
-        b=DwiGXb+BN8DzAOoIVNhIncAcXentEqYyrt8bPLS2A/6xCpQmDyRANtTc8WNvSqqcpG
-         FlFtzWD+md7Ru7AXvocbwxr3VsdVDPC5XHGExWfDbAcIC28ZcYsSYPpbE73zV9gibfz9
-         ALSyNjCVONUwSEMGKkM0IGKJGCaoXK1FFH3M3VRCNjivcBinyn//H0A1dyPfy5LKWQ9r
-         S2u9+LkHO5RlaYwMCdmzXKx0fDu06b+3Ok40p+HPoUs/rIQ3/jfFOCC8AZH+PmbWFbe4
-         op4WmpqsqiCzk0AAoEe+eUrTBpu6JRfOAs+XaabTNg+qWzqpGJFGJjGPdmclKtdxurnE
-         mp2g==
-X-Forwarded-Encrypted: i=1; AFNElJ8MORafhuusadixfyZfdjzFRcQjovNxcypncfir5BwTXH2FgqvZDmjKNlLF/8/srGo+ykTZXsYxxJQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCY2Ts2LivVz5Yf3qBSbzTejQV/zoROrx69qQ/tCthvJzDStxe
-	6JYksfyTOjHYQDCUTUAluk8gqX1fMv79Awx1IzTqMQ7yt5ZyzQE0qXm+mRDql3QpNM8=
-X-Gm-Gg: AeBDievdQp5pgzBXjbuOdwd6gHFky4fbSRVWvnU6LgSqdzi7A0AHmsplfb44OeijfCd
-	5d3ESNLv5uJWV5SSM5xjpX/EdzkOU5oHH50e71p6TAAepMGl2B9mk54TUFPAkgAm3T9hYjKQjWB
-	pqHXp+BIEuyrRtPbBy/+dfqRMZn/0KCMAp6jLy/CBWAnD014lqMwAFpybk6pJt8TvZ+UridfL5t
-	VyTU+btn0o9ONIHjGwxjypwGcPOgJ87/njdij8IWsc0O5RAmeD7G/MPA7AlT+RQSReeYF8JvZDc
-	AzfZIps198df533FVa9gREH2BkkICvaZbniodUgTTkKD8FF5u3wPDOJJQtWd7oMzGC+1J7kTYVQ
-	8fZU7bQbCskD6ZD0mRLnE7C5JgRAA9/4NTMFRGJujaQi2SFVGBX7Qc0o8O1nHfKZJk5bEvFowpI
-	/lveh4xQg0dIlRRsbYT29t24Pju9vwbDqiBFGnKD+JANqdKOfHJFxw4oitdxEKbw==
-X-Received: by 2002:a0c:f40e:0:b0:8ac:b14d:fbe5 with SMTP id 6a1803df08f44-8b3e306950emr64326106d6.13.1777398637724;
-        Tue, 28 Apr 2026 10:50:37 -0700 (PDT)
-Received: from plex ([71.181.43.54])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-8b3e281bd11sm26479316d6.8.2026.04.28.10.50.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 10:50:37 -0700 (PDT)
-Date: Tue, 28 Apr 2026 17:50:35 +0000
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-To: David Matlack <dmatlack@google.com>
-Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, iommu@lists.linux.dev, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
-	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pranjal Shrivastava <praan@google.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, 
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v4 01/11] PCI: liveupdate: Set up FLB handler for the PCI
- core
-Message-ID: <afDroRNDr9ttY4O9@plex>
-References: <20260423212316.3431746-1-dmatlack@google.com>
- <20260423212316.3431746-2-dmatlack@google.com>
- <2vxzeck45yin.fsf@kernel.org>
- <aetvAkM0y45WAmfV@plex>
- <ae_4fg_18Rli2_Nt@google.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N+ZQXjDe"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777399342;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ajb3tIPe2Fnx33E4Ll33pwLtSHp6m0qrFpGOVd8lamo=;
+	b=N+ZQXjDeyRIUim2e4d9mDGs4e2/iurq2pkOJxMTm5i5k29KhFIfoIb0a65U8soC8oWTwsg
+	s/TjiinRnb2aEl8hOuDmqc5ynxAQwfXnbww7nz75qa7mn/XKq8U3wslZcGWB759CzBNUEl
+	BFGP3Gv0C2hV7IkkQZ5ME3IG0HwM30o=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-644-Ws1fpmuWNLuZhhR_lu7h5g-1; Tue,
+ 28 Apr 2026 14:02:17 -0400
+X-MC-Unique: Ws1fpmuWNLuZhhR_lu7h5g-1
+X-Mimecast-MFC-AGG-ID: Ws1fpmuWNLuZhhR_lu7h5g_1777399334
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 42DE4186016B;
+	Tue, 28 Apr 2026 18:02:13 +0000 (UTC)
+Received: from [10.22.65.177] (unknown [10.22.65.177])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 3674D1800671;
+	Tue, 28 Apr 2026 18:02:11 +0000 (UTC)
+Message-ID: <973442ef-ad08-4503-8afc-c97d07298c61@redhat.com>
+Date: Tue, 28 Apr 2026 14:02:10 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ae_4fg_18Rli2_Nt@google.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cgroup/cpuset: Creating or adding CPUs to partition not
+ allowed without privilege
+To: Tejun Heo <tj@kernel.org>
+Cc: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>,
+ Chen Ridong <chenridong@huawei.com>, Johannes Weiner <hannes@cmpxchg.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ cgroups@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Xie Maoyi <maoyi.xie@ntu.edu.sg>
+References: <20260428033439.783246-1-longman@redhat.com>
+ <7so4b76wg2apwwk3yh76q42jgwnpvlv7sursmsmzeyefhp4pbt@thybpp4litm6>
+ <9df75f61-0cbb-42b4-b64d-8e6fd49d50ca@redhat.com>
+ <afDVwO-j2UOdSpQj@slm.duckdns.org>
+Content-Language: en-US
+From: Waiman Long <longman@redhat.com>
+In-Reply-To: <afDVwO-j2UOdSpQj@slm.duckdns.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On 04-27 23:59, David Matlack wrote:
-> On 2026-04-24 01:29 PM, Pasha Tatashin wrote:
-> > On 04-24 14:33, Pratyush Yadav wrote:
-> > > Hi David,
-> > > 
-> > > On Thu, Apr 23 2026, David Matlack wrote:
-> > > [...]
-> > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > index c9b7b6f9828e..94af31837375 100644
-> > > > --- a/MAINTAINERS
-> > > > +++ b/MAINTAINERS
-> > > > @@ -20555,6 +20555,18 @@ L:	linux-pci@vger.kernel.org
-> > > >  S:	Supported
-> > > >  F:	Documentation/PCI/pci-error-recovery.rst
-> > > >  
-> > > > +PCI LIVE UPDATE
-> > > > +M:	Bjorn Helgaas <bhelgaas@google.com>
-> > > > +M:	David Matlack <dmatlack@google.com>
-> > > > +L:	linux-pci@vger.kernel.org
-> > > > +S:	Supported
-> > > > +Q:	https://patchwork.kernel.org/project/linux-pci/list/
-> > > > +B:	https://bugzilla.kernel.org
-> > > > +C:	irc://irc.oftc.net/linux-pci
-> > > > +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
-> > > > +F:	drivers/pci/liveupdate.c
-> > > > +F:	include/linux/kho/abi/pci.h
-> > > > +
-> > > 
-> > > Can we please also add these files under the "LIVE UPDATE" entry. The
-> > > code here concerns both live update and PCI.
-> 
-> Covering that intersection of Live Update and PCI was exactly my
-> intention with introducing this new PCI LIVE UPDATE entry. This ensures
-> we have maintenance coverage with knowledge of that intersection.
-> 
-> > > We can figure out the
-> > > maintenance details as we go along, but I think the live update
-> > > maintainers should at least get all the patches for PCI live update.
-> 
-> Would adding kexec@ here be sufficient or do you want to be CC'd
-> directly?
-> 
-> If you want to be CC'd directly do you think makes more sense to add the
-> Live Update maintainers as Reviewers under PCI LIVE UPDATE, or add
-> drivers/pci/liveupdate.c under LIVE UPDATE?
-> 
-> > > 
-> > > Perhaps also add the kexec list here? We plan to use it to maintain the
-> > > LUO patches, and adding it will make sure we get the patches in case
-> > > someone updates the file list here but forgets to update it in the LIVE
-> > > UPDATE entry.
-> > 
-> > +1
-> > 
-> > These files should also be added to the Live Update entry, and the kexec
-> > mailing list should be included.
-> > 
-> > Changes specific to Live Update should be routed through the
-> > liveupdate/linux.git tree, while generic PCI changes should go through
-> > pci/pci.git. In either case, if liveupdate.c or abi/pci.h are modified,
-> > acks are required from the Live Update group.
-> 
-> Do you want to merge changes to drivers/pci/liveupdate.c through the
-> live update tree or PCI tree? We should probably decide now. I was
-> assuming the PCI tree since its part of PCI core.
-> 
-> As we project this out there are going to be users of the Live Update
-> API across different parts of the kernel: PCI core, IOMMU core, IOMMU
-> drivers, VFIO core, VFIO PCI drivers, and KVM. I don't think it will
-> scale to take all that code through the live update tree.
+On 4/28/26 11:44 AM, Tejun Heo wrote:
+> Hello,
+>
+> On Tue, Apr 28, 2026 at 11:19:16AM -0400, Waiman Long wrote:
+> ...
+>> Thank for the comment. Yes, that can be a valid configuration.
+>>
+>> One possible workaround may be to see if the current user has write access
+>> to its parent partition root. If so, we can allow it to create a
+>> sub-partition, if not, we will forbid it.
+> I think this whole thing is a confusion. First of all, resource knobs in any
+> given cgroup is owned by the parent. Delegations where the perm to a
+> resource knob is given to delegatee is not supported and expected to affect
+> resource distribution w.r.t. its siblings. Partition isn't special in this
+> regard. memory.low or min can create similar effects. Maybe I'm missing
+> something but I don't see anything happening that's not supposed to happen.
 
-All Live-Update-specific changes should go through the liveupdate tree. 
-The liveupdate tree is the only Linux tree that will cover full Live 
-Update regression testing, and it contains reviewers and maintainers who 
-know the details of the Live Update process, its lifecycle, and its 
-requirements.
+You are right. I am a bit confused about the exact delegation rules. 
+After reading the delegation section of the cgroup-v2.rst file, I 
+realize that the current behavior should be OK. For clarity, I am 
+planning to send a documentation patch to clarify the current partition 
+delegation behavior.
 
-The request we are hearing from other subsystem maintainers is that they 
-want to make sure Live Update is isolated enough not to make their lives 
-harder. This means reducing the number of conflicts, the maintenance 
-burden, and testing responsibilities.
+Thanks,
+Longman
 
-Therefore, the "PCI LIVE UPDATE" entry should specify you as a 
-maintainer, "kexec@lists.infradead.org" as the list to which all LU 
-changes should be CC'd, and "liveupdate/linux.git" as the git tree 
-against which changes should be applied.
-
-It should also include "linux-pci@vger.kernel.org" so the PCI 
-maintainers are CC'd. In case there are larger changes that touch core 
-PCI and liveupdate.c/abi, we can ACK them, ensuring we are aware of 
-incoming conflicts during the current or next merge cycle.
-
-It should also specify the members of LU group so we can stage the 
-changes.
-
-This is the way we agreed to handle kexec changes: Baoquan He is the 
-maintainer, and without his Reviewed-by tag, we won't take changes to 
-kexec. This is the approach we follow with MM for KHO changes to 
-memblock and memfd preservation, as well as the upcoming 
-hugetlb/guestmemfd preservation. 
-
-This is also the approach we should continue using when adding LUO 
-support to other components like PCI, VFIO, IOMMU, and KVM. It keeps 
-life easier for the core component maintainers and ensures we do not 
-regress LU by staging everything in the same tree and sending LU merge 
-requests from a single tree.
-
-Pasha
