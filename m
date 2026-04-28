@@ -1,272 +1,301 @@
-Received: from CO1PR03CU002.outbound.protection.outlook.com (mail-westus2azon11010054.outbound.protection.outlook.com [52.101.46.54])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11012055.outbound.protection.outlook.com [52.101.66.55])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A51A71ADC7E;
-	Tue, 28 Apr 2026 16:27:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.46.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE70545039;
+	Tue, 28 Apr 2026 16:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.66.55
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777393643; cv=fail; b=aOkkYFoprlPNzqZfPtFlW3PN4ACbzokZ128yAZlRpjfjYyCuf1kARbuGV2o19fVIte9uPuD0RE4yFOTrWpoByj9ub2kVaozE0lZv5x/r7T59XG01zudpIevrUjGh4QTaz8cGhP4mU3oFNxACa7v15X+mvZF642kEjt6AOJpG5mY=
+	t=1777394184; cv=fail; b=uyyJXoJ8rOytoIXBQHGbJWBm+ZfUYAA23gWojrJ7+OSeh39+/penl7uX2EVQ0H8vBH49bwlgG7ObdY7oo3ipDfTHA8JC/t2hRvYQ0Y0lQhi0W78+1DpqEwuAqMoHAN3/FfxDq0HPVIAJ1DqASvXDh7t8hgiUk0sNkzbUDiRZcis=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777393643; c=relaxed/simple;
-	bh=dW0qoqWM6MDEl2RaZKgSOCb/tHoUBX16OPiVDpJdwXI=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=STFO00dUn8Js7oFkCwezli7tmr3KfP8c0yWChqUFJZPdAroggYK0rtZORTd1ZVV9qCXZ1NuHPnq7Ym5hBalLMXT/Qve+JVBDGRtJ05eZkRod6FAL/hxMmzIiPZNE85LbdObyoS1WCEArsylsDxzHryq66kAix7Zlw3oL3WpCr/g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=j3Gfieh2; arc=fail smtp.client-ip=52.101.46.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1777394184; c=relaxed/simple;
+	bh=i/adgY7CVt1fMwtM1gfd6XvlpEkDkdTlZco3hhq6JEo=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=nK8QXJvtVhWUBrjpQ8HqQ4qng9ecA+hRZZJP5KB4l463VqyMJRFp9L8McOpajjgE0W7a0XCvs/GTTDJ3thmXVe9xuJsiyZI1GWDDs7Lw/iQOdFBpcDHslIW6PpWE1ljwR0PDOLKy5XJpeNYaNmzACulOwu7BK09DjK3eGohLIuE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=D7yT/Thh; arc=fail smtp.client-ip=52.101.66.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="j3Gfieh2"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="D7yT/Thh"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OreXSVKPRxdeQfdMMkKD3GU/BhpUaVMbwGKiJrlfn3gc4dMcuQnYjqAJxPbe+dTfRz4JkSyynA0fT3YK4WIsQda/T5ziicHfituDCKc88GYZeYgD37Maf4nKovlg2pkcVsZcTKLncNTbgavITlPpwmOjGZYu+ynTvETs2+KGbgm6O/4B8CWsqH0eR6dIePLeifXX8oxkZifszA00pCxZm+6ZkgfM3t+zRiDd6+Qv4AFyppp6YA0gVWklLH/+0Y0IlUydEuzkft0mEZBLSGSvoyFQVOmgnET6O4zIuI5SNFEWutmtPD2lUetke2y1/BBqKNZ+WnXi6UH8fZU4Rq4HIw==
+ b=KeVDKhojuZ5FihL2Gh1Dzej6TRwSa10U+ql3pBQQJmtlUH4TklWfMa7LU5mm+PJ4IYAHp1GxK9f7Eo+iVs30TgTQ4xtE7vXlQtRexiraveD8afGdJmzWi5FjbH02nTUkZ3XM17pL7oNIO47ASw0C4DOb5ddWwuU4fvbdnxZBWzcMKom4b9IYn3Nfxmncp7hnSZ82smA9hRVi3uh9hsDwt3K8xhFOg4SVEyuvpBP0gvnlmrHAJR0X8MdBrZ0zf4ECIwHJ1/U8CBnZKNLZa0tg30mqwvQ3ZPj6juhiKyWFeVH3uKKLxhMzP9S4M/gUjDZEEEqRmOfkE3pK3LeuBBtn9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lr1+oQdCRNL7lhJ52dAz8H0bhkxdHBMQMiHKId5uUH8=;
- b=iE79EYI3IiFs3Wy0NTx5JpfWNfyBGbf6Yk80ZHxojpJQ+hEL8t2j3MOlF4wwOVTjBImS18sY05Q+ATAyGpYdTpXL3X5ZlqxYQmORfzgEVaJDj49kKXGkFtVxwLEcHDoXFS6Gqy4hJUfklE1ZOTJyywVm4PnANbWQ1TRXTZeqag3XLVI3zZoW+5ltHv5EtlFNs9arQPK4TCSzhFepTc7da/xVVsO3/nfvbE+JpUDD7g0rDPLZ1hyeCWfviK0zENKTEUqhTSgW5AVZIkUwVFFJ4P+Tb3KyNbDnycDEKgydNQJsvrTRAjidjyBA1CyJfDNW+v337CiUiQkG5iIbwQJ0Yg==
+ bh=YBFZDcmrnhT3Om894Po0V720gXBPGinpgGBmDQ0WZ9k=;
+ b=FjLvNGRYA6PjHhv8zl0Uz8q13hCc0W52fCBAM9Km2CtWc84jqLXgrMigrMGfuX0AjrcjhhF+US2dQuImQ5KL0eUTDUjFpJRSVR1tM0nlA4rg+KToeljODhxNBibHx0hqaFTX1uBsfyV8efx5hZTOybhYmd2vJOiu8k8xUwQ1lQ8MPdxoOzZYUZLR8UTz4f47SE5uoMZD/lJ3tStvX4F05TuT+UVtzqty5y1PGW2MypEmjaTEitovVBKJGJ4nI2yJrrZXcMlcU/3YoMBP0FwKQVxdhWeyRsdRqaGklUfm9CWIijNqxg/o/lnbVNnc7rcFBV4uw+49qeYgTrvFb1K8Lw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lr1+oQdCRNL7lhJ52dAz8H0bhkxdHBMQMiHKId5uUH8=;
- b=j3Gfieh26gICJNDmsNJX+chIOZio+rmukIfLWQ2P3uv2lgzDUkepAxH8/p5UEODeQWIySsJ3Va3S9hevrbCTAoZeS4i3kuvZDF5b/73Tc6ZwQ+vIN53bZt7Am3CRuh+kx4s1+HoBwRS6lc/s6yxQtG26LN2qgoc12eitozfXALY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DM4PR12MB5070.namprd12.prod.outlook.com (2603:10b6:5:389::22)
- by CH2PR12MB4230.namprd12.prod.outlook.com (2603:10b6:610:aa::23) with
+ bh=YBFZDcmrnhT3Om894Po0V720gXBPGinpgGBmDQ0WZ9k=;
+ b=D7yT/Thhr4t/lto8cgsZV0Bgj6+C3CRKYvM+TgsU+fsu50sBTNiviO6USMh2oZFhGGwOOdG5NrVVBR46ZL1txr+9NE4zohj2/HtAPa+G6ON9tp1wb8uz+RqNbwc36m8DAumwIBPEzkd6AdK7gnlqljm1KbSl167PuQpTFYdnANa7pYjtiQZEEAcr6lfup8jcMsoOKak7sXe5rmN/rgRVUlHoZVVY291rn9hxPoJwAEQC6zHWkKYuLqkucUCHkVVLZBNomFsOKN+rDLzzLFvWEkqe6EjLSH9sCrYDG+apQlRp53ynROPD5DnmUMiJDjjy5pSBp6snJXKYooEjoXMORA==
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com (2603:10a6:102:231::11)
+ by VI1PR04MB6942.eurprd04.prod.outlook.com (2603:10a6:803:136::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Tue, 28 Apr
- 2026 16:27:13 +0000
-Received: from DM4PR12MB5070.namprd12.prod.outlook.com
- ([fe80::f3f2:852c:78d5:9353]) by DM4PR12MB5070.namprd12.prod.outlook.com
- ([fe80::f3f2:852c:78d5:9353%4]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
- 16:27:13 +0000
-Message-ID: <20f94bed-2843-44ab-877c-3e68bd4314f8@amd.com>
-Date: Tue, 28 Apr 2026 11:27:09 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] KVM: SEV: Add the kvm-amd.rapl_disable module
- parameter
-To: Sean Christopherson <seanjc@google.com>, Tycho Andersen <tycho@kernel.org>
-Cc: Ashish Kalra <ashish.kalra@amd.com>, John Allen <john.allen@amd.com>,
- Herbert Xu <herbert@gondor.apana.org.au>,
- "David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Shuah Khan <shuah@kernel.org>, linux-crypto@vger.kernel.org,
- linux-kernel@vger.kernel.org, Kim Phillips <kim.phillips@amd.com>,
- Alexey Kardashevskiy <aik@amd.com>, Nikunj A Dadhania <nikunj@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Dapeng Mi
- <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
- Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
-References: <20260427204847.112899-1-tycho@kernel.org>
- <20260427204847.112899-4-tycho@kernel.org> <ae_TCofu4bHP_Ch-@google.com>
- <afDJZQHNi-qdcEEe@tycho.pizza> <afDYCpbeT0HsXTMF@google.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Tue, 28 Apr
+ 2026 16:36:18 +0000
+Received: from PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb]) by PAXPR04MB9185.eurprd04.prod.outlook.com
+ ([fe80::b4c0:6119:2228:2ceb%4]) with mapi id 15.20.9846.025; Tue, 28 Apr 2026
+ 16:36:18 +0000
+From: Shenwei Wang <shenwei.wang@nxp.com>
+To: "Padhi, Beleswar" <b-padhi@ti.com>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob
+ Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
+ Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Mathieu
+ Poirier <mathieu.poirier@linaro.org>, Frank Li <frank.li@nxp.com>, Sascha
+ Hauer <s.hauer@pengutronix.de>
+CC: Shuah Khan <skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
+	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
+	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
+	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
+	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
+	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Thread-Topic: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Thread-Index: AQHc1y0jvFA11n28QUCTjU6fNbLbbw==
+Date: Tue, 28 Apr 2026 16:36:18 +0000
+Message-ID:
+ <PAXPR04MB91858D4F2549FA068D7ECCC289372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
+ <20260422212849.1240591-4-shenwei.wang@nxp.com>
+ <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
+ <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <29485742-6e49-482e-b73d-228295daaeec@ti.com>
+ <PAXPR04MB918568939EC7DAEB4BB6C8F989372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <32c119af-96ad-4da0-86f2-cdc4ba57ef0b@ti.com>
+ <PAXPR04MB9185C7741DCC422212F952CD89372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <8c8cefaa-7d9e-4b73-b92f-40cb52b37f2e@ti.com>
+In-Reply-To: <8c8cefaa-7d9e-4b73-b92f-40cb52b37f2e@ti.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Tom Lendacky <thomas.lendacky@amd.com>
-Autocrypt: addr=thomas.lendacky@amd.com; keydata=
- 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
- WiyqywZI5g==
-In-Reply-To: <afDYCpbeT0HsXTMF@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: CH3P220CA0023.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:610:1e8::29) To DM4PR12MB5070.namprd12.prod.outlook.com
- (2603:10b6:5:389::22)
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PAXPR04MB9185:EE_|VI1PR04MB6942:EE_
+x-ms-office365-filtering-correlation-id: 4c42d29c-5e46-4bb8-97a6-08dea544460f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|19092799006|1800799024|366016|376014|7416014|921020|38070700021|18002099003|56012099003|22082099003;
+x-microsoft-antispam-message-info:
+ vojYnOucAqgrlHBm4cpCOF73ysaq+F7MJtpQBpEqgs9ISGdH1V+7RvVW0ijX9ock+TRjeZ5zQ41M+0yq+RiKUtPwqFC7saKIyikteHaTbdAqMLXO/rTWnbqZDn4+t+fube1jFmTANnWvze61C5Bnhgkor2ihHDsAWkMq1zKZblYpIuXMIOVisAYP9V6AYfb87d6DL7wY9QfB2z8rXKSzRQtQHFC0U4tYFuWYwMNJXmOpNA3PPOKr4gzrSiIc7tXoaEoNQT2W1J+Eelog80Bp+qU6mi5geQ65+68rzaUib8CiDO60TbQBI27ZgWBhcR4mvmTAehNh9TC0nx7ehoA5122EVAZxRzNiDzc4nP0zqzU7SPmYm+elUtdiKJJdSBKjyIifnm95dBZXxSKAFMWR8xWbplLLvgOAMLdStRB+rxn8lSamt+A9V8KkWSTXit4m2eS9xJGZipY9qcTQTpQ5aNL8AjFs3rb6kec+K7FCWfgpTOa7nYpj/LoiBghKu0AQLqVBzLk7avh5dxUz/6RdYYxMJ12UytPYjsumBOCWUsJrX6QI6mrsiSksoq1KqCokl5dgfNDtflUvJm1+Quo9OutyQDJ4FDg03wPOrtRF/Gd5y73znXCPZdOa/SwnjJf3bfCobvvZQ8V/pjbCGfU65HBuhVmsL1hDsdlFA3WxwzyEszfsayyBZyXUiktT5KFwfbulAeTgcOLeYQnAgs0U8kFI1TXr12XT3defpMBXyUNKIlODjwfS05ZHWSW2OCeWXvRc9meEeRRMAZ6IjjqOJqCCZanYnVO0MmmUHKONIJ9jLRnSi0m3bOhmP+Sfkqsx
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9185.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(366016)(376014)(7416014)(921020)(38070700021)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?3TA+I6sRj4brZwx/UNCtVNCAKDuWkY26iNUKMqsfqoXZ0i/4SV80ishX2FNh?=
+ =?us-ascii?Q?CbvlTMtnRosxxFJbW2cGvGundsCMhXOkb74C4ifxau13/5nQ7W4zcThIte3r?=
+ =?us-ascii?Q?F94S6Wq1tc67eJsViWCrLll0ndWIXmzI2fCbbrsd8XRj9HxcqTiH1V/6ElVu?=
+ =?us-ascii?Q?c2SYsgBFYj0AOr7kEq+RGKU6yMOFY6o3OU7adbbPJNfIobEtf2opf9il7quD?=
+ =?us-ascii?Q?R/Gxijq2TnCiVta/woekpLDv0Vnx4i7C+QEWzzLepCOFDKqKn/svj9YSbKVC?=
+ =?us-ascii?Q?xqoBRSFqDnJK/PY1a1o1FKMmfxIDibDwQC8+nYyxRR9NGQhpMXo6knRSP6ey?=
+ =?us-ascii?Q?3WrFwuTRQsUa1eLLP/JyAczWPkaw4GpAP/L94UUezRAP6Ggb5NYkp83Ec9xv?=
+ =?us-ascii?Q?gqBIscJ4BylcvrLwXOUTKyHbscHBXet3CXwZRRtenrCNWSCGswnmjKVKF7hN?=
+ =?us-ascii?Q?36KOkpLEtLphDuRESGfDYraFJJW3jLLNUfPiyl541hdi1+L4N1Ya2V5ftZbC?=
+ =?us-ascii?Q?UHg+sYGIPzYN1MALvKl//kzxXLN+QXIB2D6l4SHjumlh/QrJftC2r0ImPv5k?=
+ =?us-ascii?Q?e8dZXD7Sx1Fpo98sdrUL1aNSPCrfneLXlewOcrg4Bo0hoeD4bB7q0tL0RQFS?=
+ =?us-ascii?Q?zzdqHmgIOHJg/PBUV1PeRMZLf397C7HvOL5AxjCLe4tg7CqGCaHeOzitOPOO?=
+ =?us-ascii?Q?585bPmN3/79Gd7s9EmiAfWbfKk/wTPE5W2IdYu0w74USz76gMkwVYbMjD0ch?=
+ =?us-ascii?Q?GVmNTEvMSXdyFqpMDDDvLC2eBGvcT1391yn39fMVsFIQm+rpIuFPmWvi4+wW?=
+ =?us-ascii?Q?aiEI64b8J4Qy4dF+j6p3iKrt54mnaJwWRM60BpnmhYwGZ8ewGaH6lEAW7wQc?=
+ =?us-ascii?Q?/vPhy/SgMtuPYFFc5D644B1AHJRP7Brt8RWf2M1SG4DwRu6uLvhOudsGIcuc?=
+ =?us-ascii?Q?9sx3jJjrlVh7iOzG5jZg3eeO1IhxlMSlv7Nq7Xtm60Xcaa4xWbRXuDYL5v57?=
+ =?us-ascii?Q?40Qdwr1QVxf2DD8dW6646ou9vT371RmVAT/GhflkYVPsuxfs8y6Scb49p4c6?=
+ =?us-ascii?Q?bKl6mJ2xD4i3ytULrcP5ir8PYZLOt1ElW9EM9Q/L5PWJ0r4oUBOwu8rkom8s?=
+ =?us-ascii?Q?vE5/B2vKxeI4Namx9c/6ud/VnzPAuit4oFL4N2d0cPK8iPExmGAc18zohk0p?=
+ =?us-ascii?Q?Ogb3KUh+VPC+fXWWv28cWQIQQ9JDP0q79oFk2cwZJ73Y5KEFsLHUCf0IWnuX?=
+ =?us-ascii?Q?IM2j+U7grWeFxqgtccwI0VYleldm4PKSdW1cCeYDRtV7s3F01/y9MfbMZmlb?=
+ =?us-ascii?Q?OKk9GjmbfFd56B/4hpwRCaI7/YzOAcbzQhqbpo7UYFuzIOzlgL1FqwZfBaMd?=
+ =?us-ascii?Q?jfuM2yw1tYpo7gN/+g+h8VtuHmraR9+ZOANkKFNYgTmGs9F22KEJoKzskzfw?=
+ =?us-ascii?Q?I+wPGp34SU+QEbQF980Qcy458QfAyRGUs1nxgOhteCqj4PbhCEc4ILOzMXY4?=
+ =?us-ascii?Q?xk1Ozis28aSh9S+sqPI4bKr22qnp+uzB7GXmf2BwwH4RnHiG1gwQcQS+HlYE?=
+ =?us-ascii?Q?k4/PZkPbLWx4s6Mf0ecPyB7ckkkX2r4pHFUCsprftOxf59NkdBrqEPgfD9Kg?=
+ =?us-ascii?Q?4cdB5LtfE4UFhuhEWWqCLPC+RooU0g7EImpY1uJYTv0E6DP81aWWCiEc69kG?=
+ =?us-ascii?Q?M9LKH7kj2ME7K7hToKTFWtbnTOw5YsfkqCcOHPSwgGiktqFn?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB5070:EE_|CH2PR12MB4230:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8bebb70-fd5f-4e66-c28d-08dea54300e2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	Kbx5dUmLfKQLSjvkDCUQf69cRuQBFpE/fx0EYdMp7iurWdyzSee/3cmSO1ZleiyDeNssSLAgjKXzttcRemxyGBbHPskHfP45Ex4vjUs4RHhW1RGAg596MnOCK0e60Kx9zk1xh3wSyTS5qZN5EGlmgEl0bk6s11uyc8xoTAkevXJYN2o25spE+0jyCXhHgpNWhrb68gwQZ10vX6fr53RvI9yaAAIq/jP6v6cz9VFtVtrQHPvWTjD/sM6iHroYMr5PcAZVqwmI98UEq0Szb6GJhqNx6vE12CNoFBPUnUTtpngJT1BK6egH9zUWFZTt1jFieQ7Bmi/1mT8GjywOBHsZd5ltrOj4WWamvAPRSSz9eyGZjMnv7+os568CL0HROLh04Rah5logpM1jyaeGrYna8xxI173UfXiwTxutNYggFkJP1+nxoVqM0iNSIXN6LaUgqIA6dmYspfpVPqhSW1JwLTJ+SkRvsodi1gPAiO1TxLyfpwmyvKTr1hlCO3qRIGTE+OU6y8pLJfNOs0X6FIaZT5cMY+W0agR+3N2hRxRNPajKNgYhvyAsgOoLFleRvrWoXegiVQMYP3gx3ud6fpBpq3uw2iL53ZXdyAyU9Zw3RMifblXLsiy5gSrlePNQJ8MpvZ/7sFloMvXSNdhOw+QKtiAxCqjyjDRwhzXKz1ilo2ZIaR0LFGeBeKITGIHQgCPujk81ZRQ+OkdEF8F5I9E1pNSHjXWKJhsrTq9IhkMhUkQj1/tQF5zrqVfWwXGaZVSM
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB5070.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SXNBcUN3aGl4RGRqU2s5NGpUY3dZNS9oYkxGNHBsclcwb1pkakRxTlEvWk5B?=
- =?utf-8?B?QWw3OEFGR1RtWE5UNHdWanVXNkEzb1RzYnUxWUlxRlk3WkpIM28rS1RGSUpa?=
- =?utf-8?B?S3RhNEtSdXZBNXo3SXMyeXhPbHRqaGI5bHF0WkNpT2laNDk5d3krSzV4b1dl?=
- =?utf-8?B?OXJmekVmRkVKZFR5aUVQZWRBUTFSN2R6ZC9BbjF5ak1hTTNVL3BBaVRya3RT?=
- =?utf-8?B?TjB1eGF6eGxJeWVZZFljbm04d2lvdFdDbHV2Z3BUKys3ak03Z0JWNTQzSzFr?=
- =?utf-8?B?QUdaQjFMd3piK3NCUitOZWVYUkpjQW83OFJIMURvQkk2WVNIZmlGK2g4MDIw?=
- =?utf-8?B?Rk42WTNWb0FOOTI5UlNjR3R5VVVtbnRnS0J1WlRzWnhKUGVQSExmNTgxVzRC?=
- =?utf-8?B?WkF5TnYrdk93SWlIdzlrOUNrWkIyd1AvR21CTFVad2RCT3pEUlJRSktUUDh1?=
- =?utf-8?B?QkFoZXRWd3NCZkRXVE1DM1BOMEZRdEpWNUNPSDBDYmlWV0dsVWhkK0VBMWRC?=
- =?utf-8?B?dmFxWFRtT0NxVjlFTWQ1NHcvUU02VnZ2VlFEcWgwQW9VRk9HYlVtK0RzbVVD?=
- =?utf-8?B?Nmxvd2RFQWRCeDUxZWY2OGRkSjBoWmJLRzEweUhVOElhcW5RL012Wk5MM2Z5?=
- =?utf-8?B?VHEvTjNBYVRwZWl1Vnc2RkZzUHlHcjcrMmdjR2Uva3lxMFRMMGlaaXhtZHY5?=
- =?utf-8?B?OFR2azN3akJnMFlZYzJCL2NGZkhaR0dScldNUDRxNHpMZFJjZW9XL0E0SVE0?=
- =?utf-8?B?dExIdEQxSC93WnRKMDhWeTRvcGJnYmp5a05YdmV5WnRIWnR0L21qdkowWnVi?=
- =?utf-8?B?a0ZzbndWdnJKeng4SjZSMWx0dSt0MlVrZmFIempRMmY3RDU3QlRKVmZwVlpu?=
- =?utf-8?B?LzJ5emh4L0d5WEt4c3dJUDJaVFdETXFYYTdGYVlhQ2VjTmtBdktFRXJrYUZs?=
- =?utf-8?B?SDhRMTI4TFpEbW42RlpzN0tJdFdjSjVvNmI2Vi9PYVVOVEowcHM1WlZ3MU85?=
- =?utf-8?B?ZlltdGNBV0N6SEpKbzZ4Qm9zMjJ2YW9rVlhjL0UzQUg1Zlp2cGI1VGlYTENE?=
- =?utf-8?B?V3pGYXA5bldUeE1TOFhycUpwVUY5NVZFRWtUb3NXTndkRXlOejE1dTlhWVgy?=
- =?utf-8?B?VFdTY0pROEJMK01kczlSOU04SU4zMFRXa0x1MlNZbXhvQjgvcWVrVitPOTIw?=
- =?utf-8?B?YUtPNjc2aTh0d1JwbkZGcDVIS0tnNHg3ZHczeGxFMXFtcjhoNnlzZFk4VmZN?=
- =?utf-8?B?RTBvdnJVQ3JhTmMrRUpvUFFzYjNqald1bEZaWlhRaWpEQjh5VCs2MElpb1VG?=
- =?utf-8?B?cWpNRitIY2dNTzluT1RnMUl5eFpGZjVsNlYrQ29SVTdnbFVXSnlET2Uzczcy?=
- =?utf-8?B?Wm9VaGs5WGtRNXd1Y2tBeld4czZScmgzc2MreUZpQTk5dEc1bFNVNFBsOTR1?=
- =?utf-8?B?OGFOK0ZURGJBVklVN05DeXlDaloreWI2YWo0QzdRUDhTei8vQ0dxRUk5UVRM?=
- =?utf-8?B?MWl1cDZuckpMOUlYTEtmUDVRZEIwOTZCcGFKQnVldys5cm91Ti8xekZSWnlj?=
- =?utf-8?B?Sm80S3hlTTdhVHhGQmlVRUhTMlQwMUNlcmNBN1BwYVVlR09zbTM3eGxsQ3JV?=
- =?utf-8?B?Y09rMDlkb0N5bnozK1ZvQmtHanBRTFcwNmxWdXJMWnRFNThES3p2K3FYSVJk?=
- =?utf-8?B?ODEzT0MvMEd3K0ZkSlBLaDBHOTBJSDkxSnFWVHVwdk9XdWZQajh2YVhDOHBK?=
- =?utf-8?B?NFdNR3NIWURHM09wQTAya0cwY2FMRFJySW1BYWpIa1VBemk4RlowekQ3Z09Y?=
- =?utf-8?B?YzhuMnhTWjZmdVBGQVJHWmRkRmN0VExodmc1bTVDZWxicnVhNzFibUFSOVRM?=
- =?utf-8?B?VTNxc1dBMUJVMlJZYzQzenllYUgyY1JLWFd6Z0M4bjBYYXhoQW8vRXJzVHZ0?=
- =?utf-8?B?ZnlPQnVDck12TlA2dFdwSmczTmF6aW1EN3pwOWhvT3FmdWxKay8zYnFab3JI?=
- =?utf-8?B?MThCMzZMWDBxUGFVU3VGdXMxNGpMZTN0WjMyTUFKWWpxZFRxWlQrNlBpZGsx?=
- =?utf-8?B?MGE4MjBQbFJYU08xK2c1T2RhWlR5RW9QVmxXVTBpTGU1VmsxQVFiNElkS1NI?=
- =?utf-8?B?RW5PSEpJYnBhQkt5UnJVZ1piL3A3aXNpOWp3bjhiMWYyTFdFMWJUQ1J4M3hk?=
- =?utf-8?B?OHZ1bDNOenNaS3pNRDA2Mit3OUZSVWY5cmRzTDJpd3pmNURrMStoOGxtL2JM?=
- =?utf-8?B?MWZhZkhBRVJKOXdGUGszWmpEMElhTy9sdis1bVQyL2dRRHErTEVXNDg3a0I5?=
- =?utf-8?Q?0V8qXElDqA1Mhx1vfE?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8bebb70-fd5f-4e66-c28d-08dea54300e2
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB5070.namprd12.prod.outlook.com
+X-OriginatorOrg: nxp.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 16:27:13.1276
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9185.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4c42d29c-5e46-4bb8-97a6-08dea544460f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 16:36:18.4243
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: D5JZ8f7gXqE7vml8nFjxdq9ZILs1E41v/7LYbBYx7t2O1CTNECk/l6RB0TAcXUIPoL3hCLqAz3cMKDQ0q1SJCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4230
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ByrfzpsIPzfy2rWi0afGiugB80C7qYXHa04sM2gbkVkOnRlAgcfSApCtmxCitYm/7AHvo+2dcHpWaAtxg6kdBg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR04MB6942
 
-On 4/28/26 10:53, Sean Christopherson wrote:
-> On Tue, Apr 28, 2026, Tycho Andersen wrote:
->> On Mon, Apr 27, 2026 at 02:20:10PM -0700, Sean Christopherson wrote:
->>> On Mon, Apr 27, 2026, Tycho Andersen wrote:
->>>> From: "Tycho Andersen (AMD)" <tycho@kernel.org>
->>>>
->>>> Add a user-visible way to set the RAPL_DIS bit for SNP init.
->>>>
->>>> Since setting RAPL_DIS affects the whole system, put the module parameter
->>>> in kvm_amd instead of in the CCP driver to hopefully make it more obvious
->>>> to admins.
->>>>
->>>> Signed-off-by: Tycho Andersen (AMD) <tycho@kernel.org>
->>>> ---
->>>>  Documentation/admin-guide/kernel-parameters.txt | 5 +++++
->>>>  arch/x86/kvm/svm/sev.c                          | 8 ++++++++
->>>>  2 files changed, 13 insertions(+)
->>>>
->>>> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->>>> index 4d0f545fb3ec..2b50eed8664c 100644
->>>> --- a/Documentation/admin-guide/kernel-parameters.txt
->>>> +++ b/Documentation/admin-guide/kernel-parameters.txt
->>>> @@ -3207,6 +3207,11 @@ Kernel parameters
->>>>  			max_snp_asid == min_sev_asid-1, will effectively make
->>>>  			SEV-ES unusable.
->>>>  
->>>> +	kvm-amd.rapl_disable=	[KVM,AMD] Whether to disable RAPL
->>>> +			(Running Average Power Limit) when initializing the SNP
->>>> +			firmware. This disables the counters for the entire system until an
->>>> +			SNP shutdown command is issued.
->>>
->>> I'm pretty sure I said this earlier: KVM absolutely should not be able to disable
->>> RAPL for the entire system.  That needs to be a power management thing.
->>
->> You definitely noted "not CCP", I don't think I quite understood what
->> that meant though:
->> https://lore.kernel.org/all/aZ86BZWi-GLiHvmt@tycho.pizza/
->>
->> I'm a little worried that putting it in power management will generate
->> some weird dependencies, or weakref symbols that can't change things
->> if they are loaded independently of kvm_amd or something. But let me
->> see what I can come up with.
-> 
-> Ugh, and it's not even powerman per se, it's actually a module in perf.  Oof.
-> 
-> I 100% agree it'll be tricky, but I also stand by comments that neither the CCP
-> driver or KVM should be allowed to silently pull the rug out from under the RAPL
-> module.
 
-Maybe something that can be added to the current sev= kernel command line
-parameter, e.g. sev=norapl, or such? Maybe even with a kernel config
-option for a default value? On SNP_SHUTDOWN it will be re-enabled if it
-was disabled.
 
-> 
->>> KVM then needs to communicate (and enforce?) the policy to
->>> userspace.
->>
->> KVM doesn't need to enforce anything, the SEV firmware will generate a
->> launch error for policy violation if it's not supported.
->>
->> For communicating to userspace if it's not a kvm module parameter, one
->> option is to mask it off in sev_get_snp_supported_policy() if it was
+> -----Original Message-----
+> From: Padhi, Beleswar <b-padhi@ti.com>
+> Sent: Tuesday, April 28, 2026 10:53 AM
+> To: Shenwei Wang <shenwei.wang@nxp.com>; Linus Walleij
+> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corb=
+et
+> <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
+> <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Fra=
+nk Li
+> <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shuah Khan <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; l=
+inux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Tea=
+m
+> <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
+> <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
+> remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
+> kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
+> Golaszewski <brgl@bgdev.pl>; Andrew Lunn <andrew@lunn.ch>
+> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO dr=
+iver
+> >>
+> >> Nothing extra in my opinion. rpmsg_create_ept() just creates a
+> >> dynamic local endpoint address for Linux's usage. The firmware just
+> >> has to make sure to reply to the same endpoint address where it
+> >> received the message. This should already be in place IMO, because
+> >> currently you are sending all messages in the default
+> > Since rpmsg_create_ept creates a new local endpoint address on the
+> > Linux side, how is the remote system expected to learn and use this
+> > new address for communication if no additional logic is added on the re=
+mote
+> side?
+>=20
+>=20
+> Remote side learns the endpoint when it receives any message from Linux f=
+rom
+> the dynamic endpoint.
+>=20
+> Lets say rpmsg_create_ept() allocates a dynamic local ept of 1026. When y=
+ou
+> send the message from this endpoint, the standard rpmsg header would have=
+:
+>=20
+>      85 struct rpmsg_hdr {
+>      86         __rpmsg32 src; // 1026
+>      87         __rpmsg32 dst; // rpdev->dst (e.g. 400)
+>      88         __rpmsg32 reserved;
+>      89         __rpmsg16 len;
+>      90         __rpmsg16 flags;
+>      91         u8 data[];
+>      92 } __packed;
+>=20
+> Remote side tracks the dynamic endpoint by reading src =3D 1026. And whil=
+e
+> sending the response it fills the header as:
+>=20
+>      85 struct rpmsg_hdr {
+>      86         __rpmsg32 src; // 400
+>      87         __rpmsg32 dst; // 1026
+>      88         __rpmsg32 reserved;
+>      89         __rpmsg16 len;
+>      90         __rpmsg16 flags;
+>      91         u8 data[];
+>      92 } __packed;
+>=20
 
-Did you mean sev_get_snp_policy_bits() or were you referring to the KVM
-ioctl() for retrieving them?
+This explains how reply messages work in this scenario: the remote side can=
+ simply send=20
+the response back to the source address of the incoming message.
 
->> initialized without the support. Then it'll be visible via
->> KVM_X86_SNP_POLICY_BITS.
-> 
-> Ya, this is what I was envisioning.
-
-It's still a valid policy bit (if supported by the platform), so I don't
-think masking it off is appropriate.
+How does this work for notification messages initiated by the remote side? =
+Should the remote=20
+system need to add additional logic to track the source address based on th=
+e GPIO instance?
 
 Thanks,
-Tom
+Shenwei
 
-
-
-
+> Note: Remote firmware can also send messages from dynamically created
+> endpoints on its side, and Linux can learn those in the same manner. The =
+dynamic
+> endpoint address is passed to the callback as 'u32 src'. So you could pas=
+s on the
+> 'src' from rpmsg_gpio_channel_callback() to
+> rpmsg_gpio_send_message() as 'dst' and call rpmsg_sendto(port->ept, msg,
+> sizeof(*msg), dst) to reply to the dynamic endpoint on firmware's side.
+>=20
+> Thanks,
+> Beleswar
+>=20
+> >
+> > Is this handled automatically by the rpmsg stack software, or does it
+> > require explicit support on the remote system to exchange and track end=
+point
+> addresses?
+> >
+> > Thanks,
+> > Shenwei
+> >
+> >> endpoint (rpdev->ept) which is also dynamic[1] and is created when
+> >> the channel is created. And you receive the responses correctly.
+> >> (Unless you have hard-coded the default ept address in the firmware)
+> >>
+> >> [1]:
+> >> https://eur01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fgi=
+t
+> >>
+> hub.co%2F&data=3D05%7C02%7Cshenwei.wang%40nxp.com%7C057bf7f0976749
+> 5bcc3
+> >>
+> 108dea53e43f7%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C63912
+> 98840
+> >>
+> 26686251%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiI
+> wLjAu
+> >>
+> MDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C
+> %7C
+> >>
+> &sdata=3DiSxGWEvYSyu29loP9b1R2bw8bvwR7pbzQ7D%2FGeB%2BUYE%3D&reser
+> ved=3D0
+> >>
+> m%2Ftorvalds%2Flinux%2Fblob%2Fmaster%2Fdrivers%2Frpmsg%2Frpmsg_core.
+> >>
+> c%23L480&data=3D05%7C02%7Cshenwei.wang%40nxp.com%7C4ec06bf01bb14dd
+> >>
+> 2625708dea5387471%7C686ea1d3bc2b4c6fa92cd99c5c301635%7C0%7C0%7C6
+> >>
+> 39129859078622527%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRyd
+> >>
+> WUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%
+> >>
+> 3D%7C0%7C%7C%7C&sdata=3DOUmjqOdWqiXSTjPDv1TUvrjKP1YTx9ji44SdGlIR2n
+> >> Q%3D&reserved=3D0
+> >> (chinfo.src is RPMSG_ADDR_ANY)
+> >>
+> >> Thanks,
+> >> Beleswar
+> >>
+> >>> If the remote side does not need any extra support, this would be an
+> >>> excellent
+> >> solution.
+> >>> Thanks,
+> >>> Shenwei
+> >>>
+> >>>> 3. Send msgs from local ept in rpmsg_gpio_send_message() by:
+> >>>>       rpmsg_send(port->ept, msg, sizeof(*msg));
+> >>>>
+> >>>> 4. Get the port info in rpmsg_gpio_channel_callback() by:
+> >>>>       struct rpmsg_gpio_port *port =3D priv;
+> >>>>
+> >>>> Which also eliminates the need for struct rpdev_drvdata as you can
+> >>>> just do
+> >>>> rpmsg_get_rproc_node_name(rpdev) from rpmsg_gpiochip_register().
+> >>>>
