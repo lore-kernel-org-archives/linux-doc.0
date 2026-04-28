@@ -1,614 +1,142 @@
-Received: from mail-dl1-f65.google.com (mail-dl1-f65.google.com [74.125.82.65])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from canpmsgout01.his.huawei.com (canpmsgout01.his.huawei.com [113.46.200.216])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95E1D2877F4
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 01:48:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38AD62BE03C;
+	Tue, 28 Apr 2026 02:12:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=113.46.200.216
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777340918; cv=none; b=LtAp+N1aZrjI8FIpJGLZJ2F3NEZORvl83s2b3fMbz2KGB5zLyvhrAXJV8Foc5KcmykHcaqxPpMEluUdzYI8Q8j07WMPoqVrR5UJr6PRuPDZ7dNbPNLnRRemBM9Xc00NdoAydvAy0ofDrtUARG3ifU98TEu7wS0kDwfgpEFiZqVY=
+	t=1777342344; cv=none; b=eRdIFS/s22kpoRVM4L4YIJUbS5/VGWIsgjFaZuXQ4R/21CeuAglEMxVdWWLTEca9PXA4i1I/msjwiB/VyNcXDAzChB97TWv5in3zm+Otb+1b1Pvkc+Hb8bem8ODUIwsdaYVwSmmSP8vSU2F1ND07/WVOem2Gquy5KPYXo2fHOW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777340918; c=relaxed/simple;
-	bh=ly1d2nvsX3CoIAHRkA+RxUJvjLOAFadfRQrDav+67dE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LKlcb+PsEWZ7G+LuULzrTNuryqptEZ/Kiq0qc60X8uyi+UhnOmn4Yq8CBVX7Icly6BtAgPQXa15SnrDcLbfF072ScHoWOk8vyQDGX5JbJQJ4kdjCLNOHxsxhi4OJCsn99dWPIQPCVrg+fgNJFikS4kUKcaTWgjPy6K+1y+RwmMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kNTs3imc; arc=none smtp.client-ip=74.125.82.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777342344; c=relaxed/simple;
+	bh=OCHxuWdOTN38jxEGaPZ1kFI1dL+4l3qujQiSXU0UZAI=;
+	h=Subject:To:CC:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=cI4HdGD0d3FYsRSqt8TuKle/d9+3OLZbw9rEdl2vELV/cma1rPsl0T+5DoEuo1sGyfZzX+CAv6Caz9mabtifajnCRvJ5pvi4X2i1msCG2FZM+wLuCsikpoMfNbXodAkzyiRp909QRRrVTPKkxZWvN8lTD3mMbNHTaXfARFJcFMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b=pbhsaEsB; arc=none smtp.client-ip=113.46.200.216
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kNTs3imc"
-Received: by mail-dl1-f65.google.com with SMTP id a92af1059eb24-12c45281a06so14809112c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 27 Apr 2026 18:48:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777340915; x=1777945715; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=V5aVkqHkIrSOIGpIo34ssdCB9R955c6olFefI0jSPeQ=;
-        b=kNTs3imcKRBK2vgIYuUdU0WpuQj5VRpMA9IEq9TCANbFarMDmbskI4y3npHTnj+l8c
-         l/UF5N1apXjoGkaiEyDCZRA8/E21kz/SV3Z9WntWbZeE00uGHrkaEH46IYjCKRKUs96z
-         lq35jU/Iww604nU34B1uDrrqJZHLddvL/6u/n0rMCc+KpmVlc0YgXbjIJJP++xwhz1WS
-         ge31Ky5+eHEpIOz+EKtPLN8ub0tldvSCm+4ldTHE66rbs8NBNu2Ytbq+kOX1zw4+cWBE
-         yyfZ0MuiHNmK8n+GPrS6oVHeU0a7paqwSUze0oO0KcEqOCvO1XC0n3Q6RYWvGOPjHOgw
-         R+Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777340915; x=1777945715;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=V5aVkqHkIrSOIGpIo34ssdCB9R955c6olFefI0jSPeQ=;
-        b=LwleYJNPSvWu7etu2035xuu/VCKJl6npRiuEl+xqwHtzWHRqUDAnMmQhExJ2i/QZA5
-         38+0dIEga99zv3tY0nvM6Pl4WgwywteKKgrxY2AitqdFncrO3zok7k2sXtTI2/aVD5ug
-         T+ZMGW6s4TYBe8MJnoWxwXxsmUchsYlvrMIdQVcNlxzsOF58FCgLJZRrNZVqGYr4tdtM
-         LIyFx4uVEPmsco7KQX8X8meGlPI2NZUQom/SDmFa/4GhTk7s+KanqTl0+fXiV2gRNUle
-         WarmTgkGZReoG8v7g97PQ909K28F0oUA77XFk1ZJpDSUnho+wHGR591FKskJRRIv08yR
-         Uzpg==
-X-Forwarded-Encrypted: i=1; AFNElJ8jSml7gZJk30liSJezR3gZwe6G9/h1INTy4MSnmJ+tOCLoE6mijWRAFFTmaWe+5OaaOx48tpm5gy0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUJ9DfoUGWtutsmiSE74fr5uMw2LPg2iWyQN97ULoAeD0tCUEQ
-	D6AajBLJgZMFT5A7O1a8sMUfWaOCzPAzn+ZCL//apnZ9E8wX9gessvGf
-X-Gm-Gg: AeBDievFWjw/ms8C/C7RvmGbrwm1p4185BOnrsE94dejbFvYEgJ3SqyHT78zrQJLie4
-	+ZRmjJRH8jzU0mAGnC8QieRtvDu0HwoPSpUblIRUGRJ6mCC02AcnBL9lxp9LAkxIAtrF5CH8d/p
-	RFjC9suHyhDahNHYa0ykts/5psAx0w47qxdbSgm+MpHPXRVQrd6rNhWcnKcUsVyJsBJMUXf+P3R
-	BxvzsctjXRdsCk+ndi1CK+wJp0GWUj/w2yH70paLmFOL82qAEyViGZGbUmyEGfs01vg6chXSez6
-	nuLjPas/QXXiL1KSmASvYfqUpe3YY7GoUTCKbqZ34mEknDJ7O+z9ks4nCYNrK2qCdbXYfnmgefU
-	DSWY+hjSNa8yjYrTWXnPhhIZcaWvk5BF1e3i8GHaLtQPUpZiVdZcKr1GBjnv7A9/6WggX0kvk24
-	hI5EbcjXlgJy6jD/pmh6hD/Ip1DTuOUHHF/vFRwpR3nauTfcuFqHgdq4FCMad2r7c9NliBSROAV
-	+mZVNoIyP1QauxCX7Zjlr1EaX2u7Qj589//X2eudEpHBeq4J08E/4lhZatwcDvmY0ri2fkurznO
-	ZRKaNxofm2HfJZJlE2G7qYegjtUEjH9+AhkhKlc=
-X-Received: by 2002:a05:7022:6884:b0:128:d752:e074 with SMTP id a92af1059eb24-12ddd93f1dbmr592667c88.1.1777340914482;
-        Mon, 27 Apr 2026 18:48:34 -0700 (PDT)
-Received: from ethan-latitude5420.. (host-127-24.cafrjco.fresno.ca.us.clients.pavlovmedia.net. [68.180.127.24])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-12ddd9a64desm1531967c88.9.2026.04.27.18.48.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Apr 2026 18:48:34 -0700 (PDT)
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-To: linux-watchdog@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
-	Wim Van Sebroeck <wim@linux-watchdog.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH] watchdog: remove driver for integrated WDT of ZFx86 486-based SoC
-Date: Mon, 27 Apr 2026 18:48:02 -0700
-Message-ID: <20260428014806.35400-1-enelsonmoore@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=huawei.com header.i=@huawei.com header.b="pbhsaEsB"
+dkim-signature: v=1; a=rsa-sha256; d=huawei.com; s=dkim;
+	c=relaxed/relaxed; q=dns/txt;
+	h=From;
+	bh=4Enox5Vkt8tF4CpqLalAd+r2y+h4+O++GHfXO/5f5xo=;
+	b=pbhsaEsBxaon9RY0edAUzYstgxT54awUbXe9sgCZOPKcscpO2JfAyWiqfZnzKo3XpuCBU20Mm
+	I2TCUPDQCKcWU4/uK6cdDVuLNRJvRIPXu9I1ST+WY7KrQXzFPiqdc3bQIf7CcXs/dEjNaH2URGy
+	+hr2pdb8Y2C8v7hsdr5yvyA=
+Received: from mail.maildlp.com (unknown [172.19.163.0])
+	by canpmsgout01.his.huawei.com (SkyGuard) with ESMTPS id 4g4P0w6dntz1T4JS;
+	Tue, 28 Apr 2026 10:05:52 +0800 (CST)
+Received: from dggemv705-chm.china.huawei.com (unknown [10.3.19.32])
+	by mail.maildlp.com (Postfix) with ESMTPS id 78D6940561;
+	Tue, 28 Apr 2026 10:12:11 +0800 (CST)
+Received: from kwepemq500010.china.huawei.com (7.202.194.235) by
+ dggemv705-chm.china.huawei.com (10.3.19.32) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 28 Apr 2026 10:12:11 +0800
+Received: from [10.173.124.160] (10.173.124.160) by
+ kwepemq500010.china.huawei.com (7.202.194.235) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.11; Tue, 28 Apr 2026 10:12:10 +0800
+Subject: Re: [PATCH v4 2/3] mm/memory-failure: add panic option for
+ unrecoverable pages
+To: Breno Leitao <leitao@debian.org>
+CC: <linux-mm@kvack.org>, <linux-kernel@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <kernel-team@meta.com>, Naoya Horiguchi
+	<nao.horiguchi@gmail.com>, Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	David Hildenbrand <david@kernel.org>, Lorenzo Stoakes <ljs@kernel.org>, "Liam
+ R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka <vbabka@kernel.org>,
+	Mike Rapoport <rppt@kernel.org>, Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>
+References: <20260415-ecc_panic-v4-0-2d0277f8f601@debian.org>
+ <20260415-ecc_panic-v4-2-2d0277f8f601@debian.org>
+ <6b505601-747a-0812-7544-63a8ab3cffce@huawei.com>
+ <aejlg62nxcF_5g2v@gmail.com>
+ <c1517ad3-91d1-2ea1-efa7-0f29415d513d@huawei.com>
+ <aeta8Ifvmqi6-E8w@gmail.com>
+ <5e05384e-740e-b374-2370-01f96d1dac9f@huawei.com>
+ <ae93PTScNGzxo7aR@gmail.com>
+From: Miaohe Lin <linmiaohe@huawei.com>
+Message-ID: <a39ff9fd-74d2-86bd-fd44-e6c2de16d249@huawei.com>
+Date: Tue, 28 Apr 2026 10:12:09 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <ae93PTScNGzxo7aR@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: kwepems100002.china.huawei.com (7.221.188.206) To
+ kwepemq500010.china.huawei.com (7.202.194.235)
 
-The machzwd driver supports the integrated watchdog of the ZF Micro
-ZFx86 SoC, which contains a 486-compatible core [1]. Since 486
-support was removed in commit 8b793a92d862 ("x86/cpu: Remove
-M486/M486SX/ELAN support"), the driver is no longer useful, Remove it.
+On 2026/4/27 22:49, Breno Leitao wrote:
+> On Mon, Apr 27, 2026 at 10:44:55AM +0800, Miaohe Lin wrote:
+>> On 2026/4/24 20:01, Breno Leitao wrote:
+>>> On Thu, Apr 23, 2026 at 10:38:19AM +0800, Miaohe Lin wrote:
+>>>>> are you suggesting I drop MF_MSG_KERNEL_HIGH_ORDER from here, or, document this
+>>>>> will not hit userspace pages?
+>>>>
+>>>> No, maybe we should rule out or document above rare case if I'm not miss something.
+>>>
+>>> Good catch. A buddy page being concurrently allocated to userspace can
+>>> briefly satisfy get_hwpoison_page() == 0 && !is_free_buddy_page(), and
+>>> that page is recoverable via the standard SIGBUS path — panicking on
+>>> it would be wrong.
+>>>
+>>> The page allocator can't filter it out either.
+>>>
+>>> check_new_pages() is gated by is_check_pages_enabled() and is a no-op
+>>> when CONFIG_DEBUG_VM=n.
+>>>
+>>> For v6 I'll try to rule out the race inside panic_on_unrecoverable_mf() so
+>>> action_result() stays unchanged:
+>>>
+>>> 	case MF_MSG_KERNEL_HIGH_ORDER:
+>>> 	p = pfn_to_online_page(pfn);
+>>> 	if (!p)
+>>> 		return true;
+>>> 	cpu_relax();
+>>> 	return page_count(p) == 0 &&
+>>> 		!PageLRU(p) &&
+>>> 		!page_mapped(p) &&
+>>> 		!page_folio(p)->mapping &&
+>>> 		!is_free_buddy_page(p);
+>>>
+>>>
+>>> A buddy page being allocated must transit rmqueue() → prep_new_page() →
+>>> post_alloc_hook() before the caller can use it. Each step either bumps
+>>> _refcount or sets state we can observe (PageLRU, ->mapping). cpu_relax()
+>>> lets that remote-CPU progress become visible before we resample.
+>>>
+>>> A genuine non-buddy high-order kernel tail page stays unowned across the
+>>> recheck, so the panic still fires on the case this series targets.
+>>>
+>>> The window is much narrowed now, not eliminated — I'll say so in the changelog.
+>>>
+>>> I also added a selftest that enables the sysctl, injects MADV_HWPOISON
+>>> on a userspace anon page in a forked child, and asserts SIGBUS (not a
+>>> panic). I've been running this in a loop for hours, and I haven't seen any
+>>> false positive.
+>>
+>> The userspace anon pages are already allocated. Those pages are in a stable state.
+>> So your selftest cannot test above window. Or am I miss something?
+> 
+> You're right, the test doesn't directly hit the race window. By the time
+> madvise(MADV_HWPOISON) runs the page is fully owned by the process and goes
+> through the steady-state SIGBUS path; the buddy→user transition that the
+> recheck guards is already over.
+> 
+> What the test actually proves is the negative: the recheck didn't break the
+> common, non-racing path — i.e. a normal recoverable userspace page still
+> returns SIGBUS instead of panicking. It's a smoke test against gross
+> regressions of the recheck logic, not a reproducer of the original race.
 
-[1] https://www.zfmicro.com/zfx86.html
+Got it. It would be really helpful to have a selftest guard against sysctl_panic_on_unrecoverable_mf.
 
-Signed-off-by: Ethan Nelson-Moore <enelsonmoore@gmail.com>
----
- .../watchdog/watchdog-parameters.rst          |  10 -
- drivers/watchdog/Kconfig                      |  13 -
- drivers/watchdog/Makefile                     |   1 -
- drivers/watchdog/machzwd.c                    | 452 ------------------
- 4 files changed, 476 deletions(-)
- delete mode 100644 drivers/watchdog/machzwd.c
-
-diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
-index 773241ed9986..173adee71901 100644
---- a/Documentation/watchdog/watchdog-parameters.rst
-+++ b/Documentation/watchdog/watchdog-parameters.rst
-@@ -284,16 +284,6 @@ ixp4xx_wdt:
- 
- -------------------------------------------------
- 
--machzwd:
--    nowayout:
--	Watchdog cannot be stopped once started
--	(default=kernel config parameter)
--    action:
--	after watchdog resets, generate:
--	0 = RESET(*)  1 = SMI  2 = NMI  3 = SCI
--
---------------------------------------------------
--
- max63xx_wdt:
-     heartbeat:
- 	Watchdog heartbeat period in seconds from 1 to 60, default 60
-diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
-index dc78729ba2a5..97e320721cff 100644
---- a/drivers/watchdog/Kconfig
-+++ b/drivers/watchdog/Kconfig
-@@ -1712,19 +1712,6 @@ config W83977F_WDT
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called w83977f_wdt.
- 
--config MACHZ_WDT
--	tristate "ZF MachZ Watchdog"
--	depends on (X86 || COMPILE_TEST) && HAS_IOPORT
--	help
--	  If you are using a ZF Micro MachZ processor, say Y here, otherwise
--	  N.  This is the driver for the watchdog timer built-in on that
--	  processor using ZF-Logic interface.  This watchdog simply watches
--	  your kernel to make sure it doesn't freeze, and if it does, it
--	  reboots your computer after a certain amount of time.
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called machzwd.
--
- config SBC_EPX_C3_WATCHDOG
- 	tristate "Winsystems SBC EPX-C3 watchdog"
- 	depends on (X86 || COMPILE_TEST) && HAS_IOPORT
-diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
-index d2fb16b9f9ce..2961ca141c61 100644
---- a/drivers/watchdog/Makefile
-+++ b/drivers/watchdog/Makefile
-@@ -146,7 +146,6 @@ obj-$(CONFIG_VIA_WDT) += via_wdt.o
- obj-$(CONFIG_W83627HF_WDT) += w83627hf_wdt.o
- obj-$(CONFIG_W83877F_WDT) += w83877f_wdt.o
- obj-$(CONFIG_W83977F_WDT) += w83977f_wdt.o
--obj-$(CONFIG_MACHZ_WDT) += machzwd.o
- obj-$(CONFIG_SBC_EPX_C3_WATCHDOG) += sbc_epx_c3.o
- obj-$(CONFIG_INTEL_MID_WATCHDOG) += intel-mid_wdt.o
- obj-$(CONFIG_INTEL_OC_WATCHDOG) += intel_oc_wdt.o
-diff --git a/drivers/watchdog/machzwd.c b/drivers/watchdog/machzwd.c
-deleted file mode 100644
-index 0ae8e5bc10ae..000000000000
---- a/drivers/watchdog/machzwd.c
-+++ /dev/null
-@@ -1,452 +0,0 @@
--// SPDX-License-Identifier: GPL-2.0-or-later
--/*
-- *  MachZ ZF-Logic Watchdog Timer driver for Linux
-- *
-- *  The author does NOT admit liability nor provide warranty for
-- *  any of this software. This material is provided "AS-IS" in
-- *  the hope that it may be useful for others.
-- *
-- *  Author: Fernando Fuganti <fuganti@conectiva.com.br>
-- *
-- *  Based on sbc60xxwdt.c by Jakob Oestergaard
-- *
-- *  We have two timers (wd#1, wd#2) driven by a 32 KHz clock with the
-- *  following periods:
-- *      wd#1 - 2 seconds;
-- *      wd#2 - 7.2 ms;
-- *  After the expiration of wd#1, it can generate a NMI, SCI, SMI, or
-- *  a system RESET and it starts wd#2 that unconditionally will RESET
-- *  the system when the counter reaches zero.
-- *
-- *  14-Dec-2001 Matt Domsch <Matt_Domsch@dell.com>
-- *      Added nowayout module option to override CONFIG_WATCHDOG_NOWAYOUT
-- */
--
--#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
--
--#include <linux/module.h>
--#include <linux/moduleparam.h>
--#include <linux/types.h>
--#include <linux/timer.h>
--#include <linux/jiffies.h>
--#include <linux/miscdevice.h>
--#include <linux/watchdog.h>
--#include <linux/fs.h>
--#include <linux/ioport.h>
--#include <linux/notifier.h>
--#include <linux/reboot.h>
--#include <linux/init.h>
--#include <linux/io.h>
--#include <linux/uaccess.h>
--
--
--/* ports */
--#define ZF_IOBASE	0x218
--#define INDEX		0x218
--#define DATA_B		0x219
--#define DATA_W		0x21A
--#define DATA_D		0x21A
--
--/* indexes */			/* size */
--#define ZFL_VERSION	0x02	/* 16   */
--#define CONTROL		0x10	/* 16   */
--#define STATUS		0x12	/* 8    */
--#define COUNTER_1	0x0C	/* 16   */
--#define COUNTER_2	0x0E	/* 8    */
--#define PULSE_LEN	0x0F	/* 8    */
--
--/* controls */
--#define ENABLE_WD1	0x0001
--#define ENABLE_WD2	0x0002
--#define RESET_WD1	0x0010
--#define RESET_WD2	0x0020
--#define GEN_SCI		0x0100
--#define GEN_NMI		0x0200
--#define GEN_SMI		0x0400
--#define GEN_RESET	0x0800
--
--
--/* utilities */
--
--#define WD1	0
--#define WD2	1
--
--#define zf_writew(port, data)  { outb(port, INDEX); outw(data, DATA_W); }
--#define zf_writeb(port, data)  { outb(port, INDEX); outb(data, DATA_B); }
--#define zf_get_ZFL_version()   zf_readw(ZFL_VERSION)
--
--
--static unsigned short zf_readw(unsigned char port)
--{
--	outb(port, INDEX);
--	return inw(DATA_W);
--}
--
--
--MODULE_AUTHOR("Fernando Fuganti <fuganti@conectiva.com.br>");
--MODULE_DESCRIPTION("MachZ ZF-Logic Watchdog driver");
--MODULE_LICENSE("GPL");
--
--static bool nowayout = WATCHDOG_NOWAYOUT;
--module_param(nowayout, bool, 0);
--MODULE_PARM_DESC(nowayout,
--		"Watchdog cannot be stopped once started (default="
--				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
--
--#define PFX "machzwd"
--
--static const struct watchdog_info zf_info = {
--	.options		= WDIOF_KEEPALIVEPING | WDIOF_MAGICCLOSE,
--	.firmware_version	= 1,
--	.identity		= "ZF-Logic watchdog",
--};
--
--
--/*
-- * action refers to action taken when watchdog resets
-- * 0 = GEN_RESET
-- * 1 = GEN_SMI
-- * 2 = GEN_NMI
-- * 3 = GEN_SCI
-- * defaults to GEN_RESET (0)
-- */
--static int action;
--module_param(action, int, 0);
--MODULE_PARM_DESC(action, "after watchdog resets, generate: "
--				"0 = RESET(*)  1 = SMI  2 = NMI  3 = SCI");
--
--static void zf_ping(struct timer_list *unused);
--
--static int zf_action = GEN_RESET;
--static unsigned long zf_is_open;
--static char zf_expect_close;
--static DEFINE_SPINLOCK(zf_port_lock);
--static DEFINE_TIMER(zf_timer, zf_ping);
--static unsigned long next_heartbeat;
--
--
--/* timeout for user land heart beat (10 seconds) */
--#define ZF_USER_TIMEO (HZ*10)
--
--/* timeout for hardware watchdog (~500ms) */
--#define ZF_HW_TIMEO (HZ/2)
--
--/* number of ticks on WD#1 (driven by a 32KHz clock, 2s) */
--#define ZF_CTIMEOUT 0xffff
--
--#ifndef ZF_DEBUG
--#define dprintk(format, args...)
--#else
--#define dprintk(format, args...)					\
--	pr_debug(":%s:%d: " format, __func__, __LINE__ , ## args)
--#endif
--
--
--static inline void zf_set_status(unsigned char new)
--{
--	zf_writeb(STATUS, new);
--}
--
--
--/* CONTROL register functions */
--
--static inline unsigned short zf_get_control(void)
--{
--	return zf_readw(CONTROL);
--}
--
--static inline void zf_set_control(unsigned short new)
--{
--	zf_writew(CONTROL, new);
--}
--
--
--/* WD#? counter functions */
--/*
-- *	Just set counter value
-- */
--
--static inline void zf_set_timer(unsigned short new, unsigned char n)
--{
--	switch (n) {
--	case WD1:
--		zf_writew(COUNTER_1, new);
--		fallthrough;
--	case WD2:
--		zf_writeb(COUNTER_2, new > 0xff ? 0xff : new);
--		fallthrough;
--	default:
--		return;
--	}
--}
--
--/*
-- * stop hardware timer
-- */
--static void zf_timer_off(void)
--{
--	unsigned int ctrl_reg = 0;
--	unsigned long flags;
--
--	/* stop internal ping */
--	timer_delete_sync(&zf_timer);
--
--	spin_lock_irqsave(&zf_port_lock, flags);
--	/* stop watchdog timer */
--	ctrl_reg = zf_get_control();
--	ctrl_reg |= (ENABLE_WD1|ENABLE_WD2);	/* disable wd1 and wd2 */
--	ctrl_reg &= ~(ENABLE_WD1|ENABLE_WD2);
--	zf_set_control(ctrl_reg);
--	spin_unlock_irqrestore(&zf_port_lock, flags);
--
--	pr_info("Watchdog timer is now disabled\n");
--}
--
--
--/*
-- * start hardware timer
-- */
--static void zf_timer_on(void)
--{
--	unsigned int ctrl_reg = 0;
--	unsigned long flags;
--
--	spin_lock_irqsave(&zf_port_lock, flags);
--
--	zf_writeb(PULSE_LEN, 0xff);
--
--	zf_set_timer(ZF_CTIMEOUT, WD1);
--
--	/* user land ping */
--	next_heartbeat = jiffies + ZF_USER_TIMEO;
--
--	/* start the timer for internal ping */
--	mod_timer(&zf_timer, jiffies + ZF_HW_TIMEO);
--
--	/* start watchdog timer */
--	ctrl_reg = zf_get_control();
--	ctrl_reg |= (ENABLE_WD1|zf_action);
--	zf_set_control(ctrl_reg);
--	spin_unlock_irqrestore(&zf_port_lock, flags);
--
--	pr_info("Watchdog timer is now enabled\n");
--}
--
--
--static void zf_ping(struct timer_list *unused)
--{
--	unsigned int ctrl_reg = 0;
--	unsigned long flags;
--
--	zf_writeb(COUNTER_2, 0xff);
--
--	if (time_before(jiffies, next_heartbeat)) {
--		dprintk("time_before: %ld\n", next_heartbeat - jiffies);
--		/*
--		 * reset event is activated by transition from 0 to 1 on
--		 * RESET_WD1 bit and we assume that it is already zero...
--		 */
--
--		spin_lock_irqsave(&zf_port_lock, flags);
--		ctrl_reg = zf_get_control();
--		ctrl_reg |= RESET_WD1;
--		zf_set_control(ctrl_reg);
--
--		/* ...and nothing changes until here */
--		ctrl_reg &= ~(RESET_WD1);
--		zf_set_control(ctrl_reg);
--		spin_unlock_irqrestore(&zf_port_lock, flags);
--
--		mod_timer(&zf_timer, jiffies + ZF_HW_TIMEO);
--	} else
--		pr_crit("I will reset your machine\n");
--}
--
--static ssize_t zf_write(struct file *file, const char __user *buf, size_t count,
--								loff_t *ppos)
--{
--	/* See if we got the magic character */
--	if (count) {
--		/*
--		 * no need to check for close confirmation
--		 * no way to disable watchdog ;)
--		 */
--		if (!nowayout) {
--			size_t ofs;
--			/*
--			 * note: just in case someone wrote the magic character
--			 * five months ago...
--			 */
--			zf_expect_close = 0;
--
--			/* now scan */
--			for (ofs = 0; ofs != count; ofs++) {
--				char c;
--				if (get_user(c, buf + ofs))
--					return -EFAULT;
--				if (c == 'V') {
--					zf_expect_close = 42;
--					dprintk("zf_expect_close = 42\n");
--				}
--			}
--		}
--
--		/*
--		 * Well, anyhow someone wrote to us,
--		 * we should return that favour
--		 */
--		next_heartbeat = jiffies + ZF_USER_TIMEO;
--		dprintk("user ping at %ld\n", jiffies);
--	}
--	return count;
--}
--
--static long zf_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
--{
--	void __user *argp = (void __user *)arg;
--	int __user *p = argp;
--	switch (cmd) {
--	case WDIOC_GETSUPPORT:
--		if (copy_to_user(argp, &zf_info, sizeof(zf_info)))
--			return -EFAULT;
--		break;
--	case WDIOC_GETSTATUS:
--	case WDIOC_GETBOOTSTATUS:
--		return put_user(0, p);
--	case WDIOC_KEEPALIVE:
--		zf_ping(NULL);
--		break;
--	default:
--		return -ENOTTY;
--	}
--	return 0;
--}
--
--static int zf_open(struct inode *inode, struct file *file)
--{
--	if (test_and_set_bit(0, &zf_is_open))
--		return -EBUSY;
--	if (nowayout)
--		__module_get(THIS_MODULE);
--	zf_timer_on();
--	return stream_open(inode, file);
--}
--
--static int zf_close(struct inode *inode, struct file *file)
--{
--	if (zf_expect_close == 42)
--		zf_timer_off();
--	else {
--		timer_delete(&zf_timer);
--		pr_err("device file closed unexpectedly. Will not stop the WDT!\n");
--	}
--	clear_bit(0, &zf_is_open);
--	zf_expect_close = 0;
--	return 0;
--}
--
--/*
-- * Notifier for system down
-- */
--
--static int zf_notify_sys(struct notifier_block *this, unsigned long code,
--								void *unused)
--{
--	if (code == SYS_DOWN || code == SYS_HALT)
--		zf_timer_off();
--	return NOTIFY_DONE;
--}
--
--static const struct file_operations zf_fops = {
--	.owner		= THIS_MODULE,
--	.write		= zf_write,
--	.unlocked_ioctl = zf_ioctl,
--	.compat_ioctl	= compat_ptr_ioctl,
--	.open		= zf_open,
--	.release	= zf_close,
--};
--
--static struct miscdevice zf_miscdev = {
--	.minor = WATCHDOG_MINOR,
--	.name = "watchdog",
--	.fops = &zf_fops,
--};
--
--
--/*
-- * The device needs to learn about soft shutdowns in order to
-- * turn the timebomb registers off.
-- */
--static struct notifier_block zf_notifier = {
--	.notifier_call = zf_notify_sys,
--};
--
--static void __init zf_show_action(int act)
--{
--	static const char * const str[] = { "RESET", "SMI", "NMI", "SCI" };
--
--	pr_info("Watchdog using action = %s\n", str[act]);
--}
--
--static int __init zf_init(void)
--{
--	int ret;
--
--	pr_info("MachZ ZF-Logic Watchdog driver initializing\n");
--
--	ret = zf_get_ZFL_version();
--	if (!ret || ret == 0xffff) {
--		pr_warn("no ZF-Logic found\n");
--		return -ENODEV;
--	}
--
--	if (action <= 3 && action >= 0)
--		zf_action = zf_action >> action;
--	else
--		action = 0;
--
--	zf_show_action(action);
--
--	if (!request_region(ZF_IOBASE, 3, "MachZ ZFL WDT")) {
--		pr_err("cannot reserve I/O ports at %d\n", ZF_IOBASE);
--		ret = -EBUSY;
--		goto no_region;
--	}
--
--	ret = register_reboot_notifier(&zf_notifier);
--	if (ret) {
--		pr_err("can't register reboot notifier (err=%d)\n", ret);
--		goto no_reboot;
--	}
--
--	ret = misc_register(&zf_miscdev);
--	if (ret) {
--		pr_err("can't misc_register on minor=%d\n", WATCHDOG_MINOR);
--		goto no_misc;
--	}
--
--	zf_set_status(0);
--	zf_set_control(0);
--
--	return 0;
--
--no_misc:
--	unregister_reboot_notifier(&zf_notifier);
--no_reboot:
--	release_region(ZF_IOBASE, 3);
--no_region:
--	return ret;
--}
--
--
--static void __exit zf_exit(void)
--{
--	zf_timer_off();
--
--	misc_deregister(&zf_miscdev);
--	unregister_reboot_notifier(&zf_notifier);
--	release_region(ZF_IOBASE, 3);
--}
--
--module_init(zf_init);
--module_exit(zf_exit);
--- 
-2.43.0
-
+Thanks.
+.
