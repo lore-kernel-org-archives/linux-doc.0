@@ -1,66 +1,66 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B8E3876D0
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 22:42:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 004C2390223
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 22:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777416138; cv=none; b=hv77VNhoQbqsxjU0Qva5F55y7Y5C0zvsSuCqTKVgMYKQC/VnISStd82RFKEL9OZ5/OGiPSkTec1MGGPuCOaM+ROF7JSrQRR5aplcYruww20dWMp6hYi4o5r/AajiHmV0ugULWDKRD5/JfEulsMhEU6IShUJPgTLzFHYUVhscP6E=
+	t=1777416139; cv=none; b=klRKKF5kZrn+vAb4CT/DUYRE6ii224hAp50AjIZU5iOkQMcxZObcEkGlHt6mHwosMEUuYaZnV2rkCyurlcWR0Jgm+ak9vUIa6ly9qRTJI+d5LSUUwaAIiGvlKB9IcxINmGovJKSfnpsCN9C+uAefsyfuQfbJRuie8s+32GyaBOg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777416138; c=relaxed/simple;
-	bh=yr6AoTDFdh4MqEMxnu13OdxlbpWzGzc+BNKVis4NGcE=;
+	s=arc-20240116; t=1777416139; c=relaxed/simple;
+	bh=KFECSS4aB7ebsKhc9cQ+oy1mgcCmosbiDCQwtAwfgmA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nOI1sdWx8TH7qA9pVrQGnlkHT3piwXMpqzo3lNgS31QlH/7oOW8VagYo5fQKggK3lMQV1Qoej9F55kjrYllBAGKez/ozWYSrAsF5rCCCUnck9DpkBkbVNJEQrl9enbnwuMP+5EtQTwLjiaFRYtoZAfcZJtYRRGoAgkSMymespas=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MaJDSLxa; arc=none smtp.client-ip=209.85.128.177
+	 In-Reply-To:To:Cc; b=l+rPVyYGzFy4Z2s5+xCKFD/4GgmOQnAha8ko08vyXmQdzviIklpeDgChctWaxIJ4/QdkbrCgua8c3eXEe3ERRU9DE9xdkz/uyqyz2nblq4V+s6ZO8c1ieif0SDXp9AGsLnQpZbECNGFUnY4csxnMFpcGGwjddgWQwYRBv5CijEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=oeNEkbSt; arc=none smtp.client-ip=209.85.128.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MaJDSLxa"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-7b6ae2ea4a1so120928667b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:42:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="oeNEkbSt"
+Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-7982c3b7dfcso116810847b3.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:42:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777416133; x=1778020933; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777416136; x=1778020936; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2u+rkDBVuW0DwLrX33JN+GmAXBBEhpi2PB6tf5nm73I=;
-        b=MaJDSLxavajfyTAEJdCYLscgPlaC+Dwf52Se1w0ySLkONCRh3lvD0nvWTqcSgKT5N/
-         clsbq79Yt6nnYgqYiOL42WNO4gWNgtpTOPi1lAEB2TQlqhxVqPaTiF+9Ng/1t75R+4Da
-         okaMGdldIL2/B7Cgr6hBux+zeGp7IK/rkemNH0pO46Wwgxw4nptWtU3AhUEoq3ZB+sS4
-         Uz38CJlekYWJzp6I1yaBbe3XzEcYWNTkVGK04Ta1ngfbTDhXupGicOdbNnBMtynMT+P0
-         AnCpNI7xwvekjyUDsV53iUOG6/dg/N4KUQnA0E7O4qHMC5CJyCBKOxGaS+MwXivXE3yX
-         SVaQ==
+        bh=ecnzl0rAEZ1GRn0EllrW0hRzekmmc0UPEYdKJcAYG5Y=;
+        b=oeNEkbStlmLUtV+R1Lb0dnvKyG3mYrR68OwGidORtt/N/kbaWolnqjT7+XPgPKPKUI
+         iiKDBigsqLDbvI6K8vt3weq05Pw1JAWlKOgrDsybRs/Ges7lV0lTxOObUWBebGxDzLQT
+         AI6vHZmcqH63UOukMICr/4BaB7IP/dRDkcekfYwAmQNxAFP94lyKJ2QCxdFIE6A4kOtw
+         NUdA25YMiuzmZ2BUEglA8vm4HQqjnqrNFOhYAU6pGlZ3bbDPlNfKpqLLd5Glxt5dNWQo
+         3Z1/GL0c3wkXEBY4b07wQML3Yi0XIzEJu6t1if5fn55y2DSF98evS8114FIyJktkaGD3
+         8EOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777416133; x=1778020933;
+        d=1e100.net; s=20251104; t=1777416136; x=1778020936;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=2u+rkDBVuW0DwLrX33JN+GmAXBBEhpi2PB6tf5nm73I=;
-        b=dGTuZqn8cVqR4ffX69okOxV/qrvtlEgGJ/9TAENVAU9Hh5IE8yCJyWaJvIogGuAwET
-         kT9FHYdeeIgR/p69a6iosMsiISp1a2Gtey03Ahzsyf7HdjppUqqD9JG6VWHP8B3Z9fLl
-         hP8qc6wMRiJOab2bp8mqcBMPrKLIac59gZBuuJFdPyOtfT14bmtEDrNvxJIWCvwKeEJK
-         umekZHuXf3phWRmQ2ueIk12eGbON6hczTyWORvNeaFuOi7wuqupBVfxIyq/DqCCb1KNc
-         W1mE9nFhdkgOcNhZ4dKoJitrLH4+1fz+8kNfetYbVHd1uNeZln79qT9Fo4eoTLuC38R+
-         cO5w==
-X-Forwarded-Encrypted: i=1; AFNElJ9nwGNazruZTSskbzoHHzaohFpIO4grrhVMatfFomiX23qdQerJ0sgV34INnDp/GhPHWn95C3RbOr0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8OmcCxS9efbI/IG3GMCHctxAX4XMH7VRKt4NvfcKGMjoUXGVi
-	hO4unx0p2NumjW8qHcDLPAs5QiO84j2NmXZuZ7gm9HhlGhUchaIasc57
-X-Gm-Gg: AeBDievwzAlkKEfdgNaxDSo4kz42Gk1G8IsnmQYh3RKCBit4ozwvrcB2RH6HzJQNldF
-	nNgLQA306keTEDY2BPDZcnRtKzp46VrIUDj3vrKhbrVgmvMnR8aQPkqdddq6LWI8EIZHymxEj+K
-	cgPlGNymrbn5WthDvBdmtygp2CVvJAjdUVDs6QWBBgou/AXx/EfQVY4IPu2FdCJXuGUKV+cuDQt
-	gc1+UruBWQDhvyEYAFE7ZZ8P5frRmcBC2fvaYmwRdIVD3goQjDNT2Kbrl2jDonlUwD/1ZCe9mk4
-	mFJ3wHyn7QVD/eFk9NamrZXqXdggd9C2JjxT0x1MRltpl4vA+PmC3gPIob+91I9znlVx1wZa65E
-	YW7DVjsP+PpAY6I+xtAfhl8FbRqR8wuINkHlpD83wYOu+3PtS66g/3C4yNDsuWy/MiFcWhW1zDD
-	2PSxgaXl4RFyeb6BBuyjnEVZnzSacC4lWy
-X-Received: by 2002:a05:690c:660c:b0:7b3:9f53:9374 with SMTP id 00721157ae682-7bd1d378604mr17118827b3.3.1777416133033;
-        Tue, 28 Apr 2026 15:42:13 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:4f::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd258cc768sm4466607b3.35.2026.04.28.15.42.12
+        bh=ecnzl0rAEZ1GRn0EllrW0hRzekmmc0UPEYdKJcAYG5Y=;
+        b=f9TWw8W6njKC+pBtejBEW49+bFSAM/decZQqvopx30Holf2UcvF3CPK/F2cfdqVIXd
+         bXzdBlTshInbQeegZYPYTFC6T33oruMV1KWl0mlU3nfqDmlv3lwwuwDV4c/Y08DsICZD
+         lUvlH7pM/DBKZeqccgDFhV1nHxCeCAw81m/5R+6ahfQZk3Ixv159/FJUcvkDogjPJS1t
+         Fbsua2uOsMLUF8NWRfhIEfub5x22UzE8c1JNuplw8wKcrfHUFE+hMH59kErt4dlbREEA
+         K0O5rOZrxJnoo4qa1LM76nMG+Wl6bT6wMFA62pHCyKNCYHV0ziemQUszt0eNYE7AkE3q
+         uH9g==
+X-Forwarded-Encrypted: i=1; AFNElJ+kftiH5ppz2lb3ZkdC21Xt5oCpLaJMmNdNWtd64iWBkvDOAl5u5mZn5+lLR22pcz0oDrfUesTQq8w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwaFAKFczD6TjONHCr4GUgf7aTkS1jegZdGLF4fmnHGDEsNPnY0
+	0hy0LBuw62xMpK8WrxIRiRYLwrsgCW7oOjaGEiPMJYZRkdBf+nUQ2JGK
+X-Gm-Gg: AeBDieuk33z+BL6mA87Or+07Fb8i1KOnNjiLM+0Dqlbp7KXuOVp9uJT+1ceWTQL3Jnc
+	KFMTdHZ1dArEj4pKQeM6FM+zy2mgrG0whkG7t1/bxGzjV/ciml57pjLPm3pVVrT0JpmN+u7HO1X
+	RBDxDysxx5Ma248sCMgQaQlWNhtuC7CFPGYBDx0i6LwnJRhwhVtbmCuemgX2huEgf6cdq4thPjB
+	L7RPIT0Pe/eB5L4juPtMAAC1PD/5EGYmLNWlBO5Mhsb8LRiJZNCOcBz4ZjE5JA4C7yLluLevSvP
+	VShUVGFUvOMnbB/uKvqTTyxNDoAQIjWOYa6X+umiKSxErkVueNaiSmUyEQhofAkLB/XOeGH5ruE
+	VTLL/p9phMQaokf6h28eUItDFwhDPA7ypJbiWlTekawaU2fSw2rjxqHcRgxkt4Wum6U94plJ/Y7
+	0oORp1MMI6t7vEJNDp0ac50pBk2oC/qK4j
+X-Received: by 2002:a05:690c:6987:b0:79b:cd3a:a5c7 with SMTP id 00721157ae682-7bcf50cba57mr49522287b3.11.1777416136081;
+        Tue, 28 Apr 2026 15:42:16 -0700 (PDT)
+Received: from localhost ([2a03:2880:f806:12::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd25183ff8sm4798037b3.10.2026.04.28.15.42.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 15:42:12 -0700 (PDT)
+        Tue, 28 Apr 2026 15:42:15 -0700 (PDT)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Tue, 28 Apr 2026 15:41:59 -0700
-Subject: [PATCH net-next 02/11] net: bnxt: convert netmem_tx from bool to
+Date: Tue, 28 Apr 2026 15:42:01 -0700
+Subject: [PATCH net-next 04/11] net/mlx5e: convert netmem_tx from bool to
  NETMEM_TX_DMA enum
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-tcp-dm-netkit-v1-2-719280eba4d2@meta.com>
+Message-Id: <20260428-tcp-dm-netkit-v1-4-719280eba4d2@meta.com>
 References: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
 In-Reply-To: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -106,22 +106,22 @@ No functional change.
 Assisted-by: Claude Code:claude-sonnet-4-6
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
- drivers/net/ethernet/broadcom/bnxt/bnxt.c | 2 +-
+ drivers/net/ethernet/mellanox/mlx5/core/en_main.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-index 8c55874f44ca..ed9c22dc4a5a 100644
---- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-+++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
-@@ -17120,7 +17120,7 @@ static int bnxt_init_one(struct pci_dev *pdev, const struct pci_device_id *ent)
- 	dev->queue_mgmt_ops = &bnxt_queue_mgmt_ops_unsupp;
- 	if (BNXT_SUPPORTS_QUEUE_API(bp))
- 		dev->queue_mgmt_ops = &bnxt_queue_mgmt_ops;
--	dev->netmem_tx = true;
-+	dev->netmem_tx = NETMEM_TX_DMA;
+diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+index 5a46870c4b74..fc49aae38807 100644
+--- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
++++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+@@ -5924,7 +5924,7 @@ static void mlx5e_build_nic_netdev(struct net_device *netdev)
  
- 	rc = register_netdev(dev);
- 	if (rc)
+ 	netdev->priv_flags       |= IFF_UNICAST_FLT;
+ 
+-	netdev->netmem_tx = true;
++	netdev->netmem_tx = NETMEM_TX_DMA;
+ 
+ 	netif_set_tso_max_size(netdev, GSO_MAX_SIZE);
+ 	mlx5e_set_xdp_feature(priv);
 
 -- 
 2.52.0
