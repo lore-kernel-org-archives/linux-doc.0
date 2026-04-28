@@ -1,67 +1,67 @@
-Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+Received: from mail-yx1-f50.google.com (mail-yx1-f50.google.com [74.125.224.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9D4F3988E5
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 22:42:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD8B390223
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 22:42:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777416140; cv=none; b=S4gevJUCvOZTCkfN7HVLU8Cqx8K41TXVEV1DeSx2B0/fRBsSVLFc2dGhALfBeQ0xhFdiWzZ/j7LuWGScNjffJ78LRwBGXks8oCGGq/9EWIA+G4rM6zk2gjH+C+1itNgcmQuPXOU9faeAtxcHEOhkRkgpIdjeSwpg2AIHX/WG6YU=
+	t=1777416142; cv=none; b=gQiq/w+/w7MoBelzCy75hF9qIG2iZ16KdBkwNB14F0a9fVOm9NzVJ6lwjy5Ftbiu/BoWmfhJuVqJ11CcRsGjmR4rYVcpnIMmNjxbM/NFHxG1t3pe3d+mx5tt6p65TO3hF/1u9s+DEYJHcc0n1AkcuGMnGMKi8ZVRSIIx8GV7SY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777416140; c=relaxed/simple;
-	bh=w8Q7fwzhxuNDsmhOs8CU1x0IUrDfpFLHCoe3mI0Gkkk=;
+	s=arc-20240116; t=1777416142; c=relaxed/simple;
+	bh=9rMrowd4DVlTSZTRzu+MOaL2ai5oyk/Qc8U11XRdSsI=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Cc49USMYV6vuhh28EM0EzrFNmrljsYgGle2FToFlLrB48Py0f9mNJ9MoT5o5Qg2CFkzJKpObOOxTb8ejhCQxUEjOttjCik5fNONWutlRzIYtyl4uFkXEiW2eyGcmw9C5mIfeaouXaVJD6F7LJeQsdmC2LBdLE914zoMyam7RcLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZbVIyxpM; arc=none smtp.client-ip=209.85.128.180
+	 In-Reply-To:To:Cc; b=b35ERszs1VMFkHlU01bUPCrOu5+GEnE2dD4dKLsiMiCejAu/FVA1C6bJD77IwE/GdR+8yUd2G5dLhmJfJDPQJMAiEq3ZTEwjdiO4HTUQFGklyCIHu4DcBofPZb7ZNDAykFGCCcRDv3lspfJgxYK9e7sYZvYznbwIjc7pKSdAWq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZLUW9mg1; arc=none smtp.client-ip=74.125.224.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZbVIyxpM"
-Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-7a469383e0bso97447877b3.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:42:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZLUW9mg1"
+Received: by mail-yx1-f50.google.com with SMTP id 956f58d0204a3-6530287803cso11806285d50.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:42:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777416138; x=1778020938; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777416139; x=1778020939; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Yf9C9Vs78X6Tori5C+6AMAUG6Jc3jDAPqdDnnefTEsY=;
-        b=ZbVIyxpMWHXCvIrzJgV9mWyOvTaIOnoNxuTsNhnHC1iCMZzlOc7dDg7p817Hl4FHQM
-         xFjWwCuJg7TPW6uQrJ8S6INB3wj7NwfhuCwyuVaXu5tJ4x8Gt0iSiiepFaSOY9pqS1HJ
-         clIsEXhAZa7t5C6o7WWyaMppBRkUYtE9JaSGxz67lMgvXOOpqPmzfQkKrgcEcCHqckVx
-         oPwNbFsY5GAkerbDc7GwNF3cT8PbV3TC+bEFEa1Dp7y7PldcbLlAk5w0SEFTdfKCrHNP
-         xwqHwR8t07skJuRzFtJrlVTeiLLGgnBsizsHNM0/d5pPhVgD8qr80f7VPRoKuhjybJ6D
-         SI8Q==
+        bh=swVw0BUMWcHYIT0edkHEsupdygicB+ZrJq18bYWTlfU=;
+        b=ZLUW9mg1U/HHKV2/DFvHg0X72OJiuhxv/slw72/cdBmQxGv+Lqnf5MBSE3aUxfsgyS
+         iDGocZMHgqBNxH0GpXFniByUA2gPoPdsrwRgWq16ZJWYw9/n1NVJY17Da5vMgY4k33kF
+         Pe2EkVcso0St6nOv6akONh4gR+f5MHFzwtCbNck7Kv+GM6VLfBir1+9SaDIU1/9uifz7
+         TahPTcPjm9V4yxBkVdCvKIqhN/VyPEz2GdNk0+5ef3RDEMSpPYiUvdoD/6S/gwE/g41e
+         rsI+NwiOJYX8sbozFo8rUOfqId8pSAUFtEXhc9g2qxGLA7/ZHDidRqKdRHZSw8AZQv4R
+         50hA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777416138; x=1778020938;
+        d=1e100.net; s=20251104; t=1777416139; x=1778020939;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=Yf9C9Vs78X6Tori5C+6AMAUG6Jc3jDAPqdDnnefTEsY=;
-        b=HUYiJHVZmwVE857K7D6iTPVHSTjUdK3dAa1//zt5FuqraXaMMSQZT+Uyul4b3qKboB
-         XAHHMHkBPUCOgvxryMCPEqQNIQsdmaG3R1G/npwebEbMGQYLtKM1LIcCQ5axrA+Se4kd
-         GAP7XIudU59gwwHLeKea+P/s5vozYe66YZmJIuFxQVUXCUKnaJhlFTH9pCUx4JMjzU4D
-         tZOoL/mOxXUfns4QVeuQ5/73DCRC+ZBZeuiUGo6euEcparivaOXpf/rexdLzlRhRtef/
-         EvwSSriePW6BLWt/il8QbV5pGj4gYmsTbFLvUkcA6QaAcYdJfWY7W+Mr0tlohtEcR5ZA
-         myiA==
-X-Forwarded-Encrypted: i=1; AFNElJ+ly2TFEmR1cCk0zGH3bgZPGzLYbYeANM3JcDsjyx1MDXuHB2sjebxOdUWluBc3aUTUGZN4tX+EXwE=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyirwf9xdBcpOWSoQ5zZ29fL6hjmv87xRzWi9XXEm7kznjz83dy
-	U8AvgCwtsKM5rdErSB9tV3+XeOWcpXYxV/Qvg1IMPsB9UqospZ4rqs7x
-X-Gm-Gg: AeBDiev+IYBpA64bUZZcIDUiVzVNKRHedW5/0nu3W0haPLrV7u6oVjbOyfY9KmzYMsw
-	+0eSXZpPj29WNBLjwnik6VnCX2ryspD6zmcRweFgRWXh7aVtfw61d/RUs5HFCVzPPhJmTg4NNoL
-	qkWCtH+seKL82iWzjh7ehdnRHklTcfgR06Apvt6V0dhMYm3gpTuz135+op1DuaeDcXFuxi2P3iI
-	Mab0TuvscZWuvo3p6h2Wvdn5pzwV6MAgCgQP0LHat//mtPQaEKFnDwhM5mRfON6fRWUyZCGGKRu
-	SPBwB1fMiU/CxrZB85eh+qHBkaviQtzYsOWVJKmc9ittIgG2svK9YBVh/AxPFNmpcehXCwGWtH8
-	Yr3ry1k7aJkQTJTWhRvMKK3NBUSJViHNNmCPVYqpDSKSaedt5q1ExAUqweubL64ArENqsbgBGl/
-	mZqbUlYOqCzuBDOcOmGJrY8uAPR7bvPYw=
-X-Received: by 2002:a05:690c:6:b0:7b8:338d:7d78 with SMTP id 00721157ae682-7bcf579a631mr48995027b3.41.1777416137774;
-        Tue, 28 Apr 2026 15:42:17 -0700 (PDT)
-Received: from localhost ([2a03:2880:f806:f::])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd24b8a86dsm5096607b3.0.2026.04.28.15.42.17
+        bh=swVw0BUMWcHYIT0edkHEsupdygicB+ZrJq18bYWTlfU=;
+        b=jtYbpdPdGSPWoGzhqIKArkJf6RBU/1UvRQsxaIMYPmo+G4bvyt5W8YgG/EWY3uBmGf
+         d66xMh+gZSQUQzuB+lfmtrWTXl07qz5R4SyA5KGdotPa2jZ+7TXyP30EftnejP1IwLyU
+         Bime3fQS628MeuHJXENOlIWs7st/RvLZugELKW+PQotWs1x5KVwbavpvlTzLvNcxsxI7
+         KveLP4nmKWoFedL2Yh/yIxuIV7bVhf7SOyIE+sxt/Ll5Esh+0fT4Flj/1daYXPY3M4dk
+         aKn6jtiuAtNIy0hjvFSABhkhnqD6a7oeWmZc0Wi5KLGOKSVQDvyAV0ugvmQUxebBYej1
+         qDEg==
+X-Forwarded-Encrypted: i=1; AFNElJ85gHccZ89BDwjxrWk/GLd47PRQsw/WpDBfG8QoLjdk5ct/kKkrB10YG8/ymEm9FmLbFvxCL4aGILQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxIIMNjpNZhVGK4SKcm+GiFp/F9x96AD5YXoVkGORUTiBZjFkKN
+	TzZ6CgCkoyDRUXwBeYAV6rkV0WPwV+KvyNGCjedknIm36PQ/hrDfxwC9
+X-Gm-Gg: AeBDievP794v5a/8QarTxM7/0S4ixSkyg1loS4ovDf2XMGuwTxF5O89JdZZUw62WVEc
+	UdRzt3hLszReUwcGowy+/5SiagSItVYpcSCtWbDsbR5X5WMGS5iRb2JY4himgaUEhH4GTkg70t+
+	W5jHIj/SCTxnfFZkCVlEIpt60f1yxAi8oJoNivw1FtNputZlXzHA8TjQOK/F9iJv46votDpoDcZ
+	rjt4k4d5MH7vF+/aswFgO4KC1YCUmSpElDVdUEJlvsaVxqzydQ7qj5gyKXe9XCmeeruZbhZA9ol
+	omIdiP8ET3Js90GPXV3VFJfkX+baYagAJgf7EFIWyXbKY3Gq1M3NYKq2s/B8z2VeAYqEPKU4Rip
+	veOPNKywS/lSkorMhYqJlvecS+4U2d0uWhw8idyg7O79taG386m6D77OORG3rv4DuoLW89A7cN2
+	Ds7StIfo7XlxWfubtmTvukUBdKQC4zh9ub
+X-Received: by 2002:a05:690c:7301:b0:79a:8f2f:cb3 with SMTP id 00721157ae682-7bcf57a4bfdmr54296357b3.44.1777416139391;
+        Tue, 28 Apr 2026 15:42:19 -0700 (PDT)
+Received: from localhost ([2a03:2880:f806:16::])
+        by smtp.gmail.com with ESMTPSA id 00721157ae682-7bd258a2761sm4454877b3.30.2026.04.28.15.42.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 15:42:17 -0700 (PDT)
+        Tue, 28 Apr 2026 15:42:19 -0700 (PDT)
 From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Tue, 28 Apr 2026 15:42:02 -0700
-Subject: [PATCH net-next 05/11] eth: fbnic: convert netmem_tx from bool to
- NETMEM_TX_DMA enum
+Date: Tue, 28 Apr 2026 15:42:03 -0700
+Subject: [PATCH net-next 06/11] netkit: set NETMEM_TX_NO_DMA for unreadable
+ skb passthrough
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,7 +70,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-tcp-dm-netkit-v1-5-719280eba4d2@meta.com>
+Message-Id: <20260428-tcp-dm-netkit-v1-6-719280eba4d2@meta.com>
 References: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
 In-Reply-To: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
 To: Andrew Lunn <andrew+netdev@lunn.ch>, 
@@ -97,31 +97,29 @@ X-Mailer: b4 0.14.3
 
 From: Bobby Eshleman <bobbyeshleman@meta.com>
 
-Now that netmem_tx is a multi-mode enum (NETMEM_TX_NONE, NETMEM_TX_DMA,
-NETMEM_TX_NO_DMA), set it to NETMEM_TX_DMA to indicate this driver
-supports DMA-capable netmem TX.
-
-No functional change.
+Netkit never DMAs and it does not break netmem (it never touches frag
+contents, it just forwards skbs between peers). Mark it as
+NETMEM_TX_NO_DMA so unreadable (dmabuf-backed) skbs can pass through
+without being dropped by validate_xmit_unreadable_skb().
 
 Assisted-by: Claude Code:claude-sonnet-4-6
 Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
 ---
- drivers/net/ethernet/meta/fbnic/fbnic_netdev.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/net/netkit.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-index c406a3b56b37..138e522ef9b9 100644
---- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-+++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
-@@ -752,7 +752,7 @@ struct net_device *fbnic_netdev_alloc(struct fbnic_dev *fbd)
- 	netdev->netdev_ops = &fbnic_netdev_ops;
- 	netdev->stat_ops = &fbnic_stat_ops;
- 	netdev->queue_mgmt_ops = &fbnic_queue_mgmt_ops;
--	netdev->netmem_tx = true;
-+	netdev->netmem_tx = NETMEM_TX_DMA;
+diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
+index 5e2eecc3165d..0ad6a806d7d5 100644
+--- a/drivers/net/netkit.c
++++ b/drivers/net/netkit.c
+@@ -466,6 +466,7 @@ static void netkit_setup(struct net_device *dev)
+ 	dev->priv_flags |= IFF_NO_QUEUE;
+ 	dev->priv_flags |= IFF_DISABLE_NETPOLL;
+ 	dev->lltx = true;
++	dev->netmem_tx = NETMEM_TX_NO_DMA;
  
- 	fbnic_set_ethtool_ops(netdev);
- 
+ 	dev->netdev_ops     = &netkit_netdev_ops;
+ 	dev->ethtool_ops    = &netkit_ethtool_ops;
 
 -- 
 2.52.0
