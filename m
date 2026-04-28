@@ -1,66 +1,38 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829E538AC64
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 22:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D57635AC31;
+	Tue, 28 Apr 2026 23:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777416150; cv=none; b=G3GB2Ey33D9MkJ5q7HbmI54g/qa6pixJ9bpOYg7qH+WWqujJP7JfeflhTb01ufXPhLJgeVXf5dDS+C3qGY+iSbXMvF8/KhPRj2EJkWWPNA2mwqn84/j4lNMwC98FF/S0NRckT5pjoDz4wZM9Sn5k1Yqy9qP/5LDTuOxhTwTnnx0=
+	t=1777418717; cv=none; b=oi3KPeYacs/b8vVrgNRylJRrQwQSuk5xaS5weypta6W2d4x67UTNG/ZnfeI0yCa4t7wuuHco7wDRlkwTnBq+4SLC8ZkfZp8YeXOC5Cg+T43c0yErtWc0hKbYMpEyT/n6Jp8qQkCaJj66aGRbMfHMpiBfyPbqICR/KsOFiyRdxVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777416150; c=relaxed/simple;
-	bh=9CfxHHUrdkC2HOcb/TS/DNlnMmhpx5XoMYQJ/X3bIM4=;
+	s=arc-20240116; t=1777418717; c=relaxed/simple;
+	bh=xuCybwNJYL/whg4JHbWn496U8nEXSnWkN8sHol2ieJg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=g3T8NbEV0vByo+MAGJThto4L18/3QoKyx3ZXjBkjJrCkVWzKACWcxVJ2+LBhTUAptyOFKRjkYKfygwgUvMubiTe8mlo4UkO+blM7VFB8t7JoMWAjiZ2NF8vFmxlXhcm6YS2RsCpXxm/B5Nfp9K9olU7RhaiBDdpWmQFiuBc/NQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mkCBgfK8; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:To:Cc; b=Nihir9xikIw9drHwxEDf2ka5Cfn42eB79i9oSfqG3FTCtvMS4nn4m4iA9yFDp2ZFiGd1OtaMWhQmyulzCStOOdyY5wltSQgdC2dn/yOSF3RHLZBpTmdBgTSzvqrj5vylG1Sz+UqCCDWB3Rm3GOmlINye0zUK7u7z9sX2C62VGMY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJFcEeAJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mkCBgfK8"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82f943870baso5080688b3a.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777416147; x=1778020947; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zt/Ht0RhxHPOrumBmtiIhgjoCgVfyyPmVo07gYfbsYg=;
-        b=mkCBgfK8IZCr029gch80jB56L0daRQ0xrq+mlojAk5EoADEJaBGZsLeSiqbKv9WNoh
-         NqmoegMAZekTc4FYJzsrNMxDQSB9BgDL833cykHXh1GmO+4XAXSbWjHp3lXfen50X2MN
-         M+fVOpsfIqIK2lsppRsl0085WaUYd8rqQQfpak+6nPnOQGQ4iZ838I7/aLGmrmzQ7s6B
-         cN/WDOS270ZL2FP/E061dEy/QgmTJilrnHhb0VlZpkO2nsCo0g/1m5DIhfD78un31WD5
-         GtbouO1ZfLTdddCmyRF9dCsCW+cpIIzRjHTxX1oMg7Z1phoBmVrO98tcDBXVUOcDtTMu
-         NxMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777416147; x=1778020947;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Zt/Ht0RhxHPOrumBmtiIhgjoCgVfyyPmVo07gYfbsYg=;
-        b=BbYzxL/mDjCTncWhANTa/3ZpPgd6qcxfLM3zLUw8JaZSGauGVgSHpbcg3tFbQGCkJf
-         Z6QybfZqPfT/Fx4o3sXtoyE45GbEW7v2tWa2oi8aFP8mp0esXRv1hqjXREy5Or6L15e5
-         kXdE3orBiqqBoz4SBvck7Ooa+etV34wDSJhzIC5pMQmEEVzzgwkiloer0ktyAiiiix4Y
-         iiMhUX9KqOAM7G66AnkckpeF1Pp2Ln7f3i5bMffPtc7G43IMviTOdDHAobcUP3D1yWKQ
-         QCONwLejFrKTJtdNMocLaya5JcAgbIGNa98X0Au3woI5PdGjIVNnz/YL4iee9bauy/+Y
-         rYfA==
-X-Forwarded-Encrypted: i=1; AFNElJ+j/kXMKXbhZeuQS5seCeX48mSQW40T2FgQK9ySDdmXNIq4YFgmTjEZYfukx/ZnOAOJH9Mh43XlBM8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxsEQxeccVq1U+9/OLjtidGlMLgRtkokxWCvhWFfFOszaggycDj
-	6scn3LOuQF6jc78zJpln0UnjRpL81n32PJli+BGGcKg2DbRgiNEFIfcI
-X-Gm-Gg: AeBDieurnlF/yw9dCK+mp5bPkPnryCx9XHgre6zOQvDAJyed5hDi7PKCcza0yf5U7tk
-	RYl7Yr9f87wcuwmU3YnL2QXi7w4T3sYeVvz94bEArv2jtBxUvRUvajzbyoAxbuI/+l/IB4cgNoK
-	DZmxjn3JVpnedDFmxaNwaGfBCpahsx4l28MWduU7qKtYWC03v7LPOG3MhUvXwBUABma3qmogkE/
-	IbX20l3IN1qs5iYUhAybhhaVHHn6kQUlRYIa1LHMRfEcCr4Fla7tQ583Tb3qj+HDTn8U1ywDBDG
-	QmQgW76+mmBJOyD6n0BhrJwuJE2bNmeYmDFXrqg96oWMMpnRF3rrODE9yKfqQMYUdOdPvI5DrUb
-	NHqFj6dnz2v1rofKEJANrpdqPb6187xAkTwlNuvjrM0g2lByadOCXIfJFZMdRbodvnjk8vbr4fa
-	Wupsq6L3lF347Hq9rIIw0IsrHyADMFjw==
-X-Received: by 2002:aa7:88c1:0:b0:82f:1973:4b96 with SMTP id d2e1a72fcca58-834ddc14602mr5517283b3a.26.1777416146426;
-        Tue, 28 Apr 2026 15:42:26 -0700 (PDT)
-Received: from localhost ([2a03:2880:ff:70::])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834ed80f906sm96681b3a.60.2026.04.28.15.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 15:42:26 -0700 (PDT)
-From: Bobby Eshleman <bobbyeshleman@gmail.com>
-Date: Tue, 28 Apr 2026 15:42:08 -0700
-Subject: [PATCH net-next 11/11] selftests: drv-net: add netkit devmem tests
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJFcEeAJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 23CA4C2BCB9;
+	Tue, 28 Apr 2026 23:25:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777418717;
+	bh=xuCybwNJYL/whg4JHbWn496U8nEXSnWkN8sHol2ieJg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=RJFcEeAJ2TGeSo3AFzeVG1Weq0BgmcdLgQZ6nMqN8RhJb4YLCI3kpTHDR2z4DAMET
+	 qDhbdQtzF9U3gOzA8V+0E9km/GGC2nf27+V/kLpARqrV3ZTe6oEK7fbuAHgfO4nUS9
+	 1rjzUbqzL1KXUXCiGSkVvEFzLstDvJ0uUbNDx1kGweCVa3/WtFdLXKHhuy1txtfz3Y
+	 AnzFY10xlOCTsyRCX+LgZ8k/5PoyPbdpHxKIz8MdcQtpNKHsxz+3HeziIUWxioq8rI
+	 UIv8xQie+oWSf/Oc7XLjYnT2LXGsYFuum09R5zoO9kPF/smLXSwBRQfdGesqkdPXXC
+	 cuIJlNpfwZX/g==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CA2FFF885A;
+	Tue, 28 Apr 2026 23:25:17 +0000 (UTC)
+From: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
+Date: Tue, 28 Apr 2026 16:24:56 -0700
+Subject: [PATCH RFC v5 01/53] KVM: guest_memfd: Introduce per-gmem
+ attributes, use to guard user mappings
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,95 +41,293 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-tcp-dm-netkit-v1-11-719280eba4d2@meta.com>
-References: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
-In-Reply-To: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
- Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
- Michael Chan <michael.chan@broadcom.com>, 
- Pavan Chebbi <pavan.chebbi@broadcom.com>, 
- Joshua Washington <joshwash@google.com>, 
- Harshitha Ramamurthy <hramamurthy@google.com>, 
- Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>, 
- Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
- Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
- Daniel Borkmann <daniel@iogearbox.net>, 
- Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, 
- bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
- Stanislav Fomichev <sdf@fomichev.me>, Mina Almasry <almasrymina@google.com>, 
- Bobby Eshleman <bobbyeshleman@meta.com>
+Message-Id: <20260428-gmem-inplace-conversion-v5-1-d8608ccfca22@google.com>
+References: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
+In-Reply-To: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
+To: aik@amd.com, andrew.jones@linux.dev, binbin.wu@linux.intel.com, 
+ brauner@kernel.org, chao.p.peng@linux.intel.com, david@kernel.org, 
+ ira.weiny@intel.com, jmattson@google.com, jthoughton@google.com, 
+ michael.roth@amd.com, oupton@kernel.org, pankaj.gupta@amd.com, 
+ qperret@google.com, rick.p.edgecombe@intel.com, rientjes@google.com, 
+ shivankg@amd.com, steven.price@arm.com, tabba@google.com, 
+ willy@infradead.org, wyihan@google.com, yan.y.zhao@intel.com, 
+ forkloop@google.com, pratyush@kernel.org, suzuki.poulose@arm.com, 
+ aneesh.kumar@kernel.org, Paolo Bonzini <pbonzini@redhat.com>, 
+ Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, 
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+ "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
+ Masami Hiramatsu <mhiramat@kernel.org>, 
+ Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+ Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
+ Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
+ Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
+ Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, 
+ Barry Song <baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, 
+ Yuanchu Xie <yuanchu@google.com>, Wei Xu <weixugc@google.com>, 
+ Youngjun Park <youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, 
+ Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
+Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
+ linux-coco@lists.linux.dev, Ackerley Tng <ackerleytng@google.com>
 X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777418714; l=8485;
+ i=ackerleytng@google.com; s=20260225; h=from:subject:message-id;
+ bh=VhY0EBZ0RTKWdcAwSWu4Lq81A+YiOZd/S+bEc8Z1k9Y=;
+ b=b4P91BjoE2PJEKSJlp0D2B+heZp6+cTk/PWBfQJqGO1pgl/9pBWwG/3B3cZpa/neOpp4I7a8S
+ GtY7DtLmbBfCdsH80d+/LyYX8c9VNobZffJUSnksl6+ZVxrjGLDBgUW
+X-Developer-Key: i=ackerleytng@google.com; a=ed25519;
+ pk=sAZDYXdm6Iz8FHitpHeFlCMXwabodTm7p8/3/8xUxuU=
+X-Endpoint-Received: by B4 Relay for ackerleytng@google.com/20260225 with
+ auth_id=649
+X-Original-From: Ackerley Tng <ackerleytng@google.com>
+Reply-To: ackerleytng@google.com
 
-From: Bobby Eshleman <bobbyeshleman@meta.com>
+From: Sean Christopherson <seanjc@google.com>
 
-Add nk_devmem.py with four tests for TCP devmem through a netkit device:
+Start plumbing in guest_memfd support for in-place private<=>shared
+conversions by tracking attributes via a maple tree.  KVM currently tracks
+private vs. shared attributes on a per-VM basis, which made sense when a
+guest_memfd _only_ supported private memory, but tracking per-VM simply
+can't work for in-place conversions as the shareability of a given page
+needs to be per-gmem_inode, not per-VM.
 
-These tests are just duplicates of the original devmem tests, with some
-adjusted parameters such as telling ncdevmem to avoid device setup
-(since it only has access to netkit, not a phys device).
+Use the filemap invalidation lock to protect the maple tree, as taking the
+lock for read when faulting in memory (for userspace or the guest) isn't
+expected to result in meaningful contention, and using a separate lock
+would add significant complexity (avoid deadlock is quite difficult).
 
-Each test uses NetDrvContEnv with primary_rx_redirect=True to set up the
-BPF redirect program on the primary netkit interface.
-
-Assisted-by: Claude Code:claude-sonnet-4-6
-Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Co-developed-by: Ackerley Tng <ackerleytng@google.com>
+Signed-off-by: Ackerley Tng <ackerleytng@google.com>
+Co-developed-by: Vishal Annapurve <vannapurve@google.com>
+Signed-off-by: Vishal Annapurve <vannapurve@google.com>
+Co-developed-by: Fuad Tabba <tabba@google.com>
+Signed-off-by: Fuad Tabba <tabba@google.com>
 ---
- .../testing/selftests/drivers/net/hw/nk_devmem.py  | 40 ++++++++++++++++++++++
- 1 file changed, 40 insertions(+)
+ virt/kvm/guest_memfd.c | 139 +++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 123 insertions(+), 16 deletions(-)
 
-diff --git a/tools/testing/selftests/drivers/net/hw/nk_devmem.py b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-new file mode 100755
-index 000000000000..c069d525798b
---- /dev/null
-+++ b/tools/testing/selftests/drivers/net/hw/nk_devmem.py
-@@ -0,0 +1,40 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+"""Test devmem TCP with netkit."""
+diff --git a/virt/kvm/guest_memfd.c b/virt/kvm/guest_memfd.c
+index 69c9d6d546b28..17e5a23fec0a1 100644
+--- a/virt/kvm/guest_memfd.c
++++ b/virt/kvm/guest_memfd.c
+@@ -4,6 +4,7 @@
+ #include <linux/falloc.h>
+ #include <linux/fs.h>
+ #include <linux/kvm_host.h>
++#include <linux/maple_tree.h>
+ #include <linux/mempolicy.h>
+ #include <linux/pseudo_fs.h>
+ #include <linux/pagemap.h>
+@@ -33,6 +34,12 @@ struct gmem_inode {
+ 	struct list_head gmem_file_list;
+ 
+ 	u64 flags;
++	/*
++	 * Every index in this inode, whether memory is populated or
++	 * not, is tracked in attributes. There are no gaps in this
++	 * maple tree.
++	 */
++	struct maple_tree attributes;
+ };
+ 
+ static __always_inline struct gmem_inode *GMEM_I(struct inode *inode)
+@@ -60,6 +67,31 @@ static pgoff_t kvm_gmem_get_index(struct kvm_memory_slot *slot, gfn_t gfn)
+ 	return gfn - slot->base_gfn + slot->gmem.pgoff;
+ }
+ 
++static u64 kvm_gmem_get_attributes(struct inode *inode, pgoff_t index)
++{
++	struct maple_tree *mt = &GMEM_I(inode)->attributes;
++	void *entry = mtree_load(mt, index);
 +
-+from os import path
-+from lib.py import ksft_run, ksft_exit, ksft_disruptive
-+from lib.py import NetDrvContEnv
-+from lib.py.devmem import setup_test, run_rx, run_tx, run_tx_chunks, run_rx_hds
++	/*
++	 * The lock _must_ be held for lookups, as some maple tree operations,
++	 * e.g. append, are unsafe (return inaccurate information) with respect
++	 * to concurrent RCU-protected lookups.
++	 */
++	lockdep_assert(mt_lock_is_held(mt));
 +
++	return WARN_ON_ONCE(!entry) ? 0 : xa_to_value(entry);
++}
 +
-+@ksft_disruptive
-+def check_nk_rx(cfg) -> None:
-+    run_rx(cfg)
++static bool kvm_gmem_is_private_mem(struct inode *inode, pgoff_t index)
++{
++	return kvm_gmem_get_attributes(inode, index) & KVM_MEMORY_ATTRIBUTE_PRIVATE;
++}
 +
++static bool kvm_gmem_is_shared_mem(struct inode *inode, pgoff_t index)
++{
++	return !kvm_gmem_is_private_mem(inode, index);
++}
 +
-+@ksft_disruptive
-+def check_nk_tx(cfg) -> None:
-+    run_tx(cfg)
+ static int __kvm_gmem_prepare_folio(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 				    pgoff_t index, struct folio *folio)
+ {
+@@ -397,10 +429,13 @@ static vm_fault_t kvm_gmem_fault_user_mapping(struct vm_fault *vmf)
+ 	if (((loff_t)vmf->pgoff << PAGE_SHIFT) >= i_size_read(inode))
+ 		return VM_FAULT_SIGBUS;
+ 
+-	if (!(GMEM_I(inode)->flags & GUEST_MEMFD_FLAG_INIT_SHARED))
+-		return VM_FAULT_SIGBUS;
++	filemap_invalidate_lock_shared(inode->i_mapping);
++	if (kvm_gmem_is_shared_mem(inode, vmf->pgoff))
++		folio = kvm_gmem_get_folio(inode, vmf->pgoff);
++	else
++		folio = ERR_PTR(-EACCES);
++	filemap_invalidate_unlock_shared(inode->i_mapping);
+ 
+-	folio = kvm_gmem_get_folio(inode, vmf->pgoff);
+ 	if (IS_ERR(folio)) {
+ 		if (PTR_ERR(folio) == -EAGAIN)
+ 			return VM_FAULT_RETRY;
+@@ -556,6 +591,51 @@ bool __weak kvm_arch_supports_gmem_init_shared(struct kvm *kvm)
+ 	return true;
+ }
+ 
++static int kvm_gmem_init_inode(struct inode *inode, loff_t size, u64 flags)
++{
++	struct gmem_inode *gi = GMEM_I(inode);
++	MA_STATE(mas, &gi->attributes, 0, (size >> PAGE_SHIFT) - 1);
++	u64 attrs;
++	int r;
 +
++	inode->i_op = &kvm_gmem_iops;
++	inode->i_mapping->a_ops = &kvm_gmem_aops;
++	inode->i_mode |= S_IFREG;
++	inode->i_size = size;
++	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
 +
-+@ksft_disruptive
-+def check_nk_tx_chunks(cfg) -> None:
-+    run_tx_chunks(cfg)
++	/*
++	 * guest_memfd memory is neither migratable nor swappable: set
++	 * inaccessible to gate off both.
++	 */
++	mapping_set_inaccessible(inode->i_mapping);
++	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
 +
++	gi->flags = flags;
 +
-+@ksft_disruptive
-+def check_nk_rx_hds(cfg) -> None:
-+    run_rx_hds(cfg)
++	mt_set_external_lock(&gi->attributes,
++			     &inode->i_mapping->invalidate_lock);
 +
++	/*
++	 * Store default attributes for the entire gmem instance. Ensuring every
++	 * index is represented in the maple tree at all times simplifies the
++	 * conversion and merging logic.
++	 */
++	attrs = gi->flags & GUEST_MEMFD_FLAG_INIT_SHARED ? 0 : KVM_MEMORY_ATTRIBUTE_PRIVATE;
 +
-+def main() -> None:
-+    with NetDrvContEnv(__file__, rxqueues=2, primary_rx_redirect=True) as cfg:
-+        setup_test(cfg, path.abspath(path.dirname(__file__) + "/ncdevmem"))
-+        ksft_run([check_nk_rx, check_nk_tx, check_nk_tx_chunks, check_nk_rx_hds],
-+                 args=(cfg,))
-+    ksft_exit()
++	/*
++	 * Acquire the invalidation lock purely to make lockdep happy.  The
++	 * maple tree library expects all stores to be protected via the lock,
++	 * and the library can't know when the tree is reachable only by the
++	 * caller, as is the case here.
++	 */
++	filemap_invalidate_lock(inode->i_mapping);
++	r = mas_store_gfp(&mas, xa_mk_value(attrs), GFP_KERNEL);
++	filemap_invalidate_unlock(inode->i_mapping);
 +
++	return r;
++}
 +
-+if __name__ == "__main__":
-+    main()
+ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+ {
+ 	static const char *name = "[kvm-gmem]";
+@@ -586,16 +666,9 @@ static int __kvm_gmem_create(struct kvm *kvm, loff_t size, u64 flags)
+ 		goto err_fops;
+ 	}
+ 
+-	inode->i_op = &kvm_gmem_iops;
+-	inode->i_mapping->a_ops = &kvm_gmem_aops;
+-	inode->i_mode |= S_IFREG;
+-	inode->i_size = size;
+-	mapping_set_gfp_mask(inode->i_mapping, GFP_HIGHUSER);
+-	mapping_set_inaccessible(inode->i_mapping);
+-	/* Unmovable mappings are supposed to be marked unevictable as well. */
+-	WARN_ON_ONCE(!mapping_unevictable(inode->i_mapping));
+-
+-	GMEM_I(inode)->flags = flags;
++	err = kvm_gmem_init_inode(inode, size, flags);
++	if (err)
++		goto err_inode;
+ 
+ 	file = alloc_file_pseudo(inode, kvm_gmem_mnt, name, O_RDWR, &kvm_gmem_fops);
+ 	if (IS_ERR(file)) {
+@@ -797,9 +870,13 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 	if (!file)
+ 		return -EFAULT;
+ 
++	filemap_invalidate_lock_shared(file_inode(file)->i_mapping);
++
+ 	folio = __kvm_gmem_get_pfn(file, slot, index, pfn, max_order);
+-	if (IS_ERR(folio))
+-		return PTR_ERR(folio);
++	if (IS_ERR(folio)) {
++		r = PTR_ERR(folio);
++		goto out;
++	}
+ 
+ 	if (!folio_test_uptodate(folio)) {
+ 		clear_highpage(folio_page(folio, 0));
+@@ -815,6 +892,8 @@ int kvm_gmem_get_pfn(struct kvm *kvm, struct kvm_memory_slot *slot,
+ 	else
+ 		folio_put(folio);
+ 
++out:
++	filemap_invalidate_unlock_shared(file_inode(file)->i_mapping);
+ 	return r;
+ }
+ EXPORT_SYMBOL_FOR_KVM_INTERNAL(kvm_gmem_get_pfn);
+@@ -944,6 +1023,15 @@ static struct inode *kvm_gmem_alloc_inode(struct super_block *sb)
+ 
+ 	mpol_shared_policy_init(&gi->policy, NULL);
+ 
++	/*
++	 * Memory attributes are protected by the filemap invalidation lock, but
++	 * the lock structure isn't available at this time.  Immediately mark
++	 * maple tree as using external locking so that accessing the tree
++	 * before it's fully initialized results in NULL pointer dereferences
++	 * and not more subtle bugs.
++	 */
++	mt_init_flags(&gi->attributes, MT_FLAGS_LOCK_EXTERN);
++
+ 	gi->flags = 0;
+ 	INIT_LIST_HEAD(&gi->gmem_file_list);
+ 	return &gi->vfs_inode;
+@@ -951,7 +1039,26 @@ static struct inode *kvm_gmem_alloc_inode(struct super_block *sb)
+ 
+ static void kvm_gmem_destroy_inode(struct inode *inode)
+ {
+-	mpol_free_shared_policy(&GMEM_I(inode)->policy);
++	struct gmem_inode *gi = GMEM_I(inode);
++
++	mpol_free_shared_policy(&gi->policy);
++
++	/*
++	 * Note!  Checking for an empty tree is functionally necessary
++	 * to avoid explosions if the tree hasn't been fully
++	 * initialized, i.e. if the inode is being destroyed before
++	 * guest_memfd can set the external lock, lockdep would find
++	 * that the tree's internal ma_lock was not held.
++	 */
++	if (!mtree_empty(&gi->attributes)) {
++		/*
++		 * Acquire the invalidation lock purely to make lockdep happy,
++		 * the inode is unreachable at this point.
++		 */
++		filemap_invalidate_lock(inode->i_mapping);
++		__mt_destroy(&gi->attributes);
++		filemap_invalidate_unlock(inode->i_mapping);
++	}
+ }
+ 
+ static void kvm_gmem_free_inode(struct inode *inode)
 
 -- 
-2.52.0
+2.54.0.545.g6539524ca2-goog
+
 
