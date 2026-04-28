@@ -1,277 +1,161 @@
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3E343B530D;
-	Tue, 28 Apr 2026 20:07:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2F731A065
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 20:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777406845; cv=none; b=TibZ8uS7bfZLscuojf1V8ENPx2gU+biZrBqnpJ861oy3mkVuNSn18O/P4tov0lw9pqTe7JyMeNq2JNPV7UqbBD7pqs3PJy3gQrV7iIZIu8TOKK3d45sROxAxdFj6vkoSTpyIeDO0uc9bxeEVadVvXo+BJSL134BHxTFnESXWH0I=
+	t=1777407633; cv=none; b=GhERFirsZz/X4KB7coYSMo5nnNtKv8XRoGqCfNQkfP0LrU7F0FxROd3PxmRC8DwuQgI2mW1orxO2DnZ8hkgp2JEeypYx+NcsMf6yKOXhAJz2CyHvfo5/BjEGK/kPNY/iencBDsWQ9auPKMAAzOfVo3bjCxUEq7fCJjPvzDgQDxw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777406845; c=relaxed/simple;
-	bh=Q/Zc71eKTdTdLbr93FAxExF+HwAPxrqwA/WEbkEfTJ4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=hT+jC/+K4elp2whlpLZ2Ha6OrMSc3hqmGPk/fMkH8yR8lw9Bm8nENv/Bf++9eNZpNAC5Dt7vXzfGgnfR2EW6FujculAWvHEOBjwAEZi3cZYje9KdHSGA95XsjYX1XHdiIJ+3EZlhzomvZ1ES0MxxnU2j5ArT7YhAyaWeDuj6R54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com; spf=pass smtp.mailfrom=fastmail.com; dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b=WfHQYUYi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=XoYrTpDA; arc=none smtp.client-ip=202.12.124.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fastmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fastmail.com
+	s=arc-20240116; t=1777407633; c=relaxed/simple;
+	bh=+4M4htXEh/xXtFiCFXN/m9StERkAgWTPW4y6jMSwAUs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZZ2+4lQMDvEWrJHqq/ewgCt/oFRKRnvvgIZFf6jWA+LfNz3e5ho3jImar/YwuGfyW6okrXBpet+QL83Z6drHCwI/cSnJMGS1yGtlUAc7gkWPpQXfmUTnQTUxZYYoJqDPAvGXhQRS4g/xg5v0uNBZr7uZVN1xBBkJSXD6Nzsk7R8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iYVy2Uj0; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fastmail.com header.i=@fastmail.com header.b="WfHQYUYi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="XoYrTpDA"
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 9D1E97A0205;
-	Tue, 28 Apr 2026 16:07:21 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-09.internal (MEProxy); Tue, 28 Apr 2026 16:07:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=fastmail.com; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1777406841;
-	 x=1777493241; bh=h+T5BNJXFum81OyDPpP0uu72do5WYbQzUMyniP5JULY=; b=
-	WfHQYUYixWEtG1QhY2qb1i8cok5Vr9M+0k8UPTP+1aNYBaykqKiKZRHZMKcRLYFp
-	1KpeD+sh+i4WO6fz+6lCE2BDAXvu8NUIOHNezavZfQpxbAfcP8ioWIbZI2pN0ZAi
-	qlLtNA7MNNLhYp5NoBxlzajZno7+YfwGGmMY9UNclPID0/iA2AnM9zSAqahg8jF5
-	51xaxGTRmzOliE/gaxJvUvc7Mlcd/m3Q1VonblsangscEOYrz+PPifBTHwsf+uJ/
-	KR3WyCx9aawcmbiY1PZ5KxG9FbctfwXnPFbZDadpVPjWv6WrbQMUt72ELjOZW8nB
-	+OeOqQDcMWeMkc2qhvwe9Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1777406841; x=
-	1777493241; bh=h+T5BNJXFum81OyDPpP0uu72do5WYbQzUMyniP5JULY=; b=X
-	oYrTpDARkjFs3tkWE64JD6BbP0ALg9oufKyvp+m0qI+vb6uamIjoMd39ApWu4e8b
-	t3dacgdkGEdEB0Q8+r250IZa8wDJNbAAutOmUpDy+3f72rHYITikfiFkJw3KkhLU
-	qKJslrK4tk295sIMJ79VzHd87ju+PpZDZgZeuiYxgC4jjaqMf+B1RdhJLPwns2nH
-	2eAg9oCZsKOo/lmaGnGZ42EoX7WgYZ7ky9tJtVNT1rCJ+Zdm/0VjO51MJ2jLMcua
-	xclcgU5V18jkarbzl+gPmAn9dcWHMzb8Y83uR6I5v/KRCnE8KZIGBBSFbLbY37KX
-	dVzL8+Be3BEmuWlJEVyyA==
-X-ME-Sender: <xms:dxPxaZza2h11-PYKXeZ5-5dHbq7l4vMqpfU1Y6ASLdkhA6x6VrSPzA>
-    <xme:dxPxaUEQ9gGVjOlp83HzoQYeYGVxJg4eddsfguGnoR4v37Hu4hxXOB3lgu53O4MKw
-    gDLRB3YXHyV5N9I1eqv_ak0OEncNRpMno7COtrI13asY1F181fnP5s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekvdegkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthhqredtredtjeenucfhrhhomhepfdflohhhnhcu
-    ifhrohhvvghsfdcuoehjghhrohhvvghssehfrghsthhmrghilhdrtghomheqnecuggftrf
-    grthhtvghrnhepkeffgeefvdfhffevveegjeegfedvfedvtdfgtdfgvefffffgueeuieeg
-    veduteefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epjhhgrhhovhgvshesfhgrshhtmhgrihhlrdgtohhmpdhnsggprhgtphhtthhopeefledp
-    mhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepshhhihhvrghnkhhgsegrmhgurdgtoh
-    hmpdhrtghpthhtohepjhgrmhgvshdrmhhorhhsvgesrghrmhdrtghomhdprhgtphhtthho
-    pegsshgthhhusggvrhhtseguughnrdgtohhmpdhrtghpthhtoheprghmihhrjeefihhlse
-    hgmhgrihhlrdgtohhmpdhrtghpthhtohepsggrghgrshguohhtmhgvsehgmhgrihhlrdgt
-    ohhmpdhrtghpthhtohepjhhorghnnhgvlhhkohhonhhgsehgmhgrihhlrdgtohhmpdhrtg
-    hpthhtoheprggtkhgvrhhlvgihthhnghesghhoohhglhgvrdgtohhmpdhrtghpthhtohep
-    shgvrghnjhgtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehtrggssggrsehgohhogh
-    hlvgdrtghomh
-X-ME-Proxy: <xmx:dxPxaVpF8GdGM6HhV3daxj-Vq9756pbdO1XTEDJz3oHVUWmfxnAm6w>
-    <xmx:dxPxaY7XacatWPK3z25Zn6yiVU6smPSfV1IoJhhyYU2Dam8pJsm0wA>
-    <xmx:dxPxafS4tAjgO8Vkm1cBfM0Nxxyuq5gsL6JV-jnPVD_5xXeYv0Wd-Q>
-    <xmx:dxPxaT76Mf-Q3m9Sf7MLKxzBzI2Ic_XymAap_yfs2A2dYDU0lNjQ8A>
-    <xmx:eRPxafCco4JpHMrhwtAMjqIm3P7GzLfXbfN0c-jq1OkU38Q8NaXd-EwI>
-Feedback-ID: if7ae487a:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 630F8700065; Tue, 28 Apr 2026 16:07:19 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iYVy2Uj0"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b2e8b95bdbso15005ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 13:20:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777407631; x=1778012431; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=MaR4AuPDQzq9MeZ+Bqr1j2DtvJljfw3TYQa7ZG83Cs8=;
+        b=iYVy2Uj0BtzEejJ7IqaqqUnbOAY0YCT1Om7DU3z9uppgtOQ1SZBLAx8N8l1faTfVEv
+         JuyohZ08iYpz3bQmwBz6QQse9KDISeeQmVTUEbkHwKUTnyktewMWqHHLXUl66DN7mfGQ
+         ILouXOFMbZ4RAWx6V1DdKo7gQRybjKxZ/diDphlgyyp3eNxnuwbjCwGjYz07NQU2kGTo
+         CzXWf7SRSo3lEulYolcEhq1zA4+kRziMBWaWV/4oX8hd4G0EIXGPAwuTSeveRUbbdWCj
+         tsxeLKT4Ghu3s0itr5/mj6B1TJAkJnt8PK74FhuOgPuAtHan/j+hYps8HKP92us/ReGc
+         gXfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777407631; x=1778012431;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MaR4AuPDQzq9MeZ+Bqr1j2DtvJljfw3TYQa7ZG83Cs8=;
+        b=FzzTFLfOmP9rXLyjRPLvXBBuVyObwEz7UDnQ9X0GTaI3gZX76iY9yE4bkiXaFCQR2s
+         J6YU7HSrXWHq753rRyNub9Vmf257sHYPNmC5mIK7CFY3BpEjJhU/ciJcg2jBMzsjfgEg
+         bxhwII9Kz06iXi0CSowm6skUHxS3vFwJ2GU2t8eGcVrMxLBDjjBV+/7VDwY3R82vXdCQ
+         MIDq+O29S0hWUWXqoChy2w1nbgHc9HHd3jsUfhyNRGoRmSdhdRHJhqRQY2v3sao7mZo2
+         h9ewrl6KGDV45Kw/CHI30GVUQTkd0eVHcXh+De62k4VsNUVD0yV0MpJtP0j8FgAQFiMn
+         UJZQ==
+X-Forwarded-Encrypted: i=1; AFNElJ82PBMWmDYF5pUz+HncqYqn0vpAcV4EFurb2smLFNXlbw7TU9GHtXhtTNSuidkXXAQwisRw5h/+4Gk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzU9jcKrsFyRLQmBccKWiyMvGKvh3yA2H8a6sawPv0lj4mJ/p+W
+	S6FIsgskOB0res3oVZ1fpfBdRPehuVbg/HU/Dn9LDtT55hjZvarI7PXON7GfXjgvqQ==
+X-Gm-Gg: AeBDievlxeCR/s1PxX/L4tU1mamdls0DQZgyriwMuS3ZhGgHe8Go3TMGCeXncl27VFN
+	Q7XxCX5yciOA2imF5S8P8SgZ+OgRA0zHbWrzj8aOq5x2U0CI8eN8U5olHycxsNqlcGTq6YssKUm
+	k7WNSDfqQzVdPiCs+7/LJ8Yd7WpqUehLBnUsFMOluHrAABMGwIKijCHq2KAx0wvn3uXVcdDe0yy
+	HP5mk/F8H0x7WLUc7YMba+g5iFmYEwDMntGfgUMDoh3PbOntqU/tIVwYkblAdAYSugD2FLkI9SL
+	IogUrMRhReRfy9AV043BjfHSz6s0TXhYDOfHeJ53euCfCnwVOn7rlrAvEhJipbMEXzwrS0Hx/HN
+	/6BxJ9ifFl0qacmKZM5/kSa6H/A8WKrpqV8omw/eVcYFQhW5Puc488HeDjZ0/VNMJrJfkDT55Zr
+	RsDL+E9TFOHRVlvIH0VC0uON1XT0/0ZAVXykECDySuN22+RxqqyTKKPwb5A38hb+TNGQ3wlPsCU
+	EpBvM8=
+X-Received: by 2002:a17:902:db0e:b0:2b4:60e6:44bc with SMTP id d9443c01a7336-2b988e32430mr88155ad.13.1777407630352;
+        Tue, 28 Apr 2026 13:20:30 -0700 (PDT)
+Received: from google.com (60.89.247.35.bc.googleusercontent.com. [35.247.89.60])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834dae00d13sm3520508b3a.8.2026.04.28.13.20.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 13:20:29 -0700 (PDT)
+Date: Tue, 28 Apr 2026 13:20:25 -0700
+From: Vipin Sharma <vipinsh@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, 
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v4 02/11] PCI: liveupdate: Track outgoing preserved PCI
+ devices
+Message-ID: <20260428201231.GA3885809.vipinsh@google.com>
+References: <20260423212316.3431746-1-dmatlack@google.com>
+ <20260423212316.3431746-3-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 28 Apr 2026 15:06:58 -0500
-From: "John Groves" <jgroves@fastmail.com>
-To: "Ira Weiny" <ira.weiny@intel.com>,
- "Alison Schofield" <alison.schofield@intel.com>,
- "John Groves" <John@groves.net>
-Cc: "John Groves" <john@jagalactic.com>,
- "Miklos Szeredi" <miklos@szeredi.hu>,
- "Dan Williams" <dan.j.williams@intel.com>,
- "Bernd Schubert" <bschubert@ddn.com>,
- "John Groves (jgroves)" <jgroves@micron.com>,
- "Jonathan Corbet" <corbet@lwn.net>,
- "Vishal Verma" <vishal.l.verma@intel.com>,
- "Dave Jiang" <dave.jiang@intel.com>,
- "Matthew Wilcox" <willy@infradead.org>, "Jan Kara" <jack@suse.cz>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "David Hildenbrand" <david@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>,
- "Darrick J . Wong" <djwong@kernel.org>,
- "Randy Dunlap" <rdunlap@infradead.org>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>,
- "Jonathan Cameron" <Jonathan.Cameron@huawei.com>,
- "Stefan Hajnoczi" <shajnocz@redhat.com>,
- "Joanne Koong" <joannelkoong@gmail.com>,
- "Josef Bacik" <josef@toxicpanda.com>,
- "Bagas Sanjaya" <bagasdotme@gmail.com>,
- "James Morse" <james.morse@arm.com>, "Fuad Tabba" <tabba@google.com>,
- "Sean Christopherson" <seanjc@google.com>,
- "Shivank Garg" <shivankg@amd.com>,
- "Ackerley Tng" <ackerleytng@google.com>,
- "Gregory Price" <gourry@gourry.net>,
- "Aravind Ramesh" <arramesh@micron.com>,
- "Ajay Joshi" <ajayjoshi@micron.com>,
- "venkataravis@micron.com" <venkataravis@micron.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
- "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Message-Id: <30fddcd1-ab6b-4512-bcfd-7f6d0de6fd4d@app.fastmail.com>
-In-Reply-To: <69f106fd55840_12d928100ca@iweiny-mobl.notmuch>
-References: 
- <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
- <20260118223629.92852-1-john@jagalactic.com>
- <0100019bd340cdd5-89036a70-3ef5-4c34-abf8-07a3ea4d9f92-000000@email.amazonses.com>
- <aaD6yQLiyZznfAxr@aschofie-mobl2.lan> <ae6e9wYqgLkWsS-e@groves.net>
- <afA51WpcRyIMVukX@aschofie-mobl2.lan>
- <69f106fd55840_12d928100ca@iweiny-mobl.notmuch>
-Subject: Re: [PATCH V4 1/2] daxctl: Add support for famfs mode
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260423212316.3431746-3-dmatlack@google.com>
 
+On Thu, Apr 23, 2026 at 09:23:06PM +0000, David Matlack wrote:
+> +int pci_liveupdate_preserve(struct pci_dev *dev)
+> +{
+> +	struct pci_ser *ser;
+> +	int i, ret;
+> +
+> +	guard(mutex)(&pci_flb_outgoing_lock);
+> +
+> +	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (!ser)
+> +		return -ENOENT;
+> +
+> +	if (dev->is_virtfn)
+> +		return -EINVAL;
+> +
+> +	if (dev->liveupdate_outgoing)
+> +		return -EBUSY;
+> +
+> +	if (ser->nr_devices == ser->max_nr_devices)
+> +		return -ENOSPC;
+> +
+> +	for (i = 0; i < ser->max_nr_devices; i++) {
+> +		/*
+> +		 * Start searching at index ser->nr_devices. This should result
+> +		 * in a constant time search under expected conditions (devices
+> +		 * are not getting unpreserved).
+> +		 */
+> +		int index = (ser->nr_devices + i) % ser->max_nr_devices;
+> +		struct pci_dev_ser *dev_ser = &ser->devices[index];
+> +
+> +		if (dev_ser->refcount)
+> +			continue;
+> +
+> +		pci_info(dev, "Device will be preserved across next Live Update\n");
+> +		ser->nr_devices++;
+> +
+> +		dev_ser->domain = pci_domain_nr(dev->bus);
+> +		dev_ser->bdf = pci_dev_id(dev);
+> +		dev_ser->refcount = 1;
+> +
+> +		dev->liveupdate_outgoing = dev_ser;
+> +		return 0;
+> +	}
+> +
+> +	return -ENOSPC;
 
+Since it is executing under a mutex, and we already failed
+'if (ser->nr_devices == ser->max_nr_devices) check above, will we ever reach
+here and return -ENOSPC?
 
-On Tue, Apr 28, 2026, at 2:14 PM, Ira Weiny wrote:
-> Alison Schofield wrote:
-> > On Sun, Apr 26, 2026 at 06:56:46PM -0500, John Groves wrote:
-> > > Maybe I'm overcomplicating things (it's one of the things I do),=20
-> > > but I'm still struggling through how to address all these issues.=20
-> > > Some comments inline.
-> >=20
-> >=20
-> > Jumping to the part you commented on, which I think was the biggie:
-> >=20
-> > >=20
-> > > On 26/02/26 06:00PM, Alison Schofield wrote:
-> > > > On Sun, Jan 18, 2026 at 10:36:38PM +0000, John Groves wrote:
-> > > > > From: John Groves <John@Groves.net>
-> > > > >=20
-> > > > > Putting a daxdev in famfs mode means binding it to fsdev_dax.ko
-> > > > > (drivers/dax/fsdev.c). Finding a daxdev bound to fsdev_dax mea=
-ns
-> > > > > it is in famfs mode.
-> > > > >=20
-> > > > > The test is added to the destructive test suite since it
-> > > > > modifies device modes.
-> > > >=20
-> > > > Make it clear that it is added in a separate patch. (and assume =
-you
-> > > > can drop the destructive part too.)
-> > > >=20
-> > > > >=20
-> > > > > With devdax, famfs, and system-ram modes, the previous logic t=
-hat assumed
-> > > > > 'not in mode X means in mode Y' needed to get slightly more co=
-mplicated
-> > > > >=20
-> > > > > Add explicit mode detection functions:
-> > > > > - daxctl_dev_is_famfs_mode(): check if bound to fsdev_dax driv=
-er
-> > > > > - daxctl_dev_is_devdax_mode(): check if bound to device_dax dr=
-iver
-> > > >=20
-> > > >=20
-> > > > The precedence check (ram->famfs->devdax->unknown) now happens i=
-n multiple
-> > > > places. How about adding a daxctl_dev_get_mode() helper to centr=
-alize that.
-> > > > It could be private for now, unless you expect external users to=
- need it.
-> > > >=20
-> > > > daxctl_dev_is_famfs_mode() and _is_devdax_mode() are nearly iden=
-tical aside
-> > > > from the module name. Refactoring the shared part into a single =
-helper will
-> > > > also make it easier to add a daxctl_dev_get_mode() without dupli=
-cating the
-> > > > precedence logic.
-> > > >=20
-> > > > >=20
-> > > > > Fix mode transition logic in device.c:
-> > > > > - disable_devdax_device(): verify device is actually in devdax=
- mode
-> > > > > - disable_famfs_device(): verify device is actually in famfs m=
-ode
-> > > > > - All reconfig_mode_*() functions now explicitly check each mo=
-de
-> > > > > - Handle unknown mode with error instead of wrong assumption
-> > > >=20
-> > > > Wondering about 'Fix' mode transition logic. Was prior logic bro=
-ken and
-> > > > should any of these changes be in a precursor patch that is a 'f=
-ix'.
-> > > >=20
-> > > >=20
-> > > > >=20
-> > > > > Modify json.c to show 'unknown' if device is not in a recogniz=
-ed mode.
-> > > >=20
-> > > > I think this means disabled devices will always look unknown eve=
-n when
-> > > > the intended mode is devdax or famfs, but disabled. This seems to
-> > > > change the meaning of mode from 'configured' to 'active' persona=
-lity.
-> > > > Can you detect the configured mode even when disabled?
-> > > > Perhaps a man page change about this new behavior?
-> > >=20
-> > > Good point; before famfs mode there were just 2 modes, and=20
-> > > not-system-ram =3D=3D devdax mode is the current standard, even if=
- no driver=20
-> > > is bound. At some level that's a conflation, but I'll revise and s=
-tick=20
-> > > with that unless you have a better idea.
-> > >=20
-> > > Is that how you want it? No driver =3D=3D devdax mode?
-> > >=20
-> > > Any thoughts?
-> > >=20
-> >=20
-> > I do think we need to introduce "unknown" rather than keep reporting
-> > devdax for all non-system-ram devices. With famfs added, that old
-> > "not system-ram =3D=3D devdax" shortcut just isn=E2=80=99t true anym=
-ore, and in the
-> > unbound case we really don=E2=80=99t know if it=E2=80=99s devdax or =
-famfs. I=E2=80=99d rather say
-> > "unknown" than guess wrong.
->=20
-> While I like the explicit nature of 'unknown' we are unfortunately past
-> that point now.
->=20
-> Current users expect a new device to come up as devdax.  I think a new
-> specifier needs to be added to bring a device up as famfs.  Because th=
-is
-> is the new way of doing things it may be that famfs needs to be specif=
-ied
-> explicitly somewhere.  I'm not quite sure where right off.
->=20
-> But the current behavior needs to be maintained despite it being 'wron=
-g'
-> or a 'lie'...  It is just the way it was.
->=20
-> Ira
+> diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+> index 5c0e92588c00..5b4c8d9e462c 100644
+> --- a/include/linux/kho/abi/pci.h
+> +++ b/include/linux/kho/abi/pci.h
+> @@ -23,19 +23,20 @@
+>   * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
+>   */
+>  
+> -#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
+> +#define PCI_LUO_FLB_COMPATIBLE "pci-v2"
 
-I think for famfs it's easier than that. The famfs tools already put it =
-in famfs
-mode when needed. I don't think it ever needs to have a sticky default
-to anything but devdax.
+Just curious, why did we change the version here? It's not like just
+previous patch is working enough to perform a live update. As the config
+is experimental, can't we just keep it PCI-v1 for the whole series?
 
-The following famfs operations already check and change the mode=20
-if necessary:
-
-- famfs mount
-- mkfs.famfs
-- famfs fsck /dev/dax0.0=20
-
-So I don't see any problem with preserving the existing quirkiness.
-
-I'll get a patch v5 out asap that continues to mark unbound daxdev as
-'devdax' and also 'disabled'. No change to system-ram mode.=20
-
-I think this might be all we need...
-
-<snip>
-
-John
+> 
