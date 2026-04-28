@@ -1,72 +1,72 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0952042314B
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 12:27:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DFD43FCB25
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 12:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777379227; cv=none; b=PVVpfVUQz2qdRoHrNgTTjkYlDRY+UbcJOJcFJVIYFtnnKKO+XiiR3u1q4/OrNULMyeaaDPUuNXtvZWfkjdWyw5EXlu4+HZmCmqc9YWyoWGcYaMBwHghXfESMZTjLOZahAdz6K7fpL2fH+TL0otiZ/oR0GvACnC6Ycd1KMHQFJWg=
+	t=1777380488; cv=none; b=CxvRlaKiVp0rH2wGCCDz+/OczW2Im2Ci2oCgyWICUZtFLjFRkApyGeBTwIk7iP2Ft5XibSN8c3SMgj64G0ISDsF3LYuD0R9tdEhlKTjk7HiKohFdUcXs5tKgc9MqFeooSRmuTkblU9+BKurMP//E8RFtBR3MchL8+IRazxL4KJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777379227; c=relaxed/simple;
-	bh=xcPscxFmFlvLehZTEo8r9Z26NBYGBJGvjku0jtR/Kcg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pfhXsTW6LzhyvNYrj/0sMIXItR9NCmTJ9PAqj8RSKKm6n9vr4WsZ5V3rrHrEoK9z1mLySZiUcRNDRR70USxVtDJi6RnyqI7mvvHvBYc2UhrJlh2Xl/e+cP+arCUmYHJzgKCl85WG7R1IiQaV5F+3tsTKVUBuNcZPxP3XM5gJgDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eiR7tBRo; arc=none smtp.client-ip=209.85.128.50
+	s=arc-20240116; t=1777380488; c=relaxed/simple;
+	bh=VUccE9kXvuvBHe/0mezmkTh1893Ofu3nXFps9mY5+hg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=IaeXpktLoAtd6Lv6qSB3jzSY3cpyzrGHwSq/Dny0jrRLmTfQ8iW+XXGJcTLwqubYLW9EoALKfDggM5zjnNJtnje5yeOTc/6uv6aT4iVOHsAnR+Db54wyvWJKT9XrfGGqHswYLp1MUu8FFu/oCGVdZodOlxzNEQiXXN3AkiDxCoQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=imGv7Weh; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eiR7tBRo"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-48a563e4ef7so79118035e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 05:27:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="imGv7Weh"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4896c22fcbaso85314855e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 05:48:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777379220; x=1777984020; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777380484; x=1777985284; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HSohUozqi8NkIG0nhDL5W8Zp3PsmTrbCjFJ+jEUQYvk=;
-        b=eiR7tBRo9aH4qM1li/S8vF+3N+yv+zm/OMWP+lgwFILeHTqIDAcGohde2VYEREU1lG
-         Ui8Qe+V85G+/a0bP3YnFEwgSXTG/yQa/4ev6cYzGS4fZXoavMlnsqeJadyVuEcJi6zMC
-         b8hjZaBJvLy5gHe58jmYZuw4TACIBRvaqKsBNbt0ch22TQ39t42BB63mHW0sb5s/Y6l7
-         /xN+FyTSx4SEIroN2QvD5seJEMiKUbGU42Yok3b163BvHE4nJU82hk8WjZuEivNmrnCd
-         ehnn+1MU66H8s6cEB8R8UbjMl7v0VTB4QpQzkzLQ/eNkPv6zdn6dgj4rBedZjwat9gjh
-         3Xcg==
+        bh=tgmCV2/fZulR8QPgdY8Ciezrt0cn4CHAQ+Jxlbp1+Z0=;
+        b=imGv7Wehk2yCQot/cXe+/DwHzxVRM3ZU0xaBwhZ73/f8fqM3CYcxZpJqpTcip0F2XQ
+         aL9hPdhAy2hHLK4C/4rAlghiRMedW8zf7FoOrDQCozJfe5bkqs3ReOxENuv3JcE6vVCR
+         fbtbS4c9Q8d7mXiuEN9IrRhr6ZpzAYBUPTPpfSb2a1Vh9xVUFO9Sp4BesOkET0TmDL2q
+         VDIyTgvPWhvptT81ijoKHkUmmMhkD09AftjkxLIRWBaOzaqEb+ZSXskqRBDbgwAY2fhg
+         Tj1Xznw2tVaOIqhajcfUjh5/KjSxbz6XZV7XHRTx8qzptw2v1wRFZWO2YqSyHDIGmSqV
+         1w1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777379220; x=1777984020;
+        d=1e100.net; s=20251104; t=1777380484; x=1777985284;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=HSohUozqi8NkIG0nhDL5W8Zp3PsmTrbCjFJ+jEUQYvk=;
-        b=ecPYndb9c7ebmC3A2bq8HWG4pJorcOp03ndY9x5HHxIAJH7B6J/95B8Sjygyk2Savt
-         yDkibjEWFA7ybCB6LRgwZpvUkmCW7HEqgH+fgt9TI6mTW69cMG44+rVwMDusbu6YcDHR
-         ptLxSOiQd8HPjXD4eu6lk+Z2CPBvH7vYeiY5DjzGKLhbpmSWXjZHZTfKAGwhGWKXBbBw
-         X4N9/7tuSO1c2IURumi9ABBk7ScUYKYqxYosNE9H1A10rq1UP1se4eZTZ0EWs2Kctk8b
-         T9JGbukMSbqhFg0tHzAKb20rN4geDv8Mk4F7xTSaVhAVvHvp8PPIW0vH4VKlXFx2ufeo
-         kP5g==
-X-Gm-Message-State: AOJu0YwFDxaE42iN8bp8AAbCy2IQZeHCJN4k4FWVn1JRSEYUtxs6aC4w
-	mNW4rZ330sxm7B0ePI8YzHbBy4wLwV6xxjdCwGutdMeDycBuWBXLp5Fo
-X-Gm-Gg: AeBDiesv4xU//cwJdrYxfIYAZMZRdinFNsC5lQA0CQX03q9NMuJgf8YJ6nJfa9+ShnS
-	m7Abr60dsM7ckCQcTbDYp8VAlGm0FHKDHkcpX9BgRxWt7T50E9ocR56V27wXFl+0eMvlinI0NUZ
-	weabvFNpFirDYylCSWQGuuuCEB6ynRz8vN7AMPsTM8FRmLflRvsVaCsduJwh1xzqZHRKOIwe1iC
-	hsP6g/m1KLl6nE3quV9Knx5oZ+AZWBU8TPO7Sc6S8wFAsfPY18Amu4e7EnRAQjVv8hPPHBBFvQj
-	I8FzUUrBQA0P/zClLJZ5DO03tqGQwI09V8rSUkYVStI6zuyy0tvGdm2NFhVlJ17CVCMWstU6rxT
-	qhfp/V3OP4gJd42OG1xbpCYaOjk0Hl1zimW1FJmYTVX47KregOBVZOOl3YVRzDIADRl6TW820/t
-	W3R1dvhIsQ5W5oKHZw3B50DMkx37jhmZ8C2vah1GA5QNlFUIOushbkEQ4BQn4/AkWbqu/crhijg
-	8qzqZWq773yYtid4PyLy/DcK6FS6UU=
-X-Received: by 2002:a05:600c:c177:b0:48a:5301:bb5c with SMTP id 5b1f17b1804b1-48a77b12a49mr40423285e9.16.1777379220201;
-        Tue, 28 Apr 2026 05:27:00 -0700 (PDT)
-Received: from x250.speedport.ip (p200300c65f496d3577a54ef28bd39e7f.dip0.t-ipconnect.de. [2003:c6:5f49:6d35:77a5:4ef2:8bd3:9e7f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463d4fa52bsm6387263f8f.15.2026.04.28.05.26.56
+        bh=tgmCV2/fZulR8QPgdY8Ciezrt0cn4CHAQ+Jxlbp1+Z0=;
+        b=Q+LGsci8a02XEHW8SPbPEMRHmgVuvIQY2qz/o5Wujhn2TDMABclaxveykCph7eyx3m
+         J7KTcUwdTOwPq1N+BZjlLVP10uX+T+nP869D3eeG4w59K4CWuAEmWBJKlcFhMCmZMJt9
+         qaxzYr8bJnQh3i+k1dWTYetStISz2otautLh5Uu1rT0QTwZxk3k9NuAlFIlgRlOy24/R
+         lm8807FT8MoZvC842DrvftiFG6fFY7gjsYPop07XPA7S2YaAMDQk7na3F01U4yMOPOqp
+         ypwNUt9tyHc7an9irWdkI/SKBnjHCaufGdU0Ied58HqsfqbTHFUrr6erpAo4ftkVaS9g
+         jFDQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/+WCtoxq0hpvA4BudNwSRuvum/H/k97vViH80RPzKC6N/BmXQo47nmCCyjyZVEFLEZyUUogOJKNDU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrbYVmuQfnziakIkMOm24lqRwESB6PkZb98af4ba6aag1MvofJ
+	YtkHzSg94Q38RJph65NSdo8hXMV8yX0tbEBcdC+U9Mt4zSm95KUUzZNo
+X-Gm-Gg: AeBDievTqvcwYbouJP8wEfNgSwrQyupAoIldLudYfW+9KOigwfjfYpYZCCiTfpcZYgh
+	DGTBpNp3AmcWpIJHYe5cepOpy9Uo+i4WsEbHlbosaRrbRdNCrR30eRSZMlnM5osYZtjb7QbQ+Ba
+	RTwavmMZlOXlewA3AM8uS2HxaRXhSiMoX+S+jwxN022Hi+ryauAclgkH7W8KWRTkDmwzkpCoCey
+	bfJ9sDebwyfHWlsH71c2mldgtzZ7UpfZ5ev2OJflHrbqQ0ILuK1zfGPQ6HoEFtlg8uOKgJRrwjn
+	ZU9zMA4ZearB7ti6VOrIGxRbRUt+tcSa4iN9KUDRRvV3Fw9kdKoG4dGakcZ6y5yFG2kbqDcuNzM
+	RgBwcmZWyFe5kKsiOgaqAeP0QvScMkNYDOmzkpBqNItnhaHFwj2i2A9fOuUbQBl630Xigm+UbDP
+	1aYVPAHJ8vnsVqEFwEuoQ+vG0A7GeHS13X/xYNY97ut5aTVvqL88Sqt1xq7DfoMKMLPqrblxeCb
+	wiDBDJqYYqakusDHvB+mctUQbw=
+X-Received: by 2002:a05:600c:3b15:b0:489:1f04:96c3 with SMTP id 5b1f17b1804b1-48a77ae53famr53287405e9.2.1777380483914;
+        Tue, 28 Apr 2026 05:48:03 -0700 (PDT)
+Received: from ubuntu.nomadic.bris.ac.uk (eduroam-wireless-pat4.nomadic.bris.ac.uk. [137.222.229.4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a774d7be0sm28803655e9.5.2026.04.28.05.48.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 05:26:57 -0700 (PDT)
-From: Myro <mirademche@gmail.com>
-X-Google-Original-From: Myro <myro@myromyro.com>
+        Tue, 28 Apr 2026 05:48:03 -0700 (PDT)
+From: Ilai Levin <levinilai972@gmail.com>
 To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
+Cc: skhan@linuxfoundation.org,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org,
-	Myro <myro@myromyro.com>
-Subject: [PATCH] docs: proc: fix minor grammar and formatting issues
-Date: Tue, 28 Apr 2026 14:26:53 +0200
-Message-ID: <20260428122653.3550-1-myro@myromyro.com>
-X-Mailer: git-send-email 2.54.0
+	Ilai Levin <levinilai972@gmail.com>
+Subject: [PATCH] docs: driver-api: eisa: add SPDX license identifier
+Date: Tue, 28 Apr 2026 12:45:55 +0000
+Message-Id: <20260428124555.102039-1-levinilai972@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,38 +75,24 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Fix missing "from" in "prevent <pid> being reused" and
-add spacing in vm_area_struct range notation for readability.
+Add the missing SPDX-License-Identifier tag to the eisa.rst
+documentation file.
 
-No functional changes.
-
-Signed-off-by: Myro <myro@myromyro.com>
+Signed-off-by: Ilai Levin <levinilai972@gmail.com>
 ---
- Documentation/filesystems/proc.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ Documentation/driver-api/eisa.rst | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
-index 873761087f8d..d828006bd91c 100644
---- a/Documentation/filesystems/proc.rst
-+++ b/Documentation/filesystems/proc.rst
-@@ -118,7 +118,7 @@ PTRACE_MODE_ATTACH permissions; CAP_PERFMON capability does not grant access
- to /proc/PID/mem for other processes.
- 
- Note that an open file descriptor to /proc/<pid> or to any of its
--contained files or subdirectories does not prevent <pid> being reused
-+contained files or subdirectories does not prevent <pid> from being reused
- for some other process in the event that <pid> exits. Operations on
- open /proc/<pid> file descriptors corresponding to dead processes
- never act on any new process that the kernel may, through chance, have
-@@ -2199,7 +2199,7 @@ the process is maintaining.  Example output::
-      | lr-------- 1 root root 64 Jan 27 11:24 400000-41a000 -> /usr/bin/ls
- 
- The name of a link represents the virtual memory bounds of a mapping, i.e.
--vm_area_struct::vm_start-vm_area_struct::vm_end.
-+vm_area_struct::vm_start - vm_area_struct::vm_end.
- 
- The main purpose of the map_files is to retrieve a set of memory mapped
- files in a fast way instead of parsing /proc/<pid>/maps or
+diff --git a/Documentation/driver-api/eisa.rst b/Documentation/driver-api/eisa.rst
+index 3563e5f7e..e98b21b60 100644
+--- a/Documentation/driver-api/eisa.rst
++++ b/Documentation/driver-api/eisa.rst
+@@ -1,3 +1,5 @@
++.. SPDX-License-Identifier: GPL-2.0
++
+ ================
+ EISA bus support
+ ================
 -- 
-2.54.0
+2.34.1
 
