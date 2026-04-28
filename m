@@ -1,80 +1,176 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C63DA265621;
-	Tue, 28 Apr 2026 18:45:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777401917; cv=none; b=XkBSZtgQp+8ZoGSNTVcmYjTY4uAhA6I2y4vDmJBQggsArNna4E6Nts8jslHwN0RqeWlyyMyl5Db4EgpkQtW5qA7juJBi5K1GUFv4cCennII+mvlkbZ18fHHMhMX4vwPzt6SdjYJR9TZjfQhbVSEMMDCDU4XFMeVwtguElPFrx8E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777401917; c=relaxed/simple;
-	bh=q2KQojMX6ggbQIQ/rMVU3akN2PquJ72DrFvJJo2UzTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tx9Mf19rIZe+EvKZGDnDrWXFusdOVIkx8GkkdTsTPoP2hsEsuih8fSWt6/KxjNrpIxbzRCZ2qfwLJ4I6eecfDDe/gQAGlON0E8jKpxdAldqLvvxZ3vMjuBgVXUCdTlFIHoEWKzUCr4wNMKPlf0llHx4tg8CZ+SAacNwjlB7rt5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pPnhbRU4; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1F47AF6E
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 18:46:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777402015; cv=pass; b=A9tmywO42qVLU9UKFtRv+0a8RoRDk/eHo61H2NF5TbqntiMI2gwYS05C+Z9wiHpK954LZYorMv5EIOAUQD1aD76I2pC5qnWASQtW5f96PSAin7v0yplhlAIUYSLav0Q4AB/jLG6c+a13O5FTq4taiPgUJFLHBcxY8XDkH9Kvi5g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777402015; c=relaxed/simple;
+	bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ptsCEjZLjWR2oaidwhXYu2B3pKPc1OXRd7XjK4TQvzS4vu6M1NPkyhdzx/36Gvvuf2nANV1vw/g1sLvYb7E3bkVXStDPjZMNSNKy1DXCqcaAiYiMiGQd0aJlSNLB4iheIZTLnUwoDxX63xHlqDspg7Q4WiQeyqFAdbA+8lOQGuM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ifd83xBd; arc=pass smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pPnhbRU4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F5D2C2BCAF;
-	Tue, 28 Apr 2026 18:45:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777401917;
-	bh=q2KQojMX6ggbQIQ/rMVU3akN2PquJ72DrFvJJo2UzTE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pPnhbRU49tItnlMby984osH8D8n0JyIL/TLAbzmMhcfbA3ntRKQIw+aiL+FysPlnG
-	 rTGdZtAWR0yXLTvJ418y/a/eqbkt8Viui9uWvcHbJq/AiUAUHQPb+twuoBh2NzcO7Z
-	 eyE2mKdsZYsOdXNCogGtZD8RmGg2Q7e96595AUYgtb6rK2sowma+wltt3EKVbfZ237
-	 GUlo9EJMqgn+5MOrqrQO3EozHKCLqtrGNOp204GPN5z9kOdYuEYw80ZddJNIZ9BC71
-	 jnbhNvsJ2ffCsomwt4+4+DZINAI2f0+kIGJrLSaS8U+exPDHadPxmb1H/RtGPhBD1g
-	 YHjx0Te7arbsw==
-Date: Tue, 28 Apr 2026 14:45:11 -0400
-From: Nathan Chancellor <nathan@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Julian Braha <julianbraha@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>, ljs@kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
-Message-ID: <20260428184511.GB3304253@ax162>
-References: <20260427174429.779474-1-julianbraha@gmail.com>
- <20260427174429.779474-3-julianbraha@gmail.com>
- <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
- <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com>
- <CANiq72mEgpe-UGMQ_YWb8SKsY96Oc0b4sQ_MKvhMDVkNC9WvQA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ifd83xBd"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-676d8582a13so13991096a12.0
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 11:46:53 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777402012; cv=none;
+        d=google.com; s=arc-20240605;
+        b=A6+XzJK664QWeunzZDyn4Dpa6mFv5zTf9fablvkOocJtZQwmq857iC1HkW25DU8AQW
+         9pzvC1B33FRzNqfGAgT3hhxjUXFOLWcIkdsVkRRNGN5cFHXVn7smtbTXzO+RM+3IXqri
+         fVIpLAYo1E9izWWyZ9lZvhIjBWsSsUkDT80SnXozKQJFFwMiG00YtnNtAeB/qlq7hUXe
+         L33314NtajlQspluGt4qaZgaYOnaX/6V/LHBDjycVoA7hzJjqam/6jojX1quW3I968dX
+         Pb8FM2DUz1viVUWgC0V2fRE5vpQ8ysj0nekiu2wLjmWEdjdxT7OCEWtk5PpJOk2VFAU+
+         97Eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
+        fh=ZZ7STFQOMFFT+eAZGlf1ulUAy/kuyrbbrzsw7/AHYA0=;
+        b=Moe5AaF4560CNg/xxGx7L6ISMqrR/q0ihF7AAhBwrn98MdoxQrCvLgec50pm3SXvTz
+         VM5IetDC6Zn4wbF/rpZW3sC6PDWT4F7LhOpmNjKi8S2R0aFGGA8HfhAkJJB/njL1vkSZ
+         TSjlUd4X2RLaSOQa1WzU7riotPgPZyZZHW9TQmN67fIumctrG/1GK6rm3FzsLesjbrWs
+         i1PiGkTytepWx5FLepXZRq+cOy74vRRoJn6PH8ZSuPlbh+GwrQfM1Y6+8P/BG2lJspmu
+         lnV7gl7KVe5ddwkggQjG5x5sVKrjDYKh6JuQx7V1olqj12TVKfkoooZfXr3Ze09PZOV5
+         Gk/g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777402012; x=1778006812; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
+        b=Ifd83xBd9a48T6zVcOCH/JADVnoDZqlx2S+0AZOWlIAKt1nLA1ZB9lMupz6AS2uAHO
+         SKbiml2TJZO4fnLBzpECnNjOydpHYwHIreTmEc9DjWUOnP/XWlEkXHAxolnIKBVGjgE5
+         QpSQ5XcWoUPEi0w0yCYXUDX0lyqtoVsiiMwD3wGyW1fQbnjLoI9TKIi0WgCib7wh02B8
+         L1OIbS6xWUfSv3oJRM1k0aJSLXuc54pLtKjb1qqUn+D9BoOjyx+mgo2R1hsM2awqFfzh
+         bQr6Ii/AXWLwp/fDAukV5mNiw0l019VhZrdM4MzDwJO4PJ0sMPqAjTprua2wM94N5+bo
+         MD6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777402012; x=1778006812;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
+        b=LSE27zJlnkWmMSuIm5Bso08VAB3q1tUGa2WHtb9nT5Id72zMZORNKurlWFpsUYb/Qe
+         J7q0xZx+DVkM5swGQZ9r0S7B4qSrcEz1Dcb+NjUw9rnSYKy1tM6jnGvLfYKR1XJx1rCh
+         MM2MmQrryvu1xReHm8p33HOdROhRrKhiucyeinVwpX5tMDdcsIsH+FP+fWYzRzdBrUiO
+         lYZAj9POvrH6d3Vp2AYLjmoAEHCMmy9K8IOB9QjYGsuwC/0uHuToqmuaCVGwl5gzM499
+         MyZy4RBoXHyRhO3v/vHOHYF0cjHC5tgnSup2wIsZtCmsonfGSX0v8KYtqlqsZ+QYGP2+
+         nwsQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9Uwb/wjkfrTCICQKcElAkMAskVG98XTa9FjuAl5y2AM3xrb5FkJn1PzBNh+LOqkS9rTz7ainem7o4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx0OZZGQ3oBeVU1sj2TSBn2567PePJmCxsVbbgMDsFt94ENpN6G
+	CvvoJtMpKStJVAhv+I8w6DRXSh0yPFc40Ut9ckipix/QyWhkELJOpTmP8YpCvg6IyUFPUo3przT
+	P1fooGZlTgZlagn6AFYBWaiSdPSUj+IQ=
+X-Gm-Gg: AeBDiesUXyonZUCOx1I0suVhY0okSriByTHrai2eMjnaEdrdJwB8onWiCCWjTg/XYzZ
+	vqRDxMOexNgouuxxEuZwPGH2+gj7Lz2rhV/2Ik0BIyddlqfYgWI8Meg+FIFsvz0ZMQWka79+3Gs
+	Yf2XdwD5bIHbAV6szbUmYiD7V6fL3deCFThFE6d4rxMvNarsYxxz52tXMJtNF+01CUexrXECc5u
+	QY83ECuHuOY2SIuIZ90R4USpHLt45SH3wNnZ/y1STXbRNtzHKkDD63SXm+w2q81WuyYFrJcfVYp
+	BtC2XWcrBazkN4spD+1KqbMwK3rP8REqHXF3Y8hVxJyFvoyFKHDdjmAJrjmVag==
+X-Received: by 2002:a05:6402:4544:b0:671:a18b:32b8 with SMTP id
+ 4fb4d7f45d1cf-67b1fce62e4mr516715a12.0.1777402012124; Tue, 28 Apr 2026
+ 11:46:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiq72mEgpe-UGMQ_YWb8SKsY96Oc0b4sQ_MKvhMDVkNC9WvQA@mail.gmail.com>
+References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
+ <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
+ <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
+ <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
+ <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
+ <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
+ <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
+ <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com>
+ <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com> <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
+In-Reply-To: <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Wed, 29 Apr 2026 02:46:15 +0800
+X-Gm-Features: AVHnY4KwMPQSKOHLniO-vRRmC7fG6-z8dUk1aqr3V42lrdSb0J0CfA2hErWWeCU
+Message-ID: <CAMgjq7BZpU5K1xHyFiqpsjeFe6CZUouGY_gOGMwbkM2Duq-vGg@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+To: Yosry Ahmed <yosry@kernel.org>
+Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
+	Byungchul Park <byungchul@sk.com>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
+	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
+	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
+	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
+	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
+	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
+	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 28, 2026 at 01:51:09PM +0200, Miguel Ojeda wrote:
-> Then I thought if the same would apply to `clap` etc., but then again,
-> we may want to write more tools like this in Rust in the future (we
-> already felt the pain in the past the pain of not having a e.g. JSON
-> parser), and whether we could have a more general solution for this,
-> including perhaps even a kernel.org registry (either as primary or
-> not) etc.
+On Tue, Apr 28, 2026 at 2:23=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
+e:
+>
+> On Fri, Apr 24, 2026 at 12:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com> w=
+rote:
+> >
+> > On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> =
+wrote
+> > > Why >16 bytes? Do we need anything extra other than the reverse
+> > > mapping? Also why do we need a double lookup?
+> >
+> > You will have to store at least the following info: memcg (2 bytes),
+> > shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
+> > bytes, since you have to address a full virtual swap space). And some
+> > type info is also needed. Part of them can be shrinked but still,
+> > scientifically, merging two layers into one is considered a kind of
+> > optimization.
+> >
+> > You need lookup the virtual layer, then the lower layer for many
+> > decision making, is was discussed before to introduce more cache bit
+> > or things like that and I think that is getting over complex, reminds
+> > me of the slot cache or HAS_CACHE thing...:
+> > https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8fc=
+yzVOKE14-O+Dw@mail.gmail.com/
+>
+> I think that's where the disconnect is. You are considering these two
+> separate layers, each with its own metadata. The metadata should only
+> live in one place.
+>
+> If we only have swap tables in the virtual swap layer (with the
+> metadata), backends do not have to carry the metadata. In this case,
+> backends should only have a reverse mapping (if needed), and some
+> internal data structure (e.g. bitmaps) to track usage.
 
-Yeah, I seem to recall a previous proposal for a host program that was
-written in Rust, I think it was the vdsocheck tool?
+Ah, you are right. This is currently an intermediate state, that
+problem might be gone if we unified everything.
 
-  https://lore.kernel.org/20250812-vdso-absolute-reloc-v4-11-61a8b615e5ec@linutronix.de/
+> This is difficult to achieve if the virtual swap layer is optional,
+> because then the metadata can live in different places. This is why I
 
-I agree with the sentiment that more host tools may want to be written
-in Rust. The Rust build in the kernel does not use cargo altogether, do
-we want the same restriction for host programs? Would these tools be
-able to share the Rust build rules so that we could have a simple
-hostprogs syntax for tools integrating with Kbuild to use? Obviously, it
-might be harder for some programs not to use some of the nice third
-party libraries available but it seems like it would eliminate the build
-system considerations from the discussion at that point.
+But that's not difficult to achieve at all with an optional layer, and
+actually will be achieved naturally without any design change with the
+RFC I posted. Swap count / cgroup / shadow all stay in the top layer,
+lower layer is "reverse map" only (the undone part though, it will
+require to move the cluster cache from global to device level, which
+is also required for YoungJun's tier or any functional tiering to
+work, we may run into more and more detail issue like this).
 
-Cheers,
-Nathan
+Might even be easier that way, it's pretty close to the unified states I th=
+ink.
