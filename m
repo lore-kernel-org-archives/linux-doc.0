@@ -1,178 +1,334 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D1CF33B6CB
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 17:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4772D1F91E3
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 17:24:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777396484; cv=none; b=Qz4oWZ8/7NJkPhHV+6Pt9G2ovubU0AQxQNFp4PCIidy9oRwajR6rlaxhvHvvhCcXmcWivESWl8WMre90tYZR0Usprd8eC/vGEhYzgtRnEya1Y9PCfLeGEMRPFsXnR6M1S47mOYOOr5gPAgssjoDxIFtSlnCbMDtYoT2MvRPzMtc=
+	t=1777397100; cv=none; b=uOkLOp+H6F3xGy5br/oIfSzEnUiROqR3Snd9vs2Gi5SMc7ygfXFiXK6Ne9/olWPQTmwwAEyrsyGkgHSgLvjC+36l93MZ/eeGMC11uJa+UxbhM47aWPCGnHcNx1t5Uqy3PZ722QmTDdn8Q/zbzwhqDBSfliS3JkExG6wVD0ELLd8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777396484; c=relaxed/simple;
-	bh=LtvzAMKP8P4C7eT31W1TOmw6wHT+t3l0z1jVhu757RM=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=dQcH5QZlHs1Utj23N3uj23Vx1ELRpDvCQxq6KH2xmitwOhEsNj/nIK0rGAORYfdGG5/FAePsI8F0NSky1TmyFojRgf3lTewmZvknteMHSfrcVm/ZV64MdamW6exjcMOVH1fu0QEAg29YkK5g6fDkaqJLBhcOR4BrLRQLC7EdeZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mol89KD+; arc=none smtp.client-ip=209.85.210.202
+	s=arc-20240116; t=1777397100; c=relaxed/simple;
+	bh=exLRwTo+54W3A66dnpUJq+YzGvJxDAtlrClsBtQ/wMY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RJv7U8+WTUIIsfDueWfd+axgl0hFQN47/mFg8ZviwKqdbT2mNXe0xilOzfJWmBSN4WZtdNGyy5EThlOOx7b/fwu/BTZ135njEjCEQ5Daka2oEe+Ote/kaq/6elYq9GCtCEZJ+SrdhudisBvnLk6OVMa0FrM9wLnZupyyUsIYvcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=EiNFXs4m; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mol89KD+"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-82fbceb0181so6880589b3a.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 10:14:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EiNFXs4m"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2b46da8c48eso117325ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 10:24:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777396482; x=1778001282; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=1FTL1KInrBgDPjS8ez4nCUhnLyZ0q2rWH/o4QlF78bg=;
-        b=mol89KD+Qdfiw4ILw1PKeUdWyirWJNB1l0pJyOqU02iVBLQB4dSCgdoH3+BzVtvL/L
-         UT35+LTdMC5gE9T0Qmjv9BNgnybso1uqKuXfLeWpKSTLFN4V441lq5BXPRoY+wCKwThk
-         K6OxRQ6b5PtholQzhwePVJxucHxgfQ3dUuDKMsY+6Y35ktOzP5E9fltYLRrLWPmimVeu
-         l4ayHXQ+MU2kGJ7f9Egv84ZmjzBgTWaowebrvt7NyeZQRbVVXNKmH68TXV04m2dO5qiH
-         ijaI0sCJep0Icm0VSYo1a1QXEH9Jq5kSkdWVXAvnZTpZAKcGksGW4Pgb/arOIHMuX4jX
-         Z+bg==
+        d=google.com; s=20251104; t=1777397099; x=1778001899; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3rrqnMSkJK7r/cDlRpksXyGq7DpXCCWEbuMA7lgNfeg=;
+        b=EiNFXs4mMv/ICvlxdPMxq9IUVnonABUioUTpnGgIetKCyFPF3hleSEplN61VSTNS0s
+         2H0SR7pmRH49cr/h7xx+gRaKgJubCX40jB+YNPwJ1P7Jpf1bW6s9ZENotAT/bAk4B00h
+         RihmKffoBzBmQIzYzfbKA6IJjrBBFxA0RpIEz3LFNpSCMcyMX8Sox4T8vkwr6QfRtM7g
+         dl3fshctDcZUEXWiQ6hGyoDKR9B6bsFj2BXTThRFdFT60rISMZut3yZ1rAgx9mtSrxiv
+         XWZvl7FZAsMAA+YQlfYINfMV+UEuKd4urizbtABTD10yAldMY5SUwVS5GShhsdxLKXmB
+         GqUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777396482; x=1778001282;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1FTL1KInrBgDPjS8ez4nCUhnLyZ0q2rWH/o4QlF78bg=;
-        b=LV9qHclC8O2wBaElbnI0ph46QCLs0jEC9QJ9qSUiPdGsRquAd424eZuU5vOQQbADa/
-         JrELjTz+3s+n7XQNlDcG3/WfgSByn4uRDLq/inBQv09zBGQ+Yam32m7CNbmfduWCWIAT
-         XHNpeLNUYp+0NPW02hT54GGFlAZKtRctZjFAXW+Ybwl1rNhO5xRXnPcxLmRdD+3foGCB
-         l2d2b4u6ROzw8KCqz7jN25GFfBmXoV65YBY/VndLFTWYGQM/CAMyHP8yXtInXbCwIl24
-         g2kxd/Qu4oIWgYCcmuQwWQwj0uaJfESblFBrYgEC50je9xILDiSE2X4tncN8o3jgcpWn
-         6L1A==
-X-Forwarded-Encrypted: i=1; AFNElJ/lcABcvhADA6O9d02qIVXDYlqCApo6h6oopBedr9rKPC+mb+tUodyJfKSbztNS9brz1394ikwXeBo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyxch5hKww5eDc8UmJtRQ+34cW2hJjIVRtniB3bcBGWIsCFjYwp
-	0Lh4sJK48B4WDcAVzYWlGWCNbskLiJ6MR6HJqvGE6mp0xP2mOB3qRXFC7+rhRADEeGF2eECQdRS
-	EdNmWgQ==
-X-Received: from pfbjs41.prod.google.com ([2002:a05:6a00:91a9:b0:82f:6c9a:6139])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:8a11:b0:834:e15a:19e4
- with SMTP id d2e1a72fcca58-834e15a2061mr2103778b3a.39.1777396482142; Tue, 28
- Apr 2026 10:14:42 -0700 (PDT)
-Date: Tue, 28 Apr 2026 10:14:40 -0700
-In-Reply-To: <afDnw8WYpr7TqEHS@tycho.pizza>
+        d=1e100.net; s=20251104; t=1777397099; x=1778001899;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3rrqnMSkJK7r/cDlRpksXyGq7DpXCCWEbuMA7lgNfeg=;
+        b=RxvFJg1FiCgKjvYiWinajE0TAN/yvewfiSVS1Gv8d1edgUOAGcKaQbv0zkZdgB6DPE
+         S1ai9fs3ayEUTZ6EqHVX9Wp3gm95VbjAZSmlikZWnBBmxlcNFhxiHPuLB0ZEsgEH4bvE
+         ih+Q+ZH1EbE081JLfgLjCM0m7EGfO1iaveUs1grsXF9/YGzcvNgujwVkFTAbR4HhnkZ2
+         G6Aeypa4LbjLGOVAnifmbfzClKo8Ml+9wXH/dwn1SrxH6p868uO1L60rM9BUzT6uuoe6
+         tG5AMTzvYmYyG/6l1fOhsSpr4MjbeN/TiQTTN4opO/H2OhpUcPMGqH9BH3Cukp9g4I5z
+         YZBg==
+X-Forwarded-Encrypted: i=1; AFNElJ91Cnc+CQEdtFM3jyKNxkGukkRJSukWnRD7WukoFBZtBY0GozcSyqIcRMYB9D6Ba57spm76UQAWj6E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxzztpkXJJTfDzi2eT6AyOmAsbHlFB1/3cLU34PazYGFTFvFIbi
+	qSjF5MW7dw6pTEFabe2oF17kcves4qLcgspBOccVtVQ6LOloesAjQJd8WfsrH6pShA==
+X-Gm-Gg: AeBDievp0QFhPfhYPEST/GyoBGNBgPYAHxMsge/Rt+GpJe1nwOJidwWfbbyrAJ+R20B
+	RZnW97A3wx1Prvru/yj2sFWnpN2xgR+BsO9/pxhozXRC9FwAQ0ArHUUV4nuMNZ1D3k2JgWso6BM
+	Q9s+mtDmJqVvNzQJlW+GgoyxEB2fh4IvbdPhHiP+D9iBYxXUYOXnzky/x8PCck3abxIIl00TdZg
+	+Mh5VqAYxFxDFJWrJNJfTOa3sH4Gp4I9FYHmpmSCynCFpHhkcLG14QnDc5a86ePPvfsCaZysBwr
+	4dj0NtngbVaSRzZUiVn2i6FtycTiReMhLc87ZZS/QQQWgRE1Ynkvqk04RGWj11vISmM3DPcnqc/
+	jiqauIUGtpWsRGebK2vSXRgPgu7CH1k4KfdtpK4LktdnRa+YlsThDJdg8cogD/JrtggOwgemoj+
+	0KOwkRYRNivgX+fn2DE6ekDLnu4E7Jatsv+LZPZ+IszvUlxcMzBWpUDGRDZQA6X2tWu+5jmZuYs
+	0m/F07vIJs=
+X-Received: by 2002:a17:903:380e:b0:2ae:80a3:98a9 with SMTP id d9443c01a7336-2b987f6d05dmr24355ad.11.1777397097903;
+        Tue, 28 Apr 2026 10:24:57 -0700 (PDT)
+Received: from google.com (195.236.83.34.bc.googleusercontent.com. [34.83.236.195])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b97aca8369sm31190845ad.75.2026.04.28.10.24.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 10:24:57 -0700 (PDT)
+Date: Tue, 28 Apr 2026 17:24:53 +0000
+From: Samiullah Khawaja <skhawaja@google.com>
+To: David Matlack <dmatlack@google.com>
+Cc: iommu@lists.linux.dev, kexec@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
+	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
+	Pratyush Yadav <pratyush@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v4 02/11] PCI: liveupdate: Track outgoing preserved PCI
+ devices
+Message-ID: <afDqs6oqWlhoVqMN@google.com>
+References: <20260423212316.3431746-1-dmatlack@google.com>
+ <20260423212316.3431746-3-dmatlack@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260427204847.112899-1-tycho@kernel.org> <20260427204847.112899-4-tycho@kernel.org>
- <ae_TCofu4bHP_Ch-@google.com> <afDJZQHNi-qdcEEe@tycho.pizza>
- <afDYCpbeT0HsXTMF@google.com> <20f94bed-2843-44ab-877c-3e68bd4314f8@amd.com>
- <afDkcpcQ5vPsjQkO@google.com> <afDnw8WYpr7TqEHS@tycho.pizza>
-Message-ID: <afDrAJPmCIm1HT8l@google.com>
-Subject: Re: [PATCH v2 3/4] KVM: SEV: Add the kvm-amd.rapl_disable module parameter
-From: Sean Christopherson <seanjc@google.com>
-To: Tycho Andersen <tycho@kernel.org>
-Cc: Tom Lendacky <thomas.lendacky@amd.com>, Ashish Kalra <ashish.kalra@amd.com>, 
-	John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, linux-crypto@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Kim Phillips <kim.phillips@amd.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20260423212316.3431746-3-dmatlack@google.com>
 
-On Tue, Apr 28, 2026, Tycho Andersen wrote:
-> On Tue, Apr 28, 2026 at 09:46:42AM -0700, Sean Christopherson wrote:
-> > On Tue, Apr 28, 2026, Tom Lendacky wrote:
-> > > On 4/28/26 10:53, Sean Christopherson wrote:
-> > > > On Tue, Apr 28, 2026, Tycho Andersen wrote:
-> > > >> On Mon, Apr 27, 2026 at 02:20:10PM -0700, Sean Christopherson wrote:
-> > > >>> I'm pretty sure I said this earlier: KVM absolutely should not be able to disable
-> > > >>> RAPL for the entire system.  That needs to be a power management thing.
-> > > >>
-> > > >> You definitely noted "not CCP", I don't think I quite understood what
-> > > >> that meant though:
-> > > >> https://lore.kernel.org/all/aZ86BZWi-GLiHvmt@tycho.pizza/
-> > > >>
-> > > >> I'm a little worried that putting it in power management will generate
-> > > >> some weird dependencies, or weakref symbols that can't change things
-> > > >> if they are loaded independently of kvm_amd or something. But let me
-> > > >> see what I can come up with.
-> > > > 
-> > > > Ugh, and it's not even powerman per se, it's actually a module in perf.  Oof.
-> > > > 
-> > > > I 100% agree it'll be tricky, but I also stand by comments that neither the CCP
-> > > > driver or KVM should be allowed to silently pull the rug out from under the RAPL
-> > > > module.
-> > > 
-> > > Maybe something that can be added to the current sev= kernel command line
-> > > parameter, e.g. sev=norapl, or such?
-> > 
-> > Yeah.  The only question I have is if we expect end users to want to disable RAPL
-> > at runtime.  If so, then we probably want a sysfs knob or something.
-> > 
-> > However, letting RAPL be toggled on/off will introduce some amount of complexity,
-> > as the kernel would need to negotiate/coordinate with the RAPL perf module and
-> > with the CPP driver to ensure RAPL stays in the "correct" state.  E.g. if the
-> > perf module is loaded, then RAPL is effectively pinned "on".  And if SNP has been
-> > initialized with RAPL_DIS, then RAPL is effectively pinned "off".  Blech.
-> > 
-> > > Maybe even with a kernel config option for a default value?
-> > 
-> > Probably overkill?
-> > 
-> > > On SNP_SHUTDOWN it will be re-enabled if it was disabled.
-> > 
-> > Stating the obvious, if we do this, we open the can of worms I described above.
-> 
-> Unfortunately that's how the firmware works and since we do a shutdown
-> on module unload, if you have ccp=m this is the behavior.
+On Thu, Apr 23, 2026 at 09:23:06PM +0000, David Matlack wrote:
+>Add APIs to allow drivers to notify the PCI core of which devices are
+>being preserved across a Live Update for the next kernel, i.e.
+>"outgoing" devices.
+>
+>Drivers must notify the PCI core when devices are preserved so that the
+>PCI core can update its FLB data (struct pci_ser) and track the list of
+>outgoing devices. pci_liveupdate_preserve() notifies the PCI core that a
+>device must be preserved across Live Update. pci_liveupdate_unpreserve()
+>reverses this (cancels the preservation of the device).
+>
+>This tracking ensures the PCI core is fully aware of which devices may
+>need special handling during shutdown and kexec, and so that it can be
+>handed off to the next kernel.
+>
+>Signed-off-by: David Matlack <dmatlack@google.com>
+>---
+> drivers/pci/liveupdate.c    | 101 ++++++++++++++++++++++++++++++++++++
+> include/linux/kho/abi/pci.h |   7 +--
+> include/linux/pci.h         |  26 ++++++++++
+> 3 files changed, 131 insertions(+), 3 deletions(-)
+>
+>diff --git a/drivers/pci/liveupdate.c b/drivers/pci/liveupdate.c
+>index d4fa61625d56..2dd8daa2f17c 100644
+>--- a/drivers/pci/liveupdate.c
+>+++ b/drivers/pci/liveupdate.c
+>@@ -43,6 +43,26 @@
+>  *
+>  *  * ``pci_liveupdate_register_flb(driver_file_handler)``
+>  *  * ``pci_liveupdate_unregister_flb(driver_file_handler)``
+>+ *
+>+ * Device Tracking
+>+ * ===============
+>+ *
+>+ * Drivers must notify the PCI core when specific devices are preserved or
+>+ * unpreserved with the following APIs:
+>+ *
+>+ *  * ``pci_liveupdate_preserve(pci_dev)``
+>+ *  * ``pci_liveupdate_unpreserve(pci_dev)``
+>+ *
+>+ * This allows the PCI core to keep it's FLB data (struct pci_ser) up to date
+>+ * with the list of **outgoing** preserved devices for the next kernel.
+>+ *
+>+ * Restrictions
+>+ * ============
+>+ *
+>+ * The PCI core enforces the following restrictions on which devices can be
+>+ * preserved. These may be relaxed in the future:
+>+ *
+>+ *  * The device cannot be a Virtual Function (VF).
+>  */
+>
+> #define pr_fmt(fmt) "PCI: liveupdate: " fmt
+>@@ -57,6 +77,8 @@
+> #include <linux/pci.h>
+> #include <linux/sort.h>
+>
+>+static DEFINE_MUTEX(pci_flb_outgoing_lock);
+>+
+> static int pci_flb_preserve(struct liveupdate_flb_op_args *args)
+> {
+> 	struct pci_dev *dev = NULL;
+>@@ -124,6 +146,85 @@ static struct liveupdate_flb pci_liveupdate_flb = {
+> 	.compatible = PCI_LUO_FLB_COMPATIBLE,
+> };
+>
+>+int pci_liveupdate_preserve(struct pci_dev *dev)
+>+{
+>+	struct pci_ser *ser;
+>+	int i, ret;
+>+
+>+	guard(mutex)(&pci_flb_outgoing_lock);
+>+
+>+	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+>+	if (ret)
+>+		return ret;
+>+
+>+	if (!ser)
+>+		return -ENOENT;
+>+
+>+	if (dev->is_virtfn)
+>+		return -EINVAL;
+>+
+>+	if (dev->liveupdate_outgoing)
+>+		return -EBUSY;
+>+
+>+	if (ser->nr_devices == ser->max_nr_devices)
+>+		return -ENOSPC;
+>+
+>+	for (i = 0; i < ser->max_nr_devices; i++) {
+>+		/*
+>+		 * Start searching at index ser->nr_devices. This should result
+>+		 * in a constant time search under expected conditions (devices
+>+		 * are not getting unpreserved).
+>+		 */
+>+		int index = (ser->nr_devices + i) % ser->max_nr_devices;
+>+		struct pci_dev_ser *dev_ser = &ser->devices[index];
 
-Right, but that's just at the hardware level.  The kernel can still leave RAPL
-"disabled" at a software level, i.e. can still disallow loading the RAPL perf
-module.
+nit: Maybe we can move this logic in a separate function as down the road
+when we expand this to add VFs and Hotpluggable devices, this might
+change significantly? It's good if it is self-contained.
+>+
+>+		if (dev_ser->refcount)
+>+			continue;
+>+
+>+		pci_info(dev, "Device will be preserved across next Live Update\n");
+>+		ser->nr_devices++;
+>+
+>+		dev_ser->domain = pci_domain_nr(dev->bus);
+>+		dev_ser->bdf = pci_dev_id(dev);
+>+		dev_ser->refcount = 1;
+>+
+>+		dev->liveupdate_outgoing = dev_ser;
+>+		return 0;
+>+	}
+>+
+>+	return -ENOSPC;
+>+}
+>+EXPORT_SYMBOL_GPL(pci_liveupdate_preserve);
+>+
+>+void pci_liveupdate_unpreserve(struct pci_dev *dev)
+>+{
+>+	struct pci_dev_ser *dev_ser;
+>+	struct pci_ser *ser = NULL;
+>+	int ret;
+>+
+>+	guard(mutex)(&pci_flb_outgoing_lock);
+>+
+>+	ret = liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **)&ser);
+>+
+>+	if (ret || !ser) {
+>+		pci_warn(dev, "Cannot unpreserve device without outgoing Live Update state\n");
+>+		return;
+>+
+>+	}
+>+
+>+	dev_ser = dev->liveupdate_outgoing;
+>+	if (!dev_ser) {
+>+		pci_warn(dev, "Cannot unpreserve device that is not preserved\n");
+>+		return;
+>+	}
+>+
+>+	pci_info(dev, "Device will no longer be preserved across next Live Update\n");
+>+	ser->nr_devices--;
+>+	memset(dev_ser, 0, sizeof(*dev_ser));
+>+	dev->liveupdate_outgoing = NULL;
+>+}
+>+EXPORT_SYMBOL_GPL(pci_liveupdate_unpreserve);
+>+
+> int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
+> {
+> 	pr_debug("Registering file handler \"%s\"\n", fh->compatible);
+>diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
+>index 5c0e92588c00..5b4c8d9e462c 100644
+>--- a/include/linux/kho/abi/pci.h
+>+++ b/include/linux/kho/abi/pci.h
+>@@ -23,19 +23,20 @@
+>  * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE string.
+>  */
+>
+>-#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
+>+#define PCI_LUO_FLB_COMPATIBLE "pci-v2"
+>
+> /**
+>  * struct pci_dev_ser - Serialized state about a single PCI device.
+>  *
+>  * @domain: The device's PCI domain number (segment).
+>  * @bdf: The device's PCI bus, device, and function number.
+>- * @reserved: Reserved (to naturally align struct pci_dev_ser).
+>+ * @refcount: Reference count used by the PCI core to keep track of whether it
+>+ *            is done using a device's struct pci_dev_ser.
+>  */
+> struct pci_dev_ser {
+> 	u32 domain;
+> 	u16 bdf;
+>-	u16 reserved;
+>+	u16 refcount;
+> } __packed;
+>
+> /**
+>diff --git a/include/linux/pci.h b/include/linux/pci.h
+>index d70080babd52..eb94cbd8ab9d 100644
+>--- a/include/linux/pci.h
+>+++ b/include/linux/pci.h
+>@@ -41,6 +41,7 @@
+> #include <linux/msi_api.h>
+> #include <uapi/linux/pci.h>
+> #include <linux/liveupdate.h>
+>+#include <linux/kho/abi/pci.h>
+>
+> #include <linux/pci_ids.h>
+>
+>@@ -594,6 +595,9 @@ struct pci_dev {
+> 	u8		tph_mode;	/* TPH mode */
+> 	u8		tph_req_type;	/* TPH requester type */
+> #endif
+>+#ifdef CONFIG_PCI_LIVEUPDATE
+>+	struct pci_dev_ser *liveupdate_outgoing; /* State preserved for next kernel */
+>+#endif
+> };
+>
+> static inline struct pci_dev *pci_physfn(struct pci_dev *dev)
+>@@ -2880,6 +2884,14 @@ void pci_uevent_ers(struct pci_dev *pdev, enum  pci_ers_result err_type);
+> #ifdef CONFIG_PCI_LIVEUPDATE
+> int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh);
+> void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh);
+>+
+>+int pci_liveupdate_preserve(struct pci_dev *dev);
+>+void pci_liveupdate_unpreserve(struct pci_dev *dev);
+>+
+>+static inline struct pci_dev_ser *pci_liveupdate_outgoing(struct pci_dev *dev)
+>+{
+>+	return dev->liveupdate_outgoing;
+>+}
 
-> Maybe it makes sense to go the other way: have perf look for a ccp
-> symbol that's loaded that says whether RAPL is usable or not, and
-> refuse to allow access to the counters if it is?
-
-Yeah, this is what I suggesting.  Or rather, trying to suggest :-)
-
-> But it looks like there are several UAPIs for this (perf, /dev/amd-hsmp-*,
-> sysfs), so it's not just one place, which is also ugly.
-> 
-> > > >>> KVM then needs to communicate (and enforce?) the policy to
-> > > >>> userspace.
-> > > >>
-> > > >> KVM doesn't need to enforce anything, the SEV firmware will generate a
-> > > >> launch error for policy violation if it's not supported.
-> > > >>
-> > > >> For communicating to userspace if it's not a kvm module parameter, one
-> > > >> option is to mask it off in sev_get_snp_supported_policy() if it was
-> > > 
-> > > Did you mean sev_get_snp_policy_bits() or were you referring to the KVM
-> > > ioctl() for retrieving them?
-> 
-> I was thinking of the ioctl() for retrieving them, but doing the
-> masking in sev_get_snp_policy_bits() since it would be able to
-> remember whether RAPL_DIS was set or not. Of course I merged the two
-> in my head when typing the sentence :)
-> 
-> > > >> initialized without the support. Then it'll be visible via
-> > > >> KVM_X86_SNP_POLICY_BITS.
-> > > > 
-> > > > Ya, this is what I was envisioning.
-> > > 
-> > > It's still a valid policy bit (if supported by the platform), so I don't
-> > > think masking it off is appropriate.
-> > 
-> > But it's not fully supported, no?  I.e. won't the VM fail if it requests RAPL_DIS?
-> > 
-> > Ooh, presumably the subtle difference is that on a platform without RAPL_DIS at
-> > all, the VM will successfully launch and thus could run with RAPL enabled even
-> > if the VM requested RAPL_DIS?
-> 
-> I haven't tested this, but I would hope what you describe an error. I
-> think Tom means it's supported by the architecture, it just needs to
-> be enabled via reconfiguration.
-> 
-> Tycho
+Is this expected to be called under the outgoing lock?
+> #else
+> static inline int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh)
+> {
+>@@ -2889,6 +2901,20 @@ static inline int pci_liveupdate_register_flb(struct liveupdate_file_handler *fh
+> static inline void pci_liveupdate_unregister_flb(struct liveupdate_file_handler *fh)
+> {
+> }
+>+
+>+static inline int pci_liveupdate_preserve(struct pci_dev *dev)
+>+{
+>+	return -EOPNOTSUPP;
+>+}
+>+
+>+static inline void pci_liveupdate_unpreserve(struct pci_dev *dev)
+>+{
+>+}
+>+
+>+static inline struct pci_dev_ser *pci_liveupdate_outgoing(struct pci_dev *dev)
+>+{
+>+	return NULL;
+>+}
+> #endif
+>
+> #endif /* LINUX_PCI_H */
+>-- 
+>2.54.0.rc2.544.gc7ae2d5bb8-goog
+>
