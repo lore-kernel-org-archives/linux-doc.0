@@ -1,308 +1,419 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3318A37B025;
-	Tue, 28 Apr 2026 19:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777403423; cv=fail; b=UjAgtTFGZGP4RENWBXCOxIknylYmAkPbllqOrbtrB3cAphE2uHwAboa/vER2evYXp4D3p4z4yQPVc571W3JxHecPccByee66A3W7Nlg6Q5x+115xTLgoOCcndihK1HYfiGuQ9PlXfRT5c8+Y4+gdzeUobWNgx4n8alfhTyPjTVg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777403423; c=relaxed/simple;
-	bh=sTqFkM+j+3b96cCHkzfjSKzhrzzAAG+4sf6xYClKqTs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=XZgHornfAWFaa/IWBiP1VtmAUkZHFvKwVhTVSp7OvO0OEGqW0/x9NQEBPzOfCsJFgttAzoYmgjeMasEaidCubhdEEPsnjtagZAPg71h1Fq3bSqFPSTynN+SOFWZDnjSdBB1djd8m9kZeBnmZW+yOByoX5n6kPGKgctZjNe5x0+Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBKcfy55; arc=fail smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD496441041;
+	Tue, 28 Apr 2026 19:12:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777403581; cv=none; b=fsqdnJYxqE5UPRC80hxHX9BQ038xeauW+L1Ck6qAKrgSkI15NkFVmrgiJKtOE3yNEQE10qxm5s0gMQuYhUX4C+VdIk1r5HM2doLAY7fp3+jmbJXdxt2DzTqz8xkUMbaLUqi2pYrPSjw3NBfxI5VNwpdvE1Phn08xJG8cBgz575Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777403581; c=relaxed/simple;
+	bh=LW20oK5gep1O4hCoBzhzlxKkVMKP6dTyYEq1aE0qMrY=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=Nvg0Ni4x8QD/IMS0TAwZVL3PgZtmOPKsP/Bt0Ti3asf5lPwbmEuXibO6/OfLuDAn+y5tph8FPSuDaL8pBhjdZXyW5XWg7E7ipyBV9+RQT3GlpohuWdqW84sVHuheDtRb7k9k0SVj0pi4wZyrqbg2A5EYNXShJ9XJSuCey9HUuPg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=desiato.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=QzCop7WT; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=desiato.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBKcfy55"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777403421; x=1808939421;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=sTqFkM+j+3b96cCHkzfjSKzhrzzAAG+4sf6xYClKqTs=;
-  b=PBKcfy55F9l7PyjkUfsHI1hs4CdLcrxiTrYsOajAsUc+/eBNLturHYFR
-   fp45sSBvQzxthyRS+DZCFxtiLlmcB8myGjAMMkml+QTIb8H6Vl8xtqW24
-   BC1VTkLE/8FE0mfGCzbP6i3LsopkYAoRL4laMG+F/kDPxd5PfOMWFjZgk
-   WNu+TBOCRSm8xa9zOJ18X6XM7AXCfMKcwAGcl0or0hYywx8ElzR5q1MKS
-   lLGvyrz28QRHGb/qhTHdPJA8p7arPbanwOzq0lfOJYfGCycpjiWs6InHk
-   PsisxYRJp7vdcw5d3jW0StWK7bE72Mllb8y3iAzlD6yhmrT+A98HSuTnx
-   g==;
-X-CSE-ConnectionGUID: 3r4kI1ofTbyk3Lho071Q1A==
-X-CSE-MsgGUID: HMSAX/aQS3uRKYRtQmnHjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11770"; a="89021594"
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="89021594"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 12:10:20 -0700
-X-CSE-ConnectionGUID: A2LmArwbQgGft7VWl49esw==
-X-CSE-MsgGUID: BX4EnaEFS7WEVhT/X7cG5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,204,1770624000"; 
-   d="scan'208";a="238371478"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 12:10:19 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 12:10:16 -0700
-Received: from fmsedg902.ED.cps.intel.com (10.1.192.144) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 12:10:16 -0700
-Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.38) by
- edgegateway.intel.com (192.55.55.82) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Tue, 28 Apr 2026 12:10:14 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JBy7nf+evwCBykyfQUI6CHw5Z6h7v+qJCiGfraesyiPUxIi4Ws8VpwgLy/258Ke0hf9C4l9qOOBPYvwoafK6vowOnBq+N3gMEb/i23hLXLHnatfuF4+5w3iBdtxjYTgdExotqouCVi7fxkp2nQfoD8F5h8ri/Q3tmY0kwDt+iKFpY1Zyfwt8GmyNv/+ctn0XMVHGe2pqllXuy6q2wxXXdkNymaMNQC+YYKLYNifM5iZqhcl9zDdBFgHWNmB0sMPbDf2Jf2TzffLpaBlQZabhBjv+pwzOL1GnsJ39HQTEQAZ12sIx08BkbV/EJWbktfaQPgjBF7zMgl88xbnJlfe0uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qIiLSW9noGfFyeNs0/B/0Zru38ND6TEUw9eq7Xs0AXw=;
- b=TKStggyURxj1kDAXBoTqdbVEOqwNiZ3KsTt68lacF2czKzNDeVkGCAC22L81zhbFxuuOIrHTwRUJRqKWV++DQMkT1IpRZ/utpEq+kXaHo4C23OTulBYBzIyEazPw3rAZAa9W7HoC46yfVYIK+BMzzbIYXib5OmrTfw5SPoaL35Ct6ufHqbYAlxpx+av3oeiJ3Iyr0E7jXXEWMQRmgyQlcrgUyZQ+Pkw38QiknIx437zOG0Dp/CUfQ93UdHtcBcHqjsP/s4gg+8oy2PU/lTzWSoqFVPK2o50P1ke4C7yeG55Aa+aLkHWbUU0DuhqUtaEyBBwWY7vXJ7SUDbgJ9EODGg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c) by LV3PR11MB8601.namprd11.prod.outlook.com
- (2603:10b6:408:1b8::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.17; Tue, 28 Apr
- 2026 19:10:04 +0000
-Received: from PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::9618:33dd:29ce:41d1]) by PH3PPF9E162731D.namprd11.prod.outlook.com
- ([fe80::9618:33dd:29ce:41d1%6]) with mapi id 15.20.9818.017; Tue, 28 Apr 2026
- 19:10:04 +0000
-Date: Tue, 28 Apr 2026 14:14:05 -0500
-From: Ira Weiny <ira.weiny@intel.com>
-To: Alison Schofield <alison.schofield@intel.com>, John Groves
-	<John@groves.net>
-CC: John Groves <john@jagalactic.com>, Miklos Szeredi <miklos@szeredi.hu>,
-	"Dan Williams" <dan.j.williams@intel.com>, Bernd Schubert
-	<bschubert@ddn.com>, "John Groves" <jgroves@micron.com>, John Groves
-	<jgroves@fastmail.com>, "Jonathan Corbet" <corbet@lwn.net>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox
-	<willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, David Hildenbrand <david@kernel.org>, Christian
- Brauner <brauner@kernel.org>, "Darrick J . Wong" <djwong@kernel.org>, Randy
- Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, Amir
- Goldstein <amir73il@gmail.com>, Jonathan Cameron
-	<Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, "Joanne
- Koong" <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, "Bagas
- Sanjaya" <bagasdotme@gmail.com>, James Morse <james.morse@arm.com>, Fuad
- Tabba <tabba@google.com>, Sean Christopherson <seanjc@google.com>, Shivank
- Garg <shivankg@amd.com>, Ackerley Tng <ackerleytng@google.com>, Gregory Price
-	<gourry@gourry.net>, Aravind Ramesh <arramesh@micron.com>, Ajay Joshi
-	<ajayjoshi@micron.com>, "venkataravis@micron.com" <venkataravis@micron.com>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
-	"linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
-	"linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
-Subject: Re: [PATCH V4 1/2] daxctl: Add support for famfs mode
-Message-ID: <69f106fd55840_12d928100ca@iweiny-mobl.notmuch>
-References: <0100019bd34040d9-0b6e9e4c-ecd4-464d-ab9d-88a251215442-000000@email.amazonses.com>
- <20260118223629.92852-1-john@jagalactic.com>
- <0100019bd340cdd5-89036a70-3ef5-4c34-abf8-07a3ea4d9f92-000000@email.amazonses.com>
- <aaD6yQLiyZznfAxr@aschofie-mobl2.lan>
- <ae6e9wYqgLkWsS-e@groves.net>
- <afA51WpcRyIMVukX@aschofie-mobl2.lan>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <afA51WpcRyIMVukX@aschofie-mobl2.lan>
-X-ClientProxiedBy: MW4P220CA0006.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:303:115::11) To PH3PPF9E162731D.namprd11.prod.outlook.com
- (2603:10b6:518:1::d3c)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="QzCop7WT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=MIME-Version:Content-Type:Date:To:From
+	:Subject:Message-ID:Sender:Reply-To:Cc:Content-Transfer-Encoding:Content-ID:
+	Content-Description:In-Reply-To:References;
+	bh=MPtT6lfJ1mcwWUBwYq4nwnM8SAjUYS9/wvh+pAM9QBQ=; b=QzCop7WT76dYs8lHjFox/z5pi5
+	R/WerepPftvIOiSnWseweT2aFCqbL3YXqbb0HoxJwICUxJZkN3mBUgdjz5VXbCx4dQn0C3Ny+c5Av
+	wvicGj1j3F3oN1q2p6M7ZRoDez/KA4zBNEh0JmYsLzL8NW4sIdsP+iiPzefwggJ5Laq6s/d5B/7X/
+	UwntkUsPR8A6/F5+yyblwbRYn/CS2n+rQWLcE+AV6FPwzaZoAJU/BdIo+igL1m9UHCOURAnoz4y5b
+	qdqVYN9X+qN83xYyBZRkxHsXy/szqKtSW52NAHqanu+v4TSzBHkyHYAegAnm9NqwDKbbtvcAXh+fa
+	u7qAvCtA==;
+Received: from [172.31.31.148] (helo=u09cd745991455d.ant.amazon.com)
+	by desiato.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wHnrL-00000003uCl-1xdv;
+	Tue, 28 Apr 2026 19:12:40 +0000
+Message-ID: <c855535b4262ecd41f67734d19e8f48a7f014c2a.camel@infradead.org>
+Subject: [PATCH] KVM: x86/xen: Add
+ KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
+From: David Woodhouse <dwmw2@infradead.org>
+To: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Sean Christopherson
+ <seanjc@google.com>, Thomas Gleixner <tglx@kernel.org>, Ingo Molnar
+ <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,  Dave Hansen
+ <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin"
+ <hpa@zytor.com>, David Woodhouse <dwmw2@infradead.org>, Paul Durrant
+ <paul@xen.org>, kvm@vger.kernel.org,  linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  linux-kselftest@vger.kernel.org
+Date: Tue, 28 Apr 2026 20:12:39 +0100
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+	boundary="=-qmv3LylIXMZ8XL1hvURK"
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH3PPF9E162731D:EE_|LV3PR11MB8601:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7f206237-88c8-4396-1668-08dea559c0f2
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024|56012099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: gkhrW2ogwz7Jy6PyCEPL6juTa5yGDnw+kiGi/KLpMJeRWNXjatxIY0ToR8pq7zGY5i7kUeCA9JqdOpt0MsMZcjQuf5+V4qM1vzh8BH+t2TdxrPDGnyz+8npvcnb6i7r1RC27w7CsE8N8D+vmvvZX9ro2zCkWrSCCkCLYsidhHPtywYGW8Dlpt4UbtCf55fJfcSJ4yD6HoDEMvkFvuIf6Zfuli5/8/CSW1Rf7hOmE0qAc/gxKkOwLIoQ27A+F58nLyMnKdTJzsTCoRXudJhmVJgFvuDiu0Eqbyoj4O1BZPqyoJh6xV9dmGzBzQZUdo/ca6lw4GR7Ll3iaEjATCM1gfUN1Wdm07j/AWAC9jSD0VmVnIbt+JMZCwWmLr/NbEmTfAImvYIvMXZGFpbZv5ZTV+TzJ2GgqsFD/wEXez5wQV/6xjozeedGJo7RBh3XhAguvD0KPpZ2NfmG5KvmwhexywZd9BJG2LV0eh29Qnxz2Gz03f+1KT7IxKJqyVhmjCmyL5IhTIKwdgp4l8tdJSRXo8Ox3NPx6naWDo4TsraJLMfK0l0Mg2/tl4wB5J5nQ3ifTJ/DdunIfkjUa9PgkDVXZc7RjBgbPm421gkBUi9LCY2prna8pTCzxELex0vERH3hNObzt11KPjse5Uy3qsGfLjsq4x2P05Z0bEPxQ2mqK9GkOIK6WqxrKbqqdEpXFlu7ZoYsmFiCloFdI8vouMPeUBfV7kDzcPplGC75EqfeMuIU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH3PPF9E162731D.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(56012099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Z1o3cVliUmQ2cSttblIrd0phK1pteEFiZkU0ZEt1RnVWbXBzbG0xN0RsSFow?=
- =?utf-8?B?dktwc3NUYU4vSmhTQjBnMms1aGFLNm84OWRaZy9tNm5VQ29NNHI3WE92clRn?=
- =?utf-8?B?M0pFd2kySmhnSGpoWlhKN1U5ajErNXhuU3BiZUFyU0VuS3c0dnV5MXNlOXhD?=
- =?utf-8?B?aERtaW5wblM3WjNqVmQ0NWJTUEZ4am83VTdtTmJYTy9tMXZYdiswTExlNUhO?=
- =?utf-8?B?Mi9uWS9OKzZ0MFVkSVgvVHhkUi9OcUNtWHJDc0RMUDBRQzNyeU9IR3BlTG5q?=
- =?utf-8?B?eW9GVmxpU3lEK1BoRDBvbm5CSVU0cERTTzdUbEorbVBFTE5uc01LdytiWjFm?=
- =?utf-8?B?L0NPbk5GMnFXVEJEV3VmSGxwb2pvYmFlaU5tQzlmMFZjRFRMcGJXSHAzZ2dm?=
- =?utf-8?B?RzNkdTVreG1nVmV6T3dxRmpTbjQ2Tk12YzNWWVFHR01zcFgvOUp1cTJZeHJt?=
- =?utf-8?B?UU1wWGJqMmZ2c3pFZDRoVUJsb3pGR2FjbFErdVdEMy9CY050bWlmckUxcjVQ?=
- =?utf-8?B?WmwvQWlPdlIrUGtQK0kwbDRwZUpxMk90VGxKYmcydmo0OXJPenVhYnBTcXpL?=
- =?utf-8?B?eUs4TGtIRys3OXVQSlFuN0kxZmxjd0QwNjE2aHF3cFJQMTBVVTBQSVQwVVpj?=
- =?utf-8?B?NFdlUzlVK1dNSHlvMk1GaExEd2d6OEtRUldMc25xQ3Z1dkZmSW00cHIrYU81?=
- =?utf-8?B?YUpqTXpOZ1lqU0c3eklKMUxHeURpaW02eWRnN3hMTjdrTDMrV0YwODdmZStQ?=
- =?utf-8?B?cVdPNFl3SDhjY3RyZVFsZ3FxY1k4ODQ1S1RMU0xMeXg1TU1lY1BEWVhHa0Ux?=
- =?utf-8?B?QWEybU5ZdVM5S0pyZEc2dlNmdmFhdG1mN256N0c1NTdLSnZsMDBkdk5EbUpX?=
- =?utf-8?B?YkZwYXFOTU5NMVZiZE9vQUkxK2dNQ29BQ3JsRFB6WGRHOXlQQkJYUUx5RXlt?=
- =?utf-8?B?dDFGQWhiZkdOMUU0WGxsOHh6WkVrZzlJMTQzaEFQSkp4bjBtU1RjcEFScm5v?=
- =?utf-8?B?YXh0TXZVZ3J5Wmx1WmVYZFVDTHR4bnJNV2U0UXdNLzJjM203dnZYdXA2MWFP?=
- =?utf-8?B?aTdkclcwSkh5cFRyOHdNT3Z0YS8vd0xvZXRXaC94NEhVMmVKcGRNRTNOSFZC?=
- =?utf-8?B?blJMMDRzWVpQRE1ieEhmWWNaZkVTN1hMUVpvbWIreGcweHBtOG90Nng5aDZZ?=
- =?utf-8?B?cVZNN2ZBZC9uUkNzUjdxbEZBc3NuYy96MVJFZlZhemxFUUhRQ2hKN0xXa29D?=
- =?utf-8?B?SWh4amg0Zi9zeThKVzNxV0dvaHl3aU9MWHhZamtXZkxOc3hIUlB0TW1qcFhU?=
- =?utf-8?B?SjBnUzVZcVFHZHV5akRLRDQ3dk0zRDZqbjh2bzFXb1VNdGt3dEJ4ZzloNlFh?=
- =?utf-8?B?elhWd1JTVjR4aFBEbG1DSjRlTUN5cVpELzNNZUVUcm16N3NmQzFIeU1OSldu?=
- =?utf-8?B?elkrazBaRDFoMlgrWDNCTmp5Y0gyR3ZRaGRGOTd4MkVQb21oMVpmcTAzWGxM?=
- =?utf-8?B?R1pSUGNsdS83UnhobitISk4yUllCSlkwbXhkblFMdEE3WnVmWWVkV29lazlE?=
- =?utf-8?B?MU5JRklkZmlvcjBWcjQ4RzA5UTRJODVmUXA2WmJxN29VbE8xc0VsYTlIQkpN?=
- =?utf-8?B?ZG1QOTlMcGV3RmJ0c1RuOVpnK1diMlJ1b1d0bS9MWlJkemd0THVWVkRUaXFU?=
- =?utf-8?B?d0JiUGlNUmdGb21HeE9CdTd0ZUVjV2V2SitnVEhxYlFjVjM2ZE93ZW9WUHRQ?=
- =?utf-8?B?YWk2REViOVE1MjdzY1lnQVhoME9aTlBDUUEvTDFvVmpuck81ZjlTVlRZaWtp?=
- =?utf-8?B?cUlhWXhrYjVWR1pBNkx2dlF2blo4T29FYnI2WmtkcXNpZGhsUHJjRlRic3RT?=
- =?utf-8?B?aXkxL0tqajFyeSs1a1VQZC9SSldkYVZPeXlMMnBLeHlzbEoxUW1vZGhVeWU3?=
- =?utf-8?B?V0dFQWFDdzhyZWFpOTJSVTlpNVJsT2FuQVdid0ZySEJrTUQ2Y1lLa2oxSlRk?=
- =?utf-8?B?RmFsV3dxb0lsTFc0bDkxR3FqK3gwbVZXTG12bFZNS05yN3NVdlUyTldHVjZK?=
- =?utf-8?B?YWEzRHFjMHJ6ZVVJbTl4TXFoQ1ZJbG1lc1BNcWNjS2hZRXlxbFFkWkduREtE?=
- =?utf-8?B?T25oVVpWY254U3FDUUJjL3NuTXNQT041KzRrRVk1MnpyQXRjOEJPQ2R6b2Q1?=
- =?utf-8?B?eUc5QVdTWnFQdTBNc3ljU1FOQzJQM3lXMlJGbi9Bc01CKzFkcWFjL3ZRR3lq?=
- =?utf-8?B?VHB3VkJZZEVFL21neWNJMnJWZ2RNZ1FkNVlrOU54cm5hbyszMXUxeS8wNXI3?=
- =?utf-8?B?RUoyRHBBcjhkb2U2YTNUTFRIMThrMzFFKzF0VkhnS0x1M0NpVlFCUT09?=
-X-Exchange-RoutingPolicyChecked: H1eEtPqixPntTOM7l4o0ZonqwgTXMnSApjj1+Ccn1EZ6wNXCBxQoReVJmxqGVHzZnjFUXgmP5X2WlsXxuV8apxAv9OSB5yoJ9JZn3t2cT3N07PYeRkOiHMId6/PxOkeBv1swvHyVH/Kz5H4xP+nPMO9O1DMv6gio4uUd3XQ2J8ktLWJzdd6ZolwlNjV3xOQPNZrPlj7jySyQawMmk/O7KdjLpcmw+ggnJfzkNUl8jvl8uR3tKmMXQqTXy2ZKj867KAVDxUQSbdd4pFb8+WE74VFoehgDIe3mJTuMOX7tTr+WCkFZdc0YWR2tyO9zPhgJO1DoUgbHngj7+ijJzBgZ7Q==
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7f206237-88c8-4396-1668-08dea559c0f2
-X-MS-Exchange-CrossTenant-AuthSource: PH3PPF9E162731D.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2026 19:10:04.4778
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zlFk9L9V1WYvnXHwqVBvuxLWQ8oQfAfK0y0twyxQ9HIvnUSsZu615pTF6wyVdBJyv4qrzUHeKQcLfmTI8huNQw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8601
-X-OriginatorOrg: intel.com
-
-Alison Schofield wrote:
-> On Sun, Apr 26, 2026 at 06:56:46PM -0500, John Groves wrote:
-> > Maybe I'm overcomplicating things (it's one of the things I do), 
-> > but I'm still struggling through how to address all these issues. 
-> > Some comments inline.
-> 
-> 
-> Jumping to the part you commented on, which I think was the biggie:
-> 
-> > 
-> > On 26/02/26 06:00PM, Alison Schofield wrote:
-> > > On Sun, Jan 18, 2026 at 10:36:38PM +0000, John Groves wrote:
-> > > > From: John Groves <John@Groves.net>
-> > > > 
-> > > > Putting a daxdev in famfs mode means binding it to fsdev_dax.ko
-> > > > (drivers/dax/fsdev.c). Finding a daxdev bound to fsdev_dax means
-> > > > it is in famfs mode.
-> > > > 
-> > > > The test is added to the destructive test suite since it
-> > > > modifies device modes.
-> > > 
-> > > Make it clear that it is added in a separate patch. (and assume you
-> > > can drop the destructive part too.)
-> > > 
-> > > > 
-> > > > With devdax, famfs, and system-ram modes, the previous logic that assumed
-> > > > 'not in mode X means in mode Y' needed to get slightly more complicated
-> > > > 
-> > > > Add explicit mode detection functions:
-> > > > - daxctl_dev_is_famfs_mode(): check if bound to fsdev_dax driver
-> > > > - daxctl_dev_is_devdax_mode(): check if bound to device_dax driver
-> > > 
-> > > 
-> > > The precedence check (ram->famfs->devdax->unknown) now happens in multiple
-> > > places. How about adding a daxctl_dev_get_mode() helper to centralize that.
-> > > It could be private for now, unless you expect external users to need it.
-> > > 
-> > > daxctl_dev_is_famfs_mode() and _is_devdax_mode() are nearly identical aside
-> > > from the module name. Refactoring the shared part into a single helper will
-> > > also make it easier to add a daxctl_dev_get_mode() without duplicating the
-> > > precedence logic.
-> > > 
-> > > > 
-> > > > Fix mode transition logic in device.c:
-> > > > - disable_devdax_device(): verify device is actually in devdax mode
-> > > > - disable_famfs_device(): verify device is actually in famfs mode
-> > > > - All reconfig_mode_*() functions now explicitly check each mode
-> > > > - Handle unknown mode with error instead of wrong assumption
-> > > 
-> > > Wondering about 'Fix' mode transition logic. Was prior logic broken and
-> > > should any of these changes be in a precursor patch that is a 'fix'.
-> > > 
-> > > 
-> > > > 
-> > > > Modify json.c to show 'unknown' if device is not in a recognized mode.
-> > > 
-> > > I think this means disabled devices will always look unknown even when
-> > > the intended mode is devdax or famfs, but disabled. This seems to
-> > > change the meaning of mode from 'configured' to 'active' personality.
-> > > Can you detect the configured mode even when disabled?
-> > > Perhaps a man page change about this new behavior?
-> > 
-> > Good point; before famfs mode there were just 2 modes, and 
-> > not-system-ram == devdax mode is the current standard, even if no driver 
-> > is bound. At some level that's a conflation, but I'll revise and stick 
-> > with that unless you have a better idea.
-> > 
-> > Is that how you want it? No driver == devdax mode?
-> > 
-> > Any thoughts?
-> > 
-> 
-> I do think we need to introduce "unknown" rather than keep reporting
-> devdax for all non-system-ram devices. With famfs added, that old
-> "not system-ram == devdax" shortcut just isn’t true anymore, and in the
-> unbound case we really don’t know if it’s devdax or famfs. I’d rather say
-> "unknown" than guess wrong.
-
-While I like the explicit nature of 'unknown' we are unfortunately past
-that point now.
-
-Current users expect a new device to come up as devdax.  I think a new
-specifier needs to be added to bring a device up as famfs.  Because this
-is the new way of doing things it may be that famfs needs to be specified
-explicitly somewhere.  I'm not quite sure where right off.
-
-But the current behavior needs to be maintained despite it being 'wrong'
-or a 'lie'...  It is just the way it was.
-
-Ira
-
-> 
-> That said, I don’t think we should drop to "unknown" when we actually do
-> know the mode. In particular, disable shouldn’t cause us to lose it. We
-> already report state separately, so I’d expect something like this:
-> 	mode=devdax,  state=disabled
-> and not like this:
-> 	mode=unknown, state=disabled
-> for a device that we knew was devdax (same idea for famfs).
-> 
-> Also wondering about behavior here: if a device ends up in mode="unknown",
-> what does enable-device do? It doesn’t take a mode, so if we’ve lost that
-> info across disable it’s not obvious how we pick which driver to bind.
-> Before famfs we kind of got away with defaulting to devdax, but that
-> doesn’t really work anymore.
-> 
-> So I think the rule should be: report a real mode when we can, and only
-> use "unknown" when it’s actually ambiguous. That keeps disable/enable
-> workflows predictable.
-> 
-> And if we do introduce "unknown", we need to document when it shows up,
-> since this is a change from the old behavior.
-> 
-> -- Alison
-> 
-> snipping here, I didn't see any questions or comments below here
-> expect for the done on the PATH_MAX usage.
-> 
-> 
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by desiato.infradead.org. See http://www.infradead.org/rpr.html
 
 
+--=-qmv3LylIXMZ8XL1hvURK
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+From: David Woodhouse <dwmw@amazon.co.uk>
+
+Commit 3617c0ee7decb ("KVM: x86/xen: Only write Xen hypercall page for
+guest writes to MSR") blocked host-initiated writes from triggering the
+Xen hypercall page setup, to fix an SRCU usage violation when the
+hypercall MSR index collides with a real MSR written during vCPU reset.
+
+However, some VMMs legitimately need to trigger hypercall page setup
+from host context. For example, a VMM may intercept the guest's MSR
+write to track an epoch (for kexec/crash recovery), and then replay the
+write as a host-initiated KVM_SET_MSRS to populate the hypercall page.
+The host_initiated check breaks this use case.
+
+Add KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE as a new vcpu attribute
+that explicitly invokes kvm_xen_write_hypercall_page() under proper
+locking. This gives userspace a safe interface to trigger hypercall page
+setup without going through the MSR write path, preserving the
+host_initiated defence in depth while restoring the lost functionality.
+
+Fixes: 3617c0ee7dec ("KVM: x86/xen: Only write Xen hypercall page for guest=
+ writes to MSR")
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ Documentation/virt/kvm/api.rst                | 11 +++
+ arch/x86/include/uapi/asm/kvm.h               |  3 +
+ arch/x86/kvm/x86.c                            |  3 +-
+ arch/x86/kvm/xen.c                            |  7 ++
+ .../selftests/kvm/x86/xen_vmcall_test.c       | 96 +++++++++++++++++++
+ 5 files changed, 119 insertions(+), 1 deletion(-)
+
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rs=
+t
+index 52bbbb553ce1..63423c375a78 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -5800,6 +5800,17 @@ KVM_XEN_VCPU_ATTR_TYPE_UPCALL_VECTOR
+   vector configured with HVM_PARAM_CALLBACK_IRQ. It is disabled by
+   setting the vector to zero.
+=20
++KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE
++  This attribute is available when the KVM_CAP_XEN_HVM ioctl indicates
++  support for KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE. It triggers
++  population of the Xen hypercall page at the guest physical address
++  specified in ``gpa``, just as if the guest had written to the
++  hypercall MSR. This is intended for VMMs that intercept the guest's
++  MSR write (e.g. to track an epoch for kexec/crash recovery) and need
++  to replay the write from host context. Direct host-initiated writes
++  via KVM_SET_MSRS are blocked for safety; this attribute provides the
++  correct alternative.
++
+=20
+ 4.129 KVM_XEN_VCPU_GET_ATTR
+ ---------------------------
+diff --git a/arch/x86/include/uapi/asm/kvm.h b/arch/x86/include/uapi/asm/kv=
+m.h
+index 5f2b30d0405c..977f3aa66c18 100644
+--- a/arch/x86/include/uapi/asm/kvm.h
++++ b/arch/x86/include/uapi/asm/kvm.h
+@@ -596,6 +596,7 @@ struct kvm_x86_mce {
+ #define KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG	(1 << 6)
+ #define KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE	(1 << 7)
+ #define KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA	(1 << 8)
++#define KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE	(1 << 9)
+=20
+ #define KVM_XEN_MSR_MIN_INDEX			0x40000000u
+ #define KVM_XEN_MSR_MAX_INDEX			0x4fffffffu
+@@ -704,6 +705,8 @@ struct kvm_xen_vcpu_attr {
+ #define KVM_XEN_VCPU_ATTR_TYPE_UPCALL_VECTOR	0x8
+ /* Available with KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA */
+ #define KVM_XEN_VCPU_ATTR_TYPE_VCPU_INFO_HVA	0x9
++/* Available with KVM_CAP_XEN_HVM / KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAG=
+E */
++#define KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE 0xa
+=20
+ /* Secure Encrypted Virtualization command */
+ enum sev_cmd_id {
+diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+index 0a1b63c63d1a..3facf0429c0a 100644
+--- a/arch/x86/kvm/x86.c
++++ b/arch/x86/kvm/x86.c
+@@ -4891,7 +4891,8 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, lon=
+g ext)
+ 		    KVM_XEN_HVM_CONFIG_EVTCHN_2LEVEL |
+ 		    KVM_XEN_HVM_CONFIG_EVTCHN_SEND |
+ 		    KVM_XEN_HVM_CONFIG_PVCLOCK_TSC_UNSTABLE |
+-		    KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA;
++		    KVM_XEN_HVM_CONFIG_SHARED_INFO_HVA |
++		    KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE;
+ 		if (sched_info_on())
+ 			r |=3D KVM_XEN_HVM_CONFIG_RUNSTATE |
+ 			     KVM_XEN_HVM_CONFIG_RUNSTATE_UPDATE_FLAG;
+diff --git a/arch/x86/kvm/xen.c b/arch/x86/kvm/xen.c
+index 91fd3673c09a..c16b4560c9e7 100644
+--- a/arch/x86/kvm/xen.c
++++ b/arch/x86/kvm/xen.c
+@@ -907,6 +907,13 @@ int kvm_xen_vcpu_set_attr(struct kvm_vcpu *vcpu, struc=
+t kvm_xen_vcpu_attr *data)
+ {
+ 	int idx, r =3D -ENOENT;
+=20
++	/*
++	 * kvm_xen_write_hypercall_page() manages its own locking.
++	 * Handle it before taking xen_lock to avoid a deadlock.
++	 */
++	if (data->type =3D=3D KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE)
++		return kvm_xen_write_hypercall_page(vcpu, data->u.gpa) ? -EIO : 0;
++
+ 	mutex_lock(&vcpu->kvm->arch.xen.xen_lock);
+ 	idx =3D srcu_read_lock(&vcpu->kvm->srcu);
+=20
+diff --git a/tools/testing/selftests/kvm/x86/xen_vmcall_test.c b/tools/test=
+ing/selftests/kvm/x86/xen_vmcall_test.c
+index 2585087cdf5c..1536d510ab30 100644
+--- a/tools/testing/selftests/kvm/x86/xen_vmcall_test.c
++++ b/tools/testing/selftests/kvm/x86/xen_vmcall_test.c
+@@ -12,6 +12,8 @@
+ #include "processor.h"
+ #include "hyperv.h"
+=20
++#include <string.h>
++
+ #define HCALL_REGION_GPA	0xc0000000ULL
+ #define HCALL_REGION_SLOT	10
+=20
+@@ -26,6 +28,10 @@
+ #define HVCALL_SIGNAL_EVENT		0x005d
+ #define HV_STATUS_INVALID_ALIGNMENT	4
+=20
++enum {
++	TEST_WRITE_HYPERCALL_PAGE =3D 1,
++};
++
+ static void guest_code(void)
+ {
+ 	unsigned long rax =3D INPUTVALUE;
+@@ -76,17 +82,65 @@ static void guest_code(void)
+ 			     "r"(r8));
+ 	GUEST_ASSERT(rax =3D=3D HV_STATUS_INVALID_ALIGNMENT);
+=20
++	/*
++	 * Test KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE: ask userspace
++	 * to set up MSR filtering, then write the MSR. The WRMSR will exit
++	 * to userspace (not populate the page). Userspace verifies the page
++	 * is empty, uses the attr to populate it, then resumes us.
++	 */
++	GUEST_SYNC(TEST_WRITE_HYPERCALL_PAGE);
++
++	__asm__ __volatile__("wrmsr" : : "c" (XEN_HYPERCALL_MSR),
++			     "a" (HCALL_REGION_GPA & 0xffffffff),
++			     "d" (HCALL_REGION_GPA >> 32));
++
++	/* Userspace populated the page via the attr =E2=80=94 verify it works */
++	rax =3D INPUTVALUE;
++	rdi =3D ARGVALUE(1);
++	rsi =3D ARGVALUE(2);
++	rdx =3D ARGVALUE(3);
++	r10 =3D ARGVALUE(4);
++	r8 =3D ARGVALUE(5);
++	r9 =3D ARGVALUE(6);
++	__asm__ __volatile__("call *%1" : "=3Da"(rax) :
++			     "r"(HCALL_REGION_GPA + INPUTVALUE * 32),
++			     "a"(rax), "D"(rdi), "S"(rsi), "d"(rdx),
++			     "r"(r10), "r"(r8), "r"(r9));
++	GUEST_ASSERT(rax =3D=3D RETVALUE);
++
+ 	GUEST_DONE();
+ }
+=20
++static void setup_msr_filter(struct kvm_vm *vm)
++{
++	uint64_t deny_bits =3D 0;
++	struct kvm_msr_filter filter =3D {
++		.flags =3D KVM_MSR_FILTER_DEFAULT_ALLOW,
++		.ranges =3D {
++			{
++				.flags =3D KVM_MSR_FILTER_WRITE,
++				.nmsrs =3D 1,
++				.base =3D XEN_HYPERCALL_MSR,
++				.bitmap =3D (uint8_t *)&deny_bits,
++			},
++		},
++	};
++
++	vm_ioctl(vm, KVM_X86_SET_MSR_FILTER, &filter);
++}
++
+ int main(int argc, char *argv[])
+ {
+ 	unsigned int xen_caps;
+ 	struct kvm_vcpu *vcpu;
+ 	struct kvm_vm *vm;
++	bool msr_filter_ready =3D false;
+=20
+ 	xen_caps =3D kvm_check_cap(KVM_CAP_XEN_HVM);
+ 	TEST_REQUIRE(xen_caps & KVM_XEN_HVM_CONFIG_INTERCEPT_HCALL);
++	TEST_REQUIRE(xen_caps & KVM_XEN_HVM_CONFIG_WRITE_HYPERCALL_PAGE);
++	TEST_REQUIRE(kvm_check_cap(KVM_CAP_X86_USER_SPACE_MSR));
++	TEST_REQUIRE(kvm_check_cap(KVM_CAP_X86_MSR_FILTER));
+=20
+ 	vm =3D vm_create_with_one_vcpu(&vcpu, guest_code);
+ 	vcpu_set_hv_cpuid(vcpu);
+@@ -123,6 +177,36 @@ int main(int argc, char *argv[])
+ 			continue;
+ 		}
+=20
++		if (run->exit_reason =3D=3D KVM_EXIT_X86_WRMSR) {
++			/* MSR filter caught the Xen hypercall MSR write */
++			TEST_ASSERT(msr_filter_ready,
++				    "Unexpected WRMSR exit before filter setup");
++			TEST_ASSERT_EQ(run->msr.index, XEN_HYPERCALL_MSR);
++
++			/*
++			 * The host_initiated check should have prevented
++			 * KVM from populating the page. Verify it's empty.
++			 */
++			uint8_t *hcall_page =3D addr_gpa2hva(vm, HCALL_REGION_GPA);
++			TEST_ASSERT_EQ(hcall_page[0], 0);
++
++			/*
++			 * Now use the attr to populate the page, as a
++			 * VMM would after intercepting the MSR write.
++			 */
++			struct kvm_xen_vcpu_attr attr =3D {
++				.type =3D KVM_XEN_VCPU_ATTR_TYPE_WRITE_HYPERCALL_PAGE,
++				.u.gpa =3D HCALL_REGION_GPA,
++			};
++			vcpu_ioctl(vcpu, KVM_XEN_VCPU_SET_ATTR, &attr);
++
++			/* Verify the page is now populated */
++			TEST_ASSERT_EQ(hcall_page[0], 0xb8);
++
++			run->msr.error =3D 0;
++			continue;
++		}
++
+ 		TEST_ASSERT_KVM_EXIT_REASON(vcpu, KVM_EXIT_IO);
+=20
+ 		switch (get_ucall(vcpu, &uc)) {
+@@ -130,6 +214,18 @@ int main(int argc, char *argv[])
+ 			REPORT_GUEST_ASSERT(uc);
+ 			/* NOT REACHED */
+ 		case UCALL_SYNC:
++			TEST_ASSERT_EQ(uc.args[1], TEST_WRITE_HYPERCALL_PAGE);
++
++			/*
++			 * Guest is about to write the Xen MSR. Clear the
++			 * hypercall page, install MSR filter to intercept
++			 * the write, and enable userspace MSR exits.
++			 */
++			memset(addr_gpa2hva(vm, HCALL_REGION_GPA), 0, PAGE_SIZE);
++			vm_enable_cap(vm, KVM_CAP_X86_USER_SPACE_MSR,
++				      KVM_MSR_EXIT_REASON_FILTER);
++			setup_msr_filter(vm);
++			msr_filter_ready =3D true;
+ 			break;
+ 		case UCALL_DONE:
+ 			goto done;
+--=20
+2.43.0
+
+
+
+--=-qmv3LylIXMZ8XL1hvURK
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCD9Aw
+ggSOMIIDdqADAgECAhAOmiw0ECVD4cWj5DqVrT9PMA0GCSqGSIb3DQEBCwUAMGUxCzAJBgNVBAYT
+AlVTMRUwEwYDVQQKEwxEaWdpQ2VydCBJbmMxGTAXBgNVBAsTEHd3dy5kaWdpY2VydC5jb20xJDAi
+BgNVBAMTG0RpZ2lDZXJ0IEFzc3VyZWQgSUQgUm9vdCBDQTAeFw0yNDAxMzAwMDAwMDBaFw0zMTEx
+MDkyMzU5NTlaMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYDVQQDExdWZXJv
+a2V5IFNlY3VyZSBFbWFpbCBHMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMjvgLKj
+jfhCFqxYyRiW8g3cNFAvltDbK5AzcOaR7yVzVGadr4YcCVxjKrEJOgi7WEOH8rUgCNB5cTD8N/Et
+GfZI+LGqSv0YtNa54T9D1AWJy08ZKkWvfGGIXN9UFAPMJ6OLLH/UUEgFa+7KlrEvMUupDFGnnR06
+aDJAwtycb8yXtILj+TvfhLFhafxroXrflspavejQkEiHjNjtHnwbZ+o43g0/yxjwnarGI3kgcak7
+nnI9/8Lqpq79tLHYwLajotwLiGTB71AGN5xK+tzB+D4eN9lXayrjcszgbOv2ZCgzExQUAIt98mre
+8EggKs9mwtEuKAhYBIP/0K6WsoMnQCcCAwEAAaOCAVwwggFYMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+HQYDVR0OBBYEFIlICOogTndrhuWByNfhjWSEf/xwMB8GA1UdIwQYMBaAFEXroq/0ksuCMS1Ri6en
+IZ3zbcgPMA4GA1UdDwEB/wQEAwIBhjAdBgNVHSUEFjAUBggrBgEFBQcDBAYIKwYBBQUHAwIweQYI
+KwYBBQUHAQEEbTBrMCQGCCsGAQUFBzABhhhodHRwOi8vb2NzcC5kaWdpY2VydC5jb20wQwYIKwYB
+BQUHMAKGN2h0dHA6Ly9jYWNlcnRzLmRpZ2ljZXJ0LmNvbS9EaWdpQ2VydEFzc3VyZWRJRFJvb3RD
+QS5jcnQwRQYDVR0fBD4wPDA6oDigNoY0aHR0cDovL2NybDMuZGlnaWNlcnQuY29tL0RpZ2lDZXJ0
+QXNzdXJlZElEUm9vdENBLmNybDARBgNVHSAECjAIMAYGBFUdIAAwDQYJKoZIhvcNAQELBQADggEB
+ACiagCqvNVxOfSd0uYfJMiZsOEBXAKIR/kpqRp2YCfrP4Tz7fJogYN4fxNAw7iy/bPZcvpVCfe/H
+/CCcp3alXL0I8M/rnEnRlv8ItY4MEF+2T/MkdXI3u1vHy3ua8SxBM8eT9LBQokHZxGUX51cE0kwa
+uEOZ+PonVIOnMjuLp29kcNOVnzf8DGKiek+cT51FvGRjV6LbaxXOm2P47/aiaXrDD5O0RF5SiPo6
+xD1/ClkCETyyEAE5LRJlXtx288R598koyFcwCSXijeVcRvBB1cNOLEbg7RMSw1AGq14fNe2cH1HG
+W7xyduY/ydQt6gv5r21mDOQ5SaZSWC/ZRfLDuEYwggWbMIIEg6ADAgECAhAH5JEPagNRXYDiRPdl
+c1vgMA0GCSqGSIb3DQEBCwUAMEExCzAJBgNVBAYTAkFVMRAwDgYDVQQKEwdWZXJva2V5MSAwHgYD
+VQQDExdWZXJva2V5IFNlY3VyZSBFbWFpbCBHMjAeFw0yNDEyMzAwMDAwMDBaFw0yODAxMDQyMzU5
+NTlaMB4xHDAaBgNVBAMME2R3bXcyQGluZnJhZGVhZC5vcmcwggIiMA0GCSqGSIb3DQEBAQUAA4IC
+DwAwggIKAoICAQDali7HveR1thexYXx/W7oMk/3Wpyppl62zJ8+RmTQH4yZeYAS/SRV6zmfXlXaZ
+sNOE6emg8WXLRS6BA70liot+u0O0oPnIvnx+CsMH0PD4tCKSCsdp+XphIJ2zkC9S7/yHDYnqegqt
+w4smkqUqf0WX/ggH1Dckh0vHlpoS1OoxqUg+ocU6WCsnuz5q5rzFsHxhD1qGpgFdZEk2/c//ZvUN
+i12vPWipk8TcJwHw9zoZ/ZrVNybpMCC0THsJ/UEVyuyszPtNYeYZAhOJ41vav1RhZJzYan4a1gU0
+kKBPQklcpQEhq48woEu15isvwWh9/+5jjh0L+YNaN0I//nHSp6U9COUG9Z0cvnO8FM6PTqsnSbcc
+0j+GchwOHRC7aP2t5v2stVx3KbptaYEzi4MQHxm/0+HQpMEVLLUiizJqS4PWPU6zfQTOMZ9uLQRR
+ci+c5xhtMEBszlQDOvEQcyEG+hc++fH47K+MmZz21bFNfoBxLP6bjR6xtPXtREF5lLXxp+CJ6KKS
+blPKeVRg/UtyJHeFKAZXO8Zeco7TZUMVHmK0ZZ1EpnZbnAhKE19Z+FJrQPQrlR0gO3lBzuyPPArV
+hvWxjlO7S4DmaEhLzarWi/ze7EGwWSuI2eEa/8zU0INUsGI4ywe7vepQz7IqaAovAX0d+f1YjbmC
+VsAwjhLmveFjNwIDAQABo4IBsDCCAawwHwYDVR0jBBgwFoAUiUgI6iBOd2uG5YHI1+GNZIR//HAw
+HQYDVR0OBBYEFFxiGptwbOfWOtMk5loHw7uqWUOnMDAGA1UdEQQpMCeBE2R3bXcyQGluZnJhZGVh
+ZC5vcmeBEGRhdmlkQHdvb2Rob3Uuc2UwFAYDVR0gBA0wCzAJBgdngQwBBQEBMA4GA1UdDwEB/wQE
+AwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQwewYDVR0fBHQwcjA3oDWgM4YxaHR0
+cDovL2NybDMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDA3oDWgM4YxaHR0
+cDovL2NybDQuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNybDB2BggrBgEFBQcB
+AQRqMGgwJAYIKwYBBQUHMAGGGGh0dHA6Ly9vY3NwLmRpZ2ljZXJ0LmNvbTBABggrBgEFBQcwAoY0
+aHR0cDovL2NhY2VydHMuZGlnaWNlcnQuY29tL1Zlcm9rZXlTZWN1cmVFbWFpbEcyLmNydDANBgkq
+hkiG9w0BAQsFAAOCAQEAQXc4FPiPLRnTDvmOABEzkIumojfZAe5SlnuQoeFUfi+LsWCKiB8Uextv
+iBAvboKhLuN6eG/NC6WOzOCppn4mkQxRkOdLNThwMHW0d19jrZFEKtEG/epZ/hw/DdScTuZ2m7im
+8ppItAT6GXD3aPhXkXnJpC/zTs85uNSQR64cEcBFjjoQDuSsTeJ5DAWf8EMyhMuD8pcbqx5kRvyt
+JPsWBQzv1Dsdv2LDPLNd/JUKhHSgr7nbUr4+aAP2PHTXGcEBh8lTeYea9p4d5k969pe0OHYMV5aL
+xERqTagmSetuIwolkAuBCzA9vulg8Y49Nz2zrpUGfKGOD0FMqenYxdJHgDCCBZswggSDoAMCAQIC
+EAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQELBQAwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoT
+B1Zlcm9rZXkxIDAeBgNVBAMTF1Zlcm9rZXkgU2VjdXJlIEVtYWlsIEcyMB4XDTI0MTIzMDAwMDAw
+MFoXDTI4MDEwNDIzNTk1OVowHjEcMBoGA1UEAwwTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJ
+KoZIhvcNAQEBBQADggIPADCCAgoCggIBANqWLse95HW2F7FhfH9bugyT/danKmmXrbMnz5GZNAfj
+Jl5gBL9JFXrOZ9eVdpmw04Tp6aDxZctFLoEDvSWKi367Q7Sg+ci+fH4KwwfQ8Pi0IpIKx2n5emEg
+nbOQL1Lv/IcNiep6Cq3DiyaSpSp/RZf+CAfUNySHS8eWmhLU6jGpSD6hxTpYKye7PmrmvMWwfGEP
+WoamAV1kSTb9z/9m9Q2LXa89aKmTxNwnAfD3Ohn9mtU3JukwILRMewn9QRXK7KzM+01h5hkCE4nj
+W9q/VGFknNhqfhrWBTSQoE9CSVylASGrjzCgS7XmKy/BaH3/7mOOHQv5g1o3Qj/+cdKnpT0I5Qb1
+nRy+c7wUzo9OqydJtxzSP4ZyHA4dELto/a3m/ay1XHcpum1pgTOLgxAfGb/T4dCkwRUstSKLMmpL
+g9Y9TrN9BM4xn24tBFFyL5znGG0wQGzOVAM68RBzIQb6Fz758fjsr4yZnPbVsU1+gHEs/puNHrG0
+9e1EQXmUtfGn4InoopJuU8p5VGD9S3Ikd4UoBlc7xl5yjtNlQxUeYrRlnUSmdlucCEoTX1n4UmtA
+9CuVHSA7eUHO7I88CtWG9bGOU7tLgOZoSEvNqtaL/N7sQbBZK4jZ4Rr/zNTQg1SwYjjLB7u96lDP
+sipoCi8BfR35/ViNuYJWwDCOEua94WM3AgMBAAGjggGwMIIBrDAfBgNVHSMEGDAWgBSJSAjqIE53
+a4blgcjX4Y1khH/8cDAdBgNVHQ4EFgQUXGIam3Bs59Y60yTmWgfDu6pZQ6cwMAYDVR0RBCkwJ4ET
+ZHdtdzJAaW5mcmFkZWFkLm9yZ4EQZGF2aWRAd29vZGhvdS5zZTAUBgNVHSAEDTALMAkGB2eBDAEF
+AQEwDgYDVR0PAQH/BAQDAgXgMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDBDB7BgNVHR8E
+dDByMDegNaAzhjFodHRwOi8vY3JsMy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMDegNaAzhjFodHRwOi8vY3JsNC5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVtYWlsRzIu
+Y3JsMHYGCCsGAQUFBwEBBGowaDAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuZGlnaWNlcnQuY29t
+MEAGCCsGAQUFBzAChjRodHRwOi8vY2FjZXJ0cy5kaWdpY2VydC5jb20vVmVyb2tleVNlY3VyZUVt
+YWlsRzIuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQBBdzgU+I8tGdMO+Y4AETOQi6aiN9kB7lKWe5Ch
+4VR+L4uxYIqIHxR7G2+IEC9ugqEu43p4b80LpY7M4KmmfiaRDFGQ50s1OHAwdbR3X2OtkUQq0Qb9
+6ln+HD8N1JxO5nabuKbymki0BPoZcPdo+FeRecmkL/NOzzm41JBHrhwRwEWOOhAO5KxN4nkMBZ/w
+QzKEy4PylxurHmRG/K0k+xYFDO/UOx2/YsM8s138lQqEdKCvudtSvj5oA/Y8dNcZwQGHyVN5h5r2
+nh3mT3r2l7Q4dgxXlovERGpNqCZJ624jCiWQC4ELMD2+6WDxjj03PbOulQZ8oY4PQUyp6djF0keA
+MYIDuzCCA7cCAQEwVTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMX
+VmVyb2tleSBTZWN1cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJYIZIAWUDBAIBBQCg
+ggE3MBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDQyODE5MTIz
+OVowLwYJKoZIhvcNAQkEMSIEIImG4sMDYjKah80fUuFCttF325WRQ8f/LLhJSPNNgn29MGQGCSsG
+AQQBgjcQBDFXMFUwQTELMAkGA1UEBhMCQVUxEDAOBgNVBAoTB1Zlcm9rZXkxIDAeBgNVBAMTF1Zl
+cm9rZXkgU2VjdXJlIEVtYWlsIEcyAhAH5JEPagNRXYDiRPdlc1vgMGYGCyqGSIb3DQEJEAILMVeg
+VTBBMQswCQYDVQQGEwJBVTEQMA4GA1UEChMHVmVyb2tleTEgMB4GA1UEAxMXVmVyb2tleSBTZWN1
+cmUgRW1haWwgRzICEAfkkQ9qA1FdgOJE92VzW+AwDQYJKoZIhvcNAQEBBQAEggIApc6evEHGRqmA
+xBiM2DalKAlcV7w79taOYftme7vPq8KtYBksf+wUL478GPbMce1y9v1u62dehIOvJA4h9zUY8ClM
+Wm9ClDCc6Jn+bpZcK/G6PnBXTc6Gti6x+1evU7VG8IOttz0ONd1Wbe2ha9YEE/CO5HQ0jCVb7ACe
+Cas5xCkYsCAFj4SnbQDblS7DuJpssPIqFT6KL7e0UbKScfbpHhSit4QBDdy80oQ6EBI6CT6wLwtC
+Ybjo2H3034FxdGaiS77A/HYZFHdt6r1MloMhmFK3kGgIWSZfbo92WmNRl30bN+Zfo6+G7jgi03f6
+sfAv3urozTIi9bf3pLpwwKyraHX7LtEV/9/CZVEoLwBfDaclXyyUDGSSYH+3/6DiLNEF+Ey7mNKp
+sEetCOnfZ2fvbhpVfb+slVe8gg+nOPOhchzvsi0Rsl8ElaFojsXRJnQPLRRhLvbr+TXy8rAKoRFD
+ih5S0GuTKTgQrO5dNahFaCPGDFaOHd+t5mi4/aXuWjMT7fm8Bh8gTvxVcwHTwET3IClg8/3TSOO6
+TCFKnkjYoMjcvbtfTFhbwGOTACVKtKkad/0qxyG1SjnkGXilOIMB8W5ePshLHurwcSIigKy+z99r
+Kuw5d/o6C6MLq6oNkmRhjfolmjS768rPvAI9+dozb9plgnyH14az/p/50GhM30UAAAAAAAA=
+
+
+--=-qmv3LylIXMZ8XL1hvURK--
