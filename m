@@ -1,268 +1,359 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C346C374728;
-	Tue, 28 Apr 2026 08:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3439271450;
+	Tue, 28 Apr 2026 08:27:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777364605; cv=none; b=J3i2McJx917A9yNXrt56/GlyNbs87ZPxjpuF0GOxB2Vo0D6M10XBr8tG8DKHCNJ9HCZM/ZqfiV/scfynb8y7x06K/25UiUG4ZPd6H5PM9MKNnpRBmcHFFRBxpjClfGdbfRwGMtbHIXSVwtZunPYPbRtEr6A2FNZ0PZEqwBD99g8=
+	t=1777364824; cv=none; b=qtBO+PpN8iP3Pv4dXL05+KixY9CqMciByAQwb2IZ1aJwOF6vqagYNKhvFuflRCQKbxtJQjWMJPWYg5bN+zE5eIo0KTiz900r00vj+7BTPNO7WKIx7K3NanJ/DcWW+hkai6sCKPctsV7vjaqUAB4YR7b246XV62l+P6AlsYRoh+0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777364605; c=relaxed/simple;
-	bh=fdxQNMJ8DteAEC6lJuD6ziGdJ6VyO6X9vyE27maFI7k=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oqTpMBKZk9aZ9KdlcbotH93JUcTCgUoFqbYC++mtiWo4NzxeuZ0MTwEqsdPvupgz36CAYg7F6gFVbtvMMZ+dqvrNnumzbiz+ZqLwXNAKGBoUnzaOPtI+djliaj3a2F661e8yZ7qJxN05kpVODozQMJOuLfr17hr1fz/kUl/28js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ycz0PXhb; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+	s=arc-20240116; t=1777364824; c=relaxed/simple;
+	bh=ae9qfpcMN/TIaNt3GBQn2ZZICH22T46uM9lYCWLkQ0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EYYsLg0LppBl2xIZ6wsRayEvP+PjDHCJFFsc/KhuDRL+mmpPVj9BAoVw0l286A0X5DgOFAPARG2EpeHKkgOFFHc7pXnjpCvTw00HPnoFIEva0LOjto0fHdb1QXhKIdR+oj0kqMTfPvsyFufNJN9FN2Bif5qar7EAgfHsCXGOmXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f/PKW9sA; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ycz0PXhb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f/PKW9sA"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777364603; x=1808900603;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=fdxQNMJ8DteAEC6lJuD6ziGdJ6VyO6X9vyE27maFI7k=;
-  b=Ycz0PXhb4PglTRipuvLpl9lUbigztv69BnZhVyOQ9qdeQTayJ70cJOZi
-   mfSK0+myHrZiqI72EYtcGiW2o1kZvzRufQTFJpjl2nHOlNNDRB+hZ6DO7
-   xd5ExfNStsmTDtoDgQqzNrAMbP+rCZh9Ch4w69+IfdD/U0huAmL71oxFf
-   uO5jVFLHBnJQR0FuRlSOYmkvcmJPx0Kr3+RYOL5ePOTgFxCNNj+LmpNgb
-   cZpZFz0MmJACJqCD1OuU5aj5Jto9+SO2qyVoMRBQpP8bZPn7Boqu7/C2P
-   dAfjykPTb64XiFhKOA8VJ3wiQTtBUdEOb0huHbiMNxA5g9vskNbxOXVRm
-   A==;
-X-CSE-ConnectionGUID: YhpZa7yWSEeH+/giZK+3XA==
-X-CSE-MsgGUID: qmCYb+NTS7qv84193LuDoQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="77430654"
+  t=1777364823; x=1808900823;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=ae9qfpcMN/TIaNt3GBQn2ZZICH22T46uM9lYCWLkQ0Q=;
+  b=f/PKW9sAccrYctIqz6uWWF7z3vTzBbnFzjX2/ReSFkMI33n9hjJamk42
+   HMmd3X1RdD5X+1oKb4ExmKApO0IW7LiQ0YxL3lLqHa80yffpZYiOL+bFX
+   3Oz6fNM3tiFBwG11Xy6FzEz9DSJtPz//hMMVv80vJEzXyX4XwN26/6wt5
+   V78FL/PwHn0PE7JZmiRZ4cowmyrWoOeg5ad2D+ji3tLWXVJu7lm139xHu
+   aR7KI8X3Nf0IRe2Y+90SU5KyUDqeDQxGydg+7HGjXgW5B78MaInpyKawf
+   8/wvUbRb8Is2bgI4zov1HXrIdpMb3sxm3rRXRctQw2Z0lNvNFJf+S8imG
+   Q==;
+X-CSE-ConnectionGUID: tuA8v1ZRQeKLSovchKkDHg==
+X-CSE-MsgGUID: F67y8tq3RdSHOz0HsQJ5Zw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="78376814"
 X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="77430654"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:23:23 -0700
-X-CSE-ConnectionGUID: vzc1/MrORLycys6GtvOOeQ==
-X-CSE-MsgGUID: miiEUw/WRjaxAT5U0lnsjA==
+   d="scan'208";a="78376814"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:27:02 -0700
+X-CSE-ConnectionGUID: J596jQH3SS+Q5Mq47KbS9A==
+X-CSE-MsgGUID: 5Ag0uD8hTOG2+RC2zf7KfA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
-   d="scan'208";a="233760483"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.208])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:23:19 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Julian Braha <julianbraha@gmail.com>, akpm@linux-foundation.org,
- ljs@kernel.org
-Cc: arnd@arndb.de, gregkh@linuxfoundation.org, masahiroy@kernel.org,
- nathan@kernel.org, nsc@kernel.org, ojeda@kernel.org, corbet@lwn.net,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, Julian Braha
- <julianbraha@gmail.com>
-Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
-In-Reply-To: <20260427174429.779474-3-julianbraha@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
- 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
-References: <20260427174429.779474-1-julianbraha@gmail.com>
- <20260427174429.779474-3-julianbraha@gmail.com>
-Date: Tue, 28 Apr 2026 11:23:16 +0300
-Message-ID: <dcb7439832f0bb35598fba653d922b5f6a4d0058@intel.com>
+   d="scan'208";a="232881397"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+  by orviesa006.jf.intel.com with ESMTP; 28 Apr 2026 01:26:57 -0700
+Received: from mglak.igk.intel.com (mglak.igk.intel.com [10.237.112.146])
+	by irvmail002.ir.intel.com (Postfix) with ESMTP id 0EAB927BA3;
+	Tue, 28 Apr 2026 09:26:55 +0100 (IST)
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: intel-wired-lan@lists.osuosl.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: aleksander.lobakin@intel.com,
+	sridhar.samudrala@intel.com,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Larysa Zaremba <larysa.zaremba@intel.com>,
+	"Fijalkowski, Maciej" <maciej.fijalkowski@intel.com>,
+	Emil Tantilov <emil.s.tantilov@intel.com>,
+	Madhu Chittim <madhu.chittim@intel.com>,
+	Josh Hay <joshua.a.hay@intel.com>,
+	"Keller, Jacob E" <jacob.e.keller@intel.com>,
+	jayaprakash.shanmugam@intel.com,
+	Jiri Pirko <jiri@resnulli.us>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH iwl-next v7 00/14] Introduce iXD driver
+Date: Tue, 28 Apr 2026 10:26:34 +0200
+Message-ID: <20260428082654.44364-1-larysa.zaremba@intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Apr 2026, Julian Braha <julianbraha@gmail.com> wrote:
-> Add usage documentation and a brief description for kconfirm to
-> Documentation/dev-tools/
->
-> Signed-off-by: Julian Braha <julianbraha@gmail.com>
-> ---
->  Documentation/dev-tools/index.rst    |   1 +
->  Documentation/dev-tools/kconfirm.rst | 147 +++++++++++++++++++++++++++
->  2 files changed, 148 insertions(+)
->  create mode 100644 Documentation/dev-tools/kconfirm.rst
->
-> diff --git a/Documentation/dev-tools/index.rst b/Documentation/dev-tools/index.rst
-> index 59cbb77b33ff..130ebc0d7282 100644
-> --- a/Documentation/dev-tools/index.rst
-> +++ b/Documentation/dev-tools/index.rst
-> @@ -40,3 +40,4 @@ Documentation/process/debugging/index.rst
->     autofdo
->     propeller
->     container
-> +   kconfirm
-> diff --git a/Documentation/dev-tools/kconfirm.rst b/Documentation/dev-tools/kconfirm.rst
-> new file mode 100644
-> index 000000000000..6ad02de15031
-> --- /dev/null
-> +++ b/Documentation/dev-tools/kconfirm.rst
-> @@ -0,0 +1,147 @@
-> +.. SPDX-License-Identifier: GPL-2.0-only
-> +.. Copyright (C) 2026 Julian Braha <julianbraha@gmail.com>
-> +
-> +========
-> +kconfirm
-> +========
-> +
-> +kconfirm is a static analysis tool for the kernel's Kconfig system.  It
-> +checks the entire tree-wide Kconfig, and reports misusage like
-> +dead code.  In the case of dead default statements, these can be a
-> +significant code smell.
-> +
-> +kconfirm has an optional check for dead links in the Kconfig help texts.
-> +Since this has a high potential for false positives (due to websites
-> +blocking bots) and slows down runtime signficantly, it is disabled by
-> +default.  However, an example of how to enable it is included below.
-> +
-> +kconfirm is written in Rust and lives in ``scripts/kconfirm``.  Other
-> +than the dead link checks, kconfirm aims for zero false positives.
-> +
-> +**NOTE**: kconfirm does not modify or compile the source tree; it is
-> +strictly a static checker.
-> +
-> +
-> +Getting Started
-> +===============
-> +
-> +
-> +kconfirm's Minimum Supported Rust Version (MSRV) is v1.85.0, because
-> +it uses Rust edition 2024, and this is the earliest supported version.
-> +
-> +kconfirm also requires the Cargo package manager and an internet
-> +connection for compilation of its dependencies.
-> +
-> +If Cargo is available, kconfirm can be built and run from the top of the
-> +kernel source tree::
-> +
-> +    make kconfirm
-> +
-> +The compiled ``kconfirm-linux`` binary will be available in
-> +``scripts/kconfirm/target/release/``.
-> +
-> +The default checks currently cover dead code analysis.  ``dead_links``
-> +must be turned on explicitly with ``--enable``; conversely, any default
-> +check can be turned off with ``--disable``.  Both options accept
-> +either a comma-separated list or repeated flags, so the following
-> +two invocations are equivalent::
-> +
-> +  kconfirm-linux --linux-path . --enable dead_defaults,dead_links
-> +  kconfirm-linux --linux-path . --enable dead_defaults --enable dead_links
-> +
-> +
-> +
-> +Options
-> +=======
-> +
-> +**NOTE**: kconfirm's arguments must be provided in the ``KCONFIRM_ARGS``
-> +environment variable if running with ``make``. See `Examples`_.
-> +
-> +Available options:
-> +
-> +``--linux-path PATH``
-> +    The path to the linux source tree to analyze. ``make`` uses this
-> +    option to pass the current linux tree, but this option can be used
-> +    when running the tool directly with another source tree.
-> +    See `Examples`_.
-> +
-> +``--enable CHECK[,CHECK...]``
-> +
-> +    Enable one or more checks in addition to the default set.  May be
-> +    given multiple times, or as a single comma-separated list.  See
-> +    `Available checks`_ below for valid names.
-> +
-> +``--disable CHECK[,CHECK...]``
-> +
-> +    Disable one or more checks from the default set.  May be given
-> +    multiple times, or as a single comma-separated list.
-> +
-> +``-h, --help``
-> +
-> +    Show the help message and exit.
-> +
-> +``-V, --version``
-> +
-> +    Show version information and exit.
-> +
-> +
-> +Available checks
-> +================
-> +
-> +Each check has a string name that is accepted by ``--enable`` and
-> +``--disable``.  Checks marked *(default)* are enabled unless turned off
-> +explicitly.
-> +
-> +``duplicate_dependency`` *(default)*
-> +
-> +    Reports duplicated ``depends on`` entries on a single Kconfig symbol.
-> +
-> +``duplicate_range`` *(default)*
-> +
-> +    Reports duplicated ``range`` entries on a single Kconfig symbol.
-> +
-> +``duplicate_select`` *(default)*
-> +
-> +    Reports duplicated ``select`` entries on a single Kconfig symbol.
-> +
-> +``duplicate_default`` *(default)*
-> +
-> +    Reports duplicated ``default`` entries on a single Kconfig symbol.
-> +
-> +``dead_default`` *(default)*
-> +
-> +    Reports ``default`` entries that can never be selected, for example
-> +    because their condition is unsatisfiable.
-> +
-> +``dead_links``
-> +
-> +    Reports broken URLs found in Kconfig help text.  Because this
-> +    performs network requests it can be quite slow, and is disabled by
-> +    default. May also have false positives.
-> +
-> +``style``
-> +
-> +    Reports opinionated style issues in Kconfig files.  Disabled by
-> +    default.
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-Oh, I'd really like a check on this part from kconfig-language.rst:
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
 
-  Note:
-	select should be used with care. select will force
-	a symbol to a value without visiting the dependencies.
-	By abusing select you are able to select a symbol FOO even
-	if FOO depends on BAR that is not set.
-	In general use select only for non-visible symbols
-	(no prompts anywhere) and for symbols with no dependencies.
-	That will limit the usefulness but on the other hand avoid
-	the illegal configurations all over.
+The first phase entails the following aspects:
 
-i.e. warn on selecting visible symbols or symbols with
-dependencies.
+1. Additional libie functionalities:
+Patches 1-5 introduce additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
 
-Yes, it's going to produce tons of warnings. But currently we don't even
-know how bad it really is.
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
 
-BR,
-Jani.
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
 
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
 
-> +
-> +
-> +Examples
-> +========
-> +
-> +Compile (as needed) and run on the current tree::
-> +
-> +    make kconfirm
-> +
-> +To additionally enable dead-link checking::
-> +
-> +    make kconfirm KCONFIRM_ARGS="--enable dead_links"
-> +
-> +To disable a check (here, ``duplicate_dependency``) while keeping the
-> +rest of the default set::
-> +
-> +    make kconfirm KCONFIRM_ARGS="--disable duplicate_dependency"
-> +
-> +To run the default checks against a kernel tree separate from the
-> +current directory, such as ``~/repos/linux``::
-> +
-> +    scripts/kconfirm/target/release/kconfirm-linux --linux-path ~/repos/linux
+The modules above are not supposed to be linked witn the main libie library,
+but do share the folder with it.
+
+2. idpf :
+Patches 6-9 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization and
+reset and adjust related code accordingly.
+
+3. ixd:
+Patches 11-14 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+
+v6->v7:
+* lock libie ctlq transaction earlier on Rx path
+* improve ctlq Rx buffer size validation both in idpf and libie
+* fix RSS LUT buf size (will also go to stable separately)
+* improve xnm shutdown handling
+* skip zero-sized BAR regions instread of returning error in idpf
+* unify treatment of initialized and uninitialized ctlq messages
+
+v5->v6:
+* improved failure handling and input validation
+* removed cp version from devlink in ixd
+* patch 8 requires retest
+
+v4->v5:
+* rebase on top of queue resources refactor
+* overwrite idpf's memory regions management that was merged in the meantime
+* introduce libie_pci_unmap_fltr_regs()
+* rebase on top on RDMA patchset - patches 8 & 9
+* use pcim_* helpers in libie_pci (patch 3)
+* fix issue with reset not being triggered (reported by Emil) - patch 8
+* introduce idpf_send_mb_msg_kfree function to handle cases, where
+  idpf allocates buffers on different size for the same command - patch 8
+
+v3->v4:
+* non-trivial rebase affecting patch 1 (moving headers) and idpf refactoring
+  patches
+
+v2->v3:
+* non-trivial rebase affecting idpf refactoring patches
+* add include/linux/intel under both Tony and NETWORKING DRIVERS
+* due to rebase, in libie account for libeth_rx now using netmem instead
+  of plain pages
+* make libie_ctlq_release_rx_buf() take only one argument, as the producing
+  queue is not actually needed to release a page pool buffer
+* fix return value not being set in idpf_send_get_rx_ptype_msg()
+* fix kdoc comments, so libie and ixd generate it cleanly
+* separate idpf refactoring into 2 patches: pci+mmio and ctlq+xn
+* suplement idpf refactoring commit message with information about module size
+  and resource usage changes
+* reformat commit messages to reduce the number of wasted lines
+
+v1->v2:
+* rename libeth_cp and libeth_pci to libie_cp and libie_pci respectively,
+  move them into an appropriate folder
+* rebase on top of recent PTP changes, this alters idpf refactor
+* update maintainers after moving headers
+* cast resource_size_t to unsigned long long when printing
+* add ixd devlink documentation into index
+* fix xn system kdoc problems
+* fix indentation in libeth_ctlq_xn_deinit()
+* fix extra kdoc member vcxn_mngr in idpf_adapter
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (5):
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (4):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie_pci APIs
+  idpf: refactor idpf to use libie control queues
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (1):
+  virtchnl: create 'include/linux/intel' and move necessary header files
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   30 +
+ MAINTAINERS                                   |    6 +-
+ drivers/infiniband/hw/irdma/i40iw_if.c        |    2 +-
+ drivers/infiniband/hw/irdma/icrdma_if.c       |    2 +-
+ drivers/infiniband/hw/irdma/ig3rdma_if.c      |    2 +-
+ drivers/infiniband/hw/irdma/main.c            |    2 +-
+ drivers/infiniband/hw/irdma/main.h            |    2 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    4 +-
+ .../net/ethernet/intel/i40e/i40e_adminq_cmd.h |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_client.c |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_ethtool.c    |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_main.c   |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.c   |    4 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.h   |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ .../net/ethernet/intel/iavf/iavf_adminq_cmd.h |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.c   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.h   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ .../net/ethernet/intel/iavf/iavf_virtchnl.c   |    2 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ .../net/ethernet/intel/ice/ice_adminq_cmd.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_base.c     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_flow.h     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_idc_int.h  |    4 +-
+ drivers/net/ethernet/intel/ice/ice_txrx.c     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_txrx_lib.c |    2 +-
+ drivers/net/ethernet/intel/ice/ice_type.h     |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ .../net/ethernet/intel/ice/virt/virtchnl.h    |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |  103 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |  621 ------
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  144 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ .../ethernet/intel/idpf/idpf_controlq_setup.c |  169 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |  101 +-
+ .../net/ethernet/intel/idpf/idpf_ethtool.c    |   28 +-
+ drivers/net/ethernet/intel/idpf/idpf_idc.c    |   38 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   69 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |  117 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   99 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1844 +++++++----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   96 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  306 ++-
+ drivers/net/ethernet/intel/ixd/Kconfig        |   15 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   58 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  149 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   33 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   89 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |   97 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   44 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  166 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  147 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  178 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/ixgbe/ixgbe_type.h |    2 +-
+ .../ethernet/intel/ixgbe/ixgbe_type_e610.h    |    2 +-
+ drivers/net/ethernet/intel/libeth/rx.c        |   12 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/adminq.c     |    2 +-
+ drivers/net/ethernet/intel/libie/controlq.c   | 1213 +++++++++++
+ drivers/net/ethernet/intel/libie/fwlog.c      |    2 +-
+ drivers/net/ethernet/intel/libie/pci.c        |  208 ++
+ drivers/net/ethernet/intel/libie/rx.c         |    2 +-
+ include/linux/{net => }/intel/i40e_client.h   |    0
+ include/linux/{net => }/intel/iidc_rdma.h     |    0
+ include/linux/{net => }/intel/iidc_rdma_ice.h |    0
+ .../linux/{net => }/intel/iidc_rdma_idpf.h    |    0
+ include/linux/{net => }/intel/libie/adminq.h  |    0
+ include/linux/intel/libie/controlq.h          |  426 ++++
+ include/linux/{net => }/intel/libie/fwlog.h   |    2 +-
+ include/linux/intel/libie/pci.h               |   56 +
+ include/linux/{net => }/intel/libie/pctype.h  |    0
+ include/linux/{net => }/intel/libie/rx.h      |    0
+ include/linux/{avf => intel}/virtchnl.h       |    0
+ .../idpf => include/linux/intel}/virtchnl2.h  |    0
+ .../linux/intel}/virtchnl2_lan_desc.h         |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 97 files changed, 4236 insertions(+), 2883 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ rename include/linux/{net => }/intel/i40e_client.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma_ice.h (100%)
+ rename include/linux/{net => }/intel/iidc_rdma_idpf.h (100%)
+ rename include/linux/{net => }/intel/libie/adminq.h (100%)
+ create mode 100644 include/linux/intel/libie/controlq.h
+ rename include/linux/{net => }/intel/libie/fwlog.h (98%)
+ create mode 100644 include/linux/intel/libie/pci.h
+ rename include/linux/{net => }/intel/libie/pctype.h (100%)
+ rename include/linux/{net => }/intel/libie/rx.h (100%)
+ rename include/linux/{avf => intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h (100%)
 
 -- 
-Jani Nikula, Intel
+2.47.0
+
