@@ -1,315 +1,126 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 953783DEFFE
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:49:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4048742EEB4
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:50:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777391375; cv=none; b=Sh5z/eqpYcqS75EOSNh/4lgS2Wx6B7gnyygXSSE0gfkUV/cOxrLGC6Pv7SjWA5SXASEGt/VKduygZwzhr46o5ssYxxOiad4GEgZjr6YVRs49rrXR9RaexJKLNxsfja7xu93Bp4Biad5jpfxKZvxNWP3wtloQ6kkJmUUwbxaCOwg=
+	t=1777391408; cv=none; b=LkTJV2I+q0tZHsonadDkzNK8P62geLLjc+TL/cU5ESJ6NRqjf3pEQA44XTVYAQkPfMyFV6kUprEiFw89l0VdW6g5+sLjgEuWO8y44eu1P2g/K6UdbvE/KFCOzLg8psLAgRpbbxCxsSMKcsYk0su1IPZG+7R0icqty8bKizdra9c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777391375; c=relaxed/simple;
-	bh=x3RO6V/kHu8H1CKsrGLhR3Bb4YgxOOQit0LWvUQwr2Y=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=sXCdX2fRTQebUYjsiaq3r9sXL4ycL5ECs2z/uYAThZZqPJ/kGQowQ+uDYZ6rc4Zi8vlQPp8tP8zjf+cbQBbDvk2yErfawXdYsLdIkToTO99KO3dc+aAbVu/dCohmdLvJDLAO6/HfOJG9TUB1VWBS+CJ2DjXWxHDycfC5ZnumI30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=DgsOjAxq; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1777391408; c=relaxed/simple;
+	bh=m4em3WATkXCZY/HpQBIXDhpLBD0RFgKEJQxvZ0gfhio=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=BRX8c/4ceZZ5KCI1qJCahSipKLICpQ0Crs1nwKxVLZXa5/b/Qp4+jG4xxAAXV4Yb8eJ7wS+Zbx6PkyBGOEFh+5G9Tua2YV8z31Q8ujX6gVutOwAd5QGOJaKxfTuApHUG/hmBsOTx7eZ2T8WWBA5mlkW3DSlpRTe2mkijKosBbNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VyjgDojU; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="DgsOjAxq"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VyjgDojU"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777391372;
+	s=mimecast20190719; t=1777391406;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=S1OkNnCiwBkSZQuPMZVTXv9vN6Q5bxCiT4HYJFpbNv8=;
-	b=DgsOjAxqdXts6iQwPIFy2y+yZd1J1uKVaighyU+hvtP7+DiA+d9DVWFPdChA/UIsUnEnVm
-	HCv3Jht+NCRFchKm15AiAEEZwv1iK8nTulpuaL+K9MIcQ7KRUZCnoI7t3q0Vlh3FfMOwOv
-	WdP0cc1zN+inZZSeKQohKyJfpZLeYck=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=qX32DooFrkDfRe71xhvhxNSnEf4P5VJZoKSsbRqV8uk=;
+	b=VyjgDojUZUvAwiAhDdPd9k0emM488n8Gdm39WGsT+Qup7aT7MrZCX10YLI0OHQxPZyC/Ni
+	fqsyhQvT6epfPMvNcXRvAAIwF9XfemAzJheODnfccRx0QQDW8hXEMpl6Dpyhu5EGlAi4HQ
+	T4JR/FdCDYktyAWgw767SJ/GN7DNvN8=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-299-2CvlZjdhMJ-wpOuFy791Eg-1; Tue,
- 28 Apr 2026 11:49:29 -0400
-X-MC-Unique: 2CvlZjdhMJ-wpOuFy791Eg-1
-X-Mimecast-MFC-AGG-ID: 2CvlZjdhMJ-wpOuFy791Eg_1777391367
-Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-369-NZtYTrVgOHy1eEdUvD61MQ-1; Tue,
+ 28 Apr 2026 11:50:00 -0400
+X-MC-Unique: NZtYTrVgOHy1eEdUvD61MQ-1
+X-Mimecast-MFC-AGG-ID: NZtYTrVgOHy1eEdUvD61MQ_1777391398
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id AE1061800578;
-	Tue, 28 Apr 2026 15:49:26 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.44.49.234])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 66A09300756E;
-	Tue, 28 Apr 2026 15:49:21 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pasi Vaananen <pvaanane@redhat.com>,
-	Petr Oros <poros@redhat.com>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next 2/2] dpll: zl3073x: implement pin operational state reporting
-Date: Tue, 28 Apr 2026 17:49:07 +0200
-Message-ID: <20260428154907.2820654-3-ivecera@redhat.com>
-In-Reply-To: <20260428154907.2820654-1-ivecera@redhat.com>
-References: <20260428154907.2820654-1-ivecera@redhat.com>
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 923AE1956089;
+	Tue, 28 Apr 2026 15:49:58 +0000 (UTC)
+Received: from [10.22.65.177] (unknown [10.22.65.177])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A1A7A180045E;
+	Tue, 28 Apr 2026 15:49:56 +0000 (UTC)
+Message-ID: <24bf6d29-f2ee-4285-af27-fb1aa3d0a1c8@redhat.com>
+Date: Tue, 28 Apr 2026 11:49:55 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] cgroup/cpuset: Creating or adding CPUs to partition not
+ allowed without privilege
+From: Waiman Long <longman@redhat.com>
+To: =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>
+Cc: Chen Ridong <chenridong@huawei.com>, Tejun Heo <tj@kernel.org>,
+ Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Xie Maoyi <maoyi.xie@ntu.edu.sg>
+References: <20260428033439.783246-1-longman@redhat.com>
+ <7so4b76wg2apwwk3yh76q42jgwnpvlv7sursmsmzeyefhp4pbt@thybpp4litm6>
+ <9df75f61-0cbb-42b4-b64d-8e6fd49d50ca@redhat.com>
+Content-Language: en-US
+In-Reply-To: <9df75f61-0cbb-42b4-b64d-8e6fd49d50ca@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-Implement operstate_on_dpll_get callback for input pins to report
-the actual hardware status:
+On 4/28/26 11:19 AM, Waiman Long wrote:
+> On 4/28/26 3:58 AM, Michal Koutný wrote:
+>> Hi Waiman.
+>>
+>> On Mon, Apr 27, 2026 at 11:34:39PM -0400, Waiman Long 
+>> <longman@redhat.com> wrote:
+>>> Creation of a cpuset partition or adding more CPUs to an existing
+>>> partition will take CPUs away from other cpusets outside of the
+>>> partition leaving less CPUs for the others. So it is a privileged
+>>> operation that non-privileged users shouldn't be allowed to do.
+>>>
+>>> Currently, remote partition code has check for CAP_SYS_ADMIN capability
+>>> before allowing such operations, but not for local partition.
+>> Remote partitions need such a check because their CPUs are sourced from
+>> the global supply (top level) without
+>>
+>>> This leaves a security hole in case cpuset.cpus.partition of a cpuset
+>>> is chown'ed to a non-root user and its parent cpuset happens to be a
+>>> partition root.
+>> I wouldn't say this difference between remote and local partitions is a
+>> security hole [1].
+> OK, I will tone down the description.
+>>
+>> Consider this -- cgroup a is created by root (admin) and its resources
+>> are constrained by root's policy. However, what happens in a subtree is
+>> irrelevant from that top level view.
+>>
+>> # setup            // owner
+>> a/cpuset.partition=root    // root
+>> a/cpuset.cpus=0-3    // root
+>> a/cgroup.procs        // user, they can organize subtree as needed
+>>
+>> For example the user may want to create a (sub)partition with some of
+>> the CPUs they got:
+>>
+>> user$ mkdir a/b
+>>
+>> a/b/cpuset.partition=root    // user
+>> a/b/cpuset.cpus=0-1        // user
+>>
+>> This should be a valid configuration and behavior, no?
+>
+> Thank for the comment. Yes, that can be a valid configuration.
+>
+> One possible workaround may be to see if the current user has write 
+> access to its parent partition root. If so, we can allow it to create 
+> a sub-partition, if not, we will forbid it. 
 
-  - active: pin is the currently locked reference
-  - standby: signal is valid but pin is not actively used
-  - no-signal: reference monitor reports Loss of Signal (LOS)
-  - qual-failed: reference monitor reports a qualification failure
-    (SCM, CFM, GST, PFM, eSync or Split-XO)
+It is not that simple to check if the user can write to its parent. So I 
+will put it down as a TODO item, but will still forbid such a 
+configuration for now.
 
-Separate administrative state (state_on_dpll_get) from operational
-state: admin state now reports purely the user-requested intent
-(connected in reflock mode, selectable in auto mode).
-
-Switch periodic monitoring to track operstate changes instead of
-the mixed admin/oper state that was previously reported.
-
-Add ref_mon_status bit definitions to regs.h.
-
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/dpll.c | 108 ++++++++++++++++++++++++------------
- drivers/dpll/zl3073x/regs.h |   9 ++-
- 2 files changed, 79 insertions(+), 38 deletions(-)
-
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index c95e93ef3ab04..6fd718696de0d 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -38,7 +38,7 @@
-  * @prio: pin priority <0, 14>
-  * @esync_control: embedded sync is controllable
-  * @phase_gran: phase adjustment granularity
-- * @pin_state: last saved pin state
-+ * @operstate: last saved operational state
-  * @phase_offset: last saved pin phase offset
-  * @freq_offset: last saved fractional frequency offset
-  * @measured_freq: last saved measured frequency
-@@ -55,7 +55,7 @@ struct zl3073x_dpll_pin {
- 	u8			prio;
- 	bool			esync_control;
- 	s32			phase_gran;
--	enum dpll_pin_state	pin_state;
-+	enum dpll_pin_operstate	operstate;
- 	s64			phase_offset;
- 	s64			freq_offset;
- 	u32			measured_freq;
-@@ -500,46 +500,41 @@ zl3073x_dpll_input_pin_phase_adjust_set(const struct dpll_pin *dpll_pin,
- }
- 
- /**
-- * zl3073x_dpll_ref_state_get - get status for given input pin
-+ * zl3073x_dpll_ref_operstate_get - get operational state for input pin
-  * @pin: pointer to pin
-- * @state: place to store status
-+ * @operstate: place to store operational state
-  *
-- * Checks current status for the given input pin and stores the value
-- * to @state.
-+ * Returns the actual hardware state of the pin: whether it is actively
-+ * used by the DPLL, has no signal, failed qualification, or is simply
-+ * not in use.
-  *
-  * Return: 0 on success, <0 on error
-  */
- static int
--zl3073x_dpll_ref_state_get(struct zl3073x_dpll_pin *pin,
--			   enum dpll_pin_state *state)
-+zl3073x_dpll_ref_operstate_get(struct zl3073x_dpll_pin *pin,
-+			       enum dpll_pin_operstate *operstate)
- {
- 	struct zl3073x_dpll *zldpll = pin->dpll;
- 	struct zl3073x_dev *zldev = zldpll->dev;
--	const struct zl3073x_chan *chan;
--	u8 ref;
--
--	chan = zl3073x_chan_state_get(zldev, zldpll->id);
--	ref = zl3073x_input_pin_ref_get(pin->id);
-+	const struct zl3073x_ref *ref;
-+	u8 ref_id;
- 
--	/* Check if the pin reference is connected */
--	if (ref == zl3073x_dpll_connected_ref_get(zldpll)) {
--		*state = DPLL_PIN_STATE_CONNECTED;
--		return 0;
--	}
-+	ref_id = zl3073x_input_pin_ref_get(pin->id);
- 
--	/* If the DPLL is running in automatic mode and the reference is
--	 * selectable and its monitor does not report any error then report
--	 * pin as selectable.
--	 */
--	if (zl3073x_chan_mode_get(chan) == ZL_DPLL_MODE_REFSEL_MODE_AUTO &&
--	    zl3073x_dev_ref_is_status_ok(zldev, ref) &&
--	    zl3073x_chan_ref_is_selectable(chan, ref)) {
--		*state = DPLL_PIN_STATE_SELECTABLE;
-+	/* Check if this pin is the currently locked reference */
-+	if (ref_id == zl3073x_dpll_connected_ref_get(zldpll)) {
-+		*operstate = DPLL_PIN_OPERSTATE_ACTIVE;
- 		return 0;
- 	}
- 
--	/* Otherwise report the pin as disconnected */
--	*state = DPLL_PIN_STATE_DISCONNECTED;
-+	/* Check reference monitor status */
-+	ref = zl3073x_ref_state_get(zldev, ref_id);
-+	if (ref->mon_status & ZL_REF_MON_STATUS_LOS)
-+		*operstate = DPLL_PIN_OPERSTATE_NO_SIGNAL;
-+	else if (!zl3073x_ref_is_status_ok(ref))
-+		*operstate = DPLL_PIN_OPERSTATE_QUAL_FAILED;
-+	else
-+		*operstate = DPLL_PIN_OPERSTATE_STANDBY;
- 
- 	return 0;
- }
-@@ -551,10 +546,48 @@ zl3073x_dpll_input_pin_state_on_dpll_get(const struct dpll_pin *dpll_pin,
- 					 void *dpll_priv,
- 					 enum dpll_pin_state *state,
- 					 struct netlink_ext_ack *extack)
-+{
-+	struct zl3073x_dpll *zldpll = dpll_priv;
-+	struct zl3073x_dpll_pin *pin = pin_priv;
-+	const struct zl3073x_chan *chan;
-+	u8 mode, ref;
-+
-+	chan = zl3073x_chan_state_get(zldpll->dev, zldpll->id);
-+	ref = zl3073x_input_pin_ref_get(pin->id);
-+	mode = zl3073x_chan_mode_get(chan);
-+
-+	switch (mode) {
-+	case ZL_DPLL_MODE_REFSEL_MODE_REFLOCK:
-+		if (ref == zl3073x_chan_ref_get(chan))
-+			*state = DPLL_PIN_STATE_CONNECTED;
-+		else
-+			*state = DPLL_PIN_STATE_DISCONNECTED;
-+		break;
-+	case ZL_DPLL_MODE_REFSEL_MODE_AUTO:
-+		if (zl3073x_chan_ref_is_selectable(chan, ref))
-+			*state = DPLL_PIN_STATE_SELECTABLE;
-+		else
-+			*state = DPLL_PIN_STATE_DISCONNECTED;
-+		break;
-+	default:
-+		*state = DPLL_PIN_STATE_DISCONNECTED;
-+		break;
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+zl3073x_dpll_input_pin_operstate_on_dpll_get(const struct dpll_pin *dpll_pin,
-+					     void *pin_priv,
-+					     const struct dpll_device *dpll,
-+					     void *dpll_priv,
-+					     enum dpll_pin_operstate *operstate,
-+					     struct netlink_ext_ack *extack)
- {
- 	struct zl3073x_dpll_pin *pin = pin_priv;
- 
--	return zl3073x_dpll_ref_state_get(pin, state);
-+	return zl3073x_dpll_ref_operstate_get(pin, operstate);
- }
- 
- static int
-@@ -1248,6 +1281,7 @@ static const struct dpll_pin_ops zl3073x_dpll_input_pin_ops = {
- 	.frequency_get = zl3073x_dpll_input_pin_frequency_get,
- 	.frequency_set = zl3073x_dpll_input_pin_frequency_set,
- 	.measured_freq_get = zl3073x_dpll_input_pin_measured_freq_get,
-+	.operstate_on_dpll_get = zl3073x_dpll_input_pin_operstate_on_dpll_get,
- 	.phase_offset_get = zl3073x_dpll_input_pin_phase_offset_get,
- 	.phase_adjust_get = zl3073x_dpll_input_pin_phase_adjust_get,
- 	.phase_adjust_set = zl3073x_dpll_input_pin_phase_adjust_set,
-@@ -1663,7 +1697,7 @@ zl3073x_dpll_pin_phase_offset_check(struct zl3073x_dpll_pin *pin)
- 	 * 2) For other pins use appropriate ref_phase register if the phase
- 	 *    monitor feature is enabled.
- 	 */
--	if (pin->pin_state == DPLL_PIN_STATE_CONNECTED)
-+	if (pin->operstate == DPLL_PIN_OPERSTATE_ACTIVE)
- 		reg = ZL_REG_DPLL_PHASE_ERR_DATA(zldpll->id);
- 	else if (zldpll->phase_monitor)
- 		reg = ZL_REG_REF_PHASE(ref_id);
-@@ -1828,7 +1862,7 @@ zl3073x_dpll_changes_check(struct zl3073x_dpll *zldpll)
- 	}
- 
- 	list_for_each_entry(pin, &zldpll->pins, list) {
--		enum dpll_pin_state state;
-+		enum dpll_pin_operstate operstate;
- 		bool pin_changed = false;
- 
- 		/* Output pins change checks are not necessary because output
-@@ -1837,18 +1871,18 @@ zl3073x_dpll_changes_check(struct zl3073x_dpll *zldpll)
- 		if (!zl3073x_dpll_is_input_pin(pin))
- 			continue;
- 
--		rc = zl3073x_dpll_ref_state_get(pin, &state);
-+		rc = zl3073x_dpll_ref_operstate_get(pin, &operstate);
- 		if (rc) {
- 			dev_err(dev,
--				"Failed to get %s on DPLL%u state: %pe\n",
-+				"Failed to get %s on DPLL%u oper state: %pe\n",
- 				pin->label, zldpll->id, ERR_PTR(rc));
- 			return;
- 		}
- 
--		if (state != pin->pin_state) {
--			dev_dbg(dev, "%s state changed: %u->%u\n", pin->label,
--				pin->pin_state, state);
--			pin->pin_state = state;
-+		if (operstate != pin->operstate) {
-+			dev_dbg(dev, "%s oper state changed: %u->%u\n",
-+				pin->label, pin->operstate, operstate);
-+			pin->operstate = operstate;
- 			pin_changed = true;
- 		}
- 
-diff --git a/drivers/dpll/zl3073x/regs.h b/drivers/dpll/zl3073x/regs.h
-index d425dc67250fe..8015808bdf548 100644
---- a/drivers/dpll/zl3073x/regs.h
-+++ b/drivers/dpll/zl3073x/regs.h
-@@ -98,7 +98,14 @@
- 
- #define ZL_REG_REF_MON_STATUS(_idx)					\
- 	ZL_REG_IDX(_idx, 2, 0x02, 1, ZL3073X_NUM_REFS, 1)
--#define ZL_REF_MON_STATUS_OK			0 /* all bits zeroed */
-+#define ZL_REF_MON_STATUS_OK			0
-+#define ZL_REF_MON_STATUS_LOS			BIT(0)
-+#define ZL_REF_MON_STATUS_SCM			BIT(1)
-+#define ZL_REF_MON_STATUS_CFM			BIT(2)
-+#define ZL_REF_MON_STATUS_GST			BIT(3)
-+#define ZL_REF_MON_STATUS_PFM			BIT(4)
-+#define ZL_REF_MON_STATUS_ESYNC			BIT(6)
-+#define ZL_REF_MON_STATUS_SPLIT_XO		BIT(7)
- 
- #define ZL_REG_DPLL_MON_STATUS(_idx)					\
- 	ZL_REG_IDX(_idx, 2, 0x10, 1, ZL3073X_MAX_CHANNELS, 1)
--- 
-2.53.0
+Cheers,
+Longman
 
