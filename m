@@ -1,107 +1,105 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C7B74534AE;
-	Tue, 28 Apr 2026 18:05:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43AC145BD7A
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 18:06:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777399543; cv=none; b=Cxu/PI6+2E47Mi99ClobjA14OSdsN8FEpTZcIBkJbzc4xKTpBXaahIH5i6wYtk+4R8bsTQ7mhxDoo+bPl3QO2+x7KCWpR3W1zss32C0kWnGBFegJnKLiwuAC3jykR+DDSjQ8iyWAvYjHQynHsAzc11B4MehSA0gCFvVAQqqzJls=
+	t=1777399607; cv=none; b=YZT/mX0Se1a6Cf4A9rRQVKcpYdgNU7XEbYpROc+d20rEhdExsNdqUSb+GX10p7qcLOOXTYEgMhBFo6LBLFa7YkUI7XqB89w/UM5RHbv183umhnQ9SdfM2kOsl77Bv3SGGZoJ0ib8ctBDxhComfDDE4qnwY94Ul3S3z0N63+rskc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777399543; c=relaxed/simple;
-	bh=P64k85N3daHnIev8xOmxmzWEX56aQBjsUVihR/XicFg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SvRTzzX04BVulm1nfQCmIrG/UrZJS7FNriZBXaRVbaLx13PgA/CfV3yjTN7nfIRduHZRIEjuMAs4KhrVFUaVZHWeIUbf9P2mVyDkuTAIM1OqiBfEnFc59lIHMrvOjtKSy6qEY7a29JG+ZzLPFZTFD6tCApeCe8hDwQ//B6DjaL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=GEcDleAy; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1777399607; c=relaxed/simple;
+	bh=yqjIjtfKgVcLUYBAkjRAo0Q4mwh0fZg0tEEipx5Dfi0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fQtRS0HcIArfyEQ6HtznBzGbGVgjr0QIWbuGd7ilEwkKjr9MCs+XYXL65mBd5eBG86+blkgzd/MFyKwIuYJErgZ0CwE6ZbYZz2g9W59ANTgFFR3beK0MZOLGCPtEGQredpH8qXKs+j12VKp6HIVFobs1I3+peFpQdByfroBNcw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mVsyUazC; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="GEcDleAy"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
-	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
-	In-Reply-To:References; bh=f7TAcOXxPnUVfil+ay330gPo4DxhAxhPDiY4u2086e4=; b=GE
-	cDleAyqqdGmQWx/Ex+NIq0ne4BoHv7ryPiIH1R8l8YNsCRw9rQeCVAVmE7beTtd1Yo536uB6pXloi
-	WWskddRMmJeVNtUfwGqet9BpI13iSU7xXwav46OeSpPSwq1hR5ThEGC/B6lnz+iaXWp5r7OfLbUBV
-	s64aKyNSeep6o6g=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wHmoJ-000NwR-MD; Tue, 28 Apr 2026 20:05:27 +0200
-Date: Tue, 28 Apr 2026 20:05:27 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: "Padhi, Beleswar" <b-padhi@ti.com>
-Cc: Shenwei Wang <shenwei.wang@nxp.com>, Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Frank Li <frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <8d9801cb-0c66-48d8-a946-89a7771e73ea@lunn.ch>
-References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
- <20260422212849.1240591-4-shenwei.wang@nxp.com>
- <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
- <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <29485742-6e49-482e-b73d-228295daaeec@ti.com>
- <PAXPR04MB918568939EC7DAEB4BB6C8F989372@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <32c119af-96ad-4da0-86f2-cdc4ba57ef0b@ti.com>
- <PAXPR04MB9185C7741DCC422212F952CD89372@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <8c8cefaa-7d9e-4b73-b92f-40cb52b37f2e@ti.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mVsyUazC"
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-488ff90d6c7so100959625e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 11:06:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777399603; x=1778004403; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=yqjIjtfKgVcLUYBAkjRAo0Q4mwh0fZg0tEEipx5Dfi0=;
+        b=mVsyUazCkUa+mD+UNyTbb5pBWokKIT9NSdS9Rfh592apXYqnod3e6NosRSLp5I3I3F
+         Pd63tvd8u1pyHNpckS4El/PbgtjWE8wXr6XjgeYoCkvvFfdqB5q4eEfSpIqbyFP1zIt8
+         /YLF097A4o68V1LOhD3KnAu5E1klszfD5dTl3cZJFsFiAFSqK3lxuk5DzE0R9hzTzsyg
+         UDLsZYbMx+X0d/THmic2/+diCNjqjl5NrTaXreogoEHQWJFDKVOlBckdAzn64qvseHQI
+         RdDRjn3Fms9bLCjykD4Rua/I5GWxHuy28rUKfDdZxHD6f4KZzjZ9uasai5meqM9K4qU5
+         UVkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777399603; x=1778004403;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yqjIjtfKgVcLUYBAkjRAo0Q4mwh0fZg0tEEipx5Dfi0=;
+        b=q52qWRRDjzoRmwKqhT/z+gHsD9OfnH0tHgPDgYs0IVWUIcAZMb9H8wFiGLZiyiVQvu
+         LGqfbLS+br+JbaZEULFtMGVXtYlu8HOdnUy7dBCoaDDmaYuVpDNr13/j3oFLaDGE1bPE
+         F1ZMMyWGHff+HcFRcSV0aQqbiLLPd4vjpprGv262MlejtOOHk/dTDnEj+kY4ZUbEt3uZ
+         4M5IveFcSZ4sq3qJBNnt1nNL0DacrEbbp6SI8hqU/Xl3g0F8UPUDkfGAnAd6xySxw+0p
+         z+p/akxmUnD6nzTY0gIQjmKoc1Cc8eTC7rhppbDquYL689FyMz5gQSV3OcLA78CU31UO
+         YQ0w==
+X-Forwarded-Encrypted: i=1; AFNElJ80uMwuCEVCx6HwcvvJTBLKfqQh6UZM/g4gwENK6u/7YRswEX3cx5WqMTFHOxXmqfpjD1NGpEYdp9o=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9eG602GBBIxmDVvTHuIfz2tBuc7x6NMvCAyXe24skTp6CDFXg
+	yXEwRNdZB1Wlgj6Q4uwFDF2hD9MWnFGE72yCZ3mwS9vpy1wYpWT7VDpc
+X-Gm-Gg: AeBDietehpEcc2jNIaS04Nf9+6gHtgHKYhfodztpu+YbWgexZz/xwHuEBJF2Q7ok8mE
+	M3cCKv3TIyVBeFBYIH4kUvYl8yIS9Hlz0fy2wDQ1Z9V3EKRD2dV3zW9pxXkdKLy3koNWY4Cx3Rq
+	kU2o4dPeLE/O9C/VWgLciWO/XmU/gynuA03wW18T2AbSzOlPnZEiIq1ZPyo3jdV0BAn3p7HPlOr
+	j/kAQV03jT5ccGz8f4vO+vsE7GImvPw1mIhyP8IcZvHx79IOnJpkqY1XnXuKEmReriRI8ulqc0k
+	3KAufvjgQpG4C3Fmk0bO2SwHHVGEUtW1NiriR5koklVRBrUFMQoUCkk0RAKMAS5GWejN3x8gDMS
+	vzvOh5+HEEYVSGVFA/t6oWC/ej89cXZwaFlUqjQ1z1lR45agH6sUm9+TWXotWxzMtU0wmgJOhB6
+	yFr3R+abUruhYlS2mHgEH3TqEdIdz2dlSCYntYiAUjPc/fjneOiVEpuCgJ6bRinuTIrsLbZQ==
+X-Received: by 2002:a05:600c:859a:b0:488:ac01:72de with SMTP id 5b1f17b1804b1-48a7b5125f3mr9228125e9.5.1777399603012;
+        Tue, 28 Apr 2026 11:06:43 -0700 (PDT)
+Received: from [10.128.10.158] (195-23-151-163.net.novis.pt. [195.23.151.163])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7b8cf0fesm3192395e9.5.2026.04.28.11.06.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Apr 2026 11:06:42 -0700 (PDT)
+Sender: Julian Braha <julian.braha@gmail.com>
+Message-ID: <b5918621-08d2-4ad6-850f-dda18a1e774d@gmail.com>
+Date: Tue, 28 Apr 2026 19:06:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <8c8cefaa-7d9e-4b73-b92f-40cb52b37f2e@ti.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
+To: Jani Nikula <jani.nikula@linux.intel.com>, akpm@linux-foundation.org,
+ ljs@kernel.org
+Cc: arnd@arndb.de, gregkh@linuxfoundation.org, masahiroy@kernel.org,
+ nathan@kernel.org, nsc@kernel.org, ojeda@kernel.org, corbet@lwn.net,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+References: <20260427174429.779474-1-julianbraha@gmail.com>
+ <20260427174429.779474-3-julianbraha@gmail.com>
+ <dcb7439832f0bb35598fba653d922b5f6a4d0058@intel.com>
+Content-Language: en-US
+From: Julian Braha <julianbraha@gmail.com>
+In-Reply-To: <dcb7439832f0bb35598fba653d922b5f6a4d0058@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> Remote side learns the endpoint when it receives any message from Linux
-> from the dynamic endpoint.
-> 
-> Lets say rpmsg_create_ept() allocates a dynamic local ept of 1026. When
-> you send the message from this endpoint, the standard rpmsg header
-> would have:
-> 
->     85 struct rpmsg_hdr {
->     86         __rpmsg32 src; // 1026
->     87         __rpmsg32 dst; // rpdev->dst (e.g. 400)
->     88         __rpmsg32 reserved;
->     89         __rpmsg16 len;
->     90         __rpmsg16 flags;
->     91         u8 data[];
->     92 } __packed;
-> 
-> Remote side tracks the dynamic endpoint by reading src = 1026. And while
-> sending the response it fills the header as:
+On Tue, 28 Apr 2026, Jani Nikula <jani.nikula@linux.intel.com> wrote:
+> Oh, I'd really like a check on this part from kconfig-language.rst:
+>
+> i.e. warn on selecting visible symbols or symbols with
+> dependencies.
 
-I've never used rpmsg, so this might be a FAQ. How does the remote
-side know what the endpoint is to be used for? Here we are talking
-about GPIO. But the same hardware implements I2C, and a few other
-things. How do we indicate this endpoint is for GPIO?
+Hi Jani,
 
-Maybe also related, this hardware also supports a number of GPIO
-controllers. There has been some argument about if one endpoint should
-support multiple GPIO controllers. Or, like gpio-virtio, one endpoint
-represents one GPIO controller, and you instantiate multiple
-endpoints, one per controller. How can you tell the different
-instances of GPIO endpoints apart when they are dynamically created?
+This is very doable in the general case of unconditional
+visibility/non-visibility. Handling the more complex case of conditional
+prompts will require finishing the SMT model, coming later.
 
-   Andrew
+I'll add this check, hopefully for kconfirm v0.8 / RFC 2 :)
+
+Thanks for the inspiration, and let me know if you have any other ideas,
+too.
+
+- Julian Braha
