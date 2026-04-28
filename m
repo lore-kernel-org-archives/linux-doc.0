@@ -1,112 +1,80 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C41B238D27;
-	Tue, 28 Apr 2026 12:53:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 064793F65F1;
+	Tue, 28 Apr 2026 12:57:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777380807; cv=none; b=Ph6pweTpy1uBoqS8xWFjABzUFMrW5AZyK0qJnMhsuvGYvbbJKRLShmocpdRkRhi01G9InhqxrYBhk8JiqSqcbHMjiMcJIQy7S8oXP6ePohEOaTWZvbOqREfkhj2zPmKiGKwwMRlJl7R98oLLaHgyoZ11HglNgDF6E8AdWAovWt8=
+	t=1777381050; cv=none; b=hQlgQ+DRFDDWJZhEoprFw91uqEWqujY5/Y5hzGDcgo9aEo9KWxqKuBqn4dQvIFYyG/zNpko8hCkNX8PEmNimKAL+nQ3Yi2Ui7gm5/d+Oz0GWp+vDVemk/7VWL6MZP6cBfkPB/CWiLt5kNSfTp7CvpFZ2aMbE/h/tRquYtfaKQ3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777380807; c=relaxed/simple;
-	bh=MFTHBWIVPPds/6umCo+/GsrLJiT9dmnX5t+TJKOu5mg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UDYGS8RbJPrlRDAhl9FPqv0jQtkj1Fx4tsWu0ZCvlkjyfGDl9sthea/EMaoEMYRy1YY4ejmdI7KhLYJ563nD8Fv46cxW+Iw6DmQAiCak0hsdzsRJcwNj/HtMC7r7JnMJn7Gq921udEcXkjalJDGqVNZqdgO9qShVtBdxAfS9moI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2H9r0W1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777381050; c=relaxed/simple;
+	bh=aUf61xyXEbsGC0AtdwUhpQw6NaGJQL89ZzqyewN5EF4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=ihdask7rYobjeBCLByztlWS56dsr8y97S3B9Hbhwwx3A3W6xbAFnbh/xyUHCHw/TDRBVFda/3c61n7OiveSHlSjBqKd8kCzQy5Q96xOFQsLfZtOvBq6mdBtrqQP02c0WLgx6WzYkdSsqWECJ6nK2lh6iyfakCp6Uxq9GWKFVmXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=itAPx/r+; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2H9r0W1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA3A7C2BCB7;
-	Tue, 28 Apr 2026 12:53:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777380805;
-	bh=MFTHBWIVPPds/6umCo+/GsrLJiT9dmnX5t+TJKOu5mg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Q2H9r0W1pFFOcIVTMHsruFr/GMxPujb4LuXdLrJe3uKYcZNxQlHL325YdzeYIaqGb
-	 YgUJCml9iD59Ml9MwxFlDl8g45HE5SHDfQGNKeas7kf1pYmKZ8jVqRDzf6HHicsR74
-	 sZhFSzs8Ra8AOxlyR0j8SYeZmmbjYyl+cqItSnBMh0HfeU971hN2OffDpUKu+aAFBj
-	 GLEtiSpFA8P4RWzmvn81yKRR+hygNgh10efvXltfAPPC4wXMVhE51Jp4/oUrhxxohi
-	 717FMNQI5CLuRE78CHCswC/iUhsYlDYFPjyu26ZyBg3OTRsdTyrq/yecTvXuGJxsmB
-	 j+0ksBK4wyZcg==
-Date: Tue, 28 Apr 2026 14:53:01 +0200
-From: Mike Rapoport <rppt@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: Jinjie Ruan <ruanjinjie@huawei.com>, corbet@lwn.net,
-	skhan@linuxfoundation.org, catalin.marinas@arm.com, will@kernel.org,
-	chenhuacai@kernel.org, kernel@xen0n.name, maddy@linux.ibm.com,
-	mpe@ellerman.id.au, npiggin@gmail.com, chleroy@kernel.org,
-	pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
-	alex@ghiti.fr, tglx@kernel.org, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, hpa@zytor.com, robh@kernel.org,
-	saravanak@kernel.org, bhe@redhat.com, vgoyal@redhat.com,
-	dyoung@redhat.com, rdunlap@infradead.org, peterz@infradead.org,
-	pawan.kumar.gupta@linux.intel.com, feng.tang@linux.alibaba.com,
-	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
-	paulmck@kernel.org, lirongqing@baidu.com, leitao@debian.org,
-	ardb@kernel.org, jbohac@suse.cz, cfsworks@gmail.com,
-	tangyouling@kylinos.cn, sourabhjain@linux.ibm.com,
-	ritesh.list@gmail.com, hbathini@linux.ibm.com,
-	eajames@linux.ibm.com, guoren@kernel.org,
-	songshuaishuai@tinylab.org, kevin.brodsky@arm.com,
-	vishal.moola@gmail.com, junhui.liu@pigmoral.tech, coxu@redhat.com,
-	fuqiang.wang@easystack.cn, liaoyuanhong@vivo.com,
-	takahiro.akashi@linaro.org, james.morse@arm.com,
-	lizhengyu3@huawei.com, x86@kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev, linuxppc-dev@lists.ozlabs.org,
-	linux-riscv@lists.infradead.org, devicetree@vger.kernel.org,
-	kexec@lists.infradead.org, Baoquan He <baoquan.he@linux.dev>
-Subject: Re: [PATCH v12 00/15] arm64/riscv: Add support for crashkernel CMA
- reservation
-Message-ID: <afCtrXaUAGDcseq3@kernel.org>
-References: <20260402072701.628293-1-ruanjinjie@huawei.com>
- <dfa24c4b-a423-4c80-9a8f-28c577c9ec11@huawei.com>
- <20260428035256.cbb3ac77c4bbb89bb7efcc19@linux-foundation.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="itAPx/r+"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B9C9141560
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777381046; bh=agh0BLn/BAWojBe08ajvmZB6iYzuf5WYtT6Ppff2jOg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=itAPx/r+FFyc9VwyejIK2RBN1zh7wnjLNy2qd5ZgqnqZtpzms5q01RbtX95Dtw17l
+	 ckAQLDG0gB96CEB6j8dfPa6IRFY7S5KsIIRbeX+yYOGyXREs9FqoqwoBetsTTHECPY
+	 kCgiJJ/wxeHsI4FoPcguCgb7oAuPv0yeSRGp9Q4NFRsFXTG8rog2kxCPB2LDUKkBg7
+	 ilD6Ovm+EPlfpnWg1RK8XbbXplSibrKyusb7uLCPoD6hbukRViVTs7y6H1DIT9Mdfs
+	 R6HXsYz8nV56v3tCJ9KnSZVFLeKKl2tFRUexkXk0F4tK7AaEZ7S4Lk/zP/7dKDgFkp
+	 VdxOXRNtQdDng==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id B9C9141560;
+	Tue, 28 Apr 2026 12:57:25 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ilai Levin <levinilai972@gmail.com>
+Cc: skhan@linuxfoundation.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Ilai Levin <levinilai972@gmail.com>, Marc
+ Zyngier <maz@kernel.org>
+Subject: Re: [PATCH] docs: driver-api: eisa: add SPDX license identifier
+In-Reply-To: <20260428124555.102039-1-levinilai972@gmail.com>
+References: <20260428124555.102039-1-levinilai972@gmail.com>
+Date: Tue, 28 Apr 2026 06:57:22 -0600
+Message-ID: <871pfzmedp.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428035256.cbb3ac77c4bbb89bb7efcc19@linux-foundation.org>
+Content-Type: text/plain
 
-(added new Baoquan's email)
+Ilai Levin <levinilai972@gmail.com> writes:
 
-On Tue, Apr 28, 2026 at 03:52:56AM -0700, Andrew Morton wrote:
-> On Tue, 28 Apr 2026 11:30:13 +0800 Jinjie Ruan <ruanjinjie@huawei.com> wrote:
-> 
-> > It seems the patches for crash core rework, powerpc, riscv, and arm64
-> > are mostly ready to be merged. Could any maintainer help pick these up,
-> > or should I rebase the entire series against v7.1-rc1?
-> 
-> April 2 is prehistoric ;)
-> 
-> Yes, refresh, retest, resend.  Note that there have been maintainership
-> shuffles in this area.  
-> 
-> KDUMP
-> M:	Andrew Morton <akpm@linux-foundation.org>
-> M:	Baoquan He <bhe@redhat.com>
-> M:	Mike Rapoport <rppt@kernel.org>
-> M:	Pasha Tatashin <pasha.tatashin@soleen.com>
-> M:	Pratyush Yadav <pratyush@kernel.org>
-> R:	Dave Young <ruirui.yang@linux.dev>
-> L:	kexec@lists.infradead.org
-> S:	Maintained
-> F:	Documentation/admin-guide/kdump/
-> F:	fs/proc/vmcore.c
-> F:	include/linux/crash_core.h
-> F:	include/linux/crash_dump.h
-> F:	include/uapi/linux/vmcore.h
-> F:	kernel/crash_*.c
-> 
-> I believe that Pasha/Mike/Pratyush are setting up a git tree, but there
-> isn't one listed here?
+> Add the missing SPDX-License-Identifier tag to the eisa.rst
+> documentation file.
+>
+> Signed-off-by: Ilai Levin <levinilai972@gmail.com>
+> ---
+>  Documentation/driver-api/eisa.rst | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/Documentation/driver-api/eisa.rst b/Documentation/driver-api/eisa.rst
+> index 3563e5f7e..e98b21b60 100644
+> --- a/Documentation/driver-api/eisa.rst
+> +++ b/Documentation/driver-api/eisa.rst
+> @@ -1,3 +1,5 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
 
-On it:
-https://lore.kernel.org/all/20260428124833.1903302-1-rppt@kernel.org/
-https://lore.kernel.org/all/20260428124325.4189486-1-pratyush@kernel.org/
+This is probably just fine, but it's worth asking the original author
+(copied) whether that was the intent; we can't just slap an arbitrary
+license onto the work of others.
 
--- 
-Sincerely yours,
-Mike.
+(One could also ask whether we need this document at all in 2026, but
+that is a separate question...:)
+
+Thanks,
+
+jon
