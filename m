@@ -1,37 +1,33 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AB8A3BD22F;
-	Tue, 28 Apr 2026 07:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349143AA18B;
+	Tue, 28 Apr 2026 07:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777360616; cv=none; b=TaKzxA1qSMGfPtIPgmzqGTkRloG2T/YiNDxH0uhJ+EXXxqyVp9jVGmJoyXoGdkmDisVzcnjGkiLjRdszDh68eC1huiw4wwNJ3eDtph7RsYIoStmHBzr45bT873iq0Q57QkpROIERbhHqB6DmFv/QDLEPITfi2qYmrmO6ozpmM8U=
+	t=1777360969; cv=none; b=bXXqXZ03WMzxKV9MS0t9lfocF/Hdgr7R68yL+2vpGRAKbv8yqMUC9HJFEOzh5Aq3s8GuNqS8ezkRnelvaPGpphL2DXQ/fP6wHUxxymY3aQj/RWTppj5zPafA62Jqf+UCgH0J7MqZMgg7VE3xGJiPtc0ZD6ruIRLAY6M7jlVp0zA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777360616; c=relaxed/simple;
-	bh=dbrUFbqJ78b2jcWIF0af1PiDl7uQgyKVtVnPGQD4pwQ=;
+	s=arc-20240116; t=1777360969; c=relaxed/simple;
+	bh=ktIwTruvdUPR15+1BVf46NWNOvuJrHgMfoEzxe7/KDA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dwP/Zv0ECLaLgEwsys6fqW2y8JeNcR01fvM3NuvKfXcnqZyJzNz8YeBC10fFgVgaiNd/CvIoXHqNyS/ZCNNhKHSjLfx7MFovh54ewcviZtnTeccczYbxLk2KrRfM+cch7EPGM1p889oQwhcEKTDzvIuRikD3Ini4V+jub9i92Mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=J9BNO9sD; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=dzaYH8o/cslhSgLB1aeDXfsYzzS9m22UWUYOfQ1UlfqZqZr2bYg6zBeDqpEi1g4AyvH4DytUXCrLVMBQl+PNrE0Lv9pkiZsw6lCUwQA31fCZIFJ67EniOpsNww8UGCnKpSzNzFcLznQAOzQY+7kZdvuwhzmR2T8A79LxYTwGXi0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j1CbOAWd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="J9BNO9sD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=lQWQrrV7LpwR+/cOPe5HTNIVTtQ7JeeBsdba0Hiaywo=; b=J9BNO9sDHBu1jD7ZMf060MuCGF
-	cXdFW0rK83ItmOdyNf+AvK6bF3jK1dHIJIw1Ag3Kj8TLKKUfsBAxW49YOrzhrQoEILtLNZ+tvAY7W
-	IrEx5a+g9i7oDTVdUtwStiJyjblsMJ4JUFaELcrdrTn5INHGDWpSMLLPfPQQag95TXLTxZ6hlQDeq
-	RvKjTjLQCzth5bV+i9TEL/7rm2oXgDLWOQidsgAG2FGtAy9/I/gWM0W3QE6SaLlfz+EWdFg1ArQ3l
-	L4H0Vq0EEM7ISxdcN9rp48091QZNcZIL4NHcilHr5yGSNXxnjUXNWViY+IzCDQmv+pLZoi8iH6zZ4
-	ScF0pTAw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wHcgd-00000000g4p-3lB4;
-	Tue, 28 Apr 2026 07:16:51 +0000
-Message-ID: <fd8f548a-b4c1-4ff0-a8e2-7d5deb0878b3@infradead.org>
-Date: Tue, 28 Apr 2026 00:16:50 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j1CbOAWd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B33CC2BCB5;
+	Tue, 28 Apr 2026 07:22:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777360968;
+	bh=ktIwTruvdUPR15+1BVf46NWNOvuJrHgMfoEzxe7/KDA=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j1CbOAWdTJgWDbXADf+gegoEyDq9vEtgk5f877a9NZtckD11eaWom58G6G8WEFzWK
+	 9Xc5Ph618r2P/vR1MYM7xDroA72f5T/3mLgTzKNBwJ9P3g4PWGCcn+NmyAvLv6JFWP
+	 9bNMrVBPr0Xvmt2JsbrRFB9qCp6sMiZIxNq31437cuLbfMN1jdonzaIYWiUUWxofyI
+	 PhWcK0MmAx2dGm4Z+F091ftUojoVtq2ILnxggqIypAiRbIlF3LGQXnND2nIXs5GuWh
+	 dKxdzz9KhKCq5clj3xvuwvpEANqmzxvsFCm9iQz5/5TkB2x8XTUssBGnEUaM7/WWWs
+	 TbirLzXjpVIHw==
+Message-ID: <63befc48-8173-4ad3-917b-e09c55dd3191@kernel.org>
+Date: Tue, 28 Apr 2026 09:22:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,48 +35,129 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] Documentation/rv: Replace stale website link
-To: Gabriele Monaco <gmonaco@redhat.com>, Steven Rostedt
- <rostedt@goodmis.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: matteo.martelli@codethink.co.uk, skhan@linuxfoundation.org
-References: <20260427131709.170505-2-gmonaco@redhat.com>
- <f841e9f6-9d0b-4e10-a930-fdd74a74b9b9@infradead.org>
- <75eeb7196b3e65b4b5d5144f87aabd8b57793ebc.camel@redhat.com>
+Subject: Re: [RFC 4/7] mm: add page consistency checker implementation
+To: Sasha Levin <sashal@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, akpm@linux-foundation.org,
+ corbet@lwn.net, ljs@kernel.org, Liam.Howlett@oracle.com, vbabka@kernel.org,
+ rppt@kernel.org, surenb@google.com, mhocko@suse.com,
+ skhan@linuxfoundation.org, jackmanb@google.com, hannes@cmpxchg.org,
+ ziy@nvidia.com, linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Sasha Levin <sashal@nvidia.com>,
+ Sanif Veeras <sveeras@nvidia.com>,
+ "Claude:claude-opus-4-7" <noreply@anthropic.com>
+References: <aeuFnuiYDBjttEKt@plex>
+ <12985b32-88b3-47ab-8292-2e0ec6f5fbae@kernel.org> <aev-DS4YTp5soVPd@laps>
+ <3146ebcf-5649-44a7-aa21-163bf404c42b@kernel.org> <aezt96xgz_qyf4d-@laps>
+ <f910969d-1071-4174-bd42-da45cb6f9749@kernel.org> <ae9ucgtCNf0JQtGu@laps>
+ <c50aeb03-538b-4dca-9a81-ab84bc19a333@kernel.org> <ae-xXHUGfDiFcBUk@laps>
+ <36d82055-67f3-4c29-a605-a9848a28f7cb@kernel.org> <ae_wPuqYpVxicOUq@laps>
+From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <75eeb7196b3e65b4b5d5144f87aabd8b57793ebc.camel@redhat.com>
+Autocrypt: addr=david@kernel.org; keydata=
+ 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
+ qIws/H2t
+In-Reply-To: <ae_wPuqYpVxicOUq@laps>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+On 4/28/26 01:24, Sasha Levin wrote:
+> On Mon, Apr 27, 2026 at 09:37:02PM +0200, David Hildenbrand (Arm) wrote:
+>>
+>>>
+>>> We do, but self driving safety requires way more than the current hardware can
+>>> provide.
+>>>
+>>> I'll point you to https://dl.acm.org/doi/10.1145/2775054.2694348 , which
+>>> researched these issues in a datacenter environment (so no sun exposure,
+>>> temperature controlled, designed to avoid electromagnetic interference).
+>>>
+>>> "We call a fault that generates an error larger than 2 bits in an ECC word an
+>>> undetectable-by-SECDED fault. A fault is undetectable-by-SECDED if it affects
+>>> more than two bits in any ECC word, and the data written to that location does
+>>> not match the value produced by the fault."
+>>>
+>>> [...]
+>>>
+>>> "A Cielo node has 288 DRAM devices, so this translates to 6048, 518, and 57.6
+>>> FIT per node for vendors A, B, and C, respectively. This translates to one
+>>> undetected error every 0.8 days, every 9.5 days, and every 85 days on a machine
+>>> the size of Cielo."
+>>>
+>>> [...]
+>>>
+>>> "Our main conclusion from this data is that SEC-DED ECC is poorly suited to
+>>> modern DRAM subsystems. The rate of undetected errors is too high to justify
+>>> its use in very large scale systems comprised of thousands of nodes where
+>>> fidelity of results is critical."
+>>
+>> Yes, I read before that ECC is insufficient to detect certain bitflips.
+>>
+>> But I don't understand how this patch set here is going to move the needle in
+>> any reasonable way?
+>>
+>> You have your magical self-driving car algorithm.
+>>
+>> Bitflips can corrupt your algorithm, your data, the kernel image, your user page
+>> tables, your kernel page tables. Even a pointer to a bitmap :)
+>>
+>> ... and we worry about the state of allocated vs. free pages.
+> 
+> Do we agree that this is one piece of a (much) larger puzzle that we would need
+> to tackle?
 
+Once you solved the real hard problems (corrupting random page state, page
+tables, all of that) we can think about whether adding complexity to the page
+allocator to detect possible corruptions.
 
-On 4/28/26 12:06 AM, Gabriele Monaco wrote:
-> On Mon, 2026-04-27 at 09:50 -0700, Randy Dunlap wrote:
->> Tested-by: Randy Dunlap <rdunlap@infradead.org>
->> Acked-by: Randy Dunlap <rdunlap@infradead.org>
-> 
-> Thanks for the ack!
-> 
->> although I don't care for the "J. Syst. Archit." abbreviation.
->> Does JSA use that? Not that I can see.
-> 
-> That's the citation format I got from semanticscholar.org , it's indeed
-> a bit ugly but it's apparently the ISO 4 abbreviation [1].
+As you state in your reply to Vlasta, the buddy keeps free pages in a list. So a
+pointer corruption there would be rather fatal, and I don't follow how the
+approach here makes things any better.
 
-OK then. Leave it.
-Thanks.
-
-> Not sure if it would be neater to just use JSA which looks more
-> official.
-> 
-> Thanks,
-> Gabriele
-> 
-> [1] - https://dblp.org/db/journals/jsa/index.html
-> 
+So for the time being, I don't think this proposal moves the needle in any
+reasonable way, and I don't think we want this any time soon.
 
 -- 
-~Randy
+Cheers,
 
+David
