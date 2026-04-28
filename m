@@ -1,140 +1,457 @@
-Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE0DE3C3C0C
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:53:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26F7C3A9638
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 16:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777391630; cv=none; b=eelNETrdyx6QJdRCQwkQRxSCZ6mFGajrFHHbilYEJ/BMRl/MMyxmbO36B//JxunO4yhiDSxjAZAYidduH/zrbi4eAMUgdjsMxXenyMxCLIItwERA8Rbt6NiKoVM3G2BxQDHyMZIrUhJJGNWk8FG1wgVOsPNK3TcvDOfqLdu72Ts=
+	t=1777392034; cv=none; b=t94KX/pAsyJjcQ6bNCLs0Q/v13ZKZgumTk4o1VX5jlIVV0vXgfkb4JWwGzLfEytU6vK5xxVHZghz7qbtRtsJ0YAWnAX1uqDFolOV0JHSuReEmm1eurIVKD1zTzb6ecUwcTuTTnOiUKGkNIBZSwp5MGWRJY2Yv4VCP7zJEkW3iCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777391630; c=relaxed/simple;
-	bh=92040OvP7NphZOcgJ01LGqbNZOBjVXmSRgTtp03HPzs=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=EAPppqc+bOVJhKQk1+PpsOkzaC/bRkfh6+i2CwBlMEp8d+54fhnSvljHsiBQS2cvHgfwgk7g+RF1nvygwgtu/xGkgtP4VNekiVZHYYpanUTw1de1K5J1ByK1F3x+VH+SfQ72v9o2dUhX6+/+xEb1y3a9H5Yav3aqUSg/RHiXqI4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fyy6wJXR; arc=none smtp.client-ip=209.85.215.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1777392034; c=relaxed/simple;
+	bh=9l6Zn4WQCZSZfbxZtAvKLch/4uMIOw9Dd0LhEB1yBb4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Chl6KSnItV4tLwo2ddqpl6w1BmZEKOxhlWvZDZUVJfDbV5FDa2JxIWTjh4y92c4EX1UeExC0rnqdctxGhIVep1nd0RuT1Ngly6nrYtI1amxlYNXZs7aWonEP5ktbSMQfb7D4GR799rXNyWQ+FjTAHf6uUf+bGvn6kbhatOrbEjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Epl9Kqyt; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fyy6wJXR"
-Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-c7973e22399so4581775a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 08:53:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Epl9Kqyt"
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-43d73352cf2so9758413f8f.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 09:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777391628; x=1777996428; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQTB8wCBT8LVtOg4OyEn9zyS1CPfIyYMGlnzm+b7XDs=;
-        b=Fyy6wJXRQvkfAUjbfUFVq01cLng/WvJZkQnaxFh0bUdGWj2lYl3Lft9IyZKoaOwIV/
-         naNf2u+1YuL01lOOadaPQheUrDlX91QDPTlUxN1PNacdE0O9NY9chU8qHMNwDyUiDQoz
-         Z2zKXSx1hnOrAo6NLTAoBaR3u6BFm9QFb0JDvjm/znah96wu008KrpnSYSlTew+cw9DD
-         qt1q9KATGTHpKVQ7Gn/AtguqEB6RrjB1eBvLyd1bUvwja9z4r8gJ/ierFH2KWEkk21T/
-         /B3nGvtkX9PNMnd20eOBtA/QRYJ2Mrk0lNq9H+IHWx7NDWGzERQZs7yFCGsjFJX78EDV
-         +8ew==
+        d=suse.com; s=google; t=1777392031; x=1777996831; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NJULVraPYnaUtno+Mw7BPPXxWq+DJtTZsScFGIZf28I=;
+        b=Epl9Kqytdc9aUOumvYPp66hgi711q1hgERYZfX8JYY/UvLYBxHxtYuE+BGxo+Oy1fi
+         p4V1JU2Xra0wdZQkOVwRiqwCfdLExNYZYglzG2IzVc6xqVsRGHsrYxNdvrkGCCjPl1us
+         lDM45w7nOYcXb2Y2nh4pVT+kyBYpQI/Y06dJtYtEeYoVqzXUfnWym9HlkxJ0WDbCk4gu
+         ESSYWWcfN5o1vFicK9Yb45ayGHMSLSLBf8cnbD3xrbjNb5hVsm22iGeYK60sowhtNopG
+         uU6lJI6ZxAp2FfhPH2MmiUHS3mYQotIsMbR+DXfd8h9v0Dyje1LxBl1r4PC+38JjChVy
+         CGFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777391628; x=1777996428;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kQTB8wCBT8LVtOg4OyEn9zyS1CPfIyYMGlnzm+b7XDs=;
-        b=GvGncq0oniu1MaJd3VznLfg0A5lpXGK5jDnzUAUi3r3gIFWkBzoSOIar2kVKqiTDD2
-         wstq6Q75F8Yf1LVpu6+/2ysuZ1V67A34pKDZszSQd/3wQyzD5UYMzZ1XJAE0PYpSBbjI
-         repYoqf/XvEpyMnp2rv5AXeNBp/w+EMWyz65zQvxYfDFOj5rqJvFa9DWNl5g27oP5VDj
-         wvqyQEK6K4KBabBvxgnyK6iBbirjVWwGgIbFsR7G4xzDdVgLDpp3vsyYyIVPh+csRusi
-         KBKvdziM/je7a1E28wKql+nVfQnP/vGlxT485pSWCvBWGUAZiG6W44ySZUf5INz11eGu
-         PU6A==
-X-Forwarded-Encrypted: i=1; AFNElJ+psbIHl4zS6YIIGmKtr/TXtPsFQ9NNuiLXxir9iuYnpS1sYUjTyqQvEBvBSjhrplqi5bkyWiaHVKs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0YUTmzbtdJbT8+sp4ZsYByeoS2XUpn8H4yCypqAROuNdu3oOG
-	/WSh11ar5wVlz5khKn9Mv0PL20H6nsPVnr9E2Kc/k0/waMRIWJVnaOchxUvFv5KR4nuC2MmOsnf
-	wrw4TOQ==
-X-Received: from pfbem34.prod.google.com ([2002:a05:6a00:3762:b0:82f:7a66:cfb0])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:12c1:b0:829:8c08:d1f4
- with SMTP id d2e1a72fcca58-834ddbec0e6mr3804392b3a.39.1777391627873; Tue, 28
- Apr 2026 08:53:47 -0700 (PDT)
-Date: Tue, 28 Apr 2026 08:53:46 -0700
-In-Reply-To: <afDJZQHNi-qdcEEe@tycho.pizza>
+        d=1e100.net; s=20251104; t=1777392031; x=1777996831;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NJULVraPYnaUtno+Mw7BPPXxWq+DJtTZsScFGIZf28I=;
+        b=YSlgU8Vx6haWpPG4P9R4R4k2+J7PqIpv54ki9VJe1CHyo6E7F9Ip+YN/mwz6Wc4f8q
+         0KwWPuJevxdEvmbjfksDavN1ho9AokikkLYfQD6IyLS7VTxqSH+XqIdSzHY3pAEJCxjN
+         WIlfx0/MGTQRE/32qwaEzRYyqoeRfjSA0qkDnA+ovqEe9WulxdOnhaofzAOcjl2Sebn9
+         l9U6hXuNfgK9DIGIMPXUKhKnUIA3h3XV2FikdassUJPwDKIAoSZ6aFfG6tPj7NDlGT4w
+         D24q2LwFPd0fs94qTkK17PYryDua07Cybgn2R/E6roQYPQwnHI1thraWjApo05gFM65y
+         Zvig==
+X-Gm-Message-State: AOJu0YyfNWS/j3mEzKuZeiS6jL64OKYHN+3J8FOFJjzhwvSgWmJX81YJ
+	W7C4JLpUIyAalKyhdn6vmaooXzBgtLnCGmcg8lETrvVeIpkusFczbiip3vOfgbPVi10=
+X-Gm-Gg: AeBDievp8p0emZdLmYCuUPWx96gCLsrJRmacezlZRhh6cdlyxSPVmWGGDfYxXQPTHNe
+	PGea41kVrq6XDrQseGOAMjs1fpbpTwB4DOcohYu7TmVnNkci1KOxzMD+d5bEzNhLutsym3ubdeB
+	0XTZtuG3dfTnhHKjx4MIinhldubj73mI8MFPozmfbWJNOjXx/WyXW8H7fjjWLnfr5fyEM9WDuvw
+	nWCc9bLVBcw7uhWiHwYyfHMsjYpQvJcWH3TQ3tiAKCmT/qOv/WBsvJaewIie3fTUNFb4ZLAHmfn
+	/TWtVzTmy2s8rvWcONmi4oqCEkkkYtfHOrylVQ1jUdMW2SX2w6auYlWEnninckKXpt39h6wciCu
+	ROHNt7+PlUN5iSpAH+zC0jO0U3JSqWgoEAiQ8cML25oyVrxJLno0QdTo5jBpWmDZq+UzvJPRsJK
+	dmdgNHDytU5UmRhcjCa0xJLtQsoO2zQL5lib/aBO4iwvKw
+X-Received: by 2002:a05:6000:2c01:b0:43d:73de:abd2 with SMTP id ffacd0b85a97d-4464a168597mr6674016f8f.26.1777392030417;
+        Tue, 28 Apr 2026 09:00:30 -0700 (PDT)
+Received: from precision ([2a01:4b00:c007:bb00:be9d:a3c4:18b1:4a25])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4464004edc8sm7505041f8f.37.2026.04.28.09.00.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 09:00:29 -0700 (PDT)
+From: Henrique Carvalho <henrique.carvalho@suse.com>
+To: corbet@lwn.net
+Cc: linux-doc@vger.kernel.org,
+	linux-cifs@vger.kernel.org,
+	sfrench@samba.org,
+	linkinjeon@kernel.org,
+	metze@samba.org,
+	ematsumiya@suse.de,
+	Henrique Carvalho <henrique.carvalho@suse.com>
+Subject: [PATCH v2 11/11] docs: smb: document SMB3 over QUIC setup for cifs.ko and ksmbd.ko
+Date: Tue, 28 Apr 2026 13:00:20 -0300
+Message-ID: <20260428160020.226512-1-henrique.carvalho@suse.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20260427204847.112899-1-tycho@kernel.org> <20260427204847.112899-4-tycho@kernel.org>
- <ae_TCofu4bHP_Ch-@google.com> <afDJZQHNi-qdcEEe@tycho.pizza>
-Message-ID: <afDYCpbeT0HsXTMF@google.com>
-Subject: Re: [PATCH v2 3/4] KVM: SEV: Add the kvm-amd.rapl_disable module parameter
-From: Sean Christopherson <seanjc@google.com>
-To: Tycho Andersen <tycho@kernel.org>
-Cc: Ashish Kalra <ashish.kalra@amd.com>, Tom Lendacky <thomas.lendacky@amd.com>, 
-	John Allen <john.allen@amd.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Shuah Khan <shuah@kernel.org>, linux-crypto@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Kim Phillips <kim.phillips@amd.com>, 
-	Alexey Kardashevskiy <aik@amd.com>, Nikunj A Dadhania <nikunj@amd.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Randy Dunlap <rdunlap@infradead.org>, Dapeng Mi <dapeng1.mi@linux.intel.com>, 
-	Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 28, 2026, Tycho Andersen wrote:
-> On Mon, Apr 27, 2026 at 02:20:10PM -0700, Sean Christopherson wrote:
-> > On Mon, Apr 27, 2026, Tycho Andersen wrote:
-> > > From: "Tycho Andersen (AMD)" <tycho@kernel.org>
-> > > 
-> > > Add a user-visible way to set the RAPL_DIS bit for SNP init.
-> > > 
-> > > Since setting RAPL_DIS affects the whole system, put the module parameter
-> > > in kvm_amd instead of in the CCP driver to hopefully make it more obvious
-> > > to admins.
-> > > 
-> > > Signed-off-by: Tycho Andersen (AMD) <tycho@kernel.org>
-> > > ---
-> > >  Documentation/admin-guide/kernel-parameters.txt | 5 +++++
-> > >  arch/x86/kvm/svm/sev.c                          | 8 ++++++++
-> > >  2 files changed, 13 insertions(+)
-> > > 
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index 4d0f545fb3ec..2b50eed8664c 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -3207,6 +3207,11 @@ Kernel parameters
-> > >  			max_snp_asid == min_sev_asid-1, will effectively make
-> > >  			SEV-ES unusable.
-> > >  
-> > > +	kvm-amd.rapl_disable=	[KVM,AMD] Whether to disable RAPL
-> > > +			(Running Average Power Limit) when initializing the SNP
-> > > +			firmware. This disables the counters for the entire system until an
-> > > +			SNP shutdown command is issued.
-> > 
-> > I'm pretty sure I said this earlier: KVM absolutely should not be able to disable
-> > RAPL for the entire system.  That needs to be a power management thing.
-> 
-> You definitely noted "not CCP", I don't think I quite understood what
-> that meant though:
-> https://lore.kernel.org/all/aZ86BZWi-GLiHvmt@tycho.pizza/
-> 
-> I'm a little worried that putting it in power management will generate
-> some weird dependencies, or weakref symbols that can't change things
-> if they are loaded independently of kvm_amd or something. But let me
-> see what I can come up with.
+Add quic.rst covering setup for SMB over QUIC between the kernel SMB
+server (ksmbd.ko) and client (cifs.ko).
 
-Ugh, and it's not even powerman per se, it's actually a module in perf.  Oof.
+Update index.rst to include quic.rst in the SMB documentation tree.
 
-I 100% agree it'll be tricky, but I also stand by comments that neither the CCP
-driver or KVM should be allowed to silently pull the rug out from under the RAPL
-module.
+Update ksmbd.rst feature table: SMB3.1.1 over QUIC is now Experimental
+(previously listed as Planned for future).
 
-> > KVM then needs to communicate (and enforce?) the policy to
-> > userspace.
-> 
-> KVM doesn't need to enforce anything, the SEV firmware will generate a
-> launch error for policy violation if it's not supported.
-> 
-> For communicating to userspace if it's not a kvm module parameter, one
-> option is to mask it off in sev_get_snp_supported_policy() if it was
-> initialized without the support. Then it'll be visible via
-> KVM_X86_SNP_POLICY_BITS.
+Signed-off-by: Henrique Carvalho <henrique.carvalho@suse.com>
+---
+ Documentation/filesystems/smb/index.rst |   1 +
+ Documentation/filesystems/smb/ksmbd.rst |   2 +-
+ Documentation/filesystems/smb/quic.rst  | 332 ++++++++++++++++++++++++
+ 3 files changed, 334 insertions(+), 1 deletion(-)
+ create mode 100644 Documentation/filesystems/smb/quic.rst
 
-Ya, this is what I was envisioning.
+diff --git a/Documentation/filesystems/smb/index.rst b/Documentation/filesystems/smb/index.rst
+index 6df23b0e45c8..e75ebba0e739 100644
+--- a/Documentation/filesystems/smb/index.rst
++++ b/Documentation/filesystems/smb/index.rst
+@@ -9,3 +9,4 @@ CIFS
+    ksmbd
+    cifsroot
+    smbdirect
++   quic
+diff --git a/Documentation/filesystems/smb/ksmbd.rst b/Documentation/filesystems/smb/ksmbd.rst
+index 67cb68ea6e68..de00adc73a8f 100644
+--- a/Documentation/filesystems/smb/ksmbd.rst
++++ b/Documentation/filesystems/smb/ksmbd.rst
+@@ -112,7 +112,7 @@ DCE/RPC support                Partially Supported. a few calls(NetShareEnumAll,
+ ksmbd/nfsd interoperability    Planned for future. The features that ksmbd
+                                support are Leases, Notify, ACLs and Share modes.
+ SMB3.1.1 Compression           Planned for future.
+-SMB3.1.1 over QUIC             Planned for future.
++SMB3.1.1 over QUIC             Experimental. See quic.rst.
+ Signing/Encryption over RDMA   Planned for future.
+ SMB3.1.1 GMAC signing support  Planned for future.
+ ============================== =================================================
+diff --git a/Documentation/filesystems/smb/quic.rst b/Documentation/filesystems/smb/quic.rst
+new file mode 100644
+index 000000000000..016a29e7bb27
+--- /dev/null
++++ b/Documentation/filesystems/smb/quic.rst
+@@ -0,0 +1,332 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++========================================
++SMB3 over QUIC with ksmbd.ko and cifs.ko
++========================================
++
++This is a setup note for testing SMB3 over QUIC between the Linux kernel SMB
++server (ksmbd.ko) and the Linux kernel SMB client (cifs.ko).
++
++Requirements
++============
++
++- Kernel options for QUIC and the in-kernel handshake path:
++
++  .. code-block:: text
++
++      CONFIG_IP_QUIC
++      CONFIG_NET_HANDSHAKE
++
++- Kernel options for key handling:
++
++  .. code-block:: text
++
++      CONFIG_KEYS
++      CONFIG_ASYMMETRIC_KEY_TYPE
++      CONFIG_X509_CERTIFICATE_PARSER
++      CONFIG_PKCS8_PRIVATE_KEY_PARSER
++
++- Kernel options for SMB:
++
++  .. code-block:: text
++
++      CONFIG_SMB_SERVER
++      CONFIG_CIFS
++
++- SMB version 3.1.1 or higher.
++
++- QUIC delegates the TLS handshake to a userspace component. Here we use
++  the userspace handshake agent tlshd. See Documentation/networking/quic.rst
++  and Documentation/networking/tls-handshake.rst.
++
++Configuring tlshd
++=================
++
++Load the certificate and key into tlshd by, either using a by using the
++pathnames or by using a keyring.
++
++Using Pathnames
++===============
++
++If mutual authentication is used, the same will have to be done in the client system.
++
++The second option is by using pathnames to the certificate and private key.
++
++Add the following to the configuration file inside the server machine:
++
++.. code-block:: txt
++
++        [authenticate.server]
++        x509.certificate=/path/to/smb-server-cert.pem
++        x509.private_key=/path/to/smb-server-key.pem
++
++If you are using mutual authentication, the following will have to be done in the client machine:
++
++.. code-block:: txt
++
++        [authenticate.client]
++        x509.certificate=/path/to/smb-client-cert.pem
++        x509.private_key=/path/to/smb-client-key.pem
++
++For more information about these fields, see `man tlshd.conf`
++
++Using Keyrings
++==============
++
++Instead of using file paths, certificates and private keys can be loaded
++from a kernel keyring. This avoids exposing key material via filesystem paths.
++
++Enable keyring usage in tlshd:
++
++.. code-block:: txt
++
++    keyrings=smb
++
++Keys must be added to the keyring named `smb`.
++
++On both client and server:
++
++.. code-block:: bash
++
++    keyctl newring smb @u
++
++    keyctl padd asymmetric "smb-ca" %keyring:smb < /etc/ssl/certs/ca-cert.pem
++
++On server:
++
++.. code-block:: bash
++
++    keyctl padd asymmetric "smb-server-cert" %keyring:smb < /etc/ssl/certs/smb-server-cert.pem
++
++    keyctl padd asymmetric "smb-server-key" %keyring:smb < /etc/ssl/private/smb-server-key.pem
++
++On client:
++
++.. code-block:: bash
++
++    keyctl padd asymmetric "smb-client-cert" %keyring:smb < /etc/ssl/certs/smb-client-cert.pem
++
++    keyctl padd asymmetric "smb-client-key" %keyring:smb < /etc/ssl/private/smb-client-key.pem
++
++When using keyrings, do not specify file paths.
++
++Server:
++
++.. code-block:: txt
++
++    [authenticate.server]
++    x509.certificate=smb-server-cert
++    x509.private_key=smb-server-key
++    x509.truststore=smb-ca
++
++Client:
++
++.. code-block:: txt
++
++    [authenticate.client]
++    x509.certificate=smb-client-cert
++    x509.private_key=smb-client-key
++    x509.truststore=smb-ca
++
++Restart tlshd service after modifying the configuration.
++
++Running CIFS with SMB QUIC
++==========================
++
++After tlshd is configured, mount the CIFS filesystem with the mount option
++`quic`. Example using mount.smb3 from cifs-utils package:
++
++.. code-block:: bash
++
++        mount.smb3 //server.example.com/share /mnt -o quic
++
++If mutual authentication is used, run with `mtls` mount option:
++
++.. code-block:: bash
++
++        mount.smb3 //server.example.com/share /mnt -o quic,mtls
++
++QUIC works on top of TLS 1.3, so it has its own transport layer
++encryption. It is possible, however, to mount CIFS with:
++
++.. code-block:: bash
++
++        mount.smb3 //server.example.com/share/mnt -o quic,seal
++
++Testing SMB QUIC Implementation
++===============================
++
++For proper TLS and mTLS testing, use a local Certificate Authority (CA)
++instead of self-signed leaf certificates.
++
++This avoids validation issues and matches real deployments.
++
++Certificate Layout
++==================
++
++- CA (created once, can be on a third machine or server)
++- Server certificate (signed by CA)
++- Client certificate (signed by CA)
++
++The CA certificate must be present on both client and server.
++
++Creating a CA
++=============
++
++Run on a trusted machine (server or separate host):
++
++.. code-block:: bash
++
++    mkdir -p /etc/ssl/smb-ca
++    cd /etc/ssl/smb-ca
++
++    openssl genpkey -algorithm RSA \
++        -pkeyopt rsa_keygen_bits:4096 \
++        -out ca-key.pem
++
++    openssl req -x509 -new \
++        -key ca-key.pem \
++        -sha256 -days 3650 \
++        -subj "/CN=SMB Test CA" \
++        -addext "basicConstraints=critical,CA:TRUE" \
++        -addext "keyUsage=critical,keyCertSign,cRLSign" \
++        -out ca-cert.pem
++
++Distribute:
++
++- Copy `ca-cert.pem` to both client and server:
++  - /etc/ssl/certs/ca-cert.pem
++
++Creating Server Certificate
++===========================
++
++Run on server:
++
++.. code-block:: bash
++
++    openssl genpkey -algorithm RSA \
++        -pkeyopt rsa_keygen_bits:2048 \
++        -out /etc/ssl/private/smb-server-key.pem
++
++    openssl req -new \
++        -key /etc/ssl/private/smb-server-key.pem \
++        -subj "/CN=server.example.com" \
++        -out smb-server.csr
++
++Copy `smb-server.csr` to CA machine and sign:
++
++.. code-block:: bash
++
++    openssl x509 -req \
++        -in smb-server.csr \
++        -CA ca-cert.pem \
++        -CAkey ca-key.pem \
++        -CAcreateserial \
++        -out smb-server-cert.pem \
++        -days 365 -sha256 \
++        -extfile <(cat <<EOF
++basicConstraints=critical,CA:FALSE
++keyUsage=critical,digitalSignature,keyEncipherment
++extendedKeyUsage=serverAuth
++subjectAltName=DNS:server.example.com
++EOF
++)
++
++Copy back to server:
++
++- /etc/ssl/certs/smb-server-cert.pem
++
++Creating Client Certificate (for mTLS)
++======================================
++
++Run on client:
++
++.. code-block:: bash
++
++    openssl genpkey -algorithm RSA \
++        -pkeyopt rsa_keygen_bits:2048 \
++        -out /etc/ssl/private/smb-client-key.pem
++
++    openssl req -new \
++        -key /etc/ssl/private/smb-client-key.pem \
++        -subj "/CN=client.example.com" \
++        -out smb-client.csr
++
++Copy `smb-client.csr` to CA machine and sign:
++
++.. code-block:: bash
++
++    openssl x509 -req \
++        -in smb-client.csr \
++        -CA ca-cert.pem \
++        -CAkey ca-key.pem \
++        -CAcreateserial \
++        -out smb-client-cert.pem \
++        -days 365 -sha256 \
++        -extfile <(cat <<EOF
++basicConstraints=critical,CA:FALSE
++keyUsage=critical,digitalSignature
++extendedKeyUsage=clientAuth
++subjectAltName=DNS:client.example.com
++EOF
++)
++
++Copy back to client:
++
++- /etc/ssl/certs/smb-client-cert.pem
++
++tlshd Configuration
++===================
++
++Server:
++
++.. code-block:: txt
++
++    [authenticate.server]
++    x509.certificate=/etc/ssl/certs/smb-server-cert.pem
++    x509.private_key=/etc/ssl/private/smb-server-key.pem
++    x509.truststore=/etc/ssl/certs/ca-cert.pem
++
++Client (mTLS):
++
++.. code-block:: txt
++
++    [authenticate.client]
++    x509.certificate=/etc/ssl/certs/smb-client-cert.pem
++    x509.private_key=/etc/ssl/private/smb-client-key.pem
++    x509.truststore=/etc/ssl/certs/ca-cert.pem
++
++Restart tlshd on both systems after changes.
++
++Testing ksmbd with smbtorture and smbclient
++===========================================
++
++[TODO: REVIEW && TEST]
++
++With smbclient or smbtorture:
++
++.. code-block:: bash
++
++    --option='client smb transports = quic'
++
++Avoid:
++
++.. code-block:: bash
++
++    --option='tls verify peer=no_check'
++
++unless debugging, as it disables certificate validation.
++
++Samba server config:
++
++.. code-block:: txt
++
++    server smb transports = +quic
++
++Optional:
++
++- force userspace QUIC:
++  --option='client smb transport:force_ngtcp2_quic=yes'
++
++- disable double encryption:
++  --option='client smb encryption over quic=no'
+-- 
+2.53.0
+
