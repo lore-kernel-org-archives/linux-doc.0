@@ -1,113 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from jpms-ob01-os7.noc.sony.co.jp (jpms-ob01-os7.noc.sony.co.jp [211.125.139.71])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4A6E175A72;
-	Tue, 28 Apr 2026 00:33:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8FF31A9F91;
+	Tue, 28 Apr 2026 00:37:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.139.71
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777336401; cv=none; b=Et8tvOnyK40fYz4pWqqYUffZAQF3TIxb2Xaq7re+hUDRHpDeWiwy6VScFtxVu/9z6xpYt5L2gKCQJmQ5A1u+FuVqelFVgKnwndgiTVDyOlOCpQDlR1eY26rYo9Flfr5uLQREHskgsyqcRkbRbUj9uTZB7xezhX3Er06kiQNf5ns=
+	t=1777336640; cv=none; b=m76lEiQFsThcSn1/M5ZEwVRrruL7aajdRHsBGCY6lwgf8TCBWFT8/WmCB8CxANpufBPxMSgvpiYxihkhchxeU0oj7znhe+SoGIx5cOHTvPpUhVazdqTx5DT5CxKwtX29hfDNiG68P6Z+AsK/UwA1C0z6PjAq0CZW93BHXcoYl/U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777336401; c=relaxed/simple;
-	bh=ZcdrUd8JxPkWJLg3gCpjoRkvfIkDc4Y0TOh/l4kL4Cw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=o1NtvtDd3AVHr/QVBrRGZlPFGrAlR0lvae/7pbVbIK6qcEKrfN1aPIh4ZmjFJuC/JlUOnRjEQodE9P/RDpznFOCj4z5znJn2m9gqmt8/gnERi1HcDtRWN/zFUi1rYaMB7zANB5osRY/72NmQNjMNBPk3Eb4DRqgmG67sgZOlgm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W3jmgxmj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777336640; c=relaxed/simple;
+	bh=BHJBLt+nE4AsueTS+IRnK41MDsfpFl09fk2rkAOBGfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IrqQ2R37y5bUZ+gC13QL7GE69tuj8UFPI63vsa4tE/xHqH92LyNpDkGs4XxaQkma45t7xC8hyym5DRQo69nteR8jxaGU5LwhVi078IdATtFM5mcpONuZ7gS8Hv6uUIX1Zj2cblshwFEAq1hOP6JxTl1IlBDRfmwn4pXQj5gr7Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=fail smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=zifXUqRL; arc=none smtp.client-ip=211.125.139.71
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=sony.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W3jmgxmj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF5E4C19425;
-	Tue, 28 Apr 2026 00:33:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777336401;
-	bh=ZcdrUd8JxPkWJLg3gCpjoRkvfIkDc4Y0TOh/l4kL4Cw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=W3jmgxmjb5NsMB8nfzuMsp69890MkKukIXm/8fmi/oAu9/3CXkSuiXwt6PDYr0gZf
-	 7fZ75Myat0x/3+Qgzk5m718sTFdDuSv+vQKMSlrXX5rtosbKcHZ6p66XoWH0KBNQz4
-	 Mx39vjSDGQkzTkbLelRE2IvPFwZDZWQJIeJFo5tGEF0DcqEXfNVppjoXLU8wUk41Qj
-	 IN1Hynk2iSKbZyrz7+rbQsGOv960XvAHG1pEJ5lXeNUa2ObV+UdIF0g6P1mzkSBRqa
-	 2a0VvJrHZenwNu8kYf5JBAb+BaCTYppN0dzLpVPwU8MXCysmCUsbsFdTIdwW4YtxWf
-	 YgwsXKhj6cm4A==
-From: SeongJae Park <sj@kernel.org>
-To: Gutierrez Asier <gutierrez.asier@huawei-partners.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	David Hildenbrand <david@kernel.org>,
+	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="zifXUqRL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=sony.com; s=s1jp; t=1777336638; x=1808872638;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OLmIYYgccj61Z7Y1BhmUJwFYcoGweKAe0uPk0qWtjNw=;
+  b=zifXUqRLqy7QOyuZ6GR7zIvFQ5PKFyBlhJraaElQbM/KdP3c5G+fL2Em
+   y0cMvxdb2orq0FQUtp2uKMuS7qYmrrf6pjGqXtSR8Otw/A187uyh3ikVL
+   dT3nLKVYotaRW4cGjptD8018ePj84eE7/fvTNQxq/g6qj575sK6f2WVUB
+   +wx7KM5y0HUdXakYQPHIreLyLBaBjaFp4rotsJimrRS3Q7VOzCAkpkF5z
+   iCPwG5LFqUQBJBj8qrAnQksxPbkVf2qj1BLvAkwYnThPYeDRvBQ5q951i
+   q5rsBbM1L6q5q9RCsvpok2qABpESSzs+JXAln3MrhOcfdHgEV4d0Zo8/X
+   w==;
+X-CSE-ConnectionGUID: p13ivIRdQeubEtPiJM12Fw==
+X-CSE-MsgGUID: sWE97Oy6SSmtDOR9IaHhLQ==
+Received: from unknown (HELO jpmta-ob02-os7.noc.sony.co.jp) ([IPv6:2001:cf8:acf:1104::7])
+  by jpms-ob01-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 09:37:16 +0900
+X-CSE-ConnectionGUID: /GTJxWLWQ4+ZYLnZbAxakg==
+X-CSE-MsgGUID: b3MnIMCXS6Ww/7MJqXJZlA==
+X-IronPort-AV: E=Sophos;i="6.23,203,1770562800"; 
+   d="scan'208";a="52460544"
+Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:eb3e:119e])
+  by jpmta-ob02-os7.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 09:37:16 +0900
+Date: Tue, 28 Apr 2026 09:37:12 +0900
+From: Shashank Balaji <shashank.mahadasyam@sony.com>
+To: Gary Guo <gary@garyguo.net>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
+	James Clark <james.clark@linaro.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Richard Cochran <richardcochran@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <shuah@kernel.org>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-trace-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 00/19] mm/damon: introduce data attributes monitoring
-Date: Mon, 27 Apr 2026 17:33:11 -0700
-Message-ID: <20260428003312.113061-1-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <14036b07-413e-4dcd-a363-e7f834d85da3@huawei-partners.com>
-References: 
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Petr Pavlu <petr.pavlu@suse.com>,
+	Daniel Gomez <da.gomez@kernel.org>,
+	Sami Tolvanen <samitolvanen@google.com>,
+	Aaron Tomlin <atomlin@atomlin.com>, Mike Leach <mike.leach@arm.com>,
+	Leo Yan <leo.yan@arm.com>, Rahul Bukte <rahul.bukte@sony.com>,
+	linux-kernel@vger.kernel.org, coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org, driver-core@lists.linux.dev,
+	rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org,
+	Daniel Palmer <daniel.palmer@sony.com>,
+	Tim Bird <tim.bird@sony.com>, linux-modules@vger.kernel.org
+Subject: Re: [PATCH v4 1/4] kernel: param: initialize module_kset before
+ do_initcalls()
+Message-ID: <afABOMT_s9DvF6NY@JPC00244420>
+References: <20260427-acpi_mod_name-v4-0-22b42240c9bf@sony.com>
+ <20260427-acpi_mod_name-v4-1-22b42240c9bf@sony.com>
+ <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DI3Z28IZZOT9.349TTWNN9VDMB@garyguo.net>
 
-On Mon, 27 Apr 2026 16:16:07 +0300 Gutierrez Asier <gutierrez.asier@huawei-partners.com> wrote:
+Hi Gary,
 
-> Hi SeonJae,
+On Mon, Apr 27, 2026 at 02:29:55PM +0100, Gary Guo wrote:
+> On Mon Apr 27, 2026 at 3:41 AM BST, Shashank Balaji wrote:
+> > module_kset is initialized in param_sysfs_init(), a subsys_initcall. A number
+> > of platform drivers register themselves prior to subsys_initcalls
+> > (tegra194_cbb_driver registers in a pure_initcall, for example). With an
+> > upcoming patch ("driver core: platform: set mod_name in driver registration")
+> > that sets their mod_name in struct device_driver, lookup_or_create_module_kobject()
+> > will be called for those drivers, which calls kset_find_obj(module_kset, mod_name).
+> > This causes a null deref because module_kset isn't alive yet.
+> >
+> > Fix this by initializing module_kset in do_basic_setup() before do_initcalls().
+> > Modernize the pr_warn while we're at it.
+> >
+> > Suggested-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> > Suggested-by: Gary Guo <gary@garyguo.net>
 > 
-> On 4/26/2026 11:52 PM, SeongJae Park wrote:
-> > TL; DR
-> > ======
-> > 
-> > Extend DAMON for monitoring general data attributes other than accesses.
-> > This is for enabling light-weight page type (e.g., belonging cgroup)
-> > aware monitoring in short term.  In long term, this will help extending
-> > DAMON for multiple access events capture primitives (e.g., page faults
-> > and PMU) and eventually pivotting DAMON to a "Data Attributes Monitoring
-> > and Operations eNgine" in long term.
+> I didn't suggest this change :)
 > 
-> Very interesting. Looking forward to seeing this in upstream.
+> I suggested `pure_initcall`, which is just a one line change.
 
-Thank you!
+Oops, sorry about the misattribution.
 
-[...]
-> My main concern is about potential pollution of sysfs. DAMON is already
-> complex to set up, with a lot of knobs. Adding more configuration options
-> may make admin's job more complex.
-
-You are right, ther are a lot of knobs for DAMON.  Nevertheless, each knob is
-simple and independent, so easy to scale.  We also provide user-space tool for
-users who still want to use DAMON in highly customized way, and DAMON modules
-for users who want common purpose usage of DAMON with minimum tunable knobs.
-
-I believe the beginning part of DAMON usage document [2] is explaining this
-point.
-
-FWIW, I'm also working on DAMON-X [1] for making the modules based appraoch
-just works for more use cases.
-
+> diff --git a/kernel/params.c b/kernel/params.c
+> index 74d620bc2521..ac088d4b09a9 100644
+> --- a/kernel/params.c
+> +++ b/kernel/params.c
+> @@ -957,7 +957,7 @@ static int __init param_sysfs_init(void)
+>  
+>  	return 0;
+>  }
+> -subsys_initcall(param_sysfs_init);
+> +pure_initcall(param_sysfs_init);
+>  
+>  /*
+>   * param_sysfs_builtin_init - add sysfs version and parameter
 > 
-> Do you plan to support this extension in damo user space?
+> pure_initcall is level 0 so it happens before all other init calls. Does it not
+> work?
 
-Yes, I will!
-
-[1] https://lore.kernel.org/linux-mm/20260307210250.204245-1-sj@kernel.org/
-[2] Documentation/admin-guide/mm/damon/usage.rst
-
+tegra194_cbb_driver registers itself in a pure_initcall too. We wouldn't
+want the ordering of its registration and module_kset init to be link order
+dependent.
 
 Thanks,
-SJ
-
-[...]
+Shashank
