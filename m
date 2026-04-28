@@ -1,152 +1,129 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2DD3009ED
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 07:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDC138B125;
+	Tue, 28 Apr 2026 08:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777363121; cv=none; b=NhZairElNzwYg9O3yntRvjtGRuuV+b/wzRD1tYL9jnx5iYjwOdLzuMbuvIvueNPbFP+1GsO/OOLXQE56VEEBE7DU3B2kgrTS/gJUcbO3bG6MkqgHf7/nO42k2yJXpRYs/kiiM8rvfjrlH+IScIUkHo+bnemgtPlFIXaSDGVuNGc=
+	t=1777363955; cv=none; b=eDH64Ek9+jjTDN6O3EbL1ydscUYeWfZdp7EJ2xFI6A7wg11JV8tRoA3G7IQ7kZ/DVrx9BXEul2RQpYdV2Jlw/gdpFF3ZvMglheNnf8HO6V2zIGbFQwcqfwidSAp70XbWI/QHSB8ZaZG7DpnDfXCheQCbrcrGXIFUogi/EQaXoSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777363121; c=relaxed/simple;
-	bh=ZdxLpRAvrey223q59Wjm8MO81du/WkAqqYDf+kSiL60=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=unaK0sWtJJdcdCqVycdGg83EwrdSUSV0s8THLicaGm5SiAODYuN/nfxyeR1HawR5ZNZ8b3rD87JCljDTr7e+sAJvHpaXldHSXPolN6HKfAHXNWRUJUTzwmG9b6pvpJVwc0uMnWdjB7116t3UF+dtaptGTU/RQ3dhjTvJbBHiJr0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=RqtvEQIe; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1777363955; c=relaxed/simple;
+	bh=jHDjgCPUB1CxxAOsbvTGjHdOjV3p3Giyuyyo3H04gZ8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=hnLmv8nrTxSYdu+5HzXF7U43xeUZsMhDcnYeqyaschLZgg9TAV7Q1ZmlkU8SwgWqddEho1krnRYXXNEQB8kX50pFX7XYXz5n/kURezYIzXykuGY6m+ET6jRWNPMS0D9xjIHIUnP3m2Tzqh7UaKEZ9y7oLSJiRB5Wt2jxFfjJMxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kFWL71iy; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="RqtvEQIe"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-43fe62837baso6433174f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 00:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1777363118; x=1777967918; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qagrd0tizvJjaLYUYS0sYCos+nfO9AiOSWAVzoIEd+Y=;
-        b=RqtvEQIeHwu1UHw50y9bGDvymuf5R3u+zf08I7L3/T4BxB7L4vdox8hImx/vGEAbVx
-         9pXk7WtZFSLEEBClhansU+n8kfP/H1pViMZ8n0k/maPszR6REmpcqjcPH7nQ/MjR88hX
-         lpaQ9wNfi6yLxWrm1Yt6dFS9OToghrux8ILsYepTeRZqU4g2W69PwjV58MqXSWr0ZeNk
-         +jbTGL2CDIrtV/pyVeyUPxMkMGoB5QCLrUYjquMQt2j6bboEqWzCIF8nG2EVaU6FsVy2
-         1qtpzMS73pA+rGTiil5N1HRGy8l+7ho4NUtAP515rvZgGFyjkI0y5G9AJ1YczPVl8q+G
-         BnFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777363118; x=1777967918;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qagrd0tizvJjaLYUYS0sYCos+nfO9AiOSWAVzoIEd+Y=;
-        b=FwasIvwexn1VGNtxEbTb0HVffQUJnyx1ST1fX0SDQsQZ5Af1nPzri7LzOS8gz0s1CF
-         WqmVOVv9DswFwVxjzF6330JLKFuv4M9oVlQASTLlB1WBK2Ep8dLlWE9cey6WrjtTrNWI
-         FwLNFkaw0UFTIw67dSa2j7rECXOitTwz0cb2urH13Lvyq6cHjJOnhmPhJ2iIwtHTBw8O
-         o8vvhaKd9cqINAI/J0gVDGSL7wLwS61qZyA4AaU4udjy1T7Qqak+An/zb7RFMS2PDs/D
-         DiQFiKwvw5HWI5NyT4gdQJSVvTalq0mhwzrkBr9lfKDkS9/k7kWBe5epIEdGTQpKQBH5
-         LWpA==
-X-Forwarded-Encrypted: i=1; AFNElJ+8ydqVWg4+n80ub3yKy9AzQF2vvw8CLT67L994/xhROfJLmLWV/2LsIK98ugxPRATqz3TI1pgkpCA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YziuI4WHtz4pHl3/6/J2FGwzZBuPrNJLzrYB06r9J9VrXfp113y
-	3Aizo7Z1B6kZ3FYqj99PzbKTZmTbnmKpHIZa1RZ+cMLJ55J47Mt54LhvJsateou94jo=
-X-Gm-Gg: AeBDieuTQGke3pF15/E9KYOkZDmOoM0wE+98wlliYIEWnB9GcrKFVg+45jlHsCVdsq/
-	SwS8o2mFa3Q9KCy3+3vk0NiO79vq3JfEIuEs9/bxbGMbLoFmPg/RLqxC0oZre6/x8g6J/wDoahF
-	SQf+od2oYFluxUf2V+I3J197VHn/tVheq82t/5PFr2RKk19GwiTACGqvwBX9/Amg9NHHZgeTs6K
-	hmcAsoGFN34IiP61Bddwi2wV+vdaf8PimeGgSY/qhz/NLICZBW+IF1E9RRnL63sW17vQ9bR2Mzr
-	VMevy0Q774QcQRmrsdismnpsUIZCqU/b8WiOwyIGPvYG2QbgxYprCgbAWs68UZhq4TRpAlwz1nb
-	6UXUxB6R630wTt9NfBi8mvYDoZkd89wq4zzc4D4Eh4ZI6viD0/7Nv7H9D0vVIPN52fwtynLteTH
-	fXc5s0QJNhn1Z4GntCHWhXoGd8J3p6loHOKJg/BvwdjmWYHPlzggrQO5ZwWRw=
-X-Received: by 2002:a05:6000:2212:b0:43f:e413:43ae with SMTP id ffacd0b85a97d-446448b900emr3496914f8f.0.1777363117896;
-        Tue, 28 Apr 2026 00:58:37 -0700 (PDT)
-Received: from localhost.localdomain (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4463f5b50c1sm4186489f8f.17.2026.04.28.00.58.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 00:58:37 -0700 (PDT)
-Date: Tue, 28 Apr 2026 09:58:35 +0200
-From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
-To: Waiman Long <longman@redhat.com>
-Cc: Chen Ridong <chenridong@huawei.com>, Tejun Heo <tj@kernel.org>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org, Xie Maoyi <maoyi.xie@ntu.edu.sg>
-Subject: Re: [PATCH] cgroup/cpuset: Creating or adding CPUs to partition not
- allowed without privilege
-Message-ID: <7so4b76wg2apwwk3yh76q42jgwnpvlv7sursmsmzeyefhp4pbt@thybpp4litm6>
-References: <20260428033439.783246-1-longman@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kFWL71iy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777363949; x=1808899949;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=jHDjgCPUB1CxxAOsbvTGjHdOjV3p3Giyuyyo3H04gZ8=;
+  b=kFWL71iyH9uIO8AKRw1YWJj6G0ND/UPz0hxCWuhL5YM/F49+RiNsA7d/
+   aCR++hRqPjqVrMZYkk5auwsNYdRVkgvA2JtoyA0KsoWq8L26093mGpmoy
+   1V5N8euhoJdG0vYcUq0B5OpH98j7WfLeCTRJVaAYff5Bw0R+QQDrfZayU
+   PxEI4pJAseN9+v6Q7f9p9tsEG1JsolNNBWzJJWnvTFFEi7iCKHixuC4S3
+   Y2N3kEq3Or3fc6thTTjTquPnTYP4D7E7Uafb0q1WbyrNJkm15IuwRFj/C
+   L1uFeFq4EC5WyymJPB+N7IzwC9nOmZol5XrA7FTl0rqoIavFswXdbKoNh
+   w==;
+X-CSE-ConnectionGUID: yzjUHiTVSoeTlmSHnvxKSA==
+X-CSE-MsgGUID: oDZJEpEITLe6eYv1jk77eA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="65794661"
+X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
+   d="scan'208";a="65794661"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:12:27 -0700
+X-CSE-ConnectionGUID: n88pwTJpSD24kP1jWmnwvg==
+X-CSE-MsgGUID: gJhnjn60Q5GIe9zM6KiMjg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
+   d="scan'208";a="229324365"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO localhost) ([10.245.244.208])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 01:12:26 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Shuicheng Lin <shuicheng.lin@intel.com>, linux-kernel@vger.kernel.org,
+ intel-xe@lists.freedesktop.org
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] scripts/kernel-doc: Detect mismatched inline member
+ documentation tags
+In-Reply-To: <20260415215032.3398330-1-shuicheng.lin@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park,
+ 6 krs Bertel Jungin Aukio 5, 02600 Espoo, Finland
+References: <20260415215032.3398330-1-shuicheng.lin@intel.com>
+Date: Tue, 28 Apr 2026 11:12:23 +0300
+Message-ID: <0cd899be469b13ed4e6738ce8eb8716081c22d8c@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v7j7lm3upsqvk6fp"
-Content-Disposition: inline
-In-Reply-To: <20260428033439.783246-1-longman@redhat.com>
+Content-Type: text/plain
 
+On Wed, 15 Apr 2026, Shuicheng Lin <shuicheng.lin@intel.com> wrote:
+> Add validation in check_sections() to verify that inline member
+> documentation tags (/** @member: description */) match actual struct/union
+> member names. Previously, kernel-doc only validated section headers against
+> the parameter list, but inline doc tags stored in parameterdescs were never
+> cross-checked, allowing stale or mistyped member names to go undetected.
+>
+> The new check iterates over parameterdescs keys and warns about any that
+> don't appear in the parameter list, catching issues like renamed struct
+> members where the documentation tag was not updated to match.
+>
+> This catches real issues such as:
+>   - xe_bo_types.h: @atomic_access (missing struct prefix, should be
+>     @attr.atomic_access)
+>   - xe_device_types.h: @usm.asid (member is actually asid_to_vm)
+>
+> Assisted-by: Claude:claude-opus-4.6
+> Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
 
---v7j7lm3upsqvk6fp
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] cgroup/cpuset: Creating or adding CPUs to partition not
- allowed without privilege
-MIME-Version: 1.0
+Cc: linux-doc@vger.kernel.org
 
-Hi Waiman.
+> ---
+>  tools/lib/python/kdoc/kdoc_parser.py | 25 +++++++++++++++++++++++++
+>  1 file changed, 25 insertions(+)
+>
+> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+> index ca00695b47b3..f21f06c0a9b0 100644
+> --- a/tools/lib/python/kdoc/kdoc_parser.py
+> +++ b/tools/lib/python/kdoc/kdoc_parser.py
+> @@ -673,6 +673,31 @@ class KernelDoc:
+>                  self.emit_msg(ln,
+>                                f"Excess {dname} '{section}' description in '{decl_name}'")
+>  
+> +        #
+> +        # Check that documented parameter names (from doc comments, including
+> +        # inline ``/** @member: */`` tags) actually match real members in
+> +        # the declaration.  This catches mismatched or stale kernel-doc
+> +        # member tags that don't correspond to any actual struct/union
+> +        # member or function parameter.
+> +        #
+> +        for param_name, desc in self.entry.parameterdescs.items():
+> +            # Skip auto-generated entries from push_parameter()
+> +            if desc == self.undescribed:
+> +                continue
+> +            if desc in ("no arguments", "anonymous\n", "variable arguments"):
+> +                continue
+> +            if param_name.startswith("{unnamed_"):
+> +                continue
+> +            if param_name in self.entry.parameterlist:
+> +                continue
+> +
+> +            if decl_type == 'function':
+> +                dname = f"{decl_type} parameter"
+> +            else:
+> +                dname = f"{decl_type} member"
+> +            self.emit_msg(ln,
+> +                          f"Excess {dname} '{param_name}' description in '{decl_name}'")
+> +
+>      def check_return_section(self, ln, declaration_name, return_type):
+>          """
+>          If the function doesn't return void, warns about the lack of a
 
-On Mon, Apr 27, 2026 at 11:34:39PM -0400, Waiman Long <longman@redhat.com> =
-wrote:
-> Creation of a cpuset partition or adding more CPUs to an existing
-> partition will take CPUs away from other cpusets outside of the
-> partition leaving less CPUs for the others. So it is a privileged
-> operation that non-privileged users shouldn't be allowed to do.
->=20
-> Currently, remote partition code has check for CAP_SYS_ADMIN capability
-> before allowing such operations, but not for local partition.
-
-Remote partitions need such a check because their CPUs are sourced from
-the global supply (top level) without=20
-
-> This leaves a security hole in case cpuset.cpus.partition of a cpuset
-> is chown'ed to a non-root user and its parent cpuset happens to be a
-> partition root.
-
-I wouldn't say this difference between remote and local partitions is a
-security hole [1].
-
-Consider this -- cgroup a is created by root (admin) and its resources
-are constrained by root's policy. However, what happens in a subtree is
-irrelevant from that top level view.
-
-# setup			// owner
-a/cpuset.partition=3Droot	// root
-a/cpuset.cpus=3D0-3	// root
-a/cgroup.procs		// user, they can organize subtree as needed
-
-For example the user may want to create a (sub)partition with some of
-the CPUs they got:
-
-user$ mkdir a/b
-
-a/b/cpuset.partition=3Droot	// user
-a/b/cpuset.cpus=3D0-1		// user
-
-This should be a valid configuration and behavior, no?
-
-Thanks,
-Michal
-
-
-[1] And thanks to the need of cpuset.cpus.exclusive chain down the tree,
-    the capability check for remote partitions may be too restrictive
-    too. But I don't not plead for its removal now.
-
---v7j7lm3upsqvk6fp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJEEABYKADkWIQRCE24Fn/AcRjnLivR+PQLnlNv4CAUCafBolxsUgAAAAAAEAA5t
-YW51MiwyLjUrMS4xMiwyLDIACgkQfj0C55Tb+AjUaQD/WWAf7wbM6SpsqgVsTUGg
-g0IHvtsWG+gcAF7OSxg8BaAA/3tsjCKLTBgl9yGrabUcfcBzpM3PrGtwFSexQPAC
-Lj0E
-=1WQo
------END PGP SIGNATURE-----
-
---v7j7lm3upsqvk6fp--
+-- 
+Jani Nikula, Intel
