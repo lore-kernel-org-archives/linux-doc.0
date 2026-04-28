@@ -1,168 +1,222 @@
-Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B1B2388E71
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:40:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.217.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777419659; cv=pass; b=SGRvQR1o5fH8qQfuZYEXvBDpZOBo7lcoFht0oSFepGXKJcG+dMlQWOg+3zlJrrJyDyQPSIlE+Td6Cykd77mkZmibtzV/cN2RGk/Jsz7e0ULcTCQZx5lD/D6nsNIjSGSfUGKuMu61dlidPccOG0FK70sdCNeqyoBXt09FUtbBfpg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777419659; c=relaxed/simple;
-	bh=U3ahQduobNenu2MyiCXv14Q8IImIIVCNH9OIRKPH1FY=;
-	h=From:In-Reply-To:References:MIME-Version:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gXN73pzUihUPOWfacmEQ1yFSnM/NoqBRNQMxye6dPs9l+czhPPeAn14cXDY/wBZVc+GNIUPX44eqXAcY1/Mmsb/Y+izIEUb1uCbN4EFyn4XLT+/EopjhshIK/Hpk+IUaYeElNS5SlJmvckVog0QSZbF+2CgrMZKYXT4wWCF+BBY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=hsmFq7DF; arc=pass smtp.client-ip=209.85.217.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AFD730F531
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:47:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777420052; cv=none; b=fO6aQcLwqeGQsUWvTSY+mTSvnWSNekE2/l26oKkYbTYV0p4KpZez9lkLYwx7adtNlb7MeWvQIM4aDGMeyh0VdbVhtluv3eB7ErGItSg0y7qAPYDEOuiZgc2rB9Wrgb03HoMp8JSeiVaXhpqJifR8Pv92Rh17tquj5Mrcka78DUM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777420052; c=relaxed/simple;
+	bh=oZv/inceMwaKLWNaXYQI3akHygkXQqc0/nr+tIR7BEY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B9nLl7ZLlhM9XTsxrmec8H5VYuaah1fqI9PXL9Dv/7RLVlpMU/ZWemUwIjtcEnLVz5nu0pVwVZ43SRsc4X0l8ItPqjnsXkLqHWZhO4c3wfH+7tRLGHodIqBCMIe9Yuw6zJFecVE3iNiFBUX4INNs0s3cNO2x2n0Fy05h1Ymg5ZE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=guptNxEn; arc=none smtp.client-ip=209.85.216.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="hsmFq7DF"
-Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-6120528b8b4so3507999137.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 16:40:56 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777419655; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UxkTia0IH6MO5kum69zzd3fQKRnka3lHfE1ghyTM22/kguwzQHICVPIbjy2yPZ/K+z
-         0XvWbC0IvdY4LO5ZgGLNRYErqSZdIXPK99t5Wrhjd/XgqspYy/Qksm+jbj7kVSNL7AOv
-         iZ0nyuBRJqqZyi/it5dxUNVz+2VJoYevnNnNYwORVb0QNiUqhYuAHVLNieVQ758cs9Ek
-         kRFUNlY8jSwZwKYTF7hjoVLBhnQwlmoQGZ+4zvPXT3ZcPa6NZuqxUXbxeZijkW+2lMfc
-         i0aMN+3Ds4d1l12YihqdEV7GFPpS0y7/srSxLJnzrVwD/BDU7xgr3M1X1qicIAcyT5B3
-         WBVA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:dkim-signature;
-        bh=fSQsiZsSkLpyfyftl7NX7sITr7YX8npk81aNrWQuVW0=;
-        fh=Kk6ucfmuz4IIVei1kqNWo7LueSTxX3gMynZDfOmalcg=;
-        b=AswcfiKkP5GTtgii09p9NSVFfa/XAg0QzivKDyeli4rp9oeUyoLdjqRBFmkmWu4fj5
-         Y49DeSaBc7qHkGKnSwLpcn3NS/aVj7z6fXt+mFz9Sc7HZPhj9cCTwSu/Tmv+u8OKMV+v
-         eajO/yoLuDeJ0gyf98sKrn6Rrb5B6ZVo7sQxExidKf1oTiY2IpEa4AKVgq/NBef7KeCh
-         0cUPKC6VSdziGrR/aF1b4ASR+psfK56evfygS+z5/d5RvjpDOXjuk4EN3dcwqODdwjkM
-         KL8DmVXZZTQfE59IwpHu1jub8ZGJdKgEk/7VpnpBOhH09q9WVG2r1EkysWFSzeiLiJs+
-         UVsA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="guptNxEn"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-35fb0bb27e7so8045151a91.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 16:47:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777419655; x=1778024455; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=fSQsiZsSkLpyfyftl7NX7sITr7YX8npk81aNrWQuVW0=;
-        b=hsmFq7DFMBfAwtb1IZ6VAuUFHbYwGJe7T0YGoC2CKhGIdjx03B6Mtva/uC62TfY3WS
-         MmLL3e6YwiFrJZCe2ef7t+xrcR2XxghUK1J9+MA+2/7GY0Kv6SiMlyXY3elQUFAQeYwh
-         +TT3HVmfTWZ8OgqvASfAFZ5JbpMU+zuyrahpa3beA3dcT/5NtNlmlhNTUvuQRi2tPGGt
-         m0X9RTmx7ze8yVGzOECOZQOaP+HaBZpOrTA9MBKHH7H7dIwkWZ9xYfeHKrj2OLaQm6sH
-         177ukz6mlxPHpdy9ilHl6aV/WYum4uGcKUbdHIrqTCVwaxU0rQX9FIolN1xsa3CdA7+E
-         PeRA==
+        d=google.com; s=20251104; t=1777420048; x=1778024848; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EpaL2C2UFwZgckez6PzSxOJ2+MS43lyhGR+45AYtYTo=;
+        b=guptNxEnuVqRVcBEH8yVnH2nzhVloszzN7DtR7l2DInGibU6kgyefWP11YXJnx0KG1
+         Qq6c66jkzODRm7YanpL4df8jksSFRTYpS7/II6r9pRz7KMcUxmvUziqoHuYxPHC2enEw
+         7g6kwP7GimAEPRPK8d/8cyH5e71d9eaqUeeqbH2GS2qvWodeCF07Cg7GhlkFBXFC1Khr
+         W6Yxxd4ktYTkcQpyHcGNfj2yvEEB5+MumdiycreJKrlcDwP1yDNlD9oPHKrpHemhQd7W
+         2cwHC5MPFAop9iaCQzlW9iVx5tIBNKtogXH+ttJ0ftTD/Y1z9ceAGKfTxspTz7TTk/3y
+         IanQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777419655; x=1778024455;
-        h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fSQsiZsSkLpyfyftl7NX7sITr7YX8npk81aNrWQuVW0=;
-        b=GXbeer+D66OD4KYNCk+c446veLT+1HFEJ+Suwbzuox1GJS4tYRvI17djuOt+FDoSx6
-         HyKZ2171FRpc3EsP7++5cjxmcz4XbXttq9g5VoXmydcgPj+O/kGehB7QRhNQQ9epvGwc
-         UqFJ2D/vRgyIupXQbzrSb4Bk+i6kgD8gng8Q5WSG0eNnPYIL7+YJVlkaR5RBPQ0MIV/W
-         XeHqmD1q6e1QVOWT8fk4Udax3+qTwJfc4Yjnly1j5ZioWwD/z8ZtEo0113cgndgHLOaT
-         ejZoVvjUT9mKvd+QRX7aPZ/WnSk/8IUo9pMLPQhcLDxRjgocmtgRqoNlBZKDJAx57cHT
-         CICA==
-X-Forwarded-Encrypted: i=1; AFNElJ8215owjzOzgSFZ9sdss5zNXV71b8aq3SO7wkHgE2KWtRu5LIFrgbH/jIDE+6nAnh3K1J0k8iGAYtY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlB/7hTIKZpd/ZT5vPMLEbisZOqPk3iVmm+LWvbP4Iq2AEx3KX
-	5WccwD28yGXdAMS7qclYNs9Vb/gPgSWbWKwkVbEdtZBzIisSCLY06UITfsfuoNLC7A7Cjmv315M
-	BenHFQtEswUGbd0dXNXEeNe0uHIQJQQzEZt5BeYDJ
-X-Gm-Gg: AeBDiesViNivMoyrE6LfiBngarx/13NUNJFcSb7xT7kkMwPVM+oi9juZjm1JLXjsn+1
-	orTQN1kuaf8rEYP6jwbX3RLFG8x4x+BhxRMmo2mEwlChEw1HJ58oTJ0nupHFffJic3mcB6yy6gu
-	65YGpjdSs3J6UBJJcZplMPrrHIvPoQajKOmPeY5h3H2NnPPFLzFkDNfpmipXw9a4D2WqQvrBDnP
-	diHenNJ6Nv6XoaLagLOy8H84Mlpzjpo4hNwTHvo0oFpnHcjKHaWJl5OxH+kuxnVAFoNAvkqj3PW
-	Ml98zsLMgqla8KfjdH5l+jWYWpieyRyaVn7aevF3JcdgJEUdPhxorz0/VnXsMt5e1VKblQlMaj6
-	2OePk8WsqMnAZKLw=
-X-Received: by 2002:a05:6102:809e:b0:606:49d:183f with SMTP id
- ada2fe7eead31-6280b1df187mr2828068137.26.1777419655062; Tue, 28 Apr 2026
- 16:40:55 -0700 (PDT)
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 28 Apr 2026 16:40:53 -0700
-Received: from 176938342045 named unknown by gmailapi.google.com with
- HTTPREST; Tue, 28 Apr 2026 16:40:53 -0700
-From: Ackerley Tng <ackerleytng@google.com>
-In-Reply-To: <20260428-gmem-inplace-conversion-v5-24-d8608ccfca22@google.com>
-References: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com> <20260428-gmem-inplace-conversion-v5-24-d8608ccfca22@google.com>
+        d=1e100.net; s=20251104; t=1777420048; x=1778024848;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EpaL2C2UFwZgckez6PzSxOJ2+MS43lyhGR+45AYtYTo=;
+        b=sPKUrsgUIjaDegc/5g0ZHRlCCbjNwlcNjj4vdwGawH4MXjAAyOR/fOvERh5fRyID24
+         5sYdRcuVByHEIQMlRrw1gzABWmJD8jisCeg6tJK2GnaZ8UVNQae57znVt3xfE8mFV8WN
+         6JRTIZGITs4a8VkBRdlkTPv3DEU6WgTUD3p/CLV9M0oCgRHVnZDNALIM53VqYGucW/gC
+         IzUJKdCWFXaxQuO914cTs+eJVLvo7xJIYqsvbUb3bJaQnN/ej8ul8vhFVOAfN9TT+yJD
+         3FqTt6qMNS2eWp/5CqwUpMb42NIpuOY+L8v6tjA/rGfjV/4XPipv0QTva6vMMqniDQgO
+         PS+g==
+X-Forwarded-Encrypted: i=1; AFNElJ/fp+WPsxnXTl0W5x6UIIzUKEhCU8EpMpEdbM98OMrEjpU79GZ7wGRqNu6S9CrfPxwGFths8CkVPBg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9VRMBVPabxfhufAkOwb+ixC475RNS1znaK5Tc1AE8SCGjjJqc
+	5DT7pd0uCXsJjBmQk1EReo+2atE5hQmXOeT0wDBbCuY3REz6y/AoSaRhJC8Z9GL15g==
+X-Gm-Gg: AeBDiesAsj5/NlEGxa/PUnNOZsW8OYCsiupp/yHCb7jPLPIp3bO6Ue65mHxyk8Kky8y
+	GK2jqnYXMaL7/+Es8A/wn8hF7KFeptusHPWPQs+Gz7nxrv6KgrUmp97KX1I7U7zr5Drji7YShpB
+	OxnO2kjqkcHQMhSwYeuDRAQo16xxnOTW5pffwcoouqg7+x2bf608pqV2miMqwi7qp8mXaHN6aGg
+	mAstVVS6xV3IZOdQG1dPSkeaTLoBECnpl/NOWjuo6uoP5M7xtW0bRbv7PaviRPv2YUib/ezyrZD
+	9v+ThYEh7XMfYbteI8dlC7EsuFlTa/J9tOlqiETfLb8cH9Sg9x5TCVTkJcO9IBDTh26TKPH9KrT
+	oOlXtSyRX0/ctObbAJMtqTZ8wtUT0Wv7KwACS4QfXfVf7Mtp6JZlA/jdHNpwtCFx6NOEEmv/qFK
+	dSL9IbLVNTZJaUQGUC7yQlXxqyaz7g3al2ZBf/hD6BQ5cm3LIrQWdNpHxcHLg2gFzAUICfNRK7I
+	ByP1g==
+X-Received: by 2002:a05:6a20:a120:b0:3a2:bd1d:d68c with SMTP id adf61e73a8af0-3a3af60f200mr1710132637.50.1777420047985;
+        Tue, 28 Apr 2026 16:47:27 -0700 (PDT)
+Received: from google.com (76.9.127.34.bc.googleusercontent.com. [34.127.9.76])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-c7fd64f09fdsm178148a12.17.2026.04.28.16.47.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 16:47:27 -0700 (PDT)
+Date: Tue, 28 Apr 2026 23:47:23 +0000
+From: David Matlack <dmatlack@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+Cc: Pratyush Yadav <pratyush@kernel.org>, iommu@lists.linux.dev,
+	kexec@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Adithya Jayachandran <ajayachandra@nvidia.com>,
+	Alexander Graf <graf@amazon.com>,
+	Alex Williamson <alex@shazbot.org>,
+	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
+	David Rientjes <rientjes@google.com>,
+	Jacob Pan <jacob.pan@linux.microsoft.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
+	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
+	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
+	Pranjal Shrivastava <praan@google.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Samiullah Khawaja <skhawaja@google.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>,
+	Yi Liu <yi.l.liu@intel.com>
+Subject: Re: [PATCH v4 01/11] PCI: liveupdate: Set up FLB handler for the PCI
+ core
+Message-ID: <afFHC6C1Qbwio4pH@google.com>
+References: <20260423212316.3431746-1-dmatlack@google.com>
+ <20260423212316.3431746-2-dmatlack@google.com>
+ <2vxzeck45yin.fsf@kernel.org>
+ <aetvAkM0y45WAmfV@plex>
+ <ae_4fg_18Rli2_Nt@google.com>
+ <afDroRNDr9ttY4O9@plex>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Tue, 28 Apr 2026 16:40:53 -0700
-X-Gm-Features: AVHnY4K8zc89tOubY_FIZvJs5RqMpzsyiDSJNy3Ts6m6f6GRhz2hBKqCaZ_7fHQ
-Message-ID: <CAEvNRgGv3RZipinpQLCGUfBCAfS0PRc1mCx2yc3JgjfEu=QhdQ@mail.gmail.com>
-Subject: Re: [PATCH RFC v5 24/53] KVM: SEV: Make 'uaddr' parameter optional
- for KVM_SEV_SNP_LAUNCH_UPDATE
-To: Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>, aik@amd.com, 
-	andrew.jones@linux.dev, binbin.wu@linux.intel.com, brauner@kernel.org, 
-	chao.p.peng@linux.intel.com, david@kernel.org, ira.weiny@intel.com, 
-	jmattson@google.com, jthoughton@google.com, michael.roth@amd.com, 
-	oupton@kernel.org, pankaj.gupta@amd.com, qperret@google.com, 
-	rick.p.edgecombe@intel.com, rientjes@google.com, shivankg@amd.com, 
-	steven.price@arm.com, tabba@google.com, willy@infradead.org, 
-	wyihan@google.com, yan.y.zhao@intel.com, forkloop@google.com, 
-	pratyush@kernel.org, suzuki.poulose@arm.com, aneesh.kumar@kernel.org, 
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>, 
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Shuah Khan <shuah@kernel.org>, Vishal Annapurve <vannapurve@google.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, 
-	Kairui Song <kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, 
-	Nhat Pham <nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song <baohua@kernel.org>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie <yuanchu@google.com>, 
-	Wei Xu <weixugc@google.com>, Youngjun Park <youngjun.park@lge.com>, 
-	Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-mm@kvack.org, 
-	linux-coco@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <afDroRNDr9ttY4O9@plex>
 
-Ackerley Tng via B4 Relay <devnull+ackerleytng.google.com@kernel.org>
-writes:
+On 2026-04-28 05:50 PM, Pasha Tatashin wrote:
+> On 04-27 23:59, David Matlack wrote:
+> > On 2026-04-24 01:29 PM, Pasha Tatashin wrote:
+> > > On 04-24 14:33, Pratyush Yadav wrote:
+> > > > Hi David,
+> > > > 
+> > > > On Thu, Apr 23 2026, David Matlack wrote:
+> > > > [...]
+> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > > > index c9b7b6f9828e..94af31837375 100644
+> > > > > --- a/MAINTAINERS
+> > > > > +++ b/MAINTAINERS
+> > > > > @@ -20555,6 +20555,18 @@ L:	linux-pci@vger.kernel.org
+> > > > >  S:	Supported
+> > > > >  F:	Documentation/PCI/pci-error-recovery.rst
+> > > > >  
+> > > > > +PCI LIVE UPDATE
+> > > > > +M:	Bjorn Helgaas <bhelgaas@google.com>
+> > > > > +M:	David Matlack <dmatlack@google.com>
+> > > > > +L:	linux-pci@vger.kernel.org
+> > > > > +S:	Supported
+> > > > > +Q:	https://patchwork.kernel.org/project/linux-pci/list/
+> > > > > +B:	https://bugzilla.kernel.org
+> > > > > +C:	irc://irc.oftc.net/linux-pci
+> > > > > +T:	git git://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git
+> > > > > +F:	drivers/pci/liveupdate.c
+> > > > > +F:	include/linux/kho/abi/pci.h
+> > > > > +
+> > > > 
+> > > > Can we please also add these files under the "LIVE UPDATE" entry. The
+> > > > code here concerns both live update and PCI.
+> > 
+> > Covering that intersection of Live Update and PCI was exactly my
+> > intention with introducing this new PCI LIVE UPDATE entry. This ensures
+> > we have maintenance coverage with knowledge of that intersection.
+> > 
+> > > > We can figure out the
+> > > > maintenance details as we go along, but I think the live update
+> > > > maintainers should at least get all the patches for PCI live update.
+> > 
+> > Would adding kexec@ here be sufficient or do you want to be CC'd
+> > directly?
+> > 
+> > If you want to be CC'd directly do you think makes more sense to add the
+> > Live Update maintainers as Reviewers under PCI LIVE UPDATE, or add
+> > drivers/pci/liveupdate.c under LIVE UPDATE?
+> > 
+> > > > 
+> > > > Perhaps also add the kexec list here? We plan to use it to maintain the
+> > > > LUO patches, and adding it will make sure we get the patches in case
+> > > > someone updates the file list here but forgets to update it in the LIVE
+> > > > UPDATE entry.
+> > > 
+> > > +1
+> > > 
+> > > These files should also be added to the Live Update entry, and the kexec
+> > > mailing list should be included.
+> > > 
+> > > Changes specific to Live Update should be routed through the
+> > > liveupdate/linux.git tree, while generic PCI changes should go through
+> > > pci/pci.git. In either case, if liveupdate.c or abi/pci.h are modified,
+> > > acks are required from the Live Update group.
+> > 
+> > Do you want to merge changes to drivers/pci/liveupdate.c through the
+> > live update tree or PCI tree? We should probably decide now. I was
+> > assuming the PCI tree since its part of PCI core.
+> > 
+> > As we project this out there are going to be users of the Live Update
+> > API across different parts of the kernel: PCI core, IOMMU core, IOMMU
+> > drivers, VFIO core, VFIO PCI drivers, and KVM. I don't think it will
+> > scale to take all that code through the live update tree.
+> 
+> All Live-Update-specific changes should go through the liveupdate tree. 
+> The liveupdate tree is the only Linux tree that will cover full Live 
+> Update regression testing, and it contains reviewers and maintainers who 
+> know the details of the Live Update process, its lifecycle, and its 
+> requirements.
+> 
+> The request we are hearing from other subsystem maintainers is that they 
+> want to make sure Live Update is isolated enough not to make their lives 
+> harder. This means reducing the number of conflicts, the maintenance 
+> burden, and testing responsibilities.
+> 
+> Therefore, the "PCI LIVE UPDATE" entry should specify you as a 
+> maintainer, "kexec@lists.infradead.org" as the list to which all LU 
+> changes should be CC'd, and "liveupdate/linux.git" as the git tree 
+> against which changes should be applied.
+> 
+> It should also include "linux-pci@vger.kernel.org" so the PCI 
+> maintainers are CC'd. In case there are larger changes that touch core 
+> PCI and liveupdate.c/abi, we can ACK them, ensuring we are aware of 
+> incoming conflicts during the current or next merge cycle.
+> 
+> It should also specify the members of LU group so we can stage the 
+> changes.
 
-> From: Michael Roth <michael.roth@amd.com>
->
+Sorry what does this mean specifically?
 
-Thanks Michael!
+> This is the way we agreed to handle kexec changes: Baoquan He is the 
+> maintainer, and without his Reviewed-by tag, we won't take changes to 
+> kexec. This is the approach we follow with MM for KHO changes to 
+> memblock and memfd preservation, as well as the upcoming 
+> hugetlb/guestmemfd preservation. 
+> 
+> This is also the approach we should continue using when adding LUO 
+> support to other components like PCI, VFIO, IOMMU, and KVM. It keeps 
+> life easier for the core component maintainers and ensures we do not 
+> regress LU by staging everything in the same tree and sending LU merge 
+> requests from a single tree.
 
->
-> [...snip...]
->
->
-> diff --git a/arch/x86/kvm/svm/sev.c b/arch/x86/kvm/svm/sev.c
-> index c2126b3c30724..bf10d24907a00 100644
-> --- a/arch/x86/kvm/svm/sev.c
-> +++ b/arch/x86/kvm/svm/sev.c
-> @@ -2343,7 +2343,15 @@ static int sev_gmem_post_populate(struct kvm *kvm, gfn_t gfn, kvm_pfn_t pfn,
->  	int level;
->  	int ret;
->
-> -	if (WARN_ON_ONCE(sev_populate_args->type != KVM_SEV_SNP_PAGE_TYPE_ZERO && !src_page))
-> +	/*
-> +	 * For vm_memory_attributes=1, in-place conversion/population is not
-> +	 * supported, so the initial contents necessarily need to come from a
-> +	 * separate src address. For vm_memory_attributes=0, this isn't
-> +	 * necessarily the case, since the pages may have been populated
-> +	 * directly from userspace before calling KVM_SEV_SNP_LAUNCH_UPDATE.
-> +	 */
+Ok it sounds like we are aligned on keeping drivers/pci/liveupdate.c,
+include/linux/kho/abi/pci.h, and Documentation/PCI/liveupdate.rst in the
+PCI LIVE UPDATE entry and not duplicating them in the LIVE UPDATE entry.
 
-I dropped the #ifdef CONFIG_KVM_VM_MEMORY_ATTRIBUTES from [1] since
-vm_memory_attributes is #define-d as false when if
-CONFIG_KVM_VM_MEMORY_ATTRIBUTES is not defined.
+I think the only open question is what tree to use for the PCI LIVE
+UPDATE entry, PCI tree or Live Update tree. You are proposing the Live
+Update tree.
 
-> +	if (vm_memory_attributes &&
-> +	    sev_populate_args->type != KVM_SEV_SNP_PAGE_TYPE_ZERO && !src_page)
->  		return -EINVAL;
->
->  	ret = snp_lookup_rmpentry((u64)pfn, &assigned, &level);
-
-[1] https://github.com/AMDESE/linux/commit/7e7c29afdf3763822ced0b7007fc0f93b8fb993d
-
->
-> [...snip...]
->
+Bjorn are you ok with that approach?
