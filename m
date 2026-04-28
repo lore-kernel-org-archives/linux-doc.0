@@ -1,103 +1,262 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6566B284B4F;
-	Tue, 28 Apr 2026 08:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777366648; cv=none; b=ri/6bpLNA19xwqpF7/w5MMuBNMxFDZW6VY9nPpGSuTQIq3Auww9O4qPT1LpF3Dt2dV78ukQ8gxHJ+tVZCXD4ziM5p9azv3W2pcC9ogRoUcNvoyBz4+pb6ep2vc/TdG2g9L25p5AggXgHvG6Up6Vkbi6aJKOZasllkpqnzm1Xw20=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777366648; c=relaxed/simple;
-	bh=xclQQIL8NwuCclPKqefRCZG1sgW2GMTH0/6VLG41tk0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=kShRGl4p8JtaRwQ8PcuMXLGrdF3+SVZDdYJ66uSCRg66jGq3u67WxDWpd9Rn0AqiXFhxsm/ag7C8ovFbzdlB9yk6oKJLUFWHnMfJHE3cHzgrgP4LuYsOcfl9DE6V2eHZGra+TYMWZOU/gy8EpLSddkJaRjl1vks/cI1V4P0uktM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OPaA5HaP; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9440371D13;
+	Tue, 28 Apr 2026 09:00:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777366840; cv=fail; b=hwdGdkCArOWCIXT14fl3rUZr7ad3ZumQxnOy4cSVF0DYXBoU/jpBX1QO4FgEKD95YhBbSeA/3L8wncywTeRpgx+/Pvp0FVOk0dXMPbfsDr/8zs4UhnnpHhAbsYxhqc5b7vsin7hukn/KmKoRkBjFXxhZ1eMKR6uOEAkp15TDiGw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777366840; c=relaxed/simple;
+	bh=bZJddvxg46huEo/ervGSz2Yh9gc6A1gDHKEMwYybPAU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UvKLUbw/JdEEeJ9WnCfeqF127wz8D6FRc6mp2N9C5o8JMt8oAyTTrBGZ7u/vgZdBcmY9Kk2BaEn6/VROn0zOnD+BIJV7omx/I28UTCHiJORTe2l9EeyugGHpYxnSkdLIY5bja9qjmG1Tbc+Hb6Q8PY2tQnHksqhfLweCTyf82jU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oJOV5/p6; arc=fail smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OPaA5HaP"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 3DFEA41098
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777366646; bh=2GBDkqjHSnTS09OIQycXaS4NTzGlXa4b7R9ZaH54qp0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=OPaA5HaPKyEEhkwgoQarllDv6r+yLwuNpS24o5MUQ7cX8nklezUw3jBop0y0PXlPJ
-	 wKN3+hjVnlxtHecOFJO/+gpjtqZCkAhBCVd2qDRgUVZdQ+o1xzc9CnZ91idwnxR6il
-	 FhKbVbJUoiZAOTpq7cDd8/UyrO4fyNX0379ZLEAItBm6Z4WGCyF888IeFFX4/7Eq3e
-	 tMmeXpf2WbvGXln0lTJ3BuvhB9UeUFXbWN5E6h1e724jMC7Gcu107CRc2ckKYT59Fh
-	 lgE1/4NNWnOPmPzmlh8aHWyehdQh9QPfBRnBr4G2uwrJDskeeB98KBGvzSRQX9Q44P
-	 Z6vG5eRjZhv8w==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 3DFEA41098;
-	Tue, 28 Apr 2026 08:57:25 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: liubaolin <liubaolin12138@163.com>, Randy Dunlap
- <rdunlap@infradead.org>, skhan@linuxfoundation.org, cyphar@cyphar.com,
- vbabka@kernel.org, surenb@google.com
-Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org, Baolin Liu <liubaolin@kylinos.cn>
-Subject: Re: [PATCH v2 v2] Documentation: proc: fix section numbering in
- table of contents
-In-Reply-To: <9455d5d6-80b7-4c0a-a569-fef3bd9f1529@163.com>
-References: <20260424090654.19229-1-liubaolin12138@163.com>
- <df3b6729-ed3b-42e3-9a8a-f77ebf827dd7@infradead.org>
- <87wlxspw1j.fsf@trenco.lwn.net>
- <9455d5d6-80b7-4c0a-a569-fef3bd9f1529@163.com>
-Date: Tue, 28 Apr 2026 02:57:22 -0600
-Message-ID: <87ik9bmphp.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oJOV5/p6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777366839; x=1808902839;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=bZJddvxg46huEo/ervGSz2Yh9gc6A1gDHKEMwYybPAU=;
+  b=oJOV5/p6vwYjefuieeCHo+MqRLEwPlgc/IqzKKqFA8Tz+bkDVFeM0f2u
+   5IJPIA749kWIJwbNg5Ld4YloJBdlfUEtbUMX/wo5XKkGUv+rt5kOANVbp
+   V6p/5j6aMmJGtehvaVM6ILwg93p2MWj1QlhcqR7Fq/8KTj67umBuJ3vYI
+   TsmqSleX9GuokmYoInoN12jUxTbd+/51E8O37bkI0m0DKUGKZ7eFni7ka
+   0kFVP6PFbsqZchsPwtZfPNEQ/a46kUG6qzQeRu2ZOQZxTXQRLY1hZ0+/K
+   AF5M1Kgz3xjKVcGnSNTJrx76pQ7TeG2x6cHO9qCbkWtm1jA4VtsrreoX8
+   g==;
+X-CSE-ConnectionGUID: nbOQezaKSBK9gorh3l7vKg==
+X-CSE-MsgGUID: vptpgZdyRNGxnhQZDAFMAQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11769"; a="89730561"
+X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
+   d="scan'208";a="89730561"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 02:00:36 -0700
+X-CSE-ConnectionGUID: xpInJJxuQfOzcTGbrO7OOA==
+X-CSE-MsgGUID: fVs8EXbgQpWRiKksyGDcTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,203,1770624000"; 
+   d="scan'208";a="233032799"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2026 02:00:35 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 28 Apr 2026 02:00:34 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Tue, 28 Apr 2026 02:00:34 -0700
+Received: from CH1PR05CU001.outbound.protection.outlook.com (52.101.193.65) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Tue, 28 Apr 2026 02:00:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LplGLx6ZIYmpEEXxiMxtI7CFOvPBjqhRWxeNsVMH9cy972JrDY23asuJwePxBkC33088nl2a3CU5RVSmKl+tRDjDGXmxX3M22N69C+2r2zrwZ4pdtvm/lW6Wz3yw0Go4dZWUma8V1Tx75XR7Qxo9dhecBZFoVYqAhr3mdfl70XLY0dXKIIuQ8dTbHCYbHpnncTaI9YSKJs9toPSSlM6MvX6GXRxDhumwT7dICKuTpRPDtQDZl59/NR3LiBM/ZF4vncUr+zmphwn+f2i2XsExEGLj4vDL0tyR08jaHg2mb3XCQ71SAuR/AkMqm87D+FIWEIbddGmC4xOWh0MSBWZUpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YncHHcyu20s0zyjZHUmW5LDWNr0caKlBi5bFg37Vg8c=;
+ b=QCTczbGLfnvHTDXrl6GNnphsjm8TJ6FxN+GjGNS00nPNciObDbvxWuUkP7UG2i3sJwiwa7Etebmb49mUH7fQNT+nCkw5faY1heYBHEG9N3RoAnM17GvkW23Y1WEQfADpKLJP2eCURq6Pop2P/Negwdu/Mf7/ZkiG4qe9mcM9YHquxvK2nPZS82idHqsbeJzOtgdJm3mmlo3Bs+CXfRa1S7yIDjM0ZdnoSfXNkf0D7+wbkTy15RUFQLcT/EzRiUCp3gW/iiI8OspC+MrBXpcVOFEm3YPcC9iBqdAjOzIYyoXZSIxaSchL4INiyLVW1VQkQb5/PS0EJtlGU3Thbo7NKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com (2603:10b6:208:577::21)
+ by PH8PR11MB8016.namprd11.prod.outlook.com (2603:10b6:510:250::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.16; Tue, 28 Apr
+ 2026 09:00:23 +0000
+Received: from IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c]) by IA3PR11MB8986.namprd11.prod.outlook.com
+ ([fe80::e6f0:6afb:6ef9:ab5c%5]) with mapi id 15.20.9870.013; Tue, 28 Apr 2026
+ 09:00:22 +0000
+From: "Loktionov, Aleksandr" <aleksandr.loktionov@intel.com>
+To: "Zaremba, Larysa" <larysa.zaremba@intel.com>,
+	"intel-wired-lan@lists.osuosl.org" <intel-wired-lan@lists.osuosl.org>,
+	"Nguyen, Anthony L" <anthony.l.nguyen@intel.com>
+CC: "Lobakin, Aleksander" <aleksander.lobakin@intel.com>, "Samudrala, Sridhar"
+	<sridhar.samudrala@intel.com>, Michal Swiatkowski
+	<michal.swiatkowski@linux.intel.com>, "Zaremba, Larysa"
+	<larysa.zaremba@intel.com>, "Fijalkowski, Maciej"
+	<maciej.fijalkowski@intel.com>, "Tantilov, Emil S"
+	<emil.s.tantilov@intel.com>, "Chittim, Madhu" <madhu.chittim@intel.com>,
+	"Hay, Joshua A" <joshua.a.hay@intel.com>, "Keller, Jacob E"
+	<jacob.e.keller@intel.com>, "Shanmugam, Jayaprakash"
+	<jayaprakash.shanmugam@intel.com>, Jiri Pirko <jiri@resnulli.us>, "David S.
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, "Jakub
+ Kicinski" <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman
+	<horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Richard Cochran
+	<richardcochran@gmail.com>, "Kitszel, Przemyslaw"
+	<przemyslaw.kitszel@intel.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Salin,
+ Samuel" <samuel.salin@intel.com>
+Subject: RE: [Intel-wired-lan] [PATCH iwl-next v7 07/14] idpf: refactor idpf
+ to use libie_pci APIs
+Thread-Topic: [Intel-wired-lan] [PATCH iwl-next v7 07/14] idpf: refactor idpf
+ to use libie_pci APIs
+Thread-Index: AQHc1ujyZSMaxGI7NE+CoLBnF9lmm7X0K2Rw
+Date: Tue, 28 Apr 2026 09:00:22 +0000
+Message-ID: <IA3PR11MB89866811B05E0CF99A6BA98CE5372@IA3PR11MB8986.namprd11.prod.outlook.com>
+References: <20260428082654.44364-1-larysa.zaremba@intel.com>
+ <20260428082654.44364-8-larysa.zaremba@intel.com>
+In-Reply-To: <20260428082654.44364-8-larysa.zaremba@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA3PR11MB8986:EE_|PH8PR11MB8016:EE_
+x-ms-office365-filtering-correlation-id: ea91255f-1aa1-467c-4cbe-08dea50494a8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|18002099003|56012099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 0EzuEiBMu4nEAj6m2W96+Is2y+IinJ9my4vf4yZSJ9+O/fp3ZlxfzclM5eM1hJcnLLbU+rCImKiyQzYUxhUWbMCpsnC/G4rgO9bcMNTkAgsnk7mI98NG4kTus0j03NrnvA+CX55AoE2/kwU416Mnq8kuqnOV0/7QVBWovhVWi4msmVrS9H55L1AQ4Y4CMJb7wu3fAVCLHg+l5/SJv9+AybLg8fLQauZUgzI+o4pS03jjV0wVr3pwP0YIxmQdSZ0AvAIZ8bNRJ03hNhIfXPNKPY3Scb4fhb0uKcHnowxnLapgP3SygleQFf5eLb0gzcyWwhMKioG2JkoRh3SG6pLOfl8e4pxLYiXlwwwW6qj5MCxYzATCc2IB384YngJHUtUZTiOfDMoF98HZCMRufAXC8wrjL9scSgfTH9Wu1drDNpHCiS2+CUFekyODRwDaTe2Th1vEJr+q8gJa0FhAfYqxQmO1llSo0HYnsDrTjwr/MyEXhdNx5PDsCqOjJr8YT6S82b80aIdFaGtgkBwT7eW8VeVw6L/yhmFwyYqZCOVG38b5yCkgk2119Yt2owz3tzhhP8M9LEinORiaqsnUk4f58z5iftSRztWakJBGEUiTE3NXBM3MZGac7ySkUVog+06ugWAF4DwI6JFSPk1xn9y0O1a4+eTAiFh4BRo1ljbZKLQ/SPl/88cXOofuvLnpe/Mp83PKTiXPbg+Vw0ZgGgF9OX+hoWe2blazYV1saSNuIw8IHiBbFpelrNJFL0iitgrdsDF73kGZKkC5b8yGa63kLXQgpBU2M/4CJ8UluWUwcSk=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA3PR11MB8986.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(18002099003)(56012099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?7GIr3kzFb0r6Tx5ojtWUvYOXVVIJMwS/I5Bls9k1rOIVh2vMsQRwIkqXY1GG?=
+ =?us-ascii?Q?Ux1zj1DSqB6808UCSQXfJVXcE1AadisWuElthDbn74f1r0yBC2JCH5afzgDg?=
+ =?us-ascii?Q?MmofhCIv5oWp6X8cIug4QiWBXF6hhUbkZ8InlqQVDGbuDBbMP7MzVmkst8sS?=
+ =?us-ascii?Q?klKIVluDUBff9mpiQ+0oZ9yzRNTFYCstG+LW2/zzC3WysRHd8GcQvDVQ7O4L?=
+ =?us-ascii?Q?Aoj4m6NJFimM8qUPVMxloUfT1cA1DJcQziGUNsiDmHAzDbGdi5R+eb+wYmzx?=
+ =?us-ascii?Q?w2OIazxjm/nwdNm+fp1v7tQ/9lSbPvl1eDk+Fg8vDSc5B+K2ilUxIDZnx2cB?=
+ =?us-ascii?Q?0jDtiWRprrYkAGS9QgnmJzvBFUN9nT6SLKF53hnyJeXmizd8ceBlMDtbnW7e?=
+ =?us-ascii?Q?mJ9LTBwRqCbFDrwa1i0kUve6ab2hXQHozivjaqoMAdFNfg4w44Rg1qoze32M?=
+ =?us-ascii?Q?m8fjJ/ffBXFPfjjCO1W7aC3tBwm7iXQSXKGldGJLs//bR8JtSIkVT/aiL86a?=
+ =?us-ascii?Q?YVIVaRUbxSrUKN7t+ZIqHq6lcvKeUBtX8fOdDE4R6vkCSFGAccZ77+WOu5PQ?=
+ =?us-ascii?Q?gJEyNTY1HqxuAocATQZLbCRjUkJjrozGjJQxOOQtl+D3xCGLWvXrR9fODATu?=
+ =?us-ascii?Q?71SgmhrHCUl5t7sxJ/802/cQduv918rUPPe6xAOx7VPWIq20mPxuJDVBUUGI?=
+ =?us-ascii?Q?vebv15SLsBpl6yCE8HAfe+diPTM8hR88uG1zx/jn+rryUSXrUOMmlhjNG1yh?=
+ =?us-ascii?Q?vM1Cit/KCs4ULV3jyW6azZD03XRMu6ZkGl6p+X9gKpH44Q0w14gKlDh1U/O0?=
+ =?us-ascii?Q?OiPzssdRWwB60chAEe5jQywINblittPp5dSqTI30IeuF/xKSJbwsqcTPkaaw?=
+ =?us-ascii?Q?LsUr5Qh75ySC4x/6QDgCiBqyie8QclXJlfQ+7tBqpfh5Zv4tD3FoE98Hp9eo?=
+ =?us-ascii?Q?1s9f1EN5m7oy0UwbJBXzCUI5GH6KMU/NYFMkCL8msmz7PuI8x34qBV/L3yas?=
+ =?us-ascii?Q?U4Wq8ac8FhCnpdtCT/hvDvnmbMcwEn6bpVGsyleZgDzzz/czl7uOvufwiYwo?=
+ =?us-ascii?Q?D4SjbvzYFOhclvVqkua5NvBbQbz4ukZ7fC+rsEwAZMcix8Q6sAkehgDGzvSY?=
+ =?us-ascii?Q?OYB/bIiJ0gbDuus1QHA30vulAMhgNS+J807MGyEr9u8bsuBuLffUILaom0W8?=
+ =?us-ascii?Q?K3TyDJPN26Xxn5V7UbQcOgOjvOGFirg0ug1D3uusHGPxDO2YQqn4ud998044?=
+ =?us-ascii?Q?HM2vnFig3dq2FUQ/l6E72OYK2+Up33ggwboYg3bp8bFiYybzeQKOg/20RsGP?=
+ =?us-ascii?Q?3AskR4SIkFhmMUbvw74uaaA7WRaUd3XHloVNmVviig6b9UOqFng2X89LEo8W?=
+ =?us-ascii?Q?lUHeddO4OlfWxJ7sn5hncUtNKPdezbtcKlllOyL+KlzbDBSqjwkjPbBeRX64?=
+ =?us-ascii?Q?2evOtWwW/J/wCcHtu68zkyDX0aJ9PDiDBVML4ajBt3arUNY+QRTR6/daVEi+?=
+ =?us-ascii?Q?INvmdxxTfNe12oLXdwdZAjrzFd0FKxMRTGCiXOziLj4VaEmOAx3vD69C5ofd?=
+ =?us-ascii?Q?/I3B7AXFwfwBofkQK5ko0841Ur7JIwzX6qzOc0TaQ+WJqBKXsiuVLumI5I97?=
+ =?us-ascii?Q?GBc0kK+EeK/vPJaDgZLWmYh8c8hGWV5P7RG8/BdktNmIH/UlAnS9ubCM39mZ?=
+ =?us-ascii?Q?lNc0YHBsgOD2WUFVZAybX8AYbAid2ijIX07hlazOqWQ2GjQTW9VbuS7HKvit?=
+ =?us-ascii?Q?1OeFISGaB9P9TYc8+wLHY/yQD/zJDOE=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+X-Exchange-RoutingPolicyChecked: VsSTY9je1lJ50ezDb5Yk0RPWW+m7sn6idJADffNLWg32VjbLpk5F74EK3aT5RJ/535aGrWkUonE7UdCrmvrABdWu2aHOP2wluxZKfxsR0EhCD6MeCFZIRNNxiw9sQ6eBHEoJ3RhlqxdjpKV9/lIRenUudfBDHAn+zLQQqNDxeN6mWnYB/m2t+0NG/1Frqz59oly3oJwTOyKKqqR3nKBNP94NU2UBe8HkQRhHF395NksQPrmP70nsF3xHvJxlbwxitd9Eon1b0L+pPkBdUNLbmtPnv7W+8AuK5hpY7vahQhq41fNSPCOfut8SktVvL16DgyTl/rkqzyOfrN9Z/7wskg==
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA3PR11MB8986.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ea91255f-1aa1-467c-4cbe-08dea50494a8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Apr 2026 09:00:22.5515
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9g9LhI+DVJotBr0r1eYyz5vVEY+xlQYNy60JEDFFVxOJDDOVG/DhyDUgVe75St8pO7c/sN34hlXjxsC5jOOkvoFHs4RncDEjMCP3yOXVN+o=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8016
+X-OriginatorOrg: intel.com
 
-Your use of HTML email almost certainly prevents your messages from
-making it onto the lists; you need to stop doing that.
 
-liubaolin <liubaolin12138@163.com> writes:
 
->         I mainly work on ext4 kernel development. Recently, I've been
-> implementing a feature that changes the usage of the ext4 proc
-> parameter mb_stats, which requires updating the ext4 proc parameter
-> documentation.  Currently, the ext4 proc parameter documentation is
-> explained in two files: "Documentation/admin-guide/ext4.rst" and
-> "Documentation/filesystems/proc.rst".
->
->         However, I found that only the ext4 file system describes the
-> proc parameters in proc.rst, while other file systems such as btrfs
-> and xfs do not describe the proc parameters they use in the file.
-> Personally, I also feel that it is unnecessary to explain the ext4
-> proc parameters in proc.rst.
->
->         Therefore, I want to make a change by deleting the "Ext4 file
-> system parameters" section from the proc.rst file.  After
-> modification, the usage and explanation of ext4 proc parameters will
-> only be provided in Documentation/admin-guide/ext4.rst.
+> -----Original Message-----
+> From: Intel-wired-lan <intel-wired-lan-bounces@osuosl.org> On Behalf
+> Of Larysa Zaremba
+> Sent: Tuesday, April 28, 2026 10:27 AM
+> To: intel-wired-lan@lists.osuosl.org; Nguyen, Anthony L
+> <anthony.l.nguyen@intel.com>
+> Cc: Lobakin, Aleksander <aleksander.lobakin@intel.com>; Samudrala,
+> Sridhar <sridhar.samudrala@intel.com>; Michal Swiatkowski
+> <michal.swiatkowski@linux.intel.com>; Zaremba, Larysa
+> <larysa.zaremba@intel.com>; Fijalkowski, Maciej
+> <maciej.fijalkowski@intel.com>; Tantilov, Emil S
+> <emil.s.tantilov@intel.com>; Chittim, Madhu <madhu.chittim@intel.com>;
+> Hay, Joshua A <joshua.a.hay@intel.com>; Keller, Jacob E
+> <jacob.e.keller@intel.com>; Shanmugam, Jayaprakash
+> <jayaprakash.shanmugam@intel.com>; Jiri Pirko <jiri@resnulli.us>;
+> David S. Miller <davem@davemloft.net>; Eric Dumazet
+> <edumazet@google.com>; Jakub Kicinski <kuba@kernel.org>; Paolo Abeni
+> <pabeni@redhat.com>; Simon Horman <horms@kernel.org>; Jonathan Corbet
+> <corbet@lwn.net>; Richard Cochran <richardcochran@gmail.com>; Kitszel,
+> Przemyslaw <przemyslaw.kitszel@intel.com>; Andrew Lunn
+> <andrew+netdev@lunn.ch>; netdev@vger.kernel.org; linux-
+> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Salin, Samuel
+> <samuel.salin@intel.com>
+> Subject: [Intel-wired-lan] [PATCH iwl-next v7 07/14] idpf: refactor
+> idpf to use libie_pci APIs
+>=20
+> From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+>=20
+> Use libie_pci init and MMIO APIs where possible, struct idpf_hw cannot
+> be deleted for now as it also houses control queues that will be
+> refactored later. Use libie_cp header for libie_ctlq_ctx that contains
+> mmio info from the start in order to not increase the diff later.
+>=20
+> Reviewed-by: Madhu Chittim <madhu.chittim@intel.com>
+> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
+> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> Tested-by: Samuel Salin <Samuel.salin@intel.com>
+> Signed-off-by: Tony Nguyen <anthony.l.nguyen@intel.com>
+> ---
+>  drivers/net/ethernet/intel/idpf/Kconfig       |   1 +
+>  drivers/net/ethernet/intel/idpf/idpf.h        |  70 +-------
+>  .../net/ethernet/intel/idpf/idpf_controlq.c   |  26 ++-
+>  .../net/ethernet/intel/idpf/idpf_controlq.h   |   2 -
+>  drivers/net/ethernet/intel/idpf/idpf_dev.c    |  61 ++++---
+>  drivers/net/ethernet/intel/idpf/idpf_idc.c    |  38 ++--
+>  drivers/net/ethernet/intel/idpf/idpf_lib.c    |   7 +-
+>  drivers/net/ethernet/intel/idpf/idpf_main.c   | 114 ++++++------
+>  drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |  57 +++---
+>  .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 169 +++++++++--------
+> -
+>  .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  58 +++---
+>  11 files changed, 288 insertions(+), 315 deletions(-)
+>=20
+> diff --git a/drivers/net/ethernet/intel/idpf/Kconfig
+> b/drivers/net/ethernet/intel/idpf/Kconfig
+> index adab2154125b..586df3a4afe9 100644
+> --- a/drivers/net/ethernet/intel/idpf/Kconfig
+> +++ b/drivers/net/ethernet/intel/idpf/Kconfig
+> @@ -6,6 +6,7 @@ config IDPF
+>  	depends on PCI_MSI
+>  	depends on PTP_1588_CLOCK_OPTIONAL
+>  	select DIMLIB
 
-Documenting things twice is obviously not ideal; readers will wonder
-about the truth when they inevitably go out of sync.
+...
 
->         If you agree, I will submit a patch to remove the "Ext4 file
-> system parameters" section.  If you disagree, my subsequent
-> modifications to the ext4 proc parameters will be made simultaneously
-> to the two documents: Documentation/admin-guide/ext4.rst and
-> Documentation/filesystems/proc.rst.  I look forward to your comments
-> and replies.
+> >dev_ops.static_reg_info;
+> +		bool is_static =3D false;
+> +
+> +		for (uint j =3D 0; j < IDPF_MMIO_REG_NUM_STATIC; j++)
+I think you need to use here unsigned int, didn't checkpach.pl complain abo=
+ut it?
 
-I think that having a single location for that documentation makes
-sense.  Whether it's in the individual filesystem docs or centrally
-located is up to the filesystem maintainers in the end.  If you move
-that documentation out of Documentation/filesystems/proc.rst, it would
-be good to add links to the filesystem-specific parameters in its place,
-though.
 
-Longer term, it seems to me that much of what's in that file really
-belongs in the admin guide, though.
+> +			if (mr->offset =3D=3D static_regs[j].start)
+> +				is_static =3D true;
 
-Thanks,
+...
 
-jon
+>=20
+>  	return 0;
+>  }
+> --
+> 2.47.0
+
