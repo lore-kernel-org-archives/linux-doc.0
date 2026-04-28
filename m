@@ -1,168 +1,149 @@
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B48729E10F
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:51:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCDB38838C
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777420305; cv=none; b=l9LBiRVXev1AUF07xkp5IG6QMIwNUrGjZQQogaiC3Xi608GRu/DzJ8AE964SzT5IfD2vA6o1vKyXg4B+fvRTItEHEoRnMZF5AVsT1P6On33GPz8xGvcRycY+q7YyzfnYqy6m5cDwvh6KU+3pa4yIaVdEFK7pT78RqcboLSHCotQ=
+	t=1777420445; cv=none; b=bh9WpBaLVh3VNa3pqT0h63u6xwP7YZQbOx/Htjrtu2lrveiN66BLYqXNoVkYAJWYO2DZo7Lja8ZVFuOLpQftHh578pQKsr/mrFsL47pG34R3e3GagpXS+iMzHKKUQD+aroQ/shPD6yTO6hCBNCV1jzGwhCX/vrJcTCF1VGhxAhc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777420305; c=relaxed/simple;
-	bh=PzrGjnYnqw4935qMxbE++jGJcpzbiv9Qu385mNo68Ew=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PPrFQAisyB/QqJVt89o+6bhspZb/nLGV9WB5vj2/guM9TeZn+JUWAihL/t7N4GrKw9eoNiX1WA+1L6nF7FjqiWKBfsht2z7xxOaDEJ4TDq5ITcR0OwjN49MTUEL6tNOYb/8lEsQS8RKQgMPkYc8i10Cla085a2Zs4qykOcX3AM0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=veJ52o7X; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1777420445; c=relaxed/simple;
+	bh=37JhNmJzLxzap3D9TGVaMRWJYU2uCyuE/O0k9zslYYg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LZUyKoAaQtF0zcRd4Jv5dS27R+7WvJKSbc/2Cg/JWA4K+WRznDBeIpWsQwXzBKFs+w9LGC18bLobu/txe/qGYIFEYGSg+HYArEJQ8I348Wi8gBB4wIbDFLDmECuYc6LuqagJ05IXEZQFqleIRu/AxbMfV0C0gLuKOXUTjH8ktPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ugdfpoNq; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="veJ52o7X"
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b2429f98d0so71393805ad.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 16:51:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777420303; x=1778025103; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=in+mysCXNp4IJcp8wpKV/ePcsC7P4CQwStR4ajhF2Xo=;
-        b=veJ52o7XgBTZD/d4gsn74d/L9Fe/9u1lhdwWWDUdMNRjuwTZ47RO8vJYkF6NaMe6hC
-         1wp84OTcSepUS5CpdqRar9FfLrAwyyKwJ5CPifdUNZMVjV9yUfgiczorXrhs/DzK9mMS
-         3DcXfbfDbKp8cnNCJE1tEbMzE1NqlqcNyfPb5puyT9N3d3r4STq1pgPVZxof7wOWgELM
-         hs6ymFWVJJknOKNQ1XD+miCCzH7iozy3IzAeCI/h+89qcgqNmOElz+jdg8+1HNIuOeqz
-         93cYPHfeQBPhR2P/9gkmu/B63A+ugtPTYnKvAtYJXGEpGqs0U3AZ1ecgRx1j57VdEgBG
-         T13w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777420303; x=1778025103;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=in+mysCXNp4IJcp8wpKV/ePcsC7P4CQwStR4ajhF2Xo=;
-        b=I6axmghZ/kb4/c8VvSNABqM9RrW7Upty0QzslxLfVcY4o6bth1CEN+bbyiz36Vxc9X
-         T7SrFXmZWReWkVe+4VSWwQqlytqlDweCwfKvspShHvyVg+Utn4ZsIJis+O3/NR8zSZTp
-         Rk8TiKgjDaAYdbMquzmEcnS1EjgRpyc/jq4weF9PjI7Mp1EeBJPsgI6IK1S2nA1yX5U7
-         2sMqaYq9fY9Z4Toec2eGPPMuIIs/66tVOamZZyjiRtEWvYLbeh9n/umzO5MaVl3BhCSe
-         KfHJC0KQj7nqg4tv0CFFK0ONuWo2Te2v/+aT9HkozD2d0nVv558N/aK2l/ID78CBDBDy
-         AqQw==
-X-Forwarded-Encrypted: i=1; AFNElJ81BD+K6kbOb3UEdz1oVale/nNl7NLRuPr7OeOR5dm4wziWCsz/aymhXaeYOOzW/lJkjO1HmZGnchg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFk8wHS4nqgKCKj1XKyfJXCiM+X/hujSXcJThzES+ul2Lzr+WJ
-	l90p4hbu3bqkbcsmoFid77yhT9xoi4X1OEJHddxMPGFhIW2Yhz1TdJ1uXpo+kE0R8w==
-X-Gm-Gg: AeBDiesduMg6I/NczFyiJV7yRh4TG5l8JjxHxLay4ctbi0RP27weG/IgXvCN33t07ju
-	rMDE1TC1FXQpp7OjXd1rpuPJxy5FH0RpTVHkZewVx9y+sY7c1mGYfj6BcEy6AFBUvBXjewYZHWq
-	sQo5wWZ9w4COxfgPtXYw7AJy9GBTbU/LxRwuF/7DslcWVzD39zuCFNRBhaZOA6Glj3oXOLLUfJE
-	EB8o/5AoxP8Yk7fAB+VmLEyr/rlNWnsmiZAAnMf+q2lDuM5wuJ91UJaxKeyrCH79q/oRZy8NNOL
-	mschd1omqHwJjbgvvhH05tNMJSrQ0QB5/NGW51G6ikvaiqIt67rsE8TVXskxcDuHw/uXnBCWPel
-	Jl8h01TOLQqS293u8ABfrWqq5YxEEzugSn7thyAEPR5jCxfX6xEfbbgQXTRdULhobutsVteaNqT
-	3r4q7QavDHTyYIvlmq+0Bq7iLNTutTeKaT9fBsMHPLT81r6jmu12QMiV0aGr+SmYsYOH8gLHf6E
-	6ElOw==
-X-Received: by 2002:a17:903:a90:b0:2b2:65db:8c5f with SMTP id d9443c01a7336-2b97c4c8995mr46570035ad.27.1777420302688;
-        Tue, 28 Apr 2026 16:51:42 -0700 (PDT)
-Received: from google.com (76.9.127.34.bc.googleusercontent.com. [34.127.9.76])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b98859f629sm3480345ad.0.2026.04.28.16.51.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Apr 2026 16:51:41 -0700 (PDT)
-Date: Tue, 28 Apr 2026 23:51:37 +0000
-From: David Matlack <dmatlack@google.com>
-To: Vipin Sharma <vipinsh@google.com>
-Cc: iommu@lists.linux.dev, kexec@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org, linux-pci@vger.kernel.org,
-	Adithya Jayachandran <ajayachandra@nvidia.com>,
-	Alexander Graf <graf@amazon.com>,
-	Alex Williamson <alex@shazbot.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Jacob Pan <jacob.pan@linux.microsoft.com>,
-	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>,
-	Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>,
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>,
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>,
-	Pranjal Shrivastava <praan@google.com>,
-	Pratyush Yadav <pratyush@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Samiullah Khawaja <skhawaja@google.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>,
-	Yi Liu <yi.l.liu@intel.com>
-Subject: Re: [PATCH v4 01/11] PCI: liveupdate: Set up FLB handler for the PCI
- core
-Message-ID: <afFICT9mSL1XG0v_@google.com>
-References: <20260423212316.3431746-1-dmatlack@google.com>
- <20260423212316.3431746-2-dmatlack@google.com>
- <20260428185242.GB3825533.vipinsh@google.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ugdfpoNq"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 460F0C2BCAF
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:54:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777420445;
+	bh=37JhNmJzLxzap3D9TGVaMRWJYU2uCyuE/O0k9zslYYg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ugdfpoNqOxbSflGH83HEj52AT2Fep+UNVIsD4PhSmXBQTbP3M/4uB6Go72MTQGv4h
+	 j70Qn+P4YNeYQG/6+5HL8LpruMB6KwXegfRwRIf4d85rcmEHkPSy0EQRaKxjIRVszM
+	 /r7Dkl+6AwjKsRvVUtb+hrTkzuGjH7hV8s9hOsiXt6Orrx17jyd9vA4f/WIqX4haCQ
+	 81eC41EaeLSKBvDi/lfU8Tm+/ktz8b5eEq0amXD1f00vSgY7gRMO8JIlx1iThxcgFG
+	 fUm8GM8l27nvmoYyFqxs9ZxN2qQvRj26t6IDlEFzFCYcmKCxRDosH3UWv8LR3pmtlo
+	 ner8WLqIuIOVA==
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ba3115fe0d5so63093366b.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 16:54:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AFNElJ8iz3XzDTYUR52WCDQID2xuPh9yBk9BlXXgPgosNDF4xpot07nEBYFs8czzSTLapbbRDmG4nTCzUlo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywzld8Y92RrF73eAwpHC2tk42mVelmnRn1IsUp6v5+n1o00ByPe
+	wruWIgUwNpJ9JnxTBiE1+wZI0nRriNi1u3h/G1flKUuEjFABD4ffpil7jT0+6djpuz8hAqRDphI
+	6b/lBJ2yY/P8m+gk96VlSgb1pektRjxI=
+X-Received: by 2002:a17:906:d54f:b0:bac:6585:b02b with SMTP id
+ a640c23a62f3a-bb957dc60abmr42485366b.9.1777420443800; Tue, 28 Apr 2026
+ 16:54:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428185242.GB3825533.vipinsh@google.com>
+References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
+ <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
+ <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
+ <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
+ <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
+ <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
+ <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
+ <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com>
+ <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
+ <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com> <CAMgjq7BZpU5K1xHyFiqpsjeFe6CZUouGY_gOGMwbkM2Duq-vGg@mail.gmail.com>
+In-Reply-To: <CAMgjq7BZpU5K1xHyFiqpsjeFe6CZUouGY_gOGMwbkM2Duq-vGg@mail.gmail.com>
+From: Yosry Ahmed <yosry@kernel.org>
+Date: Tue, 28 Apr 2026 16:53:52 -0700
+X-Gmail-Original-Message-ID: <CAO9r8zPtPjzzrYh+SQXtuz4AMPU2p4UsUpJiH+zzfgtbJk_3Og@mail.gmail.com>
+X-Gm-Features: AVHnY4J58WjJG7OMVYnI-DgVQj_F4MJqBKFiql4nFlYgXLXGGwlZGWPk6tWBkMc
+Message-ID: <CAO9r8zPtPjzzrYh+SQXtuz4AMPU2p4UsUpJiH+zzfgtbJk_3Og@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
+	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
+	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
+	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
+	Byungchul Park <byungchul@sk.com>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
+	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
+	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
+	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
+	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
+	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
+	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 2026-04-28 12:45 PM, Vipin Sharma wrote:
-> On Thu, Apr 23, 2026 at 09:23:05PM +0000, David Matlack wrote:
-> > +	pr_debug("Preserving struct pci_ser with room for %u devices\n",
-> > +		 max_nr_devices);
-> > +
-> > +	ser = kho_alloc_preserve(size);
-> > +	if (IS_ERR(ser))
-> > +		return PTR_ERR(ser);
-> 
-> Should there be a similar pr_debug() in case of failure to denote that above
-> "Preserving ..." message didn't finish, or, maybe just print one
-> pr_debug() after the error check above?
+On Tue, Apr 28, 2026 at 11:46=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wro=
+te:
+>
+> On Tue, Apr 28, 2026 at 2:23=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wr=
+ote:
+> >
+> > On Fri, Apr 24, 2026 at 12:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com>=
+ wrote:
+> > >
+> > > On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org=
+> wrote
+> > > > Why >16 bytes? Do we need anything extra other than the reverse
+> > > > mapping? Also why do we need a double lookup?
+> > >
+> > > You will have to store at least the following info: memcg (2 bytes),
+> > > shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
+> > > bytes, since you have to address a full virtual swap space). And some
+> > > type info is also needed. Part of them can be shrinked but still,
+> > > scientifically, merging two layers into one is considered a kind of
+> > > optimization.
+> > >
+> > > You need lookup the virtual layer, then the lower layer for many
+> > > decision making, is was discussed before to introduce more cache bit
+> > > or things like that and I think that is getting over complex, reminds
+> > > me of the slot cache or HAS_CACHE thing...:
+> > > https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8=
+fcyzVOKE14-O+Dw@mail.gmail.com/
+> >
+> > I think that's where the disconnect is. You are considering these two
+> > separate layers, each with its own metadata. The metadata should only
+> > live in one place.
+> >
+> > If we only have swap tables in the virtual swap layer (with the
+> > metadata), backends do not have to carry the metadata. In this case,
+> > backends should only have a reverse mapping (if needed), and some
+> > internal data structure (e.g. bitmaps) to track usage.
+>
+> Ah, you are right. This is currently an intermediate state, that
+> problem might be gone if we unified everything.
+>
+> > This is difficult to achieve if the virtual swap layer is optional,
+> > because then the metadata can live in different places. This is why I
+>
+> But that's not difficult to achieve at all with an optional layer, and
+> actually will be achieved naturally without any design change with the
+> RFC I posted. Swap count / cgroup / shadow all stay in the top layer,
+> lower layer is "reverse map" only (the undone part though, it will
+> require to move the cluster cache from global to device level, which
+> is also required for YoungJun's tier or any functional tiering to
+> work, we may run into more and more detail issue like this).
 
-Hm... I guess there could always be more pr_debug()s but I don't want to
-instrument every error path. I could move it to the success path but I
-don't see how that makes it any better.
+But then you have to deal with the swap entries in the page tables
+potentially being virtual swap entries or physical swap slots, and
+IIUC in your design, those physica swap slots could end up actually
+having a redirection to another swap entry like virtual ones (e.g. if
+we start with one tier then add another tier at runtime). Right?
 
-> 
-> > +/**
-> > + * struct pci_dev_ser - Serialized state about a single PCI device.
-> > + *
-> > + * @domain: The device's PCI domain number (segment).
-> > + * @bdf: The device's PCI bus, device, and function number.
-> > + * @reserved: Reserved (to naturally align struct pci_dev_ser).
-> > + */
-> > +struct pci_dev_ser {
-> > +	u32 domain;
-> > +	u16 bdf;
-> > +	u16 reserved;
-> 
-> Should this be renamed to 'u8 __padding[2];' instead? This will allow to
-> just change the array length based on the need (0, 1, 2, 3).
-
-Sorry I'm not following what you mean here. What is the reason to rename
-this field and change it to an array?
-
-> > +} __packed;
-> > +
-> > +/**
-> > + * struct pci_ser - PCI Subsystem Live Update State
-> > + *
-> > + * This struct tracks state about all devices that are being preserved across
-> > + * a Live Update for the next kernel.
-> > + *
-> > + * @max_nr_devices: The length of the devices[] flexible array.
-> > + * @nr_devices: The number of devices that were preserved.
-> > + * @devices: Flexible array of pci_dev_ser structs for each device.
-> > + */
-> > +struct pci_ser {
-> > +	u32 max_nr_devices;
-> > +	u32 nr_devices;
-> > +	struct pci_dev_ser devices[];
-> > +} __packed;
-> > +
-> > +/* Ensure all elements of devices[] are naturally aligned. */
-> > +static_assert(offsetof(struct pci_ser, devices) % sizeof(unsigned long) == 0);
-> > +static_assert(sizeof(struct pci_dev_ser) % sizeof(unsigned long) == 0);
-> 
-> Nit: Maybe move this assert to be near to the definition of this struct,
-> easier to find it when editing the struct vs finding it later during
-> build.
-
-The combination of these 2 asserts is what guarantees that every element
-of the devices[] array are naturally aligned, that's why I put them
-together here.
-
-I can move it up though if you think it's better.
+>
+> Might even be easier that way, it's pretty close to the unified states I =
+think.
+>
