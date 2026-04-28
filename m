@@ -1,75 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A78E138A715;
-	Tue, 28 Apr 2026 15:44:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BC233C3458
+	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 15:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777391041; cv=none; b=Uu0DUqe8R6sXbMNOksM+KGaHKBSCNtZL01YvzG9G94iMhrWtf5kGbaEjhCO4E4ILjRg8HoQGi57JoVfRvhvjB13OOdx95vEODcq9V5ofg1q1LI4gHW0n5WXXKj0Djs2pcKBgdothl3IvG/2WuFlcWxLi//omKQA+xoml3pB8Tuw=
+	t=1777391364; cv=none; b=YNEzOvuU5NEZUmq7DUJYekWqqR0vIiLXzlF7mhHPtOP6wRtHd58PVxfjm58m8z3XVX/ufqZHXyR7ZEt6gRlU2imVUaH2cEuqnP0idOFCvlHrPULUXtaCItMoRtAjzchWC6MqGkGEX2lOH23AgCVdeqZGFlWXjh6Bz5o50AQJyOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777391041; c=relaxed/simple;
-	bh=IsONiDrD2xR5auxYL6/onJP6puh+tp2frOU7zl6ODsY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=romKyaWl5cMuQ0DK8HRv2/z9Ui6GeEMefPcL+CWsMvlO5zHhg8/pGc/I5i8AhBmyKrpg2XOj5o1L5ZIoCooAnoPJLLeqQUNCX8mxY3CqOJsgwgHqfFy6syZGybflwO/Gs9dF37Qnnwwp8vvANSHLUuipbr/n6++nquCXP42GeNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IVyp8n3r; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777391364; c=relaxed/simple;
+	bh=+Z5HXONavSEyjB//byLhSd6h81Jb2iPsZnkfpJKBF/M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MXoWFqqvoS7IAv1/+DTsK0WLA2lAzZVePqAxOJLap/u3u3ALiZ4c/IRufX6FlnbNHJwc5XjCNi7tjPz36DPf56H/CG9swp+W4wXZqnMZl7e0j3BYQel15wHQ8jhq69OKO0jCUoUrldG775DjttfwOMiedjQxM/NSC2SSdmg/V0E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h2+C0/uW; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IVyp8n3r"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3EB57C2BCAF;
-	Tue, 28 Apr 2026 15:44:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777391041;
-	bh=IsONiDrD2xR5auxYL6/onJP6puh+tp2frOU7zl6ODsY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IVyp8n3r1UFhEVDycBbVOpEikxTTOKqjKvWMqXrjiJ3fPQLzAjwMKnYEA0/dUdWxN
-	 T5CMgSnwPA1qaMwiFey8CJJLC7zmlW/A43R+5UKSsQLKHglWhZ7W4SeotwHWYhmR+p
-	 xZc4QzyirHqNanQ/IlC+LMG9rYOq3l1+UVKi8DVi1nbeWbSg/f7X4VdfTClSi51ac5
-	 lNGD69YN9L3qIqxIjB2+VRrZtRc2B5m5ohX712QczulcvDfYGTcSQDG5yoImcbYH/u
-	 3K4pIXZMZ4Qese4NSK1vTrrGC1Y9IlWp+iY37pSn1moh6xpC6lI4JK/7wtxM6Ow/M6
-	 VFOfRsH4UOwvg==
-Date: Tue, 28 Apr 2026 05:44:00 -1000
-From: Tejun Heo <tj@kernel.org>
-To: Waiman Long <longman@redhat.com>
-Cc: Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Chen Ridong <chenridong@huawei.com>,
-	Johannes Weiner <hannes@cmpxchg.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h2+C0/uW"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777391361;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=WnBL6blayqS159iiH3uewuzFbEY/o0MaGUqGJ2MjARg=;
+	b=h2+C0/uWZb09PMfeS/lHynn+QTWzVT1yeYq1zgLJ9C2JPufT58Wf02f9uZbWCCN6A/Z6Lw
+	HWgJJ0/jZVZnH5hoeiSDoeb/WsnmD92R1cavQbW1njXv618j7b96UljLbcay24SR1hDaVq
+	TlKnGM1L2akChVvPY39IASTRmWC7QcU=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-670-aduUqFe-MSmZ_jmv-B7Avw-1; Tue,
+ 28 Apr 2026 11:49:17 -0400
+X-MC-Unique: aduUqFe-MSmZ_jmv-B7Avw-1
+X-Mimecast-MFC-AGG-ID: aduUqFe-MSmZ_jmv-B7Avw_1777391355
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E372B1956054;
+	Tue, 28 Apr 2026 15:49:14 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.44.49.234])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1B8DB300756E;
+	Tue, 28 Apr 2026 15:49:08 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org, Xie Maoyi <maoyi.xie@ntu.edu.sg>
-Subject: Re: [PATCH] cgroup/cpuset: Creating or adding CPUs to partition not
- allowed without privilege
-Message-ID: <afDVwO-j2UOdSpQj@slm.duckdns.org>
-References: <20260428033439.783246-1-longman@redhat.com>
- <7so4b76wg2apwwk3yh76q42jgwnpvlv7sursmsmzeyefhp4pbt@thybpp4litm6>
- <9df75f61-0cbb-42b4-b64d-8e6fd49d50ca@redhat.com>
+	Michal Schmidt <mschmidt@redhat.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Pasi Vaananen <pvaanane@redhat.com>,
+	Petr Oros <poros@redhat.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH net-next 0/2] dpll: add pin operational state
+Date: Tue, 28 Apr 2026 17:49:05 +0200
+Message-ID: <20260428154907.2820654-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9df75f61-0cbb-42b4-b64d-8e6fd49d50ca@redhat.com>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Hello,
+Add pin operational state (operstate) to the DPLL subsystem to
+separate administrative intent from actual hardware status.
 
-On Tue, Apr 28, 2026 at 11:19:16AM -0400, Waiman Long wrote:
-...
-> Thank for the comment. Yes, that can be a valid configuration.
-> 
-> One possible workaround may be to see if the current user has write access
-> to its parent partition root. If so, we can allow it to create a
-> sub-partition, if not, we will forbid it.
+Currently pin-state mixes what the user requested (connected,
+selectable, disconnected) with what the hardware is actually doing.
+This makes it difficult to diagnose situations where a user sets
+a pin as selectable or connected but the hardware cannot use it
+due to signal issues.
 
-I think this whole thing is a confusion. First of all, resource knobs in any
-given cgroup is owned by the parent. Delegations where the perm to a
-resource knob is given to delegatee is not supported and expected to affect
-resource distribution w.r.t. its siblings. Partition isn't special in this
-regard. memory.low or min can create similar effects. Maybe I'm missing
-something but I don't see anything happening that's not supposed to happen.
+The new operstate attribute is reported inside the pin-parent-device
+nest alongside the existing state and is read-only. Defined values:
 
-Thanks.
+  - active: pin is qualified and actively used by the DPLL
+  - standby: pin is qualified but not actively used by the DPLL
+  - no-signal: pin does not have a valid signal
+  - qual-failed: pin signal failed qualification checks
 
+Patch 1 adds the operstate enum, netlink attribute and the
+operstate_on_dpll_get callback to the DPLL subsystem. It also
+updates Documentation/driver-api/dpll.rst to describe the
+separation between admin state and operational state.
+
+Patch 2 implements the callback for ZL3073x input pins using the
+reference monitor status register. It also refactors the existing
+state_on_dpll_get to return purely administrative state and switches
+periodic monitoring to track operstate changes.
+
+Ivan Vecera (2):
+  dpll: add pin operational state
+  dpll: zl3073x: implement pin operational state reporting
+
+ Documentation/driver-api/dpll.rst     |  38 +++++----
+ Documentation/netlink/specs/dpll.yaml |  31 ++++++++
+ drivers/dpll/dpll_netlink.c           |  27 +++++++
+ drivers/dpll/dpll_nl.c                |   3 +-
+ drivers/dpll/dpll_nl.h                |   2 +-
+ drivers/dpll/zl3073x/dpll.c           | 108 +++++++++++++++++---------
+ drivers/dpll/zl3073x/regs.h           |   9 ++-
+ include/linux/dpll.h                  |   6 ++
+ include/uapi/linux/dpll.h             |  23 ++++++
+ 9 files changed, 192 insertions(+), 55 deletions(-)
+
+
+base-commit: 1f5ffc672165ff851063a5fd044b727ab2517ae3
 -- 
-tejun
+2.53.0
+
