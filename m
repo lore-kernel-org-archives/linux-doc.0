@@ -1,196 +1,183 @@
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 111AE3290C5
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 21:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.44
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777410764; cv=pass; b=ecRnXcGCCjRQbM5shHuNycLVdM3q1DQ15qT+ZJjWgZXBr9HuyIM3tGO0/zqyxQuUYElLSGu9FwE2YVHRBu/8CL91hxZgJS0uUayxS48wR841ty9XQH489c9X9ytwKlMRoLCoS+B+pQw6f6Tjx3cWVKT4P/PZ6fg1Jz77kCrHjNs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777410764; c=relaxed/simple;
-	bh=+RPGe3HPwueWHOYhTgYMgmvZA/eWqyQvbZ6YEmo7TUE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=T0yMNgNmiT7Hyy6wDOtF1NXkHp+bKC3YL96pRXXPZ8SHWah4MJj6BFPMIC23NaaaSlb90DmOuCzhECBMSOcKiTg67tmBMdmbBaKiZzy3TiEMtqPlaKMRp12yXl3Aa0tkfBcMCVZEMtrRdMP/y1JYVzN8e/peY3pG/mIXfWiLsSI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ua5RxdY+; arc=pass smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411F11DF736;
+	Tue, 28 Apr 2026 21:13:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777410824; cv=none; b=cECAjkp6FPFISlMKaD2v0Nlt6YQQM5IVE0NN4ERZ0tobtBO2YIXNIYP5TJNENLDdA0uykmM+v7n5qVAKNkcrYnrP7RjZFGJiCefa9HpzY7uWpJUfODa792ECPr7mo7T+82AKIXduM7F3ZrM/VGaMPU3bsgQiatzcabiwcuPz0+Y=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777410824; c=relaxed/simple;
+	bh=pvFfouGz0fRKLx/nWtHy8IvY2k3qLX8XlSvjWbKWUdM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tSgWa71HzOnwngpYDzv+Aft7vdAtNXDjYVcRgVi+mtuQ3Lfzf1wyONcACoo8STbhKVUZPqDTX/do7RZfVsTMV+4PXI4LdwxfCw2TG/UJ+q+jT/6smbcipAp0KhsZpcDmeh2FYqHuRZ+yCkuqqA8K/aHs2WtiXPIo/CKXcFmDHSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=HG/jYlH6; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=tZ09Mvsv; arc=none smtp.client-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ua5RxdY+"
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5a746f9c092so253671e87.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 14:12:42 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777410761; cv=none;
-        d=google.com; s=arc-20240605;
-        b=XEYA15lELPrJqecfX82XUMueSEMvwtwzSSi1gP52wERst5rywVdvnv+Rtecb5fQitB
-         xD9dOlhgF9Uqkk2bU3UBgW0WimQrsJ+YtmsyUx1w41y6gTfDR+WEgm0ICb9kg8WbRaGE
-         3Zogf5tBbgbflmAyGGyGNxKEMgbtcS3Dj356BEClaBWT8cip3pWYSg2GDz5KBr0KcNWF
-         mUQg7CpjrvEqZ3wf8CXWGHoychXq1flsW1ajKWC4E0syg0JoQmoX5H1qVhF5Js5s2HbG
-         ECn4yl/pYhat9Kb2ZPI7ZaNggfwEJmwrG6AKanjiFmZ0yxT2439w2jHzp/79FRksANSp
-         NDyA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Y1c0hsfQ1G9nhDHLSFuAkEDbfJtF8fRH5TAPVGQIJWY=;
-        fh=XCY/QesRyrrt+e/cXwOCcAtjR9IQF14brSaVnlriQoY=;
-        b=lyZaUV3poewhlnhhODOzAjbn14anEZw2WltOfOCRTOfiI4KHcwLUdmOzakw5GxXfdE
-         UEIkADllZpC5WW12lziVPaD9IvhI+Y0TxjSeAcL10Bf2a3DUXNZ0oexwvZxIwYrKVCcT
-         ykQBYplt64pfkErJJhiyNnn2TFdURdha03e3UFnxRMG67PCnMep55aI/z5VmS9UBrMc7
-         6KDVIdEhAY7R3Jsz92VdB6QeFaXi8dVYhA4ef+kQ/CRftZd1IHNJWxU7VYqSIV1QAay/
-         vQgfgQCTY0ApZXzHEw5AFwqc/lesr0FF/p4v199xh8KafLaUR2BkPp6JN2+fEGseonoB
-         42Fw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777410761; x=1778015561; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Y1c0hsfQ1G9nhDHLSFuAkEDbfJtF8fRH5TAPVGQIJWY=;
-        b=Ua5RxdY+nWnHy6DlxMX5GM1Hoqlf+orxmHpa+o5sNDijwNLu8PayPAZp4LPvcykOct
-         qHoMqoUGOsz/GOTzthgTmeP9Gb6hxnTrlKDeESTEzGsnCDvwcVlR/ni2kLX0j0sIJMOo
-         lBYUjwXVT8ELdD1K5cBIFRyhVF3yDKX5tNddB0JQ7bsjVZs4B0g4+ZYde9VfvoyZpnUd
-         3Lu4G81O76e0QbNYzLOL2IWmbrwR33AGqRIYG/wbaOJQFRYXGwuoLzXuNIWr5RAMXhIy
-         dr0WwMWYyH40PHEwOq/+k97m/+BICIjkZeRtbV+eC1dVrz0mcKU78OhZJCfiZgKRmZUY
-         DuDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777410761; x=1778015561;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Y1c0hsfQ1G9nhDHLSFuAkEDbfJtF8fRH5TAPVGQIJWY=;
-        b=PSeGqEaSBaethMOUI34WTJ0Ji8M167OaN1aKVAhL+regqpRRZPzd9W79t5cWD1m+Gn
-         gR4grJ8SprlhnpgQ1qZXzx7wiw858Tf8UiW4RwPNNSgNv1BA3HQriG+TwWpr/BVkLOze
-         8p0mnqiR9+EK4PZFqba2M7ypYY16T9FjScrRd6LfFLq8bfj70/8yvJP3OIAG1NvlaZUg
-         CV0i/YSWmUb4hiNdJFOwjEdGiQ8ZjLjx683/v4Oyrq0dqd0JPQZzV93GlErCddSWaOwc
-         CKvjzMYpCnx7toBz8Me59VZlp6vNP2HDxmR78KmRwp0USv5fJTszBeXUmZ4IIQ+sUkWg
-         +uZw==
-X-Forwarded-Encrypted: i=1; AFNElJ/lh82OFtFQRTzAe+a6Yh4clETBiDNFI2w1hfZLNyVzDevYW3mac+XohgQGb1T1ZRggEFYRlYN3pQA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywsfz/eM5noJbbVkdkP9bqbDX2WA03pybvj95XPw+/+w4OTio0P
-	zS7tzjSENdI/amGOPywVl/0FAQZ3PeP5Jj0s4JyM/dT9CHTtBFoIyUR+INCGCPBS+NmTe1BiFvK
-	DkearBpA3U+fIG3e2B99xLyprfTDM5DNCO8hS7EKw
-X-Gm-Gg: AeBDieucpacUYnEHSi2QNUACzNl0x8eU473ZBzFkVWPaWFPeKLQt3eFQnqWwCpbqkt3
-	BJr6psEWUPTm0A4tVrVS01tCtujJS6OOJWvVazuXmB0dkWNH3eJBOTYsDC7L7C0xueiVfoidiOx
-	PFTtwmL+afmSZbWqQ5JnIcyPwG/kiQ6ez5qpxQejDIgf1ETwUurj+27+oFTSJA8SzDwGxhRCfYf
-	SvcxvgvQbdlSzKd9Dq2Pj4yNceT9ZB0pzMbgKSHn4JOuHv/wsz4nD+IQtRuyXRhEqAakDLntvUm
-	BqhL5TmOdR+XQ3C4wMQTACV84Mos7A==
-X-Received: by 2002:a05:6512:1390:b0:5a3:4692:61ce with SMTP id
- 2adb3069b0e04-5a74a32f180mr148152e87.1.1777410760874; Tue, 28 Apr 2026
- 14:12:40 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="HG/jYlH6";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="tZ09Mvsv"
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id D1E717A024B;
+	Tue, 28 Apr 2026 17:13:40 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Tue, 28 Apr 2026 17:13:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
+	:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm2; t=1777410820; x=1777497220; bh=kg+/CO84lr
+	gmx9miVmWNRpo+kO9PtHxpDH4OOtg+03k=; b=HG/jYlH6KXR1nSZprykHm+hepW
+	378L2CQex8IhBL5KjvIqYb0G7yuHW2MpyNc5be5/D4IQ15SW9Uk0j4Z82+3fu8eD
+	+hl9+hL0MaOUhCGsLOGWQ82RxXjgJ1M1GLEgWc9sDRrmtpOJxxe6mGkgBaXgrSPn
+	RSUsW4WvUOXUdehLefYOcXZwZEVZ/gEQODDhlpdO8Qh81Nl2RxvAgybeUxV6IJ7W
+	uHLQQ/BnGzjNmqAICr/Lwv34Oce880gTq8f47RFiq43GaonN7mkZ2MQPn9mK9eDp
+	2SwvB9UzLe8uqnpMtNlh5aiZYRj3UELId9T3yMNDbAMjUkI3DwtzobKbdFpw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1777410820; x=1777497220; bh=kg+/CO84lrgmx9miVmWNRpo+kO9PtHxpDH4
+	OOtg+03k=; b=tZ09Mvsvo/3Egz+UGWXlekk2gkeGXaN/2oA5pEtrbYD5fL1OqFW
+	uPCnt5qbfsxFN/N2+ZWA8zW4e0g5YOKuXiF30HbH8SS7k2zoSx4LWyyUWUFNVemQ
+	3frfupYWtj64uz1SaHwcm0Q444l7AfSKf+dE6AU63vAcmuksQciqxibOFNAxYdZe
+	unagH0dC/otKHqcAbVR09ZSfEX2jyaQHWL53znQAKFs8QraUQ3p+ZMY1CCC7Xfvl
+	azH9ZMHJTYxEE+48gE+y6GsWNE25HeUFxmjryoD8rQYPlp9ZoOgVc7svWLXl79SW
+	G0YZEZc6Aa/Kie1wppBJbNMXgvU2+sxs89w==
+X-ME-Sender: <xms:BCPxaZSx2YqqFjsKjXT7TIgFHyUO7arnF2PSdDncw8IWm_c_3Iijcg>
+    <xme:BCPxaTsS5PwQgjw70xP83lEztacHXRTyXGLAWDV636dhIaUJdiX1YEtviIIF8VyV5
+    yOKnG01srqA0FfDbVRQ_aYBsDUDbL11cdzlIDO8YSPySQmveg>
+X-ME-Received: <xmr:BCPxafLKjWy0LTVfqIihZKHfACBT1AQAfv81XrLnzgiCS46n5Q1XVIWj>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekvdeiudcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcumffj
+    uceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehgedvvedvle
+    ejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhushhtvghr
+    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtg
+    homhdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdprhgtphhtthho
+    peifsedufihtrdgvuhdprhgtphhtthhopehlvghonheskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtohepshgvtghurhhithihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhr
+    sggvtheslhifnhdrnhgvthdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnug
+    grthhiohhnrdhorhhgpdhrtghpthhtohepfihorhhkfhhlohifshesvhhgvghrrdhkvghr
+    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhn
+    vghlrdhorhhg
+X-ME-Proxy: <xmx:BCPxafeeTj3mxqV8XGeuwZO8X0EsafEVpT-R4UAjSwQ8_lbhX6350g>
+    <xmx:BCPxaZU79TQb-sTmnEiIsO2nQq8mrAGXfNx-ZBre3vpuzYH34xqm2Q>
+    <xmx:BCPxaVj7kkw9igEIm3Ip4HPr9W6ycS9O7cxp7Vcg76K9h1fspZrasw>
+    <xmx:BCPxabiwZ3Aa9hgXnXqTcD7L4ClNq-yqFaQ88Lm9Qsbi3RZfXVgEdw>
+    <xmx:BCPxaYkvJ3xagaxMICjP27aWfqV0aNVYH-gCwMdAXkSagKzOfu2DWgNa>
+Feedback-ID: i787e41f1:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 28 Apr 2026 17:13:39 -0400 (EDT)
+Date: Tue, 28 Apr 2026 15:13:01 -0600
+From: Greg KH <greg@kroah.com>
+To: Willy Tarreau <w@1wt.eu>
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+	skhan@linuxfoundation.org, workflows@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
+ not a security bug
+Message-ID: <2026042804-overbook-ripeness-73dd@gregkh>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-3-w@1wt.eu>
+ <2026042753-ozone-jigsaw-4ad5@gregkh>
+ <ae-Acm2XJ3sR34Il@1wt.eu>
+ <2026042724-bullhorn-bobtail-ae6f@gregkh>
+ <ae-LVyDQPVwxesCO@1wt.eu>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260423212316.3431746-1-dmatlack@google.com> <20260423212316.3431746-3-dmatlack@google.com>
- <20260428201231.GA3885809.vipinsh@google.com>
-In-Reply-To: <20260428201231.GA3885809.vipinsh@google.com>
-From: David Matlack <dmatlack@google.com>
-Date: Tue, 28 Apr 2026 14:12:13 -0700
-X-Gm-Features: AVHnY4K7jpha36hMRH-mQGhZech3LSC3uUxVbVP_4PPgBDawCFAtuaz99Nxadcw
-Message-ID: <CALzav=dfLtdrPhkBkGwHpDAWUBMHnbGPccwhy1__doziNVZQJQ@mail.gmail.com>
-Subject: Re: [PATCH v4 02/11] PCI: liveupdate: Track outgoing preserved PCI devices
-To: Vipin Sharma <vipinsh@google.com>
-Cc: iommu@lists.linux.dev, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Will Deacon <will@kernel.org>, William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ae-LVyDQPVwxesCO@1wt.eu>
 
-On Tue, Apr 28, 2026 at 1:20=E2=80=AFPM Vipin Sharma <vipinsh@google.com> w=
-rote:
->
-> On Thu, Apr 23, 2026 at 09:23:06PM +0000, David Matlack wrote:
-> > +int pci_liveupdate_preserve(struct pci_dev *dev)
-> > +{
-> > +     struct pci_ser *ser;
-> > +     int i, ret;
-> > +
-> > +     guard(mutex)(&pci_flb_outgoing_lock);
-> > +
-> > +     ret =3D liveupdate_flb_get_outgoing(&pci_liveupdate_flb, (void **=
-)&ser);
-> > +     if (ret)
-> > +             return ret;
-> > +
-> > +     if (!ser)
-> > +             return -ENOENT;
-> > +
-> > +     if (dev->is_virtfn)
-> > +             return -EINVAL;
-> > +
-> > +     if (dev->liveupdate_outgoing)
-> > +             return -EBUSY;
-> > +
-> > +     if (ser->nr_devices =3D=3D ser->max_nr_devices)
-> > +             return -ENOSPC;
-> > +
-> > +     for (i =3D 0; i < ser->max_nr_devices; i++) {
-> > +             /*
-> > +              * Start searching at index ser->nr_devices. This should =
-result
-> > +              * in a constant time search under expected conditions (d=
-evices
-> > +              * are not getting unpreserved).
-> > +              */
-> > +             int index =3D (ser->nr_devices + i) % ser->max_nr_devices=
-;
-> > +             struct pci_dev_ser *dev_ser =3D &ser->devices[index];
-> > +
-> > +             if (dev_ser->refcount)
-> > +                     continue;
-> > +
-> > +             pci_info(dev, "Device will be preserved across next Live =
-Update\n");
-> > +             ser->nr_devices++;
-> > +
-> > +             dev_ser->domain =3D pci_domain_nr(dev->bus);
-> > +             dev_ser->bdf =3D pci_dev_id(dev);
-> > +             dev_ser->refcount =3D 1;
-> > +
-> > +             dev->liveupdate_outgoing =3D dev_ser;
-> > +             return 0;
-> > +     }
-> > +
-> > +     return -ENOSPC;
->
-> Since it is executing under a mutex, and we already failed
-> 'if (ser->nr_devices =3D=3D ser->max_nr_devices) check above, will we eve=
-r reach
-> here and return -ENOSPC?
+On Mon, Apr 27, 2026 at 06:14:15PM +0200, Willy Tarreau wrote:
+> On Mon, Apr 27, 2026 at 09:35:04AM -0600, Greg KH wrote:
+> > On Mon, Apr 27, 2026 at 05:27:46PM +0200, Willy Tarreau wrote:
+> > > On Mon, Apr 27, 2026 at 07:48:23AM -0600, Greg KH wrote:
+> > > > On Sun, Apr 26, 2026 at 06:39:13PM +0200, Willy Tarreau wrote:
+> > > > > +In the Linux kernel's threat model, an issue is **not** a security bug, and
+> > > > > +should not be reported to the security list, when triggering it requires the
+> > > > > +reporter to first undermine the system they are attacking.  This includes, but
+> > > > > +is not limited to, behavior that only manifests after the administrator has
+> > > > > +explicitly enabled it (loading a module, setting a sysctl, writing to a debugfs
+> > > > > +knob, or otherwise using an interface documented as privileged or unsafe); bugs
+> > > > > +reachable only through root or CAP_SYS_ADMIN or CAP_NET_ADMIN on a machine the
+> > > > > +actor already fully controls, with no further privilege boundary being crossed;
+> > > > > +prediction of random numbers that only works in a totally silent environment
+> > > > > +(such as IP ID, TCP ports or sequence numbers that can only be guessed in a
+> > > > > +lab), issues that appear only in debug, lockdep, KASAN, fault-injection,
+> > > > > +CONFIG_NOMMU, or other developer-oriented kernel builds that are not intended
+> > > > > +for production use; problems seen only under development simulators, emulators,
+> > > > > +or fuzzing harnesses that present hardware or input states which cannot occur
+> > > > > +on real systems; bugs that require modified or emulated hardware; missing
+> > > > > +hardening or defence-in-depth suggestions with no demonstrable exploit path
+> > > > > +(including local ASLR bypass); mounting file systems that would be fixed or
+> > > > > +rejected by fsck; and bugs in out-of-tree modules or vendor forks, which should
+> > > > > +be reported to the relevant vendor.  Functional and performance regressions,
+> > > > > +and disagreements with documented kernel policy (for example, "root can load
+> > > > > +modules"), are likewise ordinary bugs or feature requests rather than security
+> > > > > +issues, and should be reported via the usual channels.
+> > > > 
+> > > > This is a great list to start with, but perhaps we should put it in list
+> > > > form so that it's easier to read?
+> > > 
+> > > In fact that's what I tried first and it was super long with many short
+> > > lines, making it possibly worse. But maybe aggregating several short
+> > > entries on a line by similarities could work, I can give it a try.
+> > > 
+> > > > Also, I can see this turning into a separate document eventually as
+> > > > different subsystems should have a chance to weigh in on what they
+> > > > consider the threat model to be
+> > > 
+> > > My fear if we redirect to other files is that it won't be read again.
+> > > However, we could possibly suggest to always look for the subsystem's
+> > > specific rules in this subsytem's doc, leaving enough freedom to
+> > > maintainers to reject more things.
+> > 
+> > AI tools are good at following links, so I wouldn't worry about that.
+> 
+> Yes but let's not forget the minority of humble humans still sending
+> honest reports ;-)
+> 
+> > We can point at other files, as this list is going to get long over
+> > time, which is a good thing.
+> 
+> Sure. I'm just unsure where this could be enumerated, as it's likely
+> that there would be just one or two lines max per subsystem for the
+> majority of them. Or we could have a totally separate file, "threat
+> model", that goes into great lengths detailing all this with sections
+> per category or subsystem when they start to grow maybe, and refer only
+> to that one from security-bugs ?
 
-Yeah I wouldn't expect to ever reach here.
+I think a separate file is good, I know I need to write up what the USB
+model is, and it's different from PCI, and different from other
+subsystems.  All should probably be documented eventually.
 
-> > diff --git a/include/linux/kho/abi/pci.h b/include/linux/kho/abi/pci.h
-> > index 5c0e92588c00..5b4c8d9e462c 100644
-> > --- a/include/linux/kho/abi/pci.h
-> > +++ b/include/linux/kho/abi/pci.h
-> > @@ -23,19 +23,20 @@
-> >   * incrementing the version number in the PCI_LUO_FLB_COMPATIBLE strin=
-g.
-> >   */
-> >
-> > -#define PCI_LUO_FLB_COMPATIBLE "pci-v1"
-> > +#define PCI_LUO_FLB_COMPATIBLE "pci-v2"
->
-> Just curious, why did we change the version here?
+> > > > (like what the IB subsystem does which I
+> > > > don't think you listed above, or the USB subsystem.)
+> > > 
+> > > Indeed I didn't list IB (I'm never sure about it, I seem to remember
+> > > we simply trust any peer, is that right?), nor did I make specific
+> > > mentions for USB which is implicitly covered by "hardware emulation
+> > > or modification".
+> > 
+> > Ah, but USB does cover "some" modification of devices, so this is going
+> > to be something that is good to document over time, if for no other
+> > reason to keep these scanning tools in check from hallucinating crazy
+> > situations that are obviously not a valid thing we care about.
+> 
+> OK but does this mean you still want to get these reports in the end ?
 
-Because a field in struct pci_dev_ser changed.
+I want a patch if a user cares about that threat-model (as Android does
+but no one else) as it's up to the user groups that want to change the
+default kernel's behavior like this to actually submit patches to do so.
 
-> It's not like just
-> previous patch is working enough to perform a live update. As the config
-> is experimental, can't we just keep it PCI-v1 for the whole series?
+thanks,
 
-What is the benefit of keeping "pci-v1"?
-
-I think it makes sense to follow the rule we set which is to update
-the compatibility string in any commit that changes the ABI.
+greg k-h
