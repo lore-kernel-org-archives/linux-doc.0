@@ -1,176 +1,87 @@
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A1F47AF6E
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 18:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777402015; cv=pass; b=A9tmywO42qVLU9UKFtRv+0a8RoRDk/eHo61H2NF5TbqntiMI2gwYS05C+Z9wiHpK954LZYorMv5EIOAUQD1aD76I2pC5qnWASQtW5f96PSAin7v0yplhlAIUYSLav0Q4AB/jLG6c+a13O5FTq4taiPgUJFLHBcxY8XDkH9Kvi5g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777402015; c=relaxed/simple;
-	bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ptsCEjZLjWR2oaidwhXYu2B3pKPc1OXRd7XjK4TQvzS4vu6M1NPkyhdzx/36Gvvuf2nANV1vw/g1sLvYb7E3bkVXStDPjZMNSNKy1DXCqcaAiYiMiGQd0aJlSNLB4iheIZTLnUwoDxX63xHlqDspg7Q4WiQeyqFAdbA+8lOQGuM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ifd83xBd; arc=pass smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 714C324501D;
+	Tue, 28 Apr 2026 19:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777403297; cv=none; b=njMaAWqo1nRog5DFsqAhVifNuCZU8kOy7Tr34vd/khXrAv0rMPkflbASfnDHL7QPHMl8a5fPhe1rqWKjqSnt3BiTfP3efwOebqthAKhzGBwcciEKw7U17HWk8TrhEIVfs5ZkBnNvsiXIkm3Q96IIn2jYH1WLH43mK9FUdlyK4TQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777403297; c=relaxed/simple;
+	bh=xvsDYCme7eftf2IRguclZo3RDCq2rrXBQCxYPz9OJFc=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=UUIDgjtdSAxJ0XAaoWGOMIv3Z0rmMNnyT9iQQtm117AIrWJxQIZoSvL2Uvh+D9c1oVz/cosmTy8kkd6qnrYBoWWMt7S3JwnosfQIM+/Uq5y/c9nAUM5gHpjE8XPivPHRExfDXFhF7UrZDTW2SToEs6FNe8uGOJSjdjmKCoyWmEM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=fcf8SScX; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ifd83xBd"
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-676d8582a13so13991096a12.0
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 11:46:53 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777402012; cv=none;
-        d=google.com; s=arc-20240605;
-        b=A6+XzJK664QWeunzZDyn4Dpa6mFv5zTf9fablvkOocJtZQwmq857iC1HkW25DU8AQW
-         9pzvC1B33FRzNqfGAgT3hhxjUXFOLWcIkdsVkRRNGN5cFHXVn7smtbTXzO+RM+3IXqri
-         fVIpLAYo1E9izWWyZ9lZvhIjBWsSsUkDT80SnXozKQJFFwMiG00YtnNtAeB/qlq7hUXe
-         L33314NtajlQspluGt4qaZgaYOnaX/6V/LHBDjycVoA7hzJjqam/6jojX1quW3I968dX
-         Pb8FM2DUz1viVUWgC0V2fRE5vpQ8ysj0nekiu2wLjmWEdjdxT7OCEWtk5PpJOk2VFAU+
-         97Eg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
-        fh=ZZ7STFQOMFFT+eAZGlf1ulUAy/kuyrbbrzsw7/AHYA0=;
-        b=Moe5AaF4560CNg/xxGx7L6ISMqrR/q0ihF7AAhBwrn98MdoxQrCvLgec50pm3SXvTz
-         VM5IetDC6Zn4wbF/rpZW3sC6PDWT4F7LhOpmNjKi8S2R0aFGGA8HfhAkJJB/njL1vkSZ
-         TSjlUd4X2RLaSOQa1WzU7riotPgPZyZZHW9TQmN67fIumctrG/1GK6rm3FzsLesjbrWs
-         i1PiGkTytepWx5FLepXZRq+cOy74vRRoJn6PH8ZSuPlbh+GwrQfM1Y6+8P/BG2lJspmu
-         lnV7gl7KVe5ddwkggQjG5x5sVKrjDYKh6JuQx7V1olqj12TVKfkoooZfXr3Ze09PZOV5
-         Gk/g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777402012; x=1778006812; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
-        b=Ifd83xBd9a48T6zVcOCH/JADVnoDZqlx2S+0AZOWlIAKt1nLA1ZB9lMupz6AS2uAHO
-         SKbiml2TJZO4fnLBzpECnNjOydpHYwHIreTmEc9DjWUOnP/XWlEkXHAxolnIKBVGjgE5
-         QpSQ5XcWoUPEi0w0yCYXUDX0lyqtoVsiiMwD3wGyW1fQbnjLoI9TKIi0WgCib7wh02B8
-         L1OIbS6xWUfSv3oJRM1k0aJSLXuc54pLtKjb1qqUn+D9BoOjyx+mgo2R1hsM2awqFfzh
-         bQr6Ii/AXWLwp/fDAukV5mNiw0l019VhZrdM4MzDwJO4PJ0sMPqAjTprua2wM94N5+bo
-         MD6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777402012; x=1778006812;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EKFG0RDVEK246wBeg1IKZgBSUBwwFpLrZPo+iyiQ1R0=;
-        b=LSE27zJlnkWmMSuIm5Bso08VAB3q1tUGa2WHtb9nT5Id72zMZORNKurlWFpsUYb/Qe
-         J7q0xZx+DVkM5swGQZ9r0S7B4qSrcEz1Dcb+NjUw9rnSYKy1tM6jnGvLfYKR1XJx1rCh
-         MM2MmQrryvu1xReHm8p33HOdROhRrKhiucyeinVwpX5tMDdcsIsH+FP+fWYzRzdBrUiO
-         lYZAj9POvrH6d3Vp2AYLjmoAEHCMmy9K8IOB9QjYGsuwC/0uHuToqmuaCVGwl5gzM499
-         MyZy4RBoXHyRhO3v/vHOHYF0cjHC5tgnSup2wIsZtCmsonfGSX0v8KYtqlqsZ+QYGP2+
-         nwsQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9Uwb/wjkfrTCICQKcElAkMAskVG98XTa9FjuAl5y2AM3xrb5FkJn1PzBNh+LOqkS9rTz7ainem7o4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0OZZGQ3oBeVU1sj2TSBn2567PePJmCxsVbbgMDsFt94ENpN6G
-	CvvoJtMpKStJVAhv+I8w6DRXSh0yPFc40Ut9ckipix/QyWhkELJOpTmP8YpCvg6IyUFPUo3przT
-	P1fooGZlTgZlagn6AFYBWaiSdPSUj+IQ=
-X-Gm-Gg: AeBDiesUXyonZUCOx1I0suVhY0okSriByTHrai2eMjnaEdrdJwB8onWiCCWjTg/XYzZ
-	vqRDxMOexNgouuxxEuZwPGH2+gj7Lz2rhV/2Ik0BIyddlqfYgWI8Meg+FIFsvz0ZMQWka79+3Gs
-	Yf2XdwD5bIHbAV6szbUmYiD7V6fL3deCFThFE6d4rxMvNarsYxxz52tXMJtNF+01CUexrXECc5u
-	QY83ECuHuOY2SIuIZ90R4USpHLt45SH3wNnZ/y1STXbRNtzHKkDD63SXm+w2q81WuyYFrJcfVYp
-	BtC2XWcrBazkN4spD+1KqbMwK3rP8REqHXF3Y8hVxJyFvoyFKHDdjmAJrjmVag==
-X-Received: by 2002:a05:6402:4544:b0:671:a18b:32b8 with SMTP id
- 4fb4d7f45d1cf-67b1fce62e4mr516715a12.0.1777402012124; Tue, 28 Apr 2026
- 11:46:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="fcf8SScX"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1971E410AA
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777403295; bh=Qig114bVhtz6joUvF87WAcmR+wnwEJvLRPuFf4Omcrs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=fcf8SScXmV+6MLN/3mCoW9Qf9IJ35E6c47Z1PG92IUd2QFnRvTnGV7hSgEw+dMp3U
+	 OekRaC/6kNAETFhOAll5oJ7VeGmoYYVP4amNbMSUE7H1cveMCDNU51KLnsBik74yIZ
+	 9LlEfW9/oZ2KG4yjaEmMTwpD/Hf1tRydU6Xu6P7es+zleD09xcqvPZ3dojRViTekLR
+	 q5cTYiJGnpwihbT7+Pk3vZjf+JfdIIPxwL7W2pKWONM2s2yNfNZ36PbzwP/vZqIgRS
+	 qjZ5LH2wQYOMRmKcSY7N2aTY0Uj0yOTNLq9drCCsC5vi9Je5g4KBiNyt/4cqppmFxx
+	 EVdubtz+mVFMA==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 1971E410AA;
+	Tue, 28 Apr 2026 19:08:14 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Julian Braha <julianbraha@gmail.com>, akpm@linux-foundation.org,
+ ljs@kernel.org, arnd@arndb.de, gregkh@linuxfoundation.org,
+ masahiroy@kernel.org, nsc@kernel.org, ojeda@kernel.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
+Subject: Re: [RFC PATCH 1/2] scripts: add kconfirm
+In-Reply-To: <20260428183101.GA3304253@ax162>
+References: <20260427174429.779474-1-julianbraha@gmail.com>
+ <20260427174429.779474-2-julianbraha@gmail.com>
+ <87mrynmuuu.fsf@trenco.lwn.net> <20260428183101.GA3304253@ax162>
+Date: Tue, 28 Apr 2026 13:08:11 -0600
+Message-ID: <877bpqlx7o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
- <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
- <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
- <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
- <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
- <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
- <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com>
- <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com> <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
-In-Reply-To: <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com>
-From: Kairui Song <ryncsn@gmail.com>
-Date: Wed, 29 Apr 2026 02:46:15 +0800
-X-Gm-Features: AVHnY4KwMPQSKOHLniO-vRRmC7fG6-z8dUk1aqr3V42lrdSb0J0CfA2hErWWeCU
-Message-ID: <CAMgjq7BZpU5K1xHyFiqpsjeFe6CZUouGY_gOGMwbkM2Duq-vGg@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Yosry Ahmed <yosry@kernel.org>
-Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
-	Byungchul Park <byungchul@sk.com>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
-	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
-	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
-	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
-	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
-	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Tue, Apr 28, 2026 at 2:23=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wrot=
-e:
+Nathan Chancellor <nathan@kernel.org> writes:
+
+> On Tue, Apr 28, 2026 at 01:01:29AM -0600, Jonathan Corbet wrote:
+>> Also, a nit, but I would really suggest putting it under tools/ rather
+>> than in the scripts/ dumping ground.
 >
-> On Fri, Apr 24, 2026 at 12:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com> w=
-rote:
-> >
-> > On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> =
-wrote
-> > > Why >16 bytes? Do we need anything extra other than the reverse
-> > > mapping? Also why do we need a double lookup?
-> >
-> > You will have to store at least the following info: memcg (2 bytes),
-> > shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
-> > bytes, since you have to address a full virtual swap space). And some
-> > type info is also needed. Part of them can be shrinked but still,
-> > scientifically, merging two layers into one is considered a kind of
-> > optimization.
-> >
-> > You need lookup the virtual layer, then the lower layer for many
-> > decision making, is was discussed before to introduce more cache bit
-> > or things like that and I think that is getting over complex, reminds
-> > me of the slot cache or HAS_CACHE thing...:
-> > https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8fc=
-yzVOKE14-O+Dw@mail.gmail.com/
->
-> I think that's where the disconnect is. You are considering these two
-> separate layers, each with its own metadata. The metadata should only
-> live in one place.
->
-> If we only have swap tables in the virtual swap layer (with the
-> metadata), backends do not have to carry the metadata. In this case,
-> backends should only have a reverse mapping (if needed), and some
-> internal data structure (e.g. bitmaps) to track usage.
+> As if tools/ isn't its own dumping ground? :)
 
-Ah, you are right. This is currently an intermediate state, that
-problem might be gone if we unified everything.
+It is more structured and more amenable to useful MAINTAINERS entries.
 
-> This is difficult to achieve if the virtual swap layer is optional,
-> because then the metadata can live in different places. This is why I
+> While I can understand the desire to avoid adding more random stuff to
+> scripts/, it sets a confusing precedent because tools/ is not a part of
+> Kbuild, so I would not expect tools that would run within Kbuild to live
+> there (which this one appears to do). While there are obvious exceptions
+> such as objtool and resolve_btfids,
 
-But that's not difficult to achieve at all with an optional layer, and
-actually will be achieved naturally without any design change with the
-RFC I posted. Swap count / cgroup / shadow all stay in the top layer,
-lower layer is "reverse map" only (the undone part though, it will
-require to move the cluster cache from global to device level, which
-is also required for YoungJun's tier or any functional tiering to
-work, we may run into more and more detail issue like this).
+...and the docs build system...
 
-Might even be easier that way, it's pretty close to the unified states I th=
-ink.
+> I would like to avoid adding new
+> ones, which aligns with the comment added by Masahiro's commit
+> 6e6ef2da3a28 ("Makefile: add comment to discourage tools/* addition for
+> kernel builds"). Maybe this could be mitigated with a tools/kbuild/
+> directory or something but not sure. Just some additional input.
+
+I don't understand that reticence.  As we build up more tools, why not
+organize them in a directory tree, perhaps called "tools", where we can
+track who's responsible for the various subtrees?
+
+Thanks,
+
+jon
