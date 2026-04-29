@@ -1,798 +1,236 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A99D1EB5C2;
-	Wed, 29 Apr 2026 19:15:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777490108; cv=none; b=GE1RYegXtGG/UWbedJXlZoTJq7Runagio4qQa25/JXBzll8w+0TgGU122TpAcgO+teCEIqd+hDQaSodwdX+H1671BkQJ0nkLiUHxhXrDOmnue6hBsXHzy2Q/dITOJiWrU3hi9pRpv1w0ErxcCPmqS+4ZorXI81Miq7imBEx+vlE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777490108; c=relaxed/simple;
-	bh=lgWm2YK1mr9MOc/o7cKo51xJjTAgcFd25zWsMER5Q3I=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Yn1PKrNjECp4PkdjVsjkE6tk5xrhttW52m/bXyLP77/j3X8MtPlUU8Ydr2ft19p0tE4E5OXzYLeqr9cTb/kW+2FP1Bhqg7Va6tkCyzBBGgqZZCoXBNqOo5aNT9j+kzXtdgMtaelmTAZOG4QxAJ3ZsI4eNcBFydt/86CNZS/ZBP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=SqRX84c7; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C6B13382C7
+	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 19:20:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.208.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777490453; cv=pass; b=jDL1x1clHaC8rH5lXB4eiEMf58dtBZoEfQ8/qVIUOi4SPgKv5KMGV4IUFEqOWtKeAoK2sDQ+mc1JcYt3JBoGKPo1fTtOd+zNys1rRO3eyzVob3RpDytyL64J4VhYg+YvC2y7r5DF7phbiPXO4BDugq3uO9b+qaaguW/9QOGW+Gg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777490453; c=relaxed/simple;
+	bh=braCilAYzfWSvAWMEDj3jzrbXNaOgTJxXed3C2N+6Jg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bobwk3ZRv/wDv08dUMgOJ0CV8VH9NE+aOvhU08pwoXGV9K06uwlDz2UX93WOJOXPb5Y8VLnBjGTeZdyzqMVM61KkBitl8FSqmQZTjJE6jAaMAOonJQC4SscLS8NsIr7RJcXxbPMEh3dRCLOO8SWZWc9Zm9MhBkUwZ3y3f/K9FA0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=J2foeINB; arc=pass smtp.client-ip=209.85.208.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="SqRX84c7"
-Received: from narnia.corp.microsoft.com (unknown [40.78.12.246])
-	by linux.microsoft.com (Postfix) with ESMTPSA id D38AF20B7172;
-	Wed, 29 Apr 2026 12:15:03 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com D38AF20B7172
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1777490105;
-	bh=SmavXUd8wxbwobaWFtp0hkIC2iLG4gZhCGYYeb0DHZI=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=SqRX84c7E0O9zuuy68S0S61EGnPhB0j9bPrQu1T6iu8ZVEe5VndgS9an6e9ccCj5U
-	 pL1oT408UcWoewltWiCRRtJ4cQv3ZWjzULbCqgwJPTMSGrjF4CqrGIWu7bBs+tFk3n
-	 ioyPnCQo6sG8Iw5eFpDB8rQmGmsOpNLSayFHf0i0=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: "Blaise Boscaccy" <bboscaccy@linux.microsoft.com>,
-	"Jonathan Corbet" <corbet@lwn.net>,
-	"Paul Moore" <paul@paul-moore.com>,
-	"James Morris" <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	"Andrew Morton" <akpm@linux-foundation.org>,
-	James.Bottomley@HansenPartnership.com,
-	dhowells@redhat.com,
-	"Fan Wu" <wufan@kernel.org>,
-	"Ryan Foster" <foster.ryan.r@gmail.com>,
-	"Randy Dunlap" <rdunlap@infradead.org>,
-	linux-security-module@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	bpf@vger.kernel.org,
-	"Song Liu" <song@kernel.org>
-Subject: [v6 10/10] ipe: Add BPF program load policy enforcement via Hornet integration
-Date: Wed, 29 Apr 2026 12:14:15 -0700
-Message-ID: <20260429191431.2345448-11-bboscaccy@linux.microsoft.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260429191431.2345448-1-bboscaccy@linux.microsoft.com>
-References: <20260429191431.2345448-1-bboscaccy@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="J2foeINB"
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-671c5eb7fb0so139963a12.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 12:20:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777490450; cv=none;
+        d=google.com; s=arc-20240605;
+        b=frsjhUDVjvUC1ksX4r/nEJ0WE6KP0WeSQA0ynPm4/34zqJJhs0DQ17hRZd49ffTN4P
+         ibxxS/yc/zrbUc1A3dgRaTHnZx5LVXEvt76uWEO2M4O9fgqcg7xbMbyMRM9mANz1yfez
+         0TRMQBdRyW+NH/9GpOsGUOVyIvFJyJuD3s7zNCCAPMytd8PeBIGBHQUdVkS98MblDOtv
+         TUr7iqUoXlnBFqSdRajfoBJh1Ep7J+/IDxiNOkWe0vRuwpmrmkaOisv3xGiGcGExoBuo
+         POWk6/cqLHyTL0itY23gfmhNI6EIbza4Ux3ZxEW38MSGE7NMs7UqF12eQMscwUbsiH3f
+         XMyQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=P1oUs/Abu5g3UxUIAO0ZwpBJwwKm0pg05ZGOCVCeRmU=;
+        fh=xj72x7fQFgE2UsH3UlfBY/SXePZwy4mKElZT/a7Ei9Y=;
+        b=YyaEgkUfQm9LmcRg8517mJxj5Xv0subVO6SMXLtjV4RgalKV2ihQrgsRkYnPftgiAI
+         FUTjy/Ngq0u8pNT/0iq65Ih6CuDR7OQqmnC6rwBZyfgCoKs8gXMxx1EigpTF0S6G+vT4
+         gzHhHLsPyF0EEiK4eGx6O0DTfRg5nYpaEn2AT20DMw/3gjly3P01wwYbYJnIlUqViHQE
+         38yNSCaggnWV5NWmKSBlOtIg8//NUs1KwNyoVxuWXjoUyyCP2m61jkYvt2j2QHFcxr9B
+         6wvlMrVR0hBwqq/1bOiOa0MQCLgfw5oUEAilRXDppniGR19qbnb6IIJsfxtFT4TouNrR
+         ZFDw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1777490450; x=1778095250; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=P1oUs/Abu5g3UxUIAO0ZwpBJwwKm0pg05ZGOCVCeRmU=;
+        b=J2foeINBIxLUD/f5R5WCd8ndy0IbWzi/9CzJczqdjXtlw3YvhYiQE77BGYYg802I1z
+         FU7njl6BiHtLe3JY6/7kGsC0q7dMD10OotdhXQE1POQ1294rIB/dSnUyv8U9JWzg9I7z
+         ei2wT5CCNdjjv7V/7nPaZqlx/s5ohLlUREbCnoy6ZxM5WPZJ3do4UglWe/Q5L6Yh/wG5
+         +lVzgL382uWvsVNf56voBRSwgdyTSRe4OQzSinlaX3hYxvfO8bEIDCu0H+9RV5Hp6pQk
+         wahqe1IZeEtXZfap/DQ8iXjAABs1J6tBCF+iq5oazzubo8McZnAlVggbYlGFlfY71b7u
+         Ie3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777490450; x=1778095250;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P1oUs/Abu5g3UxUIAO0ZwpBJwwKm0pg05ZGOCVCeRmU=;
+        b=pmvHD2wb6yuwwTV3MVy3iIGgVF5LqRtK+Q3G+ofyXiUjGSw6vDpdHdrEEqqFRCHnYr
+         SHbHK7hZAfv6ddRf53KUEAmMa/yAlCeiSpuT79urbJwlcZPNKSZmMsC9Qk6IbSsc92k0
+         dbl4zTzXNDWrprfgNf3VFiTA34sBAm7Vy6dpGdS4a1Mo3FVS4Bt8oV9Mb5P8+uQCUMVq
+         zoP0vrBWnE1Z7DBy16XdwvYZRiIpdC2XTPkhZGGSo0h+krzLMMEiW7oD3wjski2A0eg/
+         6EEa+dEk87W+bLkMvZ5oebzOCbOAdNl2RxT/K9pcJRU652KI879wiOrfW1DGRHOlMX2B
+         TvXg==
+X-Forwarded-Encrypted: i=1; AFNElJ8Hr9rBGYvINUQKQv3yUd2+h5eTkjU0rY06TdCNusC4hx3xl+icgNwGHIpHVz85FfhklIoohK/KAWU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDsdkeceMFid0DJ5r3Uh//QUgjeVSf6ni4wiL4SjS7QJwXAmeT
+	ko4BJg0mhVt+cVU3dpokAsupDQF8l/I9ZfckNduiVTYur0hhI9Cl3rV/b8bR/GBGNg2T1VV685i
+	DtKFOnbIoN90RMry5L6Z1LGDUeycFiwo/M2zFzb/4Fg==
+X-Gm-Gg: AeBDieueNwbS7eVoEnO5MONOiAABCMVB/sJZsBFOKj7ANhx7pic4HQef9ix+qTLhTlw
+	UJVj/U5MX5NOQsatRs/rul0rS8Vh8pJSiohEOgHlW3cgxpXhNN8MOBuxj+n3hVxITKLBn9M+cG1
+	SVRqmIOWYic4AUOtDkB5Z4Rht0e5H/ry8lxWlVsH0APnVBcceRsX36a5tYCppEru8+2jhfksr1E
+	oPvaI7Z1oLm0S0ClcR884LBj0d3EwAQd05Mddxg8bjTAM7BEG0Eac5VCGqyulQKcKgnx2VnEqED
+	O01QlB6ywF8fqNG+v9whFjZIyplwd8K2oIoYmy5gDkcNilDcdSpz5eYBjn1WtO0=
+X-Received: by 2002:a05:6402:5024:b0:674:2565:f27a with SMTP id
+ 4fb4d7f45d1cf-679bb095b4amr4292362a12.19.1777490449661; Wed, 29 Apr 2026
+ 12:20:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
+ <20260422212849.1240591-4-shenwei.wang@nxp.com> <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
+ <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch> <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch> <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <afImuoeHolxGgw3H@p14s> <PAXPR04MB9185F2F6DDB55AC56C92D63B89342@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com> <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
+In-Reply-To: <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+Date: Wed, 29 Apr 2026 13:20:38 -0600
+X-Gm-Features: AVHnY4LS0q8rVhCWEM9jcgreDzRj6jHlyTeei6srw2bJ0kIdi0Mr181JcAK3ylA
+Message-ID: <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
+Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+To: "Padhi, Beleswar" <b-padhi@ti.com>
+Cc: Shenwei Wang <shenwei.wang@nxp.com>, Andrew Lunn <andrew@lunn.ch>, 
+	Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>, 
+	Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>, 
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>, 
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>, 
+	"imx@lists.linux.dev" <imx@lists.linux.dev>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>, 
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Content-Type: text/plain; charset="UTF-8"
 
-Add support for the bpf_prog_load_post_integrity LSM hook, enabling IPE
-to make policy decisions about BPF program loading based on integrity
-verdicts provided by the Hornet LSM.
+On Wed, 29 Apr 2026 at 12:07, Padhi, Beleswar <b-padhi@ti.com> wrote:
+>
+> Hi Mathieu,
+>
+> On 4/29/2026 11:03 PM, Mathieu Poirier wrote:
+> > On Wed, 29 Apr 2026 at 10:53, Shenwei Wang <shenwei.wang@nxp.com> wrote:
+> >>
+> >>
+> >>> -----Original Message-----
+> >>> From: Mathieu Poirier <mathieu.poirier@linaro.org>
+> >>> Sent: Wednesday, April 29, 2026 10:42 AM
+> >>> To: Shenwei Wang <shenwei.wang@nxp.com>
+> >>> Cc: Andrew Lunn <andrew@lunn.ch>; Padhi, Beleswar <b-padhi@ti.com>; Linus
+> >>> Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan
+> >>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> >>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
+> >>> <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> >>> <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
+> >>> gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> >>> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> >>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> >>> devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+> >>> imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
+> >>> imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
+> >>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+> >>> On Tue, Apr 28, 2026 at 03:24:59PM +0000, Shenwei Wang wrote:
+> >>>>
+> >>>>> -----Original Message-----
+> >>>>> From: Andrew Lunn <andrew@lunn.ch>
+> >>>>> Sent: Monday, April 27, 2026 3:49 PM
+> >>>>> To: Shenwei Wang <shenwei.wang@nxp.com>
+> >>>>> Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij
+> >>>>> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan
+> >>>>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
+> >>>>> Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+> >>>>> Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
+> >>>>> <mathieu.poirier@linaro.org>; Frank Li <frank.li@nxp.com>; Sascha
+> >>>>> Hauer <s.hauer@pengutronix.de>; Shuah Khan
+> >>>>> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
+> >>>>> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
+> >>>>> Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> >>>>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> >>>>> devicetree@vger.kernel.org; linux- remoteproc@vger.kernel.org;
+> >>>>> imx@lists.linux.dev; linux-arm- kernel@lists.infradead.org;
+> >>>>> dl-linux-imx <linux-imx@nxp.com>; Bartosz Golaszewski
+> >>>>> <brgl@bgdev.pl>
+> >>>>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg
+> >>>>> GPIO driver
+> >>>>>>> struct virtio_gpio_response {
+> >>>>>>>          __u8 status;
+> >>>>>>>          __u8 value;
+> >>>>>>> };
+> >>>>>> It is the same message format. Please see the message definition
+> >>>>> (GET_DIRECTION) below:
+> >>>>>
+> >>>>>> +   +-----+-----+-----+-----+-----+----+
+> >>>>>> +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
+> >>>>>> +   | 1   | 2   |port |line | err | dir|
+> >>>>>> +   +-----+-----+-----+-----+-----+----+
+> >>>>> Sorry, but i don't see how two u8 vs six u8 are the same message format.
+> >>>>>
+> >>>> Some changes to the message format are necessary.
+> >>>>
+> >>>> Virtio uses two communication channels (virtqueues): one for requests and
+> >>> replies, and a second one for events.
+> >>>> In contrast, rpmsg provides only a single communication channel, so a
+> >>>> type field is required to distinguish between different kinds of messages.
+> >>>>
+> >>>> Since rpmsg replies and events share the same message format, an additional
+> >>> line is introduced to handle both cases.
+> >>>> Finally, rpmsg supports multiple GPIO controllers, so a port field is added to
+> >>> uniquely identify the target controller.
+> >>>
+> >>> I have commented on this before - RPMSG is already providing multiplexing
+> >>> capability by way of endpoints.  There is no need for a port field.  One endpoint,
+> >>> one GPIO controller.
+> >>>
+> >> You still need a way to let the remote side know which port the endpoint maps to, either
+> >> by embedding the port information in the message (the current way), or by sending it
+> >> separately.
+> >>
+> > An endpoint is created with every namespace request.  There should be
+> > one namespace request for every GPIO controller, which yields a unique
+> > endpoint for each controller and eliminates the need for an extra
+> > field to identify them.
+>
+>
+> Right, but this can still be done by just having one namespace request.
+> We can create new endpoints bound to an existing namespace/channel by
+> invoking rpmsg_create_ept(). This is what I suggested here too:
+> https://lore.kernel.org/all/29485742-6e49-482e-b73d-228295daaeec@ti.com/
+>
 
-New policy operation:
-  op=BPF_PROG_LOAD - Matches BPF program load events
+I will look at your suggestion (i.e link above) later this week or next week.
 
-New policy properties:
-  bpf_signature=NONE      - No Verdict
-  bpf_signature=OK        - Program signature and map hashes verified
-  bpf_signature=UNSIGNED  - No signature provided
-  bpf_signature=PARTIALSIG - Signature OK but no map hash data
-  bpf_signature=UNKNOWNKEY - Cert not trusted
-  bpf_signature=UNEXPECTED - An unexpected hash value was encountered
-  bpf_signature=FAULT 	   - System error during verification
-  bpf_signature=BADSIG    - Signature or map hash verification failed
-  bpf_keyring=BUILTIN     - Program was signed using a builtin keyring
-  bpf_keyring=SECONDARY   - Program was signed using the secondary keyring
-  bpf_keyring=PLATFORM    - Program was signed using the platform keyring
-  bpf_kernel=TRUE         - Program originated from kernelspace
-  bpf_kernel=FALSE        - Program originated from userspace
+> My mental model looks like this for the complete picture:
+>
+> 1. namespace/channel#1 = rpmsg-io
+>     a. ept1 -> gpio-controller@1
+>     b. ept2 -> gpio-controller@2
+>
 
-These properties map directly to the lsm_integrity_verdict enum values
-provided by the Hornet LSM through security_bpf_prog_load_post_integrity.
+I've asked for one endpoint per GPIO controller since the very
+beginning.  I don't yet have a strong opinion on whether to use one
+namespace request per GPIO controller or a single request that spins
+off multiple endpoints.  I'll have to look at your link and reflect on
+that.  Regardless of how we proceed on that front, multiplexing needs
+to happen at the endpoint level rather than the packet level.  This is
+the only way this work can move forward.
 
-The feature is gated on CONFIG_IPE_PROP_BPF_SIGNATURE which depends on
-CONFIG_SECURITY_HORNET.
-
-Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
----
- Documentation/admin-guide/LSM/ipe.rst | 162 +++++++++++++++++++++++++-
- Documentation/security/ipe.rst        |  39 +++++++
- security/ipe/Kconfig                  |  14 +++
- security/ipe/audit.c                  |  15 +++
- security/ipe/eval.c                   |  73 +++++++++++-
- security/ipe/eval.h                   |  11 ++
- security/ipe/hooks.c                  |  63 ++++++++++
- security/ipe/hooks.h                  |  15 +++
- security/ipe/ipe.c                    |  14 +++
- security/ipe/ipe.h                    |   3 +
- security/ipe/policy.h                 |  14 +++
- security/ipe/policy_parser.c          |  27 +++++
- 12 files changed, 448 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/LSM/ipe.rst b/Documentation/admin-guide/LSM/ipe.rst
-index a756d81585317..4dfbf0d325a8a 100644
---- a/Documentation/admin-guide/LSM/ipe.rst
-+++ b/Documentation/admin-guide/LSM/ipe.rst
-@@ -559,7 +559,8 @@ policy. Two properties are built-into the policy parser: 'op' and 'action'.
- The other properties are used to restrict immutable security properties
- about the files being evaluated. Currently those properties are:
- '``boot_verified``', '``dmverity_signature``', '``dmverity_roothash``',
--'``fsverity_signature``', '``fsverity_digest``'. A description of all
-+'``fsverity_signature``', '``fsverity_digest``', '``bpf_signature``',
-+'``bpf_keyring``', '``bpf_kernel``'. A description of all
- properties supported by IPE are listed below:
- 
- op
-@@ -603,6 +604,14 @@ as the first token. IPE supports the following operations:
-       Controls loading IMA certificates through the Kconfigs,
-       ``CONFIG_IMA_X509_PATH`` and ``CONFIG_EVM_X509_PATH``.
- 
-+   ``BPF_PROG_LOAD``:
-+
-+      Pertains to BPF programs being loaded via the ``bpf()`` syscall.
-+      This operation is used in conjunction with the ``bpf_signature``,
-+      ``bpf_keyring``, and ``bpf_kernel`` properties to control BPF
-+      program loading based on integrity verification provided by the
-+      Hornet LSM.
-+
- action
- ~~~~~~
- 
-@@ -713,6 +722,105 @@ fsverity_signature
- 
-       fsverity_signature=(TRUE|FALSE)
- 
-+bpf_signature
-+~~~~~~~~~~~~~
-+
-+   This property can be utilized for authorization of BPF program loads based
-+   on the integrity verdict provided by the Hornet LSM. When a BPF program is
-+   loaded, Hornet performs cryptographic verification of the program's PKCS#7
-+   signature (if present) and passes an integrity verdict to IPE via the
-+   ``security_bpf_prog_load_post_integrity`` hook. IPE can then allow or deny
-+   the load based on the verdict.
-+
-+   This property depends on ``SECURITY_HORNET`` and is controlled by the
-+   ``IPE_PROP_BPF_SIGNATURE`` config option.
-+   The format of this property is::
-+
-+      bpf_signature=(NONE|OK|UNSIGNED|PARTIALSIG|UNKNOWNKEY|UNEXPECTED|FAULT|BADSIG)
-+
-+   The possible values correspond to the integrity verdicts from Hornet:
-+
-+      ``NONE``
-+
-+         No integrity verdict was set (default/uninitialized).
-+
-+      ``OK``
-+
-+         The BPF program's signature and all map hashes were successfully
-+         verified.
-+
-+      ``UNSIGNED``
-+
-+         No signature was provided with the BPF program.
-+
-+      ``PARTIALSIG``
-+
-+         The program signature was verified, but no authenticated map hash
-+         data was present.
-+
-+      ``UNKNOWNKEY``
-+
-+         The signing certificate is not trusted by the specified keyring.
-+
-+      ``UNEXPECTED``
-+
-+         An unexpected map hash value was encountered during verification.
-+
-+      ``FAULT``
-+
-+         A system error occurred during signature verification.
-+
-+      ``BADSIG``
-+
-+         The signature or hash verification failed.
-+
-+bpf_keyring
-+~~~~~~~~~~~~
-+
-+   This property can be utilized for authorization of BPF program loads based
-+   on the keyring specified in the ``bpf_attr`` during the ``BPF_PROG_LOAD``
-+   syscall. This allows policies to restrict which keyring must be used for
-+   signature verification of BPF programs.
-+
-+   This property shares the ``IPE_PROP_BPF_SIGNATURE`` config option with
-+   ``bpf_signature``.
-+   The format of this property is::
-+
-+      bpf_keyring=(BUILTIN|SECONDARY|PLATFORM)
-+
-+   The possible values correspond to the system keyrings:
-+
-+      ``BUILTIN``
-+
-+         The builtin trusted keyring (``.builtin_trusted_keys``), which
-+         contains keys embedded at kernel compile time.
-+
-+      ``SECONDARY``
-+
-+         The secondary trusted keyring (``.secondary_trusted_keys``), which
-+         includes both builtin trusted keys and keys added at runtime.
-+
-+      ``PLATFORM``
-+
-+         The platform keyring (``.platform``), which contains keys provided
-+         by the platform firmware (e.g. UEFI db keys).
-+
-+bpf_kernel
-+~~~~~~~~~~
-+
-+   This property can be utilized for authorization of BPF program loads based
-+   on whether the load originated from kernel space or user space. The BPF
-+   light skeleton infrastructure performs a secondary kernel-originated program
-+   load that will not carry a signature. This property allows policies to
-+   permit such kernel-originated loads while still requiring signatures for
-+   user-space loads.
-+
-+   This property shares the ``IPE_PROP_BPF_SIGNATURE`` config option with
-+   ``bpf_signature``.
-+   The format of this property is::
-+
-+      bpf_kernel=(TRUE|FALSE)
-+
- Policy Examples
- ---------------
- 
-@@ -788,6 +896,58 @@ Allow execution of a specific fs-verity file
- 
-    op=EXECUTE fsverity_digest=sha256:fd88f2b8824e197f850bf4c5109bea5cf0ee38104f710843bb72da796ba5af9e action=ALLOW
- 
-+Allow only signed BPF programs
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   policy_name=Allow_Signed_BPF policy_version=0.0.0
-+   DEFAULT action=ALLOW
-+
-+   DEFAULT op=BPF_PROG_LOAD action=DENY
-+   op=BPF_PROG_LOAD bpf_kernel=TRUE action=ALLOW
-+   op=BPF_PROG_LOAD bpf_signature=OK action=ALLOW
-+
-+This policy allows all other operations but restricts BPF program loading
-+to only programs that either originate from kernel space (e.g. light skeleton
-+reloads) or have a valid signature verified by the Hornet LSM. Unsigned or
-+improperly signed BPF programs from user space will be denied.
-+
-+Allow signed BPF programs from a specific keyring
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   policy_name=Allow_BPF_Builtin_Keyring policy_version=0.0.0
-+   DEFAULT action=ALLOW
-+
-+   DEFAULT op=BPF_PROG_LOAD action=DENY
-+   op=BPF_PROG_LOAD bpf_kernel=TRUE action=ALLOW
-+   op=BPF_PROG_LOAD bpf_signature=OK bpf_keyring=BUILTIN action=ALLOW
-+
-+This policy further restricts BPF program loading to only accept programs
-+whose signatures were verified using the builtin trusted keyring. Programs
-+signed against the secondary or platform keyrings will be denied, providing
-+tighter control over which signing keys are acceptable.
-+
-+Allow signed BPF programs with relaxed partial signatures
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+::
-+
-+   policy_name=Allow_BPF_Partial policy_version=0.0.0
-+   DEFAULT action=ALLOW
-+
-+   DEFAULT op=BPF_PROG_LOAD action=DENY
-+   op=BPF_PROG_LOAD bpf_kernel=TRUE action=ALLOW
-+   op=BPF_PROG_LOAD bpf_signature=OK action=ALLOW
-+   op=BPF_PROG_LOAD bpf_signature=PARTIALSIG action=ALLOW
-+
-+This policy allows BPF programs that have been fully verified (``OK``) as
-+well as programs with a valid program signature but without authenticated
-+map hash data (``PARTIALSIG``). This can be useful during development or
-+for programs that do not use maps.
-+
- Additional Information
- ----------------------
- 
-diff --git a/Documentation/security/ipe.rst b/Documentation/security/ipe.rst
-index 4a7d953abcdc3..de8fcf1dc173d 100644
---- a/Documentation/security/ipe.rst
-+++ b/Documentation/security/ipe.rst
-@@ -412,6 +412,44 @@ a standard securityfs policy tree::
- 
- The policy is stored in the ``->i_private`` data of the MyPolicy inode.
- 
-+BPF/Hornet Integration
-+~~~~~~~~~~~~~~~~~~~~~~
-+
-+IPE integrates with the Hornet LSM to enforce integrity policies on BPF
-+program loading. Hornet performs cryptographic verification of BPF program
-+signatures (PKCS#7 with authenticated attributes containing map hashes) and
-+provides an integrity verdict to IPE via the
-+``security_bpf_prog_load_post_integrity`` hook.
-+
-+The hook flow is:
-+
-+  1. User space invokes ``BPF_PROG_LOAD`` via the ``bpf()`` syscall.
-+  2. Hornet's ``bpf_prog_load_integrity`` hook calls ``hornet_check_program()``
-+     to verify the program's signature and map hashes.
-+  3. Hornet calls ``security_bpf_prog_load_post_integrity()`` with the
-+     resulting ``lsm_integrity_verdict``.
-+  4. IPE evaluates the verdict against the active policy's ``BPF_PROG_LOAD``
-+     rules and returns ``-EACCES`` if denied.
-+
-+Three properties are available for BPF policy rules:
-+
-+  - ``bpf_signature``: Matches against the integrity verdict (OK, UNSIGNED,
-+    BADSIG, etc.)
-+  - ``bpf_keyring``: Matches against the keyring specified in ``bpf_attr``
-+    (BUILTIN, SECONDARY, PLATFORM)
-+  - ``bpf_kernel``: Matches whether the load originated from kernel space
-+    (TRUE/FALSE). This is important because the BPF light skeleton
-+    infrastructure performs a secondary kernel-originated program load that
-+    does not carry a signature.
-+
-+All three properties are gated on ``CONFIG_IPE_PROP_BPF_SIGNATURE`` which
-+depends on ``CONFIG_SECURITY_HORNET``.
-+
-+The evaluation context (``struct ipe_eval_ctx``) carries three BPF-specific
-+fields: ``bpf_verdict`` (the integrity verdict enum), ``bpf_keyring_id``
-+(the ``s32`` keyring ID from ``bpf_attr``), and ``bpf_kernel`` (bool
-+indicating kernel origin).
-+
- Tests
- -----
- 
-@@ -439,6 +477,7 @@ IPE has KUnit Tests for the policy parser. Recommended kunitconfig::
-   CONFIG_IPE_PROP_DM_VERITY_SIGNATURE=y
-   CONFIG_IPE_PROP_FS_VERITY=y
-   CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG=y
-+  CONFIG_IPE_PROP_BPF_SIGNATURE=y
-   CONFIG_SECURITY_IPE_KUNIT_TEST=y
- 
- In addition, IPE has a python based integration
-diff --git a/security/ipe/Kconfig b/security/ipe/Kconfig
-index a110a6cd848b7..4c1d46847582b 100644
---- a/security/ipe/Kconfig
-+++ b/security/ipe/Kconfig
-@@ -95,6 +95,20 @@ config IPE_PROP_FS_VERITY_BUILTIN_SIG
- 
- 	  if unsure, answer Y.
- 
-+config IPE_PROP_BPF_SIGNATURE
-+	bool "Enable support for Hornet BPF program signature verification"
-+	depends on SECURITY_HORNET
-+	help
-+	  This option enables the 'bpf_signature' and 'bpf_keyring'
-+	  properties within IPE policies. The 'bpf_signature' property
-+	  allows IPE to make policy decisions based on the integrity
-+	  verdict provided by the Hornet LSM when a BPF program is loaded.
-+	  Verdicts include OK, UNSIGNED, PARTIALSIG, BADSIG, and others.
-+	  The 'bpf_keyring' property allows policies to match against the
-+	  keyring specified in bpf_attr (BUILTIN, SECONDARY, PLATFORM).
-+
-+	  If unsure, answer Y.
-+
- endmenu
- 
- config SECURITY_IPE_KUNIT_TEST
-diff --git a/security/ipe/audit.c b/security/ipe/audit.c
-index 3f0deeb549127..251c6ec2f8423 100644
---- a/security/ipe/audit.c
-+++ b/security/ipe/audit.c
-@@ -41,6 +41,7 @@ static const char *const audit_op_names[__IPE_OP_MAX + 1] = {
- 	"KEXEC_INITRAMFS",
- 	"POLICY",
- 	"X509_CERT",
-+	"BPF_PROG_LOAD",
- 	"UNKNOWN",
- };
- 
-@@ -51,6 +52,7 @@ static const char *const audit_hook_names[__IPE_HOOK_MAX] = {
- 	"MPROTECT",
- 	"KERNEL_READ",
- 	"KERNEL_LOAD",
-+	"BPF_PROG_LOAD",
- };
- 
- static const char *const audit_prop_names[__IPE_PROP_MAX] = {
-@@ -62,6 +64,19 @@ static const char *const audit_prop_names[__IPE_PROP_MAX] = {
- 	"fsverity_digest=",
- 	"fsverity_signature=FALSE",
- 	"fsverity_signature=TRUE",
-+	"bpf_signature=NONE",
-+	"bpf_signature=OK",
-+	"bpf_signature=UNSIGNED",
-+	"bpf_signature=PARTIALSIG",
-+	"bpf_signature=UNKNOWNKEY",
-+	"bpf_signature=UNEXPECTED",
-+	"bpf_signature=FAULT",
-+	"bpf_signature=BADSIG",
-+	"bpf_keyring=BUILTIN",
-+	"bpf_keyring=SECONDARY",
-+	"bpf_keyring=PLATFORM",
-+	"bpf_kernel=FALSE",
-+	"bpf_kernel=TRUE",
- };
- 
- /**
-diff --git a/security/ipe/eval.c b/security/ipe/eval.c
-index 21439c5be3364..9a6d583fea125 100644
---- a/security/ipe/eval.c
-+++ b/security/ipe/eval.c
-@@ -11,6 +11,7 @@
- #include <linux/rcupdate.h>
- #include <linux/moduleparam.h>
- #include <linux/fsverity.h>
-+#include <linux/verification.h>
- 
- #include "ipe.h"
- #include "eval.h"
-@@ -265,8 +266,52 @@ static bool evaluate_fsv_sig_true(const struct ipe_eval_ctx *const ctx)
- }
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+/**
-+ * evaluate_bpf_sig() - Evaluate @ctx against a bpf_signature property.
-+ * @ctx: Supplies a pointer to the context being evaluated.
-+ * @expected: The expected lsm_integrity_verdict to match against.
-+ *
-+ * Return:
-+ * * %true	- The current @ctx matches the expected verdict
-+ * * %false	- The current @ctx doesn't match the expected verdict
-+ */
-+static bool evaluate_bpf_sig(const struct ipe_eval_ctx *const ctx,
-+			     enum lsm_integrity_verdict expected)
-+{
-+	return ctx->bpf_verdict == expected;
-+}
-+#else
-+static bool evaluate_bpf_sig(const struct ipe_eval_ctx *const ctx,
-+			     enum lsm_integrity_verdict expected)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
-+
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+/**
-+ * evaluate_bpf_keyring() - Evaluate @ctx against a bpf_keyring property.
-+ * @ctx: Supplies a pointer to the context being evaluated.
-+ * @expected: The expected keyring_id to match against.
-+ *
-+ * Return:
-+ * * %true	- The current @ctx matches the expected keyring
-+ * * %false	- The current @ctx doesn't match the expected keyring
-+ */
-+static bool evaluate_bpf_keyring(const struct ipe_eval_ctx *const ctx,
-+				 s32 expected)
-+{
-+	return ctx->bpf_keyring_id == expected;
-+}
-+#else
-+static bool evaluate_bpf_keyring(const struct ipe_eval_ctx *const ctx,
-+				 s32 expected)
-+{
-+	return false;
-+}
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
- /**
-- * evaluate_property() - Analyze @ctx against a rule property.
-  * @ctx: Supplies a pointer to the context to be evaluated.
-  * @p: Supplies a pointer to the property to be evaluated.
-  *
-@@ -297,6 +342,32 @@ static bool evaluate_property(const struct ipe_eval_ctx *const ctx,
- 		return evaluate_fsv_sig_false(ctx);
- 	case IPE_PROP_FSV_SIG_TRUE:
- 		return evaluate_fsv_sig_true(ctx);
-+	case IPE_PROP_BPF_SIG_NONE:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_NONE);
-+	case IPE_PROP_BPF_SIG_OK:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_OK);
-+	case IPE_PROP_BPF_SIG_UNSIGNED:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_UNSIGNED);
-+	case IPE_PROP_BPF_SIG_PARTIALSIG:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_PARTIALSIG);
-+	case IPE_PROP_BPF_SIG_UNKNOWNKEY:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_UNKNOWNKEY);
-+	case IPE_PROP_BPF_SIG_UNEXPECTED:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_UNEXPECTED);
-+	case IPE_PROP_BPF_SIG_FAULT:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_FAULT);
-+	case IPE_PROP_BPF_SIG_BADSIG:
-+		return evaluate_bpf_sig(ctx, LSM_INT_VERDICT_BADSIG);
-+	case IPE_PROP_BPF_KEYRING_BUILTIN:
-+		return evaluate_bpf_keyring(ctx, 0);
-+	case IPE_PROP_BPF_KEYRING_SECONDARY:
-+		return evaluate_bpf_keyring(ctx, (s32)(unsigned long)VERIFY_USE_SECONDARY_KEYRING);
-+	case IPE_PROP_BPF_KEYRING_PLATFORM:
-+		return evaluate_bpf_keyring(ctx, (s32)(unsigned long)VERIFY_USE_PLATFORM_KEYRING);
-+	case IPE_PROP_BPF_KERNEL_FALSE:
-+		return !ctx->bpf_kernel;
-+	case IPE_PROP_BPF_KERNEL_TRUE:
-+		return ctx->bpf_kernel;
- 	default:
- 		return false;
- 	}
-diff --git a/security/ipe/eval.h b/security/ipe/eval.h
-index fef65a36468cb..b061cb5ade27e 100644
---- a/security/ipe/eval.h
-+++ b/security/ipe/eval.h
-@@ -37,6 +37,12 @@ struct ipe_inode {
- };
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+struct ipe_bpf_prog {
-+	enum lsm_integrity_verdict verdict;
-+};
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
-+
- struct ipe_eval_ctx {
- 	enum ipe_op_type op;
- 	enum ipe_hook_type hook;
-@@ -52,6 +58,11 @@ struct ipe_eval_ctx {
- #ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
- 	const struct ipe_inode *ipe_inode;
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+	enum lsm_integrity_verdict bpf_verdict;
-+	s32 bpf_keyring_id;
-+	bool bpf_kernel;
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
- };
- 
- enum ipe_match {
-diff --git a/security/ipe/hooks.c b/security/ipe/hooks.c
-index 0ae54a880405a..9271e129a2cf2 100644
---- a/security/ipe/hooks.c
-+++ b/security/ipe/hooks.c
-@@ -340,3 +340,66 @@ int ipe_inode_setintegrity(const struct inode *inode,
- 	return -EINVAL;
- }
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+/**
-+ * ipe_bpf_prog_load_post_integrity() - Store integrity verdict in per-prog blob.
-+ * @prog: Supplies the BPF program being loaded.
-+ * @attr: Supplies the bpf syscall attributes.
-+ * @token: Supplies the BPF token, if any.
-+ * @kernel: Whether the call originated from the kernel.
-+ * @lsmid: Supplies the LSM ID of the integrity provider.
-+ * @verdict: Supplies the integrity verdict from the provider (e.g. Hornet).
-+ *
-+ * This hook stores the integrity verdict in IPE's per-prog security blob
-+ * so that ipe_bpf_prog_load() can later read it for policy evaluation.
-+ *
-+ * Return:
-+ * * %0		- Always succeeds (policy is evaluated in bpf_prog_load)
-+ */
-+int ipe_bpf_prog_load_post_integrity(struct bpf_prog *prog,
-+				     union bpf_attr *attr,
-+				     struct bpf_token *token,
-+				     bool kernel,
-+				     const struct lsm_id *lsmid,
-+				     enum lsm_integrity_verdict verdict)
-+{
-+	struct ipe_bpf_prog *blob = ipe_bpf_prog(prog);
-+
-+	blob->verdict = verdict;
-+
-+	return 0;
-+}
-+
-+/**
-+ * ipe_bpf_prog_load() - IPE policy evaluation for BPF program load.
-+ * @prog: Supplies the BPF program being loaded.
-+ * @attr: Supplies the bpf syscall attributes.
-+ * @token: Supplies the BPF token, if any.
-+ * @kernel: Whether the call originated from the kernel.
-+ *
-+ * Reads the integrity verdict previously stored by post_integrity (if any)
-+ * and evaluates IPE policy. If no integrity provider ran, the verdict
-+ * defaults to LSM_INT_VERDICT_NONE.
-+ *
-+ * Return:
-+ * * %0		- Success
-+ * * %-EACCES	- Did not pass IPE policy
-+ */
-+int ipe_bpf_prog_load(struct bpf_prog *prog,
-+		      union bpf_attr *attr,
-+		      struct bpf_token *token,
-+		      bool kernel)
-+{
-+	struct ipe_bpf_prog *blob = ipe_bpf_prog(prog);
-+	struct ipe_eval_ctx ctx = IPE_EVAL_CTX_INIT;
-+
-+	ctx.op = IPE_OP_BPF_PROG_LOAD;
-+	ctx.hook = IPE_HOOK_BPF_PROG_LOAD;
-+	ctx.bpf_verdict = blob->verdict;
-+	ctx.bpf_keyring_id = attr->keyring_id;
-+	ctx.bpf_kernel = kernel;
-+
-+	return ipe_evaluate_event(&ctx);
-+}
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
-diff --git a/security/ipe/hooks.h b/security/ipe/hooks.h
-index 07db373327402..8a6d1a459e00c 100644
---- a/security/ipe/hooks.h
-+++ b/security/ipe/hooks.h
-@@ -10,6 +10,7 @@
- #include <linux/security.h>
- #include <linux/blk_types.h>
- #include <linux/fsverity.h>
-+#include <linux/bpf.h>
- 
- enum ipe_hook_type {
- 	IPE_HOOK_BPRM_CHECK = 0,
-@@ -18,6 +19,7 @@ enum ipe_hook_type {
- 	IPE_HOOK_MPROTECT,
- 	IPE_HOOK_KERNEL_READ,
- 	IPE_HOOK_KERNEL_LOAD,
-+	IPE_HOOK_BPF_PROG_LOAD,
- 	__IPE_HOOK_MAX
- };
- 
-@@ -52,4 +54,17 @@ int ipe_inode_setintegrity(const struct inode *inode, enum lsm_integrity_type ty
- 			   const void *value, size_t size);
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+int ipe_bpf_prog_load_post_integrity(struct bpf_prog *prog,
-+				     union bpf_attr *attr,
-+				     struct bpf_token *token,
-+				     bool kernel,
-+				     const struct lsm_id *lsmid,
-+				     enum lsm_integrity_verdict verdict);
-+int ipe_bpf_prog_load(struct bpf_prog *prog,
-+		      union bpf_attr *attr,
-+		      struct bpf_token *token,
-+		      bool kernel);
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
-+
- #endif /* _IPE_HOOKS_H */
-diff --git a/security/ipe/ipe.c b/security/ipe/ipe.c
-index 495bb765de1b8..5af13903287fe 100644
---- a/security/ipe/ipe.c
-+++ b/security/ipe/ipe.c
-@@ -19,6 +19,9 @@ static struct lsm_blob_sizes ipe_blobs __ro_after_init = {
- #ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
- 	.lbs_inode = sizeof(struct ipe_inode),
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+	.lbs_bpf_prog = sizeof(struct ipe_bpf_prog),
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
- };
- 
- static const struct lsm_id ipe_lsmid = {
-@@ -45,6 +48,13 @@ struct ipe_inode *ipe_inode(const struct inode *inode)
- }
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
- 
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+struct ipe_bpf_prog *ipe_bpf_prog(const struct bpf_prog *prog)
-+{
-+	return prog->aux->security + ipe_blobs.lbs_bpf_prog;
-+}
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
-+
- static struct security_hook_list ipe_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(bprm_check_security, ipe_bprm_check_security),
- 	LSM_HOOK_INIT(bprm_creds_for_exec, ipe_bprm_creds_for_exec),
-@@ -60,6 +70,10 @@ static struct security_hook_list ipe_hooks[] __ro_after_init = {
- #ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
- 	LSM_HOOK_INIT(inode_setintegrity, ipe_inode_setintegrity),
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+	LSM_HOOK_INIT(bpf_prog_load_post_integrity, ipe_bpf_prog_load_post_integrity),
-+	LSM_HOOK_INIT(bpf_prog_load, ipe_bpf_prog_load),
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
- };
- 
- /**
-diff --git a/security/ipe/ipe.h b/security/ipe/ipe.h
-index 25cfdb8f0c20a..47de32b5bc938 100644
---- a/security/ipe/ipe.h
-+++ b/security/ipe/ipe.h
-@@ -22,6 +22,9 @@ struct ipe_bdev *ipe_bdev(struct block_device *b);
- #ifdef CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG
- struct ipe_inode *ipe_inode(const struct inode *inode);
- #endif /* CONFIG_IPE_PROP_FS_VERITY_BUILTIN_SIG */
-+#ifdef CONFIG_IPE_PROP_BPF_SIGNATURE
-+struct ipe_bpf_prog *ipe_bpf_prog(const struct bpf_prog *prog);
-+#endif /* CONFIG_IPE_PROP_BPF_SIGNATURE */
- 
- int ipe_init_securityfs(void);
- 
-diff --git a/security/ipe/policy.h b/security/ipe/policy.h
-index 5bfbdbddeef86..748bea92beb19 100644
---- a/security/ipe/policy.h
-+++ b/security/ipe/policy.h
-@@ -17,6 +17,7 @@ enum ipe_op_type {
- 	IPE_OP_KEXEC_INITRAMFS,
- 	IPE_OP_POLICY,
- 	IPE_OP_X509,
-+	IPE_OP_BPF_PROG_LOAD,
- 	__IPE_OP_MAX,
- };
- 
-@@ -39,6 +40,19 @@ enum ipe_prop_type {
- 	IPE_PROP_FSV_DIGEST,
- 	IPE_PROP_FSV_SIG_FALSE,
- 	IPE_PROP_FSV_SIG_TRUE,
-+	IPE_PROP_BPF_SIG_NONE,
-+	IPE_PROP_BPF_SIG_OK,
-+	IPE_PROP_BPF_SIG_UNSIGNED,
-+	IPE_PROP_BPF_SIG_PARTIALSIG,
-+	IPE_PROP_BPF_SIG_UNKNOWNKEY,
-+	IPE_PROP_BPF_SIG_UNEXPECTED,
-+	IPE_PROP_BPF_SIG_FAULT,
-+	IPE_PROP_BPF_SIG_BADSIG,
-+	IPE_PROP_BPF_KEYRING_BUILTIN,
-+	IPE_PROP_BPF_KEYRING_SECONDARY,
-+	IPE_PROP_BPF_KEYRING_PLATFORM,
-+	IPE_PROP_BPF_KERNEL_FALSE,
-+	IPE_PROP_BPF_KERNEL_TRUE,
- 	__IPE_PROP_MAX
- };
- 
-diff --git a/security/ipe/policy_parser.c b/security/ipe/policy_parser.c
-index 6fa5bebf84714..71f63de56616b 100644
---- a/security/ipe/policy_parser.c
-+++ b/security/ipe/policy_parser.c
-@@ -237,6 +237,7 @@ static const match_table_t operation_tokens = {
- 	{IPE_OP_KEXEC_INITRAMFS,	"op=KEXEC_INITRAMFS"},
- 	{IPE_OP_POLICY,			"op=POLICY"},
- 	{IPE_OP_X509,			"op=X509_CERT"},
-+	{IPE_OP_BPF_PROG_LOAD,		"op=BPF_PROG_LOAD"},
- 	{IPE_OP_INVALID,		NULL}
- };
- 
-@@ -281,6 +282,19 @@ static const match_table_t property_tokens = {
- 	{IPE_PROP_FSV_DIGEST,		"fsverity_digest=%s"},
- 	{IPE_PROP_FSV_SIG_FALSE,	"fsverity_signature=FALSE"},
- 	{IPE_PROP_FSV_SIG_TRUE,		"fsverity_signature=TRUE"},
-+	{IPE_PROP_BPF_SIG_NONE,		"bpf_signature=NONE"},
-+	{IPE_PROP_BPF_SIG_OK,		"bpf_signature=OK"},
-+	{IPE_PROP_BPF_SIG_UNSIGNED,	"bpf_signature=UNSIGNED"},
-+	{IPE_PROP_BPF_SIG_PARTIALSIG,	"bpf_signature=PARTIALSIG"},
-+	{IPE_PROP_BPF_SIG_UNKNOWNKEY,	"bpf_signature=UNKNOWNKEY"},
-+	{IPE_PROP_BPF_SIG_UNEXPECTED,	"bpf_signature=UNEXPECTED"},
-+	{IPE_PROP_BPF_SIG_FAULT,	"bpf_signature=FAULT"},
-+	{IPE_PROP_BPF_SIG_BADSIG,	"bpf_signature=BADSIG"},
-+	{IPE_PROP_BPF_KEYRING_BUILTIN,	"bpf_keyring=BUILTIN"},
-+	{IPE_PROP_BPF_KEYRING_SECONDARY,	"bpf_keyring=SECONDARY"},
-+	{IPE_PROP_BPF_KEYRING_PLATFORM,	"bpf_keyring=PLATFORM"},
-+	{IPE_PROP_BPF_KERNEL_FALSE,	"bpf_kernel=FALSE"},
-+	{IPE_PROP_BPF_KERNEL_TRUE,	"bpf_kernel=TRUE"},
- 	{IPE_PROP_INVALID,		NULL}
- };
- 
-@@ -331,6 +345,19 @@ static int parse_property(char *t, struct ipe_rule *r)
- 	case IPE_PROP_DMV_SIG_TRUE:
- 	case IPE_PROP_FSV_SIG_FALSE:
- 	case IPE_PROP_FSV_SIG_TRUE:
-+	case IPE_PROP_BPF_SIG_NONE:
-+	case IPE_PROP_BPF_SIG_OK:
-+	case IPE_PROP_BPF_SIG_UNSIGNED:
-+	case IPE_PROP_BPF_SIG_PARTIALSIG:
-+	case IPE_PROP_BPF_SIG_UNKNOWNKEY:
-+	case IPE_PROP_BPF_SIG_UNEXPECTED:
-+	case IPE_PROP_BPF_SIG_FAULT:
-+	case IPE_PROP_BPF_SIG_BADSIG:
-+	case IPE_PROP_BPF_KEYRING_BUILTIN:
-+	case IPE_PROP_BPF_KEYRING_SECONDARY:
-+	case IPE_PROP_BPF_KEYRING_PLATFORM:
-+	case IPE_PROP_BPF_KERNEL_FALSE:
-+	case IPE_PROP_BPF_KERNEL_TRUE:
- 		p->type = token;
- 		break;
- 	default:
--- 
-2.53.0
-
+> 2. namespace/channel#2 = rpmsg-i2c
+>     a. ept1 -> i2c@1
+>     b. ept2 -> i2c@2
+>     c. ept3 -> i2c@3
+>
+> etc...
+>
+> This way device groups are isolated with each channel/namespace, and
+> instances within each device groups are also respected with specific
+> endpoints.
+>
+> Thanks,
+> Beleswar
+>
