@@ -1,149 +1,138 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DCDB38838C
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777420445; cv=none; b=bh9WpBaLVh3VNa3pqT0h63u6xwP7YZQbOx/Htjrtu2lrveiN66BLYqXNoVkYAJWYO2DZo7Lja8ZVFuOLpQftHh578pQKsr/mrFsL47pG34R3e3GagpXS+iMzHKKUQD+aroQ/shPD6yTO6hCBNCV1jzGwhCX/vrJcTCF1VGhxAhc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777420445; c=relaxed/simple;
-	bh=37JhNmJzLxzap3D9TGVaMRWJYU2uCyuE/O0k9zslYYg=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCCA1E9B3D
+	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 00:39:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.173
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777423150; cv=pass; b=UQ0eOfmcAc2WrE78A/c5/vTVYBqrmJ9HXiy2HJh11JdbDXkpg04P4+j7xMJoRi2LZS9wGNxl0N86iJJB0Xg0Lvu1ar1eGQalpt43+j7nCr/Cg5VS1WAXZGigrfnc4+SSJDPdZqMIJvAS7EbLK/G5bUps9tBH7Uiiaw6TUxf/6H8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777423150; c=relaxed/simple;
+	bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LZUyKoAaQtF0zcRd4Jv5dS27R+7WvJKSbc/2Cg/JWA4K+WRznDBeIpWsQwXzBKFs+w9LGC18bLobu/txe/qGYIFEYGSg+HYArEJQ8I348Wi8gBB4wIbDFLDmECuYc6LuqagJ05IXEZQFqleIRu/AxbMfV0C0gLuKOXUTjH8ktPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ugdfpoNq; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=ho6oRF+aCpuGwJ2imoo8lQa4GUgHZrh9iAzxbU2kPBdl499O7E+limi3H+o/XCdBsLpStBOTX+mUEo2osvO7XnoPgfok+M6kYccRLdeMtF4Jhm+7MKOzgXhHqCV5TNI/uWvqiBnGN3t5mdxLoBa6ifYofJil0+kPArNCXf7mA2Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ligiHFGm; arc=pass smtp.client-ip=74.125.82.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ugdfpoNq"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 460F0C2BCAF
-	for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:54:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777420445;
-	bh=37JhNmJzLxzap3D9TGVaMRWJYU2uCyuE/O0k9zslYYg=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ugdfpoNqOxbSflGH83HEj52AT2Fep+UNVIsD4PhSmXBQTbP3M/4uB6Go72MTQGv4h
-	 j70Qn+P4YNeYQG/6+5HL8LpruMB6KwXegfRwRIf4d85rcmEHkPSy0EQRaKxjIRVszM
-	 /r7Dkl+6AwjKsRvVUtb+hrTkzuGjH7hV8s9hOsiXt6Orrx17jyd9vA4f/WIqX4haCQ
-	 81eC41EaeLSKBvDi/lfU8Tm+/ktz8b5eEq0amXD1f00vSgY7gRMO8JIlx1iThxcgFG
-	 fUm8GM8l27nvmoYyFqxs9ZxN2qQvRj26t6IDlEFzFCYcmKCxRDosH3UWv8LR3pmtlo
-	 ner8WLqIuIOVA==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ba3115fe0d5so63093366b.1
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 16:54:05 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ8iz3XzDTYUR52WCDQID2xuPh9yBk9BlXXgPgosNDF4xpot07nEBYFs8czzSTLapbbRDmG4nTCzUlo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywzld8Y92RrF73eAwpHC2tk42mVelmnRn1IsUp6v5+n1o00ByPe
-	wruWIgUwNpJ9JnxTBiE1+wZI0nRriNi1u3h/G1flKUuEjFABD4ffpil7jT0+6djpuz8hAqRDphI
-	6b/lBJ2yY/P8m+gk96VlSgb1pektRjxI=
-X-Received: by 2002:a17:906:d54f:b0:bac:6585:b02b with SMTP id
- a640c23a62f3a-bb957dc60abmr42485366b.9.1777420443800; Tue, 28 Apr 2026
- 16:54:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ligiHFGm"
+Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2daaab98000so679681eec.2
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 17:39:09 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777423149; cv=none;
+        d=google.com; s=arc-20240605;
+        b=OJ6H65f8NN8mRd9g5KijqhFfTIwVx8QvOQJZDb536FihjPqhdwHyQuxE6Zhn0ytnJg
+         Sfjl/51s5I+f7rP8So2nQXsCawup1pw+CsB22ZYhGI3Kv6ghGHduINeNOdVn/eeeQnra
+         S/WDN+5OTqZDZ6dyIqoXmZc1oPMsQ2XVyxChKih/OR0mmdaI8/puJkQoio0+nFZ0DiUq
+         tolr3mV7BeNSjKA22UpXPUSL1ZZd/gpoX+V1bWelWE938eHHoAZDj4vUvAmu9DO7XgaL
+         DYFtz4lEDHZXrdN8AyLAZMPdgpSnHKuAuHPajzHdgPmXnWORBrmLdqz+KEoNMD/SZsuo
+         a3ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
+        fh=iRSHdVdQ//BBuJH8T2wmxPKQL8LP24ExXKUj52wcdZg=;
+        b=MMIu3n7SPRABV7qTCPKWpTWHNoCIrme4Sl+cXCkJ8/Z6Aen4vpNcFW6PtBD5U1CMaP
+         gFl6Z7sETGu/13DlGEmBK9gSTSE+uHQ9Ig75iyycySliUv8/Tny+uOuPR2WPgAWNFark
+         SVJjFm0xGnoi4JoW3YM1kC2Gv5WvZ92LENb7YiBsE+5P1JbKQ4cB5C5iIBqbad01jIyv
+         4SApQ58l2MxkrULqtGgs+d6CjBLhpH2sSia78YtDJIft2kq/QODw+TdObqqrF7Gf0HVo
+         HorDJpaCHKAt47VHB4xoinCDZGgGst1VnAJg7Y91FH9QwStRaTBD6Om0viYx5q/bQfws
+         t72g==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777423149; x=1778027949; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
+        b=ligiHFGmoEzy02s+aQEWyPs8/vVgGjhf+LWOxkCgUvFlz8wHcDJQJI/jPWqJgTlg7Q
+         Qzo7GkcBSJjFK1ScFqM8GxGMlaYfGeIzywTunlJUgFErhjGkfzuGFrwxjzXVQcmoRcAj
+         o6WU0tJU+2C4zb+cxC/NTzvXvCDQ2qGesvZPeV4g2JQcb6nRBTGV8E+zksy/y9kq8jgY
+         oNLgPrsKYgwJD4EPedYqyP/7Ssd+DRcFRTo3l4l8+35LzQC25zeb6tq1XwXF4pCUFkDW
+         0JqvW3aL2WmFPW75E4IU157ILtX+ZZsm16rCgo/XywiM/wi9hEWfItgE7fY+EsP8y1VR
+         C/RA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777423149; x=1778027949;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
+        b=JBu/JnpEBw/6aF8uApMcQKbIAX2UrndGkMuZY5TVVUkck8t/E670ss+HcNHVVhPsoy
+         kSkJ8WP86EcvpehI/P+6tWdhuGWlqS9wZyVTyd94sL936vtmhBfGms6HHPDrmpHedBwL
+         ffnVjoKP9WLkeZxtTfMUfY1Q5eZXpB6OOkCWhcPI8LQwFQdHPif8TjHhfoM/5xbM8mXD
+         XoS9WAgcnkUBgJbaqpaUOuFlIekmuZokL+xWYFWrGlCV5lDnno/ysrUNJ1jLlX4qQxLR
+         JBoRYHY8rXzTXoBSRVByxcwjyHSJBL2N+6qed34hZ9J86U7uyXxscZOfkMMyr7vbKcMO
+         dn5g==
+X-Forwarded-Encrypted: i=1; AFNElJ/yIuGoyoKfZNT8U7rmObV0Nb0FH3zunMvxwYJVy6kCHDobBpBGJmyazppVnly7YKwd8h5xNsGDlOU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6I07MzqD21Zue+couB8E3dUfeRCv2nsdUfpS9QdHsurh6/FYL
+	dl1cEBmg82NWYl+DHGYi5kVoj/JMEVTM9/VKStuk4ftv5iuLJyn5FcPg0+5EiovBF79GNiWqCiC
+	Zjdw5ZM72Ja8UWkMpr4oAlZyoWjM7e/0=
+X-Gm-Gg: AeBDievnYaq5p9bxWQQBN29pW/fkXzUfinD4GHuQbaDb8w8qzh2pjLQmbCUVmZtH0aa
+	JjC2jRMjt0s/KD/+T4kPGU0PDCzt/1T0QQVtbPuordxe75nkFKBzTulX6TNcE7axbPUuSOla0Ls
+	88HIS3qQEZIgvKNWcKwJlf8Cm1CStx+5BbpH4uy6RPBnprtjlKQgpFbQ+A28ANYg4FmeKJMevzA
+	4CNfDAItjlmvPeVbVPHstsSdJmGJofgb0hskEGN7yv8Z/UXW37pFSse6/fxGgZ2aSKxht4BgvmJ
+	G04yPDFXurYmcgJrjaBXao3Eo8Z7udXuIKbEhC8B+QHinr39eHY+EU+Z33kSidyUC0QDN1mttgf
+	6bsgxy1pDx2ch2EaoGP+aUNh5pSwdi5h+0g==
+X-Received: by 2002:a05:7301:fa0a:b0:2e5:5bf4:886c with SMTP id
+ 5a478bee46e88-2ed09bc6856mr1151978eec.5.1777423148670; Tue, 28 Apr 2026
+ 17:39:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
- <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
- <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
- <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
- <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
- <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
- <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
- <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com>
- <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
- <CAO9r8zMv6oYvqXti8dFfQd79Nd_Yge5g-EjjjhsEWj44gwJ-qQ@mail.gmail.com> <CAMgjq7BZpU5K1xHyFiqpsjeFe6CZUouGY_gOGMwbkM2Duq-vGg@mail.gmail.com>
-In-Reply-To: <CAMgjq7BZpU5K1xHyFiqpsjeFe6CZUouGY_gOGMwbkM2Duq-vGg@mail.gmail.com>
-From: Yosry Ahmed <yosry@kernel.org>
-Date: Tue, 28 Apr 2026 16:53:52 -0700
-X-Gmail-Original-Message-ID: <CAO9r8zPtPjzzrYh+SQXtuz4AMPU2p4UsUpJiH+zzfgtbJk_3Og@mail.gmail.com>
-X-Gm-Features: AVHnY4J58WjJG7OMVYnI-DgVQj_F4MJqBKFiql4nFlYgXLXGGwlZGWPk6tWBkMc
-Message-ID: <CAO9r8zPtPjzzrYh+SQXtuz4AMPU2p4UsUpJiH+zzfgtbJk_3Og@mail.gmail.com>
-Subject: Re: [PATCH v5 00/21] Virtual Swap Space
-To: Kairui Song <ryncsn@gmail.com>
-Cc: Nhat Pham <nphamcs@gmail.com>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, 
-	akpm@linux-foundation.org, Alistair Popple <apopple@nvidia.com>, 
-	Axel Rasmussen <axelrasmussen@google.com>, Barry Song <baohua@kernel.org>, 
-	Baolin Wang <baolin.wang@linux.alibaba.com>, Baoquan He <bhe@redhat.com>, 
-	Byungchul Park <byungchul@sk.com>, 
-	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
-	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
-	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
-	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
-	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
-	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
-	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
-	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
-	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
-	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
-	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
-	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
-	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
-	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
-	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
-	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
+References: <20260427174429.779474-1-julianbraha@gmail.com>
+ <20260427174429.779474-3-julianbraha@gmail.com> <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
+ <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com> <CANiq72mEgpe-UGMQ_YWb8SKsY96Oc0b4sQ_MKvhMDVkNC9WvQA@mail.gmail.com>
+ <20260428184511.GB3304253@ax162>
+In-Reply-To: <20260428184511.GB3304253@ax162>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Wed, 29 Apr 2026 02:38:55 +0200
+X-Gm-Features: AVHnY4Jhkf1YJCEOdRRUOwzbTzh7X94i3-EvhUl39GdPP65emmpf3WcLQ5yzpF4
+Message-ID: <CANiq72mToO-jvEqE7VyqU6u1GK=bO-U+FD4Ei0c9HOgyzM+53Q@mail.gmail.com>
+Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>, Julian Braha <julianbraha@gmail.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, ljs@kernel.org, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 28, 2026 at 11:46=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wro=
-te:
+On Tue, Apr 28, 2026 at 8:45=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
+g> wrote:
 >
-> On Tue, Apr 28, 2026 at 2:23=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wr=
-ote:
-> >
-> > On Fri, Apr 24, 2026 at 12:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com>=
- wrote:
-> > >
-> > > On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org=
-> wrote
-> > > > Why >16 bytes? Do we need anything extra other than the reverse
-> > > > mapping? Also why do we need a double lookup?
-> > >
-> > > You will have to store at least the following info: memcg (2 bytes),
-> > > shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
-> > > bytes, since you have to address a full virtual swap space). And some
-> > > type info is also needed. Part of them can be shrinked but still,
-> > > scientifically, merging two layers into one is considered a kind of
-> > > optimization.
-> > >
-> > > You need lookup the virtual layer, then the lower layer for many
-> > > decision making, is was discussed before to introduce more cache bit
-> > > or things like that and I think that is getting over complex, reminds
-> > > me of the slot cache or HAS_CACHE thing...:
-> > > https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8=
-fcyzVOKE14-O+Dw@mail.gmail.com/
-> >
-> > I think that's where the disconnect is. You are considering these two
-> > separate layers, each with its own metadata. The metadata should only
-> > live in one place.
-> >
-> > If we only have swap tables in the virtual swap layer (with the
-> > metadata), backends do not have to carry the metadata. In this case,
-> > backends should only have a reverse mapping (if needed), and some
-> > internal data structure (e.g. bitmaps) to track usage.
->
-> Ah, you are right. This is currently an intermediate state, that
-> problem might be gone if we unified everything.
->
-> > This is difficult to achieve if the virtual swap layer is optional,
-> > because then the metadata can live in different places. This is why I
->
-> But that's not difficult to achieve at all with an optional layer, and
-> actually will be achieved naturally without any design change with the
-> RFC I posted. Swap count / cgroup / shadow all stay in the top layer,
-> lower layer is "reverse map" only (the undone part though, it will
-> require to move the cluster cache from global to device level, which
-> is also required for YoungJun's tier or any functional tiering to
-> work, we may run into more and more detail issue like this).
+> I agree with the sentiment that more host tools may want to be written
+> in Rust. The Rust build in the kernel does not use cargo altogether, do
+> we want the same restriction for host programs? Would these tools be
+> able to share the Rust build rules so that we could have a simple
+> hostprogs syntax for tools integrating with Kbuild to use? Obviously, it
+> might be harder for some programs not to use some of the nice third
+> party libraries available but it seems like it would eliminate the build
+> system considerations from the discussion at that point.
 
-But then you have to deal with the swap entries in the page tables
-potentially being virtual swap entries or physical swap slots, and
-IIUC in your design, those physica swap slots could end up actually
-having a redirection to another swap entry like virtual ones (e.g. if
-we start with one tier then add another tier at runtime). Right?
+Yeah, we have already 3 hostprogs in the tree, which just call the
+compiler, but it would be nice to have a way to use ecosystem crates
+for those and userprogs etc., even if just a particular vetted set.
 
->
-> Might even be easier that way, it's pretty close to the unified states I =
-think.
->
+Otherwise, it is quite painful sometimes to use Rust, and one may
+prefer something like Python instead (like we did for
+`scripts/generate_rust_analyzer.py`). Python works great for many
+tasks thanks to its standard library, but we lose the advantages of
+something like Rust. On the other hand, Rust without a few crates to
+support certain common things isn't great.
+
+I wouldn't say it is a rush, but it would be nice to agree on an
+initial vetted set and try to set something up so that eventually it
+is easy to write scripts/tools/hostprogs in Rust going forward.
+
+We could also consider an earlier MSRV for those, i.e. lower than the
+kernel image one, if that would allow us to use it in more places,
+like for hostprogs without assuming `CONFIG_RUST=3Dy`. Say, Debian
+Oldstable instead of Stable.
+
+Cheers,
+Miguel
