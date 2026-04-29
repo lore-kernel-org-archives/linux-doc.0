@@ -1,98 +1,64 @@
-Received: from mail-pf1-f193.google.com (mail-pf1-f193.google.com [209.85.210.193])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59BEA3A1A27
-	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 07:00:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.193
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6142287259;
+	Wed, 29 Apr 2026 07:09:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777446034; cv=none; b=d/PXPCMAZKeT6xelj+L5xY0Jd6eZe80cfjlFn38C3ZREPbs9gS9PjLzasZHUzUuME2ZNA6zYWgDhNC1yKChQrA2jF1ZPijuuHc1Fm4kYJ0xV4Jz4G4YxofrqPn8/3+YiD5BDXXiWhRd1WhvBt2fF1w/wu3wLZZMeaRX/cjaG+I0=
+	t=1777446581; cv=none; b=CVZRQeXA/vWsiBwPymJz7ZtL6DWkjWyNfmDD+sUhGD9gwDBO0O1hE5SrhlCO1VYdugi3d0fMsa2GSm3MZAV/Hte51esJQe0zhvjzB2c7Of0kIAzOMM7S7EpCdXNJHN8W3ABqZ8vGjZ79KRZNj/5LiWBYYIUnWPnj0hHDNAGg0S4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777446034; c=relaxed/simple;
-	bh=GlzyRXhW7BOFU2J58m5FlsVsMQJSPP8T+AYIfqJL/UM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=csit3E6IY94fcUKbPbIBd9iJhi3dL6NegufpB1VtGHt0STLHtA0dq/LKC8wwUytqEgMsGi1YwdW2wWqNjNjkkPtDvNY8az70M6HODOrLjAMufPlYcYo5jdrsRVr2g/kU6JEi3NGg7IqTjMuImbnLnzApsiPV2seaLC/6CFEAb3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MteDqc+N; arc=none smtp.client-ip=209.85.210.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777446581; c=relaxed/simple;
+	bh=EJhBkHEX7NcpQ00immYDqBnfdLu+6YEZWr1kaPs/oBk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=s16ZAZcYx53ipeSzkf3+AmEMbw3ZkhFFooCws/l7zWUYW2XGyAg8Kog95Wg4LswDT4JbQbZggjPxAsKn9Z8wOBETM/wd2KcILDJzSt/6EAdVj/77Kciv2gC3mYRZEp0K1NJVSLkWRolB634W7pLhZcVzRcfZTbAw31EP59qWn90=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=cm1UrNK2; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=awKvtRvn; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MteDqc+N"
-Received: by mail-pf1-f193.google.com with SMTP id d2e1a72fcca58-82f33d28c1dso6760199b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 00:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777446033; x=1778050833; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZWH07l9RWm03Oah+cccPH78bmOCX+VwKmCZ1Y6ji5X8=;
-        b=MteDqc+Nzc+Y+LXHt9TzYJ2mp5ZYiSxukpwu3QPoJO+o0S6b7Zc9OO+TCF5qiv35mj
-         cFQxvOoNVVNf3ROdWdO/OsBhNoaIP8GsolwA2wziNfG+ahtDiha5Ma1xGCFPSE3WPZz0
-         zwVFryPwXIqe6PJu9JIyYB/gwrE6s8hBBM6etlW5egAh/mHpFMv54Lv9oSM7rJQa4t2f
-         iSUmVZZZL/YTcD3FoPNHJlzyz8R59m2OeIE1xNr42ktveu4LEaX7q8/R+ri03p9oRfPX
-         t/eRV+nVysY7hyjhsJd/4btqeS8vHJL3qvIRrAQ/y3mOZDIYfZb6gM8i8RP4/4pG8TFO
-         9oZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777446033; x=1778050833;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZWH07l9RWm03Oah+cccPH78bmOCX+VwKmCZ1Y6ji5X8=;
-        b=WaosaXfFUnPipHyzZJsPEKmMAnmVkX7HKiHrL8j8EOJU7k3dLfMMtbXabTgdkaWzvT
-         UyHmA6Z/26Qj7YgZrgRnL89DQJLTTXze8oiyX/MD22Q3efsupfdql92Ngmw0TtfjNG5y
-         x296zUJzYX+odkT0bKS3GM6igPa03pvZ12On+QffJV4lVR+Vg6o10VNQZlbbYx6czDBN
-         40l7KEoFlR4ebIhskvHQ/F2R1vl5xAxHl8lWNJ83ecvkzPNMgrkIVq+xNLcKn2OC92wP
-         cjHpr2rhYcV3PRKOlpkrPIKLSzb+qdfyrGt84R4eQTs97G1uU8yp988xCTkS/posuVkC
-         2uVw==
-X-Forwarded-Encrypted: i=1; AFNElJ9vn8SYV+HJgs3Z/4s/W0Kewdjc4RuP3oCiXSJU1/MzC4YokQgFj/aStchZI8cKeaVTxreXTlaxFnc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmcNmc7ENjzFrWBN3IAfjk7US3PrMOs8jQATnvrsvBvUbi8IIf
-	VExDflXOmUcLo5QeTqSBPEvIcPanv8b7Hl3bzNH5vQ7xynFBwRo0oTDD
-X-Gm-Gg: AeBDievpM5SLH2a1DdTYxHj+ogQTkZmY3Ff2PF4ifiiySbotOiYCOzHerwr4QmvqAWi
-	b1wfTisLT9aNvfR1N7RA8svy1YSpjxfpF3hztFSEbF4ptpuURbJt/MlknJHQPhbYDT/rCjFffQo
-	BncAJ09nnLo3AiBErcJnu4sJxa2kNH+6tJnCkucR2TI4M/OHirwgECRJGOfeHFRr7goxUgMjMqW
-	f/3WZe/boTi8CKPAmJ5J4qsyT2VmdSzOcLB183IX5qhjMWlNRH1rFyHj7/53CcKY61xRw9v5wk9
-	zu5m7eGp/zA5h3NcvaMJbj72z3ir7KqFZ96Eh4L2fEuOm6SLcqbwYRte9t1V4Ck78UWuT4nUskz
-	IJAuCuEuXt645HICkRia0t8HuOAi3Ue9N3e3e3u/NwcIgv5IdZuNR1kYsHSVTeRKCcoWxm1yjfK
-	3s2QrRBgNv+VCaErF0/lA+rpLgavh11eyMQFWQldPbDBrQM1YO
-X-Received: by 2002:a05:6a00:a14:b0:82f:9985:d4a1 with SMTP id d2e1a72fcca58-834ddc14f4emr6920159b3a.24.1777446032715;
-        Wed, 29 Apr 2026 00:00:32 -0700 (PDT)
-Received: from intel.company.local ([210.184.73.204])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834ed7eaf93sm1043146b3a.40.2026.04.29.00.00.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 00:00:32 -0700 (PDT)
-From: Chen Wandun <chenwandun1@gmail.com>
-X-Google-Original-From: Chen Wandun <chenwandun@lixiang.com>
-To: kexec@lists.infradead.org,
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="cm1UrNK2";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="awKvtRvn"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4g57hn301Bz9v19;
+	Wed, 29 Apr 2026 09:09:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777446569;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EJhBkHEX7NcpQ00immYDqBnfdLu+6YEZWr1kaPs/oBk=;
+	b=cm1UrNK2iMJJFxNbNY7XoMX39vrgS0PKId/qR2ZO21EQgEKS397JDUze1GLzI6WzrsLvRO
+	CuY3Bn4nWyDbLoluvOzqLLfVA6owWezodPuaSaGMI4OuqM/PDU3EKxGQ/V4y+diYzDbMMZ
+	+l1sYNCUe5KPLh6Gta7dLnQe5VdTbOdguiq4T9L2A3xWRrmnA9r0xMxTtH/Y4NFGF1yVi/
+	R6hOHDqAZ9AWml7xrpLGjrzRnJF2ZPZJhRhJ3Wws5Ii73UNWhE2p4FXVzngQP1cT9ow4f6
+	LvQqsEWN8ENm6Gii6Dm6aLG2+Rc7ASsSPscIA1NjvhFH/b36cmzPX/P8EGKIDg==
+From: Manuel Ebner <manuelebner@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777446567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=EJhBkHEX7NcpQ00immYDqBnfdLu+6YEZWr1kaPs/oBk=;
+	b=awKvtRvnhsBSywBXCFoyYO2QzqYzTvKe4xYMLRo60eBqjHRNpOfqxu6y0KVHrWQCk8hdCU
+	zvl21II5s2BbwlWKnpaXL5Ltwr1hNoygRA3yVBQp4EII6O/JxFOehCjR0FTamsy7ruodtx
+	uDkaXTs4CLvuqiTNc28DY6Su3OHBxM+ugjYqQzoeVNyBNe0048beVS3gZ7je3y7cRKWhpJ
+	qrvvq4qfVcGThU54TELoLj3fJzvpjbylNqFmVfb9zaMcEus6CGhKpeserV3+BbmmjvSPBy
+	XpojvX9HfPZr0QsPWfstowzWWDgsx1y9qBG3VkzvQjstebue6wEKw0bhrolgqQ==
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	loongarch@lists.linux.dev,
-	linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org
-Cc: akpm@linux-foundation.org,
-	bhe@redhat.com,
-	rppt@kernel.org,
-	pasha.tatashin@soleen.com,
-	pratyush@kernel.org,
-	ruirui.yang@linux.dev,
-	corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	chenhuacai@kernel.org,
-	kernel@xen0n.name,
-	pjw@kernel.org,
-	palmer@dabbelt.com,
-	aou@eecs.berkeley.edu,
-	robh@kernel.org,
-	saravanak@kernel.org,
-	chenwandun@lixiang.com,
-	zhaomeijing@lixiang.com,
-	everyzhao@126.com
-Subject: [PATCH 11/11] Documentation: admin-guide: kdump: document linux,no-dump DT property
-Date: Wed, 29 Apr 2026 14:58:31 +0800
-Message-ID: <20260429065831.1510858-12-chenwandun@lixiang.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260429065831.1510858-1-chenwandun@lixiang.com>
-References: <20260429065831.1510858-1-chenwandun@lixiang.com>
+	Kees Cook <kees@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	workflows@vger.kernel.org,
+	linux-sound@vger.kernel.org,
+	rcu@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	Manuel Ebner <manuelebner@mailbox.org>
+Subject: [PATCH v4 0/3] Documentation: adopt new coding style of type-aware kmalloc-family
+Date: Wed, 29 Apr 2026 09:08:01 +0200
+Message-ID: <20260429070759.309110-3-manuelebner@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -100,98 +66,28 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 214930e8f274b4c9e15
+X-MBO-RS-META: y7dqgagn76jnut9fzikn837x4rxj8e6i
 
-Describe the new 'linux,no-dump' reserved-memory device tree property
-and the automatic exclusion of /memreserve/ entries from the kdump
-vmcore.
+Update the documentation to reflect new type-aware kmalloc-family as
+suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+and family")
 
-The section covers:
+ [v3] -> [v4]:
+state the default argument in deprecated.rst [3/3]
 
- - The two mechanisms that exclude reserved memory from the vmcore
-   (firmware /memreserve/ entries and linux,no-dump child nodes).
- - Intended use cases (firmware-owned GPU, DSP and modem carveouts).
- - Interaction with the existing 'no-map' and 'reusable' flags, with
-   the silent-ignore precedence implemented by the kernel.
- - Architectures honouring the hint (arm64, riscv, loongarch).
- - An illustrative reserved-memory DTS snippet.
+ [v2] -> [v3]:
+remove obvious wrong replacements in [1/3]
+add Acked-by: Paul E. McKenney in [2/3]
+change how to mark the optional argument in [3/3]
+add recipants
+ --cc="linux-mm@kvack.org"
+ --to="Kees Cook"
+ --cc="Geert Uytterhoeven"
 
-The DT binding for the property itself is maintained in dt-schema.
+ [v1] -> [v2]:
+put RCU/* in a seperate patch [Patch 2/3]
+Omit optional argument (GFP_KERNEL) as suggested by https://lwn.net/Articles/1062856/
+deprecated.rst: change the argument gfp to optional [Patch 3/3]
 
-Signed-off-by: Chen Wandun <chenwandun@lixiang.com>
----
- Documentation/admin-guide/kdump/kdump.rst | 59 +++++++++++++++++++++++
- 1 file changed, 59 insertions(+)
-
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index 7587caadbae1..c2246888e84d 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -600,6 +600,65 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
- 3. After the dump-capture kerne get booted, restore the keys to user keyring
-    echo yes > /sys/kernel/crash_dm_crypt_keys/restore
- 
-+Excluding reserved memory regions from the vmcore (device tree)
-+===============================================================
-+
-+On architectures that boot from a device tree and use kexec_file for
-+kdump (arm64, riscv, loongarch), specific reserved memory regions can
-+be excluded from the ELF PT_LOAD segments of the crash dump.
-+
-+Two mechanisms contribute to the exclusion:
-+
-+1) /memreserve/ entries from the FDT header.
-+
-+   These are firmware-level memory reservations with no associated
-+   device tree node and therefore no driver-level description. Their
-+   contents are typically firmware scratch areas that carry no value
-+   for kernel crash analysis, so they are excluded from the vmcore
-+   automatically.
-+
-+2) Reserved-memory nodes carrying the 'linux,no-dump' property.
-+
-+   Device tree authors can add this boolean hint to any
-+   /reserved-memory child node to request that the kernel skip that
-+   region when constructing the elfcorehdr. This is intended for
-+   firmware-owned carveouts such as GPU, DSP and modem memory, whose
-+   contents tend to significantly inflate the vmcore without aiding
-+   kernel crash analysis.
-+
-+   Example::
-+
-+       reserved-memory {
-+               #address-cells = <2>;
-+               #size-cells = <2>;
-+               ranges;
-+
-+               gpu_fw@a0000000 {
-+                       reg = <0x0 0xa0000000 0x0 0x01000000>;
-+                       no-map;
-+                       linux,no-dump;
-+               };
-+
-+               modem_fw@b0000000 {
-+                       reg = <0x0 0xb0000000 0x0 0x02000000>;
-+                       linux,no-dump;
-+               };
-+       };
-+
-+Interaction with other reserved-memory flags:
-+
-+- 'no-map': the region is already absent from the kernel linear map,
-+  so it does not appear in the vmcore to begin with. Combining
-+  'linux,no-dump' with 'no-map' is harmless but redundant.
-+
-+- 'reusable': the region is actively used by the kernel for movable
-+  page allocations (CMA) and its contents are relevant to crash
-+  analysis. 'linux,no-dump' is silently ignored on a reusable region.
-+
-+The property is an operating-system hint; DTBs that do not set it
-+retain the legacy behaviour (all memory is dumped). Architectures
-+that do not honour the hint simply ignore it.
-+
- Contact
- =======
- 
--- 
-2.43.0
-
+Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
