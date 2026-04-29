@@ -1,169 +1,99 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A429236C0C8;
-	Wed, 29 Apr 2026 03:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C20340A6B;
+	Wed, 29 Apr 2026 03:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777431612; cv=none; b=CEEAJWiwNjHzfsmUuyFgmNOO19Rr8uUB52k/9m1Uj32PdEd4wCJHx+0EZostTunQUtMqNzKThmGRlFioUTczF/sIYOIS4O/RH1tDYu74InC2VM349o+Oev1f2nwhyZTpBnERCiUOhyHniOzEGmlTvNyfFdaUJOIvOgsD2xQ6Qv4=
+	t=1777432193; cv=none; b=T2sw8iRhJynJ12VL0IqC0e2GbvSG2m80a0L/ShW04lyNhCDY9GWi/p0n3eSFABG7upUEJoLXirYfxK8Ywhbv59gLS7/sifPkmR1SKSr62AHVBT8zK7C7ozPI3rRxISgBTery4ZWa0Zf9CW2fSIZsRWCVTAQxHaD5VcFiDWY5K2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777431612; c=relaxed/simple;
-	bh=N8f1x6UEA2Zk9RMEDbJEZw3xUqSsJEbyPhzJ9ivhdWA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=TeKRGrLhul80UoyIoRN3A96eU6u5jn+CvliUtB7MlpjxriGePB3CyM8oVWCpWuGVJvpNmxsPRmFc2AxmIKeu2F1k2CJCY4neqt7LVYZ2y02BgqFCL9+wVZ6aEjkkZzF8DgT6s/2rJDM0D2HCRRgOM1jQ5oi7lkZD0nqH7NPuKwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JvNKztp3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777432193; c=relaxed/simple;
+	bh=jadScjLDJJBA6eS9wryo4ObcA4JIF7RMq3Yb3HSKsrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=snn74JkRDknzYcYZDtqDyGSzrKR9lZyZHpiHsEZ4GTwzDEiGyP5QDLuMMqSMLo6WpTB9T8R1VjDcuNbHTl/6VXjgapj48NHJ4VV5m4E+pgrjr264CNl28+URHuD4CLAGZucnhPmOCy4SU1zfMR7N61LgQX2T1Y/XV46nzSlrbgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=pLeDsANZ; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JvNKztp3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A89FC2BCC4;
-	Wed, 29 Apr 2026 03:00:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777431612;
-	bh=N8f1x6UEA2Zk9RMEDbJEZw3xUqSsJEbyPhzJ9ivhdWA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=JvNKztp3dM1+xsxjBN0d8IUuk8tHKsg1LD40RAzyk0+fteyKzYV749cO0b0bQmtFd
-	 cxjSX6xT6sMY7FsyrjX7t43oZcbYLyczIzvx4B8Wpq0HVbc3NqkysLCuBguLzKVSLG
-	 ZBy5DEDwNqoVOWV7secw6khy/YY2oFKmFL/ueXAo/ZMAr1qV9Kroor7PEd5x9HSgtd
-	 ay4HyKlzddBiIS1D/w9xWndPWYkahQDJO5w8LiyFlA73/as5PFjL18CvlCUnre4i9t
-	 CUYf4LKJCui+h4kEmaV8ojZTFIs9nsFqANgOI0WgVPSzdOuxJhnY3SoeYYk7A8tgzZ
-	 PbQ8zc7KvWcKQ==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Tue, 28 Apr 2026 22:59:07 -0400
-Subject: [PATCH 01/14] kbuild: Bump minimum version of LLVM for building
- the kernel to 17.0.1
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="pLeDsANZ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1777432183; bh=aqmIfBa7W9Z7GLnm1P0nwBo9e2Sx+GmVmQU+p6BbR1Y=;
+	h=From:Message-ID:From;
+	b=pLeDsANZ0LZTLiIkf6ycKf6N8iFUoUn+88y9Zefs22UFc+3ymPXfqD924P4dWBqnl
+	 x/QjEY6/U3AuI3wW/7Jcw8rSldcfzlqe7SvXKqyCfZQKV+i+2FqI8GVw6ot6hPLg2d
+	 LZEAd+MWHRuP0/mxSmyw1d0ZNtci/az8+60o6Zwc=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 83BBEC0B83;
+	Wed, 29 Apr 2026 05:09:43 +0200 (CEST)
+Date: Wed, 29 Apr 2026 05:09:43 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Greg KH <greg@kroah.com>
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+        skhan@linuxfoundation.org, workflows@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
+ not a security bug
+Message-ID: <afF2d6RzRf2Flnv7@1wt.eu>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-3-w@1wt.eu>
+ <2026042753-ozone-jigsaw-4ad5@gregkh>
+ <ae-Acm2XJ3sR34Il@1wt.eu>
+ <2026042724-bullhorn-bobtail-ae6f@gregkh>
+ <ae-LVyDQPVwxesCO@1wt.eu>
+ <2026042804-overbook-ripeness-73dd@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260428-bump-minimum-supported-llvm-version-to-17-v1-1-81d9b2e8ee75@kernel.org>
-References: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
-In-Reply-To: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
-To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
-Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
- linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-X-Mailer: b4 0.16-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5193; i=nathan@kernel.org;
- h=from:subject:message-id; bh=N8f1x6UEA2Zk9RMEDbJEZw3xUqSsJEbyPhzJ9ivhdWA=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDJkfSwwPPPjddqPq9v+JLHW3f7nu5DVnOFjuleHqqjFta
- b//jQkWHaUsDGJcDLJiiizVj1WPGxrOOct449QkmDmsTCBDGLg4BWAixyIZGRY5SLLu7v8hnbxy
- 7p6jUtc/60+rK1W2eOrxrOmJ90wepjiGP5xSsj56xtkfm5efMZMyzvu2pSll972ULOePvb1vVZ+
- uYgAA
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2026042804-overbook-ripeness-73dd@gregkh>
 
-The current minimum version of LLVM for building the kernel is 15.0.0.
-However, there are two deficiencies compared to GCC that were fixed in
-LLVM 17 that are starting to become more noticeable.
+On Tue, Apr 28, 2026 at 03:13:01PM -0600, Greg KH wrote:
+> > > We can point at other files, as this list is going to get long over
+> > > time, which is a good thing.
+> > 
+> > Sure. I'm just unsure where this could be enumerated, as it's likely
+> > that there would be just one or two lines max per subsystem for the
+> > majority of them. Or we could have a totally separate file, "threat
+> > model", that goes into great lengths detailing all this with sections
+> > per category or subsystem when they start to grow maybe, and refer only
+> > to that one from security-bugs ?
+> 
+> I think a separate file is good, I know I need to write up what the USB
+> model is, and it's different from PCI, and different from other
+> subsystems.  All should probably be documented eventually.
 
-The first was a bug in LLVM's scope checker [1], where all labels in a
-function were validated as potential targets of an asm goto statement,
-even if they were not listed in the asm goto statement as targets. This
-becomes particularly problematic when the cleanup attribute is used, as
+Would you be interested in me trying to initiate a new "threat-model.rst"
+file that tries to unroll the points mentioned in the list ? I'm concerned
+that that withuot having many details initially, it could look a bit odd,
+because the list we currently have would be more suitable for an "other"
+section.
 
-  asm goto(... : label_a);
-  ...
-label_a:
-  ...
-  int var __free(foo);
-  asm goto(... : label_b);
-  ...
-label_b:
-  ...
+> > > > > (like what the IB subsystem does which I
+> > > > > don't think you listed above, or the USB subsystem.)
+> > > > 
+> > > > Indeed I didn't list IB (I'm never sure about it, I seem to remember
+> > > > we simply trust any peer, is that right?), nor did I make specific
+> > > > mentions for USB which is implicitly covered by "hardware emulation
+> > > > or modification".
+> > > 
+> > > Ah, but USB does cover "some" modification of devices, so this is going
+> > > to be something that is good to document over time, if for no other
+> > > reason to keep these scanning tools in check from hallucinating crazy
+> > > situations that are obviously not a valid thing we care about.
+> > 
+> > OK but does this mean you still want to get these reports in the end ?
+> 
+> I want a patch if a user cares about that threat-model (as Android does
+> but no one else) as it's up to the user groups that want to change the
+> default kernel's behavior like this to actually submit patches to do so.
 
-will trigger an error since the scope checker will complain that the
-cleanup variable would be skipped when jumping from the first asm goto
-to label_b (which obviously cannot happen). This issue was the catalyst
-for commit e2ffa15b9baa ("kbuild: Disable CC_HAS_ASM_GOTO_OUTPUT on
-clang < 17"). Unfortunately, this issue is reproducible with regular asm
-goto in addition to asm goto with outputs, so that change was not
-entirely sufficient to avoid the issue altogether. As asm goto has
-effectively been required since commit a0a12c3ed057 ("asm goto:
-eradicate CC_HAS_ASM_GOTO") and the usage of the cleanup attribute
-continues to grow across the tree, raising the minimum to a version that
-avoids this issue altogether is a better long term solution than
-attempting to workaround it at every spot where it happens.
+Yes, OK, but we want them in any case. That's the idea I tried to convey
+in the proposed doc (maybe not well enough), basically "this is a bug and
+it is worth reporting, but no need to involve s@k.o for this".
 
-The second issue is an incompatibility with GCC 8.1+ around variables
-marked with const being valid constant expressions for _Static_assert
-and other macros [2]. With GCC 8.1 being the minimum supported version
-since commit 118c40b7b503 ("kbuild: require gcc-8 and binutils-2.30"),
-this incompatibility becomes more of a maintenance burden since only
-clang-15 and clang-16 are affected by it.
-
-Looking at the clang version of various major distributions through
-Docker images, no one should be left behind as a result of this bump, as
-the old ones cannot clear the current minimum of 15.0.0.
-
-  archlinux:latest              clang version 22.1.3
-  debian:oldoldstable-slim      Debian clang version 11.0.1-2
-  debian:oldstable-slim         Debian clang version 14.0.6
-  debian:stable-slim            Debian clang version 19.1.7 (3+b1)
-  debian:testing-slim           Debian clang version 21.1.8 (3+b1)
-  debian:unstable-slim          Debian clang version 21.1.8 (7+b1)
-  fedora:42                     clang version 20.1.8 (Fedora 20.1.8-4.fc42)
-  fedora:latest                 clang version 21.1.8 (Fedora 21.1.8-4.fc43)
-  fedora:44                     clang version 22.1.1 (Fedora 22.1.1-2.fc44)
-  fedora:rawhide                clang version 22.1.3 (Fedora 22.1.3-1.fc45)
-  opensuse/leap:latest          clang version 17.0.6
-  opensuse/tumbleweed:latest    clang version 21.1.8
-  ubuntu:jammy                  Ubuntu clang version 14.0.0-1ubuntu1.1
-  ubuntu:noble                  Ubuntu clang version 18.1.3 (1ubuntu1)
-  ubuntu:questing               Ubuntu clang version 20.1.8 (0ubuntu4)
-  ubuntu:resolute               Ubuntu clang version 21.1.8 (6ubuntu1)
-
-17.0.1 is chosen as the minimum instead of 17.0.0 to ensure that the
-particular version of LLVM 17 has the two aforementioned bugs fixed, as
-the second was fixed during the 17.0.0 release candidate phase and it
-was not until LLVM 18 that LLVM adopted the scheme of x.0.0 being a
-prerelease version and x.1.0 is a release version [3] to help with
-scenarios such as this.
-
-Link: https://github.com/llvm/llvm-project/commit/f023f5cdb2e6c19026f04a15b5a935c041835d14 [1]
-Link: https://github.com/llvm/llvm-project/commit/0b2d5b967d98375793897295d651f58f6fbd3034 [2]
-Link: https://github.com/llvm/llvm-project/commit/4532617ae420056bf32f6403dde07fb99d276a49 [3]
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Shuah Khan <skhan@linuxfoundation.org>
-Cc: linux-doc@vger.kernel.org
----
- Documentation/process/changes.rst | 2 +-
- scripts/min-tool-version.sh       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/process/changes.rst b/Documentation/process/changes.rst
-index 9a99037270ff..b9afce768446 100644
---- a/Documentation/process/changes.rst
-+++ b/Documentation/process/changes.rst
-@@ -36,7 +36,7 @@ bindgen (optional)     0.71.1           bindgen --version
- binutils               2.30             ld -v
- bison                  2.0              bison --version
- btrfs-progs            0.18             btrfs --version
--Clang/LLVM (optional)  15.0.0           clang --version
-+Clang/LLVM (optional)  17.0.1           clang --version
- e2fsprogs              1.41.4           e2fsck -V
- flex                   2.5.35           flex --version
- gdb                    7.2              gdb --version
-diff --git a/scripts/min-tool-version.sh b/scripts/min-tool-version.sh
-index b96ec2d379b6..ea2689bc9641 100755
---- a/scripts/min-tool-version.sh
-+++ b/scripts/min-tool-version.sh
-@@ -27,7 +27,7 @@ llvm)
- 	if [ "$SRCARCH" = loongarch ]; then
- 		echo 18.0.0
- 	else
--		echo 15.0.0
-+		echo 17.0.1
- 	fi
- 	;;
- rustc)
-
--- 
-2.54.0
-
+thanks,
+Willy
