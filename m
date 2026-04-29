@@ -1,128 +1,107 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11F872DF153
-	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 08:01:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F20388E5C
+	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 08:55:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777449689; cv=none; b=SlJA6Yg0e/TNkVrmy1M74E9CTUACA9daozCM1M91gqtXDNcF00UCqz4bo0b32s5Dtuuwl5rE52MLrBxQT3GYCX0OSZA72LHczRKbMvdSadOUxtYM04SUNAe8+WdXc+H8wxXbkweKViXNDsx4rx7Lc+AmNFVfF91SlqJMmjK23aA=
+	t=1777452936; cv=none; b=jt74s9Bk6u/MXYXGMqK0YpGBpI9jrdum17Kxu54/xqs/FtxlTaSFG+3D2Pl2x+xHyEN+VxOzD/DJWLUkUANWNV7e+9m66ZZON5AHifq9alu0tDES0Ags6Rdv5ueciheOtz9XfMSQEwnhXGQ6/WYsXPfprZwtQubd7QOOEMXvlwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777449689; c=relaxed/simple;
-	bh=cCTmLs5IIowad/djOAK+5VNMZbIbVtoboSLsS4fSv1c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kopHDw+d8egKODaETqAm6Aemf6bqsOZcd8L+z8XpWZj1e+TxrrRfxSB6dXrusFrA9aykl68iQHNCqxlMoo3Rdk+NUZ13bSA/sfVQy0bUTM5mHSgiJ4hY9lJt5SKlUKpVJ9wGLcDtRW/VvDR10KDnBkMReNGpMCN8Hddw/HlEMKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=NR93f+Ai; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1777452936; c=relaxed/simple;
+	bh=zloadYk+FRxuCKY1pGkNPmHK8KQ4PABu8yyLAufBvZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N91jwDYhTXwv/9jYGe3ZT2/8tX7Vy3uhkuJzPeMCGUHZ+cXU9KD4EQocXxDdkrni3uU1mguiT01sHa4plJzz/bTcRsHB65dt5YIXptc+IkzU+T4/7oy9H/OVYhPSHesnH75FCpUKBxZnEoaKauDZ88ydtczQFOg3+IAnqkgJOx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=lpLF3T7i; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="NR93f+Ai"
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4891f6b6388so4002475e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 01:01:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="lpLF3T7i"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-448528f4e69so119637f8f.3
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 01:55:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1777449685; x=1778054485; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZgTX+gVOkVV7nUMiKXD4ocpW5cTuBnrdpljyNN6o5Eg=;
-        b=NR93f+AiUmaejAOC0A5edNkxWHvbAqdFEvdX4zdITz6IzcYlBe0SRnmNRLCfwd/xgV
-         14kgd7UtIx6IAJJAlCo1wyQ7zFUM2N/BezMBlamR7bKteI/lMtX+HYU2lEvCSUGrgdEG
-         Z6XHrwqqld6FsN5r1bDhr6W85fGlWR+aYdV6msBKZYnKSV3lSMwUYi3XWDwitv64xl4a
-         aU8fIqRgxvreeUS5tnh5whq0TtJ+1hTEraVZBn2xWl2q8uw579fFTAbLRFErrDiJtifx
-         4injMrFgYzGsese8EW37H+Ou4f4GyMdP7LpXAs7lcwSDoq1JVq3a5wak07g/JhVMg+Zm
-         kMJQ==
+        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1777452931; x=1778057731; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Nt4otsNZP+qM1RAgOCDcWAVXVHOwNcuga4GcWRLPXg4=;
+        b=lpLF3T7i9Y/ZHbWCAqHJ+CGOhS9l6q/j5ghgUJQbOHiwie31KWrOUMLpFxkqPE1xUv
+         97tZ0lndsgCxAflKz+tsV4PYoEG1a/Ru0g48wScK2vAgvghUzHgyWmR9wHbpYRgXne4W
+         XKw6GyNFQRJUn7AZvMHJQmnUg7lW7YIN1F54YKMOWyV9HfinnwvkWyeiLYntrFEdcYR2
+         atIrgFuumMTxRSxBcaN42QkiOE8SJidAwBJCWSrwJzpofAAYxEDUG4kKhmP9x2BgML97
+         7ncCjHEBOGbfYsuagML107m0gAXY1Ge5OlCRBOqVlxy7RWWxTUvKBwiDqUjqiTCptuXs
+         10Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777449685; x=1778054485;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZgTX+gVOkVV7nUMiKXD4ocpW5cTuBnrdpljyNN6o5Eg=;
-        b=jfZSHT7SmauhTecAxreRyyCRhA0I6ER+8Kc22J35SaUHgXP3iH3ubUkw2i8y8jPhsi
-         7MqP45yhws7zt2QMUPoiw45jXYmd348Uau2pSPWfkHCuoO2bpsD9Bd9Mkzy2/UVA1Ydp
-         sRh3uUGfJuQrV9Ejff2f3C7Piz3eDDBOrVRihVvWI8Kip90d55LgLEGjS8uyipbIkDB7
-         95m8wSLMFYIyLL3aVBC9C/50ejKUI0ZDicxhXbp+R1qOlPDSSLp5qTpmJS7x/ThGBkrb
-         YbFAfT3VANSrdPtbyLTZTND4iT8vN/NlT8/Ctm4O+Q2G4lsB2dNbfUBKORN2tK3y+Gnt
-         WCKQ==
-X-Forwarded-Encrypted: i=1; AFNElJ/bqsHjiNMdB1IlZ8G77/roGeHfoJzZ34wx4l7qzXJ61fsFMoZlu1I00mofZSC+T7wVKVI2dM+sXOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOD2bCsECO50TE1R4ge5PLu+RxUED/S8gRnKKuHMxuBIuM2e1Z
-	7TpxQXvep5H1HvgLtY6YmcWy53Txr4j5VzvK/Aigvmo4Z85wUIzYvwew6ESGvl4yXG+OfATwEPV
-	r0sfommQ=
-X-Gm-Gg: AeBDievgL4fODPB2jrTF9VFOayuMzwIDiPP87c0bC3UYZne9xN76T0SnG2PcAvrl+Oh
-	u0byH7Le6gi9qYMVG6bv5mG7hitNTmYcdGoXihKwU3z6pbefW7mEpSsr87t74TVrC5ad9PRbBl+
-	Vvs3veqk3rcD8dQ2JkNgVmp2vH1Okn3qZhAI7T+XZgTvwjr//Up49rVZSNnw7O37RWCMFNBqerK
-	mzcefRjv1+dCKIT3tGJC/FD5THYbW8Ii+O+Pz/MJKeaEAeYLsZv83O/tsqVB1eJpVyCQtBIg6hS
-	wdRS7vJiGwfgKhHPl+haZ7UuGQ07XbKOXcd2lr+YYbucHF58KuX3wpmy7gv4Mrk/DaOM8L27P4B
-	c+0D+BRceQ7201bMsO2sXU2NvgmD1yqSZ56AjINzw49URrw2u5Rl1vMkKigGDbEzvqK8uGYbJrq
-	5D7/RH+Olx//yOPzlKOa7sv126YvXOAyN/2ut7+/azKHN86+k+H2ygTk1YtcxKMfGVldeA
-X-Received: by 2002:a05:600d:8448:b0:488:a797:f099 with SMTP id 5b1f17b1804b1-48a76f7a55dmr48377525e9.3.1777449685427;
-        Wed, 29 Apr 2026 01:01:25 -0700 (PDT)
-Received: from ?IPV6:2001:1a48:8:903:1ed6:4f73:ce38:f9d4? ([2001:1a48:8:903:1ed6:4f73:ce38:f9d4])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7bc12bcbsm63364245e9.1.2026.04.29.01.01.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Apr 2026 01:01:24 -0700 (PDT)
-Message-ID: <e85450b4-def1-41f5-98ff-e88b18d5201b@suse.com>
-Date: Wed, 29 Apr 2026 10:01:24 +0200
+        d=1e100.net; s=20251104; t=1777452931; x=1778057731;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Nt4otsNZP+qM1RAgOCDcWAVXVHOwNcuga4GcWRLPXg4=;
+        b=qVku3dVUNEIv2jNCFOjt+ecDDa6Lj1g9i07EQbx65ma8CCwOEwiA/EeXCKFMt9NM9e
+         AfD5xA5eUJilKrus7ssWc9PU9aiEAaQsDM1NqJSv3lxo8/95E63wpXLKZe2kQt+2rOZ1
+         4la0nKzSclyCYA4Aw45lMI6dnwRV5lnQfWKpr36zx/4uaRoTM2wYgg3GtbpqylIM2+FG
+         rN00oVXX9cPB09JHCZymz7RBEfYUw7KPJTVHF7a5MhlgcDEPJ40W1vd1kepFLmRHgo3g
+         JXctT/fN/VQzVL4ohcdLsV/sbXPsRmYwcuLyHToQ57cTH51WpIc7PvfkSMF8mcCySjWk
+         fehA==
+X-Forwarded-Encrypted: i=1; AFNElJ9wD6NdiSG4MoSE7F+BFAGKh4Fo7v6gn2aQqVST9baVhJnAe3mNs25Jk1B5PcVrtultFhpdQQaP66E=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2Zhltv795gfTN8RVHtnBOSGJSsIjqp22YDmUYnzpLmHpd/prc
+	iuZBdlOQ3TSwCuprIcpKaGcFT5lc2Ujc5zinKJ7Q35jANY4ly2XLVe0c36XQyePJVqQ=
+X-Gm-Gg: AeBDieuv+95x4CIlqF2tKO7FXlwDkPnjwkl5kEv6ziwn2SUIuSkl7Nbu/n1SQyMkeFl
+	xQP2oQiXd48j05EJ2+xTNwztq2thZ0P1tXackYnquQyY9yguP+/V+ChwXB9Mlpsif08BSIBwY9n
+	sqiIz7MGMsyocGUdbP90TJEbSnh4maqa1TV7XlXNPeov/aIRZPrubnveLNfR/l0wlWj27cjSOOa
+	L3G1EQM/cUW1fapZu1DBJhtfR+6g39xz94gF51dgubMJtTQZ4fNJR1Xk+zjVewoWLUBaaDyDYYH
+	CPpusdF3yNHf02YGTsZnqXxksFJTtQlDSutQE8t/azLydHX1sOUHLjorLzP3BPCS6QBFrDmg4Xe
+	sE1tIOzI+FCJjFjn9E+e8ybiiNsDhu1f5yODejo+eCM4pd6luykeE0FJzHhGnk6uKdCkGEVGjb3
+	0xl/QifBrwuyvoGcRhSlKGrv4ZH91RhBQtLl58yhL1fA==
+X-Received: by 2002:a5d:5d11:0:b0:43e:b0f7:9ce9 with SMTP id ffacd0b85a97d-44647dd17c1mr11721926f8f.14.1777452931178;
+        Wed, 29 Apr 2026 01:55:31 -0700 (PDT)
+Received: from FV6GYCPJ69 ([85.163.81.98])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b7218622sm4257094f8f.21.2026.04.29.01.55.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Apr 2026 01:55:30 -0700 (PDT)
+Date: Wed, 29 Apr 2026 10:55:27 +0200
+From: Jiri Pirko <jiri@resnulli.us>
+To: Ivan Vecera <ivecera@redhat.com>
+Cc: netdev@vger.kernel.org, 
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, "David S. Miller" <davem@davemloft.net>, 
+	Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, 
+	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Michal Schmidt <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>, 
+	Pasi Vaananen <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>, 
+	Prathosh Satish <Prathosh.Satish@microchip.com>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Simon Horman <horms@kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next 1/2] dpll: add pin operational state
+Message-ID: <afHHb6UmK73yRXs-@FV6GYCPJ69>
+References: <20260428154907.2820654-1-ivecera@redhat.com>
+ <20260428154907.2820654-2-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] Documentation: deprecated.rst: kmalloc-family:
- mark argument as optional
-Content-Language: en-US
-To: Manuel Ebner <manuelebner@mailbox.org>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
- Kees Cook <kees@kernel.org>, linux-kernel@vger.kernel.org
-Cc: workflows@vger.kernel.org, linux-mm@kvack.org,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20260429070759.309110-3-manuelebner@mailbox.org>
- <20260429072704.311603-2-manuelebner@mailbox.org>
-From: Vlastimil Babka <vbabka@suse.com>
-In-Reply-To: <20260429072704.311603-2-manuelebner@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260428154907.2820654-2-ivecera@redhat.com>
 
-On 4/29/26 09:27, Manuel Ebner wrote:
-> put the optional argument (gfp) in square brackets
-> add default value = GFP_KERNEL
-> 
-> eg. ptr = kmalloc_obj(*ptr, gfp);
->  -> ptr = kmalloc_obj(*ptr [, gfp] );
-> 
-> Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+Tue, Apr 28, 2026 at 05:49:06PM +0200, ivecera@redhat.com wrote:
+>Add pin-operstate enum and operstate_on_dpll_get callback to report
+>the actual hardware status of a pin with respect to its parent DPLL
+>device. Unlike pin-state (which reflects administrative intent set
+>by the user), operstate reflects what the hardware is actually doing.
+>
+>Defined operational states:
+>  - active: pin is qualified and actively used by the DPLL
+>  - standby: pin is qualified but not actively used by the DPLL
+>  - no-signal: pin does not have a valid signal
+>  - qual-failed: pin signal failed qualification
+>
+>The operstate is reported inside the pin-parent-device nested
+>attribute alongside the existing state and phase-offset attributes.
+>
+>Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 
-Acked-by: Vlastimil Babka (SUSE) <vbabka@kernel.org>
+Looks great.
 
-> ---
->  Documentation/process/deprecated.rst | 15 ++++++++-------
->  1 file changed, 8 insertions(+), 7 deletions(-)
-> 
-> diff --git a/Documentation/process/deprecated.rst b/Documentation/process/deprecated.rst
-> index fed56864d036..ac75b7ecac47 100644
-> --- a/Documentation/process/deprecated.rst
-> +++ b/Documentation/process/deprecated.rst
-> @@ -392,13 +392,14 @@ allocations. For example, these open coded assignments::
->  
->  become, respectively::
->  
-> -	ptr = kmalloc_obj(*ptr, gfp);
-> -	ptr = kzalloc_obj(*ptr, gfp);
-> -	ptr = kmalloc_objs(*ptr, count, gfp);
-> -	ptr = kzalloc_objs(*ptr, count, gfp);
-> -	ptr = kmalloc_flex(*ptr, flex_member, count, gfp);
-> -	__auto_type ptr = kmalloc_obj(struct foo, gfp);
-> -
-> +	ptr = kmalloc_obj(*ptr [, gfp] );
-> +	ptr = kzalloc_obj(*ptr [, gfp] );
-> +	ptr = kmalloc_objs(*ptr, count [, gfp] );
-> +	ptr = kzalloc_objs(*ptr, count [, gfp] );
-> +	ptr = kmalloc_flex(*ptr, flex_member, count [, gfp] );
-> +	__auto_type ptr = kmalloc_obj(struct foo [, gfp] );
-> +
-> +The argument gfp is optional, the default value is GFP_KERNEL.
->  If `ptr->flex_member` is annotated with __counted_by(), the allocation
->  will automatically fail if `count` is larger than the maximum
->  representable value that can be stored in the counter member associated
+Reviewed-by: Jiri Pirko <jiri@nvidia.com>
 
+Thanks!
