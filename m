@@ -1,138 +1,187 @@
-Received: from mail-dy1-f173.google.com (mail-dy1-f173.google.com [74.125.82.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BCCA1E9B3D
-	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 00:39:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.173
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777423150; cv=pass; b=UQ0eOfmcAc2WrE78A/c5/vTVYBqrmJ9HXiy2HJh11JdbDXkpg04P4+j7xMJoRi2LZS9wGNxl0N86iJJB0Xg0Lvu1ar1eGQalpt43+j7nCr/Cg5VS1WAXZGigrfnc4+SSJDPdZqMIJvAS7EbLK/G5bUps9tBH7Uiiaw6TUxf/6H8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777423150; c=relaxed/simple;
-	bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ho6oRF+aCpuGwJ2imoo8lQa4GUgHZrh9iAzxbU2kPBdl499O7E+limi3H+o/XCdBsLpStBOTX+mUEo2osvO7XnoPgfok+M6kYccRLdeMtF4Jhm+7MKOzgXhHqCV5TNI/uWvqiBnGN3t5mdxLoBa6ifYofJil0+kPArNCXf7mA2Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ligiHFGm; arc=pass smtp.client-ip=74.125.82.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43F15330D43;
+	Wed, 29 Apr 2026 03:00:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777431610; cv=none; b=XztK+I4ZrFhv0dtdEgdiFtHorJevpzCibvYAEMPtAsocLJdRfhzFD3PR64zFOO8bZg169o637kAFG7pSmBnBkO38Mb63TeBvOn07esHoJwKis2g8+IBPDAg6igLJAfgbewXFk2OlwWuZ0xcwqHH7+eYLmYwsU7N724lv69oV8GI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777431610; c=relaxed/simple;
+	bh=BPWip7f/+n2wb9mPvkHgJCd0lFqOC+ZsA1RInw6FYx8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=u3VpxcYkqIkm2oU9JkySBZYzpDzTStl0BTpQraKqvslYM4f2AVxZiwwl43YC8zS5SCO2WayWrbBImZYG/9ylLvcsdwFJm54oQFcr0hQAqr7jC1zgx+IlDfo98EgnxlcR/aHmOxOfjDf1KX9fxD0P6tCN/Y1Yaa2anifZlNxsoKE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Lm6oqDaZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ligiHFGm"
-Received: by mail-dy1-f173.google.com with SMTP id 5a478bee46e88-2daaab98000so679681eec.2
-        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 17:39:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777423149; cv=none;
-        d=google.com; s=arc-20240605;
-        b=OJ6H65f8NN8mRd9g5KijqhFfTIwVx8QvOQJZDb536FihjPqhdwHyQuxE6Zhn0ytnJg
-         Sfjl/51s5I+f7rP8So2nQXsCawup1pw+CsB22ZYhGI3Kv6ghGHduINeNOdVn/eeeQnra
-         S/WDN+5OTqZDZ6dyIqoXmZc1oPMsQ2XVyxChKih/OR0mmdaI8/puJkQoio0+nFZ0DiUq
-         tolr3mV7BeNSjKA22UpXPUSL1ZZd/gpoX+V1bWelWE938eHHoAZDj4vUvAmu9DO7XgaL
-         DYFtz4lEDHZXrdN8AyLAZMPdgpSnHKuAuHPajzHdgPmXnWORBrmLdqz+KEoNMD/SZsuo
-         a3ag==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
-        fh=iRSHdVdQ//BBuJH8T2wmxPKQL8LP24ExXKUj52wcdZg=;
-        b=MMIu3n7SPRABV7qTCPKWpTWHNoCIrme4Sl+cXCkJ8/Z6Aen4vpNcFW6PtBD5U1CMaP
-         gFl6Z7sETGu/13DlGEmBK9gSTSE+uHQ9Ig75iyycySliUv8/Tny+uOuPR2WPgAWNFark
-         SVJjFm0xGnoi4JoW3YM1kC2Gv5WvZ92LENb7YiBsE+5P1JbKQ4cB5C5iIBqbad01jIyv
-         4SApQ58l2MxkrULqtGgs+d6CjBLhpH2sSia78YtDJIft2kq/QODw+TdObqqrF7Gf0HVo
-         HorDJpaCHKAt47VHB4xoinCDZGgGst1VnAJg7Y91FH9QwStRaTBD6Om0viYx5q/bQfws
-         t72g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777423149; x=1778027949; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
-        b=ligiHFGmoEzy02s+aQEWyPs8/vVgGjhf+LWOxkCgUvFlz8wHcDJQJI/jPWqJgTlg7Q
-         Qzo7GkcBSJjFK1ScFqM8GxGMlaYfGeIzywTunlJUgFErhjGkfzuGFrwxjzXVQcmoRcAj
-         o6WU0tJU+2C4zb+cxC/NTzvXvCDQ2qGesvZPeV4g2JQcb6nRBTGV8E+zksy/y9kq8jgY
-         oNLgPrsKYgwJD4EPedYqyP/7Ssd+DRcFRTo3l4l8+35LzQC25zeb6tq1XwXF4pCUFkDW
-         0JqvW3aL2WmFPW75E4IU157ILtX+ZZsm16rCgo/XywiM/wi9hEWfItgE7fY+EsP8y1VR
-         C/RA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777423149; x=1778027949;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=lnq+RzcTqQApY6vrzuon4NmVdC+fOyrYiS6n6xe3zDE=;
-        b=JBu/JnpEBw/6aF8uApMcQKbIAX2UrndGkMuZY5TVVUkck8t/E670ss+HcNHVVhPsoy
-         kSkJ8WP86EcvpehI/P+6tWdhuGWlqS9wZyVTyd94sL936vtmhBfGms6HHPDrmpHedBwL
-         ffnVjoKP9WLkeZxtTfMUfY1Q5eZXpB6OOkCWhcPI8LQwFQdHPif8TjHhfoM/5xbM8mXD
-         XoS9WAgcnkUBgJbaqpaUOuFlIekmuZokL+xWYFWrGlCV5lDnno/ysrUNJ1jLlX4qQxLR
-         JBoRYHY8rXzTXoBSRVByxcwjyHSJBL2N+6qed34hZ9J86U7uyXxscZOfkMMyr7vbKcMO
-         dn5g==
-X-Forwarded-Encrypted: i=1; AFNElJ/yIuGoyoKfZNT8U7rmObV0Nb0FH3zunMvxwYJVy6kCHDobBpBGJmyazppVnly7YKwd8h5xNsGDlOU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6I07MzqD21Zue+couB8E3dUfeRCv2nsdUfpS9QdHsurh6/FYL
-	dl1cEBmg82NWYl+DHGYi5kVoj/JMEVTM9/VKStuk4ftv5iuLJyn5FcPg0+5EiovBF79GNiWqCiC
-	Zjdw5ZM72Ja8UWkMpr4oAlZyoWjM7e/0=
-X-Gm-Gg: AeBDievnYaq5p9bxWQQBN29pW/fkXzUfinD4GHuQbaDb8w8qzh2pjLQmbCUVmZtH0aa
-	JjC2jRMjt0s/KD/+T4kPGU0PDCzt/1T0QQVtbPuordxe75nkFKBzTulX6TNcE7axbPUuSOla0Ls
-	88HIS3qQEZIgvKNWcKwJlf8Cm1CStx+5BbpH4uy6RPBnprtjlKQgpFbQ+A28ANYg4FmeKJMevzA
-	4CNfDAItjlmvPeVbVPHstsSdJmGJofgb0hskEGN7yv8Z/UXW37pFSse6/fxGgZ2aSKxht4BgvmJ
-	G04yPDFXurYmcgJrjaBXao3Eo8Z7udXuIKbEhC8B+QHinr39eHY+EU+Z33kSidyUC0QDN1mttgf
-	6bsgxy1pDx2ch2EaoGP+aUNh5pSwdi5h+0g==
-X-Received: by 2002:a05:7301:fa0a:b0:2e5:5bf4:886c with SMTP id
- 5a478bee46e88-2ed09bc6856mr1151978eec.5.1777423148670; Tue, 28 Apr 2026
- 17:39:08 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Lm6oqDaZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB3B9C2BCB7;
+	Wed, 29 Apr 2026 03:00:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777431609;
+	bh=BPWip7f/+n2wb9mPvkHgJCd0lFqOC+ZsA1RInw6FYx8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Lm6oqDaZCWZPGshfZZK+k3YJKNsDnG8AlHI64y2CWDqFmLMmaqsMBR+/vE3bA/wP/
+	 qBOoFQ/mqwzel7Gid5GmxZodV4mf1xpeBH0sY7SsY9LGRMSt74iysuHwe2M56ExfD8
+	 goiP9iOwlp8C2br8Add6rW5f9H9OjquXWl9bYh+Fcv2GTS5kMfEwGHeClKFelU19sn
+	 SIMG/hdVguN/Ocxka1uk3ZIdHBi5e04hd81Ss92pRLqtTlQ8s93zp/uOUkCGXm4kF9
+	 f+rpPRHBzzJdlmq8Kt6ysbjX7bxF15iXX8oENUhNFMxcT58CLIzAyP8SBPtcmN42wO
+	 4oXtJ02loyEIw==
+From: Nathan Chancellor <nathan@kernel.org>
+Subject: [PATCH 00/14] Bump minimum version of LLVM for building the kernel
+ to 17.0.1
+Date: Tue, 28 Apr 2026 22:59:06 -0400
+Message-Id: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260427174429.779474-1-julianbraha@gmail.com>
- <20260427174429.779474-3-julianbraha@gmail.com> <CANiq72=nCw+zWYhvPMJiG8oOT3zpaD8eGVUgaK5rnSzAiGGjPw@mail.gmail.com>
- <607be3b2-11bc-4074-a396-39da73089b74@app.fastmail.com> <CANiq72mEgpe-UGMQ_YWb8SKsY96Oc0b4sQ_MKvhMDVkNC9WvQA@mail.gmail.com>
- <20260428184511.GB3304253@ax162>
-In-Reply-To: <20260428184511.GB3304253@ax162>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Wed, 29 Apr 2026 02:38:55 +0200
-X-Gm-Features: AVHnY4Jhkf1YJCEOdRRUOwzbTzh7X94i3-EvhUl39GdPP65emmpf3WcLQ5yzpF4
-Message-ID: <CANiq72mToO-jvEqE7VyqU6u1GK=bO-U+FD4Ei0c9HOgyzM+53Q@mail.gmail.com>
-Subject: Re: [RFC PATCH 2/2] Documentation: dev-tools: add kconfirm
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Arnd Bergmann <arnd@arndb.de>, Julian Braha <julianbraha@gmail.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, ljs@kernel.org, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nicolas Schier <nsc@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNyw6CMBCF4Vchs3aSUioSX8W4oDDgGHpJbzEhv
+ LtFl9/inH+HSIEpwr3ZIVDhyM5WtJcGptdoV0Keq0EK2QslJepsPBq2bLLBmL13IdGM21YMFgr
+ nHpPD9oZa9d0wXgctVAf1zwda+PNrPZ5/x6zfNKUzAMfxBS9G0zWNAAAA
+X-Change-ID: 20260422-bump-minimum-supported-llvm-version-to-17-b4638a58b043
+To: Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nsc@kernel.org>, 
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
+ Nick Desaulniers <nick.desaulniers+lkml@gmail.com>
+Cc: linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
+ linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, 
+ Kees Cook <kees@kernel.org>, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
+ linux-hardening@vger.kernel.org, linux-security-module@vger.kernel.org, 
+ Rong Xu <xur@google.com>, Han Shen <shenhan@google.com>, 
+ Russell King <linux@armlinux.org.uk>, Arnd Bergmann <arnd@arndb.de>, 
+ linux-arm-kernel@lists.infradead.org, Paul Walmsley <pjw@kernel.org>, 
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+ Alexandre Ghiti <alex@ghiti.fr>, linux-riscv@lists.infradead.org, 
+ Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, 
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
+ Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>
+X-Mailer: b4 0.16-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6086; i=nathan@kernel.org;
+ h=from:subject:message-id; bh=BPWip7f/+n2wb9mPvkHgJCd0lFqOC+ZsA1RInw6FYx8=;
+ b=owGbwMvMwCUmm602sfCA1DTG02pJDJkfSwy7+t4r7Kv16klo6al7FnGl0OyWQ1SCjbIF4/MYH
+ 9eSzsiOUhYGMS4GWTFFlurHqscNDeecZbxxahLMHFYmkCEMXJwCMJGV0xn+B1/JuipsITflWW/l
+ m6DA5oOhB7lmcdcvX5Hz8Y+Uefb79wz/7J86+2gJ/PR/d2GTU3jbj9SMJM3fnd0H9j5T980/ZXu
+ PBwA=
+X-Developer-Key: i=nathan@kernel.org; a=openpgp;
+ fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
 
-On Tue, Apr 28, 2026 at 8:45=E2=80=AFPM Nathan Chancellor <nathan@kernel.or=
-g> wrote:
->
-> I agree with the sentiment that more host tools may want to be written
-> in Rust. The Rust build in the kernel does not use cargo altogether, do
-> we want the same restriction for host programs? Would these tools be
-> able to share the Rust build rules so that we could have a simple
-> hostprogs syntax for tools integrating with Kbuild to use? Obviously, it
-> might be harder for some programs not to use some of the nice third
-> party libraries available but it seems like it would eliminate the build
-> system considerations from the discussion at that point.
+The current minimum version of LLVM for building the kernel is 15.0.0.
+However, there are two deficiencies compared to GCC that were fixed in
+LLVM 17 that are starting to become more noticeable.
 
-Yeah, we have already 3 hostprogs in the tree, which just call the
-compiler, but it would be nice to have a way to use ecosystem crates
-for those and userprogs etc., even if just a particular vetted set.
+The first was a bug in LLVM's scope checker [1], where all labels in a
+function were validated as potential targets of an asm goto statement,
+even if they were not listed in the asm goto statement as targets. This
+becomes particularly problematic when the cleanup attribute is used, as
 
-Otherwise, it is quite painful sometimes to use Rust, and one may
-prefer something like Python instead (like we did for
-`scripts/generate_rust_analyzer.py`). Python works great for many
-tasks thanks to its standard library, but we lose the advantages of
-something like Rust. On the other hand, Rust without a few crates to
-support certain common things isn't great.
+  asm goto(... : label_a);
+  ...
+label_a:
+  ...
+  int var __free(foo);
+  asm goto(... : label_b);
+  ...
+label_b:
+  ...
 
-I wouldn't say it is a rush, but it would be nice to agree on an
-initial vetted set and try to set something up so that eventually it
-is easy to write scripts/tools/hostprogs in Rust going forward.
+will trigger an error since the scope checker will complain that the
+cleanup variable would be skipped when jumping from the first asm goto
+to label_b (which obviously cannot happen). This issue was the catalyst
+for commit e2ffa15b9baa ("kbuild: Disable CC_HAS_ASM_GOTO_OUTPUT on
+clang < 17"). Unfortunately, this issue is reproducible with regular asm
+goto in addition to asm goto with outputs, so that change was not
+entirely sufficient to avoid the issue altogether. As asm goto has
+effectively been required since commit a0a12c3ed057 ("asm goto:
+eradicate CC_HAS_ASM_GOTO") and the usage of the cleanup attribute
+continues to grow across the tree, raising the minimum to a version that
+avoids this issue altogether is a better long term solution than
+attempting to workaround it at every spot where it happens.
 
-We could also consider an earlier MSRV for those, i.e. lower than the
-kernel image one, if that would allow us to use it in more places,
-like for hostprogs without assuming `CONFIG_RUST=3Dy`. Say, Debian
-Oldstable instead of Stable.
+The second issue is an incompatibility with GCC 8.1+ around variables
+marked with const being valid constant expressions for _Static_assert
+and other macros [2]. With GCC 8.1 being the minimum supported version
+since commit 118c40b7b503 ("kbuild: require gcc-8 and binutils-2.30"),
+this incompatibility becomes more of a maintenance burden since only
+clang-15 and clang-16 are affected by it.
 
-Cheers,
-Miguel
+Looking at the clang version of various major distributions through
+Docker images, no one should be left behind as a result of this bump, as
+the old ones cannot clear the current minimum of 15.0.0.
+
+  archlinux:latest              clang version 22.1.3
+  debian:oldoldstable-slim      Debian clang version 11.0.1-2
+  debian:oldstable-slim         Debian clang version 14.0.6
+  debian:stable-slim            Debian clang version 19.1.7 (3+b1)
+  debian:testing-slim           Debian clang version 21.1.8 (3+b1)
+  debian:unstable-slim          Debian clang version 21.1.8 (7+b1)
+  fedora:42                     clang version 20.1.8 (Fedora 20.1.8-4.fc42)
+  fedora:latest                 clang version 21.1.8 (Fedora 21.1.8-4.fc43)
+  fedora:44                     clang version 22.1.1 (Fedora 22.1.1-2.fc44)
+  fedora:rawhide                clang version 22.1.3 (Fedora 22.1.3-1.fc45)
+  opensuse/leap:latest          clang version 17.0.6
+  opensuse/tumbleweed:latest    clang version 21.1.8
+  ubuntu:jammy                  Ubuntu clang version 14.0.0-1ubuntu1.1
+  ubuntu:noble                  Ubuntu clang version 18.1.3 (1ubuntu1)
+  ubuntu:questing               Ubuntu clang version 20.1.8 (0ubuntu4)
+  ubuntu:resolute               Ubuntu clang version 21.1.8 (6ubuntu1)
+
+17.0.1 is chosen as the minimum instead of 17.0.0 to ensure that the
+particular version of LLVM 17 has the two aforementioned bugs fixed, as
+the second was fixed during the 17.0.0 release candidate phase and it
+was not until LLVM 18 that LLVM adopted the scheme of x.0.0 being a
+prerelease version and x.1.0 is a release version [3] to help with
+scenarios such as this.
+
+The first patch in the series does the actual bump. The remaining
+patches are cleanups of workarounds for various issues that are no
+longer needed with the bump.
+
+I plan to take this via the Kbuild tree for 7.2, please provide Acks as
+necessary.
+
+[1]: https://github.com/llvm/llvm-project/commit/f023f5cdb2e6c19026f04a15b5a935c041835d14
+[2]: https://github.com/llvm/llvm-project/commit/0b2d5b967d98375793897295d651f58f6fbd3034
+[3]: https://github.com/llvm/llvm-project/commit/4532617ae420056bf32f6403dde07fb99d276a49
+
+---
+Nathan Chancellor (14):
+      kbuild: Bump minimum version of LLVM for building the kernel to 17.0.1
+      security/Kconfig.hardening: Remove tautological condition from CC_HAS_ZERO_CALL_USED_REGS
+      security/Kconfig.hardening: Remove tautological condition from FORTIFY_SOURCE
+      security/Kconfig.hardening: Remove tautological condition from CC_HAS_RANDSTRUCT
+      arch/Kconfig: Remove tautological conditions from HAS_LTO_CLANG
+      arch/Kconfig: Remove tautological condition from AUTOFDO_CLANG
+      ARM: Drop tautological ld.lld conditions from ARCH_MULTI_V4{,T}
+      riscv: Remove tautological condition from selection of ARCH_SUPPORTS_CFI
+      riscv: Drop tautological condition from TOOLCHAIN_NEEDS_OLD_ISA_SPEC
+      scripts/Makefile.warn: Drop -Wformat handling for clang < 16
+      x86/build: Drop unused '-ffreestanding' addition to KBUILD_CFLAGS
+      x86/module: Revert "Deal with GOT based stack cookie load on Clang < 17"
+      x86/entry/vdso32: Remove conditional omission of '.cfi_offset eflags'
+      kbuild: Remove check for broken scoping with clang < 17 in CC_HAS_ASM_GOTO_OUTPUT
+
+ Documentation/process/changes.rst      |  2 +-
+ arch/Kconfig                           |  5 +----
+ arch/arm/Kconfig.platforms             |  4 ----
+ arch/riscv/Kconfig                     | 16 +++++++---------
+ arch/x86/Makefile                      |  5 -----
+ arch/x86/entry/vdso/vdso32/sigreturn.S | 10 ----------
+ arch/x86/include/asm/elf.h             |  5 ++---
+ arch/x86/kernel/module.c               | 15 ---------------
+ init/Kconfig                           |  3 ---
+ scripts/Makefile.warn                  | 10 ----------
+ scripts/min-tool-version.sh            |  2 +-
+ security/Kconfig.hardening             |  8 --------
+ 12 files changed, 12 insertions(+), 73 deletions(-)
+---
+base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+change-id: 20260422-bump-minimum-supported-llvm-version-to-17-b4638a58b043
+
+Best regards,
+--  
+Nathan Chancellor <nathan@kernel.org>
+
