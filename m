@@ -1,84 +1,125 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B37A402B82;
-	Thu, 30 Apr 2026 14:30:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E55A40B6F6;
+	Thu, 30 Apr 2026 14:47:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777559454; cv=none; b=n+Dm3Qd9cgPevOW5iulKjHQsmeWdGOeMaAVjpQm0LglXbCE+QrShQyqMnzAsdEQcHiKgvRxYNIApfEa7M4QK+GjA2VYdqOKtf5nhBwJQzz4kPSeyVLZhXGhu0MF/GVMv9klEKTy2iOaQsC1K3qtHXTuTkQf/2cH3PwAqkiBB2JM=
+	t=1777560438; cv=none; b=pzR/DbyM7TnSEQYoX9au5NbCOuJ+lRuqi1T7iknPyDeiQm25j2WyacDWk5Db4JDVPyYYknOZ8ub38Vs4ljwFcoiD9lvAuczphQPoKBJBrjMtL+Fxp5Tx6OD/mnj6M6VUHw5LPYib2ZheuPw/h4hA8ryNxPRKsUaFNZWYlqAKa9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777559454; c=relaxed/simple;
-	bh=pzHSXG/SVt1mR0gwSvwIhc/1brZ8OIbCrnl9WDTLZmI=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=FY63GHsxLRFwcbpYXm//dnlvGdw0/aat1t1Nvi8RhzqQ8pzcq6JDOTb0YnAKEVTVsV9H7LOnV5X/e4wHOwzBBpqLMlOZxrYdEFirVZlN7Zh9orh+Hln0lakt1ZPBHEoEsVB9w79eg8GmOdJAqJE2GbisRRzZabRWekQxKTEmt0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PzkhJrGP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777560438; c=relaxed/simple;
+	bh=PgjNJKLT2zJkSi9VpdJOFcoOhqQHfDSBNF35mCNRBI4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VzYMVwUUIacKnMjp8AmQ+5i25cCCFFxEr5z1MBw7P9TErzRSaA3w913p/yfFsOl6i7j1tmCCD26KuV3IcT3h0xk+ZDVKbQkCKMr3RS5Ns9gAxhlEgP7g905m0ltuZtMgPDBoGcjGPqH73c+DR9SyFI4M4BXW2eF2c93t4PQuDIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vM1iY9/t; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PzkhJrGP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E644C2BCB3;
-	Thu, 30 Apr 2026 14:30:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vM1iY9/t"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2039C2BCB3;
+	Thu, 30 Apr 2026 14:47:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777559454;
-	bh=pzHSXG/SVt1mR0gwSvwIhc/1brZ8OIbCrnl9WDTLZmI=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=PzkhJrGP21ZYB99LAZEIxGCm9vCo7dbwBlRJE6cS8VPC4vD7GGxWDSwOCKVOQdMfY
-	 +4M39ZZZahSPByOvnX2ftXCfUGKt+Bx/KISBFOdlYIH+yNDO35EhbI84Xf96IuKjNS
-	 kFSeltUamP0I8Mjvq9H0R+8Tah26m1ssB2iZ0p3HXAgrmWrlIkmGeLec+8cH8W/G5w
-	 V7zB5TjVe04g0AMwNoEkjO9iD3FZvh7DrkJr0qx3LRnAkdQc8bjfaC/Kx455jHbwHV
-	 yqOlk6vsnm2h1yt6Xus/Rx5uLVv+R02SDm7C0Ml3q/GmsmqexnkAW663bfYUJHg6fx
-	 ltzWUKWeeG0cQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 02F00380AA58;
-	Thu, 30 Apr 2026 14:30:10 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1777560438;
+	bh=PgjNJKLT2zJkSi9VpdJOFcoOhqQHfDSBNF35mCNRBI4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vM1iY9/t2BKQ45wuFAsqyAf/5CCva2wC6dU+JCnJ0IdlWvR2j3/AnA/0d31WDzruV
+	 imgLERpZhP/AubkiUNQk0DTfTomV0cDRKxCDPqgYn+dSrq0kQ8wO0Bn3ySopJtC1AY
+	 WIO8hhikkM7Cxdq0+UU4hER8OBwXdbXfyBJ3TYM7GV4RbJmmIZr8CFPU2h09+nntnP
+	 jBjY6wUdgRnnGC3sq6F8CqLNFsES1uliYwFO3ABzDjXGjybbY/3tfsXno3eq2ytHmX
+	 NNAotC3v8dUJwcpbKulD7LPfUyJAN7L0kY6Dsz4VQ1RRz/ooRyhv/n1kAQ2COSiCgP
+	 MINuZ0sKWe+ag==
+Date: Wed, 29 Apr 2026 18:32:16 +0200
+From: Nicolas Schier <nsc@kernel.org>
+To: Nathan Chancellor <nathan@kernel.org>
+Cc: Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+Subject: Re: [PATCH v3 1/9] kernel/api: introduce kernel API specification
+ framework
+Message-ID: <afIykLLPj7m0fcsX@levanger>
+Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
+	"Paul E . McKenney" <paulmck@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	David Laight <david.laight.linux@gmail.com>,
+	Askar Safin <safinaskar@zohomail.com>,
+	Gabriele Paoloni <gpaoloni@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Christian Brauner <brauner@kernel.org>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
+References: <20260424165130.2306833-1-sashal@kernel.org>
+ <20260424165130.2306833-2-sashal@kernel.org>
+ <177726106581.2478607.12645653803520391071.b4-review@b4>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next 0/2] dpll: add pin operational state
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <177755940880.3033474.8176113325052727327.git-patchwork-notify@kernel.org>
-Date: Thu, 30 Apr 2026 14:30:08 +0000
-References: <20260428154907.2820654-1-ivecera@redhat.com>
-In-Reply-To: <20260428154907.2820654-1-ivecera@redhat.com>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, arkadiusz.kubalewski@intel.com,
- davem@davemloft.net, donald.hunter@gmail.com, edumazet@google.com,
- kuba@kernel.org, jiri@resnulli.us, corbet@lwn.net, mschmidt@redhat.com,
- pabeni@redhat.com, pvaanane@redhat.com, poros@redhat.com,
- Prathosh.Satish@microchip.com, skhan@linuxfoundation.org, horms@kernel.org,
- vadim.fedorenko@linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <177726106581.2478607.12645653803520391071.b4-review@b4>
 
-Hello:
-
-This series was applied to netdev/net-next.git (main)
-by Paolo Abeni <pabeni@redhat.com>:
-
-On Tue, 28 Apr 2026 17:49:05 +0200 you wrote:
-> Add pin operational state (operstate) to the DPLL subsystem to
-> separate administrative intent from actual hardware status.
+On Sun, Apr 26, 2026 at 11:37:45PM -0400, Nathan Chancellor wrote:
+> On Fri, 24 Apr 2026 12:51:21 -0400, Sasha Levin <sashal@kernel.org> wrote:
+> > diff --git a/kernel/Makefile b/kernel/Makefile
+> > index 6785982013dc..564315153643 100644
+> > --- a/kernel/Makefile
+> > +++ b/kernel/Makefile
+> > @@ -59,6 +59,9 @@ obj-y += dma/
+> >  obj-y += entry/
+> >  obj-y += unwind/
+> >  obj-$(CONFIG_MODULES) += module/
+> > +obj-$(CONFIG_KAPI_SPEC) += api/
+> > +# Ensure api/ is always cleaned even when CONFIG_KAPI_SPEC is not set
+> > +obj- += api/
 > 
-> Currently pin-state mixes what the user requested (connected,
-> selectable, disconnected) with what the hardware is actually doing.
-> This makes it difficult to diagnose situations where a user sets
-> a pin as selectable or connected but the hardware cannot use it
-> due to signal issues.
+> If $(CONFIG_KAPI_SPEC) is not set, shouldn't
 > 
-> [...]
+>   obj-$(CONFIG_KAPI_SPEC) += api/
+> 
+> evaluate to
+> 
+>   obj- += api/
+> 
+> anyways? Why the duplication? This is the only place in the kernel where
+> this would be needed?
 
-Here is the summary with links:
-  - [net-next,1/2] dpll: add pin operational state
-    https://git.kernel.org/netdev/net-next/c/781c8893a5da
-  - [net-next,2/2] dpll: zl3073x: implement pin operational state reporting
-    https://git.kernel.org/netdev/net-next/c/c53f8f8dce77
+yes, this is definitely not needed, as obj- is always evaluated during
+'make clean', cp. scripts/Makefile.clean [1].
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+Kind regards
+Nicolas
 
-
+[1]: https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/scripts/Makefile.clean?h=v7.1-rc1#n30
