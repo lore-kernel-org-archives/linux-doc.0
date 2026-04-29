@@ -1,153 +1,224 @@
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f196.google.com (mail-pf1-f196.google.com [209.85.210.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B82471A6836;
-	Wed, 29 Apr 2026 06:11:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1984B39A057
+	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 06:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777443100; cv=none; b=T0YQqtnflaE4nGTRlSh4RK0ylcvZJ0Ra4Kx/7XR/GgoDQiL0fbKSN5mCriiTY/HeihFe+Fj2eCFmJSn4KbJyfFgli5VBvCsb75v8szntRJxT399jd/Nqpi1tQacDGme4W5sw3Wz9KY6uOuJLq07qwr85pF0b0IYHdid+eUFRXWo=
+	t=1777445926; cv=none; b=ZplLRp3V6cso2/fcwjZtfyu6mmSThTIRjU+PccvYcIkUrmz4sLbAza6jR3lf55JI62kM1jN/gKbqW+j8QcNZv0Pc8GxKnuih2siaEODBAFxl9q7KbQ4HGm3hEEEz1yPG1jBKuwg0xOWASKmE+dje8gGWBFbvR4jUz+DUnknGD9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777443100; c=relaxed/simple;
-	bh=CJs8jF6llRJpWYEn4dnQ1SCq36IBUOgC+VrqXKKY5Y8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hr0wOasxe74flylZkcS5C9cB6ppv/K8ZFaOsJs+2eawilJlSmAo7CvDcfQlxhRI7p1GoVNVKvYMtdyc4XSY9iX/Aio37ocpsc8NZxoAOmZRwdOE6LyfgNK0S5zfPhgJbE4XpeHMF9JOml+Yz5YLGEHwxX6KgP9QeEj16DgmCsQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com; spf=pass smtp.mailfrom=kroah.com; dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b=YsNbopzd; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UiVKCUjm; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kroah.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kroah.com
+	s=arc-20240116; t=1777445926; c=relaxed/simple;
+	bh=z8QrbyEQ9Qhmn8e7bcE+J1PUsYSh4gHOBxd0HU0dPH0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JRmm4cEu461cvZyEPLcptdlCCvQpXWn2z39+cuqykQeoz2HmfCWiMlKWfckdGfZMZnfD6ygUQZoiSXTxNRkJOZgUsGS6I0i4ICZWJYNatIrxeh7hT1VO8W9PN9C5brsAPfcK0fF7HvFz/xn9ztgz9+E5TKpKS99IbVSiJ4ypPd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g5UebSqy; arc=none smtp.client-ip=209.85.210.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kroah.com header.i=@kroah.com header.b="YsNbopzd";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UiVKCUjm"
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id ED831EC00A6;
-	Wed, 29 Apr 2026 02:11:37 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Wed, 29 Apr 2026 02:11:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1777443097; x=1777529497; bh=PtMSSFPudZ
-	bkj2num2SuaqgZPiuR96idPDfiqtdkOTI=; b=YsNbopzdY9ukF7XqMPcyOEWa5E
-	RfqcdHd2tJG7DNsA7x28HMjaLsl1G7rOxcTZ/Anf0hJp7JObw/mIYbCvaER2+7MY
-	sv2YXozd47hR7DIMbUZiWKKcKzOeGOhVphm+Deyg34rs7zjb9tcbsHPIgtvTIVW/
-	8mokq6RqLaMGl8K3tpPFNLY/csj6zu3ihjLWsgyfHIl6DhWT+cypJyZM0NB+IIsH
-	vaBLDdkUODRDRPlqRQF5xhi0mJc1bzwnoBrgwo6quc6EACDGXGK23eemTKmkun5y
-	z12AFgoD6eRJ8Ch2lXq5EMyQV4BOyDiZ5wMV4gUzb3tHnBS06I74gi2jfJVQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
-	1777443097; x=1777529497; bh=PtMSSFPudZbkj2num2SuaqgZPiuR96idPDf
-	iqtdkOTI=; b=UiVKCUjmmnGkHXgbII8UjeDWKJSJ8NCpZZ2konlHowCyDmt9Ykg
-	+YZ4gdbOxP7quxBItfhYNarNGHk4gcw09KYc57ODBPb1TSpy/y/DunYAt1Gc/beP
-	U3BPVwqnQ1ojhvZR9CJyWD3D7RAQIqc4TgtC17qXrMrOrGqjZsPEaw1CDNXSaK+R
-	x3ITjZzboB76yjttd7O3DW3Uwj0lpOEz4iQjkdlcBiCuaXGUrpVJtXz6SG6hrsT2
-	y+Ju4ZfXBuVUbY6a98f41R8/g2eX+VLQRy3v5SACaUchnoeEsPJ/rj0V7uUZupTW
-	b5gHg6k0cbfBFrLspYQnz6e8IGAFGSnZ4SQ==
-X-ME-Sender: <xms:GaHxaeFXXi-GGn_DWT6L2sQCy3fS_tRFEN7f9rKAoxLouPcId6jhQg>
-    <xme:GaHxaQQPxEtGAn-eBY4Go0GtA1dPkbRV0XTvRFc81LmLed3ucmfUM2yMvIFlybpYC
-    jPeph0hU1Jw9vK0ryz5dUv7G06QZk5CRsPqFRBiZwKF9h742A>
-X-ME-Received: <xmr:GaHxaYcCVZaXQDPis8h63L5SDUx5bRph2B7u_Hgl6WhpmipJqt6Da0gZYe5W>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekfeeilecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefirhgvghcumffj
-    uceoghhrvghgsehkrhhorghhrdgtohhmqeenucggtffrrghtthgvrhhnpeehgedvvedvle
-    ejuefgtdduudfhkeeltdeihfevjeekjeeuhfdtueefhffgheekteenucevlhhushhtvghr
-    ufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehgrhgvgheskhhrohgrhhdrtg
-    homhdpnhgspghrtghpthhtohepudeipdhmohguvgepshhmthhpohhuthdprhgtphhtthho
-    peifsedufihtrdgvuhdprhgtphhtthhopehlvghonheskhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtohepshgvtghurhhithihsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhr
-    sggvtheslhifnhdrnhgvthdprhgtphhtthhopehskhhhrghnsehlihhnuhigfhhouhhnug
-    grthhiohhnrdhorhhgpdhrtghpthhtohepfihorhhkfhhlohifshesvhhgvghrrdhkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdguohgtsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhg
-X-ME-Proxy: <xmx:GaHxaWgnbXZU4r6sfQ-X7GA0x0bUBYuOYFStobaxj20NWRjQmbcv8g>
-    <xmx:GaHxabLZtrvjodSHVSshdHp2Z4zOXzMIy7oZLsq4oggSmXmWO37GUQ>
-    <xmx:GaHxabFbzYlqCIzYne_IAY7kyWDnTBNToaCjtz1qea-vofMxIylMYA>
-    <xmx:GaHxaZ2s3vQXjLoCvSfgxmgIbxIDNFF__Db4W7_SVv-laCEjjaC8oA>
-    <xmx:GaHxaW4YpQTsZPjAV8RqMWrFjN-NbegM2297N3BWILcxP_HqdFXShwNE>
-Feedback-ID: i787e41f1:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 29 Apr 2026 02:11:36 -0400 (EDT)
-Date: Wed, 29 Apr 2026 00:10:51 -0600
-From: Greg KH <greg@kroah.com>
-To: Willy Tarreau <w@1wt.eu>
-Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	skhan@linuxfoundation.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
- not a security bug
-Message-ID: <2026042945-duress-extenuate-939f@gregkh>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-3-w@1wt.eu>
- <2026042753-ozone-jigsaw-4ad5@gregkh>
- <ae-Acm2XJ3sR34Il@1wt.eu>
- <2026042724-bullhorn-bobtail-ae6f@gregkh>
- <ae-LVyDQPVwxesCO@1wt.eu>
- <2026042804-overbook-ripeness-73dd@gregkh>
- <afF2d6RzRf2Flnv7@1wt.eu>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g5UebSqy"
+Received: by mail-pf1-f196.google.com with SMTP id d2e1a72fcca58-82f1bfc9b8fso5569997b3a.1
+        for <linux-doc@vger.kernel.org>; Tue, 28 Apr 2026 23:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777445924; x=1778050724; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2YAMiQdl0y9iAuHJeag5d0legeH39piZcT0MdhE3hIc=;
+        b=g5UebSqybmlZmoOdPsh9rz3fTm2Km6Vz5pgUYTdHnKyhd/95JcBcF2HZlWlAX9CLl+
+         +QP53fGJ/XTMe+G9kHQ1pwvlS0w+Lpmiz40L/l9MQPRgxSbcHEuv8nA4JaXCVXcz68b/
+         /gsp1kJKMNBreaCaN/mzuAuhWUsLAc7wBzSQcDURugNGo8UliTXKY7d2mCOG6Oq+41un
+         R75iIL/I/Qc6tyy/MCKDcqZ08SZMq68zX8OdOyeYdPswd2aTk63S3CZ673wI55d/0PH8
+         dnyZX/a87HCZJM4PZimuQ4HmGDQGrAI4KJ4v7vG9i+7skKqe5kkSkoYD1MCRyIc4CgRs
+         ccBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777445924; x=1778050724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2YAMiQdl0y9iAuHJeag5d0legeH39piZcT0MdhE3hIc=;
+        b=p1AYUSKfkVpZ1OapWeGBLUSRHdV/6LHZiwiEGD4fodqtYgvWNdYXf7FO+jFVhFrKX3
+         jkWDpI8PJdF/wLc2gIEbMRJ5rgZuj9FwV79KIT2ZL0U+JEQzQtMASC6lg5CE7zfz7PhZ
+         GtdIYF2sAZfhUr4dHBGlH9MHmLPhPNl6NdjQI5ttD9O/ChiRMYmGOzXYnW7SbpnLD6TE
+         Iji89bBAKBRt1RyzZrsp6ABfUHesG6eYap8iEHlsyxFlYL4Bm/wDUy6LKybxIBT4JT3m
+         88XUsPsPXFQ2hnyK1uVdlISa4NfKX6icYE9QdsFDvyCXn/j9ccgBshpxIHO17zjLR0Ht
+         R1rA==
+X-Forwarded-Encrypted: i=1; AFNElJ+Tf38qoyOJGKi227+45oJl0njq9mSId83k+RUl7Ks2Ex/iY2Diyqd5xshfnp3raDfmY1q/r/7lUWg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzln1mDWLfkSPRIXMR2s10aegdAqrXVzLsq9L6iT6Vc1y8gwDsv
+	43ZbSFDOkVP5f8W3wbYnnYXKMNDO1Wf2hVYSWmmSsk03RPu2dhXPiO5c
+X-Gm-Gg: AeBDieulIvElRoUxf1G4MQCKj4A0a2vgVJNE9/1Bi/TGpNyG7dFmVqHRHS/vvrvGcon
+	XfY8XvAZToUCN9eZ9nxwFNN8GPPyS1z3Y1/GtYsQd7fi1BqYR60L0k3pE2h6JpTJCdWRFO/1TUd
+	OCRTEyh+hRJ+DpVvVCb0cqXljVZT6n0F1yC2ZAfuV07VaDRBgiocc9Gr1W/HOjQ1Z0wCDT3Vwez
+	Jevq+utHwKIXNcWD26IsUciMzcscfBuirKhFqLyzdaK7TlyO5s7gf/99l+bx3oD0Xue9pxbdmiM
+	SzqvmpqQ+abbCasqjqi1EExyif79rBoBAHDXa4c5ffDbEBBJttbFLzEQaL0Ojo195DTVxANux1S
+	NMc2H6tS8rJH+6L7LIHqjTz1eE+EyMNZxJ+PZr87/6oRO4n0wBC/+uSsNmVzh2/iaNkv28+d3nu
+	JpshTzN5Sv3AwybBuZMcl0y6IZz7tlnaE5sfl4Ebd8vFtB0wc0
+X-Received: by 2002:a05:6a00:883:b0:829:7d31:dd99 with SMTP id d2e1a72fcca58-834ddbd42f5mr6432638b3a.38.1777445924448;
+        Tue, 28 Apr 2026 23:58:44 -0700 (PDT)
+Received: from intel.company.local ([210.184.73.204])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-834ed7eaf93sm1043146b3a.40.2026.04.28.23.58.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Apr 2026 23:58:43 -0700 (PDT)
+From: Chen Wandun <chenwandun1@gmail.com>
+X-Google-Original-From: Chen Wandun <chenwandun@lixiang.com>
+To: kexec@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	loongarch@lists.linux.dev,
+	linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	bhe@redhat.com,
+	rppt@kernel.org,
+	pasha.tatashin@soleen.com,
+	pratyush@kernel.org,
+	ruirui.yang@linux.dev,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	pjw@kernel.org,
+	palmer@dabbelt.com,
+	aou@eecs.berkeley.edu,
+	robh@kernel.org,
+	saravanak@kernel.org,
+	chenwandun@lixiang.com,
+	zhaomeijing@lixiang.com,
+	everyzhao@126.com
+Subject: [PATCH 00/11] kdump: reduce vmcore size and capture time via linux,no-dump
+Date: Wed, 29 Apr 2026 14:58:20 +0800
+Message-ID: <20260429065831.1510858-1-chenwandun@lixiang.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afF2d6RzRf2Flnv7@1wt.eu>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 29, 2026 at 05:09:43AM +0200, Willy Tarreau wrote:
-> On Tue, Apr 28, 2026 at 03:13:01PM -0600, Greg KH wrote:
-> > > > We can point at other files, as this list is going to get long over
-> > > > time, which is a good thing.
-> > > 
-> > > Sure. I'm just unsure where this could be enumerated, as it's likely
-> > > that there would be just one or two lines max per subsystem for the
-> > > majority of them. Or we could have a totally separate file, "threat
-> > > model", that goes into great lengths detailing all this with sections
-> > > per category or subsystem when they start to grow maybe, and refer only
-> > > to that one from security-bugs ?
-> > 
-> > I think a separate file is good, I know I need to write up what the USB
-> > model is, and it's different from PCI, and different from other
-> > subsystems.  All should probably be documented eventually.
-> 
-> Would you be interested in me trying to initiate a new "threat-model.rst"
-> file that tries to unroll the points mentioned in the list ? I'm concerned
-> that that withuot having many details initially, it could look a bit odd,
-> because the list we currently have would be more suitable for an "other"
-> section.
+This series has two parts:
 
-Sure, a small file to start with would be good for people to work off
-of and add to.
+ - Patches 1-4 are OF reserved_mem bug fixes and small hardening
+   changes. They stand on their own and at the same time prepare the
+   ground for the feature work that follows (accurate region counts,
+   consistent two-pass save/reserve state, and an early-out when the
+   array is empty).
 
-> > > > > > (like what the IB subsystem does which I
-> > > > > > don't think you listed above, or the USB subsystem.)
-> > > > > 
-> > > > > Indeed I didn't list IB (I'm never sure about it, I seem to remember
-> > > > > we simply trust any peer, is that right?), nor did I make specific
-> > > > > mentions for USB which is implicitly covered by "hardware emulation
-> > > > > or modification".
-> > > > 
-> > > > Ah, but USB does cover "some" modification of devices, so this is going
-> > > > to be something that is good to document over time, if for no other
-> > > > reason to keep these scanning tools in check from hallucinating crazy
-> > > > situations that are obviously not a valid thing we care about.
-> > > 
-> > > OK but does this mean you still want to get these reports in the end ?
-> > 
-> > I want a patch if a user cares about that threat-model (as Android does
-> > but no one else) as it's up to the user groups that want to change the
-> > default kernel's behavior like this to actually submit patches to do so.
-> 
-> Yes, OK, but we want them in any case. That's the idea I tried to convey
-> in the proposed doc (maybe not well enough), basically "this is a bug and
-> it is worth reporting, but no need to involve s@k.o for this".
+ - Patches 5-11 introduce a new 'linux,no-dump' reserved-memory
+   device tree property and the kdump plumbing to honour it, split
+   further as:
 
-Yes, you conveyed that, sorry if I insinuated otherwise.
+     * Patches 5-7: core OF changes - parse 'linux,no-dump' on
+       /reserved-memory/ children, save /memreserve/ firmware regions
+       into reserved_mem[] with no_dump defaulted on, and add generic
+       no-dump crash_mem exclusion helpers.
 
-thanks,
+     * Patches 8-10: arch kdump consumers - arm64, riscv and
+       loongarch each call the helpers from patch 7 in their
+       prepare_elf_headers() so that 'linux,no-dump' /reserved-memory/
+       children and /memreserve/ regions are filtered out of the
+       vmcore ELF PT_LOAD segments.
 
-greg k-h
+     * Patch 11: user-facing documentation in
+       Documentation/admin-guide/kdump/kdump.rst.
+
+Motivation
+==========
+
+On SoCs that carve out large firmware-owned reserved memory (GPU
+firmware, DSP, modem, camera ISP, NPU, ...), kdump currently dumps
+those carveouts as part of system RAM even though their contents are
+firmware state that is not useful for kernel crash analysis. On a
+machine with several hundred MiB of such carveouts, the overhead per
+vmcore is substantial.
+
+This series adds a declarative way for DT authors to mark such
+regions:
+
+    reserved-memory {
+        npu_fw@a0000000 {
+            reg = <0x0 0xa0000000 0x0 0x10000000>;
+            linux,no-dump;
+        };
+    };
+
+and also defaults /memreserve/ firmware regions (Trusted Firmware /
+BL31 images, secondary-CPU spin-table pens, bootloader scratch per
+Documentation/arch/arm64/booting.rst and upstream DTS files) to
+no_dump=true.
+
+Interaction with existing reserved-memory flags is kept simple:
+'linux,no-dump' is an OS hint, it is redundant (but harmless) when
+combined with 'no-map' and silently ignored on 'reusable' (CMA)
+regions whose contents are relevant for crash analysis. The 'linux,'
+prefix follows existing precedents like 'linux,cma-default' since
+kdump is a Linux-specific concept.
+
+Benefits
+========
+
+ - Smaller vmcore. The excluded firmware carveouts are omitted from
+   the ELF PT_LOAD segments entirely, so the resulting dump file is
+   smaller by roughly the sum of the tagged regions - on SoCs with
+   hundreds of MiB of GPU/DSP/modem/NPU carveouts this is a
+   substantial saving, both on disk and in transit to a dump server.
+
+ - Faster kdump. The dump-capture kernel writes less data to storage
+   or over the network, which directly shortens the crash-to-dump
+   turnaround. Tools that walk the dump (makedumpfile, crash) also
+   spend less time on regions that were never going to be useful
+   anyway.
+
+ - No existing behaviour change for DTs that do not opt in: regions
+   without 'linux,no-dump' and systems without /memreserve/ entries
+   are dumped exactly as before.
+
+DT binding
+==========
+
+The 'linux,no-dump' property is maintained in dt-schema
+(reserved-memory.yaml moved there from the kernel tree).
+Corresponding PR:
+
+  https://github.com/devicetree-org/dt-schema/pull/193
+
+Follow-ups
+==========
+
+ - powerpc also uses kexec_file and /reserved-memory/, but its
+   arch/powerpc/kexec/ranges.c uses the _guarded variant of
+   crash_exclude_mem_range with dynamic realloc and collects
+   additional RTAS/OPAL firmware ranges. Adapting it needs a small
+   extra helper; left as a follow-up.
+
+---
+
+Chen Wandun (11):
+  of: reserved_mem: fix region count for nodes with multiple reg entries
+  of: reserved_mem: reject reserved memory outside physical address
+    range
+  of: reserved_mem: avoid unconditional save of reg entries in
+    fdt_scan_reserved_mem_late()
+  of: reserved_mem: skip reserved_mem array allocation when there is
+    nothing to save
+  of: reserved_mem: add linux,no-dump property support for reserved
+    memory regions
+  of: reserved_mem: save /memreserve/ entries into reserved_mem array
+  of: reserved_mem: add no-dump crash_mem exclusion helpers
+  arm64: kdump: exclude no-dump reserved memory regions from vmcore
+  riscv: kdump: exclude no-dump reserved memory regions from vmcore
+  loongarch: kdump: exclude no-dump reserved memory regions from vmcore
+  Documentation: admin-guide: kdump: document linux,no-dump DT property
+
+ Documentation/admin-guide/kdump/kdump.rst  |  59 ++++++
+ arch/arm64/kernel/machine_kexec_file.c     |   6 +
+ arch/loongarch/kernel/machine_kexec_file.c |   6 +
+ arch/riscv/kernel/machine_kexec_file.c     |   4 +
+ drivers/of/of_reserved_mem.c               | 233 ++++++++++++++++++---
+ include/linux/of_reserved_mem.h            |  16 ++
+ 6 files changed, 295 insertions(+), 29 deletions(-)
+
+-- 
+2.43.0
+
