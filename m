@@ -1,107 +1,184 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07F20388E5C
-	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 08:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39A9B1DF736;
+	Wed, 29 Apr 2026 09:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777452936; cv=none; b=jt74s9Bk6u/MXYXGMqK0YpGBpI9jrdum17Kxu54/xqs/FtxlTaSFG+3D2Pl2x+xHyEN+VxOzD/DJWLUkUANWNV7e+9m66ZZON5AHifq9alu0tDES0Ags6Rdv5ueciheOtz9XfMSQEwnhXGQ6/WYsXPfprZwtQubd7QOOEMXvlwk=
+	t=1777455726; cv=none; b=p7JsUrEAznHN/O61oD8yZZb7zVGaN7+pRKzEgjHmw1fv5SBrYsPp8rUt6ryhwvtSOGbAs8VeklKoCPpoXBwaIDKmFEIFhCAbsFzM3qwN6GvtajeaUV/bIXYe92u7p9Jye1IrvD33z2xSeDQQG8aofIlBqXVWTeLxL0L99WDRV+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777452936; c=relaxed/simple;
-	bh=zloadYk+FRxuCKY1pGkNPmHK8KQ4PABu8yyLAufBvZA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N91jwDYhTXwv/9jYGe3ZT2/8tX7Vy3uhkuJzPeMCGUHZ+cXU9KD4EQocXxDdkrni3uU1mguiT01sHa4plJzz/bTcRsHB65dt5YIXptc+IkzU+T4/7oy9H/OVYhPSHesnH75FCpUKBxZnEoaKauDZ88ydtczQFOg3+IAnqkgJOx0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=lpLF3T7i; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1777455726; c=relaxed/simple;
+	bh=S+G5f1v55KF/VQLbCDiNNSR5kkKkvNfM7BwvHCeUeBg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=FyhikDsAw8AX4mV23leLdbeUlcXKuMNW6+KnfOKYaSbpRvE9XUn/cI5L24oqXOffwHX3wuXaKl022iesmqa5is3cqf65qRl2vdVhUK1KNwFrZfSg/HfaoEinmTKUlkmMybL3E49yf7zxu7zk8vb3Ryec7nDkRDy4fcijxzMqvtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HXXQsdYO; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="lpLF3T7i"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-448528f4e69so119637f8f.3
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 01:55:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1777452931; x=1778057731; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Nt4otsNZP+qM1RAgOCDcWAVXVHOwNcuga4GcWRLPXg4=;
-        b=lpLF3T7i9Y/ZHbWCAqHJ+CGOhS9l6q/j5ghgUJQbOHiwie31KWrOUMLpFxkqPE1xUv
-         97tZ0lndsgCxAflKz+tsV4PYoEG1a/Ru0g48wScK2vAgvghUzHgyWmR9wHbpYRgXne4W
-         XKw6GyNFQRJUn7AZvMHJQmnUg7lW7YIN1F54YKMOWyV9HfinnwvkWyeiLYntrFEdcYR2
-         atIrgFuumMTxRSxBcaN42QkiOE8SJidAwBJCWSrwJzpofAAYxEDUG4kKhmP9x2BgML97
-         7ncCjHEBOGbfYsuagML107m0gAXY1Ge5OlCRBOqVlxy7RWWxTUvKBwiDqUjqiTCptuXs
-         10Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777452931; x=1778057731;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Nt4otsNZP+qM1RAgOCDcWAVXVHOwNcuga4GcWRLPXg4=;
-        b=qVku3dVUNEIv2jNCFOjt+ecDDa6Lj1g9i07EQbx65ma8CCwOEwiA/EeXCKFMt9NM9e
-         AfD5xA5eUJilKrus7ssWc9PU9aiEAaQsDM1NqJSv3lxo8/95E63wpXLKZe2kQt+2rOZ1
-         4la0nKzSclyCYA4Aw45lMI6dnwRV5lnQfWKpr36zx/4uaRoTM2wYgg3GtbpqylIM2+FG
-         rN00oVXX9cPB09JHCZymz7RBEfYUw7KPJTVHF7a5MhlgcDEPJ40W1vd1kepFLmRHgo3g
-         JXctT/fN/VQzVL4ohcdLsV/sbXPsRmYwcuLyHToQ57cTH51WpIc7PvfkSMF8mcCySjWk
-         fehA==
-X-Forwarded-Encrypted: i=1; AFNElJ9wD6NdiSG4MoSE7F+BFAGKh4Fo7v6gn2aQqVST9baVhJnAe3mNs25Jk1B5PcVrtultFhpdQQaP66E=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2Zhltv795gfTN8RVHtnBOSGJSsIjqp22YDmUYnzpLmHpd/prc
-	iuZBdlOQ3TSwCuprIcpKaGcFT5lc2Ujc5zinKJ7Q35jANY4ly2XLVe0c36XQyePJVqQ=
-X-Gm-Gg: AeBDieuv+95x4CIlqF2tKO7FXlwDkPnjwkl5kEv6ziwn2SUIuSkl7Nbu/n1SQyMkeFl
-	xQP2oQiXd48j05EJ2+xTNwztq2thZ0P1tXackYnquQyY9yguP+/V+ChwXB9Mlpsif08BSIBwY9n
-	sqiIz7MGMsyocGUdbP90TJEbSnh4maqa1TV7XlXNPeov/aIRZPrubnveLNfR/l0wlWj27cjSOOa
-	L3G1EQM/cUW1fapZu1DBJhtfR+6g39xz94gF51dgubMJtTQZ4fNJR1Xk+zjVewoWLUBaaDyDYYH
-	CPpusdF3yNHf02YGTsZnqXxksFJTtQlDSutQE8t/azLydHX1sOUHLjorLzP3BPCS6QBFrDmg4Xe
-	sE1tIOzI+FCJjFjn9E+e8ybiiNsDhu1f5yODejo+eCM4pd6luykeE0FJzHhGnk6uKdCkGEVGjb3
-	0xl/QifBrwuyvoGcRhSlKGrv4ZH91RhBQtLl58yhL1fA==
-X-Received: by 2002:a5d:5d11:0:b0:43e:b0f7:9ce9 with SMTP id ffacd0b85a97d-44647dd17c1mr11721926f8f.14.1777452931178;
-        Wed, 29 Apr 2026 01:55:31 -0700 (PDT)
-Received: from FV6GYCPJ69 ([85.163.81.98])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b7218622sm4257094f8f.21.2026.04.29.01.55.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 01:55:30 -0700 (PDT)
-Date: Wed, 29 Apr 2026 10:55:27 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, "David S. Miller" <davem@davemloft.net>, 
-	Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Michal Schmidt <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Pasi Vaananen <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Simon Horman <horms@kernel.org>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next 1/2] dpll: add pin operational state
-Message-ID: <afHHb6UmK73yRXs-@FV6GYCPJ69>
-References: <20260428154907.2820654-1-ivecera@redhat.com>
- <20260428154907.2820654-2-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HXXQsdYO"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E1160C2BCB3;
+	Wed, 29 Apr 2026 09:42:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777455726;
+	bh=S+G5f1v55KF/VQLbCDiNNSR5kkKkvNfM7BwvHCeUeBg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=HXXQsdYOn3+u6oLbU1f6H0UcN0dlMOYU9IwNrGlAmh7hYPA722XQ5SVg/dAJqb7dt
+	 zu7Y/rtHTcKHnVGDO4TaUDmn/ae601+Aej3J9LNpKjCd8CxBQ+5ltBLpas9jy3oerI
+	 qhEjsYxh1bHwtOy8/DoE8KJUUdt+y+9Q7hhMqbKH0knfc24TofczEEMsa+rzsa8kWB
+	 pLJ8oeNXjuWedxGiNOHSA45DUvKAVet4kqJPbSEjOciWJLqvm2ary3aFQi5xRCKbHn
+	 qso2IXIrG8KLaNDg5VWBuFq689ygfsqIcDXdXgmfzsM8MSUS3zhNFE7rJ64ubi36Pc
+	 q6xVfLWGrODpQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D482AFF8867;
+	Wed, 29 Apr 2026 09:42:05 +0000 (UTC)
+From: Colin Huang via B4 Relay <devnull+u8813345.gmail.com@kernel.org>
+Date: Wed, 29 Apr 2026 17:41:59 +0800
+Subject: [PATCH 2/3] Documentation/hwmon: add Delta E50SN12051
+ documentation
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428154907.2820654-2-ivecera@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260429-add-e50sn12051-v1-2-c101e6c80bbb@gmail.com>
+References: <20260429-add-e50sn12051-v1-0-c101e6c80bbb@gmail.com>
+In-Reply-To: <20260429-add-e50sn12051-v1-0-c101e6c80bbb@gmail.com>
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kevin Chang <kevin.chang2@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Colin Huang <colin.huang2@amd.com>, Colin Huang <u8813345@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777455724; l=3926;
+ i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
+ bh=fjIHEdGdFgCZriZJJHZn9TW0wcDHjeFCHvbUS0lc100=;
+ b=OQYAtUS5gceSbMFz9dZPyD2rf4Qm0AflH+UO2NrCetAs6F6sEafEl25322aXmtL3nAJdcfcn5
+ NgmOVNwn0XuBDGS8Ksi5B0N+F+YdlZ/TzBFRut/b25qai0q2ovsvhJW
+X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
+ pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
+X-Endpoint-Received: by B4 Relay for u8813345@gmail.com/20260202 with
+ auth_id=761
+X-Original-From: Colin Huang <u8813345@gmail.com>
+Reply-To: u8813345@gmail.com
 
-Tue, Apr 28, 2026 at 05:49:06PM +0200, ivecera@redhat.com wrote:
->Add pin-operstate enum and operstate_on_dpll_get callback to report
->the actual hardware status of a pin with respect to its parent DPLL
->device. Unlike pin-state (which reflects administrative intent set
->by the user), operstate reflects what the hardware is actually doing.
->
->Defined operational states:
->  - active: pin is qualified and actively used by the DPLL
->  - standby: pin is qualified but not actively used by the DPLL
->  - no-signal: pin does not have a valid signal
->  - qual-failed: pin signal failed qualification
->
->The operstate is reported inside the pin-parent-device nested
->attribute alongside the existing state and phase-offset attributes.
->
->Signed-off-by: Ivan Vecera <ivecera@redhat.com>
+From: Colin Huang <u8813345@gmail.com>
 
-Looks great.
+Document the hardware monitoring support for the Delta E50SN12051
+device.
 
-Reviewed-by: Jiri Pirko <jiri@nvidia.com>
+The documentation describes the supported sensors exposed via the
+hwmon subsystem, including voltage, current, and temperature measurements.
 
-Thanks!
+Signed-off-by: Colin Huang <u8813345@gmail.com>
+---
+ Documentation/hwmon/e50sn12051.rst | 81 ++++++++++++++++++++++++++++++++++++++
+ Documentation/hwmon/index.rst      |  1 +
+ 2 files changed, 82 insertions(+)
+
+diff --git a/Documentation/hwmon/e50sn12051.rst b/Documentation/hwmon/e50sn12051.rst
+new file mode 100644
+index 000000000000..cbbfa7895d82
+--- /dev/null
++++ b/Documentation/hwmon/e50sn12051.rst
+@@ -0,0 +1,81 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++
++Kernel driver e50sn12051
++========================
++
++Supported chips:
++
++  * Delta E50SN12051
++
++    Prefix: 'e50sn12051'
++
++    Addresses scanned: -
++
++    Datasheet:
++
++      Provided by Delta upon request and NDA
++
++Description
++-----------
++
++E50SN12051 is a 600W non-isolated 1/8th brick DC-DC power module.
++
++This driver supports the E50SN12051 PMBus compliant monitor device.
++
++The device provides measurements for:
++
++* Input voltage
++* Output current
++* Output voltage
++* Temperature
++
++The driver is based on the PMBus core and exposes standard hwmon
++sysfs attributes.
++
++Sysfs attributes
++----------------
++
++======================= =======================================================
++curr1_label             "iout1"
++curr1_crit              Critical maximum current.
++                        From IOUT_OC_FAULT_LIMIT register.
++curr1_crit_alarm        Current critical high alarm.
++                        From IOUT_OC_FAULT status.
++curr1_input             Measured current.
++                        From READ_IOUT register.
++curr1_max               Maximum current.
++                        From IOUT_OC_WARN_LIMIT register.
++curr1_max_alarm         Current high alarm.
++                        From IOUT_OC_WARN_LIMIT status.
++
++in1_label               "vin"
++in1_alarm               Input voltage alarm.
++in1_input               Measured voltage.
++                        From READ_VIN register.
++
++in2_label               "vout1"
++in2_crit                Critical maximum voltage.
++                        From VOUT_OV_FAULT_LIMIT register.
++in2_crit_alarm          Voltage critical high alarm.
++                        From VOLTAGE_OV_FAULT status.
++in2_input               Measured voltage.
++                        From READ_VOUT register.
++in2_max                 Maximum voltage.
++                        From VOUT_OV_WARN_LIMIT register.
++in2_max_alarm           Voltage high alarm.
++                        From VOLTAGE_OV_WARNING status.
++
++temp1_crit              Critical high temperature.
++                        From OT_FAULT_LIMIT register.
++temp1_crit_alarm        Module temperature critical high alarm.
++                        Set by comparing READ_TEMPERATURE_1 with OT_FAULT_LIMIT
++                        if TEMP_OT_FAULT status is set.
++temp1_input             Measured module's hot spot temperature.
++                        From READ_TEMPERATURE_1 register.
++temp1_max               Maximum temperature.
++                        From OT_WARN_LIMIT register.
++temp1_max_alarm         Module temperature high alarm.
++                        Set by comparing READ_TEMPERATURE_1 with OT_WARN_LIMIT if
++                        TEMP_OT_WARNING status is set.
++======================= =======================================================
++
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index 8b655e5d6b68..ba08655fc496 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -68,6 +68,7 @@ Hardware Monitoring Kernel Drivers
+    drivetemp
+    ds1621
+    ds620
++   e50sn12051
+    emc1403
+    emc2103
+    emc2305
+
+-- 
+2.34.1
+
+
