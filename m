@@ -1,99 +1,92 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from smtp186.sjtu.edu.cn (smtp186.sjtu.edu.cn [202.120.2.186])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5C20340A6B;
-	Wed, 29 Apr 2026 03:09:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2129D1C84A6;
+	Wed, 29 Apr 2026 03:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.120.2.186
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777432193; cv=none; b=T2sw8iRhJynJ12VL0IqC0e2GbvSG2m80a0L/ShW04lyNhCDY9GWi/p0n3eSFABG7upUEJoLXirYfxK8Ywhbv59gLS7/sifPkmR1SKSr62AHVBT8zK7C7ozPI3rRxISgBTery4ZWa0Zf9CW2fSIZsRWCVTAQxHaD5VcFiDWY5K2s=
+	t=1777433526; cv=none; b=m7xqRQDf+13zxo+sTInmoXEYajo8RMt+VPe9cy8xJtiV3/r8EoUOlZLc6qtmZL41I/R83imgQN0Jt+bYJd+617JNoe3KvkMR1ImZPvQmsNDY/6aSNvqOaiFqnuCSyy4xcKK0vRCoryOc53zjDmW8UAfKXhe5gIFi7qTAP3cYq40=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777432193; c=relaxed/simple;
-	bh=jadScjLDJJBA6eS9wryo4ObcA4JIF7RMq3Yb3HSKsrw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=snn74JkRDknzYcYZDtqDyGSzrKR9lZyZHpiHsEZ4GTwzDEiGyP5QDLuMMqSMLo6WpTB9T8R1VjDcuNbHTl/6VXjgapj48NHJ4VV5m4E+pgrjr264CNl28+URHuD4CLAGZucnhPmOCy4SU1zfMR7N61LgQX2T1Y/XV46nzSlrbgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=pLeDsANZ; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1777433526; c=relaxed/simple;
+	bh=3jHDHOMfGUaLJeNyd8AGnvQsgJYSoBnA0Hacsg+XNBA=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=ilZt24CLfpcglVeHQTbBbvv1s8O1qd1z8oQjvIpPTusOrufuGmFM018kU+JLXEsPh+2Vo+hNct3IkG6xS91mJVc2ONlIUbDlIk9/Y9bQBj13h9Vsf6ia8n+chNM6KqOb5QUqLg9D+vBCw10rD+5iMTgwu8NkVTPQSMZi0E4hZTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sjtu.edu.cn; spf=pass smtp.mailfrom=sjtu.edu.cn; dkim=pass (2048-bit key) header.d=sjtu.edu.cn header.i=@sjtu.edu.cn header.b=XmwAK8XQ; arc=none smtp.client-ip=202.120.2.186
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sjtu.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sjtu.edu.cn
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="pLeDsANZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1777432183; bh=aqmIfBa7W9Z7GLnm1P0nwBo9e2Sx+GmVmQU+p6BbR1Y=;
-	h=From:Message-ID:From;
-	b=pLeDsANZ0LZTLiIkf6ycKf6N8iFUoUn+88y9Zefs22UFc+3ymPXfqD924P4dWBqnl
-	 x/QjEY6/U3AuI3wW/7Jcw8rSldcfzlqe7SvXKqyCfZQKV+i+2FqI8GVw6ot6hPLg2d
-	 LZEAd+MWHRuP0/mxSmyw1d0ZNtci/az8+60o6Zwc=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 83BBEC0B83;
-	Wed, 29 Apr 2026 05:09:43 +0200 (CEST)
-Date: Wed, 29 Apr 2026 05:09:43 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Greg KH <greg@kroah.com>
-Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        skhan@linuxfoundation.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
- not a security bug
-Message-ID: <afF2d6RzRf2Flnv7@1wt.eu>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-3-w@1wt.eu>
- <2026042753-ozone-jigsaw-4ad5@gregkh>
- <ae-Acm2XJ3sR34Il@1wt.eu>
- <2026042724-bullhorn-bobtail-ae6f@gregkh>
- <ae-LVyDQPVwxesCO@1wt.eu>
- <2026042804-overbook-ripeness-73dd@gregkh>
+	dkim=pass (2048-bit key) header.d=sjtu.edu.cn header.i=@sjtu.edu.cn header.b="XmwAK8XQ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=sjtu.edu.cn;
+	s=default; t=1777433515;
+	bh=3jHDHOMfGUaLJeNyd8AGnvQsgJYSoBnA0Hacsg+XNBA=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject;
+	b=XmwAK8XQSISth0tOijGltJaSz9+ZC9hVRSIMSlRDfRV+D/Jfuzpu3ycfyPx+embyF
+	 X0uyror0u5ADZPc+aoOw/GE0sqR2Ce0eflfNthorf2etLEEqMsgIhbm8jHCgCpikt2
+	 qoL8XQaDAgzHgkijOqREANnzGVI/MeMQzYbmQbON19fwrevd843kmHiIEvVje/KZGn
+	 dh6cFjOQG6I1BUS8mP7QLWFOt18ZJ23PotT0v1wXoboV0eaGc/0B3t4EyWocLlIKeR
+	 mSgTzRy+ql3tiFi9uieT7rDAHKgCaR/CBCZiPVH3BsVLJkPuFmqfE6ECMQFDEt1zOx
+	 o112qzo0hmzlA==
+Received: from mta91.sjtu.edu.cn (unknown [10.118.0.91])
+	by smtp186.sjtu.edu.cn (Postfix) with ESMTPS id 23BE72FF4E5;
+	Wed, 29 Apr 2026 03:31:55 +0000 (UTC)
+Received: from mstore137.sjtu.edu.cn (unknown [10.118.0.137])
+	by mta91.sjtu.edu.cn (Postfix) with ESMTP id A3E4037CA5F;
+	Wed, 29 Apr 2026 11:31:54 +0800 (CST)
+Date: Wed, 29 Apr 2026 11:31:53 +0800 (CST)
+From: SUVONOV BUNYOD <b.suvonov@sjtu.edu.cn>
+To: Steven Rostedt <rostedt@goodmis.org>
+Cc: akpm <akpm@linux-foundation.org>, vbabka <vbabka@kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, mhiramat <mhiramat@kernel.org>, 
+	mathieu desnoyers <mathieu.desnoyers@efficios.com>, 
+	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
+	linux-kernel <linux-kernel@vger.kernel.org>, 
+	surenb <surenb@google.com>, mhocko <mhocko@suse.com>, 
+	jackmanb <jackmanb@google.com>, hannes <hannes@cmpxchg.org>, 
+	ziy <ziy@nvidia.com>, david <david@kernel.org>, 
+	vishal moola <vishal.moola@gmail.com>, corbet <corbet@lwn.net>, 
+	skhan <skhan@linuxfoundation.org>, 
+	linux-doc <linux-doc@vger.kernel.org>
+Message-ID: <1453063691.2584758.1777433513691.JavaMail.zimbra@sjtu.edu.cn>
+In-Reply-To: <20260428142335.3bca0166@gandalf.local.home>
+References: <20260425091335.346504-1-b.suvonov@sjtu.edu.cn> <20260427060142.131055-1-b.suvonov@sjtu.edu.cn> <20260428142335.3bca0166@gandalf.local.home>
+Subject: Re: [PATCH v2] mm/page_alloc: trace PCP refills and PCP zone lock
+ usage
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026042804-overbook-ripeness-73dd@gregkh>
+Content-Type: text/plain; charset=GB2312
+Content-Transfer-Encoding: 7bit
+X-Mailer: Zimbra 10.0.18_GA_4835 (ZimbraWebClient - FF149 (Linux)/10.0.18_GA_4828)
+Thread-Topic: mm/page_alloc: trace PCP refills and PCP zone lock usage
+Thread-Index: SvFI4TNgE4VbTb6G/aV24V6dHLhS6w==
 
-On Tue, Apr 28, 2026 at 03:13:01PM -0600, Greg KH wrote:
-> > > We can point at other files, as this list is going to get long over
-> > > time, which is a good thing.
-> > 
-> > Sure. I'm just unsure where this could be enumerated, as it's likely
-> > that there would be just one or two lines max per subsystem for the
-> > majority of them. Or we could have a totally separate file, "threat
-> > model", that goes into great lengths detailing all this with sections
-> > per category or subsystem when they start to grow maybe, and refer only
-> > to that one from security-bugs ?
-> 
-> I think a separate file is good, I know I need to write up what the USB
-> model is, and it's different from PCI, and different from other
-> subsystems.  All should probably be documented eventually.
+Thanks for reviewing Steven,
 
-Would you be interested in me trying to initiate a new "threat-model.rst"
-file that tries to unroll the points mentioned in the list ? I'm concerned
-that that withuot having many details initially, it could look a bit odd,
-because the list we currently have would be more suitable for an "other"
-section.
+>Why this change? It makes it much harder to understand.
+>
+>The above is not a normal macro. Ignore any checkpatch warnings about it.
+>The proper way to do the TP_STRUCT__entry() is to make it just like a struct:
+>
+>struct {
+>	unsigned long		pfn;
+>	unsigned int		order;
+>	int			migratetype;
+>};
+>
+>Thus, the macro should be:
+>
+>	TP_STRUCT__entry(
+>		__field(	unsigned long,	pfn		)
+>		__field(	unsigned int,	order		)
+>		__field(	int,		migratetype	)
+>		),
 
-> > > > > (like what the IB subsystem does which I
-> > > > > don't think you listed above, or the USB subsystem.)
-> > > > 
-> > > > Indeed I didn't list IB (I'm never sure about it, I seem to remember
-> > > > we simply trust any peer, is that right?), nor did I make specific
-> > > > mentions for USB which is implicitly covered by "hardware emulation
-> > > > or modification".
-> > > 
-> > > Ah, but USB does cover "some" modification of devices, so this is going
-> > > to be something that is good to document over time, if for no other
-> > > reason to keep these scanning tools in check from hallucinating crazy
-> > > situations that are obviously not a valid thing we care about.
-> > 
-> > OK but does this mean you still want to get these reports in the end ?
-> 
-> I want a patch if a user cares about that threat-model (as Android does
-> but no one else) as it's up to the user groups that want to change the
-> default kernel's behavior like this to actually submit patches to do so.
 
-Yes, OK, but we want them in any case. That's the idea I tried to convey
-in the proposed doc (maybe not well enough), basically "this is a bug and
-it is worth reporting, but no need to involve s@k.o for this".
+Yeah sorry for the formatting issue, will fix in v3. Any other concerns?
+What do you think about the introduction of those tracepoints themselves?
 
-thanks,
-Willy
+-- Bunyod
+
