@@ -1,219 +1,224 @@
-Received: from layka.disroot.org (layka.disroot.org [178.21.23.139])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B20223F2101;
-	Wed, 29 Apr 2026 13:21:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.21.23.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B320A3FE657;
+	Wed, 29 Apr 2026 13:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777468917; cv=none; b=YoaTuUPAGDbzFsuRGL4jEvQ/rqbEq9QZ9OC8hYFQdZSD46Pq2X3wafNy3Pj+oVJlm4gTCGx3jtzU1/jIs/Tyjy4z1Dr+gnXXCJMaWCqltz75LMVhpNFnvszfAXmxSMwrtlbgSS7oJg98xw+xAkrxhlDDQ8JSE9YxXPgCABU3hcI=
+	t=1777470095; cv=none; b=Ot3OBr5E4Duy7pDZLKgQYUAv6Pj34qNSbR3C+wi0aJ17LYaAlAzabmD8yschlrZdhqE/dtl7TbYOe1LC7wXuEM07jpljZqWyH9IkjF8KZ1kqMViEAjJph3KdHJ3tU/LmZnWMUJu+5kg2c4RwqzM+0oBiEhbDSS0IRADRPj+fLcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777468917; c=relaxed/simple;
-	bh=B+6vl6C/OV8+WpB8aWQtmkHIycQOFdlFNDQexZH3THM=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=rAIbZqnXjGPjTZ+Z2qhm/mDQM2yGlS4NuLTKC1G/TDe2mAUAJZHC9l9ePmAjw8dZlDfN48dv6KVrg4c7cd9PuEsZxZzGMdnw6hciKkovlJQjLCvmSnOVwN37Qb6WylzeL6KWIiWUsFEQr6O8H8moDeVpRoY9MqEk3dO+iL4Q3TQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org; spf=pass smtp.mailfrom=disroot.org; dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b=Xp3Eqw6D; arc=none smtp.client-ip=178.21.23.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=disroot.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disroot.org
+	s=arc-20240116; t=1777470095; c=relaxed/simple;
+	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=CXvzoI2CWoF0PqdHpSJ1g8BhPzmOAlMZYbd4UraLZ6oEfpSs1vfmmtuEv/dG1POUN+XzAAdc5VKo/miNCR/IGf6NP6f5BFlkYSrUotw2OlgpZGweP8gt0TBILZWBnf4wX309A1XfqKCQ7B5ovg7hkvNeQ9vJHKsa4pAZp2MBpjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZquV9jf; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disroot.org header.i=@disroot.org header.b="Xp3Eqw6D"
-Received: from mail01.disroot.lan (localhost [127.0.0.1])
-	by disroot.org (Postfix) with ESMTP id 570F826949;
-	Wed, 29 Apr 2026 15:12:35 +0200 (CEST)
-X-Virus-Scanned: SPAM Filter at disroot.org
-Received: from layka.disroot.org ([127.0.0.1])
- by localhost (disroot.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id RS3R83mpiQhH; Wed, 29 Apr 2026 15:12:34 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=disroot.org; s=mail;
-	t=1777468354; bh=B+6vl6C/OV8+WpB8aWQtmkHIycQOFdlFNDQexZH3THM=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To;
-	b=Xp3Eqw6D2wdfqkrqtCXEGKpQarouGLQmdkkzDYQtDCU/Eg/HT8Nj2CKamRCYfW4N9
-	 PsmGt3/ne5sI9irdB8JmCGwilYHpUuT1zscLbLG5cq8DEh5BcnprzsHralTLVnJfzv
-	 yFigbtB3HB9/C79K8sFT/CsY6VriNOV2z81aoXp8XNy0A0L8FeKQ030/TaLKEhsUfv
-	 BQ10L9CBl3tIMVZ4YzSC5B0+S5NHamXeHPl+1TuV4cGAnERslQRq+sEpnG/ktD07/B
-	 wcihld4J9ADvSRNyVE0KU3qU//zC69p243KukM5aqOZofDt8MqloZncA5Y5wCQZEzW
-	 PXfPHLRbAswyw==
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZquV9jf"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59ABAC4AF09;
+	Wed, 29 Apr 2026 13:41:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777470095;
+	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=YZquV9jfYH5w/wC+soXVf/JNKI1K/XIJ7I5XCZeIS8sbSDkkcAS5x2bjz/5lBH2wx
+	 CttusplS+qBnECTLYYroEskGaCL0cn9jlR8axH5hyNqLqaAHfZ7J/IA3rhde03+lrd
+	 odfq7O2lJzSJYgCKohpnkQHgDjyt7IQy9gyjFWrt8F3c8QICs83ZAGM1uA8wBLOZhN
+	 JE0SWAWeZcHsV0W/mkgOCU2tHtwT+9b0YkPTguPMOIzHBj9Rwhbb+rTIuUKlcH3prB
+	 70KsjJEuKx16+kvJzKXvy3irgRCsD3xJct0cGHe7SdGu8nHDSektshBNW2VZvFD33c
+	 uUwrWimLZP1Dg==
+Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 460EDF40068;
+	Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
+Received: from phl-imap-15 ([10.202.2.104])
+  by phl-compute-10.internal (MEProxy); Wed, 29 Apr 2026 09:41:33 -0400
+X-ME-Sender: <xms:jQryaSQHFzntyBx-jomblrJhtzbOen6R4iuCOpHPo4gRNj7tinAEDQ>
+    <xme:jQryaSk296dZuhIQkQEK_f2EHNBkX-7riWofWTk0phchaKd_qiSHmKhkEBLEn8DYN
+    RzhRn1CjoxbnJJ-CuJKnYNccFjRUAF0IuxJIZSZwqFQEHFhVLs1_vKH>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekgeehkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
+    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
+    epjeevhfduheeltedvjefhjeevgffhleegjeevvdfgudeuffefgedtjeeuhfeiudeknecu
+    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegthhhutghklhgvvhgvrhdomhgvshhmthhprghuthhh
+    phgvrhhsohhnrghlihhthidqudeifeegleelleehledqfedvleekgeegvdefqdgtvghlpe
+    epkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohep
+    vdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnvghilhessghrohifnhdrnh
+    grmhgvpdhrtghpthhtohepmhgrthhhihgvuhdruggvshhnohihvghrshesvghffhhitghi
+    ohhsrdgtohhmpdhrtghpthhtoheprghlvgigrdgrrhhinhhgsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhho
+    shhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopegrnhhnrgeskhgvrhhnvg
+    hlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghp
+    thhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhhihhrrg
+    hmrghtsehkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:jQryaVDlYB1TdmPkCsoSJMtD1Ig_-AZ56-UySqiHekH40H-tO8fn3w>
+    <xmx:jQryaVMeZOkGKSqz9lA7BTw-KSyhBXPKuzUADcnv-56s0PwVNstu2A>
+    <xmx:jQryaUAsYj5qYDg8Vog6nLLy0ykeKPf5gOJIUECayWL1fUV4BEWXPg>
+    <xmx:jQryaflM_WfAdEBfMGiT-NJ4_MKWpMtzj9f-vCyESEoteRVvmjCMwQ>
+    <xmx:jQryaQrZ-cFoNbjEtfFW9cbVymZSHRFDPz8LkrLDkvlbMNV-i6QvRLaI>
+Feedback-ID: ifa6e4810:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 198F0780070; Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 29 Apr 2026 18:42:14 +0530
-Message-Id: <DI5NXS3PQ53R.L9JZEBHW5EGI@disroot.org>
-Subject: Re: [PATCH v5 03/11] dt-bindings: mfd: add documentation for
- S2MU005 PMIC
-From: "Kaustabh Chakraborty" <kauschluss@disroot.org>
-To: "Krzysztof Kozlowski" <krzk@kernel.org>, "Kaustabh Chakraborty"
- <kauschluss@disroot.org>
-Cc: "Lee Jones" <lee@kernel.org>, "Pavel Machek" <pavel@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "MyungJoo Ham"
- <myungjoo.ham@samsung.com>, "Chanwoo Choi" <cw00.choi@samsung.com>,
- "Sebastian Reichel" <sre@kernel.org>, =?utf-8?q?Andr=C3=A9_Draszik?=
- <andre.draszik@linaro.org>, "Alexandre Belloni"
- <alexandre.belloni@bootlin.com>, "Jonathan Corbet" <corbet@lwn.net>, "Shuah
- Khan" <skhan@linuxfoundation.org>, "Nam Tran" <trannamatk@gmail.com>,
- =?utf-8?q?=C5=81ukasz_Lebiedzi=C5=84ski?= <kernel@lvkasz.us>,
- <linux-leds@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-pm@vger.kernel.org>,
- <linux-samsung-soc@vger.kernel.org>, <linux-rtc@vger.kernel.org>,
- <linux-doc@vger.kernel.org>
-References: <20260424-s2mu005-pmic-v5-0-fcbc9da5a004@disroot.org>
- <20260424-s2mu005-pmic-v5-3-fcbc9da5a004@disroot.org>
- <20260428-fortunate-olive-asp-fe4f53@quoll>
-In-Reply-To: <20260428-fortunate-olive-asp-fe4f53@quoll>
+MIME-Version: 1.0
+X-ThreadId: AJifn_5JDXrR
+Date: Wed, 29 Apr 2026 09:41:12 -0400
+From: "Chuck Lever" <cel@kernel.org>
+To: "Jeff Layton" <jlayton@kernel.org>,
+ "Alexander Viro" <viro@zeniv.linux.org.uk>,
+ "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
+ "Chuck Lever" <chuck.lever@oracle.com>,
+ "Alexander Aring" <alex.aring@gmail.com>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Masami Hiramatsu" <mhiramat@kernel.org>,
+ "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
+ NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
+ "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
+ "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
+ "Amir Goldstein" <amir73il@gmail.com>
+Cc: "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
+Message-Id: <d6e54da6-3f7f-4c56-b08a-5b14beecaa48@app.fastmail.com>
+In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
+Subject: Re: [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in
+ directory delegations
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
 
-This are no review comments here. Did you happen to miss anything?
 
-On 2026-04-28 08:01 +02:00, Krzysztof Kozlowski wrote:
-> On Fri, Apr 24, 2026 at 01:09:02AM +0530, Kaustabh Chakraborty wrote:
->> Samsung's S2MU005 PMIC includes subdevices for a charger, an MUIC (Micro
->> USB Interface Controller), and flash and RGB LED controllers.
->>=20
->> Add the compatible and documentation for the S2MU005 PMIC. Also, add an
->> example for nodes for supported sub-devices, i.e. MUIC, flash LEDs, and
->> RGB LEDs. Charger sub-device uses the node of the parent.
->>=20
->> Signed-off-by: Kaustabh Chakraborty <kauschluss@disroot.org>
->> ---
->>  .../bindings/mfd/samsung,s2mu005-pmic.yaml         | 120 ++++++++++++++=
-+++++++
->>  1 file changed, 120 insertions(+)
-> \r>=20
->> diff --git a/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.=
-yaml b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
->> new file mode 100644
->> index 0000000000000..0e6afb7d2017b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/mfd/samsung,s2mu005-pmic.yaml
->> @@ -0,0 +1,120 @@
->> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/mfd/samsung,s2mu005-pmic.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Samsung S2MU005 Power Management IC
->> +
->> +maintainers:
->> +  - Kaustabh Chakraborty <kauschluss@disroot.org>
->> +
->> +description: |
->> +  The S2MU005 is a companion power management IC which includes subdevi=
-ces for
->> +  a charger controller, an MUIC (Micro USB Interface Controller), and f=
-lash and
->> +  RGB LED controllers.
->> +
->> +allOf:
->> +  - $ref: /schemas/power/supply/power-supply.yaml#
->> +
->> +properties:
->> +  compatible:
->> +    const: samsung,s2mu005-pmic
->> +
->> +  flash:
->> +    $ref: /schemas/leds/samsung,s2mu005-flash.yaml
->> +    description:
->> +      Child node describing flash LEDs.
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  muic:
->> +    $ref: /schemas/extcon/samsung,s2mu005-muic.yaml#
->> +    description:
->> +      Child node describing MUIC device.
->> +
->> +  multi-led:
->> +    type: object
->> +
->> +    allOf:
->> +      - $ref: /schemas/leds/leds-class-multicolor.yaml#
->> +
->> +    properties:
->> +      compatible:
->> +        const: samsung,s2mu005-rgb
->> +
->> +    required:
->> +      - compatible
->> +
->> +    unevaluatedProperties: false
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/leds/common.h>
->> +
->> +    i2c {
->> +        #address-cells =3D <1>;
->> +        #size-cells =3D <0>;
->> +
->> +        pmic@3d {
->> +            compatible =3D "samsung,s2mu005-pmic";
->> +            reg =3D <0x3d>;
->> +            interrupt-parent =3D <&gpa2>;
->> +            interrupts =3D <7 IRQ_TYPE_LEVEL_LOW>;
->> +
->> +            monitored-battery =3D <&battery>;
->> +
->> +            flash {
->> +                compatible =3D "samsung,s2mu005-flash";
->> +                #address-cells =3D <1>;
->> +                #size-cells =3D <0>;
->> +
->> +                led@0 {
->> +                    reg =3D <0>;
->> +                    color =3D <LED_COLOR_ID_WHITE>;
->> +                    function =3D LED_FUNCTION_FLASH;
->> +                };
->> +
->> +                led@1 {
->> +                    reg =3D <1>;
->> +                    color =3D <LED_COLOR_ID_WHITE>;
->> +                    function =3D LED_FUNCTION_FLASH;
->> +                    function-enumerator =3D <1>;
->> +                };
->> +            };
->> +
->> +            muic {
->> +                compatible =3D "samsung,s2mu005-muic";
->> +
->> +                connector {
->> +                    compatible =3D "usb-b-connector";
->> +                    label =3D "micro-USB";
->> +                    type =3D "micro";
->> +                };
->> +
->> +                port {
->> +                    muic_to_usb: endpoint {
->> +                        remote-endpoint =3D <&usb_to_muic>;
->> +                    };
->> +                };
->> +            };
->> +
->> +            multi-led {
->> +                compatible =3D "samsung,s2mu005-rgb";
->> +                color =3D <LED_COLOR_ID_RGB>;
->> +                function =3D LED_FUNCTION_INDICATOR;
->> +                linux,default-trigger =3D "pattern";
->> +            };
->> +        };
->> +    };
->>=20
->> --=20
->> 2.53.0
->>=20
+On Tue, Apr 28, 2026, at 3:09 AM, Jeff Layton wrote:
+> Re-posting the set per Christian's request. The only difference in this
+> version is a small error handling fix in alloc_init_dir_deleg(). The old
+> version could crash since release_pages() can't handle an array with
+> NULL pointers in it.
+>
+> ---------------------------------8<------------------------------------
+>
+> This patchset builds on the directory delegation work we did a few
+> months ago, to add support for CB_NOTIFY callbacks for some events. In
+> particular, creates, unlinks and renames. The server also sends updated
+> directory attributes in the notifications. With this support, the client
+> can register interest in a directory and get notifications about changes
+> within it without losing its lease.
+>
+> The series starts with patches to allow the vfs to ignore certain types
+> of events on directories. nfsd can then request these sorts of
+> delegations on directories, and then set up inotify watches on the
+> directory to trigger sending CB_NOTIFY events.
+>
+> This has mainly been tested with pynfs, with some new testcases that
+> I'll be posting soon. They seem to work fine with those tests, but I
+> don't think we'll want to merge these until we have a complete
+> client-side implementation to test against.
+>
+> Signed-off-by: Jeff Layton <jlayton@kernel.org>
+> ---
+> Changes in v3:
+> - Fix error handling in alloc_init_dir_deleg()
+> - Link to v2: 
+> https://lore.kernel.org/r/20260416-dir-deleg-v2-0-851426a550f6@kernel.org
+>
+> Changes in v2:
+> - Fix __break_lease handling with different lease types on flc_lease 
+> list
+> - Add FSNOTIFY_EVENT_RENAME data type to properly handle 
+> cross-directory rename events
+> - Display fsnotify mask symbolically in tracepoints
+> - New tracepoint in fsnotify()
+> - Recalc fsnotify mask after unlocking lease instead of before
+> - Don't notify client that is making the changes
+> - After sending CB_NOTIFY, requeue if new events came in while running
+> - Document removal of NFS4_VERIFIER_SIZE/NFS4_FHSIZE from UAPI headers
+> - Properly release nfsd_dir_fsnotify_group on server shutdown
+> - Link to v1: 
+> https://lore.kernel.org/r/20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org
+>
+> ---
+> Jeff Layton (28):
+>       filelock: pass current blocking lease to 
+> trace_break_lease_block() rather than "new_fl"
+>       filelock: add support for ignoring deleg breaks for dir change 
+> events
+>       filelock: add a tracepoint to start of break_lease()
+>       filelock: add an inode_lease_ignore_mask helper
+>       fsnotify: new tracepoint in fsnotify()
+>       fsnotify: add fsnotify_modify_mark_mask()
+>       fsnotify: add FSNOTIFY_EVENT_RENAME data type
+>       nfsd: check fl_lmops in nfsd_breaker_owns_lease()
+>       nfsd: add protocol support for CB_NOTIFY
+>       nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
+>       nfsd: allow nfsd to get a dir lease with an ignore mask
+>       nfsd: update the fsnotify mark when setting or removing a dir 
+> delegation
+>       nfsd: make nfsd4_callback_ops->prepare operation bool return
+>       nfsd: add callback encoding and decoding linkages for CB_NOTIFY
+>       nfsd: use RCU to protect fi_deleg_file
+>       nfsd: add data structures for handling CB_NOTIFY
+>       nfsd: add notification handlers for dir events
+>       nfsd: add tracepoint to dir_event handler
+>       nfsd: apply the notify mask to the delegation when requested
+>       nfsd: add helper to marshal a fattr4 from completed args
+>       nfsd: allow nfsd4_encode_fattr4_change() to work with no export
+>       nfsd: send basic file attributes in CB_NOTIFY
+>       nfsd: allow encoding a filehandle into fattr4 without a svc_fh
+>       nfsd: add a fi_connectable flag to struct nfs4_file
+>       nfsd: add the filehandle to returned attributes in CB_NOTIFY
+>       nfsd: properly track requested child attributes
+>       nfsd: track requested dir attributes
+>       nfsd: add support to CB_NOTIFY for dir attribute changes
+>
+>  Documentation/sunrpc/xdr/nfs4_1.x    | 264 ++++++++++++++-
+>  fs/attr.c                            |   2 +-
+>  fs/locks.c                           | 118 +++++--
+>  fs/namei.c                           |  31 +-
+>  fs/nfsd/filecache.c                  |  70 +++-
+>  fs/nfsd/nfs4callback.c               |  60 +++-
+>  fs/nfsd/nfs4layouts.c                |   5 +-
+>  fs/nfsd/nfs4proc.c                   |  17 +
+>  fs/nfsd/nfs4state.c                  | 551 ++++++++++++++++++++++++++++----
+>  fs/nfsd/nfs4xdr.c                    | 323 +++++++++++++++++--
+>  fs/nfsd/nfs4xdr_gen.c                | 601 ++++++++++++++++++++++++++++++++++-
+>  fs/nfsd/nfs4xdr_gen.h                |  20 +-
+>  fs/nfsd/state.h                      |  72 ++++-
+>  fs/nfsd/trace.h                      |  23 ++
+>  fs/nfsd/xdr4.h                       |   5 +
+>  fs/nfsd/xdr4cb.h                     |  12 +
+>  fs/notify/fsnotify.c                 |   5 +
+>  fs/notify/mark.c                     |  29 ++
+>  fs/posix_acl.c                       |   4 +-
+>  fs/xattr.c                           |   4 +-
+>  include/linux/filelock.h             |  54 +++-
+>  include/linux/fsnotify.h             |   8 +-
+>  include/linux/fsnotify_backend.h     |  21 ++
+>  include/linux/nfs4.h                 | 127 --------
+>  include/linux/sunrpc/xdrgen/nfs4_1.h | 291 ++++++++++++++++-
+>  include/trace/events/filelock.h      |  38 ++-
+>  include/trace/events/fsnotify.h      |  51 +++
+>  include/trace/misc/fsnotify.h        |  35 ++
+>  include/uapi/linux/nfs4.h            |   2 -
+>  29 files changed, 2519 insertions(+), 324 deletions(-)
+> ---
+> base-commit: f4d71dd7fd9cec357c32431fa55c107b96008312
+> change-id: 20260325-dir-deleg-339066dd1017
+>
+> Best regards,
+> -- 
+> Jeff Layton <jlayton@kernel.org>
+
+For the series:
+
+Acked-by: Chuck Lever <chuck.lever@oracle.com>
+
+
+-- 
+Chuck Lever
