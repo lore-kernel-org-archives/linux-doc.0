@@ -1,224 +1,121 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B320A3FE657;
-	Wed, 29 Apr 2026 13:41:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFFB126F28D;
+	Wed, 29 Apr 2026 14:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777470095; cv=none; b=Ot3OBr5E4Duy7pDZLKgQYUAv6Pj34qNSbR3C+wi0aJ17LYaAlAzabmD8yschlrZdhqE/dtl7TbYOe1LC7wXuEM07jpljZqWyH9IkjF8KZ1kqMViEAjJph3KdHJ3tU/LmZnWMUJu+5kg2c4RwqzM+0oBiEhbDSS0IRADRPj+fLcA=
+	t=1777472906; cv=none; b=Zdvm7mH0rA2cNzvkh/VeroOlLVUvfNyjkf7or7AZ4Q39N6tFtAQ6VzkOf2JWVAMNE556QhM2FiLNAVi5Vb2LwfK+q/pRWbP3Y6UJZK6iwzCwm1ujtM+lRumQnP5WAk3zRgy4gCPIDGMj05gLHBbl8TZQYN5dMtgOGDH5C1JCv9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777470095; c=relaxed/simple;
-	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=CXvzoI2CWoF0PqdHpSJ1g8BhPzmOAlMZYbd4UraLZ6oEfpSs1vfmmtuEv/dG1POUN+XzAAdc5VKo/miNCR/IGf6NP6f5BFlkYSrUotw2OlgpZGweP8gt0TBILZWBnf4wX309A1XfqKCQ7B5ovg7hkvNeQ9vJHKsa4pAZp2MBpjs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YZquV9jf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777472906; c=relaxed/simple;
+	bh=NG7wnStbNGVSAyuO0z858ZLJDnWlS6H44BMy/Yc3QyU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=CuVRgm8DS3hQQlGLBdDOkjlxrp6kmYxbXk4gn1xXnMltEHFPKorrvNlagFeiR6dGjNeuEUx721STS9Q1kcEPOyuUZhmI0IzYeeI2Qy+xr1xH/0XOQTCZXQ/vUrd0D0/4TjsNvpUUxqMl3P5M6wUAcOjiFcAk5afhrKpDR4couhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eIRtjrT0; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YZquV9jf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59ABAC4AF09;
-	Wed, 29 Apr 2026 13:41:34 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eIRtjrT0"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id B9C9DC19425;
+	Wed, 29 Apr 2026 14:28:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777470095;
-	bh=AbmPDiLMo35LZVw+xaDp8x+ViqIl5t2Bms1xbcVtE5U=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=YZquV9jfYH5w/wC+soXVf/JNKI1K/XIJ7I5XCZeIS8sbSDkkcAS5x2bjz/5lBH2wx
-	 CttusplS+qBnECTLYYroEskGaCL0cn9jlR8axH5hyNqLqaAHfZ7J/IA3rhde03+lrd
-	 odfq7O2lJzSJYgCKohpnkQHgDjyt7IQy9gyjFWrt8F3c8QICs83ZAGM1uA8wBLOZhN
-	 JE0SWAWeZcHsV0W/mkgOCU2tHtwT+9b0YkPTguPMOIzHBj9Rwhbb+rTIuUKlcH3prB
-	 70KsjJEuKx16+kvJzKXvy3irgRCsD3xJct0cGHe7SdGu8nHDSektshBNW2VZvFD33c
-	 uUwrWimLZP1Dg==
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfauth.phl.internal (Postfix) with ESMTP id 460EDF40068;
-	Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
-Received: from phl-imap-15 ([10.202.2.104])
-  by phl-compute-10.internal (MEProxy); Wed, 29 Apr 2026 09:41:33 -0400
-X-ME-Sender: <xms:jQryaSQHFzntyBx-jomblrJhtzbOen6R4iuCOpHPo4gRNj7tinAEDQ>
-    <xme:jQryaSk296dZuhIQkQEK_f2EHNBkX-7riWofWTk0phchaKd_qiSHmKhkEBLEn8DYN
-    RzhRn1CjoxbnJJ-CuJKnYNccFjRUAF0IuxJIZSZwqFQEHFhVLs1_vKH>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekgeehkecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdevhhhutghk
-    ucfnvghvvghrfdcuoegtvghlsehkvghrnhgvlhdrohhrgheqnecuggftrfgrthhtvghrnh
-    epjeevhfduheeltedvjefhjeevgffhleegjeevvdfgudeuffefgedtjeeuhfeiudeknecu
-    ffhomhgrihhnpehkvghrnhgvlhdrohhrghenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpegthhhutghklhgvvhgvrhdomhgvshhmthhprghuthhh
-    phgvrhhsohhnrghlihhthidqudeifeegleelleehledqfedvleekgeegvdefqdgtvghlpe
-    epkhgvrhhnvghlrdhorhhgsehfrghsthhmrghilhdrtghomhdpnhgspghrtghpthhtohep
-    vdegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehnvghilhessghrohifnhdrnh
-    grmhgvpdhrtghpthhtohepmhgrthhhihgvuhdruggvshhnohihvghrshesvghffhhitghi
-    ohhsrdgtohhmpdhrtghpthhtoheprghlvgigrdgrrhhinhhgsehgmhgrihhlrdgtohhmpd
-    hrtghpthhtoheprghmihhrjeefihhlsehgmhgrihhlrdgtohhmpdhrtghpthhtoheprhho
-    shhtvgguthesghhoohgumhhishdrohhrghdprhgtphhtthhopegrnhhnrgeskhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtohepsghrrghunhgvrheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepjhhlrgihthhonheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhhhihhrrg
-    hmrghtsehkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:jQryaVDlYB1TdmPkCsoSJMtD1Ig_-AZ56-UySqiHekH40H-tO8fn3w>
-    <xmx:jQryaVMeZOkGKSqz9lA7BTw-KSyhBXPKuzUADcnv-56s0PwVNstu2A>
-    <xmx:jQryaUAsYj5qYDg8Vog6nLLy0ykeKPf5gOJIUECayWL1fUV4BEWXPg>
-    <xmx:jQryaflM_WfAdEBfMGiT-NJ4_MKWpMtzj9f-vCyESEoteRVvmjCMwQ>
-    <xmx:jQryaQrZ-cFoNbjEtfFW9cbVymZSHRFDPz8LkrLDkvlbMNV-i6QvRLaI>
-Feedback-ID: ifa6e4810:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 198F0780070; Wed, 29 Apr 2026 09:41:33 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=k20201202; t=1777472905;
+	bh=NG7wnStbNGVSAyuO0z858ZLJDnWlS6H44BMy/Yc3QyU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=eIRtjrT07U1BuQAtMlrSVQZ9LmUGDj10M3/RVMnxp8+ifKGkZ4HpSEdXylsvcZoa2
+	 4eoZZh08xiM59d1o6JqyZaW8H2mcet+yuE6eEBe93VKmO9HLLS0GLWvFyvw3JAqgTt
+	 AV2BCubKb/ZNSFVz5cV4kHens53FQjHOvmIv0Po1bKjFfe/45CGl85AQ/ZMCu9JQPp
+	 x1yZAAdPmd1ro7acS5VpP219rPEHzisn3sySQsfGbLO02edqL/FE2QhcD7edekH5uA
+	 UD92jG/IRJ3vco1XKUQU5IJyEd+ceH7h8IluhqXscOERnR34ytpEZvIQlNCdihhMuV
+	 +OfEdbIQDF8nA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B159DFF8875;
+	Wed, 29 Apr 2026 14:28:25 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v11 0/3] hwmon: Add support for the LTC4283 Hot Swap
+ Controller
+Date: Wed, 29 Apr 2026 15:28:25 +0100
+Message-Id: <20260429-ltc4283-support-v11-0-27ccde619dad@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: AJifn_5JDXrR
-Date: Wed, 29 Apr 2026 09:41:12 -0400
-From: "Chuck Lever" <cel@kernel.org>
-To: "Jeff Layton" <jlayton@kernel.org>,
- "Alexander Viro" <viro@zeniv.linux.org.uk>,
- "Christian Brauner" <brauner@kernel.org>, "Jan Kara" <jack@suse.cz>,
- "Chuck Lever" <chuck.lever@oracle.com>,
- "Alexander Aring" <alex.aring@gmail.com>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Masami Hiramatsu" <mhiramat@kernel.org>,
- "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <skhan@linuxfoundation.org>,
- NeilBrown <neil@brown.name>, "Olga Kornievskaia" <okorniev@redhat.com>,
- "Dai Ngo" <Dai.Ngo@oracle.com>, "Tom Talpey" <tom@talpey.com>,
- "Trond Myklebust" <trondmy@kernel.org>, "Anna Schumaker" <anna@kernel.org>,
- "Amir Goldstein" <amir73il@gmail.com>
-Cc: "Calum Mackay" <calum.mackay@oracle.com>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-nfs@vger.kernel.org
-Message-Id: <d6e54da6-3f7f-4c56-b08a-5b14beecaa48@app.fastmail.com>
-In-Reply-To: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-References: <20260428-dir-deleg-v3-0-5a0780ba9def@kernel.org>
-Subject: Re: [PATCH v3 00/28] vfs/nfsd: add support for CB_NOTIFY callbacks in
- directory delegations
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOQW7DIBAF0KtErEs0DHjAWfUeURcUQ4KUGgtcK
+ 1Xkuxdnk0Qoy/+leX9urPgcfWGH3Y1lv8QS01iDEB875s52PHkeh1owBCSQIPlldgqN5OV3mlK
+ eOZAM2ljnOqtYvZqyD/F6J49fNZ9jmVP+uy8stLXvrYU4cB+8EB1gsAN+2tFe0mnv0g/bsMU8A
+ ahbwFRAaTF47LpBo2mA/gEooBboK/BN5ILTqkcSDSDgSUDTCgK2HwJSUKR64eQLsa7rP79Y2VF
+ 1AQAA
+X-Change-ID: 20260303-ltc4283-support-063f78acc5a4
+To: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777472958; l=2151;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=NG7wnStbNGVSAyuO0z858ZLJDnWlS6H44BMy/Yc3QyU=;
+ b=gUGEFQCje73mGm/tKWu/14p63uX6sHrdYTPKrCSRt8QAir2sDiCmCa7D2DItWF0PGosEJ/Mp2
+ Vhz5mDIKiJQADoYmyy6Ws5DoYACSB+kweAMtxjZlw5RGo8vAY8goH54
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
+
+This is v8 for the LTC4283 how swap controller. 
+
+Similar to the LTC4282 device, we're clearing some fault logs in the
+reset_history attributes.
+
+Guenter, for my last email worrying about rsense low values, this is
+what I got internally:
+
+"10uOhm at the smallest sense voltage of 15mV would be 1500A and 72kW, which
+seems a tad excessive. The highest currents I’ve seen are around 200A, and
+the -48V market 4283 serves is generally a lot lower than that. Normal values
+are around 200uOhm.  I’d say the resolution should be around 1uohm and if a
+minimum is needed, 50uOhm is probably safe."
+
+For the resolution, I'm pretty sure I got the tenths of micro
+resolution for ltc4282 so I just kept it in here. So, if you don't mind
+I would prefer to keep it this way to be safer and changing that now would
+require me to change some formulas and I would prefer not to do that at
+this stage.
+
+---
+Changes in v11:
+- Patch 2:
+  * s/LTC4283_VPWR/LTC4283_CHAN_VPWR in ltc4283_read_in_alarm()
+- Link to v10: https://patch.msgid.link/20260428-ltc4283-support-v10-0-4f26f46491c3@analog.com
+
+---
+Nuno Sá (3):
+      dt-bindings: hwmon: Document the LTC4283 Swap Controller
+      hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+      gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
+
+ .../devicetree/bindings/hwmon/adi,ltc4283.yaml     |  272 +++
+ Documentation/hwmon/index.rst                      |    1 +
+ Documentation/hwmon/ltc4283.rst                    |  266 +++
+ MAINTAINERS                                        |    9 +
+ drivers/gpio/Kconfig                               |   15 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-ltc4283.c                        |  218 +++
+ drivers/hwmon/Kconfig                              |   12 +
+ drivers/hwmon/Makefile                             |    1 +
+ drivers/hwmon/ltc4283.c                            | 1795 ++++++++++++++++++++
+ 10 files changed, 2590 insertions(+)
+---
+base-commit: 30a90fa04af6937493fbba20e3e923b5b5a162b4
+change-id: 20260303-ltc4283-support-063f78acc5a4
+--
+
+Thanks!
+- Nuno Sá
 
 
-
-On Tue, Apr 28, 2026, at 3:09 AM, Jeff Layton wrote:
-> Re-posting the set per Christian's request. The only difference in this
-> version is a small error handling fix in alloc_init_dir_deleg(). The old
-> version could crash since release_pages() can't handle an array with
-> NULL pointers in it.
->
-> ---------------------------------8<------------------------------------
->
-> This patchset builds on the directory delegation work we did a few
-> months ago, to add support for CB_NOTIFY callbacks for some events. In
-> particular, creates, unlinks and renames. The server also sends updated
-> directory attributes in the notifications. With this support, the client
-> can register interest in a directory and get notifications about changes
-> within it without losing its lease.
->
-> The series starts with patches to allow the vfs to ignore certain types
-> of events on directories. nfsd can then request these sorts of
-> delegations on directories, and then set up inotify watches on the
-> directory to trigger sending CB_NOTIFY events.
->
-> This has mainly been tested with pynfs, with some new testcases that
-> I'll be posting soon. They seem to work fine with those tests, but I
-> don't think we'll want to merge these until we have a complete
-> client-side implementation to test against.
->
-> Signed-off-by: Jeff Layton <jlayton@kernel.org>
-> ---
-> Changes in v3:
-> - Fix error handling in alloc_init_dir_deleg()
-> - Link to v2: 
-> https://lore.kernel.org/r/20260416-dir-deleg-v2-0-851426a550f6@kernel.org
->
-> Changes in v2:
-> - Fix __break_lease handling with different lease types on flc_lease 
-> list
-> - Add FSNOTIFY_EVENT_RENAME data type to properly handle 
-> cross-directory rename events
-> - Display fsnotify mask symbolically in tracepoints
-> - New tracepoint in fsnotify()
-> - Recalc fsnotify mask after unlocking lease instead of before
-> - Don't notify client that is making the changes
-> - After sending CB_NOTIFY, requeue if new events came in while running
-> - Document removal of NFS4_VERIFIER_SIZE/NFS4_FHSIZE from UAPI headers
-> - Properly release nfsd_dir_fsnotify_group on server shutdown
-> - Link to v1: 
-> https://lore.kernel.org/r/20260407-dir-deleg-v1-0-aaf68c478abd@kernel.org
->
-> ---
-> Jeff Layton (28):
->       filelock: pass current blocking lease to 
-> trace_break_lease_block() rather than "new_fl"
->       filelock: add support for ignoring deleg breaks for dir change 
-> events
->       filelock: add a tracepoint to start of break_lease()
->       filelock: add an inode_lease_ignore_mask helper
->       fsnotify: new tracepoint in fsnotify()
->       fsnotify: add fsnotify_modify_mark_mask()
->       fsnotify: add FSNOTIFY_EVENT_RENAME data type
->       nfsd: check fl_lmops in nfsd_breaker_owns_lease()
->       nfsd: add protocol support for CB_NOTIFY
->       nfs_common: add new NOTIFY4_* flags proposed in RFC8881bis
->       nfsd: allow nfsd to get a dir lease with an ignore mask
->       nfsd: update the fsnotify mark when setting or removing a dir 
-> delegation
->       nfsd: make nfsd4_callback_ops->prepare operation bool return
->       nfsd: add callback encoding and decoding linkages for CB_NOTIFY
->       nfsd: use RCU to protect fi_deleg_file
->       nfsd: add data structures for handling CB_NOTIFY
->       nfsd: add notification handlers for dir events
->       nfsd: add tracepoint to dir_event handler
->       nfsd: apply the notify mask to the delegation when requested
->       nfsd: add helper to marshal a fattr4 from completed args
->       nfsd: allow nfsd4_encode_fattr4_change() to work with no export
->       nfsd: send basic file attributes in CB_NOTIFY
->       nfsd: allow encoding a filehandle into fattr4 without a svc_fh
->       nfsd: add a fi_connectable flag to struct nfs4_file
->       nfsd: add the filehandle to returned attributes in CB_NOTIFY
->       nfsd: properly track requested child attributes
->       nfsd: track requested dir attributes
->       nfsd: add support to CB_NOTIFY for dir attribute changes
->
->  Documentation/sunrpc/xdr/nfs4_1.x    | 264 ++++++++++++++-
->  fs/attr.c                            |   2 +-
->  fs/locks.c                           | 118 +++++--
->  fs/namei.c                           |  31 +-
->  fs/nfsd/filecache.c                  |  70 +++-
->  fs/nfsd/nfs4callback.c               |  60 +++-
->  fs/nfsd/nfs4layouts.c                |   5 +-
->  fs/nfsd/nfs4proc.c                   |  17 +
->  fs/nfsd/nfs4state.c                  | 551 ++++++++++++++++++++++++++++----
->  fs/nfsd/nfs4xdr.c                    | 323 +++++++++++++++++--
->  fs/nfsd/nfs4xdr_gen.c                | 601 ++++++++++++++++++++++++++++++++++-
->  fs/nfsd/nfs4xdr_gen.h                |  20 +-
->  fs/nfsd/state.h                      |  72 ++++-
->  fs/nfsd/trace.h                      |  23 ++
->  fs/nfsd/xdr4.h                       |   5 +
->  fs/nfsd/xdr4cb.h                     |  12 +
->  fs/notify/fsnotify.c                 |   5 +
->  fs/notify/mark.c                     |  29 ++
->  fs/posix_acl.c                       |   4 +-
->  fs/xattr.c                           |   4 +-
->  include/linux/filelock.h             |  54 +++-
->  include/linux/fsnotify.h             |   8 +-
->  include/linux/fsnotify_backend.h     |  21 ++
->  include/linux/nfs4.h                 | 127 --------
->  include/linux/sunrpc/xdrgen/nfs4_1.h | 291 ++++++++++++++++-
->  include/trace/events/filelock.h      |  38 ++-
->  include/trace/events/fsnotify.h      |  51 +++
->  include/trace/misc/fsnotify.h        |  35 ++
->  include/uapi/linux/nfs4.h            |   2 -
->  29 files changed, 2519 insertions(+), 324 deletions(-)
-> ---
-> base-commit: f4d71dd7fd9cec357c32431fa55c107b96008312
-> change-id: 20260325-dir-deleg-339066dd1017
->
-> Best regards,
-> -- 
-> Jeff Layton <jlayton@kernel.org>
-
-For the series:
-
-Acked-by: Chuck Lever <chuck.lever@oracle.com>
-
-
--- 
-Chuck Lever
