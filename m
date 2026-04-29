@@ -1,250 +1,249 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011002.outbound.protection.outlook.com [40.107.208.2])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAB8E32720D;
-	Wed, 29 Apr 2026 18:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DB7441B361
+	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 18:21:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777486028; cv=fail; b=AXZ3BsgD2POmNG9NCJZQuNRoLx0Nf2mW1ayL1xeL90iBi6qJ4PStCoMuPGLJfgc5NwCIA1E4l6cMWbEv8sKfrGnzNI84EjHa2pjaKZu2bov2+5LU2ZOyk79H9kHoI4hgaTxj9fYAgEL1zyMqGCc0JSq9vzXZHlYc4AiUxD0JJ08=
+	t=1777486905; cv=pass; b=BIeYZFD2buOi1XH2IHKAuOCTySpvb0dn7+KewS7DJcz/n3QADUIT3DQHMOi73Fm3N1C82h99JdQ52EvJF/ZyWvpQjjAHysqObKQFi01d5qcbk6ufsoAokuXEcBBIwvsIQ+gM6jBeQi++0GZAlc7sbv+PqC/wEkURLGarApRs/gQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777486028; c=relaxed/simple;
-	bh=RtUpQzieWNZDjahnSfUJmW3LfpH0MYEP8PaljAn04d4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HQNVtOCaGIh4s+rCQEcrhRPSa7D3OVCWQoBRL4kvZKS8gAWatpZztnEWrmVC487TN6uRHtPII3rXU840eguDSs9eBqxEHhnoyjNVeDgQuRM4IptrIpveEHml9A7euXm9G/qrXBrOJR6+JOQrKxtJFLipDzrbwsfFfDt/tRgR6MU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=TvD+XHvu; arc=fail smtp.client-ip=40.107.208.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1777486905; c=relaxed/simple;
+	bh=zOH4706QFtvPpHCn7hxOyOFo31Xjg5Ci7H1MCZS6+GE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=m1byt/KNxZ35KQf+cjUrVT81gHHQTM9gReS2FQtRa0XPgp601DUjC2zaTftwt6OFdURCXEYKbMA9/sjP2urAXl+xAS0au9K+BreiVdiiaBxn5qH2Wl6DwrHjXlV8xAuNrM0yK5q1UtR4yOSAPV+BUFVw2FHEESAPUap2vdW450I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PKd2b15s; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=NZ8AGV3g; arc=pass smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="TvD+XHvu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M4m0H2s98nrwLuCU+xcWjkFHubTzwYN+dcAldjszBwKYdx9Mc0IZuZb1CsS/qUUOaQXS43LE8QfsbIBizUjiYnBojTIcdviKG+o4Vy0kcdVWOi+xt/9aSQkP2hTAgFlE6gRgYF8xA1fmjlHWhZidSNWO8zBDqTJ/qkBrPvW9RcbA3rvYT1cHTxc+hj1p9bWdVrgFT92xOhiAVUzBblGXgkBfRgbXIdrBkFtceO1YZo+8xq84BEqKl4aOe0oNqoyHU0dAoF14RI5ENuGaFliej3LgKV2LHjrjf/T5t4wDzf19kpZgl+lVCGnNtwaIKIH+8CbJfAKRvH566mQsu3BPWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=cPtIV6TgtSFxxV4HSDgk0JPSLnDApXS3RQvj3MVZQa4=;
- b=q6wAsNFlJkj/qWpguNRcDrMHjx91hftX5/GZEW7X505Kqa3nCeysCBY757IhNk4Zl9APp8qL/z3DqYDd3lPgFzhRS1cQAneNc1cxYKkctl/HBfySsxcFvwDHuWYGsKPRtNGcg7B+onh965lIKf2ax4o5Zw3wpcf4fBvu7kHzYygVchMtsE+g9jW3BoSMGA0alVY8RXVcOelQ/myIoSHPP+PtEpUl6wktxzCu5d80I+tfPaNymHEwdrD23Ud1Q3SxBf3pkwJDAEPELVQIkdhAWmIrwpK81MiAs84C2k6NTN8o7hvZLlDq/ZGITIZb5tR5c9HTYuyhttVF6cXsGERGOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 198.47.23.194) smtp.rcpttodomain=bgdev.pl smtp.mailfrom=ti.com; dmarc=pass
- (p=quarantine sp=none pct=100) action=none header.from=ti.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=cPtIV6TgtSFxxV4HSDgk0JPSLnDApXS3RQvj3MVZQa4=;
- b=TvD+XHvuguGBipZMUc5i+qdlZhL8jeIbeSQO6AuE283dy+tx/5coENeh2vtJmjMFdGSvHDuj1zHqICi/usfT1ysFu1yM+hRNruRWD1DFIKEHwmNlNQww5el/OGRYp34f0wT21a9us35LyFE0sihH1/mFpxDNfq9pHGRP2JScSXg=
-Received: from MN0P223CA0025.NAMP223.PROD.OUTLOOK.COM (2603:10b6:208:52b::20)
- by IA3PR10MB8466.namprd10.prod.outlook.com (2603:10b6:208:57f::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.18; Wed, 29 Apr
- 2026 18:06:56 +0000
-Received: from MN1PEPF0000F0E1.namprd04.prod.outlook.com
- (2603:10b6:208:52b:cafe::5) by MN0P223CA0025.outlook.office365.com
- (2603:10b6:208:52b::20) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.30 via Frontend Transport; Wed,
- 29 Apr 2026 18:06:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 198.47.23.194)
- smtp.mailfrom=ti.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ti.com;
-Received-SPF: Pass (protection.outlook.com: domain of ti.com designates
- 198.47.23.194 as permitted sender) receiver=protection.outlook.com;
- client-ip=198.47.23.194; helo=lewvzet200.ext.ti.com; pr=C
-Received: from lewvzet200.ext.ti.com (198.47.23.194) by
- MN1PEPF0000F0E1.mail.protection.outlook.com (10.167.242.39) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Wed, 29 Apr 2026 18:06:55 +0000
-Received: from DLEE214.ent.ti.com (157.170.170.117) by lewvzet200.ext.ti.com
- (10.4.14.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Apr
- 2026 13:06:55 -0500
-Received: from DLEE213.ent.ti.com (157.170.170.116) by DLEE214.ent.ti.com
- (157.170.170.117) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 29 Apr
- 2026 13:06:54 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DLEE213.ent.ti.com
- (157.170.170.116) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 29 Apr 2026 13:06:54 -0500
-Received: from [10.249.130.12] ([10.249.130.12])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 63TI6kJp3618387;
-	Wed, 29 Apr 2026 13:06:47 -0500
-Message-ID: <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
-Date: Wed, 29 Apr 2026 23:36:46 +0530
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PKd2b15s";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="NZ8AGV3g"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777486901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Dxp2OvQZDPavnweLX6lwyfQ94IEOmBtp4q9eBxrMuPM=;
+	b=PKd2b15sYmlUuc15dgZ8pGIfYJ4vOS/vLpIaS0+VmutNquf+sjaN/7kh2uN9LtSxE2sM/X
+	toIgdrfYs3OVQiqTCFlCebJinTH/oBJtAxroMX7P73+2JqC4I85IL2skzEL/P1qe8/jazL
+	tnHGQKqkdGcVE6qi2N1OMv5gU05/kvw=
+Received: from mail-yx1-f72.google.com (mail-yx1-f72.google.com
+ [74.125.224.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-256-fk8hXnElPOuLDwi8x7_YWg-1; Wed, 29 Apr 2026 14:21:39 -0400
+X-MC-Unique: fk8hXnElPOuLDwi8x7_YWg-1
+X-Mimecast-MFC-AGG-ID: fk8hXnElPOuLDwi8x7_YWg_1777486899
+Received: by mail-yx1-f72.google.com with SMTP id 956f58d0204a3-649df163c11so51282d50.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 11:21:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777486899; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NMl9DJNeiXAFMwVsr6qLsxXzyScE48pOVuKGhbW2dR6LWAgqr18VoC72X+xl7pAZug
+         w3cITYY5DX8ZnLW+W/JYOdlIsaqJJvApeGaj95PG6xFuyB02LhjWut2KINtlSHRmfYrx
+         ViJpjbquYHIcmIvQLO1Bv+AXHls2sfnAPlVc4nZEdFCWF8D4EVR4J2wSmb2RTu/VJuZb
+         7uCMllEqcoYv8T0f/0YQFaSOG8DdSF/d8MF1B1ZRe3j3PQEaabayC3yZ69VHGewLYSTX
+         XTx5DwZpt7cmo/GwlhN6azBErw7yS2pCdx6ZN2psDZqvOm8U0kYDwshrsT3DkpjnmGGN
+         /Svw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=Dxp2OvQZDPavnweLX6lwyfQ94IEOmBtp4q9eBxrMuPM=;
+        fh=Ua9t1eFg3x7XDHWlCwqDni2mxOb5omq0+/pdP/OyTAA=;
+        b=UMX3/xvfiMAdo8ISnCiGMtMC8E++HyEEMqSD0xIeLVZrxW3Kh6r6J0Z71PrYVrOol/
+         a4UwHKFUZg+0JDkAnVKc0NZx6Fbe8MeoJs2JsNJvNDJBJ2PeCKYCb0ltNYMEJcOFVPLa
+         YeJEj2j5kaYCvfCSyg7gyHoYJ/EnWcLMW39DT0j/QzT9VUN6QcZChnC1JVi+XRibIXIi
+         JgwrSBwMpf75k2o7RVhKQO2j85FjIK5FFuELevXjuUXBI0ZcdxQzyRfd9QSdSCCfkUfT
+         vtaTpseGeQvg9id1VzhoL8dymVl7dcog20V5MZHFRbDbG4BMrYgXKqD9opuU64zmgB8l
+         94KA==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777486899; x=1778091699; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dxp2OvQZDPavnweLX6lwyfQ94IEOmBtp4q9eBxrMuPM=;
+        b=NZ8AGV3gXThmnV7GmKI/tllWoEBREqt/UEskekvgI7AvfcPN8OA2B+7GOmIMZ9iwv8
+         eR0WTp/D/7hQgtYO0Yle3Z8wMJlrPnFF8eI7kGjsKeCX2TWqobFz6tdrVgLgDH4yRexB
+         zeiWRtnJDTuIznTwAyrrunQzciPGHDNIJKCDtdQfQA9teZC5B9MPmUQFLIzVXXUgVuOy
+         at74a8J+4g/t/UrLer6Yn+ltHXdUyvPCCff+zsHXE/5yMLDKRAOnNe4RIsfvs755MLU6
+         Tmm7PfmLSLigWCKfLhDIm1HbeKRA+asNjgaeT5Q9VXM6ors8gStM1jzVhXcOQEzCxPSh
+         iNHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777486899; x=1778091699;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dxp2OvQZDPavnweLX6lwyfQ94IEOmBtp4q9eBxrMuPM=;
+        b=Q0KS9zeRd0oJldGROnIMOFEl0YybiH8IVnuLPrQ7vhU7zcEOSTYxXR9xeJmNVNgRAD
+         oWtmqE5PZno9vfLVBMZZMNe9NW7iwLu6ZZz4mjyL8jIBKZqhocwALJ2LPAvgJd5rYg3L
+         LueRgCHxa1rxKPH78viEz+CF0/07NAzOAyOGJhpn6Jh5tXyPoTJYY6hccdnJp4JM+CzI
+         wonaU65ufUA2VZgdAdeOGK9LlHAhb50/wEXezKbR3kJa/OUuNuRrbwCmC2YAcjDS3fFi
+         0A9i8yDvqJV86hJKHR0F+tUgdiGkPkYjjw0ASUilesBcvTE0EbNmQOgKhWQM9Gc9s/fC
+         8wVw==
+X-Forwarded-Encrypted: i=1; AFNElJ/MmDJizIvWxjaCqFI3Gkc/wGnZNcYUiwYDotZ9RCwb78Tt7DiZRVVOy/ZoK4SXiGbgcCATsK6ZmJE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmguaHdUyY2Zv8uvniQsGKjaqsENDxZNurEustMIXiz54y9TLF
+	KPMOPCuDHPwjrEyMQ6oHv6S5VpqfF4Vrb6Zg+vjKgjHdHzQkZgzTvjwEayLFiiVUjxLUdrZFSsI
+	/l2+cO8jv+TQMqhr6v2ElfeueWTSsVTChtbQg7nPhVvabkmZ/8FGygMLQ47bEW8xLgN1BrAdZ1l
+	MW4vDFw/5IAwDn7Oq8+2zi1Xk/PY3yEX/O5wez
+X-Gm-Gg: AeBDiesXn/W5TV3Deb8l67/wlsGAF/Z8hes/GZv+sQiYSnJF8cGsw9tgwtVRuKmNOd3
+	fziaYNNxr+vHZD1PqA4DO9n3Bu29ip9i0youD21a5Q8AhFVEVfU376V3bXvBCL47qovH9QpzwC0
+	HfB62hKMTlfIIcd6W3I816aqyLm+ztoe9fxavkhyN+07CtdEbE+JDOnztVynef33UDFkkhjd4qV
+	y3wkWTZcT20I8C2kWHnQfXxUgwvt1DoAa787iszi+1QGwBiUWM=
+X-Received: by 2002:a05:690e:118a:b0:651:d047:caf5 with SMTP id 956f58d0204a3-65beeba82dbmr8444903d50.0.1777486899059;
+        Wed, 29 Apr 2026 11:21:39 -0700 (PDT)
+X-Received: by 2002:a05:690e:118a:b0:651:d047:caf5 with SMTP id
+ 956f58d0204a3-65beeba82dbmr8444840d50.0.1777486898433; Wed, 29 Apr 2026
+ 11:21:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-To: Mathieu Poirier <mathieu.poirier@linaro.org>, Shenwei Wang
-	<shenwei.wang@nxp.com>
-CC: Andrew Lunn <andrew@lunn.ch>, Linus Walleij <linusw@kernel.org>, "Bartosz
- Golaszewski" <brgl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Rob Herring
-	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	<conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, Frank Li
-	<frank.li@nxp.com>, Sascha Hauer <s.hauer@pengutronix.de>, Shuah Khan
-	<skhan@linuxfoundation.org>, "linux-gpio@vger.kernel.org"
-	<linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Pengutronix Kernel Team
-	<kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Peng Fan
-	<peng.fan@nxp.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
-	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
- <20260422212849.1240591-4-shenwei.wang@nxp.com>
- <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
- <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch>
- <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
- <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <afImuoeHolxGgw3H@p14s>
- <PAXPR04MB9185F2F6DDB55AC56C92D63B89342@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com>
-Content-Language: en-US
-From: "Padhi, Beleswar" <b-padhi@ti.com>
-In-Reply-To: <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000F0E1:EE_|IA3PR10MB8466:EE_
-X-MS-Office365-Filtering-Correlation-Id: c4da7dc1-bc50-4a7f-ac85-08dea61a1956
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|376014|7416014|1800799024|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	sTpG513mmtPV2eCja4+6tGGt9jxjB4K6EKDWhjfSCMNupTi4MD1jOApJM1qseaQX1HmX3NyF1Qn8KP59dtcmdrTx5dXgjK91y1gxfeVEpLbNFwf+4eXYuqubm9D/fH2Sj0J8QU461g41/W2kpinqlVKgsvgzmRPBMci5t9yJ9VUudSpenQ0u8o5PAirKB+1fSTZACdeQnSi06IpujBfo6cM0LfvCsz7NH/OJZwDwwlQnJXvcPOgsjvWeQUKdoVJKDfPWSMHsvT8HtNoAk885vvRD71awhlwUW4o6CkOnPgn27x1RosiT6ZPaNCwchmiMzzCT5l2JL03jN0ntKwZIdL27G8xMsZlVBCimtyDT3oog6ssdB5udhE3gmC9zoAiD97tBSeekF+WLn3XjAMYoIaSO2LoRu2PFf3loIHit22SEdjX/2RAY4sni7vbstJjmb8x+YfpmQXC0S9nwS/EpQdbjEtcX1cFu3k+7k0Y0BEyiQtWr5cOboQ6FldT8Osub+uoeI1kzAuYNyOsZytd4H4n8e8dgLBvIpC3A4jBAIWOnWM/KMZmuB6snD1v+EdhnzXCL5yis3mUqDWAGHnv+ampYmYzrdKUwIK67dvzwU/OKd30GRzT1kB6Gz8DmrTTZL4f29q27HOI/cVwl+xuykWEih1VqhboOEqLtpbKNBHXSxbGpf6qir/VUeJcpDJY2u9yftufWvEC/wV2ULU2lLG/URtjCcmuvU4lOQC0LJtM=
-X-Forefront-Antispam-Report:
-	CIP:198.47.23.194;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:lewvzet200.ext.ti.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(376014)(7416014)(1800799024)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	eoKduC0g6WVivvCMX7goe+F9AbU7tW8BBx+0JV8d9aNAcOguRAIcZPEExmOuaLGdd+YZBbFr0EtJA19gLW5/HsT8c1qThzICLSGls2+JVYdmlO2lby7oGpWmf6NMQqRH1UYw5ZUbN4sPV7aaCtUEFXFYRqO/8cCtVjnuXN4WsJSeECJz8VceZf9Uve9Lf9TQuapPfombAXXahp4yZEaMriTdSAa/LlAQqfKcrQA/LVAgdYL7epfH58HC+Mo6jp1WxVNuOF2bBizkeDVDddLiAHgu8vFCZik2bVpxAMHg0+XpYdXZuQJfGaendLYn06A6L7Z0UqYHLEjHJzYddI7lTSib4Kpso2Yokdygz17w0KoutAgmcN+h45wDuWY5XNy5CrWclQ9905R2F18tpjQiD7NL31X+7n5YF+4FJBhT/6h7e6X5NJGlptMmFXzh82eW
-X-OriginatorOrg: ti.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 18:06:55.6494
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c4da7dc1-bc50-4a7f-ac85-08dea61a1956
-X-MS-Exchange-CrossTenant-Id: e5b49634-450b-4709-8abb-1e2b19b982b7
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e5b49634-450b-4709-8abb-1e2b19b982b7;Ip=[198.47.23.194];Helo=[lewvzet200.ext.ti.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000F0E1.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR10MB8466
+References: <20260419185750.260784-1-npache@redhat.com> <20260419185750.260784-8-npache@redhat.com>
+ <f05f4506-2930-44ba-918a-e0e5bcb9d0f9@kernel.org>
+In-Reply-To: <f05f4506-2930-44ba-918a-e0e5bcb9d0f9@kernel.org>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 29 Apr 2026 12:21:44 -0600
+X-Gm-Features: AVHnY4J7CcVYR4f6zugXAbo8lWmkYfpdhB-nBSIbQmMf8QVrNFkAXtwT9seofNU
+Message-ID: <CAA1CXcA-YtEiWYZaBW05Y9B_JMixu4SXaQO9KZoG-hNCF9oPHA@mail.gmail.com>
+Subject: Re: [PATCH 7.2 v16 07/13] mm/khugepaged: add per-order mTHP collapse
+ failure statistics
+To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org
+Cc: aarcange@redhat.com, akpm@linux-foundation.org, anshuman.khandual@arm.com, 
+	apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	lance.yang@linux.dev, Liam.Howlett@oracle.com, ljs@kernel.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
+	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
+	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
+	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
+	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
+	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mathieu,
-
-On 4/29/2026 11:03 PM, Mathieu Poirier wrote:
-> On Wed, 29 Apr 2026 at 10:53, Shenwei Wang <shenwei.wang@nxp.com> wrote:
+On 4/27/26 2:21 PM, David Hildenbrand (Arm) wrote:
+> On 4/19/26 20:57, Nico Pache wrote:
+>> Add three new mTHP statistics to track collapse failures for different
+>> orders when encountering swap PTEs, excessive none PTEs, and shared PTEs:
 >>
+>> - collapse_exceed_swap_pte: Increment when mTHP collapse fails due to swap
+>>      PTEs
 >>
->>> -----Original Message-----
->>> From: Mathieu Poirier <mathieu.poirier@linaro.org>
->>> Sent: Wednesday, April 29, 2026 10:42 AM
->>> To: Shenwei Wang <shenwei.wang@nxp.com>
->>> Cc: Andrew Lunn <andrew@lunn.ch>; Padhi, Beleswar <b-padhi@ti.com>; Linus
->>> Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan
->>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
->>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
->>> <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
->>> <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
->>> gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
->>> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
->>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
->>> devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
->>> imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
->>> imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
->>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
->>> On Tue, Apr 28, 2026 at 03:24:59PM +0000, Shenwei Wang wrote:
->>>>
->>>>> -----Original Message-----
->>>>> From: Andrew Lunn <andrew@lunn.ch>
->>>>> Sent: Monday, April 27, 2026 3:49 PM
->>>>> To: Shenwei Wang <shenwei.wang@nxp.com>
->>>>> Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij
->>>>> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan
->>>>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
->>>>> Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
->>>>> Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
->>>>> <mathieu.poirier@linaro.org>; Frank Li <frank.li@nxp.com>; Sascha
->>>>> Hauer <s.hauer@pengutronix.de>; Shuah Khan
->>>>> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
->>>>> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
->>>>> Kernel Team <kernel@pengutronix.de>; Fabio Estevam
->>>>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
->>>>> devicetree@vger.kernel.org; linux- remoteproc@vger.kernel.org;
->>>>> imx@lists.linux.dev; linux-arm- kernel@lists.infradead.org;
->>>>> dl-linux-imx <linux-imx@nxp.com>; Bartosz Golaszewski
->>>>> <brgl@bgdev.pl>
->>>>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg
->>>>> GPIO driver
->>>>>>> struct virtio_gpio_response {
->>>>>>>          __u8 status;
->>>>>>>          __u8 value;
->>>>>>> };
->>>>>> It is the same message format. Please see the message definition
->>>>> (GET_DIRECTION) below:
->>>>>
->>>>>> +   +-----+-----+-----+-----+-----+----+
->>>>>> +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
->>>>>> +   | 1   | 2   |port |line | err | dir|
->>>>>> +   +-----+-----+-----+-----+-----+----+
->>>>> Sorry, but i don't see how two u8 vs six u8 are the same message format.
->>>>>
->>>> Some changes to the message format are necessary.
->>>>
->>>> Virtio uses two communication channels (virtqueues): one for requests and
->>> replies, and a second one for events.
->>>> In contrast, rpmsg provides only a single communication channel, so a
->>>> type field is required to distinguish between different kinds of messages.
->>>>
->>>> Since rpmsg replies and events share the same message format, an additional
->>> line is introduced to handle both cases.
->>>> Finally, rpmsg supports multiple GPIO controllers, so a port field is added to
->>> uniquely identify the target controller.
->>>
->>> I have commented on this before - RPMSG is already providing multiplexing
->>> capability by way of endpoints.  There is no need for a port field.  One endpoint,
->>> one GPIO controller.
->>>
->> You still need a way to let the remote side know which port the endpoint maps to, either
->> by embedding the port information in the message (the current way), or by sending it
->> separately.
+>> - collapse_exceed_none_pte: Counts when mTHP collapse fails due to
+>>      exceeding the none PTE threshold for the given order
 >>
-> An endpoint is created with every namespace request.  There should be
-> one namespace request for every GPIO controller, which yields a unique
-> endpoint for each controller and eliminates the need for an extra
-> field to identify them.
+>> - collapse_exceed_shared_pte: Counts when mTHP collapse fails due to shared
+>>      PTEs
+>>
+>> These statistics complement the existing THP_SCAN_EXCEED_* events by
+>> providing per-order granularity for mTHP collapse attempts. The stats are
+>> exposed via sysfs under
+>> `/sys/kernel/mm/transparent_hugepage/hugepages-*/stats/` for each
+>> supported hugepage size.
+>>
+>> As we currently dont support collapsing mTHPs that contain a swap or
+>
+> s/dont/do not/
+>
+>> shared entry, those statistics keep track of how often we are
+>> encountering failed mTHP collapses due to these restrictions.
+>>
+>> Now that we plan to support mTHP collapse for anon pages, lets also track
+>
+> "We will add support for mTHP collapse for anonymous pages next; let's also ..."
+>
+>> when this happens at the PMD level within the per-mTHP stats.
+>
+> What about file collapse? For example, we do adjust
+> count_vm_event(THP_SCAN_EXCEED_SWAP_PTE) and
+> count_vm_event(THP_SCAN_EXCEED_NONE_PTE) there.
+>
+> Wouldn't we want to update the HPAGE_PMD_ORDER side of things there already? or
+> would we want to use a different counter for that?
 
+Maybe? My thought process was that because we dont support mTHP in Shmem
+that those stats shouldnt be updated? not sure the right answer tbh--
+hence why this comment says "now that.. for anon pages, lets track..".
 
-Right, but this can still be done by just having one namespace request.
-We can create new endpoints bound to an existing namespace/channel by
-invoking rpmsg_create_ept(). This is what I suggested here too:
-https://lore.kernel.org/all/29485742-6e49-482e-b73d-228295daaeec@ti.com/
+>
+>>
+>> Signed-off-by: Nico Pache <npache@redhat.com>
+>> ---
+>>   Documentation/admin-guide/mm/transhuge.rst | 24 ++++++++++++++++++++++
+>>   include/linux/huge_mm.h                    |  3 +++
+>>   mm/huge_memory.c                           |  7 +++++++
+>>   mm/khugepaged.c                            | 21 +++++++++++++++++--
+>>   4 files changed, 53 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+>> index c51932e6275d..eebb1f6bbc6c 100644
+>> --- a/Documentation/admin-guide/mm/transhuge.rst
+>> +++ b/Documentation/admin-guide/mm/transhuge.rst
+>> @@ -714,6 +714,30 @@ nr_anon_partially_mapped
+>>          an anonymous THP as "partially mapped" and count it here, even though it
+>>          is not actually partially mapped anymore.
+>>
+>> +collapse_exceed_none_pte
+>> +       The number of collapse attempts that failed due to exceeding the
+>> +       max_ptes_none threshold. For mTHP collapse, Currently only max_ptes_none
+>> +       values of 0 and (HPAGE_PMD_NR - 1) are supported. Any other value will
+>> +       emit a warning and no mTHP collapse will be attempted. khugepaged will
+>> +       try to collapse to the largest enabled (m)THP size; if it fails, it will
+>> +       try the next lower enabled mTHP size. This counter records the number of
+>> +       times a collapse attempt was skipped for exceeding the max_ptes_none
+>> +       threshold, and khugepaged will move on to the next available mTHP size.
+>
+> Why is everything after the first sentence worth documenting here? This doesn't
+> read like it belongs to a failure counter?
+>
+>> +
+>> +collapse_exceed_swap_pte
+>> +       The number of anonymous mTHP PTE ranges which were unable to collapse due
+>> +       to containing at least one swap PTE. Currently khugepaged does not
+>> +       support collapsing mTHP regions that contain a swap PTE. This counter can
+>> +       be used to monitor the number of khugepaged mTHP collapses that failed
+>> +       due to the presence of a swap PTE.
+>
+> Can we similarly simplify that (and make it consistent with the one above) to
+>
+> "The number of collapse attempts that failed due to exceeding the max_ptes_swap
+> threshold."
+>
+>> +
+>> +collapse_exceed_shared_pte
+>> +       The number of anonymous mTHP PTE ranges which were unable to collapse due
+>> +       to containing at least one shared PTE. Currently khugepaged does not
+>> +       support collapsing mTHP PTE ranges that contain a shared PTE. This
+>> +       counter can be used to monitor the number of khugepaged mTHP collapses
+>> +       that failed due to the presence of a shared PTE.
+>
+> Same here
+>
+> "The number of collapse attempts that failed due to exceeding the
+> max_ptes_shared threshold."
 
-My mental model looks like this for the complete picture:
+These all used to be very similar to what you have here. But Lorenzo
+asked me to expand all this (IIRC) several times. So here we are! I
+believe I even mentioned in the V15 that these are probably the "best"
+defined counters in the whole doc lol.
 
-1. namespace/channel#1 = rpmsg-io
-    a. ept1 -> gpio-controller@1
-    b. ept2 -> gpio-controller@2
+Cheers,
 
-2. namespace/channel#2 = rpmsg-i2c
-    a. ept1 -> i2c@1
-    b. ept2 -> i2c@2
-    c. ept3 -> i2c@3
+-- Nico
 
-etc...
-
-This way device groups are isolated with each channel/namespace, and
-instances within each device groups are also respected with specific
-endpoints.
-
-Thanks,
-Beleswar
+>
+> ?
+>
+>> +
+>
+> [...]
+>
 
