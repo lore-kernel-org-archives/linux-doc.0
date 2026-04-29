@@ -1,401 +1,297 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53519366823
-	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 15:08:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777475335; cv=none; b=f/BhzuVXiHwXyMl7G3Ex+0xDhjrWgGDY56Z229h0bze0qBbOXEce0AMAVBi9SwZxRO2jSS2e5LvHmYXCEreYYPMM+ZXdsl9ZMMJlvzqOyA/vqnS4Ztdn/aanWaGVE/pBgFE6pJKN0Pbe4Tny81hGi5o4I9l9y1Zso1K75e+FNvU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777475335; c=relaxed/simple;
-	bh=nSpDh5JAVcMnvJl6TvFSJ4oampsPYHyg3/ychU1qErg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dxvQ5DfA/z4iiyP8LI9BePUmpQvf144EEH9uU7JBgkokJ412XC1VSj4B7wAhc9dp9y/jwvQk/r7/4RT+3aofebvO6jIS/wkGtmg/I0GhLaLX05Gm3FjoyzKtcsKfO/Jiu7OR88gWVs5NW5HTGG1jge+YXxmnrq+seIynyHb0KtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Zmh4v7wk; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5FC261B92
+	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 15:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.133.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777475530; cv=pass; b=mqoKH/chxG6KjzNnPhSLY5AKxZBt861eL7vdNEt55Uuq2curHew0wX73baYyHGD7I7Efv27BvwkLRfqkJgOGofEU7NO1KXzGdzcGdHNpnyPfdtI/s4eQVnebUaDXaTy3bAv3Lz7OMGBV6WGmIgRIRjV/xI3/gKl9Uk7pZynWkrs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777475530; c=relaxed/simple;
+	bh=+lpPzjQpVZqw2IwxWBU2dFkaVwLI04UBASsRDnxmpQA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j3njIZzjj59CsjzH4dtHZsPPCr+gVoap8B+ba2VDaghT8HSlPsNWw5Cbv73P/J/q7apHa+n3UvnT5uEZBdXWvf41bodpAgPoe0CgZtjIy4T7cKc8yoFVWAQZpa6350/HuaafqvcDquUSzOhkPixlUmW7A/mDgk4wrCnxvmtL5Bc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=X77e7OZy; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=o6sbuF0L; arc=pass smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Zmh4v7wk"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="X77e7OZy";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="o6sbuF0L"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777475332;
+	s=mimecast20190719; t=1777475527;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=GNccpgI2xsz1sZwJ9hab0PdIysEcq8xFnw8tQlOiyts=;
-	b=Zmh4v7wk3l1+H0rygGkLcldGwFmFOo/rbD8rg/QKEHcEH/PaEcvZbEXKA69dd+RE+4EjuJ
-	tX7qZC9b2afiyuTvn6OBGFNk8UAhXgwFUr4su+r/ACSa3nCurl5QKE3e77CRTDUsftKb+A
-	0aZfEKnDWxzwodLMhcGxT4/UOrho5BI=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-199-WIWQZtjOMeSMWeqaOxmNQQ-1; Wed,
- 29 Apr 2026 11:08:47 -0400
-X-MC-Unique: WIWQZtjOMeSMWeqaOxmNQQ-1
-X-Mimecast-MFC-AGG-ID: WIWQZtjOMeSMWeqaOxmNQQ_1777475322
-Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4FE811800378;
-	Wed, 29 Apr 2026 15:08:41 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.44.49.234])
-	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5E87119560B7;
-	Wed, 29 Apr 2026 15:08:34 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pasi Vaananen <pvaanane@redhat.com>,
-	Petr Oros <poros@redhat.com>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next 2/2] dpll: zl3073x: report FFO as DPLL vs input reference offset
-Date: Wed, 29 Apr 2026 17:08:17 +0200
-Message-ID: <20260429150817.3059763-3-ivecera@redhat.com>
-In-Reply-To: <20260429150817.3059763-1-ivecera@redhat.com>
-References: <20260429150817.3059763-1-ivecera@redhat.com>
+	bh=MIFsdpU37KWnRnOSzyREX6cnqaju9TfHn4yZ6utUnI4=;
+	b=X77e7OZy8hVYjmMbYBghxW4yk4PwDn385ZVXZKaZnAxa77/vGJY2jGQAZdS1eJ1T3gKYa9
+	VgeljOQMzp9SJ5wsvcjjEI8Npq/97lIu70PxQ3+HFMhHfQz/ffnErL5fK8ojYZIVfqg3bR
+	dgfgA8mFF1SrU4dw/hBNns8kqKaOrH4=
+Received: from mail-lj1-f197.google.com (mail-lj1-f197.google.com
+ [209.85.208.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-408-__jcTAfxNL-ltygSe0MC0g-1; Wed, 29 Apr 2026 11:12:06 -0400
+X-MC-Unique: __jcTAfxNL-ltygSe0MC0g-1
+X-Mimecast-MFC-AGG-ID: __jcTAfxNL-ltygSe0MC0g_1777475525
+Received: by mail-lj1-f197.google.com with SMTP id 38308e7fff4ca-390f7e98835so34334811fa.1
+        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 08:12:06 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777475525; cv=none;
+        d=google.com; s=arc-20240605;
+        b=HlsWtyCUw7WdR8E8RqXXufC4Oj6yI//hfP7keskVqeourYalDJqfAByhs3MttkaFuy
+         Hm6dg/2s1E0KyK8EY3NHFB50TvLSE4tr/C4gQg/XMx72PQrcWWtqRxmai0ynyl9zRjoj
+         73jq9HKGbVXPWF57iIi7Gy3Bs1aPIzhUNKkPwghjexFAULoxZaWtvGW63hFOBU2C7xWQ
+         cPPjTn6j3oV5gZDWTR5R6Pij3Zmd3wSESH2xZVA4W3y0Z+amHM0ZuGsY2fqysbcnPGy1
+         qo91Z4Wcdh8LdklAU1U6ucdLs+6ONx526+g6i6S/av5dixuT8/pqSqx2G8uYGIF78QWZ
+         hSbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=MIFsdpU37KWnRnOSzyREX6cnqaju9TfHn4yZ6utUnI4=;
+        fh=WF7SGJZyovIEfsUJGJDo3gWx5fOogDiuwCENz4t1YrE=;
+        b=ANyGJVnn9c8h20OPrZlKa+CORu73irQykoRaOPhY4FBgGRSefi2Ug9GGqmzNfiNdBm
+         uUSCttgKJ1Po9oqWqz9kr0ME2H1MIkAdGKNzAajri93S2Kr4/ByGdJgbZD3Xo9M67jZm
+         Jcfz4UC2GNJme/jY/r9baWQ2r+jJyExYA8TV5XtvkoUSgDzAJtuv6rClPdUioyuhGvPW
+         8Ty2eL4LBWEq4N/J8zoAyzhS/UHnkgBtNwp0eYELGL6T6VzL/k1m1gCYrJBpO2prZ9cx
+         iEAvhBmvNTCFbuVQc5WuAHahfaXaNL7Rs9RqyZ1DMqOhY9udiKy0lACBsZrBEuQ7pbBq
+         v76A==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777475525; x=1778080325; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=MIFsdpU37KWnRnOSzyREX6cnqaju9TfHn4yZ6utUnI4=;
+        b=o6sbuF0LjDVitAcf+BdIBEYUfQaBH998Mrw05rHvFS/YNSDAJuA9snjH+uDZKpB9n/
+         QH4sLXyU21M3vi7MCw6EUO99pcQxxlWt2lDQ3tEiUK//BgVZgVRNJ6Fo+BZXVrAkfqPb
+         CweLqqKo0K9t8B/aBymB42dJ3PkK2T7ETIcBpMaKt+iezAgWp2UuPb99arYP7KzVsuf6
+         DpGOLaVf8EDGXLhe/OSXhmL6LW8spoJ7sStInGRI6eY1CWqM76bxlW6lnsYj9QMBzjYj
+         H8Ku6YLDDTYXF0RLtP/D5ETTml1ap6h/gZ2n1XwmCCTvwYwslB8f+zRtGgrOWh2yWeCN
+         gBeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777475525; x=1778080325;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MIFsdpU37KWnRnOSzyREX6cnqaju9TfHn4yZ6utUnI4=;
+        b=ZtNDwz1QC7BCEnltvD08Q6S5v0wVG7X1S9ZcqxYDmpbGQ1hblm+kLa8btGeXO9XEza
+         QfWGc89y/ZC6VDnOkTwrWqni4xuZqc1OEU966AZjVSbrk+FQQWhDd5TamRgdoKGIxBF0
+         Li52B4YE/Xboc0sepYwMvnfIsYB+0pEHMDca2HyuQO5cHio/YMXftHrdVbqzSuuefneU
+         jP3E/MpXL+FWo/BOIFAQG1magWqOOslDpZgjMryluKkBnXpEDK9MkxAlt3KGdjBHQsub
+         9SBEogmaehO5Frz/IZd0X8EU+f+UsGucbJj9i9sxPoZgqcLKijV1zW0jpbs+CS0tVbLB
+         pnAg==
+X-Forwarded-Encrypted: i=1; AFNElJ+7d2VN6yI6hil60yK+EaKMswNBXRciqy9PU+l/ygfRx0ubqmJzRJ14QXZswuAr5NZpJUmV6+FW/ps=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6CfnL+laWh2/8+6RptaV4LQyaVU2Ul0jBhsyHe6qnp0Q9EQF1
+	u+Z7iEe90fooK4LUYINudFuj+7WlKTH8p4xRpWJGtQTj00VbVH2ow+OEeIORWXMeqr2E8NmCOWW
+	I5DlNoWYFCmKtXvncoc7R7nfN6zeg3K7aqZ7I0M0vum1XMYt+X7UnWdLGiNHEkaNB17yA8ImPyL
+	mTLGQLUKysVS6o54G2LGQMNVqioABmBzAaFdgs
+X-Gm-Gg: AeBDieut+0ZAm2ANxZuRNGAM1r2LxU0Aywe53kl9l5jwFAPgUlNzBXKL7tntVMpEy3N
+	ekKTc6PQI+vQavS3IYb7soPJ/htoTKOvNpCkhGvZArLqanPK7lKER4bcV6wJ0Terp0pPwkl3I3I
+	JAY8gDVtRKFcUWXD3WtB+1TGjKnOwaiyb9KAehaBOs7gIDHEAp9qaOudxR+VVwsMEeNrsMDJC7f
+	DStHLZy8ppTC7GqdPBhLUpALZc++Bd2iY5xOrmXv7OEm8Epq9U=
+X-Received: by 2002:a05:651c:41d6:b0:38b:f0f0:e3f7 with SMTP id 38308e7fff4ca-39240cac934mr29426641fa.7.1777475524879;
+        Wed, 29 Apr 2026 08:12:04 -0700 (PDT)
+X-Received: by 2002:a05:651c:41d6:b0:38b:f0f0:e3f7 with SMTP id
+ 38308e7fff4ca-39240cac934mr29426101fa.7.1777475524415; Wed, 29 Apr 2026
+ 08:12:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
+References: <20260419185750.260784-1-npache@redhat.com> <20260419185750.260784-5-npache@redhat.com>
+ <e9dbe863-d125-4fe5-8ecc-91ad7293e5cf@kernel.org>
+In-Reply-To: <e9dbe863-d125-4fe5-8ecc-91ad7293e5cf@kernel.org>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 29 Apr 2026 09:12:08 -0600
+X-Gm-Features: AVHnY4JWHIajx86OyyAW4xEABiDRXdIc8my5jlzqHRFOcHufFZGfWfjdV3YP0YY
+Message-ID: <CAA1CXcBfFcaXRvx0UnutjDV_ozcRXUmVCXZ6E6HH0buX=BYntw@mail.gmail.com>
+Subject: Re: [PATCH 7.2 v16 04/13] mm/khugepaged: generalize
+ __collapse_huge_page_* for mTHP support
+To: "David Hildenbrand (Arm)" <david@kernel.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	linux-trace-kernel@vger.kernel.org
+Cc: aarcange@redhat.com, akpm@linux-foundation.org, anshuman.khandual@arm.com, 
+	apopple@nvidia.com, baohua@kernel.org, baolin.wang@linux.alibaba.com, 
+	byungchul@sk.com, catalin.marinas@arm.com, cl@gentwo.org, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, dev.jain@arm.com, gourry@gourry.net, 
+	hannes@cmpxchg.org, hughd@google.com, jack@suse.cz, jackmanb@google.com, 
+	jannh@google.com, jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org, 
+	lance.yang@linux.dev, Liam.Howlett@oracle.com, ljs@kernel.org, 
+	mathieu.desnoyers@efficios.com, matthew.brost@intel.com, mhiramat@kernel.org, 
+	mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de, rakie.kim@sk.com, 
+	raquini@redhat.com, rdunlap@infradead.org, richard.weiyang@gmail.com, 
+	rientjes@google.com, rostedt@goodmis.org, rppt@kernel.org, 
+	ryan.roberts@arm.com, shivankg@amd.com, sunnanyong@huawei.com, 
+	surenb@google.com, thomas.hellstrom@linux.intel.com, tiwai@suse.de, 
+	usamaarif642@gmail.com, vbabka@suse.cz, vishal.moola@gmail.com, 
+	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org, 
+	yang@os.amperecomputing.com, ying.huang@linux.alibaba.com, ziy@nvidia.com, 
+	zokeefe@google.com
+Content-Type: text/plain; charset="UTF-8"
 
-Replace the per-reference frequency offset measurement (which was
-redundant with measured-frequency) with a direct read of the DPLL's
-delta frequency offset vs its tracked input reference.
+On 4/27/26 2:07 PM, David Hildenbrand (Arm) wrote:
+> On 4/19/26 20:57, Nico Pache wrote:
+>> generalize the order of the __collapse_huge_page_* and collapse_max_*
+>> functions to support future mTHP collapse.
+>>
+>> The current mechanism for determining collapse with the
+>> khugepaged_max_ptes_none value is not designed with mTHP in mind. This
+>> raises a key design issue: if we support user defined max_pte_none values
+>> (even those scaled by order), a collapse of a lower order can introduces
+>> an feedback loop, or "creep", when max_ptes_none is set to a value greater
+>> than HPAGE_PMD_NR / 2.
+>>
+>> With this configuration, a successful collapse to order N will populate
+>> enough pages to satisfy the collapse condition on order N+1 on the next
+>> scan. This leads to unnecessary work and memory churn.
+>
+> You could add a link here to previous discussions.
 
-The new implementation uses the dpll_df_offset_x register with
-ref_ofst=1 via the dpll_df_read_x semaphore mechanism. This
-provides 2^-48 resolution (~3.5 fE) and reports the actual
-frequency difference between the DPLL and its active input.
+Ack, not a bad idea for historical reasons.
 
-FFO is now reported only for the active input pin in the nested
-(pin vs parent DPLL) context. Top-level FFO returns -ENODATA.
+>
+>>
+>> To fix this issue introduce a helper function that will limit mTHP
+>> collapse support to two max_ptes_none values, 0 and HPAGE_PMD_NR - 1.
+>> This effectively supports two modes:
+>>
+>> - max_ptes_none=0: never introduce new none-pages for mTHP collapse.
+>
+> "introduce" reads wrong in this context. And I don't know what a "none-page" is :)
 
-Rewrite ffo_check to compare the cached df_offset converted to PPT
-instead of using the old per-reference measurement. Remove the
-ref_ffo_update periodic measurement and the ref ffo field since
-they are no longer needed.
+Thats a page that is none duh ;P Ill clean that up
 
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/chan.c | 31 +++++++++++++++++++++++--
- drivers/dpll/zl3073x/chan.h | 14 ++++++++++++
- drivers/dpll/zl3073x/core.c | 45 -------------------------------------
- drivers/dpll/zl3073x/dpll.c | 34 ++++++++++++----------------
- drivers/dpll/zl3073x/ref.h  | 14 ------------
- drivers/dpll/zl3073x/regs.h | 15 +++++++++++++
- 6 files changed, 72 insertions(+), 81 deletions(-)
+>
+> "never collapses if it encounters an empty PTE or a PTE that maps the shared
+> zeropage. Consequently, no memory bloat."
 
-diff --git a/drivers/dpll/zl3073x/chan.c b/drivers/dpll/zl3073x/chan.c
-index 2f48ca2391494..2fe3c3da84bb5 100644
---- a/drivers/dpll/zl3073x/chan.c
-+++ b/drivers/dpll/zl3073x/chan.c
-@@ -18,6 +18,7 @@
- int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index)
- {
- 	struct zl3073x_chan *chan = &zldev->chan[index];
-+	u64 val;
- 	int rc;
- 
- 	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MON_STATUS(index),
-@@ -25,8 +26,34 @@ int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index)
- 	if (rc)
- 		return rc;
- 
--	return zl3073x_read_u8(zldev, ZL_REG_DPLL_REFSEL_STATUS(index),
--			       &chan->refsel_status);
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_REFSEL_STATUS(index),
-+			     &chan->refsel_status);
-+	if (rc)
-+		return rc;
-+
-+	/* Read df_offset vs tracked reference */
-+	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+				  ZL_DPLL_DF_READ_SEM);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+			      ZL_DPLL_DF_READ_SEM | ZL_DPLL_DF_READ_REF_OFST);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+				  ZL_DPLL_DF_READ_SEM);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_read_u48(zldev, ZL_REG_DPLL_DF_OFFSET(index), &val);
-+	if (rc)
-+		return rc;
-+
-+	chan->df_offset = sign_extend64(val, 47);
-+
-+	return 0;
- }
- 
- /**
-diff --git a/drivers/dpll/zl3073x/chan.h b/drivers/dpll/zl3073x/chan.h
-index 481da2133202b..4353809c69122 100644
---- a/drivers/dpll/zl3073x/chan.h
-+++ b/drivers/dpll/zl3073x/chan.h
-@@ -17,6 +17,7 @@ struct zl3073x_dev;
-  * @ref_prio: reference priority registers (4 bits per ref, P/N packed)
-  * @mon_status: monitor status register value
-  * @refsel_status: reference selection status register value
-+ * @df_offset: frequency offset vs tracked reference in 2^-48 steps
-  */
- struct zl3073x_chan {
- 	struct_group(cfg,
-@@ -26,6 +27,7 @@ struct zl3073x_chan {
- 	struct_group(stat,
- 		u8	mon_status;
- 		u8	refsel_status;
-+		s64	df_offset;
- 	);
- };
- 
-@@ -37,6 +39,18 @@ int zl3073x_chan_state_set(struct zl3073x_dev *zldev, u8 index,
- 
- int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index);
- 
-+/**
-+ * zl3073x_chan_df_offset_get - get cached df_offset vs tracked reference
-+ * @chan: pointer to channel state
-+ *
-+ * Return: frequency offset in 2^-48 steps
-+ */
-+static inline s64
-+zl3073x_chan_df_offset_get(const struct zl3073x_chan *chan)
-+{
-+	return chan->df_offset;
-+}
-+
- /**
-  * zl3073x_chan_mode_get - get DPLL channel operating mode
-  * @chan: pointer to channel state
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index 5f1e70f3e40a0..b3345060490db 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -704,44 +704,6 @@ zl3073x_ref_freq_meas_update(struct zl3073x_dev *zldev)
- 	return 0;
- }
- 
--/**
-- * zl3073x_ref_ffo_update - update reference fractional frequency offsets
-- * @zldev: pointer to zl3073x_dev structure
-- *
-- * The function asks device to latch the latest measured fractional
-- * frequency offset values, reads and stores them into the ref state.
-- *
-- * Return: 0 on success, <0 on error
-- */
--static int
--zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
--{
--	int i, rc;
--
--	rc = zl3073x_ref_freq_meas_latch(zldev,
--					 ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
--	if (rc)
--		return rc;
--
--	/* Read DPLL-to-REFx frequency offset measurements */
--	for (i = 0; i < ZL3073X_NUM_REFS; i++) {
--		s32 value;
--
--		/* Read value stored in units of 2^-32 signed */
--		rc = zl3073x_read_u32(zldev, ZL_REG_REF_FREQ(i), &value);
--		if (rc)
--			return rc;
--
--		/* Convert to ppt
--		 * ffo = (10^12 * value) / 2^32
--		 * ffo = ( 5^12 * value) / 2^20
--		 */
--		zldev->ref[i].ffo = mul_s64_u64_shr(value, 244140625, 20);
--	}
--
--	return 0;
--}
--
- static void
- zl3073x_dev_periodic_work(struct kthread_work *work)
- {
-@@ -776,13 +738,6 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
- 		}
- 	}
- 
--	/* Update references' fractional frequency offsets */
--	rc = zl3073x_ref_ffo_update(zldev);
--	if (rc)
--		dev_warn(zldev->dev,
--			 "Failed to update fractional frequency offsets: %pe\n",
--			 ERR_PTR(rc));
--
- 	list_for_each_entry(zldpll, &zldev->dplls, list)
- 		zl3073x_dpll_changes_check(zldpll);
- 
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index 6e9dfaf7309f7..06dec77b2a516 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -299,8 +299,12 @@ zl3073x_dpll_input_pin_ffo_get(const struct dpll_pin *dpll_pin, void *pin_priv,
- {
- 	struct zl3073x_dpll_pin *pin = pin_priv;
- 
--	/* Only rx vs tx symbol rate FFO is supported */
--	if (dpll)
-+	/* Only nested FFO (pin vs parent DPLL) is supported */
-+	if (!dpll)
-+		return -ENODATA;
-+
-+	/* Report FFO only for the active pin */
-+	if (pin->operstate != DPLL_PIN_OPERSTATE_ACTIVE)
- 		return -ENODATA;
- 
- 	*ffo = pin->freq_offset;
-@@ -1699,37 +1703,27 @@ zl3073x_dpll_pin_phase_offset_check(struct zl3073x_dpll_pin *pin)
- }
- 
- /**
-- * zl3073x_dpll_pin_ffo_check - check for pin fractional frequency offset change
-+ * zl3073x_dpll_pin_ffo_check - check for FFO change on active pin
-  * @pin: pin to check
-  *
-- * Check for the given pin's fractional frequency change.
-- *
-- * Return: true on fractional frequency offset change, false otherwise
-+ * Return: true on change, false otherwise
-  */
- static bool
- zl3073x_dpll_pin_ffo_check(struct zl3073x_dpll_pin *pin)
- {
- 	struct zl3073x_dpll *zldpll = pin->dpll;
--	struct zl3073x_dev *zldev = zldpll->dev;
--	const struct zl3073x_ref *ref;
--	u8 ref_id;
-+	const struct zl3073x_chan *chan;
- 	s64 ffo;
- 
--	/* Get reference monitor status */
--	ref_id = zl3073x_input_pin_ref_get(pin->id);
--	ref = zl3073x_ref_state_get(zldev, ref_id);
--
--	/* Do not report ffo changes if the reference monitor report errors */
--	if (!zl3073x_ref_is_status_ok(ref))
-+	if (pin->operstate != DPLL_PIN_OPERSTATE_ACTIVE)
- 		return false;
- 
--	/* Compare with previous value */
--	ffo = zl3073x_ref_ffo_get(ref);
-+	chan = zl3073x_chan_state_get(zldpll->dev, zldpll->id);
-+	ffo = mul_s64_u64_shr(zl3073x_chan_df_offset_get(chan),
-+			      244140625, 36);
-+
- 	if (pin->freq_offset != ffo) {
--		dev_dbg(zldev->dev, "%s freq offset changed: %lld -> %lld\n",
--			pin->label, pin->freq_offset, ffo);
- 		pin->freq_offset = ffo;
--
- 		return true;
- 	}
- 
-diff --git a/drivers/dpll/zl3073x/ref.h b/drivers/dpll/zl3073x/ref.h
-index 55e80e4f08734..e140ca3ea17dc 100644
---- a/drivers/dpll/zl3073x/ref.h
-+++ b/drivers/dpll/zl3073x/ref.h
-@@ -22,7 +22,6 @@ struct zl3073x_dev;
-  * @freq_ratio_n: FEC mode divisor
-  * @sync_ctrl: reference sync control
-  * @config: reference config
-- * @ffo: current fractional frequency offset
-  * @meas_freq: measured input frequency in Hz
-  * @mon_status: reference monitor status
-  */
-@@ -40,7 +39,6 @@ struct zl3073x_ref {
- 		u8	config;
- 	);
- 	struct_group(stat, /* Status */
--		s64	ffo;
- 		u32	meas_freq;
- 		u8	mon_status;
- 	);
-@@ -58,18 +56,6 @@ int zl3073x_ref_state_update(struct zl3073x_dev *zldev, u8 index);
- 
- int zl3073x_ref_freq_factorize(u32 freq, u16 *base, u16 *mult);
- 
--/**
-- * zl3073x_ref_ffo_get - get current fractional frequency offset
-- * @ref: pointer to ref state
-- *
-- * Return: the latest measured fractional frequency offset
-- */
--static inline s64
--zl3073x_ref_ffo_get(const struct zl3073x_ref *ref)
--{
--	return ref->ffo;
--}
--
- /**
-  * zl3073x_ref_meas_freq_get - get measured input frequency
-  * @ref: pointer to ref state
-diff --git a/drivers/dpll/zl3073x/regs.h b/drivers/dpll/zl3073x/regs.h
-index d425dc67250fe..b8bbea31748f8 100644
---- a/drivers/dpll/zl3073x/regs.h
-+++ b/drivers/dpll/zl3073x/regs.h
-@@ -157,6 +157,11 @@
- #define ZL_DPLL_MODE_REFSEL_MODE_NCO		4
- #define ZL_DPLL_MODE_REFSEL_REF			GENMASK(7, 4)
- 
-+#define ZL_REG_DPLL_DF_READ(_idx)					\
-+	ZL_REG_IDX(_idx, 5, 0x28, 1, ZL3073X_MAX_CHANNELS, 1)
-+#define ZL_DPLL_DF_READ_SEM			BIT(4)
-+#define ZL_DPLL_DF_READ_REF_OFST		BIT(3)
-+
- #define ZL_REG_DPLL_MEAS_CTRL			ZL_REG(5, 0x50, 1)
- #define ZL_DPLL_MEAS_CTRL_EN			BIT(0)
- #define ZL_DPLL_MEAS_CTRL_AVG_FACTOR		GENMASK(7, 4)
-@@ -169,6 +174,16 @@
- #define ZL_REG_DPLL_PHASE_ERR_DATA(_idx)				\
- 	ZL_REG_IDX(_idx, 5, 0x55, 6, ZL3073X_MAX_CHANNELS, 6)
- 
-+/*******************************
-+ * Register Pages 6-7, DPLL Data
-+ *******************************/
-+
-+#define ZL_REG_DPLL_DF_OFFSET_03(_idx)					\
-+	ZL_REG_IDX(_idx, 6, 0x00, 6, 4, 0x20)
-+#define ZL_REG_DPLL_DF_OFFSET_4		ZL_REG(7, 0x00, 6)
-+#define ZL_REG_DPLL_DF_OFFSET(_idx)					\
-+	((_idx) < 4 ? ZL_REG_DPLL_DF_OFFSET_03(_idx) : ZL_REG_DPLL_DF_OFFSET_4)
-+
- /***********************************
-  * Register Page 9, Synth and Output
-  ***********************************/
--- 
-2.53.0
+Thanks that does read way better!
+
+>
+>> - max_ptes_none=511 (on 4k pagesz): Always collapse to the highest
+>>    available mTHP order.
+>>
+>> This removes the possiblilty of "creep", while not modifying any uAPI
+>> expectations. A warning will be emitted if any non-supported
+>> max_ptes_none value is configured with mTHP enabled.
+>>
+>> mTHP collapse will not honor the khugepaged_max_ptes_shared or
+>> khugepaged_max_ptes_swap parameters, and will fail if it encounters a
+>> shared or swapped entry.
+>>
+>> No functional changes in this patch; however it defines future behavior
+>> for mTHP collapse.
+>>
+>> Co-developed-by: Dev Jain <dev.jain@arm.com>
+>> Signed-off-by: Dev Jain <dev.jain@arm.com>
+>> Signed-off-by: Nico Pache <npache@redhat.com>
+>> ---
+>>   mm/khugepaged.c | 124 ++++++++++++++++++++++++++++++++++--------------
+>>   1 file changed, 88 insertions(+), 36 deletions(-)
+>>
+>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>> index f42b55421191..283bb63854a5 100644
+>> --- a/mm/khugepaged.c
+>> +++ b/mm/khugepaged.c
+>> @@ -352,51 +352,86 @@ static bool pte_none_or_zero(pte_t pte)
+>>    * collapse_max_ptes_none - Calculate maximum allowed empty PTEs for collapse
+>>    * @cc: The collapse control struct
+>>    * @vma: The vma to check for userfaultfd
+>> + * @order: The folio order being collapsed to
+>>    *
+>>    * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
+>> - * empty page.
+>> + * empty page. For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the
+>> + * configured khugepaged_max_ptes_none value.
+>> + *
+>> + * For mTHP collapses, we currently only support khugepaged_max_pte_none values
+>> + * of 0 or (KHUGEPAGED_MAX_PTES_LIMIT). Any other value will emit a warning and
+>> + * no mTHP collapse will be attempted
+>
+> Not sure if we discussed it (and maybe I had a different opinion back then ...),
+> but could we simply to fallback to max_ptes_none=0, so we can avoid returning
+> errors here?>
+> max_ptes_none=0 is ok, because we will not waste any memory. The warning clearly
+> tells the user that this combination is not supported as is.
+>
+> ... and it would make this function a lot easier to handle. In the warning, we
+> can just state that "falling back to ... "max_ptes_non = 0".
+
+We'd then be "violating" the uAPI expetation and is the whole reason we
+have this 0/511 behavior in the first place ;/
+
+If it wasnt for that issue I would have a completely different design.
+
+>
+>
+> [...]
+>
+>>
+>>   /**
+>>    * collapse_max_ptes_shared - Calculate maximum allowed shared PTEs for collapse
+>>    * @cc: The collapse control struct
+>> + * @order: The folio order being collapsed to
+>>    *
+>>    * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
+>>    * shared page.
+>>    *
+>> + * For mTHP collapses, we currently dont support collapsing memory with
+>> + * shared memory.
+>
+> "do not"
+>
+> "shared memory" is misleading, as we do support shmem. What you mean is maybe
+> "collapsing with anonymous memory pages that are shared between processes
+> through CoW" or soemthing like that?
+
+Ok ill clear that up thank you!
+
+>
+>> + *
+>>    * Return: Maximum number of shared PTEs allowed for the collapse operation
+>>    */
+>> -static unsigned int collapse_max_ptes_shared(struct collapse_control *cc)
+>> +static unsigned int collapse_max_ptes_shared(struct collapse_control *cc,
+>> +            unsigned int order)
+>>   {
+>>      if (!cc->is_khugepaged)
+>>              return HPAGE_PMD_NR;
+>> +    if (!is_pmd_order(order))
+>> +            return 0;
+>> +
+>>      return khugepaged_max_ptes_shared;
+>>   }
+>>
+>>   /**
+>>    * collapse_max_ptes_swap - Calculate maximum allowed swap PTEs for collapse
+>>    * @cc: The collapse control struct
+>> + * @order: The folio order being collapsed to
+>>    *
+>>    * If we are not in khugepaged mode use HPAGE_PMD_NR to allow any
+>>    * swap page.
+>>    *
+>> + * For PMD-sized collapses (order == HPAGE_PMD_ORDER), use the configured
+>> + * khugepaged_max_ptes_swap value.
+>> + *
+>> + * For mTHP collapses, we currently dont support collapsing memory with
+>> + * swapped out memory.
+>
+> "do not". Given that this is also used for the pagecache, can we make this clearer?
+
+Yeah! I originally didnt plan on using these helpers for the file
+collapse operation but figured hell, why not clean them both up, might
+end up helping (hopefully not hurting) when Baolin goes to add mTHP
+shmem support.
+
+Cheers,
+-- Nico
+
+
+>
+>> + *
+>>    * Return: Maximum number of swap PTEs allowed for the collapse operation
+>>    */
+>> -static unsigned int collapse_max_ptes_swap(struct collapse_control *cc)
+>> +static unsigned int collapse_max_ptes_swap(struct collapse_control *cc,
+>> +            unsigned int order)
 
