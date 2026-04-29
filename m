@@ -1,158 +1,162 @@
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www62.your-server.de (www62.your-server.de [213.133.104.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645AB37C909
-	for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 15:41:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C91B376BEA;
+	Wed, 29 Apr 2026 15:53:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.133.104.62
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777477315; cv=none; b=ln/m00cahqWGJPZ6zIP2DfGAieO5pmvNv8Dp1CjhEGkJ2xyBYc2KK8/4e9/QOXX+7FUtoqKdJTgcyHj0NZV9RYbNkOyn5uU8+wa/Ie68yCZroKZyYcdbgBEkQD9hC6EIuNZqbK/zZhRZbQJPutXLv3jjI2vPNm9Wz/d6h6cs3bg=
+	t=1777477996; cv=none; b=rN3lG/W38h4sJsDWV9YFqU/F/RlTuuWQeUzsqT2/5r9PJTNfvii6EYuZPhveHq7LmYa1fE0WDr3k628eFx0on3TAlCcVRkH8DtXAv2BBHcUDsLAN3+rdvA6wuAQSBzznEXqAPr9LtNsiLOqhu5/n6jVu94obr59Gk6vkKL0Oi1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777477315; c=relaxed/simple;
-	bh=ptDOA8oXfBcLNX1p/12OZLzqrk1BS6t5onLGu8IEt8M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BjqSx8Y3BVfxB3NwTCysklSLLkklDHqvatrA92cIZZUbQq55CPTiIY9AMi1xW6C620EcpW8jwqEFsWIRQOWDXDE7y7RPabzvXZmUJlDwB7OV0uzVhDYojAPGi+3UmqV090haIkUYNk6UfcN1tNN/bkZQbeFULzKyueB9FxT9nhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=x/27T86g; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1777477996; c=relaxed/simple;
+	bh=Wgc+fzUeQy6BIDSoqGQeEQKlTFxm1pwRCZQfp7NVZYA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PlEJhqejmKklQE/XzPZwDNX9mKiqsNZ7dpm3HklDQsarI4Yq3kVVWJ28dbTW9ZBD33RAP0ASKFQAoaXbQ+MGI0hZ9ddcGPRzoW6SsboOETnbXd0vrMhTVqmt07OFW/4M4HkonW+hg0WRA7jvIVclXxtkdbjbmmzEomCYXtalh/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net; spf=pass smtp.mailfrom=iogearbox.net; dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b=af1gvbfY; arc=none smtp.client-ip=213.133.104.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=iogearbox.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iogearbox.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="x/27T86g"
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-c76c60c7502so448050a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 29 Apr 2026 08:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1777477311; x=1778082111; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=h8L+nXE7L85P9lNyL2I2gs9CTUVcJOwgVrd7ZFlSaCE=;
-        b=x/27T86gUyqmFKiprX3Eig42Q7FCCl2TkTqFhm0EveKwg9ZNtlWgGtuOdD71R4J+Ad
-         g78mNZ31VSgKne6xap4Qepafn42S5ilLNua7qxaSqlGILcW3T+z2bQ8Onr+lKHKaqLUz
-         cznRYN1QngzriWUdnBiD6d5nrtXBdky30GuxtsXzD0yTGqYvnmw9pfeFqbqnGUBA1QMZ
-         noNSnrmA4VbtXWXRnOq84eXCnzAzVCCDrq8P1m8cjOrlfTBU+9M1Wrm2LXmz0AleFyYA
-         uFjd5HdDCgfQRMFWCsTRbWjmvinnIJvlHiTzSX46+ofmFs9Rv82jxzsk7zpV8m4ZSYkC
-         jUHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777477311; x=1778082111;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h8L+nXE7L85P9lNyL2I2gs9CTUVcJOwgVrd7ZFlSaCE=;
-        b=YD7fbggygW9gt6c3TFjhHNFrWn/07snt7kVjN4nZUqaVao6PPV1p551kwpefhbGFct
-         lk2iJzgvXCoFs76yrF1532z/Oh8aUDxy5YHrVcS9TyA+Z1DWS/q5Ki68Cl6EcS6oaSFX
-         6HCDkUDDZ+aZs4KTJBvgh4Bik+tww6AgDc9+0Oxt/hJ4Ng4QKy5eFY+mcndgK9Y/bVfl
-         Tou25N8Y87fsFPGhfEePtvise2WmkbIPh8TkDAxFuv7gxDT7szBU3TAdIpKt9jrTFJZ6
-         ChybKlomvZXobJcZG4/ssZvyXdDHMuUD2iMJuu6k/iY3bBCbKJh0Fz3NoPIPWJyJPCb7
-         6Dmg==
-X-Forwarded-Encrypted: i=1; AFNElJ9unXa1eyOXpVjlmIa7WZeM/0VACTHIg42CJk2nCs3orNeLpShj+HMWUBp5dlcM44RERtj8/26EL0k=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoB7FtE7BmHG2VZ418N7muhaQWLZijXA8Ju9gD4vEGJ6cNzzhj
-	GPWgRu7bN9e0Mcl2wjjnF7Zw8Iv6nyP6nmhDuRfrPK9GzUoKtJD6vP3a0lAT4KcEJoRVIjOZhPf
-	NxNGh
-X-Gm-Gg: AeBDiettg1J7Tw6hCy6cUQ8rOY4b70U5e3uubTh0/N7kHn6LvAMxOspaRdlaT1Yzvv2
-	zhO2nedsJSUgwIO/117lptrK1CMTs+0xNZuHv1eKOPkXPWcoRtYlr5ZN66XVImR62OBt5UyW6Bu
-	RPPphvGrNcW6Mx9r79jZqz87MJRVKfyo4FFbphX+/oPnbbxoZ43LRcm4dO5Z+N0VfSUbVNlqtPJ
-	tZRrOhTRc8D3gjQqhRNmiO/pmzRENwRzPkPsjfACBd9JqsAcLIw8UB/yQK13NUwrdlXtjp4VEPL
-	aTqcdPEWcah1YQG3qoWvpww+b6OQIs9EqkkTceWHqBrqMxybETf3gxXwqsLG7zRx6t/cyVbs3wC
-	uh6znV+/LGTSFUQ2VfngL7hDPbS8j4xklXuqUduQgLnSCRX2p37SOQu68q9ThUoBsnLouz92YVg
-	phmPZhFq9voojm97ikrqGP/Daw0MDdVVklM4K1zg==
-X-Received: by 2002:a17:903:2410:b0:2b4:68c9:302a with SMTP id d9443c01a7336-2b9882388cdmr33673325ad.17.1777477310614;
-        Wed, 29 Apr 2026 08:41:50 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:8131:aef0:bb67:5559])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b98899055fsm27045325ad.80.2026.04.29.08.41.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Apr 2026 08:41:50 -0700 (PDT)
-Date: Wed, 29 Apr 2026 09:41:46 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: Shenwei Wang <shenwei.wang@nxp.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, "Padhi, Beleswar" <b-padhi@ti.com>,
-	Linus Walleij <linusw@kernel.org>,
-	Bartosz Golaszewski <brgl@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
-	"imx@lists.linux.dev" <imx@lists.linux.dev>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-Message-ID: <afImuoeHolxGgw3H@p14s>
-References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
- <20260422212849.1240591-4-shenwei.wang@nxp.com>
- <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
- <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch>
- <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
- <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+	dkim=pass (2048-bit key) header.d=iogearbox.net header.i=@iogearbox.net header.b="af1gvbfY"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=iogearbox.net; s=default2302; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=pJSnP36j7nm87VEAhELZt3pO8S9PyBUJBnT+ZpbZzw8=; b=af1gvbfY7CINeFxucq8ZaQDf6k
+	zF7IpOiikUu+tksNucK1j1jNcGvC9Z7L3jkmcPD+MVw8y42/+fJuXTVpNGc267kJ46tS6mw6nsyHU
+	W2ufcDZHUWt08U8jLxDDUbvmsQbLfs8cC+R7jhXyCYxE6i2PElgf3DVSEiBAwfxWiJlFdYlId6uiS
+	TOTKkIfMpKTHOFj1G7jpBpxyy32stwitPs6vuiE9iMBvQ+IxThyYTHCg0qmg+7u2913UvBg2TPyZb
+	FVjXbQHP6IY1CIFfpI01nHIWn7859kgQtiEYGtygs84UyPm68HhTqehJCMUigVuyFLGUuKFEB+qei
+	/QSBAfVg==;
+Received: from sslproxy08.your-server.de ([78.47.166.52])
+	by www62.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1wI6uZ-000CZm-1I;
+	Wed, 29 Apr 2026 17:33:15 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy08.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <daniel@iogearbox.net>)
+	id 1wI6uW-000Hg8-2g;
+	Wed, 29 Apr 2026 17:33:13 +0200
+Message-ID: <54e77e9d-cc5e-42dc-af00-b005d2f6b04b@iogearbox.net>
+Date: Wed, 29 Apr 2026 17:33:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 00/11] net: devmem: support devmem with netkit
+ devices
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>,
+ Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+ Michael Chan <michael.chan@broadcom.com>,
+ Pavan Chebbi <pavan.chebbi@broadcom.com>,
+ Joshua Washington <joshwash@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Tariq Toukan <tariqt@nvidia.com>,
+ Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>,
+ Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com,
+ Nikolay Aleksandrov <razor@blackwall.org>, Shuah Khan <shuah@kernel.org>,
+ David Wei <dw@davidwei.uk>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rdma@vger.kernel.org, bpf@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Stanislav Fomichev <sdf@fomichev.me>,
+ Mina Almasry <almasrymina@google.com>,
+ Bobby Eshleman <bobbyeshleman@meta.com>
+References: <20260428-tcp-dm-netkit-v1-0-719280eba4d2@meta.com>
+ <f954a636-4d21-47c0-8afa-cc4b24adb0fb@iogearbox.net>
+ <afIhP5dtlzCtzn1T@devvm29614.prn0.facebook.com>
+Content-Language: en-US
+From: Daniel Borkmann <daniel@iogearbox.net>
+Autocrypt: addr=daniel@iogearbox.net; keydata=
+ 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
+In-Reply-To: <afIhP5dtlzCtzn1T@devvm29614.prn0.facebook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Virus-Scanned: Clear (ClamAV 1.4.3/27986/Wed Apr 29 08:25:43 2026)
 
-On Tue, Apr 28, 2026 at 03:24:59PM +0000, Shenwei Wang wrote:
+On 4/29/26 5:18 PM, Bobby Eshleman wrote:
+> On Wed, Apr 29, 2026 at 02:08:31PM +0200, Daniel Borkmann wrote:
+>> On 4/29/26 12:41 AM, Bobby Eshleman wrote:
+>>> This series enables TCP devmem TX through netkit devices.
+>>>
+>>> Netkit now supports queue leasing. A physical NIC's RX queue can be
+>>> leased to a netkit guest interface inside a container namespace. This
+>>> gives the container a devmem-capable data path on the RX side (bind-rx,
+>>> etc...). On the TX side, the container process binds to its netkit guest
+>>> interface and sends traffic that netkit redirects (via BPF or ip
+>>> forwarding) to the physical NIC for DMA.
+>> [...]
+>> Thanks for working on this, after the RX queue leasing got merged, I've
+>> been looking into the same actually. :)
+>>
+>> I think the NETMEM_TX_* enum approach seems reasonable.
+>>
+>> What I have a PoC on is to build out TX queue leasing as first-class
+>> symmetric infrastructure to complement the RX queue leasing - basically
+>> I implemented an equivalent to the latter in netdev_nl_queue_create_doit
+>> et al, so you can have independent RX and TX leases and per-queue
+>> accountability, such that ynl queue-get op shows the full picture, and
+>> lastly we could also enable AF_XDP TX-only support through this infra.
+>>
+>> Would you be open to collab on integrating both and migrating the devmem
+>> code to work off an TX queue object? Next week is LSF/MM/BPF, are you
+>> there by any chance to catch up in person?
 > 
-> 
-> > -----Original Message-----
-> > From: Andrew Lunn <andrew@lunn.ch>
-> > Sent: Monday, April 27, 2026 3:49 PM
-> > To: Shenwei Wang <shenwei.wang@nxp.com>
-> > Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij <linusw@kernel.org>;
-> > Bartosz Golaszewski <brgl@kernel.org>; Jonathan Corbet <corbet@lwn.net>;
-> > Rob Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>;
-> > Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
-> > <andersson@kernel.org>; Mathieu Poirier <mathieu.poirier@linaro.org>; Frank Li
-> > <frank.li@nxp.com>; Sascha Hauer <s.hauer@pengutronix.de>; Shuah Khan
-> > <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
-> > doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix Kernel Team
-> > <kernel@pengutronix.de>; Fabio Estevam <festevam@gmail.com>; Peng Fan
-> > <peng.fan@nxp.com>; devicetree@vger.kernel.org; linux-
-> > remoteproc@vger.kernel.org; imx@lists.linux.dev; linux-arm-
-> > kernel@lists.infradead.org; dl-linux-imx <linux-imx@nxp.com>; Bartosz
-> > Golaszewski <brgl@bgdev.pl>
-> > Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-> > > > struct virtio_gpio_response {
-> > > >         __u8 status;
-> > > >         __u8 value;
-> > > > };
-> > 
-> > > It is the same message format. Please see the message definition
-> > (GET_DIRECTION) below:
-> > 
-> > > +   +-----+-----+-----+-----+-----+----+
-> > > +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
-> > > +   | 1   | 2   |port |line | err | dir|
-> > > +   +-----+-----+-----+-----+-----+----+
-> > 
-> > Sorry, but i don't see how two u8 vs six u8 are the same message format.
-> > 
-> 
-> Some changes to the message format are necessary.
-> 
-> Virtio uses two communication channels (virtqueues): one for requests and replies, and a second one for events. 
-> In contrast, rpmsg provides only a single communication channel, so a type field is required to distinguish between 
-> different kinds of messages.
-> 
-> Since rpmsg replies and events share the same message format, an additional line is introduced to handle both cases.
-> 
-> Finally, rpmsg supports multiple GPIO controllers, so a port field is added to uniquely identify the target controller.
+> Definitely am open to that. I will unfortunately not be at LSF/MM/BPF,
+> but maybe we can schedule a meeting offline to sync up?
 
-I have commented on this before - RPMSG is already providing multiplexing
-capability by way of endpoints.  There is no need for a port field.  One
-endpoint, one GPIO controller. 
+Ack, absolutely, will reach out offline to find sth after LSF/MM/BPF week.
+If anyone else wants to join, just DM me.
 
-> 
-> Shenwei
-> 
-> >        Andrew
+Cheers,
+Daniel
