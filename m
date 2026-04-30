@@ -1,63 +1,203 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 743F24779A1;
-	Thu, 30 Apr 2026 16:02:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F1A67082D;
+	Thu, 30 Apr 2026 16:28:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777564976; cv=none; b=XuCefr0eHqf41awdW1540qSFJxGa6xhI81wu44kYGCKSA3u1CJI375Q3Z1lINl57Nt4A4TXpY09LTM+DTFqjbIUlvQmQ4X9dE5r9snre4st2TiTCRv33LZ2TcCq/oIjgFDAQQjc50BTov/MoFUTbe4RWcDGDs1xfhoC7hC3pBSs=
+	t=1777566499; cv=none; b=DEP27cKY6CNioFzdQss97PJ66ExBV2LgE6KL+yyAwuKNJcGm3we3tqjs0y7UrmdPQkX6Ihx2IXPrYU3JnpG4WdUTeMiAgAHXSF/zTuOLGKkUzmWaXLYByBPL5dysn/N15VR7vRVy7F1GCudZo4mTvFGhSK4r2stpYy0UqoUVONA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777564976; c=relaxed/simple;
-	bh=64ja9oHCn5DeohUNhiC+0I/15Q1PE0GYQJoEQaODMyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=oeQimrtnePbS8mfUf2sdbEzG4n4dTNg0mCm2WVD3i23sfQuatknw0BRV/Oa7WAlcYcYLgh6UgAAPSdMwbtlZw4TC1oN3AaZdYwUg1+yz5ZIZ8NNctKEnC727qsbNdgtAkrvTbJm6MS9S6day1vyOY7IM5z+U1BSikmLSZA75ViM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=m15GH11i; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1777566499; c=relaxed/simple;
+	bh=xuHLlRVx0WdFbm/ciuLaXhbgiLBbjPGhjCQyHiREPFU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=i0uvOdPqhrrjvOS0THjCtRgC0dgnCNv+PqShPBbZJ9WJ9vqDe8+X87MTtqxhf1Mz/AUPyGbBISnmChJJ7L3YG9lhFlYeXz6k0/I9Ew9rCeE1RA1vLWJ/o9QTrt2S8BXIpjtlXJ0JRxu/8CIWqunrO+aFRqAHd6YvwRYjHbM22jU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YrN/xFL8; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="m15GH11i"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E04DF4108F
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777564968; bh=64ja9oHCn5DeohUNhiC+0I/15Q1PE0GYQJoEQaODMyo=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=m15GH11igDic1dSQ2LSbhK4SchROKmFVdli12U82k7/KPymSHLST9AG+wThqArB9n
-	 aHiGBeMKLzKmgbO0XqNfubfH49OgjX/NLxLQEBWDBWB9csieeaNULfu2xWZlxmWQ5N
-	 7oonwF6e8V8EXjuqulXvU38FGnCkZfjw6W0+66fqO8pjaowTPSIrZVWimqx//5S7lB
-	 A/i1uhTrUhLvnIYH5imZ0xmuhVQHXCNMkoSBf/X7Upd2RfhUDEuiWpwj2F8x3bg9i4
-	 BfiLsL3xNd+uhJasdIgy+LXCFUL7oaaU9QykTLKiaAjy071+0hy5p1HL7SUcEqVcus
-	 UJNPN6TQtsMVQ==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id E04DF4108F;
-	Thu, 30 Apr 2026 16:02:47 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: =?utf-8?Q?Dar=C3=ADo?= Ortega Leyva <darioortegaleyva@gmail.com>,
- linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: improve formatting and readability of the main
- README
-In-Reply-To: <b0f3ab39-ae35-4a4b-9333-29d78ca58a15@gmail.com>
-References: <b0f3ab39-ae35-4a4b-9333-29d78ca58a15@gmail.com>
-Date: Thu, 30 Apr 2026 10:02:44 -0600
-Message-ID: <87bjf0h1wb.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YrN/xFL8"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F090C2BCC6;
+	Thu, 30 Apr 2026 16:28:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777566499;
+	bh=xuHLlRVx0WdFbm/ciuLaXhbgiLBbjPGhjCQyHiREPFU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YrN/xFL8k5VgBaNpK5LHDdomvtjX9zCVPkilhGlJ304+ICekhhk+PzD5cl+IUNYPC
+	 Fb3ArpaMIEMLc7BN4CRT8wLsrRukGkGqIdV6/e0/HvTYYDgwyv33ejZZkfrXovYFDb
+	 8H5U5Q+A9fjAwkQ6w0+unT1EGKbSp2wGb8fKZWwyP5QN7bpfV6rq7zcVWdLkc2sqB4
+	 d7RLtD1z7tZd5SjYfvuSJzKmB6JEa2n7tZcdt4SYFGrvZtW3MnTTWWT6Mxk4T/Ze7J
+	 F15PRktsnx4etKx/CQ+OOLNsEqz0iqWHSrInTQjkOWQF97QosnVSo9S8pTfEeNY+qQ
+	 sxwcbCy+9/TRw==
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 68B4CF40080;
+	Thu, 30 Apr 2026 12:28:17 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-04.internal (MEProxy); Thu, 30 Apr 2026 12:28:17 -0400
+X-ME-Sender: <xms:IYPzabrEaTTcoVHbOU8Ie-jBwN9yekMCWj0oti8qKoYkC107BYdBPg>
+    <xme:IYPzaeqktlbosTGgF0RMQ9mIAVA3CRhYGBrVWa-VSfRhqNbyE6glOJAhz_NkDgB7u
+    010dtQL86rUaX2AO-bBdCM0yrbNsa1iO1Hql1F4XPk2XLJxHAZjmHc>
+X-ME-Received: <xmr:IYPzaR6Hg64kuEe3KSi2SIGLExTJCxZKXaWUaHqF8zwOxNk5hfwFAEdLMFr2Cg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekjeektdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtredttd
+    dtvdenucfhrhhomhepmfhirhihlhcuufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgv
+    lhdrohhrgheqnecuggftrfgrthhtvghrnhepgeetuedtjefhkeeuiefgudduvdfgvdeiue
+    eigeehheehudetuedtkeelhfeihedunecuffhomhgrihhnpehsrghshhhikhhordguvghv
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepgeeipdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
+    eprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughh
+    rghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohho
+    ghhlvgdrtghomhdprhgtphhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhirghmrdhhohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthho
+    peiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:IYPzaV3LWTFN8XfRSCiRwGIC6e-pKYil930TJaa7zUHObc4fVT3QIw>
+    <xmx:IYPzadlAdJGUbc96HtR7fIZDC2Iy1FdPr5XLM6d7Nj0_Yp-TL4uufw>
+    <xmx:IYPzaegg5wt9LVrIuTqa6gy-ZRJ7gBH1_0_6b2QPw4xRK57zVnDpdg>
+    <xmx:IYPzaU2FMoS_d2ECU8W6GqFaKCAiG1a9OOh76eW6SUV8f-8qZ1knuQ>
+    <xmx:IYPzabYpwp038SUGhWJQqOEZL1x6wK5YoctLTEvtdxpDWv6eu7DBYYWJ>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 30 Apr 2026 12:28:15 -0400 (EDT)
+Date: Thu, 30 Apr 2026 17:28:08 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
+	david@kernel.org
+Cc: ljs@kernel.org, surenb@google.com, vbabka@kernel.org, 
+	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	seanjc@google.com, pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, 
+	sj@kernel.org, usama.arif@linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kvm@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 07/14] mm: handle VM_UFFD_RWP in khugepaged, rmap, and GUP
+Message-ID: <afOCAZ-dTQiLFN0y@thinkstation>
+References: <20260427114607.4068647-1-kas@kernel.org>
+ <20260427114607.4068647-8-kas@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427114607.4068647-8-kas@kernel.org>
 
-Dar=C3=ADo Ortega Leyva <darioortegaleyva@gmail.com> writes:
+sashiko.dev -- https://sashiko.dev/#/patchset/20260427114607.4068647-1-kas@kernel.org -- wrote:
+> > @@ -1084,9 +1092,29 @@ static __always_inline void __copy_present_ptes(struct vm_area_struct *dst_vma,
+> >  		pte_t pte, unsigned long addr, int nr)
+> >  {
+> >  	struct mm_struct *src_mm = src_vma->vm_mm;
+> > +	bool writable;
+> > +
+> > +	/*
+> > +	 * Snapshot writability before the RWP-disarm rewrite below: when the
+> > +	 * child is not RWP-armed, pte_modify(pte, dst_vma->vm_page_prot) can
+> > +	 * silently drop _PAGE_RW from a resolved (no-marker) writable PTE,
+> > +	 * so a later pte_write(pte) check would skip the COW wrprotect and
+> > +	 * leave the parent writable over a folio shared with the child.
+> > +	 */
+> > +	writable = pte_write(pte);
+> > +
+> > +	/*
+> > +	 * Child is not RWP-armed: restore accessible protection so the
+> > +	 * inherited PAGE_NONE does not cost a fault on first read.
+> > +	 */
+> > +	if (!userfaultfd_protected(dst_vma)) {
+> > +		if (userfaultfd_rwp(src_vma))
+> > +			pte = pte_modify(pte, dst_vma->vm_page_prot);
+> > +		pte = pte_clear_uffd(pte);
+> > +	}
+> Does this unconditional pte_modify() create invalid clean and writable PTEs
+> for shared mappings?
+>
+> Without checking pte_uffd(pte) first, this blindly modifies every present PTE
+> if the source VMA had RWP enabled. For shared writable mappings, vm_page_prot
+> includes _PAGE_RW. If a PTE was clean and mapped read-only to intercept the
+> first write for filesystem dirty-tracking, pte_modify() forces the write bit
+> on while preserving the clean state.
 
-> Restructured the main documentation file to use standard Markdown=20
-> headings instead of underlines for better rendering. Added anchor links=20
-> to the "Who Are You?" section to improve navigability for new readers,=20
-> and highlighted the AI Assistant warning for better visibility.
+Two reasons this is safe in practice:
 
-Kernel documentation is in RST format, not Markdown.
+1. RWP cannot reach a backing that uses the clean-RO + page_mkwrite()
+   dirty-tracking pattern. vma_can_userfault() admits RWP only on anon,
+   shmem and hugetlbfs (the ones with vm_uffd_ops); regular file-backed
+   shared mappings are rejected at register time.
 
-jon
+2. For backings that *do* support shared writable + dirty tracking (i.e.
+   the ones RWP isn't enabled on), the fs sets vma->vm_page_prot to RO
+   precisely so the first write traps page_mkwrite(). pte_modify(pte,
+   dst_vma->vm_page_prot) would not add _PAGE_RW in that configuration
+   either.
+
+> Hardware writes could then bypass page_mkwrite(), leaving the filesystem
+> unaware that the page is dirty, and potentially causing silent data loss
+> upon reclaim.
+> Could this also overwrite other important PTE states like NUMA hinting
+> or soft-dirty tracking?
+
+pte_modify() on the supported architectures preserves _PAGE_CHG_MASK,
+which covers _PAGE_DIRTY, _PAGE_ACCESSED, _PAGE_SOFT_DIRTY, and the PFN.
+NUMA hinting is encoded in the protection bits, so a transient hint
+state on a resolved (no-marker) PTE would be lost across this rewrite,
+but that's just a re-prime on the next NUMA scan, not a correctness
+issue.
+
+> @@ -298,6 +298,16 @@ static __always_inline void change_present_ptes(struct mmu_gather *tlb,
+>      else if (uffd_wp_resolve || uffd_rwp_resolve)
+>          ptent = pte_clear_uffd(ptent);
+>
+> +    /*
+> +     * The uffd bit on a VM_UFFD_RWP VMA carries PROT_NONE
+> +     * semantics. If mprotect() or NUMA hinting changed the
+> +     * base protection, restore PAGE_NONE so the PTE still
+> +     * traps on any access. pte_modify() preserves
+> +     * _PAGE_UFFD.
+> +     */
+> +    if (userfaultfd_rwp(vma) && pte_uffd(ptent))
+> +        ptent = pte_modify(ptent, PAGE_NONE);
+>
+> For VMAs registered with both UFFD WP and RWP, could this silently upgrade
+> Write-Protected pages to Read-Write-Protected?
+
+VM_UFFD_WP and VM_UFFD_RWP are mutually exclusive per VMA. The combination
+is rejected at registration time:
+
+  fs/userfaultfd.c, userfaultfd_register():
+        if ((vm_flags & VM_UFFD_WP) && (vm_flags & VM_UFFD_RWP))
+                goto out;       /* -EINVAL */
+
+and re-registration cannot drop either bit (also -EBUSY in the same
+function), so a PTE in a WP-armed VMA can never satisfy
+userfaultfd_rwp(vma); the new branch never fires there.
+
+[ ... ]
+> +        /* Re-arm RWP on the moved PTE if dst_vma is RWP-registered. */
+> +        if (userfaultfd_rwp(dst_vma)) {
+> +            orig_dst_pte = pte_modify(orig_dst_pte, PAGE_NONE);
+> +            orig_dst_pte = pte_mkuffd(orig_dst_pte);
+> +        }
+> +
+>          set_pte_at(mm, dst_addr, dst_pte, orig_dst_pte);
+>
+> Could applying PAGE_NONE unconditionally to newly moved pages trap
+> applications in an infinite fault loop?
+
+No -- the post-MOVE access is delivered as a normal RWP fault. In sync
+mode it goes to the registered handler, which resolves it with
+UFFDIO_RWPROTECT clearing MODE_RWP; in async mode the kernel resolves
+it in-kernel and the faulting thread continues. There is no loop.
+
+The semantics here are intentional: a VM_UFFD_RWP VMA has the contract
+that every present PTE is either an active marker or a tracked-and-
+resolved PTE whose next access will re-trap. UFFDIO_MOVE into such a
+VMA must keep that contract, otherwise the moved-in page would be a
+silent hole in the working-set view. UFFDIO_MOVE has no mode flag for
+"skip protection", by design -- the same way it has no flag to skip
+WP arming if dst_vma were WP-armed (and the equivalent could be added
+there if we ever decide UFFDIO_MOVE should preserve markers in WP
+VMAs too).
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
