@@ -1,130 +1,172 @@
-Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ED33750D6;
-	Thu, 30 Apr 2026 09:06:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5349D39F160;
+	Thu, 30 Apr 2026 09:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777539975; cv=none; b=CThae1wLpe5D6FIfCh7aW9PvvS6E8UIfP7nd8JuY/UMR7QdDqJKtXeEw4JXPaN5ORKqaoEitUZfv7IUPP0/xTmCXKPCpvFECSD91Xar9hqrtKYEyfBWoiKF+VINjsqbNzjL5imv8vnMKJQk5SxbiMzVf+UXnDNU5HNW2Klfc8kQ=
+	t=1777541114; cv=none; b=Oy9rOT7uq29qmOu+lsNwCmZQP6iisSLoB7GQobdRMl9iwPlQmm6/fY3Qw3oNsU9ld2hM9nKcXCm9cKZEm0sWGryos9vY96hP/4MiULfcDg+Qz6jyGi45OsxIyDDDdVUZg8yPJe47guJ+g3NuP7svsUChZHgdKNt8mBQMvULx9JU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777539975; c=relaxed/simple;
-	bh=O0kNZNME6liz/PDiFhx17G1oocdPgEZotIhQ2QvF/Sw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FORT/LHdRx365b3X/wIILH0pzGYytmguOg90cbi2HmvTcHSkiDi7L9xKcZN/9oBXJOh5Lp4EiADBbK+TwjIIYfUGwhsJuoSsJi5ZLkgWashC0k3AMjksW4Up0BP8WFWhE5S2XdGioAB8yh+tkm5PWp+uyE9wDVu84FCxB8osxJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=FpOLyU0m; arc=none smtp.client-ip=91.218.175.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1777541114; c=relaxed/simple;
+	bh=zsvjEg5G040K3j1nWisvbk6/AZCHJNwK5aizXgBsEeA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZLXQx8fNaVws/NfPKIYhm81MNncF6TLdxQDWR8z2s7uUjj07QuBVgRx4FX+XAlR46kshfiIeAFmbrW5qfXNOd+Iwz3+06j8FoeVDChGS1XLctpbGGVPeFEYf0kMQmSOqtZAjI0hAaFiYYUvJ8KluMiSgbSXmhbBggyI60UkeRv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZM8IhKCc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="FpOLyU0m"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1777539972;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=psV3t89J4TYPxkXy1/CDffDJ8IP5u3Jv6+y4DGwPsJ4=;
-	b=FpOLyU0mpZPwFkcF6k1NUo3Uc6UvCelLgc/8buJxDcA/i8iclap2bvE7G1lROhJ+qO3ItZ
-	hM5eIImbNKg5EpmZMVix/ZWABNMyvD8d2/gnrUQWT/8tl1+kuRlb8yvNyrB/9nLpwD0s1U
-	PfE1S+m/zlP1wtYgB9mYVE6+4ZuVWCQ=
-From: Qingfang Deng <qingfang.deng@linux.dev>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZM8IhKCc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B398FC2BCB3;
+	Thu, 30 Apr 2026 09:25:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777541114;
+	bh=zsvjEg5G040K3j1nWisvbk6/AZCHJNwK5aizXgBsEeA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZM8IhKCczQuHkYXyCrzYAwaaemdQcN4w7CBnop5ZZuDchp0kbXUFB5oU10daK751k
+	 PgI+Vi1xOdMGO7UNq1CAGdjIVZi9g8FB0hJqJSezLtfnDOYD2l4G8IYGsOFxhblv7A
+	 dObApNe8ivL1j4wF0kryP+bj2dRs4h80K0GWKqauY6D2VND2yVbXddbZ8zTxt2B/GJ
+	 o+a7tsRGB0nVh9n4gdtSOcU6utgoJlCSoyS9ugOotvrH0heH64w5nhVCeQMMd8sZ4L
+	 LJLVJ4lPvqb7uAXMMbESQLZMJ7MzBrpZV0Gjns3Q97Y0pkEZ/AYU8G8B6mo+UakzJi
+	 /cP/MKRBnpffw==
+Date: Thu, 30 Apr 2026 10:25:08 +0100
+From: Lee Jones <lee@kernel.org>
+To: Hans de Goede <johannes.goede@oss.qualcomm.com>
+Cc: Pavel Machek <pavel@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: linux-ppp@vger.kernel.org,
-	Qingfang Deng <qingfang.deng@linux.dev>
-Subject: [PATCH net-next 3/3] docs: update ppp_generic.rst for API changes
-Date: Thu, 30 Apr 2026 17:05:23 +0800
-Message-ID: <20260430090532.244758-3-qingfang.deng@linux.dev>
-In-Reply-To: <20260430090532.244758-1-qingfang.deng@linux.dev>
-References: <20260430090532.244758-1-qingfang.deng@linux.dev>
+	Rishit Bansal <rishitbansal0@gmail.com>,
+	Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>,
+	Edip Hazuri <edip@medip.dev>,
+	Mustafa =?utf-8?B?RWvFn2k=?= <mustafa.eskieksi@gmail.com>,
+	Xavier Bestel <xav@bes.tel>, linux-leds@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/1] Documentation: leds: leds-class: Document keyboard
+ backlight LED class naming
+Message-ID: <20260430092508.GF1806155@google.com>
+References: <20260406174638.320135-1-johannes.goede@oss.qualcomm.com>
+ <20260406174638.320135-2-johannes.goede@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260406174638.320135-2-johannes.goede@oss.qualcomm.com>
 
-Document the new ppp_channel_conf struct and ppp_channel lifecycle
-management changes.
+On Mon, 06 Apr 2026, Hans de Goede wrote:
 
-Assisted-by: Gemini:gemini-3-flash
-Signed-off-by: Qingfang Deng <qingfang.deng@linux.dev>
----
- Documentation/networking/ppp_generic.rst | 33 ++++++++++--------------
- 1 file changed, 13 insertions(+), 20 deletions(-)
+> From: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
+> 
+> Document the existing practice of always using 'kbd_backlight' for
+> the function part of LED class device names for LED class devices which
+> control single-zone keyboard backlights.
+> 
+> Also extend this existing practice with a new naming scheme for keyboards
+> with zoned backlight control. There are several drivers in the works (see
+> the Link:tags below) which offer backlight control for keyboards where
+> the keyboard backlight is divided in a limited number of zones, e.g.
+> "main", "cursor" and "numpad" zones.
+> 
+> It is important to agree on a consistent naming scheme for these now,
+> so that userspace can support multiple different models / vendors through
+> a single unified naming scheme.
+> 
+> Link: https://lore.kernel.org/platform-driver-x86/20230131235027.36304-1-rishitbansal0@gmail.com/
+> Link: https://lore.kernel.org/platform-driver-x86/20240719100011.16656-1-carlosmiguelferreira.2003@gmail.com/
+> Link: https://lore.kernel.org/platform-driver-x86/20260304105831.119349-3-edip@medip.dev/
+> Link: https://lore.kernel.org/platform-driver-x86/20240806205001.191551-2-mustafa.eskieksi@gmail.com/
+> Link: https://lore.kernel.org/linux-input/20260402075239.3829699-1-xav@bes.tel/
+> Signed-off-by: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
+> Co-authored-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
+> Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
 
-diff --git a/Documentation/networking/ppp_generic.rst b/Documentation/networking/ppp_generic.rst
-index 5a10abce5964..8d63f997fb3f 100644
---- a/Documentation/networking/ppp_generic.rst
-+++ b/Documentation/networking/ppp_generic.rst
-@@ -124,18 +124,19 @@ presented to the start_xmit() function contain only the 2-byte
- protocol number and the data, and the skbuffs presented to ppp_input()
- must be in the same format.
- 
--The channel must provide an instance of a ppp_channel struct to
--represent the channel.  The channel is free to use the ``private`` field
--however it wishes.  The channel should initialize the ``mtu`` and
--``hdrlen`` fields before calling ppp_register_channel() and not change
--them until after ppp_unregister_channel() returns.  The ``mtu`` field
--represents the maximum size of the data part of the PPP frames, that
--is, it does not include the 2-byte protocol number.
-+The channel must provide an instance of a ppp_channel_conf struct to
-+describe the channel during registration.  The generic layer will
-+allocate a ppp_channel struct and return a pointer to it.  The
-+ppp_channel struct is opaque to the channel driver.  The ``mtu`` field
-+(if multilink is enabled) represents the maximum size of the data part
-+of the PPP frames, that is, it does not include the 2-byte protocol
-+number.  ppp_channel_update_mtu() can be called by the channel driver
-+to update the ``mtu`` field once LCP MRU negotiation is complete.
- 
- If the channel needs some headroom in the skbuffs presented to it for
- transmission (i.e., some space free in the skbuff data area before the
- start of the PPP frame), it should set the ``hdrlen`` field of the
--ppp_channel struct to the amount of headroom required.  The generic
-+ppp_channel_conf struct to the amount of headroom required.  The generic
- PPP layer will attempt to provide that much headroom but the channel
- should still check if there is sufficient headroom and copy the skbuff
- if there isn't.
-@@ -199,20 +200,12 @@ The PPP generic layer has been designed to be SMP-safe.  Locks are
- used around accesses to the internal data structures where necessary
- to ensure their integrity.  As part of this, the generic layer
- requires that the channels adhere to certain requirements and in turn
--provides certain guarantees to the channels.  Essentially the channels
--are required to provide the appropriate locking on the ppp_channel
--structures that form the basis of the communication between the
--channel and the generic layer.  This is because the channel provides
--the storage for the ppp_channel structure, and so the channel is
--required to provide the guarantee that this storage exists and is
--valid at the appropriate times.
-+provides certain guarantees to the channels.  The generic layer manages
-+the ppp_channel object, ensuring it exists and is valid while the
-+channel is registered.
- 
- The generic layer requires these guarantees from the channel:
- 
--* The ppp_channel object must exist from the time that
--  ppp_register_channel() is called until after the call to
--  ppp_unregister_channel() returns.
--
- * No thread may be in a call to any of ppp_input(), ppp_input_error(),
-   ppp_output_wakeup(), ppp_channel_index() or ppp_unit_number() for a
-   channel at the time that ppp_unregister_channel() is called for that
-@@ -453,4 +446,4 @@ an interface unit are:
-   fragments is disabled.  This ioctl is only available if the
-   CONFIG_PPP_MULTILINK option is selected.
- 
--Last modified: 7-feb-2002
-+Last modified: 16-apr-2026
+The premise is fine I think.
+
+> ---
+>  Documentation/leds/leds-class.rst | 63 +++++++++++++++++++++++++++++++
+>  1 file changed, 63 insertions(+)
+> 
+> diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
+> index 5db620ed27aa..d2b042519a66 100644
+> --- a/Documentation/leds/leds-class.rst
+> +++ b/Documentation/leds/leds-class.rst
+> @@ -116,6 +116,69 @@ above leaves scope for further attributes should they be needed. If sections
+>  of the name don't apply, just leave that section blank.
+>  
+>  
+> +Keyboard backlight control LED Device Naming
+> +============================================
+> +
+> +For backlit keyboards with a single brightness / color settings a single
+> +(multicolor) LED class device should be used to allow userspace to change
+> +the backlight brightness (and if possible the color). This LED class device
+> +must use "kbd_backlight" for the function part of the LED class device name.
+> +IOW the name must end with ":kbd_backlight".
+> +
+> +For backlit keyboards with multiple control zones, one (multicolor) LED class
+> +device should be used per zone. These LED class devices' name must follow:
+> +
+> +	"<devicename>:<color>:kbd_zoned_backlight-<zone_name>"
+> +
+> +and <devicename> must be the same for all zones of the same keyboard.
+> +
+> +<zone_name> should be descriptive of which part of the keyboard backlight
+> +the zone covers and should be suitable for userspace to show to an end user
+> +in an UI for controlling the zones.
+> +
+> +Where possible <zone_name> should be a value already used by other
+> +zoned keyboards with a similar or identical zone layout, e.g.:
+> +
+> +<devicename>:<color>:kbd_zoned_backlight-right
+> +<devicename>:<color>:kbd_zoned_backlight-middle
+> +<devicename>:<color>:kbd_zoned_backlight-left
+> +<devicename>:<color>:kbd_zoned_backlight-corners
+> +<devicename>:<color>:kbd_zoned_backlight-wasd
+> +
+> +or:
+> +
+> +<devicename>:<color>:kbd_zoned_backlight-main
+> +<devicename>:<color>:kbd_zoned_backlight-cursor
+> +<devicename>:<color>:kbd_zoned_backlight-numpad
+> +<devicename>:<color>:kbd_zoned_backlight-corners
+> +<devicename>:<color>:kbd_zoned_backlight-wasd
+> +
+> +Note that this is intended for keyboards with a limited number of zones,
+> +keyboards with per key addressable backlighting must not use LED class devices
+> +since the sysfs API is not suitable for rapidly change multiple LEDs in one
+> +"commit" as is necessary to do animations / special effects on such keyboards.
+> +
+> +An exception to the rule that all zones must follow:
+> +
+> +	"<devicename>:<color>:kbd_zoned_backlight-<zone_name>"
+> +
+> +is made for the special case where there is a single big zone which controls
+> +the backlighting of almost all of the keyboard and there are some small areas
+> +with separate control, like just the 4 cursor keys, or the WASD keys. In this
+> +case the main zone should use 'kbd_backlight' for the function part of the name
+> +for compatiblity with (older) userspace code which is not aware of
+
+Nit: compatibility
+
+There may be others.  Please run it through a spell checker.
+
+> +the "kbd_zoned_backlight-<zone_name>" function naming scheme.
+> +
+> +While the smaller zones should use the new zoned naming scheme. Such a setup
+> +would result in e.g.:
+> +
+> +<devicename>:<color>:kbd_backlight
+> +<devicename>:<color>:kbd_zoned_backlight-wasd
+> +
+> +"kbd_zoned_backlight-<zone_name>" aware userspace should be aware of this
+> +exception and check for a main zone with a "kbd_backlight" function-name.
+> +
+> +
+>  Brightness setting API
+>  ======================
+>  
+> -- 
+> 2.53.0
+> 
+
 -- 
-2.43.0
-
+Lee Jones
