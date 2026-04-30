@@ -1,158 +1,112 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14774372B4F;
-	Thu, 30 Apr 2026 05:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45BE36D9EC;
+	Thu, 30 Apr 2026 06:16:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777528266; cv=none; b=oDP2q8j29v2tuF8H2EyLJoTAaAeo3Gf94B5cnwfw6MPmSeVd2K0rnkvtA5yK0kzySk/658Fv+Xiw29OZ2U7p9jiyGdeoiRpwhCavOoyLLgEixmtLejcWO2Jq/oxuvgfgZs44Zl5C2f0OOxPrbLx6q6mW2AcPmFQUqg8GfQDWPPE=
+	t=1777529784; cv=none; b=eIlJ5ZVNZopSNW+FFFJk5GJNdbnO5/0BagjUW/QtlYYFPqKx+xaAEcWQNn7De8gbt2SMotqkLtluPdQZ46MzQBv6LkxO5zwBblismsNMtyW3w619Y5WHRo8CHnziX6ojZzTyE6y2icFksAlT6VNnNSGDrtwc4Crojx0Bbklu0KY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777528266; c=relaxed/simple;
-	bh=p4nEDrWIGS+qGXKeYk/iD+rTPCQaDzWwOPIhNDYyz68=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ccZ43oTb9I+WbtqH3JS+X3Z0e42J+Z+qgo/37E6cYV1BZBYJYMIFNCaXGPfWqeveeWGX2igxyuoV4Egr5zV6SPyogE+/8iR9JBlS5q/y1saN3duZZJjIgVBm4NYjgCfJgsIwvV0HON25aD2IFw5arJNPD9To6JgdmFdgZ7UJhMc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=mkvZF/tZ; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1777529784; c=relaxed/simple;
+	bh=oBgPU0ydwALQl3qIwEqmaToaIV3W/b8yAthgaWa/kQQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=b3rPh8pb6PkLTJtStWoiPds7yOnvAQib81HqBMRA0twOn/GmXmW2t2eZXNLt/xYCSBs5LsVoC4OFUgsZ97cZIeZGArf+VC7XRzdfDJEW9Oz1Oo/25wdFmDu+ly1I2ZFerXAfK47IZtNDsO7Ws1NCR0zLmSuoGxS5Lzj3qvWyOoU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cqCJGe8S; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="mkvZF/tZ"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 63U3nlGN4169201;
-	Thu, 30 Apr 2026 05:50:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=A+TFab3TxBuckPuod
-	X7Yxrhrp4K3N57dRmZphKt1Eog=; b=mkvZF/tZ9H1ZcDPBQw8C1FYMVoFP9PfLZ
-	Gm9aAcX2/YFNgJ+kijTkDJIimLxaico8pF+wtq+PZa2pl18cH3O2QJK+uBjxsRht
-	vFNqse3ClGn/u3ZcMSPZgpJxqural0/MbITnOTjVbt+0tbmbGby2hhngUL+eWCcs
-	iduXJ7JbsoKb+1Q9BXB7rS2LA4mMpBXY/56IzMZLIhohGeTB8/PntmcX4nnH7j1c
-	8Ev3EiDZBQJBG7CwszxKV+wp3i5MqqQKKWaWYX6MyxM3XmH5ADO8BiRyEie551En
-	2Zq4Z9sVQ0GtnNjB2eJNzzYjojeISrEL/zOmKJ6x/ZCjAZITYXQwQ==
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4drm1e4fej-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Apr 2026 05:50:59 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 63U5dF2N026090;
-	Thu, 30 Apr 2026 05:50:58 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4ds8aw1nse-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 30 Apr 2026 05:50:58 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 63U5osal51511636
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 30 Apr 2026 05:50:54 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B41D82004B;
-	Thu, 30 Apr 2026 05:50:54 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 44F4920043;
-	Thu, 30 Apr 2026 05:50:51 +0000 (GMT)
-Received: from localhost.localdomain (unknown [9.39.18.70])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Thu, 30 Apr 2026 05:50:50 +0000 (GMT)
-From: Amit Machhiwal <amachhiw@linux.ibm.com>
-To: linuxppc-dev@lists.ozlabs.org, Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Amit Machhiwal <amachhiw@linux.ibm.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, kvm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: [PATCH 6/6] KVM: PPC: Document KVM_PPC_GET_COMPAT_CAPS ioctl
-Date: Thu, 30 Apr 2026 11:19:05 +0530
-Message-ID: <20260430054906.94431-7-amachhiw@linux.ibm.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260430054906.94431-1-amachhiw@linux.ibm.com>
-References: <20260430054906.94431-1-amachhiw@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cqCJGe8S"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 77351C2BCB9;
+	Thu, 30 Apr 2026 06:16:24 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777529784;
+	bh=oBgPU0ydwALQl3qIwEqmaToaIV3W/b8yAthgaWa/kQQ=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=cqCJGe8Sov0YontGESjNxYaRzYer6aU182OUoW2SNyQiX4U6XmVom8cun/qGdA9zz
+	 M38TVBxIVo99oGKjKch6uLe9TvWq8OL3omwtK4fTjRbP82UJ/nahBRnoWVP0RkOzy9
+	 5ivyi8MqCYJc7jRlisoz+XFrcao1h0cRuR/6FtFYLBDcGnmy6UwYqc+4SgDifXBmSJ
+	 QYLMSnMq+z7L0O1LtFV1VP0h31w9B7FsRJjnVeI1SZjuNUgJ7EV7izNLZk2BCfW6dV
+	 tDtRYijfNb8+h6/ebwgUA5i68u1MRVR/UURNkQW5JMbV4I7+xQLzS+VAwlO1kmGL2+
+	 n2TaANHfvRxLw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 63E5DFF8875;
+	Thu, 30 Apr 2026 06:16:24 +0000 (UTC)
+From: Colin Huang via B4 Relay <devnull+u8813345.gmail.com@kernel.org>
+Subject: [PATCH v3 0/3] add support for Delta E50SN12051
+Date: Thu, 30 Apr 2026 14:16:19 +0800
+Message-Id: <20260430-add-e50sn12051-v3-0-f6d4e043ec7c@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: PY1Pk5C2qoENucOkMV8Y5LISX-Mrjos1
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNDMwMDA1NSBTYWx0ZWRfXxz0Q8GlnGWtM
- EACpotdoO0dzuIwZvB9q10VwKgpegGJshExny1JYwCH1ruDGf/ku8UOJR+tl0C+xRVNWanTlsXY
- fXUihCv6bXer8gOgw0UcxNbbmZjIFgAxVPRAXJwd0igKe1K6BclAwXj0AXFJ8wf7JSAPXeUCbvQ
- 1zl2CBCsk8xGI+5WF9uFhNbyuPlbdFWv7QGhoR1mm203pd/1R6qyoA6YNTjsjSwwtVfxBMtT0pd
- s2wt73DrID/95Z456Xc4BsxdAqnEHSJ7U9zZuG/kpZROIHFFDvETBcU9xYDP2abrUEYzYy1P63p
- kkjWF/5Shwi9Q3hqySQ12oh6BHNqfoYSCFC3pQsyD6TfqmDj1NbvuNEBJWVUYstsCDlSB4nx+zw
- g7MAWXZKl0nbR9kFJv5sd/CBlSZmuWMm+hzgSgZJ/bEOnE0CB/TsDcTkcjrwQjfOs+AcTi5cFEI
- ZI9N0NdjjPfRymOZu8w==
-X-Authority-Analysis: v=2.4 cv=VZLH+lp9 c=1 sm=1 tr=0 ts=69f2edc3 cx=c_pps
- a=5BHTudwdYE3Te8bg5FgnPg==:117 a=5BHTudwdYE3Te8bg5FgnPg==:17
- a=A5OVakUREuEA:10 a=VkNPw1HP01LnGYTKEx00:22 a=RnoormkPH1_aCDwRdu11:22
- a=V8glGbnc2Ofi9Qvn3v5h:22 a=VnNF1IyMAAAA:8 a=fHGwRvExhQHp1Ic8jzwA:9
-X-Proofpoint-GUID: PY1Pk5C2qoENucOkMV8Y5LISX-Mrjos1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-04-30_01,2026-04-28_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- spamscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2604300055
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALPz8mkC/2WMSw6CMBQAr0K6tub1AW115T2Mi9I+oImAaU2jI
+ dzdghs/y5lkZmaRgqfIjsXMAiUf/TRmKHcFs70ZO+LeZWYIKKEUkhvnONUQR4FQi4watXFSKWV
+ Yjm6BWv/YhudL5t7H+xSe2z+J1b5XFR5+V0lw4FaAIGk1NE1z6gbjr3s7DWxdJfzIS/jLMedOy
+ ZYqrDSar3xZlhcVOVtY6wAAAA==
+X-Change-ID: 20260316-add-e50sn12051-ad828ad6777a
+To: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Kevin Chang <kevin.chang2@amd.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Colin Huang <colin.huang2@amd.com>, Colin Huang <u8813345@gmail.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777529782; l=1777;
+ i=u8813345@gmail.com; s=20260202; h=from:subject:message-id;
+ bh=oBgPU0ydwALQl3qIwEqmaToaIV3W/b8yAthgaWa/kQQ=;
+ b=MJCpHh3s6Klg5DyEsYd1zAt40UXgIurJ+nlj5CE3VVN4EWAMFNKCUQ2iOSnCuXupVOSp6p3tJ
+ VPBzu9gEDpiDWVFhW/orCN6YSuV83Sxh3kqthNYZ/VS4Nl0XcjcGqJg
+X-Developer-Key: i=u8813345@gmail.com; a=ed25519;
+ pk=Zlg0WqpCw4qbswOqamTBTXIchwR/3SnYZpy7rjaGMdQ=
+X-Endpoint-Received: by B4 Relay for u8813345@gmail.com/20260202 with
+ auth_id=761
+X-Original-From: Colin Huang <u8813345@gmail.com>
+Reply-To: u8813345@gmail.com
 
-Add documentation for the KVM_PPC_GET_COMPAT_CAPS ioctl to the KVM API
-documentation.
+Delta E50SN12051 is a 600W non-isolated 1/8th brick DC-DC power module.
+With this series applied, voltage, current and temperature sensors can 
+be exposed through the standard hwmon interface.
 
-The ioctl exposes host processor compatibility modes supported for
-nested KVM guests on PowerPC systems.
+Changes in this series:
+- Introduce device-tree binding documentation for the new device
+- Add hwmon documentation describing the supported sensors
+- Add PMBus driver support for Delta E50SN12051
 
-Signed-off-by: Amit Machhiwal <amachhiw@linux.ibm.com>
+Signed-off-by: Colin Huang <u8813345@gmail.com>
 ---
- Documentation/virt/kvm/api.rst | 35 ++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+Changes in v3:
+- Simplify to pass &e50sn12051_info directly to pmbus_do_probe() 
+  to avoid the extra memory allocation
+- Link to v2: https://lore.kernel.org/r/20260430-add-e50sn12051-v2-0-d76fe42482ab@gmail.com
 
-diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-index 52bbbb553ce1..7a10c3c6cbf1 100644
---- a/Documentation/virt/kvm/api.rst
-+++ b/Documentation/virt/kvm/api.rst
-@@ -6555,6 +6555,41 @@ KVM_S390_KEYOP_SSKE
- 
- .. _kvm_run:
- 
-+4.145 KVM_PPC_GET_COMPAT_CAPS
-+-----------------------------
-+:Capability: KVM_CAP_PPC_COMPAT_CAPS
-+:Architectures: powerpc
-+:Type: vm ioctl
-+:Parameters: struct kvm_ppc_compat_caps (out)
-+:Returns:
-+	0 on successful completion,
-+	-EFAULT if ``struct kvm_ppc_compat_caps`` cannot be written
-+
-+IBM POWER system server-based processors provide a compatibility mode feature
-+where an Nth generation processor can operate in modes consistent with earlier
-+generations such as (N-1) and (N-2).
-+
-+This ioctl provides userspace with information about the CPU compatibility modes
-+supported by the current host processor for booting the nested KVM guests on
-+PowerNV (KVM nested APIv1) and PowerVM (KVM nested APIv2) platforms.
-+
-+::
-+
-+  struct kvm_ppc_compat_caps {
-+         __u32   flags;
-+         __u64   compat_capabilities;    /* Capabilities supported by the host */
-+  };
-+
-+The ``compat_capabilities`` bit field describes the processor compatibility
-+modes supported by the host. For example, the following bits indicate support
-+for specific processor modes.
-+
-+::
-+
-+ bit 1: KVM guests can run in Power9 processor mode
-+ bit 2: KVM guests can run in Power10 processor mode
-+ bit 3: KVM guests can run in Power11 processor mode
-+
- 5. The kvm_run structure
- ========================
- 
+Changes in v2:
+- Add %YAML 1.2 declaration in binding document.
+- Use a generic node name in examples in binding document.
+- Add MODULE_IMPORT_NS("PMBUS")
+- Remove unused / incorrect headers
+- Link to v1: https://lore.kernel.org/r/20260429-add-e50sn12051-v1-0-c101e6c80bbb@gmail.com
+
+---
+Colin Huang (3):
+      dt-bindings: hwmon: pmbus: add Delta E50SN12051 binding
+      Documentation/hwmon: add Delta E50SN12051 documentation
+      hwmon: (pmbus) add support for Delta E50SN12051
+
+ .../bindings/hwmon/pmbus/delta,e50sn12051.yaml     | 41 +++++++++++
+ Documentation/hwmon/e50sn12051.rst                 | 81 ++++++++++++++++++++++
+ Documentation/hwmon/index.rst                      |  1 +
+ drivers/hwmon/pmbus/Kconfig                        |  9 +++
+ drivers/hwmon/pmbus/Makefile                       |  1 +
+ drivers/hwmon/pmbus/e50sn12051.c                   | 52 ++++++++++++++
+ 6 files changed, 185 insertions(+)
+---
+base-commit: b584e7d50af502462349910bf4ed30057620b69f
+change-id: 20260316-add-e50sn12051-ad828ad6777a
+
+Best regards,
 -- 
-2.50.1
+Colin Huang <u8813345@gmail.com>
+
 
