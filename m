@@ -1,95 +1,121 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12B1406297
-	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 17:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DC3478875
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 17:36:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777569496; cv=none; b=BtYPRa5nOqWHSJxf/HxoHuOVKdfVXlkjV/fUifrvZqnUGjznKY76ss0Yw5yJl1VJ/ADq7yaC2M4KUZRM5Bt2TiXbvyrJ65ITdXKecy14VyXXeh72NcxqRv3jhdlIZysN2hIW+Uf+ULVZC8xXk7uQB5mgaFhFoycqIMVw2eXqNeA=
+	t=1777570596; cv=none; b=SPDtMyWHqOCr8AhhUxae06yK3uoJBLOtWSWnow/CWbvFsdfJVJDaOBHTkMGm4Nve709+hqzH/K0vdzs3oA+h/kgHViyXEZhOEqvo/z1Q+70Eoo20cu0gGPcQk1N5aaOK34t306yJN/D4XUIYAKVjeC54DnT42btN3w3QQ8rHKCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777569496; c=relaxed/simple;
-	bh=TpyWBTtCvl89I2VI/PwXM64XWcoldK1gMhZ8XyRoh1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GCSvsX6Qc2TPY5rhXiOKtY4oKtOn+YLIwBOrLE1iBHZ+yLcYh4GRzuQqCIBBAkDEgDDEICEYXCmn1xB1p/hx2kyAmN+6TQFJFlsBkrzHiXUNDgH0YOtNk/fVZQmQRAGKSHnLj4BQt9rrimTjiV8FM0OCgFIXk8LVdn83pq4thao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=q0a0ytkw; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777570596; c=relaxed/simple;
+	bh=DKpm77o7C+wmP2zqZP5HxdRKhRGoLrYB4dvKBgkzBM8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KZO2snlMvpFbVPiw6GBTT/4XgFMNRgStMFlWJ6qROoe6O0F8XRo2NOTkxlRN09bStldCUGnOD1+Ml6uuQw9TFvgX/p/eIpUH+zkTVmIy/bqUVe9tXqUUaCCCwSEUDOEw8GbV4Qo5L3Ev88316eHa8Qr2QVd0inRTfeQ3T7Y9hu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UrT4YYij; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="q0a0ytkw"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2b24fcc2b5dso7799705ad.1
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 10:18:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777569495; x=1778174295; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3ALENd3xMV3SWWFyPseCQ4MW0PKHdxiw3vbFxIMfyRI=;
-        b=q0a0ytkwvlBodDBAaRMQyIwLGoAapp6RJ3H4Z4nYhytUygJ1UbUN96oGBXWeN3QEDF
-         S8wAHu6xoAwmy8Uy0U/H83eJW79WC4NnjgPypuEV8cpfzrKoyCSgfKHAF4ucrHx0YC3Q
-         pv7Roi7KDfoKATrN28d/YZafXpTQ285v6/GX2QRwme2CWxe5ek8AqQ92rTgovAKxllXA
-         u0Pn9uOFLVij/21oe43hUF3BMCQI8ryOqx+5o4b83Qx7ctYvdr05VRtzlv4BZfJYCyAt
-         agPIqeZHDmxg6uirmusAAd71ocz3IJ2gd2MWAP6om7tDW8n4pV23bKfiIcEDz8xNpMN7
-         C7yg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777569495; x=1778174295;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=3ALENd3xMV3SWWFyPseCQ4MW0PKHdxiw3vbFxIMfyRI=;
-        b=gHnFqd4Uw+ugTwU18dFfHoWOlSIiMemACb2s9+D+qDoCXqvnufwE7yzDFJHSsshuDL
-         nVo+XFKZbAuKFfh4DuZIbsoHzQfJ+C23/M5CcQ2O4g4v5LmPJnsi8c9c5O3403lDEhmI
-         Rmoh+i0dNtTO7u/umblJkkGfjJFrSyF/ZqNN0KtKChdyEDpqm7/STyIZtD7FgiX7owcy
-         ZT1GNriTgwcJvpYPmTS6XDKD8gL1fI9Ycyy8KstM/XtPNR+2HhgHcJg/3BSC5WSycy/f
-         HkIDmeG+xfArkMBVC/i4sAiyMFjDXafFMASzgaqEq1V6ZeNvrqdE211J3aGn0zUmPX0l
-         K86Q==
-X-Forwarded-Encrypted: i=1; AFNElJ8dVDRWTXS4cDm3dXR4R62Ya0waBjCiHX6+azXyOmsk6BE0zLml+HLGovWjZXkvFzYEjegYQ0f/CPs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywou4HxrHypW5pqHr5WGuc12K5Oxk1XW8XpkY41OopymtRAD0la
-	oB5YzYDi+SVvhuvUUhEa4l2LbPFw24tq0CO4OYfmc6xnkfmo+Iax8WkY
-X-Gm-Gg: AeBDiet7w59gKLGesjiMQJm5yrkJqmrlXeLjac3ww8oCgVaF09zhchSofmH2bT7Ejb0
-	u0Z2fgFRhXAF+ukK2tKkiBTuiw0qowpA6cMa7JhMGcM212NJap52SDMIOlBlAz/GPzqu1s36YzT
-	MjU3FaSxlG1I4Vy8Qh3wlMt+kvNwv+JxMpXHqYvGHq/srjCqsilA1hOq1CEDqBsQhC7XOgxee2H
-	+a5BnAxWaebYh773X9GfC+7Maa7a8LsC+MPMbXm14YnAGTM3Ctk5/4nP3/fdkCjAWdHth2QFpYR
-	o61264C14+OX9QWuc0DmwtCYtDDgY2Sfgu+Zo9AB8yyu1DLSneVjWaJFyLz4LsKWyVxo8e0nGer
-	uqMzxLOEc3P2bdm8A+OMtpic5l/aM1zWGxuOzG/DEPJF7S8oVmDTiY4HU7ufS0A9xtZWvuLk66V
-	4BfH23SUOs258PKRzphvkC48XRAP9eQBcYb20NkS4aKyRalKE=
-X-Received: by 2002:a17:902:9a43:b0:2a9:e8b:5326 with SMTP id d9443c01a7336-2b9a24bee86mr28418795ad.23.1777569494783;
-        Thu, 30 Apr 2026 10:18:14 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9caad28c1sm1886155ad.34.2026.04.30.10.18.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Apr 2026 10:18:14 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 30 Apr 2026 10:18:13 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: wenswang@yeah.net
-Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	corbet@lwn.net, skhan@linuxfoundation.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 2/2] hwmon: add MP2985 driver
-Message-ID: <cbc39633-65a4-4313-8035-56d040def5b2@roeck-us.net>
-References: <20260414092801.1067470-1-wenswang@yeah.net>
- <20260414092921.1067735-1-wenswang@yeah.net>
- <20260414092921.1067735-2-wenswang@yeah.net>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UrT4YYij"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777570587;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=9TxaOgZk77bW6UP/5RC087WlAvfwLVRhA/dLxiGUyNA=;
+	b=UrT4YYijiARh0wH8nEfK/HDhXBylCFUh3zGnnwajmhCdj7OIM2w1kBV7LylM+mB7RvJz3g
+	Bp/jQcX2G6wGxxkgGD6csyYRRZ7lpUbmyapd3XYhd9zJDrWXE820fMNHW6nIsZ+FTn9ZTE
+	9r6psij7NAPn0tP3XoZdbP8bdGOt+pM=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-380-ZfV2gvCTObWTNv2BXneHqw-1; Thu,
+ 30 Apr 2026 13:36:22 -0400
+X-MC-Unique: ZfV2gvCTObWTNv2BXneHqw-1
+X-Mimecast-MFC-AGG-ID: ZfV2gvCTObWTNv2BXneHqw_1777570580
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 8B81618005A9;
+	Thu, 30 Apr 2026 17:36:19 +0000 (UTC)
+Received: from p16v.redhat.com (unknown [10.44.49.13])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id E7D02180045E;
+	Thu, 30 Apr 2026 17:36:12 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Michal Schmidt <mschmidt@redhat.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Pasi Vaananen <pvaanane@redhat.com>,
+	Petr Oros <poros@redhat.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next v2 0/2] dpll: rework fractional frequency offset reporting
+Date: Thu, 30 Apr 2026 19:36:09 +0200
+Message-ID: <20260430173611.3312596-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260414092921.1067735-2-wenswang@yeah.net>
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Tue, Apr 14, 2026 at 05:29:21PM +0800, wenswang@yeah.net wrote:
-> From: Wensheng Wang <wenswang@yeah.net>
-> 
-> Add support for MPS mp2985 controller. This driver exposes
-> telemetry and limit value readings and writtings.
-> 
-> Signed-off-by: Wensheng Wang <wenswang@yeah.net>
+Rework how the fractional frequency offset (FFO) is reported in
+the DPLL subsystem.
 
-Applied.
+The fractional-frequency-offset-ppt attribute is moved from the
+top-level pin attributes into the pin-parent-device nested attribute
+set. This makes it consistent with phase-offset (which is already
+per-parent) and clarifies that FFO PPT represents the frequency
+difference between a pin and its parent DPLL device.
 
-Thanks,
-Guenter
+The two FFO contexts are distinguished in the ffo_get callback:
+dpll=NULL for the top-level RX vs TX symbol rate offset and a valid
+dpll pointer for the nested pin vs DPLL offset.
+
+Patch 1 restructures the DPLL subsystem netlink handling, updates
+the YAML spec and driver-api documentation, and adds NULL guards
+to mlx5 and zl3073x drivers.
+
+Patch 2 implements the nested FFO for zl3073x using the
+dpll_df_offset_x register with ref_ofst=1, providing 2^-48
+resolution. The old per-reference frequency measurement is removed
+as it was redundant with measured-frequency.
+
+Ivan Vecera (2):
+  dpll: move fractional-frequency-offset-ppt under pin-parent-device
+  dpll: zl3073x: report FFO as DPLL vs input reference offset
+
+ Documentation/driver-api/dpll.rst             | 16 +++++++
+ Documentation/netlink/specs/dpll.yaml         | 11 +++--
+ drivers/dpll/dpll_netlink.c                   | 34 ++++++++++----
+ drivers/dpll/dpll_nl.c                        |  1 +
+ drivers/dpll/zl3073x/chan.c                   | 31 ++++++++++++-
+ drivers/dpll/zl3073x/chan.h                   | 14 ++++++
+ drivers/dpll/zl3073x/core.c                   | 45 -------------------
+ drivers/dpll/zl3073x/dpll.c                   | 34 +++++++-------
+ drivers/dpll/zl3073x/ref.h                    | 14 ------
+ drivers/dpll/zl3073x/regs.h                   | 15 +++++++
+ .../net/ethernet/mellanox/mlx5/core/dpll.c    |  4 ++
+ 11 files changed, 126 insertions(+), 93 deletions(-)
+
+-- 
+2.53.0
+
