@@ -1,88 +1,125 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 415D9363C55;
-	Thu, 30 Apr 2026 06:46:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D349F39BFF4
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 07:08:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777531616; cv=none; b=fRZMNDU1Mnq5c5tvdPUmQqkYnOKhq/k/1nvyMwXcGDO10hMbWV056EZ5wxBSRNGRxL6jFK+yyuvbtV8NFZgj6V0dLbVnyS3fJHhDaDRj/GVqoOX9CsaQToVXOqFy3zcYBQZpphI79o7g2COlEmvu7dVN7SqIKBd9efCcyFyzynM=
+	t=1777532938; cv=none; b=gmhyWZcuhJs178aI0G4NyxAF7CZn+wud5hAM+0JrDls4em+6qoUadsdRjMdLoobiBHUsCrBtfxZEVXcWdC3/kmPSIb/fLMaRaKA7iaSrfIQpDAN8Li+g2/e3/JGRTCnx6qnHfQ0t8gie1dUzZ4af9myRGgV7M49WnGxbBc2i7IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777531616; c=relaxed/simple;
-	bh=sqg/lDZK+vKtoPCPvi8wbSkEBm0uZsEqRbg1l7i6TQM=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=bWp8J8Q/3eqZ5y8qxPpIWd4Q1mxoK5W1zynda+kWR7dsroU8JZgQ05ZgmAmTU8NpKYxV4O4qWm+Z4MWgjfip4jMZ1JcmLIoPestnHUtpMM3L0vZa4JzqzVmSnMlDZLDnRxngaUbNIdMhLt+qQjzBqoZ5TU5pqM08ZZ1LVtNozXw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dYwwdlF0; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777532938; c=relaxed/simple;
+	bh=Pok9W6X3Zc/MuL7+b8uED/KhTYRgDOun4KGjxb/HTcA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YWzcAFJT6ulTIwyn/t7J1/UNCKb6FKHt/HiX8mWFi7GliRqVeexGi0TCjO2P7DqQfrQVv/wJcLASFaKuHLGpBMYTmEoAGqpbohHIsGnTmvBmw2wRjhhW6bj+rAUTBCEiU5qPr5xZm7PEdr7ZNs0RAL7QfA4RvHjeISQAKxEyfBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M30uKbCd; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dYwwdlF0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777531615; x=1809067615;
-  h=date:from:to:cc:subject:message-id;
-  bh=sqg/lDZK+vKtoPCPvi8wbSkEBm0uZsEqRbg1l7i6TQM=;
-  b=dYwwdlF0UxcM8bBW2Ml46ui3Q1GEI182ZA/lAWplTbUw476LaaFBlxbn
-   XWOD+NFlUz9hcPodl/8KGz7shX8D6e7/vxm6D10ckYTQSjfR+8cZWbwRn
-   sjn9UnGGoDVCryt8zB0RvN8zyWCqTHN+N6Qm/DFQH1f1EoFtZVwxkBg3j
-   /0/p4GzRdUSysNeNYNUTnNxHWrdUncA/dKVrH3z2wJh50wlnrlb8bZqYS
-   pgcHRhjCThjhXYHokTOsq4RWJvnOd8kcrRDb4mHN/LoQTyVES8XOGwf91
-   h0M2lXxoRDz+AWoSnKHyMwxcOfWFs7FgaCNFuqPn1Q2aba911UNLDdc7y
-   g==;
-X-CSE-ConnectionGUID: Wakds550QsSa1I6wOjY9pQ==
-X-CSE-MsgGUID: UXtrN6htRk+FzAQYFI92mQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89165236"
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="89165236"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 23:46:54 -0700
-X-CSE-ConnectionGUID: mYuBgSCRQ4OVX+JWkao7lw==
-X-CSE-MsgGUID: yO78XjzPRbGf1z1NMnLrUg==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO aa799cca880d) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 29 Apr 2026 23:46:53 -0700
-Received: from kbuild by aa799cca880d with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wILAg-00000000C40-1Zjd;
-	Thu, 30 Apr 2026 06:46:50 +0000
-Date: Thu, 30 Apr 2026 14:46:09 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sergio Melas <sergiomelas@gmail.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
- linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
- linux-doc@vger.kernel.org
-Subject: Warning: drivers/hwmon/yogafan.c:2 This comment starts with
- '/**', but isn't a kernel-doc comment. Refer to
- Documentation/doc-guide/kernel-doc.rst
-Message-ID: <202604301429.UUK5MS9i-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M30uKbCd"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso2824955e9.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 00:08:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777532935; x=1778137735; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aWpH92KUAcbsepvSBP+mLdcVlQgYvqjOnjU2XOM+oHE=;
+        b=M30uKbCdS9HFi+NL1nb6RZcT5Xa/PaT2Fod3yECGK7r++ZC9WchKtLTfYpSHFV/9Fr
+         KtySMF85mLl60NCKUDbKjGxnkkz2wSHMNaiFv/itFSdupAYQOthnFQsfiqFuDB9OWsiy
+         /AR6smokP1h1bLUMnmoLppENyI4LGp21IL+M203VEc822iumRi5tXaNKgaehwKmf1aIB
+         O7acBtExA43lW+I+iLDGZ3lYanCrvNv/+Z7N9MWd5Qp7oi4fRJ99RPbajXaySSXI4LBf
+         v+e3DOPzN+2jUt9Uer5jRlkrxgl8rVdLBRhNLViQueKZMWby8rBrS3tZQogtONd3hgrx
+         9/iw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777532935; x=1778137735;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=aWpH92KUAcbsepvSBP+mLdcVlQgYvqjOnjU2XOM+oHE=;
+        b=CUnLsZ5XvL2z7oLY6b89EDJ17QF+iHb7t3tz6qj0LwRzlYazJQwbBtBdAoIEe4hhxL
+         athhS7/0Dqh9q6K6gymVtsJaLzSjZQnf3xaoQXUXu0sQCzxCpnXe8hOIyeFegepE8dZ/
+         M6XcanM2XWzMds0Blxmk8FlnUpYCyIVVwY8ktdcrGajtJPuavDmircrWX8ZQMAsXlC5K
+         Xqm8jSQoieK6sgvJMYbF1gBsWiFiF9JUZ+2uaGhuuf8r/nG4I449Gc5FKmzqlg3l3Rm/
+         5W+FG+4Kugl0rqjKPQW16nQTA8vaHaQL8vPkmPGRMp17PqAoodU0FZ7Ni717WkT0HiXK
+         wyYg==
+X-Forwarded-Encrypted: i=1; AFNElJ/+I1UQce/WTFeNGGXC3HivJGsg0X5yagbvH/g3yCsa1TwZooXyRcukFzgAvi691eTjbquYfAGe9qo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzERF/aD3DFRK/Oaqad4QC7UOiMHs2Nb/SARgRjK6Bcf18+oRQF
+	DqtZXeH3LQvXujS88vNXVB8HkMu6dCoM6Ne99qMMDWvw7Mup4G8V0O2I
+X-Gm-Gg: AeBDietOPC+44MzSnVFlRG0hwbu1ZCwGWuXB6QBCBIKMFs063Q1YNw8IsfvEQqC0OeN
+	3KyQU+D9mCN5LkcImNmz9pxTmxRgV8a2VSR0fZCvrdf1osKghIRANB+qc86+bLoY4IMdsQQMPhz
+	5T2aoW56rJ6IOKSj9m2Ok3PS7lScnrXle2CIghIjypYoyeVNhGfRrM9owrFWoouxldisohx6ezv
+	Cyt9wAQDILPF/I4mlun7MHg9PrScXQGp7HPGX9LqRwCo5OmfP700dfdYWOnmQLzSIO/JvlJnuTN
+	FuScKc3XJHsIgQF/MohsV2mARTTg31HPomUntQDbfMxMKgEd9YfpG9bFeNnoT7VEEHThvob30pa
+	ElmUUI+SclgaLpF2NfxRLzhx/Sk0TAY2UfMrfIQeTQSXSNPYHsT2CwbpZroepx9AaFMkGc+zW0n
+	pZxw42agFeSVQmPeEuuQh0sfStm63oAg==
+X-Received: by 2002:a05:600c:8904:b0:48a:592c:e63d with SMTP id 5b1f17b1804b1-48a8451d001mr20389305e9.14.1777532934948;
+        Thu, 30 Apr 2026 00:08:54 -0700 (PDT)
+Received: from archie.me ([210.87.74.117])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a81ed6bafsm73693235e9.2.2026.04.30.00.08.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 00:08:53 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 727344207D3E; Thu, 30 Apr 2026 14:08:48 +0700 (WIB)
+Date: Thu, 30 Apr 2026 14:08:48 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: tglx@kernel.org, akpm@linux-foundation.org, bp@alien8.de,
+	rdunlap@infradead.org, dave.hansen@linux.intel.com,
+	feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com,
+	dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
+	paulmck@kernel.org, lirongqing@baidu.com, bhelgaas@google.com,
+	bigeasy@linutronix.de, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: kernel-parameters: document scope of
+ irqaffinity= parameter
+Message-ID: <afMAAL4lB72HiSQI@archie.me>
+References: <20260421150911.42404-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="I19gIvng0L6t/iXm"
+Content-Disposition: inline
+In-Reply-To: <20260421150911.42404-1-atomlin@atomlin.com>
 
-Hi Sergio,
 
-First bad commit (maybe != root cause):
+--I19gIvng0L6t/iXm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   57b8e2d666a31fa201432d58f5fe3469a0dd83ba
-commit: c67c248ca406a86cf8b20bf1b3af5e7f3e36581f hwmon: (yogafan) Add support for Lenovo Yoga/Legion fan monitoring
-date:   4 weeks ago
-config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20260430/202604301429.UUK5MS9i-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260430/202604301429.UUK5MS9i-lkp@intel.com/reproduce)
+On Tue, Apr 21, 2026 at 11:09:11AM -0400, Aaron Tomlin wrote:
+> -  This can be verified via the debugfs interface
+> -  (/sys/kernel/debug/irq/irqs/48). The dstate field will include
+> +  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
+> +  enabled, this can be verified via the debugfs interface (e.g.,
+> +  /sys/kernel/debug/irq/irqs/48). The dstate field will include
+>    IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
+> +  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Fixes: c67c248ca406 ("hwmon: (yogafan) Add support for Lenovo Yoga/Legion fan monitoring")
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301429.UUK5MS9i-lkp@intel.com/
+Use double-colon syntax (i.e. ``For example::``) for literal code block
+below.
 
-All warnings (new ones prefixed by >>):
+> +
+> +    # cat /sys/kernel/debug/irq/irqs/87
 
->> Warning: drivers/hwmon/yogafan.c:2 This comment starts with '/**', but isn't a kernel-doc comment. Refer to Documentation/doc-guide/kernel-doc.rst
-    * yoga_fan.c - Lenovo Yoga/Legion Fan Hardware Monitoring Driver
+Thanks.
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--I19gIvng0L6t/iXm
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCafL/+wAKCRD2uYlJVVFO
+owHHAP46KxHIJQY3/vsgQ7V0xoEqEyuRCeGzVKuwpfg6BYKK0AD7B2aBA4OrNcw8
+1EqYxsMXr22YaS28LlxuYryiaMP68Aw=
+=84UZ
+-----END PGP SIGNATURE-----
+
+--I19gIvng0L6t/iXm--
