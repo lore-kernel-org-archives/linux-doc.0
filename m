@@ -1,49 +1,67 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6603943635C
-	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 14:59:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3E4043637D
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 15:44:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777561142; cv=none; b=rTRR1WPb+RVpUzMXJhRGz5q12MxC45wG4WcpQGInkkyJ47ufBF56yc6r63hnXATmSu6pDUmW62+K+asxXjdWC59FjPiA+6vyhj48p+fMIrmZ5QIPmssUg/Vlf2RkjMSCVRTmiIS42Soh9LpRMHu3DCdqWNeSLwGGLMJxZVTT4Eo=
+	t=1777563900; cv=none; b=sVUQqzLDqTbERHrDuVTT06BhYJpZGzKptKUDRSrUlCvEj7WJbrCKvQblyWaqA0rWqEaTFE0dPAXkh1t12GSfwrKYsRPq9Tw1hNgdYvw72NkBJ/65uqj0QFQgJvJ6RnNdVu1EfT7FIOK4735g/RHxMijZwSdboJyVoj1mLHr1oMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777561142; c=relaxed/simple;
-	bh=Qz5Jt0NLcw/CHQdPoqk28nrS/jgP5xrSiN2p0WHFcSM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=iCSLfMDrLkMdtDKGZmosmxjXGvWby5GLxQr20DIKsub0uLy6WJWmc3sl6R2cnDCYw9HIh9lQFOyAJC41cpi7XFA2Sdr+W9X47vHqZIu0MRzraJLMHd8AL5Wd4PFBhlLDPgiP3R/gUZdcvWu6Ld8dQ8JTAJkvl2xW/R7Xyj7N4Bg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iZ7cU/cS; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777563900; c=relaxed/simple;
+	bh=RUE0wRnDSulogZaSv/Phdq6tG4EVlY/e2/sK/FRA2lg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K+5ko7KOjT7X2k7b7BmMnAefHsnqfUVVTNVvJRCqh9A8Mh5x/VWhZU/B4I4e9HJ2CG1ID5OHBls68IGNNG5oKNge3Gzs50EcQu9Nl0y4OTm/0a/v4EBp86TjS+0Tc+BmXuN797u1Wrd7sFEk5KzdwiQLcbXvVqCbRf/IE1u59v4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com; spf=pass smtp.mailfrom=6wind.com; dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b=kIVovgty; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=6wind.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=6wind.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iZ7cU/cS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777561140;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MFsLQaXt9E1BoxB2u4w8hFiRsin5lzaaJSXFo+bNxMc=;
-	b=iZ7cU/cSV21NtwSy9Di53SDg1DzR7ANQIj78aGfgQIF4U17xpolHqhDZA0pMtiewv2ad+5
-	M5hVKn3EsYRg27EtQ6bQDwtUIajiQS+qUqj2KDtNIZNZSbEnmvw7bHRN5d2LOQWiP9Jp1R
-	UL5oHOWx1M8JInGpB1fcwzfHdq6kpEY=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-106-2Zp1chH3Pa-zS4a6bqiIPg-1; Thu,
- 30 Apr 2026 10:58:56 -0400
-X-MC-Unique: 2Zp1chH3Pa-zS4a6bqiIPg-1
-X-Mimecast-MFC-AGG-ID: 2Zp1chH3Pa-zS4a6bqiIPg_1777561132
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D8C5D18001FA;
-	Thu, 30 Apr 2026 14:58:51 +0000 (UTC)
-Received: from [10.44.49.13] (unknown [10.44.49.13])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6619A1953944;
-	Thu, 30 Apr 2026 14:58:45 +0000 (UTC)
-Message-ID: <e1e35bf4-19af-4d69-b310-993b3fef24a4@redhat.com>
-Date: Thu, 30 Apr 2026 16:58:44 +0200
+	dkim=pass (2048-bit key) header.d=6wind.com header.i=@6wind.com header.b="kIVovgty"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4493cf2f982so48833f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 08:44:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=6wind.com; s=google; t=1777563895; x=1778168695; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=nVdkXGvjipVBSYbCT/dFGYanP9qbDtxjNRTDheTpI08=;
+        b=kIVovgty868XFtEfPeoHV5DB5ZZXqPyEvjft08k376aiPD3ETBi0iiahiRcDAmGjQE
+         07nsaK+WoWWxpfYJgOUZ2BPC+VlYMk3DLAyrfqeVAqFVWbAKcFadIEDqNTjq8iAO3kl7
+         6Wb/uKRGSvGzwnTigQRGQ69RO3oeJavhGaTN/wSrW0ic7t8Dd+W+cqVM28+KDqtOTMez
+         Qj1r39hVVgI1wqPz3Gc4a8Ldq8zkUcsx+6fcfg2nZSC0vTWli3r2tD3amDLZ/pUVEczp
+         /qD/5BLRwNAV/dYiec+0oWCNVfnXmGSMQ7V6tM1yIF7mjvBfFWnbJI3MzZ5/AjC4Mp2G
+         duuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777563895; x=1778168695;
+        h=content-transfer-encoding:in-reply-to:organization:content-language
+         :from:references:cc:to:subject:reply-to:user-agent:mime-version:date
+         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nVdkXGvjipVBSYbCT/dFGYanP9qbDtxjNRTDheTpI08=;
+        b=BrGiqApy/CNjTyCqiOoSbqN2LfOyPuGiTpVoBCI5TmRE3eZfTVof24nzSxANe3SMeO
+         BtQ7ASLyq64eAh5hI7bXI7kksHRhiC1BRBFxvF+2OGusxkQ71bC4bUPALI6sJtYPhfnB
+         2eNB+qycZL/unIO7ENFYM8zeluYM+/xAyKKEKnxIAFGnNlW09Behc4Sr6L9CipWJ8Wv7
+         S/vNBT4FXTMVAEnCxftSJeSSbKQGEs/vPiLS1u2H+MTAdeEj5go9rAIpFAu16WVl3BkZ
+         zAw+n8CEE3jPs8tcNY+BW7s59IDsga7XGw+/6Lyj81Ke24rqaNOmDJKEepdDThWF0AGh
+         8vJA==
+X-Forwarded-Encrypted: i=1; AFNElJ//aUipkp1fMsnBXbb2vJfWUNJKO/9qgSQc52OwVyBf5o3sFI3M46X5BIhMrXYcIu9K4VSgQkIh8bE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyQ/SLbCSTLBnRjgC6W+a7zC/JSKWAp/YzjmeJQVTnwPg4oVpdn
+	3Fzxuzs5TuYTuhGxOz8/kzIlYOFzBeUpznKmLeabiHK0lYbuYyA7PAyftmQNzOcdeKA=
+X-Gm-Gg: AeBDieufA5Q5YFKbz4uPgcyB1rKyyuvW1Kh5ZyPMU0lR4A9NOPDaFMgI0+4zfbKmKHn
+	UDd1WjoLT2dKFg7SoiOiP05KnHswkRLsPk7fnBz0cYFWJB8oYpRTbL1WQpBc9GN+Wk5L69OPNmO
+	V6EDpYFUaB5mv4EHXPHJLiEAZFia4EO0S6UWZWPMz6I0prHxbnWrurOnqJjtsJF5fVsuf/9OutY
+	SjLripRPcgrc2bFazUjs2LQYtG2SDyHS/lRKnWnSs/IfxIFvFG7ftwDEX7OrmZN0zeKKXYOy3re
+	ZV0jU5hmwjReUnDqeECXn6MMl0Yrx4V3/p0oKbHkr95Ow2pbl5E4ilZRdE+IFgSA8dJXKYGXulr
+	acSrgNGVCXE90v3S4xpcn1wZyyebyXyGUrSK+6dAdgFdDQidnzSuC5uXgPf59SUbO7oZeXf0JAX
+	iM7RcR61Alqmd0qnDsnMyb2q/fKttlLRgAUC1rQv1A6gSUkLrlyrSqq7BdDP3l/9TvI1IWe3Eyy
+	tn+ZX584msGBDo=
+X-Received: by 2002:a05:6000:2995:20b0:43d:1d3a:b60a with SMTP id ffacd0b85a97d-449403aa04bmr1985624f8f.7.1777563894613;
+        Thu, 30 Apr 2026 08:44:54 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:b41:c160:6a1d:efff:fe52:1959? ([2a01:e0a:b41:c160:6a1d:efff:fe52:1959])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-449c576d0a2sm3615047f8f.31.2026.04.30.08.44.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 08:44:54 -0700 (PDT)
+Message-ID: <3f8d63a3-e39e-48f9-a0d0-517be7c05498@6wind.com>
+Date: Thu, 30 Apr 2026 17:44:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,76 +69,48 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 0/2] dpll: rework fractional frequency offset
- reporting
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- "David S. Miller" <davem@davemloft.net>,
- Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
- Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>,
- Mark Bloch <mbloch@nvidia.com>, Michal Schmidt <mschmidt@redhat.com>,
- Paolo Abeni <pabeni@redhat.com>, Pasi Vaananen <pvaanane@redhat.com>,
- Petr Oros <poros@redhat.com>, Prathosh Satish
- <Prathosh.Satish@microchip.com>, Saeed Mahameed <saeedm@nvidia.com>,
- Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
- Tariq Toukan <tariqt@nvidia.com>, Vadim Fedorenko
- <vadim.fedorenko@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
-References: <20260429150817.3059763-1-ivecera@redhat.com>
+Reply-To: nicolas.dichtel@6wind.com
+Subject: Re: [RFC PATCH net-next 0/3] netns: optionally inherit IPv4 TCP
+ sysctls from old net
+To: nmreadelf <kong414@outlook.com>, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+ dsahern@kernel.org
+Cc: horms@kernel.org, chia-yu.chang@nokia-bell-labs.com, idosch@nvidia.com,
+ ij@kernel.org, brauner@kernel.org, jack@suse.cz, kuniyu@google.com,
+ jlayton@kernel.org, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lance.yang@linux.dev, leon.hwang@linux.dev
+References: <TY7PR01MB172057C053E8D550485A29A08E0352@TY7PR01MB17205.jpnprd01.prod.outlook.com>
+From: Nicolas Dichtel <nicolas.dichtel@6wind.com>
 Content-Language: en-US
-In-Reply-To: <20260429150817.3059763-1-ivecera@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Organization: 6WIND
+In-Reply-To: <TY7PR01MB172057C053E8D550485A29A08E0352@TY7PR01MB17205.jpnprd01.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-
-
-On 4/29/26 5:08 PM, Ivan Vecera wrote:
-> Rework how the fractional frequency offset (FFO) is reported in
-> the DPLL subsystem.
+Le 30/04/2026 à 03:30, nmreadelf a écrit :
+> a new network namespace starts with built-in TCP defaults.
+> In container-heavy setups, operators often tune TCP sysctls in init_net and then
+> need to re-apply the same values for each new netns.
 > 
-> The fractional-frequency-offset-ppt attribute is moved from the
-> top-level pin attributes into the pin-parent-device nested attribute
-> set. This makes it consistent with phase-offset (which is already
-> per-parent) and clarifies that FFO PPT represents the frequency
-> difference between a pin and its parent DPLL device.
+> This series adds an opt-in mechanism to initialize per-netns IPv4 TCP sysctl
+> settings from init_net at netns creation time.
 > 
-> The two FFO contexts are distinguished in the ffo_get callback:
-> dpll=NULL for the top-level RX vs TX symbol rate offset and a valid
-> dpll pointer for the nested pin vs DPLL offset.
+> Behavior:
 > 
-> Patch 1 restructures the DPLL subsystem netlink handling, updates
-> the YAML spec and driver-api documentation, and adds NULL guards
-> to mlx5 and zl3073x drivers.
-> 
-> Patch 2 implements the nested FFO for zl3073x using the
-> dpll_df_offset_x register with ref_ofst=1, providing 2^-48
-> resolution. The old per-reference frequency measurement is removed
-> as it was redundant with measured-frequency.
-> 
-> Ivan Vecera (2):
->    dpll: move fractional-frequency-offset-ppt under pin-parent-device
->    dpll: zl3073x: report FFO as DPLL vs input reference offset
-> 
->   Documentation/driver-api/dpll.rst             | 16 +++++++
->   Documentation/netlink/specs/dpll.yaml         | 11 +++--
->   drivers/dpll/dpll_netlink.c                   | 34 ++++++++++----
->   drivers/dpll/dpll_nl.c                        |  1 +
->   drivers/dpll/zl3073x/chan.c                   | 31 ++++++++++++-
->   drivers/dpll/zl3073x/chan.h                   | 14 ++++++
->   drivers/dpll/zl3073x/core.c                   | 45 -------------------
->   drivers/dpll/zl3073x/dpll.c                   | 34 +++++++-------
->   drivers/dpll/zl3073x/ref.h                    | 14 ------
->   drivers/dpll/zl3073x/regs.h                   | 15 +++++++
->   .../net/ethernet/mellanox/mlx5/core/dpll.c    |  4 ++
->   11 files changed, 126 insertions(+), 93 deletions(-)
+> Default is unchanged.
+> When net.ipv4.netns_inherit_tcp_sysctls=1, new netns inherit
+> TCP sysctl from old_net.
 
-After merge of "dpll: add pin operational state" this needs to be rebased...
+There is the same kind of sysctl for net.{ipv4,ipv6}.conf.{all,default}.*:
+net.core.devconf_inherit_init_net.
 
-Will send v2.
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/Documentation/admin-guide/sysctl/net.rst#n401
 
-I.
+I'm not sure if it's acceptable to use this existing entry to control the TCP
+sysctl.
+At least, putting the new one in the same place + using the same template for
+the name + the same values would be nice. Something like
+net.core.tcp_inherit_init_net.
 
+Regards,
+Nicolas
