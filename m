@@ -1,395 +1,364 @@
-Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010017.outbound.protection.outlook.com [52.101.201.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99E812EE262;
-	Thu, 30 Apr 2026 23:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9075220F2D;
+	Thu, 30 Apr 2026 23:40:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.14
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777591629; cv=fail; b=bnKMWTYSq0nlmER4eINnNX+ybnH7NEhTrnh0l1CUB2vjrnCgjScrPLTPSaFNOxdZLgTdWuzEV96nh2+m46aig3X+UIV3rM3KfOAYcgsiPIT0RA57qnPU/lTwBchDSFl8JANaoBi32VQEr7MXzvwp3v3egj+N268EXJAW0uRcuOU=
+	t=1777592426; cv=fail; b=JUeUwxqbzwRNknFiq2YaNS+23FpZlFU0dZUJTOoPvA78GjzEFdEsiGGbJ+i9Rc9W55EG4FlzbktM3GCqt16edt6FEfBlYYtIqe+wGYR4vJp2iSmr7DH5Ks2lDY+NA6cJaWjvzALs6BvJ8oaSs9MBHe/W7xFtohOqMdBrsVZIUSI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777591629; c=relaxed/simple;
-	bh=3hTgSVjKuA2QnH7wGtIOcVJuyjdpBhoY2GXCGd3nasw=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fHO/Yikuyo8KxCLZS3dnweHb+ch6zvG0vgAjFII5TbXKPE38/8vShFZ/CsUfKwsaFvXE88Cd0LBg+5+jVusdu1LxGqzR9E9wEpMj19VqznuuPf2T8TECAsSvSVWOUjmkE9lWn9zhBT/ezQeZUCA4xzLwyYjaIML/4aRK7WLKogE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RVVNG0rb; arc=fail smtp.client-ip=52.101.201.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1777592426; c=relaxed/simple;
+	bh=fkqYaZIdqQEDtmCSSFFWwIvbQAidyHDMm0zTXm8ogn8=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=lLATKIEgLQMElWSG9yuz3VdOP2Yz5OgxfNCIrLGcmZ7/1IpIV+G6kdFtfOxI9krlVpm+cGQjZg3eJpNa0zXt1uQbcKXJ1yU3Kl8/QGrQvdbbVqQpGC1S3xJdUFxXDPoPaBE0z2IWIEus6008oQANu0K9ivwJ8xYCkHye6pGHtlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGebeqNb; arc=fail smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RVVNG0rb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGebeqNb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777592425; x=1809128425;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=fkqYaZIdqQEDtmCSSFFWwIvbQAidyHDMm0zTXm8ogn8=;
+  b=oGebeqNbrqDIdOv1VeicsW0SW3mZFRZObrVO9jM0pTHUa0M6eblpoDaS
+   iOe/YlCkm4j8Nt9vcFoaw250B2KvWlGYKLxQexsHusmnPm0A8nU8CbBsb
+   X7tzjSDkYKCuWOtLTT/tUMhyLdgmMVEwxx7z+riPhilSDSboRcNQn9FIq
+   v6BJkl2g7cEsx3WfUFF7ar9CGQdxavpyFq+qXN1PJ5+2wGujfd2R54lQ+
+   dpcOVownQDa8JFWL9IZe6eVxj5dM9WqEP2rqDUrqy1gSLE+M9ijVGJW7T
+   MaXRScfgLzNK2Iv8QE75TkFWp1EULJznHTHpwDA5OL46aDURe+BWhrCbC
+   w==;
+X-CSE-ConnectionGUID: O1vUVlQoTgu01V3jda8P5Q==
+X-CSE-MsgGUID: tmbp9adTRHOTD7DuqPt7Mw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11772"; a="82427522"
+X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
+   d="scan'208";a="82427522"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 16:40:24 -0700
+X-CSE-ConnectionGUID: 9Sr/aPSQROqhNPxzHqLviA==
+X-CSE-MsgGUID: lpzIh7LeRT2aBBz3kpkY/w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,209,1770624000"; 
+   d="scan'208";a="238695770"
+Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
+  by orviesa003.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 16:40:24 -0700
+Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
+ fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 30 Apr 2026 16:40:23 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37 via Frontend Transport; Thu, 30 Apr 2026 16:40:23 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.52)
+ by edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.37; Thu, 30 Apr 2026 16:40:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Z8h3RQP0bV0R9kJm9tyJMV/Yr3UhfjfBU6ZFyvDhvSgsfeL+qHWa5GoOTdrlBDu3Al62h9gVYymgbibAJJReLsMGnGiVOOsRgGOyxL4ABNUSzXA//JH3xgbf1tAAK8hiIrYkkpNb9lJXVYs70BudiAdpwsVQOUjZKiSwJFwi9STh3O1pZOcXfrZbmiXW6JUzxqAsvMHhKpSwraPgnZDzvmczczFi6JNQRWDA5olv72CMg+2kh611OsvBWXrhJoRygWVuRf+HLKxT8CMN8K4ogPOOhOYApbbNbflM6czYq8ZsxebL2T/hir7+WE9CcfPWO99fHwqtSmDhlgfPIxHJvQ==
+ b=nZxBtcopemcOrHT//8xVcjkhmh446vKZmiE073+l9xPGj7oU6EaDapJ5EM6/Miy61LdFUKkCbFcYLJ/hnx9sHvFJk3DCZQ8h9ytlBnFdwkehTarBuMTjBhhOJZ8Rxmf04wfC25ZCWMQkFxQaVB3mOlZJ23DzqNGqM3owgk2CXcXBPyjLyxQOUB+D91wPm2Lj57MGN9LUa9vrIFZDU5fN2s6ITBHtzFyWTDWDB773Pf7whbHWsMpRsIessqE9bmA57ViuRH1Am9pazWYla0XY96YFTAFoNpuvwI8BxnrXBvZSRPw4Se18Z6MiULW6shSItIKYhNa6FL3kJGZM0aMHSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LtHL3PLU3D5ejW6z0xS4bLkTtne86GrscVmnUrpCe7g=;
- b=Z8xTwMlkA7MGNE1KPl7eJ2dNdQOOBWTADIRae5//bxvKEN/jSoT2OQkkLky9NmD6+z2qpZdykiJPO3aE4GsnU4rOyBbdeBObJ9Ts2BFbPigPsXJ0WRW+87zoao3RHTZmMgR2mCTaMS2ihhu8/U+PPTsgciskwxkn8vacvTAQVITaD7gyKKjWAwl1OgcwE4A/GcX/08BAaH9dDX2Wun+nymtiaTdQ6mSHt1PiWQ5dfnXd0WecfeGyRGmCQkSb76bfkKgMg/2GzCYozfJyI8UnZ9TujiQafc7n9Xn3v2c1d8mA1X3YvzO1X7+++aIlMlIXx+sdmoRZvcoBEeIMPIh4Ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lwn.net smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LtHL3PLU3D5ejW6z0xS4bLkTtne86GrscVmnUrpCe7g=;
- b=RVVNG0rb7wLYjxaxzyHKsuNcao88fsBl5Fi78IdOTDzc5SUuDv45Lb39YT6gzuQDZG8XzTLETGi5iBA26GxAirtPa484jhooDfMMbqNY+JuXj5Dd8JEk97UZ1Onbwbed701FPuIhg1R3TRuffm9/4ASIbqkOVVExQo4hw6uNTEE=
-Received: from PH8PR15CA0016.namprd15.prod.outlook.com (2603:10b6:510:2d2::26)
- by PH0PR12MB8175.namprd12.prod.outlook.com (2603:10b6:510:291::5) with
+ bh=4HPJGdnsIgbOITQU7L8/5ooJQstPvAIknT/wAQB6rS4=;
+ b=WWu69QqNNiW3xhJipqzgH1upWm61ksavFAZu2ovqm0xayonz3VnC7UwBU3ibenbHoSkmYTFmD2IcvBy0OZhX7lfEL5OP1/iANaUK1V9pL8l/cGS5geNa5RVN5hEMDo5nF5hU481I1Y7vvAck7VgkZocI8/xcqTTcdglOEVGb7RH+FgjrHSrscrzAs1pOmUwj9mz4GXsKwJURf7dpqPFBGDtUg7oEGtwpfDxGD4WfpywQMNCJlbXxWcC8WKr9iMpsx2uYZbUtj5yrOJccwtn089L8zhVJFqWR8ApQWMZ8EUNX7VVjC1og9vVXVDDq28UA/pPAC0t+Yr3Lkd1+YbKmMA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by SA1PR11MB8376.namprd11.prod.outlook.com (2603:10b6:806:389::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.21; Thu, 30 Apr
- 2026 23:27:00 +0000
-Received: from SA2PEPF00001505.namprd04.prod.outlook.com
- (2603:10b6:510:2d2:cafe::db) by PH8PR15CA0016.outlook.office365.com
- (2603:10b6:510:2d2::26) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.21 via Frontend Transport; Thu,
- 30 Apr 2026 23:27:00 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SA2PEPF00001505.mail.protection.outlook.com (10.167.242.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9870.22 via Frontend Transport; Thu, 30 Apr 2026 23:26:59 +0000
-Received: from bmoger-ubuntu.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Thu, 30 Apr
- 2026 18:26:57 -0500
-From: Babu Moger <babu.moger@amd.com>
-To: <corbet@lwn.net>, <tony.luck@intel.com>, <reinette.chatre@intel.com>,
-	<Dave.Martin@arm.com>, <james.morse@arm.com>, <tglx@kernel.org>,
-	<bp@alien8.de>, <dave.hansen@linux.intel.com>
-CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <babu.moger@amd.com>,
-	<mingo@redhat.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
-	<rdunlap@infradead.org>, <pawan.kumar.gupta@linux.intel.com>,
-	<feng.tang@linux.alibaba.com>, <dapeng1.mi@linux.intel.com>,
-	<kees@kernel.org>, <elver@google.com>, <lirongqing@baidu.com>,
-	<paulmck@kernel.org>, <bhelgaas@google.com>, <seanjc@google.com>,
-	<alexandre.chartre@oracle.com>, <yazen.ghannam@amd.com>,
-	<peterz@infradead.org>, <chang.seok.bae@intel.com>, <kim.phillips@amd.com>,
-	<xin@zytor.com>, <naveen@kernel.org>, <thomas.lendacky@amd.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<eranian@google.com>, <peternewman@google.com>,
-	<sos-linux-ext-patches@mailman-svr.amd.com>
-Subject: [PATCH v3 12/12] fs/resctrl: Allow user space to write kmode_cpus / kmode_cpus_list
-Date: Thu, 30 Apr 2026 18:24:57 -0500
-Message-ID: <959cb9b930288c144ff4a2654de90e956a070dc9.1777591497.git.babu.moger@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1777591496.git.babu.moger@amd.com>
-References: <cover.1777591496.git.babu.moger@amd.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.19; Thu, 30 Apr
+ 2026 23:40:12 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::bfe:4ce1:556:4a9d%5]) with mapi id 15.20.9870.020; Thu, 30 Apr 2026
+ 23:40:12 +0000
+Message-ID: <8939476b-1e1b-4aed-88a3-5b8764a63030@intel.com>
+Date: Thu, 30 Apr 2026 16:40:08 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/8] x86/resctrl: Support for AMD Global (Slow) Memory
+ Bandwidth Allocation
+To: "Moger, Babu" <bmoger@amd.com>, Babu Moger <babu.moger@amd.com>,
+	<corbet@lwn.net>, <tony.luck@intel.com>, <tglx@kernel.org>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <skhan@linuxfoundation.org>, <x86@kernel.org>, <Dave.Martin@arm.com>,
+	<james.morse@arm.com>, <hpa@zytor.com>, <akpm@linux-foundation.org>,
+	<rdunlap@infradead.org>, <dapeng1.mi@linux.intel.com>, <kees@kernel.org>,
+	<elver@google.com>, <lirongqing@baidu.com>, <ebiggers@kernel.org>,
+	<paulmck@kernel.org>, <seanjc@google.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <nikunj@amd.com>,
+	<yazen.ghannam@amd.com>, <peterz@infradead.org>, <chang.seok.bae@intel.com>,
+	<kim.phillips@amd.com>, <thomas.lendacky@amd.com>, <naveen@kernel.org>,
+	<elena.reshetova@intel.com>, <xin@zytor.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <eranian@google.com>,
+	<peternewman@google.com>
+References: <cover.1776980182.git.babu.moger@amd.com>
+ <cb8272dc-4419-45a9-8cb4-110c803e62ee@intel.com>
+ <797e863c-211b-46b8-b404-de53f8453527@amd.com>
+Content-Language: en-US
+From: Reinette Chatre <reinette.chatre@intel.com>
+In-Reply-To: <797e863c-211b-46b8-b404-de53f8453527@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: MW3PR05CA0017.namprd05.prod.outlook.com
+ (2603:10b6:303:2b::22) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb07.amd.com (10.181.42.216) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA2PEPF00001505:EE_|PH0PR12MB8175:EE_
-X-MS-Office365-Filtering-Correlation-Id: c126eade-eb81-4b0b-ddf1-08dea70ffa27
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SA1PR11MB8376:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0c25e3a1-66e6-485c-b788-08dea711d274
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|7416014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	o3CTlTFoOmP/wqv8rw0rQmzK+kp00TWzjsb/qMsP8Yby203r4PQfB06yrWdw6CMLOurdVsWi19Y+8f164QKmuIGHh1muf3OUH0JpPAmqTYhPMLls8J9c1ijU0EbnzM/ZKO82QhXh2XPODtTEtHEaUshqElm2zJnWYqVxbmoFBgejooginieWsStQxrfb8clEr/iHIB31ws1r0Jc9DJBioxra5VHGX2zA3UAVPziR+mT/2Dp86RAl9XXIHKgX+4ZTZZ80FylvAYqsGX7sJAgsFVjMVYAPn6+y+jv0TOQCJtiDggh6RWCEUE38NA++vlDhGP9GUjz0W4h/3Ybi2FqsgU3SZcHtmnHGfUPntTW2OyTPoSRqLKObwIYVxGcu5I1r/7pKGhy0knPaBJpdKP0n1M5gZr5aoUHgSWj/etU8lBZlskPTUFMTzrljIIMgYvy7ckO3YOrMWZouYYuYPEPGy5VnTD/aB+TVuW+oxIOv5mUsanycfQOrug0EAM1otiM3x/lMfekfTBc6NFXXGCPRzKGWKxeb0uNQ4x/Y2fmHS1farL/jFOnu37nNMcQ7LNNdr75u7uJotx1uG+8uGX/xo5Gk9mPx5zij+NmrZBX4QYm2TdOjnY1I8qtLd4/R1uR3XEghT5j4kRX1o51AgLgRg7TLjvNnrE9guf9Qa+fA78ANsxQ65k5ujjV91j5pmPtYr/TK8qfYS5tASwX/P4BymdB0pDZHoH3H8BJncLG4QcA=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(7416014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|20046099003|13003099007|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info: 3EwGF7mn32mSy//54EKdcGG1g6POHOJ36n4MaOpl7g0p93CK5m4rPI1jtb+2oXf9B4me0OsFvmdQSzQVnAaa3EbL5bYCVQRu1UForTywtp1/+J10ZNbe6QC7oCaCL9L17ZsHgRJ+KwexXvIF1Xax41gdhlLQRubEgmsIxjlPPTGA/ZT7i3hXNCioKPVlmNsnDcbkWU7y64WHymYXfcp90FfVPQjsfV49J6Uo7ArQgQ44yR5TYKvxoMvgtZlG97D544pEfcBIM++FEncE+F+xGR9pXKsYsOPMrmtzpKDAaavrt5+JoLnykpoQEn9UXQ674/ar3pf6YZGdIYSr47wu3IRfDaxMdl7jzC/c5qKga0/u+sG3UInXkQW78pGMGEgrPPK4jw6GJ4RvU+5XeX0+dbAWHqoyetAeARuKpe936qbJ5AF1Sd1k4aG53zvKljfqnroQFIbbsdwl/awkjSwxn4j3J9NT4EWdz2W+BiSSxJ1mjj2zXnC8d9PC6fksZwXJsBK3NlfqXYlmlsi+FqBzozSMcW1s1Tqe8/XKwMlct0Z31XuHArrVXKQ/6EwTKjkWz8E3amtRtFWu6i8DFEufbipgz8f2A2AqHNkE3ZGdJfBo4vn0UMn7pXu0CkHsCWnXZOaOH/EWyPYeRkjS95viXg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(20046099003)(13003099007)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	aeb9/UMSJYdszxNIQ0ZmPIQ9kRhNe73u+S/z8NA4G3ZEVbpwXgHRvZH7bNvRyaCM3N3uEvuDkpnBKb7/k8Xc4Zq1ZMMI6qYj6c0LwsIlMm3hkRET/qI+yBw1E4IKvRZ6eUUtGB0SQeTXwYXqpVKF5Ap7gvUSdXEk6Oz845poDkhToszGloiuuqCscuiZ5JiLECvpclSXX0iCPMlbPYRfi9scXEKPWZYGw8EHaZp9rFtvSkYGwE9SuzaWFKjTm4T9VnrVnT8exgySU7XTdQ5PNkTdtE2axf7mb1rExLaU/+jkbhtem4EVyRkQvVHsrCvJGYKsGYV5ivZ9AzegmfTZu4gwO1gRkdIt9gx3pSn+EzYELQxn+mnMthNzaoJMuzNmiTXxAaZYf7xF37zofjeaFrN4N16KUlqyZpybcHWW6kEqm2niUT/1s6L7tbCAxjSA
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 23:26:59.5805
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T01pd1V0aDZ3MjdBb2tVb2pFS0pjSW9wV0N5NEM3WXhLdHA3ZzZvcTVLN1Fx?=
+ =?utf-8?B?UnVsYjYxbXh3ekd6Rll2aERsTmR0c1ZKU2ljMmJvSk96TTlsYXpMVTNzVGpB?=
+ =?utf-8?B?YS9Rb1J4d3NVSGpRT0o0MUlwSnlKaVFzaElvQVA0eUZCTm1OSllZckttL0dE?=
+ =?utf-8?B?SXpkdE1MZ0FtTlROTndsaVlzRDgybjJ1bjRsR2JTQTdSaU1pZHQ3cmNPeTNj?=
+ =?utf-8?B?aXVTcjFaVmw0YmVsR3JqTTUraDNseU1UT2pxQ3puZGRxYytYVFhDemtDYnVK?=
+ =?utf-8?B?aFFsT3M3MmVNVVAycFVtUW5KNWNIMnBzdENpN1U4UDIrMlh0ZXZyMzVwZ1ZB?=
+ =?utf-8?B?amdySG9TU01IQWVKKzNtZnYxZHh2M2U1dDE3b2g2UGF6Um9SS3cvNTlQcVNn?=
+ =?utf-8?B?SXpZYlYxZEVZMEEzRHNxV1dsWndIa25LZFlxeEYwMGhLMFFicjY4WmdpaHRQ?=
+ =?utf-8?B?aHVRRlhkU1pzZ2pIU1VqTm5yL2FNT3lTZ1FTV05WWGttNldzZ3BHLzkzUHFF?=
+ =?utf-8?B?S2JIUndYV08rNHhUc2RtRmFkVGo0a2hrZUhGelZjK3lZc2NmakxKci9nWC90?=
+ =?utf-8?B?OXpTS1ptRFZWamtnMHhINTNSWGhXN25OakJCZ3R4OVdOaENiYU1GTGxkRkxM?=
+ =?utf-8?B?RWdVSC85MW4zODN1NW1POEYzeHRia2RqM01hSHJ1cVB5S2tXQWhGaGpsUmUv?=
+ =?utf-8?B?RHFsWlJjS1pRMDBrZ3g1UHhQUms1K280N3RNUkptYTFrSXdFbEQyOHpBSHdU?=
+ =?utf-8?B?d1pPSjFuTGVWalJCRDZxWGVva2lWRCtpdnRncVdsT1ZWRE5VSnk3b3J3SHVY?=
+ =?utf-8?B?RlFVc0NyQTJaZ1puVmFIbkk0OUd3MDd6UlE4RmpUR0dKUHZ2bmpvYWtUckFE?=
+ =?utf-8?B?N3JVek14NXBuZ3NSSmFMaTRjaXdXL2p5ek1kSUVETHM4SnhuSEdnaWNSVXNL?=
+ =?utf-8?B?U3MxYkJXL241ZmpSQkVsbnk2UUlxQ1NXYlBKNW4rWHEwMXBoeTJXU2d4N2Vq?=
+ =?utf-8?B?N0J4WGdMU1FDdStjRVNVV2dXQUNWa2VWTVRxNmxBOGhUTnBKbEs1TFYrNmtR?=
+ =?utf-8?B?bFBqWG5zcEhFeDBESGlPZnFzWmNkd2Q4YWZ3S096cmlaWHFEcTRkNlJVdUhK?=
+ =?utf-8?B?bjBmWDdWRUExSjBRYmV0Y1dsUlpPVGNqUVV0TDlwMFR1RlA0RVViYnBIaFZS?=
+ =?utf-8?B?TWV4eWVsQUJoTDBBb2FTbjM4NmJLVnJyRTlnRlJBNCs3L3NjaDQ5cjVhVncx?=
+ =?utf-8?B?NWliVmVNN0V5L2NrbjM3MlFvaFZ1YzVldXlHWTh4OEpPVW1jWkxPQmNDZk1i?=
+ =?utf-8?B?ZDZxb3kxMk54SE1SMUZBNXNnU2hsR0ppMkV2RjlIcnQvVmlnSVRFNzZGelFj?=
+ =?utf-8?B?YU0zMHQ1bHU1Q1dGSkcyTk1HOTRZN20rL2ZVUlJ1Sm0wUUQ0MjBoY1R2L1Nu?=
+ =?utf-8?B?QUViaTF2OEsrcGFvSFVKa0pCR1hEWVZlRktibUc5bnV4S1JPNTNCd1JoRUdQ?=
+ =?utf-8?B?WmdNQnIvYVVjTFFPNXQ2WjQvTVR5UlZGdFJzUkVKd0VLalFFUDdYOGxuRVoz?=
+ =?utf-8?B?ekVIci81a05BYm11SGE2U01kUm8xOVFVMjZYZVhIVEtQUU05MFRqc2hwblFR?=
+ =?utf-8?B?Si9NN2o2WFBmM3ZFSG1oY1FoekJML2R1aXFlWFJtNVVld3ZtNWpac3VEQzlV?=
+ =?utf-8?B?MG9iQ0FJL1diak1Zc1p1ZGkxb21XdS9hNG5TamlTVkFRYTFjTHprM2UxUlUy?=
+ =?utf-8?B?MFNEVjBUNDJnQkErNWt5V0hJU0RaOE11MXhvOUFRZDJIeFpoaG1sSTRuTVE2?=
+ =?utf-8?B?TU5CMlIwWkpKTlpJYldva1IrYlFUUFI1M053UUZDeVlsdnJhSkMvb0tsTDJ4?=
+ =?utf-8?B?elNYVXVzYXZGRVE3a1BOcktqbk1iRW9OaStEY3RZQnBoZFM1WkRxOWlIUGs0?=
+ =?utf-8?B?eUNBOUJxSmZ6amJWUmUrK3hBRTdSa2s0cWMzUDdrczF4cHY3dml1REQ1ejFP?=
+ =?utf-8?B?a1R0MEUrVGRGSnIwaG0xMlkzZnhSR2d2OThBcmtPVzJFUUM2YkVReUs3SjQ2?=
+ =?utf-8?B?L0MyU2w3a25YZXpxR3VqaC9mejJOenJ6UFVBc09RaUhkV05hREU2cGJqUTRa?=
+ =?utf-8?B?dGFoL0J6NnNBSmZ3Y3liSkJUTnYzTTVZMTV0WW15elYvREpkd1Z4NTF0akNQ?=
+ =?utf-8?B?VldJSFA3c0pTRkRTQWQyM0NtbkdGR2daTkowTjkxeTNQand0L21iWWJvMjJC?=
+ =?utf-8?B?ZThrenpsMlpWdEw1SEUrNkVoYi9iUmJZdzJDaTdsU0R5bm5ySm5CL2svN29o?=
+ =?utf-8?B?UVRGMGREeThJZUllWWw5OWtUR3pXd3lPYmdUckppbHFnd3doQm9PSGdEMkla?=
+ =?utf-8?Q?x4xqArHSKw/LmEm0=3D?=
+X-Exchange-RoutingPolicyChecked: rGIOJXw4arJx+v71bYLan/u1DoB50XE9rVMZRj2T2mqW58ImcQIaRhqbC+VLS37AF3sz600u9RV5dr+Obt2upOGzr+tlkzzCAMpzYuvEQCeo3u6ihVzHc74a5wBjPqeHI3KdDgPgxN3Kw2o3Sb1LhotoKsq/6otFD87CCckYi5Los9FIWmyMAelP3jfHPDR+ZNZ30FdBX5LPyqrwBSxCj0SkJ99Eny8q4avvBi+Uwb5jwvzSmfiNYHYYPTZsHH0n2NMsJwpfDuCJ6riPn/q/jv3ogw+dc6vjaoPtTaQfxzs0nDXKyLf0Cs6R77hcC4ktFszouNM5L8auFbxAWEilIQ==
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c25e3a1-66e6-485c-b788-08dea711d274
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 23:40:12.1789
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c126eade-eb81-4b0b-ddf1-08dea70ffa27
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SA2PEPF00001505.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8175
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: syhDwfhMpIg/J1nZ1mULgiQKe8kIZ2wNpFgniZgN0PCO6j0wX4zQTtUxf0mzZAWR+EE/tbinU7jauNDIDgAkQ24fhYxl/Hh5rgEzxxZ1m2s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8376
+X-OriginatorOrg: intel.com
 
-The kmode_cpus and kmode_cpus_list files are read-only, so adjusting
-the per-group CPU scope after a bind requires a full unbind/rebind via
-info/kernel_mode -- reprogramming hardware on every online CPU even
-for a single-CPU change.
+Hi Babu,
 
-Make both files writable (mode 0644).  The handler validates the input
-(rejecting pseudo-locked groups and offline CPUs), computes the delta
-between rdtgrp->kmode_cpu_mask and the new mask, and reprograms
-hardware incrementally: only the CPUs whose enable state changes hit
-resctrl_arch_configure_kmode().  The new mask is then stored in
-rdtgrp->kmode_cpu_mask so the next rdtgroup_config_kmode() at re-bind
-sees it.
+On 4/30/26 4:04 PM, Moger, Babu wrote:
+> Hi Reinette,
+> 
+> On 4/29/2026 5:34 PM, Reinette Chatre wrote:
+>> Hi Babu,
+>>
+>> On 4/23/26 6:41 PM, Babu Moger wrote:
+>>>
+>>> This series adds resctrl support for two new AMD memory-bandwidth
+>>> allocation features:
+>>>
+>>>    - GMBA  - Global Memory Bandwidth Allocation (hardware name: GLBE).
+>>>              Bounds DRAM bandwidth for groups of threads that span
+>>>              multiple L3 QoS domains, rather than being per-L3 like MBA.
+>>>
+>>>    - GSMBA - Global Slow Memory Bandwidth Allocation (hardware name:
+>>>              GLSBE). The CXL.memory / slow-memory counterpart of GMBA,
+>>>              analogous to how SMBA relates to MBA.
+>>>
+>>> Both features share a new "NPS-node" control domain: a set of QoS (L3)
+>>> domains grouped together and aligned to the system's NPS (Nodes Per
+>>> Socket) BIOS configuration. Although the control domain is NPS-scoped,
+>>> the underlying bandwidth-limit MSRs (MSR_IA32_GMBA_BW_BASE 0xc0000600,
+>>> MSR_IA32_GSMBA_BW_BASE 0xc0000680) are instantiated per L3. Programming
+>>> a single control domain therefore requires writing the MSR on one CPU
+>>> per L3 that the domain spans - a new pattern for resctrl. Patches 2/8
+>>> and 3/8 introduce that infrastructure so the new resources can reuse
+>>> it.
+>>>
+>>> The features are documented in:
+>>>
+>>>    AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
+>>>    Publication # 69193 Revision 1.00, Issue Date March 2026
+>>>
+>>> available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
+>>>
+>>> Series overview
+>>> ---------------
+>>>
+>>> Patches 1-5 to enable GMBA:
+>>>
+>>>    1/8  x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
+>>>
+>>>    2/8  x86/resctrl: Add RESCTRL_NPS_NODE scope for AMD NPS-aligned domains
+>>>         Add a new ctrl_scope value for resctrl resources whose control
+>>>         domain spans multiple L3s within an NPS node.
+>>>
+>>>    3/8  x86/resctrl: Update control MSRs per L3 for NPS-scoped resources
+>>>         Add resctrl_arch_update_nps(): builds a cpumask with one CPU per
+>>>         distinct L3 in the domain, then issues rdt_ctrl_update() via
+>>>         smp_call_function_many() on that mask. Falls back to the full
+>>>         domain mask if the scratch masks cannot be built. Route
+>>>         resctrl_arch_update_domains() and resctrl_arch_reset_all_ctrls()
+>>>         through this helper when ctrl_scope == RESCTRL_NPS_NODE.
+>>>
+>>>    4/8  x86,fs/resctrl: Add the resource for Global Memory Bandwidth Allocation
+>>>         Register RDT_RESOURCE_GMBA in rdt_resources_all[] with
+>>>         ctrl_scope=RESCTRL_NPS_NODE and schema_fmt=RANGE, add commands to
+>>>         discover feature details.
+>>>
+>>>    5/8  fs/resctrl: Add the documentation for Global Memory Bandwidth Allocation
+>>>         Add examples in Documentation/filesystems/resctrl.rst.
+>>>
+>>> Patches 6-8 to enable GSMBA in the same shape:
+>>>
+>>>    6/8  x86,fs/resctrl: Add support for Global Slow Memory Bandwidth Allocation
+>>>
+>>>    7/8  x86,fs/resctrl: Add the resource for Global Slow Memory Bandwidth Allocation
+>>>         Register RDT_RESOURCE_GSMBA with ctrl_scope=RESCTRL_NPS_NODE.
+>>>
+>>>    8/8  fs/resctrl: Add the documentation for Global Slow Memory Bandwidth Allocation
+>>>         Add examples in Documentation/filesystems/resctrl.rst.
+>>>
+>>> Changes since v1
+>>> ----------------
+>>>    - Earlier sent RFC(v1) with Global Bandwidth Enforcement (GLBE) and
+>>>      Privilege Level Zero Association (PLZA). This series only handles
+>>>      Global Memory Bandwidth Allocation. Both the features are sent separately.
+>>>
+>>>    - Documentation
+>>>        * Fixed grammar in the GMBA / GSMBA sections of resctrl.rst.
+>>>        * Added examples to update GMBA and GSMBA in resctrl.rst documentation.
+>>>
+>>>    - Major changes are releated to RESCTRL_NPS_NODE scope handling.
+>>>
+>>>    - Commit messages
+>>>        * Reworked the changelogs in all the patches.
+>>>
+>>> Previous Revisions:
+>>> v1 : https://lore.kernel.org/lkml/cover.1769029977.git.babu.moger@amd.com/
+>>
+>> What are your expectations from this submission? From what I can tell this ignores
+>> v1 feedback in several ways:
+>> - It introduces two new resources, GMBA and GSMBA, when the previous discussion agreed that
+>>    these are not actually new resources but instead new controls for the existing MBA/SMBA resources.
+>> - It does not mention or attempt to address dependency on new resource schema descriptions [1]
+>>    to support user space in understanding how to interact with the new GMBA/GSMBA controls but
+>>    instead defers that to a snippet in the documentation that user space needs to
+>>    parse to know this control operates at multiples of 1GB/s.
+>>
+>> Apart from ignoring v1 feedback this new version appears to complicate user interface even more
+>> since now it is possible for there to be a single control that may operate at different scopes but from
+>> what I can tell there is nothing that helps user understand whether, for example, domain "0" means
+>> the whole system or a NUMA node?
+>>
+>> We have discussed several times now how resctrl interface needs to be enhanced to support
+>> this and other upcoming features from Intel, RISC-V, Arm MPAM, and NVidia. It is thus
+>> unexpected that this submission ignores all the previous discussions.
+> 
+> I think there may be some misunderstanding on this topic.
+> 
+> Yes, we discussed it earlier. It depends on other requirements (region-aware aspects), so I assumed it would be handled by someone with full context and addressed as a separate feature. I didn’t have complete visibility into all the requirements.
 
-Documentation/filesystems/resctrl.rst is updated alongside.
+Please read https://lore.kernel.org/lkml/06a237bd-c370-4d3f-99de-124e8c50e711@intel.com/ again.
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
-v3: New patch to add "kmode_cpus" and "kmode_cpus_list" to support
-    kernel_modes.
----
- Documentation/filesystems/resctrl.rst |  33 +++++
- fs/resctrl/rdtgroup.c                 | 183 +++++++++++++++++++++++++-
- 2 files changed, 214 insertions(+), 2 deletions(-)
+You should have complete visibility into the foundation of this work since one of the
+primary goals is to address the resctrl interface breakage that came with the initial AMD
+support for MBA that resctrl has been living with until now. 
 
-diff --git a/Documentation/filesystems/resctrl.rst b/Documentation/filesystems/resctrl.rst
-index 89fbf8b4fb2a..aebd9a649773 100644
---- a/Documentation/filesystems/resctrl.rst
-+++ b/Documentation/filesystems/resctrl.rst
-@@ -636,6 +636,39 @@ All groups contain the following files:
- "cpus_list":
- 	Just like "cpus", only using ranges of CPUs instead of bitmasks.
- 
-+"kmode_cpus":
-+	Visible only on the rdtgroup currently bound to the active kernel
-+	mode (see "info/kernel_mode"); hidden on every other rdtgroup,
-+	including the default group while INHERIT_CTRL_AND_MON is active.
-+
-+	Bitmask of the logical CPUs scoped for this group's kernel-mode
-+	binding (PLZA on x86).  An empty mask is reported as a bare newline
-+	and is interpreted by the bind path as "every online CPU".
-+
-+	Writing a mask reprograms the binding incrementally: it enables on
-+	the CPUs newly added by the write and disables on the CPUs dropped
-+	from the previous mask.  The mask must be non-empty and contain only
-+	online CPUs; empty masks and masks naming offline CPUs are rejected
-+	with -EINVAL.  To reset the binding to "every online CPU", use
-+	info/kernel_mode to unbind and rebind the group rather than writing
-+	here.  Writes to a group that is not the active kernel-mode binding
-+	are rejected with -EBUSY.  Reading returns -ENODEV for a
-+	pseudo-locked group and -ENOENT for a deleted group; writes to
-+	pseudo-locked or pseudo-lock-setup groups are rejected with
-+	-EINVAL.  Errors are reported in "info/last_cmd_status".  Example::
-+
-+	  # mkdir ctrl1
-+	  # echo "global_assign_ctrl_inherit_mon_per_cpu:group=ctrl1//" \
-+	        > info/kernel_mode
-+	  # echo 0-3 > ctrl1/kmode_cpus_list
-+	  # cat ctrl1/kmode_cpus
-+	  f
-+	  # cat ctrl1/kmode_cpus_list
-+	  0-3
-+
-+"kmode_cpus_list":
-+	Just like "kmode_cpus", only using ranges of CPUs instead of bitmasks.
-+
- 
- When control is enabled all CTRL_MON groups will also contain:
- 
-diff --git a/fs/resctrl/rdtgroup.c b/fs/resctrl/rdtgroup.c
-index cff306d28e79..0eb28dbfd77f 100644
---- a/fs/resctrl/rdtgroup.c
-+++ b/fs/resctrl/rdtgroup.c
-@@ -425,6 +425,183 @@ static int rdtgroup_kmode_cpus_show(struct kernfs_open_file *of, struct seq_file
- 	return ret;
- }
- 
-+/**
-+ * kmode_cpus_write() - Update @rdtgrp's kmode_cpu_mask from @newmask
-+ * @rdtgrp:	Resctrl group whose kmode_cpu_mask is being updated.
-+ * @newmask:	Non-empty set of online CPUs scoped for @rdtgrp's
-+ *		kernel-mode binding.  Callers must reject empty masks
-+ *		before reaching this helper.
-+ * @tmpmask:	Caller-allocated scratch cpumask used to compute the
-+ *		incremental enable/disable deltas; contents on entry are
-+ *		ignored and on return are unspecified.
-+ *
-+ * Compute the difference between @rdtgrp->kmode_cpu_mask and @newmask
-+ * and call resctrl_arch_configure_kmode() only on the CPUs whose enable
-+ * state actually changes:
-+ *
-+ *  - Empty -> @newmask: the previous mask is the post-bind default
-+ *    "every online CPU", so disable on cpu_online_mask & ~newmask and
-+ *    enable on @newmask.
-+ *  - Non-empty -> @newmask: disable on (old & ~new), enable on
-+ *    (new & ~old).
-+ *
-+ * Then copy @newmask into @rdtgrp->kmode_cpu_mask so subsequent
-+ * show/write operations and the next rdtgroup_config_kmode() at re-bind
-+ * see the updated set.
-+ *
-+ * Context: Caller must hold rdtgroup_mutex (taken by
-+ * rdtgroup_kn_lock_live()).
-+ *
-+ * Return: 0.
-+ */
-+static int kmode_cpus_write(struct rdtgroup *rdtgrp, cpumask_var_t newmask,
-+			    cpumask_var_t tmpmask)
-+{
-+	u32 closid, rmid;
-+
-+	if (rdtgrp->type == RDTMON_GROUP) {
-+		closid = rdtgrp->mon.parent->closid;
-+		rmid = rdtgrp->mon.rmid;
-+	} else {
-+		closid = rdtgrp->closid;
-+		rmid = rdtgrp->mon.rmid;
-+	}
-+
-+	if (cpumask_empty(&rdtgrp->kmode_cpu_mask)) {
-+		/*
-+		 * Previous mask was empty, which means the binding covers
-+		 * every online CPU.  Drop the CPUs that fall outside
-+		 * @newmask, then (re)assert on @newmask.
-+		 */
-+		cpumask_andnot(tmpmask, cpu_online_mask, newmask);
-+		if (!cpumask_empty(tmpmask))
-+			resctrl_arch_configure_kmode(tmpmask, closid, rmid, false);
-+		resctrl_arch_configure_kmode(newmask, closid, rmid, true);
-+	} else {
-+		/* CPUs dropped from this group: old & ~newmask. */
-+		cpumask_andnot(tmpmask, &rdtgrp->kmode_cpu_mask, newmask);
-+		if (!cpumask_empty(tmpmask))
-+			resctrl_arch_configure_kmode(tmpmask, closid, rmid, false);
-+
-+		/* CPUs newly added: newmask & ~old. */
-+		cpumask_andnot(tmpmask, newmask, &rdtgrp->kmode_cpu_mask);
-+		if (!cpumask_empty(tmpmask))
-+			resctrl_arch_configure_kmode(tmpmask, closid, rmid, true);
-+	}
-+
-+	cpumask_copy(&rdtgrp->kmode_cpu_mask, newmask);
-+	return 0;
-+}
-+
-+/**
-+ * rdtgroup_kmode_cpus_write() - Sysfs write handler for kmode_cpus[_list]
-+ * @of:		kernfs open file (selects bitmap vs range-list parsing via
-+ *		is_cpu_list()).
-+ * @buf:	NUL-terminated input from userspace.
-+ * @nbytes:	Length of @buf, returned on success.
-+ * @off:	File offset (unused).
-+ *
-+ * Parses @buf into a cpumask and rejects:
-+ *   - pseudo-locked / pseudo-lock-setup groups,
-+ *   - writes to a group that is not the active kernel-mode binding
-+ *     (defensive against fds opened while the group was bound; the
-+ *     visibility layer normally hides this file on non-bound groups,
-+ *     but an open fd survives an info/kernel_mode change),
-+ *   - malformed input,
-+ *   - empty masks (use info/kernel_mode unbind/rebind to reset),
-+ *   - masks containing offline CPUs.
-+ *
-+ * Validated masks are passed to kmode_cpus_write() to update
-+ * @rdtgrp->kmode_cpu_mask and reprogram hardware incrementally.
-+ *
-+ * Locking is via rdtgroup_kn_lock_live(), which takes rdtgroup_mutex and
-+ * ensures the rdtgroup is still live for the duration of the write.
-+ *
-+ * Return: @nbytes on success, -ENOENT if the group has been deleted,
-+ * -EINVAL for pseudo-locked groups, malformed input, empty masks, or
-+ * offline CPUs in the requested mask, -EBUSY if the group is not the
-+ * active kernel-mode binding, and -ENOMEM if the scratch cpumasks
-+ * cannot be allocated.
-+ */
-+static ssize_t rdtgroup_kmode_cpus_write(struct kernfs_open_file *of,
-+					 char *buf, size_t nbytes, loff_t off)
-+{
-+	cpumask_var_t tmpmask, newmask;
-+	struct rdtgroup *rdtgrp;
-+	int ret;
-+
-+	if (!buf)
-+		return -EINVAL;
-+
-+	if (!zalloc_cpumask_var(&tmpmask, GFP_KERNEL))
-+		return -ENOMEM;
-+	if (!zalloc_cpumask_var(&newmask, GFP_KERNEL)) {
-+		free_cpumask_var(tmpmask);
-+		return -ENOMEM;
-+	}
-+
-+	rdtgrp = rdtgroup_kn_lock_live(of->kn);
-+	if (!rdtgrp) {
-+		ret = -ENOENT;
-+		goto unlock;
-+	}
-+
-+	rdt_last_cmd_clear();
-+
-+	if (rdtgrp->mode == RDT_MODE_PSEUDO_LOCKED ||
-+	    rdtgrp->mode == RDT_MODE_PSEUDO_LOCKSETUP) {
-+		ret = -EINVAL;
-+		rdt_last_cmd_puts("Pseudo-locked group cannot host kernel-mode binding\n");
-+		goto unlock;
-+	}
-+
-+	/*
-+	 * The visibility layer (kernfs_show()) prevents fresh open() on a
-+	 * non-bound group, but file descriptors opened while the group was
-+	 * bound stay valid across an info/kernel_mode change.  Reject those
-+	 * stale-fd writes so they cannot corrupt the now-active binding.
-+	 */
-+	if (rdtgrp != resctrl_kcfg.k_rdtgrp ||
-+	    resctrl_kcfg.kmode_cur == BIT(INHERIT_CTRL_AND_MON)) {
-+		ret = -EBUSY;
-+		rdt_last_cmd_puts("Group is not the active kernel-mode binding\n");
-+		goto unlock;
-+	}
-+
-+	if (is_cpu_list(of))
-+		ret = cpulist_parse(buf, newmask);
-+	else
-+		ret = cpumask_parse(buf, newmask);
-+
-+	if (ret) {
-+		rdt_last_cmd_puts("Bad CPU list/mask\n");
-+		goto unlock;
-+	}
-+
-+	if (cpumask_empty(newmask)) {
-+		ret = -EINVAL;
-+		rdt_last_cmd_puts("Empty mask not allowed; use info/kernel_mode to unbind\n");
-+		goto unlock;
-+	}
-+
-+	/* kernel-mode binding is only programmed on online CPUs. */
-+	cpumask_andnot(tmpmask, newmask, cpu_online_mask);
-+	if (!cpumask_empty(tmpmask)) {
-+		ret = -EINVAL;
-+		rdt_last_cmd_puts("Can only assign online CPUs\n");
-+		goto unlock;
-+	}
-+
-+	ret = kmode_cpus_write(rdtgrp, newmask, tmpmask);
-+
-+unlock:
-+	rdtgroup_kn_unlock(of->kn);
-+	free_cpumask_var(tmpmask);
-+	free_cpumask_var(newmask);
-+
-+	return ret ?: nbytes;
-+}
-+
- /*
-  * Update the PGR_ASSOC MSR on all cpus in @cpu_mask,
-  *
-@@ -2621,15 +2798,17 @@ static struct rftype res_common_files[] = {
- 	},
- 	{
- 		.name		= "kmode_cpus",
--		.mode		= 0444,
-+		.mode		= 0644,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
-+		.write		= rdtgroup_kmode_cpus_write,
- 		.seq_show	= rdtgroup_kmode_cpus_show,
- 		.fflags		= RFTYPE_BASE,
- 	},
- 	{
- 		.name		= "kmode_cpus_list",
--		.mode		= 0444,
-+		.mode		= 0644,
- 		.kf_ops		= &rdtgroup_kf_single_ops,
-+		.write		= rdtgroup_kmode_cpus_write,
- 		.seq_show	= rdtgroup_kmode_cpus_show,
- 		.flags		= RFTYPE_FLAGS_CPUS_LIST,
- 		.fflags		= RFTYPE_BASE,
--- 
-2.43.0
+With this series you completely disregard attempts to support users in understanding
+how to interact with the schemata file and instead introduce *another* obfuscated control. I
+will not support this.
+
+Also, no, this does not depend on region-aware work. Needing to support multiple controls for
+a single resource is independent from region-aware.
+
+>> Since there are so many dependencies on the new schema format support I am prioritizing this
+>> and created a PoC that I am currently refining and hope to share soon. We can collaborate on this
+>> to ensure that it provides a good foundation for the GMBA and GSMBA support.
+> 
+> That is good to know. Let me know when you are ready.
+> 
+> Could you please share which parts of the feature (e.g., Part 1, Part 2, etc.) you are planning to cover in your PoC?
+
+All three parts mentioned in https://lore.kernel.org/lkml/06a237bd-c370-4d3f-99de-124e8c50e711@intel.com/
+
+This does not address all the features discussed, for example it does not support emulated controls,
+but I hope it is enough of a foundation to build on.
+
+>> Consider what I describe in [2] - even in that response I speculate that a "scope" may be needed and
+>> this seems to be case. I believe would help this "NPS = 4" scenario. Adding "scope" to what I shared in
+>> [2] may look like:
+>>
+>> info/
+>> └── MB/
+>>      └── resource_schemata/
+>>          ├── GMB/
+>>          │   ├── max:4096
+>>          │   ├── min:1
+>>          │   ├── resolution:1
+>>          │   ├── scale:1
+>>          │   ├── tolerance:0
+>>          │   ├── type:scalar linear
+>>          │   ├── scope:NODE
+>>          │   └── unit:GBps
+>>          └── MB/
+>>              ├── max:8192
+>>              ├── min:1
+>>              ├── resolution:8
+>>              ├── scale:1
+>>              ├── tolerance:0
+>>              ├── type:scalar linear
+>>              ├── scope:L3
+>>              └── unit:GBps
+>>
+>> With a "scope" property of the control user space can know what the domain ID in the
+>> schemata file refers to. In above example the "GMB" control has "NODE" scope so user space knows
+>> that a domain ID refers to NUMA node. If the system is "NPS = 4" then the scope could be,
+>> for example, "SYSTEM" (for the lack of a better term) so that user space knows that "0" means
+>> entire system. What do you think?
+> 
+> Yes. Sound good to me.
+> 
+>>
+>> Also note how the other control properties helps user understand what the schemata file control
+>> values mean. This is what I expected the GMBA/GSMBA enabling to look like ... and you seemed to
+>> agree [3] in v1 discussion. What changed?
+> 
+> Again, I was under the impression that this would be handled as a separate feature and patch series.
+
+Right. And since GMBA/GSMBA depends on it this submission without resolving this this dependency first
+is unexpected.
+
+Reinette
 
