@@ -1,114 +1,155 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE68E7E0FF;
-	Thu, 30 Apr 2026 03:15:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB2F6344DBD;
+	Thu, 30 Apr 2026 03:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777518936; cv=none; b=FMuBsBTbmBFX3vXzd30FlzujZjbaKhHnzofxe36OXUwgyUNojxS+Ty6zroNhkOTFtsinApxS63TmevZbJN+dTOpwNqO0UvvuJYm2E2D+yUwOS+fM9xGkajs0vKTPHQF87bBAjyGH+DsYXuqw2jyY4C5MmG9r6dAAmhHGcByb0fo=
+	t=1777519546; cv=none; b=ipkCa7dVbTX8kjEc/d1Nhw7m56VODeCR1S4NkFAFDp3htkU65m0E5IqGtPkBs1u95Dlc0GtAcQqHHVi/iMwrLyURnKsBXAhJxd6VhPGRaHkRSeGTbSImiB7uLNiePWTnBY7el8WLXkJg5TFRe7n0NoiPUYspeczSn2u28YQrGVg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777518936; c=relaxed/simple;
-	bh=mvpSvKMWoCG60xuK5G87ZW0h44g1nMj9onmCjCXuN08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Oamtd/YwzcVlbdEO00kimNOobpMbq/V9OknNzTVayWNUKDhe9E8qHR6kSbnnn9MlMfu1J+k419SMJaWEoSbVUfxvqjM9sJ37/ic4vc9Xr/0+vNOjqHf2ZDW1NkxTSaZAoO6blV9KAaWhk5SYQzKtgjp48C1pL5SiB8pPa4p1lpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NgUjVS9n; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777519546; c=relaxed/simple;
+	bh=Ut5G69bc29PiPzWoT/741NVv5Kk/lOmdOdb5wKBmZHY=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=oMJPoul8PNqJN8qxyXzoDt53j74wHJg6kb+2ZS0hgqpWdjZGNbOH1It4TJf2ivzRj3tb7vyNx2vyMDZNuY+0yONyH7UOzjDDXVpxGQ9PrY2dHQEyawfmOkUyKSBWQa1B3GsGLAZ5UOKFYciaQK/rWsrPoxF1IimFm8pwH1T2tAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V5dcZx5w; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NgUjVS9n"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777518934; x=1809054934;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mvpSvKMWoCG60xuK5G87ZW0h44g1nMj9onmCjCXuN08=;
-  b=NgUjVS9noiAejoNlcXg77wEKnFOLTsP7aVXEUZ5yHSWTOT+zxVc3Ipnv
-   qxNRFAG1hMjJiMCy03PKuv6E4YMDNRJe0sKr7vkwK2pF1K/ckO1efAEKT
-   Bal4BSjr236d3Az/5Suo2klhhVxzJCiGvHPiJ27wYztFKa7ZfD+XGORWA
-   3WjaklX+Ajql3DV4GvDXbKcDk4E6nj5MRQq/A7a1Q+36CZAnlAQv69rfF
-   GDF2hEdQ+L3LtxVykwO3EsrLAIzk5FBHAxuRYoLWmINj0zhRmsiv71+Rh
-   FVEqNPHxvV1Sa6M0zo9AHSANJaBd3BfWDOh9mB2x+5Brm34yNBm4EFmo1
-   w==;
-X-CSE-ConnectionGUID: DNrwS0rHS0CZSdRgiHbMzg==
-X-CSE-MsgGUID: eyNRQpmnSwqcwdFFlyWwtw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78513783"
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="78513783"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 20:15:34 -0700
-X-CSE-ConnectionGUID: P8oxglENSn2K+pg7WmkCCw==
-X-CSE-MsgGUID: eN54ZgMfQFO9dEZk/h/kFA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="231312463"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Apr 2026 20:15:31 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wIHs8-000000004in-2vm8;
-	Thu, 30 Apr 2026 03:15:28 +0000
-Date: Thu, 30 Apr 2026 05:14:58 +0200
-From: kernel test robot <lkp@intel.com>
-To: Andrew Lunn <andrew@lunn.ch>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Michael Fritscher <michael@fritscher.net>,
-	Byron Stanoszek <gandalf@winds.org>,
-	Daniel Palmer <daniel@0x0f.com>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net v2 15/15] drivers: net: 8390: wd80x3: Remove this
- driver
-Message-ID: <202604300512.3KcfhJGd-lkp@intel.com>
-References: <20260422-v7-0-0-net-next-driver-removal-v1-v2-15-08a5b59784d5@lunn.ch>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V5dcZx5w"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FEFFC2BCB9;
+	Thu, 30 Apr 2026 03:25:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777519545;
+	bh=Ut5G69bc29PiPzWoT/741NVv5Kk/lOmdOdb5wKBmZHY=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=V5dcZx5w6ZsNbkLQRDMzB2RWL/aoneaFsqWWBCOjQU9YtIWRYDD+T+yLL0c1uuBhY
+	 qEq09wxP51HP2ucG5VcbFYEWu1xwrI3mLVWalChYNFLQKJVV2/uPNO5bNsVTmGtBYW
+	 y+MFexZXsUKBzIR9VcaG11CGAPdXCh5mrQ4ITyVmu2dzJeTpqYPZZKRQaFN8mTUumj
+	 qe1015WQ5bGNHETaFFAMkfQbXS+479tE5rufj5GTm7FfEY/F/wwiBzlApZyMLXQ7Xj
+	 eN4jVc9crSFreUj8YqywmtdyQ9MC4GHMaLaL9pIVAuwmWk3hGgC+ZxtKtJbApg/ERF
+	 YZVQLUUCYw1Pw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id DA1FF3809A07;
+	Thu, 30 Apr 2026 03:25:01 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260422-v7-0-0-net-next-driver-removal-v1-v2-15-08a5b59784d5@lunn.ch>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/33] rust: bump minimum Rust and `bindgen` versions
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <177751950055.2274119.12088060080551439561.git-patchwork-notify@kernel.org>
+Date: Thu, 30 Apr 2026 03:25:00 +0000
+References: <20260405235309.418950-1-ojeda@kernel.org>
+In-Reply-To: <20260405235309.418950-1-ojeda@kernel.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: linux-riscv@lists.infradead.org, nathan@kernel.org, nsc@kernel.org,
+ dakr@kernel.org, a.hindborg@kernel.org, catalin.marinas@arm.com,
+ will@kernel.org, pjw@kernel.org, palmer@dabbelt.com, aou@eecs.berkeley.edu,
+ acourbot@nvidia.com, airlied@gmail.com, simona@ffwll.ch,
+ brendan.higgins@linux.dev, david@davidgow.net, gregkh@linuxfoundation.org,
+ arve@android.com, tkjos@android.com, christian@brauner.io,
+ cmllamas@google.com, aliceryhl@google.com, corbet@lwn.net, boqun@kernel.org,
+ gary@garyguo.net, bjorn3_gh@protonmail.com, lossin@kernel.org,
+ tmgross@umich.edu, rust-for-linux@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, lorenzo.stoakes@oracle.com, vbabka@kernel.org,
+ Liam.Howlett@oracle.com, urezki@gmail.com, linux-block@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, alex@ghiti.fr,
+ nouveau@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ raemoar63@gmail.com, linux-kselftest@vger.kernel.org,
+ kunit-dev@googlegroups.com, nick.desaulniers+lkml@gmail.com,
+ morbo@google.com, justinstitt@google.com, llvm@lists.linux.dev,
+ linux-kernel@vger.kernel.org, skhan@linuxfoundation.org,
+ linux-doc@vger.kernel.org
 
-Hi Andrew,
+Hello:
 
-kernel test robot noticed the following build warnings:
+This series was applied to riscv/linux.git (fixes)
+by Miguel Ojeda <ojeda@kernel.org>:
 
-[auto build test WARNING on 1f5ffc672165ff851063a5fd044b727ab2517ae3]
+On Mon,  6 Apr 2026 01:52:36 +0200 you wrote:
+> As proposed in the past in e.g. LPC 2025 and the Maintainers Summit [1],
+> we are going to follow Debian Stable's Rust versions as our minimum
+> supported version.
+> 
+> Debian Trixie was released with a Rust 1.85.0 toolchain [2], which it
+> still uses to this day [3] (i.e. no update to Rust 1.85.1).
+> 
+> [...]
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Andrew-Lunn/drivers-net-3com-3c509-Remove-this-driver/20260424-104110
-base:   1f5ffc672165ff851063a5fd044b727ab2517ae3
-patch link:    https://lore.kernel.org/r/20260422-v7-0-0-net-next-driver-removal-v1-v2-15-08a5b59784d5%40lunn.ch
-patch subject: [PATCH net v2 15/15] drivers: net: 8390: wd80x3: Remove this driver
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260430/202604300512.3KcfhJGd-lkp@intel.com/reproduce)
+Here is the summary with links:
+  - [v2,01/33] rust: kbuild: remove `--remap-path-prefix` workarounds
+    https://git.kernel.org/riscv/c/c8cbe2fc22e4
+  - [v2,02/33] rust: kbuild: remove "`try` keyword" workaround for `bindgen` < 0.59.2
+    https://git.kernel.org/riscv/c/518b9ad2fab3
+  - [v2,03/33] rust: kbuild: remove unneeded old `allow`s for generated layout tests
+    https://git.kernel.org/riscv/c/92cc022f044f
+  - [v2,04/33] gpu: nova-core: bindings: remove unneeded `cfg_attr`
+    https://git.kernel.org/riscv/c/341c51ee3293
+  - [v2,05/33] rust: bump Rust minimum supported version to 1.85.0 (Debian Trixie)
+    https://git.kernel.org/riscv/c/f32fb9c58a5b
+  - [v2,06/33] rust: bump Clippy's MSRV and clean `incompatible_msrv` allows
+    https://git.kernel.org/riscv/c/b6cfba436623
+  - [v2,07/33] rust: allow globally `clippy::incompatible_msrv`
+    https://git.kernel.org/riscv/c/7ed188605e1d
+  - [v2,08/33] rust: simplify `RUSTC_VERSION` Kconfig conditions
+    https://git.kernel.org/riscv/c/b28711ac98e8
+  - [v2,09/33] rust: remove `RUSTC_HAS_SLICE_AS_FLATTENED` and simplify code
+    https://git.kernel.org/riscv/c/9b398d056543
+  - [v2,10/33] rust: remove `RUSTC_HAS_COERCE_POINTEE` and simplify code
+    https://git.kernel.org/riscv/c/4ab22c543f18
+  - [v2,11/33] rust: kbuild: remove skipping of `-Wrustdoc::unescaped_backticks`
+    https://git.kernel.org/riscv/c/0f6e1e0705f0
+  - [v2,12/33] rust: kbuild: remove `feature(...)`s that are now stable
+    https://git.kernel.org/riscv/c/d1aa40daa777
+  - [v2,13/33] rust: transmute: simplify code with Rust 1.80.0 `split_at_*checked()`
+    https://git.kernel.org/riscv/c/f309a6edda53
+  - [v2,14/33] rust: alloc: simplify with `NonNull::add()` now that it is stable
+    https://git.kernel.org/riscv/c/161dd7b51e96
+  - [v2,15/33] rust: macros: simplify code using `feature(extract_if)`
+    https://git.kernel.org/riscv/c/42ec980024f0
+  - [v2,16/33] rust: block: update `const_refs_to_static` MSRV TODO comment
+    https://git.kernel.org/riscv/c/961b72d45ae4
+  - [v2,17/33] rust: bump `bindgen` minimum supported version to 0.71.1 (Debian Trixie)
+    https://git.kernel.org/riscv/c/c3a00a3f31ff
+  - [v2,18/33] rust: rust_is_available: remove warning for `bindgen` 0.66.[01]
+    https://git.kernel.org/riscv/c/41cfbb4295cf
+  - [v2,19/33] rust: rust_is_available: remove warning for `bindgen` < 0.69.5 && libclang >= 19.1
+    https://git.kernel.org/riscv/c/ae64324ad5c1
+  - [v2,20/33] rust: kbuild: update `bindgen --rust-target` version and replace comment
+    https://git.kernel.org/riscv/c/276ed30c558e
+  - [v2,21/33] rust: kbuild: remove "dummy parameter" workaround for `bindgen` < 0.71.1
+    https://git.kernel.org/riscv/c/93553d9922b0
+  - [v2,22/33] docs: rust: quick-start: openSUSE provides `rust-src` package nowadays
+    https://git.kernel.org/riscv/c/53c9647c0a48
+  - [v2,23/33] docs: rust: quick-start: update Ubuntu versioned packages
+    https://git.kernel.org/riscv/c/982e1aa6de73
+  - [v2,24/33] docs: rust: quick-start: update minimum Ubuntu version
+    https://git.kernel.org/riscv/c/6767147cb941
+  - [v2,25/33] docs: rust: quick-start: add Ubuntu 26.04 LTS and remove subsection title
+    https://git.kernel.org/riscv/c/780f847e1419
+  - [v2,26/33] docs: rust: quick-start: remove Gentoo "testing" note
+    https://git.kernel.org/riscv/c/99c672426aed
+  - [v2,27/33] docs: rust: quick-start: remove Nix "unstable channel" note
+    https://git.kernel.org/riscv/c/b69a14650009
+  - [v2,28/33] docs: rust: quick-start: remove GDB/Binutils mention
+    https://git.kernel.org/riscv/c/a4392ed1c8b9
+  - [v2,29/33] docs: rust: general-information: simplify Kconfig example
+    https://git.kernel.org/riscv/c/9375ea727d7e
+  - [v2,30/33] docs: rust: general-information: use real example
+    https://git.kernel.org/riscv/c/86c5d1c6740c
+  - [v2,31/33] rust: declare cfi_encoding for lru_status
+    https://git.kernel.org/riscv/c/9e5946de3a38
+  - [v2,32/33] rust: kbuild: support global per-version flags
+    https://git.kernel.org/riscv/c/b2aa1535ecdd
+  - [v2,33/33] rust: kbuild: allow `clippy::precedence` for Rust < 1.86.0
+    https://git.kernel.org/riscv/c/2e2f8b5a0656
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604300512.3KcfhJGd-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Non-Preserved Properties
-   ======================== [docutils]
->> Documentation/networking/device_drivers/ethernet/index.rst:10: WARNING: toctree contains reference to nonexisting document 'networking/device_drivers/ethernet/3com/3c509' [toc.not_readable]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:48: ERROR: Unexpected section title.
-
-
-vim +10 Documentation/networking/device_drivers/ethernet/index.rst
-
-132db93572821e Jakub Kicinski 2020-06-26   7  
-132db93572821e Jakub Kicinski 2020-06-26   8  Contents:
-132db93572821e Jakub Kicinski 2020-06-26   9  
-132db93572821e Jakub Kicinski 2020-06-26 @10  .. toctree::
-
+You are awesome, thank you!
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
