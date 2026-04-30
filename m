@@ -1,401 +1,133 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7902478E20
-	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 17:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87FEE3FFADF
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 17:55:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777570611; cv=none; b=JykkpkXvbo+8AVyjVWkVvtoHlo7Sa1CucpY5hUqJxKTlLeW6tyAqs4KsPc/qTKui6YDES55x5uTuae8HInzAnNhzo/TcNk1Nqh0SdS5NMTr+ZfRfNL5hLzV4BMHMdHGMFRakJR52rJxMms5wwSXx9fCo1tufM6kLIwWYHr6BMD8=
+	t=1777571722; cv=none; b=UfXMNetadZhg+IZdKlG/jtPTc87Tns1PGJYavB4raptKDGFAsAhXTNh98J6ZQ4+tMlPv4MjoopP0XLR7rZ4Wc0oa6logc0ddlh5SDpRqGZILjX6rZ1OXsHwJCUQ42EmVbeym5GF9Z/iAeNv4LjrHIm/h8FJQF4Ca4YLDGIXRNU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777570611; c=relaxed/simple;
-	bh=gyjeCm4C6s/g+YxN83efSIDXOaboBpxUC+pv8Xyj7L0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Hac7ua2sweKr4pTXOZetHX4e1uQvhZrVSLDTmK54W+HY0qN5VwyN5N5AZiILGeT1SHLsPDkDQ85US9N22whVk18/bVHX2YduED+llGtFaXypDqH5JBmJy0rsRn1FTeiLdjRA8N4KpWDEvVXwL3aVX9ElJcRUg0cZdFhg80AmhzA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=bHolFLsZ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777571722; c=relaxed/simple;
+	bh=ipKUp57GyoRW23THF7J1POdt4/WFPMNT/SoRXwdqPnQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sBr72g/BRNkewdpzVBU7f+msKTB5CrI75wNOUzGS6ktp/MZJQkzWok0nLjbcJs1qY0AJilJAZz0gvcpfduZ/sKTsE85CFaaYafKGwMdTCqqjFET7fDeSTcVfO95LFG99FzuslsJZk8BDRMr2aDzVVad4I/BaXShPKYMKYw2K1cU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OLCv5u4s; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="bHolFLsZ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777570599;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4Fvbn2nUgyC7Geb8di9ysUEYNo+TOhgpJ3gf7mQkWWY=;
-	b=bHolFLsZa3Vs4jN6as2bIfcTU3yLHpb94ndko1pUpXBWQyt8LzzxKzyLCD/QFwezx6JHjL
-	rICzeLCQ5Ma00Ni1+bKwMwStyg4AkpfCqcv5UQZLhB9losU/cfFDxIzbSN4OG+VpS6CTG+
-	ixGnLkLp21lmeKMKPkU5AnIHJwdal9U=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-503-UUmbBOKiMou8G0lDUf0osg-1; Thu,
- 30 Apr 2026 13:36:35 -0400
-X-MC-Unique: UUmbBOKiMou8G0lDUf0osg-1
-X-Mimecast-MFC-AGG-ID: UUmbBOKiMou8G0lDUf0osg_1777570593
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0AE1E195609F;
-	Thu, 30 Apr 2026 17:36:33 +0000 (UTC)
-Received: from p16v.redhat.com (unknown [10.44.49.13])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B3B03180045E;
-	Thu, 30 Apr 2026 17:36:26 +0000 (UTC)
-From: Ivan Vecera <ivecera@redhat.com>
-To: netdev@vger.kernel.org
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Jiri Pirko <jiri@resnulli.us>,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OLCv5u4s"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-82f69a286dbso877837b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 10:55:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777571721; x=1778176521; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+IcSJbY4/m6vzsR5njH8V/sOHCSKFEcfIX9jSdaOTSk=;
+        b=OLCv5u4sOa6xGMfSR/riRqc3tnyoACgt7g6hTcus/op6gSxTFVrWfMy/sJi0ZI73pM
+         q3ntHCbXQJIdS9XzSz/CAeL7Tk+c/EP2xVQfTY5oGmuUJbq4MkOoIqoupsvU1buyqfeg
+         mp5ZNFk1UpSYACA9psv4MWBn6iME3e5Lw5SUwICHRNFZU7hcf/h3mhCPT8xLo6TULjgE
+         vo5fhJIVcMLxXu/PmlnGq3QjF2on1VRBEAfLMSCgaOSFVSNPNlbfEsK0kdohZgVdnM8s
+         kCRgQCWEXnuFP7/1ofmho0g22GYrP79XQnBVz2Y570wM7J0QKxqUoEiduoTv+5OLEE0V
+         4WPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777571721; x=1778176521;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=+IcSJbY4/m6vzsR5njH8V/sOHCSKFEcfIX9jSdaOTSk=;
+        b=IOG+6pg7dUKAZyTqRh6bzAYNZekwsP1r8HbFS/qSCbD5OWr6ormUKfuLNiY1Nty/cq
+         aPmRtkhrlSxcwN0dqg8UFUE3hXNayRr8bl62Ad7qb3F9CfY/mhO14bgrKFMqd3+2kuTW
+         K73PSONE6Kl4UyxKxbGpNR8XmHNpZiCst7cMq3YOyCuZ+5i295v2Sxq/APhI3wx0zFnM
+         mf2Bu5KwIyhXOyHsqoDCq69f89Bae1vMnhz7R2R/vBE8wzkW0zqbZDiwQe1MoD+jQtIp
+         xmPgS62NgYCpTBKPjoAqewFRBNjTIxFTr6dukBf9zp2S7vNCQS0fW2FFbWm7DXZuzFYS
+         oPNA==
+X-Forwarded-Encrypted: i=1; AFNElJ9zmds7+pmX3QqMANQeRNz7RKJlnbUAUKQWX9gWoH1kKS9/QRdBhRk4zZDE6JhZc44eZThkhLfW1fM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjGKV+/SjAfUxM64pcXfTPnVlUw986tPiahP6UlNTHz5PXdlzB
+	fh8wH+Hrypz2es+pFPL7V9hnHcEDpBSitJZf+8Yj80NGSv+ZwBTQs/qEDOfZWQ==
+X-Gm-Gg: AeBDieuaLXDiI0SbeTzVL45KTt4IZkwiuerJGgp0u9MVoFhHM3mA7ar4MTUhWYLzsbi
+	GKrvQ8aeSGV/iu445koD/n8te6cWHF/jXCblFyNdsMJFzkloyIlZTE+3Ga5OeVuR1Xe8Lg10Xho
+	0XDlwe0yh0zlHkWVCiJXkwrxg5ZRI+9+Z7pTCM+2EiLRyfW+/gQdfKvbvHINMVIub5IVd34KgAb
+	IGsUd4xuNCTcshGspZdJux/jx8sX3yXLWOgzLTFBsH0yhC+UVSy9sFBCYtOL+WLDALtt263xFhU
+	oCdSeZCl8pHc6hIo7DrMU942qzuJa5IoUYitfKwd9nyV1jbkadcjkHGD6+5N49ZI2Sug+aSldEO
+	/j25p4eW7RiD6R2JmEjE9yntbJZC9FoTqYou+a9bpkxoWTa3mszJGkLVQbqgx+oSchIBDC+OdXa
+	DfkTyTDa/hOk4Bkq9tG8+g5IfnfTnafPxUQ2MNKNn0an7QrFY=
+X-Received: by 2002:a05:6a00:e08:b0:82f:8b20:9165 with SMTP id d2e1a72fcca58-834fdc6d2c0mr4706115b3a.44.1777571720927;
+        Thu, 30 Apr 2026 10:55:20 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8351582ee04sm256974b3a.5.2026.04.30.10.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 30 Apr 2026 10:55:20 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 30 Apr 2026 10:55:19 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Bloch <mbloch@nvidia.com>,
-	Michal Schmidt <mschmidt@redhat.com>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Pasi Vaananen <pvaanane@redhat.com>,
-	Petr Oros <poros@redhat.com>,
-	Prathosh Satish <Prathosh.Satish@microchip.com>,
-	Saeed Mahameed <saeedm@nvidia.com>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Simon Horman <horms@kernel.org>,
-	Tariq Toukan <tariqt@nvidia.com>,
-	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rdma@vger.kernel.org
-Subject: [PATCH net-next v2 2/2] dpll: zl3073x: report FFO as DPLL vs input reference offset
-Date: Thu, 30 Apr 2026 19:36:11 +0200
-Message-ID: <20260430173611.3312596-3-ivecera@redhat.com>
-In-Reply-To: <20260430173611.3312596-1-ivecera@redhat.com>
-References: <20260430173611.3312596-1-ivecera@redhat.com>
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/max20830) add driver for max20830
+Message-ID: <63e770a5-1740-4144-9c5b-929fff8413b1@roeck-us.net>
+References: <20260417-dev_max20830-v3-0-0cb8d56067aa@analog.com>
+ <20260417-dev_max20830-v3-2-0cb8d56067aa@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260417-dev_max20830-v3-2-0cb8d56067aa@analog.com>
 
-Replace the per-reference frequency offset measurement (which was
-redundant with measured-frequency) with a direct read of the DPLL's
-delta frequency offset vs its tracked input reference.
+,
 
-The new implementation uses the dpll_df_offset_x register with
-ref_ofst=1 via the dpll_df_read_x semaphore mechanism. This
-provides 2^-48 resolution (~3.5 fE) and reports the actual
-frequency difference between the DPLL and its active input.
+On Fri, Apr 17, 2026 at 04:27:14PM +0800, Alexis Czezar Torreno wrote:
+> Add support for MAX20830 step-down DC-DC switching regulator with
+> PMBus interface. It allows monitoring of input/output voltage,
+> output current and temperature through the PMBus serial interface.
+> 
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> ---
+...
+> +
+> +	/*
+> +	 * Use i2c_smbus_read_i2c_block_data() instead of
+> +	 * i2c_smbus_read_block_data() to support I2C controllers
+> +	 * which do not support SMBus block reads.
+> +	 */
+> +	ret = i2c_smbus_read_i2c_block_data(client, PMBUS_IC_DEVICE_ID,
+> +					    I2C_SMBUS_BLOCK_MAX, buf);
+> +	if (ret < 0)
+> +		return dev_err_probe(&client->dev, ret,
+> +				     "Failed to read IC_DEVICE_ID\n");
+> +
+> +	/* First byte is the block length (including itself). */
+> +	len = buf[0];
+> +	if (len != 9 || ret < len)
+> +		return dev_err_probe(&client->dev, -ENODEV,
+> +				     "IC_DEVICE_ID length mismatch: reported %u, read %d\n",
+> +				     len, ret);
+> +
+> +	/* Data is at buf[1..8], so null terminator goes at buf[9]. */
 
-FFO is now reported only for the active input pin in the nested
-(pin vs parent DPLL) context. Top-level FFO returns -ENODATA.
+I ended up checking the kernel code. As it turns out,
+i2c_smbus_read_i2c_block_data does _not_ return the length in byte 0.
+It returns the first byte of the actual data, and the length as return
+value. See i2c_smbus_read_i2c_block_data() in drivers/i2c/i2c-core-smbus.c.
 
-Rewrite ffo_check to compare the cached df_offset converted to PPT
-instead of using the old per-reference measurement. Remove the
-ref_ffo_update periodic measurement and the ref ffo field since
-they are no longer needed.
+So this can not work as written. Something like
 
-Signed-off-by: Ivan Vecera <ivecera@redhat.com>
----
- drivers/dpll/zl3073x/chan.c | 31 +++++++++++++++++++++++--
- drivers/dpll/zl3073x/chan.h | 14 ++++++++++++
- drivers/dpll/zl3073x/core.c | 45 -------------------------------------
- drivers/dpll/zl3073x/dpll.c | 34 ++++++++++++----------------
- drivers/dpll/zl3073x/ref.h  | 14 ------------
- drivers/dpll/zl3073x/regs.h | 15 +++++++++++++
- 6 files changed, 72 insertions(+), 81 deletions(-)
+        if (i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BLOCK_DATA))
+                ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, data_buf);
+        else
+                ret = i2c_smbus_read_i2c_block_data(client, PMBUS_IC_DEVICE_ID,
+						    I2C_SMBUS_BLOCK_MAX, buf);
 
-diff --git a/drivers/dpll/zl3073x/chan.c b/drivers/dpll/zl3073x/chan.c
-index 2f48ca2391494..2fe3c3da84bb5 100644
---- a/drivers/dpll/zl3073x/chan.c
-+++ b/drivers/dpll/zl3073x/chan.c
-@@ -18,6 +18,7 @@
- int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index)
- {
- 	struct zl3073x_chan *chan = &zldev->chan[index];
-+	u64 val;
- 	int rc;
- 
- 	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_MON_STATUS(index),
-@@ -25,8 +26,34 @@ int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index)
- 	if (rc)
- 		return rc;
- 
--	return zl3073x_read_u8(zldev, ZL_REG_DPLL_REFSEL_STATUS(index),
--			       &chan->refsel_status);
-+	rc = zl3073x_read_u8(zldev, ZL_REG_DPLL_REFSEL_STATUS(index),
-+			     &chan->refsel_status);
-+	if (rc)
-+		return rc;
-+
-+	/* Read df_offset vs tracked reference */
-+	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+				  ZL_DPLL_DF_READ_SEM);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_write_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+			      ZL_DPLL_DF_READ_SEM | ZL_DPLL_DF_READ_REF_OFST);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_poll_zero_u8(zldev, ZL_REG_DPLL_DF_READ(index),
-+				  ZL_DPLL_DF_READ_SEM);
-+	if (rc)
-+		return rc;
-+
-+	rc = zl3073x_read_u48(zldev, ZL_REG_DPLL_DF_OFFSET(index), &val);
-+	if (rc)
-+		return rc;
-+
-+	chan->df_offset = sign_extend64(val, 47);
-+
-+	return 0;
- }
- 
- /**
-diff --git a/drivers/dpll/zl3073x/chan.h b/drivers/dpll/zl3073x/chan.h
-index 481da2133202b..4353809c69122 100644
---- a/drivers/dpll/zl3073x/chan.h
-+++ b/drivers/dpll/zl3073x/chan.h
-@@ -17,6 +17,7 @@ struct zl3073x_dev;
-  * @ref_prio: reference priority registers (4 bits per ref, P/N packed)
-  * @mon_status: monitor status register value
-  * @refsel_status: reference selection status register value
-+ * @df_offset: frequency offset vs tracked reference in 2^-48 steps
-  */
- struct zl3073x_chan {
- 	struct_group(cfg,
-@@ -26,6 +27,7 @@ struct zl3073x_chan {
- 	struct_group(stat,
- 		u8	mon_status;
- 		u8	refsel_status;
-+		s64	df_offset;
- 	);
- };
- 
-@@ -37,6 +39,18 @@ int zl3073x_chan_state_set(struct zl3073x_dev *zldev, u8 index,
- 
- int zl3073x_chan_state_update(struct zl3073x_dev *zldev, u8 index);
- 
-+/**
-+ * zl3073x_chan_df_offset_get - get cached df_offset vs tracked reference
-+ * @chan: pointer to channel state
-+ *
-+ * Return: frequency offset in 2^-48 steps
-+ */
-+static inline s64
-+zl3073x_chan_df_offset_get(const struct zl3073x_chan *chan)
-+{
-+	return chan->df_offset;
-+}
-+
- /**
-  * zl3073x_chan_mode_get - get DPLL channel operating mode
-  * @chan: pointer to channel state
-diff --git a/drivers/dpll/zl3073x/core.c b/drivers/dpll/zl3073x/core.c
-index 5f1e70f3e40a0..b3345060490db 100644
---- a/drivers/dpll/zl3073x/core.c
-+++ b/drivers/dpll/zl3073x/core.c
-@@ -704,44 +704,6 @@ zl3073x_ref_freq_meas_update(struct zl3073x_dev *zldev)
- 	return 0;
- }
- 
--/**
-- * zl3073x_ref_ffo_update - update reference fractional frequency offsets
-- * @zldev: pointer to zl3073x_dev structure
-- *
-- * The function asks device to latch the latest measured fractional
-- * frequency offset values, reads and stores them into the ref state.
-- *
-- * Return: 0 on success, <0 on error
-- */
--static int
--zl3073x_ref_ffo_update(struct zl3073x_dev *zldev)
--{
--	int i, rc;
--
--	rc = zl3073x_ref_freq_meas_latch(zldev,
--					 ZL_REF_FREQ_MEAS_CTRL_REF_FREQ_OFF);
--	if (rc)
--		return rc;
--
--	/* Read DPLL-to-REFx frequency offset measurements */
--	for (i = 0; i < ZL3073X_NUM_REFS; i++) {
--		s32 value;
--
--		/* Read value stored in units of 2^-32 signed */
--		rc = zl3073x_read_u32(zldev, ZL_REG_REF_FREQ(i), &value);
--		if (rc)
--			return rc;
--
--		/* Convert to ppt
--		 * ffo = (10^12 * value) / 2^32
--		 * ffo = ( 5^12 * value) / 2^20
--		 */
--		zldev->ref[i].ffo = mul_s64_u64_shr(value, 244140625, 20);
--	}
--
--	return 0;
--}
--
- static void
- zl3073x_dev_periodic_work(struct kthread_work *work)
- {
-@@ -776,13 +738,6 @@ zl3073x_dev_periodic_work(struct kthread_work *work)
- 		}
- 	}
- 
--	/* Update references' fractional frequency offsets */
--	rc = zl3073x_ref_ffo_update(zldev);
--	if (rc)
--		dev_warn(zldev->dev,
--			 "Failed to update fractional frequency offsets: %pe\n",
--			 ERR_PTR(rc));
--
- 	list_for_each_entry(zldpll, &zldev->dplls, list)
- 		zl3073x_dpll_changes_check(zldpll);
- 
-diff --git a/drivers/dpll/zl3073x/dpll.c b/drivers/dpll/zl3073x/dpll.c
-index f2d430d1a8e7b..af50cd6200001 100644
---- a/drivers/dpll/zl3073x/dpll.c
-+++ b/drivers/dpll/zl3073x/dpll.c
-@@ -299,8 +299,12 @@ zl3073x_dpll_input_pin_ffo_get(const struct dpll_pin *dpll_pin, void *pin_priv,
- {
- 	struct zl3073x_dpll_pin *pin = pin_priv;
- 
--	/* Only rx vs tx symbol rate FFO is supported */
--	if (dpll)
-+	/* Only nested FFO (pin vs parent DPLL) is supported */
-+	if (!dpll)
-+		return -ENODATA;
-+
-+	/* Report FFO only for the active pin */
-+	if (pin->operstate != DPLL_PIN_OPERSTATE_ACTIVE)
- 		return -ENODATA;
- 
- 	*ffo = pin->freq_offset;
-@@ -1733,37 +1737,27 @@ zl3073x_dpll_pin_phase_offset_check(struct zl3073x_dpll_pin *pin)
- }
- 
- /**
-- * zl3073x_dpll_pin_ffo_check - check for pin fractional frequency offset change
-+ * zl3073x_dpll_pin_ffo_check - check for FFO change on active pin
-  * @pin: pin to check
-  *
-- * Check for the given pin's fractional frequency change.
-- *
-- * Return: true on fractional frequency offset change, false otherwise
-+ * Return: true on change, false otherwise
-  */
- static bool
- zl3073x_dpll_pin_ffo_check(struct zl3073x_dpll_pin *pin)
- {
- 	struct zl3073x_dpll *zldpll = pin->dpll;
--	struct zl3073x_dev *zldev = zldpll->dev;
--	const struct zl3073x_ref *ref;
--	u8 ref_id;
-+	const struct zl3073x_chan *chan;
- 	s64 ffo;
- 
--	/* Get reference monitor status */
--	ref_id = zl3073x_input_pin_ref_get(pin->id);
--	ref = zl3073x_ref_state_get(zldev, ref_id);
--
--	/* Do not report ffo changes if the reference monitor report errors */
--	if (!zl3073x_ref_is_status_ok(ref))
-+	if (pin->operstate != DPLL_PIN_OPERSTATE_ACTIVE)
- 		return false;
- 
--	/* Compare with previous value */
--	ffo = zl3073x_ref_ffo_get(ref);
-+	chan = zl3073x_chan_state_get(zldpll->dev, zldpll->id);
-+	ffo = mul_s64_u64_shr(zl3073x_chan_df_offset_get(chan),
-+			      244140625, 36);
-+
- 	if (pin->freq_offset != ffo) {
--		dev_dbg(zldev->dev, "%s freq offset changed: %lld -> %lld\n",
--			pin->label, pin->freq_offset, ffo);
- 		pin->freq_offset = ffo;
--
- 		return true;
- 	}
- 
-diff --git a/drivers/dpll/zl3073x/ref.h b/drivers/dpll/zl3073x/ref.h
-index 55e80e4f08734..e140ca3ea17dc 100644
---- a/drivers/dpll/zl3073x/ref.h
-+++ b/drivers/dpll/zl3073x/ref.h
-@@ -22,7 +22,6 @@ struct zl3073x_dev;
-  * @freq_ratio_n: FEC mode divisor
-  * @sync_ctrl: reference sync control
-  * @config: reference config
-- * @ffo: current fractional frequency offset
-  * @meas_freq: measured input frequency in Hz
-  * @mon_status: reference monitor status
-  */
-@@ -40,7 +39,6 @@ struct zl3073x_ref {
- 		u8	config;
- 	);
- 	struct_group(stat, /* Status */
--		s64	ffo;
- 		u32	meas_freq;
- 		u8	mon_status;
- 	);
-@@ -58,18 +56,6 @@ int zl3073x_ref_state_update(struct zl3073x_dev *zldev, u8 index);
- 
- int zl3073x_ref_freq_factorize(u32 freq, u16 *base, u16 *mult);
- 
--/**
-- * zl3073x_ref_ffo_get - get current fractional frequency offset
-- * @ref: pointer to ref state
-- *
-- * Return: the latest measured fractional frequency offset
-- */
--static inline s64
--zl3073x_ref_ffo_get(const struct zl3073x_ref *ref)
--{
--	return ref->ffo;
--}
--
- /**
-  * zl3073x_ref_meas_freq_get - get measured input frequency
-  * @ref: pointer to ref state
-diff --git a/drivers/dpll/zl3073x/regs.h b/drivers/dpll/zl3073x/regs.h
-index 8015808bdf548..9578f00095282 100644
---- a/drivers/dpll/zl3073x/regs.h
-+++ b/drivers/dpll/zl3073x/regs.h
-@@ -164,6 +164,11 @@
- #define ZL_DPLL_MODE_REFSEL_MODE_NCO		4
- #define ZL_DPLL_MODE_REFSEL_REF			GENMASK(7, 4)
- 
-+#define ZL_REG_DPLL_DF_READ(_idx)					\
-+	ZL_REG_IDX(_idx, 5, 0x28, 1, ZL3073X_MAX_CHANNELS, 1)
-+#define ZL_DPLL_DF_READ_SEM			BIT(4)
-+#define ZL_DPLL_DF_READ_REF_OFST		BIT(3)
-+
- #define ZL_REG_DPLL_MEAS_CTRL			ZL_REG(5, 0x50, 1)
- #define ZL_DPLL_MEAS_CTRL_EN			BIT(0)
- #define ZL_DPLL_MEAS_CTRL_AVG_FACTOR		GENMASK(7, 4)
-@@ -176,6 +181,16 @@
- #define ZL_REG_DPLL_PHASE_ERR_DATA(_idx)				\
- 	ZL_REG_IDX(_idx, 5, 0x55, 6, ZL3073X_MAX_CHANNELS, 6)
- 
-+/*******************************
-+ * Register Pages 6-7, DPLL Data
-+ *******************************/
-+
-+#define ZL_REG_DPLL_DF_OFFSET_03(_idx)					\
-+	ZL_REG_IDX(_idx, 6, 0x00, 6, 4, 0x20)
-+#define ZL_REG_DPLL_DF_OFFSET_4		ZL_REG(7, 0x00, 6)
-+#define ZL_REG_DPLL_DF_OFFSET(_idx)					\
-+	((_idx) < 4 ? ZL_REG_DPLL_DF_OFFSET_03(_idx) : ZL_REG_DPLL_DF_OFFSET_4)
-+
- /***********************************
-  * Register Page 9, Synth and Output
-  ***********************************/
--- 
-2.53.0
+should do, assuming that support for I2C_FUNC_SMBUS_BLOCK_DATA and/or
+I2C_FUNC_SMBUS_READ_I2C_BLOCK was checked before.
 
+Thanks,
+Guenter
