@@ -1,109 +1,241 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238882D6409
-	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 20:11:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9826F145B27
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 20:17:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777579913; cv=none; b=g1yqowJJOiL+RxnSgWdPiC7bqvjTaIIu0Ub5gY4MCPn4mBcqY0ZaZWP2MJdyFmCYVr3IGqOAclqTsRM20GapL/Ar2UQOdjpplKXBVQiOk19jejU9712S9yd3+/UrMC/6gMSuPVNSc7IDy8QMS0as4ZTtHKklaGlFo+K+FebRZ98=
+	t=1777580279; cv=none; b=CdHiZM1/ZSLiDbdUxFOVUn8fwvspaDQWM6pkTmjSXM3CW62Ah4Y34hOzZX2JuHSwsQWhuk7Tsda0LU3ocghXc2qZNk6xQYud6320igv8HD/5hfhFIEYlCXgmPG6iXsmGZ/Mpz1oveDQ3FbMPSy+tmOIiTWdvWo3Zmtd1BbAkIS4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777579913; c=relaxed/simple;
-	bh=1+hpSCCKz9Tr5wIL77vj24aX2y/HLkl7RxaMJT3XcQ4=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ShVvg4zsEwyWvTVC2SXCz/yPUZgBKICVBzLXUOoc4BY3qEqwuRPkgk6JhoyhzpU7/sUEWD7KBhBm8EyPdrMu7liJbJGzvN0DlOyyYDs5xLunJnImJvkzpkpxQUUh66aAMKtMdjEQETw4HNfu5L5r1ZMIWIp0Y7HO0mA8MlveSxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gVIHnFv1; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+	s=arc-20240116; t=1777580279; c=relaxed/simple;
+	bh=FoqGomH61K68W5R1FI7QkSX12Lw5Beu1A6pPITQb32Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IJYps3tudSqEPruc1nPlob8M1AuTEdBYEE2TybXu797aRXM1X9EWqCoFdebB0+qKZFXSyNUMwJ1hdiXZHchjfB3j/m7IWE/gOJQMcsu5T/0XzMdM9aOQ4xt6Q/SeySb7GDok/A9mK/E0eWsJNrR8oh+vTB/qyJRZd6Le4itWSdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=rnfcLNu3; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gVIHnFv1"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2b458add85aso12914035ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 13:11:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="rnfcLNu3"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2a8fba3f769so5673815ad.2
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 13:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777579911; x=1778184711; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=jBnnijQoTJ0z094ImigPUqqRjs6fvQAetKUiJNmcMt8=;
-        b=gVIHnFv1VYt4zTIZ9ztr10F9Isk+M0I0mWLzNo1ChB1vGM1o+cFam5+jUn249HGGKF
-         bR3NNq+KjKIKcmvT016BvdaH1HVpH4YsrMwqxGNNzNXNsezBkONwqHI17EwJ61vt73BX
-         MZPF82FUbyZJ1ot6GAa6ux09CNe+ma9L4+FnIP2Ugzq2LiHyB/crGH+JcEFnBqGG4vIM
-         RTdCMMprFsaSrRDwWPt0jlraHs/PpJ/AGMG1UYsjvsA9SmshTAv2mTh2ECCi5U2EUifJ
-         zNNzKpRGaPdGaTR7rAMCWWWQY1gIEBXK+hH9SpQjQMt7la5bQxo7NiYpcxM9SisFFXrk
-         R8Qw==
+        d=gmail.com; s=20251104; t=1777580277; x=1778185077; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=MnVwBtZbfDqdeLh5y4Pf/WbasJ8kSvMt9+xGKTa8elE=;
+        b=rnfcLNu39JiMqzpngREN/fKBVYXMVhBfXCumrpLFZEDFbivQ6Rt/HD3jDWoPfq+Qos
+         I253s1CEaea2nbOkeTvSebJV1w0hTt+73EpdelCthoOqa28KcA4PuveMJ26uPX2AjxyO
+         o+Kv7lXfgXNI+kctNr2uGZK/jsPtxiNkSf/uk7SfnsNmz6ZGSe7Se2bKAKoLYJbHcSat
+         FjnkTncHMG7QRFc8i0x55+6m0LJvPHJcunQ/+VJ++hlYlnX4C1O0/i7iNb7ppQ69cr0T
+         CtknxtLx+J1+XGhKfSWbCrmXItoJec5P5ELIXi6qOjVu+cg2QNNMl0bweOLt+Cy0fdEl
+         QQSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777579911; x=1778184711;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jBnnijQoTJ0z094ImigPUqqRjs6fvQAetKUiJNmcMt8=;
-        b=Xn4a0rNlKI6E4nY7v15agEG/epiH/Z6aGii2BBCpKvvvBJ5r5HzLtIC1C0sl0gzhkZ
-         OIwO+Pv5pxwXry6QNrl90JWhmhBT+dHYaW5Picwm8jnWsEpcZX55sXhWxiCKPxWMh1Hi
-         O6O1k/Qqu+5VGPcgJc862zBjqRjTRc5kXOhasCDOD4hUVfWKalCyz8gJJLgHuSpkK1Q9
-         Q1LO3LROxRt8k5gdKUoVbWH4uVfC7mHV3KvaGJ8lRXISeetFfXVmUcrkYF8U77fIqTyk
-         JEK3l3Q0UkSuoBFd6MCvTNdQHRD5r5S84FjUqnT+wHJ87atTn3jO7GzygbrfYpJ4UsJc
-         b4bA==
-X-Forwarded-Encrypted: i=1; AFNElJ8su/Q8jItw4fF4MPSqCoVIuPoWQvql64DAYzAmVbl+7Z2FmGUdZPxoNoOPH466n/yKSADM2WqAL4M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMHsvGsy5jeXYAZ2GlLITZu9OcAkSjCr+rvvquX5mAzJW5Xs6l
-	lLdEm6q/vKCSdj0gVwxKbKEXvPeLIiFfmTUgef0D7t6JahPO4ZyjiaNwMAOLlGfPc5esv+rvY11
-	lgmfo8JQ1LmvWrqAFBg==
-X-Received: from plhi13.prod.google.com ([2002:a17:903:2ecd:b0:2b2:3f89:e9d2])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:902:be0d:b0:2b4:5ff5:e51f with SMTP id d9443c01a7336-2b9a252be1amr35053285ad.36.1777579911404;
- Thu, 30 Apr 2026 13:11:51 -0700 (PDT)
-Date: Thu, 30 Apr 2026 13:11:42 -0700
+        d=1e100.net; s=20251104; t=1777580277; x=1778185077;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MnVwBtZbfDqdeLh5y4Pf/WbasJ8kSvMt9+xGKTa8elE=;
+        b=sha2vAn5P7+L5IVA8Bt0pndeFzrmCFB0EDjtgS5MCtqTzHeYJe63y7tYqGs2vu8bWe
+         Jbp839EWgEZtjVmJx2s66FnhfIlTglhCgF+Etj/d3P/axCp7CNhES5hOLjKsyesvF6CV
+         yXcW2Zgcu6vFJCHuCC4dakJdPAzZB4BekfQazvMPNUK3DKSKgRJtPbMVk6HmSmURPkZN
+         BTR/+laUe1O3e7NZ+Oq1W9pjLkqV9OPLCN2aL3wa+h7fiRUNESSJqp7x9Qk1iS9q8aG6
+         kFLEEGvbLFa02jwNP45TALs6+rpIYSkViBHs97CodJpaTb9VT38XvBtVaBT3wMcoHCF7
+         gcWA==
+X-Forwarded-Encrypted: i=1; AFNElJ8nTxlMhPnH9isJFIHWzy0HFbpjbsYAbiocSPmiSXod7Ku3G0lMPnGnXEoav8ejkuCW8YDXfZRmIN4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwG2nhErMjBrN1WLxuk5Iaf5lPaT12hHSMKS+NcVvKb2DicRmLC
+	1j5t6MVe6leiWGFVIIX5RAt9G93e0giwc1ul8R6kgo2N0YTwMHPPV2T9
+X-Gm-Gg: AeBDiet+VrdIeLoowuyE7Oj6D4U8gMRIRlmMQftYPlbo2snOTnmMlUZpDYDmjXKkyzV
+	6iEtNrcEvZrGMWDRogomH01Kybt+Yb2D2TXuebZKW4WDLkEqo2RqfuLzBeZVGBcE9SXiAzbioXm
+	O71O7ehPOOnJPyEaBqofZgUTQWDRaUEOCzI2FFL02mH9sHCPcboYrEELQL0VIUGYRoXM97EEQrL
+	7w7eCb5LydIwHCuhhHmeK6neddgwYJCQ+g0617a2iZLbg7xGW8M02PLUyu1gXOdULK7Zj8mTGsV
+	5QmwnA01bDTi+DkBlwXcKSoUyVpR1vMFN/Rcds9UR6dXKPbOFWxZOqvB9yUiQ91qDIjiSg3OEa0
+	9e4v+arPO+V5oFY6f1zKhZQFHLfeHizFGy8YByaa4h7p4mfg3iHhQe4ixiMtiGbqNUuWv5GFeX4
+	zC9MPumSPyoy7nu0raLuJyfsl2qZ3fkXGHFk/w39sWfL1+YGx98tESfJNBxhLP4eo6rWTbaFOwg
+	uFu/CGLqWg=
+X-Received: by 2002:a17:903:5cf:b0:2b0:7225:d2c0 with SMTP id d9443c01a7336-2b9a2504c12mr28102235ad.30.1777580276999;
+        Thu, 30 Apr 2026 13:17:56 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2b9cae3b169sm4413285ad.63.2026.04.30.13.17.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 13:17:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <0fc8d540-2498-4e3c-a07e-273cdbd9546a@roeck-us.net>
+Date: Thu, 30 Apr 2026 13:17:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
-Message-ID: <20260430201142.240387-1-tjmercier@google.com>
-Subject: [PATCH] docs: cgroup-v1: Update charge-commit section
-From: "T.J. Mercier" <tjmercier@google.com>
-To: tj@kernel.org, hannes@cmpxchg.org, mkoutny@suse.com, 
-	cgroups@vger.kernel.org
-Cc: corbet@lwn.net, skhan@linuxfoundation.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, "T.J. Mercier" <tjmercier@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 3/3] hwmon: (pmbus) add support for Delta E50SN12051
+To: u8813345@gmail.com, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Kevin Chang <kevin.chang2@amd.com>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-hwmon@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ Colin Huang <colin.huang2@amd.com>
+References: <20260430-add-e50sn12051-v3-0-f6d4e043ec7c@gmail.com>
+ <20260430-add-e50sn12051-v3-3-f6d4e043ec7c@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <20260430-add-e50sn12051-v3-3-f6d4e043ec7c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Commit 1d8f136a421f ("memcg/hugetlb: remove memcg hugetlb
-try-commit-cancel protocol") removed mem_cgroup_commit_charge() and
-mem_cgroup_cancel_charge(), but the docs still refer to those functions.
-There is no longer any charge cancellation.
+On 4/29/26 23:16, Colin Huang via B4 Relay wrote:
+> From: Colin Huang <u8813345@gmail.com>
+> 
+> Add the pmbus driver for Delta E50SN12051 600W Non-isolated
+> 1/8th Brick DCDC Power Modules.
+> 
+> Signed-off-by: Colin Huang <u8813345@gmail.com>
 
-Update the docs to match the code.
+For my reference:
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
----
- Documentation/admin-guide/cgroup-v1/memcg_test.rst | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+Reviewed-by: Guenter Roeck <linux@roeck-us.net>
 
-diff --git a/Documentation/admin-guide/cgroup-v1/memcg_test.rst b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-index 9f8e27355cba..7c7cd457cf69 100644
---- a/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-+++ b/Documentation/admin-guide/cgroup-v1/memcg_test.rst
-@@ -47,21 +47,19 @@ Please note that implementation details can be changed.
- 	  Called when swp_entry's refcnt goes down to 0. A charge against swap
- 	  disappears.
- 
--3. charge-commit-cancel
-+3. charge-commit
- =======================
- 
- 	Memcg pages are charged in two steps:
- 
- 		- mem_cgroup_try_charge()
--		- mem_cgroup_commit_charge() or mem_cgroup_cancel_charge()
-+		- commit_charge()
- 
- 	At try_charge(), there are no flags to say "this page is charged".
- 	at this point, usage += PAGE_SIZE.
- 
- 	At commit(), the page is associated with the memcg.
- 
--	At cancel(), simply usage -= PAGE_SIZE.
--
- Under below explanation, we assume CONFIG_SWAP=y.
- 
- 4. Anonymous
--- 
-2.54.0.545.g6539524ca2-goog
+> ---
+>   drivers/hwmon/pmbus/Kconfig      |  9 +++++++
+>   drivers/hwmon/pmbus/Makefile     |  1 +
+>   drivers/hwmon/pmbus/e50sn12051.c | 52 ++++++++++++++++++++++++++++++++++++++++
+>   3 files changed, 62 insertions(+)
+> 
+> diff --git a/drivers/hwmon/pmbus/Kconfig b/drivers/hwmon/pmbus/Kconfig
+> index 8f4bff375ecb..4fbfcbc4a9c5 100644
+> --- a/drivers/hwmon/pmbus/Kconfig
+> +++ b/drivers/hwmon/pmbus/Kconfig
+> @@ -161,6 +161,15 @@ config SENSORS_DPS920AB
+>   	  This driver can also be built as a module. If so, the module will
+>   	  be called dps920ab.
+>   
+> +config SENSORS_E50SN12051
+> +	tristate "Delta E50SN12051 Power Modules"
+> +	help
+> +	  If you say yes here you get hardware monitoring support for Delta
+> +	  E50SN12051 Power Modules.
+> +
+> +	  This driver can also be built as a module. If so, the module will
+> +	  be called e50sn12051.
+> +
+>   config SENSORS_INA233
+>   	tristate "Texas Instruments INA233 and compatibles"
+>   	help
+> diff --git a/drivers/hwmon/pmbus/Makefile b/drivers/hwmon/pmbus/Makefile
+> index 7129b62bc00f..fc910bf34fe3 100644
+> --- a/drivers/hwmon/pmbus/Makefile
+> +++ b/drivers/hwmon/pmbus/Makefile
+> @@ -17,6 +17,7 @@ obj-$(CONFIG_SENSORS_FSP_3Y)	+= fsp-3y.o
+>   obj-$(CONFIG_SENSORS_HAC300S)	+= hac300s.o
+>   obj-$(CONFIG_SENSORS_IBM_CFFPS)	+= ibm-cffps.o
+>   obj-$(CONFIG_SENSORS_DPS920AB)	+= dps920ab.o
+> +obj-$(CONFIG_SENSORS_E50SN12051) += e50sn12051.o
+>   obj-$(CONFIG_SENSORS_INA233)	+= ina233.o
+>   obj-$(CONFIG_SENSORS_INSPUR_IPSPS) += inspur-ipsps.o
+>   obj-$(CONFIG_SENSORS_IR35221)	+= ir35221.o
+> diff --git a/drivers/hwmon/pmbus/e50sn12051.c b/drivers/hwmon/pmbus/e50sn12051.c
+> new file mode 100644
+> index 000000000000..efb4d62b2603
+> --- /dev/null
+> +++ b/drivers/hwmon/pmbus/e50sn12051.c
+> @@ -0,0 +1,52 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Hardware monitoring driver for E50SN12051
+> + */
+> +
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include "pmbus.h"
+> +
+> +static struct pmbus_driver_info e50sn12051_info = {
+> +	.pages = 1,
+> +	.format[PSC_VOLTAGE_IN] = linear,
+> +	.format[PSC_VOLTAGE_OUT] = linear,
+> +	.format[PSC_CURRENT_OUT] = linear,
+> +	.format[PSC_TEMPERATURE] = linear,
+> +	.func[0] = PMBUS_HAVE_VIN | PMBUS_HAVE_STATUS_INPUT |
+> +		   PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> +		   PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+> +		   PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
+> +};
+> +
+> +static const struct i2c_device_id e50sn12051_id[] = { { "e50sn12051", 0 }, {} };
+> +MODULE_DEVICE_TABLE(i2c, e50sn12051_id);
+> +
+> +static const struct of_device_id e50sn12051_of_match[] = {
+> +	{ .compatible = "delta,e50sn12051" },
+> +	{},
+> +};
+> +MODULE_DEVICE_TABLE(of, e50sn12051_of_match);
+> +
+> +static int e50sn12051_probe(struct i2c_client *client)
+> +{
+> +	return pmbus_do_probe(client, &e50sn12051_info);
+> +}
+> +
+> +static struct i2c_driver e50sn12051_driver = {
+> +	.driver = {
+> +		.name = "e50sn12051",
+> +		.of_match_table = e50sn12051_of_match,
+> +	},
+> +	.probe = e50sn12051_probe,
+> +
+> +	.id_table = e50sn12051_id,
+> +};
+> +
+> +module_i2c_driver(e50sn12051_driver);
+> +
+> +MODULE_AUTHOR("Kevin Chang <kevin.chang2@amd.com>");
+> +MODULE_DESCRIPTION("PMBus driver for E50SN12051");
+> +MODULE_LICENSE("GPL");
+> +MODULE_IMPORT_NS("PMBUS");
+> 
 
