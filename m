@@ -1,234 +1,126 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B602641CA;
-	Thu, 30 Apr 2026 14:47:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6603943635C
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 14:59:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777560445; cv=none; b=eUwNi+HT4055Dro8+Vcbv91g7+hDhgmnWXgTgjSu0iXjQp7k+2xGI84XgVuPPcV8tFZfKNVdWbbViUF+lp3bo5tI4cvHiODjWi/gDY98xrB4+9J8OAWHUHNA6+TjV4bpHbz5irV3RWlUunmNBKzRDvUcwMxIxZC72MY6VFr7/00=
+	t=1777561142; cv=none; b=rTRR1WPb+RVpUzMXJhRGz5q12MxC45wG4WcpQGInkkyJ47ufBF56yc6r63hnXATmSu6pDUmW62+K+asxXjdWC59FjPiA+6vyhj48p+fMIrmZ5QIPmssUg/Vlf2RkjMSCVRTmiIS42Soh9LpRMHu3DCdqWNeSLwGGLMJxZVTT4Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777560445; c=relaxed/simple;
-	bh=264aTQoULBVWcUvPni2hxBum6EiIcWK0YAfHGvmCE2E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Es2bJycCbVUDzwaXbASocqzaiIkJUSHECsOa7mWfvQM6qI34knTNJeI/Zl012xiffAEsHbWi5FEa2PASqNneCpeMAskogGMd1nwQvEcYUXftyDiRgolmeVZ5MYrREydcivtRTICyRrM5qrSyKzcmmYyaUTJ9NufNUvNjjqdwjjM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YiNgLKTI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777561142; c=relaxed/simple;
+	bh=Qz5Jt0NLcw/CHQdPoqk28nrS/jgP5xrSiN2p0WHFcSM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=iCSLfMDrLkMdtDKGZmosmxjXGvWby5GLxQr20DIKsub0uLy6WJWmc3sl6R2cnDCYw9HIh9lQFOyAJC41cpi7XFA2Sdr+W9X47vHqZIu0MRzraJLMHd8AL5Wd4PFBhlLDPgiP3R/gUZdcvWu6Ld8dQ8JTAJkvl2xW/R7Xyj7N4Bg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iZ7cU/cS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YiNgLKTI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 309DBC2BCB3;
-	Thu, 30 Apr 2026 14:47:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777560443;
-	bh=264aTQoULBVWcUvPni2hxBum6EiIcWK0YAfHGvmCE2E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YiNgLKTI0NC9lXL371WXRwAC3EKdkT/2mTAe3elDeEIcpos1O9ZYXg1ot3GHyxsIC
-	 1yFFlP2evF/7bdTL6EqkLDBecTePyowRBmZ7Hrf90yBaoN90bvLIyqVfB66wM1MvEf
-	 gjd6VeK79ytB2O4nxu5mUZ4g8FaO0wbVWP0DZasS60AU2avdPSBXA4fIWwlN27vzuT
-	 r6FXO4YRXHse8QNs4+MKzGldjLn/GSaOdCziJzeEujuibO4qwQne8mWoB1ohGn5SYM
-	 j1hYboR5eW/Nigs+HuJk6bOosot98kQl+0pOA53k9x9MYDad5vbEGCQxzIOgNdMsgu
-	 4zLQipgi6ol3g==
-Date: Thu, 30 Apr 2026 16:47:10 +0200
-From: Nicolas Schier <nsc@kernel.org>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-api@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	workflows@vger.kernel.org, tools@kernel.org, x86@kernel.org,
-	Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-Subject: Re: [PATCH v3 2/9] kernel/api: enable kerneldoc-based API
- specifications
-Message-ID: <afNrbm8URHlClZ-8@levanger>
-Mail-Followup-To: Nicolas Schier <nsc@kernel.org>,
-	Sasha Levin <sashal@kernel.org>, linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
-	tools@kernel.org, x86@kernel.org, Thomas Gleixner <tglx@kernel.org>,
-	"Paul E . McKenney" <paulmck@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Cyril Hrubis <chrubis@suse.cz>, Kees Cook <kees@kernel.org>,
-	Jake Edge <jake@lwn.net>,
-	David Laight <david.laight.linux@gmail.com>,
-	Askar Safin <safinaskar@zohomail.com>,
-	Gabriele Paoloni <gpaoloni@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Christian Brauner <brauner@kernel.org>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Ingo Molnar <mingo@redhat.com>, Arnd Bergmann <arnd@arndb.de>
-References: <20260424165130.2306833-1-sashal@kernel.org>
- <20260424165130.2306833-3-sashal@kernel.org>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iZ7cU/cS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777561140;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MFsLQaXt9E1BoxB2u4w8hFiRsin5lzaaJSXFo+bNxMc=;
+	b=iZ7cU/cSV21NtwSy9Di53SDg1DzR7ANQIj78aGfgQIF4U17xpolHqhDZA0pMtiewv2ad+5
+	M5hVKn3EsYRg27EtQ6bQDwtUIajiQS+qUqj2KDtNIZNZSbEnmvw7bHRN5d2LOQWiP9Jp1R
+	UL5oHOWx1M8JInGpB1fcwzfHdq6kpEY=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-106-2Zp1chH3Pa-zS4a6bqiIPg-1; Thu,
+ 30 Apr 2026 10:58:56 -0400
+X-MC-Unique: 2Zp1chH3Pa-zS4a6bqiIPg-1
+X-Mimecast-MFC-AGG-ID: 2Zp1chH3Pa-zS4a6bqiIPg_1777561132
+Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D8C5D18001FA;
+	Thu, 30 Apr 2026 14:58:51 +0000 (UTC)
+Received: from [10.44.49.13] (unknown [10.44.49.13])
+	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6619A1953944;
+	Thu, 30 Apr 2026 14:58:45 +0000 (UTC)
+Message-ID: <e1e35bf4-19af-4d69-b310-993b3fef24a4@redhat.com>
+Date: Thu, 30 Apr 2026 16:58:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260424165130.2306833-3-sashal@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next 0/2] dpll: rework fractional frequency offset
+ reporting
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+ Jonathan Corbet <corbet@lwn.net>, Leon Romanovsky <leon@kernel.org>,
+ Mark Bloch <mbloch@nvidia.com>, Michal Schmidt <mschmidt@redhat.com>,
+ Paolo Abeni <pabeni@redhat.com>, Pasi Vaananen <pvaanane@redhat.com>,
+ Petr Oros <poros@redhat.com>, Prathosh Satish
+ <Prathosh.Satish@microchip.com>, Saeed Mahameed <saeedm@nvidia.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
+ Tariq Toukan <tariqt@nvidia.com>, Vadim Fedorenko
+ <vadim.fedorenko@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+References: <20260429150817.3059763-1-ivecera@redhat.com>
+Content-Language: en-US
+In-Reply-To: <20260429150817.3059763-1-ivecera@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
 
-On Fri, Apr 24, 2026 at 12:51:22PM -0400, Sasha Levin wrote:
-> This patch adds support for extracting API specifications from
-> kernel-doc comments and generating C macro invocations for the
-> kernel API specification framework.
+
+
+On 4/29/26 5:08 PM, Ivan Vecera wrote:
+> Rework how the fractional frequency offset (FFO) is reported in
+> the DPLL subsystem.
 > 
-> Changes include:
-> - New kdoc_apispec.py module for generating API spec macros
-> - Updates to kernel-doc.py to support -apispec output format
-> - Build system integration in Makefile.build
-> - Generator script for collecting all API specifications
-> - Support for API-specific sections in kernel-doc comments
+> The fractional-frequency-offset-ppt attribute is moved from the
+> top-level pin attributes into the pin-parent-device nested attribute
+> set. This makes it consistent with phase-offset (which is already
+> per-parent) and clarifies that FFO PPT represents the frequency
+> difference between a pin and its parent DPLL device.
 > 
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
->  Documentation/dev-tools/kernel-api-spec.rst |   11 +
->  scripts/Makefile.build                      |   31 +
->  scripts/Makefile.clean                      |    3 +
->  tools/docs/kernel-doc                       |    5 +
->  tools/lib/python/kdoc/kdoc_apispec.py       | 1249 +++++++++++++++++++
->  tools/lib/python/kdoc/kdoc_output.py        |    9 +-
->  tools/lib/python/kdoc/kdoc_parser.py        |   86 +-
->  7 files changed, 1389 insertions(+), 5 deletions(-)
->  create mode 100644 tools/lib/python/kdoc/kdoc_apispec.py
+> The two FFO contexts are distinguished in the ffo_get callback:
+> dpll=NULL for the top-level RX vs TX symbol rate offset and a valid
+> dpll pointer for the nested pin vs DPLL offset.
 > 
-> diff --git a/Documentation/dev-tools/kernel-api-spec.rst b/Documentation/dev-tools/kernel-api-spec.rst
-> index 395c2294d5209..479bc78797ba8 100644
-> --- a/Documentation/dev-tools/kernel-api-spec.rst
-> +++ b/Documentation/dev-tools/kernel-api-spec.rst
-> @@ -239,6 +239,17 @@ execution context, and return values. Parameter violations are reported via
->  ``pr_warn_ratelimited`` and return value violations via ``WARN_ONCE`` to avoid
->  flooding the kernel log.
->  
-> +.. warning::
-> +
-> +   Userspace errno is affected when this option is on. For syscalls that
-> +   violate their parameter specification, KAPI short-circuits the call and
-> +   returns ``-EINVAL`` from the validator **before** the real handler runs.
-> +   That errno can differ from what the real handler would have produced for
-> +   the same condition (for example, ``-ENOMEM`` from an allocation path or
-> +   ``-EFAULT`` from a deeper copy-in). ``CONFIG_KAPI_RUNTIME_CHECKS`` is a
-> +   debug-only option; do not enable it on production kernels or in
-> +   userspace-visible test environments where error-code fidelity matters.
-> +
->  Custom Validators
->  -----------------
->  
-> diff --git a/scripts/Makefile.build b/scripts/Makefile.build
-> index 3652b85be5459..ef203e490c797 100644
-> --- a/scripts/Makefile.build
-> +++ b/scripts/Makefile.build
-> @@ -174,6 +174,37 @@ ifneq ($(KBUILD_EXTRA_WARN),)
->  endif
->  endif
->  
-> +# Generate API spec headers from kernel-doc comments
-> +ifeq ($(CONFIG_KAPI_SPEC),y)
-> +# Function to check if a file has API specifications
-> +has-apispec = $(shell grep -qE '^\s*\*\s*context-flags:' $(src)/$(1) 2>/dev/null && echo $(1))
-> +
-> +# Get base names without directory prefix
-> +c-objs-base := $(notdir $(real-obj-y) $(real-obj-m))
-> +# Filter to only .o files with corresponding .c source files
-> +c-files := $(foreach o,$(c-objs-base),$(if $(wildcard $(src)/$(o:.o=.c)),$(o:.o=.c)))
+> Patch 1 restructures the DPLL subsystem netlink handling, updates
+> the YAML spec and driver-api documentation, and adds NULL guards
+> to mlx5 and zl3073x drivers.
+> 
+> Patch 2 implements the nested FFO for zl3073x using the
+> dpll_df_offset_x register with ref_ofst=1, providing 2^-48
+> resolution. The old per-reference frequency measurement is removed
+> as it was redundant with measured-frequency.
+> 
+> Ivan Vecera (2):
+>    dpll: move fractional-frequency-offset-ppt under pin-parent-device
+>    dpll: zl3073x: report FFO as DPLL vs input reference offset
+> 
+>   Documentation/driver-api/dpll.rst             | 16 +++++++
+>   Documentation/netlink/specs/dpll.yaml         | 11 +++--
+>   drivers/dpll/dpll_netlink.c                   | 34 ++++++++++----
+>   drivers/dpll/dpll_nl.c                        |  1 +
+>   drivers/dpll/zl3073x/chan.c                   | 31 ++++++++++++-
+>   drivers/dpll/zl3073x/chan.h                   | 14 ++++++
+>   drivers/dpll/zl3073x/core.c                   | 45 -------------------
+>   drivers/dpll/zl3073x/dpll.c                   | 34 +++++++-------
+>   drivers/dpll/zl3073x/ref.h                    | 14 ------
+>   drivers/dpll/zl3073x/regs.h                   | 15 +++++++
+>   .../net/ethernet/mellanox/mlx5/core/dpll.c    |  4 ++
+>   11 files changed, 126 insertions(+), 93 deletions(-)
 
-Looks to me as if the two lines above are redundant, since 'find'
-(below) will find all files gathered in $(c-files).
+After merge of "dpll: add pin operational state" this needs to be rebased...
 
+Will send v2.
 
-> +# Also check for any additional .c files that contain API specs but are included
-> +extra-c-files := $(shell find $(src) -maxdepth 1 -name "*.c" -exec grep -l '^\s*\*\s*\(long-desc\|context-flags\|state-trans\):' {} \; 2>/dev/null | xargs -r basename -a)
-> +# Combine both lists and remove duplicates
-> +all-c-files := $(sort $(c-files) $(extra-c-files))
-> +# Only include files that actually have API specifications
-> +apispec-files := $(foreach f,$(all-c-files),$(call has-apispec,$(f)))
-> +# Generate apispec targets with proper directory prefix
-> +apispec-y := $(addprefix $(obj)/,$(apispec-files:.c=.apispec.h))
+I.
 
-To goal is to find any relevant C file in $(src)/ (but not deeper below)
-that holds KAPI documentation, right?
-
-I do not like the find call, as it picks up anything.  Might it make
-sense to evaluate $(obj-) along with $(obj-y) and $(obj-m) to pick up
-all C files that are references in kbuild?
-
-
-
-# in top definition block -- before 'include $(kbuild-file)' et al.
-obj- :=
-
-# below the definitions of real-obj-{y,m}
-real-obj-any := $(call real-search, $(obj-y) $(obj-m) $(obj-), .o, -objs -y -m -)
-
-has-apispec = $(shell grep -lE '^\s*\*\s*context-flags:' $(1) 2>/dev/null)
-apispec-y := $(patsubst $(src)/%.c, $(obj)/%.apispec.h, $(call has-apispec,
-		    $(patsubst $(obj)/%.o, $(src)/%.c, $(real-obj-any))))
-
-#...
-
-# Source files that include their own apispec.h need to depend on it
-$(apispec-y:.apispec.h=.o): $(obj)/%.o: $(obj)/%.apispec.h
-
-(untested)
-
-> +always-y += $(apispec-y)
-> +targets += $(apispec-y)
-> +
-> +quiet_cmd_apispec = APISPEC $@
-> +      cmd_apispec = PYTHONDONTWRITEBYTECODE=1 $(KERNELDOC) -apispec \
-> +                    $(KDOCFLAGS) $< > $@ || rm -f $@
-> +
-> +$(obj)/%.apispec.h: $(src)/%.c $(KERNELDOC) FORCE
-> +	$(call if_changed,apispec)
-> +
-> +# Source files that include their own apispec.h need to depend on it
-> +$(foreach f,$(apispec-files),$(eval $(obj)/$(f:.c=.o): $(obj)/$(f:.c=.apispec.h)))
-> +endif
-> +
->  # Compile C sources (.c)
->  # ---------------------------------------------------------------------------
->  
-> diff --git a/scripts/Makefile.clean b/scripts/Makefile.clean
-> index 6ead00ec7313b..f78dbbe637f27 100644
-> --- a/scripts/Makefile.clean
-> +++ b/scripts/Makefile.clean
-> @@ -35,6 +35,9 @@ __clean-files   := $(filter-out $(no-clean-files), $(__clean-files))
->  
->  __clean-files   := $(wildcard $(addprefix $(obj)/, $(__clean-files)))
->  
-> +# Also clean generated apispec headers (computed dynamically in Makefile.build)
-> +__clean-files   += $(wildcard $(obj)/*.apispec.h)
-
-We have a list of wildcard clean patterns in top-level Makefile
-(line 2114 ff.); please add '*.apispec.h' there instead.
-
-
-
-When I apply the series on top of v7.1, compilation fails with
-
-../fs/open.c:2148:10: fatal error: open.apispec.h: No such file or directory
-../fs/read_write.c:2519:10: fatal error: read_write.apispec.h: No such file or directory
-
-Kind regards,
-Nicolas
