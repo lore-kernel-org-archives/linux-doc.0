@@ -1,87 +1,309 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 086EA4014AF
-	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 10:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F50039C004
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 10:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777544800; cv=none; b=WsFcAVhQe7jQoeezVsH8MAvUe+y2g3yI9mxnDRufOu5wHNPrc7/odCeR6CvYgrG2l8ZeAKmXbA0vsLFxy/E1H/K1uaJMzj/QUg4IzGg87qiaXC1KVICg7QwhelBJ3mGNznFhq24HWXbOyf7kdKj5pym7bFq9BKZ6FXiuhZg1NEU=
+	t=1777545701; cv=none; b=SLj23xx9a+Wg9005QQHJLhTwdWnM3L4OdSFMS6ArDk3c1OBMBhpmDNBI/zYl5AKP82T92eKlfkcnxmWPwW/qqSc9GL+mPOCfqy+1DyIHV/W95/pVrYjMN7/NPMhSTww+Fvs2+egnuF4BpJkAe2ZbZv1t59cI7juCJ8hvjqb6UHE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777544800; c=relaxed/simple;
-	bh=mg3Q2SXECMgqemHLx9lkFQntiArxJAlTvDiMVbNAI2A=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=FZD87TcZL8HG8jPnFv0s1n2LIi2/aStSeJWKLc1g1bm6BV1mSlJjCtgErpgnwYHDff2xXJHYqrehgg3Vgv7Jt/e64cOWLq5Zoxi8NJ1vLCfthde7otLhp3/UvEELMytc0aqpzPoz/5i50FZFAtWwdmVE3wiCw0daG/I/S5cbLvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hgi3rMPB; arc=none smtp.client-ip=198.175.65.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777545701; c=relaxed/simple;
+	bh=M1UgE/v17PDBsac3FyL5NNSOdxOKVFaH1L/xRnpABDI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gcXKMsPa3tppnuMoZ0nL0M5KaXvabDXUmofoM6BR7h+1mXTu9ICmD0TT6gsmitftSgEMdP4d6sNfhiccsQkWAfWJMZUzBPuQQ2Zh89UhaxEc2DOlOa2QDXNdLi2i0da73zAO1OFBGfz1sHUB+tEbN7V6zD5bsB9l7AGMRow0vNk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ID6LGVDw; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=Gejqwuin; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hgi3rMPB"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777544798; x=1809080798;
-  h=date:from:to:cc:subject:message-id;
-  bh=mg3Q2SXECMgqemHLx9lkFQntiArxJAlTvDiMVbNAI2A=;
-  b=hgi3rMPBUNClDiODdmJCqqMkNl9G/TrLoF19oK1xGCrVxIEPN8Pa+a4P
-   1HEJc0c1IqwIyPPJd8yMx+lLi130V9xz+4nGDa1m41JFvNE0NCjJXH+dE
-   L3/EAA5RUO+5FhwufBuuCMC/MZwSJwlznQllJv5ES37V/vM6g8VXxREHG
-   emUpZsgSmidSw7D+6YusEEtyLuMvTpGwxvjKfh+iYChmsEZmZ/zgqrINv
-   XMl1P3FEWZCB9hRKb+LnpKxhdXn+CjRt5F9CgmkGw8s3/+FjmDObI8nPp
-   EsACwkHCsemmIRNrxkt2Do70hSg0u0tzD/IggiZo1KmRM7yPStvP+NueO
-   g==;
-X-CSE-ConnectionGUID: N98Y+bSBRLmMMFoM2IHU/A==
-X-CSE-MsgGUID: n+UuOmKkQKajRg579H5Iwg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="78682543"
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="78682543"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2026 03:26:36 -0700
-X-CSE-ConnectionGUID: DkbTkXdjQ8Ck04KiN/YLtQ==
-X-CSE-MsgGUID: xmCG4aJrTGS8vy21vZxiGA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
-   d="scan'208";a="238519487"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa003.jf.intel.com with ESMTP; 30 Apr 2026 03:26:35 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wIObI-000000004nh-3NS6;
-	Thu, 30 Apr 2026 10:26:32 +0000
-Date: Thu, 30 Apr 2026 12:25:47 +0200
-From: kernel test robot <lkp@intel.com>
-To: Brian Cain <brian.cain@oss.qualcomm.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: [bcain:bcain/glink 54/56] htmldocs:
- Documentation/hexagon/qemu-glink.rst: WARNING: document isn't included in any
- toctree [toc.not_included]
-Message-ID: <202604301208.e4oGQJcF-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ID6LGVDw";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="Gejqwuin"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777545699;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LlB/HHoG0KdXRPcOptY6LFOlaz6EgO+V55I7swGUEwo=;
+	b=ID6LGVDwWrwlySaoZQte0QSd0zP0oPP6I//4Fn19j6yyYvpPob9KX5E/ee0TL1nxvJ3mnT
+	d7x8Fpn0u1/me13e/M32ZGblA9UdHOmV400d6wl4OkeAXlmGTEegZAP9HihoitjvG0ofKi
+	xEu39gWkm6pdRb54zKF/Iza+2ScVv9c=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-495-LocduLzFNY-Ha5FSPU_pwA-1; Thu, 30 Apr 2026 06:41:38 -0400
+X-MC-Unique: LocduLzFNY-Ha5FSPU_pwA-1
+X-Mimecast-MFC-AGG-ID: LocduLzFNY-Ha5FSPU_pwA_1777545697
+Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-4837bfcfe0dso8302735e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 03:41:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1777545697; x=1778150497; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=LlB/HHoG0KdXRPcOptY6LFOlaz6EgO+V55I7swGUEwo=;
+        b=GejqwuinySrUI9QAlzaTbV2EgF2ohhhJE6NIU+FmEOq+3/bensirYnyXRcYwfkcbBc
+         l1wdZffgxD2HO9P2JSHR406ptRVg71C+z8BFjENy1AcbC4XxGhTsnxAbZJuycJVCSl9y
+         c6KMuwqIg2ODIh3ZuSvmhWNFif9hjqX/vwnz+TMjA0aSp4pJ+lniSQigT7qg3WqF+Gbw
+         DoP7xHHn4SchX8OeHSG7lCmlDHGlFOmaQhAZQhNHzLj/zB2Zvwr3Vclc/6FmDHxlamMa
+         fIz58KF+YuTj6Yt2ohafnRiv71zxHHcZE9ymcVxAm8dbV0H2Ykukq3cwrI1fUcjn8Ofv
+         aBng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777545697; x=1778150497;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LlB/HHoG0KdXRPcOptY6LFOlaz6EgO+V55I7swGUEwo=;
+        b=FGbJWR72EEP1u4n9yfavND9O6oy1+GDq2DUn1SO8yuvl5W6RI4Ir5Qs5+A7Bc2EhdC
+         3ACccWj/U5FalPtv9aNgoDZ55JKylmkGoORSrGH0uBeP5/o3QoD+0thV4lIMEpXp5ZDt
+         rF1cuxikOb0yLW0tQLZG3VrVOoXmx8klEMIA4fJrudEivFtdtxoy+/a2EbMWWlLtOvfV
+         ErrpQfZ0g615qSCsyqv+FJGA5604YszO1tJKE9wwf5szL4A6jaI4LUvit5nXHeN/m04E
+         JcabAVLH/bw1KHAqpIsah/Zxn116jx6VlM1ZdKQgEr7n79XuzYeMAK0ujNtHpPvgkFeg
+         M3YQ==
+X-Forwarded-Encrypted: i=1; AFNElJ8wCP3U4hlWzYn9QwqF+Gie7bKYWutsu3jld4+oAC8rYIJr7MXc3dPEEOrnOS7rYb46XlgbwnB92nk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwWxu0CxDig39mrwFYIYDi/3N5lJMdvQ+eFzLPIwZn0tMtgATGe
+	eOWvNgtVXpmdIvQRBB+mBkrVzLsf5T3OGlsQKfin47YTTWoEWMMV0OgPNjoPHBr7CJT/GVO6ND+
+	KsX4aU2XcA3sjulMbCi7Fd9K/WL1+J935F+eG4vga6mqorREP5H0MxoLrw9MkJw==
+X-Gm-Gg: AeBDietXpOd9tzoIBHPEQ5oqxDKDjQmvBtCMkAhalhoqtQurXJ887tgCHztquITj/6U
+	4820XrixZccDLX65yJMjxjUcy9Z7QK4HH8hoJ6aC3RjLIyWW0BlcE9kXYjjN/WOQe6mxloI8QbL
+	YD8o26VExcYKCY5Nrn3YceCN2WtbMdFgEXQqDeIf3xNuWqnZ8+swAewa/fNv9EKr+zegBOyV1Zn
+	Zp20tPVPrkOxIgECxNKYytaI5AHujxedXdjbElKy9LxOzUC+QfawzRfwvTc5UD6E+3nEYZxhxt8
+	aLh3Vbx9kyflGx4kKMqJhOdvuoIqHEoY3EKpnCgZpAjY04N8foEgI9N/avd0dDx30I3juKiepD8
+	+KzraFOZrFKKANDfwUlaArC1Qeqnd99zV5G+wamAVg/cEc+Oy9NofUztrQVUNhdsFGA==
+X-Received: by 2002:a05:600c:c174:b0:48a:563c:c8e2 with SMTP id 5b1f17b1804b1-48a83d66ba9mr39844575e9.3.1777545696634;
+        Thu, 30 Apr 2026 03:41:36 -0700 (PDT)
+X-Received: by 2002:a05:600c:c174:b0:48a:563c:c8e2 with SMTP id 5b1f17b1804b1-48a83d66ba9mr39843895e9.3.1777545696080;
+        Thu, 30 Apr 2026 03:41:36 -0700 (PDT)
+Received: from [192.168.88.32] ([150.228.93.27])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b120bdefsm12651906f8f.0.2026.04.30.03.41.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 03:41:35 -0700 (PDT)
+Message-ID: <e41adaad-8937-4b5d-bdbf-d57d3efe2855@redhat.com>
+Date: Thu, 30 Apr 2026 12:41:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 net-next 03/11] net/nebula-matrix: add chip related
+ definitions
+To: "illusion.wang" <illusion.wang@nebula-matrix.com>,
+ dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
+ sam.chen@nebula-matrix.com, netdev@vger.kernel.org
+Cc: andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
+ linux-doc@vger.kernel.org, lorenzo@kernel.org, horms@kernel.org,
+ vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com, edumazet@google.com,
+ enelsonmoore@gmail.com, skhan@linuxfoundation.org, hkallweit1@gmail.com,
+ open list <linux-kernel@vger.kernel.org>
+References: <20260428114910.2616-1-illusion.wang@nebula-matrix.com>
+ <20260428114910.2616-4-illusion.wang@nebula-matrix.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20260428114910.2616-4-illusion.wang@nebula-matrix.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bcain/linux.git bcain/glink
-head:   5d897d0f6b0bbd170ef332eeae9a8329ec812a5e
-commit: dd12099bfe857f1c7f5cd0915e38f655e8da5449 [54/56] Documentation: hexagon: add GLINK dual-QEMU testing guide
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260430/202604301208.e4oGQJcF-lkp@intel.com/reproduce)
+On 4/28/26 1:48 PM, illusion.wang wrote:
+> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> index 77c67b67ba31..8831394ed11b 100644
+> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.h
+> @@ -11,4 +11,473 @@
+>  #include "../../nbl_include/nbl_include.h"
+>  #include "../nbl_hw_reg.h"
+>  
+> +#define NBL_DRIVER_STATUS_REG			0x1300444
+> +#define NBL_DRIVER_STATUS_BIT			16
+> +
+> +#pragma pack(1)
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202604301208.e4oGQJcF-lkp@intel.com/
+The kernel style for packed layouts is the __packed attribute; #pragma
+pack is a non-portable compiler directive.
 
-All warnings (new ones prefixed by >>):
+> +
+> +/*  ----------  REG BASE ADDR  ----------  */
+> +/* Interface modules base addr */
+> +#define NBL_INTF_HOST_PCOMPLETER_BASE		0x00f08000
+> +#define NBL_INTF_HOST_PADPT_BASE		0x00f4c000
+> +#define NBL_INTF_HOST_MAILBOX_BASE		0x00fb0000
+> +#define NBL_INTF_HOST_PCIE_BASE			0X01504000
+> +/* DP modules base addr */
+> +#define NBL_DP_USTORE_BASE			0x00104000
+> +#define NBL_DP_UQM_BASE				0x00114000
+> +#define NBL_DP_UPED_BASE			0x0015c000
+> +#define NBL_DP_UVN_BASE				0x00244000
+> +#define NBL_DP_DSCH_BASE			0x00404000
+> +#define NBL_DP_SHAPING_BASE			0x00504000
+> +#define NBL_DP_DVN_BASE				0x00514000
+> +#define NBL_DP_DSTORE_BASE			0x00704000
+> +#define NBL_DP_DQM_BASE				0x00714000
+> +#define NBL_DP_DPED_BASE			0x0075c000
+> +#define NBL_DP_DDMUX_BASE			0x00984000
+> +/*  --------  MAILBOX BAR2 -----  */
+> +#define NBL_MAILBOX_NOTIFY_ADDR			0x00000000
+> +#define NBL_MAILBOX_BAR_REG			0x00000000
+> +#define NBL_MAILBOX_QINFO_CFG_RX_TABLE_ADDR	0x10
+> +#define NBL_MAILBOX_QINFO_CFG_TX_TABLE_ADDR	0x20
+> +#define NBL_MAILBOX_QINFO_CFG_DBG_TABLE_ADDR	0x30
+> +
+> +/*  --------  MAILBOX  --------  */
+> +
+> +/* mailbox BAR qinfo_cfg_table */
+> +struct nbl_mailbox_qinfo_cfg_table {
+> +	u32 queue_base_addr_l;
+> +	u32 queue_base_addr_h;
+> +	u32 queue_size_bwind:4;
+> +	u32 rsv1:28;
+> +	u32 queue_rst:1;
+> +	u32 queue_en:1;
+> +	u32 dif_err:1;
+> +	u32 ptr_err:1;
+> +	u32 rsv2:28;
 
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:45: ERROR: Unknown target name: "network flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:50: ERROR: Unknown target name: "scope flags". [docutils]
-   Documentation/userspace-api/landlock:550: ./include/uapi/linux/landlock.h:24: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:168: ERROR: Unknown target name: "filesystem flags". [docutils]
-   Documentation/userspace-api/landlock:559: ./include/uapi/linux/landlock.h:191: ERROR: Unknown target name: "network flags". [docutils]
->> Documentation/hexagon/qemu-glink.rst: WARNING: document isn't included in any toctree [toc.not_included]
-   Documentation/networking/skbuff:36: ./include/linux/skbuff.h:181: WARNING: Failed to create a cross reference. A title or caption not found: 'crc' [ref.ref]
+Sashiko says:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Can these bitfield register layouts work correctly on big-endian
+hosts?
+The C standard leaves allocation of bitfields within a storage unit
+implementation-defined, and with GCC the order flips between LE and
+BE targets (LSB-first on little-endian, MSB-first on big-endian).
+Because nbl_hw_wr32() ultimately uses writel(), which only does
+byte-level LE conversion, the hardware-visible bit positions produced
+by these structs will differ between LE and BE builds.
+The same question applies to every other bitfield struct added in
+this header, e.g. nbl_mailbox_qinfo_map_table, nbl_host_msix_info,
+ped_hw_edit_profile, dstore_disc_bp_th, nbl_shaping_net, ustore_pkt_len,
+uvn_queue_err_mask, board_cfg_dw3, etc.
+Would the explicit shift/mask helpers in <linux/bitfield.h>
+(FIELD_PREP/FIELD_GET with GENMASK) be a better match here?
+
+[...]
+> +void nbl_write_all_regs(struct nbl_hw_mgt *hw_mgt)
+> +{
+> +	struct nbl_common_info *common = hw_mgt->common;
+> +	u8 eth_mode = common->eth_mode;
+> +	const u32 *nbl_sec046_data;
+> +	const u32 *nbl_sec071_data;
+> +	u32 i;
+> +
+> +	switch (eth_mode) {
+> +	case 1:
+> +		nbl_sec046_data = nbl_sec046_1p_data;
+> +		nbl_sec071_data = nbl_sec071_1p_data;
+> +		break;
+> +	case 2:
+> +		nbl_sec046_data = nbl_sec046_2p_data;
+> +		nbl_sec071_data = nbl_sec071_2p_data;
+> +		break;
+> +	case 4:
+> +		nbl_sec046_data = nbl_sec046_4p_data;
+> +		nbl_sec071_data = nbl_sec071_4p_data;
+> +		break;
+> +	default:
+> +		nbl_sec046_data = nbl_sec046_2p_data;
+> +		nbl_sec071_data = nbl_sec071_2p_data;
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC006_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC006_REGI(i), nbl_sec006_data[i]);
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC007_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC007_REGI(i), nbl_sec007_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC008_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC008_REGI(i), nbl_sec008_data[i]);
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC009_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC009_REGI(i), nbl_sec009_data[i]);
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC010_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC010_REGI(i), nbl_sec010_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC011_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC011_REGI(i), nbl_sec011_data[i]);
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC012_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC012_REGI(i), nbl_sec012_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC013_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC013_REGI(i), nbl_sec013_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC014_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC014_REGI(i), nbl_sec014_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC022_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC022_REGI(i), nbl_sec022_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC023_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC023_REGI(i), nbl_sec023_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC024_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC024_REGI(i), nbl_sec024_data[i]);
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC025_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC025_REGI(i), nbl_sec025_data[i]);
+> +	}
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC026_SIZE; i++)
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC026_REGI(i), nbl_sec026_data[i]);
+> +
+> +	nbl_flush_writes(hw_mgt);
+> +	for (i = 0; i < NBL_SEC027_SIZE; i++) {
+> +		if ((i + 1) % NBL_SEC_BLOCK_SIZE == 0)
+> +			nbl_hw_rd32(hw_mgt, NBL_HW_DUMMY_REG);
+> +
+> +		nbl_hw_wr32(hw_mgt, NBL_SEC027_REGI(i), nbl_sec027_data[i]);
+
+Sashiko says:
+
+Could this loop read past the end of the nbl_sec009_data array?
+The macro NBL_SEC009_SIZE is defined as 2048, but the nbl_sec009_data array
+contains significantly fewer elements (around 754). This appears to cause
+sequential out-of-bounds reads into the .rodata section, writing unrelated
+memory to the device registers.
+Similar size mismatches exist for nbl_sec025_data (262 elements vs size
+1024)
+and nbl_sec022_data (506 elements vs size 256).
+Would it be safer to use ARRAY_SIZE() to bound these iterations?
+
+/P
+
