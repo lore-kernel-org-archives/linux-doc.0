@@ -1,408 +1,190 @@
-Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010034.outbound.protection.outlook.com [52.101.61.34])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31BD0282F3F;
-	Wed, 29 Apr 2026 23:51:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.34
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777506702; cv=fail; b=V3UGlTPUOesJUMeilKYCTXZSXojGiq6Kn1y5s10ZN6QcHN6fIB6j36j+ifyWE456fSGi/XDBPGg1bfu2DkjaYrNYjuUVZLq1az73zWFihGe/u6pbdl4Bh7t4NaiA5O50WUd0hLLJ+XqAibq21nhL9pkyA8/rKAsaqexAFMF6CI8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777506702; c=relaxed/simple;
-	bh=VZ+wnu63TgR3FCLm/JdQgNp9UF83Dl7L80lMPEAXEq8=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=M7bBp7syk/OwUi9dFXvGYCIEIqLpYdjCnp8RLPuLMaMLdku/M9fv1PO57g9Uf03QewtBXTsW7FdoTRNjsvLptd29B799S2LDgEyrCXbHHZ2Z5A46VI0IyBoToK66OkwE0Eh6Pa5FqWR/EoepQ/JTtuLrqfhdYHl6YDfL7gl8U/M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZmDttkTy; arc=fail smtp.client-ip=52.101.61.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC8217C21C;
+	Thu, 30 Apr 2026 00:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777508976; cv=none; b=uJPnGKePfGb2K5Bwa4DDfgsFu2KazB+Ik6T5ZJANCoTHn3w2cFjgJA4rEk7vloOKs1QtfVgW58JZGwbw6QlvjhKay6lhglYHS4Wo35G0boBIpyoBJ4WHr0NQo03O3TGPA+AbAAaaeMWu9MkXzt627SDS78nstufTYRo1/zsZ/cc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777508976; c=relaxed/simple;
+	bh=u+mAU+2ACD5HlTJIsOgQLMOWjvExUPaLvfx7XhWNVcQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ge06iY+20li9rIcP0JOg1DnZ9XRP28SzDxz1lWXtXbrRdxtsnyoYjExRaktiBRnpUrCAPeU+kp/zZDaMxV21t4+U8OrdvNlgUbfw20NVWHvfpW/+z/m3XYDgHuDfo+f5y8dZzeWg8qWULHZ7LXXtJHGDxrCZlTZjDO9Oc+AbJ3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eJplUihJ; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZmDttkTy"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R/ASMFYR4sN7D7GWnglIW/VxnwAX5qZ1/Ev/3Q5lKGEXHh5v19pBq4tSyfNMjU00wY4zH0Kn/dOydpf3hlD7JqE4iMtvQGbYK0n0SeBKCXweGPCigyrIKzKIZvYodfB9vMVXqpXPfqvJxe4+mv9YVILqrFaUDM3RQIInRx+IQO8QpDBcEhyttN02eVg2H8Ax7Mslu2BcDsr1nRmuF41birIQ4qbDMoq9nMLV6117Un+vSyb+LJch2U9YwOc8flV9VgTseke00kf28XXswGUQgKsYz9U5bSWdwsCLlBQrKm95KWFFgnu40KV13hFlZ2LeUEscQok3EGA2jJs6J9hRRw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pzgml3/CIhemoYumDHOZSu6Wta3BAaZKnkuahnN2rT4=;
- b=ds7J3D2CJcu82RQQN5fRsEWYBrVM4waiZWWLZvLm5jjz27kUYlkYC1rL5XiwsVRZEceLXO8Mz+g6UGm+9i42MFaMiVAiNCLjRmJBODRRMeCYJKCVQ632SDVFWSJhuwWT+b41jByq+XGHHuw2b/U8CI+HIYawGe90QOraZkCXUx/yPCIqdqPP3gR14pJMsQCNL0EpwsOgoNkXw8YHDnaYGLu+PB+25Tz073tqK7FgihMmqlpSCprMmJ8mVZpJJHlXG2xtpqqRs7fMTD9RcoZYDrk5d/YR6toVE7zGiv2BE2y0UoVubdF4bvabPN4Irx8ndJ2bTETjZMdxNOKLtapGfA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=google.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pzgml3/CIhemoYumDHOZSu6Wta3BAaZKnkuahnN2rT4=;
- b=ZmDttkTymoeVV4N9fJxL6lOuZjoDx2qZH1P6ofYXq8LBEfGYuIPl1IGYArnuayiHjr9tjFCHoaooG30lTok3ROeFdq61EQBdyD4SqbdujpwgKaObWTvGSJbKErEBSGRJNMjuyw6DRs0Vh59rHhr6iqez8bIPxDEBNqYW93h11UU=
-Received: from PH5P222CA0010.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:34b::11)
- by CH1PPFD8936FA16.namprd12.prod.outlook.com (2603:10b6:61f:fc00::624) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9818.21; Wed, 29 Apr
- 2026 23:51:29 +0000
-Received: from SN1PEPF0002BA50.namprd03.prod.outlook.com
- (2603:10b6:510:34b:cafe::69) by PH5P222CA0010.outlook.office365.com
- (2603:10b6:510:34b::11) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9846.30 via Frontend Transport; Wed,
- 29 Apr 2026 23:51:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- SN1PEPF0002BA50.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9846.18 via Frontend Transport; Wed, 29 Apr 2026 23:51:28 +0000
-Received: from localhost (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Wed, 29 Apr
- 2026 18:51:28 -0500
-Date: Wed, 29 Apr 2026 18:51:13 -0500
-From: Michael Roth <michael.roth@amd.com>
-To: <ackerleytng@google.com>
-CC: <aik@amd.com>, <andrew.jones@linux.dev>, <binbin.wu@linux.intel.com>,
-	<brauner@kernel.org>, <chao.p.peng@linux.intel.com>, <david@kernel.org>,
-	<ira.weiny@intel.com>, <jmattson@google.com>, <jthoughton@google.com>,
-	<oupton@kernel.org>, <pankaj.gupta@amd.com>, <qperret@google.com>,
-	<rick.p.edgecombe@intel.com>, <rientjes@google.com>, <shivankg@amd.com>,
-	<steven.price@arm.com>, <tabba@google.com>, <willy@infradead.org>,
-	<wyihan@google.com>, <yan.y.zhao@intel.com>, <forkloop@google.com>,
-	<pratyush@kernel.org>, <suzuki.poulose@arm.com>, <aneesh.kumar@kernel.org>,
-	Paolo Bonzini <pbonzini@redhat.com>, Sean Christopherson <seanjc@google.com>,
-	Thomas Gleixner <tglx@kernel.org>, Ingo Molnar <mingo@redhat.com>, "Borislav
- Petkov" <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
-	<x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, Steven Rostedt
-	<rostedt@goodmis.org>, Masami Hiramatsu <mhiramat@kernel.org>, "Mathieu
- Desnoyers" <mathieu.desnoyers@efficios.com>, Jonathan Corbet
-	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Shuah Khan
-	<shuah@kernel.org>, "Vishal Annapurve" <vannapurve@google.com>, Andrew Morton
-	<akpm@linux-foundation.org>, Chris Li <chrisl@kernel.org>, Kairui Song
-	<kasong@tencent.com>, Kemeng Shi <shikemeng@huaweicloud.com>, Nhat Pham
-	<nphamcs@gmail.com>, Baoquan He <bhe@redhat.com>, Barry Song
-	<baohua@kernel.org>, Axel Rasmussen <axelrasmussen@google.com>, Yuanchu Xie
-	<yuanchu@google.com>, Wei Xu <weixugc@google.com>, Youngjun Park
-	<youngjun.park@lge.com>, Qi Zheng <qi.zheng@linux.dev>, Shakeel Butt
-	<shakeel.butt@linux.dev>, Kiryl Shutsemau <kas@kernel.org>, Jason Gunthorpe
-	<jgg@ziepe.ca>, Vlastimil Babka <vbabka@kernel.org>, <kvm@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-trace-kernel@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<linux-mm@kvack.org>, <linux-coco@lists.linux.dev>
-Subject: Re: [PATCH RFC v5 00/53] guest_memfd: In-place conversion support
-Message-ID: <x7n77snnvvukofo3slopl74c5tmlb2t2un5qy5fq6eb3d2xt7e@6a6tixg5mdfc>
-References: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eJplUihJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777508974; x=1809044974;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=u+mAU+2ACD5HlTJIsOgQLMOWjvExUPaLvfx7XhWNVcQ=;
+  b=eJplUihJQFiMENlvgv6i/OBVRCpDceI5H5rS8wX2inGlRwxwI0oTJYkU
+   0zqJ08PFDxA+kgYZHad6QEboFbFK35cFAGYgGN44xyns1FcCKFD7kBYw3
+   fYPrWohCbtJBOiHQaw28WKvarnhnJol3cHUENHbs/wz38pRUQbfPvwIpR
+   7xhc853NgaIm0jGevD5qn3G/Q6Q3pZN/r3Dx1OvsDpQ224rF6RYDKfuLp
+   helDEn/iH+tkLmUmOrHm/F/kGOpLTNq72EnZYbCy8hJra0eTDnfaCXm4U
+   ZN6XHGy07iqh9Hzft4ofa3WS28noCcjsJB+LtnPY1m6T8BqogL1C/mHri
+   g==;
+X-CSE-ConnectionGUID: JL5qWg+cQza5vOjPvZWo/w==
+X-CSE-MsgGUID: f9hzQEqHRWuJLdBLyf3Ewg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11771"; a="89825872"
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="89825872"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2026 17:29:33 -0700
+X-CSE-ConnectionGUID: bjkpnPIORPqr710/UgULsQ==
+X-CSE-MsgGUID: V3VIqX+NQPuoLZ0YSMyLEQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,207,1770624000"; 
+   d="scan'208";a="257752349"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa002.fm.intel.com with ESMTP; 29 Apr 2026 17:29:29 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wIFHS-000000004gn-2Zzy;
+	Thu, 30 Apr 2026 00:29:26 +0000
+Date: Thu, 30 Apr 2026 02:28:54 +0200
+From: kernel test robot <lkp@intel.com>
+To: Aaron Tomlin <atomlin@atomlin.com>, corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: oe-kbuild-all@lists.linux.dev, tglx@kernel.org,
+	akpm@linux-foundation.org, bp@alien8.de, rdunlap@infradead.org,
+	dave.hansen@linux.intel.com, feng.tang@linux.alibaba.com,
+	pawan.kumar.gupta@linux.intel.com, dapeng1.mi@linux.intel.com,
+	kees@kernel.org, elver@google.com, paulmck@kernel.org,
+	lirongqing@baidu.com, bhelgaas@google.com, bigeasy@linutronix.de,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: kernel-parameters: document scope of
+ irqaffinity= parameter
+Message-ID: <202604300215.1Alrqyxi-lkp@intel.com>
+References: <20260421150911.42404-1-atomlin@atomlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260428-gmem-inplace-conversion-v5-0-d8608ccfca22@google.com>
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN1PEPF0002BA50:EE_|CH1PPFD8936FA16:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2c3368c2-8902-4747-d925-08dea64a3b89
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700016|1800799024|7416014|376014|13003099007|18002099003|56012099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	MfGB1iyYxvTCPsQwl/eTQ4rWfpfuJqrslpGQi++WsYb8idqKkYrZgWAo1uluLWmBuwtL13rbRRfrntjRh2aT/px1g+j7TQS2vutkBlfW+YgJPdlYqAedGdclV9U+P4izYod//2lz2fjKNL5mlI+6J1LIfYzX4rdNV6+Mr7sLJ6Srtr/0uLdbYHivlDKsM54PGGDNTZQlipug0dEusZsh2MzIARNwagkxjFqiIFqVa+gnUP9WyBp7RmpO6ExgHT06ozQO+ie6H7CvXatz0D/wOeXYtbbH9dQOTaTTpI6L07rPccNl/SSJp4Ms3sny0o2PoivrDbWQqdOrT0c61b9ZKBdFWsiaFAcSDha+xcS+qpXXzSkQIy/q+exjl9K7dDeZOULnRsg8ftLWOKpjn84CLvS3TZLyyBPSlpDD9PUX9jC4x8bCJn7tTCYVORInmXjUqCFEUuEq79Y+/2mA/RbDsTvueqy0r9Bv7DydijrPnajswd02v4mmiaoxqgqT46Kdu2COa465kmmGd2B9p/y2dSwx7pmVP8dQqLcZ2x1FNLfzs5tAzKzqgYm+b18UZAcngiZxy69iqyDnTMdY0YRtmJ2kEz7h5nMa38QoY8dP3q1z4YGl3FICmgZO/N2baJ/kkduASn49uZLTdXsxHmpPjvuIPdw0LdUIgh532QWu/BleNaeVzv1jANNXEzee/0LgNSZIdZXsivbzA+xI1fw4gGGBUml7brCGd8qF/lec9AY=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(1800799024)(7416014)(376014)(13003099007)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	l9+7gjfyQDK4+iYTnufPFwaQrRf4/9X0oyBU3rycw7EfK0LiTWwvGqnaCyNte26lj9fkORqdCWchCY81Awx3Rl97E67k7QEcg6fAZ0iIMy+dZLzQnfkkhVuWJpI06oVj2nzkdfza8JNUv6R6wIHVqetJMaz0d2nNINLUFYlWMvlqcYLI8MaAcf+hWLlS1MkEftW3uO1Fq9jomiEjMpBwbpqFuZzYbjBiOOrASLBjO0ZGMqFa2LN9gLKZUNEUXzI9P5v8Kcxa8cD3i3Y/cKgm7bpVzcGO3AfwvNelXxADKeoDgN56DRJ5iBwQYEoALqcTwC5S32/0TZhmVIiC7GfrekxcIGXXAMGF3ld3OVt220aFmGzM6HcqnH+FCmzFCGWaEUiN2Vtg6gsrvEfpwajY1/CdzK/4xok/aG+2YX4Nd7q2fVTgI17iEsOSobeAFmtN
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2026 23:51:28.9208
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2c3368c2-8902-4747-d925-08dea64a3b89
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SN1PEPF0002BA50.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPFD8936FA16
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20260421150911.42404-1-atomlin@atomlin.com>
 
-On Tue, Apr 28, 2026 at 04:24:55PM -0700, Ackerley Tng via B4 Relay wrote:
-> [Some people who received this message don't often get email from devnull+ackerleytng.google.com@kernel.org. Learn why this is important at https://aka.ms/LearnAboutSenderIdentification ]
-> 
-> This is RFC v5 of guest_memfd in-place conversion support.
-> 
-> Up till now, guest_memfd supports the entire inode worth of memory being
-> used as all-shared, or all-private. CoCo VMs may request guest memory to be
-> converted between private and shared states, and the only way to support
-> that currently would be to have the userspace VMM provide two sources of
-> backing memory from completely different areas of physical memory.
-> 
-> pKVM has a use case for in-place sharing: the guest and host may be
-> cooperating on given data, and pKVM doesn't protect data through
-> encryption, so copying that given data between different areas of physical
-> memory as part of conversions would be unnecessary work.
-> 
-> This series also serves as a foundation for guest_memfd huge page
-> support. Now, guest_memfd only supports PAGE_SIZE pages, so if two sources
-> of backing memory are used, the userspace VMM could maintain a steady total
-> memory utilized by punching out the pages that are not used. When huge
-> pages are available in guest_memfd, even if the backing memory source
-> supports hole punching within a huge page, punching out pages to maintain
-> the total memory utilized by a VM would be introducing lots of
-> fragmentation.
-> 
-> In-place conversion avoids fragmentation by allowing the same physical
-> memory to be used for both shared and private memory, with guest_memfd
-> tracks the shared/private status of all the pages at a per-page
-> granularity.
-> 
-> The central principle, which guest_memfd continues to uphold, is that any
-> guest-private page will not be mappable to host userspace. All pages will
-> be mmap()-able in host userspace, but accesses to guest-private pages (as
-> tracked by guest_memfd) will result in a SIGBUS.
-> 
-> This series introduces a guest_memfd ioctl (not kvm, vm or vcpu, but
-> guest_memfd ioctl) that allows userspace to set memory
-> attributes (shared/private) directly through the guest_memfd. This is the
-> appropriate interface because shared/private-ness is a property of memory
-> and hence the request should be sent directly to the memory provider -
-> guest_memfd.
-> 
-> Tested with both CONFIG_KVM_VM_MEMORY_ATTRIBUTES enabled and disabled:
-> 
-> + tools/testing/selftests/kvm/guest_memfd_test.c
-> + tools/testing/selftests/kvm/pre_fault_memory_test.c
-> + tools/testing/selftests/kvm/x86/guest_memfd_conversions_test.c
-> + tools/testing/selftests/kvm/x86/private_mem_conversions_test.c
-> + tools/testing/selftests/kvm/x86/private_mem_conversions_test.sh
-> + tools/testing/selftests/kvm/x86/private_mem_kvm_exits_test.c
-> 
-> Updates for this revision:
-> 
-> + For TDX and SNP, PRESERVE supported only before VM is finalized only for
->   to_private conversions.
->     + This allows PRESERVE to be used as part of the VM memory
->       loading/encryption flow
->     + Only support PRESERVE for to_private conversions (to_shared on
->       populated memory on TDX would cause zeroing)
->     + Relaxed constraints for SNP and TDX to allow NULL to be passed as
->       source address.
-> + Dropped KVM_CAP_MEMORY_ATTRIBUTES2. KVM_CAP_MEMORY_ATTRIBUTES reports
->   attributes supported by the KVM_SET_MEMORY_ATTRIBUTES VM ioctl, and
->   KVM_CAP_GUEST_MEMFD_MEMORY_ATTRIBUTES reports attributes supported bt the
->   KVM_SET_MEMORY_ATTRIBUTES2 guest_memfd ioctl.
->     + KVM_SET_MEMORY_ATTRIBUTES2 is not supported by the VM ioctl
-> + Resolve locking issue when kvm_gmem_get_attribute() is called from
->   kvm_mmu_zap_collapsible_spte() by bugging the VM. guest_memfd memslots
->   don't support dirty tracking, so the locking issue is not on an
->   accessible code path.
-> + Moved guest_memfd_conversions_test.c to only be compiled and tested for
->   x86, since it depends so heavily on KVM_X86_SW_PROTECTED_VM's as a
->   testing vehicle
-> 
-> TODOs
-> 
-> + Perhaps further clarify PRESERVE flag: [8]
+Hi Aaron,
 
-I made a super-long-winded reply to that thread, but to summarize:
+kernel test robot noticed the following build warnings:
 
-PRESERVE flag has different enumeration/behavior/enforcement for pre-launch
-vs. post-launch, and similar considerations might come into play for
-other flags, so to make it easier to enumerate what flags are available
-for pre-launch/post-launch, maybe we could have 2 capabilities instead
-of 1:
+[auto build test WARNING on lwn/docs-next]
+[also build test WARNING on linus/master v7.1-rc1 next-20260429]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-  KVM_CAP_MEMORY_ATTRIBUTES2_PRE_LAUNCH_FLAGS
-  KVM_CAP_MEMORY_ATTRIBUTES2_FLAGS
+url:    https://github.com/intel-lab-lkp/linux/commits/Aaron-Tomlin/docs-kernel-parameters-document-scope-of-irqaffinity-parameter/20260423-221944
+base:   git://git.lwn.net/linux.git docs-next
+patch link:    https://lore.kernel.org/r/20260421150911.42404-1-atomlin%40atomlin.com
+patch subject: [PATCH v2] docs: kernel-parameters: document scope of irqaffinity= parameter
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260430/202604300215.1Alrqyxi-lkp@intel.com/reproduce)
 
-where SNP/TDX would only advertise PRESERVE for PRE_LAUNCH, and pKVM I
-guess would enumerate it for both (or maybe just POST_LAUNCH?)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202604300215.1Alrqyxi-lkp@intel.com/
 
-That lets us keep the flags definitions more straightforward but still
-allows userspace to easily enumerate what exactly should be available at
-pre vs. post launch time, and give us some flexibility to detail
-variations in behavior between the 2 phases without documenting
-edge-cases in terms of VM types.
+All warnings (new ones prefixed by >>):
 
-> + Resolve issue where guest_memfd_conversions_test, which uses the
->   kselftest framework, doesn't perform teardown on assertion
->   failure. Please see proposal at [9]
-> + Test with TDX selftests. We're in the process of rebasing TDX selftests
->   on this series and will post updates when that's tested.
-> 
-> I would like feedback on:
-> 
-> + Content modes: 0 (MODE_UNSPECIFIED), ZERO, and PRESERVE. Is that all
->   good, or does anyone think there is a use case for something else?
-> + Should the content modes apply even if no attribute changes are required?
->     + See notes added in "KVM: guest_memfd: Apply content modes while
->       setting memory attributes"
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: Documentation/devicetree/dt-object-internal.txt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,^Documentation/scheduler/sched-pelt
+   Warning: tools/docs/documentation-file-ref-check references a file that doesn't exist: m,(Documentation/translations/[
+   Using alabaster theme
+   Documentation/core-api/irq/managed_irq.rst:97: ERROR: Unexpected indentation. [docutils]
+>> Documentation/core-api/irq/managed_irq.rst:104: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:109: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:111: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:118: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:122: ERROR: Unexpected indentation. [docutils]
+   Documentation/core-api/irq/managed_irq.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
 
-Looking at the example you have there:
 
-  + Note: These content modes apply to the entire requested range, not
-  + just the parts of the range that underwent conversion. For example, if
-  + this was the initial state:
-  + 
-  +   * [0x0000, 0x1000): shared
-  +   * [0x1000, 0x2000): private
-  +   * [0x2000, 0x3000): shared
-  + and range [0x0000, 0x3000) was set to shared, the content mode would
-  + apply to all memory in [0x0000, 0x3000), not just the range that
-  + underwent conversion [0x1000, 0x2000).
+vim +104 Documentation/core-api/irq/managed_irq.rst
 
-Userspace would be aware of whether the range contains pages that were
-already set to private, so if it really wants to set the just the
-[0x1000, 0x2000) range to shared with appropriate content mode, it is
-fully able to do so by just issuing the ioctl for that specific range.
-If it attempts to issue it for the entire range, it only seems like it
-would defy normal expectations and cause confusion to skip ranges, and
-I'm not sure it gains us anything useful in exchange for that potential
-confusion.
+    65	
+    66	- A QEMU instance is booted with "-device virtio-scsi-pci".
+    67	  The MSI‑X device exposes 11 interrupts: 3 "management" interrupts and 8
+    68	  "queue" interrupts. The driver requests the 8 queue interrupts, each of which
+    69	  is affine to exactly one CPU. If that CPU goes offline, the interrupt is shut
+    70	  down.
+    71	
+    72	  Assuming interrupt 48 is one of the queue interrupts, the following appears::
+    73	
+    74	    /proc/irq/48/effective_affinity_list:7
+    75	    /proc/irq/48/smp_affinity_list:7
+    76	
+    77	  This indicates that the interrupt is served only by CPU7. Shutting down CPU7
+    78	  does not migrate the interrupt to another CPU::
+    79	
+    80	    /proc/irq/48/effective_affinity_list:0
+    81	    /proc/irq/48/smp_affinity_list:7
+    82	
+    83	  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
+    84	  enabled, this can be verified via the debugfs interface (e.g.,
+    85	  /sys/kernel/debug/irq/irqs/48). The dstate field will include
+    86	  IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
+    87	  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
+    88	
+    89	    # cat /sys/kernel/debug/irq/irqs/87
+    90	    handler:  handle_edge_irq
+    91	    device:   0000:41:00.0
+    92	    status:   0x00000000
+    93	    istate:   0x00004000
+    94	    ddepth:   0
+    95	    wdepth:   0
+    96	    dstate:   0x19601200
+    97			IRQD_ACTIVATED
+    98			IRQD_IRQ_STARTED
+    99			IRQD_SINGLE_TARGET
+   100			IRQD_AFFINITY_SET
+   101			IRQD_AFFINITY_MANAGED
+   102			IRQD_AFFINITY_ON_ACTIVATE
+   103			IRQD_HANDLE_ENFORCE_IRQCTX
+ > 104	    node:     0
+   105	    affinity: 9
+   106	    effectiv: 9
+   107	    pending:
+   108	    domain:  IR-PCI-MSIX-0000:41:00.0-12
+   109	     hwirq:   0x8
+   110	     chip:    IR-PCI-MSIX-0000:41:00.0
+   111	      flags:   0x430
+   112			 IRQCHIP_SKIP_SET_WAKE
+   113			 IRQCHIP_ONESHOT_SAFE
+   114	
+   115	      address_hi: 0x00000000
+   116	      address_lo: 0xfee00000
+   117	      msg_data:   0x00000008
+   118	     parent:
+   119		domain:  AMD-IR-3-14
+   120		 hwirq:   0x41000000
+   121		 chip:    AMD-IR
+   122		  flags:   0x0
+   123		 parent:
+   124		    domain:  VECTOR
+   125		     hwirq:   0x57
+   126		     chip:    APIC
+   127		      flags:   0x0
+   128		     Vector:    33
+   129		     Target:     9
+   130		     move_in_progress: 0
+   131		     is_managed:       1
+   132		     can_reserve:      0
+   133		     has_reserved:     0
+   134		     cleanup_pending:  0
+   135	
 
->     + Possibly related: should setting attributes be allowed if some
->       sub-range requested already has the requested attribute?
-
-As it is now, userspace has that capability (to use finer-grained ranges
-if it doesn't want to re-issue unecessary/unwanted conversions), similar
-to above. And KVM internally will just issue kvm_arch_gmem_prepare()
-calls so that architecture-specific handling can deal with this case
-(e.g. SNP's sev_gmem_prepare() already checks if the corresponding
-attribute is set in the RMP table and just skips it otherwise). So I
-don't think we really gain anything but added complexity if we try to
-make gmem more selective about it.
-
--Mike
-
-> + Structure of how various content modes are checked for support or
->   applied? I used overridable weak functions for architectures that haven't
->   defined support, and defined overrides for x86 to show how I think it would
->   work. For CoCo platforms, I only implemented TDX for illustration purposes
->   and might need help with the other platforms. Should I have used
->   kvm_x86_ops? I tried and found myself defining lots of boilerplate.
-> + The use of private_mem_conversions_test.sh to run different options in
->   private_mem_conversions_test. If this makes sense, I'll adjust the
->   Makefile to have private_mem_conversions_test tested only via the script.
-> 
-> This series is based on kvm/next, and here's the tree for your convenience:
-> 
-> https://github.com/googleprodkernel/linux-cc/commits/guest_memfd-inplace-conversion-v5
-> 
-> Older series:
-> 
-> + RFCv4 is at [7]
-> + RFCv3 is at [6]
-> + RFCv2 is at [5]
-> + RFCv1 is at [4]
-> + Previous versions of this feature, part of other series, are available at
->   [1][2][3].
-> 
-> [1] https://lore.kernel.org/all/bd163de3118b626d1005aa88e71ef2fb72f0be0f.1726009989.git.ackerleytng@google.com/
-> [2] https://lore.kernel.org/all/20250117163001.2326672-6-tabba@google.com/
-> [3] https://lore.kernel.org/all/b784326e9ccae6a08388f1bf39db70a2204bdc51.1747264138.git.ackerleytng@google.com/
-> [4] https://lore.kernel.org/all/cover.1760731772.git.ackerleytng@google.com/T/
-> [5] https://lore.kernel.org/all/cover.1770071243.git.ackerleytng@google.com/T/
-> [6] https://lore.kernel.org/r/20260313-gmem-inplace-conversion-v3-0-5fc12a70ec89@google.com/T/
-> [7] https://lore.kernel.org/all/20260326-gmem-inplace-conversion-v4-0-e202fe950ffd@google.com/T/
-> [8] https://lore.kernel.org/all/CAEvNRgGbMhkX310CkFY_M5x-zod=BDTiuznrZ0XvFPUK7weL1A@mail.gmail.com/
-> [9] https://lore.kernel.org/all/20260414-selftest-global-metadata-v1-0-fd223922bc57@google.com/T/
-> 
-> Signed-off-by: Ackerley Tng <ackerleytng@google.com>
-> ---
-> Ackerley Tng (34):
->       KVM: x86/mmu: Bug the VM if gmem attributes are queried to determine max mapping level
->       KVM: guest_memfd: Update kvm_gmem_populate() to use gmem attributes
->       KVM: guest_memfd: Only prepare folios for private pages
->       KVM: Move kvm_supported_mem_attributes() to kvm_host.h
->       KVM: guest_memfd: Add basic support for KVM_SET_MEMORY_ATTRIBUTES2
->       KVM: guest_memfd: Ensure pages are not in use before conversion
->       KVM: guest_memfd: Call arch invalidate hooks on conversion
->       KVM: guest_memfd: Return early if range already has requested attributes
->       KVM: guest_memfd: Advertise KVM_SET_MEMORY_ATTRIBUTES2 ioctl
->       KVM: guest_memfd: Handle lru_add fbatch refcounts during conversion safety check
->       KVM: guest_memfd: Use actual size for invalidation in kvm_gmem_release()
->       KVM: guest_memfd: Determine invalidation filter from memory attributes
->       KVM: guest_memfd: Introduce default handlers for content modes
->       KVM: guest_memfd: Apply content modes while setting memory attributes
->       KVM: x86: Support SW_PROTECTED_VM in applying content modes
->       KVM: TDX: Make source page optional for KVM_TDX_INIT_MEM_REGION
->       KVM: x86: Support SNP and TDX applying content modes
->       KVM: x86: Bug CoCo VM on page fault before finalizing
->       KVM: Add CAP to enumerate supported SET_MEMORY_ATTRIBUTES2 flags
->       KVM: selftests: Test basic single-page conversion flow
->       KVM: selftests: Test conversion flow when INIT_SHARED
->       KVM: selftests: Test conversion precision in guest_memfd
->       KVM: selftests: Test conversion before allocation
->       KVM: selftests: Convert with allocated folios in different layouts
->       KVM: selftests: Test that truncation does not change shared/private status
->       KVM: selftests: Test conversion with elevated page refcount
->       KVM: selftests: Test that conversion to private does not support ZERO
->       KVM: selftests: Support checking that data not equal expected
->       KVM: selftests: Test that not specifying a conversion flag scrambles memory contents
->       KVM: selftests: Reset shared memory after hole-punching
->       KVM: selftests: Provide function to look up guest_memfd details from gpa
->       KVM: selftests: Make TEST_EXPECT_SIGBUS thread-safe
->       KVM: selftests: Update private_mem_conversions_test to mmap() guest_memfd
->       KVM: selftests: Add script to exercise private_mem_conversions_test
-> 
-> Michael Roth (1):
->       KVM: SEV: Make 'uaddr' parameter optional for KVM_SEV_SNP_LAUNCH_UPDATE
-> 
-> Sean Christopherson (18):
->       KVM: guest_memfd: Introduce per-gmem attributes, use to guard user mappings
->       KVM: Rename KVM_GENERIC_MEMORY_ATTRIBUTES to KVM_VM_MEMORY_ATTRIBUTES
->       KVM: Enumerate support for PRIVATE memory iff kvm_arch_has_private_mem is defined
->       KVM: Stub in ability to disable per-VM memory attribute tracking
->       KVM: guest_memfd: Wire up kvm_get_memory_attributes() to per-gmem attributes
->       KVM: Move KVM_VM_MEMORY_ATTRIBUTES config definition to x86
->       KVM: Let userspace disable per-VM mem attributes, enable per-gmem attributes
->       KVM: guest_memfd: Enable INIT_SHARED on guest_memfd for x86 Coco VMs
->       KVM: selftests: Create gmem fd before "regular" fd when adding memslot
->       KVM: selftests: Rename guest_memfd{,_offset} to gmem_{fd,offset}
->       KVM: selftests: Add support for mmap() on guest_memfd in core library
->       KVM: selftests: Add selftests global for guest memory attributes capability
->       KVM: selftests: Add helpers for calling ioctls on guest_memfd
->       KVM: selftests: Test that shared/private status is consistent across processes
->       KVM: selftests: Provide common function to set memory attributes
->       KVM: selftests: Check fd/flags provided to mmap() when setting up memslot
->       KVM: selftests: Update pre-fault test to work with per-guest_memfd attributes
->       KVM: selftests: Update private memory exits test to work with per-gmem attributes
-> 
->  Documentation/virt/kvm/api.rst                     | 139 ++++-
->  .../virt/kvm/x86/amd-memory-encryption.rst         |  19 +-
->  Documentation/virt/kvm/x86/intel-tdx.rst           |   4 +
->  arch/x86/include/asm/kvm_host.h                    |   2 +-
->  arch/x86/kvm/Kconfig                               |  15 +-
->  arch/x86/kvm/mmu/mmu.c                             |  20 +-
->  arch/x86/kvm/svm/sev.c                             |  18 +-
->  arch/x86/kvm/vmx/tdx.c                             |   8 +-
->  arch/x86/kvm/x86.c                                 | 145 ++++-
->  include/linux/kvm_host.h                           |  74 ++-
->  include/trace/events/kvm.h                         |   4 +-
->  include/uapi/linux/kvm.h                           |  21 +
->  mm/swap.c                                          |   2 +
->  tools/testing/selftests/kvm/Makefile.kvm           |   5 +
->  tools/testing/selftests/kvm/include/kvm_util.h     | 141 ++++-
->  tools/testing/selftests/kvm/include/test_util.h    |  34 +-
->  .../selftests/kvm/kvm_has_gmem_attributes.c        |  17 +
->  tools/testing/selftests/kvm/lib/kvm_util.c         | 130 +++--
->  tools/testing/selftests/kvm/lib/test_util.c        |   7 -
->  tools/testing/selftests/kvm/lib/x86/sev.c          |   2 +-
->  .../testing/selftests/kvm/pre_fault_memory_test.c  |   4 +-
->  .../kvm/x86/guest_memfd_conversions_test.c         | 552 +++++++++++++++++++
->  .../kvm/x86/private_mem_conversions_test.c         |  55 +-
->  .../kvm/x86/private_mem_conversions_test.sh        | 128 +++++
->  .../selftests/kvm/x86/private_mem_kvm_exits_test.c |  38 +-
->  virt/kvm/Kconfig                                   |   3 +-
->  virt/kvm/guest_memfd.c                             | 591 ++++++++++++++++++++-
->  virt/kvm/kvm_main.c                                |  87 ++-
->  28 files changed, 2075 insertions(+), 190 deletions(-)
-> ---
-> base-commit: 39f1c201b93f4ff71631bac72cff6eb155f976a4
-> change-id: 20260225-gmem-inplace-conversion-bd0dbd39753a
-> 
-> Best regards,
-> --
-> Ackerley Tng <ackerleytng@google.com>
-> 
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
