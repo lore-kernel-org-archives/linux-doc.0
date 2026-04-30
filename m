@@ -1,311 +1,170 @@
-Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010048.outbound.protection.outlook.com [40.93.198.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3D22398918;
-	Thu, 30 Apr 2026 23:04:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777590295; cv=fail; b=bYRfEdYlkTWlkEVsnC3O4mdlhBVlFIgplHZzbfy3FyY+hKKDM7ODGs5t/c+4mxiJJyhfpJ+Xs5qEq29pBueU0iNgxy9J8fnkEz6S93Tpr1ZecvBLY5QDcDjNHT4cRYYwT69aljhUDQz27DU5JjLn+up97Z4RZafPAL8U41MFTVc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777590295; c=relaxed/simple;
-	bh=QR/DlXwGmHLZ/tVRl6gEWvtTDEeRqOmbqfOmMt/XgSc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uCjGTI/C7tAeJqhb1hY6mDvRcaGBpNl2ANI0QTizYLax7KyGz/4z9KxbdA20wm+7llyXsqh2xTwQwHST4Oxu30NqHGJ08KANZevDWSpp5o3FrHQ9hgpuL+DePszhUYfL8VsggdS9fQH90XQZpTrK+fvHTKb9G9sQEVhxafj0j6A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=qi33MI2V; arc=fail smtp.client-ip=40.93.198.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0500C3A4F50
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 23:21:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777591312; cv=none; b=IMnKj/hi4Rg6jxHaDcpQxuoKlHBLl1sYTS1p557ZfA5TUVZZbtI+z/Z/tQwdZ8Avqx1CD0VSeZqD3IxLHmtt9Asflyray7GiVaumSX2zmJuWv2uYHtdMeIjeelr1EHOzfRhr5PcDrIasgSS8EWtOQjkhkDedL9QtZfxehgdcrOk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777591312; c=relaxed/simple;
+	bh=eGi370BjNE9CSKfEDaI7AioZMVPwUqSR1hq/ViSDNwQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aHeH1bDkn3YcyTa+BMhLmLMLDRARj4vbtIYHf5XlH9xfnPhwCFtF7t7pH+o9BH3LeQC8nr5O1tlwNnognst35NV5IhjxO7YGpUg9pJNyAHRJcqrH3P2lQhV3oHDLGjqNrF8dUIXA5itlipdIL6VL+7fHPIML1KUVAW8c4SoRUQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cf7upvls; arc=none smtp.client-ip=209.85.215.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="qi33MI2V"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Nfr8cbQssAG6Zrjht2TNbIIw+EUumTFP1cINyoW1g9BnyVWJ2pDDeiOV1DFRlM6JT2iLztXmCEOGO7RaSVKT5cxOC1bcuoh+XFVhY9Vd5moAq6UJ7Tiox3OGzl3BN26pS+TrfP0FN5KvrrTFuQtgjHlytm+lb+qtWUgNWZbYsoZO68cMZEjwnn/MwNpkQ3BKpvI2b8DEiL+5zr/vCSQ+jIRHKAXLGJb2dv2fsqxEJzHwvOoVc9N1VhxVCBINxbNsHeJE2IIsSgNSzliJyDTaq2rFQZgoG+R4w+4ZgJyMheP6Lx9YpFGfJWr85wzw8lEWCepzjr++lnj9mfQg4NC3+Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IS3L0d1WARak6tx5MohMnpf/P9KepRVAn0dP8dSDZFA=;
- b=QYg0aJCSJnJDwVaXKE6b1MTx8P+t2wmWsHa0RYLzaXuvOA7XpYnadi0MYNjp55md6eIIg5REPVDVBQ6Q42sgKKekqvCNFuOz9Kn03IujAPaG6FAvdJrNhThlZSOG+e72KnxPmmycHAiyROD4yHgMyqAejnDx7QSwE00cXWh/ctt37mAA1Ghn5k4gtZerho95Y5cbXzKicVGTtgw584LaFg4NAGVq4qU6S3XCxZ7M19UoQd++qOKVWYhVXTBXsATIvFYegIEIiwXs3cdnVXaihYvSEEjUUFTNV01e9xNYSy8OyUjakxGwdRTe2t05LnC6WQ3zr2gwytPTy8qk+WSvhg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IS3L0d1WARak6tx5MohMnpf/P9KepRVAn0dP8dSDZFA=;
- b=qi33MI2VOz0kqmdeI4W/YCRKg9gITHE3adc/PLCPUGSfyQURy3+1NzIaN9wDFU2Rc8456NL6xKcEzxtpZU0O1DtKh1vPtJEcIarM2q2KNHLKhzvUkhHoFUl9o6YlQ1L8bDgvFCc47CvPrwPqb90cdTFsJz7IB1bYPjxsyjODe14=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS5PPFA3734E4BA.namprd12.prod.outlook.com
- (2603:10b6:f:fc00::65c) by MW9PR12MB999207.namprd12.prod.outlook.com
- (2603:10b6:303:301::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.26; Thu, 30 Apr
- 2026 23:04:51 +0000
-Received: from DS5PPFA3734E4BA.namprd12.prod.outlook.com
- ([fe80::d03f:ffac:bea5:143c]) by DS5PPFA3734E4BA.namprd12.prod.outlook.com
- ([fe80::d03f:ffac:bea5:143c%6]) with mapi id 15.20.9846.025; Thu, 30 Apr 2026
- 23:04:51 +0000
-Message-ID: <797e863c-211b-46b8-b404-de53f8453527@amd.com>
-Date: Thu, 30 Apr 2026 18:04:47 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/8] x86/resctrl: Support for AMD Global (Slow) Memory
- Bandwidth Allocation
-To: Reinette Chatre <reinette.chatre@intel.com>,
- Babu Moger <babu.moger@amd.com>, corbet@lwn.net, tony.luck@intel.com,
- tglx@kernel.org, mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com
-Cc: skhan@linuxfoundation.org, x86@kernel.org, Dave.Martin@arm.com,
- james.morse@arm.com, hpa@zytor.com, akpm@linux-foundation.org,
- rdunlap@infradead.org, dapeng1.mi@linux.intel.com, kees@kernel.org,
- elver@google.com, lirongqing@baidu.com, ebiggers@kernel.org,
- paulmck@kernel.org, seanjc@google.com, pawan.kumar.gupta@linux.intel.com,
- nikunj@amd.com, yazen.ghannam@amd.com, peterz@infradead.org,
- chang.seok.bae@intel.com, kim.phillips@amd.com, thomas.lendacky@amd.com,
- naveen@kernel.org, elena.reshetova@intel.com, xin@zytor.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, eranian@google.com,
- peternewman@google.com
-References: <cover.1776980182.git.babu.moger@amd.com>
- <cb8272dc-4419-45a9-8cb4-110c803e62ee@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <cb8272dc-4419-45a9-8cb4-110c803e62ee@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CH2PR20CA0004.namprd20.prod.outlook.com
- (2603:10b6:610:58::14) To DS5PPFA3734E4BA.namprd12.prod.outlook.com
- (2603:10b6:f:fc00::65c)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cf7upvls"
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-c648bc907ebso923756a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 16:21:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777591310; x=1778196110; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=RcjWr0xT/STuAJ8HdgaiitT54QAca7R2l4fI83ncXKE=;
+        b=cf7upvlsdMFoHr5zdFKwM7M0+3qN+n6DRq7lMheSeh/fA+dolRdROu/aJ18luuDD9+
+         tBpcEa+vOZx+jb7gALkY13yKYipI4zt73JDfP0PBI7MA1ovBBCOFTwdvn8gSXDJ5cUoa
+         TM9vQ76AjlXY4xw7+aQ6jfJp8QpyMfOIwuxF66xsfbZa9eZ43B/Ak0hJED7l3a1MHI9s
+         VfD/87jt0bbrltEfG6rzao5Ebo10rVI75Ojf5Jyig+/lcF8tIY3f1tL4MJ7qmy/J8WoE
+         usLaULMh23/T18lLWJMOL9NQBLn2FHpZU/qCcX+y0WT1OuzJ2SqwUxG0IoliFC1FQpBc
+         Z4Vg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777591310; x=1778196110;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RcjWr0xT/STuAJ8HdgaiitT54QAca7R2l4fI83ncXKE=;
+        b=WUGudoXe4Tl3jrgkuBUU9ao/EhtT/Qo3K9MXwYKDwYMZ1IlJdkfIkPU6sJHGDP9r7u
+         locuz5neeT4012sd6M09CysApsKtlCnxhFPexyIlIsc2QjhFS3h/C8pmG8mgbsOJZzoB
+         i0WKc1wsH5mXPGTwRbDoiL1VebHmL2oJFNxE8ms+ZyRYJDaWYuSHRBZFPXUzvLaFd6Tw
+         9mgVVGUWDTInZ8u6tdR9DwgLF/99/StRXzxGV2izH7QAHFbZ4LOLDOasY0XRK5Jyi6I5
+         ziPaCoK8XOEVbl6oURBZtKPvdAN1Ntfuf+ClRY8ibbwF6MiVtBPLynuPPRthaESJ8ks8
+         0/lw==
+X-Forwarded-Encrypted: i=1; AFNElJ9b4kmJbzTUWSEkQIJ55eR/CgCHibU9U2LQVaog29WgKeZcbInRH9B85C4Fb+MRf3i1kGyKgFq+ZAI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBH6saXIvYRbPrr+K9SW+gBdRFCwFPQYoNvjGzw6bdsdLa+zFP
+	npABU92YKsVMZopix9nFRRU4gVk0Phgf3DxO+DIhTLIJnyHMOOlRlp1B
+X-Gm-Gg: AeBDievTZX5DqmQCA5VkwdGGD4GINQ099cZPTWiOe5BxZ7bB6Ta3ZPBURXgXBycPkoe
+	32Ec4PbYbkRRvzuiXoHSLHGrwpFu5cu7b1WBUlv/49/Z9QhGjMdULKvFd8iDR72P7AtEVfjberA
+	9Dwhl0G19vuBeE6s2JUzqshsopJIS7TezBDfsfO+OgAJo4kw7lvmel5wq4wyUPHjmRidAODF0mA
+	aLq1NBmVdI9Kqf0f0MOFD2EkWCnRGaR9TbjZ2H9oKacpsLNlWMCGx0RrWQlhzclWSD8hY9e4AX3
+	g7CQkZPyuam6osjOX7HoHi/65jDVb3JE4z3pg4d1WhD2O7tDtVMlnHzEFJG+38AbLjU7J69a8Ef
+	cR+7leDUEAyMJN4xH+2ZPJy+mSUmi3+RscVQMT289p7GlxD8uYPZfeJ1pl/XEdpuBjcKproNcuM
+	RdB1blOvwBLpicuwOHDSru1F5qFcCflp8vgQQUYAjKEMGmmwQnMrZlXV3jiztXliKWH1YtVM8Ci
+	yfOJrDrRcI=
+X-Received: by 2002:a05:6a00:4407:b0:82c:6aee:b21a with SMTP id d2e1a72fcca58-8351a5d8da5mr544471b3a.45.1777591310442;
+        Thu, 30 Apr 2026 16:21:50 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515b5b921sm809805b3a.54.2026.04.30.16.21.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 30 Apr 2026 16:21:49 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <7a5971b2-e067-40cb-8d15-aaf1926af3c3@roeck-us.net>
+Date: Thu, 30 Apr 2026 16:21:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS5PPFA3734E4BA:EE_|MW9PR12MB999207:EE_
-X-MS-Office365-Filtering-Correlation-Id: c5ee5955-fd62-4a37-1d4f-08dea70ce1fc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|18002099003|56012099003|20046099003|22082099003;
-X-Microsoft-Antispam-Message-Info:
-	NzUzHe9E/JMWSQFTKgg7GXmUTrGAB6uQwN2PFNUHBvEQ0XbZ/mKJFAfEjw1rD1+ytdcHX6SxjnCWNIoZ321mkRzjrunWbsroTv1ZFV8D6CfDGwUP+3wMpv6DzG3PijrBsCNLIMZXyBTt3EPjfKVpyQNzNMYT+TM1OhyCilLKPqT4+GaXoTUZ0gI7N/oMuWkjfKTuUcCZgOaJThG4U9HkOSvTIG5Baz778KALS8wKr2ZW5diuwM2Fz5sQUOHQkPMQDAgKejfCl7KAGU7wCT9hj8qXhlBqskK5hpOXl34HBRg2PjZAqSjoS0CbDPE3XBzw+P9ZVMS7YkRUqse+EbLKR837xP0M8hdGLObfjruwSblqs+b/VNejiPvdX4VLCoARWXnmRmP65GE9LbHQKHZy59Hsn+TGUGFzw9mgxzc5KMCnwGrmaUVsVEKC9LXDas+RrVPSPemXFUXMcyWMKhYEYt2aAN7GL94C/po5Yr0Rcm/5b2bppVIeEyWnZw6kh0/bgslGCUNFAqND9NAuWKyQdWYMt4hoQzeYKsh8hXEDP8k9GMinb6aJAzC9u7E2EXXWfckpksUHoCrPyD5mTJ+zQVrB4bclogUgF4ltMOSZq4bLuw6r8qNgq8fG2mD7CDX975cEeJpXuxRuTClvo5LCWw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS5PPFA3734E4BA.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(18002099003)(56012099003)(20046099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SzJEeUNYSmVXSlRGbDd6ODUwaGRHdFJkK1FwQVZsdTdvUjZxOS8xRzJCc0NB?=
- =?utf-8?B?NkJWRDVzZjdndDc5WDAvdTFpUDVQeEtCQ0lWUUpBWVFKTW5aUkNPY0dyZ292?=
- =?utf-8?B?Zng4cnlSNmc5aCt4T1gyUnMvV0FqN0RFYlYrNnhEeEtVYjFlZXg4WWwvbHVt?=
- =?utf-8?B?TGJ4VUQwNWhxRlgzT2pqTnBRUlNKeTBISVRhV3BtQk94TXlHaitYc3NJZC9k?=
- =?utf-8?B?cGMrbElpanJ0K1ZoUVJrVkJuak9vUmdRTzM5NzYxQnJBNmgxS3lPZjQ1azFh?=
- =?utf-8?B?SnFQcGhGT2d2aXR6NkVTWDZxY0tPWVVKbk8xako5OWZwUFBteWxtOHE0Y2tm?=
- =?utf-8?B?bGJVYzJPMTRIN2Fmcm5nbG9td2oyQ3JFUmVVM2xhQW13b2NQbmxOQ1E4OGFM?=
- =?utf-8?B?djBFSGxUSkFiN2ZRQ2dWWEJBVk80akRzTlpHTEQyajZPSmQwNTRyUzlWQm0w?=
- =?utf-8?B?VFZuOGdkcDZmL0grMjEyRFNwTDVldm82bVdtd05vdTl5cEhBZEpVdUVrbUJl?=
- =?utf-8?B?RHY0aitEL1ZZNDVyUW90NDFPdS9BUFVmZzNEUjlWUzBmNnEyS2Q1NU5ibFFM?=
- =?utf-8?B?N044bTdxcE9Ndi9GNkNCbDhLUWR1TXAyOU1ENnJweVVSbjc0MnBhMlNHMWIw?=
- =?utf-8?B?Sm84Ymw4dEJ1Ym12c2JLZFpQeHJHRU5DTVNiajZtVkQ5alJoaU9RaHFkOEhN?=
- =?utf-8?B?Qk5pdlBwSytuNnd6Qk1TQnlsZ3diMml6VG9wdDJoQkVZL0tMUVZBdDlENW4x?=
- =?utf-8?B?cWY5NXBJempmb2dEeUtHK2RuMTlhbkNJV3NkTldnNnh1dkFrKzlEYlpNUFZs?=
- =?utf-8?B?RkZaN2dTQ3RJODczb09WR1QxTmpSQTAxT1J5ZGlXQ3ZLTkJpVktqT3htMW1W?=
- =?utf-8?B?NUJlSTZqOWo3d3V6WUZiNmNsSk5LVURqQWUwcnlZUXZldmt2cUhERTViSGZi?=
- =?utf-8?B?aEJveGhXRXloT0F2NzFNeHB5WHFuRWZWS2NTQXNmVjZndjBNYnUrT0s4RXdB?=
- =?utf-8?B?UDhxcUZqMGxYTmFjK3V2THlPR05LNmdSWnlJVmdtUXNVVy9UMGcwZm5YZFNW?=
- =?utf-8?B?QjNreTBDSlFudlQ5YWFOYWNienlwZC9xQ0ZQNHl1aE8vSkFsUkhGWmNaSmNp?=
- =?utf-8?B?eFE5UnVlUGdGOEFZbVVLdTZCbVhWRWk3K1JmckdXNWcwa09DVEdLN2xMVWsy?=
- =?utf-8?B?aHFtZTFBai9pcGhyek1ZbWJqUGNLWHNKckx3QlJIQmg1VjBZcVgwSlJoQmNr?=
- =?utf-8?B?ZjFPSm1KMHpBdFcxR2ZKN0g4ZmdoR2ZQMXk5ak1GZDlFWnBHNG1XWGVsRUQ3?=
- =?utf-8?B?b3I4Mmp3VWdSSXhvcmtWNU5CYUhLSUFLZUdZQjVFaHAwMWlXcEJmNUJsTGpZ?=
- =?utf-8?B?YS9kTXBFczludWNPMWRtN3lnR0VyU1MzdlN5Z0Z1dWdzSVR4V1gvbFZrOGRP?=
- =?utf-8?B?dThHLzVzYlVMcDdZU1F6NEJCaUlNcHc0MlFoWkF1NktzZTU1d2VGWnhMMXMv?=
- =?utf-8?B?MUhYRmZmOVZDR2RSS3pvU3AxNW0wY0s0SmpNdXN2TEJxcFZuMkMvd0U5K2l5?=
- =?utf-8?B?eno2TUdjVmhMRnVtbjJ1enpQMFZCZ0swZmgySXgyRHF5WFhUZEp3ZWkwaGts?=
- =?utf-8?B?K2Q4QTZYNndNKzFTSjdORG54dlRjQmtNWG4vU1NMa2gyMWZwN2VJcGdVaTRR?=
- =?utf-8?B?UjRWTWE3MThpRU1zMVVtQ3dmOTRwRTNQbDJLa2xaMy9HNjhiZ0ttbHN0VDAv?=
- =?utf-8?B?S1A1QWg3MHpuUXFTNmt5RkFub1pzdnN5NVMrRGhTdEs3MWpnUzU4WkU3VlNK?=
- =?utf-8?B?U1RtN1hEeFJWVHI2Qm1IazhOeDkvenFrQzkwWWQxTjFFaHRvYmtrdmFkeWpS?=
- =?utf-8?B?TldjcXFOSDdYOVBjUDlOVVRKUlc4QmhPTGdqM0M3c0hDdVVmUjIxU29XVlg1?=
- =?utf-8?B?dzFzL2FkbzRtRmkrS1hOSWZ4dlp2LzdhOVNSeEJyaVJpVnI0cDRXbEkzeERD?=
- =?utf-8?B?ZDBueERiUlV4bkR6bHI0QithMGViZDhLWFcvNlRqRFk0Wk56Wm5WMk84dHIz?=
- =?utf-8?B?eFpJUnNXUVRJZVVKbjF2Ti9VWDFoZEdBVDBDZVplRFZpVDh3UmZmM3V1TW5t?=
- =?utf-8?B?cUxXakRSQ045ZzczQm45ZlFPWVlzYUluY29BZU0wTGliNlpUN1BLbVJyNzFW?=
- =?utf-8?B?aXdsNXlsWURXa3pudzRoSGZUM2hHT2daYm05SUdSZzVHSmhkT2Y4UmNrNDVX?=
- =?utf-8?B?N05GcEFWSno3SHIxcHExZWEvN2N0YUhqZ0VDeEVSL2htWUpuZU5ocWx5MTlC?=
- =?utf-8?Q?CDRGDAtiy/UlXfsE9m?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c5ee5955-fd62-4a37-1d4f-08dea70ce1fc
-X-MS-Exchange-CrossTenant-AuthSource: DS5PPFA3734E4BA.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 23:04:50.9118
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kTntpoOM2L22lWIdCyojxf2+WDRCfOXfHcbcwqeSyumtrjzvXi+bIAEeMHihtH3p
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW9PR12MB999207
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/5] docs: watchdog: general cleaning and corrections
+To: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Wim Van Sebroeck <wim@linux-watchdog.org>, linux-watchdog@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20260228010402.2389343-1-rdunlap@infradead.org>
+ <875x7cddye.fsf@trenco.lwn.net>
+ <3de4c724-39bf-47f9-bf43-49552bc60a3a@infradead.org>
+ <8161ef45-be1a-41e2-a22b-a12d6b9df666@infradead.org>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <8161ef45-be1a-41e2-a22b-a12d6b9df666@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Reinette,
-
-On 4/29/2026 5:34 PM, Reinette Chatre wrote:
-> Hi Babu,
+On 4/30/26 15:14, Randy Dunlap wrote:
+> Hi Wim,
 > 
-> On 4/23/26 6:41 PM, Babu Moger wrote:
+> On 3/22/26 5:54 PM, Randy Dunlap wrote:
 >>
->> This series adds resctrl support for two new AMD memory-bandwidth
->> allocation features:
 >>
->>    - GMBA  - Global Memory Bandwidth Allocation (hardware name: GLBE).
->>              Bounds DRAM bandwidth for groups of threads that span
->>              multiple L3 QoS domains, rather than being per-L3 like MBA.
+>> On 3/3/26 9:23 AM, Jonathan Corbet wrote:
+>>> Randy Dunlap <rdunlap@infradead.org> writes:
+>>>
+>>>> Fix some obvious issues in the watchdog documentation files.
+>>>> I didn't try to fix every little niggling mistake.
+>>>>
+>>>>   [PATCH 1/5] docs: watchdog: mlx-wdt: small fixes
+>>>>   [PATCH 2/5] docs: watchdog: pcwd: fix typo and driver info.
+>>>>   [PATCH 3/5] docs: watchdog-api: general cleaning
+>>>>   [PATCH 4/5] docs: watchdog-kernel-api: general cleanups
+>>>>   [PATCH 5/5] docs: watchdog-parameters: add missing watchdog_core parameters
+>>>>
+>>>>   Documentation/watchdog/mlx-wdt.rst             |    4 -
+>>>>   Documentation/watchdog/pcwd-watchdog.rst       |   19 +++++--
+>>>>   Documentation/watchdog/watchdog-api.rst        |   38 +++++++--------
+>>>>   Documentation/watchdog/watchdog-kernel-api.rst |   20 +++++--
+>>>>   Documentation/watchdog/watchdog-parameters.rst |   11 +++-
+>>>>   5 files changed, 58 insertions(+), 34 deletions(-)
+>>>
+>>> Wim, do you want to pick these up, or should I take them through the
+>>> docs tree?
 >>
->>    - GSMBA - Global Slow Memory Bandwidth Allocation (hardware name:
->>              GLSBE). The CXL.memory / slow-memory counterpart of GMBA,
->>              analogous to how SMBA relates to MBA.
->>
->> Both features share a new "NPS-node" control domain: a set of QoS (L3)
->> domains grouped together and aligned to the system's NPS (Nodes Per
->> Socket) BIOS configuration. Although the control domain is NPS-scoped,
->> the underlying bandwidth-limit MSRs (MSR_IA32_GMBA_BW_BASE 0xc0000600,
->> MSR_IA32_GSMBA_BW_BASE 0xc0000680) are instantiated per L3. Programming
->> a single control domain therefore requires writing the MSR on one CPU
->> per L3 that the domain spans - a new pattern for resctrl. Patches 2/8
->> and 3/8 introduce that infrastructure so the new resources can reuse
->> it.
->>
->> The features are documented in:
->>
->>    AMD64 Zen6 Platform Quality of Service (PQOS) Extensions,
->>    Publication # 69193 Revision 1.00, Issue Date March 2026
->>
->> available at https://bugzilla.kernel.org/show_bug.cgi?id=206537
->>
->> Series overview
->> ---------------
->>
->> Patches 1-5 to enable GMBA:
->>
->>    1/8  x86,fs/resctrl: Add support for Global Bandwidth Enforcement (GLBE)
->>
->>    2/8  x86/resctrl: Add RESCTRL_NPS_NODE scope for AMD NPS-aligned domains
->>         Add a new ctrl_scope value for resctrl resources whose control
->>         domain spans multiple L3s within an NPS node.
->>
->>    3/8  x86/resctrl: Update control MSRs per L3 for NPS-scoped resources
->>         Add resctrl_arch_update_nps(): builds a cpumask with one CPU per
->>         distinct L3 in the domain, then issues rdt_ctrl_update() via
->>         smp_call_function_many() on that mask. Falls back to the full
->>         domain mask if the scratch masks cannot be built. Route
->>         resctrl_arch_update_domains() and resctrl_arch_reset_all_ctrls()
->>         through this helper when ctrl_scope == RESCTRL_NPS_NODE.
->>
->>    4/8  x86,fs/resctrl: Add the resource for Global Memory Bandwidth Allocation
->>         Register RDT_RESOURCE_GMBA in rdt_resources_all[] with
->>         ctrl_scope=RESCTRL_NPS_NODE and schema_fmt=RANGE, add commands to
->>         discover feature details.
->>
->>    5/8  fs/resctrl: Add the documentation for Global Memory Bandwidth Allocation
->>         Add examples in Documentation/filesystems/resctrl.rst.
->>
->> Patches 6-8 to enable GSMBA in the same shape:
->>
->>    6/8  x86,fs/resctrl: Add support for Global Slow Memory Bandwidth Allocation
->>
->>    7/8  x86,fs/resctrl: Add the resource for Global Slow Memory Bandwidth Allocation
->>         Register RDT_RESOURCE_GSMBA with ctrl_scope=RESCTRL_NPS_NODE.
->>
->>    8/8  fs/resctrl: Add the documentation for Global Slow Memory Bandwidth Allocation
->>         Add examples in Documentation/filesystems/resctrl.rst.
->>
->> Changes since v1
->> ----------------
->>    - Earlier sent RFC(v1) with Global Bandwidth Enforcement (GLBE) and
->>      Privilege Level Zero Association (PLZA). This series only handles
->>      Global Memory Bandwidth Allocation. Both the features are sent separately.
->>
->>    - Documentation
->>        * Fixed grammar in the GMBA / GSMBA sections of resctrl.rst.
->>        * Added examples to update GMBA and GSMBA in resctrl.rst documentation.
->>
->>    - Major changes are releated to RESCTRL_NPS_NODE scope handling.
->>
->>    - Commit messages
->>        * Reworked the changelogs in all the patches.
->>
->> Previous Revisions:
->> v1 : https://lore.kernel.org/lkml/cover.1769029977.git.babu.moger@amd.com/
+>> Wim, are you active?  Can you reply and/or merge these?
 > 
-> What are your expectations from this submission? From what I can tell this ignores
-> v1 feedback in several ways:
-> - It introduces two new resources, GMBA and GSMBA, when the previous discussion agreed that
->    these are not actually new resources but instead new controls for the existing MBA/SMBA resources.
-> - It does not mention or attempt to address dependency on new resource schema descriptions [1]
->    to support user space in understanding how to interact with the new GMBA/GSMBA controls but
->    instead defers that to a snippet in the documentation that user space needs to
->    parse to know this control operates at multiples of 1GB/s.
+> What's happening with these 5 patches?
 > 
-> Apart from ignoring v1 feedback this new version appears to complicate user interface even more
-> since now it is possible for there to be a single control that may operate at different scopes but from
-> what I can tell there is nothing that helps user understand whether, for example, domain "0" means
-> the whole system or a NUMA node?
-> 
-> We have discussed several times now how resctrl interface needs to be enhanced to support
-> this and other upcoming features from Intel, RISC-V, Arm MPAM, and NVidia. It is thus
-> unexpected that this submission ignores all the previous discussions.
 
-I think there may be some misunderstanding on this topic.
+It looks like Wim did not send a pull request for watchdog this time around/
+Wim, are you still active, or should I send pull requests going forward ?
 
-Yes, we discussed it earlier. It depends on other requirements 
-(region-aware aspects), so I assumed it would be handled by someone with 
-full context and addressed as a separate feature. I didn’t have complete 
-visibility into all the requirements.
+Thanks,
+Guenter
 
-> 
-> Since there are so many dependencies on the new schema format support I am prioritizing this
-> and created a PoC that I am currently refining and hope to share soon. We can collaborate on this
-> to ensure that it provides a good foundation for the GMBA and GSMBA support.
-
-That is good to know. Let me know when you are ready.
-
-Could you please share which parts of the feature (e.g., Part 1, Part 2, 
-etc.) you are planning to cover in your PoC?
-
-> 
-> Consider what I describe in [2] - even in that response I speculate that a "scope" may be needed and
-> this seems to be case. I believe would help this "NPS = 4" scenario. Adding "scope" to what I shared in
-> [2] may look like:
-> 
-> info/
-> └── MB/
->      └── resource_schemata/
->          ├── GMB/
->          │   ├── max:4096
->          │   ├── min:1
->          │   ├── resolution:1
->          │   ├── scale:1
->          │   ├── tolerance:0
->          │   ├── type:scalar linear
->          │   ├── scope:NODE
->          │   └── unit:GBps
->          └── MB/
->              ├── max:8192
->              ├── min:1
->              ├── resolution:8
->              ├── scale:1
->              ├── tolerance:0
->              ├── type:scalar linear
->              ├── scope:L3
->              └── unit:GBps
-> 
-> With a "scope" property of the control user space can know what the domain ID in the
-> schemata file refers to. In above example the "GMB" control has "NODE" scope so user space knows
-> that a domain ID refers to NUMA node. If the system is "NPS = 4" then the scope could be,
-> for example, "SYSTEM" (for the lack of a better term) so that user space knows that "0" means
-> entire system. What do you think?
-
-Yes. Sound good to me.
-
-> 
-> Also note how the other control properties helps user understand what the schemata file control
-> values mean. This is what I expected the GMBA/GSMBA enabling to look like ... and you seemed to
-> agree [3] in v1 discussion. What changed?
-
-Again, I was under the impression that this would be handled as a 
-separate feature and patch series.
-
-Thanks
-Babu
