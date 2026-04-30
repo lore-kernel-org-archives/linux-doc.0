@@ -1,306 +1,169 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazolkn19011032.outbound.protection.outlook.com [52.103.43.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 018E123EA8A;
-	Thu, 30 Apr 2026 01:19:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777511948; cv=none; b=cy4wgf0UZSwTrkwd3PJ20yM7QGPjfxJPUxGs4jLOlTyx+QmAwnRU4dJJ9E15QUU6l7yyOt5EFJWZqRnGIq+liEPBFtxCtvIPrM+EuA82WRlA9YCb5T9wNZHfP5kdzXtrqsYhh6DXi6KSdhbJGVmSTQbYjnf2Fbf/93V2DjgAk6E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777511948; c=relaxed/simple;
-	bh=6czsOlNriyalap6EeFnkX5tgFtke+HknraCqL0WxuNI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ROeIXqnQTLY1k7PEabB0fhvABV1FjhsC3FTz09Tfhjm8WTSU8phtiGttQMjYhE9SQB7esq3fo9zOFvLc1N+VlQgN6C+tBoixDrk4gzHZJ/rNWqyBbDak/k01kROkD6pXVa+ga0pJLNeyLxEugn4bOR3BJuk2fp84CQRQL0vtOTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZQV3aXAl; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73FC621A459;
+	Thu, 30 Apr 2026 01:30:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.43.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777512656; cv=fail; b=lJKq9gqJvT4AIJrZs+Hjk/29MSQeO+twFblTrFeKeOpwEBkc+QXWg+JfWDl+bsLbGWBqlIXW1o6BEZTWw+6R8vMnqR2l5E/2zqSJarzY1nmlJpuygwoVO9m43EVS7FgLUEOtXyw7dKKJKstdeiyGNAe5KdiINmbr3bjWXCJhLpo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777512656; c=relaxed/simple;
+	bh=k9I9DwlpwiFKd7DVWBqyzgOTOAvGSmjiIdLcozF0wks=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=Xz2BGbyFCr2nyPrHWdtDGa6Te+9aQzhEn1ZaXNasyRaEGuI80sOodkZWAmBHbiQHLlwyNQKeKeZKapOiOsh+DR0EnK6h4ozXYruv1FlA6QLqzbIEr5WQ6GtLplR5wmGoej1tPBHC4muHY7Q6dV+PYrsyunSfFhFvOGtA8UwXwuk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=ni9q4qfk; arc=fail smtp.client-ip=52.103.43.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZQV3aXAl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FCCCC19425;
-	Thu, 30 Apr 2026 01:19:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777511947;
-	bh=6czsOlNriyalap6EeFnkX5tgFtke+HknraCqL0WxuNI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ZQV3aXAlpikEuzoE2QSEIEEH7BanzAKa27C4vM6on6FOu/quvXe9632AMzF9wycOH
-	 oMKrBt9Fnz05dqtS0DBK5fMbiMiPZA0k4JIeFtjUhxB09W6h0Qqvrbw76k/5rJSOMU
-	 0GqSbldRfCnKjm8QCoBXEVf6MUegQFoAYtv8+assh9Y9GBZhNJDrBH24krekphJ4i5
-	 RopZpz7kAv/WKEX+7vbAs2jJPVEQnT2UQFmK7s4U+92GJMsuj7thb13GdxGq4awKvw
-	 1Wa0Via3K/6vG5gRxINYsAo9cNq/CDJBg+wxD5pMnNspYIeRldp6oFD75NdNb00Md5
-	 HRGylGPtLzX9w==
-From: Eric Biggers <ebiggers@kernel.org>
-To: linux-crypto@vger.kernel.org,
-	Herbert Xu <herbert@gondor.apana.org.au>
-Cc: linux-doc@vger.kernel.org,
-	linux-api@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="ni9q4qfk"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v4XcbeEE4Yp88bjp7818x1jKkLa+S1yoCj+uGlzBl3qijN2p2YVpMsvk8Sjy6luFcFvkxTcYT1/RneMGxIrePUCkbWbn2OOwR+XxloJRXmHiksgQ52eS8uEZQFGkO6KIy0AiuKqutupjE4gZqlZWZ7Ojw/TyPaJB8i1sGZAC/DpEk5NROT3h8eq+egr1Avl+y/j8dCXVoGeG4bqyJXRZIZIicUvdhEZOLdNxh9K7iKzGIpebLCWeCR86Go1PKSViC8Poa3DrR30VxNngE9iVbNioqS7DWBvKfDZu2h/E90WhNy/Yi4Zrlll4NqT0yrKpJ7GrqZFAPaN/kW7OOKvnVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NwhiUaUa6CsXJD4g6ZZxbRGKUAMWxxWDdnvDpI0jk6E=;
+ b=ikwhlg4vriNYBufwGru1h5PyPC0rb6kovT4yB/4mBo011FzIWI3+l0IqDlwrfYqseku8VeRKKhXlhCt0NwZAuSDy51YSh/Ci4U4ANmGoUW5HIVCTmRH9h9WcQ9KbTXfoT5Dwu9ThClnS8EpgAAnWOHSjDOv6Dj91Mwtvefbwvy0ZcH00EGJAtxGwIwVFjBFWrE1rwAx2nEVXRVWUtlZ43Jqc/NibroEqUO5/e9NeQTi9HRq7JEi5UZmtryuHoAtA5bbDyrbxM4aPmXu/HPxng4YZ1Jx7674FNkaiWVMAKRzc8NJo6NEn6QA5N2qWt8sxeSwqZxHSJuQJPdoRbb4Eag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NwhiUaUa6CsXJD4g6ZZxbRGKUAMWxxWDdnvDpI0jk6E=;
+ b=ni9q4qfkwDJbNmwzTy/Jn8j+MYguTQpv0pgEWqX+EmAgamPEa/TLELi4yc3R5mIzsOolEMHLjrNxdUBH7x5jcfZAPOOCJecFJ6a+XJYL41PU09DQ62GcuWcP9KUgpEBAsPTfGoZB+IrjwrHt3rtWnXGkfuPqohqOWwBmEJJgTG9iijXp5MJRgJlczZ0f2JsHsIrFhPMTJPq+NOVHEEcTZW10r6APxaXqai5qsGywWAGYSNte+ywSaOfzzVNBrr4Sn+Hjf9tNNrTGjUw8c7eXySshiNM02ngehMAjO6AdqLUIjndOVn6KbOQKeiEaUg1UfzwVN1ScNjUjTt2Iv9xynA==
+Received: from TY7PR01MB17205.jpnprd01.prod.outlook.com
+ (2603:1096:405:32a::20) by OSZPR01MB8546.jpnprd01.prod.outlook.com
+ (2603:1096:604:18b::14) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.20; Thu, 30 Apr
+ 2026 01:30:50 +0000
+Received: from TY7PR01MB17205.jpnprd01.prod.outlook.com
+ ([fe80::7d34:ceac:fb2a:947c]) by TY7PR01MB17205.jpnprd01.prod.outlook.com
+ ([fe80::7d34:ceac:fb2a:947c%6]) with mapi id 15.20.9870.016; Thu, 30 Apr 2026
+ 01:30:50 +0000
+From: nmreadelf <kong414@outlook.com>
+To: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	corbet@lwn.net,
+	dsahern@kernel.org
+Cc: horms@kernel.org,
+	chia-yu.chang@nokia-bell-labs.com,
+	idosch@nvidia.com,
+	ij@kernel.org,
+	brauner@kernel.org,
+	jack@suse.cz,
+	kuniyu@google.com,
+	jlayton@kernel.org,
 	netdev@vger.kernel.org,
-	Linus Torvalds <torvalds@linux-foundation.org>,
-	Eric Biggers <ebiggers@kernel.org>
-Subject: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-Date: Wed, 29 Apr 2026 18:15:44 -0700
-Message-ID: <20260430011544.31823-1-ebiggers@kernel.org>
-X-Mailer: git-send-email 2.54.0
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kong414@outlook.com,
+	lance.yang@linux.dev,
+	leon.hwang@linux.dev
+Subject: [RFC PATCH net-next 0/3] netns: optionally inherit IPv4 TCP sysctls from old net
+Date: Thu, 30 Apr 2026 09:30:42 +0800
+Message-ID:
+ <TY7PR01MB172057C053E8D550485A29A08E0352@TY7PR01MB17205.jpnprd01.prod.outlook.com>
+X-Mailer: git-send-email 2.47.3
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SG2PR04CA0211.apcprd04.prod.outlook.com
+ (2603:1096:4:187::19) To TY7PR01MB17205.jpnprd01.prod.outlook.com
+ (2603:1096:405:32a::20)
+X-Microsoft-Original-Message-ID:
+ <20260430013042.4046817-1-kong414@outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: TY7PR01MB17205:EE_|OSZPR01MB8546:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2e803a32-5f47-4c5e-58e1-08dea6581b5a
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|25031999004|5072599009|24021099003|461199028|23021999003|15080799012|37011999003|19110799012|8060799015|8022599003|440099028|3412199025|26104999006|1710799026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?l6HR7mtBhAZVJswAL7kdcYisCVIzl2qN+DN1JI2/MZ+QxEBAINSu9R1BfjMY?=
+ =?us-ascii?Q?TPkSqRX88gNWp3EfqodwiJ+kEUR6giEg92Tuq6HBccK7fp2ySTg08fZdnjla?=
+ =?us-ascii?Q?5WOFHauWS25L3SmroQeWdqEDZSv3yPJplfSGQJacyTq5/M3xVvdfoDE9BUwP?=
+ =?us-ascii?Q?w5/B6uwletpwdlLLe/txe2ICOF7kYno5wmSRqpADdFY9ojKr3Q3+ZqVo9IAo?=
+ =?us-ascii?Q?DEML/y5mIfDC0iKc40EcrNA8a+nVZ82mNtBelz8/QT6VDlJAgL5O7H4aiCJq?=
+ =?us-ascii?Q?Pk5BuActhUjcy13PTo319WyuWE/F4ammtVf1Y91jkboMXy4jg2eQARxmjxp2?=
+ =?us-ascii?Q?PHQV5uicQk/DC53RByEPWQPjbQYzq3g7jy6R3c904nLkb4zftie8gWePvaNY?=
+ =?us-ascii?Q?ZKtBQe3kINK/1vmXlMvrOlheAzTpRm5apZGMMhZ6euOnCV41u3Acs7ujjQ+U?=
+ =?us-ascii?Q?sd5aLHty8m3if4+uQjFEdbi/gVDQ2VQYREgYKt+VeIA0WT79+eC7rCxyhCeu?=
+ =?us-ascii?Q?VEHidrUipiJHdkUEIMWY47u4TMcOAa6g7e+5O2YhhFFgVfAeLC00yudtLwhu?=
+ =?us-ascii?Q?A2FfXI7HDlPe9nwsUC0rx8FdwJ8GhXjp8CMFsW/5B1g2wfRcBrIOaCtBxQqd?=
+ =?us-ascii?Q?wHDp8I7NIMNtKfoT7CdMtSGZwJEBEO7qyRjTKklRndgSMmKhyrGZB9Rlmjl+?=
+ =?us-ascii?Q?TL8uB91wTgoh/xVh7AB5v9KbKOl8RdS3OGP/uCXvpHTCN4LN13b5bS7ixW5c?=
+ =?us-ascii?Q?bdB5u4NFmLDhCH2SWD0S3hV87IbYu1IlYifEJAqM+YnGbtWTDDrM182rnojO?=
+ =?us-ascii?Q?cdOzhrToVCoV4bAALVVuMTsytopzSg4LxbzjJInUErn3iQk2gB0dkb+J39LR?=
+ =?us-ascii?Q?PDB9QrjTC4iH9Gye55XbYEFrLhk9tSZ5DfNpGgklTIR7FKtxore0B4tX6n2I?=
+ =?us-ascii?Q?yfKGV3q6Z7/C2EB+D4HFIRJ0hySLI1qNNTIbfzZJrgJIZcaJQWtWxHDK+o+u?=
+ =?us-ascii?Q?BCn+mZaLxhUhkughOFMcBn49Rg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?/NR4OSCUOR6O0pShAoIZG9NeyRG+Y/IHoSl56ZMPjcvkcrzOgRPB91jJowAI?=
+ =?us-ascii?Q?dGw4I5P4LwXDVuo+SIxTfTj/KazYujRtMtS+NJBp9a4MROiroMVfSQCp+WOl?=
+ =?us-ascii?Q?zsASjlnaTnRsz46sK6bXJwDYA+3NViA6w5wB5mdHqeZQSuoW/Q86PAUxt69B?=
+ =?us-ascii?Q?hXkiBxNOXBjdBZTpFxewHNJ5ZMib2+AfJFmqxXBaPx4AocrPvOgZKOBGTQZH?=
+ =?us-ascii?Q?BzK54pV5Cxb6tdRpgCom9JAUltxXKmvL5Dsp3Ao9SUv5BEUGy4z5alJOOIad?=
+ =?us-ascii?Q?uULnXh1gVVsg7IHrRrSdVI7t67+s41hCIqtCFh2dPmXdooK9wMAYMIRSEnO7?=
+ =?us-ascii?Q?rhMXtJUE8bImPO8DUt0QQmm1z++dA9RV3llT4DOhf67TbAx/5SXG2KeGooOf?=
+ =?us-ascii?Q?SjCyNBJoWTf5Te892K3iOJF+JIgtVF17QvBb6FnfIhaCrTP6c8T99eNnBL4b?=
+ =?us-ascii?Q?AgrWf3jTOqlpfN2sdtK81nMv910tcWRDu7uc00Ag7oIqXj6MmTVk+EpN7a7A?=
+ =?us-ascii?Q?wmSSUX/TO/v/N8UonKT8moQt6iK65wmn9RG08SwH3rimSwf4SHVZb4GYxTru?=
+ =?us-ascii?Q?rCW3kEkWFFATz/cZU2xkpuE1AL5mj5EQ7PIgQ1wLUdyzZ63Y7ar6Cd6lyGdo?=
+ =?us-ascii?Q?NM37JNvUdL66UTRzZFOF63Em8NjQo3kQlh82nTqI5+Jqm4njpbF3tlcWt8Mv?=
+ =?us-ascii?Q?b7/OdcotsNWyVioYqnqpVumP4Yg+qVXxnOAuCwb0Xbo5LJ7w2SCzVdkXkK47?=
+ =?us-ascii?Q?99GI5PKxQhahWtme1orXNU1rvXBxBBaGeEowR80oiFYz/QpwWUiuaIL2R8V6?=
+ =?us-ascii?Q?yAMBuhTkSjNdmhwVFzcJ/OdFAv3SwRB+mBzjAt/cPv9TReVNWgJBWDq8FbD2?=
+ =?us-ascii?Q?+AMTtvBnlUVNsB61g3BlEQ6sj63at1uzcjXzPt7nXEeCArq9L+07IZkqv8/l?=
+ =?us-ascii?Q?h6TYfBXEmz1jb5idEcm7jn21FQIggYCCxv44230q8pSeo0Us/KeJxXgJnM22?=
+ =?us-ascii?Q?NDtkZ+cMQBRAhIaV3DsyVgbu3pJBYwBkOibsqT4si1M8FeWpZtwqYoGaNjPw?=
+ =?us-ascii?Q?WGbxi35OcI2uQ/t9MnhBc7Il5/nwOPR18rzyKNWHL2jcvinID9lsWoCQ0vk7?=
+ =?us-ascii?Q?r9oykIhW1LW/W+JUtU4HFivhNuo3II7CgP+mapVkVBgi41BxKDzCg027MFdL?=
+ =?us-ascii?Q?TVb6QpdRm0xjbOsD4nmIF8fPNWXGHPlrm0BoHbeZ+H2ePi0K7jMSkszgm4+g?=
+ =?us-ascii?Q?zvd0g6eDhxDDV3eI5TuE9Obat6zwZ2T2aOmK9t12p/74OCFamku+Qarh6VWR?=
+ =?us-ascii?Q?CJ3EqJVEbZzwJSiv3PnI81E4OqUIqVpIjVs8EBQzU3Ol1XPn+0Z6+scj+SAl?=
+ =?us-ascii?Q?ABIYlNxDeoujrGWM02BOldvxTiuO?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2e803a32-5f47-4c5e-58e1-08dea6581b5a
+X-MS-Exchange-CrossTenant-AuthSource: TY7PR01MB17205.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2026 01:30:50.0372
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB8546
 
-AF_ALG is almost completely unnecessary, and it exposes a massive attack
-surface that hasn't been standing up to modern vulnerability discovery
-tools.  The latest one even has its own website, providing a small
-Python script that reliably roots most Linux distros: https://copy.fail/
+a new network namespace starts with built-in TCP defaults.
+In container-heavy setups, operators often tune TCP sysctls in init_net and then
+need to re-apply the same values for each new netns.
 
-This isn't sustainable, especially as LLMs have accelerated the rate the
-vulnerabilities are coming in.  The effort that is being put into this
-thing is vastly disproportional to the few programs that actually use
-it, and those programs would be better served by userspace code anyway.
+This series adds an opt-in mechanism to initialize per-netns IPv4 TCP sysctl
+settings from init_net at netns creation time.
 
-These issues have been noted in many mailing list discussions already.
-But until now they haven't been reflected in the documentation or
-kconfig menu itself, and the vulnerabilities are still coming in.
+Behavior:
 
-Let's go ahead and document the deprecation.
+Default is unchanged.
+When net.ipv4.netns_inherit_tcp_sysctls=1, new netns inherit
+TCP sysctl from old_net.
 
-This isn't intended to change anything overnight.  After all, most Linux
-distros won't be able to disable the kconfig options quite yet, mainly
-because of iwd.  But this should create a bit more impetus for these
-userspace programs to be fixed, and the documentation update should also
-help prevent more users from appearing.
+nmreadelf (3):
+  ipv4: netns: group copyable TCP sysctls in netns_ipv4
+  net: ipv4: add netns_inherit_tcp_sysctls sysctl
+  tcp: netns: optionally inherit IPv4 TCP sysctls from parent netns
 
-Signed-off-by: Eric Biggers <ebiggers@kernel.org>
----
+ .../net_cachelines/netns_ipv4_sysctl.rst      | 25 +++----
+ include/net/netns/ipv4.h                      | 33 +++++----
+ net/core/net_namespace.c                      | 72 +++++++++++++++++++
+ net/ipv4/sysctl_net_ipv4.c                    |  9 +++
+ 4 files changed, 114 insertions(+), 25 deletions(-)
 
-This patch is targeting crypto/master
-
- Documentation/crypto/userspace-if.rst | 82 ++++++++++++++++++++-------
- crypto/Kconfig                        | 69 ++++++++++++++++------
- 2 files changed, 113 insertions(+), 38 deletions(-)
-
-diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto/userspace-if.rst
-index 021759198fe7..c39f5c79a5b7 100644
---- a/Documentation/crypto/userspace-if.rst
-+++ b/Documentation/crypto/userspace-if.rst
-@@ -2,30 +2,72 @@ User Space Interface
- ====================
- 
- Introduction
- ------------
- 
--The concepts of the kernel crypto API visible to kernel space is fully
--applicable to the user space interface as well. Therefore, the kernel
--crypto API high level discussion for the in-kernel use cases applies
--here as well.
--
--The major difference, however, is that user space can only act as a
--consumer and never as a provider of a transformation or cipher
--algorithm.
--
--The following covers the user space interface exported by the kernel
--crypto API. A working example of this description is libkcapi that can
--be obtained from [1]. That library can be used by user space
--applications that require cryptographic services from the kernel.
--
--Some details of the in-kernel kernel crypto API aspects do not apply to
--user space, however. This includes the difference between synchronous
--and asynchronous invocations. The user space API call is fully
--synchronous.
--
--[1] https://www.chronox.de/libkcapi/index.html
-+AF_ALG provides unprivileged userspace programs access to arbitrary hash,
-+symmetric cipher, AEAD, and RNG algorithms that are implemented in kernel-mode
-+code.
-+
-+AF_ALG is insecure and is deprecated. Originally added to the kernel in 2010,
-+most kernel developers now consider it to be a mistake.
-+
-+AF_ALG continues to be supported only for backwards compatibility. On systems
-+where no programs using AF_ALG remain, the support for it should be disabled by
-+disabling ``CONFIG_CRYPTO_USER_API_*``.
-+
-+Deprecation
-+-----------
-+
-+AF_ALG was originally intended to provide userspace programs access to crypto
-+accelerators that they wouldn't otherwise have access to.
-+
-+However, that capability turned out to not be useful on very many systems. More
-+significantly, the actual implementation exposes a vastly greater amount of
-+functionality than that. It actually provides access to all software algorithms.
-+
-+This includes arbitrary compositions of different algorithms created via a
-+complex template system, as well as algorithms that only make sense as internal
-+implementation details of other algorithms. It also includes full zero-copy
-+support, which is difficult for the kernel to implement securely.
-+
-+Ultimately, these algorithms are just math computations. They use the same
-+instructions that userspace programs already have access to, just accessed in a
-+much more convoluted and less efficient way.
-+
-+Indeed, userspace code is nearly always what is being used anyway. These same
-+algorithms are widely implemented in userspace crypto libraries.
-+
-+Meanwhile, AF_ALG hasn't been withstanding modern vulnerability discovery tools
-+such as syzbot and large language models. It receives a steady stream of CVEs.
-+Some of the examples include:
-+
-+- CVE-2026-31677
-+- CVE-2026-31431 (https://copy.fail)
-+- CVE-2025-38079
-+- CVE-2025-37808
-+- CVE-2024-26824
-+- CVE-2022-48781
-+- CVE-2019-8912
-+- CVE-2018-14619
-+- CVE-2017-18075
-+- CVE-2017-17806
-+- CVE-2017-17805
-+- CVE-2016-10147
-+- CVE-2015-8970
-+- CVE-2015-3331
-+- CVE-2014-9644
-+- CVE-2013-7421
-+- CVE-2011-4081
-+
-+It is recommended that, whenever possible, userspace programs be migrated to
-+userspace crypto code (which again, is what is normally used anyway) and
-+``CONFIG_CRYPTO_USER_API_*`` be disabled.  On systems that use SELinux, SELinux
-+can also be used to restrict the use of AF_ALG to trusted programs.
-+
-+The remainder of this documentation provides the historical documentation for
-+the deprecated AF_ALG interface.
- 
- User Space API General Remarks
- ------------------------------
- 
- The kernel crypto API is accessible from user space. Currently, the
-diff --git a/crypto/Kconfig b/crypto/Kconfig
-index 103d1f58cb7c..6cd1c478d4be 100644
---- a/crypto/Kconfig
-+++ b/crypto/Kconfig
-@@ -1278,48 +1278,72 @@ config CRYPTO_DF80090A
- 	tristate
- 	select CRYPTO_AES
- 	select CRYPTO_CTR
- 
- endmenu
--menu "Userspace interface"
-+menu "Userspace interface (deprecated)"
- 
- config CRYPTO_USER_API
- 	tristate
- 
- config CRYPTO_USER_API_HASH
--	tristate "Hash algorithms"
-+	tristate "Hash algorithms (deprecated)"
- 	depends on NET
- 	select CRYPTO_HASH
- 	select CRYPTO_USER_API
- 	help
--	  Enable the userspace interface for hash algorithms.
-+	  Enable the AF_ALG userspace interface for hash algorithms.  This
-+	  provides unprivileged userspace programs access to arbitrary hash
-+	  algorithms implemented in the kernel's privileged execution context.
- 
--	  See Documentation/crypto/userspace-if.rst and
--	  https://www.chronox.de/libkcapi/html/index.html
-+	  This interface is deprecated and is supported only for backwards
-+	  compatibility.  It regularly has vulnerabilities, and the capabilities
-+	  it provides are redundant with userspace crypto libraries.
-+
-+	  Enable this only if needed for support for a program that hasn't yet
-+	  been converted to userspace crypto, for example iwd.
-+
-+	  See also Documentation/crypto/userspace-if.rst
- 
- config CRYPTO_USER_API_SKCIPHER
--	tristate "Symmetric key cipher algorithms"
-+	tristate "Symmetric key cipher algorithms (deprecated)"
- 	depends on NET
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_USER_API
- 	help
--	  Enable the userspace interface for symmetric key cipher algorithms.
-+	  Enable the AF_ALG userspace interface for symmetric key algorithms.
-+	  This provides unprivileged userspace programs access to arbitrary
-+	  symmetric key algorithms implemented in the kernel's privileged
-+	  execution context.
-+
-+	  This interface is deprecated and is supported only for backwards
-+	  compatibility.  It regularly has vulnerabilities, and the capabilities
-+	  it provides are redundant with userspace crypto libraries.
-+
-+	  Enable this only if needed for support for a program that hasn't yet
-+	  been converted to userspace crypto, for example iwd, or cryptsetup
-+	  with certain algorithms.
- 
--	  See Documentation/crypto/userspace-if.rst and
--	  https://www.chronox.de/libkcapi/html/index.html
-+	  See also Documentation/crypto/userspace-if.rst
- 
- config CRYPTO_USER_API_RNG
--	tristate "RNG (random number generator) algorithms"
-+	tristate "Random number generation algorithms (deprecated)"
- 	depends on NET
- 	select CRYPTO_RNG
- 	select CRYPTO_USER_API
- 	help
--	  Enable the userspace interface for RNG (random number generator)
--	  algorithms.
-+	  Enable the AF_ALG userspace interface for random number generation
-+	  (RNG) algorithms.  This provides unprivileged userspace programs
-+	  access to arbitrary RNG algorithms implemented in the kernel's
-+	  privileged execution context.
- 
--	  See Documentation/crypto/userspace-if.rst and
--	  https://www.chronox.de/libkcapi/html/index.html
-+	  This interface is deprecated and is supported only for backwards
-+	  compatibility.  It regularly has vulnerabilities, and the capabilities
-+	  it provides are redundant with userspace crypto libraries as well as
-+	  the normal kernel RNG (e.g., /dev/urandom and getrandom(2)).
-+
-+	  See also Documentation/crypto/userspace-if.rst
- 
- config CRYPTO_USER_API_RNG_CAVP
- 	bool "Enable CAVP testing of DRBG"
- 	depends on CRYPTO_USER_API_RNG && CRYPTO_DRBG
- 	help
-@@ -1330,20 +1354,29 @@ config CRYPTO_USER_API_RNG_CAVP
- 
- 	  This should only be enabled for CAVP testing. You should say
- 	  no unless you know what this is.
- 
- config CRYPTO_USER_API_AEAD
--	tristate "AEAD cipher algorithms"
-+	tristate "AEAD cipher algorithms (deprecated)"
- 	depends on NET
- 	select CRYPTO_AEAD
- 	select CRYPTO_SKCIPHER
- 	select CRYPTO_USER_API
- 	help
--	  Enable the userspace interface for AEAD cipher algorithms.
-+	  Enable the AF_ALG userspace interface for authenticated encryption
-+	  with associated data (AEAD) algorithms.  This provides unprivileged
-+	  userspace programs access to arbitrary AEAD algorithms implemented in
-+	  the kernel's privileged execution context.
-+
-+	  This interface is deprecated and is supported only for backwards
-+	  compatibility.  It regularly has vulnerabilities, and the capabilities
-+	  it provides are redundant with userspace crypto libraries.
-+
-+	  Enable this only if needed for support for a program that hasn't yet
-+	  been converted to userspace crypto, for example iwd.
- 
--	  See Documentation/crypto/userspace-if.rst and
--	  https://www.chronox.de/libkcapi/html/index.html
-+	  See also Documentation/crypto/userspace-if.rst
- 
- config CRYPTO_USER_API_ENABLE_OBSOLETE
- 	bool "Obsolete cryptographic algorithms"
- 	depends on CRYPTO_USER_API
- 	default y
-
-base-commit: 57b8e2d666a31fa201432d58f5fe3469a0dd83ba
 -- 
-2.54.0
+2.47.3
 
