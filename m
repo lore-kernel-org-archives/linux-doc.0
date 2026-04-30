@@ -1,85 +1,85 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADCA83B9D95
-	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 10:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683E33AB294
+	for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 11:58:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777546314; cv=none; b=AnFzBrgOyzeKIG/YATSJqJC3RQcB8KG7bKbzqyaX+GULeYHb1ynLONIdQbpbgGgVuLfWwOapil1TGXQGMr2GDP9Q0Op2UM93MyNP4sFWmpxxqdQjbU8uEuxYWPesP6wBnMAnlYmc2n2Plq66GT3Fhf3YlF19v/0AiLbtip30qh0=
+	t=1777550313; cv=none; b=nmRhIaVnrB/xP5YW2D5+sTJshC1ei2rTzdePYaHI7npgSgKoXHesuSbWsl9G5bpZj/0YhCHFAfJgZDNQhTik/oTEfMcYCeBq7X9iJicTPevY/mTQ3XWOshMdMkST2V/kvMROQ0G1kj5qdWD8OLCkEFbYX4+cJILG45ZQnVPMqkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777546314; c=relaxed/simple;
-	bh=kbZLyGVuS2pU28E8eTafjkJVuKVn1qCU+8NsMXMpuBY=;
+	s=arc-20240116; t=1777550313; c=relaxed/simple;
+	bh=XF3E18nmYlywzGZHugMrUwe1UFFyFbJmWKz1vmcxNK0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sNW1MUQ6U861JYHdbqzceiplVGZ1/znP6BMdOP1MdEjO0x+YqalsNpsUJnurAr37gfvH4VtNR6N2zENjspgSFkjj+FFn6bk6U8Bt3BiXIhE/sa18r7cgSbEkmLqT/Dk37drGJI1Ine7jj7iaEDNWPVI4LYWx5JQc+s+JdKBsLVg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UVsoRim+; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=WU2c+X2N; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=NEuoyHvdEVZUn4MhkNXlv/Ny5+VJLMOW4LfcLRwsJtLJnOLx40/95XfNsmpA3L9POJr9q0FGpVlhVgNZPduEpNCccaPxi1vu31g8Bw1pIS0sE64eptVJdiEbkmpt2UmrznQK2/p0DLoQ2fIIARn9mewyhdsxEAYxPsxqy+lyLFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=a+7zj1d/; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ltleVQKt; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UVsoRim+";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="WU2c+X2N"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="a+7zj1d/";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ltleVQKt"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777546309;
+	s=mimecast20190719; t=1777550310;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=C1gqLnefR1tQ7TsQkbl4b2ZXC78xNY8qqi7bqcKieYM=;
-	b=UVsoRim+isDbsIfr+IbCrkpptoIvC64MH6xXK56oQS3F9Km0X6t63yJhtTFYn8IRw3rHdh
-	YKEqLajl/vj5TV2bDKTTyHZQ4lJnSuYPcsbWEHmKJoAXYjRpKBKsvaC3wfMS7ncr0LT0HN
-	eee2SU96iljcVxjyrHFhegXLHAUE6us=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=thwF8C1OV3A1j1cbf6uqLV/XzGN3xgA1qUzmi0EblXc=;
+	b=a+7zj1d/UQD8RRiFttz+K/JFWx2Bmx1B8JsK/fUFfZ0QiqrPn6bZF3LM0GYlIbbUOyzxjD
+	ueEzX4IUFuQw00u/Od/9z5j4HO85X++on2k6+RIvRzP5BMfVAoUW41LlJdEj2gaKQqpmLP
+	mpLPdpRTXJf7huIWWSwDmB4jO9CaqKw=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-518-sIeA8yAUMWuICxAvuaji2A-1; Thu, 30 Apr 2026 06:51:48 -0400
-X-MC-Unique: sIeA8yAUMWuICxAvuaji2A-1
-X-Mimecast-MFC-AGG-ID: sIeA8yAUMWuICxAvuaji2A_1777546307
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-44696b11265so904094f8f.0
-        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 03:51:47 -0700 (PDT)
+ us-mta-692-t9LcibyRONODbHO50Ka1IA-1; Thu, 30 Apr 2026 07:58:29 -0400
+X-MC-Unique: t9LcibyRONODbHO50Ka1IA-1
+X-Mimecast-MFC-AGG-ID: t9LcibyRONODbHO50Ka1IA_1777550308
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-48a5c837c44so6033315e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 30 Apr 2026 04:58:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777546307; x=1778151107; darn=vger.kernel.org;
+        d=redhat.com; s=google; t=1777550308; x=1778155108; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=C1gqLnefR1tQ7TsQkbl4b2ZXC78xNY8qqi7bqcKieYM=;
-        b=WU2c+X2NIdgLK/IYazXdHexIP5ywo5duocVIxTdFq1490RKjOEu51YAuCk416Umn0+
-         IxACLDUeztRZMKJkIJ/NIE25nezOwAXpJ2aZ5xVx3QcuZGvFbtfnXXNDIeHXjyCmU2Do
-         EHmnJ/Hz2Ngzmx8z87djrGyiuJ6/JYw9Idqv99K1YAyMjQLKkLK0qoBkfgwxvFnI0AL6
-         gtOM3GXuUPTkZxsbRXn7DGKe32/EI40CxAjfLRDS2MBwV30r8QCe3ejetln7ucoynK9A
-         1ZV4OAnD3ZXSKXnelXjG6co5DdNy3znu9QRJxKNFdjMHoknGnolkuVIRmpLs1fuv3OxA
-         Mzxw==
+        bh=thwF8C1OV3A1j1cbf6uqLV/XzGN3xgA1qUzmi0EblXc=;
+        b=ltleVQKtVK99EFl/wCouYDFLvd8XCSy+HF9ULr2oPfTXjwux1MTgzhYUv+q3Lv/AfP
+         GwjVN5j6SRZs+27Io6n3ZAkn4DLEO/7/QJxZutHXm7i5mIMzwXqxZDGRA+gHtfhpGhYd
+         lCvcvSjps40x2RBYx6LSCPH3M2FS5mFckWUJOliUPUSQSwdxO5tX+2YlRBKf68EGSwal
+         pRIKv5O4Rc+Lhfgw02l0/QrKGcW3zA+DnntDY6BDOPVVdONfSIiPWDFTYUMHmcyLua9J
+         vR7GYm+qE6tLO253DM4juNJorKfaAkNGAEw1RluU/0P2tENPZSj5nOtNmrvMKOhmEGfu
+         /7/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777546307; x=1778151107;
+        d=1e100.net; s=20251104; t=1777550308; x=1778155108;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C1gqLnefR1tQ7TsQkbl4b2ZXC78xNY8qqi7bqcKieYM=;
-        b=hGx4AnaNOo8b2jaQHtZzmeNwUzqIpE/k3xUW7QgbicKUnqaZhgUt47IEAUSVOkl0MD
-         h8gwkt3+TXaOuglDVaHOnT723I6FeoaC87p7WrCVV12n4+YZVcSz9U1AuVHI/5YINlgt
-         PtrFEjska3a2e2h4PSv5dCEXF8nJcUuqPYbD9n2lVErTsFKyrcnk132QRbsU9sLZvtlt
-         w3N9z+hnntvHjNB3k2z7KjX5u0tPhRQt1lDtYDgM6tbBxMJyQvvOeBGgFTNanPziijfj
-         FDkPimCSQ4c3AeKwS0XkdUda1EBdP+LObKrdgqRRDQFZHhJyG/06PY5gs66urSOpWKvn
-         NT5Q==
-X-Forwarded-Encrypted: i=1; AFNElJ+DvUJlnjG/CO1Py+l+2oaem3t/Kl+PFngoKjI8B4QoUKV+rJFA8uUd9z/dol9JlNWAYUyfcSgLKyo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZJOsDiMz8ssq3ESA+5fm/kHrxCHXQpXzs/0zNNDsG5JUcmlTn
-	Bl4VKCR02RHfLwQmEVqeC23DwS0bpsdOOTkrJpgTNDh32FFEIUqf/CZPEssCGNIRZrdWjpDvZ4W
-	B4k2p3bwo8P2LDKM8oQO5/6GPxP1BMDQKsI+ErBRBHQdfYuGTcXXz83LTkwxS9w==
-X-Gm-Gg: AeBDievjmu7mqAs6bJ4GvXVU8WlWnXVdrDTL+bWnNh1QRsgze+QaVduLtjrdgaZJ7lX
-	jBd9ck7JHLE3bHaQWUoF0bhDhmKTtAob5dAOfQC348lH0PX46qA2aZKHGt6fTnINijO9GyVdAAh
-	u4UfDDkbASnTYqoA0Nut4XbiFj4qrfCIzEzowis7DwMd8XxHyKA9A3oLweOONCMZ2IIP2NCECDI
-	BLYHTuIN5e4mdrqZnroSJAcY048oXW376fKOHRVFAi7tyKYw25TbM2MiowsYFhQRfo9QXNc0vBh
-	buEMZUS8h1SEieFS5uDWDfHXJEqwsxZgKgvrFyGH3AZy1kFcdlyXN7gNttAhSOtx1Krw0/A8CA7
-	qpWt2hqM1SdjlfH/iw+La90M4Drn4AKJF9gNZPIm/dpzhP2DWZji+uNgfRJjUOLh9sQ==
-X-Received: by 2002:a05:6000:248a:b0:43d:7b7b:ab76 with SMTP id ffacd0b85a97d-4493dcd3c7fmr3460387f8f.10.1777546306537;
-        Thu, 30 Apr 2026 03:51:46 -0700 (PDT)
-X-Received: by 2002:a05:6000:248a:b0:43d:7b7b:ab76 with SMTP id ffacd0b85a97d-4493dcd3c7fmr3460320f8f.10.1777546305924;
-        Thu, 30 Apr 2026 03:51:45 -0700 (PDT)
-Received: from [192.168.88.32] ([150.228.93.27])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-447b76e5c0csm12280957f8f.29.2026.04.30.03.51.44
+        bh=thwF8C1OV3A1j1cbf6uqLV/XzGN3xgA1qUzmi0EblXc=;
+        b=tBpe5idleWcHrbqBpOyw6t0MYWHChxQezYvCiUCEb9byPDztEYF11DPgXtHIRJWSUp
+         ZXuf2kEWH9SiR/NXrzluBI2pFcY21O9kNfaAa5KjUaTjVst/AjVMYKhHvurKvJDkeclw
+         CDCtB+cNuoDEvulAc8+Tv2tR1pCCCyUH4jcU2Rv4HLB1XqOOcpwiVzhziLebrshhWZX4
+         fkg1kOkGZgM+LCGxe7lJ7N2JkQCixwOZJkcromWaFaBXyx6H7Vb0RwIwPlDItvXocsBN
+         PFU1J1zaddy+3nX3hVilCadMNc4qvGPISUVKgtrobhQuLwyN+wpG/1FvHJyUUJUu+Xvv
+         K54A==
+X-Forwarded-Encrypted: i=1; AFNElJ/58qqYM8e4kxHnduXSNRBxprrNGvRcDHxQJK1Mk7DcKXiblKzCPTsJ8nTMuZ1v8jDXRMfmlNs8vHo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlcA47xErDpVTOhs7WbDDwyaCox4ht2/r8rKgUrA/n4CPfuyZR
+	KHrt+fkV7pBqjSJejQYmJNfQB9pdV0gkrgIHeawIj/r/k2GCbbNvZFYDObQxZQwsU3eJIjVwaAf
+	Opr0NR9/+fp/20WvWrZA+uYVOWAhWxdvHtJuqgwofflfNAN6/t1500zelsQ9IUg==
+X-Gm-Gg: AeBDievvjpkFbnxZ0Zy7zzgbPv9BAzVwAncVv3zyzqD4lpdOkljM3GQqUZddJuaIb47
+	jAVqTNjl/pflRr0kLrB+f6f/VRsob31+ODRmp0OLkAt43FUfzZyz/oBp5NupP/9iZshar6GqBVI
+	gcHXhmPmQ++Z03AbIRs9Oq6TKlYivAMThBNOrMAmsQB4MluUimg36bZzjBYZLaPJ0RZhdzADkaB
+	GMcvflWL0FI3hQDubbJrPpNth9Vb5HPuLyr5vGzyoesbw0tlYO9TYZZCdTeXbnPA0NPuWfLHzK5
+	8LQba8Ty+ln3r9LR2iVtOwj/gNFJQJ/+yDXNVvGpPpOBYTTv2W2XqbjgQGJUERbXgTcrc7OzGPV
+	ILxNPdojf+FrjJfCho+7VGrtszhxkaYk=
+X-Received: by 2002:a05:600c:8483:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48a83d73324mr46368355e9.8.1777550307752;
+        Thu, 30 Apr 2026 04:58:27 -0700 (PDT)
+X-Received: by 2002:a05:600c:8483:b0:487:2671:fb8f with SMTP id 5b1f17b1804b1-48a83d73324mr46367725e9.8.1777550307171;
+        Thu, 30 Apr 2026 04:58:27 -0700 (PDT)
+Received: from [192.168.2.83] ([46.175.183.46])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a7c2e8a6csm62484295e9.5.2026.04.30.04.58.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 30 Apr 2026 03:51:45 -0700 (PDT)
-Message-ID: <d8f24185-9987-487a-9e0c-5387bd72b629@redhat.com>
-Date: Thu, 30 Apr 2026 12:51:43 +0200
+        Thu, 30 Apr 2026 04:58:26 -0700 (PDT)
+Message-ID: <16ad2e01-a3a9-4d03-924a-fc36e17beb02@redhat.com>
+Date: Thu, 30 Apr 2026 13:58:25 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -87,282 +87,307 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 net-next 05/11] net/nebula-matrix: add channel layer
-To: "illusion.wang" <illusion.wang@nebula-matrix.com>,
- dimon.zhao@nebula-matrix.com, alvin.wang@nebula-matrix.com,
- sam.chen@nebula-matrix.com, netdev@vger.kernel.org
-Cc: andrew+netdev@lunn.ch, corbet@lwn.net, kuba@kernel.org,
- linux-doc@vger.kernel.org, lorenzo@kernel.org, horms@kernel.org,
- vadim.fedorenko@linux.dev, lukas.bulwahn@redhat.com, edumazet@google.com,
- enelsonmoore@gmail.com, skhan@linuxfoundation.org, hkallweit1@gmail.com,
- open list <linux-kernel@vger.kernel.org>
-References: <20260428114910.2616-1-illusion.wang@nebula-matrix.com>
- <20260428114910.2616-6-illusion.wang@nebula-matrix.com>
+Subject: Re: [PATCH net-next 1/2] dpll: add pin operational state
+To: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org
+Cc: Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jiri Pirko <jiri@resnulli.us>,
+ Jonathan Corbet <corbet@lwn.net>, Michal Schmidt <mschmidt@redhat.com>,
+ Paolo Abeni <pabeni@redhat.com>, Pasi Vaananen <pvaanane@redhat.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260428154907.2820654-1-ivecera@redhat.com>
+ <20260428154907.2820654-2-ivecera@redhat.com>
 Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20260428114910.2616-6-illusion.wang@nebula-matrix.com>
-Content-Type: text/plain; charset=UTF-8
+From: Petr Oros <poros@redhat.com>
+In-Reply-To: <20260428154907.2820654-2-ivecera@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 4/28/26 1:48 PM, illusion.wang wrote:
-> a channel management layer provides structured approach to handle
-> communication between different components and drivers. Here's a summary
-> of its key functionalities:
-> 
-> 1. Message Handling Framework
-> Message Registration/Unregistration: Functions (nbl_chan_register_msg,
-> nbl_chan_unregister_msg) allow dynamic registration of message handlers
-> for specific message types, enabling extensible communication protocols.
-> Message Sending/Acknowledgment: Core functions (nbl_chan_send_msg,
-> nbl_chan_send_ack) handle  message transmission, including asynchronous
-> operations with acknowledgment (ACK) support.
-> Received ACKs are processed via nbl_chan_recv_ack_msg.
-> Hash-Based Handler Lookup: A hash table (handle_hash_tbl) stores message
-> handlers for efficient O(1) lookup by message type.
-> 
-> 2. Channel Types and Queue Management
-> Mailbox Channel: For direct communication between PF0 and Other PF.
-> Queue Initialization/Teardown: Functions (nbl_chan_init_queue,
-> nbl_chan_teardown_queue) manage transmit (TX) and receive (RX) queues.
-> 
-> Queue Configuration: Hardware-specific queue parameters (e.g., buffer
-> sizes, entry counts) are set via nbl_chan_config_queue, with hardware
-> interactions delegated to hw_ops.
-> 
-> 3. Hardware Abstraction Layer (HW Ops)
-> Hardware-Specific Operations: The nbl_hw_ops structure abstracts
-> hardware interactions: queue configuration (config_mailbox_txq/rxq),
->  tail pointer updates(update_mailbox_queue_tail_ptr).
-> 
-> Signed-off-by: illusion.wang <illusion.wang@nebula-matrix.com>
+
+On 4/28/26 17:49, Ivan Vecera wrote:
+> Add pin-operstate enum and operstate_on_dpll_get callback to report
+> the actual hardware status of a pin with respect to its parent DPLL
+> device. Unlike pin-state (which reflects administrative intent set
+> by the user), operstate reflects what the hardware is actually doing.
+>
+> Defined operational states:
+>    - active: pin is qualified and actively used by the DPLL
+>    - standby: pin is qualified but not actively used by the DPLL
+>    - no-signal: pin does not have a valid signal
+>    - qual-failed: pin signal failed qualification
+>
+> The operstate is reported inside the pin-parent-device nested
+> attribute alongside the existing state and phase-offset attributes.
+>
+> Signed-off-by: Ivan Vecera <ivecera@redhat.com>
 > ---
->  .../net/ethernet/nebula-matrix/nbl/Makefile   |   3 +-
->  .../nbl/nbl_channel/nbl_channel.c             | 771 +++++++++++++++++-
->  .../nbl/nbl_channel/nbl_channel.h             | 133 +++
->  .../nebula-matrix/nbl/nbl_common/nbl_common.c | 212 +++++
->  .../nebula-matrix/nbl/nbl_common/nbl_common.h |  33 +
->  .../nbl/nbl_hw/nbl_hw_leonis/nbl_hw_leonis.c  | 143 ++++
->  .../nbl/nbl_include/nbl_def_channel.h         |  87 ++
->  .../nbl/nbl_include/nbl_def_common.h          |  30 +
->  .../nbl/nbl_include/nbl_def_hw.h              |  28 +
->  .../nbl/nbl_include/nbl_include.h             |   6 +
->  10 files changed, 1442 insertions(+), 4 deletions(-)
->  create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.c
->  create mode 100644 drivers/net/ethernet/nebula-matrix/nbl/nbl_common/nbl_common.h
-> 
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/Makefile b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> index 63116d1d7043..c9bc060732e7 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/Makefile
-> @@ -3,7 +3,8 @@
->  
->  obj-$(CONFIG_NBL) := nbl.o
->  
-> -nbl-objs +=       nbl_channel/nbl_channel.o \
-> +nbl-objs +=       nbl_common/nbl_common.o \
-> +				nbl_channel/nbl_channel.o \
->  				nbl_hw/nbl_hw_leonis/nbl_hw_leonis.o \
->  				nbl_hw/nbl_hw_leonis/nbl_resource_leonis.o \
->  				nbl_hw/nbl_hw_leonis/nbl_hw_leonis_regs.o \
-> diff --git a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> index c1b724a8b92d..810f5f03adc0 100644
-> --- a/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> +++ b/drivers/net/ethernet/nebula-matrix/nbl/nbl_channel/nbl_channel.c
-> @@ -2,12 +2,757 @@
->  /*
->   * Copyright (c) 2025 Nebula Matrix Limited.
->   */
-> -
-> +#include <linux/delay.h>
->  #include <linux/device.h>
->  #include <linux/pci.h>
-> +#include <linux/bits.h>
-> +#include <linux/dma-mapping.h>
->  #include "nbl_channel.h"
->  
-> +static int nbl_chan_add_msg_handler(struct nbl_channel_mgt *chan_mgt,
-> +				    u16 msg_type, nbl_chan_resp func,
-> +				    void *priv)
+>   Documentation/driver-api/dpll.rst     | 38 ++++++++++++++++-----------
+>   Documentation/netlink/specs/dpll.yaml | 31 ++++++++++++++++++++++
+>   drivers/dpll/dpll_netlink.c           | 27 +++++++++++++++++++
+>   drivers/dpll/dpll_nl.c                |  3 ++-
+>   drivers/dpll/dpll_nl.h                |  2 +-
+>   include/linux/dpll.h                  |  6 +++++
+>   include/uapi/linux/dpll.h             | 23 ++++++++++++++++
+>   7 files changed, 113 insertions(+), 17 deletions(-)
+>
+> diff --git a/Documentation/driver-api/dpll.rst b/Documentation/driver-api/dpll.rst
+> index 93c191b2d0898..37eaef785e304 100644
+> --- a/Documentation/driver-api/dpll.rst
+> +++ b/Documentation/driver-api/dpll.rst
+> @@ -65,35 +65,43 @@ request, where user provides attributes that result in single pin match.
+>   Pin selection
+>   =============
+>   
+> -In general, selected pin (the one which signal is driving the dpll
+> -device) can be obtained from ``DPLL_A_PIN_STATE`` attribute, and only
+> -one pin shall be in ``DPLL_PIN_STATE_CONNECTED`` state for any dpll
+> -device.
+> +Pin state (``DPLL_A_PIN_STATE``) reflects the administrative intent set
+> +by the user. Pin operational state (``DPLL_A_PIN_OPERSTATE``) reflects
+> +what the hardware is actually doing with the pin.
+>   
+>   Pin selection can be done either manually or automatically, depending
+>   on hardware capabilities and active dpll device work mode
+>   (``DPLL_A_MODE`` attribute). The consequence is that there are
+> -differences for each mode in terms of available pin states, as well as
+> -for the states the user can request for a dpll device.
+> +differences for each mode in terms of available pin states the user can
+> +request for a dpll device.
+>   
+> -In manual mode (``DPLL_MODE_MANUAL``) the user can request or receive
+> -one of following pin states:
+> +In manual mode (``DPLL_MODE_MANUAL``) the user can request one of
+> +following pin states:
+>   
+> -- ``DPLL_PIN_STATE_CONNECTED`` - the pin is used to drive dpll device
+> -- ``DPLL_PIN_STATE_DISCONNECTED`` - the pin is not used to drive dpll
+> +- ``DPLL_PIN_STATE_CONNECTED`` - the pin is selected to drive dpll
+>     device
+> +- ``DPLL_PIN_STATE_DISCONNECTED`` - the pin is not selected to drive
+> +  dpll device
+>   
+> -In automatic mode (``DPLL_MODE_AUTOMATIC``) the user can request or
+> -receive one of following pin states:
+> +In automatic mode (``DPLL_MODE_AUTOMATIC``) the user can request one of
+> +following pin states:
+>   
+>   - ``DPLL_PIN_STATE_SELECTABLE`` - the pin shall be considered as valid
+>     input for automatic selection algorithm
+>   - ``DPLL_PIN_STATE_DISCONNECTED`` - the pin shall be not considered as
+>     a valid input for automatic selection algorithm
+>   
+> -In automatic mode (``DPLL_MODE_AUTOMATIC``) the user can only receive
+> -pin state ``DPLL_PIN_STATE_CONNECTED`` once automatic selection
+> -algorithm locks a dpll device with one of the inputs.
+> +The actual hardware status of a pin is reported via the operational
+> +state (``DPLL_A_PIN_OPERSTATE``) attribute nested under the parent
+> +device:
+> +
+> +- ``DPLL_PIN_OPERSTATE_ACTIVE`` - pin is qualified and actively used
+> +  by the DPLL
+> +- ``DPLL_PIN_OPERSTATE_STANDBY`` - pin is qualified but not actively
+> +  used by the DPLL
+> +- ``DPLL_PIN_OPERSTATE_NO_SIGNAL`` - pin does not have a valid signal
+> +- ``DPLL_PIN_OPERSTATE_QUAL_FAILED`` - pin signal failed qualification
+> +  checks
+>   
+>   Shared pins
+>   ===========
+> diff --git a/Documentation/netlink/specs/dpll.yaml b/Documentation/netlink/specs/dpll.yaml
+> index 40465a3d7fc20..c45de70a47ce6 100644
+> --- a/Documentation/netlink/specs/dpll.yaml
+> +++ b/Documentation/netlink/specs/dpll.yaml
+> @@ -212,6 +212,27 @@ definitions:
+>           name: selectable
+>           doc: pin enabled for automatic input selection
+>       render-max: true
+> +  -
+> +    type: enum
+> +    name: pin-operstate
+> +    doc: |
+> +      defines possible operational states of a pin with respect to its
+> +      parent DPLL device, valid values for DPLL_A_PIN_OPERSTATE attribute
+> +    entries:
+> +      -
+> +        name: active
+> +        doc: pin is qualified and actively used by the DPLL
+> +        value: 1
+> +      -
+> +        name: standby
+> +        doc: pin is qualified but not actively used by the DPLL
+> +      -
+> +        name: no-signal
+> +        doc: pin does not have a valid signal
+> +      -
+> +        name: qual-failed
+> +        doc: pin signal failed qualification (e.g. frequency or phase monitor)
+> +    render-max: true
+>     -
+>       type: flags
+>       name: pin-capabilities
+> @@ -488,6 +509,14 @@ attribute-sets:
+>             Value of (DPLL_A_PIN_MEASURED_FREQUENCY %
+>             DPLL_PIN_MEASURED_FREQUENCY_DIVIDER) is a fractional part
+>             of a measured frequency value.
+> +      -
+> +        name: operstate
+> +        type: u32
+> +        enum: pin-operstate
+> +        doc: |
+> +          Operational state of the pin with respect to its parent DPLL
+> +          device. Unlike state (which reflects the administrative intent),
+> +          operstate reflects the actual hardware status.
+>   
+>     -
+>       name: pin-parent-device
+> @@ -501,6 +530,8 @@ attribute-sets:
+>           name: prio
+>         -
+>           name: state
+> +      -
+> +        name: operstate
+>         -
+>           name: phase-offset
+>     -
+> diff --git a/drivers/dpll/dpll_netlink.c b/drivers/dpll/dpll_netlink.c
+> index af7ce62ec55ca..05cf946b4be5e 100644
+> --- a/drivers/dpll/dpll_netlink.c
+> +++ b/drivers/dpll/dpll_netlink.c
+> @@ -324,6 +324,30 @@ dpll_msg_add_pin_on_dpll_state(struct sk_buff *msg, struct dpll_pin *pin,
+>   	return 0;
+>   }
+>   
+> +static int
+> +dpll_msg_add_pin_operstate(struct sk_buff *msg, struct dpll_pin *pin,
+> +			   struct dpll_pin_ref *ref,
+> +			   struct netlink_ext_ack *extack)
 > +{
-> +	struct nbl_chan_msg_node_data handler = { 0 };
+> +	const struct dpll_pin_ops *ops = dpll_pin_ops(ref);
+> +	struct dpll_device *dpll = ref->dpll;
+> +	enum dpll_pin_operstate operstate;
 > +	int ret;
 > +
-> +	handler.func = func;
-> +	handler.priv = priv;
-> +	ret = nbl_common_alloc_hash_node(chan_mgt->handle_hash_tbl, &msg_type,
-> +					 &handler, NULL);
-> +
-> +	return ret;
-> +}
-> +
-> +static int nbl_chan_init_msg_handler(struct nbl_channel_mgt *chan_mgt)
-> +{
-> +	struct nbl_common_info *common = chan_mgt->common;
-> +	struct nbl_hash_tbl_key tbl_key;
-> +
-> +	tbl_key.dev = common->dev;
-> +	tbl_key.key_size = sizeof(u16);
-> +	tbl_key.data_size = sizeof(struct nbl_chan_msg_node_data);
-> +	tbl_key.bucket_size = NBL_CHAN_HANDLER_TBL_BUCKET_SIZE;
-> +
-> +	chan_mgt->handle_hash_tbl = nbl_common_init_hash_table(&tbl_key);
-> +	if (!chan_mgt->handle_hash_tbl)
-> +		return -ENOMEM;
+> +	if (!ops->operstate_on_dpll_get)
+> +		return 0;
+> +	ret = ops->operstate_on_dpll_get(pin,
+> +					  dpll_pin_on_dpll_priv(dpll, pin),
+> +					  dpll, dpll_priv(dpll),
+> +					  &operstate, extack);
+> +	if (ret)
+> +		return ret;
+> +	if (nla_put_u32(msg, DPLL_A_PIN_OPERSTATE, operstate))
+> +		return -EMSGSIZE;
 > +
 > +	return 0;
 > +}
 > +
-> +static void nbl_chan_remove_msg_handler(struct nbl_channel_mgt *chan_mgt)
-> +{
-> +	nbl_common_remove_hash_table(chan_mgt->handle_hash_tbl, NULL);
+>   static int
+>   dpll_msg_add_pin_direction(struct sk_buff *msg, struct dpll_pin *pin,
+>   			   struct dpll_pin_ref *ref,
+> @@ -650,6 +674,9 @@ dpll_msg_add_pin_dplls(struct sk_buff *msg, struct dpll_pin *pin,
+>   		if (ret)
+>   			goto nest_cancel;
+>   		ret = dpll_msg_add_pin_on_dpll_state(msg, pin, ref, extack);
+> +		if (ret)
+> +			goto nest_cancel;
+> +		ret = dpll_msg_add_pin_operstate(msg, pin, ref, extack);
+>   		if (ret)
+>   			goto nest_cancel;
+>   		ret = dpll_msg_add_pin_prio(msg, pin, ref, extack);
+> diff --git a/drivers/dpll/dpll_nl.c b/drivers/dpll/dpll_nl.c
+> index 1e652340a5d73..58235845fa3d5 100644
+> --- a/drivers/dpll/dpll_nl.c
+> +++ b/drivers/dpll/dpll_nl.c
+> @@ -12,11 +12,12 @@
+>   #include <uapi/linux/dpll.h>
+>   
+>   /* Common nested types */
+> -const struct nla_policy dpll_pin_parent_device_nl_policy[DPLL_A_PIN_PHASE_OFFSET + 1] = {
+> +const struct nla_policy dpll_pin_parent_device_nl_policy[DPLL_A_PIN_OPERSTATE + 1] = {
+>   	[DPLL_A_PIN_PARENT_ID] = { .type = NLA_U32, },
+>   	[DPLL_A_PIN_DIRECTION] = NLA_POLICY_RANGE(NLA_U32, 1, 2),
+>   	[DPLL_A_PIN_PRIO] = { .type = NLA_U32, },
+>   	[DPLL_A_PIN_STATE] = NLA_POLICY_RANGE(NLA_U32, 1, 3),
+> +	[DPLL_A_PIN_OPERSTATE] = NLA_POLICY_RANGE(NLA_U32, 1, 4),
+>   	[DPLL_A_PIN_PHASE_OFFSET] = { .type = NLA_S64, },
+>   };
+>   
+> diff --git a/drivers/dpll/dpll_nl.h b/drivers/dpll/dpll_nl.h
+> index 7419679b69779..fa8280e3dd14c 100644
+> --- a/drivers/dpll/dpll_nl.h
+> +++ b/drivers/dpll/dpll_nl.h
+> @@ -13,7 +13,7 @@
+>   #include <uapi/linux/dpll.h>
+>   
+>   /* Common nested types */
+> -extern const struct nla_policy dpll_pin_parent_device_nl_policy[DPLL_A_PIN_PHASE_OFFSET + 1];
+> +extern const struct nla_policy dpll_pin_parent_device_nl_policy[DPLL_A_PIN_OPERSTATE + 1];
+>   extern const struct nla_policy dpll_pin_parent_pin_nl_policy[DPLL_A_PIN_STATE + 1];
+>   extern const struct nla_policy dpll_reference_sync_nl_policy[DPLL_A_PIN_STATE + 1];
+>   
+> diff --git a/include/linux/dpll.h b/include/linux/dpll.h
+> index b7277a8b484d2..b6f16c884b99e 100644
+> --- a/include/linux/dpll.h
+> +++ b/include/linux/dpll.h
+> @@ -85,6 +85,12 @@ struct dpll_pin_ops {
+>   				 const struct dpll_device *dpll,
+>   				 void *dpll_priv, enum dpll_pin_state *state,
+>   				 struct netlink_ext_ack *extack);
+> +	int (*operstate_on_dpll_get)(const struct dpll_pin *pin,
+> +				     void *pin_priv,
+> +				     const struct dpll_device *dpll,
+> +				     void *dpll_priv,
+> +				     enum dpll_pin_operstate *operstate,
+> +				     struct netlink_ext_ack *extack);
+>   	int (*state_on_pin_set)(const struct dpll_pin *pin, void *pin_priv,
+>   				const struct dpll_pin *parent_pin,
+>   				void *parent_pin_priv,
+> diff --git a/include/uapi/linux/dpll.h b/include/uapi/linux/dpll.h
+> index 871685f7c353b..cb363cccf2e2a 100644
+> --- a/include/uapi/linux/dpll.h
+> +++ b/include/uapi/linux/dpll.h
+> @@ -178,6 +178,28 @@ enum dpll_pin_state {
+>   	DPLL_PIN_STATE_MAX = (__DPLL_PIN_STATE_MAX - 1)
+>   };
+>   
+> +/**
+> + * enum dpll_pin_operstate - defines possible operational states of a pin with
+> + *   respect to its parent DPLL device, valid values for DPLL_A_PIN_OPERSTATE
+> + *   attribute
+> + * @DPLL_PIN_OPERSTATE_ACTIVE: pin is qualified and actively used by the DPLL
+> + * @DPLL_PIN_OPERSTATE_STANDBY: pin is qualified but not actively used by the
+> + *   DPLL
+> + * @DPLL_PIN_OPERSTATE_NO_SIGNAL: pin does not have a valid signal
+> + * @DPLL_PIN_OPERSTATE_QUAL_FAILED: pin signal failed qualification (e.g.
+> + *   frequency or phase monitor)
+> + */
+> +enum dpll_pin_operstate {
+> +	DPLL_PIN_OPERSTATE_ACTIVE = 1,
+> +	DPLL_PIN_OPERSTATE_STANDBY,
+> +	DPLL_PIN_OPERSTATE_NO_SIGNAL,
+> +	DPLL_PIN_OPERSTATE_QUAL_FAILED,
 > +
-> +	chan_mgt->handle_hash_tbl = NULL;
-> +}
+> +	/* private: */
+> +	__DPLL_PIN_OPERSTATE_MAX,
+> +	DPLL_PIN_OPERSTATE_MAX = (__DPLL_PIN_OPERSTATE_MAX - 1)
+> +};
 > +
-> +static void nbl_chan_init_queue_param(struct nbl_chan_info *chan_info,
-> +				      u16 num_txq_entries, u16 num_rxq_entries,
-> +				      u16 txq_buf_size, u16 rxq_buf_size)
-> +{
-> +	mutex_init(&chan_info->txq_lock);
-> +	chan_info->num_txq_entries = num_txq_entries;
-> +	chan_info->num_rxq_entries = num_rxq_entries;
-> +	chan_info->txq_buf_size = txq_buf_size;
-> +	chan_info->rxq_buf_size = rxq_buf_size;
-> +}
-> +
-> +static int nbl_chan_init_tx_queue(struct nbl_common_info *common,
-> +				  struct nbl_chan_info *chan_info)
-> +{
-> +	struct nbl_chan_ring *txq = &chan_info->txq;
-> +	struct device *dev = common->dev;
-> +	size_t size =
-> +		chan_info->num_txq_entries * sizeof(struct nbl_chan_tx_desc);
-> +
-> +	txq->desc.tx_desc = dmam_alloc_coherent(dev, size, &txq->dma,
-> +						GFP_KERNEL);
-> +	if (!txq->desc.tx_desc)
-> +		return -ENOMEM;
+>   /**
+>    * enum dpll_pin_capabilities - defines possible capabilities of a pin, valid
+>    *   flags on DPLL_A_PIN_CAPABILITIES attribute
+> @@ -257,6 +279,7 @@ enum dpll_a_pin {
+>   	DPLL_A_PIN_PHASE_ADJUST_GRAN,
+>   	DPLL_A_PIN_FRACTIONAL_FREQUENCY_OFFSET_PPT,
+>   	DPLL_A_PIN_MEASURED_FREQUENCY,
+> +	DPLL_A_PIN_OPERSTATE,
+>   
+>   	__DPLL_A_PIN_MAX,
+>   	DPLL_A_PIN_MAX = (__DPLL_A_PIN_MAX - 1)
 
-Sashiko says:
+Reviewed-by: Petr Oros <poros@redhat.com>
 
-These setup functions use dmam_alloc_coherent() and devm_kcalloc(), but
-nbl_chan_teardown_queue() does not free them. If the queues are torn down
-and set up multiple times during the device's lifetime, does this leak
-memory since devm_ resources are only freed when the device is unbound?
-
-> +static int nbl_chan_teardown_queue(struct nbl_channel_mgt *chan_mgt,
-> +				   u8 chan_type)
-> +{
-> +	struct nbl_chan_info *chan_info = chan_mgt->chan_info[chan_type];
-> +
-> +	nbl_chan_stop_queue(chan_mgt, chan_info);
-
-sashiko says:
-
-The driver registers a background work item for clean_task, but neither
-nbl_chan_teardown_queue() nor nbl_chan_remove_common() calls
-cancel_work_sync(). If the queues are destroyed while this work is pending,
-will it eventually execute and access unmapped DMA regions or freed memory?
-
-> +static int nbl_chan_kick_tx_ring(struct nbl_channel_mgt *chan_mgt,
-> +				 struct nbl_chan_info *chan_info)
-> +{
-> +	struct nbl_hw_ops *hw_ops = chan_mgt->hw_ops_tbl->ops;
-> +	struct nbl_chan_ring *txq = &chan_info->txq;
-> +	struct device *dev = chan_mgt->common->dev;
-> +	struct nbl_chan_tx_desc *tx_desc;
-> +	int i = 0;
-> +
-> +	NBL_UPDATE_QUEUE_TAIL_PTR(chan_info, hw_ops, chan_mgt, txq->tail_ptr,
-> +				  NBL_MB_TX_QID);
-> +
-> +	tx_desc = NBL_CHAN_TX_RING_TO_DESC(txq, txq->next_to_clean);
-> +
-> +	while (!(tx_desc->flags & BIT(NBL_CHAN_TX_DESC_USED))) {
-> +		udelay(NBL_CHAN_TX_WAIT_US);
-> +		i++;
-
-Sashiko says:
-
-This loop executes udelay(100) for up to 30,000 iterations while holding the
-txq_lock mutex. Will this busy-wait for up to 3 seconds with a mutex held
-and preemption disabled, potentially triggering soft lockups? Could a
-sleepable function like usleep_range() be used instead, or the overall
-timeout reduced?
-
-> +
-> +		if (!(i % NBL_CHAN_TX_REKICK_WAIT_TIMES))
-> +			NBL_UPDATE_QUEUE_TAIL_PTR(chan_info, hw_ops, chan_mgt,
-> +						  txq->tail_ptr, NBL_MB_TX_QID);
-> +
-> +		if (i == NBL_CHAN_TX_WAIT_TIMES) {
-> +			dev_err(dev, "chan send message type: %d timeout\n",
-> +				tx_desc->msg_type);
-> +			return -ETIMEDOUT;
-> +		}
-> +	}
-> +
-> +	txq->next_to_clean = txq->next_to_use;
-> +
-> +	return 0;
-> +}
-> +
-> +static void nbl_chan_recv_ack_msg(void *priv, u16 srcid, u16 msgid, void *data,
-> +				  u32 data_len)
-> +{
-> +	struct nbl_channel_mgt *chan_mgt = (struct nbl_channel_mgt *)priv;
-> +	struct nbl_chan_waitqueue_head *wait_head = NULL;
-> +	union nbl_chan_msg_id ack_msgid = { { 0 } };
-> +	struct device *dev = chan_mgt->common->dev;
-> +	struct nbl_chan_info *chan_info =
-> +		chan_mgt->chan_info[NBL_CHAN_TYPE_MAILBOX];
-> +	u32 *payload = (u32 *)data;
-> +	u32 ack_datalen;
-> +	u32 copy_len;
-> +
-> +	if (data_len < NBL_CHAN_ACK_HEAD_LEN * sizeof(u32)) {
-> +		dev_err(dev, "Invalid ACK data_len: %u\n", data_len);
-> +		return;
-> +	}
-> +	ack_datalen = data_len - NBL_CHAN_ACK_HEAD_LEN * sizeof(u32);
-> +	ack_msgid.id = *(u16 *)(payload + NBL_CHAN_MSG_ID_POS);
-
-This code extracts the message ID by casting a u32 pointer to u16. On
-big-endian architectures, will this read the upper 16 bytes of the
-32-bit word, which are zero?
-
-> +	if (ack_msgid.info.loc >= NBL_CHAN_QUEUE_LEN) {
-> +		dev_err(dev, "chan recv msg loc: %d err\n", ack_msgid.info.loc);
-> +		return;
-> +	}
-> +	wait_head = &chan_info->wait[ack_msgid.info.loc];
-> +	wait_head->ack_err = *(payload + NBL_CHAN_ACK_RET_POS);
-> +
-> +	copy_len = min_t(u32, wait_head->ack_data_len, ack_datalen);
-> +	if (wait_head->ack_err >= 0 && copy_len > 0)
-> +		memcpy((char *)wait_head->ack_data,
-> +		       payload + NBL_CHAN_ACK_HEAD_LEN, copy_len);
-
-Sashiko says:
-
-If wait_event_timeout() times out in nbl_chan_send_msg(), the function
-returns and the caller's stack frame is destroyed. Since the wait slot is
-never cleared, if a delayed ACK arrives later, will nbl_chan_recv_ack_msg()
-execute memcpy() and overwrite the now-freed stack memory?
-Should this function verify if ack_msgid.info.index matches
-wait_head->msg_index and the state is NBL_MBX_STATUS_WAITING before copying?
-
-Sashiko has more comments, I reported only those that looked more
-impactful to me, please have a careful read of them:
-
-https://netdev-ai.bots.linux.dev/sashiko/#/patchset/20260428114910.2616-1-illusion.wang%40nebula-matrix.com
-https://sashiko.dev/#/patchset/20260428114910.2616-1-illusion.wang%40nebula-matrix.com
-
-Also note that submitters should thread AI-generated reviews as any
-other kind of feedback. Specifically you should procatively reply on the
-ML discussing invalid comments.
-
-Thanks,
-
-Paolo
 
