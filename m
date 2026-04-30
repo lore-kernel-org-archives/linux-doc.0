@@ -1,48 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3693C1A9FA4;
-	Thu, 30 Apr 2026 00:53:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645FB5474F;
+	Thu, 30 Apr 2026 00:56:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777510416; cv=none; b=uAvZk0TOdMNhiVYSyL1wfA42f95lKQgZmhV8fJlxwk+pGfq/LiEr61bVU8woE2M20CplEoySsLkfd2E7jyIz6IcN2C335PcYSGm4VzHlQIjb1+BPfR6HuIjj5iBNKoM0AUDuJ4/kXGeWcuWl8rCXh165WPpvvUJRFIkQlqqHeHw=
+	t=1777510614; cv=none; b=Ie1aPiYtf02iXB/yXtITmYBjeEWEY5jLBPIV9p2Ggw0t0cya2rYjGv0CCBnQ3082ERogL5hdieHr0f1p6+fhXhTISnjiumi9e70EwKr65pHlUtRDIP7xdVPInroLC7yi06UeDEZ3xc348eh+GiEjk20et67eV2SnjVSYcynaT/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777510416; c=relaxed/simple;
-	bh=zjCoBFwYSmjGFkHi/Pxcq/dfA8Mbal7PpAw+Jp2oKko=;
+	s=arc-20240116; t=1777510614; c=relaxed/simple;
+	bh=iKtlWudWf4yk0Lw+o/8AER/401ttw3Z21zzRCj0TtyA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=oB9y3Ic4uUyLLy9Gof1KyxhSryNP1jUY917HZBbJhYgGtb4FKhtUXjUQnGHFXbrqgduYwTI1jKAKlcjBlsCLm8p+W3sDnZwf5L38aEbKIJX47KuvJlD9xRFTtvdFIW8DZRqeq1bZ690gojwz5k9FPTn2BMsGU4YT01+Tjql0LSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qpj3Qm0W; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=selw3r+Oqx4I1ovnTtaZ0gVV0M4D3Vz78bawv0+MqhRsRsGVR4tukbYYz/23DNNfZVOAAnDG4YlcweFFaNJZ33C3ko4tVbV8V3woeeEb5vUeJi78dU7zSoL9Qijo1suXRRPi0Pke2OHv0R27LKZNHuht38LXGHM6WBudlfGVRRQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=T5O0uOFk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qpj3Qm0W"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A759C19425;
-	Thu, 30 Apr 2026 00:53:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="T5O0uOFk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6A82FC19425;
+	Thu, 30 Apr 2026 00:56:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777510415;
-	bh=zjCoBFwYSmjGFkHi/Pxcq/dfA8Mbal7PpAw+Jp2oKko=;
+	s=k20201202; t=1777510613;
+	bh=iKtlWudWf4yk0Lw+o/8AER/401ttw3Z21zzRCj0TtyA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qpj3Qm0Wzn2hcQstA8JGWaprxISvZUM8AAu14+3bt2qhRgD8n6juV6/vNXPkVkBkk
-	 kZDJ4H+aKjZf+o55CixvCLSMYV6IEDl5kj09gJs/bH/72ASNq6OGI30PRX+sLFVCDg
-	 ohW+ZRr6QBHWRYRRkypg/1GHW1JtUwBvGYtqo0iodkPolOX/ETKSriP6lXSBlTT6mR
-	 bsUqfgwMbL6r0co6X2lmiEiLSQZskYN/ycTKc6YW33cdEnP3iIjkbwC8zD0B8bqVAw
-	 +RFONzK2h50YB0Rq3AaOeIkfl4APevD6ZuVMlPk30pl41TuqQkcFpwYVQwJ7Ke5ISG
-	 L3i9nf6gEmjaQ==
+	b=T5O0uOFkB400nD6lpKCMSJhkVo3JAz+oQGI4I1AYyFmKnID7GhY3MajEdF+gonuiy
+	 kPw3kFuwGCWFPghkeNq74M1zRcFk70/Wo4/o9hspxulsq2lf7V/eTaRMy614D2ciUT
+	 IAteBdqdhamoTivv77BZCpUNVGVefsA3TcbX1UWAub8ExTz1cVkRlHIOyF3JyCtffL
+	 ZZKWYQGCVQcMiekKxKI6t7btxPXWVTxNPREnHs9RlP9iEvuvw4ro4J5bLri11gswva
+	 KopiZLOt598FQCTMPWZoYxukgy/SOJSb0nBoyZxHrk5qFfqRHf3Ihbah1Po8vp5z7O
+	 vxnlv/dNKN6Cg==
 From: SeongJae Park <sj@kernel.org>
 To: Manuel Ebner <manuelebner@mailbox.org>
 Cc: SeongJae Park <sj@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
 	linux-doc@vger.kernel.org,
+	rcu@vger.kernel.org,
 	Kees Cook <kees@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org,
-	linux-sound@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: Re: [PATCH v4 1/3] Documentation: adopt new coding style of type-aware kmalloc-family
-Date: Wed, 29 Apr 2026 17:53:33 -0700
-Message-ID: <20260430005333.113698-1-sj@kernel.org>
+	linux-mm@kvack.org,
+	"Paul E . McKenney" <paulmck@kernel.org>
+Subject: Re: [PATCH v4 2/3] Documentation: RCU: adopt new coding style of type-aware kmalloc-family
+Date: Wed, 29 Apr 2026 17:56:45 -0700
+Message-ID: <20260430005645.113819-1-sj@kernel.org>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260429071445.309733-2-manuelebner@mailbox.org>
+In-Reply-To: <20260429072320.310817-2-manuelebner@mailbox.org>
 References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -52,24 +50,22 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Wed, 29 Apr 2026 09:14:44 +0200 Manuel Ebner <manuelebner@mailbox.org> wrote:
+On Wed, 29 Apr 2026 09:23:21 +0200 Manuel Ebner <manuelebner@mailbox.org> wrote:
 
-> Update the documentation to reflect new type-aware kmalloc-family as
-> suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+> Update Documentation/RCU/* to reflect new type-aware kmalloc-family
+> as suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
 > and family")
 > 
 > ptr = kmalloc(sizeof(*ptr), gfp);
 >  -> ptr = kmalloc_obj(*ptr);
-> ptr = kmalloc(sizeof(struct some_obj_name), gfp);
->  -> ptr = kmalloc_obj(*ptr);
-> ptr = kzalloc(sizeof(*ptr), gfp);
->  -> ptr = kzalloc_obj(*ptr);
-> ptr = kmalloc_array(count, sizeof(*ptr), gfp);
->  -> ptr = kmalloc_objs(*ptr, count);
-> ptr = kcalloc(count, sizeof(*ptr), gfp);
->  -> ptr = kzalloc_objs(*ptr, count);
+
+Shouldn't 'gfp' parameter be kept?
+
 > 
 > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
+> Acked-by: Paul E. McKenney <paulmck@kernel.org>
+
+Other than the above,
 
 Acked-by: SeongJae Park <sj@kernel.org>
 
