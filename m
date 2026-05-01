@@ -1,127 +1,213 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.153.120])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0B2317B43F;
-	Fri,  1 May 2026 18:35:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317623F0AA6
+	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 19:16:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.153.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777660522; cv=none; b=jeLjaHC7HAhVEW+F0rOO7WFQWzhOe/dxxku4GEFuDXRv0Wk7XS0jpbz7a0ku4eNCosb4nUTBLBYoGYR6TZkD9vcIimTCY+dcCaXdA+vBhh6twoi00FjANtbTqh97jYgOOl9/OCM4LVo7ENfnayHZqbvzaHsLUiVc4sMyqt0lQKY=
+	t=1777662964; cv=none; b=ZgN0vfXq0MMpubkxN6PkIbtE/YyCfUn+J9jH55c1xs9WmijP7Nz2uAVOWZvLQUZsKbqYlnYkgIeVg4g0wY30N1y07QcXE7ot9EVJZKllUtjbk//qvYDQTRBgCHTYyb+bRbSsVPgl1/mX4kKGVwFEST2eg/fo1VKaMOI9ij10+w0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777660522; c=relaxed/simple;
-	bh=Ud4Pf2aFjc4PpJd0yuPOtYAG9pL0DzeCDxehpradCCU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=TBxektm/YJ+JmVFGVIO8ibsC0tL0iS2pfbAOlIzgYSfKQTmXQdtT/XK16666d+ruk45YfZNLNmAkCp6aBzaTMURR0Bx8wPkMh0isXPkOp8ohV3qyJWti96TnQ87BjaTptYtC47Mx7Hh8pba/Hh+E7Lwe9zicgniUIc/sgu9cgFg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gOTFvI59; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777662964; c=relaxed/simple;
+	bh=Gmjt1BGRhjFeP6a3gdd/YdggZg3NZpeIei0xQLjyKFk=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=iyO9Vkw5wENxWS7kTQhgjP1RILDOlZ1UnGQtUcNRyJdKOqAWgu3L49ycgsjvkmOsb2+K6wQtltIoXdt/tBviXaYGFJd3xRzNIjlDDKK6hgUcU0gJW8HIq7HIsyngqS4Av938xkGf3iEp8OQRTf3RbqWK4GwTxc4//89wvGp9ufw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=MFpECDsf; arc=none smtp.client-ip=170.10.153.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gOTFvI59"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777660521; x=1809196521;
-  h=message-id:date:mime-version:subject:to:references:from:
-   in-reply-to:content-transfer-encoding;
-  bh=Ud4Pf2aFjc4PpJd0yuPOtYAG9pL0DzeCDxehpradCCU=;
-  b=gOTFvI59ybYhOCRwaZwkPen+hDAhrwI6GLGFR8V5s0MWRrZ0s70bVh0o
-   OMRa04iiww0xHcStimELn4BYoPY8u4jxnSS69Cma3N3bEvbNTOYNiRBfL
-   qimYEIStwryVuoyBI9mKfKmHAXNdjlg5Wc6n3rBVv9+PalvTYii5367vx
-   a+7qXbMoVO17Qf38Q52VOohx4NWeq7ZY1zZMpDBGJV5OyPnHoF5zbGJGq
-   rIBSEGZxtBYWhKQ6RNQyj9SXBA8Uc/nxnoPYFrra6BtaSR20gmEoPFEvd
-   QegQZKI1hc3Ds5N4f5TTz7+uyz2PFZq22HqQShcJpuK8iANrmmtVHVq84
-   Q==;
-X-CSE-ConnectionGUID: Xl5cZFNJS7uz9ydz7huytw==
-X-CSE-MsgGUID: pH5sIUi7QZeYtnn3bJkukw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="89214658"
-X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="89214658"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 11:35:20 -0700
-X-CSE-ConnectionGUID: OE860clNTLypJkRn0FLx8A==
-X-CSE-MsgGUID: bH5XMDs/RR+sZoEPtR4iHQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
-   d="scan'208";a="234990357"
-Received: from bradocaj-mobl.ger.corp.intel.com (HELO [10.125.109.156]) ([10.125.109.156])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 11:35:20 -0700
-Message-ID: <76859a4c-3b65-4edf-b2b8-a72d35a88b1c@intel.com>
-Date: Fri, 1 May 2026 11:35:21 -0700
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="MFpECDsf"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1777662960;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=2bD7NbPrcwk6Xv6WnHcwL264iU5JTqc27TMjU+gaAl0=;
+	b=MFpECDsf8gQxXbrxalubEw9hKkoM3ZuGFkd9E06CEOxiuEZIf0EXPp3lG+hblzPhes/XzH
+	k/V0odjZuxiRGQP/b8wH1wUx8ehIvPqJJ3PiqeLmv+YLqbLayuvD1y1rOUKbCQnJlLYPTS
+	rtbLqFiZ1hIQboXhMNcmCKSZR3GsHPlxLM5s41pw8GFCAvlz8ogWh09dkDA/dR+mbIWm5V
+	qwhEZuE8wOPWPGk3aBNRa1HyN3+y9O/6Oa0dS9NdJcuWKMrmCzAOwehTJ98HXNnpjzWPjp
+	nN3PWRTic7OyVgZqUNbk36Av9f98f9VFw6GQFV4GLRsRNUNzguHxKFUbCg1wDA==
+Received: from MW6PR02CU001.outbound.protection.outlook.com
+ (mail-westus2azon11012033.outbound.protection.outlook.com [52.101.48.33])
+ by relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-68-FkKZIPaaN5iCNrkB0oKv3A-1; Fri,
+ 01 May 2026 12:15:56 -0700
+X-MC-Unique: FkKZIPaaN5iCNrkB0oKv3A-1
+X-Mimecast-MFC-AGG-ID: FkKZIPaaN5iCNrkB0oKv3A_1777662954
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com (2603:10b6:930:9c::17)
+ by DM6PR02MB6969.namprd02.prod.outlook.com (2603:10b6:5:25c::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.23; Fri, 1 May
+ 2026 19:15:51 +0000
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda]) by CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda%3]) with mapi id 15.20.9870.022; Fri, 1 May 2026
+ 19:15:50 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Piergiorgio Beruto <Pier.Beruto@onsemi.com>,
+	"parthiban.veerasooran@microchip.com" <parthiban.veerasooran@microchip.com>,
+	"davem@davemloft.net" <davem@davemloft.net>, "edumazet@google.com"
+	<edumazet@google.com>, "kuba@kernel.org" <kuba@kernel.org>,
+	"pabeni@redhat.com" <pabeni@redhat.com>, "horms@kernel.org"
+	<horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
+	"skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: [PATCH net-next 5/5] Documentation: networking: add OPEN Alliance
+ 10BASE-T1x MAC-PHY serial interface
+Thread-Topic: [PATCH net-next 5/5] Documentation: networking: add OPEN
+ Alliance 10BASE-T1x MAC-PHY serial interface
+Thread-Index: AdzZljj7hmPCdracRnKuezGGQJPLXw==
+Date: Fri, 1 May 2026 19:15:50 +0000
+Message-ID: <CY8PR02MB9249A37FB92D4380DA3809F683322@CY8PR02MB9249.namprd02.prod.outlook.com>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: MSIP_Label_1dcb4cab-3db0-412f-be97-4e57888824a6_Enabled=True;MSIP_Label_1dcb4cab-3db0-412f-be97-4e57888824a6_SiteId=04e1674b-7af5-4d13-a082-64fc6e42384c;MSIP_Label_1dcb4cab-3db0-412f-be97-4e57888824a6_SetDate=2026-05-01T18:44:43.0000000Z;MSIP_Label_1dcb4cab-3db0-412f-be97-4e57888824a6_Name=Public
+ Information;MSIP_Label_1dcb4cab-3db0-412f-be97-4e57888824a6_ContentBits=3;MSIP_Label_1dcb4cab-3db0-412f-be97-4e57888824a6_Method=Privileged
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR02MB9249:EE_|DM6PR02MB6969:EE_
+x-ms-office365-filtering-correlation-id: 5455bbe2-3c3b-4478-6295-08dea7b60ee9
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024|921020|38070700021|56012099003|18002099003
+x-microsoft-antispam-message-info: 1a6loK1NBFB5Wk23KMGs2zx4nNKPIf7xvqsaK9wYxuT/BujAKFNSVN/s0xUSIFyLoXfWgYzXm/9OlvKoHqZLJMsIchlv7NrXy4H7MvzWigZa4CQNEpTIH13WCOUWkPzys83b3h/JxNaFwiMmRKgwkYNmBJMQ0r24tVOP8k1c2maSiukVh2K7TuxYewZlVP25ZVfVbPVpx4hxNZi4Y65S7z42a0eDa7YBaopRq+ypNqJcHyBjIf+LvYq1//qIcc0PJ5E6TLmnQlf/+jzbx4eVQ04n+OYzs8Qw7t5DYexlJNlfvMrx8zFWsX78t6meddzqhURxyje8WvgLzsZWlXQfQCjaDTD19QZhPSUG6wn4mBreUXtyyeU3ZicEOv+r7K7G7W5DMlyI931s/Zh0WVCBz7YFAheFqwB8tn1MOfxCQNDCr8KvTNT8K+qVay6/3HLChyEpRrfQadjh7aadqoO0vYhy5QMGBDkfw9urLJ3x4Hos6LAYZvgRdhbHDs3dYXxEWS7S10W504sql5O8TjNTDc/8evSU/RC5Il+ARgIYKDW0UwYLTfxuGCjoc3PI3Z3K3ws4hMcg6kMjvxRTThO/oMy6+NoanFlL2ytZg5XkTfYuFOGKEE5h5xnG3Qf/j3UnRC+XJtMW72YBQAjToa/veYCCWY6CSm/EvV6ab3Y5ZCp9huFcgjCGQUN5MTQ6XlG/Lb9XLnlEvsdT36ZhAgbxViqfTDaDS5NzlWHNkOp0tvXILnGzr8TVHCcfpMCF4tbk0IRK71jLm4hujTORB9eyBw==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR02MB9249.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024)(921020)(38070700021)(56012099003)(18002099003);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?1zEPurLX2DFbGc2BENcwYFiIIy57rovV7ODH8AwaH05WnWDABwZDEYSfS3Eo?=
+ =?us-ascii?Q?ZPRWvAEBvpIjbJQBSVwOHCojADkygMshKSwrKe6wiK2wiVp6xRPo/9ASWJgK?=
+ =?us-ascii?Q?XdHK5SpzFyilD8AS3DyRHwhD0A/BZH1PhlxYEu1DC4Siv1TaPKBFVGykwewY?=
+ =?us-ascii?Q?8HReJw3ckmG140pTkI2fVHqPEMsk2gmLpLXZfu1LpXawmmWweg1rMn4sznko?=
+ =?us-ascii?Q?WwGBxcXz0BTSREMoanIoYCLbj2Wp65EuKBxkuC9FlFDoNh6t3bn3tBGrxw7H?=
+ =?us-ascii?Q?bPFjBoGcsTPNFSmx42ujzBbcH0s/kZ7A93xGD5rTrQ0jPL4mDOY+764BCXUI?=
+ =?us-ascii?Q?APjSH6GLc2Ule+/cgRL758elFTkVlU1MNrEsLfbUiwg6Hw1nY+hGf32oyCPD?=
+ =?us-ascii?Q?CVhX6BbaeFM7gZo2dybqaIl/WO/nY52BEsuj/CvQIGwEXUHjNpVYaYr2Pe2T?=
+ =?us-ascii?Q?w8rpsHKIKC/sUa5Ev9SfStRnLs9WHZtnd7Grlfl9KgxGbDBVYnIuK0bitUUl?=
+ =?us-ascii?Q?7ImdxhR0jOrdtteUbQAccjEgTQ0urPZZwAwM0a2lIFlJSacXbd1qbnZbCuzw?=
+ =?us-ascii?Q?DQdC6Q/iJOUIiE2l1ulwhB7fk+r4imcMPnuNwZQBiE+V2Sbs5AIYiaQmf4mG?=
+ =?us-ascii?Q?nZDv7xv/gSU5IldV9VDyLeSM9rQ5VaqfwY2fIl5m2l6Xy96bI03Hli2ozc1a?=
+ =?us-ascii?Q?xr+26UMq78Fb6ttVuka+WFfuC2gziFYY3Z5/WIwLMpzPjacEO0MgcB4hzBn8?=
+ =?us-ascii?Q?UHynMOqS31UaR/xnKlpR1AJqUqpn0vqzbEOnQwuPYWIc2SSVL9G+J/nd++CV?=
+ =?us-ascii?Q?N2ZoReBlGepWl4moqDK5J3nNnLLL33h0DCZL/rp9F+YdId2qG7rw7ORthBu1?=
+ =?us-ascii?Q?XvmG6lJMGKlapltyqwp/sFrXlCFFIgpKHkNcE0BaonQ9PTFmEmNWWCfoFR93?=
+ =?us-ascii?Q?zCF4HXkZ4lMAlcSX37BTXVf/o4uKqiaIxe4vGP/i9sLJf/2jhbKe7S4j94LC?=
+ =?us-ascii?Q?tIk030Qoa/ATVZyESvy4xPVfUxJyf/EwxqtI563z/UAIRbl1TQe/O6vycWNf?=
+ =?us-ascii?Q?Q0dtzOEsHLMaNEYOkZMbyktYAv7e82jICs3XsQq4qz6GwqXnLOy5YnmS/ItD?=
+ =?us-ascii?Q?ZJ1Gp6vwhTb5akC8BvyHqiSYthXpVXajhCy24FNm0YT3zYRJmzq7DLvwZVcR?=
+ =?us-ascii?Q?E8G0Il3Z6YfodDmBmekp6A2enNhdL73brdkzdzdV/x003QlJ5Ns/AwINii10?=
+ =?us-ascii?Q?zPf+3VKasfyyORji2PDvKQlX803gSpSxr39sxQClk9+C7FmZ8o4wODrFWo6d?=
+ =?us-ascii?Q?AO3QK/BJc7JVWwpveSlxlGV+xmkWIuy8yAf4Z05uzt5OIXThHuQHkgdcm5NU?=
+ =?us-ascii?Q?HNNIZz8MpVZyQ+RUg60j1C0TOobtMF8a+665BcpntMaCneJcB/RySMfv2gUm?=
+ =?us-ascii?Q?QxE6CvRoRRvGwXtz197JSyL3SeEHpUzsaSrghSWgCekxKr57DXxw7bjjJf9p?=
+ =?us-ascii?Q?IgAb0QSOb0pTVyJSgp7ea6R0DcJncN6/vCCCtTP8JMVAPMkVpEm/WoM0IExw?=
+ =?us-ascii?Q?C/qRU8yJfv/823uygQnkp6CKFLsQblvgeC7u37Zuu+we1dgqSiPJE+WPSWee?=
+ =?us-ascii?Q?FQuIcNwRuQwemiihXaz1kFVryltDxr9IYv8unroOaAhNXJdjBuRh/ha0QiqJ?=
+ =?us-ascii?Q?WG2HEl87Oy3GobGPu/gVGl3i15YO8NyMLBxLNihkl17OFFa/vHfWnt72Mhg0?=
+ =?us-ascii?Q?zXANFzAVupqfm/7QSx/rR8BXBqqi/BM=3D?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] docs: Remove icn= ISDN parameter
-To: Costa Shulyupin <costa.shul@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- "Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap
- <rdunlap@infradead.org>, Dave Hansen <dave.hansen@linux.intel.com>,
- Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>,
- Marco Elver <elver@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Li RongQing <lirongqing@baidu.com>, Eric Biggers <ebiggers@kernel.org>,
- "Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20260501182634.1110715-1-costa.shul@redhat.com>
-From: Dave Hansen <dave.hansen@intel.com>
+X-Exchange-RoutingPolicyChecked: WFWprs68ZNWhyD4AIwL4oZFdazPowHY9IZZuf1ncGtFz1OOIcTi0es0C/QEC7xMrp5BtxAy+CiNqYd6NRcqM8sAQ2uuLxeTmd8jcEYF55fXvrYUnQvsYywYsiM0xqvl9DKBnQqktAdYAxWfSoJF5yBg3/N/dnINZrY2DH9KWfE7Plt3+GZlwhQRg42W5vHSpDSQFNz9y8UIYvuYsY4ePp2dRBTnrrj/xSrJH5zJEcOzxd3oB2wQh8wsJJmAxtfEx9PQpQJRRvk4kkI0LQ7oB0E8bYTqnIuAoAK8+HBA/vsPPNUk7xGoK1SUDyPDEKXkptmK9rGEOX4tBkhi1dwqeiA==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR02MB9249.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5455bbe2-3c3b-4478-6295-08dea7b60ee9
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 May 2026 19:15:50.8951
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: eD7H9+J6St0V6bkNSPFiSZ1LOCAdlIH0F7SXn9vZMPH+ZNmqXkgO7JqNmCjoH4P2i58Feln0egqvHfV0MeYT6+AandHyeRaUKWbHT4nO984=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR02MB6969
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: 8s6fPpLxxPualaIubVEtYroErQ4VKS02hAzKlXwkZfw_1777662954
+X-Mimecast-Originator: onsemi.com
 Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20260501182634.1110715-1-costa.shul@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=WINDOWS-1252
+Content-Transfer-Encoding: quoted-printable
 
-On 5/1/26 11:26, Costa Shulyupin wrote:
-> The ICN ISDN driver was removed in commit 02bbd9802da7
-> ("staging: i4l: delete the whole thing"), but the icn= kernel
-> parameter documentation was left behind.
-> 
-> Assisted-by: Claude:claude-opus-4-6
+Added the changes to API to support onsemi devices and
+new APIs introduced to support hardware timestamp.
 
-You might also want to ask Claude to help you with your cc list. ;)
+Signed-off-by: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+---
+ Documentation/networking/oa-tc6-framework.rst | 32 ++++++++++++++++---
+ 1 file changed, 28 insertions(+), 4 deletions(-)
 
-https://claude.ai/share/ba8d193d-d20c-409f-9f77-5e582e6a06a7
+diff --git a/Documentation/networking/oa-tc6-framework.rst b/Documentation/=
+networking/oa-tc6-framework.rst
+index fe2aabde9..cae16e4bf 100644
+--- a/Documentation/networking/oa-tc6-framework.rst
++++ b/Documentation/networking/oa-tc6-framework.rst
+@@ -453,8 +453,9 @@ Device drivers API
 
-get_maintainer.pl is useful, but not to be blindly trusted, please.
+ The include/linux/oa_tc6.h defines the following functions:
+
+-.. c:function:: struct oa_tc6 *oa_tc6_init(struct spi_device *spi, \
+-                                           struct net_device *netdev)
++.. c:function:: struct oa_tc6 *oa_tc6_init(void *priv, struct spi_device *=
+spi, \
++                                           struct net_device *netdev, \
++                                           struct mii_bus *bus)
+
+ Initialize OA TC6 lib.
+
+@@ -485,13 +486,36 @@ Reading multiple consecutive registers starting from =
+@address in the MAC-PHY.
+ Maximum of 128 consecutive registers can be read starting at @address.
+
+ .. c:function:: netdev_tx_t oa_tc6_start_xmit(struct oa_tc6 *tc6, \
+-                                              struct sk_buff *skb);
++                                              struct sk_buff *skb)
+
+ The transmit Ethernet frame in the skb is or going to be transmitted throu=
+gh
+ the MAC-PHY.
+
+-.. c:function:: int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *=
+tc6);
++.. c:function:: int oa_tc6_zero_align_receive_frame_enable(struct oa_tc6 *=
+tc6)
+
+ Zero align receive frame feature can be enabled to align all receive ether=
+net
+ frames data to start at the beginning of any receive data chunk payload wi=
+th a
+ start word offset (SWO) of zero.
++
++.. c:function:: int oa_tc6_hwtstamp_ioctl(struct oa_tc6 *tc6, \
++                                          struct ifreq *rq, int cmd)
++Legacy ioctl interface for supporting hardware timestmp.
++
++frames data to start at the beginning of any receive data chunk payload wi=
+th a
++
++.. c:function:: int oa_tc6_hwtstamp_set(struct oa_tc6 *tc6, \
++                                        struct kernel_hwtstamp_config *cfg=
+)
++Interface to set hardware timestmp configuration through ndo_hwtstamp_set.
++This API is used by legacy ioctl interface as well.
++
++.. c:function:: void oa_tc6_hwtstamp_get(struct oa_tc6 *tc6, \
++                                         struct kernel_hwtstamp_config *cf=
+g)
++
++Interface to get the hardware timestmp configuration through ndo_hwtstamp_=
+get.
++This API is used by legacy ioctl interface as well.
++
++.. c:function:: void *oa_tc6_priv(struct oa_tc6 *tc6)
++Interface to get vendor's private data structure from oa_tc6 structure. Th=
+is
++is needed for vendor implemented mii_bus APIs, as mii_bus APIs priv
++pointer carries oa_tc6 structure.
++
+--
+2.43.0
+
+
+Public Information
+
