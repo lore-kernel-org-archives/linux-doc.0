@@ -1,122 +1,152 @@
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B29A255F2D
-	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 15:52:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777650753; cv=pass; b=glNCqGopiV4ZsPrpBbQf07QlHKzrbPNsVWw7YftNPSsTBY4HCkNs4ahl0Pi1qIqwdRJm/2/TJLDYEV5c88U3ED7CRDHCjjH3EQdOQbUuxJAmG/tFKP6LGd8U1xN8kSEbmnvAhg3kUcu/iUGq0/bZtdfkhW87/zyINjfJ+A6n2oo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777650753; c=relaxed/simple;
-	bh=nQ8nI6yv+LM/xv541JFta6ax/B38uS/0oIQQyNP9n4E=;
-	h=MIME-Version:From:Date:Message-ID:Subject:To:Content-Type; b=My4MQp/wXoV4OpiKkGyWBEOv6bsWFVie+nQIlDlLK4E+edqbXabBjeB2Po+94hbqJNSTn+9Xqjg7KMSU0Z+py35NWgy9ewPoB2kLpE8OnX6PEs4YhaHrL7k/pXvxgtbXrIJpjYu+nlEBZvzWvXu1GEHsA37jcyGiN207cSr7CUQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dDNpSoPw; arc=pass smtp.client-ip=209.85.161.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA8383EBF07;
+	Fri,  1 May 2026 16:08:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777651707; cv=none; b=GO9n5FXyIYjluTOsY2Bq7Aiv5yttlpcFYv82t1CoS+m56v0IKeg/SqPxmla8t8VHmkBA582JUD6JbTCybqQl/A5YP/CQ89j4ukfswDg9AZyoThnSBjvMgEYeZIadNkK3UWYC8H+YnDsDjZGy+602BxFMfRwkr67Hw0iJcCVKsCA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777651707; c=relaxed/simple;
+	bh=vxGRwB/I7p12xwDNXW7dFz9qMSrnvn0MCs7SikDGUYQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=kYJjvaDDp6oiXmTUuDuISkeZ+vVkRmZrRLnU0gbnFlOsz+q2ngnRbDP5DNoD5ReRVQkivUQxJwyO+mJl33JAwnkDn7ZCFnTHTYSOXu6e7eNaMTnrrqmUq/xi7pQTZwP0lfqZUTO4RJt/nU6D0xgFKo6wlR6R5uS83G3mBXUoneA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hx/FCvku; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dDNpSoPw"
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-67e0d3f288aso1208371eaf.0
-        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 08:52:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777650751; cv=none;
-        d=google.com; s=arc-20240605;
-        b=U+Am18aEYRekqeffFb2VD5ZIQexY6IlfdVYdxyGfajdEv6ElDN5E5H+P4mS1h6Mcoc
-         fd8PfofT6Panqi44DS3DkRSyDD/MFMHsYq0QHhXg7PFUTxgU9CXzFN7kleXZNoYr9Ds8
-         6wXNRFMxuzKDKjMUM+Sq3nYJ0CSLuVs8Np0jI05ANSbHkVLUGyUM6qBB5qAVd1MKU5MY
-         FoRpabvNb1dKFp6q/GOv3k8FhU3SP+RSbwrOzWMAVuF0fh1DsmtvmSNBnsxTY/8OGoz7
-         5V/32xPivt/iCMcQgIPdjHAqbjA/pLvhE5rCjX1hxuxONFuaSyRl5kbMtvWGbFi+bFJA
-         UFsA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=to:subject:message-id:date:from:mime-version:dkim-signature;
-        bh=nQ8nI6yv+LM/xv541JFta6ax/B38uS/0oIQQyNP9n4E=;
-        fh=ZbonjbzJJsFV/lWPP+WlMJ1nkxs7eEVT2jwfomzjfAY=;
-        b=FGM2bUQ35MMPbchLrljb09qUOxwVfnbl64fNuFMMez5Mg9qIoNoclCErjIgwh2pTr2
-         eMXuQ+7p9IcsO946Fl6UjsEmQ+6JoP1HAdsmme3jJXx473tZwcCRfCN/XfShY+WF4Q45
-         tVCP7AschKbLe1HwoEvf0lDRibEQIUODDDdDkTybM3KhsHFaoxN+dXuLvltv6mCU3zC/
-         XOJj++q7xTDvhk2sXp4NfyX0Ey8hny+t05uQbQ3rY/wQORbz0TTfV9FyiNIhs0TjGE0+
-         VVk+pILuQNt/JMUu8+YyxIGz6SvJDpstyIb37MOeNzFpb5GI2th+g/EngNKI8R1iV2ci
-         GsLQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777650751; x=1778255551; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=nQ8nI6yv+LM/xv541JFta6ax/B38uS/0oIQQyNP9n4E=;
-        b=dDNpSoPwxd2wpP+CX1oiOvbUqb7/WRSeANBi6yYKCuJxk5Sg30YxkhbH72pLD4JwmP
-         VtzG0yA6KsQaDMXr8K1wc7hoQWFWPTr434AjcUELsKD1zxHyX2i0RaJ/25b6PQbBtC7a
-         IbUlsiKUfl69VdEXrJ5BZgAS+i00Rr0E6LjoYLK0VsAxHG6JpcQrHkgfRalEPnQpkrZ3
-         QDt1o9EVtGS8rY/Rll14y7gtSGTtdvbR/Lt2I90NiiKlfmNharXS+0hGHc8xG6s/rdQv
-         CutePT4Ux0gWvcSxbM4vECckVwbyrL3IL5yIk+agN+CPNDy3IRTlhbGdiHFMNChy/dOy
-         jN5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777650751; x=1778255551;
-        h=to:subject:message-id:date:from:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nQ8nI6yv+LM/xv541JFta6ax/B38uS/0oIQQyNP9n4E=;
-        b=k/cW8W3lxXO6SQ1HGGat/eKnvMqx9rry4g3oqfj0ijZJHggmX9aZvxYxiTIDxYcw9T
-         rE22VC6Z8dPwNlCHiMygwsN8rGMdUGIUmUXs7BM588zn5NQZmTxEA+iw07P3HsAcIkXB
-         fWpQuSrOqiqJR7e1CZ0wl3e2R9LjNInUvf+LaURJY0e9g4Hh7He7x4pRyyWQ/XmnRhhU
-         Es6LZTlTi7VvilOllmC7F4fHGUgZpi/0lc7eI0+K6ZOCKSlVHSRLJwFfu7JfD3eULODO
-         jyvyGET5tg7otwf7rnNFkjXXl9kqXTL+GuVMmQVHJA1XJmCPCfngTPeUQ1BiCcFLz2PA
-         KNbA==
-X-Gm-Message-State: AOJu0Yyn3DQ2FT8kuSXFlo+ZKqgoYgWj+EcqOTVlfegDln1ofbw0ySdo
-	/HWuZeLoiUBmH42Uk8m5373B+6YTe61Dv0H/ulUisVcQ7SZEI6djz8JyOy457GB+ArtiGAlfzP0
-	eTQbkodKvndUdOLmJUlzH1vXh+RYBja3HrGMV
-X-Gm-Gg: AeBDiesy+vV5EcyVZpa6lSxzffS36o3YgfKwCy3y/xymlXKhGtHANMBon7iDfq6gGYH
-	1xLA8qYKOpWPW+jNP0s0MG+m01Ooalt+HwGXrGNsSHqqfvThRGFonGIeCtDS8NrE3jJ+Uld36hl
-	y203N27NfpfEp6sWrbizMNdpmT+jmQ2Vxz++wD1jKv7AJRSHmVAtvz+tI+yzvTgzwUs/rle3juV
-	323E6y47H0X979Nh1CUZw4htrpox9kDvXr5DePriaot3kmEwEK9vMxuOBpoRZ5KK7CvGtvOkBdf
-	iRmtfSV0kkR47bLWqTJzObXrfJRysNxc52KVl68akL62w+mANK1cHkc/r77G3u8irGdwkWFjRAv
-	1fJb0LGgDY247DErlrZ0=
-X-Received: by 2002:a05:6820:f026:b0:694:92fe:54f1 with SMTP id
- 006d021491bc7-6967a668c28mr3909910eaf.54.1777650751100; Fri, 01 May 2026
- 08:52:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hx/FCvku"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777651701; x=1809187701;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=vxGRwB/I7p12xwDNXW7dFz9qMSrnvn0MCs7SikDGUYQ=;
+  b=hx/FCvkuzBsioThjJj4enmH1NoX+7DI87BoJTj0X2bwY7/I0brm6IE1e
+   h9cKdIXQZ9eorUbvOFWrZfUhD9Dbafrl8TqdE5/U9MZfg4K6tEJhZGGIg
+   3XvraWnsDuSu5eeb/db1rN5ldGBPcPdYOApsYvYBiqF7GRg8AJ1DpXLGa
+   D5Ds5dGocvm7dZqnf0qWVvPK59n79PSWjXGAICTrqs+drgf491Olbh2Uw
+   JbcyaVjANYAzZfjWMvfFLx+ot/qC38vwjIrE7Sh95oLNO1bIgVAuUCQIP
+   xCpyNhoL91iyKAb85algqzrDrCgWZom5EWSCpWiYXpObbvF6+k/qb/Ksa
+   w==;
+X-CSE-ConnectionGUID: HmMsBL21Ts64QTG11P5COg==
+X-CSE-MsgGUID: l0tUEocASnqlkPLSpn870w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78714618"
+X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
+   d="scan'208";a="78714618"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 May 2026 09:08:17 -0700
+X-CSE-ConnectionGUID: JhM12/rPQ9CnSMcpxhrRqw==
+X-CSE-MsgGUID: RkyeEZXHQFeeYR8bMnZw9g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,210,1770624000"; 
+   d="scan'208";a="239221064"
+Received: from osgcshtiger.sh.intel.com ([10.239.81.49])
+  by orviesa004.jf.intel.com with ESMTP; 01 May 2026 09:08:15 -0700
+From: Shuicheng Lin <shuicheng.lin@intel.com>
+To: linux-doc@vger.kernel.org
+Cc: Shuicheng Lin <shuicheng.lin@intel.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	intel-xe@lists.freedesktop.org
+Subject: [PATCH v2] scripts/kernel-doc: Detect mismatched inline member documentation tags
+Date: Fri,  1 May 2026 16:08:00 +0000
+Message-Id: <20260501160800.4043276-1-shuicheng.lin@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Fri, 1 May 2026 12:52:20 -0300
-X-Gm-Features: AVHnY4KpgdAJZWhw2E3AhYdWeru1_NpWWuxc5CrRtl1Ndu_JFssG2WhC6bV_rTE
-Message-ID: <CAMAsx6ffhf6SsQiatsFRTztpc=9xedf8hexxDKJ5M4JYAVxq0g@mail.gmail.com>
-Subject: PGP Web of Trust and identity verification for the pt_BR
- Documentation Maintainer
-To: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi everyone,
+Add validation in check_sections() to verify that inline member
+documentation tags (/** @member: description */) match actual struct/union
+member names. Previously, kernel-doc only validated section headers against
+the parameter list, but inline doc tags stored in parameterdescs were never
+cross-checked, allowing stale or mistyped member names to go undetected.
 
-I am Daniel, the current maintainer for the Portuguese (Brazilian)
-translations of the Linux kernel documentation, as officially listed
-in the MAINTAINERS file.
+The new check iterates over parameterdescs keys and warns about any that
+don't appear in the parameter list, catching issues like renamed struct
+members where the documentation tag was not updated to match.
 
-I am reaching out to begin the process of establishing my PGP Web of
-Trust. My goal is to eventually apply for a @kernel.org alias to
-further professionalize my workflow and contributions.
+This catches real issues such as:
+  - xe_bo_types.h: @atomic_access (missing struct prefix, should be
+    @attr.atomic_access)
+  - xe_device_types.h: @usm.asid (member is actually asid_to_vm)
 
-Beyond my maintenance work, I frequently deliver lectures and organize
-mentorship programs focused on the Linux Kernel in Brazil. Having an
-official @kernel.org identity is crucial for these activities, as it
-provides the necessary credibility when representing the community and
-encouraging new Brazilian developers to contribute to the mainline.
+Variadic arguments documented as ``@args...:`` are stored in
+parameterdescs under the unstripped key (e.g. ``args...``), while
+push_parameter() strips the trailing ``...`` before appending to
+parameterlist (e.g. ``args``).  Treat the stripped form as a match so
+the new loop doesn't emit a false-positive excess-parameter warning for
+a properly documented named variadic parameter.  The bare ``@...:`` form
+is unaffected because push_parameter() does not strip when the name is
+exactly three characters.
 
-Since I am based in South America and physical key-signing
-opportunities are limited, I would like to ask if any maintainers from
-the documentation subsystem would be open to a remote identity
-verification (e.g., via video call) or if there are other recommended
-procedures for maintainers in my region.
+v2: Skip variadic parameters whose documented key ends with ``...`` and
+    whose stripped name is in parameterlist, to avoid false-positive
+    "Excess function parameter 'args...'" warnings on macros like
+    ``#define foo(fmt, args...)`` documented with ``@args...:``.
 
-Once someone is available to help with the verification, I will
-provide my PGP fingerprint and key server details.
+Assisted-by: Claude:claude-opus-4.6
+Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
+---
+Cc: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: intel-xe@lists.freedesktop.org
+---
+ tools/lib/python/kdoc/kdoc_parser.py | 36 ++++++++++++++++++++++++++++
+ 1 file changed, 36 insertions(+)
 
-Recent activity reference:
-https://git.kernel.org/pub/scm/linux/kernel/git/docs/linux.git/log/?h=docs-next&qt=grep&q=Daniel+Pereira
+diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
+index ca00695b47b3..884c6bf56d25 100644
+--- a/tools/lib/python/kdoc/kdoc_parser.py
++++ b/tools/lib/python/kdoc/kdoc_parser.py
+@@ -673,6 +673,42 @@ class KernelDoc:
+                 self.emit_msg(ln,
+                               f"Excess {dname} '{section}' description in '{decl_name}'")
+ 
++        #
++        # Check that documented parameter names (from doc comments, including
++        # inline ``/** @member: */`` tags) actually match real members in
++        # the declaration.  This catches mismatched or stale kernel-doc
++        # member tags that don't correspond to any actual struct/union
++        # member or function parameter.
++        #
++        for param_name, desc in self.entry.parameterdescs.items():
++            # Skip auto-generated entries from push_parameter()
++            if desc == self.undescribed:
++                continue
++            if desc in ("no arguments", "anonymous\n", "variable arguments"):
++                continue
++            if param_name.startswith("{unnamed_"):
++                continue
++            if param_name in self.entry.parameterlist:
++                continue
++            #
++            # Variadic arguments documented as ``@args...:`` are stored in
++            # parameterdescs under the unstripped key (e.g. ``args...``),
++            # while push_parameter() strips the trailing ``...`` before
++            # appending to parameterlist (e.g. ``args``).  Treat the
++            # stripped form as a match so this loop doesn't emit a false
++            # positive for a properly documented variadic parameter.
++            #
++            if param_name.endswith("...") and \
++               param_name[:-3] in self.entry.parameterlist:
++                continue
++
++            if decl_type == 'function':
++                dname = f"{decl_type} parameter"
++            else:
++                dname = f"{decl_type} member"
++            self.emit_msg(ln,
++                          f"Excess {dname} '{param_name}' description in '{decl_name}'")
++
+     def check_return_section(self, ln, declaration_name, return_type):
+         """
+         If the function doesn't return void, warns about the lack of a
+-- 
+2.43.0
 
-Thank you for your time and for all the support regarding the pt_BR
-documentation branch.
-
-Best regards,
-
-Daniel Pereira Maintainer: PORTUGUESE (BRAZILIAN) TRANSLATION
