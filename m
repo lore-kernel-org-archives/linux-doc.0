@@ -1,33 +1,33 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B78527442;
-	Fri,  1 May 2026 06:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F6872622;
+	Fri,  1 May 2026 07:07:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777618192; cv=none; b=na0VrmsrV4pab6czTfjswOh4GxeoRlzt89FxzLgyCMznqpCN/R+54Ly8IuCU56NR6N4/pnlNGidT03Liw4cwArJHbmeapBIU6dx4jQkSeX+SNIfGiMjo/tnETBzQJ+f4qjVbQzoq5449wrSZKOZdzW+9nCmkoxSolx+UGjl5JMU=
+	t=1777619279; cv=none; b=FlqAIz9t1DhkfZ7n9JF6nwgST6I3gdxgPZJS3Io4Ea3gopysvmY3MONm7nc0hPduAFs3zfIOJlq32JEnWJGGaUtYS4n1+Djh0i8ir9/Fo1RXbZ4tniYuEsGftW3E6OlklxQVMcLBXa0cT0KoF4iR2RLQkmE/LBBdiCT3RxQdF84=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777618192; c=relaxed/simple;
-	bh=z8eCVsUhlLmlW30jiO7Aj4uHtxm18V1RXfcy7kxXkqk=;
+	s=arc-20240116; t=1777619279; c=relaxed/simple;
+	bh=epgThRWo7zS+qWmwPbDJ5PG4Q9G1rxWn4n0y5BifbUg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z+KhpYaOgRwC1M1OnEeUolGe5LL1OGjbK2VUxbEeInE71VfuCn7qyWXVSj4VGjU7dMgCXaFeYjlo8qsvI84WtaAvhsa34PXrYTDKDWAz1WMnEhsJIw90EO/io5tuNV5wDZ3Vw1RrAzCXpVopBHG+KOG4K7vkGYdn29dCyEOD8OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ffn2Pqie; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:Content-Type; b=SqRG6//3IohWNJSXOPtyy5xAY2ClJzDHIh1EN/KAK5a/kNGU4uhDTECii4KCgfFxpY02YQCRIkmkPjGzIGKgbtHFwTzRluEkbtPeYBXSxN0Gm3SDFZi5KNJtbCTdFF9RzFBnF67gnF1F7vUSLhF7s/FMogevVRk6JMjOP9kYdxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ORtiKrhy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ffn2Pqie"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB845C2BCB7;
-	Fri,  1 May 2026 06:49:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ORtiKrhy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02066C2BCB7;
+	Fri,  1 May 2026 07:07:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777618191;
-	bh=z8eCVsUhlLmlW30jiO7Aj4uHtxm18V1RXfcy7kxXkqk=;
+	s=k20201202; t=1777619279;
+	bh=epgThRWo7zS+qWmwPbDJ5PG4Q9G1rxWn4n0y5BifbUg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ffn2PqieHHbE0tk28vxpJZVuU4TSyBI1pd1/MA9JSjCt+PJ+fav5VX9GBKU16RaxL
-	 ukvGJn6YhKFWo6NwbSxacntzhWcRUufOAnOOJ4XoZZV0PQ9mbwqHbFUIs2QaM27+dy
-	 oGatIbtTnYdtBRUIEqQnoKZIROVMphC8u7VBPzeXrYSkyKCQVo1731WA2zeKIM0eNw
-	 3zPYAL0Lh1iJvIHnwZIFAoJNIeDxYIVoQ22V/nmcHV/vL3Tg5d3frQaq9ceuG9eitD
-	 wbKpd1lpyJYRsrOZMvKdU802jT20NhMPxTJjyb4zhST/NCNMSig3rbpDnb14vEOSR0
-	 o1SblmQooOyWQ==
-Message-ID: <761b47b6-c2f1-4fef-bfab-48ee1d0bbe47@kernel.org>
-Date: Fri, 1 May 2026 08:49:43 +0200
+	b=ORtiKrhy9dQ7aJ6eNDoOyGh/r29yIWz8o4UuwJqiwXIdGOvGO+6U72J2GUMD3ec91
+	 V6m7B/tDiTW7v12gJFf0MTXVDSU8OJS21pstXmrIdFDVjKM4YNqok2BKnca0UdC83f
+	 XrNglRxq8nVD3uDqHnAbM2zhIn6ta+qnoBVuQCiQalWSTU7E9Gw3Bo2VGk0jaqmanQ
+	 XgXYmdx+/lIXs3TA8PzHjKr0NlLNkV0P29tkqgdaSmYmdoAec/BRZhj3f5RDfTBluZ
+	 JZcoI5Eg71bzQjkmZ2TO90k8tgsG4S+bYf1VtvkhfwPQKfq3jriHCIVrrZRKyk9EPv
+	 ogGVMMcEAP2gQ==
+Message-ID: <b5379cd3-f7bf-47f9-8a60-c7300b4415a2@kernel.org>
+Date: Fri, 1 May 2026 09:07:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -35,21 +35,22 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/11] mm/damon: introduce DAMOS failed region quota
- charge ratio
-To: SeongJae Park <sj@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
- "Liam R. Howlett" <liam@infradead.org>,
- Brendan Higgins <brendan.higgins@linux.dev>,
- David Gow <davidgow@davidgow.net>, Jonathan Corbet <corbet@lwn.net>,
- Lorenzo Stoakes <ljs@kernel.org>, Michal Hocko <mhocko@suse.com>,
- Mike Rapoport <rppt@kernel.org>, Shuah Khan <shuah@kernel.org>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Suren Baghdasaryan <surenb@google.com>, Vlastimil Babka <vbabka@kernel.org>,
- damon@lists.linux.dev, kunit-dev@googlegroups.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-mm@kvack.org
-References: <20260501015604.83041-1-sj@kernel.org>
+Subject: Re: [PATCH 0/5] mm: Support selecting doing direct COW for anonymous
+ pmd entry
+To: Luka Bai <lukafocus@icloud.com>, linux-mm@kvack.org
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Andrew Morton <akpm@linux-foundation.org>, Lorenzo Stoakes <ljs@kernel.org>,
+ Zi Yan <ziy@nvidia.com>, Baolin Wang <baolin.wang@linux.alibaba.com>,
+ "Liam R. Howlett" <liam@infradead.org>, Nico Pache <npache@redhat.com>,
+ Ryan Roberts <ryan.roberts@arm.com>, Dev Jain <dev.jain@arm.com>,
+ Barry Song <baohua@kernel.org>, Lance Yang <lance.yang@linux.dev>,
+ Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>,
+ Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>,
+ Jann Horn <jannh@google.com>, Arnd Bergmann <arnd@arndb.de>,
+ Kairui Song <kasong@tencent.com>, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-doc@vger.kernel.org,
+ Luka Bai <lukabai@tencent.com>
+References: <20260501-thp_cow-v1-0-005377483738@tencent.com>
 From: "David Hildenbrand (Arm)" <david@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=david@kernel.org; keydata=
@@ -96,52 +97,86 @@ Autocrypt: addr=david@kernel.org; keydata=
  3iyY2Nsd7JxfKu1PRhCGwXzRw5TlfEsoRI7V9A8isUCoqE2Dzh3FvYHVeX4Us+bRL/oqareJ
  CIFqgYMyvHj7Q06kTKmauOe4Nf0l0qEkIuIzfoLJ3qr5UyXc2hLtWyT9Ir+lYlX9efqh7mOY
  qIws/H2t
-In-Reply-To: <20260501015604.83041-1-sj@kernel.org>
+In-Reply-To: <20260501-thp_cow-v1-0-005377483738@tencent.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 5/1/26 03:56, SeongJae Park wrote:
-> On Tue, 28 Apr 2026 08:24:24 -0700 SeongJae Park <sj@kernel.org> wrote:
+On 5/1/26 07:55, Luka Bai wrote:
+
+Hi,
+
+> Copy on write support for anonymous pmd level THP is simple right now:
+> firstly we'll check whether the folio can be exclusively used by the
+> faulting process, if we can (when the ref of the folio is only 1 after
+> trying to free swapcache or the page flag AnonExclusive is setup) we'll
+> directly use it with few further handling. If we cannot, then we'll
+> split the pmd into 512 4K ptes, and do copy on write only for the
+> specific 4K page that we faulted on.
 > 
->> Hello Andrew,
->>
->> On Tue, 28 Apr 2026 07:48:37 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
->>
->>>
->>>
->>> Add, thanks.
->>>
->>> As mentioned provately, Sashiko claims to have found things which it
->>> didn't see in the RFC.
->>>
->>> 	https://sashiko.dev/#/patchset/20260428013402.115171-1-sj@kernel.org
->>
->> TL; DR: I find no blocker for this patch series from the Sashiko reviews.
->>
->> Now sashiko replies its reviews for DAMON patches to authors and
->> damon@lists.linux.dev.  So I replied [1,2,3] my review of the reviews to those
->> on damon@lists.linux.dev mailing list.  As I mentioned on the TL;DR, I find no
->> blocker for this series.
->>
->> And I think you didn't see those because those are sent to only authors and
->> damon@lists.linux.dev.
->>
->> I nowadays reply-all to original recipients only if Sashiko found a blocker.  I
->> will also add short notice for non-RFC patches if Sashiko found zero issue.
+> This logic is truly memory efficient since for most workloads we don't
+> want to allocate 2M new memory simply on a small write. However, it also
+> makes the original 2M page for the process suddenly splitted on a
+> write which will generate some performance thrashing. For example, if
+> process A and process B share an anonymous 2M pmd, if process B chooses
+> to do a writing, then its page table mapping will be changed from 1
+> pmd entry into 512 4K pte entries at once, so the tlb benifit will
+> suddenly just "vanish" for process B, which sometimes may cause a
+> observable performance degeneration. After that, we can only wait for
+> khugepaged to do the collapse for this area and merge the pmd back, which
+> is not easy to happen.
+
+You probably know that, historically, we did exactly what you describe in this
+patch set. It was rather bad regarding memory waste and COW latency, so we
+switched to the current model.
+
+Note that there was a recent related discussion for executable, which was rejected:
+
+https://lore.kernel.org/r/20251226100337.4171191-1-zhangqilong3@huawei.com
+
 > 
-> ... Now I think the short notice is only redundant and silly, as the full
-> review is available on damon@ list and the one who primarily interested in
-> (Andrew) understands that.  I feel like the short-notice reply-all only
-> increase unnecessary traffic and my redundant typing.  I will not do the short
-> notice broadcasting, unless someone makes a diffeernt voice.
+> In addition to the problem above, this logic can also generate some
+> deficiency for THP itself. Currently THP is just a "best-effort" choice
+> with no "certainty". THP is easily splitted into multiple small pages
+> on common calling path like reclaiming, COW. A transparent splitting
+> can cause throughput fluctuation for some workloads. For these workloads,
+> we may want to give THP some "certainty" just like hugetlbfs,
 
-For Damon Andrew should for now just trust your ACKs. If it has your ACK, it's
-good to go.
+There are no such guarantees, though. And We wouldn't want to commit to any such
+guarantees today. For example, simple page migration can split the folio.
+Allocation failures will fallback to small pages etc.
 
-In the future, I expect you would pick up the patches yourself, which is where
-you as the component maintainer would look for any blockers.
+If you need guarantees, use hugetlb for now.
 
-So for Damon patches I don't think we need the AI review notices from Andrew.
+> The effect
+> we want is: after some customized setup, if only the system has usable
+> folio, and the virtual memory alignment permits (or we setup to), we can
+> make sure we always use THP for it, the system will never split it except
+> the user wants to do so.
+> 
+> This patchset is about both two things above, firstly we add pmd level
+> THP COW support by revising the code in do_huge_pmd_wp_page, we added
+> switch for it because different workloads may need different resources,
+
+The switch is bad, and we won't accept any toggle like that. A system-wide
+setting does not make sense for such behavior.
+
+A per-VMA flag? Maybe, but I expect pushback as well, as it is way too specific.
+So we'd have to find some concept that abstracts these semantics. But I expect
+pushback as well.
+
+We messed up enough with toggles in THP space, unfortunately.
+
+Also, anything that only works for PMD-sized THPs is a warning sign in 2026 :)
+
+You don't really raise any concrete use cases or performance numbers for these
+use cases. Some details about applications that use fork() and rely on such
+behavior would be helpful.
+
+Note that an application that does fork() could use MADV_COLLAPSE after fork()
+to make sure that it immediately gets THPs back.
+
+There is also the option to just use MADV_DONTFORK to not even share ranges with
+a child process in the first place, avoiding page copies entirely.
 
 -- 
 Cheers,
