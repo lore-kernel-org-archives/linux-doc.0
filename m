@@ -1,145 +1,86 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22BE13603FC;
-	Fri,  1 May 2026 07:16:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8429B37D10A
+	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 09:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777619812; cv=none; b=P3ub+hg2W22WU3ITCDG0LfznaNoeHmib47RKGJqdCacc+aqAIynLUHmPzQKHsUK3v7iGgpJVCSP2ikraVqY9rhxlP0tAd3Xm+jk4/GLVEBvvCbd0B8LUJEJNjHs6l33GPK0VWhgAhHLAiXyYYl4fOnw8OcO41iC0GiwA1Tf5IXA=
+	t=1777626416; cv=none; b=gAElEt59S2i9hYqlqFbPp2NeBY3YEgY+v/uo+MVyfbrJ+ijQV28fCQtCAyNrF9v3AWJAisKAHJYiODHDkXdaGJXYas1FeO4x9mnG3h6BYUn8lwW2ChS8zub+7x2Lk/dWemOYdcTi0fXcB73nvAXsqcQxwBvikuaEfH3p2eC9TkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777619812; c=relaxed/simple;
-	bh=TGV07DBPGVudFV2XaWmPCh5YUdCUHLGODKIAM4ubtzE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ugXJXp8y9JYrLMRCVgf5FseKmDorpWxkHpEKEsZMcl8Xr1sjbgjoHiFDa0QkoK187imGL3KvyTAcmnl36GsTKR082SzFtoH3aiXqODDncf/eg0bxkilJiYt0HkroIXqxqVvxQD3ZE3wYIedG7Z7arkz9m5J+2VUkr+cNCjUtaXM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q8L8d0+X; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777626416; c=relaxed/simple;
+	bh=5bpykIlYFSbI7ZN81EUe3sk1JDZNyJ+jgkYUxfGVYIk=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dvEk3EGE2wOinOvFi2IelCl3PSP47nNnfBCu80qvE2yJ7A1ad+kGYzz5LE8+WH2Fwvw+3XoQ4HoV+QducasfS8+bXGdTQcHRWnxjQYkqZxbxVuMgQiY8theusu+QS85QeG8pibyCtLjvegC2RQu0F4RgglEhM8W5i9FG+zioPZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=aZsTTAWV; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q8L8d0+X"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65C59C2BCB4;
-	Fri,  1 May 2026 07:16:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777619811;
-	bh=TGV07DBPGVudFV2XaWmPCh5YUdCUHLGODKIAM4ubtzE=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=q8L8d0+XD4IW69ONlPLPlaPTzu9hUnGdt+8Z9wnHLb8wDGBpwcvnGXLLmGwAKiVM2
-	 3uWvgoUIYU+6MclleUDYpvixzDSZNaTACqVlD6ESdJOOjU00/wPOiwBEtyGLXZZnln
-	 RLaVhLPYfr3PYJkB/OrNcgOJpn1cSfcltRdDkcjbNhXmBNXYHenXRGiyRVsI52PVKO
-	 V5JxVxSJCEjz1/jB9L4Cn/TzpsXg3WhwDZRsDcYfUaGaiRDlyGNyiPIOd+ZWoay1b/
-	 CsrfU7XN4PmxO68oMLxzZi3BoBhKhNqZ0piEGe1WmnmW7V0F4VcQPD4+nRXz3FZG5l
-	 c8zid5N55O5hA==
-From: hawk@kernel.org
-To: netdev@vger.kernel.org
-Cc: hawk@kernel.org,
-	kernel-team@cloudflare.com,
-	=?UTF-8?q?Jonas=20K=C3=B6ppeler?= <j.koeppeler@tu-berlin.de>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Kuniyuki Iwashima <kuniyu@google.com>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Christian Brauner <brauner@kernel.org>,
-	Yury Norov <ynorov@nvidia.com>,
-	Frederic Weisbecker <frederic@kernel.org>,
-	Yajun Deng <yajun.deng@linux.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v4 1/4] net: add dev->bql flag to allow BQL sysfs for IFF_NO_QUEUE devices
-Date: Fri,  1 May 2026 09:16:28 +0200
-Message-ID: <20260501071633.644353-2-hawk@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260501071633.644353-1-hawk@kernel.org>
-References: <20260501071633.644353-1-hawk@kernel.org>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="aZsTTAWV"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5643140C79
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777626413; bh=D0DJSAzD7GxvPxASWC7ptINlipt3HDSrHwDvZPd/bco=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=aZsTTAWVj2pJzL7Nj0Ky1Bq0wjbS2tXEoq2lte6y4SxDtxCX3pQWCBdIPwNKibcEu
+	 7pba8EKMYD4+UYCxeGwtB/Di0mNdhbv7hdqFIvO/D8o+oBUwx/DPDfaGJpVm94NKWu
+	 Vxmv3IfnuQnvTqPjdyz09e2YEWe6dHFjOB7XgsNWrgAFnQ0OdwptR8D1qFJVQNnsEk
+	 6qHCt4jhGIfdnqIhW2jqBC8/d5uJMU8yvia4ZaOAQpcBBoUhdxGkiWFNdGSdrAmFxr
+	 CEiL5pttOo59+XJycBk+pomP9bsfIGl0uOKBg+Haa2ueI4S3r1vQeP6j2q0Wv/CbM5
+	 UkG/V+xMtNxag==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5643140C79;
+	Fri,  1 May 2026 09:06:53 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Dewey <thawentha4@gmail.com>, linux-doc@vger.kernel.org
+Subject: Re: [RFC] Interest in contributing to Linux Kernel documentation
+ (French translation)
+In-Reply-To: <CADWiQPK3kC5ymXsdYT6tc7qH47THfY=LpBSW3=dcGNO2Fi_p_A@mail.gmail.com>
+References: <CADWiQPK3kC5ymXsdYT6tc7qH47THfY=LpBSW3=dcGNO2Fi_p_A@mail.gmail.com>
+Date: Fri, 01 May 2026 03:06:50 -0600
+Message-ID: <87cxzffqhh.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-From: Jesper Dangaard Brouer <hawk@kernel.org>
+Dewey <thawentha4@gmail.com> writes:
 
-Virtual devices with IFF_NO_QUEUE or lltx are excluded from BQL sysfs
-by netdev_uses_bql(), since they traditionally lack real hardware
-queues. However, some virtual devices like veth implement a real
-ptr_ring FIFO with NAPI processing and benefit from BQL to limit
-in-flight bytes and reduce latency.
+> Hello everyone,
+> My name is Dewey, I am a software enthusiast with an interest in the
+> Linux kernel. I am reaching out to the list to see if there is any
+> interest or an established process for improving the documentation by
+> adding or maintaining translations, specifically for French.
+> I understand that the official documentation is maintained in English
+> and that keeping translations in sync is a significant challenge.
+> However, I would like to offer my time to help, whether it involves
+> translating specific sections or helping with the automation of
+> documentation generation.
+> Could you let me know if there are any current initiatives regarding
+> translations, or if there is a preferred way to contribute in this
+> area?
 
-Add a per-device 'bql' bitfield boolean in the priv_flags_slow section
-of struct net_device. When set, it overrides the IFF_NO_QUEUE/lltx
-exclusion and exposes BQL sysfs entries (/sys/class/net/<dev>/queues/
-tx-<n>/byte_queue_limits/). The flag is still gated on CONFIG_BQL.
+There are a number of active translation efforts; you can find them all
+under Documentation/translations/.  There is currently no French
+translation, though.
 
-This allows drivers that use BQL despite being IFF_NO_QUEUE to opt in
-to sysfs visibility for monitoring and debugging.
+Starting a new translation is not a small effort; it requires a
+significant commitment of time to keep up as the documentation evolves.
+This is generally not a project that a single person can be expected to
+sustain over a long period.  I do not want to discourage you too
+severely, but I do want you to be aware that this would not be a
+drive-by project.
 
-Signed-off-by: Jesper Dangaard Brouer <hawk@kernel.org>
-Tested-by: Jonas Köppeler <j.koeppeler@tu-berlin.de>
----
- Documentation/networking/net_cachelines/net_device.rst | 1 +
- include/linux/netdevice.h                              | 2 ++
- net/core/net-sysfs.c                                   | 8 +++++++-
- 3 files changed, 10 insertions(+), 1 deletion(-)
+"Automation of documentation generation" is a bit of a worrisome phrase
+here.  Kernel documentation is for humans, and I don't see much value in
+shoveling a lot of LLM output into the kernel tree.  If your plan is to
+upstream a bunch of machine-generated translations, I would suggest
+looking for another project.
 
-diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Documentation/networking/net_cachelines/net_device.rst
-index 1c19bb7705df..b775d3235a2d 100644
---- a/Documentation/networking/net_cachelines/net_device.rst
-+++ b/Documentation/networking/net_cachelines/net_device.rst
-@@ -170,6 +170,7 @@ unsigned_long:1                     see_all_hwtstamp_requests
- unsigned_long:1                     change_proto_down
- unsigned_long:1                     netns_immutable
- unsigned_long:1                     fcoe_mtu
-+unsigned_long:1                     bql                                                                 netdev_uses_bql(net-sysfs.c)
- struct list_head                    net_notifier_list
- struct macsec_ops*                  macsec_ops
- struct udp_tunnel_nic_info*         udp_tunnel_nic_info
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index 0e1e581efc5a..405bdf9172ca 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -2065,6 +2065,7 @@ enum netdev_reg_state {
-  *	@change_proto_down: device supports setting carrier via IFLA_PROTO_DOWN
-  *	@netns_immutable: interface can't change network namespaces
-  *	@fcoe_mtu:	device supports maximum FCoE MTU, 2158 bytes
-+ *	@bql:		device uses BQL (DQL sysfs) despite having IFF_NO_QUEUE
-  *
-  *	@net_notifier_list:	List of per-net netdev notifier block
-  *				that follow this device when it is moved
-@@ -2479,6 +2480,7 @@ struct net_device {
- 	unsigned long		change_proto_down:1;
- 	unsigned long		netns_immutable:1;
- 	unsigned long		fcoe_mtu:1;
-+	unsigned long		bql:1;
- 
- 	struct list_head	net_notifier_list;
- 
-diff --git a/net/core/net-sysfs.c b/net/core/net-sysfs.c
-index 3318b5666e43..82833e5dae03 100644
---- a/net/core/net-sysfs.c
-+++ b/net/core/net-sysfs.c
-@@ -1945,10 +1945,16 @@ static const struct kobj_type netdev_queue_ktype = {
- 
- static bool netdev_uses_bql(const struct net_device *dev)
- {
-+	if (!IS_ENABLED(CONFIG_BQL))
-+		return false;
-+
-+	if (dev->bql)
-+		return true;
-+
- 	if (dev->lltx || (dev->priv_flags & IFF_NO_QUEUE))
- 		return false;
- 
--	return IS_ENABLED(CONFIG_BQL);
-+	return true;
- }
- 
- static int netdev_queue_add_kobject(struct net_device *dev, int index)
--- 
-2.43.0
+Thanks,
 
+jon
