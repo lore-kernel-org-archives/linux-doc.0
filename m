@@ -1,322 +1,296 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E2293BF692;
-	Fri,  1 May 2026 13:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777643856; cv=none; b=Wt0sD4Se8nsr77xuRX48MTx7/dPhU7vXSWyki1DGXxv6ypF70PP4XFEomKHaQ5gaddmqZx7m+/hAZC07RX/zu7nKI9C2DjDdn68JyYIsVmGdOhBgjqBuvkI8ygNOil5BMnUkMIvAFIDGIvjAsukknqbf6TyLrGi00LrmnC6lD+8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777643856; c=relaxed/simple;
-	bh=keBirguL34ix2kYgYCA4LJsD3nlDCj+F4tuFna/dDeE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NTWbPNHl8klBOgzSVGDRb5wSUnbXrr/+OzLBthY/3euXCUkulEMS0QcL6/nwh/jWCow3rG8z+XF1Xe0BF3ReMdboclrnzxmuEfvIRgyVyiUUJiFbn9kjrNSgvJj8o15PVu2b0tu/VgHx38X91vEgO4tDh9i9oC4wYcYrmC+9ZOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=twgnkbb7; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329E9285CAD
+	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 14:16:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.128.44
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777645012; cv=pass; b=EmQQBOAw020BPvG0Ny7vTEagWibxmYbLdHAalGwlfxJzDE35lUiNVR2FMDGhNeHKW9TSE4XtAt0demYhxEUly1l0eVKPaXs/c0OQNHrJdpG4UzOxqeYHGAIZfTnBTXINY+qNCG58d3Sb3XX8SQ2BDpgFlBMi5Fo5a/l2bMfBKSQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777645012; c=relaxed/simple;
+	bh=U0Id2xfJjyn/73uT0S8lwE8udvk16qyKJSuD4Abx5Bg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VYSEnYUiOuTz0jQR/r4Ez2yMGtT7jEZCHIMTJ9q2oiBtHD8tPUGFtL7huZSpSPKptKI1kFFZhZ4f9FN0fQfO0/gne3jEiB1h/zg0nJQan9oYNq3FAWjvw23TX8OTzad3YgKqmrdD1p+5yrkr6Q0s4mkItoTv60asueOk5yf03hs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SUHr5zHT; arc=pass smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="twgnkbb7"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1777643850; bh=JIGMvkpOMKP7QD2xcwHTrRwg0XVcHc5FGddS7KwHN2k=;
-	h=From:Message-ID:From;
-	b=twgnkbb7zJtdc0v94+leI4kNnCVwAMmMUKrKdhkZVs3Z3NlY9F23w3vR4WRZq2H0g
-	 2v7c1jRlcTwmKLwXQmU7H7zb8UTDyqjyN9vD90Vuc59hxoSf/tUMrMxMrbyRDK1mjA
-	 qtK5NOo3FG2U0cLIerRR+ZVZKIAil6bzL6nAQ00E=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id A2BBFC0A7D;
-	Fri, 01 May 2026 15:57:30 +0200 (CEST)
-Date: Fri, 1 May 2026 15:57:29 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Greg KH <greg@kroah.com>
-Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-        skhan@linuxfoundation.org, workflows@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
- not a security bug
-Message-ID: <afSxSX8RK0Z4kkOI@1wt.eu>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-3-w@1wt.eu>
- <2026042753-ozone-jigsaw-4ad5@gregkh>
- <ae-Acm2XJ3sR34Il@1wt.eu>
- <2026042724-bullhorn-bobtail-ae6f@gregkh>
- <ae-LVyDQPVwxesCO@1wt.eu>
- <2026042804-overbook-ripeness-73dd@gregkh>
- <afF2d6RzRf2Flnv7@1wt.eu>
- <2026042945-duress-extenuate-939f@gregkh>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SUHr5zHT"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-48909558b3aso20412795e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 07:16:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777645010; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Rw6YxezEWYUXi5GBTMmo+Pvdlu2f/QEP1ykUNoWbpKx6Dz8bh7Pnf1LlmooCsRhcn9
+         HDCwcLCacgzCGoGbBMxjWs+/MoYKMczDlZkbaWGyqsjnBqsz2YRhZLfzxV30IIeK9e5x
+         CkoA80VI3nsQcduVMxqDIhIB9MA2jFPHKWpgQMQXa+Cx4dcr6yIqgSBlqzLgXD8rxF6G
+         6mSe2s3l/pdl4aIpodp2l3+WNJ/MXBHFKkf4LCvja7yNGsFaNriL7I1Uu8kY6XONzLXf
+         LQPvbf05FN8lLkSlIfpRm+XFfF7kxXfgsgGtstZxULQhpwv2RchruAy5FalNr+JY5n9C
+         chBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=U0Id2xfJjyn/73uT0S8lwE8udvk16qyKJSuD4Abx5Bg=;
+        fh=dIp/6Ho+MTCk/LqCL7W+RKSVLUtPfMkSj4jm5vyam1M=;
+        b=geJKgRvO1KlgEwxANwe45f74KA+k1zXU0Ych7SFP+KgvW4ujRulTwCpSU2EzptjjBw
+         sC06cmHarSj1c5WRQJ4hpVNLNLlJEOPfFFiCcl4m5Y6qDLm2GwZqlZF6Xxdd3l/ptt+p
+         Qx1EMS2+Znu33dXWIU3vh5h22iUTwNfu5BjZQlQMTkLHo0V7AshK6trhXM1ftp626MHe
+         /QkYCMu0eBjmsiGJCGkxwS2/W7VcflXIEME3LsUQivutkz+rgtAv35c7lMdxgyIUxlMR
+         ++DgfcbO0Rm7PVdEM+jgfpjPbdPEzF6vxfMkHtSaTE5NKjn699yxGpRRoKqcz8IKzywq
+         L+vQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777645009; x=1778249809; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U0Id2xfJjyn/73uT0S8lwE8udvk16qyKJSuD4Abx5Bg=;
+        b=SUHr5zHTioHWahgwan9GjDdTjIpEOJfXlegsgWiG+x648RiTFOPf+YH7NwTnR/rrbV
+         sjr7ZEBa3N8bY1Y1RLNK8WfdyZYnqP6THZKCnSbyIsqqFV6uUwlEOWOldHfCxjepREhJ
+         OZcnMP0XYRvTCkBBdbII0NQ4lNtY8MN2KatqvkcVs8LilFnP0J3zYgGY+1JrYN571KtK
+         2s64MdhdgH6eZGmAFJXTBQcojzDW9fqFGoS1IfIQAWvy5c9NJFvpJuoaz/6AA4Vnc9er
+         BOWlCVv8UZFuEH7snsDNZMpn/BR835poTuN5grlb+kOk9bN7hFlRg44V4hbBKQQ3lYVA
+         SiDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777645010; x=1778249810;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=U0Id2xfJjyn/73uT0S8lwE8udvk16qyKJSuD4Abx5Bg=;
+        b=A691dfer+IyDTlESdooRatIlxP6UvCNk2nm2SEeLPxa1jM+L8UpXhLjTeDLtKPLSt6
+         bVsliF7LdB1k8gZHS7qiVhToVtie6o0T2DAWJnUCb57Oce9i07dG4KN/b2cyTtEJdsW4
+         VVu0uqrE650JbjDlQ/FXKE51wo9g7RIlh+5nvai6zT4dluyxGQIxFGey/CUmGNOwzr0Q
+         6uqJ87zAo5bUW1r4AnCGV9WbuOGYZ/CTlhQnvuarHbtsBKI3zjDeGXGw/DvOA/tEKjfU
+         m8827kywaUONgSGAiaLjlov8YvDkVDHEVe1Zom54+hZNXPbGua+ZfytHRjDPzVrVnhxa
+         nomQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/OWUEXu81BNt2joa+EhMIZZkM7PBE5JbzkMjgBD8EbzYOeNDNbMIW+vcYiJruSWjDX+7M5cHa4IuM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwyW8N1cK1f3ppDuIeK9eTjk0eprG1yLUgQPGy5gqZnwuwT4XdM
+	kaNta7iuyPtkTvHL65VjvBepnlT8WI7iqehKc8v2+15FJmEUJtCEayxXI2jtyB4sZ0vozhvh+V0
+	e1MvqNpvqa8/Z6VWBDEUKfE+99zFkFO4=
+X-Gm-Gg: AeBDievqdAL7DnQR+1D52U8QHKux7QCS37KhLe5SpCondBqnbcs9oN/dHeTBuG1cWNG
+	oqwBJjg9vw+ioeTYe+YE8mJdfzYFHxFqCiS9006mgjs4ISy0+FzRyxmki3FYD25MY9nlTheA7/d
+	69OpZ6hpqxXAi+k1WSNuCH4Hu22DP9rMzl332RDSftfHMvxCq7YKFTGBOregcp22YsknyuWE5iP
+	Jhz6nk/WZ3+YS81r+3npU4TCQJMrpno/G4Bnz3kHzwsrQcUf+fEfNWyx6+tGlzCpYmCs9bfoyv/
+	x+T8BeIwOEYQ00iH9DCuRcavcubGsqpKJRtNkjoTzIU/3dRe1EQNuBG0YjF8e8ORGg==
+X-Received: by 2002:a05:600c:4a9f:b0:48a:9562:7a30 with SMTP id
+ 5b1f17b1804b1-48a95627aa2mr9093625e9.24.1777645009250; Fri, 01 May 2026
+ 07:16:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2026042945-duress-extenuate-939f@gregkh>
+References: <20260320192735.748051-1-nphamcs@gmail.com> <aegUoOiUbjUAH5aT@google.com>
+ <CAMgjq7C53WRS5oYxO157mX7JxhfoPoi34k+taiKLrMah-b-iRg@mail.gmail.com>
+ <aektdlD4npMVThu3@google.com> <CAMgjq7DRrz4Hdy-s4y-C=3BmPt50LKOfdWjjf2mWmCybdRaJ4w@mail.gmail.com>
+ <CAO9r8zPvApgxKiVy5NhiWup_m57huF3MTuPvo=iq5kAxjRZC8Q@mail.gmail.com>
+ <CAMgjq7AGzBubCkmv7LubBjPLN1DzL472d4zUm+sGxo8ZptMgRw@mail.gmail.com>
+ <CAO9r8zO+tm2J0FRC64VKCYOSuKPXX8cQG7C07SwMWKoLiwoV+w@mail.gmail.com>
+ <CAMgjq7D1WXUHqAV1yuXvrUmEsE_m_+yx0mBq6teJhipx6mySbA@mail.gmail.com>
+ <CAO9r8zMk7xTi-Txmj1+Z9=250fD8HuMQFyT1iwjTW9coLXgqoA@mail.gmail.com> <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
+In-Reply-To: <CAMgjq7A4+Sac9-CYkig1LFfEh5rq-4vLka8AXREei_m3svzJ7w@mail.gmail.com>
+From: Nhat Pham <nphamcs@gmail.com>
+Date: Fri, 1 May 2026 15:16:36 +0100
+X-Gm-Features: AVHnY4JpHB4eIrG5SgzyWnvdTJaCS5EqLLry8xKYoE_XxqUlALfldRFV_NWt4b0
+Message-ID: <CAKEwX=NR5dkKduTPwDHWiSMFwJ9ZmvindFvUNbPgQu690W_m+A@mail.gmail.com>
+Subject: Re: [PATCH v5 00/21] Virtual Swap Space
+To: Kairui Song <ryncsn@gmail.com>
+Cc: Yosry Ahmed <yosry@kernel.org>, "Liam R . Howlett" <Liam.Howlett@oracle.com>, akpm@linux-foundation.org, 
+	Alistair Popple <apopple@nvidia.com>, Axel Rasmussen <axelrasmussen@google.com>, 
+	Barry Song <baohua@kernel.org>, Baolin Wang <baolin.wang@linux.alibaba.com>, 
+	Baoquan He <bhe@redhat.com>, Byungchul Park <byungchul@sk.com>, 
+	"open list:CONTROL GROUP - MEMORY RESOURCE CONTROLLER (MEMCG)" <cgroups@vger.kernel.org>, Chengming Zhou <chengming.zhou@linux.dev>, 
+	Chris Li <chrisl@kernel.org>, Jonathan Corbet <corbet@lwn.net>, David Hildenbrand <david@kernel.org>, 
+	Dev Jain <dev.jain@arm.com>, Gregory Price <gourry@gourry.net>, 
+	Johannes Weiner <hannes@cmpxchg.org>, Hugh Dickins <hughd@google.com>, Jann Horn <jannh@google.com>, 
+	Joshua Hahn <joshua.hahnjy@gmail.com>, Lance Yang <lance.yang@linux.dev>, lenb@kernel.org, 
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+	linux-mm <linux-mm@kvack.org>, "open list:SUSPEND TO RAM" <linux-pm@vger.kernel.org>, 
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Matthew Brost <matthew.brost@intel.com>, 
+	Michal Hocko <mhocko@suse.com>, Muchun Song <muchun.song@linux.dev>, 
+	Mariano Pache <npache@redhat.com>, Pavel Machek <pavel@kernel.org>, Peter Xu <peterx@redhat.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Pedro Falcato <pfalcato@suse.de>, 
+	"Rafael J. Wysocki (Intel)" <rafael@kernel.org>, Rakie Kim <rakie.kim@sk.com>, 
+	Roman Gushchin <roman.gushchin@linux.dev>, Mike Rapoport <rppt@kernel.org>, 
+	Ryan Roberts <ryan.roberts@arm.com>, Shakeel Butt <shakeel.butt@linux.dev>, 
+	Kemeng Shi <shikemeng@huaweicloud.com>, Suren Baghdasaryan <surenb@google.com>, tglx@kernel.org, 
+	Vlastimil Babka <vbabka@suse.cz>, Wei Xu <weixugc@google.com>, 
+	"Huang, Ying" <ying.huang@linux.alibaba.com>, Yosry Ahmed <yosry.ahmed@linux.dev>, 
+	Yuanchu Xie <yuanchu@google.com>, Qi Zheng <zhengqi.arch@bytedance.com>, Zi Yan <ziy@nvidia.com>, 
+	Meta kernel team <kernel-team@meta.com>, Rik van Riel <riel@surriel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Greg,
+On Fri, Apr 24, 2026 at 8:52=E2=80=AFPM Kairui Song <ryncsn@gmail.com> wrot=
+e:
+>
+> On Sat, Apr 25, 2026 at 3:12=E2=80=AFAM Yosry Ahmed <yosry@kernel.org> wr=
+ote
+> > > https://lore.kernel.org/linux-mm/20260421055323.940344-1-youngjun.par=
+k@lge.com/
+> >
+> > Does this do promotion/demotion of swap entries?
+>
+> Not yet, let's do things step by step.
+>
+> > > For example just reserve a type (e.g. type 0) as the virtual type?
+> > > (type is really a bad naming though).
+> > >
+> > > The that swap file (or swap mapping) will be
+> > >
+> > > I was trying that based on this:
+> > > https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d=
+19815@tencent.com/
+> > >
+> > > It seems to work and the only thing we need is actually just somethin=
+g
+> > > like this one in VSS:
+> > > https://lore.kernel.org/linux-mm/20260320192735.748051-15-nphamcs@gma=
+il.com/
+> > >
+> > > This part:
+> > > + /* fall back to physical swap device */
+> > > + if (!vswap_alloc_swap_slot(folio)) {
+> > >
+> > > We do a folio_realloc_swap if folio->swap have type 0.
+> > >
+> > > Which means, if there is no virtual device / mapping / file / space
+> > > (I'm not sure how to name it at this point :) ), the ordinary swap
+> > > routine is just still there untouched.
+> > >
+> > > If there is one, and it's being used, then, it is still the ordinary
+> > > swap routine, just do an extra allocation (and the extra allocation
+> > > strictly follows YoungJun's tier rule), which is same with VSS, but
+> > > everything is reused. From a user or high level interface perspective=
+,
+> > > this can be designed with no difference as VSS. Just with a few
+> > > bonuses: being per memcg / task / runtime optional, zero overhead if
+> > > not enabled, and reusing all the infra.
+> > >
+> > > BTW this deferred allocation (in VSS or dynamic swap mapping, similar
+> > > thing) is actually a bit concerning to me as well. It changes the
+> > > common swapout routine and maybe worth reconsideration (e.g.
+> > > activate_locked_split and mTHP stats is now ignored?), being optional
+> > > for now also seems safer.
+> >
+> > I am not sure if I understand you correctly. I think what you're propos=
+ing is:
+> >
+> > - Page tables either point directly to a swap slot, or to a virtual swa=
+p entry.
+> > - By default, page tables just point to swap slots maintaining current =
+behavior.
+>
+> I mean, they are all swap entries, nothing special from the page table
+> side. Swap subsystems handle things internally.
+>
+> > - If we have multiple backends (e.g. zswap or tiering), we use virtual
+> > swap entry instead.
+>
+> Actually that can just follow the swap priority, or tier rule. Even if
+> virtual mapping exists, it can be bypassed. e.g. you have a large NBD
+> and don't care about either fragmentation or compression for offline
+> workload cgroups, then why use a virtual layer for them which could
+> double the kmem usage or spend more CPU? Setup is a different issue
+> which can be discussed.
 
-On Wed, Apr 29, 2026 at 12:10:51AM -0600, Greg KH wrote:
-> On Wed, Apr 29, 2026 at 05:09:43AM +0200, Willy Tarreau wrote:
-> > On Tue, Apr 28, 2026 at 03:13:01PM -0600, Greg KH wrote:
-> > > > > We can point at other files, as this list is going to get long over
-> > > > > time, which is a good thing.
-> > > > 
-> > > > Sure. I'm just unsure where this could be enumerated, as it's likely
-> > > > that there would be just one or two lines max per subsystem for the
-> > > > majority of them. Or we could have a totally separate file, "threat
-> > > > model", that goes into great lengths detailing all this with sections
-> > > > per category or subsystem when they start to grow maybe, and refer only
-> > > > to that one from security-bugs ?
-> > > 
-> > > I think a separate file is good, I know I need to write up what the USB
-> > > model is, and it's different from PCI, and different from other
-> > > subsystems.  All should probably be documented eventually.
-> > 
-> > Would you be interested in me trying to initiate a new "threat-model.rst"
-> > file that tries to unroll the points mentioned in the list ? I'm concerned
-> > that that withuot having many details initially, it could look a bit odd,
-> > because the list we currently have would be more suitable for an "other"
-> > section.
-> 
-> Sure, a small file to start with would be good for people to work off
-> of and add to.
+I assume NBD =3D=3D network block device here?
 
-I'm appending below what I came up with today. It's not a patch, just
-a dump of what I've been typing for 3 hours and should go into
-process/threat-model.rst I think. If you think it constitutes a good
-starting point, then I can make a patch to add it, and update my other
-patch to reference it by basically saying "what is excluded from the
-kernel threat model in threat-model.rst does not have to be reported
-as a security issue".
+If you use a NBD, I think vswap overhead is not going to be the
+bottleneck here :)
 
-cheers,
-Willy
----
+And, what about reliability. Say you allocate a slot on the NBD, unmap
+the page from the PTEs, then proceed to swap_writeout(). What if the
+NBD device is no longer available? What if IO fails? If you already
+encode the physical swap slot location in the PTEs, then it's very
+expensive to correct this mistake. Whereas with vswap, you can fall
+back to another device if you so choose, and all it takes is just a
+simple backend change at the vswap layer.
 
-.. _threatmodel:
+Another issue with the current physical swapfile allocator is that
+induces physical contiguity where it's absolutely not needed. I don't
+know if this is the case with an NBD, but for flash device for e.g,
+obviously contiguity makes thing more efficient, but it would be nice
+if we can fallback to discontiguous swapout as a fallback.
 
-The Linux Kernel threat model
-=============================
+I feel like NBD is an argument FOR virtualization, not against.
 
-There are a lot of assumptions regarding what the kernel protects against and
-what it does not protect against. These assumptions tend to cause confusion for
-bug reports (security-related ones vs non-security ones), and can complicate
-security enforcement when the responsibilities for some boundaries is not clear
-between the kernel, distros, administrators and users.
+>
+> > - The physical swapfile has clusters and swap tables (status quo).
+> > - Virtual swap is implemented with clusters and swap tables in a
+> > virtual space, and each table entry points to an underlying swap slot
+> > or zswap entry.
+> > - If a page table has a physical swap slot, and we need to do tiering,
+> > we basically "make it virtual" by making the swap table of the
+> > physical swapfile point at a virtual swap entry? or another physical
+> > swapfile? Not sure.
+>
+> They are still ordinary swap entries, nothing special. The virtual
+> space is also just a ordinary swap file (or swap mapping), which is
+> easy to do:
+> https://lore.kernel.org/linux-mm/20260220-swap-table-p4-v1-15-104795d1981=
+5@tencent.com/
+>
+> Then its virtual_table will have a different set of swap entries. (I
+> left that part undone though).
+>
+> > > Right... I mean with two layers you will likely have >16 bytes
+> > > overhead, and double lookup.
+> >
+> > Why >16 bytes? Do we need anything extra other than the reverse
+> > mapping? Also why do we need a double lookup?
+>
+> You will have to store at least the following info: memcg (2 bytes),
+> shadow (8 bytes), count (at least 1 bytes), and revert mapping (8
+> bytes, since you have to address a full virtual swap space). And some
+> type info is also needed. Part of them can be shrinked but still,
+> scientifically, merging two layers into one is considered a kind of
+> optimization.
 
-This document tries to clarify the responsibilities of the kernel in this
-domain.
+Optimization is always a worthwhile pursuit of course. But you have to
+gauge it with what we can buy with a more flexbility design, which
+might end up buying us more performance win down the line
 
-The kernel's responsibilities
------------------------------
+In the immediate term, vswap buys you a dynamic compressed layer +
+maintain the ability to write back.
 
-The kernel abstracts access to local hardware resources and to remote systems
-in a way that allows multiple local users to get a fair share of the available
-resources granted to them, and, when the underlying hardware permits, to assign
-a level of confidentiality to their communications and to the data they are
-processing or storing.
+Looking a bit longer term, I don't think you can do the following
+without a layer of indirection here:
 
-The kernel assumes that the underlying hardware behaves according to its
-specifications. This includes the integrity of the CPU's instruction set, the
-transparency of the branch prediction unit and the cache units, the consistency
-of the Memory Management Unit (MMU), the isolation of DMA-capable peripherals
-(e.g., via IOMMU), state transitions in controllers, ranges of values read from
-registers, the respect of documented hardware limitations, etc.
+1. Compressed writeback.
 
-When hardware fails to maintain its specified isolation (e.g., CPU bugs,
-side-channels, hardware response to unexpected inputs), the kernel will usually
-attempt to implement reasonable mitigations. These are best-effort measures
-intended to reduce the attack surface or elevate the cost of an attack within
-the limits of the hardware's facilities; they do not constitute a
-kernel-provided safety guarantee.
+2. Discontiguous swapouts. I think we need this as a fallback for THP
+swapping (see [1] for the discussion).
 
-Users always perform their activities under the authority of an administrator
-who is able to grant or deny various types of permissions that may affect how
-users benefit from available resources, or the level of confidentiality of
-their activities. Administrators may also delegate all or part of their own
-permissions to some users, particularly via capabilities but not only. All this
-is performed via configuration (sysctl, file-system permissions etc).
+3. Mixed backend swapin.
 
-The Linux Kernel applies a certain collection of default settings that match
-its threat model. Distros have their own threat model and will come with their
-own configuration presets, that the administrator may have to adjust to better
-suit their expectations (relax or restrict).
+4. Optimizing swap IO - if sequential patterns matter for example, you
+need the ability to delay or change backend allocation. The current
+model is way too inflexible to allow for that.
 
-By default, the Linux Kernel guarantees the following protections when running
-on common processors featuring privilege levels and memory management units:
+5. Adding new swap backends. We want to decouple what the MM subsystem
+needs (which is minimally captured in the virtual layer), with what
+the backend itself wants.
 
-- user-based isolation: an unprivileged user may restrict access to their own
-  data from other unprivileged users running on the same system. This includes:
-  * stored data, via file system permissions
-  * in-memory data (pages are not accessible by default to other users)
-  * process activity (ptrace is not permitted to other users)
-  * inter-process communication (other users may not observe data exchanged via
-    UNIX domain sockets or other IPC mechanisms)
-  * network communications within the same or with other systems
+Youngjun's paper is a case study for what you can buy with virtualization:
 
-- capability-based protection:
-  * users not having the CAP_SYS_ADMIN capability may not alter the kernel's
-    configuration, memory nor state, change other users' view of the file
-    system layout, grant any user capabilities they do not have, nor affect the
-    system's availability (shutdown, reboot, panic, hang, or making the system
-    unresponsive via unbounded resource exhaustion).
-  * users not having the CAP_NET_ADMIN capability may not alter the network
-    configuration, intercept nor spoof network communications from other
-    users nor systems.
-  * users not having CAP_SYS_PTRACE may not observe other users' processes
-    activities.
+[1]: https://lore.kernel.org/all/6869b7f0-84e1-fb93-03f1-9442cdfe476b@googl=
+e.com/
+[2]: https://ieeexplore.ieee.org/document/8662047
 
-When CONFIG_USER_NS is set, the kernel also permits unprivileged users to
-create their own user namespace in which they have all capabilities, but with a
-number of restrictions (they may not perform actions that have impacts on the
-initial user namespace, such as changing time, loading modules or mounting
-block devices). Please refer to user_namespaces(7) for more details, the
-possibilities of user namespaces are not covered in this document.
-
-The kernel also offers a lot of troubleshooting and debugging facilities, which
-can constitute attack vectors when placed in wrong hands. While some of them
-are designed to be accessible to regular local users with a low risk (e.g.
-kernel logs via /proc/kmsg), some would expose enough information to represent
-a risk in most places and the decision to expose them is under the
-administrator's responsibility (perf events, traces), and others are not
-designed to be accessed by non-privileged users (e.g. debugfs). Access to these
-facilities by a user who has been explicitly granted permission by an
-administrator does not constitute a security breach.
-
-Bugs that permit to violate the principles above constitute security breaches.
-However, bugs that permit one violation only once another one was already
-achieved are only weaknesses. The kernel applies a number of self-protection
-measures whose purpose is to avoid crossing a security boundary when certain
-classes of bugs are found, but a failure of these extra protections do not
-constitute a vulnerability alone.
-
-What does not constitute a security bug
---------------------------------------
-
-In the Linux kernel's threat model, the following classes of problems are
-**NOT** considered as Linux Kernel security bugs. However, when it is believed
-that the kernel could do better, they should be reported, so that they can be
-reviewed and fixed where reasonably possible, but they will be handled as any
-regular bug:
-
-- configuration:
-  
-  * outdated kernels and particularly end-of-life branches are out of the scope
-    of the kernel's threat model: administrators are responsible for keeping
-    their system up to date. For a bug to qualify as a security bug, it must be
-    demonstrated that it affects actively maintained versions.
-
-  * build-level: changes to the kernel configuration that are explicitly
-    documented as lowering the security level (e.g. CONFIG_NOMMU), or targeted
-    at developers only.
-
-  * OS-level: changes to command line parameters, sysctls, filesystem
-    permissions, user capabilities, exposure of privileged interfaces, that
-    explicitly increase exposure by either offering non-default access to
-    unprivileged users, or reduce the kernel's ability to enforce some
-    protections or mitigations. Example: write access to procfs or debugfs.
-
-  * issues triggered only when using features intended for development or
-    debugging (e.g., lockdep, KASAN, fault-injection): these features are known
-    to introduce overhead and potential instability and are not intended for
-    production use.
-
-  * loading of explicitly insecure/broken/staging modules, and generally any
-    using any subsystem marked as experimental or not intended for production
-    use.
-
-  * running out-of-tree modules or unofficial kernel forks; these should be
-    reported to the relevant vendor.
-
-- excess of initial privileges:
-
-  * actions performed by a user already possessing the privileges required to
-    perform that action or modify that state (e.g. CAP_SYS_ADMIN, CAP_NET_ADMIN,
-    CAP_SYS_RAWIO, CAP_SYS_MODULE with no further boundary being crossed).
-
-  * actions performed in user namespace without permitting anything in the
-    initial namespace that was not already permitted to the same user there.
-
-  * anything performed by the root user in the initial namespace (e.g. kernel
-    oops when writing to a privileged device).
-
-- out of production use:
-
-  This covers theoretical/probabilistic attacks that rely on laboratory
-  conditions with zero system noise, or those requiring an unrealistic number
-  of attempts (e.g., billions of trials) that would be detected by standard
-  system monitoring long before success, such as:
-
-  * prediction of random numbers that only works in a totally silent
-    environment (such as IP ID, TCP ports or sequence numbers that can only be
-    guessed in a lab).
-
-  * activity observation and information leaks based on probabilistic
-    approaches that are prone to measurement noise and not realistically
-    reproducible on a production system.
-
-  * issues that can only be triggered by heavy attacks (e.g. brute force) whose
-    impact on the system makes it unlikely or impossible to remain undetected
-    before they succeed (e.g. consuming all memory before succeeding).
-    
-  * problems seen only under development simulators, emulators, or combinations
-    that do not exist on real systems at the time of reporting (issues
-    involving tens of millions of threads, tens of thousands of CPUs,
-    unrealistic CPU frequencies, RAM sizes or disk capacities, network speeds.
-
-  * issues whose reproduction requires hardware modification or emulation,
-    including fake USB devices that pretend to be another one.
-
-  * as well as issues that can be triggered at a cost that is orders of
-    magnitude higher than the expected benefits (e.g. fully functional keyboard
-    emulator only to retrieve 7 uninitialized bytes in a structure, or
-    brute-force method involving millions of connection attempts to guess a
-    port number).
-
-- hardening failures:
-
-  * ability to bypass some of the kernel's hardening measures with no
-    demonstrable exploit path (e.g. ASLR bypass, events timing or probing with
-    no demonstrable consequence). These are just weaknesses, not
-    vulnerabilities.
-
-  * missing argument checks and failure to report certain errors with no
-    immediate consequence.
-
-- random information leaks:
-
-  This concerns information leaks of small data parts that happen to be there
-  and that cannot be chosen by the attacker, or face access restrictions:
-
-  * structure padding reported by syscalls or other interfaces.
-
-  * identifiers, partial data, non-terminated strings reported in error
-    messages.
-
-  * Leaks of kernel memory addresses/pointers do not constitute an immediately
-    exploitable vector and are not security bugs, though they must be reported
-    and fixed.
-
-- crafted file system images:
-
-  * bugs triggered by mounting a corrupted or maliciously crafted file system
-    image are generally not security bugs, as the kernel assumes the underlying
-    storage media is under the administrator's control, unless the filesystem
-    driver is specifically documented as being hardened against untrusted media.
-
-  * issues that are resolved, mitigated, or detected by running a filesystem
-    consistency check (fsck) on the image prior to mounting.
-  
-- physical access:
-
-  Issues that require physical access to the machine, hardware modification, or
-  the use of specialized hardware (e.g., logic analyzers, DMA-attack tools over
-  PCI-E/Thunderbolt) are out of scope unless the system is explicitly
-  configured with technologies meant to defend against such attacks
-  (e.g. IOMMU).
-
-- functional and performance regressions:
-
-  Any issue that can be mitigated by setting proper permissions and limits
-  doesn't qualify as a security bug.
----
+>
+> You need lookup the virtual layer, then the lower layer for many
+> decision making, is was discussed before to introduce more cache bit
+> or things like that and I think that is getting over complex, reminds
+> me of the slot cache or HAS_CACHE thing...:
+> https://lore.kernel.org/linux-mm/CAMgjq7DJrtE-jARik849kCufd0qNnZQs7C8fcyz=
+VOKE14-O+Dw@mail.gmail.com/
+>
+> > I don't think I quite understand it yet, maybe I am the problem :)
+>
+> Haha, not at all! Blame me for the poor explanation. To be honest, the
+> design is still evolving and there are definitely details that need to
+> be improved. It's hard to discuss these abstractions purely in theory,
+> so it's probably best just keep the works moving forward in a clean
+> way, and make things simpler and better be opt-in first.
