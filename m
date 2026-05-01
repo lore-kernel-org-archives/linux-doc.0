@@ -1,230 +1,142 @@
-Received: from outbound.qs.icloud.com (qs-2001h-snip4-4.eps.apple.com [57.103.87.77])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dl1-f54.google.com (mail-dl1-f54.google.com [74.125.82.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8DF93EF643
-	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 16:16:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.87.77
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777652224; cv=none; b=d67EOu1ZboWVt437OIi5tM4VMG3fQG0nUhTzdtMva/seFDRtjw2LVAuE/9N2C92MON0XNotYlIQ6PA722rA+sPHl/LD9lOfrLLqc/ytsWvLVXE40vVy5EOT6BUs4Pq0ZqNNBGoMEsnKOi0PfpinoqFeRYFVSAeV/1OZ0xSj1euk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777652224; c=relaxed/simple;
-	bh=0kbe/PDYbS8nMLyo6EBbJuKhNh/p/WEZQ3ZEQK0DSoA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lgsMxFbHI7VDAMU0jxeTjSbHkO52kSQtnp15V8N/MZgjg6d46RFa/fdvbLY6EjcAJkOfNqPIgN6c/X1H18XaMgQ/MYXIKla8/WKBt8hkMvJjz0uow+/lWQzSpTRXCjGfbMc208DtUjmifaY7lr+NAXh6CxAXaX536mdVdibL14s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=q25XdUV6; arc=none smtp.client-ip=57.103.87.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1B04014B2
+	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 16:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.54
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777654677; cv=pass; b=XqWbCQb5+U1S/Q6XuUOBi6BO3drnRrLzocZn49tHovuVbBf0MSh/lLbMFQu9Z3XboSVYRVh8BHn2WlxUfmV1uCXPj/ANurG8AP3DPBBhmM2qZ+3fpH+CwOexBFfzKG5IRw17oc3vbBhBVm8VH5HVp+f10bVBje43Lqng0MuZbog=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777654677; c=relaxed/simple;
+	bh=bKdkMIOKWZNneVM2/reuENwleR9x2amx9Y684oqA2m4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=BGBgK777YqPdyeVtRv29mkRePIrmS+/daGCXIoNYvsm0PyWxFmi3hRot0bGLy/+m3X2C1r2d5nRw+zfjraevweslv1HtJYUCxJAH7hZapQtwkldSyru3Q9BizKXwE3353S0b5VEO2gZFTYSxE6DPyIqmLoGphFCCwkFNaseuV8Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rwsOvsa2; arc=pass smtp.client-ip=74.125.82.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="q25XdUV6"
-Received: from outbound.qs.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-2 (Postfix) with ESMTPS id 19B19180024D;
-	Fri, 01 May 2026 16:16:45 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhAA0MFWgFeAUEdXwFLVxQEFEYGVg1dE0wLcwRUB10FXVZQAlpLVBQEFEYGVg1dE0wLcwRUB10FXVZQAlpLQBMESgZNXw5eHwQXRhlVBEceXVZCHhkCURxWDVdDVARfUEkMQVBsWgBHF0gdXRlZb1BdHA4EVAddBV1WUAJaS18ZXUUPDFE/YEQBL0sqWSJCCHJAUi17Pnkxezl6QHooA04ZDEodUlZbE1UXRgk=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1777652210; x=1780244210; bh=UgGxl8M14pUS6KDhLcMRY7wJXbhdvbGGNTkbFAyofIo=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=q25XdUV6HHEJiVM5xR4bEA+wlvdJ2WgHrnPEJ9Xzxh57hdT1BT4pHkh3zay9tJcl5JKTYJzWHpNAUIciTBcF5h5VFtR/H28RJSiJ3bOoRfxqyjOsrm5m1i2/faJphio2xZ2KQS0lzeVTBGFYPFYNIeo1BlL3y2z2BktvtjaYiu4odoPPoAm+z5pnEb9rA8G6qjQVYdQZax/ytQfm/9aHgUbo7iVcUNlDvBOv+eoKVcS9VoF927+3oaWb316ZkaSWP7aOT1v4ldTIQGSnZ1Z/etqn0GNyYfrXkRlsfnSWGLJXHbL50a1ntFtc/+8lzTgNHCTatP/pkZ7VvoydsBIDZw==
-Received: from localhost (unknown [17.57.155.37])
-	by p00-icloudmta-asmtp-us-east-2d-100-percent-2 (Postfix) with ESMTPSA id BA86E180014B;
-	Fri, 01 May 2026 16:16:39 +0000 (UTC)
-Date: Sat, 2 May 2026 00:16:35 +0800
-From: Luka Bai <lukafocus@icloud.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Kairui Song <kasong@tencent.com>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luka Bai <lukabai@tencent.com>
-Subject: Re: [PATCH 0/5] mm: Support selecting doing direct COW for anonymous
- pmd entry
-Message-ID: <afTR48WxGnIpxK8a@LUKABAI-MC1>
-References: <20260501-thp_cow-v1-0-005377483738@tencent.com>
- <b5379cd3-f7bf-47f9-8a60-c7300b4415a2@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rwsOvsa2"
+Received: by mail-dl1-f54.google.com with SMTP id a92af1059eb24-12c726f46baso3325584c88.1
+        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 09:57:54 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777654673; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TAT1JrMF+56Qb6rIMZq5gnl+8cdbpLIj+zOFOCtsCOSBHfjGaG2qZ0AGNoh+5zIRrF
+         E4L9QIP/X8y3UcgwOnHwTmWkQwf8c/AFTxc/5iutsah4Fy5OmLRR6TeM5hpUvgy76pL1
+         gzG8b43YOtR9eUU4eVW6MfL/h90C23YiHmk72fGCfcPjDAcPUGzsJf8KJxDnaDonvd+H
+         4s8SCXtRb7LKPYGqYn2mBSzT8StXx+LYuKzFxGWyWN8EE2D+BrfbP3seqwGxbaMuWqxY
+         QcBR391iV8ztFB9iM74mMoQMKDj/fl2qdLF4p6xx+Dro2pfN+WAXM0VwaCIIZwixhH3m
+         odog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=G34ikY2DD+u+VVE3dDOd4ruOH6p/Jku1HJ+Euceqccc=;
+        fh=mcs5gsV8HClEJK0CX34JAo2tS63owm0G/X2e3x9Hb6k=;
+        b=LJVDCQv6sabCXWDpUO1hqj3KAe7jfsVeO6rfc8YUx4YSwCZWidBzCnj3x1mcNYEHWC
+         0gvNV+ox95R6cS9yMsa8mfp8FeotJgPo3fcDJBFmG14YmW3RPn20nbgrYz/njyKlBGQq
+         UxdcOTc6QdGh48tYmzsNY/bmUlEdutXNbw/h/vYa+egCpaAO2Np7UPUAczEswt5RhWRb
+         dTLOIT3nN8vBXM2/RztYpEZlpksUnjGSSAu7YtBw7H+XGg7ZV9fVegCoeBYb79TMFViX
+         cm4TuBs67KlDVfkQNtsnW6tJ45pu0UybjkboaaFQ576MMGJxRUtXhTjPkfGPH5LYnxyz
+         eunQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777654673; x=1778259473; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G34ikY2DD+u+VVE3dDOd4ruOH6p/Jku1HJ+Euceqccc=;
+        b=rwsOvsa2I5764eUV9LIYhn+wKeG7zwNhGRcaNuJ1SNAL/bTp+ULAhaA7vcEzUCvmVG
+         foDyFl+s0OFroOg9OfYwhGrm7wHYXILuRvj40xwJtqdaTVOD8HIeAucvHeP4FNPSCevW
+         6rLIAaaUliyCA+5E3L7nhEpiBWZd0uR8o2SNp+tOC5dNq5xqWRWceVRyYgtyCLkjgDaO
+         oNdvk/DF59Kgy2g18XdAOQz3eisALDvtvwE9rQtHqKpE5fkLyvYOAlSsD9uzI3wgMSkX
+         c4yczDOG6Fb4fA72VhecPQ+79DyI8VJGe9zNJmPal45b0hvjlyd/EnzG6oHlt3mqds3I
+         jjUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777654673; x=1778259473;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=G34ikY2DD+u+VVE3dDOd4ruOH6p/Jku1HJ+Euceqccc=;
+        b=Vsu05ORYWZHH5Nene8efLVxDGQxxO0yti1DJTPriJbaZQyB5sGpUcEL2hUXM6YVzMi
+         u92XoNq8gwE0+gyv8capI6srn0tfRjemgz+s+Mb0JpLisZ2oCVztbWp+Pk0It9gT9PoZ
+         b/88RHwpI8P9EmPjoIK6zyvIj/Jv0LooRidjEcHPrPkx5kogQodpdnh2Eg/fT+Vxf9U6
+         b5vPgwJcvUJmV4CxcHmEr9i9xyzgM6QwzuNerxZUoRz+F1HivZ9X+CsW97it2QBJFg5a
+         Q6WIhFm/6Ki0EizZDoE8vTctiTnnBbWVzf89y47j6vTeCkc3h5osX40P3XMS5CiH+0Tn
+         67JA==
+X-Forwarded-Encrypted: i=1; AFNElJ/NpkzzpPL/UMmgNXmP2EdOj1o+6bnUsKbKR0qDofUjoTOiw/yHuP3Q4P+KtuolioK8DC/+cjfWt2Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxEqLL9JR8qznOJU6tH9JQqk7hSJEnS+UXs1XZph8MRI5m2/vmT
+	QWb9er4l7/X+c41lQLWsd0sxOW5UC2j4QL9sLOiU4Vc6CQ9qYjY7KWw++4htRGgfnuwgoZg9kpA
+	1ss8lbeUWzPfDi5CYje5BdLjKirstxmc6waXKcW+R
+X-Gm-Gg: AeBDieut1rXS8jVgaJ4dm9miaD7jIMRpi1XLKBlwxZalMQIXNyHS8O6i9E7f4yX6M6J
+	tN30z8+Puh93T8YvBQ/d40Czt4E7n/Zl03JE5WnNG4cSrV0UlhsO61Iw6hSoCWPmAqiJuy5xPDX
+	uKabBuhpPfsjF/YSLs9dqd6t9gE35wlRFQ9hHDIY1JB0rHnfQexsTBEL238urVSTv69lNhyKInw
+	rcjXWNL4SwImVXDrSkfnibe5BfDiZ6yBh4AwtdAskC1F8YtinGF7wsSfOUFVc1E+JHSs60P7mDH
+	2yyZtBwWAtHMhvvuHAOuMU2z0qWeVg==
+X-Received: by 2002:a05:7022:6187:b0:12d:b2e9:b20f with SMTP id
+ a92af1059eb24-12dfd821474mr32517c88.21.1777654672480; Fri, 01 May 2026
+ 09:57:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <b5379cd3-f7bf-47f9-8a60-c7300b4415a2@kernel.org>
-X-Authority-Info-Out: v=2.4 cv=AfC83nXG c=1 sm=1 tr=0 ts=69f4d1f0
- cx=c_apl:c_pps:t_out a=bsP7O+dXZ5uKcj+dsLqiMw==:117
- a=bsP7O+dXZ5uKcj+dsLqiMw==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=UaoJkeuwEpQA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=v3ZZPjhaAAAA:8 a=i0EeH86SAAAA:8 a=Ikd4Dj_1AAAA:8
- a=tr256uPD42VStoVvj3sA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTAxMDE1OSBTYWx0ZWRfX2BK81TZ7hv7f
- 6ZYItCAV/kwwQFqAPl2gXT63PFHdPifaGDNaNMYEEDLdvh9nYb3TyeJPUqP2ZXZWA4jBvQZDV3j
- q8aoq7oQsqfODso2mba4dMWPP3FNenojRlM1TdahB05RiwdNgWmH6EKpnkw0LheKHvMX3qTjYDo
- AKfKt4/xEGZTzkL1FMV7H0DHfSJ9ZbUB/oaN+Gmn/M/ycqLkAO38aCMrgLQzOWpiNrn3czdkmql
- 4MljY1FEOeyeT4HAT+y+h9W5dPq/3NQZN1ZMJv6iRpoej6xsJNbqvqUQ41boBcIeFVRxGkrP9cC
- hd5IOP/VNZU0TUsrzK8EWkfFTb5eoa2PBTk+UbCDeFMRyfPPh+n9p5cxoojAQo=
-X-Proofpoint-ORIG-GUID: BoNt6ECAJfAKmyJrQNW1V_En691lj7za
-X-Proofpoint-GUID: BoNt6ECAJfAKmyJrQNW1V_En691lj7za
+References: <afFHC6C1Qbwio4pH@google.com> <20260430210642.GA439800@bhelgaas>
+In-Reply-To: <20260430210642.GA439800@bhelgaas>
+From: David Matlack <dmatlack@google.com>
+Date: Fri, 1 May 2026 09:57:25 -0700
+X-Gm-Features: AVHnY4KFLnH4p2pRBeiWD3uz1DZ5zLD14tslYZKT6G5Ma2DKmFI_8zfdZMWusuU
+Message-ID: <CALzav=exRqf3XZWDwUx-OXp8TgzpmQ-iUTixpT4SVRk8nxctrQ@mail.gmail.com>
+Subject: Re: [PATCH v4 01/11] PCI: liveupdate: Set up FLB handler for the PCI core
+To: Bjorn Helgaas <helgaas@kernel.org>
+Cc: Pasha Tatashin <pasha.tatashin@soleen.com>, Pratyush Yadav <pratyush@kernel.org>, 
+	iommu@lists.linux.dev, kexec@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org, 
+	Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
+	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
+	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
+	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
+	Pranjal Shrivastava <praan@google.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Will Deacon <will@kernel.org>, 
+	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-在 Fri, May 01, 2026 at 09:07:49AM +0200，David Hildenbrand (Arm) 写道：
+On Thu, Apr 30, 2026 at 2:06=E2=80=AFPM Bjorn Helgaas <helgaas@kernel.org> =
+wrote:
+> On Tue, Apr 28, 2026 at 11:47:23PM +0000, David Matlack wrote:
+> > On 2026-04-28 05:50 PM, Pasha Tatashin wrote:
 
-Hi David,
-
-Thanks for your review and opinion :) I really appreciate it!
-I'm sorry that I'm not that familiar with the mail sending in lore, so my
-earlier reply in
-https://lore.kernel.org/all/8F6F0691-91A1-4645-A218-2219DE6047AD@icloud.com/ 
-may be in a wrong format, if you haven't read it, just ignore it, and read
-this mail instead, I also revised the reply a little in this mail. thanks. :)
-
-> On 5/1/26 07:55, Luka Bai wrote:
-> 
-> Hi,
-> 
-> > Copy on write support for anonymous pmd level THP is simple right now:
-> > firstly we'll check whether the folio can be exclusively used by the
-> > faulting process, if we can (when the ref of the folio is only 1 after
-> > trying to free swapcache or the page flag AnonExclusive is setup) we'll
-> > directly use it with few further handling. If we cannot, then we'll
-> > split the pmd into 512 4K ptes, and do copy on write only for the
-> > specific 4K page that we faulted on.
-> > 
-> > This logic is truly memory efficient since for most workloads we don't
-> > want to allocate 2M new memory simply on a small write. However, it also
-> > makes the original 2M page for the process suddenly splitted on a
-> > write which will generate some performance thrashing. For example, if
-> > process A and process B share an anonymous 2M pmd, if process B chooses
-> > to do a writing, then its page table mapping will be changed from 1
-> > pmd entry into 512 4K pte entries at once, so the tlb benifit will
-> > suddenly just "vanish" for process B, which sometimes may cause a
-> > observable performance degeneration. After that, we can only wait for
-> > khugepaged to do the collapse for this area and merge the pmd back, which
-> > is not easy to happen.
-> 
-> You probably know that, historically, we did exactly what you describe in this
-> patch set. It was rather bad regarding memory waste and COW latency, so we
-> switched to the current model.
-> 
-> Note that there was a recent related discussion for executable, which was rejected:
-> 
-> https://lore.kernel.org/r/20251226100337.4171191-1-zhangqilong3@huawei.com
+> > > This is the way we agreed to handle kexec changes: Baoquan He is the
+> > > maintainer, and without his Reviewed-by tag, we won't take changes to
+> > > kexec. This is the approach we follow with MM for KHO changes to
+> > > memblock and memfd preservation, as well as the upcoming
+> > > hugetlb/guestmemfd preservation.
+> > >
+> > > This is also the approach we should continue using when adding LUO
+> > > support to other components like PCI, VFIO, IOMMU, and KVM. It keeps
+> > > life easier for the core component maintainers and ensures we do not
+> > > regress LU by staging everything in the same tree and sending LU merg=
+e
+> > > requests from a single tree.
+> >
+> > Ok it sounds like we are aligned on keeping drivers/pci/liveupdate.c,
+> > include/linux/kho/abi/pci.h, and Documentation/PCI/liveupdate.rst in th=
+e
+> > PCI LIVE UPDATE entry and not duplicating them in the LIVE UPDATE entry=
+.
+> >
+> > I think the only open question is what tree to use for the PCI LIVE
+> > UPDATE entry, PCI tree or Live Update tree. You are proposing the Live
+> > Update tree.
+> >
+> > Bjorn are you ok with that approach?
 >
+> Yes, I think that makes sense, at least to start.  In early days, it
+> would probably be a headache to coordinate LU things across multiple
+> trees.
 
-Yes, I know this history, and I know that it will cost some memory or latency,
-That’s why I was wondering maybe I can add a switch to it to make it
-configurable :). But I don’t know the existence of the discussion in 
-https://lore.kernel.org/r/20251226100337.4171191-1-zhangqilong3@huawei.com,
-I’ll check it out, thanks for informing me that :).
- 
-> > 
-> > In addition to the problem above, this logic can also generate some
-> > deficiency for THP itself. Currently THP is just a "best-effort" choice
-> > with no "certainty". THP is easily splitted into multiple small pages
-> > on common calling path like reclaiming, COW. A transparent splitting
-> > can cause throughput fluctuation for some workloads. For these workloads,
-> > we may want to give THP some "certainty" just like hugetlbfs,
-> 
-> There are no such guarantees, though. And We wouldn't want to commit to any such
-> guarantees today. For example, simple page migration can split the folio.
-> Allocation failures will fallback to small pages etc.
-> 
-> If you need guarantees, use hugetlb for now.
-> 
-
-The reason why I want to use THP over hugetlb is that I need reclamation for my
-workload :). There are many processes in my workload that need 2M
-aligned folios for better performance, and we want to reclaim them back automatically
-when the process doesn’t need the folios. But hugetlbfs cannot do passive reclamation
-from what I know (except doing active madvise by the processes themselves). And using
-THP can easily split the hugepages. So that’s why I would like to add certainty for THP,
-and use THP for these processes as backend, because THP is very well integrated with
-the swap system and other filesystems. And from what I checked,
-it seems the most common case for splitting a THP is COW and swapping so I am trying
-to handle these two scenarios (But coincidentally, PMD swapping is committed in
-https://lore.kernel.org/all/D3F08F85-76E0-4C5A-ABA1-537C68E038B8@nvidia.com/
-a few days before, which is a great implementation :) ).
-
-> > The effect
-> > we want is: after some customized setup, if only the system has usable
-> > folio, and the virtual memory alignment permits (or we setup to), we can
-> > make sure we always use THP for it, the system will never split it except
-> > the user wants to do so.
-> > 
-> > This patchset is about both two things above, firstly we add pmd level
-> > THP COW support by revising the code in do_huge_pmd_wp_page, we added
-> > switch for it because different workloads may need different resources,
-> 
-> The switch is bad, and we won't accept any toggle like that. A system-wide
-> setting does not make sense for such behavior.
->
-
-Oh, the reason why I added a switch globally is also because the scenario I mentioned
-above, I want those processes to always use PMD sized folios as backend to make sure
-performance. COW is truly not that common like swap out/swap in, it just can happen
-sometimes, which I guess the reason may be about image duplication. Setting the system
-globally is more convenient for my situation :). I can go without this global switch
-if it's more reasonable.
-
-> A per-VMA flag? Maybe, but I expect pushback as well, as it is way too specific.
-> So we'd have to find some concept that abstracts these semantics. But I expect
-> pushback as well.
-> 
-> We messed up enough with toggles in THP space, unfortunately.
-> 
-> Also, anything that only works for PMD-sized THPs is a warning sign in 2026 :)
->
-
-And for PMD-sized THPs, actually, I’m also considering adding more support for
-COW to mTHP if the upstream consider it useful. And also for pud sized THPs
-also. But I guess I have to firstly handle stage 1: PMD level COW now :).
-And also, since PMD sized folio is commonly used in my workload, I'm also wondering
-digging into pmd sized KSM in the future, in which I think pmd sized COW may
-be more useful then :).
-
-> You don't really raise any concrete use cases or performance numbers for these
-> use cases. Some details about applications that use fork() and rely on such
-> behavior would be helpful.
-> 
-
-Sorry for that, the concrete workload itself hasn't been finished yet. Now it just
-can happen sometimes in my multi-2M-sized-processes workload test. But the user
-of our 2M sized folio schema is actually not necessarily myself but also can be the
-userspace developers. I cannot guarantee that fork will not be used in the
-performance test of their workload since that is a normal posix call. Maybe a little
-overthinking? :)
-I just think swap and COW are two main scenarios that may transparently split pmd sized
-folios, so maybe we can solve it and make THP both reclaimable and stable. Maybe
-that can make THP more widely used in real deployed environment since the resource
-can become more controllable for the users :). That's why I was thinking maybe
-implementing it with setup switches is a reasonable solution?
-
-> Note that an application that does fork() could use MADV_COLLAPSE after fork()
-> to make sure that it immediately gets THPs back.
-> 
-> There is also the option to just use MADV_DONTFORK to not even share ranges with
-> a child process in the first place, avoiding page copies entirely.
-> 
-
-MADV_DONTFORK and MADV_COLLAPSE are nice and great options :), but the former one seems
-to be a little wasteful :). And the latter one can greatly solve fork situation, but
-we have to recognize all the possible regions that may be accessed in performance
-test and collapse them. And it's also not easy to solve the situation like pmd swap in
-for pmd pages mapped by more than two processes. :)
-
-> -- 
-> Cheers,
-> 
-> David
-
-Look forward to your further opionion, thanks!
-
-Best,
-Luka
-
+Sounds good. I will swap the trees in v5. Thanks all.
