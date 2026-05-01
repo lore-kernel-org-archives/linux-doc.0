@@ -1,90 +1,100 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6323729B8D3;
-	Fri,  1 May 2026 01:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F00A2D77E9;
+	Fri,  1 May 2026 01:20:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777598271; cv=none; b=aBsmmdQkO+GnZdq0qfaRpGBgS24Zbu+xJursHzzdnfhXRnpm2vNq8DX+lv+XTBtGFBCfixy8PZM6mHw3IrqndUst49CIH5mvtbXwnqAp/2x6auBjMYfH1ltuheSpKuO1wnJDlZJeqfFDU8rGvNfyFa3w6lKfT8AMcQzaiNqWzjs=
+	t=1777598406; cv=none; b=e7Cz2qTX8zs3P5GKsvUZmZApSHe8CVlgbukREi6IdnXhCL8nu83bhul/Uw1QSEIPlMtTWqy7zR0NjIyra9+YkZIp4KOWqyww2bwMNa1Lm4JDkclD1uAih5xm+AuYWWPfyTZXQzS6iHkRV/vhArqMaKqynUPpYsAH6I9rvF2nDqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777598271; c=relaxed/simple;
-	bh=FFZsipR5HDi6IaWQyWowYhDwh2V2W3Kfd/0jWX5YUQk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fE9fehzGxCLCimzqA8ZMY/lGtnHUSiQDG9dWl8ycUF/JdZyydQ6blMcMlIEFeoFHMVEhSb4BqDpE66Y/GhbqgSTSIV0FneODseUNvyGzQdY7fnvKlz9yPQTUVjnGfhURqQybLPbZJaPZ8UJyQXHc82t1ukSLRpQGsYksNugGsV4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MrITKq7l; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777598406; c=relaxed/simple;
+	bh=ivC6NaGevzpeEC2uJ0LjCOFMFy1P1XbOvXJqLDETukY=;
+	h=Subject:From:To:Cc:Date:Message-ID:MIME-Version:Content-Type; b=JUQA6lQSAk2jYCvI+CVQX1Yv0Ajg2KZzUys+Gqn7A0Y2LLPt/tabveSFDNNvtrnkMWc2h3mNj0RqtAJydqDWLXz8m8kTGX2P2MNTu3DwOGtznejZVvFdlyUj8SeyUYMBYHCR73OUw0Lf12K5FWbSLLaX39PQTW6GoxDHwSv2A9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=cVJ5Tr07; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MrITKq7l"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 680D4C2BCB9;
-	Fri,  1 May 2026 01:17:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777598271;
-	bh=FFZsipR5HDi6IaWQyWowYhDwh2V2W3Kfd/0jWX5YUQk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=MrITKq7lAL5RkvU47QDpv8ARuoAWk9lqcC9SkwgKOVLGwhQv5j7KVZiqil0SeEocz
-	 PvJhlDWl+kfXmc8WKAhkQNRVRsxn7vHmNQtuL2U4LLtLVG66CYXKOh5bkU7W+cMkS0
-	 ymH+KGHB19vEfr7Ilz1R63PWHC/sScZZnal86WlxpK8UvW+cb1+6S8hwTUIro9TWrK
-	 xQbcQgFumw1G3nkix5nq+R410zB6gO2wpiRmwDzieP/4hFKVQwmkI7gLyyP/+3UFDa
-	 mEg+apQubBgU7rOg8nThCttU+b6I3WTtuVIDkR3ghUpnN6DmFa1uJMvETXXC7zCNNE
-	 QSGjiKCTrqjWA==
-From: SeongJae Park <sj@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>
-Cc: SeongJae Park <sj@kernel.org>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	David Hildenbrand <david@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	Michal Hocko <mhocko@suse.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	damon@lists.linux.dev,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org
-Subject: [PATCH 2/2] Docs/admin-guide/mm/damon/reclaim: update for autotune_monitoring_intervals
-Date: Thu, 30 Apr 2026 18:17:39 -0700
-Message-ID: <20260501011740.81988-3-sj@kernel.org>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20260501011740.81988-1-sj@kernel.org>
-References: <20260501011740.81988-1-sj@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="cVJ5Tr07"
+Received: from skinsburskii-cloud-desktop.internal.cloudapp.net (unknown [4.155.116.186])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 2870D20B7165;
+	Thu, 30 Apr 2026 18:20:03 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 2870D20B7165
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1777598403;
+	bh=5o3nM5EVlRJoNz5ukY0K6ieimgMHdk0LSx+1vRWfGac=;
+	h=Subject:From:To:Cc:Date:From;
+	b=cVJ5Tr07tZ/FaAC6+vEXHo3ppds1Wokaw1f/8dI9rfLxXXR9l7Qtymk/6nQ2S0sI3
+	 bi4Tbzn71EGUOiBWgEC1Hfukic5GOgS9N7uDUMAp9FV3ptkAeYqSh9Psx1dy5lO747
+	 0hyEkPr02WK+j3tCMyeUe4Aehe6e2HCU0Hp8RxnQ=
+Subject: [PATCH 0/3] mm/hmm: Add mmap lock-drop support for userfaultfd-backed
+ mappings
+From: Stanislav Kinsburskii <skinsburskii@linux.microsoft.com>
+To: kys@microsoft.com, Liam.Howlett@oracle.com, akpm@linux-foundation.org,
+ akpm@linux-foundation.org, david@kernel.org, decui@microsoft.com,
+ haiyangz@microsoft.com, jgg@ziepe.ca, corbet@lwn.net, leon@kernel.org,
+ longli@microsoft.com, ljs@kernel.org, mhocko@suse.com, rppt@kernel.org,
+ shuah@kernel.org, skhan@linuxfoundation.org, surenb@google.com,
+ vbabka@kernel.org, wei.liu@kernel.org
+Cc: linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, linux-mm@kvack.org
+Date: Fri, 01 May 2026 01:20:02 +0000
+Message-ID: 
+ <177759835313.221039.2807391868456411507.stgit@skinsburskii-cloud-desktop.internal.cloudapp.net>
+User-Agent: StGit/0.19
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-Update DAMON_RECLAIM usage document for the newly added monitoring
-intervals auto-tuning enablement parameter.
+This series extends the HMM framework to support userfaultfd-backed memory
+by allowing the mmap read lock to be dropped during hmm_range_fault().
 
-Signed-off-by: SeongJae Park <sj@kernel.org>
+Some page fault handlers — most notably userfaultfd — require the mmap lock
+to be released so that userspace can resolve the fault. The current HMM
+interface never sets FAULT_FLAG_ALLOW_RETRY, making it impossible to fault
+in pages from userfaultfd-registered regions.
+
+This series follows the established int *locked pattern from
+get_user_pages_remote() in mm/gup.c. A new entry point,
+hmm_range_fault_unlockable(), accepts an int *locked parameter. When the
+mmap lock is dropped during fault resolution (VM_FAULT_RETRY or
+VM_FAULT_COMPLETED), the function returns 0 with *locked = 0, signalling
+the caller to restart its walk. The existing hmm_range_fault() is
+refactored into a thin wrapper that passes NULL, preserving current
+behavior for all existing callers.
+
+Faulting hugetlb pages on the unlockable path is not supported because
+walk_hugetlb_range() unconditionally holds and releases
+hugetlb_vma_lock_read across the callback; if the mmap lock is dropped
+inside the callback, the VMA may be freed before the walk framework's
+unlock. Hugetlb pages already present in page tables are handled normally.
+Possible approaches to lift this limitation are documented in
+Documentation/mm/hmm.rst.
+
+Patch 1 adds hmm_range_fault_unlockable() to the HMM core, refactors
+hmm_range_fault() into a wrapper, and updates Documentation/mm/hmm.rst.
+Patch 2 converts the mshv driver to use the new API, enabling
+userfaultfd-backed guest memory regions. Patch 3 adds a selftest exercising
+the unlockable path with a userfaultfd handler that fills pages via
+UFFDIO_COPY.
+
 ---
- Documentation/admin-guide/mm/damon/reclaim.rst | 11 +++++++++++
- 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/admin-guide/mm/damon/reclaim.rst b/Documentation/admin-guide/mm/damon/reclaim.rst
-index 57ab8b1876506..ec7e3e32b4ac6 100644
---- a/Documentation/admin-guide/mm/damon/reclaim.rst
-+++ b/Documentation/admin-guide/mm/damon/reclaim.rst
-@@ -85,6 +85,17 @@ identifies the region as cold, and reclaims it.
- 
- 120 seconds by default.
- 
-+autotune_monitoring_intervals
-+-----------------------------
-+
-+If this parameter is set as ``Y``, DAMON_RECLAIM automatically tunes DAMON's
-+sampling and aggregation intervals.  The auto-tuning aims to capture meaningful
-+amount of access events in each DAMON-snapshot, while keeping the sampling
-+interval 5 milliseconds in minimum, and 10 seconds in maximum.  Setting this as
-+``N`` disables the auto-tuning.
-+
-+Disabled by default.
-+
- quota_ms
- --------
- 
--- 
-2.47.3
+Stanislav Kinsburskii (3):
+      mm/hmm: Add hmm_range_fault_unlockable() for mmap lock-drop support
+      mshv: Use hmm_range_fault_unlockable() for userfaultfd support
+      selftests/mm: Add userfaultfd test for HMM unlockable path
+
+
+ Documentation/mm/hmm.rst               |   89 +++++++++++++++++++++
+ drivers/hv/mshv_regions.c              |  127 +++++++++++++++++++++----------
+ include/linux/hmm.h                    |    1 
+ lib/test_hmm.c                         |  122 +++++++++++++++++++++++++++++
+ lib/test_hmm_uapi.h                    |    1 
+ mm/hmm.c                               |   91 ++++++++++++++++++++--
+ tools/testing/selftests/mm/hmm-tests.c |  133 ++++++++++++++++++++++++++++++++
+ 7 files changed, 515 insertions(+), 49 deletions(-)
+
