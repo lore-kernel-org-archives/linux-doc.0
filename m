@@ -1,163 +1,132 @@
-Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABE240F8D6
-	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 18:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777659956; cv=pass; b=BlmHnmZrLqk2uikRQXgGOP/ikROW2ipWKlodFP323OdSXkulh+ZkXz6MtTdrTtXbVI+Ze9iG9R9zOd2YzkoUrMtD1sOk6oUxWN9ozM+eh6EiY6wI8JZLRecgNZ/wspIQptNVlubRMICODjKHVK83ooxpIhmw4Dmxc1mpe8nmYZ8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777659956; c=relaxed/simple;
-	bh=7glQpGGcTAa1D+c5BdpA3vyeZj9yXvwRLKoRKqlblRY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=dzr7kERzpezGHOrY8o+GbC6oQl7nSAeWOan8h4uyKM/RZGP5zVXI3pQdmYcNf1a8xTFg0umd+2AJ8j0px+NWhE8AwSnjUQSuypPcdqmiz7lddDJaVp/7T27cQN+jAtgqBgzQU+CisRci1+eU0perqDBFMjdW5HKcpaxZPRWoSAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Y0zg40tJ; arc=pass smtp.client-ip=74.125.82.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F60B2DAFD7
+	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 18:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777660019; cv=none; b=AxYcSGXiAkJLobk62w3bbC6kBi1XOfvwiNVUpy8n2W0mCU6gw9IVU1xcwHxGz7XAoPYwxsWrXFwVwhJuPNC5hdreVHJmiOa0JKoMXyzNkIu6fQcW6FR0U5XImgg1yiwA+giISkLrRxfAWHtO2w9hPVd4e0zj0QGnYBF1ygLKJFo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777660019; c=relaxed/simple;
+	bh=75Ae3kzkXzxY1/SGVUTTAwoYV+w29nL+J93DbwCgOx0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=QzZQaNw+MbfKnfAJZ1/wKzbBzgAf7xUuMUDlAk+BGfEB+93Yd34pSljLwHz5TPY1lB+VMUYFUq6kjbBDfebhroTfuQkeY0lceUhYtgDA40CmHz509jYOIT/LCafHa7N4MiazPRqyz6qFDvVTqbdr5SeijGIJSI/jTvip6HZ6Tmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Pxv/oyjY; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=ncWEsrL6; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Y0zg40tJ"
-Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12c19d23b19so3246983c88.0
-        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 11:25:54 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777659954; cv=none;
-        d=google.com; s=arc-20240605;
-        b=dQD3EOuBgI01tnrBeSRAnXhUnXshV/rNRysb9kTxxWJOZl1erFVLV2rRJcsyGgudSt
-         MwrJxpI0L1mJf0Zr5DNKoRdYovfjSpBNY+XxbQJzfHpi/1IObAVm7t78I2Ik45oBteDj
-         DtWFhhmlht+1px+hS2Yzq4X94I/KZ4aSI5n7uqpGpWJb2lttxZGlAq2BMtMSubawh6oJ
-         s6CBKLftG/0REmp2mrX0jUiNJ7pTZeirolmM5o2uZVZLo8wYZKNwZPaloiCj1pWhvNBJ
-         b1iWAntIs9aCB7bx00miMrdhqOR56yz4DAZ+0sI+i2tYfWf+6qPMtHTuvOwh8g78DpXV
-         L//g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=Ynp4A/JaH22lvkihT3nPFtsXKnzutYHpfXYULBKQQKo=;
-        fh=4Je2yOizk1+oLR9QYq18zjwx1BmrK6mxNs7/WjwJQsU=;
-        b=EqYj8Zs6zxSBxy8UR0430CsPuHOhULckNzmzNHeDrJO0vUhgim8v6nMPiv3rzpmNpd
-         UCAEkMAKnH+8DWkkoZu0HVHsgUPk3EIK/EodaEcQGAmUlUmbA731Tv2URPIvbxET0BEH
-         qud21wYtRhDUz9vYwC1X6AgHoBbrrDsll3sPiYs4Hro4GwEn2v11b3Flhclhru49Dbew
-         BhOT3mf8ffIBzCy+wv2NmROsXt8FD7uz1pF2vW6Zl+tdc9KvknloLR08agbaCOB9GtPj
-         rd2SUWkEeHdZ4XxE2+sHZElBnfM6PNIurBKdUuImiJeCFKgVel5VRyGg/q+KE2mCwt36
-         E5Lg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Pxv/oyjY";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="ncWEsrL6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777660015;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=1KhFILtV3QuHac5wRWE5z4XtvwHFFOaHpi9hLgTC4gs=;
+	b=Pxv/oyjYEHLUei0geZo2y6uLQLOiKvg+UsMTlszcdbCvbK/kDyenhg/mWXPdXVAfAQswRT
+	uleywDEUoiw7xSBEejkDyH6DqzOTmEIPZqLqyrM7CBIxxhdcFtDM/L6oaVKPZwpwWOFFh8
+	FXoYE2qgCGxUvB7BcybQd+x4UHNP1B4=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-475-dypLoKqTOQGM9tftZswQ4g-1; Fri, 01 May 2026 14:26:54 -0400
+X-MC-Unique: dypLoKqTOQGM9tftZswQ4g-1
+X-Mimecast-MFC-AGG-ID: dypLoKqTOQGM9tftZswQ4g_1777660013
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-48906aa28cbso25040045e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 11:26:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777659954; x=1778264754; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ynp4A/JaH22lvkihT3nPFtsXKnzutYHpfXYULBKQQKo=;
-        b=Y0zg40tJ/dsI8QnrMT7KX1AP+6jlCpkUHhzn14Y0wrdVewWfc2FexT/2tqeHzFTcvm
-         n0m8mUpcPImgPDeczA0UMLqt35VbfItet35/zS2F1XahoNO2IKCsxz4dvplyXekT0HHt
-         42hx6GQlfDXv0e5d2vUwNu7MVV8qkPjf2Crm9UdCLYV2jGcast1plervurVM1l1LHADg
-         XAPV/43Iyu4bYUOniL21VvTvfcpvpUbmrdcqssm9yXVP3wrApyi460jZ5mEoPFcugvFE
-         GBfrpcBfD605DSTERUlo/0yO5mEaPOvABlq9zVsfvH1CoVuEj8S/R4pLMuJ9iGZ1sSza
-         g4Ig==
+        d=redhat.com; s=google; t=1777660013; x=1778264813; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1KhFILtV3QuHac5wRWE5z4XtvwHFFOaHpi9hLgTC4gs=;
+        b=ncWEsrL64/o+XBxzCTQ382ZqlE0Xf26kW8EgoQrzi7NopuUugeNu/wwF+NgTMf01I3
+         wXLS2jNFo3TjhgN3tsEOLftVlglxi8/uHBfPjJSKSS/4IIi6Xwx3l9I+deNN4xQYPonh
+         gD5fijaApQx3WCbJWUtJSW/DoZ0IXCMZ7BSH1M1s1n8tC1vknY23VCGceR97CRj9ciKd
+         U/ZmMdTqGVc57fNuxfFWcClSk2+ZgRVl+cyoO7ULrH/4AnxKV3Wdd+ggNNieeU9uYiQI
+         CgXbrAIJkepoDnpUnitAHh41NS4mlvXfHomzjnCUYvoPMuFxkrP5XDoi312PkRq0ZowW
+         EXdg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777659954; x=1778264754;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Ynp4A/JaH22lvkihT3nPFtsXKnzutYHpfXYULBKQQKo=;
-        b=sgVUNhpgI4c8+Y0ODKi0GFKAouj1bKXBbF8ZhwI31zVML45KJ7vYSM6+OKjHT+GesT
-         zzz1XvVsZYWzgRdk40AEydEnplxIfLV3RoOpOT3BVHdfc1wXK6YImSnfDrmELINSMAMn
-         I15grrb5dn380mmugKv/U8FG3xqCxGhJiaP/Hf8m7IZRPsAf4WDwijpWYMdJGktiFJBm
-         wPe331MCFkd46KkCIOOPfbAuFP3mgFIYGxut54HUniU0++9m+0W+Ihj6r2XrkX/kfS4U
-         +1OoerYIZpv8pUDY5NB8GOcxcJmKRK8i6IOOmMn/LkRp9QAU3Oo9Lj38QE3xk7z8keYk
-         Ft+A==
-X-Forwarded-Encrypted: i=1; AFNElJ8r+ZbzBSzsxtPYY+upS9O7ngyT240dMjSEDzUigya7w9jvOByHq25Y9sy4L1pb2pTTAPNnUu6hyng=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxts90fmfchrgSmpwCtuD+tsPpker+JxSry0N7ywOftJ41OdGRq
-	8N1MB4y812ZKnesj00HH3WISjxjGZdRZsQjSkKoykpGZla6eoi/pjLBM3CTSEC38NDhQii/Errl
-	5UGkdg8O0bkH4pCVeENxNUUrUet6FPvbCqEkEdNKV
-X-Gm-Gg: AeBDietR/JZVQxq/IQWazE6l0AhnN/NJOIWbbr+JHo9EkoYnadBLcVZbiXXwoh7x4co
-	R2bxRgAa+p9awoX0k9euIqshHAZhRCV7ctIoUn3RvpHkXJkMJX3US5FFkLDl9tbkkxp0PrCYi8R
-	Vk/WZCJxVNYZDnMTzt/IXEAP1fw01qxR0aCI+FLPh/m1GeXfWXVB00H9aOdx2/cLMwe/eSjLqXo
-	SclWdyUGosZD/DXFlLqS23Sl6H5AFQHo5F/Pzv5fkQvOl6NAmLVe3osm4YaiEsBRSmRv4blWbSH
-	PizGr9mY+ItBzhDWaTu7InC2iR1ncg==
-X-Received: by 2002:a05:7022:ebcc:b0:12b:ec15:69d3 with SMTP id
- a92af1059eb24-12dfd7d88femr150449c88.19.1777659953185; Fri, 01 May 2026
- 11:25:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777660013; x=1778264813;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1KhFILtV3QuHac5wRWE5z4XtvwHFFOaHpi9hLgTC4gs=;
+        b=CyvlXhr5zMRu33a3ibNf9eoQDWMrpZNvBsogygNs8hqTitgx58AWwgqOzMRRt/9l/f
+         gTZ/4FfWXYsHthGMLHnOhkfuqsduBD3NlTceokYEguPYjbsOwWhgbhPOhy9YsmssEp23
+         9ieEx2c9u68TkOs+jWOe6UyZRyGNKx70KRDRYQbn/AprSYQce5Az38odlfbylI3koVF9
+         5nub788T7uSDMI/vZccXLaIhUluU/7XkjYoYbTUujj6yr3Lr78dsUAjASVO3MAdyXLXs
+         LjA2YoBMHweIRrnOimRu6xbniqmHaySccdrcSgcqMy/eRAHO7p8WoF0ugVrpYKyYHH0q
+         Hn3A==
+X-Forwarded-Encrypted: i=1; AFNElJ8MjReQSoTcdNzB5yZWzTmuqeQQT5pVFO2I9KKkmwz6RfrVE/qA8ga8BtIlTQ39I/q8c4cRpaI8SPw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyga8fDSt++G1rF0NpZ82Olk3+LtrdLPBEUSs9cU1lac6ZHNTBr
+	QwSedgzdaxLzTwzeuHsJf97+Gkp6ARTIiNByGzhVoyI1ZgjFJtc+dX1k4nRxSvsNJ1LKPX9pnaj
+	wM93RRROqK+POdM7qiiNCRGUqvwLzW7vDpfnN3x7IDnhZLiwsn+eFa1jpFd+ILQ==
+X-Gm-Gg: AeBDiettsDwFmDzevXNXEZ3aOhBQYR67HF20e1XdqCucLAzACcJwQl6BJJivlZZRvxL
+	ZzucV3EEJ/JrfpDULhSUZ7gHtKPcgJ42NL0EtyKsX7nc+mqWKIDxb41JFg+Lz0t/U+zRQ4Uij4y
+	3s3R7Q0VH9SrzY+fss4ucXfMPXPwDuFGa45+G1O3n18KWpQZQuJiCVdcefdBf9F6KVfNAxHeOwK
+	cyMFvElKMgW0aSU/nAiu+rCOmXG6K4XyfWqThT0VicIgYWyv+LZc4f3/kw43LaKXOsDQXeAh1QL
+	GsV7Y5Yug96w3EaR2adHhpv6D/V1PY7iYq6rrvZqf83E5XRjjbuh+60nKCM63rQh8tBV4W1yXc3
+	G2wBSKuLP2tF3lYkcX8SAhmRjf+qdONL78HMQA3VkuFUlXAdd
+X-Received: by 2002:a05:600c:1c12:b0:48a:5821:6006 with SMTP id 5b1f17b1804b1-48a970a9098mr9297755e9.4.1777660013194;
+        Fri, 01 May 2026 11:26:53 -0700 (PDT)
+X-Received: by 2002:a05:600c:1c12:b0:48a:5821:6006 with SMTP id 5b1f17b1804b1-48a970a9098mr9297385e9.4.1777660012799;
+        Fri, 01 May 2026 11:26:52 -0700 (PDT)
+Received: from costa-tp.redhat.com ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a81b99127sm141515985e9.0.2026.05.01.11.26.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 01 May 2026 11:26:52 -0700 (PDT)
+From: Costa Shulyupin <costa.shul@redhat.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Dapeng Mi <dapeng1.mi@linux.intel.com>,
+	Kees Cook <kees@kernel.org>,
+	Marco Elver <elver@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Li RongQing <lirongqing@baidu.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Costa Shulyupin <costa.shul@redhat.com>
+Subject: [PATCH v1] docs: Remove icn= ISDN parameter
+Date: Fri,  1 May 2026 21:26:30 +0300
+Message-ID: <20260501182634.1110715-1-costa.shul@redhat.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260423212316.3431746-1-dmatlack@google.com> <20260423212316.3431746-3-dmatlack@google.com>
- <afDqs6oqWlhoVqMN@google.com> <afPGYp145FbrvURR@google.com> <afTgOXpUNWMapPAS@google.com>
-In-Reply-To: <afTgOXpUNWMapPAS@google.com>
-From: David Matlack <dmatlack@google.com>
-Date: Fri, 1 May 2026 11:25:26 -0700
-X-Gm-Features: AVHnY4LHOeLRxPaffc9oaSUdxPiYe323BsN3VXy59mO0tVvOtZ5BkXLT2WRxf9Q
-Message-ID: <CALzav=cJLA3-gK=Ljfqf=YCPML60F=hM_teB67M_3PNCZE4T9w@mail.gmail.com>
-Subject: Re: [PATCH v4 02/11] PCI: liveupdate: Track outgoing preserved PCI devices
-To: Samiullah Khawaja <skhawaja@google.com>
-Cc: iommu@lists.linux.dev, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org, Adithya Jayachandran <ajayachandra@nvidia.com>, 
-	Alexander Graf <graf@amazon.com>, Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, 
-	Chris Li <chrisl@kernel.org>, David Rientjes <rientjes@google.com>, 
-	Jacob Pan <jacob.pan@linux.microsoft.com>, Jason Gunthorpe <jgg@nvidia.com>, 
-	Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, Josh Hilke <jrhilke@google.com>, 
-	Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, Mike Rapoport <rppt@kernel.org>, 
-	Parav Pandit <parav@nvidia.com>, Pasha Tatashin <pasha.tatashin@soleen.com>, 
-	Pranjal Shrivastava <praan@google.com>, Pratyush Yadav <pratyush@kernel.org>, 
-	Robin Murphy <robin.murphy@arm.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Will Deacon <will@kernel.org>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Fri, May 1, 2026 at 11:17=E2=80=AFAM Samiullah Khawaja <skhawaja@google.=
-com> wrote:
->
-> On Thu, Apr 30, 2026 at 09:15:14PM +0000, David Matlack wrote:
-> >On 2026-04-28 05:24 PM, Samiullah Khawaja wrote:
-> >> On Thu, Apr 23, 2026 at 09:23:06PM +0000, David Matlack wrote:
-> >
-> >> > +  for (i =3D 0; i < ser->max_nr_devices; i++) {
-> >> > +          /*
-> >> > +           * Start searching at index ser->nr_devices. This should =
-result
-> >> > +           * in a constant time search under expected conditions (d=
-evices
-> >> > +           * are not getting unpreserved).
-> >> > +           */
-> >> > +          int index =3D (ser->nr_devices + i) % ser->max_nr_devices=
-;
-> >> > +          struct pci_dev_ser *dev_ser =3D &ser->devices[index];
-> >>
-> >> nit: Maybe we can move this logic in a separate function as down the r=
-oad
-> >> when we expand this to add VFs and Hotpluggable devices, this might
-> >> change significantly? It's good if it is self-contained.
-> >
-> >Did you mean to leave this comment on pci_flb_preserve() where it
-> >decides how many devices to allocate room for?
->
-> I was talking about this one, as I think depending on the scheme we take
-> this might change significantly. Just a nit, you can ignore it.
+The ICN ISDN driver was removed in commit 02bbd9802da7
+("staging: i4l: delete the whole thing"), but the icn= kernel
+parameter documentation was left behind.
 
-It would depend on if userspace is doing a lot of unpreserving as
-well... I'll see what I can do in v5.
+Assisted-by: Claude:claude-opus-4-6
+Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> >
-> >> > +static inline struct pci_dev_ser *pci_liveupdate_outgoing(struct pc=
-i_dev *dev)
-> >> > +{
-> >> > +  return dev->liveupdate_outgoing;
-> >> > +}
-> >>
-> >> Is this expected to be called under the outgoing lock?
-> >
-> >For now this API is only used during shutdown, at which point userspace
-> >should have already been stopped so drivers should not be changing the
-> >preservation status of an outgoing device. So I don't think this needs
-> >to be under the outgoing lock, but it would be nice to have some more
-> >explicit synchronization.
->
-> Ok that makes sense. I have similar cases in my series, but maybe we can
-> add kdoc regarding these stating in which context this is expected to be
-> used?
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 41c657cd362c..6e21d8638d77 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -2245,9 +2245,6 @@ Kernel parameters
+ 			syscalls, essentially overriding IA32_EMULATION_DEFAULT_DISABLED at
+ 			boot time. When false, unconditionally disables IA32 emulation.
+ 
+-	icn=		[HW,ISDN]
+-			Format: <io>[,<membase>[,<icn_id>[,<icn_id2>]]]
+-
+ 
+ 	idle=		[X86,EARLY]
+ 			Format: idle=poll, idle=halt, idle=nomwait
+-- 
+2.53.0
 
-Yes will do. I'll add some documentation and also restrict it to avoid
-misuse (move to internal pci.h, return a bool instead of pointer, and
-use READ_ONCE()).
