@@ -1,126 +1,119 @@
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4745C36A01E;
-	Fri,  1 May 2026 09:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5457D388364
+	for <linux-doc@vger.kernel.org>; Fri,  1 May 2026 10:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777627205; cv=none; b=AePLQhbQwda07o5W8/CxdSNOEbTv1baqsbmtuDUBPpqZJ+aWpPtWyIEGnAYqLhFvOop7132p5D/hGfzwujs4L50kE+CihKFRSZs2jeuAjcWJKyF2RAgMlMonEtTovJbzhReqR+1+aMyN+4IVd5x6gV+buvW4pLlwFhuni1gQqIM=
+	t=1777632099; cv=none; b=auqWdufsJnFL6f9sN8oWVWp4FX/o4C4704UZCLTJsHp+3zK+Zr0DwFHsCKL9llBWMYHBFf1TqmHmQ87kmJjnbFVraHqwuuSTbShMyGwR4EoIcOswfEJoi8j1f4abejYDiA498SsmLuSk791f4Epu4LJehznGFqp/5crphyr6ug4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777627205; c=relaxed/simple;
-	bh=98mS0nw7qTbEdZ248R/rzv0YbcWMpZ6KsN/jHWGzsTU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=mdh4vl1CW5Yd0hHph0NcE19D5LbA2LwCdgnvHIDqgOcnhhDxw3sVgQtLiqkAF44SmV9TkDBqvYLMbJV9/DVpwb+Dj3QZF99uXzjq3gHwvbAibdTrrD18Hd11aRQNF94Q2vut5Vbe2mZUy7FeQga8pZwhqb5e61egivMyVCcnqgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fS7D8iO5; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1777632099; c=relaxed/simple;
+	bh=zG0cdIpqGrSUk2e0Yn+pCtQM9mDMXSK9RTMePPjgQUY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jTN7yyNq7GKOMMrqY3umF+i9tcA0PmVEe9ofM7uTj5DODLXQAeNFTVy7BDCl5tHEpcoqnwGlaZIdZDHl4GgpsBtO6SHxVSFdApqLJSjPQGUG80jiV4ohc3Pw5fBHagn/ye1q0L+mSG9rrxJQEQKKnxnfrkWTwEECY1vy44AQJno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fnB+pKBT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fS7D8iO5"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4g6QVR5415z9tsd;
-	Fri,  1 May 2026 11:19:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1777627199;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hEYgiDjAKezNWVxNMvApZjPS0+ufCBOIBbHBQD3nrlg=;
-	b=fS7D8iO5YcqQFd0SM0FgJaDRFkgd1xAPVpaf4zb2GvVLxl7C/IRu86pyG2iL1M9iWwM4qy
-	nsalyYEAvE0+zdPm4mW8qd+5UNZe2exR1l5U2YxhLtT3tYuteQvlj/7Q/hTIxVP6r8hXex
-	Qfzcykco1GywiG/yb4TlGa0iGn8WokO67oWjYqRYOrdNCs0pp0BYl1uzsyrjIYlOQ35c0L
-	90fqbb87TrWH95U0+jV4o2eQRgRtlsZqERGFrjfthbuXu2UTYv4+xV2er+7qfK7namG3tY
-	2Ugn2LAHJ63RUo/N04UnLpfOsfdk+7c64+OtOr/F8y7I1RhTGy+VY4uvpR6W1Q==
-Message-ID: <26197926621ca847b7b0337139ec7f90dc8a3703.camel@mailbox.org>
-Subject: Re: [PATCH v4 3/3] Documentation: deprecated.rst: kmalloc-family:
- mark argument as optional
-From: Manuel Ebner <manuelebner@mailbox.org>
-To: SeongJae Park <sj@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org, Kees Cook
- <kees@kernel.org>,  linux-kernel@vger.kernel.org,
- workflows@vger.kernel.org, linux-mm@kvack.org,  Geert Uytterhoeven
- <geert@linux-m68k.org>
-Date: Fri, 01 May 2026 11:19:55 +0200
-In-Reply-To: <20260430010332.114100-1-sj@kernel.org>
-References: <20260430010332.114100-1-sj@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fnB+pKBT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 835CFC4AF0B;
+	Fri,  1 May 2026 10:41:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777632099;
+	bh=zG0cdIpqGrSUk2e0Yn+pCtQM9mDMXSK9RTMePPjgQUY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fnB+pKBTokhVGJuDJN9IgXLZgBgg09jlvv+bsR8hb6uaLf76tr1KzLGxF+/GCSjer
+	 2D29vaBf9nQwROhDNX09xqsVTwnY38mZWOBahE6sDiR1q1InE2UBpe/bJ0qI8QrWUi
+	 41KOmOihS6O8kPOKwaDpPLDgE9fGMbPVIHg6C9MxxkiGD9PsWJEL9Mynz66m10hsli
+	 Da9EFM9UpZt99E+QDYiGt+TI2FDKwEOt+O4By6AqpRzfafAxV3jo16bjoH+4keL715
+	 1R3PEuepwz08c5hRNIkpZ1jo/FALM44qjuIK6cvqKUcfciKbO3xD9zUa9VoWdPcK0O
+	 MgrWMIx1lrlqQ==
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 7C44BF40068;
+	Fri,  1 May 2026 06:41:37 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Fri, 01 May 2026 06:41:37 -0400
+X-ME-Sender: <xms:YYP0aZN06RmVqMUSnMjk7NRoE7xJNkvoT7DHftyfyVzRQ5vc7zcfVA>
+    <xme:YYP0aZk_XNWfWQrpYD8zDV4kSMkoFuykiICxx3sdSflnWtTyGL9dCF4becjLPW69h
+    g3ot1Z0qmhp8T0w1d4S0G5oxfzqD7ixkSXaFDDmS1Z0tbPSO0ZAdjs>
+X-ME-Received: <xmr:YYP0ad1P7V8V5tSdLF7sI6CDaKilTeyvZidMwGpgYy-DrwFh2zPHB-Ju9b9bdw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdekleellecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecunecujfgurhepfffhvfevuffkfhggtggujgesthdtredttd
+    dtvdenucfhrhhomhepmfhirhihlhcuufhhuhhtshgvmhgruhcuoehkrghssehkvghrnhgv
+    lhdrohhrgheqnecuggftrfgrthhtvghrnhepgeetuedtjefhkeeuiefgudduvdfgvdeiue
+    eigeehheehudetuedtkeelhfeihedunecuffhomhgrihhnpehsrghshhhikhhordguvghv
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepkhhirh
+    hilhhlodhmvghsmhhtphgruhhthhhpvghrshhonhgrlhhithihqdduieduudeivdeiheeh
+    qddvkeeggeegjedvkedqkhgrsheppehkvghrnhgvlhdrohhrghesshhhuhhtvghmohhvrd
+    hnrghmvgdpnhgspghrtghpthhtohepgeeipdhmohguvgepshhmthhpohhuthdprhgtphht
+    thhopegrkhhpmheslhhinhhugidqfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtoh
+    eprhhpphhtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehpvghtvghrgiesrhgvughh
+    rghtrdgtohhmpdhrtghpthhtohepuggrvhhiugeskhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhjsheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhurhgvnhgssehgohho
+    ghhlvgdrtghomhdprhgtphhtthhopehvsggrsghkrgeskhgvrhhnvghlrdhorhhgpdhrtg
+    hpthhtoheplhhirghmrdhhohiflhgvthhtsehorhgrtghlvgdrtghomhdprhgtphhtthho
+    peiiihihsehnvhhiughirgdrtghomh
+X-ME-Proxy: <xmx:YYP0aZWiZApYblD-N6cQEHz6QtqrsEqvEOw2unL5khPHcR3R_53ctQ>
+    <xmx:YYP0aQhnkxK9GE-6qcefPj6VSn2jPsN6XkBEDVzgR1KvO6IY3-Lctw>
+    <xmx:YYP0aagqewTE3OQZ9zFGq1-wp4dXwGODRGx6helK13TyuhnSYzuPew>
+    <xmx:YYP0aQuovEgr2tAjxRgxYFOgURqX6Gnvhm80YLa-0SD51FJpInh4fQ>
+    <xmx:YYP0aTSByjDZzE51VF-0XGGywziZbAzVBNk7pTuSOdNzpDuXYM2Gxc5j>
+Feedback-ID: i10464835:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 1 May 2026 06:41:35 -0400 (EDT)
+Date: Fri, 1 May 2026 11:41:30 +0100
+From: Kiryl Shutsemau <kas@kernel.org>
+To: akpm@linux-foundation.org, rppt@kernel.org, peterx@redhat.com, 
+	david@kernel.org
+Cc: ljs@kernel.org, surenb@google.com, vbabka@kernel.org, 
+	Liam.Howlett@oracle.com, ziy@nvidia.com, corbet@lwn.net, skhan@linuxfoundation.org, 
+	seanjc@google.com, pbonzini@redhat.com, jthoughton@google.com, aarcange@redhat.com, 
+	sj@kernel.org, usama.arif@linux.dev, linux-mm@kvack.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	kvm@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH 10/14] mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+Message-ID: <afSC1NHWzrtA-vmA@thinkstation>
+References: <20260427114607.4068647-1-kas@kernel.org>
+ <20260427114607.4068647-11-kas@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: fdgbr8urtrrweww5c9sz6cgypuu6d3g5
-X-MBO-RS-ID: 235f6216a464e3d66b8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260427114607.4068647-11-kas@kernel.org>
 
-On Wed, 2026-04-29 at 18:03 -0700, SeongJae Park wrote:
-> On Wed, 29 Apr 2026 09:27:04 +0200 Manuel Ebner <manuelebner@mailbox.org>
-> wrote:
->=20
-> > put the optional argument (gfp) in square brackets
-> > add default value =3D GFP_KERNEL
-> >=20
-> > eg. ptr =3D kmalloc_obj(*ptr, gfp);
-> > =C2=A0-> ptr =3D kmalloc_obj(*ptr [, gfp] );
-> >=20
-> > Signed-off-by: Manuel Ebner <manuelebner@mailbox.org>
->=20
-> I have a trivial question below, but because it is trivial,
->=20
-> Acked-by: SeongJae Park <sj@kernel.org>
->=20
-> > ---
-> > =C2=A0Documentation/process/deprecated.rst | 15 ++++++++-------
-> > =C2=A01 file changed, 8 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/Documentation/process/deprecated.rst
-> > b/Documentation/process/deprecated.rst
-> > index fed56864d036..ac75b7ecac47 100644
-> > --- a/Documentation/process/deprecated.rst
-> > +++ b/Documentation/process/deprecated.rst
-> > @@ -392,13 +392,14 @@ allocations. For example, these open coded
-> > assignments::
-> > =C2=A0
-> > =C2=A0become, respectively::
-> > =C2=A0
-> > -	ptr =3D kmalloc_obj(*ptr, gfp);
-> > -	ptr =3D kzalloc_obj(*ptr, gfp);
-> > -	ptr =3D kmalloc_objs(*ptr, count, gfp);
-> > -	ptr =3D kzalloc_objs(*ptr, count, gfp);
-> > -	ptr =3D kmalloc_flex(*ptr, flex_member, count, gfp);
-> > -	__auto_type ptr =3D kmalloc_obj(struct foo, gfp);
-> > -
-> > +	ptr =3D kmalloc_obj(*ptr [, gfp] );
-> > +	ptr =3D kzalloc_obj(*ptr [, gfp] );
-> > +	ptr =3D kmalloc_objs(*ptr, count [, gfp] );
-> > +	ptr =3D kzalloc_objs(*ptr, count [, gfp] );
-> > +	ptr =3D kmalloc_flex(*ptr, flex_member, count [, gfp] );
-> > +	__auto_type ptr =3D kmalloc_obj(struct foo [, gfp] );
-> > +
-> > +The argument gfp is optional, the default value is GFP_KERNEL.
-> > =C2=A0If `ptr->flex_member` is annotated with __counted_by(), the alloc=
-ation
-> > =C2=A0will automatically fail if `count` is larger than the maximum
-> > =C2=A0representable value that can be stored in the counter member asso=
-ciated
->=20
-> Like 'ptr->flex_member' and 'count', why don't you enclose 'gfp' and
-> 'GFP_KERNEL' with backticks ('`')?
+sashiko.dev -- https://sashiko.dev/#/patchset/20260427114607.4068647-1-kas@kernel.org -- wrote:
+> commit 6d6b8f986b2959f8ae0932deccc5afa4ec485813
+> Author: Kiryl Shutsemau (Meta) <kas@kernel.org>
+> Subject: mm/pagemap: add PAGE_IS_ACCESSED for RWP tracking
+[ ... ]
+> Does this new PAGE_IS_ACCESSED tracking correctly support the atomic
+> read-and-reset workflow (PM_SCAN_WP_MATCHING) for RWP VMAs?
+[ ... ]
+> Since WP and RWP are mutually exclusive per VMA, userfaultfd_wp_async() and
+> userfaultfd_wp_use_markers() will return false for RWP VMAs, causing
+> pagemap_scan_test_walk() to return 1 and skip the VMA.
+[ ... ]
+> Because these loops hardcode a check against PAGE_IS_WRITTEN, and RWP VMAs
+> now populate PAGE_IS_ACCESSED instead, this check will always evaluate to
+> true for RWP. As a result, it looks like make_uffd_wp_pte() and
+> make_uffd_wp_pmd() will be silently skipped, preventing the atomic
+> reset of the tracking bits.
+> Would it make sense to update both the wp_allowed check and the hardcoded
+> PAGE_IS_WRITTEN checks to accommodate PAGE_IS_ACCESSED for RWP VMAs?
 
-I didn't know what ` is doing, so didn't consider it. It makes sense to
-enclose these two.
-should __counted_by() be enclosed aswell?
+PM_SCAN_WP_MATCHING is the atomic read-and-reset flavour and is
+implemented for the WP marker only.
 
-> Thanks,
-> SJ
+The silent-skip on PM_SCAN_WP_MATCHING + RWP VMA is not intended
+Will fold this fixup
 
-Thanks
- Manuel
----
-The possibility of getting blamed has to be earned.
+        if (userfaultfd_rwp(vma) && (p->arg.flags & PM_SCAN_WP_MATCHING))
+                return -EINVAL;
 
+We can add similar operation for RWP later if there's a use-case.
+
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
