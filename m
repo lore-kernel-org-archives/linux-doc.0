@@ -1,136 +1,97 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337AE33D4FD
-	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 12:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5FD3358C6;
+	Sat,  2 May 2026 12:01:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.126.83.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777723211; cv=none; b=q8TTnFVUKGKwrV8182QRWSTgODr5pc4g8HeCkAUlwxBQfLRTY17S9DuqpXg9C2sgqmPkP5e7KuQDeOUGcWjF1dW/GVoHbrFcD4/sHgEysv5/hcymy24LvczaQtqjGOtKNrnJjsL2olmZI04wtYb2WqU6GBMdzcMtvkKp5I6M6aY=
+	t=1777723291; cv=none; b=fJvOitWUuglGXUJd9CfuD8cPSNFuaszh9jUG4xk93GE89tOhEZaUDWvJBaMLnodTn+CnBdDCVtukMlocR1jjCiynsu7DW5wk5MiAfxa+KSlqCtIw/bmWtSGj/efMYLxp4u2nRqeoGTTbcQ1a1tZFp/X0lX1QQyFFkgWI/QENy7w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777723211; c=relaxed/simple;
-	bh=QFuA51lyThWzDOlS107Hk0YaS1/agd0/IJNejTmJ4ZI=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=gnKp3256Iax+17EeCIeG1O2H0ojrpyKN3hTL6VZG4NV1sYrFfBURjQSxPdlNWPdJXVTdLNmqBJXMdkLXS8ISDo/4i9lHsEzc+2BUvuZtH8x7bQ3tCYw8bGGWPX4zTtWES0x9J9UDhu+hnDyMI63f5yOmNe9XvvkhijLSLJGX7ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jN2D32xO; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1777723291; c=relaxed/simple;
+	bh=Ep+PyIxZUxo7I++u34Bl31OMHEHI2GsPl+DkXpzZqCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WnGHBtWdye9+Siyg/eiAyD3FDtPHzaJnqUo1rmVvO1QBZ+10ZwY6qPZIbdOklz99OxndcBkkus++VwItZydpKBHwyyF2l4jRx4KifFoih+JlStlWOwrbwxX4xjNjWE3bdsTFWIukEvS7HrLlvV7KFaX8zPTZAOhfXsrgJImFg+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=GkRzP7i9; arc=none smtp.client-ip=188.126.83.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jN2D32xO"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777723206; x=1809259206;
-  h=date:from:to:cc:subject:message-id;
-  bh=QFuA51lyThWzDOlS107Hk0YaS1/agd0/IJNejTmJ4ZI=;
-  b=jN2D32xOBuz+jxTyi3b9yGF2JSpe2NQuEj16Oqbv3b9fqx4RterwRVYt
-   bN57xfOYcOz5cY3lTNI4edn28V8C4DmgCYWIBXwBum4p2m0JEV8zfyMmu
-   egTSDaX9XjeFckvzVPVTK/BxGx0BWXI2gqC+ZKRu3Hh2/gKwMfK5AT6fb
-   Af0m+IqKGkF7hdxEa6kRJtchFL/+re5+BqjMoBQjNPZ8C0ODJtuAb6csX
-   FlvT0xMrLz9N/uMAlVIXlPjLvzUu75pFYXbIggc56plZsUqcGSunCQTBm
-   baBCdvMVvDomG/2rUKd7XPQYxbBz38xwFiLxhcd/RyYxenP2PSpelSUec
-   w==;
-X-CSE-ConnectionGUID: UKRmn2ZsSp+b74U3oUuEfQ==
-X-CSE-MsgGUID: 7fUhf/udS5GXhkQjQtP/tw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78368254"
-X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
-   d="scan'208";a="78368254"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 05:00:05 -0700
-X-CSE-ConnectionGUID: PtVLJjGxSyW4n+Nub8OSzw==
-X-CSE-MsgGUID: B4x+dUYUS9yEp1OMM9DPsw==
-X-ExtLoop1: 1
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by fmviesa003.fm.intel.com with ESMTP; 02 May 2026 05:00:02 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJ90q-000000005GX-1Ioj;
-	Sat, 02 May 2026 12:00:00 +0000
-Date: Sat, 02 May 2026 13:59:00 +0200
-From: kernel test robot <lkp@intel.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
- linux-doc@vger.kernel.org
-Subject: htmldocs: Documentation/gpu/nova/core/intr-ctrl.rst:88:
- WARNING: Inline substitution_reference start-string without end-string.
- [docutils]
-Message-ID: <202605021358.ldpuPGZI-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b="GkRzP7i9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
+	s=a; t=1777723287; bh=Ep+PyIxZUxo7I++u34Bl31OMHEHI2GsPl+DkXpzZqCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type:From:Sender:Reply-To:Original-From:
+	 Organization:To:CC:Subject:Original-Subject:Date:Message-ID:
+	 In-Reply-To:References:Original-Message-ID:
+	 Disposition-Notification-To:Disposition-Notification-Options:
+	 MIME-Version:Content-Transfer-Encoding:Content-Type:
+	 Content-Features:Content-Alternative:Content-Location:
+	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
+	b=GkRzP7i9RTR0072h+WMkZvMRoCNMwNwC40JfXyxrLS/q1vm3ToFJdUlBmuXUryZif
+	 eE5uPAXZpohsnrcGeOv5M/Bys3/quIk76pWdJQYAWB1J15DO5STdJyg8wKp3Bu7GTG
+	 LI05A/fqlctPOn4nY48JOgAChIbNlERqIeirinTzgWvOoEuDPUpkFSbfiK4yls+ais
+	 sM3HRM42D0IMRV3NIwjesUQmIGkHbkkg2UpFFi7MDGA4cqehu5/SFuy7cBwMe1ZhNk
+	 4TpdQ7MxpIlIerzd5ridfX1OJ9cYT9FAgCJACOh/r7YK6iueeHvgXfe4l/OnXfU5PM
+	 rsTrnJjSjj9tA==
+Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
+	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPSA id D7652407BE00;
+	Sat,  2 May 2026 14:01:27 +0200 (CEST)
+Date: Sat, 2 May 2026 14:01:08 +0200
+From: =?UTF-8?B?QmrDtnJu?= Persson <Bjorn@xn--rombobjrn-67a.se>
+To: Wang Zihan <3772548978@qq.com>
+Cc: davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
+ pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ skhan@linuxfoundation.org, mchehab@kernel.org, richard@nod.at,
+ anton.ivanov@cambridgegreys.com, johannes@sipsolutions.net,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-um@lists.infradead.org
+Subject: Re: [PATCH] Documentation: Fix duplicated words
+Message-ID: <20260502140108.6643955c@tag.xn--rombobjrn-67a.se>
+In-Reply-To: <tencent_B1D6CBBF95486E31D04C2E1B92F5E605A307@qq.com>
+References: <tencent_B1D6CBBF95486E31D04C2E1B92F5E605A307@qq.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/s+pt7UBjTtHpjBNxXVWB9kl";
+ protocol="application/pgp-signature"; micalg=pgp-sha512
 
-tree:   https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes/rust-sync-completion-add-wait_for_completion_timeout/20260502-113009
-head:   4e10e05ecde578bc23419ce04c62d82020b21d1a
-commit: 4e10e05ecde578bc23419ce04c62d82020b21d1a gpu: nova-core: document INTR_CTRL interrupt tree
-date:   8 hours ago
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260502/202605021358.ldpuPGZI-lkp@intel.com/reproduce)
+--Sig_/s+pt7UBjTtHpjBNxXVWB9kl
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605021358.ldpuPGZI-lkp@intel.com/
+Wang Zihan wrote:
+>  you can always run UML under gdb and there will be a whole section
+> -later on on how to do that. That, however, is not the only way to
+> +later on how to do that. That, however, is not the only way to
 
-All warnings (new ones prefixed by >>):
+"Later on" is an established English expression. A plain "later" also
+works. This isn't a correction of an error; it's a stylistic change.
 
-   Examples
-   ~~~~~~~~ [docutils]
-   Documentation/gpu/nova/core/intr-ctrl.rst:110: ERROR: Unexpected indentation. [docutils]
->> Documentation/gpu/nova/core/intr-ctrl.rst:88: WARNING: Inline substitution_reference start-string without end-string. [docutils]
->> Documentation/gpu/nova/core/intr-ctrl.rst:111: WARNING: Line block ends without a blank line. [docutils]
->> Documentation/gpu/nova/core/intr-ctrl.rst:112: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/nova/core/intr-ctrl.rst:121: ERROR: Unexpected indentation. [docutils]
-   Documentation/gpu/nova/core/intr-ctrl.rst:117: ERROR: Unexpected indentation. [docutils]
-   Documentation/gpu/nova/core/intr-ctrl.rst:120: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
->> Documentation/gpu/nova/core/intr-ctrl.rst:121: WARNING: Blank line required after table. [docutils]
-   Documentation/gpu/nova/core/intr-ctrl.rst:122: WARNING: Line block ends without a blank line. [docutils]
-   Documentation/gpu/nova/core/intr-ctrl.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
-   Documentation/gpu/xe/xe_configfs:9: ./drivers/gpu/drm/xe/xe_configfs.c:27: ERROR: Unexpected section title.
+Bj=C3=B6rn Persson
 
+--Sig_/s+pt7UBjTtHpjBNxXVWB9kl
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signatur
 
-vim +88 Documentation/gpu/nova/core/intr-ctrl.rst
+-----BEGIN PGP SIGNATURE-----
 
-    86	
-    87	It roughly looks like the following::
-  > 88	              +--------------- Engine (CE, GR, NVDEC, ...) ---------------+
-    89	              |                                                           |
-    90	              |   internal work completes                                 |
-    91	              |          |                                                |
-    92	              |          v                                                |
-    93	              |   +-----------------------------------------+             |
-    94	              |   | INTR_CTRL(i): programmable register     |             |
-    95	              |   | (written once by GSP-RM at boot,        |             |
-    96	              |   |  one such reg per engine)               |             |
-    97	              |   |                                         |             |
-    98	              |   |   VECTOR  = 200   (-> which leaf bit)   |             |
-    99	              |   |   GFID    = 0     (-> which function's  |             |
-   100	              |   |                       tree: 0=PF, N=VF) |             |
-   101	              |   |   CPU     = 1     (-> copy to CPU tree?)|             |
-   102	              |   |   GSP     = 0     (-> copy to GSP tree?)|             |
-   103	              |   +--------------------+--------------------+             |
-   104	              |                        |                                  |
-   105	              |     engine builds      |                                  |
-   106	              |     interrupt ctrl     |                                  |
-   107	              |     command message    |                                  |
-   108	              |  (all2ctrl_intr_cmd)   |                                  |
-   109	              +------------------------|----------------------------------+
-   110	                                       |
- > 111	                                       v
- > 112	                   +-----------------------------------------+
-   113	                   | Central INTR_CTRL block                 |
-   114	                   |                                         |
-   115	                   | reads message; for the tree picked      |
-   116	                   | by GFID, sets:                          |
-   117	                   |   LEAF[ 200 / 32 ]  = LEAF[6]           |
-   118	                   |   bit  ( 200 % 32 ) = bit 8             |
-   119	                   | TOP subtree 3 = pending                 |
-   120	                   +--------------------+--------------------+
- > 121	                                        |
-   122	                                        v
-   123	                                MSI to host (PF)
-   124	
+iQIzBAEBCgAdFiEE52SginNFTPmg+iBb4Tha3NZK5j8FAmn154QACgkQ4Tha3NZK
+5j/jXA//VZxalhvXELFLazBqWaE4KMf7cjtx1MrlRygc7caUVnuiH6P2AXJtgQIy
+chY2K2gn1yVnHnJsSpSflBQQ8L4lshmP9ZHMKVcU5f7fygL6Ueg6Aa4bBWgbU71B
+Y0KPOXE9eHOZfwZ8myMe7OJiRgZkJ4YbrmjFR2DoVx+NZ1eKfFAVUEGfOG3HkZBH
+6OKIbHcMbvzjtenrUkdaPOVAmH13GbtSUT17Z2Dm9ifui1wfTA/JAxfAw/MH+Pjd
+DyO9RVvhTJRIyr1LdTac1s9PRo2bVt6PV8cktZM9f1Njj1rnYpQhf1w4QH5+2kUV
+v9cA5bMaYKOQ2oL1VaHnW9CTm1DhqUN6eIs6IFMk++7Ad/QN2I7uLdp6Xh/rRtY2
+oKqOSVN+gWlVQ4MWrdrfRJ0QJ5ZKekmx5YcR7gfL4xYl52dHyA6GpsJozvD0xwTy
+6wUJX7skyjtxsVKwgUPyr4EwH7er49NcLjzZK6T70FbJu8c1eCUK92Fad3wzSe1D
+qNM3pnWHgaWHn6MrzPfsx1WLDVkDNfgD1leidoXabLJoCxzO6NRBWFtL8qcAI/Kb
+0PXcw3gg9f2fQQbRgSYkN9CKA+8WjFpHbqwVbakscxQGdW9KSKS59Kz21yDphswV
+IPHeHiN/KKKOf4XS+3qEXWFGIqc90/Pw4Xgpcpgvs9l9lAuiFTo=
+=j/I4
+-----END PGP SIGNATURE-----
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--Sig_/s+pt7UBjTtHpjBNxXVWB9kl--
