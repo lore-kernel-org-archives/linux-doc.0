@@ -1,101 +1,136 @@
-Received: from smtp.xn--rombobjrn-67a.se (nestor.xn--rombobjrn-67a.se [188.126.83.49])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C72230C366;
-	Sat,  2 May 2026 11:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.126.83.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337AE33D4FD
+	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 12:00:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777722356; cv=none; b=eC+q2cLmivTCgplyYJ+nkpE6gAqaEnOuV5uAoNVcpstZtXhg6VC3KimbanvHxTEKeXz/WtF5046xGX+/vLwYUTBGvLyikOPNL1KhEGGZcKe++UEKrTVQCrjGgDBGuPiZ9J2VWrg0thSnS4aBf4TbGgiq5Es+MBQXk9LEhhW1dyg=
+	t=1777723211; cv=none; b=q8TTnFVUKGKwrV8182QRWSTgODr5pc4g8HeCkAUlwxBQfLRTY17S9DuqpXg9C2sgqmPkP5e7KuQDeOUGcWjF1dW/GVoHbrFcD4/sHgEysv5/hcymy24LvczaQtqjGOtKNrnJjsL2olmZI04wtYb2WqU6GBMdzcMtvkKp5I6M6aY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777722356; c=relaxed/simple;
-	bh=WAxh7NIxIRfdSPNOcNeAK16za/CAfyD89M84k9A6dcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DvB02thZbJMOYZbLgPvIk+hSvFNihdOp88SRvKajJdrnE1dZtomoNI+GZgbxe0fzZLNZnqvRPtoJnhm8UriFqudrJlHwD/2sUGiBtGLgLWtoIXsDLYM2/6z9g38WuJ1YK46ri/YPAxjN8dcXCil0yIC0Ocwm+VNOsXUj++g/NWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se; dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b=i211gjQm; arc=none smtp.client-ip=188.126.83.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=xn--rombobjrn-67a.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xn--rombobjrn-67a.se
+	s=arc-20240116; t=1777723211; c=relaxed/simple;
+	bh=QFuA51lyThWzDOlS107Hk0YaS1/agd0/IJNejTmJ4ZI=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=gnKp3256Iax+17EeCIeG1O2H0ojrpyKN3hTL6VZG4NV1sYrFfBURjQSxPdlNWPdJXVTdLNmqBJXMdkLXS8ISDo/4i9lHsEzc+2BUvuZtH8x7bQ3tCYw8bGGWPX4zTtWES0x9J9UDhu+hnDyMI63f5yOmNe9XvvkhijLSLJGX7ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jN2D32xO; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xn--rombobjrn-67a.se header.i=@xn--rombobjrn-67a.se header.b="i211gjQm"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xn--rombobjrn-67a.se;
-	s=a; t=1777722353; bh=WAxh7NIxIRfdSPNOcNeAK16za/CAfyD89M84k9A6dcQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type:From:Sender:Reply-To:Original-From:
-	 Organization:To:CC:Subject:Original-Subject:Date:Message-ID:
-	 In-Reply-To:References:Original-Message-ID:
-	 Disposition-Notification-To:Disposition-Notification-Options:
-	 MIME-Version:Content-Transfer-Encoding:Content-Type:
-	 Content-Features:Content-Alternative:Content-Location:
-	 TLS-Report-Domain:TLS-Report-Submitter:MT-Priority;
-	b=i211gjQmX9aX1Lad+MPHhhFbJbprtSDVSEi7Ji6uSS31GsvJb3RxGhDp73zlV7N11
-	 oesG3jkL5cr/Tk2vDEcMChpBaBTpKVT57mBuu8dO1tk25PIvgAEiBWZX7fhL+7TZkr
-	 a63AWlQo+aMJPlSEtImfdHrs8486QMDNZYCd+qAE3vMCY0diVZTM9DExnGphonHT9Y
-	 vNWRfQdnBLkIPSIal1g/qtH0EzU+VVjwNzcjm4+If0FQaeHoNbrT+/BKzAKmcgk2lB
-	 ugmKowh18KyGYZc1kEHyR9ZyGsqhkwf5FU5AmWIfNFbdGNe4Fn2xY7/h3GVta7foZo
-	 /dsmFjlBYkVTQ==
-Received: from tag.xn--rombobjrn-67a.se (tag.xn--rombobjrn-67a.se [192.168.72.9])
-	by smtp.xn--rombobjrn-67a.se (Postfix) with ESMTPSA id B504E407BE00;
-	Sat,  2 May 2026 13:45:53 +0200 (CEST)
-Date: Sat, 2 May 2026 13:45:29 +0200
-From: =?UTF-8?B?QmrDtnJu?= Persson <Bjorn@xn--rombobjrn-67a.se>
-To: Wang Zihan <3772548978@qq.com>
-Cc: chenhuacai@kernel.org, kernel@xen0n.name, alexs@kernel.org,
- si.yanteng@linux.dev, dzm91@hust.edu.cn, corbet@lwn.net,
- skhan@linuxfoundation.org, 2023002089@link.tyut.edu.cn,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- loongarch@lists.linux.dev
-Subject: Re: [PATCH] Documentation: loongarch: Fix typo "eXtention" ->
- "Extension"
-Message-ID: <20260502134529.0cdcd4d9@tag.xn--rombobjrn-67a.se>
-In-Reply-To: <tencent_ADC4AD99CFC8EFB26D25889B11D4864B9B05@qq.com>
-References: <tencent_ADC4AD99CFC8EFB26D25889B11D4864B9B05@qq.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jN2D32xO"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777723206; x=1809259206;
+  h=date:from:to:cc:subject:message-id;
+  bh=QFuA51lyThWzDOlS107Hk0YaS1/agd0/IJNejTmJ4ZI=;
+  b=jN2D32xOBuz+jxTyi3b9yGF2JSpe2NQuEj16Oqbv3b9fqx4RterwRVYt
+   bN57xfOYcOz5cY3lTNI4edn28V8C4DmgCYWIBXwBum4p2m0JEV8zfyMmu
+   egTSDaX9XjeFckvzVPVTK/BxGx0BWXI2gqC+ZKRu3Hh2/gKwMfK5AT6fb
+   Af0m+IqKGkF7hdxEa6kRJtchFL/+re5+BqjMoBQjNPZ8C0ODJtuAb6csX
+   FlvT0xMrLz9N/uMAlVIXlPjLvzUu75pFYXbIggc56plZsUqcGSunCQTBm
+   baBCdvMVvDomG/2rUKd7XPQYxbBz38xwFiLxhcd/RyYxenP2PSpelSUec
+   w==;
+X-CSE-ConnectionGUID: UKRmn2ZsSp+b74U3oUuEfQ==
+X-CSE-MsgGUID: 7fUhf/udS5GXhkQjQtP/tw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11773"; a="78368254"
+X-IronPort-AV: E=Sophos;i="6.23,211,1770624000"; 
+   d="scan'208";a="78368254"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 05:00:05 -0700
+X-CSE-ConnectionGUID: PtVLJjGxSyW4n+Nub8OSzw==
+X-CSE-MsgGUID: B4x+dUYUS9yEp1OMM9DPsw==
+X-ExtLoop1: 1
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa003.fm.intel.com with ESMTP; 02 May 2026 05:00:02 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wJ90q-000000005GX-1Ioj;
+	Sat, 02 May 2026 12:00:00 +0000
+Date: Sat, 02 May 2026 13:59:00 +0200
+From: kernel test robot <lkp@intel.com>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs: Documentation/gpu/nova/core/intr-ctrl.rst:88:
+ WARNING: Inline substitution_reference start-string without end-string.
+ [docutils]
+Message-ID: <202605021358.ldpuPGZI-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Dgi1PPZDUSSxcrnozuKmCye";
- protocol="application/pgp-signature"; micalg=pgp-sha512
 
---Sig_/Dgi1PPZDUSSxcrnozuKmCye
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+tree:   https://github.com/intel-lab-lkp/linux/commits/Joel-Fernandes/rust-sync-completion-add-wait_for_completion_timeout/20260502-113009
+head:   4e10e05ecde578bc23419ce04c62d82020b21d1a
+commit: 4e10e05ecde578bc23419ce04c62d82020b21d1a gpu: nova-core: document INTR_CTRL interrupt tree
+date:   8 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260502/202605021358.ldpuPGZI-lkp@intel.com/reproduce)
 
-Wang Zihan wrote:
-> -- 128=E4=BD=8D=E5=90=91=E9=87=8F=E6=93=B4=E5=B1=95LSX=EF=BC=88=E5=85=A8=
-=E7=A8=B1Loongson SIMD eXtention=EF=BC=89=EF=BC=8C
-> -- 256=E4=BD=8D=E5=90=91=E9=87=8F=E6=93=B4=E5=B1=95LASX=EF=BC=88=E5=85=A8=
-=E7=A8=B1Loongson Advanced SIMD eXtention=EF=BC=89=E3=80=82
-> +- 128=E4=BD=8D=E5=90=91=E9=87=8F=E6=93=B4=E5=B1=95LSX=EF=BC=88=E5=85=A8=
-=E7=A8=B1Loongson SIMD Extension=EF=BC=89=EF=BC=8C
-> +- 256=E4=BD=8D=E5=90=91=E9=87=8F=E6=93=B4=E5=B1=95LASX=EF=BC=88=E5=85=A8=
-=E7=A8=B1Loongson Advanced SIMD Extension=EF=BC=89=E3=80=82
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605021358.ldpuPGZI-lkp@intel.com/
 
-That's obviously done intentionally to highlight the X. Like it or
-dislike it, but it's not a mistake.
+All warnings (new ones prefixed by >>):
 
-Bj=C3=B6rn Persson
+   Examples
+   ~~~~~~~~ [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:110: ERROR: Unexpected indentation. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:88: WARNING: Inline substitution_reference start-string without end-string. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:111: WARNING: Line block ends without a blank line. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:112: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:121: ERROR: Unexpected indentation. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:117: ERROR: Unexpected indentation. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:120: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+>> Documentation/gpu/nova/core/intr-ctrl.rst:121: WARNING: Blank line required after table. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:122: WARNING: Line block ends without a blank line. [docutils]
+   Documentation/gpu/nova/core/intr-ctrl.rst:123: WARNING: Block quote ends without a blank line; unexpected unindent. [docutils]
+   Documentation/gpu/xe/xe_configfs:9: ./drivers/gpu/drm/xe/xe_configfs.c:27: ERROR: Unexpected section title.
 
---Sig_/Dgi1PPZDUSSxcrnozuKmCye
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signatur
 
------BEGIN PGP SIGNATURE-----
+vim +88 Documentation/gpu/nova/core/intr-ctrl.rst
 
-iQIzBAEBCgAdFiEE52SginNFTPmg+iBb4Tha3NZK5j8FAmn149kACgkQ4Tha3NZK
-5j9IDhAAjo1g9UUfWJHHi0VOS0XX7JYT3cl00sa7qT1uDSBQt3yyraXzSJndj4Je
-fspQplk0PB3/gPC1IP3L0LVfa0Vqcxe0q8EHk5ZY22uB+uaKZRrNAwoYP1cf7qN5
-zQaU1eWcnihvbkYceMBue0pCKRORY5oBn6TXeJTdgNiNiGiewKYwn/9xpl0Yw0gg
-fS/3CEgeYmZuEEdkOoNJNokNlYrAeFleoPlo1mbLDQc3t46zdKywFbz3yCNnMt1K
-zJhuugRdcG8/Ed6cE+PALPBU2EXbzhc6B96fi19DELbpbUjWkEfi0A3NNfFVjzpr
-t3pjg5r+9k0IWplZf4tY5eS147IesGkugm+cSezDsNG5U/ovT6qVU4SpYqsQ6001
-3WdHs0gNSuvJ6Spm+XZq4EFHzkk5Kwhn48XWwcZbMNz5/hOydROeFr4Ex2N2PccX
-fWywmsqrGv/KXVV3ORaWGENxTIaPZfJAk/dmwukWltbUHr+fefzYqgqE4soOjn3y
-xBfdHjZZPr+AEh2B1VBZ3o27AUOdlMAsmRlveOZ8XoxB6xmqGoY/KpFcZ1WeCZrq
-CSUzUtfOQnHCfR5Ee31kpTGBd84Umu/ZCj/X6OsCFiyGMdFs85iYs77XSb8ic2mj
-+Rn1zAeTD7B4wY7xTBgIMEMjszkBydMYpmS/KjmitpqNJCJ8TXg=
-=M/2g
------END PGP SIGNATURE-----
+    86	
+    87	It roughly looks like the following::
+  > 88	              +--------------- Engine (CE, GR, NVDEC, ...) ---------------+
+    89	              |                                                           |
+    90	              |   internal work completes                                 |
+    91	              |          |                                                |
+    92	              |          v                                                |
+    93	              |   +-----------------------------------------+             |
+    94	              |   | INTR_CTRL(i): programmable register     |             |
+    95	              |   | (written once by GSP-RM at boot,        |             |
+    96	              |   |  one such reg per engine)               |             |
+    97	              |   |                                         |             |
+    98	              |   |   VECTOR  = 200   (-> which leaf bit)   |             |
+    99	              |   |   GFID    = 0     (-> which function's  |             |
+   100	              |   |                       tree: 0=PF, N=VF) |             |
+   101	              |   |   CPU     = 1     (-> copy to CPU tree?)|             |
+   102	              |   |   GSP     = 0     (-> copy to GSP tree?)|             |
+   103	              |   +--------------------+--------------------+             |
+   104	              |                        |                                  |
+   105	              |     engine builds      |                                  |
+   106	              |     interrupt ctrl     |                                  |
+   107	              |     command message    |                                  |
+   108	              |  (all2ctrl_intr_cmd)   |                                  |
+   109	              +------------------------|----------------------------------+
+   110	                                       |
+ > 111	                                       v
+ > 112	                   +-----------------------------------------+
+   113	                   | Central INTR_CTRL block                 |
+   114	                   |                                         |
+   115	                   | reads message; for the tree picked      |
+   116	                   | by GFID, sets:                          |
+   117	                   |   LEAF[ 200 / 32 ]  = LEAF[6]           |
+   118	                   |   bit  ( 200 % 32 ) = bit 8             |
+   119	                   | TOP subtree 3 = pending                 |
+   120	                   +--------------------+--------------------+
+ > 121	                                        |
+   122	                                        v
+   123	                                MSI to host (PF)
+   124	
 
---Sig_/Dgi1PPZDUSSxcrnozuKmCye--
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
