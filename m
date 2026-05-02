@@ -1,120 +1,94 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40CD02D839C
-	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 05:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DB2C3594A;
+	Sat,  2 May 2026 05:35:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777699528; cv=none; b=STcHlVUDsWohhhmhmCfDQM2B1DQoqxuvySNTrOAZn9wHjyNHKj+JcAysdW72n6WNRgUfGMB1uyU/YQjrlzk1cdCu0kLA/eagw4F+Nf6AygR7fLyIr3R+NL/fbxCiVmuRJbcaaZ0zS5dsNCMd0aTMBqXHod29VvpiWvcLy9Ib8fI=
+	t=1777700135; cv=none; b=JhPb5Wf88cqv1JNZNlWmlB2th0vcck3AaqG+pg2iiOWZ5Z7kgft7vP1dnqZd9Xec+KF1rsRsLTX5GzrtDTKXIn+hou6HLD/sZ+wfKoMiAZf8LU0qhyxWzLUEdCix6/LY9XldqdZjCUkAnk9Bj+C13PKR7mTavyf1IKk9ZyhH8Io=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777699528; c=relaxed/simple;
-	bh=vdb71i5nh150CpCSMBrmlSaoZfuckT9Er0cO/Q711Ts=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=irWqDDCR1Vuqxcz12oqJWi7qgtZuLPClL/7yzo3H21W5JqnV7Owoa/XYo3XXA3B4xt9WaT685NqCk/AMRhQuAlbPkqNKTI+ZQZMQuvfrt83DhdSdBZNn/fdfrF0d+wyuAt1Nl+ci3hDUn+mtyaYI9aPRB/0i/Dc/y87DNgb9txc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OMO3iGix; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777700135; c=relaxed/simple;
+	bh=NuJDl2pe+reaQrSlPcFwDpVUl415ZVHGIZDfBL+TpIc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kYVgZ+wV5SeNwGaEF8B9deRrG1iFOfR+67zdYca6mx7VQRjMDc63m77vty/NoUv928cC8r4DT6BeXQI6cpEmXsTmFaXfH4eNH5dcZW72bOOqAo03d9whO3E7fs26Pu4V5w5mvyLqCiPhS78UFhAIioCrIWXCgdIvium53LW7/v8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=qSkYB2yd; arc=none smtp.client-ip=51.159.59.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OMO3iGix"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-35691a231a7so1686443a91.3
-        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 22:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777699527; x=1778304327; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KB/P/IEyy7cjQ290dWdyvnAgkIG7ck3vX38fGSliG9g=;
-        b=OMO3iGixZTRWthbbwyhLJqiUmp1tL4vM332ysrpHIESqcZfDq6dHK/8SrXYTmk+5Xx
-         3I3rd9LelqG4qDIdSf9dgxssH/D32VmkYKBqaaB4mANtpbiqvuAzDHtH09rdrLRk/VVa
-         KklJAz4v64D+B+5/+bfdtrXEZhO86qDeNNnbiXWrN507ZdYzCQVXVxvpsQQ29+oLlOFA
-         24+K0j4S8qldJDsnhbWslwshUrhHlyy2P3IbYkgLxpDrfQsaVGM3Vj+C/6orwB+/VygB
-         3yiE+J01JnEOxZyfjMU9hH0HZEyxp2KoX0iM/4B4wNcBHF7s/481bfZMcw/CDQi7b1U7
-         /OjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777699527; x=1778304327;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=KB/P/IEyy7cjQ290dWdyvnAgkIG7ck3vX38fGSliG9g=;
-        b=GTP37V9N+6DS8G5BEDJVpp3d6UxZZuFSgFraUHzVYBg8hb/pu3p50GQjZ/Wrt/xa1Y
-         FNiop42OvsJqp09YuLEO3uwUOiNMww1A1NZhaZTdMOz4zHY9N76m555qIWD3kFX6GVt0
-         bXHrjNKjWzxTLxF7ZOZuOYrIwCVlVuJUUJevQz13runY1W4izMOYE88yn3tvDv/tMX43
-         ZIdtx64exxnWbJnTF7A8jmRhkcZfnkHJH7aRnD6zKHfKdEoiFqWFYL0C0t6PMX/bEacV
-         K9H4jGhXqjziw0um7rOYsHHYbTEr0K46G+C0IRPSUgoeWpBQRlFBTaHMnequRFh1Jui3
-         G1tw==
-X-Forwarded-Encrypted: i=1; AFNElJ+SAU4O2bMDl28P1UeRD2jmsA6zo70wO5poALA5N2QmUYmWspow9cPQmBcCd3AxMLyrnxOxt91KKMI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywe0rFyLhDHptwIyYRfHV1uQ/DnLz4khDvqwI/+DrAClCHAgIQt
-	K05770CDc4iWSLvWfLtJGYQKRsNfUOhvwIljfljEXCpCQ+jkaJ1G7XbwLE5e4g==
-X-Gm-Gg: AeBDietB0VrVjPBulBJ/NGLTw3CsLP5VqANelIF7ACzwXTclN8/l2xWvQjA0u9lkOci
-	C2/ha1i3+8nBQdhnECe17yYr+iudNs0Qu0YSDHzfbzL/l5GAPyC1msYNms3Lkr9CO10XPAx87xF
-	oVXx6Yg1bOpjlpqz5i9KMeyi31bzo1AlEwtX+f+ytX8DrRoEOZ9VKbrSAGLJvcf6YABSyDubsVQ
-	slZ5+S3lo+W7uwBSf0E5oDIz4XYAJXNd1tZbA9q0Kaav0C3zpwx0Q2uMXxXQA6HboNnUPgnfXlF
-	LplQex/iUgrlM4efOVLUHZnFCeUri8yzUlXt43voTu2OeEciaVJaOgpJ86iakLBh5AS4j5wr6c+
-	lALOHEOxBvhZp5sb9VdxttgGGKXccou4QJQN31upi+CtoiX2R4qiG7NgLUaF4SPzPbIgYH/hxyo
-	zZbQRJ9btoNXAz4cOAXGIp60cOqwXCC8p3pr5XZyPlbIpwL1HX/+Ax8+PEpGTwRs6kkszs1wioE
-	AT+ldo=
-X-Received: by 2002:a17:90b:5543:b0:35f:b953:244c with SMTP id 98e67ed59e1d1-3650cb696c5mr1991672a91.0.1777699526536;
-        Fri, 01 May 2026 22:25:26 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-364be00b175sm7032129a91.9.2026.05.01.22.25.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 May 2026 22:25:26 -0700 (PDT)
-Message-ID: <6af83511-4e0a-4f09-a16b-6812d25f9b4d@gmail.com>
-Date: Sat, 2 May 2026 14:25:25 +0900
+	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="qSkYB2yd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
+	t=1777700125; bh=4qi3hB4McMDo6C6hmEOc+7dZ3cJGCCMPkRF4LpqLkzw=;
+	h=From:Message-ID:From;
+	b=qSkYB2ydwqTGqCJ1j7/3rMjQqdSjff4zLOaAORrkwPIKPQ+5Q9LW/R/g0N3hhnF/H
+	 robicwilvJaz9PgA58DcyBrJxvxuIBmPf0003/0GHgP1N/ZZVZUxRG2HxsIHlnzj8u
+	 +G9UuDVnRoGW3yq5Q+8IWFVlqfxVABu4VBiKLKUc=
+Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
+	by mta1.formilux.org (Postfix) with ESMTP id 8E6F3C0A2C;
+	Sat, 02 May 2026 07:35:25 +0200 (CEST)
+Date: Sat, 2 May 2026 07:35:25 +0200
+From: Willy Tarreau <w@1wt.eu>
+To: Demi Marie Obenour <demiobenour@gmail.com>
+Cc: Greg KH <greg@kroah.com>, leon@kernel.org, security@kernel.org,
+        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
+        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Qubes Developer Mailing List <qubes-devel@googlegroups.com>
+Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
+ not a security bug
+Message-ID: <afWNHZoN64fldbUK@1wt.eu>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-3-w@1wt.eu>
+ <2026042753-ozone-jigsaw-4ad5@gregkh>
+ <ae-Acm2XJ3sR34Il@1wt.eu>
+ <2026042724-bullhorn-bobtail-ae6f@gregkh>
+ <ae-LVyDQPVwxesCO@1wt.eu>
+ <2026042804-overbook-ripeness-73dd@gregkh>
+ <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] docs/ja_JP: translate more of submitting-patches.rst
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20260501191114.939418-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260501191114.939418-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com>
 
-Hi,
+Hi Demi Marie,
 
-On 2 May 2026 04:11:14 +0900, Akiyoshi Kurita wrote:
-> Translate the "Separate your changes", "Style-check your changes",
-> and "Select the recipients for your patch" sections in
-> Documentation/translations/ja_JP/process/submitting-patches.rst.
+On Sat, May 02, 2026 at 01:20:10AM -0400, Demi Marie Obenour wrote:
+> >>> Ah, but USB does cover "some" modification of devices, so this is going
+> >>> to be something that is good to document over time, if for no other
+> >>> reason to keep these scanning tools in check from hallucinating crazy
+> >>> situations that are obviously not a valid thing we care about.
+> >>
+> >> OK but does this mean you still want to get these reports in the end ?
+> > 
+> > I want a patch if a user cares about that threat-model (as Android does
+> > but no one else) as it's up to the user groups that want to change the
+> > default kernel's behavior like this to actually submit patches to do so.
+> FYI, I don't think this is limited to Android.  Chrome OS definitely
+> cares about malicious USB devices, and the whole purpose of USBGuard is
+> to prevent a USB device from being able to compromise the system unless
+> authorized.  I believe Qubes OS also cares, as it supports USB device
+> assignment to virtual machines.  CCing qubes-devel for confirmation.
 > 
-> Keep the wording close to the English text and wrap lines to match
-> the style used in the surrounding Japanese translation.
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
-> v3:
-> - Use a file-local cross-reference to the translated "変更を分割する" section
-> - Keep the TODO for the untranslated "The canonical patch format" section
-> - Drop the obsolete TODO for "Separate your changes"
-> - Rewrap the latter part more consistently
-> 
->  .../ja_JP/process/submitting-patches.rst      | 123 +++++++++++++++++-
->  1 file changed, 118 insertions(+), 5 deletions(-)
+> What should that patch look like?  Could there be a way for these user
+> groups to be informed of vulnerabilities in the USB subsystem, so that
+> they can take responsibility for fixing them before they become public?
 
-This does not apply on docs-next.
+I've posted a proposal elsewhere in the same thread:
 
-> 
-> diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rst b/Documentation/translations/ja_JP/process/submitting-patches.rst
-> index 91bd79a0e9dc..8f85d2cfde71 100644
+   https://lore.kernel.org/lkml/afSxSX8RK0Z4kkOI@1wt.eu/
 
-At docs-next, .../ja_JP/process/submitting-patches.rst has index 9d63220abd15.
+> It does make sense for those who care about the security of a subsystem
+> to be responsible for vulnerabilities in that system, but right now
+> I'm not sure how one would offer to take up that responsibility.
 
-Your patch should start with:
+I think that at least some subsystems will want to add their own
+restrictions based on the bug reports they keep receiving, and I hope
+it can help distros figure where there's a gap between is promised to
+users and what the kernel promises, that needs to be filled by userland
+verification tools for example.
 
-index 9d63220abd15..xxxxxxxxxxxx 100644
-
-Please rebase and resend.
-
-Thanks, Akira
-
-[...]
-
+Willy
