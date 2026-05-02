@@ -1,104 +1,121 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE426221D89
-	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 09:30:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2927121ADA4;
+	Sat,  2 May 2026 09:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777714252; cv=none; b=AgWX8idWk1VgESrXgohWZkN0px0MnuKsfiGqAEH17IDg5Rkj+2h7rlzNf6WELuCpQDKAZbx9Ytt4pxqE3ZrrGx++3XOllwl/mJmiilVf/zp87AUjULsB0BgSYw/lhyawqFvqxAuI6f4r2hSXbN+HTBlQ2IRjhgWM260hx4IlgJ8=
+	t=1777715764; cv=none; b=GqvOFBwbHZc0VyiqWt1/R7IS2g6UhAEdJ691BVaBvTW5xUmEdUjPJnx6DjhdKRDDmoJ+ozOG8/gXu9OxugfbUOPe0PSZip/xRCZ9aqWRlJ884ElYWWO02OPldlJZV5DFufTW6/iC+ckgb5YSu7MK5o6GQU66aqjVppNWe1/xejk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777714252; c=relaxed/simple;
-	bh=uKF1qmtRTfIm6xDiZUskZlGyxzPEAsrkscint6pWwP4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KHEoKu10DibjkP4fk5abdcl/OrX3T/0z3xm+IyploellFWPfRQMxkMjBUpg0ByeDsYddPTPLZjcboFNj3kPb+5KZvoHXlhr/AbY+Kkgxrv0JW8rHzm+l4/6OZ9XfDjGZs3ENKD4HCTRrgc9Z5OJJlVRp42KJoZ3Fd18KCHQyZeU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UBNM3+o0; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777715764; c=relaxed/simple;
+	bh=1qCobfoCEucgrjRGXrCQ3vKcmNt1JqyTqC3CN//BeTg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i7SJxOYgNGqnkerbXCKwC+WG+AOtT9/codxCzlII8f2VV30CdNOUnNnpEmxR03+bHIaTCZ5v5jjjw5zKzmJBq1dmqJtxUsi/VBCtqxzRvaPwZRTpoTKFhyilXf+x6bASnsQwPTV7CLyZSRxA4kkQY6zE5uwhrShN9IndD2amSKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M1pPyeGY; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UBNM3+o0"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-835386ff122so97960b3a.3
-        for <linux-doc@vger.kernel.org>; Sat, 02 May 2026 02:30:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777714250; x=1778319050; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=9sA6+Ur9hXMXrR0E8duGUO4Cz9s8A4G1etroyL69Eac=;
-        b=UBNM3+o0ht+sq4u+btQahfIvmf0EPJ+IY/QeKOH4Oy7Rp4D4wGgScql+Kx4s0BCPTh
-         2lN+nm2llTOjiPtFoCwmb8tAV1QSA7DN890qGGPobx/MJy5ct+IBHjNDutwLVbyJnjVE
-         j8xItwcre16khR5qyoGLSO27925MVe5lF4iU+doQLQsJiST/FxXidfaUABRCz3IPcbcG
-         un9wGbbBM3PUkDjntcvPHJitm3IJ0kSR2Kvkkuw4YxkeFiJkS7/l94bAuIDl7mnaT68L
-         GVDoIJBc4mzTKokXl6YXTrRREULdYxBYj1xP0uFu5++Vqmve80NOn4ZJkofd8QFpvV26
-         8e8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777714250; x=1778319050;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9sA6+Ur9hXMXrR0E8duGUO4Cz9s8A4G1etroyL69Eac=;
-        b=ZqBhaUIBzGmYXv68LoWLUaqJQYe1bba1lr5fQEgFv/cxfLgyWC+7UBWyLgy+3mu5a1
-         181mJEU6Y6n6wAmfUOxJYCDcZsm3KUQ3Nzfyd2e68PtILO8FX1o0F0v4xkCKt7nV6DO3
-         WXmY9JA2jCNIgHzja6O65FXHD95cIkgGJfePpbsN+8G9hqba4R01psyUIhITGdh1JbxT
-         bJlBkiXTkoAyj4AOcEDt5yPpfaVCIIND3h222/bspkVs56+sbwLwd+gCuKGH3YJc79oN
-         CLFPDUHxQlfJt41zUfJsBG4F8Kk1wQko/N7OQrha9cYBKKgicfNqkmiuMdA8zH8kP3CN
-         IExw==
-X-Forwarded-Encrypted: i=1; AFNElJ99TYRbDoyfBQHqCOFgP0E/eINq2sPkP4vws/EM4mEgCzOjr+yXtUKMoUnJHtYTPt/jjYKZXshmCp8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKqfudWBFeni5kWb3H3PAd2H+/U1HzaXYmwf6IE4y1HkClDVLl
-	VmiW6CfoVXld+doDfOC1CTiH5H30nG8RS1UjONOxpS92anwq4Knlcbqu
-X-Gm-Gg: AeBDiethsaXxPr1XC8vJ9LIKsYYNaYtCY8G/SXXh80AjF2JCtuq8y4ziFRrWBVWudmu
-	PnU5ossM0qPwJPutvIDPVj5uWYxzSA2xH89kJGRV6j4Mnv3vDzKM8UaDGCw06oBEolpwZG1d3e8
-	pVBlI0J4fAuLd6iLHfqTkIE9OuZj6DEDsCXnA+rpE7A4Okz/o62s2BsaCPVWpkPvobpwV9zXHeO
-	VNUe2Mpw5vJtub2Yt1PwDATF5lk95kRIAFLNM7H7vExXgQUSRZrXlde/3SALpfpsF7GIomTEE5d
-	+OiTI8fWiq/pKs+Lxe4ltcEuAmubuv/bNkERgkHHRyPsd8UmOcGPp6LedNTPWqRMtT3GOwLpDww
-	x//g64awrDJxZF6vge7k1jNOlhuFDEON1WK6CJRDSgVGsb9fA1e+43WhWQZJTgZx6cG0ZuBAnc8
-	QViG03pPn5z/30915OzvkzeHTzyuKYC06TTrvS+9NTwmylrOhfKtPv+GDO8QYViHMu+QXQy/1tv
-	KIsUuw=
-X-Received: by 2002:a05:6a00:448b:b0:82c:d986:e917 with SMTP id d2e1a72fcca58-8352d17725cmr2500384b3a.22.1777714250167;
-        Sat, 02 May 2026 02:30:50 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515875bb5sm5115935b3a.14.2026.05.02.02.30.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 02 May 2026 02:30:49 -0700 (PDT)
-Message-ID: <a188f973-7cba-4951-ba02-b9dbf5185a47@gmail.com>
-Date: Sat, 2 May 2026 18:30:46 +0900
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M1pPyeGY"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E823DC19425;
+	Sat,  2 May 2026 09:56:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777715764;
+	bh=1qCobfoCEucgrjRGXrCQ3vKcmNt1JqyTqC3CN//BeTg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=M1pPyeGYpiWzdiXrmobDlFflvw9s24olyRdbqRATTTAhtKgiERc85RytS7XUMII2Y
+	 Un6AyaR2vCT9VVkLPICXEtq0YvlQ/9V5NexhU+Vx49WV711VwcNfbKPxqM5ln7NH5j
+	 N1wNk8gLqjlqE2wW65KgkqocCKsxrpviwqEkWy6McHuuY3EKda/ZOKrWcCFmHt+jQf
+	 lMs44AXYr0l7SDfGR5QClz4acV8UQDu7/QIR04oDVC5w7CI6gSwr276WwUgPSAzMjH
+	 llic//IQVKNgV/RjFQX+G1Xuz5FDHDH3vFjEMwdnIsDVAzRgf3LYPAC35jNZSnO4nZ
+	 jx/crUDCL2/yw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D37D6CCFA13;
+	Sat,  2 May 2026 09:56:03 +0000 (UTC)
+From: =?utf-8?q?Nuno_S=C3=A1_via_B4_Relay?= <devnull+nuno.sa.analog.com@kernel.org>
+Subject: [PATCH v13 0/3] hwmon: Add support for the LTC4283 Hot Swap
+ Controller
+Date: Sat, 02 May 2026 10:56:51 +0100
+Message-Id: <20260502-ltc4283-support-v13-0-1c206542e652@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] docs/ja_JP: translate more of submitting-patches.rst
-To: Akiyoshi Kurita <weibu@redadmin.org>
-Cc: linux-kernel@vger.kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
-References: <20260502070143.1015416-1-weibu@redadmin.org>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20260502070143.1015416-1-weibu@redadmin.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/3XOTW7DIBAF4KtErEvFDDBAVr1H1AXlJ0FKbct2r
+ VSR716cTV2RLt+T5ntzZ1MaS5rY8XBnY1rKVPquBpAvBxYuvjsnXmItGAokIYXk1zkotJJPX8P
+ QjzMXJLOxPgTtFatXw5hyuT3I03vNlzLN/fj9WFhoa/+3FuKCp5wAtMDsI775zl/782voP9mGL
+ XYHoGkBWwFlICbUOhq0DeB+ASWoBVwFPohCDkY5JGgAEDsBbSuA2H7ISFmRchBkS8CecE8IqAS
+ aEGIicNHHlsAdIcUTAiuhY3BOQEZN5g+xrusPVc8HOvsBAAA=
+X-Change-ID: 20260303-ltc4283-support-063f78acc5a4
+To: linux-gpio@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Linus Walleij <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, 
+ Bartosz Golaszewski <brgl@kernel.org>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777715816; l=2159;
+ i=nuno.sa@analog.com; s=20231116; h=from:subject:message-id;
+ bh=1qCobfoCEucgrjRGXrCQ3vKcmNt1JqyTqC3CN//BeTg=;
+ b=2lD4JiD7HXmz7ICmwv1z6+5Qet99RmrVlaltpn/Focc/QXX+JPWkpzj+DaEU4TL5LGUfout9r
+ vuW1Qo/ZJ8IBW+kTu4Yt997g/CISjNBTJsH9T3DiZYwHyMOVLWZm2u9
+X-Developer-Key: i=nuno.sa@analog.com; a=ed25519;
+ pk=3NQwYA013OUYZsmDFBf8rmyyr5iQlxV/9H4/Df83o1E=
+X-Endpoint-Received: by B4 Relay for nuno.sa@analog.com/20231116 with
+ auth_id=100
+X-Original-From: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>
+Reply-To: nuno.sa@analog.com
 
-On Sat,  2 May 2026 16:01:43 +0900, Akiyoshi Kurita wrote:
-> Translate the "Separate your changes", "Style-check your changes",
-> and "Select the recipients for your patch" sections in
-> Documentation/translations/ja_JP/process/submitting-patches.rst.
-> 
-> Keep the wording close to the English text and wrap lines to match
-> the style used in the surrounding Japanese translation.
-> 
-> Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
-> ---
-> v4:
-> - Rebase onto docs-next
-> 
->  .../ja_JP/process/submitting-patches.rst      | 127 +++++++++++++++++-
->  1 file changed, 120 insertions(+), 7 deletions(-)
-> 
+This is v8 for the LTC4283 how swap controller. 
 
-Looks good to me.
+Similar to the LTC4282 device, we're clearing some fault logs in the
+reset_history attributes.
 
-Acked-by: Akira Yokosawa <akiyks@gmail.com>
+Guenter, for my last email worrying about rsense low values, this is
+what I got internally:
 
-Thanks, Akira
+"10uOhm at the smallest sense voltage of 15mV would be 1500A and 72kW, which
+seems a tad excessive. The highest currents I’ve seen are around 200A, and
+the -48V market 4283 serves is generally a lot lower than that. Normal values
+are around 200uOhm.  I’d say the resolution should be around 1uohm and if a
+minimum is needed, 50uOhm is probably safe."
+
+For the resolution, I'm pretty sure I got the tenths of micro
+resolution for ltc4282 so I just kept it in here. So, if you don't mind
+I would prefer to keep it this way to be safer and changing that now would
+require me to change some formulas and I would prefer not to do that at
+this stage.
+
+---
+Changes in v13:
+- Patch 2
+   * Properly register debugfs fet faults to match DRAIN channel (in11).
+- Link to v12: https://patch.msgid.link/20260430-ltc4283-support-v12-0-5dc9901f2567@analog.com
+
+---
+Nuno Sá (3):
+      dt-bindings: hwmon: Document the LTC4283 Swap Controller
+      hwmon: ltc4283: Add support for the LTC4283 Swap Controller
+      gpio: gpio-ltc4283: Add support for the LTC4283 Swap Controller
+
+ .../devicetree/bindings/hwmon/adi,ltc4283.yaml     |  272 +++
+ Documentation/hwmon/index.rst                      |    1 +
+ Documentation/hwmon/ltc4283.rst                    |  267 +++
+ MAINTAINERS                                        |    9 +
+ drivers/gpio/Kconfig                               |   15 +
+ drivers/gpio/Makefile                              |    1 +
+ drivers/gpio/gpio-ltc4283.c                        |  218 +++
+ drivers/hwmon/Kconfig                              |   12 +
+ drivers/hwmon/Makefile                             |    1 +
+ drivers/hwmon/ltc4283.c                            | 1795 ++++++++++++++++++++
+ 10 files changed, 2591 insertions(+)
+---
+base-commit: 992920ad25f27f41521c1bb905d0e1062ecb9e93
+change-id: 20260303-ltc4283-support-063f78acc5a4
+--
+
+Thanks!
+- Nuno Sá
+
 
