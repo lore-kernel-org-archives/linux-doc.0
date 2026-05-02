@@ -1,477 +1,471 @@
-Received: from mail-yw1-f176.google.com (mail-yw1-f176.google.com [209.85.128.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www.redadmin.org (bc043154.ppp.asahi-net.or.jp [222.228.43.154])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E6411A9B24
-	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 06:27:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.176
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777703255; cv=none; b=MkyTG1AQXPBCq+oBbepgNeffHnTBdYFTYob/+qJwS3Yw9XSteyWJkOQQIGB57LHeIrS5LCTT59vXWB+O3j7TPih7xNbTjRX+f7gavPok+29u1A1RqiZsMT+G9+aGUvjhzxYjN99NojrdbX+MyxeOSj8hxper8YRjyBIXBBt67AQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777703255; c=relaxed/simple;
-	bh=XeU/ccVmhCKrxFZeOoX4UhsLjdp34KEWq+lc6DNLLlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JtGQZTua3Ij0DO/400KJOfJsHzrpSaRYO4rnqz/4NiUexk1ylLFGK7sxKqhLm5zWjyLMcfG1ye3PItWYqcPyYxpQzPOwXzUBVUD1IjO/Q7s7INSx2+PE9yvil26zfzkX63IWEmilEFPFhaXAbsU2Ol07+uWs1QUfszICMVj1OtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TUHchTym; arc=none smtp.client-ip=209.85.128.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07C94B672;
+	Sat,  2 May 2026 08:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=222.228.43.154
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777709111; cv=pass; b=i+a1EC7OERa2OlNTZ1FXATg5TfbvvyjIIjIsdhIukW89lpzxoVf0qt5maPd3YC8td/KT0BUg7Jh/muFGO/UH85pyNEJwoHsmJL6hVLRmRPPaOh7EhiAPtS4pta/VjMa/rF3koFoBPCrNX58WsPcrWoGfsQFI9wrO3eLb4QMs5MA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777709111; c=relaxed/simple;
+	bh=gW3je7/MwkVH5lpAhizqYBr/IgqNKMZ0KF2GrxgaHDU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=fbLLZRojfQoKVPYFQIBOeILQPJlnYlnx8ide67pgVWZ9ZGcxF/dbgE5sWWQPJxZXuwtC6mMjY1vFm3qMEisnGzqIdA7ulFxxeGkZJcfiDxZyJ/i+w65pa6iulR8i8wNqXoQMrAlEWne2BCHzO776//RyjV1JvtW4TUFx3ZNQOdY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=sIO5P8je; arc=pass smtp.client-ip=222.228.43.154
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TUHchTym"
-Received: by mail-yw1-f176.google.com with SMTP id 00721157ae682-7bd5c582c6cso21635267b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 23:27:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777703253; x=1778308053; darn=vger.kernel.org;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ePEFSSMw1dSgdUek+bviTS6qAYGWhQcuou2CptRUaT0=;
-        b=TUHchTymBR+78qWPiKADT7YtjOGfa9AxrEYfARoNx5Nen9EbEhjbWxg7+bgCVUt9iy
-         GoQJ+8CEY82KID0HQ5jJBciL/3+81gpzrdZQQXLk4ODvfMzANBy7FoVWutgevXtAOMHC
-         jGYZrZOFIq2NLNQRFsBxy1QC3qLPdQBJli3KsIsG40WLt/AZMEjSsk8wLDHZW9ptnPbH
-         XBmZGOY2GWiCHgcA3XShUYTPKplPRSq6eTO2ED2Guhd1rtE3xLXEoTaac8YeFY1zx1FF
-         h/hh++JSY+kz9+k5U3m0+73/vSSkuXIlKwfxggZjunrJv9nKHx5muJ6ff1pnMP+gWrDi
-         tFOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777703253; x=1778308053;
-        h=in-reply-to:autocrypt:from:content-language:references:cc:to
-         :subject:user-agent:mime-version:date:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ePEFSSMw1dSgdUek+bviTS6qAYGWhQcuou2CptRUaT0=;
-        b=ALRyXiIp2+ACUv3yHPk1wVHmK2i7zW7R08C9JV5SRMDlj8VY633Cdxv9UqYVOjl9J5
-         nR1o3BOA/E+gSaA5JfITltl5ZMDl90jc/F+QBtkM4wOXvf39y4x8pgQc2uMU9qZqS65Z
-         UbiG6eyF3XA/KiNW1J+BpH33iHWxrc5Li2Kg9JSYQw9BfmRo61rIli6/J77M3up1BHzk
-         TQ4qkUo5mAazASh+NtdvWchAtXGOD2MVphSD37jDWFCRnp0HgleMj/CdX7oRSNaPpTfW
-         d+55RB3KwQWBf1sEKgrcUxe+2m35iqgi+nb+gOQGu4eyDMIamBOZPjSo3sN9zNN+D/Zt
-         vVDw==
-X-Forwarded-Encrypted: i=1; AFNElJ/oxiB9vmNt3wExU+l9y03dIT7opo8zysfbiPhxjfhGhVKAN26lNZqhMlrI/2n3G/BT3e7B2zTkXs0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwyYKRNt/0C58iJmTmaY63PqbYvooRUOvR/4H7QMGCmmTcepK//
-	VL7CwM3LT8TAfII1lh2diixeRneW2LrDMfoKuBfgZFJI+GaYg/2tpIlp
-X-Gm-Gg: AeBDieuirbGlh6Sq2QJsxPoK0t5ZHvrWqL6ngdoMmSw1kOXq18LOS7MT7NZWhmxMQav
-	SZFtVZqcQ9bZAuFW/MElWsQ9jjU4PAXdlFC/uB8+9gBgvFB5K1b92I7rnl7qTqqvmnjEmJbcAT6
-	UOlVjfYIb+7TJnf6hgcAtLjQ5j4fzJkyOJcfnR5t47Ytd+ZY54n5/pe08NtwhCa5wOnt+jJC1OR
-	LOvt8h/7v81IFZ/N+UARFhTWNkrDUULqUVDQnN8sGFl31n7qyF/N+zT7u7Vq1HQ70j7Ug0J/+Jx
-	4Z8YoFEK+GdJMekKeMhzH1ub4UTkhunnRAqXo6M6o2Ku4gAZyaCJz8c1YPIT1wxbzeCQise7yyl
-	OpFGrJiTtwCEDDc5jR0t0849FgdYh+pqk533vMD9p74OZpfxIshrwVnD9rh/8goxe+7ZGPXXC6h
-	XQrbPRWnXrGfFp3toYJlAQEtnwAxITK/F2xB864fz8OQPX20aHvuuT0pag58cYMBPadL9SrZ8bf
-	tm1bn5R6EsMfKDItrwgyz2jWheiQQfNxgH6g04c6SAatNMG1dS6
-X-Received: by 2002:a05:690c:93:b0:7bd:6a98:58cc with SMTP id 00721157ae682-7bd771622d8mr22404427b3.37.1777703252930;
-        Fri, 01 May 2026 23:27:32 -0700 (PDT)
-Received: from [10.138.34.110] (h69-131-150-190.cncrtn.broadband.dynamic.tds.net. [69.131.150.190])
-        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65c3a942dd4sm1248785d50.17.2026.05.01.23.27.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 01 May 2026 23:27:31 -0700 (PDT)
-Message-ID: <85552ff5-c186-41fb-a1a1-018b2b77e2e7@gmail.com>
-Date: Sat, 2 May 2026 02:27:26 -0400
+	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="sIO5P8je"
+Received: from localhost (localhost [127.0.0.1])
+	by www.redadmin.org (Postfix) with ESMTP id 8843B109F2545;
+	Sat,  2 May 2026 16:01:50 +0900 (JST)
+X-Virus-Scanned: amavis at redadmin.org
+Received: from www.redadmin.org ([127.0.0.1])
+ by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
+ id C-as0l32cFmc; Sat,  2 May 2026 16:01:45 +0900 (JST)
+Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+ARC-Seal: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256; cv=none;
+	t=1777705304;
+	b=La+G04dU/mz4hz6oBu7+VU9cR0reJtiLWH9QyIxg7SH3EWmEQ41VMolBNses0ci7DWW1
+	 nknulwVhWb9Mx2V3pczkvNQ6laHhH0Ui2jbgtP8nOQUp/LXvLIzQ2NxBTFPJN3Tyum4eT
+	 2wkwuf4XWHmSB6dALYKXjUDZHNWa3ivum0=
+ARC-Message-Signature: i=1; d=redadmin.org; s=20231208space; a=rsa-sha256;
+	c=relaxed/relaxed; t=1777705304;
+	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
+	 X-Mailer:MIME-Version:Content-Type:Content-Transfer-Encoding;
+	bh=vFZTaxx6V4k/6vi3rZNoYbYY/plsL6LKRxUd1GptPos=;
+	b=N260UkUqvtcGlMeR8dzo1J+3V+djkoK848jRWz7GwUP5wJDzbhk/nTWPbolWFvTfMub1
+	 1SY7QXHgXRbYIpZoMccP9WKQRZPcO+RNRpxEuPWFbAPASzE6kW879Yv3haynB5N8R7iEc
+	 S7v7hKIYNsfp1N1l0ZS+klnx9FPbqe7xY4=
+ARC-Authentication-Results: i=1; www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
+Received: by www.redadmin.org (Postfix, from userid 1000)
+	id DB166109F2544; Sat,  2 May 2026 16:01:44 +0900 (JST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org DB166109F2544
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
+	s=20231208space; t=1777705304;
+	bh=vFZTaxx6V4k/6vi3rZNoYbYY/plsL6LKRxUd1GptPos=;
+	h=From:To:Cc:Subject:Date:From;
+	b=sIO5P8jeVrK921C3THi26+Voc24hE1HQ3uzANKRFuH5lL3v6P+IrhyjvBq9pESdyw
+	 o5yePZHmROY2kwuLsRle9hMINEBVZNu++P61mUqFWoVRaXo369JgoTbPk94+u9zW3v
+	 o4xsnC2zJUh64bInCTuxB3dkWDSe9YUGV1dkAbNo=
+From: Akiyoshi Kurita <weibu@redadmin.org>
+To: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	corbet@lwn.net,
+	akiyks@gmail.com,
+	Akiyoshi Kurita <weibu@redadmin.org>
+Subject: [PATCH v4] docs/ja_JP: translate more of submitting-patches.rst
+Date: Sat,  2 May 2026 16:01:43 +0900
+Message-ID: <20260502070143.1015416-1-weibu@redadmin.org>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
- not a security bug
-To: Willy Tarreau <w@1wt.eu>
-Cc: Greg KH <greg@kroah.com>, leon@kernel.org, security@kernel.org,
- Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Qubes Developer Mailing List <qubes-devel@googlegroups.com>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-3-w@1wt.eu> <2026042753-ozone-jigsaw-4ad5@gregkh>
- <ae-Acm2XJ3sR34Il@1wt.eu> <2026042724-bullhorn-bobtail-ae6f@gregkh>
- <ae-LVyDQPVwxesCO@1wt.eu> <2026042804-overbook-ripeness-73dd@gregkh>
- <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com> <afWNHZoN64fldbUK@1wt.eu>
- <a8e60dfe-2965-4a4b-89fb-ce5991395dc5@gmail.com> <afWUjN1FbIHIK99Z@1wt.eu>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <afWUjN1FbIHIK99Z@1wt.eu>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------hQM1S125L84tK8szVPuO2FaT"
-
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------hQM1S125L84tK8szVPuO2FaT
-Content-Type: multipart/mixed; boundary="------------AdXhxTHW0QYx3jwi9vvAQP0u";
- protected-headers="v1"
-Message-ID: <85552ff5-c186-41fb-a1a1-018b2b77e2e7@gmail.com>
-Date: Sat, 2 May 2026 02:27:26 -0400
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
- not a security bug
-To: Willy Tarreau <w@1wt.eu>
-Cc: Greg KH <greg@kroah.com>, leon@kernel.org, security@kernel.org,
- Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- Qubes Developer Mailing List <qubes-devel@googlegroups.com>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-3-w@1wt.eu> <2026042753-ozone-jigsaw-4ad5@gregkh>
- <ae-Acm2XJ3sR34Il@1wt.eu> <2026042724-bullhorn-bobtail-ae6f@gregkh>
- <ae-LVyDQPVwxesCO@1wt.eu> <2026042804-overbook-ripeness-73dd@gregkh>
- <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com> <afWNHZoN64fldbUK@1wt.eu>
- <a8e60dfe-2965-4a4b-89fb-ce5991395dc5@gmail.com> <afWUjN1FbIHIK99Z@1wt.eu>
-Content-Language: en-US
-From: Demi Marie Obenour <demiobenour@gmail.com>
-Autocrypt: addr=demiobenour@gmail.com; keydata=
- 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
- +MYSfkEjBz0E8CLOcAw7JIwAaeBT
-In-Reply-To: <afWUjN1FbIHIK99Z@1wt.eu>
-
---------------AdXhxTHW0QYx3jwi9vvAQP0u
-Content-Type: multipart/mixed; boundary="------------MXnR1EasdO0zrJZt0kS8QF8K"
-
---------------MXnR1EasdO0zrJZt0kS8QF8K
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/2/26 02:07, Willy Tarreau wrote:
-> On Sat, May 02, 2026 at 01:51:08AM -0400, Demi Marie Obenour wrote:
->> On 5/2/26 01:35, Willy Tarreau wrote:
->>> Hi Demi Marie,
->>>
->>> On Sat, May 02, 2026 at 01:20:10AM -0400, Demi Marie Obenour wrote:
->>>>>>> Ah, but USB does cover "some" modification of devices, so this is=
- going
->>>>>>> to be something that is good to document over time, if for no oth=
-er
->>>>>>> reason to keep these scanning tools in check from hallucinating c=
-razy
->>>>>>> situations that are obviously not a valid thing we care about.
->>>>>>
->>>>>> OK but does this mean you still want to get these reports in the e=
-nd ?
->>>>>
->>>>> I want a patch if a user cares about that threat-model (as Android =
-does
->>>>> but no one else) as it's up to the user groups that want to change =
-the
->>>>> default kernel's behavior like this to actually submit patches to d=
-o so.
->>>> FYI, I don't think this is limited to Android.  Chrome OS definitely=
+Translate the "Separate your changes", "Style-check your changes",
+and "Select the recipients for your patch" sections in
+Documentation/translations/ja_JP/process/submitting-patches.rst.
 
->>>> cares about malicious USB devices, and the whole purpose of USBGuard=
- is
->>>> to prevent a USB device from being able to compromise the system unl=
-ess
->>>> authorized.  I believe Qubes OS also cares, as it supports USB devic=
-e
->>>> assignment to virtual machines.  CCing qubes-devel for confirmation.=
+Keep the wording close to the English text and wrap lines to match
+the style used in the surrounding Japanese translation.
 
->>>>
->>>> What should that patch look like?  Could there be a way for these us=
-er
->>>> groups to be informed of vulnerabilities in the USB subsystem, so th=
-at
->>>> they can take responsibility for fixing them before they become publ=
-ic?
->>>
->>> I've posted a proposal elsewhere in the same thread:
->>>
->>>    https://lore.kernel.org/lkml/afSxSX8RK0Z4kkOI@1wt.eu/
->>
->> I saw that, but it's still not quite clear what is meant here.
->> My understanding is that those concerned about malicious USB devices
->> are generally concerned about _arbitrary_ malicious USB devices.
->> The one thing a USB device shouldn't be able to spoof is the port
->> it is plugged into, and userspace tools like USBGuard can use that
->> information.  But to do that, they have to trust that the device
->> can't harm the system if it isn't assigned to any drivers.
->=20
-> The goal sought by that early document precisely is to draw the line
-> between what is a regular bug and hwat is a kernel bug. The kernel
-> currently doesn't consider problems posed by a crafted USB device as a
-> security issue because the kernel trusts the hardware in runs on. Of
-> course there can be valid reasons to disagree with this, but it's just
-> the current situation and the purpose of the document is to clarify it
-> so that bugs are reported to the right place and handled efficiently.
+Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
+---
+v4:
+- Rebase onto docs-next
 
-Fair.  That does bring up the question of what those who want
-to change that situation should do, and they definitely exist.
-A documented path for them to follow (even if long and convoluted,
-such as becoming co-maintainers of the subsystem) could be helpful.
+ .../ja_JP/process/submitting-patches.rst      | 127 +++++++++++++++++-
+ 1 file changed, 120 insertions(+), 7 deletions(-)
 
-I'd offer to help write something, but I suspect that this is
-something that can only really be written by a member of the kernel
-security team.  Hence this request.
-
->>>> It does make sense for those who care about the security of a subsys=
-tem
->>>> to be responsible for vulnerabilities in that system, but right now
->>>> I'm not sure how one would offer to take up that responsibility.
->>>
->>> I think that at least some subsystems will want to add their own
->>> restrictions based on the bug reports they keep receiving, and I hope=
-
->>> it can help distros figure where there's a gap between is promised to=
-
->>> users and what the kernel promises, that needs to be filled by userla=
-nd
->>> verification tools for example.
->>>
->>> Willy
->>
->> I think there might be another category, which is were there is a
->> third party who is much more interested in the security of a subsystem=
-
->> than its primary maintainers are.  I suspect that Google is said
->> third party in multiple such cases, especially various USB drivers.
->> In particular, exploiting the kernel via USB is a common attack
->> technique used in the wild by tools like Cellebrite.
->=20
-> Possibly that such ones might appear there at some point. The best
-> way for these might be to have such teams try to step up as
-> co-maintainers for the parts they care about though.
-
-Makes sense.
-
->> In these cases, I think it makes sense to funnel vulnerability
->> reports to the people who actually seriously care about fixing them.
->> For instance, problems in USB might be funneled to the Chrome OS and
->> Android security teams.  They will get fixed much more quickly, and
->> upstream maintainers won't be flooded with reports that don't have
->> attached patches.
->=20
-> Trust me, patches written behind closed doors rarely resist publication=
-
-> and discovery by the maintainer. And treating bugs as regular ones in
-> fact tends to make them move faster than as security ones. No need to
-> go back-and-forth asking for data that reporters hesitate to share, nor=
-
-> to have to first convince them that their bug needs to be fixed even
-> though they were planning on speaking about them at a conference, etc.
-
-That doesn't surprise me, actually.
+diff --git a/Documentation/translations/ja_JP/process/submitting-patches.rs=
+t b/Documentation/translations/ja_JP/process/submitting-patches.rst
+index 9d63220abd15..928e38a8d34d 100644
+--- a/Documentation/translations/ja_JP/process/submitting-patches.rst
++++ b/Documentation/translations/ja_JP/process/submitting-patches.rst
+@@ -83,19 +83,18 @@ Linux =E3=81=AE=E5=A4=9A=E3=81=8F=E3=81=AE=E7=92=B0=E5=
+=A2=83=E3=81=AF=E3=80=81=E4=B8=8A=E6=B5=81=E3=81=8B=E3=82=89=E7=89=B9=E5=AE=
+=9A=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=A0=E3=81=91=E3=82=92=E5=8F=96=
+=E3=82=8A=E8=BE=BC
+ =E8=A9=B3=E3=81=97=E3=81=8F=E8=AA=AC=E6=98=8E=E3=81=97=E3=81=A6=E3=81=8F=
+=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=82=B3=E3=83=BC=E3=83=89=E3=81=8C=E6=
+=84=8F=E5=9B=B3=E3=81=97=E3=81=9F=E3=81=A8=E3=81=8A=E3=82=8A=E3=81=AB=E5=8B=
+=95=E4=BD=9C=E3=81=97=E3=81=A6=E3=81=84=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92
+ =E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=8C=E7=A2=BA=E8=AA=8D=
+=E3=81=A7=E3=81=8D=E3=82=8B=E3=82=88=E3=81=86=E3=80=81=E5=A4=89=E6=9B=B4=E5=
+=86=85=E5=AE=B9=E3=82=92=E5=B9=B3=E6=98=93=E3=81=AA=E8=A8=80=E8=91=89=E3=81=
+=A7=E6=9B=B8=E3=81=8D=E4=B8=8B=E3=81=99=E3=81=93=E3=81=A8=E3=81=8C=E9=87=8D=
+=E8=A6=81=E3=81=A7=E3=81=99=E3=80=82
+=20
+-=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E8=AA=AC=E6=98=8E=E3=81=8C Linux =E3=
+=81=AE=E3=82=BD=E3=83=BC=E3=82=B9=E3=82=B3=E3=83=BC=E3=83=89=E7=AE=A1=E7=90=
+=86=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0 ``git`` =E3=81=AE=E3=80=8C=E3=82=B3=
+=E3=83=9F=E3=83=83=E3=83=88=E3=83=AD=E3=82=B0=E3=80=8D
+-=E3=81=A8=E3=81=97=E3=81=A6=E3=81=9D=E3=81=AE=E3=81=BE=E3=81=BE=E5=8F=96=
+=E3=82=8A=E8=BE=BC=E3=82=81=E3=82=8B=E5=BD=A2=E3=81=A7=E6=9B=B8=E3=81=8B=E3=
+=82=8C=E3=81=A6=E3=81=84=E3=82=8C=E3=81=B0=E3=80=81=E3=83=A1=E3=83=B3=E3=83=
+=86=E3=83=8A=E3=81=AF=E5=8A=A9=E3=81=8B=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
+-=E8=A9=B3=E7=B4=B0=E3=81=AF=E5=8E=9F=E6=96=87=E3=81=AE=E8=A9=B2=E5=BD=93=
+=E7=AF=80 ("The canonical patch format") =E3=82=92=E5=8F=82=E7=85=A7=E3=81=
+=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E3=83=91=E3=83=83=E3=83=81=E8=AA=AC=E6=98=8E=E3=82=92 Linux =E3=81=AE=E3=
+=82=BD=E3=83=BC=E3=82=B9=E3=82=B3=E3=83=BC=E3=83=89=E7=AE=A1=E7=90=86=E3=82=
+=B7=E3=82=B9=E3=83=86=E3=83=A0 ``git`` =E3=81=AE
++=E3=80=8C=E3=82=B3=E3=83=9F=E3=83=83=E3=83=88=E3=83=AD=E3=82=B0=E3=80=8D=
+=E3=81=A8=E3=81=97=E3=81=A6=E3=81=9D=E3=81=AE=E3=81=BE=E3=81=BE=E5=8F=96=E3=
+=82=8A=E8=BE=BC=E3=82=81=E3=82=8B=E5=BD=A2=E3=81=A7=E6=9B=B8=E3=81=91=E3=81=
+=B0=E3=80=81=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=AF
++=E5=8A=A9=E3=81=8B=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=
+=E3=81=AF=E5=8E=9F=E6=96=87=E3=81=AE=E8=A9=B2=E5=BD=93=E7=AF=80 ("The canon=
+ical patch format") =E3=82=92
++=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82
+=20
+ .. TODO: Convert to file-local cross-reference when the destination is
+    translated.
+=20
+ 1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=E3=81=AF 1 =E3=81=
+=A4=E3=81=AE=E5=95=8F=E9=A1=8C=E3=81=A0=E3=81=91=E3=82=92=E8=A7=A3=E6=B1=BA=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E8=A8=98=E8=
+=BF=B0=E3=81=8C=E9=95=B7=E3=81=8F=E3=81=AA=E3=82=8A
+-=E5=A7=8B=E3=82=81=E3=81=9F=E3=82=89=E3=80=81=E3=81=9D=E3=82=8C=E3=81=AF=
+=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E5=88=86=E5=89=B2=E3=81=99=E3=81=B9=E3=
+=81=8D=E3=82=B5=E3=82=A4=E3=83=B3=E3=81=A7=E3=81=99=E3=80=82
+-=E8=A9=B3=E7=B4=B0=E3=81=AF=E5=8E=9F=E6=96=87=E3=81=AE=E8=A9=B2=E5=BD=93=
+=E7=AF=80 ("Separate your changes") =E3=82=92=E5=8F=82=E7=85=A7=E3=81=97=E3=
+=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E5=A7=8B=E3=82=81=E3=81=9F=E3=82=89=E3=80=81=E3=83=91=E3=83=83=E3=83=81=
+=E3=82=92=E5=88=86=E5=89=B2=E3=81=99=E3=81=B9=E3=81=8D=E3=82=B5=E3=82=A4=E3=
+=83=B3=E3=81=A7=E3=81=99=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AF `=E5=A4=89=E6=
+=9B=B4=E3=82=92=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B`_ =E3=82=92
++=E5=8F=82=E7=85=A7=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82
+=20
+-.. TODO: Convert to file-local cross-reference when the destination is
+-   translated.
+=20
+ =E3=83=91=E3=83=83=E3=83=81=E3=81=BE=E3=81=9F=E3=81=AF=E3=83=91=E3=83=83=
+=E3=83=81=E3=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E3=82=92=E6=8A=95=E7=A8=BF=EF=
+=BC=8F=E5=86=8D=E6=8A=95=E7=A8=BF=E3=81=99=E3=82=8B=E9=9A=9B=E3=81=AF=E3=80=
+=81=E3=81=9D=E3=81=AE=E5=AE=8C=E5=85=A8=E3=81=AA
+ =E8=AA=AC=E6=98=8E=E3=81=A8=E3=80=81=E3=81=9D=E3=82=8C=E3=82=92=E6=AD=A3=
+=E5=BD=93=E5=8C=96=E3=81=99=E3=82=8B=E7=90=86=E7=94=B1=E3=82=92=E5=90=AB=E3=
+=82=81=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E5=8D=98=E3=81=
+=AB=E3=80=8C=E3=81=93=E3=82=8C=E3=81=AF=E3=83=91=E3=83=83=E3=83=81
+@@ -179,3 +178,117 @@ URL =E3=81=AF=E7=A6=81=E6=AD=A2=E3=81=A7=E3=81=99=E3=
+=80=82
+=20
+     $ git log -1 --pretty=3Dfixes 54a4f0239f2e
+     Fixes: 54a4f0239f2e ("KVM: MMU: make kvm_mmu_zap_page() return the num=
+ber of pages it actually freed")
++
++=E5=A4=89=E6=9B=B4=E3=82=92=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B
++--------------
++
++=E5=90=84 **=E8=AB=96=E7=90=86=E7=9A=84=E3=81=AA=E5=A4=89=E6=9B=B4** =E3=
+=81=AF=E3=80=81=E5=80=8B=E5=88=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=
+=AB=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E3=81=9F=E3=81=A8=E3=81=88=E3=81=B0=E3=80=81=E5=8D=98=E4=B8=80=E3=81=AE=
+=E3=83=89=E3=83=A9=E3=82=A4=E3=83=90=E3=81=AB=E5=AF=BE=E3=81=99=E3=82=8B=E5=
+=A4=89=E6=9B=B4=E3=81=AB=E3=83=90=E3=82=B0=E4=BF=AE=E6=AD=A3=E3=81=A8=E6=80=
+=A7=E8=83=BD=E6=94=B9=E5=96=84=E3=81=AE
++=E4=B8=A1=E6=96=B9=E3=81=8C=E5=90=AB=E3=81=BE=E3=82=8C=E3=82=8B=E3=81=AA=
+=E3=82=89=E3=80=81=E3=81=9D=E3=82=8C=E3=82=89=E3=81=AF 2 =E3=81=A4=E4=BB=A5=
+=E4=B8=8A=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=88=86=E3=81=91=E3=
+=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E5=A4=89=E6=9B=B4=E3=81=AB API =E3=81=AE=E6=9B=B4=E6=96=B0=E3=81=A8=E3=80=
+=81=E3=81=9D=E3=81=AE=E6=96=B0=E3=81=97=E3=81=84 API =E3=82=92=E4=BD=BF=E3=
+=81=86=E6=96=B0=E3=81=97=E3=81=84=E3=83=89=E3=83=A9=E3=82=A4=E3=83=90=E3=81=
+=8C
++=E5=90=AB=E3=81=BE=E3=82=8C=E3=82=8B=E3=81=AA=E3=82=89=E3=80=81=E3=81=9D=
+=E3=82=8C=E3=82=89=E3=81=AF 2 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=
+=E3=81=AB=E5=88=86=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=
+=80=82
++
++=E4=B8=80=E6=96=B9=E3=80=81=E5=A4=9A=E6=95=B0=E3=81=AE=E3=83=95=E3=82=A1=
+=E3=82=A4=E3=83=AB=E3=81=AB=E5=AF=BE=E3=81=97=E3=81=A6=E5=8D=98=E4=B8=80=E3=
+=81=AE=E5=A4=89=E6=9B=B4=E3=82=92=E8=A1=8C=E3=81=86=E5=A0=B4=E5=90=88=E3=81=
+=AF=E3=80=81=E3=81=9D=E3=82=8C=E3=82=89=E3=82=92
++1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E3=81=BE=E3=81=A8=
+=E3=82=81=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=A4=E3=
+=81=BE=E3=82=8A=E3=80=811 =E3=81=A4=E3=81=AE=E8=AB=96=E7=90=86=E7=9A=84=E3=
+=81=AA=E5=A4=89=E6=9B=B4=E3=81=AF
++1 =E3=81=A4=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=90=AB=E3=82=81=
+=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=80=82
++
++=E8=A6=9A=E3=81=88=E3=81=A6=E3=81=8A=E3=81=8F=E3=81=B9=E3=81=8D=E7=82=B9=
+=E3=81=AF=E3=80=81=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=83=AC=E3=
+=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=AB=E7=90=86=E8=A7=A3=E3=81=97=E3=82=
+=84=E3=81=99=E3=81=8F=E3=80=81
++=E6=A4=9C=E8=A8=BC=E3=81=A7=E3=81=8D=E3=82=8B=E5=A4=89=E6=9B=B4=E3=81=A7=
+=E3=81=82=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A0=E3=81=A8=E3=81=84=E3=81=86=E3=
+=81=93=E3=81=A8=E3=81=A7=E3=81=99=E3=80=82=E5=90=84=E3=83=91=E3=83=83=E3=83=
+=81=E3=81=AF=E3=80=81
++=E3=81=9D=E3=82=8C=E8=87=AA=E4=BD=93=E3=81=AE=E5=A6=A5=E5=BD=93=E6=80=A7=
+=E3=81=A7=E6=AD=A3=E5=BD=93=E5=8C=96=E3=81=A7=E3=81=8D=E3=81=AA=E3=81=91=E3=
+=82=8C=E3=81=B0=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
++
++=E5=A4=89=E6=9B=B4=E3=82=92=E5=AE=8C=E6=88=90=E3=81=95=E3=81=9B=E3=82=8B=
+=E3=81=9F=E3=82=81=E3=81=AB=E3=80=81=E3=81=82=E3=82=8B=E3=83=91=E3=83=83=E3=
+=83=81=E3=81=8C=E5=88=A5=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E4=BE=
+=9D=E5=AD=98=E3=81=99=E3=82=8B=E3=81=AA=E3=82=89=E3=80=81
++=E3=81=9D=E3=82=8C=E3=81=A7=E3=82=82=E6=A7=8B=E3=81=84=E3=81=BE=E3=81=9B=
+=E3=82=93=E3=80=82=E5=8D=98=E3=81=AB=E3=80=81=E3=83=91=E3=83=83=E3=83=81=E3=
+=81=AE=E8=AA=AC=E6=98=8E=E3=81=AB
++**"this patch depends on patch X"** =E3=81=A8=E8=A8=98=E3=81=97=E3=81=A6=
+=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E5=A4=89=E6=9B=B4=E3=82=92=E4=B8=80=E9=80=A3=E3=81=AE=E3=83=91=E3=83=83=
+=E3=83=81=E3=81=AB=E5=88=86=E3=81=91=E3=82=8B=E9=9A=9B=E3=81=AF=E3=80=81=E3=
+=82=B7=E3=83=AA=E3=83=BC=E3=82=BA=E4=B8=AD=E3=81=AE=E5=90=84=E3=83=91=E3=83=
+=83=E3=83=81=E3=82=92
++=E9=81=A9=E7=94=A8=E3=81=97=E3=81=9F=E5=BE=8C=E3=81=A7=E3=82=82=E3=80=81=
+=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=8C=E6=AD=A3=E3=81=97=E3=81=8F=E3=
+=83=93=E3=83=AB=E3=83=89=E3=81=95=E3=82=8C=E3=80=81=E6=AD=A3=E5=B8=B8=E3=81=
+=AB=E5=8B=95=E4=BD=9C=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92
++=E7=89=B9=E3=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=A6=E7=A2=BA=E8=AA=8D=
+=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E5=95=8F=E9=
+=A1=8C=E3=81=AE=E8=BF=BD=E8=B7=A1=E3=81=AB ``git bisect`` =E3=82=92
++=E4=BD=BF=E3=81=86=E9=96=8B=E7=99=BA=E8=80=85=E3=81=AF=E3=80=81=E3=81=82=
+=E3=81=AA=E3=81=9F=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=B7=E3=83=AA=E3=
+=83=BC=E3=82=BA=E3=82=92=E4=BB=BB=E6=84=8F=E3=81=AE=E5=9C=B0=E7=82=B9=E3=81=
+=A7=E5=88=86=E5=89=B2=E3=81=99=E3=82=8B
++=E3=81=93=E3=81=A8=E3=81=8C=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=
+=E9=80=94=E4=B8=AD=E3=81=A7=E3=83=90=E3=82=B0=E3=82=92=E6=8C=81=E3=81=A1=E8=
+=BE=BC=E3=82=81=E3=81=B0=E3=80=81=E5=BD=BC=E3=82=89=E3=81=AB=E6=84=9F=E8=AC=
+=9D=E3=81=95=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=81=AF
++=E3=81=AA=E3=81=84=E3=81=A7=E3=81=97=E3=82=87=E3=81=86=E3=80=82
++
++=E3=83=91=E3=83=83=E3=83=81=E3=82=BB=E3=83=83=E3=83=88=E3=82=92=E3=81=93=
+=E3=82=8C=E4=BB=A5=E4=B8=8A=E5=B0=8F=E3=81=95=E3=81=8F=E3=81=A7=E3=81=8D=E3=
+=81=AA=E3=81=84=E3=81=AA=E3=82=89=E3=80=81=E4=B8=80=E5=BA=A6=E3=81=AB=E6=8A=
+=95=E7=A8=BF=E3=81=99=E3=82=8B=E3=81=AE=E3=81=AF
++15 =E5=80=8B=E7=A8=8B=E5=BA=A6=E3=81=BE=E3=81=A7=E3=81=AB=E3=81=97=E3=81=
+=A6=E3=80=81=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=81=A8=E7=B5=B1=E5=90=88=
+=E3=82=92=E5=BE=85=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=
+=80=82
++
++
++=E5=A4=89=E6=9B=B4=E3=81=AE=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E3=82=92=
+=E7=A2=BA=E8=AA=8D=E3=81=99=E3=82=8B
++------------------------
++
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E5=9F=BA=E6=9C=AC=E7=9A=84=E3=81=AA=
+=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E9=81=95=E5=8F=8D=E3=81=8C=E3=81=AA=E3=
+=81=84=E3=81=8B=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=
+=95=E3=81=84=E3=80=82=E8=A9=B3=E7=B4=B0=E3=81=AF
++Documentation/process/coding-style.rst =E3=82=92=E5=8F=82=E7=85=A7=E3=81=
+=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E3=81=93=E3=82=8C=E3=82=92=E6=80=A0=E3=82=8B=E3=81=A8=E3=80=81=E5=8D=98=
+=E3=81=AB=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=A2=E3=81=AE=E6=99=82=E9=
+=96=93=E3=82=92=E7=84=A1=E9=A7=84=E3=81=AB=E3=81=99=E3=82=8B=E3=81=A0=E3=81=
+=91=E3=81=A7=E3=81=AA=E3=81=8F=E3=80=81
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AF=E3=81=8A=E3=81=9D=E3=82=89=E3=81=8F=
+=E8=AA=AD=E3=81=BE=E3=82=8C=E3=82=82=E3=81=9B=E3=81=9A=E3=81=AB=E5=8D=B4=E4=
+=B8=8B=E3=81=95=E3=82=8C=E3=81=BE=E3=81=99=E3=80=82
++
++=E5=A4=A7=E3=81=8D=E3=81=AA=E4=BE=8B=E5=A4=96=E3=81=8C 1 =E3=81=A4=E3=81=
+=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=
+=E3=81=82=E3=82=8B=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=8B=E3=82=89=E5=
+=88=A5=E3=81=AE
++=E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=B8=E7=A7=BB=E5=8B=95=E3=81=99=
+=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=A7=E3=81=99=E3=80=82=E3=81=93=E3=81=AE=E3=
+=81=A8=E3=81=8D=E3=81=AF=E3=80=81=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E7=A7=
+=BB=E5=8B=95=E3=81=99=E3=82=8B
++=E3=81=9D=E3=81=AE=E5=90=8C=E3=81=98=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=
+=E4=B8=AD=E3=81=A7=E3=80=81=E7=A7=BB=E5=8B=95=E3=81=97=E3=81=9F=E3=82=B3=E3=
+=83=BC=E3=83=89=E3=82=92=E4=B8=80=E5=88=87=E5=A4=89=E6=9B=B4=E3=81=97=E3=81=
+=A6=E3=81=AF=E3=81=84=E3=81=91=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
++=E3=81=9D=E3=81=86=E3=81=99=E3=82=8B=E3=81=93=E3=81=A8=E3=81=A7=E3=80=81=
+=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E7=A7=BB=E5=8B=95=E3=81=A8=E3=81=84=E3=
+=81=86=E8=A1=8C=E7=82=BA=E3=81=A8=E3=80=81=E3=81=82=E3=81=AA=E3=81=9F=E3=81=
+=AE=E5=A4=89=E6=9B=B4=E3=81=A8=E3=82=92
++=E6=98=8E=E7=A2=BA=E3=81=AB=E5=8C=BA=E5=88=A5=E3=81=A7=E3=81=8D=E3=81=BE=
+=E3=81=99=E3=80=82=E3=81=93=E3=82=8C=E3=81=AF=E5=AE=9F=E9=9A=9B=E3=81=AE=E5=
+=B7=AE=E5=88=86=E3=81=AE=E3=83=AC=E3=83=93=E3=83=A5=E3=83=BC=E3=82=92=E5=A4=
+=A7=E3=81=84=E3=81=AB=E5=8A=A9=E3=81=91=E3=80=81
++=E3=83=84=E3=83=BC=E3=83=AB=E3=81=8C=E3=82=B3=E3=83=BC=E3=83=89=E8=87=AA=
+=E4=BD=93=E3=81=AE=E5=B1=A5=E6=AD=B4=E3=82=92=E3=82=88=E3=82=8A=E9=81=A9=E5=
+=88=87=E3=81=AB=E8=BF=BD=E8=B7=A1=E3=81=A7=E3=81=8D=E3=82=8B=E3=82=88=E3=81=
+=86=E3=81=AB=E3=81=97=E3=81=BE=E3=81=99=E3=80=82
++
++=E6=8F=90=E5=87=BA=E5=89=8D=E3=81=AB=E3=80=81=E3=83=91=E3=83=83=E3=83=81=
+=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=
+=83=BC
++(``scripts/checkpatch.pl``) =E3=81=A7=E3=83=91=E3=83=83=E3=83=81=E3=82=92=
+=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=
+=80=82
++=E3=81=9F=E3=81=A0=E3=81=97=E3=80=81=E3=82=B9=E3=82=BF=E3=82=A4=E3=83=AB=
+=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=83=BC=E3=81=AF=E6=8C=87=E9=87=9D=E3=
+=81=A8=E3=81=97=E3=81=A6=E8=A6=8B=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=
+=82=E3=82=8A=E3=80=81
++=E4=BA=BA=E9=96=93=E3=81=AE=E5=88=A4=E6=96=AD=E3=81=AB=E5=8F=96=E3=81=A3=
+=E3=81=A6=E4=BB=A3=E3=82=8F=E3=82=8B=E3=82=82=E3=81=AE=E3=81=A7=E3=81=AF=E3=
+=81=AA=E3=81=84=E3=81=93=E3=81=A8=E3=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=
+=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++=E9=81=95=E5=8F=8D=E3=81=8C=E3=81=82=E3=81=A3=E3=81=A6=E3=82=82=E3=80=81=
+=E3=81=9D=E3=81=AE=E6=96=B9=E3=81=8C=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E8=
+=A6=8B=E6=A0=84=E3=81=88=E3=81=8C=E3=82=88=E3=81=84=E3=81=AA=E3=82=89=E3=80=
+=81
++=E3=81=9D=E3=81=AE=E3=81=BE=E3=81=BE=E3=81=AB=E3=81=97=E3=81=A6=E3=81=8A=
+=E3=81=8F=E3=81=AE=E3=81=8C=E6=9C=80=E5=96=84=E3=81=A7=E3=81=97=E3=82=87=E3=
+=81=86=E3=80=82
++
++=E3=83=81=E3=82=A7=E3=83=83=E3=82=AB=E3=83=BC=E3=81=AF 3 =E3=81=A4=E3=81=
+=AE=E3=83=AC=E3=83=99=E3=83=AB=E3=81=A7=E5=A0=B1=E5=91=8A=E3=81=97=E3=81=BE=
+=E3=81=99:
++
++ - ERROR: =E9=96=93=E9=81=95=E3=81=A3=E3=81=A6=E3=81=84=E3=82=8B=E5=8F=AF=
+=E8=83=BD=E6=80=A7=E3=81=8C=E9=9D=9E=E5=B8=B8=E3=81=AB=E9=AB=98=E3=81=84=E3=
+=82=82=E3=81=AE
++ - WARNING: =E6=85=8E=E9=87=8D=E3=81=AA=E3=83=AC=E3=83=93=E3=83=A5=E3=83=
+=BC=E3=82=92=E8=A6=81=E3=81=99=E3=82=8B=E3=82=82=E3=81=AE
++ - CHECK: =E6=A4=9C=E8=A8=8E=E3=82=92=E8=A6=81=E3=81=99=E3=82=8B=E3=82=82=
+=E3=81=AE
++
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AB=E6=AE=8B=E3=81=97=E3=81=9F=E9=81=95=
+=E5=8F=8D=E3=81=AB=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81=E3=81=99=E3=
+=81=B9=E3=81=A6=E7=90=86=E7=94=B1=E3=82=92=E8=AA=AC=E6=98=8E=E3=81=A7=E3=81=
+=8D=E3=81=AA=E3=81=91=E3=82=8C=E3=81=B0
++=E3=81=AA=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
++
++
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AE=E5=AE=9B=E5=85=88=E3=82=92=E9=81=B8=
+=E6=8A=9E=E3=81=99=E3=82=8B
++----------------------
++
++=E5=90=84=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=E3=81=AF=E3=80=81=E3=81=9D=
+=E3=81=AE=E3=82=B3=E3=83=BC=E3=83=89=E3=82=92=E4=BF=9D=E5=AE=88=E3=81=99=E3=
+=82=8B=E9=81=A9=E5=88=87=E3=81=AA=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=
+=86=E3=83=A0=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=A8
++=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=
+=E3=82=92=E3=80=81=E5=BF=85=E3=81=9A Cc =E3=81=AB=E5=85=A5=E3=82=8C=E3=81=
+=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E8=AA=B0=E3=81=8C=E3=81=9D=
+=E3=81=AE
++=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=81=8B=E3=81=AF=E3=80=81MAINTAINERS=
+ =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=A8=E3=82=BD=E3=83=BC=E3=82=B9=
+=E3=82=B3=E3=83=BC=E3=83=89=E3=81=AE=E6=94=B9=E8=A8=82=E5=B1=A5=E6=AD=B4=E3=
+=82=92
++=E8=AA=BF=E3=81=B9=E3=81=A6=E7=A2=BA=E8=AA=8D=E3=81=97=E3=81=A6=E3=81=8F=
+=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=81=93=E3=81=AE=E6=AE=B5=E9=9A=8E=E3=
+=81=A7=E3=81=AF ``scripts/get_maintainer.pl``
++=E3=81=8C=E9=9D=9E=E5=B8=B8=E3=81=AB=E5=BD=B9=E7=AB=8B=E3=81=A1=E3=81=BE=
+=E3=81=99=EF=BC=88=E3=83=91=E3=83=83=E3=83=81=E3=81=B8=E3=81=AE=E3=83=91=E3=
+=82=B9=E3=82=92=E5=BC=95=E6=95=B0=E3=81=A8=E3=81=97=E3=81=A6
++``scripts/get_maintainer.pl`` =E3=81=AB=E6=B8=A1=E3=81=97=E3=81=A6=E3=81=
+=8F=E3=81=A0=E3=81=95=E3=81=84=EF=BC=89=E3=80=82=E4=BD=9C=E6=A5=AD=E4=B8=AD=
+=E3=81=AE
++=E3=82=B5=E3=83=96=E3=82=B7=E3=82=B9=E3=83=86=E3=83=A0=E3=81=AE=E3=83=A1=
+=E3=83=B3=E3=83=86=E3=83=8A=E3=81=8C=E8=A6=8B=E3=81=A4=E3=81=8B=E3=82=89=E3=
+=81=AA=E3=81=84=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81Andrew Morton
++(akpm@linux-foundation.org) =E3=81=8C=E6=9C=80=E5=BE=8C=E3=81=AE=E6=89=8B=
+=E6=AE=B5=E3=81=A8=E3=81=AA=E3=82=8B=E3=83=A1=E3=83=B3=E3=83=86=E3=83=8A=E3=
+=81=A7=E3=81=99=E3=80=82
++
++=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=81=A7=
+=E3=81=AF=E3=80=81=E3=83=87=E3=83=95=E3=82=A9=E3=83=AB=E3=83=88=E3=81=A7 li=
+nux-kernel@vger.kernel.org =E3=82=92
++=E4=BD=BF=E3=81=86=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=99=E3=81=8C=E3=80=81=
+=E3=81=93=E3=81=AE=E3=83=AA=E3=82=B9=E3=83=88=E3=81=AE=E6=B5=81=E9=87=8F=E3=
+=81=8C=E5=A4=9A=E3=81=84=E3=81=9F=E3=82=81=E3=80=81=E7=9B=AE=E3=82=92=E9=80=
+=9A=E3=81=95=E3=81=AA=E3=81=8F=E3=81=AA=E3=81=A3=E3=81=9F
++=E9=96=8B=E7=99=BA=E8=80=85=E3=82=82=E5=B0=91=E3=81=AA=E3=81=8F=E3=81=82=
+=E3=82=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82=E3=81=A8=E3=81=AF=E3=81=84=E3=
+=81=88=E3=80=81=E7=84=A1=E9=96=A2=E4=BF=82=E3=81=AA=E3=83=A1=E3=83=BC=E3=83=
+=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=82=84
++=E7=84=A1=E9=96=A2=E4=BF=82=E3=81=AA=E4=BA=BA=E3=80=85=E3=81=AB=E3=82=B9=
+=E3=83=91=E3=83=A0=E3=82=92=E9=80=81=E3=82=89=E3=81=AA=E3=81=84=E3=81=A7=E3=
+=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=A2=E9=80=A3=E3=81=AE=E3=83=A1=
+=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=81=AE=E5=
+=A4=9A=E3=81=8F=E3=81=AF kernel.org =E3=81=A7=E9=81=8B=E5=96=B6=E3=81=95=E3=
+=82=8C=E3=81=A6=E3=81=8A=E3=82=8A=E3=80=81
++=E3=81=9D=E3=81=AE=E4=B8=80=E8=A6=A7=E3=81=AF https://subspace.kernel.org =
+=E3=81=A7=E7=A2=BA=E8=AA=8D=E3=81=A7=E3=81=8D=E3=81=BE=E3=81=99=E3=80=82=E3=
+=81=9F=E3=81=A0=E3=81=97=E3=80=81
++=E4=BB=96=E6=89=80=E3=81=A7=E9=81=8B=E5=96=B6=E3=81=95=E3=82=8C=E3=81=A6=
+=E3=81=84=E3=82=8B=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E9=96=A2=E9=80=A3=E3=
+=81=AE=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=
+=88=E3=82=82=E3=81=82=E3=82=8A=E3=81=BE=E3=81=99=E3=80=82
++
++Linux =E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AB=E6=8E=A1=E7=94=A8=E3=
+=81=95=E3=82=8C=E3=82=8B=E3=81=99=E3=81=B9=E3=81=A6=E3=81=AE=E5=A4=89=E6=9B=
+=B4=E3=81=AE=E6=9C=80=E7=B5=82=E7=9A=84=E3=81=AA=E8=A3=81=E5=AE=9A=E8=80=85=
+=E3=81=AF
++Linus Torvalds =E3=81=A7=E3=81=99=E3=80=82=E5=BD=BC=E3=81=AE=E3=83=A1=E3=
+=83=BC=E3=83=AB=E3=82=A2=E3=83=89=E3=83=AC=E3=82=B9=E3=81=AF
++<torvalds@linux-foundation.org> =E3=81=A7=E3=81=99=E3=80=82Linus =E3=81=AF=
+=E5=A4=A7=E9=87=8F=E3=81=AE=E3=83=A1=E3=83=BC=E3=83=AB=E3=82=92
++=E5=8F=97=E3=81=91=E5=8F=96=E3=81=A3=E3=81=A6=E3=81=8A=E3=82=8A=E3=80=81=
+=E7=8F=BE=E6=99=82=E7=82=B9=E3=81=A7=E3=81=AF=E5=BD=BC=E3=81=AB=E7=9B=B4=E6=
+=8E=A5=E5=B1=8A=E3=81=8F=E3=83=91=E3=83=83=E3=83=81=E3=81=AF=E3=81=94=E3=81=
+=8F=E3=82=8F=E3=81=9A=E3=81=8B=E3=81=AA=E3=81=AE=E3=81=A7=E3=80=81
++=E9=80=9A=E5=B8=B8=E3=81=AF=E5=BD=BC=E3=81=AB=E3=83=A1=E3=83=BC=E3=83=AB=
+=E3=82=92=E9=80=81=E3=82=8B=E3=81=93=E3=81=A8=E3=82=92=E6=A5=B5=E5=8A=9B=E9=
+=81=BF=E3=81=91=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E6=82=AA=E7=94=A8=E5=8F=AF=E8=83=BD=E3=81=AA=E3=82=BB=E3=82=AD=E3=83=A5=
+=E3=83=AA=E3=83=86=E3=82=A3=E3=83=90=E3=82=B0=E3=82=92=E4=BF=AE=E6=AD=A3=E3=
+=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=8C=E3=81=82=E3=82=8B=E3=81=
+=AA=E3=82=89=E3=80=81
++=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92 security@kernel.org=
+ =E3=81=AB=E9=80=81=E3=81=A3=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=
+=E3=80=82=E6=B7=B1=E5=88=BB=E3=81=AA=E3=83=90=E3=82=B0=E3=81=AB
++=E3=81=A4=E3=81=84=E3=81=A6=E3=81=AF=E3=80=81=E3=83=87=E3=82=A3=E3=82=B9=
+=E3=83=88=E3=83=AA=E3=83=93=E3=83=A5=E3=83=BC=E3=82=BF=E3=81=8C=E3=83=A6=E3=
+=83=BC=E3=82=B6=E3=83=BC=E3=81=AB=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E9=85=
+=8D=E5=B8=83=E3=81=A7=E3=81=8D=E3=82=8B=E3=82=88=E3=81=86=E3=80=81
++=E7=9F=AD=E6=9C=9F=E9=96=93=E3=81=AE embargo =E3=81=8C=E6=A4=9C=E8=A8=8E=
+=E3=81=95=E3=82=8C=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=8C=E3=81=82=E3=82=8A=E3=
+=81=BE=E3=81=99=E3=80=82=E3=81=9D=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E5=A0=
+=B4=E5=90=88=E3=80=81
++=E3=81=9D=E3=81=AE=E3=83=91=E3=83=83=E3=83=81=E3=82=92=E5=85=AC=E9=96=8B=
+=E3=83=A1=E3=83=BC=E3=83=AA=E3=83=B3=E3=82=B0=E3=83=AA=E3=82=B9=E3=83=88=E3=
+=81=AB=E9=80=81=E3=82=8B=E3=81=B9=E3=81=8D=E3=81=A7=E3=81=AF=E3=81=82=E3=82=
+=8A=E3=81=BE=E3=81=9B=E3=82=93=E3=80=82
++Documentation/process/security-bugs.rst =E3=82=82=E5=8F=82=E7=85=A7=E3=81=
+=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E3=83=AA=E3=83=AA=E3=83=BC=E3=82=B9=E6=B8=88=E3=81=BF=E3=82=AB=E3=83=BC=
+=E3=83=8D=E3=83=AB=E3=81=AE=E6=B7=B1=E5=88=BB=E3=81=AA=E3=83=90=E3=82=B0=E3=
+=82=92=E4=BF=AE=E6=AD=A3=E3=81=99=E3=82=8B=E3=83=91=E3=83=83=E3=83=81=E3=81=
+=AF=E3=80=81=E6=AC=A1=E3=81=AE=E3=82=88=E3=81=86=E3=81=AA=E8=A1=8C=E3=82=92
++=E3=83=91=E3=83=83=E3=83=81=E3=81=AE sign-off =E6=AC=84=E3=81=AB=E5=85=A5=
+=E3=82=8C=E3=82=8B=E3=81=93=E3=81=A8=E3=81=A7=E3=80=81stable =E3=83=A1=E3=
+=83=B3=E3=83=86=E3=83=8A=E3=81=B8=E5=90=91=E3=81=91=E3=81=A6=E3=81=8F=E3=81=
+=A0=E3=81=95=E3=81=84::
++
++  Cc: stable@vger.kernel.org
++
++=E3=81=93=E3=82=8C=E3=81=AF=E3=83=A1=E3=83=BC=E3=83=AB=E3=81=AE=E5=8F=97=
+=E4=BF=A1=E8=80=85=E3=81=A7=E3=81=AF=E3=81=AA=E3=81=84=E3=81=93=E3=81=A8=E3=
+=81=AB=E6=B3=A8=E6=84=8F=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=
+=84=E3=80=82=E3=81=BE=E3=81=9F=E3=80=81
++=E3=81=93=E3=81=AE=E6=96=87=E6=9B=B8=E3=81=AB=E5=8A=A0=E3=81=88=E3=81=A6 D=
+ocumentation/process/stable-kernel-rules.rst =E3=82=82
++=E8=AA=AD=E3=82=93=E3=81=A7=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
++
++=E5=A4=89=E6=9B=B4=E3=81=8C=E3=83=A6=E3=83=BC=E3=82=B6=E3=83=BC=E3=83=A9=
+=E3=83=B3=E3=83=89=E3=81=A8=E3=82=AB=E3=83=BC=E3=83=8D=E3=83=AB=E3=81=AE=E3=
+=82=A4=E3=83=B3=E3=82=BF=E3=83=BC=E3=83=95=E3=82=A7=E3=83=BC=E3=82=B9=E3=81=
+=AB=E5=BD=B1=E9=9F=BF=E3=81=99=E3=82=8B=E5=A0=B4=E5=90=88=E3=81=AF=E3=80=81
++MAINTAINERS =E3=83=95=E3=82=A1=E3=82=A4=E3=83=AB=E3=81=AB=E8=A8=98=E8=BC=
+=89=E3=81=95=E3=82=8C=E3=81=A6=E3=81=84=E3=82=8B MAN-PAGES =E3=83=A1=E3=83=
+=B3=E3=83=86=E3=83=8A=E3=81=AB
++man-pages =E3=83=91=E3=83=83=E3=83=81=E3=80=81=E5=B0=91=E3=81=AA=E3=81=8F=
+=E3=81=A8=E3=82=82=E5=A4=89=E6=9B=B4=E3=81=AE=E9=80=9A=E7=9F=A5=E3=82=92=E9=
+=80=81=E3=81=A3=E3=81=A6=E3=80=81=E6=83=85=E5=A0=B1=E3=81=8C
++=E3=83=9E=E3=83=8B=E3=83=A5=E3=82=A2=E3=83=AB=E3=83=9A=E3=83=BC=E3=82=B8=
+=E3=81=AB=E5=8F=8D=E6=98=A0=E3=81=95=E3=82=8C=E3=82=8B=E3=82=88=E3=81=86=E3=
+=81=AB=E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82=E3=83=
+=A6=E3=83=BC=E3=82=B6=E3=83=BC=E7=A9=BA=E9=96=93 API =E3=81=AE
++=E5=A4=89=E6=9B=B4=E3=81=AF=E3=80=81linux-api@vger.kernel.org =E3=81=AB=E3=
+=82=82 Cc =E3=81=97=E3=81=A6=E3=81=8F=E3=81=A0=E3=81=95=E3=81=84=E3=80=82
 --=20
-Sincerely,
-Demi Marie Obenour (she/her/hers)
---------------MXnR1EasdO0zrJZt0kS8QF8K
-Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+2.47.3
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
-B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
-bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
-UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
-MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
-zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
-T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
-BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
-6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
-9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
-m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
-zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
-dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
-X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
-R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
-oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
-zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
-rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
-Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
-/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
-ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
-Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
-xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
-fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
-AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
-b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
-BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
-/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
-/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
-sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
-xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
-VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
-hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
-I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
-xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
-ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
-7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
-UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
-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
-EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
-=3Dx94R
------END PGP PUBLIC KEY BLOCK-----
-
---------------MXnR1EasdO0zrJZt0kS8QF8K--
-
---------------AdXhxTHW0QYx3jwi9vvAQP0u--
-
---------------hQM1S125L84tK8szVPuO2FaT
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmn1mU8ACgkQszaHOrMp
-8lONww//Un7dfmrZPNteJk/DumiU3tb8IMGzgXejCI9ljHeDltEOud5PYz5jxKkH
-tENqQRPgAXx1KIgMwsZIezpHYUxGE3oycnN01TtVNE/mgt8V0qFxMNQ+UoE7tS5Z
-fAzscJYXbY/v/KGEaetQSeJTTwGR/7bfV+MW2wPTvB6ccjoWXf9xK3LKHloDqxeH
-CSNm/lxM/JqnetGm3GWQacF+Je1nRSDPpp/U2GRctAM1HcoFUWS21GiD4QJNvymv
-uYxrtEe3Ozk4Mm51Y/cPUrb6t7K5TRqto4qd5sGVqIiWUW/ys3a0fc+8XSWAxmYL
-eidB2qOzrTTWb17ULjw2ZDlAum7WLsRAcvjBGQjVL3pCK/WPqB/H8wY4W0r160y/
-KkikPsY7yfrlhyAzCuWTJpm+s0MSeSSVy59pLIuzmBsP9lRBXctJzQmp2K3cECdJ
-yFpcV/rZxy/2ePO27dm25dMj4nV+Yrc6Cm6oUaknWBGa2R9bjXEDFQc9MKLQGwL5
-h4lZh/T35hk4V2uE2aK8yXOYfcOjoyvJa5L/j7/lk6zFR/AoFR6ClOhqWSEPov0x
-Gv9bu4VbpjTKQ06LldG2uhoIRD1Nue35cUFCk5B5ukijEpfPeinpUt91sccHuvSh
-5SSvCb3MxroQn5txuju4NjcKGvpxhbI7AtAVLOk9aCvNxAcVJro=
-=OGvI
------END PGP SIGNATURE-----
-
---------------hQM1S125L84tK8szVPuO2FaT--
