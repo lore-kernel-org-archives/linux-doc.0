@@ -1,142 +1,97 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FF22F0673;
-	Sat,  2 May 2026 06:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AFF52F12B3;
+	Sat,  2 May 2026 06:07:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777702033; cv=none; b=seFHTZQ2CcSd3aqCEo9QjfpbKQSVW9TcwRbllOVCGlM+vD+ksg80zU/by9VcoxznqZYOA0sbnw6s80oX6MaIMxlg/rJcwvnwu2X56/L01HPrZtO+j+AxufQP4fTsbVyDQgcfUsd4AQr6Ii981bDzV4oQhtrKEtFa1Qe925NbKlE=
+	t=1777702039; cv=none; b=PsR3++ppunOwwXWsauwAkZG6SmDybF4jNXczI5JjmNQb6B/ek3ickvNZFVg6Y7LOmEySMpR9U3bw2A2mLkLKcRcooOKRYo+EqpinxMxLfvRdYxDY5LLZDz3jygqBl1nwGBlOKtY5fMr9nLNRBk5e3MkLNhEhV8ROPwCxjAyteb0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777702033; c=relaxed/simple;
-	bh=mZH1Ywc8JIa1yFFkEYwhLkgEK44DLORqzfpgH+dlfoU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QmGYYAL9rMYpp1XFBniLwvr5NbQzi3SIYPJ8GK3TZX3HL3hwyiKYLe7mj2GxHmPCeL18iypvWhtEk9VFzIEmlWUhEjW1+u2hXrxGhAB4t2Mhn+sNlAnyvWJO7ZqPjJrqkapsGPEAjpSQgiq8MW2RJt0UuFDSrXdLTG2arW3AR2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=Gc3f1ZRd; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1777702039; c=relaxed/simple;
+	bh=Vid1JBj8nCuW5dNpbsPqf85nkSqP3+GErdBE5ojAtwI=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=kt+/HSN1cgTjWOgoYxYxJ52yizAh7nfIzMKi2ts+wXqXuswE+JkaMhHqFGduIldqeifOzma8yZ9zDUEqszIFulvU1+mgsrXrhEi+Kl3yqGnJ+jjcmXq83EQRWb77dj/v28i2GOc6C/Wo8H3T1vufkXK/d2pTV+Xvvq7DgH/sQJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=Q/KZXedz; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="Gc3f1ZRd"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1777702029; bh=ZB38LQXr254bYq/wdyTLMI+aWdPO5vNjqpNMweDOsjE=;
-	h=From:Message-ID:From;
-	b=Gc3f1ZRdDRUhL/O/PK695Crvs0G18Qp3AHMvLmcCh5rBxtqpw0gZGARQLN7qZFeb0
-	 +8730sAYzBK84VlgzY63cs3PGl91kEgPMRIx7We5L4Rv/7G/OBxvNz0P0iV9OX17nt
-	 ZopwHW/GfXm+uGd0AzcFI1MLpdFYhhGFeLCm3IJA=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 2ED1CC0AA3;
-	Sat, 02 May 2026 08:07:09 +0200 (CEST)
-Date: Sat, 2 May 2026 08:07:08 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Demi Marie Obenour <demiobenour@gmail.com>
-Cc: Greg KH <greg@kroah.com>, leon@kernel.org, security@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Qubes Developer Mailing List <qubes-devel@googlegroups.com>
-Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
- not a security bug
-Message-ID: <afWUjN1FbIHIK99Z@1wt.eu>
-References: <20260426163914.19449-1-w@1wt.eu>
- <20260426163914.19449-3-w@1wt.eu>
- <2026042753-ozone-jigsaw-4ad5@gregkh>
- <ae-Acm2XJ3sR34Il@1wt.eu>
- <2026042724-bullhorn-bobtail-ae6f@gregkh>
- <ae-LVyDQPVwxesCO@1wt.eu>
- <2026042804-overbook-ripeness-73dd@gregkh>
- <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com>
- <afWNHZoN64fldbUK@1wt.eu>
- <a8e60dfe-2965-4a4b-89fb-ce5991395dc5@gmail.com>
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="Q/KZXedz"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1777702026; bh=Jky+evJLIqJaEQMGtWnaMU3ymJWVi3lFosEz4lTsbq0=;
+	h=From:To:Cc:Subject:Date;
+	b=Q/KZXedzZuap9kWTy87UwXSlXrW+WGtejySJY7nwm9RXnvyH0gC7Pb637BoZ9sWaV
+	 kurjmrAGpTLKV8WNw8jKb5+icYqsUJR6vhzN8NuztJE6qwzCMID+CVDR+JH/Ug5lFs
+	 G5wBItiw7noFPrOsJ1E/trNglhyHI6B3V0Xsve1Q=
+Received: from Lang.smartont.net ([223.88.152.211])
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id 1C3A4067; Sat, 02 May 2026 14:07:03 +0800
+X-QQ-mid: xmsmtpt1777702023tkggfwn67
+Message-ID: <tencent_EC262467CD5E46CA97CF2B2FDCBCA0565C08@qq.com>
+X-QQ-XMAILINFO: MS2Hp1XcKKWFlcLec/+xkFzHQUgT/cC/dcMpPdlUwtkunomGjUj/pQLc30IsWL
+	 4CrtK1YjvIXeUEMZi3KiZdqG6XlCkCNf+0LzDNLdBKRknHgU/QP43/868ug4E31HA8ShITcZur81
+	 nb9TDBxGv8Bsu4VGWgFTLRPVFy5OXWqW324caa8VXKcPkX5fxIjhKfePDWk2TM72KirHpav4FKTn
+	 zydhjdVIi9EMdmhYJUa6j1bG7XUjPIwuzHb2WNGa37/jmwxU6Xevjpo/htaRoJ/CGegVUbkOTqc7
+	 elBj+efcasfco+RhG4J9bZdeUZtJ3gNlloj+DLH20/8BAJYZtoj53+W6T29JwH1csxTVQZsb8ugJ
+	 X4YhzkxdQ4IfcCsK+YCfEUs9DiGG2a31JpueTYd3IiIgZ+g8HmNLHTdEFR0WY8T6RThbIZFrenOn
+	 JAbOQgFanFMaWt7ltfeb8ay0TWhrduMOV1bIxTWIaLfzGiELOJC4gdqe1DyD8UPAo4a8JJ72CC5l
+	 eXsCGtdQ2Ftfd4b2+CGWOxE7AG2jRFxmH2yyA0oEE0PnVwL7Dkxj+NbpE77c6pM5RV4x3MnAnDro
+	 esv0sVpW3wlFfUQXVdt7e+pvs8c9wMRjwCBLPqysIKFecPVRdhDHLHXYfkPk3VmVvm8whuqGWPqY
+	 4WJXSA0uUwbCTCC5VjtENbg4miiy27woAOEH+wzm+j9dGVd7+JfN/npDZzyTtIh8GC2+zHuXugHz
+	 WNeYMvTJ26fr40RybZ+SYu5k0xSBoODA06KNO/i3EstjHGM1h1FoPaN5bG4275SXJJfUuz62CVrM
+	 HKcusrXFkSsGeHwul56p6QM1VXpWcpk0Xay0tLYoNGZ8rm0YHjnDIPmhngYYs1NWtydWBscn/+6Q
+	 AUScIpzMJKz5g4SBT2sgyGknsSw4i1U9G6A6ViNquQYFeRVCj2bumc7YRzpdEYkI/Z5zEMZEi3y4
+	 9upD2JAsGdgrMu2ZMx8RZ4aKTiWgdtwLYJpb3T0IrzSK/QPpo5cN1TYfsbJYXH2kspzXZfXgBcs6
+	 5GeoYatmXhbCzzrlx/gZIvvuh/wc9TL1cUiDR9/shczffRMrjcC9BWxVGF28/WE59vgv5c5AgwDx
+	 8VlBCssGn9Ina+Us3GSKkrrrpjP8ILvBx7U2lYg+rpKu9J9UOi6sv/shQbT1kiiAOYSxMSuH0TyP
+	 54cPOX84I841uGnA==
+X-QQ-XMRINFO: OWPUhxQsoeAVwkVaQIEGSKwwgKCxK/fD5g==
+From: Wang Zihan <jiyu03@qq.com>
+To: jic23@kernel.org
+Cc: linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Wang Zihan <jiyu03@qq.com>
+Subject: [PATCH v2] iio: adxl313: fix typos in documentation
+Date: Sat,  2 May 2026 14:07:00 +0800
+X-OQ-MSGID: <20260502060702.141661-1-jiyu03@qq.com>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a8e60dfe-2965-4a4b-89fb-ce5991395dc5@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, May 02, 2026 at 01:51:08AM -0400, Demi Marie Obenour wrote:
-> On 5/2/26 01:35, Willy Tarreau wrote:
-> > Hi Demi Marie,
-> > 
-> > On Sat, May 02, 2026 at 01:20:10AM -0400, Demi Marie Obenour wrote:
-> >>>>> Ah, but USB does cover "some" modification of devices, so this is going
-> >>>>> to be something that is good to document over time, if for no other
-> >>>>> reason to keep these scanning tools in check from hallucinating crazy
-> >>>>> situations that are obviously not a valid thing we care about.
-> >>>>
-> >>>> OK but does this mean you still want to get these reports in the end ?
-> >>>
-> >>> I want a patch if a user cares about that threat-model (as Android does
-> >>> but no one else) as it's up to the user groups that want to change the
-> >>> default kernel's behavior like this to actually submit patches to do so.
-> >> FYI, I don't think this is limited to Android.  Chrome OS definitely
-> >> cares about malicious USB devices, and the whole purpose of USBGuard is
-> >> to prevent a USB device from being able to compromise the system unless
-> >> authorized.  I believe Qubes OS also cares, as it supports USB device
-> >> assignment to virtual machines.  CCing qubes-devel for confirmation.
-> >>
-> >> What should that patch look like?  Could there be a way for these user
-> >> groups to be informed of vulnerabilities in the USB subsystem, so that
-> >> they can take responsibility for fixing them before they become public?
-> > 
-> > I've posted a proposal elsewhere in the same thread:
-> > 
-> >    https://lore.kernel.org/lkml/afSxSX8RK0Z4kkOI@1wt.eu/
-> 
-> I saw that, but it's still not quite clear what is meant here.
-> My understanding is that those concerned about malicious USB devices
-> are generally concerned about _arbitrary_ malicious USB devices.
-> The one thing a USB device shouldn't be able to spoof is the port
-> it is plugged into, and userspace tools like USBGuard can use that
-> information.  But to do that, they have to trust that the device
-> can't harm the system if it isn't assigned to any drivers.
+Add missing space in "ADXL313is" and correct "a single types"
+to "a single type".
 
-The goal sought by that early document precisely is to draw the line
-between what is a regular bug and hwat is a kernel bug. The kernel
-currently doesn't consider problems posed by a crafted USB device as a
-security issue because the kernel trusts the hardware in runs on. Of
-course there can be valid reasons to disagree with this, but it's just
-the current situation and the purpose of the document is to clarify it
-so that bugs are reported to the right place and handled efficiently.
+Signed-off-by: Wang Zihan <jiyu03@qq.com>
+---
+ Documentation/iio/adxl313.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-> >> It does make sense for those who care about the security of a subsystem
-> >> to be responsible for vulnerabilities in that system, but right now
-> >> I'm not sure how one would offer to take up that responsibility.
-> > 
-> > I think that at least some subsystems will want to add their own
-> > restrictions based on the bug reports they keep receiving, and I hope
-> > it can help distros figure where there's a gap between is promised to
-> > users and what the kernel promises, that needs to be filled by userland
-> > verification tools for example.
-> > 
-> > Willy
-> 
-> I think there might be another category, which is were there is a
-> third party who is much more interested in the security of a subsystem
-> than its primary maintainers are.  I suspect that Google is said
-> third party in multiple such cases, especially various USB drivers.
-> In particular, exploiting the kernel via USB is a common attack
-> technique used in the wild by tools like Cellebrite.
+diff --git a/Documentation/iio/adxl313.rst b/Documentation/iio/adxl313.rst
+index 966e72c01..3662153a6 100644
+--- a/Documentation/iio/adxl313.rst
++++ b/Documentation/iio/adxl313.rst
+@@ -11,7 +11,7 @@ This driver supports Analog Device's ADXL313 on SPI/I2C bus.
+ 
+ * `ADXL313 <https://www.analog.com/ADXL313>`_
+ 
+-The ADXL313is a low noise density, low power, 3-axis accelerometer with
++The ADXL313 is a low noise density, low power, 3-axis accelerometer with
+ selectable measurement ranges. The ADXL313 supports the ±0.5 g, ±1 g, ±2 g and
+ ±4 g ranges.
+ 
+@@ -112,7 +112,7 @@ apply the following formula:
+ Where _offset and _scale are device attributes. If no _offset attribute is
+ present, simply assume its value is 0.
+ 
+-The ADXL313 driver offers data for a single types of channels, the table below
++The ADXL313 driver offers data for a single type of channels, the table below
+ shows the measurement units for the processed value, which are defined by the
+ IIO framework:
+ 
+-- 
+2.54.0
 
-Possibly that such ones might appear there at some point. The best
-way for these might be to have such teams try to step up as
-co-maintainers for the parts they care about though.
-
-> In these cases, I think it makes sense to funnel vulnerability
-> reports to the people who actually seriously care about fixing them.
-> For instance, problems in USB might be funneled to the Chrome OS and
-> Android security teams.  They will get fixed much more quickly, and
-> upstream maintainers won't be flooded with reports that don't have
-> attached patches.
-
-Trust me, patches written behind closed doors rarely resist publication
-and discovery by the maintainer. And treating bugs as regular ones in
-fact tends to make them move faster than as security ones. No need to
-go back-and-forth asking for data that reporters hesitate to share, nor
-to have to first convince them that their bug needs to be fixed even
-though they were planning on speaking about them at a conference, etc.
-
-Cheers,
-Willy
