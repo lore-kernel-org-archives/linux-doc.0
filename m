@@ -1,148 +1,149 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77FCE2EC54C
-	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 12:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777723373; cv=none; b=T87uJODiCnEX45JLLILkIt8PWC8mPXiOBiE1p5iKO6Ln5DAukLm2Y9zNL6/LPk1YW+OC46md1r6ugD4sKbQurMam5dllEcR8FYN0QJl+y1VWYrv/+WG7mdQeC4J5gqU3rfGm9F737t71kSHpFxhzKTeSwC9zFPQWAqRhspH+M+A=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777723373; c=relaxed/simple;
-	bh=3INnfaqYJtlVKydOe32xg3MJIQCuBckCEpzxpEDMS0g=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZdXlQSMfvB/O8J/ehaoa5NeK3VYLKmZu+wD9XUYp4zze30Q7gdf0Nyc3F5RVDz5jnNzY6afAAYZNIIo9f/vS3mA/7IF8Clr3pzWvC7OjcHFw/T1aya6aaFIoSwqTmIQcNyDvncWFITCRMOstlmMFIFgObmgSsqCdzcMAElOsq2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LrqXJZyb; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=IC3FgaFQ; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 124D8376494
+	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 12:45:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.221.50
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777725940; cv=pass; b=twfMaIPOGc4ZIHulJAG30ddJNdKCqceQnwFsCiAQUYXV2MH4A7ZbGRFvReYqg7cbsRXKwdNWeLhIIZpaxirRkKlm5ZD1kFu4ZzZlBMc09dv/NVNHY5vWNkCEDy2sNDyjEwTCBXk0ODJTlxx7IieTu8v+/FgJm5jOGHtW+dWh4Mo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777725940; c=relaxed/simple;
+	bh=n3xseiNIVpllcVpiu3P4TyieWy+FX3D8w8ugihmNk6Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Mgh1ZcETrcedrCHGz0c2d639YIVaz8NNkUdAsiGG68bxXOV/OngNR2vp6BWDij1/EkwXKeRIjJ6kannQxrLSkTRUSG17yAuKT/s81R/cqTrLHGtsoKmIo7ZN/eN/RuT5UPQPx4hz9bn6iWyfBr1lATC3X1TRXsDLCtsncCbUjP4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y8zY0/Eu; arc=pass smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LrqXJZyb";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="IC3FgaFQ"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777723371;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=2GdRS1eTjosloTRbS7bY0K4+qUs4PcyPn0xpWA1AQIc=;
-	b=LrqXJZybpTBkcVitttZbALrLhKe3bl5B6j6qmSrSiy+OwxWHLyopLszglA1BeE2BE7wjwh
-	XNnaA2+DMLtmd8/k91R3qv4tO9gZPIKrYCI7UgxOtRe+6qeSXCnfofmK+n+eEKiPi0utPR
-	vApuDxUlQ2u4euRW7y6kfKruqRhdu6U=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-633-hh471SvIOaKSQcVYmImWlA-1; Sat, 02 May 2026 08:02:50 -0400
-X-MC-Unique: hh471SvIOaKSQcVYmImWlA-1
-X-Mimecast-MFC-AGG-ID: hh471SvIOaKSQcVYmImWlA_1777723369
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-48906aa28cbso28840875e9.0
-        for <linux-doc@vger.kernel.org>; Sat, 02 May 2026 05:02:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y8zY0/Eu"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-44ccbd3290aso65689f8f.2
+        for <linux-doc@vger.kernel.org>; Sat, 02 May 2026 05:45:38 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1777725937; cv=none;
+        d=google.com; s=arc-20240605;
+        b=iUo3DqKpkT/vQL/2wOJu6sHphuW2ZlD9t+KHcuQS11XAVBOQaDEH2Itp92AX1Xvg3+
+         vJfxk6TfK5GTZRuGXk6DHzz+LExqsMzCqZGk1aB0QsSVrhjXjyzn/IbVyxDPrDl8dv4h
+         70Nfw+x5APrWtR/JkMM8HBgk+v2puuykXpRRLV5Cq6PR1XIkE/Y+PBVpd1M8WaxM1Kyf
+         TYItv8NyYJDqIXbDXT8qGKS33KlDxpJbxL011ZFngEHMIEkxiWcTz0X2AHws2tzLo/ao
+         4KkJl+JylrgijCE17EQFBeNMmHytPU3ceZcxEF6M89qS3Gy2pIwY/ELXeeCxbM9xgdhy
+         7FhA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=UFEiLFgiMdeWzVKtIkFtmgYmWXOcnLKXA7wanDd2Y4o=;
+        fh=1a+t7NIPVvlZHPV9kMxIPLwYljThwDxif6lHGWNYhY4=;
+        b=A6TFN2j1CQoatyJy9aq5eh/h62FkdRpl5FmAQRCTeCXt4a77sU7xn6+Yy5fR7IW8DU
+         Bu6Rb0Dm0Ty47n5hQ1wKQOKYlQ+B5B+nV3VYvL8bLTGSbBCjJxyK8nqXZF4GrbUYFDs2
+         gCjwRZtfGCbDAVMBTtTAWMT/S5Iwvi7UcI+m087/Klbsi3j/4v9V2bejArHBpM9ogAgD
+         YUcKdiTFP9vfR72ot9Mkge3TVuP88345DW4GVwU2ukMlFtjV4pPSqnLwET1fW7hK8qnn
+         T1or2ESTAP4bg1vy5ri313GP7ifaP88wMQ4S3ZIwZDb2km3Sdmd6tgVwdyMXHU3b3Cu1
+         Mtlg==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777723369; x=1778328169; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=2GdRS1eTjosloTRbS7bY0K4+qUs4PcyPn0xpWA1AQIc=;
-        b=IC3FgaFQ9xC3I3GP5MQ20j4vcTPzBQ8ZfyQjUQPYdroUvM2/uNIJ4Hj8fBC6ZtTAwW
-         6vxH4gUhFvzuXYd77jrmbWuXBLR12Om1yzkkzLpiTHsyd3cWZW0FesAugpagFkaiubzV
-         0cMjbxYA+5QymVh3T4buuOtDjeAgK+3VbMdqNNBLZO5rHoxCkzQXP05jEeWnQhH6Zeki
-         MeORjnTd40vmf1R93ybhgrueVbJHeci2U7kFN0CzYGjomMJyivus06JRvsvCJF3Po0iM
-         gkdvyOkuJBX8nRR4CNYrtK5C848On9U1CWoqz6IsgDCb/V2O/Cn4bMG6RlzOyPiSiVjP
-         6PtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777723369; x=1778328169;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1777725937; x=1778330737; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2GdRS1eTjosloTRbS7bY0K4+qUs4PcyPn0xpWA1AQIc=;
-        b=e1wJZtPF+1vnmmuqow9FDWnabAA69+gdDAd1/UOvDlF5l3weH0Ji5pVFkmxHBh4Ufu
-         4SCY58jxYtMQN5+KH6qqjoQcB9I+j6x6r2uRCIQMnQ/kUizASRxbTK6/exIu4YpabH2J
-         NFHGrasKeId5OyF3T3pGA1FUhcW0MVlK2Qqv9moShoZf5kzUZ+Ea65183JA3Wmqp1gTU
-         qat/0fR/+NwswYSkgsLJMnGqyrEq/7lZqNgbJ1ZNj//jHEfTjYsI43v555im4Sblxm+M
-         Eb2C4t/VrAeiPG3bTcj6Z1lUr5H2wB/2ahxF5uCZUKb/Rri5FFdfr8hteof8MqHv5OF8
-         2mVA==
-X-Forwarded-Encrypted: i=1; AFNElJ8gxYCcZqG45wKyCQvO3KruPe1SsxJVYQoFxWELq6fx1WA4ZsXo6dezCP9Sp8jV5nsOax40EmV0vYk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOvFJq4KRh19iZMCl+1YUMwQ3k9YbneVriU/g0UbHblNx5LfhZ
-	YTTVd2w/SVCvWS7xxRA/qE4k0pGSNfrMoC5gL9Y2HfLpwc3hzMaLEp0WKizTNNBNzrXtMx6gEHv
-	bw6bN9TpptFex4pgbBWh8qX9bA3CSpdzCORQL5sZfBnJEc4tAtt21S1nRHpkRbg==
-X-Gm-Gg: AeBDievAKq9Rq8MsH6odRsfEc07vSso/O5Oz/h7NyWqfclPKKRiGeJ8nwb8i1pIxCXA
-	g1eo+Osx7vj3hfckQhhrzLFVxezWWrG3odglZfk7/JNUrvMiGI1BwmgIBRrHnHJPJMdIDjIjs0h
-	+Nseit+Ub2Wbx8xnaj6zy8DBbwy4rDthdeWnepDq74GwQ/vR6ZbC9SeJOv+thpMEVTo7SwZHKyg
-	Z2VhKw6SCU4tHbOPuh0nQwXcDNhgNtfrV8WIcsfAScwEQBThxCy7hOWdFkgL19Ckdn5cl/Engxd
-	5Cil5oGf0S34xjJe4mxy0hPHqziiD27Z8au/gRbPET0zDLpLWbxzx62tCAZmqcxgrHITIyn8kDF
-	CIm4pk/Q3gJwjhh1YeH4LI/+yZ7+Klv6F38P/Ttaul89ZbHQI
-X-Received: by 2002:a05:600c:1d89:b0:48a:53cb:8604 with SMTP id 5b1f17b1804b1-48a97111ef3mr43047795e9.14.1777723368799;
-        Sat, 02 May 2026 05:02:48 -0700 (PDT)
-X-Received: by 2002:a05:600c:1d89:b0:48a:53cb:8604 with SMTP id 5b1f17b1804b1-48a97111ef3mr43047465e9.14.1777723368398;
-        Sat, 02 May 2026 05:02:48 -0700 (PDT)
-Received: from costa-tp.redhat.com ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fee8751sm55621435e9.9.2026.05.02.05.02.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 May 2026 05:02:47 -0700 (PDT)
-From: Costa Shulyupin <costa.shul@redhat.com>
-To: Jakub Kicinski <kuba@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v2] docs: Remove stale ISDN parameters
-Date: Sat,  2 May 2026 15:02:05 +0300
-Message-ID: <20260502120206.1289126-1-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.53.0
+        bh=UFEiLFgiMdeWzVKtIkFtmgYmWXOcnLKXA7wanDd2Y4o=;
+        b=Y8zY0/Eu9T6rqah5cGCWpRV/8CTgLf0S+OCyMIqSQrgO/TqsDBySbFHaXgdhDcBEhm
+         TdyuATXDG7ZL/EIgJjeFETfExIn8g/CkRk7fAi8ge6+wY8wj1PYEMPc5d9MhsxwSmVil
+         aU/I0Qh+Q4q1B1UzZNhyK1iL/mq3jO01ql4vA9QbcmhSUGjeeEWf9CxU93Dy2auzx4N2
+         cwnnzTmQRxVqubBIGwFWLXlsWKZl479Krgy9u1z/JY5KjfdLdWELx3AEAd8jCbJvLfTj
+         1BUWdhf05x9Vge7RLoUbS113sfBsiLbjGVhkjzAH2uI9wPOCj3c8atw2cwCa8sIQgOuc
+         k48A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777725937; x=1778330737;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=UFEiLFgiMdeWzVKtIkFtmgYmWXOcnLKXA7wanDd2Y4o=;
+        b=CTPW1pYk5EPmEFUy3IxAMfeU0jdjrw2PJA/ug6PKpfpfXHKsisSLc9mBi3PRmgahrq
+         eT5ot5L+TU4xeg4GeuWmUcfyHVdjYjjxi7ZlK7Gu1A619qE69tLtTsWYoChFROiod339
+         EoPgHFdA+rnv0HqGDXD4PwYmA0NTIMYf2VpH1CJQPr6QKxB28AbCLFMtD/OL2HpXBC9b
+         4MGKqK5F2iAec+LDq92zystW51+TaIjlbyv+fyM8bphZLk8Cwbhb2W025xHX+1ScIQ11
+         97lcB8cS5JhH6tIcO4M1m8tYuBoS07F2X/e+W0/YUBsks6l34G7mc5vbhnYg847mJ9Pj
+         dG+w==
+X-Forwarded-Encrypted: i=1; AFNElJ8cmd/1RhN9pJF2Ni9p6ofbaeVQ/MHxjukdpZmUQisLxfOt926U3B0hygRLzJKCUEeJvfuxjKLNmow=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrBRt+uXyd4qlIZqDyZ9Dg9scpqCp0VMCFa4X2oF26x1SR7BrP
+	Q5hbxmKpV5wff+0Q21ctpvqzswj+fxaWLyJ/j0uxcF6AKgRvRTwpdOQF1uzplHkC/f5LdfdZlWo
+	yQEk4S4PL//HVwhB7gKSSwmljGcXwcX0Om/kW
+X-Gm-Gg: AeBDietfgbW2c36r3Me5rxHjuddx1oV5gOw0B/umTBUkAdv0Bc7uml5oXCZuOn0vE2J
+	+30DyH7lpT6GAF+RMi51P+e9NcTjbyEZaTZTZknTbwayqO8ORbgAhQ61kYsl8QxQfWjj5fBRoB4
+	fvwfcTIbNrUuYtzT2hZpmn9DZ3FzXIVBItAyXS+DlFNNdItLQayWn1r0xlop418x7vM9pCEyKqZ
+	dbKV8xVXY9YdSRDbJaUcp9GhcwHvh4AhAz+o2sQuaO8iip20SRxVxUs2sLTgsccGWLiTr4aWNtd
+	UKzRbDIctkg4EJEK+Z50LwrJhK7qTZ1cppDkTPL2jVe0eUsi+bnTyRH/O46JV1l+OGncB9+wP+d
+	lhohqSxnRVLOosDgb24KY3nNqpd2BHFO1xhSrFnJBkvLTka56Hfg3hiw0Pc1+iBKZhA5MBDe9I3
+	xj6ouHrC8Dziki6RQgvdiasohy6Ns2xXBqtqTx8YySkvYsBAq5
+X-Received: by 2002:a05:6000:2313:b0:43d:77f4:7145 with SMTP id
+ ffacd0b85a97d-44bb5680d79mr4852242f8f.19.1777725937241; Sat, 02 May 2026
+ 05:45:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <tencent_EC262467CD5E46CA97CF2B2FDCBCA0565C08@qq.com>
+In-Reply-To: <tencent_EC262467CD5E46CA97CF2B2FDCBCA0565C08@qq.com>
+From: Joshua Crofts <joshua.crofts1@gmail.com>
+Date: Sat, 2 May 2026 14:45:26 +0200
+X-Gm-Features: AVHnY4KxdE-SEktE6ItXq7xcFgqr0xVAdOiLtKg-q3U-oWGA6xPYzkRFtKeHrHA
+Message-ID: <CALoEA-zKcE2FXu3g7EC7OKSJmEtN0SWjy9ce07yQeMph4aH+5w@mail.gmail.com>
+Subject: Re: [PATCH v2] iio: adxl313: fix typos in documentation
+To: Wang Zihan <jiyu03@qq.com>
+Cc: jic23@kernel.org, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The icn= and pcbit= parameters referenced drivers removed in
-commit 02bbd9802da7 ("staging: i4l: delete the whole thing").
+On Sat, 2 May 2026 at 08:07, Wang Zihan <jiyu03@qq.com> wrote:
+>
+> Add missing space in "ADXL313is" and correct "a single types"
+> to "a single type".
+>
+> Signed-off-by: Wang Zihan <jiyu03@qq.com>
+> ---
+>  Documentation/iio/adxl313.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/iio/adxl313.rst b/Documentation/iio/adxl313.rs=
+t
+> index 966e72c01..3662153a6 100644
+> --- a/Documentation/iio/adxl313.rst
+> +++ b/Documentation/iio/adxl313.rst
+> @@ -11,7 +11,7 @@ This driver supports Analog Device's ADXL313 on SPI/I2C=
+ bus.
+>
+>  * `ADXL313 <https://www.analog.com/ADXL313>`_
+>
+> -The ADXL313is a low noise density, low power, 3-axis accelerometer with
+> +The ADXL313 is a low noise density, low power, 3-axis accelerometer with
+>  selectable measurement ranges. The ADXL313 supports the =C2=B10.5 g, =C2=
+=B11 g, =C2=B12 g and
+>  =C2=B14 g ranges.
+>
+> @@ -112,7 +112,7 @@ apply the following formula:
+>  Where _offset and _scale are device attributes. If no _offset attribute =
+is
+>  present, simply assume its value is 0.
+>
+> -The ADXL313 driver offers data for a single types of channels, the table=
+ below
+> +The ADXL313 driver offers data for a single type of channels, the table =
+below
+>  shows the measurement units for the processed value, which are defined b=
+y the
+>  IIO framework:
+>
+> --
+> 2.54.0
+>
+>
 
-Remove the stale parameter entries and the now-unused ISDN tag
-from the legend.
+FYI, please wait 24 hours before sending a v2.
 
-Suggested-by: Randy Dunlap <rdunlap@infradead.org>
-Assisted-by: Claude:claude-opus-4-6
----
-v2: Remove pcbit= and ISDN too
-    Address comments of Randy Dunlap
-V1: Remove icn=
+Reviewed-by: Joshua Crofts <joshua.crofts1@gmail.com>
 
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
----
- Documentation/admin-guide/kernel-parameters.txt | 6 ------
- 1 file changed, 6 deletions(-)
+--=20
+Kind regards
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index c13c354728bb..96c189e5f5bf 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -24,7 +24,6 @@
- 	IP_PNP	IP DHCP, BOOTP, or RARP is enabled.
- 	IPV6	IPv6 support is enabled.
- 	ISAPNP	ISA PnP code is enabled.
--	ISDN	Appropriate ISDN support is enabled.
- 	ISOL	CPU Isolation is enabled.
- 	JOY	Appropriate joystick support is enabled.
- 	KGDB	Kernel debugger support is enabled.
-@@ -2245,9 +2244,6 @@ Kernel parameters
- 			syscalls, essentially overriding IA32_EMULATION_DEFAULT_DISABLED at
- 			boot time. When false, unconditionally disables IA32 emulation.
- 
--	icn=		[HW,ISDN]
--			Format: <io>[,<membase>[,<icn_id>[,<icn_id2>]]]
--
- 
- 	idle=		[X86,EARLY]
- 			Format: idle=poll, idle=halt, idle=nomwait
-@@ -5037,8 +5033,6 @@ Kernel parameters
- 			the specified number of seconds.  This is to be used if
- 			your oopses keep scrolling off the screen.
- 
--	pcbit=		[HW,ISDN]
--
- 	pci=option[,option...]	[PCI,EARLY] various PCI subsystem options.
- 
- 				Some options herein operate on a specific device
--- 
-2.53.0
-
+CJD
