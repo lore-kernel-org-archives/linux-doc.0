@@ -1,60 +1,69 @@
-Received: from out162-62-57-64.mail.qq.com (out162-62-57-64.mail.qq.com [162.62.57.64])
+Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3D8B2BE03B;
-	Sat,  2 May 2026 11:19:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284D33290AF;
+	Sat,  2 May 2026 11:20:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777720790; cv=none; b=flDQWdRfqYrJ/XYLExgbKZ861UXZrNFXB0srzHBDTQN7oMd0aB0LxYceVKEGKb9k3W+vOz0JswHoogeu/1mN8V+jwu9vJBOUXY79tDKma1hjHDNgq1eoDsYNRtF1hWrFQ5//eY4CAiFdLNNtmIrxcqfkqDZvU7K/hF5QPJMbvBU=
+	t=1777720848; cv=none; b=Y9beD4QLpMYObkXFwPW+FgtFdHZTAkuEZkWtXZoJlunM9bqZXiIoDs52AQjLab2AzZWrvInDUvTFSVOrVKukEs0BCwe9dAMzWfEzcV5i5H2e9ZYkZoxrZQYmfcyEpiPXsIRfwcjLH2DsoHhk5tjhkPhyOISm1iNNe1gfi2lQuxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777720790; c=relaxed/simple;
-	bh=1BhQE12YvCHq6qtoF75ANphSTTLl26hrYGIArgyxMIg=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=SkZj4F7us898n7wCLEbMUIp3iLdh830KAfapgjSXVBElk6P4KqeMZBJarAm6BYYtis5rqWuuob5kcJtBnPkUhc5Vbsl7NzoGOszAky9lEL/zZ+9XxK95Uizx/txRWy9q/kCo1t9yYUuZKKrO3NUC96mtEsxXnakDPIDxfB4QsH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=W8VITd6p; arc=none smtp.client-ip=162.62.57.64
+	s=arc-20240116; t=1777720848; c=relaxed/simple;
+	bh=kroM3dHiwX8iXnLTgoNK2Ui7tiIdu/xn7VeGYjqdHck=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=lE3tumE/L3VW1QD5P/nsqgzV7yuGtPph7M29HArPbEbBJe9a9LpTaA5AkGSvUJrDrsJ2yzMk8xAlGgbs29dPlDhZRfpnwjbSKWM+0t8N3YgD0cxC5aeTHRzOAold+5XZD6uykJs7NGsBuQEWwEvtur/HASyH2zA4OTpUwMdmDXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=OJWgz/dx; arc=none smtp.client-ip=162.62.57.87
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="W8VITd6p"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="OJWgz/dx"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777720757; bh=/ZARG5qJKou2U2YRFhbHR39Bt+W61WYqNG1U0crMawA=;
+	t=1777720835; bh=/P2+h0oopeGcJLkWbR2iUk4xU6TlOScWeXXKUXMCSiQ=;
 	h=From:To:Cc:Subject:Date;
-	b=W8VITd6pqKZuKdg2oHBDwIvFgtBLCrJ9l96cqZtXWF7kR9nRv1y29ET0DaoWyQ4VH
-	 qQpqHq+r+TquffbAUQjSS0TBrBDUZHY678nM7H7hkeuYzWZY3bwa62qODlB2WlMg5m
-	 G3SZj0jGw2HmaGpRF3x9qSD5MJoP7lax9UaRyHUI=
+	b=OJWgz/dxOfeyt77d99bE1qNa2dc/l/iwMH6HV8d0yp//W5/rdaTYFQ5NH2cjex/H2
+	 b4w5MA+vTwoFg7sbCSHZOeBc4FuSwd4LUkwuIGAnmDapFYOQ5ooqD2H6GdtH5QgHim
+	 aFxBu9CocLhqnPVu2m35VLcC5qLMMP7IpM2C6pL4=
 Received: from Lang.smartont.net ([2409:8a44:2312:14e1:56d8:1e1e:3f0b:d0f3])
-	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
-	id 4CD848AB; Sat, 02 May 2026 19:19:13 +0800
-X-QQ-mid: xmsmtpt1777720753tnk8m70qm
-Message-ID: <tencent_A111D365F88A0FF724E809970A094533B206@qq.com>
-X-QQ-XMAILINFO: N0Cpyjih+sbn+3b0zjYKLlqXV1CnLMzkW348A+mTe97gXYKmB402WNvACfyWeI
-	 8KGQMmFAqATgykAzA/OOjTKl1X5t0tofk+gfHFxTuu4DsNoCDssLfDqagZbnn2yYpDO7wXCQEABw
-	 kduiY2hAPu3ReC/eMuaKGjZacugf71HD9xAG+ff5/vN0Nl03uDGpDeNnGx+Q00IjoOaVL1utesjl
-	 4fbJj/r/aJBV/zo8/mays9hVd58XHWMvYZvTJjphb5wzR6QEh1xnbMR8hMd0sXMOTD1cFFBAbqrN
-	 X3am1RlgVRXN0W42o/xjLyKCf4v8inTx7r3nVrsa4y2OMWHQ43d3XTM2xrwHJDgVuSdMDxpZTXXk
-	 mEmhJ7DDHeTOfAq0jzzHQr4Byj2+Pf1pro3kHtMTttbqpAdLbk04d9SQY4hzqFtOj4g4bbzNnllW
-	 Bgrj1k+skQchmrxNViAGpXUF8DRZpK8LR/0nMuwu7exkuRK/QClA5wOFLSQV3VpQy6IBXkszz2mg
-	 fKdWMgWNSqbg/RoUDRiUbh00d2VSAF2no3PXbASkbLF5pURrMaqwbRVg44s2Ks5xl/DpDrX80DaQ
-	 7xCEWf9hZsKEiXd3Us9hr6cKG9k6JhNCWfEXG7OBggOQvuYXNt3bfxpS0AJ6N9kxPeGKsJ2XD8/y
-	 frqFtNQtRUzD41Yh1mX5BVaMCnwbGQvs1XtLV5PMcOCudcNPYR7D3p4TvlLCd7slAHwg7R6Fyx/w
-	 ZFp6V2vOjI/l6hYlDWmByy04wS/7wSV3JwFpAEuNa9teK6ZBigqoh/xDwo42CzvDRzDRD0VQUHlL
-	 UFURXLFI05a4tZc/vdj9n6TNnk6RGRMkZ2gCmmLAB7NpE1ZQ9gnY/QAWGBW1IXgEInADr19lAQT+
-	 w6yAn/RRJpUdRF+wQdC93v1Ajz3CoULYBUKXfOVxxTyg4RM2nsXYsn+8Dtz8Z3sleLUL5iIB/gV2
-	 bNIm8FuvBXrcf2JXyhzk7DudEMQBISCzFBetvsd0xEK6wmLQi4vd4vzjP4XriEfu8YmIOSCXeXze
-	 F2+brWtq3kD7bKvVyir+pZjZoKfzqIhY3U33W4hyCBBb6rQfEjuZCHy0N9se7QepYaf1OgjsYEEu
-	 jPrIm/QFFCjeGvAeUpzZpWu6daIy5hPLJmSFAmxW96D72UVaRSlQ/K6XIfFBZFeOChdb+b
-X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
+	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
+	id 4D013C04; Sat, 02 May 2026 19:19:16 +0800
+X-QQ-mid: xmsmtpt1777720756thcvqggum
+Message-ID: <tencent_B1D6CBBF95486E31D04C2E1B92F5E605A307@qq.com>
+X-QQ-XMAILINFO: MLMEjb5zWVcNZZuUZyxHibZ1w+zisKptqYUhi/n6boR51UmP7NHS8C4/S4TwPE
+	 sGhHegepQweJhOWf0lnRWad3ibJaI33gTpKd4J2h8wubBIvPvYqgeYEJ1rA6dVNXCVNaY0UEECeZ
+	 PIxOLhUlSxTboDw78cjaEmSdfcyf3Meqzkh0gyCB1y5zWNS9fYuG4qGawMYElyJRGuuVqRx8Zf4N
+	 QCdXAa6S/8nRI10lTNwpLAoQA0DM9FOy0m4bVyvv3o7zThEk6V0zKMfnDPm/MhJT0LC6h8j7/2Xc
+	 ULiJO1ju+7+REB9UH/FhWoYAgD2+4BYQY4nnR3jrMIKV64+I+bjBVwtWpIreuUnNNuQCGkRONe/l
+	 HtxGCswDbacj6VJ+K9w33mujR7GZVReAtMqbgdwjfTUqPqtBTgKSTaPmzzkZjaOzjOuXtS1VZLDY
+	 0qWZQDd1+KQT153BCfbWRXaJi1uFBddsj/UC70CnMxJCFdOWlCgNHZKxuCvSh1MSvn9i40U0o+8O
+	 IJOIG5GdhXoxpv2P8asYMgp/hKKwEFpgurcH8lHeN31PqBgOmMiqJQhaG2paGFdOepXHyUE6Wd6L
+	 R95zAvxRCk8nC02tP9N38FaW+KksyO5WFk/8Y2WyWv2RW6a0z2h6Wlc1YaxRCNTTh88XLs5H71qa
+	 x3VWqnrgno1zRl/vYAsD+OVyqJjdhZtRQrSisa234FcWBPGivpN6K+yZiGAd1LCH8sQkrqOyKt9q
+	 PA83pciw39FMxZzNWNpqmwbXBhVR8lHHbuHwndqk8gNExKhD8nvJzDL//+HSTz8gc+l0V/uuX/IF
+	 sVwVU0AKPkFQaqFtO62JdWCxvB/g4wI/f1yaGNhUk+zEdWNyua5riNlkJ3TQ9qGiePSEu5KmM61a
+	 1G8HkXwZZPHMOUlmYpEJkjAMBfIvSSW41+t7iqqDHTFr7rGjr32burNA1aRKJad/5Fg7yJ82qd1j
+	 ypFYj/bE19aaGqh+D7EsozLIsR2tIh9BhaCj2a9PemF3/CwbkJJ+GBmu8O3+cHzFRAEWMqd3JG2e
+	 y8Lk7UDixe7j5mR0mquA+eP3cGKFzG8VJUzs0NBfRdjJnHjCCNswTZhvhTwhw3h3+aKJyjatx0iX
+	 9ENtrI+dKX4kUkDnMvAD+jFINbRpP1d9qbZCDp
+X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
 From: Wang Zihan <3772548978@qq.com>
-To: linux-doc@vger.kernel.org
-Cc: federico.vaga@vaga.pv.it,
+To: netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-um@lists.infradead.org
+Cc: davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	horms@kernel.org,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
-	carlos.bilbao@kernel.org,
-	avadhut.naik@amd.com,
+	mchehab@kernel.org,
+	richard@nod.at,
+	anton.ivanov@cambridgegreys.com,
+	johannes@sipsolutions.net,
 	linux-kernel@vger.kernel.org,
 	Wang Zihan <3772548978@qq.com>
-Subject: [PATCH] Documentation: translations: Fix "Linux Torvalds" -> "Linus Torvalds"
-Date: Sat,  2 May 2026 19:19:13 +0800
-X-OQ-MSGID: <20260502111913.144321-1-3772548978@qq.com>
+Subject: [PATCH] Documentation: Fix duplicated words
+Date: Sat,  2 May 2026 19:19:16 +0800
+X-OQ-MSGID: <20260502111916.145238-1-3772548978@qq.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -62,53 +71,56 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Fix the misspelling of Linus Torvalds' first name in Italian
-and Spanish translations.
+Remove duplicated words in three documentation files:
+- "in in" -> "in" (switchdev.rst)
+- "The the" -> "The" (dmx-reqbufs.rst)
+- "on on" -> "on" (user_mode_linux_howto_v2.rst)
 
 Signed-off-by: Wang Zihan <3772548978@qq.com>
 ---
- .../translations/it_IT/process/submitting-patches.rst         | 2 +-
- Documentation/translations/sp_SP/process/2.Process.rst        | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/networking/switchdev.rst                | 2 +-
+ Documentation/userspace-api/media/dvb/dmx-reqbufs.rst | 2 +-
+ Documentation/virt/uml/user_mode_linux_howto_v2.rst   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/translations/it_IT/process/submitting-patches.rst b/Documentation/translations/it_IT/process/submitting-patches.rst
-index 1cc480813..48ac4916d 100644
---- a/Documentation/translations/it_IT/process/submitting-patches.rst
-+++ b/Documentation/translations/it_IT/process/submitting-patches.rst
-@@ -280,7 +280,7 @@ https://subspace.kernel.org. Tuttavia, ci sono altre liste di discussione
- ospitate altrove.
+diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
+index 2966b7122..948bce44c 100644
+--- a/Documentation/networking/switchdev.rst
++++ b/Documentation/networking/switchdev.rst
+@@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
+ monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
+ bond will see its upper master change.  If that bond is moved into a bridge,
+ the bond's upper master will change.  And so on.  The driver will track such
+-movements to know what position a port is in in the overall topology by
++movements to know what position a port is in the overall topology by
+ registering for netdevice events and acting on NETDEV_CHANGEUPPER.
  
- L'ultimo giudizio sull'integrazione delle modifiche accettate spetta a
--Linux Torvalds.  Il suo indirizzo e-mail è <torvalds@linux-foundation.org>.
-+Linus Torvalds.  Il suo indirizzo e-mail è <torvalds@linux-foundation.org>.
- Riceve moltissime e-mail, e, a questo punto, solo poche patch passano
- direttamente attraverso il suo giudizio; quindi, dovreste fare del vostro
- meglio per -evitare di- inviargli e-mail.
-diff --git a/Documentation/translations/sp_SP/process/2.Process.rst b/Documentation/translations/sp_SP/process/2.Process.rst
-index c21b0134c..9e26eb8c6 100644
---- a/Documentation/translations/sp_SP/process/2.Process.rst
-+++ b/Documentation/translations/sp_SP/process/2.Process.rst
-@@ -56,7 +56,7 @@ y montados con anticipación. Como funciona ese proceso se describirá en
- detalle más adelante).
+ L2 Forwarding Offload
+diff --git a/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst b/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst
+index d2bb1909e..18810f0bb 100644
+--- a/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst
++++ b/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst
+@@ -72,4 +72,4 @@ appropriately. The generic error codes are described at the
+ :ref:`Generic Error Codes <gen-errors>` chapter.
  
- La ventana de fusión dura aproximadamente dos semanas. Al final de este
--tiempo, Linux Torvalds declarará que la ventana está cerrada y publicará
-+tiempo, Linus Torvalds declarará que la ventana está cerrada y publicará
- el primero de los kernels “rc”. Para el kernel destinado a ser 5.6, por
- ejemplo, el lanzamiento al final de la ventana de fusión se llamará
- 5.6-rc1. El lanzamiento -rc1 señala que el tiempo para fusionar nuevas
-@@ -202,7 +202,7 @@ Las etapas por las que pasa un parche son, generalmente:
-    para su revisión y fusión.
+ EOPNOTSUPP
+-    The  the requested I/O method is not supported.
++    The requested I/O method is not supported.
+diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+index c37e8e594..7b08738c3 100644
+--- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
++++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
+@@ -1092,7 +1092,7 @@ be formatted as plain text.
  
-  - Fusión en el mainline. Eventualmente, un parche exitoso se fusionará
--   en el repositorio mainline administrado por Linux Torvalds. Mas
-+   en el repositorio mainline administrado por Linus Torvalds. Mas
-    comentarios y/o problemas pueden surgir en este momento; es importante
-    que el desarrollador responda a estos y solucione cualquier problema
-    que surja.
+ Developing always goes hand in hand with debugging. First of all,
+ you can always run UML under gdb and there will be a whole section
+-later on on how to do that. That, however, is not the only way to
++later on how to do that. That, however, is not the only way to
+ debug a Linux kernel. Quite often adding tracing statements and/or
+ using UML specific approaches such as ptracing the UML kernel process
+ are significantly more informative.
 -- 
 2.54.0
 
