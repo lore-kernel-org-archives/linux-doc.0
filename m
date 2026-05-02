@@ -1,55 +1,55 @@
 Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1702E273D77;
-	Sat,  2 May 2026 05:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679512475D0;
+	Sat,  2 May 2026 06:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777701558; cv=none; b=fVvarL2mTB6NasUH6aKaGPSMcQ1ZsYcaFH3/2EiFFJRE9L/2YwhVqru9ZIuWfrqcRVhn9xOvYzNk6yry/UCJ+fhgFIiOIvCiVVIm6SvxwIoyjX4gJNf73H1fI8obhPA4UlLi2IaAfzUzJaeo86smKbpfxDealgaPajopwAbhkkU=
+	t=1777701619; cv=none; b=q0ZnoYhmLY2YXysjqhg/6ksPF+6BvcjbfxnuZvfbhIP/MAdPsf9j6ItSfjgtl3v7ttLYjQvUMSXgrObCns8TFCbRKSunmJTCtqAxOGqjICOMH5Kohc+Bb4So39D0FBPBVcBNROqOUyawsNSmzXnbrQeORSdaEq9kSfU9lyPywQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777701558; c=relaxed/simple;
-	bh=VljIhxZfpabOtLIN/T9+3T2Myqx7uMzy99pXp3JFv/c=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=jwDwPxrK21r3X+SMkaqQgrd5Jl45NpXe5SNILWhUgQXm/5uuO11WPte3E0d5I85GBpbTEtcjOEcB7gA9cSsbWMJxZvxIeQ3O4DAc8ddB6fUnMsTI2/BTkOybWk5s1y3/fgr2nLfeNFx7v2Q0OlWPHQXUJATHUgEbZlMwgHbe2KA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=kxMMiCRi; arc=none smtp.client-ip=203.205.221.239
+	s=arc-20240116; t=1777701619; c=relaxed/simple;
+	bh=qiA9TIwApvjkB1pcKhTev8aAAXW+kknNg6MYs9yJqHI=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=WMFfooIVCpGm/brhOMY90n7wleReHanCkqmtnq8l6xAcpbewG6maVUNkHmUukvHR11Gf1rwRpM1/d29k1M77SZu5P2ARwKvR7pJsdL1wVYGzy1+avOu9j5xCOInj0rEj4zSBMEalC33dksa5+k3dKWP5qxHENmhdsLYRZIkJoPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=oprKaMp+; arc=none smtp.client-ip=203.205.221.239
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="kxMMiCRi"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="oprKaMp+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777701553; bh=9ny8Y7WkulRs3ZlcZ8RD1O/OliGSzC47KpDVSR30OJo=;
+	t=1777701615; bh=fa5pN4GGt097LLhhH34pMrgAbO6h8NqyL1vvMQH7N0M=;
 	h=From:To:Cc:Subject:Date;
-	b=kxMMiCRiutxCJqwTsc5HJUWFefMdHVVogYKPT/zrIuXzEu3ZSQ/OwIsWWL4ERnr/J
-	 S2r2zgL4N/iAIQ4SYc3CrPdN9BDiAR7CP9F/vSJamtQNk6vCiopg0nWK49wDtI1EFm
-	 suuF/FgCurWuV/JGweWx/EMW7rtrZDPCC/1uwn74=
+	b=oprKaMp+XuXxSlUvV4CwhAgxBOvVeSox1sZ6RpmsIfBcTfVIkZFMaXvDZN5SpZQBj
+	 +MRqOk+1KeULTHZY08zSEvzu4zow8zNUT4V9P/7fKpItNKIz3nFUhNz6hDkKM+62no
+	 iJakQzqAygmkCjjBlBhUxcrHD4lLD4/w0FWDTx1I=
 Received: from Lang.smartont.net ([223.88.152.211])
-	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
-	id ECAAF68F; Sat, 02 May 2026 13:59:10 +0800
-X-QQ-mid: xmsmtpt1777701550ta5gjp1sr
-Message-ID: <tencent_0AEA70199160355F19C15F52AC247073800A@qq.com>
-X-QQ-XMAILINFO: NnYhxYSyuBnLDSKffvkxe3BMUmNZkEkG+RzmOb+wD2lsOBdf0pa21swtTPzbrw
-	 kIOV54CawM5pfBxfkf8VJ0K6dM2zYIwKSPQcshgquubisSptTj8G4DlgspUMRGFMwx4+v+3flp5L
-	 qEwSagpBPEs2weXr2t8CvMML3m337GsECeCh7BLtnkxxB/F5d1KCq4+Eovl9K0gRG0iIIni1rkaM
-	 2rVS/NShHM1r3Xf7+OahHyW4sJwFHErJiCq0kASOYCsjHd1RHNMJhSWn+KK4XwuqMhM+57/GhT09
-	 LYib2/8i9h1NIgMYmoSYnfjeHuudaKuyFW7nrK0Em1PFvGa+5/EKPhCEUxNumvfiwVMNc3yxwRht
-	 KP3VefXP8c2D7c3eYLHids3/GFAcc9gFEvwlSIlsodQ6ftuZ3sSknjia9bTLyouEKdXo4ccrqYwx
-	 7YtDnHer6ksvosSEi4Oh1Rjpj/UcMkc/v3pK6feSAMnr87MbZEFncJY5KbzcY/IH+tz7NW6+tYEg
-	 TspYSVZ73111ccmRsCCZcAkGNCK/Fj9JQ6W/NSB/Hvo/xWwHrGhlRG4ZRjfBIyi4Rmyix+EiAgCr
-	 hNOn4TH/584P1ys7xMPyp4Rj65S9JU1lqKYaUR1n8jfvrd8okvulYPn0/2GPBlf3Xbco8ugV6wta
-	 ugfp+MYeXLhqQEJR4dpovcdbXnGy3/+eA267Cprg4EBCQ2FDSmJTfkow6nb/MJfJRT15GIb0th3b
-	 7EDkplE00CSgWJSJBBHsR50xiQS+zel7rkT/bQnJhLvJdsYEQAtrIci/Bw8njXrQdCwLMLIH1Pab
-	 E6EGfbh7jWZZXGV1YPYUMUuQA2OFgfhSNki0tBKXp0HqHHCD14682e53STMUONqgQLRdioDmpAKv
-	 OyhfpUg8T6TBiQX4H+pakwtzfJPzxRqCRoctpx7JdcJhQC/v28xIvBCj8yfFGvWYJhGvshMoUhOj
-	 yT0AZN6HAmoWlPACPBgK6uQWge0y9xaLMTxcj5u5zJFeHvpt0piEgPKuQo3ih01DqEH1uWp1ICnK
-	 +NTSLEgMC5qfAPbzYr0XkGZuCgAMAMtPhKzWLQvoIN72bCwa7h
-X-QQ-XMRINFO: MPJ6Tf5t3I/ylTmHUqvI8+Wpn+Gzalws3A==
+	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
+	id C9ECE5; Sat, 02 May 2026 14:00:12 +0800
+X-QQ-mid: xmsmtpt1777701612ta0ocwnfu
+Message-ID: <tencent_BB6C24EBCDC646F997612BBBDC93A0B55C08@qq.com>
+X-QQ-XMAILINFO: OVFdYp27KdlJ9m2bkjNIpItVO1phl3fiuTO9gAtD48TAgL+lpcAG7F2TpXjtoe
+	 2EDQEMGdw8b/2boIqS9N6RVTmLlmli2wgtUDw7tTWqUCgMkqWaj/pQMGJjlxnjeIDynXR6vVCUP3
+	 mOJf9G08BDybP06KG0Frfz1R12Z35eMWar9bFU+o4bwZrie5bTao7SuNQtHO3VZRY2aXfJiV1Aqs
+	 xXz+JKiXgI4zDmxohYHGNi1jKjFV3y3pQ2r+cuT3nXM4kPVz5n4yRRa0IupbYfK17B8EuHQE7bzp
+	 o3T778IwuKNkmd7BaDI1LEBHZJp0yr6hhBXSCvATRw5+IVn0t/HbQaY1hsqd520GPCN+Z6+MbP25
+	 1aSDLQ5FxfFgp5hpfNozE9JsHwb9f5YZXIXA2PvQ9u6s7Jw7DlZgS2HC9oPuPwpuD80N1ASIPSu0
+	 Lxe+WkOpmzM51XQ/Y+4TQslf/4G55UQzlbv/67IHfHci0lUlf6YtkhghzDJ3LVigDjELIiNNiJ5z
+	 DbQ9+Vel2vSoruHG8k9QgH2rIme7V7s4unxGzINjCdgQ7jKaVAiaYddh6p3s1EzC7ZgMv0AJ86lq
+	 O7Nba0X74O/GXuPpww2cJxi9wdW/fglDYNIwfokx1SMSeT2ae3jgcabeVsYAuB373AYQlZAL4eWf
+	 xBPjr6N9kXYhABeoU33ItVT3eCyw+M+8hi5lxkeZfoFQu7rI/7Ir6pF0RUgQuy3MOu+sTVOvRGqX
+	 qPcqfdryiqZchVWY35WCCT0xQPHcAvkFAw/XaCmo+KAiibIAFymxBidD9nQhqq2qon3KFzIzaqpS
+	 wtfs3eP5Ak0QgSNXgq3JXiKl7Jy0KePevVbpXxGOlkqijxLjehkrWOZw9DkxwnCWgpnD+I1zDuCn
+	 riUhoM5YoxRISgqkJrMbuyEaJYF75SDvsInQbcryzPMtp8v2CDTD/q7ZbfCuFNflNUKv99Xq0uqc
+	 WIzUU5QaVCpOSH/pLtV0ztTL90Uv6mIl7aZBacAylQ/9h+XA/CtQjAZhO+oEZhN4bzosP8nzwgg+
+	 zmTy1OEtjRoLEIAXIf+KJto+l4uF3jMbv/7ozjFN83ZWgdFdQg
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 From: Wang Zihan <jiyu03@qq.com>
-To: kuba@kernel.org
-Cc: netdev@vger.kernel.org,
+To: vkoul@kernel.org
+Cc: dmaengine@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Wang Zihan <jiyu03@qq.com>
-Subject: [PATCH 2/4] net: switchdev: fix duplicate word in documentation
-Date: Sat,  2 May 2026 13:59:08 +0800
-X-OQ-MSGID: <20260502055908.116226-1-jiyu03@qq.com>
+Subject: [PATCH 3/4] dmaengine: dmatest: fix preposition error in documentation
+Date: Sat,  2 May 2026 13:59:09 +0800
+X-OQ-MSGID: <20260502055909.116546-1-jiyu03@qq.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,26 +59,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove duplicate "in" word.
+Change "built-in in" to "built into".
 
 Signed-off-by: Wang Zihan <jiyu03@qq.com>
 ---
- Documentation/networking/switchdev.rst | 2 +-
+ Documentation/driver-api/dmaengine/dmatest.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
-index 2966b7122..948bce44c 100644
---- a/Documentation/networking/switchdev.rst
-+++ b/Documentation/networking/switchdev.rst
-@@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
- monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
- bond will see its upper master change.  If that bond is moved into a bridge,
- the bond's upper master will change.  And so on.  The driver will track such
--movements to know what position a port is in in the overall topology by
-+movements to know what position a port is in the overall topology by
- registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+diff --git a/Documentation/driver-api/dmaengine/dmatest.rst b/Documentation/driver-api/dmaengine/dmatest.rst
+index e2a63cefd..dafb84afd 100644
+--- a/Documentation/driver-api/dmaengine/dmatest.rst
++++ b/Documentation/driver-api/dmaengine/dmatest.rst
+@@ -108,7 +108,7 @@ Example::
+     % cat /sys/module/dmatest/parameters/wait
+     % modprobe -r dmatest
  
- L2 Forwarding Offload
+-Part 3 - When built-in in the kernel
++Part 3 - When built into the kernel
+ ====================================
+ 
+ The module parameters that is supplied to the kernel command line will be used
 -- 
 2.54.0
 
