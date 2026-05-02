@@ -1,328 +1,485 @@
-Received: from outbound.ms.icloud.com (p-west3-cluster5-host12-snip4-5.eps.apple.com [57.103.72.118])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yx1-f44.google.com (mail-yx1-f44.google.com [74.125.224.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7F592BD0B
-	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 05:06:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.72.118
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D296C29E11A
+	for <linux-doc@vger.kernel.org>; Sat,  2 May 2026 05:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.224.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777698389; cv=none; b=Xno1Ef+borYuglUAYJUsNKj6uGVJjQ8VL92mAV8Iz6EraMpeH0SgYOzef4Gqhr0h628I952BwzjGR3bRHalFJB9d6vz0IVsbq1R6EPdAfy0DBkI54U3WFNYhTLiICi3A9K/2OtPOJSJ6o3qsa6fxkyzTbKSCJ1x+CrUyB+ff0do=
+	t=1777699220; cv=none; b=F66wWatMsKXkp44irZH1/PuucxeowU9Iu7SDOwryEyy9K2h/2u854qwDb2xu8eGeZCcxK9DLnWaAwtYZNu82xsU/eD3BI8DF+u21SOgEqBnA2KIrOFpR9ZHqqQbY2pW0JnJNzw/hyN+hguNYceyFa0C8ZGyDc//XM3hsC2iGdbU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777698389; c=relaxed/simple;
-	bh=zFoEHfPR8cJmzJa7YGWhhXovDcPeM30LuVZl3ibSp08=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=h0yBcIhKuoy/GH9QAfEzYWnTVPmdgPRktXpuidK+8LVeojlq2//w+MbBVwU32pHnBDK4sXA9h7kUqz0pzJY9XHapP2FfcWiZ3IDTS7OnzL40bOp1eoC+fspJ9/Y96N5p1V32INzxV74HzjlSsAm4LerIisija6w37UwHp2nTMlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=o5CVhdBY; arc=none smtp.client-ip=57.103.72.118
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1777699220; c=relaxed/simple;
+	bh=FfjA1DTQyF3MWkt1OBRuYaWG4nhVdgR1Hjoqn8xLarM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BNZIqo6cQm/FGGMTCQN6ddOTMQ6Lts81sLEY0NccdymBY9tvAxY4pNBkpc0TIDyjzqhTM/Dca0Cow0vmZ6XhfX2yfRTsGmQGSKX29qRzs2knXONL+aqOoCDz4GXb/hI1FdZKyR/Pqh+FXsr2/uQecJPMgWSDYZz5l/bjbHfwC1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mVwGMD3k; arc=none smtp.client-ip=74.125.224.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="o5CVhdBY"
-Received: from outbound.ms.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-11 (Postfix) with ESMTPS id 679B7180010F;
-	Sat, 02 May 2026 05:06:24 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhAA0MFWgFeAUEdXwFLVxQEFEYGVg1dE0wLcwRUB10FXVZQAlpLVBQEFEYGVg1dE0wLcwRUB10FXVZQAlpLQBMESgZNXw5eHwQXRhlVBEceXVZeHhkCURxWDVdDVARfUEkMQVBsWgBHF0gdXRlZb1BdHA4EVAddBV1WUAJaS18ZXUUPDFE8dSNKS0RaYTtRHWkUeC17Pnkxezl6QHooA04ZDEodUlZbE1UXRgk=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1777698387; x=1780290387; bh=eXyCcuhff3Muw13ytVc8r3c1ETz4ajbUvk27BTvdfbU=; h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:x-icloud-hme; b=o5CVhdBYLnOmy4aGCa4HLeA6lPv3dpIsNnDXKhNwSvPNZSCo6FkqvYGG3kA4gUN/JYjtDR1kfqDaZ5o5TmRlnBjhKGQ7AsGSNNdeRudqS+gTU0CCHfLK6xirdrjSeoB8FBkOxPP2v19wbFHKFP9yo8Q8To63Iq6z3YrqaTfbn7P8cE0pn5vzRbdl+rTyKZ5J1H63+AVLS7PL+j8OxNfPgnB2sfKdzMh+if0tAZawGeZe9rASfMiClnv6hmoyK1HSuaM95VvVlRqUOx+rV4oX7hhLmEZjlKQR/7s+vH3ryo8bQJJh2IagAaOqtQhkffh2cycx49gi8PBlGb3b0KOrFQ==
-Received: from localhost (unknown [17.57.154.37])
-	by p00-icloudmta-asmtp-us-west-3a-100-percent-11 (Postfix) with ESMTPSA id 425EC18000BA;
-	Sat, 02 May 2026 05:06:23 +0000 (UTC)
-Date: Sat, 2 May 2026 13:06:18 +0800
-From: Luka Bai <lukafocus@icloud.com>
-To: "David Hildenbrand (Arm)" <david@kernel.org>
-Cc: linux-mm@kvack.org, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Lorenzo Stoakes <ljs@kernel.org>, Zi Yan <ziy@nvidia.com>,
-	Baolin Wang <baolin.wang@linux.alibaba.com>,
-	"Liam R. Howlett" <liam@infradead.org>,
-	Nico Pache <npache@redhat.com>, Ryan Roberts <ryan.roberts@arm.com>,
-	Dev Jain <dev.jain@arm.com>, Barry Song <baohua@kernel.org>,
-	Lance Yang <lance.yang@linux.dev>,
-	Vlastimil Babka <vbabka@kernel.org>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>, Jann Horn <jannh@google.com>,
-	Arnd Bergmann <arnd@arndb.de>, Kairui Song <kasong@tencent.com>,
-	linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luka Bai <lukabai@tencent.com>
-Subject: Re: [PATCH 0/5] mm: Support selecting doing direct COW for anonymous
- pmd entry
-Message-ID: <afWGSs3w7VPcmPlK@LUKABAI-MC1>
-References: <20260501-thp_cow-v1-0-005377483738@tencent.com>
- <b5379cd3-f7bf-47f9-8a60-c7300b4415a2@kernel.org>
- <afTR48WxGnIpxK8a@LUKABAI-MC1>
- <785b6164-aa71-4fc4-a4f3-f4977b7db30e@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mVwGMD3k"
+Received: by mail-yx1-f44.google.com with SMTP id 956f58d0204a3-64937edbc9eso1961746d50.2
+        for <linux-doc@vger.kernel.org>; Fri, 01 May 2026 22:20:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777699218; x=1778304018; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=kLSeafVgQXbY2o2OX+UXnthDj9zgmjuYwMZtUshUchg=;
+        b=mVwGMD3kZrvY+LeKSUkfGLaUwR1gFRO9EbkBLdXiJg0PBgK0dUqKYnoqHGN99VyC1H
+         c5IBSEP2PIgxe8PJFqWKKfHiwgKkf6qO9XDRYief40cL8FcaI4wmV8CAzqg7aTSQa7/S
+         gokmtZoAVKKnD/HxJmBoGMxhh7ejw5xSlvAOy4X5jCn2kdLluGnnVMoeqPBccAAg/F3n
+         t+yiSEcHb3Zp0411fOmS+d1nL0Ihci9oQJ/3FVOJv+vb7+0hrzORHcd5JrlrqEulWZuC
+         uhVR+TbkJtjJ0OQjR7wDOP3AnFS9yIpL6pz69mdfFQHGV7+B91Hdc+TeOHo+pNtusie4
+         nZvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777699218; x=1778304018;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kLSeafVgQXbY2o2OX+UXnthDj9zgmjuYwMZtUshUchg=;
+        b=I7LHQrrRIrPeyQVb9tjkpXX+itGWykhpRUCZYx7YeHWW7jtOm3jfY7JZ5nZNOZwWXg
+         HwwEaoEah/IWFgeiZ7l+7n5lOkEPrUcJy/HvhhcRbu70vWY2lmFAbZnv0nMN/XAHDEjy
+         WbPna/MMeG1GAioXAorKozJCThH03W5s6W/KqdMGjInOQ8azN0r+TvzD8GmxCsHXtp9i
+         HD7TLEivhsG5lCIjG6/ehNjwng9KInvbPTGhrM5tzVW3YW/Mfpo8dj97a3rkt6IVKId7
+         Sl0QezF6Wn20T6IU99VEGskWVEKTDeLISuHJu+vSPfD4NSZDBrOzA4APwpRX2cc5Rrrw
+         RTug==
+X-Forwarded-Encrypted: i=1; AFNElJ/uDceeThpcTU6duN1wEJzh38RBJ/SjCqAwferAV3ahpYTT4T0GBm5eNGO6cwls6xJkF2hMFztCnV0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEODbzO/yVKz2yfy4irtVUxG8u8exdl11qllPRlDHdutSDZtdv
+	EqzMEGpLLlTLWBn3a2RpeoJnU5R3Rqokbx7jZ/BDFVWM+AiIyEA3nFV4
+X-Gm-Gg: AeBDievDgzy1zRSas96sbki1O/U1nGIDBvegNLmX/zOIeBXKsJYGe1X3FYMwHS3E7xG
+	87bxtCCQljLjqH4287qOuPIN5zzLDSM4U2+olGQ+isbVoGWIM/6BuXuIRfElg0j4mZCroWzkKwT
+	y0jaeZiGex0tmwOHJHahHPNg8Ot4iNRL6rOWV1y9gnZtg4tfo8m2F+vcTwb8u2wBm9O/ugX8my0
+	QbEOQgbY5Pq6672WXnmGh0NLmEjXiCc74744PPvRh0LhMmf6JKXqKsANXWIeDdaCfJwtVwBwVru
+	O9ZFqTvi9hVdUdroNBIRjgYSiky6BRLBJq0tZGfdmhXW6UQtxFnfc9ETKUtkJikp0WIEPUicCu6
+	rvoqFo2jSKxDto7Et/geOKHeNWMB8ey2NlfHzMMR42WSdhXZ5K80nl+h1UCCvQzZ9sBDMlJOp35
+	VVgYeq7xxwYvdUuAvBgJ9pvrMRgH6c9RhrcEZJB1N8ydmhYTUfDkk36JMOR3l/jMP51hBH/UOiz
+	RdWxrfs7nuOgtQ37Isla+GdT8g3I1bPtLlR8Dvuf5k4S/lb/HUl
+X-Received: by 2002:a05:690e:484b:b0:656:b6bb:7c3b with SMTP id 956f58d0204a3-65c3dafdb74mr1174562d50.37.1777699217594;
+        Fri, 01 May 2026 22:20:17 -0700 (PDT)
+Received: from [10.138.34.110] (h69-131-150-190.cncrtn.broadband.dynamic.tds.net. [69.131.150.190])
+        by smtp.gmail.com with ESMTPSA id 956f58d0204a3-65c2df82c2bsm2206257d50.3.2026.05.01.22.20.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 01 May 2026 22:20:16 -0700 (PDT)
+Message-ID: <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com>
+Date: Sat, 2 May 2026 01:20:10 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <785b6164-aa71-4fc4-a4f3-f4977b7db30e@kernel.org>
-X-Proofpoint-GUID: aLriYDqX6Wfr6DEL-NnEpDvapidL7Ddn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTAyMDA0NyBTYWx0ZWRfX7BA131RWYzYc
- lDIO3AIKEMBEDgkNbAgRbghgsMbxyPHzklMuZLvG+sY1KHn8ZFIJnRB26zEdG889m8NhzJGdPFj
- HUTJ8qaRBcIL6U1nnhD6XPDOZBHWGZwGsDl+MaZg2V5YSo2GhxehTM/SuHzlNB1A42IOdSj0mAJ
- HtX2eGwlO7NYK0sqI+fRbI/n70GpZFtzYrqirwqvGDZGZj3VuR2M0De2XMhDNPIaRjfqOw+77Wj
- w7U2Room2z2IljLjFJ2ln/PXo7PhrssWdf70pNKQc5C5W+/Kzs5hseJGNDKhamPjiYQqj+vmDJQ
- SiB+L0ieg1uFhLL73ivk87vg6gyxQ0YRZ4tKbvvb3yvS2p6NcJMwequwCSpqaQ=
-X-Authority-Info-Out: v=2.4 cv=FN0WBuos c=1 sm=1 tr=0 ts=69f58652
- cx=c_apl:c_pps:t_out a=qkKslKyYc0ctBTeLUVfTFg==:117 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=x7bEGLp0ZPQA:10 a=UaoJkeuwEpQA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=i0EeH86SAAAA:8 a=Ikd4Dj_1AAAA:8
- a=1XWaLZrsAAAA:8 a=Ycdc37sN3yXXCXtWWT0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: aLriYDqX6Wfr6DEL-NnEpDvapidL7Ddn
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
+ not a security bug
+To: Greg KH <greg@kroah.com>, Willy Tarreau <w@1wt.eu>
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ skhan@linuxfoundation.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Qubes Developer Mailing List <qubes-devel@googlegroups.com>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-3-w@1wt.eu> <2026042753-ozone-jigsaw-4ad5@gregkh>
+ <ae-Acm2XJ3sR34Il@1wt.eu> <2026042724-bullhorn-bobtail-ae6f@gregkh>
+ <ae-LVyDQPVwxesCO@1wt.eu> <2026042804-overbook-ripeness-73dd@gregkh>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <2026042804-overbook-ripeness-73dd@gregkh>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------gOEjW00h490myNpWbj6HCr9q"
 
-在 Fri, May 01, 2026 at 08:30:39PM +0200，David Hildenbrand (Arm) 写道：
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------gOEjW00h490myNpWbj6HCr9q
+Content-Type: multipart/mixed; boundary="------------k0ZK71pqLe0hnBNqt4308TdC";
+ protected-headers="v1"
+Message-ID: <1d3f8659-8c69-47f6-bb38-4c1d06cf8307@gmail.com>
+Date: Sat, 2 May 2026 01:20:10 -0400
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/3] Documentation: security-bugs: explain what is and is
+ not a security bug
+To: Greg KH <greg@kroah.com>, Willy Tarreau <w@1wt.eu>
+Cc: leon@kernel.org, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
+ skhan@linuxfoundation.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Qubes Developer Mailing List <qubes-devel@googlegroups.com>
+References: <20260426163914.19449-1-w@1wt.eu>
+ <20260426163914.19449-3-w@1wt.eu> <2026042753-ozone-jigsaw-4ad5@gregkh>
+ <ae-Acm2XJ3sR34Il@1wt.eu> <2026042724-bullhorn-bobtail-ae6f@gregkh>
+ <ae-LVyDQPVwxesCO@1wt.eu> <2026042804-overbook-ripeness-73dd@gregkh>
+Content-Language: en-US
+From: Demi Marie Obenour <demiobenour@gmail.com>
+Autocrypt: addr=demiobenour@gmail.com; keydata=
+ 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
+ +MYSfkEjBz0E8CLOcAw7JIwAaeBT
+In-Reply-To: <2026042804-overbook-ripeness-73dd@gregkh>
 
-Hi David,
+--------------k0ZK71pqLe0hnBNqt4308TdC
+Content-Type: multipart/mixed; boundary="------------LD1AGt4UE3SKePsLMH0rXyA6"
 
-Thanks for replying again :). I've read your advices, and I agreed with your opinion,
-THP COW is premature now for the upstream, we can reconsider other approaches. :)
+--------------LD1AGt4UE3SKePsLMH0rXyA6
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-> >>
-> >> Note that there was a recent related discussion for executable, which was rejected:
-> >>
-> >> https://lore.kernel.org/r/20251226100337.4171191-1-zhangqilong3@huawei.com
-> >>
-> > 
-> > Yes, I know this history, and I know that it will cost some memory or latency,
-> > That’s why I was wondering maybe I can add a switch to it to make it
-> > configurable :).
-> 
-> Switches for something like that is just not a good fit.
-> 
-> For example, for a short-lived child (e.g., fork+exec) it usually makes no sense
-> to cow a larger chunk of address space, when you know that it will exit
-> immediately either way and free up the memory.
-> 
+On 4/28/26 17:13, Greg KH wrote:
+> On Mon, Apr 27, 2026 at 06:14:15PM +0200, Willy Tarreau wrote:
+>> On Mon, Apr 27, 2026 at 09:35:04AM -0600, Greg KH wrote:
+>>> On Mon, Apr 27, 2026 at 05:27:46PM +0200, Willy Tarreau wrote:
+>>>> On Mon, Apr 27, 2026 at 07:48:23AM -0600, Greg KH wrote:
+>>>>> On Sun, Apr 26, 2026 at 06:39:13PM +0200, Willy Tarreau wrote:
+>>>>>> +In the Linux kernel's threat model, an issue is **not** a securit=
+y bug, and
+>>>>>> +should not be reported to the security list, when triggering it r=
+equires the
+>>>>>> +reporter to first undermine the system they are attacking.  This =
+includes, but
+>>>>>> +is not limited to, behavior that only manifests after the adminis=
+trator has
+>>>>>> +explicitly enabled it (loading a module, setting a sysctl, writin=
+g to a debugfs
+>>>>>> +knob, or otherwise using an interface documented as privileged or=
+ unsafe); bugs
+>>>>>> +reachable only through root or CAP_SYS_ADMIN or CAP_NET_ADMIN on =
+a machine the
+>>>>>> +actor already fully controls, with no further privilege boundary =
+being crossed;
+>>>>>> +prediction of random numbers that only works in a totally silent =
+environment
+>>>>>> +(such as IP ID, TCP ports or sequence numbers that can only be gu=
+essed in a
+>>>>>> +lab), issues that appear only in debug, lockdep, KASAN, fault-inj=
+ection,
+>>>>>> +CONFIG_NOMMU, or other developer-oriented kernel builds that are =
+not intended
+>>>>>> +for production use; problems seen only under development simulato=
+rs, emulators,
+>>>>>> +or fuzzing harnesses that present hardware or input states which =
+cannot occur
+>>>>>> +on real systems; bugs that require modified or emulated hardware;=
+ missing
+>>>>>> +hardening or defence-in-depth suggestions with no demonstrable ex=
+ploit path
+>>>>>> +(including local ASLR bypass); mounting file systems that would b=
+e fixed or
+>>>>>> +rejected by fsck; and bugs in out-of-tree modules or vendor forks=
+, which should
+>>>>>> +be reported to the relevant vendor.  Functional and performance r=
+egressions,
+>>>>>> +and disagreements with documented kernel policy (for example, "ro=
+ot can load
+>>>>>> +modules"), are likewise ordinary bugs or feature requests rather =
+than security
+>>>>>> +issues, and should be reported via the usual channels.
+>>>>>
+>>>>> This is a great list to start with, but perhaps we should put it in=
+ list
+>>>>> form so that it's easier to read?
+>>>>
+>>>> In fact that's what I tried first and it was super long with many sh=
+ort
+>>>> lines, making it possibly worse. But maybe aggregating several short=
 
-Yeah, for most workloads, fork will be used with a exec call soon, which makes the
-COW for THP not so useful for these workloads.
+>>>> entries on a line by similarities could work, I can give it a try.
+>>>>
+>>>>> Also, I can see this turning into a separate document eventually as=
 
-> >>>
-> >>> In addition to the problem above, this logic can also generate some
-> >>> deficiency for THP itself. Currently THP is just a "best-effort" choice
-> >>> with no "certainty". THP is easily splitted into multiple small pages
-> >>> on common calling path like reclaiming, COW. A transparent splitting
-> >>> can cause throughput fluctuation for some workloads. For these workloads,
-> >>> we may want to give THP some "certainty" just like hugetlbfs,
-> >>
-> >> There are no such guarantees, though. And We wouldn't want to commit to any such
-> >> guarantees today. For example, simple page migration can split the folio.
-> >> Allocation failures will fallback to small pages etc.
-> >>
-> >> If you need guarantees, use hugetlb for now.
-> >>
-> > 
-> > The reason why I want to use THP over hugetlb is that I need reclamation for my
-> > workload :). There are many processes in my workload that need 2M
-> > aligned folios for better performance, and we want to reclaim them back automatically
-> > when the process doesn’t need the folios. 
-> 
-> Can you share some details how exactly that is supposed to work?
-> 
+>>>>> different subsystems should have a chance to weigh in on what they
+>>>>> consider the threat model to be
+>>>>
+>>>> My fear if we redirect to other files is that it won't be read again=
+=2E
+>>>> However, we could possibly suggest to always look for the subsystem'=
+s
+>>>> specific rules in this subsytem's doc, leaving enough freedom to
+>>>> maintainers to reject more things.
+>>>
+>>> AI tools are good at following links, so I wouldn't worry about that.=
 
-Sorry for that, it's basically just a bunch of processes in the environment with 2M sized
-folio as their backend, but we want the OS to reclaim them when it's possible. And we want to
-balance performance and memory saving, and don't split so often since it may cause fraction
-and may influence the future 2M folio allocation. :)
+>>
+>> Yes but let's not forget the minority of humble humans still sending
+>> honest reports ;-)
+>>
+>>> We can point at other files, as this list is going to get long over
+>>> time, which is a good thing.
+>>
+>> Sure. I'm just unsure where this could be enumerated, as it's likely
+>> that there would be just one or two lines max per subsystem for the
+>> majority of them. Or we could have a totally separate file, "threat
+>> model", that goes into great lengths detailing all this with sections
+>> per category or subsystem when they start to grow maybe, and refer onl=
+y
+>> to that one from security-bugs ?
+>=20
+> I think a separate file is good, I know I need to write up what the USB=
 
-> > But hugetlbfs cannot do passive reclamation
-> > from what I know (except doing active madvise by the processes themselves). And using
-> 
-> Right, you can only return hugetlb folios by doing MADV_DONTNEED or munmap().
-> 
-> > THP can easily split the hugepages. So that’s why I would like to add certainty for THP,
-> 
-> Repeat after me: there are no guarantees. There is no certainty :)
-> 
-> > and use THP for these processes as backend, because THP is very well integrated with
-> > the swap system and other filesystems. And from what I checked,
-> > it seems the most common case for splitting a THP is COW and swapping so I am trying
-> > to handle these two scenarios (But coincidentally, PMD swapping is committed in
-> > https://lore.kernel.org/all/D3F08F85-76E0-4C5A-ABA1-537C68E038B8@nvidia.com/
-> > a few days before, which is a great implementation :) ).
-> 
-> Right, but that really only changes how we map large folios, not how we allocate
-> them. There are no guarantees.
-> 
-> > 
-> >>> The effect
-> >>> we want is: after some customized setup, if only the system has usable
-> >>> folio, and the virtual memory alignment permits (or we setup to), we can
-> >>> make sure we always use THP for it, the system will never split it except
-> >>> the user wants to do so.
-> >>>
-> >>> This patchset is about both two things above, firstly we add pmd level
-> >>> THP COW support by revising the code in do_huge_pmd_wp_page, we added
-> >>> switch for it because different workloads may need different resources,
-> >>
-> >> The switch is bad, and we won't accept any toggle like that. A system-wide
-> >> setting does not make sense for such behavior.
-> >>
-> > 
-> > Oh, the reason why I added a switch globally is also because the scenario I mentioned
-> > above, I want those processes to always use PMD sized folios as backend to make sure
-> > performance. 
-> 
-> "Always" is wishful thinking in many scenarios I'm afraid.
+> model is, and it's different from PCI, and different from other
+> subsystems.  All should probably be documented eventually.
+>=20
+>>>>> (like what the IB subsystem does which I
+>>>>> don't think you listed above, or the USB subsystem.)
+>>>>
+>>>> Indeed I didn't list IB (I'm never sure about it, I seem to remember=
 
-Yeah, I agree, so we also think that maybe we can do some other things to increase the
-possibility of allocating pmd sized folios. :) 
+>>>> we simply trust any peer, is that right?), nor did I make specific
+>>>> mentions for USB which is implicitly covered by "hardware emulation
+>>>> or modification".
+>>>
+>>> Ah, but USB does cover "some" modification of devices, so this is goi=
+ng
+>>> to be something that is good to document over time, if for no other
+>>> reason to keep these scanning tools in check from hallucinating crazy=
 
-> 
-> > COW is truly not that common like swap out/swap in, it just can happen
-> > sometimes, which I guess the reason may be about image duplication. Setting the system
-> > globally is more convenient for my situation :). I can go without this global switch
-> > if it's more reasonable.
-> > 
-> >> A per-VMA flag? Maybe, but I expect pushback as well, as it is way too specific.
-> >> So we'd have to find some concept that abstracts these semantics. But I expect
-> >> pushback as well.
-> >>
-> >> We messed up enough with toggles in THP space, unfortunately.
-> >>
-> >> Also, anything that only works for PMD-sized THPs is a warning sign in 2026 :)
-> >>
-> > 
-> > And for PMD-sized THPs, actually, I’m also considering adding more support for
-> > COW to mTHP if the upstream consider it useful. And also for pud sized THPs
-> > also. But I guess I have to firstly handle stage 1: PMD level COW now :).
-> > And also, since PMD sized folio is commonly used in my workload, I'm also wondering
-> > digging into pmd sized KSM in the future, in which I think pmd sized COW may
-> > be more useful then :).
-> 
-> I'm afraid I have to stop you right there: there has to be a pretty convincing
-> story to add any of that. In particular KSM with large folios (/me shivering).
-> 
-> But I already don't buy the COW story. Just configure khugepaged in a better way
-> or use MADV_COLLAPSE and you don't really need to modify the kernel at all in
-> 99.99% of the case. (khugepaged needs a lot of tuning work, it's currently not
-> the smartest implementation)
-> 
-> Maybe, we might give khugepaged better direction of what to try scanning next
-> (e.g., where we just COW'ed a THP). Not sure, there are plenty of things to explore.
-> 
+>>> situations that are obviously not a valid thing we care about.
+>>
+>> OK but does this mean you still want to get these reports in the end ?=
 
-I see, actually all the things here is about saving memory and keeping the 2M tlb
-benifit at the same time, including my KSM thought and THP COW. Giving khugepaged
-a better direction is also what we are considering in the next step :).
+>=20
+> I want a patch if a user cares about that threat-model (as Android does=
 
-> > 
-> >> You don't really raise any concrete use cases or performance numbers for these
-> >> use cases. Some details about applications that use fork() and rely on such
-> >> behavior would be helpful.
-> >>
-> > 
-> > Sorry for that, the concrete workload itself hasn't been finished yet. 
-> 
-> Okay, what I thought after seeing no workloads an no performance numbers :)
-> 
-> If you don't know the workload, how can you claim that the additional latency
-> and/or memory consumption is not a problem?
-> 
+> but no one else) as it's up to the user groups that want to change the
+> default kernel's behavior like this to actually submit patches to do so=
+=2E
+FYI, I don't think this is limited to Android.  Chrome OS definitely
+cares about malicious USB devices, and the whole purpose of USBGuard is
+to prevent a USB device from being able to compromise the system unless
+authorized.  I believe Qubes OS also cares, as it supports USB device
+assignment to virtual machines.  CCing qubes-devel for confirmation.
 
-Oh, our point here is that we don't want these 2M folios to be split, since that
-may cause some fraction and increases the difficulty a little for allocating a
-2M folio later as the time goes on. It may cause some additional latency and memory
-consumption, that's true, but the workload we are trying to do wants to make sure
-the 2M folios in the system first. And though the workload hasn't been finished, we
-analyzed what it will do, and we think for the most time, COWed 2M folio will be
-written in a range much bigger than 4K. So it will will cause more page faults if
-the fault size is 4K :). As we see, the time consuming of only one 2M sized page
-fault should be able to beat the multiple 4K sized page fault, since the copy
-can be merged together and there are not so many times of handling other than
-copy. We can see a performance improvement in the end to end copying test which
-includes many possible COW on 2M pages, though. The performance improvement is
-about 2 times. The improvement is not big as we imagine it should be. We'll dig
-into more details then. :)
+What should that patch look like?  Could there be a way for these user
+groups to be informed of vulnerabilities in the USB subsystem, so that
+they can take responsibility for fixing them before they become public?
 
-> Also: there is no guarantee that you will actually succeed in allocating a PMD
-> THP during a COW fault.
-> 
+It does make sense for those who care about the security of a subsystem
+to be responsible for vulnerabilities in that system, but right now
+I'm not sure how one would offer to take up that responsibility.
+--=20
+Sincerely,
+Demi Marie Obenour (she/her/hers)
+--------------LD1AGt4UE3SKePsLMH0rXyA6
+Content-Type: application/pgp-keys; name="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB288B55FFF9C22C1.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Yes, so we are actually also considering some solutions to increase the success rate
-of allocating PMD sized THP like reserving, the idea comes from TAO of Yu Zhao in
-https://lore.kernel.org/all/20240229183436.4110845-1-yuzhao@google.com/. But we may
-do the reserving using another approach like migratetype though since that may make
-it easier to dynamically change the reserving size. We also want to discuss it with
-the upstream about this if anyone has time :).
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-> 
-> > Now it just
-> > can happen sometimes in my multi-2M-sized-processes workload test. But the user
-> > of our 2M sized folio schema is actually not necessarily myself but also can be the
-> > userspace developers. I cannot guarantee that fork will not be used in the
-> > performance test of their workload since that is a normal posix call. Maybe a little
-> > overthinking? :)
-> 
-> If your application cares about performance, you either shouldn't be using
-> fork(), or you should be using it very, very wisely (e.g., interaction with
-> multi-threading, MADV_DONTFORK, avoid touching memory in parent until child
-> completed).
-> 
+xsFNBFp+A0oBEADffj6anl9/BHhUSxGTICeVl2tob7hPDdhHNgPR4C8xlYt5q49y
+B+l2nipdaq+4Gk6FZfqC825TKl7eRpUjMriwle4r3R0ydSIGcy4M6eb0IcxmuPYf
+bWpr/si88QKgyGSVZ7GeNW1UnzTdhYHuFlk8dBSmB1fzhEYEk0RcJqg4AKoq6/3/
+UorR+FaSuVwT7rqzGrTlscnTDlPWgRzrQ3jssesI7sZLm82E3pJSgaUoCdCOlL7M
+MPCJwI8JpPlBedRpe9tfVyfu3euTPLPxwcV3L/cfWPGSL4PofBtB8NUU6QwYiQ9H
+zx4xOyn67zW73/G0Q2vPPRst8LBDqlxLjbtx/WLR6h3nBc3eyuZ+q62HS1pJ5EvU
+T1vjyJ1ySrqtUXWQ4XlZyoEFUfpJxJoN0A9HCxmHGVckzTRl5FMWo8TCniHynNXs
+BtDQbabt7aNEOaAJdE7to0AH3T/Bvwzcp0ZJtBk0EM6YeMLtotUut7h2Bkg1b//r
+6bTBswMBXVJ5H44Qf0+eKeUg7whSC9qpYOzzrm7+0r9F5u3qF8ZTx55TJc2g656C
+9a1P1MYVysLvkLvS4H+crmxA/i08Tc1h+x9RRvqba4lSzZ6/Tmt60DPM5Sc4R0nS
+m9BBff0Nm0bSNRS8InXdO1Aq3362QKX2NOwcL5YaStwODNyZUqF7izjK4QARAQAB
+zTxEZW1pIE9iZW5vdXIgKElUTCBFbWFpbCBLZXkpIDxhdGhlbmFAaW52aXNpYmxl
+dGhpbmdzbGFiLmNvbT7CwY4EEwEIADgWIQR2h02fEza6IlkHHHGyiLVf/5wiwQUC
+X6YJvQIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRCyiLVf/5wiwWRhD/0Y
+R+YYC5Kduv/2LBgQJIygMsFiRHbR4+tWXuTFqgrxxFSlMktZ6gQrQCWe38WnOXkB
+oY6n/5lSJdfnuGd2UagZ/9dkaGMUkqt+5WshLFly4BnP7pSsWReKgMP7etRTwn3S
+zk1OwFx2lzY1EnnconPLfPBc6rWG2moA6l0WX+3WNR1B1ndqpl2hPSjT2jUCBWDV
+rGOUSX7r5f1WgtBeNYnEXPBCUUM51pFGESmfHIXQrqFDA7nBNiIVFDJTmQzuEqIy
+Jl67pKNgooij5mKzRhFKHfjLRAH4mmWZlB9UjDStAfFBAoDFHwd1HL5VQCNQdqEc
+/9lZDApqWuCPadZN+pGouqLysesIYsNxUhJ7dtWOWHl0vs7/3qkWmWun/2uOJMQh
+ra2u8nA9g91FbOobWqjrDd6x3ZJoGQf4zLqjmn/P514gb697788e573WN/MpQ5XI
+Fl7aM2d6/GJiq6LC9T2gSUW4rbPBiqOCeiUx7Kd/sVm41p9TOA7fEG4bYddCfDsN
+xaQJH6VRK3NOuBUGeL+iQEVF5Xs6Yp+U+jwvv2M5Lel3EqAYo5xXTx4ls0xaxDCu
+fudcAh8CMMqx3fguSb7Mi31WlnZpk0fDuWQVNKyDP7lYpwc4nCCGNKCj622ZSocH
+AcQmX28L8pJdLYacv9pU3jPy4fHcQYvmTavTqowGnM08RGVtaSBNYXJpZSBPYmVu
+b3VyIChsb3ZlciBvZiBjb2RpbmcpIDxkZW1pb2Jlbm91ckBnbWFpbC5jb20+wsF4
+BBMBAgAiBQJafgNKAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRCyiLVf
+/5wiwYa/EACv8a2+MMou9cSCNoZBQaU+fTmyzft9hUE+0d5W2UY1RY3OsjFIzm9R
+/4SVccfsqOYLEo+S0vQMIIIqFEq3FCpXXwPzyimotps05VA8U3Bd7yseojFygOgK
+sAMOAee2RCaDDOnoJue01dfZMzzHPO/TVdp3OvnpWipfv5G1Xg96rwbhMLE3tg6N
+xwAHa31Bv4/Xq8CJOoIWvx6fcmZQpz01/lSvsYn0KrfEbTKkuUf0vM9JrCTCP2oz
+VNN5BYzqaq2M4r+jmSyeXLim922VOWqGkUEQ85BSEemqrRS06IU6NtEMsF8EWt/b
+hWjk/9GDKTcnpdJHTrMxTspExBiNrvpI2t+YPU5B/dJJAUxvmhFrbSIbdB8umBZs
+I3AMYrEmpAbh5x7jEjoskUC7uN3o9vpg1oCLS2ePDLtAtyBtbHnkA4xGD7ar8mem
+xpH9lY/i+sC6CyyIUWcUDnnagKyJP0m9ks0GLsTeOCA0bft2XA6rD6aaCnMUsndT
+ctrab42CV5XypjmC4U1rPJ8JQJUh1/3P48/8sMH+3krxpJ06KNWNFaUbaMTGiltZ
+7x9DngklSYrX0T+2G4kVXNmjaljwkoLahwLla2gUWwBSyofXdqyhQdwZsp01KXNQ
+UCyT/Pg+aDcm/E7OMV3d4lf7g/CSxiX2GSEe6BlhSz+Lmd7ZJ3g32M1ARGVtaSBN
+YXJpZSBPYmVub3VyIChJVEwgRW1haWwgS2V5KSA8ZGVtaUBpbnZpc2libGV0aGlu
+Z3NsYWIuY29tPsLBjgQTAQgAOBYhBHaHTZ8TNroiWQcccbKItV//nCLBBQJgOEV+
+AhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJELKItV//nCLBKwoP/1WSnFdv
+SAD0g7fD0WlF+oi7ISFT7oqJnchFLOwVHK4Jg0e4hGn1ekWsF3Ha5tFLh4V/7UUu
+obYJpTfBAA2CckspYBqLtKGjFxcaqjjpO1I2W/jeNELVtSYuCOZICjdNGw2Hl9yH
+KRZiBkqc9u8lQcHDZKq4LIpVJj6ZQV/nxttDX90ax2No1nLLQXFbr5wb465LAPpU
+lXwunYDij7xJGye+VUASQh9datye6orZYuJvNo8Tr3mAQxxkfR46LzWgxFCPEAZJ
+5P56Nc0IMHdJZj0Uc9+1jxERhOGppp5jlLgYGK7faGB/jTV6LaRQ4Ad+xiqokDWp
+mUOZsmA+bMbtPfYjDZBz5mlyHcIRKIFpE1l3Y8F7PhJuzzMUKkJi90CYakCV4x/a
+Zs4pzk5E96c2VQx01RIEJ7fzHF7lwFdtfTS4YsLtAbQFsKayqwkGcVv2B1AHeqdo
+TMX+cgDvjd1ZganGlWA8Sv9RkNSMchn1hMuTwERTyFTr2dKPnQdA1F480+jUap41
+ClXgn227WkCIMrNhQGNyJsnwyzi5wS8rBVRQ3BOTMyvGM07j3axUOYaejEpg7wKi
+wTPZGLGH1sz5GljD/916v5+v2xLbOo5606j9dWf5/tAhbPuqrQgWv41wuKDi+dDD
+EKkODF7DHes8No+QcHTDyETMn1RYm7t0RKR4zsFNBFp+A0oBEAC9ynZI9LU+uJkM
+eEJeJyQ/8VFkCJQPQZEsIGzOTlPnwvVna0AS86n2Z+rK7R/usYs5iJCZ55/JISWd
+8xD57ue0eB47bcJvVqGlObI2DEG8TwaW0O0duRhDgzMEL4t1KdRAepIESBEA/iPp
+I4gfUbVEIEQuqdqQyO4GAe+MkD0Hy5JH/0qgFmbaSegNTdQg5iqYjRZ3ttiswalq
+l1/iSyv1WYeC1OAs+2BLOAT2NEggSiVOtxEfgewsQtCWi8H1SoirakIfo45Hz0tk
+/Ad9ZWh2PvOGt97Ka85o4TLJxgJJqGEnqcFUZnJJriwoaRIS8N2C8/nEM53jb1sH
+0gYddMU3QxY7dYNLIUrRKQeNkF30dK7V6JRH7pleRlf+wQcNfRAIUrNlatj9Txwi
+vQrKnC9aIFFHEy/0mAgtrQShcMRmMgVlRoOA5B8RTulRLCmkafvwuhs6dCxN0GNA
+ORIVVFxjx9Vn7OqYPgwiofZ6SbEl0hgPyWBQvE85klFLZLoj7p+joDY1XNQztmfA
+rnJ9x+YV4igjWImINAZSlmEcYtd+xy3Li/8oeYDAqrsnrOjb+WvGhCykJk4urBog
+2LNtcyCjkTs7F+WeXGUo0NDhbd3Z6AyFfqeF7uJ3D5hlpX2nI9no/ugPrrTVoVZA
+grrnNz0iZG2DVx46x913pVKHl5mlYQARAQABwsFfBBgBAgAJBQJafgNKAhsMAAoJ
+ELKItV//nCLBwNIP/AiIHE8boIqReFQyaMzxq6lE4YZCZNj65B/nkDOvodSiwfwj
+jVVE2V3iEzxMHbgyTCGA67+Bo/d5aQGjgn0TPtsGzelyQHipaUzEyrsceUGWYoKX
+YyVWKEfyh0cDfnd9diAm3VeNqchtcMpoehETH8frRHnJdBcjf112PzQSdKC6kqU0
+Q196c4Vp5HDOQfNiDnTf7gZSj0BraHOByy9LEDCLhQiCmr+2E0rW4tBtDAn2HkT9
+uf32ZGqJCn1O+2uVfFhGu6vPE5qkqrbSE8TG+03H8ecU2q50zgHWPdHMOBvy3Ehz
+fAh2VmOSTcRK+tSUe/u3wdLRDPwv/DTzGI36Kgky9MsDC5gpIwNbOJP2G/q1wT1o
+Gkw4IXfWv2ufWiXqJ+k7HEi2N1sree7Dy9KBCqb+ca1vFhYPDJfhP75I/VnzHVss
+Z/rYZ9+51yDoUABoNdJNSGUYl+Yh9Pw9pE3Kt4EFzUlFZWbE4xKL/NPno+z4J9aW
+emLLszcYz/u3XnbOvUSQHSrmfOzX3cV4yfmjM5lewgSstoxGyTx2M8enslgdXhPt
+hZlDnTnOT+C+OTsh8+m5tos8HQjaPM01MKBiAqdPgksm1wu2DrrwUi6ChRVTUBcj
+6+/9IJ81H2P2gJk3Ls3AVIxIffLoY34E+MYSfkEjBz0E8CLOcAw7JIwAaeBTzsFN
+BGbyLVgBEACqClxh50hmBepTSVlan6EBq3OAoxhrAhWZYEwN78k+ENhK68KhqC5R
+IsHzlL7QHW1gmfVBQZ63GnWiraM6wOJqFTL4ZWvRslga9u28FJ5XyK860mZLgYhK
+9BzoUk4s+dat9jVUbq6LpQ1Ot5I9vrdzo2p1jtQ8h9WCIiFxSYy8s8pZ3hHh5T64
+GIj1m/kY7lG3VIdUgoNiREGf/iOMjUFjwwE9ZoJ26j9p7p1U+TkKeF6wgswEB1T3
+J8KCAtvmRtqJDq558IU5jhg5fgN+xHB8cgvUWulgK9FIF9oFxcuxtaf/juhHWKMO
+RtL0bHfNdXoBdpUDZE+mLBUAxF6KSsRrvx6AQyJs7VjgXJDtQVWvH0PUmTrEswgb
+49nNU+dLLZQAZagxqnZ9Dp5l6GqaGZCHERJcLmdY/EmMzSf5YazJ6c0vO8rdW27M
+kn73qcWAplQn5mOXaqbfzWkAUPyUXppuRHfrjxTDz3GyJJVOeMmMrTxH4uCaGpOX
+Z8tN6829J1roGw4oKDRUQsaBAeEDqizXMPRc+6U9vI5FXzbAsb+8lKW65G7JWHym
+YPOGUt2hK4DdTA1PmVo0DxH00eWWeKxqvmGyX+Dhcg+5e191rPsMRGsDlH6KihI6
++3JIuc0y6ngdjcp6aalbuvPIGFrCRx3tnRtNc7He6cBWQoH9RPwluwARAQABwsOs
+BBgBCgAgFiEEdodNnxM2uiJZBxxxsoi1X/+cIsEFAmbyLVgCGwICQAkQsoi1X/+c
+IsHBdCAEGQEKAB0WIQSilC2pUlbVp66j3+yzNoc6synyUwUCZvItWAAKCRCzNoc6
+synyU85gD/0T1QDtPhovkGwoqv4jUbEMMvpeYQf+oWgm/TjWPeLwdjl7AtY0G9Ml
+ZoyGniYkoHi37Gnn/ShLT3B5vtyI58ap2+SSa8SnGftdAKRLiWFWCiAEklm9FRk8
+N3hwxhmSFF1KR/AIDS4g+HIsZn7YEMubBSgLlZZ9zHl4O4vwuXlREBEW97iL/FSt
+VownU2V39t7PtFvGZNk+DJH7eLO3jmNRYB0PL4JOyyda3NH/J92iwrFmjFWWmmWb
+/Xz8l9DIs+Z59pRCVTTwbBEZhcUc7rVMCcIYL+q1WxBG2e6lMn15OQJ5WfiE6E0I
+sGirAEDnXWx92JNGx5l+mMpdpsWhBZ5iGTtttZesibNkQfd48/eCgFi4cxJUC4PT
+UQwfD9AMgzwSTGJrkI5XGy+XqxwOjL8UA0iIrtTpMh49zw46uV6kwFQCgkf32jZM
+OLwLTNSzclbnA7GRd8tKwezQ/XqeK3dal2n+cOr+o+Eka7yGmGWNUqFbIe8cjj9T
+JeF3mgOCmZOwMI+wIcQYRSf+e5VTMO6TNWH5BI3vqeHSt7HkYuPlHT0pGum88d4a
+pWqhulH4rUhEMtirX1hYx8Q4HlUOQqLtxzmwOYWkhl1C+yPObAvUDNiHCLf9w28n
+uihgEkzHt9J4VKYulyJM9fe3ENcyU6rpXD7iANQqcr87ogKXFxknZ97uEACvSucc
+RbnnAgRqZ7GDzgoBerJ2zrmhLkeREZ08iz1zze1JgyW3HEwdr2UbyAuqvSADCSUU
+GN0vtQHsPzWl8onRc7lOPqPDF8OO+UfN9NAfA4wl3QyChD1GXl9rwKQOkbvdlYFV
+UFx9u86LNi4ssTmU8p9NtHIGpz1SYMVYNoYy9NU7EVqypGMguDCL7gJt6GUmA0sw
+p+YCroXiwL2BJ7RwRqTpgQuFL1gShkA17D5jK4mDPEetq1d8kz9rQYvAR/sTKBsR
+ImC3xSfn8zpWoNTTB6lnwyP5Ng1bu6esS7+SpYprFTe7ZqGZF6xhvBPf1Ldi9UAm
+U2xPN1/eeWxEa2kusidmFKPmN8lcT4miiAvwGxEnY7Oww9CgZlUB+LP4dl5VPjEt
+sFeAhrgxLdpVTjPRRwTd9VQF3/XYl83j5wySIQKIPXgT3sG3ngAhDhC8I8GpM36r
+8WJJ3x2yVzyJUbBPO0GBhWE2xPNIfhxVoU4cGGhpFqz7dPKSTRDGq++MrFgKKGpI
+ZwT3CPTSSKc7ySndEXWkOYArDIdtyxdE1p5/c3aoz4utzUU7NDHQ+vVIwlnZSMiZ
+jek2IJP3SZ+COOIHCVxpUaZ4lnzWT4eDqABhMLpIzw6NmGfg+kLBJhouqz81WITr
+EtJuZYM5blWncBOJCoWMnBEcTEo/viU3GgcVRw=3D=3D
+=3Dx94R
+-----END PGP PUBLIC KEY BLOCK-----
 
-Agreed, we'll try that, thank you. :)
+--------------LD1AGt4UE3SKePsLMH0rXyA6--
 
-> > I just think swap and COW are two main scenarios that may transparently split pmd sized
-> > folios, so maybe we can solve it and make THP both reclaimable and stable.
-> 
-> There is page migration, MADV_DONTNEED, munmap/mremap/madvise/mprotect in sub-2M
-> blocks, memory failure handling and probably a lot more. THP allocation might
-> fail. THP swapout+swapin might fail to allocate THPs.
-> 
+--------------k0ZK71pqLe0hnBNqt4308TdC--
 
-Yes, in my former consideration I just thought munmap/mremap/madvise/mprotect are actively
-called, so it should be easier to restrict them, like directly fail them when the user calls
-them in sub-2M blocks. Page migration is truly another scenorio we need to handle. But
-it's not that likely to happen if we configure it so since we have our
-CONFIG_ARCH_ENABLE_THP_MIGRATION setup, things like numa balancing, live migration, compaction
-can all be disabled though. Maybe there is something I missed here? :)
+--------------gOEjW00h490myNpWbj6HCr9q
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-> Tackling COW handling when you don't even know that it's a real problem seems
-> premature.
-> 
+-----BEGIN PGP SIGNATURE-----
 
-Yeah, I guess THP COW can be replaced by other approaches. We just think maybe we can
-firstly add the THP COW, then the COW that may happen in fork, pmd swap in, and maybe other
-places can all benifit from it. But maybe it's still not the only way to solve the
-problem we meet right now.
+iQIzBAEBCgAdFiEEopQtqVJW1aeuo9/sszaHOrMp8lMFAmn1iYoACgkQszaHOrMp
+8lNSJRAAm23zl2SXS24Cg+e0rTREDSBk0mTl7qZuY8wZmG0mx+qDuf4uZgNdzRl1
+bReM+zY5idfhIkUb2ZtVkQnL0pnH+PMi77na7HTt6SlPLxlczq7+FfKic0y8UxEF
+VQEmWl+YhsiBQAePxQnqvBWm/UFEEw0R3aBZZ59KjgHjMOyQNHPRNG9RJgM2g0oF
+blyf7qIivpk45mJObnkqbdq1qwZg1EqlrzJuW95D38VgchRzqus2gU1+Jl3WIrpV
+yr/bh3X5rShdTUB48Xx67rJGIfPjZfHOxIOSEc5kwp4nAaIpZHc2vyOXwXVxyMKg
+vJvLCVq53o793y51ZfSYjMaICb18LWcTt7B3aNVfegxzyC5gLC39Wr1MWA0qV+nY
+4JtVtsu/ODDEU5aRXMEnLZa96rL+E47h+mm7GOIdp+qdtGPuB8rwTvb9gm5eT+KL
+LLos+8ql4KmsZpns56xCLA6YiBlYGjcQwdbIuzsP/yzkBuOJV3IRtuApsaw89BuC
+ws/6OPKRM1gl+t4JT+szFX/X9hZkziNjoUuVAIW587Rv+kfkNoSCnj2FPKtMzr29
+Gz5ddiN2L/MgI75txSHaILKPXpH2iAi5VQQldpsY4yMAypnTaltXezhMUVBusv7o
+FcWZE2sZrrE7+ammwpYCn+qa12wYQv9AMzVl+te5WtDol6JODwU=
+=3cxT
+-----END PGP SIGNATURE-----
 
-> > Maybe
-> > that can make THP more widely used in real deployed environment since the resource
-> > can become more controllable for the users :). That's why I was thinking maybe
-> > implementing it with setup switches is a reasonable solution?
-> 
-> No magical toggles.
-> 
-> > 
-> >> Note that an application that does fork() could use MADV_COLLAPSE after fork()
-> >> to make sure that it immediately gets THPs back.
-> >>
-> >> There is also the option to just use MADV_DONTFORK to not even share ranges with
-> >> a child process in the first place, avoiding page copies entirely.
-> >>
-> > 
-> > MADV_DONTFORK and MADV_COLLAPSE are nice and great options :), but the former one seems
-> > to be a little wasteful :). 
-> 
-> It's actually the right thing to do (tm) if you care about fork() performance
-> and know that your child will not actually need certain memory areas.
-> 
-> For example, in QEMU we use it to exclude all guest memory from fork(), heavily
-> improving fork() performance. [there are not a lot of fork() use cases left in
-> QEMU today, fortunately]
-> 
-
-Yeah, these two are nice in many situations, we'll consider using MADV_DONTFORK and
-MADV_COLLAPSE and other tools for our workload, thanks!
-
-> -- 
-> Cheers,
-> 
-> David
-
-Best regards,
-Luka
+--------------gOEjW00h490myNpWbj6HCr9q--
