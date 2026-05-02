@@ -1,57 +1,68 @@
-Received: from out203-205-221-221.mail.qq.com (out203-205-221-221.mail.qq.com [203.205.221.221])
+Received: from out203-205-221-240.mail.qq.com (out203-205-221-240.mail.qq.com [203.205.221.240])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D36C128150F;
-	Sat,  2 May 2026 12:53:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 929D333D6C7;
+	Sat,  2 May 2026 13:05:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.240
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777726441; cv=none; b=Qe/sbHODe6rrQq5PH5H8peHph2+iao+lxu2TiGmaa1uSoels08IdfoW0eMR+l07R2C1TRLKj13BMyLfJUzBEFT1/ZZGNFAhwAPZ1DTKp/4DT7TvoPTInrplomRsthFYXPxZt9n3CPbwcyEGIr2Y0jctbFTvLb/vOFXNAWjP7hZY=
+	t=1777727112; cv=none; b=HlfcRbcFmivy9eKnhqdK4ClnFKqxYiQtaPGkomAWlsVZ3dbWUPLJzijCP19P6+kq9tb6NciWwWqYbOoP567W7tIqMRj6wNUpWGHsWKkErgMOyk+OZY98qO5ye2nKSBgXDr6PkmKigoO7rIfDmE8zhIW/1ERWp6BkvpJDEZPflO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777726441; c=relaxed/simple;
-	bh=JlGYREQ3o30oAsvMBPCEdBgpvU91I7Me5WIQkVmDniw=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=aUxaQ2qRnkfeY3cr32KFhhVN/JMyUrvdLRP9O9QtM482Nb507TRS0bO0sx/o/sNSd8whI+fE66DjEAlC4W89fsY2JtNUpofGpt4Ns5dS3Y2dDtrcspZ8n2dX3trnqa7uqrI9VRWa1gf1qN/Yv850InvhPXeeu92v0SUz5h31Hqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=pSDPHpI/; arc=none smtp.client-ip=203.205.221.221
+	s=arc-20240116; t=1777727112; c=relaxed/simple;
+	bh=cd7SyuVvyi6jISlx8A1zYPP50Rrkz05BZF1l8flLbz0=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version:Content-Type; b=VuPmtoTyNWsLC8Of+9XSyvKKuHTXiGpHHSYwzDi+nZSJwvQidWBGQKoR8pT8Qg+wZaOCLzjiaE5ySNkfi+U/UYJBZ3Qmddxf0MD2g+/ENRBfKmIK97LvGXAhdsDkY5sIuImDEP+yVcpjfM4v3VFV6cdM13ry7X51dTaF/sU6ZzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=SoqB0E6M; arc=none smtp.client-ip=203.205.221.240
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="pSDPHpI/"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="SoqB0E6M"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777726430; bh=JlGYREQ3o30oAsvMBPCEdBgpvU91I7Me5WIQkVmDniw=;
+	t=1777727101; bh=EPIu1VT3+WtFaU6ycaBtpB2LTIlRXTVRY8qiprkx7Gc=;
 	h=From:To:Cc:Subject:Date;
-	b=pSDPHpI/FyNe/7QPmM1SnpO9Ltnu8jHZTUg/YwPfzj1eLhsvYpCOrHKyiGRX5Kk7O
-	 kFXbCNgkaVwCCdbCjq09hfZGmm+w3efsaEFqs/buOEjhU7G3skobuEdaG0ZihPrHvw
-	 xrwF6K7BpX4Mb9WqkNrsaeoS43RNXiWwM6Ctv3mY=
+	b=SoqB0E6MG0QyyXKSzdFLK+QwrSee9JXInL9cgY1BF+kooEl1hGkCwn/OrK5bVlDhd
+	 ANGmWIwS6jgMgJaFgTq7TPCyHUQV9qDx/nGfWR34WFLDHXBfpneiS7l1yXetVtNZYZ
+	 oWCaGyrBxjRg5UhJhbYLA2JEQWaSMxR0yalYQVUY=
 Received: from Lang.smartont.net ([2409:8a44:2312:14e1:56d8:1e1e:3f0b:d0f3])
-	by newxmesmtplogicsvrszc43-0.qq.com (NewEsmtp) with SMTP
-	id D6F16215; Sat, 02 May 2026 20:53:47 +0800
-X-QQ-mid: xmsmtpt1777726427tjpnj8raq
-Message-ID: <tencent_5E6677A3FFCB969503EE5250592E75128807@qq.com>
-X-QQ-XMAILINFO: ONXjbYTFhCz0yW82GnrNThR/ZKHFLt7q2Ck6IYs1QOjSWMcxpTVzuAPVOWQZMN
-	 XUQ/hAxHxvpyHsKwaM7f3aEnURUY/Hh3AqwPsMf4jEUzHaQHBAgrnj/sIGd+oikwHCNjHkDxi1j9
-	 j+p51ostKBmm8pDlhIXPUNBR4KKEbJtYKfyvvSUoD3RMgVY5SFLkZdJiZmJmlEx5nsLecW1wdRn4
-	 n48gCAc29/I+olVJo53NLv5Kg/fpGEbyFGfjOqxqTGCml4juh/MLIuJF2A9e81KYvX6Z/JmVkBmN
-	 MSmwTYFjCNb/x8JtDrelXwVDdIzoOhhx2mSFDXuiyDHcBfI5jokZCs+DW6nbzUWvZ+VWBNYKAoD9
-	 Petpeci0+/f0FrgYmV3UbYxjVkDg5N7a01KZSZ5QcUvpv4TnWQC4KA+02prhQamivwcysIEvIJ71
-	 BVt5cFV+K9VTtM6ZHiSzECqasxvfz8s/OGAu5fSbZianU5tWxvZalrcqo6b1rxL/KP8AvAToVK6q
-	 vRwrL3a+icmUWOHw/UsH/ZfTVi6RYzTDr/dzhsJqznIg0OoWLhG8E3apZHM2SZn/rN3lHOLzE1T5
-	 RqVZZn+W6CvfGpjIKYc/xOZWNRS72HLul6eIxJqyRRqNp/5ZY7cYlotR4E4DzqBcXU1GknUO6sqX
-	 Gbb8QYHO0aJ7Xw/IRCL6kK8mjaS3RcWTZPliW5WTcDcXsSdPxLM8cgqdjJRCx3w/ciXMGTN4LgEc
-	 IyL242M+XgJOGs/K+DdUUqPn33/cyHNPolZdWgcoFtzptpegAIyh0u9JxTphYnBfv61USCcyqz78
-	 5Mt0kJwSQpgVddF0hAd6E2u48BEhcnk4JlvBLrOOM0G7WKoznNBoZfOy8G9chDkOp2pXi8uWmVBE
-	 yyRtX9msPEytfFa/lorBG5y0EMjLX+xcYiPViNk+wl4CTo3zEMuHbPPpm/Vzjc3GpC4cesCzq2Xu
-	 SvFx/ych/G9Xs/vP0QiWjnDly/qRLuxtrt4OOmcwuuwEYVQgjcgM13wzTbwGJMsva73CsRujVV6i
-	 1Fl2qZ1rTgoHxQ61GoBxHAHYOE7rXklShJRrDBkw8u7pVUI0Y36x76HvoRpyM84xRtu4p2nl4RaM
-	 HaBbmZt0c5TJNN7+Mlrje352BA7BS5eMJtRGkoweWILq1oZE60rTCLwwFYZg==
-X-QQ-XMRINFO: NS+P29fieYNwqS3WCnRCOn9D1NpZuCnCRA==
+	by newxmesmtplogicsvrsza53-0.qq.com (NewEsmtp) with SMTP
+	id 13835EBD; Sat, 02 May 2026 21:04:56 +0800
+X-QQ-mid: xmsmtpt1777727096t2xpuewnz
+Message-ID: <tencent_7B6592FA660AA38DCB8215456E0DD0032E07@qq.com>
+X-QQ-XMAILINFO: NCmjBvJFq6XN9fygQfgBBr3jI/afKESixi/DV2JngKJxDNSdPNYBjFEnRA0RHC
+	 23m9JD6OTQX+A9s8LPXSA4jRFNq5X/wTVjIIEafaUIB75EWkvdbrVm+cmy5+/zBRsIUjdgCkYDC3
+	 Nm7/gkB7JM2GNnvIoZynZkK6Cvfy/Qv7AqqkdpkTZy/TZBLjggWl407oIRA1SZfvekrtMZQkW5hT
+	 C+PXNO1UkYFz/6npEHfEk4YQ5pxOEP2gHGQVxoWSIDKu12WQMQ0cHQVr7daQm7TTAp/cBp87jcp1
+	 6yFZnT4y1BMD9iU6S7UkmhGKDyI1vRJTIiEz6MKjRL8ti4jX7waqlEfmoAz9oOUAz4If4foQrw4Q
+	 yq3WcNBwv+zs595ha44rSabjuXPGqSA/W6nnSbKm7JRb4Kx+Yld+c+WXCNsJPT+IOFvSogT7rc2b
+	 Zc7ITyvvBUB7EvQJmAgtivpasNs4lSiH1eOlXOSEqSotbRqkCOYIa3brvOG7a+bJ8AoWmZuh/UcG
+	 vtCQJIytvEM4wieqDbABuj0ceXPwh4QNW53fnLbVyvcT/O8+3e9EPohLi3r2Sh0f0sJcdQAIC5ue
+	 PxqUsCMAf/XK+lTTswQ36Bc1JoJdeglQjo6FsxF3LgfSZkmgFdiD0ro6Km5La1OCmR9ZhUZp2FrK
+	 9UggnM57z0GRYHQXXW9osEAq33WDDgv2NWGiukIRWWyxCkkDisI9s20Sif3c/D6a83XbZigAFJnt
+	 8c+nSRS86rpMcB+2KaTSAygfiYJauTeC6BEDiwEW+z7PLyevLD3u06DsXo2dHVZb0xuZWAIEcl+q
+	 iGG5LszxEAPTg0gWdDtmk4xCioIIrfnYNtbS0uewDjcSdO4lCLIRzjZxa8pxZWxRLvd4XNIs6Sqf
+	 1t7z+wAlir0c8kXwhSU7+YOaMoRjR7ARA7xhuL6hbpuYUMuB8vWOxAlvCv2TzXWE2Oswn0VlURX9
+	 bdyV08PStwDbYhMgF5/fLY6SqMSlik1RdGFDcalt+tnc0K8PcoHnlMc4hvNwLvJpJ/AomXCbQUFM
+	 E+kn4zWqvvfRewl2PDlQTzzMg9pm4qHzy8APzf8XWu9pKqDbWd3DonqL4njgETjwOma3RExOeUIJ
+	 +E9NPwHb7YR64skIk=
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 From: Wang Zihan <jiyu03@qq.com>
-To: joshua.crofts1@gmail.com
-Cc: jic23@kernel.org,
-	linux-iio@vger.kernel.org,
+To: loongarch@lists.linux.dev,
+	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
-	Wang Zihan <jiyu03@qq.com>
-Subject: Re: [PATCH v2] iio: adxl313: fix typos in documentation
-Date: Sat,  2 May 2026 20:53:43 +0800
-X-OQ-MSGID: <20260502125343.495997-1-jiyu03@qq.com>
+	linux-media@vger.kernel.org,
+	linux-um@lists.infradead.org
+Cc: chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	kuba@kernel.org,
+	mchehab@kernel.org,
+	richard@nod.at,
+	linux-kernel@vger.kernel.org,
+	Wang Zihan <3772548978@qq.com>
+Subject: [WITHDRAW] Documentation: Fix typo "eXtention" -> "Extension" and duplicated words
+Date: Sat,  2 May 2026 21:04:56 +0800
+X-OQ-MSGID: <20260502130456.585851-1-jiyu03@qq.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,18 +70,29 @@ List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Joshua,
+From: Wang Zihan <3772548978@qq.com>
 
-Thank you for the review!
+I apologize for submitting incorrect patches. After review by Björn Persson,
+I realized that my changes were not actually fixing errors:
 
-I apologize for the quick v2. The v1 had an incorrect subject format
-([PATCH 1/4] instead of [PATCH]) which could cause confusion. I sent
-v2 to correct this formatting issue.
+1. Patch "Documentation: loongarch: Fix typo eXtention -> Extension"
+   The capitalization of 'X' in 'eXtention' was intentional to highlight
+   the letter, not a spelling mistake.
 
-I will keep the 24-hour rule in mind for future submissions.
+2. Patch "Documentation: Fix duplicated words" (the "later on on" part)
+   "Later on" is an established English expression. The original text
+   was not an error, just a stylistic choice.
 
-Best regards,
+I am withdrawing these patches:
+- Message-ID: <20260502111912.143743-1-3772548978@qq.com>
+- Message-ID: <20260502111916.145238-1-3772548978@qq.com>
+
+Thank you for the correction and education. I will be more careful in the future.
+
+Apologies for the noise.
+
 Wang Zihan
 
