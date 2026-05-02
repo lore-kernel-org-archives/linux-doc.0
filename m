@@ -1,186 +1,337 @@
-Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011007.outbound.protection.outlook.com [40.107.208.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D142798F8;
-	Sat,  2 May 2026 19:19:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777749593; cv=fail; b=LkhmUbBYMXs9Nlay9GbBEqfogdi/T2FbjOdrLsA/MRUo20ehPuX0MVEr9Rmi1G8RRkYimccYM0rbjoFX+QcjOOVY6qb2BzhCXr+Wngn0wCrvQwuWUFSMBpzjRK29ceZ7VvBax6fgtyqaAMqx9Iaw48z0bEDvzLdTThqWro4fWU4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777749593; c=relaxed/simple;
-	bh=88qLPD/HtBWYjywMB4hTUs30Gp7Luom1pA4sMPBFboA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=P2ySHGMSkfYezvIdEiqd+StT8j1mHtKNIRYJcluFOV93gprhqrsOFEQhAta/gAvLhZEB/sn/YUOeTmVru1GHrepKLaruYSffzsEnn5SyJrB+75fPBwTFdJuxS8TBhC7/xNNM0+vdgmBx4DXwkm0rDVo/AC9P2RFY6JTTLAUO8oc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lbNvNUpW; arc=fail smtp.client-ip=40.107.208.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F9B186A;
+	Sat,  2 May 2026 23:25:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777764337; cv=none; b=eoBkygfKY80qseBue3x92PeFb4Nik0zz2Pc/a5sz7CBbsf02E44MIlnu3wscGG6cnUK2ylyJi8gQ1PSnNU+DzRirHhGFlWuRF8kUUkJB0mQb2B7HLnMT2JrQdlUNRsozmTcsdJo+GMut3dROIw89m04VtME3OF7RAkYk+7Ph4nY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777764337; c=relaxed/simple;
+	bh=IpSw53TOh/n7IS6SsjWLenMx6OMEcXR4c08TD6yYtic=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=sFDJNziuK6ul9RHxaai0bMxWBlBE8kCslaM7mFuPpALi4mBKoLbBL5ZTdFjhcSFr+E+F9yqESb/plmvaVzl2tlqvJ32QMg/60QPH5lCfEnnaNcD9DcmG9DECOkmaG9PrkMXEaIWBRhT5ygQ9/XZ9IGPN7uIbejN+Quctt3LWfXs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=K+IuxdTE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lbNvNUpW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=LcqcuRRKk/0ItFE9iOGw4ZqFBHlCLwk3HPMUhnzCqqSncSyASJnWl2tyBr1FUVhZBI9VDiX5gVghuAEIgPeB62dzEvl3DwBZCiEHkUIu7ou29lREaWwHV3sSrMtysPaBb3OnTLlxicDMie9CxOSGzZSYRhPMpTLM9yzXU1UDmgi9nCDo+qZ8uZqiCD90FEpY6rlETXcNHRR+wgCFX8000HhClh8fmQGz3y8QtlTIYr1Bp3p5peKT5o4Ia/0z4X8nT0mW3a8uWyFuEhAWYc5ZdHWcM6Gd9/Ctc0SFxzM6Naid3gwf27+0NrIGiCHSHPCTUiNp57X3dd1lYGPQD5rtaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6Dyujo+nQDO9A9o8iv2cs9wThEPILVK6upvq7BEfEfc=;
- b=pKGv2mN9NSjU/gijH46kbTcye+MGDdlVuZV3uKiGWIr99H1FmRt43XvLqiRCJc71tNR4dyRAD2nrPlZCsw9+lEYDa7CZwwieGTUyvdIUGu+P68HX8Usatd7fcV6yPK3ZT9Mt7/M7UGHODh9HPH81gQdRZtCRNQh1nEQId5BxStaHc0dMaSo7mA6UbQK/hsJYdtjR7tRhDt1Znl2UkyND4LfodLktXP98/yjzuR+wYvYisnGsDQ06s22/ZJFqd2mpbJLNPUaclVXjKvSYzsMZpwsbW0Z1Wr9o5mjMOInxNrSvSOW0RlJXpAfVF0ibfuHAVydrGDO3HHp06ApgSLtY0A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6Dyujo+nQDO9A9o8iv2cs9wThEPILVK6upvq7BEfEfc=;
- b=lbNvNUpWIWl72C0xIpa+mGb8N+2LpTIms1/LCOLYcJ1CyKNxjKOv0vv8qEWZTVQKfXP01pcQMNG3MhcePOm4ffcbpLB6e0tD/Nzlx8msqkKSDz5B+UUfsRjQqA/8yeEbCo/ZdAaR7Pts5/7p9kQuWelpDIKp4yQwI6zFEP9KjZ6VMDUA2Iu6k1tDqHFuVLPsFQU3JX03Efmyt14I60ryBigV2UdetbrWwxN1XtQqUhGzgD4PMHgRsVY584GhQlQlAoBp3ZQ9hOI8aNo2jOa04i+vToSV4mn/UtC4TJpKu7vMK6RX20U6r6YX0Py/mx1ZhJ+0VcuDTK4oFEyv+WpALA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- CH2PR12MB9518.namprd12.prod.outlook.com (2603:10b6:610:27e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.23; Sat, 2 May
- 2026 19:19:47 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9870.022; Sat, 2 May 2026
- 19:19:47 +0000
-Message-ID: <53c88538-dca7-41f1-bb2b-856035728c69@nvidia.com>
-Date: Sat, 2 May 2026 15:19:44 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 12/22] gpu: nova-core: mm: Add page table entry
- operation traits
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
- Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
- Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
- <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
- nova-gpu@lists.linux.dev, Nikola Djukic <ndjukic@nvidia.com>,
- David Airlie <airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
- John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
- Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
- Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
- Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
- Philipp Stanner <phasta@kernel.org>, alexeyi@nvidia.com,
- Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
- linux-doc@vger.kernel.org
-References: <20260425211454.174696-1-joelagnelf@nvidia.com>
- <20260425211454.174696-13-joelagnelf@nvidia.com>
- <DI8B0IOXNP2L.1NFX4OTABNHA0@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DI8B0IOXNP2L.1NFX4OTABNHA0@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MN0P220CA0020.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:52e::17) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="K+IuxdTE"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 26A80C2BCB9;
+	Sat,  2 May 2026 23:25:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777764337;
+	bh=IpSw53TOh/n7IS6SsjWLenMx6OMEcXR4c08TD6yYtic=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=K+IuxdTEywD5QY+rQWZ5rG9iS5aAQ6JgK3t5rb4sav/TpCDyOFdDV4b6onzLb/Idl
+	 BDJ9xb6qJSNKmIM6Px8Ovgx+5Ow7JE0/irGTH3dogSgZZ6jXlIZcscjvldymaLH2G/
+	 NoK3c6twlqZxD8lHP+wOiWAFR7mQPRQ/qofaflsDlFkeH+TQlM68OV1zn7MbKYuqY6
+	 jU71ze3g3B3B4fs7+ABaKcpgrNZ9/LIlmkzfw/Wn6wyJOZGQ5sy3jmDKTMmIrrnU/7
+	 fbIbysvyrRDvn2RjnyTZFFePqGE+uoWeqKM4Y6WkBp21s+EWvocpxO8kk7m2ji+ZM3
+	 8ltXg5r50D/9w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 176DBCD3426;
+	Sat,  2 May 2026 23:25:37 +0000 (UTC)
+From: Ciprian Regus via B4 Relay <devnull+ciprian.regus.analog.com@kernel.org>
+Date: Sun, 03 May 2026 02:24:50 +0300
+Subject: [PATCH net-next 1/5] net: ethernet: oa_tc6: Handle the OA TC6 SPI
+ protected mode
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH2PR12MB9518:EE_
-X-MS-Office365-Filtering-Correlation-Id: 513a3f5c-0df8-45d0-86d1-08dea87fc5ef
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	d8FUOY53m4MAUCkYn8cXoBufvxVgjOu0wO80flODaaZrPbWg4aAAkt78/qqY89qMFI41XUJTW+1On0PKMGc+/hu7HIp8cD47ak1qZ5A8PU6qRgZeU8lsF03EdDmnEOFx6YwHvl2sjKQj8zMrdMkYqS5KUAf0vifVrkLbp+Y/i1FBqVe+xXemQ+K/2iOu3bHFUHLMjBLMpQ74cCalOelnQ+k9qt8nVK+Qm/r89qcquL3/PVGbZxiXcMfEEbI867pPaKY+wrsmutaQwHtZt9et35VHV5t91Pywz4ev/8/cDraItU2wzAlyboVtVpKInmzoV3/5rjdO/VyQ90ojIy96N8L0P+hp3uvHcyU8rH/JieC1uoBgmtTlzIbWi/Cke3K+enSHiQygnMmnR5ye5Wmo/LktwMpu+0Xpc0GKoFs+f+AzfCWkGG6tQfYCQ+iRxkPJyWm2QXVURYE9AkddAurZZ6pRKvZnuEf9PD1o8ry7W7yyaJ3UrxC3EMi4+PcUXy/BwsaRvPJiVpqIWBILMPccueOEI640BjSQu89RWt1AP/FJq8HI9b5UjQabMMNYGvVOalCTcKBx35soe5UOSX5YA3P3vW5aGCltAYnELW7IPHCz/KggObVx1Ieuxd0aJ0zmXJJryGWs7Q8FSpE3SejAtdS6RD94Xz49g8Ulu/v9noAfnonmOZ+QrqFLZ1tQYLNX
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WlBOdkp1Z2FMVFE0YWkyaHVOaGtBWjBBaTJPZktSalVnMVg4eGxJdjRjN3dH?=
- =?utf-8?B?aHBSS3puOGJHMkZGWkFDaHk0Ry9MVU5RaXRobjJ3VEZpSGlLbXUyeHBDNFVk?=
- =?utf-8?B?bTVTVlNjRFpEeWVkdG9Ybm5iMkpMN0w3TEEzWEp4WGY3Mkw1S0IrQTZjWnc0?=
- =?utf-8?B?NzFOYmUvWktQOHM5Y0h2TW5qMWtWbWFETWU3TXZJMnNHRjdRaXI5ZXlNV1pH?=
- =?utf-8?B?elFJNjB5Sm1yaXVlbHpQbWk2SG9Zais1TzRaTENYOGd3WFh5VGxqSWhMVWNP?=
- =?utf-8?B?S25mTlFvSGFoWFRPSVhDVTZWM2p6b09zV080UEwxRGtSSWNyaVJTZUczUkND?=
- =?utf-8?B?Zm5vZG0rWHgycjl3SEIyTjdWRDZORTEyRjRHbS9mQWpaZUlHSE91ZExwM0cv?=
- =?utf-8?B?NE1ybGR2cmFFZmJqejAxZUwzb1NMblowazdMWS9iTVdEUTRNcXZyZU9OVTZQ?=
- =?utf-8?B?UFV5ZmVCTGFWSHE2WTY4OHFJdjFXVnZ1cWVvQnRqaUQvWGdrcHJDcXFsNXJ0?=
- =?utf-8?B?V082ME43MjNiZG9lS2lFM2tyQzNwdnFBWG52emNlYmVOQ1FyK3BzN3RMeDhV?=
- =?utf-8?B?a0FBZDZsYmJ6TTdVL29NYWhQMStwNmtCWVRYaFE3djlhUERDSjRRYkZ1WFow?=
- =?utf-8?B?R3VlbnloNFdGNXhsU3Q1SGZtUi9weUdOZHJhejhFOGp5VXNwUEJlU1A5RHB1?=
- =?utf-8?B?SlEzanRqWmxqWU5WVVhXd3RGaTE0ckIrL0RhS29lVjZERHB1UGtHZ0V6TVJT?=
- =?utf-8?B?cnprY1JMdHBMS3ZrVjkxRGViUlhLYmVhU0NjejFUa1M0S2VYNXFsQ3A0WTIw?=
- =?utf-8?B?SzZFZlVaQ2ZOS21DUCtDbEZlV3pjUWRtVDh6T2dLb09nVXVkM2J4ZTBETzZW?=
- =?utf-8?B?aytGemJTTmM2dlo3MlJQb1BCa1hPYU9SZ1VrWjNFRVk1dnl4SVI2V3NuK1g3?=
- =?utf-8?B?N0lqa2k3TEkvZEhqNXoveTRXNG9aUDN1SUo0U0k4NkRwejhIZDVkOWpIZGhD?=
- =?utf-8?B?Q2VrdUEwZkNRdGxkejh1Q0J1WHdHZXFwQjdwMVpiVlphNEt4VXNYQ05rdnlB?=
- =?utf-8?B?SnRzaG9icnQ4Rkp1V0t2dEhEYURscGdsQlh0MDlRaEl6bUFQRHFTUWlIeGhx?=
- =?utf-8?B?Yy95SWxkTnpjUFd6NmJjaEMrcDdobnVnY1FBVGpyWndWUWtJSFB5aTJnZGs1?=
- =?utf-8?B?ck9ZYUxpbGpicEhLczVwM1pteWM5MC8wbVhqUGFTRjNldHovbHFZSjNLdGov?=
- =?utf-8?B?VnlRQjhmeS9kNHdyMzhHOVVXdXFhK0ZiZlZ6Z1FYR0ErcVlvaTlBaU5ydm0r?=
- =?utf-8?B?cEtld0VuQzdBdnZiMGtxdUhvQkxIejYyZG1XN3BYbjYrK1grMjJpOEY4c0Yw?=
- =?utf-8?B?SkJtRzlVcWVvWkx1SjV6UHhRcDNaUXFMV1dLM3NzM0F5bldCUmU4aGxyL25I?=
- =?utf-8?B?M1VpNlJac1d1ejJ5Zm9oTjJaVnY0bjZIVFlHcGFraTZPNmpZaHFOWTNwTWdh?=
- =?utf-8?B?Zm1ZV2pNMnQwcGF3bVhwYmRlR253TTBGc0Z6RzNEelNBZFBCOTgrNGk5c3Zj?=
- =?utf-8?B?QVRNdlhVQmxGR0p3dGVzeXMxR2FMVDE3T0pWVitmZnhRbHZzUGI5WjRaWDBU?=
- =?utf-8?B?TkoxRUpuZHVhcURJVEhhTCtxNndlM0FiTDZpckJzRjdrZGdIQkRaalZXMDJ1?=
- =?utf-8?B?WElHV2dZcXJRRDJXWXBGV2FVS21Cd1AwdEU4RTRtK1d2RllqMHJtdjM4RkQ2?=
- =?utf-8?B?d1Y2UmVRU1hPUkVNNllSejBYeGg0VzE0dCtRbTZUc0FpaXVMRE1sQjBGUDBn?=
- =?utf-8?B?OExTelFDT0crSFAramNuNENieVVvcGVjRVRMTzBIMVYzb0t3TWREZGdLbFlE?=
- =?utf-8?B?b0pDWkFQM0x6ek1CWmhPK0hQcmN6UzRnQk1rc1dRRkxXYk1UQm5mR2RqdTgr?=
- =?utf-8?B?Y2VseFFRVGJld0hPalFjbHFVOHNqbjV4STJ0ZkVWLzZlQ2ptc1BsYVczZmVE?=
- =?utf-8?B?RnRaQ1YyNmdRakQybzY3dGNxc3RnVXNUR05JZzlHN2YwQWVOc0dJTWRuSnJR?=
- =?utf-8?B?bTQ2Szg4VWVjY0kzVk9vSkluMkhtblRsME1zWVdiNWdkNUQxdytFWGRRUzJt?=
- =?utf-8?B?VGFNMDlJeGFvcGxuaURhM09IMU5zZnF4aTJSeXNRVmZ0VUJXTFYxUStZaCsy?=
- =?utf-8?B?UlZwaE13V1IvN1lXbVpWczhheUI4MXRDWlNxelZQOEhJL2R2Zlo4T1ZjZDBD?=
- =?utf-8?B?MzJCdGNhOUVVNTZCQjZubGs0ZVZFaUx4NldLbHdkSC9rb0tlNTFCUUJHMmlv?=
- =?utf-8?B?eXdGY3RsVlk3cTc2MDRSZS9EaG5MU0tiK0VzUk1TNzVTVG93c1J2Zz09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 513a3f5c-0df8-45d0-86d1-08dea87fc5ef
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2026 19:19:47.0624
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: O2yrCpkPzGyEfURvf/jWK9FEWiNU3s5eYSvzuZsbsFst92lpoH9jBoRgznFJRR/SU0PVKyB0Qgyvf45mpHteOw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB9518
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260503-adin1140-driver-v1-1-dd043cdd88f0@analog.com>
+References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
+In-Reply-To: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
+To: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, 
+ Andrew Lunn <andrew+netdev@lunn.ch>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, Andrew Lunn <andrew@lunn.ch>, 
+ Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-doc@vger.kernel.org, devicetree@vger.kernel.org, 
+ Ciprian Regus <ciprian.regus@analog.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1777764335; l=8778;
+ i=ciprian.regus@analog.com; s=20260330; h=from:subject:message-id;
+ bh=smd/ALBtlVdeWdMQcAG2kvWHkVX9YyfLReANHzFrjYA=;
+ b=NgfRGoWt8KE67G6lRWZb1Ea1QUW1DMXqpn2nuURz9Uy0/fttF0/WI/FJp0hgkjR6YkutURFiR
+ o6O1K0tt6zoCj9ktDT1nEyqhWrapNUHQFKi69YfpTPE0z3TciutYAol
+X-Developer-Key: i=ciprian.regus@analog.com; a=ed25519;
+ pk=8WoNhI0kQcQUl8YqJO5ZevROYk9HP8lOIeIgIYgjfbc=
+X-Endpoint-Received: by B4 Relay for ciprian.regus@analog.com/20260330 with
+ auth_id=703
+X-Original-From: Ciprian Regus <ciprian.regus@analog.com>
+Reply-To: ciprian.regus@analog.com
 
+From: Ciprian Regus <ciprian.regus@analog.com>
 
+Implement the OA TC6 standard defined protected mode for control (register
+access) transactions. In addition to the current register access formats
+the oa_tc6 driver handles, 1's complement values of the data field
+are included (by both the host and the MACPHY) in the SPI transfer frames.
+This feature acts as an integrity check.
 
-On 5/2/2026 11:42 AM, Alexandre Courbot wrote:
-> On Sun Apr 26, 2026 at 6:14 AM JST, Joel Fernandes wrote:
->> Introduce trait-based abstractions for GPU page table entries: PteOps,
->> PdeOps, and DualPdeOps, along with the MmuConfig trait that ties them
->> together with version-specific constants.
->>
->> Refactor the ver2 and ver3 page-table modules to implement these traits
->> and expose the shared entry/PDE/PTE operations uniformly.
-> 
-> Please, no. We don't introduce code that gets refactored the very next
-> commit. This patch supersedes 270 lines of diff that reviewers will have
-> processed for nothing.
+Control write transactions look like this:
 
-I really don't know what you mean by '270 lines of diff for nothing'
-because this patch only adds a negative delta of 90 lines or so, before
-adding yet another 300+ new lines. So it really is building on the previous
-patch, which is how we do things upstream. It is iterative. My sense is you
-reviewed this in a hurry and missed that fact while getting hung up on the
-words 'refactor'.
+          |<- 32 bits ->|<--- data_size --->|<- 32 bits ->|
+    MOSI: | ctrl header | reg write data    | ignored     |
+    MISO: | (discard)   | echoed ctrl hdr   | echoed data |
 
-Keep in mind also that the addition of PteOps set of traits refactor was
-done much later in the iterations.
-> Please reorder things so they land, as much as possible, in their final
-> form. In this case this probably means defining the trait *before* the V2
-> and V3 page table definitions, so they can implement it from the get-go.
+    data_size (LEN = number of registers to read in a sequence):
+      Unprotected: 32 x (LEN + 1) bits
+      Protected:   2 x 32 x (LEN + 1) bits
 
-That is a reasonable approach too, I can try to do that, but it is
-misleading to say '270 lines of diff that reviewers will have processed for
-nothing' which is nothing but fiction. Please look more carefully, the
-patch is iterative on the series.
+Control read transaction:
 
-Thanks.
+          |<- 32 bits ->|<--- 32 bits --> |<- data_size ->|
+    MOSI: | ctrl header | ignored ...                     |
+    MISO: | (discard)   | echoed ctrl hdr | reg read data |
 
+    data_size (LEN = number of registers to read in a sequence):
+      Unprotected: 32 x (LEN + 1) bits
+      Protected:   2 x 32 x (LEN + 1) bits
 
+Register data format ("reg write data" and "reg read data"):
+
+    Unprotected:
+      | W1 (normal) | W2 (normal) | ... | Wx (normal) |
+
+    Protected:
+    | W1 (normal) | W1 (complement) | ... | Wx (normal) | Wx (complement)|
+
+The protected mode state can be read from the bit 5 of CONFIG0 (0x4)
+register, and this setting is usually only configured during the
+MACPHY's reset (depending on the device it can be done by setting the
+state of a pin). We can read the protected mode configuration before any
+other register access and since the SPI transfer is initially sized for an
+unprotected read, the MACPHY's complement words are never clocked out
+and no checking is required. The data transactions (Ethernet frames)
+remain unchanged.
+
+Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
+---
+ drivers/net/ethernet/oa_tc6.c | 105 ++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 92 insertions(+), 13 deletions(-)
+
+diff --git a/drivers/net/ethernet/oa_tc6.c b/drivers/net/ethernet/oa_tc6.c
+index 91a906a7918a..546ca652d974 100644
+--- a/drivers/net/ethernet/oa_tc6.c
++++ b/drivers/net/ethernet/oa_tc6.c
+@@ -24,6 +24,7 @@
+ #define OA_TC6_REG_CONFIG0			0x0004
+ #define CONFIG0_SYNC				BIT(15)
+ #define CONFIG0_ZARFE_ENABLE			BIT(12)
++#define CONFIG0_PROTE				BIT(5)
+ 
+ /* Status Register #0 */
+ #define OA_TC6_REG_STATUS0			0x0008
+@@ -87,6 +88,7 @@
+ #define OA_TC6_PHY_C45_AUTO_NEG_MMS5		5	/* MMD 7 */
+ #define OA_TC6_PHY_C45_POWER_UNIT_MMS6		6	/* MMD 13 */
+ 
++#define OA_TC6_CTRL_PROT_REPLY_SIZE		4
+ #define OA_TC6_CTRL_HEADER_SIZE			4
+ #define OA_TC6_CTRL_REG_VALUE_SIZE		4
+ #define OA_TC6_CTRL_IGNORED_SIZE		4
+@@ -95,6 +97,13 @@
+ 						(OA_TC6_CTRL_MAX_REGISTERS *\
+ 						OA_TC6_CTRL_REG_VALUE_SIZE) +\
+ 						OA_TC6_CTRL_IGNORED_SIZE)
++
++#define OA_TC6_CTRL_SPI_BUF_PROT_SIZE		(OA_TC6_CTRL_HEADER_SIZE +\
++						(OA_TC6_CTRL_MAX_REGISTERS *\
++						(OA_TC6_CTRL_REG_VALUE_SIZE +\
++						 OA_TC6_CTRL_PROT_REPLY_SIZE)) +\
++						OA_TC6_CTRL_IGNORED_SIZE)
++
+ #define OA_TC6_CHUNK_PAYLOAD_SIZE		64
+ #define OA_TC6_DATA_HEADER_SIZE			4
+ #define OA_TC6_CHUNK_SIZE			(OA_TC6_DATA_HEADER_SIZE +\
+@@ -129,6 +138,7 @@ struct oa_tc6 {
+ 	u8 rx_chunks_available;
+ 	bool rx_buf_overflow;
+ 	bool int_flag;
++	bool prot_ctrl;
+ };
+ 
+ enum oa_tc6_header_type {
+@@ -212,25 +222,36 @@ static void oa_tc6_update_ctrl_write_data(struct oa_tc6 *tc6, u32 value[],
+ {
+ 	__be32 *tx_buf = tc6->spi_ctrl_tx_buf + OA_TC6_CTRL_HEADER_SIZE;
+ 
+-	for (int i = 0; i < length; i++)
++	for (int i = 0; i < length; i++) {
+ 		*tx_buf++ = cpu_to_be32(value[i]);
++		if (tc6->prot_ctrl)
++			*tx_buf++ = cpu_to_be32(~value[i]);
++	}
+ }
+ 
+-static u16 oa_tc6_calculate_ctrl_buf_size(u8 length)
++static u16 oa_tc6_calculate_ctrl_buf_size(u8 length, bool ctrl_prot)
+ {
++	u32 reply_size = OA_TC6_CTRL_REG_VALUE_SIZE;
++
++	if (ctrl_prot)
++		reply_size += OA_TC6_CTRL_PROT_REPLY_SIZE;
++
+ 	/* Control command consists 4 bytes header + 4 bytes register value for
+-	 * each register + 4 bytes ignored value.
++	 * each register (+ 4 bytes for the register value complement in case
++	 * protected mode is used) + 4 bytes ignored value.
+ 	 */
+-	return OA_TC6_CTRL_HEADER_SIZE + OA_TC6_CTRL_REG_VALUE_SIZE * length +
++	return OA_TC6_CTRL_HEADER_SIZE + reply_size * length +
+ 	       OA_TC6_CTRL_IGNORED_SIZE;
+ }
+ 
+ static void oa_tc6_prepare_ctrl_spi_buf(struct oa_tc6 *tc6, u32 address,
+ 					u32 value[], u8 length,
+-					enum oa_tc6_register_op reg_op)
++					enum oa_tc6_register_op reg_op,
++					u16 buf_size)
+ {
+ 	__be32 *tx_buf = tc6->spi_ctrl_tx_buf;
+ 
++	memset(tx_buf, 0, buf_size);
+ 	*tx_buf = oa_tc6_prepare_ctrl_header(address, length, reg_op);
+ 
+ 	if (reg_op == OA_TC6_CTRL_REG_WRITE)
+@@ -253,10 +274,12 @@ static int oa_tc6_check_ctrl_write_reply(struct oa_tc6 *tc6, u8 size)
+ 	return 0;
+ }
+ 
+-static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 size)
++static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 length)
+ {
+-	u32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE;
+-	u32 *tx_buf = tc6->spi_ctrl_tx_buf;
++	__be32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE;
++	__be32 *tx_buf = tc6->spi_ctrl_tx_buf;
++	u32 complement;
++	u32 reply;
+ 
+ 	/* The echoed control read header must match with the one that was
+ 	 * transmitted.
+@@ -264,6 +287,20 @@ static int oa_tc6_check_ctrl_read_reply(struct oa_tc6 *tc6, u8 size)
+ 	if (*tx_buf != *rx_buf)
+ 		return -EPROTO;
+ 
++	if (tc6->prot_ctrl) {
++		/* Skip past the echoed header to the value/complement pairs */
++		rx_buf += 1;
++		for (int i = 0; i < length; i++) {
++			reply = be32_to_cpu(rx_buf[0]);
++			complement = be32_to_cpu(rx_buf[1]);
++
++			if (complement != ~reply)
++				return -EPROTO;
++
++			rx_buf += 2;
++		}
++	}
++
+ 	return 0;
+ }
+ 
+@@ -273,8 +310,13 @@ static void oa_tc6_copy_ctrl_read_data(struct oa_tc6 *tc6, u32 value[],
+ 	__be32 *rx_buf = tc6->spi_ctrl_rx_buf + OA_TC6_CTRL_IGNORED_SIZE +
+ 			 OA_TC6_CTRL_HEADER_SIZE;
+ 
+-	for (int i = 0; i < length; i++)
++	for (int i = 0; i < length; i++) {
+ 		value[i] = be32_to_cpu(*rx_buf++);
++
++		/* skip complement word */
++		if (tc6->prot_ctrl)
++			rx_buf++;
++	}
+ }
+ 
+ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+@@ -283,10 +325,10 @@ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 	u16 size;
+ 	int ret;
+ 
+-	/* Prepare control command and copy to SPI control buffer */
+-	oa_tc6_prepare_ctrl_spi_buf(tc6, address, value, length, reg_op);
++	size = oa_tc6_calculate_ctrl_buf_size(length, tc6->prot_ctrl);
+ 
+-	size = oa_tc6_calculate_ctrl_buf_size(length);
++	/* Prepare control command and copy to SPI control buffer */
++	oa_tc6_prepare_ctrl_spi_buf(tc6, address, value, length, reg_op, size);
+ 
+ 	/* Perform SPI transfer */
+ 	ret = oa_tc6_spi_transfer(tc6, OA_TC6_CTRL_HEADER, size);
+@@ -301,7 +343,7 @@ static int oa_tc6_perform_ctrl(struct oa_tc6 *tc6, u32 address, u32 value[],
+ 		return oa_tc6_check_ctrl_write_reply(tc6, size);
+ 
+ 	/* Check echoed/received control read command reply for errors */
+-	ret = oa_tc6_check_ctrl_read_reply(tc6, size);
++	ret = oa_tc6_check_ctrl_read_reply(tc6, length);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1224,6 +1266,20 @@ netdev_tx_t oa_tc6_start_xmit(struct oa_tc6 *tc6, struct sk_buff *skb)
+ }
+ EXPORT_SYMBOL_GPL(oa_tc6_start_xmit);
+ 
++static int oa_tc6_check_ctrl_protection(struct oa_tc6 *tc6)
++{
++	u32 regval;
++	int ret;
++
++	ret = oa_tc6_read_register(tc6, OA_TC6_REG_CONFIG0, &regval);
++	if (ret)
++		return ret;
++
++	tc6->prot_ctrl = FIELD_GET(CONFIG0_PROTE, regval);
++
++	return 0;
++}
++
+ /**
+  * oa_tc6_init - allocates and initializes oa_tc6 structure.
+  * @spi: device with which data will be exchanged.
+@@ -1276,6 +1332,29 @@ struct oa_tc6 *oa_tc6_init(struct spi_device *spi, struct net_device *netdev)
+ 	if (!tc6->spi_data_rx_buf)
+ 		return NULL;
+ 
++	ret = oa_tc6_check_ctrl_protection(tc6);
++	if (ret) {
++		dev_err(&tc6->spi->dev,
++			"Failed to check the protection mode: %d\n", ret);
++		return NULL;
++	}
++
++	if (tc6->prot_ctrl) {
++		tc6->spi_ctrl_tx_buf = devm_krealloc(&tc6->spi->dev,
++						     tc6->spi_ctrl_tx_buf,
++						     OA_TC6_CTRL_SPI_BUF_PROT_SIZE,
++						     GFP_KERNEL);
++		if (!tc6->spi_ctrl_tx_buf)
++			return NULL;
++
++		tc6->spi_ctrl_rx_buf = devm_krealloc(&tc6->spi->dev,
++						     tc6->spi_ctrl_rx_buf,
++						     OA_TC6_CTRL_SPI_BUF_PROT_SIZE,
++						     GFP_KERNEL);
++		if (!tc6->spi_ctrl_rx_buf)
++			return NULL;
++	}
++
+ 	ret = oa_tc6_sw_reset_macphy(tc6);
+ 	if (ret) {
+ 		dev_err(&tc6->spi->dev,
+
+-- 
+2.43.0
 
 
