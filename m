@@ -1,55 +1,56 @@
-Received: from out203-205-221-239.mail.qq.com (out203-205-221-239.mail.qq.com [203.205.221.239])
+Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 679512475D0;
-	Sat,  2 May 2026 06:00:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E44EF1EEA31;
+	Sat,  2 May 2026 06:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777701619; cv=none; b=q0ZnoYhmLY2YXysjqhg/6ksPF+6BvcjbfxnuZvfbhIP/MAdPsf9j6ItSfjgtl3v7ttLYjQvUMSXgrObCns8TFCbRKSunmJTCtqAxOGqjICOMH5Kohc+Bb4So39D0FBPBVcBNROqOUyawsNSmzXnbrQeORSdaEq9kSfU9lyPywQ4=
+	t=1777701631; cv=none; b=ZtVHXCRIuMwTaXoEXl2pxbnX/j/cJzs0M9pWyUhwlR5BpxKNNVDPh43t+Z5mAc+V0Uv/0oGlFLlbVbArahy+i8XN95jLmgUJEutbWN/jO5pP7OJ2TnhOiCh+h7c5D8AEosxKzJ5Xh0mpKJyI+JTl+VOqysjelN+gg2n9FdUAOJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777701619; c=relaxed/simple;
-	bh=qiA9TIwApvjkB1pcKhTev8aAAXW+kknNg6MYs9yJqHI=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=WMFfooIVCpGm/brhOMY90n7wleReHanCkqmtnq8l6xAcpbewG6maVUNkHmUukvHR11Gf1rwRpM1/d29k1M77SZu5P2ARwKvR7pJsdL1wVYGzy1+avOu9j5xCOInj0rEj4zSBMEalC33dksa5+k3dKWP5qxHENmhdsLYRZIkJoPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=oprKaMp+; arc=none smtp.client-ip=203.205.221.239
+	s=arc-20240116; t=1777701631; c=relaxed/simple;
+	bh=pXOloY3lphl5mElBnI/9UQERARBIL+Gg4okLCV0K5MA=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=OC8s2CiFGldJfMQ1uTuGSj+9jj74ALn4uHxQ0GxScvEQwUiJAVFTQF9Je341pfY53FWxjCdCP1l70hX4pkHVmbDaMGrU/GvVHQmPyZ/T7eqwOSkW/Te+qBfg33v8pbBnan9eFshK9T5HJlS7JpdPpWoatquR734AK+moF2I7Qbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=c8+kRp4j; arc=none smtp.client-ip=203.205.221.202
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="oprKaMp+"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="c8+kRp4j"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777701615; bh=fa5pN4GGt097LLhhH34pMrgAbO6h8NqyL1vvMQH7N0M=;
+	t=1777701621; bh=lyJBF7d1vG35Pt9fxGnBS8EczaZilKET3yjPWN0L0Ds=;
 	h=From:To:Cc:Subject:Date;
-	b=oprKaMp+XuXxSlUvV4CwhAgxBOvVeSox1sZ6RpmsIfBcTfVIkZFMaXvDZN5SpZQBj
-	 +MRqOk+1KeULTHZY08zSEvzu4zow8zNUT4V9P/7fKpItNKIz3nFUhNz6hDkKM+62no
-	 iJakQzqAygmkCjjBlBhUxcrHD4lLD4/w0FWDTx1I=
-Received: from Lang.smartont.net ([223.88.152.211])
-	by newxmesmtplogicsvrszc56-0.qq.com (NewEsmtp) with SMTP
-	id C9ECE5; Sat, 02 May 2026 14:00:12 +0800
-X-QQ-mid: xmsmtpt1777701612ta0ocwnfu
-Message-ID: <tencent_BB6C24EBCDC646F997612BBBDC93A0B55C08@qq.com>
-X-QQ-XMAILINFO: OVFdYp27KdlJ9m2bkjNIpItVO1phl3fiuTO9gAtD48TAgL+lpcAG7F2TpXjtoe
-	 2EDQEMGdw8b/2boIqS9N6RVTmLlmli2wgtUDw7tTWqUCgMkqWaj/pQMGJjlxnjeIDynXR6vVCUP3
-	 mOJf9G08BDybP06KG0Frfz1R12Z35eMWar9bFU+o4bwZrie5bTao7SuNQtHO3VZRY2aXfJiV1Aqs
-	 xXz+JKiXgI4zDmxohYHGNi1jKjFV3y3pQ2r+cuT3nXM4kPVz5n4yRRa0IupbYfK17B8EuHQE7bzp
-	 o3T778IwuKNkmd7BaDI1LEBHZJp0yr6hhBXSCvATRw5+IVn0t/HbQaY1hsqd520GPCN+Z6+MbP25
-	 1aSDLQ5FxfFgp5hpfNozE9JsHwb9f5YZXIXA2PvQ9u6s7Jw7DlZgS2HC9oPuPwpuD80N1ASIPSu0
-	 Lxe+WkOpmzM51XQ/Y+4TQslf/4G55UQzlbv/67IHfHci0lUlf6YtkhghzDJ3LVigDjELIiNNiJ5z
-	 DbQ9+Vel2vSoruHG8k9QgH2rIme7V7s4unxGzINjCdgQ7jKaVAiaYddh6p3s1EzC7ZgMv0AJ86lq
-	 O7Nba0X74O/GXuPpww2cJxi9wdW/fglDYNIwfokx1SMSeT2ae3jgcabeVsYAuB373AYQlZAL4eWf
-	 xBPjr6N9kXYhABeoU33ItVT3eCyw+M+8hi5lxkeZfoFQu7rI/7Ir6pF0RUgQuy3MOu+sTVOvRGqX
-	 qPcqfdryiqZchVWY35WCCT0xQPHcAvkFAw/XaCmo+KAiibIAFymxBidD9nQhqq2qon3KFzIzaqpS
-	 wtfs3eP5Ak0QgSNXgq3JXiKl7Jy0KePevVbpXxGOlkqijxLjehkrWOZw9DkxwnCWgpnD+I1zDuCn
-	 riUhoM5YoxRISgqkJrMbuyEaJYF75SDvsInQbcryzPMtp8v2CDTD/q7ZbfCuFNflNUKv99Xq0uqc
-	 WIzUU5QaVCpOSH/pLtV0ztTL90Uv6mIl7aZBacAylQ/9h+XA/CtQjAZhO+oEZhN4bzosP8nzwgg+
-	 zmTy1OEtjRoLEIAXIf+KJto+l4uF3jMbv/7ozjFN83ZWgdFdQg
+	b=c8+kRp4jeuyDgP0GvjSJcxYpdk34aFYQAYiZW9lfl4vWpLuAnZxmvOK12P0a5AZ13
+	 yl7Lmb0mImmH2YAbiQIkjhuNNGI9NsLYZi+Dpu+F0cn7xLq74Y3aQ2sB4YfPctDos3
+	 Ps1Y4d1DXBi1o8WCipwCsxS6N7p36WBhrStMZLnA=
+Received: from Lang.smartont.net ([2409:8a44:2312:14e1:56d8:1e1e:3f0b:d0f3])
+	by newxmesmtplogicsvrszb51-0.qq.com (NewEsmtp) with SMTP
+	id 1296040; Sat, 02 May 2026 14:00:18 +0800
+X-QQ-mid: xmsmtpt1777701618t7zxo2mcs
+Message-ID: <tencent_7512B915400FB95849FE9A8F8CAA2F935709@qq.com>
+X-QQ-XMAILINFO: MZtEYADUG4AgWLw47IzgtYUCt40+ZI2CkQN/9bl+IqXzwGqdHRD0Bv1fQVa3cg
+	 Jwlg5jJNVgjVI5Y1TvpFcFmOvfqKmODtS2qePx5udv24/523kXg0NbTCVSGXIbtIMuR0ovdXbkyc
+	 2Hg1IWWpdyfwPZrMUvZQlyBRCmNdXXbtcf0kIXup4Bb25cxRMI8I75nWgvQmV2QiY9LOCLLa+WKy
+	 DNUM86Q0r0uZlqO4zJ46l51t64E4nWuw5avpWFMzye9XM4jG9Xp40NoWTkXcs3QI4gKqDM+4fvi0
+	 8hQvqNyiXuebHjN7mp+kRxd/+D1eNQopLJ0mGsPHk9piv50fjaIpnE0fHKog+JVS8pcEKAgK56vg
+	 BFi+pTmBs0N8NiO/abVaTomlJVC8iNOy7sZhtzjdXs9IKGsDP/oYS6V+wDG78Af2J1P+gMxqyeiQ
+	 AY53PWnncNz8p8/X9JpCDZluH/Uynz4SWFigACRuvqKC07K+Ho2zKAskimPN6uASWZQP0IyXZV2W
+	 cWNwCTcMZGkKra11ZBdH1nC5H/jp/1ggaFC5tM9K04fRFSOzeSysZ2GXk2B3FJs9lFNWJS+MhNec
+	 1+wrHHBJe8nUzwZZLSsEcKnRveEU9eEUoOU1j5WD57dAviFBGEzEj3vd/aZgHM0LAlmWMwXoOl++
+	 Rr7vR1IehFv31eBByYiZNd2YNOvAB04C61568c4MDMkjSmT3y8Q3zeH1xX1V0Wcr/MWUWN7cf/ec
+	 YAUSiA3LDtwaTxH4KtOVdOl5InUbBuifQUbmbZ+7YxnY8ldVxWDiYk+1Dd92d96TQRgggqAA3Zz/
+	 m78aDv5hLmU5Wz7K1XdSih4Y+2g++LrrRrC4rf5gLgN7JWFu+OehLxMNlDW7qFOegxJ5bU0UHBE9
+	 dTPj086I6iTDt3BddQIe+nRXde1gL22mq6fr4Ob0gcd6qJ/JIYmdOA2ZPpHYnDvwuWLbEPHj4JFc
+	 Mhl4zTac4SxwVKep742UAqs5CW0GdMeWPf3FNK4wij/IgCGRQY7sC8J1qgiK1IPdo3PlyO4CIt8m
+	 bQ+2PMFvKNNVix6a+Pb0bAWD1MkqQpSnnt+C/puGY6sTG7XbS1QZ1B0R9C1bv45JwJUAGJ8q0DuS
+	 lnzc4/
 X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 From: Wang Zihan <jiyu03@qq.com>
-To: vkoul@kernel.org
-Cc: dmaengine@vger.kernel.org,
+To: Kai.Makisara@kolumbus.fi
+Cc: linux-scsi@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	Wang Zihan <jiyu03@qq.com>
-Subject: [PATCH 3/4] dmaengine: dmatest: fix preposition error in documentation
-Date: Sat,  2 May 2026 13:59:09 +0800
-X-OQ-MSGID: <20260502055909.116546-1-jiyu03@qq.com>
+Subject: [PATCH 4/4] scsi: st: fix typo in documentation
+Date: Sat,  2 May 2026 13:59:11 +0800
+X-OQ-MSGID: <20260502055911.117496-1-jiyu03@qq.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,26 +60,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Change "built-in in" to "built into".
+Correct "form" to "from" in drive buffers description.
 
 Signed-off-by: Wang Zihan <jiyu03@qq.com>
 ---
- Documentation/driver-api/dmaengine/dmatest.rst | 2 +-
+ Documentation/scsi/st.rst | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/driver-api/dmaengine/dmatest.rst b/Documentation/driver-api/dmaengine/dmatest.rst
-index e2a63cefd..dafb84afd 100644
---- a/Documentation/driver-api/dmaengine/dmatest.rst
-+++ b/Documentation/driver-api/dmaengine/dmatest.rst
-@@ -108,7 +108,7 @@ Example::
-     % cat /sys/module/dmatest/parameters/wait
-     % modprobe -r dmatest
+diff --git a/Documentation/scsi/st.rst b/Documentation/scsi/st.rst
+index b4a092faa..539ff06da 100644
+--- a/Documentation/scsi/st.rst
++++ b/Documentation/scsi/st.rst
+@@ -93,7 +93,7 @@ optionally written. In both cases end of data is signified by
+ returning zero bytes for two consecutive reads.
  
--Part 3 - When built-in in the kernel
-+Part 3 - When built into the kernel
- ====================================
- 
- The module parameters that is supplied to the kernel command line will be used
+ Writing filemarks without the immediate bit set in the SCSI command block acts
+-as a synchronization point, i.e., all remaining data form the drive buffers is
++as a synchronization point, i.e., all remaining data from the drive buffers is
+ written to tape before the command returns. This makes sure that write errors
+ are caught at that point, but this takes time. In some applications, several
+ consecutive files must be written fast. The MTWEOFI operation can be used to
 -- 
 2.54.0
 
