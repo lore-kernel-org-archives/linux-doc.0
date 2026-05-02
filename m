@@ -1,69 +1,60 @@
-Received: from out162-62-57-87.mail.qq.com (out162-62-57-87.mail.qq.com [162.62.57.87])
+Received: from out162-62-57-137.mail.qq.com (out162-62-57-137.mail.qq.com [162.62.57.137])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 284D33290AF;
-	Sat,  2 May 2026 11:20:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5B92BE03B;
+	Sat,  2 May 2026 11:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.57.137
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777720848; cv=none; b=Y9beD4QLpMYObkXFwPW+FgtFdHZTAkuEZkWtXZoJlunM9bqZXiIoDs52AQjLab2AzZWrvInDUvTFSVOrVKukEs0BCwe9dAMzWfEzcV5i5H2e9ZYkZoxrZQYmfcyEpiPXsIRfwcjLH2DsoHhk5tjhkPhyOISm1iNNe1gfi2lQuxg=
+	t=1777720979; cv=none; b=BxTwYaU/TosqG69YrB2Rhl/4hJ664uEzclNouoTYTmJyXpXSSv2dFllfE1VS9mtGqDEMnanbsoW1wSOiE/Zl1tqwU/MqHGS42HMNIoWEQBzHibiDgrQV/z8XwjwNPNoI05FSdHlQ5BAzO0iLYZ4/QPKXw4KVUO/HIlcTiP9oQUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777720848; c=relaxed/simple;
-	bh=kroM3dHiwX8iXnLTgoNK2Ui7tiIdu/xn7VeGYjqdHck=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=lE3tumE/L3VW1QD5P/nsqgzV7yuGtPph7M29HArPbEbBJe9a9LpTaA5AkGSvUJrDrsJ2yzMk8xAlGgbs29dPlDhZRfpnwjbSKWM+0t8N3YgD0cxC5aeTHRzOAold+5XZD6uykJs7NGsBuQEWwEvtur/HASyH2zA4OTpUwMdmDXg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=OJWgz/dx; arc=none smtp.client-ip=162.62.57.87
+	s=arc-20240116; t=1777720979; c=relaxed/simple;
+	bh=Tsit++BdrnrHHKGW2IdaqmhPVDFYdMY17/KgmiH/SxQ=;
+	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=maZc1iXodfeewOkGNFOiUtDK2GaxU6OnRR8Ox8XPrXfIw37nN6tXGdPsu4rCAdkHBljBbnebQ8AgwdGkY7MBYeTc+/HYdLcXUCE+VEkdTtxHWflfsUVUxGIUHJzguD9PtVUxmX8nl1fpGirfRNjph6KAA75x1E7LvpxKcmQSP8g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=VC66a0Mj; arc=none smtp.client-ip=162.62.57.137
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="OJWgz/dx"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="VC66a0Mj"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1777720835; bh=/P2+h0oopeGcJLkWbR2iUk4xU6TlOScWeXXKUXMCSiQ=;
+	t=1777720966; bh=PWAy/WeGAvEk2mc7Ph51cIrj3vzzDaiXxmstD2WFWpY=;
 	h=From:To:Cc:Subject:Date;
-	b=OJWgz/dxOfeyt77d99bE1qNa2dc/l/iwMH6HV8d0yp//W5/rdaTYFQ5NH2cjex/H2
-	 b4w5MA+vTwoFg7sbCSHZOeBc4FuSwd4LUkwuIGAnmDapFYOQ5ooqD2H6GdtH5QgHim
-	 aFxBu9CocLhqnPVu2m35VLcC5qLMMP7IpM2C6pL4=
+	b=VC66a0MjgNbl5Ed4Ew1/m2XdiE4BkUFScPQA0lFzGK27j4aD+byFmf4SRBPLdIr4P
+	 bQh8Z+Jp6EjmK/VIxpd0VJpS36trJD5BbkTaEC9Zm7pXZ1yeW7spDDwDa1cD+CMBPw
+	 BW2jIJRFW8/bnvNgudkkF+/gzG3uM3wOfRGfixCA=
 Received: from Lang.smartont.net ([2409:8a44:2312:14e1:56d8:1e1e:3f0b:d0f3])
-	by newxmesmtplogicsvrszc50-0.qq.com (NewEsmtp) with SMTP
-	id 4D013C04; Sat, 02 May 2026 19:19:16 +0800
-X-QQ-mid: xmsmtpt1777720756thcvqggum
-Message-ID: <tencent_B1D6CBBF95486E31D04C2E1B92F5E605A307@qq.com>
-X-QQ-XMAILINFO: MLMEjb5zWVcNZZuUZyxHibZ1w+zisKptqYUhi/n6boR51UmP7NHS8C4/S4TwPE
-	 sGhHegepQweJhOWf0lnRWad3ibJaI33gTpKd4J2h8wubBIvPvYqgeYEJ1rA6dVNXCVNaY0UEECeZ
-	 PIxOLhUlSxTboDw78cjaEmSdfcyf3Meqzkh0gyCB1y5zWNS9fYuG4qGawMYElyJRGuuVqRx8Zf4N
-	 QCdXAa6S/8nRI10lTNwpLAoQA0DM9FOy0m4bVyvv3o7zThEk6V0zKMfnDPm/MhJT0LC6h8j7/2Xc
-	 ULiJO1ju+7+REB9UH/FhWoYAgD2+4BYQY4nnR3jrMIKV64+I+bjBVwtWpIreuUnNNuQCGkRONe/l
-	 HtxGCswDbacj6VJ+K9w33mujR7GZVReAtMqbgdwjfTUqPqtBTgKSTaPmzzkZjaOzjOuXtS1VZLDY
-	 0qWZQDd1+KQT153BCfbWRXaJi1uFBddsj/UC70CnMxJCFdOWlCgNHZKxuCvSh1MSvn9i40U0o+8O
-	 IJOIG5GdhXoxpv2P8asYMgp/hKKwEFpgurcH8lHeN31PqBgOmMiqJQhaG2paGFdOepXHyUE6Wd6L
-	 R95zAvxRCk8nC02tP9N38FaW+KksyO5WFk/8Y2WyWv2RW6a0z2h6Wlc1YaxRCNTTh88XLs5H71qa
-	 x3VWqnrgno1zRl/vYAsD+OVyqJjdhZtRQrSisa234FcWBPGivpN6K+yZiGAd1LCH8sQkrqOyKt9q
-	 PA83pciw39FMxZzNWNpqmwbXBhVR8lHHbuHwndqk8gNExKhD8nvJzDL//+HSTz8gc+l0V/uuX/IF
-	 sVwVU0AKPkFQaqFtO62JdWCxvB/g4wI/f1yaGNhUk+zEdWNyua5riNlkJ3TQ9qGiePSEu5KmM61a
-	 1G8HkXwZZPHMOUlmYpEJkjAMBfIvSSW41+t7iqqDHTFr7rGjr32burNA1aRKJad/5Fg7yJ82qd1j
-	 ypFYj/bE19aaGqh+D7EsozLIsR2tIh9BhaCj2a9PemF3/CwbkJJ+GBmu8O3+cHzFRAEWMqd3JG2e
-	 y8Lk7UDixe7j5mR0mquA+eP3cGKFzG8VJUzs0NBfRdjJnHjCCNswTZhvhTwhw3h3+aKJyjatx0iX
-	 9ENtrI+dKX4kUkDnMvAD+jFINbRpP1d9qbZCDp
-X-QQ-XMRINFO: M/715EihBoGS47X28/vv4NpnfpeBLnr4Qg==
+	by newxmesmtplogicsvrsza63-0.qq.com (NewEsmtp) with SMTP
+	id 4CA2F82F; Sat, 02 May 2026 19:19:10 +0800
+X-QQ-mid: xmsmtpt1777720750tqrn9sn0h
+Message-ID: <tencent_61E8FB326F4582DB0074952B9FE4A239CE05@qq.com>
+X-QQ-XMAILINFO: MuqDVCpR0KLBIZLEO1nX3cNWVekD2Ur1Xacda0IcNh3nN8+eGr+Jcjrrm2vsGe
+	 c1FZUb5t6XV5h8N0t02Bu4No3jMgXuLYlfxkGdeSEUrSp9ECVXACnWjvipuk/cpOK1BzuaQ6ThGa
+	 m7KzUF8echKOvDRUObSb2xH/Z9+fGkoWFzUAxpJjgUm8IIwISM0dOoPjXHkf7lq75Fx30zM9hmPV
+	 usMRn0KfTVIrefT9MgzEAy5gO69pKHNgmMNM4MIFowZWgc5bLygJt/OmvLbBrzKVfLf5Pw6GbiUy
+	 MT6s9H9izQuJQnhudIGBpXnv3ps/Af+NlezkxGGHjsQpdhWt5jghef5rlheJyIe8VlvCsCKIdhFv
+	 kZ5pw8Bq8eNPbDC3/iInCbtm4814h3cf9Dxme7FRUalIWYlQAa+kqW+LH23puQbtSOQtT3e+8ZKx
+	 NE75Amfh2EZcV0hTTyJl379UrRdlSt9k1LQrYmpGEAmi+t92At+8wLl5k0kh9+nMgqn3juX+q90W
+	 34GajBlM5u3WRYk2C+J4grsfypbCtdt16cKsYKZEKxuo4+GWLZLmnEUHihWxMP9aBJDd6IVRumwn
+	 jrmgzwayFOPtdfNrA6mJ5MrNVrirIg8xHTE5exbeTZQ0zV/HHAIymcbRcF0gAPDE3yiwGRh8MUlb
+	 8ZyI/R/jBotaU4Ga6kkiDb5AyH9SvQQxRs2fgtzb25DzcO8LL96qL3u+PFJccbabJdN8PabtWXBY
+	 S/yLiZh6JnnwQu0VjOtkk/COn5Niz0JBK3sqXF7zh+MI2ellHYcnyNRwcqJ+IgO3H1NgnQ1md/Fd
+	 S1laviDiq/lVyxkSUMikk0y8wMpH70l+73x4ithmuy3dTGprSoQ3+XI2Yv74UiMf4o5hIQvM1qKY
+	 PwB3HMYzSALs+pJg9Gc2pTPkvf/vEStzoBaawSjlGuK6zcG0Nth+A510Ka2F/Cij4WdUp0BwFrkI
+	 y8Fxzs/Q7Zd+VQ1Ci2kHlJlqd57f6vyzR9DH/FWRpKaznhoqq/yo0YJNaJejXMfQjDHSHlalTfgb
+	 qJ9EKNDJWlCEc4cqS2sa4l0t05K9mejQ5nNHtJls/of8BHe3fN6mATr9kSqNmxvZXrhK97/D+vsq
+	 Yf35fM
+X-QQ-XMRINFO: NI4Ajvh11aEjEMj13RCX7UuhPEoou2bs1g==
 From: Wang Zihan <3772548978@qq.com>
-To: netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-um@lists.infradead.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
+To: linux-watchdog@vger.kernel.org
+Cc: wim@linux-watchdog.org,
+	linux@roeck-us.net,
 	corbet@lwn.net,
 	skhan@linuxfoundation.org,
-	mchehab@kernel.org,
-	richard@nod.at,
-	anton.ivanov@cambridgegreys.com,
-	johannes@sipsolutions.net,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	Wang Zihan <3772548978@qq.com>
-Subject: [PATCH] Documentation: Fix duplicated words
-Date: Sat,  2 May 2026 19:19:16 +0800
-X-OQ-MSGID: <20260502111916.145238-1-3772548978@qq.com>
+Subject: [PATCH] Documentation: watchdog: Fix typo "oncse" -> "once"
+Date: Sat,  2 May 2026 19:19:10 +0800
+X-OQ-MSGID: <20260502111910.142992-1-3772548978@qq.com>
 X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -73,54 +64,26 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove duplicated words in three documentation files:
-- "in in" -> "in" (switchdev.rst)
-- "The the" -> "The" (dmx-reqbufs.rst)
-- "on on" -> "on" (user_mode_linux_howto_v2.rst)
+Fix a typo in mlx-wdt.rst documentation.
 
 Signed-off-by: Wang Zihan <3772548978@qq.com>
 ---
- Documentation/networking/switchdev.rst                | 2 +-
- Documentation/userspace-api/media/dvb/dmx-reqbufs.rst | 2 +-
- Documentation/virt/uml/user_mode_linux_howto_v2.rst   | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ Documentation/watchdog/mlx-wdt.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/Documentation/networking/switchdev.rst b/Documentation/networking/switchdev.rst
-index 2966b7122..948bce44c 100644
---- a/Documentation/networking/switchdev.rst
-+++ b/Documentation/networking/switchdev.rst
-@@ -162,7 +162,7 @@ The switchdev driver can know a particular port's position in the topology by
- monitoring NETDEV_CHANGEUPPER notifications.  For example, a port moved into a
- bond will see its upper master change.  If that bond is moved into a bridge,
- the bond's upper master will change.  And so on.  The driver will track such
--movements to know what position a port is in in the overall topology by
-+movements to know what position a port is in the overall topology by
- registering for netdevice events and acting on NETDEV_CHANGEUPPER.
+diff --git a/Documentation/watchdog/mlx-wdt.rst b/Documentation/watchdog/mlx-wdt.rst
+index 35e690dea..3778f85d1 100644
+--- a/Documentation/watchdog/mlx-wdt.rst
++++ b/Documentation/watchdog/mlx-wdt.rst
+@@ -48,7 +48,7 @@ which is optional.
+ Watchdog can be started during a probe, in this case it will be
+ pinged by watchdog core before watchdog device will be opened by
+ user space application.
+-Watchdog can be initialised in nowayout way, i.e. oncse started
++Watchdog can be initialised in nowayout way, i.e. once started
+ it can't be stopped.
  
- L2 Forwarding Offload
-diff --git a/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst b/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst
-index d2bb1909e..18810f0bb 100644
---- a/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst
-+++ b/Documentation/userspace-api/media/dvb/dmx-reqbufs.rst
-@@ -72,4 +72,4 @@ appropriately. The generic error codes are described at the
- :ref:`Generic Error Codes <gen-errors>` chapter.
- 
- EOPNOTSUPP
--    The  the requested I/O method is not supported.
-+    The requested I/O method is not supported.
-diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-index c37e8e594..7b08738c3 100644
---- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-+++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-@@ -1092,7 +1092,7 @@ be formatted as plain text.
- 
- Developing always goes hand in hand with debugging. First of all,
- you can always run UML under gdb and there will be a whole section
--later on on how to do that. That, however, is not the only way to
-+later on how to do that. That, however, is not the only way to
- debug a Linux kernel. Quite often adding tracing statements and/or
- using UML specific approaches such as ptracing the UML kernel process
- are significantly more informative.
+ This mlx-wdt driver supports both HW watchdog implementations.
 -- 
 2.54.0
 
