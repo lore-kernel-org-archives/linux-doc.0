@@ -1,88 +1,184 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B476A20E023;
-	Sun,  3 May 2026 06:08:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BC4299929
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 07:03:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.69
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777788505; cv=none; b=BwNuY/B1AlHJiH3bptvdPWPeKrXG/BsRuAdOPTAZXGX+s+CGhsK9KzdErTaoIUcMu3B4m/N+yNhxbDkwFIOzhjGMG2tGOsI9giMsMayXW1Ey+cckJqAhCtNOYnCGohVd9sWdjHaxmSCX6A/mDPpvWNiwR3X2qHNVAzB/KidF0uY=
+	t=1777791820; cv=none; b=nZYOdPN8iV1uXk2Nf4p32Qdxx/7BbxACj8WYUQYSjiGq5BC9s+KsXa/PIxBqjJJ6m1adJpizC5f8rqoOf065ytjSNKkqjTClA/hHFTFJKV/Tqy+bwIBbLVCMGXwPhGYeKyrIoLLcJ374kPdDDeUzsZ4EgtnVz8cKxOauUwxJBW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777788505; c=relaxed/simple;
-	bh=wVjTwrEj04/03byuBlM0H1sdjlFRqIutG2Iz7Ehjs3Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EGpxjkGrUHBkLANnVavnB8SYlOLBv8oyAZu3u2GoKZDFil0GPzV6xUpmsu9hsPOBWcqkRj3JtxSDaUWQfIhczzwP12dAKA8yBSSRU466kAUjtPSqaAhUSFYTdWnVJAFn0iD+M5xnLJyjmbBF9ZwFJVy9lKZ2RC+ze83VaNsqnSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=qk7VuwsP; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="qk7VuwsP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB33DC2BCB4;
-	Sun,  3 May 2026 06:08:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1777788505;
-	bh=wVjTwrEj04/03byuBlM0H1sdjlFRqIutG2Iz7Ehjs3Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qk7VuwsPlzs4FONxH6v1uneq3DAWLmsc1aXoxocuGrQTt1xSkryaYzVZaEXe8kcL2
-	 owwUqmsOaPLYnY8zX/DLSOGslkeqkKgFAV1uOCP9ZkUcqz9ukxPKQ8vZ86XHg8dzWE
-	 7p8C3CUkKd2MZYtIm+7vnFrGpPe4n9h2H5Y2DDW0=
-Date: Sun, 3 May 2026 08:08:22 +0200
-From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Cc: linux-doc@vger.kernel.org, netdev@vger.kernel.org,
-	linux-serial@vger.kernel.org, rust-for-linux@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
-	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <lossin@kernel.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Eric Biggers <ebiggers@kernel.org>,
-	Qingfang Deng <qingfang.deng@linux.dev>,
-	Julian Braha <julianbraha@gmail.com>
-Subject: Re: [PATCH v2] tty: synclink_gt: remove broken driver
-Message-ID: <2026050316-plant-spool-14c6@gregkh>
-References: <20260503030801.14080-1-enelsonmoore@gmail.com>
- <2026050340-kilogram-prissy-a833@gregkh>
- <CADkSEUgPtjkKC684O3qB=koKDPwJoUj-qU_4Z_18NAU_+bBqkw@mail.gmail.com>
+	s=arc-20240116; t=1777791820; c=relaxed/simple;
+	bh=wGxz3rbUssja1ypzxi5nCGlSsj833kzvtSZIyIrvo60=;
+	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:Cc:
+	 Content-Type; b=uGdG+HiyODb1PSxewrZKLyoQY+eJnxtjHhk1QAlW2F4HKOMhchYYosZf5TPGqdN0ERiag7TDAqOa9KtGNIzPwWXe+KisgBAUPC9/SoPTDkqysu5XodgGsNxBGlxBVQaKV6JmCaQv0mWCQaF263VIG2X3QObkFXy4whOkD/bIe9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.161.69
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-6961163ad6aso6330150eaf.1
+        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 00:03:38 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777791818; x=1778396618;
+        h=cc:to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=LXRy6ZrZDA96i+zqKJ7WK1XTFNL01WADp6Dn55Yxdvs=;
+        b=WhbSuZf+EgP5Yx5Zaq3ZCdcjT1Qf/8zXAm2MvxAbCMoqOqbRlc3zIwPO2rqIWbytiX
+         4R3sYR2czX+6e5WCyGFcPt1pV7jdY5cQ/5u593ofaRzX/L7YrNVDvhDCFu1v/BsEjSQy
+         XOnyOXA5qPvk1J18U9QE9DLQDPAj3YJYTeL9P/uMATX36KKNLCu0IyL783LzLQcmDYh+
+         ctp6+SE1xNlpksssXWP2oXzQwDOFNfjSQ3cm1p0XQSYYX4MSFOvZF7dZ+bLbwMSqePWv
+         BTOpmuiFfBQC/AjSZ4eDkHnJfBOcDJ/sd8lHKyBf9PyFVIL422c5GA7DkIKo++bmfJdx
+         BTZw==
+X-Forwarded-Encrypted: i=1; AFNElJ/3UEzegnbRKjdT4+78Vmfcd/ZIu3ae3Kmmf4vwXeU3i6AwV+nCZ2mOgxS26/2gQ94465Xoookeb0g=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyKTpfWYvZLDjcgqtBR48UVAYK2Z0mmEaMnVOYM1xBv19lj//se
+	y+oPDho6Zyfxa08Sob+rQYSInuasTnJvUKsp9Fs62/exh2SNnCdIZh8EeP01OCgwU1BTFCzOXay
+	RxBcW80PPJD4CBABP17pCErdbA4d85i517GP8ll1rI6dGI4zf2IvB+DDFRbA=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADkSEUgPtjkKC684O3qB=koKDPwJoUj-qU_4Z_18NAU_+bBqkw@mail.gmail.com>
+X-Received: by 2002:a05:6820:1693:b0:694:9e10:fdce with SMTP id
+ 006d021491bc7-696979cf651mr2447276eaf.4.1777791817968; Sun, 03 May 2026
+ 00:03:37 -0700 (PDT)
+Date: Sun, 03 May 2026 00:03:37 -0700
+In-Reply-To: <20260501-thp_cow-v1-0-005377483738@tencent.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <69f6f349.050a0220.312cd3.002b.GAE@google.com>
+Subject: [syzbot ci] Re: mm: Support selecting doing direct COW for anonymous
+ pmd entry
+From: syzbot ci <syzbot+ci680a261c60429f2e@syzkaller.appspotmail.com>
+To: akpm@linux-foundation.org, arnd@arndb.de, baohua@kernel.org, 
+	baolin.wang@linux.alibaba.com, corbet@lwn.net, david@kernel.org, 
+	dev.jain@arm.com, jannh@google.com, kasong@tencent.com, lance.yang@linux.dev, 
+	liam@infradead.org, linux-arch@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, ljs@kernel.org, 
+	lukabai@tencent.com, lukafocus@icloud.com, mhocko@suse.com, npache@redhat.com, 
+	rppt@kernel.org, ryan.roberts@arm.com, skhan@linuxfoundation.org, 
+	surenb@google.com, vbabka@kernel.org, ziy@nvidia.com
+Cc: syzbot@lists.linux.dev, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Sat, May 02, 2026 at 11:00:53PM -0700, Ethan Nelson-Moore wrote:
-> Hi, Greg,
-> 
-> On Sat, May 2, 2026 at 10:44 PM Greg Kroah-Hartman
-> <gregkh@linuxfoundation.org> wrote:
-> > Then that means someone uses it somewhere.  Don't generate bindings for
-> > something that will break because it is no longer in the tree :(
-> That project generates bindings for every UAPI header automatically,
-> but has a hardcoded lost of them, so its presence there doesn't mean
-> anyone is using it.
-> 
-> > If no one does use it, then please get that project to fix their code so
-> > that we don't break their build.
-> They have had to remove headers from their list that got removed from
-> the kernel before. I will send them a pull request to remove this
-> header and then resend this patch with the UAPI header removal
-> restored. Does that sound good to you?
+syzbot ci has tested the following series
 
-Yes, thanks.
+[v1] mm: Support selecting doing direct COW for anonymous pmd entry
+https://lore.kernel.org/all/20260501-thp_cow-v1-0-005377483738@tencent.com
+* [PATCH 1/5] mm: add basic madvise helpers and branch for THP setup
+* [PATCH 2/5] mm: add pmd level THP COW parameter in sysfs
+* [PATCH 3/5] mm: add pmd level THP COW judgement helpers
+* [PATCH 4/5] mm: enable map_anon_folio_pmd_nopf to handle unshare
+* [PATCH 5/5] mm: support choosing to do THP COW for anonymous pmd entry.
 
+and found the following issue:
+general protection fault in __page_table_check_pmds_set
+
+Full report is available here:
+https://ci.syzbot.org/series/37e78e03-c08b-4de1-9b07-a21c64f4f462
+
+***
+
+general protection fault in __page_table_check_pmds_set
+
+tree:      mm-new
+URL:       https://kernel.googlesource.com/pub/scm/linux/kernel/git/akpm/mm.git
+base:      41cd9e3d23b8fd9e6c3c0311e9cb0304442c6141
+arch:      amd64
+compiler:  Debian clang version 21.1.8 (++20251221033036+2078da43e25a-1~exp1~20251221153213.50), Debian LLD 21.1.8
+config:    https://ci.syzbot.org/builds/fcdd679f-29e8-43db-8792-d4fd97c62d91/config
+syz repro: https://ci.syzbot.org/findings/87820d58-5d91-4c2e-b80b-5a75006e230d/syz_repro
+
+Oops: general protection fault, probably for non-canonical address 0xdffffc0000000000: 0000 [#1] SMP KASAN PTI
+KASAN: null-ptr-deref in range [0x0000000000000000-0x0000000000000007]
+CPU: 0 UID: 0 PID: 5807 Comm: syz.1.18 Not tainted syzkaller #0 PREEMPT(full) 
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.2-debian-1.16.2-1 04/01/2014
+RIP: 0010:__page_table_check_pmds_set+0x1d4/0x340 mm/page_table_check.c:240
+Code: 00 00 4c 89 6c 24 08 4c 89 3c 24 4a 8d 2c fd f8 ff ff ff 31 db 49 bf 00 00 00 00 00 fc ff df 49 8d 3c 1e 48 89 f8 48 c1 e8 03 <42> 80 3c 38 00 74 05 e8 00 29 f4 ff 4d 8b 24 1e 45 89 e5 41 81 e5
+RSP: 0018:ffffc90003c46ee0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffff8881102a1d80 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000001 R09: 1ffff110242081d8
+R10: dffffc0000000000 R11: ffffed10242081d9 R12: dffffc0000000000
+R13: 0000000025c008e7 R14: 0000000000000000 R15: dffffc0000000000
+FS:  00007fbef78216c0(0000) GS:ffff88818dc91000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32f63fff CR3: 000000002350a000 CR4: 00000000000006f0
+Call Trace:
+ <TASK>
+ page_table_check_pmds_set include/linux/page_table_check.h:92 [inline]
+ set_pmd_at arch/x86/include/asm/pgtable.h:1209 [inline]
+ map_anon_folio_pmd_nopf+0x452/0x480 mm/huge_memory.c:1449
+ collapse_huge_page mm/khugepaged.c:1411 [inline]
+ mthp_collapse mm/khugepaged.c:1530 [inline]
+ collapse_scan_pmd mm/khugepaged.c:1773 [inline]
+ collapse_single_pmd+0x4691/0x5540 mm/khugepaged.c:2786
+ madvise_collapse+0x300/0x7a0 mm/khugepaged.c:3218
+ madvise_vma_behavior+0x11b0/0x4210 mm/madvise.c:1383
+ madvise_walk_vmas+0x573/0xae0 mm/madvise.c:1738
+ madvise_do_behavior+0x386/0x540 mm/madvise.c:1954
+ do_madvise+0x1fa/0x2e0 mm/madvise.c:2047
+ __do_sys_madvise mm/madvise.c:2056 [inline]
+ __se_sys_madvise mm/madvise.c:2054 [inline]
+ __x64_sys_madvise+0xa6/0xc0 mm/madvise.c:2054
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0x15f/0xf80 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+RIP: 0033:0x7fbef699cdd9
+Code: ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 44 00 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 e8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fbef7821028 EFLAGS: 00000246 ORIG_RAX: 000000000000001c
+RAX: ffffffffffffffda RBX: 00007fbef6c15fa0 RCX: 00007fbef699cdd9
+RDX: 0000000000000019 RSI: 0000000000400000 RDI: 0000200000000000
+RBP: 00007fbef6a32d69 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007fbef6c16038 R14: 00007fbef6c15fa0 R15: 00007ffdddd640f8
+ </TASK>
+Modules linked in:
+---[ end trace 0000000000000000 ]---
+RIP: 0010:__page_table_check_pmds_set+0x1d4/0x340 mm/page_table_check.c:240
+Code: 00 00 4c 89 6c 24 08 4c 89 3c 24 4a 8d 2c fd f8 ff ff ff 31 db 49 bf 00 00 00 00 00 fc ff df 49 8d 3c 1e 48 89 f8 48 c1 e8 03 <42> 80 3c 38 00 74 05 e8 00 29 f4 ff 4d 8b 24 1e 45 89 e5 41 81 e5
+RSP: 0018:ffffc90003c46ee0 EFLAGS: 00010246
+RAX: 0000000000000000 RBX: 0000000000000000 RCX: 0000000000000000
+RDX: ffff8881102a1d80 RSI: 0000000000000001 RDI: 0000000000000000
+RBP: 0000000000000000 R08: 0000000000000001 R09: 1ffff110242081d8
+R10: dffffc0000000000 R11: ffffed10242081d9 R12: dffffc0000000000
+R13: 0000000025c008e7 R14: 0000000000000000 R15: dffffc0000000000
+FS:  00007fbef78216c0(0000) GS:ffff88818dc91000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000001b32f63fff CR3: 000000002350a000 CR4: 00000000000006f0
+----------------
+Code disassembly (best guess):
+   0:	00 00                	add    %al,(%rax)
+   2:	4c 89 6c 24 08       	mov    %r13,0x8(%rsp)
+   7:	4c 89 3c 24          	mov    %r15,(%rsp)
+   b:	4a 8d 2c fd f8 ff ff 	lea    -0x8(,%r15,8),%rbp
+  12:	ff
+  13:	31 db                	xor    %ebx,%ebx
+  15:	49 bf 00 00 00 00 00 	movabs $0xdffffc0000000000,%r15
+  1c:	fc ff df
+  1f:	49 8d 3c 1e          	lea    (%r14,%rbx,1),%rdi
+  23:	48 89 f8             	mov    %rdi,%rax
+  26:	48 c1 e8 03          	shr    $0x3,%rax
+* 2a:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1) <-- trapping instruction
+  2f:	74 05                	je     0x36
+  31:	e8 00 29 f4 ff       	call   0xfff42936
+  36:	4d 8b 24 1e          	mov    (%r14,%rbx,1),%r12
+  3a:	45 89 e5             	mov    %r12d,%r13d
+  3d:	41                   	rex.B
+  3e:	81                   	.byte 0x81
+  3f:	e5                   	.byte 0xe5
+
+
+***
+
+If these findings have caused you to resend the series or submit a
+separate fix, please add the following tag to your commit message:
+  Tested-by: syzbot@syzkaller.appspotmail.com
+
+---
+This report is generated by a bot. It may contain errors.
+syzbot ci engineers can be reached at syzkaller@googlegroups.com.
+
+To test a patch for this bug, please reply with `#syz test`
+(should be on a separate line).
+
+The patch should be attached to the email.
+Note: arguments like custom git repos and branches are not supported.
