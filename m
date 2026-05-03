@@ -1,95 +1,111 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7488E1A6808;
-	Sun,  3 May 2026 15:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DAA1A6808;
+	Sun,  3 May 2026 15:16:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777821361; cv=none; b=GPJG6AXhP9shC6yFLNrP0IhfrN/sgSGJd7/1NU2VMUUMreZuu6OynEQDE6rWQXyFgqwTVsmD2rjB8werA86IU95N6635mrdEE08WDc7JuvcWRNAoL/I7jk94e3m+rPWJD7cBUv01Smdf0Dne9JKD7aCCkXKk6ZcaSSGQ06R1tS4=
+	t=1777821367; cv=none; b=pZj3C/4H7VIfUL4TZoyN+yT/2oKLpXRpNe+oOotqMvPze9IkElxX8zDzBpdJqBQWn5dH1wkOx/JMBhXNUG7PrRS9+wcNxWo5P+hQ+NBmbQc6MwwpUuVBzws4MwWFrO43wZTCjtA1OkxOYPblmTkXfgay2zjYT9r2M9iS3yaVmYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777821361; c=relaxed/simple;
-	bh=B4u1yf6XCYjfHxnZlqZ92N6PosuuT1NEM8RoX52Sdy0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iIEdmKl+sOYbpBCT1AmWk49f2DUMY4I4kpNPGA1yWda2Ub4x5Vzd/Xs0GOK3kBwR8/79tclmw2Jpfzi0O93PUjIRrffjLBG7wEaznemTBiSxDXYgczs2kBoOHatZHBCG9BRsop67cgcWz18u8HQLiRItQAO2Ic5F+WbTHr0dF8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=z8CN0SXf; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1777821367; c=relaxed/simple;
+	bh=FrQTgFh5xBirNB3V0+ic1VfjdTXAM3RePlrK+PRicyQ=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=HuijII0N/ceJYam/oKCvMxIDcOmdAz8+q8EDjnT23TX2q6vTWsHSxuSMtgu2dbpc/cVEMZDK388g8/qQLd7HxAYDlB38Li3Vuh+gaBk1x6tfUAyZsqzCq+7HQjtgrxxT+s35zF+705QZfDACcsDVXiHcXKexJHP62bkOAcpdW7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cfzdDUHZ; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="z8CN0SXf"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=V4vajo9ZHeJX6wm70gR3OUzvzOPnc/VpEKoUULfy+YM=; b=z8CN0SXfLMJrbx0AvDydbPhxw9
-	MuJBRrDp4aHs/H2OmXH7QO4WJcVOWHQoj7PzWiVcxczUEMabCqd+IlcqnENFrNDxDfL6mqEOsHFpT
-	shD2tkSJbb4EBYHIp2J6BDwZuPdWcwATvbfdeGm88NqXdOlvLpHypvppB0EeKay9AP1c=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wJYXn-0018to-Al; Sun, 03 May 2026 17:15:43 +0200
-Date: Sun, 3 May 2026 17:15:43 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: ciprian.regus@analog.com
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 4/5] net: ethernet: adi: Add a driver for the
- ADIN1140 MACPHY
-Message-ID: <0b09b317-0a21-4b9f-aba9-0b9caa14c0d9@lunn.ch>
-References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
- <20260503-adin1140-driver-v1-4-dd043cdd88f0@analog.com>
- <afc1cf8d-4a02-430e-89a5-b213c15a4f70@lunn.ch>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cfzdDUHZ"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 131D041084
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1777821365; bh=xHtiiDrFaA5dwViXPQT0TECpzX0/1YLefV9TvY+Kca4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=cfzdDUHZ4ysmxcxlb5UIH2LmUzmTS8DOhKD6sQ13tlLhC+ayQ4wC1/pZQ8QUI/z5O
+	 WAyvU2wEvw5DTKUeQtfextYEtylNVOyLeNWl22YB+mFWyDEVyarEmKmoLnrDlRSpwr
+	 yK+7VxT59Xouz+Ls2xYbm55rDPofU5EjxgI6QLbu32gdntWceYXtLOygCSpUF9jYYX
+	 c51Yal5d7E7GW0sgGzGQmLjilzToGC+qr1jLsDE0IH77y4JnV2krzT6SMA+DR9xfZ0
+	 7baeBQh7nfkuscaLxUSP/O4WEOy22oJNNuhusWxR1GrwisETSAXGYQLKUBYRSNABYH
+	 b//q8tTJX515Q==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 131D041084;
+	Sun,  3 May 2026 15:16:04 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Aaron Tomlin <atomlin@atomlin.com>, skhan@linuxfoundation.org
+Cc: tglx@kernel.org, akpm@linux-foundation.org, bp@alien8.de,
+ rdunlap@infradead.org, dave.hansen@linux.intel.com,
+ feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com,
+ dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
+ paulmck@kernel.org, lirongqing@baidu.com, bhelgaas@google.com,
+ bigeasy@linutronix.de, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] docs: kernel-parameters: document scope of
+ irqaffinity= parameter
+In-Reply-To: <20260421150911.42404-1-atomlin@atomlin.com>
+References: <20260421150911.42404-1-atomlin@atomlin.com>
+Date: Sun, 03 May 2026 09:16:01 -0600
+Message-ID: <87y0i0bk26.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <afc1cf8d-4a02-430e-89a5-b213c15a4f70@lunn.ch>
+Content-Type: text/plain
 
-On Sun, May 03, 2026 at 05:36:13AM +0200, Andrew Lunn wrote:
-> On Sun, May 03, 2026 at 02:24:53AM +0300, Ciprian Regus via B4 Relay wrote:
-> > From: Ciprian Regus <ciprian.regus@analog.com>
-> > 
-> > Add a driver for ADIN1140. The device is a 10BASE-T1S MAC-PHY
-> > (integrated in the same package) that connects to a CPU over an SPI bus,
-> > and implements the Open Alliance TC6 protocol for control and frame
-> > transfers. As such, this driver relies on oa_tc6 for the communication
-> > with the device. The device has an alternative name (AD3306), so the
-> > driver can be probed using one of the two compatible strings.
-> > 
-> > For control transactions, ADIN1140 only implements the protected mode.
-> > The driver has a custom implementation for the mii_bus access methods as a
-> > workaround for hardware issues:
-> > 
-> > 1. The OA TC6 standard defines the direct and indirect access modes for
-> >    MDIO transactions. The ADIN1140 incorrectly advertises indirect mode
-> >    only (supported capabilities register - 0x2, bit 9), while actually
-> >    implementing just the direct mode. We cannot rely on the CAP register
-> >    to choose an access method (which oa_tc6 does by default, even though
-> >    it only implements the direct mode), so the driver has to use its
-> >    own.
-> > 2. The ADIN1140 cannot access the C22 register space of the internal
-> >    PHY, while the PHY is busy receiving frames. If that happens, the
-> >    CONFIG0 and CONFIG2 registers of the MAC will get corrupted and the
-> >    data transfer will stop. Those two registers configure settings for
-> >    the transfer protocol between the MAC and host, so the value for some
-> >    of their subfields shouldn't be changed while the netdev is up.
+Aaron Tomlin <atomlin@atomlin.com> writes:
 
-This device is pretty broken. Has it been shipped to customers? Is
-there going to be a new stepping of the silicon which is less broken?
-A new device to replace this one?
+> There is a common misconception that the "irqaffinity=" boot parameter
+> acts as a global override for all hardware interrupts. In reality, it
+> only sets the irq_default_affinity mask, which is explicitly ignored
+> by managed interrupts (e.g., modern multiqueue storage controllers).
+>
+> This patch updates kernel-parameters.txt to document this limitation,
+> directs users to "isolcpus=managed_irq" and
+> Documentation/core-api/irq/managed_irq.rst for further details.
+> Additionally, it updates managed_irq.rst to provide a debugfs example
+> demonstrating the IRQD_AFFINITY_MANAGED state flag.
+>
+> Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
+> ---
+> Changes in v1 [1]:
+>  - Provided an example of a managed IRQ using CONFIG_GENERIC_IRQ_DEBUGFS
+>  - Referenced Documentation/core-api/irq/managed_irq.rst
+>
+> [1]: https://lore.kernel.org/lkml/20260414200245.1153919-1-atomlin@atomlin.com/
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 11 ++++
+>  Documentation/core-api/irq/managed_irq.rst    | 53 ++++++++++++++++++-
+>  2 files changed, 62 insertions(+), 2 deletions(-)
 
-	Andrew
+[...]
+
+> diff --git a/Documentation/core-api/irq/managed_irq.rst b/Documentation/core-api/irq/managed_irq.rst
+> index 05e295f3c289..8e973a7d1bd1 100644
+> --- a/Documentation/core-api/irq/managed_irq.rst
+> +++ b/Documentation/core-api/irq/managed_irq.rst
+> @@ -80,9 +80,58 @@ The following examples assume a system with 8 CPUs.
+>      /proc/irq/48/effective_affinity_list:0
+>      /proc/irq/48/smp_affinity_list:7
+>  
+> -  This can be verified via the debugfs interface
+> -  (/sys/kernel/debug/irq/irqs/48). The dstate field will include
+> +  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
+> +  enabled, this can be verified via the debugfs interface (e.g.,
+> +  /sys/kernel/debug/irq/irqs/48). The dstate field will include
+>    IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
+> +  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
+> +
+> +    # cat /sys/kernel/debug/irq/irqs/87
+> +    handler:  handle_edge_irq
+> +    device:   0000:41:00.0
+
+This will not render the way you seem to expect, it should be a literal
+block.  Please do build the docs and look at the results before sending
+documentation patches.
+
+Thanks,
+
+jon
