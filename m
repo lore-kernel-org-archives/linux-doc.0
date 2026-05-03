@@ -1,163 +1,243 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from usb-smtp-delivery-120.mimecast.com (usb-smtp-delivery-120.mimecast.com [170.10.151.120])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D3822F74A
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 17:16:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 812A130BF66
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 17:35:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.151.120
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777828614; cv=none; b=VY3aP2UdPRnscL3Fg3GZsR/FE97codt1IdNPykZ5dN47WPCXvs+hG1r/X/wSt8ice0WOXxdoz5ErtKqzjSYXo60tDmEO8Z1TdvEMx96dVSBJhm/kXyaix/sMD/WQrRK6Y7NQF0S5OCnNnG18lAPa15E+g11dZduVlbh4A3hGitM=
+	t=1777829711; cv=none; b=rOfk77cq50HTJ0YF9mbhY/yqTHfeM+h9kMyWwvnBTkb9gAvT//AWOfYy+35kXKz2hj0zSb0jn0YO0Bvni32t1wwbuJO3i/p4behuJ1zjVWlI1DkJSeG2DkvmxsEQHyT5COcPwE2yqki3CZEv7DI4rzzjf6laZFHtQpK3zoL4UGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777828614; c=relaxed/simple;
-	bh=ehtNrUGg4B31jk7fDTF+qHrW2kqxG2N3yNcGlJkd0EE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CJsMtPW/Og8DwCplKTeBq5dW0LcgxUEkqXn1eEfi3dtm85cAbgS+Ue8Y/4Yn9wf5ejttGUAZ4zKZycpNUKK+G+ODrgrA8MgcS8EPjVhF5zxSJQJciKyAVSJXncOb8Cl+ipGui0M+MIO0ZHANeOmeUNpVGYyw3+dGBNAhQNkebmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y+LJcVBI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QizszKGV; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y+LJcVBI; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=QizszKGV; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
+	s=arc-20240116; t=1777829711; c=relaxed/simple;
+	bh=ajO5AI0LO6nCZe4N+69Dg4HIZXNpXML7RHgQIRxAxeE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=Rk6FMUBd3baThkgXf1vGIMG4dmKqf4pBtITkpS7XPjb9SMse2j6al/wiCUs1xKBCxKzoVJ+7BkrCf1ATPDJCUawpAcWyP+3kEewIv4u0NhTWmbLVTaNBIWrrgTW3qN5UVt1YliVlEOCbDv3nWoVdIQtENA7hCriSs/93xz3yudU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com; spf=pass smtp.mailfrom=onsemi.com; dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b=AM9LMuuE; arc=none smtp.client-ip=170.10.151.120
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=onsemi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=onsemi.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y+LJcVBI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QizszKGV";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y+LJcVBI";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="QizszKGV"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 594246AAB5;
-	Sun,  3 May 2026 17:16:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777828611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
+	dkim=pass (2048-bit key) header.d=onsemi.com header.i=@onsemi.com header.b="AM9LMuuE"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=onsemi.com;
+	s=mimecast20250127; t=1777829702;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=gMnlDjtPDorfK+LxpO0mE9kXpC2eJBd3Y3Tb0JnKjBg=;
-	b=Y+LJcVBItvIWLZmClLkv0eww17PSqWOv0bqeLO0MBEziYVoYhugSp0pNtdHnx8BGx686fn
-	ri5ZuvZ++pRvBoINATok7tzNWYW9TOVLfR4win5OwKZz0lYJWWw8+2SRfDNuw3Ti+N+DQP
-	1AQycUrzefnnlRszyKiDqeb/TEC/ilM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777828611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMnlDjtPDorfK+LxpO0mE9kXpC2eJBd3Y3Tb0JnKjBg=;
-	b=QizszKGVSbFankdpGeiqihBaPwK/B8hbFdqb5otdUmCmmeudDNKgX0gUE7YEAKnPk9pxaO
-	Ws56X0uBvKBw9zCA==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=Y+LJcVBI;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=QizszKGV
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1777828611; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMnlDjtPDorfK+LxpO0mE9kXpC2eJBd3Y3Tb0JnKjBg=;
-	b=Y+LJcVBItvIWLZmClLkv0eww17PSqWOv0bqeLO0MBEziYVoYhugSp0pNtdHnx8BGx686fn
-	ri5ZuvZ++pRvBoINATok7tzNWYW9TOVLfR4win5OwKZz0lYJWWw8+2SRfDNuw3Ti+N+DQP
-	1AQycUrzefnnlRszyKiDqeb/TEC/ilM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1777828611;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gMnlDjtPDorfK+LxpO0mE9kXpC2eJBd3Y3Tb0JnKjBg=;
-	b=QizszKGVSbFankdpGeiqihBaPwK/B8hbFdqb5otdUmCmmeudDNKgX0gUE7YEAKnPk9pxaO
-	Ws56X0uBvKBw9zCA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AC2BC593A3;
-	Sun,  3 May 2026 17:16:50 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id HKOjKQKD92ndXAAAD6G6ig
-	(envelope-from <jack@suse.cz>); Sun, 03 May 2026 17:16:50 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id DDCB2A079B; Sun, 03 May 2026 19:16:45 +0200 (CEST)
-Date: Sun, 3 May 2026 19:16:45 +0200
-From: Jan Kara <jack@suse.cz>
-To: Costa Shulyupin <costa.shul@redhat.com>
-Cc: "Matthew Wilcox (Oracle)" <willy@infradead.org>, 
-	Jan Kara <jack@suse.cz>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap <rdunlap@infradead.org>, 
-	linux-fsdevel@vger.kernel.org, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1] docs: locking: Fix stale dquot.c path
-Message-ID: <ulnz7qjfg2rj6xtgjhdhrejclzhkeacw54jsgvxkchc6wrtsul@pm4cm4mkxdtm>
-References: <20260503160221.1594319-2-costa.shul@redhat.com>
+	bh=ajO5AI0LO6nCZe4N+69Dg4HIZXNpXML7RHgQIRxAxeE=;
+	b=AM9LMuuEcLADYs5fh5VV5XTaVaHNX5tSonl1oKxLUOk7APNtlzux4xNNU/+WAdRlY0n8jt
+	XesxWt1LPidTFeqDOLoOknV/Im6oWuK5zA3nhcbDuKVN5QtFVQtn4JfwmwjhDWrqjI2G9k
+	2XIwkpog5J6/nJRSvkxWXbuMCwdzq9tbeMmV1YYthOg9HYXt5N2LPqI5g3TM1/L768TrVE
+	PfWvoJBvlxZtu+Vy/wfkVFkrf8LteiZho+I51oeIgh38p+UDkjfPRDV/pwF3sdazSP8L+m
+	QDhwq4QziToYAOg0y/BbnSv8c5jS6tyuy8ZZYO/RSuTz3u9sCOxy4BWWAvgdhQ==
+Received: from SJ2PR03CU001.outbound.protection.outlook.com
+ (mail-westusazon11012011.outbound.protection.outlook.com [52.101.43.11]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id usb-mta-57-MFwrQmrGOqWI5IUlOiOHag-1; Sun,
+ 03 May 2026 10:34:58 -0700
+X-MC-Unique: MFwrQmrGOqWI5IUlOiOHag-1
+X-Mimecast-MFC-AGG-ID: MFwrQmrGOqWI5IUlOiOHag_1777829693
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com (2603:10b6:930:9c::17)
+ by CH3PR02MB9781.namprd02.prod.outlook.com (2603:10b6:610:178::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Sun, 3 May
+ 2026 17:34:48 +0000
+Received: from CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda]) by CY8PR02MB9249.namprd02.prod.outlook.com
+ ([fe80::e437:4ba8:6506:4cda%3]) with mapi id 15.20.9870.023; Sun, 3 May 2026
+ 17:34:48 +0000
+From: Selvamani Rajagopal <Selvamani.Rajagopal@onsemi.com>
+To: Andrew Lunn <andrew@lunn.ch>, "ciprian.regus@analog.com"
+	<ciprian.regus@analog.com>
+CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>, Andrew Lunn
+	<andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Heiner Kallweit
+	<hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Rob Herring
+	<robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	<conor+dt@kernel.org>, "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH net-next 2/5] net: ethernet: oa_tc6: Allow custom mii_bus
+Thread-Topic: [PATCH net-next 2/5] net: ethernet: oa_tc6: Allow custom mii_bus
+Thread-Index: AQHc2rEgF3hIAB6D/Eq3y9ss2XCLE7X8jmMA
+Date: Sun, 3 May 2026 17:34:47 +0000
+Message-ID: <CY8PR02MB92498A398D3F05B94EEB7ED383302@CY8PR02MB9249.namprd02.prod.outlook.com>
+References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
+ <20260503-adin1140-driver-v1-2-dd043cdd88f0@analog.com>
+ <aad9cb98-8f1f-409f-8d58-0318e125210c@lunn.ch>
+In-Reply-To: <aad9cb98-8f1f-409f-8d58-0318e125210c@lunn.ch>
+Accept-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR02MB9249:EE_|CH3PR02MB9781:EE_
+x-ms-office365-filtering-correlation-id: a6af705c-2624-423e-2eed-08dea93a45f8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014|22082099003|18002099003|56012099003|38070700021
+x-microsoft-antispam-message-info: r0KLl9d+3n7Z0kb99ChN/fFsTwzXHvJypAAKlzQSgutmUlcf9lCNiD6rjNi5LnLpxNVfUOOQVI8RCIlf1wNkiozdUWuzI3w6rtm7Y4eC2+iu1Vmejq5wCu+z+ifQquyJfHh6ogw1ViArBhXs/loyYJOZan7CMlm7HdxMf1fC1fcc7AoCAvw85IVhvynP48VrwhzPnuOUP4vzZXkfbVsh+zDXKUKbrVAVIpns2NSHMrkZaWRpTSmTkVf9GpBn/4kKgk9QBmGxPLbiDELMjUDFgn2rBiG6AHZmuA+xx464KA/wHd8p6L+obKktZmO2AbWiJOjOTHwg2PIhikpN3s4/woEGL2W1KRFtYyLRGsxAqSh4LCww2EU6Mo+3s+6SaETfdVNcJUh9t6XzP1wFKsjN/yD1jAsPA5+7PTSFV73Q1968UjRvfrjN2HxVS0wAoICgTBh3GEwH6oDMvAHzozNx5Lx1piGzb//s/ZKqNm5xzVulpQbpfDT+6737ElFFb7mFpx6sHH5SdRAGkCnUawGkJ1i5R7oxNbeuLxOORUSuGMoKbLv8l205bT1LPSSbbqImY4la7uWK2U1mjxrnCSetV9BkZd2DFz2A1dJWm4FIeQqTxWTyJSjGyAjGRP2o1i5A/6+yDzbvugYmvRIpFXyK8RsgJfFImbxNerjDJhbftAdJGvw26ElkUx0EmcflPzPEMI3wgUUa7+V1ndhLqzLnE7webw98J1pRws6KuOwlIAvKACZ/ZxUL8MN503NwVBLf
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR02MB9249.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014)(22082099003)(18002099003)(56012099003)(38070700021);DIR:OUT;SFP:1101
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?amxUWWpWd1AxNGU0Qk9WTjRlaTB1UFZHWDFwY1orVVFDVk5wTWFFczIxNU5W?=
+ =?utf-8?B?Qm41RTFsMUlDRUhMYVk5Z0NaN3MwZTdNME5xUnZWVnN2Zzh0Qms5Zkpta3lL?=
+ =?utf-8?B?SVYrelVsM0RUMVY2eGttM0hjWStqNS9RWGVtU2p0dEc0YjFERVFjMzFxNm94?=
+ =?utf-8?B?aWQ2dHhDelVxc0c2Z09JS3J6YWRpRTdFZnBRNUNkY0Jua1pwS1o1WVp2Q3h4?=
+ =?utf-8?B?azFrNnJwcnIyZTBBbFBnTGZ3NHpvQ084SmNVUXU1MUFHM1dDQU1LdENTUi9l?=
+ =?utf-8?B?S2ZBUjdjaVhkNFFybjBiS3QyU0dOc2dJL1gzN2ZGVHk1U1hyQmYzNXBORkxk?=
+ =?utf-8?B?ZXRLVXlWdnpKdnNrTXhZYUlkSEtNNm5BQmZMNWNxZk12VmNMQWdvVnA4Y0Rw?=
+ =?utf-8?B?YmNSZkdKekx1K0FNdjJUVG9leTEvOHBUSVdWeEg5SWxKdkg2b1dMSzQzeXNT?=
+ =?utf-8?B?QmdPbzI4SXNJb2krdFY4Tzl0cFNxeW5oQyt4WkpLUU9XMHB6bzd6RkpMZCtt?=
+ =?utf-8?B?Rjh5UVhsUmczSWZYTklIL3FuN0ZYNnhET1NITk82M283VzhsTGduQTFMbnkv?=
+ =?utf-8?B?TWd1TzRiSHJtSC9MSlkwakZ4dzBTNzRVWUxTVFhtdnhzc3VCMXBoNW5JYlps?=
+ =?utf-8?B?Ri80cHpRSDd2SHdXRGUxdnIwYmwzWHZ3elJ5S0ZLVjFvTVFvUUd3MkJPMXMw?=
+ =?utf-8?B?Z0ZIVjNiN1VaWndXUGxFM3VIdHN3cllqaEFvb3p0YjF3dDUrR002TlZVTUZT?=
+ =?utf-8?B?UDNhOU9sd3ZrYVduS0xNMzdZV1VtUGRFWDAwaHp1YmFKU1AwTHMxS0RnNWhv?=
+ =?utf-8?B?eWVsWDJ0Nkx1YlZkUFEwWE1QUFhwNXh5OUhMTXlIcUp0a290VndyQVBERGxG?=
+ =?utf-8?B?Rld3ZVFLSlE2OC9laVYzTzlUYVJxSnh1VHVxU1k0UUlvY0pXMjh5ZVhYUnEy?=
+ =?utf-8?B?akoyZFdDcFhrcUhLYUZmdkt0VTh0OWF3Q3JHc0plbm05UkdRMzQxRXFSYmtH?=
+ =?utf-8?B?bUo5clI5Q1pnbXNvci9nM1hndmRUUUZ2TTVIYXQ3UllybU9mWDJFY2huWHg3?=
+ =?utf-8?B?aXI5ZW9qeTVIeEdRRHF5L2J4azRNOTJmNGpvWDUwTUZwa3ZDRUVhVWgzQlYr?=
+ =?utf-8?B?WmI2c3NuVm8zdVN2R0tpN3lRcG8zVlBhUmVOWVBjanVpQS9xT053VG9PT1l2?=
+ =?utf-8?B?dWVrRDlFcWZST0lzTmo4R2JwVnh4SlI4aWMxenptdWFLRXdrWVg1NDc2MXU4?=
+ =?utf-8?B?c0c4RytrSzZLd3VleHgxWDRTT3QvY0JOVTIvbEZWTm8vM0s5UEdzRk5MODRX?=
+ =?utf-8?B?Wk1QeWdzMU1UWFk2QUcxNjBxNlNHRmFpUE5Ha1U1SkhTRHdDSTE2Uk5pbjI5?=
+ =?utf-8?B?V2VPUDdnclVnS0M3WkNDSy84SG5iTTVDSXJqajRJQktUQXgyS0FKSllNUzhw?=
+ =?utf-8?B?aGJ3cjlBN3RuVVFVbS8vR0RQYUhlelRiUHZ1RVZLczc3c3ZCOCs2YkpZMmhK?=
+ =?utf-8?B?OThnNC9MSXRKWU9Ga1l6WjJ4bzNNVG54aDVzZ0szem1KNXpFeEFMd0I3dkFK?=
+ =?utf-8?B?NzdFam1BcHM5d0dOSDBNNG1iR3BweVRNcFA2SDB2WVd3bGtjWWgxaWtRVWJL?=
+ =?utf-8?B?aUt1bkdsd2RoVGd0eDFFNE15dzkvejF3SUVxYVB4aTBRSFJPcXRrTWFSMkZx?=
+ =?utf-8?B?SERERVZWUFBIT1VoWEp0ZUFtNm14NmRMYUdPT2JTbE14ZkhvaU42UWMxYzJj?=
+ =?utf-8?B?NFRMRTFlTmhwbEZzeURKNEhNbnNQemRiYlZ5VTgxUDhtZzZIS3lhTlFaMmFw?=
+ =?utf-8?B?dlh3RmFyVWNzK2o1UVd4N0pQYWVuRDRWL3V1b1lNUEdiODY2Q3VJQUFEZDlZ?=
+ =?utf-8?B?QlUvRjk2WUVEdE5vMnUyWE5qRi9CYmpPSExJSnBYbFpsYWNsMzFOeU9GMytO?=
+ =?utf-8?B?ZkU2dlhRendtVG01Lyt2aTdWa1l6TjQ3ME95SXdQbXYvdlNOTzI1TFNsVEdi?=
+ =?utf-8?B?UCtxQmFkZy93Tm15NWlYTUxiVGRRWm9yYXJkU2NPQ0ZyNnRvQWV5dkJjV2Fl?=
+ =?utf-8?B?a1YvTEpjYzlWTEh3QklIVWlmOTJ0UFhyYk9LdTZ2RlpuK2ZsbTZPNDh2eUEx?=
+ =?utf-8?B?Q2ZLdXV6WHNheHdSNWhjdGRTbSt1eWdHNWx1SnpXYlZZNGdRNnZmMGljTGVI?=
+ =?utf-8?B?Z0Y3Ti80eFFraHJSOXpQZm8vZTVSeERGV0RFaS9BdVY1VUY1VytYRVpCeFZE?=
+ =?utf-8?B?cVNaYzhxTWJFNWNVaWpWTUZMQ1dtLzY1V0RScDhQcVkxTUZHMmwyYVRGeUFm?=
+ =?utf-8?B?bjRyU1ZkSGtWMDBRUnNsTFVoUVFySm5ZeThxLzRzZ0l5Nnc2d0lodz09?=
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503160221.1594319-2-costa.shul@redhat.com>
-X-Spamd-Result: default: False [-4.01 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	ARC_NA(0.00)[];
-	RCVD_COUNT_THREE(0.00)[3];
-	MIME_TRACE(0.00)[0:+];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	RCVD_TLS_LAST(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	DWL_DNSWL_BLOCKED(0.00)[suse.cz:dkim];
-	DNSWL_BLOCKED(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	FROM_EQ_ENVFROM(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[10];
-	MISSING_XM_UA(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.cz:dkim,suse.cz:email,suse.com:email,imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns]
-X-Rspamd-Action: no action
-X-Spam-Flag: NO
-X-Spam-Score: -4.01
-X-Spam-Level: 
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Rspamd-Queue-Id: 594246AAB5
+X-Exchange-RoutingPolicyChecked: osCwsWDF9yE1fjk9acTFplJ34L13BI1t/GBFTkrg7MAra94Xrn/5QlfLd8worDvbRU40Muwuj0FVcGKE/jGnDaj19OikmCyoAtmr8a2LQOp/eUJsPKKTQ8nb5pyeYmKPLK653hLOJPkdvRPDlnyTW5OKfqB4H4yOjvWk7IZcBXRMeFhf8PFR4PM4ZXXLZD7nyIVdauJ2Ww7iAp1SAKzu2j0nPOU88PqLB6fPKPCBxdzr+IzVVJNo2ADFXJ+dosg1D5+nFQx+UWfHWwGxQLSGyNZ0tt0SpzhSs7Uvjz748KeyFNEYjVQypqT2DV3bFORPAJK0i116DQXBP6WkRer9+w==
+X-OriginatorOrg: onsemi.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR02MB9249.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a6af705c-2624-423e-2eed-08dea93a45f8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 03 May 2026 17:34:48.0045
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 04e1674b-7af5-4d13-a082-64fc6e42384c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: X83O13LeebLcWukZgpThnm28lic1CxJMfkVcN7EUyCi3OqHEV60hwu1sN8LuIJ45fX8pPtIzflRH1UhE1Gw9lF2WwLjospn9IdHk9Ymb2zM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR02MB9781
+X-Mimecast-Spam-Score: 0
+X-Mimecast-MFC-PROC-ID: ngjnGT0U1JWMEPBIF6-dhlnNsjwFvFCh43ZSvdI46Tc_1777829693
+X-Mimecast-Originator: onsemi.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 
-On Sun 03-05-26 19:02:22, Costa Shulyupin wrote:
-> The quota code was moved from fs/dquot.c to fs/quota/dquot.c
-> in commit 884d179dff3a ("quota: Move quota files into separate
-> directory"). Update the reference.
-> 
-> Assisted-by: Claude:claude-opus-4-6
-> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQW5kcmV3IEx1bm4gPGFu
+ZHJld0BsdW5uLmNoPg0KPiBTZW50OiBTYXR1cmRheSwgTWF5IDIsIDIwMjYgODo1MSBQTQ0KPiBU
+bzogY2lwcmlhbi5yZWd1c0BhbmFsb2cuY29tDQo+IENjOiBQYXJ0aGliYW4gVmVlcmFzb29yYW4g
+PHBhcnRoaWJhbi52ZWVyYXNvb3JhbkBtaWNyb2NoaXAuY29tPjsgQW5kcmV3IEx1bm4NCj4gPGFu
+ZHJldytuZXRkZXZAbHVubi5jaD47IERhdmlkIFMuIE1pbGxlciA8ZGF2ZW1AZGF2ZW1sb2Z0Lm5l
+dD47IEVyaWMgRHVtYXpldA0KPiA8ZWR1bWF6ZXRAZ29vZ2xlLmNvbT47IEpha3ViIEtpY2luc2tp
+IDxrdWJhQGtlcm5lbC5vcmc+OyBQYW9sbyBBYmVuaQ0KPiA8cGFiZW5pQHJlZGhhdC5jb20+OyBT
+aW1vbiBIb3JtYW4gPGhvcm1zQGtlcm5lbC5vcmc+OyBKb25hdGhhbiBDb3JiZXQNCj4gPGNvcmJl
+dEBsd24ubmV0PjsgU2h1YWggS2hhbiA8c2toYW5AbGludXhmb3VuZGF0aW9uLm9yZz47IEhlaW5l
+ciBLYWxsd2VpdA0KPiA8aGthbGx3ZWl0MUBnbWFpbC5jb20+OyBSdXNzZWxsIEtpbmcgPGxpbnV4
+QGFybWxpbnV4Lm9yZy51az47IFJvYiBIZXJyaW5nDQo+IDxyb2JoQGtlcm5lbC5vcmc+OyBLcnp5
+c3p0b2YgS296bG93c2tpIDxrcnprK2R0QGtlcm5lbC5vcmc+OyBDb25vciBEb29sZXkNCj4gPGNv
+bm9yK2R0QGtlcm5lbC5vcmc+OyBuZXRkZXZAdmdlci5rZXJuZWwub3JnOyBsaW51eC1rZXJuZWxA
+dmdlci5rZXJuZWwub3JnOyBsaW51eC0NCj4gZG9jQHZnZXIua2VybmVsLm9yZzsgZGV2aWNldHJl
+ZUB2Z2VyLmtlcm5lbC5vcmcNCj4gU3ViamVjdDogUmU6IFtQQVRDSCBuZXQtbmV4dCAyLzVdIG5l
+dDogZXRoZXJuZXQ6IG9hX3RjNjogQWxsb3cgY3VzdG9tIG1paV9idXMNCj4gDQo+IA0KPiBUaGlz
+IE1lc3NhZ2UgSXMgRnJvbSBhbiBFeHRlcm5hbCBTZW5kZXINCj4gVGhpcyBtZXNzYWdlIGNhbWUg
+ZnJvbSBvdXRzaWRlIHlvdXIgb3JnYW5pemF0aW9uLg0KPiANCj4gPiBAQCAtNTM4LDMyICs1Mzks
+MzcgQEAgc3RhdGljIGludCBvYV90YzZfbWRpb2J1c19yZWdpc3RlcihzdHJ1Y3Qgb2FfdGM2ICp0
+YzYpDQo+ID4gew0KPiA+IGludCByZXQ7DQo+ID4NCj4gPiAtIHRjNi0+bWRpb2J1cyA9IG1kaW9i
+dXNfYWxsb2MoKTsNCj4gPiBpZiAoIXRjNi0+bWRpb2J1cykgew0KPiA+IC0gbmV0ZGV2X2Vycih0
+YzYtPm5ldGRldiwgIk1ESU8gYnVzIGFsbG9jIGZhaWxlZFxuIik7DQo+ID4gLSByZXR1cm4gLUVO
+T01FTTsNCj4gPiArIHRjNi0+bWRpb2J1cyA9IG1kaW9idXNfYWxsb2MoKTsNCj4gPiArIGlmICgh
+dGM2LT5tZGlvYnVzKSB7DQo+ID4gKyBuZXRkZXZfZXJyKHRjNi0+bmV0ZGV2LCAiTURJTyBidXMg
+YWxsb2MgZmFpbGVkXG4iKTsNCj4gPiArIHJldHVybiAtRU5PTUVNOw0KPiA+ICsgfQ0KPiA+ICsN
+Cj4gPiArIHRjNi0+bWRpb2J1cy0+cmVhZCA9IG9hX3RjNl9tZGlvYnVzX3JlYWQ7DQo+ID4gKyB0
+YzYtPm1kaW9idXMtPndyaXRlID0gb2FfdGM2X21kaW9idXNfd3JpdGU7DQo+ID4gKyAvKiBPUEVO
+IEFsbGlhbmNlIDEwQkFTRS1UMXggY29tcGxpYW5jZSBNQUMtUEhZcyB3aWxsIGhhdmUgYm90aCBD
+MjIgYW5kDQo+ID4gKyAqIEM0NSByZWdpc3RlcnMgc3BhY2UuIElmIHRoZSBQSFkgaXMgZGlzY292
+ZXJlZCB2aWEgQzIyIGJ1cyBwcm90b2NvbCBpdA0KPiA+ICsgKiBhc3N1bWVzIGl0IHVzZXMgQzIy
+IHByb3RvY29sIGFuZCBhbHdheXMgdXNlcyBDMjIgcmVnaXN0ZXJzIGluZGlyZWN0DQo+ID4gKyAq
+IGFjY2VzcyB0byBhY2Nlc3MgQzQ1IHJlZ2lzdGVycy4gVGhpcyBpcyBiZWNhdXNlLCB3ZSBkb24n
+dCBoYXZlIGENCj4gPiArICogY2xlYW4gc2VwYXJhdGlvbiBiZXR3ZWVuIEMyMi9DNDUgcmVnaXN0
+ZXIgc3BhY2UgYW5kIEMyMi9DNDUgTURJTyBidXMNCj4gPiArICogcHJvdG9jb2xzLiBSZXN1bHRp
+bmcsIFBIWSBDNDUgcmVnaXN0ZXJzIGRpcmVjdCBhY2Nlc3MgY2FuJ3QgYmUgdXNlZA0KPiA+ICsg
+KiB3aGljaCBjYW4gc2F2ZSBtdWx0aXBsZSBTUEkgYnVzIGFjY2Vzcy4gVG8gc3VwcG9ydCB0aGlz
+IGZlYXR1cmUsIFBIWQ0KPiA+ICsgKiBkcml2ZXJzIGNhbiBzZXQgLnJlYWRfbW1kLy53cml0ZV9t
+bWQgaW4gdGhlIFBIWSBkcml2ZXIgdG8gY2FsbA0KPiA+ICsgKiAucmVhZF9jNDUvLndyaXRlX2M0
+NS4gRXg6IGRyaXZlcnMvbmV0L3BoeS9taWNyb2NoaXBfdDFzLmMNCj4gPiArICovDQo+ID4gKyB0
+YzYtPm1kaW9idXMtPnJlYWRfYzQ1ID0gb2FfdGM2X21kaW9idXNfcmVhZF9jNDU7DQo+ID4gKyB0
+YzYtPm1kaW9idXMtPndyaXRlX2M0NSA9IG9hX3RjNl9tZGlvYnVzX3dyaXRlX2M0NTsNCj4gPiAr
+DQo+ID4gKyB0YzYtPm93bl9tZGlvYnVzID0gdHJ1ZTsNCj4gPiB9DQo+ID4NCj4gPiB0YzYtPm1k
+aW9idXMtPnByaXYgPSB0YzY7DQo+ID4gLSB0YzYtPm1kaW9idXMtPnJlYWQgPSBvYV90YzZfbWRp
+b2J1c19yZWFkOw0KPiA+IC0gdGM2LT5tZGlvYnVzLT53cml0ZSA9IG9hX3RjNl9tZGlvYnVzX3dy
+aXRlOw0KPiA+IC0gLyogT1BFTiBBbGxpYW5jZSAxMEJBU0UtVDF4IGNvbXBsaWFuY2UgTUFDLVBI
+WXMgd2lsbCBoYXZlIGJvdGggQzIyIGFuZA0KPiA+IC0gKiBDNDUgcmVnaXN0ZXJzIHNwYWNlLiBJ
+ZiB0aGUgUEhZIGlzIGRpc2NvdmVyZWQgdmlhIEMyMiBidXMgcHJvdG9jb2wgaXQNCj4gPiAtICog
+YXNzdW1lcyBpdCB1c2VzIEMyMiBwcm90b2NvbCBhbmQgYWx3YXlzIHVzZXMgQzIyIHJlZ2lzdGVy
+cyBpbmRpcmVjdA0KPiA+IC0gKiBhY2Nlc3MgdG8gYWNjZXNzIEM0NSByZWdpc3RlcnMuIFRoaXMg
+aXMgYmVjYXVzZSwgd2UgZG9uJ3QgaGF2ZSBhDQo+ID4gLSAqIGNsZWFuIHNlcGFyYXRpb24gYmV0
+d2VlbiBDMjIvQzQ1IHJlZ2lzdGVyIHNwYWNlIGFuZCBDMjIvQzQ1IE1ESU8gYnVzDQo+ID4gLSAq
+IHByb3RvY29scy4gUmVzdWx0aW5nLCBQSFkgQzQ1IHJlZ2lzdGVycyBkaXJlY3QgYWNjZXNzIGNh
+bid0IGJlIHVzZWQNCj4gPiAtICogd2hpY2ggY2FuIHNhdmUgbXVsdGlwbGUgU1BJIGJ1cyBhY2Nl
+c3MuIFRvIHN1cHBvcnQgdGhpcyBmZWF0dXJlLCBQSFkNCj4gPiAtICogZHJpdmVycyBjYW4gc2V0
+IC5yZWFkX21tZC8ud3JpdGVfbW1kIGluIHRoZSBQSFkgZHJpdmVyIHRvIGNhbGwNCj4gPiAtICog
+LnJlYWRfYzQ1Ly53cml0ZV9jNDUuIEV4OiBkcml2ZXJzL25ldC9waHkvbWljcm9jaGlwX3Qxcy5j
+DQo+ID4gLSAqLw0KPiA+IC0gdGM2LT5tZGlvYnVzLT5yZWFkX2M0NSA9IG9hX3RjNl9tZGlvYnVz
+X3JlYWRfYzQ1Ow0KPiA+IC0gdGM2LT5tZGlvYnVzLT53cml0ZV9jNDUgPSBvYV90YzZfbWRpb2J1
+c193cml0ZV9jNDU7DQo+ID4gLSB0YzYtPm1kaW9idXMtPm5hbWUgPSAib2EtdGM2LW1kaW9idXMi
+Ow0KPiA+IHRjNi0+bWRpb2J1cy0+cGFyZW50ID0gdGM2LT5kZXY7DQo+ID4gKyB0YzYtPm1kaW9i
+dXMtPm5hbWUgPSAib2EtdGM2LW1kaW9idXMiOw0KPiA+DQo+ID4gc25wcmludGYodGM2LT5tZGlv
+YnVzLT5pZCwgQVJSQVlfU0laRSh0YzYtPm1kaW9idXMtPmlkKSwgIiVzIiwNCj4gPiAtIGRldl9u
+YW1lKCZ0YzYtPnNwaS0+ZGV2KSk7DQo+ID4gKyBkZXZfbmFtZSgmdGM2LT5zcGktPmRldikpOw0K
+PiA+DQo+ID4gcmV0ID0gbWRpb2J1c19yZWdpc3Rlcih0YzYtPm1kaW9idXMpOw0KPiA+IGlmIChy
+ZXQpIHsNCj4gPiBAQCAtNTc3LDE5ICs1ODMsMzAgQEAgc3RhdGljIGludCBvYV90YzZfbWRpb2J1
+c19yZWdpc3RlcihzdHJ1Y3Qgb2FfdGM2ICp0YzYpDQo+ID4NCj4gPiBzdGF0aWMgdm9pZCBvYV90
+YzZfbWRpb2J1c191bnJlZ2lzdGVyKHN0cnVjdCBvYV90YzYgKnRjNikNCj4gPiB7DQo+ID4gKyBp
+ZiAoIXRjNi0+bWRpb2J1cykNCj4gPiArIHJldHVybjsNCj4gPiArDQo+ID4gbWRpb2J1c191bnJl
+Z2lzdGVyKHRjNi0+bWRpb2J1cyk7DQo+ID4gLSBtZGlvYnVzX2ZyZWUodGM2LT5tZGlvYnVzKTsN
+Cj4gPiArDQo+ID4gKyBpZiAodGM2LT5vd25fbWRpb2J1cykNCj4gPiArIG1kaW9idXNfZnJlZSh0
+YzYtPm1kaW9idXMpOw0KPiA+IH0NCj4gPg0KPiA+IHN0YXRpYyBpbnQgb2FfdGM2X3BoeV9pbml0
+KHN0cnVjdCBvYV90YzYgKnRjNikNCj4gPiB7DQo+ID4gaW50IHJldDsNCj4gPg0KPiA+IC0gcmV0
+ID0gb2FfdGM2X2NoZWNrX3BoeV9yZWdfZGlyZWN0X2FjY2Vzc19jYXBhYmlsaXR5KHRjNik7DQo+
+ID4gLSBpZiAocmV0KSB7DQo+ID4gLSBuZXRkZXZfZXJyKHRjNi0+bmV0ZGV2LA0KPiA+IC0gIkRp
+cmVjdCBQSFkgcmVnaXN0ZXIgYWNjZXNzIGlzIG5vdCBzdXBwb3J0ZWQgYnkgdGhlIE1BQy1QSFlc
+biIpOw0KPiA+IC0gcmV0dXJuIHJldDsNCj4gPiArIC8qIElmIHRoZSBkcml2ZXIgcHJvdmlkZWQg
+YSBtaWlfYnVzLCBpdCBpcyBhbHNvIHJlc3BvbnNpYmxlIGZvcg0KPiA+ICsgKiBpbXBsZW1lbnRp
+bmcgdGhlIGJ1cyBhY2Nlc3MgbWV0aG9kcywgc28gd2UgZG9uJ3QgaGF2ZSB0byB3b3JyeQ0KPiA+
+ICsgKiBhYm91dCBjaGVja2luZyB0aGUgUEhZIGFjY2VzcyBtb2RlLg0KPiA+ICsgKi8NCj4gPiAr
+IGlmICghdGM2LT5tZGlvYnVzKSB7DQo+ID4gKyByZXQgPSBvYV90YzZfY2hlY2tfcGh5X3JlZ19k
+aXJlY3RfYWNjZXNzX2NhcGFiaWxpdHkodGM2KTsNCj4gPiArIGlmIChyZXQpIHsNCj4gPiArIG5l
+dGRldl9lcnIodGM2LT5uZXRkZXYsDQo+ID4gKyAiRGlyZWN0IFBIWSByZWdpc3RlciBhY2Nlc3Mg
+aXMgbm90IHN1cHBvcnRlZCBieSB0aGUgTUFDLVBIWVxuIik7DQo+ID4gKyByZXR1cm4gcmV0Ow0K
+PiA+ICsgfQ0KPiANCj4gVGhpcyBhbGwgc2VlbXMgcHJldHR5IGludmFzaXZlIGFuZCB1Z2x5LiBQ
+bGVhc2UgY291bGQgeW91IHRoaW5rIHdoYXQNCj4gaGFwcGVucyBpZiBpbnN0ZWFkIG9mIHBhc3Np
+bmcgaW4gYW4gbWRpb2J1cywgeW91IHBhc3MgYSBwaHlkZXYuIElzIHRoZQ0KPiBjaGFuZ2UgdG8g
+dGhlIGNvcmUgc2ltcGxlciBhbmQgY2xlYW5lcj8NCj4gDQo+IEFuZHJldw0KDQpLaW5kIG9mIGFn
+cmVlLiBJbml0aWFsbHkgd2Ugd2VyZSB0aGlua2luZyBhYm91dCBjaGFuZ2luZyB0aGUgZXhpc3Rp
+bmcgY29kZSAoTWljcm9jaGlwJ3MgdmVuZG9yIGNvZGUpIHRvIGFsbG9jIG1paV9idXMgc28gdGhh
+dCBjb2RlIHdvdWxkIGJlIHNhbWUgYWNyb3NzIG11bHRpcGxlIHZlbmRvcnMuIEVpdGhlciB3YXks
+IGl0IHdvdWxkIGJlIGludmFzaXZlIGNoYW5nZXMuIFNvLCB3ZSBkZWNpZGUgdG8gZ28gd2l0aCBt
+aW5pbWFsIGNoYW5nZSB0byBvdGhlciB2ZW5kb3IncyBjb2RlLg0KDQpUcnlpbmcgdG8gdW5kZXJz
+dGFuZCB5b3VyIHN1Z2dlc3Rpb24uIEFyZSB5b3Ugc3VnZ2VzdGluZyB0byBtb3ZlIGVudGlyZSBt
+aWlfYnVzIGFsbG9jYXRpb24vQVBJcyBpbXBsZW1lbnRhdGlvbiB0byB2ZW5kb3Igc2lkZSBhbmQg
+a2VlcCBvbmx5IHBoeSBkZXYgdXNhZ2UgaW4gb2FfdGM2LmM/DQoNCklmIG15IHVuZGVyc3RhbmRp
+bmcgaXMgY29ycmVjdCwgSSBndWVzcyBpdCB3b3VsZCBiZSBjbGVhbmVyLiBJIGNhbiB0cnkgdGhh
+dC4gTGV0IG1lIGtub3cuDQoNClNlbHZhDQoNCg0K
 
-Right. Feel free to add:
-
-Reviewed-by: Jan Kara <jack@suse.cz>
-
-								Honza
-
-> ---
->  Documentation/filesystems/locking.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
-> index 8421ea21bd35..277e49314d32 100644
-> --- a/Documentation/filesystems/locking.rst
-> +++ b/Documentation/filesystems/locking.rst
-> @@ -584,7 +584,7 @@ write_info:	yes		dqonoff_sem
->  FS recursion means calling ->quota_read() and ->quota_write() from superblock
->  operations.
->  
-> -More details about quota locking can be found in fs/dquot.c.
-> +More details about quota locking can be found in fs/quota/dquot.c.
->  
->  vm_operations_struct
->  ====================
-> -- 
-> 2.53.0
-> 
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
