@@ -1,78 +1,96 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD15740DFA7;
-	Sun,  3 May 2026 13:32:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4016B3CCFB0;
+	Sun,  3 May 2026 14:23:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777815148; cv=none; b=PzG4cLTHeI4eIrZ/X7URRBbjYIqWnDuN4qHnR0LSfMRDnoxIzL9n80w3IcdC+YJJ5DaHgHPbqzukAW44I0YT9NS5qiIwuUNdZOKMEy+lQ3V566+YdbFoh3x/dWOmM6LsXu47q5YzkV0d651lJncyuA8Xa5bOFk8Qb1pRtfDF/b0=
+	t=1777818193; cv=none; b=uBE71QslBLfpbfAF9TjjCqDkrZ2tNbPBlY3V7gmzUETrrU3YLwekX/WN1GxiUsZEbSHYhjkX/s+KeO6Fbt1hY9uhU4rUqH4kawtT0rXN/bAyg0KNi2s8ioBNIleYMEOG7RVH3yUg0nV/yExHlYlcEpzGXI32g+sLmRQeP4FS87M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777815148; c=relaxed/simple;
-	bh=8E4wEVhoxVMJzvt9Yay3GcXb/sDexIP/V9W0XqAZf1o=;
-	h=Date:From:To:Subject:Message-Id:In-Reply-To:References:
-	 Mime-Version:Content-Type; b=VPdvl7B4lWao0x8wTYYtd+prHzAO5jbyWlubmyq6LU5IILyJTBsqnaE3N6rjXxTK6vQ4G2nnHw+h5XsMOnRVC4QKfpzihIb/LL8Hxz5UWpXJjXpO6cWf+EaeNfIsfFKS1C8RnL5+XbCusU5VYd4Xi6bniIbNYVFr8H45RMlUxsU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=VMLUKH1y; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777818193; c=relaxed/simple;
+	bh=WxZArjg5FoyfLE926199Z7wVkUA9y0L+cYl3TawI+Xg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bdRad6Fk0/faNNz0O9UKrnn+mrXHMM9kdGqUwtGSf9fc5RTQAHuKFsNxycaC8KBsIIoxyCB0FG+VDFzF0u4dvwf3EmFSohnUsb6QaiN6aEu7RkYhBy6IQRXb/7I8mlx/3rS5Qd5Tm5u9ig8mOpFq1Bs1jUw5CD3d8n02JBfKGWk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=VAgoZfbN; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="VMLUKH1y"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E258C2BCB4;
-	Sun,  3 May 2026 13:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
-	s=korg; t=1777815148;
-	bh=8E4wEVhoxVMJzvt9Yay3GcXb/sDexIP/V9W0XqAZf1o=;
-	h=Date:From:To:Subject:In-Reply-To:References:From;
-	b=VMLUKH1ycv36KQvHnq5rSyu9FU98Uiqe3ehx+970ckoAypeAM+PXvJdKFdOk518cg
-	 F+rM0924/bGMboA1NclQRj7A1a6x370rN92Jr4wfl4rd2ya2blnUDGH4PdXlm8dfEE
-	 EAy46h3WOH7oQmXVHZYQhk9D06XPN1NVQizvnvmI=
-Date: Sun, 3 May 2026 06:32:13 -0700
-From: Andrew Morton <akpm@linux-foundation.org>
-To: Nico Pache <npache@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-trace-kernel@vger.kernel.org, aarcange@redhat.com,
- anshuman.khandual@arm.com, apopple@nvidia.com, baohua@kernel.org,
- baolin.wang@linux.alibaba.com, byungchul@sk.com, catalin.marinas@arm.com,
- cl@gentwo.org, corbet@lwn.net, dave.hansen@linux.intel.com,
- david@kernel.org, dev.jain@arm.com, gourry@gourry.net, hannes@cmpxchg.org,
- hughd@google.com, jack@suse.cz, jackmanb@google.com, jannh@google.com,
- jglisse@google.com, joshua.hahnjy@gmail.com, kas@kernel.org,
- lance.yang@linux.dev, Liam.Howlett@oracle.com, ljs@kernel.org,
- mathieu.desnoyers@efficios.com, matthew.brost@intel.com,
- mhiramat@kernel.org, mhocko@suse.com, peterx@redhat.com, pfalcato@suse.de,
- rakie.kim@sk.com, raquini@redhat.com, rdunlap@infradead.org,
- richard.weiyang@gmail.com, rientjes@google.com, rostedt@goodmis.org,
- rppt@kernel.org, ryan.roberts@arm.com, shivankg@amd.com,
- sunnanyong@huawei.com, surenb@google.com, thomas.hellstrom@linux.intel.com,
- tiwai@suse.de, usamaarif642@gmail.com, vbabka@suse.cz,
- vishal.moola@gmail.com, wangkefeng.wang@huawei.com, will@kernel.org,
- willy@infradead.org, yang@os.amperecomputing.com,
- ying.huang@linux.alibaba.com, ziy@nvidia.com, zokeefe@google.com
-Subject: Re: [PATCH 7.2 v16 00/13] khugepaged: mTHP support
-Message-Id: <20260503063213.b0a84d44de341575f8854f0b@linux-foundation.org>
-In-Reply-To: <20260503062109.0469201428642a4f7fcfd915@linux-foundation.org>
-References: <20260419185750.260784-1-npache@redhat.com>
-	<20260424065828.031775921990de37f83a2468@linux-foundation.org>
-	<CAA1CXcBJFoqDrkQbRE6JnpV-gjfNXe2sUxaCyXPC82h3qk9Jig@mail.gmail.com>
-	<20260503062109.0469201428642a4f7fcfd915@linux-foundation.org>
-X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="VAgoZfbN"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=7uvkKz6xcgMrhT7s6scAhh9g4pvpj+Jbi95mAcCpFv4=; b=VA
+	goZfbN+x2ysLqv1Sgg0NN2ERvw5cGeBI83OHtBqFPM2doKpa+WpjwWihFkW/bCe05M3/urauiJ2uT
+	AH844F0jBjotccOy91+ZuCybtw59Q8NmTy553sF7g3GZiMsMl/UvfHez7Z083GT1z94QP08Ivaj2+
+	S28TQise/GNXVj8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wJXim-0018UF-71; Sun, 03 May 2026 16:23:00 +0200
+Date: Sun, 3 May 2026 16:23:00 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	linux-serial@vger.kernel.org, rust-for-linux@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	"Christophe Leroy (CS GROUP)" <chleroy@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jiri Slaby <jirislaby@kernel.org>, Miguel Ojeda <ojeda@kernel.org>,
+	Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Haren Myneni <haren@linux.ibm.com>,
+	Eric Biggers <ebiggers@kernel.org>,
+	Qingfang Deng <qingfang.deng@linux.dev>,
+	Julian Braha <julianbraha@gmail.com>
+Subject: Re: [PATCH v2] tty: synclink_gt: remove broken driver
+Message-ID: <e12da6e2-5e50-4819-a5a8-2bc675da4c14@lunn.ch>
+References: <20260503030801.14080-1-enelsonmoore@gmail.com>
+ <2026050340-kilogram-prissy-a833@gregkh>
+ <CADkSEUgPtjkKC684O3qB=koKDPwJoUj-qU_4Z_18NAU_+bBqkw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CADkSEUgPtjkKC684O3qB=koKDPwJoUj-qU_4Z_18NAU_+bBqkw@mail.gmail.com>
 
-On Sun, 3 May 2026 06:21:09 -0700 Andrew Morton <akpm@linux-foundation.org> wrote:
-
-> On Sun, 3 May 2026 06:23:31 -0600 Nico Pache <npache@redhat.com> wrote:
+On Sat, May 02, 2026 at 11:00:53PM -0700, Ethan Nelson-Moore wrote:
+> Hi, Greg,
 > 
-> >  Can you please pull the changes from the
-> > staging branch so I can resend it soon (probably after LSFMM, so no
-> > rush)?
+> On Sat, May 2, 2026 at 10:44 PM Greg Kroah-Hartman
+> <gregkh@linuxfoundation.org> wrote:
+> > Then that means someone uses it somewhere.  Don't generate bindings for
+> > something that will break because it is no longer in the tree :(
+> That project generates bindings for every UAPI header automatically,
+> but has a hardcoded list of them, so its presence there doesn't mean
+> anyone is using it.
 > 
-> np, I've removed v16 from mm.git.
+> > If no one does use it, then please get that project to fix their code so
+> > that we don't break their build.
+> They have had to remove headers from their list that got removed from
+> the kernel before. I will send them a pull request to remove this
+> header and then resend this patch with the UAPI header removal
+> restored. Does that sound good to you?
 
-And that messed up Zi Yan's "Remove CONFIG_READ_ONLY_THP_FOR_FS and
-enable file THP for writable files", so I've restored v16.
+Sounds like a whack a mole problem. I assume the recent removal of ATM
+broke it as well? Maybe __has_include() could be used?
 
-Please prepare v17 against mm-unstable.
+      Andrew
