@@ -1,48 +1,48 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7FE6199931;
-	Sun,  3 May 2026 14:35:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DA951531C8;
+	Sun,  3 May 2026 14:37:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777818915; cv=none; b=DfjDCy9P6RiFfTwLXjdu9bux/AFaJJ6iYKfkH27ANP8UW7QvZlUNr31uJvgoI1vpoim+z7o0xBm6NJqf4hrh9QEIsdddnlKKIWl7v7UBGeXsQyr7i2S2bkvlsgGCOfvOtjm6ZStsbAXVXq03air/UZ2/1NVBXtcY0cvE6TxlbyU=
+	t=1777819053; cv=none; b=uMu+8QDrZ8dHY9OqTU5Nfn5JLkFFjGDG3mmIYKMhGi64XNmT5zXDt1rV+oIV2LE5R9BJ5nzwRAykPZb+mU5nWHsme1nTsF6lUV3ytmjj31uSpa6Cz/uv0xr7TIlJ+48TjHodw4IvSVFpFVFspkNj3s3eT7u638lJnfaD7Yrytns=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777818915; c=relaxed/simple;
-	bh=kkpinCA2TNcPQQGtKe0EgLxSQpBydr/JcqctiYNQY18=;
+	s=arc-20240116; t=1777819053; c=relaxed/simple;
+	bh=p5NN3aN9Tc8286FljBfpFLF+hXKSE2e5F/VHtoysBPk=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=JPKklsDl6dfiGUP7Gd/hJ/MCyhWAuBzq5yKeTYUcVU7MMx9PewzzRmfabECkEJJOdFZ1yyMxwC54LyNOL+PEO5fr0fZIxmhYw29r7ZkJPGLSt+UOsjTF407CrL52E0pkV8FFpPywChh+TzIvh+4J6lQ2wiaGMslLG25YiCC9QrE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=pa3xVno3; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=OQbkNl131UlEXd1UU8N5W+5bjeb40xiYepD4Xo2srRF/MuT/vFaJk8PCqHclOUT8hX7KmGZc8M6ZXQQkx/xJ7k88a2RwXOyFTnLmo4sfXM2M70siPX4m2AdU9NhL5bMF83vijd/4WOQ5VDu+hJfneH/yP242r9LDXVjTdrI3FR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UWtv7qCK; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="pa3xVno3"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7395D41084
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UWtv7qCK"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4128041084
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777818906; bh=Pb7BFxNf3U63kKwixT5ywxm0H7aoGebyYiLAYZY0jCg=;
+	t=1777819051; bh=vEOLO21ZIRlIW+r2bLApjpVqMvgnnFkN6u47fE2C/Oo=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=pa3xVno3bc5Q5Px7hhCtNSvpxBqEUWpjVRkCTJ2x08RP9nw+z7PqxpCH4Pk651fMF
-	 5VMeezcMC4wPAFayX5BYm8qOjXxU6CC5Z/mg+16cy1gu/uw7d4MD8hVfbnMvbH8d0C
-	 zabfl373u+H2CXu0xWc51ShHfr1hXSNJWQ9eGvyTOfZ0O8E0HSaoV8lhYaMi2riegL
-	 6+6scuOs/R9jj3D/pgbmy4o6dr02V18cvjyTE5tIMyWs9onjtXiLs3vEcDcc4DxfRM
-	 TTlgaYGxlejXsPP6uBBkjIfs6SIJp1YsfjXhQxWYYCQdkuR27WyM+kGjSoQ4iJcV7s
-	 VtW5XmRQSHULQ==
+	b=UWtv7qCKIL1WcAWuvbzIa6vhPkD3NSlCyNl+IScXZ3JwlgRJoDOILRwUDeIcaZoWV
+	 a71/6RnqijSEcajW2W8Jpcy7nLVQUnSpvfaoA6Y3zrXyYPEgTQpzAyl5p6Sin0W434
+	 BDhN+uQp/9meC55P/SIF6wPFvE2CTyvjEjHd30HWgR5Kghog/Q+RejMc0Sq5WAy6Gq
+	 9DWVLaZwOhtXFC0csNzgY5/MTboxRvZJ5PCfh5zkAiGhV3PU5r1QFs5dKs0tJNm2b/
+	 GkOhVVRQE4NwdU95Q8cL6rA/yEBJNV0G6q51C7hQgxcbrm9XNqrN1vYWgYnPXlxf3g
+	 GFoswq7IJHmGw==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7395D41084;
-	Sun,  3 May 2026 14:35:06 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4128041084;
+	Sun,  3 May 2026 14:37:31 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Wang Zihan <jiyu03@qq.com>, linux-doc@vger.kernel.org
-Cc: federico.vaga@vaga.pv.it, skhan@linuxfoundation.org,
- carlos.bilbao@kernel.org, avadhut.naik@amd.com,
- linux-kernel@vger.kernel.org, Wang Zihan <jiyu03@qq.com>
-Subject: Re: [PATCH] Documentation: translations: Fix "Linux Torvalds" ->
- "Linus Torvalds"
-In-Reply-To: <tencent_B98271DD90AC356719E15C06ACE473BB820A@qq.com>
-References: <tencent_B98271DD90AC356719E15C06ACE473BB820A@qq.com>
-Date: Sun, 03 May 2026 08:35:03 -0600
-Message-ID: <87ecjsef3c.fsf@trenco.lwn.net>
+To: Costa Shulyupin <costa.shul@redhat.com>, Jakub Kicinski
+ <kuba@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Costa Shulyupin <costa.shul@redhat.com>
+Subject: Re: [PATCH v2] docs: Remove stale ISDN parameters
+In-Reply-To: <20260502120206.1289126-1-costa.shul@redhat.com>
+References: <20260502120206.1289126-1-costa.shul@redhat.com>
+Date: Sun, 03 May 2026 08:37:28 -0600
+Message-ID: <87a4ugeezb.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,20 +51,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Wang Zihan <jiyu03@qq.com> writes:
+Costa Shulyupin <costa.shul@redhat.com> writes:
 
-> Fix the misspelling of Linus Torvalds' first name in Italian
-> and Spanish translations.
+> The icn= and pcbit= parameters referenced drivers removed in
+> commit 02bbd9802da7 ("staging: i4l: delete the whole thing").
 >
-> Also fix "Linus Torvald" -> "Linus Torvalds" (missing 's') in
-> Italian translations.
+> Remove the stale parameter entries and the now-unused ISDN tag
+> from the legend.
 >
-> Found by Christian Marillat.
+> Suggested-by: Randy Dunlap <rdunlap@infradead.org>
+> Assisted-by: Claude:claude-opus-4-6
+> ---
+> v2: Remove pcbit= and ISDN too
+>     Address comments of Randy Dunlap
+> V1: Remove icn=
 >
-> Signed-off-by: Wang Zihan <jiyu03@qq.com>
+> Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> ---
 
-The fixes all seem good.  It should have a proper Reported-by line,
-though, and it seems you didn't CC Christian on this email...?
+This arrangement caused your signoff to be stripped out on application.
+I've put it back, but please follow the normal patch format in the
+future.
 
 Thanks,
 
