@@ -1,159 +1,466 @@
-Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail-43101.protonmail.ch (mail-43101.protonmail.ch [185.70.43.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FA623A9D84
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 21:58:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E073AB281
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 23:28:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777845520; cv=none; b=o2lmlKGbJZheDSHseiphkf6ydcPI3V0eqfCzjxVVLHc9Ji7jNX9pvi+Ul9TLt79yABT+r17Qicg1V2NbLk6XyCiDXN5+jdTOuvX41JkeNj9S4GCjFQkLnwL93wKxv/x49OtdKmUAZ5jh8MoVmVnIR2rg7bKKj0OLOOaw/I3vt9U=
+	t=1777850917; cv=none; b=FQpXW6Gv4Sve1QFChqN07fcrMgYT0FQpZaQ/Gra/RzRRLXRSbVuR5SuBnzce3Xv59Ex2Gg8SuQrcEh++5djPOl/L+uFCsOei3Pp+567/j6qFLaQC97jAo4y7U81VSPBSFA8ekY7stP4ZO7qfHFn45IzkgPCgNBvEx8uQxwEpmGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777845520; c=relaxed/simple;
-	bh=Maox7+t8NYbjt6EnXlO/Q9KUidjJBEBnfV//ggzQK2c=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J8dksWhb3m1Eym/5BORyiSj/8ujsD4D+z0zQvnAf0nv8eB0K+o5OiB+GUipXdRzKnIWSGWXG/2nfuxFBRC9kGqeGRMNzJgm3Ftm/6UQarnooDATlilx3LG3labPim7oUsPklm8RLD7CBmMQR/kKMWh7TNGmxFEENZjtXKCeSAmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kpTagagm; arc=none smtp.client-ip=74.125.82.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777850917; c=relaxed/simple;
+	bh=7cca2rlRT7ACx+N96BdZCH12vN3Gv/TDU77qvI/afj8=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=LUIqiCGY9k5V05htx1iW7NEGtIC6HZamIc6Kmqfjk1dXaQ4yV3KZMTl6adQncG/IsbltGeMS0aumxPS8sLX8rcEec/GxlCzjUO/o/LUn1ngoXzFS5cqNVcTiqNTtpW8RDaD2nxeMgY4zKz7IXuFfi19cnIvgrn983+Xm2BfDiug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=PTJhgSLV; arc=none smtp.client-ip=185.70.43.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kpTagagm"
-Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2ba9c484e5eso3822639eec.1
-        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 14:58:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777845518; x=1778450318; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=y+qT0aKFNqG2zA24Jwuons9yxF4ZZ55cZR8QOY69dXU=;
-        b=kpTagagm0CfOIVBnc3/bBgSedkGrzrQN+IWNO0eM/4AGqBNTQs3D14Blr+G0krJ7uM
-         LG1YWi7an1bys72ZxbEP+AmzCBYJY7Ci8XPLMKqRzne+3IQxLDWvq8hsfVs27vjkreBL
-         6WJTkwzPaglPcyxSD7Dm2N02JXCKYAdWGQxBjLl9fIF6oaEKWwZ6svZrdTW2LK5c9BlC
-         eoBhzGbvXaghM52ksS7c/ujuoptqRLqUSKgRRBzwuIkW5FEuw5R7aWGpuGD+M4WF4jtP
-         hHgKWxVc+SjMWl+DxRafWdMBxgdWefYhgiv/cFwJZWA5wGLmoY9Q6Ma1uivMZmJW4H9B
-         2vSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777845518; x=1778450318;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=y+qT0aKFNqG2zA24Jwuons9yxF4ZZ55cZR8QOY69dXU=;
-        b=tRjLtwlBLTw4FMHx0ejK3GtnFyeJkMK4utx32hb5GenD8/GKoVft5oOeaN1IGK2SMe
-         b5Y2wBk+ROYW1NjvIrUfVSON//cRvit3Pxsq5gLvp+syed+0QpaO+TSRak5BO5WJ7zZb
-         0lul+uIPSDB0vcpdHKOVrkuvza8VuBrN+val/8ubRKe17uWspRnm+zrS9d9FhTYikn5c
-         c+KZiifNlpQBO7z/AElsf4Q6uJuOacYBo9kqlfs0BOw04Dq0YQtXLeonIeGwFxrhjlVD
-         jiqYLT22v95p6uoCTCRrDIhOh5SUiRd/JeBUWuFhqJ3AFO7mRbDb7X8MC+kvc4QIuWD6
-         M/0A==
-X-Forwarded-Encrypted: i=1; AFNElJ+a+L2eysMaBfywJuaD8064Ity5530zdPArqCSbr7R2smjr6XDi5pBOHjOmiPttEfe+/GCgBxRg2e0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyM/E3J8iLP1KzZUGgpPYGSHXXx25pLtboDplKxtd7tI49AcDWC
-	E12zEsmgsP7qZ06Yqh+td8bD641h5kE3vZbGmpkuHXD36Lt+L6yrdIENOmkUQA==
-X-Gm-Gg: AeBDievCiZf7lpyvwIleHn3+PdNHn0+ePuXANoS8ME6D2ueN9U0vN5miqxf6Ls4aOX1
-	BmacbQp1mROdgCI3QKbGSbzq4tTr7ya7yRmmdQ+oA9CWtZW1BIsUsz43BJI+IwrXTKZ47gXRKf0
-	ylRb3oHCHYtd3wch54U6jzJLc+m5qSVLvwX6VAszmcGtgOmiIFiEZLwbF1UWZMhvBbV5UPXMUfE
-	4mQgfAux1lkyoD9gqzABizKt+pAHFRgtYD9fZuNxS2u4vsqGQAfXd89CEa04dbz8UIIIDAeOAkT
-	LLG7hK/3byJk/uYXd40qjw4n4RffVe+QLRq5S58IxTOblNeDToZypvKzVnVHjv9iFD4APMTKRYF
-	hOys0L2Rmw1HZ2fLZOXnrmbBr0jq5KrgGM8IbWZmcMTXThX41ucVJNL8idnRVZql2k5yyQjiJiB
-	dZySnQNZstQEYO9+GN+xOH8Jv9poY8FtnDff0tRYtlE/2U+wvJDQennMXJZMIn6cv3AHBurNsCf
-	2JQpjLuRPU=
-X-Received: by 2002:a05:7300:2316:b0:2cb:4b8f:b2bd with SMTP id 5a478bee46e88-2efb7ad859bmr2794218eec.6.1777845517524;
-        Sun, 03 May 2026 14:58:37 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3b783a95sm13657596eec.22.2026.05.03.14.58.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 03 May 2026 14:58:36 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <da73d2a1-881c-4424-a83f-f494767c57ca@roeck-us.net>
-Date: Sun, 3 May 2026 14:58:35 -0700
+	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="PTJhgSLV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
+	s=protonmail3; t=1777850905; x=1778110105;
+	bh=Zfu9oM8VTsUF8ddcd2C5fVFFqpbR7NrpcO5PGYAE5MA=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=PTJhgSLVHGSmIgZz46oeUVVXVM+jHPV5/9MttNjD/dmYR/1rS25fJSydclILC1kpz
+	 5j0Q9jBjjyBdUkbVNfx94VvrP6UA+0mj6kzKvgKj6e1lJYBuhoPbAx0m6pRxpChTBO
+	 a27ByN0dqYZzWPJz8nUJUsHvOcxh5NJkCN8NnJ8FO8nYJfVw31UtFkCV4zHysV83nC
+	 VymTy66HMXSz/M0F+wzUGMesq3MiMGEii5mjR8K9+a7qrqNQs8KLjwp+0OjOEcRu2D
+	 EDLpQvH5PdrKtvpBWLX2y3aeWh5EwI3cEkp0VQqkCIBLq511hsIkC/bqKFYF4TwNFe
+	 Z2FLHrNvn0cyQ==
+Date: Sun, 03 May 2026 23:28:21 +0000
+To: Thorsten Leemhuis <linux@leemhuis.info>, Jonathan Corbet <corbet@lwn.net>
+From: Felipe Matarazzo <felipemps@protonmail.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Felipe Matarazzo <felipemps@protonmail.com>
+Subject: [PATCH] docs: fix typos in reporting-issues.rst
+Message-ID: <20260503232816.70687-1-felipemps@protonmail.com>
+Feedback-ID: 9620817:user:proton
+X-Pm-Message-ID: 402cf3779ec562d2c9270594ca0d315bd4f276c7
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7] hwmon: add driver for ARCTIC Fan Controller
-To: Aureo Serrano de Souza <aureo.serrano@arctic.de>,
- linux-hwmon@vger.kernel.org
-Cc: linux@weissschuh.net, corbet@lwn.net, skhan@linuxfoundation.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260423091551.15080-1-aureo.serrano@arctic.de>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
-In-Reply-To: <20260423091551.15080-1-aureo.serrano@arctic.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Fix 33 typos: wrong words (want=E2=86=92what, is=E2=86=92if/it, sent=
+=E2=86=92send,
+abound=E2=86=92about, exiting=E2=86=92existing, option=E2=86=92opinion, and=
+=E2=86=92an),
+missing words (of, a, too, s), extra words (on, over), wrong
+word forms (built, stops, advice, severity, lists, types,
+Inquiries, requests) and garbled phrases.
 
-On 4/23/26 02:15, Aureo Serrano de Souza wrote:
-> Add hwmon driver for the ARCTIC Fan Controller, a USB HID device
-> (VID 0x3904, PID 0xF001) with 10 fan channels. Exposes fan speed in
-> RPM (read-only) and PWM duty cycle (0-255, read/write) via sysfs.
-> 
-> The device pushes IN reports at ~1 Hz containing RPM readings. PWM is
-> set via OUT reports; the device applies the new duty cycle and sends
-> back a 2-byte ACK (Report ID 0x02). The driver waits up to 1 s for
-> the ACK using a completion. Measured device latency: max ~563 ms over
-> 500 iterations. PWM control is manual-only: the device never changes
-> duty cycle autonomously.
-> 
-> raw_event() may run in hardirq context, so fan_rpm[] is protected by
-> a spinlock with irq-save. pwm_duty[] is also protected by this spinlock
-> because reset_resume() clears it outside the hwmon core lock. The OUT
-> report buffer is built and write_pending is armed under the same lock so
-> that no reset_resume() can race with the pwm_duty[] snapshot. priv->buf
-> is exclusively accessed by write(), which the hwmon core serializes.
-> 
-> Signed-off-by: Aureo Serrano de Souza <aureo.serrano@arctic.de>
+Signed-off-by: Felipe Matarazzo <felipemps@protonmail.com>
+---
+ .../admin-guide/reporting-issues.rst          | 62 +++++++++----------
+ 1 file changed, 31 insertions(+), 31 deletions(-)
 
-I don't know why, but Sashiko failed to apply this patch.
+diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation=
+/admin-guide/reporting-issues.rst
+index 16a66a1f1975..2a1998277a1e 100644
+--- a/Documentation/admin-guide/reporting-issues.rst
++++ b/Documentation/admin-guide/reporting-issues.rst
+@@ -129,7 +129,7 @@ After these preparations you'll now enter the main part=
+:
+    situations; during the merge window that actually might be even the bes=
+t
+    approach, but in that development phase it can be an even better idea t=
+o
+    suspend your efforts for a few days anyway. Whatever version you choose=
+,
+-   ideally use a 'vanilla' build. Ignoring these advices will dramatically
++   ideally use a 'vanilla' build. Ignoring this advice will dramatically
+    increase the risk your report will be rejected or ignored.
+=20
+  * Ensure the kernel you just installed does not 'taint' itself when
+@@ -302,7 +302,7 @@ Make sure you're using the upstream Linux kernel
+=20
+ Like most programmers, Linux kernel developers don't like to spend time de=
+aling
+ with reports for issues that don't even happen with their current code. It=
+'s
+-just a waste everybody's time, especially yours. Unfortunately such situat=
+ions
++just a waste of everybody's time, especially yours. Unfortunately such sit=
+uations
+ easily happen when it comes to the kernel and often leads to frustration o=
+n both
+ sides. That's because almost all Linux-based kernels pre-installed on devi=
+ces
+ (Computers, Laptops, Smartphones, Routers, =E2=80=A6) and most shipped by =
+Linux
+@@ -402,7 +402,7 @@ Issue of high priority?
+=20
+ Linus Torvalds and the leading Linux kernel developers want to see some is=
+sues
+ fixed as soon as possible, hence there are 'issues of high priority' that =
+get
+-handled slightly differently in the reporting process. Three type of cases
++handled slightly differently in the reporting process. Three types of case=
+s
+ qualify: regressions, security issues, and really severe problems.
+=20
+ You deal with a regression if some application or practical use case runni=
+ng
+@@ -422,7 +422,7 @@ happens. That's for example the case when a Linux kerne=
+l corrupts the data it's
+ handling or damages hardware it's running on. You're also dealing with a s=
+evere
+ issue when the kernel suddenly stops working with an error message ('kerne=
+l
+ panic') or without any farewell note at all. Note: do not confuse a 'panic=
+' (a
+-fatal error where the kernel stop itself) with a 'Oops' (a recoverable err=
+or),
++fatal error where the kernel stops itself) with an 'Oops' (a recoverable e=
+rror),
+ as the kernel remains running after the latter.
+=20
+=20
+@@ -457,7 +457,7 @@ should minimize it:
+    caused by other software that was updated at the same time. It can also
+    happen that a hardware component coincidentally just broke when you reb=
+ooted
+    into a new kernel for the first time. Updating the systems BIOS or chan=
+ging
+-   something in the BIOS Setup can also lead to problems that on look a lo=
+t
++   something in the BIOS Setup can also lead to problems that look a lot
+    like a kernel regression.
+=20
+=20
+@@ -491,7 +491,7 @@ before proceeding.
+ Note, you might not be aware that your system is using one of these soluti=
+ons:
+ they often get set up silently when you install Nvidia's proprietary graph=
+ics
+ driver, VirtualBox, or other software that requires a some support from a
+-module not part of the Linux kernel. That why your might need to uninstall=
+ the
++module not part of the Linux kernel. That's why you might need to uninstal=
+l the
+ packages with such software to get rid of any 3rd party kernel module.
+=20
+=20
+@@ -602,7 +602,7 @@ Linux developers want to fix badly, as such issues are =
+even more unwanted than
+ regression in the main development branch, as they can quickly affect a lo=
+t of
+ people. The developers thus want to learn about such issues as quickly as
+ possible, hence there is a streamlined process to report them. Note,
+-regressions with newer kernel version line (say something broke when switc=
+hing
++regressions with a newer kernel version line (say something broke when swi=
+tching
+ from 5.9.15 to 5.10.5) do not qualify.
+=20
+=20
+@@ -669,7 +669,7 @@ guessed poorly.
+ Once you know the driver or subsystem, you want to search for it in the
+ MAINTAINERS file. In the case of 'ath10k_pci' you won't find anything, as =
+the
+ name is too specific. Sometimes you will need to search on the net for hel=
+p;
+-but before doing so, try a somewhat shorted or modified name when searchin=
+g the
++but before doing so, try a somewhat shorter or modified name when searchin=
+g the
+ MAINTAINERS file, as then you might find something like this::
+=20
+        QUALCOMM ATHEROS ATH10K WIRELESS DRIVER
+@@ -718,7 +718,7 @@ For people that have the Linux sources at hand there is=
+ a second option to find
+ the proper place to report: the script 'scripts/get_maintainer.pl' which t=
+ries
+ to find all people to contact. It queries the MAINTAINERS file and needs t=
+o be
+ called with a path to the source code in question. For drivers compiled as
+-module if often can be found with a command like this::
++module it often can be found with a command like this::
+=20
+        $ modinfo ath10k_pci | grep filename | sed 's!/lib/modules/.*/kerne=
+l/!!; s!filename:!!; s!\.ko\(\|\.xz\)!!'
+        drivers/net/wireless/ath/ath10k/ath10k_pci.ko
+@@ -733,7 +733,7 @@ Pass parts of this to the script::
+        netdev@vger.kernel.org (open list:NETWORKING DRIVERS)
+        linux-kernel@vger.kernel.org (open list)
+=20
+-Don't sent your report to all of them. Send it to the maintainers, which t=
+he
++Don't send your report to all of them. Send it to the maintainers, which t=
+he
+ script calls "supporter:"; additionally CC the most specific mailing list =
+for
+ the code as well as the Linux Kernel Mailing List (LKML). In this case you=
+ thus
+ would need to send the report to 'Some Human <shuman@example.com>' with
+@@ -762,7 +762,7 @@ as the reporter. That's why you should search for exist=
+ing report again, now
+ that you know where they need to be reported to. If it's mailing list, you=
+ will
+ often find its archives on `lore.kernel.org <https://lore.kernel.org/>`_.
+=20
+-But some list are hosted in different places. That for example is the case=
+ for
++But some lists are hosted in different places. That for example is the cas=
+e for
+ the ath10k WiFi driver used as example in the previous step. But you'll of=
+ten
+ find the archives for these lists easily on the net. Searching for 'archiv=
+e
+ ath10k@lists.infradead.org' for example will lead you to the `Info page fo=
+r the
+@@ -795,13 +795,13 @@ Install a fresh kernel for testing
+     situations; during the merge window that actually might be even the be=
+st
+     approach, but in that development phase it can be an even better idea =
+to
+     suspend your efforts for a few days anyway. Whatever version you choos=
+e,
+-    ideally use a 'vanilla' built. Ignoring these advices will dramaticall=
+y
++    ideally use a 'vanilla' build. Ignoring this advice will dramatically
+     increase the risk your report will be rejected or ignored.*
+=20
+ As mentioned in the detailed explanation for the first step already: Like =
+most
+ programmers, Linux kernel developers don't like to spend time dealing with
+ reports for issues that don't even happen with the current code. It's just=
+ a
+-waste everybody's time, especially yours. That's why it's in everybody's
++waste of everybody's time, especially yours. That's why it's in everybody'=
+s
+ interest that you confirm the issue still exists with the latest upstream =
+code
+ before reporting it. You are free to ignore this advice, but as outlined
+ earlier: doing so dramatically increases the risk that your issue report m=
+ight
+@@ -814,7 +814,7 @@ In the scope of the kernel "latest upstream" normally m=
+eans:
+    kernels') are unsuitable at this point of the process. The next subsect=
+ion
+    explains all of this in more detail.
+=20
+- * The over next subsection describes way to obtain and install such a ker=
+nel.
++ * The subsection after that describes a way to obtain and install such a =
+kernel.
+    It also outlines that using a pre-compiled kernel are fine, but better =
+are
+    vanilla, which means: it was built using Linux sources taken straight `=
+from
+    kernel.org <https://kernel.org/>`_ and not modified or enhanced in any =
+way.
+@@ -848,7 +848,7 @@ That's why it might make sense to wait till the merge w=
+indow is over. But don't
+ to that if you're dealing with something that shouldn't wait. In that case
+ consider obtaining the latest mainline kernel via git (see below) or use t=
+he
+ latest stable version offered on kernel.org. Using that is also acceptable=
+ in
+-case mainline for some reason does currently not work for you. An in gener=
+al:
++case mainline for some reason does currently not work for you. And in gene=
+ral:
+ using it for reproducing the issue is also better than not reporting it is=
+sue
+ at all.
+=20
+@@ -861,7 +861,7 @@ hard or risky for backporting; reporting the issue agai=
+n hence is unlikely to
+ change anything.
+=20
+ These aspects are also why longterm kernels (sometimes called "LTS kernels=
+")
+-are unsuitable for this part of the reporting process: they are to distant=
+ from
++are unsuitable for this part of the reporting process: they are too distan=
+t from
+ the current code. Hence go and test mainline first and follow the process
+ further: if the issue doesn't occur with mainline it will guide you how to=
+ get
+ it fixed in older version lines, if that's in the cards for the fix in que=
+stion.
+@@ -870,8 +870,8 @@ How to obtain a fresh Linux kernel
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ **Using a pre-compiled kernel**: This is often the quickest, easiest, and =
+safest
+-way for testing =E2=80=94 especially is you are unfamiliar with the Linux =
+kernel. The
+-problem: most of those shipped by distributors or add-on repositories are =
+build
++way for testing =E2=80=94 especially if you are unfamiliar with the Linux =
+kernel. The
++problem: most of those shipped by distributors or add-on repositories are =
+built
+ from modified Linux sources. They are thus not vanilla and therefore often
+ unsuitable for testing and issue reporting: the changes might cause the is=
+sue
+ you face or influence it somehow.
+@@ -935,7 +935,7 @@ Check 'taint' flag
+ As outlined above in more detail already: the kernel sets a 'taint' flag w=
+hen
+ something happens that can lead to follow-up errors that look totally
+ unrelated. That's why you need to check if the kernel you just installed d=
+oes
+-not set this flag. And if it does, you in almost all the cases needs to
++not set this flag. And if it does, you in almost all cases need to
+ eliminate the reason for it before you reporting issues that occur with it=
+. See
+ the section above for details how to do that.
+=20
+@@ -973,7 +973,7 @@ the same time try to keep it as short as possible.
+=20
+ In this in the previous steps you likely have learned a thing or two about=
+ the
+ issue you face. Use this knowledge and search again for existing reports
+-instead you can join.
++that you can join instead.
+=20
+=20
+ Decode failure messages
+@@ -1070,7 +1070,7 @@ interpret, which might render your testing useless. O=
+nce you found the major
+ version which introduced the regression, feel free to move on in the repor=
+ting
+ process. But keep in mind: it depends on the issue at hand if the develope=
+rs
+ will be able to help without knowing the culprit. Sometimes they might
+-recognize from the report want went wrong and can fix it; other times they=
+ will
++recognize from the report what went wrong and can fix it; other times they=
+ will
+ be unable to help unless you perform a bisection.
+=20
+ When dealing with regressions make sure the issue you face is really cause=
+d by
+@@ -1182,7 +1182,7 @@ few suggestions what often is good to provide:
+=20
+  * If the issue might be related to your computer hardware, mention what k=
+ind
+    of system you use. If you for example have problems with your graphics =
+card,
+-   mention its manufacturer, the card's model, and what chip is uses. If i=
+t's a
++   mention its manufacturer, the card's model, and what chip it uses. If i=
+t's a
+    laptop mention its name, but try to make sure it's meaningful. 'Dell XP=
+S 13'
+    for example is not, because it might be the one from 2012; that one loo=
+ks
+    not that different from the one sold today, but apart from that the two=
+ have
+@@ -1210,7 +1210,7 @@ few suggestions what often is good to provide:
+    information. One such tool is ``alsa-info.sh`` `which the audio/sound
+    subsystem developers provide <https://www.alsa-project.org/wiki/AlsaInf=
+o>`_.
+=20
+-Those examples should give your some ideas of what data might be wise to
++Those examples should give you some ideas of what data might be wise to
+ attach, but you have to think yourself what will be helpful for others to =
+know.
+ Don't worry too much about forgetting something, as developers will ask fo=
+r
+ additional details they need. But making everything important available fr=
+om
+@@ -1247,7 +1247,7 @@ Special handling for high priority issues
+ Reports for high priority issues need special handling.
+=20
+ **Severe issues**: make sure the subject or ticket title as well as the fi=
+rst
+-paragraph makes the severeness obvious.
++paragraph makes the severity obvious.
+=20
+ **Regressions**: make the report's subject start with '[REGRESSION]'.
+=20
+@@ -1386,7 +1386,7 @@ writing something anyway.
+ With all these general things off the table let's get into the details of =
+how
+ to help to get issues resolved once they were reported.
+=20
+-Inquires and testing request
++Inquiries and testing requests
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=20
+ Here are your duties in case you got replies to your report:
+@@ -1429,7 +1429,7 @@ your report arrived or had something more important t=
+o take care of. When
+ writing the reminder, kindly ask if anything else from your side is needed=
+ to
+ get the ball running somehow. If the report got out by mail, do that in th=
+e
+ first lines of a mail that is a reply to your initial mail (see above) whi=
+ch
+-includes a full quote of the original report below: that's on of those few
++includes a full quote of the original report below: that's one of those fe=
+w
+ situations where such a 'TOFU' (Text Over, Fullquote Under) is the right
+ approach, as then all the recipients will have the details at hand immedia=
+tely
+ in the proper order.
+@@ -1474,7 +1474,7 @@ not get solved: the Linux kernel is FLOSS and thus yo=
+u can still help yourself.
+ You for example could try to find others that are affected and team up wit=
+h
+ them to get the issue resolved. Such a team could prepare a fresh report
+ together that mentions how many you are and why this is something that in =
+your
+-option should get fixed. Maybe together you can also narrow down the root =
+cause
++opinion should get fixed. Maybe together you can also narrow down the root=
+ cause
+ or the change that introduced a regression, which often makes developing a=
+ fix
+ easier. And with a bit of luck there might be someone in the team that kno=
+ws a
+ bit about programming and might be able to write a fix.
+@@ -1621,7 +1621,7 @@ guide. Those steps will let you:
+  * Check if the kernel developers still maintain the Linux kernel version =
+line
+    you care about.
+=20
+- * Search the Linux stable mailing list for exiting reports.
++ * Search the Linux stable mailing list for existing reports.
+=20
+  * Check with the latest release.
+=20
+@@ -1640,7 +1640,7 @@ Check code history and search for existing discussion=
+s
+ In a lot of cases the issue you deal with will have happened with mainline=
+, but
+ got fixed there. The commit that fixed it would need to get backported as =
+well
+ to get the issue solved. That's why you want to search for it or any
+-discussions abound it.
++discussions about it.
+=20
+  * First try to find the fix in the Git repository that holds the Linux ke=
+rnel
+    sources. You can do this with the web interfaces `on kernel.org
+@@ -1712,10 +1712,10 @@ nature of kernels, Linux' development model, and ho=
+w the world uses the kernel:
+ * *Bugs often only occur in a special environment.* That is because Linux =
+is
+   mostly drivers and can be used in a multitude of ways. Developers often =
+do not
+   have a matching setup at hand -- and therefore frequently must rely on b=
+ug
+-  reporters for isolating a problems's cause and testing proposed fixes.
++  reporters for isolating a problem's cause and testing proposed fixes.
+=20
+ * *The kernel has hundreds of maintainers, but all-rounders are very rare.=
+* That
+-  again is and effect caused by the multitude of features and drivers, due=
+ to
++  again is an effect caused by the multitude of features and drivers, due =
+to
+   which many kernel developers know little about lower or higher layers re=
+lated
+   to their code and even less about other areas.
+=20
+--=20
+2.54.0
 
-https://sashiko.dev/#/patchset/20260423091551.15080-1-aureo.serrano%40arctic.de
-
-Please rebase on top of mainline or linux-next and resend.
-
-Thanks,
-Guenter
 
