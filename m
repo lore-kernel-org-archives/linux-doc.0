@@ -1,81 +1,89 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4482BDC13
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 15:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4132829B78B;
+	Sun,  3 May 2026 15:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777820835; cv=none; b=Sahz+bVdW2lRerAInQ1VU9klBENltkihUMxmHr5DPnaMJO46w27ccbSIg3c+8s0CZoWFIGjMx3qZoTRUsyoV+QEgEDIyCFI3H8TOv1JpCRzWufaHJfMBg38FK0QeWujSLQlM6DyKHDaFyTVhz+nQdcunD6VAT8XuzbRxEOUZA6U=
+	t=1777820897; cv=none; b=eecjxmSbnllfL3ag7dQxsDR3aA3eJkkGk/29Up8boBjT0d8JfPO/vLf/RroAfxcy1zSgl1E7wqBuWoMI9oNxIRFI3DcpSkgB9AeMbZB3PPRbO7/k1cXo1K0ozAsHKBq2kdHNsWqns4VKd0oa7JI9XYRq6XeqfXfRXvpyMRJS9Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777820835; c=relaxed/simple;
-	bh=5uW4ZJSgpIOGW4q56yU7dBOVfhqRcO6lJOpx2qGWIUw=;
+	s=arc-20240116; t=1777820897; c=relaxed/simple;
+	bh=4kMyH3o0/5Er6i7De0D/h0b8a4ihDoO4OEd8UX2tGDg=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=B0MKnAkG+RmQj0jVCER3gJfcN0oP8xfSBzTSQhognS2lDT/rWWYxMO61a7kx/gT5uzpiipFu4rO8tKlSpXE0hqY2SsgocXhM8qqrQXQIPHDaSW2V6F6yeBbooXt69xzk9IJ31+2c+EGz6Cs+IkPXCiQQJDZOYxW7sr69uwqtTtQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cMHKPiCE; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=tclY6E+VUdfzXByLXCr7HEJ05PsYhU4f4J7XpM8lUiQXtHp06w1xZhpt7s+71wBY3aZ/Fmh+N7woWB1EicvPBuwUdHZVQGArUXAD13Y3yyliRlxIhlvqGkkKG2Wu0VOFTNgZ+lbWO1X2iOd266ToMEF5u3pSalWkTxEZKY5npwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=apesZn5T; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cMHKPiCE"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F07E441084
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="apesZn5T"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 54D7E41084
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777820834; bh=6z+M2m2MxAj6SxCGicBZW17oGuFWfkStgD8Mnh4k2KY=;
+	t=1777820895; bh=EY31/lB+p3Ty2G2hZ4XxiO9VJJzRrgjaTW0nSguAHI0=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cMHKPiCEp9izQIwICxrEwLrO2esZ9DyNlr6abPT0Sv4AzObLuhjXD62UzvyXRlwyj
-	 nJfHuMxJeib9VbMibjOePwc3J5nQ7kSefkpCdbjAAd6QNH2/XEbLRxSds0+9bmWfjD
-	 RVzRH2Za/g5G51+DagFn67neH0r18y27ksyAlShGIFYu7cPTg1uQ24DansAkaH5Umb
-	 3WdHeNqOuC7zOh8iCOmCFgOe0PWW6Lq3KfebaD4fEaNzK5jat7ArqeVOuE3upPhaDO
-	 AXHAr4HFExe/2JWaX9LfrxmIRcTJ9N3fym1yNFpt2GGp5EMYGkCVGd/0hrjAqvwXhV
-	 dLJRoVJmzcbhQ==
+	b=apesZn5Tz5QecRd+DB00WmNdlmt1iqV/SIexTW9DLiHWIWqR8BhTRPj1pQIwU/uFT
+	 52DjmGROvcylScP0rqBzXG3OYRfRe7rTT0L5y60M6KkslvWwPBFaZNDc+UkvUo/wxp
+	 +W9X4QCPjrsW74AJjs9J3jDorJSVXWsJjREmlv8R5r+C9fwjAgQmOwlx/W3I2pCE9y
+	 a8HhpISp8y0z4uYDB0Okx7iPPG6OtZnJad/1nyrp+HP3ZJkNxxEq4+KS6TlbfT/3+p
+	 hWSBfKzZrQ799fOm7R9nVyRR14jTPfggdj1f7IdAflry43E1yWTzE1SfxTG6Vyk5Tb
+	 uPPMdW25+4U/g==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id F07E441084;
-	Sun,  3 May 2026 15:07:13 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 54D7E41084;
+	Sun,  3 May 2026 15:08:15 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Daniel Pereira <danielmaraboo@gmail.com>
-Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
-Subject: Re: [PATCH] docs/pt_BR: process: link maintainer-kvm-x86 in
- maintainer-handbooks
-In-Reply-To: <20260428180208.175472-1-danielmaraboo@gmail.com>
-References: <20260428180208.175472-1-danielmaraboo@gmail.com>
-Date: Sun, 03 May 2026 09:07:11 -0600
-Message-ID: <87jytkcz1c.fsf@trenco.lwn.net>
+To: Myro <mirademche@gmail.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, Myro Demma <myro@myromyro.com>
+Subject: Re: [PATCH] docs: proc: fix minor grammar and formatting issues
+In-Reply-To: <20260428133001.11384-1-myro@myromyro.com>
+References: <20260428133001.11384-1-myro@myromyro.com>
+Date: Sun, 03 May 2026 09:08:12 -0600
+Message-ID: <87fr48cyzn.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-Daniel Pereira <danielmaraboo@gmail.com> writes:
+Myro <mirademche@gmail.com> writes:
 
-> The Portuguese translation of maintainer-kvm-x86.rst exists in the
-> directory, but it was not listed in the toctree of
-> maintainer-handbooks.rst.
+> From: Myro Demma <myro@myromyro.com>
 >
-> Add the missing entry to ensure the document is properly indexed and
-> reachable through the main maintainer handbook page.
+> Fix missing "from" in "prevent <pid> being reused" and
+> add spacing in vm_area_struct range notation for readability.
 >
-> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+> No functional changes.
+>
+> Signed-off-by: Myro Demma <myro@myromyro.com>
 > ---
->  .../translations/pt_BR/process/maintainer-handbooks.rst          | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/filesystems/proc.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/Documentation/translations/pt_BR/process/maintainer-handbook=
-s.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-> index ba36df8ee..bf7a38147 100644
-> --- a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-> +++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
-> @@ -16,3 +16,4 @@ Conte=C3=BAdos:
->     maintainer-netdev
->     maintainer-soc
->     maintainer-soc-clean-dts
-> +   maintainer-kvm-x86
+> diff --git a/Documentation/filesystems/proc.rst b/Documentation/filesystems/proc.rst
+> index 873761087f8d..d828006bd91c 100644
+> --- a/Documentation/filesystems/proc.rst
+> +++ b/Documentation/filesystems/proc.rst
+> @@ -118,7 +118,7 @@ PTRACE_MODE_ATTACH permissions; CAP_PERFMON capability does not grant access
+>  to /proc/PID/mem for other processes.
+>  
+>  Note that an open file descriptor to /proc/<pid> or to any of its
+> -contained files or subdirectories does not prevent <pid> being reused
+> +contained files or subdirectories does not prevent <pid> from being reused
+>  for some other process in the event that <pid> exits. Operations on
+>  open /proc/<pid> file descriptors corresponding to dead processes
+>  never act on any new process that the kernel may, through chance, have
+> @@ -2199,7 +2199,7 @@ the process is maintaining.  Example output::
+>       | lr-------- 1 root root 64 Jan 27 11:24 400000-41a000 -> /usr/bin/ls
+>  
+>  The name of a link represents the virtual memory bounds of a mapping, i.e.
+> -vm_area_struct::vm_start-vm_area_struct::vm_end.
+> +vm_area_struct::vm_start - vm_area_struct::vm_end.
+>  
 
-Weird, I wonder why it doesn't warn about this...?  In any
-case...applied, thanks.
+Applied, thanks.
 
 jon
