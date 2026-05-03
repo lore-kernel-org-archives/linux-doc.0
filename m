@@ -1,62 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E9F323909C;
-	Sun,  3 May 2026 03:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B963CA52;
+	Sun,  3 May 2026 03:36:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777778762; cv=none; b=pTZM2WKKkUH1Y3mvZWVFSVijj+HFBg/LkOms0qyFqT/o10pRFR+A0rPvz6d3d/OZXznMt0+IR5o/qfe/W07Kk83Balv17b/Tz7rUYZJ00+iKo4kicY5BWdduqUAQ2KndRyr9a8YfdMQFQGx4KeB/1r9OIDBIKLRgOB6Lgw1nhq8=
+	t=1777779388; cv=none; b=pFf5IlZr3FbpuyBwPpi+LSa7cld40WCkvZvXJaV2ysLvmldR9Or7SQ4VGVxQ2c6mG67f/EbANvbdxoiYluzK3gAxVgWmrRebLNVXlJd2bzOw7mpPFPCrlpdBvu6TH5bIMONXAWH48P9O3zeC2/jeNc30K9jzDS3vit020jRAWiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777778762; c=relaxed/simple;
-	bh=j1/kIBcHZUMOudByREv8j4jr2E27O77zrId0Of7mnQg=;
+	s=arc-20240116; t=1777779388; c=relaxed/simple;
+	bh=16gE3Zmxvq9l/e+8Adas9Ssngs8xP2I/U10xr3qEPG4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPysYliXEq6dORcLGjhMJU8blSQFnLUhl7JtPNzzmM3lifAFFGgFXYpdGIveMMytuzuIoNPx0u1wG1uPaoB9O2YoF+zSg/5Rw4jPhSL32GT5xUKDDsm98wTmvGuHOZVIKMWETUWULRQpuiO9jo3n7ifijuM+uoXmloJSk/xI3C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e1ykKIvf; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=rNfbkamFPbSKMu488z+7jkXQgfmIWce92+bu3OLZTh65hbcAi51dp1i7yxKLeK34L2KF3qnRUnEoiSl8IsLaOdOIzOvGG2TZloERhvzGIeMDXAIg6K/VtTQnI1Md8gSFtwTk24XhUAw1s/T1Rl1cc+1T6Xo7QMDiqHBXIJ7p8kg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=WuwyskRF; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e1ykKIvf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1777778759; x=1809314759;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=j1/kIBcHZUMOudByREv8j4jr2E27O77zrId0Of7mnQg=;
-  b=e1ykKIvfLEIsINyo7STzAGrK/pDeA+OZhebpD83hPLqRb/4T7Apbb9nA
-   YZTwHuIQl7GQrpITKRokuPtsXb9u1s+3PgUPGUvMNsi72pkDm6obBNZ6o
-   rIW+jKDNms7RQ/EzarTXWPM4iyB2J+vOVtRiqs8Sj6a1HUUdXZubKujRk
-   2GhXL7wZaMO23Kzcpvsa7RATYtV+JSumu48sHYSe9mmpd11a7ZrkvkrDd
-   WsauT1SCJbcmqjj3w/ZylWMfBEShhFJzimRhK/gHpb+lWWhfYXec9S4ap
-   DKIH2Dq4PhU1lQ7mGp1LiT6ES5L1jk5kZvaugJ344OTl4QcthHLg5GiU4
-   Q==;
-X-CSE-ConnectionGUID: aaDHLy/ARS+wOu8E01NJOw==
-X-CSE-MsgGUID: uWdP7HgyQ+q/9DbOdktXaQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11774"; a="82293743"
-X-IronPort-AV: E=Sophos;i="6.23,213,1770624000"; 
-   d="scan'208";a="82293743"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2026 20:25:59 -0700
-X-CSE-ConnectionGUID: oyxP96lmT5unJUI6aquoVg==
-X-CSE-MsgGUID: EgBcMGlfSRG4Wrkl1x+AZA==
-X-ExtLoop1: 1
-Received: from lkp-server01.sh.intel.com (HELO 781826d00641) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 02 May 2026 20:25:57 -0700
-Received: from kbuild by 781826d00641 with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wJNSs-0000000025Z-1pHI;
-	Sun, 03 May 2026 03:25:54 +0000
-Date: Sun, 3 May 2026 11:25:46 +0800
-From: kernel test robot <lkp@intel.com>
-To: "Masami Hiramatsu (Google)" <mhiramat@kernel.org>,
-	Steven Rostedt <rostedt@goodmis.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] fprobe: Add unregister_fprobe_sync() for synchronous
- unregistration
-Message-ID: <202605031133.LJkoT4xo-lkp@intel.com>
-References: <177729179863.401400.6063130067239479972.stgit@mhiramat.tok.corp.google.com>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="WuwyskRF"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=DTFRDFkycfQcVTewpGkLJugXa/JrmWlRAbcO2CAGRH4=; b=WuwyskRFKAttARx1y/Qw6F2PtQ
+	VSfnmWsR0zwaG1mjFFG3zz5PfZxzNhLGqa3zB/gobKbU6K44LNuLmLWgx0dYnlvwjunAv1ocEbAK1
+	1VM3StlIh5OepYjDOW/iiALrXM8pqTXJraGqgoPZ/efOcBUa35D9/Oe8I4QmCUt0JdIU=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wJNcr-0015Jc-HW; Sun, 03 May 2026 05:36:13 +0200
+Date: Sun, 3 May 2026 05:36:13 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: ciprian.regus@analog.com
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 4/5] net: ethernet: adi: Add a driver for the
+ ADIN1140 MACPHY
+Message-ID: <afc1cf8d-4a02-430e-89a5-b213c15a4f70@lunn.ch>
+References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
+ <20260503-adin1140-driver-v1-4-dd043cdd88f0@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,87 +56,141 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <177729179863.401400.6063130067239479972.stgit@mhiramat.tok.corp.google.com>
+In-Reply-To: <20260503-adin1140-driver-v1-4-dd043cdd88f0@analog.com>
 
-Hi Masami,
+On Sun, May 03, 2026 at 02:24:53AM +0300, Ciprian Regus via B4 Relay wrote:
+> From: Ciprian Regus <ciprian.regus@analog.com>
+> 
+> Add a driver for ADIN1140. The device is a 10BASE-T1S MAC-PHY
+> (integrated in the same package) that connects to a CPU over an SPI bus,
+> and implements the Open Alliance TC6 protocol for control and frame
+> transfers. As such, this driver relies on oa_tc6 for the communication
+> with the device. The device has an alternative name (AD3306), so the
+> driver can be probed using one of the two compatible strings.
+> 
+> For control transactions, ADIN1140 only implements the protected mode.
+> The driver has a custom implementation for the mii_bus access methods as a
+> workaround for hardware issues:
+> 
+> 1. The OA TC6 standard defines the direct and indirect access modes for
+>    MDIO transactions. The ADIN1140 incorrectly advertises indirect mode
+>    only (supported capabilities register - 0x2, bit 9), while actually
+>    implementing just the direct mode. We cannot rely on the CAP register
+>    to choose an access method (which oa_tc6 does by default, even though
+>    it only implements the direct mode), so the driver has to use its
+>    own.
+> 2. The ADIN1140 cannot access the C22 register space of the internal
+>    PHY, while the PHY is busy receiving frames. If that happens, the
+>    CONFIG0 and CONFIG2 registers of the MAC will get corrupted and the
+>    data transfer will stop. Those two registers configure settings for
+>    the transfer protocol between the MAC and host, so the value for some
+>    of their subfields shouldn't be changed while the netdev is up.
+>    Since we know the PHY is internal, the MAC driver can implement a
+>    custom mii_bus, which can intercept C22 accesses. Most of the
+>    registers mapped in the 0x0 - 0x3 range (the only ones the PHY offers)
+>    are read only, and their value can be read from somewhere else (e.g
+>    the PHYID 1 & 2 have the same value as 0x1 in the MAC memory map).
+>    For the fields that are R/W (loopback and AN/reset) in the control
+>    register, the PHY driver already implements the set_loopback() and
+>    config_aneg() functions. The C22 write function of the driver is a
+>    no-op and is used to protect against the ioctl MDIO access path.
+>    C45 accesses do not cause this issue, so we can properly implement
+>    them.
+> 
+> Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
+> ---
+>  MAINTAINERS                         |   7 +
+>  drivers/net/ethernet/adi/Kconfig    |  12 +
+>  drivers/net/ethernet/adi/Makefile   |   1 +
+>  drivers/net/ethernet/adi/adin1140.c | 805 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 825 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1e58da5ef47a..f9784c25beac 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1843,6 +1843,13 @@ S:	Supported
+>  W:	https://ez.analog.com/linux-software-drivers
+>  F:	drivers/dma/dma-axi-dmac.c
+>  
+> +ANALOG DEVICES INC ETHERNET DRIVERS
+> +M:	Ciprian Regus <ciprian.regus@analog.com>
+> +L:	netdev@vger.kernel.org
+> +S:	Maintained
+> +W:	https://ez.analog.com/linux-software-drivers
+> +F:	drivers/net/ethernet/adi/adin1140.c
+> +
+>  ANALOG DEVICES INC ETHERNET PHY DRIVERS
+>  M:	Ciprian Regus <ciprian.regus@analog.com>
+>  L:	netdev@vger.kernel.org
+> diff --git a/drivers/net/ethernet/adi/Kconfig b/drivers/net/ethernet/adi/Kconfig
+> index 760a9a60bc15..bdb8ff7d15da 100644
+> --- a/drivers/net/ethernet/adi/Kconfig
+> +++ b/drivers/net/ethernet/adi/Kconfig
+> @@ -26,4 +26,16 @@ config ADIN1110
+>  	  Say yes here to build support for Analog Devices ADIN1110
+>  	  Low Power 10BASE-T1L Ethernet MAC-PHY.
+>  
+> +config ADIN1140
+> +	tristate "Analog Devices ADIN1140 MAC-PHY"
+> +	depends on SPI
+> +	select ADIN1140_PHY
+> +	select OA_TC6
+> +	help
+> +	  Say yes here to build support for Analog Devices, Inc. ADIN1140
+> +	  10BASE-T1S Ethernet MAC-PHY.
+> +
+> +	  To compile this driver as a module, choose M here. The module will be
+> +	  called adin1140.
+> +
+>  endif # NET_VENDOR_ADI
+> diff --git a/drivers/net/ethernet/adi/Makefile b/drivers/net/ethernet/adi/Makefile
+> index d0383d94303c..0390ca8ccc49 100644
+> --- a/drivers/net/ethernet/adi/Makefile
+> +++ b/drivers/net/ethernet/adi/Makefile
+> @@ -4,3 +4,4 @@
+>  #
+>  
+>  obj-$(CONFIG_ADIN1110) += adin1110.o
+> +obj-$(CONFIG_ADIN1140) += adin1140.o
+> diff --git a/drivers/net/ethernet/adi/adin1140.c b/drivers/net/ethernet/adi/adin1140.c
+> new file mode 100644
+> index 000000000000..5bc3f5732ed8
+> --- /dev/null
+> +++ b/drivers/net/ethernet/adi/adin1140.c
+> @@ -0,0 +1,805 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +/*
+> + * Driver for Analog Devices, Inc. ADIN1140 10BASE-T1S MAC-PHY
+> + *
+> + * Copyright 2026 Analog Devices Inc.
+> + */
+> +
+> +#include <linux/etherdevice.h>
+> +#include <linux/kernel.h>
+> +#include <linux/mdio.h>
+> +#include <linux/module.h>
+> +#include <linux/oa_tc6.h>
+> +#include <linux/phy.h>
+> +
+> +#define ADIN1140_MMS_REG(m, r)	((((m) & GENMASK(3, 0)) << 16) |	\
+> +				 ((r) & GENMASK(15, 0)))
+> +
+> +#define ADIN1140_MACPHY_ID_REG	ADIN1140_MMS_REG(0x0, 0x1)
 
-kernel test robot noticed the following build errors:
+This is not an ADIN1140 MACPHY_ID_REG, it is the TC6 PHYID register.
 
-[auto build test ERROR on trace/for-next]
-[cannot apply to linus/master v7.1-rc1 next-20260430]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> +
+> +#define ADIN1140_CONFIG0_REG		0x0004
+> +#define ADIN1140_CONFIG0_TXFCSVE	BIT(14)
+> +#define ADIN1140_CONFIG0_RFA_ZARFE	BIT(12)
+> +#define ADIN1140_CONFIG0_CPS_64		GENMASK(2, 1)
+> +
+> +#define ADIN1140_CONFIG2_REG		ADIN1140_MMS_REG(0x0, 0x6)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Masami-Hiramatsu-Google/fprobe-Add-unregister_fprobe_sync-for-synchronous-unregistration/20260427-214258
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace for-next
-patch link:    https://lore.kernel.org/r/177729179863.401400.6063130067239479972.stgit%40mhiramat.tok.corp.google.com
-patch subject: [PATCH] fprobe: Add unregister_fprobe_sync() for synchronous unregistration
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20260503/202605031133.LJkoT4xo-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20260503/202605031133.LJkoT4xo-lkp@intel.com/reproduce)
+This is not an ADIN1140 CONFIG2 register. It is the TC6 CONFIG2
+register. 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605031133.LJkoT4xo-lkp@intel.com/
+Please add the TC6 registers to include/linux/oa_tc6.
 
-All errors (new ones prefixed by >>):
-
->> kernel/trace/fprobe.c:983:14: error: call to undeclared function 'fprobe_registered'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     983 |         if (!fp || !fprobe_registered(fp))
-         |                     ^
->> kernel/trace/fprobe.c:986:8: error: call to undeclared function 'unregister_fprobe_nolock'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-     986 |         ret = unregister_fprobe_nolock(fp);
-         |               ^
-   kernel/trace/fprobe.c:986:8: note: did you mean 'unregister_fprobe_sync'?
-   kernel/trace/fprobe.c:978:5: note: 'unregister_fprobe_sync' declared here
-     978 | int unregister_fprobe_sync(struct fprobe *fp)
-         |     ^
-     979 | {
-     980 |         int ret;
-     981 | 
-     982 |         guard(mutex)(&fprobe_mutex);
-     983 |         if (!fp || !fprobe_registered(fp))
-     984 |                 return -EINVAL;
-     985 | 
-     986 |         ret = unregister_fprobe_nolock(fp);
-         |               ~~~~~~~~~~~~~~~~~~~~~~~~
-         |               unregister_fprobe_sync
-   2 errors generated.
-
-
-vim +/fprobe_registered +983 kernel/trace/fprobe.c
-
-   967	
-   968	/**
-   969	 * unregister_fprobe_sync() - Unregister fprobe synchronously with RCU grace period.
-   970	 * @fp: A fprobe data structure to be unregistered.
-   971	 *
-   972	 * Unregister fprobe (and remove ftrace hooks from the function entries) and
-   973	 * wait for the RCU grace period to finish. This is useful for preventing
-   974	 * the fprobe from being used after it is unregistered.
-   975	 *
-   976	 * Return 0 if @fp is unregistered successfully, -errno if not.
-   977	 */
-   978	int unregister_fprobe_sync(struct fprobe *fp)
-   979	{
-   980		int ret;
-   981	
-   982		guard(mutex)(&fprobe_mutex);
- > 983		if (!fp || !fprobe_registered(fp))
-   984			return -EINVAL;
-   985	
- > 986		ret = unregister_fprobe_nolock(fp);
-   987		if (ret)
-   988			return ret;
-   989	
-   990		synchronize_rcu();
-   991		return 0;
-   992	}
-   993	EXPORT_SYMBOL_GPL(unregister_fprobe_sync);
-   994	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+	Andrew
