@@ -1,105 +1,102 @@
-Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 051AD1A6814
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 00:35:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513741A681B;
+	Sun,  3 May 2026 00:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777768550; cv=none; b=eTNBA+g59iNluVkNCBZqB+pQp+0pHmUzTvYQkVcasEB0esnWbKSatChM6KKgbr7ZGfyLjs6N8XcDVYXhH0xQnpPhl387aUxHnEWZbd+XSnQ5Np1brSbBna2fMSgdjHg50HT/V+B8U9uN77vVeGxM3tOo+VWSchp+reSqxjEtu8Q=
+	t=1777768869; cv=none; b=dlVzaq6w6KAV8V3fXfyAjc/Z1U7jC8682+5cGYSMOA2CUM95/8012muz5Y7uMhhquwZ690cOzULXNziGO6fJTwq1n73E6EDKrpfK8wJYm9vJhr/XRk4InF3W6RqgGU9BBKtDSjySADKeKcJYbLf9xnugZ/tdcnnKoP7w3zcYuY8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777768550; c=relaxed/simple;
-	bh=Esy4gRgYGYyA78yvBpzvgwEGOm3rvfTloW2GniXjYOo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qplSfcs+jARK6vJbp15/Vg6m7UN/+T7oYWJ0cZHU5S230l8e3OX74YutprLzFmV82srnAHda6vmEUaTwbDUaUByBVjJ5VlJuPFN8cNF16Teu+eYCdpEuuWOGoIPaoNaqPVZTsoKJ0obXKWIKBF7vLnW4F202cUWo+hk5ty2Pzn4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com; spf=pass smtp.mailfrom=maestretorreblanca.com; dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b=r8tLsvEF; arc=none smtp.client-ip=209.85.221.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maestretorreblanca.com
+	s=arc-20240116; t=1777768869; c=relaxed/simple;
+	bh=2BF3n/2wknFjKWRP+8E3iqCkDvqYI0HvhrV67GErkYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=d5363O4eyG//BU3/9O3FpyRzhsnOH7hUbEMmC2CB+swR2RZDHrFyYiE+lpQ8347/XTID7eEGowNAlYFd/dVJZSOnx3dHpmQLc0GVjs7E/vMJzq94EwqBsZe1XZOZ2glfnMI1QaGIqTVukaOW+3yPZ5p2G046VA4+bBKAiRlDvwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=5hoDPrKC; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b="r8tLsvEF"
-Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-56efdc96b05so1980542e0c.1
-        for <linux-doc@vger.kernel.org>; Sat, 02 May 2026 17:35:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=maestretorreblanca.com; s=google; t=1777768548; x=1778373348; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FsEMKzfoD4c133zpx8hGdf13q8ngaH5mIvb0VTrDGQ0=;
-        b=r8tLsvEF+PYJyyzv/gQCUcnIirG9DuFYobACe7QApPdqT5zWBUB3aj/E39NdmTdZmZ
-         Zo6vQqLuorzy317bzWfnbGqLd8TruBz78KJ9PM8GVxm+ckywM+F+l2zdbpZEeRn15yTP
-         ahr7pu41yI7i+2J+4K2gsVR2K7jK8/M4HtnX2wV7RbZDtgo/1D/gln3jxdwnGSjJxF6r
-         jj7lAqDmHP2TaYixIstNr+p5eYGoNucTRMfkAFWZwSUMH1JH2NuEsDDAKcvkGjrqd0xT
-         pm3CF8OpjUQL0YDVnWqRPMzFtudRC+UwKdx3UGc3DcqEo+xoFZdTpK5xbMx3cCPQOSaV
-         M6bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777768548; x=1778373348;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FsEMKzfoD4c133zpx8hGdf13q8ngaH5mIvb0VTrDGQ0=;
-        b=Hzdy2+FcZt5Zl+j87filU4Qwh6Uygv0bgq31bo0rH9jQsgRonupUkblmxizBy0IyfV
-         Y1e9/0c2e66yZilSSEaEiA/fBUKvBIXiA8DshHQzw/lk6BcmrIoWmdnUEX53X3cOr3iv
-         zhe+Nj5km40vGTtbPnZsNydpOrdrhFkPXAdy5iINNMXO0pIzuSvWjYXqmVc9JxCFoIGy
-         xyeTgiKhnCn5rwED6a61aRjpbJOye9xmrMN4VQsDzOgbEntdkiKdzbqlBTDJmURY+Wga
-         0fjElHYYEKZRF8bxBN4HmJCiHW9xM0/1kOfkf7XGks+irq7Nwt3qI1ozdfgqFcvdybFL
-         Ly6w==
-X-Forwarded-Encrypted: i=1; AFNElJ8LgChSu1ABMbK8mR91ywgm+0qWwFP04dcPeURvKXaMnV9rYrvLXxnudORZDdgtoF3KsZJqgeOPcN8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyjpbi+eXaMnYeUiP/58MGBbG0nIjdKWG13ImJPvc1OX70rtDUM
-	3hOXp0eTuYr9VXYEWXId1TxFUL+Ocyf1ymy0EGLcl1b+Tln3tRMrJyL1p4yW7ORjzFE=
-X-Gm-Gg: AeBDievpRA6BfDDB1o15LTlBq3OCz5305BWlDwYJ5ydfl5B4yquS2jYx6Eb7zJpczVq
-	J6yZdWWS2xLyZLYBOIlqiqvbvinPL5vjc0Y3wZlrYKObtg7m5Rd7+NiUHS03tJUfhDXIfkJus8Y
-	E1w2pdoZ4tWG/WJpBulMhDz/W9X2wH/YqCLyfB38iRr56++qOEaVPyKpY4WzG2EVZCDl+Dlz1eR
-	ZKZNeVmrgzE7jZvGoWHuMlgBgWXFEKYApqrtYxP9+nBltrQpxT7BWYtTifkn1SyHB1k7W2xAbFF
-	LmBvSLuT/7ScbqlWRAr2ye9l7eWT5iNw7KNuIHhpJTJKESjMivNU4gru57YYcWR9iWP74jPV4Pe
-	7bZNaFdI3xG04eVE95canaSLIgiASQ7HfpJ2aDzshEf3jzwaSqcYj1onMedzQVsq+6RHAZ4HoGg
-	PgNR3PpmtTcpNdhVX8QeCZu6qrznNzxcikd2zxor4SFB7n7Zn5uEczckBmjc2bQNOmlXMxbHlNZ
-	2XJ+wiE/e5qJESocWb9vvnkYK6KINxD43NcVg==
-X-Received: by 2002:a05:6123:4202:20b0:575:22f2:a22 with SMTP id 71dfb90a1353d-57522f2184fmr73280e0c.10.1777768547972;
-        Sat, 02 May 2026 17:35:47 -0700 (PDT)
-Received: from localhost.localdomain ([95.214.114.12])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-574970ee582sm4201834e0c.0.2026.05.02.17.35.43
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 02 May 2026 17:35:46 -0700 (PDT)
-From: Francisco Maestre <francisco@maestretorreblanca.com>
-To: airlied@gmail.com,
-	simona@ffwll.ch,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	corbet@lwn.net
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Francisco Maestre <francisco@maestretorreblanca.com>
-Subject: [PATCH 3/3] Documentation: gpu: todo: fix typo 'themsevles' -> 'themselves'
-Date: Sat,  2 May 2026 19:35:41 -0500
-Message-ID: <20260503003541.62584-1-francisco@maestretorreblanca.com>
-X-Mailer: git-send-email 2.50.1
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5hoDPrKC"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=YWU/N5KMrK3PGj5bbF9MJMDxZIl1BT+5NZSw3ptVt+0=; b=5hoDPrKChaUD9hzjhsbt6j/ksr
+	mTpLKuEx7qqOFp4/iH8qpp5J3+n5mr81f8D810/NPu3tsMvuRMhwZNzVaSHdOWQT0nkQ/iswmmk6g
+	L65HilbrYVWLjiAie2ils8XGFB0fsbwMCUaWCwzVZwBECJNiHiEPtlEqjbGinfkPycms=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1wJKsz-0014FM-Te; Sun, 03 May 2026 02:40:41 +0200
+Date: Sun, 3 May 2026 02:40:41 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: ciprian.regus@analog.com
+Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH net-next 3/5] net: phy: Add support for the ADIN1140 PHY
+Message-ID: <2cfa6680-503a-4c4a-91bc-5f9a4331967d@lunn.ch>
+References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
+ <20260503-adin1140-driver-v1-3-dd043cdd88f0@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260503-adin1140-driver-v1-3-dd043cdd88f0@analog.com>
 
-Fix a spelling mistake in the panel-simple/panel-edp TODO section.
+> +static int adin1140_phy_read_mmd(struct phy_device *phydev, int devnum,
+> +				 u16 regnum)
+> +{
+> +	struct mii_bus *bus = phydev->mdio.bus;
+> +	int addr = phydev->mdio.addr;
+> +
+> +	return __mdiobus_c45_read(bus, addr, devnum, regnum);
+> +}
+> +
+> +static int adin1140_phy_write_mmd(struct phy_device *phydev, int devnum,
+> +				  u16 regnum, u16 val)
+> +{
+> +	struct mii_bus *bus = phydev->mdio.bus;
+> +	int addr = phydev->mdio.addr;
+> +
+> +	return __mdiobus_c45_write(bus, addr, devnum, regnum, val);
+> +}
 
-Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
----
- Documentation/gpu/todo.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Why do these exist?
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 520da44a04a6..e371134782f8 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -456,7 +456,7 @@ be turned into a WARN_ON() or somehow made louder.
- At the moment, we expect that we may still encounter the warnings in the
- drm_panel core when using panel-simple and panel-edp. Since those panel
- drivers are used with a lot of different DRM modeset drivers they still
--make an extra effort to disable/unprepare the panel themsevles at shutdown
-+make an extra effort to disable/unprepare the panel themselves at shutdown
- time. Specifically we could still encounter those warnings if the panel
- driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
- driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
--- 
-2.50.1 (Apple Git-155)
+> +static int adin1140_config_init(struct phy_device *phydev)
+> +{
+> +	/* The link status of the PHY doesn't need to be polled, because
+> +	 * the device doesn't implement AN and there is no other mechanism
+> +	 * to report the link state.
+> +	 */
+> +	phydev->irq = PHY_MAC_INTERRUPT;
 
+I would prefer you don't abuse this.
+
+> +static int adin1140_read_status(struct phy_device *phydev)
+> +{
+> +	phydev->link = 1;
+> +	phydev->duplex = DUPLEX_HALF;
+> +	phydev->speed = SPEED_10;
+> +	phydev->autoneg = AUTONEG_DISABLE;
+> +
+> +	return 0;
+> +}
+
+This should have no really cost, so just let phylib poll.
+
+	Andrew
