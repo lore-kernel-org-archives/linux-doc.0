@@ -1,265 +1,179 @@
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC43C3452
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 16:21:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC904397E64
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 16:26:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777825319; cv=none; b=nqb+RVHv/D3vUNM7cIzm/WhClZLtnS4NWCrgRSelSQKyrVOfd2S4qOOfeofRgEMBvxl+ZU/iKOSEZ/4F4/2eG6QS+Kp4tkNVBGztu0zvZzqfUvld7FrteBGemz+EUJ7MU1OKXVBdLDbDSsgw0hf1Xal2JqapBjkjHGLEI1k6+4Q=
+	t=1777825576; cv=none; b=jLo2dvTTNKbAFk8r6GDeY+qchj3M7J0FbgarMi/Ylulk7YEy7lX2KbWb0XiLrl1787iy8euDbKSt4TgPSrQTj4LlZDhifBRO/9in5CB55TZDdL3BxJbDnRbW0duZ2S4R7RmvA22AbjLzKSnZvDaH6WkohpyyLJ2u7d5Bofww2AA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777825319; c=relaxed/simple;
-	bh=dwCxRMEisxexISOwxJ7Jmn5BKMZAjr7fD5C91acVSrs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jOD+FIoyHKWSpNTisLCdtzezvqS1B0cxgOY+32o1mg7CcM8nuUjP1c/sBE/LDaz7O6PdAq0JniMI7ssisU3fqyUklkLNKrFt49OXMHAwP1U64DdEi4o76PrG/ATKxkW0c3H6KwXkvc1YTaoCoKFVGfXiWOtLuH7+AvvnwQV4Ps4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tss.black; spf=pass smtp.mailfrom=tss.black; dkim=pass (2048-bit key) header.d=tss-black.20251104.gappssmtp.com header.i=@tss-black.20251104.gappssmtp.com header.b=fgGbm94R; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tss.black
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tss.black
+	s=arc-20240116; t=1777825576; c=relaxed/simple;
+	bh=UppTCLyY+Jp0kvcUyw9ROuNW3CnyFay5/4uYFzEZpII=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hewnFrX97XFRTLETDraUKyL3WanMtcOCVBRczgBfCw2IZzEAST7w7drTkz6M81a70DiS5VUilMfBDSie9VDmMLyo2kBsrnXZqfAx4Q0IdkqepRTdF1OaISicxTf4ru7szwm4oMup8AXFyXYoEDK+J2vBuVzHwedv7Bqc99rx2Ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=X+F1ogvb; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tss-black.20251104.gappssmtp.com header.i=@tss-black.20251104.gappssmtp.com header.b="fgGbm94R"
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ba699316b42so471471066b.3
-        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 09:21:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X+F1ogvb"
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-82f8bf96b46so1454525b3a.2
+        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 09:26:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=tss-black.20251104.gappssmtp.com; s=20251104; t=1777825316; x=1778430116; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kxzFrXvbXVkOb9Id0VGPhGUKe6bbCmGVkQRkUolvNt8=;
-        b=fgGbm94R4JigJg1UGrniktHzB8XuKGZ1e5rjXPac+LYn/38sR5MKeMaD1VsY+98cvg
-         194xBmBjHrupdaVTzS3x92hU31XJgualg6n5/paLjGb8UO9W0rZBq/kw2wQDF/pgJTsa
-         HT5H+mvm1ZGofHCv6JWEBI66eQAYUnjjJGFBTqbPLfECWFNCTmIJp99ZMm4n4U05E2D1
-         fnmXT0E/ndPUYkc5W03AFb1Nvc7rkKJZh4zDRVRTlxFox+O4hFcVlPNMAp/FZux+zjHr
-         3qbh+oYoq1ay8BuRkS1YEUOpcuRuS5s8vfkQ0AssLsJjOCBkQyfaWmB/t7dZ9ps7/U/Y
-         eY3g==
+        d=gmail.com; s=20251104; t=1777825574; x=1778430374; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MQu3AJrWbwHsNu5ahobfgefmMuxQAtBqu7LWlmYXgyI=;
+        b=X+F1ogvbuHJKK+C0DUcA9KZ8vZkixFeY79JYkDfbHmpjsOtOVnqJcHLC/qJtyQKmWU
+         Hc4CfoZuvaZgHmz22thHDvwMLmzZaSsHof9Bd1KI7MSSpVg5w/YmwobJmvh3QBRrmPgq
+         BqCkYGcdVKJkLlV4Nnf/hxF24y2sYJKLpQyJOuFwDvKqfVjrWvFLCPH7uLW3Pu0PmAhT
+         YvlvV4pPMrTrWWbxAtRtW6KQlqvWuw8w8jwiiNeaC9mGQIZqgheNbl6MTQlMyEEStk+7
+         ml+U4oUh4ZT5ua3yXm/On2P7VHzJuQRO8NP6uKmmg98Uke7h4pRoT597EsqBY3l3vWf7
+         xh/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777825316; x=1778430116;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=1e100.net; s=20251104; t=1777825574; x=1778430374;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kxzFrXvbXVkOb9Id0VGPhGUKe6bbCmGVkQRkUolvNt8=;
-        b=R+JArGqv8l2FOI+XGLGEW7gSxRqq7ohN1jn4lFB3iP0IdtQryA3ineTAyfejJflbIi
-         a5g2VKHKnz9nMuC1bmwigk3FIDwDmeai7IBcGgsJ3rzzHTAHs/WBGSvd7zbDHl1uwbQ7
-         rVs5hWkLwgBx+h44iVFKOFxzww4CUXxD6YFHaiSQpjpAuFwCW9HiiA05lbef2Bk+DAet
-         6HZS2kbSd/pf7DQZcbcDD9SM8HROVXOkCV2rwGCeEaaOK00rQJ1GEbifdZmrCsUc35Tr
-         F2Mz9VKqJ5mWtXlZIPF8Fczje365rz1QD2fxI2aBRukngrH53oTNWdidFZmM77qMr+I+
-         TCgw==
-X-Gm-Message-State: AOJu0YyzraBusNO97/LHfWSE1BBRG7xO6mSmFzODLJtFhaJs2M7YLSkb
-	COYcbk42SPcZF5U0kwOLHT+XZ7fcvaebkOc2Sc5vVdJxGLy9O5fgDvh/+vgjB+MxiLU=
-X-Gm-Gg: AeBDieucJMH7jLL4ZLPqfWyJExmYQ0gMN4o2clhS+7ROL1ueC2/pbCMqbsFS7+zojoT
-	f5g8RJU3lqnmAnnl9U8TNs+jvuQUO8kmPNn/wi0x+vVItmweitoZU+BUPZIXOrDLXg6yYIgQE2Z
-	xZmGtDqXikS/0qWuaDYle1WJOkLRTjNbcjkskheydULcU/MyhlSxBlRGGDnuCqkfHio1T3FpvoM
-	awg8N7Ww7i2f/iLNHVGiefUaapN67/02XlijysH383wINzI4ktyDUZJs153jeddqysjYa2YsHIV
-	07qXiLe7Fy4uHZx4ZWVgspBnG4ZZb8tRLSxknJgqBG8aXW0+A/CZnaAurOlYAgIh5VKR06s5bM5
-	V1FJ5hA6gklxWQb7rWCW6v/aHr/EEaCoxtsmLgum90n0woV34V0qFX2z1PY2JxHNmVUJVqpxaVG
-	HBYmsaoJ668WVQ8qfJ3MBr8zj6K2lyuuepDeHbMFuLlGC05cfgVkYJpPTtV2RZpA7r2KPQ6k/FX
-	u1D2cv9bjlv8AJpdtMo
-X-Received: by 2002:a17:907:9617:b0:ba4:a7a3:d03f with SMTP id a640c23a62f3a-bbffaf45fafmr321087666b.27.1777825316071;
-        Sun, 03 May 2026 09:21:56 -0700 (PDT)
-Received: from dell (public-gprs524604.centertel.pl. [31.61.168.125])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc21478931dsm35710666b.24.2026.05.03.09.21.55
+        bh=MQu3AJrWbwHsNu5ahobfgefmMuxQAtBqu7LWlmYXgyI=;
+        b=VdiloA8qi4qF6HJzRPfjDxe1lDdVC+ZGbR84ABwHpRlLwY8rdVKmwml91szKqicNkI
+         yonP66yKapVukz20jZ9HgZduzFWZLClDBE+VPnLVZWY0ZVE9CPPgHcLIYHBBfgJExCYa
+         9Xus95v7McrbgiRglejCjzZZ55WpumY7bZd6Lqok7+XrLAdnhTw/DX8MVgnrAeWnTftD
+         brPoz/HrDV7GMsNXsYvM3Y+Oje/qRIEzI7qR29SRVyX+UKAM4BWqeHO6YtWhSfUvY3NZ
+         yULrubhKyYeCZhPZ5gMYUioOtI4DrlQlkTVgeX1uwqEnvpqdEYtpynEX6XN5ePOYyrel
+         gvtQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/+Hnd3eb8BPkvEA0loRaeozzzYMNpVfLMXx2aokI15CVJhZR51UotIJdB8I2QyehvFb0p+HfdDlhk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/hHpNR80elX3D/8cOHmenXkVOPwNIYJjih3xE7RiP8wdhywrJ
+	mCDv5UzvuJCp+Xsbot028JGTfQVY96BAi05EXmoy8+sBe4X3U7knQRxb
+X-Gm-Gg: AeBDiesrGIOiVcLWq7zxd8DC+SSOr1LJpXPnqyns3WLY1UgyZKKtMvdKy7W94cVwoDr
+	ZrOi84BWO2+QSgFvoveNVJRVrHnB/Qfbfe8LSZKyueTgIqCx9EZeGMjNaYuvwXz3BKigXkTV4C/
+	COgpmaq5414XSqYRcLs7UO71S6Qbe+sQLdc15J2EudsvmlaJUa0wGLOkY1vBltvmSQ+5C63mJ8G
+	PbjxTnf8U2Y7cqDsMRv6rgcRqPFKFfzmSq2L1Oxm2K+XNzMWe6C9dixswXvVMp0OYT0or/7IGOw
+	ikV06UqiTaAIiJGm8Ki3ktz1PZrCNbj7G8uRO9fzo95NgH7MQfdXLlPsYHq8RH8ISWtUoTyfQlS
+	GvTZLalST53KRtpyZCPBkB8J9bqT6lFC6E0ZQxbbCsMr3gEa99RsyRsquqCPEVWU4FAkyCiRmrf
+	T/73qpFLnIrubpmVnd6xV1RpGHw2tqzZMKI9r+iAakBhz9
+X-Received: by 2002:a05:6a00:2453:b0:835:41f3:f440 with SMTP id d2e1a72fcca58-83541f402c6mr1953995b3a.14.1777825573988;
+        Sun, 03 May 2026 09:26:13 -0700 (PDT)
+Received: from [163.43.103.131] ([163.43.103.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83515b8500dsm9788911b3a.58.2026.05.03.09.26.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 09:21:55 -0700 (PDT)
-From: Karol Antczak <karol.antczak@tss.black>
-To: linux-kernel@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	Karol Antczak <karol.antczak@tss.black>
-Subject: [PATCH] MAINTAINERS: fix typos
-Date: Sun,  3 May 2026 18:21:50 +0200
-Message-ID: <20260503162150.575620-1-karol.antczak@tss.black>
-X-Mailer: git-send-email 2.54.0
+        Sun, 03 May 2026 09:26:13 -0700 (PDT)
+From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Subject: [PATCH 0/7] seg6: add SRv6 Mobile User Plane (RFC 9433) behaviors
+Date: Mon, 04 May 2026 01:25:53 +0900
+Message-Id: <20260504-srv6-mup-v1-v1-0-e0a6791575cb@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABF392kC/yXMSQqAMAxA0atI1gbq0IpeRVw4RI3gQKNFEO9u1
+ eVb/H+BkGUSKIILLDkWXhePKAygHetlIOTOG2IVG6VVimKdwfnY0EVo6qTTea4pSwl8sVnq+fx
+ uZfVbjmaidn8XcN8PfmOSRm8AAAA=
+X-Change-ID: 20260504-srv6-mup-v1-6a3d5995e74e
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Andrea Mayer <andrea.mayer@uniroma2.it>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Yuya Kusakabe <yuya.kusakabe@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3763;
+ i=yuya.kusakabe@gmail.com; h=from:subject:message-id;
+ bh=UppTCLyY+Jp0kvcUyw9ROuNW3CnyFay5/4uYFzEZpII=;
+ b=owEBbQKS/ZANAwAIASrX0XUqXRtNAcsmYgBp93chRT3p0dGUt14JZMpqzhqDYe2S0A9I3gQgI
+ NyWPwcvf9aJAjMEAAEIAB0WIQTaB7usAfxNKMeqa6Yq19F1Kl0bTQUCafd3IQAKCRAq19F1Kl0b
+ TZI4D/9AnhuRg1aQwCbjuglWmzzRnhsFsypuo7atbbXmOgdUKDHkoHsrWr9TrLLWGNPl3UfCUeK
+ 9m4JC9A0DoDFabdcD29kCJw1BtP5VbXD+00NsGNYxF/uTKfBAat8L8gv9SaCGNc5BfaZhiABYck
+ 6hRxefgJo1NSZEJib0eRj096dhNPCiOhuwX8kJPpGF//8zCGSFJw5p6SCVetH6ak/O/Ba83s6UD
+ 1KwQfPaPjA3EjG/PFtiwSR2Z7LJ+p0k34GmHr7l0Gj60AVfUykiU3J+nrgr4oh86DA8rF5J+LrT
+ dVICBck0wd5iPpW7TceXvM3ZBmRGQ/VAnAyN1jTK3xdEzjSDNnfVrsycXyQfyzswkbUP1Ey3g6n
+ C82p8pL1n6faibev6yWcsOx8jDvucDwCQHfwPhskdtllkFyIEDdkLzBSj43icAA61ZAxHtEGlOh
+ WFrulNBS2fytMRVTtyBpHQz3vWrXjcPkhh43WyULyQP6lwWnV4TCrg+4zge3CgAR1KF5RQkmGy+
+ Vv1LQ85JWlNF9Yyc4lzDnqd+EBC/rQyNjvawWaMYsj1SZvVaEyJMwPerbue4mugImRjYvtYL/fG
+ ETuu5PNFqKoBsHaAwflEGmqp/akGkKS/qSTaB3HzpcyJHTP/xMc8Y5gpxw/teZPpnxjes1Rt/pe
+ TWU3ytgV+779D9g==
+X-Developer-Key: i=yuya.kusakabe@gmail.com; a=openpgp;
+ fpr=DA07BBAC01FC4D28C7AA6BA62AD7D1752A5D1B4D
 
-Fix spelling and capitalization issues.
+This series adds the in-kernel data path for the SRv6 Mobile User
+Plane (MUP) architecture defined in RFC 9433.  SRv6 MUP integrates
+GTP-U mobile traffic into an SRv6 transport domain by mapping the
+5-tuple (TEID, QFI, R, U, PDU Session ID) into a single SID, allowing
+operators to replace the GTP-U overlay between the gNB and the
+upstream UPF with native SRv6 forwarding while keeping the radio side
+unchanged.
 
-Signed-off-by: Karol Antczak <karol.antczak@tss.black>
+The series implements the six MUP behaviors that an SRv6 MUP gateway
+typically needs:
+
+  End.MAP         (RFC 9433 Section 6.2) -- swap DA with the next SID
+                                            without consuming the SRH
+  End.M.GTP6.D    (Section 6.3) -- IPv6/GTP-U to SRv6 headend encap
+  End.M.GTP6.D.Di (Section 6.4) -- drop-in mode variant of the above
+                                   (preserves the original outer DA at
+                                   SRH[0] and discards TEID/QFI)
+  End.M.GTP6.E    (Section 6.5) -- SRv6 to IPv6/GTP-U egress encap
+  End.M.GTP4.E    (Section 6.6) -- SRv6 to IPv4/GTP-U egress encap
+  H.M.GTP4.D      (Section 6.7) -- IPv4/GTP-U to SRv6 headend encap
+
+End.Limit (RFC 9433 Section 6.8) is intentionally out of scope.
+
+All behaviors plug into the existing seg6_local lwtunnel framework, so
+they are configurable through the standard "ip route ... encap
+seg6local action ..." interface.  No new netlink families are
+introduced -- the new SEG6_LOCAL_MOBILE_* attributes extend
+SEG6_LOCAL_MAX in an add-only way, and the new SEG6_LOCAL_ACTION_*
+values are appended.
+
+The egress behaviors (End.M.GTP4.E and End.M.GTP6.E) accept an
+optional per-route pdu_type attribute that is the sole control
+for inserting the GTP-U PDU Session Container (3GPP TS 38.415 Section
+5.5.2).  When pdu_type is set (dl/ul/0..15), every emitted GTP-U
+packet carries the container with that PDU Type and the QFI extracted
+from Args.Mob.Session.  When pdu_type is unset, the egress emits
+a short GTPv1-U header with no container.  pdu_type must be
+configured on egress routes serving 5G N3 traffic; omitting it is
+intended only for LTE-only / S1-U-style deployments where no PDU
+Session Container is exchanged.
+
+The matching iproute2 patch series has been posted to iproute2-next:
+https://lore.kernel.org/netdev/20260503154510.912576-1-yuya.kusakabe@gmail.com/
+
+Link: https://www.rfc-editor.org/rfc/rfc9433
+
+Signed-off-by: Yuya Kusakabe <yuya.kusakabe@gmail.com>
 ---
- MAINTAINERS | 40 ++++++++++++++++++++--------------------
- 1 file changed, 20 insertions(+), 20 deletions(-)
+Yuya Kusakabe (7):
+      seg6: add End.MAP behavior
+      seg6: add End.M.GTP4.E behavior
+      seg6: add End.M.GTP6.E behavior
+      seg6: add End.M.GTP6.D behavior
+      seg6: add End.M.GTP6.D.Di behavior
+      seg6: add H.M.GTP4.D behavior
+      Documentation: networking: add seg6_mobile guide
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 882214b0e7db..c4abb127ce30 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -12,7 +12,7 @@ Descriptions of section entries and preferred order
- 	   Supported:	Someone is actually paid to look after this.
- 	   Maintained:	Someone actually looks after it.
- 	   Odd Fixes:	It has a maintainer but they don't have time to do
--			much other than throw the odd patch in. See below..
-+			much other than throw the odd patch in. See below.
- 	   Orphan:	No current maintainer [but maybe you could take the
- 			role as you write your new code].
- 	   Obsolete:	Old code. Something tagged obsolete generally means
-@@ -1913,7 +1913,7 @@ F:	drivers/iio/addac/stx104.c
- 
- APM DRIVER
- M:	Jiri Kosina <jikos@kernel.org>
--S:	Odd fixes
-+S:	Odd Fixes
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/apm.git
- F:	arch/x86/kernel/apm_32.c
- F:	drivers/char/apm-emulation.c
-@@ -1936,7 +1936,7 @@ F:	security/apparmor/
- APPLE BCM5974 MULTITOUCH DRIVER
- M:	Henrik Rydberg <rydberg@bitmath.org>
- L:	linux-input@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	drivers/input/mouse/bcm5974.c
- 
- APPLE PCIE CONTROLLER DRIVER
-@@ -1948,12 +1948,12 @@ F:	drivers/pci/controller/pcie-apple.c
- APPLE SMC DRIVER
- M:	Henrik Rydberg <rydberg@bitmath.org>
- L:	linux-hwmon@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	drivers/hwmon/applesmc.c
- 
- APPLETALK NETWORK LAYER
- L:	netdev@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	include/linux/atalk.h
- F:	include/uapi/linux/atalk.h
- F:	net/appletalk/
-@@ -4059,7 +4059,7 @@ ASYMMETRIC KEYS - GOST
- M:	Lukas Wunner <lukas@wunner.de>
- M:	Ignat Korchagin <ignat@linux.win>
- L:	linux-crypto@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	crypto/ecrdsa*
- 
- ASYMMETRIC KEYS - RSA
-@@ -4071,7 +4071,7 @@ F:	crypto/rsa*
- 
- ASYNCHRONOUS TRANSFERS/TRANSFORMS (IOAT) API
- R:	Dan Williams <djbw@kernel.org>
--S:	Odd fixes
-+S:	Odd Fixes
- W:	http://sourceforge.net/projects/xscaleiop
- F:	Documentation/crypto/async-tx-api.rst
- F:	crypto/async_tx/
-@@ -5550,7 +5550,7 @@ F:	include/uapi/linux/btrfs*
- BTTV VIDEO4LINUX DRIVER
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- W:	https://linuxtv.org
- T:	git git://linuxtv.org/media.git
- F:	Documentation/driver-api/media/drivers/bttv*
-@@ -6898,7 +6898,7 @@ F:	drivers/media/dvb-frontends/cx24120*
- CX88 VIDEO4LINUX DRIVER
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- W:	https://linuxtv.org
- T:	git git://linuxtv.org/media.git
- F:	Documentation/driver-api/media/drivers/cx88*
-@@ -9822,7 +9822,7 @@ FBTFT Framebuffer drivers
- M:	Andy Shevchenko <andy@kernel.org>
- L:	dri-devel@lists.freedesktop.org
- L:	linux-fbdev@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	drivers/staging/fbtft/
- 
- FC0011 TUNER DRIVER
-@@ -11289,7 +11289,7 @@ HARDWARE RANDOM NUMBER GENERATOR CORE
- M:	Olivia Mackall <olivia@selenic.com>
- M:	Herbert Xu <herbert@gondor.apana.org.au>
- L:	linux-crypto@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	Documentation/admin-guide/hw_random.rst
- F:	Documentation/devicetree/bindings/rng/
- F:	drivers/char/hw_random/
-@@ -12714,7 +12714,7 @@ F:	include/uapi/linux/uinput.h
- INPUT MULTITOUCH (MT) PROTOCOL
- M:	Henrik Rydberg <rydberg@bitmath.org>
- L:	linux-input@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	Documentation/input/multi-touch-protocol.rst
- F:	drivers/input/input-mt.c
- K:	\b(ABS|SYN)_MT_
-@@ -14098,7 +14098,7 @@ R:	Nicholas Piggin <npiggin@gmail.com>
- L:	linuxppc-dev@lists.ozlabs.org
- L:	kvm@vger.kernel.org
- S:	Maintained (Book3S 64-bit HV)
--S:	Odd fixes (Book3S 64-bit PR)
-+S:	Odd Fixes (Book3S 64-bit PR)
- S:	Orphan (Book3E and 32-bit)
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
- F:	arch/powerpc/include/asm/kvm*
-@@ -14787,7 +14787,7 @@ F:	arch/powerpc/platforms/44x/
- LINUX FOR POWERPC EMBEDDED PPC85XX
- M:	Scott Wood <oss@buserror.net>
- L:	linuxppc-dev@lists.ozlabs.org
--S:	Odd fixes
-+S:	Odd Fixes
- T:	git git://git.kernel.org/pub/scm/linux/kernel/git/scottwood/linux.git
- F:	Documentation/devicetree/bindings/cache/freescale-l2cache.txt
- F:	Documentation/devicetree/bindings/powerpc/fsl/
-@@ -14908,7 +14908,7 @@ F:	tools/testing/selftests/liveupdate/
- 
- LLC (802.2)
- L:	netdev@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- F:	include/linux/llc.h
- F:	include/net/llc*
- F:	include/uapi/linux/llc.h
-@@ -19837,7 +19837,7 @@ F:	drivers/media/i2c/ov7670.c
- OMNIVISION OV772x SENSOR DRIVER
- M:	Jacopo Mondi <jacopo@jmondi.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- T:	git git://linuxtv.org/media.git
- F:	Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
- F:	drivers/media/i2c/ov772x.c
-@@ -23635,7 +23635,7 @@ F:	drivers/media/i2c/saa6588*
- SAA7134 VIDEO4LINUX DRIVER
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- W:	https://linuxtv.org
- T:	git git://linuxtv.org/media.git
- F:	Documentation/driver-api/media/drivers/saa7134*
-@@ -24340,7 +24340,7 @@ F:	drivers/iio/light/gp2ap002.c
- SHARP RJ54N1CB0C SENSOR DRIVER
- M:	Jacopo Mondi <jacopo@jmondi.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- T:	git git://linuxtv.org/media.git
- F:	drivers/media/i2c/rj54n1cb0c.c
- F:	include/media/i2c/rj54n1cb0c.h
-@@ -24434,7 +24434,7 @@ F:	drivers/media/radio/si4713/radio-usb-si4713.c
- SIANO DVB DRIVER
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- W:	https://linuxtv.org
- T:	git git://linuxtv.org/media.git
- F:	drivers/media/common/siano/
-@@ -26135,7 +26135,7 @@ F:	drivers/media/i2c/tda9840*
- TEA5761 TUNER DRIVER
- M:	Mauro Carvalho Chehab <mchehab@kernel.org>
- L:	linux-media@vger.kernel.org
--S:	Odd fixes
-+S:	Odd Fixes
- W:	https://linuxtv.org
- T:	git git://linuxtv.org/media.git
- F:	drivers/media/tuners/tea5761.*
--- 
-2.54.0
+ Documentation/networking/index.rst                 |    1 +
+ Documentation/networking/seg6_mobile.rst           |  236 ++
+ include/net/dropreason-core.h                      |   47 +
+ include/uapi/linux/seg6_local.h                    |   17 +
+ net/ipv6/seg6_local.c                              | 2667 ++++++++++++++++++--
+ tools/testing/selftests/net/Makefile               |    6 +
+ .../selftests/net/srv6_end_m_gtp4_e_test.sh        |  485 ++++
+ .../selftests/net/srv6_end_m_gtp6_d_di_test.sh     |  426 ++++
+ .../selftests/net/srv6_end_m_gtp6_d_test.sh        |  496 ++++
+ .../selftests/net/srv6_end_m_gtp6_e_test.sh        |  401 +++
+ tools/testing/selftests/net/srv6_end_map_test.sh   |  102 +
+ .../testing/selftests/net/srv6_h_m_gtp4_d_test.sh  |  486 ++++
+ 12 files changed, 5163 insertions(+), 207 deletions(-)
+---
+base-commit: 98878ed91b68a3150126fccef125ee7b1bb86ab2
+change-id: 20260504-srv6-mup-v1-6a3d5995e74e
+
+Best regards,
+--  
+Yuya Kusakabe <yuya.kusakabe@gmail.com>
 
