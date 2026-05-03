@@ -1,111 +1,95 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0C79392C34
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 15:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777823157; cv=pass; b=FA1t4tELXfB2bZTD1HngTwvulPpIU24jVD5n2Jryv50C1CL65ZByyPa1X8F7cpksozYfJkUqbpFPWHu1IfjzRQp/T4R0yBO+w15TI2QEXisIMeWbat2P1tw602ftrm96PxyjgWZQbFji3qgpH4kZV4WKdxpLiMRnfJOAAKcQrAU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777823157; c=relaxed/simple;
-	bh=AfKocqKNeZFilYkSDZELpeX9XJN2xfuH/zaBNoBL+vs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s0RB7KL0wx/wyfHWLyxKddnkSUDYZpDGao3vDUXvC5T9zGRMx6FSXew1RpJJLqnaU/+03irqqAS2KBlEt5FCANtNSVA9ZQwuxHAlz/JmgNxfnpHE6U6TfuicvsSxEL+GaepsXTih3FaDCAskB2QSATWvD6mEwUCkAMXt3cgQ9lc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PbUp13MG; arc=pass smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA93B397E8E;
+	Sun,  3 May 2026 15:48:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777823289; cv=none; b=fIJ5COxoKUvCcKBc4zwFDfO5L2d0SD02M5x5zecnTV2n6evd/KzxvmH756MkWPt/GCU0lubKe7eY5BOXePruUrgdkSScbc74C3TU/Lftknh+kwJD46LomfwNQsljwqKBRrdYEZyFRikpxoiH+ZjuddRVMIPsgWv81S1hWlXMdNo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777823289; c=relaxed/simple;
+	bh=KMvULQt26Z7JUeaeAaMxQ2terk0U68wuEmxDC9UqF6M=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CRWwfI7pKlnAqnC//K7Wa4DhJH0M9IrqSpvpRzXEBf7c7qFWbHN58LUu/4HqhEAKV/MXYqfw8ATdld83c5Htly5MI6qnUrdwoqffalUCslUx8UF3DuMUnwMVonUSzK7qyB5bLojWgVuLu3MHqZKVPplxxK+IgpLHiDVo1v2zODs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=pPCc8QTw; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PbUp13MG"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7de4a9cb8eeso3000678a34.0
-        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 08:45:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777823155; cv=none;
-        d=google.com; s=arc-20240605;
-        b=Z63gVTkro2ntilnkek0RIa07pPD3w4T6nID+biVscyfh5SPpsA17XBDgasx9IbVik/
-         5pbclUygYf/qUEzRx054wa8pJyE3Sk2WXOYIaETCwNvpUd6gGjUCGDewzJS7EkXIS1ii
-         dB6Nk6Yg7LD1xU1XnCNW9t85klqX4g3L2N/Zm6YlXoRJIByULugElQzsqW0HbA2G/rvV
-         sOSmM8x4qwQDfbqnMMTqme8XcRRd/P+ExxjFUFiael10OfAHdXdbbzE3gO1wysLqNzPZ
-         SNtDmtP9M6jbBSuVrnYXzsMgeT6WaRebJl4hsvLMoc1kmDjwGfoNUQp788I6wNXl9x6c
-         HDSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=bIQ7SeUkUvKo31cS3DWqMoDRHM/EMTcPv+98ocN8jws=;
-        fh=CvAoNJxu24rG0D2SJaE2994iI9FE2xtVN6/18KyIvjo=;
-        b=kwD88nm+CfkLhozJwN5jksYjsXAsYQANkQFGtg0I3OcLDdhttR2CNsTdnAYgMa6oI1
-         EJ1gHg3Aoa6+/Xtx7eoWRQyUITlo4uRsq8TSDCuFUOsNeoRcH9Vm1w3+pcttH8uiLFH8
-         e2YWQ4+7fv4Hm1geKOpYY1qrTUTn7pFgIUA7dvU0UqWlKDfwRx3pFxNozHqxvpc+fo/t
-         Gn5MDB+UpKzFwNZDkXTPdjVjlL1rM43uplvFkXhzJflzpXpBX6x+SkYaN8ESzruhvPrW
-         bLYR3CIK+Ly/sztLDUn3TFRv+CMwfTxNqTJ958Ie4OBsi65DTHnNinbvgSIxLVsDfCth
-         UOVw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777823155; x=1778427955; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=bIQ7SeUkUvKo31cS3DWqMoDRHM/EMTcPv+98ocN8jws=;
-        b=PbUp13MGnm5EL2/xWH8r0yuuufWyzGkRmAfqfuySQYWgt+N5KCEzZRayOedauvg9DX
-         I+9FnRO/9ZBdPMOvrcjTCqtcOcTFx7I0ZrAGBHN3XSw/hyHrWPFPH52Xz9d4m3s3EKAW
-         s+jHgT2ba+udYKMrqIreAC1gi6rdchpMugMosdLEtZe6pAwG/5Fnbdm3z9BDSZSkjcL0
-         walkBjiEVJ6Hvf1qmPdctWJDARMahF69d3/8vSTwCpMa+q4SJtQMw7L0YZErHYLZtqsc
-         jxKkg3IUNSkYkB2j/4kkJbBTzJQp7eYDBAlb9ohaMmFcjP16QiiXnnFXxELSeAzYQyKG
-         5vpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777823155; x=1778427955;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bIQ7SeUkUvKo31cS3DWqMoDRHM/EMTcPv+98ocN8jws=;
-        b=Da3MZWZsclnYDrkZ5MCEJtM50VUkMyOjYVy8QpW+uyXgK4FjJxaCwphvgYmKt+0br7
-         Y2k4qt2KlfWH/2nPTbtsmY5emyJJ+RQR0ujCSTtwSUF0QvMjG26KFm78txpKXdgCsprt
-         MWNGnEuzTML3DAd4Mc+A2xhKvBf/D1rpcL83+kuGo2Z418JP86yIbG+uWpoZK96meY/f
-         RQ14t2jKROWZdVa7naczg0s+JOt7HD4f+9zlllTKeK0GW7ItldUDWy+r3VrV6WauzC1X
-         4D45+46jpd57y8lK8g7Oo/Y41f8gKXw1oYzUCVDLGx4ARN754HnnnGAVru+xu1kWY3vG
-         Cbng==
-X-Gm-Message-State: AOJu0YzYLE23HvIyvlk5fguQk5jhJ265e5rWhl1igxeLmtMA6p2c02eL
-	wXrHL2hIW39UCo/Pi93OBKqAZ1SgTksmG5XehVG46VlnhhmtnZRwP1vHy0VCmzHqCB1Cr40sHEG
-	ZL/CEvWL4Dy2vPEKOmAtB/igt6/CF+kTXMWPB
-X-Gm-Gg: AeBDietAuI5+pHd9p8BdnrNq5ooHuQVfLc0agomlqaOFFMZugZ/GQxehlL1UuMgvYoi
-	CFeZq2Se8jikDahTeMmw5vRDCg7CRMy2hGN1uIt77c8M5YUTWfdwhm/EpJWyC0eD0iZkSDJYXwx
-	Ex2J+TPwmWMh5ieM2GnzEPmUg5y9inwca9fhxLgaYX6toBYknku1cAVd1e3dIboccu8vPg2a5y0
-	eNhiQodAPNXh9rFSL9sj0ETSL9BQM9tHCKagLZqME0LPSewGZF2OOzuZW8UnogCe298sgBxHJX/
-	kLCI9fQnRsslNT479y9mz0BSpA/DLHLps+1YwwoWkLEltJo5ILxpJw9duNHcsWulNfwCsZntA0O
-	fQdHllPuq
-X-Received: by 2002:a05:6820:1c86:b0:67d:e7c3:3c65 with SMTP id
- 006d021491bc7-69697e4038amr3054022eaf.56.1777823154852; Sun, 03 May 2026
- 08:45:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="pPCc8QTw"
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4g7q1H3GKpz9tKb;
+	Sun,  3 May 2026 17:48:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1777823283;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=UoJ22uoHPxO/Fiuqw0BQb106Foyun4Y6/eKPYRUL254=;
+	b=pPCc8QTwbHGBtpyOcgiepxODTyt5c03iNTyFiVidzF17rpDgE+prPLl06qbUcWimYLdgov
+	p8wRU9+QPhUgz3db/co19ImRiwrtzsxOAmSRhf8T6ixwsI0qjl5NC2q6M/XB8wbZvlca4L
+	LGh+cd2NXlbO5g5sPPxONm/p3J0MkZXjdk1xmHl64hKZ5AzRiLOCdhlfK4AooanboFwp5S
+	lxtykgi+z5HOGvYM6qzCCgxwPys+uZEczX/QVpCVhL/VhrIBav5WglJ3E2FwZd6uEKo7wD
+	BW79SH9nFDPO/1050XrE9EciwVqsyoqHauQwl1eI7MvRlki4gHwN52lh1V9Esg==
+Message-ID: <df48beafcb0cc9caff40db78285113f0b1bd9b87.camel@mailbox.org>
+Subject: Re: [PATCH v4 0/3] Documentation: adopt new coding style of
+ type-aware kmalloc-family
+From: Manuel Ebner <manuelebner@mailbox.org>
+To: Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>,  linux-doc@vger.kernel.org, Kees Cook
+ <kees@kernel.org>
+Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org, 
+ linux-sound@vger.kernel.org, rcu@vger.kernel.org,
+ linux-media@vger.kernel.org,  linux-mm@kvack.org
+Date: Sun, 03 May 2026 17:47:57 +0200
+In-Reply-To: <87o6iwczjm.fsf@trenco.lwn.net>
+References: <20260429070759.309110-3-manuelebner@mailbox.org>
+	 <87o6iwczjm.fsf@trenco.lwn.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428180208.175472-1-danielmaraboo@gmail.com> <87jytkcz1c.fsf@trenco.lwn.net>
-In-Reply-To: <87jytkcz1c.fsf@trenco.lwn.net>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Sun, 3 May 2026 12:45:44 -0300
-X-Gm-Features: AVHnY4KGAJHkEuEWrEaBvNUVL03o1yE66D3J1dy70kGV8vFj4Q7AvxTeAOKHDPc
-Message-ID: <CAMAsx6eiiaBAbrgLFg0Gk6AJEcWgo=0kyEGonC0UDBF8dx6FuQ@mail.gmail.com>
-Subject: Re: [PATCH] docs/pt_BR: process: link maintainer-kvm-x86 in maintainer-handbooks
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+X-MBO-RS-ID: 795585f96704e0164ab
+X-MBO-RS-META: rsbayzutnfjqyda4tz9cmg9m847bfsut
 
- Jonathan Corbet <corbet@lwn.net> wrote:
+On Sun, 2026-05-03 at 08:56 -0600, Jonathan Corbet wrote:
+> Manuel Ebner <manuelebner@mailbox.org> writes:
+>=20
+> > Update the documentation to reflect new type-aware kmalloc-family as
+> > suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
+> > and family")
+>=20
+> OK, I have applied this series.=C2=A0 While doing so, I restored the "gfp=
+"
+> parameter in the changelog portion where it had been mistakenly removed.
 
->
-> >Weird, I wonder why it doesn't warn about this...?  In any
-> >case...applied, thanks.
->
-> > jon
+That's good, thanks.
+I had two more changes lined up for v5 of this series:
 
-Hi Jon,
+-	ptr =3D kmalloc(sizeof(struct foo, gfp);
++	ptr =3D kmalloc(sizeof(struct foo), gfp);
 
-I also found it strange that there was no warning during compilation,
-which is why I went ahead and made the adjustment.
+and=20
 
-Thank you very much!
+-The argument gfp is optional, the default value is GFP_KERNEL.
++The argument `gfp` is optional, the default value is `GFP_KERNEL`.
 
-Best regards,
+I don't know how to go forward with this.
+please advice
 
-Daniel Pereira
+Thanks
+ Manuel
+
+> Thanks,
+>=20
+> jon
+
+
+
