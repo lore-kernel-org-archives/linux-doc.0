@@ -1,125 +1,101 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19533612E9
-	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 16:04:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00543612E9;
+	Sun,  3 May 2026 16:13:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777824287; cv=none; b=IqgMerM+Ob0NvwW16Pyjs3in7a2YW6Er71pLyRtE1gyGUjcEn/l65RZFY5+dxNVcoYolJqMV0Yi2D/8ZinQO8TTc5Jw1PpYhFBPTgJmxtkv0xOcweeSwhl2OmjZvPB18qh/RNZYt1DAMr92S4DmvI0uAH8YycXDBjPVOUOByvec=
+	t=1777824784; cv=none; b=j/ALa9eX+tPUFFrytxTiv93ykEGqAgP4TDMQHKRSVhKTCiL9FReuuJkyclcEp4ZjAVKDMWNKKHEG8F1+b8WbXVqcrS4/MTAqHykSVv/5Vq6bxIDLDl/cPd+/puZCAn93qH4Vy3cra3h+btZ373kmG7XaNIflbomhxKn4vfAjJRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777824287; c=relaxed/simple;
-	bh=bZ713PlyI66Y8baNCt5bU/d4ETaGu0rYRrgUFeTdUFg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U3OQ9ZkhWw3hC5JPm/rabEzH3rQLCkm9Ukfr36Lt4KcZCn+pmtT2qIjwK94guRCAzQ6Bf7SrZyWyUksObVD191FIIJ++SLOsoRs3qScXu0zrngLrL8JNjNeQPRvOi5ZIKTSxillc5nK7gwaOBnNTSIJoj9SZhN+vrf6lmC8/Hkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Fv8gmclu; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=QXxr2Ykx; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777824784; c=relaxed/simple;
+	bh=D0VcYAuXT+AOZnk3q71i9amgUZ/twFulvgs67pCg2hI=;
+	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
+	 Subject:From:To:Cc:Date; b=J9kBhvpbREPWkvOc1XppXwcqigAJxPucCROnyfp7CaVeUyj2nxpOEVKgLsxw3kd2dWr0gcVs4DG3MlPJu+LtxCgTsGs3BCzMqlXLBtiDWTYIfuKFsEPGizL4GndpCM5lmEDL6h/gZHiIoryaP7MzuUVFC51BSCNqjBAyL9ZpUAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hBqI1NJD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Fv8gmclu";
-	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="QXxr2Ykx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777824285;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=X+mJ3ULyyTKCXVslNnzkq+GlbrFoX1sf8l7wRqCeWDg=;
-	b=Fv8gmcluCsjNakPc5ZWrOM0ZvgcZyIVX28xWcX5gBkxypO6Z7OFdv+4Jmleztqy2IX4IYa
-	VcmH0QDMkrb2gH9FtM+cvC4pTTwmBDgkZBx8B/fzq5n38kSPk6rXmFXpFj1O9gNrBnxSbf
-	Ay+0Y4AEntuxR2XW6mELCyh+h7la/9E=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-327-hGN1V2qxNd-995w_q6ysSA-1; Sun, 03 May 2026 12:04:43 -0400
-X-MC-Unique: hGN1V2qxNd-995w_q6ysSA-1
-X-Mimecast-MFC-AGG-ID: hGN1V2qxNd-995w_q6ysSA_1777824282
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-488d8deb75fso27178465e9.3
-        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 09:04:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=redhat.com; s=google; t=1777824282; x=1778429082; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=X+mJ3ULyyTKCXVslNnzkq+GlbrFoX1sf8l7wRqCeWDg=;
-        b=QXxr2YkxaNoD341tdRmTqSnHShQF+MxBiNDFOCtWefQvK1eUSj9UyW2grGSB4xXkZH
-         3dppFtVVyFVgMEKwkLegIpZc6k8Kk/rd4b4aNcVwritvofwKIXbpI78d3UsUXeBTeqg/
-         PdtMQw4pj+7/+HfhaV2XrYQAmTawcEtYTrh0T5g9jnVQ0xcF2tuvRVVa44GExv/yOWae
-         KcopnmstMLt0nuc6PTRcYyCCx02sPj9YVVRwZQ5me9LSOg0gQc2STVx1maXICc1s0KLt
-         HZeexNB9hlA7yAQ+MKckHi4Ytc2ZqtwjCQUbKix/X3r/QTXf5ruCb6Tu7d5h72ygA4W5
-         /Tpw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777824282; x=1778429082;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X+mJ3ULyyTKCXVslNnzkq+GlbrFoX1sf8l7wRqCeWDg=;
-        b=pKyAnyGVRYcQpuEcc69bK/oJrBez3SbSph9XWVVoF14a2gKqd23WcxjOr8Hoic9gJS
-         62GOcqLzCBetLYsPvYGFY7/dQ5bsQYnY+r8Q6bZQSoBwRHCS2m0EmbI8C0SAKdmIgtD0
-         0JGBl5SP/8IYl5Db07xdo+OlGd0ZgbYuLoTCe+ySCp6hjfZ0dyci7X0R1ZfPagbNbW4Y
-         cMjRNIpulPFQVX+ihq70B2iohQJb/NAbN2/iz8MPKx6U9dTX6udfyj6k6XAE+0eO0/S4
-         XFhnYAwbWUg9RWBpAxGlS9hkzMtd8WcU9meaY+OhwDq0HHxbMxP5MBOt7X2VBAvN+xVd
-         l7qg==
-X-Forwarded-Encrypted: i=1; AFNElJ9ZpQCuBLgmw2MzHNii4SGYPQVczPqFAdkjTUkdOG4NcCK5yMfJbmuYLsfRgM4Pvy47gzePmggKfXI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzdi/vKpf3QTUy+hw7I4Qbl2fWq9W8+Tzxu5vVgO+0/wS6a7F2a
-	MI7xDiMNzqLFe7tUQcwiG8Q4ofUVVK8qgPZ9D3+j/cJ2WjMyLxERQLGwgy/qfcrdg6ky96W29xb
-	QBSkrYoW260AHJfQ8WoJW18A6H2sAP+4z/SZJvLBu2rKkSymE1QJ1i8KhsotgWg==
-X-Gm-Gg: AeBDieuHpMP6Eqhk+Ud6RhXyqH4djM8gMfiFWvM6R6ctQpoTbgQuOB91Rc6v2cDwr/A
-	ng+a8WXTXIag7vPq2wf3e2pRLxfUeg7IzK8w4DVyxCniQRBWJY5KmwjtbsdC6+Ai/gRJUgQLhFF
-	SBcse9c/KIZZ2kUMGqDY7LcLGnKq6uqS0/OdTCNjF6THnyAMqWl0e5LloL6dIuEdYGbnB02z+so
-	DAfxM//W5W/AzppK8xsfsBFWZRz4QunjMLfVlUCUcsOvNdV1zODUKHrMsZ5YP+E+1fqK7PJiemp
-	dEdIbcfNVvHvS31oRkZGTFpopVwVugSPqy4SnMMDPRx6K1sa/QZ2IOhSr1LyZcLnFy81vPny1dx
-	UPezQj+JF/LzHlYfAkKq75ocDj30MEkfcUDA5QowVMsdyf2Pf
-X-Received: by 2002:a05:6000:613:b0:445:ed7f:ce84 with SMTP id ffacd0b85a97d-44bb34e71e3mr11488046f8f.10.1777824282476;
-        Sun, 03 May 2026 09:04:42 -0700 (PDT)
-X-Received: by 2002:a05:6000:613:b0:445:ed7f:ce84 with SMTP id ffacd0b85a97d-44bb34e71e3mr11488010f8f.10.1777824282049;
-        Sun, 03 May 2026 09:04:42 -0700 (PDT)
-Received: from costa-tp.redhat.com ([2a00:a041:e223:1b00:fe51:8bb:7986:c897])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a981ded99sm19800555f8f.18.2026.05.03.09.04.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 03 May 2026 09:04:41 -0700 (PDT)
-From: Costa Shulyupin <costa.shul@redhat.com>
-To: "Matthew Wilcox (Oracle)" <willy@infradead.org>,
-	Jan Kara <jack@suse.cz>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Costa Shulyupin <costa.shul@redhat.com>
-Subject: [PATCH v1] docs: locking: Fix stale dquot.c path
-Date: Sun,  3 May 2026 19:02:22 +0300
-Message-ID: <20260503160221.1594319-2-costa.shul@redhat.com>
-X-Mailer: git-send-email 2.53.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hBqI1NJD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA249C2BCB4;
+	Sun,  3 May 2026 16:13:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777824784;
+	bh=D0VcYAuXT+AOZnk3q71i9amgUZ/twFulvgs67pCg2hI=;
+	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
+	b=hBqI1NJDwEzZyLzHlfaqe+DmrHGUCM77Sox5Z6PCsVDTvWiOXyjLV+0XIGRglxuph
+	 owIWaQAwcxNPXp91ASwbybVH8Ih/t1j5wfzhOx5y51UPiaPv1olilRseAupV1EhBO/
+	 T+U5zYM3HuS0H+95850UZogL3pZAi0dvXg9DGG/Kd7nKkKCMItP+i8Hi1IbMohk1yn
+	 VouQz7zvXzqanef384ec0BPywRfZdBsmS30mmikJ2UrQDODeVGu9mNLBxD651LK+kQ
+	 KsxPoNDUeM/ZqHpcLad0bSwu1L1KKDDs6zWwJd7rypJWzQCb4RyAgIIFup7DiRzghU
+	 973BHZZRczkRQ==
+Content-Type: multipart/mixed; boundary="===============1075603499589538813=="
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <43650b10f9e10b3ced4dbd4d99ae3c7e6119faf0edb8dd99b2e99721e52b23dd@mail.kernel.org>
+In-Reply-To: <20260503153730.541685-1-atomlin@atomlin.com>
+References: <20260503153730.541685-1-atomlin@atomlin.com>
+Subject: Re: [RFC PATCH v2] bpf: introduce TAINT_UNSAFE_BPF for mutating helpers
+From: bot+bpf-ci@kernel.org
+To: atomlin@atomlin.com,corbet@lwn.net,song@kernel.org,kpsingh@kernel.org,mattbobrowski@google.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,rostedt@goodmis.org,mhiramat@kernel.org
+Cc: skhan@linuxfoundation.org,jolsa@kernel.org,martin.lau@linux.dev,yonghong.song@linux.dev,mathieu.desnoyers@efficios.com,rdunlap@infradead.org,atomlin@atomlin.com,neelx@suse.com,sean@ashe.io,chjohnst@gmail.com,steve@abita.co,mproche@gmail.com,nick.lange@gmail.com,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,bpf@vger.kernel.org,linux-trace-kernel@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
+Date: Sun,  3 May 2026 16:13:01 +0000 (UTC)
 
-The quota code was moved from fs/dquot.c to fs/quota/dquot.c
-in commit 884d179dff3a ("quota: Move quota files into separate
-directory"). Update the reference.
+--===============1075603499589538813==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Assisted-by: Claude:claude-opus-4-6
-Signed-off-by: Costa Shulyupin <costa.shul@redhat.com>
+> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
+
+[ ... ]
+
+> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
+> index 11054ad89c14..e2060c6f3e13 100644
+> --- a/kernel/bpf/verifier.c
+> +++ b/kernel/bpf/verifier.c
+> @@ -9906,6 +9906,14 @@ static int check_helper_call(struct bpf_verifier_env *env, struct bpf_insn *insn
+>  		return err;
+>  	}
+>
+> +	/*
+> +	 * Taint the kernel if the program attempts to use mutating
+> +	 * helpers.
+> +	 */
+> +	if (func_id == BPF_FUNC_probe_write_user ||
+> +	    func_id == BPF_FUNC_override_return)
+> +		add_taint(TAINT_UNSAFE_BPF, LOCKDEP_STILL_OK);
+> +
+
+Is it possible for the kernel to be tainted here even if the program is
+ultimately rejected by the verifier? check_helper_call() is executed during
+the verifier's static analysis phase. If the program fails verification later
+(for example, failing the GPL-compatibility check immediately following this
+code, or encountering an invalid memory access), the program is safely
+rejected and never loaded.
+
+Because add_taint() synchronously modifies global state, wouldn't the kernel
+remain permanently tainted in this scenario, falsely indicating a compromised
+state?
+
+Furthermore, if panic_on_taint is enabled, could a user trigger a panic merely
+by attempting to load a malformed program that contains these helpers?
+
+Could this be addressed by recording the intent to taint within the program's
+auxiliary data during verification, and only invoking add_taint() once the
+program has successfully passed all checks and is definitively loaded?
+
+>  	/* eBPF programs must be GPL compatible to use GPL-ed functions */
+>  	if (!env->prog->gpl_compatible && fn->gpl_only) {
+>  		verbose(env, "cannot call GPL-restricted function from non-GPL compatible program\n");
+
+[ ... ]
+
+
 ---
- Documentation/filesystems/locking.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
+See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
 
-diff --git a/Documentation/filesystems/locking.rst b/Documentation/filesystems/locking.rst
-index 8421ea21bd35..277e49314d32 100644
---- a/Documentation/filesystems/locking.rst
-+++ b/Documentation/filesystems/locking.rst
-@@ -584,7 +584,7 @@ write_info:	yes		dqonoff_sem
- FS recursion means calling ->quota_read() and ->quota_write() from superblock
- operations.
- 
--More details about quota locking can be found in fs/dquot.c.
-+More details about quota locking can be found in fs/quota/dquot.c.
- 
- vm_operations_struct
- ====================
--- 
-2.53.0
-
+CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25283723455
+--===============1075603499589538813==--
