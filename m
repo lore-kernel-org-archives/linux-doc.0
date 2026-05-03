@@ -1,68 +1,81 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7D829A31C;
-	Sun,  3 May 2026 14:56:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4482BDC13
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 15:07:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777820178; cv=none; b=C142HOtyNjyvyoUVmkja+inCXk3wchTZ61z/qOTIp95La5cFuSGmjGh/JIXOFb6Rmj0/1mxpAhMRvj+c5oe09PD4dRv8PCvAA81IOISrn52d99wW0BTc5vf2pPTbLzMsgIVOZFtI+JMk6AT0vx19v6YFqkfBJaj8tRZizFcuqV8=
+	t=1777820835; cv=none; b=Sahz+bVdW2lRerAInQ1VU9klBENltkihUMxmHr5DPnaMJO46w27ccbSIg3c+8s0CZoWFIGjMx3qZoTRUsyoV+QEgEDIyCFI3H8TOv1JpCRzWufaHJfMBg38FK0QeWujSLQlM6DyKHDaFyTVhz+nQdcunD6VAT8XuzbRxEOUZA6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777820178; c=relaxed/simple;
-	bh=od7THWqtZScmlfcYahIfLPvdd1bPkd9qQGltSz8BsZU=;
+	s=arc-20240116; t=1777820835; c=relaxed/simple;
+	bh=5uW4ZJSgpIOGW4q56yU7dBOVfhqRcO6lJOpx2qGWIUw=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=IpZSGHMp5VhVkVhTM4m8TQbYzdo5S/xFVL8QurKaybL3ND8h4EpFPbqtU9XiJ7GFQQhTWNnVqEAY0omiOvfQmBz7mC7XOSTfPiiEKUdNc9uIKAKFfIzA10+44ph9yzKdaYR9SSsRqxtmK9F1nE5cT3Ge9V1SHRWpTtSh5X0lAp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=AZE4All2; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=B0MKnAkG+RmQj0jVCER3gJfcN0oP8xfSBzTSQhognS2lDT/rWWYxMO61a7kx/gT5uzpiipFu4rO8tKlSpXE0hqY2SsgocXhM8qqrQXQIPHDaSW2V6F6yeBbooXt69xzk9IJ31+2c+EGz6Cs+IkPXCiQQJDZOYxW7sr69uwqtTtQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cMHKPiCE; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="AZE4All2"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net A43DE41084
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cMHKPiCE"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net F07E441084
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777820177; bh=1AKPIGhRNxK+F55Mad0JawX+0GWunrA5WkX6nSEFGLc=;
+	t=1777820834; bh=6z+M2m2MxAj6SxCGicBZW17oGuFWfkStgD8Mnh4k2KY=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=AZE4All21O1rxm3+Fs4hD9srnEfVhetFdksjrOjV3VD83csa9mPQsIaE0wida9+9J
-	 N+/xzjN768Ltum5SPW5NP76mL8D77ZLeuY3QwLSSpZWPmw7VTqr6LcLxxFsoyryih3
-	 Cw7BRrH81/AYfcwvJ71axSfFI/4S7mM2rQAHBsZnKVA2mA+9rgikt6qRgqBgHa/ToH
-	 SEOUJ3eoxda3ocAZisstFiiLSLe7COi99q7zzLDnR3vl8PISisuLK1ag43oadhDND3
-	 Q6gvfwOjNy5JPuH747ES0aqGA8aejR+WZLmznez7o0Kb03gnnNKwpOq5obvRrNNsCm
-	 1wUuJoEIqo0BQ==
+	b=cMHKPiCEp9izQIwICxrEwLrO2esZ9DyNlr6abPT0Sv4AzObLuhjXD62UzvyXRlwyj
+	 nJfHuMxJeib9VbMibjOePwc3J5nQ7kSefkpCdbjAAd6QNH2/XEbLRxSds0+9bmWfjD
+	 RVzRH2Za/g5G51+DagFn67neH0r18y27ksyAlShGIFYu7cPTg1uQ24DansAkaH5Umb
+	 3WdHeNqOuC7zOh8iCOmCFgOe0PWW6Lq3KfebaD4fEaNzK5jat7ArqeVOuE3upPhaDO
+	 AXHAr4HFExe/2JWaX9LfrxmIRcTJ9N3fym1yNFpt2GGp5EMYGkCVGd/0hrjAqvwXhV
+	 dLJRoVJmzcbhQ==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id A43DE41084;
-	Sun,  3 May 2026 14:56:16 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id F07E441084;
+	Sun,  3 May 2026 15:07:13 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Manuel Ebner <manuelebner@mailbox.org>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, Kees Cook
- <kees@kernel.org>
-Cc: linux-kernel@vger.kernel.org, workflows@vger.kernel.org,
- linux-sound@vger.kernel.org, rcu@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org, Manuel Ebner
- <manuelebner@mailbox.org>
-Subject: Re: [PATCH v4 0/3] Documentation: adopt new coding style of
- type-aware kmalloc-family
-In-Reply-To: <20260429070759.309110-3-manuelebner@mailbox.org>
-References: <20260429070759.309110-3-manuelebner@mailbox.org>
-Date: Sun, 03 May 2026 08:56:13 -0600
-Message-ID: <87o6iwczjm.fsf@trenco.lwn.net>
+To: Daniel Pereira <danielmaraboo@gmail.com>
+Cc: linux-doc@vger.kernel.org, Daniel Pereira <danielmaraboo@gmail.com>
+Subject: Re: [PATCH] docs/pt_BR: process: link maintainer-kvm-x86 in
+ maintainer-handbooks
+In-Reply-To: <20260428180208.175472-1-danielmaraboo@gmail.com>
+References: <20260428180208.175472-1-danielmaraboo@gmail.com>
+Date: Sun, 03 May 2026 09:07:11 -0600
+Message-ID: <87jytkcz1c.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Manuel Ebner <manuelebner@mailbox.org> writes:
+Daniel Pereira <danielmaraboo@gmail.com> writes:
 
-> Update the documentation to reflect new type-aware kmalloc-family as
-> suggested in commit 2932ba8d9c99 ("slab: Introduce kmalloc_obj()
-> and family")
+> The Portuguese translation of maintainer-kvm-x86.rst exists in the
+> directory, but it was not listed in the toctree of
+> maintainer-handbooks.rst.
+>
+> Add the missing entry to ensure the document is properly indexed and
+> reachable through the main maintainer handbook page.
+>
+> Signed-off-by: Daniel Pereira <danielmaraboo@gmail.com>
+> ---
+>  .../translations/pt_BR/process/maintainer-handbooks.rst          | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/translations/pt_BR/process/maintainer-handbook=
+s.rst b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+> index ba36df8ee..bf7a38147 100644
+> --- a/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+> +++ b/Documentation/translations/pt_BR/process/maintainer-handbooks.rst
+> @@ -16,3 +16,4 @@ Conte=C3=BAdos:
+>     maintainer-netdev
+>     maintainer-soc
+>     maintainer-soc-clean-dts
+> +   maintainer-kvm-x86
 
-OK, I have applied this series.  While doing so, I restored the "gfp"
-parameter in the changelog portion where it had been mistakenly removed.
-
-Thanks,
+Weird, I wonder why it doesn't warn about this...?  In any
+case...applied, thanks.
 
 jon
