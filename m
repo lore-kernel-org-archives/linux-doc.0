@@ -1,101 +1,265 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00543612E9;
-	Sun,  3 May 2026 16:13:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01BC43C3452
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 16:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777824784; cv=none; b=j/ALa9eX+tPUFFrytxTiv93ykEGqAgP4TDMQHKRSVhKTCiL9FReuuJkyclcEp4ZjAVKDMWNKKHEG8F1+b8WbXVqcrS4/MTAqHykSVv/5Vq6bxIDLDl/cPd+/puZCAn93qH4Vy3cra3h+btZ373kmG7XaNIflbomhxKn4vfAjJRM=
+	t=1777825319; cv=none; b=nqb+RVHv/D3vUNM7cIzm/WhClZLtnS4NWCrgRSelSQKyrVOfd2S4qOOfeofRgEMBvxl+ZU/iKOSEZ/4F4/2eG6QS+Kp4tkNVBGztu0zvZzqfUvld7FrteBGemz+EUJ7MU1OKXVBdLDbDSsgw0hf1Xal2JqapBjkjHGLEI1k6+4Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777824784; c=relaxed/simple;
-	bh=D0VcYAuXT+AOZnk3q71i9amgUZ/twFulvgs67pCg2hI=;
-	h=Content-Type:MIME-Version:Message-Id:In-Reply-To:References:
-	 Subject:From:To:Cc:Date; b=J9kBhvpbREPWkvOc1XppXwcqigAJxPucCROnyfp7CaVeUyj2nxpOEVKgLsxw3kd2dWr0gcVs4DG3MlPJu+LtxCgTsGs3BCzMqlXLBtiDWTYIfuKFsEPGizL4GndpCM5lmEDL6h/gZHiIoryaP7MzuUVFC51BSCNqjBAyL9ZpUAU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hBqI1NJD; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777825319; c=relaxed/simple;
+	bh=dwCxRMEisxexISOwxJ7Jmn5BKMZAjr7fD5C91acVSrs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jOD+FIoyHKWSpNTisLCdtzezvqS1B0cxgOY+32o1mg7CcM8nuUjP1c/sBE/LDaz7O6PdAq0JniMI7ssisU3fqyUklkLNKrFt49OXMHAwP1U64DdEi4o76PrG/ATKxkW0c3H6KwXkvc1YTaoCoKFVGfXiWOtLuH7+AvvnwQV4Ps4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tss.black; spf=pass smtp.mailfrom=tss.black; dkim=pass (2048-bit key) header.d=tss-black.20251104.gappssmtp.com header.i=@tss-black.20251104.gappssmtp.com header.b=fgGbm94R; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=tss.black
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=tss.black
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hBqI1NJD"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA249C2BCB4;
-	Sun,  3 May 2026 16:13:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777824784;
-	bh=D0VcYAuXT+AOZnk3q71i9amgUZ/twFulvgs67pCg2hI=;
-	h=In-Reply-To:References:Subject:From:To:Cc:Date:From;
-	b=hBqI1NJDwEzZyLzHlfaqe+DmrHGUCM77Sox5Z6PCsVDTvWiOXyjLV+0XIGRglxuph
-	 owIWaQAwcxNPXp91ASwbybVH8Ih/t1j5wfzhOx5y51UPiaPv1olilRseAupV1EhBO/
-	 T+U5zYM3HuS0H+95850UZogL3pZAi0dvXg9DGG/Kd7nKkKCMItP+i8Hi1IbMohk1yn
-	 VouQz7zvXzqanef384ec0BPywRfZdBsmS30mmikJ2UrQDODeVGu9mNLBxD651LK+kQ
-	 KsxPoNDUeM/ZqHpcLad0bSwu1L1KKDDs6zWwJd7rypJWzQCb4RyAgIIFup7DiRzghU
-	 973BHZZRczkRQ==
-Content-Type: multipart/mixed; boundary="===============1075603499589538813=="
+	dkim=pass (2048-bit key) header.d=tss-black.20251104.gappssmtp.com header.i=@tss-black.20251104.gappssmtp.com header.b="fgGbm94R"
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ba699316b42so471471066b.3
+        for <linux-doc@vger.kernel.org>; Sun, 03 May 2026 09:21:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=tss-black.20251104.gappssmtp.com; s=20251104; t=1777825316; x=1778430116; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=kxzFrXvbXVkOb9Id0VGPhGUKe6bbCmGVkQRkUolvNt8=;
+        b=fgGbm94R4JigJg1UGrniktHzB8XuKGZ1e5rjXPac+LYn/38sR5MKeMaD1VsY+98cvg
+         194xBmBjHrupdaVTzS3x92hU31XJgualg6n5/paLjGb8UO9W0rZBq/kw2wQDF/pgJTsa
+         HT5H+mvm1ZGofHCv6JWEBI66eQAYUnjjJGFBTqbPLfECWFNCTmIJp99ZMm4n4U05E2D1
+         fnmXT0E/ndPUYkc5W03AFb1Nvc7rkKJZh4zDRVRTlxFox+O4hFcVlPNMAp/FZux+zjHr
+         3qbh+oYoq1ay8BuRkS1YEUOpcuRuS5s8vfkQ0AssLsJjOCBkQyfaWmB/t7dZ9ps7/U/Y
+         eY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777825316; x=1778430116;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kxzFrXvbXVkOb9Id0VGPhGUKe6bbCmGVkQRkUolvNt8=;
+        b=R+JArGqv8l2FOI+XGLGEW7gSxRqq7ohN1jn4lFB3iP0IdtQryA3ineTAyfejJflbIi
+         a5g2VKHKnz9nMuC1bmwigk3FIDwDmeai7IBcGgsJ3rzzHTAHs/WBGSvd7zbDHl1uwbQ7
+         rVs5hWkLwgBx+h44iVFKOFxzww4CUXxD6YFHaiSQpjpAuFwCW9HiiA05lbef2Bk+DAet
+         6HZS2kbSd/pf7DQZcbcDD9SM8HROVXOkCV2rwGCeEaaOK00rQJ1GEbifdZmrCsUc35Tr
+         F2Mz9VKqJ5mWtXlZIPF8Fczje365rz1QD2fxI2aBRukngrH53oTNWdidFZmM77qMr+I+
+         TCgw==
+X-Gm-Message-State: AOJu0YyzraBusNO97/LHfWSE1BBRG7xO6mSmFzODLJtFhaJs2M7YLSkb
+	COYcbk42SPcZF5U0kwOLHT+XZ7fcvaebkOc2Sc5vVdJxGLy9O5fgDvh/+vgjB+MxiLU=
+X-Gm-Gg: AeBDieucJMH7jLL4ZLPqfWyJExmYQ0gMN4o2clhS+7ROL1ueC2/pbCMqbsFS7+zojoT
+	f5g8RJU3lqnmAnnl9U8TNs+jvuQUO8kmPNn/wi0x+vVItmweitoZU+BUPZIXOrDLXg6yYIgQE2Z
+	xZmGtDqXikS/0qWuaDYle1WJOkLRTjNbcjkskheydULcU/MyhlSxBlRGGDnuCqkfHio1T3FpvoM
+	awg8N7Ww7i2f/iLNHVGiefUaapN67/02XlijysH383wINzI4ktyDUZJs153jeddqysjYa2YsHIV
+	07qXiLe7Fy4uHZx4ZWVgspBnG4ZZb8tRLSxknJgqBG8aXW0+A/CZnaAurOlYAgIh5VKR06s5bM5
+	V1FJ5hA6gklxWQb7rWCW6v/aHr/EEaCoxtsmLgum90n0woV34V0qFX2z1PY2JxHNmVUJVqpxaVG
+	HBYmsaoJ668WVQ8qfJ3MBr8zj6K2lyuuepDeHbMFuLlGC05cfgVkYJpPTtV2RZpA7r2KPQ6k/FX
+	u1D2cv9bjlv8AJpdtMo
+X-Received: by 2002:a17:907:9617:b0:ba4:a7a3:d03f with SMTP id a640c23a62f3a-bbffaf45fafmr321087666b.27.1777825316071;
+        Sun, 03 May 2026 09:21:56 -0700 (PDT)
+Received: from dell (public-gprs524604.centertel.pl. [31.61.168.125])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc21478931dsm35710666b.24.2026.05.03.09.21.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 03 May 2026 09:21:55 -0700 (PDT)
+From: Karol Antczak <karol.antczak@tss.black>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	Karol Antczak <karol.antczak@tss.black>
+Subject: [PATCH] MAINTAINERS: fix typos
+Date: Sun,  3 May 2026 18:21:50 +0200
+Message-ID: <20260503162150.575620-1-karol.antczak@tss.black>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Message-Id: <43650b10f9e10b3ced4dbd4d99ae3c7e6119faf0edb8dd99b2e99721e52b23dd@mail.kernel.org>
-In-Reply-To: <20260503153730.541685-1-atomlin@atomlin.com>
-References: <20260503153730.541685-1-atomlin@atomlin.com>
-Subject: Re: [RFC PATCH v2] bpf: introduce TAINT_UNSAFE_BPF for mutating helpers
-From: bot+bpf-ci@kernel.org
-To: atomlin@atomlin.com,corbet@lwn.net,song@kernel.org,kpsingh@kernel.org,mattbobrowski@google.com,ast@kernel.org,daniel@iogearbox.net,andrii@kernel.org,eddyz87@gmail.com,memxor@gmail.com,rostedt@goodmis.org,mhiramat@kernel.org
-Cc: skhan@linuxfoundation.org,jolsa@kernel.org,martin.lau@linux.dev,yonghong.song@linux.dev,mathieu.desnoyers@efficios.com,rdunlap@infradead.org,atomlin@atomlin.com,neelx@suse.com,sean@ashe.io,chjohnst@gmail.com,steve@abita.co,mproche@gmail.com,nick.lange@gmail.com,linux-doc@vger.kernel.org,linux-kernel@vger.kernel.org,bpf@vger.kernel.org,linux-trace-kernel@vger.kernel.org,ast@kernel.org,andrii@kernel.org,daniel@iogearbox.net,martin.lau@kernel.org,eddyz87@gmail.com,yonghong.song@linux.dev,clm@meta.com,ihor.solodrai@linux.dev
-Date: Sun,  3 May 2026 16:13:01 +0000 (UTC)
+Content-Transfer-Encoding: 8bit
 
---===============1075603499589538813==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Fix spelling and capitalization issues.
 
-> diff --git a/Documentation/admin-guide/tainted-kernels.rst b/Documentation/admin-guide/tainted-kernels.rst
-
-[ ... ]
-
-> diff --git a/kernel/bpf/verifier.c b/kernel/bpf/verifier.c
-> index 11054ad89c14..e2060c6f3e13 100644
-> --- a/kernel/bpf/verifier.c
-> +++ b/kernel/bpf/verifier.c
-> @@ -9906,6 +9906,14 @@ static int check_helper_call(struct bpf_verifier_env *env, struct bpf_insn *insn
->  		return err;
->  	}
->
-> +	/*
-> +	 * Taint the kernel if the program attempts to use mutating
-> +	 * helpers.
-> +	 */
-> +	if (func_id == BPF_FUNC_probe_write_user ||
-> +	    func_id == BPF_FUNC_override_return)
-> +		add_taint(TAINT_UNSAFE_BPF, LOCKDEP_STILL_OK);
-> +
-
-Is it possible for the kernel to be tainted here even if the program is
-ultimately rejected by the verifier? check_helper_call() is executed during
-the verifier's static analysis phase. If the program fails verification later
-(for example, failing the GPL-compatibility check immediately following this
-code, or encountering an invalid memory access), the program is safely
-rejected and never loaded.
-
-Because add_taint() synchronously modifies global state, wouldn't the kernel
-remain permanently tainted in this scenario, falsely indicating a compromised
-state?
-
-Furthermore, if panic_on_taint is enabled, could a user trigger a panic merely
-by attempting to load a malformed program that contains these helpers?
-
-Could this be addressed by recording the intent to taint within the program's
-auxiliary data during verification, and only invoking add_taint() once the
-program has successfully passed all checks and is definitively loaded?
-
->  	/* eBPF programs must be GPL compatible to use GPL-ed functions */
->  	if (!env->prog->gpl_compatible && fn->gpl_only) {
->  		verbose(env, "cannot call GPL-restricted function from non-GPL compatible program\n");
-
-[ ... ]
-
-
+Signed-off-by: Karol Antczak <karol.antczak@tss.black>
 ---
-AI reviewed your patch. Please fix the bug or email reply why it's not a bug.
-See: https://github.com/kernel-patches/vmtest/blob/master/ci/claude/README.md
+ MAINTAINERS | 40 ++++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-CI run summary: https://github.com/kernel-patches/bpf/actions/runs/25283723455
---===============1075603499589538813==--
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 882214b0e7db..c4abb127ce30 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -12,7 +12,7 @@ Descriptions of section entries and preferred order
+ 	   Supported:	Someone is actually paid to look after this.
+ 	   Maintained:	Someone actually looks after it.
+ 	   Odd Fixes:	It has a maintainer but they don't have time to do
+-			much other than throw the odd patch in. See below..
++			much other than throw the odd patch in. See below.
+ 	   Orphan:	No current maintainer [but maybe you could take the
+ 			role as you write your new code].
+ 	   Obsolete:	Old code. Something tagged obsolete generally means
+@@ -1913,7 +1913,7 @@ F:	drivers/iio/addac/stx104.c
+ 
+ APM DRIVER
+ M:	Jiri Kosina <jikos@kernel.org>
+-S:	Odd fixes
++S:	Odd Fixes
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/jikos/apm.git
+ F:	arch/x86/kernel/apm_32.c
+ F:	drivers/char/apm-emulation.c
+@@ -1936,7 +1936,7 @@ F:	security/apparmor/
+ APPLE BCM5974 MULTITOUCH DRIVER
+ M:	Henrik Rydberg <rydberg@bitmath.org>
+ L:	linux-input@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	drivers/input/mouse/bcm5974.c
+ 
+ APPLE PCIE CONTROLLER DRIVER
+@@ -1948,12 +1948,12 @@ F:	drivers/pci/controller/pcie-apple.c
+ APPLE SMC DRIVER
+ M:	Henrik Rydberg <rydberg@bitmath.org>
+ L:	linux-hwmon@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	drivers/hwmon/applesmc.c
+ 
+ APPLETALK NETWORK LAYER
+ L:	netdev@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	include/linux/atalk.h
+ F:	include/uapi/linux/atalk.h
+ F:	net/appletalk/
+@@ -4059,7 +4059,7 @@ ASYMMETRIC KEYS - GOST
+ M:	Lukas Wunner <lukas@wunner.de>
+ M:	Ignat Korchagin <ignat@linux.win>
+ L:	linux-crypto@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	crypto/ecrdsa*
+ 
+ ASYMMETRIC KEYS - RSA
+@@ -4071,7 +4071,7 @@ F:	crypto/rsa*
+ 
+ ASYNCHRONOUS TRANSFERS/TRANSFORMS (IOAT) API
+ R:	Dan Williams <djbw@kernel.org>
+-S:	Odd fixes
++S:	Odd Fixes
+ W:	http://sourceforge.net/projects/xscaleiop
+ F:	Documentation/crypto/async-tx-api.rst
+ F:	crypto/async_tx/
+@@ -5550,7 +5550,7 @@ F:	include/uapi/linux/btrfs*
+ BTTV VIDEO4LINUX DRIVER
+ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ W:	https://linuxtv.org
+ T:	git git://linuxtv.org/media.git
+ F:	Documentation/driver-api/media/drivers/bttv*
+@@ -6898,7 +6898,7 @@ F:	drivers/media/dvb-frontends/cx24120*
+ CX88 VIDEO4LINUX DRIVER
+ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ W:	https://linuxtv.org
+ T:	git git://linuxtv.org/media.git
+ F:	Documentation/driver-api/media/drivers/cx88*
+@@ -9822,7 +9822,7 @@ FBTFT Framebuffer drivers
+ M:	Andy Shevchenko <andy@kernel.org>
+ L:	dri-devel@lists.freedesktop.org
+ L:	linux-fbdev@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	drivers/staging/fbtft/
+ 
+ FC0011 TUNER DRIVER
+@@ -11289,7 +11289,7 @@ HARDWARE RANDOM NUMBER GENERATOR CORE
+ M:	Olivia Mackall <olivia@selenic.com>
+ M:	Herbert Xu <herbert@gondor.apana.org.au>
+ L:	linux-crypto@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	Documentation/admin-guide/hw_random.rst
+ F:	Documentation/devicetree/bindings/rng/
+ F:	drivers/char/hw_random/
+@@ -12714,7 +12714,7 @@ F:	include/uapi/linux/uinput.h
+ INPUT MULTITOUCH (MT) PROTOCOL
+ M:	Henrik Rydberg <rydberg@bitmath.org>
+ L:	linux-input@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	Documentation/input/multi-touch-protocol.rst
+ F:	drivers/input/input-mt.c
+ K:	\b(ABS|SYN)_MT_
+@@ -14098,7 +14098,7 @@ R:	Nicholas Piggin <npiggin@gmail.com>
+ L:	linuxppc-dev@lists.ozlabs.org
+ L:	kvm@vger.kernel.org
+ S:	Maintained (Book3S 64-bit HV)
+-S:	Odd fixes (Book3S 64-bit PR)
++S:	Odd Fixes (Book3S 64-bit PR)
+ S:	Orphan (Book3E and 32-bit)
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git topic/ppc-kvm
+ F:	arch/powerpc/include/asm/kvm*
+@@ -14787,7 +14787,7 @@ F:	arch/powerpc/platforms/44x/
+ LINUX FOR POWERPC EMBEDDED PPC85XX
+ M:	Scott Wood <oss@buserror.net>
+ L:	linuxppc-dev@lists.ozlabs.org
+-S:	Odd fixes
++S:	Odd Fixes
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/scottwood/linux.git
+ F:	Documentation/devicetree/bindings/cache/freescale-l2cache.txt
+ F:	Documentation/devicetree/bindings/powerpc/fsl/
+@@ -14908,7 +14908,7 @@ F:	tools/testing/selftests/liveupdate/
+ 
+ LLC (802.2)
+ L:	netdev@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ F:	include/linux/llc.h
+ F:	include/net/llc*
+ F:	include/uapi/linux/llc.h
+@@ -19837,7 +19837,7 @@ F:	drivers/media/i2c/ov7670.c
+ OMNIVISION OV772x SENSOR DRIVER
+ M:	Jacopo Mondi <jacopo@jmondi.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ T:	git git://linuxtv.org/media.git
+ F:	Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
+ F:	drivers/media/i2c/ov772x.c
+@@ -23635,7 +23635,7 @@ F:	drivers/media/i2c/saa6588*
+ SAA7134 VIDEO4LINUX DRIVER
+ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ W:	https://linuxtv.org
+ T:	git git://linuxtv.org/media.git
+ F:	Documentation/driver-api/media/drivers/saa7134*
+@@ -24340,7 +24340,7 @@ F:	drivers/iio/light/gp2ap002.c
+ SHARP RJ54N1CB0C SENSOR DRIVER
+ M:	Jacopo Mondi <jacopo@jmondi.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/i2c/rj54n1cb0c.c
+ F:	include/media/i2c/rj54n1cb0c.h
+@@ -24434,7 +24434,7 @@ F:	drivers/media/radio/si4713/radio-usb-si4713.c
+ SIANO DVB DRIVER
+ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ W:	https://linuxtv.org
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/common/siano/
+@@ -26135,7 +26135,7 @@ F:	drivers/media/i2c/tda9840*
+ TEA5761 TUNER DRIVER
+ M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+ L:	linux-media@vger.kernel.org
+-S:	Odd fixes
++S:	Odd Fixes
+ W:	https://linuxtv.org
+ T:	git git://linuxtv.org/media.git
+ F:	drivers/media/tuners/tea5761.*
+-- 
+2.54.0
+
