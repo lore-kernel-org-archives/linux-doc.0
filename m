@@ -1,33 +1,33 @@
 Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B963CA52;
-	Sun,  3 May 2026 03:36:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D44019AD5C;
+	Sun,  3 May 2026 03:50:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777779388; cv=none; b=pFf5IlZr3FbpuyBwPpi+LSa7cld40WCkvZvXJaV2ysLvmldR9Or7SQ4VGVxQ2c6mG67f/EbANvbdxoiYluzK3gAxVgWmrRebLNVXlJd2bzOw7mpPFPCrlpdBvu6TH5bIMONXAWH48P9O3zeC2/jeNc30K9jzDS3vit020jRAWiA=
+	t=1777780251; cv=none; b=J+VDqeCTUPuJI/jaL/5GM7yy0Aure9RMK78R9s8c6/+mjecghRPZuILPJ877X8UuQyD3VvErI9JlTE9VsARqSzRLjX/KtZCmVCMKs/JPPUJ37jkmNi6bxabNdpwJhCit/kC2euVlYUKwYHmLjOd5ziNaPvt1lxzC7xA7CT/rze8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777779388; c=relaxed/simple;
-	bh=16gE3Zmxvq9l/e+8Adas9Ssngs8xP2I/U10xr3qEPG4=;
+	s=arc-20240116; t=1777780251; c=relaxed/simple;
+	bh=KkhqH+enIGlDSe9wpYpqRmRgrfu9Qk/ZTE4eris/8Sc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNfbkamFPbSKMu488z+7jkXQgfmIWce92+bu3OLZTh65hbcAi51dp1i7yxKLeK34L2KF3qnRUnEoiSl8IsLaOdOIzOvGG2TZloERhvzGIeMDXAIg6K/VtTQnI1Md8gSFtwTk24XhUAw1s/T1Rl1cc+1T6Xo7QMDiqHBXIJ7p8kg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=WuwyskRF; arc=none smtp.client-ip=156.67.10.101
+	 Content-Type:Content-Disposition:In-Reply-To; b=YNSbYWA2lfHLDsEevH6fAZSuPSOSiXibqJSsR7Q5xc7Ycw9EvLDnGHS2YB7jSnq3FvmZSiGRECCUvJCgrv+gi8uOA1bKNUO7aEvymevVoRWZBzHqVuinSp/bfEAw7UbTHR4/db5Tyrd/VfcupjQB19xHfboQjMCV0WhKyMaE6I0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=j1MpHy9V; arc=none smtp.client-ip=156.67.10.101
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="WuwyskRF"
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="j1MpHy9V"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
 	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
 	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
 	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
 	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=DTFRDFkycfQcVTewpGkLJugXa/JrmWlRAbcO2CAGRH4=; b=WuwyskRFKAttARx1y/Qw6F2PtQ
-	VSfnmWsR0zwaG1mjFFG3zz5PfZxzNhLGqa3zB/gobKbU6K44LNuLmLWgx0dYnlvwjunAv1ocEbAK1
-	1VM3StlIh5OepYjDOW/iiALrXM8pqTXJraGqgoPZ/efOcBUa35D9/Oe8I4QmCUt0JdIU=;
+	bh=KLkq4GgpHcZIZ9V0bLeLbrvyjtYFqPx7kxg5KQcjpck=; b=j1MpHy9V5i9l9+BKoELUgjp6g/
+	WACT0v4chUJ+WkillWjstNQgm7aq+y7Ch3mJaDf72tq5dD+BBAhL6Q2lQ24dWPXyOj+fTWG3aflJX
+	DMOOMZiyegGm/dozODK+0GgW79Gv61zhMF3JHMRh9VeSn8zk48pRJmtW3KZ16OngQcZw=;
 Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
 	(envelope-from <andrew@lunn.ch>)
-	id 1wJNcr-0015Jc-HW; Sun, 03 May 2026 05:36:13 +0200
-Date: Sun, 3 May 2026 05:36:13 +0200
+	id 1wJNqm-0015PB-20; Sun, 03 May 2026 05:50:36 +0200
+Date: Sun, 3 May 2026 05:50:36 +0200
 From: Andrew Lunn <andrew@lunn.ch>
 To: ciprian.regus@analog.com
 Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
@@ -43,11 +43,10 @@ Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
 	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
 	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 4/5] net: ethernet: adi: Add a driver for the
- ADIN1140 MACPHY
-Message-ID: <afc1cf8d-4a02-430e-89a5-b213c15a4f70@lunn.ch>
+Subject: Re: [PATCH net-next 2/5] net: ethernet: oa_tc6: Allow custom mii_bus
+Message-ID: <aad9cb98-8f1f-409f-8d58-0318e125210c@lunn.ch>
 References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
- <20260503-adin1140-driver-v1-4-dd043cdd88f0@analog.com>
+ <20260503-adin1140-driver-v1-2-dd043cdd88f0@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,141 +55,102 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260503-adin1140-driver-v1-4-dd043cdd88f0@analog.com>
+In-Reply-To: <20260503-adin1140-driver-v1-2-dd043cdd88f0@analog.com>
 
-On Sun, May 03, 2026 at 02:24:53AM +0300, Ciprian Regus via B4 Relay wrote:
-> From: Ciprian Regus <ciprian.regus@analog.com>
-> 
-> Add a driver for ADIN1140. The device is a 10BASE-T1S MAC-PHY
-> (integrated in the same package) that connects to a CPU over an SPI bus,
-> and implements the Open Alliance TC6 protocol for control and frame
-> transfers. As such, this driver relies on oa_tc6 for the communication
-> with the device. The device has an alternative name (AD3306), so the
-> driver can be probed using one of the two compatible strings.
-> 
-> For control transactions, ADIN1140 only implements the protected mode.
-> The driver has a custom implementation for the mii_bus access methods as a
-> workaround for hardware issues:
-> 
-> 1. The OA TC6 standard defines the direct and indirect access modes for
->    MDIO transactions. The ADIN1140 incorrectly advertises indirect mode
->    only (supported capabilities register - 0x2, bit 9), while actually
->    implementing just the direct mode. We cannot rely on the CAP register
->    to choose an access method (which oa_tc6 does by default, even though
->    it only implements the direct mode), so the driver has to use its
->    own.
-> 2. The ADIN1140 cannot access the C22 register space of the internal
->    PHY, while the PHY is busy receiving frames. If that happens, the
->    CONFIG0 and CONFIG2 registers of the MAC will get corrupted and the
->    data transfer will stop. Those two registers configure settings for
->    the transfer protocol between the MAC and host, so the value for some
->    of their subfields shouldn't be changed while the netdev is up.
->    Since we know the PHY is internal, the MAC driver can implement a
->    custom mii_bus, which can intercept C22 accesses. Most of the
->    registers mapped in the 0x0 - 0x3 range (the only ones the PHY offers)
->    are read only, and their value can be read from somewhere else (e.g
->    the PHYID 1 & 2 have the same value as 0x1 in the MAC memory map).
->    For the fields that are R/W (loopback and AN/reset) in the control
->    register, the PHY driver already implements the set_loopback() and
->    config_aneg() functions. The C22 write function of the driver is a
->    no-op and is used to protect against the ioctl MDIO access path.
->    C45 accesses do not cause this issue, so we can properly implement
->    them.
-> 
-> Signed-off-by: Ciprian Regus <ciprian.regus@analog.com>
-> ---
->  MAINTAINERS                         |   7 +
->  drivers/net/ethernet/adi/Kconfig    |  12 +
->  drivers/net/ethernet/adi/Makefile   |   1 +
->  drivers/net/ethernet/adi/adin1140.c | 805 ++++++++++++++++++++++++++++++++++++
->  4 files changed, 825 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 1e58da5ef47a..f9784c25beac 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1843,6 +1843,13 @@ S:	Supported
->  W:	https://ez.analog.com/linux-software-drivers
->  F:	drivers/dma/dma-axi-dmac.c
+> @@ -538,32 +539,37 @@ static int oa_tc6_mdiobus_register(struct oa_tc6 *tc6)
+>  {
+>  	int ret;
 >  
-> +ANALOG DEVICES INC ETHERNET DRIVERS
-> +M:	Ciprian Regus <ciprian.regus@analog.com>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +W:	https://ez.analog.com/linux-software-drivers
-> +F:	drivers/net/ethernet/adi/adin1140.c
+> -	tc6->mdiobus = mdiobus_alloc();
+>  	if (!tc6->mdiobus) {
+> -		netdev_err(tc6->netdev, "MDIO bus alloc failed\n");
+> -		return -ENOMEM;
+> +		tc6->mdiobus = mdiobus_alloc();
+> +		if (!tc6->mdiobus) {
+> +			netdev_err(tc6->netdev, "MDIO bus alloc failed\n");
+> +			return -ENOMEM;
+> +		}
 > +
->  ANALOG DEVICES INC ETHERNET PHY DRIVERS
->  M:	Ciprian Regus <ciprian.regus@analog.com>
->  L:	netdev@vger.kernel.org
-> diff --git a/drivers/net/ethernet/adi/Kconfig b/drivers/net/ethernet/adi/Kconfig
-> index 760a9a60bc15..bdb8ff7d15da 100644
-> --- a/drivers/net/ethernet/adi/Kconfig
-> +++ b/drivers/net/ethernet/adi/Kconfig
-> @@ -26,4 +26,16 @@ config ADIN1110
->  	  Say yes here to build support for Analog Devices ADIN1110
->  	  Low Power 10BASE-T1L Ethernet MAC-PHY.
+> +		tc6->mdiobus->read = oa_tc6_mdiobus_read;
+> +		tc6->mdiobus->write = oa_tc6_mdiobus_write;
+> +		/* OPEN Alliance 10BASE-T1x compliance MAC-PHYs will have both C22 and
+> +		 * C45 registers space. If the PHY is discovered via C22 bus protocol it
+> +		 * assumes it uses C22 protocol and always uses C22 registers indirect
+> +		 * access to access C45 registers. This is because, we don't have a
+> +		 * clean separation between C22/C45 register space and C22/C45 MDIO bus
+> +		 * protocols. Resulting, PHY C45 registers direct access can't be used
+> +		 * which can save multiple SPI bus access. To support this feature, PHY
+> +		 * drivers can set .read_mmd/.write_mmd in the PHY driver to call
+> +		 * .read_c45/.write_c45. Ex: drivers/net/phy/microchip_t1s.c
+> +		 */
+> +		tc6->mdiobus->read_c45 = oa_tc6_mdiobus_read_c45;
+> +		tc6->mdiobus->write_c45 = oa_tc6_mdiobus_write_c45;
+> +
+> +		tc6->own_mdiobus = true;
+>  	}
 >  
-> +config ADIN1140
-> +	tristate "Analog Devices ADIN1140 MAC-PHY"
-> +	depends on SPI
-> +	select ADIN1140_PHY
-> +	select OA_TC6
-> +	help
-> +	  Say yes here to build support for Analog Devices, Inc. ADIN1140
-> +	  10BASE-T1S Ethernet MAC-PHY.
-> +
-> +	  To compile this driver as a module, choose M here. The module will be
-> +	  called adin1140.
-> +
->  endif # NET_VENDOR_ADI
-> diff --git a/drivers/net/ethernet/adi/Makefile b/drivers/net/ethernet/adi/Makefile
-> index d0383d94303c..0390ca8ccc49 100644
-> --- a/drivers/net/ethernet/adi/Makefile
-> +++ b/drivers/net/ethernet/adi/Makefile
-> @@ -4,3 +4,4 @@
->  #
+>  	tc6->mdiobus->priv = tc6;
+> -	tc6->mdiobus->read = oa_tc6_mdiobus_read;
+> -	tc6->mdiobus->write = oa_tc6_mdiobus_write;
+> -	/* OPEN Alliance 10BASE-T1x compliance MAC-PHYs will have both C22 and
+> -	 * C45 registers space. If the PHY is discovered via C22 bus protocol it
+> -	 * assumes it uses C22 protocol and always uses C22 registers indirect
+> -	 * access to access C45 registers. This is because, we don't have a
+> -	 * clean separation between C22/C45 register space and C22/C45 MDIO bus
+> -	 * protocols. Resulting, PHY C45 registers direct access can't be used
+> -	 * which can save multiple SPI bus access. To support this feature, PHY
+> -	 * drivers can set .read_mmd/.write_mmd in the PHY driver to call
+> -	 * .read_c45/.write_c45. Ex: drivers/net/phy/microchip_t1s.c
+> -	 */
+> -	tc6->mdiobus->read_c45 = oa_tc6_mdiobus_read_c45;
+> -	tc6->mdiobus->write_c45 = oa_tc6_mdiobus_write_c45;
+> -	tc6->mdiobus->name = "oa-tc6-mdiobus";
+>  	tc6->mdiobus->parent = tc6->dev;
+> +	tc6->mdiobus->name = "oa-tc6-mdiobus";
 >  
->  obj-$(CONFIG_ADIN1110) += adin1110.o
-> +obj-$(CONFIG_ADIN1140) += adin1140.o
-> diff --git a/drivers/net/ethernet/adi/adin1140.c b/drivers/net/ethernet/adi/adin1140.c
-> new file mode 100644
-> index 000000000000..5bc3f5732ed8
-> --- /dev/null
-> +++ b/drivers/net/ethernet/adi/adin1140.c
-> @@ -0,0 +1,805 @@
-> +// SPDX-License-Identifier: GPL-2.0+
-> +/*
-> + * Driver for Analog Devices, Inc. ADIN1140 10BASE-T1S MAC-PHY
-> + *
-> + * Copyright 2026 Analog Devices Inc.
-> + */
+>  	snprintf(tc6->mdiobus->id, ARRAY_SIZE(tc6->mdiobus->id), "%s",
+> -		 dev_name(&tc6->spi->dev));
+> +			 dev_name(&tc6->spi->dev));
+>  
+>  	ret = mdiobus_register(tc6->mdiobus);
+>  	if (ret) {
+> @@ -577,19 +583,30 @@ static int oa_tc6_mdiobus_register(struct oa_tc6 *tc6)
+>  
+>  static void oa_tc6_mdiobus_unregister(struct oa_tc6 *tc6)
+>  {
+> +	if (!tc6->mdiobus)
+> +		return;
 > +
-> +#include <linux/etherdevice.h>
-> +#include <linux/kernel.h>
-> +#include <linux/mdio.h>
-> +#include <linux/module.h>
-> +#include <linux/oa_tc6.h>
-> +#include <linux/phy.h>
+>  	mdiobus_unregister(tc6->mdiobus);
+> -	mdiobus_free(tc6->mdiobus);
 > +
-> +#define ADIN1140_MMS_REG(m, r)	((((m) & GENMASK(3, 0)) << 16) |	\
-> +				 ((r) & GENMASK(15, 0)))
-> +
-> +#define ADIN1140_MACPHY_ID_REG	ADIN1140_MMS_REG(0x0, 0x1)
+> +	if (tc6->own_mdiobus)
+> +		mdiobus_free(tc6->mdiobus);
+>  }
+>  
+>  static int oa_tc6_phy_init(struct oa_tc6 *tc6)
+>  {
+>  	int ret;
+>  
+> -	ret = oa_tc6_check_phy_reg_direct_access_capability(tc6);
+> -	if (ret) {
+> -		netdev_err(tc6->netdev,
+> -			   "Direct PHY register access is not supported by the MAC-PHY\n");
+> -		return ret;
+> +	/* If the driver provided a mii_bus, it is also responsible for
+> +	 * implementing the bus access methods, so we don't have to worry
+> +	 * about checking the PHY access mode.
+> +	 */
+> +	if (!tc6->mdiobus) {
+> +		ret = oa_tc6_check_phy_reg_direct_access_capability(tc6);
+> +		if (ret) {
+> +			netdev_err(tc6->netdev,
+> +				"Direct PHY register access is not supported by the MAC-PHY\n");
+> +			return ret;
+> +		}
 
-This is not an ADIN1140 MACPHY_ID_REG, it is the TC6 PHYID register.
-
-> +
-> +#define ADIN1140_CONFIG0_REG		0x0004
-> +#define ADIN1140_CONFIG0_TXFCSVE	BIT(14)
-> +#define ADIN1140_CONFIG0_RFA_ZARFE	BIT(12)
-> +#define ADIN1140_CONFIG0_CPS_64		GENMASK(2, 1)
-> +
-> +#define ADIN1140_CONFIG2_REG		ADIN1140_MMS_REG(0x0, 0x6)
-
-This is not an ADIN1140 CONFIG2 register. It is the TC6 CONFIG2
-register. 
-
-Please add the TC6 registers to include/linux/oa_tc6.
+This all seems pretty invasive and ugly. Please could you think what
+happens if instead of passing in an mdiobus, you pass a phydev. Is the
+change to the core simpler and cleaner?
 
 	Andrew
