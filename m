@@ -1,102 +1,106 @@
-Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f43.google.com (mail-vs1-f43.google.com [209.85.217.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 513741A681B;
-	Sun,  3 May 2026 00:41:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5893204C36
+	for <linux-doc@vger.kernel.org>; Sun,  3 May 2026 00:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777768869; cv=none; b=dlVzaq6w6KAV8V3fXfyAjc/Z1U7jC8682+5cGYSMOA2CUM95/8012muz5Y7uMhhquwZ690cOzULXNziGO6fJTwq1n73E6EDKrpfK8wJYm9vJhr/XRk4InF3W6RqgGU9BBKtDSjySADKeKcJYbLf9xnugZ/tdcnnKoP7w3zcYuY8=
+	t=1777769861; cv=none; b=W9g3zBbWeNnvnSf0KhpbZKsnm7l1WPuwRwu6GwbpjKoykYMO6sDkD/cMyhy5G7Xw+lLlv6SmvFL+uRMTAlzQsf/E3UYXyruDlbfTkwFtiT64b+IKx2f8pN97qqOtyAnOM6qwfIaL2YkOlS/Aj/ZFPmeWFLv+HQjAVsyUH/59SeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777768869; c=relaxed/simple;
-	bh=2BF3n/2wknFjKWRP+8E3iqCkDvqYI0HvhrV67GErkYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=d5363O4eyG//BU3/9O3FpyRzhsnOH7hUbEMmC2CB+swR2RZDHrFyYiE+lpQ8347/XTID7eEGowNAlYFd/dVJZSOnx3dHpmQLc0GVjs7E/vMJzq94EwqBsZe1XZOZ2glfnMI1QaGIqTVukaOW+3yPZ5p2G046VA4+bBKAiRlDvwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=5hoDPrKC; arc=none smtp.client-ip=156.67.10.101
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
+	s=arc-20240116; t=1777769861; c=relaxed/simple;
+	bh=3i2DlzViyk0p16fbzABndRUIz9Briv7bcSW8RF9iqt0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c5O6vF2vl2TE6NPlVaVz5jhqiH1YXTV50LtMZmfOBzz3+oI2s8RkJA/i8HE4uhN298QS62XDWxisbyU5ehfXdZ1/JHeRrrsKJnB3q+5H/k7085gTNBRHjGC8PE8l2Llt9+mTpXbZ25qLj6HOs3SOTZLiU1zhkJaSIm1kYG+/l1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com; spf=pass smtp.mailfrom=maestretorreblanca.com; dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b=DRPazX8U; arc=none smtp.client-ip=209.85.217.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=maestretorreblanca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maestretorreblanca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="5hoDPrKC"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
-	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
-	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
-	bh=YWU/N5KMrK3PGj5bbF9MJMDxZIl1BT+5NZSw3ptVt+0=; b=5hoDPrKChaUD9hzjhsbt6j/ksr
-	mTpLKuEx7qqOFp4/iH8qpp5J3+n5mr81f8D810/NPu3tsMvuRMhwZNzVaSHdOWQT0nkQ/iswmmk6g
-	L65HilbrYVWLjiAie2ils8XGFB0fsbwMCUaWCwzVZwBECJNiHiEPtlEqjbGinfkPycms=;
-Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
-	(envelope-from <andrew@lunn.ch>)
-	id 1wJKsz-0014FM-Te; Sun, 03 May 2026 02:40:41 +0200
-Date: Sun, 3 May 2026 02:40:41 +0200
-From: Andrew Lunn <andrew@lunn.ch>
-To: ciprian.regus@analog.com
-Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: Re: [PATCH net-next 3/5] net: phy: Add support for the ADIN1140 PHY
-Message-ID: <2cfa6680-503a-4c4a-91bc-5f9a4331967d@lunn.ch>
-References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
- <20260503-adin1140-driver-v1-3-dd043cdd88f0@analog.com>
+	dkim=pass (2048-bit key) header.d=maestretorreblanca.com header.i=@maestretorreblanca.com header.b="DRPazX8U"
+Received: by mail-vs1-f43.google.com with SMTP id ada2fe7eead31-6120528b8b4so1016268137.0
+        for <linux-doc@vger.kernel.org>; Sat, 02 May 2026 17:57:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=maestretorreblanca.com; s=google; t=1777769859; x=1778374659; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hl0NK+MUV3aWIGSEg80ZpP+e1ygTELg5+PZ5Oxbl4PE=;
+        b=DRPazX8UxhpV4jKhvcYQaJlerY49NGoZ9fP60VlRPtvoPnbOelMB22NAXajvya4F+0
+         gH67i9wQDHQZnyeqcq9pxmkmUYlOy0iNvlyXOMGYN1QcEE60gX+IvjeCyDq6Ijs+3qbz
+         LmTljaofebSoZkKcVaOZg+VnTELkXQVS6QAdHHpKH1cF5FfZlptq6g1bvFH+6b24clEW
+         X9NQNmOxcnXB+NkGox4oXUCK2YzD2d/yN8cW+XO21C3rkOItG0uyRpGqHxDN7t6coXWM
+         ksm71M8xJot18eVTQJQ86M0ZUl8AIWdnalrwrjGLCidT0PPDx01FXZ8wUjHwbuzFxtYO
+         fryA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777769859; x=1778374659;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hl0NK+MUV3aWIGSEg80ZpP+e1ygTELg5+PZ5Oxbl4PE=;
+        b=q1X0QUw0rwv+HGwhwqePj+pcWElH20GgWlCNtYQ+AeTyN2qb3cDn59OlD4lwTSFS7e
+         PE2PEQ3hPOOK5lgChnZ+gxgBAcDBL6uVNam4LeSQdKaSU6pWXkndx8F5retlhHDnyIrq
+         Hw4lAyobLVFe2ZVHGIWgkdb9bBV9FR3nF4iCfdqxUMnGcy+08Ol7K4eOqCfV3Ohif9IT
+         Wr1o3KYhv6nsftkicjcE+dwNMmfcWGBnoJOcEX/ocyDAptEx8Nno5NNU48YP1mcpJocz
+         g4V+C5gB3e2kY5GnOR/0CDCnS/2/XBLf7NgZXpeOp1k9Tuzv74VwbBEofqNwEzaB7m45
+         HgLQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/4ZLUhcGaertQaAoxbPEivhnWkxeFtsQYB3SjOKZ5YS+sDDUKiuOgGL5QKdX3J7fg/a/mNXRX6DTc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5LJZzqWfOyHvogoFWL/QZkToGE/qiOO+k1E54l03UTK9WtTb/
+	oikuSTv6NWYYuw5gdyvLCR1U/fEIqkxGtGStvHS5cPBs1da3DIpKgj8jxtcm3JYCvoQ=
+X-Gm-Gg: AeBDieuSJf0ycLJv7n2STGlr+Cd0JdoRsgCuP23gypZa53PGoAySZTLT/Kbrs2NIBob
+	2/7pNd3VNPZ2QhjzWw2LqDEI4ACd5MegLQ0W45Nj92hxCHs+MVTu+cX22c/zsOkEPH/WbZ80Poz
+	uswdWj3XQirb0Ahc7zLhlcNtrqq45s/uxs/jbH+7nHNLMLG108Xsnu6XDr2jmahD07SXH7XnGTA
+	RfV+Tgz06DZwfx8nKB7lsaASr3kopNaKhX2lDr1GkV8YabsV10gBfNBORHW8ANEKbG3LwiRA6ma
+	sXUzgm1arkI/2LLZTly6EIspW0EEIOcQ6OW3lhHJ73n+2uqrwFCojoSrvVRFSPC4CndN4CjP63R
+	SMt1HG5lYUKfW/Tlz4s1FAoq3eb8vOeKnhMlfJYHFcGHXI0eixE/svLxIC9aWYK+3CEc73xFCmN
+	acRFCCC/Rb8y25Fcu5Rm4nsbMUORK/0+JI/mdxcuutb4w6PHjgooyJJCV4GXpBF/BeVS1jJk6Jx
+	5e+71gsWr1gPFuuGxhs7NZpSu5p8AR/eGxuMg==
+X-Received: by 2002:a05:6122:829f:b0:56a:fc35:9664 with SMTP id 71dfb90a1353d-5750c4acd6cmr1861099e0c.3.1777769858811;
+        Sat, 02 May 2026 17:57:38 -0700 (PDT)
+Received: from localhost.localdomain ([95.214.114.12])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-574a6c6c582sm4009834e0c.9.2026.05.02.17.57.35
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Sat, 02 May 2026 17:57:38 -0700 (PDT)
+From: Francisco Maestre <francisco@maestretorreblanca.com>
+To: airlied@gmail.com,
+	simona@ffwll.ch,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	corbet@lwn.net
+Cc: dri-devel@lists.freedesktop.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Francisco Maestre <francisco@maestretorreblanca.com>
+Subject: [PATCH v2] Documentation: gpu: todo: fix typo 'themsevles' -> 'themselves'
+Date: Sat,  2 May 2026 19:57:33 -0500
+Message-ID: <20260503005733.68932-1-francisco@maestretorreblanca.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503-adin1140-driver-v1-3-dd043cdd88f0@analog.com>
+Content-Transfer-Encoding: 8bit
 
-> +static int adin1140_phy_read_mmd(struct phy_device *phydev, int devnum,
-> +				 u16 regnum)
-> +{
-> +	struct mii_bus *bus = phydev->mdio.bus;
-> +	int addr = phydev->mdio.addr;
-> +
-> +	return __mdiobus_c45_read(bus, addr, devnum, regnum);
-> +}
-> +
-> +static int adin1140_phy_write_mmd(struct phy_device *phydev, int devnum,
-> +				  u16 regnum, u16 val)
-> +{
-> +	struct mii_bus *bus = phydev->mdio.bus;
-> +	int addr = phydev->mdio.addr;
-> +
-> +	return __mdiobus_c45_write(bus, addr, devnum, regnum, val);
-> +}
+Fix a spelling mistake in the panel-simple/panel-edp TODO section.
 
-Why do these exist?
+Signed-off-by: Francisco Maestre <francisco@maestretorreblanca.com>
+---
+v2: Resend as individual patch, not part of an unrelated series.
+ Documentation/gpu/todo.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +static int adin1140_config_init(struct phy_device *phydev)
-> +{
-> +	/* The link status of the PHY doesn't need to be polled, because
-> +	 * the device doesn't implement AN and there is no other mechanism
-> +	 * to report the link state.
-> +	 */
-> +	phydev->irq = PHY_MAC_INTERRUPT;
+diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+index 520da44a04a6..e371134782f8 100644
+--- a/Documentation/gpu/todo.rst
++++ b/Documentation/gpu/todo.rst
+@@ -456,7 +456,7 @@ be turned into a WARN_ON() or somehow made louder.
+ At the moment, we expect that we may still encounter the warnings in the
+ drm_panel core when using panel-simple and panel-edp. Since those panel
+ drivers are used with a lot of different DRM modeset drivers they still
+-make an extra effort to disable/unprepare the panel themsevles at shutdown
++make an extra effort to disable/unprepare the panel themselves at shutdown
+ time. Specifically we could still encounter those warnings if the panel
+ driver gets shutdown() _before_ the DRM modeset driver and the DRM modeset
+ driver properly calls drm_atomic_helper_shutdown() in its own shutdown()
+-- 
+2.50.1 (Apple Git-155)
 
-I would prefer you don't abuse this.
-
-> +static int adin1140_read_status(struct phy_device *phydev)
-> +{
-> +	phydev->link = 1;
-> +	phydev->duplex = DUPLEX_HALF;
-> +	phydev->speed = SPEED_10;
-> +	phydev->autoneg = AUTONEG_DISABLE;
-> +
-> +	return 0;
-> +}
-
-This should have no really cost, so just let phylib poll.
-
-	Andrew
