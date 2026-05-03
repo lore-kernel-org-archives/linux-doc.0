@@ -1,52 +1,52 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DAA1A6808;
-	Sun,  3 May 2026 15:16:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56EEB294A10;
+	Sun,  3 May 2026 15:20:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777821367; cv=none; b=pZj3C/4H7VIfUL4TZoyN+yT/2oKLpXRpNe+oOotqMvPze9IkElxX8zDzBpdJqBQWn5dH1wkOx/JMBhXNUG7PrRS9+wcNxWo5P+hQ+NBmbQc6MwwpUuVBzws4MwWFrO43wZTCjtA1OkxOYPblmTkXfgay2zjYT9r2M9iS3yaVmYk=
+	t=1777821609; cv=none; b=FcJgWFaBOhoJA92Vn81f0owHneCiQb6f3AinLZE6mWzTqt4efmwkSINCPBbv0n85Y6FvezdDUwCqOTmxeKrDslmrfrQguce7RddYRob3gZr1x417ECr+AemtZqJUlYuFwmzCkvWvwZ0pjrvpdrmLmrSN47TNNfOmYN7HrAyaIZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777821367; c=relaxed/simple;
-	bh=FrQTgFh5xBirNB3V0+ic1VfjdTXAM3RePlrK+PRicyQ=;
+	s=arc-20240116; t=1777821609; c=relaxed/simple;
+	bh=9ZQLZrpN6NElVWbLzuO0+GvkcQGqZk0/OsuHr2gFPS8=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=HuijII0N/ceJYam/oKCvMxIDcOmdAz8+q8EDjnT23TX2q6vTWsHSxuSMtgu2dbpc/cVEMZDK388g8/qQLd7HxAYDlB38Li3Vuh+gaBk1x6tfUAyZsqzCq+7HQjtgrxxT+s35zF+705QZfDACcsDVXiHcXKexJHP62bkOAcpdW7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=cfzdDUHZ; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=cMNZUevaeQbp0iFF17AOZDa/XJ/Ov6emlgmB18Oa7hwwoKpnNMdZnRiJwOfye6UY2KnOZZ7v2p1E+A9vLiPKH5GvaxYaGmOE/yvCpmG9f287911kVwiv1YOvjq7QqBLXcavb/M65QmWBEsSnT8+OKJ0HKQClQQac/pXmwoktA8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OtrTiV6d; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="cfzdDUHZ"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 131D041084
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OtrTiV6d"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5631341202
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1777821365; bh=xHtiiDrFaA5dwViXPQT0TECpzX0/1YLefV9TvY+Kca4=;
+	t=1777821607; bh=hyfQhY3k7z88MNS6iDnDpL/YX26gYfj5GP8756dXVhM=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=cfzdDUHZ4ysmxcxlb5UIH2LmUzmTS8DOhKD6sQ13tlLhC+ayQ4wC1/pZQ8QUI/z5O
-	 WAyvU2wEvw5DTKUeQtfextYEtylNVOyLeNWl22YB+mFWyDEVyarEmKmoLnrDlRSpwr
-	 yK+7VxT59Xouz+Ls2xYbm55rDPofU5EjxgI6QLbu32gdntWceYXtLOygCSpUF9jYYX
-	 c51Yal5d7E7GW0sgGzGQmLjilzToGC+qr1jLsDE0IH77y4JnV2krzT6SMA+DR9xfZ0
-	 7baeBQh7nfkuscaLxUSP/O4WEOy22oJNNuhusWxR1GrwisETSAXGYQLKUBYRSNABYH
-	 b//q8tTJX515Q==
+	b=OtrTiV6dkVylcA+7ksi20vpk/wA/C644ENcRHpzt2R35cZvRxYyvfLCDuEaLjM7UZ
+	 8gBp8DUouskYUu9Juj8ojbF2hGvON0k0m0dfPrOlYmUL7uFUy1BwncVsKkJ0FfB7il
+	 QNnKLt00YsC21HmWKwedU3txcHUhdo88bpuAPK66862ZnM85kqU2MMwliboYkDrOGC
+	 fJHkcfUKYI/kFAMGdomN8QDy7UgIOoOrZIr/JbQlLd8QhUGqzZoFsnOPKrvAQWPdcO
+	 i88sGE4Y08vHGBPrnFJRDDj5fP0FMWV65G1o+xybzQluch9W6+5LUoZk+dXBAjA2t7
+	 lFhKE907ZI9zg==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 131D041084;
-	Sun,  3 May 2026 15:16:04 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5631341202;
+	Sun,  3 May 2026 15:20:07 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Aaron Tomlin <atomlin@atomlin.com>, skhan@linuxfoundation.org
-Cc: tglx@kernel.org, akpm@linux-foundation.org, bp@alien8.de,
- rdunlap@infradead.org, dave.hansen@linux.intel.com,
- feng.tang@linux.alibaba.com, pawan.kumar.gupta@linux.intel.com,
- dapeng1.mi@linux.intel.com, kees@kernel.org, elver@google.com,
- paulmck@kernel.org, lirongqing@baidu.com, bhelgaas@google.com,
- bigeasy@linutronix.de, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] docs: kernel-parameters: document scope of
- irqaffinity= parameter
-In-Reply-To: <20260421150911.42404-1-atomlin@atomlin.com>
-References: <20260421150911.42404-1-atomlin@atomlin.com>
-Date: Sun, 03 May 2026 09:16:01 -0600
-Message-ID: <87y0i0bk26.fsf@trenco.lwn.net>
+To: Guenter Roeck <linux@roeck-us.net>, Randy Dunlap
+ <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Wim Van Sebroeck
+ <wim@linux-watchdog.org>, linux-watchdog@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/5] docs: watchdog: general cleaning and corrections
+In-Reply-To: <7a5971b2-e067-40cb-8d15-aaf1926af3c3@roeck-us.net>
+References: <20260228010402.2389343-1-rdunlap@infradead.org>
+ <875x7cddye.fsf@trenco.lwn.net>
+ <3de4c724-39bf-47f9-bf43-49552bc60a3a@infradead.org>
+ <8161ef45-be1a-41e2-a22b-a12d6b9df666@infradead.org>
+ <7a5971b2-e067-40cb-8d15-aaf1926af3c3@roeck-us.net>
+Date: Sun, 03 May 2026 09:20:05 -0600
+Message-ID: <87tssobjve.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,56 +55,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Aaron Tomlin <atomlin@atomlin.com> writes:
+Guenter Roeck <linux@roeck-us.net> writes:
 
-> There is a common misconception that the "irqaffinity=" boot parameter
-> acts as a global override for all hardware interrupts. In reality, it
-> only sets the irq_default_affinity mask, which is explicitly ignored
-> by managed interrupts (e.g., modern multiqueue storage controllers).
+> On 4/30/26 15:14, Randy Dunlap wrote:
+>> Hi Wim,
+>> 
+>> On 3/22/26 5:54 PM, Randy Dunlap wrote:
+>>>
+>>>
+>>> On 3/3/26 9:23 AM, Jonathan Corbet wrote:
+>>>> Randy Dunlap <rdunlap@infradead.org> writes:
+>>>>
+>>>>> Fix some obvious issues in the watchdog documentation files.
+>>>>> I didn't try to fix every little niggling mistake.
+>>>>>
+>>>>>   [PATCH 1/5] docs: watchdog: mlx-wdt: small fixes
+>>>>>   [PATCH 2/5] docs: watchdog: pcwd: fix typo and driver info.
+>>>>>   [PATCH 3/5] docs: watchdog-api: general cleaning
+>>>>>   [PATCH 4/5] docs: watchdog-kernel-api: general cleanups
+>>>>>   [PATCH 5/5] docs: watchdog-parameters: add missing watchdog_core parameters
+>>>>>
+>>>>>   Documentation/watchdog/mlx-wdt.rst             |    4 -
+>>>>>   Documentation/watchdog/pcwd-watchdog.rst       |   19 +++++--
+>>>>>   Documentation/watchdog/watchdog-api.rst        |   38 +++++++--------
+>>>>>   Documentation/watchdog/watchdog-kernel-api.rst |   20 +++++--
+>>>>>   Documentation/watchdog/watchdog-parameters.rst |   11 +++-
+>>>>>   5 files changed, 58 insertions(+), 34 deletions(-)
+>>>>
+>>>> Wim, do you want to pick these up, or should I take them through the
+>>>> docs tree?
+>>>
+>>> Wim, are you active?  Can you reply and/or merge these?
+>> 
+>> What's happening with these 5 patches?
+>> 
 >
-> This patch updates kernel-parameters.txt to document this limitation,
-> directs users to "isolcpus=managed_irq" and
-> Documentation/core-api/irq/managed_irq.rst for further details.
-> Additionally, it updates managed_irq.rst to provide a debugfs example
-> demonstrating the IRQD_AFFINITY_MANAGED state flag.
->
-> Signed-off-by: Aaron Tomlin <atomlin@atomlin.com>
-> ---
-> Changes in v1 [1]:
->  - Provided an example of a managed IRQ using CONFIG_GENERIC_IRQ_DEBUGFS
->  - Referenced Documentation/core-api/irq/managed_irq.rst
->
-> [1]: https://lore.kernel.org/lkml/20260414200245.1153919-1-atomlin@atomlin.com/
-> ---
->  .../admin-guide/kernel-parameters.txt         | 11 ++++
->  Documentation/core-api/irq/managed_irq.rst    | 53 ++++++++++++++++++-
->  2 files changed, 62 insertions(+), 2 deletions(-)
+> It looks like Wim did not send a pull request for watchdog this time around/
+> Wim, are you still active, or should I send pull requests going forward ?
 
-[...]
-
-> diff --git a/Documentation/core-api/irq/managed_irq.rst b/Documentation/core-api/irq/managed_irq.rst
-> index 05e295f3c289..8e973a7d1bd1 100644
-> --- a/Documentation/core-api/irq/managed_irq.rst
-> +++ b/Documentation/core-api/irq/managed_irq.rst
-> @@ -80,9 +80,58 @@ The following examples assume a system with 8 CPUs.
->      /proc/irq/48/effective_affinity_list:0
->      /proc/irq/48/smp_affinity_list:7
->  
-> -  This can be verified via the debugfs interface
-> -  (/sys/kernel/debug/irq/irqs/48). The dstate field will include
-> +  If the Linux kernel was built with Kconfig CONFIG_GENERIC_IRQ_DEBUGFS
-> +  enabled, this can be verified via the debugfs interface (e.g.,
-> +  /sys/kernel/debug/irq/irqs/48). The dstate field will include
->    IRQD_IRQ_DISABLED, IRQD_IRQ_MASKED and IRQD_MANAGED_SHUTDOWN.
-> +  A managed IRQ will also include IRQD_AFFINITY_MANAGED. For example:
-> +
-> +    # cat /sys/kernel/debug/irq/irqs/87
-> +    handler:  handle_edge_irq
-> +    device:   0000:41:00.0
-
-This will not render the way you seem to expect, it should be a literal
-block.  Please do build the docs and look at the results before sending
-documentation patches.
+OK, rather than let these languish further, I've just applied them.
 
 Thanks,
 
