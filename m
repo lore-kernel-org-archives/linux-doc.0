@@ -1,134 +1,388 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C889392C32;
-	Mon,  4 May 2026 16:27:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BB6A3E276B
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 16:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777912046; cv=none; b=rakVhEeU9o7htExEOWoIUCEtrP/9YdM2wxxUuByKBgQaxvoNeJgesWrB6icsAU4gRoUe2cIiNZIhppu+MYoAupWdCtM3oP7cO99LmzDCqPIZ2DAVv7ungk25TxPxYfyzwxyYbrffZ2+wgPf2UeQ3WGPYLKpuyu78doFFPN09+D8=
+	t=1777912223; cv=none; b=SB7SJ7aq/QOjQOHWPevasO+VS0vLMQBSieY430rPGSCMATBpy9BV06pDLXR85JCV4Spg7Y1nOVDkzeKJvuC4Ab9xiQ4t0NGapHCkvDR9nOr4ExAjashH/yXtqrV0ZDPRhfjnoLA9WUQznqVKFhmkmoVPb+Uf0vhfpQp68qtAfiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777912046; c=relaxed/simple;
-	bh=pb/tc+qet8z57KNYIbl6SB0j1yoUbSKvqYUNc/vuBQM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cWf5Cgl8qt9LTmWtCbXbnBAPY/0UU/qB205Qi68gxAuXWQSIZQKbL3x8giEJacjO0s4OM6VIqZs5JzP0e7c5c7bbcqI3NoAaq/tkfKfVtIE4DqeBeLJ0DUTaDWkjhbWdQa/1lZfCTT+s6NJTz1/j0J5phaFG2GOWv8stKmJUZxE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TCAf1RYT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1777912223; c=relaxed/simple;
+	bh=+iiiX3BvtYgkBAUfsPCcDZX4Aid/ECDwiIQZzdJjkNs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=U5X6lFvzrIuNX6r1ndlXI0XS1FxfBKgXb8sPP+UtxJsxCe9oiHg4G+2L7dtPxnKZi46b9EpKcGPrXW9zpSGcLoThv1Ej9QT9P1LanPEo46l8DijitxAg58wv5zwb5FPamja88D6YQxcrd0PDnqT4NI5n9KkNa9Zrxa+82WKtdaI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lfgHUusY; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TCAf1RYT"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3605B82A;
-	Mon,  4 May 2026 18:27:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777912042;
-	bh=pb/tc+qet8z57KNYIbl6SB0j1yoUbSKvqYUNc/vuBQM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TCAf1RYTKs7xAHfxC0MRhizC0ArrveHSDdfoVakroTl6JZ5B+7FW0w1LBbEhyc4aI
-	 CBWrbU/JfNPJsl//uhwdiNCNsAdRseXr60dxZpffaOkeF9oJqEmppzgIfmIaUuf37I
-	 4sQIAaqoS+tGGO5Hw9Bl1jtP85PZqfBNW70G0HWM=
-Date: Mon, 4 May 2026 19:27:22 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Simon Ser <contact@emersion.fr>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 02/20] drm/colorop: Fix typos in the doc
-Message-ID: <20260504162722.GG1344263@killaraus.ideasonboard.com>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-2-8b68d9db0d8b@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lfgHUusY"
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-82748257f5fso3736937b3a.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 09:30:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777912220; x=1778517020; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=K4SDDOQTi/UT2LIZcsZGLS3qiP3+rr4zN9xXGDgjw4U=;
+        b=lfgHUusYEg7LgD+BuBOI3EuiVMM5H4bghSXghViiri8ojDluvFUrpEYDsGYpCrPiAb
+         Pw9lDTGxhX0+R5sVptxcKjHnz1YhVpoZYvYGiJcBkwjKr9qnrxc04Lzqg7Tv55/lhVDA
+         Jf22UHV2ub01iRfOkNaVkgaFwNpW004wDbcaXprpMMIGsOye6u0NRMdy1g2gQ+soa8+v
+         j7b/EFbhtzz9uEzxvFuDUuIf/GI5tds4Elr3S4+qPgyFhkdKB3QZjuEqEDRBYUpzU//5
+         rx4uS+p8OXB8eUBjizhuSN9nF9FUvcqnRL9zjfrYZ57Qns0nkaGWy6vo0SifcIq5L/dM
+         hDog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777912220; x=1778517020;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=K4SDDOQTi/UT2LIZcsZGLS3qiP3+rr4zN9xXGDgjw4U=;
+        b=L4otHBNTdbKBrRtIdGBtLl2sw89yY6RPfiC7vqHK63LOBu6NZV+g9bo/iKLoWzWa3V
+         +FxJ/2aIkA3MGHDfPjIMQiSRaZTh4pJAzWGnlm2UN3UzfLq8paVphCqnZqpGmsJ0bCvT
+         L/xbWT1D0VGkR4j9N9x8DDmQNSQwHbKKADTulnpIPs3Sdyoxpb1eNoAn/6KEgUqh0+As
+         P8rNMj8R4fNbf7hs7k7QKKtUK3P3E+YMH/V9BOlX48EAo4g+G0lAIt61biulkdWenlTb
+         5A/R5k+IKh/KJNUfoQd86QF9p3+yd88KtjeVKPpVMuP8y/JrtLBP4FbN7ttsKhc60oa8
+         e98w==
+X-Forwarded-Encrypted: i=1; AFNElJ82muL5bcp+WSzecLNUFvieRBeWzk49BiNC6oluMJVQfqxpopVURSVrzX3QCAIcLJnFuDq7s/JYvJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwA+JGefGkztmhw+/57Pqy4Hpb/HO1StL71XZGAQWNriUawgPVJ
+	j+OQ3lNb/4iRir5g+IXdW/CLbu+TAVjOa/eeO7fKjfGYkqm2v2s128rM
+X-Gm-Gg: AeBDietGPL7al4EFHQZL/q4LxRCkTtnydWyzfBC7FAlhPsFKDLUZTGZ53dGvOVc1Juu
+	b0w2NICJiy76123R1IvsKDEJLQ82RiNx71+G18fLTTCjiJtZB3mDSv2m00mGqcEeb8F/Wje9tXx
+	kPMTEkkZFBnfhmtFIUzukgi1nHSTcG6UiIX9ingwgZ1S4hNOq+RME1W68CQzX20ByIbXYnzdnhG
+	eXI5xM7yEDkMlrR0OOUAE4N9P8NSVbrp6v9k3Vr4p+Mf/MVLz+YrylM/NJN3wB9y5lNSYmyfXRV
+	N1Zdv9hM5FLwGmjDIVLfzoumZSjkDhzuajRu5B4gNd/WjJ39h8YDKhBwhRe/RCJOsdfZuLAeurX
+	U2v80OSq9Og0JkTWxiaSPekiSnaCi88DQfotdEL4ROgNnR+kBdvsHBuBUxbEA4Pa1BwrhhRaEbc
+	eRvPF+UhggWwKZ0RZ7LgLmtMA+ZUxZnyUcPYL4Gueq5FDS
+X-Received: by 2002:a05:6a00:98f:b0:82f:4725:f6d0 with SMTP id d2e1a72fcca58-838fe8711b3mr144617b3a.29.1777912220379;
+        Mon, 04 May 2026 09:30:20 -0700 (PDT)
+Received: from [163.43.103.131] ([163.43.103.131])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-837081abadfsm4998663b3a.42.2026.05.04.09.30.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 09:30:19 -0700 (PDT)
+From: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+Date: Tue, 05 May 2026 01:30:11 +0900
+Subject: [PATCH v2 1/7] seg6: add End.MAP behavior
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260424-drm-mode-config-init-v3-2-8b68d9db0d8b@kernel.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260505-seg6-mobile-v2-1-9e8022bdfdb6@gmail.com>
+References: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+In-Reply-To: <20260505-seg6-mobile-v2-0-9e8022bdfdb6@gmail.com>
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Andrea Mayer <andrea.mayer@uniroma2.it>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Yuya Kusakabe <yuya.kusakabe@gmail.com>
+X-Mailer: b4 0.15.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=9123;
+ i=yuya.kusakabe@gmail.com; h=from:subject:message-id;
+ bh=+iiiX3BvtYgkBAUfsPCcDZX4Aid/ECDwiIQZzdJjkNs=;
+ b=owEBbQKS/ZANAwAIASrX0XUqXRtNAcsmYgBp+MmUQwE1DvRY1mrT1chXPXCYjnWz3JzuPfrDm
+ HL6Zvy/U6yJAjMEAAEIAB0WIQTaB7usAfxNKMeqa6Yq19F1Kl0bTQUCafjJlAAKCRAq19F1Kl0b
+ TbUmD/0UeSzpAQ0PNYbxTBqMwqlVIxxKM/NPWe8+lzUZukIj4qXV+wYtXi6zYARHws7Wl5pkAwt
+ s85uTo9/zK97uY2+hH7g57YfdMrqEjdJUHvYsTeVdK4EFO9PbB/YMdoVCLq7OUvbsM/J+Wo6cR+
+ K/ZJ9ZRY7QzBV24fd+GnJtRPP9FzUobQCZU/zHaTeDKrfris9RBlK7A6jOImCnvKv82ohS86nCR
+ gMvbG0ZrdOL5gco+X4QYyfdQwAfyFU851S56e21r1TY2bLlPH6hRXzdDPf40dJ7RYF+Sn9nR/VS
+ D2d8OGL0ICoB+VB6wDeL5d69zejtfH0S8jGp8hQuZmptsEjUOFl2+nEagB89KcoQszSLreJOqUw
+ +CO719N6TLHKgaEGndoBb0GEmc1hJegxuADzAPHhiD8W7wYq5W5u0O6lRQGEP981GMmKONW5HFw
+ r0Qko/sZR/XNwhcyK9JlzkEaIGupe4hW99jCxmTpxdh0QsnPdhW4CKdnDHkS95UHMF+ol5DuHFd
+ kdOpcIzN8ycDDEs51KAHBqVOmpnSB2T0naONNP5RsJiAtkCkVjV8cDeXrXVCF5SW0CV7pa1+AE4
+ TU359/LfJhNLzFjrE/vn8MSU2IW6jP4aLh9rIr8Q6Lo5rIL2K+axkXa5I/TgfhFRcZTA3vJMKNL
+ /9vHveYD2hm0RYw==
+X-Developer-Key: i=yuya.kusakabe@gmail.com; a=openpgp;
+ fpr=DA07BBAC01FC4D28C7AA6BA62AD7D1752A5D1B4D
 
-On Fri, Apr 24, 2026 at 12:18:42PM +0200, Maxime Ripard wrote:
-> In the documentation of drm_colorop introduced by commit cfc27680ee20
-> ("drm/colorop: Introduce new drm_colorop mode object"), the
-> documentation of __drm_colorop_state_reset() and __drm_colorop_reset()
-> were mentioning CRTC when they really meant colorop, probably due to
-> copy and paste.
-> 
-> Fixes: cfc27680ee20 ("drm/colorop: Introduce new drm_colorop mode object")
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+Add the End.MAP behavior (RFC 9433 Section 6.2): an endpoint that
+replaces the IPv6 destination address with a configured next SID
+and forwards via IPv6 routing without consuming the SRH.  The new
+nh6 attribute selects the replacement SID.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Add three drop reasons that End.MAP emits to dropreason-core.h, so
+dropped packets show up in the standard skb:kfree_skb tracepoint:
 
-> ---
->  drivers/gpu/drm/drm_colorop.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_colorop.c b/drivers/gpu/drm/drm_colorop.c
-> index 764d12060666..48d0b7ae3fc9 100644
-> --- a/drivers/gpu/drm/drm_colorop.c
-> +++ b/drivers/gpu/drm/drm_colorop.c
-> @@ -503,11 +503,11 @@ void drm_colorop_atomic_destroy_state(struct drm_colorop *colorop,
->   * __drm_colorop_state_reset - resets colorop state to default values
->   * @colorop_state: atomic colorop state, must not be NULL
->   * @colorop: colorop object, must not be NULL
->   *
->   * Initializes the newly allocated @colorop_state with default
-> - * values. This is useful for drivers that subclass the CRTC state.
-> + * values. This is useful for drivers that subclass the colorop state.
->   */
->  static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
->  				      struct drm_colorop *colorop)
->  {
->  	u64 val;
-> @@ -526,14 +526,14 @@ static void __drm_colorop_state_reset(struct drm_colorop_state *colorop_state,
->  /**
->   * __drm_colorop_reset - reset state on colorop
->   * @colorop: drm colorop
->   * @colorop_state: colorop state to assign
->   *
-> - * Initializes the newly allocated @colorop_state and assigns it to
-> - * the &drm_crtc->state pointer of @colorop, usually required when
-> - * initializing the drivers or when called from the &drm_colorop_funcs.reset
-> - * hook.
-> + * Initializes the newly allocated @colorop_state and assigns it to the
-> + * &drm_colorop->state pointer of @colorop, usually required when
-> + * initializing the drivers or when called from the
-> + * &drm_colorop_funcs.reset hook.
->   *
->   * This is useful for drivers that subclass the colorop state.
->   */
->  static void __drm_colorop_reset(struct drm_colorop *colorop,
->  				struct drm_colorop_state *colorop_state)
-> 
+  SEG6_MOBILE_INVALID_SRH_SL
+  SEG6_MOBILE_HOP_LIMIT_EXCEEDED
+  SEG6_MOBILE_NOMEM
+
+Configuration:
+
+  ip -6 route add 2001:db8:f::/64 \
+      encap seg6local action End.MAP nh6 2001:db8:1::e \
+      dev <dev>
+
+Link: https://www.rfc-editor.org/rfc/rfc9433.html#section-6.2
+Signed-off-by: Yuya Kusakabe <yuya.kusakabe@gmail.com>
+---
+ include/net/dropreason-core.h                    |  12 +++
+ include/uapi/linux/seg6_local.h                  |   2 +
+ net/ipv6/seg6_local.c                            |  73 ++++++++++++++++
+ tools/testing/selftests/net/Makefile             |   1 +
+ tools/testing/selftests/net/srv6_end_map_test.sh | 103 +++++++++++++++++++++++
+ 5 files changed, 191 insertions(+)
+
+diff --git a/include/net/dropreason-core.h b/include/net/dropreason-core.h
+index e0ca3904ff8e..1be5c54d7605 100644
+--- a/include/net/dropreason-core.h
++++ b/include/net/dropreason-core.h
+@@ -127,6 +127,8 @@
+ 	FN(PSP_INPUT)			\
+ 	FN(PSP_OUTPUT)			\
+ 	FN(RECURSION_LIMIT)		\
++	FN(SEG6_MOBILE_INVALID_SRH_SL)	\
++	FN(SEG6_MOBILE_NOMEM)		\
+ 	FNe(MAX)
+ 
+ /**
+@@ -600,6 +602,16 @@ enum skb_drop_reason {
+ 	SKB_DROP_REASON_PSP_OUTPUT,
+ 	/** @SKB_DROP_REASON_RECURSION_LIMIT: Dead loop on virtual device. */
+ 	SKB_DROP_REASON_RECURSION_LIMIT,
++	/**
++	 * @SKB_DROP_REASON_SEG6_MOBILE_INVALID_SRH_SL: invalid Segments Left
++	 * value or SRH validation failure on an SRv6 Mobile path.
++	 */
++	SKB_DROP_REASON_SEG6_MOBILE_INVALID_SRH_SL,
++	/**
++	 * @SKB_DROP_REASON_SEG6_MOBILE_NOMEM: skb head/tail expansion or
++	 * helper allocation failed on an SRv6 Mobile path.
++	 */
++	SKB_DROP_REASON_SEG6_MOBILE_NOMEM,
+ 	/**
+ 	 * @SKB_DROP_REASON_MAX: the maximum of core drop reasons, which
+ 	 * shouldn't be used as a real 'reason' - only for tracing code gen
+diff --git a/include/uapi/linux/seg6_local.h b/include/uapi/linux/seg6_local.h
+index 4fdc424c9cb3..45386fdfa821 100644
+--- a/include/uapi/linux/seg6_local.h
++++ b/include/uapi/linux/seg6_local.h
+@@ -67,6 +67,8 @@ enum {
+ 	SEG6_LOCAL_ACTION_END_BPF	= 15,
+ 	/* decap and lookup of DA in v4 or v6 table */
+ 	SEG6_LOCAL_ACTION_END_DT46	= 16,
++	/* swap DA with new SID, leave SRH untouched (RFC 9433 Section 6.2) */
++	SEG6_LOCAL_ACTION_END_MAP	= 17,
+ 
+ 	__SEG6_LOCAL_ACTION_MAX,
+ };
+diff --git a/net/ipv6/seg6_local.c b/net/ipv6/seg6_local.c
+index 2b41e4c0dddd..bd8e3312973f 100644
+--- a/net/ipv6/seg6_local.c
++++ b/net/ipv6/seg6_local.c
+@@ -1468,6 +1468,73 @@ static int input_action_end_bpf(struct sk_buff *skb,
+ 	return -EINVAL;
+ }
+ 
++/* SRH validation helper for SRv6 Mobile (RFC 9433) behaviors that may
++ * receive an SRv6 encapsulated packet.  Returns the SRH on success or
++ * NULL on validation failure / when the SRH is absent.  The caller
++ * uses @missing to distinguish the two NULL cases: an SRH-less packet
++ * may be acceptable depending on the behavior.
++ */
++static struct ipv6_sr_hdr *seg6_mobile_get_validated_srh(struct sk_buff *skb,
++							 bool *missing)
++{
++	struct ipv6_sr_hdr *srh = seg6_get_srh(skb, 0);
++
++	if (!srh) {
++		if (missing)
++			*missing = true;
++		return NULL;
++	}
++	if (missing)
++		*missing = false;
++
++#ifdef CONFIG_IPV6_SEG6_HMAC
++	if (!seg6_hmac_validate_skb(skb))
++		return NULL;
++#endif
++	return srh;
++}
++
++/* RFC 9433 Section 6.2 -- End.MAP
++ * Replace the outer IPv6 destination address with the configured next
++ * SID, decrement the Hop Limit, and forward via IPv6 routing.  The
++ * SRH is left untouched, so any subsequent End* behavior continues to
++ * see the original Segment List unchanged.
++ */
++static int input_action_end_map(struct sk_buff *skb,
++				struct seg6_local_lwt *slwt)
++{
++	enum skb_drop_reason reason;
++	struct ipv6_sr_hdr *srh;
++	struct ipv6hdr *ip6h;
++	bool no_srh = false;
++
++	reason = SKB_DROP_REASON_SEG6_MOBILE_INVALID_SRH_SL;
++
++	/* When an SRH is present it must HMAC-validate before we touch
++	 * the destination; an SRH-less packet is also accepted because
++	 * End.MAP does not consume the SRH.
++	 */
++	srh = seg6_mobile_get_validated_srh(skb, &no_srh);
++	if (!srh && !no_srh)
++		goto drop;
++
++	if (skb_ensure_writable(skb, sizeof(*ip6h))) {
++		reason = SKB_DROP_REASON_SEG6_MOBILE_NOMEM;
++		goto drop;
++	}
++
++	ip6h = ipv6_hdr(skb);
++	ip6h->daddr = slwt->nh6;
++
++	skb_dst_drop(skb);
++	seg6_lookup_nexthop(skb, NULL, 0);
++	return dst_input(skb);
++
++drop:
++	kfree_skb_reason(skb, reason);
++	return -EINVAL;
++}
++
+ static struct seg6_action_desc seg6_action_table[] = {
+ 	{
+ 		.action		= SEG6_LOCAL_ACTION_END,
+@@ -1565,6 +1632,12 @@ static struct seg6_action_desc seg6_action_table[] = {
+ 		.optattrs	= SEG6_F_LOCAL_COUNTERS,
+ 		.input		= input_action_end_bpf,
+ 	},
++	{
++		.action		= SEG6_LOCAL_ACTION_END_MAP,
++		.attrs		= SEG6_F_ATTR(SEG6_LOCAL_NH6),
++		.optattrs	= SEG6_F_LOCAL_COUNTERS,
++		.input		= input_action_end_map,
++	},
+ 
+ };
+ 
+diff --git a/tools/testing/selftests/net/Makefile b/tools/testing/selftests/net/Makefile
+index a275ed584026..4fbb1eff79f8 100644
+--- a/tools/testing/selftests/net/Makefile
++++ b/tools/testing/selftests/net/Makefile
+@@ -90,6 +90,7 @@ TEST_PROGS := \
+ 	srv6_end_dx4_netfilter_test.sh \
+ 	srv6_end_dx6_netfilter_test.sh \
+ 	srv6_end_flavors_test.sh \
++	srv6_end_map_test.sh \
+ 	srv6_end_next_csid_l3vpn_test.sh \
+ 	srv6_end_x_next_csid_l3vpn_test.sh \
+ 	srv6_hencap_red_l3vpn_test.sh \
+diff --git a/tools/testing/selftests/net/srv6_end_map_test.sh b/tools/testing/selftests/net/srv6_end_map_test.sh
+new file mode 100755
+index 000000000000..7ee54b4cc97f
+--- /dev/null
++++ b/tools/testing/selftests/net/srv6_end_map_test.sh
+@@ -0,0 +1,103 @@
++#!/bin/bash
++# SPDX-License-Identifier: GPL-2.0
++# shellcheck disable=SC2034,SC2154
++#
++# Selftest for the SRv6 End.MAP behavior (RFC 9433 Section 6.2).
++#
++#   +--------+   2001:db8:1::/64   +--------+   2001:db8:2::/64   +--------+
++#   | srupf1 | ------------------- | srupf2 | ------------------- | srupf3 |
++#   +--------+       veth-1        +--------+       veth-2        +--------+
++#                                (intermediate
++#                                 SRv6-aware UPF,
++#                                 End.MAP)
++#
++# All three netns are SRv6-aware UPFs in the RFC 9433 sense (not
++# 3GPP UPFs).  Per RFC 9433 Section 6.2 End.MAP is used by the
++# intermediate UPF (here srupf2): srupf2 has an End.MAP SID for
++# locator 2001:db8:f::/64 mapping to the new SID 2001:db8:2::e.
++# srupf1 sends an IPv6 packet to 2001:db8:f::1; on srupf3 the
++# destination address is expected to have been replaced by
++# 2001:db8:2::e.
++
++source lib.sh
++
++readonly TIMEOUT=4
++
++cleanup()
++{
++	cleanup_all_ns
++}
++
++trap cleanup EXIT
++
++setup()
++{
++	setup_ns srupf1 srupf2 srupf3
++
++	ip -n "$srupf1" link set lo up
++	ip -n "$srupf2" link set lo up
++	ip -n "$srupf3" link set lo up
++
++	ip link add veth-1 netns "$srupf1" type veth peer name veth-1-srupf2 \
++		netns "$srupf2"
++	ip -n "$srupf1" addr add 2001:db8:1::1/64 dev veth-1 nodad
++	ip -n "$srupf2" addr add 2001:db8:1::2/64 dev veth-1-srupf2 nodad
++	ip -n "$srupf1" link set veth-1 up
++	ip -n "$srupf2" link set veth-1-srupf2 up
++
++	ip link add veth-2 netns "$srupf2" type veth peer name veth-2-srupf3 \
++		netns "$srupf3"
++	ip -n "$srupf2" addr add 2001:db8:2::1/64 dev veth-2 nodad
++	ip -n "$srupf3" addr add 2001:db8:2::e/64 dev veth-2-srupf3 nodad
++	ip -n "$srupf2" link set veth-2 up
++	ip -n "$srupf3" link set veth-2-srupf3 up
++
++	ip netns exec "$srupf2" sysctl -wq net.ipv6.conf.all.forwarding=1
++
++	ip -n "$srupf1" -6 route add 2001:db8:f::/64 via 2001:db8:1::2
++
++	ip -n "$srupf2" -6 route add 2001:db8:f::/64 \
++		encap seg6local action End.MAP nh6 2001:db8:2::e \
++		dev veth-2
++
++	# allow srupf3 to reply back to srupf1
++	ip -n "$srupf3" -6 route add 2001:db8:1::/64 via 2001:db8:2::1
++}
++
++check_dependencies()
++{
++	if ! command -v ping >/dev/null; then
++		echo "SKIP: ping is required"; exit "$ksft_skip"
++	fi
++
++	if ! ip route help 2>&1 | grep -qF "End.MAP"; then
++		echo "SKIP: iproute2 too old, missing seg6local action End.MAP"
++		exit "$ksft_skip"
++	fi
++}
++
++run_test()
++{
++	# srupf3 replies to ICMPv6 echo on 2001:db8:2::e, so a successful
++	# ping from srupf1 to the End.MAP SID demonstrates that the action
++	# replaced the destination address with 2001:db8:2::e.
++	if ! ip netns exec "$srupf1" ping -6 -c 1 -W "$TIMEOUT" \
++			2001:db8:f::1 >/dev/null 2>&1; then
++		return 1
++	fi
++	return 0
++}
++
++main()
++{
++	check_dependencies
++	setup
++
++	if run_test; then
++		echo "TEST: End.MAP [PASS]"; exit "$ksft_pass"
++	else
++		echo "TEST: End.MAP [FAIL]"; exit "$ksft_fail"
++	fi
++}
++
++main "$@"
 
 -- 
-Regards,
+2.50.1
 
-Laurent Pinchart
