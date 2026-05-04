@@ -1,145 +1,129 @@
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+Received: from mail-dy1-f202.google.com (mail-dy1-f202.google.com [74.125.82.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 681F43DD539
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 23:35:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.170
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777937710; cv=pass; b=JTI9dzPyL2AwEgmQ0LLGNA+qy6PU5QCR/P3KG45g8U978A2TCmNk2H7qdkQg69eikwUqDGjXaoVOLKXrzQtoSsy5PV/qlKYYqXDacleFrkYpnNlRbEvmcnRQGHLpFpijf0aswM9HuYQIOXljDo2Yi57F+BFEG+pJqk0480xU79I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777937710; c=relaxed/simple;
-	bh=lhTkP7P7am6OCUvEIk3FCi/LrUvUpfqf1XXnxsvXLPo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u9R8u+tc8Z7nlFCIegbrjwBEqg8NYtFDwkZ+0MFArNUoOTUZ3acOVWwDSYQpsL5xPrGczdOUk/bxn0a5xO76ZHi1/J9+G2+ze12ytmOQcqaSAFLwVshofqGfdSBwrLZTb6JhSo5zR7xfkOycjHfcQIvqQpCFuwvxAaGdWpCzGSE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=keaE9rqv; arc=pass smtp.client-ip=74.125.82.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 942EB386C05
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 23:36:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777937789; cv=none; b=qIQXkeDxVlr/9srV9Y7VkoIUsHwEQt1jRXNpf2z/1V2hNFYuvEOhOsrKuLP2rNsyAaUYSJo+287P9pVBPL6qzg7kQAgc3D29XW+yNnOYJ8KP7YD4ZP0gWT3TwVSKR6XAUs3keePQHVfIZXzFWvuS1t+nZqgPJ1Ef47LT9TeFfnQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777937789; c=relaxed/simple;
+	bh=tJeULi/q7xpYupoBRYwHRPzDC/aOPztVImhVoaMF02s=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=ok5h/E2GWo5hyzBNzlY4YNI77fF+ljlETJ0uvo9/FmhAO5SjJEt3zsIGa96NRy5UkufFmD7ZIXlbG3o1wUzGAnZud0GqrOwTXEk0CBKOhDurywCsviyuG4TM1XEEWHuv7kJnWn5jBUciDiDBrAwBO2x0xfbNH2tCReSzXCgD2zY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jt/3n///; arc=none smtp.client-ip=74.125.82.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--abhishekbapat.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="keaE9rqv"
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-2ee4e75bc93so263200eec.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 16:35:09 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777937708; cv=none;
-        d=google.com; s=arc-20240605;
-        b=f17CtW0z9ZWXNG4mVHfyV5o1jZn2D6NqFH0Ftq2iGUqPqUyqtDJ7mmQ78bz6PGvge1
-         sYIOA7Lw76KMUoChBXD0IkGE8jMBCEiLcKfaBQRDKLKBmUTipxk00qExt+vqLiZPjxHc
-         V/r+kjJPr5BMAMgvsJhMMyRIK5s3Kz7gDbtGbNQm+hdTtloLj3Qhujf4T0mzXGixzORl
-         ZhFF1BoK0XbJYVtuEX4rT4NYcAHWyFIqkgsLqHzvihRR4OimegQneGkOOZGD1wcKYqgl
-         joEQxS+wnSuP9Zkp2Dq7L0N7wrGGsNbVMBc8OjXULDzlx7mulGGdJttJF+OY/uC8Gvms
-         /BVQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=486uzKHHh57TN5FqW6hEx3732Gh28wUWwcwI/eKhvt8=;
-        fh=LaupI8BLp8uOmUMAxrIc05BCo3MZNNhSm2z3ibtvsgc=;
-        b=UaPWG2Pon1s0H36fbD2isEOij1btgv++ITk/Ifo0PidC08OOOoJOyoLJ8zXkIo6BBZ
-         9BUzFU5byLTJS81bxr5PzyyAM6/3zyUtCpNoAXzOno7F2PK1e9TqATAvWuO6OHwYs8my
-         JCipNtokqlxJtDP+yXOThavQ/mv8TpIeIN1kf8tdf9HDTloROODkDrGd/FEOkkxqc910
-         3vtVF7mSMKlxvoQdnXgaPT3k/ytYmJyXvlBae6d0G+7JavO+0kM2jAyC8X1MkJ5W67mk
-         NVDK1AcgGuRZsyUbs3dYsZnxVXQruxTvClsHgF830SjKbCGO/quBEz6xztmcg0hpcA7a
-         Dkug==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jt/3n///"
+Received: by mail-dy1-f202.google.com with SMTP id 5a478bee46e88-2cc75e79b97so9758735eec.1
+        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 16:36:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777937708; x=1778542508; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=486uzKHHh57TN5FqW6hEx3732Gh28wUWwcwI/eKhvt8=;
-        b=keaE9rqv5hFv2w2KOC8VR+95ar8zkuJMvdaEW7wfCPzBw36H/SkGoLXrcajg9vgKmi
-         1Si5t7pyAbqBhxCjBSPIsRgqHUogdFjabcYvL4qvjjUJcLYHhDtTBVWt9d0VSyHBbOiR
-         UjXZwr836L0BnvdhiK8R66o8rgX2rebnGIs6QPqsZR1CRPUKg0BxD6JfdPbLtER73/DB
-         sS8X93ROjPF7OKztY5+ErwE5qtBuzjdjsSfj2hnmXsZ7c1hcGFwfLRyAjLMwm9fM1bvY
-         w6in+3CqqhuMShjEyZqD0Cw+PDdiC/PtTfqrEPPRl0UUcvvq70qz7PqYDMmUr2B+nDEG
-         G8ZQ==
+        d=google.com; s=20251104; t=1777937788; x=1778542588; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6SVtzc1b2hNmp2ps3pkK8pPFTjVWAOuceZgJhvLk1yE=;
+        b=jt/3n///JL1V3HB0AEJjNORk6+ipqjfiym711zZyoGNHUwO5CAVTYftWxEyQYPeEbI
+         2CaOpuRqBRwf982bq8UZxYzKVDJe7S8GqnhjsId92ESiUopMQRGcJw/sL1t0ZW0BBl3M
+         OUUe8EZcfIprqggU3fh7QKMvxdO7WwjYbK6W2z3cYtCZnsQ0llW6vfP82xXxj66k3aDd
+         zUhJgpQCivDR9hK9vTM/8oUj2d+TmaL4oZ1iW1NEsy6Qb/Mt8QGODkP7Ou+0TL+cEPg8
+         yNyAddqZYyjoznNfIRbG94xX/xy+xqDYJbRfuPqk7zpL/ZGybYaZTad74yaJesq/JVmP
+         RZEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777937708; x=1778542508;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=486uzKHHh57TN5FqW6hEx3732Gh28wUWwcwI/eKhvt8=;
-        b=T2SFryyH3bnEWr3fItuUMrnYcllRp+NmiPITSkhmefkFVo4xzQfMYlSP8Wlb7O0eZg
-         ULymnTubCEU0pWgvWyPv3aYN15vyyfJauiurTpPkSwlHF6h4X/EO0F+2xsNIVIexKswE
-         1zNzQLwO6oDMYXBzkIIihMZoyfWJbEDmLKxoswWuGwPGjwsGzjAC2hotba4sXfR9K1W6
-         ZUuRwuCUVkpVcw5ryOhKHYf/PWu3gqfyJ5qAMyZaCLzw0j5aHdbKv3wJYVVtti/Il4vh
-         xIlqLjro7CTxopBk8wtQJsYbMXxzWCoXHh4obcbgHOFAHU7SF5Q/u9BEMVew+QFp+U5D
-         kpEg==
-X-Forwarded-Encrypted: i=1; AFNElJ8LQlLhvxs6rv5SpZztrPmTDcbBB6IqVH//qkhaTar1k55ztFaebMNZdCzNvnL2Ix1YU+Vdaq9hhoI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmX4i2OGVdet1pFBmfR6wO19QQwqJSXjUmAVjZ4+xoHoTLXQ2J
-	NKIhlYvRgn1/km5Q7KYcbkjEDB3K40L2uwlpk1JwmvjbwR75x9dQnOVI1qsx80usgq7qsMOkk4Z
-	Ori8wvegQHxy94rJRK21YqGsug7nnCm0=
-X-Gm-Gg: AeBDiessAifYWJoFawUvq8yzTkMiy4aJ466XTPerqzxFXRT1F6HY5AN9zXTWr6N1B/x
-	CP23d7TJA3BDZAw7AgkaXiHhoRR6Gz/fjeRbSQtDf9FxbNeuwEpkrWM30i3fih4oNKPLFCGQrqq
-	P2FuDzEPwIqr8f6h0Pee8JMRSdEVan6p8BT9T2TudSMlwa3/OBwfcrMy2pXPENmw6D9+LRriFbw
-	D153B830KqGkPLTe0qChDC0NSA0AsXNUjXtN9P2+sibktV5a7wHoipyKAlk3fqgr83Eoq8+bcPJ
-	eGkF+9JdJe8FoPr0BLPoUqOMYO9bjzqmd4lx4JLqD8CBl6JaUYgu+rFt9OzPYYCXfHAc5+BHHVF
-	ZyAnRPrbWAAo8e/0wroeWgAIt1gavGwh7uDGCIpnCcypV
-X-Received: by 2002:a05:7301:2b08:b0:2d9:244e:be20 with SMTP id
- 5a478bee46e88-2efb9c88d13mr2515125eec.4.1777937708427; Mon, 04 May 2026
- 16:35:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1777937788; x=1778542588;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6SVtzc1b2hNmp2ps3pkK8pPFTjVWAOuceZgJhvLk1yE=;
+        b=P6SlPstBDyqSd1rX9JWzgS0sE0629EcIfZkxc6KRxJ3I5TYk6OCOTnFjAw0z2BLg2L
+         uK8vHrQQPajky1poUnFdQSvQjC8D7vS5QVfA4huewmPOlQg8G7p+JGzari5gg/liCjS7
+         TcTPmYq3cbeVxOwZJMJiP+dVmGxtrU/sKJK0+w38c8VZPGC82aGNP24sbIhD9INkOMBL
+         Qqn/3PaJwKg8JSH7+21/TYwS3sA/Prwy8sYmMMFBKKtLNytEQqJFgzcJZU2D76tD4NUa
+         0htG5WTaBbo+wg2ve0rnQ2vDduUoi5BZsESvIbcc5yBracQ3wHEvsi0MwE/R1IlswSQL
+         5z0A==
+X-Forwarded-Encrypted: i=1; AFNElJ8DfP7CS0zQmEHQnvuxxNUxuMSyxGZ5kBGTBxSpgt0k0BdxmKujJVxWL+/ERNEDN6OpOPro+Y9kH5E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOruqcbbOkrUVu2q63v7vW/wa/0f4WH94L1AfavkDParoUfB4L
+	MfWDt8eC+hy/fRa/W0O09+FuYOJBsgvk4dOGx5W3gHNw0GQYcReCfUkRox5Zzn38qrjyNQbsjrf
+	N9xXc7itiuyCWoTGRrEwIYOd7YL81rHCfhQ==
+X-Received: from dybcr21.prod.google.com ([2002:a05:7300:ac95:b0:2e2:2088:dca7])
+ (user=abhishekbapat job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:7301:6592:b0:2ed:e12:3771 with SMTP id 5a478bee46e88-2efba5a4258mr4958847eec.33.1777937787455;
+ Mon, 04 May 2026 16:36:27 -0700 (PDT)
+Date: Mon,  4 May 2026 23:36:18 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <cover.1777908711.git.mchehab+huawei@kernel.org>
- <fce06f1b1c620c65ff6ddbc09fb4808ecc1aade3.1777908711.git.mchehab+huawei@kernel.org>
- <CANiq72n+y0AerfiUzh5fLpMRiGGFq5rMxqweHG-TsmX_05vxBA@mail.gmail.com> <20260504222637.176edc7c@foz.lan>
-In-Reply-To: <20260504222637.176edc7c@foz.lan>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 5 May 2026 01:34:55 +0200
-X-Gm-Features: AVHnY4JJei3yp_JdLb5wR9_gc1RN9p3tBaAm1AmA5OTTR-eOrhmVbleLQqGndbY
-Message-ID: <CANiq72mk=gyGcQCL_DU4tKXN4U0rqH3wD7S04AuT4UGRFjCQaA@mail.gmail.com>
-Subject: Re: [PATCH 8/9] docs: maintainers_include: don't ignore invalid
- profile entries
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Benno Lossin <lossin@kernel.org>, Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Trevor Gross <tmgross@umich.edu>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.54.0.545.g6539524ca2-goog
+Message-ID: <cover.1777936301.git.abhishekbapat@google.com>
+Subject: [PATCH 0/6] alloc_tag: introduce IOCTL-based filtering for MAP
+From: Abhishek Bapat <abhishekbapat@google.com>
+To: Suren Baghdasaryan <surenb@google.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	Sourav Panda <souravpanda@google.com>, Abhishek Bapat <abhishekbapat@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 4, 2026 at 10:26=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> It is not written there, but by file, it would actually be expected
-> a file within Documentation in ReST format ;-)
+Currently, memory allocation profiling data is primarily exposed through
+/proc/allocinfo. While useful for manual inspection, this text-based
+interface poses challenges for production monitoring and large-scale
+analysis:
 
-I don't know! :)
+1. Userspace must parse large amounts of text to extract specific
+fields.
+2. To find specific tags, userspace must read the entire dataset,
+requiring many context switches and high data copying.
+3. The kernel currently aggregates per-CPU counters for every allocation
+size, even those the user intends to filter out immediately.
 
-You are right that we encourage rst in Doc/, but for vendored stuff,
-it makes sense to allow other paths (and other formats).
+This series introduces a new IOCTL-based binary interface for allocinfo
+that supports kernel-side filtering. By allowing the user to specify a
+filter mask, we significantly reduce the work performed in-kernel and
+the amount of data transferred to userspace.
 
-> I'm afraid that this is not possible. Sphinx doesn't allow
-> hyperlinks to point to files outside the documentation root
-> (which is Documentation/ when SPHINXDIRS is not used).
+Performance measurements were conducted on an Intel Xeon Platinum 8481C
+(224 CPUs) with caches dropped before each run.
 
-Hmm... That could actually be useful for other things (e.g. links to
-particular source files).
+The IOCTL mechanism shows a ~20x performance improvement for
+filtered queries. The kernel avoids the expensive per-CPU counter
+aggregation (alloc_tag_read) for any tags that fail the initial string
+or location filters.
 
-> IMO the best would be to run:
->
->         pandoc -i rust/pin-init/CONTRIBUTING.md -t rst -o Documentation/r=
-ust/pin-init-profile.rst
->         sed s,rust/pin-init/CONTRIBUTING.md,Documentation/rust/pin-init-p=
-rofile.rst, -i MAINTAINERS
->
-> This way, it will generate a proper hyperlink.
+Scenario 1: Specific File Filtering (arch/x86/events/rapl.c)
+1. Traditional (cat /proc/allocinfo | grep): 22ms (sys)
+2. IOCTL Interface: 1ms (sys)
 
-You mean on the fly, or committing it?
+Scenario 2: Compound Filtering (Filename + Size)
+1. Traditional: (cat ... | grep | awk): 21ms (sys)
+2. IOCTL Interface: 1ms (sys)
 
-If you mean committing, then I think it would be best to avoid
-modifying vendored files.
+Scenario 3: Size-Based Filtering (min_size = 1MB)
+1. Traditional: (cat ... | awk): 21ms (sys)
+2. IOCTL Interface: 14ms (sys)
 
-If you mean on the fly, then that could actually be quite interesting,
-and we recently discussed e.g. whether to have a particular file in
-.md vs .rst and whether we could handle the conversion out-of-tree
-just for that reason. So if it could be done in-tree, even better. But
-pandoc is a heavy dependency to request, no?
+Abhishek Bapat (5):
+  alloc_tag: add ioctl filters to /proc/allocinfo
+  alloc_tag: add size-based filtering to ioctl
+  alloc_tag: add accuracy based filtering to ioctl
+  kselftest: alloc_tag: add kselftest for ioctl interface
+  kselftest: alloc_tag: extend the allocinfo ioctl kselftest
 
-Cheers,
-Miguel
+Suren Baghdasaryan (1):
+  alloc_tag: add ioctl to /proc/allocinfo
+
+ .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+ include/linux/codetag.h                       |   1 +
+ include/uapi/linux/alloc_tag.h                |  87 +++
+ lib/alloc_tag.c                               | 249 ++++++++-
+ lib/codetag.c                                 |  11 +
+ tools/testing/selftests/alloc_tag/Makefile    |   9 +
+ .../alloc_tag/allocinfo_ioctl_test.c          | 508 ++++++++++++++++++
+ 7 files changed, 865 insertions(+), 2 deletions(-)
+ create mode 100644 include/uapi/linux/alloc_tag.h
+ create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+ create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+
+-- 
+2.54.0.545.g6539524ca2-goog
+
