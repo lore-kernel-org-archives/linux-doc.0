@@ -1,100 +1,277 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5009623C4FF;
-	Mon,  4 May 2026 16:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B665E3E3DAE;
+	Mon,  4 May 2026 16:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777913015; cv=none; b=Go5MWzIAlMobY/3S8HSmUALa63m/EDfK84E9Kw5YbLDaAiR81gIRypjqg95ocm3UhFXocGfcMv8jPpDmURGW9OaGCoiex0xwDmSF2pO3Rq0y/TOaaD3PCYuBYrid56a0s6YrV9e+Jo5kUDyDIGk1sYKkwFyA1vPBCHlLAqV/ojo=
+	t=1777913554; cv=none; b=QTqQmI376WJsUhB2qAw92XC46B+5lhQI8K6Vk93/mIeQk5ExP+wxH0Bb9ACkvMPuAP4/ZZwsSXsydNATsd1/qDw7nwBvEJZ9mxQjPAqo1HQTQB2pvgc+dSQyOCCFgzksTr3Mmx1w0SX8VDmZl/inOulvpqdjLmOYpvYh2A7LsgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777913015; c=relaxed/simple;
-	bh=B6ZFSqSTUXQcW+fKeUOE8k3qjBTPzp5qcmr/o10xp0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=XhGvhw67tUG9pkUklDyp1WH9lxWLkoEDbJce1oVZjqXm6ReHOL7rjHXGeHVmSdsMpLl34QzsUPauWFUvVb6WWHMeOASwQ80oe+hv7+2niO0Vfihs0N00KTurRnUt78y3BoRNNn/PfD1tiUsy4gkyutzuesmXQgPGDGdD6pEpAMY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m0t49XDu; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777913554; c=relaxed/simple;
+	bh=Zp02atCQOj7Mvz8FpD9o1Rib3JYiNwqY/fzhTQloymc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HuC9qCn8zxmRuReuyUZGGfs6stEEK+6Mlb+2cnTsciMvO10esPTirPr2ICGKq5B6x+zsyS9yF/nvr4I612feV46iIqBNSGqmK7DnCkftEwR/ozwffqzwnpqivO+1DwCexgQKXMqXZjipls212ZrvzEsfRxCTgQEU3PhYHbzHG+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=apQMfJez; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m0t49XDu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0AC2CC2BCB8;
-	Mon,  4 May 2026 16:43:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777913014;
-	bh=B6ZFSqSTUXQcW+fKeUOE8k3qjBTPzp5qcmr/o10xp0w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=m0t49XDuOFv2UWzldgqFek1CiL2U9UQce7e+Sit4z+/Pb0Vhzht8gLRiKToi7+ww0
-	 w9LsPUNSIJcaeMSbXmBCBk2n8PPveEINTkvt9GOe3jsODegOhCjHK1L9KWPdwhp9mN
-	 9pFf6c9+jYJJe/coYsAOXzvcv1trpvS5rxFnPvolujrDRmZ6VoBNymCmVWcE/OU6Uh
-	 lMqIaEnTdHrsyzhk8hx2O9MO3aVmRS+mcz3qjPp4oDKexXZwpH6NSZfc41R8WvujhT
-	 r5ekfAQ7Vlo2W0rClNdrlS+Bm0nfXyOYXfFc+1y3EEZh+pB5vimyBRiwS3DeBlmQ53
-	 VgTkD4/3k7xCw==
-Date: Mon, 4 May 2026 17:43:26 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Wang Zihan <jiyu03@qq.com>
-Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] iio: adxl313: fix typos in documentation
-Message-ID: <20260504174326.353b6f02@jic23-huawei>
-In-Reply-To: <tencent_EC262467CD5E46CA97CF2B2FDCBCA0565C08@qq.com>
-References: <tencent_EC262467CD5E46CA97CF2B2FDCBCA0565C08@qq.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="apQMfJez"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F3B79C;
+	Mon,  4 May 2026 18:52:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777913548;
+	bh=Zp02atCQOj7Mvz8FpD9o1Rib3JYiNwqY/fzhTQloymc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=apQMfJezBXKACeI7uQn/oz/Lcn5MEWfk1oZq+4/QwXjK4nd490DgyWBu45eZIV78V
+	 oG6cukUKj4q26+bcvBlCyV4+vCJ07TZ41wfzmQ93Z73XT8XzHkRyqZY1OXQuMthKKo
+	 Uy+VcIEaS1+FAh3h5pLW3a03re+ils9QLAHjOAl8=
+Date: Mon, 4 May 2026 19:52:29 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Simon Ser <contact@emersion.fr>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Melissa Wen <mwen@igalia.com>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 10/20] drm/plane: Add new atomic_create_state callback
+Message-ID: <20260504165229.GM1344263@killaraus.ideasonboard.com>
+References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
+ <20260424-drm-mode-config-init-v3-10-8b68d9db0d8b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260424-drm-mode-config-init-v3-10-8b68d9db0d8b@kernel.org>
 
-On Sat,  2 May 2026 14:07:00 +0800
-Wang Zihan <jiyu03@qq.com> wrote:
+Hi Maxime,
 
-> Add missing space in "ADXL313is" and correct "a single types"
-> to "a single type".
->=20
-> Signed-off-by: Wang Zihan <jiyu03@qq.com>
+Thank you for the patch.
+
+On Fri, Apr 24, 2026 at 12:18:50PM +0200, Maxime Ripard wrote:
+> Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
+> to drm_private_obj") introduced a new pattern for allocating drm object
+> states.
+> 
+> Instead of relying on the reset() callback, it created a new
+> atomic_create_state hook. This is helpful because reset is a bit
+> overloaded: it's used to create the initial software state, reset it,
+> but also reset the hardware.
+> 
+> It can also be used either at probe time, to create the initial state
+> and possibly reset the hardware to an expected default, but also during
+> suspend/resume.
+> 
+> Both these cases come with different expectations too: during the
+> initialization, we want to initialize all states, but during
+> suspend/resume, drm_private_states for example are expected to be kept
+> around.
+> 
+> reset() also isn't fallible, which makes it harder to handle
+> initialization errors properly. This is only really relevant for some
+> drivers though, since all the helpers for reset only create a new
+> state, and don't touch the hardware at all.
+> 
+> It was thus decided to create a new hook that would allocate and
+> initialize a pristine state without any side effect:
+> atomic_create_state to untangle a bit some of it, and to separate the
+> initialization with the actual reset one might need during a
+> suspend/resume.
+> 
+> Continue the transition to the new pattern with planes.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 > ---
->  Documentation/iio/adxl313.rst | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->=20
-> diff --git a/Documentation/iio/adxl313.rst b/Documentation/iio/adxl313.rst
-> index 966e72c01..3662153a6 100644
-> --- a/Documentation/iio/adxl313.rst
-> +++ b/Documentation/iio/adxl313.rst
-> @@ -11,7 +11,7 @@ This driver supports Analog Device's ADXL313 on SPI/I2C=
- bus.
-> =20
->  * `ADXL313 <https://www.analog.com/ADXL313>`_
-> =20
-> -The ADXL313is a low noise density, low power, 3-axis accelerometer with
-> +The ADXL313 is a low noise density, low power, 3-axis accelerometer with
->  selectable measurement ranges. The ADXL313 supports the =C2=B10.5 g, =C2=
-=B11 g, =C2=B12 g and
->  =C2=B14 g ranges.
-> =20
-> @@ -112,7 +112,7 @@ apply the following formula:
->  Where _offset and _scale are device attributes. If no _offset attribute =
-is
->  present, simply assume its value is 0.
-> =20
-> -The ADXL313 driver offers data for a single types of channels, the table=
- below
-> +The ADXL313 driver offers data for a single type of channels, the table =
-below
+>  drivers/gpu/drm/drm_atomic_state_helper.c | 25 +++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_mode_config.c         | 21 ++++++++++++++++++++-
+>  include/drm/drm_atomic_state_helper.h     |  2 ++
+>  include/drm/drm_plane.h                   | 16 ++++++++++++++++
+>  4 files changed, 63 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 285efbf29520..50fe4eec41a8 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -338,10 +338,35 @@ void drm_atomic_helper_plane_reset(struct drm_plane *plane)
+>  	if (plane->state)
+>  		__drm_atomic_helper_plane_reset(plane, plane->state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_plane_reset);
+>  
+> +/**
+> + * drm_atomic_helper_plane_create_state - default &drm_plane_funcs.atomic_create_state hook for planes
 
-ooh. That's fun grammar.  Intent is that there are multiple channels of one=
- type
-but the form used in your corrected version is at best unwieldy given plural
-singular mix.  "a single type of channel" is fine for instance but this isn=
-'t really.
+drm_atomic_helper_colorop_create_state() states "Allocates and
+initializes colorop atomic state", while here you document it as
+"default hook for planes". Consistency would be good.
 
-I'd rewrite as
-The ADXL313 driver offers data for multiple channels of a single type.  The=
- table
-below...
-(so split he thing up into two sentences as well).
+> + * @plane: plane object
+> + *
+> + * Initializes a pristine @drm_plane_state.
 
+"Allocate and initialize ..."
 
->  shows the measurement units for the processed value, which are defined b=
-y the
->  IIO framework:
-> =20
+> + *
+> + * This is useful for drivers that don't subclass @drm_plane_state.
+> + *
+> + * RETURNS:
+> + * Pointer to new plane state, or ERR_PTR on failure.
+> + */
+> +struct drm_plane_state *drm_atomic_helper_plane_create_state(struct drm_plane *plane)
+> +{
+> +	struct drm_plane_state *state;
+> +
+> +	state = kzalloc_obj(*state);
+> +	if (!state)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	__drm_atomic_helper_plane_state_init(state, plane);
+> +
+> +	return state;
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_plane_create_state);
+> +
+>  /**
+>   * __drm_atomic_helper_plane_duplicate_state - copy atomic plane state
+>   * @plane: plane object
+>   * @state: atomic plane state
+>   *
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index c33382a38191..10b7815cbe48 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -180,10 +180,26 @@ int drm_mode_getresources(struct drm_device *dev, void *data,
+>  	drm_connector_list_iter_end(&conn_iter);
+>  
+>  	return ret;
+>  }
+>  
+> +static int drm_mode_config_plane_create_state(struct drm_plane *plane)
+> +{
+> +	struct drm_plane_state *plane_state;
+> +
+> +	if (!plane->funcs->atomic_create_state)
+> +		return 0;
+> +
+> +	plane_state = plane->funcs->atomic_create_state(plane);
+> +	if (IS_ERR(plane_state))
+> +		return PTR_ERR(plane_state);
+> +
+> +	plane->state = plane_state;
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drm_mode_config_reset - call ->reset callbacks
+>   * @dev: drm device
+>   *
+>   * This functions calls all the crtc's, encoder's and connector's ->reset
+> @@ -204,13 +220,16 @@ void drm_mode_config_reset(struct drm_device *dev)
+>  	struct drm_connector_list_iter conn_iter;
+>  
+>  	drm_for_each_colorop(colorop, dev)
+>  		drm_colorop_reset(colorop);
+>  
+> -	drm_for_each_plane(plane, dev)
+> +	drm_for_each_plane(plane, dev) {
+>  		if (plane->funcs->reset)
+>  			plane->funcs->reset(plane);
+> +		else if (plane->funcs->atomic_create_state)
+> +			drm_mode_config_plane_create_state(plane);
+> +	}
+>  
+>  	drm_for_each_crtc(crtc, dev)
+>  		if (crtc->funcs->reset)
+>  			crtc->funcs->reset(crtc);
+>  
+> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
+> index 44e8850aae7f..df371b2eef3e 100644
+> --- a/include/drm/drm_atomic_state_helper.h
+> +++ b/include/drm/drm_atomic_state_helper.h
+> @@ -53,10 +53,12 @@ void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state);
+>  void drm_atomic_helper_crtc_destroy_state(struct drm_crtc *crtc,
+>  					  struct drm_crtc_state *state);
+>  
+>  void __drm_atomic_helper_plane_state_init(struct drm_plane_state *state,
+>  					   struct drm_plane *plane);
+> +struct drm_plane_state *
+> +drm_atomic_helper_plane_create_state(struct drm_plane *plane);
+>  void __drm_atomic_helper_plane_reset(struct drm_plane *plane,
+>  				     struct drm_plane_state *state);
+>  void drm_atomic_helper_plane_reset(struct drm_plane *plane);
+>  void __drm_atomic_helper_plane_duplicate_state(struct drm_plane *plane,
+>  					       struct drm_plane_state *state);
+> diff --git a/include/drm/drm_plane.h b/include/drm/drm_plane.h
+> index 703ef4d1bbbc..886e219c4609 100644
+> --- a/include/drm/drm_plane.h
+> +++ b/include/drm/drm_plane.h
+> @@ -386,10 +386,26 @@ struct drm_plane_funcs {
+>  	 * 0 on success or a negative error code on failure.
+>  	 */
+>  	int (*set_property)(struct drm_plane *plane,
+>  			    struct drm_property *property, uint64_t val);
+>  
+> +	/**
+> +	 * @atomic_create_state:
+> +	 *
+> +	 * Allocates a pristine, initialized, state for the plane object
 
+s/Allocates/Allocate/
+
+based on the documentation of other callbacks, and the fact that
+imperative style is the usual standard in kernel documentation.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> +	 * and returns it. This callback must have no side effects: in
+> +	 * particular, the returned state must not be assigned to the
+> +	 * object's state pointer and it must not affect the hardware
+> +	 * state.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * A new, pristine, plane state instance or an error pointer
+> +	 * on failure.
+> +	 */
+> +	struct drm_plane_state *(*atomic_create_state)(struct drm_plane *plane);
+> +
+>  	/**
+>  	 * @atomic_duplicate_state:
+>  	 *
+>  	 * Duplicate the current atomic state for this plane and return it.
+>  	 * The core and helpers guarantee that any atomic state duplicated with
+
+-- 
+Regards,
+
+Laurent Pinchart
