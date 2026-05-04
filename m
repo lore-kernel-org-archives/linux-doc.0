@@ -1,140 +1,319 @@
-Received: from mail-dl1-f48.google.com (mail-dl1-f48.google.com [74.125.82.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C4D3DFC9C
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 17:24:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777915458; cv=pass; b=kEWVufiT0aXMTK4w2buF3DDW22EwbAJAJCP1HTvDbY0R0zWvreIRT9J5ULwQ7y0Ggfiz/C92Eo/OEvpWPX/IdSFC6Vtf3j0ZG8wNvHMp22HelVWbwAGd3Wg9AXXZrpI9YfSUYPflF7o/BM3ykHFkFChvXwc0gJD1wXE89Inn8l8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777915458; c=relaxed/simple;
-	bh=GyTv8qCOVeKZc1v9heh9q2u8oTrZt8SPcXhTl05cfUk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=azTMse3KThw6lEb124suYPV0Kh+V4iHfBCtyoLlablBxraPqTMJETOGuFmXD9uPwIcGi3EtB2poFkuX0D0T7/1vePsaOfM6dzI4Nkwb89S3nOuEOT3KewgQ8QX7piSjISQJ39R86KryOziRU5wevVnuW4/zgb2ZM4Of4cpCcgIQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=E1+T0jvX; arc=pass smtp.client-ip=74.125.82.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8002282F10;
+	Mon,  4 May 2026 17:29:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777915745; cv=none; b=KVBumf8RmU6oL1zagCG5Z/WfFJlkA0wV5KS+xDKPQa6KU+tJCKsfA4BmOwaSaXtSm1AuYazJs1xktwjlDpUbAM7UKRTUbU/ZmJIvKzaMkuMYrFFIx3+41uVKNVCBwvmQXbrV7MyWXHE+8NnNiicnnIbWJiG86ntiBxNxIhM17a0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777915745; c=relaxed/simple;
+	bh=rivBCjMAfflXwt1qFSOeJbPBfqzxRqu5f/V7lLMrAdw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=j1d80GPgS2aP1Jkg/Yp57yATQ1nLmTTjgNDYkjQH5KoJxwip+Sv5Whc8eB2bQ/CGApBwinOUYOMCRitP0VP05ZiuAgRnr1i95lap/m4xmC4Ycr/ytqidUST4JxJk1IpOib6DwjO7YFehJAgjYtI7+HNXj11H0nhngauqW3bDix4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JzbQ7tJZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="E1+T0jvX"
-Received: by mail-dl1-f48.google.com with SMTP id a92af1059eb24-12713e56abdso3028563c88.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 10:24:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777915455; cv=none;
-        d=google.com; s=arc-20240605;
-        b=SzLiTZOR0W54uVPa6R2r6w1LBgxFlpMtYdT/ICJA2xZ+HdfE3/n+TLOx90cnbqIu6+
-         OCY/NBHWeVbArSbYWCu9nKJpSuv95zu9s6aui099Iv8LuuJFisn1XMPhj+4FLz+jWnEf
-         uxUXcnxsuaOyEEuCfN+neUzvWL5aOPBpO9CScW/np52zbWGku2OeHSB2RmklOIF+bSzg
-         OZsJluTqr1yXZg4wmubfruvAfqCP20uzw8svoHzjzc4Br8OV2Dqym9wXN3eTvwRDeyeg
-         GGKXVKIPa+WVFa0r0aOefAue4qfGk64kyeROJrHLY9q26XPi9BqTwnepdTgyGlbpa6YT
-         +PHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8DRIGBANyTxbRVKczgT9uBMklmvWRVuW0duqUNmLE+k=;
-        fh=8vH602aQqElf7eWyrWHgw32uBH8p804DU1dqoTsgCSQ=;
-        b=ZHqGCDE6uvFyn2oxwllft/ZdAsLEW5IG1HvVn/KvJoov1YyoPgv+80pdCJhMChHxdt
-         CnoJdaqO52HyF0moSY34EWkG+BY3ZHtPdQdCXAceTU4rOuQX3xAEDa/4Bq/TEkTu/y7Q
-         pCGFK9PYXl2H+rkSfiI2uGgl++rKUyK7encuaNYU6jRljoP7h+oI1k4DAF2L5fEmTsT7
-         fqv+yf8NavPdqKCgIUIBCRprxIuwXpOru1XK709Mofwe7BymE8HbfkrxZsMVVHumNppt
-         DTsSNRYCFGsy51GLQmASi8rotL5juJZtmlwYO5M00nnRfyt1rXaoX1D6tX1EPOtpfWPO
-         wwJg==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777915455; x=1778520255; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8DRIGBANyTxbRVKczgT9uBMklmvWRVuW0duqUNmLE+k=;
-        b=E1+T0jvX2+/WRy3DTsXnIl7CYn1i4mjob4uTOWQngmm2jkAzedB9fvq5SiLlpk9YLI
-         bZTVRQFgJuYwGBPR82RVZfFPO25+1FIt05UZd9cFtskm1SQVjsyV/0C2ZhxOcuJapdO6
-         sSR0oQ4nG1NPmAUe6gn0jN41odnGBr1w0NN22nBznpYUeRbfTijXL5i0B876nBIZxt5u
-         iDX0pp+DdWzKUqsEE3Aib3x5L3StwYYjxhWAvRLu4BXkc2PHlfzX/zgALCfei5l3syyI
-         QsPqnN7kAXsb5zfRCwVuPRAZ1qnbCA617AxEa9T8/80/XBJtJTO7LDTju3E41ulOkh3o
-         kM5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777915455; x=1778520255;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8DRIGBANyTxbRVKczgT9uBMklmvWRVuW0duqUNmLE+k=;
-        b=X9WMssHxt6UdBlt6eBAEQUm5tuZZO+E6wxr/UcIR01nmAeaJN5LQGHPWbCGNFI4DF0
-         NuOgCORSLsWfBKSZteHuFgArn6Pwmap2Kl/ZAX1PTqOoy7lrQE5D0C85QjuzT93a348R
-         q4L1pg5fJBfUD5UimGrTswCQ9ROLrYHtYn3Fuf5/pdXvQS5caTdDE6L+AiEeZ8pC68e+
-         ltqWPDPAHuYh/mvo2VWlZOqiR+EydDPhFJFSOnueWvxCvzt2Aq++6Ip/Lnge1t09EJdn
-         w1p73+5R6icT6hqQldwRgYEGdcpZuo5/O97lo9FQm/lcHY09eMvQjpYpWNROkP4YOtxy
-         Q35w==
-X-Forwarded-Encrypted: i=1; AFNElJ+U6BrHw5rAkE4TzOETa/whYrs4AjhIk79f6L2S/2/HCzJlLLVMtxe03w9PnDyyNs/0rUfjK4g3qE4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywo6e9Z2edx0sruXfuakPaWsSHf7n+VDsHuxZM9VNGjkaLfisEm
-	n11OrPm3o5Kqn8NTEWTaHL1asA5UenoUCOqGjeozs9Ylcl5S1xrcEUJp+iWuOIJe8f20rlrRjTM
-	TkR/DyS6sNRohkASOZkCShaR5gNREBeXsUHhTTNerKVIxc98wRBWtxRUBtCw=
-X-Gm-Gg: AeBDievOWIrAwg5fhTKzgYmy4HzrJL6u4OGqASG4WTL4tgwsa6ImoJhK/fgf25CN0dV
-	TVCHHkUDbBH6cICG198dGaZ6jTpS97a+0vJPVUeGOu4pp26D4chaQzm1OuC7FFgDXj09LyPrbeq
-	KT1QzkSVkTQwnONjkynyMup7JymvE2Se+tiyE6qOoI7WJo0YMPK/kd46srHQYndd/sMM8G1bVRi
-	ZmIqop3yXa4IIjFeoHL8qr1wLy1F2x/Ik1L4Frvff4MGDZ7iMTBlvIwJObvpJ6Cs1JxQ+VDAkxX
-	vt5UL5/Ma5OR78weKVE7bBLi2ofiYw==
-X-Received: by 2002:a05:7022:497:b0:12d:de3e:86af with SMTP id
- a92af1059eb24-130a9fec67emr177647c88.18.1777915454575; Mon, 04 May 2026
- 10:24:14 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JzbQ7tJZ"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 090C98F;
+	Mon,  4 May 2026 19:28:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777915738;
+	bh=rivBCjMAfflXwt1qFSOeJbPBfqzxRqu5f/V7lLMrAdw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JzbQ7tJZxf25NmYoqnYYam36yrgF5W1S0esLviwPX3bd/5Mc0bFy+PH/bRQ4stv3S
+	 FBdYYCtlb6xIQKkVEDz1oVs7DUsA4p5Kd6S8crYGwbHzx8bQXSE0xvoX3ShNrz9HWC
+	 l1Y5cDT3YyIXLT/QrM/SKMW47xH1ATHdciNqvkps=
+Date: Mon, 4 May 2026 20:28:58 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Simon Ser <contact@emersion.fr>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Melissa Wen <mwen@igalia.com>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 12/20] drm/crtc: Add new atomic_create_state callback
+Message-ID: <20260504172858.GO1344263@killaraus.ideasonboard.com>
+References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
+ <20260424-drm-mode-config-init-v3-12-8b68d9db0d8b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260423212316.3431746-1-dmatlack@google.com> <20260423212316.3431746-8-dmatlack@google.com>
-In-Reply-To: <20260423212316.3431746-8-dmatlack@google.com>
-From: David Matlack <dmatlack@google.com>
-Date: Mon, 4 May 2026 10:23:48 -0700
-X-Gm-Features: AVHnY4KOWy2Xw7Jao5yCErgbS2iXWpg2-ZhNYfKSnvLQBaJlNVGZseag5k_UOKw
-Message-ID: <CALzav=cmZzNetCqWjQaG=VO+Fs=TTL3izU01vDUFd-=mRnDAuw@mail.gmail.com>
-Subject: Re: [PATCH v4 07/11] PCI: liveupdate: Inherit ACS flags in incoming
- preserved devices
-To: iommu@lists.linux.dev, kexec@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	linux-pci@vger.kernel.org
-Cc: Adithya Jayachandran <ajayachandra@nvidia.com>, Alexander Graf <graf@amazon.com>, 
-	Alex Williamson <alex@shazbot.org>, Bjorn Helgaas <bhelgaas@google.com>, Chris Li <chrisl@kernel.org>, 
-	David Rientjes <rientjes@google.com>, Jacob Pan <jacob.pan@linux.microsoft.com>, 
-	Jason Gunthorpe <jgg@nvidia.com>, Joerg Roedel <joro@8bytes.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Josh Hilke <jrhilke@google.com>, Leon Romanovsky <leonro@nvidia.com>, Lukas Wunner <lukas@wunner.de>, 
-	Mike Rapoport <rppt@kernel.org>, Parav Pandit <parav@nvidia.com>, 
-	Pasha Tatashin <pasha.tatashin@soleen.com>, Pranjal Shrivastava <praan@google.com>, 
-	Pratyush Yadav <pratyush@kernel.org>, Robin Murphy <robin.murphy@arm.com>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Samiullah Khawaja <skhawaja@google.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Will Deacon <will@kernel.org>, 
-	William Tu <witu@nvidia.com>, Yi Liu <yi.l.liu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260424-drm-mode-config-init-v3-12-8b68d9db0d8b@kernel.org>
 
-On Thu, Apr 23, 2026 at 2:23=E2=80=AFPM David Matlack <dmatlack@google.com>=
- wrote:
->
-> Inherit Access Control Services (ACS) flags on all incoming preserved
-> devices (endpoints and upstream bridges) during a Live Update.
->
-> Inheriting ACS flags avoids changing routing rules while memory
-> transactions are in flight from preserved devices. This is also strictly
-> necessary to ensure that IOMMU group assignments do not change across
-> a Live Update for preserved devices, as changing ACS configurations can
-> split or merge IOMMU groups.
->
-> Signed-off-by: David Matlack <dmatlack@google.com>
+On Fri, Apr 24, 2026 at 12:18:52PM +0200, Maxime Ripard wrote:
+> Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
+> to drm_private_obj") introduced a new pattern for allocating drm object
+> states.
+> 
+> Instead of relying on the reset() callback, it created a new
+> atomic_create_state hook. This is helpful because reset is a bit
+> overloaded: it's used to create the initial software state, reset it,
+> but also reset the hardware.
+> 
+> It can also be used either at probe time, to create the initial state
+> and possibly reset the hardware to an expected default, but also during
+> suspend/resume.
+> 
+> Both these cases come with different expectations too: during the
+> initialization, we want to initialize all states, but during
+> suspend/resume, drm_private_states for example are expected to be kept
+> around.
+> 
+> reset() also isn't fallible, which makes it harder to handle
+> initialization errors properly. This is only really relevant for some
+> drivers though, since all the helpers for reset only create a new
+> state, and don't touch the hardware at all.
+> 
+> It was thus decided to create a new hook that would allocate and
+> initialize a pristine state without any side effect:
+> atomic_create_state to untangle a bit some of it, and to separate the
+> initialization with the actual reset one might need during a
+> suspend/resume.
+> 
+> Continue the transition to the new pattern with CRTCs.
+> 
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  drivers/gpu/drm/drm_atomic_state_helper.c | 47 +++++++++++++++++++++++++++++++
+>  drivers/gpu/drm/drm_mode_config.c         | 21 +++++++++++++-
+>  include/drm/drm_atomic_state_helper.h     |  4 +++
+>  include/drm/drm_crtc.h                    | 16 +++++++++++
+>  4 files changed, 87 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
+> index 9cd8550cabb7..b7da134c8c50 100644
+> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
+> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
+> @@ -103,10 +103,32 @@ __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+>  
+>  	crtc->state = crtc_state;
+>  }
+>  EXPORT_SYMBOL(__drm_atomic_helper_crtc_reset);
+>  
+> +/**
+> + * __drm_atomic_helper_crtc_create_state - initializes crtc state
 
-> @@ -1017,6 +1017,15 @@ void pci_enable_acs(struct pci_dev *dev)
->         bool enable_acs =3D false;
->         int pos;
->
-> +       /*
-> +        * ACS flags must be inherited from the previous kernel during a =
-Live
-> +        * Update for preserved devices (which includes endpoints and any
-> +        * upstream bridges) to avoid changing routing while memory trans=
-actions
-> +        * are in flight.
-> +        */
-> +       if (pci_liveupdate_incoming(dev))
-> +               return;
+"Initialize a CRTC state"
 
-Sashiko caught that pci_enable_acs() is also called from
-pci_restore_state() so this patch needs a fix to ensure that ACS flags
-do not change or get lost after a save+reset+restore.
+The name of the function is misleading ("*_create_*" while you state it
+performs initialization).
+
+> + * @crtc: crtc object
+> + * @state: new state to initialize
+> + *
+> + * Initializes the newly allocated @state, usually required when
+> + * initializing the drivers.
+> + *
+> + * @state is assumed to be zeroed.
+> + *
+> + * This is useful for drivers that subclass @drm_crtc_state.
+> + */
+> +void __drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc,
+> +					   struct drm_crtc_state *state)
+> +{
+> +	__drm_atomic_helper_crtc_state_init(state, crtc);
+> +
+> +	if (drm_dev_has_vblank(crtc->dev))
+> +		drm_crtc_vblank_reset(crtc);
+
+This is confusing to me (at least before reading the rest of the
+series), and itn't mentioned in the function documentation or in the
+commit message.
+
+Furthermore, __drm_atomic_helper_crtc_create_state() is later used in
+tidss_crtc_create_state(), which is the
+drm_crtc_funcs.atomic_create_state() implementation of the tidss driver.
+The atomic_create_state documentation states that "This callback must
+have no side effect", and drm_crtc_vblank_reset() has side effects.
+
+> +}
+> +EXPORT_SYMBOL(__drm_atomic_helper_crtc_create_state);
+> +
+>  /**
+>   * drm_atomic_helper_crtc_reset - default &drm_crtc_funcs.reset hook for CRTCs
+>   * @crtc: drm CRTC
+>   *
+>   * Resets the atomic state for @crtc by freeing the state pointer (which might
+> @@ -122,10 +144,35 @@ void drm_atomic_helper_crtc_reset(struct drm_crtc *crtc)
+>  
+>  	__drm_atomic_helper_crtc_reset(crtc, crtc_state);
+>  }
+>  EXPORT_SYMBOL(drm_atomic_helper_crtc_reset);
+>  
+> +/**
+> + * drm_atomic_helper_crtc_create_state - default &drm_crtc_funcs.atomic_create_state hook for crtcs
+
+Same comment as in patch 10/20.
+
+> + * @crtc: crtc object
+> + *
+> + * Initializes a pristine @drm_crtc_state.
+
+"Allocate and initialize ..."
+
+> + *
+> + * This is useful for drivers that don't subclass @drm_crtc_state.
+> + *
+> + * RETURNS:
+> + * Pointer to new crtc state, or ERR_PTR on failure.
+> + */
+> +struct drm_crtc_state *drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc)
+> +{
+> +	struct drm_crtc_state *state;
+> +
+> +	state = kzalloc_obj(*state);
+> +	if (!state)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	__drm_atomic_helper_crtc_create_state(crtc, state);
+> +
+> +	return state;
+> +}
+> +EXPORT_SYMBOL(drm_atomic_helper_crtc_create_state);
+> +
+>  /**
+>   * __drm_atomic_helper_crtc_duplicate_state - copy atomic CRTC state
+>   * @crtc: CRTC object
+>   * @state: atomic CRTC state
+>   *
+> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
+> index 10b7815cbe48..182d9a8104e7 100644
+> --- a/drivers/gpu/drm/drm_mode_config.c
+> +++ b/drivers/gpu/drm/drm_mode_config.c
+> @@ -196,10 +196,26 @@ static int drm_mode_config_plane_create_state(struct drm_plane *plane)
+>  	plane->state = plane_state;
+>  
+>  	return 0;
+>  }
+>  
+> +static int drm_mode_config_crtc_create_state(struct drm_crtc *crtc)
+> +{
+> +	struct drm_crtc_state *crtc_state;
+> +
+> +	if (!crtc->funcs->atomic_create_state)
+> +		return 0;
+> +
+> +	crtc_state = crtc->funcs->atomic_create_state(crtc);
+> +	if (IS_ERR(crtc_state))
+> +		return PTR_ERR(crtc_state);
+> +
+> +	crtc->state = crtc_state;
+> +
+> +	return 0;
+> +}
+> +
+>  /**
+>   * drm_mode_config_reset - call ->reset callbacks
+>   * @dev: drm device
+>   *
+>   * This functions calls all the crtc's, encoder's and connector's ->reset
+> @@ -227,13 +243,16 @@ void drm_mode_config_reset(struct drm_device *dev)
+>  			plane->funcs->reset(plane);
+>  		else if (plane->funcs->atomic_create_state)
+>  			drm_mode_config_plane_create_state(plane);
+>  	}
+>  
+> -	drm_for_each_crtc(crtc, dev)
+> +	drm_for_each_crtc(crtc, dev) {
+>  		if (crtc->funcs->reset)
+>  			crtc->funcs->reset(crtc);
+> +		else if (crtc->funcs->atomic_create_state)
+> +			drm_mode_config_crtc_create_state(crtc);
+> +	}
+>  
+>  	drm_for_each_encoder(encoder, dev)
+>  		if (encoder->funcs && encoder->funcs->reset)
+>  			encoder->funcs->reset(encoder);
+>  
+> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
+> index e7fbbfdc5d69..129762b99de6 100644
+> --- a/include/drm/drm_atomic_state_helper.h
+> +++ b/include/drm/drm_atomic_state_helper.h
+> @@ -43,10 +43,14 @@ struct drm_device;
+>  void __drm_atomic_helper_crtc_state_init(struct drm_crtc_state *state,
+>  					  struct drm_crtc *crtc);
+>  void __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
+>  				    struct drm_crtc_state *state);
+>  void drm_atomic_helper_crtc_reset(struct drm_crtc *crtc);
+> +void __drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc,
+> +					   struct drm_crtc_state *state);
+> +struct drm_crtc_state *
+> +drm_atomic_helper_crtc_create_state(struct drm_crtc *crtc);
+>  void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
+>  					      struct drm_crtc_state *state);
+>  struct drm_crtc_state *
+>  drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc);
+>  void __drm_atomic_helper_crtc_destroy_state(struct drm_crtc_state *state);
+> diff --git a/include/drm/drm_crtc.h b/include/drm/drm_crtc.h
+> index 312fc1e745d2..41ea6eadf36f 100644
+> --- a/include/drm/drm_crtc.h
+> +++ b/include/drm/drm_crtc.h
+> @@ -636,10 +636,26 @@ struct drm_crtc_funcs {
+>  	 * 0 on success or a negative error code on failure.
+>  	 */
+>  	int (*set_property)(struct drm_crtc *crtc,
+>  			    struct drm_property *property, uint64_t val);
+>  
+> +	/**
+> +	 * @atomic_create_state:
+> +	 *
+> +	 * Allocates a pristine, initialized, state for the CRTC object
+
+s/Allocates/Allocate/
+
+> +	 * and returns it. This callback must have no side effects: in
+> +	 * particular, the returned state must not be assigned to the
+> +	 * object's state pointer and it must not affect the hardware
+> +	 * state.
+> +	 *
+> +	 * RETURNS:
+> +	 *
+> +	 * A new, pristine, CRTC state instance or an error pointer
+> +	 * on failure.
+> +	 */
+> +	struct drm_crtc_state *(*atomic_create_state)(struct drm_crtc *crtc);
+> +
+>  	/**
+>  	 * @atomic_duplicate_state:
+>  	 *
+>  	 * Duplicate the current atomic state for this CRTC and return it.
+>  	 * The core and helpers guarantee that any atomic state duplicated with
+
+-- 
+Regards,
+
+Laurent Pinchart
