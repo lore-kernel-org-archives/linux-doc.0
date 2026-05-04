@@ -1,191 +1,130 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B2C83E3C48;
-	Mon,  4 May 2026 15:51:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 560FF3E1205
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 15:53:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777909890; cv=none; b=W9IiHzIAp0B9ygS/Li8sJgxktA1shylACu84o+pThUlMoass00Guqvs2n9EXt5/nyHwRzfi+xqpIYoI4Fhckd+aqiRtaOyW9bnOinWE3Njc3jd7l3fbbXEywZdudca9SAAwiQtbUn8aybsjGs6E264yUPcItSYPjodJGOAPbcWM=
+	t=1777910039; cv=none; b=GU1kgLpAhFGsvL6U2pzOfy5tvwD8+MjjhSaz0gljLLwiWGn+/hVUWlkIp1PicU50LlvlDrPmysRegN+NWKF19eFnz4HpNiOBU7ZW3E5HruIj0JTfWkJa8aoCisixY5kqIKFI42ZyNgbjK4qLqwOdXiqrEMyfAjz0a5caLpyLCt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777909890; c=relaxed/simple;
-	bh=NgkZooe3CB6Mf13tkY5wF+JWazebe4oFO2B6aSDF0ac=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=l2mThKqQff8R/gbOWPhZ68fGPo084q8CUAVwfyaMx2sJ5KMXkqGzOgXm72+DCO/TQlZM6EVF7vYtXTqwBEMpn14Vrqs3lSXf2GqRjv2NKS32eaxIrH9MctLg9xXLsAW5B4OD3M6ygyGfZeYr3vZRwb1mFEV740e/xOL4pjZ87Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sLz4O8fQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777910039; c=relaxed/simple;
+	bh=7DoUuX0+RGh2JVfU5wVKKGYKwB5AQXrt1NRBgjRFfGQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iHoSeIN0XtuRrg+eMxlGNWjEd2V4zKKCYPrzKIoL8z0mVqPG/Qk7ngBFPAQz58Gn/yVU9fByzcyjr/VdLkEb5s9hZC7Zq4jC99/zMTjBTcaeopBGChrf0j0sK6hl9ijwJXdniv8o2imq8AF0Iv9AWwsLhVAcPgk8aBbR/e9q3c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Bxmufx5I; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sLz4O8fQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D86FAC2BCB8;
-	Mon,  4 May 2026 15:51:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777909889;
-	bh=NgkZooe3CB6Mf13tkY5wF+JWazebe4oFO2B6aSDF0ac=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sLz4O8fQkgNLMdM28+PuhOQanBqjVtECLrWGPGhQRU5l5BKcs6MCluTwPoOghXfAf
-	 FpbB7Y1zCBkRaRTfPcoy8zvUO70aZS6lKDfLgMAGAePs76yHaBxMuYmDP2hl9whJR2
-	 CVG08QZGyRbS75i5IEdUlMKsljFw4Gv0XEn7BU5bQw7l7SwHiofr5/ghemoMbbcmY5
-	 vdheRRMq30R1cP50pcDe9jvty5xQTVFVdz2vnLyY8v3+EH1HuS//GmXiBMgOEvSfzA
-	 EdArUZePOZ9Qoyfdp/sj44mAXFl3EkG695Wj7UKX2M3SK+aazGt5lilsIB++GyjbDK
-	 29D+cIx5ejlVg==
-Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1wJvZv-0000000EyFI-41NG;
-	Mon, 04 May 2026 17:51:27 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Bxmufx5I"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777910036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=DaQO+lQ/WhzSgRpUYtckS0TDp3/BHCsX9FCd+/WxZyE=;
+	b=Bxmufx5IwoDoPPUCH3s4cERMlakYZdxGmC70tr7NV+Q/rskRKgaAQ5fV7P5b+jQ91xXtdp
+	DtJ5jYGeqSbjUPPqCmx1JvNXrXTAY9/RpDN4mntc2to+v+L93LHsx/u4UenvoYOWGbBUe3
+	8Exd7PpGNIB4mTs5SWeV9T7C3AxrL1M=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-94-zg4FzEtmO5-QrekueoNmbg-1; Mon,
+ 04 May 2026 11:53:51 -0400
+X-MC-Unique: zg4FzEtmO5-QrekueoNmbg-1
+X-Mimecast-MFC-AGG-ID: zg4FzEtmO5-QrekueoNmbg_1777910028
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 31864195608E;
+	Mon,  4 May 2026 15:53:48 +0000 (UTC)
+Received: from p16v.luc.cera.cz (unknown [10.44.32.88])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id A3A4819560A6;
+	Mon,  4 May 2026 15:53:41 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org,
+	Jiri Pirko <jiri@resnulli.us>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Leon Romanovsky <leon@kernel.org>,
+	Mark Bloch <mbloch@nvidia.com>,
+	Michal Schmidt <mschmidt@redhat.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Pasi Vaananen <pvaanane@redhat.com>,
+	Petr Oros <poros@redhat.com>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	Saeed Mahameed <saeedm@nvidia.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Simon Horman <horms@kernel.org>,
+	Tariq Toukan <tariqt@nvidia.com>,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	rust-for-linux@vger.kernel.org,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: [PATCH 9/9] docs: maintainers: add a filtering javascript
-Date: Mon,  4 May 2026 17:51:18 +0200
-Message-ID: <854faf4127053c203cae479f68e6ac12a4e4aabc.1777908711.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <cover.1777908711.git.mchehab+huawei@kernel.org>
-References: <cover.1777908711.git.mchehab+huawei@kernel.org>
+	linux-rdma@vger.kernel.org
+Subject: [PATCH net-next v3 0/2] dpll: rework fractional frequency offset reporting
+Date: Mon,  4 May 2026 17:53:38 +0200
+Message-ID: <20260504155340.411063-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-The maintainers table is big. Add a javascript to allow filtering
-it. Such script is only added at the page which contains the
-maintainers-include tag.
+Rework how the fractional frequency offset (FFO) is reported in
+the DPLL subsystem.
 
-I opted to keep the search case-sensitive, as, this way,
-upper case searches at subsystem.
+Both fractional-frequency-offset (PPM) and
+fractional-frequency-offset-ppt (PPT) attributes are now present at
+the top level of a pin and inside each pin-parent-device nest. They
+carry the same measurement at different precisions.
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/sphinx/maintainers_include.py | 77 +++++++++++++++++++--
- 1 file changed, 71 insertions(+), 6 deletions(-)
+The ffo_get callback distinguishes the two contexts: dpll=NULL for
+the top-level call (RX vs TX symbol rate offset) and a valid dpll
+pointer for the nested per-parent call (pin vs DPLL offset). This
+allows drivers to report a different value per parent DPLL if needed.
 
-diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
-index bbdadf2aa4f3..f85298627da2 100755
---- a/Documentation/sphinx/maintainers_include.py
-+++ b/Documentation/sphinx/maintainers_include.py
-@@ -31,6 +31,48 @@ __version__ = "1.0"
- 
- maint_parser = None  # pylint: disable=C0103
- 
-+JS_FILTER = """
-+(function() {
-+  function filterTable(table) {
-+    const filter = document.getElementById("filter-table").value.trim();
-+    const rows = table.querySelectorAll("tbody tr");
-+    for (let i = 0; i < rows.length; i++) {
-+      const tds = rows[i].getElementsByTagName("td");
-+      let match = false;
-+      for (let j = 0; j < tds.length; j++) {
-+        const cellText = (tds[j].textContent || tds[j].innerText);
-+        if (cellText.includes(filter)) {
-+          match = true;
-+          break;
-+        }
-+      }
-+      rows[i].style.display = match ? "table-row" : "none";
-+    }
-+  }
-+  function addInput() {
-+    const table = document.getElementById("maintainers-table");
-+    if (!table) return;
-+    let input = document.getElementById("filter-table");
-+    if (!input) {
-+      const filt_div = document.createElement('div');
-+      filt_div.innerHTML = `
-+        <p>Filter:
-+          <input type="search" id="filter-table" placeholder="subsystem or property (case-sensitive)" />
-+        </p>
-+      `;
-+      table.parentNode.insertBefore(filt_div, table);
-+      const input = document.getElementById("filter-table")
-+      input.addEventListener('input', () => filterTable(table));
-+    }
-+  }
-+  if (document.readyState === 'loading') {
-+    document.addEventListener('DOMContentLoaded', addInput);
-+  } else {
-+    addInput();
-+  }
-+})();
-+"""
-+
- 
- # Shamelessly stolen from docutils
- def ErrorString(exc):  # pylint: disable=C0103, C0116
-@@ -62,7 +104,7 @@ class MaintainersParser:
-         #
-         self.profile_toc = set()
-         self.profile_entries = {}
--        self.header = ".. _maintainers:\n\n"
-+        self.header = ""
-         self.maint_entries = {}
-         self.fields = {}
- 
-@@ -230,15 +272,28 @@ class MaintainersInclude(Include):
-     def emit(self):
-         """Parse all the MAINTAINERS lines into ReST for human-readability"""
-         path = maint_parser.path
--        output = maint_parser.header
-+        output = ".. _maintainers:\n\n"
-+        output += maint_parser.header
-+
-+        output += ".. _maintainers_table:\n\n"
-+        output += ".. flat-table::\n"
-+        output += "  :header-rows: 1\n\n"
-+        output += "  * - Subsystem\n"
-+        output += "    - Properties\n\n"
-+
-+        self.state.document['maintainers_included'] = True
- 
-         for name, fields in maint_parser.maint_entries.items():
--            output += "\n" + name + "\n"
--            output += "~" * len(name) + "\n"
--
-+            output += f"  * - {name}\n"
-+            tag = "-"
-             for field, lines in fields.items():
-                 field_name = maint_parser.fields.get(field, field)
--                output += f":{field_name}:\n\t" + ",\n\t".join(lines) + "\n\n"
-+
-+                output += f"    {tag} :{field_name}:\n        "
-+                output += ",\n        ".join(lines) + "\n"
-+                tag = " "
-+
-+            output += "\n"
- 
-         # For debugging the pre-rendered results...
-         print(output, file=open("/tmp/MAINTAINERS.rst", "w"))
-@@ -315,6 +370,14 @@ class MaintainersProfile(Include):
-         return []
- 
- 
-+# pylint: disable=W0613
-+def add_filter_script(app, pagename, templatename, context, doctree):
-+    """Add Filter javascript only to maintainers page"""
-+
-+    if doctree and doctree.get('maintainers_included'):
-+        app.add_js_file(None, body=JS_FILTER)
-+
-+
- def setup(app):
-     """Setup Sphinx exension"""
-     global maint_parser  # pylint: disable=W0603
-@@ -332,6 +395,8 @@ def setup(app):
-     app.add_directive("maintainers-include", MaintainersInclude)
-     app.add_directive("maintainers-profile-toc", MaintainersProfile)
- 
-+    app.connect("html-page-context", add_filter_script)
-+
-     return {
-         "version": __version__,
-         "parallel_read_safe": True,
+Patch 1 adds both attributes to the pin-parent-device subset, updates
+the DPLL netlink handling to emit both at each level, updates the YAML
+spec and driver-api documentation, and adds NULL guards to mlx5 and
+zl3073x drivers.
+
+Patch 2 implements the nested FFO for zl3073x using the
+dpll_df_offset_x register with ref_ofst=1, providing 2^-48
+resolution. The old per-reference frequency measurement is removed
+as it was redundant with measured-frequency.
+
+Changes v2 -> v3:
+- Keep both FFO attributes (PPM and PPT) at both levels instead of
+  moving PPT under pin-parent-device only (Jiri Pirko)
+- Unify attribute documentation to describe semantics at each level
+
+Changes v1 -> v2:
+- Minor commit message fixes
+
+Ivan Vecera (2):
+  dpll: add fractional frequency offset to pin-parent-device
+  dpll: zl3073x: report FFO as DPLL vs input reference offset
+
+ Documentation/driver-api/dpll.rst             | 15 +++++++
+ Documentation/netlink/specs/dpll.yaml         | 28 +++++++-----
+ drivers/dpll/dpll_netlink.c                   | 23 +++++-----
+ drivers/dpll/dpll_nl.c                        |  2 +
+ drivers/dpll/zl3073x/chan.c                   | 31 ++++++++++++-
+ drivers/dpll/zl3073x/chan.h                   | 14 ++++++
+ drivers/dpll/zl3073x/core.c                   | 45 -------------------
+ drivers/dpll/zl3073x/dpll.c                   | 34 +++++++-------
+ drivers/dpll/zl3073x/ref.h                    | 14 ------
+ drivers/dpll/zl3073x/regs.h                   | 15 +++++++
+ .../net/ethernet/mellanox/mlx5/core/dpll.c    |  4 ++
+ 11 files changed, 125 insertions(+), 100 deletions(-)
+
 -- 
-2.54.0
+2.53.0
 
