@@ -1,113 +1,96 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55BF5349AEC
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 08:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C70A93491DB
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 08:57:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777884500; cv=none; b=fQO4xgZKZyYOOL3XT//ObHn+RoMj1QG1mnugqfy83k627LdR7B0pfO8rXwWiDawJx6xklPNDhhCFX6qeU2kEaqmCFSNUOVtXW9+we0psi9xpeMgBwn5fsq+w+vcik/n24zpKy1+2B76ZROAdAp1lyzlEd3ZUmG0Q1xY5Qle1Nyc=
+	t=1777885055; cv=none; b=tzHBDc/mKQDyxtdyyXRcjeIEH+3ikFDktF6p1ZEfY9e3+aogjNb++1I7jz/Ywt4F4+NN4Yo7Qp7nQt6zQP20FwG5YZBFc2XHkqdahjzfVCuPXHJDC0qMBxEyJshmkAfUGkH8TVDiFpMW+RpSOgEExwjxHhZR4GDTX0C6QjtwHck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777884500; c=relaxed/simple;
-	bh=bLUccklgBubfjMF9F927WmSX/x9egmRdCcgt3JBFY80=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QV5mMQmgXR6P1nTCUSuuDgZeR4aKLvC8hBIPs01Duso9KMwzkwFcNkhcII4uuMOSIj/Trz5i57drXO3QodjbJheDmbYCU8BjpCIeut0HYtEZMXHHolNM79VU2f43DQtnDRrRg/R2sZJB2jxwQ3SlFoRjjWgYRzVm2r9R5LaM/3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=gktmWMMm; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1777885055; c=relaxed/simple;
+	bh=bEUtuzg/HJMugeLpdZwkZhBPJJZM/mIjQu4dSdyGCww=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=bFNv+v9XDWR+DUS0VyfhCnhj6t2FrmLv1PdyZ6vnTBrdVBf4/YQD437cX3wSI0em06go4nbxVPbciRrpzxgzXAjxx6x3Eja0dEFKANSVkgqyF2w13/F3SvAMT97ZM3MSATkZh3X83xKT1BFOMkJk13DtHLupbrZn84f7VyRoUl8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Kc+FbSHs; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="gktmWMMm"
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-488b3f8fa2bso43428565e9.1
-        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 01:48:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1777884495; x=1778489295; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=bLUccklgBubfjMF9F927WmSX/x9egmRdCcgt3JBFY80=;
-        b=gktmWMMmQ6ZMu18AJzugEYu3wh2PAKxmnNIQknr4FN9cJ8Q1Cj+Z7P1A7sJL4jDw3v
-         ngsPhUFTOM4LdVZHxtePRtxqJBzAwOVtBLDz/ZkVFblYcaWqFXSo/sF8pBR/pY8SI4wl
-         qmH83NPMfxtSR3ZIoE6z1IBUt1RbAnuFLvzHxBqzv1QxvbrEaLR+1gXUKuhPPU10AoXR
-         QP3KqBC3oz58i31k9f3s6qwKdPqTLDHBWzxlTeyMwb0i7N90hnyGR4nsCT927hITPe6t
-         /yLnXWlnVK2+/XiSZQ0jjB3l/I1yviapkncr37GOjF2IRiI6bMK8risVHZ11QyI+eEb2
-         Cf8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777884495; x=1778489295;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bLUccklgBubfjMF9F927WmSX/x9egmRdCcgt3JBFY80=;
-        b=hx+Fd38VjHqEbXtTmdLgZeUqyXwD6mbcd0Z7eV/YjzS+bpgLvmdq29g6+g+isG59Ys
-         O6S0O1Euh9WKnNE/Ud5o/KG8Pijz6Ux72d/EleW6NUp3a1dld4JPC1ftEaSWa/JT53Yj
-         LXr1Ld6p1ym1SFgg9rGhNxwaMf9olGYOW31b4/oy9xwdJi27nkNhN1Tgh6J+sUfrYZqz
-         Fa6zbR/m8QDWuiGdqwOwiUJH5k9VLGzjoipEiwPJyVJucNgk7fQxERGGBCLDveDX/wyq
-         NHlY6AkieaJ+if3X0jO5ZqYrSMxfxU2LfbjNHa6X8tlVEKBUEFgQUfkANb0eMQ7TKiHT
-         4l7A==
-X-Forwarded-Encrypted: i=1; AFNElJ/3kwdq/JKQAFmaPTjcBFXijwPDzFnDmGd4TNEyHAUdcJUuxkxT5k6s/PdSxR8rdX/TzYkrPfQ7jTo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzv7aKkupejBF5unVjzCYHqLffDU2XzzkzSBYgeiQC5IqN2v90u
-	tTHWr7ikCMtS04fHGizH8A/ruoVOJvYG88MiyXS/1neDhFbBTjRtBhrNTgCJfHLPs0c=
-X-Gm-Gg: AeBDiet8lAy9WNzRUp6xmgP9op/wBvFIpf3pfka8b1QPxzIaHJ9S4M6os0pchUMt5ub
-	qXViRuspytDcOQan603/ep49Uuk9ZNVPWesGHAEWuoAbSE9G6mQBqoHK/l2jFG64dF/DIQs/GGp
-	Gtm9VUjVyluJd3s0C0sSbB8ArH4Ba2AF/TfRYyrPjosZlLHBRfjAD/HuEIfvONSGaW+nRv+NHu+
-	ip6ymzgKzdfvf1x6yG7FCZ7Sgj8gOCcZRR2+YkyRNrtob6kzxPEyA1EDkXWbSRWIMlPJWnMzjk4
-	wYgMy1IA+CYzc9lTvgLptGrBH+exsbHOlqnxl8gprsmGQLWjBr4RvfV8B6iK/AsMgWMpXnZJJE6
-	YQZG7Phfa+yOqYy3WmUxqrXH/pHI95bCuG04pDwycTjNVrzpO7ZK1GixI9ie1e7N+1OcVACXuir
-	5kRbKMsNuCxsRhHzn3f2fsR9yYhQ2y+0+zneRHsxaq678=
-X-Received: by 2002:a05:600c:26d2:b0:48a:5236:7f38 with SMTP id 5b1f17b1804b1-48a8607970fmr159836115e9.14.1777884495283;
-        Mon, 04 May 2026 01:48:15 -0700 (PDT)
-Received: from FV6GYCPJ69 ([128.77.52.125])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44b63d78692sm20604340f8f.27.2026.05.04.01.48.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 01:48:14 -0700 (PDT)
-Date: Mon, 4 May 2026 10:48:09 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, "David S. Miller" <davem@davemloft.net>, 
-	Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>, 
-	Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>, 
-	Michal Schmidt <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>, 
-	Pasi Vaananen <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, Saeed Mahameed <saeedm@nvidia.com>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
-Subject: Re: [PATCH net-next v2 1/2] dpll: move
- fractional-frequency-offset-ppt under pin-parent-device
-Message-ID: <afhdCnT0ns-PgZD8@FV6GYCPJ69>
-References: <20260430173611.3312596-1-ivecera@redhat.com>
- <20260430173611.3312596-2-ivecera@redhat.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Kc+FbSHs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1777885054; x=1809421054;
+  h=date:from:to:cc:subject:message-id;
+  bh=bEUtuzg/HJMugeLpdZwkZhBPJJZM/mIjQu4dSdyGCww=;
+  b=Kc+FbSHsIM20gnTq3ADe8FCeUW0yAfD8eO8uhbRBZrevxtX5ZE7DjkDP
+   iOvJSyRX3i6DufXlN8hVIMrrywwGnhT+2bjq5HGzB259Ln1aqZQs49JVf
+   bU0WT+GYxMUrqh8QBlGYmIQo4sH9mKhcio+ZHDtyqa+kYT01Fahq3Qixk
+   9L1jh7XwpzodWNOgEIH590f0muof4Y58qtAJgYHxjxtQZJNJSz47pdEVh
+   0nZ9YNXAX7YkfFQ66H/KUlqn4htjCHRN+gB/NT0hQMYcpZcWp+fQ8EUqD
+   RQ7tuKJZQT0mRRmSnvdjNVAHjpL41rWw/M93VpujWneZG/QvVbwoOcrPm
+   Q==;
+X-CSE-ConnectionGUID: e3CYA2l3Tnuvz3Vbpfg5Ag==
+X-CSE-MsgGUID: oVlehPZqSmqbkqozVYR0qQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11775"; a="82350842"
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="82350842"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2026 01:57:34 -0700
+X-CSE-ConnectionGUID: WTvQcTosRAanbY/0x6myGg==
+X-CSE-MsgGUID: aKiAhSfeSY6ja206pSOcYQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.23,215,1770624000"; 
+   d="scan'208";a="240444642"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by fmviesa005.fm.intel.com with ESMTP; 04 May 2026 01:57:32 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wJp7K-000000005nN-1EVC;
+	Mon, 04 May 2026 08:57:30 +0000
+Date: Mon, 04 May 2026 10:57:17 +0200
+From: kernel test robot <lkp@intel.com>
+To: Felipe Matarazzo <felipemps@protonmail.com>
+Cc: oe-kbuild-all@lists.linux.dev, 0day robot <lkp@intel.com>,
+ linux-doc@vger.kernel.org
+Subject: htmldocs:
+ Documentation/admin-guide/reporting-issues.rst:1390: WARNING: Title underline
+ too short.
+Message-ID: <202605041002.NG14fe8J-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260430173611.3312596-2-ivecera@redhat.com>
 
-Thu, Apr 30, 2026 at 07:36:10PM +0200, ivecera@redhat.com wrote:
->Move the fractional-frequency-offset-ppt attribute from the top-level
->pin attributes into the pin-parent-device nested attribute set. This
->makes it consistent with phase-offset which is already per-parent and
->clarifies that FFO PPT represents the frequency difference between
->a pin and its parent DPLL device.
->
->The top-level fractional-frequency-offset attribute (in PPM) remains
->unchanged for backward compatibility.
+tree:   https://github.com/intel-lab-lkp/linux/commits/Felipe-Matarazzo/docs-fix-typos-in-reporting-issues-rst/20260504-100627
+head:   87c6043bc64dbd3613715bed7671c5b8e586a71e
+commit: 87c6043bc64dbd3613715bed7671c5b8e586a71e docs: fix typos in reporting-issues.rst
+date:   7 hours ago
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260504/202605041002.NG14fe8J-lkp@intel.com/reproduce)
 
-That is odd. The ppt one was added just for higher precision but was
-semantically the same. Now you change it. Could you still treat both the
-same?
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605041002.NG14fe8J-lkp@intel.com/
 
->
->Distinguish the two contexts in the ffo_get callback by passing
->dpll=NULL for the top-level (rx vs tx symbol rate) call and a valid
->dpll pointer for the nested (pin vs parent DPLL) call. Update mlx5
->and zl3073x drivers to return -ENODATA for the nested context they
->do not yet support.
->
->Add documentation for both FFO attributes to dpll.rst.
->
+All warnings (new ones prefixed by >>):
 
-[..]
+   WARNING: Documentation/ABI/testing/sysfs-class-reboot-mode-reboot_modes:36: abi_sys_class_reboot_mode_driver_reboot_modes doesn't have a description
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:364; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:234
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/os_mode_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:373; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:243
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:636; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:252
+   WARNING: /sys/bus/usb/devices/<busnum>-<devnum>:<config num>.<interface num>/<hid-bus>:<vendor-id>:<product-id>.<num>/touchpad/enabled_index is defined 2 times: Documentation/ABI/testing/sysfs-driver-hid-lenovo-go:645; Documentation/ABI/testing/sysfs-driver-hid-lenovo-go-s:261
+>> Documentation/admin-guide/reporting-issues.rst:1390: WARNING: Title underline too short.
+
+
+vim +1390 Documentation/admin-guide/reporting-issues.rst
+
+3e544d72dfc8bb Thorsten Leemhuis 2020-12-04  1388  
+87c6043bc64dbd Felipe Matarazzo  2026-05-03  1389  Inquiries and testing requests
+3e544d72dfc8bb Thorsten Leemhuis 2020-12-04 @1390  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+3e544d72dfc8bb Thorsten Leemhuis 2020-12-04  1391  
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
