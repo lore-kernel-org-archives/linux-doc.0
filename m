@@ -1,631 +1,830 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7593DF004
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 15:00:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E009C3DEFE2;
+	Mon,  4 May 2026 15:08:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906860; cv=none; b=FvanSJRgam2U1MJgwQFKhyhxjAN9pRM2oJWRzksU9lqXjKyShiUGR0CqjcYLhoUptK1pW/xZhqVa9QaXgaVsU9TZelp5QeCse0EpIU71bcoAhMCfd+HPrLBsFVVE42uJVJChaZg2oo/oISkDA0O1PTOfT1D8Nd085eQahXtwe54=
+	t=1777907325; cv=none; b=mCTjUmhgO9AdLjklFyDOHq1BARTLirKFt8ii/XCqNAvFlgVTIOhsND0EPld+N/OXlPbJFNpAB7TAGfWYTm1zrGz2nx4w2t/UYf2ZaU4dofumaH4cxYXuLCc5bQB3vsqIZjznFVFakuUb1wEOQIsHCkxvIMpMCU0wqR7VWhD+n48=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906860; c=relaxed/simple;
-	bh=L21YpP6bz13lgE+YYR4NaDUk+1y+U1PIYuL7V14KBa8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tnZv0i94x/pktv2pCoXgzuH6Ib6dNPt5QO3O4ZziuALV231bxtkLvBFyEU+nDTBCL+KGyeqNI//WvPkq65n2nkwqzSiJe7VCAYzYpCHxqD7e2SzDB5/thRkhosyUDJ8c32rRHDS6rbe5O2InULer42NaPcotFsikC53bz7UuuCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bGIU6qDv; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1777907325; c=relaxed/simple;
+	bh=fn/qXPdgN+xLz69m4MW9YKNe/lf7m95P+ZI5YC09BgI=;
+	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To; b=NwVl33Ltbv+JQrCFmdz0V4m19kqu5qKCRAKcCjvQ6gECUXNDK5y4+OZ9CAYPowGARCbVIxV4Z+a0gy8Z9m7K4qyGtMCPHyQDedTwpJrjehbFlIR/F9dAAxhtbSdFZTbIeU3q5Ym0JIKa8/Uasp1/ubONkT49m6js9OGHI/w5XPE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com; spf=pass smtp.mailfrom=bsbernd.com; dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b=V7uUB2xw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=aQIBPdAc; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bsbernd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bsbernd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bGIU6qDv"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso21946775e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 08:00:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20251104; t=1777906856; x=1778511656; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vihrjy6JWRaFYaKwFFp+zwam3K505oAzvsgkAqow4uE=;
-        b=bGIU6qDv0/SP7wwIb+UXB/k08aIkzVnS3YK6RDJkLGjzuhZjOFVcNVFSUjgdTdBWC2
-         mnTUXgUWrQmz92hRo4U9brBBLGpR0hOj67XPdoNWBBYF4irV2Ta5cn1rb0GPFnrKcqFd
-         6A2s482ATMrz75epXDv2l6fzzaRD55gpmAY0SKJDWdVChgtMmuNMbFutb5AotfxEJrIV
-         +2eo5u7cyZ5ErmCiaPvktaJUr9hbYUSGkUjj4zGH0KxFv+v38jGOc5Me82Wd7LPAfGkZ
-         4Ymfu8k1KcsKowMxMT7QXVelytdjTyp+pzkD5siNqVVR022g8ggvBaPpSmR0ppncB/mY
-         3OdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777906856; x=1778511656;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vihrjy6JWRaFYaKwFFp+zwam3K505oAzvsgkAqow4uE=;
-        b=DRXRepiM9Zw42L7Nug4mcf2sbpk+e/zeuS1wAG6rqcjHCgjT+QtyQfEPPfg7QJ9Ldt
-         rqRxB9nAAxhAPe7jqxsrQdNhaAjJalHFHfUV7Bbaoy+sLSV8HeJrkOv2rq2iDwA+rCds
-         mKZ7TRfxdcsjpIPL5e4owWugKLHCHl9lNC+ZlLp4YipNFv5OXungsrwH2S9fqDqkpTZo
-         +foGgt70vvMpb0eTKcDCRTf/MrfwCiXpRzG93LULo4EWdjL5gszk8nFgfKOqni80nAuA
-         oOo7zEX+meW+Dzv74wd1u0OdQVTgRvSGoAwFeIo8+thko5a+NA2sedf4oLTpEECE2nlL
-         KuiA==
-X-Forwarded-Encrypted: i=1; AFNElJ8xumM81Wt6qgB4sOELsAyC9BFB3hrSeySVhli0UM7jYKeKaA8SBye+QWAB1VtYofUasVFMS9gocZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymatOa/OeNih3do3DQMAjJP5AacgmirftLKn1TSNGpJjL4ItmA
-	BToCkWff54PUFhXghPyVQvUbS75io0OfetJvKWonQqILq7jM4Sq9qVQ7+SbM0Gr6pA==
-X-Gm-Gg: AeBDieuqnTt8uK0J7aG1l0F66PkFG6gc8gLHvq8QdvkR7HMUtTV38dYLi/EvAOfYXed
-	8SStkBP3GDFdaCeH1yWrfucIAS/IU9+WYE5zE4Z4V1dvSyXRBcOV3zT/xyB8uNfta0CU7j5HP+3
-	23HNVD7d0ryU/2FdPcL0T+cVEb1l9Tjrdbfm97C2g9zpaj3zpHq469aebwlJC+4kMdyhC3a09HT
-	R8LgougLsiogSz6KoMYHvcRVV8/7LKuuAbYvOhbeL62cZHfnLKlIKaDDca1BX6Wg/yk2jAT/G3n
-	cBFoNre/nySPSLCi/mE3Zbaa5f+DleFVgNUHOQ6PxeHCXjnIkIXfU7GC7YcXPTr8ax6TSvjlhdq
-	co8SmeCfxU9lXMgEYGy/akKEKjsn+1+wOyS93uVMFCrcNeDcGNlUHJ7wv1TO1vroX1ccNvNCt7r
-	b0t1EwMybOjSVd1SoqgbmNfGjiRohv7N3tELPxxT/+Y/Q9iI8wr9kOw0L05vyTS/7Ubu80JwbUZ
-	k8NFI3geA==
-X-Received: by 2002:a05:600c:46d1:b0:489:1d74:56d with SMTP id 5b1f17b1804b1-48a988ca441mr162572375e9.29.1777906853078;
-        Mon, 04 May 2026 08:00:53 -0700 (PDT)
-Received: from elver.google.com ([2a00:79e0:2834:9:fba5:1281:871d:3fd6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fe3cae3sm116897425e9.0.2026.05.04.08.00.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 08:00:52 -0700 (PDT)
-Date: Mon, 4 May 2026 17:00:45 +0200
-From: Marco Elver <elver@google.com>
-To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
-	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
-	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
-	David Rientjes <rientjes@google.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Kees Cook <kees@kernel.org>,
-	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
-	David Hildenbrand <david@kernel.org>,
-	Lorenzo Stoakes <ljs@kernel.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Mike Rapoport <rppt@kernel.org>,
-	Suren Baghdasaryan <surenb@google.com>,
-	Michal Hocko <mhocko@suse.com>,
-	Alexander Potapenko <glider@google.com>,
-	Dmitry Vyukov <dvyukov@google.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
-	llvm@lists.linux.dev,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
-Message-ID: <afi0nQ84k1oz5RyH@elver.google.com>
-References: <20260424132427.2703076-1-elver@google.com>
- <20260424132427.2703076-2-elver@google.com>
- <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
- <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=bsbernd.com header.i=@bsbernd.com header.b="V7uUB2xw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="aQIBPdAc"
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 1C9CC1400124;
+	Mon,  4 May 2026 11:08:41 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-11.internal (MEProxy); Mon, 04 May 2026 11:08:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bsbernd.com; h=
+	cc:cc:content-type:content-type:date:date:from:from:in-reply-to
+	:in-reply-to:message-id:mime-version:references:reply-to:subject
+	:subject:to:to; s=fm1; t=1777907321; x=1777993721; bh=fn/qXPdgN+
+	xLz69m4MW9YKNe/lf7m95P+ZI5YC09BgI=; b=V7uUB2xwmIvMMtGaLtgpw35mzU
+	OgCqQDrZC1fNGemvK/NdNo6OqaRtojxx+b7kSGRCdnqT9l34z+lAUThpYxEgW5/N
+	6iXUQemDpucjeajI2vCVI72V3wQcGvDiEhwBfTXiXR5O4U9NuZna5BuEXRhC2hfy
+	7ITar5VIxf4htnghVHjEv8IfdG5Wj/12weE59yGVsoV73ACC6osjjiE6PqJXSSen
+	xIcW6U+ymU11TkytDa+9SdjkiIz/ZukbjWWjhMCgjhC074UyijsD0JZu8304Geit
+	FPAFlNh0D6EVexNepB0JGs6ofKQeQuq0x0XAPqA+IQ0t4zu8F+wUEK9B7b5g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-type:content-type:date:date
+	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1777907321; x=1777993721; bh=fn/qXPdgN+xLz69m4MW9YKNe/lf7m95P+ZI
+	5YC09BgI=; b=aQIBPdAcf4zknzcsdnJY5L9yRNC91w7yQgu5LdSdOsstssNDPFq
+	qQLRsHX+ECm/tnliByM5ZXnwetqER2hJh6CuwQPMiOTboW+nPuNHQDPvl5r0gjZ4
+	WKjL18cIa4C+DPw71CI8z29YzTTYROWsLnmkokWt56eGBESu/WuAMMjWV27a18iE
+	0Uw8Va9lHBW0AMQvE4/XLDHzBuPLJZxrwAMma4/n6vVQa0TTPuk9C2Ycz5GbUPN+
+	j1jUhqgtZb/HvUhDCvUeFWMQ1tUatdar/llvtcKEq7hEeau9sJcUi4Un7UEXLlVx
+	LGK0mkRe79ZHZhP7cVtkxngnMJK8JwtNEyA==
+X-ME-Sender: <xms:d7b4abfRQ3qziEOFVkNc_4dcWFNNu19onnoloFjXGkIQ7xpXKrDyIg>
+    <xme:d7b4afG603yq2XknDio5MiAQnanhzR6FpPrYkeh8MzM-fXvROwDiw7QCz6j2hiRLk
+    zYqCRg6Y86HuZa7hM1Q3EulFcuza44R8vKu-FMfpoz9Luh_vYo>
+X-ME-Received: <xmr:d7b4admSHGB20SDGTBYjqQBbvgYSbfzuz-zm_0T9JpDF2s11f0XOZFPGy3Ewiq6ZQdc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgdelleduiecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpegtkfffgggfuffvvehfhfgjsehmtderredtvdejnecuhfhrohhmpeeuvghrnhguucfu
+    tghhuhgsvghrthcuoegsvghrnhgusegsshgsvghrnhgurdgtohhmqeenucggtffrrghtth
+    gvrhhnpedufedtgeetgefhledujedvieeikeeuieehveelfedvkeeuhfeujedtkeektdev
+    gfenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegsvg
+    hrnhgusegsshgsvghrnhgurdgtohhmpdhnsggprhgtphhtthhopeefledpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepjhhohhhnsehjrghgrghlrggtthhitgdrtghomhdprh
+    gtphhtthhopehjohhhnhesghhrohhvvghsrdhnvghtpdhrtghpthhtohepmhhikhhlohhs
+    sehsiigvrhgvughirdhhuhdprhgtphhtthhopegurghnrdhjrdifihhllhhirghmshesih
+    hnthgvlhdrtghomhdprhgtphhtthhopegrlhhishhonhdrshgthhhofhhivghlugesihhn
+    thgvlhdrtghomhdprhgtphhtthhopehjghhrohhvvghssehmihgtrhhonhdrtghomhdprh
+    gtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopehskhhhrghnsehl
+    ihhnuhigfhhouhhnuggrthhiohhnrdhorhhgpdhrtghpthhtohepvhhishhhrghlrdhlrd
+    hvvghrmhgrsehinhhtvghlrdgtohhm
+X-ME-Proxy: <xmx:d7b4aePZN8EfoBxwnMlN4E1_k6l6uq1IR4Lq01QFbvXpA3wPS6K8XA>
+    <xmx:d7b4aQG68fwC7KPML4xNLDvujdPPV-u5UkW3rwrUHbtElG7qUUHG5g>
+    <xmx:d7b4aSuqNVuzEjXe-vR1pzhBQ308QN5cOvwRbPi00mApy52EbbuC4Q>
+    <xmx:d7b4aTSVgkWwE3c7SWaQZj4X9rIW9cO5IYJhnguREPpPY6uwlqFxGQ>
+    <xmx:ebb4aRwr2TewdfWmHtyhZ-Fk6k7ribxOSfBs8jKhmGqaWySZaKEk1RJG>
+Feedback-ID: i5c2e48a5:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 4 May 2026 11:08:28 -0400 (EDT)
+Content-Type: multipart/mixed; boundary="------------luT9rWbTJ4wpROW5CpWkbx1H"
+Message-ID: <e96fd399-4886-428c-8e51-9988abcb0bba@bsbernd.com>
+Date: Mon, 4 May 2026 17:08:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
-User-Agent: Mutt/2.2.13 (2024-03-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH V10 00/10] famfs: port into fuse
+To: John Groves <john@jagalactic.com>, John Groves <John@Groves.net>,
+ Miklos Szeredi <miklos@szeredi.hu>, Dan Williams <dan.j.williams@intel.com>,
+ Alison Schofield <alison.schofield@intel.com>
+Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Vishal Verma <vishal.l.verma@intel.com>,
+ Dave Jiang <dave.jiang@intel.com>, Matthew Wilcox <willy@infradead.org>,
+ Jan Kara <jack@suse.cz>, Alexander Viro <viro@zeniv.linux.org.uk>,
+ David Hildenbrand <david@kernel.org>,
+ Christian Brauner <brauner@kernel.org>,
+ "Darrick J . Wong" <djwong@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>,
+ Amir Goldstein <amir73il@gmail.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Stefan Hajnoczi <shajnocz@redhat.com>,
+ Joanne Koong <joannelkoong@gmail.com>,
+ Josef Bacik <josef@toxicpanda.com>, Bagas Sanjaya <bagasdotme@gmail.com>,
+ Chen Linxuan <chenlinxuan@uniontech.com>,
+ James Morse <james.morse@arm.com>, Fuad Tabba <tabba@google.com>,
+ Sean Christopherson <seanjc@google.com>, Shivank Garg <shivankg@amd.com>,
+ Ackerley Tng <ackerleytng@google.com>, Gregory Price <gourry@gourry.net>,
+ Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>,
+ "venkataravis@micron.com" <venkataravis@micron.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "nvdimm@lists.linux.dev" <nvdimm@lists.linux.dev>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>
+References: <20260331123702.35052-1-john@jagalactic.com>
+ <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
+From: Bernd Schubert <bernd@bsbernd.com>
+Content-Language: fr, en-US
+In-Reply-To: <0100019d43e5f632-f5862a3e-361c-4b54-a9a6-96c242a8f17a-000000@email.amazonses.com>
 
-On Thu, Apr 30, 2026 at 03:59PM +0200, Marco Elver wrote:
-> On Thu, 30 Apr 2026 at 15:40, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
-> >
-> > On 4/24/26 15:24, Marco Elver wrote:
-> > > The mm-api kernel-doc comments have been broken for a while, as many
-> > > documented symbols shifted from being direct function definitions to
-> > > macros wrapping _noprof implementations during the introduction of
-> > > allocation tagging (starting with commit 7bd230a26648 "mm/slab: enable
-> > > slab allocation tagging for kmalloc and friends").
-> > >
-> > > When the kernel-doc block remains above the internal implementation
-> > > function but uses the public API name, the documentation generator fails
-> > > to associate the documented symbol and generates warnings and fails to
-> > > emit the documentation.
-> > >
-> > > Fix this by:
-> > >
-> > > 1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
-> > >    them directly above the user-facing macros.
-> > >
-> > > 2. Converting the variadic macros for the documented APIs to use
-> > >    explicit arguments.
-> > >
-> > > No functional change intended.
-> > >
-> > > Signed-off-by: Marco Elver <elver@google.com>
-> >
-> > +Cc Jon
-> >
-> > I thought it was supposed to work because the kernel-doc scripts were at the
-> > time taught by commit 51a7bf0238c2 ("scripts/kernel-doc: drop "_noprof" on
-> > function prototypes") to handle _noprof. In the current form git grep finds:
-> >
-> > tools/lib/python/kdoc/kdoc_parser.py:        suffixes = [ '_noprof' ]
-> > tools/lib/python/kdoc/xforms_lists.py:        (KernRe("_noprof"), ""),
-> >
-> > Doesn't it work for you then?
-> 
-> Ah, I see. So it doesn't work anymore because we add the '_' prefix, too.
-> 
-> I guess the question is if we want to proliferate more kdoc parser
-> special cases, or just move the docs to the macros. The downside of
-> macros is that they lose the types in the displayed function
-> signature.
-> 
-> Preferences?
+This is a multi-part message in MIME format.
+--------------luT9rWbTJ4wpROW5CpWkbx1H
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-How about the below, i.e. adding type decls that only the kernel-doc
-parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
-kernel-doc parser hacks for that looks pretty awful, so this is a lot
-cleaner.
+Hi John,
 
------- >8 ------
+I started to do reviews based on design documents for new features. I
+think in general it is rather hard for humans to kind of reverse
+engineer the design from the patch series. With AI it got easier, but
+still should be verified by the author. Could you check if the attached
+AI generated document is correct?
 
-From: Marco Elver <elver@google.com>
-Date: Tue, 21 Apr 2026 13:48:21 +0200
-Subject: [PATCH] slab: fix kernel-docs for mm-api
 
-The mm-api kernel-docs have been disconnected from their symbols. While
-the scripts were previously taught to handle the _noprof suffix added by
-allocation tagging (in 51a7bf0238c2 "scripts/kernel-doc: drop "_noprof"
-on function prototypes"), this does not handle cases where the internal
-implementation function has an additional leading underscore. The added
-optional parameters (via DECL_KMALLOC_PARAMS) further complicate parsing
-the internal signatures.
+Thanks,
+Bernd
+--------------luT9rWbTJ4wpROW5CpWkbx1H
+Content-Type: text/plain; charset=UTF-8; name="famfs-design.txt"
+Content-Disposition: attachment; filename="famfs-design.txt"
+Content-Transfer-Encoding: base64
 
-When the kernel-doc block remains above the internal implementation
-function but uses the public API name, the documentation generator fails
-to associate the documented symbol.
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT0KZmFtZnMgKEZVU0UtYmFzZWQgZmFicmljLWF0
+dGFjaGVkIG1lbW9yeSBmaWxlIHN5c3RlbSkgLSBEZXNpZ24gRG9jdW1lbnQKPT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0KCkF1ZGllbmNlIGFuZCBzY29wZQo9PT09PT09PT09PT09PT09
+PT0KVGhpcyBkb2N1bWVudCBpcyB3cml0dGVuIGZvciBwZW9wbGUgYWxyZWFkeSBmYW1pbGlh
+ciB3aXRoIEZVU0UgKGxvd2xldmVsIG9wcywKb3Bjb2RlcywgSU5JVCBjYXBhYmlsaXR5IG5l
+Z290aWF0aW9uKSBidXQgTk9UIG5lY2Vzc2FyaWx5IHdpdGggTGludXggREFYLApkZXZkYXgs
+IG9yIHRoZSBrZXJuZWwncyBpb21hcCBmcmFtZXdvcmsuIFNlY3Rpb24gMiBpcyBhIHByaW1l
+ciBvbiB0aG9zZS4KCkl0IGNvdmVycyB0d28gdHJlZXM6CgogIEtlcm5lbDogIC9ob21lL2Jl
+cm5kL3NyYy9saW51eC9saW51eC5naXQgLCBicmFuY2ggYGZhbWZzYCwKICAgICAgICAgICBj
+b21taXRzIDRhOGFlNDI4YzM5MiAuLiBIRUFEIChkYTllZGY3N2NiYzQpCgogIGxpYmZ1c2U6
+IC9ob21lL2Jlcm5kL3NyYy9saWJmdXNlL2xpYmZ1c2UuZ2l0ICwgYnJhbmNoIGBmYW1mc2As
+CiAgICAgICAgICAgY29tbWl0cyBkNzVhZTJlZSAuLiBIRUFEICg5YzY1ZDc4MSkKCktlcm5l
+bCBmaWxlcyBhZGRlZCBvciBjaGFuZ2VkOgoKICAgIGZzL2Z1c2UvZmFtZnMuYyAgICAgICAg
+ICAgICAgLSBuZXcsIGFsbCBmYW1mcyBrZXJuZWwgbG9naWMKICAgIGZzL2Z1c2UvZmFtZnNf
+a2ZtYXAuaCAgICAgICAgLSBuZXcsIGluLW1lbW9yeSBmbWFwIHN0cnVjdHVyZXMKICAgIGZz
+L2Z1c2UvZnVzZV9pLmggICAgICAgICAgICAgLSBwZXItaW5vZGUvcGVyLWNvbm4gZmFtZnMg
+YWRkaXRpb25zLCBoZWxwZXJzCiAgICBmcy9mdXNlL2ZpbGUuYyAgICAgICAgICAgICAgIC0g
+ci93L21tYXAgZGlzcGF0Y2ggaW50byBmYW1mcyBwYXRocwogICAgZnMvZnVzZS9pbm9kZS5j
+ICAgICAgICAgICAgICAtIElOSVQtZmxhZyBuZWdvdGlhdGlvbiwgY29ubiB0ZWFyZG93biB3
+aXJpbmcKICAgIGZzL2Z1c2UvaW9tb2RlLmMgICAgICAgICAgICAgLSBieXBhc3MgaW8tbW9k
+ZXMgZm9yIGZhbWZzIGZpbGVzCiAgICBmcy9mdXNlL0tjb25maWcsIE1ha2VmaWxlICAgIC0g
+bmV3IENPTkZJR19GVVNFX0ZBTUZTX0RBWAogICAgaW5jbHVkZS91YXBpL2xpbnV4L2Z1c2Uu
+aCAgICAtIG5ldyBvcGNvZGVzLCBzdHJ1Y3RzLCBGVVNFX0RBWF9GTUFQIGZsYWcKICAgIGZz
+L25hbWVpLmMgICAgICAgICAgICAgICAgICAgLSBleHBvcnQgbWF5X29wZW5fZGV2KCkKICAg
+IERvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvZmFtZnMucnN0IC0gdXNlci9hZG1pbiBkb2N1
+bWVudGF0aW9uCgpsaWJmdXNlIGZpbGVzIGFkZGVkIG9yIGNoYW5nZWQ6CgogICAgaW5jbHVk
+ZS9mdXNlX2tlcm5lbC5oICAgICAgICAtIG1pcnJvciBvZiBrZXJuZWwgdWFwaSBhdCBwcm90
+b2NvbCA3LjQ2CiAgICBpbmNsdWRlL2Z1c2VfY29tbW9uLmggICAgICAgIC0gbmV3IEZVU0Vf
+Q0FQX0RBWF9GTUFQIGNhcGFiaWxpdHkgYml0CiAgICBpbmNsdWRlL2Z1c2VfbG93bGV2ZWwu
+aCAgICAgIC0gbmV3IG9wczogZ2V0X2ZtYXAoKSwgZ2V0X2RheGRldigpCiAgICBsaWIvZnVz
+ZV9sb3dsZXZlbC5jICAgICAgICAgIC0gSU5JVCBuZWdvdGlhdGlvbiArIG9wY29kZSBkaXNw
+YXRjaAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIChkb19nZXRfZm1hcCwg
+ZG9fZ2V0X2RheGRldikKCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoxLiBCYWNrZ3Jv
+dW5kIGFuZCBnb2FscwotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKRmFtZnMgZXhwb3Nl
+cyBzaGFyZWQsIGZhYnJpYy1hdHRhY2hlZCBtZW1vcnkgKENYTCBkZXZkYXgpIGFzIGEgcmVn
+dWxhcgpmaWxlc3lzdGVtLiBUaGUgZmFzdCBwYXRoIChyZWFkL3dyaXRlL21tYXAtZmF1bHQp
+IG11c3QgcmVhY2ggbWVtb3J5IHdpdGhvdXQgYQpyb3VuZCB0cmlwIHRvIHRoZSBGVVNFIHNl
+cnZlcjogdGhlIHNlcnZlciBvbmx5IGRlbGl2ZXJzIG1ldGFkYXRhLgoKVHdvIGtleSBvYnNl
+cnZhdGlvbnMgc2hhcGUgdGhlIGRlc2lnbjoKCiAgICAqIEZpbGVzIGFyZSBORVZFUiBhbGxv
+Y2F0ZWQgaW4gdGhlIGtlcm5lbC4gVXNlcnNwYWNlIHByZS1hbGxvY2F0ZXMgZXh0ZW50cwog
+ICAgICBhbmQgZ2l2ZXMgdGhlIGtlcm5lbCBhbiAiZm1hcCIgKGZpbGUtdG8tZGF4LW9mZnNl
+dCBtYXApLgogICAgKiBUaGVyZSBpcyBOTyB3cml0ZWJhY2suIEJhY2tpbmcgbWVtb3J5IGlz
+IHRoZSBzdG9yYWdlOyBDUFUgY2FjaGVzIGFyZQogICAgICBsb2FkZWQgZGlyZWN0bHkgZnJv
+bSB0aGUgZGF4IG1lbW9yeS4KCkNvbnNlcXVlbmNlcyBpbiB0aGUga2VybmVsOgoKICAgICog
+Tm8gcGFnZSBjYWNoZSBpcyB1c2VkLiBgbm9vcF9kaXJ0eV9mb2xpb2AgaXMgdGhlIG9ubHkg
+YWRkcmVzc19zcGFjZSBvcC4KICAgICogVGhlIGtlcm5lbCBuZXZlciBncm93cyBvciBzaHJp
+bmtzIGZpbGVzLiBBbnkgc2l6ZSBjaGFuZ2UgKGluY2x1ZGluZwogICAgICB0cnVuY2F0ZSkg
+cHV0cyB0aGUgZmlsZSBpbnRvIGFuICJlcnJvciIgc3RhdGUuCiAgICAqIFJlYWRzL3dyaXRl
+cy9tbWFwIGRpc3BhdGNoIHRocm91Z2ggYGRheF9pb21hcF8qKClgIGFuZCB0aGUgZmFtZnMK
+ICAgICAgYGlvbWFwX29wc2AsIGV4YWN0bHkgdGhlIHdheSBmcy1kYXggZmlsZXN5c3RlbXMg
+KHhmcy9leHQ0KSBwbHVtYiB0aGVtLgoKQ29tcGFyaXNvbiB0byBvdGhlciBGVVNFIG1vZGVz
+IHRoYXQgeW91IG1heSBrbm93OgoKICAgIGNsYXNzaWMgRlVTRSAgIC0gZXZlcnkgcmVhZC93
+cml0ZS9tbWFwIGlzIGZvcndhcmRlZCB0byB0aGUgc2VydmVyLgogICAgdmlydGlvLWZzIERB
+WCAgLSB0aGUgc2VydmVyIGRvbmF0ZXMgYSB3aW5kb3cgb2YgaG9zdCBtZW1vcnk7IGtlcm5l
+bCBtYXBzCiAgICAgICAgICAgICAgICAgICAgIGZpbGUgcmFuZ2VzIGludG8gdGhhdCB3aW5k
+b3cgdmlhIEZVU0VfU0VUVVBNQVBQSU5HIC8KICAgICAgICAgICAgICAgICAgICAgRlVTRV9S
+RU1PVkVNQVBQSU5HLiBUaGUgc2VydmVyIGlzIHN0aWxsIHRoZSAib3duZXIiIG9mCiAgICAg
+ICAgICAgICAgICAgICAgIHRoZSBiYWNraW5nIG1lbW9yeS4KICAgIGZhbWZzICh0aGlzKSAg
+IC0gdGhlIHNlcnZlciBoYW5kcyB0aGUga2VybmVsIGEgZGVzY3JpcHRpb24gb2Ygd2hlcmUg
+ZWFjaAogICAgICAgICAgICAgICAgICAgICBmaWxlJ3MgYnl0ZXMgbGl2ZSBvbiBhIHJlYWwg
+Y2hhcmFjdGVyIGRldmljZSAoZGV2ZGF4KS4KICAgICAgICAgICAgICAgICAgICAgQWZ0ZXIg
+dGhhdCwgdGhlIHNlcnZlciBpcyBPVVQgb2YgdGhlIGRhdGEgcGF0aCBlbnRpcmVseS4KCgot
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoyLiBQcmltZXI6IGRldmRheCwgREFYIGFuZCBp
+b21hcCAob25seSB3aGF0J3MgbmVlZGVkIGJlbG93KQotLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLQoKWW91IGNhbiBza2lwIHRoaXMgc2VjdGlvbiBpZiAiaW9tYXBfYmVnaW4iLCAiZGF4
+X2lvbWFwX3J3IiBhbmQgImRldmRheCBob2xkZXIiCmFscmVhZHkgbWVhbiBzb21ldGhpbmcg
+dG8geW91LgoKZGV2ZGF4CiAgICBBIGNoYXJhY3RlciBkZXZpY2UgKGAvZGV2L2RheE4uTWAp
+IHRoYXQgZXhwb3NlcyBhIGNvbnRpZ3VvdXMgcmFuZ2Ugb2YKICAgIHBoeXNpY2FsIG1lbW9y
+eSBkaXJlY3RseSB0byB1c2Vyc3BhY2UgdmlhIG1tYXAuIFRoZXJlIGlzIG5vIHBhZ2UgY2Fj
+aGUKICAgIGFuZCBubyBibG9jayBkZXZpY2UgdW5kZXJuZWF0aDsgcmVhZHMgYW5kIHdyaXRl
+cyBoaXQgUkFNL0NYTCBtZW1vcnkKICAgIGRpcmVjdGx5LiBGYW1mcyB1c2VzIGRldmRheCBk
+ZXZpY2VzIGFzIGl0cyAiZGlza3MiLgoKREFYIChEaXJlY3QgQWNjZXNzKQogICAgQSBrZXJu
+ZWwgcGF0aHdheSB0aGF0IGxldHMgYSBmaWxlc3lzdGVtIG1hcCBmaWxlIHBhZ2VzIHN0cmFp
+Z2h0IG9udG8KICAgIHRoZSB1bmRlcmx5aW5nIG1lbW9yeSBwYWdlcyAoUEZOcykgd2l0aG91
+dCBnb2luZyB0aHJvdWdoIHRoZSBwYWdlIGNhY2hlLgogICAgQSBmaWxlL2lub2RlIHRhZ2dl
+ZCB3aXRoIGBTX0RBWGAgb3B0cyBpbi4gUmVhZHMgdHVybiBpbnRvIG1lbWNweSBmcm9tCiAg
+ICB0aGUgbWVtb3J5OyBtbWFwIGZhdWx0cyBpbnN0YWxsIHRoZSBtZW1vcnkncyBQRk4gZGly
+ZWN0bHkgaW50byB0aGUgcGFnZQogICAgdGFibGUgKFBURS9QTUQvUFVEKS4KCmlvbWFwCiAg
+ICBBIGZpbGVzeXN0ZW0tYWdub3N0aWMgbWVjaGFuaXNtIHRoYXQgc2F5cyAidG8gZG8gdGhp
+cyByZWFkL3dyaXRlL2ZhdWx0CiAgICBvbiB0aGlzIGZpbGUgYXQgdGhpcyBvZmZzZXQgYW5k
+IGxlbmd0aCwgaGVyZSBpcyBleGFjdGx5IHdoaWNoIGRldmljZSwKICAgIHdoaWNoIGRldmlj
+ZS1yZWxhdGl2ZSBvZmZzZXQsIGFuZCBob3cgbWFueSBieXRlcyBhcmUgdmFsaWQgaGVyZS4i
+CiAgICBGaWxlc3lzdGVtcyBpbXBsZW1lbnQgYHN0cnVjdCBpb21hcF9vcHNgLCBvZiB3aGlj
+aCB0aGUgY2VudHJhbCBjYWxsYmFjawogICAgaXM6CgogICAgICAgIC5pb21hcF9iZWdpbihp
+bm9kZSwgZmlsZV9vZmZzZXQsIGxlbmd0aCwgZmxhZ3MsCiAgICAgICAgICAgICAgICAgICAg
+IHN0cnVjdCBpb21hcCAqb3V0LCBzdHJ1Y3QgaW9tYXAgKnNyY21hcCkKCiAgICBUaGUgZmls
+ZXN5c3RlbSBmaWxscyBgb3V0YCB3aXRoOgogICAgICAgIG91dC0+ZGF4X2RldiAgLSB3aGlj
+aCBEQVggZGV2aWNlIGJhY2tzIHRoaXMgcmFuZ2UKICAgICAgICBvdXQtPmFkZHIgICAgIC0g
+Ynl0ZSBvZmZzZXQgd2l0aGluIHRoYXQgREFYIGRldmljZQogICAgICAgIG91dC0+b2Zmc2V0
+ICAgLSBmaWxlIG9mZnNldCAoZWNob2VkIGJhY2spCiAgICAgICAgb3V0LT5sZW5ndGggICAt
+IGhvdyBtYW55IGNvbnRpZ3VvdXMgYnl0ZXMgYXJlIHZhbGlkIGhlcmUKICAgICAgICBvdXQt
+PnR5cGUgICAgIC0gSU9NQVBfTUFQUEVEIChmYW1mcyBvbmx5IGV2ZXIgcmV0dXJucyB0aGlz
+KQoKICAgIFRoZSBEQVggY29yZSB0aGVuIGxvb3BzLCBjYWxsaW5nIGBpb21hcF9iZWdpbmAg
+cmVwZWF0ZWRseSB0byB3YWxrIHRoZQogICAgcmVxdWVzdGVkIHJhbmdlIGFuZCwgZm9yIGVh
+Y2ggY2h1bmssIGRvaW5nIGVpdGhlcjoKICAgICAgICAtIG1lbWNweSB0by9mcm9tIGBkYXhf
+ZGV2ICsgYWRkcmAgICAgICAgIChyZWFkL3dyaXRlKQogICAgICAgIC0gb3IgaW5zdGFsbGlu
+ZyB0aGUgUEZOIGF0IGBkYXhfZGV2ICsgYWRkcmAgaW50byBhIHBhZ2UgdGFibGUgKGZhdWx0
+cykKCiAgICBFbnRyeSBwb2ludHMgdGhlIGZhbWZzIGNvZGUgdXNlczoKICAgICAgICBkYXhf
+aW9tYXBfcncoaW9jYiwgaXRlciwgb3BzKSAgICAgICAtIHJlYWQvd3JpdGUKICAgICAgICBk
+YXhfaW9tYXBfZmF1bHQodm1mLCBvcmRlciwgLi4uLCBvcHMpIC0gbW1hcCBQVEUvUE1EL1BV
+RCBmYXVsdAoKZGF4IGhvbGRlcgogICAgREFYIGRldmljZXMgaGF2ZSBhIHNpbmdsZSAiaG9s
+ZGVyIiAtIGEgc3RydWN0IChoZXJlIGBzdHJ1Y3QgZnVzZV9jb25uICpgKQogICAgdGhhdCBv
+d25zIHRoZSBkZXZpY2UuIEFjcXVpcmVkIHZpYSBgZnNfZGF4X2dldChkZXZwLCBob2xkZXIs
+IGhvbGRlcl9vcHMpYCwKICAgIHJlbGVhc2VkIHZpYSBgZnNfcHV0X2RheChkZXZwLCBob2xk
+ZXIpYC4gVGhlIGhvbGRlciBnZXRzIGNhbGxlZCBiYWNrIHZpYQogICAgYGhvbGRlcl9vcHMt
+Pm5vdGlmeV9mYWlsdXJlKClgIHdoZW4gdGhlIGRldmljZSByZXBvcnRzIG1lbW9yeSBwb2lz
+b24uCgpUaGF0IGlzIHRoZSBlbnRpcmUgaW9tYXAtcmVsYXRlZCB2b2NhYnVsYXJ5IHVzZWQg
+aW4gdGhpcyBkb2N1bWVudC4KCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQozLiBNYWpv
+ciBrZXJuZWwgZGF0YSBzdHJ1Y3R1cmVzCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgoo
+YSkgZnVzZV9jb25uIGFkZGl0aW9ucyAoZnMvZnVzZS9mdXNlX2kuaCk6CgogICAgc3RydWN0
+IGZ1c2VfY29ubiB7CiAgICAgICAgLi4uCiAgICAgICAgdW5zaWduZWQgaW50ICAgICAgICAg
+ICAgIGZhbWZzX2lvbWFwIDogMTsgICAgIC8qIG5lZ290aWF0ZWQgYXQgSU5JVCAqLwogICAg
+ICAgIHN0cnVjdCByd19zZW1hcGhvcmUgICAgICBmYW1mc19kZXZsaXN0X3NlbTsgICAvKiBw
+cm90ZWN0cyBkYXhfZGV2bGlzdCAqLwogICAgICAgIHN0cnVjdCBmYW1mc19kYXhfZGV2bGlz
+dCAqZGF4X2Rldmxpc3Q7ICAgICAgICAvKiB0YWJsZSBvZiBkYXhkZXZzICovCiAgICB9OwoK
+KGIpIGZ1c2VfaW5vZGUgYWRkaXRpb25zOgoKICAgIHN0cnVjdCBmdXNlX2lub2RlIHsKICAg
+ICAgICAuLi4KICAgICAgICB2b2lkICpmYW1mc19tZXRhOyAgIC8qIHN0cnVjdCBmYW1mc19m
+aWxlX21ldGEgKiwgTlVMTCBpZiBub3QgZmFtZnMgKi8KICAgIH07CgogICAgQSBub24tTlVM
+TCBgZmFtZnNfbWV0YWAgaXMgdGhlIG1hcmtlciBmb3IgInRoaXMgaXMgYSBmYW1mcyBmaWxl
+IjsKICAgIGBmdXNlX2ZpbGVfZmFtZnMoZmkpYCBpcyBqdXN0IGBSRUFEX09OQ0UoZmktPmZh
+bWZzX21ldGEpICE9IE5VTExgLgoKKGMpIFBlci1maWxlIG1ldGFkYXRhIC0gc3RydWN0IGZh
+bWZzX2ZpbGVfbWV0YSAoZmFtZnNfa2ZtYXAuaCk6CgogICAgKy0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsKICAgIHwgc3RydWN0IGZh
+bWZzX2ZpbGVfbWV0YSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiAgICB8ICAg
+Ym9vbCBlcnJvciAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAog
+ICAgfCAgIGVudW0gZmFtZnNfZmlsZV90eXBlICAgIGZpbGVfdHlwZSAgICAgICAgICAgICAg
+ICAgIHwKICAgIHwgICBzaXplX3QgICAgICAgICAgICAgICAgICBmaWxlX3NpemUgICAgICAg
+ICAgICAgICAgICB8CiAgICB8ICAgZW51bSBmYW1mc19leHRlbnRfdHlwZSAgZm1fZXh0ZW50
+X3R5cGUgICAgICAgICAgICAgfAogICAgfCAgIHU2NCAgICAgICAgICAgICAgICAgICAgIGRl
+dl9iaXRtYXAgICAgICAgICAgICAgICAgIHwKICAgIHwgICB1bmlvbiB7ICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiAgICB8ICAgICBTSU1QTEU6ICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAogICAgfCAgICAgICBz
+aXplX3QgZm1fbmV4dGVudHMgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKICAgIHwg
+ICAgICAgc3RydWN0IGZhbWZzX21ldGFfc2ltcGxlX2V4dCAqc2UgICAgICAgICAgICAgICB8
+CiAgICB8ICAgICBJTlRFUkxFQVZFRDogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfAogICAgfCAgICAgICBzaXplX3QgZm1fbmlleHQgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHwKICAgIHwgICAgICAgc3RydWN0IGZhbWZzX21ldGFfaW50ZXJsZWF2
+ZWRfZXh0ICppZSAgICAgICAgICB8CiAgICB8ICAgfSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgfAogICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSsKCiAgICBTaW1wbGUgZXh0ZW50
+OiAgICAgICAgKGRldl9pbmRleCwgZXh0X29mZnNldCwgZXh0X2xlbikKICAgIEludGVybGVh
+dmVkIGV4dGVudDogICAobnN0cmlwcywgY2h1bmtfc2l6ZSwgbmJ5dGVzLCBzdHJpcHNbXSkK
+ICAgICAgICAgICAgICAgICAgICAgICAgICB3aGVyZSBlYWNoIHN0cmlwIGlzIGEgc2ltcGxl
+IGV4dGVudC4KCihkKSBQZXItY29ubiBkYXggZGV2aWNlIHRhYmxlOgoKICAgICstLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tKyAgICAgICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0rCiAgICB8IGZhbWZzX2RheF9kZXZsaXN0ICAgICAgIHwgICAgICB8IGZhbWZzX2RheGRl
+dltNQVhfREFYREVWUz0yNF0gfAogICAgfCAgIG5zbG90cyA9IE1BWF9EQVhERVZTICB8LS0t
+LS0+fCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKICAgIHwgICBuZGV2cyAgICAg
+ICAgICAgICAgICAgfCAgICAgIHwgIFswXSB2YWxpZD8gZGV2cCwgZGV2bm8sIC4uLiB8CiAg
+ICB8ICAgZGV2bGlzdCAqLS0tLS0tLS0tLS0tLXwgICAgICB8ICBbMV0gdmFsaWQ/IGRldnAs
+IGRldm5vLCAuLi4gfAogICAgKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rICAgICAgfCAg
+Li4uICAgICAgICAgICAgICAgICAgICAgICAgIHwKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rCgogICAgZmFt
+ZnNfZGF4ZGV2IGZpZWxkczoKICAgICAgICB2YWxpZCAgICAgICAgIC0gc2xvdCBoYXMgYmVl
+biBwb3B1bGF0ZWQgKGFmdGVyIHdtYikKICAgICAgICBlcnJvciAgICAgICAgIC0gZGF4IG5v
+dGlmeV9mYWlsdXJlKCkgYXJyaXZlZCAocG9pc29uKQogICAgICAgIGRheF9lcnIgICAgICAg
+LSBmc19kYXhfZ2V0KCkgZmFpbGVkOyBjYW5ub3QgYmUgdXNlZAogICAgICAgIGRldm5vLCBk
+ZXZwICAgLSBkZXZfdCBhbmQgZGF4X2RldmljZSBwb2ludGVyCiAgICAgICAgbmFtZSAgICAg
+ICAgICAtIGNocmRldiBwYXRobmFtZSBmb3IgZGlhZ25vc3RpY3MKCgotLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQo0LiBDYXBhYmlsaXR5IG5lZ290aWF0aW9uIChGVVNFIElOSVQpCi0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgpUaGUgd2lyZS1sZXZlbCBjYXBhYmlsaXR5IGlz
+IGBGVVNFX0RBWF9GTUFQYCAoYml0IDQzIGluIHRoZSA2NC1iaXQgZmxhZ3MKZmllbGQsIHBy
+b3RvY29sIDcuNDYpLiBCb3RoIGVuZHMgbXVzdCBhZHZlcnRpc2UgaXQgaW4gSU5JVCBmb3Ig
+dGhlIGtlcm5lbAp0byBlbmFibGUgZmFtZnMuCgogICAgS2VybmVsICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgRlVTRSBzZXJ2ZXIgKGxpYmZ1c2UpCiAgICAt
+LS0tLS0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtLS0tLS0t
+LS0tLS0tLS0tLS0tLS0KICAgIGZ1c2VfbmV3X2luaXQoKToKICAgICAgZmxhZ3MgfD0gRlVT
+RV9EQVhfRk1BUCAgICAgICAgICAgICAgICAgLS0gaWYgY2FwYWJsZShDQVBfU1lTX1JBV0lP
+KQogICAgICAtLS0tLS0tLS0tLSBGVVNFX0lOSVQgKGluKSAgLS0tLS0tLS0tPgogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbGliZnVzZSBf
+ZG9faW5pdCgpOgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBpZiAoaW5hcmdmbGFncyAmCiAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBGVVNFX0RBWF9GTUFQKQogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIGNvbm4u
+Y2FwYWJsZV9leHQgfD0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIEZVU0VfQ0FQX0RBWF9GTUFQCiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBzZXJ2ZXIncyBpbml0X2RvbmUg
+Q0IKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+IHNldHM6CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIGNvbm4ud2FudF9leHQgfD0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBGVVNFX0NBUF9EQVhfRk1BUAogICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgbGliZnVzZSBjb252
+ZXJ0cyB0aGF0CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBiYWNrIHRvIEZVU0VfREFYX0ZNQVAKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGluIG91dGFyZ2ZsYWdzCgogICAgICA8LS0t
+LS0tLS0tLS0gRlVTRV9JTklUIChvdXQpIC0tLS0tLS0tLS0KCiAgICBwcm9jZXNzX2luaXRf
+cmVwbHkoKToKICAgICAgaWYgcmVwbHkuZmxhZ3MgJiBGVVNFX0RBWF9GTUFQICYmCiAgICAg
+ICAgIGluLmZsYWdzIGFsc28gaGFkIEZVU0VfREFYX0ZNQVA6CiAgICAgICAgICAgIGZhbWZz
+X2luaXRfZGV2bGlzdF9zZW0oZmMpCiAgICAgICAgICAgIGZjLT5mYW1mc19pb21hcCA9IDEK
+CkJvdGggZGlyZWN0aW9ucyBtdXN0IGFncmVlLiBUaGUga2VybmVsIHJlLWNoZWNrcyB0aGUg
+ZmxhZyBpbiBgaW4uZmxhZ3NgIG9uIHRoZQpyZXBseSBwYXRoIGJlY2F1c2UgcHJvY2Vzc19p
+bml0X3JlcGx5KCkgZG9lcyBub3QgcnVuIGluIHRoZSBzZXJ2ZXIncyB0YXNrCmNvbnRleHQs
+IHNvIGNhcGFibGUoKSBjYW5ub3QgYmUgcmUtZXZhbHVhdGVkIHRoZW47IHRoZSBiaXQgb24g
+dGhlIHdheSBPVVQKYXNzZXJ0cyAidGhlIHVzZXIgdGhhdCBtb3VudGVkIHVzIGhhZCBDQVBf
+U1lTX1JBV0lPIi4KCiAgICBLZXJuZWwgZmlsZTogIGZzL2Z1c2UvaW5vZGUuYyAoZnVzZV9u
+ZXdfaW5pdCwgcHJvY2Vzc19pbml0X3JlcGx5KQogICAgbGliZnVzZSBmaWxlOiBsaWIvZnVz
+ZV9sb3dsZXZlbC5jIChfZG9faW5pdCkKCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo1
+LiBsaWJmdXNlIHNlcnZlci1zaWRlIHN1cmZhY2UKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0KClRoaXMgaXMgdGhlIHVzZXJzcGFjZSBBUEkgYSBmYW1mcyBzZXJ2ZXIgaXMgZXhwZWN0
+ZWQgdG8gaW1wbGVtZW50IG9uIHRvcCBvZgpsaWJmdXNlJ3MgbG93bGV2ZWwgQVBJLiBGcm9t
+IGEgRlVTRS1kZXZlbG9wZXIgcG9pbnQgb2YgdmlldyB0aGlzIGlzIHRoZQpmYW1pbGlhciBw
+YXR0ZXJuOiB0d28gbmV3IG9wY29kZXMsIHR3byBuZXcgY2FsbGJhY2tzIGluCmBzdHJ1Y3Qg
+ZnVzZV9sb3dsZXZlbF9vcHNgLCBhbmQgYSBuZXcgY2FwYWJpbGl0eSBiaXQuCgo1LjEgQ2Fw
+YWJpbGl0eSBiaXQgKGluY2x1ZGUvZnVzZV9jb21tb24uaCkKCiAgICAjZGVmaW5lIEZVU0Vf
+Q0FQX0RBWF9GTUFQICAgKDFVTCA8PCAzMikKCiAgVGhpcyBzaXRzIGluIHRoZSAqZXh0ZW5k
+ZWQqIGNhcGFiaWxpdHkgZmllbGRzIGB3YW50X2V4dGAgLyBgY2FwYWJsZV9leHRgLAogIG5v
+dCB0aGUgbGVnYWN5IDMyLWJpdCBgd2FudGAgLyBgY2FwYWJsZWAsIGJlY2F1c2UgYml0IDMy
+IGlzIHBhc3QgdGhlIGVuZAogIG9mIHRoZSBvcmlnaW5hbCB3b3JkLgoKNS4yIE5ldyBsb3ds
+ZXZlbCBjYWxsYmFja3MgKGluY2x1ZGUvZnVzZV9sb3dsZXZlbC5oKQoKICAgIHN0cnVjdCBm
+dXNlX2xvd2xldmVsX29wcyB7CiAgICAgICAgLi4uCiAgICAgICAgLyogUmVwbHk6IHNlcmlh
+bGl6ZWQgZnVzZV9mYW1mc19mbWFwX2hlYWRlciBmb2xsb3dlZCBieSBleHRlbnRzICovCiAg
+ICAgICAgdm9pZCAoKmdldF9mbWFwKSAgIChmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBp
+bm8sIHNpemVfdCBzaXplKTsKCiAgICAgICAgLyogUmVwbHk6IHNlcmlhbGl6ZWQgZnVzZV9k
+YXhkZXZfb3V0IChtYWlubHk6IGNoYXIgbmFtZVsyNTZdKSAqLwogICAgICAgIHZvaWQgKCpn
+ZXRfZGF4ZGV2KSAoZnVzZV9yZXFfdCByZXEsIGludCBkYXhkZXZfaW5kZXgpOwogICAgfTsK
+CiAgQ29udmVudGlvbmFsIGxpYmZ1c2Ugc2VtYW50aWNzIGFwcGx5OgogICAgICAtIFRoZSBj
+YWxsYmFjayBtYXkgcmVwbHkgYXN5bmNocm9ub3VzbHkuCiAgICAgIC0gVmFsaWQgY29tcGxl
+dGlvbnM6IGZ1c2VfcmVwbHlfYnVmKCkgd2l0aCB0aGUgc2VyaWFsaXplZCByZXNwb25zZSwK
+ICAgICAgICBvciBmdXNlX3JlcGx5X2VycihyZXEsIGVycm5vKSBvbiBmYWlsdXJlLgogICAg
+ICAtIElmIHRoZSBzZXJ2ZXIgZG9lcyBub3QgcHJvdmlkZSBlaXRoZXIgb3AsIGxpYmZ1c2Ug
+cmVwbGllcyB3aXRoCiAgICAgICAgLUVPUE5PVFNVUFAgYXV0b21hdGljYWxseS4KCjUuMyBP
+cGNvZGUgZGlzcGF0Y2ggKGxpYi9mdXNlX2xvd2xldmVsLmMpCgogIFR3byBlbnRyaWVzIGFy
+ZSBhZGRlZCB0byBsaWJmdXNlJ3Mgb3Bjb2RlIGRpc3BhdGNoIHRhYmxlOgoKICAgICAgW0ZV
+U0VfR0VUX0ZNQVBdICAgID0geyBkb19nZXRfZm1hcCwgICAiR0VUX0ZNQVAiICAgfSwKICAg
+ICAgW0ZVU0VfR0VUX0RBWERFVl0gID0geyBkb19nZXRfZGF4ZGV2LCAiR0VUX0RBWERFViIg
+fSwKCiAgZG9fZ2V0X2ZtYXA6CiAgICAgIHJlYWRzIGBpbmFyZ2AgYXMgYHN0cnVjdCBmdXNl
+X2dldHhhdHRyX2luYCosIGV4dHJhY3RzIGBhcmctPnNpemVgCiAgICAgICh0aGUga2VybmVs
+J3MgaGludCBmb3IgdGhlIG1heGltdW0gcmVwbHkgc2l6ZSBpdCBjYW4gYWNjZXB0KSwKICAg
+ICAgZm9yd2FyZHMgKHJlcSwgaW5vLCBzaXplKSB0byBvcC5nZXRfZm1hcC4gVGhlIHNpemUg
+aXMgY3VycmVudGx5CiAgICAgIGZpeGVkIGF0IFBBR0VfU0laRSBvbiB0aGUga2VybmVsIHNp
+ZGUgKEZNQVBfQlVGU0laRSk7IGEgbGFyZ2VyCiAgICAgIHZhcmlhYmxlLXNpemUgcmVwbHkg
+cHJvdG9jb2wgaXMgYSBmdXR1cmUgVE9ETy4KCiAgZG9fZ2V0X2RheGRldjoKICAgICAgaWdu
+b3JlcyBgaW5hcmdgLiBUaGUga2VybmVsIGVuY29kZXMgdGhlIGRldmljZSBpbmRleCBpbiBg
+bm9kZWlkYAogICAgICAoRlVTRV9HRVRfREFYREVWIHVzZXMgbm9kZWlkIGFzIGEgc21hbGwg
+aW50ZWdlciwgbm90IGEgcmVhbCBpbm9kZSksCiAgICAgIGFuZCBsaWJmdXNlIGZvcndhcmRz
+IGl0IGFzIGBkYXhkZXZfaW5kZXhgIHRvIG9wLmdldF9kYXhkZXYuCgo1LjQgV2lyZSBmb3Jt
+YXRzIHRoZSBzZXJ2ZXIgbXVzdCBwcm9kdWNlCgogIERlZmluZWQgaW4gaW5jbHVkZS9mdXNl
+X2tlcm5lbC5oIChsaWJmdXNlJ3MgbWlycm9yIG9mIHRoZSBrZXJuZWwgdWFwaSk6CgogICAg
+ICBzdHJ1Y3QgZnVzZV9mYW1mc19mbWFwX2hlYWRlciB7CiAgICAgICAgICB1aW50OF90ICBm
+aWxlX3R5cGU7ICAgICAgIC8qIGVudW0gZnVzZV9mYW1mc19maWxlX3R5cGUgKi8KICAgICAg
+ICAgIHVpbnQ4X3QgIHJlc2VydmVkOwogICAgICAgICAgdWludDE2X3QgZm1hcF92ZXJzaW9u
+OyAgICAvKiBGQU1GU19GTUFQX1ZFUlNJT04gPSAxICovCiAgICAgICAgICB1aW50MzJfdCBl
+eHRfdHlwZTsgICAgICAgIC8qIFNJTVBMRSBvciBJTlRFUkxFQVZFICovCiAgICAgICAgICB1
+aW50MzJfdCBuZXh0ZW50czsKICAgICAgICAgIHVpbnQzMl90IHJlc2VydmVkMDsKICAgICAg
+ICAgIHVpbnQ2NF90IGZpbGVfc2l6ZTsKICAgICAgICAgIHVpbnQ2NF90IHJlc2VydmVkMTsK
+ICAgICAgfTsKCiAgICAgIHN0cnVjdCBmdXNlX2ZhbWZzX3NpbXBsZV9leHQgewogICAgICAg
+ICAgdWludDMyX3Qgc2VfZGV2aW5kZXg7ICAgICAvKiBpbmRleCBpbnRvIHRoZSBwZXItbW91
+bnQgZGF4ZGV2IHRhYmxlICovCiAgICAgICAgICB1aW50MzJfdCByZXNlcnZlZDsKICAgICAg
+ICAgIHVpbnQ2NF90IHNlX29mZnNldDsgICAgICAgLyogUE1ELWFsaWduZWQgb2Zmc2V0IGlu
+IHRoYXQgZGF4ZGV2ICovCiAgICAgICAgICB1aW50NjRfdCBzZV9sZW47ICAgICAgICAgIC8q
+IFBNRC1hbGlnbmVkIGxlbmd0aCAqLwogICAgICB9OwoKICAgICAgc3RydWN0IGZ1c2VfZmFt
+ZnNfaWV4dCB7ICAgICAgIC8qIG9uZSBpbnRlcmxlYXZlZCBleHRlbnQgKi8KICAgICAgICAg
+IHVpbnQzMl90IGllX25zdHJpcHM7CiAgICAgICAgICB1aW50MzJfdCBpZV9jaHVua19zaXpl
+OyAgIC8qIFBNRC1hbGlnbmVkICovCiAgICAgICAgICB1aW50NjRfdCBpZV9uYnl0ZXM7ICAg
+ICAgIC8qIHRvdGFsIGJ5dGVzIGNvdmVyZWQgYnkgdGhpcyBleHRlbnQgKi8KICAgICAgICAg
+IHVpbnQ2NF90IHJlc2VydmVkOwogICAgICB9OwoKICAgICAgc3RydWN0IGZ1c2VfZGF4ZGV2
+X291dCB7CiAgICAgICAgICB1aW50MTZfdCBpbmRleDsKICAgICAgICAgIHVpbnQxNl90IHJl
+c2VydmVkOwogICAgICAgICAgdWludDMyX3QgcmVzZXJ2ZWQyOwogICAgICAgICAgdWludDY0
+X3QgcmVzZXJ2ZWQzOwogICAgICAgICAgdWludDY0X3QgcmVzZXJ2ZWQ0OwogICAgICAgICAg
+Y2hhciAgICAgbmFtZVsyNTZdOyAgICAgICAvKiAiL2Rldi9kYXhOLk0iICovCiAgICAgIH07
+CgogIEdFVF9GTUFQIHJlcGx5IGxheW91dCBpbiB0aGUgYnVmZmVyIChmbWFwX2hlYWRlciBm
+b2xsb3dlZCBieSBleHRlbnRzKToKCiAgICAgICBTSU1QTEU6ICAgICAgICBbIGZtYXBfaGVh
+ZGVyIF1bIHNpbXBsZV9leHQgKiBuZXh0ZW50cyBdCiAgICAgICBJTlRFUkxFQVZFOiAgICBb
+IGZtYXBfaGVhZGVyIF1bIGlleHQsIHNpbXBsZV9leHQqbnN0cmlwcywKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgaWV4dCwgc2ltcGxlX2V4dCpuc3RyaXBzLCAu
+Li4gXQogICAgICAgICAgICAgICAgICAgICAgd2hlcmUgdGhlcmUgYXJlIGBuZXh0ZW50c2Ag
+KGlleHQgKyBpdHMgc3RyaXBzKSBncm91cHMuCgogIEFsaWdubWVudCBydWxlcyB0aGUgc2Vy
+dmVyIE1VU1QgaG9ub3IgKGVsc2UgdGhlIGtlcm5lbCByZWplY3RzIHRoZSBmbWFwKToKICAg
+ICAgKiBmbWFwX3ZlcnNpb24gPT0gMQogICAgICAqIDEgPD0gbmV4dGVudHMgPD0gRlVTRV9G
+QU1GU19NQVhfRVhURU5UUyAoMzIpCiAgICAgICogRm9yIGVhY2ggc3RyaXAgZXh0ZW50OiBl
+eHRfb2Zmc2V0IGFuZCBleHRfbGVuIFBNRC1hbGlnbmVkICgyIE1pQikKICAgICAgKiBGb3Ig
+aW50ZXJsZWF2ZWQ6IGNodW5rX3NpemUgUE1ELWFsaWduZWQsIG5zdHJpcHMgaW4gWzEsIDMy
+XQogICAgICAqIHN1bSBvZiBleHRlbnQgbGVuZ3RocyA+PSBmaWxlX3NpemUKCiAgR0VUX0RB
+WERFViByZXBseTogYSBzaW5nbGUgZnVzZV9kYXhkZXZfb3V0IHdoZXJlIGBuYW1lYCBpcyB0
+aGUgcGF0aCBvZiBhCiAgY2hhcmFjdGVyIGRldmljZSB0aGF0IHRoZSBrZXJuZWwgY2FuIGBr
+ZXJuX3BhdGgoKWAgdG8gYSBkZXZkYXggaW5vZGUuCgo1LjUgV2hhdCB0aGUgc2VydmVyIGlz
+IHJlc3BvbnNpYmxlIGZvcgoKICBJbiB0aGUgZmFtZnMgZGVzaWduLCB0aGUgbGliZnVzZS1i
+YXNlZCBzZXJ2ZXIgc3RpbGwgb3duczoKICAgICAgKiBMb29raW5nIHVwIGZpbGVzIGluIHRo
+ZSBmYW1mcyBtZXRhZGF0YSBsb2cgKG9yIHdoYXRldmVyIGJhY2tlbmQKICAgICAgICB1c2Vy
+c3BhY2UgdXNlcyB0byB0cmFjayBhbGxvY2F0aW9ucykuCiAgICAgICogUHJvZHVjaW5nIGZt
+YXBzIHRoYXQgZXhhY3RseSBkZXNjcmliZSB0aGUgZmlsZSdzIGFsbG9jYXRpb24uCiAgICAg
+ICogUHJvZHVjaW5nIHRoZSAiL2Rldi9kYXhOLk0iIHBhdGggZm9yIGVhY2ggZGF4ZGV2IGlu
+ZGV4IGl0IGhhcwogICAgICAgIHVzZWQgaW4gYW55IGZtYXAuCiAgICAgICogQWxsIGNvbnZl
+bnRpb25hbCBGVVNFIG9wczogbG9va3VwLCBnZXRhdHRyLCBta2RpciwgdW5saW5rLCBldGMu
+CgogIFRoZSBzZXJ2ZXIgaXMgTk9UIGluIHRoZSBwYXRoIG9mIGFueSByZWFkL3dyaXRlL21t
+YXAgb25jZSB0aGUgZm1hcCBoYXMKICBiZWVuIGRlbGl2ZXJlZC4gVGhlcmUgaXMgbm8gZXF1
+aXZhbGVudCBvZiBGVVNFX1JFQUQgLyBGVVNFX1dSSVRFIHRyYWZmaWMKICBmb3IgZmFtZnMg
+ZmlsZXMuCgoKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KNi4gT3BlbiBmbG93IC0gR0VU
+X0ZNQVAgYW5kIChsYXp5KSBHRVRfREFYREVWCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CgpXaGVuIGEgcmVndWxhciBmaWxlIGlzIG9wZW5lZCBvbiBhIGZhbWZzLWVuYWJsZWQgY29u
+bmVjdGlvbiwgdGhlIGtlcm5lbCBwdWxscwp0aGUgZmlsZSdzIGZtYXAgZnJvbSB0aGUgc2Vy
+dmVyLCBwYXJzZXMgaXQsIHJlc29sdmVzIGFueSB1bmtub3duIGRheGRldgppbmRpY2VzIHZp
+YSBHRVRfREFYREVWLCBhbmQgaW5zdGFsbHMgdGhlIHJlc3VsdCBvbiB0aGUgaW5vZGUuCgog
+IGZ1c2Vfb3Blbihpbm9kZSwgZmlsZSkgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBb
+ZnMvZnVzZS9maWxlLmNdCiAgICB8CiAgICArLS0gZnVzZV9kb19vcGVuKCkgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIChyZWd1bGFyIEZVU0Ugb3BlbikKICAgIHwKICAgICst
+LSBpZiAoZmMtPmZhbWZzX2lvbWFwICYmIFNfSVNSRUcpCiAgICB8ICAgICBmdXNlX2dldF9m
+bWFwKGZtLCBpbm9kZSkgICAgICAgICAgICAgICAgICAgIFtmYW1mcy5jXQogICAgfCAgICAg
+ICAgIHwKICAgIHwgICAgICAgICArLS0gYWxsb2MgZm1hcF9idWYgKFBBR0VfU0laRSkKICAg
+IHwgICAgICAgICB8CiAgICB8ICAgICAgICAgKy0tIGFyZ3Mub3Bjb2RlID0gRlVTRV9HRVRf
+Rk1BUAogICAgfCAgICAgICAgIHwgICBhcmdzLm5vZGVpZCA9IGlubwogICAgfCAgICAgICAg
+IHwgICBhcmdzLm91dF9hcmd2YXIgPSB0cnVlICAgICAgICAgICAgICh2YXJpYWJsZS1zaXpl
+IHJlcGx5KQogICAgfCAgICAgICAgICstLSBmdXNlX3NpbXBsZV9yZXF1ZXN0KGZtLCAmYXJn
+cykgIC0tLS0+IHNlcnZlciByZXR1cm5zCiAgICB8ICAgICAgICAgfCAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICBmdXNlX2ZhbWZzX2ZtYXBfaGVhZGVyCiAgICB8
+ICAgICAgICAgfCAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArIGV4
+dGVudHMKICAgIHwgICAgICAgICArLS0gZmFtZnNfZmlsZV9pbml0X2RheChmbSwgaW5vZGUs
+IGZtYXBfYnVmLCBmbWFwX3NpemUpCiAgICB8ICAgICAgICAgICAgICAgfAogICAgfCAgICAg
+ICAgICAgICAgICstLSBmYW1mc19mdXNlX21ldGFfYWxsb2MoKQogICAgfCAgICAgICAgICAg
+ICAgIHwgICAgIHBhcnNlcyBoZWFkZXIgKyBleHRlbnRzIGludG8gc3RydWN0IGZhbWZzX2Zp
+bGVfbWV0YTsKICAgIHwgICAgICAgICAgICAgICB8ICAgICBhY2N1bXVsYXRlcyBtZXRhLT5k
+ZXZfYml0bWFwIG9mIHJlZmVyZW5jZWQgZGV2aW5kaWNlczsKICAgIHwgICAgICAgICAgICAg
+ICB8ICAgICB2YWxpZGF0ZXMgUE1EIGFsaWdubWVudCArIHRvdGFsIHNpemUgPj0gZmlsZV9z
+aXplOwogICAgfCAgICAgICAgICAgICAgIHwgICAgIGNtcHhjaGctaW5zdGFsbHMgKm1ldGFw
+IChyYWNlLXNhZmUpCiAgICB8ICAgICAgICAgICAgICAgfAogICAgfCAgICAgICAgICAgICAg
+ICstLSBmYW1mc191cGRhdGVfZGF4ZGV2X3RhYmxlKGZtLCBtZXRhKQogICAgfCAgICAgICAg
+ICAgICAgIHwgICAgIGlmICghZmMtPmRheF9kZXZsaXN0KSBjbXB4Y2hnLWFsbG9jYXRlIGl0
+CiAgICB8ICAgICAgICAgICAgICAgfCAgICAgdW5kZXIgZmFtZnNfZGV2bGlzdF9zZW0gKHJl
+YWQpOgogICAgfCAgICAgICAgICAgICAgIHwgICAgICAgIGNvbGxlY3QgaW5kaWNlcyB0aGF0
+IGFyZSBOT1QgeWV0IC0+dmFsaWQKICAgIHwgICAgICAgICAgICAgICB8ICAgICBkcm9wIGxv
+Y2ssIHRoZW4gZm9yIGVhY2ggaW5kZXg6CiAgICB8ICAgICAgICAgICAgICAgfCAgICAgICAg
+ZmFtZnNfZnVzZV9nZXRfZGF4ZGV2KGZtLCBpZHgpICAgICAgICA8c2VlIGJlbG93PgogICAg
+fCAgICAgICAgICAgICAgIHwKICAgIHwgICAgICAgICAgICAgICArLS0gaW5vZGVfbG9jayhp
+bm9kZSkKICAgIHwgICAgICAgICAgICAgICB8ICAgZmFtZnNfbWV0YV9zZXQoZmksIG1ldGEp
+ICAgICAgICAgICAgIChjbXB4Y2hnLCBOVUxMPT5tZXRhKQogICAgfCAgICAgICAgICAgICAg
+IHwgICBpZiBpbnN0YWxsZWQ6IGlfc2l6ZV93cml0ZSwgU19EQVgsIGFfb3BzPWZhbWZzX2Rh
+eF9hb3BzCiAgICB8ICAgICAgICAgICAgICAgfCAgIGlub2RlX3VubG9jayhpbm9kZSkKICAg
+IHwKICAgICstLSBmdXNlX2ZpbmlzaF9vcGVuKGlub2RlLCBmaWxlKQogICAgKy0tIHNraXAg
+cGFnZSBjYWNoZSBpbnZhbGlkYXRpb24gaWYgZnVzZV9maWxlX2ZhbWZzKGZpKQoKCkdFVF9E
+QVhERVYgcGVyLWluZGV4IGZsb3c6CgogIGZhbWZzX2Z1c2VfZ2V0X2RheGRldihmbSwgaW5k
+ZXgpOgogICAgYXJncy5vcGNvZGUgPSBGVVNFX0dFVF9EQVhERVYKICAgIGFyZ3Mubm9kZWlk
+ID0gaW5kZXgKICAgIGZ1c2Vfc2ltcGxlX3JlcXVlc3QoKSAgLS0tLS0+IHNlcnZlciByZXR1
+cm5zIGZ1c2VfZGF4ZGV2X291dHsubmFtZSA9ICIvZGV2L2RheFguWSJ9CgogICAgdW5kZXIg
+ZmFtZnNfZGV2bGlzdF9zZW0gKHdyaXRlKToKICAgICAgaWYgZGQtPnZhbGlkOiByZXR1cm4g
+ICAgICAgICAgICAgICAgICAgICAgICAgLyogbG9zdCByYWNlOyBPSyAqLwogICAgICBmYW1m
+c192ZXJpZnlfZGF4ZGV2KG5hbWUsICZkZC0+ZGV2bm8pOgogICAgICAgICAga2Vybl9wYXRo
+KCkgKyBkX2JhY2tpbmdfaW5vZGUoKSArIFNfSVNDSFIKICAgICAgICAgIG1heV9vcGVuX2Rl
+digpICAgICAgICAgICAgICAgICAgICAgICAgICAgLyogZXhwb3J0ZWQgaW4gZnMvbmFtZWku
+YyAqLwogICAgICAgICAgZGQtPmRldm5vID0gaW5vZGUtPmlfcmRldgogICAgICBkZC0+bmFt
+ZSA9IGtzdHJkdXAobmFtZSkKICAgICAgZGQtPmRldnAgPSBkYXhfZGV2X2dldChkZXZubykK
+ICAgICAgZnNfZGF4X2dldChkZXZwLCBmYywgJmZhbWZzX2Z1c2VfZGF4X2hvbGRlcl9vcHMp
+CiAgICAgICAgICBvbiBmYWlsdXJlOiBkZC0+ZGF4X2VyciA9IDEgICAgICAgICAgICAgIC8q
+IHN0aWxsIG1hcmsgdmFsaWQgKi8KICAgICAgd21iKCkKICAgICAgZGQtPnZhbGlkID0gMQoK
+Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCjcuIGlvbWFwIGludGVyYWN0aW9uIC0gdGhl
+IGNlbnRyYWwgZGVzaWduIHBvaW50Ci0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgpmYW1m
+cyBpbXBsZW1lbnRzIG9ubHkgYC5pb21hcF9iZWdpbmAuIFRoZXJlIGlzIG5vIGAuaW9tYXBf
+ZW5kYCBiZWNhdXNlIHRoZXJlCmlzIG5vIGFsbG9jYXRpb24sIGRpcnR5IHRyYWNraW5nLCBv
+ciBjb21wbGV0aW9uIGJvb2trZWVwaW5nLgoKICAgIGNvbnN0IHN0cnVjdCBpb21hcF9vcHMg
+ZmFtZnNfaW9tYXBfb3BzID0gewogICAgICAgIC5pb21hcF9iZWdpbiA9IGZhbWZzX2Z1c2Vf
+aW9tYXBfYmVnaW4sCiAgICB9OwoKVGhlIGRheCBjb3JlIChmcy9kYXguYykgY2FsbHMgaW50
+byBmYW1mc19pb21hcF9vcHMgZnJvbSB0aHJlZSBlbnRyeSBwb2ludHM6CgogICAgZGF4X2lv
+bWFwX3J3KGlvY2IsIGl0ZXIsIG9wcykgICAgICAgIC0tIHJlYWRfaXRlciAvIHdyaXRlX2l0
+ZXIKICAgIGRheF9pb21hcF9mYXVsdCh2bWYsIG9yZGVyLCAuLi4pICAgICAtLSBtbWFwIFBU
+RS9QTUQvUFVEIGZhdWx0cwoKRm9yIHRoZSBpb21hcCBjb25jZXB0cyB1c2VkIGhlcmUsIHNl
+ZSB0aGUgcHJpbWVyIGluIHNlY3Rpb24gMi4KCjcuMSByZWFkL3dyaXRlIHBhdGgKCiAgZnVz
+ZV9maWxlX3JlYWRfaXRlcihpb2NiLCB0bykgICAgICAgICAgICAgICAgIFtmcy9mdXNlL2Zp
+bGUuY10KICAgIGlmIChmdXNlX2ZpbGVfZmFtZnMoZmkpKQogICAgICAgIHJldHVybiBmYW1m
+c19mdXNlX3JlYWRfaXRlcihpb2NiLCB0byk7ICBbZmFtZnMuY10KCiAgZmFtZnNfZnVzZV9y
+ZWFkX2l0ZXI6CiAgICBmYW1mc19mdXNlX3J3X3ByZXAoaW9jYiwgdG8pOgogICAgICAgIGZh
+bWZzX2ZpbGVfYmFkKGlub2RlKT8gICAgICAgICAgICAgICAgICAgIC0+IC1FSU8vLUVOWElP
+CiAgICAgICAgdHJ1bmNhdGUgaXRlciB0byAoaV9zaXplIC0ga2lfcG9zKQogICAgZGF4X2lv
+bWFwX3J3KGlvY2IsIHRvLCAmZmFtZnNfaW9tYXBfb3BzKSAgPT09PgogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICstLSByZXBlYXRlZGx5Ogog
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICAg
+IGlvbWFwX2JlZ2luKC4uLikKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICAgICBtZW1jcHlfZnJvbV9wbWVtL3RvCiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAgYWR2YW5jZSBwb3Np
+dGlvbgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICstLSByZXR1cm5zIGJ5dGVzIGNvcGllZAoKICBmYW1mc19mdXNlX3dyaXRlX2l0ZXIgaXMg
+c3ltbWV0cmljIChubyBGT1BFTl9ESVJFQ1RfSU8gLyBwYXNzdGhyb3VnaCBmb3JrOwogIHNw
+bGljZSBwYXRocyByZXR1cm4gLUVJTyBzaW5jZSBmYW1mcyBoYXMgbm8gcGFnZSBjYWNoZSku
+Cgo3LjIgbW1hcCBwYXRoCgogIGZ1c2VfZmlsZV9tbWFwKGZpbGUsIHZtYSkgICAgICAgICAg
+ICAgICAgICAgICBbZnMvZnVzZS9maWxlLmNdCiAgICBpZiAoZnVzZV9maWxlX2ZhbWZzKGZp
+KSkKICAgICAgICByZXR1cm4gZmFtZnNfZnVzZV9tbWFwKGZpbGUsIHZtYSk7CgogIGZhbWZz
+X2Z1c2VfbW1hcDoKICAgIGZhbWZzX2ZpbGVfYmFkKGlub2RlKQogICAgdm1hLT52bV9vcHMg
+PSAmZmFtZnNfZmlsZV92bV9vcHMKICAgIHZtX2ZsYWdzX3NldCh2bWEsIFZNX0hVR0VQQUdF
+KSAgICAgICAgICAgICAgLyogcHJlZmVyIDJNaUIgZmF1bHRzICovCgogIGZhbWZzX2ZpbGVf
+dm1fb3BzOgogICAgLmZhdWx0ICAgICAgICAgPSBmYW1mc19maWxlbWFwX2ZhdWx0ICAgICAg
+ICAgKFBURSkKICAgIC5odWdlX2ZhdWx0ICAgID0gZmFtZnNfZmlsZW1hcF9odWdlX2ZhdWx0
+ICAgIChQTUQvUFVEKQogICAgLm1hcF9wYWdlcyAgICAgPSBmaWxlbWFwX21hcF9wYWdlcwog
+ICAgLnBhZ2VfbWt3cml0ZSAgPSBmYW1mc19maWxlbWFwX21rd3JpdGUKICAgIC5wZm5fbWt3
+cml0ZSAgID0gZmFtZnNfZmlsZW1hcF9ta3dyaXRlCgo3LjMgZmF1bHQgaGFuZGxlciBkaXNw
+YXRjaAoKICBfX2ZhbWZzX2Z1c2VfZmlsZW1hcF9mYXVsdCh2bWYsIHBlX3NpemUsIHdyaXRl
+X2ZhdWx0KToKICAgIGlmICghSVNfREFYKGlub2RlKSkgcmV0dXJuIFNJR0JVUwogICAgaWYg
+KHdyaXRlX2ZhdWx0KSBzYl9zdGFydF9wYWdlZmF1bHQsIGZpbGVfdXBkYXRlX3RpbWUKICAg
+IHJldCA9IGRheF9pb21hcF9mYXVsdCh2bWYsIHBlX3NpemUsICZwZm4sIE5VTEwsICZmYW1m
+c19pb21hcF9vcHMpCiAgICAgICAgfAogICAgICAgICstLSBpbnRlcm5hbGx5IGNhbGxzIGZh
+bWZzX2Z1c2VfaW9tYXBfYmVnaW4gdG8gbGVhcm4gKGRheF9kZXYsCiAgICAgICAgICAgIG9m
+ZnNldCwgbGVuZ3RoKSwgdGhlbiBtYXBzIHRoZSByZXNvbHZlZCBQRk4gaW50byB0aGUgVk1B
+LgogICAgaWYgKHJldCAmIFZNX0ZBVUxUX05FRUREU1lOQykgcmV0ID0gZGF4X2ZpbmlzaF9z
+eW5jX2ZhdWx0KC4uLikKCjcuNCBpb21hcF9iZWdpbiAtIHRoZSByZXNvbHZlcgoKICBmYW1m
+c19mdXNlX2lvbWFwX2JlZ2luKGlub2RlLCBvZmZzZXQsIGxlbmd0aCwgZmxhZ3MsIGlvbWFw
+LCBzcmNtYXApCiAgICBtZXRhID0gZmktPmZhbWZzX21ldGEKICAgIFdBUk5fT04oaV9zaXpl
+ICE9IG1ldGEtPmZpbGVfc2l6ZSkKICAgIHJldHVybiBmYW1mc19maWxlb2ZzX3RvX2RheG9m
+cyhpbm9kZSwgaW9tYXAsIG9mZnNldCwgbGVuZ3RoLCBmbGFncykKCiAgZmFtZnNfZmlsZW9m
+c190b19kYXhvZnMgKFNJTVBMRSBjYXNlKToKICAgICAgdmFsaWRhdGUgZGF4X2Rldmxpc3Qg
+KyBmYW1mc19maWxlX2JhZAogICAgICB3YWxrIG1ldGEtPnNlWzAuLmZtX25leHRlbnRzLTFd
+OgogICAgICAgICAgaWYgbG9jYWxfb2Zmc2V0IDwgc2VbaV0uZXh0X2xlbjoKICAgICAgICAg
+ICAgICBkZCA9IGRldmxpc3Rbc2VbaV0uZGV2X2luZGV4XQogICAgICAgICAgICAgIGZhbWZz
+X2RheF9lcnIoZGQpIC0+IGlmIGVycm9yZWQsIHNldCBtZXRhLT5lcnJvciBhbmQgcmV0dXJu
+CiAgICAgICAgICAgICAgaW9tYXAtPmFkZHIgICA9IHNlW2ldLmV4dF9vZmZzZXQgKyBsb2Nh
+bF9vZmZzZXQKICAgICAgICAgICAgICBpb21hcC0+b2Zmc2V0ID0gZmlsZV9vZmZzZXQKICAg
+ICAgICAgICAgICBpb21hcC0+bGVuZ3RoID0gbWluKGxlbiwgZXh0X2xlbiAtIGxvY2FsX29m
+ZnNldCkKICAgICAgICAgICAgICBpb21hcC0+ZGF4X2Rldj0gZGQtPmRldnAKICAgICAgICAg
+ICAgICBpb21hcC0+dHlwZSAgID0gSU9NQVBfTUFQUEVECiAgICAgICAgICAgICAgcmV0dXJu
+IDAKICAgICAgICAgIGxvY2FsX29mZnNldCAtPSBzZVtpXS5leHRfbGVuCiAgICAgIGZhbGwt
+dGhyb3VnaDogemVyby1sZW5ndGggaW9tYXAsIHJldHVybiAtRUlPCgogIGZhbWZzX2ZpbGVv
+ZnNfdG9fZGF4b2ZzIGRlbGVnYXRlcyB0byBmYW1mc19pbnRlcmxlYXZlX2ZpbGVvZnNfdG9f
+ZGF4b2ZzIGZvcgogIElOVEVSTEVBVkVEX0VYVEVOVCAoc2VlIHNlY3Rpb24gNikuCgo3LjUg
+VGhlIGZ1bGwgaW9tYXAgY2FsbCBncmFwaAoKICAgIHVzZXIgcHJvY2VzcyAgICAgICAgICAg
+ICAgICAgICBmcy9mdXNlL2ZhbWZzLmMgICAgICAgICAgICAgICAgICBmcy9kYXguYwogICAg
+LS0tLS0tLS0tLS0tICAgICAgICAgICAgICAgICAgIC0tLS0tLS0tLS0tLS0tLS0gICAgICAg
+ICAgICAgICAgIC0tLS0tLS0tCiAgICByZWFkKDIpL3dyaXRlKDIpCiAgICAgICAgfAogICAg
+ICAgIHYKICAgIGZ1c2VfZmlsZV9yZWFkX2l0ZXIgLyB3cml0ZV9pdGVyIChmaWxlLmMpCiAg
+ICAgICAgfAogICAgICAgICstLT4gZmFtZnNfZnVzZV97cmVhZCx3cml0ZX1faXRlcgogICAg
+ICAgICAgICAgICAgfAogICAgICAgICAgICAgICAgKy0tPiBmYW1mc19mdXNlX3J3X3ByZXAg
+KHNhbml0eSwgdHJ1bmNhdGUgdG8gaV9zaXplKQogICAgICAgICAgICAgICAgfAogICAgICAg
+ICAgICAgICAgKy0tPiBkYXhfaW9tYXBfcncgIC0tLS0tLS0tLS0tLS0tLS0tPiAgaXRlciBs
+b29wCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgfAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHYKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGlvbWFwX2l0ZXIoKQogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwKICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICArLS0+IC5pb21h
+cF9iZWdpbiA8LS0tLSsKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICB8ICAgICBmYW1mc19mdXNlX2lvbWFwX2JlZ2luCiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgICAgICAgXCAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgIGZhbWZzX2ZpbGVvZnNf
+dG9fZGF4b2ZzCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgfCAgICAgICAgICBbKyBpbnRlcmxlYXZlIHZhcmlhbnRdCiAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+fCAgICAgICAgICAgICBcCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAgICAgICAgZmMtPmRheF9kZXZsaXN0W2lk
+eF0KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICB8ICAgICAgICAgICAgICBkZC0+ZGV2cCAvIGV4dF9vZmZzZXQKICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8ICAg
+ICAgICAgICAgIC8KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICArLS0+IGRheF9pb21hcF9pdGVyKCkKICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG1l
+bWNweSB2aWEgZGF4X2RpcmVjdF9hY2Nlc3MKICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIG9uIGlvbWFwLT5kYXhf
+ZGV2IC8gaW9tYXAtPmFkZHIKCiAgICBwYWdlIGZhdWx0IG9uIG1tYXAgcmVnaW9uCiAgICAg
+ICAgfAogICAgICAgIHYKICAgIC5mYXVsdCAvIC5odWdlX2ZhdWx0IChmYW1mc19maWxlX3Zt
+X29wcykKICAgICAgICB8CiAgICAgICAgKy0tPiBfX2ZhbWZzX2Z1c2VfZmlsZW1hcF9mYXVs
+dAogICAgICAgICAgICAgICAgfAogICAgICAgICAgICAgICAgKy0tPiBkYXhfaW9tYXBfZmF1
+bHQodm1mLCBvcmRlciwgLi4uLCAmZmFtZnNfaW9tYXBfb3BzKQogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfAogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgKy0tPiAuaW9tYXBf
+YmVnaW4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwgICAgZmFtZnNfZnVzZV9pb21hcF9iZWdpbgogICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICAgICAocmVzb2x2ZXMg
+ZGF4X2RldiArIG9mZnNldCkKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICstLT4gZGF4X2luc2VydF9wZm4gLyB2bWZfaW5zZXJ0X3Bm
+bl9wbWQKCgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo4LiBJbnRlcmxlYXZlZCAoc3Ry
+aXBlZCkgZXh0ZW50cwotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKQW4gaW50ZXJsZWF2
+ZWQgZXh0ZW50IHN0cmlwZXMgYSBjb250aWd1b3VzIGxvZ2ljYWwgcmVnaW9uIGFjcm9zcyBO
+IHN0cmlwcyBvbgpOICh0eXBpY2FsbHkgZGlzdGluY3QpIGRheCBkZXZpY2VzLCBpbiBmaXhl
+ZC1zaXplIGNodW5rcy4KCiAgICBpZV9uc3RyaXBzICAgICAgPSBOCiAgICBpZV9jaHVua19z
+aXplICAgPSBDICAobXVzdCBiZSBQTUQtYWxpZ25lZCkKICAgIGllX25ieXRlcyAgICAgICA9
+IHRvdGFsIGxvZ2ljYWwgYnl0ZXMgY292ZXJlZAoKICBMb2dpY2FsIGxheW91dCAoTj00KToK
+CiAgICBmaWxlIG9mZnNldDogIFswICAgICAgICAgIEMgXVtDICAgICAgICAyQ11bMkMgICAg
+ICAgM0NdWzNDICAgICAgIDRDXVs0QyAuLi4KICAgICAgICAgICAgICAgICAgfCBzdHJpcCAw
+ICAgIHwgc3RyaXAgMSAgICB8IHN0cmlwIDIgICAgfCBzdHJpcCAzICAgIHwgIHN0cmlwIDAg
+Li4uCiAgICAgICAgICAgICAgICAgIHwgc3RyaXBlIDAgICB8IHN0cmlwZSAwICAgfCBzdHJp
+cGUgMCAgIHwgc3RyaXBlIDAgICB8ICBzdHJpcGUgMS4uLgoKICBSZXNvbHV0aW9uIGFyaXRo
+bWV0aWMgaW4gZmFtZnNfaW50ZXJsZWF2ZV9maWxlb2ZzX3RvX2RheG9mcygpOgoKICAgIGNo
+dW5rX251bSAgICAgICA9IGxvY2FsX29mZnNldCAvIGNodW5rX3NpemUKICAgIGNodW5rX29m
+ZnNldCAgICA9IGxvY2FsX29mZnNldCAlIGNodW5rX3NpemUKICAgIGNodW5rX3JlbWFpbmRl
+ciA9IGNodW5rX3NpemUgLSBjaHVua19vZmZzZXQKICAgIHN0cmlwZV9udW0gICAgICA9IGNo
+dW5rX251bSAvIG5zdHJpcHMKICAgIHN0cmlwX251bSAgICAgICA9IGNodW5rX251bSAlIG5z
+dHJpcHMKICAgIHN0cmlwX29mZnNldCAgICA9IGNodW5rX29mZnNldCArIHN0cmlwZV9udW0g
+KiBjaHVua19zaXplCgogICAgaW9tYXAtPmFkZHIgICAgID0gaWVfc3RyaXBzW3N0cmlwX251
+bV0uZXh0X29mZnNldCArIHN0cmlwX29mZnNldAogICAgaW9tYXAtPmRheF9kZXYgID0gZGV2
+bGlzdFtpZV9zdHJpcHNbc3RyaXBfbnVtXS5kZXZfaW5kZXhdLmRldnAKICAgIGlvbWFwLT5s
+ZW5ndGggICA9IG1pbihsZW4sIGNodW5rX3JlbWFpbmRlcikKICAgIGlvbWFwLT50eXBlICAg
+ICA9IElPTUFQX01BUFBFRAoKVGhlIGxlbmd0aCBpcyBjYXBwZWQgYXQgY2h1bmtfcmVtYWlu
+ZGVyIHNvIHRoZSBuZXh0IGlvbWFwIGl0ZXJhdGlvbiBzdGVwcyB0bwp0aGUgbmV4dCBjaHVu
+ayAod2hpY2ggdXN1YWxseSBsaXZlcyBvbiBhIGRpZmZlcmVudCBkZXZpY2UpLgoKCi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tCjkuIE1lbW9yeS1lcnJvciAvIGZhaWx1cmUgaGFuZGxp
+bmcKLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KCkEgZmFtZnMgZmlsZSBiZWNvbWVzIHVu
+dXNhYmxlIHdoZW4gYW55IG9uZSBvZiB0aHJlZSBjb25kaXRpb25zIGlzIHRydWUuIFRoZXkK
+YXJlIGNoZWNrZWQgb24gZXZlcnkgcmVhZC93cml0ZS9mYXVsdCBieSBmYW1mc19maWxlX2Jh
+ZCgpIGFuZCBmYW1mc19kYXhfZXJyKCkuCgogIFNvdXJjZSBvZiBlcnJvciAgICAgICAgICAg
+ICAgICBFZmZlY3QgICAgICAgICAgICAgICAgICAgICAgIFN1cmZhY2UKICAtLS0tLS0tLS0t
+LS0tLS0gICAgICAgICAgICAgICAgLS0tLS0tICAgICAgICAgICAgICAgICAgICAgICAtLS0t
+LS0tCiAgZnNfZGF4X2dldCgpIGZhaWxzICAgICAgICAgICAgIGRkLT5kYXhfZXJyID0gMSAg
+ICAgICAgICAgICAgZmFtZnNfZGF4X2VyciAtPiAtRUlPCiAgbm90aWZ5X2ZhaWx1cmUoKSB1
+cGNhbGwgICAgICAgIGRkLT5lcnJvciAgID0gdHJ1ZSAgICAgICAgICAgZmFtZnNfZGF4X2Vy
+ciAtPiAtRUhXUE9JU09OCiAgaV9zaXplICE9IG1ldGEtPmZpbGVfc2l6ZSAgICAgIG1ldGEt
+PmVycm9yID0gdHJ1ZSAgICAgICAgICAgZmFtZnNfZmlsZV9iYWQgLT4gLUVOWElPCiAgSVNf
+REFYKGlub2RlKSBjbGVhcmVkICAgICAgICAgIChzaXplIGNoYW5nZSwgZXRjLikgICAgICAg
+ICAgZmFtZnNfZmlsZV9iYWQgLT4gLUVOWElPCgogIG5vdGlmeV9mYWlsdXJlKCkgZmxvdzoK
+CiAgICBkZXZkYXggbGF5ZXIgZGV0ZWN0cyBwb2lzb24gLyByZWNvbmZpZwogICAgICAgIHwK
+ICAgICAgICB2CiAgICBkYXhfaG9sZGVyX29wcy0+bm90aWZ5X2ZhaWx1cmUoZGF4X2RldnAs
+IG9mZnNldCwgbGVuLCBtZl9mbGFncykKICAgICAgICA9IGZhbWZzX2RheF9ub3RpZnlfZmFp
+bHVyZQogICAgICAgICAgICBmYyA9IGRheF9ob2xkZXIoZGF4X2RldnApCiAgICAgICAgICAg
+IGZhbWZzX3NldF9kYXhkZXZfZXJyKGZjLCBkYXhfZGV2cCk6CiAgICAgICAgICAgICAgICB1
+bmRlciBmYW1mc19kZXZsaXN0X3NlbSAod3JpdGUpOgogICAgICAgICAgICAgICAgICAgIGZp
+bmQgc2xvdCB3aG9zZSBkZC0+ZGV2cCA9PSBkYXhfZGV2cAogICAgICAgICAgICAgICAgICAg
+IGRkLT5lcnJvciA9IHRydWUKICAgICAgICAgICAgICAgICAgICBwcl9lcnIKCiAgT24gdGhl
+IG5leHQgaW9tYXBfYmVnaW4sIGZhbWZzX2RheF9lcnIgc2VlcyBkZC0+ZXJyb3IgYW5kIHJl
+dHVybnMgLUVIV1BPSVNPTjsKICBtZXRhLT5lcnJvciBpcyBhbHNvIHNldCBvbiB0aGF0IGZp
+bGUgc28gc3Vic2VxdWVudCBhY2Nlc3NlcyBzaG9ydC1jaXJjdWl0CiAgdmlhIGZhbWZzX2Zp
+bGVfYmFkIHdpdGhvdXQgdG91Y2hpbmcgZGF4LgoKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tCjEwLiBMaWZldGltZSAvIHRlYXJkb3duCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+CgpQZXItaW5vZGU6CgogIGZ1c2VfYWxsb2NfaW5vZGUgKGlub2RlLmMpCiAgICAgIGZhbWZz
+X21ldGFfc2V0KGZpLCBOVUxMKSAgICAgICAgICAgICAgICAoaW5pdCkKICBmdXNlX2ZyZWVf
+aW5vZGUgKGlub2RlLmMpCiAgICAgIGlmIChTX0lTUkVHICYmIGZ1c2VfZmlsZV9mYW1mcyhm
+aSkpCiAgICAgICAgICBmYW1mc19tZXRhX2ZyZWUoZmkpCiAgICAgICAgICAgICAgLT4gX19m
+YW1mc19tZXRhX2ZyZWU6IGZyZWVzIHNlL2llIGFycmF5cyArIHN0cnVjdAogIGZ1c2VfZXZp
+Y3RfaW5vZGUKICAgICAgaWYgKEZVU0VfSVNfVklSVElPX0RBWCB8fCBmdXNlX2ZpbGVfZmFt
+ZnMpCiAgICAgICAgICBkYXhfYnJlYWtfbGF5b3V0X2ZpbmFsKGlub2RlKSAgICAgICAoc3Rv
+cCBvbmdvaW5nIGRheCBtYXBwaW5ncykKClBlci1jb25uZWN0aW9uOgoKICBmdXNlX2Nvbm5f
+cHV0IC0+IGZhbWZzX3RlYXJkb3duKGZjKToKICAgICAgZm9yIGVhY2ggdmFsaWQgc2xvdDoK
+ICAgICAgICAgIGlmIGRkLT5kZXZwOgogICAgICAgICAgICAgIGlmICghZGQtPmRheF9lcnIp
+IGZzX3B1dF9kYXgoZGQtPmRldnAsIGZjKSAgIC8qIGRyb3AgaG9sZGVyICovCiAgICAgICAg
+ICAgICAgcHV0X2RheChkZC0+ZGV2cCkKICAgICAgICAgIGtmcmVlKGRkLT5uYW1lKQogICAg
+ICBrZnJlZShkZXZsaXN0LT5kZXZsaXN0KQogICAgICBrZnJlZShkZXZsaXN0KQoKCi0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tCjExLiBDb25jdXJyZW5jeSBtb2RlbAotLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLQoKICBmYy0+ZmFtZnNfZGV2bGlzdF9zZW0gIChyd19zZW1hcGhv
+cmUpCiAgICAgIHJlYWRlcnMgOiBpb21hcF9iZWdpbiBwYXRocyByZWFkaW5nIGRldmxpc3Rb
+aWR4XQogICAgICAgICAgICAgICAgZmFtZnNfdXBkYXRlX2RheGRldl90YWJsZSB3aGlsZSBj
+b2xsZWN0aW5nICJtaXNzaW5nIiBpbmRpY2VzCiAgICAgIHdyaXRlcnMgOiBmYW1mc19mdXNl
+X2dldF9kYXhkZXYgKHBvcHVsYXRpbmcgYSBzbG90KQogICAgICAgICAgICAgICAgZmFtZnNf
+c2V0X2RheGRldl9lcnIgIChub3RpZnlfZmFpbHVyZSkKCiAgY21weGNoZyBwYWlycyAoTlVM
+TCAtPiBwdHIgaW5zdGFsbGF0aW9uLCByYWNlLXRvbGVyYW50KToKICAgICAgZmMtPmRheF9k
+ZXZsaXN0ICAgICAgICAgICAgICAgKGZpcnN0LXRpbWUgYWxsb2NhdGlvbikKICAgICAgZmkt
+PmZhbWZzX21ldGEgICAgICAgICAgICAgICAgKGZpcnN0IEdFVF9GTUFQIHdpbnMsIG90aGVy
+cyBmcmVlZCkKCiAgd21iKCkgYmVmb3JlIGRkLT52YWxpZD0xIGVuc3VyZXMgcmVhZGVycyB0
+aGF0IG9ic2VydmUgYHZhbGlkYCBzZWUgZnVsbHkKICBpbml0aWFsaXplZCBuYW1lL2RldnAv
+ZGV2bm8gZmllbGRzLgoKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCjEyLiBFbmQtdG8t
+ZW5kIHRpbWVsaW5lIChyZWFkIG9uIGEgZnJlc2hseSBvcGVuZWQgZmFtZnMgZmlsZSkKLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KClRoZSAiZnVzZSBzZXJ2ZXIiIGNvbHVtbiBpcyB3
+aGF0ZXZlciBwcm9jZXNzIGlzIHVzaW5nIGxpYmZ1c2UgKHdpdGgKb3AuZ2V0X2ZtYXAgLyBv
+cC5nZXRfZGF4ZGV2IHBvcHVsYXRlZCBhcyBpbiBzZWN0aW9uIDUpLgoKICBhcHAgICAgICAg
+ICAgICAgICAgICAgZnVzZS9mYW1mcyAoa2VybmVsKSAgICAgICAgICAgICAgZnVzZSBzZXJ2
+ZXIKICAtLS0gICAgICAgICAgICAgICAgICAgLS0tLS0tLS0tLS0tLS0tLS0tLSAgICAgICAg
+ICAgICAgLS0tLS0tLS0tLS0KICBvcGVuKCIvbW50L2ZhbWZzL3giKSAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgfAogICAgICAgLS0tLS0gVkZTIG9wZW4gLS0tLS0+
+IGZ1c2Vfb3BlbiAgICAgICAgICAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBmdXNlX2RvX29wZW4gLS0tLS0gT1BFTiAtLS0tLT4gaGFuZGxlcwogICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8LS0tLSBvayAtLS0tLS0tLXwK
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZ1c2VfZ2V0X2ZtYXAgICAgICAgICAgICAg
+ICAgICAgfAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAtIEdF
+VF9GTUFQIC0tLS0tPnwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgPC0gZm1hcCByZXBseSAtLS18CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYW1m
+c19mdXNlX21ldGFfYWxsb2MgICAgICAgICAgIHwKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGZhbWZzX3VwZGF0ZV9kYXhkZXZfdGFibGUgICAgICAgfAogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICBbbmV3IGRldmljZSBpZHhdICAgICAgICAgICAgICB8CiAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0gR0VUX0RBWERFViAtLS0+fAog
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA8LSBkYXhkZXYgcmVw
+bHkgLXwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZGF4X2Rldl9nZXQgKyBmc19k
+YXhfZ2V0ICAgICAgfAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICBkZC0+dmFsaWQg
+PSAxICAgICAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYW1m
+c19tZXRhX3NldChmaSwgbWV0YSkgICAgICAgIHwKICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIGlub2RlLT5pX2ZsYWdzIHw9IFNfREFYICAgICAgICAgfAogICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgaV9kYXRhLmFfb3BzID0gZmFtZnNfZGF4X2FvcHMgICB8CiAgICAgICA8
+LS0tLS0gZmQgLS0tLS0tLS0tLS0tICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwK
+ICByZWFkKGZkLCBidWYsIGxlbikgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgfAogICAgICAgLS0tLS0gVkZTIHJlYWQgLS0tLT4gZnVzZV9maWxlX3JlYWRfaXRl
+ciAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYW1mc19mdXNl
+X3JlYWRfaXRlciAgICAgICAgICAgIHwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ZmFtZnNfZnVzZV9yd19wcmVwICAgICAgICAgICAgfAogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICBkYXhfaW9tYXBfcncgICAgICAgICAgICAgICAgICB8CiAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgLmlvbWFwX2JlZ2luIC0+ICAgICAgICAgICAgIHwKICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgIGZhbWZzX2Z1c2VfaW9tYXBfYmVnaW4gICAg
+fAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZmFtZnNfZmlsZW9mc190b19k
+YXhvZnMgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC0+IGlvbWFw
+e2RheF9kZXYsIGFkZHJ9IHwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBtZW1j
+cHkgZnJvbSBkYXggbWVtb3J5ICAgICAgfAogICAgICAgPC0tLS0gYnl0ZXMgLS0tLS0tLS0t
+LSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgICA8LS0gbm8gdXBj
+YWxsIG9uIGZhc3QgcGF0aAogIG11bm1hcCAvIGNsb3NlCiAgICAgICAtLS0tLSBWRlMgcmVs
+ZWFzZSAtPiBmdXNlX3JlbGVhc2UgLS0tLS0gUkVMRUFTRSAtLS0+IHwKICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgPC0tLS0gb2sgLS0tLS0tLS18CiAgdW5t
+b3VudAogICAgICAgLS0tLS0gdW1vdW50IC0tLS0tLT4gZnVzZV9jb25uX3B1dCAgICAgICAg
+ICAgICAgICAgICB8CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBmYW1mc190ZWFyZG93
+biAgICAgICAgICAgICAgICAgIHwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnNf
+cHV0X2RheCAvIHB1dF9kYXggYWxsIGRkJ3MgfAoKCi0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tCjEzLiBXaGF0IGRlbGliZXJhdGVseSBpcyBOT1QgaW4gdGhlIGtlcm5lbAotLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLQoKICAqIEFsbG9jYXRpb24gYW5kIG1ldGFkYXRhIG11dGF0
+aW9uOiBoYW5kbGVkIGluIHVzZXJzcGFjZTsgdGhlIGtlcm5lbCBvbmx5CiAgICBjb25zdW1l
+cyBmbWFwcyBhcyBvcGFxdWUtYnV0LXZlcnNpb25lZCBibG9icy4KICAqIFBhZ2UgY2FjaGUg
+YW5kIHdyaXRlYmFjazogZmFtZnNfZGF4X2FvcHMgaXMgZXhjbHVzaXZlbHkgbm9vcF9kaXJ0
+eV9mb2xpby4KICAqIFRydW5jYXRlIC8gYXBwZW5kOiBhbnkgc2l6ZSBjaGFuZ2UgbWFya3Mg
+dGhlIGZpbGUgZXJyb3JlZDsgcmVjb3ZlcnkgaXMgYQogICAgdXNlcnNwYWNlIHJlc3BvbnNp
+YmlsaXR5ICh0eXBpY2FsbHk6IHJlLXJlcGxheSB0aGUgZmFtZnMgbWV0YWRhdGEgbG9nKS4K
+ICAqIGZhbGxvY2F0ZSAvIGhvbGUgaGFuZGxpbmc6IGZpbGVzIGFyZSBuZXZlciBzcGFyc2Ug
+YW5kIG5ldmVyIGhhdmUgaG9sZXMsCiAgICBzbyBpb21hcF9iZWdpbiBvbmx5IGV2ZXIgcmV0
+dXJucyBJT01BUF9NQVBQRUQgKG9yIHplcm8tbGVuZ3RoIG9uIEVPRikuCiAgKiBpby1tb2Rl
+cyAoRlVTRV9PUEVOXyopOiBieXBhc3NlZCBmb3IgZmFtZnMgZmlsZXMgaW4gaW9tb2RlLmMg
+c2luY2UKICAgIGV2ZXJ5dGhpbmcgaXMgZGlyZWN0LXRvLWRheC4KCgotLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLQoxNC4gQ29tbWl0LWJ5LWNvbW1pdCBtYXAgYmFjayB0byB0aGlzIGRl
+c2lnbgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQoKMTQuMSBLZXJuZWwgKGxpbnV4Lmdp
+dCwgYnJhbmNoIGZhbWZzKQoKICBhYzA3MWZiZDk0YTYgIEJhc2ljIGZ1c2Uga2VybmVsIEFC
+SSAgICAgICAgICAgIC0+IFNlY3Rpb24gNCAobmVnb3RpYXRpb24pLAogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgQ09ORklHX0ZVU0VfRkFN
+RlNfREFYLAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgZmMtPmZhbWZzX2lvbWFwIGJpdAogIDlhMDY1MDBjMWUwZiAgUGx1bWIgR0VUX0ZN
+QVAgbWVzc2FnZS9yZXNwb25zZSAgLT4gU2VjdGlvbiA2IChmdXNlX2dldF9mbWFwLAogICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgZnVzZV9v
+cGVuIGhvb2spCiAgNmY0ZTAzYTRlOGU5ICBDcmVhdGUgZmlsZXMgd2l0aCBmYW1mcyBmbWFw
+cyAgICAtPiBTZWN0aW9uIDMgKGZhbWZzX2ZpbGVfbWV0YSksCiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZWN0aW9uIDYgKGZhbWZzX2Zp
+bGVfaW5pdF9kYXgsCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICBmYW1mc19mdXNlX21ldGFfYWxsb2MpCiAgZGZjOWUxMmJjYjk5ICBHRVRf
+REFYREVWIG1zZyArIGRheGRldl90YWJsZSAgICAtPiBTZWN0aW9uIDMgKGZhbWZzX2RheF9k
+ZXZsaXN0KSwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIFNlY3Rpb24gNi5HRVRfREFYREVWLAogICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgZmFtZnNfdGVhcmRvd24KICBkNzlmODAzZGJm
+ZDEgIFBsdW1iIGRheCBpb21hcCArIHIvdy9tbWFwICAgICAgIC0+IFNlY3Rpb24gNyAoaW9t
+YXBfb3BzLCBmYXVsdCwKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgIHJ3IHBhdGhzKSBhbmQgU2VjdGlvbiA4CiAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAoaW50ZXJsZWF2ZSByZXNvbHZl
+cikKICA4NzMxZWIwM2M3NjIgIGhvbGRlcl9vcHMgZm9yIG5vdGlmeV9mYWlsdXJlKCkgIC0+
+IFNlY3Rpb24gOSAobWVtb3J5IGVycm9ycykKICA2ZWEyMWY4OWIzNjEgIERBWCBhZGRyZXNz
+X3NwYWNlX29wZXJhdGlvbnMgICAgIC0+IFNlY3Rpb24gMSAvIGZhbWZzX2RheF9hb3BzCiAg
+ZmFlNGQ4MDdkYTM0ICBmbWFwIG1ldGFkYXRhIGRvY3VtZW50YXRpb24gICAgICAtPiBrZXJu
+ZWwgaGVhZGVyIGNvbW1lbnQgaW4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIGZhbWZzX2tmbWFwLmggKFNlY3Rpb24gOCkKICBkYTllZGY3
+N2NiYzQgIERvY3VtZW50YXRpb24vZmlsZXN5c3RlbXMvZmFtZnMgIC0+IHVzZXItZmFjaW5n
+IGRvY3MKCjE0LjIgbGliZnVzZSAobGliZnVzZS5naXQsIGJyYW5jaCBmYW1mcykKCiAgZDc1
+YWUyZWUgIGZ1c2Vfa2VybmVsLmg6IGJyaW5nIHVwIHRvIGJhc2VsaW5lIDYuMTkKICAgICAg
+ICAgICAgICAgIE1lY2hhbmljYWwgc3luYyBvZiBpbmNsdWRlL2Z1c2Vfa2VybmVsLmggd2l0
+aCB0aGUga2VybmVsIHVhcGkKICAgICAgICAgICAgICAgIHVwIHRvIDcuNDUgKGV2ZXJ5dGhp
+bmcgQkVGT1JFIGZhbWZzKS4gTm8gbmV3IGZ1bmN0aW9uYWxpdHk7CiAgICAgICAgICAgICAg
+ICB0aGlzIGlzIHRoZSBiYXNlbGluZSB0aGUgZmFtZnMgY29tbWl0cyBidWlsZCBvbi4KCiAg
+ZTg3YmUzNzYgIGZ1c2Vfa2VybmVsLmg6IGFkZCBmYW1mcyBEQVggZm1hcCBwcm90b2NvbCBk
+ZWZpbml0aW9ucwogICAgICAgICAgICAgICAgQWRkcyBwcm90b2NvbCA3LjQ2OgogICAgICAg
+ICAgICAgICAgICAqIEZVU0VfREFYX0ZNQVAgY2FwYWJpbGl0eSBiaXQKICAgICAgICAgICAg
+ICAgICAgKiBGVVNFX0dFVF9GTUFQIC8gRlVTRV9HRVRfREFYREVWIG9wY29kZXMKICAgICAg
+ICAgICAgICAgICAgKiBzdHJ1Y3QgZnVzZV9mYW1mc19mbWFwX2hlYWRlciAvIHNpbXBsZV9l
+eHQgLyBpZXh0CiAgICAgICAgICAgICAgICAgICogc3RydWN0IGZ1c2VfZ2V0X2RheGRldl9p
+biAvIGZ1c2VfZGF4ZGV2X291dAogICAgICAgICAgICAgICAgICAqIGVudW0gZnVzZV9mYW1m
+c19maWxlX3R5cGUgLyBmYW1mc19leHRfdHlwZQogICAgICAgICAgICAgICAgUHVyZSBoZWFk
+ZXI7IG1pcnJvcnMgaW5jbHVkZS91YXBpL2xpbnV4L2Z1c2UuaCBvbiB0aGUga2VybmVsLgog
+ICAgICAgICAgICAgICAgLT4gU2VjdGlvbiA1LjQgKHdpcmUgZm9ybWF0cykuCgogIDBiMTZj
+N2Q4ICBmdXNlOiBhZGQgZmFtZnMgREFYIGZtYXAgc3VwcG9ydAogICAgICAgICAgICAgICAg
+V2lyZXMgdGhlIHByb3RvY29sIGludG8gdGhlIGxpYmZ1c2UgbG93bGV2ZWwgQVBJOgogICAg
+ICAgICAgICAgICAgICAqIGluY2x1ZGUvZnVzZV9jb21tb24uaDogICBGVVNFX0NBUF9EQVhf
+Rk1BUCAoMVVMIDw8IDMyKQogICAgICAgICAgICAgICAgICAqIGluY2x1ZGUvZnVzZV9sb3ds
+ZXZlbC5oOiBvcC5nZXRfZm1hcCwgb3AuZ2V0X2RheGRldgogICAgICAgICAgICAgICAgICAq
+IGxpYi9mdXNlX2xvd2xldmVsLmM6CiAgICAgICAgICAgICAgICAgICAgICAtIElOSVQ6IGNh
+cGFibGVfZXh0IC8gd2FudF9leHQgPC0+IEZVU0VfREFYX0ZNQVAKICAgICAgICAgICAgICAg
+ICAgICAgIC0gZGlzcGF0Y2ggdGFibGUgZW50cmllcyBmb3IgR0VUX0ZNQVAgLyBHRVRfREFY
+REVWCiAgICAgICAgICAgICAgICAgICAgICAtIGRvX2dldF9mbWFwIC8gZG9fZ2V0X2RheGRl
+diBmb3J3YXJkIHRvIG9wIGNhbGxiYWNrcwogICAgICAgICAgICAgICAgLT4gU2VjdGlvbiA0
+IChjYXBhYmlsaXR5KSwgU2VjdGlvbiA1LjEtNS4zIChsaWJmdXNlIEFQSSksCiAgICAgICAg
+ICAgICAgICAgICBTZWN0aW9uIDUuNSAoc2VydmVyIHJlc3BvbnNpYmlsaXRpZXMpLgoKICBk
+MWU2MTM1YyAgYnVpbGQoZGVwcyk6IGJ1bXAgZ2l0aHViL2NvZGVxbC1hY3Rpb24gLi4uICAg
+ICAoQ0k7IG5vdCByZWxldmFudCkKICBmYTAzMzA3YyAgZG9jOiByZXBsYWNlICJmdXR1ciBp
+cnJlYWxpcyItbGlrZSB0ZW5zZSAuLi4gICAobWFuIHBhZ2VzOyBub3QgcmVsZXZhbnQpCiAg
+OWM2NWQ3ODEgIE1lcmdlIGJyYW5jaCAnbWFzdGVyJyBpbnRvIGZhbWZzLTYuMTkgICAgICAg
+ICAgKG1lcmdlIGNvbW1pdCkKCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CkVuZCBvZiBk
+b2N1bWVudC4KPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0K
 
-Simply moving the docs to the macros in slab.h fixes the association but
-causes loss of types in the generated documentation (rendering as e.g.
-untyped 'kmalloc(size, flags)' macro).
-
-Fix this by:
-
-1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
-   them directly above the user-facing macros.
-
-2. Providing explicit, typed C prototypes for the documented APIs inside
-   '#if 0 /* kernel-doc */' blocks.
-
-3. Converting the variadic macros for the documented APIs to use
-   explicit arguments to match the documentation.
-
-No functional change intended.
-
-Signed-off-by: Marco Elver <elver@google.com>
----
-v4:
-* Provide typed C prototypes in '#if 0' blocks to properly render API.
----
- include/linux/slab.h | 216 +++++++++++++++++++++++++++++++++----------
- mm/slub.c            |  98 --------------------
- 2 files changed, 168 insertions(+), 146 deletions(-)
-
-diff --git a/include/linux/slab.h b/include/linux/slab.h
-index c232f8a10af6..5e1249e36b0d 100644
---- a/include/linux/slab.h
-+++ b/include/linux/slab.h
-@@ -530,7 +530,49 @@ void * __must_check krealloc_node_align_noprof(const void *objp,
- 					       unsigned long align,
- 					       gfp_t flags, int nid) __realloc_size(2);
- #define krealloc_noprof(_o, _s, _f)	krealloc_node_align_noprof(_o, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), 1, _f, NUMA_NO_NODE)
--#define krealloc_node_align(_o, _s, _a, _f, _n)	alloc_hooks(krealloc_node_align_noprof(_o, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _a, _f, _n))
-+#if 0 /* kernel-doc */
-+/**
-+ * krealloc_node_align - reallocate memory. The contents will remain unchanged.
-+ * @p: object to reallocate memory for.
-+ * @new_size: how many bytes of memory are required.
-+ * @align: desired alignment.
-+ * @flags: the type of memory to allocate.
-+ * @nid: NUMA node or NUMA_NO_NODE
-+ *
-+ * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-+ * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-+ *
-+ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-+ * Documentation/core-api/memory-allocation.rst for more details.
-+ *
-+ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-+ * initial memory allocation, every subsequent call to this API for the same
-+ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-+ * __GFP_ZERO is not fully honored by this API.
-+ *
-+ * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
-+ * size of an allocation (but not the exact size it was allocated with) and
-+ * hence implements the following semantics for shrinking and growing buffers
-+ * with __GFP_ZERO::
-+ *
-+ *           new             bucket
-+ *   0       size             size
-+ *   |--------|----------------|
-+ *   |  keep  |      zero      |
-+ *
-+ * Otherwise, the original allocation size 'orig_size' could be used to
-+ * precisely clear the requested size, and the new size will also be stored
-+ * as the new 'orig_size'.
-+ *
-+ * In any case, the contents of the object pointed to are preserved up to the
-+ * lesser of the new and old sizes.
-+ *
-+ * Return: pointer to the allocated memory or %NULL in case of error
-+ */
-+void *krealloc_node_align(const void *p, size_t new_size, unsigned long align, gfp_t flags, int nid);
-+#endif
-+#define krealloc_node_align(p, new_size, align, flags, nid) \
-+	alloc_hooks(krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(new_size, __kmalloc_token(new_size)), align, flags, nid))
- #define krealloc_node(_o, _s, _f, _n)	krealloc_node_align(_o, _s, 1, _f, _n)
- #define krealloc(...)			krealloc_node(__VA_ARGS__, NUMA_NO_NODE)
- 
-@@ -913,6 +955,23 @@ void *__kmalloc_large_noprof(size_t size, gfp_t flags)
- void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
- 				__assume_page_alignment __alloc_size(1);
- 
-+static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
-+{
-+	if (__builtin_constant_p(size) && size) {
-+		unsigned int index;
-+
-+		if (size > KMALLOC_MAX_CACHE_SIZE)
-+			return __kmalloc_large_noprof(size, flags);
-+
-+		index = kmalloc_index(size);
-+		return __kmalloc_cache_noprof(
-+				kmalloc_caches[kmalloc_type(flags, token)][index],
-+				flags, size);
-+	}
-+	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
-+}
-+#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
-+#if 0 /* kernel-doc */
- /**
-  * kmalloc - allocate kernel memory
-  * @size: how many bytes of memory are required.
-@@ -968,27 +1027,27 @@ void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
-  *	Try really hard to succeed the allocation but fail
-  *	eventually.
-  */
--static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
--{
--	if (__builtin_constant_p(size) && size) {
--		unsigned int index;
--
--		if (size > KMALLOC_MAX_CACHE_SIZE)
--			return __kmalloc_large_noprof(size, flags);
--
--		index = kmalloc_index(size);
--		return __kmalloc_cache_noprof(
--				kmalloc_caches[kmalloc_type(flags, token)][index],
--				flags, size);
--	}
--	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
--}
--#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define kmalloc(...)				alloc_hooks(kmalloc_noprof(__VA_ARGS__))
-+void *kmalloc(size_t size, gfp_t flags);
-+#endif
-+#define kmalloc(size, flags)			alloc_hooks(kmalloc_noprof(size, flags))
- 
- void *_kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_flags, int node);
- #define kmalloc_nolock_noprof(_s, _f, _n)	_kmalloc_nolock_noprof(PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _f, _n)
--#define kmalloc_nolock(...)			alloc_hooks(kmalloc_nolock_noprof(__VA_ARGS__))
-+#if 0 /* kernel-doc */
-+/**
-+ * kmalloc_nolock - Allocate an object of given size from any context.
-+ * @size: size to allocate
-+ * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, __GFP_ZERO, __GFP_NO_OBJ_EXT
-+ * allowed.
-+ * @node: node number of the target node.
-+ *
-+ * Return: pointer to the new object or NULL in case of error.
-+ * NULL does not mean EBUSY or EAGAIN. It means ENOMEM.
-+ * There is no reason to call it again and expect !NULL.
-+ */
-+void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
-+#endif
-+#define kmalloc_nolock(size, gfp_flags, node)	alloc_hooks(kmalloc_nolock_noprof(size, gfp_flags, node))
- 
- /**
-  * __alloc_objs - Allocate objects of a given type using
-@@ -1115,23 +1174,40 @@ static __always_inline __alloc_size(1) void *_kmalloc_node_noprof(size_t size, g
- #define kmalloc_node_noprof(...)		_kmalloc_node_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
- #define kmalloc_node(...)			alloc_hooks(kmalloc_node_noprof(__VA_ARGS__))
- 
-+static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
-+{
-+	size_t bytes;
-+
-+	if (unlikely(check_mul_overflow(n, size, &bytes)))
-+		return NULL;
-+	return _kmalloc_noprof(bytes, flags, token);
-+}
-+#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
-+#if 0 /* kernel-doc */
- /**
-  * kmalloc_array - allocate memory for an array.
-  * @n: number of elements.
-  * @size: element size.
-  * @flags: the type of memory to allocate (see kmalloc).
-  */
--static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
-+void *kmalloc_array(size_t n, size_t size, gfp_t flags);
-+#endif
-+#define kmalloc_array(n, size, flags)		alloc_hooks(kmalloc_array_noprof(n, size, flags))
-+
-+static inline __realloc_size(2, 3) void * __must_check _krealloc_array_noprof(void *p,
-+								       size_t new_n,
-+								       size_t new_size,
-+								       gfp_t flags, kmalloc_token_t token)
- {
- 	size_t bytes;
- 
--	if (unlikely(check_mul_overflow(n, size, &bytes)))
-+	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
- 		return NULL;
--	return _kmalloc_noprof(bytes, flags, token);
--}
--#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define kmalloc_array(...)			alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
- 
-+	return krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(bytes, token), 1, flags, NUMA_NO_NODE);
-+}
-+#define krealloc_array_noprof(...)		_krealloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
-+#if 0 /* kernel-doc */
- /**
-  * krealloc_array - reallocate memory for an array.
-  * @p: pointer to the memory chunk to reallocate
-@@ -1149,20 +1225,9 @@ static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t si
-  * In any case, the contents of the object pointed to are preserved up to the
-  * lesser of the new and old sizes.
-  */
--static inline __realloc_size(2, 3) void * __must_check _krealloc_array_noprof(void *p,
--								       size_t new_n,
--								       size_t new_size,
--								       gfp_t flags, kmalloc_token_t token)
--{
--	size_t bytes;
--
--	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
--		return NULL;
--
--	return krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(bytes, token), 1, flags, NUMA_NO_NODE);
--}
--#define krealloc_array_noprof(...)		_krealloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define krealloc_array(...)			alloc_hooks(krealloc_array_noprof(__VA_ARGS__))
-+void *krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags);
-+#endif
-+#define krealloc_array(p, new_n, new_size, flags) alloc_hooks(krealloc_array_noprof(p, new_n, new_size, flags))
- 
- /**
-  * kcalloc - allocate memory for an array. The memory is set to zero.
-@@ -1214,17 +1279,20 @@ static inline __alloc_size(1, 2) void *_kmalloc_array_node_noprof(size_t n, size
-  */
- #define kmem_cache_zalloc(_k, _flags)		kmem_cache_alloc(_k, (_flags)|__GFP_ZERO)
- 
--/**
-- * kzalloc - allocate memory. The memory is set to zero.
-- * @size: how many bytes of memory are required.
-- * @flags: the type of memory to allocate (see kmalloc).
-- */
- static inline __alloc_size(1) void *_kzalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
- {
- 	return _kmalloc_noprof(size, flags | __GFP_ZERO, token);
- }
- #define kzalloc_noprof(...)			_kzalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
--#define kzalloc(...)				alloc_hooks(kzalloc_noprof(__VA_ARGS__))
-+#if 0 /* kernel-doc */
-+/**
-+ * kzalloc - allocate memory. The memory is set to zero.
-+ * @size: how many bytes of memory are required.
-+ * @flags: the type of memory to allocate (see kmalloc).
-+ */
-+void *kzalloc(size_t size, gfp_t flags);
-+#endif
-+#define kzalloc(size, flags)			alloc_hooks(kzalloc_noprof(size, flags))
- #define kzalloc_node(_size, _flags, _node)	kmalloc_node(_size, (_flags)|__GFP_ZERO, _node)
- 
- void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
-@@ -1233,7 +1301,29 @@ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long
- 	__kvmalloc_node_noprof(PASS_KMALLOC_PARAMS(_size, NULL, __kmalloc_token(_size)), _align, _flags, _node)
- #define kvmalloc_node_align(...)		\
- 	alloc_hooks(kvmalloc_node_align_noprof(__VA_ARGS__))
--#define kvmalloc_node(_s, _f, _n)		kvmalloc_node_align(_s, 1, _f, _n)
-+#if 0 /* kernel-doc */
-+/**
-+ * kvmalloc_node - attempt to allocate physically contiguous memory, but upon
-+ * failure, fall back to non-contiguous (vmalloc) allocation.
-+ * @size: size of the request.
-+ * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
-+ * @node: numa node to allocate from
-+ *
-+ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-+ * Documentation/core-api/memory-allocation.rst for more details.
-+ *
-+ * Uses kmalloc to get the memory but if the allocation fails then falls back
-+ * to the vmalloc allocator. Use kvfree for freeing the memory.
-+ *
-+ * GFP_NOWAIT and GFP_ATOMIC are supported, the __GFP_NORETRY modifier is not.
-+ * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
-+ * preferable to the vmalloc fallback, due to visible performance drawbacks.
-+ *
-+ * Return: pointer to the allocated memory of %NULL in case of failure
-+ */
-+void *kvmalloc_node(size_t size, gfp_t flags, int node);
-+#endif
-+#define kvmalloc_node(size, flags, node)	kvmalloc_node_align(size, 1, flags, node)
- #define kvmalloc_node_noprof(size, flags, node)	\
- 	kvmalloc_node_align_noprof(size, 1, flags, node)
- #define kvmalloc(...)				kvmalloc_node(__VA_ARGS__, NUMA_NO_NODE)
-@@ -1266,8 +1356,38 @@ _kvmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags, int node, kmallo
- 
- void *kvrealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(size, token), unsigned long align,
- 				  gfp_t flags, int nid) __realloc_size(2);
--#define kvrealloc_node_align(_p, _s, _a, _f, _n)	\
--	alloc_hooks(kvrealloc_node_align_noprof(_p, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _a, _f, _n))
-+#if 0 /* kernel-doc */
-+/**
-+ * kvrealloc_node_align - reallocate memory; contents remain unchanged
-+ * @p: object to reallocate memory for
-+ * @size: the size to reallocate
-+ * @align: desired alignment
-+ * @flags: the flags for the page level allocator
-+ * @nid: NUMA node id
-+ *
-+ * If @p is %NULL, kvrealloc() behaves exactly like kvmalloc(). If @size is 0
-+ * and @p is not a %NULL pointer, the object pointed to is freed.
-+ *
-+ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-+ * Documentation/core-api/memory-allocation.rst for more details.
-+ *
-+ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-+ * initial memory allocation, every subsequent call to this API for the same
-+ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-+ * __GFP_ZERO is not fully honored by this API.
-+ *
-+ * In any case, the contents of the object pointed to are preserved up to the
-+ * lesser of the new and old sizes.
-+ *
-+ * This function must not be called concurrently with itself or kvfree() for the
-+ * same memory allocation.
-+ *
-+ * Return: pointer to the allocated memory or %NULL in case of error
-+ */
-+void *kvrealloc_node_align(const void *p, size_t size, unsigned long align, gfp_t flags, int nid);
-+#endif
-+#define kvrealloc_node_align(p, size, align, flags, nid)	\
-+	alloc_hooks(kvrealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(size, __kmalloc_token(size)), align, flags, nid))
- #define kvrealloc_node(_p, _s, _f, _n)		kvrealloc_node_align(_p, _s, 1, _f, _n)
- #define kvrealloc(...)				kvrealloc_node(__VA_ARGS__, NUMA_NO_NODE)
- 
-diff --git a/mm/slub.c b/mm/slub.c
-index ccb208cfbecd..dbc3c947e5be 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -5310,17 +5310,6 @@ void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
- }
- EXPORT_SYMBOL(__kmalloc_noprof);
- 
--/**
-- * kmalloc_nolock - Allocate an object of given size from any context.
-- * @size: size to allocate
-- * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, __GFP_ZERO, __GFP_NO_OBJ_EXT
-- * allowed.
-- * @node: node number of the target node.
-- *
-- * Return: pointer to the new object or NULL in case of error.
-- * NULL does not mean EBUSY or EAGAIN. It means ENOMEM.
-- * There is no reason to call it again and expect !NULL.
-- */
- void *_kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_flags, int node)
- {
- 	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
-@@ -6717,44 +6706,6 @@ __do_krealloc(const void *p, size_t new_size, unsigned long align, gfp_t flags,
- 	return ret;
- }
- 
--/**
-- * krealloc_node_align - reallocate memory. The contents will remain unchanged.
-- * @p: object to reallocate memory for.
-- * @new_size: how many bytes of memory are required.
-- * @align: desired alignment.
-- * @flags: the type of memory to allocate.
-- * @nid: NUMA node or NUMA_NO_NODE
-- *
-- * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
-- * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
-- *
-- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-- * Documentation/core-api/memory-allocation.rst for more details.
-- *
-- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-- * initial memory allocation, every subsequent call to this API for the same
-- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-- * __GFP_ZERO is not fully honored by this API.
-- *
-- * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
-- * size of an allocation (but not the exact size it was allocated with) and
-- * hence implements the following semantics for shrinking and growing buffers
-- * with __GFP_ZERO::
-- *
-- *           new             bucket
-- *   0       size             size
-- *   |--------|----------------|
-- *   |  keep  |      zero      |
-- *
-- * Otherwise, the original allocation size 'orig_size' could be used to
-- * precisely clear the requested size, and the new size will also be stored
-- * as the new 'orig_size'.
-- *
-- * In any case, the contents of the object pointed to are preserved up to the
-- * lesser of the new and old sizes.
-- *
-- * Return: pointer to the allocated memory or %NULL in case of error
-- */
- void *krealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(new_size, token), unsigned long align,
- 				 gfp_t flags, int nid)
- {
-@@ -6797,28 +6748,6 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
- 	return flags;
- }
- 
--/**
-- * __kvmalloc_node - attempt to allocate physically contiguous memory, but upon
-- * failure, fall back to non-contiguous (vmalloc) allocation.
-- * @size: size of the request.
-- * @b: which set of kmalloc buckets to allocate from.
-- * @token: allocation token.
-- * @align: desired alignment.
-- * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
-- * @node: numa node to allocate from
-- *
-- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-- * Documentation/core-api/memory-allocation.rst for more details.
-- *
-- * Uses kmalloc to get the memory but if the allocation fails then falls back
-- * to the vmalloc allocator. Use kvfree for freeing the memory.
-- *
-- * GFP_NOWAIT and GFP_ATOMIC are supported, the __GFP_NORETRY modifier is not.
-- * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
-- * preferable to the vmalloc fallback, due to visible performance drawbacks.
-- *
-- * Return: pointer to the allocated memory of %NULL in case of failure
-- */
- void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
- 			     gfp_t flags, int node)
- {
-@@ -6900,33 +6829,6 @@ void kvfree_sensitive(const void *addr, size_t len)
- }
- EXPORT_SYMBOL(kvfree_sensitive);
- 
--/**
-- * kvrealloc_node_align - reallocate memory; contents remain unchanged
-- * @p: object to reallocate memory for
-- * @size: the size to reallocate
-- * @align: desired alignment
-- * @flags: the flags for the page level allocator
-- * @nid: NUMA node id
-- *
-- * If @p is %NULL, kvrealloc() behaves exactly like kvmalloc(). If @size is 0
-- * and @p is not a %NULL pointer, the object pointed to is freed.
-- *
-- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
-- * Documentation/core-api/memory-allocation.rst for more details.
-- *
-- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
-- * initial memory allocation, every subsequent call to this API for the same
-- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
-- * __GFP_ZERO is not fully honored by this API.
-- *
-- * In any case, the contents of the object pointed to are preserved up to the
-- * lesser of the new and old sizes.
-- *
-- * This function must not be called concurrently with itself or kvfree() for the
-- * same memory allocation.
-- *
-- * Return: pointer to the allocated memory or %NULL in case of error
-- */
- void *kvrealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(size, token), unsigned long align,
- 				  gfp_t flags, int nid)
- {
--- 
-2.54.0.545.g6539524ca2-goog
-
+--------------luT9rWbTJ4wpROW5CpWkbx1H--
