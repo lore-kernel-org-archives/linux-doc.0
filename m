@@ -1,104 +1,159 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7170B37D114
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 09:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6FF30C601;
+	Mon,  4 May 2026 10:04:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887398; cv=none; b=Q/x+HWLV1jec/LYVp9BCgEWLp0vur1BncgIL4yzBhUAKXzrNRURA+wEqD4ylMAdet1ytQPOflr5e/VLtUj5W+Y+VZMwtI615Mso7rgoE160aF7iu73T+eMl8cbwl/FsTUfShb4v87Eq3ok14JtoLap3096vmqCnl+yjdJhWj39w=
+	t=1777889042; cv=none; b=bdJj0NdbDgHzoIle6Ia78yiuwRxX/5mXyp98Y2EGuYSgruhrIETPV515Ae7iYZeXXdKzrKcAyPkNW9kZU6v8Ih8IrbJD/HPlIhtHEnZnj4v3TIeaIL976aBzkHAFFHph0hMFvtR7ljObobakghzrnoO95KFzwie/fpIgfSgvIrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887398; c=relaxed/simple;
-	bh=TaiE6VPRhMdw40zBsC2LL5E3LA6Izko2YcBBVpykQjs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V1aUcIPgp8BnGz7dEmOO072RprqKb09F2jFqaFGmZvxHQegzsTZCgjCjTHgkDDNd3TrPWGlkMkUxIA47dKI/hVA7gdYZOikGgXWBDLJXOCoAu9Vwz1vv4jgnUIQ5Tm2vErLPxzTNLFAf31nuyhlIjVY0G8RfFEE+ABIO6C7MenY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eSuUtn2a; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777889042; c=relaxed/simple;
+	bh=nuDbG8GlnJh+Hy802qd/7OVIem8MvSn13WgorSUCV9A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ta+rEwCxtzMp+ZkgiDoHv53SdQjPBV98YniVi+0ejUYTE/pEZMy+2Ql7i1zZ85bJKg2bGjV8mi26AkhwMcfYcAltQw9sTARqmYYQNeC7ImnCRS8DryS6lP+3jP3+QhCu8BaMXEkwuy3VHXuOvexjqsRku/x0A2u23jOWBx2Uq4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/Xx9CbG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eSuUtn2a"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777887396;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=nAq+++R2tX36PC5zxXCYWGZvvyeat8gPL+5FluYskoY=;
-	b=eSuUtn2ad41pipkMUGKjszmwHCrUfaPsZuaBFtcjFmse0azFfG9nM7DPk3m1k7P4JysZZs
-	v7hg5/P/KbZtccct22KCOnBGm2amY2ocuLfN5I9OSSNSVlcX88nOvCmlcntCTE0BP32Pd4
-	5srOC60+Cn4FgzXlNuhkOYj+ousFaic=
-Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-272-XpdB2FISPMCx6GsI_yi-_w-1; Mon,
- 04 May 2026 05:36:31 -0400
-X-MC-Unique: XpdB2FISPMCx6GsI_yi-_w-1
-X-Mimecast-MFC-AGG-ID: XpdB2FISPMCx6GsI_yi-_w_1777887388
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEEF0195609E;
-	Mon,  4 May 2026 09:36:27 +0000 (UTC)
-Received: from [10.44.48.185] (unknown [10.44.48.185])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1FDE51800357;
-	Mon,  4 May 2026 09:36:20 +0000 (UTC)
-Message-ID: <290673a1-fb5b-4586-b44a-e109cc1a4629@redhat.com>
-Date: Mon, 4 May 2026 11:36:19 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/Xx9CbG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6D73C2BCB8;
+	Mon,  4 May 2026 10:04:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777889042;
+	bh=nuDbG8GlnJh+Hy802qd/7OVIem8MvSn13WgorSUCV9A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=J/Xx9CbG8R1a+pO1Uv1sGTs/BBrGbjew/2kuzfuHpGp61YQkRXzbFAN8/gl7CvZxB
+	 P2lIWZezpUbdr7VzrImntVmUH0Zm5kYQL1xg6r087F4fNluReD8dAFASnJ3dwJOEE/
+	 GeRUx6G/V53QZzavGAhqziL7v2XdZB5buP3T5g/+qrIjhYGdAc+FtIvrb8VbFlgMXW
+	 O0shTol9EYATc2GIV3ebKl6GHNfbGr8M2B3s6LK5QCvBc+a8ckQRoNaDjWwZWqahOb
+	 eAsZ6lZoZnfDe67CEtkK/gnN+knScpaxl8Q+1tVFCtQq6WA6wT0tbU95YVPCn+dj+V
+	 N/JdLBwBrNyNA==
+Date: Mon, 4 May 2026 12:03:59 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Albert Esteve <aesteve@redhat.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, 
+	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
+	workflows@vger.kernel.org, linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+	peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>, 
+	Linux Kernel Functional Testing <lkft@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Alessandro Carminati <acarmina@redhat.com>, 
+	Simona Vetter <simona.vetter@ffwll.ch>
+Subject: Re: [PATCH v8 3/4] drm: Suppress intentional warning backtraces in
+ scaling unit tests
+Message-ID: <20260504-tentacled-free-lobster-38d8d9@houat>
+References: <20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com>
+ <20260504-kunit_add_support-v8-3-3e5957cdd235@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 1/2] dpll: move
- fractional-frequency-offset-ppt under pin-parent-device
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- "David S. Miller" <davem@davemloft.net>,
- Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
- Michal Schmidt <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
- Pasi Vaananen <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
-References: <20260430173611.3312596-1-ivecera@redhat.com>
- <20260430173611.3312596-2-ivecera@redhat.com> <afhdCnT0ns-PgZD8@FV6GYCPJ69>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <afhdCnT0ns-PgZD8@FV6GYCPJ69>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="l72gnrb7cm3zxy4o"
+Content-Disposition: inline
+In-Reply-To: <20260504-kunit_add_support-v8-3-3e5957cdd235@redhat.com>
 
-Hi Jiri,
 
-On 5/4/26 10:48 AM, Jiri Pirko wrote:
-> Thu, Apr 30, 2026 at 07:36:10PM +0200, ivecera@redhat.com wrote:
->> Move the fractional-frequency-offset-ppt attribute from the top-level
->> pin attributes into the pin-parent-device nested attribute set. This
->> makes it consistent with phase-offset which is already per-parent and
->> clarifies that FFO PPT represents the frequency difference between
->> a pin and its parent DPLL device.
->>
->> The top-level fractional-frequency-offset attribute (in PPM) remains
->> unchanged for backward compatibility.
-> 
-> That is odd. The ppt one was added just for higher precision but was
-> semantically the same. Now you change it. Could you still treat both the
-> same?
-> 
-WDYM?
+--l72gnrb7cm3zxy4o
+Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v8 3/4] drm: Suppress intentional warning backtraces in
+ scaling unit tests
+MIME-Version: 1.0
 
-Keep fractional-frequency-offset-ppt at the top-level and add both
-fractional-frequency-offset and fractional-frequency-offset-ppt into
-pin-parent-device nested attribute set?
+Hi,
 
-Thanks,
-Ivan
+On Mon, May 04, 2026 at 09:41:27AM +0200, Albert Esteve wrote:
+> From: Guenter Roeck <linux@roeck-us.net>
+>=20
+> The drm_test_rect_calc_hscale and drm_test_rect_calc_vscale unit tests
+> intentionally trigger warning backtraces by providing bad parameters to
+> the tested functions. What is tested is the return value, not the existen=
+ce
+> of a warning backtrace. Suppress the backtraces to avoid clogging the
+> kernel log and distraction from real problems.
+>=20
+> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
+> Acked-by: Ma=EDra Canal <mcanal@igalia.com>
+> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> Cc: David Airlie <airlied@gmail.com>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
+> Acked-by: David Gow <david@davidgow.net>
+> Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> ---
+>  drivers/gpu/drm/tests/drm_rect_test.c | 23 +++++++++++++++++++----
+>  1 file changed, 19 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/test=
+s/drm_rect_test.c
+> index 17e1f34b76101..818e16e80c8f9 100644
+> --- a/drivers/gpu/drm/tests/drm_rect_test.c
+> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
+> @@ -409,8 +409,16 @@ static void drm_test_rect_calc_hscale(struct kunit *=
+test)
+>  	const struct drm_rect_scale_case *params =3D test->param_value;
+>  	int scaling_factor;
+> =20
+> -	scaling_factor =3D drm_rect_calc_hscale(&params->src, &params->dst,
+> -					      params->min_range, params->max_range);
+> +	/*
+> +	 * drm_rect_calc_hscale() generates a warning backtrace whenever bad
+> +	 * parameters are passed to it. This affects all unit tests with an
+> +	 * error code in expected_scaling_factor.
+> +	 */
+> +	kunit_warning_suppress(test) {
+> +		scaling_factor =3D drm_rect_calc_hscale(&params->src, &params->dst,
+> +						      params->min_range,
+> +						      params->max_range);
+> +	}
+> =20
+>  	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
+>  }
+> @@ -420,8 +428,15 @@ static void drm_test_rect_calc_vscale(struct kunit *=
+test)
+>  	const struct drm_rect_scale_case *params =3D test->param_value;
+>  	int scaling_factor;
+> =20
+> -	scaling_factor =3D drm_rect_calc_vscale(&params->src, &params->dst,
+> -					      params->min_range, params->max_range);
+> +	/*
+> +	 * drm_rect_calc_vscale() generates a warning backtrace whenever bad
+> +	 * parameters are passed to it. This affects all unit tests with an
+> +	 * error code in expected_scaling_factor.
+> +	 */
+> +	kunit_warning_suppress(test) {
+> +		scaling_factor =3D drm_rect_calc_vscale(&params->src, &params->dst,
+> +						      params->min_range, params->max_range);
+> +	}
+> =20
+>  	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
+>  }
 
+For both I think we should add KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT calls,=
+ no?
+
+Maxime
+
+--l72gnrb7cm3zxy4o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCafhvCgAKCRAnX84Zoj2+
+dntHAYDS1y58bfYV6HBC/xGmy3ScNb3JXQaPk5lj+sGTSfkg+TOU32fyuZTWHM4Q
+EHySwfABfjO0e9VfrYX1GC6pOKjJuf+UHNoIMlbjFKSia25t5hZS0ZmG+kAkG3OI
+3vkSD8iAXA==
+=kzTF
+-----END PGP SIGNATURE-----
+
+--l72gnrb7cm3zxy4o--
