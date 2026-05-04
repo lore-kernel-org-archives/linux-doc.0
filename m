@@ -1,227 +1,631 @@
-Received: from mx0a-002c1b01.pphosted.com (mx0a-002c1b01.pphosted.com [148.163.151.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8033DFC75;
-	Mon,  4 May 2026 14:56:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.151.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906574; cv=fail; b=IM9/Nhm3jjsE98pZBX+HsZ+5EYiSy6HRz6dWjPhveObfBtHCK5RMK18XjUCb+QwDvT863jJxfCWS56UmK7iL1I7kPkTOJCJc3ydrgPPr63hfITKDvEShJf7rQhy+fZ2dl5OPhBkw9PTQb750GR/AgMaN5YQftfzKQ78dY4C5MIc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906574; c=relaxed/simple;
-	bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmIvA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=B0sT1a6isQqZwCLfP59D8IsyTnawc8sxQaOnqS9d1DNaxhtkXk5b5aBF4mnQYm0zoQWouVSEIah8rDqvDnTpd4BsZjjX6W4NAByYKm+WXwkrR0GTOfzQEC9+APTwioKIrzbuZGwXT1rqgAjD3VJJFbbj1nAYRFdQUn0eszP/964=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nutanix.com; spf=pass smtp.mailfrom=nutanix.com; dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b=hBRMN5ZI; dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b=epSxO23Y; arc=fail smtp.client-ip=148.163.151.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nutanix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nutanix.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC7593DF004
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 15:00:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777906860; cv=none; b=FvanSJRgam2U1MJgwQFKhyhxjAN9pRM2oJWRzksU9lqXjKyShiUGR0CqjcYLhoUptK1pW/xZhqVa9QaXgaVsU9TZelp5QeCse0EpIU71bcoAhMCfd+HPrLBsFVVE42uJVJChaZg2oo/oISkDA0O1PTOfT1D8Nd085eQahXtwe54=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777906860; c=relaxed/simple;
+	bh=L21YpP6bz13lgE+YYR4NaDUk+1y+U1PIYuL7V14KBa8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=tnZv0i94x/pktv2pCoXgzuH6Ib6dNPt5QO3O4ZziuALV231bxtkLvBFyEU+nDTBCL+KGyeqNI//WvPkq65n2nkwqzSiJe7VCAYzYpCHxqD7e2SzDB5/thRkhosyUDJ8c32rRHDS6rbe5O2InULer42NaPcotFsikC53bz7UuuCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=bGIU6qDv; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b="hBRMN5ZI";
-	dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b="epSxO23Y"
-Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
-	by mx0a-002c1b01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 644AW9MW4122814;
-	Mon, 4 May 2026 07:39:16 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=
-	cc:content-id:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	proofpoint20171006; bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmI
-	vA=; b=hBRMN5ZItGWQUOwqVb/GKgB1H38gaiqYvVmag/QR6s/cVSQHEKVOm4pW2
-	FygkEtPm3t+3497u1W+9v7QqCkCAM3bpbEXLfT+/mLtwPBf+cvXj2CIvmnp1sjbO
-	tOYntYWVtqMn4VYFiK8MZpI78JnCnFF0GWtLuGlHukoN9hR8qGe6+awPwJ0dnobZ
-	tuRrWPPLQiU7EWCp7kTGbL9LpwKExmAyizuwgS4wqD4ZwI0BpElX/aZ3pQAXEoNb
-	rwgaK135ocz0Ku7UxU7gMlnWoNROGKv9TmkM/Oqfkzl2Q29/pSS1+dANHC3k+d5F
-	7TMnjKz1QoGXCgEwEjs/1Y8NRTVsQ==
-Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021120.outbound.protection.outlook.com [52.101.52.120])
-	by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 4dwgtukee7-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Mon, 04 May 2026 07:39:16 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tumx/4II7x/CaBAWEfLgTrwm/ZDHU9LbOCPrVedJN0H/X++nS2EJElyb/zlol3cY0BvK+1uUWxSfFLj4ES9heV9oYCmEyr+08M61kEAIwKihF2Weha5FDHjI/GLH9ng6Zhi9RrnccnyxGs2qoLDvt7s1JH/QQmvqc4TmBuEnaCrrFDhtcLCbG7m4PaaduDf+aXfks9mFHbAENjBSXEZFe6cmVEXT4CgSXd6pi61FvYJz6Fw9H4RGpkxPcg9IGEDHJZnw9txyOTAKw9MLZHKKYNQnEeF9FX8eIxGBptK5JD/egBXIYYL/FwA58C7EQHaBjVtHQ93oNZygEFfD1c5bhw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmIvA=;
- b=C4URUP41YPE+SJOf0Zl+60Z7kwLMgTHSi37ZZAsfMCwLe8HrqozfSxVatSTEQ+eNfUCrDsxFOPwOXE+9fSJWXgjLMcbTSWA/h2wxyhrw8CFheYge+ACMGdkwiurrvnKh+ak+UtGpI4hlnrrToE16nsN4uJm8zRCpFhkfQ71+P0NeeiN2TnuJ9k6FbWCoc8VN8aSVoEOKg6yqQPwNtawet9N2qtR+1+1SccetZjiw8Ow9haiILIEAI++pa8J8OzTxFw/tCtB0jRI5vyHU+i/UCwiFTXebscJEX82f70Eqg+b8KxDeYaysZUY1054jkgo84Qh+c9/BC3octix8fTRbpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmIvA=;
- b=epSxO23YSIdiCQYvcvHuXWUpxIzHCaxPadqWfWX5FP2Zhg7Fc5x4iFMTmhAAMbcDHPXES7gQgk+bf4f2uLJ0sQS2+/ax+1A7fpILUfsKZvT+ncQefMNg47Zn0tAxV8Mk95Jj27B3kqdehjYXkOswWWn+UNiwotJqy2RReV4kN/whFD48NhNOwTGG7ohg5BGIIgHjyqCj0L4Pp8F8ubgWr+KsUoBAeQnxI4HXgYRXk/AcSGAxekVlES5Q6QZBXqNlfnVo2cX+50XDdEF3JPgzI2QEu5a7uBj+6jH0piM/YL8dJYLpusIBuHcEE+4iIU83/oduSLLe29OywmJ4WFbLKA==
-Received: from LV0PR02MB11133.namprd02.prod.outlook.com
- (2603:10b6:408:333::18) by SA1PR02MB8672.namprd02.prod.outlook.com
- (2603:10b6:806:1ff::24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
- 2026 14:39:12 +0000
-Received: from LV0PR02MB11133.namprd02.prod.outlook.com
- ([fe80::10e5:8031:1b1b:b2dc]) by LV0PR02MB11133.namprd02.prod.outlook.com
- ([fe80::10e5:8031:1b1b:b2dc%3]) with mapi id 15.20.9870.023; Mon, 4 May 2026
- 14:39:12 +0000
-From: Jon Kohler <jon@nutanix.com>
-To: Eric Biggers <ebiggers@kernel.org>
-CC: "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
-        Herbert Xu
-	<herbert@gondor.apana.org.au>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        "linux-api@vger.kernel.org"
-	<linux-api@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-Thread-Topic: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-Thread-Index: AQHc29PGEbbnBkALYk6dcQ18VVjQcQ==
-Date: Mon, 4 May 2026 14:39:12 +0000
-Message-ID: <4D424F50-7E9F-4B1F-AE9C-86D8526284E6@nutanix.com>
-References: <20260430011544.31823-1-ebiggers@kernel.org>
-In-Reply-To: <20260430011544.31823-1-ebiggers@kernel.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-mailer: Apple Mail (2.3864.500.181)
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: LV0PR02MB11133:EE_|SA1PR02MB8672:EE_
-x-ms-office365-filtering-correlation-id: 50d03dce-30fa-4667-70fd-08dea9eae8db
-x-proofpoint-crosstenant: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|366016|376014|10070799003|18002099003|22082099003|56012099003|38070700021;
-x-microsoft-antispam-message-info:
- Fsh7SGNeJA+Nia0qS59DrRGVypdWpgCIlctOZN2CXcyV/qbUILEk9gTMacJbaZAwDMGe4DNCsJRvt/9+CoYssoktxoppW7NlkhudCqRJI8UtUKPZEr6nczcy9l8GmmSjsa1iUKDGMIdfajw1X0rdG+BCxw4k4kvGbZmsfvdcRNIMNtF83mATnKxgzf0dKlrSsPE5QmtQXfHnauELcyFLa6sZ/krCCXMl3a0T9E2J7gI5Ejt2Tstzeqqo0/0xmbwhJmUcsnNCM2U93a0eL5xBGMmWyS0Q+n5+e4KytfuHz2C3evlMyUnXKNvU2NXJsGIEs1brTAzbmJhM2BMxUVAvAWNjlV6k/JYqf5ue8feP501+nVAR5ab8VxG90v1XZqg36m/H0gQrhwLJ8ECF8nuVUN7t1Svj7YoDENo7GB/FPXCzOWjMRCiK6uzThJBg2lJ+YT5Tt1dpXQzzqYdcySZIM9ivjPKfj3XLEGA9EokbVNzD8H/1FyiPyJcMC19PnjTLIKuz+fmbJelH5D8qwySQmGXB+lj2W54eDLdEoRooJpe9SnCtll7Os8oOLSqoTe/S+HW5o++3mW3QgL9+Cdk+kAJ432UjVmsvRqBJNSoDfJoQOSG8JH3Nl+TGG8F/3q4v9ZW/RGZ67mxIqZHgihiKTe9fmTvV+LtFX7/Kq/RElUZnc4VITyBbmjdgHXXHW+Yf
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV0PR02MB11133.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(10070799003)(18002099003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 2
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?NnkwenNhUlViZ2tIenoycFRrME5qMUgvRExpcXBzK0U4cjhRR1k4M2VxZmhD?=
- =?utf-8?B?ZUx3QXEwMGhGRmRjQWcvNVhXcmZkcmtiankzM2RXZk9BcHZuaUZRYnlBdGln?=
- =?utf-8?B?Nk1aYzE5b0h1b1M4UnB1M20wN2V3eFkxaS9KU0RabDlENEtrSDl5WEZRMHMw?=
- =?utf-8?B?UGFWbFhuS1E2bmhuckdzT0t2enpNaGp3UG9JdUZ1RTlwUE5yOElZSkRjeldL?=
- =?utf-8?B?RFUweGlHWnVuK3E4ajFQWGExalRScnVveER5bVl4TE8vaDRtUVk4TGliMWdR?=
- =?utf-8?B?VEJGa3c0UU5aNUVmV2JaZVJoQ1RYbkUydGJRMzZoYVF6NnkzMG00ZHprbUIx?=
- =?utf-8?B?MngzVGl3UXhhY0JuM3NUUzlxL0RzL0ZITFE0Q1FRR3BYZnduTDZYZ3luM0ls?=
- =?utf-8?B?RjFuak9yWmJoRXQ0Wnltak12ZHVrbUprc1RVVmpqL3E0dFdheWxrT05WZFFn?=
- =?utf-8?B?VFZmL2d0S0QxZzFOcmFjdkRHYTlzNVI1amlQbVFZc2ZNRkVTU21aQklWeGhS?=
- =?utf-8?B?SDdjc2t6a0J4dVZYNERHY29XdHRhTHVaL3NBcS9LV0liMy80NGFsQ2hEZlVj?=
- =?utf-8?B?am1LdmFiYWEwQ3Vaa083clljNWNENTVKY200SjJXc29GSWRBTWpIdWhsVXJt?=
- =?utf-8?B?dzQzWTBwN1NybXNYb25sOExWTnNtZ2VjckpCRjFnL1NKdjU5eXVYdm9lUTNh?=
- =?utf-8?B?RjdqcDlnT3Y5TVpwUUI4R1dWRXN3T3ZrMm5NQW9xa2liTStEdWg4UXpBTURN?=
- =?utf-8?B?RWdldUdobERITHF6UEhIOHVJZnoxeXpBRzB4N1d5WUNreldXVGJlNEJ2TUs0?=
- =?utf-8?B?VGFCa1Jqby90NEJKVzBrcnVGSzJMRU5GbVYxZVV3RmxGZUd5d3BaZW5IeDJ4?=
- =?utf-8?B?anF0V1V3QmhMSzFzR2MxWVVnaXpFV2w4V2FGMSt6c3krcW9ZWmhMcDNoRUVK?=
- =?utf-8?B?aEh6TzYzUFdkV0FHVmNvdzBwdVhUbTIweG13OEo1K3labDc5TklIeUt6Yng4?=
- =?utf-8?B?eTRUTkNkdzVTZzJIa01qUmJiVXE3dDlhTzNDR0ZaaloxSFZpeHlwS1JPUTZu?=
- =?utf-8?B?T0xuc1JqbWVJeE9jRDRObkNBNGYyclJKN2hQV1Nwb21oelp4cWdhUHRCMTls?=
- =?utf-8?B?SlhGSC9EVWpwaGovVVlEU2tJMHhrS0o1Y2tldSt3djVtbzFNM3pmcHV6SnU2?=
- =?utf-8?B?Y09ub2tMTFViQnRNbWJlcnZvSlFKVzI2eVNkU1UxR2F0bTYxSVpITUFJQlpl?=
- =?utf-8?B?U0treDFta3NpNjZOckdmSkE2RDk4dXUrNkxUbVRWRkFET1NJOHVMSzdJSnpw?=
- =?utf-8?B?M1pXYmxXYldyaTdpeWRydFRYdUhFd0lDNzNsVXVudUY4MnhVYTVQVVNESE45?=
- =?utf-8?B?V1hDUU1wbm1SQ2cydWxYYmI4bU1yV1BYTkdUcUZBbXNQbCtqWklhSEQyQTJm?=
- =?utf-8?B?bHhuSHpIRmxsV0ZzcEdFRW85b2xXVkRuZHlFYjdrd0daZXMxVXRzcVMvOGlH?=
- =?utf-8?B?NDhvdGVwdEQzNytoZit3MmxBZk9KZEJKUUJsaG1DcFJ3aGt3U0MrK0I1UDFH?=
- =?utf-8?B?STNoV0p5M3JidUJTaHJtbnNPc2FHQmdncXArQkE4OC9DTitMTGJwd3N2S0xG?=
- =?utf-8?B?YXJYd2Vxc3hyN01qRmR6MWFySkN5dHJiRmtZTGVITFNxTkltaUZLNzRRZEVT?=
- =?utf-8?B?VHdVVHpISVNMWGlzTEx6R2dpbkh0T21OMjlVaWxLbUVKUkE1c21HL1YvMzZO?=
- =?utf-8?B?WktqUDRyRTBVTVp0anh3THpNaFc3eEdFMkJxZXlnakdnSVJkVVM5eXRVa2lx?=
- =?utf-8?B?YklEa2h3SXYyV2gxQzRCeW9wL3dKQlc4NGNVYldQTFdsdGhjb3BoMlZrVml0?=
- =?utf-8?B?YWhLMVhpSXZoT1V6UUsxaGlnUmZVUnhDdjU4YlgzMExCUHIxNUt4MlRtaUg0?=
- =?utf-8?B?ejlkU1E1OUVJc2o2L3NvUjVQKzFEblpHRVByUzZtSCtUb2NHa3JtMEtmY3VF?=
- =?utf-8?B?bkVnWVpjUHhPVkNRVlFaSzM3UjFBOGZ6VkpnNmNBSnVpdW1NT2F1eFZTNXlV?=
- =?utf-8?B?WDBkSEVCUEJSUG8rUTJldU9sMXNMcDhlNXNPVWN0N3lDanBZYUxLQnRMOTFx?=
- =?utf-8?B?WW85a3NLWFpsMjU2aVpTMDYyWjRXaHBNWU9JMlA2ZFhudVJNd0lHT0dIbGUv?=
- =?utf-8?B?ZW1VSG16L3NtQ2svRDJ6U0I3VXE5dENsQWk0Vm81NXlCQXVaV2VhemFpZDBh?=
- =?utf-8?B?S0JmRTdZeE5QR0FBS2hZMDBwK3lIYWluazFvQmszU3ZYbHBMZ1UwYUpwVmVm?=
- =?utf-8?B?Ty84ZDFRcHkveVVCMSttWi9iL2MyTWsxYTUzZmtDbHdNZDZ3ZDZ4RWdkK3FL?=
- =?utf-8?Q?Bb2pNvy8WmDfkpXAYl/Ezb91b6YYQn00s+BHC+5huoXMF?=
-x-ms-exchange-antispam-messagedata-1: sKICV2LMqHZsr3yf7L4IU8dZSTEMc56fQe0=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <06FE83388D68424EB0D13969703327C1@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="bGIU6qDv"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4893940bb5eso21946775e9.3
+        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 08:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1777906856; x=1778511656; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vihrjy6JWRaFYaKwFFp+zwam3K505oAzvsgkAqow4uE=;
+        b=bGIU6qDv0/SP7wwIb+UXB/k08aIkzVnS3YK6RDJkLGjzuhZjOFVcNVFSUjgdTdBWC2
+         mnTUXgUWrQmz92hRo4U9brBBLGpR0hOj67XPdoNWBBYF4irV2Ta5cn1rb0GPFnrKcqFd
+         6A2s482ATMrz75epXDv2l6fzzaRD55gpmAY0SKJDWdVChgtMmuNMbFutb5AotfxEJrIV
+         +2eo5u7cyZ5ErmCiaPvktaJUr9hbYUSGkUjj4zGH0KxFv+v38jGOc5Me82Wd7LPAfGkZ
+         4Ymfu8k1KcsKowMxMT7QXVelytdjTyp+pzkD5siNqVVR022g8ggvBaPpSmR0ppncB/mY
+         3OdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777906856; x=1778511656;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=vihrjy6JWRaFYaKwFFp+zwam3K505oAzvsgkAqow4uE=;
+        b=DRXRepiM9Zw42L7Nug4mcf2sbpk+e/zeuS1wAG6rqcjHCgjT+QtyQfEPPfg7QJ9Ldt
+         rqRxB9nAAxhAPe7jqxsrQdNhaAjJalHFHfUV7Bbaoy+sLSV8HeJrkOv2rq2iDwA+rCds
+         mKZ7TRfxdcsjpIPL5e4owWugKLHCHl9lNC+ZlLp4YipNFv5OXungsrwH2S9fqDqkpTZo
+         +foGgt70vvMpb0eTKcDCRTf/MrfwCiXpRzG93LULo4EWdjL5gszk8nFgfKOqni80nAuA
+         oOo7zEX+meW+Dzv74wd1u0OdQVTgRvSGoAwFeIo8+thko5a+NA2sedf4oLTpEECE2nlL
+         KuiA==
+X-Forwarded-Encrypted: i=1; AFNElJ8xumM81Wt6qgB4sOELsAyC9BFB3hrSeySVhli0UM7jYKeKaA8SBye+QWAB1VtYofUasVFMS9gocZ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymatOa/OeNih3do3DQMAjJP5AacgmirftLKn1TSNGpJjL4ItmA
+	BToCkWff54PUFhXghPyVQvUbS75io0OfetJvKWonQqILq7jM4Sq9qVQ7+SbM0Gr6pA==
+X-Gm-Gg: AeBDieuqnTt8uK0J7aG1l0F66PkFG6gc8gLHvq8QdvkR7HMUtTV38dYLi/EvAOfYXed
+	8SStkBP3GDFdaCeH1yWrfucIAS/IU9+WYE5zE4Z4V1dvSyXRBcOV3zT/xyB8uNfta0CU7j5HP+3
+	23HNVD7d0ryU/2FdPcL0T+cVEb1l9Tjrdbfm97C2g9zpaj3zpHq469aebwlJC+4kMdyhC3a09HT
+	R8LgougLsiogSz6KoMYHvcRVV8/7LKuuAbYvOhbeL62cZHfnLKlIKaDDca1BX6Wg/yk2jAT/G3n
+	cBFoNre/nySPSLCi/mE3Zbaa5f+DleFVgNUHOQ6PxeHCXjnIkIXfU7GC7YcXPTr8ax6TSvjlhdq
+	co8SmeCfxU9lXMgEYGy/akKEKjsn+1+wOyS93uVMFCrcNeDcGNlUHJ7wv1TO1vroX1ccNvNCt7r
+	b0t1EwMybOjSVd1SoqgbmNfGjiRohv7N3tELPxxT/+Y/Q9iI8wr9kOw0L05vyTS/7Ubu80JwbUZ
+	k8NFI3geA==
+X-Received: by 2002:a05:600c:46d1:b0:489:1d74:56d with SMTP id 5b1f17b1804b1-48a988ca441mr162572375e9.29.1777906853078;
+        Mon, 04 May 2026 08:00:53 -0700 (PDT)
+Received: from elver.google.com ([2a00:79e0:2834:9:fba5:1281:871d:3fd6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48a8fe3cae3sm116897425e9.0.2026.05.04.08.00.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 08:00:52 -0700 (PDT)
+Date: Mon, 4 May 2026 17:00:45 +0200
+From: Marco Elver <elver@google.com>
+To: "Vlastimil Babka (SUSE)" <vbabka@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nsc@kernel.org>, Dennis Zhou <dennis@kernel.org>,
+	Tejun Heo <tj@kernel.org>, Christoph Lameter <cl@gentwo.org>,
+	Harry Yoo <harry@kernel.org>, Hao Li <hao.li@linux.dev>,
+	David Rientjes <rientjes@google.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	David Hildenbrand <david@kernel.org>,
+	Lorenzo Stoakes <ljs@kernel.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Suren Baghdasaryan <surenb@google.com>,
+	Michal Hocko <mhocko@suse.com>,
+	Alexander Potapenko <glider@google.com>,
+	Dmitry Vyukov <dvyukov@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Miguel Ojeda <ojeda@kernel.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org, kasan-dev@googlegroups.com,
+	llvm@lists.linux.dev,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v3 2/2] slab: fix kernel-docs for mm-api
+Message-ID: <afi0nQ84k1oz5RyH@elver.google.com>
+References: <20260424132427.2703076-1-elver@google.com>
+ <20260424132427.2703076-2-elver@google.com>
+ <9c321184-9080-4d5c-bd1a-a16cd0bbaed3@kernel.org>
+ <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked:
-	oDqhmg3mgi1zQ1ffDCAuY6aC8eKivOIowcjg8xe3yXaUjUyXuzUlwmS96ThZqzERX+B3auG/o/LdDAI+H8uIR+lcr3k2wJTaWpU5VGNDu4JQlbB/8HHF+uSqgrGUTD8+DzquHIg+OokUA32QL4ckrEFtfopU+EpsoSVvz/9x8OjepKJDOQgF/ZT95lNhtlmPJ8EaEZJPFR8VsH9jfrpK+pu7Sh5WXVfhddCRpKylaEi8dWizioJ/Rp/6TkRdAXJL6BuMbc3nhZQWn1pKG2NhGwDQuYMH8qsNg1+3E6MGBWglOGF/+T3gJGjnktSdr69Z0g8peCyUSu4nd9DOv/S7Gg==
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: LV0PR02MB11133.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 50d03dce-30fa-4667-70fd-08dea9eae8db
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2026 14:39:12.6757
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 9H4NzAIo24WcPvCrtP6tA4iCcx4WQysipg/R79ltC01OgDwhcuiRfsC3rBJ7Sdtyc0apXRy7HH3WfBVMXt2dGXenGFwhMncFUrOP0HNEobs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR02MB8672
-X-Proofpoint-GUID: EYraMy4sz9ujTYKZ2rIDh4OU2o4mxofs
-X-Proofpoint-ORIG-GUID: EYraMy4sz9ujTYKZ2rIDh4OU2o4mxofs
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA0MDE1MCBTYWx0ZWRfX5JsfpRzAvez0
- WWbSJqK1eej2zilc1A/s07W4dpUBE8GGy/GU9euqR1lV4HVdf/KBU2FH0XU5QGyAUPsGbLIwUD5
- pbfJvmx5rRWQtg3hoOvQzsYXLCBnYGUybdFlYeyxYdXQnmZ7fjwoOIP5aScGrqtpTxqMveBF7to
- nXPYRff/f7Me24bQ/uPECoT+1+b42UnmJAEM1xt7U/p9XRu5o+2uUGkVAAjwF4M3Z7pOGoIBUvS
- Es7sQPlP7vyMWXow963pyvHWfIvbu0tHryi8QQ356LRGqI9ff2uiF6R625YOFVNln5Fn4A33Av9
- 3C8qXSpQOUhO82U5YGqEj/4ChR8u3re/u81U+N++UCxONOqZrlODuS+cu4rZ1vzNl5czo0E+RID
- uEgf7UyaeNMwCknvwwki1VKCdTPDYaMEAkPL1TADcpnQ6Gf90F5ql1X5F7aedVSFT2IOtbCikMw
- 6x1se/tI29ynoRcHyWA==
-X-Authority-Analysis: v=2.4 cv=LJNWhpW9 c=1 sm=1 tr=0 ts=69f8af94 cx=c_pps
- a=zawiyoErqgptCln8LtCPNw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=NGcC8JguVDcA:10 a=0kUYKlekyDsA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VofLwUrZ8Iiv6rRUPXIb:22 a=1L6crL_YRTbalZ11mEUO:22 a=3Nk4j934AAAA:8
- a=uICUvMojAAAA:20 a=VwQbUJbxAAAA:8 a=CT7pYnU4XIlFaqwlkc8A:9 a=QEXdDO2ut3YA:10
- a=GnnOGohabkFYx92mCEIS:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-04_04,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Reason: safe
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANpmjNN_=g31Eoa+w1NrFALfp1dDBi5oHEZdr_bA_48-tS2M=Q@mail.gmail.com>
+User-Agent: Mutt/2.2.13 (2024-03-09)
 
-DQoNCj4gT24gQXByIDI5LCAyMDI2LCBhdCA5OjE14oCvUE0sIEVyaWMgQmlnZ2VycyA8ZWJpZ2dl
-cnNAa2VybmVsLm9yZz4gd3JvdGU6DQo+IA0KPiBBRl9BTEcgaXMgYWxtb3N0IGNvbXBsZXRlbHkg
-dW5uZWNlc3NhcnksIGFuZCBpdCBleHBvc2VzIGEgbWFzc2l2ZSBhdHRhY2sNCj4gc3VyZmFjZSB0
-aGF0IGhhc24ndCBiZWVuIHN0YW5kaW5nIHVwIHRvIG1vZGVybiB2dWxuZXJhYmlsaXR5IGRpc2Nv
-dmVyeQ0KPiB0b29scy4gIFRoZSBsYXRlc3Qgb25lIGV2ZW4gaGFzIGl0cyBvd24gd2Vic2l0ZSwg
-cHJvdmlkaW5nIGEgc21hbGwNCj4gUHl0aG9uIHNjcmlwdCB0aGF0IHJlbGlhYmx5IHJvb3RzIG1v
-c3QgTGludXggZGlzdHJvczogaHR0cHM6Ly9jb3B5LmZhaWwvDQo+IA0KPiBUaGlzIGlzbid0IHN1
-c3RhaW5hYmxlLCBlc3BlY2lhbGx5IGFzIExMTXMgaGF2ZSBhY2NlbGVyYXRlZCB0aGUgcmF0ZSB0
-aGUNCj4gdnVsbmVyYWJpbGl0aWVzIGFyZSBjb21pbmcgaW4uICBUaGUgZWZmb3J0IHRoYXQgaXMg
-YmVpbmcgcHV0IGludG8gdGhpcw0KPiB0aGluZyBpcyB2YXN0bHkgZGlzcHJvcG9ydGlvbmFsIHRv
-IHRoZSBmZXcgcHJvZ3JhbXMgdGhhdCBhY3R1YWxseSB1c2UNCj4gaXQsIGFuZCB0aG9zZSBwcm9n
-cmFtcyB3b3VsZCBiZSBiZXR0ZXIgc2VydmVkIGJ5IHVzZXJzcGFjZSBjb2RlIGFueXdheS4NCj4g
-DQo+IFRoZXNlIGlzc3VlcyBoYXZlIGJlZW4gbm90ZWQgaW4gbWFueSBtYWlsaW5nIGxpc3QgZGlz
-Y3Vzc2lvbnMgYWxyZWFkeS4NCj4gQnV0IHVudGlsIG5vdyB0aGV5IGhhdmVuJ3QgYmVlbiByZWZs
-ZWN0ZWQgaW4gdGhlIGRvY3VtZW50YXRpb24gb3INCj4ga2NvbmZpZyBtZW51IGl0c2VsZiwgYW5k
-IHRoZSB2dWxuZXJhYmlsaXRpZXMgYXJlIHN0aWxsIGNvbWluZyBpbi4NCj4gDQo+IExldCdzIGdv
-IGFoZWFkIGFuZCBkb2N1bWVudCB0aGUgZGVwcmVjYXRpb24uDQo+IA0KPiBUaGlzIGlzbid0IGlu
-dGVuZGVkIHRvIGNoYW5nZSBhbnl0aGluZyBvdmVybmlnaHQuICBBZnRlciBhbGwsIG1vc3QgTGlu
-dXgNCj4gZGlzdHJvcyB3b24ndCBiZSBhYmxlIHRvIGRpc2FibGUgdGhlIGtjb25maWcgb3B0aW9u
-cyBxdWl0ZSB5ZXQsIG1haW5seQ0KPiBiZWNhdXNlIG9mIGl3ZC4gIEJ1dCB0aGlzIHNob3VsZCBj
-cmVhdGUgYSBiaXQgbW9yZSBpbXBldHVzIGZvciB0aGVzZQ0KPiB1c2Vyc3BhY2UgcHJvZ3JhbXMg
-dG8gYmUgZml4ZWQsIGFuZCB0aGUgZG9jdW1lbnRhdGlvbiB1cGRhdGUgc2hvdWxkIGFsc28NCj4g
-aGVscCBwcmV2ZW50IG1vcmUgdXNlcnMgZnJvbSBhcHBlYXJpbmcuDQo+IA0KPiBTaWduZWQtb2Zm
-LWJ5OiBFcmljIEJpZ2dlcnMgPGViaWdnZXJzQGtlcm5lbC5vcmc+DQo+IC0tLQ0KDQpRdWljayBw
-YXNzaW5nIG9ic2VydmF0aW9uDQpJIG5vdGljZWQgdGhhdCB3aGVuIGF0dGVtcHRpbmcgdG8gY29t
-cGxldGVseSBkaXNhYmxlIHRoZXNlIENyeXB0byBBUElzLA0KSSB3YXMgZXhwZXJpZW5jaW5nIGJv
-b3QgZmFpbHVyZXMgd2l0aCBmaXBzPTEgZW5hYmxlZCBzeXN0ZW1zLg0KDQpVc2luZyA2LjE4LWJh
-c2VkIGtlcm5lbCB3aXRoIGFuIGVsOS1iYXNlZCB1c2VyIHNwYWNlLCBJIHNlZSB0aGUNCmZvbGxv
-d2luZyBoYW5nIGluIHRoZSBlYXJseSBib290IGNvbnNvbGUgZnJvbSBkcmFjdXQtcHJlLXBpdm90
-Og0KICBDaGVjayBpbnRlZ3JpdHkgb2Yga2VybmVsDQogIGxpYmtjYXBpIC0gRXJyb3I6IEFGX0FM
-Rzogc29ja2V0IHN5c2NhbGwgZmFpbGVkIChlcnJubzogLTk3KQ0KICBBbGxvY2F0aW9uIG9mIGht
-YWMoc2hhNTEyKSBjaXBoZXIgZmFpbGVkICgtOTcpDQoNCkkgaGF2ZW4ndCBsb29rZWQgYXQgZXZl
-cnkgZWxYIHZlcnNpb24sIGJ1dCBhdCBsZWFzdCBpbiBlbDkgYW5kIGVsMTAsDQp0aGV5IHVzZSBs
-aWJrY2FwaS1obWFjY2FsYyB0byBwcm92aWRlIHNoYTUxMmhtYWMsIHdoaWNoIGRyYWN1dCBbMV0N
-CnVzZXMgdG8gY2FsY3VsYXRlIHRoZSBITUFDIHZhbHVlIGluIGRvX2ZpcHMoKS4NCg0KRGlnZ2lu
-ZyBmdXJ0aGVyLCBJIHdhcyBvbmx5IGFibGUgdG8gZGlzYWJsZSBSTkcgYW5kIEFFQUQgQVBJcywg
-YnV0DQpub3QgSEFTSCBhbmQgU0tDSVBIRVIgQVBJcyB3aGVuIEZJUFMgd2FzIGluIHRoZSBwaWN0
-dXJlIHdpdGggZWw5KysuDQoNCknigJltIG5vdCBzdXJlIGhvdyBvdGhlciBkaXN0cm9zIGRvIHRo
-ZSBzYW1lLCBidXQgdGhpcyBjb3VsZCBiZSBwcm9ibGVtYXRpYw0KZWxzZWh3ZXJlIGlmIG90aGVy
-IGRpc3Ryb3Mgd2VudCBkb3duIHRoZSBsaWJrY2FwaSByb3V0ZS4NCg0KWzFdIGh0dHBzOi8vZ2l0
-aHViLmNvbS9kcmFjdXRkZXZzL2RyYWN1dC9ibG9iLzA1OS9tb2R1bGVzLmQvMDFmaXBzL2ZpcHMu
-c2gjTDE2Nw0KDQo=
+On Thu, Apr 30, 2026 at 03:59PM +0200, Marco Elver wrote:
+> On Thu, 30 Apr 2026 at 15:40, Vlastimil Babka (SUSE) <vbabka@kernel.org> wrote:
+> >
+> > On 4/24/26 15:24, Marco Elver wrote:
+> > > The mm-api kernel-doc comments have been broken for a while, as many
+> > > documented symbols shifted from being direct function definitions to
+> > > macros wrapping _noprof implementations during the introduction of
+> > > allocation tagging (starting with commit 7bd230a26648 "mm/slab: enable
+> > > slab allocation tagging for kmalloc and friends").
+> > >
+> > > When the kernel-doc block remains above the internal implementation
+> > > function but uses the public API name, the documentation generator fails
+> > > to associate the documented symbol and generates warnings and fails to
+> > > emit the documentation.
+> > >
+> > > Fix this by:
+> > >
+> > > 1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
+> > >    them directly above the user-facing macros.
+> > >
+> > > 2. Converting the variadic macros for the documented APIs to use
+> > >    explicit arguments.
+> > >
+> > > No functional change intended.
+> > >
+> > > Signed-off-by: Marco Elver <elver@google.com>
+> >
+> > +Cc Jon
+> >
+> > I thought it was supposed to work because the kernel-doc scripts were at the
+> > time taught by commit 51a7bf0238c2 ("scripts/kernel-doc: drop "_noprof" on
+> > function prototypes") to handle _noprof. In the current form git grep finds:
+> >
+> > tools/lib/python/kdoc/kdoc_parser.py:        suffixes = [ '_noprof' ]
+> > tools/lib/python/kdoc/xforms_lists.py:        (KernRe("_noprof"), ""),
+> >
+> > Doesn't it work for you then?
+> 
+> Ah, I see. So it doesn't work anymore because we add the '_' prefix, too.
+> 
+> I guess the question is if we want to proliferate more kdoc parser
+> special cases, or just move the docs to the macros. The downside of
+> macros is that they lose the types in the displayed function
+> signature.
+> 
+> Preferences?
+
+How about the below, i.e. adding type decls that only the kernel-doc
+parser sees? One complication is also DECL_KMALLOC_PARAMS, and adding
+kernel-doc parser hacks for that looks pretty awful, so this is a lot
+cleaner.
+
+------ >8 ------
+
+From: Marco Elver <elver@google.com>
+Date: Tue, 21 Apr 2026 13:48:21 +0200
+Subject: [PATCH] slab: fix kernel-docs for mm-api
+
+The mm-api kernel-docs have been disconnected from their symbols. While
+the scripts were previously taught to handle the _noprof suffix added by
+allocation tagging (in 51a7bf0238c2 "scripts/kernel-doc: drop "_noprof"
+on function prototypes"), this does not handle cases where the internal
+implementation function has an additional leading underscore. The added
+optional parameters (via DECL_KMALLOC_PARAMS) further complicate parsing
+the internal signatures.
+
+When the kernel-doc block remains above the internal implementation
+function but uses the public API name, the documentation generator fails
+to associate the documented symbol.
+
+Simply moving the docs to the macros in slab.h fixes the association but
+causes loss of types in the generated documentation (rendering as e.g.
+untyped 'kmalloc(size, flags)' macro).
+
+Fix this by:
+
+1. Moving the kernel-doc comment blocks from slub.c to slab.h, placing
+   them directly above the user-facing macros.
+
+2. Providing explicit, typed C prototypes for the documented APIs inside
+   '#if 0 /* kernel-doc */' blocks.
+
+3. Converting the variadic macros for the documented APIs to use
+   explicit arguments to match the documentation.
+
+No functional change intended.
+
+Signed-off-by: Marco Elver <elver@google.com>
+---
+v4:
+* Provide typed C prototypes in '#if 0' blocks to properly render API.
+---
+ include/linux/slab.h | 216 +++++++++++++++++++++++++++++++++----------
+ mm/slub.c            |  98 --------------------
+ 2 files changed, 168 insertions(+), 146 deletions(-)
+
+diff --git a/include/linux/slab.h b/include/linux/slab.h
+index c232f8a10af6..5e1249e36b0d 100644
+--- a/include/linux/slab.h
++++ b/include/linux/slab.h
+@@ -530,7 +530,49 @@ void * __must_check krealloc_node_align_noprof(const void *objp,
+ 					       unsigned long align,
+ 					       gfp_t flags, int nid) __realloc_size(2);
+ #define krealloc_noprof(_o, _s, _f)	krealloc_node_align_noprof(_o, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), 1, _f, NUMA_NO_NODE)
+-#define krealloc_node_align(_o, _s, _a, _f, _n)	alloc_hooks(krealloc_node_align_noprof(_o, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _a, _f, _n))
++#if 0 /* kernel-doc */
++/**
++ * krealloc_node_align - reallocate memory. The contents will remain unchanged.
++ * @p: object to reallocate memory for.
++ * @new_size: how many bytes of memory are required.
++ * @align: desired alignment.
++ * @flags: the type of memory to allocate.
++ * @nid: NUMA node or NUMA_NO_NODE
++ *
++ * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
++ * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
++ *
++ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
++ * Documentation/core-api/memory-allocation.rst for more details.
++ *
++ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
++ * initial memory allocation, every subsequent call to this API for the same
++ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
++ * __GFP_ZERO is not fully honored by this API.
++ *
++ * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
++ * size of an allocation (but not the exact size it was allocated with) and
++ * hence implements the following semantics for shrinking and growing buffers
++ * with __GFP_ZERO::
++ *
++ *           new             bucket
++ *   0       size             size
++ *   |--------|----------------|
++ *   |  keep  |      zero      |
++ *
++ * Otherwise, the original allocation size 'orig_size' could be used to
++ * precisely clear the requested size, and the new size will also be stored
++ * as the new 'orig_size'.
++ *
++ * In any case, the contents of the object pointed to are preserved up to the
++ * lesser of the new and old sizes.
++ *
++ * Return: pointer to the allocated memory or %NULL in case of error
++ */
++void *krealloc_node_align(const void *p, size_t new_size, unsigned long align, gfp_t flags, int nid);
++#endif
++#define krealloc_node_align(p, new_size, align, flags, nid) \
++	alloc_hooks(krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(new_size, __kmalloc_token(new_size)), align, flags, nid))
+ #define krealloc_node(_o, _s, _f, _n)	krealloc_node_align(_o, _s, 1, _f, _n)
+ #define krealloc(...)			krealloc_node(__VA_ARGS__, NUMA_NO_NODE)
+ 
+@@ -913,6 +955,23 @@ void *__kmalloc_large_noprof(size_t size, gfp_t flags)
+ void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
+ 				__assume_page_alignment __alloc_size(1);
+ 
++static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
++{
++	if (__builtin_constant_p(size) && size) {
++		unsigned int index;
++
++		if (size > KMALLOC_MAX_CACHE_SIZE)
++			return __kmalloc_large_noprof(size, flags);
++
++		index = kmalloc_index(size);
++		return __kmalloc_cache_noprof(
++				kmalloc_caches[kmalloc_type(flags, token)][index],
++				flags, size);
++	}
++	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
++}
++#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
++#if 0 /* kernel-doc */
+ /**
+  * kmalloc - allocate kernel memory
+  * @size: how many bytes of memory are required.
+@@ -968,27 +1027,27 @@ void *__kmalloc_large_node_noprof(size_t size, gfp_t flags, int node)
+  *	Try really hard to succeed the allocation but fail
+  *	eventually.
+  */
+-static __always_inline __alloc_size(1) void *_kmalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
+-{
+-	if (__builtin_constant_p(size) && size) {
+-		unsigned int index;
+-
+-		if (size > KMALLOC_MAX_CACHE_SIZE)
+-			return __kmalloc_large_noprof(size, flags);
+-
+-		index = kmalloc_index(size);
+-		return __kmalloc_cache_noprof(
+-				kmalloc_caches[kmalloc_type(flags, token)][index],
+-				flags, size);
+-	}
+-	return __kmalloc_noprof(PASS_KMALLOC_PARAMS(size, NULL, token), flags);
+-}
+-#define kmalloc_noprof(...)			_kmalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+-#define kmalloc(...)				alloc_hooks(kmalloc_noprof(__VA_ARGS__))
++void *kmalloc(size_t size, gfp_t flags);
++#endif
++#define kmalloc(size, flags)			alloc_hooks(kmalloc_noprof(size, flags))
+ 
+ void *_kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_flags, int node);
+ #define kmalloc_nolock_noprof(_s, _f, _n)	_kmalloc_nolock_noprof(PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _f, _n)
+-#define kmalloc_nolock(...)			alloc_hooks(kmalloc_nolock_noprof(__VA_ARGS__))
++#if 0 /* kernel-doc */
++/**
++ * kmalloc_nolock - Allocate an object of given size from any context.
++ * @size: size to allocate
++ * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, __GFP_ZERO, __GFP_NO_OBJ_EXT
++ * allowed.
++ * @node: node number of the target node.
++ *
++ * Return: pointer to the new object or NULL in case of error.
++ * NULL does not mean EBUSY or EAGAIN. It means ENOMEM.
++ * There is no reason to call it again and expect !NULL.
++ */
++void *kmalloc_nolock(size_t size, gfp_t gfp_flags, int node);
++#endif
++#define kmalloc_nolock(size, gfp_flags, node)	alloc_hooks(kmalloc_nolock_noprof(size, gfp_flags, node))
+ 
+ /**
+  * __alloc_objs - Allocate objects of a given type using
+@@ -1115,23 +1174,40 @@ static __always_inline __alloc_size(1) void *_kmalloc_node_noprof(size_t size, g
+ #define kmalloc_node_noprof(...)		_kmalloc_node_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+ #define kmalloc_node(...)			alloc_hooks(kmalloc_node_noprof(__VA_ARGS__))
+ 
++static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
++{
++	size_t bytes;
++
++	if (unlikely(check_mul_overflow(n, size, &bytes)))
++		return NULL;
++	return _kmalloc_noprof(bytes, flags, token);
++}
++#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
++#if 0 /* kernel-doc */
+ /**
+  * kmalloc_array - allocate memory for an array.
+  * @n: number of elements.
+  * @size: element size.
+  * @flags: the type of memory to allocate (see kmalloc).
+  */
+-static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t size, gfp_t flags, kmalloc_token_t token)
++void *kmalloc_array(size_t n, size_t size, gfp_t flags);
++#endif
++#define kmalloc_array(n, size, flags)		alloc_hooks(kmalloc_array_noprof(n, size, flags))
++
++static inline __realloc_size(2, 3) void * __must_check _krealloc_array_noprof(void *p,
++								       size_t new_n,
++								       size_t new_size,
++								       gfp_t flags, kmalloc_token_t token)
+ {
+ 	size_t bytes;
+ 
+-	if (unlikely(check_mul_overflow(n, size, &bytes)))
++	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+ 		return NULL;
+-	return _kmalloc_noprof(bytes, flags, token);
+-}
+-#define kmalloc_array_noprof(...)		_kmalloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+-#define kmalloc_array(...)			alloc_hooks(kmalloc_array_noprof(__VA_ARGS__))
+ 
++	return krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(bytes, token), 1, flags, NUMA_NO_NODE);
++}
++#define krealloc_array_noprof(...)		_krealloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
++#if 0 /* kernel-doc */
+ /**
+  * krealloc_array - reallocate memory for an array.
+  * @p: pointer to the memory chunk to reallocate
+@@ -1149,20 +1225,9 @@ static inline __alloc_size(1, 2) void *_kmalloc_array_noprof(size_t n, size_t si
+  * In any case, the contents of the object pointed to are preserved up to the
+  * lesser of the new and old sizes.
+  */
+-static inline __realloc_size(2, 3) void * __must_check _krealloc_array_noprof(void *p,
+-								       size_t new_n,
+-								       size_t new_size,
+-								       gfp_t flags, kmalloc_token_t token)
+-{
+-	size_t bytes;
+-
+-	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+-		return NULL;
+-
+-	return krealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(bytes, token), 1, flags, NUMA_NO_NODE);
+-}
+-#define krealloc_array_noprof(...)		_krealloc_array_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+-#define krealloc_array(...)			alloc_hooks(krealloc_array_noprof(__VA_ARGS__))
++void *krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags);
++#endif
++#define krealloc_array(p, new_n, new_size, flags) alloc_hooks(krealloc_array_noprof(p, new_n, new_size, flags))
+ 
+ /**
+  * kcalloc - allocate memory for an array. The memory is set to zero.
+@@ -1214,17 +1279,20 @@ static inline __alloc_size(1, 2) void *_kmalloc_array_node_noprof(size_t n, size
+  */
+ #define kmem_cache_zalloc(_k, _flags)		kmem_cache_alloc(_k, (_flags)|__GFP_ZERO)
+ 
+-/**
+- * kzalloc - allocate memory. The memory is set to zero.
+- * @size: how many bytes of memory are required.
+- * @flags: the type of memory to allocate (see kmalloc).
+- */
+ static inline __alloc_size(1) void *_kzalloc_noprof(size_t size, gfp_t flags, kmalloc_token_t token)
+ {
+ 	return _kmalloc_noprof(size, flags | __GFP_ZERO, token);
+ }
+ #define kzalloc_noprof(...)			_kzalloc_noprof(__VA_ARGS__, __kmalloc_token(__VA_ARGS__))
+-#define kzalloc(...)				alloc_hooks(kzalloc_noprof(__VA_ARGS__))
++#if 0 /* kernel-doc */
++/**
++ * kzalloc - allocate memory. The memory is set to zero.
++ * @size: how many bytes of memory are required.
++ * @flags: the type of memory to allocate (see kmalloc).
++ */
++void *kzalloc(size_t size, gfp_t flags);
++#endif
++#define kzalloc(size, flags)			alloc_hooks(kzalloc_noprof(size, flags))
+ #define kzalloc_node(_size, _flags, _node)	kmalloc_node(_size, (_flags)|__GFP_ZERO, _node)
+ 
+ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
+@@ -1233,7 +1301,29 @@ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long
+ 	__kvmalloc_node_noprof(PASS_KMALLOC_PARAMS(_size, NULL, __kmalloc_token(_size)), _align, _flags, _node)
+ #define kvmalloc_node_align(...)		\
+ 	alloc_hooks(kvmalloc_node_align_noprof(__VA_ARGS__))
+-#define kvmalloc_node(_s, _f, _n)		kvmalloc_node_align(_s, 1, _f, _n)
++#if 0 /* kernel-doc */
++/**
++ * kvmalloc_node - attempt to allocate physically contiguous memory, but upon
++ * failure, fall back to non-contiguous (vmalloc) allocation.
++ * @size: size of the request.
++ * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
++ * @node: numa node to allocate from
++ *
++ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
++ * Documentation/core-api/memory-allocation.rst for more details.
++ *
++ * Uses kmalloc to get the memory but if the allocation fails then falls back
++ * to the vmalloc allocator. Use kvfree for freeing the memory.
++ *
++ * GFP_NOWAIT and GFP_ATOMIC are supported, the __GFP_NORETRY modifier is not.
++ * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
++ * preferable to the vmalloc fallback, due to visible performance drawbacks.
++ *
++ * Return: pointer to the allocated memory of %NULL in case of failure
++ */
++void *kvmalloc_node(size_t size, gfp_t flags, int node);
++#endif
++#define kvmalloc_node(size, flags, node)	kvmalloc_node_align(size, 1, flags, node)
+ #define kvmalloc_node_noprof(size, flags, node)	\
+ 	kvmalloc_node_align_noprof(size, 1, flags, node)
+ #define kvmalloc(...)				kvmalloc_node(__VA_ARGS__, NUMA_NO_NODE)
+@@ -1266,8 +1356,38 @@ _kvmalloc_array_node_noprof(size_t n, size_t size, gfp_t flags, int node, kmallo
+ 
+ void *kvrealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(size, token), unsigned long align,
+ 				  gfp_t flags, int nid) __realloc_size(2);
+-#define kvrealloc_node_align(_p, _s, _a, _f, _n)	\
+-	alloc_hooks(kvrealloc_node_align_noprof(_p, PASS_TOKEN_PARAMS(_s, __kmalloc_token(_s)), _a, _f, _n))
++#if 0 /* kernel-doc */
++/**
++ * kvrealloc_node_align - reallocate memory; contents remain unchanged
++ * @p: object to reallocate memory for
++ * @size: the size to reallocate
++ * @align: desired alignment
++ * @flags: the flags for the page level allocator
++ * @nid: NUMA node id
++ *
++ * If @p is %NULL, kvrealloc() behaves exactly like kvmalloc(). If @size is 0
++ * and @p is not a %NULL pointer, the object pointed to is freed.
++ *
++ * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
++ * Documentation/core-api/memory-allocation.rst for more details.
++ *
++ * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
++ * initial memory allocation, every subsequent call to this API for the same
++ * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
++ * __GFP_ZERO is not fully honored by this API.
++ *
++ * In any case, the contents of the object pointed to are preserved up to the
++ * lesser of the new and old sizes.
++ *
++ * This function must not be called concurrently with itself or kvfree() for the
++ * same memory allocation.
++ *
++ * Return: pointer to the allocated memory or %NULL in case of error
++ */
++void *kvrealloc_node_align(const void *p, size_t size, unsigned long align, gfp_t flags, int nid);
++#endif
++#define kvrealloc_node_align(p, size, align, flags, nid)	\
++	alloc_hooks(kvrealloc_node_align_noprof(p, PASS_TOKEN_PARAMS(size, __kmalloc_token(size)), align, flags, nid))
+ #define kvrealloc_node(_p, _s, _f, _n)		kvrealloc_node_align(_p, _s, 1, _f, _n)
+ #define kvrealloc(...)				kvrealloc_node(__VA_ARGS__, NUMA_NO_NODE)
+ 
+diff --git a/mm/slub.c b/mm/slub.c
+index ccb208cfbecd..dbc3c947e5be 100644
+--- a/mm/slub.c
++++ b/mm/slub.c
+@@ -5310,17 +5310,6 @@ void *__kmalloc_noprof(DECL_KMALLOC_PARAMS(size, b, token), gfp_t flags)
+ }
+ EXPORT_SYMBOL(__kmalloc_noprof);
+ 
+-/**
+- * kmalloc_nolock - Allocate an object of given size from any context.
+- * @size: size to allocate
+- * @gfp_flags: GFP flags. Only __GFP_ACCOUNT, __GFP_ZERO, __GFP_NO_OBJ_EXT
+- * allowed.
+- * @node: node number of the target node.
+- *
+- * Return: pointer to the new object or NULL in case of error.
+- * NULL does not mean EBUSY or EAGAIN. It means ENOMEM.
+- * There is no reason to call it again and expect !NULL.
+- */
+ void *_kmalloc_nolock_noprof(DECL_TOKEN_PARAMS(size, token), gfp_t gfp_flags, int node)
+ {
+ 	gfp_t alloc_gfp = __GFP_NOWARN | __GFP_NOMEMALLOC | gfp_flags;
+@@ -6717,44 +6706,6 @@ __do_krealloc(const void *p, size_t new_size, unsigned long align, gfp_t flags,
+ 	return ret;
+ }
+ 
+-/**
+- * krealloc_node_align - reallocate memory. The contents will remain unchanged.
+- * @p: object to reallocate memory for.
+- * @new_size: how many bytes of memory are required.
+- * @align: desired alignment.
+- * @flags: the type of memory to allocate.
+- * @nid: NUMA node or NUMA_NO_NODE
+- *
+- * If @p is %NULL, krealloc() behaves exactly like kmalloc().  If @new_size
+- * is 0 and @p is not a %NULL pointer, the object pointed to is freed.
+- *
+- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
+- * Documentation/core-api/memory-allocation.rst for more details.
+- *
+- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
+- * initial memory allocation, every subsequent call to this API for the same
+- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
+- * __GFP_ZERO is not fully honored by this API.
+- *
+- * When slub_debug_orig_size() is off, krealloc() only knows about the bucket
+- * size of an allocation (but not the exact size it was allocated with) and
+- * hence implements the following semantics for shrinking and growing buffers
+- * with __GFP_ZERO::
+- *
+- *           new             bucket
+- *   0       size             size
+- *   |--------|----------------|
+- *   |  keep  |      zero      |
+- *
+- * Otherwise, the original allocation size 'orig_size' could be used to
+- * precisely clear the requested size, and the new size will also be stored
+- * as the new 'orig_size'.
+- *
+- * In any case, the contents of the object pointed to are preserved up to the
+- * lesser of the new and old sizes.
+- *
+- * Return: pointer to the allocated memory or %NULL in case of error
+- */
+ void *krealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(new_size, token), unsigned long align,
+ 				 gfp_t flags, int nid)
+ {
+@@ -6797,28 +6748,6 @@ static gfp_t kmalloc_gfp_adjust(gfp_t flags, size_t size)
+ 	return flags;
+ }
+ 
+-/**
+- * __kvmalloc_node - attempt to allocate physically contiguous memory, but upon
+- * failure, fall back to non-contiguous (vmalloc) allocation.
+- * @size: size of the request.
+- * @b: which set of kmalloc buckets to allocate from.
+- * @token: allocation token.
+- * @align: desired alignment.
+- * @flags: gfp mask for the allocation - must be compatible (superset) with GFP_KERNEL.
+- * @node: numa node to allocate from
+- *
+- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
+- * Documentation/core-api/memory-allocation.rst for more details.
+- *
+- * Uses kmalloc to get the memory but if the allocation fails then falls back
+- * to the vmalloc allocator. Use kvfree for freeing the memory.
+- *
+- * GFP_NOWAIT and GFP_ATOMIC are supported, the __GFP_NORETRY modifier is not.
+- * __GFP_RETRY_MAYFAIL is supported, and it should be used only if kmalloc is
+- * preferable to the vmalloc fallback, due to visible performance drawbacks.
+- *
+- * Return: pointer to the allocated memory of %NULL in case of failure
+- */
+ void *__kvmalloc_node_noprof(DECL_KMALLOC_PARAMS(size, b, token), unsigned long align,
+ 			     gfp_t flags, int node)
+ {
+@@ -6900,33 +6829,6 @@ void kvfree_sensitive(const void *addr, size_t len)
+ }
+ EXPORT_SYMBOL(kvfree_sensitive);
+ 
+-/**
+- * kvrealloc_node_align - reallocate memory; contents remain unchanged
+- * @p: object to reallocate memory for
+- * @size: the size to reallocate
+- * @align: desired alignment
+- * @flags: the flags for the page level allocator
+- * @nid: NUMA node id
+- *
+- * If @p is %NULL, kvrealloc() behaves exactly like kvmalloc(). If @size is 0
+- * and @p is not a %NULL pointer, the object pointed to is freed.
+- *
+- * Only alignments up to those guaranteed by kmalloc() will be honored. Please see
+- * Documentation/core-api/memory-allocation.rst for more details.
+- *
+- * If __GFP_ZERO logic is requested, callers must ensure that, starting with the
+- * initial memory allocation, every subsequent call to this API for the same
+- * memory allocation is flagged with __GFP_ZERO. Otherwise, it is possible that
+- * __GFP_ZERO is not fully honored by this API.
+- *
+- * In any case, the contents of the object pointed to are preserved up to the
+- * lesser of the new and old sizes.
+- *
+- * This function must not be called concurrently with itself or kvfree() for the
+- * same memory allocation.
+- *
+- * Return: pointer to the allocated memory or %NULL in case of error
+- */
+ void *kvrealloc_node_align_noprof(const void *p, DECL_TOKEN_PARAMS(size, token), unsigned long align,
+ 				  gfp_t flags, int nid)
+ {
+-- 
+2.54.0.545.g6539524ca2-goog
+
