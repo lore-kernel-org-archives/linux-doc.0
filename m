@@ -1,159 +1,170 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6FF30C601;
-	Mon,  4 May 2026 10:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A683A5E62
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 10:42:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777889042; cv=none; b=bdJj0NdbDgHzoIle6Ia78yiuwRxX/5mXyp98Y2EGuYSgruhrIETPV515Ae7iYZeXXdKzrKcAyPkNW9kZU6v8Ih8IrbJD/HPlIhtHEnZnj4v3TIeaIL976aBzkHAFFHph0hMFvtR7ljObobakghzrnoO95KFzwie/fpIgfSgvIrI=
+	t=1777891370; cv=none; b=O4uRvGXwEVI85fz4x1dqvZOU9oXamCEWZnS/zk/qCgx5QtM33EuKu3NtXbtEe6PM8+poGwQZ1eBZIZDNpP63pZiqbYremTsjCQyuu6LrNpv9jNJPE3Kvtiu8F62/f8u985GuFyDlGJ/jsQqXT+YWY+Uu4Wr3AhVmsjPXcapDiUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777889042; c=relaxed/simple;
-	bh=nuDbG8GlnJh+Hy802qd/7OVIem8MvSn13WgorSUCV9A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ta+rEwCxtzMp+ZkgiDoHv53SdQjPBV98YniVi+0ejUYTE/pEZMy+2Ql7i1zZ85bJKg2bGjV8mi26AkhwMcfYcAltQw9sTARqmYYQNeC7ImnCRS8DryS6lP+3jP3+QhCu8BaMXEkwuy3VHXuOvexjqsRku/x0A2u23jOWBx2Uq4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/Xx9CbG; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777891370; c=relaxed/simple;
+	bh=O+TCmQ94hvpfpTfj1UNiv4DI2N+SEeVnVz0y/FMSn4U=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iUXYNxnq7ZTAV1c4r4NIMy/yDH6t/Ur1+kNFiDRM+/VJwD2s5rW+7LB4PUdVdKJjh0XQ6n0ccyyaM2bvNqFF9rFknTH5POajZasHBXQfg9QnvhyQZU6f9bvsLjMukqnvfm/k5kKCBG/3VbygbauF/jBxk7ewwPk+Zl1Ef9aSAd4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bBhTaJiB; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/Xx9CbG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6D73C2BCB8;
-	Mon,  4 May 2026 10:04:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777889042;
-	bh=nuDbG8GlnJh+Hy802qd/7OVIem8MvSn13WgorSUCV9A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=J/Xx9CbG8R1a+pO1Uv1sGTs/BBrGbjew/2kuzfuHpGp61YQkRXzbFAN8/gl7CvZxB
-	 P2lIWZezpUbdr7VzrImntVmUH0Zm5kYQL1xg6r087F4fNluReD8dAFASnJ3dwJOEE/
-	 GeRUx6G/V53QZzavGAhqziL7v2XdZB5buP3T5g/+qrIjhYGdAc+FtIvrb8VbFlgMXW
-	 O0shTol9EYATc2GIV3ebKl6GHNfbGr8M2B3s6LK5QCvBc+a8ckQRoNaDjWwZWqahOb
-	 eAsZ6lZoZnfDe67CEtkK/gnN+knScpaxl8Q+1tVFCtQq6WA6wT0tbU95YVPCn+dj+V
-	 N/JdLBwBrNyNA==
-Date: Mon, 4 May 2026 12:03:59 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Albert Esteve <aesteve@redhat.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Paul Walmsley <pjw@kernel.org>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, dri-devel@lists.freedesktop.org, 
-	workflows@vger.kernel.org, linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
-	peterz@infradead.org, Guenter Roeck <linux@roeck-us.net>, 
-	Linux Kernel Functional Testing <lkft@linaro.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Alessandro Carminati <acarmina@redhat.com>, 
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v8 3/4] drm: Suppress intentional warning backtraces in
- scaling unit tests
-Message-ID: <20260504-tentacled-free-lobster-38d8d9@houat>
-References: <20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com>
- <20260504-kunit_add_support-v8-3-3e5957cdd235@redhat.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bBhTaJiB"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-449e96a8a80so2179293f8f.3
+        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 03:42:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777891367; x=1778496167; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=glBEbPzQqS5RuxVbjECm23lF7bGWaZdBFdJ4PJmnbu0=;
+        b=bBhTaJiBtOF9PvxWRhwEvp+jWWYyQjfRq1ATLJJHVGDrPDbtFk5jcGeGofeN8HuJ7m
+         b2KQpo+NdOQf//jTah/eq/Dgicyvs8/3c4gm5Y6FhaplYgh0HRuXjzz+/sfO9B9CDX7M
+         Kiu3DqUgYu1HLyOHMnCNPwdP78XwVoS3TefJtemt5P46mDqIGI0KwLlKf2XJbIXCBAtB
+         9EYL19u+pVFwZbuX7tKxWm8ns7Pyh/MRkDfZ61q9QxLFx6hoavcuylGn/6BjC3jOfiZl
+         epI4vsZU2p92DlA0tnDyyY/+wdUrNMhwYtjRky2Tf0x616kbVu5jLMYfwBBHBJgVCc5S
+         nK1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777891367; x=1778496167;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=glBEbPzQqS5RuxVbjECm23lF7bGWaZdBFdJ4PJmnbu0=;
+        b=LY537KKC3LLyZ5lS0ngCBbQvvLeaMyZzNscsS/xZ6MAiYAEaQjkmcum4N9RZ0bR2mR
+         ZZH/UhgQNED9bWNzsl3xjXl/HG23o3hrMxFPUtQnYhRv9Cn7WbJ7rBABw2mMONAmZdHV
+         txqsSu7lA/2WyZR3XsCWOC9Mb6UEQ4JcUXsmXIF/KtMpxCH1XX3VhLLhSs6SXNtYxKx0
+         NUcrzBo+dGbzKVsCysPNrklAGguzptABVe0jr0FqgWfnakhGaLyuus043SRqQhW/CcMG
+         aelDdMKcKbPA55jfO14fR3IrR4cWHLDdpc6mMgVNS3Iuk5KA5hkKI1Fj/LwnIP+JDnQR
+         5RGQ==
+X-Forwarded-Encrypted: i=1; AFNElJ9U/uaDZLqJVZhpm0JVz92F5/JF9tKcU6zy3sxtahBX/Sj7TwlC1uJ1Jo+lw3SHT9H/OdWlt/x+4Fk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVspR/4EyQo0GXQiWW/O8rEZY1TynC4cOtuKhjmjtk8f7Dv+At
+	moPP8BIFj3I1NwYZG7jIHW7ImugLzqP6UWfOZ6Do2EpMJijmi9YhqPrv
+X-Gm-Gg: AeBDievJ5BsIvxBiJIQHGbXHeR1CCgJ7+FSPaeX5q1NTPPaVULLyhkRJeKeItRUQfSB
+	e72fxgdoFrB7KBysl9KT/7gKGtmlALoYIT2fMzk8Py1XEfhvlMDm+MFT67giCZjbQL0Lu0TUyu3
+	XwC7KJUUeG2Ij30ms6WwPLsh8Es1uXH3wdUH/BrFq8Ykk+79uArmSKcd4Q1XspwHRiWPyUOtl4v
+	yyjWawuw/sOype/TAORAoRyK93TgXHZhRKqnPxa79swaQQnZDsEhHMQMXVC/DUrcRY7jN7fy3Xt
+	4PujCn/D+6vX6/h38/sd4BHa41xaSulvDSdkQi+4nQe9H/b8b+HCVMWVaioYoLX5WZxb6tHXZvG
+	w/ERJkVHrxFpXbhxQlTtN9WgwAeXN3n1nnd4DRXUhw4DLmCTY9BWmpWILPVF5v75CuBr7BPNU9b
+	AuKrnpe6rk+aOWMW0bdZ89C9PcnmU+ghu153QpuvgP7V9f3bSDGUVKKGoJxlReOIlfrOmvvwgdS
+	+FwtAHgVBfaZOy81UCR7MZ4TbvzkoT8f7N0IyD8QM+eLJma6ptyGl9SYjvpjQ==
+X-Received: by 2002:a05:6000:25c7:b0:43c:f66e:f24 with SMTP id ffacd0b85a97d-44bb6d96a1emr15514078f8f.35.1777891366752;
+        Mon, 04 May 2026 03:42:46 -0700 (PDT)
+Received: from RDEALENC-L01.ad.analog.com (24.206.116.103.netskope-rdns.com. [24.206.116.103])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-44a9879ef89sm28731094f8f.30.2026.05.04.03.42.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 04 May 2026 03:42:46 -0700 (PDT)
+From: Rodrigo Alencar <455.rodrigo.alencar@gmail.com>
+X-Google-Original-From: Rodrigo Alencar <rdealenc@rdealenc-l01.ad.analog.com>
+Date: Mon, 4 May 2026 11:42:38 +0100
+To: Rodrigo Alencar <rodrigo.alencar@analog.com>, 
+	linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Cc: Jonathan Cameron <jic23@kernel.org>, 
+	David Lechner <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, Petr Mladek <pmladek@suse.com>, 
+	Steven Rostedt <rostedt@goodmis.org>, Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH v10 05/11] iio: core: add decimal value formatting into
+ 64-bit value
+Message-ID: <keeskqikjulxcgc36zpzzvqw2osvm437hlchgcuovh5gkvmdr3@ishisbiujrrn>
+References: <20260415-adf41513-iio-driver-v10-0-df61046d5457@analog.com>
+ <20260415-adf41513-iio-driver-v10-5-df61046d5457@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="l72gnrb7cm3zxy4o"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260504-kunit_add_support-v8-3-3e5957cdd235@redhat.com>
+In-Reply-To: <20260415-adf41513-iio-driver-v10-5-df61046d5457@analog.com>
 
+On 26/04/15 10:51AM, Rodrigo Alencar wrote:
+> Create new format types for iio values (IIO_VAL_DECIMAL64_*), which
+> defines the representation of fixed decimal point values into a single
+> 64-bit number. This new format increases the range of represented values,
+> allowing for integer parts greater than 2^32, as bits are not "wasted"
+> in the fractional part, which can be seen in IIO_VAL_INT_PLUS_MICRO and
+> IIO_VAL_INT_PLUS_NANO. Helper macros are created to compose and decompose
+> 64-bit decimals into integer values used in IIO formatting interfaces,
+> which creates consistency and avoid error-prone manual assignments when
+> using wordpart macros. When doing the parsing, kstrtodec64() is used with
+> the scale defined by the specific decimal format type.
+> 
+> Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
---l72gnrb7cm3zxy4o
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v8 3/4] drm: Suppress intentional warning backtraces in
- scaling unit tests
-MIME-Version: 1.0
+...
 
-Hi,
+> --- a/include/linux/iio/types.h
+> +++ b/include/linux/iio/types.h
+> @@ -7,6 +7,7 @@
+>  #ifndef _IIO_TYPES_H_
+>  #define _IIO_TYPES_H_
+>  
+> +#include <linux/wordpart.h>
+>  #include <uapi/linux/iio/types.h>
+>  
+>  enum iio_event_info {
+> @@ -34,6 +35,38 @@ enum iio_event_info {
+>  #define IIO_VAL_FRACTIONAL_LOG2 11
+>  #define IIO_VAL_CHAR 12
+>  
+> +#define IIO_VAL_DECIMAL64_BASE		100
+> +#define IIO_VAL_DECIMAL64_MILLI		(IIO_VAL_DECIMAL64_BASE + 3)
+> +#define IIO_VAL_DECIMAL64_MICRO		(IIO_VAL_DECIMAL64_BASE + 6)
+> +#define IIO_VAL_DECIMAL64_NANO		(IIO_VAL_DECIMAL64_BASE + 9)
+> +#define IIO_VAL_DECIMAL64_PICO		(IIO_VAL_DECIMAL64_BASE + 12)
+> +
+> +#define iio_val_s64_compose(_val0, _val1)				\
+> +	({ (s64)((((u64)(_val1)) << 32) | (u32)(_val0)); })
+> +
+> +#define iio_val_s64_from_array(_vals)					\
+> +	({								\
+> +		const int *_arr = (const int *)(_vals);			\
+> +		s64 _dec64 = iio_val_s64_compose(_arr[0], _arr[1]);	\
+> +									\
+> +		_dec64;							\
+> +	})
+> +
+> +#define iio_val_s64_decompose(_dec64, _val0, _val1)			\
+> +	do {								\
+> +		s64 _tmp64 = (s64)(_dec64);				\
+> +									\
+> +		*(_val0) = lower_32_bits(_tmp64);			\
+> +		*(_val1) = upper_32_bits(_tmp64);			\
+> +	} while (0)
+> +
+> +#define iio_val_s64_array_populate(_dec64, _vals)			\
+> +	do {								\
+> +		int *_arr = (int *)(_vals);				\
+> +									\
+> +		iio_val_s64_decompose((_dec64), &_arr[0], &_arr[1]);	\
+> +	} while (0)
 
-On Mon, May 04, 2026 at 09:41:27AM +0200, Albert Esteve wrote:
-> From: Guenter Roeck <linux@roeck-us.net>
->=20
-> The drm_test_rect_calc_hscale and drm_test_rect_calc_vscale unit tests
-> intentionally trigger warning backtraces by providing bad parameters to
-> the tested functions. What is tested is the return value, not the existen=
-ce
-> of a warning backtrace. Suppress the backtraces to avoid clogging the
-> kernel log and distraction from real problems.
->=20
-> Tested-by: Linux Kernel Functional Testing <lkft@linaro.org>
-> Acked-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Acked-by: Ma=EDra Canal <mcanal@igalia.com>
-> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-> Cc: David Airlie <airlied@gmail.com>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
-> Acked-by: David Gow <david@davidgow.net>
-> Signed-off-by: Albert Esteve <aesteve@redhat.com>
-> ---
->  drivers/gpu/drm/tests/drm_rect_test.c | 23 +++++++++++++++++++----
->  1 file changed, 19 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_rect_test.c b/drivers/gpu/drm/test=
-s/drm_rect_test.c
-> index 17e1f34b76101..818e16e80c8f9 100644
-> --- a/drivers/gpu/drm/tests/drm_rect_test.c
-> +++ b/drivers/gpu/drm/tests/drm_rect_test.c
-> @@ -409,8 +409,16 @@ static void drm_test_rect_calc_hscale(struct kunit *=
-test)
->  	const struct drm_rect_scale_case *params =3D test->param_value;
->  	int scaling_factor;
-> =20
-> -	scaling_factor =3D drm_rect_calc_hscale(&params->src, &params->dst,
-> -					      params->min_range, params->max_range);
-> +	/*
-> +	 * drm_rect_calc_hscale() generates a warning backtrace whenever bad
-> +	 * parameters are passed to it. This affects all unit tests with an
-> +	 * error code in expected_scaling_factor.
-> +	 */
-> +	kunit_warning_suppress(test) {
-> +		scaling_factor =3D drm_rect_calc_hscale(&params->src, &params->dst,
-> +						      params->min_range,
-> +						      params->max_range);
-> +	}
-> =20
->  	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
->  }
-> @@ -420,8 +428,15 @@ static void drm_test_rect_calc_vscale(struct kunit *=
-test)
->  	const struct drm_rect_scale_case *params =3D test->param_value;
->  	int scaling_factor;
-> =20
-> -	scaling_factor =3D drm_rect_calc_vscale(&params->src, &params->dst,
-> -					      params->min_range, params->max_range);
-> +	/*
-> +	 * drm_rect_calc_vscale() generates a warning backtrace whenever bad
-> +	 * parameters are passed to it. This affects all unit tests with an
-> +	 * error code in expected_scaling_factor.
-> +	 */
-> +	kunit_warning_suppress(test) {
-> +		scaling_factor =3D drm_rect_calc_vscale(&params->src, &params->dst,
-> +						      params->min_range, params->max_range);
-> +	}
-> =20
->  	KUNIT_EXPECT_EQ(test, scaling_factor, params->expected_scaling_factor);
->  }
+Hi Jonathan,
 
-For both I think we should add KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT calls,=
- no?
+Are those macros ok? in terms of where they are declared or whether they
+should be static inline functions? any preferences?
 
-Maxime
+> +
+>  enum iio_available_type {
+>  	IIO_AVAIL_LIST,
+>  	IIO_AVAIL_RANGE,
+> 
+> -- 
+> 2.43.0
+> 
 
---l72gnrb7cm3zxy4o
-Content-Type: application/pgp-signature; name="signature.asc"
+-- 
+Kind regards,
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCafhvCgAKCRAnX84Zoj2+
-dntHAYDS1y58bfYV6HBC/xGmy3ScNb3JXQaPk5lj+sGTSfkg+TOU32fyuZTWHM4Q
-EHySwfABfjO0e9VfrYX1GC6pOKjJuf+UHNoIMlbjFKSia25t5hZS0ZmG+kAkG3OI
-3vkSD8iAXA==
-=kzTF
------END PGP SIGNATURE-----
-
---l72gnrb7cm3zxy4o--
+Rodrigo Alencar
