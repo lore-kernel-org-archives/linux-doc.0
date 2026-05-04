@@ -1,122 +1,203 @@
-Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6583E2770
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 16:08:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.177
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777910901; cv=pass; b=noMWEanzhpH4lIswRvNzrH1vBvI1h9976NJqEKnjcuMQi5FYg7Ke5vOdHxufDoTEvNuH6DXvL6c/TwbPOGxQiZY54+JKuPzGrWT4CLwZ5eHawInOfIMo34RB4Y1GLH9sdKysvjqPDhI2peaS/xVOJPJLCgkKl/1HN1yBsxniOVU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777910901; c=relaxed/simple;
-	bh=ef5tKPM5IfhcdqWy2kyiuJK0jTEY69jCU5pmQ0Pz2z4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RjLO6o66EMR86G8T2V0LcF0fFbP1S7lgBhIQuU1NhzfKsKoVv7xrGhuWS338BqA3W1edqTvwv+25qBAwLthQfsFo1DYmwg4xjbFd8ua0Kfu0G7Ij+n5H7e5a9+hi06skmOWtMdezl+gTa1ZcBKV+RIgJjy2sN8MzADkHYtKcbcU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l+/Iwx6K; arc=pass smtp.client-ip=74.125.82.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54C2E1CAA65;
+	Mon,  4 May 2026 16:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777912003; cv=none; b=Cmk/9Fhg/6G2T/n00TBTBzoOSNYMFO8516yn7/EQpxt8HBRL6QZBzewLh0A2GqPaXY2+4c9XBo/yvnoXsMy8fRsl5bEoHiFz8dJbTEiYjKpoqNsltVnXXn+ISn57n01A08cmG2nEnKo1MFbsShEMyXtFbWeUEHXKw7R6ZG1gK+0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777912003; c=relaxed/simple;
+	bh=E9px648KO3wjHBF0FvoQJ7oWqClwxx9bwOStqChZ5Dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P95pw0JAONBHDobKjHhzhdH05gTpwDkXlRiEiDd6gHtMLcQbsSzAgPLmBgVkppZAs3zSOefJPd2uuUQaihfU0msF5jQv7d8+LpyqkpJrcHgvFAS6wYom7idgTG8ySwY5Xxv304QayKHO0nR8LXb2NrpQD+HVRuYBJ0awvdatoUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C7nsBiw9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l+/Iwx6K"
-Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f1b00a75ffso103502eec.3
-        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 09:08:19 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1777910899; cv=none;
-        d=google.com; s=arc-20240605;
-        b=e/45qUbrm/Jmmva8al1wHaLonteIMxrVoRKA7RaJf7/rtlmzsvn3TTk6fJs0U9OIm+
-         P7el2aJduxCUwMM/yF3uZCHvryrsjPFqiI/jbajlq02bvfYHEERy4mbp6TG/OC765Gud
-         1GEUN3d9c9KDZwwJZ/6FRM+KR8zmZCEAJDMNZDpSEitiBp98tsVOxHNuJGvB4s8Haihu
-         g5Dmr9cHjEluhBUbkH7IH8RGOQDhZmGEMXESXlywoy7W69c7S7ipUOLATkHGcwiwO2Oy
-         hOsFKXLjxIRcozSVb50c11LoIxa0acOeakMru73uG7YRlYDQAF3pwFjn5fs6QtLJ8zPx
-         Hl8Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=0nNZrt61r3aoHY7uvFYEzXGLx4Snsy5tjVPxAnA1s7U=;
-        fh=wE2nI014YZBcT5uJ60NYL3b2RoNaYoUFLDyKj4Ujs5k=;
-        b=FshSq0ZlrJsuVK92M9sygIlKPm2PZwCN4P2k5qPXrcd7nZsbd9J2hyvzuRYu9124lg
-         qTIMy2Ec0+uR4OaAIImNBMjJAdexiuaJQQG4dq6LKyJbqAk3OZRJ8Paq8CN9Hvlwf/bf
-         5rxh1biM4RFhWTwCD43ZefdOShAqpn/m7MPZy5vUzOQFujIFxfz7UO5Ed2TR1neaN0jG
-         /7/VS6pjWwnrBOx/g1DmH/Pg37ZSGElwcctmsxf/J3a3l97RqXoVWDbYda4Lnu2Z/SxK
-         7aut1OYZB8W/sOhgTXvRNPteTBffgq5jqYfKZSwxxzOSBF6rWpb0sTK+tlrcn2LTaAoX
-         qN7g==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777910899; x=1778515699; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0nNZrt61r3aoHY7uvFYEzXGLx4Snsy5tjVPxAnA1s7U=;
-        b=l+/Iwx6KXSIbo2zdrXuJpYOmT4v/emwmD6K41t5JCZt1j3lBOY+CpuD92VEu1WwYTw
-         NgncSU588QsJ0H5xYqgv/P4I3wDk61+sQkHmeLixW8/XDkspCnRqDDjjDqGbigHH0/Sc
-         y6tNwF+MHg4nqVCXK07KQT/N2EbJTudpXEOUqJCp/nlyZDu24j6P6jBzIhiijz3Ilh9X
-         bR6EVR/618RJev/A+aoOrwlmYS3KJvi/AuWyk1gbzi5FZ582YUkcNYAOoHsirnOY+KeG
-         bSias/mjm8Pb57jm9qmSif99OQVUfpNIcQHg/N4mk70SDqtJXikK1jyWSRiCV+5Q5IMt
-         H9fA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777910899; x=1778515699;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0nNZrt61r3aoHY7uvFYEzXGLx4Snsy5tjVPxAnA1s7U=;
-        b=icStT5gRTXtSnKU5DCt7I4PlvnzFYvH5QOoSi/WKypSGZ8cta5KD2ukEqGT5gsNb9E
-         xNVAV5hvroVQK8r3mMo56gS1rtzgMEr4Js2KtaQ7uAqpKHqIwrSOafqmCoZ2WUUI8Fv7
-         lXzfFM2BdPGvMi3LK1dczG7phDpb3Sk1a8ExR/MARTpp/pe92eop9/3FVmQwrxugn7rU
-         QZmnxpW0a70pF5ezFSA22p77+uMC+DFv8/F27gxSCr21XunZIPU+/cn4zGcCrsSerYlt
-         rA4+vQEbpWbaxWnH9jT5pFgWGlFyD4R2tFeHJYgkwggVVciebKWMS0qJN/Rf1+YFdZDW
-         Zp0g==
-X-Forwarded-Encrypted: i=1; AFNElJ+QOLccJz9/FqJyIHI78QmaJjElqobhUkfQDdXkhPXvDa9PwEpm7F/Bo6ZC8+q/fVwLsVgzY/14fPg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynHPdXhWySfWyxdqWqbvLS+443uPZPEyhnK3FS3yowZLCmAdP2
-	GkZWO0k+Jn93yzIiaQ1KKb3Renv3GwZBOu/Ht88r2crCHkZqUsQZ8+N3MgaY4PxQDnZIBgkXsFw
-	5rKwKKAJVpwa8VCvUbLDCAqLSYz+DIRI=
-X-Gm-Gg: AeBDiesGCx50/W4m6YbfI9isJUPZ34fcM6lGE53B9rhjU3VaPoy4CaLvtcfsGW5kTYl
-	yEac2j2f1cBAUf/EUzenhqVu/kor2dIvz8mi0EK2anvOkfcpVgsNtLsMRqbigRPtTQTLfPULiwl
-	9wuqHyxpCZUNCTvSD4DBpkhdjvP+zBrti+MAu2TRlfCOP+xGCY3ZaosWL9QN2LrclJuWkxEB36W
-	2tDKe9pCf5OpdgvU9RzfajAOeY2Lal8uPmZV4Udb3HQ6fbqNVk75Bt8fX3+7j26/Dg00OY8pIWB
-	njOXLaN+i9VBUrqq5qrRBfbSVogeGu9VaoIZbztFCTbqFl+7S35io9m+H/b84Vtg8ZyenLb62KF
-	b+6Kf/maPBdOxAPyP9XnptYD8XPBqgveElg==
-X-Received: by 2002:a05:7300:cd8f:b0:2e6:b55a:76ca with SMTP id
- 5a478bee46e88-2efb4d405e9mr2513742eec.0.1777910898694; Mon, 04 May 2026
- 09:08:18 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C7nsBiw9"
+Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D36F9C;
+	Mon,  4 May 2026 18:26:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1777911995;
+	bh=E9px648KO3wjHBF0FvoQJ7oWqClwxx9bwOStqChZ5Dg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C7nsBiw9DfJdqe3vAIYvrHSaWv8vOFVzMj0n+NiBzUAPMyhk8h2a2SM2Bulaujsx8
+	 d1pRVOk4Ncb3L1muy/CHM/aX8ZQX1GlcGVUsDs0tNhAx+haCjF7MzMb+9wF1uQ5IaL
+	 OgYAB8rIqmJUXUEvwtBpDVsHyESYrjqNYazNcKwY=
+Date: Mon, 4 May 2026 19:26:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Jyri Sarha <jyri.sarha@iki.fi>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Andrzej Hajda <andrzej.hajda@intel.com>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
+	Jernej Skrabec <jernej.skrabec@gmail.com>,
+	Simon Ser <contact@emersion.fr>,
+	Harry Wentland <harry.wentland@amd.com>,
+	Melissa Wen <mwen@igalia.com>,
+	Sebastian Wick <sebastian.wick@redhat.com>,
+	Alex Hung <alex.hung@amd.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	Chen-Yu Tsai <wens@kernel.org>,
+	Samuel Holland <samuel@sholland.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
+	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
+	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
+Subject: Re: [PATCH v3 01/20] drm/atomic: Document atomic state lifetime
+Message-ID: <20260504162636.GF1344263@killaraus.ideasonboard.com>
+References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
+ <20260424-drm-mode-config-init-v3-1-8b68d9db0d8b@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777908711.git.mchehab+huawei@kernel.org> <fce06f1b1c620c65ff6ddbc09fb4808ecc1aade3.1777908711.git.mchehab+huawei@kernel.org>
-In-Reply-To: <fce06f1b1c620c65ff6ddbc09fb4808ecc1aade3.1777908711.git.mchehab+huawei@kernel.org>
-From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Mon, 4 May 2026 18:08:06 +0200
-X-Gm-Features: AVHnY4Ipj2td3lDPcisK9Oy4r7A3v6-c04Xe-ovcQ91rWKS4uDVm6C_HRMmRODo
-Message-ID: <CANiq72n+y0AerfiUzh5fLpMRiGGFq5rMxqweHG-TsmX_05vxBA@mail.gmail.com>
-Subject: Re: [PATCH 8/9] docs: maintainers_include: don't ignore invalid
- profile entries
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
-	Benno Lossin <lossin@kernel.org>, Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, 
-	Gary Guo <gary@garyguo.net>, Miguel Ojeda <ojeda@kernel.org>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Trevor Gross <tmgross@umich.edu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20260424-drm-mode-config-init-v3-1-8b68d9db0d8b@kernel.org>
 
-On Mon, May 4, 2026 at 5:51=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
->
-> Currently, there is a "P" entry for Rust pin-point that is
-> neither a valid ReST file nor an hyperlink. While the real
+Hi Maxime,
 
-I guess you mean pin-init above, i.e. this entry:
+Thank you for the patch.
 
-    P: rust/pin-init/CONTRIBUTING.md
+On Fri, Apr 24, 2026 at 12:18:41PM +0200, Maxime Ripard wrote:
+> How drm_atomic_state structures and the various entity structures are
+> allocated and freed isn't really trivial. Document it.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/gpu/drm-kms.rst |  6 +++++
+>  drivers/gpu/drm/drm_atomic.c  | 55 +++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 61 insertions(+)
+> 
+> diff --git a/Documentation/gpu/drm-kms.rst b/Documentation/gpu/drm-kms.rst
+> index 2292e65f044c..017c7b196ed7 100644
+> --- a/Documentation/gpu/drm-kms.rst
+> +++ b/Documentation/gpu/drm-kms.rst
+> @@ -280,10 +280,16 @@ structure, ordering of committing state changes to hardware is sequenced using
+>  :c:type:`struct drm_crtc_commit <drm_crtc_commit>`.
+>  
+>  Read on in this chapter, and also in :ref:`drm_atomic_helper` for more detailed
+>  coverage of specific topics.
+>  
+> +Atomic State Lifetime
+> +---------------------
+> +
+> +.. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+> +   :doc: state lifetime
+> +
+>  Handling Driver Private State
+>  -----------------------------
+>  
+>  .. kernel-doc:: drivers/gpu/drm/drm_atomic.c
+>     :doc: handling driver private state
+> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
+> index 41c57063f3b4..253a00f450b0 100644
+> --- a/drivers/gpu/drm/drm_atomic.c
+> +++ b/drivers/gpu/drm/drm_atomic.c
+> @@ -45,10 +45,65 @@
+>  #include <drm/drm_colorop.h>
+>  
+>  #include "drm_crtc_internal.h"
+>  #include "drm_internal.h"
+>  
+> +/**
+> + * DOC: state lifetime
+> + *
+> + * &struct drm_atomic_state represents an update to video pipeline
+> + * state. Despite its confusing name, it's actually a transient object
+> + * that holds a state update as a collection of pointers to individual
+> + * objects' states. &struct drm_atomic_state has a much shorter lifetime
+> + * than the objects' states, since it's only allocated while preparing,
+> + * checking or committing the update, while object states are allocated
+> + * when preparing the update and kept alive as long as they are active
+> + * in the device.
+> + *
+> + * Their respective lifetimes are:
+> + *
+> + * - at reset time, the object reset implementation will allocate a new
+> + *   default state and will store it in the object state pointer.
+> + *
+> + * - whenever a new update is needed:
+> + *
+> + *   + A new &struct drm_atomic_state is allocated using
+> + *     drm_atomic_state_alloc().
+> + *
+> + *   + The current active state of affected entity is copied into this
 
-It would be nice to clarify it in the commit message that it refers to
-a file (which is allowed for `P:` entries according to the docs).
+s/affected entity/affected entities/
 
-And, yeah, ideally we could make it a hyperlink to the raw file.
+but maybe clearer, I'd write
 
-Thanks!
+  + The current active state of all entities affected by the update is
+  copied ...
 
-Cheers,
-Miguel
+> + *     new &struct drm_atomic_state using drm_atomic_get_plane_state(),
+> + *     drm_atomic_get_crtc_state(), drm_atomic_get_connector_state(), or
+> + *     drm_atomic_get_private_obj_state(). This new state can then be
+> + *     modified.
+> + *
+> + *     At that point, &struct drm_atomic_state stores three state
+> + *     pointers for any affected entity: the "old" and "new" states, and
+> + *     state_to_destroy. The old state is the state currently active in
+> + *     the hardware, which is either the one initialized by reset() or a
+> + *     newer one if a commit has been made. The new state is the state
+> + *     we just allocated and we might eventually commit to the hardware.
+> + *     The state_to_destroy points to the state we'll eventually have to
+> + *     free when the drm_atomic_state will be destroyed, and points to
+> + *     the new state for now since the old state is still the active
+> + *     state.
+> + *
+> + *   + After the state is populated, it is checked. If the check is
+> + *     successful, the update is committed. Part of the commit is a call
+> + *     to drm_atomic_helper_swap_state() which will turn the new states
+> + *     into the active states. Doing so involves updating the object's
+> + *     state pointer (&drm_crtc.state or similar) to point to the new
+> + *     state, and state_to_destroy will now point to the old states,
+> + *     that used to be active but aren't anymore.
+> + *
+> + *   + When the commit is done, and when all references to our &struct
+> + *     drm_atomic_state are put, drm_atomic_state_clear() runs and will
+> + *     free all state_to_destroy (ie. old states).
+
+I would also mention here that the drm_atomic_state itself is freed at
+this point (unless I'm mistaken and the drm_atomic_state still lives on
+for some time, in which case this misunderstanding is probably a sign
+that the correct behaviour should be documented :-)).
+
+With this,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+> + *
+> + *   + Now, we don't have any active &struct drm_atomic_state anymore,
+> + *     and only the entity active states remain allocated.
+> + */
+> +
+>  void __drm_crtc_commit_free(struct kref *kref)
+>  {
+>  	struct drm_crtc_commit *commit =
+>  		container_of(kref, struct drm_crtc_commit, ref);
+>  
+
+-- 
+Regards,
+
+Laurent Pinchart
