@@ -1,191 +1,82 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F9273E3D89;
-	Mon,  4 May 2026 16:53:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E38821F5821;
+	Mon,  4 May 2026 16:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777913617; cv=none; b=b17sZ+9XXJcnH4SqzHsNN/2yXzeC3vqmPtcMzBMBESQ66kpjunwxaGdu1/FLGjkceAp2LC6txDGCEuKNMJryGcQFqopBzrT0aZnws9VVAK00mWLC20VGU9/oYMASrNrUrg0Ptj3v6zUwMIWz7VizUWwn1jZbbOJi5mN9XoQ9+0U=
+	t=1777913897; cv=none; b=JRdSdgDRE5KZVrnNEdsHDRuNUnMmq9gbwMcosf5/B4PwoVTzf9K4++3JDnpUQnwvVwCwPk+T9sLYxGN9SJj6fN/WhkQ3m2eEPve0SwF51ga0Ov4t6rjWaH93D6tU5WrBVIltPjOpo+5iGR9BCnYVpILlOP4TfXqQd/3nZAm6UW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777913617; c=relaxed/simple;
-	bh=+EZl9qZ81AdPzkkEwOpCoiOGzDn6NE5XspISBAQ0FQQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y9r5OJNnhhFhVAq4kQ6TocTkxpfhkd65WmGHJ6r2fKWwrerUxk1zW6QKecD7zNVHi7prPeT+Nr9I/iRObBE8RLZ1DrZ7ezLfgInABo46FTUhWVDrsWXXhI4SqQGQ7MiE7t9GzfKFphyCtiKcJ43wC+SfEyLsMP646whj5BcY8No=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CvpwrU2Z; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1777913897; c=relaxed/simple;
+	bh=XhgXUyGfG2nyaluK0MeJ9Ts+z2JPQ05UrF+BAsOzOis=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MNIJH/DBFgN1U0tNCB0itR6IhlRG+ODe6Qt1VrBP27pi1IUm+yWpDcTU4bWiimrTV7VRwT2F1I6SShg95+2CCLL0mZRO+thBqUcz3bro08w88x01amaQEno4kJZDmtmos996y6JF3lZdDMrzrQnpEkE3DCTUq0NqRZ4R1BQsxvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b=DQBcbQWk; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CvpwrU2Z"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4904D9C;
-	Mon,  4 May 2026 18:53:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777913611;
-	bh=+EZl9qZ81AdPzkkEwOpCoiOGzDn6NE5XspISBAQ0FQQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CvpwrU2ZVuvJEMaGn/PmoNDMHJ4B3SbUdj8uAZYFJFB4/dGDtzcjF75/LvVQ5YzAC
-	 RIfuJ0A5tkqa40FdmOa+pVb3ieNpgSDKRNch8yvbU7lZ/WZeC7JAT/BYdlOHosaoI3
-	 2uLpdybBMGCQTjbhn81cN5aCxRU9TN2Zq1AFa1Oo=
-Date: Mon, 4 May 2026 19:53:32 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	dkim=pass (1024-bit key) header.d=arm.com header.i=@arm.com header.b="DQBcbQWk"
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C1EB2169E;
+	Mon,  4 May 2026 09:58:09 -0700 (PDT)
+Received: from workstation-e142269.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E2DEE3F763;
+	Mon,  4 May 2026 09:58:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1777913895; bh=XhgXUyGfG2nyaluK0MeJ9Ts+z2JPQ05UrF+BAsOzOis=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DQBcbQWkRpXner/WSIx9wZbSYOCYk7i4K3TCNHhWuUYE9J/zJqLADFOWjV6TEnTay
+	 nQhe1uzmCQViGe41wg6qd2MkJaCHzvCvKQ9x1IvKfPulWqwEJlLVu9maIWONgP/rO1
+	 tPWsnNUP8wdcw7JKbQv3dC1skMS0zTEoQ5WPSUlE=
+From: Wei-Lin Chang <weilin.chang@arm.com>
+To: maple-tree@lists.infradead.org,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: "Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Ballance <andrewjballance@gmail.com>,
 	Jonathan Corbet <corbet@lwn.net>,
 	Shuah Khan <skhan@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Simon Ser <contact@emersion.fr>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 11/20] drm/atomic-state-helper: Rename
- __drm_atomic_helper_crtc_state_reset()
-Message-ID: <20260504165332.GN1344263@killaraus.ideasonboard.com>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-11-8b68d9db0d8b@kernel.org>
+	Wei-Lin Chang <weilin.chang@arm.com>
+Subject: [PATCH 0/2] Documentation: maple_tree: Improve statements on reserved values
+Date: Mon,  4 May 2026 17:57:44 +0100
+Message-ID: <20260504165746.1422057-1-weilin.chang@arm.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20260424-drm-mode-config-init-v3-11-8b68d9db0d8b@kernel.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Apr 24, 2026 at 12:18:51PM +0200, Maxime Ripard wrote:
-> __drm_atomic_helper_crtc_state_reset() is used to initialize a newly
-> allocated drm_crtc_state, and is being typically called by the
-> drm_crtc_funcs.reset implementation.
-> 
-> Since we want to consolidate DRM objects state allocation around the
-> atomic_create_state callback that will only allocate and initialize a
-> new drm_crtc_state instance, we will need to call
-> __drm_atomic_helper_crtc_state_reset() from both the reset and
-> atomic_create hooks.
-> 
-> To avoid any confusion, we can thus rename
-> __drm_atomic_helper_crtc_state_reset() to
-> __drm_atomic_helper_crtc_state_init().
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_atomic_state_helper.c | 10 +++++-----
->  drivers/gpu/drm/i915/display/intel_crtc.c |  2 +-
->  include/drm/drm_atomic_state_helper.h     |  2 +-
->  3 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index 50fe4eec41a8..9cd8550cabb7 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -61,25 +61,25 @@
->   * For other drivers the building blocks are split out, see the documentation
->   * for these functions.
->   */
->  
->  /**
-> - * __drm_atomic_helper_crtc_state_reset - reset the CRTC state
-> + * __drm_atomic_helper_crtc_state_init - Initializes the CRTC state
+Hi,
 
-"Initialize"
+This is another version of [1], where I improved wording.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+While using the maple tree and reading its documentation, I found a few
+bits confusing, mainly about the reserved values. So here are some
+changes hoping to make things clearer.
 
->   * @crtc_state: atomic CRTC state, must not be NULL
->   * @crtc: CRTC object, must not be NULL
->   *
->   * Initializes the newly allocated @crtc_state with default
->   * values. This is useful for drivers that subclass the CRTC state.
->   */
->  void
-> -__drm_atomic_helper_crtc_state_reset(struct drm_crtc_state *crtc_state,
-> -				     struct drm_crtc *crtc)
-> +__drm_atomic_helper_crtc_state_init(struct drm_crtc_state *crtc_state,
-> +				    struct drm_crtc *crtc)
->  {
->  	crtc_state->crtc = crtc;
->  	crtc_state->background_color = DRM_ARGB64_PREP(0xffff, 0, 0, 0);
->  }
-> -EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_reset);
-> +EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_init);
->  
->  /**
->   * __drm_atomic_helper_crtc_reset - reset state on CRTC
->   * @crtc: drm CRTC
->   * @crtc_state: CRTC state to assign
-> @@ -94,11 +94,11 @@ EXPORT_SYMBOL(__drm_atomic_helper_crtc_state_reset);
->  void
->  __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
->  			       struct drm_crtc_state *crtc_state)
->  {
->  	if (crtc_state)
-> -		__drm_atomic_helper_crtc_state_reset(crtc_state, crtc);
-> +		__drm_atomic_helper_crtc_state_init(crtc_state, crtc);
->  
->  	if (drm_dev_has_vblank(crtc->dev))
->  		drm_crtc_vblank_reset(crtc);
->  
->  	crtc->state = crtc_state;
-> diff --git a/drivers/gpu/drm/i915/display/intel_crtc.c b/drivers/gpu/drm/i915/display/intel_crtc.c
-> index b8189cd5d864..a2ed4a76e061 100644
-> --- a/drivers/gpu/drm/i915/display/intel_crtc.c
-> +++ b/drivers/gpu/drm/i915/display/intel_crtc.c
-> @@ -179,11 +179,11 @@ struct intel_crtc_state *intel_crtc_state_alloc(struct intel_crtc *crtc)
->  void intel_crtc_state_reset(struct intel_crtc_state *crtc_state,
->  			    struct intel_crtc *crtc)
->  {
->  	memset(crtc_state, 0, sizeof(*crtc_state));
->  
-> -	__drm_atomic_helper_crtc_state_reset(&crtc_state->uapi, &crtc->base);
-> +	__drm_atomic_helper_crtc_state_init(&crtc_state->uapi, &crtc->base);
->  
->  	crtc_state->cpu_transcoder = INVALID_TRANSCODER;
->  	crtc_state->master_transcoder = INVALID_TRANSCODER;
->  	crtc_state->hsw_workaround_pipe = INVALID_PIPE;
->  	crtc_state->scaler_state.scaler_id = -1;
-> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-> index df371b2eef3e..e7fbbfdc5d69 100644
-> --- a/include/drm/drm_atomic_state_helper.h
-> +++ b/include/drm/drm_atomic_state_helper.h
-> @@ -38,11 +38,11 @@ struct drm_connector_state;
->  struct drm_private_obj;
->  struct drm_private_state;
->  struct drm_modeset_acquire_ctx;
->  struct drm_device;
->  
-> -void __drm_atomic_helper_crtc_state_reset(struct drm_crtc_state *state,
-> +void __drm_atomic_helper_crtc_state_init(struct drm_crtc_state *state,
->  					  struct drm_crtc *crtc);
->  void __drm_atomic_helper_crtc_reset(struct drm_crtc *crtc,
->  				    struct drm_crtc_state *state);
->  void drm_atomic_helper_crtc_reset(struct drm_crtc *crtc);
->  void __drm_atomic_helper_crtc_duplicate_state(struct drm_crtc *crtc,
+I am not familiar with the implementation, so if I got something wrong
+please let me know.
+
+While looking at the code I also found that although the doc claims the
+normal API blocks reserved value stores, the code checks this using
+xa_is_advanced(), which only blocks values up to 1026, not up to the max
+maple tree reserved value 4094. For this part I am not sure whether the
+code needs to be changed or we can also improve the doc.
+
+Any feedback is appreciated, thanks!
+
+[1]: https://lore.kernel.org/linux-mm/20260418204754.120405-1-weilin.chang@arm.com/
+
+Wei-Lin Chang (2):
+  Documentation: maple_tree: Point out constraint when using xa_{mk,
+    to}_value
+  Documentation: maple_tree: Clarify behavior when using reserved values
+
+ Documentation/core-api/maple_tree.rst | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
