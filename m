@@ -1,72 +1,101 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E34317148;
-	Mon,  4 May 2026 20:32:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4675C32BF5D
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 20:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777926768; cv=none; b=oynhWaIOru2QAROmBI1OuZi387r9pQAB9BY0QVmnHjTS6HITHdCDDGCzU1nvW0awvhEOO60aK9AHqowKSsdy8y9/rUXyemf9CNqmDMCORoVaOY8Ar5nYzlrsqfkYTUz0ZAgnVGlR2U0N9QnVkqXbU6zMnEmH8NAhswqESM+rddU=
+	t=1777928311; cv=none; b=JSMvTUHM/Zzp9UaKb2ZdrDSc/OgtOQGzgu7kZdc3qmg+5vy9WrcllpoRzYTHUnJiPNSNkfOVBpOPGrEsVWoI9ASdEh2xYN3hrUTRUUMMKqGF02HJUpQ2GSqvLBTvQz3ekkwBmeYw0LvDdSjNnjGp4ffnsrFK71u4RkQlRkt6EE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777926768; c=relaxed/simple;
-	bh=wEH/+lS0JicHkpdDgkMtEnUlHf1L2YTeXBhpUlqkJGM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D7qdL0sqAvhjRQKCPFLmv3DdrBQb0fLzoze0l7eGsmBn4RLMuMIkhJFs3a4LvKntJIplUfaxBi66o3kKZkNRrq+DxNtNasWFPsvb+nuZ7JSN0nGtxzvzqiGF2aXKNEjEafdXrNR4m84hroiUmTp9uFcwHOcPvTdBwtEOdIcZY20=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KSvaHFxL; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777928311; c=relaxed/simple;
+	bh=AnHqmTk7h+qZbfpUtv/6QvkRxKkNv38kGyl2d1Y1klo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oQmT7CYqRhvnU9CBNS2u4eG7LE4iCeumu1/k1twoSwIpmKZXArrtWu1fJcHzxpZV+IQiIR05J+3+1mf3aTFs35PLbTuuTsayiTx+oSCrV596WdxkTVURp6NhuSXMaDzjZTRNdZhSnqebFCoPWwbAQfVro1jNb4PWgjih3AcVwbk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=CIfgjEuW; arc=none smtp.client-ip=209.85.160.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KSvaHFxL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=V8IJ0XLiNUSdII4ZYGeMeYsOXFzkpTWAB5nfUHMUTJQ=; b=KSvaHFxLwR6VTX9keDbXdE2hDJ
-	LcU/HmUI1j+39WRIZKFG8wnm7lYCbZmxzflG8arBNkzQHxVjqaJ8VgIwfIn2g6l4XNjvHjbaLUJSi
-	OySLEt8kXA+JbNl1MrRg8l6MwhlN5+3PUiKgbtNmIV9NiegVg2g2dddWmyKbYVd4LaSpss9pevlU1
-	MugUXUuMYap1Me1DgPuj4KgL/rFPjgTeN3zwtPNAQple3ee3QIU4MmuyTUTdmkXaU2+IJsE3SeJ3/
-	aO39NHoGMkR9bM7niMlhyYbgRb1vX+z9o3NauZ1GRnUDAFOsW6K5yYOa2oA+wdWXGezneRwWUWxlt
-	ixg8n/5w==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wJzy3-00000001TtN-0mDK;
-	Mon, 04 May 2026 20:32:39 +0000
-Date: Mon, 4 May 2026 21:32:38 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Wei-Lin Chang <weilin.chang@arm.com>
-Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Andrew Ballance <andrewjballance@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>
-Subject: Re: [PATCH 1/2] Documentation: maple_tree: Point out constraint when
- using xa_{mk, to}_value
-Message-ID: <afkCZkHcn58S3GLD@casper.infradead.org>
-References: <20260504165746.1422057-1-weilin.chang@arm.com>
- <20260504165746.1422057-2-weilin.chang@arm.com>
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="CIfgjEuW"
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-40427db1300so3431332fac.0
+        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 13:58:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1777928308; x=1778533108; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0amaTMBgDEgs3tF4RCm1e9Dle/WjpaIw0roTFTHbcEU=;
+        b=CIfgjEuWFXT2dSbfPdLSygsJ1jexgKi2KKMddjnqAn9oA6KqvICrx/50cpA6l8Cgbp
+         BvIQKVLfJgKfURSIkO9tlO6DZHBKsJ/iuMQ4cLFsh5bzIfLNRJdzrdA1FVNRyCZBPWYu
+         lzD+ex9/GsrtRnyjrgHIufY42K/K+Gp9ue+gI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777928308; x=1778533108;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0amaTMBgDEgs3tF4RCm1e9Dle/WjpaIw0roTFTHbcEU=;
+        b=nmTkXPgT/XzRXnRLV03+PmCI2SzT6kCIRRKNT/gEMMfAJ2qSZ3B/zFHxqZ1fRacJ8t
+         ySqrMaGVp3Ix0rTafFhPHujkOqJbKLMQw91fsdveRBFpKIOiO+z5jIgQ1iuaJVz3d7JE
+         U+47mT7ViR/Kkpv6vPdWKd3vzfGRrXVBj8w19JDqEsD28zmDOf4IUsKnlYWn5WhTX15F
+         ZyNi5q6Kuq41txxbwaEjmDGUXtm8PV+WCZOFjcrSirZ97glW+8M4a6at35SOWp9upwBS
+         GePn27Af9n2m7l+/D7l+fCp3WfYFDraVJkbZtneNjZ8FO/y7Qc8KM+cIHiwhhvPWUz1S
+         WJ3g==
+X-Forwarded-Encrypted: i=1; AFNElJ+nPg/1yX+M6aCerSXFONzrT6rghcQxapDJW/sUSfb0sAGUS++5r59xrFCJ1OyONdCy5WhfIeY4OKc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHKnoD4xnTeOIAS/oF2Nih1GeOURfbVUi/mo3JdvOcTzJjpazr
+	uL0odpS0VXC9+R5+pY5BLEoKB0ml//jasaJXOXZHKTYBOoHrLLngItaYN499iMX57Lc=
+X-Gm-Gg: AeBDieszJYzWomfnKwdVCE08iwNzaOBfYcTNnZ81uq1pgTwuOIXAwzHlle4kdtmp/bE
+	fGxDo3TXed5iTt7pYMsUdmZ2zwU30tJJrZeOO7UeGqLae6XXKBNOvhBAqRGKM5wIpZgXaWNL4ye
+	pAl8TI4XBkBUaMMvVVhh3G2Ac4LFHlRDICkiKPG+MPgKQKtJX4/H7EyZVLYSVWBZaAMh9Wg0D1b
+	/VUAiwnpgLE+mUeLLuqLu/zgPPee8jd2iho7hYYGOFGn5YWceTcIM6AvNQAjzv8Cb/ebP+hZox6
+	K0x5UTlEfLT1mKiQy+AwJ9eguIf/UfCR2jYMw8/c4ANiar+ocEvXbP2AHaq2DyagQvuSRJClpiT
+	MxMB+1+XYn7WVibH/IspLC7GFHd00Un4ghAS9T8B2+RL/ajnhsyHSgShQDYSQqvxlC7ai6xnbEL
+	JCX0nB6Wvgg5X3y4fsEsVZeWU78K+7xvKUvI2SsfrhfA==
+X-Received: by 2002:a05:6870:1776:b0:42c:ecc9:58b3 with SMTP id 586e51a60fabf-434760613c0mr6278794fac.10.1777928308251;
+        Mon, 04 May 2026 13:58:28 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454cbbbd7sm10977170fac.10.2026.05.04.13.58.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 May 2026 13:58:27 -0700 (PDT)
+Message-ID: <444d823c-40d0-4c14-ac8e-4f810a5a2f04@linuxfoundation.org>
+Date: Mon, 4 May 2026 14:58:27 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260504165746.1422057-2-weilin.chang@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: kselftest: Document the FORCE_TARGETS build
+ variable
+To: =?UTF-8?Q?Ricardo_B=2E_Marli=C3=A8re?= <rbm@suse.com>,
+ Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kselftest@vger.kernel.org, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260417-selftests-docs-v1-1-32e4a78214eb@suse.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 04, 2026 at 05:57:45PM +0100, Wei-Lin Chang wrote:
-> Using xa_{mk, to}_value when storing values loses the information of
-> the top bit from the left shift, point that out in the doc.
+On 4/17/26 11:36, Ricardo B. Marlière wrote:
+> FORCE_TARGETS has been part of the kselftest build system for
+> some time but is absent from the developer documentation. Without
+> an entry here, users relying on kselftest in CI pipelines would
+> have to read the selftests Makefile directly to discover the
+> option.
+> 
+> A build that exits zero despite some targets failing can mask
+> real breakage and mislead automated systems into reporting
+> success. Add a dedicated section so that CI authors can easily
+> find and adopt FORCE_TARGETS=1 to turn such silent partial
+> failures into hard errors.
+> 
+> Signed-off-by: Ricardo B. Marlière <rbm@suse.com>
+> ---
+>
+Thanks Ricardo. I applied it to linux-kselftest next branch.
 
-I don't know if that's necessary ... it's obvious when looking at the
-function:
-
-static inline void *xa_mk_value(unsigned long v)
-{
-        WARN_ON((long)v < 0);
-        return (void *)((v << 1) | 1);
-}
-
-and if you ignore it, you'll find out.  But if this needs to be
-documented anywhere, it's in the kernel-doc for xa_mk_value()
-and not in the maple tree docs.
+thanks,
+-- Shuah
