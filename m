@@ -1,115 +1,178 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail.avm.de (mail.avm.de [212.42.244.119])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD09D3D7D8C
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 12:59:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340313D9DCF;
+	Mon,  4 May 2026 13:52:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.42.244.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777899585; cv=none; b=MHi7eFZ47EzAO6zKDm0bZXl4tSljj3eUVRcpOt6cuTOmrmRarKqOE6N3G/yot5YhnB8xluRCXJtl0gc/Zf2LJXx8TNFY2nDR5KQxlBlSpBOepUtY440VeJwy1qWnxfaYp/B1KEfyLF8+gS0m5fiSGS17W/yXZyGcK/s50zQsqxk=
+	t=1777902754; cv=none; b=uyyokCQrUJLGU/vXAFGJYbfOu9txO5ealEQf45udz41yp2iAmz6PHDftXdLWzMMlD3bVDptf8nKDOPvs3+gAxtMbpBWKlvo9c1WB2n5JS2WJ+kwdp4A9ScMdCNspGyYGAQIFYd43mkRQ3XrWPELe98jNR3tNLcPpMzmx4sB2ce4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777899585; c=relaxed/simple;
-	bh=AkaRMWJcfZQngMfBbKjbOZI3+ub0kaJeMvKtlY7x+cw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dVIKmZswiR4ymyn+Vnl8D1tIbwjS6XtNtU1Ow4HA9/UFvdXFOCmohyKUS/XyCw6kCF29ayWe3ReAZ6Og73tLgq/BNTQ31UPaNOYID/rjgZpGbqmzDK8n+r+l5LpLUVX7+61lkvJDgi9nx206a7lGlDZNImL8o4ySDCHeugvKEpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=F4u+K/oK; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1777902754; c=relaxed/simple;
+	bh=ttX60hNNc0JOKvmlZKq7C+/hMW4CwXG+bLrbojIUd7U=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dJCSNqMHsPBCct/nqdup5b5paTa+M2fCgp4jO5ac7iBd7GIdoJQVvXgWWrENujGk+/XYratUDa21d5OWxsW7DBhjLOxFDxlUl9iULsHj1acJKDLsJeqFjBYPFt+eWpFEx8i28jJ+QXelZTFY18cij2OZdDdQ1QozaQzbQ20Aw7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de; spf=pass smtp.mailfrom=avm.de; dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b=rz+9GwvV; arc=none smtp.client-ip=212.42.244.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=avm.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=avm.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="F4u+K/oK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1777899580;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=6Z+wfwvn6biVJ4qI194NIBWVjqR1H3eW4BSETGvGmIg=;
-	b=F4u+K/oKwokPHL+jax2uytHm6um3VNIabkdwZ5CDspKETb2l5NUOEjixH2O3WPye3/8Gnv
-	em9s/kC7Tu4tESqZZQOFCqUUpW96vx2hscsAjIKAyjNj2JDpFxbhDX74GuqB/hBTH+ZyFz
-	+ugtZAoqj4JhvXTiysenr+OW/u+v0I4=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-194-LAUXZOfJMQagBvPmZnST8A-1; Mon,
- 04 May 2026 08:59:33 -0400
-X-MC-Unique: LAUXZOfJMQagBvPmZnST8A-1
-X-Mimecast-MFC-AGG-ID: LAUXZOfJMQagBvPmZnST8A_1777899569
-Received: from mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.17])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 9BB431800652;
-	Mon,  4 May 2026 12:59:28 +0000 (UTC)
-Received: from [10.44.32.88] (unknown [10.44.32.88])
-	by mx-prod-int-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 9596E1955D84;
-	Mon,  4 May 2026 12:59:22 +0000 (UTC)
-Message-ID: <40bb04ec-87a2-4e5f-9934-4ed46a731e4b@redhat.com>
-Date: Mon, 4 May 2026 14:59:20 +0200
+	dkim=pass (1024-bit key) header.d=avm.de header.i=@avm.de header.b="rz+9GwvV"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=avm.de; s=mail;
+	t=1777902749; bh=ttX60hNNc0JOKvmlZKq7C+/hMW4CwXG+bLrbojIUd7U=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=rz+9GwvV48N0bAYNFcGBNByXAgOCQ1Ew4nYXYZYr6j9JEBr5FpbMEG/wdSfRBrK2v
+	 j/BFuqtgsq1+fho0TayK4AWtMXFiOfi1gntZUZlVOPrk4CtSzfIzoAkgj08F76dA5v
+	 75cmxEiTboKQF8aqgErI67ewuLL2ZJ6EIQFaI3fc=
+Received: from [2001:bf0:244:244::71] (helo=mail.avm.de)
+	by mail.avm.de with ESMTP (eXpurgate 4.56.1)
+	(envelope-from <p.hahn@avm.de>)
+	id 69f8a49d-88c8-7f0000032729-7f000001e38c-1
+	for <multiple-recipients>; Mon, 04 May 2026 15:52:29 +0200
+Received: from mail-auth.avm.de (dovecot-mx-01.avm.de [IPv6:2001:bf0:244:244::71])
+	by mail.avm.de (Postfix) with ESMTPS;
+	Mon,  4 May 2026 15:52:29 +0200 (CEST)
+From: Philipp Hahn <p.hahn@avm.de>
+To: Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>
+Cc: Philipp Hahn <phahn-oss@avm.de>,
+	linux-watchdog@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 2/5] watchdog: Move `struct` before name
+Date: Mon,  4 May 2026 15:50:00 +0200
+Message-ID: <e66ec58f3b8252b3676cc9fe68818af95123210c.1777902230.git.phahn-oss@avm.de>
+In-Reply-To: <cover.1777902230.git.phahn-oss@avm.de>
+References: <cover.1777902230.git.phahn-oss@avm.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v2 1/2] dpll: move
- fractional-frequency-offset-ppt under pin-parent-device
-To: Jiri Pirko <jiri@resnulli.us>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- "David S. Miller" <davem@davemloft.net>,
- Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
- Michal Schmidt <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
- Pasi Vaananen <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>,
- Prathosh Satish <Prathosh.Satish@microchip.com>,
- Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>,
- Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
-References: <20260430173611.3312596-1-ivecera@redhat.com>
- <20260430173611.3312596-2-ivecera@redhat.com> <afhdCnT0ns-PgZD8@FV6GYCPJ69>
- <290673a1-fb5b-4586-b44a-e109cc1a4629@redhat.com>
- <afiQTPaMyAApbLRk@FV6GYCPJ69>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <afiQTPaMyAApbLRk@FV6GYCPJ69>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.17
+Organization: FRITZ! Technology GmbH, Berlin, Germany
+Content-Transfer-Encoding: 8bit
+X-purgate-ID: 149429::1777902749-69640582-841C82AB/0/0
+X-purgate-type: clean
+X-purgate-size: 5888
+X-purgate: This mail is considered clean (visit https://www.eleven.de for further information)
+X-purgate: clean
 
+From: Philipp Hahn <phahn-oss@avm.de>
 
+Write `struct ` before the structure name as Sphinx otherwise uses the
+following word after it. See
+https://docs.kernel.org/watchdog/watchdog-api.html#environmental-monitoring
 
-On 5/4/26 2:26 PM, Jiri Pirko wrote:
-> Mon, May 04, 2026 at 11:36:19AM +0200, ivecera@redhat.com wrote:
->> Hi Jiri,
->>
->> On 5/4/26 10:48 AM, Jiri Pirko wrote:
->>> Thu, Apr 30, 2026 at 07:36:10PM +0200, ivecera@redhat.com wrote:
->>>> Move the fractional-frequency-offset-ppt attribute from the top-level
->>>> pin attributes into the pin-parent-device nested attribute set. This
->>>> makes it consistent with phase-offset which is already per-parent and
->>>> clarifies that FFO PPT represents the frequency difference between
->>>> a pin and its parent DPLL device.
->>>>
->>>> The top-level fractional-frequency-offset attribute (in PPM) remains
->>>> unchanged for backward compatibility.
->>>
->>> That is odd. The ppt one was added just for higher precision but was
->>> semantically the same. Now you change it. Could you still treat both the
->>> same?
->>>
->> WDYM?
->>
->> Keep fractional-frequency-offset-ppt at the top-level and add both
->> fractional-frequency-offset and fractional-frequency-offset-ppt into
->> pin-parent-device nested attribute set?
-> 
-> Since both are the same, only different unit, it would make sense to
-> treat them both the same. That prevents from user confusion, hopefully.
-> 
-Agree... will update in v3.
+Signed-off-by: Philipp Hahn <phahn-oss@avm.de>
+---
+ .../convert_drivers_to_kernel_api.rst         | 24 +++++++++----------
+ Documentation/watchdog/watchdog-api.rst       |  2 +-
+ .../watchdog/watchdog-kernel-api.rst          |  2 +-
+ 3 files changed, 14 insertions(+), 14 deletions(-)
 
-Thanks,
-Ivan
+diff --git a/Documentation/watchdog/convert_drivers_to_kernel_api.rst b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+index 9eddb962f8e4c..004fe6ef76e94 100644
+--- a/Documentation/watchdog/convert_drivers_to_kernel_api.rst
++++ b/Documentation/watchdog/convert_drivers_to_kernel_api.rst
+@@ -11,12 +11,12 @@ This document shall guide you for this task. The necessary steps are described
+ as well as things to look out for.
+ 
+ 
+-Remove the file_operations struct
++Remove the struct file_operations
+ ---------------------------------
+ 
+ Old drivers define their own file_operations for actions like open(), write(),
+ etc... These are now handled by the framework and just call the driver when
+-needed. So, in general, the 'file_operations' struct and assorted functions can
++needed. So, in general, the struct file_operations and assorted functions can
+ go. Only very few driver-specific details have to be moved to other functions.
+ Here is a overview of the functions and probably needed actions:
+ 
+@@ -36,7 +36,7 @@ Here is a overview of the functions and probably needed actions:
+   from the driver:
+ 
+ 	WDIOC_GETSUPPORT:
+-		Returns the mandatory watchdog_info struct from the driver
++		Returns the mandatory struct watchdog_info from the driver
+ 
+ 	WDIOC_GETSTATUS:
+ 		Needs the status-callback defined, otherwise returns 0
+@@ -88,8 +88,8 @@ refactoring. The rest can go.
+ Remove the miscdevice
+ ---------------------
+ 
+-Since the file_operations are gone now, you can also remove the 'struct
+-miscdevice'. The framework will create it on watchdog_dev_register() called by
++Since the file_operations are gone now, you can also remove the struct
++miscdevice. The framework will create it on watchdog_dev_register() called by
+ watchdog_register_device()::
+ 
+   -static struct miscdevice s3c2410wdt_miscdev = {
+@@ -113,10 +113,10 @@ them. Includes can be removed, too. For example::
+ Add the watchdog operations
+ ---------------------------
+ 
+-All possible callbacks are defined in 'struct watchdog_ops'. You can find it
++All possible callbacks are defined in struct watchdog_ops. You can find it
+ explained in watchdog-kernel-api.rst in this directory. start() and
+ owner must be set, the rest are optional. You will easily find corresponding
+-functions in the old driver. Note that you will now get a pointer to the
++functions in the old driver. Note that you will now get a pointer to the struct
+ watchdog_device as a parameter to these functions, so you probably have to
+ change the function header. Other changes are most likely not needed, because
+ here simply happens the direct hardware access. If you have device-specific
+@@ -151,12 +151,12 @@ A typical function-header change looks like::
+ Add the watchdog device
+ -----------------------
+ 
+-Now we need to create a 'struct watchdog_device' and populate it with the
+-necessary information for the framework. The struct is also explained in detail
++Now we need to create a struct watchdog_device and populate it with the
++necessary information for the framework. The structure is also explained in detail
+ in watchdog-kernel-api.rst in this directory. We pass it the mandatory
+-watchdog_info struct and the newly created watchdog_ops. Often, old drivers
++struct watchdog_info and the newly created struct watchdog_ops. Often, old drivers
+ have their own record-keeping for things like bootstatus and timeout using
+-static variables. Those have to be converted to use the members in
++static variables. Those have to be converted to use the members in struct
+ watchdog_device. Note that the timeout values are unsigned int. Some drivers
+ use signed int, so this has to be converted, too.
+ 
+@@ -174,7 +174,7 @@ Handle the 'nowayout' feature
+ A few drivers use nowayout statically, i.e. there is no module parameter for it
+ and only CONFIG_WATCHDOG_NOWAYOUT determines if the feature is going to be
+ used. This needs to be converted by initializing the status variable of the
+-watchdog_device like this::
++struct watchdog_device like this::
+ 
+         .status = WATCHDOG_NOWAYOUT_INIT_STATUS,
+ 
+diff --git a/Documentation/watchdog/watchdog-api.rst b/Documentation/watchdog/watchdog-api.rst
+index 78e228c272cf8..2c138eaa43397 100644
+--- a/Documentation/watchdog/watchdog-api.rst
++++ b/Documentation/watchdog/watchdog-api.rst
+@@ -158,7 +158,7 @@ available to ask what the device can do::
+ 	struct watchdog_info ident;
+ 	ioctl(fd, WDIOC_GETSUPPORT, &ident);
+ 
+-the fields returned in the ident struct are:
++the fields returned in the struct watchdog_info are:
+ 
+ 	================	=============================================
+         identity		a string identifying the watchdog driver
+diff --git a/Documentation/watchdog/watchdog-kernel-api.rst b/Documentation/watchdog/watchdog-kernel-api.rst
+index 5649c54cf6fbe..e2c1386c95509 100644
+--- a/Documentation/watchdog/watchdog-kernel-api.rst
++++ b/Documentation/watchdog/watchdog-kernel-api.rst
+@@ -257,7 +257,7 @@ bit-operations. The status bits that are defined are:
+   To set the WDOG_NO_WAY_OUT status bit (before registering your watchdog
+   timer device) you can either:
+ 
+-  * set it statically in your watchdog_device struct with
++  * set it statically in your struct watchdog_device with
+ 
+ 	.status = WATCHDOG_NOWAYOUT_INIT_STATUS,
+ 
+-- 
+2.43.0
 
