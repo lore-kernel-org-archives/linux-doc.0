@@ -1,93 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06B5D3D34AB;
-	Mon,  4 May 2026 20:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53E34317148;
+	Mon,  4 May 2026 20:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777926408; cv=none; b=dA2SUsV4RA2oqs9lvfFQSmUPqENAYtQlM6qLT+XnQbks8qY4dtot0YGuqqF5WFjm0f4UyZ8LHJP3aqq6w+rT3zj1TMDNY2CFhaLVw8k7iPdjWxjsRc1dvSpSNyyqnAwnMzt0eoPVoOOBnsmHmNire8ITRt07z6MX3KTyizHCEgs=
+	t=1777926768; cv=none; b=oynhWaIOru2QAROmBI1OuZi387r9pQAB9BY0QVmnHjTS6HITHdCDDGCzU1nvW0awvhEOO60aK9AHqowKSsdy8y9/rUXyemf9CNqmDMCORoVaOY8Ar5nYzlrsqfkYTUz0ZAgnVGlR2U0N9QnVkqXbU6zMnEmH8NAhswqESM+rddU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777926408; c=relaxed/simple;
-	bh=VmFH5tiYZWd8I7xGp2Ix9lfuNXwvMmk6MoNhtVPAo7A=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=b5+kgEek1C4rdBckSY5O8sloVvq+T1Fi3lCK7BG6W+KB39h4mMgFVlalMhOKYBhRXfW9qWBk4bfTtrMFKPd23R7jxar9TuRWBTR+Z6F91WCm/qAPkjtFEO/yLaa9f51l6+0AZkRO2jmBuUyaqJJpWjoRoKdrZDxdmvlbj1UpwbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xh5qp7Xh; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777926768; c=relaxed/simple;
+	bh=wEH/+lS0JicHkpdDgkMtEnUlHf1L2YTeXBhpUlqkJGM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D7qdL0sqAvhjRQKCPFLmv3DdrBQb0fLzoze0l7eGsmBn4RLMuMIkhJFs3a4LvKntJIplUfaxBi66o3kKZkNRrq+DxNtNasWFPsvb+nuZ7JSN0nGtxzvzqiGF2aXKNEjEafdXrNR4m84hroiUmTp9uFcwHOcPvTdBwtEOdIcZY20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=KSvaHFxL; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xh5qp7Xh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65116C2BCB8;
-	Mon,  4 May 2026 20:26:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777926403;
-	bh=VmFH5tiYZWd8I7xGp2Ix9lfuNXwvMmk6MoNhtVPAo7A=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Xh5qp7XhOyZj6VGsOizQ3hVHLhoYasE3XpX1L0fuwdAuHy2JceCEtLuuMIEA7YL+Q
-	 YDi9QlQ82CJ8iKUR9ddQWMvmVRZ+iXSLkftAqzneKPnzMPtUCnqpzzjNxwCLGjLLzU
-	 6CtHSkEsvBvfPCDfxDPIv9dX1Z6o8x2Z91JIKXXMfa61OYAMVfj3mONYMshJFJ+ni+
-	 QLjCP985pz90FuBpFD9h2Bd/SwkEh/toeY6bHxF84OC0MGTXy5FxOoXAR70qsQm5QE
-	 34chl961rzFUjNA6dLsDz/ixZodP1fWwGAm1lqNBBVSZG58JgeGFdHl8OIcNfaCgMM
-	 pQ2m3MOAns7xw==
-Date: Mon, 4 May 2026 22:26:37 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Alice Ryhl
- <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>, Benno
- Lossin <lossin@kernel.org>, Boqun Feng <boqun@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, Miguel Ojeda
- <ojeda@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Trevor Gross
- <tmgross@umich.edu>
-Subject: Re: [PATCH 8/9] docs: maintainers_include: don't ignore invalid
- profile entries
-Message-ID: <20260504222637.176edc7c@foz.lan>
-In-Reply-To: <CANiq72n+y0AerfiUzh5fLpMRiGGFq5rMxqweHG-TsmX_05vxBA@mail.gmail.com>
-References: <cover.1777908711.git.mchehab+huawei@kernel.org>
-	<fce06f1b1c620c65ff6ddbc09fb4808ecc1aade3.1777908711.git.mchehab+huawei@kernel.org>
-	<CANiq72n+y0AerfiUzh5fLpMRiGGFq5rMxqweHG-TsmX_05vxBA@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="KSvaHFxL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=V8IJ0XLiNUSdII4ZYGeMeYsOXFzkpTWAB5nfUHMUTJQ=; b=KSvaHFxLwR6VTX9keDbXdE2hDJ
+	LcU/HmUI1j+39WRIZKFG8wnm7lYCbZmxzflG8arBNkzQHxVjqaJ8VgIwfIn2g6l4XNjvHjbaLUJSi
+	OySLEt8kXA+JbNl1MrRg8l6MwhlN5+3PUiKgbtNmIV9NiegVg2g2dddWmyKbYVd4LaSpss9pevlU1
+	MugUXUuMYap1Me1DgPuj4KgL/rFPjgTeN3zwtPNAQple3ee3QIU4MmuyTUTdmkXaU2+IJsE3SeJ3/
+	aO39NHoGMkR9bM7niMlhyYbgRb1vX+z9o3NauZ1GRnUDAFOsW6K5yYOa2oA+wdWXGezneRwWUWxlt
+	ixg8n/5w==;
+Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wJzy3-00000001TtN-0mDK;
+	Mon, 04 May 2026 20:32:39 +0000
+Date: Mon, 4 May 2026 21:32:38 +0100
+From: Matthew Wilcox <willy@infradead.org>
+To: Wei-Lin Chang <weilin.chang@arm.com>
+Cc: maple-tree@lists.infradead.org, linux-mm@kvack.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Liam R . Howlett" <Liam.Howlett@oracle.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Andrew Ballance <andrewjballance@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [PATCH 1/2] Documentation: maple_tree: Point out constraint when
+ using xa_{mk, to}_value
+Message-ID: <afkCZkHcn58S3GLD@casper.infradead.org>
+References: <20260504165746.1422057-1-weilin.chang@arm.com>
+ <20260504165746.1422057-2-weilin.chang@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260504165746.1422057-2-weilin.chang@arm.com>
 
-On Mon, 4 May 2026 18:08:06 +0200
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
+On Mon, May 04, 2026 at 05:57:45PM +0100, Wei-Lin Chang wrote:
+> Using xa_{mk, to}_value when storing values loses the information of
+> the top bit from the left shift, point that out in the doc.
 
-> On Mon, May 4, 2026 at 5:51=E2=80=AFPM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > Currently, there is a "P" entry for Rust pin-point that is
-> > neither a valid ReST file nor an hyperlink. While the real =20
->=20
-> I guess you mean pin-init above, i.e. this entry:
->=20
->     P: rust/pin-init/CONTRIBUTING.md
->=20
-> It would be nice to clarify it in the commit message that it refers to
-> a file (which is allowed for `P:` entries according to the docs).
+I don't know if that's necessary ... it's obvious when looking at the
+function:
 
-It is not written there, but by file, it would actually be expected
-a file within Documentation in ReST format ;-)
+static inline void *xa_mk_value(unsigned long v)
+{
+        WARN_ON((long)v < 0);
+        return (void *)((v << 1) | 1);
+}
 
-> And, yeah, ideally we could make it a hyperlink to the raw file.
-
-I'm afraid that this is not possible. Sphinx doesn't allow
-hyperlinks to point to files outside the documentation root
-(which is Documentation/ when SPHINXDIRS is not used).
-
-IMO the best would be to run:
-
-	pandoc -i rust/pin-init/CONTRIBUTING.md -t rst -o Documentation/rust/pin-i=
-nit-profile.rst
-	sed s,rust/pin-init/CONTRIBUTING.md,Documentation/rust/pin-init-profile.rs=
-t, -i MAINTAINERS
-
-This way, it will generate a proper hyperlink.
-
-Thanks,
-Mauro
+and if you ignore it, you'll find out.  But if this needs to be
+documented anywhere, it's in the kernel-doc for xa_mk_value()
+and not in the maple tree docs.
