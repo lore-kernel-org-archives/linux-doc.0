@@ -1,195 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4315CA5A;
-	Mon,  4 May 2026 07:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC2D2D8773;
+	Mon,  4 May 2026 07:33:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777878049; cv=none; b=LYlCVOw9OislOjq2zwtkRB5a3yVmMVM8DrB9UnYkYp8x1xNU+dR2bt600BF0PWoDvh86P1a5n0fsogiXcJ1Z/uZrzK4WZ3oXzI7tnlvCSIfOsC9yzmOS9us8wE4/ID+jkwoaW6C00/Y/m4aAMcadqcy9fW5cE5u4aqq1yrbLBs8=
+	t=1777880020; cv=none; b=rFopUNBlgg9FmtTYmOdODhX3eOprtuFREEt6q+YcrfZWnYylDpOdA2wxP0ACnaCXUsOMoSUm32qUzQTWCg53gzXgSeZuFVQBpNEDWhjddGykwGm1xnixuGsGta38cSLYX4tiHy40fyPuMxoEoBeYZgqAQpjwPu+5tT8gJ/sWTdA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777878049; c=relaxed/simple;
-	bh=O/IjjvqcY6T4mHKxT7aqn7RJ8sDV+fNCJ2tJTa/lzkQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GTicQh47uiiawOWqcONX3HbtrUlJOSAqEiZLFLezon1T8AM8gQMIx3TW3vuP5AEepQ2OB7JOFLEWvK0Sq4g62m4Lg8SJMMlczDlONjWK/AAAOYGcNd23sTrKjhQ8mBMalZ3E+pQ85t8HMe+JNuI2qz1UvtcdMOVLNUIVDPbsHmM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEq4HUcf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777880020; c=relaxed/simple;
+	bh=nj/gyh8/0xeNDHGQe0jUmgUeXHykSC87gB+hq5RHShE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Z6DePlT4qmmnu+rTyBbMOxxJpJ38IY6DV6DUzWxY+rYH7+bjEG+z7U+kQrWI+ct3OLGe01w9n6sLHzaSvJwjrVcTrliI5kEnbAloNbUfA6ERAVflRKUDFZjoJb0sBJvuYOj3Wn5BUHutOqu9mphn+L8ES/3+ki1TI+8o6ailtcQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=I0Qu+iPX; arc=none smtp.client-ip=148.163.135.77
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEq4HUcf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB74FC2BCC9;
-	Mon,  4 May 2026 07:00:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777878049;
-	bh=O/IjjvqcY6T4mHKxT7aqn7RJ8sDV+fNCJ2tJTa/lzkQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=VEq4HUcf3QNgYsZ7GMLg83m0pOxdUX9O7Y8j03YlhQBitf91Vdnr63V2+j+0HE3S4
-	 feXCh8vjB9auwL9Bao0bll0iph31TaHrOxHWhs42nk9Ae3PFuy+MLSSZk0yACnA5n2
-	 408SIW5r8x74ZUmrxXu1zjFUWz0dJpiysSRzxeWFE0LtMdYlq9fZNb1kzuSJ+Bpuxw
-	 icKSJt1AdQaIxxfYwmj+YqF/eUc24tQFV+Czmb3SpNSisxXtVadc0ovb/TM6Eti26e
-	 BlTmOgKw8xwMhQS3qOQg7pLSA6pH3wqbK+OU1nPXxxv+YPnyj4wmVPYJNq6RU0Uqx5
-	 7vbxOzL115vMg==
-Date: Mon, 4 May 2026 09:00:41 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Albert Ou <aou@eecs.berkeley.edu>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Paul Walmsley
- <pjw@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, workflows@vger.kernel.org, Alexandre Ghiti
- <alex@ghiti.fr>, Shuah Khan <skhan@linuxfoundation.org>, Randy Dunlap
- <rdunlap@infradead.org>, Dan Williams <djbw@kernel.org>
-Subject: Re: [PATCH v4 00/10] Auto-generate maintainer profile entries
-Message-ID: <20260504090041.243520a8@foz.lan>
-In-Reply-To: <87lde0bii2.fsf@trenco.lwn.net>
-References: <cover.1777295258.git.mchehab+huawei@kernel.org>
-	<87lde0bii2.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="I0Qu+iPX"
+Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
+	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6444W3kk3187816;
+	Mon, 4 May 2026 03:33:20 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=DKIM; bh=AI3ls
+	Oz/mnkGP/99TOdM2pqfylcD0JQhmOiU3HlVvhY=; b=I0Qu+iPXa+HFE/ho2X1x9
+	DCsZlfMMYnxuvSy74sj9PwrO5F1lf8jNeG6O0Sa4x9SmtZEGu9A3xkTyupViOTIy
+	GMvIBaQRILXQpMDyiTbs1OuSxK2zafhH8U1rJ8gJR/e/FzXQQX5kTIg52QkCbmDF
+	fUlYSRArVEIm/FWmsd2NvFgUJLb3r81CJEANEa/Ku8041YB4d05d/aSCXF55XOQu
+	JV8evIWl3MzqMUwSh7+MqHM5Y9pdtGJ3pOSXZZv3YHaCi/kb5xC26l848sn9t2sj
+	9RvlB+QfpCRkRp+0k2cVIaEubbQzvVqBzSFukC+SxtAWRwsnfGwao1GRLx2Bh7ql
+	Q==
+Received: from nwd2mta4.analog.com ([137.71.173.58])
+	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4dwykcuqvp-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 04 May 2026 03:33:20 -0400 (EDT)
+Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
+	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6447XIQR024594
+	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 4 May 2026 03:33:18 -0400
+Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
+ (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Mon, 4 May
+ 2026 03:33:18 -0400
+Received: from ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912]) by
+ ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912%20]) with mapi id
+ 15.02.1748.037; Mon, 4 May 2026 03:33:18 -0400
+From: "Regus, Ciprian" <Ciprian.Regus@analog.com>
+To: Andrew Lunn <andrew@lunn.ch>
+CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
+        Andrew Lunn
+	<andrew+netdev@lunn.ch>,
+        "David S. Miller" <davem@davemloft.net>,
+        "Eric
+ Dumazet" <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>,
+        Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Heiner Kallweit
+	<hkallweit1@gmail.com>,
+        Russell King <linux@armlinux.org.uk>, Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
+Subject: RE: [PATCH net-next 5/5] dt-bindings: net: Add bindings for the
+ ADIN1140
+Thread-Topic: [PATCH net-next 5/5] dt-bindings: net: Add bindings for the
+ ADIN1140
+Thread-Index: AQHc2or/QxrFK7//pU2lwXwyxy+GxbX7wD0AgAG4FvA=
+Date: Mon, 4 May 2026 07:33:17 +0000
+Message-ID: <2de08ad6ba73477299b6aace38b6de4b@analog.com>
+References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
+ <20260503-adin1140-driver-v1-5-dd043cdd88f0@analog.com>
+ <05ae6249-1f40-4530-b2dc-e52e4f454c0d@lunn.ch>
+In-Reply-To: <05ae6249-1f40-4530-b2dc-e52e4f454c0d@lunn.ch>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-adiruleop-newscl: Rule Triggered
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=VI3tWdPX c=1 sm=1 tr=0 ts=69f84bc0 cx=c_pps
+ a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
+ a=xqWC_Br6kY4A:10 a=h1frbD_qhcwA:10 a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22
+ a=gAnH3GRIAAAA:8 a=XYAwZIGsAAAA:8 a=J1Y8HTJGAAAA:8 a=1XWaLZrsAAAA:8
+ a=VwQbUJbxAAAA:8 a=20KFwNOVAAAA:8 a=07d9gI8wAAAA:8 a=ag1SF4gXAAAA:8
+ a=pGLkceISAAAA:8 a=PHq6YzTAAAAA:8 a=Wu-g9ui8VkVapFQWFIUA:9 a=CjuIK1q_8ugA:10
+ a=E8ToXWR_bxluHZ7gmE-Z:22 a=y1Q9-5lHfBjTkpIzbSAN:22 a=e2CUPOnPG4QKp8I52DXD:22
+ a=Yupwre4RP9_Eg_Bd0iYG:22 a=ZKzU8r6zoKMcqsNulkmm:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA0MDA4MSBTYWx0ZWRfX9wSLUIrakRQL
+ 65IwVdveu0fnDtPXv1RSEhUi5pUiyoKDjrOSOu3Q+vJGIs9jFe9+KiEiZVIoHxS//WqQMyNgAiN
+ BX/0Mzoms6rEov2EPz7lZNRneCzMVf7svx9x8RtaqOibqHsUdXFCE+0c5jNBuByrl6/lWamqCHB
+ ldUIcDM1JNEPlUl7e8yIwkPQfD/g7dVqCYtA9EDpjMwEv+nV1VGJIpo3X5US/itqq3h5LdEa3Oj
+ j6hqbtUo4g3GHr7N02krgbgHnEtUKfrJpzAYffDiiiEeBuCydEZ5uyHkz4gw1fktPQFJZW2Llro
+ 5i7eiYt8giWPr4nizust5wSvKXYD/90uqf0q8p41+ae9rOs4+KF83/9+gxqA9M2O56VrX/KD7C4
+ O3nWAsBG3LHr+Okj/4QPFzSynoSKH6u4BmI22BAT2ngvEfW8rQxT8ZR5f7jnvu7BAUqOlDh8fhQ
+ ISwidj8gSpqru6rXCtA==
+X-Proofpoint-ORIG-GUID: G8HF5C-YTzTn4d7V2lN-cDMZcicKKfdC
+X-Proofpoint-GUID: G8HF5C-YTzTn4d7V2lN-cDMZcicKKfdC
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
+ definitions=2026-05-04_03,2026-04-30_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605040081
 
-On Sun, 03 May 2026 09:49:41 -0600
-Jonathan Corbet <corbet@lwn.net> wrote:
 
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> 
-> > Hi Jon,
-> >
-> > This is basically the same patch series I sent during the merge
-> > window, rebased on the top of post 7.1-rc1 docs-next branch.
-> > It is tested both with and without O=DOCS.
-> >
-> > It contains just one extra trivial patch adding a missing SPDX
-> > header, and, on v4, I dropped two patches touching MAINTAINERS,
-> > as those aren't needed anymore.
-> >
-> > This patch series change the way maintainer entry profile links
-> > are added to the documentation. Instead of having an entry for
-> > each of them at an ReST file, get them from MAINTAINERS content.
-> >
-> > That should likely make easier to maintain, as there will be a single
-> > point to place all such profiles.
-> >
-> > The output is a per-subsystem sorted (*) series of links shown as a
-> > list like this:
-> >
-> >     - Arm And Arm64 Soc Sub-Architectures (Common Parts)
-> >     - Arm/Samsung S3C, S5P And Exynos Arm Architectures
-> >     - Arm/Tesla Fsd Soc Support
-> >     ...
-> >     - Xfs Filesystem
-> >
-> > Please notice that the series is doing one logical change per patch.
-> > I could have merged some changes altogether, but I opted doing it
-> > in small steps to help reviews. If you prefer, feel free to merge
-> > maintainers_include changes on merge.
-> >
-> > There is one interesting side effect of this series: there is no
-> > need to add rst files containing profiles inside a TOC tree: Just
-> > creating the file anywhere inside Documentation and adding a P entry
-> > is enough. Adding them to a TOC won't hurt.  
-> 
-> One thing I kind of dislike about these magic mechanisms is that we end
-> up with a single, essentially unsorted list of stuff that readers have
-> to go digging their way through.  It would be nice if we could somehow
-> apply a bit of structure; as the number of these handbooks grows, our
-> readers would appreciate it.
 
-The output is sorted by subsystem's name:
+> -----Original Message-----
+> From: Andrew Lunn <andrew@lunn.ch>
+> Sent: Sunday, May 3, 2026 4:07 AM
+> To: Regus, Ciprian <Ciprian.Regus@analog.com>
+> Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>;
+> Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller
+> <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Jakub
+> Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Simon
+> Horman <horms@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Shuah
+> Khan <skhan@linuxfoundation.org>; Heiner Kallweit
+> <hkallweit1@gmail.com>; Russell King <linux@armlinux.org.uk>; Rob Herring
+> <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
+> Dooley <conor+dt@kernel.org>; netdev@vger.kernel.org; linux-
+> kernel@vger.kernel.org; linux-doc@vger.kernel.org;
+> devicetree@vger.kernel.org
+> Subject: Re: [PATCH net-next 5/5] dt-bindings: net: Add bindings for the
+> ADIN1140
+>=20
+> [External]
+>=20
+> > +  The ADIN1140 (also called AD3306) is a low power single port
+> > +  10BASE-T1S MAC-PHY. It integrates an Ethernet PHY with a MAC
+> > +  and all the associated analog circuitry.
+> > +  The device implements the Open Alliance TC6 10BASE-T1x MAC-PHY
+>=20
+> The device _tries_ to implements the Open Alliance TC6 10BASE-T1x MAC-
+> PHY.
 
-	for profile, entry in sorted(maint.profile_entries.items()):
-	    if entry.startswith("http"):
-		output += f"- `{profile} <{entry}>`_\n"
-            else:
-		output += f"- :doc:`{profile} <{entry}>`\n"
+Will update in v2.
 
-But yeah, as this grows, We can apply some struct there later on.
+>=20
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    spi {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        ethernet@0 {
+> > +            compatible =3D "adi,adin1140";
+> > +            reg =3D <0>;
+> > +            spi-max-frequency =3D <23000000>;
+> > +
+> > +            interrupt-parent =3D <&gpio>;
+> > +            interrupts =3D <6 IRQ_TYPE_EDGE_FALLING>;
+>=20
+> Table 1: OPEN serial 10BASE-T1x Interface Pin Definition
+>=20
+> IRQn MAC-PHY Interrupt Request (Active Low)
+>=20
+> Or is this something else which the device gets wrong?
 
-I expect that this would be good enough for "P" entries: as such entries 
-are used only by the biggest subsystems, I won't expect that the profiles 
-list would be too big. 
+The device generates interrupts correctly (the IRQ signal remains
+asserted while there are active interrupt conditions that have not
+been cleared yet). The oa_tc6 driver requests the interrupt with
+the IRQF_TRIGGER_FALLING flag set, so the DT flag will be overridden
+and the behavior remains the same.
 
-If I'm wrong, though, changing its output is easy, as all the parsing
-were done in separate: all we have to do would be to change this part.
+However, the devicetree shouldn't care about this. I'll update to
+IRQ_TYPE_LEVEL_LOW in v2.
 
--
-
-Now, for the full MAINTAINERS content, I agree with you. I have
-a patch series here which splits the parsing from the output,
-which allows placing its contents inside a table and with a
-filter javascript [1]. On my view, the output is a lot more
-interesting for readers this way [2].
- 
-> Oh well, one can always hope.  Meanwhile, this seems useful, I've
-> applied it.
-
-Thanks!
-
----
-
-[1] On such series, I'm creating a table with two rows:
-
-        output += ".. _maintainers_table:\n\n"
-        output += ".. flat-table::\n"
-        output += "  :header-rows: 1\n\n"
-        output += "  * - Subsystem\n"
-        output += "    - Properties\n\n"
-
-        self.state.document['maintainers_included'] = True
-
-        for name, fields in maint_parser.maint_entries.items():
-            output += f"  * - {name}\n"
-
-            tag = "-"
-            for field, lines in fields.items():
-                field_name = maint_parser.fields.get(field, field)
-
-                output += f"    {tag} :{field_name}:\n        "
-                output += ",\n        ".join(lines) + "\n"
-                tag = " "
-
-            output += "\n"
-
-   Which is a lot easier to read than the current output, and adding
-   a small javascript that allows filtering entries, based at the
-   contents of either subsystem or properties. That should help
-   readers to seek for things they're interested.
-
-   I considered ordering it by subsystems, and did some tests with that,
-   but at the final version I ended removing.
-
-   The main issue is that MAINTAINERS entries aren't grouped by
-   subsystems. Also, we don't have any field to identify to what 
-   subsystem each entry belongs.
-
-   Using the mailing list field helps to have something close enough,
-   while being fast. Even so, some caveats are needed, as:
-
-   1) several entries contain multiple ML entries, which may include:
-      - subsystem ML;
-      - LKML;
-      - driver-specific ML;
-      - vendor-specific ML.
-
-   2) several entries have only LKML.
-
-   For the purpose of grouping such entries, even after filtering out LKML,
-   due to (1), hints are needed to try to pick subsystem ML. Perhaps the
-   best hint is to check if the entry is @kernel.org, which works reasonably
-   well. Yet, not all subsystems have its ML there.
-
-   I also considered sorting them by the number of files, using iglob 
-   to calculate it. That would help to place the subsystem first, followed
-   by subsystem drivers, and this is fast enough with my nvme disks but 
-   this could slow kernel builds on mechanical HDs.
-
-   So, I suspect that, if we want to have something more structured,
-   the first step would be to do some rework at the MAINTAINERS file.
-
-[2] I need some time to check if are there any regressions
-    on the patch that splits the logic.
-
-Regards,
-Mauro
+>=20
+> 	Andrew
