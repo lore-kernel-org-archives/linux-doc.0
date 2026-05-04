@@ -1,249 +1,104 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2489537FF40;
-	Mon,  4 May 2026 09:33:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7170B37D114
+	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 09:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777887223; cv=none; b=G/JFglTKkb/K0bwLtp7mNNMj2AsLEYBltZaJ52khX/Vy5SHdUeP6bQXrNXG+7D+qXP857Ci3a+V47/We1b6NrnZwT5M1oH6Q7H3Gi8NbEamnPeR9AyNuCxgCN/WSk/b6kOVcBTedZ+/xTrgxiTkXkXMP89FnhJ1m3RX3dJZ0Z5s=
+	t=1777887398; cv=none; b=Q/x+HWLV1jec/LYVp9BCgEWLp0vur1BncgIL4yzBhUAKXzrNRURA+wEqD4ylMAdet1ytQPOflr5e/VLtUj5W+Y+VZMwtI615Mso7rgoE160aF7iu73T+eMl8cbwl/FsTUfShb4v87Eq3ok14JtoLap3096vmqCnl+yjdJhWj39w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777887223; c=relaxed/simple;
-	bh=CX9mDSQHReDHwq7Y7h5slKzIlaWwgoLVwu8rW9SRZP4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=B4CaXKA67oYjZdbhebWbM5EYXHkBxwspG0tyeWqq9bpcyrSQzVCHf4Rrk12wfbHbTLZl+IUj8Ptb/MT2KoRhs+g9WB7s4YdrFQoBGTn5rjqnoMkrxwgklJOVZY2SAXSjbzbaKw+hPbyWIGngQpEzHPhLHtbjsG6CiWKsqCcvES4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=4fiTe258; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ya8hyzbQ; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1777887398; c=relaxed/simple;
+	bh=TaiE6VPRhMdw40zBsC2LL5E3LA6Izko2YcBBVpykQjs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V1aUcIPgp8BnGz7dEmOO072RprqKb09F2jFqaFGmZvxHQegzsTZCgjCjTHgkDDNd3TrPWGlkMkUxIA47dKI/hVA7gdYZOikGgXWBDLJXOCoAu9Vwz1vv4jgnUIQ5Tm2vErLPxzTNLFAf31nuyhlIjVY0G8RfFEE+ABIO6C7MenY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=eSuUtn2a; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="4fiTe258";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ya8hyzbQ"
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1777887219;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="eSuUtn2a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1777887396;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=54QuLJcpe0mdHxqir8B4oCgM7uiPnZyrpfVJkv2VNTQ=;
-	b=4fiTe258PXM0AU2nF7sr5EciL3AdNsNqw81aKrsuxiSBuO4QWf6cAgiMuXLDkBqdvK/XKu
-	Ijh3JsX+2dnvAA7LEJpd3cMm46MSUJw5WXC1RTCOLsH2Yswj6DGbHBNmSLGncTETXbrxTG
-	B7uwGflbsgYNglEpYOTQ+8l/Dv67mXhK16xU+rzb0T0b4WpETfUPPNPuKNBvOeR/Suw2UY
-	96NZZQKjHOOj8/2Fm3c8UNkb70iz1uCEWY6vurHFQLmvXaQucDFopVFYbyPCYPlhA9Tfnj
-	+3g8IyKdCIKcMtfF5sd7lSHjIHCKrH0vup+LBZ6I9zlA1WLT5dKKLzAm0dINiw==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1777887219;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=54QuLJcpe0mdHxqir8B4oCgM7uiPnZyrpfVJkv2VNTQ=;
-	b=Ya8hyzbQcKEwRoNDtlD4uUE03ky+hH7RSJQxS5sQvYcq4X0VjPDSsiV9I/5Dbl6forYmpQ
-	LVR3IRbfPh4yaiBg==
-Date: Mon, 04 May 2026 11:33:26 +0200
-Subject: [PATCH v6 10/11] kunit: uapi: Introduce preinit executable
+	bh=nAq+++R2tX36PC5zxXCYWGZvvyeat8gPL+5FluYskoY=;
+	b=eSuUtn2ad41pipkMUGKjszmwHCrUfaPsZuaBFtcjFmse0azFfG9nM7DPk3m1k7P4JysZZs
+	v7hg5/P/KbZtccct22KCOnBGm2amY2ocuLfN5I9OSSNSVlcX88nOvCmlcntCTE0BP32Pd4
+	5srOC60+Cn4FgzXlNuhkOYj+ousFaic=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-272-XpdB2FISPMCx6GsI_yi-_w-1; Mon,
+ 04 May 2026 05:36:31 -0400
+X-MC-Unique: XpdB2FISPMCx6GsI_yi-_w-1
+X-Mimecast-MFC-AGG-ID: XpdB2FISPMCx6GsI_yi-_w_1777887388
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CEEF0195609E;
+	Mon,  4 May 2026 09:36:27 +0000 (UTC)
+Received: from [10.44.48.185] (unknown [10.44.48.185])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1FDE51800357;
+	Mon,  4 May 2026 09:36:20 +0000 (UTC)
+Message-ID: <290673a1-fb5b-4586-b44a-e109cc1a4629@redhat.com>
+Date: Mon, 4 May 2026 11:36:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20260504-kunit-kselftests-v6-10-712d3d526d97@linutronix.de>
-References: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
-In-Reply-To: <20260504-kunit-kselftests-v6-0-712d3d526d97@linutronix.de>
-To: Nathan Chancellor <nathan@kernel.org>, 
- Andrew Morton <akpm@linux-foundation.org>, Willy Tarreau <w@1wt.eu>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Brendan Higgins <brendan.higgins@linux.dev>, Shuah Khan <shuah@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>, Nicolas Schier <nicolas.schier@linux.dev>, 
- Kees Cook <kees@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- Christoph Hellwig <hch@lst.de>, Luis Chamberlain <mcgrof@kernel.org>, 
- David Gow <david@davidgow.net>, Rae Moar <raemoar63@gmail.com>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
- linux-doc@vger.kernel.org, workflows@vger.kernel.org, linux-mm@kvack.org, 
- linux-fsdevel@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>, 
- Christophe Leroy <chleroy@kernel.org>, Nicolas Schier <nsc@kernel.org>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777887211; l=4914;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=CX9mDSQHReDHwq7Y7h5slKzIlaWwgoLVwu8rW9SRZP4=;
- b=rOUneMbzF1f113+9Wt2C9L8BsiwD6Dzs1kpZ+t+eIdHAn5qh6FHYThaZdNzBgRt7wbUS+4RoP
- isGDCOYJAILCmFNroiCghjSkp5vq1Kt9kPuoxp+L8KlkpBK1EnCvsKx
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v2 1/2] dpll: move
+ fractional-frequency-offset-ppt under pin-parent-device
+To: Jiri Pirko <jiri@resnulli.us>
+Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ "David S. Miller" <davem@davemloft.net>,
+ Donald Hunter <donald.hunter@gmail.com>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Leon Romanovsky <leon@kernel.org>, Mark Bloch <mbloch@nvidia.com>,
+ Michal Schmidt <mschmidt@redhat.com>, Paolo Abeni <pabeni@redhat.com>,
+ Pasi Vaananen <pvaanane@redhat.com>, Petr Oros <poros@redhat.com>,
+ Prathosh Satish <Prathosh.Satish@microchip.com>,
+ Saeed Mahameed <saeedm@nvidia.com>, Shuah Khan <skhan@linuxfoundation.org>,
+ Simon Horman <horms@kernel.org>, Tariq Toukan <tariqt@nvidia.com>,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org
+References: <20260430173611.3312596-1-ivecera@redhat.com>
+ <20260430173611.3312596-2-ivecera@redhat.com> <afhdCnT0ns-PgZD8@FV6GYCPJ69>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <afhdCnT0ns-PgZD8@FV6GYCPJ69>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-UAPI selftests may expect a "normal" userspace environment.
-For example the normal kernel API pseudo-filesystems should be mounted.
-This could be done from kernel code but it is non-idiomatic.
+Hi Jiri,
 
-Add a preinit userspace executable which performs these setup steps
-before running the final test executable.
-This preinit executable is only ever run from the kernel.
-Give it access to autoconf.h and kconfig.h to adapt itself to the
-tested kernel.
+On 5/4/26 10:48 AM, Jiri Pirko wrote:
+> Thu, Apr 30, 2026 at 07:36:10PM +0200, ivecera@redhat.com wrote:
+>> Move the fractional-frequency-offset-ppt attribute from the top-level
+>> pin attributes into the pin-parent-device nested attribute set. This
+>> makes it consistent with phase-offset which is already per-parent and
+>> clarifies that FFO PPT represents the frequency difference between
+>> a pin and its parent DPLL device.
+>>
+>> The top-level fractional-frequency-offset attribute (in PPM) remains
+>> unchanged for backward compatibility.
+> 
+> That is odd. The ppt one was added just for higher precision but was
+> semantically the same. Now you change it. Could you still treat both the
+> same?
+> 
+WDYM?
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-Reviewed-by: David Gow <davidgow@google.com>
----
- MAINTAINERS              |  1 +
- lib/kunit/Makefile       |  5 ++++
- lib/kunit/kunit-uapi.c   | 11 +++++---
- lib/kunit/uapi-preinit.c | 68 ++++++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 82 insertions(+), 3 deletions(-)
+Keep fractional-frequency-offset-ppt at the top-level and add both
+fractional-frequency-offset and fractional-frequency-offset-ppt into
+pin-parent-device nested attribute set?
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b7358d89df70..4e8cf9fa7aa9 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14401,6 +14401,7 @@ S:	Maintained
- F:	include/kunit/uapi.h
- F:	lib/kunit/kunit-example-uapi.c
- F:	lib/kunit/kunit-uapi.c
-+F:	lib/kunit/uapi-preinit.c
- 
- KVM PARAVIRT (KVM/paravirt)
- M:	Paolo Bonzini <pbonzini@redhat.com>
-diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
-index 2434470e9985..05991d69aa70 100644
---- a/lib/kunit/Makefile
-+++ b/lib/kunit/Makefile
-@@ -14,8 +14,13 @@ kunit-objs +=				test.o \
- 					device.o \
- 					platform.o
- 
-+userprogs +=				uapi-preinit
-+uapi-preinit-userccflags +=		-static $(NOLIBC_USERCFLAGS)
- obj-$(CONFIG_KUNIT_UAPI) +=		kunit-uapi.o
- 
-+CFLAGS_kunit-uapi.o :=			-Wa,-I$(obj)
-+$(obj)/kunit-uapi.o: $(obj)/uapi-preinit
-+
- ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
- kunit-objs +=				debugfs.o
- endif
-diff --git a/lib/kunit/kunit-uapi.c b/lib/kunit/kunit-uapi.c
-index 7f0309a827a5..702d26878ccd 100644
---- a/lib/kunit/kunit-uapi.c
-+++ b/lib/kunit/kunit-uapi.c
-@@ -33,6 +33,8 @@ enum {
- 	KSFT_SKIP	= 4,
- };
- 
-+KUNIT_UAPI_EMBED_BLOB(kunit_uapi_preinit, "uapi-preinit");
-+
- static struct vfsmount *kunit_uapi_mount_fs(const char *name)
- {
- 	struct file_system_type *type;
-@@ -158,18 +160,17 @@ static int kunit_uapi_run_executable_in_mount(struct kunit *test,
- 					      const struct kunit_uapi_blob *executable,
- 					      struct vfsmount *mnt)
- {
--	const char *executable_target = kunit_uapi_executable_target(executable);
- 	struct kunit_uapi_usermodehelper_ctx ctx = {
- 		.test	= test,
- 		.mnt	= mnt,
- 	};
- 	struct subprocess_info *info;
- 	const char *const argv[] = {
--		executable_target,
-+		kunit_uapi_executable_target(executable),
- 		NULL
- 	};
- 
--	info = call_usermodehelper_setup(AT_FDCWD, executable_target, (char **)argv, NULL,
-+	info = call_usermodehelper_setup(AT_FDCWD, kunit_uapi_preinit.path, (char **)argv, NULL,
- 					 GFP_KERNEL, kunit_uapi_usermodehelper_init, NULL, &ctx);
- 	if (!info)
- 		return -ENOMEM;
-@@ -192,6 +193,10 @@ static int kunit_uapi_run_executable(struct kunit *test, const struct kunit_uapi
- 	if (err)
- 		return err;
- 
-+	err = kunit_uapi_write_executable(mnt, &kunit_uapi_preinit);
-+	if (err)
-+		return err;
-+
- 	err = kunit_uapi_run_executable_in_mount(test, executable, mnt);
- 	if (err)
- 		return err;
-diff --git a/lib/kunit/uapi-preinit.c b/lib/kunit/uapi-preinit.c
-new file mode 100644
-index 000000000000..686737ea3c76
---- /dev/null
-+++ b/lib/kunit/uapi-preinit.c
-@@ -0,0 +1,68 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit Userspace environment setup.
-+ *
-+ * Copyright (C) 2026, Linutronix GmbH.
-+ * Author: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
-+ *
-+ * This is *userspace* code.
-+ */
-+
-+#include <sys/mount.h>
-+#include <sys/stat.h>
-+
-+#include "../../tools/testing/selftests/kselftest.h"
-+
-+#define KUNIT_UAPI_CHDIR_FD 3
-+
-+static int setup_api_mount(const char *target, const char *fstype)
-+{
-+	int ret;
-+
-+	ret = mkdir(target, 0755);
-+	if (ret && errno != EEXIST)
-+		return -errno;
-+
-+	ret = mount("none", target, fstype, 0, NULL);
-+	if (ret && errno != EBUSY)
-+		return -errno;
-+
-+	return 0;
-+}
-+
-+static void exit_failure(const char *stage, int err)
-+{
-+	/* If preinit fails synthesize a failed test report. */
-+	ksft_print_header();
-+	ksft_set_plan(1);
-+	ksft_test_result_fail("Failed during test setup: %s: %s\n", stage, strerror(-err));
-+	ksft_finished();
-+}
-+
-+int main(int argc, char **argv, char **envp)
-+{
-+	int ret;
-+
-+	ret = fchdir(KUNIT_UAPI_CHDIR_FD);
-+	close(KUNIT_UAPI_CHDIR_FD);
-+	if (ret)
-+		exit_failure("fchdir", ret);
-+
-+	ret = setup_api_mount("/proc", "proc");
-+	if (ret)
-+		exit_failure("mount /proc", ret);
-+
-+	ret = setup_api_mount("/sys", "sysfs");
-+	if (ret)
-+		exit_failure("mount /sys", ret);
-+
-+	ret = setup_api_mount("/dev", "devtmpfs");
-+	if (ret)
-+		exit_failure("mount /dev", ret);
-+
-+	ret = execve(argv[0], argv, envp);
-+	if (ret)
-+		exit_failure("execve", ret);
-+
-+	return 0;
-+}
-
--- 
-2.53.0
+Thanks,
+Ivan
 
