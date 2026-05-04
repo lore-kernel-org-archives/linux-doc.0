@@ -1,188 +1,155 @@
-Received: from mx0b-00128a01.pphosted.com (mx0a-00128a01.pphosted.com [148.163.135.77])
+Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010039.outbound.protection.outlook.com [52.101.193.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BC2D2D8773;
-	Mon,  4 May 2026 07:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.135.77
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777880020; cv=none; b=rFopUNBlgg9FmtTYmOdODhX3eOprtuFREEt6q+YcrfZWnYylDpOdA2wxP0ACnaCXUsOMoSUm32qUzQTWCg53gzXgSeZuFVQBpNEDWhjddGykwGm1xnixuGsGta38cSLYX4tiHy40fyPuMxoEoBeYZgqAQpjwPu+5tT8gJ/sWTdA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777880020; c=relaxed/simple;
-	bh=nj/gyh8/0xeNDHGQe0jUmgUeXHykSC87gB+hq5RHShE=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=Z6DePlT4qmmnu+rTyBbMOxxJpJ38IY6DV6DUzWxY+rYH7+bjEG+z7U+kQrWI+ct3OLGe01w9n6sLHzaSvJwjrVcTrliI5kEnbAloNbUfA6ERAVflRKUDFZjoJb0sBJvuYOj3Wn5BUHutOqu9mphn+L8ES/3+ki1TI+8o6ailtcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=I0Qu+iPX; arc=none smtp.client-ip=148.163.135.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1281E303A35;
+	Mon,  4 May 2026 07:40:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.39
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777880457; cv=fail; b=Ums1lmDmqogUknqYTKkHfJ6e/+9Y3J/Vg4iPvB3BnohYL3Slkx5cd0YwFZTIS893idlq/zrU1nV/CPAh/cPOsCLmN6aGjC1rkeqj7owvRlulo0WUOuqoe7i/SGo+eOSKuywsKz7sUrM8vdFi8DtE57VSmYy23Ush/MX04S5g0qE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777880457; c=relaxed/simple;
+	bh=DpA4502YzU6sHyulmjjNHF0N0JyijajhOKuAbcpF+Cc=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Hp000XY+dmXX/orjao2cTRyMK96xOat7IQMfIHG3ezct7mhZZzYBU8SiKyIaWK+1RMGOOaWjFZOf8Z92qo4XvsS9mAqnEq3ibkh5YSXBN5FBf6gSpyEPNKYq6vwON6TVE16Q/mDck+kbdRTs2HwAj18yk32HF7hejloTsTmQsa4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=gj3MrgOs; arc=fail smtp.client-ip=52.101.193.39
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="I0Qu+iPX"
-Received: from pps.filterd (m0375855.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6444W3kk3187816;
-	Mon, 4 May 2026 03:33:20 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=AI3ls
-	Oz/mnkGP/99TOdM2pqfylcD0JQhmOiU3HlVvhY=; b=I0Qu+iPXa+HFE/ho2X1x9
-	DCsZlfMMYnxuvSy74sj9PwrO5F1lf8jNeG6O0Sa4x9SmtZEGu9A3xkTyupViOTIy
-	GMvIBaQRILXQpMDyiTbs1OuSxK2zafhH8U1rJ8gJR/e/FzXQQX5kTIg52QkCbmDF
-	fUlYSRArVEIm/FWmsd2NvFgUJLb3r81CJEANEa/Ku8041YB4d05d/aSCXF55XOQu
-	JV8evIWl3MzqMUwSh7+MqHM5Y9pdtGJ3pOSXZZv3YHaCi/kb5xC26l848sn9t2sj
-	9RvlB+QfpCRkRp+0k2cVIaEubbQzvVqBzSFukC+SxtAWRwsnfGwao1GRLx2Bh7ql
-	Q==
-Received: from nwd2mta4.analog.com ([137.71.173.58])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 4dwykcuqvp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 04 May 2026 03:33:20 -0400 (EDT)
-Received: from ASHBMBX8.ad.analog.com (ASHBMBX8.ad.analog.com [10.64.17.5])
-	by nwd2mta4.analog.com (8.14.7/8.14.7) with ESMTP id 6447XIQR024594
-	(version=TLSv1/SSLv3 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 4 May 2026 03:33:18 -0400
-Received: from ASHBMBX9.ad.analog.com (10.64.17.10) by ASHBMBX8.ad.analog.com
- (10.64.17.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.37; Mon, 4 May
- 2026 03:33:18 -0400
-Received: from ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912]) by
- ASHBMBX9.ad.analog.com ([fe80::a11:40fc:1a6f:d912%20]) with mapi id
- 15.02.1748.037; Mon, 4 May 2026 03:33:18 -0400
-From: "Regus, Ciprian" <Ciprian.Regus@analog.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        "Eric
- Dumazet" <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>,
-        Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Heiner Kallweit
-	<hkallweit1@gmail.com>,
-        Russell King <linux@armlinux.org.uk>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>
-Subject: RE: [PATCH net-next 5/5] dt-bindings: net: Add bindings for the
- ADIN1140
-Thread-Topic: [PATCH net-next 5/5] dt-bindings: net: Add bindings for the
- ADIN1140
-Thread-Index: AQHc2or/QxrFK7//pU2lwXwyxy+GxbX7wD0AgAG4FvA=
-Date: Mon, 4 May 2026 07:33:17 +0000
-Message-ID: <2de08ad6ba73477299b6aace38b6de4b@analog.com>
-References: <20260503-adin1140-driver-v1-0-dd043cdd88f0@analog.com>
- <20260503-adin1140-driver-v1-5-dd043cdd88f0@analog.com>
- <05ae6249-1f40-4530-b2dc-e52e4f454c0d@lunn.ch>
-In-Reply-To: <05ae6249-1f40-4530-b2dc-e52e4f454c0d@lunn.ch>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-adiruleop-newscl: Rule Triggered
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="gj3MrgOs"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=OKK8uyB8FMSGkc9RQANVTft11D606LZzGDTbeOWgSBx5z0yOPJ0QeoRwi99TsrTe77xxhtam8mwLH5/PTGH0g/XXe6++YiOJmkJHoMfZzTBkfz5PYC88Zy7SX41CBgjcBXd3eUJrqnQLRBOHZnkMs/UR4XDHioggQENm80tpVNcb3UCJ7mAWJwavggdbJwUfYEKJ/A7wJyAKlY7MfW2Vj54cef9J6x+vZuNVdI5/dgneN41huTEOZSYreeCLtxFcPtvf6d0rd8tSBsLmm+XGyLox0vLVVzeVMZDl+TXHgPJ34o5olKkRIpOSj3DeCnv0++Pkf7jifA7UhpWQ/9meiA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TduM00EPChqZQWkBNAHY69AbjxvUS3ealUPnimASHI8=;
+ b=pUsS5uGRVNC5m8WHjmDBh2Mr+H2MCbsbSu2dRCnKVY/ZnF/ZSae7Ee4G5jqauVGrmG2wOnP6oA2ZhAgn9u3ZIMbImfByR3vj2fjIwsCo9D5d2aXCVHsTUgQI2vNAkJb8mAMy5b2bS04vN8f3kj4piNP00JTArUVryE2gm6WxWEVLC08YOCau4Qn3aDyues73Hhe2IQsLDVMTskdQMof8UYWfjDs0+xkrWkH95EX8i1Z/L9mbk7Y4+cSrB9DNs5f+UH2OxEzJr7I7JHtpgeOve/TU3A70oG+mQeu3Aw+Y2YHrmld/6z3xgGT0K5FPVPTRm2r65nIXtiz+jR+R5YCaXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.232) smtp.rcpttodomain=kernel.org smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TduM00EPChqZQWkBNAHY69AbjxvUS3ealUPnimASHI8=;
+ b=gj3MrgOsPJztRT6Y2BZZ+r/Plmxua6yuVv3G9Qy2bATkPN+IXOwAV+hC+eP4LAjvipzvF+WkcGSZElI8tPChd0nn39tnp26Cf5MWG9L39C339XD1ax2KGeE7zuZlgXSLOk1iw+KWU+5py1Un/yBMatpMt/ojOT/qJ6wfprni2USFhh6vpXOMRn7ROJnH/RnQHt9UjRmqkFyG6b49Fy0XW1LNkUbEbOKSU0APw208AXGv5QKoRkhLgfGohHo8GlTdA0XUuU/H1enX1i3xOAmpoxtCDs2+3MmfU3dfbRViHI/iwpKAevaRmG1gu3Ie3bp+lXcCX9/k03icWK6Cz7w/Qg==
+Received: from MN2PR01CA0060.prod.exchangelabs.com (2603:10b6:208:23f::29) by
+ SA1PR12MB7040.namprd12.prod.outlook.com (2603:10b6:806:24f::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
+ 2026 07:40:51 +0000
+Received: from BL6PEPF0001AB75.namprd02.prod.outlook.com
+ (2603:10b6:208:23f:cafe::50) by MN2PR01CA0060.outlook.office365.com
+ (2603:10b6:208:23f::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.25 via Frontend Transport; Mon,
+ 4 May 2026 07:40:51 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.232) by
+ BL6PEPF0001AB75.mail.protection.outlook.com (10.167.242.168) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9891.9 via Frontend Transport; Mon, 4 May 2026 07:40:50 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 4 May
+ 2026 00:40:38 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Mon, 4 May 2026 00:40:37 -0700
+Received: from build-va-bionic-20251031.nvidia.com (10.127.8.14) by
+ mail.nvidia.com (10.126.190.181) with Microsoft SMTP Server id 15.2.2562.20
+ via Frontend Transport; Mon, 4 May 2026 00:40:37 -0700
+From: Vishwaroop A <va@nvidia.com>
+To: <broonie@kernel.org>, <linux-spi@vger.kernel.org>
+CC: <smangipudi@nvidia.com>, <jonathanh@nvidia.com>,
+	<thierry.reding@gmail.com>, <corbet@lwn.net>, <linux-doc@vger.kernel.org>,
+	<va@nvidia.com>
+Subject: [PATCH v3 0/2] spi: add sysfs interface for userspace device instantiation
+Date: Mon, 4 May 2026 07:40:35 +0000
+Message-ID: <20260504074037.704833-1-va@nvidia.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=VI3tWdPX c=1 sm=1 tr=0 ts=69f84bc0 cx=c_pps
- a=3WNzaoukacrqR9RwcOSAdA==:117 a=3WNzaoukacrqR9RwcOSAdA==:17
- a=xqWC_Br6kY4A:10 a=h1frbD_qhcwA:10 a=kj9zAlcOel0A:10 a=NGcC8JguVDcA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=0sLvza09kfJOxVLZPwjg:22 a=N--XFCr6TIEc_64PeIT2:22
- a=gAnH3GRIAAAA:8 a=XYAwZIGsAAAA:8 a=J1Y8HTJGAAAA:8 a=1XWaLZrsAAAA:8
- a=VwQbUJbxAAAA:8 a=20KFwNOVAAAA:8 a=07d9gI8wAAAA:8 a=ag1SF4gXAAAA:8
- a=pGLkceISAAAA:8 a=PHq6YzTAAAAA:8 a=Wu-g9ui8VkVapFQWFIUA:9 a=CjuIK1q_8ugA:10
- a=E8ToXWR_bxluHZ7gmE-Z:22 a=y1Q9-5lHfBjTkpIzbSAN:22 a=e2CUPOnPG4QKp8I52DXD:22
- a=Yupwre4RP9_Eg_Bd0iYG:22 a=ZKzU8r6zoKMcqsNulkmm:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA0MDA4MSBTYWx0ZWRfX9wSLUIrakRQL
- 65IwVdveu0fnDtPXv1RSEhUi5pUiyoKDjrOSOu3Q+vJGIs9jFe9+KiEiZVIoHxS//WqQMyNgAiN
- BX/0Mzoms6rEov2EPz7lZNRneCzMVf7svx9x8RtaqOibqHsUdXFCE+0c5jNBuByrl6/lWamqCHB
- ldUIcDM1JNEPlUl7e8yIwkPQfD/g7dVqCYtA9EDpjMwEv+nV1VGJIpo3X5US/itqq3h5LdEa3Oj
- j6hqbtUo4g3GHr7N02krgbgHnEtUKfrJpzAYffDiiiEeBuCydEZ5uyHkz4gw1fktPQFJZW2Llro
- 5i7eiYt8giWPr4nizust5wSvKXYD/90uqf0q8p41+ae9rOs4+KF83/9+gxqA9M2O56VrX/KD7C4
- O3nWAsBG3LHr+Okj/4QPFzSynoSKH6u4BmI22BAT2ngvEfW8rQxT8ZR5f7jnvu7BAUqOlDh8fhQ
- ISwidj8gSpqru6rXCtA==
-X-Proofpoint-ORIG-GUID: G8HF5C-YTzTn4d7V2lN-cDMZcicKKfdC
-X-Proofpoint-GUID: G8HF5C-YTzTn4d7V2lN-cDMZcicKKfdC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-04_03,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 malwarescore=0 bulkscore=0 priorityscore=1501 spamscore=0
- clxscore=1015 impostorscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605040081
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB75:EE_|SA1PR12MB7040:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6def6c58-1ada-4d65-e764-08dea9b07700
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|36860700016|376014|30052699003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	1fvoO5DzreoFjdyaFK04N2h8Z7bSdaD4NScxX7nPI2W2dQaGUabdTb6zjSJkFLWz+M5e8ZyyeZ10q1D7u2XuDxU4rFIxjPb7HXFXoAYu+9wlB/kjXWao8ljTfJ7Q0uL+sf4ECCaxzIvdyRDU/XJ/jBjTZWb3IatjWPNZgjOjg++E98+K/pDgZ73/lDd8jhJERHNcozA8yvCe0w6WyuWjoX6yxb9mJDCuCjh6SULL1CrZTCkY5T8eEaPCKk/fvwcenb5L8KM3KkYyYNoCuL429j/fNEif4E3wW+m6RTIPhRNJrtW4ZBi1LIwwd5LpSaJaxOxdU03bMX0rqK12HC6ULJyGx0yKYNxW0dXHvXqjYl7jOzx1oEvqkS9/k/4vX4mlISUsIwEu4as+wwWCyMQqpys3MO8wOLco0Y+hp4kFeB2tUoZWgiXdkGJVdOvTfupFxeECEPuBER2TeoctXofQLhexZabcXgIedDi2fTBNuTFiX4KxPkdS4hJDTf8Oubc78bHmJf7YTs6CmJZ/sTneHconsAwL74nXEMfWqXBWh092ooqLAbP/eDbdDl5qUUYryWUZh/x/yjb+qTaZtfqElqscR0mP5vwWq6MlmtEIf7jLLKViuxdwLtTB7MlC5Fo1nXmB09qhfHfIu5ET3EQOjZECKE6j58kavb2lSg6JWdgvAq13KGbtQdG95A6YVNoP1gnTWXKb7ByfpIT6SfEFT6EFWfQ1J5sp/ODerX20alA=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(36860700016)(376014)(30052699003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	xb2hxlL35FRkYvExubHjBFSpPHVffmLMS58bSHLRBlNE7W2vWNh+2wSY6VyIIgj5Fcvp9TR7PSp87cyMZE5/R8iKE6CVTClxwC1blFyjOZQVtvcO6/WsemBO4R3ti6ITw5AZNC1zLlPIUqpS/jhQNll5aAVN4UMUGf40njVtJygTWnpPWzsMc/Q6iZo5Oxk4JbntXD4THW1DJ+tL3sopC1G+0CaTGN3lOw3RqpzMkY4TSSNTLU756+c1t4suvDoZdYfmUzshygzCAIQFSmN2rq65PLaejyarizOIAcezC30NFcUQqIL8nODxwvy0lot2nAbcR8eM+fySG6McLa+5OO3lTaqAKB6eUNyKxEK5dEmyx+1Fuc07/qTe1znwkSI2jkTU4yfxgyuY4ut6OvANyVZ6ut0jb3xGbTL3HZDYlQg7oobaskmkV2K+rRAhZKMs
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 May 2026 07:40:50.7110
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6def6c58-1ada-4d65-e764-08dea9b07700
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL6PEPF0001AB75.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7040
 
+Development boards such as the Jetson AGX Orin expose SPI buses on
+expansion headers so that users can connect and interact with SPI
+peripherals from userspace via /dev/spidevB.C character devices.
 
+Today, instantiating spidev devices on upstream kernels is impractical:
+the spidev driver rejects bare "spidev" compatible strings in DT, and
+vendor-specific strings have been rejected by DT maintainers.
 
-> -----Original Message-----
-> From: Andrew Lunn <andrew@lunn.ch>
-> Sent: Sunday, May 3, 2026 4:07 AM
-> To: Regus, Ciprian <Ciprian.Regus@analog.com>
-> Cc: Parthiban Veerasooran <parthiban.veerasooran@microchip.com>;
-> Andrew Lunn <andrew+netdev@lunn.ch>; David S. Miller
-> <davem@davemloft.net>; Eric Dumazet <edumazet@google.com>; Jakub
-> Kicinski <kuba@kernel.org>; Paolo Abeni <pabeni@redhat.com>; Simon
-> Horman <horms@kernel.org>; Jonathan Corbet <corbet@lwn.net>; Shuah
-> Khan <skhan@linuxfoundation.org>; Heiner Kallweit
-> <hkallweit1@gmail.com>; Russell King <linux@armlinux.org.uk>; Rob Herring
-> <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
-> Dooley <conor+dt@kernel.org>; netdev@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-doc@vger.kernel.org;
-> devicetree@vger.kernel.org
-> Subject: Re: [PATCH net-next 5/5] dt-bindings: net: Add bindings for the
-> ADIN1140
->=20
-> [External]
->=20
-> > +  The ADIN1140 (also called AD3306) is a low power single port
-> > +  10BASE-T1S MAC-PHY. It integrates an Ethernet PHY with a MAC
-> > +  and all the associated analog circuitry.
-> > +  The device implements the Open Alliance TC6 10BASE-T1x MAC-PHY
->=20
-> The device _tries_ to implements the Open Alliance TC6 10BASE-T1x MAC-
-> PHY.
+This series adds an I2C-style new_device/delete_device sysfs interface
+to SPI host controllers, enabling runtime device instantiation from
+userspace without any device-tree changes.
 
-Will update in v2.
+Patch 1 adds the core sysfs interface (new_device/delete_device).
+Patch 2 adds user-facing documentation and ABI entries.
 
->=20
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    spi {
-> > +        #address-cells =3D <1>;
-> > +        #size-cells =3D <0>;
-> > +
-> > +        ethernet@0 {
-> > +            compatible =3D "adi,adin1140";
-> > +            reg =3D <0>;
-> > +            spi-max-frequency =3D <23000000>;
-> > +
-> > +            interrupt-parent =3D <&gpio>;
-> > +            interrupts =3D <6 IRQ_TYPE_EDGE_FALLING>;
->=20
-> Table 1: OPEN serial 10BASE-T1x Interface Pin Definition
->=20
-> IRQn MAC-PHY Interrupt Request (Active Low)
->=20
-> Or is this something else which the device gets wrong?
+Changes in v3:
+  - Made the entire feature conditional on CONFIG_SPI_DYNAMIC using
+    #if IS_ENABLED(CONFIG_SPI_DYNAMIC) preprocessor guards, since this
+    adds a new way of dynamically instantiating and removing SPI
+    devices and the add_lock locking in spi_unregister_controller() is
+    already conditional on CONFIG_SPI_DYNAMIC (Mark Brown)
+  - Wrapped userspace_clients list, lock, and userspace_node struct
+    members in #if IS_ENABLED(CONFIG_SPI_DYNAMIC) in spi.h
+  - Started a new thread instead of replying to v2 (Mark Brown)
 
-The device generates interrupts correctly (the IRQ signal remains
-asserted while there are active interrupt conditions that have not
-been cleared yet). The oa_tc6 driver requests the interrupt with
-the IRQF_TRIGGER_FALLING flag set, so the DT flag will be overridden
-and the behavior remains the same.
+Changes in v2:
+  - Fixed a race between new_device_store() and
+    spi_unregister_controller(): hold ctlr->add_lock across both
+    __spi_add_device() and the list insertion so the two operations
+    are atomic with respect to controller teardown (Mark Brown)
 
-However, the devicetree shouldn't care about this. I'll update to
-IRQ_TYPE_LEVEL_LOW in v2.
+Vishwaroop A (2):
+  spi: add new_device/delete_device sysfs interface
+  docs: spi: add documentation for userspace device instantiation
 
->=20
-> 	Andrew
+ .../ABI/testing/sysfs-class-spi-master        |  34 +++
+ Documentation/spi/index.rst                   |   1 +
+ Documentation/spi/instantiating-devices.rst   |  88 ++++++++
+ drivers/spi/spi.c                             | 206 ++++++++++++++++++
+ include/linux/spi/spi.h                       |  12 +
+ 5 files changed, 341 insertions(+)
+ create mode 100644 Documentation/ABI/testing/sysfs-class-spi-master
+ create mode 100644 Documentation/spi/instantiating-devices.rst
+
+-- 
+2.17.1
+
