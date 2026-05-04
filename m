@@ -1,69 +1,45 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65040258EE9;
-	Mon,  4 May 2026 17:35:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540873E5EC1;
+	Mon,  4 May 2026 17:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777916114; cv=none; b=O44Hi6F8ASue54XvRITr0oZMLogZsLmLDYYvMOXhWhF2eAMVSJt77eowgBe2nFx07Gybeh2JtMnYnuiOFwx9XpGE9bmp7VQLgK/7CFb8+SMXfHsMO64kksDKoeLTaox7iWBOjJ2hfxkXodx9biMWfstK8Vl8lWWO5H43ePGil3Q=
+	t=1777916472; cv=none; b=cyjTDqv/ZixkWVDRM045tFFDg1zF9H6fMpXFK8sczxHvojGzqVV08KFirMNuknIOx08xFwprDkSAeuRncSE5NvIzCqGTOkF+mr4/mK6AZ5AyHVG89QiJ4Tp4LS1zXB+sUe2pNkQGvm6tJQL+r33SkchKWQRjS9iw2/TG23+OTCc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777916114; c=relaxed/simple;
-	bh=4uWECAxcPn2j8lm2dquwqliQA6WLP4/GhTLEzPXj/7I=;
+	s=arc-20240116; t=1777916472; c=relaxed/simple;
+	bh=gXCIxglj6nEmYjf0Vl9jKj/cd7xazV9XVYCGS2F8+kA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ce39UN489VxoHhPbceuDxOn37i9HgQs6hTLprxZ4GoPWfFl9CYJmZzsb/IAr34BImFrGL7RTL4YoY7mQHn4LFh1fKXLxaL/dEtzpBLoe+BpuOUo/gLN0YU7kF9TnCSnLF0u8n5Qcwnp54NIUlEXIAZwGFqXy54EHebjMXO6gjd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mOlOY/Ju; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=QTQnzSSlYFgLF2Esa9jqu94jubR4H9NJLlDfvk8x9F+qXhVG6yEeIfCvLvS7fe4srDXpRCBEB2j6nx8rYTVPWkt1c95VEdmrqoOLwdrC4DCm8Vc8h4tg4eoMesTWltETccH1DybP1i75XY1zw5WfL74eGIFtJAMQr0Ai9F1rlt4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hf6SWaca; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mOlOY/Ju"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7354B175;
-	Mon,  4 May 2026 19:35:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777916107;
-	bh=4uWECAxcPn2j8lm2dquwqliQA6WLP4/GhTLEzPXj/7I=;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hf6SWaca"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF928C2BCB8;
+	Mon,  4 May 2026 17:41:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777916472;
+	bh=gXCIxglj6nEmYjf0Vl9jKj/cd7xazV9XVYCGS2F8+kA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mOlOY/JuCqXc1CY83W9gUwHSKOC0b68roGTUEFpHdsIAlm0S/ijzOs51FJpFuoboF
-	 4wFZWCq0UJk0+jHcJHMtWrecpl115pIZDK+9ULWJkAGGkQuk3Y4JSYorXRe6W5lmk3
-	 RjqqdiOIAdx8ZEyfU6gM46NRoVnZyGfdhBZXYbyY=
-Date: Mon, 4 May 2026 20:35:08 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Simon Ser <contact@emersion.fr>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 15/20] drm/connector: Add new atomic_create_state
- callback
-Message-ID: <20260504173508.GR1344263@killaraus.ideasonboard.com>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-15-8b68d9db0d8b@kernel.org>
+	b=hf6SWaca7SqxrkrXkC7kijSGnxlJ6IYOITp4mg4SlDVSk6WB76juKkXB9eXxGVVP6
+	 51OuFI7tAv+j1NpcB1ag6Hpra2YCUWwqVrS8ktRkOMNn19p+rxYDYOT+vexdVqa1iL
+	 weSTW0LQR0xmiQdVVaNyceaYslwrMNz4Fw4KAp6ryTGtdbsk2CRod4s11pkAnGVSW+
+	 9p0Fbw4+hl+PYYLsB91RO1PJuy1/AIt9iU8yBpFkwTKQQTz6lYKuHcqn8cgEGOSxQG
+	 +yPdwW/XUhb5f7g3l8FLe+Jk7YFfK7PC99SiU8057/Hsit7pVmrGlHiOGjS1S9XZvw
+	 kUG+syil/wG/g==
+Date: Mon, 4 May 2026 10:39:52 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Jon Kohler <jon@nutanix.com>
+Cc: "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+Message-ID: <20260504173952.GA2291@sol>
+References: <20260430011544.31823-1-ebiggers@kernel.org>
+ <4D424F50-7E9F-4B1F-AE9C-86D8526284E6@nutanix.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,207 +48,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20260424-drm-mode-config-init-v3-15-8b68d9db0d8b@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <4D424F50-7E9F-4B1F-AE9C-86D8526284E6@nutanix.com>
 
-Hi Maxime,
-
-Thank you for the patch.
-
-On Fri, Apr 24, 2026 at 12:18:55PM +0200, Maxime Ripard wrote:
-> Commit 47b5ac7daa46 ("drm/atomic: Add new atomic_create_state callback
-> to drm_private_obj") introduced a new pattern for allocating drm object
-> states.
+On Mon, May 04, 2026 at 02:39:12PM +0000, Jon Kohler wrote:
+> > On Apr 29, 2026, at 9:15 PM, Eric Biggers <ebiggers@kernel.org> wrote:
+> > 
+> > AF_ALG is almost completely unnecessary, and it exposes a massive attack
+> > surface that hasn't been standing up to modern vulnerability discovery
+> > tools.  The latest one even has its own website, providing a small
+> > Python script that reliably roots most Linux distros: https://copy.fail/
+> > 
+> > This isn't sustainable, especially as LLMs have accelerated the rate the
+> > vulnerabilities are coming in.  The effort that is being put into this
+> > thing is vastly disproportional to the few programs that actually use
+> > it, and those programs would be better served by userspace code anyway.
+> > 
+> > These issues have been noted in many mailing list discussions already.
+> > But until now they haven't been reflected in the documentation or
+> > kconfig menu itself, and the vulnerabilities are still coming in.
+> > 
+> > Let's go ahead and document the deprecation.
+> > 
+> > This isn't intended to change anything overnight.  After all, most Linux
+> > distros won't be able to disable the kconfig options quite yet, mainly
+> > because of iwd.  But this should create a bit more impetus for these
+> > userspace programs to be fixed, and the documentation update should also
+> > help prevent more users from appearing.
+> > 
+> > Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+> > ---
 > 
-> Instead of relying on the reset() callback, it created a new
-> atomic_create_state hook. This is helpful because reset is a bit
-> overloaded: it's used to create the initial software state, reset it,
-> but also reset the hardware.
+> Quick passing observation
+> I noticed that when attempting to completely disable these Crypto APIs,
+> I was experiencing boot failures with fips=1 enabled systems.
 > 
-> It can also be used either at probe time, to create the initial state
-> and possibly reset the hardware to an expected default, but also during
-> suspend/resume.
+> Using 6.18-based kernel with an el9-based user space, I see the
+> following hang in the early boot console from dracut-pre-pivot:
+>   Check integrity of kernel
+>   libkcapi - Error: AF_ALG: socket syscall failed (errno: -97)
+>   Allocation of hmac(sha512) cipher failed (-97)
 > 
-> Both these cases come with different expectations too: during the
-> initialization, we want to initialize all states, but during
-> suspend/resume, drm_private_states for example are expected to be kept
-> around.
+> I haven't looked at every elX version, but at least in el9 and el10,
+> they use libkcapi-hmaccalc to provide sha512hmac, which dracut [1]
+> uses to calculate the HMAC value in do_fips().
 > 
-> reset() also isn't fallible, which makes it harder to handle
-> initialization errors properly. This is only really relevant for some
-> drivers though, since all the helpers for reset only create a new
-> state, and don't touch the hardware at all.
+> Digging further, I was only able to disable RNG and AEAD APIs, but
+> not HASH and SKCIPHER APIs when FIPS was in the picture with el9++.
 > 
-> It was thus decided to create a new hook that would allocate and
-> initialize a pristine state without any side effect:
-> atomic_create_state to untangle a bit some of it, and to separate the
-> initialization with the actual reset one might need during a
-> suspend/resume.
+> I’m not sure how other distros do the same, but this could be problematic
+> elsehwere if other distros went down the libkcapi route.
 > 
-> Continue the transition to the new pattern with connectors.
-> 
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_atomic_state_helper.c | 26 ++++++++++++++++++++++++++
->  drivers/gpu/drm/drm_mode_config.c         | 21 ++++++++++++++++++++-
->  include/drm/drm_atomic_state_helper.h     |  2 ++
->  include/drm/drm_connector.h               | 16 ++++++++++++++++
->  4 files changed, 64 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic_state_helper.c b/drivers/gpu/drm/drm_atomic_state_helper.c
-> index f67aacaa3b6e..6140926f4605 100644
-> --- a/drivers/gpu/drm/drm_atomic_state_helper.c
-> +++ b/drivers/gpu/drm/drm_atomic_state_helper.c
-> @@ -554,10 +554,36 @@ void drm_atomic_helper_connector_reset(struct drm_connector *connector)
->  	kfree(connector->state);
->  	__drm_atomic_helper_connector_reset(connector, conn_state);
->  }
->  EXPORT_SYMBOL(drm_atomic_helper_connector_reset);
->  
-> +/**
-> + * drm_atomic_helper_connector_create_state - default &drm_connector_funcs.atomic_create_state hook for connectors
+> [1] https://github.com/dracutdevs/dracut/blob/059/modules.d/01fips/fips.sh#L167
 
-Same comment as in 10/20.
+That seems to be an implementation of FIPS 140-3's integrity self-check.
+A few observations:
 
-> + * @connector: connector object
-> + *
-> + * Initializes a pristine @drm_connector_state.
+- It could easily use userspace SHA-512 code instead.  If including
+  libcrypto.so in the "FIPS cryptographic boundary" would cause
+  certification difficulties, then a sha512.c file could simply be added
+  to 'libkcapi-hmaccalc' which is already in it.
 
-"Allocate and initialize ..."
+- It's compatible with all of the proposed hardening.  It doesn't
+  require zero-copy performance.  It runs as root, so it would be
+  compatible with a capability check.  "hmac(sha512)" will need to be on
+  the algorithm allowlist anyway for iwd.
 
-> + *
-> + * This is useful for drivers that don't subclass @drm_connector_state.
-> + *
-> + * RETURNS:
-> + * Pointer to new connector state, or ERR_PTR on failure.
-> + */
-> +struct drm_connector_state *
-> +drm_atomic_helper_connector_create_state(struct drm_connector *connector)
-> +{
-> +	struct drm_connector_state *state;
-> +
-> +	state = kzalloc_obj(*state);
-> +	if (!state)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	__drm_atomic_helper_connector_state_init(state, connector);
-> +
-> +	return state;
-> +}
-> +EXPORT_SYMBOL(drm_atomic_helper_connector_create_state);
-> +
->  /**
->   * drm_atomic_helper_connector_tv_margins_reset - Resets TV connector properties
->   * @connector: DRM connector
->   *
->   * Resets the TV-related properties attached to a connector.
-> diff --git a/drivers/gpu/drm/drm_mode_config.c b/drivers/gpu/drm/drm_mode_config.c
-> index 182d9a8104e7..92ff907f2485 100644
-> --- a/drivers/gpu/drm/drm_mode_config.c
-> +++ b/drivers/gpu/drm/drm_mode_config.c
-> @@ -212,10 +212,26 @@ static int drm_mode_config_crtc_create_state(struct drm_crtc *crtc)
->  	crtc->state = crtc_state;
->  
->  	return 0;
->  }
->  
-> +static int drm_mode_config_connector_create_state(struct drm_connector *connector)
-> +{
-> +	struct drm_connector_state *conn_state;
-> +
-> +	if (!connector->funcs->atomic_create_state)
-> +		return 0;
-> +
-> +	conn_state = connector->funcs->atomic_create_state(connector);
-> +	if (IS_ERR(conn_state))
-> +		return PTR_ERR(conn_state);
-> +
-> +	connector->state = conn_state;
-> +
-> +	return 0;
-> +}
-> +
->  /**
->   * drm_mode_config_reset - call ->reset callbacks
->   * @dev: drm device
->   *
->   * This functions calls all the crtc's, encoder's and connector's ->reset
-> @@ -255,13 +271,16 @@ void drm_mode_config_reset(struct drm_device *dev)
->  	drm_for_each_encoder(encoder, dev)
->  		if (encoder->funcs && encoder->funcs->reset)
->  			encoder->funcs->reset(encoder);
->  
->  	drm_connector_list_iter_begin(dev, &conn_iter);
-> -	drm_for_each_connector_iter(connector, &conn_iter)
-> +	drm_for_each_connector_iter(connector, &conn_iter) {
->  		if (connector->funcs->reset)
->  			connector->funcs->reset(connector);
-> +		else if (connector->funcs->atomic_create_state)
-> +			drm_mode_config_connector_create_state(connector);
-> +	}
->  	drm_connector_list_iter_end(&conn_iter);
->  }
->  EXPORT_SYMBOL(drm_mode_config_reset);
->  
->  /*
-> diff --git a/include/drm/drm_atomic_state_helper.h b/include/drm/drm_atomic_state_helper.h
-> index e7c097e6dfe3..8576cd256737 100644
-> --- a/include/drm/drm_atomic_state_helper.h
-> +++ b/include/drm/drm_atomic_state_helper.h
-> @@ -75,10 +75,12 @@ void drm_atomic_helper_plane_destroy_state(struct drm_plane *plane,
->  void __drm_atomic_helper_connector_state_init(struct drm_connector_state *conn_state,
->  					       struct drm_connector *connector);
->  void __drm_atomic_helper_connector_reset(struct drm_connector *connector,
->  					 struct drm_connector_state *conn_state);
->  void drm_atomic_helper_connector_reset(struct drm_connector *connector);
-> +struct drm_connector_state *
-> +drm_atomic_helper_connector_create_state(struct drm_connector *connector);
->  void drm_atomic_helper_connector_tv_reset(struct drm_connector *connector);
->  int drm_atomic_helper_connector_tv_check(struct drm_connector *connector,
->  					 struct drm_atomic_state *state);
->  void drm_atomic_helper_connector_tv_margins_reset(struct drm_connector *connector);
->  void
-> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
-> index 3e422a4f2e72..9fb794957d23 100644
-> --- a/include/drm/drm_connector.h
-> +++ b/include/drm/drm_connector.h
-> @@ -1569,10 +1569,26 @@ struct drm_connector_funcs {
->  	 * when a connector is being hot-unplugged for drivers that support
->  	 * connector hotplugging (e.g. DisplayPort MST).
->  	 */
->  	void (*destroy)(struct drm_connector *connector);
->  
-> +	/**
-> +	 * @atomic_create_state:
-> +	 *
-> +	 * Allocates a pristine, initialized, state for the connector object
+- FIPS 140-3 might also allow it to be simplified to use a plain hash
+  instead of pointlessly using HMAC with a fixed key.
 
-s/Allocates/Allocate/
+Anyway, just another one of the long tail of odd users that could have
+solved their problem in a better way.  This one is at least compatible
+with the hardening that's being considered.
 
-> +	 * and returns it. This callback must have no side effects: in
+By the way, also on the topic of FIPS 140-3, some people do use AF_ALG
+for ACVP (even though it's not all that great for that purpose, either).
+But ACVP is a testing thing, not something that is needed on production
+systems.  ACVP can just be run as root on a testing build; there's no
+need to enable support for it in the actual production build.
 
-s/returns/return/
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +	 * particular, the returned state must not be assigned to the
-> +	 * object's state pointer and it must not affect the hardware
-> +	 * state.
-> +	 *
-> +	 * RETURNS:
-> +	 *
-> +	 * A new, pristine, connector state instance or an error pointer
-> +	 * on failure.
-> +	 */
-> +	struct drm_connector_state *(*atomic_create_state)(struct drm_connector *connector);
-> +
->  	/**
->  	 * @atomic_duplicate_state:
->  	 *
->  	 * Duplicate the current atomic state for this connector and return it.
->  	 * The core and helpers guarantee that any atomic state duplicated with
-
--- 
-Regards,
-
-Laurent Pinchart
+- Eric
