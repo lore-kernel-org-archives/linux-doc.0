@@ -1,125 +1,118 @@
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E67A3E4C7B;
-	Mon,  4 May 2026 18:02:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6701412E1E9;
+	Mon,  4 May 2026 18:12:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777917741; cv=none; b=KJ7mJiBlmEw1M5wlm3G3NhVl+q6Xw23e+9m/T3hyUdfuQKCoxOBAQk1WYxNAlc/KmRK/Djejsgv8VIzGIKbwieE5NVqAVZ26PDNgMunSSw664UEW3ofECgG+eDmU98pP0kRO00A2kalSnR3MNVDpi6FewklCHsSvOlLbHJXxuOI=
+	t=1777918336; cv=none; b=TdSBHpQoXTangR1yVSnnWFpd8nTiIRkPn7r5wcF14FnIRerlNAVU6JyMxBS6kYLreOg13F4vOkaTut5Ve1fm2AKxZAQTQkfbfELwKSiSutqKknL+gX3TIwjAG/iRkheIGesn1+rM03cT9+1exAVG4/tnixEcxqzgkJ50ffbUbeQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777917741; c=relaxed/simple;
-	bh=7jbSAljiTPkKqJTgG1DeBRsKb/Ln1LpocLciBKuNSuk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=D5EE24oTQocLvoKzFuKkyVaUhyxquOA35jXsECBI1qrvpFpx426OW4hNy2QeMBdXawtGcA6l9iv8MyqHO7R3IpZJmAIr64X4RNcSradyPHG91dkYcuaBWApsmuz1X02J76jqk7zGYJ7U26bQ8dGVtVKKS2x8WpkCwucLFjKs1Q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YnqgFdgF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+	s=arc-20240116; t=1777918336; c=relaxed/simple;
+	bh=+sk3GTBgJ0OpZC2sOvfB7jA5ioLT4Ah6k/GnB7L9h1g=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Disposition; b=t1GEY3+uFgDk/m7O049AR4dQc5GGYrEwQBKIGffW7bdNpIsqFvZfLxc0VgWEhUQAGXVXiGW1h+nI4shtr2jJZhb7aa5XdlT2jqHlF7hOE22qvgjBfZtjcNMEJSm+PDkIW4JvutLkIEYm0Ze0K5OmImsR4eJBGABXAOUGwQAN1kc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=A5ZD7In8; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YnqgFdgF"
-Received: from killaraus.ideasonboard.com (2001-14ba-703d-e500--2a1.rev.dnainternet.fi [IPv6:2001:14ba:703d:e500::2a1])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C62019C;
-	Mon,  4 May 2026 20:02:15 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1777917736;
-	bh=7jbSAljiTPkKqJTgG1DeBRsKb/Ln1LpocLciBKuNSuk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YnqgFdgFttmuLffMS5TgsyuM48yEk6z0WoekgzM5bIw4g9Ra0fU/7U45WjE+yVhSy
-	 d6kAAxIvIcoDVvQBfJkBTFx3CVUaiSLn65JuM9fJ+Ygg2KptlJeif7Yy3cl/sq8Gw2
-	 f8wz50w+ANWkaFoTopxUc54KjrvsE//tdjt5G6a8=
-Date: Mon, 4 May 2026 21:02:16 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Shuah Khan <skhan@linuxfoundation.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Jyri Sarha <jyri.sarha@iki.fi>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Robert Foss <rfoss@kernel.org>, Jonas Karlman <jonas@kwiboo.se>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Simon Ser <contact@emersion.fr>,
-	Harry Wentland <harry.wentland@amd.com>,
-	Melissa Wen <mwen@igalia.com>,
-	Sebastian Wick <sebastian.wick@redhat.com>,
-	Alex Hung <alex.hung@amd.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	Chen-Yu Tsai <wens@kernel.org>,
-	Samuel Holland <samuel@sholland.org>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>,
-	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Daniel Stone <daniels@collabora.com>,
-	intel-gfx@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org, linux-sunxi@lists.linux.dev
-Subject: Re: [PATCH v3 17/20] drm/drv: Switch skeleton to
- drm_mode_config_create_initial_state()
-Message-ID: <20260504180216.GU1344263@killaraus.ideasonboard.com>
-References: <20260424-drm-mode-config-init-v3-0-8b68d9db0d8b@kernel.org>
- <20260424-drm-mode-config-init-v3-17-8b68d9db0d8b@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="A5ZD7In8"
+Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.167.115.14])
+	by linux.microsoft.com (Postfix) with ESMTPSA id F3B4720B7168;
+	Mon,  4 May 2026 11:12:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F3B4720B7168
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1777918333;
+	bh=n7bmLzV45MCFR32DECncWc88xFMFDAuCejDyl9htYrM=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=A5ZD7In81slYhgBMBZnHjbosHvK2nRllucKahLg4ReJUn+f2oS5lQriTrQhEWAbwq
+	 14JxWEIVUDVJdL3eeWRkaYeTBZ83YSuSYM7l8dqHVHXGEE0zgbAkCaY3HzCIFYbFaq
+	 R/wTmAS0vy4XInjcJEwOfyfJ2YOKiNNhrKwkM1rk=
+Date: Mon, 4 May 2026 14:12:11 -0400
+From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: Jon Kohler <jon@nutanix.com>, 
+ "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
+ <linux-crypto@vger.kernel.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
+ <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
+ <linux-api@vger.kernel.org>, 
+ "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
+ <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
+ <netdev@vger.kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Message-ID: <F100C726-F841-461B-BE2F-C2018C122426@getmailspring.com>
+In-Reply-To: <20260504173952.GA2291@sol>
+References: <20260504173952.GA2291@sol>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+X-Mailer: Mailspring
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20260424-drm-mode-config-init-v3-17-8b68d9db0d8b@kernel.org>
 
-On Fri, Apr 24, 2026 at 12:18:57PM +0200, Maxime Ripard wrote:
-> The driver skeleton currently recommends calling
-> drm_mode_config_reset() at probe time to create the initial state.
+
+
+On May 4 2026, at 1:39 pm, Eric Biggers <ebiggers=40kernel.org> wrote:
+> =20
+> That seems to be an implementation of =46IPS 140-3's integrity self-che=
+ck.
+> A few observations:
+> =20
+> - It could easily use userspace SHA-512 code instead.  If including
+>  libcrypto.so in the =22=46IPS cryptographic boundary=22 would cause
+>  certification difficulties, then a sha512.c file could simply be added=
+
+>  to 'libkcapi-hmaccalc' which is already in it.
+
+Indeed expanding the crypto boundary to include libcrypto.so would cause
+certification difficulties, it would mean certifying all of libcrypto.so
+with the kernel. There *may* be a case for saying that it is outside the
+module boundary but only if:
+
+    * The integrity mechanism is clearly external
+    * The cryptographic module refuses to operate unless integrity is con=
+firmed
+    * The trust relationship is clearly documented
+
+I don't see how this could be justified cleanly without significant pushb=
+ack.
+
+> =20
+> - It's compatible with all of the proposed hardening.  It doesn't
+>  require zero-copy performance.  It runs as root, so it would be
+>  compatible with a capability check.  =22hmac(sha512)=22 will need to b=
+e on
+>  the algorithm allowlist anyway for iwd.
+> =20
+> - =46IPS 140-3 might also allow it to be simplified to use a plain hash=
+
+>  instead of pointlessly using HMAC with a fixed key.
+
+=46IPS 140=E2=80=913 (via ISO/IEC 19790) draws a hard distinction between=
+:
+    * Integrity checking (cryptographic protection)
+    * Integrity measurement (detection only)
+
+A plain hash provides no protection against an attacker who can modify
+both the object and its reference hash.
+
+> =20
+> By the way, also on the topic of =46IPS 140-3, some people do use A=46=5F=
+ALG
+> for ACVP (even though it's not all that great for that purpose, either)=
+.
+> But ACVP is a testing thing, not something that is needed on production=
+
+> systems.  ACVP can just be run as root on a testing build; there's no
+> need to enable support for it in the actual production build.
+
+Agreed it's not a good use case. Unless/until pkcs1 is supported, I
+don't see how you can use it for all of the test cases. Plus as
+evidenced by Ubuntu's new cert, it requires validating the library.
+
+> =20
+> - Eric
 > 
-> Now that drm_mode_config_create_initial_state() exists to handle
-> initial state allocation without hardware side effects, update the
-> skeleton to recommend it instead.
-> 
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> ---
->  drivers/gpu/drm/drm_drv.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_drv.c b/drivers/gpu/drm/drm_drv.c
-> index 985c283cf59f..f537556b06a8 100644
-> --- a/drivers/gpu/drm/drm_drv.c
-> +++ b/drivers/gpu/drm/drm_drv.c
-> @@ -340,11 +340,13 @@ void drm_minor_release(struct drm_minor *minor)
->   *
->   *		// Further setup, display pipeline etc
->   *
->   *		platform_set_drvdata(pdev, drm);
->   *
-> - *		drm_mode_config_reset(drm);
-> + *		ret = drm_mode_config_create_initial_state(drm);
-> + *		if (ret)
-> + *			return ret;
-
-There's one point I'm still not sure to understand properly. The
-skeleton example (and the tidss driver, which you convert to the new API
-in this series) both call drm_mode_config_helper_resume(). This in turn
-calls drm_atomic_helper_resume(), and drm_mode_config_reset(). For
-drivers that implement .atomic_create_state() instead of .reset() (such
-as tidss, after its conversion in this series), drm_mode_config_reset()
-will call the drm_mode_config_*_create_state() helpers, which allocate
-and initialize a new state (through .atomic_create_state()), and store
-that new state in the object's ->state field. Won't this leak the state
-previously stored there ?
-
->   *
->   *		ret = drm_dev_register(drm);
->   *		if (ret)
->   *			return ret;
->   *
-
--- 
-Regards,
-
-Laurent Pinchart
