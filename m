@@ -1,233 +1,227 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0a-002c1b01.pphosted.com (mx0a-002c1b01.pphosted.com [148.163.151.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C09643DE420
-	for <linux-doc@vger.kernel.org>; Mon,  4 May 2026 14:54:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777906487; cv=none; b=TIX1rs1SFwL7fcD9Hd1figKMwyXXG/6vxTobSAyLn/gvw+U4+Ll7ZOhEdFJ8h4xq5+OIIB/bSFJzKEiZUXKODohaiUkrm8GDlWR6sf5FyARM6yzTHhRq6B9+fe1iNW7GEO1LI1C43/KSBVxGtBMxmqjR17xWc+/iaaANvq7/jCI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777906487; c=relaxed/simple;
-	bh=KIjNL7dmqxeCbPL9mR6ns2PckZhLMHsYp6twYA6eS8c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XiVfcS4gtxKoV9Bad5h1/mayH0S19ezPwkMemXWCyl1du0teujTGIPuzY9Y1kbL8lT/bqPytcw0Zeu1CY5Pe44MIVXEuiuM0WedS+lF/F3UkQuPf8UTX9q+fpJR8HwY4LGQb+bcSn1QAer0dp1nVBGNF6wlj89eFf7LcWWVFZwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=i2qVCjG1; dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b=az+hnU1o; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C8033DFC75;
+	Mon,  4 May 2026 14:56:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.151.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777906574; cv=fail; b=IM9/Nhm3jjsE98pZBX+HsZ+5EYiSy6HRz6dWjPhveObfBtHCK5RMK18XjUCb+QwDvT863jJxfCWS56UmK7iL1I7kPkTOJCJc3ydrgPPr63hfITKDvEShJf7rQhy+fZ2dl5OPhBkw9PTQb750GR/AgMaN5YQftfzKQ78dY4C5MIc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777906574; c=relaxed/simple;
+	bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmIvA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=B0sT1a6isQqZwCLfP59D8IsyTnawc8sxQaOnqS9d1DNaxhtkXk5b5aBF4mnQYm0zoQWouVSEIah8rDqvDnTpd4BsZjjX6W4NAByYKm+WXwkrR0GTOfzQEC9+APTwioKIrzbuZGwXT1rqgAjD3VJJFbbj1nAYRFdQUn0eszP/964=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nutanix.com; spf=pass smtp.mailfrom=nutanix.com; dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b=hBRMN5ZI; dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b=epSxO23Y; arc=fail smtp.client-ip=148.163.151.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nutanix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nutanix.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="i2qVCjG1";
-	dkim=pass (2048-bit key) header.d=oss.qualcomm.com header.i=@oss.qualcomm.com header.b="az+hnU1o"
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 644EMNGc1961285
-	for <linux-doc@vger.kernel.org>; Mon, 4 May 2026 14:54:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=zyWhrMBgTVBnOlZKZUVMGDo1V/gQP9OkQHl
-	nvxmUkGM=; b=i2qVCjG1R8peeo1P4PcR4TAbx5U7Ow9dcuqLw0wduWbbm5CRehC
-	YVq2mGfcNtVdRwgX4SgdfTTVkddmqJI3Na8AdcU9MRkgqbfyJDG3jKrwSinsh2VJ
-	To1N48d31I8rrJYfXvqpeJ1MECnjt4NKTbk0O4PS/BYVGLjT/wrAkUAhqhiz+coE
-	xuQqzwu6c6u00Ko4tk8ZxBe/exDp+uFvlAstXNA7MKYYhuRbtjjTBth1d4zUlyE7
-	GjiVqA//c5ax7wndL27GTrNj7wr7PaP3RJIfGWbeHeCrnUnDryJaZnrlIx0sBGlW
-	01XRnbI5aU+YjEugk7FhvUw9dOJaNlMkZIg==
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com [209.85.221.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4dxw5dr50m-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 14:54:44 +0000 (GMT)
-Received: by mail-vk1-f198.google.com with SMTP id 71dfb90a1353d-56b67e8c2f5so7674668e0c.0
-        for <linux-doc@vger.kernel.org>; Mon, 04 May 2026 07:54:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1777906484; x=1778511284; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zyWhrMBgTVBnOlZKZUVMGDo1V/gQP9OkQHlnvxmUkGM=;
-        b=az+hnU1ocLr+HvKtbdHgnWOVPX4bAMOnJ6BbgzEeqYXsWQQeJRQK9KkObaKK+EI705
-         JfXPqsr8minnOst/cNKw6GgR8i7+mQx8Be9tdBf1BN668dI+GAzVpb1ooBT7WWymh+CM
-         qPnO4V4q0IdVIC+gjK/6qPq8APZhkI1MskbNjW2QZpR4wU3vTXUZLNljMOO/GD7ykh7A
-         tzrdV1FVcdVxT8QUMetUN8YWU8c4qM5dA1C53+L1sgAGrNNMLNB1OFyWIAfvog1rIDcm
-         hbH3EfkCt9DAmrlaiyY0QbxABHYIbYHgwF3EZLG+Icqk6wW1tUWecxvBGF2WY+dF1Nxx
-         /2sw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777906484; x=1778511284;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zyWhrMBgTVBnOlZKZUVMGDo1V/gQP9OkQHlnvxmUkGM=;
-        b=UjmBdm/at/6JLrNJnZOld30Ld3MxNCvHgrGimmcWWfVJCKoBBvuO17am1JmSWfiagC
-         nWLq5qWM5TJ6QtbcgoERRW7B5ZsqFtuUNsBpU00ZFTjx/Xjj/wz5I3FGp85iLTsED8iX
-         xNACPi7uJ375Ci3dcgQ7Sx9LxJEEAGvZKSB5evrvlRGNfFvkrPMsIcKRNKg94i2jwL5b
-         2nSG46autQsG4YcbD+4xSVb5MEetIhUqJeRcmLBVDoZVtFUzDJj7Qx6uSV7k4OastEF3
-         JF2xwANRedXghLCRzARC904JMR8HNIO27FMLGpxJKB958gk/0WsMrjOEk80d3rX9zcJm
-         SZsw==
-X-Forwarded-Encrypted: i=1; AFNElJ8A/xmIY/KioAigntXDXYkui3hwRbsFA1sB7vuFV88LLJRYjtg0CKaNtt/l9GMyLpGoYiAWY+OQ3XU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTFDT5c/5VMoplWW+sIwm86iakwsf7Ng5qYr1BW1bPcwTuOhUD
-	Mp6kyh3PYdCNTcZYii07CPFf7o9d8+rG6YHYF5oYgZvoO9uLfalEJ8XkXca98qZntX+7ZNP1ccw
-	Sig76R6v3iGgtAFuc791jecdJ/FZiwIS+dnXMvYnfxAW/c4qWUPmtIneYqyE1CCo=
-X-Gm-Gg: AeBDievo29CiOujzgCiSX22wrHXPHR2b2rmcYnbNkTdHYafs6C+g7iL+K6d/actsg9J
-	pnbAncvBivnTxlH0Yp0PmX/obrOHc6Wacszw6pqaMOora86RC7zBx8kjldpYUROxAfCEaf5T/VE
-	IbA8eEz7PKc9TxXIqlSi1ZLp6Sse2NUmZp1WdF2rYk85WajfjsZZ49Y6/SZAd51QtDpkU5SayMB
-	rNCNHRlHGUP8XYbRMKgMU033iddlSIk5jRtxKpkvLy0jJROGqDjAr8lvdxgNrYtWSn4mju5K0L3
-	kuCYg50/95V6b3tql2UJwOd044YYsdutrk3rmDYHn+KHR1RKbuCBVmeSyhvAZ1FC+LNsqGObYsh
-	00PMZ93qxPphzBoMBeGvmE0G1E+ls4Dliu0lc7w==
-X-Received: by 2002:a05:6122:458c:b0:56c:fe16:f54b with SMTP id 71dfb90a1353d-5750c654b1bmr4498680e0c.11.1777906483949;
-        Mon, 04 May 2026 07:54:43 -0700 (PDT)
-X-Received: by 2002:a05:6122:458c:b0:56c:fe16:f54b with SMTP id 71dfb90a1353d-5750c654b1bmr4498656e0c.11.1777906483495;
-        Mon, 04 May 2026 07:54:43 -0700 (PDT)
-Received: from t14s ([109.36.135.20])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc19bbb1fc7sm160704966b.47.2026.05.04.07.54.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 May 2026 07:54:42 -0700 (PDT)
-From: Hans de Goede <johannes.goede@oss.qualcomm.com>
-To: Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>
-Cc: Hans de Goede <johannes.goede@oss.qualcomm.com>,
-        Rishit Bansal <rishitbansal0@gmail.com>,
-        Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>,
-        Edip Hazuri <edip@medip.dev>,
-        =?UTF-8?q?Mustafa=20Ek=C5=9Fi?= <mustafa.eskieksi@gmail.com>,
-        Xavier Bestel <xav@bes.tel>, linux-doc@vger.kernel.org,
-        linux-leds@vger.kernel.org, Kate Hsuan <hpa@redhat.com>
-Subject: [PATCH v2] Documentation: leds: leds-class: Document keyboard backlight LED class naming
-Date: Mon,  4 May 2026 16:54:34 +0200
-Message-ID: <20260504145434.12746-1-johannes.goede@oss.qualcomm.com>
-X-Mailer: git-send-email 2.54.0
+	dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b="hBRMN5ZI";
+	dkim=pass (2048-bit key) header.d=nutanix.com header.i=@nutanix.com header.b="epSxO23Y"
+Received: from pps.filterd (m0127838.ppops.net [127.0.0.1])
+	by mx0a-002c1b01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 644AW9MW4122814;
+	Mon, 4 May 2026 07:39:16 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com; h=
+	cc:content-id:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	proofpoint20171006; bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmI
+	vA=; b=hBRMN5ZItGWQUOwqVb/GKgB1H38gaiqYvVmag/QR6s/cVSQHEKVOm4pW2
+	FygkEtPm3t+3497u1W+9v7QqCkCAM3bpbEXLfT+/mLtwPBf+cvXj2CIvmnp1sjbO
+	tOYntYWVtqMn4VYFiK8MZpI78JnCnFF0GWtLuGlHukoN9hR8qGe6+awPwJ0dnobZ
+	tuRrWPPLQiU7EWCp7kTGbL9LpwKExmAyizuwgS4wqD4ZwI0BpElX/aZ3pQAXEoNb
+	rwgaK135ocz0Ku7UxU7gMlnWoNROGKv9TmkM/Oqfkzl2Q29/pSS1+dANHC3k+d5F
+	7TMnjKz1QoGXCgEwEjs/1Y8NRTVsQ==
+Received: from bl2pr02cu003.outbound.protection.outlook.com (mail-eastusazon11021120.outbound.protection.outlook.com [52.101.52.120])
+	by mx0a-002c1b01.pphosted.com (PPS) with ESMTPS id 4dwgtukee7-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Mon, 04 May 2026 07:39:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tumx/4II7x/CaBAWEfLgTrwm/ZDHU9LbOCPrVedJN0H/X++nS2EJElyb/zlol3cY0BvK+1uUWxSfFLj4ES9heV9oYCmEyr+08M61kEAIwKihF2Weha5FDHjI/GLH9ng6Zhi9RrnccnyxGs2qoLDvt7s1JH/QQmvqc4TmBuEnaCrrFDhtcLCbG7m4PaaduDf+aXfks9mFHbAENjBSXEZFe6cmVEXT4CgSXd6pi61FvYJz6Fw9H4RGpkxPcg9IGEDHJZnw9txyOTAKw9MLZHKKYNQnEeF9FX8eIxGBptK5JD/egBXIYYL/FwA58C7EQHaBjVtHQ93oNZygEFfD1c5bhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmIvA=;
+ b=C4URUP41YPE+SJOf0Zl+60Z7kwLMgTHSi37ZZAsfMCwLe8HrqozfSxVatSTEQ+eNfUCrDsxFOPwOXE+9fSJWXgjLMcbTSWA/h2wxyhrw8CFheYge+ACMGdkwiurrvnKh+ak+UtGpI4hlnrrToE16nsN4uJm8zRCpFhkfQ71+P0NeeiN2TnuJ9k6FbWCoc8VN8aSVoEOKg6yqQPwNtawet9N2qtR+1+1SccetZjiw8Ow9haiILIEAI++pa8J8OzTxFw/tCtB0jRI5vyHU+i/UCwiFTXebscJEX82f70Eqg+b8KxDeYaysZUY1054jkgo84Qh+c9/BC3octix8fTRbpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
+ dkim=pass header.d=nutanix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6PkrMP/ADUuoEyOHA5vSJsVBqfvVrFpw+1ahrlCmIvA=;
+ b=epSxO23YSIdiCQYvcvHuXWUpxIzHCaxPadqWfWX5FP2Zhg7Fc5x4iFMTmhAAMbcDHPXES7gQgk+bf4f2uLJ0sQS2+/ax+1A7fpILUfsKZvT+ncQefMNg47Zn0tAxV8Mk95Jj27B3kqdehjYXkOswWWn+UNiwotJqy2RReV4kN/whFD48NhNOwTGG7ohg5BGIIgHjyqCj0L4Pp8F8ubgWr+KsUoBAeQnxI4HXgYRXk/AcSGAxekVlES5Q6QZBXqNlfnVo2cX+50XDdEF3JPgzI2QEu5a7uBj+6jH0piM/YL8dJYLpusIBuHcEE+4iIU83/oduSLLe29OywmJ4WFbLKA==
+Received: from LV0PR02MB11133.namprd02.prod.outlook.com
+ (2603:10b6:408:333::18) by SA1PR02MB8672.namprd02.prod.outlook.com
+ (2603:10b6:806:1ff::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Mon, 4 May
+ 2026 14:39:12 +0000
+Received: from LV0PR02MB11133.namprd02.prod.outlook.com
+ ([fe80::10e5:8031:1b1b:b2dc]) by LV0PR02MB11133.namprd02.prod.outlook.com
+ ([fe80::10e5:8031:1b1b:b2dc%3]) with mapi id 15.20.9870.023; Mon, 4 May 2026
+ 14:39:12 +0000
+From: Jon Kohler <jon@nutanix.com>
+To: Eric Biggers <ebiggers@kernel.org>
+CC: "linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+        Herbert Xu
+	<herbert@gondor.apana.org.au>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>,
+        "linux-api@vger.kernel.org"
+	<linux-api@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>,
+        "netdev@vger.kernel.org"
+	<netdev@vger.kernel.org>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+Thread-Topic: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+Thread-Index: AQHc29PGEbbnBkALYk6dcQ18VVjQcQ==
+Date: Mon, 4 May 2026 14:39:12 +0000
+Message-ID: <4D424F50-7E9F-4B1F-AE9C-86D8526284E6@nutanix.com>
+References: <20260430011544.31823-1-ebiggers@kernel.org>
+In-Reply-To: <20260430011544.31823-1-ebiggers@kernel.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-mailer: Apple Mail (2.3864.500.181)
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: LV0PR02MB11133:EE_|SA1PR02MB8672:EE_
+x-ms-office365-filtering-correlation-id: 50d03dce-30fa-4667-70fd-08dea9eae8db
+x-proofpoint-crosstenant: true
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|1800799024|366016|376014|10070799003|18002099003|22082099003|56012099003|38070700021;
+x-microsoft-antispam-message-info:
+ Fsh7SGNeJA+Nia0qS59DrRGVypdWpgCIlctOZN2CXcyV/qbUILEk9gTMacJbaZAwDMGe4DNCsJRvt/9+CoYssoktxoppW7NlkhudCqRJI8UtUKPZEr6nczcy9l8GmmSjsa1iUKDGMIdfajw1X0rdG+BCxw4k4kvGbZmsfvdcRNIMNtF83mATnKxgzf0dKlrSsPE5QmtQXfHnauELcyFLa6sZ/krCCXMl3a0T9E2J7gI5Ejt2Tstzeqqo0/0xmbwhJmUcsnNCM2U93a0eL5xBGMmWyS0Q+n5+e4KytfuHz2C3evlMyUnXKNvU2NXJsGIEs1brTAzbmJhM2BMxUVAvAWNjlV6k/JYqf5ue8feP501+nVAR5ab8VxG90v1XZqg36m/H0gQrhwLJ8ECF8nuVUN7t1Svj7YoDENo7GB/FPXCzOWjMRCiK6uzThJBg2lJ+YT5Tt1dpXQzzqYdcySZIM9ivjPKfj3XLEGA9EokbVNzD8H/1FyiPyJcMC19PnjTLIKuz+fmbJelH5D8qwySQmGXB+lj2W54eDLdEoRooJpe9SnCtll7Os8oOLSqoTe/S+HW5o++3mW3QgL9+Cdk+kAJ432UjVmsvRqBJNSoDfJoQOSG8JH3Nl+TGG8F/3q4v9ZW/RGZ67mxIqZHgihiKTe9fmTvV+LtFX7/Kq/RElUZnc4VITyBbmjdgHXXHW+Yf
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV0PR02MB11133.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(10070799003)(18002099003)(22082099003)(56012099003)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?NnkwenNhUlViZ2tIenoycFRrME5qMUgvRExpcXBzK0U4cjhRR1k4M2VxZmhD?=
+ =?utf-8?B?ZUx3QXEwMGhGRmRjQWcvNVhXcmZkcmtiankzM2RXZk9BcHZuaUZRYnlBdGln?=
+ =?utf-8?B?Nk1aYzE5b0h1b1M4UnB1M20wN2V3eFkxaS9KU0RabDlENEtrSDl5WEZRMHMw?=
+ =?utf-8?B?UGFWbFhuS1E2bmhuckdzT0t2enpNaGp3UG9JdUZ1RTlwUE5yOElZSkRjeldL?=
+ =?utf-8?B?RFUweGlHWnVuK3E4ajFQWGExalRScnVveER5bVl4TE8vaDRtUVk4TGliMWdR?=
+ =?utf-8?B?VEJGa3c0UU5aNUVmV2JaZVJoQ1RYbkUydGJRMzZoYVF6NnkzMG00ZHprbUIx?=
+ =?utf-8?B?MngzVGl3UXhhY0JuM3NUUzlxL0RzL0ZITFE0Q1FRR3BYZnduTDZYZ3luM0ls?=
+ =?utf-8?B?RjFuak9yWmJoRXQ0Wnltak12ZHVrbUprc1RVVmpqL3E0dFdheWxrT05WZFFn?=
+ =?utf-8?B?VFZmL2d0S0QxZzFOcmFjdkRHYTlzNVI1amlQbVFZc2ZNRkVTU21aQklWeGhS?=
+ =?utf-8?B?SDdjc2t6a0J4dVZYNERHY29XdHRhTHVaL3NBcS9LV0liMy80NGFsQ2hEZlVj?=
+ =?utf-8?B?am1LdmFiYWEwQ3Vaa083clljNWNENTVKY200SjJXc29GSWRBTWpIdWhsVXJt?=
+ =?utf-8?B?dzQzWTBwN1NybXNYb25sOExWTnNtZ2VjckpCRjFnL1NKdjU5eXVYdm9lUTNh?=
+ =?utf-8?B?RjdqcDlnT3Y5TVpwUUI4R1dWRXN3T3ZrMm5NQW9xa2liTStEdWg4UXpBTURN?=
+ =?utf-8?B?RWdldUdobERITHF6UEhIOHVJZnoxeXpBRzB4N1d5WUNreldXVGJlNEJ2TUs0?=
+ =?utf-8?B?VGFCa1Jqby90NEJKVzBrcnVGSzJMRU5GbVYxZVV3RmxGZUd5d3BaZW5IeDJ4?=
+ =?utf-8?B?anF0V1V3QmhMSzFzR2MxWVVnaXpFV2w4V2FGMSt6c3krcW9ZWmhMcDNoRUVK?=
+ =?utf-8?B?aEh6TzYzUFdkV0FHVmNvdzBwdVhUbTIweG13OEo1K3labDc5TklIeUt6Yng4?=
+ =?utf-8?B?eTRUTkNkdzVTZzJIa01qUmJiVXE3dDlhTzNDR0ZaaloxSFZpeHlwS1JPUTZu?=
+ =?utf-8?B?T0xuc1JqbWVJeE9jRDRObkNBNGYyclJKN2hQV1Nwb21oelp4cWdhUHRCMTls?=
+ =?utf-8?B?SlhGSC9EVWpwaGovVVlEU2tJMHhrS0o1Y2tldSt3djVtbzFNM3pmcHV6SnU2?=
+ =?utf-8?B?Y09ub2tMTFViQnRNbWJlcnZvSlFKVzI2eVNkU1UxR2F0bTYxSVpITUFJQlpl?=
+ =?utf-8?B?U0treDFta3NpNjZOckdmSkE2RDk4dXUrNkxUbVRWRkFET1NJOHVMSzdJSnpw?=
+ =?utf-8?B?M1pXYmxXYldyaTdpeWRydFRYdUhFd0lDNzNsVXVudUY4MnhVYTVQVVNESE45?=
+ =?utf-8?B?V1hDUU1wbm1SQ2cydWxYYmI4bU1yV1BYTkdUcUZBbXNQbCtqWklhSEQyQTJm?=
+ =?utf-8?B?bHhuSHpIRmxsV0ZzcEdFRW85b2xXVkRuZHlFYjdrd0daZXMxVXRzcVMvOGlH?=
+ =?utf-8?B?NDhvdGVwdEQzNytoZit3MmxBZk9KZEJKUUJsaG1DcFJ3aGt3U0MrK0I1UDFH?=
+ =?utf-8?B?STNoV0p5M3JidUJTaHJtbnNPc2FHQmdncXArQkE4OC9DTitMTGJwd3N2S0xG?=
+ =?utf-8?B?YXJYd2Vxc3hyN01qRmR6MWFySkN5dHJiRmtZTGVITFNxTkltaUZLNzRRZEVT?=
+ =?utf-8?B?VHdVVHpISVNMWGlzTEx6R2dpbkh0T21OMjlVaWxLbUVKUkE1c21HL1YvMzZO?=
+ =?utf-8?B?WktqUDRyRTBVTVp0anh3THpNaFc3eEdFMkJxZXlnakdnSVJkVVM5eXRVa2lx?=
+ =?utf-8?B?YklEa2h3SXYyV2gxQzRCeW9wL3dKQlc4NGNVYldQTFdsdGhjb3BoMlZrVml0?=
+ =?utf-8?B?YWhLMVhpSXZoT1V6UUsxaGlnUmZVUnhDdjU4YlgzMExCUHIxNUt4MlRtaUg0?=
+ =?utf-8?B?ejlkU1E1OUVJc2o2L3NvUjVQKzFEblpHRVByUzZtSCtUb2NHa3JtMEtmY3VF?=
+ =?utf-8?B?bkVnWVpjUHhPVkNRVlFaSzM3UjFBOGZ6VkpnNmNBSnVpdW1NT2F1eFZTNXlV?=
+ =?utf-8?B?WDBkSEVCUEJSUG8rUTJldU9sMXNMcDhlNXNPVWN0N3lDanBZYUxLQnRMOTFx?=
+ =?utf-8?B?WW85a3NLWFpsMjU2aVpTMDYyWjRXaHBNWU9JMlA2ZFhudVJNd0lHT0dIbGUv?=
+ =?utf-8?B?ZW1VSG16L3NtQ2svRDJ6U0I3VXE5dENsQWk0Vm81NXlCQXVaV2VhemFpZDBh?=
+ =?utf-8?B?S0JmRTdZeE5QR0FBS2hZMDBwK3lIYWluazFvQmszU3ZYbHBMZ1UwYUpwVmVm?=
+ =?utf-8?B?Ty84ZDFRcHkveVVCMSttWi9iL2MyTWsxYTUzZmtDbHdNZDZ3ZDZ4RWdkK3FL?=
+ =?utf-8?Q?Bb2pNvy8WmDfkpXAYl/Ezb91b6YYQn00s+BHC+5huoXMF?=
+x-ms-exchange-antispam-messagedata-1: sKICV2LMqHZsr3yf7L4IU8dZSTEMc56fQe0=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <06FE83388D68424EB0D13969703327C1@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA0MDE1MSBTYWx0ZWRfX8Y3Ji2w1kmaS
- kJABolwCCjD1WiXJ/1dpLBH162S9Xku8XUv4DNGxHyGD96h3IvWTTZuFuaKhARhLY6/LlG2SKcX
- Zu6oilO3Wk3hsefJJbGIcGzzk8l9UruK4B9+E+bd1dQNp6VDvdki5Ql35knpXTSFulcZevrLCvJ
- D+xWvqpvz/boGS+FkuluVd8MpoYf79OwoU6QMJMpRb07IOCw2Ppy9quhsWxVem/uaKDFBJP5YpG
- fBXB2NRsxmVz89H7zNv/MGj51f/cLoYly3hDY/uRt/x4k2Rma0QYC5iYuEsLYpoIe3H9eRGNmXE
- 6PFZ57D7doCDJ51G7HWdCGnBsBNz/btrn1W0mozaGxwLeU2xQJvnmhC6O1f4GTkr5BduVHaY328
- i/RowZTrEMa06ml04VFY681czU17OgdmR3JidqjEAJIxGIRDgJ5qlcDxIfT6Y4oxXMIRPLk1pRK
- dHV+/SXQSMAEClV5u5A==
-X-Proofpoint-GUID: UBqUo63aGjg3KmjFtSyb5tehAx02GlS_
-X-Proofpoint-ORIG-GUID: UBqUo63aGjg3KmjFtSyb5tehAx02GlS_
-X-Authority-Analysis: v=2.4 cv=HpJG3UTS c=1 sm=1 tr=0 ts=69f8b335 cx=c_pps
- a=1Os3MKEOqt8YzSjcPV0cFA==:117 a=42ONuYLmbm3caH2S/eEC+Q==:17
- a=NGcC8JguVDcA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=VwQbUJbxAAAA:8
- a=pGLkceISAAAA:8 a=20KFwNOVAAAA:8 a=EUspDBNiAAAA:8 a=BbKpnyccwsDoZckoJYIA:9
- a=hhpmQAJR8DioWGSBphRh:22
+X-Exchange-RoutingPolicyChecked:
+	oDqhmg3mgi1zQ1ffDCAuY6aC8eKivOIowcjg8xe3yXaUjUyXuzUlwmS96ThZqzERX+B3auG/o/LdDAI+H8uIR+lcr3k2wJTaWpU5VGNDu4JQlbB/8HHF+uSqgrGUTD8+DzquHIg+OokUA32QL4ckrEFtfopU+EpsoSVvz/9x8OjepKJDOQgF/ZT95lNhtlmPJ8EaEZJPFR8VsH9jfrpK+pu7Sh5WXVfhddCRpKylaEi8dWizioJ/Rp/6TkRdAXJL6BuMbc3nhZQWn1pKG2NhGwDQuYMH8qsNg1+3E6MGBWglOGF/+T3gJGjnktSdr69Z0g8peCyUSu4nd9DOv/S7Gg==
+X-OriginatorOrg: nutanix.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: LV0PR02MB11133.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 50d03dce-30fa-4667-70fd-08dea9eae8db
+X-MS-Exchange-CrossTenant-originalarrivaltime: 04 May 2026 14:39:12.6757
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 9H4NzAIo24WcPvCrtP6tA4iCcx4WQysipg/R79ltC01OgDwhcuiRfsC3rBJ7Sdtyc0apXRy7HH3WfBVMXt2dGXenGFwhMncFUrOP0HNEobs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR02MB8672
+X-Proofpoint-GUID: EYraMy4sz9ujTYKZ2rIDh4OU2o4mxofs
+X-Proofpoint-ORIG-GUID: EYraMy4sz9ujTYKZ2rIDh4OU2o4mxofs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA0MDE1MCBTYWx0ZWRfX5JsfpRzAvez0
+ WWbSJqK1eej2zilc1A/s07W4dpUBE8GGy/GU9euqR1lV4HVdf/KBU2FH0XU5QGyAUPsGbLIwUD5
+ pbfJvmx5rRWQtg3hoOvQzsYXLCBnYGUybdFlYeyxYdXQnmZ7fjwoOIP5aScGrqtpTxqMveBF7to
+ nXPYRff/f7Me24bQ/uPECoT+1+b42UnmJAEM1xt7U/p9XRu5o+2uUGkVAAjwF4M3Z7pOGoIBUvS
+ Es7sQPlP7vyMWXow963pyvHWfIvbu0tHryi8QQ356LRGqI9ff2uiF6R625YOFVNln5Fn4A33Av9
+ 3C8qXSpQOUhO82U5YGqEj/4ChR8u3re/u81U+N++UCxONOqZrlODuS+cu4rZ1vzNl5czo0E+RID
+ uEgf7UyaeNMwCknvwwki1VKCdTPDYaMEAkPL1TADcpnQ6Gf90F5ql1X5F7aedVSFT2IOtbCikMw
+ 6x1se/tI29ynoRcHyWA==
+X-Authority-Analysis: v=2.4 cv=LJNWhpW9 c=1 sm=1 tr=0 ts=69f8af94 cx=c_pps
+ a=zawiyoErqgptCln8LtCPNw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=NGcC8JguVDcA:10 a=0kUYKlekyDsA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VofLwUrZ8Iiv6rRUPXIb:22 a=1L6crL_YRTbalZ11mEUO:22 a=3Nk4j934AAAA:8
+ a=uICUvMojAAAA:20 a=VwQbUJbxAAAA:8 a=CT7pYnU4XIlFaqwlkc8A:9 a=QEXdDO2ut3YA:10
+ a=GnnOGohabkFYx92mCEIS:22 a=bA3UWDv6hWIuX7UZL3qL:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-04_05,2026-04-30_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- impostorscore=0 adultscore=0 clxscore=1015 phishscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2604200000 definitions=main-2605040151
+ definitions=2026-05-04_04,2026-04-30_02,2025-10-01_01
+X-Proofpoint-Spam-Reason: safe
 
-From: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
-
-Document the existing practice of always using 'kbd_backlight' for
-the function part of LED class device names for LED class devices which
-control single-zone keyboard backlights.
-
-Also extend this existing practice with a new naming scheme for keyboards
-with zoned backlight control. There are several drivers in the works (see
-the Link:tags below) which offer backlight control for keyboards where
-the keyboard backlight is divided in a limited number of zones, e.g.
-"main", "cursor" and "numpad" zones.
-
-It is important to agree on a consistent naming scheme for these now,
-so that userspace can support multiple different models / vendors through
-a single unified naming scheme.
-
-Link: https://lore.kernel.org/platform-driver-x86/20230131235027.36304-1-rishitbansal0@gmail.com/
-Link: https://lore.kernel.org/platform-driver-x86/20240719100011.16656-1-carlosmiguelferreira.2003@gmail.com/
-Link: https://lore.kernel.org/platform-driver-x86/20260304105831.119349-3-edip@medip.dev/
-Link: https://lore.kernel.org/platform-driver-x86/20240806205001.191551-2-mustafa.eskieksi@gmail.com/
-Link: https://lore.kernel.org/linux-input/20260402075239.3829699-1-xav@bes.tel/
-Acked-by: Kate Hsuan <hpa@redhat.com>
-Signed-off-by: Carlos Ferreira <carlosmiguelferreira.2003@gmail.com>
-Co-developed-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
-Signed-off-by: Hans de Goede <johannes.goede@oss.qualcomm.com>
----
-Changes in v2:
-- s/compatiblity/compatibility/
----
- Documentation/leds/leds-class.rst | 63 +++++++++++++++++++++++++++++++
- 1 file changed, 63 insertions(+)
-
-diff --git a/Documentation/leds/leds-class.rst b/Documentation/leds/leds-class.rst
-index 5db620ed27aa..3913966cfdac 100644
---- a/Documentation/leds/leds-class.rst
-+++ b/Documentation/leds/leds-class.rst
-@@ -116,6 +116,69 @@ above leaves scope for further attributes should they be needed. If sections
- of the name don't apply, just leave that section blank.
- 
- 
-+Keyboard backlight control LED Device Naming
-+============================================
-+
-+For backlit keyboards with a single brightness / color settings a single
-+(multicolor) LED class device should be used to allow userspace to change
-+the backlight brightness (and if possible the color). This LED class device
-+must use "kbd_backlight" for the function part of the LED class device name.
-+IOW the name must end with ":kbd_backlight".
-+
-+For backlit keyboards with multiple control zones, one (multicolor) LED class
-+device should be used per zone. These LED class devices' name must follow:
-+
-+	"<devicename>:<color>:kbd_zoned_backlight-<zone_name>"
-+
-+and <devicename> must be the same for all zones of the same keyboard.
-+
-+<zone_name> should be descriptive of which part of the keyboard backlight
-+the zone covers and should be suitable for userspace to show to an end user
-+in an UI for controlling the zones.
-+
-+Where possible <zone_name> should be a value already used by other
-+zoned keyboards with a similar or identical zone layout, e.g.:
-+
-+<devicename>:<color>:kbd_zoned_backlight-right
-+<devicename>:<color>:kbd_zoned_backlight-middle
-+<devicename>:<color>:kbd_zoned_backlight-left
-+<devicename>:<color>:kbd_zoned_backlight-corners
-+<devicename>:<color>:kbd_zoned_backlight-wasd
-+
-+or:
-+
-+<devicename>:<color>:kbd_zoned_backlight-main
-+<devicename>:<color>:kbd_zoned_backlight-cursor
-+<devicename>:<color>:kbd_zoned_backlight-numpad
-+<devicename>:<color>:kbd_zoned_backlight-corners
-+<devicename>:<color>:kbd_zoned_backlight-wasd
-+
-+Note that this is intended for keyboards with a limited number of zones,
-+keyboards with per key addressable backlighting must not use LED class devices
-+since the sysfs API is not suitable for rapidly change multiple LEDs in one
-+"commit" as is necessary to do animations / special effects on such keyboards.
-+
-+An exception to the rule that all zones must follow:
-+
-+	"<devicename>:<color>:kbd_zoned_backlight-<zone_name>"
-+
-+is made for the special case where there is a single big zone which controls
-+the backlighting of almost all of the keyboard and there are some small areas
-+with separate control, like just the 4 cursor keys, or the WASD keys. In this
-+case the main zone should use 'kbd_backlight' for the function part of the name
-+for compatibility with (older) userspace code which is not aware of
-+the "kbd_zoned_backlight-<zone_name>" function naming scheme.
-+
-+While the smaller zones should use the new zoned naming scheme. Such a setup
-+would result in e.g.:
-+
-+<devicename>:<color>:kbd_backlight
-+<devicename>:<color>:kbd_zoned_backlight-wasd
-+
-+"kbd_zoned_backlight-<zone_name>" aware userspace should be aware of this
-+exception and check for a main zone with a "kbd_backlight" function-name.
-+
-+
- Brightness setting API
- ======================
- 
--- 
-2.54.0
-
+DQoNCj4gT24gQXByIDI5LCAyMDI2LCBhdCA5OjE14oCvUE0sIEVyaWMgQmlnZ2VycyA8ZWJpZ2dl
+cnNAa2VybmVsLm9yZz4gd3JvdGU6DQo+IA0KPiBBRl9BTEcgaXMgYWxtb3N0IGNvbXBsZXRlbHkg
+dW5uZWNlc3NhcnksIGFuZCBpdCBleHBvc2VzIGEgbWFzc2l2ZSBhdHRhY2sNCj4gc3VyZmFjZSB0
+aGF0IGhhc24ndCBiZWVuIHN0YW5kaW5nIHVwIHRvIG1vZGVybiB2dWxuZXJhYmlsaXR5IGRpc2Nv
+dmVyeQ0KPiB0b29scy4gIFRoZSBsYXRlc3Qgb25lIGV2ZW4gaGFzIGl0cyBvd24gd2Vic2l0ZSwg
+cHJvdmlkaW5nIGEgc21hbGwNCj4gUHl0aG9uIHNjcmlwdCB0aGF0IHJlbGlhYmx5IHJvb3RzIG1v
+c3QgTGludXggZGlzdHJvczogaHR0cHM6Ly9jb3B5LmZhaWwvDQo+IA0KPiBUaGlzIGlzbid0IHN1
+c3RhaW5hYmxlLCBlc3BlY2lhbGx5IGFzIExMTXMgaGF2ZSBhY2NlbGVyYXRlZCB0aGUgcmF0ZSB0
+aGUNCj4gdnVsbmVyYWJpbGl0aWVzIGFyZSBjb21pbmcgaW4uICBUaGUgZWZmb3J0IHRoYXQgaXMg
+YmVpbmcgcHV0IGludG8gdGhpcw0KPiB0aGluZyBpcyB2YXN0bHkgZGlzcHJvcG9ydGlvbmFsIHRv
+IHRoZSBmZXcgcHJvZ3JhbXMgdGhhdCBhY3R1YWxseSB1c2UNCj4gaXQsIGFuZCB0aG9zZSBwcm9n
+cmFtcyB3b3VsZCBiZSBiZXR0ZXIgc2VydmVkIGJ5IHVzZXJzcGFjZSBjb2RlIGFueXdheS4NCj4g
+DQo+IFRoZXNlIGlzc3VlcyBoYXZlIGJlZW4gbm90ZWQgaW4gbWFueSBtYWlsaW5nIGxpc3QgZGlz
+Y3Vzc2lvbnMgYWxyZWFkeS4NCj4gQnV0IHVudGlsIG5vdyB0aGV5IGhhdmVuJ3QgYmVlbiByZWZs
+ZWN0ZWQgaW4gdGhlIGRvY3VtZW50YXRpb24gb3INCj4ga2NvbmZpZyBtZW51IGl0c2VsZiwgYW5k
+IHRoZSB2dWxuZXJhYmlsaXRpZXMgYXJlIHN0aWxsIGNvbWluZyBpbi4NCj4gDQo+IExldCdzIGdv
+IGFoZWFkIGFuZCBkb2N1bWVudCB0aGUgZGVwcmVjYXRpb24uDQo+IA0KPiBUaGlzIGlzbid0IGlu
+dGVuZGVkIHRvIGNoYW5nZSBhbnl0aGluZyBvdmVybmlnaHQuICBBZnRlciBhbGwsIG1vc3QgTGlu
+dXgNCj4gZGlzdHJvcyB3b24ndCBiZSBhYmxlIHRvIGRpc2FibGUgdGhlIGtjb25maWcgb3B0aW9u
+cyBxdWl0ZSB5ZXQsIG1haW5seQ0KPiBiZWNhdXNlIG9mIGl3ZC4gIEJ1dCB0aGlzIHNob3VsZCBj
+cmVhdGUgYSBiaXQgbW9yZSBpbXBldHVzIGZvciB0aGVzZQ0KPiB1c2Vyc3BhY2UgcHJvZ3JhbXMg
+dG8gYmUgZml4ZWQsIGFuZCB0aGUgZG9jdW1lbnRhdGlvbiB1cGRhdGUgc2hvdWxkIGFsc28NCj4g
+aGVscCBwcmV2ZW50IG1vcmUgdXNlcnMgZnJvbSBhcHBlYXJpbmcuDQo+IA0KPiBTaWduZWQtb2Zm
+LWJ5OiBFcmljIEJpZ2dlcnMgPGViaWdnZXJzQGtlcm5lbC5vcmc+DQo+IC0tLQ0KDQpRdWljayBw
+YXNzaW5nIG9ic2VydmF0aW9uDQpJIG5vdGljZWQgdGhhdCB3aGVuIGF0dGVtcHRpbmcgdG8gY29t
+cGxldGVseSBkaXNhYmxlIHRoZXNlIENyeXB0byBBUElzLA0KSSB3YXMgZXhwZXJpZW5jaW5nIGJv
+b3QgZmFpbHVyZXMgd2l0aCBmaXBzPTEgZW5hYmxlZCBzeXN0ZW1zLg0KDQpVc2luZyA2LjE4LWJh
+c2VkIGtlcm5lbCB3aXRoIGFuIGVsOS1iYXNlZCB1c2VyIHNwYWNlLCBJIHNlZSB0aGUNCmZvbGxv
+d2luZyBoYW5nIGluIHRoZSBlYXJseSBib290IGNvbnNvbGUgZnJvbSBkcmFjdXQtcHJlLXBpdm90
+Og0KICBDaGVjayBpbnRlZ3JpdHkgb2Yga2VybmVsDQogIGxpYmtjYXBpIC0gRXJyb3I6IEFGX0FM
+Rzogc29ja2V0IHN5c2NhbGwgZmFpbGVkIChlcnJubzogLTk3KQ0KICBBbGxvY2F0aW9uIG9mIGht
+YWMoc2hhNTEyKSBjaXBoZXIgZmFpbGVkICgtOTcpDQoNCkkgaGF2ZW4ndCBsb29rZWQgYXQgZXZl
+cnkgZWxYIHZlcnNpb24sIGJ1dCBhdCBsZWFzdCBpbiBlbDkgYW5kIGVsMTAsDQp0aGV5IHVzZSBs
+aWJrY2FwaS1obWFjY2FsYyB0byBwcm92aWRlIHNoYTUxMmhtYWMsIHdoaWNoIGRyYWN1dCBbMV0N
+CnVzZXMgdG8gY2FsY3VsYXRlIHRoZSBITUFDIHZhbHVlIGluIGRvX2ZpcHMoKS4NCg0KRGlnZ2lu
+ZyBmdXJ0aGVyLCBJIHdhcyBvbmx5IGFibGUgdG8gZGlzYWJsZSBSTkcgYW5kIEFFQUQgQVBJcywg
+YnV0DQpub3QgSEFTSCBhbmQgU0tDSVBIRVIgQVBJcyB3aGVuIEZJUFMgd2FzIGluIHRoZSBwaWN0
+dXJlIHdpdGggZWw5KysuDQoNCknigJltIG5vdCBzdXJlIGhvdyBvdGhlciBkaXN0cm9zIGRvIHRo
+ZSBzYW1lLCBidXQgdGhpcyBjb3VsZCBiZSBwcm9ibGVtYXRpYw0KZWxzZWh3ZXJlIGlmIG90aGVy
+IGRpc3Ryb3Mgd2VudCBkb3duIHRoZSBsaWJrY2FwaSByb3V0ZS4NCg0KWzFdIGh0dHBzOi8vZ2l0
+aHViLmNvbS9kcmFjdXRkZXZzL2RyYWN1dC9ibG9iLzA1OS9tb2R1bGVzLmQvMDFmaXBzL2ZpcHMu
+c2gjTDE2Nw0KDQo=
