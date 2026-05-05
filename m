@@ -1,227 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6674B31716D;
-	Tue,  5 May 2026 22:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D752EB856
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 22:41:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778019395; cv=none; b=ubwFbgqYHi2N2zC/16qHCoGfGFD15qlTM8MzpwLH6E0HJxvgzAwKHi6QAb2IwFbB7Dr6BiRBil9G/dweCQLMsoo3IPL5ESMMdGx/l/u+V5QH39kI6cA7y/uihM9vneWNkaH/SUKSf2H5ta4kLqvYU7Ks/PxUa/R00jgXu+jGYAI=
+	t=1778020871; cv=none; b=sCeFLIYkrNNkqzRZLfbr7CMVIC4aqkEvlGvjw2jOuowRXErAMiYTo55EKBEsXLhCS7yQfmaVszm71X6mDECirlW5rdc4fk1qN+9T22wo3g0q5wueotkF2d0qF7wlfiMO2MLC3VKSsjL8WVZJtJu5Klh7DkDlAexE40zNCiUmWD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778019395; c=relaxed/simple;
-	bh=2kn9vnW/RQZlq9cSKZLyrOnx2FcEcdncD2IH1ClVi+s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZhICr71kdeEkEXp/CltqQ/wjTUwlXcEb+AYj78WjgXTIsG2b0MjgG0xu6952/nA+3jnz8lZWALqsgVX3MoJ077DBHEX3PLyoix+Ie/19yZNTumlGCVN9eBpgU0WcPACAugbh3Z79fJGrT5qWt7kmf02pmPXdNoNKieLZtxFu/oQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WKMhNlH2; arc=none smtp.client-ip=192.198.163.15
+	s=arc-20240116; t=1778020871; c=relaxed/simple;
+	bh=QCOI9huLcgmWmAQmSGKtea1oPMMW7VGtGTbf1NqsGOg=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=TRgBd9fpUR+YQA8fdX9k9CYGXJQZGQFjxo91A7XWohw6JOokVnEqh9pU45OqI1ETp0t4iVKFEzyaPd/auKw8r+bycfNaKrFhTPY+96am+J7Av8B8oVdYs5JVzRH/A+x/dSlmXSp/vrsJJzoU55f4l1lkRRBEVWvB4HdmPkZB1NI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FONnCNlf; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WKMhNlH2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FONnCNlf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778019393; x=1809555393;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=2kn9vnW/RQZlq9cSKZLyrOnx2FcEcdncD2IH1ClVi+s=;
-  b=WKMhNlH2bvtEL0//pY3DJl5pqWueH8xnIRnbSe0KmNSDdAaEbYMbSfS0
-   YXDTHNJgxf0Xq+vyGJ93WKB9O+iaNssgrK5VT6pnPc44EQVlFdcXIJ33D
-   DCfhdq2+pnlWtyUSy3U82QJVWeds/C+KKpsybHmGIuiTHQFISN3spnxz3
-   W64s1WM0w2fRNYvQgrSJ47KO1j5VGa+nUjYyV58QFcKV+0nIqJGfv9Y8K
-   9JEhid6dMupkg+Dsusj4RYNQYPc/PxyiZQpdMZqnkgFa7sHPqYfUzSPWV
-   mB25au8kG0zULh03dhNpyyuDp/u7iDnz4mwnj5dZpaco2YAnYlce7fMob
-   Q==;
-X-CSE-ConnectionGUID: i8xO3omuTGCrN/1YrZ+Kpw==
-X-CSE-MsgGUID: i1+jg5jFTPGb4Ldk6a/H+A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="79004777"
+  t=1778020869; x=1809556869;
+  h=date:from:to:cc:subject:message-id;
+  bh=QCOI9huLcgmWmAQmSGKtea1oPMMW7VGtGTbf1NqsGOg=;
+  b=FONnCNlfX0evOH46D6Pzin8WDGwvVpBQpVDqo7IVfdLEFl9U2GOZqd7o
+   STTqg2V0bekufVIl6B5TvuZyPGJNUNlDVjLAmvKCL327sRWi5M7PQ3G0j
+   l50G0DybfE04siqMQNHxYx0JGAQItOWVkRRkU8YbLSH3xBTklYlv8xUpT
+   QrPqSX5BEmkyuZzv73DtAWhAc0h82m99RIy7D8dFY+GDz4phscQ570k6h
+   0NK0ypSrgMgVT5wKCZI7X+uUkFf18b8TPMP2h5uSoBQvFpPtr8Nd6G3su
+   9wwnHBOxOwQbR40QmcErtcomx4jUv/GSQgIiugs0w2GkmlVc/38ReIkEZ
+   w==;
+X-CSE-ConnectionGUID: FvXO6+goTzibFBRoTFb+Ow==
+X-CSE-MsgGUID: q1mMPUSPSxyUGim0eP0kEA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="90364474"
 X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
-   d="scan'208";a="79004777"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 15:16:32 -0700
-X-CSE-ConnectionGUID: Zm8/Zq25Rem6IsII6PyFkQ==
-X-CSE-MsgGUID: FrPtP51RQhmnzK0vxrlPVg==
+   d="scan'208";a="90364474"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 15:41:08 -0700
+X-CSE-ConnectionGUID: 3CaFITo8S+K1S8JLke+maw==
+X-CSE-MsgGUID: GawKRbVaTrWDSQA//p9Byw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
-   d="scan'208";a="234940856"
-Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.125.110.85]) ([10.125.110.85])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 15:16:31 -0700
-Message-ID: <0a372718-a3ae-4c8c-94a6-6b6c334cab16@intel.com>
-Date: Tue, 5 May 2026 15:16:30 -0700
+   d="scan'208";a="236191375"
+Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
+  by orviesa007.jf.intel.com with ESMTP; 05 May 2026 15:41:06 -0700
+Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
+	(envelope-from <lkp@intel.com>)
+	id 1wKORs-000000006Mb-1bIn;
+	Tue, 05 May 2026 22:41:04 +0000
+Date: Wed, 06 May 2026 00:40:44 +0200
+From: kernel test robot <lkp@intel.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>,
+ linux-doc@vger.kernel.org
+Subject: [frank-li:for-next 1/53] htmldocs:
+ Documentation/driver-api/firmware/other_interfaces.rst:116: WARNING: Blank
+ line required after table. [docutils]
+Message-ID: <202605060054.EQwFXknk-lkp@intel.com>
+User-Agent: s-nail v14.9.25
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 05/11] cxl: Limit CXL-CPER kfifo registration
- functions scope
-To: Terry Bowman <terry.bowman@amd.com>, dave@stgolabs.net, jic23@kernel.org,
- alison.schofield@intel.com, djbw@kernel.org, bhelgaas@google.com,
- ming.li@zohomail.com, Smita.KoralahalliChannabasappa@amd.com,
- rrichter@amd.com, PradeepVineshReddy.Kodamati@amd.com, lukas@wunner.de,
- Benjamin.Cheatham@amd.com, sathyanarayanan.kuppuswamy@linux.intel.com,
- vishal.l.verma@intel.com, alucerop@amd.com, ira.weiny@intel.com,
- corbet@lwn.net, rafael@kernel.org, xueshuai@linux.alibaba.com,
- linux-cxl@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260505173029.2718246-1-terry.bowman@amd.com>
- <20260505173029.2718246-6-terry.bowman@amd.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260505173029.2718246-6-terry.bowman@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git for-next
+head:   2dfb59f50bc1e1600fa1be5a97a21185306f5f78
+commit: 3b4531c6e0f4c8874f0266853a410438eda1fc24 [1/53] Documentation/firmware: add imx/se to other_interfaces
+compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
+docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
+reproduce: (https://download.01.org/0day-ci/archive/20260506/202605060054.EQwFXknk-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202605060054.EQwFXknk-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
+   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
+   Documentation/driver-api/firmware/other_interfaces.rst:60: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/firmware/other_interfaces.rst:103: ERROR: Unexpected indentation. [docutils]
+   Documentation/driver-api/firmware/other_interfaces.rst:115: ERROR: Unexpected indentation. [docutils]
+>> Documentation/driver-api/firmware/other_interfaces.rst:116: WARNING: Blank line required after table. [docutils]
+>> Documentation/driver-api/firmware/other_interfaces.rst:140: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
+   ERROR: Cannot find file ./drivers/firmware/imx/se_ctrl.c
+   ERROR: Cannot find file ./drivers/firmware/imx/se_ctrl.c
+   WARNING: No kernel-doc for file ./drivers/firmware/imx/se_ctrl.c
+   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
 
 
+vim +116 Documentation/driver-api/firmware/other_interfaces.rst
 
-On 5/5/26 10:30 AM, Terry Bowman wrote:
-> From: Dan Williams <djbw@kernel.org>
-> 
-> Some CPER functions used by CXL drivers are exported using the
-> EXPORT_SYMBOL_NS_GPL(fn, ns) macro. This doesn't provide compile time
-> enforcement or visibility of the consumers.
-> 
-> This can be improved by using EXPORT_SYMBOL_FOR_MODULES() instead.
-> EXPORT_SYMBOL_FOR_MODULES() explicitly names the modules that can access
-> the function. This provides more precise control and visibility of symbol
-> exposure than the namespace macro. It also provides compile time checking.
-> 
-> To improve control and clarity, update cxl_cper_register_prot_err_work(),
-> cxl_cper_unregister_prot_err_work(), and cxl_cper_prot_err_kfifo_get()
-> to use EXPORT_SYMBOL_FOR_MODULES(). Also, update the register and unregister
-> functions to return void type.
-> 
-> Update the CPER kfifo unregister to cancel work while using
-> synchronization.
-> 
-> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
-> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
-> Signed-off-by: Dan Williams <djbw@kernel.org>
+    94	
+    95	::
+    96	   +--------------------------------------------+
+    97	   |            Character Device(C_DEV)         |
+    98	   |                                            |
+    99	   |   +---------+ +---------+     +---------+  |
+   100	   |   | misc #1 | | misc #2 | ... | misc #n |  |
+   101	   |   |  dev    | |  dev    |     | dev     |  |
+   102	   |   +---------+ +---------+     +---------+  |
+   103	   |        +-------------------------+         |
+   104	   |        | Misc. Dev Synchr. Logic |         |
+   105	   |        +-------------------------+         |
+   106	   |                                            |
+   107	   +--------------------------------------------+
+   108	
+   109	   +--------------------------------------------+
+   110	   |               Service Layer                |
+   111	   |                                            |
+   112	   |      +-----------------------------+       |
+   113	   |      | Message Serialization Logic |       |
+   114	   |      +-----------------------------+       |
+   115	   |          +---------------+                 |
+ > 116	   |          |  imx-mailbox  |                 |
+   117	   |          |   mailbox.c   |                 |
+   118	   |          +---------------+                 |
+   119	   |                                            |
+   120	   +--------------------------------------------+
+   121	
+   122	- service layer:
+   123	  This layer is responsible for ensuring the communication protocol that is defined
+   124	  for communication with firmware.
+   125	
+   126	  FW Communication protocol ensures two things:
+   127	  - Serializing the messages to be sent over an MU.
+   128	
+   129	  - FW can handle one command message at a time.
+   130	
+   131	- c_dev:
+   132	  This layer offers character device contexts, created as '/dev/<se>_mux_chx'.
+   133	  Using these multiple device contexts that are getting multiplexed over a single MU,
+   134	  userspace application(s) can call fops like write/read to send the command message,
+   135	  and read back the command response message to/from Firmware.
+   136	  fops like read & write use the above defined service layer API(s) to communicate with
+   137	  Firmware.
+   138	
+   139	  Misc-device(/dev/<se>_mux_chn) synchronization protocol:
+ > 140	::
+   141	
+   142	                                Non-Secure               +   Secure
+   143	                                                         |
+   144	                                                         |
+   145	                +-----------+      +-------------+       |
+   146	                | se_ctrl.c +<---->+imx-mailbox.c|       |
+   147	                |           |      |  mailbox.c  +<-->+------+    +------+
+   148	                +-----+-----+      +-------------+    | MU X +<-->+ ELE |
+   149	                      |                               +------+    +------+
+   150	                      +----------------+                 |
+   151	                      |                |                 |
+   152	                      v                v                 |
+   153	                  logical           logical              |
+   154	                  receiver          waiter               |
+   155	                     +                 +                 |
+   156	                     |                 |                 |
+   157	                     |                 |                 |
+   158	                     |            +----+------+          |
+   159	                     |            |           |          |
+   160	                     |            |           |          |
+   161	              device_ctx     device_ctx     device_ctx   |
+   162	                                                         |
+   163	                User 0        User 1       User Y        |
+   164	                +------+      +------+     +------+      |
+   165	                |misc.c|      |misc.c|     |misc.c|      |
+   166	 kernel space   +------+      +------+     +------+      |
+   167	                                                         |
+   168	 +------------------------------------------------------ |
+   169	                    |             |           |          |
+   170	 userspace     /dev/ele_muXch0    |           |          |
+   171	                          /dev/ele_muXch1     |          |
+   172	                                        /dev/ele_muXchY  |
+   173	                                                         |
+   174	
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-
-
-> 
-> ---
-> 
-> Changes in v16->v17:
-> - Split from v16 02/10 ("Update unregistration for AER-CXL and
->   CPER-CXL kfifos"); AER-CXL half folded into v17 01/10.
-> - Convert exports to EXPORT_SYMBOL_FOR_MODULES("cxl_core").
-> - Change register/unregister return type from int to void.
-> - Drop work_struct argument from cxl_cper_unregister_prot_err_work();
->   it now cancels its own work.
-> - Remove now-redundant cancel_work_sync() from cxl_ras_exit().
-> - Add WARN_ONCE() in cxl_cper_register_prot_err_work() for
->   double-registration.
-> ---
->  drivers/acpi/apei/ghes.c | 27 ++++++++++++++-------------
->  drivers/cxl/core/ras.c   |  6 +++---
->  include/cxl/event.h      | 10 ++++------
->  3 files changed, 21 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/acpi/apei/ghes.c b/drivers/acpi/apei/ghes.c
-> index 3236a3ce79d6..dd0a073af93c 100644
-> --- a/drivers/acpi/apei/ghes.c
-> +++ b/drivers/acpi/apei/ghes.c
-> @@ -778,33 +778,34 @@ static void cxl_cper_post_prot_err(struct cxl_cper_sec_prot_err *prot_err,
->  #endif
->  }
->  
-> -int cxl_cper_register_prot_err_work(struct work_struct *work)
-> +void cxl_cper_register_prot_err_work(struct work_struct *work)
->  {
-> -	if (cxl_cper_prot_err_work)
-> -		return -EINVAL;
-> -
->  	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-> +	WARN_ONCE(cxl_cper_prot_err_work,
-> +		  "CPER-CXL kfifo consumer already registered\n");
->  	cxl_cper_prot_err_work = work;
-> -	return 0;
->  }
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_register_prot_err_work, "CXL");
-> +EXPORT_SYMBOL_FOR_MODULES(cxl_cper_register_prot_err_work, "cxl_core");
->  
-> -int cxl_cper_unregister_prot_err_work(struct work_struct *work)
-> +void cxl_cper_unregister_prot_err_work(void)
->  {
-> -	if (cxl_cper_prot_err_work != work)
-> -		return -EINVAL;
-> +	struct work_struct *work;
->  
-> -	guard(spinlock)(&cxl_cper_prot_err_work_lock);
-> +	spin_lock(&cxl_cper_prot_err_work_lock);
-> +	work = cxl_cper_prot_err_work;
->  	cxl_cper_prot_err_work = NULL;
-> -	return 0;
-> +	spin_unlock(&cxl_cper_prot_err_work_lock);
-> +
-> +	if (work)
-> +		cancel_work_sync(work);
->  }
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_unregister_prot_err_work, "CXL");
-> +EXPORT_SYMBOL_FOR_MODULES(cxl_cper_unregister_prot_err_work, "cxl_core");
->  
->  int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
->  {
->  	return kfifo_get(&cxl_cper_prot_err_fifo, wd);
->  }
-> -EXPORT_SYMBOL_NS_GPL(cxl_cper_prot_err_kfifo_get, "CXL");
-> +EXPORT_SYMBOL_FOR_MODULES(cxl_cper_prot_err_kfifo_get, "cxl_core");
->  
->  /* Room for 8 entries for each of the 4 event log queues */
->  #define CXL_CPER_FIFO_DEPTH 32
-> diff --git a/drivers/cxl/core/ras.c b/drivers/cxl/core/ras.c
-> index 56611da8357a..9193dac4e507 100644
-> --- a/drivers/cxl/core/ras.c
-> +++ b/drivers/cxl/core/ras.c
-> @@ -68,13 +68,13 @@ static DECLARE_WORK(cxl_cper_prot_err_work, cxl_cper_prot_err_work_fn);
->  
->  int cxl_ras_init(void)
->  {
-> -	return cxl_cper_register_prot_err_work(&cxl_cper_prot_err_work);
-> +	cxl_cper_register_prot_err_work(&cxl_cper_prot_err_work);
-> +	return 0;
->  }
->  
->  void cxl_ras_exit(void)
->  {
-> -	cxl_cper_unregister_prot_err_work(&cxl_cper_prot_err_work);
-> -	cancel_work_sync(&cxl_cper_prot_err_work);
-> +	cxl_cper_unregister_prot_err_work();
->  }
->  
->  static void cxl_dport_map_ras(struct cxl_dport *dport)
-> diff --git a/include/cxl/event.h b/include/cxl/event.h
-> index ff97fea718d2..51acedb0d683 100644
-> --- a/include/cxl/event.h
-> +++ b/include/cxl/event.h
-> @@ -289,8 +289,8 @@ struct cxl_cper_prot_err_work_data {
->  int cxl_cper_register_work(struct work_struct *work);
->  int cxl_cper_unregister_work(struct work_struct *work);
->  int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd);
-> -int cxl_cper_register_prot_err_work(struct work_struct *work);
-> -int cxl_cper_unregister_prot_err_work(struct work_struct *work);
-> +void cxl_cper_register_prot_err_work(struct work_struct *work);
-> +void cxl_cper_unregister_prot_err_work(void);
->  int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd);
->  #else
->  static inline int cxl_cper_register_work(struct work_struct *work)
-> @@ -306,13 +306,11 @@ static inline int cxl_cper_kfifo_get(struct cxl_cper_work_data *wd)
->  {
->  	return 0;
->  }
-> -static inline int cxl_cper_register_prot_err_work(struct work_struct *work)
-> +static inline void cxl_cper_register_prot_err_work(struct work_struct *work)
->  {
-> -	return 0;
->  }
-> -static inline int cxl_cper_unregister_prot_err_work(struct work_struct *work)
-> +static inline void cxl_cper_unregister_prot_err_work(void)
->  {
-> -	return 0;
->  }
->  static inline int cxl_cper_prot_err_kfifo_get(struct cxl_cper_prot_err_work_data *wd)
->  {
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
