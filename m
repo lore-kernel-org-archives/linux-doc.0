@@ -1,259 +1,212 @@
-Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FA5048B38A
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 15:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1626248BD44;
+	Tue,  5 May 2026 15:39:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777995556; cv=none; b=gmrYtTb/uedzF6pIDyP44S96xIbDcc0VXZGryY27GyBMRcXNqpAlIVqdyf42s1wD7ZZGwFubRQdL+KNQNbQkPadICmR8md7d+WvD3MRLcXuqF/wkmDINvNlS6fcXpciADDYlYwEWbBwRwTjYQhUbGNovMfWm2LBpCmU27prCokQ=
+	t=1777995558; cv=none; b=Mhnr4ysQdBlB2JmuJcxs7V61hJuFTXHI6I1NxIxV803ZrL5rXFlIoYaLKWPIJOK+zD3qWigBQefWns2tZ+3U1vPFG3JDmOLLNMaSfNcyMIfA6w7Wz3h9ayxhJ2cvv4mG8WzWx3mhDj7GECK8wYcm2TaGLmOPCVcQAkCtkKwRCkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777995556; c=relaxed/simple;
-	bh=I5srizcHGCgPUxo7oRZ08vip5kw+l6siD1GuafibzoM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=AzcjHSqrprKlvQALUA4c4pg5ZBnX5dF517a5l7irlXXfFu4f7hCnQJxuiL3G9HFZD55eH6ZfDfGnTNhlPdioRn8EtKBSQ0oDZ2irAUEkjw25ykumUT4lHvOhgTRac2myAMOjcd/hFQcwICWToPj4AdYqvvw/AY9WJfnr2K0y7/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a/pmov+B; arc=none smtp.client-ip=209.85.210.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1777995558; c=relaxed/simple;
+	bh=oW8urFywtBGgYaeMzaIycjm0Q5Khia2Ux8S+ZavJSDg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FciVupdqne77tI+lEyoDLvj+1RjRICh/+424kEENyO0U2bL2/GnNx5giCtQzCgUJ6dpdyLVS1TRBdQchrf2dIE76DrPG0zDXU7FsIpg96DTQ7kviHi/qem5HPvGIPvTXXO3JIrK07oScpwWWSkuBJs2RdoxzOJUUo5EqAqdQpZI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dv9yHYRg; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a/pmov+B"
-Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-7d4c383f2fcso4879470a34.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 08:39:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777995552; x=1778600352; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NlimKByHfZpD1p9OKEabB2ERI5Qs+G3kPUHC9/pb+w8=;
-        b=a/pmov+Be6KTdl1Oc3hZyCs8SmV2u54grQwwBa1O/svdjLSKjK6br0kZKZo56lvrRi
-         q19DET7E0YH0AaXLkdKd9agrkqehJY+jJVk7RV7ChtyoHyXIA2fOl1Wps9dgsz470XwQ
-         4CeUoj4IMOhJjA+YIBFb1cN0Lo4vdW+4y5KQbSJVsXY0QqfQYXT3mMv4vDyrCuqfYmk4
-         r0S6cTKct6yTpFET85iGUVehvfa+J53E9MubmKccXkBk/jDS9qLDk0U1ENHalKw/O4T7
-         gBhp05J6212klcz5QaQKxSihgHX8Vr9KvzxlFXpnx3X+6MDaaPEAOY6GQV2fB3w7mvgr
-         Pfrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777995552; x=1778600352;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=NlimKByHfZpD1p9OKEabB2ERI5Qs+G3kPUHC9/pb+w8=;
-        b=pfvVbQQA5H3WLJeheP4dhs+/ASvsNtGkVKVvotKseokjacKkXu2e/8F3Do1JRLnh6Y
-         JcfbNrCXN3VRrNmNxJmaG3SgcWo+LfsRlGtXOMUAVLQLZpWKQw7FH0mLabJCsdoPEHrb
-         2r6EoLWeZQx71AvW6n2L8GohlDOWh7eFV/e6VIA00ap6DEWJc/bomgEFdsxknMzO/zEa
-         Te8yeByNt2c0HOuZ/CZZO63xcmQ5cF0ehbiSvK1IXLjdyMuAQJaEI8K1wPZDoE0vXIfX
-         vFSXA+D11JsOZaWTKNPGgsAxUUCCGHL/sj84y6VF+TlWSnONHlUpUGnpYF9h+WMXZLUi
-         juSw==
-X-Forwarded-Encrypted: i=1; AFNElJ8si8x8fXD2J4AEN3vZh3TvvGTRhVpVRp/UINdcvq1EnWdY10Se7KvmpgAolv+6c/lDukdiO30RwJA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHQLW/zm/wEVy1z/LoowKEpJn0l0qpGDhQIDTRUHVWsT94M7Mp
-	2wbeMbXUI7gxXQ2NM8CvrUia2Vzs9YQXH24GbA2rGqSvaUqWnSxIRpCn
-X-Gm-Gg: AeBDietwV6COeyA+TP2kgS+lbnMMD7hxnh9RkpE+MukoQr7ZwRQ66vf5rfLa+Dha1uX
-	7Xpx06Nm4APwIFrp0rM9E10St/9G20BlAl8twuKXwMwUsIxSA1mpPaLEX140IVY593TCDD09J8B
-	+FPH6sxcmkkXu23r0h/cKK7/A1oyTpW9xPQBS3D2iEIydsi2jS6h4FAWs0ZyJOp0fjpUpbzKR2D
-	2mr8YQMJMoRUF+IoOugImo3A8UusYpNalwYil+/Z2nvStvmnRPDznAoayF8hEj9i22Q4rX1GgmD
-	z9sNm6QJetX6lGAETee2yBysr8vaqBtdeIpmigKkt1Qy4eRH+TUUGZ/ayLsZTbIThqE7qQdRgNK
-	Fn8o8UCmOBZOGWSIs+7yJDW0g3laY/uvfnR8JLqxu4BO+wF44WZUV+b/O1p7HTMA2vCWrahPpL6
-	saWReac0l+KZuR7QeO0TQwa197sgB3OaMfuSK719NaHe2UAfnB/i2swdz3
-X-Received: by 2002:a05:6830:8d1:b0:7dc:a256:5e2e with SMTP id 46e09a7af769-7dee121b678mr8066698a34.1.1777995552105;
-        Tue, 05 May 2026 08:39:12 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:70::])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7deca7a9036sm9855829a34.4.2026.05.05.08.39.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 08:39:11 -0700 (PDT)
-From: Nhat Pham <nphamcs@gmail.com>
-To: kasong@tencent.com
-Cc: Liam.Howlett@oracle.com,
-	akpm@linux-foundation.org,
-	apopple@nvidia.com,
-	axelrasmussen@google.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	bhe@redhat.com,
-	byungchul@sk.com,
-	cgroups@vger.kernel.org,
-	chengming.zhou@linux.dev,
-	chrisl@kernel.org,
-	corbet@lwn.net,
-	david@kernel.org,
-	dev.jain@arm.com,
-	gourry@gourry.net,
-	hannes@cmpxchg.org,
-	hughd@google.com,
-	jannh@google.com,
-	joshua.hahnjy@gmail.com,
-	lance.yang@linux.dev,
-	lenb@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-pm@vger.kernel.org,
-	lorenzo.stoakes@oracle.com,
-	matthew.brost@intel.com,
-	mhocko@suse.com,
-	muchun.song@linux.dev,
-	npache@redhat.com,
-	nphamcs@gmail.com,
-	pavel@kernel.org,
-	peterx@redhat.com,
-	peterz@infradead.org,
-	pfalcato@suse.de,
-	rafael@kernel.org,
-	rakie.kim@sk.com,
-	roman.gushchin@linux.dev,
-	rppt@kernel.org,
-	ryan.roberts@arm.com,
-	shakeel.butt@linux.dev,
-	shikemeng@huaweicloud.com,
-	surenb@google.com,
-	tglx@kernel.org,
-	vbabka@suse.cz,
-	weixugc@google.com,
-	ying.huang@linux.alibaba.com,
-	yosry.ahmed@linux.dev,
-	yuanchu@google.com,
-	zhengqi.arch@bytedance.com,
-	ziy@nvidia.com,
-	kernel-team@meta.com,
-	riel@surriel.com,
-	haowenchao22@gmail.com
-Subject: [PATCH v6 07/22] mm: create scaffolds for the new virtual swap implementation
-Date: Tue,  5 May 2026 08:38:36 -0700
-Message-ID: <20260505153854.1612033-8-nphamcs@gmail.com>
-X-Mailer: git-send-email 2.52.0
-In-Reply-To: <20260505153854.1612033-1-nphamcs@gmail.com>
-References: <20260505153854.1612033-1-nphamcs@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dv9yHYRg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E15F1C4AF68;
+	Tue,  5 May 2026 15:39:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777995557;
+	bh=oW8urFywtBGgYaeMzaIycjm0Q5Khia2Ux8S+ZavJSDg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Dv9yHYRgzZv41bUtSLycllT8iK2c+R7z7vKDCgLlrV/ijr4Z89tg6jsesE+d7pmVM
+	 oAnbtFi5CCmdht7TUaKcSSsaR04DR5I3gnEqcH0yCNJuIgpfKfF18LAY2XjFtl7DjI
+	 EzPi0uWgNdokNqp+F2keeVSvop6FZSM0YTKoWbK6T8nNPzX8r1zWR/cVHCxTD0+/cE
+	 Nyy6Y2rSsetT4s4/kTjLCODtQoGY14LrgsVYYbeukxea71DKQNNDHztqNJP3rKjWS/
+	 zKz0+Vm8M+OVCp5H/V+tJBkgopEzWZT3jTlb/nLfK7FSs67xNxxxen2wNUcjNbRO+I
+	 ptzvwufIm2hkA==
+Date: Tue, 5 May 2026 17:39:13 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
+	Florent Tomasin <florent.tomasin@arm.com>
+Subject: Re: [PATCH 1/8] dma-heap: Add proper kref handling on dma-buf heaps
+Message-ID: <20260505-spaniel-of-scientific-warranty-ca075e@houat>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-2-ketil.johnsen@arm.com>
+ <20260505172048.1c48e030@fedora>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="qg76aku2mqm5lrt5"
+Content-Disposition: inline
+In-Reply-To: <20260505172048.1c48e030@fedora>
 
-In prepration for the implementation of swap virtualization, add new
-scaffolds for the new code: a new mm/vswap.c source file, which
-currently only holds the logic to set up the (for now, empty) vswap
-debugfs directory. Hook this up in the swap setup step in
-mm/swap_state.c, and set up vswap compilation in the Makefile.
 
-Other than the debugfs directory, no behavioral change intended.
+--qg76aku2mqm5lrt5
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH 1/8] dma-heap: Add proper kref handling on dma-buf heaps
+MIME-Version: 1.0
 
-Finally, make Johannes a swap reviewer, given that he has contributed
-majorly to the developments of virtual swap.
+Hi Boris,
 
-Signed-off-by: Nhat Pham <nphamcs@gmail.com>
----
- MAINTAINERS          |  2 ++
- include/linux/swap.h |  3 +++
- mm/Makefile          |  2 +-
- mm/swap_state.c      |  6 ++++++
- mm/vswap.c           | 35 +++++++++++++++++++++++++++++++++++
- 5 files changed, 47 insertions(+), 1 deletion(-)
- create mode 100644 mm/vswap.c
+On Tue, May 05, 2026 at 05:20:48PM +0200, Boris Brezillon wrote:
+> Hi Ketil,
+>=20
+> On Tue,  5 May 2026 16:05:07 +0200
+> Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+>=20
+> > From: John Stultz <jstultz@google.com>
+> >=20
+> > Add proper reference counting on the dma_heap structure. While
+> > existing heaps are built-in, we may eventually have heaps loaded
+> > from modules, and we'll need to be able to properly handle the
+> > references to the heaps
+>=20
+> It's weird that this "heap as module" thing is mentioned here, but
+> actual robustness to make this safe is not added in the commit or any
+> of the following ones.
+>=20
+> >=20
+> > Signed-off-by: John Stultz <jstultz@google.com>
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > [Yong: Just add comment for "minor" and "refcount"]
+> > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > [Yunfei: Change reviewer's comments]
+> > Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> > [Florent: Rebase]
+> > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> > [Ketil: Rebase]
+> > ---
+> >  drivers/dma-buf/dma-heap.c | 29 +++++++++++++++++++++++++++++
+> >  include/linux/dma-heap.h   |  2 ++
+> >  2 files changed, 31 insertions(+)
+> >=20
+> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > index ac5f8685a6494..9fd365ddbd517 100644
+> > --- a/drivers/dma-buf/dma-heap.c
+> > +++ b/drivers/dma-buf/dma-heap.c
+> > @@ -12,6 +12,7 @@
+> >  #include <linux/dma-heap.h>
+> >  #include <linux/err.h>
+> >  #include <linux/export.h>
+> > +#include <linux/kref.h>
+> >  #include <linux/list.h>
+> >  #include <linux/nospec.h>
+> >  #include <linux/syscalls.h>
+> > @@ -31,6 +32,7 @@
+> >   * @heap_devt:		heap device node
+> >   * @list:		list head connecting to list of heaps
+> >   * @heap_cdev:		heap char device
+> > + * @refcount:		reference counter for this heap device
+> >   *
+> >   * Represents a heap of memory from which buffers can be made.
+> >   */
+> > @@ -41,6 +43,7 @@ struct dma_heap {
+> >  	dev_t heap_devt;
+> >  	struct list_head list;
+> >  	struct cdev heap_cdev;
+> > +	struct kref refcount;
+> >  };
+> > =20
+> >  static LIST_HEAD(heap_list);
+> > @@ -248,6 +251,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap=
+_export_info *exp_info)
+> >  	if (!heap)
+> >  		return ERR_PTR(-ENOMEM);
+> > =20
+> > +	kref_init(&heap->refcount);
+> >  	heap->name =3D exp_info->name;
+> >  	heap->ops =3D exp_info->ops;
+> >  	heap->priv =3D exp_info->priv;
+> > @@ -313,6 +317,31 @@ struct dma_heap *dma_heap_add(const struct dma_hea=
+p_export_info *exp_info)
+> >  }
+> >  EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
+> > =20
+> > +static void dma_heap_release(struct kref *ref)
+> > +{
+> > +	struct dma_heap *heap =3D container_of(ref, struct dma_heap, refcount=
+);
+> > +	unsigned int minor =3D MINOR(heap->heap_devt);
+> > +
+> > +	mutex_lock(&heap_list_lock);
+> > +	list_del(&heap->list);
+> > +	mutex_unlock(&heap_list_lock);
+> > +
+> > +	device_destroy(dma_heap_class, heap->heap_devt);
+> > +	cdev_del(&heap->heap_cdev);
+> > +	xa_erase(&dma_heap_minors, minor);
+> > +
+> > +	kfree(heap);
+>=20
+> That's actually problematic, because cdev_del() doesn't guarantee that
+> all opened FDs have been closed [1], it just guarantees that no new ones
+> can materialize. In order to make that safe, we'd need a
+>=20
+> 1. kref_get_unless_zero() in dma_heap_open(), with proper locking around
+>    the xa_load() to protect against the heap removal that's happening
+>    here
+> 2. a dma_heap_put() in a new dma_heap_close() implementation
+> 3. a guarantee that heap implementations won't go away until the last
+>    ref is dropped, which means ops and all the data needed for this heap
+>    to satisfy ioctl()s (and more generally every passed at
+>    dma_heap_add() time) have to stay valid until the last ref is
+>    dropped. Alternatively, we could restrict this only to in-flight
+>    ioctl()s, and have the ops replaced by some dummy ops using RCU or a
+>    rwlock. But I guess live dmabufs allocated on this heap have to
+>    retain the heap and its implementation anyway.
+>=20
+> For record, #3 is already not satisfied by the current tee_heap
+> implementation (tee_dma_heap objects can vanish before the dma_heap
+> object is gone). The other implementations seem to be fine because they
+> are statically linked, and they either have exp_info.priv set to NULL,
+> or something that's never released.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index d3780bb33037..042dbc06c3d3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16728,6 +16728,7 @@ R:	Kemeng Shi <shikemeng@huaweicloud.com>
- R:	Nhat Pham <nphamcs@gmail.com>
- R:	Baoquan He <bhe@redhat.com>
- R:	Barry Song <baohua@kernel.org>
-+R:	Johannes Weiner <hannes@cmpxchg.org>
- L:	linux-mm@kvack.org
- S:	Maintained
- F:	include/linux/swap.h
-@@ -16739,6 +16740,7 @@ F:	mm/swap.h
- F:	mm/swap_table.h
- F:	mm/swap_state.c
- F:	mm/swapfile.c
-+F:	mm/vswap.c
- 
- MEMORY MANAGEMENT - THP (TRANSPARENT HUGE PAGE)
- M:	Andrew Morton <akpm@linux-foundation.org>
-diff --git a/include/linux/swap.h b/include/linux/swap.h
-index 918b47da55f4..df0771903a95 100644
---- a/include/linux/swap.h
-+++ b/include/linux/swap.h
-@@ -423,6 +423,9 @@ extern void __meminit kswapd_stop(int nid);
- 
- #ifdef CONFIG_SWAP
- 
-+/* Virtual swap space API (mm/vswap.c) */
-+int vswap_init(void);
-+
- /* Lifecycle swap API (mm/swapfile.c) */
- int folio_alloc_swap(struct folio *folio);
- bool folio_free_swap(struct folio *folio);
-diff --git a/mm/Makefile b/mm/Makefile
-index 2d0570a16e5b..67fa4586e7e1 100644
---- a/mm/Makefile
-+++ b/mm/Makefile
-@@ -75,7 +75,7 @@ ifdef CONFIG_MMU
- 	obj-$(CONFIG_ADVISE_SYSCALLS)	+= madvise.o
- endif
- 
--obj-$(CONFIG_SWAP)	+= page_io.o swap_state.o swapfile.o
-+obj-$(CONFIG_SWAP)	+= page_io.o swap_state.o swapfile.o vswap.o
- obj-$(CONFIG_ZSWAP)	+= zswap.o
- obj-$(CONFIG_HAS_DMA)	+= dmapool.o
- obj-$(CONFIG_HUGETLBFS)	+= hugetlb.o hugetlb_sysfs.o hugetlb_sysctl.o
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index 6714d59fb108..fca17e7e7ae6 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -883,6 +883,12 @@ static int __init swap_init(void)
- 	int err;
- 	struct kobject *swap_kobj;
- 
-+	err = vswap_init();
-+	if (err) {
-+		pr_err("failed to initialize virtual swap space\n");
-+		return err;
-+	}
-+
- 	swap_kobj = kobject_create_and_add("swap", mm_kobj);
- 	if (!swap_kobj) {
- 		pr_err("failed to create swap kobject\n");
-diff --git a/mm/vswap.c b/mm/vswap.c
-new file mode 100644
-index 000000000000..e68234f053fc
---- /dev/null
-+++ b/mm/vswap.c
-@@ -0,0 +1,35 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Virtual swap space
-+ *
-+ * Copyright (C) 2024 Meta Platforms, Inc., Nhat Pham
-+ */
-+#include <linux/swap.h>
-+
-+#ifdef CONFIG_DEBUG_FS
-+#include <linux/debugfs.h>
-+
-+static struct dentry *vswap_debugfs_root;
-+
-+static int vswap_debug_fs_init(void)
-+{
-+	if (!debugfs_initialized())
-+		return -ENODEV;
-+
-+	vswap_debugfs_root = debugfs_create_dir("vswap", NULL);
-+	return 0;
-+}
-+#else
-+static int vswap_debug_fs_init(void)
-+{
-+	return 0;
-+}
-+#endif
-+
-+int vswap_init(void)
-+{
-+	if (vswap_debug_fs_init())
-+		pr_warn("Failed to initialize vswap debugfs\n");
-+
-+	return 0;
-+}
--- 
-2.52.0
+That statement won't hold for long, see:
+https://lore.kernel.org/r/20260427-dma-buf-heaps-as-modules-v5-0-b6f5678fee=
+fc@kernel.org
 
+However, all upstream heaps can be loaded as module, but not unloaded.
+So once you get a reference to it, you can assume it will live forever.
+That's why we didn't merge that patch before, even though it was discussed:
+
+https://lore.kernel.org/all/CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wdi+J3=
+D7tA@mail.gmail.com/
+
+Maxime
+
+--qg76aku2mqm5lrt5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCafoPGQAKCRAnX84Zoj2+
+dvfDAYDCsqac+NUBBH3QPhD6jhb/xgsDVQpBWYAvr98JjIDj3r2oBlStiGGj/l40
+GNBQd5MBf0dz2ZC/qasewer2z68+KtIIlG5X6Wmi/MNZs5nI6DOk70W68K3hw0lL
+bLXqOrzshA==
+=kct9
+-----END PGP SIGNATURE-----
+
+--qg76aku2mqm5lrt5--
