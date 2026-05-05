@@ -1,320 +1,263 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A452748B396;
-	Tue,  5 May 2026 17:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AEC53AF657
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 17:19:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778001128; cv=none; b=A2lgpR2kabcP8I6TDyqLYgGkcVZN1u2Qdw4uXYtF6K+g+jpThCdyOFaUQHxbjy3NhOTxhjAhBTEPC4Lxyq9mj+qjiL+pttogZGIF2RJBTmG8HCOJztx1zjRubg0tvDdkp2SdexK8pCeJ2GZkZ+bLXFC8xDpppoJTv3SYl27zGp4=
+	t=1778001562; cv=none; b=X4gaBkqCgFHwpQRslqUdNulVdPy9vC53cS/EQ7Uv+iOm6+mkstojuJ3S6Wp8uWhYPCcNpV4fP2OoWEW1YeygT1YXU653A2TuYtpnprgm17QwZwmy5mS89a7xSoZ8tH0R5sHDcis5doBVmHaDFrLOVTMmkT3eiMVM56mQdcIqFxE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778001128; c=relaxed/simple;
-	bh=l0cSBZtY8v8/BXAKjOef5rDCo9Ch/FtnYTeDMKLxKf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=p/7XdEfqsrpcQ4sqQslJ2cBfYByos+vZ65Z+SdCbEL1j6oPp+OHrTf/OOpXbzM26nT0nNmwSPc672OVfzTjetAvxwvXEufzoZaYF3u+XATjcdKE31V7NssdZjezmk+lGIHAAArPxohLZT65x8FiudoSOfmV6LueIjEs+SSKrn1I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Xk1TcFWW; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1778001562; c=relaxed/simple;
+	bh=U+afFZuILb43fRFvzC2Y/lAW3ml2uo5rujpWac2kEYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=h3zK31lY8l9ETm5QoeGvkS5eo4pogMVtFgzixEjSY6Wggkj4dCrcvswwY0QOD/8SdW1RPkakrdLcnr1IQQ/uz19ZBnYVmvlWLbZ0Vz4oTY3dMCaIF+DuMBm1kozKVadaDVFsuGrdhP2kel5mWCWCcqO1O3NQ5Y1QgBtRHM+lVK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ZslYmDK9; arc=none smtp.client-ip=209.85.210.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Xk1TcFWW"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1778001124;
-	bh=l0cSBZtY8v8/BXAKjOef5rDCo9Ch/FtnYTeDMKLxKf8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=Xk1TcFWWz+b4FqFamS1MxscOyUDHkM5B+1fXmOorHcQCB8J4fuK7O4MEuyUNnU6gs
-	 7QRX71N6cQOJgDgjyLFAHe+iVXQMuhaX5QTAH0iQ8ApUpSpZGreexSbVVJVIojQt3u
-	 bGxTv8egBbuPyX60cADHbo0NrgNMmXAu3klzJ1Rdp/+LwKlWHTUwBQnv13AjBdTTLT
-	 h5wWO1IVGMUSqulMu6FqHl9Aydn9W2OWWCdLTAFCfWyoV9vSF3r8cvH7P1m5qf/N+9
-	 8Kq5kP3GQLttM6oQNn4G8ywaFJPDTO7ygW3lA+ZNI3q1mdXjZw76hRFCpSdeI1qYDk
-	 WKxLeeWxUC1GQ==
-Received: from fedora (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C575A17E1313;
-	Tue,  5 May 2026 19:12:03 +0200 (CEST)
-Date: Tue, 5 May 2026 19:11:59 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Florent Tomasin <florent.tomasin@arm.com>, Paul Toadere
- <paul.toadere@arm.com>, Samuel Percival <samuel.percival@arm.com>
-Subject: Re: [PATCH 7/8] drm/panthor: Add support for entering and exiting
- protected mode
-Message-ID: <20260505191159.0b9a0c0b@fedora>
-In-Reply-To: <20260505140516.1372388-8-ketil.johnsen@arm.com>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
-	<20260505140516.1372388-8-ketil.johnsen@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZslYmDK9"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-837b39eb078so1697995b3a.2
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 10:19:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1778001560; x=1778606360; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=WL3Uj3kb7PrFoW/8XQQ00eIJvsOj+gpzAMtc380q7Qs=;
+        b=ZslYmDK99hTBX07134L37gvoJ1V9M52d8Dy4TupDnS3fBVzvC5zBXt0aqZmp8Smo9Q
+         4AViCdvilP82PTQHPrdb1JAzzpyXBo4OWOI3/y2e+/KpRzS/Pi/jhYIlxGPFWoB6fxXP
+         LYw1S0vDrYm7L6z3eLvMQeYFEa3DSFBr3nGAAIs5TmvnPcnhi9EseQ814oWUuywMuRC2
+         8FjYcdjG3FmdTpBUGuLNIp6FlRgGNNSuljVO6OR7RirCycwNlqgQHS+IY5inmTgk6uIE
+         468i1Q47U9hb0B0MPqW3r+XImKvZpqYiqZQmyh0wuxMTe6AFVQannv0bHhIKjoGZtGwq
+         erMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778001560; x=1778606360;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WL3Uj3kb7PrFoW/8XQQ00eIJvsOj+gpzAMtc380q7Qs=;
+        b=AqtslETvRfDMU5cLBnCIrRXkGLabapIwJXxW7Mfbm7M9hEfEVhRUDcm/YxMswjVY+U
+         cKAXOMUNY9K//WB3Z9c7tEyJb+hFO06PUT0SHi6aU4QHxSAR20p2VjQ8esEpVnU0JipP
+         XMzksfRQvUMxalEXjAuOgRSoZKOVs/+4pcE3Mzn9XSYeH6q2ZgxBiHQcJP12AysUjn4b
+         M3CRDbstfFtOblWhjLv62EJ+cjozkKIRxtMH/RSmNiXhVoaZq/wJfyCkeWfgbdKoObnJ
+         /2naJcPRzxljrMATs5vmyzAL6Ybc6acvfqTDMfGySL1pvO3W+k7iRJc2ggKmK3xJXJWX
+         +wzQ==
+X-Forwarded-Encrypted: i=1; AFNElJ/M16gVtsW+rgWn3J4/p3p2txw6K6S9jduRGvfOlXKPW4pEOGsstZWpjKFWFcHwpBw9hsR6LeB7X0k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YykW0PT0yIWuLmEsxCYVrCtlvUq68XYq/9XTdyTgQuOxZCPUvAH
+	RjRiBCqyRPBrGciB2LcJdK7b7oQp8HpLmqAr0RDRihr87+qDfh5k8GRUb9M7N6fVKW8=
+X-Gm-Gg: AeBDiev4ERSP3i4xW/DbVIKp0f/49WCehsiJIWHqRbejgBkkd0ReothOF11eQmUWXSI
+	qODFWNtxHth6NDQIaRbR+xwAypFnx/SgZV/mnJgEY4z/qCanNy9XIV2/bFEqWxizmZwWLUfxU6o
+	1y0MSLHoguLBke4Y0M9tK/4DSVkB+G81Ypltfx6zjSHeDxzZEouhr2ukVXX2JCoHnceIlQxkzXr
+	7DTSjO92P0pevhLBg52nv3lLaQlcQa8Afnp82LM0dUou0zAXpLj5uhVgA0mdORG+NpLEF6IKr7f
+	rRFuR+e6TvxGvEMGYI5xlmUoxeoo4JIcKJ/vZ0fbbR65oi+Smqz7ys3msPXcsqZEQM+73WcixK8
+	krBQoXYTCEiEFsfHvGlpzj7ZnTWCw94kZcRUMmmCpZCzd9UTPbjDa47HRm/5m0XFWvjy1K+nVww
+	mFM8glSIUjaUluFkKaQ0bCZAqA16Gg4+FiNiqRfls8GMpkDlfd
+X-Received: by 2002:a05:6a00:61c2:b0:83a:3135:edbd with SMTP id d2e1a72fcca58-83a3135f266mr300178b3a.7.1778001559581;
+        Tue, 05 May 2026 10:19:19 -0700 (PDT)
+Received: from p14s ([2604:3d09:148c:c800:7e49:16e6:42db:e391])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-83962e7e3fcsm3646944b3a.0.2026.05.05.10.19.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 10:19:18 -0700 (PDT)
+Date: Tue, 5 May 2026 11:19:15 -0600
+From: Mathieu Poirier <mathieu.poirier@linaro.org>
+To: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
+Cc: "Padhi, Beleswar" <b-padhi@ti.com>, Shenwei Wang <shenwei.wang@nxp.com>,
+	Andrew Lunn <andrew@lunn.ch>, Linus Walleij <linusw@kernel.org>,
+	Bartosz Golaszewski <brgl@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	dl-linux-imx <linux-imx@nxp.com>,
+	Bartosz Golaszewski <brgl@bgdev.pl>
+Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+Message-ID: <afomkynW95IRIHYW@p14s>
+References: <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch>
+ <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
+ <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <afImuoeHolxGgw3H@p14s>
+ <PAXPR04MB9185F2F6DDB55AC56C92D63B89342@PAXPR04MB9185.eurprd04.prod.outlook.com>
+ <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com>
+ <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
+ <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
+ <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
 
-On Tue,  5 May 2026 16:05:13 +0200
-Ketil Johnsen <ketil.johnsen@arm.com> wrote:
-
-> From: Florent Tomasin <florent.tomasin@arm.com>
+On Thu, Apr 30, 2026 at 09:35:09AM +0200, Arnaud POULIQUEN wrote:
+> Hello,
 > 
-> This patch modifies the Panthor driver code to allow handling
-> of the GPU HW protected mode enter and exit.
+> On 4/29/26 21:20, Mathieu Poirier wrote:
+> > On Wed, 29 Apr 2026 at 12:07, Padhi, Beleswar <b-padhi@ti.com> wrote:
+> > > 
+> > > Hi Mathieu,
+> > > 
+> > > On 4/29/2026 11:03 PM, Mathieu Poirier wrote:
+> > > > On Wed, 29 Apr 2026 at 10:53, Shenwei Wang <shenwei.wang@nxp.com> wrote:
+> > > > > 
+> > > > > 
+> > > > > > -----Original Message-----
+> > > > > > From: Mathieu Poirier <mathieu.poirier@linaro.org>
+> > > > > > Sent: Wednesday, April 29, 2026 10:42 AM
+> > > > > > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > > > > > Cc: Andrew Lunn <andrew@lunn.ch>; Padhi, Beleswar <b-padhi@ti.com>; Linus
+> > > > > > Walleij <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan
+> > > > > > Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> > > > > > <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn Andersson
+> > > > > > <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
+> > > > > > <s.hauer@pengutronix.de>; Shuah Khan <skhan@linuxfoundation.org>; linux-
+> > > > > > gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > > > > > Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > > > > > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> > > > > > devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
+> > > > > > imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-linux-imx <linux-
+> > > > > > imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
+> > > > > > Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
+> > > > > > On Tue, Apr 28, 2026 at 03:24:59PM +0000, Shenwei Wang wrote:
+> > > > > > > 
+> > > > > > > > -----Original Message-----
+> > > > > > > > From: Andrew Lunn <andrew@lunn.ch>
+> > > > > > > > Sent: Monday, April 27, 2026 3:49 PM
+> > > > > > > > To: Shenwei Wang <shenwei.wang@nxp.com>
+> > > > > > > > Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij
+> > > > > > > > <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>; Jonathan
+> > > > > > > > Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
+> > > > > > > > Kozlowski <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>;
+> > > > > > > > Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
+> > > > > > > > <mathieu.poirier@linaro.org>; Frank Li <frank.li@nxp.com>; Sascha
+> > > > > > > > Hauer <s.hauer@pengutronix.de>; Shuah Khan
+> > > > > > > > <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
+> > > > > > > > doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
+> > > > > > > > Kernel Team <kernel@pengutronix.de>; Fabio Estevam
+> > > > > > > > <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
+> > > > > > > > devicetree@vger.kernel.org; linux- remoteproc@vger.kernel.org;
+> > > > > > > > imx@lists.linux.dev; linux-arm- kernel@lists.infradead.org;
+> > > > > > > > dl-linux-imx <linux-imx@nxp.com>; Bartosz Golaszewski
+> > > > > > > > <brgl@bgdev.pl>
+> > > > > > > > Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg
+> > > > > > > > GPIO driver
+> > > > > > > > > > struct virtio_gpio_response {
+> > > > > > > > > >           __u8 status;
+> > > > > > > > > >           __u8 value;
+> > > > > > > > > > };
+> > > > > > > > > It is the same message format. Please see the message definition
+> > > > > > > > (GET_DIRECTION) below:
+> > > > > > > > 
+> > > > > > > > > +   +-----+-----+-----+-----+-----+----+
+> > > > > > > > > +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
+> > > > > > > > > +   | 1   | 2   |port |line | err | dir|
+> > > > > > > > > +   +-----+-----+-----+-----+-----+----+
+> > > > > > > > Sorry, but i don't see how two u8 vs six u8 are the same message format.
+> > > > > > > > 
+> > > > > > > Some changes to the message format are necessary.
+> > > > > > > 
+> > > > > > > Virtio uses two communication channels (virtqueues): one for requests and
+> > > > > > replies, and a second one for events.
+> > > > > > > In contrast, rpmsg provides only a single communication channel, so a
+> > > > > > > type field is required to distinguish between different kinds of messages.
+> > > > > > > 
+> > > > > > > Since rpmsg replies and events share the same message format, an additional
+> > > > > > line is introduced to handle both cases.
+> > > > > > > Finally, rpmsg supports multiple GPIO controllers, so a port field is added to
+> > > > > > uniquely identify the target controller.
+> > > > > > 
+> > > > > > I have commented on this before - RPMSG is already providing multiplexing
+> > > > > > capability by way of endpoints.  There is no need for a port field.  One endpoint,
+> > > > > > one GPIO controller.
+> > > > > > 
+> > > > > You still need a way to let the remote side know which port the endpoint maps to, either
+> > > > > by embedding the port information in the message (the current way), or by sending it
+> > > > > separately.
+> > > > > 
+> > > > An endpoint is created with every namespace request.  There should be
+> > > > one namespace request for every GPIO controller, which yields a unique
+> > > > endpoint for each controller and eliminates the need for an extra
+> > > > field to identify them.
+> > > 
+> > > 
+> > > Right, but this can still be done by just having one namespace request.
+> > > We can create new endpoints bound to an existing namespace/channel by
+> > > invoking rpmsg_create_ept(). This is what I suggested here too:
+> > > https://lore.kernel.org/all/29485742-6e49-482e-b73d-228295daaeec@ti.com/
+> > > 
+> > 
+> > I will look at your suggestion (i.e link above) later this week or next week.
+> > 
+> > > My mental model looks like this for the complete picture:
+> > > 
+> > > 1. namespace/channel#1 = rpmsg-io
+> > >      a. ept1 -> gpio-controller@1
+> > >      b. ept2 -> gpio-controller@2
+> > > 
+> > 
+> > I've asked for one endpoint per GPIO controller since the very
+> > beginning.  I don't yet have a strong opinion on whether to use one
+> > namespace request per GPIO controller or a single request that spins
+> > off multiple endpoints.  I'll have to look at your link and reflect on
+> > that.  Regardless of how we proceed on that front, multiplexing needs
+> > to happen at the endpoint level rather than the packet level.  This is
+> > the only way this work can move forward.
+> > 
 > 
-> The logic added by this patch includes:
-> - the mechanisms needed for entering and exiting protected mode.
-> - the handling of protected mode IRQs and FW interactions.
-> - the scheduler changes needed to decide when to enter
->   protected mode based on CSG scheduling.
+> I would be more in favor of Mathieu’s proposal: “An endpoint is created with
+> every namespace request.”
 > 
-> Note that the submission of a protected mode jobs are done
-> from the user space.
+> If the endpoint is created only on the Linux side, how do we match the Linux
+> endpoint address with the local port field on the remote side?
 > 
-> The following is a summary of how protected mode is entered
-> and exited:
-> - When the GPU detects a protected mode job needs to be
->   executed, an IRQ is sent to the CPU to notify the kernel
->   driver that the job is blocked until the GPU has entered
->   protected mode. The entering of protected mode is controlled
->   by the kernel driver.
-> - The Mali Panthor CSF driver will schedule a tick and evaluate
->   which CS in the CSG to schedule on slot needs protected mode.
->   If the priority of the CSG is not sufficiently high, the
->   protected mode job will not progress until the CSG is
->   scheduled at top priority.
-> - The Panthor scheduler notifies the GPU that the blocked
->   protected jobs will soon be able to progress.
-> - Once all CSG and CS slots are updated, the scheduler
->   requests the GPU to enter protected mode and waits for
->   it to be acknowledged.
-> - If successful, all protected mode jobs will resume execution
->   while normal mode jobs block until the GPU exits
->   protected mode, or the kernel driver rotates the CSGs
->   and forces the GPU to exit protected mode.
-> - If unsuccessful, the scheduler will request a GPU reset.
-> - When a protected mode job is suspended as a result of
->   the CSGs rotation, the GPU will send an IRQ to the CPU
->   to notify that the protected mode job needs to resume.
+> With a multi-namespace approach, the namespace could be rpmsg-io-[addr],
+> where [addr] corresponds to the GPIO controller address in the DT. This
+> would:
 > 
-> This sequence will continue so long the user space is
-> submitting protected mode jobs.
+> - match the RPMsg probe with the DT,
+> - provide a simple mapping between the port and the endpoint on both sides,
+> - allow multiple endpoints on the remote side,
+> - provide a simple discovery mechanism for remote capabilities.
+>
+
+This is exactly what I had in mind but I'll finish reading this thread before
+expressing a final point of view.  That said, the namespace announcement should
+be "rpmsg-gpio-[addr]" rather than "rpmsg-io-[addr]" to make sure there is no
+ambiguity on the meaning of "io".
+
+More comments to come...
+ 
+> Regards,
+> Arnaud
 > 
-> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
-> Co-developed-by: Paul Toadere <paul.toadere@arm.com>
-> Signed-off-by: Paul Toadere <paul.toadere@arm.com>
-> Co-developed-by: Samuel Percival <samuel.percival@arm.com>
-> Signed-off-by: Samuel Percival <samuel.percival@arm.com>
-> Co-developed-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_device.c |   1 +
->  drivers/gpu/drm/panthor/panthor_device.h |   9 +
->  drivers/gpu/drm/panthor/panthor_fw.c     |  86 ++++++++-
->  drivers/gpu/drm/panthor/panthor_fw.h     |   5 +
->  drivers/gpu/drm/panthor/panthor_gpu.c    |  14 +-
->  drivers/gpu/drm/panthor/panthor_gpu.h    |   6 +
->  drivers/gpu/drm/panthor/panthor_mmu.c    |  10 +
->  drivers/gpu/drm/panthor/panthor_sched.c  | 224 +++++++++++++++++++++--
->  8 files changed, 339 insertions(+), 16 deletions(-)
+> > > 2. namespace/channel#2 = rpmsg-i2c
+> > >      a. ept1 -> i2c@1
+> > >      b. ept2 -> i2c@2
+> > >      c. ept3 -> i2c@3
+> > > 
+> > > etc...
+> > > 
+> > > This way device groups are isolated with each channel/namespace, and
+> > > instances within each device groups are also respected with specific
+> > > endpoints.
+> > > 
+> > > Thanks,
+> > > Beleswar
+> > > 
+> > 
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 3a5cdfa99e5fe..449f17b0f4c5c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -207,6 +207,7 @@ int panthor_device_init(struct panthor_device *ptdev)
->  
->  	ptdev->soc_data = of_device_get_match_data(ptdev->base.dev);
->  
-> +	init_rwsem(&ptdev->protm.lock);
->  	init_completion(&ptdev->unplug.done);
->  	ret = drmm_mutex_init(&ptdev->base, &ptdev->unplug.lock);
->  	if (ret)
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index d51fec97fc5fa..ebeec45cf60a1 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -334,6 +334,15 @@ struct panthor_device {
->  	struct {
->  		/** @heap: Pointer to the protected heap */
->  		struct dma_heap *heap;
-> +
-> +		/**
-> +		 * @lock: Lock to prevent VM operations during protected mode.
-
-Here it says the lock prevents VM ops while the GPU is in protected
-mode, but...
-
-> +		 *
-> +		 * The MMU will not execute commands when the GPU is in
-> +		 * protected mode, so we use this RW lock to sync access
-> +		 * between VM_BIND and GPU protected mode.
-> +		 */
-> +		struct rw_semaphore lock;
->  	} protm;
->  };
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 1aba29b9779b6..281556530ddab 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -1057,7 +1057,9 @@ static void panthor_fw_init_global_iface(struct panthor_device *ptdev)
->  					 GLB_CFG_PROGRESS_TIMER |
->  					 GLB_CFG_POWEROFF_TIMER |
->  					 GLB_IDLE_EN |
-> -					 GLB_IDLE;
-> +					 GLB_IDLE |
-> +					 GLB_PROTM_ENTER |
-> +					 GLB_PROTM_EXIT;
->  
->  	if (panthor_fw_has_glb_state(ptdev))
->  		glb_iface->input->ack_irq_mask |= GLB_STATE_MASK;
-> @@ -1456,6 +1458,88 @@ static void panthor_fw_ping_work(struct work_struct *work)
->  	}
->  }
->  
-> +int panthor_fw_protm_enter(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_fw_global_iface *glb_iface;
-> +	u32 acked;
-> +	u32 status;
-> +	int ret;
-> +
-> +	down_write(&ptdev->protm.lock);
-> +
-> +	glb_iface = panthor_fw_get_glb_iface(ptdev);
-> +
-> +	panthor_fw_toggle_reqs(glb_iface, req, ack, GLB_PROTM_ENTER);
-> +	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-> +
-> +	ret = panthor_fw_glb_wait_acks(ptdev, GLB_PROTM_ENTER, &acked, 4000);
-> +	if (ret) {
-> +		drm_err(&ptdev->base, "Wait for FW protected mode acknowledge timed out");
-> +		up_write(&ptdev->protm.lock);
-> +		return ret;
-> +	}
-> +
-> +	/* Wait for the GPU to actually enter protected mode.
-> +	 * There would be some time gap between FW sending the
-> +	 * ACK for GLB_PROTM_ENTER and GPU entering protected mode.
-> +	 */
-> +	if (gpu_read_poll_timeout(ptdev, GPU_STATUS, status,
-> +				  (status & GPU_STATUS_PROTM_ACTIVE) ||
-> +					  ((glb_iface->input->req ^ glb_iface->output->ack) &
-> +					   GLB_PROTM_EXIT),
-> +				  10, 500000)) {
-> +		drm_err(&ptdev->base, "Wait for GPU protected mode enter timed out");
-> +		ret = -ETIMEDOUT;
-> +	}
-> +
-> +	up_write(&ptdev->protm.lock);
-
-... here I see the lock being released right after we've entered
-protected mode. Meaning the MMU layer can proceed with any pending VM
-ops even though the GPU only exists PROTM when panthor_fw_protm_exit()
-is called. If this is expected, the protm::lock doc should be updated to
-reflect that.
-
-Also, I don't think a rw_semaphore alone is enough to cover the kind of
-critical section you're trying to declare, because it requires that the
-lock is taken/released from the same thread, and
-panthor_fw_protm_enter()/panthor_fw_protm_exit() will be called from
-different work items. This probably explains why the doc no longer
-matches the implementation.
-
-I guess this could be reworked to use a combination of rwlock+completion,
-where the VM logic does something like:
-
-	down_read(protm.lock);
-	while (!try_wait_for_completion(protm.complete)) {
-		up_read(protm.lock);
-		if (!wait_for_completion_timeout(protm.complete, timeout)) {
-			schedule_reset();
-			return -ETIMEDOUT;
-		}
-		down_read(protm.lock);
-	}
-
-	// proceed with the VM op
-
-	up_read(protm.lock);
-
-in panthor_fw_protm_enter(), you'd take the lock in write mode,
-reinit the completion object, release the lock, and proceed with
-the PROTM operation. If it fails, you call complete_all()
-immediately, if it works, you defer the complete_all() to the
-panthor_fw_protm_exit() path.
-
-> +
-> +	return ret;
-> +}
-> +
-> +void panthor_fw_protm_exit(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-> +
-> +	/* Acknowledge the protm exit. */
-> +	panthor_fw_update_reqs(glb_iface, req, glb_iface->output->ack, GLB_PROTM_EXIT);
-> +}
-> +
-> +int panthor_fw_protm_exit_wait_event_timeout(struct panthor_device *ptdev)
-> +{
-> +	struct panthor_fw_global_iface *glb_iface = panthor_fw_get_glb_iface(ptdev);
-> +	int ret = 0;
-> +
-> +	/* Send PING request to force an exit */
-> +	panthor_fw_toggle_reqs(glb_iface, req, ack, GLB_PING);
-
-Uh, if a PING triggers a PROTM exit, we should probably pause the PING
-(or reschedule it) right before entering PROTM, otherwise timings might
-make it so PROTM is exited almost immediately after enter.
-
-> +	gpu_write(ptdev, CSF_DOORBELL(CSF_GLB_DOORBELL_ID), 1);
-> +
-> +	ret = wait_event_timeout(ptdev->fw->req_waitqueue,
-> +				 !(gpu_read(ptdev, GPU_STATUS) & GPU_STATUS_PROTM_ACTIVE),
-> +				 msecs_to_jiffies(500));
-> +
-> +	if (!ret) {
-> +		drm_err(&ptdev->base, "Wait for forced protected mode exit timed out");
-> +		panthor_device_schedule_reset(ptdev);
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +void panthor_fw_protm_exit_sync(struct panthor_device *ptdev)
-> +{
-> +	u32 status;
-> +
-> +	/* Busy-wait (5ms) for FW to exit protected mode on its own */
-> +	if (!gpu_read_poll_timeout(ptdev, GPU_STATUS, status,
-> +				   !(status & GPU_STATUS_PROTM_ACTIVE), 10,
-> +				   5000))
-> +		return;
-> +
-> +	panthor_fw_protm_exit_wait_event_timeout(ptdev);
-> +}
-
-I'll stop there for now.
-
-Regards,
-
-Boris
