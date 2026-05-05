@@ -1,70 +1,64 @@
-Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011000.outbound.protection.outlook.com [52.101.57.0])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010061.outbound.protection.outlook.com [40.93.198.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5779F30DEA9;
-	Tue,  5 May 2026 12:29:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E1B342B733;
+	Tue,  5 May 2026 12:41:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.61
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777984185; cv=fail; b=QaScjaf86/YLspHX1bt+64kr4VWhlldsztcwp0qUphplKSpiTyu76umtN70Ul4VS/PSCYA2WgSXD504IVQrPfjLZxhLjCiPIgjGqUNbclP4cCEPQIDT4BbdOzCIlWq+vOFWQCKPDJGLJmvSorzcdTZed0usylXQW5k5op8MoVGQ=
+	t=1777984910; cv=fail; b=grldM7TiLLuJQXl04/dbp4bTgjzoGNEX1afRc9ai9KD6WLKwN9pGJbnMk2U/d2LuWXcDpe81mcRelhZbjYp7K7SURWonNwpR5SJyVZt60vC/v6hY1IJDIHNEqBQznPbSzgBDhd3ww7l8DhrlF3OoiZn1aLy65kqTTTGuvn7ctD4=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777984185; c=relaxed/simple;
-	bh=yKxqm4GTj+pTU3VtG5t6/HaC8X3tj4o9swgFW2YjDkE=;
+	s=arc-20240116; t=1777984910; c=relaxed/simple;
+	bh=P5LcotW8pKard3VIg4KmOsiSnvQy0dJ9kHfqVba03ck=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=EfDLHGpL5eTWXYtnGeAA+fSRwpn9AYtUFD0TFFpHYqTST6vm1jC71AEJBxRCt/9cG+BcTDyuOpysnSZBWyiUhdyvhGCfXI9zqhdFaYUbrQm/yi05Dba8IezD5IljuMGpP2eVPy3cvriwd0hKX7sGYhqvXZb3MalsI7/Bsep2IVg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=LRzXWwg+; arc=fail smtp.client-ip=52.101.57.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	 Content-Type:MIME-Version; b=lufHQHMrAMLGs8P/gigx5H/xcSjq+wd9SCLMvWramIdBPIytjWHABR2z4JGvWNWQgIwvhqmCDv7sQ+3Po3d6KoKCFRQuCep31tbAvdWlLNAPcq5FtWuMedpRUqq37PXe1Od4lnJ2GRqm9k8MEHZGdT8M3EYUexiDsyvwLRBvWx8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jq4ewZIJ; arc=fail smtp.client-ip=40.93.198.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="LRzXWwg+"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jq4ewZIJ"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uZ8cI0ZSJjciX0138oy1eZliSxZ+BxWAJKWytA1m5+hrSgtpKQybdUTqVcXcHs3RAgX4XTNtssgiYqEklwUIDNEZ7cA5L3uiVW3/AO31aWLCRxXujPqQWBJ/wBNZJklVGLfYEWrnoSgNAQZlIBJNDo5vy3R8wH10vIuT3OwwLJKhcG9VB1t2yhNRL+CvLwDKZvJfgzFIt3Q1EaqfkzhTj0WjYMGTpOzIe1un5ZwtqIDXfBUiWjphrfBLHHYMvMTz3H9Jr/ZWs9K/ygQU0oBArDfkkNifEX9uM+VM955LTUYoRfYfgVJtRf4M8JnP6ayrd6NNvrFM1JFyKBWPltoSUw==
+ b=l2sWncc+qjSmSndJLs9LeGir31sSjzTGGsUVIC+GJIInM0KDOSMAY4pTWqLasdKh9U/BRD2wvulBeYgd3wWn8kY5pLN2PndAixk2nqTJSmIpT/Q/zhFzK0wzGs2pxFn6PjJ8+i/blE3754TwumcCGj8l/97uOiWIanLVVtPAxxbU5oBDu2yx1hte+j1d9AOFLHeLX0d1APgwUxBMef1sGttv3d1E2vyO9uoZPPZE2AJHJmQuSM4MBn2Lcy4YWUNuzzGubZJEnkPPHm2j4aslRCgfkdJjru3NO3IxYNW0g1kRI112VPNLT2+9As/9f75dmRsVPvrDwwGYGQqs1BMKOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=G0CkJNYpUk1+odI0qYUkS85CeskujO56wfWKrPueqVc=;
- b=E//zN2B17IfJIkoKRNKClikTQkNi/IfOtY5V8I/yTLt3zHSzQbf9zAEDmoVl5Bm3YvkNlC2EXu0Uz4jIC2CQEg3fSTyEnPFEgNyNQaX3DEwrHoBsLPhjW+zqRQZ7QMS61UNU2uOvNryfbdqfsf3pgI/00SNcuIVLj6vlOsCrgM+28noTWvyyd0MVMI6VUKb/+SxDghdZSIDcG2F1VRAG27iDyq/5WSKp3vffoPcwZGV3mNz+pEq1Bz3biDTeMevZz9+ELKKv8pT7q0wpxMI5uTge8F2h2y7jYD0EFO8zpUnqWV0bFMSGSHaqvTHK8C0kJa7hHKg9GZFF7Zx4VAackw==
+ bh=RFKc3hWKUvnQdqB/j6LYqQuZOaG3+PLE3eFLDcqI4Iw=;
+ b=BelMLYddRDWf7xOcjUkL5k65Swoe0Jeob/ipG8P3qLmXe37c8ZvD0rP7J/46z3Rvj6Z+IcxRSbZ+vuSjOd7G0Qj1le9ztzLWyPPl8hvzszE0gV0G3itUQhUQa7L8MfNy4fsaC0MEyEd1fob0gFEqV3eh9lnAa7ns6iSbFy0H4+fTqLkQb4lFwq+RZcxO+V1R5q+/pRzy8kdaxsh7BgnLIOwvuJzZeKyIvOzjJgMMx81x+azEXBwEUnIrUhv1YwaRyAVfdLg8zJO0ApwxKihY8qFEw2YKOvA93fkSSysKTY9XBG2HwxvbQxB3G/1UH+zb98WKtf2cjMzsycLYq6KBlg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G0CkJNYpUk1+odI0qYUkS85CeskujO56wfWKrPueqVc=;
- b=LRzXWwg+MGO+/7oPjgU5tob4dmOXKffuRnd41YdhpEFhUyNFECUMdR0DGVbvtptkXKM1mSr6IsxH91HTHnWpgpJgxUWu7AmEJbIcPjh7DDkZAf3w1F4qggpvd3hrHQI/rXEzdr+tdz9DFJsfrGLisdJNDfEoe+GvP4M5kKHFIYAAmMKySPzSlB7nYiIA34h+89x8sB9GZm+LFBKfjgARr8bdNa0TtD/B+gcoPx8c2prdLAV+x/jHPkCIPnjNqDcauVt/TADTs6UHbO7fjB9Lhm6Emy+4BwolK1Q8SjXAFoog/iUzwiTjGUnB6UQEKwikoHkeL2h0582SdIFqNuHGkQ==
+ bh=RFKc3hWKUvnQdqB/j6LYqQuZOaG3+PLE3eFLDcqI4Iw=;
+ b=jq4ewZIJDf3tz0so2DNwExh4Inf9CnxTrIqKHHQ09mQGeMdIeMmk5L6ykFg+NN2z/M5Zz0aKnOPchLeTnjDr6oQRQlGvnbLMIvFWXZBgyVdicj1KpzESc9XPcco1bnafxAPer1QF6UQHPqdyHWvd3L0MfsV46vKLBzxmNMwG3vA=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com (2603:10b6:408:11c::18)
- by PH8PR12MB7375.namprd12.prod.outlook.com (2603:10b6:510:215::12) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH8PR12MB6700.namprd12.prod.outlook.com (2603:10b6:510:1cf::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
- 2026 12:29:36 +0000
-Received: from BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f]) by BN9PR12MB5179.namprd12.prod.outlook.com
- ([fe80::cf08:f59b:d016:c95f%4]) with mapi id 15.20.9870.023; Tue, 5 May 2026
- 12:29:36 +0000
-Message-ID: <bc06c3ab-0286-4e1e-a615-e704b267c21a@nvidia.com>
-Date: Tue, 5 May 2026 17:59:26 +0530
+ 2026 12:41:44 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::ce69:cfae:774d:a65c%5]) with mapi id 15.20.9870.023; Tue, 5 May 2026
+ 12:41:44 +0000
+Message-ID: <cf945dda-f526-4544-bc43-22f70acb28f5@amd.com>
+Date: Tue, 5 May 2026 14:41:37 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] cpufreq: CPPC: add autonomous mode boot parameter
- support
-To: Jie Zhan <zhanjie9@hisilicon.com>, rafael@kernel.org,
- viresh.kumar@linaro.org, pierre.gondois@arm.com, ionela.voinescu@arm.com,
- zhenglifeng1@huawei.com, corbet@lwn.net, skhan@linuxfoundation.org,
- rdunlap@infradead.org, mario.limonciello@amd.com, linux-pm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: linux-tegra@vger.kernel.org, treding@nvidia.com, jonathanh@nvidia.com,
- vsethi@nvidia.com, ksitaraman@nvidia.com, sanjayc@nvidia.com,
- mochs@nvidia.com, bbasu@nvidia.com, sumitg@nvidia.com
-References: <20260424201814.230071-1-sumitg@nvidia.com>
- <a4ed690a-50d6-4bfe-8810-86a75d7b51e3@hisilicon.com>
+Subject: Re: Regression due to /sys/kernel/dmabuf/buffers removal
+To: Julian Orth <ju.orth@gmail.com>, "T.J. Mercier" <tjmercier@google.com>
+Cc: corbet@lwn.net, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Sumit Semwal <sumit.semwal@linaro.org>
+References: <CAHijbEXhuVRgkkPA2dAC=njGBU7vpAbxAbsSmxvvPznO-ckVRA@mail.gmail.com>
 Content-Language: en-US
-From: Sumit Gupta <sumitg@nvidia.com>
-In-Reply-To: <a4ed690a-50d6-4bfe-8810-86a75d7b51e3@hisilicon.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MA5P287CA0245.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:1ae::7) To BN9PR12MB5179.namprd12.prod.outlook.com
- (2603:10b6:408:11c::18)
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAHijbEXhuVRgkkPA2dAC=njGBU7vpAbxAbsSmxvvPznO-ckVRA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0332.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:ea::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -72,340 +66,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN9PR12MB5179:EE_|PH8PR12MB7375:EE_
-X-MS-Office365-Filtering-Correlation-Id: f115f1d2-fb3b-4193-71fa-08deaaa1f805
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB6700:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87ea815e-83ee-4c26-bb98-08deaaa3a9f4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|921020|18002099003|22082099003|56012099003;
+	BCL:0;ARA:13230040|1800799024|366016|376014|18002099003|22082099003|56012099003;
 X-Microsoft-Antispam-Message-Info:
-	W+uimddFOFxQTSwArRpfQWTd1vGd/Fp74Y2wbzK9m6ycH0bO1pvYmbWlrmtV31Dje7Nnvc+oB12BWV6ysvxtLbJBD3JAjwLs0k6ve32eCNhwdV8qQH9Haj1jU4EetHCPk2r7Svm+x0DcmMWWFfRGUSXjdNJOIRv6CHrm6l/O7cmnLkJNf03oNZlNhJujIj2SMqo3j8yGa1E0FW7i6ICVLp4j6w7NUxVHXUbq2posqHpfZLTCHuE+nsQ2spr5Y2MpIbp91yltm7RZ+wXgrlymjxs+WfHG/ChHKiIHSvP3sijGmncOXyis6AhZc2vl5YrACd6ehXuSBr8vlCaU64t23nducBoNnt4HLAYI5lBbsW8pCkhNqgzt9ikTjfVo/zPxu4I5+FRlBH2Xz8D4n4D4JJL6X2pNMKD1jIfMZxnyETTO+ASq4kEGs9qiyaax6qJOmzRcEA/cwUgkFTjKn3Kl0v323Hd8wEP71H0y/MOtzbCCxZyW4G69sxCAaGeYXUf3Ofps8GR4s4yn2pGNh0+6KbixpOU36OtA9cLcFPW7TXqp1jGeekXyccGVyyeGj1CzytAo4sIVbr4Wnwnn9yh2D5UpyKX837no5vu8yQVOw/OvXels/XaZIvAY+DiE8sye2Gd8/1/5QpLWwEvmjnQYkkFiQDEmwefO/DOkIYGpkImLWXDp7wn8dzzz8LBPrnFU1q5lD5rI0JuzXznNwGfq+fsU17PlinNXqnqaqEhurJf3e5YQzSbxOt9poW9F7dcK
+	DDonhNSOWFVbCAbHKi6hrE8mpMn1MQ9m+hc0OUNRgAV0oxpeGhxubbalDsLObbDFPUsvi2z5thxnbHjwYl1Cs5QisA8mcXR/qoZ85YS2DDj7PTnOdi4ioE8vCc44h4z0qokmmyij0M7n+iLddNNneHchz8q0hM5MCHDmk6apQgWM+O8Oz4ui9RiwXmY2a+EyHuO5YcSjezeT01ppKc/OOROVklY3JyjcVKS8MtsXXwCouz7vV3eD7DL6TWLohOfDS92yheO0DKIVQJEf+X8MN4HQrrSlj3sH9uAOIZX8dxGE5L+VIexjsarOAG32WhUPVp+i61S8hDOAru3vo+wzuJ/l3JlUt3ve9mdTIVaVeGGFfhUp3hk3e/AISIcL7oA2B4CsyjLKWt0NQznpRFxpKIaTblw4ecnLp525dlrhnTSxj25c3chwfWUVDA4yuJZjs+z7R1dRq9jZP1X04dqVpdszqLL3bJg1uVBNZy6q0pck+l01e2UPWFPaWB66UG1m6wcpwzYp8ueFXxjDKPXRsq11io0SjuuU7MB2vx3Frd8Nv4iExy1AvphpgcPwSJI34nOiq5rXHCmvFQpYUkGU+f5IU3MQNPpcWY3V9BfvoOVYclRtT7PO66bSd2RwzOKySSPX37l/w1QxndYLMPudDQlhIRSxzLzDT6wZGsKBNV6r+Fe9GrO579nyLuCeB/RV
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR12MB5179.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(921020)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OWYzVkk0dVYxcFhYc094U095anEySVlCZ09GVFcvMFo4emFuRnlocXloVmFB?=
- =?utf-8?B?ZTBsb1ZLTEJIeE1pRFJjMHFDUzJmdEV2TUZqQWw0Y2RsMm9WVXMxU3N1bGZP?=
- =?utf-8?B?Y1A5MXFGdFZCYzVVVkxPR202N2YzNEwrblc0OFJZMlZlcEt0TTZnQzdyeE0z?=
- =?utf-8?B?UnhFR2V0L2dsUXFMUlJiMlMzWk1EM2FvbFZWM0g1ek4zRmVETnBXRXJBejll?=
- =?utf-8?B?RHV5cWJBWlpsMXdNa1lETkc5MkpRcW1zWVFHcGRNQnJOWjQ1OFExZDVxcVNk?=
- =?utf-8?B?NWpQRUptQnJzVnNqOW01clNlRVpSWXBBRnU3ODRQWi93bmJLVWZ3NWo2SDFa?=
- =?utf-8?B?QzVxMHd1SCtzakJqTXNqOFBsQXFkc0Q3UUhYdXQ0dmlhRnJCTjM3S1IzNVVt?=
- =?utf-8?B?aFlpTVJjaWl0R0RRU1gwOU5VWmMxLzhWU1JEVzhWeVN3MG13a29SMk1lY0VI?=
- =?utf-8?B?S2p2MHo2WVNVSkdXZk1NQmFDOXR6MWx3V2hHNmYvUHVRVmU2dFMrVTVYR0c4?=
- =?utf-8?B?VTdFY2J4YkZBQzVEWnZ0S0hCaUtENjVxNElHNmMrMkNTcEpjWXhLT3krWHZi?=
- =?utf-8?B?Q08zaURteXZLTUx4M1ljWFpSOUV3WEZxeTkwNUVOTGZmZGQyTkduQThNMkp0?=
- =?utf-8?B?T1JIZUtKZjNXTUZWcWdUZ0c5THVuT2tIYllGd1BRN20ycU1NY3pPUE5XV09s?=
- =?utf-8?B?R3pyUys4N2Q5K2ZwMGN6aHlST3ozcmczTUlVRkY2RXF2QlVyQ0FEdzgraDJi?=
- =?utf-8?B?Qy9ldUF3ZTZURGd4UStGZEVEQmsrWHJYUVBsSG1VSWt2c0VqSlNmME02a0x0?=
- =?utf-8?B?ejRScjJGYkRTVVg4aDVsRzdrS0hzeStFaDlHd21haEplSzQ5QkRLQXFSVWtM?=
- =?utf-8?B?eW91RFhHVHMwOVNQVWY4WlJVTVl1Mk1yeEhBODA1c0lZNGJIaGhZRGFlV2dT?=
- =?utf-8?B?dW1tYmt1RDFvUERuZzJWaG1mTW5nRGJQcmVWUjdIZVZ4VFArRGZkN1NRU0dv?=
- =?utf-8?B?SEVSeHhmbDZNQTFxRDUzSnFQdll3MGFodHd2dFJVb2RMa25lYVlXdEZMc1RB?=
- =?utf-8?B?UVR2a2VYRDlRa3RYdE5vN0g2MDJIMnExM3lTNTZGaXZpVWU0YnZpb0NtUmxr?=
- =?utf-8?B?N3Zxbjl6Z3BGS2RHbDBMK3dzSThPYkUzU2M5V0V5Qml2SENsU2JsZUhyUVll?=
- =?utf-8?B?bllEc3dPRndPV2tIZHVOUGNqNkVwL05CT1ZGMTBFTmRLd1F4NXRuNnRSeWJs?=
- =?utf-8?B?VTBqUDhyQ0JxV2I1Nmkydng4RnUwSE16Wks2RFJSRkM5ZHViaVlwL3JOK2NP?=
- =?utf-8?B?U1hwVEs5dS92Q3MvMnNsbVQrZ2d3WTlUV0VLU1NCT3lmME9wVnVwdXdQTFJY?=
- =?utf-8?B?aW8rWndSYVhvY2NMUnZZb0dPUG9vNElKUnc3TnI2VHEvRWdiVmR2VUxseFNx?=
- =?utf-8?B?S3B6MnZOa3Y0bTVWZGlYbU1GSzZhT3BqdHBDWGJRRUJNRC8wUGxsZ3llMTZ5?=
- =?utf-8?B?dTRHRENtYTg0ODd3ZkRUdGsrbHJhRG0vaEFxQWt2Wmd5VG40aXpoL1BVeXEx?=
- =?utf-8?B?Ty9DTEtKd2l1azFJUDRYQlVuelRwUlZQTXJ3MmtXalk4RjZtbDlzM2RFUmUw?=
- =?utf-8?B?QVRNdW1KbUZrRGg3eFYxcm9EbVhNZCtlVjhTdmVNa3gxS0s5V2YvV2RDUzhF?=
- =?utf-8?B?YWVJU1NMSDBZZWRhbjNsbG5xVjB5RGp0b01ZeVE1U2VEWFFvUlpmdnBlWGNj?=
- =?utf-8?B?V1VpWVVhdVJYdHFuRk9vc1RJMnZ5cktsMHY4RTZHaFJMa2wxQUxJb1Y0RXph?=
- =?utf-8?B?MFZ2a0ZMSFlSaCtGZkZxT2RSWW5VWHV2NysrMTc2cFhWdDZwOTlJTlRCSW9h?=
- =?utf-8?B?NHBVOGRKVHBkQmMwRnhyMzhjT09iMlFWODdQVVRVaEN6ZW5CYTVMVnNuZURN?=
- =?utf-8?B?MDl5SkVhVGRld0tWRmgya3haNEtNekhNeXBzQ2dmdmt5RUM0RUpGODZXK1RI?=
- =?utf-8?B?cndQN0FyaXV3VVBpUkRYejhWZnRxY1pPWlVPLy9WYjZlSFpSVzA1Zk4zRHFu?=
- =?utf-8?B?L01QUUNTVjV2dzNFOFl0Y3UreVQwT25LZlBTNVhtRVNobGU1ejRMQVlFYlIz?=
- =?utf-8?B?M2s3TUkyekM1NmxJUmZiQ1VjbUZxazlmMjJtSWpSUWdVNTE3NDhYRXhTQnRl?=
- =?utf-8?B?ZW1EcnlkMStSWHdxZGVKcHJMZ2ZpZ0dRREFWb1Q2ZFNCSDVLdGd0ZTJNbTVB?=
- =?utf-8?B?MFdYUGRrNGRRWVZIRW50TUFaRFlZWlZ0U0JBTlBvSEFwZGVEWm5YQmsrZnBa?=
- =?utf-8?Q?VQGLlUJPgmbxwS7kzQ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f115f1d2-fb3b-4193-71fa-08deaaa1f805
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR12MB5179.namprd12.prod.outlook.com
+	=?utf-8?B?ZG9iTkJLWEtWZStneGNrV2kySWtNcFNIRmtMVEdaYTB2LzYvbzlXSml3THlH?=
+ =?utf-8?B?eUI1d2Jaa3RBYkR4ejNYRG5LeEcxcFFSNTNzc3E1cU1NbVF6N2NDK09CcXg2?=
+ =?utf-8?B?TWFhaDJjSm9FTXJ5d3RpdFd6MFRjbnYyVFNnOWtPVVJ6eTBuczZySVM1QWZM?=
+ =?utf-8?B?V0YxQVdpTENjOElJUUtUSUd1bnFUamRmL25LcjltbHh3dnpDUkMwZjZmazNW?=
+ =?utf-8?B?VjVZNzR6cEpLR2xWWGpXREtSRUNDb1BTZURPSWpDRXNsZU5NNjcvL2psNFVk?=
+ =?utf-8?B?N3QzWFE4N1pObmhqVWFhK3l6VEE3eStZMTB2WUFOQm9tQitiNnpBaVhtazlY?=
+ =?utf-8?B?bW4wYjZkZzUxS2Q0b1VSRnVRWERhaEU1dWp0blJiMlRsN2hEU2RqbzZsTXUz?=
+ =?utf-8?B?aUQzM2J5YVlOTlYwRE9GVFdDeDZLak5mTUNWekxSU1BjcGN3bG1LOVF0SkhP?=
+ =?utf-8?B?ekJPNnBTbmhSRGdGZkpnTDd0d01Fbml5S216RktWdGs0S1hpbjlpdmFQVTJD?=
+ =?utf-8?B?bWUrcUZOcEQvYnpmemczYVFyOWRmZk9pME1WTVdZR0VDSFZOK1pEeUNMV2dq?=
+ =?utf-8?B?TENGTnBDN0ZjUTJ1b1o0RXBHVWVDdTF1M0g2UW5WY3hrVmVzU2ViVzQxeWhZ?=
+ =?utf-8?B?WEkwczgranNoK2JMbE9RYTExTVZxSkR5QjFLQk5BK0x2dkZXTlpTRnc4cWlV?=
+ =?utf-8?B?b1hGNTlHSFB0NmtuWXdDZ1hWRnNJSjJsNDEzSm5GdmkwbFIrbTJwZ0k3VHUz?=
+ =?utf-8?B?MVQvZE1XYXZmVVZDanJxc3JxR3VBcWpUWWdER1ZZT3pFL0hjd2FCQ0prOTJv?=
+ =?utf-8?B?SzNWenc2QnMrd3IranlxSmdtOFdoMUJFZC8xdERlYndpOGRJNFJtenFPV2FQ?=
+ =?utf-8?B?Y00vaTNJeDVmcGtNZmxlYjNEdmV0N3BRbW8rV3RzYm5ZSmdmQVFuZUF4S0N2?=
+ =?utf-8?B?a2pLdnE0MHFQY0lCKzlnYmE5dFZ3UHBiekVkTnVrUUtiYXF5ZWNKRWdqSFA0?=
+ =?utf-8?B?cTRpMnBjZ1ByREkxRW00SWpHNnVJVWlmU1g0bWJCS2hoR3J0Vlp3UnVXb2hz?=
+ =?utf-8?B?bHArZWQwZkFJUGRZcUZWSkJVVWhyZTZMWHh1aS9ZN2hrU2N2STNBaGhmOFh0?=
+ =?utf-8?B?cXFmZTM2c3NqVmFnRDJvbHgzOUFCK2NKZ0U4Q2NZRHdPZGZCT1pTQWRGcUhs?=
+ =?utf-8?B?UWJwWGI2dEd1YWlWVlAyWGE1aGJaU0lYcnF5cUxqbXhlOEFEUnBLMWhTYUlB?=
+ =?utf-8?B?V2JHb3ZsQ1NhNjdNNUN4S2VhNytScFNhWXZMZHYrZzgwZXE1S0E1UGRJdlhs?=
+ =?utf-8?B?K2o3b2YyYnE4ck42a0x5K0FrQ2dIb2NGaUovUlpXa29KTEtSaFBTVjF1c1Vp?=
+ =?utf-8?B?Qms2YllwWjZ2aWYrOE5kRjB3R0Z2bmtHVHgwZFhFMzZYN1ZpbWFTbVZNVWhW?=
+ =?utf-8?B?eFZXQ0FSR3ZVa2xtUU0xMmhrbzRZVmhBQ1BTQXRBdmZrMDFJcFZlU2k2ZVJU?=
+ =?utf-8?B?NHgveXVKaHdGR3Z3SndtZW4rWS9rc20xNC9vK0pRZ1ZDcmdZbTFJQS9pYzN6?=
+ =?utf-8?B?MWpVTmp0bmplQ2dXeExZSitKS2ZhcWMvRXkzUWFmbHB1NklqZlloZ0N5ZEJm?=
+ =?utf-8?B?Um1PQ0V6Q2xZWktGbGYyRFROWWYwODZLL2VxbjBmVW4yYTA4dHp1WEIyb0JQ?=
+ =?utf-8?B?RmNiUE5uZ1dwZ1M3ODE5K1RJN0Z4dzFNUnBxQlg2Zkp5VmdoVWxjdy9lcnB5?=
+ =?utf-8?B?SUh5K0RHeHE0M2QzcFM1YTdVRTFFL3JDRFRyL1lXWHBYWVNTMitzVmg1WnV4?=
+ =?utf-8?B?TmViSWpxdmhlaVFVUHByUXAyOXl1UzBncHpYMURWa0lGOGoySlFhS3F4Z1h5?=
+ =?utf-8?B?OWZ6ZjF3ZS9zL3lUZGU3V1UrTC91SXkrNU1tUmxMa0hDOFYxUkJDZFBKb0VY?=
+ =?utf-8?B?TnhYUzRyY1cyaGtCbWlQT09rSjZVZ1NWY21OWGNXUTM3WUxLTmd5WENqTGY3?=
+ =?utf-8?B?bWNaZnE3TXozVEtWbEp6Q3p1YlFEejZhZUJhNE1DeVhCK1BCeU8ycGRNWUp2?=
+ =?utf-8?B?cWh6VTVlREdBNTRWSGE5SE9CY2ZCQjNwbGJjTEtUMnNweG5NdnA2Y2g3THFJ?=
+ =?utf-8?B?Uk01cGlSTDdMV0NLZ09YQlpWRTdLRFJCSFBmWmU1NmZFcFRUMDU2aityMTNo?=
+ =?utf-8?B?NHNUVnlqT1B2Y1JwbGwrTWd1NHlLL04vOEltNEs1S2d1NVlVeXVIVVF4MEpa?=
+ =?utf-8?B?b1pkcjdtTFZKeWhjM3BBckU0cFc1YnYzWDhNdXR1REFPT1NhU3d2R295Zjl1?=
+ =?utf-8?Q?gEayx+IY8upJQIwFmD?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87ea815e-83ee-4c26-bb98-08deaaa3a9f4
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 12:29:36.6470
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 12:41:44.3668
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xlPoLjQVYZn8Jn7mJ2jvadI2SNF1AMjsgokMFQl6Coh2Jc5TeMyL7gX4ZDaLqn75L2NpdzPLUQXGgB2C7Tbk2Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7375
+X-MS-Exchange-CrossTenant-UserPrincipalName: c9RKJE8j8z8PDl7XhZnTG1brmyqtxwT7dmRfuzqhYrJk29wBwDXyaPVj/F3Tt2l+
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6700
 
-Hi Jie,
+Hi Julian,
 
+On 5/5/26 14:25, Julian Orth wrote:
+> In ab4c3dcf9a71582503b4fb25aeab884c696cab25 ("dma-buf: Remove DMA-BUF
+> sysfs stats") the /sys/kernel/dmabuf/buffer directory was removed.
+> 
+> I've been using this interface, specifically the exporter_name file,
+> to detect dmabufs created via udmabuf. Such dmabufs show "udmabuf" in
+> exporter_name. I've been doing this for two reasons: 1) to detect that
+> mmap on such buffers will be fast and 2) to detect that GPU access to
+> such buffers will be slow.
 
-On 27/04/26 13:54, Jie Zhan wrote:
-> External email: Use caution opening links or attachments
->
->
-> Hi Sumit,
->
-> In general, I would expect this parameter only toggles on auto_sel by
-> default.  IIUC, other CPPC configurations (min/max/desired perf, EPP,
-> enable) are optional and not closely related to this.
->
-> Why including those stuff here?
->
->
-> Please see other questions inline.
->
-> Thanks!
-> Jie
+Crap, I really hoped that Android was the only user of that sysfs interface since that approach turned out to be quite broken.
 
-These together provide a known, predictable autonomous mode boot.
-min/max/desired seeding ensures HW has a known starting bound (BIOS
-may leave them unset).
-EPP=PERFORMANCE_PREF is needed as BIOS defaults often bias toward
-energy saving, and admins on many CPU systems shouldn't have to script
-per CPU sysfs writes at every boot to undo that.
+It's number one rule on Linux that we don't break userspace. So I hope that you don't insist on bringing that interface back, but if you do I will just revert the removal until we found a better solution.
 
->
-> On 4/25/2026 4:18 AM, Sumit Gupta wrote:
->> Add a kernel boot parameter 'cppc_cpufreq.auto_sel_mode' to enable
->> CPPC autonomous performance selection on all CPUs at system startup.
->> When autonomous mode is enabled, the hardware automatically adjusts
->> CPU performance based on workload demands using Energy Performance
->> Preference (EPP) hints.
->>
->> When auto_sel_mode=1:
->> - Configure all CPUs for autonomous operation on first init
->> - Set EPP to performance preference (0x0)
->> - Use HW min/max_perf when available; otherwise initialize from caps
->> - Clamp desired_perf to bounds before enabling autonomous mode
->> - Hardware controls frequency instead of the OS governor
->>
->> The boot parameter is applied only during first policy initialization.
->> Skip applying it on CPU hotplug to preserve runtime sysfs configuration.
->>
->> This patch depends on patch [2] ("cpufreq: Set policy->min and max
->> as real QoS constraints") so that the policy->min/max set in
->> cppc_cpufreq_cpu_init() are not overridden by cpufreq_set_policy()
->> during init.
->>
->> Reviewed-by: Randy Dunlap <rdunlap@infradead.org> (Documentation)
->> Signed-off-by: Sumit Gupta <sumitg@nvidia.com>
->> ---
->> v[1] -> v2:
->> - Call cppc_set_enable() unconditionally so CPPC is enabled for both
->>    OS-driven and autonomous modes.
-> Why adding this in v2?
-> This looks like a separate issue since setting CPPC Enable reg doesn't seem
-> to be related with autonomous control.
+> With the removal of that file, that detection mechanism no longer works.
+> 
+> I'm not particularly fond of that mechanism but it was the only one
+> providing that functionality that I could find at the time. If there
+> is another one, ideally an ioctl on the dmabuf, please let me know.
 
-In v2, moved it out of the auto_sel specific check.
-Agree that cppc_set_enable() is general CPPC enablement and can be split
-into a separate patch in v3 if preferred.
+The virtual fdinfo file you can find under /proc/$pid/fdinfo/$fd also contains the exporter name for the DMA-buf.
 
->> - Init min/max from caps instead of cppc_cpufreq_update_perf_limits()
->>    as policy->min/max aren't yet populated.
->>
->> [1] https://lore.kernel.org/lkml/20260317151053.2361475-1-sumitg@nvidia.com/
->> [2] https://lore.kernel.org/lkml/20260423084731.1090384-2-pierre.gondois@arm.com/
->> ---
->>   .../admin-guide/kernel-parameters.txt         | 13 +++
->>   drivers/cpufreq/cppc_cpufreq.c                | 89 +++++++++++++++++--
->>   2 files changed, 97 insertions(+), 5 deletions(-)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index 0a1abed1b93c..751817b0573a 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -1067,6 +1067,19 @@ Kernel parameters
->>                        policy to use. This governor must be registered in the
->>                        kernel before the cpufreq driver probes.
->>
->> +     cppc_cpufreq.auto_sel_mode=
->> +                     [CPU_FREQ] Enable ACPI CPPC autonomous performance
->> +                     selection. When enabled, hardware automatically adjusts
->> +                     CPU frequency on all CPUs based on workload demands.
->> +                     In Autonomous mode, Energy Performance Preference (EPP)
->> +                     hints guide hardware toward performance (0x0) or energy
->> +                     efficiency (0xff).
->> +                     Requires ACPI CPPC autonomous selection register support.
->> +                     Format: <bool>
->> +                     Default: 0 (disabled)
->> +                     0: use cpufreq governors
->> +                     1: enable if supported by hardware
->> +
->>        cpu_init_udelay=N
->>                        [X86,EARLY] Delay for N microsec between assert and de-assert
->>                        of APIC INIT to start processors.  This delay occurs
->> diff --git a/drivers/cpufreq/cppc_cpufreq.c b/drivers/cpufreq/cppc_cpufreq.c
->> index 02db03d03755..672fc3058190 100644
->> --- a/drivers/cpufreq/cppc_cpufreq.c
->> +++ b/drivers/cpufreq/cppc_cpufreq.c
->> @@ -28,6 +28,9 @@
->>
->>   static struct cpufreq_driver cppc_cpufreq_driver;
->>
->> +/* Autonomous Selection boot parameter */
->> +static bool auto_sel_mode;
->> +
->>   #ifdef CONFIG_ACPI_CPPC_CPUFREQ_FIE
->>   static enum {
->>        FIE_UNSET = -1,
->> @@ -656,6 +659,14 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->>        caps = &cpu_data->perf_caps;
->>        policy->driver_data = cpu_data;
->>
->> +     /*
->> +      * Enable CPPC for both OS-driven and autonomous modes.
->> +      * The Enable register is optional - some platforms may not support it
->> +      */
->> +     ret = cppc_set_enable(cpu, true);
->> +     if (ret && ret != -EOPNOTSUPP)
->> +             pr_warn("Failed to enable CPPC for CPU%d (%d)\n", cpu, ret);
->> +
->>        min = cppc_perf_to_khz(caps, caps->lowest_nonlinear_perf);
->>        max = cppc_perf_to_khz(caps, policy->boost_enabled ?
->>                        caps->highest_perf : caps->nominal_perf);
->> @@ -711,11 +722,71 @@ static int cppc_cpufreq_cpu_init(struct cpufreq_policy *policy)
->>        policy->cur = cppc_perf_to_khz(caps, caps->highest_perf);
->>        cpu_data->perf_ctrls.desired_perf =  caps->highest_perf;
->>
->> -     ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->> -     if (ret) {
->> -             pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
->> -                      caps->highest_perf, cpu, ret);
->> -             goto out;
->> +     /*
->> +      * Enable autonomous mode on first init if boot param is set.
->> +      * Check last_governor to detect first init and skip if auto_sel
->> +      * is already enabled.
->> +      */
->> +     if (auto_sel_mode && policy->last_governor[0] == '\0' &&
->> +         !cpu_data->perf_ctrls.auto_sel) {
->> +             /* Init min/max_perf from caps if not already set by HW. */
->> +             if (!cpu_data->perf_ctrls.min_perf)
->> +                     cpu_data->perf_ctrls.min_perf = caps->lowest_nonlinear_perf;
->> +             if (!cpu_data->perf_ctrls.max_perf)
->> +                     cpu_data->perf_ctrls.max_perf = policy->boost_enabled ?
->> +                             caps->highest_perf : caps->nominal_perf;
-> Is it automatically adjusted when switching boost on and off?
+You can find the full documentation here: https://docs.kernel.org/filesystems/proc.html#dma-buffer-files
 
-Yes. Here just setting the the initial value. Subsequent boost toggles
-propagate via the existing QoS/CPUFREQ_NEED_UPDATE_LIMITS flow:
-a FREQ_QOS_MAX update triggers .target (cppc_cpufreq_set_target)
--> cppc_set_perf, which sets the new max_perf to HW.
+Is that sufficient?
 
->> +
->> +             cpu_data->perf_ctrls.desired_perf =
->> +                     clamp_t(u32, cpu_data->perf_ctrls.desired_perf,
->> +                             cpu_data->perf_ctrls.min_perf,
->> +                             cpu_data->perf_ctrls.max_perf);
-> Why do we need to clamp desire_perf here?
+Additional to that the debugfs for DMA-buf also contains that information and I'm open to the suggestion with the IOCTL.
 
-You are right, the clamp isn't really needed.
-With auto_sel, the desired_perf is an optional hint. EPP and the
-platform drive actual selection within [min_perf, max_perf].
-We can simply initialize desired_perf to max_perf as starting hint.
-I will update it to below in v3:
-     cpu_data->perf_ctrls.desired_perf = cpu_data->perf_ctrls.max_perf;
+Regards,
+Christian.
 
->> +
->> +             policy->cur = cppc_perf_to_khz(caps,
->> +                                            cpu_data->perf_ctrls.desired_perf);
->> +
->> +             /* EPP is optional - some platforms may not support it */
->> +             ret = cppc_set_epp(cpu, CPPC_EPP_PERFORMANCE_PREF);
-> Why setting this to PERFORMANCE by default?
-> A platform can have its own default EPP value.  This would override that.
+> 
+> Shipping an entire BPF compiler in my application, which the original
+> patch suggests as the replacement, is not an option when the removed
+> alternative was simply reading a file.
+> 
+> Thanks, Julian
 
-The boot option targets performance oriented use cases on many CPU
-systems, avoiding sysfs scripting across all CPUs on every boot.
-The BIOS default EPP (often biased toward energy saving) would otherwise
-steer HW away from that goal. Admins can still re-tune EPP at runtime via
-the existing energy_performance_preference_val sysfs.
-
-
->> +             if (ret && ret != -EOPNOTSUPP)
->> +                     pr_warn("Failed to set EPP for CPU%d (%d)\n", cpu, ret);
->> +             else if (!ret)
->> +                     cpu_data->perf_ctrls.energy_perf = CPPC_EPP_PERFORMANCE_PREF;
->> +
->> +             /* Program min/max/desired into CPPC regs before enabling auto_sel. */
->> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->> +             if (ret) {
->> +                     pr_debug("Err setting perf for autonomous mode CPU:%d ret:%d\n",
->> +                              cpu, ret);
->> +                     goto out;
-> Shouldn't this be pr_warn(), or even pr_err(), if it needs to bail out?
->
-> However, IIUC setting min/max/desired perf is optional for auto_sel, so
-> better to pr_info() and continue setting auto_sel?
-
-Agree that we shouldn't fail the whole init here.
-Even if cppc_set_perf fails, HW can still operate in autonomous mode.
-Prefer pr_warn to pr_info as a non-zero cppc_set_perf return means a
-real error, not a missing register, so it's worth flagging.
-Will update in v3.
-
-
->> +             }
->> +
->> +             ret = cppc_set_auto_sel(cpu, true);
->> +             if (ret && ret != -EOPNOTSUPP) {
->> +                     pr_warn("Failed autonomous config for CPU%d (%d)\n",
->> +                             cpu, ret);
->> +                     goto out;
-> Bailing out here would end up without DVFS support.
-> Can we fall back to the normal OS directed mode?
-
-Good point.
-The fallback is already wired up: when auto_sel stays false, the next
-else branch takes the OS directed path. So I will just drop the goto out
-and update the message in v3.
-
-Thank you,
-Sumit Gupta
-
-
->> +             }
->> +             if (!ret)
->> +                     cpu_data->perf_ctrls.auto_sel = true;
->> +     }
->> +
->> +     if (cpu_data->perf_ctrls.auto_sel) {
->> +             /* Sync policy limits from HW when autonomous mode is active */
->> +             policy->min = cppc_perf_to_khz(caps,
->> +                                            cpu_data->perf_ctrls.min_perf ?:
->> +                                            caps->lowest_nonlinear_perf);
->> +             policy->max = cppc_perf_to_khz(caps,
->> +                                            cpu_data->perf_ctrls.max_perf ?:
->> +                                            (policy->boost_enabled ?
->> +                                             caps->highest_perf :
->> +                                             caps->nominal_perf));
->> +     } else {
->> +             /* Normal mode: governors control frequency */
->> +             ret = cppc_set_perf(cpu, &cpu_data->perf_ctrls);
->> +             if (ret) {
->> +                     pr_debug("Err setting perf value:%d on CPU:%d. ret:%d\n",
->> +                              caps->highest_perf, cpu, ret);
->> +                     goto out;
->> +             }
->>        }
->>
->>        cppc_cpufreq_cpu_fie_init(policy);
->> @@ -1035,10 +1106,18 @@ static int __init cppc_cpufreq_init(void)
->>
->>   static void __exit cppc_cpufreq_exit(void)
->>   {
->> +     unsigned int cpu;
->> +
->> +     for_each_present_cpu(cpu)
->> +             cppc_set_auto_sel(cpu, false);
->> +
->>        cpufreq_unregister_driver(&cppc_cpufreq_driver);
->>        cppc_freq_invariance_exit();
->>   }
->>
->> +module_param(auto_sel_mode, bool, 0444);
->> +MODULE_PARM_DESC(auto_sel_mode, "Enable CPPC autonomous performance selection at boot");
->> +
->>   module_exit(cppc_cpufreq_exit);
->>   MODULE_AUTHOR("Ashwin Chaugule");
->>   MODULE_DESCRIPTION("CPUFreq driver based on the ACPI CPPC v5.0+ spec");
