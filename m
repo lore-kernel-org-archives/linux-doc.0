@@ -1,190 +1,81 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF8D392C32;
-	Tue,  5 May 2026 13:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E6E993E8C5D;
+	Tue,  5 May 2026 13:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777987422; cv=none; b=SiFXf5JYv/Ss6fFNVqkNy6/JkdQ4CkpfRD0sXkhWsjvisJT0aiTVNZbIezZ9ub1jmEJuam7EFaq+ZdI6R+eA35dYsHHlPu4mtVoNgmxFnX/H0ND0gs18W8ARdCdsjSvtRPGWWWAaS94L5TP5evW6bbzqBPmMZuB6UEKZ6YsjJJw=
+	t=1777987565; cv=none; b=nffweJYK6PVZuqsg5aTR46PGFsD0c2rw8BIRgL8P6KU5UBjcgq1ERg29EYn/gcXLTXS0i2doIPLX0zN7fx8Rpnoh7BegSTMVj1a7ETzC3NSae8O7kCanYR6VpLI9wkW5L9IM+NwB74t8HYEaXouOAZh0KnXgP0t+6vNLciA5b4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777987422; c=relaxed/simple;
-	bh=Hgq1xuGgwGhdzj9TbVmCIlyjgoWMt078/W8y7jpz5tc=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=qODkfM/mzmbivQW4Hh0Pej7v9WnqUZgHM/VU32NjEjaBuhZJ3o/J0WdqzD+piMJyYV+Ym+drsW+xajx/o7z+gSmk6eBjOpS/4bL5dPVW/aC/mIXSYEJhbEwAsiRMBSR9ighXJuHjYAjphNVB2hK6nVwO8B0jzUdnb4mNit0Lupc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TX6B/FLQ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777987565; c=relaxed/simple;
+	bh=2rCh0cm5RWMg9+ON81fn8pbk1MPx1pRqHPKriNZbsTw=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Owl8g7r6RlJgKu0niPvb4QlAqxrjVtBd6wJWfc2qWWflcIQWn+/ilN9DqNWbZhY3GXGNtaQEbrbStf2VeOX9KuwAgYI6PdqUEfQSws43txojFD+Df4F6MXpK9ohJzGMivb5YNQNEg0btwsd3OYb0Vg85okRE6QEeEJkZXfCfsDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SK4T6LlN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TX6B/FLQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E664AC2BCB4;
-	Tue,  5 May 2026 13:23:33 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SK4T6LlN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BD50C2BCB4;
+	Tue,  5 May 2026 13:26:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777987422;
-	bh=Hgq1xuGgwGhdzj9TbVmCIlyjgoWMt078/W8y7jpz5tc=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TX6B/FLQk9+Pi5HsG7DtcwJF6tl8JRNDHikvpK8nECA+kVKRAzgnajCXCxD480UV/
-	 F7HvMdiosf1m+pqw5t7/60+FllC8b96C02pMHJNGr0bS5nnSFQMZ/GekELNWDaS3PK
-	 y6QHr+aM5J4OXRCtYmogcq+r3x90WbmSXaTnr276YDfqUzlf8nIZUGQ8vcY/0gAV0Z
-	 4c53Sy789IVXIADrNgBZvRt21/HXa+OS0pSuZxdLldoKANFVgyYD9tN+hPyh/Xw09l
-	 FHgJsZ1GExxvnrHYipXG9HkeiQx28BUa2xYwY0lHI1ohkCfP+GJIW5VGWDuaVmY+6B
-	 0a4zfdabIbEWg==
-Date: Tue, 5 May 2026 14:23:28 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
-Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
- Hennerich <Michael.Hennerich@analog.com>, David Lechner
- <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
- Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v9 2/6] iio: adc: ad4691: add initial driver for AD4691
- family
-Message-ID: <20260505142328.05b4b127@jic23-huawei>
-In-Reply-To: <20260430-ad4692-multichannel-sar-adc-driver-v9-2-33e439e4fb87@analog.com>
-References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
-	<20260430-ad4692-multichannel-sar-adc-driver-v9-2-33e439e4fb87@analog.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	s=k20201202; t=1777987564;
+	bh=2rCh0cm5RWMg9+ON81fn8pbk1MPx1pRqHPKriNZbsTw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=SK4T6LlNaB+w5YFGd/oEcCVU8377bM8Q1F8a+ebVIQ0dQP3M4g1pj6rRgtQ4HTeXr
+	 K+3UxO4Omte6C7dN8rIbb3DQ0W08NYOPXYr/43AnWiE57kEib+mtsRzan+9K7CyaPA
+	 kw6fhN33fYCL4inDcWPoeBOnRPyTXoh2I0YlaRVViDRTwb1PhRVp3CHDZSDqmDQg55
+	 gPA53w05Q2HFYJhZvwNczHO+88HuVfsCJ9LcquywK2xoNvi7EEcIhy103DjR+050UA
+	 Jc7w03QaDFVyG6EDuNek2WgbhCbY4ASBgj3pT7hFrsZ3C4tU4yO3pRlc3bsTiVogku
+	 0lxe5gjxlxJkQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.99.1)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1wKFmk-00000004idJ-3IPB;
+	Tue, 05 May 2026 15:26:02 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	rust-for-linux@vger.kernel.org,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: [PATCH v2 01/11] docs: maintainers_include: keep hidden TOC sorted
+Date: Tue,  5 May 2026 15:25:48 +0200
+Message-ID: <e6b302f2826e6a5c0124bb33cc517e8b5888252b.1777987027.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1777987027.git.mchehab+huawei@kernel.org>
+References: <cover.1777987027.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-On Thu, 30 Apr 2026 13:16:44 +0300
-Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
+There's no practical difference on keeping it sorted, but
+it helps a lot when checking for differences after patches
+to the tool.
 
-> From: Radu Sabau <radu.sabau@analog.com>
-> 
-> Add support for the Analog Devices AD4691 family of high-speed,
-> low-power multichannel SAR ADCs: AD4691 (16-ch, 500 kSPS),
-> AD4692 (16-ch, 1 MSPS), AD4693 (8-ch, 500 kSPS) and
-> AD4694 (8-ch, 1 MSPS).
-> 
-> The driver implements a custom regmap layer over raw SPI to handle the
-> device's mixed 1/2/3/4-byte register widths and uses the standard IIO
-> read_raw/write_raw interface for single-channel reads.
-> 
-> The chip idles in Autonomous Mode so that single-shot read_raw can use
-> the internal oscillator without disturbing the hardware configuration.
-> 
-> Three voltage supply domains are managed: avdd (required), vio, and a
-> reference supply on either the REF pin (ref-supply, external buffer)
-> or the REFIN pin (refin-supply, uses the on-chip reference buffer;
-> REFBUF_EN is set accordingly). Hardware reset is performed via
-> the reset controller framework; a software reset through SPI_CONFIG_A
-> is used as fallback when no hardware reset is available.
-> 
-> Accumulator channel masking for single-shot reads uses ACC_MASK_REG via
-> an ADDR_DESCENDING SPI write, which covers both mask bytes in a single
-> 16-bit transfer.
-> 
-> Reviewed-by: David Lechner <dlechner@baylibre.com>
-> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
-Hi Radu
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/maintainers_include.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Just one query that Sashiko raised that made me look 
-closer at how you are handling different register sizes.
-https://sashiko.dev/#/patchset/20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87%40analog.com
-
-There was also a question about whether the sampling frequency control would
-be better described as shared by all.
-
-> diff --git a/drivers/iio/adc/ad4691.c b/drivers/iio/adc/ad4691.c
-> new file mode 100644
-> index 000000000000..05826b762c7f
-> --- /dev/null
-> +++ b/drivers/iio/adc/ad4691.c
-
-
-> +static int ad4691_reg_read(void *context, unsigned int reg, unsigned int *val)
-> +{
-> +	struct spi_device *spi = context;
-> +	u8 tx[2], rx[4];
-> +	int ret;
-> +
-> +	/* Set bit 15 to mark the operation as READ. */
-> +	put_unaligned_be16(0x8000 | reg, tx);
-> +
-> +	switch (reg) {
-> +	case 0 ... AD4691_OSC_FREQ_REG:
-> +	case AD4691_SPARE_CONTROL ... AD4691_ACC_SAT_OVR_REG(15):
-
-Sashiko raised a query here.
-"Will this result in a truncated 1-byte read for AD4691_ACC_MASK_REG (0x185)?
-AD4691_ACC_MASK_REG falls into the range between AD4691_SPARE_CONTROL and
-AD4691_ACC_SAT_OVR_REG(15). In ad4691_reg_write(), AD4691_ACC_MASK_REG is
-handled explicitly alongside AD4691_STD_SEQ_CONFIG to perform a 16-bit
-write, but it seems missing from the 2-byte read block here."
-
-Just to check - the reasoning behind not just treating these as
-fixed sized registers and using bulk reads and writes is the statement
-about them being invalid if partially written?
-
-The ACK_MASK_REG is documented as two separate 8 bit registers so why
-attempt to treat it as a larger one?
-
-
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 1);
-> +		if (ret)
-> +			return ret;
-> +		*val = rx[0];
-> +		return 0;
-> +	case AD4691_STD_SEQ_CONFIG:
-> +	case AD4691_AVG_IN(0) ... AD4691_AVG_IN(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 2);
-> +		if (ret)
-> +			return ret;
-> +		*val = get_unaligned_be16(rx);
-> +		return 0;
-> +	case AD4691_AVG_STS_IN(0) ... AD4691_AVG_STS_IN(15):
-> +	case AD4691_ACC_IN(0) ... AD4691_ACC_IN(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 3);
-> +		if (ret)
-> +			return ret;
-> +		*val = get_unaligned_be24(rx);
-> +		return 0;
-> +	case AD4691_ACC_STS_DATA(0) ... AD4691_ACC_STS_DATA(15):
-> +		ret = spi_write_then_read(spi, tx, sizeof(tx), rx, 4);
-> +		if (ret)
-> +			return ret;
-> +		*val = get_unaligned_be32(rx);
-> +		return 0;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static int ad4691_reg_write(void *context, unsigned int reg, unsigned int val)
-> +{
-> +	struct spi_device *spi = context;
-> +	u8 tx[4];
-> +
-> +	put_unaligned_be16(reg, tx);
-> +
-> +	switch (reg) {
-> +	case 0 ... AD4691_OSC_FREQ_REG:
-> +	case AD4691_SPARE_CONTROL ... AD4691_ACC_MASK_REG - 1:
-> +	case AD4691_ACC_MASK_REG + 1 ... AD4691_GPIO_MODE2_REG:
-> +		if (val > U8_MAX)
-> +			return -EINVAL;
-> +		tx[2] = val;
-> +		return spi_write_then_read(spi, tx, 3, NULL, 0);
-> +	case AD4691_ACC_MASK_REG:
-> +	case AD4691_STD_SEQ_CONFIG:
-> +		if (val > U16_MAX)
-> +			return -EINVAL;
-> +		put_unaligned_be16(val, &tx[2]);
-> +		return spi_write_then_read(spi, tx, 4, NULL, 0);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
+diff --git a/Documentation/sphinx/maintainers_include.py b/Documentation/sphinx/maintainers_include.py
+index 436e7ac42ffc..694cdbdc4caf 100755
+--- a/Documentation/sphinx/maintainers_include.py
++++ b/Documentation/sphinx/maintainers_include.py
+@@ -265,7 +265,7 @@ class MaintainersProfile(Include):
+         output += "\n.. toctree::\n"
+         output += "   :hidden:\n\n"
+ 
+-        for fname in maint_parser.profile_toc:
++        for fname in sorted(maint_parser.profile_toc):
+             output += f"   {fname}\n"
+ 
+         output += "\n"
+-- 
+2.54.0
 
