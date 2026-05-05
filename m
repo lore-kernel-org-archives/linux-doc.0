@@ -1,406 +1,264 @@
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B99431717D
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 23:17:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.167.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778023054; cv=pass; b=lvfP8hk3/n8YebjZYgRoXrQi5z6ZUqR7/5XbTMEbXMIKVdbTI+uUGSopHEqg6UnX2jOWziF/W+UdJ9ScR9OFodsubjLX8Yb1PFp7DW8cw1SszNsc1PgSav7eO5oSynIOjuW2gQDQvCKDzFz97CPIMoRlw3PrX+vFn5dIDuWIEP0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778023054; c=relaxed/simple;
-	bh=ef/MzUyf7VedQkBFAXuEDwBAG1wJTQuMidX6Kyu4lhM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=URWayI6vcZ3yBKX94YqquOqgpfooS1qhlcZTIIXlpYYE8yd4mb+WrVnaNOOmfsUK3JgaHa4tRCDpapnSMzPQtjhuzxnMPHs+2mzv5XeCw1poXJTibQkN40ysCtJzQrJySKC3JaUIkIo7gu90izzjd/olbndpZaq5WefSvDHiZrM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net; spf=pass smtp.mailfrom=amacapital.net; dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b=kX/vZv1+; arc=pass smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=amacapital.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amacapital.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4308333A9C3;
+	Wed,  6 May 2026 00:00:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778025614; cv=none; b=RhxpgQAqn5g8C3TCC+RsB44lu5fw2kNE27OKrVoMgFm8Ms/k29ALQ08of2qi8S5yKwaEVzkC+7pbEyBmg4fJKqFHbBemFPy0pqPvy1PnZYxxMgWfJdY01Y0KBg1ZaekQMzjhqNK/aEHaJ8/WYRk/3SI80PgHAIDdDjcpnUxX8hs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778025614; c=relaxed/simple;
+	bh=BU+ku2HbqivXM3GBbrgS1jHksjPhIuqY0hTbeAtLpCY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k2vWaspMBStlE8G3npRWZryKw8j+tHFs9wmdcElRDrUgd5RKIqcFLS9/v0VqdJtuai6+2osmkwy1r0GY4/RNJrhedDxHAqyvPJixNgfB9husYkWkIT9UaIdrVKc9G5rry62ooQNEHaSJJQz9NzgTZ6NiX7IO0WDPmhVS3y7GhhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QL1ttLtH; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amacapital-net.20251104.gappssmtp.com header.i=@amacapital-net.20251104.gappssmtp.com header.b="kX/vZv1+"
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-59dcdf60427so5463913e87.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 16:17:32 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778023050; cv=none;
-        d=google.com; s=arc-20240605;
-        b=UA/oRjAG6zP7EbA42fu250sisbrUS8A5YpirDrV3pHa7wAvO6hdTewRvuHo06fvjV5
-         FlHLTZN4vgzvPPzh+kfs0bwH0g2YJMxDkDz0q6U3xH8fBRyZWwbWu4KnetCUf7k3ZuyR
-         LmVf5AOcUnufF7RImBVnml+vAqcIBPXMozeDOuvVt7Gddy82pAS5m621NgFY8StcpBSO
-         iHQQ0fTSsonRSAHENIxqdCpMVM3MaDfiNpHUxBUAkmuSY7VX4wKHgj3PCI3KXRUszRXg
-         7tBpt6Va61GCuDu08K3IeLdsxJ3BxA/TwjYGOUo6MqE3npRYQbZv4sD+D+v+JKDnbFx1
-         qfNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=sbkL0dSedhIlHAkm5zLSxKnvc/+dmcs/ZtFP69v5vVk=;
-        fh=1XBR5vv2z0d9YrQpxTIoWMukJcFHvgFhRwfAcHfBtLw=;
-        b=I0/ODRE+47v0Lc+NNzj5jZ32QYD2ypY444TyhlQshzFKrjNL9OzqVVJjND6IljJ67z
-         808eGHgcPJzz0VMjpwEvkGFI4h/vgA0Wn//0h5445yoBuX6OJn3TfKq5Ld6jkIXpsLjg
-         ZSZ7KTNpZ42J+XtMLch0oXm/e6JdP7KS3+TIY1EUwK7ykGAP23Yc4zbncU6fD+t4hHnu
-         p8cuKLPtfTyhsETcZ+/Hxos1N66aXVBrtuG2hddmWtgTZk8L1kOd/FpsyVBpeozy+VUG
-         B1FUQA+EIf01wm0iFNJWnvMmuuPd2fE+DhyST8GZLhwDpl4AdJyU+uHmijoKqhMHFl4y
-         qZBw==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amacapital-net.20251104.gappssmtp.com; s=20251104; t=1778023050; x=1778627850; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sbkL0dSedhIlHAkm5zLSxKnvc/+dmcs/ZtFP69v5vVk=;
-        b=kX/vZv1++mRW0Jk8YjSESDBdJ1f9fMdyxRQh6ebv3Vlc46SZ7IUM5Pvzof3tVKwoNd
-         9Q4jXULncEcCUkuU0B8Efc4N4fdsJqYPSPJASOAA+thu84XKOFJxoFT2vUflvZemvpkX
-         NGXpD6i/I1lXVKP8dSXxFIupw3CJyezzKs9HGcAzRNfUgW6ys/SVJ5y0E7I3UKJsBn6N
-         Y4vECBGoxARmflGfwLdNZfrLAqUs7ZQ3Kmv0RYX1ke9ld9GSNgkyijceU8ZO0lzH7Zcj
-         dPwTOjqJEnKWGire/4GpTg7fMtxYsc+aEZU1zOmPKtXP2IdNkLjpDHP8HKk/VmYsHqrQ
-         v2TQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778023050; x=1778627850;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=sbkL0dSedhIlHAkm5zLSxKnvc/+dmcs/ZtFP69v5vVk=;
-        b=jtAfNavdijgddeTBT70mE9YzWAuf4qOj6wwEaNw6vS5ZXFUxBJR2IOTvlOlaL/spmq
-         4SEL65SBWbFMkOhr1yrMcxeVjOhoqtB7wLPF/guO12FuyseT+tctwaUuliqeRPcbtpas
-         5prw0ALoDoA0M7VKViEhiI3vw9fT3enXm2YBKS8/fkjnf0okhBuv1ohdrPL8Lrab/vrV
-         rK9JpHvDkMXFNTuNR9oThnJgH8fITfegmW9noH02tb5e55fXWkTge/gn1pnCNEVHiVag
-         zI6vUscXjh+nUBkNbx7/pOxDhPf7ziO8KrOa1IMgNBvBUac20BBCdttWATwg4n/VWim5
-         b/5A==
-X-Forwarded-Encrypted: i=1; AFNElJ8yETP3so6Xn2kX3H8QuVm4WIDtbHsWuThfiA5aKPkqS2V+Tqppfnw2aSif3eYRFJGScqmffMenRls=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzr/rlYZii0NA7MzvAMHxwDPGt/1a2XLReGZ1Rp+a5kFB8fKWi9
-	hbsSYrUzZY28dpnOkniDshSWv7d+9453BkwwLZHpk1P071tK061CllFd1XLoFYSD037qKUnGJut
-	M5j9MN4OfO9UQUc/NmtXcWeeZ0d/okpLNAiWj7nOl6tRJkQjBTY8=
-X-Gm-Gg: AeBDiev2d2KCaKAGf5ikVuOMYHqZNxNZVgvOQBQo9iZ4oT+NcAQXjG39iGmSSUnyoOO
-	VBgDeVQiAJ3AifAq8bVGlP8nrE87JDDvi24hTEIpKlw4EwaLKbHOVijXSYizL4xwuZreVMpRCYy
-	hOXqALyxiRtvUHtV5Fy0KXvUgTPuIPDq4xsaEXhiKZQnOkRx9iKjcIKC527pOl/DinyYbUGeqIz
-	iJ27JErW8gPAV752Lah2ffCxkJm3OLywtPoQ4gj/mUvZ56ItCyEGuUHs9x61ZRe6/rNXXeYsgiU
-	0ff6w+HYxkNH29xTAJtaWXLM7eqngQtvEbm52UVTm9HuFyM7pA==
-X-Received: by 2002:a05:6512:3e1e:b0:5a8:6383:eb1d with SMTP id
- 2adb3069b0e04-5a887a9a1f8mr255421e87.0.1778023050325; Tue, 05 May 2026
- 16:17:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QL1ttLtH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1778025613; x=1809561613;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=BU+ku2HbqivXM3GBbrgS1jHksjPhIuqY0hTbeAtLpCY=;
+  b=QL1ttLtHqu2a9nn3xs8IQg763XleAATfO1eA5icokypFDhoSvWBa+q6r
+   hfICvgYrAU/todikd69+Y20zF+mO3Sg/bkY9BRb25EAtRc3tmvkmvsgUj
+   cxlLI+mUu2Datc9HCs6gOuaLVO2v8eIMaiAt6WkrzPQWdH+GgGhNdyN6h
+   CX0IDB4cRaY3sCOFxt5GUmJ2QZLpFY3DyF7qF6c0sdI9VsauUAdD2XcZ3
+   yH6AG375812AxoZQaOzn+4kIgv2ldnTiMv9OD/sMhFG0rEpJEmvJD23D1
+   smsAjJhU1dbLP0jA+vWRRSRHTMF7PapOzNnxDOme4pPQHE4HwmcDi71t5
+   Q==;
+X-CSE-ConnectionGUID: mwwx3kN2QWuEYuxkRYhbog==
+X-CSE-MsgGUID: Jcj8HCLWRWmfuIMRvYuWXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="78904501"
+X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
+   d="scan'208";a="78904501"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 17:00:05 -0700
+X-CSE-ConnectionGUID: 97GRI57NQquqI9I39KH9Dw==
+X-CSE-MsgGUID: MkPu+dmIQtm9R5fI4JCdNg==
+X-ExtLoop1: 1
+Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.125.110.85]) ([10.125.110.85])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 17:00:01 -0700
+Message-ID: <ba97bbfc-2fc3-49d2-be6a-9384a4095c2c@intel.com>
+Date: Tue, 5 May 2026 16:59:58 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260430011544.31823-1-ebiggers@kernel.org>
-In-Reply-To: <20260430011544.31823-1-ebiggers@kernel.org>
-From: Andy Lutomirski <luto@amacapital.net>
-Date: Tue, 5 May 2026 16:17:18 -0700
-X-Gm-Features: AVHnY4LKSVkLgCr9Vwa8gK1KVDGqtIFkDawKs1AD3wzCIeuai4aVYTh3ZhWd8CA
-Message-ID: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: linux-crypto@vger.kernel.org, Herbert Xu <herbert@gondor.apana.org.au>, 
-	linux-doc@vger.kernel.org, linux-api@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-> On Apr 29, 2026, at 6:19=E2=80=AFPM, Eric Biggers <ebiggers@kernel.org> w=
-rote:
->
-> =EF=BB=BFAF_ALG is almost completely unnecessary, and it exposes a massiv=
-e attack
-> surface that hasn't been standing up to modern vulnerability discovery
-> tools.  The latest one even has its own website, providing a small
-> Python script that reliably roots most Linux distros: https://copy.fail/
-
-How about adding a configuration option, defaulted on, that requires
-capable(CAP_SYS_ADMIN) to create the socket (and maybe also to bind /
-connect it).  And a sysctl to allow the administrator to override this
-in the unlikely event that it=E2=80=99s needed.
-
-IIRC cryptsetup used to and maybe even still does require these
-sockets sometimes and this would let it keep working.  And there's all
-the FIPS stuff downthread.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v17 07/11] PCI/CXL: Add RCH support to CXL handlers
+To: Terry Bowman <terry.bowman@amd.com>, dave@stgolabs.net, jic23@kernel.org,
+ alison.schofield@intel.com, djbw@kernel.org, bhelgaas@google.com,
+ shiju.jose@huawei.com, ming.li@zohomail.com,
+ Smita.KoralahalliChannabasappa@amd.com, rrichter@amd.com,
+ dan.carpenter@linaro.org, PradeepVineshReddy.Kodamati@amd.com,
+ lukas@wunner.de, Benjamin.Cheatham@amd.com,
+ sathyanarayanan.kuppuswamy@linux.intel.com, vishal.l.verma@intel.com,
+ alucerop@amd.com, ira.weiny@intel.com, corbet@lwn.net, rafael@kernel.org,
+ xueshuai@linux.alibaba.com, linux-cxl@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
+ linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20260505173029.2718246-1-terry.bowman@amd.com>
+ <20260505173029.2718246-8-terry.bowman@amd.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20260505173029.2718246-8-terry.bowman@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
 
->
-> This isn't sustainable, especially as LLMs have accelerated the rate the
-> vulnerabilities are coming in.  The effort that is being put into this
-> thing is vastly disproportional to the few programs that actually use
-> it, and those programs would be better served by userspace code anyway.
->
-> These issues have been noted in many mailing list discussions already.
-> But until now they haven't been reflected in the documentation or
-> kconfig menu itself, and the vulnerabilities are still coming in.
->
-> Let's go ahead and document the deprecation.
->
-> This isn't intended to change anything overnight.  After all, most Linux
-> distros won't be able to disable the kconfig options quite yet, mainly
-> because of iwd.  But this should create a bit more impetus for these
-> userspace programs to be fixed, and the documentation update should also
-> help prevent more users from appearing.
->
-> Signed-off-by: Eric Biggers <ebiggers@kernel.org>
+
+On 5/5/26 10:30 AM, Terry Bowman wrote:
+> Restricted CXL Host (RCH) error handling is a separate path from the
+> new CXL Port error handling flow. Fold RCH error handling into the
+> Port flow so both share a common entry point.
+> 
+> Update cxl_rch_handle_error_iter() to forward RCH protocol errors
+> through the AER-CXL kfifo.
+> 
+> Update cxl_handle_proto_error() to dispatch RCH errors via
+> cxl_handle_rdport_errors(). cxl_handle_rdport_errors() handles both
+> correctable and uncorrectable RCH protocol errors.
+> 
+> Behavior change: an RCD uncorrectable CXL RAS error now panics via
+> cxl_do_recovery(). Before this patch the RCH path returned
+> PCI_ERS_RESULT_NEED_RESET via cxl_pci's err_handler. After this patch
+> the same condition panics. This matches the panic policy added in the
+> common CXL Port protocol error flow. CXL.cachemem traffic cannot be
+> safely recovered from an uncorrectable protocol error in software.
+> 
+> Change cxl_handle_rdport_errors() to take a PCI device instead of a
+> CXL device state, matching the new caller context. The error trace events
+> emitted from this path now report device=<PCI BDF> instead of device=<memN>,
+> matching the rest of the unified CXL trace events. Userspace consumers keyed
+> off the memdev name need to map the PCI BDF back to a memdev.
+> 
+> Include the RCD Endpoint serial number in RCH log messages so the RCH
+> can be associated with its RCD.
+> 
+> Remove the cxlds->rcd check from cxl_cor_error_detected() and
+> cxl_error_detected(). RCH errors are now forwarded by
+> cxl_rch_handle_error_iter() through the AER-CXL kfifo to
+> cxl_handle_proto_error(), so cxl_pci's err_handler no longer sees
+> them.
+> 
+> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
+> 
 > ---
->
-> This patch is targeting crypto/master
->
-> Documentation/crypto/userspace-if.rst | 82 ++++++++++++++++++++-------
-> crypto/Kconfig                        | 69 ++++++++++++++++------
-> 2 files changed, 113 insertions(+), 38 deletions(-)
->
-> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/crypto=
-/userspace-if.rst
-> index 021759198fe7..c39f5c79a5b7 100644
-> --- a/Documentation/crypto/userspace-if.rst
-> +++ b/Documentation/crypto/userspace-if.rst
-> @@ -2,30 +2,72 @@ User Space Interface
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->
-> Introduction
-> ------------
->
-> -The concepts of the kernel crypto API visible to kernel space is fully
-> -applicable to the user space interface as well. Therefore, the kernel
-> -crypto API high level discussion for the in-kernel use cases applies
-> -here as well.
+> 
+> Changes in v16->v17:
+> - Drop now-dead cxlds->rcd branches from cxl_{cor_,}error_detected().
+> - Drop duplicate subject line from commit body.
+> - Document panic-on-uncorrectable behavior change for RCD path.
+> - Document trace event device-name change (memN -> PCI BDF) for RCH path.
+> - Rewrite cxl_handle_proto_error() RC_END comment to clarify RCD/RCH shared
+>   interrupt relationship
+> - Rewrite commit message
+> 
+> Changes in v16:
+> - New commit
+> ---
+>  drivers/cxl/core/core.h        |  4 ++--
+>  drivers/cxl/core/ras.c         | 14 +++++++++-----
+>  drivers/cxl/core/ras_rch.c     |  8 +++-----
+>  drivers/pci/pcie/aer_cxl_rch.c | 17 +----------------
+>  4 files changed, 15 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+> index bc36cd1575a4..2c7387506dfb 100644
+> --- a/drivers/cxl/core/core.h
+> +++ b/drivers/cxl/core/core.h
+> @@ -188,7 +188,7 @@ void cxl_handle_cor_ras(struct device *dev, u64 serial,
+>  			void __iomem *ras_base);
+>  void cxl_dport_map_rch_aer(struct cxl_dport *dport);
+>  void cxl_disable_rch_root_ints(struct cxl_dport *dport);
+> -void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds);
+> +void cxl_handle_rdport_errors(struct pci_dev *pdev);
+>  void devm_cxl_dport_ras_setup(struct cxl_dport *dport);
+>  #else
+>  static inline int cxl_ras_init(void)
+> @@ -205,7 +205,7 @@ static inline void cxl_handle_cor_ras(struct device *dev, u64 serial,
+>  				      void __iomem *ras_base) { }
+>  static inline void cxl_dport_map_rch_aer(struct cxl_dport *dport) { }
+>  static inline void cxl_disable_rch_root_ints(struct cxl_dport *dport) { }
+> -static inline void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds) { }
+> +static inline void cxl_handle_rdport_errors(struct pci_dev *pdev) { }
+>  static inline void devm_cxl_dport_ras_setup(struct cxl_dport *dport) { }
+>  #endif /* CONFIG_CXL_RAS */
+>  
+> diff --git a/drivers/cxl/core/ras.c b/drivers/cxl/core/ras.c
+> index 0a552d5a236e..1f1dd20623f6 100644
+> --- a/drivers/cxl/core/ras.c
+> +++ b/drivers/cxl/core/ras.c
+> @@ -267,9 +267,6 @@ void cxl_cor_error_detected(struct pci_dev *pdev)
+>  			return;
+>  		}
+>  
+> -		if (cxlds->rcd)
+> -			cxl_handle_rdport_errors(cxlds);
 > -
-> -The major difference, however, is that user space can only act as a
-> -consumer and never as a provider of a transformation or cipher
-> -algorithm.
+>  		cxl_handle_cor_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
+>  				   cxlmd->endpoint->regs.ras);
+>  	}
+> @@ -292,8 +289,6 @@ pci_ers_result_t cxl_error_detected(struct pci_dev *pdev,
+>  			return PCI_ERS_RESULT_DISCONNECT;
+>  		}
+>  
+> -		if (cxlds->rcd)
+> -			cxl_handle_rdport_errors(cxlds);
+>  		/*
+>  		 * A frozen channel indicates an impending reset which is fatal to
+>  		 * CXL.mem operation, and will likely crash the system. On the off
+> @@ -329,6 +324,15 @@ EXPORT_SYMBOL_NS_GPL(cxl_error_detected, "CXL");
+>  static void cxl_handle_proto_error(struct pci_dev *pdev, struct cxl_port *port,
+>  				   struct cxl_dport *dport, int severity)
+>  {
+> +	/*
+> +	 * An RC_END device is an RCD (Restricted CXL Device). Its AER
+> +	 * interrupt is shared with the RCH Downstream Port, so handle RCH
+> +	 * Downstream Port protocol errors first before processing the RCD's
+> +	 * own errors. See CXL spec r3.1 s12.2.
+> +	 */
+> +	if (pci_pcie_type(pdev) == PCI_EXP_TYPE_RC_END)
+
+May as well use is_cxl_restricted(pdev).
+
+DJ
+ 
+> +		cxl_handle_rdport_errors(pdev);
+> +
+>  	if (severity == AER_CORRECTABLE) {
+>  		cxl_handle_cor_ras(&pdev->dev, pci_get_dsn(pdev),
+>  				   to_ras_base(port, dport));
+> diff --git a/drivers/cxl/core/ras_rch.c b/drivers/cxl/core/ras_rch.c
+> index 61835fbafc0f..cbd02cabefbc 100644
+> --- a/drivers/cxl/core/ras_rch.c
+> +++ b/drivers/cxl/core/ras_rch.c
+> @@ -1,7 +1,6 @@
+>  // SPDX-License-Identifier: GPL-2.0-only
+>  /* Copyright(c) 2025 AMD Corporation. All rights reserved. */
+>  
+> -#include <linux/types.h>
+>  #include <linux/aer.h>
+>  #include "cxl.h"
+>  #include "core.h"
+> @@ -95,9 +94,8 @@ static bool cxl_rch_get_aer_severity(struct aer_capability_regs *aer_regs,
+>  	return false;
+>  }
+>  
+> -void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds)
+> +void cxl_handle_rdport_errors(struct pci_dev *pdev)
+>  {
+> -	struct pci_dev *pdev = to_pci_dev(cxlds->dev);
+>  	struct aer_capability_regs aer_regs;
+>  	struct cxl_dport *dport;
+>  	int severity;
+> @@ -115,9 +113,9 @@ void cxl_handle_rdport_errors(struct cxl_dev_state *cxlds)
+>  
+>  	pci_print_aer(pdev, severity, &aer_regs);
+>  	if (severity == AER_CORRECTABLE)
+> -		cxl_handle_cor_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
+> +		cxl_handle_cor_ras(&pdev->dev, pci_get_dsn(pdev),
+>  				   dport->regs.ras);
+>  	else
+> -		cxl_handle_ras(&cxlds->cxlmd->dev, pci_get_dsn(pdev),
+> +		cxl_handle_ras(&pdev->dev, pci_get_dsn(pdev),
+>  			       dport->regs.ras);
+>  }
+> diff --git a/drivers/pci/pcie/aer_cxl_rch.c b/drivers/pci/pcie/aer_cxl_rch.c
+> index e471eefec9c4..83142eac0cab 100644
+> --- a/drivers/pci/pcie/aer_cxl_rch.c
+> +++ b/drivers/pci/pcie/aer_cxl_rch.c
+> @@ -37,26 +37,11 @@ static bool cxl_error_is_native(struct pci_dev *dev)
+>  static int cxl_rch_handle_error_iter(struct pci_dev *dev, void *data)
+>  {
+>  	struct aer_err_info *info = (struct aer_err_info *)data;
+> -	const struct pci_error_handlers *err_handler;
+>  
+>  	if (!is_cxl_mem_dev(dev) || !cxl_error_is_native(dev))
+>  		return 0;
+>  
+> -	guard(device)(&dev->dev);
 > -
-> -The following covers the user space interface exported by the kernel
-> -crypto API. A working example of this description is libkcapi that can
-> -be obtained from [1]. That library can be used by user space
-> -applications that require cryptographic services from the kernel.
+> -	err_handler = dev->driver ? dev->driver->err_handler : NULL;
+> -	if (!err_handler)
+> -		return 0;
 > -
-> -Some details of the in-kernel kernel crypto API aspects do not apply to
-> -user space, however. This includes the difference between synchronous
-> -and asynchronous invocations. The user space API call is fully
-> -synchronous.
-> -
-> -[1] https://www.chronox.de/libkcapi/index.html
-> +AF_ALG provides unprivileged userspace programs access to arbitrary hash=
-,
-> +symmetric cipher, AEAD, and RNG algorithms that are implemented in kerne=
-l-mode
-> +code.
-> +
-> +AF_ALG is insecure and is deprecated. Originally added to the kernel in =
-2010,
-> +most kernel developers now consider it to be a mistake.
-> +
-> +AF_ALG continues to be supported only for backwards compatibility. On sy=
-stems
-> +where no programs using AF_ALG remain, the support for it should be disa=
-bled by
-> +disabling ``CONFIG_CRYPTO_USER_API_*``.
-> +
-> +Deprecation
-> +-----------
-> +
-> +AF_ALG was originally intended to provide userspace programs access to c=
-rypto
-> +accelerators that they wouldn't otherwise have access to.
-> +
-> +However, that capability turned out to not be useful on very many system=
-s. More
-> +significantly, the actual implementation exposes a vastly greater amount=
- of
-> +functionality than that. It actually provides access to all software alg=
-orithms.
-> +
-> +This includes arbitrary compositions of different algorithms created via=
- a
-> +complex template system, as well as algorithms that only make sense as i=
-nternal
-> +implementation details of other algorithms. It also includes full zero-c=
-opy
-> +support, which is difficult for the kernel to implement securely.
-> +
-> +Ultimately, these algorithms are just math computations. They use the sa=
-me
-> +instructions that userspace programs already have access to, just access=
-ed in a
-> +much more convoluted and less efficient way.
-> +
-> +Indeed, userspace code is nearly always what is being used anyway. These=
- same
-> +algorithms are widely implemented in userspace crypto libraries.
-> +
-> +Meanwhile, AF_ALG hasn't been withstanding modern vulnerability discover=
-y tools
-> +such as syzbot and large language models. It receives a steady stream of=
- CVEs.
-> +Some of the examples include:
-> +
-> +- CVE-2026-31677
-> +- CVE-2026-31431 (https://copy.fail)
-> +- CVE-2025-38079
-> +- CVE-2025-37808
-> +- CVE-2024-26824
-> +- CVE-2022-48781
-> +- CVE-2019-8912
-> +- CVE-2018-14619
-> +- CVE-2017-18075
-> +- CVE-2017-17806
-> +- CVE-2017-17805
-> +- CVE-2016-10147
-> +- CVE-2015-8970
-> +- CVE-2015-3331
-> +- CVE-2014-9644
-> +- CVE-2013-7421
-> +- CVE-2011-4081
-> +
-> +It is recommended that, whenever possible, userspace programs be migrate=
-d to
-> +userspace crypto code (which again, is what is normally used anyway) and
-> +``CONFIG_CRYPTO_USER_API_*`` be disabled.  On systems that use SELinux, =
-SELinux
-> +can also be used to restrict the use of AF_ALG to trusted programs.
-> +
-> +The remainder of this documentation provides the historical documentatio=
-n for
-> +the deprecated AF_ALG interface.
->
-> User Space API General Remarks
-> ------------------------------
->
-> The kernel crypto API is accessible from user space. Currently, the
-> diff --git a/crypto/Kconfig b/crypto/Kconfig
-> index 103d1f58cb7c..6cd1c478d4be 100644
-> --- a/crypto/Kconfig
-> +++ b/crypto/Kconfig
-> @@ -1278,48 +1278,72 @@ config CRYPTO_DF80090A
->    tristate
->    select CRYPTO_AES
->    select CRYPTO_CTR
->
-> endmenu
-> -menu "Userspace interface"
-> +menu "Userspace interface (deprecated)"
->
-> config CRYPTO_USER_API
->    tristate
->
-> config CRYPTO_USER_API_HASH
-> -    tristate "Hash algorithms"
-> +    tristate "Hash algorithms (deprecated)"
->    depends on NET
->    select CRYPTO_HASH
->    select CRYPTO_USER_API
->    help
-> -      Enable the userspace interface for hash algorithms.
-> +      Enable the AF_ALG userspace interface for hash algorithms.  This
-> +      provides unprivileged userspace programs access to arbitrary hash
-> +      algorithms implemented in the kernel's privileged execution contex=
-t.
->
-> -      See Documentation/crypto/userspace-if.rst and
-> -      https://www.chronox.de/libkcapi/html/index.html
-> +      This interface is deprecated and is supported only for backwards
-> +      compatibility.  It regularly has vulnerabilities, and the capabili=
-ties
-> +      it provides are redundant with userspace crypto libraries.
-> +
-> +      Enable this only if needed for support for a program that hasn't y=
-et
-> +      been converted to userspace crypto, for example iwd.
-> +
-> +      See also Documentation/crypto/userspace-if.rst
->
-> config CRYPTO_USER_API_SKCIPHER
-> -    tristate "Symmetric key cipher algorithms"
-> +    tristate "Symmetric key cipher algorithms (deprecated)"
->    depends on NET
->    select CRYPTO_SKCIPHER
->    select CRYPTO_USER_API
->    help
-> -      Enable the userspace interface for symmetric key cipher algorithms=
-.
-> +      Enable the AF_ALG userspace interface for symmetric key algorithms=
-.
-> +      This provides unprivileged userspace programs access to arbitrary
-> +      symmetric key algorithms implemented in the kernel's privileged
-> +      execution context.
-> +
-> +      This interface is deprecated and is supported only for backwards
-> +      compatibility.  It regularly has vulnerabilities, and the capabili=
-ties
-> +      it provides are redundant with userspace crypto libraries.
-> +
-> +      Enable this only if needed for support for a program that hasn't y=
-et
-> +      been converted to userspace crypto, for example iwd, or cryptsetup
-> +      with certain algorithms.
->
-> -      See Documentation/crypto/userspace-if.rst and
-> -      https://www.chronox.de/libkcapi/html/index.html
-> +      See also Documentation/crypto/userspace-if.rst
->
-> config CRYPTO_USER_API_RNG
-> -    tristate "RNG (random number generator) algorithms"
-> +    tristate "Random number generation algorithms (deprecated)"
->    depends on NET
->    select CRYPTO_RNG
->    select CRYPTO_USER_API
->    help
-> -      Enable the userspace interface for RNG (random number generator)
-> -      algorithms.
-> +      Enable the AF_ALG userspace interface for random number generation
-> +      (RNG) algorithms.  This provides unprivileged userspace programs
-> +      access to arbitrary RNG algorithms implemented in the kernel's
-> +      privileged execution context.
->
-> -      See Documentation/crypto/userspace-if.rst and
-> -      https://www.chronox.de/libkcapi/html/index.html
-> +      This interface is deprecated and is supported only for backwards
-> +      compatibility.  It regularly has vulnerabilities, and the capabili=
-ties
-> +      it provides are redundant with userspace crypto libraries as well =
-as
-> +      the normal kernel RNG (e.g., /dev/urandom and getrandom(2)).
-> +
-> +      See also Documentation/crypto/userspace-if.rst
->
-> config CRYPTO_USER_API_RNG_CAVP
->    bool "Enable CAVP testing of DRBG"
->    depends on CRYPTO_USER_API_RNG && CRYPTO_DRBG
->    help
-> @@ -1330,20 +1354,29 @@ config CRYPTO_USER_API_RNG_CAVP
->
->      This should only be enabled for CAVP testing. You should say
->      no unless you know what this is.
->
-> config CRYPTO_USER_API_AEAD
-> -    tristate "AEAD cipher algorithms"
-> +    tristate "AEAD cipher algorithms (deprecated)"
->    depends on NET
->    select CRYPTO_AEAD
->    select CRYPTO_SKCIPHER
->    select CRYPTO_USER_API
->    help
-> -      Enable the userspace interface for AEAD cipher algorithms.
-> +      Enable the AF_ALG userspace interface for authenticated encryption
-> +      with associated data (AEAD) algorithms.  This provides unprivilege=
-d
-> +      userspace programs access to arbitrary AEAD algorithms implemented=
- in
-> +      the kernel's privileged execution context.
-> +
-> +      This interface is deprecated and is supported only for backwards
-> +      compatibility.  It regularly has vulnerabilities, and the capabili=
-ties
-> +      it provides are redundant with userspace crypto libraries.
-> +
-> +      Enable this only if needed for support for a program that hasn't y=
-et
-> +      been converted to userspace crypto, for example iwd.
->
-> -      See Documentation/crypto/userspace-if.rst and
-> -      https://www.chronox.de/libkcapi/html/index.html
-> +      See also Documentation/crypto/userspace-if.rst
->
-> config CRYPTO_USER_API_ENABLE_OBSOLETE
->    bool "Obsolete cryptographic algorithms"
->    depends on CRYPTO_USER_API
->    default y
->
-> base-commit: 57b8e2d666a31fa201432d58f5fe3469a0dd83ba
-> --
-> 2.54.0
->
->
+> -	if (info->severity == AER_CORRECTABLE) {
+> -		if (err_handler->cor_error_detected)
+> -			err_handler->cor_error_detected(dev);
+> -	} else if (err_handler->error_detected) {
+> -		if (info->severity == AER_NONFATAL)
+> -			err_handler->error_detected(dev, pci_channel_io_normal);
+> -		else if (info->severity == AER_FATAL)
+> -			err_handler->error_detected(dev, pci_channel_io_frozen);
+> -	}
+> +	cxl_forward_error(dev, info);
+>  	return 0;
+>  }
+>  
+
