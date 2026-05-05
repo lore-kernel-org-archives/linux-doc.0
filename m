@@ -1,63 +1,63 @@
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7321C48C8D9
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 15:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F5D49218C
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 15:39:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777995579; cv=none; b=DR0Yrbt3ZVU1hOh/Bfn5FCvAZBFwgqvGWwilzNx7pAZgEK/sGdJfnRc9hgnMRUep9TiqLNgSHjdTlEp1daEVSY9369puj2VLg0Jh4bIvNsMsGgSBmN0W2Gym296I5U9y3ZOcGZ1sBZ1mOZQ4vuCJy6MzczfNw7tKSIACZbdSEFc=
+	t=1777995580; cv=none; b=l5Xa+L1T5+bvgRl5yD2SyjdSFDlKvldC84egx1+7yKanaGmQ4WD38XCkgoXbO8XOU4LA4RMeKkuHu20sG6r1QF/u8LR9urFibVpK/+4zoHPkTZhbBijG9jbClxYJXZEQQXkJBpn1885iYTQhukHiRz3rs3ptFWVfHOp3HTQQDwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777995579; c=relaxed/simple;
-	bh=pUn9b9LUhmis+nxUstyTj7eYl6B+eZR5n7i3p7grHPg=;
+	s=arc-20240116; t=1777995580; c=relaxed/simple;
+	bh=MJBaUT6A2RIYR2qoIw8yHbgHu52UsZByzeusjHfprfI=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aLvrenQUTnh+6ehq6N/1vK/j1ROiSUkhzmeyy1Do+fb9ORbQiVlLVbuVFbFlOKNv+CnfoKr7ElKC0P5yW7EiKPMhK1RC8n1/Bx7KGraaj0Y++nckYGOyl0AXhsA6Vbf2kqis8yk9LXXcmcCmJEY45BFNfGlmq+b3Fo+YmtsIFyg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iC7KU6nY; arc=none smtp.client-ip=209.85.161.48
+	 MIME-Version; b=ZMiCtSOE0qSF+ksmm0eHyokDniVA8ygp9wrO+G2RUtwOG8DtjZgUfwhi5AiuI7gpgYZATUcODO/f4grvIbNnmvh4E/mYOArU+DXdG6sIKHQlH/ZzKOop+s9z00OHk0NqL5Ah1a2ys6NBV734f38HUqMOIeKFXgopOl0KHxgDQMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PRUalMev; arc=none smtp.client-ip=209.85.160.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iC7KU6nY"
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-6967fd0416bso2606295eaf.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 08:39:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PRUalMev"
+Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-404254ffe8aso7573fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 08:39:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1777995573; x=1778600373; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1777995575; x=1778600375; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=spNG7IJraDg4T5BsvCQ+9NVFqbAOm2jy1KvenC+2iQ4=;
-        b=iC7KU6nYG/tY8Ny1bm8Kpi+rZ3yzy0iLcf6xFHKPhzDCygHcclsBRTj+j8CWXrD4V0
-         4OOFblwHDbetkaTTs54VPGCRZtV/ibx6fwX8jdItj5VOfanC3Qj5a1grJPHXIwQRZjgI
-         /ogGxc2K+GMblW2HD4dawSW2f7v9Rrt9GeQ4ZKmo+6HYUV2bgrk/Ce+JkUdXbyobaVry
-         98uvKXNfH8HgpKrKITI2K2rKRxDLz91SmtcDP5CcVG5m4007VOlPd30hfHLzqahEzOj9
-         zjFL8ECPVudXzxJ+AB41c39WzHGc//X+s6TiqcSqSb2Tn/m7ooXERBwgG6NPe+QUGJy1
-         RO5A==
+        bh=wIXfyZUJZPSdof5KqpSbjmh+gBcKfo2nAX8OXquADG0=;
+        b=PRUalMevVH9h+z3l+p5EldFm6KECfI6+N/2xxVk3UNUFVgHTvK7z0USxRpV7ZyqZUS
+         ZJeMkqh88+XhcQ2m6KndcaxxheTYbiiT6dmq9w/XvopCLdjtUIBpk4Dj2q0XuR7ZCa4P
+         YkLWHB3BMtDzD/lAwSlyz784cVIeAkysq5vJQ4c7U7F0+gbrVKm9OM6WeWZTjFuRPB8/
+         VGJSxmOu3oOgNk4317Y5RVoZptEmF9eC9gbtQ6JhwlPHRQqWp4N/06yovgAasjZUk1OL
+         dL7G6GbXTUaE6bCvfKRp/t+d2xVbAqJqqpbIyCbMuIl+fRAe46qRb+tgHNqjylBWbrXR
+         1jvw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777995573; x=1778600373;
+        d=1e100.net; s=20251104; t=1777995575; x=1778600375;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=spNG7IJraDg4T5BsvCQ+9NVFqbAOm2jy1KvenC+2iQ4=;
-        b=QdULJcio4f97WIda0DcAC9pfX2z7gsFKoT/hcLcvCZBpNV3OMduzkRbeR0uUl4RTRf
-         2mrgPaieInWPoMtHxSsh3JJ+WQzsd4jEiLaLynrxfgCSxmSgVlrTXAs2JxReNu9T6MUQ
-         YyGLB6gh3Qmei1zj84iLuncbrsbC/3onKdXKz1JFKML2uk9RCOt/fRJhm/az/nXkeM0h
-         GsInrvnfEjBijmtH1s+h5HbMgyYHYTkYchqt2KOKDRpFlDYZSIVm3Nk+TdMk6dd2D0sa
-         LVszj8xQ/Um27/jo7/GqQBk65C2gPqBQuuQS7ROp2XpwYKzsNnvFLqti6Gw8oWf656Nr
-         2rfA==
-X-Forwarded-Encrypted: i=1; AFNElJ/mZDVnExNZKWXB4Y77Vp/L+8ZFyTq4xaKabqaNJgnoeXYyN6LTPUhX0R62Xgpv33lkrRUSiaLkKQc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywq3vKKnYNR3j5Q/ywmm6qwurNpTKKjoJGXmiK/uEtotK/+bygt
-	IjPTB9+R5F4obNbkAFmTA/lwUp//4NLb8rd6KNI/BjAk/lYMQ7C62V4E
-X-Gm-Gg: AeBDiev4za8cv9rd4Z9MjfnvKJTHp9Fy8EJOGh/1s2V8DMLC6VsjLNSzvTB5e/yQ7cC
-	U0Z3sGa7cSXac+Pn9jYeJho8mZlPF+yO+TOVoDY0OSFlLrtdJ6cpU/R4RrIqdJ4qgO5DYy4wP8u
-	0/Z224k1+Ic6nTFIERLa3ZQMjcG9qxYmkJy6QBwMGAZcOPkWKFyTOxt2haKmFsXJ5J2fZvT9rxG
-	cZ5G7tUr9ZZbcBN9WJWUOSdDV1IP7Z7Bt9HVNmYoSTZ/8no4JcZsZLLlFmtT8vynGmoDnyqHII1
-	U1XUg9kBkIwBQjlzICP/cDtju5sT8RvBozzlUTrAUY6gshFxYEAEnfXU6laevTESRACOdAYitqR
-	7rxNctKpB4e4u5avoZbfLlTH7h3OAQ1XddrJ+3cEM2ZBweXgEXhgrEK2yL/J00zBJJI6JMv2sNT
-	85h2wRJbZYZ5bC8WcoCnVD8ja8GDrI0RFfIlGbF43YZELNaSwAcHraojmCvNgmVSIrmSk=
-X-Received: by 2002:a05:6820:3109:b0:694:8ad6:245f with SMTP id 006d021491bc7-69697dd52eemr7034578eaf.43.1777995573227;
-        Tue, 05 May 2026 08:39:33 -0700 (PDT)
-Received: from localhost ([2a03:2880:10ff:52::])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-43454d324a4sm13945195fac.14.2026.05.05.08.39.32
+        bh=wIXfyZUJZPSdof5KqpSbjmh+gBcKfo2nAX8OXquADG0=;
+        b=i5btn825pPqi+xBE8J5SREbGVlMouHoTtt5oDvwfwcg6Amh8PW3Fg8IU4fVeUE3iH2
+         0Z46iPhXDG3Tb9QQAA55SHInWRbpZyXiMiJ/elrGfr8TdCMId8Ynn5yabUM5I66i1M85
+         9mJGIFxRpmbYwOUsxbgFu0Nly1lzRTQ5LXdUKC13KDAk9edSL6ViS0ppVO5vgY2YpLgp
+         /npMsQtKWbdnpyQodSExb37FaAaVkciYqczGtxKmaubL2qVbJ5upN4E1qvG6szOdciQw
+         05vWVv6NA/qmDU1jxwoIQoZIgO1rnEMES+XZSkqU5/kdE4fcgueJHq2vGS89guMzmOqA
+         kgcA==
+X-Forwarded-Encrypted: i=1; AFNElJ90BYw9Tggm7ilux0nFVKItRcqV/KvLd60LhmMBVll0b+ahbN27o8IhznNbTlG198ygAyIJII9+g7w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyCPxbo5F44rsYVqPH48mcRdlu/tMqtNyFySUf5O4Lw6N4PbYhe
+	RMiIPlDFUn/VZ2iySN2PKV+qn6D3ReYLW2p5m3MKH2rw2lbFNdGG44Vy
+X-Gm-Gg: AeBDieu0UwOFaK4YMWcPGn7LsQKR14XG36iUyOpK+riXf1XHHboF4RuPWi8n5FFfjaU
+	5F99I9ZRnDanl3S+WhefLkIFwCqXuA5Y7ysJBLH0iFu80mwttK5i2Pme9YjyXN96LgSwDmARvnB
+	/OmohwWAx5wb3EQwpyrpLTWnCfHPltpGP57SKAYD0fI6GyV6+OrXZNI/gSpg1yyuZIBNrO0hfOI
+	vhMZts2fwl3a1LNESizKsJosjA6fgHbt+6kRPAvfLJkVfD8pfM396DiBvfDHOS3SmbZEXdM2Gyx
+	cFUGeRwEtBxY/mIRVWrY4bPSLXQR51Ej73Zm0wB4wTffIbJt+bAvpFCjtfFhnO0Mfs3PlcR/YGo
+	olkoHfbb+t3zCeiWaRNqEFzSJEtMPRVktpOmu8A1NNlsaOQwJQpqdM303o2ETpDdGFdg2fn0fan
+	8vFIjJd5AoELj7s5HC5BvCfZKQ3jGvkZCizZxpliE3g5fukcQqLNoGC1U=
+X-Received: by 2002:a05:6870:c188:b0:42d:8229:ba3d with SMTP id 586e51a60fabf-434d0d61313mr2042459fac.11.1777995574917;
+        Tue, 05 May 2026 08:39:34 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:8::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-434549540b2sm14234808fac.6.2026.05.05.08.39.34
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 08:39:32 -0700 (PDT)
+        Tue, 05 May 2026 08:39:34 -0700 (PDT)
 From: Nhat Pham <nphamcs@gmail.com>
 To: kasong@tencent.com
 Cc: Liam.Howlett@oracle.com,
@@ -114,9 +114,9 @@ Cc: Liam.Howlett@oracle.com,
 	kernel-team@meta.com,
 	riel@surriel.com,
 	haowenchao22@gmail.com
-Subject: [PATCH v6 16/22] swap: do not unnecessarily pin readahead swap entries
-Date: Tue,  5 May 2026 08:38:45 -0700
-Message-ID: <20260505153854.1612033-17-nphamcs@gmail.com>
+Subject: [PATCH v6 17/22] swapfile: remove zeromap bitmap
+Date: Tue,  5 May 2026 08:38:46 -0700
+Message-ID: <20260505153854.1612033-18-nphamcs@gmail.com>
 X-Mailer: git-send-email 2.52.0
 In-Reply-To: <20260505153854.1612033-1-nphamcs@gmail.com>
 References: <20260505153854.1612033-1-nphamcs@gmail.com>
@@ -128,86 +128,143 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-When we perform swap readahead, the target entry is already pinned by
-the caller. No need to pin swap entries in the readahead window that
-belongs in the same virtual swap cluster as the target swap entry.
+Zero swap entries are now treated as a separate, decoupled backend in
+the virtual swap layer. The zeromap bitmap of physical swapfile is no
+longer used - remove it. This does not have any behavioral change, and
+save 1 bit per swap page in terms of memory overhead.
 
 Signed-off-by: Nhat Pham <nphamcs@gmail.com>
 ---
- mm/swap.h       |  1 +
- mm/swap_state.c | 22 +++++++++-------------
- mm/vswap.c      | 10 ++++++++++
- 3 files changed, 20 insertions(+), 13 deletions(-)
+ include/linux/swap.h |  1 -
+ mm/swapfile.c        | 30 +++++-------------------------
+ 2 files changed, 5 insertions(+), 26 deletions(-)
 
-diff --git a/mm/swap.h b/mm/swap.h
-index d46b2f243f83..f3f2afc6751b 100644
---- a/mm/swap.h
-+++ b/mm/swap.h
-@@ -156,6 +156,7 @@ void swap_cache_lock(swp_entry_t entry);
- void swap_cache_unlock(swp_entry_t entry);
- void vswap_rmap_set(struct swap_cluster_info *ci, swp_slot_t slot,
- 			   unsigned long vswap, int nr);
-+bool vswap_same_cluster(swp_entry_t entry1, swp_entry_t entry2);
+diff --git a/include/linux/swap.h b/include/linux/swap.h
+index 12dd9621b637..4d152fa811f2 100644
+--- a/include/linux/swap.h
++++ b/include/linux/swap.h
+@@ -260,7 +260,6 @@ struct swap_info_struct {
+ 	signed char	type;		/* strange name for an index */
+ 	unsigned int	max;		/* extent of the swap_map */
+ 	unsigned char *swap_map;	/* vmalloc'ed array of usage counts */
+-	unsigned long *zeromap;		/* kvmalloc'ed bitmap to track zero pages */
+ 	struct swap_cluster_info *cluster_info; /* cluster info. Only for SSD */
+ 	struct list_head free_clusters; /* free clusters list */
+ 	struct list_head full_clusters; /* full clusters list */
+diff --git a/mm/swapfile.c b/mm/swapfile.c
+index c6a91c657877..ce1254733e96 100644
+--- a/mm/swapfile.c
++++ b/mm/swapfile.c
+@@ -2276,8 +2276,7 @@ static int setup_swap_extents(struct swap_info_struct *sis, sector_t *span)
  
- static inline struct address_space *swap_address_space(swp_entry_t entry)
+ static void setup_swap_info(struct swap_info_struct *si, int prio,
+ 			    unsigned char *swap_map,
+-			    struct swap_cluster_info *cluster_info,
+-			    unsigned long *zeromap)
++			    struct swap_cluster_info *cluster_info)
  {
-diff --git a/mm/swap_state.c b/mm/swap_state.c
-index 7fe4d9529e4a..39daea7bed66 100644
---- a/mm/swap_state.c
-+++ b/mm/swap_state.c
-@@ -553,22 +553,18 @@ static struct folio *swap_vma_readahead(swp_entry_t targ_entry, gfp_t gfp_mask,
- 		pte_unmap(pte);
- 		pte = NULL;
- 		/*
--		 * Readahead entry may come from a device that we are not
--		 * holding a reference to, try to grab a reference, or skip.
--		 *
--		 * XXX: for now, always try to pin the swap entries in the
--		 * readahead window to avoid the annoying conversion to physical
--		 * swap slots. Once we move all swap metadata to virtual swap
--		 * layer, we can simply compare the clusters of the target
--		 * swap entry and the current swap entry, and pin the latter
--		 * swap entry's cluster if it differ from the former's.
-+		 * The target entry is already pinned - if the readahead entry
-+		 * belongs to the same cluster, it's already protected.
- 		 */
--		swapoff_locked = tryget_swap_entry(entry, &si);
--		if (!swapoff_locked)
--			continue;
-+		if (!vswap_same_cluster(entry, targ_entry)) {
-+			swapoff_locked = tryget_swap_entry(entry, &si);
-+			if (!swapoff_locked)
-+				continue;
-+		}
- 		folio = __read_swap_cache_async(entry, gfp_mask, mpol, ilx,
- 						&page_allocated, false);
--		put_swap_entry(entry, si);
-+		if (swapoff_locked)
-+			put_swap_entry(entry, si);
- 		if (!folio)
- 			continue;
- 		if (page_allocated) {
-diff --git a/mm/vswap.c b/mm/vswap.c
-index 01c336ae252c..195ba3520e54 100644
---- a/mm/vswap.c
-+++ b/mm/vswap.c
-@@ -1542,6 +1542,16 @@ void put_swap_entry(swp_entry_t entry, struct swap_info_struct *si)
- 	rcu_read_unlock();
+ 	si->prio = prio;
+ 	/*
+@@ -2288,7 +2287,6 @@ static void setup_swap_info(struct swap_info_struct *si, int prio,
+ 	si->avail_list.prio = -si->prio;
+ 	si->swap_map = swap_map;
+ 	si->cluster_info = cluster_info;
+-	si->zeromap = zeromap;
  }
  
-+/*
-+ * Check if two virtual swap entries belong to the same vswap cluster.
-+ * Useful for optimizing readahead when entries in the same cluster
-+ * share protection from a pinned target entry.
-+ */
-+bool vswap_same_cluster(swp_entry_t entry1, swp_entry_t entry2)
-+{
-+	return VSWAP_CLUSTER_IDX(entry1) == VSWAP_CLUSTER_IDX(entry2);
-+}
-+
- static int vswap_cpu_dead(unsigned int cpu)
+ static void _enable_swap_info(struct swap_info_struct *si)
+@@ -2306,12 +2304,11 @@ static void _enable_swap_info(struct swap_info_struct *si)
+ 
+ static void enable_swap_info(struct swap_info_struct *si, int prio,
+ 				unsigned char *swap_map,
+-				struct swap_cluster_info *cluster_info,
+-				unsigned long *zeromap)
++				struct swap_cluster_info *cluster_info)
  {
- 	struct vswap_cluster *cluster;
+ 	spin_lock(&swap_lock);
+ 	spin_lock(&si->lock);
+-	setup_swap_info(si, prio, swap_map, cluster_info, zeromap);
++	setup_swap_info(si, prio, swap_map, cluster_info);
+ 	spin_unlock(&si->lock);
+ 	spin_unlock(&swap_lock);
+ 	/*
+@@ -2329,7 +2326,7 @@ static void reinsert_swap_info(struct swap_info_struct *si)
+ {
+ 	spin_lock(&swap_lock);
+ 	spin_lock(&si->lock);
+-	setup_swap_info(si, si->prio, si->swap_map, si->cluster_info, si->zeromap);
++	setup_swap_info(si, si->prio, si->swap_map, si->cluster_info);
+ 	_enable_swap_info(si);
+ 	spin_unlock(&si->lock);
+ 	spin_unlock(&swap_lock);
+@@ -2400,7 +2397,6 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
+ {
+ 	struct swap_info_struct *p = NULL;
+ 	unsigned char *swap_map;
+-	unsigned long *zeromap;
+ 	struct swap_cluster_info *cluster_info;
+ 	struct file *swap_file, *victim;
+ 	struct address_space *mapping;
+@@ -2495,8 +2491,6 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
+ 	p->swap_file = NULL;
+ 	swap_map = p->swap_map;
+ 	p->swap_map = NULL;
+-	zeromap = p->zeromap;
+-	p->zeromap = NULL;
+ 	maxpages = p->max;
+ 	cluster_info = p->cluster_info;
+ 	p->max = 0;
+@@ -2508,7 +2502,6 @@ SYSCALL_DEFINE1(swapoff, const char __user *, specialfile)
+ 	kfree(p->global_cluster);
+ 	p->global_cluster = NULL;
+ 	vfree(swap_map);
+-	kvfree(zeromap);
+ 	free_cluster_info(cluster_info, maxpages);
+ 
+ 	inode = mapping->host;
+@@ -2972,7 +2965,6 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+ 	sector_t span;
+ 	unsigned long maxpages;
+ 	unsigned char *swap_map = NULL;
+-	unsigned long *zeromap = NULL;
+ 	struct swap_cluster_info *cluster_info = NULL;
+ 	struct folio *folio = NULL;
+ 	struct inode *inode = NULL;
+@@ -3078,17 +3070,6 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+ 	if (error)
+ 		goto bad_swap_unlock_inode;
+ 
+-	/*
+-	 * Use kvmalloc_array instead of bitmap_zalloc as the allocation order might
+-	 * be above MAX_PAGE_ORDER incase of a large swap file.
+-	 */
+-	zeromap = kvmalloc_array(BITS_TO_LONGS(maxpages), sizeof(long),
+-				    GFP_KERNEL | __GFP_ZERO);
+-	if (!zeromap) {
+-		error = -ENOMEM;
+-		goto bad_swap_unlock_inode;
+-	}
+-
+ 	if (si->bdev && bdev_stable_writes(si->bdev))
+ 		si->flags |= SWP_STABLE_WRITES;
+ 
+@@ -3155,7 +3136,7 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+ 	prio = DEF_SWAP_PRIO;
+ 	if (swap_flags & SWAP_FLAG_PREFER)
+ 		prio = swap_flags & SWAP_FLAG_PRIO_MASK;
+-	enable_swap_info(si, prio, swap_map, cluster_info, zeromap);
++	enable_swap_info(si, prio, swap_map, cluster_info);
+ 
+ 	pr_info("Adding %uk swap on %s.  Priority:%d extents:%d across:%lluk %s%s%s%s\n",
+ 		K(si->pages), name->name, si->prio, nr_extents,
+@@ -3183,7 +3164,6 @@ SYSCALL_DEFINE2(swapon, const char __user *, specialfile, int, swap_flags)
+ 	si->flags = 0;
+ 	spin_unlock(&swap_lock);
+ 	vfree(swap_map);
+-	kvfree(zeromap);
+ 	if (cluster_info)
+ 		free_cluster_info(cluster_info, maxpages);
+ 	if (inced_nr_rotate_swap)
 -- 
 2.52.0
 
