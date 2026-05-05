@@ -1,126 +1,126 @@
-Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+Received: from mail-dl1-f45.google.com (mail-dl1-f45.google.com [74.125.82.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC314A2E17
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 18:02:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8AA630DECE
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 18:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=74.125.82.45
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778004140; cv=pass; b=ZGANV2COt29SA6cEG0ItYop3stGEFilsIyoxP1Q+l/l3i5nkMLoOtO9DHfFmy6HdPEySpfTzv8tzQmlN89s/6FfMADamPFs/cnGXidUnnTIdDDLuYKs5vBQ/9QZk9rQE27nnBGmbta1Agua524eNVHBsFApI54IvnK4BhEMYm7o=
+	t=1778004293; cv=pass; b=KtuP9WnQ+PpG63eIW7roT6jIroPPqXrlRMcWgFyNDwOMUGCtTFF1qnfpniOv5nwm6xVJh1aWEnzCB7ayeeHf9HCYYeie0WWiKJm42U4HFLpIriHYVjTqEoZ5w7CizV6tMNNGWpf9S7K0UFmlbT0R8jH3oDvVoY2wgK0C9LB17EU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778004140; c=relaxed/simple;
-	bh=Y6s8035MnHOoZJp25aH4HKvP69znVRNLLF3Z+qvmjs0=;
+	s=arc-20240116; t=1778004293; c=relaxed/simple;
+	bh=HPLcX7NBYLHglzd+wosAPjjdOESwQWmMd66407k9fuU=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QBDBJMLhGeTSW85WthypfubjdCaiAZv3v0dEcD1CTwPWs+AP/N9H99ZTsrSD07o+E2k6LrRTRy1ccgrT2AepxyJYwdxArHLT7s2ro1vRCbs1npMgaHc1O7mQABf2Egu04C4kO79u+R38HNdu2CYISg79udw2Vcic7pIWPUNFnY4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UJxyhCik; arc=pass smtp.client-ip=74.125.82.180
+	 To:Cc:Content-Type; b=Hg29PxQwJv5V2k9U7RAXKZ7GA60sVdsT2aL/GCOzK0NjrOLdnCOrTY6mL6g6ogpeuQJdXSOS6n/pdpWTpH8NB8SZ5sB1qDVJmKyIUZPAgdLsO40cFe1uCg9z4b8JjDBSnM2TdfMt0MWVHLf9oT883Zz1knENFPpb+eW4SEHXenE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ctUIpLKT; arc=pass smtp.client-ip=74.125.82.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UJxyhCik"
-Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-2f1b00a75ffso221816eec.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 11:02:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778004136; cv=none;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ctUIpLKT"
+Received: by mail-dl1-f45.google.com with SMTP id a92af1059eb24-12dc1c0b724so520804c88.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 11:04:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778004291; cv=none;
         d=google.com; s=arc-20240605;
-        b=WqJX58OQFxSlkiB7lwZlX+1G6wVWRrTO+8reF+3S6thh097pxF/2jOeK3dfG1TYEoW
-         m7eThwypglcyByWncpqbypm3CaW08uZIVp2BIN9+wdMNNVz/aeeAk5qL7fLPxo1aKUzZ
-         Ic3b3Jfp6nPUl9FUZc4gKkySZ3tCCs0/hZkxajlEJmvNoCEXSqOWIG9Chj2M5+WMFYhM
-         lJe8v0iHNcaX+AmuVXJwBlNizi1WL7+bRvwzSfkDpHUXmpRUduiQKtqrPZTv/51VnbO1
-         KShZgiJ3U73jsSGQnB6liLuNhgg5tO1IW3gtBddosuSk3aEIAJf9Vhpg5pkAp+VvTS32
-         nIrg==
+        b=dV+gr7b1nMSKWz635522I2gI/tP+nJqLtaG/C04tzSDBgtyctbuO1UpIDtA28x9ynC
+         2vJ7FZcobNoQFA6+b09341WL52f5CaVkNVfVoYzykh6yZlwaSmdOSSHZybsOk1VPAyqn
+         z9IWJkO9Bt4vPES0arHyBRvCMVDXxmtbCvj/IvIw0o7YQys/TvGes4Fwh8LtsQhpXbVt
+         veFOvmpSlpd19VvD3N76B6z8YwQ2VePVGO6MANjr+nhMCvPQPqdqQz+MbFlaKKCUg464
+         0GotZaaL1Z7A+DRZFZbOukBmAzKfnY5iqcV9HKdzvhTR2NyNemuw7pM77GYU6IjCDgvW
+         OgsQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:dkim-signature;
-        bh=WtjqjpgGE4a0FLYJapYAkbo1Ih3ARD2vHl+aUPAHNhk=;
-        fh=JEV0Hr0QDDEyRXemjD0tzl3yhDo+9/K+v1oaj6ycX1M=;
-        b=dWfJE9YYHs72WLbMA8TSZRM0yYHlAN0O7uTHu99YAYrw4dzlt0BwfinKOPM6E42/0Y
-         q73LbFm31dwRdiRHJ/akz+0ORzi/SDiXS/D7cyn+HWrQ374Ri7xwoWm+nOvpTmeVgpJG
-         9tMPpZZXPJ/F8028QJn2Qp3MZjZlwJA4j4y8l6KcnAZTG6v7NeNJo/N6oKwqpAjaLkTs
-         0NNkZxcS5WEN1No2wmh0QhFyHfFD6yUeVfynslbmv9AviAsn6bRssulU6dml4iMfkGpV
-         wNrfScdFMKPW5i6opkh5GYH1O8Jyg1ChajyzD+lwCOtAaU1zzv+R2Z8SvnNVxllFeTuL
-         pNWA==;
+        bh=HPLcX7NBYLHglzd+wosAPjjdOESwQWmMd66407k9fuU=;
+        fh=iY44gQdrd0L5WNoTfj4IAwSoFXG9eX6+PCs8GzMqBC0=;
+        b=VkOLo2fCLpYSf0+yY1eFvPqXFQbshStsH5H/wZTEfF3OPd2ukzohzIxzCUrKQe3kOR
+         8ah48CT0KRKFy9yMOXyA4KJQJP8ynYWzmfcVrSARVjRCyQwCxnJuDwU7+F3kmBXJ1Gss
+         4R9B7fNNLBSgaQ8PAE9QM8C1+9xS739QFYJ7X61hOS2xk0AoEHw45QxkMg06o/uUKxP+
+         4yJtlvOO7kuIeUZS+6DIaPwZMUrf5H+f/UBRLSxRaQJOPQT1zobbvmrMNNWKGTMmETaB
+         itm4n/bZkMopnOg/K8GdSJk9ATx8/SS50liNeY7uhZSg1j1nqR2HYzZxgkZ47HJg1aTN
+         SJNA==;
         darn=vger.kernel.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778004136; x=1778608936; darn=vger.kernel.org;
+        d=gmail.com; s=20251104; t=1778004291; x=1778609091; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WtjqjpgGE4a0FLYJapYAkbo1Ih3ARD2vHl+aUPAHNhk=;
-        b=UJxyhCikg/zitnG72e4pwDFe+7Hqlki0B/dIRh3QWXUagCdTV2Q6nxe4e0dAHhy+CS
-         riDvt67IdqkzcpTojh2KOx/gRReJdIg+by5474N7Jn08Pk5C5ftiL0k8/zVexrbS364y
-         kmgYzRc3Zn1nAElEfnuHJyGjkorSuXABtntDhyhvct2mnZpwn27Azef3jyQi4HrrwCii
-         zyybvTJN+yvXBWwfFvGs2zyutxp0jiRTuWebB4NUmnexIzeCRXXF2XZKX5bPomTKXT6I
-         ArBDA8putluhdzTDMuzFywd/eZCAuxb4ySUYS2R4ty7gkTuJm+FFE/S8GcXXgHnRJ6QQ
-         WYCQ==
+        bh=HPLcX7NBYLHglzd+wosAPjjdOESwQWmMd66407k9fuU=;
+        b=ctUIpLKTYCVhMe8BmZ/Ec5mdKADBJkhx4zKKnCoCvmizLNe+sGr28h955x0pERI9j9
+         CFa4oTHv6rNUs2ZdGUXMlNREX+v7Q7Vv9JzjHAtSAG1A8RACkg5mRJApDVaeHfwGbfgE
+         ouD+4oelymQ79kOef2iRIZAVBHOY+AhTvtTwkveqgS+x9HFPP1Uw0HNgmcbshvKDjgtK
+         Nx0MeY97G8iPE4SqMXGOwetfkN1HCCzmkIoTUeQcpZp0YAKFOGsnajm96HZqZ9EgHE6q
+         6v5ufdWkNa181unF36F95ihLQB9c+hEI//kFxj1JtlXv1erXPK+e2/Nnwm1iMjSba/zp
+         KoVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778004136; x=1778608936;
+        d=1e100.net; s=20251104; t=1778004291; x=1778609091;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=WtjqjpgGE4a0FLYJapYAkbo1Ih3ARD2vHl+aUPAHNhk=;
-        b=E+HXZcCTnTyyYPNO95ODc4Pzp2y7tfchIC2JAMTcTZr1gXoFWjIFZd5NTXlSDUBVEo
-         ZHeGQak5tI5ad7ouQ/hsSTUomoUHmVQ4OVVjX+xrf19XeUIV03rdt8Qkdbr/gkSVT58O
-         vXivAuu6g5bytMNzXJUPlvVpuK6S9IMOQ4XwkNqP6ubHfMTuepaseWU6ct4crQ2sf0el
-         Zj8h3VvzOn/ek31FTW0xoHV0pxotLEgxp+8efGTId6twUZMVpv0IPWQhMUzsNFkvKCqs
-         adOD8y4QOL3r1wHSofY7H//zTzAVAb4NigD+UvyXMLeUvyxO8aeakpm7/NnZp8DKwN6V
-         IAGA==
-X-Forwarded-Encrypted: i=1; AFNElJ+g8ICUnMYyiPGRKbKON4Le1nQ3Fie5LfwhUyuQNS9qyYhm+mm/paHf+j9VHnakbO46v/xweloZ6DU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiiTdY/zzwmF/Y2tsXbqkSLcgK0Qe2EpUuaIL7agXGZxSg6CIT
-	P6Q58DX2nqQXuAtT6z1NQy0ZhEPHir9pmgnBJ8PvOCYQts68j7AR+TAIWhELwTF6fE/A3eXQ8EY
-	Y647IPosXGPZX0Agor3GUlDY9Cco/D9A=
-X-Gm-Gg: AeBDietlKtUhBoCilk7h540I5DoAfAOIL/pKSdsHf7w7BQLwNdivGgI6qVWY4sd5VCZ
-	deVZKpqJ/y5BaGYwtTlQ1l1ep+Id7AyOdEKTvdaAQf9EkyZvXkco6OSNwJcv33hpkniLcRicENR
-	naCJWdjJ14gxs6mekHRg3vK9Xc6WWxpTYtB6AWrQbdy21e7sDaTOUFj4JcUCH5yJ4WRyupmytbG
-	QalSBfmjmzBi94XzMS4nFMwd7xzUqPl9MWMJxDs5QmJ4MXcNGHKlJyeEZp66xCfnmLgU1kahy9o
-	FEq8VKv+bmIXT6fWJqkWj8ldqLrUgO2m/NYLPjqh68Sxddb4YbOPAzjRl0wPFchBQjUPQXydGHB
-	SzDjNvwWNyfdTuSeeOEMXFu+SXQBX6HVNGQ==
-X-Received: by 2002:a05:7301:6784:b0:2f5:2154:c7b with SMTP id
- 5a478bee46e88-2f548a8c16fmr72370eec.1.1778004135943; Tue, 05 May 2026
- 11:02:15 -0700 (PDT)
+        bh=HPLcX7NBYLHglzd+wosAPjjdOESwQWmMd66407k9fuU=;
+        b=ODxPW2aHRpsNdH5wBq24ZyoLLMtiEAus6mBgPzmDratgrBLQOZLHS9ptK8QiBEmLws
+         Ek04O4ZAuaF0XIrNEbtb1RJVEZuIwq1hO8BbagpRz15GnFgLPFeQR9/9epoCwX2Kjimj
+         dJVLbNnYEK9plgU/mQ8eVIrlBnDexcxdmX37wKpnZoO/HdTR4Ac3azgjFkcJbbPeLdw6
+         nstSK+Rd99WA7X7679SQYxWQuyTYN0ZcWC55Is/cqcwKGAOe8t+7hfiaq2kj049X3LDQ
+         SN82M4XH4DXXSwFTQWtKdboxS/tY1ErivuVtyCQZSUT+wTqpcSWXNSezcmI66jVwIcrM
+         FkOg==
+X-Forwarded-Encrypted: i=1; AFNElJ+WgsYNcxR1zkBXZ0UYcxJfMMHFgqMEwfDLalv2Ng0kJdyw0kUAy4f7PtV3IPzFQJi1LifTyp9PFTE=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3fG4SIiDYGjhkVB7wityGCh5kdK10EtyvkyE0lT7qygX8hqYY
+	4RuMbPgx4c3Fm8Ec9wNRz+BkOAhAa1I0FuGBtkMHaB6K5NK7RSLzHayyricX6RvCX0s+e80cnxF
+	s+kdCo6PFUN89Db6bnzVh4kC8NtUyWGg=
+X-Gm-Gg: AeBDieshMwW0DW53lTnoMJIIiZq8PVk575M7N1oQMi5d9TOPPzaZYCaTfOx7UQYwO+r
+	VBPGjjDoZkCjuAj3sxbuY7kfWUGJkM46tmdpGO2ORzlqQIWm4Z9F+msK6hCApOI+B8MMtMjX6iR
+	S9v9l4d/pR5xsiDE8t0ZVOF8Fq/VsAp+Ee5XMtkwYITqt0L9w6+j82ua9O2qYSqeIW5sN8Mb8dn
+	qTy4+18BXo6x+75rD4ROgWFI3egXjOZNwDxLj+74yydU5NeAZ5NqohEA8zvQlHu3BhE/DLfl7ID
+	T1QXSc/p/+poHt+JWUDGTKuN7UXxJK6eBwRjy0ssvdt+dXgqBotNIrrFIuky9kFoHHlT5XlrhZH
+	nRvzltogN7DtMClgMHXj8RZgZ+fukuqWk3g==
+X-Received: by 2002:a05:7300:3b08:b0:2f3:3835:2010 with SMTP id
+ 5a478bee46e88-2f54c37e2eamr60720eec.6.1778004290801; Tue, 05 May 2026
+ 11:04:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1777987027.git.mchehab+huawei@kernel.org> <921e5e6a074f9d8cf77483d73e6801f49254bbb8.1777987027.git.mchehab+huawei@kernel.org>
-In-Reply-To: <921e5e6a074f9d8cf77483d73e6801f49254bbb8.1777987027.git.mchehab+huawei@kernel.org>
+References: <cover.1777987027.git.mchehab+huawei@kernel.org>
+ <1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
+ <DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
+In-Reply-To: <DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
 From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date: Tue, 5 May 2026 20:02:03 +0200
-X-Gm-Features: AVHnY4LHZHy1lm3OKzcJY8KmXCJf6ikQmw3SViGMY2r54h91fcetCb2RjR_TECs
-Message-ID: <CANiq72m_+CR1BikHHuAR2c-srGOtx0WPOF6wfDD9ASkbE5L8oQ@mail.gmail.com>
-Subject: Re: [PATCH v2 10/11] MAINTAINERS: make clearer about what's expected
- for "P" field
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, 
-	linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Date: Tue, 5 May 2026 20:04:38 +0200
+X-Gm-Features: AVHnY4IIS_qym11pAKvI_P0NhOVs4Km4RvGpgY89imy3B_jM1rRJ3u4fzshUmYs
+Message-ID: <CANiq72nshUgJe=DRvSu_vRNoO6UW47fz+4xfqXCCgFkS6+hvXg@mail.gmail.com>
+Subject: Re: [PATCH v2 11/11] MAINTAINERS: use a URL for pin-init maintainer's
+ profile entry
+To: Gary Guo <gary@garyguo.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Benno Lossin <lossin@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org, =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Alice Ryhl <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Boqun Feng <boqun@kernel.org>, Danilo Krummrich <dakr@kernel.org>, Miguel Ojeda <ojeda@kernel.org>, 
+	Trevor Gross <tmgross@umich.edu>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 5, 2026 at 3:32=E2=80=AFPM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Tue, May 5, 2026 at 3:49=E2=80=AFPM Gary Guo <gary@garyguo.net> wrote:
 >
-> extenal site. Make it clearer.
+> This file is part of the bidirectional source sync.
+>
+> I think this file is still meaningful in its present location even if not
+> rendered, so people touching the code would be able to see it and be awar=
+e. The
+> presence of file is more visible than a P entry in the MAINTAINERS file.
+>
+> That said, if Miguel and/or Benno think it's fine to not have this file, =
+I'm
+> also okay with it being removed.
 
-Typo.
+Yeah, I think it is fine to keep it, and it also has the advantage of
+being always available.
 
-> +          patches to the given subsystem. This is either an in-tree .rst=
- file,
-
-Should this mention that the file should be within `Doc/`, due to the
-requirement of the current system?
-
-By the way, are we keeping the parser change to avoid breakage in case
-someone does not follow this? Or should this be
-
-    ideally, an in-tree .rst file within Documentation/ for best rendering
-
-or similar?
-
-(Also, if the parser is changed, then I am ambivalent about changing
-the `P:` to GitHub, since the local file is available by definition,
-but GitHub may not... But it is fine either way!)
-
-Thanks!
+(If we are keeping the parser change, then I am not sure we should
+even change this, but it is not a big deal -- I wrote a comment in the
+other patch about this).
 
 Cheers,
 Miguel
