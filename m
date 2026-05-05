@@ -1,121 +1,198 @@
-Received: from mail-ot1-f52.google.com (mail-ot1-f52.google.com [209.85.210.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010037.outbound.protection.outlook.com [52.101.61.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F253D30FC1E
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 18:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778005500; cv=none; b=NrkJKTUiBuhoo43ns4JIYZlBnnHETRaovmvOn/GgOxDE4Ojykd/RuBJZZjqBw0jCgqAzoHbX7SdU0IwyCoVc+Ui76BHhb862KQ8fQ3x6LS3MCSVQvMPptsvrEnAum8lnBgQEWVrHOFTWppc5/kBhWuxPR3bMXDGZUZfJ2107Q7s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778005500; c=relaxed/simple;
-	bh=8BLWvL3pQJD7WvtrZjA08CCrXVJhJAisOKhnvofZksM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=M46Uf80TC2w0w+ic/ZvRFF42MjBZS2NK/cKj9ibGRRf/800p9+iv6BBsPC3Ny5PxTVTJ46fqSpF5JgJvNpP8b6BJa+moyTbgPRANsOhJnazcuo7dlwFlWCybIQiflHohZzlPYB/eKAJiGZFYMa2lC9xlGeGwINuuRQEvIdr0pd8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=g6JBE3Up; arc=none smtp.client-ip=209.85.210.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF309366806;
+	Tue,  5 May 2026 18:25:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778005555; cv=fail; b=jNxfzJDk/2sJTMTb1VQjC/vOWlUrPpOyvOc9d2KLRTS/su7wxWsKVfXEScjuOKPWeoPGJ5z1TI6ZzxhDNpCTdo9b0on1Wa+j2sJwb5obnBBuA+jHpLgTZuYhSDPlGlU0AAmvozviBhrMljM0pPRUid257OGOynoBIauDZzN2V6g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778005555; c=relaxed/simple;
+	bh=0q3mxnG2w19elGX0Uco7JYGWuOtUxVH+AxHqSnXr9hU=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=rkfzvToBAWHEDUDgJIkyjvLpytTC05XCUgqYw6c9ihkLrRBVT5C6ybX1AqvmViEBqJrKHSnAiIWz0lElK0MzokMTQ5RWAYQVXoLgpmWzclyjF4baRGZV2u4L9+/nI1+2STM5zAtGoqVBZvMyK84swGM/ckRFCLrmaLOjdR2sxX8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=D6DEKXUz; arc=fail smtp.client-ip=52.101.61.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="g6JBE3Up"
-Received: by mail-ot1-f52.google.com with SMTP id 46e09a7af769-7dca00c1591so1771911a34.3
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 11:24:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778005497; x=1778610297; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=AiWl0VvmCcmAvKE7k/xTFIVAHM3vfW7H3kIFu8jks8Y=;
-        b=g6JBE3UpZb9/ztrnI/tMixvPdvmxQg9ODUI9lJN2QGIRl73iF8KDw3Y31gOKKIZ0NZ
-         u3y1uAQ2Hl5w53inVa8ueUuxfXL8CQeILz7mY53DNsNVgcjaef/21J1g+2BIulY0Qyb5
-         XQ8KCGwqqSYdTPuMQSh0+gFMtE3DJm1MzPrk8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778005497; x=1778610297;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AiWl0VvmCcmAvKE7k/xTFIVAHM3vfW7H3kIFu8jks8Y=;
-        b=I6Q7jdIj5H/l4j+EBHMwdtMXTbm2yUp8jU/u0jqQ87lul53uP8x0BIKFRGS2T60pyQ
-         VqfVFrShHUe693u8SY+OxXFxizgdWck4B7flDxhKgB5oRtAcb0p4v3DeRnjBbxQzc3Kg
-         VG0zrI11+9KyrZ0crAGmL9/NZbpIqGYZ7Rnf+saMjNJQJ57yw+dols9EeZPTYlj4iv0A
-         16KCQTGcTGAdMaprMHEsSffMncmoafXV2CKW7Q92J07sQNTVOiujOkwxrAaK8FJvjpI6
-         D2VvhbsfTFkZU9fG3jx9d6iJ9o2M/eSSYm/igl/SPQVZA8sv4W7OG6KblF9iC7HsbtDO
-         XyMA==
-X-Forwarded-Encrypted: i=1; AFNElJ/HStk+OwKhuPYqERBHqa7RXu2fkJhLiJUato62Jm+bXx0JrDTBMQnLNaDYYI+kANich/g1WAPIOCU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9UiumOZja2+8vcoIsNkBpBKGCsB9Ev8Z1vymLkmfhKw83ziaC
-	lOXFdoX3Izq11+ev/m05FZnK7mAI/CKnNIOs4f2ZvEN0AduFVdFxvDpk+yWVGnMUI3v0kEwf5WO
-	RzGyc
-X-Gm-Gg: AeBDiesXIEbkCUvyNc59z7zl2Lw2F9s7c9d0FOwmAZ3F5W1biEiJZp+EjTFFoigu+Nw
-	aIznCmfN5kS8JLazaUFDIC5buOFyibMj8L7wK4rOd/C2eUzwPDiuYxU0UUHb6yk/3ipPnU4pq1m
-	JriTIkFYIhXNzpEuLWolXvRTTJifP23dDbLVpXR5pyapxl14IUHAS8uLJwLFhmtQ6Bo4O0oa6yT
-	tOP1OfU6YxfJaU+AiVyqJdFa4NvyN2Qtk9IjkGtscAMNWMBYLE688odgbmkwi0U5wDAi47rxfSJ
-	/lQBoJNMuZ2PFr6UM2u0fiUNGi9c1paFMNQRySSN2Ovv0JIt7IprZWrvvhRSz3xmTMx3NHHIR32
-	p5vJz4cRD61KkFGZ1zfGWZFURuWUXV/pntIoDOU51J0hEDNyjvsHcVH35i0uV6ALe9BzR/8u+08
-	Of0VpON+TCZrf+K84MRH1qLEQ7BWkgsLfGjqbJmlh0Jw==
-X-Received: by 2002:a05:6820:f011:b0:695:818c:e552 with SMTP id 006d021491bc7-6998da4cbc7mr2424572eaf.55.1778005496865;
-        Tue, 05 May 2026 11:24:56 -0700 (PDT)
-Received: from [192.168.1.14] ([38.15.57.99])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-69689708304sm8096324eaf.12.2026.05.05.11.24.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 05 May 2026 11:24:56 -0700 (PDT)
-Message-ID: <936f9719-9e24-47f3-9c68-080040a5d0e0@linuxfoundation.org>
-Date: Tue, 5 May 2026 12:24:55 -0600
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="D6DEKXUz"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XuLZ2QHZQWUjYCm/tKA/hfSmZyzoMwBJmKuG8ErAC7/UKALOFh13648MiOpUD+r8he7flPmdwW/VFjOIPDQE3/VGDZ10aVn2GIYq4uT/J0mvAk3ygShMXloqpQp77Ab2U/73AaYJJdBfzOlnoC9vRe6/qMCaKO5MzY1Dw1CvpS4B5gKVSqjSvpkGInPfQjLdgAHTqk+jNgnSH6G5fVmUOMctlYVsLzZxrrhCmMs8HiVa9c3rJPa2y689+7uABP2Nio9HWuK49eqaX3Eu65IVk9hUCsvz4urh0PdqfR06z0PEbiPbVAjxo8yi8Ky2VUDBeW8fQanvYCfWcwyah5JWSQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dJcUekmMgbrLOtBbnBsNuLHrYCyZCkfX+d4/M7GGAdQ=;
+ b=p370CINhlK2YaPKljwHNqBTTZECDPca2IaK2u5D+E05EjUEvUDxs5jWatM+x62hQVZ60DwniPt+PYdfQJmVxMOXEOMwWcol+0PX/MH93sR6bOKQV91J5ewiz/gDXG9oNNd8ZjPuh6brzUMoc0BY/zDtePgaaQNmXfJTAzqpjawYLV0JH7FHSy+OegaRUkJSYAiGGAXccB/XaIYZR3GJCwJFOavP8K6FxTQYfolpY1lxFuwVcsSfoQh1Pi0XNPx87poyIlEepFVmiHsU5ahsQ6E+c1Mo/WFz4+Z4F8ap/HqwO/Nra/cRsxV2ygk67bDkd55BhBbMw34G618L4ITsMLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dJcUekmMgbrLOtBbnBsNuLHrYCyZCkfX+d4/M7GGAdQ=;
+ b=D6DEKXUz+rq95kRyRkzmSrruKl2IiAxeA1Uc4TWhqLnQ4yEMWfdEduXo4nQtnj4092wZACsEmTJyYg/maXP3idXnC+D8DEvLoalLB969bGv3KmSQbEQhcCbfYVDqmFxTsASe350A+lqe73Z84nQPpZbKy6k0gTNQPEGOOLMYYMgpYMGJ0kCzz1wuTA1rnKg2gGQvNxCiDtwo4to2YtMGpgSzGAJmrPAJk42bL1WSEbZsHBiteHWSM8abVCGzJcGVsHBEOPkm+Ig1HEJ1J9wwXXvcl8tGfZbxxE4gV8cyETVkDayelcnbbmwOAiW3GKuJ7taOjWbrK+HSIWsvUJlvOw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ IA0PPF7646FEBB5.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bd3) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9846.34; Tue, 5 May
+ 2026 18:25:48 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9870.023; Tue, 5 May 2026
+ 18:25:47 +0000
+Message-ID: <b0d54b3f-4708-433b-9180-afd6a54c6226@nvidia.com>
+Date: Tue, 5 May 2026 14:25:45 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 01/22] gpu: nova-core: gsp: Return GspStaticInfo from
+ boot()
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+ <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ nova-gpu@lists.linux.dev, Nikola Djukic <ndjukic@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org
+References: <20260425211454.174696-1-joelagnelf@nvidia.com>
+ <20260425211454.174696-2-joelagnelf@nvidia.com>
+ <DI8AZLB2610U.10MNQ0IPV6NSL@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DI8AZLB2610U.10MNQ0IPV6NSL@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN0PR05CA0030.namprd05.prod.outlook.com
+ (2603:10b6:208:52c::27) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] docs: admin-guide: add IGNORE_DIRS example for cscope
-To: Cheng-Han Wu <hank20010209@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
-References: <20260503101429.254394-1-hank20010209@gmail.com>
- <20260503101429.254394-5-hank20010209@gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <20260503101429.254394-5-hank20010209@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|IA0PPF7646FEBB5:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0a5df8a-587c-407d-9fb2-08deaad3ba56
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|18002099003|56012099003|22082099003;
+X-Microsoft-Antispam-Message-Info:
+	9bwFhE18cOFhORpP6AAboVimhrArCx9A4hwcZkqpgq9KaPuBp+DLgH47y9Fn4FMfDfr1Y5kpS/sCGQyOtYJYbkp+RNxKTArjA4hqhQHg5RinmorPV5ZpCce6CHo3aIAXhQsPfpabBCACHLreYl4V0IJtGKPBJpHKlzd+hlkFuBssVerFviYAgyTpISUPb39v0rotYq82XNqwLLfrarDfRtiNi5ywCI4xkk2fKlAZAE/sjI2VVe8LfGdEkdNbfswdMDfX4oUiI6JnAFDD5erHz2NBYSTdNkKg+gaEPrjgYc/dZmZdFDx7lr+g785AHFKUtiij9b6kQSwa7P9zLnlzqjqNTU6xi74pQAWcF+NiqJDmGTxP+CoKaMFarvucH0Wk7dqDJYorGeZBhAHJ5/wV8YZdyLjaL5IrbwJ7Wx5j8MgX/FND9nfz0y9fYu/tPiFael3hlwr7S0pJBx4Tq//Wqp7YRI13XFHBNAKN0KaA862GRuSr4Whhpb1T80/83T3Q37cB7ZMp5AQqAjelFN9tAgBuvemvlVQTesFjTBmBxxO2Eq7pHko2MFctQBiaK7UaWjrtAoCLXLqJZx8T9Hbq4Q6Bx176TvMzKDQkkTo8jZXiN6WmFpa4JasLb5gI5lAG+TKAe/injSSVYc28KU0hkXvVd8wmwJMiLFdwdCHr7mRPmamhcDvVEKrZkyI6dzF/
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(18002099003)(56012099003)(22082099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?K1ZUKzZjczhSSi94dDY2VXc1clNucmZnd1ZqTGRCOVF2YUN0RXkrL1hYTzFp?=
+ =?utf-8?B?Sk54RFRlNVFVeS83MnlKR0ZYOS9ZaHpqYzZpdXp5Z2pJMm9KVE1uUHZMMExT?=
+ =?utf-8?B?M3hWdm1IVE9obWwvQzVKc29wZXZ3Q2kwZEFCYzNxYkVEZG50aHc4M3UvN2Rs?=
+ =?utf-8?B?a3lYQkx2cGZMMUZlZFdiaFZ0V0djUi85VGttdDhNaS9tSWY5VFZiYnBqMjd1?=
+ =?utf-8?B?UEp5ZEpKdjRwbEVFSm5JWWszZXErUk9sd1hHNVlLTDVwanhZM0V0YXJaazVO?=
+ =?utf-8?B?WHovQXFvWms2dGtKeGZzYnp2V0N1emUwOXdDa2JHaUdOdUJkYWt5ZnhzY1Zw?=
+ =?utf-8?B?b1h4bytaRnBHVjNxTDh0SnJqSkhsVDN0aENIS0ZUbFRWczM3ajNBemNYZ2Nr?=
+ =?utf-8?B?MzhZdllaRzFoZVQxYi9EWlFrU1lsWHFlVGduUCtQM1hyenREQVhmcVZOMmdN?=
+ =?utf-8?B?ay83Vlo1M1VjT2hOQnlETTFhVG41SWhvVXJCaUhLZGJyZ0dSWWJkSmRKWlA3?=
+ =?utf-8?B?NVhWcTd3Y0Z1ZDZpNk1mZzF0dGY0akg1WWtmMVlmTEtIR0hua1FsYUVNaHVR?=
+ =?utf-8?B?d1RUcTBpZzJib0FBZmV6akxhSGFGOGM2VmJobkFXSm1tdE5URmljRmFyMUlh?=
+ =?utf-8?B?VjcraDJnTmEyQ3BSd3cxWUtuT0trQzgwYjdtd21BWHowaTVjOXBPTFo5NVpV?=
+ =?utf-8?B?NHZIcXdCWTViaUkvbFRsdTR4SVpROS83U1F3dXI2Nld0cEdpbG5qRHcyY1Fv?=
+ =?utf-8?B?b29jRWxJNTU2ZnVpZFpsdGcxQWhzMGhWR2NOQ3AvbWtoUlhkMm1DdXFWLzRj?=
+ =?utf-8?B?TndxVzc4L2FWY01aV3hpenFTSXcyUEFXZm80enkreDErRmNjUWxibUpZZFVx?=
+ =?utf-8?B?N01XSW92b3NWQ2h4SEp6cllsNVVWMmkwbEhpUlhLbjZMbyszUUx6bEF5UDFW?=
+ =?utf-8?B?YW1tTVFSelByWmVPVlR4d2ZBTDd2bmMvMDcrZVFILzF6OE5paThxOWwyNkxP?=
+ =?utf-8?B?Zkd5Mm5zbXRLV3h3MjVWYk04cFNKc0RTSEMveHhIeTNMem0rYmlLc0lqVGNy?=
+ =?utf-8?B?VUhYL3d4ZXVFV0toV3UwOGJXMEg3QVlPRG1USW4wcE1ZNGt1U2lMQXdsMkJE?=
+ =?utf-8?B?RmhhdnExNkJWTy9VQ3JlUkY5ZmswZW50eVcxSTZJMFZoUXkvaGF1VGRjTmlT?=
+ =?utf-8?B?QXBoaEEwamJHZEd5TjJtZmxEdkpWb2xOMlVBNHNpRUFtMzFBTXhaVHM4QXNn?=
+ =?utf-8?B?TGZwNG04WmpYMzNnS3JTVmxTMm9sQzJoeXFuQlpGSHJ3Mml3RFhlbllkbHpt?=
+ =?utf-8?B?UEJOK3N2RG5RQXBBQ0Y2Z3paTUtkbmp0bHg4NWplT3h6SWpoSUtzQlFsbjcx?=
+ =?utf-8?B?V3VQYlZPZU1jMkNtMXZNWVYxeDNOTUV0dExJZmNIV20yTkZLenlYNThVTnQ1?=
+ =?utf-8?B?SWYzc0VXVmFyWDFMR08xZlA2NTY1ZXQzMTRjSGNkUFpURHFoWlFHclZ1a1p1?=
+ =?utf-8?B?UE1jZTZzQUdyOFh6TWpHWWdNVTRPVEJSQjdKU1oyT3RsdVFTa0M3Ykh3Q0la?=
+ =?utf-8?B?M29BR1hXdXRSYTJhOVp6QWdxVGwvcUkweEdmZ084ZEpNUmhxMitzcm0vNlRD?=
+ =?utf-8?B?MzZ0c20xcjBKazRnSS9oRy8xVk0zaGxQZUxTRTNpdW94eDlvREs2UXF5L1NF?=
+ =?utf-8?B?MDBsWVhhOFBUNnZ4QTQ3ekJtczNVMXpKVUJBVzFQKzhpMi9ydjZRRkVheSsr?=
+ =?utf-8?B?TjdESGo1Nk1CYncvSFE5enkreUxGU2EwN2xyZHJVc0xNNEt3c1JWclZtSnUv?=
+ =?utf-8?B?d21hM3RUejNvM05BamtPQmNtR093THZDdzVtcFp1b2lya0d2ZXJtRmRadUJr?=
+ =?utf-8?B?T1JSc2hnS3NmSklkTEJiWDFFMHJGMEtkNmdOdlduNDRJcjk2THlIU2NmQnVw?=
+ =?utf-8?B?Z256bzBWUDRKQzQ2Q3Z6NlhRV1VGVmMzV3U5L2U4VURtVjF6MTB2cWRnNGlM?=
+ =?utf-8?B?QVlibXN3ZUlHSVZxVjdtVU85TTg3QkhEQTg5eXAwbmdZOEUzTkwvWXZEOFQ2?=
+ =?utf-8?B?ckpNWnFkd05EajJnaUhLREl6Z2ZpY0NjNEVVS0U2MysrblY0VW5jaFp3NXBZ?=
+ =?utf-8?B?THcrY2FhcFhlcnF1MUJHNnRmTTBudnlWOXU1RFV3Qk5qRjdvRmtCWTdlWkNU?=
+ =?utf-8?B?Z2xDQ0xZejVnR3BEdTB4dHJkaVl1djQxcDJuUitkY1FRNGEzMkJkNXJKRWFL?=
+ =?utf-8?B?VHUwZ1hIQmM2czFjUHJpWFp3ZlBHY3pqYnJ0ZXhydFIza0xKL3dEV1NvL2dF?=
+ =?utf-8?B?b1Y1N3VRSGVtdTJyZFU1OW9ZNFhiVTdHSUpwVE1OamFReXF2UmFUUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0a5df8a-587c-407d-9fb2-08deaad3ba56
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 18:25:47.7459
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VsdwEPvVloBfhMJ5GmO2jFzcMb+ksNvznI2ltYAiWlBc1wdTEbSm1FgqTiD8BDVdMLsbVztZiyjnFxTCvMpzDw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF7646FEBB5
 
-On 5/3/26 04:14, Cheng-Han Wu wrote:
-> The workload tracing guide shows how to build a cscope database by
-> running cscope command directly. The kernel build system also provides
-> a cscope target, which supports IGNORE_DIRS for excluding directories
-> from the generated database.
+
+
+On 5/2/2026 11:41 AM, Alexandre Courbot wrote:
+> On Sun Apr 26, 2026 at 6:14 AM JST, Joel Fernandes wrote:
+>> Refactor the GSP boot function to return GetGspStaticInfoReply.
+>>
+>> This enables access required for memory management initialization to:
+>> - bar1_pde_base: BAR1 page directory base.
+>> - bar2_pde_base: BAR2 page directory base.
+>> - usable memory regions in video memory.
+>>
+>> Reviewed-by: Eliot Courtney <ecourtney@nvidia.com>
+>> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+>> Cc: Nikola Djukic <ndjukic@nvidia.com>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/gpu.rs      |  8 ++++++--
+>>  drivers/gpu/nova-core/gsp/boot.rs | 12 ++++++++----
+>>  2 files changed, 14 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/gpu/nova-core/gpu.rs b/drivers/gpu/nova-core/gpu.rs
+>> index 0f6fe9a1b955..f2a8915a1ff4 100644
+>> --- a/drivers/gpu/nova-core/gpu.rs
+>> +++ b/drivers/gpu/nova-core/gpu.rs
+>> @@ -21,7 +21,10 @@
+>>      },
+>>      fb::SysmemFlush,
+>>      gfw,
+>> -    gsp::Gsp,
+>> +    gsp::{
+>> +        commands::GetGspStaticInfoReply,
+>> +        Gsp, //
+>> +    },
+>>      regs,
+>>  };
+>>  
+>> @@ -238,6 +241,7 @@ pub(crate) struct Gpu {
+>>      /// GSP runtime data. Temporarily an empty placeholder.
+>>      #[pin]
+>>      gsp: Gsp,
+>> +    gsp_static_info: GetGspStaticInfoReply,
 > 
-> Mention make cscope and show how to exclude Documentation/ as an example.
-> 
-> Signed-off-by: Cheng-Han Wu <hank20010209@gmail.com>
-> ---
->   Documentation/admin-guide/workload-tracing.rst | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
-> index c49c2a00a8b8..314e5f03474e 100644
-> --- a/Documentation/admin-guide/workload-tracing.rst
-> +++ b/Documentation/admin-guide/workload-tracing.rst
-> @@ -202,6 +202,15 @@ database. To get out of this mode press ctrl+d. -p option is used to
->   specify the number of file path components to display. -p10 is optimal
->   for browsing kernel sources.
->   
-> +Alternatively, the kernel build system can generate the cscope database::
-> +
-> +  make cscope
-> +
-> +To exclude directories from the generated database, pass IGNORE_DIRS to
-> +the cscope target. For example, to exclude Documentation/, run::
-> +
-> +  make IGNORE_DIRS="Documentation" cscope
-> +
->   What is perf and how do we use it?
->   ==================================
->   
+> A short doccomment would be nice, but otherwise this looks good.
 
-Looks good to me.
+I had added one before, but John suggested to drop it. I could add it back again
+if all agree on what we want to do. I am Ok with either though I'd lean more to
+the fact that its not necessary since it will basically read like the variable.
 
-Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
-
-thanks,
--- Shuah
+thanks.
 
