@@ -1,217 +1,111 @@
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0DA156C6A;
-	Tue,  5 May 2026 15:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F8737C11B;
+	Tue,  5 May 2026 15:30:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777994458; cv=none; b=qWtPsLil6006q88BHRinZXMkKtNY1z3uNaIk+FevNxckSUWgr6sxL5GTpnDvgMAe0XRys9NTGw4AwDDPPpeWPxR6OD9XKdzrSheVvGVPhfy6p1ZloRfbB7wI9n8zW3+jx5xdbHQ09PmwVr54E5srpNii05DATZipEaTq1/rs6+I=
+	t=1777995020; cv=none; b=U4T2nrKq1kPEPNmAGg3LXgTEMVgF/3ttfduGTFEf+MEWkyxLnXKrdBHZ7hi8DMTrutBpzmsqQulSmDp96qBeMEAgqvT5Uw488DeshOSFM/d0PfoCy3ca24OOh0lRFtSLJeAsqR1Ol/wuEQFEc0+SRP0aKqq8N0xC1kUgUDhtnt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777994458; c=relaxed/simple;
-	bh=GB3l17/ekg1P4sEApX6f/ITXv7X2gefB+5c4kZ5bdhQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UdKDMBmzNF//1YmPp8JXlAXpoO4rLNTcihtoSLJyr959Gt8UeLUwNYhKaAzWX6Pe5ih///YpKtiJ1XsjJPyrJu/5maFTlxIRlFfazr2r1T5wGBL0s/0oetPx86SbFcz1Y0P5POexUDXZUFP359KIbPvNOGEGB2+k2EO2gOSbL7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HZ4LnhKu; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1777995020; c=relaxed/simple;
+	bh=rbG0Au3ctJfWhVSRC2/5kBZAvhsXHaStitzyhF3Soik=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JTbqEDCJ2UFPj/dxJHi8A6MPoS0ficY9R0H3Dj8F8FOnclZTLdNZ7qzOZt9iEMncnLWw9FdnPwYxA4nGBIIRaTYlP+n06F+XmvlsL7F7W4Nlvicbv4GX/YG7C9Id1N8upvsFsNwjZCXOQyIjHpYMPfuNnPxBDsyIDKjr++5Hn5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=REwnltqG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HZ4LnhKu"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1777994455;
-	bh=GB3l17/ekg1P4sEApX6f/ITXv7X2gefB+5c4kZ5bdhQ=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HZ4LnhKuimVBHwguEpzHzUmKIga1uo5dFOtEZyWUTnmmq5oSmrqc6vzHcWnZmPR34
-	 ISBs/7vrXXLNNZ4GzSz1AJXYG8mPv7GKqln6yQNsn7XEidgQgN3pkpnmUMh9E0By+E
-	 zjJnyB/DCGYC3Db1gUTZLhyIJZHavG7xhlYHNvBDaTBBeHP54ab0vkUtayjvGW3SXh
-	 U3zsKmmcKDqZX6/TTlXzVZGRMyLzcOvVBrNbm7mZ2626RA7Z4h0vMRsAI54zUqDGO5
-	 G6+irU6LumaJMQzuJp99XhlFz158BBAuV1vb71KFVgPXYymXDUkC3hcxqWANL5gyVo
-	 vIVXPlsHRlI0w==
-Received: from fedora (unknown [100.64.0.11])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 35D1417E13B2;
-	Tue,  5 May 2026 17:20:54 +0200 (CEST)
-Date: Tue, 5 May 2026 17:20:48 +0200
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
- Florent Tomasin <florent.tomasin@arm.com>
-Subject: Re: [PATCH 1/8] dma-heap: Add proper kref handling on dma-buf heaps
-Message-ID: <20260505172048.1c48e030@fedora>
-In-Reply-To: <20260505140516.1372388-2-ketil.johnsen@arm.com>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
-	<20260505140516.1372388-2-ketil.johnsen@arm.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="REwnltqG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B676C2BCB4;
+	Tue,  5 May 2026 15:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777995020;
+	bh=rbG0Au3ctJfWhVSRC2/5kBZAvhsXHaStitzyhF3Soik=;
+	h=From:To:Cc:Subject:Date:From;
+	b=REwnltqGtW4CE7UbjnVn9qvHDSueVWepKkTMR35frNCSlMdJwZJfN9QxglL1jDVMK
+	 qbmffiqTUpS6dNbbhhcHw6P2bceR+gGkPuLOFFjGv+LXY7pzgubDPVV+SdC0EYEKQ7
+	 XKqIGT6vQYTbJFBhyN/SKpdufb2J8PRBFXKbuE4NRAseZTdT0z2vJXkkzCpJTYwMaf
+	 Y3W5omZ5aMHME4uZpb1hapfAECWJw7LN1CxrXCV8UVUx91mAJwFAQAnEvCm1YQAyva
+	 NIfwsp/oCsjGKreN6PstFM4O1eF6ctYoxVJJHkYcnyjiy4l6YxEJt1GEEbWwtbCPs0
+	 ynTDThqcv7tow==
+From: "Mario Limonciello (AMD)" <superm1@kernel.org>
+To: mario.limonciello@amd.com,
+	nathan@kernel.org,
+	nsc@kernel.org,
+	corbet@lwn.net,
+	skhan@linuxfoundation.org
+Cc: "Mario Limonciello (AMD)" <superm1@kernel.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] kbuild: deb-pkg: Allow setting package name at build
+Date: Tue,  5 May 2026 10:29:54 -0500
+Message-ID: <20260505152957.695641-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Ketil,
+Users can change the source package by setting variable `KDEB_SOURCENAME`,
+but the binary package name is hardcoded.
 
-On Tue,  5 May 2026 16:05:07 +0200
-Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+Add support for setting binary package name by using `KDEB_PACKAGENAME`
+and let it affect both kernel image and debug image packages.
 
-> From: John Stultz <jstultz@google.com>
-> 
-> Add proper reference counting on the dma_heap structure. While
-> existing heaps are built-in, we may eventually have heaps loaded
-> from modules, and we'll need to be able to properly handle the
-> references to the heaps
+Update kbuild documentation to include defaults and mention both
+`KDEB_PACKAGENAME` and `KDEB_SOURCENAME`.
 
-It's weird that this "heap as module" thing is mentioned here, but
-actual robustness to make this safe is not added in the commit or any
-of the following ones.
+Signed-off-by: Mario Limonciello (AMD) <superm1@kernel.org>
+---
+ Documentation/kbuild/kbuild.rst | 10 ++++++++++
+ scripts/package/mkdebian        |  6 ++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-> 
-> Signed-off-by: John Stultz <jstultz@google.com>
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
-> [Yong: Just add comment for "minor" and "refcount"]
-> Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
-> [Yunfei: Change reviewer's comments]
-> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
-> [Florent: Rebase]
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> [Ketil: Rebase]
-> ---
->  drivers/dma-buf/dma-heap.c | 29 +++++++++++++++++++++++++++++
->  include/linux/dma-heap.h   |  2 ++
->  2 files changed, 31 insertions(+)
-> 
-> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> index ac5f8685a6494..9fd365ddbd517 100644
-> --- a/drivers/dma-buf/dma-heap.c
-> +++ b/drivers/dma-buf/dma-heap.c
-> @@ -12,6 +12,7 @@
->  #include <linux/dma-heap.h>
->  #include <linux/err.h>
->  #include <linux/export.h>
-> +#include <linux/kref.h>
->  #include <linux/list.h>
->  #include <linux/nospec.h>
->  #include <linux/syscalls.h>
-> @@ -31,6 +32,7 @@
->   * @heap_devt:		heap device node
->   * @list:		list head connecting to list of heaps
->   * @heap_cdev:		heap char device
-> + * @refcount:		reference counter for this heap device
->   *
->   * Represents a heap of memory from which buffers can be made.
->   */
-> @@ -41,6 +43,7 @@ struct dma_heap {
->  	dev_t heap_devt;
->  	struct list_head list;
->  	struct cdev heap_cdev;
-> +	struct kref refcount;
->  };
->  
->  static LIST_HEAD(heap_list);
-> @@ -248,6 +251,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->  	if (!heap)
->  		return ERR_PTR(-ENOMEM);
->  
-> +	kref_init(&heap->refcount);
->  	heap->name = exp_info->name;
->  	heap->ops = exp_info->ops;
->  	heap->priv = exp_info->priv;
-> @@ -313,6 +317,31 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
->  
-> +static void dma_heap_release(struct kref *ref)
-> +{
-> +	struct dma_heap *heap = container_of(ref, struct dma_heap, refcount);
-> +	unsigned int minor = MINOR(heap->heap_devt);
-> +
-> +	mutex_lock(&heap_list_lock);
-> +	list_del(&heap->list);
-> +	mutex_unlock(&heap_list_lock);
-> +
-> +	device_destroy(dma_heap_class, heap->heap_devt);
-> +	cdev_del(&heap->heap_cdev);
-> +	xa_erase(&dma_heap_minors, minor);
-> +
-> +	kfree(heap);
+diff --git a/Documentation/kbuild/kbuild.rst b/Documentation/kbuild/kbuild.rst
+index 5a9013bacfb75..cbdd2224c3a55 100644
+--- a/Documentation/kbuild/kbuild.rst
++++ b/Documentation/kbuild/kbuild.rst
+@@ -177,6 +177,16 @@ the UTS_MACHINE variable, and on some architectures also the kernel config.
+ The value of KBUILD_DEBARCH is assumed (not checked) to be a valid Debian
+ architecture.
+ 
++KDEB_SOURCENAME
++----------------
++For the deb-pkg target, allows overriding the default source package name.
++The default package name is "linux-upstream".
++
++KDEB_PACKAGENAME
++----------------
++For the deb-pkg target, allows overriding the default binary package name.
++The default package name is "linux-image".
++
+ KDOCFLAGS
+ ---------
+ Specify extra (warning/error) flags for kernel-doc checks during the build,
+diff --git a/scripts/package/mkdebian b/scripts/package/mkdebian
+index d4b007b38a475..cbe4266fac732 100755
+--- a/scripts/package/mkdebian
++++ b/scripts/package/mkdebian
+@@ -166,7 +166,9 @@ else
+ fi
+ sourcename=${KDEB_SOURCENAME:-linux-upstream}
+ 
+-if [ "$ARCH" = "um" ] ; then
++if [ "${KDEB_PACKAGENAME:+set}" ]; then
++	packagename=$KDEB_PACKAGENAME
++elif [ "$ARCH" = "um" ]; then
+ 	packagename=user-mode-linux
+ else
+ 	packagename=linux-image
+@@ -252,7 +254,7 @@ fi
+ if is_enabled CONFIG_DEBUG_INFO; then
+ cat <<EOF >> debian/control
+ 
+-Package: linux-image-${KERNELRELEASE}-dbg
++Package: $packagename-${KERNELRELEASE}-dbg
+ Section: debug
+ Architecture: $debarch
+ Build-Profiles: <!pkg.${sourcename}.nokerneldbg>
+-- 
+2.53.0
 
-That's actually problematic, because cdev_del() doesn't guarantee that
-all opened FDs have been closed [1], it just guarantees that no new ones
-can materialize. In order to make that safe, we'd need a
-
-1. kref_get_unless_zero() in dma_heap_open(), with proper locking around
-   the xa_load() to protect against the heap removal that's happening
-   here
-2. a dma_heap_put() in a new dma_heap_close() implementation
-3. a guarantee that heap implementations won't go away until the last
-   ref is dropped, which means ops and all the data needed for this heap
-   to satisfy ioctl()s (and more generally every passed at
-   dma_heap_add() time) have to stay valid until the last ref is
-   dropped. Alternatively, we could restrict this only to in-flight
-   ioctl()s, and have the ops replaced by some dummy ops using RCU or a
-   rwlock. But I guess live dmabufs allocated on this heap have to
-   retain the heap and its implementation anyway.
-
-For record, #3 is already not satisfied by the current tee_heap
-implementation (tee_dma_heap objects can vanish before the dma_heap
-object is gone). The other implementations seem to be fine because they
-are statically linked, and they either have exp_info.priv set to NULL,
-or something that's never released.
-
-TLDR; the whole assumption that adding refcounting to dma_heap is
-enough to guarantee safety around device/module removal is not holding,
-and adding in-kernel users acquiring dma_heap refs on top of this
-design is just going to make it even more painful to fix.
-
-I see two way forward from here, either we get the
-dma_heap/dma_heap-producer lifetime right from the start the way I
-suggested above (I might have missed corner cases there BTW), or we keep
-assuming that heaps can only ever be created, never destroyed/removed
-(which is basically what the current dma_heap.c logic does, except
-tee_heap.c broke that), and just let dma_heap_find() return dma_heap
-pointers whose lifetime is assumed to be static.
-
-> +}
-> +
-> +/**
-> + * dma_heap_put - drops a reference to a dmabuf heap, potentially freeing it
-> + * @heap: DMA-Heap whose reference count to decrement
-> + */
-> +void dma_heap_put(struct dma_heap *heap)
-> +{
-> +	kref_put(&heap->refcount, dma_heap_release);
-
-nit: I'd go
-
-	if (heap)
-		kref_put(&heap->refcount, dma_heap_release);
-
-so users can call dma_heap_put() on NULL heaps, which usually simplify
-error paths and/or destruction of partially initialized objects.
-
-Regards,
-
-Boris
-
-[1]https://elixir.bootlin.com/linux/v7.0.1/source/fs/char_dev.c#L594
