@@ -1,159 +1,104 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29B513B58C;
-	Tue,  5 May 2026 05:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03F9363099
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 05:56:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777959940; cv=none; b=lPGmWNa5xIjZCZY7rGL+4gU/YvvfQ3DNbonAz8fFmDg+LZSF7xp0rAYRCfu4X75CqqnUVQH9+dEJdncJ7NCGDkEFCdnwgQLv2euTFL9qNieTdPhtudcKAugYhoBTWihpF5PohzcnMKjKD3UrJtn78M7pQMrhdVtxbDwwKsJikUU=
+	t=1777960610; cv=none; b=nGx3H7/P+5fcK1zwa+ZWJaEH1couOgzO2QiukSUTy0Mq8EECs3YDqb7CpmcPJyH5KtkeCt38eJpPD5B60S/9szhYNBcPKsGgwsqV79EkoAl61SgezTNZd+mlEaBmm6HbUkFbf6TUgTwDTkB2GU0zmu0opFykwBLfZrnlkFVX3Oo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777959940; c=relaxed/simple;
-	bh=OENmeeQaHzhjS6HWnKib03SzAKJuZk1wLrest0Rn0Ys=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rxfiQoxPmqTQlaYsdSx3NXIigJ1VoRVounul/ehTr5JNHbM3pbnOcNhKGDJiK7X0FbAVOPMcgGVpocfxI7CV6hEFnx5t0OtKumyPTfyzlpkZMvEbcXRhnvOdn8Rh4SxwWWy/Q3x5P1U/xqLIAobL6q66ZdhUbyxUeE2NwM5RxiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KHdQj19z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777960610; c=relaxed/simple;
+	bh=vxrRsHG92zCqD2taOXq5dagh2LonMjKOdXTDxmuA5Ck=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R67Nknr7VGcByCuV+GuUW2SnU2YFCxxMLtSnbj4WAp6won8xhLQrj7votfnFOfx2hdaqfjntvxLKLB9GsptmILrZmXRvnAchuCHZrwFXEex6WC/oZxAVUT0PPYi6Ltda4YqMPw/9PjhJrc+PDqjEfUFxDH/7QnQW0+4nAciXiiw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BRsMaWHT; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KHdQj19z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2BAC8C2BCB4;
-	Tue,  5 May 2026 05:45:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777959940;
-	bh=OENmeeQaHzhjS6HWnKib03SzAKJuZk1wLrest0Rn0Ys=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=KHdQj19zcI2Bl9bULjdpwcRyhFQXnC2gy06ZZ7rvhfNJQmQSluSgRPU9/xPzcn3gw
-	 rBetE6LYSJSF3e+iSOEm3ObLm6tXcKrTfeamRdqHov5X7y3BVQA6wZOd8BxTdTod8U
-	 FALP9dSYBwkkDbSa7EMLAdFvhGr7qHYYRPd8SEzhiWy8jDKW+XScG5DYuY9ledeX1P
-	 NxiAqc47gPMYivUpUnU15WPIYgvrhscXg32oxZKu7d8a3jjr0rqYbsV2m9gcNNUWXo
-	 Wyek03nx2U7/EUSVOi0ZQkGkn837G78CrVo3ezqmepqYEhDl9BwtcFiCIxKUeO7J1v
-	 NlVZetHLE34Gw==
-Date: Tue, 5 May 2026 07:45:34 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org,
- =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, Alice Ryhl
- <aliceryhl@google.com>, Andreas Hindborg <a.hindborg@kernel.org>, Benno
- Lossin <lossin@kernel.org>, Boqun Feng <boqun@kernel.org>, Danilo Krummrich
- <dakr@kernel.org>, Gary Guo <gary@garyguo.net>, Miguel Ojeda
- <ojeda@kernel.org>, Shuah Khan <skhan@linuxfoundation.org>, Trevor Gross
- <tmgross@umich.edu>
-Subject: Re: [PATCH 8/9] docs: maintainers_include: don't ignore invalid
- profile entries
-Message-ID: <20260505074534.5fefbed0@foz.lan>
-In-Reply-To: <CANiq72=2cB_bDa0c1FA4aOMx8d=RyuNs_O+_72EiUurMAY+0mw@mail.gmail.com>
-References: <cover.1777908711.git.mchehab+huawei@kernel.org>
-	<fce06f1b1c620c65ff6ddbc09fb4808ecc1aade3.1777908711.git.mchehab+huawei@kernel.org>
-	<CANiq72n+y0AerfiUzh5fLpMRiGGFq5rMxqweHG-TsmX_05vxBA@mail.gmail.com>
-	<20260504222637.176edc7c@foz.lan>
-	<CANiq72mk=gyGcQCL_DU4tKXN4U0rqH3wD7S04AuT4UGRFjCQaA@mail.gmail.com>
-	<20260505020831.698650ec@foz.lan>
-	<CANiq72=2cB_bDa0c1FA4aOMx8d=RyuNs_O+_72EiUurMAY+0mw@mail.gmail.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BRsMaWHT"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=qs+ecXoF7v3nk0kuFCvPfN1KNtLwF5NOS/E0KViL+MQ=; b=BRsMaWHTekQXw3zjFlUNBQFzxY
+	ZU6y2RV5Vm7r1U6LqThqmhKCvowG1VHbHs0xuLltfHSmTVZz6PPJ7dNBuZpROyIzsTAMH17yA39jF
+	IBxozyn/a2okuvoaw9mvRaQxpz3n2munq1UW9kvbEQz3z3SdBOa5bP3Rvqb3Rh6df2SFB7uv33TgT
+	g/gUg+RU8GayVZJxS4V4oD3/jz45fVdrp+ZyzMMwfCZ+MNlIjr1cgCyZU5kow6brQ9KQJ2ejXaz7F
+	zY3D3kftTUof6/lnI7t6d1wDVLF/c4cJxh3CCfc2HgSWpGrT+s5qMVYZEG91yAqva/1hG+oj0A3gb
+	+JR9BGJw==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wK8ly-0000000FEqL-05WH;
+	Tue, 05 May 2026 05:56:46 +0000
+Message-ID: <f7950aaa-8b0b-499d-a421-134593ffaec0@infradead.org>
+Date: Mon, 4 May 2026 22:56:45 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] fix broken links in bpf, driver_api & filesystem
+ documentation
+To: Bagas Sanjaya <bagasdotme@gmail.com>, Jeremy Bobbin <jer@jer.cx>,
+ corbet@lwn.net
+Cc: linux-doc@vger.kernel.org
+References: <20260505014839.2670290-1-jer@jer.cx> <afl-79jS4RiGpx_c@archie.me>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <afl-79jS4RiGpx_c@archie.me>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, 5 May 2026 02:20:45 +0200
-Miguel Ojeda <miguel.ojeda.sandonis@gmail.com> wrote:
-
-> On Tue, May 5, 2026 at 2:08=E2=80=AFAM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > Also, with time, maintainers may change their employers while still
-> > keeping their maintainership status.
-> >
-> > So, I'd say that whatever is there at the "P" entry, or where it is
-> > located (either on a ReST file at the Kernel or on some external URL),
-> > it should reflect the model that a maintainer or subsystem community
-> > that actively participate at the Kernel development agrees with.
-> > This should be vendor-agnostic. =20
->=20
-> I am not sure what you mean. By "vendored" I don't mean
-> companies/employers, I mean that the file comes from an upstream
-> repository:
->=20
->   https://github.com/Rust-for-Linux/pin-init/blob/main/CONTRIBUTING.md
->=20
-> Nevertheless, it is true that this really is a special case, in that
-> the upstream project decided to provide something that could then be
-> fit into the `P:` field.
->=20
-> One could say "let's ask them to do rst upstream", but to be honest,
-> it is simpler to just put a hyperlink to GitHub's rendered file.
-> Markdown is anyway a better fit for their file.
-
-Ok. Then it P entry could be:
-
-	P: https://github.com/Rust-for-Linux/pin-init/blob/main/CONTRIBUTING.md
-
-> > Generating on the fly is a bad idea, as when one uses:
-> >
-> >         make O=3DSOME_DIR
-> >
-> > It is expected that the original source directory will remain
-> > untouched. =20
->=20
-> I am not sure why that would be a problem -- the output would be in
-> `objtree`, not in `srctree`, as usual.
-
-No, this won't work. See sphinx-build help:
-
-	$ sphinx-build --help
-	usage: sphinx-build [OPTIONS] SOURCEDIR OUTPUTDIR [FILENAMES...]
-	...
-
-	positional arguments:
-	  SOURCE_DIR            path to documentation source files
-	  OUTPUT_DIR            path to output directory
-	  filenames             (optional) a list of specific files to rebuild. Ig=
-nored if --write-all is specified
+Content-Transfer-Encoding: 8bit
 
 
-The way Sphinx works is that it will consider a source file
-only for stuff inside the SOURCE_DIR positional parameter passed to
-sphinx-build. It handles SOURCE_DIR the same way chroot does:
-assuming that you add at toctable inside Documentation/index.rst
-(e.g on its root level) something like like this:
 
-	/DIR/file.rst
-	../DIR/file.rst
-	../../../../../../../../../DIR/file.rst
+On 5/4/26 10:23 PM, Bagas Sanjaya wrote:
+> On Mon, May 04, 2026 at 06:48:38PM -0700, Jeremy Bobbin wrote:
+>> @@ -712,7 +712,7 @@ the following:
+>>     * - 0x80
+>>       - This filesystem has a snapshot (RO_COMPAT_HAS_SNAPSHOT).
+>>     * - 0x100
+>> -     - `Quota <Quota>`__ (RO_COMPAT_QUOTA).
+>> +     - `Quota </filesystems/quota.html>`__ (RO_COMPAT_QUOTA).
+> 
+> Maybe :doc:`Quota </filesystems/quota>`?
+> 
+> Thanks.
 
-They all will be interpreted as:
-	{SOURCE_DIR}/DIR/file.rst
+I just tried that - unsuccessfully. (Maybe because this is in
+a table?)
 
-Making impossible to reference any file at the OUTPUT_DIR, except
-if you place OUTPUT_DIR inside SOURCE_DIR.=20
+What works for me is this: (FWIW)
 
-On normal builds, where we have "output" dir inside "Documentation",
-this works, but when O=3DDIR is used, the output directory is=20
-typically elsewhere, which effectively breaks O=3DDIR support.
+--- linux-next-20260504.orig/Documentation/filesystems/ext4/super.rst
++++ linux-next-20260504/Documentation/filesystems/ext4/super.rst
+@@ -408,11 +408,11 @@ The ext4 superblock is laid out as follo
+    * - 0x240
+      - __le32
+      - s_usr_quota_inum
+-     - Inode number of user `quota <quota>`__ file.
++     - Inode number of user `quota <../quota.html>`__ file.
+    * - 0x244
+      - __le32
+      - s_grp_quota_inum
+-     - Inode number of group `quota <quota>`__ file.
++     - Inode number of group `quota <../quota.html>`__ file.
+    * - 0x248
+      - __le32
+      - s_overhead_blocks
+@@ -712,7 +712,7 @@ the following:
+    * - 0x80
+      - This filesystem has a snapshot (RO_COMPAT_HAS_SNAPSHOT).
+    * - 0x100
+-     - `Quota <Quota>`__ (RO_COMPAT_QUOTA).
++     - `Quota <../quota.html>`__ (RO_COMPAT_QUOTA).
+    * - 0x200
+      - This filesystem supports “bigalloc”, which means that file extents are
+        tracked in units of clusters (of blocks) instead of blocks
 
-Besides it, Sphinx makes a 1:1 map between a source rst file
-and a destination html file (for make htmldocs).
 
-MAINTAINERS is actually a good example of such limitation: I would
-love to produce per-subsystem output files from a single
-maintainers.rst file, but Sphinx doesn't allow that.
 
->=20
-> > I suggested pandoc as a one-time conversion if one wants to migrate
-> > from MD to rst, as for simple documents like this one, it works
-> > fine. =20
->=20
-> They are the maintainers, so it is up to them, but it is simpler to
-> use a hyperlink.
->
-> (The file is trivial, i.e. the conversion can be done in a moment
-> without `pandoc`).
+-- 
+~Randy
 
-Ok.
-
-Thanks,
-Mauro
