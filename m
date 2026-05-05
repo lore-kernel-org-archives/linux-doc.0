@@ -1,61 +1,66 @@
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E34448C8A4;
-	Tue,  5 May 2026 16:32:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FD383DDDD2;
+	Tue,  5 May 2026 16:40:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777998774; cv=none; b=YgI3W54xH60A4HbGp77KI8dkozkR1D4GxAbSG62LiQQ/5iNMZ9xUkHSx1kNg4j3xxs6z8K/VKl6PbdhBsNQwyG+z5sbaTXf3++kA2Hy5LuHAfO0W1u4Bm5MAIEP5QjiK3bhmLgBMPJgO/Z1FR8Ll9/GIAnIZrfokX0ytq15kCN8=
+	t=1777999231; cv=none; b=JqUYeEaEP1/GaEp1MZI9GHpiPt1+lqGqddRBQPV0blqWXiuDuLEzqqkXvLqbAuYnsQCuB4KZWMk70GBjLrAxxGNtCp6ZSysIHGA188HfOV6tQEOaynbmcj6UIPznq1adoQaSNhXfGIuMSb6DxDJ+W/0dGX4LndmEG/yHKUoktng=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777998774; c=relaxed/simple;
-	bh=dnfLGzurewhGYmAkfx0e1+N3a4xmKjPSdyc6YJYICe0=;
+	s=arc-20240116; t=1777999231; c=relaxed/simple;
+	bh=v1fIHwgfddcCmh6pGZRO/cpadp8xSOxN1BF2obFbABM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NMR4T+0c4bnPDhqDeVeeXOH+GAk/oFwfndTdOp+0ziVoGTtlj+SgGS/xFpnTIaWql2vBu/58pS86ptVknwU9QJI4JviIzQ9dGoQ4saKrhlg+VeeIUn3h0mBYQgsE+pbyZ0E+oifIZUIMfpA6C3/wKO/wTl8XrWJqE9mnS3QcA8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=chnNGEJP; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version:Content-Type; b=BzWLhlfrO6nGfh4Ds1wIsSIkgg3fhL4d6D1BbPVVnqQYClkDgap5A2aBJKVdiZ+MynEDvhDpnIPH4jRxyWKnDgpT9tQ5vVembF+vKJPwtxVCsfgNrODdfEYy4liTpDYhlw31snCyX7T5/78KXwwoJBRLQZeSE7UzTrfDi/PVx/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=N7205ghH; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="chnNGEJP"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="N7205ghH"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1777998770;
-	bh=dnfLGzurewhGYmAkfx0e1+N3a4xmKjPSdyc6YJYICe0=;
+	s=mail; t=1777999227;
+	bh=v1fIHwgfddcCmh6pGZRO/cpadp8xSOxN1BF2obFbABM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=chnNGEJP+I5Tqr/+EzV+BAGa2W8876nPXG15BSzH3+oTObFtVw/uGnWFO4iEfi6Yu
-	 qjVJu+SBs/mo/Sk7SE3fHq+sYl6hc9nf05jEVXaxQ0cR2WLGatLnbs2uyeBwE3/aND
-	 hPWcmnyKFANowsOdgQrWSSRX5HuTRQJWzrUOmENA5qa4LqYsM1N1mfdKOXp3ZrkQLl
-	 1cfuK86dMDOdfh1iedj/t8nURvTzZQRQyNPGBFwpt35AlXQk1bcM/ikK9HdqWi765l
-	 ElVgV22rH5VsA7nb4eBu3bdhO9NoRLdMYZaMe1aI7S9wmGx7xHEbvKlpJGoSAiu6xm
-	 5UrIfFmlWFH5w==
+	b=N7205ghHVDdafje5WfeBl5l41S/dIJAvAJo92TYcH0WldQVC6tZuQOpBbIkfp1HSC
+	 IAbfHExmOTsVIZAn7J+1JqkufgEjWjnrqkYHlU8jqys8Qz2nFomi4tJMxrMyZrH4ZR
+	 nIN0C+PRJ0keEzegdG3vnexsh2K3Yq1b/QKkO4mss0eOzmqUh0vZ9zZ9J6BDWrhHkw
+	 fUQqbwO4bY/wbA7qpK+O/N+qlFBbiVBJ1fK45L4vtZeg+UA7GW/OZklM5JUs2PgTOc
+	 1CN00qQU1Zllsyj9D54prWzFp6RUYSNBeraq/HSf2OBsyOWqSJV9KwNpELgAdBom15
+	 H1hXEX6eJgwVQ==
 Received: from fedora (unknown [100.64.0.11])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B811917E0F07;
-	Tue,  5 May 2026 18:32:49 +0200 (CEST)
-Date: Tue, 5 May 2026 18:32:44 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BD9A917E13B2;
+	Tue,  5 May 2026 18:40:26 +0200 (CEST)
+Date: Tue, 5 May 2026 18:40:21 +0200
 From: Boris Brezillon <boris.brezillon@collabora.com>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
- Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
- Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
- <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Ketil Johnsen <ketil.johnsen@arm.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey
+ <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, "T.J. Mercier"
+ <tjmercier@google.com>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, Steven Price <steven.price@arm.com>, Liviu
+ Dudau <liviu.dudau@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Matthias Brugger
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
  <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 6/8] drm/panthor: Explicit expansion of locked VM region
-Message-ID: <20260505183244.0830c34c@fedora>
-In-Reply-To: <20260505140516.1372388-7-ketil.johnsen@arm.com>
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Yong Wu <yong.wu@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>,
+ Florent Tomasin <florent.tomasin@arm.com>
+Subject: Re: [PATCH 1/8] dma-heap: Add proper kref handling on dma-buf heaps
+Message-ID: <20260505184021.3676f9af@fedora>
+In-Reply-To: <20260505-spaniel-of-scientific-warranty-ca075e@houat>
 References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
-	<20260505140516.1372388-7-ketil.johnsen@arm.com>
+	<20260505140516.1372388-2-ketil.johnsen@arm.com>
+	<20260505172048.1c48e030@fedora>
+	<20260505-spaniel-of-scientific-warranty-ca075e@houat>
 Organization: Collabora
 X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
@@ -67,135 +72,131 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue,  5 May 2026 16:05:12 +0200
-Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+On Tue, 5 May 2026 17:39:13 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-> Currently the panthor_vm_lock_region() function will implicitly expand
-> an already locked VM region. This can be problematic because the caller
-> do not reliably know if it needs to call panthor_vm_unlock_region()
-> or not.
+> Hi Boris,
 > 
-> Worth noting, there is currently no known issues with this as the code
-> is written today.
+> On Tue, May 05, 2026 at 05:20:48PM +0200, Boris Brezillon wrote:
+> > Hi Ketil,
+> > 
+> > On Tue,  5 May 2026 16:05:07 +0200
+> > Ketil Johnsen <ketil.johnsen@arm.com> wrote:
+> >   
+> > > From: John Stultz <jstultz@google.com>
+> > > 
+> > > Add proper reference counting on the dma_heap structure. While
+> > > existing heaps are built-in, we may eventually have heaps loaded
+> > > from modules, and we'll need to be able to properly handle the
+> > > references to the heaps  
+> > 
+> > It's weird that this "heap as module" thing is mentioned here, but
+> > actual robustness to make this safe is not added in the commit or any
+> > of the following ones.
+> >   
+> > > 
+> > > Signed-off-by: John Stultz <jstultz@google.com>
+> > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> > > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> > > [Yong: Just add comment for "minor" and "refcount"]
+> > > Signed-off-by: Yunfei Dong <yunfei.dong@mediatek.com>
+> > > [Yunfei: Change reviewer's comments]
+> > > Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> > > [Florent: Rebase]
+> > > Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> > > [Ketil: Rebase]
+> > > ---
+> > >  drivers/dma-buf/dma-heap.c | 29 +++++++++++++++++++++++++++++
+> > >  include/linux/dma-heap.h   |  2 ++
+> > >  2 files changed, 31 insertions(+)
+> > > 
+> > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> > > index ac5f8685a6494..9fd365ddbd517 100644
+> > > --- a/drivers/dma-buf/dma-heap.c
+> > > +++ b/drivers/dma-buf/dma-heap.c
+> > > @@ -12,6 +12,7 @@
+> > >  #include <linux/dma-heap.h>
+> > >  #include <linux/err.h>
+> > >  #include <linux/export.h>
+> > > +#include <linux/kref.h>
+> > >  #include <linux/list.h>
+> > >  #include <linux/nospec.h>
+> > >  #include <linux/syscalls.h>
+> > > @@ -31,6 +32,7 @@
+> > >   * @heap_devt:		heap device node
+> > >   * @list:		list head connecting to list of heaps
+> > >   * @heap_cdev:		heap char device
+> > > + * @refcount:		reference counter for this heap device
+> > >   *
+> > >   * Represents a heap of memory from which buffers can be made.
+> > >   */
+> > > @@ -41,6 +43,7 @@ struct dma_heap {
+> > >  	dev_t heap_devt;
+> > >  	struct list_head list;
+> > >  	struct cdev heap_cdev;
+> > > +	struct kref refcount;
+> > >  };
+> > >  
+> > >  static LIST_HEAD(heap_list);
+> > > @@ -248,6 +251,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+> > >  	if (!heap)
+> > >  		return ERR_PTR(-ENOMEM);
+> > >  
+> > > +	kref_init(&heap->refcount);
+> > >  	heap->name = exp_info->name;
+> > >  	heap->ops = exp_info->ops;
+> > >  	heap->priv = exp_info->priv;
+> > > @@ -313,6 +317,31 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+> > >  }
+> > >  EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
+> > >  
+> > > +static void dma_heap_release(struct kref *ref)
+> > > +{
+> > > +	struct dma_heap *heap = container_of(ref, struct dma_heap, refcount);
+> > > +	unsigned int minor = MINOR(heap->heap_devt);
+> > > +
+> > > +	mutex_lock(&heap_list_lock);
+> > > +	list_del(&heap->list);
+> > > +	mutex_unlock(&heap_list_lock);
+> > > +
+> > > +	device_destroy(dma_heap_class, heap->heap_devt);
+> > > +	cdev_del(&heap->heap_cdev);
+> > > +	xa_erase(&dma_heap_minors, minor);
+> > > +
+> > > +	kfree(heap);  
+> > 
+> > That's actually problematic, because cdev_del() doesn't guarantee that
+> > all opened FDs have been closed [1], it just guarantees that no new ones
+> > can materialize. In order to make that safe, we'd need a
+> > 
+> > 1. kref_get_unless_zero() in dma_heap_open(), with proper locking around
+> >    the xa_load() to protect against the heap removal that's happening
+> >    here
+> > 2. a dma_heap_put() in a new dma_heap_close() implementation
+> > 3. a guarantee that heap implementations won't go away until the last
+> >    ref is dropped, which means ops and all the data needed for this heap
+> >    to satisfy ioctl()s (and more generally every passed at
+> >    dma_heap_add() time) have to stay valid until the last ref is
+> >    dropped. Alternatively, we could restrict this only to in-flight
+> >    ioctl()s, and have the ops replaced by some dummy ops using RCU or a
+> >    rwlock. But I guess live dmabufs allocated on this heap have to
+> >    retain the heap and its implementation anyway.
+> > 
+> > For record, #3 is already not satisfied by the current tee_heap
+> > implementation (tee_dma_heap objects can vanish before the dma_heap
+> > object is gone). The other implementations seem to be fine because they
+> > are statically linked, and they either have exp_info.priv set to NULL,
+> > or something that's never released.  
 > 
-> This change introduces panthor_vm_expand_region() which will only work
-> if there is already a locked VM region. This again means that the
-> original lock and unlock functions can work as a pair. This pairing is
-> needed for subsequent protected memory changes.
+> That statement won't hold for long, see:
+> https://lore.kernel.org/r/20260427-dma-buf-heaps-as-modules-v5-0-b6f5678feefc@kernel.org
 > 
-> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
-> ---
->  drivers/gpu/drm/panthor/panthor_mmu.c | 69 +++++++++++++++++++--------
->  1 file changed, 50 insertions(+), 19 deletions(-)
+> However, all upstream heaps can be loaded as module, but not unloaded.
+> So once you get a reference to it, you can assume it will live forever.
+> That's why we didn't merge that patch before, even though it was discussed:
 > 
-> diff --git a/drivers/gpu/drm/panthor/panthor_mmu.c b/drivers/gpu/drm/panthor/panthor_mmu.c
-> index fc930ee158a52..07f54176ec1bf 100644
-> --- a/drivers/gpu/drm/panthor/panthor_mmu.c
-> +++ b/drivers/gpu/drm/panthor/panthor_mmu.c
-> @@ -1701,15 +1701,36 @@ static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
->  	struct panthor_device *ptdev = vm->ptdev;
->  	int ret = 0;
->  
-> -	/* sm_step_remap() can call panthor_vm_lock_region() to account for
-> -	 * the wider unmap needed when doing a partial huge page unamp. We
-> -	 * need to ignore the lock if it's already part of the locked region.
-> -	 */
-> -	if (start >= vm->locked_region.start &&
-> -	    start + size <= vm->locked_region.start + vm->locked_region.size)
-> -		return 0;
-> +	if (drm_WARN_ON(&ptdev->base, vm->locked_region.size))
-> +		return -EINVAL;
+> https://lore.kernel.org/all/CANDhNCqk9Uk4aXHhUsL4hR1GHNmWZnH3C9Np-A02wdi+J3D7tA@mail.gmail.com/
 
-How about we have a helper called panthor_vm_apply_as_lock() that would
-only take care of the AS_LOCKADDR() sequence. panthor_vm_lock_region()
-would have this WARN_ON(), the pack_region_range() and a call to
-panthor_vm_apply_as_lock(). Similarly,
-panthor_vm_expand_locked_region() would rely on
-panthor_vm_apply_as_lock() to apply the expanded lock.
-
-> +
-> +	mutex_lock(&ptdev->mmu->as.slots_lock);
-> +	if (vm->as.id >= 0 && size) {
-> +		/* Lock the region that needs to be updated */
-> +		gpu_write64(ptdev, AS_LOCKADDR(vm->as.id),
-> +			    pack_region_range(ptdev, &start, &size));
-> +
-> +		/* If the lock succeeded, update the locked_region info. */
-> +		ret = as_send_cmd_and_wait(ptdev, vm->as.id, AS_COMMAND_LOCK);
-> +	}
->  
-> -	/* sm_step_remap() may need a locked region that isn't a strict superset
-> +	if (!ret) {
-> +		vm->locked_region.start = start;
-> +		vm->locked_region.size = size;
-> +	}
-> +	mutex_unlock(&ptdev->mmu->as.slots_lock);
-> +
-> +	return ret;
-> +}
-> +
-> +static int panthor_vm_expand_region(struct panthor_vm *vm, u64 start, u64 size)
-
-s/panthor_vm_expand_region/panthor_vm_expand_locked_region/
-
-> +{
-> +	struct panthor_device *ptdev = vm->ptdev;
-> +	u64 end;
-> +	int ret = 0;
-> +
-> +	/* This function is here to handle the following case:
-> +	 * sm_step_remap() may need a locked region that isn't a strict superset
->  	 * of the original one because of having to extend unmap boundaries beyond
->  	 * it to deal with partial unmaps of transparent huge pages. What we want
->  	 * in those cases is to lock the union of both regions. The new region must
-> @@ -1717,16 +1738,24 @@ static int panthor_vm_lock_region(struct panthor_vm *vm, u64 start, u64 size)
->  	 * boundaries in a remap operation can only shift up or down respectively,
->  	 * but never otherwise.
->  	 */
-> -	if (vm->locked_region.size) {
-> -		u64 end = max(vm->locked_region.start + vm->locked_region.size,
-> -			      start + size);
->  
-> -		drm_WARN_ON_ONCE(&vm->ptdev->base, (start + size <= vm->locked_region.start) ||
-> -				 (start >= vm->locked_region.start + vm->locked_region.size));
-> +	/* This function can only expand an already locked region */
-> +	if (drm_WARN_ON(&ptdev->base, !vm->locked_region.size))
-> +		return -EINVAL;
->  
-> -		start = min(start, vm->locked_region.start);
-> -		size = end - start;
-> -	}
-> +	/* Early out if requested range is already locked */
-> +	if (start >= vm->locked_region.start &&
-> +	    start + size <= vm->locked_region.start + vm->locked_region.size)
-> +		return 0;
-> +
-> +	end = max(vm->locked_region.start + vm->locked_region.size,
-> +		  start + size);
-> +
-> +	drm_WARN_ON_ONCE(&ptdev->base, (start + size <= vm->locked_region.start) ||
-> +			 (start >= vm->locked_region.start + vm->locked_region.size));
-> +
-> +	start = min(start, vm->locked_region.start);
-> +	size = end - start;
->  
->  	mutex_lock(&ptdev->mmu->as.slots_lock);
->  	if (vm->as.id >= 0 && size) {
-> @@ -2252,11 +2281,13 @@ static int panthor_gpuva_sm_step_remap(struct drm_gpuva_op *op,
->  	unmap_hugepage_align(&op->remap, &unmap_start, &unmap_range);
->  
->  	/* If the range changed, we might have to lock a wider region to guarantee
-> -	 * atomicity. panthor_vm_lock_region() bails out early if the new region
-> -	 * is already part of the locked region, so no need to do this check here.
-> +	 * atomicity.
->  	 */
->  	if (!unmap_vma->evicted) {
-> -		panthor_vm_lock_region(vm, unmap_start, unmap_range);
-> +		ret = panthor_vm_expand_region(vm, unmap_start, unmap_range);
-> +		if (ret)
-> +			return ret;
-> +
->  		panthor_vm_unmap_pages(vm, unmap_start, unmap_range);
->  	}
->  
-
+Hm, not too sure that makes the tee_heap implementation sane WRT
+tee_heap removal though, unless we have a guarantee that
+tee_device_unregister() will never be called...
