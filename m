@@ -1,163 +1,109 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A202D781B;
-	Tue,  5 May 2026 22:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 758C333F59A;
+	Tue,  5 May 2026 22:15:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778018808; cv=none; b=lrNZX/om+G+R7kJPylqFTmSQoOj5vKeTAs3A0BqsjSKRlP6qU32om/JNDZD3Xc+fGsxtzmFp+mGzhXt+lqeBBFU9bB8R0eAL+Sl9vXiqBcwxs8CPOySLJC9LN5D02MYol+IQeqWUYpLi/WHWkK1lXt+4rKpVPiFgSan8LRu/les=
+	t=1778019354; cv=none; b=d9+8SqnoOHmEtEAOjBGV1FPf4I+bstQjiKsG/PZywc97rT4uCTjRxgFE2bgDxEdu6+15H8KyDAxTl/RGo/ECwo+9SabAY9vr4s+Si50gq8Cy6aFwVb1lMVdhlTmmkOMq4VDCSAuGTLnCHeBaySNrL13pfco92/vaiRwUhMi65FA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778018808; c=relaxed/simple;
-	bh=p/KdBFrY1pdWdMKYMGNY+10d1KOpGCh8qQK+ZFY12hE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=saJXoh2UPSoMzRuCcL0D6Ug8YV0JIq+oRNE4dL6IkPgJ1CD8Dh0aAj+l7fMEaBX/swHryN3EXovz9hdo5ARCV7qUo81VeMEKzO/7uanlxmaocU6IffxqVeNR/xSmEcNRRLVMNklXk2mYIlC/YK2PuevodpTCDQiTS2oG+MppURg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PlrzOt96; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1778019354; c=relaxed/simple;
+	bh=5yp+6GCw/b9Wj2eQ79huhd1UlYFxqmSWXY8o22olazs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=jQdE+/VjHVOtlMqgrs8NKuHF2tDGZ17wzA5dF8i3lOcoWm9XtenB6Z0haEzphLAA59fjF43NCNwh71K1cjoPi69hiiPmSj7TEs8oHBRKRzJil6qV9aWn4BKFaH95flVlobHNylBhVlMB0INWfDz+a60cK10gZOzwh2Cg783Qias=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HqCNbtyZ; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PlrzOt96"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778018807; x=1809554807;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=p/KdBFrY1pdWdMKYMGNY+10d1KOpGCh8qQK+ZFY12hE=;
-  b=PlrzOt96DwT5lunKwXmPGfCbPyZjBjfAcMK1C02ssAPKLr7ebkuZef2+
-   E/yF/J7wUS+TR2Gxm2xJ1//C9rztswP6EdXH+b3zR1NXbX66No0gDJdTl
-   d3752CzN5R5+R8SFkuGZC9nnXfMhyJcPnUktRQUGqIVm9w/mt+77esFMp
-   g46/SMmUHX81NZoVTNgwJWdkBeb4L7prGiiWb5LlsFMXDGASHQb0TIhSU
-   Y3AkMHZgOLwixvtlu23tOEnppXbQF6N5xvmog6zzlq6cpC494Q1wd1I0s
-   CHl5AzUxFSvdhlFupz1Y5wGOgZRCrzfW3zxx+Vhdp1K3wDMKaxyW8B+Jo
-   g==;
-X-CSE-ConnectionGUID: ZBwl6AktT9uSDbR5NEvGcw==
-X-CSE-MsgGUID: 65saHWbnQLyS7Y6zHTxIVg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="90010580"
-X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
-   d="scan'208";a="90010580"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 15:06:47 -0700
-X-CSE-ConnectionGUID: kj4oskQMTPaWmV6s0QHp/A==
-X-CSE-MsgGUID: Od9QKWFKQ82l1QAxtSZ7zQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
-   d="scan'208";a="232814837"
-Received: from spandruv-mobl5.amr.corp.intel.com (HELO [10.125.110.85]) ([10.125.110.85])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 15:06:44 -0700
-Message-ID: <c5d40fc5-e8e0-4fa4-94af-4ea08c2f370b@intel.com>
-Date: Tue, 5 May 2026 15:06:42 -0700
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HqCNbtyZ"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=6jmaeTtszvufSCkIcJFmIruuDH0CqbDcCjtWGJswEPk=; b=HqCNbtyZdWjia83KLFp+U09g+S
+	hPgBK4cdu8811Zk9U1xhqLGVTiGHqmEfeqw9BthaXU2AdeCpFIGRWdN0fDnvf+JEf9sfhoTbdGOeR
+	b1H4LfFUnqqUPNl/nvbwhjUI0dM9nthcb20uAvXXZnHIOH2JfseJFsYLGBoQSNPXeqWcQcG7n7ZnB
+	Rfm0G21yut5QUJtnuvoM6Yi5Ffp1zS+2nhc/KmIeIqPrVxyPZcbVcf9EH3XsgeNpeXLzOUnLApbMJ
+	uToGDb4PLgv9jtlQjZQ9wPqc/cZvkrCqAmJFkYX9Ce+oOaH4lw+4VET7zVDeZsAAwX7wzqRN1WRWU
+	ws5Z8miA==;
+Received: from [50.53.43.113] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1wKO3R-000000002FY-1fmn;
+	Tue, 05 May 2026 22:15:49 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-doc@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH] kdoc: xforms: move context attrs to function_xforms list
+Date: Tue,  5 May 2026 15:15:48 -0700
+Message-ID: <20260505221548.163751-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.54.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v17 04/11] cxl: Rename find_cxl_port() to
- find_cxl_port_by_dport()
-To: Terry Bowman <terry.bowman@amd.com>, dave@stgolabs.net, jic23@kernel.org,
- alison.schofield@intel.com, djbw@kernel.org, bhelgaas@google.com,
- ming.li@zohomail.com, Smita.KoralahalliChannabasappa@amd.com,
- rrichter@amd.com, PradeepVineshReddy.Kodamati@amd.com, lukas@wunner.de,
- Benjamin.Cheatham@amd.com, sathyanarayanan.kuppuswamy@linux.intel.com,
- vishal.l.verma@intel.com, alucerop@amd.com, ira.weiny@intel.com,
- corbet@lwn.net, rafael@kernel.org, xueshuai@linux.alibaba.com,
- linux-cxl@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
- linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20260505173029.2718246-1-terry.bowman@amd.com>
- <20260505173029.2718246-5-terry.bowman@amd.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20260505173029.2718246-5-terry.bowman@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+The context analysis macros are function attributes that should be
+in the function_xforms list. Somewhere along the way they were
+inserted into the struct_xforms list instead. This causes docs build
+warnings to continue to be emitted for context macros.
 
+Move the context analysis macros to the function_xforms list where
+they should be to eliminate these warnings.
 
-On 5/5/26 10:30 AM, Terry Bowman wrote:
-> From: Dan Williams <djbw@kernel.org>
-> 
-> find_cxl_port() and find_cxl_port_by_uport() are internal port lookup
-> functions that search the CXL bus by dport and uport respectively, but
-> their names do not make the lookup method clear.
-> 
-> Rename find_cxl_port() to find_cxl_port_by_dport() to make the lookup
-> method explicit and consistent with find_cxl_port_by_uport(). Both
-> functions remain static to port.c; the upcoming patch that adds the
-> first cross-file caller will widen their scope.
-> 
-> Co-developed-by: Terry Bowman <terry.bowman@amd.com>
-> Signed-off-by: Terry Bowman <terry.bowman@amd.com>
-> Signed-off-by: Dan Williams <djbw@kernel.org>
+Documentation/core-api/kref:328: ../include/linux/kref.h:72: WARNING: Invalid C declaration: Expected end of definition. [error at 96]
+  int kref_put_mutex (struct kref *kref, void (*release)(struct kref *kref), struct mutex *mutex) __cond_acquires(true# mutex)
+Documentation/core-api/kref:328: ../include/linux/kref.h:94: WARNING: Invalid C declaration: Expected end of definition. [error at 92]
+  int kref_put_lock (struct kref *kref, void (*release)(struct kref *kref), spinlock_t *lock) __cond_acquires(true# lock)
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+---
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-doc@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+ tools/lib/python/kdoc/xforms_lists.py |   20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-> 
-> ---
-> 
-> Changes in v16->v17:
-> - New commit
-> ---
->  drivers/cxl/core/port.c | 20 ++++++++++++++------
->  1 file changed, 14 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/cxl/core/port.c b/drivers/cxl/core/port.c
-> index c5aacd7054f1..b35a9016fc81 100644
-> --- a/drivers/cxl/core/port.c
-> +++ b/drivers/cxl/core/port.c
-> @@ -1377,7 +1377,7 @@ static int match_port_by_dport(struct device *dev, const void *data)
->  	return dport != NULL;
->  }
->  
-> -static struct cxl_port *__find_cxl_port(struct cxl_find_port_ctx *ctx)
-> +static struct cxl_port *__find_cxl_port_by_dport(struct cxl_find_port_ctx *ctx)
->  {
->  	struct device *dev;
->  
-> @@ -1390,8 +1390,16 @@ static struct cxl_port *__find_cxl_port(struct cxl_find_port_ctx *ctx)
->  	return NULL;
->  }
->  
-> -static struct cxl_port *find_cxl_port(struct device *dport_dev,
-> -				      struct cxl_dport **dport)
-> +/**
-> + * find_cxl_port_by_dport - find a cxl_port by one of its targets
-> + * @dport_dev: device representing the dport target
-> + * @dport: optional output of the 'struct cxl_dport' companion of the @dport_dev
-> + *
-> + * Return a 'struct cxl_port' with an elevated reference if found. Use
-> + * __free(put_cxl_port) to release.
-> + */
-> +static struct cxl_port *find_cxl_port_by_dport(struct device *dport_dev,
-> +					       struct cxl_dport **dport)
->  {
->  	struct cxl_find_port_ctx ctx = {
->  		.dport_dev = dport_dev,
-> @@ -1399,7 +1407,7 @@ static struct cxl_port *find_cxl_port(struct device *dport_dev,
->  	};
->  	struct cxl_port *port;
->  
-> -	port = __find_cxl_port(&ctx);
-> +	port = __find_cxl_port_by_dport(&ctx);
->  	return port;
->  }
->  
-> @@ -1893,14 +1901,14 @@ EXPORT_SYMBOL_NS_GPL(devm_cxl_enumerate_ports, "CXL");
->  struct cxl_port *cxl_pci_find_port(struct pci_dev *pdev,
->  				   struct cxl_dport **dport)
->  {
-> -	return find_cxl_port(pdev->dev.parent, dport);
-> +	return find_cxl_port_by_dport(pdev->dev.parent, dport);
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_pci_find_port, "CXL");
->  
->  struct cxl_port *cxl_mem_find_port(struct cxl_memdev *cxlmd,
->  				   struct cxl_dport **dport)
->  {
-> -	return find_cxl_port(grandparent(&cxlmd->dev), dport);
-> +	return find_cxl_port_by_dport(grandparent(&cxlmd->dev), dport);
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_mem_find_port, "CXL");
->  
-
+--- linux-next.orig/tools/lib/python/kdoc/xforms_lists.py
++++ linux-next/tools/lib/python/kdoc/xforms_lists.py
+@@ -48,16 +48,6 @@ class CTransforms:
+         (CMatch("DEFINE_DMA_UNMAP_ADDR"), r"dma_addr_t \1"),
+         (CMatch("DEFINE_DMA_UNMAP_LEN"), r"__u32 \1"),
+         (CMatch("VIRTIO_DECLARE_FEATURES"), r"union { u64 \1; u64 \1_array[VIRTIO_FEATURES_U64S]; }"),
+-        (CMatch("__cond_acquires"), ""),
+-        (CMatch("__cond_releases"), ""),
+-        (CMatch("__acquires"), ""),
+-        (CMatch("__releases"), ""),
+-        (CMatch("__must_hold"), ""),
+-        (CMatch("__must_not_hold"), ""),
+-        (CMatch("__must_hold_shared"), ""),
+-        (CMatch("__cond_acquires_shared"), ""),
+-        (CMatch("__acquires_shared"), ""),
+-        (CMatch("__releases_shared"), ""),
+         (CMatch("__attribute__"), ""),
+ 
+         #
+@@ -98,6 +88,16 @@ class CTransforms:
+         (CMatch("__(?:re)?alloc_size"), ""),
+         (CMatch("__diagnose_as"), ""),
+         (CMatch("DECL_BUCKET_PARAMS"), r"\1, \2"),
++        (CMatch("__cond_acquires"), ""),
++        (CMatch("__cond_releases"), ""),
++        (CMatch("__acquires"), ""),
++        (CMatch("__releases"), ""),
++        (CMatch("__must_hold"), ""),
++        (CMatch("__must_not_hold"), ""),
++        (CMatch("__must_hold_shared"), ""),
++        (CMatch("__cond_acquires_shared"), ""),
++        (CMatch("__acquires_shared"), ""),
++        (CMatch("__releases_shared"), ""),
+         (CMatch("__no_context_analysis"), ""),
+         (CMatch("__attribute_const__"), ""),
+         (CMatch("__attribute__"), ""),
