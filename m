@@ -1,124 +1,194 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from mx1.secunet.com (mx1.secunet.com [62.96.220.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F025392C28
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 03:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543663176E4;
+	Tue,  5 May 2026 04:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.96.220.36
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777952903; cv=none; b=aCrfsFGfdHyngg5YexWQNuninxwE2RMkpQON/sZdKgF2uJpGuJZL7T/qyB4dRUO8ccsfbILB9lLaI52+Drqr9yllaVCwHVleLXIJ5fUj3mBBBZrBlSmQ6qH92MytG1C8k0Q7LZNZ8VZyyAPDNOOSZKE0vVO/Vr0M69LT6M5b/Qk=
+	t=1777955496; cv=none; b=Y/fLei0nEp6/IW7jhFbMopVObCGXHpylsigVuy9PClLe9E2eIfeNBAyeBYzF+DhXnHGwXd/Qdd1eSKgw12NzJa74dlJIvxxRB2ndnRZV16HwIg/egEmKDfHXrgPf1hcmnezxgVZpx8YR4ZVbx8x4G4+q41xvth/GzBT74+N23Ko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777952903; c=relaxed/simple;
-	bh=I/nHOEyFQxADF9HsoHDE2RKF3EfG9t2w7h7CIQdXfgE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bNSC3zPdL4qPMcLIyHV4BtSYGlQ4eIzQO63OAewNOYS5Cln0ZNTGEEihQhyxRgC+rtmLZmcJogNVOsRW37w2YO71epj74KrAYZY2ELhBHa/ehSZjYTPwzADACcXMkISXmMHiIlwwbXzQRkIlLrczq8ivLpd1SbvblvUrf+t7jAY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FhmwLHZd; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777955496; c=relaxed/simple;
+	bh=2zCjpI/xwBE9jOHjtkQ5ZvXYiHO/nlN1PF3E9L0R0Js=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a2jZVbcLlLEzu/c1D7Djo6hMkoaQWO3w1G5a83zxyO6cUWxUEc47xQ5w88PIjJtaWO2qqJlHHEC5BrBb1JnNvX8xSCikUpuN1jeA4RlB8bY6jK02EM8Vy7v4P5z0XqhO21N3/ItPDIHZBM5hDmGlWjpbAWolYoOwgiwFU6Vz/tI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com; spf=pass smtp.mailfrom=secunet.com; dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b=GLXesWEk; arc=none smtp.client-ip=62.96.220.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=secunet.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=secunet.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FhmwLHZd"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=jx8VtcuKGZNZBB2WX7edn12Q9Vxzy9GU53xPOo73zMI=; b=FhmwLHZd2YiB+z6oz/kdV+0q3V
-	8uqy36dVA8r1G7QbLtGQsVgUdbkJjR0uAzW/bjLb065liZWqL8vYAs2qdZ4LgooSgP+0p5qT5K+u6
-	uK4A5yhvZQEjEOocFOPscCx7FR0i+MTvy3dkHMz3l56V8GbXZAcuMiIreyrfB0yB/FjFOI7jLSa0I
-	d1f54/8QMJ2IDJPDMBbpa9P6wlDjvmyOsqs61kYJ/GWbos/BFsxwoJZD6K1aLmNL6AvburKTG25n/
-	7EKrlTsQoan2uxwf7W6LxyYOhiVCf+5CwDUfsCKQB91n5+FqoOFq84YEs8mDfXazT/Ehe5yQtaH5m
-	9m9vyMqA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK6lh-0000000F378-0mEX;
-	Tue, 05 May 2026 03:48:21 +0000
-Message-ID: <6df94757-0a89-41f2-ac22-18efc28255d8@infradead.org>
-Date: Mon, 4 May 2026 20:48:20 -0700
+	dkim=pass (2048-bit key) header.d=secunet.com header.i=@secunet.com header.b="GLXesWEk"
+Received: from localhost (localhost [127.0.0.1])
+	by mx1.secunet.com (Postfix) with ESMTP id 40624206DF;
+	Tue,  5 May 2026 06:31:31 +0200 (CEST)
+X-Virus-Scanned: by secunet
+Received: from mx1.secunet.com ([127.0.0.1])
+ by localhost (mx1.secunet.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id Dlr17Uwrl_Ao; Tue,  5 May 2026 06:31:30 +0200 (CEST)
+Received: from EXCH-02.secunet.de (rl2.secunet.de [10.32.0.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.secunet.com (Postfix) with ESMTPS id 2600A201E4;
+	Tue,  5 May 2026 06:31:30 +0200 (CEST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mx1.secunet.com 2600A201E4
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=secunet.com;
+	s=202301; t=1777955490;
+	bh=ApfnqOPBF7MVbC6Z9iIjMHTNA58M+AihQHA53n5cg9U=;
+	h=From:To:CC:Subject:Date:From;
+	b=GLXesWEkBDLOoTgolCNvgNJWgMcAxunrqzTorBy78YSi7H2LFlHvcLCPXx0zG45u3
+	 E+LFIWTW7RnwG9rcy8arvbhduqsZK0XVT7xgR1dA+MepyXvHDjUPXOHsbcJQOopUp8
+	 UophsW4Gt1SU9HXakCK44ScpLRt4JsRsPWYA8Q8GxuJtHh0VuG//rikaYr/S1gfQup
+	 92ZNd/bgIFyiIF1J2S/OviiaDVe1tGZztFj73tjKsNq0JhPJYi+qCM9RrJz1U+COBu
+	 WE3GNatNUtQXQSmairbQYaQMmaXfri7jK6/FfuBew6zI03E5/4iUE9YzTK/VBZa9Mx
+	 1soHRPAt4PBtA==
+Received: from moon.secunet.de (172.18.149.1) by EXCH-02.secunet.de
+ (10.32.0.172) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 5 May
+ 2026 06:31:25 +0200
+From: Antony Antony <antony.antony@secunet.com>
+To: Antony Antony <antony.antony@secunet.com>, Steffen Klassert
+	<steffen.klassert@secunet.com>, Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, David Ahern <dsahern@kernel.org>, Masahide
+ NAKAMURA <nakam@linux-ipv6.org>, Paul Moore <paul@paul-moore.com>, Stephen
+ Smalley <stephen.smalley.work@gmail.com>, Ondrej Mosnacek
+	<omosnace@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+	<skhan@linuxfoundation.org>
+CC: Sabrina Dubroca <sd@queasysnail.net>, <netdev@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <selinux@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, Chiachang Wang <chiachangwang@google.com>, Yan
+ Yan <evitayan@google.com>, <devel@linux-ipsec.org>
+Subject: [PATCH ipsec-next v8 00/14] xfrm: XFRM_MSG_MIGRATE_STATE new netlink message
+Date: Tue, 5 May 2026 06:31:09 +0200
+Message-ID: <migrate-state-v8-0-4578fb016965@secunet.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fix broken links in bpf, driver_api & filesystem
- documentation
-To: Jeremy Bobbin <jer@jer.cx>, corbet@lwn.net
-Cc: linux-doc@vger.kernel.org
-References: <20260505014839.2670290-1-jer@jer.cx>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260505014839.2670290-1-jer@jer.cx>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: migrate-state-063ee0342680
+X-Mailer: b4 0.15-dev
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EXCH-03.secunet.de (10.32.0.183) To EXCH-02.secunet.de
+ (10.32.0.172)
 
+The current XFRM_MSG_MIGRATE interface is tightly coupled to policy and
+SA migration, and it lacks the information required to reliably migrate
+individual SAs. This makes it unsuitable for IKEv2 deployments,
+dual-stack setups (IPv4/IPv6), and scenarios where policies are managed
+externally (e.g., by daemons other than the IKE daemon).
 
+Mandatory SA selector list
+The current API requires a non-empty SA selector list, which does not
+reflect the IKEv2 use case.
+A single Child SA may correspond to multiple policies,
+and SA discovery already occurs via address and reqid matching. With
+dual-stack Child SAs this leads to excessive churn: the current method
+would have to be called up to six times (in/out/fwd × v4/v6) on SA,
+while the new method only requires two calls.
 
-On 5/4/26 6:48 PM, Jeremy Bobbin wrote:
-> bpf/linux-notes.rst: broken link to ISA standard documentation
-> driver-api/thermal/intel_dptf.rst: two broken links to filesystem quota
-> 
-> Signed-off-by: Jeremy Bobbin <jer@jer.cx>
-> ---
->  Documentation/bpf/linux-notes.rst               | 2 +-
->  Documentation/driver-api/thermal/intel_dptf.rst | 2 +-
->  Documentation/filesystems/ext4/super.rst        | 6 +++---
->  3 files changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/bpf/linux-notes.rst b/Documentation/bpf/linux-notes.rst
-> index 00d2693de025..9c7b703ae4e5 100644
-> --- a/Documentation/bpf/linux-notes.rst
-> +++ b/Documentation/bpf/linux-notes.rst
-> @@ -46,7 +46,7 @@ Legacy BPF Packet access instructions
->  =====================================
->  
->  As mentioned in the `ISA standard documentation
-> -<instruction-set.html#legacy-bpf-packet-access-instructions>`_,
-> +<standardization/instruction-set.html#legacy-bpf-packet-access-instructions>`_,
->  Linux has special eBPF instructions for access to packet data that have been
->  carried over from classic BPF to retain the performance of legacy socket
->  filters running in the eBPF interpreter.
-> diff --git a/Documentation/driver-api/thermal/intel_dptf.rst b/Documentation/driver-api/thermal/intel_dptf.rst
-> index 4adfa1eb74db..1a4d7eedbb68 100644
-> --- a/Documentation/driver-api/thermal/intel_dptf.rst
-> +++ b/Documentation/driver-api/thermal/intel_dptf.rst
-> @@ -81,7 +81,7 @@ DPTF ACPI Drivers interface
->  
->  ``data_vault`` (RO)
->  	Binary thermal table. Refer to
-> -	https:/github.com/intel/thermal_daemon for decoding
-> +	https://github.com/intel/thermal_daemon for decoding
->  	thermal table.
->  
->  ``production_mode`` (RO)
-> diff --git a/Documentation/filesystems/ext4/super.rst b/Documentation/filesystems/ext4/super.rst
-> index 9a59cded9bd7..d06e4ae96d16 100644
-> --- a/Documentation/filesystems/ext4/super.rst
-> +++ b/Documentation/filesystems/ext4/super.rst
-> @@ -408,11 +408,11 @@ The ext4 superblock is laid out as follows in
->     * - 0x240
->       - __le32
->       - s_usr_quota_inum
-> -     - Inode number of user `quota <quota>`__ file.
-> +     - Inode number of user `quota </filesystems/quota.html>`__ file.
->     * - 0x244
->       - __le32
->       - s_grp_quota_inum
-> -     - Inode number of group `quota <quota>`__ file.
-> +     - Inode number of group `quota </filesystems/quota.html>`__ file.
->     * - 0x248
->       - __le32
->       - s_overhead_blocks
-> @@ -712,7 +712,7 @@ the following:
->     * - 0x80
->       - This filesystem has a snapshot (RO_COMPAT_HAS_SNAPSHOT).
->     * - 0x100
-> -     - `Quota <Quota>`__ (RO_COMPAT_QUOTA).
-> +     - `Quota </filesystems/quota.html>`__ (RO_COMPAT_QUOTA).
->     * - 0x200
->       - This filesystem supports “bigalloc”, which means that file extents are
->         tracked in units of clusters (of blocks) instead of blocks
+Selectors lack SPI (and marks)
+XFRM_MSG_MIGRATE cannot uniquely identify an SA when multiple SAs share
+the same policies (per-CPU SAs, SELinux label-based SAs, etc.). Without
+the SPI, the kernel may update the wrong SA instance.
 
-These ext4 link changes don't work for me (file not found).
+Reqid cannot be changed
+Some implementations allocate reqids based on traffic selectors. In
+host-to-host or selector-changing scenarios, the reqid must change,
+which the current API cannot express.
 
--- 
-~Randy
+Because strongSwan and other implementations manage policies
+independently of the kernel, an interface that updates only a specific
+SA - with complete and unambiguous identification - is required.
+
+SA Selector, x->sel, can't be changed, especially Transport mode.
+
+XFRM_MSG_MIGRATE_STATE provides that interface. It supports migration
+of a single SA via xfrm_usersa_id (including SPI) and we fix
+encap removal in this patch set, reqid updates, address changes,
+and other SA-specific parameters. It avoids the structural limitations
+of XFRM_MSG_MIGRATE and provides a simpler, extensible mechanism for
+precise per-SA migration without involving policies.
+This method also allows migtrating SA selectors typically used with
+host-to-host in Transport mode.
+
+New migration steps: first install block policy, remove the old policy,
+call XFRM_MSG_MIGRATE_STATE for each state, then re-install the
+policies and remove the block policy.
+
+If the target SA tuple (daddr, SPI, proto, family) is already
+occupied, the operation returns -EEXIST. In this case the original
+SA is not preserved. Userspace must handle -EEXIST by
+re-establishing the SA at the IKE level and manage policies.
+
+---
+v7->v8: - removed the unknown-flags validation block
+
+Link to v7: https://patch.msgid.link/migrate-state-v7-14-44eb2440b91c@secunet.com
+v6->v7: - add SA selectoor migration
+	- fixes to commit messages
+	- white space removal
+
+Link to v6: https://lore.kernel.org/r/migrate-state-v6-0-9df9764ddb9e@secunet.com
+v5->v6: - add mark to look up SA.
+	- restrict netlink attributes in new method
+	- address review feedback from Sabrina
+	- add new patch to fix existing inter-family address comparison
+	- add extack xfrm_state_init()
+	- Feedback from Yan : omit-to-inherit add migrating marks
+	- Drop missing __rcu annotation on nlsk, Sabrina has a better patch
+
+Link to v5: https://lore.kernel.org/all/cover.1769509130.git.antony.antony@secunet.com/
+v4->v5: add synchronize after migrate and delete it inside a lock
+	- split xfrm_state_migrate into create and install functions
+Link to v4: https://lore.kernel.org/all/cover.1768811736.git.antony.antony@secunet.com/
+
+v3->v4: add patch to fix pre-existing missing __rcu annotation on nlsk
+
+v2->v3: - fix commit message formatting
+
+v1->v2: dropped 6/6. That check is already there where the func is called
+	- merged patch 4/6 and 5/6, to fix use uninitialized value
+	- fix commit messages
+
+---
+
+---
+Antony Antony (14):
+      xfrm: remove redundant assignments
+      xfrm: add extack to xfrm_init_state
+      xfrm: allow migration from UDP encapsulated to non-encapsulated ESP
+      xfrm: fix NAT-related field inheritance in SA migration
+      xfrm: rename reqid in xfrm_migrate
+      xfrm: split xfrm_state_migrate into create and install functions
+      xfrm: check family before comparing addresses in migrate
+      xfrm: add state synchronization after migration
+      xfrm: add error messages to state migration
+      xfrm: move encap and xuo into struct xfrm_migrate
+      xfrm: refactor XFRMA_MTIMER_THRESH validation into a helper
+      xfrm: add XFRM_MSG_MIGRATE_STATE for single SA migration
+      xfrm: restrict netlink attributes for XFRM_MSG_MIGRATE_STATE
+      xfrm: add documentation for XFRM_MSG_MIGRATE_STATE
+
+ Documentation/networking/xfrm/index.rst            |   1 +
+ .../networking/xfrm/xfrm_migrate_state.rst         | 231 ++++++++++++++
+ include/net/xfrm.h                                 |  78 ++++-
+ include/uapi/linux/xfrm.h                          |  21 ++
+ net/ipv4/ipcomp.c                                  |   2 +-
+ net/ipv6/ipcomp6.c                                 |   2 +-
+ net/key/af_key.c                                   |  12 +-
+ net/xfrm/xfrm_device.c                             |   2 +-
+ net/xfrm/xfrm_policy.c                             |  27 +-
+ net/xfrm/xfrm_state.c                              | 144 +++++----
+ net/xfrm/xfrm_user.c                               | 338 ++++++++++++++++++++-
+ security/selinux/nlmsgtab.c                        |   3 +-
+ 12 files changed, 764 insertions(+), 97 deletions(-)
+---
+base-commit: a77d172177f3754ebd70123c78c75a6efa9eec2a
+change-id: migrate-state-063ee0342680
+
+Best regards,
+--  
+Antony Antony <antony.antony@secunet.com>
 
