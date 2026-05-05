@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF665224AF1
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 03:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F025392C28
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 03:48:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777952613; cv=none; b=JgyoB7V2CmL8qUe9gpWHxCehVmWQYooi4soj2kt6XpMEqU33JvPqeh4XqGIoh08baY1Y/RypycXavvbjMhNnJxy2Dth5RTi1Toj/2RKjwwlmVh2NeGMbUFCDSjGMl7u2XdkaM1sh2d9KyxINacNSk62BwxyPRvtytHwieZx3pCI=
+	t=1777952903; cv=none; b=aCrfsFGfdHyngg5YexWQNuninxwE2RMkpQON/sZdKgF2uJpGuJZL7T/qyB4dRUO8ccsfbILB9lLaI52+Drqr9yllaVCwHVleLXIJ5fUj3mBBBZrBlSmQ6qH92MytG1C8k0Q7LZNZ8VZyyAPDNOOSZKE0vVO/Vr0M69LT6M5b/Qk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777952613; c=relaxed/simple;
-	bh=U4fhBXiLkbKfNdNr7++zMbEXFXvXPmNG+n6rkkwy1hU=;
+	s=arc-20240116; t=1777952903; c=relaxed/simple;
+	bh=I/nHOEyFQxADF9HsoHDE2RKF3EfG9t2w7h7CIQdXfgE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NCdkSKfu90FPAsAo0G9BeRZW/hY6KQJOS4KNSUXxZrI1qLhrXHn/zO4Jy3HZQNpUWLR1wqllvy0XJtFwabMgvwFKe8Pn9+H8Uw1LDFOxzeNwN0xyPW6xKdWATMBhsnlIVabERNtXwpmaMTjBwmq5ZoBcQihDEzTfhKEuf5EDxaw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=UtJqEA0O; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=bNSC3zPdL4qPMcLIyHV4BtSYGlQ4eIzQO63OAewNOYS5Cln0ZNTGEEihQhyxRgC+rtmLZmcJogNVOsRW37w2YO71epj74KrAYZY2ELhBHa/ehSZjYTPwzADACcXMkISXmMHiIlwwbXzQRkIlLrczq8ivLpd1SbvblvUrf+t7jAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=FhmwLHZd; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="UtJqEA0O"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="FhmwLHZd"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=2+cPNe5IyWGqRbcAZylIn4/YmQRHyGYaY9ohg/eFPnQ=; b=UtJqEA0OutBQqoQv44gC8oB4mr
-	sHdTmL5dRBwiqIggGmquIlOFuyqQ99IPDvFBgmYoqzvhGjFTF25ne1WK8/9ohMmZ2u5QsFGTHReD7
-	hikgoIvT1pIFP8rjxCdMeq+JKWnb5XIRPqUChX33btZhR6h4QzGr7JKzNCg5IzRzPXQX8mzhIixkr
-	lpzCLMxpvftcCFli5PXRf8cP5TfhxUI3OvdUkG9KtxKEYIrrauEjGGzfFn4cIFvDJFLt7BYk96oif
-	sOr3/CYb2B4CGRcLE7Bjjn0OSXnGLOMGwLnMIIL1sU3snsUF+abUVgpuGhlqyP3rgBNpiKMyRgMH+
-	k7C1zvQQ==;
+	bh=jx8VtcuKGZNZBB2WX7edn12Q9Vxzy9GU53xPOo73zMI=; b=FhmwLHZd2YiB+z6oz/kdV+0q3V
+	8uqy36dVA8r1G7QbLtGQsVgUdbkJjR0uAzW/bjLb065liZWqL8vYAs2qdZ4LgooSgP+0p5qT5K+u6
+	uK4A5yhvZQEjEOocFOPscCx7FR0i+MTvy3dkHMz3l56V8GbXZAcuMiIreyrfB0yB/FjFOI7jLSa0I
+	d1f54/8QMJ2IDJPDMBbpa9P6wlDjvmyOsqs61kYJ/GWbos/BFsxwoJZD6K1aLmNL6AvburKTG25n/
+	7EKrlTsQoan2uxwf7W6LxyYOhiVCf+5CwDUfsCKQB91n5+FqoOFq84YEs8mDfXazT/Ehe5yQtaH5m
+	9m9vyMqA==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK6gy-0000000F1mW-4BmX;
-	Tue, 05 May 2026 03:43:29 +0000
-Message-ID: <1af7ec90-5294-48bd-9f05-a3eb77ae7cf2@infradead.org>
-Date: Mon, 4 May 2026 20:43:28 -0700
+	id 1wK6lh-0000000F378-0mEX;
+	Tue, 05 May 2026 03:48:21 +0000
+Message-ID: <6df94757-0a89-41f2-ac22-18efc28255d8@infradead.org>
+Date: Mon, 4 May 2026 20:48:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,10 +55,6 @@ Content-Transfer-Encoding: 8bit
 On 5/4/26 6:48 PM, Jeremy Bobbin wrote:
 > bpf/linux-notes.rst: broken link to ISA standard documentation
 > driver-api/thermal/intel_dptf.rst: two broken links to filesystem quota
-
-Somehow the line above merged changes for ext4/super.rst into the
-comment for intel_dptf.rst.
-
 > 
 > Signed-off-by: Jeremy Bobbin <jer@jer.cx>
 > ---
@@ -120,6 +116,8 @@ comment for intel_dptf.rst.
 >     * - 0x200
 >       - This filesystem supports “bigalloc”, which means that file extents are
 >         tracked in units of clusters (of blocks) instead of blocks
+
+These ext4 link changes don't work for me (file not found).
 
 -- 
 ~Randy
