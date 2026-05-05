@@ -1,255 +1,287 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C273CBE89;
-	Tue,  5 May 2026 18:43:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778006629; cv=none; b=Jn8SjrizX1lBvt05e7Wte08EoRTF4U6iVt3hDofULIYGZHZYnCWV86MNzVno03NdSlMmd8vfgjYtGJTaFM5+v3J/a3TT9bYR8/XIGBVeZeb0BtKA5IwIy8QpZRW/qo8pqGHwPL4oVSH434J1fxdN22/H9gSoiKpl7tEA5fKcoKs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778006629; c=relaxed/simple;
-	bh=Xd3tarvIE/l41+kjtm/+RRQgcrHoeGUWQhOwM5ezzmk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FF//1hDzSpPVxSkHDmSd0Hb31oBLCp9OWXaW3MDex8G/GAsdmY+TMKwxW8gl6JZUQT4clc6f6Si9C3Q/tZFyw2eey2sgQhYhcG6SCBJ4i6F04LUrO/LgpbqrOI2Kw1Sqdh7j3av2OaHwQfjdDHylXTCrWxs92HOJs9rGjVuqvQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pr8AaWJx; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013037.outbound.protection.outlook.com [40.93.196.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A008F18DF80;
+	Tue,  5 May 2026 18:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778007297; cv=fail; b=EbwSwtEiD6Krwtb32mWgXpUcDwR0LPR8BYKYkLTrnCcJjsKw4H32OJwVvFAEbdfGu2wjdcLtrU+pQ8pPz65ZQTQm9Kg9fSbb1ZuZOWxqqn2mKSdIURkkWttW7MWVqw6tIgBKaTL3MIc/fIv79kNBJ2Plz7fWaPPZINOWeimC4KM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778007297; c=relaxed/simple;
+	bh=uWSRRW1pH7SYCSfl1bVpnCS0imkN1WVGc7hEXDmEuU0=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=NUif4IYsmNiWCtHeE7maeeD9RV3CdVZKknAWmYLgOXQiy1CWsAnFBT65MotZ3ChnVU/BR84lbq9EW5U/+bx9qjqi3Pa+WBqeVfedbNUilryrFGzYbnCcv7mS3WLManjtNg4LGWHN+1NXEqB7khc8DDIlM53fh85mHsVopGzftEk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=d7NfTron; arc=fail smtp.client-ip=40.93.196.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pr8AaWJx"
-Received: from [10.14.142.64] (unknown [131.107.1.128])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 11A6620B7168;
-	Tue,  5 May 2026 11:43:45 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 11A6620B7168
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778006625;
-	bh=F9MzB697gTAO9oKRkWYwU1+lugmrvS1Au1oAW14IHlM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pr8AaWJxUVxu/pJlDvhAVnp/+uK8xDEwbIa+J/OgP2yd7/smA33D+xlFGiizOcUFp
-	 0hztwil2b1zVu+sy+0+dct4S++kRyI5M38pkmi+I6F2cLFejpeBXjKrPqsnGGXl+rP
-	 HdmqTfXdAAxLD3PEllz9DyN8uasvRptjhOx3bhJI=
-Message-ID: <eef0d9a2-b84f-4cc9-ad09-94ce5940f888@linux.microsoft.com>
-Date: Tue, 5 May 2026 11:43:46 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="d7NfTron"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PPHCkGPSD3H2VlXYSKUWDW7mN5rN3aXnmjJr1vuT5cnhc6tn+WBAwojpDhaUF6ZkEGielU7u4gYcLPjVDMg+ddXQFnzDsWzT1ntmtB/xI4scg4VPWrdEvdCdneoUFnZHQ/jSGV5JIhnJzWqG/rk7UzYUmPZAsSVYYp53OLxF/GYVoRm0o1OdpZN5p8Lh5dpqZe+a1trJC52GPhOhrbAIF2V8xccU+8kb/TrwPbfdsqGy9XE1URr2vtFfEx/gSia/+F0rP6hvt7iXMNOWtreseaJ3O8VvrBirvvUKxkTucWJL1IjDj7SqlFQPjwOF2x170ONDipwptbuEpsbfEv7uYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qDSd+ebrnnM+iQk547kYnPG3tTTOjQGHMyqMbFTsEYc=;
+ b=gKA37ZLPqGGN7r4kpWafX8HJugj4596e/vt9x7kSzF/jIFpqMpMxyi98/rJMTByQSHb0aGTftYOhwT5RHziHWOHa/nhx9oHN0NeblTHFgMxJcRVvUFjFtHS5xfly0Wtr9NOkxWzPqxgasD0jz7kj/UCBfHMkRl9rWf2qbxBy26yty0ujTIJBqenVek50WlvgOWcVW5DdAC5191DRnnl1MhbZjb2gJwIOfF45r2v05dQy0g8/a5aMie0+5+hUnqC2y/Up+u3lSFFT49Q+HvV6iFeHbTsBLLYyiW4ig38j6+g7EVMyP/z4PQW1xnW27LdloRBEgfgw57TcW2Qyss/7XQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qDSd+ebrnnM+iQk547kYnPG3tTTOjQGHMyqMbFTsEYc=;
+ b=d7NfTron81rd1twUsU+h0LwPDJgPdaoOh1PlnTggIjuNxP1zF57TkY5gyE0gEwr3ScPes0NB9BOKnla451f7EjsS1QIc0enBbCQ+Pw5YaO+8lh1Gj993WtQZwmL8qzajnWjKLyayvGmDbcKvsGorsz7/fQcCeqnn/8BH1zN7I7NnmTqZYHwHQRqDY1AtSVgUJTbhUp5UEHmqOWXh69ydlRyVRdXGwvRT+fEULNq03GlyM1JAKs8Gvc7P0MJVtqRzmdr72NjXb2kMr+6YQ2oxWZ9y4yYOQcRUUBeiu8bAi4TEAa5pxVBmbuc2lN9Uday4eZBb4TDWtiop0BdBCqroVg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ MN2PR12MB4303.namprd12.prod.outlook.com (2603:10b6:208:198::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9870.25; Tue, 5 May 2026 18:54:49 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9870.023; Tue, 5 May 2026
+ 18:54:49 +0000
+Message-ID: <520ff92e-b470-41d2-96d6-3360a8f269ee@nvidia.com>
+Date: Tue, 5 May 2026 14:54:45 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 02/22] gpu: nova-core: gsp: Extract usable FB region
+ from GSP
+To: Alexandre Courbot <acourbot@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Boqun Feng <boqun@kernel.org>, Gary Guo <gary@garyguo.net>,
+ Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+ <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ nova-gpu@lists.linux.dev, Nikola Djukic <ndjukic@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+ Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+ Philipp Stanner <phasta@kernel.org>, alexeyi@nvidia.com,
+ Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+ linux-doc@vger.kernel.org
+References: <20260425211454.174696-1-joelagnelf@nvidia.com>
+ <20260425211454.174696-3-joelagnelf@nvidia.com>
+ <DI8AZQ06LCJR.1LDY75WJI77PM@nvidia.com>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <DI8AZQ06LCJR.1LDY75WJI77PM@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN0PR03CA0026.namprd03.prod.outlook.com
+ (2603:10b6:208:52f::23) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 11/13] ima: Support staging and deleting N measurements
- entries
-To: Roberto Sassu <roberto.sassu@huaweicloud.com>, corbet@lwn.net,
- skhan@linuxfoundation.org, zohar@linux.ibm.com, dmitry.kasatkin@gmail.com,
- eric.snowberg@oracle.com, paul@paul-moore.com, jmorris@namei.org,
- serge@hallyn.com
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-security-module@vger.kernel.org,
- gregorylumen@linux.microsoft.com, nramas@linux.microsoft.com,
- Roberto Sassu <roberto.sassu@huawei.com>,
- steven chen <chenste@linux.microsoft.com>
-References: <20260429160319.4162918-1-roberto.sassu@huaweicloud.com>
- <20260429160319.4162918-12-roberto.sassu@huaweicloud.com>
-Content-Language: en-US
-From: steven chen <chenste@linux.microsoft.com>
-In-Reply-To: <20260429160319.4162918-12-roberto.sassu@huaweicloud.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|MN2PR12MB4303:EE_
+X-MS-Office365-Filtering-Correlation-Id: 80e81fd5-6b6c-46c8-b84e-08deaad7c81b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|366016|376014|1800799024|22082099003|56012099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	1UwjwTz0TRv9qLYEnR/XG6V30Zn7borCAH8BPkZqEWxV/Xpufxp7U5rjea+1n+fFN6b5LfWGPUuZ0U6ADfKdoJRv59UfhiMWUTI8d7r8/Jp52pm16EieZIr7p3XdysNdfeTMxYQqQfHoZMA8SLYaCg1dqDkbjHdo2++k8/FL/tyVKzEXWK+AwQvv4VtLdXnFpLtMuxjcw1vuUVuEuSDZvZ11dHwQVsGicRahjydvBZA7xRQnnV93Al+SHE3GpWCPJvwsd4IO8nFGnsr05LCoSrWWXPpkttc6QnDtG9WR0xBuulkqxNcFlM4yaC+D0YT5jLjJe0XJdxMPKHrGXlll5tIpIZZVIw9rAdTvu47mWljJngeB6c3YInYbhbtBgQPuCzpCHhaFK7JNFAG6qeT+YzRRyr4Q/eJb39MRK/FgGkTTsPU+rLMRJ5afqAhfcEk83BHWEbg+e7tHaZDbkiAB+rNAnb2S5PA/QU+rPbWOy2Hg2e9R2uK8wzCmPwwh3/n6Vb8n6lPEyw6vC/4PlxqJC/W0hKQm3222WMWgGRDK+zr7OoI9Y/bxD9+MuK82f3h6eKV1C3w1nL6ushhyccSCb99LrkpSA2m3aiTTbVyxGTQbDYthrwJMaEZH0Cw6KQw5uS34gfM+/BDZ1eh3o0gDKgxXq5/+cCMwMlSkDxbyfq3gBdsKugRNNOVk/PEiek1X
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?V2pGK3cvMTEzYXMyaFNrY0ZLQWxDMTcvWEFrT1Ryd241KzdubmdBeEYwYTNU?=
+ =?utf-8?B?b21JK2U2cG9GaTJkeE5XRTdacHE1eitua3M4TTR5ako4aTNNVHlvYkprVUZh?=
+ =?utf-8?B?TGlIWjdnSGNHMDMvd2hQU2p2WCtoMWpjUEFZL0krb0RhOWVnQlU5bkpNNXAw?=
+ =?utf-8?B?WnhranAvdnc4TnNiT1BMcUhMV05TZ3BnUGYraHU0bi9rQkN3ZFBOekxmUitu?=
+ =?utf-8?B?K1QzUTFRZWoxdFM1WlJ6VHBVWW4vOGJ6NkxYL1dRazExWUZxdm1IQ3czU1Nn?=
+ =?utf-8?B?d2Y5MFYxUXMwZGxhWUYvMC9jV1IyZ0FNUDlIY3o5OE4yMzJlQ2FSN0ZjcjJB?=
+ =?utf-8?B?dU15RVdDVlJSMlMwTlpJWERlSkg5Z3FvMkJZS1lyQnUvcUwvN0VPQ1JMLzh1?=
+ =?utf-8?B?Sk1oUlFGMklWOHdXV3FXR21hc1N0M09nVFlRbGpsSTlUVTNpaFIwSUF6SEoy?=
+ =?utf-8?B?RGFISWdnbkgrdDFFb3Q2Nm95MWduVkF2UGxzUkNtVEN1eTFrYmpCL0ExNG1Z?=
+ =?utf-8?B?aTdHSVRnalk1OEtabDQvSVA3cDBCU1JQWW1Kek1EQjJVQXZaekhRa1dzRUVt?=
+ =?utf-8?B?NWlnRDVSVmdrYzU3SkErdTVLWkpNQ3ZDelN0TXk5WVNoang2NmVOUHpvRU44?=
+ =?utf-8?B?WnJQUytOeHFKY0VNSURla0tNWkNyV2V0d3Y3QWJJZXM5eGRBUjJXSUJZOE9Y?=
+ =?utf-8?B?NS81Qms0Yk8rWjJLaXlYcG52NWRRRERIWTRRYU1CdzdoWHErKy85QWdTandL?=
+ =?utf-8?B?ZzNsYVczQWl0MU9mc2ZKcWVhK1B0dW12YUVqb3ZDM2J1OC85VVk0MjVOMnpB?=
+ =?utf-8?B?bE9nOWNqMFI3Ym9tTlJPdGhKMzI0QXZIeTFQcEJZdTVqMmZQZW41dTV0THFj?=
+ =?utf-8?B?SmVpSVExTlNFd1VmTnZlODBmUkl2VE1CZmdWbW9BVnVHQTEweDVNaURYZTBr?=
+ =?utf-8?B?UU14ZmxlSElBbE4ydnQ4TUh3S25FR1FZYUdsM3J0bXlGSkJSZUxVQm5rYlFN?=
+ =?utf-8?B?VlBFN1pieDhKN0pWOXJ3eGJkeGpsU0NDN0lZTmM1QjJrSDJrbUVzZHlNZGt5?=
+ =?utf-8?B?bm8zVGEydTcxVzJaNXV0T2x3KzhxMFJMK3VSQ0pQNENxSzNWczduSkVvMmw3?=
+ =?utf-8?B?TFB4QXN0WU1IWmlLVFRUbXk4anNUZWtHcC9relZBVkMvaEZucnNpaTJKQm9m?=
+ =?utf-8?B?RXZZam5yeVhScGlwOXRCNnRRbEJiQkl2SXBiZlpHM1paM1VJVjU4M3ZOc2lQ?=
+ =?utf-8?B?Q3Y0a0hra0hGaGxYQjdzU04zUVZKbE1mTkorS1hiTW40TUdvbG4vVW1GV2FW?=
+ =?utf-8?B?cDE3Z2hJR1BDMWovTVVmL3ptcU91NUFvS2EzRTJsTlhWak9VMUt0VTVuYWkz?=
+ =?utf-8?B?cEx2WVZXSmRRTkNWOVBNNksxaFdrQ3FtSTkwMGtoN2Y4N2NEOWNCK0w2WkZk?=
+ =?utf-8?B?czdKSFM4Snpqd0h1L3VUb00zSG9PcDRuSU9yZXlpWitERytlbVk4bkttMlYx?=
+ =?utf-8?B?a1UwQzhNaFBWa0xnSXVJKzc1UmcvNUxaLzlnUzV1anR4aDVZNHQyWGRyNnZm?=
+ =?utf-8?B?bDFpbVEvYnVHdWpLR21JUExGdncvTzNkMTB3SjkrRHE4ZFpiTDNmWnJnMFlL?=
+ =?utf-8?B?eG1NT21zOHVWdU90TGh4ZjVsdTRFa2ZhUHBqdjYxaXE2aG9sNnAxdjdxb3JD?=
+ =?utf-8?B?cGFjL0RSR0dvNlJkWDlNSXJzelBsM0huNHBQS0lwelFRdkhvR3g1SitZd3Rk?=
+ =?utf-8?B?UzFTcDhRdndyU0Y3cERSY1F4ZGVZS2U0YXBDS0FHTWtSTHZtalJwSE9tTm9O?=
+ =?utf-8?B?cUUvaFE5cWRMd0pwMmFYVzRjOVUxamJ5c2JvRXUzOHZSMEFKMDdoK1VDd3ky?=
+ =?utf-8?B?NHJWTUwyWTFLZWlLa2EvUUhWMlhBM3BsR3hzT0t1dWNpUXI3ZVpYbVgveWM1?=
+ =?utf-8?B?MGZxTFB5YVBxdXhya1R1YjVwcU1Jbm9tUWJsaDk2bndkUFFheEpkZW9PcFQ3?=
+ =?utf-8?B?ZWhPODk3M0t5aXFJTThaV1JPR2tIVEdnaWQvSTl3UExTWGEza0xWNk5vL0lB?=
+ =?utf-8?B?MHZRTTdqbE0wemNHSnU0a1RjYlBNeUNabUNxYVNoNmpDM0IrTGdrakNjMzZp?=
+ =?utf-8?B?dUZIYVdkcVJLM0pUelpyT2tNbUhEbDA2aG51VUwwV3pnT0U3M1VKZVpwTFJ4?=
+ =?utf-8?B?cG5tdEM2RmhaMjNkd0dvL0JJc1FqdHNpZ01GYnppTVFwWTVraTdVSjhSQzBT?=
+ =?utf-8?B?ZDZhR2Y4SXM0blZEWGxDYXN2ZFlhcjRnVHZHL3graHYyNFpWZkRZSDMvd3Za?=
+ =?utf-8?B?eFBYN1R4eVZNakE1VFlFN1RBTS9Xbnh1Ulc0UkFpVXhwMlhhYnBRUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80e81fd5-6b6c-46c8-b84e-08deaad7c81b
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 18:54:48.7655
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sI1RWEf/EidCNlovXtGUUnwxlbpp+fQ3kFuHT/Z1rwlnq44Kb/+lB0zhkKv0do7CdMfBjl+3Cp6B5/yFLnMWBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4303
 
-On 4/29/2026 9:03 AM, Roberto Sassu wrote:
-> From: Roberto Sassu <roberto.sassu@huawei.com>
->
-> Add support for sending a value N between 1 and ULONG_MAX to the IMA
-> original measurement interface. This value represents the number of
-> measurements that should be deleted from the current measurements list. In
-> this case, measurements are staged in an internal non-user visible list,
-> and immediately deleted.
->
-> This staging method allows the remote attestation agents to easily separate
-> the measurements that were verified (staged and deleted) from those that
-> weren't due to the race between taking a TPM quote and reading the
-> measurements list.
->
-> In order to minimize the locking time of ima_extend_list_mutex, deleting
-> N entries is realized by doing a lockless walk in the current measurements
-> list to determine the N-th entry to cut, to cut the current measurements
-> list under the lock, and by deleting the excess entries after releasing the
-> lock.
->
-> Flushing the hash table is not supported for N entries, since it would
-> require removing the N entries one by one from the hash table under the
-> ima_extend_list_mutex lock, which would increase the locking time.
->
-> The ima_extend_list_mutex lock is necessary in ima_dump_measurement_list()
-> because ima_queue_delete_partial() uses __list_cut_position() to modify
-> ima_measurements, for which no RCU-safe variant exists. For the staging
-> with prompt flavor alone, list_replace_rcu() could have been used instead,
-> but since both flavors share the same kexec serialization path, the mutex
-> is required regardless.
 
-This submit provides two ways for trimming logs:
-     Patch 9: stage and delete
-     This patch 11: stage and delete N
 
-Both are doing the same thing in different ways
+On 5/2/2026 11:41 AM, Alexandre Courbot wrote:
+> On Sun Apr 26, 2026 at 6:14 AM JST, Joel Fernandes wrote:
+>> Add first_usable_fb_region() to GspStaticConfigInfo to extract the first
+>> usable FB region from GSP's fbRegionInfoParams. Usable regions are those
+>> that are not reserved or protected.
+>>
+>> The extracted region is stored in GetGspStaticInfoReply and exposed as
+>> usable_fb_region field for use by the memory subsystem.
+>>
+>> Cc: Nikola Djukic <ndjukic@nvidia.com>
+>> Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>>  drivers/gpu/nova-core/gsp/commands.rs    | 11 ++++--
+>>  drivers/gpu/nova-core/gsp/fw/commands.rs | 45 +++++++++++++++++++++++-
+>>  2 files changed, 52 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/gpu/nova-core/gsp/commands.rs b/drivers/gpu/nova-core/gsp/commands.rs
+>> index c89c7b57a751..d18abd8b5f04 100644
+>> --- a/drivers/gpu/nova-core/gsp/commands.rs
+>> +++ b/drivers/gpu/nova-core/gsp/commands.rs
+>> @@ -4,6 +4,7 @@
+>>      array,
+>>      convert::Infallible,
+>>      ffi::FromBytesUntilNulError,
+>> +    ops::Range,
+>>      str::Utf8Error, //
+>>  };
+>>  
+>> @@ -189,15 +190,18 @@ fn init(&self) -> impl Init<Self::Command, Self::InitError> {
+>>      }
+>>  }
+>>  
+>> -/// The reply from the GSP to the [`GetGspInfo`] command.
+>> +/// The reply from the GSP to the [`GetGspStaticInfo`] command.
+>>  pub(crate) struct GetGspStaticInfoReply {
+>>      gpu_name: [u8; 64],
+>> +    /// Usable FB (VRAM) region for driver memory allocation.
+>> +    #[expect(dead_code)]
+>> +    pub(crate) usable_fb_region: Range<u64>,
+>>  }
+>>  
+>>  impl MessageFromGsp for GetGspStaticInfoReply {
+>>      const FUNCTION: MsgFunction = MsgFunction::GetGspStaticInfo;
+>>      type Message = GspStaticConfigInfo;
+>> -    type InitError = Infallible;
+>> +    type InitError = Error;
+>>  
+>>      fn read(
+>>          msg: &Self::Message,
+>> @@ -205,6 +209,7 @@ fn read(
+>>      ) -> Result<Self, Self::InitError> {
+>>          Ok(GetGspStaticInfoReply {
+>>              gpu_name: msg.gpu_name_str(),
+>> +            usable_fb_region: msg.first_usable_fb_region().ok_or(ENODEV)?,
+>>          })
+>>      }
+>>  }
+>> @@ -233,7 +238,7 @@ pub(crate) fn gpu_name(&self) -> core::result::Result<&str, GpuNameError> {
+>>      }
+>>  }
+>>  
+>> -/// Send the [`GetGspInfo`] command and awaits for its reply.
+>> +/// Send the [`GetGspStaticInfo`] command and awaits for its reply.
+>>  pub(crate) fn get_gsp_info(cmdq: &Cmdq, bar: &Bar0) -> Result<GetGspStaticInfoReply> {
+>>      cmdq.send_command(bar, GetGspStaticInfo)
+>>  }
+>> diff --git a/drivers/gpu/nova-core/gsp/fw/commands.rs b/drivers/gpu/nova-core/gsp/fw/commands.rs
+>> index db46276430be..a34d29280430 100644
+>> --- a/drivers/gpu/nova-core/gsp/fw/commands.rs
+>> +++ b/drivers/gpu/nova-core/gsp/fw/commands.rs
+>> @@ -1,5 +1,7 @@
+>>  // SPDX-License-Identifier: GPL-2.0
+>>  
+>> +use core::ops::Range;
+>> +
+>>  use kernel::{
+>>      device,
+>>      pci,
+>> @@ -10,7 +12,10 @@
+>>      }, //
+>>  };
+>>  
+>> -use crate::gsp::GSP_PAGE_SIZE;
+>> +use crate::{
+>> +    gsp::GSP_PAGE_SIZE,
+>> +    num::IntoSafeCast, //
+>> +};
+>>  
+>>  use super::bindings;
+>>  
+>> @@ -121,6 +126,44 @@ impl GspStaticConfigInfo {
+>>      pub(crate) fn gpu_name_str(&self) -> [u8; 64] {
+>>          self.0.gpuNameString
+>>      }
+>> +
+>> +    /// Returns an iterator over valid FB regions from GSP firmware data.
+>> +    fn fb_regions(
+>> +        &self,
+>> +    ) -> impl Iterator<Item = &bindings::NV2080_CTRL_CMD_FB_GET_FB_REGION_FB_REGION_INFO> {
+>> +        let fb_info = &self.0.fbRegionInfoParams;
+>> +        fb_info
+>> +            .fbRegion
+>> +            .iter()
+>> +            .take(fb_info.numFBRegions.into_safe_cast())
+>> +            .filter(|reg| reg.limit >= reg.base)
+>> +    }
+>> +
+>> +    /// Extracts the first usable FB region from GSP firmware data.
+>> +    ///
+>> +    /// Returns the first region suitable for driver memory allocation as a [`Range<u64>`].
+>> +    /// Usable regions are those that satisfy all the following properties:
+>> +    /// - Are not reserved for firmware internal use.
+>> +    /// - Are not protected (hardware-enforced access restrictions).
+>> +    /// - Support compression (can use GPU memory compression for bandwidth).
+> 
+> "can use GPU memory compression for saving bandwidth" maybe?
 
-I think the best way is just keep the patch 11 for following reasons:
-     Kernel list lock time is minimum
-Kernel code change will be much simpler (almost half gone)
-User space processing for log trimming is much simpler
-no need to maintain two lists (old and staged) in user space
-No two lists seen from user space (same as before)
-no staged list shown
+Done.
 
-Steven
+> 
+>> +    /// - Support ISO (isochronous memory for display requiring guaranteed bandwidth).
+>> +    ///
+>> +    /// TODO: Multiple discontinuous usable regions of RAM are possible in
+>> +    /// special cases. We need to support it.
+>> +    pub(crate) fn first_usable_fb_region(&self) -> Option<Range<u64>> {
+> 
+> Let's be forward-thinking, and turn this method into
+> `usable_fb_regions_iter`, returning an iterator. It is trivial to do
+> (just turn `find_map` into `filter`), we will need it later, and for now
+> the caller can just do `next()` to get the first region.
 
-> Link: https://github.com/linux-integrity/linux/issues/1
-> Suggested-by: Steven Chen <chenste@linux.microsoft.com>
-> Signed-off-by: Roberto Sassu <roberto.sassu@huawei.com>
-> ---
->   security/integrity/ima/Kconfig     |  3 +++
->   security/integrity/ima/ima.h       |  1 +
->   security/integrity/ima/ima_fs.c    | 21 ++++++++++++++-
->   security/integrity/ima/ima_kexec.c |  3 ++-
->   security/integrity/ima/ima_queue.c | 43 ++++++++++++++++++++++++++++++
->   5 files changed, 69 insertions(+), 2 deletions(-)
->
-> diff --git a/security/integrity/ima/Kconfig b/security/integrity/ima/Kconfig
-> index 48c906793efb..4f4373859a4f 100644
-> --- a/security/integrity/ima/Kconfig
-> +++ b/security/integrity/ima/Kconfig
-> @@ -341,6 +341,9 @@ config IMA_STAGING
->   	  It allows user space to stage the measurements list for deletion and
->   	  to delete the staged measurements after confirmation.
->   
-> +	  Or, alternatively, it allows user space to specify N measurements
-> +	  entries to stage internally, so that they can be immediately deleted.
-> +
->   	  On kexec, staging is reverted and staged measurements are prepended
->   	  to the current measurements list when measurements are copied to the
->   	  secondary kernel.
-> diff --git a/security/integrity/ima/ima.h b/security/integrity/ima/ima.h
-> index 4af66c1de4dc..9a741b33d524 100644
-> --- a/security/integrity/ima/ima.h
-> +++ b/security/integrity/ima/ima.h
-> @@ -320,6 +320,7 @@ struct ima_template_desc *lookup_template_desc(const char *name);
->   bool ima_template_has_modsig(const struct ima_template_desc *ima_template);
->   int ima_queue_stage(void);
->   int ima_queue_staged_delete_all(void);
-> +int ima_queue_delete_partial(unsigned long req_value);
->   int ima_restore_measurement_entry(struct ima_template_entry *entry);
->   int ima_restore_measurement_list(loff_t bufsize, void *buf);
->   int ima_measurements_show(struct seq_file *m, void *v);
-> diff --git a/security/integrity/ima/ima_fs.c b/security/integrity/ima/ima_fs.c
-> index 088d5a69aa92..6843dc203b54 100644
-> --- a/security/integrity/ima/ima_fs.c
-> +++ b/security/integrity/ima/ima_fs.c
-> @@ -28,6 +28,7 @@
->    * Requests:
->    * 'A\n': stage the entire measurements list
->    * 'D\n': delete all staged measurements
-> + * '[1, ULONG_MAX]\n' delete N measurements entries
->    */
->   #define STAGED_REQ_LENGTH 21
->   
-> @@ -312,6 +313,7 @@ static ssize_t _ima_measurements_write(struct file *file,
->   				       loff_t *ppos, bool staged_interface)
->   {
->   	char req[STAGED_REQ_LENGTH];
-> +	unsigned long req_value;
->   	int ret;
->   
->   	if (*ppos > 0 || datalen < 2 || datalen > STAGED_REQ_LENGTH)
-> @@ -339,7 +341,24 @@ static ssize_t _ima_measurements_write(struct file *file,
->   		ret = ima_queue_staged_delete_all();
->   		break;
->   	default:
-> -		ret = -EINVAL;
-> +		if (staged_interface)
-> +			return -EINVAL;
-> +
-> +		if (ima_flush_htable) {
-> +			pr_debug("Deleting staged N measurements not supported when flushing the hash table is requested\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		ret = kstrtoul(req, 10, &req_value);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		if (req_value == 0) {
-> +			pr_debug("Must delete at least one entry\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		ret = ima_queue_delete_partial(req_value);
->   	}
->   
->   	if (ret < 0)
-> diff --git a/security/integrity/ima/ima_kexec.c b/security/integrity/ima/ima_kexec.c
-> index 064cfce0c318..e7bde3d917b2 100644
-> --- a/security/integrity/ima/ima_kexec.c
-> +++ b/security/integrity/ima/ima_kexec.c
-> @@ -107,7 +107,8 @@ static int ima_dump_measurement_list(unsigned long *buffer_size, void **buffer,
->   	memset(&khdr, 0, sizeof(khdr));
->   	khdr.version = 1;
->   	/*
-> -	 * It can race with ima_queue_stage() and ima_queue_staged_delete_all().
-> +	 * It can race with ima_queue_stage(), ima_queue_staged_delete_all()
-> +	 * and ima_queue_delete_partial().
->   	 */
->   	mutex_lock(&ima_extend_list_mutex);
->   
-> diff --git a/security/integrity/ima/ima_queue.c b/security/integrity/ima/ima_queue.c
-> index f5c18acfbc43..64c4fe73dd5f 100644
-> --- a/security/integrity/ima/ima_queue.c
-> +++ b/security/integrity/ima/ima_queue.c
-> @@ -371,6 +371,49 @@ int ima_queue_staged_delete_all(void)
->   	return 0;
->   }
->   
-> +int ima_queue_delete_partial(unsigned long req_value)
-> +{
-> +	unsigned long req_value_copy = req_value;
-> +	unsigned long size_to_remove = 0, num_to_remove = 0;
-> +	LIST_HEAD(ima_measurements_trim);
-> +	struct ima_queue_entry *qe;
-> +	int ret = 0;
-> +
-> +	/*
-> +	 * Safe to walk without rcu_read_lock(): single-writer
-> +	 * exclusion in ima_fs.c prevents any concurrent modification
-> +	 * to ima_measurements during this walk.
-> +	 */
-> +	list_for_each_entry_rcu(qe, &ima_measurements, later, true) {
-> +		size_to_remove += get_binary_runtime_size(qe->entry);
-> +		num_to_remove++;
-> +
-> +		if (--req_value_copy == 0)
-> +			break;
-> +	}
-> +
-> +	/* Not enough entries to delete. */
-> +	if (req_value_copy > 0)
-> +		return -ENOENT;
-> +
-> +	mutex_lock(&ima_extend_list_mutex);
-> +	/*
-> +	 * qe remains valid because ima_fs.c enforces single-writer exclusion.
-> +	 */
-> +	__list_cut_position(&ima_measurements_trim, &ima_measurements,
-> +			    &qe->later);
-> +
-> +	atomic_long_sub(num_to_remove, &ima_num_entries[BINARY]);
-> +
-> +	if (IS_ENABLED(CONFIG_IMA_KEXEC))
-> +		binary_runtime_size[BINARY] -= size_to_remove;
-> +
-> +	mutex_unlock(&ima_extend_list_mutex);
-> +
-> +	ima_queue_delete(&ima_measurements_trim, false);
-> +	return ret;
-> +}
-> +
->   static void ima_queue_delete(struct list_head *head, bool flush_htable)
->   {
->   	struct ima_queue_entry *qe, *qe_tmp;
+Done. Indeed, it does not add more LOC while supporting multiple regions.
 
+thanks,
+-- 
+Joel Fernandes
 
