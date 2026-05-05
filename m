@@ -1,593 +1,352 @@
-Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012023.outbound.protection.outlook.com [40.93.195.23])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 185C838E5F9;
-	Tue,  5 May 2026 17:33:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.23
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D518448BD5C
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 17:42:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.214.173
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778002388; cv=fail; b=TYwind9COIQqia4uojFaQT4MJ7t7Ks32NnGdttZPNtZspkJfjqdRjUE5T9BlmFYt3L0g5OMViC5uh6gtS8l6cH8zCRFpsKcfqE5hEyYaHNKpVysGSmLnrH9tnkHV+jJsw9WqxnEXztGVjGEiB6J8Nv8E8dicJCRB8e3Cmx7QiCQ=
+	t=1778002927; cv=pass; b=PxIGUUicfnumlUel9JR19y9QeZoPirvAIgixJzki9H4MJfP0az/Z0JTEtVhpmiVU9fjWa/v0jt3PEKidxn0OQoO11bMIVmc0s2jOzGq6KObnN1l6otNpIvONZU2DqRtEPfGG45MoNshSFiM8Ha0J0OzYThI6AlhBd/BKU/2q9wc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778002388; c=relaxed/simple;
-	bh=kKUGFKbhKHjNOknXaHeutQh+mJSrXYf2VvDkSAcS2MA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SXhPoscKZonnPgJGaQXsZFd3mvlByUK8UAffEMzfDNc9qgdtH0H9nZJ8U0fZBDExfNfN4qjEUj5pueRftoZKkOYDMAImidB+Aqx0WqcFKh8HLloAk3y6XQvLcDz1gL9QyiuSsQXOFcThWkp1Kpv8bhYmovfdTv82PuERqCz1K/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NhoD/pRt; arc=fail smtp.client-ip=40.93.195.23
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1778002927; c=relaxed/simple;
+	bh=6j/IDrdL+PvT/1eb7cvJPKzLra2WDu8IW8sjkzp3LNo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CWG2/LpelVhx51ZeqiaN4F4kqgkFqyNHMgV9CfqqVLqpugNhiRiIcUqqIc2T51DSY4POu1NZlKK6q3PNkoVhXXW9ICrq3+aVE5cq5vekZxuUpmqHZw1QkVml34J84pcl1rb+l0vuOigGi0ifPN5T+QNBc/MEGTA6fOEJhl4ArHo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=S/3uD/85; arc=pass smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NhoD/pRt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RkGm0h7fXhDN1R+EcXbhB1DFSYWwCFleGLf3NCR/r49yrdgvxRgiyDJ8M9on9ZrlBPp3uuDS5a258jXuzRJbzxeBjWD85jD9TRSA/W1m1iteXk0PBRMlRiaM63RVY8POPwJo/f0GhtSR4mBOpg+lBlnYl3huNsOPtKDfGQ5gFo54ClOcKsKqOxvSnfK3EU3f3pf9hsTPnJtojzljQ1tvQUJ+drgxoNi7bExaeIYzNMvRKtMBFa6lWpLVihQwr70DLFnYzWlp+FNTjJs1qbUCMocyA84PhgdUwcK1LMzOFdCR7J+SUkk11ieQ0K/zOvhG4dfec9UmOciJMKOvrEO/fA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=87h5VvFDLPcUf0akGajedE6q2tJmRieN7ll/0XADI78=;
- b=DHFPvxW20Ct+wZts3zA/R1TO5SVKJy/cjrOpEH7yZYuF9RPtoSXHruRbBJbTl12+VOZsk4zaCgvGKHK4UPinIujHmvC50Jp630XbEhZjsaJREKS4BNi78Q1Xh7ED5oKtNwgIpKcwo65fMLtzo4oU75Nyt7ru9racmWFrvDWhl5ItO+BdJAk1N7eXhTdKSE3FknXQaOKXVYozTH6U7mhd2ihtRtcZSDRwNSJzGOsJWyzEetPQtPyNxpLvvH4tUj9/EJC/02JTr2Hf8R2a1L2kv1UxE4rdrcEYixKdQdmw+FydBoscwQWJLgEGSOGVbfrElP51GphxfdZyhO14AR5BWA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=stgolabs.net smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=87h5VvFDLPcUf0akGajedE6q2tJmRieN7ll/0XADI78=;
- b=NhoD/pRtoswUEySheIqU3xics7mdY//YNzCdnyBZkGTqV7kOldeVdGIvtW4fZJj9D3aYfj89sxkiMdbDm7P+pI2uoapA1Q/fx50JAAlfInI2iXp1gkAci27stdqw4QhSKWhMc6OIjwdv85hLEXXFoOgh3reE3W8uVaC7bQqiF8o=
-Received: from DS7PR03CA0099.namprd03.prod.outlook.com (2603:10b6:5:3b7::14)
- by CH2PR12MB4120.namprd12.prod.outlook.com (2603:10b6:610:7b::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
- 2026 17:32:56 +0000
-Received: from DM2PEPF00003FC4.namprd04.prod.outlook.com
- (2603:10b6:5:3b7:cafe::db) by DS7PR03CA0099.outlook.office365.com
- (2603:10b6:5:3b7::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.25 via Frontend Transport; Tue,
- 5 May 2026 17:32:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb07.amd.com; pr=C
-Received: from satlexmb07.amd.com (165.204.84.17) by
- DM2PEPF00003FC4.mail.protection.outlook.com (10.167.23.22) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Tue, 5 May 2026 17:32:55 +0000
-Received: from ethanolx7ea3host.amd.com (10.180.168.240) by satlexmb07.amd.com
- (10.181.42.216) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 5 May
- 2026 12:32:54 -0500
-From: Terry Bowman <terry.bowman@amd.com>
-To: <dave@stgolabs.net>, <jic23@kernel.org>, <dave.jiang@intel.com>,
-	<alison.schofield@intel.com>, <djbw@kernel.org>, <bhelgaas@google.com>,
-	<shiju.jose@huawei.com>, <ming.li@zohomail.com>,
-	<Smita.KoralahalliChannabasappa@amd.com>, <rrichter@amd.com>,
-	<dan.carpenter@linaro.org>, <PradeepVineshReddy.Kodamati@amd.com>,
-	<lukas@wunner.de>, <Benjamin.Cheatham@amd.com>,
-	<sathyanarayanan.kuppuswamy@linux.intel.com>, <vishal.l.verma@intel.com>,
-	<alucerop@amd.com>, <ira.weiny@intel.com>, <corbet@lwn.net>,
-	<rafael@kernel.org>, <xueshuai@linux.alibaba.com>,
-	<linux-cxl@vger.kernel.org>
-CC: <linux-kernel@vger.kernel.org>, <linux-pci@vger.kernel.org>,
-	<linux-acpi@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<terry.bowman@amd.com>
-Subject: [PATCH v17 11/11] Documentation: cxl: Document CXL protocol error handling
-Date: Tue, 5 May 2026 12:30:29 -0500
-Message-ID: <20260505173029.2718246-12-terry.bowman@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20260505173029.2718246-1-terry.bowman@amd.com>
-References: <20260505173029.2718246-1-terry.bowman@amd.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S/3uD/85"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2b2e8b95bdbso11505ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 10:42:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778002924; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PoPvfXpEG/L3Qkb5bGln9jKmb0dTxO3Qhhykbt1Ye++Dgj7dHQm/zTOUpX9F9UUvu1
+         gO0TkL13CNeio++btsdd8OThjqdX5PgCzPVqxjWJUZYujRxVKThDx/jxbWl1KMUm60Q/
+         4Q51yHLch/naUSrqQ+WrHaFK0UZDfHgHygDzuFGLtCFn7wHJ7GeXBUxh4Nvlo7WmXb/Q
+         89aSsjqUf7DIdiSqtX2hLgmDDHrSw0URYI3FCNpjkpMLw/ihGXt6obuZPDyWXLmuROF/
+         NRrdpWb0nupykW9d0WHYsjwaO/vm6zDL5P0FEdyMJMR461PGlPaR/TXNDFnQsRQb/jxt
+         tF9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=54klkLtO1z981HVzGmd4prOw9eXZMZmqAEmK52seTfw=;
+        fh=VojFwgqfAJbLf4oFU7np4jTRT0u+pqFRsLkmbFvTHGk=;
+        b=d0VhlNj1valMRC4OLpwu5SZO0M+vgPnLWbcbajiYQVUGAmok55Ulr7CU975jUBpV+Q
+         9e8V1tmnVgZXMwStbAWa2G7NNNqhx1Eh4c1HxNc5Zfq6nmX6pU3EpASmc+y6ioYotW1E
+         l3khs3pJ7tGX8jU6Vprk1KUE5UlsdU6BaSIVuEuS6C0+ZcItkUbB7MTPwagBVJL70Knf
+         T9G8/wJl/gG9AcUWdyf9dIsYhGnTix7+h3VMFd9uwdt+c7FONCUXnO5UV0mEAJliSCg6
+         L0tkuZ2YMTrag1eK0ZHy4MVvt6FfzQeWUbx7oZOPS6SnD62g1LXHnnzYP9ugLBErSE2u
+         KlRQ==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20251104; t=1778002924; x=1778607724; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=54klkLtO1z981HVzGmd4prOw9eXZMZmqAEmK52seTfw=;
+        b=S/3uD/85381H66y+E8HCR19b5oNB7jhq7sSh1aX61ydfYNC+kYTz+yYlySkXdZFXQc
+         Pvun9WRo/5OPe7mNVhzB0BFGt0Wt+woUvAfCjELIaPW3Vm8drQCqjQbXv91XyaswMMlD
+         MNT6fje3WvY6y6YogWhaRQsYLV7znflRcbe/llFYep/V82BYnNUiKbk62Ey4BdKhYSCf
+         yOYLMvz2MsKdHvKyvLONEsMws4UwqC/8/eAJzBLJIAsz+orJ8g196flnyELZ2l+zRzq4
+         upTEcMUbd2gpo+01y7+4giCwRpbakIXsivd+YQYSbT3y+vuSL6VlJrHj0OIDdQLni6jm
+         bikg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778002924; x=1778607724;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=54klkLtO1z981HVzGmd4prOw9eXZMZmqAEmK52seTfw=;
+        b=iwEB9QE5H7NDPddEx8luHLMPhMVUDTEJhA4LWXQY4fTYPvWkiba1qXIp4v7l4L81Kf
+         0UW0jweYk7qWVuoD6kMBOkwIUcjtPPFWBYJajQqSto/w0A0g9s5muyhUYFaWvkeToBOb
+         l80NB4P/BYwba3v2Bvd1aVzcczMhMBWP33u7ry89laLWKluRuXW8Y1ALBx4/3W1QJYR0
+         +Md7kzXAsSNI0Qu3PlFBnhFg+MbVojcxQk0DAuBwyW71fTC9O59g9FV/Sd6T4dUYJZbI
+         kkPWJBDFDTLG4CQiSlRN0tmZwE7UXocV0ZqW3R95jxJjNOK7hBhxGPDlid36U9Oh5gIK
+         VkSA==
+X-Forwarded-Encrypted: i=1; AFNElJ/+F1dQf6PDAFTCgMiUyzuRFPoH1gUGJI1Wya6hWguUiuuP4vGGIdC8qa8MAUrXQ/rl2vXCwAIxumg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFMvXn4QVT8fY6YNgOSgsKy7pOQoVN5BVa1Ur1lvbzvr1CHOGi
+	hbghLShMplREXN18c8l2hJs4DjKQNZnIucuGTwnxKkseZNZnB9MRSB0lVKpnitV6ygQyW1g+2eL
+	dx/yBEnnJ721WZsz43Q4y59RdkyafRybYoYoIMHWk
+X-Gm-Gg: AeBDievvecb4+C1hjzy+MvniNO/jJ4qWQ3Eu5EjOhHCuIc4UHEolRKIUQPrHHp3pH/+
+	gOWYp6tufuOmmJpy+1hvq/Dq7Jk8vdSiMX7p7W2Mx1DW5hpNqMVXp1vsOjQHssXZLbQz+LUEtTF
+	f+uMM/z6O7A/UD+n2ChbF5Hnpl5yTIW5qRKHVEjSr5iUkRQpw/0QL6yEWlzCUrao5DIauinYQhl
+	ZgpqRtfvOVAA1/qjP7wkf5TVrOq3zjJ1/KHarKqKGk2XT73tYynM6APpFuOGWC9HlqrzFpy1VK3
+	9dUWlUlkaeOfswnpmNzPA7joOemps2GeAVWNYeaaKU0ZLiVMPH2Nicat0hBKQ63ANO+f1HfcrzG
+	fNV6v7h3vj6Hrl3YfIqjWxPxNxwE=
+X-Received: by 2002:a17:902:74c2:b0:294:ecba:c8e with SMTP id
+ d9443c01a7336-2ba780a1488mr111905ad.3.1778002923640; Tue, 05 May 2026
+ 10:42:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Type: text/plain
-X-ClientProxiedBy: satlexmb08.amd.com (10.181.42.217) To satlexmb07.amd.com
- (10.181.42.216)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM2PEPF00003FC4:EE_|CH2PR12MB4120:EE_
-X-MS-Office365-Filtering-Correlation-Id: d3d82984-1d3b-414f-8ecf-08deaacc5803
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|82310400026|376014|36860700016|1800799024|921020|22082099003|56012099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	OvWS6REqSZC9SwIJlNEaxlRHQosTOd/USdpr+XT7PeeMyT64InyRJi+ulxU7XXO2W6+wVF5lGhVB5vEvhKd+yJoWIrB+OCqDwq/mtihDIBudFTttYIcbDs5GpdlhXFmz3YBmw1a8d3wQRWS46tHKMhqVijbFL+yJjuP+fp+syj1xEla5uEwKHOppFXNvfe/ccP1zqP++qtAwAh26oJY0yHlsaVNLzaClSWY/D3SwNC8en2UhhZeuSvEKWBE0kYkvKKAiSxZg7SjVp7O72YgkGZYbuSH5VEfcA0JhEknxBuFU+dbCkiUECpXewaKLnB8IAgW1w7qesNoU//soB4d5pOoCnaMgVcK1QrI9SHhmuzLtlw/scluFRKB1hJk6w1H3IBBsKr2hgzigy6ElUuHXSb8ivapy1I8Pa72bsFBHEoAAh8VOAmq0GWwyGQLXMxUVxg/dQcy6xiGlfUAnDu6OQ7YIqfXs9oLEXaAnwjD8jGrFH6qTQwBR/0+2J2xjAr/oyEoakiIXc3wNGlrtZtbZsv//p2rEClQ7u+MSVyfZIk6naMc227CW+0fwBrUC+Y/RUMcUJlTyGttpbT629ApImQjrZ+vBosYvFM2jmR3ZRK4wucmlvJdk4slaMsT2Ri+ostNsm1BszspqIsHC0sP0fuRHkq3iIKFKFCOoTf8pBiWiNTsuBm7i5G7hyF6Rgg4ECcSMZ74V49xBQO5qFCcugKy/j5yKbRBhvyUWuzG4fGwVlbS6YMbXdaOD3+uiR3vIs2LGNSYGpHc3DAIuOmMyig==
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb07.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(82310400026)(376014)(36860700016)(1800799024)(921020)(22082099003)(56012099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	jC1kONZPDnXQrh4e8gSJbIrC/OP4Jp9yby901hqj79y7ATlfCb68iSUf1cRS6pzVI0NXfyYGyL9ngkqAPg+y426x4nPB/UtwEl24sstVf/xR7nMwx+/Zn/EjniW6NstKMVGBBqcCMIY5InE9bJ+f2RWxMe5+X9vQdMjgxo+TaVcUQM2L0Hez0/vTX7aHiU1SQLmWVKZyiyTd193NOLVsHMNArrwFxYHbkpZJ4RpSEyLeiYwzyzmgsm2EcZwhD6+AKMDgmZwQldseN2Uvode2gsAihsrUUa47lNwVt0fMMtq9Gv3DB+3v5VGeCNfYt44Sapkz1LZySuuVU8xazHzGYw3yoy/lZ4jMV0PrL4cmFOhrNVH4GZt4eUzsc9MgbtkVy8M8+f2an14Guv9P2FJSxCtns97RhvmLMliatbn8LX378CBug5bMFtWc0ZA+utyy
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 17:32:55.9082
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d3d82984-1d3b-414f-8ecf-08deaacc5803
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb07.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DM2PEPF00003FC4.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4120
+References: <20260504-tcp-dm-netkit-v2-0-56d52ac72fd4@meta.com> <20260504-tcp-dm-netkit-v2-1-56d52ac72fd4@meta.com>
+In-Reply-To: <20260504-tcp-dm-netkit-v2-1-56d52ac72fd4@meta.com>
+From: Harshitha Ramamurthy <hramamurthy@google.com>
+Date: Tue, 5 May 2026 10:41:52 -0700
+X-Gm-Features: AVHnY4JVYQoMkZPle2iQADTNvkeoWF6dMpqpqNjmlqRgreICUU5dyZus5I1HOgw
+Message-ID: <CAEAWyHcLSE8YJXrjRx+fxjGPY=vL=C4fC44MiFwdUyRiDx1a3w@mail.gmail.com>
+Subject: Re: [PATCH net-next v2 1/6] net: add netmem_tx modes that indicate
+ dma capability
+To: Bobby Eshleman <bobbyeshleman@gmail.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Alex Shi <alexs@kernel.org>, 
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>, 
+	Michael Chan <michael.chan@broadcom.com>, Pavan Chebbi <pavan.chebbi@broadcom.com>, 
+	Joshua Washington <joshwash@google.com>, Saeed Mahameed <saeedm@nvidia.com>, 
+	Tariq Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
+	Alexander Duyck <alexanderduyck@fb.com>, kernel-team@meta.com, 
+	Daniel Borkmann <daniel@iogearbox.net>, Nikolay Aleksandrov <razor@blackwall.org>, 
+	Shuah Khan <shuah@kernel.org>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-rdma@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, Stanislav Fomichev <sdf@fomichev.me>, 
+	Mina Almasry <almasrymina@google.com>, Bobby Eshleman <bobbyeshleman@meta.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-describing the end-to-end CXL protocol error path: AER ingress, the
-AER-CXL kfifo handoff, the cxl_core consumer worker, RCD/RCH special
-cases, severity policy, trace events, and a source code map.
+On Mon, May 4, 2026 at 5:27=E2=80=AFPM Bobby Eshleman <bobbyeshleman@gmail.=
+com> wrote:
+>
+> From: Bobby Eshleman <bobbyeshleman@meta.com>
+>
+> Devices that support netmem TX previously set dev->netmem_tx =3D true.
+> This was checked in validate_xmit_unreadable_skb() to drop unreadable
+> skbs (skbs with dmabuf-backed frags) before they reach drivers that
+> would mishandle them or devices that would not have the iommu mappings
+> for them.
+>
+> Some virtual devices like netkit (or ifb) never DMA and never touch frag
+> contents, as they essentially just forward the skb to another device.
+> They are unable to forward unreadable skbs, however, because they fail
+> to pass TX validation checks on dev->netmem_tx. This single bit flag
+> doesn't give the TX validator enough information to differentiate
+> devices that will attempt DMA on the unreadable skb and those that will
+> simply route it untouched.
+>
+> This patch fixes this issue by adding an additional bit to netmem_tx, so
+> that drivers can indicate 1) if they have netmem support, and 2) if they
+> do, are they DMA-capable or not?
+>
+> Replace the boolean with a 2-bit enum:
+>
+> NETMEM_TX_NONE   - no netmem TX support (drop unreadable skbs)
+> NETMEM_TX_DMA    - full support, device does DMA
+> NETMEM_TX_NO_DMA - pass-through, device never DMAs
+>
+> Update drivers to reflect these definitions. NIC drivers use
+> NETMEM_TX_DMA, and netkit uses NETMEM_TX_NO_DMA.
+>
+> Signed-off-by: Bobby Eshleman <bobbyeshleman@meta.com>
+> ---
+> Changes in v2:
+> - Squash driver conversion patches (2-5) into patch 1 (Jakub)
+> ---
+>  Documentation/networking/net_cachelines/net_device.rst |  2 +-
+>  Documentation/networking/netmem.rst                    |  8 +++++++-
+>  Documentation/translations/zh_CN/networking/netmem.rst |  7 ++++++-
+>  drivers/net/ethernet/broadcom/bnxt/bnxt.c              |  2 +-
+>  drivers/net/ethernet/google/gve/gve_main.c             |  2 +-
+>  drivers/net/ethernet/mellanox/mlx5/core/en_main.c      |  2 +-
+>  drivers/net/ethernet/meta/fbnic/fbnic_netdev.c         |  2 +-
+>  drivers/net/netkit.c                                   |  1 +
+>  include/linux/netdevice.h                              | 11 +++++++++--
+>  9 files changed, 28 insertions(+), 9 deletions(-)
+>
+> diff --git a/Documentation/networking/net_cachelines/net_device.rst b/Doc=
+umentation/networking/net_cachelines/net_device.rst
+> index 1c19bb7705df..c85784259544 100644
+> --- a/Documentation/networking/net_cachelines/net_device.rst
+> +++ b/Documentation/networking/net_cachelines/net_device.rst
+> @@ -10,7 +10,7 @@ Type                                Name               =
+         fastpath_tx_acce
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>  unsigned_long:32                    priv_flags                  read_mos=
+tly                             __dev_queue_xmit(tx)
+>  unsigned_long:1                     lltx                        read_mos=
+tly                             HARD_TX_LOCK,HARD_TX_TRYLOCK,HARD_TX_UNLOCK=
+(tx)
+> -unsigned long:1                     netmem_tx:1;                read_mos=
+tly
+> +unsigned long:2                     netmem_tx:2;                read_mos=
+tly
+>  char                                name[16]
+>  struct netdev_name_node*            name_node
+>  struct dev_ifalias*                 ifalias
+> diff --git a/Documentation/networking/netmem.rst b/Documentation/networki=
+ng/netmem.rst
+> index b63aded46337..217869d1108d 100644
+> --- a/Documentation/networking/netmem.rst
+> +++ b/Documentation/networking/netmem.rst
+> @@ -95,4 +95,10 @@ Driver TX Requirements
+>     netdev@, or reach out to the maintainers and/or almasrymina@google.co=
+m for
+>     help adding the netmem API.
+>
+> -2. Driver should declare support by setting `netdev->netmem_tx =3D true`
+> +2. Driver should declare support by setting `netdev->netmem_tx` to the
+> +   appropriate mode:
+> +
+> +   - `NETMEM_TX_DMA`: for physical devices that perform DMA.
+> +
+> +   - `NETMEM_TX_NO_DMA`: for virtual or passthrough devices that do
+> +     not DMA, but still support handling of netmem-backed skbs.
+> diff --git a/Documentation/translations/zh_CN/networking/netmem.rst b/Doc=
+umentation/translations/zh_CN/networking/netmem.rst
+> index fe351a240f02..320f3eacf51b 100644
+> --- a/Documentation/translations/zh_CN/networking/netmem.rst
+> +++ b/Documentation/translations/zh_CN/networking/netmem.rst
+> @@ -89,4 +89,9 @@ dma-mapping API =E5=8E=BB=E5=A4=84=E7=90=86=E3=80=82
+>  =E4=BD=BF=E7=94=A8=E6=9F=90=E4=B8=AA=E8=BF=98=E4=B8=8D=E5=AD=98=E5=9C=A8=
+=E7=9A=84 netmem API=EF=BC=8C=E4=BD=A0=E5=8F=AF=E4=BB=A5=E8=87=AA=E8=A1=8C=
+=E6=B7=BB=E5=8A=A0=E5=B9=B6=E6=8F=90=E4=BA=A4=E5=88=B0 netdev@=EF=BC=8C=E4=
+=B9=9F=E5=8F=AF=E4=BB=A5=E8=81=94=E7=B3=BB=E7=BB=B4=E6=8A=A4
+>  =E4=BA=BA=E5=91=98=E6=88=96=E8=80=85=E5=8F=91=E9=80=81=E9=82=AE=E4=BB=B6=
+=E8=87=B3 almasrymina@google.com =E5=AF=BB=E6=B1=82=E5=B8=AE=E5=8A=A9=E3=80=
+=82
+>
+> -2. =E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=BA=94=E9=80=9A=E8=BF=87=E8=AE=
+=BE=E7=BD=AE netdev->netmem_tx =3D true =E6=9D=A5=E8=A1=A8=E6=98=8E=E8=87=
+=AA=E8=BA=AB=E6=94=AF=E6=8C=81 netmem =E5=8A=9F=E8=83=BD=E3=80=82
+> +2. =E9=A9=B1=E5=8A=A8=E7=A8=8B=E5=BA=8F=E5=BA=94=E5=B0=86 `netdev->netme=
+m_tx` =E8=AE=BE=E7=BD=AE=E4=B8=BA=E9=80=82=E5=BD=93=E7=9A=84=E6=A8=A1=E5=BC=
+=8F=EF=BC=9A
+> +
+> +   - `NETMEM_TX_DMA`=EF=BC=9A=E9=80=82=E7=94=A8=E4=BA=8E=E6=89=A7=E8=A1=
+=8C DMA =E7=9A=84=E7=89=A9=E7=90=86=E8=AE=BE=E5=A4=87=E3=80=82
+> +
+> +   - `NETMEM_TX_NO_DMA`=EF=BC=9A=E9=80=82=E7=94=A8=E4=BA=8E=E4=B8=8D=E6=
+=89=A7=E8=A1=8C DMA =E7=9A=84=E8=99=9A=E6=8B=9F=E6=88=96=E9=80=8F=E4=BC=A0=
+=E8=AE=BE=E5=A4=87=EF=BC=8C=E4=BD=86=E4=BB=8D=E6=94=AF=E6=8C=81
+> +     =E5=A4=84=E7=90=86 netmem =E6=94=AF=E6=8C=81=E7=9A=84 skb=E3=80=82
+> diff --git a/drivers/net/ethernet/broadcom/bnxt/bnxt.c b/drivers/net/ethe=
+rnet/broadcom/bnxt/bnxt.c
+> index 8c55874f44ca..ed9c22dc4a5a 100644
+> --- a/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> +++ b/drivers/net/ethernet/broadcom/bnxt/bnxt.c
+> @@ -17120,7 +17120,7 @@ static int bnxt_init_one(struct pci_dev *pdev, co=
+nst struct pci_device_id *ent)
+>         dev->queue_mgmt_ops =3D &bnxt_queue_mgmt_ops_unsupp;
+>         if (BNXT_SUPPORTS_QUEUE_API(bp))
+>                 dev->queue_mgmt_ops =3D &bnxt_queue_mgmt_ops;
+> -       dev->netmem_tx =3D true;
+> +       dev->netmem_tx =3D NETMEM_TX_DMA;
+>
+>         rc =3D register_netdev(dev);
+>         if (rc)
+> diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/eth=
+ernet/google/gve/gve_main.c
+> index 424d973c97f2..dd2b8f087163 100644
+> --- a/drivers/net/ethernet/google/gve/gve_main.c
+> +++ b/drivers/net/ethernet/google/gve/gve_main.c
+> @@ -2894,7 +2894,7 @@ static int gve_probe(struct pci_dev *pdev, const st=
+ruct pci_device_id *ent)
+>                 goto abort_with_wq;
+>
+>         if (!gve_is_gqi(priv) && !gve_is_qpl(priv))
+> -               dev->netmem_tx =3D true;
+> +               dev->netmem_tx =3D NETMEM_TX_DMA;
 
-This documents the architecture introduced by the preceding patches in
-this series.
+Acked-by: Harshitha Ramamurthy <hramamurthy@google.com>
 
-This was generated by claude-opus-4.7.
-
-Assisted-by: Claude:claude-opus-4.7
-Signed-off-by: Terry Bowman <terry.bowman@amd.com>
----
- Documentation/driver-api/cxl/index.rst        |   1 +
- .../cxl/linux/protocol-error-handling.rst     | 440 ++++++++++++++++++
- 2 files changed, 441 insertions(+)
- create mode 100644 Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-
-diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-index 3dfae1d310ca..6861b2e5726a 100644
---- a/Documentation/driver-api/cxl/index.rst
-+++ b/Documentation/driver-api/cxl/index.rst
-@@ -42,6 +42,7 @@ that have impacts on each other.  The docs here break up configurations steps.
-    linux/dax-driver
-    linux/memory-hotplug
-    linux/access-coordinates
-+   linux/protocol-error-handling
- 
- .. toctree::
-    :maxdepth: 2
-diff --git a/Documentation/driver-api/cxl/linux/protocol-error-handling.rst b/Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-new file mode 100644
-index 000000000000..4d6f33f0ed31
---- /dev/null
-+++ b/Documentation/driver-api/cxl/linux/protocol-error-handling.rst
-@@ -0,0 +1,440 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================
-+CXL Protocol Error Handling
-+==============================
-+
-+This document describes how the kernel detects, classifies, dispatches,
-+logs, and recovers from CXL protocol errors signaled through the PCIe
-+Advanced Error Reporting (AER) interface. It covers both Virtual
-+Hierarchy (VH) topologies (Root Ports, Upstream/Downstream Switch
-+Ports, and Endpoints) and Restricted CXL Host (RCH) topologies
-+(Root Complex Event Collectors driving Restricted CXL Devices).
-+
-+It is intended for kernel developers maintaining or extending
-+``drivers/pci/pcie/aer*.c``, ``drivers/cxl/core/ras.c``, and the
-+related plumbing in ``include/linux/aer.h``.
-+
-+
-+Background
-+==========
-+
-+A CXL device reports protocol-layer failures (CXL.cachemem RAS) as
-+PCIe AER **Internal Errors**: ``PCI_ERR_COR_INTERNAL`` for correctable
-+events and ``PCI_ERR_UNC_INTN`` for uncorrectable events. From the AER
-+core's point of view these look like ordinary PCIe AER messages, but
-+their semantics are CXL-specific: the actual fault information lives
-+in CXL RAS capability registers, not in the PCIe AER status registers.
-+
-+Historically, native CXL.cachemem RAS handling was implemented only
-+for CXL Endpoints and for RCH Downstream Ports. CXL Root Ports,
-+Upstream Switch Ports, and Downstream Switch Ports were not covered.
-+This left the kernel unable to log or react to protocol errors
-+signaled by switch components.
-+
-+The unified CXL protocol error path closes that gap by routing every
-+CXL Internal Error through a single producer/consumer pipeline shared
-+by all CXL device types.
-+
-+
-+Architecture overview
-+=====================
-+
-+CXL protocol error handling is implemented as a distinct error plane
-+layered on top of the existing PCIe AER infrastructure. The two planes
-+are kept separate:
-+
-+* The **PCIe AER plane** continues to handle native PCIe errors
-+  (Receiver overflows, malformed TLPs, completion timeouts, and so
-+  on). This is unchanged.
-+
-+* The **CXL protocol error plane** owns CXL Internal Errors. The AER
-+  core forwards them to ``cxl_core`` via a dedicated kfifo; ``cxl_core``
-+  then dispatches to CE/UE handlers and drives the recovery and
-+  panic policy.
-+
-+The boundary between the two planes is ``is_cxl_error()`` in
-+``drivers/pci/pcie/aer_cxl_vh.c``, which inspects ``info->is_cxl``
-+(set from ``pcie_is_cxl()``) together with the PCIe device type and
-+the AER status word. When ``is_cxl_error()`` returns true the event
-+is enqueued into the AER-CXL kfifo; otherwise the event flows through
-+``pci_aer_handle_error()`` as before.
-+
-+The pipeline has three layers:
-+
-+1. **Producer** (``aer_cxl_vh.c``, ``aer_cxl_rch.c``) - runs in AER
-+   IRQ/threaded context, classifies, clears the AER CE status, and
-+   enqueues ``struct cxl_proto_err_work_data``.
-+2. **Queue** - the AER-CXL kfifo plus a backing ``struct work_struct``.
-+3. **Consumer** (``cxl_core/ras.c``) - workqueue-context worker that
-+   resolves the CXL Port topology and dispatches to CE/UE handlers.
-+
-+
-+Topologies
-+==========
-+
-+Two topologies are supported, and both feed the same kfifo.
-+
-+Virtual Hierarchy (VH)
-+----------------------
-+
-+A standard CXL VH consists of a CXL Root Port (RP), an optional CXL
-+Upstream Switch Port (USP), one or more CXL Downstream Switch Ports
-+(DSPs), and CXL Endpoints (EPs) attached to the DSPs. Each component
-+is a regular PCIe device with a CXL DVSEC and a CXL RAS capability,
-+and it raises Internal Errors directly to the AER subsystem via the
-+RP's MSI/MSI-X interrupt.
-+
-+The VH producer is ``cxl_forward_error()`` in
-+``drivers/pci/pcie/aer_cxl_vh.c``.
-+
-+Restricted CXL Host (RCH)
-+-------------------------
-+
-+In the RCH topology, a Root Complex Event Collector (RCEC) aggregates
-+errors from one or more Restricted CXL Devices (RCDs) attached as
-+Root Complex Integrated Endpoints. The RCEC delivers the AER
-+interrupt; the AER driver iterates the RCDs beneath it.
-+
-+The RCH producer is ``cxl_rch_handle_error_iter()`` in
-+``drivers/pci/pcie/aer_cxl_rch.c``. For each RCD it finds, it calls
-+``cxl_forward_error()`` (the same producer helper used by the VH
-+path), so RCH events end up in the same AER-CXL kfifo as VH events.
-+
-+
-+End-to-end flow
-+===============
-+
-+The diagram below shows the full path from an AER interrupt through
-+producer classification, kfifo handoff, and consumer dispatch.
-+
-+.. code-block:: text
-+
-+   +-------------------------------------------------------------------------+
-+   |                  CXL Internal Error Packet Flow                         |
-+   |    From PCIe AER Interrupt to CXL Protocol Error Handling and Logging   |
-+   +-------------------------------------------------------------------------+
-+
-+      CXL device (RP / USP / DSP / EP / RCD) raises AER Internal Error
-+      (correctable PCI_ERR_COR_INTERNAL or uncorrectable PCI_ERR_UNC_INTN)
-+                      |
-+                      v
-+      +-------------------------------------------------------------+
-+      |    PCIe Root Port AER MSI/MSI-X interrupt fires             |
-+      +-------------------------------------------------------------+
-+                      |
-+      ============= drivers/pci/pcie/aer.c (AER core) =============
-+                      |
-+                      v
-+           +---------------------------------+
-+           |  aer_irq()  /  aer_isr()        |  (top + threaded handler)
-+           +---------------------------------+
-+                      |
-+                      v
-+           +---------------------------------+
-+           |  aer_isr_one_error()            |
-+           |  aer_isr_one_error_type()       |
-+           +---------------------------------+
-+                      |
-+                      v
-+          +------------------------------------------+
-+          |  aer_get_device_error_info()             |
-+          |  - reads PCI_ERR_COR_STATUS              |
-+          |  - reads PCI_ERR_UNCOR_STATUS  (*if RP/  |
-+          |    RCEC/DSP, or non-fatal severity)      |
-+          |  - sets info->is_cxl = pcie_is_cxl(dev)  |
-+          +------------------------------------------+
-+                      |
-+                      v
-+           +---------------------------------+
-+           |  handle_error_source(dev, info) |
-+           +---------------------------------+
-+              |                          |
-+              |  is_cxl_error()          +--->  pci_aer_handle_error()
-+              |  (CXL device + Internal)        (native PCIe AER path,
-+              v                                  not covered here)
-+      +-------------------------------------------------------------+
-+      | Topology dispatch within AER core:                          |
-+      |                                                             |
-+      |   - VH topology  (RP / USP / DSP / EP)                      |
-+      |     -> drivers/pci/pcie/aer_cxl_vh.c                        |
-+      |                                                             |
-+      |   - RCH topology (RCEC iterates RCDs under it)              |
-+      |     -> drivers/pci/pcie/aer_cxl_rch.c                       |
-+      +-------------------------------------------------------------+
-+           |                                            |
-+           | VH path                            RCH path (RCEC AER)
-+           v                                            v
-+      ============= aer_cxl_vh.c (VH      ============= aer_cxl_rch.c (RCH
-+                    producer) =============              producer) ==========
-+           |                                            |
-+           v                                            v
-+      +-----------------------------+         +-------------------------------+
-+      | cxl_forward_error(pdev,info)|         | cxl_rch_handle_error_iter()   |
-+      |  - if AER_CORRECTABLE:      |         |  - iterate each RCD pdev      |
-+      |     clear PCI_ERR_COR_STATUS|         |    beneath the RCEC           |
-+      |  - pci_dev_get(pdev)        |         |  - call cxl_forward_error()   |
-+      |  - build cxl_proto_err_     |         |    for each RCD               |
-+      |    work_data                |         |    (same producer helper as   |
-+      |    { pdev, severity }       |         |     the VH path uses)         |
-+      |  - kfifo_in_spinlocked(...) |         +-------------------------------+
-+      |  - schedule_work(...)       |                       |
-+      +-----------------------------+                       |
-+              |                                             |
-+              +-----------------+---------------------------+
-+                                |
-+                                v
-+                    +--------------------------+
-+                    |     AER-CXL kfifo        |
-+                    |     (work_struct)        |
-+                    +--------------------------+
-+                                |
-+                                v
-+      ============= drivers/cxl/core/ras.c (consumer worker) =======
-+                                |
-+                                v
-+      +-------------------------------------------------------------+
-+      | cxl_proto_err_work_fn() (workqueue handler)                 |
-+      |   for_each_cxl_proto_err(&wd, __cxl_proto_err_work_fn)      |
-+      +-------------------------------------------------------------+
-+                      |
-+                      v
-+      +-------------------------------------------------------------+
-+      | __cxl_proto_err_work_fn(wd)                                 |
-+      |   port = find_cxl_port_by_dev(&pdev->dev, &dport)           |
-+      |   cxl_handle_proto_error(pdev, port, dport, severity)       |
-+      |   pci_dev_put(pdev)                                         |
-+      +-------------------------------------------------------------+
-+                      |
-+                      v
-+      +-------------------------------------------------------------+
-+      | cxl_handle_proto_error()                                    |
-+      +-------------------------------------------------------------+
-+           |                                            |
-+      pci_pcie_type ==                          pci_pcie_type !=
-+      PCI_EXP_TYPE_RC_END                       PCI_EXP_TYPE_RC_END
-+      (RCD Endpoint)                            (VH: RP/USP/DSP/EP)
-+           |                                            |
-+           v                                            |
-+      +-------------------------------------+           |
-+      | cxl_handle_rdport_errors(pdev)      |           |
-+      |   - process RCH Downstream Port's   |           |
-+      |     RAS register block first        |           |
-+      |   - cxl_handle_cor_ras() for CE     |           |
-+      |   - cxl_handle_ras() for UE         |           |
-+      |     (log only; does NOT panic)      |           |
-+      +-------------------------------------+           |
-+           |                                            |
-+           +--------------------+-----------------------+
-+                                |
-+                                v
-+                   +-----------------------------+
-+                   | severity == AER_CORRECTABLE |
-+                   +-----------------------------+
-+                         |                  |
-+                         yes                no
-+                         v                  v
-+            +----------------------+   +-------------------------+
-+            | cxl_handle_cor_ras() |   | cxl_do_recovery()       |
-+            |  - emit cxl_aer_     |   | (described below)       |
-+            |    correctable_      |   +-------------------------+
-+            |    error trace       |
-+            | pcie_clear_device_   |
-+            |   status()           |
-+            +----------------------+
-+
-+                    +-------------------------------+
-+                    | cxl_do_recovery()             |
-+                    |  if pci_dev_is_disconnected:  |
-+                    |    panic("CXL cachemem err.") |
-+                    |                               |
-+                    |  ue = cxl_handle_ras()        |
-+                    |    -> emit                    |
-+                    |       cxl_aer_uncorrectable_  |
-+                    |       error trace event       |
-+                    |                               |
-+                    |  if (ue):                     |
-+                    |    panic("CXL cachemem err.") |
-+                    |                               |
-+                    |  pcie_clear_device_status()   |
-+                    |  pci_aer_clear_nonfatal_status|
-+                    |  pci_aer_clear_fatal_status   |
-+                    +-------------------------------+
-+
-+
-+Severity policy
-+===============
-+
-+The kernel's response to a CXL protocol error depends on the AER
-+severity reported by the device and on the result of inspecting the
-+CXL RAS registers.
-+
-+Correctable Error (CE)
-+----------------------
-+
-+* The AER driver clears ``PCI_ERR_COR_STATUS`` in the producer
-+  (``cxl_forward_error()``) before enqueue, so the device is
-+  acknowledged even if the consumer drops the event.
-+* The consumer's ``cxl_handle_cor_ras()`` reads and clears the CXL
-+  RAS correctable status and emits a ``cxl_aer_correctable_error``
-+  trace event.
-+* No recovery action is taken.
-+
-+Uncorrectable Error (UE), non-fatal
-+-----------------------------------
-+
-+* The producer enqueues the event without clearing the AER UCE
-+  status.
-+* The consumer enters ``cxl_do_recovery()``.
-+* ``cxl_handle_ras()`` reads the CXL RAS uncorrectable status and
-+  emits a ``cxl_aer_uncorrectable_error`` trace event.
-+* If ``cxl_handle_ras()`` returns true (a CXL RAS UE bit was set),
-+  the kernel panics with ``"CXL cachemem error."``. CXL.cachemem
-+  traffic cannot be safely recovered in software once corruption is
-+  observed; continuing risks silent data loss across all devices in
-+  an interleaved HDM region.
-+* If ``cxl_handle_ras()`` returns false (no CXL RAS bit set, i.e.
-+  the AER UCE was a PCIe-side issue rather than a CXL.cachemem
-+  issue), the AER UCE status is cleared and execution continues.
-+
-+Uncorrectable Error (UE), fatal
-+-------------------------------
-+
-+Fatal severity follows the same recovery path as non-fatal in
-+``cxl_do_recovery()``, with one important caveat: the AER core only
-+reads ``PCI_ERR_UNCOR_STATUS`` for Root Ports, RCECs, Downstream
-+Ports, or non-fatal severities (see ``aer_get_device_error_info()``
-+in ``drivers/pci/pcie/aer.c``). For a fatal UE signaled by an
-+upstream component, PCI config reads to the source device are
-+expected to fail, so ``UNCOR_STATUS`` is never retrieved and
-+``info->status`` stays zero.
-+
-+The practical consequence: a fatal UE on an Upstream Switch Port or
-+Endpoint is **not** classified as a CXL error by ``is_cxl_error()``.
-+It falls through to ``pci_aer_handle_error()`` and is processed by
-+the standard AER recovery flow. Only the CXL trace events emitted by
-+the AER core (``aer_event``) appear; the CXL-specific
-+``cxl_aer_uncorrectable_error`` event is not emitted on this path.
-+
-+Disconnect during recovery
-+--------------------------
-+
-+``cxl_do_recovery()`` checks ``pci_dev_is_disconnected(pdev)`` before
-+touching the RAS registers. A device disconnecting during an
-+uncorrectable error event is itself unrecoverable, particularly when
-+the device backs an interleaved HDM region; in that case the kernel
-+panics directly rather than returning ``~0u`` from the readl() and
-+masking the cause.
-+
-+
-+RCD/RCH special cases
-+=====================
-+
-+RCD Endpoint flow
-+-----------------
-+
-+When ``cxl_handle_proto_error()`` sees ``pci_pcie_type(pdev) ==
-+PCI_EXP_TYPE_RC_END`` (i.e. an RCD Endpoint), it calls
-+``cxl_handle_rdport_errors()`` first. This processes the RAS state
-+of the RCH Downstream Port that hosts the RCD before falling through
-+to the common CE/UE dispatch on the RCD Endpoint itself.
-+
-+The RCH Downstream Port's RAS UE is **logged only**: it emits the
-+trace event but does not panic. The panic decision is taken on the
-+RCD Endpoint's own RAS in ``cxl_do_recovery()``.
-+
-+This split mirrors the structure of an RCH topology: the RCH dport
-+is functionally a CXL infrastructure component (similar to a switch
-+port), while the RCD itself is the actual CXL.cachemem source whose
-+corruption drives the recovery decision.
-+
-+RCH ingress aggregation
-+-----------------------
-+
-+RCH errors do not arrive on a per-RCD interrupt. The RCEC is the AER
-+source, and the AER driver drives ``cxl_rch_handle_error_iter()`` to
-+walk each RCD beneath it and forward an event per RCD through the
-+shared kfifo. From the consumer's point of view, RCH-originated
-+events are indistinguishable from VH events.
-+
-+
-+Trace events
-+============
-+
-+Two unified trace events are emitted from ``cxl_handle_cor_ras()``
-+and ``cxl_handle_ras()`` and are used by every CXL device type and
-+both topologies:
-+
-+* ``cxl_aer_correctable_error`` - emitted when a CXL RAS CE bit is
-+  set; carries the human-readable status string.
-+* ``cxl_aer_uncorrectable_error`` - emitted when a CXL RAS UE bit is
-+  set; carries both the current status and the first-error pointer.
-+
-+Common fields:
-+
-+* ``device=<PCI BDF>`` - the source device (always a PCI BDF, even
-+  for RCH paths where the trace was historically a memdev name).
-+* ``host=<bridge>`` - the parent host bridge or PCI host BDF.
-+* ``serial=<u64>`` - the device serial from ``pci_get_dsn()``.
-+
-+The ``device`` field replaces the older ``memdev`` field that earlier
-+revisions emitted on Endpoint events. Userspace consumers
-+(rasdaemon's ``ras-cxl-handler.c``) need a corresponding update to
-+read the new field name.
-+
-+
-+Source code map
-+===============
-+
-+============================================  ==============================
-+File                                          Role
-+============================================  ==============================
-+``drivers/pci/pcie/aer.c``                    AER core; receives the IRQ,
-+                                              builds ``aer_err_info``,
-+                                              dispatches to either the CXL
-+                                              path (``is_cxl_error()``) or
-+                                              ``pci_aer_handle_error()``.
-+``drivers/pci/pcie/aer_cxl_vh.c``             VH producer; provides
-+                                              ``is_cxl_error()``,
-+                                              ``cxl_forward_error()``, the
-+                                              AER-CXL kfifo, and the
-+                                              consumer registration
-+                                              helpers.
-+``drivers/pci/pcie/aer_cxl_rch.c``            RCH producer; iterates RCDs
-+                                              under an RCEC and forwards
-+                                              each via
-+                                              ``cxl_forward_error()``.
-+``drivers/cxl/core/ras.c``                    Consumer; defines
-+                                              ``cxl_proto_err_work_fn()``,
-+                                              ``cxl_handle_proto_error()``,
-+                                              ``cxl_handle_rdport_errors()``,
-+                                              ``cxl_do_recovery()``,
-+                                              ``cxl_handle_cor_ras()`` and
-+                                              ``cxl_handle_ras()``.
-+``include/linux/aer.h``                       Public declarations:
-+                                              ``struct cxl_proto_err_work_data``,
-+                                              ``cxl_proto_err_fn_t``,
-+                                              ``cxl_register_proto_err_work()``
-+                                              and ``for_each_cxl_proto_err()``.
-+============================================  ==============================
-+
-+
-+Limitations and future work
-+===========================
-+
-+* **USP/EP fatal UCE is not classified as CXL.** As described under
-+  `Severity policy`_, the AER core never retrieves
-+  ``PCI_ERR_UNCOR_STATUS`` in this scenario, so ``is_cxl_error()``
-+  cannot tag the event as CXL. The event is handled by the AER path
-+  only. Resolving this requires either an AER-core change to attempt
-+  a config read with link-validity gating, or a separate CXL-side
-+  notification mechanism for upstream-signaled fatal events.
-+* **User-defined status masks** are not yet supported. All CE and UE
-+  status bits are reported as they appear in the RAS register.
-+* **Port traversing in cxl_do_recovery()** is not yet implemented; a
-+  CXL UE today is reported and acted on at the source device only,
-+  not propagated to ancestor ports.
-+* The RCH producer (``aer_cxl_rch.c``) currently lives under
-+  ``drivers/pci/pcie/`` for historical reasons. Moving it to
-+  ``drivers/cxl/core/ras_rch.c`` is on the roadmap.
-+
--- 
-2.34.1
-
+>
+>         err =3D register_netdev(dev);
+>         if (err)
+> diff --git a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c b/drivers/=
+net/ethernet/mellanox/mlx5/core/en_main.c
+> index 5a46870c4b74..fc49aae38807 100644
+> --- a/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+> +++ b/drivers/net/ethernet/mellanox/mlx5/core/en_main.c
+> @@ -5924,7 +5924,7 @@ static void mlx5e_build_nic_netdev(struct net_devic=
+e *netdev)
+>
+>         netdev->priv_flags       |=3D IFF_UNICAST_FLT;
+>
+> -       netdev->netmem_tx =3D true;
+> +       netdev->netmem_tx =3D NETMEM_TX_DMA;
+>
+>         netif_set_tso_max_size(netdev, GSO_MAX_SIZE);
+>         mlx5e_set_xdp_feature(priv);
+> diff --git a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c b/drivers/net=
+/ethernet/meta/fbnic/fbnic_netdev.c
+> index c406a3b56b37..138e522ef9b9 100644
+> --- a/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
+> +++ b/drivers/net/ethernet/meta/fbnic/fbnic_netdev.c
+> @@ -752,7 +752,7 @@ struct net_device *fbnic_netdev_alloc(struct fbnic_de=
+v *fbd)
+>         netdev->netdev_ops =3D &fbnic_netdev_ops;
+>         netdev->stat_ops =3D &fbnic_stat_ops;
+>         netdev->queue_mgmt_ops =3D &fbnic_queue_mgmt_ops;
+> -       netdev->netmem_tx =3D true;
+> +       netdev->netmem_tx =3D NETMEM_TX_DMA;
+>
+>         fbnic_set_ethtool_ops(netdev);
+>
+> diff --git a/drivers/net/netkit.c b/drivers/net/netkit.c
+> index 5e2eecc3165d..0ad6a806d7d5 100644
+> --- a/drivers/net/netkit.c
+> +++ b/drivers/net/netkit.c
+> @@ -466,6 +466,7 @@ static void netkit_setup(struct net_device *dev)
+>         dev->priv_flags |=3D IFF_NO_QUEUE;
+>         dev->priv_flags |=3D IFF_DISABLE_NETPOLL;
+>         dev->lltx =3D true;
+> +       dev->netmem_tx =3D NETMEM_TX_NO_DMA;
+>
+>         dev->netdev_ops     =3D &netkit_netdev_ops;
+>         dev->ethtool_ops    =3D &netkit_ethtool_ops;
+> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+> index 0e1e581efc5a..11d68e75eb4f 100644
+> --- a/include/linux/netdevice.h
+> +++ b/include/linux/netdevice.h
+> @@ -1788,6 +1788,12 @@ enum netdev_stat_type {
+>         NETDEV_PCPU_STAT_DSTATS, /* struct pcpu_dstats */
+>  };
+>
+> +enum netmem_tx_mode {
+> +       NETMEM_TX_NONE,         /* no netmem TX support */
+> +       NETMEM_TX_DMA,          /* DMA-capable netmem TX (real HW) */
+> +       NETMEM_TX_NO_DMA,       /* no DMA, e.g. passthrough for virtual d=
+evs */
+> +};
+> +
+>  enum netdev_reg_state {
+>         NETREG_UNINITIALIZED =3D 0,
+>         NETREG_REGISTERED,      /* completed register_netdevice */
+> @@ -1809,7 +1815,8 @@ enum netdev_reg_state {
+>   *     @lltx:          device supports lockless Tx. Deprecated for real =
+HW
+>   *                     drivers. Mainly used by logical interfaces, such =
+as
+>   *                     bonding and tunnels
+> - *     @netmem_tx:     device support netmem_tx.
+> + *     @netmem_tx:     device netmem TX mode (NETMEM_TX_NONE, NETMEM_TX_=
+DMA,
+> + *                     or NETMEM_TX_NO_DMA).
+>   *
+>   *     @name:  This is the first field of the "visible" part of this str=
+ucture
+>   *             (i.e. as seen by users in the "Space.c" file).  It is the=
+ name
+> @@ -2132,7 +2139,7 @@ struct net_device {
+>         struct_group(priv_flags_fast,
+>                 unsigned long           priv_flags:32;
+>                 unsigned long           lltx:1;
+> -               unsigned long           netmem_tx:1;
+> +               unsigned long           netmem_tx:2;
+>         );
+>         const struct net_device_ops *netdev_ops;
+>         const struct header_ops *header_ops;
+>
+> --
+> 2.52.0
+>
