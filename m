@@ -1,121 +1,131 @@
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05DD492195
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 18:26:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.210.46
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778005614; cv=pass; b=LK01uazYwi1Xn3WtlpNZ52hhKx5YsCSA3Vc1GakIjuLVvJ/9Rxblu471/WGmH35y8ZEWlaOgAs9Idls9fW7CScieFtEw2g9IKGj3HlXZjRz0Dqtmq+0hvzTTHC5Ku95NeIS+qJeT1ZCTazx3TvYUSx++22A/4/2A+NsytPFlja4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778005614; c=relaxed/simple;
-	bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=ppwCsooaOE5TL0tnP222CvWMvQoyoULLlJhCQs5Ykjp9O09KpifM2klubu4k+PwAdwYXz/wbc6PKtvWLTuw3QMOwHNlx82Ge+PTRvTUgtOq7y+tOhHsrGmHxvSe2TbI8/OA+uSE6NscwG9IvjXZrxBrIRZOBzTsc/PcxNUBW4VU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WXK5c2xU; arc=pass smtp.client-ip=209.85.210.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96852492195
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 18:26:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778005618; cv=none; b=eTK/BDUuh5KmJddsu0AIplgPihovkZZPOlVsWUfut23vB7ZfrnN3WNc1DRTcXQCP8jOZf4bMtjRf21I/Dk7ZmxkY1x3bm/eGFGM3UicPx3vP+GzQ1NgqlQODQPPlucFXI0g9IygQlI6iZT6guvf15kEzPvS/OiwAAKSioMr578o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778005618; c=relaxed/simple;
+	bh=8khDHB/AbzCXgWyOJoGqZIMn/DzCkUOykeK/iZn29Gw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=K7xidMyCbNV0xaLZHYjgvU3P+7mJG7zHT8plx0fFJWAo64YoZk6S9J4fBiKLHQf85NSORgWVVcMwRHU7Czni7fufVz/ido1UJt+2avBYYt896Ts9sJ1g4O6gpGLeuF7KJYrw6ytrS61gRptXRpro2vwtlCAzy+X9PNQNtU/1+xg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=TN6r1TlQ; arc=none smtp.client-ip=209.85.210.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WXK5c2xU"
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7d4be94eeacso6254132a34.2
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 11:26:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778005612; cv=none;
-        d=google.com; s=arc-20240605;
-        b=NKUEkIpU0bkXVUKS9iLUKPD1eZLPt2C+chsnWLEAFhkI9BTVfz9A28zEqpNtlB35Oj
-         NQa7NU9IBD2YIbG+tis8z3lLoVQ03cI+fnV48AoDiYObTDUdpHnGkjT5fdM8iBCqbb2r
-         Q1J9Li+hCOFzSYIPDOshVQNBwjA7t4Zti0e9pwM+v+ZrIognfrlmSpHUUaZ4bXQKIVAa
-         gENjdEp1SS7HaXCSm4gZHGykRKYXPdiCSP5qJjZ/lmViIxAw6PP7ERDt6PowydrOgPUC
-         qnZqfdBPU0/6856J60u1Ywgsc1ynI3DO1AkkMWpnKvWoL1urr7701/+u5v6H+b6cF/c4
-         +hHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-        fh=EVeMK/pirxgBZkwoYjCZCYDk8g0KietX8YdCv3fZMTo=;
-        b=O8SCYTVUOJrxIXo6U326Xyk4UdSh0yi8OYz6MDltyfCFlz83484wVx42FoLvaIBAZ0
-         p3Z4TAMhLz/zdqUXdPS7YybPLDvqz7Q87Lwir6tThBEdu6wzFh0MrpFBQzMxmp8IXMR8
-         7D7L3IikGdwf2zLlHtXElId/qQXdU/2H8LEyLJbAa3L/oiSspJwIjhyfNwMFBdCD46vU
-         fXwRjB7K2xkxH+Q58GLTR9Z0/DmwxQmpMuSrSWESUqEA7eDcNUGa1XnI4dO9XMkUaCJ7
-         NfGAkYg+2WRpKjKIqXj0qXh9HoOjFRq6W6s+r+mDiUIF17uWkc/qB5+AfxARjXl1JAVL
-         IxLQ==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="TN6r1TlQ"
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7de4ed0593fso3403083a34.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 11:26:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778005612; x=1778610412; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-        b=WXK5c2xUX1xo+RMVivqX3up4KZYapyVg+4+CPgNLKv63ds/ORhgCSMwLSBx2rG/Do5
-         dpkAhlGcPr9IdslXL0+OqqNreGKliFBrzP1fRZVmJIDxIAUdSKdNbwYfV7J8psMOOR4N
-         xStDo6EyPOCMDLD6ublGYL+36BAJkllVGYXeP2AUP9FQTfidkKoWSFop5XRqMGV//rL0
-         OVplLAFdoW6jmN6MxOR3xpgjUSntqWsQaqq8/aULEt6ILQ6frNGMeBkkeh7Isnua6xW/
-         fMhBk6Eox5daRjZcnuur93XcMiT+c4/AKgc//4nrTydmi5TDcDufZEUch4J95sLW2bhx
-         /ZKA==
+        d=linuxfoundation.org; s=google; t=1778005615; x=1778610415; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lhKovcL1mqmiAG0m7OkvSMw8SBAqattxABfcAaxTl+U=;
+        b=TN6r1TlQ9JLC7xJRXUm8a8Ra7do7i/l3Dill3ZGALf6YjeWCDpkH7YOqX1CnmAapZR
+         5lQO8Dou6ttMhCBcsyXFQ3SNgJtA0D4gO/CRkGM/zVmY6US5v6rIr5SmK+IXw1HE5P1i
+         DIiqGThPHCD79Gng/SIXvQ4kEdK1o0oqzWWZA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778005612; x=1778610412;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=ZIhgGw8OHp+7EafnrnJOBFkAUxEpp2cPLOL2P7jbZAs=;
-        b=N10v5M4q3W/bLB2R+DKwFpo+YepGjsO785rYrV6ZgLoF9m8AvYzvtyUsKDtdEuOd0T
-         aHhBY6z3eN6GzkdpHoGI6xHsR0TDBYWjQGv4Zv9oECj5/3nKgQSX+Tn2VWBGLfJjMGz6
-         vFlGvwXHb4mb55iAJGHCQkL0phutyyMAYIWC7B3GAbKsRrENQT6rPI0aSEVQuFYL6f5+
-         SbiXaXy6OeXGrsMZ1dLRz6Hlnsa8MQaSe8doWrFskM1f2PoFy6rdNQ+97pIPBGQh5lHf
-         AX6Gt8hyNOS4Rrhyz/jwFzDnIu9RQtQuBtMjaeXWqNEHHtb3nOK7ru5niSOLr0GEW2Qq
-         dSmQ==
-X-Forwarded-Encrypted: i=1; AFNElJ9xSlRdwweW8UQPV3zIXzIq29d+69r/p93qre/vrl4UyCjrYE3wAIgCzKt66kFSP+EoWNwByyRrlSU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YybFFhZdaT0aQsiP4zCUF4y9Iy6FbXSHAy/huFBzqQeT0f0fOuw
-	kSzDma0TU4lt4GE7G42MEWjHKhXNftocCplYIoMJxhPpYX3dJSeIXsPgSeBZeE+2rlR2kfzkSvJ
-	u4Mjyr9DTYAyvrwGrDmcXqnuxb/aYdpM=
-X-Gm-Gg: AeBDievTDJMPmrKOCwmZu3lYOE4LmGPZ+S/IHFiXjur1f2+Cu1aFioloUNvVb0CdwoX
-	hy3iNUpwEq8orCIsuLb6fBRE+6TGyen9AuB0zKxHO4AGllt3UNjufremkbCgx3BzYhLeyY2JH8T
-	IEGQg7JrZJVpRobLeWHfTOPf70GTRJf90x+7RDFQ2JJnzXidZi2JGX5JzSK3sjsz+V8MbSuewz7
-	URKMiN0xZERl5wJ2iHeI7SLPfSMn6RkOdCqSyax1brxF/DrvI4DXkn0UTtVWabj8Dv2vrdzwt9a
-	M3ShX6KPPv6lOKQbE43MzPxnE2QUD9wGmEA2Q73mT1AF2BVs6ZPi+jlcqw0/BAIjtNL5dtbLlQv
-	A9ehs+uyG
-X-Received: by 2002:a05:6820:4c17:b0:696:8b09:6c99 with SMTP id
- 006d021491bc7-699980a957bmr426610eaf.5.1778005611625; Tue, 05 May 2026
- 11:26:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778005615; x=1778610415;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lhKovcL1mqmiAG0m7OkvSMw8SBAqattxABfcAaxTl+U=;
+        b=p3foLewZR8vyY7xuX5f44rhYlHW83M5ioc5EEn13ZGLfJGeCvWTrWBKmWLNXv0exd3
+         rtm2IcZk95H+/tidTbpCQJWZ2qFZ7GiazMnjyo0f0iFzvOM8pq05lC1y/J/L28L5BT96
+         aK2MZyMWt/WG/tzwiutZj9wurH9JyfO3URroJx6Dt5LJj/2w9/AOjZuoYUIfmXen3mW0
+         yDo2daO6Qvbwj3ojyIXNEvfSTUoDxOrJSkPn/a6DTmGJFd6GFyBQKjNvwQ7gEJQCgwfX
+         H56HKkMVxBDfotJb9VAHrByZ2D5MFRlvRKkSHraHpieDO9UBBrsaIVgn3rl1VVWme6cA
+         XOQw==
+X-Forwarded-Encrypted: i=1; AFNElJ/9oTjknew9Mcc5QaL0Wri5WLVvcyehx1+QAPdJ0YQlQetJgLYbLEBkFEZ48hOvfLq/rpyuYnEcHxY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyRurKLvSYF4q0vRlEB5ecWLhTIyfjdgWAQXuBVK1ESnz7IJo1l
+	kJOwp7dIb8B85oDBq6FS1JmVw/NpMaQR1IF0ltYIIvqE9fxOwc3KGhUvnI8BcICvcSY=
+X-Gm-Gg: AeBDies2Na3Pk+QNS/xqIkkHf4domy9YZZ4eq80j4PNP7e6bC3SdxGql8c/mLJyiN8S
+	vhX6elVUnnZm4lqWiEqbh0E9RxyAy/GuuQj7yWJOsR/JzLB4FM6BEcOLfirLagxNlSjKNLoxDE6
+	OeAYKZdTeBFuLqqGJ7uFiVdAX82oQKUjM9LKmopwYz7xs6DOhdoM4LQHGiRFcDQya4sJXnDAf5T
+	Wq0IMmNABe3IHdyt4UJCCol7DaqXrpa83rywVsFOSEgsL1yFHZce9buLxFofDPuFBqI28K2oULF
+	wIfwBSK8qIO0nNDGyUnYmPQoXiXX6PJpAIqTVIxzE5HduemymTI9WCnnoFpCeLCCvbpaMaH+tZ2
+	P7tOG8QI8cIjaVkYNLSqNZvpb2r4u49MPjCs6um4Jsf7/h/UfXG7OvELVoem2QfsJ4CAzxjWKL9
+	+sG3yyDoaqo1ooe47R27Fv4A/6zJRPUNbgd90POQ8UAw==
+X-Received: by 2002:a05:6830:67cd:b0:7de:a330:ecb8 with SMTP id 46e09a7af769-7e17d02b89emr2646987a34.16.1778005615604;
+        Tue, 05 May 2026 11:26:55 -0700 (PDT)
+Received: from [192.168.1.14] ([38.15.57.99])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7deced80854sm10166333a34.18.2026.05.05.11.26.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2026 11:26:55 -0700 (PDT)
+Message-ID: <77d20890-c1f5-4be6-ac58-1518f75822bf@linuxfoundation.org>
+Date: Tue, 5 May 2026 12:26:54 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
- <20260428-bump-minimum-supported-llvm-version-to-17-v1-1-81d9b2e8ee75@kernel.org>
- <afoMRMnSQUwk1eaN@levanger>
-In-Reply-To: <afoMRMnSQUwk1eaN@levanger>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Tue, 5 May 2026 15:26:40 -0300
-X-Gm-Features: AVHnY4LyB1Xe5rlwokmTAGILipbZzP-_Kf8TGIx7tE8Zk3dE-DZnkJNK9pzsLsQ
-Message-ID: <CAMAsx6cPfPVDBpL6wwHeqzWLqPwQB15pKgvgVu-Ni3Sjjkdf4w@mail.gmail.com>
-Subject: Re: [PATCH 01/14] kbuild: Bump minimum version of LLVM for building
- the kernel to 17.0.1
-To: Nathan Chancellor <nathan@kernel.org>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, 
-	linux-kernel@vger.kernel.org, llvm@lists.linux.dev, 
-	linux-kbuild@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] docs: admin-guide: fix typos in workload tracing
+ guide
+To: Cheng-Han Wu <hank20010209@gmail.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260503101429.254394-1-hank20010209@gmail.com>
+ <20260503101429.254394-2-hank20010209@gmail.com>
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20260503101429.254394-2-hank20010209@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 5, 2026 at 1:11=E2=80=AFPM Nicolas Schier <nsc@kernel.org> wrot=
-e:
->
->> FTR: The translations
->>Documentation/translations/{it\_IT,pt\_BR}/process/changes.rst become now
->>even more outdated.
->
->>Acked-by: Nicolas Schier <nsc@kernel.org>
->
+On 5/3/26 04:14, Cheng-Han Wu wrote:
+> Fix several typos in the workload tracing guide:
+> 
+>    - sys_opennat() -> sys_openat()
+>    - annotate the to view -> annotate the output to view
+>    - sys_getegid -> sys_getegid()
+> 
+> Signed-off-by: Cheng-Han Wu <hank20010209@gmail.com>
+> ---
+>   Documentation/admin-guide/workload-tracing.rst | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/workload-tracing.rst b/Documentation/admin-guide/workload-tracing.rst
+> index 35963491b9f1..22cb05025ffc 100644
+> --- a/Documentation/admin-guide/workload-tracing.rst
+> +++ b/Documentation/admin-guide/workload-tracing.rst
+> @@ -278,8 +278,8 @@ associated with a process. This command records the profiling data in the
+>   perf.data file in the same directory.
+>   
+>   Using the following commands you can record the events associated with the
+> -netdev stressor, view the generated report perf.data and annotate the to
+> -view the statistics of each instruction of the program::
+> +netdev stressor, view the generated report perf.data and annotate the output
+> +to view the statistics of each instruction of the program::
+>   
+>     perf record stress-ng --netdev 1 -t 60 --metrics command.
+>     perf report
+> @@ -349,13 +349,13 @@ times each system call is invoked, and the corresponding Linux subsystem.
+>   +-------------------+-----------+-----------------+-------------------------+
+>   | geteuid           | 1         | Process Mgmt.   | sys_geteuid()           |
+>   +-------------------+-----------+-----------------+-------------------------+
+> -| getegid           | 1         | Process Mgmt.   | sys_getegid             |
+> +| getegid           | 1         | Process Mgmt.   | sys_getegid()           |
+>   +-------------------+-----------+-----------------+-------------------------+
+>   | close             | 49951     | Filesystem      | sys_close()             |
+>   +-------------------+-----------+-----------------+-------------------------+
+>   | pipe              | 604       | Filesystem      | sys_pipe()              |
+>   +-------------------+-----------+-----------------+-------------------------+
+> -| openat            | 48560     | Filesystem      | sys_opennat()           |
+> +| openat            | 48560     | Filesystem      | sys_openat()            |
+>   +-------------------+-----------+-----------------+-------------------------+
+>   | fstat             | 8338      | Filesystem      | sys_fstat()             |
+>   +-------------------+-----------+-----------------+-------------------------+
 
-Hi Nicolas,
+Looks to good to me.
 
-Just confirming that I will make the necessary corrections to the
-changes.rst Portuguese translation (pt\_BR) in the next few days.
+Reviewed-by: Shuah Khan <skhan@linuxfoundation.org>
 
-Thanks,
+thanks,
+-- Shuah
 
-Daniel Pereira
-Linux Kernel Maintainer pt\_BR
