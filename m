@@ -1,579 +1,641 @@
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013026.outbound.protection.outlook.com [40.93.201.26])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D87481655;
-	Tue,  5 May 2026 15:38:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777995535; cv=fail; b=NgnrEx2Ey7rTWgM84hpLf10SXp5mZatlU3LLCEuEuPSZtY6GTGCr03uw58fArU6d83/LbDZ9Pr0/gJKBc9B8YWhDsVhNygYAr2m1RplJDsQ5+24blk2M/YnZA/v2wsSbEEYVAKQ1WeicvntEVFiV/IR7xPVh9oT9X8MYpEVsS7g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777995535; c=relaxed/simple;
-	bh=+oyIJbcdE1icg1/mqP/6Ng83SbunAZH8bmZmXFnNwts=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=i8fczEcwlN61eUp88DeV6zc2XQgZS739HeBdJr1BREyD7fhvkdtHAXiNL7S/amj/Ie6JlO/7a7+v/I8KqyglLQZMNqvVq8Ey7mZViU3ZIkF7gyQywEt/8jQmb1IkVhXRav2hMofJ72be/z34+2nQzgXffkzRsVejmyDU++/lcm8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=TVFiIqrP; arc=fail smtp.client-ip=40.93.201.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 481F648A2B4
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 15:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777995542; cv=none; b=T8RjqaUJCpvH984M4IktRwnpDHUg85rviai7/CgI9PMbrrAr+9l5tBxx2+GQY6FulI50GpM2hJB6meMlItbKgANTkoQf+1V2HD76pBqkBeOi2aoSKB7NS+lSlZ1d0BXnoGZgOjPU7MdL8IRgdory7jI7ST2K9y/mBSCHUD2jLAY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777995542; c=relaxed/simple;
+	bh=EJCCe0WNltbyud2UzysjfOVQKDck1ulvekBx/TpAivs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eUrbxFngur7HxdylYc6zGGjhDsO0rmKxYBQeNYo9fUstuzEFPs5n8ChbnHnfaf6wdJxBm6xHy0uzAaII/r6e5nKDxMz1edHSQCDGSynafEco8NOdk1PX+prvLPYwI9hv83e51hY7PQAQooQZKdv9wWUu/0xcXscnPh4HuRilBb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=pserL7Au; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="TVFiIqrP"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CfhC0DQ4LK4c2Lof3M+xdDQt5gF+i2cJ9Je+kmnhxn9nwIdlQg1TfxVctwUipxF7OFhKjmLM1EtmAXXOXHh1sEkfKUM05DLk3R7/CHYwK0//YmtnOv6Cz0WDOfv4md6iSnGI5T+varIiQyHNHtUX5K/0lzaogqfuuPMSrzkVUDHIk+6bbbl7jCId7zZ/02/4q9Qi7ptvrK7C7JwFTLM99iuzVzXE3Y9r6zGoPc+RPb0EJbEDXuczAwAW/L9xYWZNK9+QijXESCvW7f0ZYSANtK0pfxKTE5CbP2dPM8wEGHIYNQKKBVv4HJFH42eo4jgb8lAzmHoajqB51uKyBaIAsw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=A4RXQ7J7aRcXYHZ3Uj6X0EgOn383kDyhoE9V4rrSZno=;
- b=cuCfMuEMS4YQbCA/AvUQ2G/O9Ey5NpW/Fx4To9F6ZCfymM6igXhL7vgulhUou9ueOQCvPMvJeMH7MQSPv66Qy05XCJIrr2an+ce+zTNU1lBzcBMFD4J9Bu5PcD6Z6x1oPr3IX223kowbqMuCuC678GWi40fWxMvucqFjqtVdzKJ4n/kK4AEoN5tfKBxEvnRTFFa/NvBMp/p9ILHGw2k3EuOOwMdjhhP9kXNAWdjN9ndzVzHzmGG60mDZjqu5I4vRls5/w9+2MqyY+VKeRf2xxJb2O/KVTZ9cFBV1ZhNRpk0nMH5otUSuaNe0EOGQBSKv8kHpAWieFmapI6Y6W5BPTQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=ti.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A4RXQ7J7aRcXYHZ3Uj6X0EgOn383kDyhoE9V4rrSZno=;
- b=TVFiIqrPlL/6OFXhvTIoA3MOsju4syYhxn2ti2T0gMzalXltR7kgjIQRBsbucSVEoKM0h6E6AB2w+Azw3pIIc3z2jq+QgC2VfQ7ucwDOLx40JwpZF1pHSEqNg553ZTLfhdM+G9tBc137nf4bHC2HNw8Kh8Bp6xFctwWbqd4NuR4=
-Received: from BLAPR03CA0032.namprd03.prod.outlook.com (2603:10b6:208:32d::7)
- by CYYPR12MB8704.namprd12.prod.outlook.com (2603:10b6:930:c2::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.27; Tue, 5 May
- 2026 15:38:46 +0000
-Received: from BL02EPF0001A102.namprd05.prod.outlook.com
- (2603:10b6:208:32d:cafe::77) by BLAPR03CA0032.outlook.office365.com
- (2603:10b6:208:32d::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9870.25 via Frontend Transport; Tue,
- 5 May 2026 15:38:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=satlexmb08.amd.com; pr=C
-Received: from satlexmb08.amd.com (165.204.84.17) by
- BL02EPF0001A102.mail.protection.outlook.com (10.167.241.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9891.9 via Frontend Transport; Tue, 5 May 2026 15:38:46 +0000
-Received: from satlexmb08.amd.com (10.181.42.217) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.17; Tue, 5 May
- 2026 10:38:28 -0500
-Received: from [172.31.134.241] (10.180.168.240) by satlexmb08.amd.com
- (10.181.42.217) with Microsoft SMTP Server id 15.2.2562.17 via Frontend
- Transport; Tue, 5 May 2026 10:38:26 -0500
-Message-ID: <a5012462-9953-424e-bfa0-427e7b07201e@amd.com>
-Date: Tue, 5 May 2026 10:38:26 -0500
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="pserL7Au"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-479d9b155deso1792371b6e.3
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 08:38:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777995537; x=1778600337; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=axnIiDKKK4q9A13nw5CaT5lKQQ8B3m75uwcJkZDFYhA=;
+        b=pserL7AuFc5q1zfIH17eYrdhdX/u8PTYJugEhJQFWThyLvDPaFGw9UVIn6iURSMnwn
+         9WDlZgvAeXPvo/b/F09G+fJRrdConMLEedkQ0K5oYU/NOeBIDi81mP4Vh9C9ITyjlfRK
+         jI9IFHzWguvxfh7C+qqREiBvnp1rgie9tXQAKrf4+GGuNkBf+OSoSocWP5GI4DOjH+hk
+         Jscr3LIeQwbIXCQOUlHt77ZYNujFsESveIU1zrQFD3jizTq0DIIb/HbEo7TGiT3UgIq+
+         sKVp3RE2KySDxqSOj/NJyNFIkxGbgnOv+Kpi5j1J/4p2y2LwfjNsbqmJfC5krnuddvBi
+         ml6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777995537; x=1778600337;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=axnIiDKKK4q9A13nw5CaT5lKQQ8B3m75uwcJkZDFYhA=;
+        b=Qup35HgQaoYChU9caGNLjRyF1QdIQx8IiovaVnJcDAX2+qmTIt8YHfaKl/C2fPbjSV
+         5I4vo2bPV3R5IYENwCFY4pExyn3Fqrd3o4Fg9L5Yf9FuzDNTWXsxZ0wrLt7OeOEU9AXG
+         w0ZFcIoZw5FN68K2m+VIvSXAa9ah7OQNa8Vy2VxJjIBrgvKhRCEv8lZ8vOn9uIV5dW6u
+         I6yQvSuIIKx3xFLvNMQV1Kx0UBU5gxQYiUJOBdiPz+5x4/5SK88Yq2kKxLB3qofcl+gk
+         BuJEfAyoTMPSFQoKM6FZJSDO6MJr3eLm2BiOnuJWPoOGiYpvSubaubg4HBVDRyp1mM22
+         oTzw==
+X-Forwarded-Encrypted: i=1; AFNElJ+QHxyIBQfXWEKP5HSTtPDDVCoNkSjqD79PSnXa/Y8yF0ekw7Wbr7tlgTxAlNmo96HTmvpvzfe/Rrc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YybXlZMQtVLY+f/y7TKFgtjeZZoPrvGb1wCbFuKJO0m+M5lNM7L
+	1q7aMlm6z9m6aUUp6ulzs6LSXlZuXAa5MW9gGhdmZlBibo93Vv0FxjM2
+X-Gm-Gg: AeBDieviILUPKD4rz3yY3TvXODvkatCCHs18rlrzeKxsIyc/1NzUowLWhxA/iLgQ07S
+	q5d5/6FkY1vCQonaHUo83/5wKnHnSb+4fSn8dzOCvuzVnLk9EA7nBbhNSRapTyjs5mOWz3A6GzC
+	z8Y7VBoGdhp5swKkVjgYHgRClM12PjaLVOAjx2cyG6zyw/JCorAurCYSWufx1bGoyZdgilYvWwh
+	xDTMvdTcNuB2zA1Pf2zisXAiZtPuWCEd7n6S452aFABOsBTLF2yK6Sw2I/I1WlDwH9U8pH/4mye
+	7Sn4/VFgZMCsv2L9w5xcHO9fyRwe8eni50IwCtoX5Vay5EE6f0lgJOsWaDSXz7iSJDNdhroYfii
+	uJePA8CihhEGdM337qrClfmuP5jmvTyrLRRXqlAM3ov9/gKzD/Ly3d9U2xSkQzSh6YQPGMN073H
+	CjbEhvvA/1cOle/xtu8RIF02d0FQeE8EEpTj37Xotw+YrbEJlWML/uc/s=
+X-Received: by 2002:a05:6808:3097:b0:47a:8c2:a551 with SMTP id 5614622812f47-47e25c660a1mr1802225b6e.16.1777995536774;
+        Tue, 05 May 2026 08:38:56 -0700 (PDT)
+Received: from localhost ([2a03:2880:10ff:4::])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-434548c1151sm13657565fac.2.2026.05.05.08.38.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 08:38:55 -0700 (PDT)
+From: Nhat Pham <nphamcs@gmail.com>
+To: kasong@tencent.com
+Cc: Liam.Howlett@oracle.com,
+	akpm@linux-foundation.org,
+	apopple@nvidia.com,
+	axelrasmussen@google.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	bhe@redhat.com,
+	byungchul@sk.com,
+	cgroups@vger.kernel.org,
+	chengming.zhou@linux.dev,
+	chrisl@kernel.org,
+	corbet@lwn.net,
+	david@kernel.org,
+	dev.jain@arm.com,
+	gourry@gourry.net,
+	hannes@cmpxchg.org,
+	hughd@google.com,
+	jannh@google.com,
+	joshua.hahnjy@gmail.com,
+	lance.yang@linux.dev,
+	lenb@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-pm@vger.kernel.org,
+	lorenzo.stoakes@oracle.com,
+	matthew.brost@intel.com,
+	mhocko@suse.com,
+	muchun.song@linux.dev,
+	npache@redhat.com,
+	nphamcs@gmail.com,
+	pavel@kernel.org,
+	peterx@redhat.com,
+	peterz@infradead.org,
+	pfalcato@suse.de,
+	rafael@kernel.org,
+	rakie.kim@sk.com,
+	roman.gushchin@linux.dev,
+	rppt@kernel.org,
+	ryan.roberts@arm.com,
+	shakeel.butt@linux.dev,
+	shikemeng@huaweicloud.com,
+	surenb@google.com,
+	tglx@kernel.org,
+	vbabka@suse.cz,
+	weixugc@google.com,
+	ying.huang@linux.alibaba.com,
+	yosry.ahmed@linux.dev,
+	yuanchu@google.com,
+	zhengqi.arch@bytedance.com,
+	ziy@nvidia.com,
+	kernel-team@meta.com,
+	riel@surriel.com,
+	haowenchao22@gmail.com
+Subject: [PATCH v6 00/22] Virtual Swap Space
+Date: Tue,  5 May 2026 08:38:29 -0700
+Message-ID: <20260505153854.1612033-1-nphamcs@gmail.com>
+X-Mailer: git-send-email 2.52.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: <tanmay.shah@amd.com>
-Subject: Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg GPIO driver
-To: Beleswar Prasad Padhi <b-padhi@ti.com>, <tanmay.shah@amd.com>, "Arnaud
- POULIQUEN" <arnaud.pouliquen@foss.st.com>, Mathieu Poirier
-	<mathieu.poirier@linaro.org>
-CC: Shenwei Wang <shenwei.wang@nxp.com>, Andrew Lunn <andrew@lunn.ch>, "Linus
- Walleij" <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>,
-	"Jonathan Corbet" <corbet@lwn.net>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Bjorn
- Andersson <andersson@kernel.org>, Frank Li <frank.li@nxp.com>, Sascha Hauer
-	<s.hauer@pengutronix.de>, Shuah Khan <skhan@linuxfoundation.org>,
-	"linux-gpio@vger.kernel.org" <linux-gpio@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Pengutronix
- Kernel Team" <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
-	"Peng Fan" <peng.fan@nxp.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "imx@lists.linux.dev"
-	<imx@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, dl-linux-imx <linux-imx@nxp.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-References: <20260422212849.1240591-1-shenwei.wang@nxp.com>
- <22fb5fac-2568-42be-a7e3-7e89d0017eb3@ti.com>
- <PAXPR04MB91850A11C58419C03909145F89362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6412a758-4560-4cf1-a0d0-5b24d1a715f1@lunn.ch>
- <PAXPR04MB9185009A17DFDF3D6C8B44E789362@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <6e01e114-e336-4744-b6b4-563ec42e321b@lunn.ch>
- <PAXPR04MB9185A098D894B6A6EBCC13F889372@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <afImuoeHolxGgw3H@p14s>
- <PAXPR04MB9185F2F6DDB55AC56C92D63B89342@PAXPR04MB9185.eurprd04.prod.outlook.com>
- <CANLsYkwvL0Z3+12MD=J+Dc2yAU2T8ypizyG=6AhYoWOh55odHA@mail.gmail.com>
- <472f85bd-42c2-40c6-abfd-b76924797069@ti.com>
- <CANLsYkzt9xUczxSU28u-TfZAAjr0ufZKXAj8Eqfq=45gufXW3w@mail.gmail.com>
- <f7ef3417-eb84-4467-ac72-a9bc8b0c81e8@foss.st.com>
- <21de8440-adf7-454b-acfc-06e50882e075@ti.com>
- <4c526816-b127-43e7-86e9-eee4dc1152bc@foss.st.com>
- <c6f68ab5-271a-41ed-b285-75b739f1edd6@amd.com>
- <4b622824-0073-4c6a-8525-248bd484c3f0@ti.com>
-Content-Language: en-US
-From: "Shah, Tanmay" <tanmays@amd.com>
-In-Reply-To: <4b622824-0073-4c6a-8525-248bd484c3f0@ti.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0001A102:EE_|CYYPR12MB8704:EE_
-X-MS-Office365-Filtering-Correlation-Id: c40ea35c-3a36-4438-3e54-08deaabc654c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|7416014|36860700016|13003099007|56012099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info:
-	4S+H/iz27ocYkNOc4Wm39VyFSPF6ojlC9UQChj641BpRnuvvdgL2MHczxvL1dfvtGiy4LTy0bQAet3bviSKonnZDUxCqn009w3kds2kMkluLreS1z55U4dA0X0TiIo447F+ObqxKU1OuxPBBNEItRpMUGypgMCFh9PgAgDjkQkdXRftdqVSmrGubOmvfg+OKhJioPQQQ2s3CEyLHhGu2b6jsMmiD4pwQfAukKTkgu8BD6kGXIXtjbj8n/2GH8eGhv7Mg8KUuKhd5XS5szLQaZf3mDZBFlZUAfcv8vACn4HT5XtbvT48KaofvdHzeUEKQVWeUWj8uzB4yIQuvkoiz8D+r5NNQS/qhl6TGekk2/gsroEbCNqm338a3MrZxFDM2/6HxATq0eRO2O1vqthwAAY0FDyUB2GD8Cgc5/42KfLxQXkLpmU+UEPb69Lav6is5aWCjplmwQrSNeI7Ge04JJL9mM36cBrI9UIogzq/g3OJQm69JmcWZ8QY/3yXowbS0gz6v9lOJHfadsslsU9wu25gWEnJWZbckElGLvisBrrF5dCA6QBhF1b+zHtFKsWmUd5vitUd0VgUOHXQr+90lSVfPcN1un0LsYJvTJS63whOCHiEOeWkJloa7QA0aztTYy8xOfxu36svnkSLgooo6YugKAQfWgPcHaQ3uqQKFEmPoOJjrcSx7hFULZ1rMvT8KcJpLBnPsfVdQMW9bff3TrijDbymjK0AeFY4baI7SPI4=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:satlexmb08.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(7416014)(36860700016)(13003099007)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	EW3XBYU0Cm5YZXiiLZFTtR3+cbF+avap0KxC3aWFuligKv0LB+ujW+RO0aGkLSI7jmPcBimEBx8aWBBsb9dY7x2d+LalLYWZSHI9L3TQOMyj9X8NHoeHwE2FrWkPqYcinqPwJCifPaHclOH6OYYq2SPstci1Qa8iBN1MIs1+txXTqu+YcArTW0xzwvUa2D7Kb7XSiDD4Yic4Az68P956bai1HGt8HZN1FpYAWeKmEu0JgJu3Z+oE5c/1yv1tcprotva1Y/kPKGUNszBJ7DBp3wu5SHjQjPAH+NhUnn+SJc0VbwI10fhvNzLO0zY0Fovg7Mhl/+49Hb024ilY8B4g+vdHDhX4XEw5hE2M4PlCMN6SV6U1N0BQoPddtUTxK8GLyet/biyzhqXJpRAvZX4V25UJkQ+kaXrLBuKGRAwPzKdmyWHQaFGnUIoFTMEHfbDM
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 15:38:46.2903
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c40ea35c-3a36-4438-3e54-08deaabc654c
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[satlexmb08.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0001A102.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8704
+
+This patch series is (still) based on 6.19 for now, for ease of
+regression investigation and testing :) Kairui reported regressions
+on fast swapfile backends (PMEM to be specific) in [19], so I have
+focused on reproducing them and trying to figure out what happened.
+For a more in-depth analysis, see [22].
+
+I think I have got most of it, but since my setup cannot be 100%
+similar to Kairui's, I figured I should not overindex on my setups
+and send it out for his feedbacks. I will also try to work on
+other benchmarks that he's interested in :)
+
+Special thanks to Kairui, Johannes, and Gregory for their feedbacks,
+ideas and testing! All mistakes are mine though :)
 
 
+Changelog:
+* v5 -> v6: focusing on reducing the CPU and memory overhead on fast
+  swap backends (zram, and hopefully PMEM).
+    * Combine multiple vswap operations to reduce roundtrips
+      to the vswap layer.
+    * Batch per-entry operations where possible (vswap_free for e.g).
+    * Eliminate redundant lookups.
+    * Per-CPU lookup cache for vswap cluster to reduce xarray
+      indirection overhead (patch 22).
+    * Augment the reverse map to avoid physical-to-virtual swap
+      indirection cost when checking swap-cache-only status.
+    * Decouple descriptor array from cluster header to eliminate
+      wasted space from slab rounding in cluster allocation.
+* v4 -> v5:
+    * Fix a deadlock in memcg1_swapout (reported by syzbot [16]).
+    * Replace VM_WARN_ON(!spin_is_locked()) with lockdep_assert_held(),
+      and use guard(rcu) in vswap_cpu_dead
+      (reported by Peter Zijlstra [17]).
+* v3 -> v4:
+    * Fix poor swap free batching behavior to alleviate a regression
+      (reported by Kairui Song).
+    * Fix assorted kernel build errors reported by kernel test robots
+      in the case of CONFIG_SWAP=n.
+* RFC v2 -> v3:
+    * Implement a cluster-based allocation algorithm for virtual swap
+      slots, inspired by Kairui Song and Chris Li's implementation, as
+      well as Johannes Weiner's suggestions. This eliminates the lock
+	  contention issues on the virtual swap layer.
+    * Re-use swap table for the reverse mapping.
+    * Remove CONFIG_VIRTUAL_SWAP.
+    * Reducing the size of the swap descriptor from 48 bytes to 24
+      bytes, i.e another 50% reduction in memory overhead from v2.
+    * Remove swap cache and zswap tree and use the swap descriptor
+      for this.
+    * Remove zeromap, and replace the swap_map bytemap with 2 bitmaps
+      (one for allocated slots, and one for bad slots).
+    * Rebase on top of 6.19 (7d0a66e4bb9081d75c82ec4957c50034cb0ea449)
+	* Update cover letter to include new benchmark results and discussion
+	  on overhead in various cases.
+* RFC v1 -> RFC v2:
+    * Use a single atomic type (swap_refs) for reference counting
+      purpose. This brings the size of the swap descriptor from 64 B
+      down to 48 B (25% reduction). Suggested by Yosry Ahmed.
+    * Zeromap bitmap is removed in the virtual swap implementation.
+      This saves one bit per physical swapfile slot.
+    * Rearrange the patches and the code change to make things more
+      reviewable. Suggested by Johannes Weiner.
+    * Update the cover letter a bit.
 
-On 5/5/2026 6:16 AM, Beleswar Prasad Padhi wrote:
-> Hi Tanmay,
-> 
-> On 05/05/26 00:49, Shah, Tanmay wrote:
->> Hello all,
->>
->> I have started reviewing this work as well.
->> Thanks Shenwei for this work.
->>
->> I have gone through only the current revision, and would like to provide
->> idea on how to achieve GPIO number multiplexing with the RPMsg protocol.
->> Also, have some bindings related question.
->>
->> Please see below:
->>
->> On 4/30/2026 11:40 AM, Arnaud POULIQUEN wrote:
->>>
->>> On 4/30/26 14:56, Beleswar Prasad Padhi wrote:
->>>> Hello Arnaud,
->>>>
->>>> On 30/04/26 13:05, Arnaud POULIQUEN wrote:
->>>>> Hello,
->>>>>
->>>>> On 4/29/26 21:20, Mathieu Poirier wrote:
->>>>>> On Wed, 29 Apr 2026 at 12:07, Padhi, Beleswar <b-padhi@ti.com> wrote:
->>>>>>> Hi Mathieu,
->>>>>>>
->>>>>>> On 4/29/2026 11:03 PM, Mathieu Poirier wrote:
->>>>>>>> On Wed, 29 Apr 2026 at 10:53, Shenwei Wang <shenwei.wang@nxp.com>
->>>>>>>> wrote:
->>>>>>>>>
->>>>>>>>>> -----Original Message-----
->>>>>>>>>> From: Mathieu Poirier <mathieu.poirier@linaro.org>
->>>>>>>>>> Sent: Wednesday, April 29, 2026 10:42 AM
->>>>>>>>>> To: Shenwei Wang <shenwei.wang@nxp.com>
->>>>>>>>>> Cc: Andrew Lunn <andrew@lunn.ch>; Padhi, Beleswar <b-
->>>>>>>>>> padhi@ti.com>; Linus
->>>>>>>>>> Walleij <linusw@kernel.org>; Bartosz Golaszewski
->>>>>>>>>> <brgl@kernel.org>; Jonathan
->>>>>>>>>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>;
->>>>>>>>>> Krzysztof Kozlowski
->>>>>>>>>> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Bjorn
->>>>>>>>>> Andersson
->>>>>>>>>> <andersson@kernel.org>; Frank Li <frank.li@nxp.com>; Sascha Hauer
->>>>>>>>>> <s.hauer@pengutronix.de>; Shuah Khan
->>>>>>>>>> <skhan@linuxfoundation.org>; linux-
->>>>>>>>>> gpio@vger.kernel.org; linux-doc@vger.kernel.org; linux-
->>>>>>>>>> kernel@vger.kernel.org;
->>>>>>>>>> Pengutronix Kernel Team <kernel@pengutronix.de>; Fabio Estevam
->>>>>>>>>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
->>>>>>>>>> devicetree@vger.kernel.org; linux-remoteproc@vger.kernel.org;
->>>>>>>>>> imx@lists.linux.dev; linux-arm-kernel@lists.infradead.org; dl-
->>>>>>>>>> linux-imx <linux-
->>>>>>>>>> imx@nxp.com>; Bartosz Golaszewski <brgl@bgdev.pl>
->>>>>>>>>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic
->>>>>>>>>> rpmsg GPIO driver
->>>>>>>>>> On Tue, Apr 28, 2026 at 03:24:59PM +0000, Shenwei Wang wrote:
->>>>>>>>>>>> -----Original Message-----
->>>>>>>>>>>> From: Andrew Lunn <andrew@lunn.ch>
->>>>>>>>>>>> Sent: Monday, April 27, 2026 3:49 PM
->>>>>>>>>>>> To: Shenwei Wang <shenwei.wang@nxp.com>
->>>>>>>>>>>> Cc: Padhi, Beleswar <b-padhi@ti.com>; Linus Walleij
->>>>>>>>>>>> <linusw@kernel.org>; Bartosz Golaszewski <brgl@kernel.org>;
->>>>>>>>>>>> Jonathan
->>>>>>>>>>>> Corbet <corbet@lwn.net>; Rob Herring <robh@kernel.org>; Krzysztof
->>>>>>>>>>>> Kozlowski <krzk+dt@kernel.org>; Conor Dooley
->>>>>>>>>>>> <conor+dt@kernel.org>;
->>>>>>>>>>>> Bjorn Andersson <andersson@kernel.org>; Mathieu Poirier
->>>>>>>>>>>> <mathieu.poirier@linaro.org>; Frank Li <frank.li@nxp.com>; Sascha
->>>>>>>>>>>> Hauer <s.hauer@pengutronix.de>; Shuah Khan
->>>>>>>>>>>> <skhan@linuxfoundation.org>; linux-gpio@vger.kernel.org; linux-
->>>>>>>>>>>> doc@vger.kernel.org; linux-kernel@vger.kernel.org; Pengutronix
->>>>>>>>>>>> Kernel Team <kernel@pengutronix.de>; Fabio Estevam
->>>>>>>>>>>> <festevam@gmail.com>; Peng Fan <peng.fan@nxp.com>;
->>>>>>>>>>>> devicetree@vger.kernel.org; linux- remoteproc@vger.kernel.org;
->>>>>>>>>>>> imx@lists.linux.dev; linux-arm- kernel@lists.infradead.org;
->>>>>>>>>>>> dl-linux-imx <linux-imx@nxp.com>; Bartosz Golaszewski
->>>>>>>>>>>> <brgl@bgdev.pl>
->>>>>>>>>>>> Subject: [EXT] Re: [PATCH v13 3/4] gpio: rpmsg: add generic rpmsg
->>>>>>>>>>>> GPIO driver
->>>>>>>>>>>>>> struct virtio_gpio_response {
->>>>>>>>>>>>>>            __u8 status;
->>>>>>>>>>>>>>            __u8 value;
->>>>>>>>>>>>>> };
->>>>>>>>>>>>> It is the same message format. Please see the message definition
->>>>>>>>>>>> (GET_DIRECTION) below:
->>>>>>>>>>>>
->>>>>>>>>>>>> +   +-----+-----+-----+-----+-----+----+
->>>>>>>>>>>>> +   |0x00 |0x01 |0x02 |0x03 |0x04 |0x05|
->>>>>>>>>>>>> +   | 1   | 2   |port |line | err | dir|
->>>>>>>>>>>>> +   +-----+-----+-----+-----+-----+----+
->>>>>>>>>>>> Sorry, but i don't see how two u8 vs six u8 are the same
->>>>>>>>>>>> message format.
->>>>>>>>>>>>
->>>>>>>>>>> Some changes to the message format are necessary.
->>>>>>>>>>>
->>>>>>>>>>> Virtio uses two communication channels (virtqueues): one for
->>>>>>>>>>> requests and
->>>>>>>>>> replies, and a second one for events.
->>>>>>>>>>> In contrast, rpmsg provides only a single communication
->>>>>>>>>>> channel, so a
->>>>>>>>>>> type field is required to distinguish between different kinds
->>>>>>>>>>> of messages.
->>>>>>>>>>>
->>>>>>>>>>> Since rpmsg replies and events share the same message format,
->>>>>>>>>>> an additional
->>>>>>>>>> line is introduced to handle both cases.
->>>>>>>>>>> Finally, rpmsg supports multiple GPIO controllers, so a port
->>>>>>>>>>> field is added to
->>>>>>>>>> uniquely identify the target controller.
->>>>>>>>>>
->>>>>>>>>> I have commented on this before - RPMSG is already providing
->>>>>>>>>> multiplexing
->>>>>>>>>> capability by way of endpoints.  There is no need for a port
->>>>>>>>>> field.  One endpoint,
->>>>>>>>>> one GPIO controller.
->>>>>>>>>>
->>>>>>>>> You still need a way to let the remote side know which port the
->>>>>>>>> endpoint maps to, either
->>>>>>>>> by embedding the port information in the message (the current
->>>>>>>>> way), or by sending it
->>>>>>>>> separately.
->>>>>>>>>
->>>>>>>> An endpoint is created with every namespace request.  There should be
->>>>>>>> one namespace request for every GPIO controller, which yields a
->>>>>>>> unique
->>>>>>>> endpoint for each controller and eliminates the need for an extra
->>>>>>>> field to identify them.
->>>>>>>
->>>>>>> Right, but this can still be done by just having one namespace
->>>>>>> request.
->>>>>>> We can create new endpoints bound to an existing namespace/channel by
->>>>>>> invoking rpmsg_create_ept(). This is what I suggested here too:
->>>>>>> https://lore.kernel.org/all/29485742-6e49-482e-
->>>>>>> b73d-228295daaeec@ti.com/
->>>>>>>
->>>>>> I will look at your suggestion (i.e link above) later this week or
->>>>>> next week.
->>>>>>
->>>>>>> My mental model looks like this for the complete picture:
->>>>>>>
->>>>>>> 1. namespace/channel#1 = rpmsg-io
->>>>>>>       a. ept1 -> gpio-controller@1
->>>>>>>       b. ept2 -> gpio-controller@2
->>>>>>>
->> If my understanding of what gpio-controller is right, than this won't
->> work. We need one rpmsg channel per gpio-controller, and in most cases
->> there will be only one GPIO-controller on the remote side.
-> 
-> 
-> Why so? In the current v13 version, the remote side already
-> handles 2 GPIO controllers.
-> 
->>  If there are
->> multiple or multiple instances of same controller, than we need separate
->> channel name for that controller just like we would have separate device
->> on the Linux.
-> 
-> 
-> Why so? I think there is some confusion in the terminology:
-> 
-> GPIO controller = GPIO port (gpio@xyz) defined in the
-> Device tree = struct rpmsg_gpio_port in code
-> 
-> GPIO line = Individual lines within each GPIO port (max =
-> GPIOS_PER_PORT_DEFAULT) = struct rpmsg_gpio_line in code
-> 
-
-Okay, I understand now. So, same gpio controller has multiple instances.
-
->>>>>>> 1. namespace/channel#1 = rpmsg-io
->>>>>>>       a. ept1 -> gpio-controller@1
->>>>>>>       b. ept2 -> gpio-controller@2
-
-So, In that case above mentioned approach doesn't work.
-
-Because, this approach is mapping endpoint to the gpio-controller. From
-linux's perspective, it needs to map rpmsg *channel* to the
-gpio-controller not the endpoint.
-
-To be more specific:
-
-Linux:                               remote:
-
-ch1: rpmsg-gpio.-1.1024 ->     gpio-controller@1024
-    - gpio-line ept1
-    - gpio-line ept2    ->     They all map to same callback_ept_1024.
-    - gpio-line ept3
-
-ch2: rpmsg-gpio.-1.1025 ->     gpio-controller@1025
-    - gpio-line ept1
-    - gpio-line ept2    ->     They all map to same callback_ept_1025.
-    - gpio-line ept3
-
-On the remote side, we have to hardcode Which rpmsg controller is mapped
-to which endpoint.
+This patch series implements the virtual swap space idea, based on Yosry's
+proposals at LSFMMBPF 2023 (see [1], [2], [3]), as well as valuable
+inputs from Johannes Weiner. The same idea (with different
+implementation details) has been floated by Rik van Riel since at least
+2011 (see [8]).
 
 
+I. Motivation
 
->>
->>>>>> I've asked for one endpoint per GPIO controller since the very
->>>>>> beginning.  I don't yet have a strong opinion on whether to use one
->>>>>> namespace request per GPIO controller or a single request that spins
->>>>>> off multiple endpoints.  I'll have to look at your link and reflect on
->>>>>> that.  Regardless of how we proceed on that front, multiplexing needs
->>>>>> to happen at the endpoint level rather than the packet level.  This is
->>>>>> the only way this work can move forward.
->>>>>>
->>>>> I would be more in favor of Mathieu’s proposal: “An endpoint is
->>>>> created with every namespace request.”
->>>>>
->>>>> If the endpoint is created only on the Linux side, how do we match
->>>>> the Linux endpoint address with the local port field on the remote side?
->>>>
->>>> Simply by sending a message to the remote containing the newly created
->>>> endpoint and the port idx. Note that is this done just one time, after
->>>> this
->>>> Linux need not have the port field in the message everytime its sending
->>>> a message.
->>>>
->>>>> With a multi-namespace approach, the namespace could be rpmsg-io-
->>>>> [addr], where [addr] corresponds to the GPIO controller address in
->>>>> the DT. This would:
->>>>
->>>> You will face the same problem in this case also that you asked above:
->>>> "how do we match the Linux endpoint address with the local port field
->>>> on the remote side?"
->>> Sorry I probably introduced confusion here
->>> my sentence should be;
->>>  With a multi-namespace approach, the namespace could be rpmsg-io-[port],
->>>  where [port] corresponds to the GPIO controller port in the DT.
->>>
->>>
->>> For instance:
->>>
->>>       rpmsg {
->>>         rpmsg-io {
->>>           #address-cells = <1>;
->>>           #size-cells = <0>;
->>>
->>>           gpio@25 {
->>>             compatible = "rpmsg-gpio";
->>>             reg = <25>;
->>>             gpio-controller;
->>>             #gpio-cells = <2>;
->>>             #interrupt-cells = <2>;
->>>             interrupt-controller;
->>>           };
->>>
->>>           gpio@32 {
->>>             compatible = "rpmsg-gpio";
->>>             reg = <32>;
->>>             gpio-controller;
->>>             #gpio-cells = <2>;
->>>             #interrupt-cells = <2>;
->>>             interrupt-controller;
->>>           };
->>>         };
->>>       };
->>>
->>>  rpmsg-io-25  would match with gpio@25
->>>  rpmsg-io-32  would match with gpio@32
->>>
->> The problem with this approach is, we will endup creating way too many
->> RPMsg devices/channels. i.e. one channel per one GPIO. That limits how
->> many GPIOs can be handled by remote from memory perspective. At
->> somepoint we might just run-out of number ept & channels created by the
->> remote. As of now, open-amp library supports 128 epts I think.
-> 
-> 
-> Arnaud was suggesting one channel per gpio controller,
-> not per line. We will not have 128 gpio controllers....
-> 
->>
->>>> Because the endpoint that is created on a namespace request is also
->>>> dynamic in nature. How will the remote know which endpoint addr
->>>> Linux allocated for a namespace that it announced?
->>>>
->>>> As an example/PoC, I created a firmware example which announces
->>>> 2 name services to Linux, one is the standard "rpmsg_chrdev" and
->>>> the other is a TI specific name service "ti.ipc4.ping-pong". You can
->>>> see it created 2 different addresses (0x400 and 0x401) for each of
->>>> the name service request from the same firmware:
->>>>
->>>> root@j784s4-evm:~# dmesg | grep virtio0 | grep -i channel
->>>> [    9.290275] virtio_rpmsg_bus virtio0: creating channel
->>>> ti.ipc4.ping-pong addr 0xd
->>>> [    9.311230] virtio_rpmsg_bus virtio0: creating channel rpmsg_chrdev
->>>> addr 0xe
->>>> [    9.496645] rpmsg_chrdev virtio0.rpmsg_chrdev.-1.14: DEBUG: Channel
->>>> formed from src = 0x400 to dst = 0xe
->>>> [    9.707255] rpmsg_client_sample virtio0.ti.ipc4.ping-pong.-1.13:
->>>> new channel: 0x401 -> 0xd!
->>>>
->>>> So in this case, rpmsg-io-1 can have different ept addr than rpmsg-io-2
->>>> Back to same problem. Simple solution is to reply to remote with the
->>>> created ept addr and the index.
->>> That why I would like to suggest to use the name service field to
->>> identify the port/controller, instead of the endpoint address.
->>>>  
->>>>> - match the RPMsg probe with the DT,
->>>>
->>>> We can probe from all controllers with a single name service
->>>> announcement too.
->>>>
->>>>> - provide a simple mapping between the port and the endpoint on both
->>>>> sides,
->>>>
->>>> We are trying to get rid of this mapping from Linux side to adapt
->>>> the gpio-virtio design.
->>>>
->>>>> - allow multiple endpoints on the remote side,
->>>>
->>>> We can support this as well with single nameservice model.
->>>> There is no limitation. Remote has to send a message with
->>>> its newly created ept that's all.
->>>>
->>>>> - provide a simple discovery mechanism for remote capabilities.
->>>>
->>>> A single announcement: "rpmsg-io" is also discovery mechanism.
->>>>
->>>> Feel free to let me know if you have concerns with any of the
->>>> suggestions!
->>> My only concern, whatever the solution, is that we find a smart
->>> solution to associate the correct endpoint with the correct GPIO
->>> port/controller defined in the DT.
->>>
->>> I may have misunderstood your solution. Could you please help me
->>> understand your proposal by explaining how you would handle three
->>> GPIO ports defined in the DT, considering that the endpoint
->>> addresses on the Linux side can be random?
->>> If I assume there is a unique endpoint on the remote side,
->>> I do not understand how you can match, on the firmware side,
->>> the Linux endpoint address to the GPIO port.
->>>
->>> Thanks and Regards,Arnaud
->>>
->>>> Thanks,
->>>> Beleswar
->>>>
->>>>> Regards,
->>>>> Arnaud
->>>>>
->>>>>>> 2. namespace/channel#2 = rpmsg-i2c
->>>>>>>       a. ept1 -> i2c@1
->>>>>>>       b. ept2 -> i2c@2
->>>>>>>       c. ept3 -> i2c@3
->>>>>>>
->>>>>>> etc...
->>>>>>>
->> Just want to clear-up few terms before I jump to the solution:
->>
->> **RPMsg channel/device**:
->>   - These are devices announced by the remote processor, and created by
->> linux. They are created at: /sys/bus/rpmsg/devices
->>   - The channel format: <name>.<src ept>.<dst ept>
->>
->> **RPMsg endpoint**:
->>   - Endpoint is differnt than channel. Single channel can have multiple
->> endpoints, and represented in the linux with: /dev/rpmsg? devices.
->>
->> To create endpoint device, we have rpmsg_create_ept API, which takes
->> channel information as input, which has src-ept, dst-ept.
->>
->> Following is proposed solution:
->>
->> 1) Assign RPMsg channel/device per rpmsg-gpio controller (Not per GPIO
->> pin/port).
-> 
-> 
-> One channel per pin was not suggested earlier...
-> 
->>   - In our case that would be, single rpmsg-io node. (That makes me
->> question if bindings are correct or not).
->>
->> 2) Assign GPIO number as src ept.
->>
->> i.e. *rpmsg-io.<GPIO number>.<dst ept>*. Do not randomly assign src
->> endpoint.
->>
->> Now, RPMSG channel by spec reserves first 1024 endpoints [1], so we can
->> add 1024 offset to the GPIO number:
->>
->> so, when calling rpmsg_create_ept() API, we assing src_endpoint as:
->> (GPIO_NUMBER + RPMSG_RESERVED_ADDRESSES)
->>
->> Now on the remote side, there is single channel and only single-endpoint
->> is needed that is mapped to the rpmsg-io channel callback.
->>
->> That callback will receive all the payloads from the Linux, which will
->> have src-ept i.e. (RPMSG_RESERVED_ADDRESSES + GPIO_NUMBER).
->>
->> It can retrieve GPIO_NUMBER easily, and convert to appropriate pin based
->> on platform specific logic.
->>
->> This doesn't need PORT information at all. Also it makes sure that
->> remote is using only single-endpoint so not much memory is used.
->>
->> *Example*:
->> If only rpmsg-gpio channel is created by the remote side, than following
->> is the representation of the devices when GPIO 25, 26, 27 is assigned to
->> the rpmsg-io controller:
->>
->> Linux                                                      Remote
->>
->> rpmsg-channel: rpmsg-gpio.0x400.0x400
->>
->> /dev/rpmsg0 - GPIO25 ept (rpmsg-gpio.0x419.0x400)-|
->>                                                   |
->> /dev/rpmsg1 - GPIO26 ept (rpmsg-gpio.0x41a.0x400)-|-> rpmsg-gpio.*.0x400
->>                                                   |
->> /dev/rpmsg2 - GPIO27 ept (rpmsg-gpio.0x41b.0x400)-|  0x400 ept callback.
->>
->>
->> *On remote side*:
->>
->> ept_0x400_callback(..., int src_ept, ...,)
->> {
->> 	int gpio_num = src_ept - RPMSG_RESERVED_ADDRESSES;
->> 	// platform specific logic to convert gpio num to proper pin,
->> 	// just like you would convert gpio num to pin on a linux gpio controller.
->> }
->>
->> My question on the binding:
->>
->> Why each GPIO is represented with the separate node? I think rpmsg-gpio
->> can be represented just any other GPIO controller? Please let me know if
->> I am missing something.
-> 
-> 
-> These are separate GPIO controllers, not separate pins within
-> the same GPIO controller. Could you revisit your solution with
-> this update.
-> 
-> Thanks for your time,
-> Beleswar
-> 
+Currently, when an anon page is swapped out, a slot in a backing swap
+device is allocated and stored in the page table entries that refer to
+the original page. This slot is also used as the "key" to find the
+swapped out content, as well as the index to swap data structures, such
+as the swap cache, or the swap cgroup mapping. Tying a swap entry to its
+backing slot in this way is performant and efficient when swap is purely
+just disk space, and swapoff is rare.
 
+However, the advent of many swap optimizations has exposed major
+drawbacks of this design. The first problem is that we occupy a physical
+slot in the swap space, even for pages that are NEVER expected to hit
+the disk: pages compressed and stored in the zswap pool, zero-filled
+pages, or pages rejected by both of these optimizations when zswap
+writeback is disabled. This is the arguably central shortcoming of
+zswap:
+* In deployments when no disk space can be afforded for swap (such as
+  mobile and embedded devices), users cannot adopt zswap, and are forced
+  to use zram. This is confusing for users, and creates extra burdens
+  for developers, having to develop and maintain similar features for
+  two separate swap backends (writeback, cgroup charging, THP support,
+  etc.). For instance, see the discussion in [4].
+* Resource-wise, it is hugely wasteful in terms of disk usage. At Meta,
+  we have swapfile in the order of tens to hundreds of GBs, which are
+  mostly unused and only exist to enable zswap usage and zero-filled
+  pages swap optimizations.
+* Tying zswap (and more generally, other in-memory swap backends) to
+  the current physical swapfile infrastructure makes zswap implicitly
+  statically sized. This does not make sense, as unlike disk swap, in
+  which we consume a limited resource (disk space or swapfile space) to
+  save another resource (memory), zswap consume the same resource it is
+  saving (memory). The more we zswap, the more memory we have available,
+  not less. We are not rationing a limited resource when we limit
+  the size of the zswap pool, but rather we are capping the resource
+  (memory) saving potential of zswap. Under memory pressure, using
+  more zswap is almost always better than the alternative (disk IOs, or
+  even worse, OOMs), and dynamically sizing the zswap pool on demand
+  allows the system to flexibly respond to these precarious scenarios.
+* Operationally, static provisioning the swapfile for zswap pose
+  significant challenges, because the sysadmin has to prescribe how
+  much swap is needed a priori, for each combination of
+  (memory size x disk space x workload usage). It is even more
+  complicated when we take into account the variance of memory
+  compression, which changes the reclaim dynamics (and as a result,
+  swap space size requirement). The problem is further exacerbated for
+  users who rely on swap utilization (and exhaustion) as an OOM signal.
+
+  All of these factors make it very difficult to configure the swapfile
+  for zswap: too small of a swapfile and we risk preventable OOMs and
+  limit the memory saving potentials of zswap; too big of a swapfile
+  and we waste disk space and memory due to swap metadata overhead.
+  This dilemma becomes more drastic in high memory systems, which can
+  have up to TBs worth of memory.
+
+Past attempts to decouple disk and compressed swap backends, namely the
+ghost swapfile approach (see [13]), as well as the alternative
+compressed swap backend zram, have mainly focused on eliminating the
+disk space usage of compressed backends. We want a solution that not
+only tackles that same problem, but also achieve the dynamicization of
+swap space to maximize the memory saving potentials while reducing
+operational and static memory overhead.
+
+Finally, any swap redesign should support efficient backend transfer,
+i.e without having to perform the expensive page table walk to
+update all the PTEs that refer to the swap entry:
+* The main motivation for this requirement is zswap writeback. To quote
+  Johannes (from [14]): "Combining compression with disk swap is
+  extremely powerful, because it dramatically reduces the worst aspects
+  of both: it reduces the memory footprint of compression by shedding
+  the coldest data to disk; it reduces the IO latencies and flash wear
+  of disk swap through the writeback cache. In practice, this reduces
+  *average event rates of the entire reclaim/paging/IO stack*."
+* Another motivation is to simplify swapoff, which is both complicated
+  and expensive in the current design, precisely because we are storing
+  an encoding of the backend positional information in the page table,
+  and thus requires a full page table walk to remove these references.
+
+
+II. High Level Design Overview
+
+To fix the aforementioned issues, we need an abstraction that separates
+a swap entry from its physical backing storage. IOW, we need to
+“virtualize” the swap space: swap clients will work with a dynamically
+allocated virtual swap slot, storing it in page table entries, and
+using it to index into various swap-related data structures. The
+backing storage is decoupled from the virtual swap slot, and the newly
+introduced layer will “resolve” the virtual swap slot to the actual
+storage. This layer also manages other metadata of the swap entry, such
+as its lifetime information (swap count), via a dynamically allocated,
+per-swap-entry descriptor:
+
+struct swp_desc {
+        union {
+                swp_slot_t         slot;                 /*     0     8 */
+                struct zswap_entry * zswap_entry;        /*     0     8 */
+        };                                               /*     0     8 */
+        union {
+                struct folio *     swap_cache;           /*     8     8 */
+                void *             shadow;               /*     8     8 */
+        };                                               /*     8     8 */
+        unsigned int               swap_count;           /*    16     4 */
+        unsigned short             memcgid:16;           /*    20: 0  2 */
+        bool                       in_swapcache:1;       /*    22: 0  1 */
+
+        /* Bitfield combined with previous fields */
+
+        enum swap_type             type:2;               /*    20:17  4 */
+
+        /* size: 24, cachelines: 1, members: 6 */
+        /* bit_padding: 13 bits */
+        /* last cacheline: 24 bytes */
+};
+
+(output from pahole).
+
+This design allows us to:
+* Decouple zswap (and zeromapped swap entry) from backing swapfile:
+  simply associate the virtual swap slot with one of the supported
+  backends: a zswap entry, a zero-filled swap page, a slot on the
+  swapfile, or an in-memory page.
+* Simplify and optimize swapoff: we only have to fault the page in and
+  have the virtual swap slot points to the page instead of the on-disk
+  physical swap slot. No need to perform any page table walking.
+
+The size of the virtual swap descriptor is 24 bytes. Note that this is
+not all "new" overhead, as the swap descriptor will replace:
+* the swap_cgroup arrays (one per swap type) in the old design, which
+  is a massive source of static memory overhead. With the new design,
+  it is only allocated for used clusters.
+* the swap tables, which holds the swap cache and workingset shadows.
+* the zeromap bitmap, which is a bitmap of physical swap slots to
+  indicate whether the swapped out page is zero-filled or not.
+* huge chunk of the swap_map. The swap_map is now replaced by 2 bitmaps,
+  one for allocated slots, and one for bad slots, representing 3 possible
+  states of a slot on the swapfile: allocated, free, and bad.
+* the zswap tree.
+
+So, in terms of additional memory overhead:
+* For zswap entries, the added memory overhead is rather minimal. The
+  new indirection pointer neatly replaces the existing zswap tree.
+  We really only incur less than one word of overhead for swap count
+  blow up (since we no longer use swap continuation) and the swap type.
+* For physical swap entries, the new design will impose fewer than 3 words
+  memory overhead. However, as noted above this overhead is only for
+  actively used swap entries, whereas in the current design the overhead is
+  static (including the swap cgroup array for example).
+
+  The primary victim of this overhead will be zram users. However, as
+  zswap now no longer takes up disk space, zram users can consider
+  switching to zswap (which, as a bonus, has a lot of useful features
+  out of the box, such as cgroup tracking, dynamic zswap pool sizing,
+  LRU-ordering writeback, etc.).
+
+For a more concrete example, suppose we have a 32 GB swapfile (i.e.
+8,388,608 swap entries), and we use zswap.
+
+0% usage, or 0 entries: 0.00 MB
+* Old design total overhead: 25.00 MB
+* Vswap total overhead: 0.00 MB
+
+25% usage, or 2,097,152 entries:
+* Old design total overhead: 57.00 MB
+* Vswap total overhead: 48.25 MB
+
+50% usage, or 4,194,304 entries:
+* Old design total overhead: 89.00 MB
+* Vswap total overhead: 96.50 MB
+
+75% usage, or 6,291,456 entries:
+* Old design total overhead: 121.00 MB
+* Vswap total overhead: 144.75 MB
+
+100% usage, or 8,388,608 entries:
+* Old design total overhead: 153.00 MB
+* Vswap total overhead: 193.00 MB
+
+So even in the worst case scenario for virtual swap, i.e when we
+somehow have an oracle to correctly size the swapfile for zswap
+pool to 32 GB, the added overhead is only 40 MB, which is a mere
+0.12% of the total swapfile :)
+
+In practice, the overhead will be closer to the 50-75% usage case, as
+systems tend to leave swap headroom for pathological events or sudden
+spikes in memory requirements. The added overhead in these cases are
+practically negligible. And in deployments where swapfiles for zswap
+are previously sparsely used, switching over to virtual swap will
+actually reduce memory overhead.
+
+Doing the same math for the disk swap, which is the worst case for
+virtual swap in terms of swap backends:
+
+0% usage, or 0 entries: 0.00 MB
+* Old design total overhead: 25.00 MB
+* Vswap total overhead: 2.00 MB
+
+25% usage, or 2,097,152 entries:
+* Old design total overhead: 41.00 MB
+* Vswap total overhead: 66.25 MB
+
+50% usage, or 4,194,304 entries:
+* Old design total overhead: 57.00 MB
+* Vswap total overhead: 130.50 MB
+
+75% usage, or 6,291,456 entries:
+* Old design total overhead: 73.00 MB
+* Vswap total overhead: 194.75 MB
+
+100% usage, or 8,388,608 entries:
+* Old design total overhead: 89.00 MB
+* Vswap total overhead: 259.00 MB
+
+The added overhead is 170MB, which is 0.5% of the total swapfile size,
+again in the worst case when we have a sizing oracle.
+
+Please see the attached patches for more implementation details.
+
+
+III. Usage and Benchmarking
+
+This patch series introduce no new syscalls or userspace API. Existing
+userspace setups will work as-is, except we no longer have to create a
+swapfile or set memory.swap.max if we want to use zswap, as zswap is no
+longer tied to physical swap. The zswap pool will be automatically and
+dynamically sized based on memory usage and reclaim dynamics.
+
+All benchmarks below use MGLRU and zram as the swap backend. zram,
+being a fast swapfile, represents the worst case for vswap in terms of
+overhead (both memory- and CPU-wise). This is also as close as I can
+get to the setup in which Kairui reported his regressions (see [18]),
+as I do not have access to a PMEM swap device. This also means I have
+to modify the parameters of these benchmarks a bit, as zram eats up
+memory of the system too - I hope this is acceptable.
+
+All values are reported as mean +/- standard deviation across rounds.
+
+Test system: x86_64, 52 cores for all these benchmarks, 64GB zram swap.
+
+1. Memhog: single-threaded, 48GB allocation on a host with 16GB RAM,
+   8 rounds.
+
+                    Baseline (6.19)    VSS v5          VSS v6
+   real (s)       80.50 +/- 1.90   83.00 +/- 1.80   80.64 +/- 1.72
+   sys (s)        62.71 +/- 2.01   65.72 +/- 1.80   62.93 +/- 1.63
+   delta real             -             +3.1%            +0.2%
+   delta sys              -             +4.8%            +0.4%
+
+2. Usemem single-threaded: anonymous memory allocation (56GB) on a host
+   with 32GB RAM, 16 rounds.
+
+                    Baseline (6.19)       VSS v5          VSS v6
+   real (s)       176.52 +/- 4.25  182.12 +/- 3.96  176.56 +/- 3.30
+   sys (s)        122.60 +/- 3.96  128.42 +/- 3.92  123.01 +/- 3.07
+   tput (KB/s)    390602 +/- 10179 380372 +/-  8802  390524 +/-  7752
+   free (ms)        7287 +/-  281    8354 +/-  217     7332 +/-  268
+   delta real             -            +3.2%            +0.0%
+   delta sys              -            +4.7%            +0.3%
+   delta tput             -            -2.6%            -0.0%
+   delta free             -           +14.6%            +0.6%
+
+I do want to note that the free time is severely affected by system
+compaction, due to a contention between zs_free() and
+zs_page_migrate(). This actually affects both baseline and vswap, and
+it's a bit of a luck-of-the-draw on a round-per-round basis whether you
+will hit it, which is another reason that delays my submission of this
+version. I also re-run it for 16 rounds instead of 8, in hope that the
+variance will be averaged out somewhat.
+
+Fortunately, when I raised this issues on the mailing list, Wenchao
+came up up with a brilliant idea to get around this contention
+(see [19]). I have actually hacked together a quick-and-dirty prototype
+based on his idea, and it helps tremendously on the free path, but I
+will leave it to him to push on this direction ;)
+
+3. Usemem concurrency: 52 threads x 300MB, random access, on a host
+   with 16GB RAM, 20 rounds.
+
+                    Baseline (6.19)    VSS v5          VSS v6
+   real (s)       14.98 +/- 0.78   18.33 +/- 1.79   14.82 +/- 0.99
+   sys (s)        396.4 +/- 31.1   511.9 +/- 60.3   390.7 +/- 37.0
+   tput (KB/s)     28188 +/- 1810   23287 +/- 2464   28765 +/- 2264
+   free (ms)       101.1 +/-  3.5    91.4 +/-  4.0    98.7 +/-  6.2
+   delta real             -            +22.4%            -1.1%
+   delta sys              -            +29.1%            -1.4%
+   delta tput             -            -17.4%            +2.0%
+   delta free             -             -9.6%            -2.4%
+
+Note: not sure why VSS does better than baseline on the free path here.
+Could be some weird lock contention effect - I will dig deeper once I
+have the free (pun intended) time ;) This could be an indendent
+work to improve swap overall, similar to the aforementioned zmalloc
+lock contention :)
+
+4. Kernel build: 52 workers (one per processor), memory.max = 3GB,
+   64GB RAM, 5 rounds.
+
+                    Baseline (6.19)    VSS v5          VSS v6
+   real (s)       163.30 +/- 0.47  163.47 +/- 0.52  163.34 +/- 0.51
+   sys (s)        538.87 +/- 16.49 535.93 +/- 11.88 535.53 +/- 15.29
+   user (s)      5121.60 +/- 1.41 5126.80 +/- 1.55 5125.57 +/- 2.84
+   delta real             -            +0.1%            +0.0%
+   delta sys              -            -0.5%            -0.6%
+
+
+With the optimizations done in V6, we have closed the gap between
+virtual swap implementation and 6.19 vanilla to within noise :)
+
+
+IV. Future Use Cases
+
+While the patch series focus on two applications (decoupling swap
+backends and swapoff optimization/simplification), this new,
+future-proof design also allows us to implement new swap features more
+easily and efficiently:
+
+* Facilitating new backend implementations: Thanks to the flexibility
+  of the new design, we can easily add new swap backends, such as
+  compressed CXL as swap (see [20]). Vswap provides the much needed
+  dynamicity and ease-of-backend transfer for these new backends.
+  Another example is samefilled-swap-page (see [23]). I have actually
+  hacked together a small patch to do this, but I decided not to
+  include it, because it hides the problem in the memhog benchmark
+  of virtual swap - I will send it in the next version if folks believe
+  it is a worthwhile feature.
+* Multi-tier swapping (as mentioned in [5]), with transparent
+  transferring (promotion/demotion) of pages across tiers (see [8] and
+  [9]). Similar to swapoff, with the old design we would need to
+  perform the expensive page table walk.
+* Swapfile compaction to alleviate fragmentation (as proposed by Ying
+  Huang in [6]).
+* Mixed backing THP swapin (see [7]): Once you have pinned down the
+  backing store of THPs, then you can dispatch each range of subpages
+  to appropriate backend swapin handler.
+* Swapping a folio out with discontiguous physical swap slots
+  (see [10]).
+* Zswap writeback optimization: The current architecture pre-reserves
+  physical swap space for pages when they enter the zswap pool, giving
+  the kernel no flexibility at writeback time. With the virtual swap
+  implementation, the backends are decoupled, and physical swap space
+  is allocated on-demand at writeback time, at which point we can make
+  much smarter decisions: we can batch multiple zswap writeback
+  operations into a single IO request, allocating contiguous physical
+  swap slots for that request. We can even perform compressed writeback
+  (i.e writing these pages without decompressing them) (see [12]).
+* Deferred physical swap allocation to optimize IO patterns and fallback
+  to a different swap backend on error (see [24] and [25]).
+
+
+V. References
+
+[1]: https://lore.kernel.org/all/CAJD7tkbCnXJ95Qow_aOjNX6NOMU5ovMSHRC+95U4wtW6cM+puw@mail.gmail.com/
+[2]: https://lwn.net/Articles/932077/
+[3]: https://www.youtube.com/watch?v=Hwqw_TBGEhg
+[4]: https://lore.kernel.org/all/Zqe_Nab-Df1CN7iW@infradead.org/
+[5]: https://lore.kernel.org/lkml/CAF8kJuN-4UE0skVHvjUzpGefavkLULMonjgkXUZSBVJrcGFXCA@mail.gmail.com/
+[6]: https://lore.kernel.org/linux-mm/87o78mzp24.fsf@yhuang6-desk2.ccr.corp.intel.com/
+[7]: https://lore.kernel.org/all/CAGsJ_4ysCN6f7qt=6gvee1x3ttbOnifGneqcRm9Hoeun=uFQ2w@mail.gmail.com/
+[8]: https://lore.kernel.org/linux-mm/4DA25039.3020700@redhat.com/
+[9]: https://lore.kernel.org/all/CA+ZsKJ7DCE8PMOSaVmsmYZL9poxK6rn0gvVXbjpqxMwxS2C9TQ@mail.gmail.com/
+[10]: https://lore.kernel.org/all/CACePvbUkMYMencuKfpDqtG1Ej7LiUS87VRAXb8sBn1yANikEmQ@mail.gmail.com/
+[11]: https://lore.kernel.org/all/CAMgjq7BvQ0ZXvyLGp2YP96+i+6COCBBJCYmjXHGBnfisCAb8VA@mail.gmail.com/
+[12]: https://lore.kernel.org/linux-mm/ZeZSDLWwDed0CgT3@casper.infradead.org/
+[13]: https://lore.kernel.org/all/20251121-ghost-v1-1-cfc0efcf3855@kernel.org/
+[14]: https://lore.kernel.org/linux-mm/20251202170222.GD430226@cmpxchg.org/
+[15]: https://lore.kernel.org/linux-mm/CAMgjq7AQNGK-a=AOgvn4-V+zGO21QMbMTVbrYSW_R2oDSLoC+A@mail.gmail.com/
+[16]: https://lore.kernel.org/all/69bc6c4f.050a0220.3bf4de.0001.GAE@google.com/
+[17]: https://lore.kernel.org/all/20260319075621.GR3738010@noisy.programming.kicks-ass.net/
+[18]: https://lore.kernel.org/all/CAMgjq7AiUr_Ntj51qoqvV+=XbEATjr7S4MH+rgD32T5pHfF7mg@mail.gmail.com/
+[19]: https://lore.kernel.org/all/CAOptpSPs-1UrEa8AHg19e590=SiV6bpnex7gCbif8=aY7BtpuA@mail.gmail.com/
+[20]: https://lore.kernel.org/all/aerrps94j70MkgdW@gourry-fedora-PF4VCD3F/
+[21]: https://lore.kernel.org/all/afIKxG5mJZE6QgpR@gourry-fedora-PF4VCD3F/
+[22]: https://lore.kernel.org/all/CAKEwX=NrUhUrAFx+8BYJEfaVKpCm-H9JhBzYSrqOQb-NW7QRug@mail.gmail.com/
+[23]: https://lore.kernel.org/all/CAKEwX=PBjMVfMvKkNfqbgiw7o10NFyZBSB62ODzsqogv-WDYKQ@mail.gmail.com/
+[24]: https://lore.kernel.org/all/CAKEwX=NR5dkKduTPwDHWiSMFwJ9ZmvindFvUNbPgQu690W_m+A@mail.gmail.com/
+[25]: https://ieeexplore.ieee.org/document/8662047
+
+Nhat Pham (22):
+  mm/swap: decouple swap cache from physical swap infrastructure
+  swap: rearrange the swap header file
+  mm: swap: add an abstract API for locking out swapoff
+  zswap: add new helpers for zswap entry operations
+  mm/swap: add a new function to check if a swap entry is in swap
+    cached.
+  mm: swap: add a separate type for physical swap slots
+  mm: create scaffolds for the new virtual swap implementation
+  zswap: prepare zswap for swap virtualization
+  mm: swap: allocate a virtual swap slot for each swapped out page
+  swap: move swap cache to virtual swap descriptor
+  zswap: move zswap entry management to the virtual swap descriptor
+  swap: implement the swap_cgroup API using virtual swap
+  swap: manage swap entry lifecycle at the virtual swap layer
+  mm: swap: decouple virtual swap slot from backing store
+  zswap: do not start zswap shrinker if there is no physical swap slots
+  swap: do not unnecessarily pin readahead swap entries
+  swapfile: remove zeromap bitmap
+  memcg: swap: only charge physical swap slots
+  swap: simplify swapoff using virtual swap
+  swapfile: replace the swap map with bitmaps
+  vswap: batch contiguous vswap free calls
+  vswap: cache cluster lookup
+
+ Documentation/mm/index.rst      |    1 -
+ Documentation/mm/swap-table.rst |   69 -
+ MAINTAINERS                     |    4 +-
+ include/linux/cpuhotplug.h      |    1 +
+ include/linux/memcontrol.h      |    5 +
+ include/linux/mm_types.h        |   16 +
+ include/linux/shmem_fs.h        |    9 +-
+ include/linux/swap.h            |  210 ++-
+ include/linux/swap_cgroup.h     |   18 +-
+ include/linux/swapops.h         |   25 +
+ include/linux/zswap.h           |   17 +-
+ kernel/power/swap.c             |    6 +-
+ mm/Makefile                     |    5 +-
+ mm/filemap.c                    |   14 +-
+ mm/huge_memory.c                |   11 +-
+ mm/internal.h                   |   33 +-
+ mm/madvise.c                    |    2 +-
+ mm/memcontrol-v1.c              |   17 +-
+ mm/memcontrol.c                 |  168 ++-
+ mm/memory.c                     |  109 +-
+ mm/migrate.c                    |   13 +-
+ mm/mincore.c                    |   15 +-
+ mm/page_io.c                    |  124 +-
+ mm/shmem.c                      |  227 +--
+ mm/swap.h                       |  268 ++--
+ mm/swap_cgroup.c                |  172 ---
+ mm/swap_state.c                 |  308 +---
+ mm/swap_table.h                 |  132 +-
+ mm/swapfile.c                   | 1607 ++++----------------
+ mm/userfaultfd.c                |   18 +-
+ mm/vmscan.c                     |   29 +-
+ mm/vswap.c                      | 2515 +++++++++++++++++++++++++++++++
+ mm/zswap.c                      |  178 +--
+ 33 files changed, 3615 insertions(+), 2731 deletions(-)
+ delete mode 100644 Documentation/mm/swap-table.rst
+ delete mode 100644 mm/swap_cgroup.c
+ create mode 100644 mm/vswap.c
+
+
+base-commit: 05f7e89ab9731565d8a62e3b5d1ec206485eeb0b
+--
+2.52.0
