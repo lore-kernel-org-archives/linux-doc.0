@@ -1,104 +1,136 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A03F9363099
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 05:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4259363099;
+	Tue,  5 May 2026 05:57:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777960610; cv=none; b=nGx3H7/P+5fcK1zwa+ZWJaEH1couOgzO2QiukSUTy0Mq8EECs3YDqb7CpmcPJyH5KtkeCt38eJpPD5B60S/9szhYNBcPKsGgwsqV79EkoAl61SgezTNZd+mlEaBmm6HbUkFbf6TUgTwDTkB2GU0zmu0opFykwBLfZrnlkFVX3Oo=
+	t=1777960650; cv=none; b=tmyAfJnTkct02Ju3WdoRC4pw8BDKgdehK3EojaloGpKDADU7luCyMYE0VXNiR7gZ19vJ/8s3B3hknsZX9JKklYhf+yln4rey2RcovokNwaOQMW7VKnE3ai8UU24NgQ6fsMk+IQgd8yZNovFHx5I/aiY7lMP5DIR3oodp3R2ybQI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777960610; c=relaxed/simple;
-	bh=vxrRsHG92zCqD2taOXq5dagh2LonMjKOdXTDxmuA5Ck=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=R67Nknr7VGcByCuV+GuUW2SnU2YFCxxMLtSnbj4WAp6won8xhLQrj7votfnFOfx2hdaqfjntvxLKLB9GsptmILrZmXRvnAchuCHZrwFXEex6WC/oZxAVUT0PPYi6Ltda4YqMPw/9PjhJrc+PDqjEfUFxDH/7QnQW0+4nAciXiiw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=BRsMaWHT; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1777960650; c=relaxed/simple;
+	bh=9DEUkxjk8HiiowquE8eOkivB7wjOkmTD6MTGs6VTlm4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=D58frYyg17kcLoz/PWabshDzLwZGMHdR9M+hHO/n/yCxoYlAUxuazTpsZyL0tJDpvxW52GyrgadP1TyPeYVrgL9vf3AQtNLL4tEhZ3QOHmhi0PKFcvJjOx/nukXxP7JYTbGPt+mC//8vwvztuaCMl1K4uRhqHFKvXdAGwyWL0YM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ELkS2Mdk; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="BRsMaWHT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=qs+ecXoF7v3nk0kuFCvPfN1KNtLwF5NOS/E0KViL+MQ=; b=BRsMaWHTekQXw3zjFlUNBQFzxY
-	ZU6y2RV5Vm7r1U6LqThqmhKCvowG1VHbHs0xuLltfHSmTVZz6PPJ7dNBuZpROyIzsTAMH17yA39jF
-	IBxozyn/a2okuvoaw9mvRaQxpz3n2munq1UW9kvbEQz3z3SdBOa5bP3Rvqb3Rh6df2SFB7uv33TgT
-	g/gUg+RU8GayVZJxS4V4oD3/jz45fVdrp+ZyzMMwfCZ+MNlIjr1cgCyZU5kow6brQ9KQJ2ejXaz7F
-	zY3D3kftTUof6/lnI7t6d1wDVLF/c4cJxh3CCfc2HgSWpGrT+s5qMVYZEG91yAqva/1hG+oj0A3gb
-	+JR9BGJw==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1wK8ly-0000000FEqL-05WH;
-	Tue, 05 May 2026 05:56:46 +0000
-Message-ID: <f7950aaa-8b0b-499d-a421-134593ffaec0@infradead.org>
-Date: Mon, 4 May 2026 22:56:45 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ELkS2Mdk"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18DAAC2BCB4;
+	Tue,  5 May 2026 05:57:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1777960650;
+	bh=9DEUkxjk8HiiowquE8eOkivB7wjOkmTD6MTGs6VTlm4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ELkS2MdkJW54twsAz30BqI80BHxF/JjgnTWoXaNjm8X8/cD4KYMoZjzyNG4MQQs99
+	 NfjWm1kHVYEUSDQpfxf9+plutzRofT1w2eBz0Yr2i6drAUQkQM7cTPiUTEES3wcVk/
+	 NLDmHAKAEusdc0RyZ+1/RCUxlYKGI3WcBmfwuAcmVamJiysoehbo4ts7kd3HmP6IKT
+	 uUMei8lCJmh/3ulA8aKCIIgrm7avcDYfO4NdAbtn9XFvfXslt1a/ZqlKIqBjS0HhPy
+	 fibXZSHyGglvqkkMK+1zTRgX1CDhF5h+8goxXw9KtMY0h9MvIY8Cu27lCzyOM4wx8+
+	 A64nqdIJgApvQ==
+Date: Tue, 5 May 2026 07:57:25 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Joe Perches <joe@perches.com>
+Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
+ Linux Doc Mailing List <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
+ rust-for-linux@vger.kernel.org, Andrew Morton	 <akpm@linux-foundation.org>,
+ Matteo Croce <technoboy85@gmail.com>, Shuah Khan	
+ <skhan@linuxfoundation.org>, Matteo Croce <teknoraver@meta.com>
+Subject: Re: [PATCH 2/9] docs: escape ** glob pattern in MAINTAINERS
+ descriptions
+Message-ID: <20260505075725.0f3d2a6b@foz.lan>
+In-Reply-To: <0b127006e552de855ba7d33c15d2199436a001cb.camel@perches.com>
+References: <cover.1777908711.git.mchehab+huawei@kernel.org>
+	<31f673089e2a83dc1fee17d47784579874476ca5.1777908711.git.mchehab+huawei@kernel.org>
+	<c2efc1a7-4406-4590-b863-5f258f3cae50@infradead.org>
+	<0b127006e552de855ba7d33c15d2199436a001cb.camel@perches.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] fix broken links in bpf, driver_api & filesystem
- documentation
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Jeremy Bobbin <jer@jer.cx>,
- corbet@lwn.net
-Cc: linux-doc@vger.kernel.org
-References: <20260505014839.2670290-1-jer@jer.cx> <afl-79jS4RiGpx_c@archie.me>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <afl-79jS4RiGpx_c@archie.me>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Mon, 04 May 2026 20:19:50 -0700
+Joe Perches <joe@perches.com> wrote:
 
+> On Mon, 2026-05-04 at 14:20 -0700, Randy Dunlap wrote:
+> > On 5/4/26 8:51 AM, Mauro Carvalho Chehab wrote:
+> > From: Matteo Croce <[teknoraver@meta.com](mailto:teknoraver@meta.com)>  
+> > > 
+> > > Escape '**' in the MAINTAINERS descriptions section to prevent
+> > > reStructuredText from interpreting it as bold/strong inline markup,
+> > > which causes a warning when running 'make htmldocs'.  
+> []
+> > It's nice to eliminate one warning from 'make htmldocs', so this is good
+> > in that regard. However, there are still multiple problems (not Warnings)
+> > with '*' characters in the MAINTAINERS file:
+> > 
+> > 1) 	   F:	*/net/*		all files in "any top level directory"/net
+> > 
+> > In the html output, it shows "/net/" italicized (that's what one * does).
+> > 
+> > 2)	   F:	fs/**/*foo*.c	all *foo*.c files in any subdirectory of fs
+> > 
+> > In the html output, it shows
+> > 
+> > 	F: fs/**/foo.c all foo.c files in any subdirectory of fs
+> > 
+> > with both occurrences of "foo.c" italicized (dropping the '*' characters).
+> > 
+> > These 2 examples are actively wrong.
+> > 
+> > [adding new:]
+> > We would be better served by just putting file patterns inside ``fs/**/*foo*.c``
+> > quotation marks IMO.
 
-On 5/4/26 10:23 PM, Bagas Sanjaya wrote:
-> On Mon, May 04, 2026 at 06:48:38PM -0700, Jeremy Bobbin wrote:
->> @@ -712,7 +712,7 @@ the following:
->>     * - 0x80
->>       - This filesystem has a snapshot (RO_COMPAT_HAS_SNAPSHOT).
->>     * - 0x100
->> -     - `Quota <Quota>`__ (RO_COMPAT_QUOTA).
->> +     - `Quota </filesystems/quota.html>`__ (RO_COMPAT_QUOTA).
+The logic actually does that already:
+
+        #
+        # Mark paths (and regexes) as literal text for improved
+        # readability and to escape any escapes.
+        #
+        if field in ['F', 'N', 'X', 'K']:
+            # But only if not already marked :)
+            if not ':doc:' in details:
+                details = '``%s``' % (details)
+
+The only reason why this patch is needed is for the header part, which
+describes that "**" is allowed. If you look at the final code, this
+replace code will be only at the header parsing logic:
+
+    def parse_descriptions(self, line):
+        """Handle contents of the descriptions section."""
+
+    ...
+        # Escape the escapes in preformatted text.
+        line = self.linkify(line).replace("\\", "\\\\").replace("**", "\\**")
+        self.header += "| " + line
+
+> > 
+> > Ah, similar to what you do in the table output.
+> > 
+> > Oh, with one little glitch:
+> > E.g., in the very first entry for 3C59X NETWORK DRIVER,
+> >   F:	Documentation/networking/device_drivers/ethernet/3com/vortex.rst
+> >   F:	drivers/net/ethernet/3com/3c59x.c
+> > it looks like automarkup is applied to the Documentation file so these
+> > 2 files are displayed as:
+> > 
+> > networking/device_drivers/ethernet/3com/vortex, drivers/net/ethernet/3com/3c59x.c
+> > 
+> > with the Doc file underlined and missing both Documentation and .rst.
+> > Or maybe that's what you intended since the automarkup link does work.
+> > It's just not what I expected. Oh well.  
 > 
-> Maybe :doc:`Quota </filesystems/quota>`?
-> 
-> Thanks.
+> Please stop trying to format MAINTAINERS into rst.
+> It shouldn't be formatted.
+> It's simple text.
 
-I just tried that - unsuccessfully. (Maybe because this is in
-a table?)
+MAINTAINERS is not a simple text. It is a machine-readable text
+database.
 
-What works for me is this: (FWIW)
-
---- linux-next-20260504.orig/Documentation/filesystems/ext4/super.rst
-+++ linux-next-20260504/Documentation/filesystems/ext4/super.rst
-@@ -408,11 +408,11 @@ The ext4 superblock is laid out as follo
-    * - 0x240
-      - __le32
-      - s_usr_quota_inum
--     - Inode number of user `quota <quota>`__ file.
-+     - Inode number of user `quota <../quota.html>`__ file.
-    * - 0x244
-      - __le32
-      - s_grp_quota_inum
--     - Inode number of group `quota <quota>`__ file.
-+     - Inode number of group `quota <../quota.html>`__ file.
-    * - 0x248
-      - __le32
-      - s_overhead_blocks
-@@ -712,7 +712,7 @@ the following:
-    * - 0x80
-      - This filesystem has a snapshot (RO_COMPAT_HAS_SNAPSHOT).
-    * - 0x100
--     - `Quota <Quota>`__ (RO_COMPAT_QUOTA).
-+     - `Quota <../quota.html>`__ (RO_COMPAT_QUOTA).
-    * - 0x200
-      - This filesystem supports “bigalloc”, which means that file extents are
-        tracked in units of clusters (of blocks) instead of blocks
-
-
-
--- 
-~Randy
-
+Thanks,
+Mauro
