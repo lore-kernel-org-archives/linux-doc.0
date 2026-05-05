@@ -1,349 +1,288 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CWXP265CU008.outbound.protection.outlook.com (mail-ukwestazon11020086.outbound.protection.outlook.com [52.101.195.86])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDA8E2459DC
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 13:45:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777988716; cv=none; b=CqNfxAVm3ZOvKI5r7fdsTsurlLvFku/p+clIMbjENXtwsMmsTtqVjQM0YXvWYA9FUw48diEZ1H6D3fkQnaEct6HL8tgc25MEY1PC3uodXWGhKp+r37QPRpPsIrGJFxV3B+AXrkw7/4MCsnLr1sAfOGQ0F+MPdp+o1XuJHrrYSAg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777988716; c=relaxed/simple;
-	bh=OO2wnaK4mcEYjb+iiWNgPvHCYFazRH7X6rVJNuFlFgk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Mmuou2EAxD1TDxBRgyARAOgYT+qn6XpqR0p5LXDfm3DrHUV0styG3KAVLt2f1KVeIdaML2y6gGiMTMqoa4K+m57Mvk/8cM72OrjiGrzxZ53G/xXTD0/6XJzukBmL0U5nZsAtqjYIbvrsqEP5y5WiYs+/UGCY7bqFuh4S990LuPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk; spf=pass smtp.mailfrom=thegoodpenguin.co.uk; dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b=lnD8aJVj; arc=none smtp.client-ip=209.85.221.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=thegoodpenguin.co.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=thegoodpenguin.co.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13F33311968;
+	Tue,  5 May 2026 13:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.195.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1777988955; cv=fail; b=jPBOM7IIsQGJQ3LnUXzxx5Ml9xptItzoaOLyA7+X1AvE/qwCo3LnvxSs+Dd5uoDSm3dHv4nPYRdBT/laJdSsiC9cE/DVxjOLTkFqrEzIwyfov1ek8v8Itj+4uhmpbQmMccOH0vXaeyV9ZdEYjJJSUPzoXY67xarmvDQZm3eLzfM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1777988955; c=relaxed/simple;
+	bh=IZPd+S6DIZAHOyMqXnw4RbD7doyn/jQda/vQrQFjeGM=;
+	h=Content-Type:Date:Message-Id:Cc:Subject:From:To:References:
+	 In-Reply-To:MIME-Version; b=id8/Je48LvS8sYx3SW0lQPJN4iHuh9576q2NukEmUCVsOBvNK0jsH6KLSlQZIOlrRCjfnePtaDfxu5ot2cuKDm9QnLJlm8CacuxDq0atYqJnsYWcnVrmQD3gBsPe1MPUktJdkZFJamx9BiWmw+yL1aI3wzPqX+szo/QFQKVVR7Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net; spf=pass smtp.mailfrom=garyguo.net; dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b=KeoDxjZ9; arc=fail smtp.client-ip=52.101.195.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=garyguo.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=garyguo.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=thegoodpenguin-co-uk.20251104.gappssmtp.com header.i=@thegoodpenguin-co-uk.20251104.gappssmtp.com header.b="lnD8aJVj"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-43d7e23defbso2993786f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 06:45:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20251104.gappssmtp.com; s=20251104; t=1777988711; x=1778593511; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=PYkIP1Kvmjl9SAF9O37JxjxuW1pir4kJK6yjtigDUqI=;
-        b=lnD8aJVjEGKGDlDubVtMztIUhNZbMG/L+x8dfYhGWNDcoFu2inNbwatGzPkqAI/Aol
-         YfCDCPwFXL+MW1SCQMWol9V0EySZ+8Vjyk78t6eV8ACUaHGCK9A2GUj7XsxHek41CT8h
-         xRAhrWKjQftcECXVZOsRJViVTEuAXc+yH7hWuj3Il9NuNAmI+ipwmBYEqdN1SPNdY4Fs
-         LG7dzzXTsDJC6G0fboB4ZhKD8gR1TS0xITCeHJMWzZ1AZCPkFOaXSoQJuY7Xz6XT163S
-         Yzwjyz68GzxEBseh8pU2iQBvSxA21sOn7Cc6bJtxUtIPhDTXfKvfOA3/exYwi0SKhAUH
-         Pudw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1777988711; x=1778593511;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PYkIP1Kvmjl9SAF9O37JxjxuW1pir4kJK6yjtigDUqI=;
-        b=OvU0wojeW3wViQYinViH3zDTSGY31EYjfaJdqFIr2EsAfGHCF3zspeZ/DBjlA400qC
-         jIvfCZSnhFKNOMMGUYd8vq2XBEzkvOZVTAJGB8f/4ddBQjVVbstV103lfSmseox8GNwf
-         /kraFOSTNOCi0W5GUW+P6sB/cVfQGxMPc1DDxLCIORYtw1+3nPdZ9/cl+5AhqgolHKFk
-         PDBq5A30jk61ff3YOz3OIae78r8nUa6mjWkh8f8eliCpEiU8qwUFt2POA2w3TgXKE6tH
-         da+LrfXwPOdM4n8Bfpl+Uwp/K9vj8tzwagOvz3ybMpucLT8LHbuU7JluEXrhg3EkT6JK
-         grhg==
-X-Gm-Message-State: AOJu0Yzc7pumNzJztPNv9PvhZYRlELrif/QXOlX/pOdhG4S4mxLDnE56
-	DUw/4Mb+F+cuIPofqNWi1/E6nOsSRG7ztM1Puw31t5erRQfhDqtQaNUGcTP1QpNqKOo=
-X-Gm-Gg: AeBDiesxWnHI+bEXxTuRfDzX9hqC6BgAKlfq6oUI/5l/RpJByyMfnbKRPdleVuTkrhy
-	xM/x3xctAA5X1+Rh1oWJRMfUbChdh8Cy699pgDqNhn+XA4DqslAory4cHP688ypbCAEk6fkPUs0
-	7mdKmLBE/HV/5kfEbRzBqBCcWI07YEt8hnsWUqjJp0NBvQB4KhU4eDe1hDU8BK7v+G6O6OfYRaC
-	nYhrnpeZQUENj7K4zpOroRX7jQ3rpkZQ5My6aevO2nU/LZ0NWz0BRR7ltSIHjPON+sPYk8+iNWr
-	uW/qu3avZp3VchWus/1EkiAw/W16dQzO6rXcYGfDTpn1QKHnRbBULFghseWy/KBClh5utlV18+V
-	Zy1i3o5CrxRpEawOOqYZJ0veNQpdQY2akD4KsQtlZVO5zbgF7lVF0gbcXMbxXZUAF8MbNhVvlty
-	gcQYvXhMvZT6pTZaRb4vPPi6Lba1EA97CZZ9Rkbcu3t+VJm8PcrqFf8Af22j6jWjOitcIOFZoG2
-	dGYAzjCHKGhYwcAnBLtJr7xQbf90XmbPlc2yireD//RGG3p/Q==
-X-Received: by 2002:a05:6000:61e:b0:43d:7b90:fa23 with SMTP id ffacd0b85a97d-44bb65df7c8mr23463107f8f.29.1777988711101;
-        Tue, 05 May 2026 06:45:11 -0700 (PDT)
-Received: from [127.0.1.1] ([2a00:23c5:7815:1301:f27:e3a8:2334:314d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-45055960aa2sm4573113f8f.29.2026.05.05.06.45.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 May 2026 06:45:09 -0700 (PDT)
-From: Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date: Tue, 05 May 2026 14:45:00 +0100
-Subject: [PATCH RFC] printk: remove BOOT_PRINTK_DELAY
+	dkim=pass (1024-bit key) header.d=garyguo.net header.i=@garyguo.net header.b="KeoDxjZ9"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=CqjLPtM3waBpUyPHmFOUgGgzdm/25AomrYcPD/urRtohL7lKmi5m8luF3EOSEK3fg9h0xsJCVEGqtof4DBFN6JjN125N7nPukk2t/UxCVg/k03d5Gx48uLXM9Jj9Hf0E+MVAMyB728st0a7NHaxYcGU383QdSfG/cK2oqsL9+EFAedoIpxJVWzHyHGdKphfq2yKg2aKn2hrtR/Z2lasxhYyoYjA1a5RnLtWUBV40IbBjY29DWbPRd20ojA6i8DfXbC0yXiZHeP/xKfaEgCdCcjzKJ7wkjcwN917WbKfptRjy18fqGrm7b81YvlPLQ1cY7bjNEPiDGKhWuTjvCKwe4g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=pixQ/5VVB+ugWS0Ils63Ehxzzu+CSj71KaAD8lHtZ7s=;
+ b=hkgx19+FWdZOhpQi0Z9+QlvHw+A0RvKObEtSVs34WvD4ulIGSFL8otl0f0abKfXuAoNA/io0WKhCo/bwsvDyO/O0x8Yu0qNhjSGxPHWHuwHzpZOFPGe4wdWBPGZ3kjxGSNnbyXMcrXrdyjX8XgjI/I2S6K7xDt4UfQvt/xDbSvQau5rPxoppzGW2+9N6XIVTumiwz/46bYr8t/evB5eB9IIz2QQzTvyraLcYkR1/0cNo7pAp47p2ZRliPsBc1WeG1hEnB8+xFgllbk9L6qi/zh/9oP0B+YwzfhYi2w+qpv7D4oSoq5feHS2t/0K9UVyz/Pobs3o3/ATiDnGy2Zouzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=garyguo.net; dmarc=pass action=none header.from=garyguo.net;
+ dkim=pass header.d=garyguo.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=garyguo.net;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=pixQ/5VVB+ugWS0Ils63Ehxzzu+CSj71KaAD8lHtZ7s=;
+ b=KeoDxjZ9N/g0qO9KyoNYK4uBuszaC87LsxU3B4ycF7nQVXRhRGWiHDjUieYIkX6xdfI3TvvKVbC+qm0QM4thENtZpCi0yPvFsXt9w7nUoXBUsqNrVhjpdR1aDTw+/6PHRZhioNX6on74kygw+JgP9h4fsGrDZ9YrviUv6mq/ZO8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=garyguo.net;
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:488::16)
+ by LO3P265MB1978.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:103::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Tue, 5 May
+ 2026 13:49:10 +0000
+Received: from LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986]) by LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ ([fe80::1c3:ceba:21b4:9986%4]) with mapi id 15.20.9870.023; Tue, 5 May 2026
+ 13:49:10 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 05 May 2026 14:49:09 +0100
+Message-Id: <DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
+Cc: <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Gary Guo"
+ <gary@garyguo.net>, "Miguel Ojeda" <ojeda@kernel.org>, "Trevor Gross"
+ <tmgross@umich.edu>
+Subject: Re: [PATCH v2 11/11] MAINTAINERS: use a URL for pin-init
+ maintainer's profile entry
+From: "Gary Guo" <gary@garyguo.net>
+To: "Mauro Carvalho Chehab" <mchehab+huawei@kernel.org>, "Benno Lossin"
+ <lossin@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>, "Linux Doc Mailing
+ List" <linux-doc@vger.kernel.org>
+X-Mailer: aerc 0.21.0
+References: <cover.1777987027.git.mchehab+huawei@kernel.org>
+ <1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
+In-Reply-To: <1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
+X-ClientProxiedBy: LO0P265CA0014.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:355::16) To LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:488::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260505-printk_delay-v1-1-5dba51d7f17c@thegoodpenguin.co.uk>
-X-B4-Tracking: v=1; b=H4sIAFv0+WkC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDIzMDUwNT3YKizLyS7PiU1JzESl1zCwsLk5TERPPUJAsloJaCotS0zAqwcdF
- KQW7OSrG1tQA9efpKYwAAAA==
-X-Change-ID: 20260505-printk_delay-78884daa7eb8
-To: Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Russell King <linux@armlinux.org.uk>, 
- Florian Fainelli <florian.fainelli@broadcom.com>, 
- Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>, 
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>, 
- Petr Mladek <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
- John Ogness <john.ogness@linutronix.de>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Andrew Morton <akpm@linux-foundation.org>, 
- Sebastian Andrzej Siewior <bigeasy@linutronix.de>, 
- Clark Williams <clrkwllms@kernel.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-rpi-kernel@lists.infradead.org, 
- linux-rt-devel@lists.linux.dev, 
- Andrew Murray <amurray@thegoodpenguin.co.uk>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1777988708; l=9156;
- i=amurray@thegoodpenguin.co.uk; s=20250914; h=from:subject:message-id;
- bh=OO2wnaK4mcEYjb+iiWNgPvHCYFazRH7X6rVJNuFlFgk=;
- b=1mSO9+z1xZYnd2PD5ecHPzA8luCmG2iHBUBqwUQ5I3+cllJwsPhB1Y9WQns3lz8TMTmjpPXQv
- aiA/4aN1W1TD+b75eMJwqxoQxpqFNYYzZrL7z2rMU7VnG0f83XfVSBI
-X-Developer-Key: i=amurray@thegoodpenguin.co.uk; a=ed25519;
- pk=0SU0Q8S/uEiCdbXbXS+PvJGUCaBG1nDszD+HPU3Js0Q=
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LOVP265MB8871:EE_|LO3P265MB1978:EE_
+X-MS-Office365-Filtering-Correlation-Id: bc43ee68-938c-4903-63a9-08deaaad1562
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|7416014|18002099003|22082099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	0/IZWKhbcswt9Ze3CXv0X44RcOQfIlO0+0Tc+Cf8UlfR9ZrVqBHv5VdDfS/XVHyPoAHKdMMAIUdAKxzeGtmdhbpDfSoxR62pYaXbjqSgn1oJSvQ57T8Jvto4PogbZ/hwgApOy2quAgNpPZLfD/rxddHxYUXW4pTo9mMwP6fwmZL5zYZx4PfN/K/ZMddY8ELJDE6tVvxE+MjIz9uXJ5MqyXcmpIe0FBKvXdLxORuUAzh/Hyh/hA5UESD/3gUHo/r4/d2Mv4m8bctBIxnyUIen/v7remFZ+BEVTadWK7xvD/qWratVsbBjZN/EeXa26J/bmRtSgVk1NT3L+7KQcAAkiEuOGV0rMBEHZzPVcvsUPVDoFHKlSaU0SbDD7Z47KAhES0xjjs5f8+2IJuqOMTffurkzdRuUYzXZ3yMzZ3rwwoq/fhI6lPzsEB2zJjkzRLmmlPfXCK4HO/ea8Hf9oEK+spytRpSp1DHFO78kEDUDrb3iY9zm+bL3085koPhPdwaqd16gYpVeJQyxZknDtp3dAbQOPyvzcCyN4JcWDESSZgmkZ/2/x7f2uEuKT1f4GepK08dXeeImV4T8yvARV5gcB6XT31iDJRyR3xJxgCgpjlDtzdrU7qmH7KZiKgt8GP1k
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(7416014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bFphRVhRYTAybEozVHR5a0ZFWENVOFMrRnRObDY1R3plYjhWYVlSS0hLQk5a?=
+ =?utf-8?B?M0p2aFVrSng3V0l4RUhpSVFONHFLcitMWkdFNWxIU0RPbG1qRXNnTUtudmxG?=
+ =?utf-8?B?S0RHUkg5aDNQTFZJVlN2d01PWDBFUnZkOXE1UmNMSHJtbGF5b2puMWdmSlNT?=
+ =?utf-8?B?Z1B5ODNBREt2YXA2S0JwYlBqVDR2MVdHRDh6dnR6cG1FQ2EvVmtJN042K200?=
+ =?utf-8?B?a0EwN1RWM2dVMFkyZjA3TjJwblR1VXF4bkljOVgvd3p6bHFuU2dqOW5nYW1C?=
+ =?utf-8?B?U2xzQ1RoUVlId2RCK3ZhOUREclkvTjVNYUYvTzM1ZVVWNTc2dFJ0c2NsaUs0?=
+ =?utf-8?B?UzBlZWtKK1ZHNlQ1alZYbVNiZmxPUm10aXVzWnNyOFpLVHluanJsaXNYUjFa?=
+ =?utf-8?B?Yk1PMFg1N2laZzFiallTMHRhS25obElPQnZuRWlMQUlPdXl0OHp5L1RURnpt?=
+ =?utf-8?B?YXFYWlA0VTBiZnJTaFpaWTN3YStDMWwyMEFTZ21pOTN4TCs2MitVbmxQODlx?=
+ =?utf-8?B?SUpKemxITXkrZ3RyVjgxMUFEOFRBSTN3S0Q1b2owY0M1cGdxVXVIYjYwMUN0?=
+ =?utf-8?B?NWxjM3Ewb3pmYlAyekZhR2NKN2xrWWloRmU1a2lvdkVrcmh2MHM3dVRoQlE3?=
+ =?utf-8?B?R3F1YlR0bTgwWVIrdC9uamtUN1kxaXN4aWxWWFJmMlhXeVR3eG5MM0xSVkYz?=
+ =?utf-8?B?S0Vid29lZWF2UzJpbnF3dmRmTlN6dWwxMHVOb0ZVcWhIdDFnTXIxTWF5R3Nz?=
+ =?utf-8?B?d1JSMlhIalJSbGQyc0tLRXhhcUhaQ2YyWk1Ld1JsMkl3dFBTakFHbDFvbFpT?=
+ =?utf-8?B?RFp4QVhIVVl5Q1lObHlZRGk5OXBsOTIyaWwwM3pjUlZpd3hJQkk3MytnL3lt?=
+ =?utf-8?B?WmZSM3kxdHRsYkJNRVdYMTM3dnc0cFNia1dCR3I0OFZiR0l5bmpjU2diV25z?=
+ =?utf-8?B?SG0yc1A0aDJLQUM2d3gyNkxNSUtjRjlUN2ZmUHE2RTh2NGRHRG40OXM1L2xM?=
+ =?utf-8?B?QU1BMkpCUFNVTWpoNmlnVGpvVUxuS2tma00rZStWZSsyZGlUN0FmS04wTmVH?=
+ =?utf-8?B?ZStMVWZRK1hVUmpNbFBOVWZRamFrb2lhYThFd0dzM3ZmRXJYWk1RZ1JRREhK?=
+ =?utf-8?B?OXczMWk2TGpaRVZ4WEN4akFjYTVWZzc2T3FVL0VUUXpwNXA2emFqRHdoQVh5?=
+ =?utf-8?B?RTBNN081RUsrMXI4QVNaUTljUzRrSk5rTnBtZmUxa1dHcnNGK0NMcUJxTVhV?=
+ =?utf-8?B?MWJ5NVdQcTN6NnUrK204QWVvbTZCc2VmcUVIUFQ1a2FkS3Vya1J0Wk51SjVM?=
+ =?utf-8?B?VVlCN1dzVUpTK2R6a21MTVVPTUdjWnJLUithOWcvbzhYY0t4dFc2NGxZM1V1?=
+ =?utf-8?B?a1VhdWg3bnVLYlJmdHIyd1NjS0FEd05YenVELzZYdC9UM1c0cGJ1ODQxZmh1?=
+ =?utf-8?B?ajhCbC9Ic3dQRDB1VVl5S0t1L2xPNjNKckZhNTNZc3B4Y09YOEc1Z1FUWGxq?=
+ =?utf-8?B?OVp3c0kxK2dXdVQyRmZyQzhoWldDR0xnRW0vUmloVGxkcWZvNW9ueWZ1aWZX?=
+ =?utf-8?B?RHA1aGlpcFpsanVzeGZIQkRGTHd2ZEhtN0Fqa3VMU2RWK01zN2dQTENzYklo?=
+ =?utf-8?B?YlZjczhoQVVQWGlMclFkNFhkVEIxemJnWGlSalJnbTdWWnV1amdNeWphem1u?=
+ =?utf-8?B?SWUwa3c4bkR6dEJlWk90WTBxTEx3dGMrN1BJakcvTFpMWHUzbFdUNmorK2ls?=
+ =?utf-8?B?ek5NdlhTak5hTEN4eGZicXc2bEsyOHUxbDhFcmJhcWt4L25ORDIxbFZLK2tV?=
+ =?utf-8?B?amw1RUtqRmxBTHdUcmxiV2w2UFhKT3RMaFVLMXgyN2t2TG1VTnB4cGhqeFlh?=
+ =?utf-8?B?bEoxNDdYQXprL2lFM1c5cGtBSCs5N1ZMRW10QlRRSU9seXB3TDlHQkdXZzZn?=
+ =?utf-8?B?ZEEwQllxTGZKZWRKZE1VQVZlQ0R0Y01oK01ZNVplaDdqNndiTWN6azZiMSt6?=
+ =?utf-8?B?VCtPM3ZuNlZXblhZb2YxQTBZVmJ3VEl4N1R4eTRLY3NjSHJHNEQ2Mld1QTJN?=
+ =?utf-8?B?c0FZVmpFbkxtbkFHNXBHRUpHMzgwMWZlZnpSYk9jMlA2aTZmMWRPdHdTbFM5?=
+ =?utf-8?B?L0tTV09QWDU5c0tacThha3JLb1pMYW4ydDhIVkd0VXdtTVo3STdmSEZvdFIx?=
+ =?utf-8?B?WVJNM3lUSC85UzIzOVVVWE56MTFWUkNqTjlxclV0SmtpT0R6SnhwRzVBYVUw?=
+ =?utf-8?B?WE5NSGlNZEpEV296OVd5Q0lQNEg5bldNYkc3cmtaRmtyaG01Z0tlTTFpUmtL?=
+ =?utf-8?B?MFFOenkrZ3pGVjM4MTB0RE12ZzFReWYzdWJHZk9vd21ycXhQcmVGdz09?=
+X-OriginatorOrg: garyguo.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: bc43ee68-938c-4903-63a9-08deaaad1562
+X-MS-Exchange-CrossTenant-AuthSource: LOVP265MB8871.GBRP265.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2026 13:49:10.1105
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: bbc898ad-b10f-4e10-8552-d9377b823d45
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Kl/1tE/ef6aIOsGOatJsyMmRchyW22nCqnBfDP4YC6Q/1ci9dX2KMi8IkUkBDTXD/HfePHsuHUXzLiTHaDxDHg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO3P265MB1978
 
-The CONFIG_BOOT_PRINTK_DELAY option enables support for the boot_delay
-kernel parameter, this allows for a configurable delay to be added before
-each and every printk is emitted. This is DEBUG_KERNEL option that is
-helpful for debugging as kernel output can be slowed down during boot
-allowing messages to be seen before scrolling off the screen, or to
-correlate timing between some physical event and console output.
+On Tue May 5, 2026 at 2:25 PM BST, Mauro Carvalho Chehab wrote:
+> This maintainer's entry is not inside documentation nor is
+> ReST, preventing Sphinx to create a hyperlink to it.
+>
+> Change it to point to the already-formatted URL.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  MAINTAINERS                   |  2 +-
+>  rust/pin-init/CONTRIBUTING.md | 72 -----------------------------------
+>  2 files changed, 1 insertion(+), 73 deletions(-)
+>  delete mode 100644 rust/pin-init/CONTRIBUTING.md
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 8700472b3ae3..b16c8f85d099 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -23402,7 +23402,7 @@ S:	Maintained
+>  W:	https://rust-for-linux.com/pin-init
+>  B:	https://github.com/Rust-for-Linux/pin-init/issues
+>  C:	zulip://rust-for-linux.zulipchat.com
+> -P:	rust/pin-init/CONTRIBUTING.md
+> +P:	https://github.com/Rust-for-Linux/pin-init/blob/main/CONTRIBUTING.md
+>  T:	git https://github.com/Rust-for-Linux/linux.git pin-init-next
+>  F:	rust/kernel/init.rs
+>  F:	rust/pin-init/
+> diff --git a/rust/pin-init/CONTRIBUTING.md b/rust/pin-init/CONTRIBUTING.m=
+d
+> deleted file mode 100644
+> index 16c899a7ae0b..000000000000
+> --- a/rust/pin-init/CONTRIBUTING.md
+> +++ /dev/null
 
-However, since the introduction of nbcon and the legacy printer thread for
-PREEMPT_RT kernels, printk records are now emited to the console
-asynchronously to the caller of printk and its boot_delay. The delay added
-by boot_delay continues to slow down the calling process, but may not have
-any impact to the rate in which records are emited to the console. For
-example, if delay_use is set to 100ms, and the printer thread has a
-backlog of more than 100ms, perhaps due to a slow serial console, then the
-records will appear to be printed without any delay between them.
+This file is part of the bidirectional source sync.
 
-It would be unhelpful to add a delay to the printer thread, and it would
-not be possible to disallow selection of CONFIG_BOOT_PRINTK_DELAY at build
-time as it's not possible to detect which consoles are nbcon enabled at
-build time. Therefore, let's remove this feature.
+I think this file is still meaningful in its present location even if not
+rendered, so people touching the code would be able to see it and be aware.=
+ The
+presence of file is more visible than a P entry in the MAINTAINERS file.
 
-Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
----
- Documentation/admin-guide/kernel-parameters.txt |  8 ---
- Documentation/admin-guide/sysctl/kernel.rst     |  8 ---
- arch/arm/configs/bcm2835_defconfig              |  1 -
- include/linux/printk.h                          |  1 -
- kernel/printk/printk.c                          | 73 -------------------------
- kernel/printk/sysctl.c                          |  9 ---
- lib/Kconfig.debug                               | 18 ------
- 7 files changed, 118 deletions(-)
+That said, if Miguel and/or Benno think it's fine to not have this file, I'=
+m
+also okay with it being removed.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4d0f545fb3ec5a1750d9112a851deb8fd976d32d..afdf443094fc3d74c0220548357c000fafadcb19 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -654,14 +654,6 @@ Kernel parameters
- 			embedded devices based on command line input.
- 			See Documentation/block/cmdline-partition.rst
- 
--	boot_delay=	[KNL,EARLY]
--			Milliseconds to delay each printk during boot.
--			Only works if CONFIG_BOOT_PRINTK_DELAY is enabled,
--			and you may also have to specify "lpj=".  Boot_delay
--			values larger than 10 seconds (10000) are assumed
--			erroneous and ignored.
--			Format: integer
--
- 	bootconfig	[KNL,EARLY]
- 			Extended command line options can be added to an initrd
- 			and this will cause the kernel to look for it.
-diff --git a/Documentation/admin-guide/sysctl/kernel.rst b/Documentation/admin-guide/sysctl/kernel.rst
-index c6994e55d1411b1a3b708b3e2439144bac814e6a..fa1ca90105ab58a2143c3b223c023eb429371474 100644
---- a/Documentation/admin-guide/sysctl/kernel.rst
-+++ b/Documentation/admin-guide/sysctl/kernel.rst
-@@ -1125,14 +1125,6 @@ default_console_loglevel default value for console_loglevel
- ======================== =====================================
- 
- 
--printk_delay
--============
--
--Delay each printk message in ``printk_delay`` milliseconds
--
--Value from 0 - 10000 is allowed.
--
--
- printk_ratelimit
- ================
- 
-diff --git a/arch/arm/configs/bcm2835_defconfig b/arch/arm/configs/bcm2835_defconfig
-index 4a8ac09843d73280cc42dbbf63fe3cc9f31dacd2..51a1e94d5aa6c22202778082b877a202a6b9c04d 100644
---- a/arch/arm/configs/bcm2835_defconfig
-+++ b/arch/arm/configs/bcm2835_defconfig
-@@ -174,7 +174,6 @@ CONFIG_NLS_UTF8=y
- CONFIG_DMA_CMA=y
- CONFIG_CMA_SIZE_MBYTES=32
- CONFIG_PRINTK_TIME=y
--CONFIG_BOOT_PRINTK_DELAY=y
- CONFIG_DYNAMIC_DEBUG=y
- CONFIG_DEBUG_INFO_DWARF_TOOLCHAIN_DEFAULT=y
- # CONFIG_ENABLE_MUST_CHECK is not set
-diff --git a/include/linux/printk.h b/include/linux/printk.h
-index f594c1266bfd411f2238b45374e8a71222f0407c..8885e11367d50ea1cd7642249852d011e589adb4 100644
---- a/include/linux/printk.h
-+++ b/include/linux/printk.h
-@@ -188,7 +188,6 @@ extern int __printk_ratelimit(const char *func);
- extern bool printk_timed_ratelimit(unsigned long *caller_jiffies,
- 				   unsigned int interval_msec);
- 
--extern int printk_delay_msec;
- extern int dmesg_restrict;
- 
- extern void wake_up_klogd(void);
-diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
-index 0323149548f6a4dbcdd80029478b809d44de9b62..47c38575176c944b231f47c034a0c1ff899cbec8 100644
---- a/kernel/printk/printk.c
-+++ b/kernel/printk/printk.c
-@@ -1289,61 +1289,6 @@ static bool suppress_message_printing(int level)
- 	return (level >= console_loglevel && !ignore_loglevel);
- }
- 
--#ifdef CONFIG_BOOT_PRINTK_DELAY
--
--static int boot_delay; /* msecs delay after each printk during bootup */
--static unsigned long long loops_per_msec;	/* based on boot_delay */
--
--static int __init boot_delay_setup(char *str)
--{
--	unsigned long lpj;
--
--	lpj = preset_lpj ? preset_lpj : 1000000;	/* some guess */
--	loops_per_msec = (unsigned long long)lpj / 1000 * HZ;
--
--	get_option(&str, &boot_delay);
--	if (boot_delay > 10 * 1000)
--		boot_delay = 0;
--
--	pr_debug("boot_delay: %u, preset_lpj: %ld, lpj: %lu, "
--		"HZ: %d, loops_per_msec: %llu\n",
--		boot_delay, preset_lpj, lpj, HZ, loops_per_msec);
--	return 0;
--}
--early_param("boot_delay", boot_delay_setup);
--
--static void boot_delay_msec(int level)
--{
--	unsigned long long k;
--	unsigned long timeout;
--	bool suppress = !is_printk_force_console() &&
--			suppress_message_printing(level);
--
--	if ((boot_delay == 0 || system_state >= SYSTEM_RUNNING) || suppress)
--		return;
--
--	k = (unsigned long long)loops_per_msec * boot_delay;
--
--	timeout = jiffies + msecs_to_jiffies(boot_delay);
--	while (k) {
--		k--;
--		cpu_relax();
--		/*
--		 * use (volatile) jiffies to prevent
--		 * compiler reduction; loop termination via jiffies
--		 * is secondary and may or may not happen.
--		 */
--		if (time_after(jiffies, timeout))
--			break;
--		touch_nmi_watchdog();
--	}
--}
--#else
--static inline void boot_delay_msec(int level)
--{
--}
--#endif
--
- static bool printk_time = IS_ENABLED(CONFIG_PRINTK_TIME);
- module_param_named(time, printk_time, bool, S_IRUGO | S_IWUSR);
- 
-@@ -2117,22 +2062,6 @@ static u8 *__printk_recursion_counter(void)
- 		local_irq_restore(flags);		\
- 	} while (0)
- 
--int printk_delay_msec __read_mostly;
--
--static inline void printk_delay(int level)
--{
--	boot_delay_msec(level);
--
--	if (unlikely(printk_delay_msec)) {
--		int m = printk_delay_msec;
--
--		while (m--) {
--			mdelay(1);
--			touch_nmi_watchdog();
--		}
--	}
--}
--
- #define CALLER_ID_MASK 0x80000000
- 
- static inline u32 printk_caller_id(void)
-@@ -2450,8 +2379,6 @@ asmlinkage int vprintk_emit(int facility, int level,
- 		ft.legacy_direct = false;
- 	}
- 
--	printk_delay(level);
--
- 	printed_len = vprintk_store(facility, level, dev_info, fmt, args);
- 
- 	if (ft.nbcon_atomic)
-diff --git a/kernel/printk/sysctl.c b/kernel/printk/sysctl.c
-index f15732e93c2e9c0865c42e4af9cb6458d4402c0a..5178540b2643d1b1a51dfef3f0444414889d7a3e 100644
---- a/kernel/printk/sysctl.c
-+++ b/kernel/printk/sysctl.c
-@@ -41,15 +41,6 @@ static const struct ctl_table printk_sysctls[] = {
- 		.mode		= 0644,
- 		.proc_handler	= proc_dointvec,
- 	},
--	{
--		.procname	= "printk_delay",
--		.data		= &printk_delay_msec,
--		.maxlen		= sizeof(int),
--		.mode		= 0644,
--		.proc_handler	= proc_dointvec_minmax,
--		.extra1		= SYSCTL_ZERO,
--		.extra2		= (void *)&ten_thousand,
--	},
- 	{
- 		.procname	= "printk_devkmsg",
- 		.data		= devkmsg_log_str,
-diff --git a/lib/Kconfig.debug b/lib/Kconfig.debug
-index 8ff5adcfe1e0a2f13893c92c3b95498fedb83855..fa82d76e7de45e05e5c0d578eaa2e5807bca39d1 100644
---- a/lib/Kconfig.debug
-+++ b/lib/Kconfig.debug
-@@ -99,24 +99,6 @@ config MESSAGE_LOGLEVEL_DEFAULT
- 	  by default. To change that, use loglevel=<x> in the kernel bootargs,
- 	  or pick a different CONSOLE_LOGLEVEL_DEFAULT configuration value.
- 
--config BOOT_PRINTK_DELAY
--	bool "Delay each boot printk message by N milliseconds"
--	depends on DEBUG_KERNEL && PRINTK && GENERIC_CALIBRATE_DELAY
--	help
--	  This build option allows you to read kernel boot messages
--	  by inserting a short delay after each one.  The delay is
--	  specified in milliseconds on the kernel command line,
--	  using "boot_delay=N".
--
--	  It is likely that you would also need to use "lpj=M" to preset
--	  the "loops per jiffy" value.
--	  See a previous boot log for the "lpj" value to use for your
--	  system, and then set "lpj=M" before setting "boot_delay=N".
--	  NOTE:  Using this option may adversely affect SMP systems.
--	  I.e., processors other than the first one may not boot up.
--	  BOOT_PRINTK_DELAY also may cause LOCKUP_DETECTOR to detect
--	  what it believes to be lockup conditions.
--
- config DYNAMIC_DEBUG
- 	bool "Enable dynamic printk() support"
- 	default n
+Best,
+Gary
 
----
-base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
-change-id: 20260505-printk_delay-78884daa7eb8
-
-Best regards,
--- 
-Andrew Murray <amurray@thegoodpenguin.co.uk>
+> @@ -1,72 +0,0 @@
+> -# Contributing to `pin-init`
+> -
+> -Thanks for showing interest in contributing to `pin-init`! This document=
+ outlines the guidelines for
+> -contributing to `pin-init`.
+> -
+> -All contributions are double-licensed under Apache 2.0 and MIT. You can =
+find the respective licenses
+> -in the `LICENSE-APACHE` and `LICENSE-MIT` files.
+> -
+> -## Non-Code Contributions
+> -
+> -### Bug Reports
+> -
+> -For any type of bug report, please submit an issue using the bug report =
+issue template.
+> -
+> -If the issue is a soundness issue, please privately report it as a secur=
+ity vulnerability via the
+> -GitHub web interface.
+> -
+> -### Feature Requests
+> -
+> -If you have any feature requests, please submit an issue using the featu=
+re request issue template.
+> -compare
+> -### Questions and Getting Help
+> -
+> -You can ask questions in the Discussions page of the GitHub repository. =
+If you're encountering
+> -problems or just have questions related to `pin-init` in the Linux kerne=
+l, you can also ask your
+> -questions in the [Rust-for-Linux Zulip](https://rust-for-linux.zulipchat=
+.com/) or see
+> -<https://rust-for-linux.com/contact>.
+> -
+> -## Contributing Code
+> -
+> -### Linux Kernel
+> -
+> -`pin-init` is used by the Linux kernel and all commits are synchronized =
+to it. For this reason, the
+> -same requirements for commits apply to `pin-init`. See [the kernel's doc=
+umentation] for details. The
+> -rest of this document will also cover some of the rules listed there and=
+ additional ones.
+> -
+> -[the kernel's documentation]: https://docs.kernel.org/process/submitting=
+-patches.html
+> -
+> -Contributions to `pin-init` ideally go through the [GitHub repository], =
+because that repository runs
+> -a CI with lots of tests not present in the kernel. However, patches are =
+also accepted (though not
+> -preferred). Do note that there are some files that are only present in t=
+he GitHub repository such as
+> -tests, licenses and cargo related files. Making changes to them can only=
+ happen via GitHub.
+> -
+> -[GitHub repository]: https://github.com/Rust-for-Linux/pin-init
+> -
+> -### Commit Style
+> -
+> -Everything must compile without errors or warnings and all tests must pa=
+ss after **every commit**.
+> -This is important for bisection and also required by the kernel.
+> -
+> -Each commit should be a single, logically cohesive change. Of course it'=
+s best to keep the changes
+> -small and digestible, but logically linked changes should be made in the=
+ same commit. For example,
+> -when fixing typos, create a single commit that fixes all of them instead=
+ of one commit per typo.
+> -
+> -Commits must have a meaningful commit title. Commits with changes to fil=
+es in the `internal`
+> -directory should have a title prefixed with `internal:`. The commit mess=
+age should explain the
+> -change and its rationale. You also have to add your `Signed-off-by` tag,=
+ see [Developer's
+> -Certificate of Origin]. This has to be done for both mailing list submis=
+sions as well as GitHub
+> -submissions.
+> -
+> -[Developer's Certificate of Origin]: https://docs.kernel.org/process/sub=
+mitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+> -
+> -Any changes made to public APIs must be documented not only in the commi=
+t message, but also in the
+> -`CHANGELOG.md` file. This is especially important for breaking changes, =
+as those warrant a major
+> -version bump.
+> -
+> -If you make changes to the top-level crate documentation, you also need =
+to update the `README.md`
+> -via `cargo rdme`.
+> -
+> -Some of these rules can be ignored if the change is done solely to files=
+ that are not present in the
+> -kernel version of this library. Those files are documented in the `sync-=
+kernel.sh` script at the
+> -very bottom in the `--exclude` flag given to the `git am` command.
 
