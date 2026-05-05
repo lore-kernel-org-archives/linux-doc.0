@@ -1,177 +1,167 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from DM5PR21CU001.outbound.protection.outlook.com (mail-centralusazon11011066.outbound.protection.outlook.com [52.101.62.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8D752EB856
-	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 22:41:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778020871; cv=none; b=sCeFLIYkrNNkqzRZLfbr7CMVIC4aqkEvlGvjw2jOuowRXErAMiYTo55EKBEsXLhCS7yQfmaVszm71X6mDECirlW5rdc4fk1qN+9T22wo3g0q5wueotkF2d0qF7wlfiMO2MLC3VKSsjL8WVZJtJu5Klh7DkDlAexE40zNCiUmWD0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778020871; c=relaxed/simple;
-	bh=QCOI9huLcgmWmAQmSGKtea1oPMMW7VGtGTbf1NqsGOg=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=TRgBd9fpUR+YQA8fdX9k9CYGXJQZGQFjxo91A7XWohw6JOokVnEqh9pU45OqI1ETp0t4iVKFEzyaPd/auKw8r+bycfNaKrFhTPY+96am+J7Av8B8oVdYs5JVzRH/A+x/dSlmXSp/vrsJJzoU55f4l1lkRRBEVWvB4HdmPkZB1NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FONnCNlf; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 904202DECB2;
+	Tue,  5 May 2026 22:59:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.62.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778021973; cv=fail; b=m/AMjRGmdjqO5JshHRlkl0Mz7N9QOEj3GMPf6IbH8fTx0M93xV1Z3bv0eCXugIb2FgB4X64XsLyk7IacGn6KPIuMVaMPKzrF/n2MtFWCemWjFiGylKv5hL3Xa7BH32cPswpYuN64BOKJqMyi64AMJ9Fjn3RXM2MEVK9GYpx41TA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778021973; c=relaxed/simple;
+	bh=z1QxNPBc0DwPgRnPcvgPgrUqM63NRZAFteqG6rseEOE=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=MCS0LrQ+Djf661LZMsFg3S9MFaItlfKleQ3wTIJCFEPVqtpjQmQXNfn0TNYrbSfU1uRbGkUy3md9JHvAizKZw8ILcHJ68gJ4Ft8Au5gHDxf/IU92QAcWVyIA2Lc19FEysHUM9u7ZPS0x6XWpL9w7ITkBple9U1SZYCKkkxC8KHQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PZlicgoE; arc=fail smtp.client-ip=52.101.62.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FONnCNlf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1778020869; x=1809556869;
-  h=date:from:to:cc:subject:message-id;
-  bh=QCOI9huLcgmWmAQmSGKtea1oPMMW7VGtGTbf1NqsGOg=;
-  b=FONnCNlfX0evOH46D6Pzin8WDGwvVpBQpVDqo7IVfdLEFl9U2GOZqd7o
-   STTqg2V0bekufVIl6B5TvuZyPGJNUNlDVjLAmvKCL327sRWi5M7PQ3G0j
-   l50G0DybfE04siqMQNHxYx0JGAQItOWVkRRkU8YbLSH3xBTklYlv8xUpT
-   QrPqSX5BEmkyuZzv73DtAWhAc0h82m99RIy7D8dFY+GDz4phscQ570k6h
-   0NK0ypSrgMgVT5wKCZI7X+uUkFf18b8TPMP2h5uSoBQvFpPtr8Nd6G3su
-   9wwnHBOxOwQbR40QmcErtcomx4jUv/GSQgIiugs0w2GkmlVc/38ReIkEZ
-   w==;
-X-CSE-ConnectionGUID: FvXO6+goTzibFBRoTFb+Ow==
-X-CSE-MsgGUID: q1mMPUSPSxyUGim0eP0kEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11777"; a="90364474"
-X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
-   d="scan'208";a="90364474"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2026 15:41:08 -0700
-X-CSE-ConnectionGUID: 3CaFITo8S+K1S8JLke+maw==
-X-CSE-MsgGUID: GawKRbVaTrWDSQA//p9Byw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.23,218,1770624000"; 
-   d="scan'208";a="236191375"
-Received: from igk-lkp-server01.igk.intel.com (HELO bdf09bfdbd5f) ([10.211.93.152])
-  by orviesa007.jf.intel.com with ESMTP; 05 May 2026 15:41:06 -0700
-Received: from kbuild by bdf09bfdbd5f with local (Exim 4.98.2)
-	(envelope-from <lkp@intel.com>)
-	id 1wKORs-000000006Mb-1bIn;
-	Tue, 05 May 2026 22:41:04 +0000
-Date: Wed, 06 May 2026 00:40:44 +0200
-From: kernel test robot <lkp@intel.com>
-To: Pankaj Gupta <pankaj.gupta@nxp.com>
-Cc: oe-kbuild-all@lists.linux.dev, Frank Li <Frank.Li@nxp.com>,
- linux-doc@vger.kernel.org
-Subject: [frank-li:for-next 1/53] htmldocs:
- Documentation/driver-api/firmware/other_interfaces.rst:116: WARNING: Blank
- line required after table. [docutils]
-Message-ID: <202605060054.EQwFXknk-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PZlicgoE"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=atMbUza0DqUXshXLHsjen5YYubobkdOns8f5F0A16bqAq4lNUxs7hSp3NtlAMGc0s3VpP4PNGh0kOTN3BpRfmXumaqCNtycNt1pOEnZO9fwUA1cQlgGLM4U0zW8cAMiHgaQ0XPP6nXDG0UAzIyNEGt5/fPepfeU3cZ/YJtqrWKpNe2fOm+mZ7G2QltXynEMQHxiWnMgHsu/c/ALAnMjAfdmS/4N65jWti/Thpfpx3RYiLxI/4rQIR2BcixOVeNnWoZ7Cer0hs6wz/BSvvtWZlSqS27g/wbl4UlZO3JpQWjM9fZTBmf+G3x+cZ4PAcsqQcPXnzW5BnfDSoOwUgO/uVQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=z1QxNPBc0DwPgRnPcvgPgrUqM63NRZAFteqG6rseEOE=;
+ b=WdlxiEFhVzflN25AEct2fLotvPiKYlTkOVt1ivOciZSmnlpQB+GCdbqxPxJF4Z5ZdVapYuN4Ymki3qHTpXAm5tS8qIod/IZqfH2lho8RPLMdYvK1eIpXI9sTUUSsoif74iSNZkKRjx0sarP7IMS5xaJf7bRTTHtAlfxa9VGu/Sfk38868WuTe5cjwZZnEtvO/ro41ih42iauuy4lUnJITESkzdGOw8S0q5g2De//nFBkAIIAXYz+JYvsJplDbXMHtWya63uPpvvu3R8GEm747fNIFMbzKSAEvoJQijmoD9IgNYts5DuJ+tgEsAOohXYzcSPT/qcHrhLZ0dPF1lUc8w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z1QxNPBc0DwPgRnPcvgPgrUqM63NRZAFteqG6rseEOE=;
+ b=PZlicgoERCSBYkuWfgXTTpaVcD1mOMegYQhQ3IKPNCG+dfxLBo+CQ+OxYogbD0Xf5Rtyn4bYjgjoMkIVDNT4qLtQMLDY4k4E2tAS204950TPemmVeRDcfuCTiLks2GQXWJVHibwUMoGOV9jo3h1P7ALKHQWhCSvbcdftUx5lPWv6B9nl4muy8HG462eu58N0KGIe/hZjIWMoEWnd2dXFaJM9sGjLFkFfv08me7EgDSc9zKH0h2PkWMiWWKg502yJY6HKOBAJHCREDq+aHOdWqPMKJ6GfcjCO37iPo/AcpxbsACJ7+wcK4+POMpz/ZxSJ0JE6KjQRf0785WXWhj6K2A==
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ DM4PR12MB7743.namprd12.prod.outlook.com (2603:10b6:8:101::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9870.27; Tue, 5 May 2026 22:59:26 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%4]) with mapi id 15.20.9870.023; Tue, 5 May 2026
+ 22:59:25 +0000
+From: Joel Fernandes <joelagnelf@nvidia.com>
+To: Alexandre Courbot <acourbot@nvidia.com>
+CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, Miguel
+ Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>, Gary Guo
+	<gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>, Benno Lossin
+	<lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl
+	<aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, Danilo Krummrich
+	<dakr@kernel.org>, Dave Airlie <airlied@redhat.com>, Daniel Almeida
+	<daniel.almeida@collabora.com>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "rust-for-linux@vger.kernel.org"
+	<rust-for-linux@vger.kernel.org>, "nova-gpu@lists.linux.dev"
+	<nova-gpu@lists.linux.dev>, Nikola Djukic <ndjukic@nvidia.com>, David Airlie
+	<airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>, John Hubbard
+	<jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>, Timur Tabi
+	<ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>, Andrea Righi
+	<arighi@nvidia.com>, Andy Ritger <ARitger@nvidia.com>, Zhi Wang
+	<zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>, Philipp Stanner
+	<phasta@kernel.org>, Alexey Ivanov <alexeyi@nvidia.com>, Eliot Courtney
+	<ecourtney@nvidia.com>, "joel@joelfernandes.org" <joel@joelfernandes.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v12 04/22] gpu: nova-core: mm: Add support to use PRAMIN
+ windows to write to VRAM
+Thread-Topic: [PATCH v12 04/22] gpu: nova-core: mm: Add support to use PRAMIN
+ windows to write to VRAM
+Thread-Index: AQHc1PidLNjW7hq7pkuBgJ+mkGoHbrX66naAgAUxPHY=
+Date: Tue, 5 May 2026 22:59:25 +0000
+Message-ID: <DA4303E1-F49E-42BD-99B6-C7472C3BB12F@nvidia.com>
+References: <20260425211454.174696-1-joelagnelf@nvidia.com>
+ <20260425211454.174696-5-joelagnelf@nvidia.com>
+ <DI8B0103X0HQ.7C99YLBMS2X5@nvidia.com>
+In-Reply-To: <DI8B0103X0HQ.7C99YLBMS2X5@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR12MB6486:EE_|DM4PR12MB7743:EE_
+x-ms-office365-filtering-correlation-id: f71f38ee-40f9-46af-c06b-08deaaf9f45c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700021|56012099003|22082099003|18002099003;
+x-microsoft-antispam-message-info:
+ odxjs4TY4ElcA19mEA26tCXi5eNedDO81zW04C8AH/TtNiEZZB9yEInLWRMPRMHmMd3a1E2PifD6/Y0CSlIGHSz0EvQn7Y2jeRSUgwTBNNj7qyguLYmDeahDGMzgbUAq2fdhOJpWDr1kXsj9+jN1HxKtrienPVGp6J2DPSa2T2n4KuIDFBtgoLxvthzE3rHRjgjW6EW+m8GfOnt2OTtKYkKFZ9us5niVVwgNZxBUY4L+Rb2Pb/gGxd7JSKAih3tSGCTxa1dwKpdg8hjL8iNu7wsjTIqSqM85iQlMTn8tWIHsv0FGzQcb7eqsPo3JxzIIU2NIRB3+3fS7CeU7HXLcKi2RJyXvUy6mIbyNZaOsL1QzoLopqM3z88iB7UkkLzwT7U9rroNicCv2N5HpvCDWl7MgyBZYoDnpDDNfGdEDTeivp7Xk0j/Oz3izD8Lg4dR7Ky0DdNcwV1Nm0nOXtm5shr9yzcmPm0PdE8VrVzqbi8Elv3QcD8tztwm55pH+BPwxoY+5pWr6SGvahSiUgHZRvwum5hXgPd/EYNjnVn6X5nfpCWpBVqhP4ZjZA6vyIlo3k5DLDXkF8+CqYIFlXBFp0xeZkfeCF9iXs7ikMw31ECtal4MO/k+ATBdajIQU5xI4biUNDJnW9TIllJ09SSR02UnbzDU6P8GQggBYrlfJjV7byWIRAnsuFgbI0xkB6Y0bPo//kQaXpn9gq9x7ZQqfgqFzPyErb3Vrt0wx/Vj3AZJBHWlkltAxozykmf+313UV
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700021)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?eWJFL1E4UWNMSzdhVk5yOFl1VWhXNXAvaHp5c3B6Snh1dWpUZ0Q3UVg4Z3E3?=
+ =?utf-8?B?Sk9sN0JCempXY1lDVDFOMTVWQ25HM1JXRmNFTHJFU0ptWnk4cXJKSU1RcVp1?=
+ =?utf-8?B?TVg4c0hGM3BRQ3hWWWwxZlFVOGRzVDByMkpYQ0laaC9nMWdxSHVmMXUzbm56?=
+ =?utf-8?B?WkZrU01uWm5Qc0ZxNFJFK0VET0hxRVlRRzdpb3lKN0IvNll4WFd4TFplQnRZ?=
+ =?utf-8?B?TmNpU0kvRXd3L3NKQWk0VVZXMDMzdTJUaTExM0hOU2hWcVNTRHZuZDZpZHMx?=
+ =?utf-8?B?R09Hd3NJYVRhb2pROWlXUnc2Zm11ZEN2bk4wSG5XdHhhZ0FiMkJsVzlLQW4w?=
+ =?utf-8?B?bDA2c25jd0o4QUF1QVF2b0FKN1RYbVJRT1U1azI5SFhqSnZEKzZJN0dXNzFP?=
+ =?utf-8?B?YTd1MnFpQ3J5Ymh4WW9YZ1ZVWGJjRFN4eDdhMkJ6UTZNT1VHK3dKbkZYWXh2?=
+ =?utf-8?B?K1VtZTlEUHJBQS9Bc2htbFZiNWFnM2ltQk55RlcvTC9BNkNzakVVTHc5cHJ2?=
+ =?utf-8?B?OStZUXc4NFYrUm53MFd5ZWFUblZjTmlacFdFMG45ZmxVQnNuNHk3N3duenBU?=
+ =?utf-8?B?bkFieTU1UlB1bVF0aHFIbS9kSW1SeVRZZXlaZE8vODA3UnhoR21laDFScVdw?=
+ =?utf-8?B?UGFsMXBnSUJsNEo5dkZsdERMNEh6WnZCNDZIdUUzdVcvVkwvVmZtdzZWUzZh?=
+ =?utf-8?B?NUpIdEhkZ3VNVk5VZm8yN0w3RE9wUkRwQ21zOWQ3alpJalVna0dkWjExMWUx?=
+ =?utf-8?B?Y3pVb1pzTWQ1MlR1c0RWMERyQkUxQVBoTlY5bzN3VTNWeUQzY0tBUlRUUm1y?=
+ =?utf-8?B?L2lPY2tKcUVEVlQzRU9pb0N6Z0I3V3dGZ2oxV1JHODlqb0xZaTJGcysrNmNy?=
+ =?utf-8?B?R1ZzSlBjYXBKbnp5YVdQN3Z5RUR6UGlSUWNIY2lXZ2Y0TXgvTklyNUx5ZExa?=
+ =?utf-8?B?THFOVGVCWVhEZjk0SVMxVVFzWmpuWUJVaTZHKzJDeUkvbStmTmhoT1g0SGpu?=
+ =?utf-8?B?dXZsSmM1L0ZXSWRkOXpXa2NrOG5aRTVYVmc1VVRaSDRlMWNRM2VkeThiZEJw?=
+ =?utf-8?B?YzJZSnphUHpKVGxvcTEwUnV5MTRyVmNlM1VVd0tlb2ErUi9YK1dINGJrb1Z0?=
+ =?utf-8?B?WjNKcmRTdStab1RqbnpzMXZRM2hCRmZUMWkvdFpObDVTcHlrcW90cFFRcll6?=
+ =?utf-8?B?V2Rwa2hBTHNGRGpRWGlNMjZIOXBRbXFpZE9kRmg3RkNkeHNDd2FWSWIxeW1I?=
+ =?utf-8?B?WndoTFdSQXBVa0tnY05ZcVo3ZlA2SjZWMC9SMUpWUGxZamp2QWx3WmoxYU1L?=
+ =?utf-8?B?RS9FZmFUTFBBZWJnYzU2bkxNcHZZQVd4SzNyeDgzLzBjR1FZellMN1VTeSsx?=
+ =?utf-8?B?UklPanFTRXIzRG5lSkV5T2dwcXZUWG9ZWURvR1JPRDZqNjZCRFFzN3FCRUVU?=
+ =?utf-8?B?RFlGMklOQjZoR01SNjR2ZzNjcXRrblFQT0Erblk4YjN2VU5jR1lnbDUraEF6?=
+ =?utf-8?B?cjdqejZvd2dBVXN1OEJRT2tHUE1FZjFPK0J6YThBQ2VBSVNkTmlTSXRHMHg4?=
+ =?utf-8?B?djV4WFllOFNyMUlUcnd3VnF0TWM3dngzWGlpUm82Wm5qYUhxMnZOdXZhc3c4?=
+ =?utf-8?B?VSt0aWU3Rkd6ZlE4MlZ2L2dKQmFvMEdQdytKZG05L1laZGFMVGRhWnhHK2U4?=
+ =?utf-8?B?eTI0bFZJMThWUXJGVVlpZFVJWnZ3VkpiSjlNaTZsUVB4UHZhazVaV0FuZ1NI?=
+ =?utf-8?B?SU1jQlBmTFJSVnRPOFhwOHFQaVpEdjFMSk45c2VIZDk2RXN1SlIwQUJiQ25D?=
+ =?utf-8?B?Y0ZRNDk0dkV5N25IcHhkNnRlVG1vTWRwenZhQzh3cmp3eXdCNzE4Yno2NkQy?=
+ =?utf-8?B?VVQzZVI4N3Ztb1YyeUNINTUyQ2dSWW1NbWRHb004WGltZ1RJQVMzY0ZyZXdm?=
+ =?utf-8?B?YlNjWFora3ZPZm5MclA3NFJmWEZqUDVsaWtFUFhESVBvTEpNTmNrUVdmU01n?=
+ =?utf-8?B?ZTNMVmlEaTVoY0NWVm1OdXFXaVd2aXA4Z3FCaW5oMi9vZUJveUhTUWUrNjla?=
+ =?utf-8?B?dEx0VmtuNkNPb1hjNCs4aFkwRjk1UG8wUllpYUlwY1lld2pSTm0xMjV5aWpN?=
+ =?utf-8?B?SmtjbUVPeGZxTzkyaUlWaTNFT0RMRWZNQmdoR200OXhkVUtJVUxKcEp5QUdW?=
+ =?utf-8?B?V2Z1cHhSeDlqWmhqem9MOWNGMk55UG9lSGRmSFowVmVETW5wZ2xyVENCUFF4?=
+ =?utf-8?B?MDlFd0dXNGtuN1NFamRtR21NZlRmRnRaOFlSVGNwYVl3WnpJRjljdnM0Yis1?=
+ =?utf-8?B?Nkx5MklvQUhBS1FSMGgrb0JVRlhCWkMzZmJ0YTVhUHhTSXdMcW5yQT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f71f38ee-40f9-46af-c06b-08deaaf9f45c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 May 2026 22:59:25.6128
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: rTfVX8ZAFlz56pRasjzZH93vOlgoAkofP9kbElUu7wULZAWYYP2G+WzmG7jTD+5w+3NL0ZJZI+pR3gpEC7eQ3g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7743
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/frank.li/linux.git for-next
-head:   2dfb59f50bc1e1600fa1be5a97a21185306f5f78
-commit: 3b4531c6e0f4c8874f0266853a410438eda1fc24 [1/53] Documentation/firmware: add imx/se to other_interfaces
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-docutils: docutils (Docutils 0.21.2, Python 3.13.5, on linux)
-reproduce: (https://download.01.org/0day-ci/archive/20260506/202605060054.EQwFXknk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202605060054.EQwFXknk-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   Documentation/driver-api/basics:42: ./kernel/time/time.c:393: WARNING: Duplicate C declaration, also defined at driver-api/basics:453.
-   Declaration is '.. c:function:: unsigned int jiffies_to_usecs (const unsigned long j)'. [duplicate_declaration.c]
-   Documentation/driver-api/firmware/other_interfaces.rst:60: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/firmware/other_interfaces.rst:103: ERROR: Unexpected indentation. [docutils]
-   Documentation/driver-api/firmware/other_interfaces.rst:115: ERROR: Unexpected indentation. [docutils]
->> Documentation/driver-api/firmware/other_interfaces.rst:116: WARNING: Blank line required after table. [docutils]
->> Documentation/driver-api/firmware/other_interfaces.rst:140: WARNING: Bullet list ends without a blank line; unexpected unindent. [docutils]
-   ERROR: Cannot find file ./drivers/firmware/imx/se_ctrl.c
-   ERROR: Cannot find file ./drivers/firmware/imx/se_ctrl.c
-   WARNING: No kernel-doc for file ./drivers/firmware/imx/se_ctrl.c
-   Documentation/driver-api/target:25: ./drivers/target/target_core_user.c:35: ERROR: Unexpected section title.
-
-
-vim +116 Documentation/driver-api/firmware/other_interfaces.rst
-
-    94	
-    95	::
-    96	   +--------------------------------------------+
-    97	   |            Character Device(C_DEV)         |
-    98	   |                                            |
-    99	   |   +---------+ +---------+     +---------+  |
-   100	   |   | misc #1 | | misc #2 | ... | misc #n |  |
-   101	   |   |  dev    | |  dev    |     | dev     |  |
-   102	   |   +---------+ +---------+     +---------+  |
-   103	   |        +-------------------------+         |
-   104	   |        | Misc. Dev Synchr. Logic |         |
-   105	   |        +-------------------------+         |
-   106	   |                                            |
-   107	   +--------------------------------------------+
-   108	
-   109	   +--------------------------------------------+
-   110	   |               Service Layer                |
-   111	   |                                            |
-   112	   |      +-----------------------------+       |
-   113	   |      | Message Serialization Logic |       |
-   114	   |      +-----------------------------+       |
-   115	   |          +---------------+                 |
- > 116	   |          |  imx-mailbox  |                 |
-   117	   |          |   mailbox.c   |                 |
-   118	   |          +---------------+                 |
-   119	   |                                            |
-   120	   +--------------------------------------------+
-   121	
-   122	- service layer:
-   123	  This layer is responsible for ensuring the communication protocol that is defined
-   124	  for communication with firmware.
-   125	
-   126	  FW Communication protocol ensures two things:
-   127	  - Serializing the messages to be sent over an MU.
-   128	
-   129	  - FW can handle one command message at a time.
-   130	
-   131	- c_dev:
-   132	  This layer offers character device contexts, created as '/dev/<se>_mux_chx'.
-   133	  Using these multiple device contexts that are getting multiplexed over a single MU,
-   134	  userspace application(s) can call fops like write/read to send the command message,
-   135	  and read back the command response message to/from Firmware.
-   136	  fops like read & write use the above defined service layer API(s) to communicate with
-   137	  Firmware.
-   138	
-   139	  Misc-device(/dev/<se>_mux_chn) synchronization protocol:
- > 140	::
-   141	
-   142	                                Non-Secure               +   Secure
-   143	                                                         |
-   144	                                                         |
-   145	                +-----------+      +-------------+       |
-   146	                | se_ctrl.c +<---->+imx-mailbox.c|       |
-   147	                |           |      |  mailbox.c  +<-->+------+    +------+
-   148	                +-----+-----+      +-------------+    | MU X +<-->+ ELE |
-   149	                      |                               +------+    +------+
-   150	                      +----------------+                 |
-   151	                      |                |                 |
-   152	                      v                v                 |
-   153	                  logical           logical              |
-   154	                  receiver          waiter               |
-   155	                     +                 +                 |
-   156	                     |                 |                 |
-   157	                     |                 |                 |
-   158	                     |            +----+------+          |
-   159	                     |            |           |          |
-   160	                     |            |           |          |
-   161	              device_ctx     device_ctx     device_ctx   |
-   162	                                                         |
-   163	                User 0        User 1       User Y        |
-   164	                +------+      +------+     +------+      |
-   165	                |misc.c|      |misc.c|     |misc.c|      |
-   166	 kernel space   +------+      +------+     +------+      |
-   167	                                                         |
-   168	 +------------------------------------------------------ |
-   169	                    |             |           |          |
-   170	 userspace     /dev/ele_muXch0    |           |          |
-   171	                          /dev/ele_muXch1     |          |
-   172	                                        /dev/ele_muXchY  |
-   173	                                                         |
-   174	
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+DQoNCj4gT24gTWF5IDIsIDIwMjYsIGF0IDExOjQy4oCvQU0sIEFsZXhhbmRyZSBDb3VyYm90IDxh
+Y291cmJvdEBudmlkaWEuY29tPg0KDQo+PiArDQo+PiArLy8vIFBSQU1JTiBhcGVydHVyZSBtYW5h
+Z2VyLg0KPj4gKy8vLw0KPj4gKy8vLyBDYWxsIFtgUHJhbWluOjpnZXRfd2luZG93KClgXSB0byBh
+Y3F1aXJlIGV4Y2x1c2l2ZSBQUkFNSU4gYWNjZXNzLg0KPj4gKyNbcGluX2RhdGFdDQo+PiArcHVi
+KGNyYXRlKSBzdHJ1Y3QgUHJhbWluIHsNCj4+ICsgICAgYmFyOiBBcmM8RGV2cmVzPEJhcjA+PiwN
+Cj4gDQo+IFRoZSBIUlQgc2VyaWVzIFsxXSB3aWxsIGFsbG93IHlvdSB0byBncmVhdGx5IHNpbXBs
+aWZ5IGFsbCB0aGlzIGJ5DQo+IHN0b3JpbmcgYSBgJidhIEJhcjBgIGRpcmVjdGx5IGluIHRoaXMg
+c3RydWN0dXJlLiBJdCB3aWxsIG1vc3QgbGlrZWx5DQo+IGxhbmQgdGhpcyBjeWNsZSwgc28gSSB0
+aGluayBpdCdzIGEgZ29vZCBpZGVhIHRvIHByb2FjdGl2ZWx5IGRlcGVuZCBvbg0KPiB0aGVtLiBJ
+dCBzaG91bGQgYXBwbHkgY2xlYW5seSAobW9kdWxvIHRoZSBUeXIgcGF0Y2hlcyBJSVJDLCBidXQg
+eW91IGNhbg0KPiBza2lwIHRoZW0gaWYgeW91IGRvbid0IGJ1aWxkIHRoZSBkcml2ZXIpIG9uIHRv
+cCBvZiBgZHJtLXJ1c3QtbmV4dGAgLSBvbg0KPiB0b3Agb2Ygd2hpY2ggdGhpcyBzaG91bGQgYWxz
+byBiZSByZWJhc2VkIGFueXdheS4NCj4gDQo+IFsxXSBodHRwczovL2xvcmUua2VybmVsLm9yZy9h
+bGwvMjAyNjA0MjcyMjExNTUuMjE0NDg0OC0xLWRha3JAa2VybmVsLm9yZy8NCj4gDQoNCkkgdHJp
+ZWQgdG8gYXBwbHkgaXQgYnV0IGhhZCBhIGxvdCBvZiBjb25mbGljdC4NCg0KRGFuaWxvLCBkbyB5
+b3UgaGF2ZSBhIHRyZWUgb2YgdGhlc2UgcGF0Y2hlcyBzb21ld2hlcmUgdGhhdCBhcHBsaWVzIG9u
+IGRybS1ydXN0LW5leHQ/DQoNCnRoYW5rcywNCi0NCkpvZWwgRmVybmFuZGVzDQoNCg==
