@@ -1,86 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDFC4282F2F;
-	Tue,  5 May 2026 13:26:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C8B247DF85
+	for <linux-doc@vger.kernel.org>; Tue,  5 May 2026 13:28:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777987613; cv=none; b=Aw56n5BAZkj8w+cZ12uEdyiXGU3CKNjm/XTna35VLGDtSgbQROhCobc0qeBjtHKXiiaUUPbi7s38unq1JLJ4Jk1ZchTFucjGOnMBBRI1LBx+JaT3Btr2aet15/jMzzajmAJgLY8cmhQoQfX4FNBPoRj54/7F4ox8IaOf+5MDgKw=
+	t=1777987718; cv=none; b=YRi31lDrqm1Vv81jlrHa+bu65HKKaoDQLbUTowYNbYc5v2JcqS7/NAyw7yb4Dk1BNHjg0Zbg3ZT6Xyw+5aWiaZoiU6/LNe6pFNtdD/0d+vbh9JXTKRrV6HG5Vtld01CFagWh5cRdiduoDlquyzba5D+10qn6TCY4e1QrBzwZlH4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777987613; c=relaxed/simple;
-	bh=AUXwHVKBn5W1eru+voELDFQxjrZF0KYACsGVpH6XKFU=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RzJhsAiiwNrV1+FKEp2ADq6An4/LqpfaBwEZkKHmsXCdTLcEaDXfPhUT+xT0xF776gP56i577n4Cy12P2Weq+RVAYntCfcrIz44cHVHQbWBlfADwhRPfXfTiqAFh9e3HK36SxBOpi/8Ru8V22vu9Vk4ygiywQU7UQnrOlPflswo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g9CuiBRR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777987718; c=relaxed/simple;
+	bh=6He75TAJp9Hcu4IIjyK1GRYq9E56HZmoCCIg+seQieI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f8+skSNfX65etYzhXwKdKKOxmvmatRj00fkRjOSG5we0LooKhfSEgtLdAb4w0I9aXpC9iJj/5WRe8+5M0euog0EhgbqXPCsiTKr5FyObIonq6Rpivf3LNc1O0TUo5H7MFzfkasTktq0TW0HtZVRdZmvlVx8xngY3Fe4vEgg7FAk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fR9rgjA3; arc=none smtp.client-ip=74.125.82.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g9CuiBRR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3779BC2BCB4;
-	Tue,  5 May 2026 13:26:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777987613;
-	bh=AUXwHVKBn5W1eru+voELDFQxjrZF0KYACsGVpH6XKFU=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=g9CuiBRRD2GQ3crVD7g2sldjPo9Gqf162pDs7Dzc6kNWFdMD16gKZ1tsnlkv1nYTu
-	 g8HJOm23VOhr9H0hJ2ApihrfBbaZMGHjMGY2k1YjRB65Ml9y088R32VPo4n8qcyKb/
-	 ezb1y4dmC6nw1bLetW11QXuOZjiR10IhPj9JNK2cTol7n1y+KHfknjmV63dfRhYaYN
-	 lUik2uE/TUsd0MSvgw2235fA1RDxBDKFnlAoooOVJNYS5dC3vp8M98kZcrPbhY1U0K
-	 FX3uE+GPh8tovtaQf+KsNHwe3ZWhvHfYHX5gPx2NhDeBEW1feuHJvxpF7L8r+KQF4V
-	 clYCghsv+Vvbg==
-Date: Tue, 5 May 2026 14:26:40 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Lars-Peter Clausen
- <lars@metafoo.de>, "Hennerich, Michael" <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, "Sa, Nuno" <Nuno.Sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, "linux-iio@vger.kernel.org"
- <linux-iio@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
- <linux-pwm@vger.kernel.org>, "linux-gpio@vger.kernel.org"
- <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 3/6] iio: adc: ad4691: add triggered buffer support
-Message-ID: <20260505142640.49cde0ca@jic23-huawei>
-In-Reply-To: <LV9PR03MB841441B282275F8F36FD12C1F7312@LV9PR03MB8414.namprd03.prod.outlook.com>
-References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
-	<20260430-ad4692-multichannel-sar-adc-driver-v9-3-33e439e4fb87@analog.com>
-	<afhReLCsEdaEOT_H@ashevche-desk.local>
-	<LV9PR03MB841441B282275F8F36FD12C1F7312@LV9PR03MB8414.namprd03.prod.outlook.com>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fR9rgjA3"
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-2f30a4601bbso2011322eec.1
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 06:28:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1777987716; x=1778592516; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JES9etGQXOz9eg3l5S9Lg4daNqVnd6je1qDOz6kBCvg=;
+        b=fR9rgjA3eHKpfCyM176Bu68JulEDZ6lTEAZnmmaPcJI+gJupJqg1gRmuqG79P7B1mP
+         SJDtf6u1rLS67Zt4pMzbrvnC4P9rzbEej0w5yMvGXbktRc2MnL247n3BK4oEhFPwvtbU
+         mH/M3YUnBFCwze+r5zNoUSdCk7py3MKB97b2xtw9QOnsfytjHj+ZSH8RW+gQomLlijXt
+         AdzcXrlp3BJwWM6SDILt8IMkw+AQ2o4Ns6CsJKm55ErVhCicKajJC1kjpfiTe5aYglPl
+         GR8xZSwUsgbOGmrC5opTtzBtdxg4aBbTlVqSdFnFv582ARaiPgQ0RpZz6gtdcEQvM0Fv
+         u/uA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1777987716; x=1778592516;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=JES9etGQXOz9eg3l5S9Lg4daNqVnd6je1qDOz6kBCvg=;
+        b=abEn0S7M9y0nQcJWu+J/7sArPiBEvMdummMlkPege5JxbeITPAZ/JG73OPRdz2+CG0
+         dqumiNTQMM6ZwFAmL1Y7Y3gKIBol9jyzeY2x+kCO/P7roMxMx4Piw6bHOTuvW2dcB9EZ
+         wT+IpqqJtvG2Ysd3Mw5/ZCY64ihPZ0in5On30a35pWZKae/1Wh/DdjtxDgrq/7fkIjzI
+         EzwbFRfeAYsp9fTXePb+FaBhn/qzUOQQGXKDUAvNQ0r9HuV2Nva6yxkCB+c/B64o1ClB
+         qgupEK2uKAieUWmwGrj1JUjj0h4IAoi0BeJwUEGfbn2e0WISNhMCx4VNXqn0K+arSjDS
+         krSQ==
+X-Forwarded-Encrypted: i=1; AFNElJ82ftUqmYloW1AYWsTy3RRBSY2VoEAyYLJMlNnHFk5BUQVVANv+TKK0Da0u3pfboJVhFNZ2zlDKbnw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YylFUGCBOiPw27HvlbuPF8NXu8gcUVTtBlvrbpuhYvqEMz2JSQ9
+	lIAba0YT8u1JMai8f/AZrLD6FNNb+QM2WqTMT1qBm7loVuId5w/RJH4s
+X-Gm-Gg: AeBDieuLezN1JyvNdYyrqmBo/5pU95u28URvHky/qTBFwqDCSbl29jQjonysfCRUNe9
+	q9tF4gKLo3ttmbPI+P6kc2xucLTdD3yduh4akSs6Qxz+7frkSIpdzPbrrjZYdBPfSIN2oToEKw2
+	c0tUFwEEdUJuWUk/o+NA1hKCWMH+qffNzf1lvq1rbu0HE1bMf2vZXJU5FnVhPkYidWsM3YTYeRi
+	c0iW+cV2OiQyVBD3RWdY3fD7LzVGDAMI7MEteSvsn+arei8udrN22tt5fZ7ZlcHxziigyLtY0jC
+	NH3cslu0Y8wEnzmTyPL3lAOLtfwF7Dil0KEmSbhd8s66/DhulKF/GARW9AqzO+srP5eNkaVkVdN
+	svJn8bKSoAV/g48U/P6ZNE2CyiZdUivCXryBKDX8gg07QYsw+fVrddCbBOW1Oba2FGCizBiOKzO
+	UWrCbseDTa9k+q0fSsSXwE8sjI/DjJ++PLHte/wIAXZhyKovY=
+X-Received: by 2002:a05:7300:a49a:b0:2d2:129a:1694 with SMTP id 5a478bee46e88-2efb9e7bb88mr6319386eec.18.1777987716410;
+        Tue, 05 May 2026 06:28:36 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2ee3889d634sm24404388eec.3.2026.05.05.06.28.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 05 May 2026 06:28:36 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Tue, 5 May 2026 06:28:35 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>, linux-hwmon@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 2/2] hwmon: (pmbus/max20830) add driver for max20830
+Message-ID: <6a48d684-a71a-44b1-86d8-8a5836efd6cd@roeck-us.net>
+References: <20260505-dev_max20830-v4-0-4343dcbfd7d7@analog.com>
+ <20260505-dev_max20830-v4-2-4343dcbfd7d7@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260505-dev_max20830-v4-2-4343dcbfd7d7@analog.com>
 
-
+On Tue, May 05, 2026 at 05:25:06PM +0800, Alexis Czezar Torreno wrote:
+> Add support for MAX20830 step-down DC-DC switching regulator with
+> PMBus interface. It allows monitoring of input/output voltage,
+> output current and temperature through the PMBus serial interface.
 > 
-> > > +	for (i = 0; i < ARRAY_SIZE(ad4691_gp_names); i++) {
-> > > +		irq = fwnode_irq_get_byname(dev_fwnode(dev),
-> > > +					    ad4691_gp_names[i]);
-> > > +		if (irq > 0)
-> > > +			break;  
-> > 
-> > This is problematic in case the above returns EPROBE_DEFER. Can you confirm
-> > it
-> > may not ever happen? (Note, I don't know the answer.)
-> >   
-> 
-> You are right, thanks for this!
-I'm missing something. Why is that a problem?  Driver will return
-the error and a dev_err_probe() is used so it won't print anything.
-So probe will fail which is exactly what we want.
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
 
-Jonathan
+Applied, after fixing the formatting issues found by checkpatch.
 
-> 
-
+Thanks,
+Guenter
