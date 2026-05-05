@@ -1,69 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAF047F2E8;
-	Tue,  5 May 2026 14:10:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D6F43E51D7;
+	Tue,  5 May 2026 14:13:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777990234; cv=none; b=FnqYPG9AJ+TDVS8F6QBgrRFuO83uavQ+kWc8PWS4fL1A5dYBGOIuAGxKesVTjdP6SiAGVXN/ypfMUseoGZZOzcAYBN6R7T9yZmhB5VI7lNyZjm+faulpS5ey+u2YWZy1rbSQ/QqiIFJfliWZQsM7PbF+fQC+7bbJWiC9QCb01Ks=
+	t=1777990390; cv=none; b=oKFrrYI+9L4KnQe8FA9J6vpvUaJhWo8hSo6t+fI7V+6UJMqCbTb6Hz9MeI0dCoXeSTVVbe729zCOm9NQwCH/Spxu1zvC5ikM9MCz5c1Irk7dMCryXh/9eHbqFbyu2z8h0EdmqlyOLdNJVuG0iruF+feWkAnOkwWU6iTxUbeavWQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777990234; c=relaxed/simple;
-	bh=PPs+MCdi3kcKTLrOhTGnx9SXIHnkphdqWHSxvNJPass=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LtCDXE4kE3vIRVXXt/fPxxfOIoCtQUABS9k9f0SJNcOH9mSqQ9uHcF//rcQNcdwiOx1mIvI+NI14EogMAFaSuSdE8vj8By4k2I3HGABbTXukYidmMvVPv0gQLoWJQ0ncQ+SLuoszbhg3LwlHxUq/nVbGgnBQiIku5QISPmGcsuI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aaIzbeIx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1777990390; c=relaxed/simple;
+	bh=ZOjUNHe9D+ZO5F0CooExI8tSsZdiNfTkV5INJ4CerVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=h1klyghu6bjrDuvhla9ebDNDEa9c1LMAHFVYdQMEZRMrnt7JXLDkTZr2OFQZHVMoDpILdlFuUL6w4CD9ImfJVR3Np+4KldBBCRvRoLt/0royWooAzSeFBPed5rBkeLun4xtnHDJPXiGS507vRyJbPbYjRX4cmWFfodOort+BKXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SjBdfeMN; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aaIzbeIx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 69BF9C2BCB4;
-	Tue,  5 May 2026 14:10:32 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SjBdfeMN"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4403BC2BCC7;
+	Tue,  5 May 2026 14:13:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777990234;
-	bh=PPs+MCdi3kcKTLrOhTGnx9SXIHnkphdqWHSxvNJPass=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aaIzbeIxVXl52jpmLrC4C5ezJjSF/hJxI59auFCJTxKGZJspGgY2aQTBanaLa8zmO
-	 JAHAhoJmnC2CQPHxDGbSvOwAtMw84Wc0a8KXEt8UjpsVTjTmM2uMJX1ixhH0DnC/jk
-	 O17CUJwJqjLHNenB90pZp9xBeQeuDH7mmLVXWQj+jRQ3l8Qcg8NPG+JynkaCOLHYzQ
-	 bt4yEVSiZBmUUCMSDx4OI8OuBcS5I24aqF35NaqKCyZLv5EGo211NDMHs5e4GIh/ZO
-	 iMTVSDoSzpoQkGh+1hKRu6qP3fSzwkuzfwnT0A4/vMOohCWvqvFyT1XmzuLv0fes1C
-	 xLd4eBL1BS7Rw==
-Date: Tue, 5 May 2026 17:10:28 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Willy Tarreau <w@1wt.eu>
-Cc: greg@kroah.com, security@kernel.org, Jonathan Corbet <corbet@lwn.net>,
-	skhan@linuxfoundation.org, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 1/3] Documentation: security-bugs: do not
- systematically Cc the security team
-Message-ID: <20260505141028.GF11063@unreal>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-2-w@1wt.eu>
+	s=k20201202; t=1777990389;
+	bh=ZOjUNHe9D+ZO5F0CooExI8tSsZdiNfTkV5INJ4CerVE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=SjBdfeMNsFeA/DzVO7V3Od0m+3SCPmZ9Njh5k9GhJ8Kl8Ls5l3CUBGd2DLyRDgdPA
+	 m1W/QbsW+WLQnoZIyP3lDjebDgUXuc77J/u7oEc3DmQZ3I3CA1y98jJjBvDme3nspd
+	 nOgLCDn2mvUYEd6Xh7vxCkaIvhRYXR+bIAZh5wVsJEdq04i2Ex6vG/PvyCDW9O+iaR
+	 7aVPTplnJ73nE2is15lupzekX2FvfYyW7ZYlqXzAd4XUSsvONnbN7eexACu0+2dZQZ
+	 dDYbmiLbnGEX1jiMeqE+Jh3EsJcrauJEKxjT688Crkde7QeXz/b8h2/fC14vC+34zO
+	 4EQvdLF0d1BLA==
+Date: Tue, 5 May 2026 15:12:56 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org>
+Cc: radu.sabau@analog.com, Lars-Peter Clausen <lars@metafoo.de>, Michael
+ Hennerich <Michael.Hennerich@analog.com>, David Lechner
+ <dlechner@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy
+ Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
+ =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
+ <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
+ <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-iio@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-pwm@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH v9 4/6] iio: adc: ad4691: add SPI offload support
+Message-ID: <20260505151256.23e07d6b@jic23-huawei>
+In-Reply-To: <20260430-ad4692-multichannel-sar-adc-driver-v9-4-33e439e4fb87@analog.com>
+References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
+	<20260430-ad4692-multichannel-sar-adc-driver-v9-4-33e439e4fb87@analog.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260503113506.5710-2-w@1wt.eu>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sun, May 03, 2026 at 01:35:04PM +0200, Willy Tarreau wrote:
-> With the increase of automated reports, the security team is dealing
-> with way more messages than really needed. The reporting process works
-> well with most teams so there is no need to systematically involve the
-> security team in reports.
-> 
-> Let's suggest to keep it for small lists of recipients and new reporters
-> only. This should continue to cover the risk of lost messages while
-> reducing the volume from prolific reporters.
-> 
-> Cc: Greg KH <gregkh@linuxfoundation.org>
-> Cc: Leon Romanovsky <leon@kernel.org>
-> Signed-off-by: Willy Tarreau <w@1wt.eu>
-> ---
->  Documentation/process/security-bugs.rst | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+On Thu, 30 Apr 2026 13:16:46 +0300
+Radu Sabau via B4 Relay <devnull+radu.sabau.analog.com@kernel.org> wrote:
 
-Thanks,
-Reviewed-by: Leon Romanovsky <leon@kernel.org>
+> From: Radu Sabau <radu.sabau@analog.com>
+> 
+> Add SPI offload support to enable DMA-based, CPU-independent data
+> acquisition using the SPI Engine offload framework.
+> 
+> When an SPI offload is available (devm_spi_offload_get() succeeds),
+> the driver registers a DMA engine IIO buffer and uses dedicated buffer
+> setup operations. If no offload is available the existing software
+> triggered buffer path is used unchanged.
+> 
+> Both CNV Burst Mode and Manual Mode support offload, but use different
+> trigger mechanisms:
+> 
+> CNV Burst Mode: the SPI Engine is triggered by the ADC's DATA_READY
+> signal on the GP pin specified by the trigger-source consumer reference
+> in the device tree (one cell = GP pin number 0-3). For this mode the
+> driver acts as both an SPI offload consumer (DMA RX stream, message
+> optimization) and a trigger source provider: it registers the
+> GP/DATA_READY output via devm_spi_offload_trigger_register() so the
+> offload framework can match the '#trigger-source-cells' phandle and
+> automatically fire the SPI Engine DMA transfer at end-of-conversion.
+> 
+> Manual Mode: the SPI Engine is triggered by a periodic trigger at
+> the configured sampling frequency. The pre-built SPI message uses
+> the pipelined CNV-on-CS protocol: N+1 16-bit transfers are issued
+> for N active channels (the first result is discarded as garbage from
+> the pipeline flush) and the remaining N results are captured by DMA.
+> 
+> All offload transfers use 16-bit frames (bits_per_word=16, len=2).
+> The channel scan_type (storagebits=16, shift=0, IIO_BE) is shared
+> between the software triggered-buffer and offload paths; no separate
+> scan_type or channel array is needed for the offload case. The
+> ad4691_manual_channels[] array introduced in the triggered-buffer
+> commit is reused here: it hides the IIO_CHAN_INFO_OVERSAMPLING_RATIO
+> attribute, which is not applicable in Manual Mode.
+
+Probably good to call out that oversampling hasn't been introduced
+to the driver yet. This confused Sashiko ;)
+
+> 
+> Kconfig gains a dependency on IIO_BUFFER_DMAENGINE.
+> 
+> Signed-off-by: Radu Sabau <radu.sabau@analog.com>
+One minor thing inline.
+
+>  static int ad4691_reg_read(void *context, unsigned int reg, unsigned int *val)
+>  {
+>  	struct spi_device *spi = context;
+> @@ -712,6 +791,7 @@ static const struct iio_buffer_setup_ops ad4691_manual_buffer_setup_ops = {
+>  static int ad4691_cnv_burst_buffer_preenable(struct iio_dev *indio_dev)
+>  {
+>  	struct ad4691_state *st = iio_priv(indio_dev);
+> +	unsigned int acc_mask;
+>  	unsigned int k, i;
+>  	int ret;
+>  
+> @@ -758,9 +838,9 @@ static int ad4691_cnv_burst_buffer_preenable(struct iio_dev *indio_dev)
+>  	if (ret)
+>  		goto err_unoptimize;
+>  
+> -	ret = regmap_write(st->regmap, AD4691_ACC_MASK_REG,
+> -			   ~bitmap_read(indio_dev->active_scan_mask, 0,
+> -				iio_get_masklength(indio_dev)) & GENMASK(15, 0));
+> +	acc_mask = ~bitmap_read(indio_dev->active_scan_mask, 0,
+> +				iio_get_masklength(indio_dev)) & GENMASK(15, 0);
+
+Not obvious to me why this change is here.  If you want it, push back to the
+original patch that introduced this code.
+
+> +	ret = regmap_write(st->regmap, AD4691_ACC_MASK_REG, acc_mask);
+>  	if (ret)
+>  		goto err_unoptimize;
+>  
+> @@ -803,6 +883,209 @@ static const struct iio_buffer_setup_ops ad4691_cnv_burst_buffer_setup_ops = {
+>  	.postdisable = &ad4691_cnv_burst_buffer_postdisable,
+>  };
+
