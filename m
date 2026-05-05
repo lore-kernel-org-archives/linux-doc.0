@@ -1,60 +1,64 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A5273E95A3;
-	Tue,  5 May 2026 16:17:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D778C36404D;
+	Tue,  5 May 2026 16:19:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1777997858; cv=none; b=ClhulN+uJ2ADp8qzuJrT0EtyPZNKv8Dl/5QhtUj+2JIsKh80DD48ELI3xsW5+XBR31rKR/Yg5tM/4EWqhm6bLJQ2PtVTwmh9rQMELiEveV+dkznkeAI/as3H+x9f84gi+Ptpd/oxYo9Hbfvi8behLHG2mMnh2De8sr9pG0BLsnA=
+	t=1777997991; cv=none; b=Voj5j8cIOxTdcsWdVniLDZ9W13QoMCbz2uo9NQ/PzxR+Wo0b5ngnYsZXsiFRUj2COC92HhxqnW9XL0rq26IVJ3bEGikh3/7V+aw18y44nSqbnLKR5ih31eiSltT7N5IYPuBOnq//P59hEF7CE5rQEM4Gkx4A2A22FzQkPa7NDiA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1777997858; c=relaxed/simple;
-	bh=7M3AF7q+dZnICNvL/G6NPLScjPNthj9sH2v2XN2lfbM=;
+	s=arc-20240116; t=1777997991; c=relaxed/simple;
+	bh=ct+0LQJfiP0a76ZVpKPMTYaMUAt8WLfizRJsqD8mMFc=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=H+CFBoOwCojfsWdpwp7rRUn3PD0ji94k6thcnkQN9vqzbg7Ew1qxa/Bs+bz6KZVikKb3/qUXJ7i3jUggS/GFIxolFvYU+CihC3SNQpnCqh3h+LQSlJ7nvIlejoJvbuQsZenS25hJGLM7chiFbES1lneodPrIso2nWlsEJf7MTzg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b0eAoqAG; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=Zd3Tg1qFBqntpkC2LIjJRU6Yx6RK6FJLxXtx4oleEFFWLcQt+wNLQPtGM1ePt+mHhzSoJrCegmcLZDmMB3Jqtb46r+BcCZm47DawXRC3FQEs0ryZnG8YvC8/0knTZjFRXUsMu/4FTI6dmKO2PITcbAbIu1qiy5f6PoM4AQ/sD3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bswlFhwT; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b0eAoqAG"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DBDB0C2BCB4;
-	Tue,  5 May 2026 16:17:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1777997857;
-	bh=7M3AF7q+dZnICNvL/G6NPLScjPNthj9sH2v2XN2lfbM=;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bswlFhwT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1777997988;
+	bh=ct+0LQJfiP0a76ZVpKPMTYaMUAt8WLfizRJsqD8mMFc=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=b0eAoqAG4aFxn51HZEQ2sKQOfZGxQAk+IaGrUL6jDsOf/I6HU52o0IlfrhmLHW8fu
-	 IQbyqNRG7D1HQVBqvgi7eo9EKRXogixw1YNLNmmd6ufrD0xsVQ1zuw5P+TOzY2p7Ep
-	 j706/5ZxTByy2r+79h/Hwii9H0Wbpjj8Gi6dXGsOCBFvSdctNQ5a1BrNkE7JuhegmZ
-	 BrAKOj5oaW6Z2kQurwnnCOiwIGx0oYITLCQAGbmy7ZkMPzXYsOGsg0eXblJrKL5vDc
-	 JnY9splxPxjFlRcITMSDL8cRP7jJGINo2ORpzD9TqPoO3oEYWHCjxG+2HLE81yZWyR
-	 uPZCrkk8bmLfA==
-Date: Tue, 5 May 2026 17:17:23 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: "Sabau, Radu bogdan" <Radu.Sabau@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, "Hennerich, Michael" <Michael.Hennerich@analog.com>,
- David Lechner <dlechner@baylibre.com>, "Sa, Nuno" <Nuno.Sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Uwe
- =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?= <ukleinek@kernel.org>, Liam Girdwood
- <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Linus Walleij
- <linusw@kernel.org>, Bartosz Golaszewski <brgl@kernel.org>, Philipp Zabel
- <p.zabel@pengutronix.de>, Jonathan Corbet <corbet@lwn.net>, Shuah Khan
- <skhan@linuxfoundation.org>, "linux-iio@vger.kernel.org"
- <linux-iio@vger.kernel.org>, "devicetree@vger.kernel.org"
- <devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "linux-pwm@vger.kernel.org"
- <linux-pwm@vger.kernel.org>, "linux-gpio@vger.kernel.org"
- <linux-gpio@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v9 3/6] iio: adc: ad4691: add triggered buffer support
-Message-ID: <20260505171723.390feb20@jic23-huawei>
-In-Reply-To: <afoFjaUBcGXeuEzH@ashevche-desk.local>
-References: <20260430-ad4692-multichannel-sar-adc-driver-v9-0-33e439e4fb87@analog.com>
-	<20260430-ad4692-multichannel-sar-adc-driver-v9-3-33e439e4fb87@analog.com>
-	<afhReLCsEdaEOT_H@ashevche-desk.local>
-	<LV9PR03MB841441B282275F8F36FD12C1F7312@LV9PR03MB8414.namprd03.prod.outlook.com>
-	<20260505142640.49cde0ca@jic23-huawei>
-	<afoFjaUBcGXeuEzH@ashevche-desk.local>
-X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
+	b=bswlFhwTjjhVxn7wuoKSwCTat2SaFzmZZRz9n8JqyDofy3vc0C1w6W54OR0vH2rj4
+	 HoxK+ajljZznWk0E13iQzUn/OmHIf4gDLDGzkVr/9EUr21R1I9p1t0tVcTxxBvfpm/
+	 rWvNMRjIDzEGca0fx6JeludtWH9JT2TvffWiBHlKhmOw4322nKUafKC2IylJvCZDck
+	 8MJSIf0XV8cfJTFE3cr/ZPGz6Uk1MuRUv0soCOJnZI1tTYdB9lKhB2g6Xf0HDGBUCn
+	 5VIJLO43+c2PbUnxHDHhUbnar7zprEiimwj84fSo3rXNaElLQTAFG0gGn/h5/Eea7W
+	 hpE8WS1cOsx7Q==
+Received: from fedora (unknown [100.64.0.11])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1C9E717E0F07;
+	Tue,  5 May 2026 18:19:47 +0200 (CEST)
+Date: Tue, 5 May 2026 18:19:42 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Jonathan
+ Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Steven Price
+ <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Alice Ryhl <aliceryhl@google.com>, Matthias
+ Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+ <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
+ Florent Tomasin <florent.tomasin@arm.com>
+Subject: Re: [PATCH 5/8] drm/panthor: Minor scheduler refactoring
+Message-ID: <20260505181942.317f5205@fedora>
+In-Reply-To: <20260505140516.1372388-6-ketil.johnsen@arm.com>
+References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
+	<20260505140516.1372388-6-ketil.johnsen@arm.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,34 +68,233 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 5 May 2026 17:58:21 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+On Tue,  5 May 2026 16:05:11 +0200
+Ketil Johnsen <ketil.johnsen@arm.com> wrote:
 
-> On Tue, May 05, 2026 at 02:26:40PM +0100, Jonathan Cameron wrote:
+> From: Florent Tomasin <florent.tomasin@arm.com>
 > 
-> ...
+> Refactor parts of the group scheduling logic into new helper functions.
+> This will simplify addition of the protected mode feature.
 > 
-> > > > > +	for (i = 0; i < ARRAY_SIZE(ad4691_gp_names); i++) {
-> > > > > +		irq = fwnode_irq_get_byname(dev_fwnode(dev),
-> > > > > +					    ad4691_gp_names[i]);
-> > > > > +		if (irq > 0)
-> > > > > +			break;    
-> > > > 
-> > > > This is problematic in case the above returns EPROBE_DEFER. Can you confirm
-> > > > it
-> > > > may not ever happen? (Note, I don't know the answer.)  
-> > > 
-> > > You are right, thanks for this!  
-> > I'm missing something. Why is that a problem?  Driver will return
-> > the error and a dev_err_probe() is used so it won't print anything.
-> > So probe will fail which is exactly what we want.  
+> Remove redundant assignments of csg_slot.
 > 
-> If there are two IRQs and the first one is probe deferred and second returns
-> an error, we return that error instead of the deferral probe.
+> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> Co-developed-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+
+Glad to see this big tick_ctx_apply() function split into smaller
+pieces.
+
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+
+> ---
+>  drivers/gpu/drm/panthor/panthor_sched.c | 135 +++++++++++++++---------
+>  1 file changed, 86 insertions(+), 49 deletions(-)
 > 
-> May be I missed something, but I have no idea how in this case it may return
-> the first error code in such a case.
-Ah. Indeed. I completely misread the code.  if (irq) would do the job to fix this.
-J
-> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
+> index 5ee386338005c..987072bd867c4 100644
+> --- a/drivers/gpu/drm/panthor/panthor_sched.c
+> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
+> @@ -1934,6 +1934,12 @@ static void csgs_upd_ctx_init(struct panthor_csg_slots_upd_ctx *ctx)
+>  	memset(ctx, 0, sizeof(*ctx));
+>  }
+>  
+> +static void csgs_upd_ctx_ring_doorbell(struct panthor_csg_slots_upd_ctx *ctx,
+> +				       u32 csg_id)
+> +{
+> +	ctx->update_mask |= BIT(csg_id);
+> +}
+> +
+>  static void csgs_upd_ctx_queue_reqs(struct panthor_device *ptdev,
+>  				    struct panthor_csg_slots_upd_ctx *ctx,
+>  				    u32 csg_id, u32 value, u32 mask)
+> @@ -1944,7 +1950,8 @@ static void csgs_upd_ctx_queue_reqs(struct panthor_device *ptdev,
+>  
+>  	ctx->requests[csg_id].value = (ctx->requests[csg_id].value & ~mask) | (value & mask);
+>  	ctx->requests[csg_id].mask |= mask;
+> -	ctx->update_mask |= BIT(csg_id);
+> +
+> +	csgs_upd_ctx_ring_doorbell(ctx, csg_id);
+>  }
+>  
+>  static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+> @@ -1961,8 +1968,12 @@ static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+>  	while (update_slots) {
+>  		struct panthor_fw_csg_iface *csg_iface;
+>  		u32 csg_id = ffs(update_slots) - 1;
+> +		u32 req_mask = ctx->requests[csg_id].mask;
+>  
+>  		update_slots &= ~BIT(csg_id);
+> +		if (!req_mask)
+> +			continue;
+> +
+>  		csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+>  		panthor_fw_update_reqs(csg_iface, req,
+>  				       ctx->requests[csg_id].value,
+> @@ -1979,6 +1990,9 @@ static int csgs_upd_ctx_apply_locked(struct panthor_device *ptdev,
+>  		int ret;
+>  
+>  		update_slots &= ~BIT(csg_id);
+> +		if (!req_mask)
+> +			continue;
+> +
+>  		csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+>  
+>  		ret = panthor_fw_csg_wait_acks(ptdev, csg_id, req_mask, &acked, 100);
+> @@ -2266,12 +2280,76 @@ tick_ctx_cleanup(struct panthor_scheduler *sched,
+>  	}
+>  }
+>  
+> +static void
+> +tick_ctx_evict_group(struct panthor_scheduler *sched,
+> +		     struct panthor_csg_slots_upd_ctx *upd_ctx,
+> +		     struct panthor_group *group)
+> +{
+> +	struct panthor_device *ptdev = sched->ptdev;
+> +
+> +	if (drm_WARN_ON(&ptdev->base, group->csg_id < 0))
+> +		return;
+> +
+> +	csgs_upd_ctx_queue_reqs(ptdev, upd_ctx, group->csg_id,
+> +				group_can_run(group) ?
+> +				CSG_STATE_SUSPEND : CSG_STATE_TERMINATE,
+> +				CSG_STATE_MASK);
+> +}
+> +
+> +
+> +static void
+> +tick_ctx_reschedule_group(struct panthor_scheduler *sched,
+> +			  struct panthor_csg_slots_upd_ctx *upd_ctx,
+> +			  struct panthor_group *group,
+> +			  int new_csg_prio)
+> +{
+> +	struct panthor_device *ptdev = sched->ptdev;
+> +	struct panthor_fw_csg_iface *csg_iface;
+> +	struct panthor_csg_slot *csg_slot;
+> +
+> +	if (group->csg_id < 0)
+> +		return;
+> +
+> +	csg_iface = panthor_fw_get_csg_iface(ptdev, group->csg_id);
+> +	csg_slot = &sched->csg_slots[group->csg_id];
+> +
+> +	if (csg_slot->priority != new_csg_prio) {
+> +		panthor_fw_update_reqs(csg_iface, endpoint_req,
+> +				       CSG_EP_REQ_PRIORITY(new_csg_prio),
+> +				       CSG_EP_REQ_PRIORITY_MASK);
+> +		csgs_upd_ctx_queue_reqs(ptdev, upd_ctx, group->csg_id,
+> +					csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
+> +					CSG_ENDPOINT_CONFIG);
+> +	}
+> +}
+> +
+> +static void
+> +tick_ctx_schedule_group(struct panthor_scheduler *sched,
+> +			struct panthor_sched_tick_ctx *ctx,
+> +			struct panthor_csg_slots_upd_ctx *upd_ctx,
+> +			struct panthor_group *group,
+> +			int csg_id, int csg_prio)
+> +{
+> +	struct panthor_device *ptdev = sched->ptdev;
+> +	struct panthor_fw_csg_iface *csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+> +
+> +	group_bind_locked(group, csg_id);
+> +	csg_slot_prog_locked(ptdev, csg_id, csg_prio);
+> +
+> +	csgs_upd_ctx_queue_reqs(ptdev, upd_ctx, csg_id,
+> +				group->state == PANTHOR_CS_GROUP_SUSPENDED ?
+> +				CSG_STATE_RESUME : CSG_STATE_START,
+> +				CSG_STATE_MASK);
+> +	csgs_upd_ctx_queue_reqs(ptdev, upd_ctx, csg_id,
+> +				csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
+> +				CSG_ENDPOINT_CONFIG);
+> +}
+> +
+>  static void
+>  tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *ctx)
+>  {
+>  	struct panthor_group *group, *tmp;
+>  	struct panthor_device *ptdev = sched->ptdev;
+> -	struct panthor_csg_slot *csg_slot;
+>  	int prio, new_csg_prio = MAX_CSG_PRIO, i;
+>  	u32 free_csg_slots = 0;
+>  	struct panthor_csg_slots_upd_ctx upd_ctx;
+> @@ -2282,42 +2360,12 @@ tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *c
+>  	for (prio = PANTHOR_CSG_PRIORITY_COUNT - 1; prio >= 0; prio--) {
+>  		/* Suspend or terminate evicted groups. */
+>  		list_for_each_entry(group, &ctx->old_groups[prio], run_node) {
+> -			bool term = !group_can_run(group);
+> -			int csg_id = group->csg_id;
+> -
+> -			if (drm_WARN_ON(&ptdev->base, csg_id < 0))
+> -				continue;
+> -
+> -			csg_slot = &sched->csg_slots[csg_id];
+> -			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+> -						term ? CSG_STATE_TERMINATE : CSG_STATE_SUSPEND,
+> -						CSG_STATE_MASK);
+> +			tick_ctx_evict_group(sched, &upd_ctx, group);
+>  		}
+>  
+>  		/* Update priorities on already running groups. */
+>  		list_for_each_entry(group, &ctx->groups[prio], run_node) {
+> -			struct panthor_fw_csg_iface *csg_iface;
+> -			int csg_id = group->csg_id;
+> -
+> -			if (csg_id < 0) {
+> -				new_csg_prio--;
+> -				continue;
+> -			}
+> -
+> -			csg_slot = &sched->csg_slots[csg_id];
+> -			csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+> -			if (csg_slot->priority == new_csg_prio) {
+> -				new_csg_prio--;
+> -				continue;
+> -			}
+> -
+> -			panthor_fw_csg_endpoint_req_update(ptdev, csg_iface,
+> -							   CSG_EP_REQ_PRIORITY(new_csg_prio),
+> -							   CSG_EP_REQ_PRIORITY_MASK);
+> -			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+> -						csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
+> -						CSG_ENDPOINT_CONFIG);
+> -			new_csg_prio--;
+> +			tick_ctx_reschedule_group(sched, &upd_ctx, group, new_csg_prio--);
+>  		}
+>  	}
+>  
+> @@ -2354,28 +2402,17 @@ tick_ctx_apply(struct panthor_scheduler *sched, struct panthor_sched_tick_ctx *c
+>  	for (prio = PANTHOR_CSG_PRIORITY_COUNT - 1; prio >= 0; prio--) {
+>  		list_for_each_entry(group, &ctx->groups[prio], run_node) {
+>  			int csg_id = group->csg_id;
+> -			struct panthor_fw_csg_iface *csg_iface;
+> +			int csg_prio = new_csg_prio--;
+>  
+> -			if (csg_id >= 0) {
+> -				new_csg_prio--;
+> +			if (csg_id >= 0)
+>  				continue;
+> -			}
+>  
+>  			csg_id = ffs(free_csg_slots) - 1;
+>  			if (drm_WARN_ON(&ptdev->base, csg_id < 0))
+>  				break;
+>  
+> -			csg_iface = panthor_fw_get_csg_iface(ptdev, csg_id);
+> -			csg_slot = &sched->csg_slots[csg_id];
+> -			group_bind_locked(group, csg_id);
+> -			csg_slot_prog_locked(ptdev, csg_id, new_csg_prio--);
+> -			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+> -						group->state == PANTHOR_CS_GROUP_SUSPENDED ?
+> -						CSG_STATE_RESUME : CSG_STATE_START,
+> -						CSG_STATE_MASK);
+> -			csgs_upd_ctx_queue_reqs(ptdev, &upd_ctx, csg_id,
+> -						csg_iface->output->ack ^ CSG_ENDPOINT_CONFIG,
+> -						CSG_ENDPOINT_CONFIG);
+> +			tick_ctx_schedule_group(sched, ctx, &upd_ctx, group, csg_id, csg_prio);
+> +
+>  			free_csg_slots &= ~BIT(csg_id);
+>  		}
+>  	}
 
