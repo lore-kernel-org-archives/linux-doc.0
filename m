@@ -1,112 +1,148 @@
-Received: from mail-qv1-f65.google.com (mail-qv1-f65.google.com [209.85.219.65])
+Received: from mail-dy1-f169.google.com (mail-dy1-f169.google.com [74.125.82.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BF9248F72
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 04:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.219.65
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778041489; cv=pass; b=QFT+lAO9nfsJeGo+Bo36QxNpVuca/IYIuiVrnnBBScTk2C9JQx7H3ltqlFpbU/drchgcBveykr6s86VkJi4xx3QoC2ofzchM4U+zKx8j3nHhjvEV0iooAYWbfl/X7J2WUUq1DIJ2I/cNnscb2mQ5sUcHHHm119i7owJk0cMAPww=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778041489; c=relaxed/simple;
-	bh=g5owKb1Ma8FV3PMZ/IPm/mfmcAADknef5x+8hJdV8Mc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BYE0aF/0dMsL4j2fI82YvNW27IaD+PDui/0ixMK9wiTNBIWP4BywZp7MEluDXGLnQUeuxkhH3NVQwbQhXD/E+3V4Ajg5BtgNsnX52SP6c7oZqMTH7NHhvVu7GiHq/37bCizdAoWJBmmtFfVHrk0kv3UydaGvRGePeWUWe610Ww4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=qyQ00oYl; arc=pass smtp.client-ip=209.85.219.65
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E81E2221DAE
+	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 04:53:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=74.125.82.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778043238; cv=none; b=JHnHZo3hqR59gh8qosA4CRv8yFMHpeVmXPYwm3OeWrEaAnj9uVHFYS+syNyFveHUdG1gusyMG36pzNWkjJubSGD3m14aNZPK5VJFIlLKhTuxD4b731YZDKtq63UPHjSItBI2GsB/zjzqcqNfHTyGcZNtbZ+q/ME3LcvGkN+cYzE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778043238; c=relaxed/simple;
+	bh=kGPExLM9k7Om92sbLJDAmHuMKkrOhILjpsQZoaHl1Ls=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kPpgP2TCrABJb75Quhery4PsFNWOlz9zMNuGRjHhCKjnT0iarSFfDt1BEcsGMQgp6ZTmAYmVxTBzpcLyV6XW0YjBOkTcoN4lZ4HLhxBy++v4r7xb+8TMoFh1BPUFL3o5GTO1IocvuK00EnymndLZsXY4831BRswTOOrjOYG6t7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jd18Ne3e; arc=none smtp.client-ip=74.125.82.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="qyQ00oYl"
-Received: by mail-qv1-f65.google.com with SMTP id 6a1803df08f44-8acb856a674so7525726d6.0
-        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 21:24:47 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778041487; cv=none;
-        d=google.com; s=arc-20240605;
-        b=WJjbZJAvemhXtPCZfENMTm7FY6iCNDfKylCbgG1WC7tAOzBls6Dsz2s9FnyDkrv6uf
-         aAdt35XcMiKTWtRqBla675CMN2rQFe5dNrfTlfuQLTOPWEGI8z8qQ249cxezrKWzK0Wq
-         mAeE0yAzOyPTLlLPRdOfsyIXHVprEj0Ud9wzelw++D2wtL2p2r4UvPdrA94t2R44dZa3
-         f5nXQGpy01mlD/RA4KBfHptT7bGsLHCfnJ5o9XLqAbDMvdIkI+E1VKOz07wk628w0ski
-         4jYF+FwyWijQ00PsNA1kAHGW8manx40ot4s/ehgvTmcBkXYf41cNN/4w4y2NKNHAmU86
-         qyNw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=g5owKb1Ma8FV3PMZ/IPm/mfmcAADknef5x+8hJdV8Mc=;
-        fh=/ZATJmnoCCYESfcu9nG3ici8Ip0Nb+aoWXjaVgdbcsk=;
-        b=Z8k0m2uF4pDt6EUOhzCYcH0CmwOORoLsikgYjpct5vyzMFf/wwv9dbxlyvSig9yZcT
-         6b6e1e3QQP4MH0UduY/EkkGjaYHYxVIHRLVHdv11XDt4B5Q12BN8Uosv74BD5P2mH/dj
-         ubEACT1gYtu0DM2oLcI0PQ6NziOJgXDxYEGQ5cd/sgfk6JCfhBLkaciJr4zhnuH1c0QH
-         5bUoF0JoZ6WwR74Tq4XPKSJLklpgDVvMBkPgIpvvc5c8DeR3RNXtJ7Tp9ej9RiETBFLN
-         hAXtajmni1Sqt0F9ppDSBGEjFOHsuTA+sJx866u/FeVc8/KrKcQY3myRFEXy7+1DjCPl
-         ZhNA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jd18Ne3e"
+Received: by mail-dy1-f169.google.com with SMTP id 5a478bee46e88-2f36da5c8fbso2486812eec.0
+        for <linux-doc@vger.kernel.org>; Tue, 05 May 2026 21:53:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778041487; x=1778646287; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=g5owKb1Ma8FV3PMZ/IPm/mfmcAADknef5x+8hJdV8Mc=;
-        b=qyQ00oYlF/tarZ0VnjUDC6kGsR+bAMWntUNHjFFMxyCnYRCkdysG1TSJRG5NzATLbD
-         Ttg6P4ETQc+k82EMsEPrSqUe5voMYYoISHQTAruYjD0dzb1uetNmVOqiBgsbzXRbDBKI
-         25nfX/FjgSp3QpEJqMpx9O9tat0onErIOt8V7OP/z9n+j7/CRj2H+Jxac6T641LSbw6T
-         oE3aGVRvQdqqk0TedHJo5aC+drqfX0BtL62PAOh7X6hx70XFEJHOJOxbOVn14EgwkVig
-         axIct34kf1H6dKgdCJ7RnYKO4aUUNpejFP87vryu+p7adCUcd41Ix3dOLKAVwS9tODU+
-         GkYg==
+        d=gmail.com; s=20251104; t=1778043236; x=1778648036; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=lEMg+VknlRDghrp8zKkq6kI33OrjztcbWF59KQ+QOvw=;
+        b=Jd18Ne3evJ0yhrd29x/XOO0BTE0mvYZylXhW0H12Vu6kNidYzzKhKSxhqNSQRlQDug
+         XiGFDGcOa9GC3ijssAfxNPtfTUwi3XkC9XebrLfie8WNPEvYFcPNiFDTBDhAkmBhe7Zu
+         YFd4knw7ZeheiWg6zf3LQBDba+LkPjb9GvRsGUFHYwTgI/MDDvP+EXrfa25bttasnSz1
+         6gXrvZOIDyb9kg+9xi5GsMgzZQucOiRnxXbuggwg4iuBrJ08H3BvmBAyiwKyO608tWzZ
+         bX8uAaljcdEjsiRwcEbTuFi/pcu4vmlyIx4Vl6g6scQ5eCEsXPlEKgYDtJobKDXCKCpK
+         SN4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778041487; x=1778646287;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=g5owKb1Ma8FV3PMZ/IPm/mfmcAADknef5x+8hJdV8Mc=;
-        b=NN1qcm8meljUZxO4SXC8bfFfFoHZmM4G0a0z9ty1gG8EMoR2aUGMZBHnqUyWtmOpdT
-         CCkObxWHoWqBaf5Dx9Jy1SwdABNWMqgj6BIN39ww+R+3Gq2e2qG/X+gGxB5wPeXtJ7xN
-         r38CbvmFdKDbF2WUppiAO/uety9H+i3w7Edl3kHFpRQQ9GVZbgo3cycmk6HPRZADJf7q
-         9q4XC7iCTIzNi01H/ZJGYCgERLZDDARNXjE3TQ/jc0iZOyu9be0DhNUAKACEcJFiczoO
-         cUYRXA8ejdJrjgTDiFGvzsPhFK77A30iam24tfiMSZYqMqGng1oOuqYtthIa0SQ85fUR
-         w9pA==
-X-Forwarded-Encrypted: i=1; AFNElJ+zNCIWOHXIRa8pvXTKcISqJCrKu0/DjezV59K8RvaX9E916uyG6GTbWOLo8xD7dhAe5V/GxXqW7gg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyoh5UWpDMGK9RSGwRJosCuMKqYakek/2HuItYPKAv68+iaHEsK
-	92Ra5o0b9DL9DGSCjPb36hWKCHwz5jUyvYN7ZAtl+CHp/zlnlqQTz21tjD0/u1wmYdbA5Hfhk7h
-	FhYg/JT8r+HO5RkCTVOjlxrr2GteBFScPFhw7
-X-Gm-Gg: AeBDieshB6mgw34XLsXaLAyp1/xTMQWlbQ5HEvcnYctsk+o6c4PZ77msCvCbIGqjW/4
-	8w6Lul3nIA7Pw1+TwNpAo8dGw1YMiXyoHd6au3ab8SWXtjW6sl/BlaIQC92IeA/TbKNDDybYQNM
-	lrPzmcW9Jqpl2vVLzfiPD6h3WDRZB65j0gwNq5PB8zwiuGX2yx+uNiDdnMe9kb29vujmTZGFQBr
-	W2R+SsI0kCol3CevwHhTl0mHXKOLI6ND5E63tzgUKqg0RvUNggDFunt24UrpcmXsxCsPz+NZYyk
-	r1i0TSzQRuNqrPeZxRsVSMRYz64l7CZ6dA/Jm73O6MF2PN0cmba9JZOfmC9EwIJiFBd377yXgFH
-	DT5o=
-X-Received: by 2002:a05:6214:3291:b0:8ba:d36a:8b0c with SMTP id
- 6a1803df08f44-8bc308e090cmr24572786d6.12.1778041486857; Tue, 05 May 2026
- 21:24:46 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1778043236; x=1778648036;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=lEMg+VknlRDghrp8zKkq6kI33OrjztcbWF59KQ+QOvw=;
+        b=JBGu3EvcZ6dDnUWN2oWGBxR4Gz3ymNRZbdbQTkYP/nON0tQGxpAr91nZWh4sXy5BTH
+         QgFw7DavImNFKIS4W9Lhpzap+jw1XQjnBj51r67uqHdaejgkMjXQR/A9Kw7vYeApwICM
+         SzwO3CIQmQlKaBsPBWRPm/qiILnjxb2JpZxzvaAdfJfcbOdB4ZCXr6a0D0mu7+YSuXil
+         dnQxqHctPSJ0QEW+FBIjnXgY7t2Tuf26ohszooXEI+hngFL5GhPGAxM/QsDJp9GadCk9
+         +b6dRjrA4ZvtaS8gZ1ZntwZNrPK78mz61fdXNK0DAH2fELwpBr7rodPnil3wH29M9XF4
+         m/Fg==
+X-Forwarded-Encrypted: i=1; AFNElJ+QhiljSlXEKsOx6DBmWWaxJ7Fah6u3NgF2KSheNjG9ZCFYTw0+aQHoXCqF2H7Y8UD0SwPRJZXN/1c=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyfWn4zY+ol7JrG/P96UCv6px/+cfpqUeRcFwX37VOHa0M3hrlH
+	Qt9xFgf3CJgr/wr4HnzrU6FrbcKDsuzee6oLYWInVvkDesKn18QWVWKy
+X-Gm-Gg: AeBDieutp9054SrcT8AVtMrV/A4h55/A07rWbJj68tKbscysc8HqxpEnyQtlIy9gx5y
+	logAXSxPaQHxHyl6mCW2ZeTErQ1C8NP174DjbsgpNRSyOu5qY9LXlPc912ddRp51P+bTmdGMIoD
+	tO+vQTtMLeOBrQ0qDU3joKIGjwejhs1DdZTc/YufdTI6Uaa6bUIJxPaNd7ctnqcvNlEz1Lg7uGN
+	JZAwllGmCEVAZOHYdg4D4JCZz5SoIbh9HLVpc8AXlZek282uALiaFYFZ6/F+2GTx/V3SqKyNI6b
+	u+28hI+SzttPYVkGf9yRuIFiHbkB/ZdCEyaJoAPiJgV5OYpt5MR3OUPWa+eF15IoEtuOmLDIEF5
+	vn/KUD6lPx35u7DPuojoeXb/6POmr+/xLwGDDGGbNLuRWCMSCTdR7T/Ve2mIW4wxptkEqlpM4VZ
+	C6CIvDlTN/JVulaOVSyU+ZkMkhcSW4Snm68KqDEUxUNBVYPBvWRY8K15mzjoZOJdNLimcyfib1I
+	gY3KAvP1Jw=
+X-Received: by 2002:a05:7300:e78d:b0:2dd:2d70:8aba with SMTP id 5a478bee46e88-2f54879f1f6mr918059eec.4.1778043235552;
+        Tue, 05 May 2026 21:53:55 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-2f56f891a56sm2085662eec.14.2026.05.05.21.53.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 05 May 2026 21:53:54 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <81a90b2d-8dc3-4466-92d6-936679e210d5@roeck-us.net>
+Date: Tue, 5 May 2026 21:53:53 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428014806.35400-1-enelsonmoore@gmail.com>
-In-Reply-To: <20260428014806.35400-1-enelsonmoore@gmail.com>
-From: Ethan Nelson-Moore <enelsonmoore@gmail.com>
-Date: Tue, 5 May 2026 21:24:34 -0700
-X-Gm-Features: AVHnY4K0xmgCGjRo3w976y_MhSGXuEJ16XPO6VJddjjCwxbz95nkP8oBBPUwhss
-Message-ID: <CADkSEUij01xaqNeFxHX3PRsFCWK7-m2eGH2Knt2T349QOzrQDA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] watchdog: remove driver for integrated WDT of ZFx86
  486-based SoC
-To: Guenter Roeck <linux@roeck-us.net>, linux-watchdog@vger.kernel.org
-Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, linux-doc@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Ethan Nelson-Moore <enelsonmoore@gmail.com>,
+ linux-watchdog@vger.kernel.org
+Cc: Wim Van Sebroeck <wim@linux-watchdog.org>, linux-doc@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>
+References: <20260428014806.35400-1-enelsonmoore@gmail.com>
+ <CADkSEUij01xaqNeFxHX3PRsFCWK7-m2eGH2Knt2T349QOzrQDA@mail.gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ np3900V20aS7eD9K8GTU0TGC1pyz6IVJwIE=
+In-Reply-To: <CADkSEUij01xaqNeFxHX3PRsFCWK7-m2eGH2Knt2T349QOzrQDA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 27, 2026 at 6:48=E2=80=AFPM Ethan Nelson-Moore
-<enelsonmoore@gmail.com> wrote:
-> The machzwd driver supports the integrated watchdog of the ZF Micro
-> ZFx86 SoC, which contains a 486-compatible core [1]. Since 486
-> support was removed in commit 8b793a92d862 ("x86/cpu: Remove
-> M486/M486SX/ELAN support"), the driver is no longer useful, Remove it.
+On 5/5/26 21:24, Ethan Nelson-Moore wrote:
+> On Mon, Apr 27, 2026 at 6:48 PM Ethan Nelson-Moore
+> <enelsonmoore@gmail.com> wrote:
+>> The machzwd driver supports the integrated watchdog of the ZF Micro
+>> ZFx86 SoC, which contains a 486-compatible core [1]. Since 486
+>> support was removed in commit 8b793a92d862 ("x86/cpu: Remove
+>> M486/M486SX/ELAN support"), the driver is no longer useful, Remove it.
+> 
+> Hi, Guenter,
+> 
+> Would you be willing to merge this patch? Unlike the other drivers
+> whose removal I proposed, this one can't be used at all now that 486
+> support is gone from the kernel - no other hardware contains this WDT.
+> 
 
-Hi, Guenter,
+Already done.
 
-Would you be willing to merge this patch? Unlike the other drivers
-whose removal I proposed, this one can't be used at all now that 486
-support is gone from the kernel - no other hardware contains this WDT.
+Guenter
 
-Ethan
