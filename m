@@ -1,301 +1,103 @@
-Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0042459DC;
-	Wed,  6 May 2026 16:18:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3E4D4B8DE9;
+	Wed,  6 May 2026 17:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778084325; cv=none; b=UzygzflUOmTTZxI0a/4wMfA2h+pk4nZWTOIJUt3yaM1fMLbQO9DR8kA83wKCGhLOPLzhkSITCK/TWV6Vj8u+OLD2ED/iijP/yORVYyQgzyM5fKv2DcPY6RXeIMbuUohXVkkOD2VQD+/GGfZpND/9rm4mMHt00wrymjWm7biq3f4=
+	t=1778088691; cv=none; b=H7c3lil3JM5KXKioSSZNXo3OKT4iJwHr4XkoSSZgZkKejb7toa5xX/vR2w1pwS8BwK6Mq49X6LCws8VcmzyYUbEHRscHwUs0AWcsguikdnMdrT2oaiYwcJGTZpzK6Y2xyeZOBkORhbNxV/C5XhFqJczg1EBYJXhscAG8R+KhMYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778084325; c=relaxed/simple;
-	bh=/rsMY+Zx/Vh7owY7ShMImN6ucv2Sv4jVuZ+weMvjUwc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q+qPfWZmfLAbV0VMCWy3jfwAzAcgij2221UvBbmf0yUCRB+vcatWB8bvOcDzstl0wEJ2jnEy2BXuDuF9MDoKb2r+A37ibEb4HMOxvZJICa0x00zYAgC2tLF9In+gJKer4EbZA3TsVwdd1hDwrLdBUcV0LuqqFMc1i7DtwL3DNQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=RcaAJx5i; arc=none smtp.client-ip=82.195.75.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
+	s=arc-20240116; t=1778088691; c=relaxed/simple;
+	bh=09gOH9z89fiGikL7sFb1HYcEIaMz4M52kOWacbyxoZs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=WFekIQvQ0J/dBT177RJVXLExAzfOUGc0lhvbm5yTmZ6dg0Y8XYF0T7rdn2m7RdLovLNtGwuGuX0wnsJIt4sooash0LPx7AmL8GDI977R5Wv0EeVqOMfw1GkWxKng+TKYC1nb9LTZgzeBsyPSEjyEcVpxtD9bz4dj4cUhtVyIpHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=kUiHFHXK; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="RcaAJx5i"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
-	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Reply-To:Content-ID:Content-Description;
-	bh=wlhus1pwx5VmyD6fvjLI+ZlJDA72kCWqRJZzTJuDlVs=; b=RcaAJx5iIvZ739Tiu7zXz4RS0e
-	x4Pz8iu6KUovclJrPLP8oMBI2gn9wPg1QLLiFUpP/wbTRzeR2uBQJ5SFcvHsHLn4LEY9FtlhWVVWJ
-	QdDbO+npzRivvwnkryBi580L4pDrJf8imyXHRNMhS8v51K+GoA3lLl1UEREIUZ4/NXLYB5OOfePY+
-	HuhMpwMzKwb7oInmNgILSBMl0ADmlIKOWn7tZ9sSB12v+wt7zCKK7iSN7JsaSN+Io+sgyHm644qtY
-	+pTtjk2BHEznKc3IpUcB9gALFtGFQvYWIbXj+90K9LLj+BM8wtF4M2EnKF8+sbV+Yjkuz4+OTSgcz
-	5osm1Edg==;
-Received: from authenticated user
-	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.96)
-	(envelope-from <leitao@debian.org>)
-	id 1wKex0-003iLk-00;
-	Wed, 06 May 2026 16:18:18 +0000
-Date: Wed, 6 May 2026 09:18:12 -0700
-From: Breno Leitao <leitao@debian.org>
-To: Lance Yang <lance.yang@linux.dev>
-Cc: david@kernel.org, linmiaohe@huawei.com, nao.horiguchi@gmail.com, 
-	akpm@linux-foundation.org, corbet@lwn.net, skhan@linuxfoundation.org, ljs@kernel.org, 
-	Liam.Howlett@oracle.com, vbabka@kernel.org, rppt@kernel.org, surenb@google.com, 
-	mhocko@suse.com, shuah@kernel.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	kernel-team@meta.com
-Subject: Re: [PATCH v5 2/4] mm/memory-failure: add panic option for
- unrecoverable pages
-Message-ID: <aftnSfb15G92JON5@gmail.com>
-References: <9d365395-051a-436b-9017-352ebc889770@kernel.org>
- <20260428030721.51274-1-lance.yang@linux.dev>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="kUiHFHXK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=76vttDvg4y9AZKkRp0beXp2t/fQ+E1/znFnFmENOgVc=; b=kUiHFHXKSlqIAsgv3Kb5ciVeD1
+	uElhnQBj1eOeqT/aU71QAiWY9EmDgq+mbod86oP6lPczCz58GBUyHi5CxRPwuefvnvj9PblcAQKqA
+	ccr9wEyghNynBhFKROY+CKkV5fPZa//NwqyV5cv5O+d0kulK7+ZYCqtCiO7KEhtOsa8meGsEEc2Qo
+	9ZG7KRtjl10Oi9AGNP2qCfHrZG8GcaDCYOkKNpEgyvzLPGg5frMNBJMDAi1319Cnf0ziAk2ECyf7K
+	OG00XZc65LhE/prr9EFdsAIViEEiCZBaUEn2cDQPYubpeK6v5rDhgpjYc0spsROtSgsirSG/KApKe
+	7PS0k6UQ==;
+Received: from [50.53.43.113] (helo=[192.168.254.34])
+	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
+	id 1wKg5h-00000001fK9-2wTI;
+	Wed, 06 May 2026 17:31:21 +0000
+Message-ID: <14dd9b3a-63ad-4749-ac03-e48be5491dc1@infradead.org>
+Date: Wed, 6 May 2026 10:31:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20260428030721.51274-1-lance.yang@linux.dev>
-X-Debian-User: leitao
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] Documentation: fix typo and formattting in
+ security/credentials.rst
+To: Mayank Gite <drapl0n@protonmail.com>, Paul Moore <paul@paul-moore.com>
+Cc: Serge Hallyn <sergeh@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260506054914.162806-1-drapl0n@protonmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20260506054914.162806-1-drapl0n@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 28, 2026 at 11:07:21AM +0800, Lance Yang wrote:
-> 
-> On Mon, Apr 27, 2026 at 05:49:28PM +0200, David Hildenbrand (Arm) wrote:
-> >> +	switch (type) {
-> >> +	case MF_MSG_KERNEL:
-> >> +	case MF_MSG_UNKNOWN:
-> >> +		return true;
-> >> +	case MF_MSG_KERNEL_HIGH_ORDER:
-> >> +		/*
-> >> +		 * Rule out a concurrent buddy allocation: give the
-> >> +		 * allocator a moment to finish prep_new_page() and
-> >> +		 * re-check. A genuine high-order kernel tail page stays
-> >> +		 * unowned; an in-flight allocation will have bumped the
-> >> +		 * refcount, attached a mapping, or placed the page on
-> >> +		 * an LRU by now.
-> >> +		 */
-> >> +		p = pfn_to_online_page(pfn);
-> >> +		if (!p)
-> >> +			return true;
-> >> +		/*
-> >> +		 * Yield so a concurrent allocator on another CPU can
-> >> +		 * finish prep_new_page() and have its writes become
-> >> +		 * visible before we resample the page state.
-> >> +		 */
-> >> +		cpu_relax();
-> >> +		return page_count(p) == 0 &&
-> >> +		       !PageLRU(p) &&
-> >> +		       !page_mapped(p) &&
-> >> +		       !page_folio(p)->mapping &&
-> >> +		       !is_free_buddy_page(p);
-> >
-> >I don't get what you are doing here. The right way to check for a tail page is
-> >not by checking the refcount.
-> >
-> >Further, you are not holding a folio reference? If so, calling
-> >page_mapped/folio_mapped is shaky. On concurrent folio split you can trigger a
-> >VM_WARN_ON_FOLIO().
-> >
-> >
-> >Maybe folio_snapshot() is what you are looking for, if you are in fact not
-> >holding a reference?
-> 
-> Right! Maybe we should not try to make this decision in
-> panic_on_unrecoverable_mf().
-> 
-> By the time we get here, we only know the final MF_MSG_* type. The
-> real reason why get_hwpoison_page() failed is already lost.
-> 
-> Wonder if it would be better to split that earlier, around
-> __get_unpoison_page()/get_any_page(). That code still knows why
-> grabbing the page failed, either an unsupported kernel page or
-> just a temporary race we cannot really trust :)
-> 
-> Then the later panic logic can be simple: panic for the stable
-> unsupported kernel page case, and not for the temporary race case.
-> 
-> That would also avoid trying to guess MF_MSG_KERNEL_HIGH_ORDER here:)
+Hi--
 
-This is a very good feedback, and definitely what I wanted to do, but,
-failed. Once we have the reason, we don't need this dance to guess the
-reason.
+On 5/5/26 10:49 PM, Mayank Gite wrote:
+> - Fixes a typo in "Keys and keyrings" section. Replaces "keying" with
+>   "keyring".
+> - Updates formatting of keyring types.
+> 
+> Signed-off-by: Mayank Gite <drapl0n@protonmail.com>
 
-I've hacked a patch based on this approach. How does it sound?
+Something (protonmail?) split some lines of your patch so that it
+cannot be applied:
 
-commit ae7a09c989afe7aaed7ac4b5090d993ef1de0b38
-Author: Breno Leitao <leitao@debian.org>
-Date:   Wed May 6 07:41:30 2026 -0700
+patch: **** malformed patch at line 24: tials:
 
-    mm/memory-failure: classify get_any_page() failures by reason
-    
-    When get_any_page() fails to grab a page reference, the *reason* it
-    failed is known at the call site but is not surfaced to callers: the
-    HWPoisonHandlable() rejection path (a stable kernel page hwpoison cannot
-    handle — slab, vmalloc, page tables, kernel stacks, ...) and the
-    page_count() / put_page race paths (a transient page-allocator lifecycle
-    race) all collapse to a single negative errno by the time
-    memory_failure() sees them. memory_failure() can only observe the
-    conflated result and reports both as MF_MSG_GET_HWPOISON.
-    
-    Surface the diagnosis explicitly. Add an mf_get_page_status enum,
-    plumbed out through get_any_page() and get_hwpoison_page() (NULL is
-    accepted by callers that do not care — unpoison_memory() and
-    soft_offline_page() pass NULL). get_any_page() sets the status at the
-    moment it gives up:
-    
-      MF_GET_PAGE_UNHANDLABLE — HWPoisonHandlable() rejected the page
-                                after retries.
-      MF_GET_PAGE_RACE        — exhausted retries on a refcount /
-                                lifecycle race with the allocator.
-    
-    memory_failure() then promotes the unhandlable case to MF_MSG_KERNEL
-    alongside the existing PageReserved branch, and leaves the
-    transient-race case as MF_MSG_GET_HWPOISON. The user-visible report
-    now distinguishes the two; this also forms the foundation a later
-    patch will rely on to decide whether an unrecoverable failure should
-    panic.
-    
-    Suggested-by: Lance Yang <lance.yang@linux.dev>
-    Signed-off-by: Breno Leitao <leitao@debian.org>
+See https://lore.kernel.org/linux-doc/20260506054914.162806-1-drapl0n@protonmail.com/raw
 
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index f112fb27a8ff6..a83fabadbce99 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -1389,7 +1389,32 @@ static int __get_hwpoison_page(struct page *page, unsigned long flags)
- 
- #define GET_PAGE_MAX_RETRY_NUM 3
- 
--static int get_any_page(struct page *p, unsigned long flags)
-+/*
-+ * Diagnosis of why get_any_page() failed to grab a page reference.
-+ *
-+ * Set when ret < 0 so callers (notably memory_failure()) can tell apart
-+ * a stable kernel page type that hwpoison cannot handle — slab, vmalloc,
-+ * page tables, kernel stacks, etc. — from a transient race with the page
-+ * allocator lifecycle (allocation/free in flight). The distinction
-+ * matters for panic_on_unrecoverable_mf(): the former is a real
-+ * unrecoverable kernel-owned poisoning, the latter must not panic since
-+ * the page may be destined for userspace where SIGBUS recovery would
-+ * otherwise apply.
-+ */
-+enum mf_get_page_status {
-+	MF_GET_PAGE_OK = 0,
-+	/*
-+	 * Transient lifecycle race with the page allocator. Recorded for
-+	 * symmetry and for future callers that may want to distinguish a
-+	 * race from an unhandlable kernel page; no in-tree caller acts on
-+	 * this value yet.
-+	 */
-+	MF_GET_PAGE_RACE,
-+	MF_GET_PAGE_UNHANDLABLE,	/* stable kernel page hwpoison cannot handle */
-+};
-+
-+static int get_any_page(struct page *p, unsigned long flags,
-+			enum mf_get_page_status *status)
- {
- 	int ret = 0, pass = 0;
- 	bool count_increased = false;
-@@ -1406,11 +1431,15 @@ static int get_any_page(struct page *p, unsigned long flags)
- 				if (pass++ < GET_PAGE_MAX_RETRY_NUM)
- 					goto try_again;
- 				ret = -EBUSY;
-+				if (status)
-+					*status = MF_GET_PAGE_RACE;
- 			} else if (!PageHuge(p) && !is_free_buddy_page(p)) {
- 				/* We raced with put_page, retry. */
- 				if (pass++ < GET_PAGE_MAX_RETRY_NUM)
- 					goto try_again;
- 				ret = -EIO;
-+				if (status)
-+					*status = MF_GET_PAGE_RACE;
- 			}
- 			goto out;
- 		} else if (ret == -EBUSY) {
-@@ -1423,6 +1452,8 @@ static int get_any_page(struct page *p, unsigned long flags)
- 				goto try_again;
- 			}
- 			ret = -EIO;
-+			if (status)
-+				*status = MF_GET_PAGE_UNHANDLABLE;
- 			goto out;
- 		}
- 	}
-@@ -1442,6 +1473,8 @@ static int get_any_page(struct page *p, unsigned long flags)
- 		}
- 		put_page(p);
- 		ret = -EIO;
-+		if (status)
-+			*status = MF_GET_PAGE_UNHANDLABLE;
- 	}
- out:
- 	if (ret == -EIO)
-@@ -1503,7 +1536,8 @@ static int __get_unpoison_page(struct page *page)
-  *         operations like allocation and free,
-  *         -EHWPOISON when the page is hwpoisoned and taken off from buddy.
-  */
--static int get_hwpoison_page(struct page *p, unsigned long flags)
-+static int get_hwpoison_page(struct page *p, unsigned long flags,
-+			     enum mf_get_page_status *status)
- {
- 	int ret;
- 
-@@ -1511,7 +1545,7 @@ static int get_hwpoison_page(struct page *p, unsigned long flags)
- 	if (flags & MF_UNPOISON)
- 		ret = __get_unpoison_page(p);
- 	else
--		ret = get_any_page(p, flags);
-+		ret = get_any_page(p, flags, status);
- 	zone_pcp_enable(page_zone(p));
- 
- 	return ret;
-@@ -2349,6 +2383,7 @@ int memory_failure(unsigned long pfn, int flags)
- 	bool retry = true;
- 	int hugetlb = 0;
- 	bool is_reserved;
-+	enum mf_get_page_status gp_status = MF_GET_PAGE_OK;
- 
- 	if (!sysctl_memory_failure_recovery)
- 		panic("Memory failure on page %lx", pfn);
-@@ -2424,7 +2459,7 @@ int memory_failure(unsigned long pfn, int flags)
- 	 */
- 	is_reserved = PageReserved(p);
- 
--	res = get_hwpoison_page(p, flags);
-+	res = get_hwpoison_page(p, flags, &gp_status);
- 	if (!res) {
- 		if (is_free_buddy_page(p)) {
- 			if (take_page_off_buddy(p)) {
-@@ -2445,7 +2480,12 @@ int memory_failure(unsigned long pfn, int flags)
- 		}
- 		goto unlock_mutex;
- 	} else if (res < 0) {
--		if (is_reserved)
-+		/*
-+		 * Promote a stable unhandlable kernel page diagnosed by
-+		 * get_hwpoison_page() to MF_MSG_KERNEL alongside reserved
-+		 * pages; transient lifecycle races stay as MF_MSG_GET_HWPOISON.
-+		 */
-+		if (is_reserved || gp_status == MF_GET_PAGE_UNHANDLABLE)
- 			res = action_result(pfn, MF_MSG_KERNEL, MF_IGNORED);
- 		else
- 			res = action_result(pfn, MF_MSG_GET_HWPOISON,
-@@ -2750,7 +2790,7 @@ int unpoison_memory(unsigned long pfn)
- 		goto unlock_mutex;
- 	}
- 
--	ghp = get_hwpoison_page(p, MF_UNPOISON);
-+	ghp = get_hwpoison_page(p, MF_UNPOISON, NULL);
- 	if (!ghp) {
- 		if (folio_test_hugetlb(folio)) {
- 			huge = true;
-@@ -2957,7 +2997,7 @@ int soft_offline_page(unsigned long pfn, int flags)
- 
- retry:
- 	get_online_mems();
--	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE);
-+	ret = get_hwpoison_page(page, flags | MF_SOFT_OFFLINE, NULL);
- 	put_online_mems();
- 
- 	if (hwpoison_filter(page)) {
+You can see if Documentation/process/email-clients.rst can help you any,
+or just do an web search for using Proton mail to send plain text patches,
+but using Proton might be difficult (IDK).
+
+> ---
+>  Documentation/security/credentials.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+> index d0191c8b8060..4996838491b1 100644
+> --- a/Documentation/security/credentials.rst
+> +++ b/Documentation/security/credentials.rst
+> @@ -189,9 +189,9 @@ The Linux kernel supports the following types of credentials:
+>       be searched for the desired key.  Each process may subscribe to a number
+>       of keyrings:
+>  
+> -	Per-thread keying
+> -	Per-process keyring
+> -	Per-session keyring
+> +	- Per-thread keyring
+> +	- Per-process keyring
+> +	- Per-session keyring
+>  
+>       When a process accesses a key, if not already present, it will normally be
+>       cached on one of these keyrings for future accesses to find.
+
+The change itself looks good - if you can find a good way to email it.
+
+thanks.
+-- 
+~Randy
 
