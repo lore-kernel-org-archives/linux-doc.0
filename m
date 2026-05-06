@@ -1,37 +1,37 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8EF1480321;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDDA548097F;
 	Wed,  6 May 2026 14:08:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778076529; cv=none; b=fWHzfklpcTSRyJyWk1vy4zwlifqygK6awVqupuKGFuHh19iYVLpUiM/DRjHW99zBigFGjyZgq9K+EMHP40mdcPKvVdUch4ZZmKox+i259N2zdY9si/vK0tXY98SzjEAgln8UHz+OVjs/koV+C3avER2VIV09Q4ns4TWkDGF1hQM=
+	t=1778076529; cv=none; b=BYnEeX9sjvksmQrSiHeuRW96G3ywSUUYI4LL7ncP6hR5g+uHZNgARCd1Pe1KsGLSWzpwAw6jOzxy4g5mSV2iFAYBQO9R0aR9o7fh4qu7WOiCuRULtr98FFmdfSOotVIwrvPsTJCJglKmIPcG2wEcgFnf9lNkThcJsIc+Ve2CHd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1778076529; c=relaxed/simple;
-	bh=he13BpI06wiOzZiu1NYSjREoNrUOU4biOxg065kNMsw=;
+	bh=+PnoWBfKnfV07TYFgJMKkg0KM9nPZ2plTh6bMfU0YFo=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WM+D5+aVnQ1vDWjp5FPMmHNHQd+/5f4pC5JND9C0XxSAqoTnrnefq6oZsn6HNp6++byxQI+eYnHJarQkNWpqYHyr38xXBt189ByJTNC1Nsu1YuWZdsMVEUN14m+s4kRZGRFMJl0bs+P6gXEPKOyDdUc9M9WdIjA95dAT+dK2VdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IHb0NH3R; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=IrlNv7ozehP1IgXZ2HajXUGU0Ob5OL86KgVMrAFdOjidIS//AV433yffz89WSA8+Spw4PkzCrXg5SD2LKFS/cPLttU+7JJUglBtyAuTpIHIHt/Gkh48iGVSXA0Cfgyg8hfWtDiSYNt9M4xLj95/PKcghdqe7rMweURavyFJn9Ls=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSGVjZn6; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IHb0NH3R"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 7FA37C2BCC7;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSGVjZn6"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id BD762C2BCC9;
 	Wed,  6 May 2026 14:08:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1778076529;
-	bh=he13BpI06wiOzZiu1NYSjREoNrUOU4biOxg065kNMsw=;
+	bh=+PnoWBfKnfV07TYFgJMKkg0KM9nPZ2plTh6bMfU0YFo=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IHb0NH3ReQwk4APvL/TKcuZYoLY0pOVmB7H6vcBMmRR7R8MPCYOjGZE7Hpr/pHHE7
-	 Z0NPZSUZeAnQgqvsmUUe+6BywbXxDU9AmKZ72EFxupKu/lBYjfv7E8XPO3C1cw85QB
-	 ZJD+KtyhNN/SFFGQQG/bIkTNkfw9iTyNhWGVjvpk+bQ079GnURpFB+pINFSL2tUuUx
-	 L19c7fiIj6x8mrvseSe838nxLAnXQJGzxtmMpUJi103U3X0EM+mA8hlYXofh7Erwuq
-	 KWA5FvzSuJ4aBgfR89rhC4JELsE5azY/+Wo/aho0sStO9up2H8+h1hML6skqRUFzR3
-	 u7MmX1qrhG5cw==
+	b=YSGVjZn6ngxkEzdVw1mme7i1OhkvW0h6puX+63AQRzronM1KubbLDNOOtkS1njI5u
+	 +99wysXmcczYgfprJxoCMs5Zs37w30a/duhD/RGx1w/nZnD3zv23t24pHiarc17Rfh
+	 7rQimxB+v0OX4EHE/Nj8MqHR94UNN3Fu8hQ8VKhXcYja2jVWuY63Rt3Qxl04aAYkUq
+	 c2pWuN+xSJxfjhC47+x9qZ+WxfAnGglYWFKsPNt1CDPJceDHdm3p0bBWH6BuVMRmen
+	 l2xUwDkajD2a3WLSAChCvk6I+Pq2Ft37E0TNL5Riz89okUZgO7BAi7wYMXBTcL6QjQ
+	 AgRqyUXbYmSDQ==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CF80CD3440;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE37DCD3440;
 	Wed,  6 May 2026 14:08:49 +0000 (UTC)
 From: Rodrigo Alencar via B4 Relay <devnull+rodrigo.alencar.analog.com@kernel.org>
-Date: Wed, 06 May 2026 15:08:45 +0100
-Subject: [PATCH v11 01/11] dt-bindings: iio: frequency: add adf41513
+Date: Wed, 06 May 2026 15:08:48 +0100
+Subject: [PATCH v11 04/11] lib: math: div64: add div64_s64_rem()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -40,7 +40,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260506-adf41513-iio-driver-v11-1-2b7e99cfe8f2@analog.com>
+Message-Id: <20260506-adf41513-iio-driver-v11-4-2b7e99cfe8f2@analog.com>
 References: <20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2@analog.com>
 In-Reply-To: <20260506-adf41513-iio-driver-v11-0-2b7e99cfe8f2@analog.com>
 To: linux-kernel@vger.kernel.org, linux-iio@vger.kernel.org, 
@@ -57,14 +57,13 @@ Cc: Jonathan Cameron <jic23@kernel.org>,
  Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
  Sergey Senozhatsky <senozhatsky@chromium.org>, 
  Shuah Khan <skhan@linuxfoundation.org>, 
- Rodrigo Alencar <rodrigo.alencar@analog.com>, 
- Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
+ Rodrigo Alencar <rodrigo.alencar@analog.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778076527; l=9281;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1778076527; l=2261;
  i=rodrigo.alencar@analog.com; s=default; h=from:subject:message-id;
- bh=tXnYXrWFBA1A6jKkSEQT+1r1m7UhAwKuIgpFYm0Tqb4=;
- b=87in1Ang8XsGLght74t3mKqxBvVDAUHAuxYeMqdtuxhZI5gXjrWidaNi5FVOYusm1/4ByfEcS
- wojLrTA6nuPAx7BRN2Rep7KppxcW+yOlDsKnWmN02LHxK23WwedCbn6
+ bh=2v2lygWWRh+YYmi1idrGFbtPNUJ9kh0HFK3mhrgB4es=;
+ b=Iibgqma3FjFih4ZHQPeGQob1ph7EEEmZ6D2J+E/hnphUWl3AJWnE6oStcm7RnRYUsg/Kvnm2J
+ 293XOOo/VsJAix8k9Qbc545JRhiL/5OTcANfcFJ3fMOZojdwHbzF39p
 X-Developer-Key: i=rodrigo.alencar@analog.com; a=ed25519;
  pk=ULeHbgU/OYh/PG/4anHDfLgldFItQHAhOktYRVLMFRo=
 X-Endpoint-Received: by B4 Relay for rodrigo.alencar@analog.com/default
@@ -74,257 +73,78 @@ Reply-To: rodrigo.alencar@analog.com
 
 From: Rodrigo Alencar <rodrigo.alencar@analog.com>
 
-DT-bindings for ADF41513, an ultralow noise PLL frequency synthesizer that
-can be used to implement local oscillators (LOs) as high as 26.5 GHz.
-Some properties are based upon an existing PLL device properties
-(e.g. ADF4350).
+Add div64_s64_rem() function, with 32-bit implementation that uses
+div64_u64_rem() and a branchless approach to resolve the sign of the
+remainder and quotient (negation in two's complement).
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@oss.qualcomm.com>
 Signed-off-by: Rodrigo Alencar <rodrigo.alencar@analog.com>
 ---
- .../bindings/iio/frequency/adi,adf41513.yaml       | 215 +++++++++++++++++++++
- MAINTAINERS                                        |   7 +
- 2 files changed, 222 insertions(+)
+ include/linux/math64.h | 18 ++++++++++++++++++
+ lib/math/div64.c       | 15 +++++++++++++++
+ 2 files changed, 33 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-new file mode 100644
-index 000000000000..2d09cb94b6ff
---- /dev/null
-+++ b/Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
-@@ -0,0 +1,215 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/iio/frequency/adi,adf41513.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices ADF41513 PLL Frequency Synthesizer
-+
-+maintainers:
-+  - Rodrigo Alencar <rodrigo.alencar@analog.com>
-+
-+description:
-+  The ADF41513 is an ultralow noise frequency synthesizer that can be used to
-+  implement local oscillators (LOs) as high as 26.5 GHz in the upconversion and
-+  downconversion sections of wireless receivers and transmitters. The ADF41510
-+  supports frequencies up to 10 GHz.
-+
-+  https://www.analog.com/en/products/adf41510.html
-+  https://www.analog.com/en/products/adf41513.html
-+
-+$ref: /schemas/spi/spi-peripheral-props.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,adf41510
-+      - adi,adf41513
-+
-+  reg:
-+    maxItems: 1
-+
-+  spi-max-frequency:
-+    maximum: 25000000
-+
-+  clocks:
-+    maxItems: 1
-+    description: Clock that provides the reference input frequency.
-+
-+  avdd1-supply:
-+    description: PFD and Up and Down Digital Driver Power Supply (3.3 V)
-+
-+  avdd2-supply:
-+    description: RF Buffer and Prescaler Power Supply (3.3 V)
-+
-+  avdd3-supply:
-+    description: N Divider Power Supply (3.3 V)
-+
-+  avdd4-supply:
-+    description: R Divider and Lock Detector Power Supply (3.3 V)
-+
-+  avdd5-supply:
-+    description: Sigma-Delta Modulator and SPI Power Supply (3.3 V)
-+
-+  vp-supply:
-+    description: Charge Pump Power Supply (3.3 V)
-+
-+  enable-gpios:
-+    description:
-+      GPIO that controls the chip enable pin. A logic low on this pin
-+      powers down the device and puts the charge pump output into
-+      three-state mode.
-+    maxItems: 1
-+
-+  lock-detect-gpios:
-+    description:
-+      GPIO for lock detect functionality. When configured for digital lock
-+      detect, this pin will output a logic high when the PLL is locked.
-+    maxItems: 1
-+
-+  adi,power-up-frequency-mhz:
-+    minimum: 1000
-+    maximum: 26500
-+    default: 10000
-+    description:
-+      The PLL tunes to this frequency during the initialization sequence.
-+      This property should be set to a frequency supported by the loop filter
-+      and VCO used in the design. Range is 1 GHz to 26.5 GHz for ADF41513,
-+      and 1 GHz to 10 GHz for ADF41510.
-+
-+  adi,reference-div-factor:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    minimum: 1
-+    maximum: 32
-+    default: 1
-+    description:
-+      Value for the reference division factor (R Counter). The driver will
-+      increment R Counter as needed to achieve a PFD frequency within the
-+      allowed range. High R counter values will reduce the PFD frequency, which
-+      lowers the frequency resolution, and affects phase noise performance.
-+      As it affects the PFD frequency, this value depends on the loop filter
-+      design.
-+
-+  adi,reference-doubler-enable:
-+    description:
-+      Enables the reference doubler when deriving the PFD frequency.
-+      The maximum reference frequency when the doubler is enabled is 225 MHz.
-+      As it affects the PFD frequency, this value depends on the loop filter
-+      design.
-+    type: boolean
-+
-+  adi,reference-div2-enable:
-+    description:
-+      Enables the reference divide-by-2 function when deriving the PFD
-+      frequency. As it affects the PFD frequency, this value depends on the
-+      loop filter design.
-+    type: boolean
-+
-+  adi,charge-pump-resistor-ohms:
-+    minimum: 1800
-+    maximum: 10000
-+    default: 2700
-+    description:
-+      External charge pump resistor (R_SET) value in ohms. This sets the maximum
-+      charge pump current along with the charge pump current setting.
-+
-+  adi,charge-pump-current-microamp:
-+    description:
-+      Charge pump current (I_CP) in microamps. The value will be rounded to the
-+      nearest supported value. Range of acceptable values depends on the
-+      charge pump resistor value, such that 810 mV <= I_CP * R_SET <= 12960 mV.
-+      This value depends on the loop filter and the VCO design.
-+
-+  adi,logic-level-1v8-enable:
-+    description:
-+      Set MUXOUT and DLD logic levels to 1.8V. Default is 3.3V.
-+    type: boolean
-+
-+  adi,phase-detector-polarity-positive-enable:
-+    description:
-+      Set phase detector polarity to positive. Default is negative.
-+      Use positive polarity with non-inverting loop filter and VCO with
-+      positive tuning slope, or with inverting loop filter and VCO with
-+      negative tuning slope.
-+    type: boolean
-+
-+  adi,lock-detector-count:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    default: 64
-+    description:
-+      Sets the value for Lock Detector count of the PLL, which determines the
-+      number of consecutive phase detector cycles that must be within the lock
-+      detector window before lock is declared. Lower values increase the lock
-+      detection sensitivity, while higher values provides a more stable lock
-+      detection. Applications that consume the lock detect signal may require
-+      different settings based on system requirements.
-+    enum: [2, 4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 4096, 8192]
-+
-+  adi,phase-resync-period-ns:
-+    default: 0
-+    description:
-+      When this value is non-zero, enable phase resync functionality, which
-+      produces a consistent output phase offset with respect to the input
-+      reference. The value specifies the resync period in nanoseconds, used
-+      to configure clock dividers with respect to the PFD frequency. This value
-+      should be set to a value that is at least as long as the worst case lock
-+      time, i.e., it depends mostly on the loop filter design.
-+
-+  adi,le-sync-enable:
-+    description:
-+      Synchronizes Load Enable (LE) transitions with the reference signal to
-+      avoid asynchronous glitches in the output. This is recommended when using
-+      the PLL as a frequency synthesizer, where the reference signal will always
-+      be present while the device is being configured. When using the PLL as a
-+      frequency tracker, where the reference signal may be absent, LE sync
-+      should be left disabled.
-+    type: boolean
-+
-+dependencies:
-+  adi,charge-pump-resistor-ohms: [ 'adi,charge-pump-current-microamp' ]
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - avdd1-supply
-+  - avdd2-supply
-+  - avdd3-supply
-+  - avdd4-supply
-+  - avdd5-supply
-+  - vp-supply
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    spi {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        pll@0 {
-+            compatible = "adi,adf41513";
-+            reg = <0>;
-+            spi-max-frequency = <25000000>;
-+            clocks = <&ref_clk>;
-+            avdd1-supply = <&avdd1_3v3>;
-+            avdd2-supply = <&avdd2_3v3>;
-+            avdd3-supply = <&avdd3_3v3>;
-+            avdd4-supply = <&avdd4_3v3>;
-+            avdd5-supply = <&avdd5_3v3>;
-+            vp-supply = <&vp_3v3>;
-+            enable-gpios = <&gpio0 10 GPIO_ACTIVE_HIGH>;
-+            lock-detect-gpios = <&gpio0 11 GPIO_ACTIVE_HIGH>;
-+
-+            adi,power-up-frequency-mhz = <15500>;
-+            adi,charge-pump-current-microamp = <3600>;
-+            adi,charge-pump-resistor-ohms = <2700>;
-+            adi,reference-doubler-enable;
-+            adi,lock-detector-count = <64>;
-+            adi,phase-resync-period-ns = <0>;
-+            adi,phase-detector-polarity-positive-enable;
-+            adi,le-sync-enable;
-+        };
-+    };
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index bc42e1cacd6b..69646ebe5762 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1662,6 +1662,13 @@ W:	https://ez.analog.com/linux-software-drivers
- F:	Documentation/devicetree/bindings/iio/adc/adi,ade9000.yaml
- F:	drivers/iio/adc/ade9000.c
+diff --git a/include/linux/math64.h b/include/linux/math64.h
+index cc305206d89f..99189410d4bb 100644
+--- a/include/linux/math64.h
++++ b/include/linux/math64.h
+@@ -57,6 +57,20 @@ static inline u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder)
+ 	return dividend / divisor;
+ }
  
-+ANALOG DEVICES INC ADF41513 DRIVER
-+M:	Rodrigo Alencar <rodrigo.alencar@analog.com>
-+L:	linux-iio@vger.kernel.org
-+S:	Supported
-+W:	https://ez.analog.com/linux-software-drivers
-+F:	Documentation/devicetree/bindings/iio/frequency/adi,adf41513.yaml
++/**
++ * div64_s64_rem - signed 64bit divide with 64bit divisor and remainder
++ * @dividend: signed 64bit dividend
++ * @divisor: signed 64bit divisor
++ * @remainder: pointer to signed 64bit remainder
++ *
++ * Return: sets ``*remainder``, then returns dividend / divisor
++ */
++static inline s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder)
++{
++	*remainder = dividend % divisor;
++	return dividend / divisor;
++}
 +
- ANALOG DEVICES INC ADF4377 DRIVER
- M:	Antoniu Miclaus <antoniu.miclaus@analog.com>
- L:	linux-iio@vger.kernel.org
+ /**
+  * div64_u64 - unsigned 64bit divide with 64bit divisor
+  * @dividend: unsigned 64bit dividend
+@@ -102,6 +116,10 @@ extern s64 div_s64_rem(s64 dividend, s32 divisor, s32 *remainder);
+ extern u64 div64_u64_rem(u64 dividend, u64 divisor, u64 *remainder);
+ #endif
+ 
++#ifndef div64_s64_rem
++extern s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder);
++#endif
++
+ #ifndef div64_u64
+ extern u64 div64_u64(u64 dividend, u64 divisor);
+ #endif
+diff --git a/lib/math/div64.c b/lib/math/div64.c
+index d1e92ea24fce..0b10ded09a9b 100644
+--- a/lib/math/div64.c
++++ b/lib/math/div64.c
+@@ -158,6 +158,21 @@ u64 div64_u64(u64 dividend, u64 divisor)
+ EXPORT_SYMBOL(div64_u64);
+ #endif
+ 
++#ifndef div64_s64_rem
++s64 div64_s64_rem(s64 dividend, s64 divisor, s64 *remainder)
++{
++	s64 quot, t, rem;
++
++	quot = div64_u64_rem(abs(dividend), abs(divisor), (u64 *)&rem);
++	t = dividend >> 63;
++	*remainder = (rem ^ t) - t;
++	t = (dividend ^ divisor) >> 63;
++
++	return (quot ^ t) - t;
++}
++EXPORT_SYMBOL(div64_s64_rem);
++#endif
++
+ #ifndef div64_s64
+ s64 div64_s64(s64 dividend, s64 divisor)
+ {
 
 -- 
 2.43.0
