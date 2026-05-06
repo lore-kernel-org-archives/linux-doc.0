@@ -1,188 +1,511 @@
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012017.outbound.protection.outlook.com [52.101.48.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18D69481657;
-	Wed,  6 May 2026 14:39:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778078352; cv=fail; b=MO3yYM0PNnnbNqHCt3m6nhLDJ3nmUQdYi/UnBmiFiyBoB6qQKfT9kvp7CvtmNg+9LjBJEyxf21OGarVvJ2hme6pQEiNKmNbMBap6G4SaDjW7gM2tXzqdMQxVju4NMPNnEIlRJNPET06A2JS7e2TUCFcNBzPFqXkpoWI/QtiGSc4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778078352; c=relaxed/simple;
-	bh=Yau2pgxeJ/Ymzv5T1OLE1qnBj+ZpyqaMA9b+cXxyMxs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=PjLzT5j1X/J+cD8nm5OIPKD+jaEQy18puFOZ3DgP04P9rpohVwL5vFfDyEO9mZ8BdcuNWisg40/xTqdZ88k1aVY+Vy3plguNe+LWQFA0c7cyIVYdexM3kYjXxCe7R6yDVs8N45To2IH67uh66xv+JZwO8iHTlghifC8kn9he4Xc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=tVoQVac2; arc=fail smtp.client-ip=52.101.48.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54920423176;
+	Wed,  6 May 2026 14:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778078563; cv=none; b=rrMN+uoDY7SDPVv/xAke5uR0IkKxjrhI7d6QfyoGNFMw8mUCsvXcRLii5c4sxRczhjmhz3CUsjP5fGvFISJ1peNs6CyEYhNLoC/G2BklAEul042gS6yLgZBsNp7i/JBI9muStcTLUeLbeTXZ/KpuvYzYqI+6H7EIGh0zREMwSfI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778078563; c=relaxed/simple;
+	bh=oEjGrkm85m4UCUmN+tq5hKgVlKjP1DK7bgtzszcGICE=;
+	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type:Content-Disposition; b=O4lwrN48Ugj8bZXHwoOyL+tPCtEz8+zxJXNdTTJk6Ho06uNoujym3IesGh8rg7W/3YWQrPODqpRoLPhyQayH4rPU9jBewi+HhTtnsr43QSxD1PAhcraZ28mMg6+JmMTyvrqwatQ3luHuBxDoSDI6PwOy15r/b++2g91En7Lm2cg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nzT/+nb3; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="tVoQVac2"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gkHJ5NfwFIF1FQ3CpF8dc1hqx5/MsQiDNl74lYITA+/Eomde3YdfI5OuJBPczSMiEWFz1rd1IPk7EejkIbEiZTb0SZzecdV9bFfljGkuLaUVipfhcjWfqH8heiP1ATzmLB+Y1g3dRxgWlDYiuKn+/h95B2NGvUuJeuvhUkm9EvBjc/9qB8eqRQalWgPeTY1eV5CGu8187y/DxUqc9cZFY8bUKTgtE1LC1T1ph0PMvj/ROeH6vLm2a092yoxND8k6hqacmD1AKlMkP9TJUJW9fqLy+XJjrfSlWm56QAghHen4NBsI+ajr0a8uC4g5EBzPKRZvpJZ0vMMzdURa5fF+3w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jfwvUoNUri/d027RrZJbnBXkIiX/G4BeditON25RWsA=;
- b=cNbc4PbNPaDNsWAoqlxeju8Fgv/BgDVly/DctpJC4JdCJZCX0V5XpmVx/JNG+riQq0CqHN8lzWdtjv+J1WS9r4tuhZucQoNtx4Pkn7fz2WQC7ZPUGA4qeGyVRv6ATV/KLqhdJt+lHQz5bJZlnA25hPiIB2BO8eyp/f8OtXU3WXJG+V1+9Adsrd9dApChuKAJR60LwViIt99eVW4qbdl7pM4iuzqzBdtYHv6yDqsgLEifwIPXdYUNFbd9GiPCMR32VTzlz0V1Z2Eo/9CtTP1SkxWThEIBv2Cec6prPolXYQwjOmTsODoX8AGI1UX35eCHTf8KXeimv4v/UhVm/0apRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jfwvUoNUri/d027RrZJbnBXkIiX/G4BeditON25RWsA=;
- b=tVoQVac2wgsQTPd2Rfz0cecDWxy21f1sA9sauCw+MhGenJqsxXfPS8n4iwF2avZ4AHYVyU0riD35FQRuVnbqruSceELo/YFU1+ZdD1LLpSU7E3thDFDc6oSVYUPaHb/gWB3QCPmMjsNKq7gnRLDqPi6ozLPPj4oWfiYTN+C/UNX1zG1+ogaRES17CXuh2EpTLu09OdLq4Oj4KvlXExhGiqkiOX/yXUOcZCm4h82e66yqLT+MCvBvRtULO1mDH67evTHtU77azBgbdxBUCj24ofAfKB5wtpHxW2ZmiURM8HBZVTrJY73o248EcrHIuvV1ELmZzC/Vnc4hru/1UpazHA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
- BL4PR12MB9723.namprd12.prod.outlook.com (2603:10b6:208:4ed::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9891.15; Wed, 6 May
- 2026 14:39:01 +0000
-Received: from DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
- ([fe80::88a9:f314:c95f:8b33%6]) with mapi id 15.20.9891.008; Wed, 6 May 2026
- 14:39:01 +0000
-Message-ID: <2765e680-5fe5-40b7-9c00-dfa1df5b5d73@nvidia.com>
-Date: Wed, 6 May 2026 10:38:56 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 04/22] gpu: nova-core: mm: Add support to use PRAMIN
- windows to write to VRAM
-To: Alexandre Courbot <acourbot@nvidia.com>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Miguel Ojeda <ojeda@kernel.org>, Boqun Feng <boqun@kernel.org>,
- Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "rust-for-linux@vger.kernel.org" <rust-for-linux@vger.kernel.org>,
- "nova-gpu@lists.linux.dev" <nova-gpu@lists.linux.dev>,
- Nikola Djukic <ndjukic@nvidia.com>, David Airlie <airlied@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, John Hubbard <jhubbard@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Edwin Peer <epeer@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
- Andy Ritger <ARitger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
- Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
- Alexey Ivanov <alexeyi@nvidia.com>, Eliot Courtney <ecourtney@nvidia.com>,
- "joel@joelfernandes.org" <joel@joelfernandes.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-References: <20260425211454.174696-1-joelagnelf@nvidia.com>
- <20260425211454.174696-5-joelagnelf@nvidia.com>
- <DI8B0103X0HQ.7C99YLBMS2X5@nvidia.com>
- <DA4303E1-F49E-42BD-99B6-C7472C3BB12F@nvidia.com>
- <DIB6H6HHFW29.816CGQFBOGWC@nvidia.com>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <DIB6H6HHFW29.816CGQFBOGWC@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: CY5PR03CA0002.namprd03.prod.outlook.com
- (2603:10b6:930:8::23) To DS0PR12MB6486.namprd12.prod.outlook.com
- (2603:10b6:8:c5::21)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nzT/+nb3"
+Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C772320B7165;
+	Wed,  6 May 2026 07:42:30 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C772320B7165
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1778078552;
+	bh=Pv1lMoxjQy4DDl27TX7Hfog87twEx3siikQJCVpCXHg=;
+	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
+	b=nzT/+nb3SK+81p1Ya/pp1p5nTNprqfmoj0h78JoPVZd8I4DE/Ezx4Tb16INV5jRU2
+	 KQ5/XM1pGOu87G075JwUpUQq9RR2PLKn+SfAC2lbFQpMmGAq4GnbxdsmE/INRIcRpz
+	 NlDFdtpUNj5EFgdzwRj8jPNbaUfbsApmLXy9L2Gw=
+Date: Wed, 6 May 2026 10:42:31 -0400
+From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
+To: Andy Lutomirski <luto@amacapital.net>
+Cc: Eric Biggers <ebiggers@kernel.org>, 
+ "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
+ <linux-crypto@vger.kernel.org>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
+ <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
+ <linux-api@vger.kernel.org>, 
+ "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
+ <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
+ <netdev@vger.kernel.org>, Linus Torvalds
+ <torvalds@linux-foundation.org>
+Message-ID: <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com>
+In-Reply-To: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
+References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
+Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
+X-Mailer: Mailspring
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|BL4PR12MB9723:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0370b993-c0be-4452-a91b-08deab7d36ac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|18002099003|22082099003|56012099003;
-X-Microsoft-Antispam-Message-Info:
-	CFmUf2LoDilCe/2YKLapdY4wWHc1RAdG7UCUA1LmnXovyCzbR9sjijSO98vm9YeMu9vBAeCw1n2rLcNn+Ndv8pGJrZkCmNGvPy1aPR4iGUB6JUfKJofc7J9OHE8YFSFpgxxmXCirfkpmQeudLd7ZxnkvI6MeCeZ81bMAj+Ur0/RFOYB/RSZHNiFccoNGHdR8KX9URfGCngVzBz4738Hkpt0ksj4mbLHilcPI1oEXLF5UYkXKxVfJQKePiBobdK0rs9sv+cY9Y8fKUSJCjZolBYU4vl8ST+V9S3FMMjt02OjL/G9TSreLcUw0rhzOKnxIWTlT4jssiIuZ7HSYZDwQV1lajFDFMigHSK9X0otmGvovwwqYB9dNEByrZVPU87yLXCWSlbn5+EgzHdrBZgFPl62VPa/RfooFcmrAHqgHt8hzjvL4FVH/c9yVjismly5AfDBq7HoSj85CYCZu+/tPNyoYiex9w5dmsVFomYKTbu7JRqn3qVa1OQJQIYJ1J4DG5icI1n2ul+X5EewAvaNN/09ODLQ7h+t+Cj+IcdCqHZWTIT08Gq7aL5OX9/CmrDunMcN2+Kk69BLXktZINGrojvbMdwWjAxlUJdhtdPEP+hpWZLc83fSM5mOwf9PltMyo9KakXx1W095HV7AsrVnQpibTgRsRJpM6SzUyf4CProk+1m/mFRDCzBiLzoykTKtxaqgsQ6sbHv0Omb+/ReO1nA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(18002099003)(22082099003)(56012099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?eVNYeUxRc24yTHAyN1ZnZ3E2SHp1OXBFN29CRW9ldnY2ODJOVHBvdlQyYmpT?=
- =?utf-8?B?S0Q1RW41STVBSDJzaUs4dmZ0ZmgyMHZPY0tKUkh6Z3o2V1RManZaVlcrY2xh?=
- =?utf-8?B?U0luQ1pRL1VFdVorcU83SlRMWGkvNWVCQWlhVFpPeHRNUGNHYUxQakg3Ym1F?=
- =?utf-8?B?dnVhSFo5NG1FVzVtZ0Q2WmpSMjdUQ0NyT0ZxT3pCMTBrNkd1RC8xY29IZVdL?=
- =?utf-8?B?amhIVkgybFlnV2dmaTZKbHhYOWtvUEt4MnR1TXhhaWNMeEJGY0xVR3dDVW5G?=
- =?utf-8?B?OTQ5Ui92bGwwdzQrbG5Kdm1LYlRNYThnSndWOGdNVllBUUJGTWphcVZ4Ym95?=
- =?utf-8?B?a3puSVJqNzNRY3ZrTXpUR1JITmI3NTZ3bThJQ2Q4RHRRRHBDWHBhQXpKMDJN?=
- =?utf-8?B?K2pBOWtrdkVEelN3NGp2d25xYWdPeGN5QXlpMWMvT1dtTmF2QjFLSHpxR0lB?=
- =?utf-8?B?QW0rQ3JNR1EzZ2IzRkZEd3o1cVNYQXQvQmFuMnlYWnoxcTJyRUdtWnNNeE00?=
- =?utf-8?B?K3RJZWl1UCtBSk4zWTBZWnJXblBuZnZNWThnSGJ0ME9lcmRRQzhpNWpad1dz?=
- =?utf-8?B?cDQvcjhpRFFaVFp6ZldxMlJCQTIvVzRRNVRlUDNvRUlxN0V5Um5Sd1BVR2ZC?=
- =?utf-8?B?YkVJWjd2d2xEVmtrelV0bmQ0VjlEY1UvNkJJSjJhQlltMUtOR1ZEcHd4Nm8x?=
- =?utf-8?B?NW92KzUvQzR1Y1phdzhDWDBOb3BBemNNam1zSXZWZEo1a1hkNlNzZTljTGRp?=
- =?utf-8?B?RjNGYXhkRTVUTVI2Z0NFbk81S1VVMXBtTjhoRXF3dTBBMHNySVpMRXR4RDdH?=
- =?utf-8?B?VnMyejdFQjVUMzRlRTJram44ZVo1OEdXUVlQVm1ac1BiY2tLN2kva21wSHFI?=
- =?utf-8?B?bm1nTEhpSlFVQXdwcVJPZUF3eFJOM2svdVlCOFhXYnRiMUdXV3ZnUVpLU0xl?=
- =?utf-8?B?SFJscmZtdnhYUEtySjZPZ042TlQvZEpVdzVoWisrbUJFVmx3czJOemlqSGlm?=
- =?utf-8?B?UHdVTUo4d3kxejdKU2hpa0o0Z1hITWRmOFdpZHM1aU1obTRwYTVmZE9ma00r?=
- =?utf-8?B?OHJCMlJXcHkrWlV0cVltbTN5cHN6eUJlUWNqTDF4cGRNNGd1UUFMUmlLcFND?=
- =?utf-8?B?Z2NJZkpmQURVc3A4clBrVXRkNlhXZ2RheGxoUXpaZlF2cG9JbXpUdFFnMXlS?=
- =?utf-8?B?czF2NDN1V2JuczRlQi9iY1dmVHdjblorTFFnTktRYjRVUkhFMkR4cmFXM0ZO?=
- =?utf-8?B?QmRIUk9jSGg5UzhWYngxYmhyemp5RVJIbGxTcXRHZ29Fc3ljZXMyM3d6UTNz?=
- =?utf-8?B?Vmsvd0p1V1NEU2t5NkNuVE5TYURMa3VYTWpRcmxnaEo1SWVjWVJrOEFoSVJk?=
- =?utf-8?B?N1FyY3hUVTl1UnJXbWhva0RuR09FbUk2Ym5odlR3Zk55NXBiYStJUmlTdGhq?=
- =?utf-8?B?T0V5MWZya3gxWk1handsSTcvbVNIQjA5ZEVHbWVwdzJXMTFGVjR5dUZnUS9i?=
- =?utf-8?B?bU93SFhORktYYjdMTEpPUTlTcTEvYU4yZ2JSOE42azRIc0VQcVRkTVBVSmxj?=
- =?utf-8?B?M1N2b2ZGZ1hwR1VHLzJCd1pWMFkwclRrV2VNdEUvM1dQK1hwdXhOTTNVN0wr?=
- =?utf-8?B?NmlPSnE3Mk9nYTVsaldVRjFKOExEVkR2UWU4UkVkWXNpM3FzTzRHTjNBQ1Vj?=
- =?utf-8?B?WDgzV2tqV01ZdWxvVXVvQUFjV2NhR0llRU9uM2NzeEZXMitCdENQbG9OeVVj?=
- =?utf-8?B?NjlaT1F1NzhPOFo2RytjY2tmdnVoY2pMQUU0azRabmhSNDV5TzJsVTJPalh6?=
- =?utf-8?B?V2dVVHRXb3grM2sxNUhCZFhRWGc4Wk44MUpZTFBCM2dGdTZ0bUg4TVJrb0hj?=
- =?utf-8?B?djJFMWZDWXV0NEk2ZjZGbDZvWXUxRGoxeW94ZCt3MHg0MTZrNmh4ZThnS2lJ?=
- =?utf-8?B?dm1pc3FkWWFaaFBCZTVXbzVrV2d0N3g4czBVY3BJd0ErenZ4ZUZkZkc2NXNS?=
- =?utf-8?B?RUFQeng5NjRMUVAyR0lrcDJyaXBUS0hwSVRkZ1J2alN3dXpNd2xyaUQ1YVpR?=
- =?utf-8?B?RWlZaWE4aTlINEVVTVJHZi9RNjlsY05BbG82eWF2aGN4ZitpQW1JREwxNU5x?=
- =?utf-8?B?NnptYzZ3Q1RlUXNaM0s2UzVramRJT2VpT3ZtcjN1TTYwN3lYejdPNGVURnlq?=
- =?utf-8?B?TUFsTkZ5NmZwTjZYcVozM29UczU4WGkvekxNczNnV0NBMzRNeUdISnNFN0JS?=
- =?utf-8?B?STZrelZmZkhWaWpUOXhCdmJvanFlVWliN2pnOWtYZGFoeXVXMWQ2Z0t0a01K?=
- =?utf-8?B?NndJSHdZbWtqRmJYNG4xU3lHYUo5NU1uQWV3VmRiOEdFVWRObEtVUT09?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0370b993-c0be-4452-a91b-08deab7d36ac
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 14:39:01.2136
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4wNV7qWfGRlGTYvMqIfuta3Gb/JSHKzHNp/V+6zkmZOcz5b8ZYC3JtH/5lFzI5B5J9aUBR+uMpM7SQQewc2jHg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR12MB9723
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+
+Hi,
+
+On May 5 2026, at 7:17 pm, Andy Lutomirski <luto=40amacapital.net> wrote:=
 
 
+>> On Apr 29, 2026, at 6:19=E2=80=AFPM, Eric Biggers <ebiggers=40kernel.o=
+rg> wrote:
+>> =20
+>> =EF=BB=BFA=46=5FALG is almost completely unnecessary, and it exposes a=
+ massive attack
+>> surface that hasn't been standing up to modern vulnerability discovery=
 
-On 5/5/2026 8:47 PM, Alexandre Courbot wrote:
-> On Wed May 6, 2026 at 7:59 AM JST, Joel Fernandes wrote:
->>
->>
->>> On May 2, 2026, at 11:42 AM, Alexandre Courbot <acourbot@nvidia.com>
->>
->>>> +
->>>> +/// PRAMIN aperture manager.
->>>> +///
->>>> +/// Call [`Pramin::get_window()`] to acquire exclusive PRAMIN access.
->>>> +#[pin_data]
->>>> +pub(crate) struct Pramin {
->>>> +    bar: Arc<Devres<Bar0>>,
->>>
->>> The HRT series [1] will allow you to greatly simplify all this by
->>> storing a `&'a Bar0` directly in this structure. It will most likely
->>> land this cycle, so I think it's a good idea to proactively depend on
->>> them. It should apply cleanly (modulo the Tyr patches IIRC, but you can
->>> skip them if you don't build the driver) on top of `drm-rust-next` - on
->>> top of which this should also be rebased anyway.
->>>
->>> [1] https://lore.kernel.org/all/20260427221155.2144848-1-dakr@kernel.org/
->>>
->>
->> I tried to apply it but had a lot of conflict.
->>
->> Danilo, do you have a tree of these patches somewhere that applies on drm-rust-next?
+>> tools.  The latest one even has its own website, providing a small
+>> Python script that reliably roots most Linux distros: https://copy.fai=
+l/
+> =20
+> How about adding a configuration option, defaulted on, that requires
+> capable(CAP=5FSYS=5FADMIN) to create the socket (and maybe also to bind=
+ /
+> connect it).  And a sysctl to allow the administrator to override this
+> in the unlikely event that it=E2=80=99s needed.
+> =20
+> IIRC cryptsetup used to and maybe even still does require these
+> sockets sometimes and this would let it keep working.  And there's all
+> the =46IPS stuff downthread.
+
+Apologize in advance for the long-winded answer.
+
+The =22=46IPS stuff=22 centers on using sha512hmac -> libkcapi -> A=46=5F=
+ALG for
+verifying integrity. The early=E2=80=91boot sha512hmac check that some
+distributions use (typically from initramfs) sits at an awkward
+intersection of multiple standards, and it may help to clarify where it
+actually fits and where it doesn't.
+
+=46rom a standards perspective, =46IPS=E2=80=AF140=E2=80=913 requires a c=
+ryptographic module
+to perform self=E2=80=91integrity verification using an approved algorith=
+m and
+to prevent the module from entering an operational state on failure. In
+the Linux kernel, the cryptographic module is the kernel crypto
+subsystem, and these requirements are met by the kernel=E2=80=99s interna=
+l
+power=E2=80=91up self=E2=80=91tests (KATs, etc.) on the crypto code and c=
+ritical data as
+loaded into memory.
+
+=46IPS=E2=80=AF199 / SP=E2=80=AF800=E2=80=9153 (e.g., SI=E2=80=917) impos=
+e system=E2=80=91level integrity
+requirements (for Moderate impact systems), i.e., that unauthorized
+modification of critical components is prevented or detected and that
+failures result in a protective action. These controls are explicitly
+technology=E2=80=91agnostic and are not limited to cryptographic=E2=80=91=
+module self=E2=80=91tests.
+
+The sha512hmac check is not the =46IPS=E2=80=AF140=E2=80=913 cryptographi=
+c=E2=80=91module
+self=E2=80=91integrity test. Instead, it has historically been used as a =
+system
+integrity control that provides auditors with assurance that the kernel
+image containing the cryptographic module has not been modified prior to
+execution, and that a failure will halt the boot.
+
+Although =46IPS=E2=80=AF140=E2=80=913 does not mandate an HMAC over the k=
+ernel image, the
+early=E2=80=91boot HMAC became an accepted evidence pattern for satisfyin=
+g
+system=E2=80=91integrity expectations (=46IPS=E2=80=AF199 / SI=E2=80=917)=
+ alongside a kernel
+crypto validation. This is why it is often perceived as =E2=80=9Crequired=
+=E2=80=9D for
+=46IPS submissions, even though it is not normatively required by
+=46IPS=E2=80=AF140=E2=80=913 itself.
+
+With the deprecation/removal of A=46=5FALG for this use case, there is no=
+
+longer a supported way to perform an early=E2=80=91boot, userspace=E2=80=91=
+driven HMAC
+using validated kernel crypto without introducing circular dependencies
+(e.g., relying on userspace crypto before crypto self=E2=80=91tests compl=
+ete).
+As a result, there is no drop=E2=80=91in replacement for sha512hmac that
+preserves all of its historical properties.
+
+This is a new development that challenges a long=E2=80=91standing assumpt=
+ion:
+that system=E2=80=91integrity evidence and cryptographic=E2=80=91module s=
+elf=E2=80=91integrity
+can be cleanly separated while still being demonstrated by a single
+early=E2=80=91boot mechanism. That assumption no longer holds given propo=
+sed
+kernel interfaces.
+
+A more accurate decomposition (and one that aligns with the intent of
+the standards) is to separate integrity enforcement by system phase.
+
+1. Secure Boot (or equivalent platform verification) ensures that a
+modified kernel image is not executed at all. This satisfies the
+requirement that critical components are not loaded in a modified state
+and that integrity failure results in a protective action (boot preventio=
+n).
+
+2. IMA (with appraisal and enforcement) ensures that modified
+executables, modules, or firmware cannot be loaded or executed once the
+kernel is running.
+
+3. Kernel crypto self=E2=80=91tests continue to satisfy =46IPS=E2=80=AF14=
+0=E2=80=913
+self=E2=80=91integrity requirements independently of the above.
+
+Taken together, Secure Boot + IMA provide continuous system=E2=80=91integ=
+rity
+enforcement without re=E2=80=91introducing early=E2=80=91boot HMACs or A=46=
+=5FALG
+dependencies, while keeping cryptographic=E2=80=91module self=E2=80=91int=
+egrity
+correctly scoped to the kernel crypto subsystem.
+
+The transition away from sha512hmac is therefore not a removal of
+integrity enforcement, but a shift from a single, early=E2=80=91boot mech=
+anism
+to a phased integrity model that better reflects the separation of
+concerns already present in the standards =E2=80=94 even though this sepa=
+ration
+was previously masked by the hacky HMAC approach.
+
+This change will require updated documentation and auditor education,
+but it reflects the current technical reality and avoids perpetuating an
+interface that no longer has a sustainable implementation path.
+
+> =20
+> =20
+>> =20
+>> This isn't sustainable, especially as LLMs have accelerated the rate t=
+he
+>> vulnerabilities are coming in.  The effort that is being put into this=
+
+>> thing is vastly disproportional to the few programs that actually use
+>> it, and those programs would be better served by userspace code anyway=
+.
+>> =20
+>> These issues have been noted in many mailing list discussions already.=
+
+>> But until now they haven't been reflected in the documentation or
+>> kconfig menu itself, and the vulnerabilities are still coming in.
+>> =20
+>> Let's go ahead and document the deprecation.
+>> =20
+>> This isn't intended to change anything overnight.  After all, most Lin=
+ux
+>> distros won't be able to disable the kconfig options quite yet, mainly=
+
+>> because of iwd.  But this should create a bit more impetus for these
+>> userspace programs to be fixed, and the documentation update should al=
+so
+>> help prevent more users from appearing.
+>> =20
+>> Signed-off-by: Eric Biggers <ebiggers=40kernel.org>
+>> ---
+>> =20
+>> This patch is targeting crypto/master
+>> =20
+>> Documentation/crypto/userspace-if.rst =7C 82 ++++++++++++++++++++-----=
+--
+>> crypto/Kconfig                        =7C 69 ++++++++++++++++------
+>> 2 files changed, 113 insertions(+), 38 deletions(-)
+>> =20
+>> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/cry=
+pto/userspace-if.rst
+>> index 021759198fe7..c39f5c79a5b7 100644
+>> --- a/Documentation/crypto/userspace-if.rst
+>> +++ b/Documentation/crypto/userspace-if.rst
+>> =40=40 -2,30 +2,72 =40=40 User Space Interface
+>> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> =20
+>> Introduction
+>> ------------
+>> =20
+>> -The concepts of the kernel crypto API visible to kernel space is full=
+y
+>> -applicable to the user space interface as well. Therefore, the kernel=
+
+>> -crypto API high level discussion for the in-kernel use cases applies
+>> -here as well.
+>> -
+>> -The major difference, however, is that user space can only act as a
+>> -consumer and never as a provider of a transformation or cipher
+>> -algorithm.
+>> -
+>> -The following covers the user space interface exported by the kernel
+>> -crypto API. A working example of this description is libkcapi that ca=
+n
+>> -be obtained from =5B1=5D. That library can be used by user space
+>> -applications that require cryptographic services from the kernel.
+>> -
+>> -Some details of the in-kernel kernel crypto API aspects do not apply =
+to
+>> -user space, however. This includes the difference between synchronous=
+
+>> -and asynchronous invocations. The user space API call is fully
+>> -synchronous.
+>> -
+>> -=5B1=5D https://www.chronox.de/libkcapi/index.html
+>> +A=46=5FALG provides unprivileged userspace programs access to arbitra=
+ry hash,
+>> +symmetric cipher, AEAD, and RNG algorithms that are implemented in ke=
+rnel-mode
+>> +code.
+>> +
+>> +A=46=5FALG is insecure and is deprecated. Originally added to the ker=
+nel
+>> in 2010,
+>> +most kernel developers now consider it to be a mistake.
+>> +
+>> +A=46=5FALG continues to be supported only for backwards compatibility=
+.
+>> On systems
+>> +where no programs using A=46=5FALG remain, the support for it should =
+be
+>> disabled by
+>> +disabling =60=60CON=46IG=5FCRYPTO=5FUSER=5FAPI=5F*=60=60.
+>> +
+>> +Deprecation
+>> +-----------
+>> +
+>> +A=46=5FALG was originally intended to provide userspace programs acce=
+ss
+>> to crypto
+>> +accelerators that they wouldn't otherwise have access to.
+>> +
+>> +However, that capability turned out to not be useful on very many
+>> systems. More
+>> +significantly, the actual implementation exposes a vastly greater
+>> amount of
+>> +functionality than that. It actually provides access to all software =
+algorithms.
+>> +
+>> +This includes arbitrary compositions of different algorithms created
+>> via a
+>> +complex template system, as well as algorithms that only make sense
+>> as internal
+>> +implementation details of other algorithms. It also includes full zer=
+o-copy
+>> +support, which is difficult for the kernel to implement securely.
+>> +
+>> +Ultimately, these algorithms are just math computations. They use
+>> the same
+>> +instructions that userspace programs already have access to, just
+>> accessed in a
+>> +much more convoluted and less efficient way.
+>> +
+>> +Indeed, userspace code is nearly always what is being used anyway.
+>> These same
+>> +algorithms are widely implemented in userspace crypto libraries.
+>> +
+>> +Meanwhile, A=46=5FALG hasn't been withstanding modern vulnerability
+>> discovery tools
+>> +such as syzbot and large language models. It receives a steady
+>> stream of CVEs.
+>> +Some of the examples include:
+>> +
+>> +- CVE-2026-31677
+>> +- CVE-2026-31431 (https://copy.fail)
+>> +- CVE-2025-38079
+>> +- CVE-2025-37808
+>> +- CVE-2024-26824
+>> +- CVE-2022-48781
+>> +- CVE-2019-8912
+>> +- CVE-2018-14619
+>> +- CVE-2017-18075
+>> +- CVE-2017-17806
+>> +- CVE-2017-17805
+>> +- CVE-2016-10147
+>> +- CVE-2015-8970
+>> +- CVE-2015-3331
+>> +- CVE-2014-9644
+>> +- CVE-2013-7421
+>> +- CVE-2011-4081
+>> +
+>> +It is recommended that, whenever possible, userspace programs be
+>> migrated to
+>> +userspace crypto code (which again, is what is normally used anyway) =
+and
+>> +=60=60CON=46IG=5FCRYPTO=5FUSER=5FAPI=5F*=60=60 be disabled.  On syste=
+ms that use
+>> SELinux, SELinux
+>> +can also be used to restrict the use of A=46=5FALG to trusted program=
+s.
+>> +
+>> +The remainder of this documentation provides the historical
+>> documentation for
+>> +the deprecated A=46=5FALG interface.
+>> =20
+>> User Space API General Remarks
+>> ------------------------------
+>> =20
+>> The kernel crypto API is accessible from user space. Currently, the
+>> diff --git a/crypto/Kconfig b/crypto/Kconfig
+>> index 103d1f58cb7c..6cd1c478d4be 100644
+>> --- a/crypto/Kconfig
+>> +++ b/crypto/Kconfig
+>> =40=40 -1278,48 +1278,72 =40=40 config CRYPTO=5FD=4680090A
+>>    tristate
+>>    select CRYPTO=5FAES
+>>    select CRYPTO=5FCTR
+>> =20
+>> endmenu
+>> -menu =22Userspace interface=22
+>> +menu =22Userspace interface (deprecated)=22
+>> =20
+>> config CRYPTO=5FUSER=5FAPI
+>>    tristate
+>> =20
+>> config CRYPTO=5FUSER=5FAPI=5FHASH
+>> -    tristate =22Hash algorithms=22
+>> +    tristate =22Hash algorithms (deprecated)=22
+>>    depends on NET
+>>    select CRYPTO=5FHASH
+>>    select CRYPTO=5FUSER=5FAPI
+>>    help
+>> -      Enable the userspace interface for hash algorithms.
+>> +      Enable the A=46=5FALG userspace interface for hash algorithms. =
+ This
+>> +      provides unprivileged userspace programs access to arbitrary ha=
+sh
+>> +      algorithms implemented in the kernel's privileged execution con=
+text.
+>> =20
+>> -      See Documentation/crypto/userspace-if.rst and
+>> -      https://www.chronox.de/libkcapi/html/index.html
+>> +      This interface is deprecated and is supported only for backward=
+s
+>> +      compatibility.  It regularly has vulnerabilities, and the capab=
+ilities
+>> +      it provides are redundant with userspace crypto libraries.
+>> +
+>> +      Enable this only if needed for support for a program that
+>> hasn't yet
+>> +      been converted to userspace crypto, for example iwd.
+>> +
+>> +      See also Documentation/crypto/userspace-if.rst
+>> =20
+>> config CRYPTO=5FUSER=5FAPI=5FSKCIPHER
+>> -    tristate =22Symmetric key cipher algorithms=22
+>> +    tristate =22Symmetric key cipher algorithms (deprecated)=22
+>>    depends on NET
+>>    select CRYPTO=5FSKCIPHER
+>>    select CRYPTO=5FUSER=5FAPI
+>>    help
+>> -      Enable the userspace interface for symmetric key cipher algorit=
+hms.
+>> +      Enable the A=46=5FALG userspace interface for symmetric key alg=
+orithms.
+>> +      This provides unprivileged userspace programs access to arbitra=
+ry
+>> +      symmetric key algorithms implemented in the kernel's privileged=
+
+>> +      execution context.
+>> +
+>> +      This interface is deprecated and is supported only for backward=
+s
+>> +      compatibility.  It regularly has vulnerabilities, and the capab=
+ilities
+>> +      it provides are redundant with userspace crypto libraries.
+>> +
+>> +      Enable this only if needed for support for a program that
+>> hasn't yet
+>> +      been converted to userspace crypto, for example iwd, or cryptse=
+tup
+>> +      with certain algorithms.
+>> =20
+>> -      See Documentation/crypto/userspace-if.rst and
+>> -      https://www.chronox.de/libkcapi/html/index.html
+>> +      See also Documentation/crypto/userspace-if.rst
+>> =20
+>> config CRYPTO=5FUSER=5FAPI=5FRNG
+>> -    tristate =22RNG (random number generator) algorithms=22
+>> +    tristate =22Random number generation algorithms (deprecated)=22
+>>    depends on NET
+>>    select CRYPTO=5FRNG
+>>    select CRYPTO=5FUSER=5FAPI
+>>    help
+>> -      Enable the userspace interface for RNG (random number generator=
+)
+>> -      algorithms.
+>> +      Enable the A=46=5FALG userspace interface for random number gen=
+eration
+>> +      (RNG) algorithms.  This provides unprivileged userspace program=
+s
+>> +      access to arbitrary RNG algorithms implemented in the kernel's
+>> +      privileged execution context.
+>> =20
+>> -      See Documentation/crypto/userspace-if.rst and
+>> -      https://www.chronox.de/libkcapi/html/index.html
+>> +      This interface is deprecated and is supported only for backward=
+s
+>> +      compatibility.  It regularly has vulnerabilities, and the capab=
+ilities
+>> +      it provides are redundant with userspace crypto libraries as
+>> well as
+>> +      the normal kernel RNG (e.g., /dev/urandom and getrandom(2)).
+>> +
+>> +      See also Documentation/crypto/userspace-if.rst
+>> =20
+>> config CRYPTO=5FUSER=5FAPI=5FRNG=5FCAVP
+>>    bool =22Enable CAVP testing of DRBG=22
+>>    depends on CRYPTO=5FUSER=5FAPI=5FRNG && CRYPTO=5FDRBG
+>>    help
+>> =40=40 -1330,20 +1354,29 =40=40 config CRYPTO=5FUSER=5FAPI=5FRNG=5FCAV=
+P
+>> =20
+>>      This should only be enabled for CAVP testing. You should say
+>>      no unless you know what this is.
+>> =20
+>> config CRYPTO=5FUSER=5FAPI=5FAEAD
+>> -    tristate =22AEAD cipher algorithms=22
+>> +    tristate =22AEAD cipher algorithms (deprecated)=22
+>>    depends on NET
+>>    select CRYPTO=5FAEAD
+>>    select CRYPTO=5FSKCIPHER
+>>    select CRYPTO=5FUSER=5FAPI
+>>    help
+>> -      Enable the userspace interface for AEAD cipher algorithms.
+>> +      Enable the A=46=5FALG userspace interface for authenticated enc=
+ryption
+>> +      with associated data (AEAD) algorithms.  This provides unprivil=
+eged
+>> +      userspace programs access to arbitrary AEAD algorithms
+>> implemented in
+>> +      the kernel's privileged execution context.
+>> +
+>> +      This interface is deprecated and is supported only for backward=
+s
+>> +      compatibility.  It regularly has vulnerabilities, and the capab=
+ilities
+>> +      it provides are redundant with userspace crypto libraries.
+>> +
+>> +      Enable this only if needed for support for a program that
+>> hasn't yet
+>> +      been converted to userspace crypto, for example iwd.
+>> =20
+>> -      See Documentation/crypto/userspace-if.rst and
+>> -      https://www.chronox.de/libkcapi/html/index.html
+>> +      See also Documentation/crypto/userspace-if.rst
+>> =20
+>> config CRYPTO=5FUSER=5FAPI=5FENABLE=5FOBSOLETE
+>>    bool =22Obsolete cryptographic algorithms=22
+>>    depends on CRYPTO=5FUSER=5FAPI
+>>    default y
+>> =20
+>> base-commit: 57b8e2d666a31fa201432d58f5fe3469a0dd83ba
+>> --
+>> 2.54.0
+>> =20
+>> =20
 > 
-> I have a tree here, it should build fine as long as Tyr is not enabled:
-> 
-> https://github.com/Gnurou/linux/tree/drm-rust-next-hrt
-
-Thank you Alex, I will give this a try.
-
