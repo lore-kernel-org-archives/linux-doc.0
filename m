@@ -1,116 +1,731 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 852F336308F;
-	Wed,  6 May 2026 10:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778062108; cv=none; b=q6Bv4Tn/QNkDoGu41Ta3ehteAQl+/7KoaeSpFdjhm/J4F6AQPv+Rmt08wJUbOB2nszE3i5wqDXmkiaF1o+hn+Ut80RYrYWcmtFuOA9537N+Lof9ZdYsZXtzVBR/Q05bc5FSEIGTtC134Tg2BwG2aI8HWbLr00rWxrVMXV1aTCrc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778062108; c=relaxed/simple;
-	bh=nZfzghg9raBxGwuKMfOIWHSA+G1JIUmQ1fcBxRlBfWg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X4qxCxkqymZeOgt4oyasKMtGkzB8mU5H8YqrQMX5W4bDZ9bH5DBNSmOT3Nc1d7jnlDyGMS0QNTCl/LfhBFcV6M1/twr5+7l/1S/LoOsqJMplFsFyBGsgZSkI00zDHql0zzYglt+aNdwekcN1wiaXAKM8R5Z6SXLeSBDxjd4T+sU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oFkGu383; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C7F33EFD3B
+	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 10:11:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=170.10.129.124
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778062299; cv=pass; b=TGIt0/UOItaF99jU+OXTraIP4VY0FkvXyc/jqZLUrhP9hbVvAEIQbqxQOVdQPNX37ZnnRl/lqn3POYhkMLoxNNkMX28QwbRQj3m3/feZgiNwJUpaVRYWbd0iVaVsXJz7xVNh08J61Ejq/c7XYyCR7iBtCav0RBejUjMp6wvEo8U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778062299; c=relaxed/simple;
+	bh=a/5XJxr1ODPYKyZVulCiykJHcCyto7lGgNQMSw4UiVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cfnoXLtEkuCGfYpL4Mvc0sbc/YiIsYz/kByJVcpV7HlRcd1vk/Obkg9NbPuZc3WcNe3fKZbyTCg2FK04kr1Gc4+h4kexl17XvlQpwSSEsH3SrSA2zFG0RhNVM22Z4LIz77seE3vQlk/1ntsKaVWEUS3fShNeexyyYx/XJYFnPg4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Cr3V6QFg; dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b=f164vPwp; arc=pass smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oFkGu383"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B330C2BCB8;
-	Wed,  6 May 2026 10:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778062107;
-	bh=nZfzghg9raBxGwuKMfOIWHSA+G1JIUmQ1fcBxRlBfWg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oFkGu383UAaW75R93fVSjEMMqQxImk1WhOeGq3XmlMxt3RERxCCOKdijAT1RgWjwe
-	 NFjFSQngx3fbEzsXhnmCnXPtSylbKo9eCMB+/LRQuBa0CcExkEyZWs0RgjPaXMuwhl
-	 eJ59DOUK79ncDdnxtDrKxY6BhzuUfjrhrspnaSoR/WmLGuGYOIBOZEwcsEbn+2fKQq
-	 xC+abC70rOGVB21uZSMyBO7wohlbnIoDcgGfIUdfxOX0zV+m58rS2m8QXHy61U92i+
-	 wPkQx+daa9KbhlV/w/3PvD+t9QVJi4QwlKwjXeZ+uD8foC+z9XaE5Tp+z5L7dEB0MX
-	 a3qn6yw6o+Yjw==
-Date: Wed, 6 May 2026 12:08:24 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Ketil Johnsen <ketil.johnsen@arm.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Alice Ryhl <aliceryhl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	Florent Tomasin <florent.tomasin@arm.com>
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-Message-ID: <20260506-energetic-azure-pig-2b6ec4@houat>
-References: <20260505140516.1372388-1-ketil.johnsen@arm.com>
- <20260505140516.1372388-5-ketil.johnsen@arm.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Cr3V6QFg";
+	dkim=pass (2048-bit key) header.d=redhat.com header.i=@redhat.com header.b="f164vPwp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1778062295;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=MsOvavuz84uExD4iLxYbhKIOMoMGoa/ix3DcjgpaQNQ=;
+	b=Cr3V6QFghdTMAouBd30XZ2IuHYDP4pVwQig/o6/jp8fBPrWRPzyI1aU3mxS1N524QRBoJG
+	XUafJn2WevmOdGVNOJjiInYQMFUMXY2HMxz8anO+qDPe06tzTJ9Np8npnsuyyTHheDVRNz
+	qdCxqHyH4z4ouY5Ofw8VzMaOFD0LPs8=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-137-A8KWhAceMGyni6ZK8HsO2A-1; Wed, 06 May 2026 06:11:34 -0400
+X-MC-Unique: A8KWhAceMGyni6ZK8HsO2A-1
+X-Mimecast-MFC-AGG-ID: A8KWhAceMGyni6ZK8HsO2A_1778062293
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-79a670a5fe9so138856867b3.1
+        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 03:11:34 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1778062293; cv=none;
+        d=google.com; s=arc-20240605;
+        b=c3e3eSOknUoyuYMiGDGb5t4h/4Iq05tBJ/TxJQ4W8JP9jLFONZ9otqQPoVUIUCzMRa
+         +J347dnazLpBbQXgAD4qyZoJgD5RSWL39H2u+QkSHMZ8dGhV8dQ/mLa3VEp/9KwaDfl7
+         p2COdzbmpW2Fdqp/28EubTuy+e8H+TseuMmhZ1vu0t89RZ2TsAdZZWXWUtz5oY3qa2ju
+         fC0+FaEJSwaODJlmGL6ybf0ef5ocpomnukbLMOeKljeVZECHHs+BeAD1RItqb3gVkYMg
+         m+wVSDwYaVz+VK7v19LetSQ3idzi0qUo4gtWYX2Zky3zgFkGy6XxiMMeUXBHWJBi8fla
+         CeGw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=MsOvavuz84uExD4iLxYbhKIOMoMGoa/ix3DcjgpaQNQ=;
+        fh=CIJcT4qd4NVpb3KbhYW0U22B7BpTeoEP23LpEQo5Vt8=;
+        b=YWDWjmxvlk/rQKLW4qe2hRqTsP7c10fE6tAFrgcDpvl/nsDnL0RStr0gcL26CLs8Bg
+         sMeTLgpQLU+7FerQsPeeY4Q/7DiCMbpzZlrEuCVLKxBNNMRongbxjJMg0RSj+xFMp2Ky
+         sgCNc+KiV0ZVYd0KHs+qzoQROAVVWA5vJtvsJP9whudjz6GkCRf0xUfDeMGBoJgSYfaM
+         HdLeHw5ova38uUaWMAXO4Q0BR6fKdjEwC4lQmSjGumfUQ5BwYE23/zlV0TbA8IWdIsa7
+         GVDXkg0xqI01ULt6UrzZEeDFhP3pU2uY9lqSv0ND4LptLX4HB4tkchq039hGz8S0tXbO
+         WFKw==;
+        darn=vger.kernel.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=redhat.com; s=google; t=1778062293; x=1778667093; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MsOvavuz84uExD4iLxYbhKIOMoMGoa/ix3DcjgpaQNQ=;
+        b=f164vPwpkzZVFbygOz2Y0PJQN3OkKbxvjqz9Ol00Cumt1eTh7QC7Wms9r8wTewBOI1
+         SjmWWYa0eoF7U1LdTHGr3AjTS1qR3GBXxtmMEGBqp2ImnhAhbzNcaGJg5f90WDzFuWXP
+         RdV1js2a+zBL39bCj1xlNcHw/2vR1+zo/Lo3VEKSvf8+EY7rZ0QrLXNMe4qyHXlMskr7
+         8YCYr5jT6TaKKhSRqf9STdTiwQxZV2YuxSSTkzMblYt0Re/Em5/baWWOrHC8vaM9perh
+         y6sjLKptesOLQKni8quFce+pnktmS67EObObcsfSjbZX2Eagz0fifM7LbwTGgkYOv7xW
+         XIsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778062293; x=1778667093;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=MsOvavuz84uExD4iLxYbhKIOMoMGoa/ix3DcjgpaQNQ=;
+        b=oC5B99CFO2C3sgizMisdlubz65TuNE7uUauyaDahX9lHrY3pWxabilQf+x8N1LF6d9
+         kjVpkOQ04aUahLdK7wTENJLY2LFAXYy6sEL/M87tzMNRSrFAKnrxszUzabiPOglUxt1Q
+         7uWIV/HEHPIhJDT6IhUcKnWkxGKHUnfPNw2Teyhsd5PcENHVtTAw5WZ/yYl2x944eSFx
+         U1wQUc7+rwjuc+31oBTUaKXvIXV2by9ifVbCdydIo77iNFjcNpKg8ih1Q6/aw8lP6GtS
+         IxUIOlxznH/oiNSjzimuidaJpJSdA3lemNbqSlCk2Wpywzx+4IPGjpqFitRXXCy/0AyT
+         d3Og==
+X-Forwarded-Encrypted: i=1; AFNElJ/NREkgE5zKmCMqeoHJfVCf6rlPVmuZedmnWVHCUzd/cwdBuin1e/F15tOz3SZKSFvDLtbKWV+2BXU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjHrwb4SFtak+XRF72sDVYI5kNF2bFDAgtBTuqivMugLu/JdPo
+	pJI1UioE+HP30Afcu9wZHYSZpb6IvhlApKvjiEBH1vw9cmOdR0woEGyWICkWaJvt1CoCot1PV5Q
+	JkF04YeJxwrxOUQxloF03oG5WkECecKYMgrn9oei9sFys3ML1ZuO5xVNQkit+ZxxVIQZPiGI73t
+	mHQX2jmpT1rAMvZLe7AXlwqqHuTkX/3q8qxcL4
+X-Gm-Gg: AeBDieuaFihyZ/T20I2pxwBxlnLcux/S7sEd56dcMn+axPGKnS9CsYuK8NCgkYjDkma
+	VkehZ2cfsWa/MYLTrSZ/0+NUdIbfIYI+U7ZVWc9SRqx8y5kxzfDfwivrkDMWQG37hyKRYpYi60B
+	5SPeJGGtPR4n7lwP0KkBbeP5VpAVP5CEB6uucY2i3qWDLzyfczgbIDce6YKSBZFgeEd+c9T6oXE
+	7zzd2R4E3QM767h
+X-Received: by 2002:a05:690e:1481:b0:650:17fe:1a9c with SMTP id 956f58d0204a3-65c799b2a80mr3072223d50.33.1778062293288;
+        Wed, 06 May 2026 03:11:33 -0700 (PDT)
+X-Received: by 2002:a05:690e:1481:b0:650:17fe:1a9c with SMTP id
+ 956f58d0204a3-65c799b2a80mr3072180d50.33.1778062292622; Wed, 06 May 2026
+ 03:11:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="bm3tokjqjresnbu6"
-Content-Disposition: inline
-In-Reply-To: <20260505140516.1372388-5-ketil.johnsen@arm.com>
-
-
---bm3tokjqjresnbu6
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
+References: <20260504-kunit_add_support-v8-0-3e5957cdd235@redhat.com>
+ <20260504-kunit_add_support-v8-1-3e5957cdd235@redhat.com> <c5c28f16-3940-4960-84e6-33f5479a5450@davidgow.net>
+In-Reply-To: <c5c28f16-3940-4960-84e6-33f5479a5450@davidgow.net>
+From: Albert Esteve <aesteve@redhat.com>
+Date: Wed, 6 May 2026 12:11:21 +0200
+X-Gm-Features: AVHnY4Imsl4W_J-H_4zB9-E8cFlW4-V2-ioi85GEvrQpNjDRg5Q8jH9CAHJamU0
+Message-ID: <CADSE00KLhyUpRD031-YveOv+o71jJ-NojX6VteSyF+SqxG0n4g@mail.gmail.com>
+Subject: Re: [PATCH v8 1/4] bug/kunit: Core support for suppressing warning backtraces
+To: David Gow <david@davidgow.net>
+Cc: Arnd Bergmann <arnd@arndb.de>, Brendan Higgins <brendan.higgins@linux.dev>, 
+	Rae Moar <raemoar63@gmail.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, 
+	Paul Walmsley <pjw@kernel.org>, Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+	Alexandre Ghiti <alex@ghiti.fr>, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kunit-dev@googlegroups.com, 
+	dri-devel@lists.freedesktop.org, workflows@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org, 
+	peterz@infradead.org, Alessandro Carminati <acarmina@redhat.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Kees Cook <kees@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 4/8] drm/panthor: Add support for protected memory
- allocation in panthor
-MIME-Version: 1.0
 
-Hi,
+On Wed, May 6, 2026 at 11:40=E2=80=AFAM David Gow <david@davidgow.net> wrot=
+e:
+>
+> Le 04/05/2026 =C3=A0 3:41 PM, Albert Esteve a =C3=A9crit :
+> > From: Alessandro Carminati <acarmina@redhat.com>
+> >
+> > Some unit tests intentionally trigger warning backtraces by passing bad
+> > parameters to kernel API functions. Such unit tests typically check the
+> > return value from such calls, not the existence of the warning backtrac=
+e.
+> >
+> > Such intentionally generated warning backtraces are neither desirable
+> > nor useful for a number of reasons:
+> > - They can result in overlooked real problems.
+> > - A warning that suddenly starts to show up in unit tests needs to be
+> >    investigated and has to be marked to be ignored, for example by
+> >    adjusting filter scripts. Such filters are ad hoc because there is
+> >    no real standard format for warnings. On top of that, such filter
+> >    scripts would require constant maintenance.
+> >
+> > Solve the problem by providing a means to suppress warning backtraces
+> > originating from the current kthread while executing test code. Since
+> > each KUnit test runs in its own kthread, this effectively scopes
+> > suppression to the test that enabled it. Limit changes to generic code
+> > to the absolute minimum.
+> >
+> > Implementation details:
+> > Suppression is integrated into the existing KUnit hooks infrastructure
+> > in test-bug.h, reusing the kunit_running static branch for zero
+> > overhead when no tests are running.
+> >
+> > Suppression is checked at three points in the warning path:
+> > - In warn_slowpath_fmt(), the check runs before any output, fully
+> >    suppressing both message and backtrace. This covers architectures
+> >    without __WARN_FLAGS.
+> > - In __warn_printk(), the check suppresses the warning message text.
+> >    This covers architectures that define __WARN_FLAGS but not their own
+> >    __WARN_printf (arm64, loongarch, parisc, powerpc, riscv, sh), where
+> >    the message is printed before the trap enters __report_bug().
+> > - In __report_bug(), the check runs before __warn() is called,
+> >    suppressing the backtrace and stack dump.
+> >
+> > To avoid double-counting on architectures where both __warn_printk()
+> > and __report_bug() run for the same warning, kunit_is_suppressed_warnin=
+g()
+> > takes a bool parameter: true to increment the suppression counter
+> > (used in warn_slowpath_fmt and __report_bug), false to check only
+> > (used in __warn_printk).
+> >
+> > The suppression state is dynamically allocated via kunit_kzalloc() and
+> > tied to the KUnit test lifecycle via kunit_add_action(), ensuring
+> > automatic cleanup at test exit. Writer-side access to the global
+> > suppression list is serialized with a spinlock; readers use RCU.
+> >
+> > Three API forms are provided:
+> > - kunit_warning_suppress(test) { ... }: scoped, uses __cleanup for
+> >    automatic teardown on scope exit, kunit_add_action() as safety net
+> >    for abnormal exits (e.g. kthread_exit from failed assertions).
+> >    Suppression handle is only accessible inside the block.
+> > - KUNIT_START/END_SUPPRESSED_WARNING(test): manual macros for larger
+> >    blocks or when warning counts need to be checked after suppression
+> >    ends. Limited to one pair per scope.
+> > - kunit_start/end_suppress_warning(test): direct functions returning
+> >    an explicit handle, for retaining the handle within the test,
+> >    or for cross-function usage.
+> >
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > Signed-off-by: Alessandro Carminati <acarmina@redhat.com>
+> > Reviewed-by: Kees Cook <kees@kernel.org>
+> > Signed-off-by: Albert Esteve <aesteve@redhat.com>
+> > ---
+>
+> This looks pretty good to me, thanks.
+>
+> Reviewed-by: David Gow <david@davidgow.net>
+>
+> It's maybe slightly over-the-top to now have three different ways of
+> enabling warning suppression: I'd probably personally get rid of
+> KUNIT_START/END_SUPPRESSED_WARNING() if we had to lose one. But if
+> there's a real reason to prefer keeping all three, it's not actually a
+> problem to do so.
 
-On Tue, May 05, 2026 at 04:05:10PM +0200, Ketil Johnsen wrote:
-> From: Florent Tomasin <florent.tomasin@arm.com>
->=20
-> This patch allows Panthor to allocate buffer objects from a
-> protected heap. The Panthor driver should be seen as a consumer
-> of the heap and not an exporter.
->=20
-> Protected memory buffers needed by the Panthor driver:
-> - On CSF FW load, the Panthor driver must allocate a protected
->   buffer object to hold data to use by the FW when in protected
->   mode. This protected buffer object is owned by the device
->   and does not belong to a process.
-> - On CSG creation, the Panthor driver must allocate a protected
->   suspend buffer object for the FW to store data when suspending
->   the CSG while in protected mode. The kernel owns this allocation
->   and does not allow user space mapping. The format of the data
->   in this buffer is only known by the FW and does not need to be
->   shared with other entities.
->=20
-> The driver will retrieve the protected heap using the name of the
-> heap provided to the driver as module parameter.
+Thanks for the review!
 
-I know it's what dma_heap_find asks for, but I wonder if it wouldn't be
-better in the device tree and lookup through the device node? heaps are
-going to have a node anyway, right?
+I think the three forms earn their keep: the scoped form is the go-to
+for most cases, but the macros avoid indentation without requiring
+users to manage a raw pointer. I initially removed the macros and
+added them back later. Direct calls to the functions will be less
+frequent, used only when you need the handle.
 
-This would allow you to have a default that works and not mess to much
-with the kernel parameters that aren't always easy to change for
-end-users.
+That said, if it becomes a maintenance burden, the macros are the
+easiest to drop since they're thin wrappers. Let me know if you prefer
+them to be dropped, and I will send a v9 with that and the
+`KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT` additions to the drm test
+patch.
 
-Maxime
+BR,
+Albert.
 
---bm3tokjqjresnbu6
-Content-Type: application/pgp-signature; name="signature.asc"
+>
+> Regardless, this series is looking pretty ready to me. Let me know if
+> you're planning a v9, otherwise we'll take this when you're ready.
+>
+> Cheers,
+> -- David
+>
+> >   include/kunit/test-bug.h |  25 +++++++++
+> >   include/kunit/test.h     | 138 ++++++++++++++++++++++++++++++++++++++=
++++++++++
+> >   kernel/panic.c           |  15 +++++-
+> >   lib/bug.c                |  10 ++++
+> >   lib/kunit/Makefile       |   3 +-
+> >   lib/kunit/bug.c          | 115 ++++++++++++++++++++++++++++++++++++++=
++
+> >   lib/kunit/hooks-impl.h   |   2 +
+> >   7 files changed, 305 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/include/kunit/test-bug.h b/include/kunit/test-bug.h
+> > index 47aa8f21ccce8..6237e48ceadfd 100644
+> > --- a/include/kunit/test-bug.h
+> > +++ b/include/kunit/test-bug.h
+> > @@ -23,6 +23,7 @@ DECLARE_STATIC_KEY_FALSE(kunit_running);
+> >   extern struct kunit_hooks_table {
+> >       __printf(3, 4) void (*fail_current_test)(const char*, int, const =
+char*, ...);
+> >       void *(*get_static_stub_address)(struct kunit *test, void *real_f=
+n_addr);
+> > +     bool (*is_suppressed_warning)(bool count);
+> >   } kunit_hooks;
+> >
+> >   /**
+> > @@ -60,9 +61,33 @@ static inline struct kunit *kunit_get_current_test(v=
+oid)
+> >               }                                                        =
+       \
+> >       } while (0)
+> >
+> > +/**
+> > + * kunit_is_suppressed_warning() - Check if warnings are being suppres=
+sed
+> > + *                                 by the current KUnit test.
+> > + * @count: if true, increment the suppression counter on match.
+> > + *
+> > + * Returns true if the current task has active warning suppression.
+> > + * Uses the kunit_running static branch for zero overhead when no test=
+s run.
+> > + *
+> > + * A single WARN*() may traverse multiple call sites in the warning pa=
+th
+> > + * (e.g., __warn_printk() and __report_bug()). Pass @count =3D true at=
+ the
+> > + * primary suppression point to count each warning exactly once, and
+> > + * @count =3D false at secondary points to suppress output without
+> > + * inflating the count.
+> > + */
+> > +static inline bool kunit_is_suppressed_warning(bool count)
+> > +{
+> > +     if (!static_branch_unlikely(&kunit_running))
+> > +             return false;
+> > +
+> > +     return kunit_hooks.is_suppressed_warning &&
+> > +            kunit_hooks.is_suppressed_warning(count);
+> > +}
+> > +
+> >   #else
+> >
+> >   static inline struct kunit *kunit_get_current_test(void) { return NUL=
+L; }
+> > +static inline bool kunit_is_suppressed_warning(bool count) { return fa=
+lse; }
+> >
+> >   #define kunit_fail_current_test(fmt, ...) do {} while (0)
+> >
+> > diff --git a/include/kunit/test.h b/include/kunit/test.h
+> > index 9cd1594ab697d..f278ec028019c 100644
+> > --- a/include/kunit/test.h
+> > +++ b/include/kunit/test.h
+> > @@ -1795,4 +1795,142 @@ do {                                           =
+                              \
+> >   // include resource.h themselves if they need it.
+> >   #include <kunit/resource.h>
+> >
+> > +/*
+> > + * Warning backtrace suppression API.
+> > + *
+> > + * Suppresses WARN*() backtraces on the current task while active. Thr=
+ee forms
+> > + * are provided, in order of convenience:
+> > + *
+> > + * - Scoped: kunit_warning_suppress(test) { ... }
+> > + *   Suppression is active for the duration of the block. On normal ex=
+it,
+> > + *   the for-loop increment deactivates suppression. On early exit (br=
+eak,
+> > + *   return, goto), the __cleanup attribute fires. On kthread_exit() (=
+e.g.,
+> > + *   a failed KUnit assertion), kunit_add_action() cleans up at test
+> > + *   teardown. The suppression handle is only accessible inside the bl=
+ock,
+> > + *   so warning counts must be checked before the block exits.
+> > + *
+> > + * - Manual macros: KUNIT_[START|END]_SUPPRESSED_WARNING(test)
+> > + *   Suppression spans an explicit range in the same scope. kunit_add_=
+action()
+> > + *   guarantees cleanup even if KUNIT_END_SUPPRESSED_WARNING() is not =
+reached.
+> > + *   Prefer this form when suppressing warnings across a large block w=
+here
+> > + *   extra indentation is undesirable, or when the warning count needs=
+ to be
+> > + *   checked after suppression ends. Limited to one pair per scope.
+> > + *
+> > + * - Direct: kunit_start_suppress_warning() / kunit_end_suppress_warni=
+ng()
+> > + *   The underlying functions, returning an explicit handle pointer. U=
+se
+> > + *   when the handle needs to be retained (e.g., for post-suppression
+> > + *   count checks) or passed across helper functions.
+> > + */
+> > +struct kunit_suppressed_warning;
+> > +
+> > +struct kunit_suppressed_warning *
+> > +kunit_start_suppress_warning(struct kunit *test);
+> > +void kunit_end_suppress_warning(struct kunit *test,
+> > +                             struct kunit_suppressed_warning *w);
+> > +int kunit_suppressed_warning_count(struct kunit_suppressed_warning *w)=
+;
+> > +void __kunit_suppress_auto_cleanup(struct kunit_suppressed_warning **w=
+p);
+> > +bool kunit_has_active_suppress_warning(void);
+> > +
+> > +/**
+> > + * kunit_warning_suppress() - Suppress WARN*() backtraces for the dura=
+tion
+> > + *                            of a block.
+> > + * @test: The test context object.
+> > + *
+> > + * Scoped form of the suppression API. Suppression starts when the blo=
+ck is
+> > + * entered and ends automatically when the block exits through any pat=
+h. See
+> > + * the section comment above for the cleanup guarantees on each exit p=
+ath.
+> > + * Fails the test if suppression is already active; nesting is not sup=
+ported.
+> > + *
+> > + * The warning count can be checked inside the block via
+> > + * KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(). The handle is not accessib=
+le
+> > + * after the block exits.
+> > + *
+> > + * Example::
+> > + *
+> > + *   kunit_warning_suppress(test) {
+> > + *       trigger_warning();
+> > + *       KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> > + *   }
+> > + */
+> > +#define kunit_warning_suppress(test)                                 \
+> > +     for (struct kunit_suppressed_warning *__kunit_suppress          \
+> > +          __cleanup(__kunit_suppress_auto_cleanup) =3D                =
+ \
+> > +          kunit_start_suppress_warning(test);                        \
+> > +          __kunit_suppress;                                          \
+> > +          kunit_end_suppress_warning(test, __kunit_suppress),        \
+> > +          __kunit_suppress =3D NULL)
+> > +
+> > +/**
+> > + * KUNIT_START_SUPPRESSED_WARNING() - Begin suppressing WARN*() backtr=
+aces.
+> > + * @test: The test context object.
+> > + *
+> > + * Manual form of the suppression API. Must be paired with
+> > + * KUNIT_END_SUPPRESSED_WARNING() in the same scope. See the section c=
+omment
+> > + * above for cleanup guarantees. Fails the test if suppression is alre=
+ady
+> > + * active; nesting is not supported. Limited to one pair per scope; us=
+e
+> > + * sequential kunit_warning_suppress() blocks or the direct function A=
+PI
+> > + * when more than one suppression region is needed.
+> > + *
+> > + * Example::
+> > + *
+> > + *   KUNIT_START_SUPPRESSED_WARNING(test);
+> > + *   trigger_code_that_should_warn_once();
+> > + *   KUNIT_END_SUPPRESSED_WARNING(test);
+> > + *   KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, 1);
+> > + */
+> > +#define KUNIT_START_SUPPRESSED_WARNING(test)                         \
+> > +     struct kunit_suppressed_warning *__kunit_suppress =3D            =
+ \
+> > +             kunit_start_suppress_warning(test)
+> > +
+> > +/**
+> > + * KUNIT_END_SUPPRESSED_WARNING() - End suppressing WARN*() backtraces=
+.
+> > + * @test: The test context object.
+> > + *
+> > + * Deactivates suppression started by KUNIT_START_SUPPRESSED_WARNING()=
+.
+> > + * The warning count remains readable via KUNIT_SUPPRESSED_WARNING_COU=
+NT()
+> > + * after this call.
+> > + */
+> > +#define KUNIT_END_SUPPRESSED_WARNING(test)                           \
+> > +     kunit_end_suppress_warning(test, __kunit_suppress)
+> > +
+> > +/**
+> > + * KUNIT_SUPPRESSED_WARNING_COUNT() - Returns the suppressed warning c=
+ount.
+> > + *
+> > + * Returns the number of WARN*() calls suppressed since the current
+> > + * suppression block started, or 0 if the handle is NULL. Usable insid=
+e a
+> > + * kunit_warning_suppress() block or after KUNIT_END_SUPPRESSED_WARNIN=
+G().
+> > + */
+> > +#define KUNIT_SUPPRESSED_WARNING_COUNT() \
+> > +     kunit_suppressed_warning_count(__kunit_suppress)
+> > +
+> > +/**
+> > + * KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT() - Sets an expectation that =
+the
+> > + *                                           suppressed warning count =
+equals
+> > + *                                           @expected.
+> > + * @test: The test context object.
+> > + * @expected: an expression that evaluates to the expected warning cou=
+nt.
+> > + *
+> > + * Sets an expectation that the number of suppressed WARN*() calls equ=
+als
+> > + * @expected. This is semantically equivalent to
+> > + * KUNIT_EXPECT_EQ(@test, KUNIT_SUPPRESSED_WARNING_COUNT(), @expected)=
+.
+> > + * See KUNIT_EXPECT_EQ() for more information.
+> > + */
+> > +#define KUNIT_EXPECT_SUPPRESSED_WARNING_COUNT(test, expected) \
+> > +     KUNIT_EXPECT_EQ(test, KUNIT_SUPPRESSED_WARNING_COUNT(), expected)
+> > +
+> > +/**
+> > + * KUNIT_ASSERT_SUPPRESSED_WARNING_COUNT() - Sets an assertion that th=
+e
+> > + *                                           suppressed warning count =
+equals
+> > + *                                           @expected.
+> > + * @test: The test context object.
+> > + * @expected: an expression that evaluates to the expected warning cou=
+nt.
+> > + *
+> > + * Sets an assertion that the number of suppressed WARN*() calls equal=
+s
+> > + * @expected. This is the same as KUNIT_EXPECT_SUPPRESSED_WARNING_COUN=
+T(),
+> > + * except it causes an assertion failure (see KUNIT_ASSERT_TRUE()) whe=
+n the
+> > + * assertion is not met.
+> > + */
+> > +#define KUNIT_ASSERT_SUPPRESSED_WARNING_COUNT(test, expected) \
+> > +     KUNIT_ASSERT_EQ(test, KUNIT_SUPPRESSED_WARNING_COUNT(), expected)
+> > +
+> >   #endif /* _KUNIT_TEST_H */
+> > diff --git a/kernel/panic.c b/kernel/panic.c
+> > index c78600212b6c1..697d8ca054bef 100644
+> > --- a/kernel/panic.c
+> > +++ b/kernel/panic.c
+> > @@ -39,6 +39,7 @@
+> >   #include <linux/sys_info.h>
+> >   #include <trace/events/error_report.h>
+> >   #include <asm/sections.h>
+> > +#include <kunit/test-bug.h>
+> >
+> >   #define PANIC_TIMER_STEP 100
+> >   #define PANIC_BLINK_SPD 18
+> > @@ -1080,9 +1081,14 @@ void __warn(const char *file, int line, void *ca=
+ller, unsigned taint,
+> >   void warn_slowpath_fmt(const char *file, int line, unsigned taint,
+> >                      const char *fmt, ...)
+> >   {
+> > -     bool rcu =3D warn_rcu_enter();
+> > +     bool rcu;
+> >       struct warn_args args;
+> >
+> > +     if (kunit_is_suppressed_warning(true))
+> > +             return;
+> > +
+> > +     rcu =3D warn_rcu_enter();
+> > +
+> >       pr_warn(CUT_HERE);
+> >
+> >       if (!fmt) {
+> > @@ -1102,9 +1108,14 @@ EXPORT_SYMBOL(warn_slowpath_fmt);
+> >   #else
+> >   void __warn_printk(const char *fmt, ...)
+> >   {
+> > -     bool rcu =3D warn_rcu_enter();
+> > +     bool rcu;
+> >       va_list args;
+> >
+> > +     if (kunit_is_suppressed_warning(false))
+> > +             return;
+> > +
+> > +     rcu =3D warn_rcu_enter();
+> > +
+> >       pr_warn(CUT_HERE);
+> >
+> >       va_start(args, fmt);
+> > diff --git a/lib/bug.c b/lib/bug.c
+> > index 623c467a8b76c..a5cebde554ed8 100644
+> > --- a/lib/bug.c
+> > +++ b/lib/bug.c
+> > @@ -48,6 +48,7 @@
+> >   #include <linux/rculist.h>
+> >   #include <linux/ftrace.h>
+> >   #include <linux/context_tracking.h>
+> > +#include <kunit/test-bug.h>
+> >
+> >   extern struct bug_entry __start___bug_table[], __stop___bug_table[];
+> >
+> > @@ -223,6 +224,15 @@ static enum bug_trap_type __report_bug(struct bug_=
+entry *bug, unsigned long buga
+> >       no_cut   =3D bug->flags & BUGFLAG_NO_CUT_HERE;
+> >       has_args =3D bug->flags & BUGFLAG_ARGS;
+> >
+> > +#ifdef CONFIG_KUNIT
+> > +     /*
+> > +      * Before the once logic so suppressed warnings do not consume
+> > +      * the single-fire budget of WARN_ON_ONCE().
+> > +      */
+> > +     if (warning && kunit_is_suppressed_warning(true))
+> > +             return BUG_TRAP_TYPE_WARN;
+> > +#endif
+> > +
+> >       if (warning && once) {
+> >               if (done)
+> >                       return BUG_TRAP_TYPE_WARN;
+> > diff --git a/lib/kunit/Makefile b/lib/kunit/Makefile
+> > index 656f1fa35abcc..4592f9d0aa8dd 100644
+> > --- a/lib/kunit/Makefile
+> > +++ b/lib/kunit/Makefile
+> > @@ -10,7 +10,8 @@ kunit-objs +=3D                               test.o =
+\
+> >                                       executor.o \
+> >                                       attributes.o \
+> >                                       device.o \
+> > -                                     platform.o
+> > +                                     platform.o \
+> > +                                     bug.o
+> >
+> >   ifeq ($(CONFIG_KUNIT_DEBUGFS),y)
+> >   kunit-objs +=3D                               debugfs.o
+> > diff --git a/lib/kunit/bug.c b/lib/kunit/bug.c
+> > new file mode 100644
+> > index 0000000000000..b0b6778d7399a
+> > --- /dev/null
+> > +++ b/lib/kunit/bug.c
+> > @@ -0,0 +1,115 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * KUnit helpers for backtrace suppression
+> > + *
+> > + * Copyright (C) 2025 Alessandro Carminati <acarmina@redhat.com>
+> > + * Copyright (C) 2024 Guenter Roeck <linux@roeck-us.net>
+> > + */
+> > +
+> > +#include <kunit/resource.h>
+> > +#include <linux/export.h>
+> > +#include <linux/rculist.h>
+> > +#include <linux/sched.h>
+> > +#include <linux/spinlock.h>
+> > +
+> > +#include "hooks-impl.h"
+> > +
+> > +struct kunit_suppressed_warning {
+> > +     struct list_head node;
+> > +     struct task_struct *task;
+> > +     struct kunit *test;
+> > +     int counter;
+> > +};
+> > +
+> > +static LIST_HEAD(suppressed_warnings);
+> > +static DEFINE_SPINLOCK(suppressed_warnings_lock);
+> > +
+> > +static void kunit_suppress_warning_remove(struct kunit_suppressed_warn=
+ing *w)
+> > +{
+> > +     unsigned long flags;
+> > +
+> > +     spin_lock_irqsave(&suppressed_warnings_lock, flags);
+> > +     list_del_rcu(&w->node);
+> > +     spin_unlock_irqrestore(&suppressed_warnings_lock, flags);
+> > +     synchronize_rcu(); /* Wait for readers to finish */
+> > +}
+> > +
+> > +KUNIT_DEFINE_ACTION_WRAPPER(kunit_suppress_warning_cleanup,
+> > +                         kunit_suppress_warning_remove,
+> > +                         struct kunit_suppressed_warning *);
+> > +
+> > +bool kunit_has_active_suppress_warning(void)
+> > +{
+> > +     return __kunit_is_suppressed_warning_impl(false);
+> > +}
+> > +EXPORT_SYMBOL_GPL(kunit_has_active_suppress_warning);
+> > +
+> > +struct kunit_suppressed_warning *
+> > +kunit_start_suppress_warning(struct kunit *test)
+> > +{
+> > +     struct kunit_suppressed_warning *w;
+> > +     unsigned long flags;
+> > +     int ret;
+> > +
+> > +     if (kunit_has_active_suppress_warning()) {
+> > +             KUNIT_FAIL(test, "Another suppression block is already ac=
+tive");
+> > +             return NULL;
+> > +     }
+> > +
+> > +     w =3D kunit_kzalloc(test, sizeof(*w), GFP_KERNEL);
+> > +     if (!w)
+> > +             return NULL;
+> > +
+> > +     w->task =3D current;
+> > +     w->test =3D test;
+> > +
+> > +     spin_lock_irqsave(&suppressed_warnings_lock, flags);
+> > +     list_add_rcu(&w->node, &suppressed_warnings);
+> > +     spin_unlock_irqrestore(&suppressed_warnings_lock, flags);
+> > +
+> > +     ret =3D kunit_add_action_or_reset(test,
+> > +                                     kunit_suppress_warning_cleanup, w=
+);
+> > +     if (ret)
+> > +             return NULL;
+> > +
+> > +     return w;
+> > +}
+> > +EXPORT_SYMBOL_GPL(kunit_start_suppress_warning);
+> > +
+> > +void kunit_end_suppress_warning(struct kunit *test,
+> > +                             struct kunit_suppressed_warning *w)
+> > +{
+> > +     if (!w)
+> > +             return;
+> > +     kunit_release_action(test, kunit_suppress_warning_cleanup, w);
+> > +}
+> > +EXPORT_SYMBOL_GPL(kunit_end_suppress_warning);
+> > +
+> > +void __kunit_suppress_auto_cleanup(struct kunit_suppressed_warning **w=
+p)
+> > +{
+> > +     if (*wp)
+> > +             kunit_end_suppress_warning((*wp)->test, *wp);
+> > +}
+> > +EXPORT_SYMBOL_GPL(__kunit_suppress_auto_cleanup);
+> > +
+> > +int kunit_suppressed_warning_count(struct kunit_suppressed_warning *w)
+> > +{
+> > +     return w ? w->counter : 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(kunit_suppressed_warning_count);
+> > +
+> > +bool __kunit_is_suppressed_warning_impl(bool count)
+> > +{
+> > +     struct kunit_suppressed_warning *w;
+> > +
+> > +     guard(rcu)();
+> > +     list_for_each_entry_rcu(w, &suppressed_warnings, node) {
+> > +             if (w->task =3D=3D current) {
+> > +                     if (count)
+> > +                             w->counter++;
+> > +                     return true;
+> > +             }
+> > +     }
+> > +
+> > +     return false;
+> > +}
+> > diff --git a/lib/kunit/hooks-impl.h b/lib/kunit/hooks-impl.h
+> > index 4e71b2d0143ba..d8720f2616925 100644
+> > --- a/lib/kunit/hooks-impl.h
+> > +++ b/lib/kunit/hooks-impl.h
+> > @@ -19,6 +19,7 @@ void __printf(3, 4) __kunit_fail_current_test_impl(co=
+nst char *file,
+> >                                                  int line,
+> >                                                  const char *fmt, ...);
+> >   void *__kunit_get_static_stub_address_impl(struct kunit *test, void *=
+real_fn_addr);
+> > +bool __kunit_is_suppressed_warning_impl(bool count);
+> >
+> >   /* Code to set all of the function pointers. */
+> >   static inline void kunit_install_hooks(void)
+> > @@ -26,6 +27,7 @@ static inline void kunit_install_hooks(void)
+> >       /* Install the KUnit hook functions. */
+> >       kunit_hooks.fail_current_test =3D __kunit_fail_current_test_impl;
+> >       kunit_hooks.get_static_stub_address =3D __kunit_get_static_stub_a=
+ddress_impl;
+> > +     kunit_hooks.is_suppressed_warning =3D __kunit_is_suppressed_warni=
+ng_impl;
+> >   }
+> >
+> >   #endif /* _KUNIT_HOOKS_IMPL_H */
+> >
+>
 
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCafsTGAAKCRAnX84Zoj2+
-dscNAYCT5tPA6wlA50913tROdb0/8GBVIaNWCZzIVCmmtw6XdanUV+Ek43qdrnbM
-nAndNMcBgJJ8V9DZNE2zzCU0FXXXjTfOFOjGy0zdjmyQH3dGoy80XCbxq4XUI4fe
-u8+zbKdHWA==
-=zppB
------END PGP SIGNATURE-----
-
---bm3tokjqjresnbu6--
