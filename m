@@ -1,44 +1,54 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from stravinsky.debian.org (stravinsky.debian.org [82.195.75.108])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CF453CF68F;
-	Wed,  6 May 2026 15:37:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B5FB3F0AB2;
+	Wed,  6 May 2026 15:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=82.195.75.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778081846; cv=none; b=qszeHLzW42i2f5dUrBkPMYPNF/Ja59md6d82+ye6ONJIa55CGvZT7SUZMr2LbWc/KFCZ4fQiIWAief5dy2+2AyHeeNK8R3v160DHxZTpwvcybYkZDUzFRrEu+U6Rzo7LryMqHho8SIb27kYeAimne7CZreifkDrr0mod3oBAFA8=
+	t=1778081927; cv=none; b=G8jwHI2HEmkTUGL3AE/673I5LQaf8scmFTtKK+ad+1S5Lgw36dGSo2fmPK8DRvf+JtY39pvX9bvZwZoavd4WuQ7fr7FTw/9AECStcTFDKGPzKKMNSROTjC4ST2JfalgwqEjUdGfh+/nqVtIo1K+vbFgCFpwsw4nCYbpkPVY05Xw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778081846; c=relaxed/simple;
-	bh=Lh8IyNcOsvb3e/MfNcreMdBJXDLwuzXVxIKBw+0229w=;
+	s=arc-20240116; t=1778081927; c=relaxed/simple;
+	bh=7EWOYQgB1u32sEFotlMXBCyVmyDnIdAZLQsC0sUnM+M=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KE2o6DLxR5lVs7uVLlBgV0RualSG2Hnwg1uTRIbsBowFF+aNPZdT9/gTDFwaKp6AiWZY84eWm7ewsL2kRA7rg6bJz5hJGwmZwGNywZBhowwlmXC1pF9RSoevEU0GD6mmTunusYTOOiqOazNEiEEagDDzz+v6y6G7iHf/LmCZ9VQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lQvu6hdM; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=B92fy9Ybtv9DgQ96zpouYPLLaBoOm2LcPNa+qly4Dq2klqtkMM3A8mkLGlgFajsPvKR5XwUREiidzYvOVZgZPU4ZOX0FkFGMKJV+hEXSj6fp1vIa0rlHv4oWpY3OffuCkblFUFvRzWP3uw6p0HrpECy+n9tDOld8ZF0duFHVmKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org; spf=pass smtp.mailfrom=debian.org; dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b=qjjIyhLA; arc=none smtp.client-ip=82.195.75.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=debian.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=debian.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lQvu6hdM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7753DC2BCB0;
-	Wed,  6 May 2026 15:37:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1778081845;
-	bh=Lh8IyNcOsvb3e/MfNcreMdBJXDLwuzXVxIKBw+0229w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lQvu6hdMapYt7LjfZiB8CbVxjsPgfnyYf2ve9VHEGRnVn//q3Xhcs+bexhSA6TfBc
-	 0ORCKt9iT7NfpSzm5gqoBk9jJfYY+TwgMO/lmnG62pHXG1YyZLiQaTenLhcX32/N6X
-	 uLEONELKPyXzh1Ln6h3F0UfxfSpLSLgGkY1QgfCncDPVmu01nf6LecNW9PaHG6KVCv
-	 0oA5ui2FVrPmNFPMiiYeQ3+2rydIuZmZMUjPIGegDxvSNVjjfU2dx05CoQ14ynbDG0
-	 z+lmCuK7me75kq8tsxAl+92ylH9XydjjhnZH4e5I3l907a3G/Km3Q5cLcYzufydkgQ
-	 TwaZ/osjmiXLA==
-Date: Wed, 6 May 2026 10:37:23 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Marius Cristea <marius.cristea@microchip.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-hwmon@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>
-Subject: Re: [PATCH v10 1/2] dt-bindings: hwmon: temperature: add support for
- EMC1812
-Message-ID: <177808184247.2172411.12359640916021641487.robh@kernel.org>
-References: <20260429-hw_mon-emc1812-v10-0-a8ca1d779502@microchip.com>
- <20260429-hw_mon-emc1812-v10-1-a8ca1d779502@microchip.com>
+	dkim=pass (2048-bit key) header.d=debian.org header.i=@debian.org header.b="qjjIyhLA"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=debian.org;
+	s=smtpauto.stravinsky; h=X-Debian-User:In-Reply-To:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=HBfSkJ+ZAj0IKZzbsOscWzm5w5IqhoP97yR5c6JXd3k=; b=qjjIyhLAYnp6+fzWGNQYHTDfMM
+	dcIQug2wJEoUes3iojqwilgyNfsTZZsNzrml2u7hAOlBUPV0mOaX18+f+P7JfyKKGQkap35JtApTr
+	GGMWo3Xeu1KhmejaIkkUaEHNyTRQFTpchGsurCCHxS/W3A4q7GtjSQyRzJdIMykPhyoWB2bgEwAZD
+	m0/7Y2fFAL27EFjrhAWkplpJLJIfpj/o/rPphT1s1BC/ybLVL4N3JUjn27m2jUVvlV+km7EtU3wC/
+	cp8mO5EBcC1Fn9qKDps0TKo3abv9aNbX/P+QdjiTrVIoKxEy6ZEtW/v159/j/NKqqzC8qbh7psgKR
+	7A+SG5KA==;
+Received: from authenticated user
+	by stravinsky.debian.org with esmtpsa (TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.96)
+	(envelope-from <leitao@debian.org>)
+	id 1wKeKL-003glf-12;
+	Wed, 06 May 2026 15:38:21 +0000
+Date: Wed, 6 May 2026 08:38:15 -0700
+From: Breno Leitao <leitao@debian.org>
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: Miaohe Lin <linmiaohe@huawei.com>, 
+	Naoya Horiguchi <nao.horiguchi@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Shuah Khan <skhan@linuxfoundation.org>, David Hildenbrand <david@kernel.org>, 
+	Lorenzo Stoakes <ljs@kernel.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Vlastimil Babka <vbabka@kernel.org>, Mike Rapoport <rppt@kernel.org>, 
+	Suren Baghdasaryan <surenb@google.com>, Michal Hocko <mhocko@suse.com>, Shuah Khan <shuah@kernel.org>, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, kernel-team@meta.com
+Subject: Re: [PATCH v5 3/4] Documentation: document
+ panic_on_unrecoverable_memory_failure sysctl
+Message-ID: <aftfTpgyLRhXPSLm@gmail.com>
+References: <20260424-ecc_panic-v5-0-a35f4b50425c@debian.org>
+ <20260424-ecc_panic-v5-3-a35f4b50425c@debian.org>
+ <20260424054840.a63d80ed01b968caf9d9ef64@linux-foundation.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -47,30 +57,35 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20260429-hw_mon-emc1812-v10-1-a8ca1d779502@microchip.com>
+In-Reply-To: <20260424054840.a63d80ed01b968caf9d9ef64@linux-foundation.org>
+X-Debian-User: leitao
 
-
-On Wed, 29 Apr 2026 15:58:07 +0300, Marius Cristea wrote:
-> This is the devicetree schema for Microchip EMC1812/13/14/15/33
-> Multichannel Low-Voltage Remote Diode Sensor Family. It also
-> updates the MAINTAINERS file to include the new driver.
+On Fri, Apr 24, 2026 at 05:48:40AM -0700, Andrew Morton wrote:
+> On Fri, 24 Apr 2026 05:24:01 -0700 Breno Leitao <leitao@debian.org> wrote:
 > 
-> EMC1812 has one external remote temperature monitoring channel.
-> EMC1813 has two external remote temperature monitoring channels.
-> EMC1814 has three external remote temperature monitoring channels and
-> channels 2 and 3 support anti parallel diode.
-> EMC1815 has four external remote temperature monitoring channels and
-> channels 1/2  and 3/4 support anti parallel diode.
-> EMC1833 has two external remote temperature monitoring channels and
-> channels 1 and 2 support anti parallel diode.
-> Resistance Error Correction is supported on channels 1/2 and 3/4.
+> > Add documentation for the new vm.panic_on_unrecoverable_memory_failure
+> > sysctl, describing the three categories of failures that trigger a
+> > panic and noting which kernel page types are not yet covered.
+> > 
+> >
+> > ...
+> >
+> > +When enabled, this sysctl triggers a panic on three categories of
+> > +unrecoverable failures: reserved kernel pages, non-buddy kernel pages
+> > +with zero refcount (e.g. tail pages of high-order allocations), and
+> > +pages whose state cannot be classified as recoverable.
 > 
-> Signed-off-by: Marius Cristea <marius.cristea@microchip.com>
-> ---
->  .../bindings/hwmon/microchip,emc1812.yaml          | 193 +++++++++++++++++++++
->  MAINTAINERS                                        |   6 +
->  2 files changed, 199 insertions(+)
-> 
+> Before someone asks, I wonder if we should make this a bitfield thing,
+> so people can select which of the above three should get the panic
+> treatment.
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+That's an interesting idea, though I think the necessary infrastructure
+doesn't exist yet. As discussed in this thread, even distinguishing
+non-userspace pages from userspace pages presents non-trivial challenges.
 
+Implementing a bitfield-based approach would require significant
+groundwork. If we want to pursue that direction, it might make sense to
+defer this patchset and focus on building that infrastructure first.
+
+My preference would be to start with the coarse-grained approach
+(current approach) and refine it incrementally based on actual needs.
