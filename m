@@ -1,65 +1,40 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881ED3043DE
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 11:04:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1013C42849F;
+	Wed,  6 May 2026 12:00:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778065459; cv=none; b=QD89DIRUXt/5VDk8Ad94XtCCRevmsbvtVHUQWGFwMN6YIB8fqKVzgxNCuAolkjZR1NrfSrTNbr4HRfeqTpAbVs5NS8RVYlBOPkKoZTYrtItQEYDsrVUBP8fJr93GyEs8oJ7BaYA/EEJgql9nLUglEjMs9iBCqln9t95cVOGR1Lk=
+	t=1778068805; cv=none; b=Id4sKGNIy0+/EGlXKD5L6VcHgXxKfzVWLeCPy/MRUT5unhAW8qphM6j+w4zzeKELS4vY7a1F3V7mYEIo+tX97NC1YZkmom1gG385P8K+NZGLazmdlclGA2ZAg1MUZSmuGKJUVnp1v2NQp3QAVNFMTAHwwVlYv2CPyVWaEPzJCz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778065459; c=relaxed/simple;
-	bh=iXDLwNu9nO2bWAjc5u6p4s9RSDwMepAwVA9DZhNtcew=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=eQaPCW0MECW4bbVsLUK2dMsV9+tD60dhRiotIXpEXuL8L8VYtwYrqr1GNAnTX8yP+sgXckPturK48dwsS8BagAlQL2jZ7zewjMwm++okp++18T6pmQG9hUIrBP4N1+EXwVaEm91bWVe8NgBkMoP20tJm2V7XY1LYWSvjnsKp87w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NoEwzf4v; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1778068805; c=relaxed/simple;
+	bh=/UJiNBPfhQ7ZoiwH2t7bGR4vZrqMEBp2BNrrv8IlOn8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=kmu0g30/XlCxkbdWq0CBOAbi0B0t7ZlU3EBmltT6lDXMq+Nv/01IBkiOmenzOk7DVWO57FWOohWR9qKpKX+ft34BE2lfEFLbMDRNdWwUfCwMgmCchM9ULLxF3OiV5djO8O3vmppmSOp8QxGed3gckkLuLxoU6Vl9I4qwVlpChtE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=sLy1RwEV; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NoEwzf4v"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-48d102471a4so30245815e9.2
-        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 04:04:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1778065456; x=1778670256; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SecJtaa/94NbrUg2zXVMpkghDsLJXP3FycQnhFxHBw4=;
-        b=NoEwzf4vLFDea+U5HOHrKy7XSW1qElerzawPrPr0/Hjzol5GPGARXaRF/QHyqCxch9
-         CCdJJMROmB8pOAmEVdrnk+3LiBlr2FquxlU5fIL8Tv57/uqxale9fZoZi1EIt8NEFGBw
-         9KPkz2nKDuonduapouPC8iqaGNDZABqSmW8xWm7AXWaahsWVHCM2/W2OEMQys7mOWXgF
-         Ee3v5H522hDO3osok6L5VcJTs5mChpUkz+soyt5pcBB5HvW+LRAQwPjMAB1CwAfVienE
-         1KVBz0U44cYxq7i8gBiUUEShET2gw/yZTyMSVYho6R6iiX/tt42hlizkVYMz69iQQCgP
-         fXOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778065456; x=1778670256;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SecJtaa/94NbrUg2zXVMpkghDsLJXP3FycQnhFxHBw4=;
-        b=CYv6FiSav7FZXX94kenMuKEWlfQHGFn7N7DqfMyanddGXgW6XGHGR07rcLM4hqCj7U
-         POoDIvbjRiL8L2CS/B0fVQehm4F9KHUPsNsRM9wYD8BGJ9a5sGdb5QgyVZl13Zg8MA6u
-         sOZ/0DrxPdv9/4vLtcNXXS65BUOyZfje45l56hfXjWR2K5386x4Vy0BStVIuX0xPNvcI
-         kZAkgmQmrBS7//wQKoYJmfpX+r7FTiaOkP7ftZX8vAtMU8w+vctGmoDp5LxBOg3pQRIS
-         O8tT4k5qb4fB5uwlWbtwNJgNqhRc4wz3kZCgq5KsMys0CHI9oYbcob5VmVrv0ICVXt7z
-         /XFg==
-X-Forwarded-Encrypted: i=1; AFNElJ9Byzu97cIJnNFvQh02dq3HKyuCyUxg0q8L6nO+74CxsKkSaNn8J+qMn+8qO8gUQM7xy6xhz6KxZcI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4dCUEvoBhGqlyGQmRvEI5bAJoCvGub772BsnCqOc0z9DeCcA0
-	KTJtqfXBmMWKQLAiCaKKmnm+SfY8nbQuKCtdZKXNTKKBJlee3dHds8/RXexsrLA8xZw=
-X-Gm-Gg: AeBDieskpTYvQzYtnDnlTwEnBurbuepsD5FjTm0V7yand77IaP6jqq0wh7X1grveFd8
-	VeLw4vhpZFAF+VhjmusJQuCL7tL+1hE6r2S736NP2ci+7HiTO5bYrfSZc1RlHTsZhiW8tCFBBbI
-	2Zn/0KlrpuF/PtwS6+aDdBdgfhHj35kr3G8/Bw0chvvjszGPs2G6LMltsZGeyy+uwCIzY8ak1dt
-	1zGriNHe8GMNWWULNMqrFxdgHS3INIBhjZsbAIQ3h7hZulss1mAYrGlYz3TgQ2sWgPZzYOKZD5d
-	DO8xqa/SgRyJR8vjiI5NIggC6nQHbWxf1G251tY/Tv1NplPTC9MmddTl33pDbXXIe87vmCyAFue
-	cF34e6P7bDKsvLBmib+MednAQejzxOaTgxGVvP84BT1RHZj8eZOxi03mK8glrX8bqzc0SXt/Tt4
-	wDQBVj177wmomQznL8zulvfdD9H3thqe/nzAKKJYWssZ4VOh1tD/Un0Io7tGNWKoj/kC7Qddby9
-	7YqnOpZDdY3eSPDjg==
-X-Received: by 2002:a05:600c:4f53:b0:486:fb0b:ad79 with SMTP id 5b1f17b1804b1-48e51f4456cmr50856805e9.20.1778065455968;
-        Wed, 06 May 2026 04:04:15 -0700 (PDT)
-Received: from ta2.c.googlers.com (17.83.155.104.bc.googleusercontent.com. [104.155.83.17])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e5312de76sm14072305e9.21.2026.05.06.04.04.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 04:04:15 -0700 (PDT)
-From: Tudor Ambarus <tudor.ambarus@linaro.org>
-Date: Wed, 06 May 2026 11:04:12 +0000
-Subject: [PATCH] docs: kernel-doc: python: strip __counted_by_ptr macro
+	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="sLy1RwEV"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=MAx5G3WSi0kn9ozTKXHHjJK+xQtPpNgVE01pyUEzytU=; b=sLy1RwEVyh+Up45cOede75X0BY
+	Vg/Hck2X1D5mnV3o4sM7dwPt0DX+j48Jhgbhth2lR3Il/K6IKrrqlsYzsYDIbqWnn6QSdVo/sDyMJ
+	KaLFEfuhgC1kead3PAhLt9BZAo31HyJtSFh4qk9x0UG3f7lPFeYz+9yRcHU2YA9xgHuQK8onDQiF6
+	1BCDWpXlh1BNcGm5HzBB9em2GVlXOuMbIBzgYbtDHFAo2BHfC+dMPPOlHKN3dG6QFstqZdzJuLNxK
+	sWn+Ti2u8XjwTYFi7jaLxRZiaNJfWIOpJaooY+KDmi3n/ZbN8IqlihtXJn5UEYFNPSfk0CDIBCcmM
+	bBkYCi3Q==;
+Received: from 179-125-92-238-dinamico.pombonet.net.br ([179.125.92.238] helo=[127.0.0.1])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
+	id 1wKaux-006sxt-VE; Wed, 06 May 2026 13:59:55 +0200
+From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
+Subject: [PATCH 0/2] cgroup/dmem: introduce a peak file
+Date: Wed, 06 May 2026 08:58:23 -0300
+Message-Id: <20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,78 +43,57 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
-X-B4-Tracking: v=1; b=H4sIACsg+2kC/x3MQQqAIBBA0avErBPUyEVXiZDSsYZAQysK8e5Jy
- 7f4P0PCSJhgaDJEvClR8BWibcBss1+Rka0GyaXiPVdst8EwrU24/IlWL68+zsgESq5c54Q1Amp
- 7RHT0/N9xKuUDCqTfGWcAAAA=
-X-Change-ID: 20260506-kdoc-__counted_by_ptr-1e206f3f1dc1
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>, 
- "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-hardening@vger.kernel.org, peter.griffin@linaro.org, 
- andre.draszik@linaro.org, willmcvicker@google.com, jyescas@google.com, 
- krzk@kernel.org, kernel-team@android.com, 
- Tudor Ambarus <tudor.ambarus@linaro.org>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1778065455; l=2198;
- i=tudor.ambarus@linaro.org; s=20241212; h=from:subject:message-id;
- bh=iXDLwNu9nO2bWAjc5u6p4s9RSDwMepAwVA9DZhNtcew=;
- b=DD9qRHf57+HpkJB/GiRWD55KAmJqAW9s0RITiy7nGE1BtIfdn/pW6yuj+d5U8vwgV6dByu+i5
- vb7MQFHQAIpCMPtU31zyXQarbcpZKsJDSS9/wbvt1UlWtG+rFRusEQj
-X-Developer-Key: i=tudor.ambarus@linaro.org; a=ed25519;
- pk=uQzE0NXo3dIjeowMTOPCpIiPHEz12IA/MbyzrZVh9WI=
+X-B4-Tracking: v=1; b=H4sIAOAs+2kC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzMDEwNL3ZTc1Nz4gtTEbF3jxKRkw6RUS1MDcyMloPqCotS0zAqwWdGxtbU
+ AI5qMh1sAAAA=
+X-Change-ID: 20260409-dmem_peak-3abc1be95072
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
+ Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Shuah Khan <skhan@linuxfoundation.org>, 
+ Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
+ Natalie Vock <natalie.vock@gmx.de>, 
+ Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, 
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, kernel-dev@igalia.com
+X-Mailer: b4 0.16-dev-62088
 
-The `__counted_by_ptr` macro was recently introduced [1] to extend
-bounds checking semantics to standard dynamically allocated pointers.
+Just like we have memory.peak, introduce a dmem.peak, which uses the
+page_counter support for that.
 
-However, the new Python implementation of kernel-doc does not currently
-recognize it as a compiler attribute. When kernel-doc encounters a
-struct member annotated with this macro, it fails to parse the variable
-name correctly, resulting in false-positive warnings like:
+It can be written to in order to reset the peak, but different from
+memory.peak, which expects any write, dmem.peak expects the region name to
+be written to it. That region peak is the one that is reset.
 
-  Warning: ... struct member '__counted_by_ptr(cmdcnt' not described
+That requires ofp_peak to carry a pointer to the pool that was reset.
 
-Add `__counted_by_ptr` to the `struct_xforms` regex list so it gets
-safely stripped out during the parsing phase, mirroring the existing
-behavior for `__counted_by`. Update the corresponding unit tests.
+Writing a different region name will reset the different region and make
+the original region peak get back to its non-reset value.
 
-Link: https://git.kernel.org/torvalds/c/150a04d817d8 [1]
-Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
+While at it, we reuse a helper from memcontrol, which we moved to
+kernel/cgroup/cgroup.c.
+
+Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 ---
- tools/lib/python/kdoc/xforms_lists.py | 1 +
- tools/unittests/test_cmatch.py        | 1 +
- 2 files changed, 2 insertions(+)
+Thadeu Lima de Souza Cascardo (2):
+      mm/page_counter: decouple peak_reset from peak_write
+      cgroup/dmem: introduce a peak file
 
-diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
-index f6ea9efb11ae..118156ea8cd2 100644
---- a/tools/lib/python/kdoc/xforms_lists.py
-+++ b/tools/lib/python/kdoc/xforms_lists.py
-@@ -29,6 +29,7 @@ class CTransforms:
-         (CMatch("__aligned"), ""),
-         (CMatch("__counted_by"), ""),
-         (CMatch("__counted_by_(le|be)"), ""),
-+        (CMatch("__counted_by_ptr"), ""),
-         (CMatch("__guarded_by"), ""),
-         (CMatch("__pt_guarded_by"), ""),
-         (CMatch("__packed"), ""),
-diff --git a/tools/unittests/test_cmatch.py b/tools/unittests/test_cmatch.py
-index 7b996f83784d..109141cd2ab8 100755
---- a/tools/unittests/test_cmatch.py
-+++ b/tools/unittests/test_cmatch.py
-@@ -320,6 +320,7 @@ class TestSubWithLocalXforms(TestCaseDiff):
-         (CMatch('__aligned'), ' '),
-         (CMatch('__counted_by'), ' '),
-         (CMatch('__counted_by_(le|be)'), ' '),
-+        (CMatch('__counted_by_ptr'), ' '),
-         (CMatch('__guarded_by'), ' '),
-         (CMatch('__pt_guarded_by'), ' '),
- 
-
+ Documentation/admin-guide/cgroup-v2.rst |  10 +++
+ include/linux/cgroup-defs.h             |   7 ++
+ kernel/cgroup/cgroup.c                  |  32 ++++++++
+ kernel/cgroup/dmem.c                    | 132 ++++++++++++++++++++++++++++++--
+ mm/memcontrol.c                         |  42 ++--------
+ 5 files changed, 183 insertions(+), 40 deletions(-)
 ---
-base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
-change-id: 20260506-kdoc-__counted_by_ptr-1e206f3f1dc1
+base-commit: 7fd2df204f342fc17d1a0bfcd474b24232fb0f32
+change-id: 20260409-dmem_peak-3abc1be95072
 
 Best regards,
--- 
-Tudor Ambarus <tudor.ambarus@linaro.org>
+--  
+Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
 
