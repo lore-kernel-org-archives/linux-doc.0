@@ -1,124 +1,206 @@
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SA9PR02CU001.outbound.protection.outlook.com (mail-southcentralusazon11013026.outbound.protection.outlook.com [40.93.196.26])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B84F3345CAA
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 12:34:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=209.85.161.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55E8D32BF5A;
+	Wed,  6 May 2026 12:38:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.196.26
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778070848; cv=pass; b=TuNbSUkN7epKCha8jobWX5foV4h+iWAv1GClKJeA5I47nn2nKq60qIhzmDS94RmIOZ0RmixFiyqz1upBlkAhmrWI3fe2MvGON4vTYMAO/92bake+2+BDrumQuZNNheR9iBroBkhbe9Bc6/uhiUDgenYKH35LwADnjfaGzZ2WHxg=
+	t=1778071097; cv=fail; b=Tj1aX06F/JcNMfuV+udyPhXZH+Ypk/na9hqhMohUIf5gm5wdlkRthsWpp5RwT6C+07wfIHzgy2cA1GuNvFF/pfPkrjt+qR/QFvn/OAgRM42litkYbtdsK7qZluETSbtEPmUvfek1MepV1n/cJmP3M2OsvW/LeJ1/ZFJtV/uPAsQ=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778070848; c=relaxed/simple;
-	bh=f4JCfvoAplsuFCM2nsurtXc86gPCyG+1i553tDk/iSs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iXJq4YDUdi21dpWhnaWBaw/8D5NNzHFMjeDIMVWHMAklaD02F+TxPG7Az5FaxkPFF9Q/Ykf57gkcK4e2bjOGULU2asoHVxpQIogrmfRin3v716NxJr2HQbT7SsDWIwqIhP90Ag7n0QQgfycShBvtS9e1drv3WHaCKEGsX4/j/N0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=sNwSmzvK; arc=pass smtp.client-ip=209.85.161.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1778071097; c=relaxed/simple;
+	bh=DnrtGsGZXqgweiD6Tot+8gJSVK87hXNa4aJWkj/EHQU=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KUw1LM+fTfVzPok1bq3nTa4BwnMyQiqhmI/CCN+NKtbDuGCWARpYkYLGVjJeasAFjt7Fp6PW2ITFcAhMX+1DWJiQpSvssAvmHnLMHMq8UJybxVF17PuaR773RA03BaqY+/Dn6/qIUvxRSRYJCCTWCW2VYAcN0R5pQBkTKCkoK3M=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=TztvfSdb; arc=fail smtp.client-ip=40.93.196.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="sNwSmzvK"
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-679f6ee3fb0so2570191eaf.2
-        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 05:34:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1778070846; cv=none;
-        d=google.com; s=arc-20240605;
-        b=emLXfkDjImJNFq6NK6pBx5ktmBFMVHuKQc6XmCkQgV+kQSwS1tESUosHvB9ukOGIRL
-         UhcYoj5U+9lgygmPaoDMy5aRZBi+tbGE7rkGsJKlxuse7obZ+9GXKLa/aMg56O5VBHLD
-         gA4KYg1aBthbs+RnDCrMzijdPXUszKmdECLhCgjMlxhkG9FTnbrfDRY4tZ2t2pg7pzPl
-         /6QxpJ3bpCcrtnkygMxHVJDERFHq4VIhxypncSHTecna7ZOuHkX6/n+9vI/4aX2Z/hOx
-         pDKBXq+eIsd4DyLozKnlGlyZLbh3MbLoexo7wNYD9PysJJfdT+618vW08b0VedDseSJt
-         6VOg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=f4JCfvoAplsuFCM2nsurtXc86gPCyG+1i553tDk/iSs=;
-        fh=icDSYQmnPy9aYV44MjLptuIjF4FN1EXMcbKO78ruTwY=;
-        b=fdf0xhAPWccW/fVOvl0daSHyiLYpYWy+/IriFtxRWZgHWSbqINHwoX4aKMlLoo2m3d
-         IRdB1CuYtsn+Ob+dmDZPsMZDvKAKheOPvLEFIAOyG2yNbPrP2cV9uBkENjFwOi1ezWAS
-         Rn/dBvulzRYEHt0nZl3PCTl5Vwl02wLvkuPLgA2icgDMMrOAewzrSeFuKLdvBoj3GU5z
-         HPdb1q4BjYXBxWDHlXgr7Ky/FmSpt++6sZ1KzwAY8PJ5jXaWxQDOQ2VdMHUwrO8Prma2
-         GAIHfkRPjwiSewQX66jmcTmF3WznjC7XSdvYWWJF/fPIjb6xHNugAQhTU/blN2j3xR8f
-         d4MA==;
-        darn=vger.kernel.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1778070846; x=1778675646; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f4JCfvoAplsuFCM2nsurtXc86gPCyG+1i553tDk/iSs=;
-        b=sNwSmzvKCZbXiIF99yD6NQtSo0UvmJY9nNHv4s9MZvIT4GxvdmPSB1CvzxPAwfNjqX
-         19DP4zdMmfhl2yJblz041NJb85RUGMnZRrinvic1M5xNHAA+V2hEZlDd62syc3iyeX1O
-         zmagvw2HQBahaLZFbsJ8/a1w9VANOX68V2x9Nvgomy2My3clqPbjvr+89IAMWMpKbffF
-         qwivhlKvGvG2OJynxnDaiBtLv/E1EgY4kHY1yPIYE7aUy0rEXcPGCgWrS81NaFPb42V9
-         76P8S41QxxD/hLxr/0qSR7S6Y27Vny3f+BN0N8QYr22S0gZfxBbD4FIpyqn7ugjzKDZc
-         NlMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778070846; x=1778675646;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=f4JCfvoAplsuFCM2nsurtXc86gPCyG+1i553tDk/iSs=;
-        b=tRzKTy6Ba495M7NjFvPg5cQhb4zQyemwcaxekQ9WOs7YbUS+sn985Qs+hCzB8bDun1
-         RsETuPmNe3aoAFRmhbMjqrzdeDTdBTKtKEbnx50KaQ9O/ujARloMyAwGhQWyiEDA0yKk
-         6oOF10ZhVuAuPM5lwr1LXaYxdURpEqiD/S/Vw9N5f2rBw4bLINZkL8BECK+RYU9vaB3T
-         3z92fnRhs6IxvQLDvcaHQbm4hDJl15BsA4RZnLg2EnXQXOV3c9ByOnyMwd8HyMy1hh81
-         3OUbbVpH+lG13tBOjiDHKaD4iG/OqK/mEprqOyr1S6T1JYv7Ez9ea1bhSmuhZQWp/+DF
-         Gwdw==
-X-Forwarded-Encrypted: i=1; AFNElJ9Jar77ds6IpQrIGD4NMsi+CItZOdpxfao8EbR/W7CL2XurY3uTXxI9rnqRkFoDQEw6ikCxZNb++H4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzqleFY5ZMdqZ6NS7iPn8ZvbTS7euy/HcbjWdIt9RX8hwUE3xQ
-	GYEGax4+71U1bM1qG17exOc1Av2EQqkOMKHq6Nuk1T7ET0bbG65tBUUjx821avWHRwK08mSleYQ
-	kN6Emg52NI3e97f+POPlpjxw6cqDTdMFunghE
-X-Gm-Gg: AeBDieunlyBNL3JktCBZD71spSIzlPDejfY+OTelRjgZ7JEH894+ECsoHe/ftHTNaGx
-	qeBpplgG2IHJfPB3cMcsHQA2MPujwP8u+Oz2Dab5AKdmVYvSIbsUxzxsprvWrG2b28t88RMgQZ8
-	xlbsaJ1/TgHZ0yVX4qTwpND0OCqvvlo3kzpJ/Lp5+W380f3SKr0SVBi5/HDy5QQ9mmJPamZ/Brn
-	zijOmvPERnJqE3Z+Jp2Or5Iyh7PUIh/WOvOmqBISNO+Zdmhter3N7lKgXaMBLYv3jubeSa8l4PB
-	E3xS2WFXBynSiq4bNSgWUQ5MynDT4OWYSudIdhzA1sMID4UgKYs7FmD+Ce3YapltK+6Yu9+fj2W
-	D5FHzOGsoxN94Xfw0t9s=
-X-Received: by 2002:a05:6820:198e:b0:684:743e:86a6 with SMTP id
- 006d021491bc7-69998cc6383mr1554293eaf.20.1778070845636; Wed, 06 May 2026
- 05:34:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="TztvfSdb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UmexvqaXA7ySKWljFBBW1hosr6+VfJBsfUZZwj1ZK2m4yXbAE3WP6dvJb73jYAQcfHpW2gP5xKbkLDsXhWan340ZAX9NQTF0fthF+52fL1CuPpJyRO1pBS9triynrBqppdTKcgGtrhWw37M3UpTDXXg70ZOWRBkq4SpwVKjk5Aei7AB4mxOBYjXW8g6zNuPMRFgT48IK0+zh/RyW4LRzJPjkW8ugxfQaqKxkQFwE4B3klp3StpbR7YDeuheAS/Czd29Ol4MlLYrNBbnHCYvELfUoHc9M5BuDSemaLoyetNJjYwenfkMCf15Juo2PwWT6hruCeDhGzzURHDUKH7Bx9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ap3mf5ZhOtgFboXqLpiC9tzU552oSSvtCOdVkV6kDf8=;
+ b=KDEOOktNcGkKS3BuHNOkVAGrByuDjPqykNR9cz5AFMo0ZXt7W3q/WbkwV4fekzcWN8/sEaR8cKhzIR0ShKXH6KqwVusBRbKzfRk+nWbSsg93+IkyQwY6qABrpVA1tN5/01h6el+gZqKqTw0P10yvZFPr1MIFo9pPeH140Ow1cenw7fUyxJHLHCU49Adr53+4FPYppbAUtIqzFJws9PY7i6DMIvTyNlwFCsjHJYJ40yGD98vsUjADqc2Qi9uuT3I9Vr3vORIyW+VvoEisNf5ibGtaN/FFqrNwsDqxvb/U1RpnVX/KsvP8VCIDJuvtjSKmPZ5tpDF25CcKWfFj+BB6PQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=google.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ap3mf5ZhOtgFboXqLpiC9tzU552oSSvtCOdVkV6kDf8=;
+ b=TztvfSdbD1F17hJBrnick+8/is+CMMlvidcVYmbmI+hd/IdTgYBFXXtdnAGj3u+QiQEiW9QjHXAdUMjFhJbhJit4Xlt4gkrbsQfhMmzkezkDkbUW0npLl0x/QgaPVR/89t8Z1Yi3nMx8EKBHjw8QgIF+MUskNb1tt93GYpyYF9VDXi2oLuEpcUTJPskgxxFRvVeJAOEsNxLGaumLrbZsci5bM4KYuvE4cUqSU7N8r7JQjcZB3xGf9e1miRpnA2G7c/B4DNUhv2QsyE5G7IoxcteT6O2zliAwk3Ae75JECuOBmjdpiQu7zuh97tQMkHkiMAPxWw/XfmjaPdxzSoQ+qg==
+Received: from SJ0PR13CA0144.namprd13.prod.outlook.com (2603:10b6:a03:2c6::29)
+ by MN0PR12MB5740.namprd12.prod.outlook.com (2603:10b6:208:373::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.25; Wed, 6 May
+ 2026 12:38:05 +0000
+Received: from CO1PEPF000075EF.namprd03.prod.outlook.com
+ (2603:10b6:a03:2c6:cafe::ac) by SJ0PR13CA0144.outlook.office365.com
+ (2603:10b6:a03:2c6::29) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9913.6 via Frontend Transport; Wed, 6
+ May 2026 12:38:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CO1PEPF000075EF.mail.protection.outlook.com (10.167.249.38) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9891.9 via Frontend Transport; Wed, 6 May 2026 12:38:04 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Wed, 6 May
+ 2026 05:37:50 -0700
+Received: from drhqmail201.nvidia.com (10.126.190.180) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.20; Wed, 6 May 2026 05:37:50 -0700
+Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
+ (10.126.190.180) with Microsoft SMTP Server id 15.2.2562.20 via Frontend
+ Transport; Wed, 6 May 2026 05:37:42 -0700
+From: Mark Bloch <mbloch@nvidia.com>
+To: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, "David
+ S. Miller" <davem@davemloft.net>
+CC: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+	Jiri Pirko <jiri@resnulli.us>, Simon Horman <horms@kernel.org>, "Saeed
+ Mahameed" <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq
+ Toukan <tariqt@nvidia.com>, Mark Bloch <mbloch@nvidia.com>, Andrew Morton
+	<akpm@linux-foundation.org>, "Borislav Petkov (AMD)" <bp@alien8.de>, "Randy
+ Dunlap" <rdunlap@infradead.org>, Dave Hansen <dave.hansen@linux.intel.com>,
+	Christian Brauner <brauner@kernel.org>, Petr Mladek <pmladek@suse.com>,
+	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Thomas Gleixner
+	<tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, Dapeng Mi
+	<dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver
+	<elver@google.com>, Eric Biggers <ebiggers@kernel.org>, Li RongQing
+	<lirongqing@baidu.com>, "Paul E. McKenney" <paulmck@kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-rdma@vger.kernel.org>
+Subject: [RFC net-next 0/4] devlink: Add boot-time defaults
+Date: Wed, 6 May 2026 15:37:35 +0300
+Message-ID: <20260506123739.1959770-1-mbloch@nvidia.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260428-bump-minimum-supported-llvm-version-to-17-v1-0-81d9b2e8ee75@kernel.org>
- <20260428-bump-minimum-supported-llvm-version-to-17-v1-1-81d9b2e8ee75@kernel.org>
- <afoMRMnSQUwk1eaN@levanger> <CAMAsx6cPfPVDBpL6wwHeqzWLqPwQB15pKgvgVu-Ni3Sjjkdf4w@mail.gmail.com>
- <20260506062128.GA322298@ax162>
-In-Reply-To: <20260506062128.GA322298@ax162>
-From: Daniel Pereira <danielmaraboo@gmail.com>
-Date: Wed, 6 May 2026 09:33:54 -0300
-X-Gm-Features: AVHnY4Kqm0TmRbtoSmYSXiI54AO8i3XE18imVYZf5RenKY8Zy6KgZxL5067apnU
-Message-ID: <CAMAsx6fDE8WFfhiRRe5CM=oxUhBPAnWD_DiGsY6mC76TPTgXMg@mail.gmail.com>
-Subject: Re: [PATCH 01/14] kbuild: Bump minimum version of LLVM for building
- the kernel to 17.0.1
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, linux-kernel@vger.kernel.org, 
-	llvm@lists.linux.dev, linux-kbuild@vger.kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-NV-OnPremToCloud: ExternallySecured
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CO1PEPF000075EF:EE_|MN0PR12MB5740:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a38334f-c99f-4e42-dd28-08deab6c51cc
+X-LD-Processed: 43083d15-7273-40c1-b7db-39efd9ccc17a,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|376014|82310400026|36860700016|7416014|13003099007|18002099003|56012099003;
+X-Microsoft-Antispam-Message-Info:
+	MFkAxbWjH+BK/1G7JTCE7oYlG12EcdGM35a7xZQL1gI/jwM8arqKRHCfThLtKGm91Kugz2rU12XR+DIYkXHlb85is55jPW+z2+4lsYVMvXbKJzLNvluHdNolMTCt3NyITV6kDWopEmpzFwCoQ5/jGNPYoEo5gLfdIoRW0SmTVkNfqlI1pp5ML9OGagdyARpiA4bgm/BZv9iu8HnE4oesfBSfhofiIDqEzF9vIKOESN5CXc+F04KlYAncOKijD3jjXF7YzEeFHS7yCJCYv7cq0IfILR4Abxw5acLJ9/JT7nttoicsLMGyJzBZL+fgrAfAx0TCFOiuEro3EA8BcKmn4rdWfcwssmYNb2CyTG1SpsnD8XUwsrIoHsJwCkQ8kqOdx0KrmB98skMn/0xPJmrTN14MimlTs3qrQoJ5nKMK5nM/cfXrkhTchkVodSMwynY++fkpeqhf33DHlnwgAjQvkK5YEuBX2JJMMdi8nOz0AEfkzE0vB0zy7btzQgUaOfcwvADCQhrxkFUTuVDQwXYz450ucuhI+45V9RbQ1rPdUXHfiMjDyn1HsmIvjXGOKVWUjiC4GLqA9CHJTmaBQ8KpLdokLQG9njEDZwsVxc828hFybzQnPN8CbZk084iFQUUZ7/SzNgrTdxX2JQtzqaNSLz4cAFKJhAUTBcaw/CeLo0HFgOXJZBM4/z+qb6kOiaraZaZb5HG7+P709LU72KoQPJ1LJ8l2nrRKOCQuu9rL9xJhMFXcnJ+LwdHvbydZhRuI
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(36860700016)(7416014)(13003099007)(18002099003)(56012099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	1EJCINeRsnvgqRkOe7voYJiPPdf1VNGiRvJTGwyVrjsIcg1J5fAsFGNB8XLLEIAxLeeHnXg7sNfWjdQL0yzdB5apJ2xShzSPB0OHOE3g/weKEVCXEnAfS4lzhR3RZFftvCqXpJ6kmFdbmphOLjtx/CNogqdLEv0XdhkLXcJftAvXL4xZYcU+/6GhpdqDjrHwjF6b3h4BP8vtuRub5puz74zBd+JmlQPRnCqEKuGqPNvXHP5uQ/olGV5nVdTU8FvlSL34Q3zJqWhE/Wg84uFIroe9pvlaZl9xk247A8x8j7NV7+Oo0SKHkYTW+YNFu1DI17JGInGR9p+GFl/CYQdEIRbQQtx6Nm3oSuIK1iz5xQUC7soRZ8E+pP0SNcVGSLaaE2RPW2gJjYotA0JH4TI5RERpsMWeQPpS9VuN8WboTAH3WIwkgjKKBpWJ7yYjzmpe
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 12:38:04.9732
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a38334f-c99f-4e42-dd28-08deab6c51cc
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CO1PEPF000075EF.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5740
 
-On Wed, May 6, 2026 at 3:21=E2=80=AFAM Nathan Chancellor <nathan@kernel.org=
-> wrote:
+This series adds a devlink= kernel command line parameter for applying
+selected devlink settings during device initialization.
 
->
->> Thanks but I think I can just update the version number in this patch
->> when I send v2, as the update should happen atomically. If you patch it
->> separately, it might not be true depending on when my change is merged.
->
->> --
->> Cheers,
->> Nathan
+Following a discussion with Jakub[1], I am sending this RFC to get the
+conversation moving. I started from Jakub's example/request and extended
+it to cover requirements from production systems and configurations that
+customers use.
 
-Hi Nathan,
+One important caveat is that the parsing logic in this RFC was written
+with AI assistance. I am also not sure whether the resulting syntax and
+parser are too complex for a kernel command line interface. This is part
+of why I am sending it as an RFC: to understand what direction and level
+of complexity would be acceptable to people.
 
-Thanks for your reply. I still needed to adjust the changes.rst file
-for the Portuguese translation (pt_BR), as I found it was quite
-outdated compared to the current English document.
+The implementation is intended to support the following properties:
 
-Thanks,
+- A system may have multiple devlink devices that usually need the same
+  configuration. For a configuration such as eswitch mode switchdev, a
+  user should be able to specify multiple devices to which that
+  configuration applies.
 
-Daniel Pereira
+- There may be ordering dependencies between options. For example, in
+  mlx5, flow_steering_mode should be set before moving to switchdev.
+  With this in mind, defaults are applied per device in the left-to-right
+  order in which they appear on the command line.
+
+The intent is to let deployments set devlink defaults before normal
+userspace orchestration runs, while still using devlink concepts and
+driver callbacks rather than adding driver-specific module parameters.
+A default is scoped to one or more devlink handles, for example:
+
+  devlink=[pci/0000:08:00.0]:esw:mode:switchdev
+  devlink=[pci/0000:08:00.0]:param:flow_steering_mode:smfs
+  devlink=[pci/0000:08:00.0,pci/0000:08:00.1]:param:flow_steering_mode:hmfs,[pci/0000:08:00.0,pci/0000:08:00.1]:esw:mode:switchdev
+
+The infrastructure stores parsed defaults per devlink handle and
+applies them in command-line order when a matching devlink instance is
+ready. Duplicate defaults for the same handle are rejected so the
+resulting state is deterministic.
+
+The first supported command is eswitch mode configuration. The second
+is generic runtime devlink parameter setting. Parameter values are
+parsed according to the registered devlink parameter type and are
+applied only in runtime configuration mode.
+
+mlx5 wires this into device initialization after the devlink instance
+is registered and after mlx5 devlink operations and parameters are
+available, so both eswitch mode defaults and runtime parameter
+defaults can be applied to matching devlink devices.
+
+Patch 1 adds the generic devlink boot-default parser, storage,
+duplicate handling and devl_apply_defaults() API.
+
+Patch 2 adds eswitch mode defaults and documents the devlink= syntax.
+
+Patch 3 adds runtime devlink parameter defaults, including string to
+devlink parameter value conversion.
+
+Patch 4 calls devl_apply_defaults() from mlx5 device initialization.
+
+[1] https://lore.kernel.org/all/20260502184153.4fd8d06f@kernel.org/
+
+Mark Bloch (4):
+  devlink: Add infrastructure for boot-time defaults
+  devlink: Add eswitch mode boot default
+  devlink: Add runtime parameter boot defaults
+  net/mlx5: Apply devlink boot defaults during init
+
+ .../admin-guide/kernel-parameters.txt         |  26 +
+ .../networking/devlink/devlink-defaults.rst   | 115 ++++
+ Documentation/networking/devlink/index.rst    |   1 +
+ .../net/ethernet/mellanox/mlx5/core/main.c    |   2 +
+ include/net/devlink.h                         |   1 +
+ net/devlink/core.c                            | 591 ++++++++++++++++++
+ net/devlink/devl_internal.h                   |   3 +
+ net/devlink/param.c                           |  70 +++
+ 8 files changed, 809 insertions(+)
+ create mode 100644 Documentation/networking/devlink/devlink-defaults.rst
+
+
+base-commit: 7e0cccae6b45b12eaf71fc3ab8eb133bb50b28ad
+-- 
+2.34.1
