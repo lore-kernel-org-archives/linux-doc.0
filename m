@@ -1,138 +1,115 @@
-Received: from mta1.formilux.org (mta1.formilux.org [51.159.59.229])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 571AC3F9F23;
-	Wed,  6 May 2026 16:02:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.59.229
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551BD3E51CA;
+	Wed,  6 May 2026 16:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778083355; cv=none; b=SEHqA/PD+8rmxMaF75fMHyhqUdb/38gCRV+QysUCks67xwwbrQSQAITYQTMl8Xl5bMKOTGUqNYT+wtdw+DynbLc9xN5wgPWzLMTNyhPRkkm7F3sktVu444XmyUvf1hJ+zsCZ4LC9oHRdoH4PdL2n3IWuAfzoBEFYNwEMC96IGp8=
+	t=1778083671; cv=none; b=ZeSLp5FBS9gtS54X4DAh8QDToUL7nt0PVr51qbkdmT3wFfAm6eROj+pngphBhea11n+fIgzqJXE3APrKRUcIlX8qk2lYe7GC2tHTla3PHqA5aCu7Ioz2GFNTYG+6H4J/5UP39zPlxC8EwTUOKi+xLMkBaNskhiyz/fysbgQuVqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778083355; c=relaxed/simple;
-	bh=obfSVO+8HW/DbNJa+VnTSxO47YVfzqxF5oObKGgvAXg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kJauybFDRCz7zFPVJMypfANoVREoy8BjxVsqDUfmWsdhMSisvi8d/Jv315z+1G0Vjo/MizRz9TzKejH4PC7GDc8VoFLrEwBglYvuGLQbzpAUSZWewEP9DvgLosq6smrQ1Hgy7eC/4kgxUmScuW2c+Cr1Go+LOwhDLD2K0k0PKSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu; spf=pass smtp.mailfrom=1wt.eu; dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b=Fi3x4M/6; arc=none smtp.client-ip=51.159.59.229
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=1wt.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=1wt.eu
+	s=arc-20240116; t=1778083671; c=relaxed/simple;
+	bh=myWPkFAPWnrGXDyBlpWFWbsi/jhj8ocmdvFf2lEx9uY=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=hAQRFC21g3qWAUE/fBZreC2/R0zmATxObE2Km33RmxJD+t9xUMj3ak1WDbbZXOBrWIXrAj8T+Bg1C9y+uiiaV0rHwQ4n2YOye3hfZK+6/gChahwFieFKk0biAaJKhfSiqsTUkm086RwIjZnNs276mIpSqHHuFe36isUyRkzqY5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RhjyxdnJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=1wt.eu header.i=@1wt.eu header.b="Fi3x4M/6"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=1wt.eu; s=mail;
-	t=1778083336; bh=RjfZ5ZDr3CNZNDkOAQDwIrY2DBYxtmL7s65QjxivLpk=;
-	h=From:Message-ID:From;
-	b=Fi3x4M/6ElZw6YAzEoXCan7YSFs3d5RDT8WjJfp6nFoD2MnEx+DVqgMVtPvkI7SAK
-	 PLaa8XMEFnUz2XHGxtn0OikcpCpvKOU5SLVRA+SiwoBCQQVm9OtjQ/Tnjvi/cE2StA
-	 bbF7qJmGIoaRRDAsaeu9K8vIv5l46LUb7dSu0N+s=
-Received: from 1wt.eu (ded1.1wt.eu [163.172.96.212])
-	by mta1.formilux.org (Postfix) with ESMTP id 1970EC0AC0;
-	Wed, 06 May 2026 18:02:16 +0200 (CEST)
-Date: Wed, 6 May 2026 18:02:15 +0200
-From: Willy Tarreau <w@1wt.eu>
-To: Linus Torvalds <torvalds@linuxfoundation.org>
-Cc: greg@kroah.com, leon@kernel.org, security@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org,
-        workflows@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-Message-ID: <aftmB435XJ8FP3V_@1wt.eu>
-References: <20260503113506.5710-1-w@1wt.eu>
- <20260503113506.5710-3-w@1wt.eu>
- <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RhjyxdnJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 99CF4C2BCB8;
+	Wed,  6 May 2026 16:07:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778083670;
+	bh=myWPkFAPWnrGXDyBlpWFWbsi/jhj8ocmdvFf2lEx9uY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RhjyxdnJQ1XdbZpAPgrUQhMgXABEVvanvCH/6Q/wXQPjyugrOmsPUU5FudET0GKVH
+	 Vl7gKEiC+Wt4vvRXdJbLwbSMzE+x5F44Kqw9tYHs/Bqpe8+01ovKBpCpwfqqLDUavj
+	 srEiKptQ2j8qxIyli6Zh0VuA930jM42zUK862rO71JEgnG6Rd55YKMD9ktgNtrSXA7
+	 5rSH1RYIGWCM52uFnAJ7/Qlfe7kjFB9hGmp/ZXzEHi9gPYbCmvOYEmgSiXm0fvdI5F
+	 eyIvdDouTrIwwCTPGARA1zcBBwu1lqyudXmaOoegECkjVAPu01WtZsVeOSGBE0vDt9
+	 tJWMKVNzkmEXw==
+Date: Wed, 6 May 2026 17:07:40 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Wang Zihan <jiyu03@qq.com>
+Cc: corbet@lwn.net, dlechner@baylibre.com, nuno.sa@analog.com,
+ andy@kernel.org, skhan@linuxfoundation.org, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] iio: adxl313: fix typos in documentation
+Message-ID: <20260506170740.2e49d2ba@jic23-huawei>
+In-Reply-To: <tencent_96704F824670A593EC348F183D5C5AAC5C0A@qq.com>
+References: <tencent_96704F824670A593EC348F183D5C5AAC5C0A@qq.com>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Linus,
+On Tue,  5 May 2026 17:22:43 +0800
+Wang Zihan <jiyu03@qq.com> wrote:
 
-On Wed, May 06, 2026 at 08:46:07AM -0700, Linus Torvalds wrote:
-> [ Coming back to this after a week of trying to clean up the disaster
-> that is my inbox after the merge window ]
-> 
-> On Sun, 3 May 2026 at 04:35, Willy Tarreau <w@1wt.eu> wrote:
-> >
-> > The use of automated tools to find bugs in random locations of the kernel
-> > induces a raise of security reports even if most of them should just be
-> > reported as regular bugs. This patch is an attempt at drawing a line
-> > between what qualifies as a security bug and what does not, hoping to
-> > improve the situation and ease decision on the reporter's side.
-> 
-> I actually think we may want to go further than this.
-> 
-> I think we should simply make it a rule that "a 'security' bug that is
-> found by AI is public".
+> Add missing space in "ADXL313is" and improve grammar for
+> "a single types of channels" to "multiple channels of a single type"
+> as suggested by Jonathan Cameron.
+>=20
+> Wrap long line as suggested by Andy Shevchenko.
+>=20
+> Signed-off-by: Wang Zihan <jiyu03@qq.com>
 
-This would definitely help us a lot on sec@k.o, but...
+Applied to the testing branch of iio.git.
 
-> Now, I may be influenced by that "my inbox is a disaster during the
-> merge window" thing, but I do think this is pretty fundamental: if
-> somebody finds a bug with more or less standard AI tools (ie we're not
-> talking magical special hardware and nation-state level efforts), then
-> that bug pretty much by definition IS NOT SECRET.
+Thanks,
 
-I think it's only 99.9% true. I mean, I've used such tools myself to
-find bugs that were not found otherwise and I know that:
-  - interactions with the tools count a lot
-  - luck counts even more
+Jonathan
 
-There remains a faint possibility that the reporter has worked a lot
-with their tool to be able to find the problem. I.e. the user helped
-the LLM and not the opposite. In this case it might be possible that
-it's not public. But clearly from what we've seen over the last few
-weeks, the number of duplicates has exploded, with up to 3 reports
-for the same issue within 2 days, so it's clear that they're not in
-the category I mention above.
+>=20
+> ---
+> Changes in v4:
+> - Wrapped long line per Andy Shevchenko's suggestion
+>=20
+> Changes in v3:
+> - Reworded "a single type of channels" to "multiple channels of a single =
+type"
+>   per Jonathan Cameron's suggestion
+> - Split into two sentences for better readability
+> - Added this changelog as requested
+>=20
+> Changes in v2:
+> - Fixed subject line format (was incorrectly [PATCH 1/4])
+> ---
+>  Documentation/iio/adxl313.rst | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/iio/adxl313.rst b/Documentation/iio/adxl313.rst
+> index 966e72c0109a..cc0829be0447 100644
+> --- a/Documentation/iio/adxl313.rst
+> +++ b/Documentation/iio/adxl313.rst
+> @@ -11,7 +11,7 @@ This driver supports Analog Device's ADXL313 on SPI/I2C=
+ bus.
+> =20
+>  * `ADXL313 <https://www.analog.com/ADXL313>`_
+> =20
+> -The ADXL313is a low noise density, low power, 3-axis accelerometer with
+> +The ADXL313 is a low noise density, low power, 3-axis accelerometer with
+>  selectable measurement ranges. The ADXL313 supports the =C2=B10.5 g, =C2=
+=B11 g, =C2=B12 g and
+>  =C2=B14 g ranges.
+> =20
+> @@ -112,9 +112,9 @@ apply the following formula:
+>  Where _offset and _scale are device attributes. If no _offset attribute =
+is
+>  present, simply assume its value is 0.
+> =20
+> -The ADXL313 driver offers data for a single types of channels, the table=
+ below
+> -shows the measurement units for the processed value, which are defined b=
+y the
+> -IIO framework:
+> +The ADXL313 driver offers data for multiple channels of a single type.
+> +The table below shows the measurement units for the processed value,
+> +which are defined by the IIO framework:
+> =20
+>  +-------------------------------------+---------------------------+
+>  | Channel type                        | Measurement unit          |
 
-Maybe we should leave some rope for "if you are fairly confident that
-the work you did is unlikely to have been replicated by anyone else,
-the you can report it here" but I think we'll both agree that for now
-most reporters really think they did something exceptional while we all
-saw it was not the case (or they all do the same exceptional thing).
-
-Thus I'm embarrassed with that.
-
-> So why should be consider it special and have it be on the security list?
-> 
-> Yes, yes, I know - some people think that "security bugs are special".
-> And I've been on the record before calling that opinion special - in
-> the short bus sense.
-> 
-> Bugs are bugs. And not having them in public only makes them harder to
-> deal with.
-> 
-> Do we want to make bugs with potential security impact harder to deal
-> with? No. No, we really don't.
-> 
-> So I claim that the only reason for a security list is the non-public
-> nature of the bug and the whole "responsible disclosure" argument.
-
-As you probably guess, I totally agree with these points. I'm just
-trying to leave the door open for the rare exceptions without having
-to accept all the flood.
-
-> But that argument is complete and utter garbage in the face of some
-> mostly automated AI discovery (now, that argument is mostly a fiction
-> in the first place, but I am not going to argue with people who have
-> vested interest in making their special  patches "security bugs").
-> 
-> To recap - I think this "document the scope of security bugs" is good,
-
-Thanks for the feedback.
-
-> but I think we should go even further, and just document the fact that
-> anything found by regular AI tools should just always go to public
-> lists and is simply not special.
-
-I'm fine with that but I'd like to add "except..." though I don't know
-how to phrase it. If you have any idea, we can write something for a
-start and see how it goes. It looks like these tools are pretty good
-at swallowing our doc updates to help reporters so the good thing is
-that we can now write instructions that are mostly followed in process
-docs ;-)
-
-Willy
