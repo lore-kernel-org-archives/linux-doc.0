@@ -1,334 +1,600 @@
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9409D3B8BBF;
-	Wed,  6 May 2026 12:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778068813; cv=none; b=l6KAuK4Q2ohn2UwBEOdtKSGX7xmaa0ImhzeKoTinDh7xSHfiFVs8a176eZh1gKIeXEi5cBWEQxxqOnxuDEO5z8xp8bPIek9lxk3u3sr/9MrVwNI4sHswCf7l/uIQ07QC61cCUXGJmt3s7SoUmm7+Vy/f7jONGEXf1Yu7owSK+HQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778068813; c=relaxed/simple;
-	bh=s0iQw1nuHUf+GNr3teWrkBsxV6MwephCgs2+lAGgxMM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=fOn4r8EQwqIWzeLgGRfNU8OATfk5NgCCvXts4bs0ouYEcslcbWQVZBWb8J8Do+yaI7DKSgcz3SjoHu1nTL1olxW4VtXyIfsYa+LRZB7EHvYshHOS1rLSK2fM4iefxOb4BKLDgdId+5NOPAb3fBiXxT6D84tGZspJkYNtTHzSlF4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=N7UJOoSX; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DF829898B;
+	Wed,  6 May 2026 12:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778070550; cv=pass; b=WRgDTk74ATps26MZdYCVVnr/nwO+DFKJ9/zp73GD1hbhvVM+scXfpl9/3ocbswoEV8hyv5GUKeibtZNEzj4RhQ2prqYoAdccWXn9o9uJ96Bi7y1PpauKNu+bwrykETILmI6OUR4QgiY7PNu+6KIUhStp4LNVrQD5M6hVXMzeKfU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778070550; c=relaxed/simple;
+	bh=HGExhX3Nx3Hp6N/5gPRanTy0Gj9lfvUuyY7S/dUhkzM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DTPCzh3q8PbICVG+Y/TlH8YSsE2elXN54f4oLdMfkHhcEfBsxiKor08df65g2arawrmdm6Hkl3gWwUN+qFjSpkmHQgMo+q3VR1BSmy19PFAE6j+Yvf8sTtJs+CF1kOGOBKVJwn8drLJfUf/gDeJew4u6VFXWU7PsKcG5z49/Yac=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=k882CJdw; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="N7UJOoSX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Cc:To:In-Reply-To:References:Message-Id:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From:Sender:
-	Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
-	:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VzPiqsNNKP8D31HnrqSylsehZjTjNsGJjks0JiVA82w=; b=N7UJOoSXgWni0eCu+o9wxTrZf6
-	AxAqiL6kbPkBb2IQ++jLQV19OgJ8wRTlXztWj+Dx7a0pLObtJnwE0yjtiVer5Vd88BiY0te0LNqdO
-	zKgXMDAsfiejsVOMG/L3qwiiMvqtixf5W+pC4WM858tjWZZTyx2f9dSxzeA2V9B3P9EtMXkr1T4oK
-	9hD9e4YlDhbHxXcRUQ7drQjFpakooglG9HtBBXP/ssDF0pAoMkT12/+3QISFWbIGoO1mHqCOG5Xmb
-	cO2ZM3/7GDO/zs6lm96IDTRgV0kU6aVFiOmCZA2ApkJ7XuZbIBCDAuLlXyR5UHsgO69hRSaj9sR7u
-	6wikuVNg==;
-Received: from 179-125-92-238-dinamico.pombonet.net.br ([179.125.92.238] helo=[127.0.0.1])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1wKavB-006sxt-2K; Wed, 06 May 2026 14:00:08 +0200
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Date: Wed, 06 May 2026 08:58:25 -0300
-Subject: [PATCH 2/2] cgroup/dmem: introduce a peak file
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="k882CJdw"
+ARC-Seal: i=1; a=rsa-sha256; t=1778070520; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=l+02Y4nt08vYzf5RfTPLfhMaq12SDRw85bPfEuZHxOr5YVrMaQZLuc7Lo8S2aaGJWmg4Wr9OHf+c7qgKyq+aY6exi+0KdewDgnh6LxVv43HOUsg7UHTlg4u2zNT0UtwL57XSActJj/6N1oLNIy2bZMApQ/YfoVcyI04WTGzZPTg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1778070520; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=VgWsD25kUgi7nesCpzRJxHdsGO1uPq3DzCM9dWMbCnY=; 
+	b=HQNxPwXIA1b5XRlyV4Fj/cH08jploj5YB2ii5SNPVNOyU2ksrOHr/fEYzdHanVvvS1T7xHbjwErKKqJYipOYITLIPwJZAiijJIdVtsAINS0M6oP0wbm/C9DhKXCJ3TJc8BEOxleUXDQMdpyTapbIORalSUBId95YhANS5Ry8v/o=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1778070520;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=VgWsD25kUgi7nesCpzRJxHdsGO1uPq3DzCM9dWMbCnY=;
+	b=k882CJdwPQxQF3guIG+q9PvT1FBxyho4i23SDEJs7wlNvjAq4wyHBJUif/xXtOyR
+	K3DmZSVO8cl25g6F+xDm0wuNzzB4V2YQ0v/BuH9fV7nuR/4qV3xhkEwfwsmoMWb9+hV
+	2KY3rMN0B23mHSTvh6Qc2nGubnliwugLIdJTw+Bw=
+Received: by mx.zohomail.com with SMTPS id 17780705193392.3676128759162793;
+	Wed, 6 May 2026 05:28:39 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Alice Ryhl <aliceryhl@google.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>
+Cc: dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org,
+ Florent Tomasin <florent.tomasin@arm.com>,
+ Ketil Johnsen <ketil.johnsen@arm.com>
+Subject:
+ Re: [PATCH 4/8] drm/panthor: Add support for protected memory allocation in
+ panthor
+Date: Wed, 06 May 2026 14:28:31 +0200
+Message-ID: <2eMYrGP5StSgdRAYKcS0Lw@collabora.com>
+In-Reply-To: <20260505140516.1372388-5-ketil.johnsen@arm.com>
+References:
+ <20260505140516.1372388-1-ketil.johnsen@arm.com>
+ <20260505140516.1372388-5-ketil.johnsen@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260506-dmem_peak-v1-2-8d803eb3449c@igalia.com>
-References: <20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com>
-In-Reply-To: <20260506-dmem_peak-v1-0-8d803eb3449c@igalia.com>
-To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
- =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
- Michal Hocko <mhocko@kernel.org>, Roman Gushchin <roman.gushchin@linux.dev>, 
- Shakeel Butt <shakeel.butt@linux.dev>, Muchun Song <muchun.song@linux.dev>, 
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, 
- Shuah Khan <skhan@linuxfoundation.org>, 
- Maarten Lankhorst <dev@lankhorst.se>, Maxime Ripard <mripard@kernel.org>, 
- Natalie Vock <natalie.vock@gmx.de>, 
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: cgroups@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-mm@kvack.org, linux-doc@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, kernel-dev@igalia.com
-X-Mailer: b4 0.16-dev-62088
 
-Just like we have memory.peak, introduce a dmem.peak, which uses the
-page_counter support for that.
+Thanks for sending this series! A few quick notes in-line.
 
-It can be written to in order to reset the peak, but different from
-memory.peak, which expects any write, dmem.peak expects the region name to
-be written to it. That region peak is the one that is reset.
+On Tuesday, 5 May 2026 16:05:10 Central European Summer Time Ketil Johnsen =
+wrote:
+> From: Florent Tomasin <florent.tomasin@arm.com>
+>=20
+> This patch allows Panthor to allocate buffer objects from a
+> protected heap. The Panthor driver should be seen as a consumer
+> of the heap and not an exporter.
+>=20
+> Protected memory buffers needed by the Panthor driver:
+> - On CSF FW load, the Panthor driver must allocate a protected
+>   buffer object to hold data to use by the FW when in protected
+>   mode. This protected buffer object is owned by the device
+>   and does not belong to a process.
+> - On CSG creation, the Panthor driver must allocate a protected
+>   suspend buffer object for the FW to store data when suspending
+>   the CSG while in protected mode. The kernel owns this allocation
+>   and does not allow user space mapping. The format of the data
+>   in this buffer is only known by the FW and does not need to be
+>   shared with other entities.
+>=20
+> The driver will retrieve the protected heap using the name of the
+> heap provided to the driver as module parameter.
+>=20
+> If the heap is not yet available, the panthor driver will defer
+> the probe until created. It is an integration error to provide
+> a heap name that does not exist or is never created.
+>=20
+> Panthor is calling the DMA heap allocation function
+> and obtains a DMA buffer from it. This buffer is then
+> registered to GEM and imported.
+>=20
+> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+> Co-developed-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> Signed-off-by: Ketil Johnsen <ketil.johnsen@arm.com>
+> ---
+>  Documentation/gpu/panthor.rst            | 47 +++++++++++++++
+>  drivers/gpu/drm/panthor/Kconfig          |  1 +
+>  drivers/gpu/drm/panthor/panthor_device.c | 28 ++++++++-
+>  drivers/gpu/drm/panthor/panthor_device.h |  6 ++
+>  drivers/gpu/drm/panthor/panthor_fw.c     | 29 ++++++++-
+>  drivers/gpu/drm/panthor/panthor_fw.h     |  2 +
+>  drivers/gpu/drm/panthor/panthor_gem.c    | 77 ++++++++++++++++++++++--
+>  drivers/gpu/drm/panthor/panthor_gem.h    | 16 ++++-
+>  drivers/gpu/drm/panthor/panthor_heap.c   |  2 +
+>  drivers/gpu/drm/panthor/panthor_sched.c  | 11 +++-
+>  10 files changed, 208 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/Documentation/gpu/panthor.rst b/Documentation/gpu/panthor.rst
+> index 7a841741278fb..be20eadea6dd5 100644
+> --- a/Documentation/gpu/panthor.rst
+> +++ b/Documentation/gpu/panthor.rst
+> @@ -54,3 +54,50 @@ sync object arrays and heap chunks. Because they are a=
+ll allocated and pinned
+>  at creation time, only `panthor-resident-memory` is necessary to tell us=
+ their
+>  size. `panthor-active-memory` shows the size of kernel BO's associated w=
+ith
+>  VM's and groups currently being scheduled for execution by the GPU.
+> +
+> +Panthor Protected Memory Integration
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Panthor requires the platform to provide a protected DMA HEAP.
+> +This DMA heap must be identifiable via a string name.
+> +The name is defined by the system integrator, it could be hard coded
+> +in the heap driver, defined by a module parameter of the heap driver
+> +or else.
+> +
+> +.. code-block:: none
+> +
+> +    User
+> +        =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
+> +        |           Application       |
+> +        =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=96=B2=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
+> +            |         |          |
+> +            | DMA-BUF |          | Protected
+> +            |         |          | Job Submission
+> +    --------|---------|----------|---------
+> +    Kernel  |         |          |
+> +            |         |          |
+> +            |         |  DMA-BUF |
+> +    =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=
+=94=8C=E2=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=90
+> +    | DMA PROTECTED HEAP  |=E2=97=84=E2=94=80=E2=94=80=E2=94=80| Panthor=
+ |
+> +    | (Vendor specific)   |    |         |
+> +    =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=
+=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=98
+> +            |                    |
+> +    --------|--------------------|---------
+> +    HW      |                    |
+> +            |                    |
+> +    =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=90  =E2=94=8C=E2=94=80=E2=96=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=90
+> +    | Trusted FW            |  |     |
+> +    | Protected Memory      =E2=97=84=E2=94=80=E2=94=80=E2=96=BA GPU |
+> +    =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=98  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
+> +
+> +To configure Panthor to use the protected memory heap, pass the protecte=
+d memory
+> +heap string name as module parameter of the Panthor module.
+> +
+> +Example:
+> +
+> +    .. code-block:: shell
+> +
+> +        insmod panthor.ko protected_heap_name=3D=E2=80=9Cvendor_protecte=
+d_heap"
+> +
+> +If `protected_heap_name` module parameter is not provided, Panthor will =
+not support
+> +protected job execution.
+> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kc=
+onfig
+> index 911e7f4810c39..fb0bad9a0fd2b 100644
+> --- a/drivers/gpu/drm/panthor/Kconfig
+> +++ b/drivers/gpu/drm/panthor/Kconfig
+> @@ -7,6 +7,7 @@ config DRM_PANTHOR
+>  	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
+>  	depends on MMU
+>  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
+> +	select DMABUF_HEAPS
+>  	select DRM_EXEC
+>  	select DRM_GPUVM
+>  	select DRM_SCHED
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index bc62a498a8a84..3a5cdfa99e5fe 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -5,7 +5,9 @@
+>  /* Copyright 2025 ARM Limited. All rights reserved. */
+> =20
+>  #include <linux/clk.h>
+> +#include <linux/dma-heap.h>
+>  #include <linux/mm.h>
+> +#include <linux/of.h>
 
-That requires ofp_peak to carry a pointer to the pool that was reset.
+Can be dropped, none of the added code in this file requires it.
 
-Writing a different region name will reset the different region and make
-the original region peak get back to its non-reset value.
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_domain.h>
+>  #include <linux/pm_runtime.h>
+> @@ -27,6 +29,10 @@
+>  #include "panthor_regs.h"
+>  #include "panthor_sched.h"
+> =20
+> +MODULE_PARM_DESC(protected_heap_name, "DMA heap name, from which to allo=
+cate protected buffers");
+> +static char *protected_heap_name;
+> +module_param(protected_heap_name, charp, 0444);
+> +
+>  static int panthor_gpu_coherency_init(struct panthor_device *ptdev)
+>  {
+>  	BUILD_BUG_ON(GPU_COHERENCY_NONE !=3D DRM_PANTHOR_GPU_COHERENCY_NONE);
+> @@ -127,6 +133,9 @@ void panthor_device_unplug(struct panthor_device *ptd=
+ev)
+>  	panthor_gpu_unplug(ptdev);
+>  	panthor_pwr_unplug(ptdev);
+> =20
+> +	if (ptdev->protm.heap)
+> +		dma_heap_put(ptdev->protm.heap);
+> +
+>  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
+>  	pm_runtime_put_sync_suspend(ptdev->base.dev);
+> =20
+> @@ -277,9 +286,21 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  			return ret;
+>  	}
+> =20
+> +	/* If a protected heap name is specified but not found, defer the probe=
+ until created */
+> +	if (protected_heap_name && strlen(protected_heap_name)) {
+> +		ptdev->protm.heap =3D dma_heap_find(protected_heap_name);
+> +		if (!ptdev->protm.heap) {
+> +			drm_warn(&ptdev->base,
+> +				 "Protected heap \'%s\' not (yet) available - deferring probe",
+> +				 protected_heap_name);
 
-Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
----
- Documentation/admin-guide/cgroup-v2.rst |  10 +++
- include/linux/cgroup-defs.h             |   1 +
- kernel/cgroup/dmem.c                    | 132 ++++++++++++++++++++++++++++++--
- 3 files changed, 137 insertions(+), 6 deletions(-)
+The escaping of the single quotes here is redundant, and I think this
+is better as a debug message rather than a drm_warn: probe deferral
+is normal.
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 6efd0095ed99..3ba7ab3a36b3 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -2808,6 +2808,16 @@ DMEM Interface Files
- 	The semantics are the same as for the memory cgroup controller, and are
- 	calculated in the same way.
- 
-+  dmem.peak
-+	A readwrite nested-keyed file that exists on non-root cgroups.
-+
-+	The max memory usage recorded for the cgroup and its descendants since
-+	either the creation of the cgroup or the most recent reset for that FD.
-+
-+	A write of a region name to this file resets it to the current memory
-+	usage for subsequent reads through the same file descriptor for that
-+	region.
-+
-   dmem.capacity
- 	A read-only file that describes maximum region capacity.
- 	It only exists on the root cgroup. Not all memory can be
-diff --git a/include/linux/cgroup-defs.h b/include/linux/cgroup-defs.h
-index a85044cb0553..b536054bd916 100644
---- a/include/linux/cgroup-defs.h
-+++ b/include/linux/cgroup-defs.h
-@@ -874,6 +874,7 @@ extern bool cgroup_enable_per_threadgroup_rwsem;
- struct cgroup_of_peak {
- 	unsigned long		value;
- 	struct list_head	list;
-+	struct dmem_cgroup_pool_state *pool;
- };
- 
- void of_peak_reset(struct cgroup_of_peak *ofp, struct page_counter *pc,
-diff --git a/kernel/cgroup/dmem.c b/kernel/cgroup/dmem.c
-index 1ab1fb47f271..afa380c9839b 100644
---- a/kernel/cgroup/dmem.c
-+++ b/kernel/cgroup/dmem.c
-@@ -57,6 +57,9 @@ struct dmemcg_state {
- 	struct cgroup_subsys_state css;
- 
- 	struct list_head pools;
-+
-+	/** @peaks_lock: Protects access to the pools' peaks lists */
-+	spinlock_t peaks_lock;
- };
- 
- struct dmem_cgroup_pool_state {
-@@ -72,6 +75,10 @@ struct dmem_cgroup_pool_state {
- 	struct rcu_head rcu;
- 
- 	struct page_counter cnt;
-+
-+	/* Protected by the dmemcg_state peaks_lock */
-+	struct list_head peaks;
-+
- 	struct dmem_cgroup_pool_state *parent;
- 
- 	refcount_t ref;
-@@ -162,26 +169,45 @@ set_resource_max(struct dmem_cgroup_pool_state *pool, u64 val)
- 	page_counter_set_max(&pool->cnt, val);
- }
- 
--static u64 get_resource_low(struct dmem_cgroup_pool_state *pool)
-+static u64 get_resource_low(struct seq_file *sf, struct dmem_cgroup_pool_state *pool)
- {
- 	return pool ? READ_ONCE(pool->cnt.low) : 0;
- }
- 
--static u64 get_resource_min(struct dmem_cgroup_pool_state *pool)
-+static u64 get_resource_min(struct seq_file *sf, struct dmem_cgroup_pool_state *pool)
- {
- 	return pool ? READ_ONCE(pool->cnt.min) : 0;
- }
- 
--static u64 get_resource_max(struct dmem_cgroup_pool_state *pool)
-+static u64 get_resource_max(struct seq_file *sf, struct dmem_cgroup_pool_state *pool)
- {
- 	return pool ? READ_ONCE(pool->cnt.max) : PAGE_COUNTER_MAX;
- }
- 
--static u64 get_resource_current(struct dmem_cgroup_pool_state *pool)
-+static u64 get_resource_current(struct seq_file *sf, struct dmem_cgroup_pool_state *pool)
- {
- 	return pool ? page_counter_read(&pool->cnt) : 0;
- }
- 
-+static u64 get_resource_peak(struct seq_file *sf, struct dmem_cgroup_pool_state *pool)
-+{
-+	struct cgroup_of_peak *ofp = of_peak(sf->private);
-+	u64 fd_peak, peak;
-+	struct dmem_cgroup_pool_state *of_pool;
-+
-+	if (!pool)
-+		return 0;
-+
-+	of_pool = READ_ONCE(ofp->pool);
-+
-+	fd_peak = READ_ONCE(ofp->value);
-+	if (of_pool != pool || fd_peak == OFP_PEAK_UNSET)
-+		peak = pool->cnt.watermark;
-+	else
-+		peak = max(fd_peak, READ_ONCE(pool->cnt.local_watermark));
-+	return peak;
-+}
-+
- static void reset_all_resource_limits(struct dmem_cgroup_pool_state *rpool)
- {
- 	set_resource_min(rpool, 0);
-@@ -227,6 +253,7 @@ dmemcs_alloc(struct cgroup_subsys_state *parent_css)
- 		return ERR_PTR(-ENOMEM);
- 
- 	INIT_LIST_HEAD(&dmemcs->pools);
-+	spin_lock_init(&dmemcs->peaks_lock);
- 	return &dmemcs->css;
- }
- 
-@@ -377,6 +404,7 @@ alloc_pool_single(struct dmemcg_state *dmemcs, struct dmem_cgroup_region *region
- 			  ppool ? &ppool->cnt : NULL, true);
- 	reset_all_resource_limits(pool);
- 	refcount_set(&pool->ref, 1);
-+	INIT_LIST_HEAD(&pool->peaks);
- 	kref_get(&region->ref);
- 	if (ppool && !pool->parent) {
- 		pool->parent = ppool;
-@@ -784,7 +812,7 @@ static ssize_t dmemcg_limit_write(struct kernfs_open_file *of,
- }
- 
- static int dmemcg_limit_show(struct seq_file *sf, void *v,
--			    u64 (*fn)(struct dmem_cgroup_pool_state *))
-+			    u64 (*fn)(struct seq_file *, struct dmem_cgroup_pool_state *))
- {
- 	struct dmemcg_state *dmemcs = css_to_dmemcs(seq_css(sf));
- 	struct dmem_cgroup_region *region;
-@@ -796,7 +824,7 @@ static int dmemcg_limit_show(struct seq_file *sf, void *v,
- 
- 		seq_puts(sf, region->name);
- 
--		val = fn(pool);
-+		val = fn(sf, pool);
- 		if (val < PAGE_COUNTER_MAX)
- 			seq_printf(sf, " %lld\n", val);
- 		else
-@@ -807,6 +835,90 @@ static int dmemcg_limit_show(struct seq_file *sf, void *v,
- 	return 0;
- }
- 
-+static int dmem_cgroup_region_peak_open(struct kernfs_open_file *of)
-+{
-+	struct cgroup_of_peak *ofp = of_peak(of);
-+
-+	ofp->value = OFP_PEAK_UNSET;
-+
-+	return 0;
-+}
-+
-+static void dmem_cgroup_region_peak_remove(struct cgroup_of_peak *ofp)
-+{
-+	struct dmem_cgroup_pool_state *pool;
-+	struct dmemcg_state *dmemcs;
-+
-+	pool = xchg(&ofp->pool, NULL);
-+	if (!pool)
-+		return;
-+
-+	dmemcs = pool->cs;
-+
-+	spin_lock(&dmemcs->peaks_lock);
-+	list_del(&ofp->list);
-+	spin_unlock(&dmemcs->peaks_lock);
-+
-+	WRITE_ONCE(ofp->value, OFP_PEAK_UNSET);
-+
-+	dmemcg_pool_put(pool);
-+}
-+
-+static void dmem_cgroup_region_peak_release(struct kernfs_open_file *of)
-+{
-+	struct cgroup_of_peak *ofp = of_peak(of);
-+
-+	if (ofp->value == OFP_PEAK_UNSET) {
-+		/* fast path (no writes on this fd) */
-+		return;
-+	}
-+
-+	dmem_cgroup_region_peak_remove(ofp);
-+}
-+
-+static ssize_t dmem_cgroup_region_peak_write(struct kernfs_open_file *of,
-+					     char *buf, size_t nbytes, loff_t off)
-+{
-+	struct dmemcg_state *dmemcs = css_to_dmemcs(of_css(of));
-+	struct cgroup_of_peak *ofp = of_peak(of);
-+	struct dmem_cgroup_pool_state *pool = NULL;
-+	struct dmem_cgroup_region *region;
-+	int err = 0;
-+
-+	buf = strstrip(buf);
-+	if (!buf[0])
-+		return -EINVAL;
-+
-+	rcu_read_lock();
-+	region = dmemcg_get_region_by_name(buf);
-+	rcu_read_unlock();
-+
-+	if (!region)
-+		return -EINVAL;
-+
-+	pool = get_cg_pool_unlocked(dmemcs, region);
-+	if (IS_ERR(pool)) {
-+		err = PTR_ERR(pool);
-+		goto out_put;
-+	}
-+
-+	dmem_cgroup_region_peak_remove(ofp);
-+
-+	xchg(&ofp->pool, pool);
-+	spin_lock(&dmemcs->peaks_lock);
-+	of_peak_reset(ofp, &pool->cnt, &pool->peaks);
-+	spin_unlock(&dmemcs->peaks_lock);
-+
-+out_put:
-+	kref_put(&region->ref, dmemcg_free_region);
-+	return err ?: nbytes;
-+}
-+
-+static int dmem_cgroup_region_peak_show(struct seq_file *sf, void *v)
-+{
-+	return dmemcg_limit_show(sf, v, get_resource_peak);
-+}
-+
- static int dmem_cgroup_region_current_show(struct seq_file *sf, void *v)
- {
- 	return dmemcg_limit_show(sf, v, get_resource_current);
-@@ -855,6 +967,14 @@ static struct cftype files[] = {
- 		.name = "current",
- 		.seq_show = dmem_cgroup_region_current_show,
- 	},
-+	{
-+		.name = "peak",
-+		.open = dmem_cgroup_region_peak_open,
-+		.release = dmem_cgroup_region_peak_release,
-+		.write = dmem_cgroup_region_peak_write,
-+		.seq_show = dmem_cgroup_region_peak_show,
-+		.flags = CFTYPE_NOT_ON_ROOT,
-+	},
- 	{
- 		.name = "min",
- 		.write = dmem_cgroup_region_min_write,
+Though I'm wondering whether we're open-coding dependency handling here,
+I guess there's no way for any core to order things for us because the
+dependency is on a name and the name is from a driver-specific module
+parameter, so there's no generic solution to this. This second paragraph
+is just me ruminating though and not an actionable request for changes.
 
--- 
-2.47.3
+> +			ret =3D -EPROBE_DEFER;
+> +			goto err_rpm_put;
+> +		}
+> +	}
+> +
+>  	ret =3D panthor_hw_init(ptdev);
+>  	if (ret)
+> -		goto err_rpm_put;
+> +		goto err_dma_heap_put;
+> =20
+>  	ret =3D panthor_pwr_init(ptdev);
+>  	if (ret)
+> @@ -343,6 +364,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+> =20
+>  err_rpm_put:
+>  	pm_runtime_put_sync_suspend(ptdev->base.dev);
+> +
+> +err_dma_heap_put:
+> +	if (ptdev->protm.heap)
+> +		dma_heap_put(ptdev->protm.heap);
+> +
+
+This is ordered wrong. Getting the dma heap happens after getting rpm,
+so the unwind should put the dma heap before putting rpm. Right now,
+a failure of panthor_hw_init would leave rpm enabled.
+
+As Boris already mentioned in his review though, using devres helpers
+would get rid of this manual put on error or driver remove entirely,
+which is preferable.
+
+>  	return ret;
+>  }
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
+anthor/panthor_device.h
+> index 5cba272f9b4de..d51fec97fc5fa 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -7,6 +7,7 @@
+>  #define __PANTHOR_DEVICE_H__
+> =20
+>  #include <linux/atomic.h>
+> +#include <linux/dma-heap.h>
+>  #include <linux/io-pgtable.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/pm_runtime.h>
+> @@ -329,6 +330,11 @@ struct panthor_device {
+>  		struct list_head node;
+>  	} gems;
+>  #endif
+> +	/** @protm: Protected mode related data. */
+> +	struct {
+> +		/** @heap: Pointer to the protected heap */
+> +		struct dma_heap *heap;
+> +	} protm;
+>  };
+> =20
+>  struct panthor_gpu_usage {
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panth=
+or/panthor_fw.c
+> index 0d07a133dc3af..1aba29b9779b6 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.c
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
+> @@ -500,6 +500,7 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_devic=
+e *ptdev,
+> =20
+>  	mem =3D panthor_kernel_bo_create(ptdev, ptdev->fw->vm, SZ_8K,
+>  				       DRM_PANTHOR_BO_NO_MMAP,
+> +				       0,
+>  				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
+>  				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
+>  				       PANTHOR_VM_KERNEL_AUTO_VA,
+> @@ -534,6 +535,26 @@ panthor_fw_alloc_suspend_buf_mem(struct panthor_devi=
+ce *ptdev, size_t size)
+>  {
+>  	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
+>  					DRM_PANTHOR_BO_NO_MMAP,
+> +					0,
+> +					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+> +					PANTHOR_VM_KERNEL_AUTO_VA,
+> +					"suspend_buf");
+
+Looks like we're effectively renaming this from "FW suspend buffer"
+to "suspend_buf", and calling the protm suspend buf "FW suspend buffer".
+
+This seems a little confusing, to the point where the diff algorithm
+also had a hard time. Naming comes down to a matter of taste, but I
+want to make sure the rename was intentional here.
+
+> +}
+> +
+> +/**
+> + * panthor_fw_alloc_protm_suspend_buf_mem() - Allocate a protm suspend b=
+uffer
+> + * for a command stream group.
+> + * @ptdev: Device.
+> + * @size: Size of the protm suspend buffer.
+> + *
+> + * Return: A valid pointer in case of success, an ERR_PTR() otherwise.
+> + */
+> +struct panthor_kernel_bo *
+> +panthor_fw_alloc_protm_suspend_buf_mem(struct panthor_device *ptdev, siz=
+e_t size)
+> +{
+> +	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
+> +					DRM_PANTHOR_BO_NO_MMAP,
+> +					DRM_PANTHOR_KBO_PROTECTED_HEAP,
+>  					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
+>  					PANTHOR_VM_KERNEL_AUTO_VA,
+>  					"FW suspend buffer");
+> @@ -547,6 +568,7 @@ static int panthor_fw_load_section_entry(struct panth=
+or_device *ptdev,
+>  	ssize_t vm_pgsz =3D panthor_vm_page_size(ptdev->fw->vm);
+>  	struct panthor_fw_binary_section_entry_hdr hdr;
+>  	struct panthor_fw_section *section;
+> +	u32 kbo_flags =3D 0;
+>  	u32 section_size;
+>  	u32 name_len;
+>  	int ret;
+> @@ -585,10 +607,13 @@ static int panthor_fw_load_section_entry(struct pan=
+thor_device *ptdev,
+>  		return -EINVAL;
+>  	}
+> =20
+> -	if (hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) {
+> +	if ((hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) && !ptdev->protm.heap)=
+ {
+>  		drm_warn(&ptdev->base,
+>  			 "Firmware protected mode entry is not supported, ignoring");
+>  		return 0;
+> +	} else if ((hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) && ptdev->protm=
+=2Eheap) {
+> +		drm_info(&ptdev->base, "Firmware protected mode entry supported");
+> +		kbo_flags =3D DRM_PANTHOR_KBO_PROTECTED_HEAP;
+
+Instead of the duplicated check in both branches of the condition,
+nesting it may be less clunky:
+
+if ((hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) {
+	if (!ptdev->protm.heap) {
+		drm_warn(&ptdev->base,
+		         "Firmware protected mode entry is not supported, ignoring");
+		return 0;
+	}
+
+	drm_info(&ptdev->base, "Firmware protected mode entry supported");
+	kbo_flags =3D DRM_PANTHOR_KBO_PROTECTED_HEAP;
+}
+
+That being said, we might want to rethink the warning/info entirely. If
+it's normal behaviour for a platform to load this fw section, even if
+the platform doesn't support protm, as I suspect is the case due to the
+`return 0`, then the warning has always been a bit too noisy.
+
+I think info level that also gives some identifier for what section was
+ignored (e.g. fw offset start/end) would be fine. The other branch, i.e.
+"Firmware protected mode entry supported", may be best something that
+gets printed along with other details about what the GPU supports, so
+that each protected section does not print this over and over. It feels
+wrong to do it in panthor_hw_info_init since that's printing features of
+the hardware rather than of panthor's configuration, so maybe just do it
+in panthor_device_init after ptdev->protm.heap is non-NULL.
+
+>  	}
+> =20
+>  	if (hdr.va.start =3D=3D CSF_MCU_SHARED_REGION_START &&
+> @@ -653,7 +678,7 @@ static int panthor_fw_load_section_entry(struct panth=
+or_device *ptdev,
+> =20
+>  		section->mem =3D panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
+>  							section_size,
+> -							DRM_PANTHOR_BO_NO_MMAP,
+> +							DRM_PANTHOR_BO_NO_MMAP, kbo_flags,
+>  							vm_map_flags, va, "FW section");
+>  		if (IS_ERR(section->mem))
+>  			return PTR_ERR(section->mem);
+> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panth=
+or/panthor_fw.h
+> index fbdc21469ba32..0cf3761abf789 100644
+> --- a/drivers/gpu/drm/panthor/panthor_fw.h
+> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
+> @@ -509,6 +509,8 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_devic=
+e *ptdev,
+>  				 u32 *input_fw_va, u32 *output_fw_va);
+>  struct panthor_kernel_bo *
+>  panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t si=
+ze);
+> +struct panthor_kernel_bo *
+> +panthor_fw_alloc_protm_suspend_buf_mem(struct panthor_device *ptdev, siz=
+e_t size);
+> =20
+>  struct panthor_vm *panthor_fw_vm(struct panthor_device *ptdev);
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 13295d7a593df..08fe4a5e43817 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -20,12 +20,17 @@
+>  #include <drm/drm_print.h>
+>  #include <drm/panthor_drm.h>
+> =20
+> +#include <uapi/linux/dma-heap.h>
+> +
+>  #include "panthor_device.h"
+>  #include "panthor_drv.h"
+>  #include "panthor_fw.h"
+>  #include "panthor_gem.h"
+>  #include "panthor_mmu.h"
+> =20
+> +MODULE_IMPORT_NS("DMA_BUF");
+> +MODULE_IMPORT_NS("DMA_BUF_HEAP");
+> +
+>  void panthor_gem_init(struct panthor_device *ptdev)
+>  {
+>  	int err;
+> @@ -466,7 +471,6 @@ static void panthor_gem_free_object(struct drm_gem_ob=
+ject *obj)
+>  	}
+> =20
+>  	drm_gem_object_release(obj);
+> -
+
+Unrelated whitespace change (though I do like it), don't know how we
+handle "too small for its own commit but also function isn't touched
+by anything else in this commit" type whitespace cleanups.
+
+>  	kfree(bo);
+>  	drm_gem_object_put(vm_root_gem);
+>  }
+> @@ -1026,6 +1030,7 @@ panthor_gem_create(struct drm_device *dev, size_t s=
+ize, uint32_t flags,
+>  	}
+> =20
+>  	panthor_gem_debugfs_set_usage_flags(bo, usage_flags);
+> +
+
+Unrelated whitespace change (though again, I do like it)
+
+>  	return bo;
+> =20
+>  err_put:
+> @@ -1033,6 +1038,54 @@ panthor_gem_create(struct drm_device *dev, size_t =
+size, uint32_t flags,
+>  	return ERR_PTR(ret);
+>  }
+> =20
+> +static struct panthor_gem_object *
+> +panthor_gem_create_protected(struct panthor_device *ptdev, size_t size,
+> +			     uint32_t flags, struct panthor_vm *exclusive_vm,
+> +			     u32 usage_flags)
+> +{
+> +	struct dma_buf *dma_bo =3D NULL;
+> +	struct drm_gem_object *gem_obj;
+> +	struct panthor_gem_object *bo;
+> +	int ret;
+> +
+> +	if (!ptdev->protm.heap)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (flags !=3D DRM_PANTHOR_BO_NO_MMAP)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (!exclusive_vm)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	dma_bo =3D dma_heap_buffer_alloc(ptdev->protm.heap, size, DMA_HEAP_VALI=
+D_FD_FLAGS,
+> +				       DMA_HEAP_VALID_HEAP_FLAGS);
+> +	if (IS_ERR(dma_bo))
+> +		return ERR_PTR(PTR_ERR(dma_bo));
+> +
+> +	gem_obj =3D drm_gem_prime_import(&ptdev->base, dma_bo);
+
+I agree with Boris that putting the dma_buf here is the cleanest
+solution.
+
+Adding a cleanup.h DEFINE_FREE helper for dmabufs would be a longer-
+term refactor with its own pros and cons, but would allow us to get
+rid of the explicit put entirely by adorning the local with a __free
+attribute.
+
+> +	if (IS_ERR(gem_obj)) {
+> +		ret =3D PTR_ERR(gem_obj);
+> +		goto err_free_dma_bo;
+> +	}
+> +
+> +	bo =3D to_panthor_bo(gem_obj);
+> +	bo->flags =3D flags;
+> +
+> +	panthor_gem_debugfs_set_usage_flags(bo, usage_flags);
+> +
+> +	bo->exclusive_vm_root_gem =3D panthor_vm_root_gem(exclusive_vm);
+> +	drm_gem_object_get(bo->exclusive_vm_root_gem);
+> +	bo->base.resv =3D bo->exclusive_vm_root_gem->resv;
+> +
+> +	return bo;
+> +
+> +err_free_dma_bo:
+> +	if (dma_bo)
+> +		dma_buf_put(dma_bo);
+> +
+> +	return ERR_PTR(ret);
+> +}
+> +
+>  struct drm_gem_object *
+>  panthor_gem_prime_import_sg_table(struct drm_device *dev,
+>  				  struct dma_buf_attachment *attach,
+
+Kind regards,
+Nicolas Frattaroli
+
 
