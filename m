@@ -1,511 +1,575 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54920423176;
-	Wed,  6 May 2026 14:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from extorris.mess.org (extorris.mess.org [92.243.27.206])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14CB6481672;
+	Wed,  6 May 2026 14:43:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=92.243.27.206
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778078563; cv=none; b=rrMN+uoDY7SDPVv/xAke5uR0IkKxjrhI7d6QfyoGNFMw8mUCsvXcRLii5c4sxRczhjmhz3CUsjP5fGvFISJ1peNs6CyEYhNLoC/G2BklAEul042gS6yLgZBsNp7i/JBI9muStcTLUeLbeTXZ/KpuvYzYqI+6H7EIGh0zREMwSfI=
+	t=1778078611; cv=none; b=TFXDPHlwbIs/0iAkD+Ali1nsylNai2S5BcaSpjl9bqE4zhgbqKCd1EDEky4UMOwX/Od2q+xAF/L9m6ljVejtg9pLpp8cnzS1TtCHaMOvXvtebw/OIvAPkdtSqDFWUJplt+faZ0AZov+yFQbNJaWo5NuHkWz2aHlzrifEAwFF3f0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778078563; c=relaxed/simple;
-	bh=oEjGrkm85m4UCUmN+tq5hKgVlKjP1DK7bgtzszcGICE=;
-	h=Date:From:To:Cc:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type:Content-Disposition; b=O4lwrN48Ugj8bZXHwoOyL+tPCtEz8+zxJXNdTTJk6Ho06uNoujym3IesGh8rg7W/3YWQrPODqpRoLPhyQayH4rPU9jBewi+HhTtnsr43QSxD1PAhcraZ28mMg6+JmMTyvrqwatQ3luHuBxDoSDI6PwOy15r/b++2g91En7Lm2cg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=nzT/+nb3; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1778078611; c=relaxed/simple;
+	bh=6d9F+pJci21rx/PgvsDV0n4eVOiHg0n3rX/welKGutg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=SRGt3Lo0CB6kZfl0yZ7TkLw1XQjONSkdsXoBEyMajkWQ78seziRaFlAz+Ipur9mnSibfeS/EF8bYW/BAnFkJM8pfOKkMBEaTCKyPrSBNSJMDU5/4suTb+NU1mU18M71vvcX1zk/uUYszps45BqnNlkmPDEHA0nT+XKkVYGqniJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=c+WEFXxj; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=HQrfukeb; arc=none smtp.client-ip=92.243.27.206
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="nzT/+nb3"
-Received: from jeffbarnes-ThinkPad-P14s-Gen-2i (unknown [52.177.6.131])
-	by linux.microsoft.com (Postfix) with ESMTPSA id C772320B7165;
-	Wed,  6 May 2026 07:42:30 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C772320B7165
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1778078552;
-	bh=Pv1lMoxjQy4DDl27TX7Hfog87twEx3siikQJCVpCXHg=;
-	h=Date:From:To:Cc:In-Reply-To:References:Subject:From;
-	b=nzT/+nb3SK+81p1Ya/pp1p5nTNprqfmoj0h78JoPVZd8I4DE/Ezx4Tb16INV5jRU2
-	 KQ5/XM1pGOu87G075JwUpUQq9RR2PLKn+SfAC2lbFQpMmGAq4GnbxdsmE/INRIcRpz
-	 NlDFdtpUNj5EFgdzwRj8jPNbaUfbsApmLXy9L2Gw=
-Date: Wed, 6 May 2026 10:42:31 -0400
-From: Jeff Barnes <jeffbarnes@linux.microsoft.com>
-To: Andy Lutomirski <luto@amacapital.net>
-Cc: Eric Biggers <ebiggers@kernel.org>, 
- "=?utf-8?Q?linux-crypto=40vger.kernel.org?="
- <linux-crypto@vger.kernel.org>, Herbert Xu
- <herbert@gondor.apana.org.au>, "=?utf-8?Q?linux-doc=40vger.kernel.org?="
- <linux-doc@vger.kernel.org>, "=?utf-8?Q?linux-api=40vger.kernel.org?="
- <linux-api@vger.kernel.org>, 
- "=?utf-8?Q?linux-kernel=40vger.kernel.org?="
- <linux-kernel@vger.kernel.org>, "=?utf-8?Q?netdev=40vger.kernel.org?="
- <netdev@vger.kernel.org>, Linus Torvalds
- <torvalds@linux-foundation.org>
-Message-ID: <14A441D8-5370-44BE-8732-99BF8107C3FD@getmailspring.com>
-In-Reply-To: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
-References: <CALCETrVqG+1yErRJjkxvJrf=A+Vu84HTR4Bx1Pcd8G1C0PJcMA@mail.gmail.com>
-Subject: Re: [PATCH] crypto: af_alg - Document the deprecation of AF_ALG
-X-Mailer: Mailspring
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="c+WEFXxj";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="HQrfukeb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1778078607; bh=6d9F+pJci21rx/PgvsDV0n4eVOiHg0n3rX/welKGutg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=c+WEFXxjFy1t52H+xSgoZKl8Ry4UzrjgXnVtXD0z+8VAmPi+QSchclZzuJWPvt74h
+	 2tGG8KI9/I2o4NzhB607MV9B3RNpxz/nggMVT2wqoupOAPBUaN3eLRcr0Qz+3Hdjqr
+	 RLpC7TKakItV34DgST8gWZKW/zAyJ6Q0RzkC8qCEM8hi829vQbUegpJ9O1vUP1jMIO
+	 IIp0TULsxUZEvPeP9jRv98aapmqB0vS2roI5qL1bziRMKSZeRqF/uFGYTi7U8C1I9g
+	 6Ox+YVCYg3uHyW4qRW/aVIrZArVENBqdZ2s0Z4iANT7K10i5z7vhSJmBh72Xo7Uyql
+	 Ka1xOEYnmOYvQ==
+Received: by extorris.mess.org (Postfix, from userid 1004)
+	id EAD6A41CDE; Wed, 06 May 2026 15:43:27 +0100 (BST)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1778078591; bh=6d9F+pJci21rx/PgvsDV0n4eVOiHg0n3rX/welKGutg=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HQrfukeb0e+hloXa9AS8KjoT8CbZANeOZzDvoTBnBObeKuOznToRgR9mnHdam2dzi
+	 IoRIsKLuVIHwwQdQbJj5MbZGE/9YMGHpJnYP4MRVhxT5Ka+1Cgv21r4WpJ2gXpJRU9
+	 VXXgufKSE+rLGpcYVaqzpMFVLVyLvIUb2wnQtRQeyOOIjU+8bY5vKXZOPCI5NZqpVx
+	 Q0RYouIirhqwAy2jUiuagL//AviXvFnF3UZpB+8Jr8QHNpjRz2ag1O3Kw9W4aRITqW
+	 FtswzzQiCy0zmXTHioUmbhZkUT46uQYPQ2tdvCgNMgkcIlzSpmPvpPa2t0ZGwid4dk
+	 NoS4018ioNyOw==
+Received: from maru.local (unknown [140.228.74.55])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange x25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by extorris.mess.org (Postfix) with ESMTPSA id A1BE040154;
+	Wed, 06 May 2026 15:43:11 +0100 (BST)
+From: Sean Young <sean@mess.org>
+To: linux-kernel@vger.kernel.org,
+	Wim Van Sebroeck <wim@linux-watchdog.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Cc: linux-watchdog@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH 6/8] watchdog: sc520: Drop AMD Elan SC520 support
+Date: Wed,  6 May 2026 15:42:51 +0100
+Message-ID: <59c97749c14a4ad1039bb9cc920cf32babb9d6f7.1778071745.git.sean@mess.org>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <cover.1778071745.git.sean@mess.org>
+References: <cover.1778071745.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Since commit 8b793a92d862 ("x86/cpu: Remove M486/M486SX/ELAN support"),
+this board is no longer supported. Remove the watchdog too.
 
-On May 5 2026, at 7:17 pm, Andy Lutomirski <luto=40amacapital.net> wrote:=
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ .../watchdog/watchdog-parameters.rst          |   9 -
+ drivers/watchdog/Kconfig                      |  13 -
+ drivers/watchdog/Makefile                     |   1 -
+ drivers/watchdog/sc520_wdt.c                  | 430 ------------------
+ 4 files changed, 453 deletions(-)
+ delete mode 100644 drivers/watchdog/sc520_wdt.c
 
+diff --git a/Documentation/watchdog/watchdog-parameters.rst b/Documentation/watchdog/watchdog-parameters.rst
+index 773241ed9986..638b972e0b16 100644
+--- a/Documentation/watchdog/watchdog-parameters.rst
++++ b/Documentation/watchdog/watchdog-parameters.rst
+@@ -532,15 +532,6 @@ sc1200wdt:
+ 
+ -------------------------------------------------
+ 
+-sc520_wdt:
+-    timeout:
+-	Watchdog timeout in seconds. (1 <= timeout <= 3600, default=30)
+-    nowayout:
+-	Watchdog cannot be stopped once started
+-	(default=kernel config parameter)
+-
+--------------------------------------------------
+-
+ sch311x_wdt:
+     force_id:
+ 	Override the detected device ID
+diff --git a/drivers/watchdog/Kconfig b/drivers/watchdog/Kconfig
+index dc78729ba2a5..4e36e4b5bf39 100644
+--- a/drivers/watchdog/Kconfig
++++ b/drivers/watchdog/Kconfig
+@@ -1270,19 +1270,6 @@ config GEODE_WDT
+ 	  You can compile this driver directly into the kernel, or use
+ 	  it as a module.  The module will be called geodewdt.
+ 
+-config SC520_WDT
+-	tristate "AMD Elan SC520 processor Watchdog"
+-	depends on MELAN || COMPILE_TEST
+-	help
+-	  This is the driver for the hardware watchdog built in to the
+-	  AMD "Elan" SC520 microcomputer commonly used in embedded systems.
+-	  This watchdog simply watches your kernel to make sure it doesn't
+-	  freeze, and if it does, it reboots your computer after a certain
+-	  amount of time.
+-
+-	  You can compile this driver directly into the kernel, or use
+-	  it as a module.  The module will be called sc520_wdt.
+-
+ config SBC_FITPC2_WATCHDOG
+ 	tristate "Compulab SBC-FITPC2 watchdog"
+ 	depends on (X86 || COMPILE_TEST) && HAS_IOPORT
+diff --git a/drivers/watchdog/Makefile b/drivers/watchdog/Makefile
+index d2fb16b9f9ce..1daeab5b2473 100644
+--- a/drivers/watchdog/Makefile
++++ b/drivers/watchdog/Makefile
+@@ -116,7 +116,6 @@ obj-$(CONFIG_EXAR_WDT) += exar_wdt.o
+ obj-$(CONFIG_F71808E_WDT) += f71808e_wdt.o
+ obj-$(CONFIG_SP5100_TCO) += sp5100_tco.o
+ obj-$(CONFIG_GEODE_WDT) += geodewdt.o
+-obj-$(CONFIG_SC520_WDT) += sc520_wdt.o
+ obj-$(CONFIG_SBC_FITPC2_WATCHDOG) += sbc_fitpc2_wdt.o
+ obj-$(CONFIG_EUROTECH_WDT) += eurotechwdt.o
+ obj-$(CONFIG_IB700_WDT) += ib700wdt.o
+diff --git a/drivers/watchdog/sc520_wdt.c b/drivers/watchdog/sc520_wdt.c
+deleted file mode 100644
+index 005f62e4a4fb..000000000000
+--- a/drivers/watchdog/sc520_wdt.c
++++ /dev/null
+@@ -1,430 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0-or-later
+-/*
+- *	AMD Elan SC520 processor Watchdog Timer driver
+- *
+- *	Based on acquirewdt.c by Alan Cox,
+- *	     and sbc60xxwdt.c by Jakob Oestergaard <jakob@unthought.net>
+- *
+- *	The authors do NOT admit liability nor provide warranty for
+- *	any of this software. This material is provided "AS-IS" in
+- *	the hope that it may be useful for others.
+- *
+- *	(c) Copyright 2001    Scott Jennings <linuxdrivers@oro.net>
+- *           9/27 - 2001      [Initial release]
+- *
+- *	Additional fixes Alan Cox
+- *	-	Fixed formatting
+- *	-	Removed debug printks
+- *	-	Fixed SMP built kernel deadlock
+- *	-	Switched to private locks not lock_kernel
+- *	-	Used ioremap/writew/readw
+- *	-	Added NOWAYOUT support
+- *	4/12 - 2002 Changes by Rob Radez <rob@osinvestor.com>
+- *	-	Change comments
+- *	-	Eliminate fop_llseek
+- *	-	Change CONFIG_WATCHDOG_NOWAYOUT semantics
+- *	-	Add KERN_* tags to printks
+- *	-	fix possible wdt_is_open race
+- *	-	Report proper capabilities in watchdog_info
+- *	-	Add WDIOC_{GETSTATUS, GETBOOTSTATUS, SETTIMEOUT,
+- *		GETTIMEOUT, SETOPTIONS} ioctls
+- *	09/8 - 2003 Changes by Wim Van Sebroeck <wim@iguana.be>
+- *	-	cleanup of trailing spaces
+- *	-	added extra printk's for startup problems
+- *	-	use module_param
+- *	-	made timeout (the emulated heartbeat) a module_param
+- *	-	made the keepalive ping an internal subroutine
+- *	3/27 - 2004 Changes by Sean Young <sean@mess.org>
+- *	-	set MMCR_BASE to 0xfffef000
+- *	-	CBAR does not need to be read
+- *	-	removed debugging printks
+- *
+- *  This WDT driver is different from most other Linux WDT
+- *  drivers in that the driver will ping the watchdog by itself,
+- *  because this particular WDT has a very short timeout (1.6
+- *  seconds) and it would be insane to count on any userspace
+- *  daemon always getting scheduled within that time frame.
+- *
+- *  This driver uses memory mapped IO, and spinlock.
+- */
+-
+-#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+-
+-#include <linux/module.h>
+-#include <linux/moduleparam.h>
+-#include <linux/types.h>
+-#include <linux/timer.h>
+-#include <linux/miscdevice.h>
+-#include <linux/watchdog.h>
+-#include <linux/fs.h>
+-#include <linux/ioport.h>
+-#include <linux/notifier.h>
+-#include <linux/reboot.h>
+-#include <linux/init.h>
+-#include <linux/jiffies.h>
+-#include <linux/io.h>
+-#include <linux/uaccess.h>
+-
+-
+-/*
+- * The AMD Elan SC520 timeout value is 492us times a power of 2 (0-7)
+- *
+- *   0: 492us    2: 1.01s    4: 4.03s   6: 16.22s
+- *   1: 503ms    3: 2.01s    5: 8.05s   7: 32.21s
+- *
+- * We will program the SC520 watchdog for a timeout of 2.01s.
+- * If we reset the watchdog every ~250ms we should be safe.
+- */
+-
+-#define WDT_INTERVAL (HZ/4+1)
+-
+-/*
+- * We must not require too good response from the userspace daemon.
+- * Here we require the userspace daemon to send us a heartbeat
+- * char to /dev/watchdog every 30 seconds.
+- */
+-
+-#define WATCHDOG_TIMEOUT 30		/* 30 sec default timeout */
+-/* in seconds, will be multiplied by HZ to get seconds to wait for a ping */
+-static int timeout = WATCHDOG_TIMEOUT;
+-module_param(timeout, int, 0);
+-MODULE_PARM_DESC(timeout,
+-	"Watchdog timeout in seconds. (1 <= timeout <= 3600, default="
+-				__MODULE_STRING(WATCHDOG_TIMEOUT) ")");
+-
+-static bool nowayout = WATCHDOG_NOWAYOUT;
+-module_param(nowayout, bool, 0);
+-MODULE_PARM_DESC(nowayout,
+-		"Watchdog cannot be stopped once started (default="
+-				__MODULE_STRING(WATCHDOG_NOWAYOUT) ")");
+-
+-/*
+- * AMD Elan SC520 - Watchdog Timer Registers
+- */
+-#define MMCR_BASE	0xfffef000	/* The default base address */
+-#define OFFS_WDTMRCTL	0xCB0	/* Watchdog Timer Control Register */
+-
+-/* WDT Control Register bit definitions */
+-#define WDT_EXP_SEL_01	0x0001	/* [01] Time-out = 496 us (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_02	0x0002	/* [02] Time-out = 508 ms (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_03	0x0004	/* [03] Time-out = 1.02 s (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_04	0x0008	/* [04] Time-out = 2.03 s (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_05	0x0010	/* [05] Time-out = 4.07 s (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_06	0x0020	/* [06] Time-out = 8.13 s (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_07	0x0040	/* [07] Time-out = 16.27s (with 33 Mhz clk). */
+-#define WDT_EXP_SEL_08	0x0080	/* [08] Time-out = 32.54s (with 33 Mhz clk). */
+-#define WDT_IRQ_FLG	0x1000	/* [12] Interrupt Request Flag */
+-#define WDT_WRST_ENB	0x4000	/* [14] Watchdog Timer Reset Enable */
+-#define WDT_ENB		0x8000	/* [15] Watchdog Timer Enable */
+-
+-static __u16 __iomem *wdtmrctl;
+-
+-static void wdt_timer_ping(struct timer_list *);
+-static DEFINE_TIMER(timer, wdt_timer_ping);
+-static unsigned long next_heartbeat;
+-static unsigned long wdt_is_open;
+-static char wdt_expect_close;
+-static DEFINE_SPINLOCK(wdt_spinlock);
+-
+-/*
+- *	Whack the dog
+- */
+-
+-static void wdt_timer_ping(struct timer_list *unused)
+-{
+-	/* If we got a heartbeat pulse within the WDT_US_INTERVAL
+-	 * we agree to ping the WDT
+-	 */
+-	if (time_before(jiffies, next_heartbeat)) {
+-		/* Ping the WDT */
+-		spin_lock(&wdt_spinlock);
+-		writew(0xAAAA, wdtmrctl);
+-		writew(0x5555, wdtmrctl);
+-		spin_unlock(&wdt_spinlock);
+-
+-		/* Re-set the timer interval */
+-		mod_timer(&timer, jiffies + WDT_INTERVAL);
+-	} else
+-		pr_warn("Heartbeat lost! Will not ping the watchdog\n");
+-}
+-
+-/*
+- *	Utility routines
+- */
+-
+-static void wdt_config(int writeval)
+-{
+-	unsigned long flags;
+-
+-	/* buy some time (ping) */
+-	spin_lock_irqsave(&wdt_spinlock, flags);
+-	readw(wdtmrctl);	/* ensure write synchronization */
+-	writew(0xAAAA, wdtmrctl);
+-	writew(0x5555, wdtmrctl);
+-	/* unlock WDT = make WDT configuration register writable one time */
+-	writew(0x3333, wdtmrctl);
+-	writew(0xCCCC, wdtmrctl);
+-	/* write WDT configuration register */
+-	writew(writeval, wdtmrctl);
+-	spin_unlock_irqrestore(&wdt_spinlock, flags);
+-}
+-
+-static int wdt_startup(void)
+-{
+-	next_heartbeat = jiffies + (timeout * HZ);
+-
+-	/* Start the timer */
+-	mod_timer(&timer, jiffies + WDT_INTERVAL);
+-
+-	/* Start the watchdog */
+-	wdt_config(WDT_ENB | WDT_WRST_ENB | WDT_EXP_SEL_04);
+-
+-	pr_info("Watchdog timer is now enabled\n");
+-	return 0;
+-}
+-
+-static int wdt_turnoff(void)
+-{
+-	/* Stop the timer */
+-	timer_delete_sync(&timer);
+-
+-	/* Stop the watchdog */
+-	wdt_config(0);
+-
+-	pr_info("Watchdog timer is now disabled...\n");
+-	return 0;
+-}
+-
+-static int wdt_keepalive(void)
+-{
+-	/* user land ping */
+-	next_heartbeat = jiffies + (timeout * HZ);
+-	return 0;
+-}
+-
+-static int wdt_set_heartbeat(int t)
+-{
+-	if ((t < 1) || (t > 3600))	/* arbitrary upper limit */
+-		return -EINVAL;
+-
+-	timeout = t;
+-	return 0;
+-}
+-
+-/*
+- *	/dev/watchdog handling
+- */
+-
+-static ssize_t fop_write(struct file *file, const char __user *buf,
+-						size_t count, loff_t *ppos)
+-{
+-	/* See if we got the magic character 'V' and reload the timer */
+-	if (count) {
+-		if (!nowayout) {
+-			size_t ofs;
+-
+-			/* note: just in case someone wrote the magic character
+-			 * five months ago... */
+-			wdt_expect_close = 0;
+-
+-			/* now scan */
+-			for (ofs = 0; ofs != count; ofs++) {
+-				char c;
+-				if (get_user(c, buf + ofs))
+-					return -EFAULT;
+-				if (c == 'V')
+-					wdt_expect_close = 42;
+-			}
+-		}
+-
+-		/* Well, anyhow someone wrote to us, we should
+-		   return that favour */
+-		wdt_keepalive();
+-	}
+-	return count;
+-}
+-
+-static int fop_open(struct inode *inode, struct file *file)
+-{
+-	/* Just in case we're already talking to someone... */
+-	if (test_and_set_bit(0, &wdt_is_open))
+-		return -EBUSY;
+-	if (nowayout)
+-		__module_get(THIS_MODULE);
+-
+-	/* Good, fire up the show */
+-	wdt_startup();
+-	return stream_open(inode, file);
+-}
+-
+-static int fop_close(struct inode *inode, struct file *file)
+-{
+-	if (wdt_expect_close == 42)
+-		wdt_turnoff();
+-	else {
+-		pr_crit("Unexpected close, not stopping watchdog!\n");
+-		wdt_keepalive();
+-	}
+-	clear_bit(0, &wdt_is_open);
+-	wdt_expect_close = 0;
+-	return 0;
+-}
+-
+-static long fop_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+-{
+-	void __user *argp = (void __user *)arg;
+-	int __user *p = argp;
+-	static const struct watchdog_info ident = {
+-		.options = WDIOF_KEEPALIVEPING | WDIOF_SETTIMEOUT
+-							| WDIOF_MAGICCLOSE,
+-		.firmware_version = 1,
+-		.identity = "SC520",
+-	};
+-
+-	switch (cmd) {
+-	case WDIOC_GETSUPPORT:
+-		return copy_to_user(argp, &ident, sizeof(ident)) ? -EFAULT : 0;
+-	case WDIOC_GETSTATUS:
+-	case WDIOC_GETBOOTSTATUS:
+-		return put_user(0, p);
+-	case WDIOC_SETOPTIONS:
+-	{
+-		int new_options, retval = -EINVAL;
+-
+-		if (get_user(new_options, p))
+-			return -EFAULT;
+-
+-		if (new_options & WDIOS_DISABLECARD) {
+-			wdt_turnoff();
+-			retval = 0;
+-		}
+-
+-		if (new_options & WDIOS_ENABLECARD) {
+-			wdt_startup();
+-			retval = 0;
+-		}
+-
+-		return retval;
+-	}
+-	case WDIOC_KEEPALIVE:
+-		wdt_keepalive();
+-		return 0;
+-	case WDIOC_SETTIMEOUT:
+-	{
+-		int new_timeout;
+-
+-		if (get_user(new_timeout, p))
+-			return -EFAULT;
+-
+-		if (wdt_set_heartbeat(new_timeout))
+-			return -EINVAL;
+-
+-		wdt_keepalive();
+-	}
+-		fallthrough;
+-	case WDIOC_GETTIMEOUT:
+-		return put_user(timeout, p);
+-	default:
+-		return -ENOTTY;
+-	}
+-}
+-
+-static const struct file_operations wdt_fops = {
+-	.owner		= THIS_MODULE,
+-	.write		= fop_write,
+-	.open		= fop_open,
+-	.release	= fop_close,
+-	.unlocked_ioctl	= fop_ioctl,
+-	.compat_ioctl	= compat_ptr_ioctl,
+-};
+-
+-static struct miscdevice wdt_miscdev = {
+-	.minor	= WATCHDOG_MINOR,
+-	.name	= "watchdog",
+-	.fops	= &wdt_fops,
+-};
+-
+-/*
+- *	Notifier for system down
+- */
+-
+-static int wdt_notify_sys(struct notifier_block *this, unsigned long code,
+-	void *unused)
+-{
+-	if (code == SYS_DOWN || code == SYS_HALT)
+-		wdt_turnoff();
+-	return NOTIFY_DONE;
+-}
+-
+-/*
+- *	The WDT needs to learn about soft shutdowns in order to
+- *	turn the timebomb registers off.
+- */
+-
+-static struct notifier_block wdt_notifier = {
+-	.notifier_call = wdt_notify_sys,
+-};
+-
+-static void __exit sc520_wdt_unload(void)
+-{
+-	if (!nowayout)
+-		wdt_turnoff();
+-
+-	/* Deregister */
+-	misc_deregister(&wdt_miscdev);
+-	unregister_reboot_notifier(&wdt_notifier);
+-	iounmap(wdtmrctl);
+-}
+-
+-static int __init sc520_wdt_init(void)
+-{
+-	int rc = -EBUSY;
+-
+-	/* Check that the timeout value is within it's range ;
+-	   if not reset to the default */
+-	if (wdt_set_heartbeat(timeout)) {
+-		wdt_set_heartbeat(WATCHDOG_TIMEOUT);
+-		pr_info("timeout value must be 1 <= timeout <= 3600, using %d\n",
+-			WATCHDOG_TIMEOUT);
+-	}
+-
+-	wdtmrctl = ioremap(MMCR_BASE + OFFS_WDTMRCTL, 2);
+-	if (!wdtmrctl) {
+-		pr_err("Unable to remap memory\n");
+-		rc = -ENOMEM;
+-		goto err_out_region2;
+-	}
+-
+-	rc = register_reboot_notifier(&wdt_notifier);
+-	if (rc) {
+-		pr_err("cannot register reboot notifier (err=%d)\n", rc);
+-		goto err_out_ioremap;
+-	}
+-
+-	rc = misc_register(&wdt_miscdev);
+-	if (rc) {
+-		pr_err("cannot register miscdev on minor=%d (err=%d)\n",
+-		       WATCHDOG_MINOR, rc);
+-		goto err_out_notifier;
+-	}
+-
+-	pr_info("WDT driver for SC520 initialised. timeout=%d sec (nowayout=%d)\n",
+-		timeout, nowayout);
+-
+-	return 0;
+-
+-err_out_notifier:
+-	unregister_reboot_notifier(&wdt_notifier);
+-err_out_ioremap:
+-	iounmap(wdtmrctl);
+-err_out_region2:
+-	return rc;
+-}
+-
+-module_init(sc520_wdt_init);
+-module_exit(sc520_wdt_unload);
+-
+-MODULE_AUTHOR("Scott and Bill Jennings");
+-MODULE_DESCRIPTION(
+-	"Driver for watchdog timer in AMD \"Elan\" SC520 uProcessor");
+-MODULE_LICENSE("GPL");
+-- 
+2.54.0
 
->> On Apr 29, 2026, at 6:19=E2=80=AFPM, Eric Biggers <ebiggers=40kernel.o=
-rg> wrote:
->> =20
->> =EF=BB=BFA=46=5FALG is almost completely unnecessary, and it exposes a=
- massive attack
->> surface that hasn't been standing up to modern vulnerability discovery=
-
->> tools.  The latest one even has its own website, providing a small
->> Python script that reliably roots most Linux distros: https://copy.fai=
-l/
-> =20
-> How about adding a configuration option, defaulted on, that requires
-> capable(CAP=5FSYS=5FADMIN) to create the socket (and maybe also to bind=
- /
-> connect it).  And a sysctl to allow the administrator to override this
-> in the unlikely event that it=E2=80=99s needed.
-> =20
-> IIRC cryptsetup used to and maybe even still does require these
-> sockets sometimes and this would let it keep working.  And there's all
-> the =46IPS stuff downthread.
-
-Apologize in advance for the long-winded answer.
-
-The =22=46IPS stuff=22 centers on using sha512hmac -> libkcapi -> A=46=5F=
-ALG for
-verifying integrity. The early=E2=80=91boot sha512hmac check that some
-distributions use (typically from initramfs) sits at an awkward
-intersection of multiple standards, and it may help to clarify where it
-actually fits and where it doesn't.
-
-=46rom a standards perspective, =46IPS=E2=80=AF140=E2=80=913 requires a c=
-ryptographic module
-to perform self=E2=80=91integrity verification using an approved algorith=
-m and
-to prevent the module from entering an operational state on failure. In
-the Linux kernel, the cryptographic module is the kernel crypto
-subsystem, and these requirements are met by the kernel=E2=80=99s interna=
-l
-power=E2=80=91up self=E2=80=91tests (KATs, etc.) on the crypto code and c=
-ritical data as
-loaded into memory.
-
-=46IPS=E2=80=AF199 / SP=E2=80=AF800=E2=80=9153 (e.g., SI=E2=80=917) impos=
-e system=E2=80=91level integrity
-requirements (for Moderate impact systems), i.e., that unauthorized
-modification of critical components is prevented or detected and that
-failures result in a protective action. These controls are explicitly
-technology=E2=80=91agnostic and are not limited to cryptographic=E2=80=91=
-module self=E2=80=91tests.
-
-The sha512hmac check is not the =46IPS=E2=80=AF140=E2=80=913 cryptographi=
-c=E2=80=91module
-self=E2=80=91integrity test. Instead, it has historically been used as a =
-system
-integrity control that provides auditors with assurance that the kernel
-image containing the cryptographic module has not been modified prior to
-execution, and that a failure will halt the boot.
-
-Although =46IPS=E2=80=AF140=E2=80=913 does not mandate an HMAC over the k=
-ernel image, the
-early=E2=80=91boot HMAC became an accepted evidence pattern for satisfyin=
-g
-system=E2=80=91integrity expectations (=46IPS=E2=80=AF199 / SI=E2=80=917)=
- alongside a kernel
-crypto validation. This is why it is often perceived as =E2=80=9Crequired=
-=E2=80=9D for
-=46IPS submissions, even though it is not normatively required by
-=46IPS=E2=80=AF140=E2=80=913 itself.
-
-With the deprecation/removal of A=46=5FALG for this use case, there is no=
-
-longer a supported way to perform an early=E2=80=91boot, userspace=E2=80=91=
-driven HMAC
-using validated kernel crypto without introducing circular dependencies
-(e.g., relying on userspace crypto before crypto self=E2=80=91tests compl=
-ete).
-As a result, there is no drop=E2=80=91in replacement for sha512hmac that
-preserves all of its historical properties.
-
-This is a new development that challenges a long=E2=80=91standing assumpt=
-ion:
-that system=E2=80=91integrity evidence and cryptographic=E2=80=91module s=
-elf=E2=80=91integrity
-can be cleanly separated while still being demonstrated by a single
-early=E2=80=91boot mechanism. That assumption no longer holds given propo=
-sed
-kernel interfaces.
-
-A more accurate decomposition (and one that aligns with the intent of
-the standards) is to separate integrity enforcement by system phase.
-
-1. Secure Boot (or equivalent platform verification) ensures that a
-modified kernel image is not executed at all. This satisfies the
-requirement that critical components are not loaded in a modified state
-and that integrity failure results in a protective action (boot preventio=
-n).
-
-2. IMA (with appraisal and enforcement) ensures that modified
-executables, modules, or firmware cannot be loaded or executed once the
-kernel is running.
-
-3. Kernel crypto self=E2=80=91tests continue to satisfy =46IPS=E2=80=AF14=
-0=E2=80=913
-self=E2=80=91integrity requirements independently of the above.
-
-Taken together, Secure Boot + IMA provide continuous system=E2=80=91integ=
-rity
-enforcement without re=E2=80=91introducing early=E2=80=91boot HMACs or A=46=
-=5FALG
-dependencies, while keeping cryptographic=E2=80=91module self=E2=80=91int=
-egrity
-correctly scoped to the kernel crypto subsystem.
-
-The transition away from sha512hmac is therefore not a removal of
-integrity enforcement, but a shift from a single, early=E2=80=91boot mech=
-anism
-to a phased integrity model that better reflects the separation of
-concerns already present in the standards =E2=80=94 even though this sepa=
-ration
-was previously masked by the hacky HMAC approach.
-
-This change will require updated documentation and auditor education,
-but it reflects the current technical reality and avoids perpetuating an
-interface that no longer has a sustainable implementation path.
-
-> =20
-> =20
->> =20
->> This isn't sustainable, especially as LLMs have accelerated the rate t=
-he
->> vulnerabilities are coming in.  The effort that is being put into this=
-
->> thing is vastly disproportional to the few programs that actually use
->> it, and those programs would be better served by userspace code anyway=
-.
->> =20
->> These issues have been noted in many mailing list discussions already.=
-
->> But until now they haven't been reflected in the documentation or
->> kconfig menu itself, and the vulnerabilities are still coming in.
->> =20
->> Let's go ahead and document the deprecation.
->> =20
->> This isn't intended to change anything overnight.  After all, most Lin=
-ux
->> distros won't be able to disable the kconfig options quite yet, mainly=
-
->> because of iwd.  But this should create a bit more impetus for these
->> userspace programs to be fixed, and the documentation update should al=
-so
->> help prevent more users from appearing.
->> =20
->> Signed-off-by: Eric Biggers <ebiggers=40kernel.org>
->> ---
->> =20
->> This patch is targeting crypto/master
->> =20
->> Documentation/crypto/userspace-if.rst =7C 82 ++++++++++++++++++++-----=
---
->> crypto/Kconfig                        =7C 69 ++++++++++++++++------
->> 2 files changed, 113 insertions(+), 38 deletions(-)
->> =20
->> diff --git a/Documentation/crypto/userspace-if.rst b/Documentation/cry=
-pto/userspace-if.rst
->> index 021759198fe7..c39f5c79a5b7 100644
->> --- a/Documentation/crypto/userspace-if.rst
->> +++ b/Documentation/crypto/userspace-if.rst
->> =40=40 -2,30 +2,72 =40=40 User Space Interface
->> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->> =20
->> Introduction
->> ------------
->> =20
->> -The concepts of the kernel crypto API visible to kernel space is full=
-y
->> -applicable to the user space interface as well. Therefore, the kernel=
-
->> -crypto API high level discussion for the in-kernel use cases applies
->> -here as well.
->> -
->> -The major difference, however, is that user space can only act as a
->> -consumer and never as a provider of a transformation or cipher
->> -algorithm.
->> -
->> -The following covers the user space interface exported by the kernel
->> -crypto API. A working example of this description is libkcapi that ca=
-n
->> -be obtained from =5B1=5D. That library can be used by user space
->> -applications that require cryptographic services from the kernel.
->> -
->> -Some details of the in-kernel kernel crypto API aspects do not apply =
-to
->> -user space, however. This includes the difference between synchronous=
-
->> -and asynchronous invocations. The user space API call is fully
->> -synchronous.
->> -
->> -=5B1=5D https://www.chronox.de/libkcapi/index.html
->> +A=46=5FALG provides unprivileged userspace programs access to arbitra=
-ry hash,
->> +symmetric cipher, AEAD, and RNG algorithms that are implemented in ke=
-rnel-mode
->> +code.
->> +
->> +A=46=5FALG is insecure and is deprecated. Originally added to the ker=
-nel
->> in 2010,
->> +most kernel developers now consider it to be a mistake.
->> +
->> +A=46=5FALG continues to be supported only for backwards compatibility=
-.
->> On systems
->> +where no programs using A=46=5FALG remain, the support for it should =
-be
->> disabled by
->> +disabling =60=60CON=46IG=5FCRYPTO=5FUSER=5FAPI=5F*=60=60.
->> +
->> +Deprecation
->> +-----------
->> +
->> +A=46=5FALG was originally intended to provide userspace programs acce=
-ss
->> to crypto
->> +accelerators that they wouldn't otherwise have access to.
->> +
->> +However, that capability turned out to not be useful on very many
->> systems. More
->> +significantly, the actual implementation exposes a vastly greater
->> amount of
->> +functionality than that. It actually provides access to all software =
-algorithms.
->> +
->> +This includes arbitrary compositions of different algorithms created
->> via a
->> +complex template system, as well as algorithms that only make sense
->> as internal
->> +implementation details of other algorithms. It also includes full zer=
-o-copy
->> +support, which is difficult for the kernel to implement securely.
->> +
->> +Ultimately, these algorithms are just math computations. They use
->> the same
->> +instructions that userspace programs already have access to, just
->> accessed in a
->> +much more convoluted and less efficient way.
->> +
->> +Indeed, userspace code is nearly always what is being used anyway.
->> These same
->> +algorithms are widely implemented in userspace crypto libraries.
->> +
->> +Meanwhile, A=46=5FALG hasn't been withstanding modern vulnerability
->> discovery tools
->> +such as syzbot and large language models. It receives a steady
->> stream of CVEs.
->> +Some of the examples include:
->> +
->> +- CVE-2026-31677
->> +- CVE-2026-31431 (https://copy.fail)
->> +- CVE-2025-38079
->> +- CVE-2025-37808
->> +- CVE-2024-26824
->> +- CVE-2022-48781
->> +- CVE-2019-8912
->> +- CVE-2018-14619
->> +- CVE-2017-18075
->> +- CVE-2017-17806
->> +- CVE-2017-17805
->> +- CVE-2016-10147
->> +- CVE-2015-8970
->> +- CVE-2015-3331
->> +- CVE-2014-9644
->> +- CVE-2013-7421
->> +- CVE-2011-4081
->> +
->> +It is recommended that, whenever possible, userspace programs be
->> migrated to
->> +userspace crypto code (which again, is what is normally used anyway) =
-and
->> +=60=60CON=46IG=5FCRYPTO=5FUSER=5FAPI=5F*=60=60 be disabled.  On syste=
-ms that use
->> SELinux, SELinux
->> +can also be used to restrict the use of A=46=5FALG to trusted program=
-s.
->> +
->> +The remainder of this documentation provides the historical
->> documentation for
->> +the deprecated A=46=5FALG interface.
->> =20
->> User Space API General Remarks
->> ------------------------------
->> =20
->> The kernel crypto API is accessible from user space. Currently, the
->> diff --git a/crypto/Kconfig b/crypto/Kconfig
->> index 103d1f58cb7c..6cd1c478d4be 100644
->> --- a/crypto/Kconfig
->> +++ b/crypto/Kconfig
->> =40=40 -1278,48 +1278,72 =40=40 config CRYPTO=5FD=4680090A
->>    tristate
->>    select CRYPTO=5FAES
->>    select CRYPTO=5FCTR
->> =20
->> endmenu
->> -menu =22Userspace interface=22
->> +menu =22Userspace interface (deprecated)=22
->> =20
->> config CRYPTO=5FUSER=5FAPI
->>    tristate
->> =20
->> config CRYPTO=5FUSER=5FAPI=5FHASH
->> -    tristate =22Hash algorithms=22
->> +    tristate =22Hash algorithms (deprecated)=22
->>    depends on NET
->>    select CRYPTO=5FHASH
->>    select CRYPTO=5FUSER=5FAPI
->>    help
->> -      Enable the userspace interface for hash algorithms.
->> +      Enable the A=46=5FALG userspace interface for hash algorithms. =
- This
->> +      provides unprivileged userspace programs access to arbitrary ha=
-sh
->> +      algorithms implemented in the kernel's privileged execution con=
-text.
->> =20
->> -      See Documentation/crypto/userspace-if.rst and
->> -      https://www.chronox.de/libkcapi/html/index.html
->> +      This interface is deprecated and is supported only for backward=
-s
->> +      compatibility.  It regularly has vulnerabilities, and the capab=
-ilities
->> +      it provides are redundant with userspace crypto libraries.
->> +
->> +      Enable this only if needed for support for a program that
->> hasn't yet
->> +      been converted to userspace crypto, for example iwd.
->> +
->> +      See also Documentation/crypto/userspace-if.rst
->> =20
->> config CRYPTO=5FUSER=5FAPI=5FSKCIPHER
->> -    tristate =22Symmetric key cipher algorithms=22
->> +    tristate =22Symmetric key cipher algorithms (deprecated)=22
->>    depends on NET
->>    select CRYPTO=5FSKCIPHER
->>    select CRYPTO=5FUSER=5FAPI
->>    help
->> -      Enable the userspace interface for symmetric key cipher algorit=
-hms.
->> +      Enable the A=46=5FALG userspace interface for symmetric key alg=
-orithms.
->> +      This provides unprivileged userspace programs access to arbitra=
-ry
->> +      symmetric key algorithms implemented in the kernel's privileged=
-
->> +      execution context.
->> +
->> +      This interface is deprecated and is supported only for backward=
-s
->> +      compatibility.  It regularly has vulnerabilities, and the capab=
-ilities
->> +      it provides are redundant with userspace crypto libraries.
->> +
->> +      Enable this only if needed for support for a program that
->> hasn't yet
->> +      been converted to userspace crypto, for example iwd, or cryptse=
-tup
->> +      with certain algorithms.
->> =20
->> -      See Documentation/crypto/userspace-if.rst and
->> -      https://www.chronox.de/libkcapi/html/index.html
->> +      See also Documentation/crypto/userspace-if.rst
->> =20
->> config CRYPTO=5FUSER=5FAPI=5FRNG
->> -    tristate =22RNG (random number generator) algorithms=22
->> +    tristate =22Random number generation algorithms (deprecated)=22
->>    depends on NET
->>    select CRYPTO=5FRNG
->>    select CRYPTO=5FUSER=5FAPI
->>    help
->> -      Enable the userspace interface for RNG (random number generator=
-)
->> -      algorithms.
->> +      Enable the A=46=5FALG userspace interface for random number gen=
-eration
->> +      (RNG) algorithms.  This provides unprivileged userspace program=
-s
->> +      access to arbitrary RNG algorithms implemented in the kernel's
->> +      privileged execution context.
->> =20
->> -      See Documentation/crypto/userspace-if.rst and
->> -      https://www.chronox.de/libkcapi/html/index.html
->> +      This interface is deprecated and is supported only for backward=
-s
->> +      compatibility.  It regularly has vulnerabilities, and the capab=
-ilities
->> +      it provides are redundant with userspace crypto libraries as
->> well as
->> +      the normal kernel RNG (e.g., /dev/urandom and getrandom(2)).
->> +
->> +      See also Documentation/crypto/userspace-if.rst
->> =20
->> config CRYPTO=5FUSER=5FAPI=5FRNG=5FCAVP
->>    bool =22Enable CAVP testing of DRBG=22
->>    depends on CRYPTO=5FUSER=5FAPI=5FRNG && CRYPTO=5FDRBG
->>    help
->> =40=40 -1330,20 +1354,29 =40=40 config CRYPTO=5FUSER=5FAPI=5FRNG=5FCAV=
-P
->> =20
->>      This should only be enabled for CAVP testing. You should say
->>      no unless you know what this is.
->> =20
->> config CRYPTO=5FUSER=5FAPI=5FAEAD
->> -    tristate =22AEAD cipher algorithms=22
->> +    tristate =22AEAD cipher algorithms (deprecated)=22
->>    depends on NET
->>    select CRYPTO=5FAEAD
->>    select CRYPTO=5FSKCIPHER
->>    select CRYPTO=5FUSER=5FAPI
->>    help
->> -      Enable the userspace interface for AEAD cipher algorithms.
->> +      Enable the A=46=5FALG userspace interface for authenticated enc=
-ryption
->> +      with associated data (AEAD) algorithms.  This provides unprivil=
-eged
->> +      userspace programs access to arbitrary AEAD algorithms
->> implemented in
->> +      the kernel's privileged execution context.
->> +
->> +      This interface is deprecated and is supported only for backward=
-s
->> +      compatibility.  It regularly has vulnerabilities, and the capab=
-ilities
->> +      it provides are redundant with userspace crypto libraries.
->> +
->> +      Enable this only if needed for support for a program that
->> hasn't yet
->> +      been converted to userspace crypto, for example iwd.
->> =20
->> -      See Documentation/crypto/userspace-if.rst and
->> -      https://www.chronox.de/libkcapi/html/index.html
->> +      See also Documentation/crypto/userspace-if.rst
->> =20
->> config CRYPTO=5FUSER=5FAPI=5FENABLE=5FOBSOLETE
->>    bool =22Obsolete cryptographic algorithms=22
->>    depends on CRYPTO=5FUSER=5FAPI
->>    default y
->> =20
->> base-commit: 57b8e2d666a31fa201432d58f5fe3469a0dd83ba
->> --
->> 2.54.0
->> =20
->> =20
-> 
