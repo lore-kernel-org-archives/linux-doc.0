@@ -1,37 +1,31 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from outbound.st.icloud.com (p-east2-cluster5-host12-snip4-10.eps.apple.com [57.103.79.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E175D35BDCA;
-	Wed,  6 May 2026 22:51:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C7937F010
+	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 22:52:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.79.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778107880; cv=none; b=JwCjVDiWHPG+qBrxYLyZLnbuyhrg0hlQvU3+o4JEuoX+B3CGFMjPOCWhHRxKcVUNB+flpcUYJExNskfCws2uytuDCVQR+fM32NX1TU3yUcBVIFjvC4jU+MFYL0+6Sy4Em13wmu6vtdbZc9NhNDm+Yz5AuwLZqoAEUq9WY7S2UTg=
+	t=1778107936; cv=none; b=FHFR0MCngg9N+4UjMtXAGdeMAGfVMygeORHpLIflrgE4z3AnZHygdyjh5+yo03XfYNjggLeRaVFYUgwZyU3e/yEHAi0Cm21EE1yCZ2EjVh3X9HRflE8r4qE/k/TJruYfKkWCAM5Oc5hzG3MmZnCMu/jQK4F8TPjoD257B+QCqy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778107880; c=relaxed/simple;
-	bh=jAQL5gDem+zeyR1oV/244PtH6HUN1Bf68gLNy+I81hw=;
+	s=arc-20240116; t=1778107936; c=relaxed/simple;
+	bh=zHkix/9GTTrDk7GuC+3H49H5keRzWBA6Vi1hJtgTiuQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XC9RGavjMOPPJzW4TjrNRGi2F3Ajoclw4iuX4+0+ewIKumZLEOPFrOh3AvAmk4r+3pBTfcoq8sU+yZmzQDu83bP3/h+/CwcCs+HxOtjuTwiXRMtZLLVWbe0a5UidbkkxGx3HrnLuRN4zqulSkB2V+cPPya1RMgavMbEs4cvt1Uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=v8U9Jit1; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 In-Reply-To:Content-Type; b=u9e+uRSSbRuUXt5npw9GJB5oUi25g4an7I3t9uBr1sbpR/wwAE89zDxNMLVI0XL9krcguQoOwFfSfE4g26uljjg8F8Zw9SC/b1Rlb+l2BaMEP21fBLfgyjJuYFd87o/k/A/bToI00RRffBFM4qnRb4cSEeQxf3P8lx3NzdcDiFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=dYZ1yMHs; arc=none smtp.client-ip=57.103.79.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="v8U9Jit1"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
-	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=eDTXCHLoDJNXy04tus5PhjPiOQuwbdC7CfEe20vyCIQ=; b=v8U9Jit1eCObKwIPqVB1rbkMSF
-	brVZDUv6QVa9LuSSQPbeMnL5NsosM1JUxVNZDzCQFwyUcwHg0e+vwEFMIf99e6MhiWJDKhPhVG7OT
-	Fm8y/vZ+8k7xm2MWTNbwG8p2DFq5StV4C+RWapnYAeI26DMMskGbLb/TjUIaTaxqtGgbqpJ2iAe+8
-	LmMtEnhIy/ilFO9ZPd5VETznXXLrQHYd3aB/i640c6QvWfGB+i5yfysyTS6Kchs8RHR0QuhWjEVEa
-	LM6wQ0/KWNRGzbROtWwGRqQqJi+OPVhPpm+/dwpRU8zzzixSVHnrTF3TJFjNhP86A4tZpEpQtLojH
-	Ce+qRdxA==;
-Received: from [50.53.43.113] (helo=[192.168.254.34])
-	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKl5K-00000002EfI-0C3N;
-	Wed, 06 May 2026 22:51:18 +0000
-Message-ID: <6c90bd2c-348f-4238-b80d-bfee4e4195e7@infradead.org>
-Date: Wed, 6 May 2026 15:51:17 -0700
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="dYZ1yMHs"
+Received: from outbound.st.icloud.com (unknown [127.0.0.2])
+	by p00-icloudmta-asmtp-us-east-1a-10-percent-0 (Postfix) with ESMTPS id 438241800173;
+	Wed, 06 May 2026 22:52:12 +0000 (UTC)
+X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhMHVsARQNFDFYEVBcOVk1RDUEfTgZTHgtKAl93AlEcVg1XQ1QEX1BfHA4FQhlACVQZXV8FWgAwUBtfAkIPHBNWFRMfVFYDRBkQVgFYVl0FTRpcGFkPHANNVloOWwRHFBcbXAAXG0YCBCMCXwBFAl4JVgEwFw9WTVAbXwJCDxwTVhUTAF4PD0xaSlJeU1kFFBRLUV0GRgZEWE4eD1UNBF1fHVBbBFwFSAAaAAt3AlEcVg1XQ1QEX04ZDEodUlZbE1UXRgk=
+Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778107933; x=1780699933; bh=tmZHxx8BT5NuOd6vFPjkI8aOgJMGX8DlupV282+qql8=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=dYZ1yMHs4ZyYaqC7mhUgpLG9YJ2w4i1WQiKkWSiWpdG9brkIJB+A0evw/ry1Wiqq3Rhyu/OXV1PtH/423tNKoQ0+abzH8vYnelFVKAzWmiVZhYKuzgYEckDP5/DDicUq+gHugLwkvsI0Wit4ym0qmlnpYYFVOXrXNF3Cnng1s50Z3b9Xl7L6GVBLfkaBeC8y2a7wQxkhPe3Yb1BQ0xBajaBHcxEwd9UdE9FwGvrTVKjUdVC1sKYJIRj8qanTZ2Bekd6LIwbFqmEv1/662jdv2kUZwFwEQST8tLLSoOOTN/C7NfX6UE88qucQzOQQqkDvxMCSgNteD3uodYcwz/TwNg==
+Received: from [192.168.89.2] (unknown [17.42.251.67])
+	by p00-icloudmta-asmtp-us-east-1a-10-percent-0 (Postfix) with ESMTPSA id C8C001800259;
+	Wed, 06 May 2026 22:52:08 +0000 (UTC)
+Message-ID: <c2a3d27d-3b01-44a6-bbf6-fec637789b3f@icloud.com>
+Date: Thu, 7 May 2026 07:52:06 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,122 +33,67 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] scripts/kernel-doc: Detect mismatched inline member
- documentation tags
-To: Shuicheng Lin <shuicheng.lin@intel.com>, linux-doc@vger.kernel.org
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, linux-kernel@vger.kernel.org,
- intel-xe@lists.freedesktop.org
-References: <20260501160800.4043276-1-shuicheng.lin@intel.com>
+Subject: Re: [PATCH v2 2/2] hwmon: add initial support for AMD PROM21 xHCI
+ temperature sensor
+To: Randy Dunlap <rdunlap@infradead.org>, Jihong Min
+ <hurryman2212@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Mathias Nyman <mathias.nyman@intel.com>
+Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20260506032939.92351-1-hurryman2212@gmail.com>
+ <cover.1778099627.git.hurryman2212@gmail.com>
+ <2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
+ <5a61ad36-d754-4ab9-8a56-83bccc1397f2@infradead.org>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20260501160800.4043276-1-shuicheng.lin@intel.com>
-Content-Type: text/plain; charset=UTF-8
+From: Jihong Min <hurryman2212@icloud.com>
+In-Reply-To: <5a61ad36-d754-4ab9-8a56-83bccc1397f2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Authority-Info-Out: v=2.4 cv=a4A9NESF c=1 sm=1 tr=0 ts=69fbc61d
+ cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
+ a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
+ a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=igFlAM52ROepjvOJJTIA:9 a=QEXdDO2ut3YA:10 a=PgRulw5oR9JgysbTFEid:22
+ a=MienORt8HT0FiJ1vGQZ6:22
+X-Proofpoint-GUID: qqHqUMJjeNjFkAxa12ACcxBqc2CKvqs7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDIyNCBTYWx0ZWRfX6IpE/4CTLjVV
+ 8j8A9Y1kI/iGohiXcDoUX57S5GXO7XyF4IK3Qt8ml3VpozC74xoE1F+bwugyuVoXYiCj6OrLnFP
+ zMlL/rm86kn526InoIksm95Zw6DEWzgpjmx89JH5/X+1WZT095jLNw5LKkXNvbRarIl33bs5/zB
+ kUlIXdaWfdVRFjN3FR48JkMuCTqeASjTfZFAwV8jrNe2OfElwoP62MQ1ydG7Qt0YLRDT/Ehix+a
+ XvGV2ycbmrs3K5RwzN8K6qBt5RL1GoDFYq2muXtp//nmJXmH6kjrjV5f2Dlh+SxO3wNc9bzGLxv
+ ecCiB0Gu7XmUyeIlb/TX7G4yqFkKISQ3qeb0pDn5i3uNtT0G4Ip7z8cAaOc7oU=
+X-Proofpoint-ORIG-GUID: qqHqUMJjeNjFkAxa12ACcxBqc2CKvqs7
 
-Hi,
+ > It sorta looks like these entries are supposed to be maintained in
+ > alphabetical order, but that new entry is not.
 
-On 5/1/26 9:08 AM, Shuicheng Lin wrote:
-> Add validation in check_sections() to verify that inline member
-> documentation tags (/** @member: description */) match actual struct/union
-> member names. Previously, kernel-doc only validated section headers against
-> the parameter list, but inline doc tags stored in parameterdescs were never
-> cross-checked, allowing stale or mistyped member names to go undetected.
-> 
-> The new check iterates over parameterdescs keys and warns about any that
-> don't appear in the parameter list, catching issues like renamed struct
-> members where the documentation tag was not updated to match.
-> 
-> This catches real issues such as:
->   - xe_bo_types.h: @atomic_access (missing struct prefix, should be
->     @attr.atomic_access)
->   - xe_device_types.h: @usm.asid (member is actually asid_to_vm)
-> 
-> Variadic arguments documented as ``@args...:`` are stored in
-> parameterdescs under the unstripped key (e.g. ``args...``), while
-> push_parameter() strips the trailing ``...`` before appending to
-> parameterlist (e.g. ``args``).  Treat the stripped form as a match so
-> the new loop doesn't emit a false-positive excess-parameter warning for
-> a properly documented named variadic parameter.  The bare ``@...:`` form
-> is unaffected because push_parameter() does not strip when the name is
-> exactly three characters.
-> 
-> v2: Skip variadic parameters whose documented key ends with ``...`` and
->     whose stripped name is in parameterlist, to avoid false-positive
->     "Excess function parameter 'args...'" warnings on macros like
->     ``#define foo(fmt, args...)`` documented with ``@args...:``.
-> 
-> Assisted-by: Claude:claude-opus-4.6
-> Signed-off-by: Shuicheng Lin <shuicheng.lin@intel.com>
-> ---
-> Cc: Jani Nikula <jani.nikula@linux.intel.com>
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> Cc: intel-xe@lists.freedesktop.org
-> ---
+Yes, you are right. I also noticed that but it seems I pasted it in the 
+wrong place.
+Fixed this locally for v3 by moving prom21-hwmon after powr1220 and next 
+to pt5161l.
 
-This patch mostly works for me. I do see one issue, but maybe it wasn't
-meant to be addressed by this patch:
+Thank you,
+Jihong Min
 
-If I modify kthread_create() in include/linux/kthread.h to change
-its @arg: to @args:, and then run scripts/kernel-doc -none -Wall, I get:
-
-Warning: init/megaexcess.h:63 Excess function parameter 'args' description in 'kthread_create'
-
-(that part is good)
-but I would also expect to get a warning about @arg not being described.
-
-
->  tools/lib/python/kdoc/kdoc_parser.py | 36 ++++++++++++++++++++++++++++
->  1 file changed, 36 insertions(+)
-> 
-> diff --git a/tools/lib/python/kdoc/kdoc_parser.py b/tools/lib/python/kdoc/kdoc_parser.py
-> index ca00695b47b3..884c6bf56d25 100644
-> --- a/tools/lib/python/kdoc/kdoc_parser.py
-> +++ b/tools/lib/python/kdoc/kdoc_parser.py
-> @@ -673,6 +673,42 @@ class KernelDoc:
->                  self.emit_msg(ln,
->                                f"Excess {dname} '{section}' description in '{decl_name}'")
->  
-> +        #
-> +        # Check that documented parameter names (from doc comments, including
-> +        # inline ``/** @member: */`` tags) actually match real members in
-> +        # the declaration.  This catches mismatched or stale kernel-doc
-> +        # member tags that don't correspond to any actual struct/union
-> +        # member or function parameter.
-> +        #
-> +        for param_name, desc in self.entry.parameterdescs.items():
-> +            # Skip auto-generated entries from push_parameter()
-> +            if desc == self.undescribed:
-> +                continue
-> +            if desc in ("no arguments", "anonymous\n", "variable arguments"):
-> +                continue
-> +            if param_name.startswith("{unnamed_"):
-> +                continue
-> +            if param_name in self.entry.parameterlist:
-> +                continue
-> +            #
-> +            # Variadic arguments documented as ``@args...:`` are stored in
-> +            # parameterdescs under the unstripped key (e.g. ``args...``),
-> +            # while push_parameter() strips the trailing ``...`` before
-> +            # appending to parameterlist (e.g. ``args``).  Treat the
-> +            # stripped form as a match so this loop doesn't emit a false
-> +            # positive for a properly documented variadic parameter.
-> +            #
-> +            if param_name.endswith("...") and \
-> +               param_name[:-3] in self.entry.parameterlist:
-> +                continue
-> +
-> +            if decl_type == 'function':
-> +                dname = f"{decl_type} parameter"
-> +            else:
-> +                dname = f"{decl_type} member"
-> +            self.emit_msg(ln,
-> +                          f"Excess {dname} '{param_name}' description in '{decl_name}'")
-> +
->      def check_return_section(self, ln, declaration_name, return_type):
->          """
->          If the function doesn't return void, warns about the lack of a
-
--- 
-~Randy
-
+On 5/7/26 07:17, Randy Dunlap wrote:
+>
+> On 5/6/26 1:40 PM, Jihong Min wrote:
+>> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+>> index 8b655e5d6b68..0d85b78596cf 100644
+>> --- a/Documentation/hwmon/index.rst
+>> +++ b/Documentation/hwmon/index.rst
+>> @@ -215,6 +215,7 @@ Hardware Monitoring Kernel Drivers
+>>      peci-dimmtemp
+>>      pmbus
+>>      powerz
+>> +   prom21-hwmon
+>>      powr1220
+>>      pt5161l
+>>      pxe1610
+> It sorta looks like these entries are supposed to be maintained in alphabetical
+> order, but that new entry is not.
+>
