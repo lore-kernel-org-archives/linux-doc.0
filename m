@@ -1,135 +1,237 @@
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D1F3FFAA2
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 15:46:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10AEE48C8DA;
+	Wed,  6 May 2026 15:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778082392; cv=none; b=YC+hZCEY7E9jgDTBg1tcB+jzxbIrURCwx1f333HO0GzUPBMRxMikJHaza2vOQiOOmi9zsFaTXe/rMrkvsa47UmAke4tEGgBIkycEuTq8QQvghC3keaP3gdHOitrDPfhNvf8FYr1BgZu5JcRubQvj7yNVpx4uygPaYojMtza68/o=
+	t=1778082408; cv=none; b=l/73U0LA1VboLnFlqwUsBg6/dvbfKxvP6G2kTLGFWFSWap1k7QZXauWdRC5t0ziYqTwUW4SZ282K6juaQq5rGA5mLhjq4DlzAw3ABQ+IAleo/bvnMHQUqtJ6K9dxtMXQqHvwblL6UDpvO/xnN7ZeEdNtpYahy0p2vTQmJsUujDQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778082392; c=relaxed/simple;
-	bh=Ayxe0U7sEqVbzMNuLfhkgTWqSkvKWKIHUAFfGG7sBVQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ABt8XfM1/oetvmiPwl/l74dFe5xdmP+3fLdltvmxExDjNEPVbICdJaiY95tEPPd+Ev4CfDNppxUldCoQNwmc6N8p2oEAojQZ3CTZ/TkMaBrPFaw571vP2kY3eO5Fwx81gKCgZ29XdcVN3EuDJc1UXC27a0XnE74j10gs9dOu1k0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=a7cWpDw2; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1778082408; c=relaxed/simple;
+	bh=UrrPk+6g39IIpATE+r/ALmveb23Z8oczij81iLseye8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=N3CBcAuB0tM8RbulaaCltHIihCG9rKWAKkqA7gden10yXspE8NW0A6dLqZ9pdonwlp4iM5KQCnHHSjK75dWKwhZUowoM1jm48dXL1J9CvjI4Kh60vpUeNbLA9jlqo66Fn8P6D29/LMcdtjpzCbItVlAdxTNSiN6ywE6lex0BsG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSicA03h; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="a7cWpDw2"
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b93698bb57aso179897966b.0
-        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 08:46:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1778082387; x=1778687187; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ol9I+25i/wXqaqCu9UMZW182j7aLIrDgRKl0RhfiK4Y=;
-        b=a7cWpDw2i3zhZW+UuoeJJKg0vrBfYB2l+N/UHQvavQWWTD+VkiktGtchqqmSvWEaIJ
-         y1cPTzuF0bi9kx396mM0gcHjMIW8q7A/HLat9DcqJGEf8lTHGFoPSopbjtjUlKzK2FpT
-         kKmpbjZV9iCulJJnh9xRERXC2Ge8XRuzgeYEY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778082387; x=1778687187;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ol9I+25i/wXqaqCu9UMZW182j7aLIrDgRKl0RhfiK4Y=;
-        b=F68/zJeDuXeNsBX53fd2zCcSCIddh7RKWC05Pr/kPbXi2hoq17XMnluntX54u/bpX1
-         joCvnNlJd5FX95uqR+bpXys770qZZnbXlVIt2mfm6UcVU3LSN5lGBHXsizojM3LmDrb+
-         2Ykuza1k8HNQQscafPcKr0GF8DRGExwQR6D5ict42ZQEE2OPLCDaXUGi3zi7tTCjRs6L
-         6v2Qbcogqh+SILPiiV78uf0mIrcG/R9y+i8+3GNKn77tGn0iy46rNESpQslHz5pf/c94
-         bmxZ94WdTqmXgsVvIW3jlr+lm4oJidstEeeHusNxj4d3g4YKGFVerEkLr1imTKGKYV34
-         GEdA==
-X-Forwarded-Encrypted: i=1; AFNElJ8djzYPxzzgiHRCZHwsLG2JvznoubGAjeRUTLTD4C4qwW/wK/CI55Yk31/9LMmvRmj/K4+hI/+MSCo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8+g+d/mY5BknPXzW9TCGZA7J2bQflBP0q8nV+ucN93AdlDKHe
-	kuTgqyS5JlMYemnHgqEth47TuFCdYZ82pxPgZBgaOf81g9s2Jo53PqObMben+2Kp38ifNWjU0S1
-	ifuxn0q0=
-X-Gm-Gg: AeBDiestIThbhWTEB+IqDZJeALF6d/lKiUakBzW8KxR2nrNY2jVxNMud1MO1QkC0O6S
-	QqTU/vV405FY+A/p5346IU8QeMAFO6GD+870ZbeI3tPytDMHKZ4TEu2BCUoxEp2lOP2R6HQNRgb
-	QHZc4HoBul4nrnlH8mCoXcWYGc5mfJXuhVDa1Xoc0ixEiiffRyIcMzcvEky608micDmy8nrcDnh
-	3rXO1sJw3idwCnh7dLYr+xjxMKScSNAEAbTSE9hD8MOWRpEod0OnlfVkhM8oH7lOmaIAX/IWww8
-	uqOioZam47bm9zoy1c5rMqroCP+CzBXqE0U/x44mHM4dxKnJXKUlTdck80B2NF1dgs9zVJEq9Vm
-	5+VDG01emj8FPKiMmmNGBCc3Wzu6S73fUGK66+oeIoh87VBThk3K2brsPbPfuU/ReQv1P7F5U4+
-	4A8uoiG55w/WnY5tRwwRrV7jQLz8NqA0oyn/Xp1vf9vDwz6aaXOtApsZOwzj81x6OD3yyOiYMe7
-	gMIY9EXGg==
-X-Received: by 2002:a17:907:9810:b0:bc3:a0e9:e0c with SMTP id a640c23a62f3a-bc54b85173emr208143666b.13.1778082387139;
-        Wed, 06 May 2026 08:46:27 -0700 (PDT)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com. [209.85.208.49])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-bc55b17a5edsm97231966b.9.2026.05.06.08.46.24
-        for <linux-doc@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 May 2026 08:46:24 -0700 (PDT)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6763cc8775cso1912863a12.0
-        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 08:46:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AFNElJ+wRxM/TmwvY4sfXm/jf12mJhDY/jjMpgL1bwVV6ETt0T2Oqo5awIWt6s2xyjfr4EoAckfiCfnW7xU=@vger.kernel.org
-X-Received: by 2002:a17:907:9448:b0:bc3:99d5:a29f with SMTP id
- a640c23a62f3a-bc3cf833b05mr437230666b.5.1778082383735; Wed, 06 May 2026
- 08:46:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSicA03h"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C6AEC4AF0B;
+	Wed,  6 May 2026 15:46:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778082407;
+	bh=UrrPk+6g39IIpATE+r/ALmveb23Z8oczij81iLseye8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZSicA03hDhykXPH55kbICZ0k18n6jdHIW3qWJfHWu4GgdXsMIrQq2rPPjkdNlC+QZ
+	 YUbZXh7JTwXsXTabbOFt5or7yzrpPycZzKGAANQ1KDxYikilP+myVdI7wS3BRVWK8x
+	 v5f+YHmEoK6tjz0j947mepujTwD9ZyPzk26ifXTBLh6GMrnqmU8JNpX3F16FRjBA0r
+	 c3gD/izfM33PzzTrRI+Ae0+KdsuVYFXsim+xBcy+ky/zpOL5BlQH9pTfb7m9pUNpHC
+	 2o+fUC6lly4dJu2Uk06WCfGz9gDv6s7HqqLx+6Q8pi0VKIZucsqYobaJRcT/GlzP24
+	 82P+rcLeHMTlg==
+Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
+	by mailfauth.phl.internal (Postfix) with ESMTP id 4C5E3F40070;
+	Wed,  6 May 2026 11:46:46 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-01.internal (MEProxy); Wed, 06 May 2026 11:46:46 -0400
+X-ME-Sender: <xms:ZmL7aaCrplXZbMwKqZf_wHgZFma-18SVObNyRy5ZN7bZ2kJwgcvY_A>
+    <xme:ZmL7aRrpHTg6rCA5tAy-BxDj4E9I1Amzk6Euw29pV8iRPs6fpIgC2b2J94_S64ApG
+    mcSgB6BQBksYTCEmbA1QqrZSxG11sbj9Tc1SmLpcr-5m0P9PrNI3Ak>
+X-ME-Received: <xmr:ZmL7aeCDktInw5GHk2hJefv-_5IKudZcO1oWIYoAYtgSUg_0PS6Vhuaax1-TligsqpaKVPknC0d2fXWr9hYBLeLrcdwjX4-x>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefhedrtddtgddutdegleelucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepuehoqhhunhcu
+    hfgvnhhguceosghoqhhunheskhgvrhhnvghlrdhorhhgqeenucggtffrrghtthgvrhhnpe
+    euffdvtdegvdektdetgfevvdehgeevhfdtheeuieeijeeitdeutdefgefhjeduleenucff
+    ohhmrghinhepkhgvrhhnvghlrdhorhhgpdhtrhgvvgdrmhgrnecuvehluhhsthgvrhfuih
+    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepsghoqhhunhdomhgvshhmthhprghu
+    thhhphgvrhhsohhnrghlihhthidqudeijedtleekgeejuddqudejjeekheehhedvqdgsoh
+    hquhhnpeepkhgvrhhnvghlrdhorhhgsehfihigmhgvrdhnrghmvgdpnhgspghrtghpthht
+    ohepfeefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehjohgvlhgrghhnvghlfh
+    esnhhvihguihgrrdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepohhjvggurgeskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtohepghgrrhihsehgrghrhihguhhordhnvghtpdhrtghpthhtohepsghj
+    ohhrnhefpghghhesphhrohhtohhnmhgrihhlrdgtohhmpdhrtghpthhtoheplhhoshhsih
+    hnsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrdhhihhnuggsohhrgheskhgvrhhn
+    vghlrdhorhhgpdhrtghpthhtoheprghlihgtvghrhihhlhesghhoohhglhgvrdgtohhmpd
+    hrtghpthhtohepthhmghhrohhsshesuhhmihgthhdrvgguuh
+X-ME-Proxy: <xmx:ZmL7aZznNrlAxu4xTV4SLy9awAFbGk7hhvvyT_pHYRPfCouCbi81NA>
+    <xmx:ZmL7aW6A5knDjHx_YgUPuSwoGItGjGRcxth0obiCn_feDX-32qdT_Q>
+    <xmx:ZmL7aasUKCdE4FH2yr6CLWQiTup9SRqEkqVzsjVNMyMSXzHPnX1ZJQ>
+    <xmx:ZmL7aTs7bthjmx0M_GRr-hQkuDAAkcR4w43kNtjNWY7c7gJ4NtEakg>
+    <xmx:ZmL7aSvycf7zHrodrEPpch9XLB8S7iUQRtFzQiB_DHYDkT2o0DiJlu4T>
+Feedback-ID: i8dbe485b:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 6 May 2026 11:46:45 -0400 (EDT)
+Date: Wed, 6 May 2026 08:46:44 -0700
+From: Boqun Feng <boqun@kernel.org>
+To: Joel Fernandes <joelagnelf@nvidia.com>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+	Gary Guo <gary@garyguo.net>,	Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <lossin@kernel.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>,	Dave Airlie <airlied@redhat.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+	nova-gpu@lists.linux.dev, Nikola Djukic <ndjukic@nvidia.com>,
+	David Airlie <airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+	John Hubbard <jhubbard@nvidia.com>,	Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>,	Edwin Peer <epeer@nvidia.com>,
+	Alexandre Courbot <acourbot@nvidia.com>,
+	Andrea Righi <arighi@nvidia.com>, Andy Ritger <aritger@nvidia.com>,
+	Zhi Wang <zhiw@nvidia.com>, Balbir Singh <balbirs@nvidia.com>,
+	Philipp Stanner <phasta@kernel.org>, alexeyi@nvidia.com,
+	Eliot Courtney <ecourtney@nvidia.com>, joel@joelfernandes.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] rust: maple_tree: implement Send and Sync for
+ MapleTree
+Message-ID: <aftiZGt3HQe0Bf_x@tardis.local>
+References: <20260506135122.GA1432412@joelbox2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20260503113506.5710-1-w@1wt.eu> <20260503113506.5710-3-w@1wt.eu>
-In-Reply-To: <20260503113506.5710-3-w@1wt.eu>
-From: Linus Torvalds <torvalds@linuxfoundation.org>
-Date: Wed, 6 May 2026 08:46:07 -0700
-X-Gmail-Original-Message-ID: <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
-X-Gm-Features: AVHnY4KE50QWidq7jluJrSAvjRbAdXhycVxJcJyr74qo1PmiGMyRuavPyHIA4oo
-Message-ID: <CAHk-=wi6z5BGUUT2p+=qrJg+obom8VnCo3MqB=7xp3Gw+UMMkg@mail.gmail.com>
-Subject: Re: [PATCH v2 2/3] Documentation: security-bugs: explain what is and
- is not a security bug
-To: Willy Tarreau <w@1wt.eu>
-Cc: greg@kroah.com, leon@kernel.org, security@kernel.org, 
-	Jonathan Corbet <corbet@lwn.net>, skhan@linuxfoundation.org, workflows@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260506135122.GA1432412@joelbox2>
 
-[ Coming back to this after a week of trying to clean up the disaster
-that is my inbox after the merge window ]
+On Wed, May 06, 2026 at 09:51:22AM -0400, Joel Fernandes wrote:
+> The C maple_tree struct contains a *mut c_void, which prevents Rust from
+> auto-deriving Send/Sync. Following is an example error message when using
+> MapleTree in nova-core's Vmm.
+> 
+> This propagates up through MapleTreeAlloc to Vmm, BarUser, Gpu, and NovaCore,
+> causing NovaCore to fail the Send bound required by pci::Driver:
+> 
+>   error[E0277]: `*mut c_void` cannot be sent between threads safely
+>       --> drivers/gpu/nova-core/driver.rs:77:22
+>        |
+>   77   | impl pci::Driver for NovaCore {
+>        |                      ^^^^^^^^ `*mut c_void` cannot be sent between threads safely
+>        |
+>        = help: within `MapleTreeAlloc<()>`, the trait `Send` is not implemented for `*mut c_void`
+>   note: required because it appears within the type `kernel::bindings::maple_tree`
+>   note: required because it appears within the type `Opaque<kernel::bindings::maple_tree>`
+>   note: required because it appears within the type `MapleTree<()>`
+>   note: required because it appears within the type `MapleTreeAlloc<()>`
+>        = note: required for `Box<MapleTreeAlloc<()>, Kmalloc>` to implement `Send`
+>   note: required because it appears within the type `core::pin::Pin<Box<MapleTreeAlloc<()>, Kmalloc>>`
+>   note: required because it appears within the type `Vmm`
+>   note: required because it appears within the type `BarUser`
+>   note: required because it appears within the type `Gpu`
+>   note: required because it appears within the type `NovaCore`
+>   note: required by a bound in `kernel::pci::Driver`
+>       --> rust/kernel/pci.rs:294:19
+> 
+> Implement Send and Sync for MapleTree. The tree contains no thread-local
+> state, and all shared access goes through the internal ma_lock spinlock.
+> 
+> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+> ---
+> RFC->v2: Just adjusted a few comments as suggested by Gary.
+> 
+> Sending this separately as discussed in the nova mm patch series that needs it:
+> https://lore.kernel.org/all/252a4eef-f4f4-4edf-8154-06cae4ad8518@nvidia.com/
+> 
+>  rust/kernel/maple_tree.rs | 29 +++++++++++++++++++++++------
+>  1 file changed, 23 insertions(+), 6 deletions(-)
+> 
+> diff --git a/rust/kernel/maple_tree.rs b/rust/kernel/maple_tree.rs
+> index 265d6396a78a..2400c905270d 100644
+> --- a/rust/kernel/maple_tree.rs
+> +++ b/rust/kernel/maple_tree.rs
+> @@ -16,7 +16,11 @@
+>      alloc::Flags,
+>      error::to_result,
+>      prelude::*,
+> -    types::{ForeignOwnable, Opaque},
+> +    types::{
+> +        ForeignOwnable,
+> +        NotThreadSafe,
+> +        Opaque, //
+> +    },
+>  };
+>  
+>  /// A maple tree optimized for storing non-overlapping ranges.
+> @@ -240,7 +244,10 @@ pub fn lock(&self) -> MapleGuard<'_, T> {
+>          unsafe { bindings::spin_lock(self.ma_lock()) };
+>  
+>          // INVARIANT: We just took the spinlock.
+> -        MapleGuard(self)
+> +        MapleGuard {
+> +            tree: self,
+> +            _not_send: NotThreadSafe,
+> +        }
+>      }
+>  
+>      #[inline]
+> @@ -302,19 +309,29 @@ fn drop(mut self: Pin<&mut Self>) {
+>      }
+>  }
+>  
+> +// SAFETY: `MapleTree<T>` is `Send` if `T` is `Send` because `MapleTree` owns its elements.
+> +unsafe impl<T: ForeignOwnable + Send> Send for MapleTree<T> {}
+> +// SAFETY: `&MapleTree<T>` never hands out `&T`; all entry access is serialized
+> +// by `ma_lock` or `&mut Guard`, so `T: Send` suffices (`T: Sync` not required).
+> +unsafe impl<T: ForeignOwnable + Send> Sync for MapleTree<T> {}
 
-On Sun, 3 May 2026 at 04:35, Willy Tarreau <w@1wt.eu> wrote:
->
-> The use of automated tools to find bugs in random locations of the kernel
-> induces a raise of security reports even if most of them should just be
-> reported as regular bugs. This patch is an attempt at drawing a line
-> between what qualifies as a security bug and what does not, hoping to
-> improve the situation and ease decision on the reporter's side.
+I think you missed this:
 
-I actually think we may want to go further than this.
+	https://lore.kernel.org/rust-for-linux/aepRx2jgIKmoRp-r@tardis.local/
 
-I think we should simply make it a rule that "a 'security' bug that is
-found by AI is public".
+;-)
 
-Now, I may be influenced by that "my inbox is a disaster during the
-merge window" thing, but I do think this is pretty fundamental: if
-somebody finds a bug with more or less standard AI tools (ie we're not
-talking magical special hardware and nation-state level efforts), then
-that bug pretty much by definition IS NOT SECRET.
+But on a second thought, should that (we have methods of `&MapleTree<T>`
+-> `&T`) happen, we could always guard those methods with T: Sync. Maybe
+it's worth to keep a note on that but, anyway
 
-So why should be consider it special and have it be on the security list?
+Reviewed-by: Boqun Feng <boqun@kernel.org>
 
-Yes, yes, I know - some people think that "security bugs are special".
-And I've been on the record before calling that opinion special - in
-the short bus sense.
+Regards,
+Boqun
 
-Bugs are bugs. And not having them in public only makes them harder to
-deal with.
-
-Do we want to make bugs with potential security impact harder to deal
-with? No. No, we really don't.
-
-So I claim that the only reason for a security list is the non-public
-nature of the bug and the whole "responsible disclosure" argument.
-
-But that argument is complete and utter garbage in the face of some
-mostly automated AI discovery (now, that argument is mostly a fiction
-in the first place, but I am not going to argue with people who have
-vested interest in making their special  patches "security bugs").
-
-To recap - I think this "document the scope of security bugs" is good,
-but I think we should go even further, and just document the fact that
-anything found by regular AI tools should just always go to public
-lists and is simply not special.
-
-                Linus
+> +
+>  /// A reference to a [`MapleTree`] that owns the inner lock.
+>  ///
+>  /// # Invariants
+>  ///
+>  /// This guard owns the inner spinlock.
+>  #[must_use = "if unused, the lock will be immediately unlocked"]
+> -pub struct MapleGuard<'tree, T: ForeignOwnable>(&'tree MapleTree<T>);
+> +pub struct MapleGuard<'tree, T: ForeignOwnable> {
+> +    tree: &'tree MapleTree<T>,
+> +    // A held spinlock must be released on the same CPU that acquired it.
+> +    _not_send: NotThreadSafe,
+> +}
+>  
+>  impl<'tree, T: ForeignOwnable> Drop for MapleGuard<'tree, T> {
+>      #[inline]
+>      fn drop(&mut self) {
+>          // SAFETY: By the type invariants, we hold this spinlock.
+> -        unsafe { bindings::spin_unlock(self.0.ma_lock()) };
+> +        unsafe { bindings::spin_unlock(self.tree.ma_lock()) };
+>      }
+>  }
+>  
+> @@ -323,7 +340,7 @@ impl<'tree, T: ForeignOwnable> MapleGuard<'tree, T> {
+>      pub fn ma_state(&mut self, first: usize, end: usize) -> MaState<'_, T> {
+>          // SAFETY: The `MaState` borrows this `MapleGuard`, so it can also borrow the `MapleGuard`s
+>          // read/write permissions to the maple tree.
+> -        unsafe { MaState::new_raw(self.0, first, end) }
+> +        unsafe { MaState::new_raw(self.tree, first, end) }
+>      }
+>  
+>      /// Load the value at the given index.
+> @@ -375,7 +392,7 @@ pub fn ma_state(&mut self, first: usize, end: usize) -> MaState<'_, T> {
+>      #[inline]
+>      pub fn load(&mut self, index: usize) -> Option<T::BorrowedMut<'_>> {
+>          // SAFETY: `self.tree` contains a valid maple tree.
+> -        let ret = unsafe { bindings::mtree_load(self.0.tree.get(), index) };
+> +        let ret = unsafe { bindings::mtree_load(self.tree.tree.get(), index) };
+>          if ret.is_null() {
+>              return None;
+>          }
+> -- 
+> 2.34.1
+> 
