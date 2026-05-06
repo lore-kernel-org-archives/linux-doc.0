@@ -1,37 +1,37 @@
 Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68DFF846A;
-	Wed,  6 May 2026 22:17:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40A4430FC23;
+	Wed,  6 May 2026 22:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778105862; cv=none; b=YsanUqUghFZsOAedQxMcN/5fSVUb9hpjEEK8Lyz8Iw9VypbgeDwtIdWQnVXdm87XU5Lwk4szZa/ZxMk04RT8v3tVWsg2j4kjCHaWIWM4wBtg59e6NOqqCsqhjrW96x1LcV2eVO4X3Hzq8Jyxm3L+fet3pz1BpQfIprtlYG5sIhs=
+	t=1778106263; cv=none; b=O7lpkOeJoGeSHqZB6gDeApF/IrVkGVAkcMukr0JE03bQsn4lyvFGe0MJxpPts/Rr1yTkHdzZ2I+mgLMPtjiTS+KI/9WFpO5z61FhZJX6eBRSPjxJCYEQAgf1+cl1nQbmcbhs8xbxULIZz8v+YkEXdpJMa2yUJxHvhHQA/rLFd+A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778105862; c=relaxed/simple;
-	bh=rSMrsiChLJbsd8a8yZ0n1nG9DgrTijzwI31MQsZPvFI=;
+	s=arc-20240116; t=1778106263; c=relaxed/simple;
+	bh=C3mebG4xQF/8bmrtHQtaU2n+DtqkjaRZNTf90X58E2o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EvACDe9viQ80p0GRbVF4WVc5LRlWPwjzZdv1zsSVH+NV1EZVXNRqZrW82hUNZdfsXJzpwuaeGAX6SrXrSqvnt7qhEeJ5tZhZSIXLeMjmmj/u/mJq8Yh5VTL8KE7vxzqFvMLzG3wAnz5M8qFFwRL9uqCKc3MhQsBLSYn2VN6qKVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=w4/0lb9A; arc=none smtp.client-ip=198.137.202.133
+	 In-Reply-To:Content-Type; b=VlBJinaQXz6+RP0KHG1pu+H67BcV/wE5hAra0TptlMkOrLa1MPgXWZm0RO2EA3p/tNk42UJKWa/dX2SZPBwWtE+Sm5eqGUkaQvvKpJSVDB+r+xGu5loG5yCgN/VL4sX0MEAp74r3SoEAs4YEvZ2mKo5TuFtZwfSrnNGqUVq5G80=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NfArlEGd; arc=none smtp.client-ip=198.137.202.133
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=infradead.org
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="w4/0lb9A"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NfArlEGd"
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
 	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
 	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
 	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
-	bh=WrgXdvCH15z6dBTixciuIAWDVt4l+FH9oT98KPOHHCg=; b=w4/0lb9AKDvsV9HI11f21upSvU
-	KhsYJU8HShrEMudwjQCeKfwyAS15R6w2jM/CDsITVexE/BJaIIUfrYBViVBMKPPerOm8sKD7RvxK3
-	2zZjiUN18bumyUwyGcA7B3T0ftz4P47pkaBNrCgjsr3CbUx0xRdU3rkKC1UI1gr3/+TUVPWC0DKok
-	ikW86AevzHK5r4xhhCiJyLNUtDgL10IdqlItrsnTrE1viIV7O3NKJbFHGro+N/N52IGpe9yoO4EII
-	VQeAhLpHuyDCXxgUl3noAYrpGAvMfWZKduW+51CgTbHMHoAZcC8Xx3998UeLU6py8GhR9liKEHI7Q
-	p1Kp7w7Q==;
+	bh=vi0t2C7a2R6SnUYU4KKYj9AxGRg+DnRXadjNE3N8EBA=; b=NfArlEGdAWPcCoH/FJoIcjd/Xx
+	v0VGf6G9ZMr/C3p0KzULi7+62TDDz7ebLBBgAmDOAZQNtgc9Rd3hxGYM8n1/c7WRjxMH5TdUYHS1Y
+	xYuKQj1ejx357aaKz0hG9dse8x1UPxgU3dN29LjnqHee5FqusRcl0K0JAu/xagKnH3iYfRLTSM26w
+	4eE0aukax1J5xQV1gRZfrsGnhPrhv9J0Iw2g8DJbW+jVwOLNsChttgsUyfQ0TL1GW5NgAISwcvxYn
+	Hm/a6fJOepDWp7SOi88ubhonH1e3+02KScPOHGIr3nWDSfjs808TNY4p0Fu5a9XRhhEVxpn1eg6JL
+	NdTQZrXw==;
 Received: from [50.53.43.113] (helo=[192.168.254.34])
 	by bombadil.infradead.org with esmtpsa (Exim 4.99.1 #2 (Red Hat Linux))
-	id 1wKkYk-00000002Awr-2Nus;
-	Wed, 06 May 2026 22:17:38 +0000
-Message-ID: <5a61ad36-d754-4ab9-8a56-83bccc1397f2@infradead.org>
-Date: Wed, 6 May 2026 15:17:37 -0700
+	id 1wKkfF-00000002BjH-2T1G;
+	Wed, 06 May 2026 22:24:21 +0000
+Message-ID: <927e9642-f5b5-41e7-aaaf-0a263dfb82a3@infradead.org>
+Date: Wed, 6 May 2026 15:24:20 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,45 +39,80 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: add initial support for AMD PROM21 xHCI
- temperature sensor
-To: Jihong Min <hurryman2212@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260506032939.92351-1-hurryman2212@gmail.com>
- <cover.1778099627.git.hurryman2212@gmail.com>
- <2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
+Subject: Re: [PATCH] docs: kernel-doc: python: strip __counted_by_ptr macro
+To: Tudor Ambarus <tudor.ambarus@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Kees Cook <kees@kernel.org>,
+ "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-hardening@vger.kernel.org, peter.griffin@linaro.org,
+ andre.draszik@linaro.org, willmcvicker@google.com, jyescas@google.com,
+ krzk@kernel.org, kernel-team@android.com
+References: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
 Content-Language: en-US
 From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
+In-Reply-To: <20260506-kdoc-__counted_by_ptr-v1-1-70763486871f@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 
 
-On 5/6/26 1:40 PM, Jihong Min wrote:
-> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
-> index 8b655e5d6b68..0d85b78596cf 100644
-> --- a/Documentation/hwmon/index.rst
-> +++ b/Documentation/hwmon/index.rst
-> @@ -215,6 +215,7 @@ Hardware Monitoring Kernel Drivers
->     peci-dimmtemp
->     pmbus
->     powerz
-> +   prom21-hwmon
->     powr1220
->     pt5161l
->     pxe1610
+On 5/6/26 4:04 AM, Tudor Ambarus wrote:
+> The `__counted_by_ptr` macro was recently introduced [1] to extend
+> bounds checking semantics to standard dynamically allocated pointers.
+> 
+> However, the new Python implementation of kernel-doc does not currently
+> recognize it as a compiler attribute. When kernel-doc encounters a
+> struct member annotated with this macro, it fails to parse the variable
+> name correctly, resulting in false-positive warnings like:
+> 
+>   Warning: ... struct member '__counted_by_ptr(cmdcnt' not described
+> 
+> Add `__counted_by_ptr` to the `struct_xforms` regex list so it gets
+> safely stripped out during the parsing phase, mirroring the existing
+> behavior for `__counted_by`. Update the corresponding unit tests.
+> 
+> Link: https://git.kernel.org/torvalds/c/150a04d817d8 [1]
+> Signed-off-by: Tudor Ambarus <tudor.ambarus@linaro.org>
 
-It sorta looks like these entries are supposed to be maintained in alphabetical
-order, but that new entry is not.
+Acked-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Thanks.
+
+> ---
+>  tools/lib/python/kdoc/xforms_lists.py | 1 +
+>  tools/unittests/test_cmatch.py        | 1 +
+>  2 files changed, 2 insertions(+)
+> 
+> diff --git a/tools/lib/python/kdoc/xforms_lists.py b/tools/lib/python/kdoc/xforms_lists.py
+> index f6ea9efb11ae..118156ea8cd2 100644
+> --- a/tools/lib/python/kdoc/xforms_lists.py
+> +++ b/tools/lib/python/kdoc/xforms_lists.py
+> @@ -29,6 +29,7 @@ class CTransforms:
+>          (CMatch("__aligned"), ""),
+>          (CMatch("__counted_by"), ""),
+>          (CMatch("__counted_by_(le|be)"), ""),
+> +        (CMatch("__counted_by_ptr"), ""),
+>          (CMatch("__guarded_by"), ""),
+>          (CMatch("__pt_guarded_by"), ""),
+>          (CMatch("__packed"), ""),
+> diff --git a/tools/unittests/test_cmatch.py b/tools/unittests/test_cmatch.py
+> index 7b996f83784d..109141cd2ab8 100755
+> --- a/tools/unittests/test_cmatch.py
+> +++ b/tools/unittests/test_cmatch.py
+> @@ -320,6 +320,7 @@ class TestSubWithLocalXforms(TestCaseDiff):
+>          (CMatch('__aligned'), ' '),
+>          (CMatch('__counted_by'), ' '),
+>          (CMatch('__counted_by_(le|be)'), ' '),
+> +        (CMatch('__counted_by_ptr'), ' '),
+>          (CMatch('__guarded_by'), ' '),
+>          (CMatch('__pt_guarded_by'), ' '),
+>  
+> 
+> ---
+> base-commit: 254f49634ee16a731174d2ae34bc50bd5f45e731
+> change-id: 20260506-kdoc-__counted_by_ptr-1e206f3f1dc1
+> 
+> Best regards,
 
 -- 
 ~Randy
-
