@@ -1,99 +1,107 @@
-Received: from outbound.st.icloud.com (p-east2-cluster5-host12-snip4-10.eps.apple.com [57.103.79.83])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f195.google.com (mail-qk1-f195.google.com [209.85.222.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C7937F010
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 22:52:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.79.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C69035AC17
+	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 22:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778107936; cv=none; b=FHFR0MCngg9N+4UjMtXAGdeMAGfVMygeORHpLIflrgE4z3AnZHygdyjh5+yo03XfYNjggLeRaVFYUgwZyU3e/yEHAi0Cm21EE1yCZ2EjVh3X9HRflE8r4qE/k/TJruYfKkWCAM5Oc5hzG3MmZnCMu/jQK4F8TPjoD257B+QCqy0=
+	t=1778108386; cv=none; b=qDIetJlRZ4T2234gD0MmvORvcNWzFtobJg5vzs9rE0C65uH9p4nEgS20JijpBHH4uZYoEde1ZUDfuOyC6mwRh7vrsmqaNZuA/h6t58ehJX/tFe5AyM8SZuprbJ24QGwizFLZXFfNPc6IHuYBUg1SZXrQH5zCpa3rzKp/R1IL0Tw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778107936; c=relaxed/simple;
-	bh=zHkix/9GTTrDk7GuC+3H49H5keRzWBA6Vi1hJtgTiuQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=u9e+uRSSbRuUXt5npw9GJB5oUi25g4an7I3t9uBr1sbpR/wwAE89zDxNMLVI0XL9krcguQoOwFfSfE4g26uljjg8F8Zw9SC/b1Rlb+l2BaMEP21fBLfgyjJuYFd87o/k/A/bToI00RRffBFM4qnRb4cSEeQxf3P8lx3NzdcDiFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=dYZ1yMHs; arc=none smtp.client-ip=57.103.79.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1778108386; c=relaxed/simple;
+	bh=P3AZvMdepfiMXPrEFWxcpKko0mxqF7SpSZHSwvRiPho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VqgbojYKF+CUz1X+pKI9pwjVVfYLWNnczwzLZEL/q8w9VkU+YgORXCyw9+YC81mrRMlqco7qwTiKoBTBXVJn8DU9Qb+t56lhTmPpHYe7RgXHtoDk42q006nrYSeB34Qqyr8gvUKw+AUoddblZsQYHHTAxgvu/3q57jAhfcBC/4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XRMGlpy4; arc=none smtp.client-ip=209.85.222.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="dYZ1yMHs"
-Received: from outbound.st.icloud.com (unknown [127.0.0.2])
-	by p00-icloudmta-asmtp-us-east-1a-10-percent-0 (Postfix) with ESMTPS id 438241800173;
-	Wed, 06 May 2026 22:52:12 +0000 (UTC)
-X-ICL-Out-Info: HUtFAUMEWwJACUgBTUQeDx5WFlZNRAJCTQhMHVsARQNFDFYEVBcOVk1RDUEfTgZTHgtKAl93AlEcVg1XQ1QEX1BfHA4FQhlACVQZXV8FWgAwUBtfAkIPHBNWFRMfVFYDRBkQVgFYVl0FTRpcGFkPHANNVloOWwRHFBcbXAAXG0YCBCMCXwBFAl4JVgEwFw9WTVAbXwJCDxwTVhUTAF4PD0xaSlJeU1kFFBRLUV0GRgZEWE4eD1UNBF1fHVBbBFwFSAAaAAt3AlEcVg1XQ1QEX04ZDEodUlZbE1UXRgk=
-Dkim-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com; s=1a1hai; t=1778107933; x=1780699933; bh=tmZHxx8BT5NuOd6vFPjkI8aOgJMGX8DlupV282+qql8=; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme; b=dYZ1yMHs4ZyYaqC7mhUgpLG9YJ2w4i1WQiKkWSiWpdG9brkIJB+A0evw/ry1Wiqq3Rhyu/OXV1PtH/423tNKoQ0+abzH8vYnelFVKAzWmiVZhYKuzgYEckDP5/DDicUq+gHugLwkvsI0Wit4ym0qmlnpYYFVOXrXNF3Cnng1s50Z3b9Xl7L6GVBLfkaBeC8y2a7wQxkhPe3Yb1BQ0xBajaBHcxEwd9UdE9FwGvrTVKjUdVC1sKYJIRj8qanTZ2Bekd6LIwbFqmEv1/662jdv2kUZwFwEQST8tLLSoOOTN/C7NfX6UE88qucQzOQQqkDvxMCSgNteD3uodYcwz/TwNg==
-Received: from [192.168.89.2] (unknown [17.42.251.67])
-	by p00-icloudmta-asmtp-us-east-1a-10-percent-0 (Postfix) with ESMTPSA id C8C001800259;
-	Wed, 06 May 2026 22:52:08 +0000 (UTC)
-Message-ID: <c2a3d27d-3b01-44a6-bbf6-fec637789b3f@icloud.com>
-Date: Thu, 7 May 2026 07:52:06 +0900
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XRMGlpy4"
+Received: by mail-qk1-f195.google.com with SMTP id af79cd13be357-8d6d5e45c43so26095385a.3
+        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 15:59:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778108384; x=1778713184; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=NNSbb1DA2Nd54arYFzCTAu05b8qEnVGy5kklrdtYQDo=;
+        b=XRMGlpy46C2pjrIzikGYzwjgJBPJotY+hLw2udHdU2WQwQislJuL/YZ3x10GwepdGy
+         MdiMxJp129dV6Kdqa5Eib/61DZgGI5HdA1j2RCBJKnuRHp9r5M72XV+ST7BOFLWbgl49
+         mnZ7wE59ry3I4QAoKZ1Yw2hiwfxjQPBCQ3/SkYfyQ17ooIZ5CioYNlJDggsP9AdilS5q
+         iC54pQZjHiSp5IVgaBvZrqrP1Bv7PRJ6E3e2dp5CPciiwTBFzRZq/17h9iWVoAEScBUF
+         sCrABgWQL7NczHlxw4oSv7D29wjDWgBtKwlSmlGlgnEaMOfOdOTgWj88Yiokxyegq3e+
+         pYOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778108384; x=1778713184;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NNSbb1DA2Nd54arYFzCTAu05b8qEnVGy5kklrdtYQDo=;
+        b=CxusouKK9MJwLio9Eh77tc/CyQhB91Rh2s8/G0xv4ZDakj4zglEpIR4BquFGGwz+bS
+         qdVgi4pl1eBJ+ln3GrWAenWDYz07C7i6S4XHyDKQONetUE8kXj0x6nLHgIegNNBz5w43
+         FELtPWSe9AQ+jp6yAAHOl7xn+/DasRzkMdmC1LuEEOkivpc6ncbxFCC7+HYSnsGT+ORG
+         TIWPPcg2fTE2Fi8KhvGTlkzkcJOtmSM7JE6GRfUs/k8EjSxNNC/HM9RkB+HO2oJsx5F3
+         i9grYnqpk5jBnVDi1+fmYNJTMpHUeymEZHsgSTOJ5LkRtW42UsYpvIi1C4zhZfLgbe9b
+         4uww==
+X-Forwarded-Encrypted: i=1; AFNElJ/8cnFHBA2uFO0bBKK7YPJGI8fgApZOAWn7RKOwKsqXdw/frCiW/XQ33/JUHh5EgdrTAKjC3+4IGs4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyAbTpjL914veZzKdPVRtUX+66MibF3Nl6Pqmc00WQOHMfvOBWm
+	auYzloEhv3IMV+uQHfp7swVwTnxO/gezHJl/kfyWIqPlXGPHI9phlrCS
+X-Gm-Gg: AeBDietByFWKZWmxiSMFPEavgudIj/355kXLOmiDWnXlDJ6CxpzU4B3knm3hJK1dKXZ
+	LewuI7EC3HVeGu/UF/jYIZlIxYGoIa+xYHXsEJl2SjukyKr2JbF0HKxNoFjrONBqPd6TTfV7MYw
+	a1ImTT6stqhXpEEUwLCZj+ODYj1KkaPFCEJtiEi8/bYkjvNh+jIkxv1huWa3s+7VTWJbIKvfpf6
+	pM0y81bXRrD9N/Dd2rZ7kgNYcBXhbNQICVBm1rfRbLtaHYCoq5uQkSKgYoILX55bc/jF/4TbKK0
+	zCKyUkRjTAfPXo5xEpaPFWBcJhOVW6msT5vG6bScjo4XkiurRrNfN2ZYXvF45x1GXsBCFpY5ySg
+	o7x7kHOIZpL8jhbuVrthG0+gWN3vcCJSFw6ged3ODGJO9rDRA/z8hKqv3AON0JcZH2s4zUg28qT
+	diujjqRQ/Y/w180GNwFH2GUqnMPvBmNGgwFXjMQDi5iYdkeym2wCw9DbiULg==
+X-Received: by 2002:a05:620a:4624:b0:8cd:92c5:b3e7 with SMTP id af79cd13be357-904d4a61a19mr831781185a.18.1778108384066;
+        Wed, 06 May 2026 15:59:44 -0700 (PDT)
+Received: from fedora.lab-gw-1.osiris.cyber.nyu.edu ([216.165.113.4])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-904f810e354sm327668685a.45.2026.05.06.15.59.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2026 15:59:42 -0700 (PDT)
+From: Mayank Gite <drapl0n.kernel@gmail.com>
+To: Paul Moore <paul@paul-moore.com>
+Cc: Mayank Gite <drapl0n.kernel@gmail.com>,
+	Serge Hallyn <sergeh@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	linux-security-module@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: fix typo and formattting in security/credentials.rst
+Date: Wed,  6 May 2026 18:59:24 -0400
+Message-ID: <20260506225925.271163-1-drapl0n.kernel@gmail.com>
+X-Mailer: git-send-email 2.53.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] hwmon: add initial support for AMD PROM21 xHCI
- temperature sensor
-To: Randy Dunlap <rdunlap@infradead.org>, Jihong Min
- <hurryman2212@gmail.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Mathias Nyman <mathias.nyman@intel.com>
-Cc: Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>,
- Shuah Khan <skhan@linuxfoundation.org>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Basavaraj Natikar <Basavaraj.Natikar@amd.com>, linux-usb@vger.kernel.org,
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pci@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20260506032939.92351-1-hurryman2212@gmail.com>
- <cover.1778099627.git.hurryman2212@gmail.com>
- <2e2ea249b30168a2eab62fc110c226a511f21bf2.1778099627.git.hurryman2212@gmail.com>
- <5a61ad36-d754-4ab9-8a56-83bccc1397f2@infradead.org>
-Content-Language: en-US
-From: Jihong Min <hurryman2212@icloud.com>
-In-Reply-To: <5a61ad36-d754-4ab9-8a56-83bccc1397f2@infradead.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Authority-Info-Out: v=2.4 cv=a4A9NESF c=1 sm=1 tr=0 ts=69fbc61d
- cx=c_apl:c_pps:t_out a=YrL12D//S6tul8v/L+6tKg==:117
- a=YrL12D//S6tul8v/L+6tKg==:17 a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10
- a=x7bEGLp0ZPQA:10 a=5jDBv52wX64A:10 a=VkNPw1HP01LnGYTKEx00:22
- a=igFlAM52ROepjvOJJTIA:9 a=QEXdDO2ut3YA:10 a=PgRulw5oR9JgysbTFEid:22
- a=MienORt8HT0FiJ1vGQZ6:22
-X-Proofpoint-GUID: qqHqUMJjeNjFkAxa12ACcxBqc2CKvqs7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDIyNCBTYWx0ZWRfX6IpE/4CTLjVV
- 8j8A9Y1kI/iGohiXcDoUX57S5GXO7XyF4IK3Qt8ml3VpozC74xoE1F+bwugyuVoXYiCj6OrLnFP
- zMlL/rm86kn526InoIksm95Zw6DEWzgpjmx89JH5/X+1WZT095jLNw5LKkXNvbRarIl33bs5/zB
- kUlIXdaWfdVRFjN3FR48JkMuCTqeASjTfZFAwV8jrNe2OfElwoP62MQ1ydG7Qt0YLRDT/Ehix+a
- XvGV2ycbmrs3K5RwzN8K6qBt5RL1GoDFYq2muXtp//nmJXmH6kjrjV5f2Dlh+SxO3wNc9bzGLxv
- ecCiB0Gu7XmUyeIlb/TX7G4yqFkKISQ3qeb0pDn5i3uNtT0G4Ip7z8cAaOc7oU=
-X-Proofpoint-ORIG-GUID: qqHqUMJjeNjFkAxa12ACcxBqc2CKvqs7
+Content-Transfer-Encoding: 8bit
 
- > It sorta looks like these entries are supposed to be maintained in
- > alphabetical order, but that new entry is not.
+- Fixes a typo in "Keys and keyrings" section. Replaces "keying" with
+  "keyring".
+- Updates formatting of keyring types.
 
-Yes, you are right. I also noticed that but it seems I pasted it in the 
-wrong place.
-Fixed this locally for v3 by moving prom21-hwmon after powr1220 and next 
-to pt5161l.
+Signed-off-by: Mayank Gite <drapl0n.kernel@gmail.com>
+---
+ Documentation/security/credentials.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-Thank you,
-Jihong Min
-
-On 5/7/26 07:17, Randy Dunlap wrote:
->
-> On 5/6/26 1:40 PM, Jihong Min wrote:
->> diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
->> index 8b655e5d6b68..0d85b78596cf 100644
->> --- a/Documentation/hwmon/index.rst
->> +++ b/Documentation/hwmon/index.rst
->> @@ -215,6 +215,7 @@ Hardware Monitoring Kernel Drivers
->>      peci-dimmtemp
->>      pmbus
->>      powerz
->> +   prom21-hwmon
->>      powr1220
->>      pt5161l
->>      pxe1610
-> It sorta looks like these entries are supposed to be maintained in alphabetical
-> order, but that new entry is not.
->
+diff --git a/Documentation/security/credentials.rst b/Documentation/security/credentials.rst
+index d0191c8b8060..4996838491b1 100644
+--- a/Documentation/security/credentials.rst
++++ b/Documentation/security/credentials.rst
+@@ -189,9 +189,9 @@ The Linux kernel supports the following types of credentials:
+      be searched for the desired key.  Each process may subscribe to a number
+      of keyrings:
+ 
+-	Per-thread keying
+-	Per-process keyring
+-	Per-session keyring
++	- Per-thread keyring
++	- Per-process keyring
++	- Per-session keyring
+ 
+      When a process accesses a key, if not already present, it will normally be
+      cached on one of these keyrings for future accesses to find.
+-- 
+2.53.0
