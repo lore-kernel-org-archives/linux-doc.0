@@ -1,85 +1,149 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B7593D544;
-	Wed,  6 May 2026 08:42:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70ED335B631
+	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 08:45:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778056938; cv=none; b=aYozeBo82W+6Je+WArd+nP5X+qfotV7xTI+iDH6wPIW9jS8AnKMMhldJo+zPvpa9JIfbWJAb4Uhm5yUJNIJurC9BMaY+T+f5Q34k7LieykCCSuMMaJNTALKUr+SgFROxpbS8gEqO8soInZyLWzvMAleMYHhm7fDkxXYJhcMIL0Q=
+	t=1778057146; cv=none; b=bJKiaz94mAqbZHIYdKgIavkYIcNXqFGHICT/nH7ql8BC1rHlFTFWMmoo8YX8DAjjNnFIO71iAdHiFF+LkwAw3pC7UjgNEL4YpiBruHCbr/jmQHJU8ubUc2FHFm3u5fKZR32ZvzoCTOWWw14O9yL/qoOEYNtGC44Mb7rhnm/6hpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778056938; c=relaxed/simple;
-	bh=TIoyrMnS4oSXlE6EAVhU+0X3JX0jXWgbNsyj86j4a9Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=k6FJKmtBKoY/4VT6cYgweX88ngBMMPidDZUWKaJue1QAuKZbetwlvptQ7e4OVBqe7BPfH05SJfxN4EKrIESkt3660RUCzK/ejsUmPDseOPbRyptswSy/C5gBtD0Vip9VxnQUXlsoXhSMTlRRJRAfNJt4F/SeHsscol5mUFuFM4A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=KbeZ/GIZ; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1778057146; c=relaxed/simple;
+	bh=zfOe0ewoNd40PSwESoyTa7we45pISc0KWGQkjtGsAAs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=uSbF3govuc6aoOPHWAJ/6JJO05MFq+AcgV8QlPBGZ8uimZ9A9nvvYdJ26DES+1WbrfZ9sAwRWqJdwTCrbUCiVAXTHa7qA3Nhn833NP664Q52zTm752AQO+X5+tZJelXoxk/JIMSFyfL3x62oQSrQK+cBK3+Opuon9qcyrMguG9E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WLJYvYXz; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="KbeZ/GIZ"
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 5B25FC5DC46;
-	Wed,  6 May 2026 08:43:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2B9136053C;
-	Wed,  6 May 2026 08:42:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 79AE8102F225A;
-	Wed,  6 May 2026 10:42:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1778056934; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=1j2OwQNIlx64QT21MfQW28rM8o9wlhGOk4TyUaj1rlY=;
-	b=KbeZ/GIZRqwuNT2eZoXLP/denZ7bkA/a4/2d+eU2HPVKUPU71N8KIXF1Uttslj1QZVnfSJ
-	LMTrzvFZ3rrqXIlgCbLjsOALeA02bxqPsxB29/em+WgSXwWhFI0NKAM7opZGvxHh8xkv8k
-	arEK5t1hGehf5WVoRVHufFNx8/De1SbWQqsYDYT8CKRYC9WoGR3HpYFZqw1ercd3z002q9
-	qoBAYmwFHp8Iohrs8VCgNJOkn24KxO7Bbzii1eGgCz0eWnI4bjKH7KWyqg4I37SMjS5L5+
-	iV9ISQuNH5s6EFcXYxTubTDczqwchuSrZDqsFrF+CPM/kkSmvYRWtoogh0B1Ww==
-From: Miquel Raynal <miquel.raynal@bootlin.com>
-To: Pratyush Yadav <pratyush@kernel.org>
-Cc: Michael Walle <mwalle@kernel.org>,  Takahiro Kuwano
- <takahiro.kuwano@infineon.com>,  Richard Weinberger <richard@nod.at>,
-  Vignesh Raghavendra <vigneshr@ti.com>,  Jonathan Corbet <corbet@lwn.net>,
-  Sean Anderson <sean.anderson@linux.dev>,  Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>,  Steam Lin <STLin2@winbond.com>,
-  linux-mtd@lists.infradead.org,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org
-Subject: Re: [PATCH v4 07/27] mtd: spi-nor: swp: Explain the MEMLOCK ioctl
- implementation behaviour
-In-Reply-To: <2vxzfr4527bx.fsf@kernel.org> (Pratyush Yadav's message of "Tue,
-	05 May 2026 17:40:18 +0200")
-References: <20260403-winbond-v6-18-rc1-spi-nor-swp-v4-0-833dab5e7288@bootlin.com>
-	<20260403-winbond-v6-18-rc1-spi-nor-swp-v4-7-833dab5e7288@bootlin.com>
-	<2vxzfr4527bx.fsf@kernel.org>
-User-Agent: mu4e 1.12.7; emacs 30.2
-Date: Wed, 06 May 2026 10:42:09 +0200
-Message-ID: <87zf2dlyji.fsf@bootlin.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WLJYvYXz"
+Message-ID: <9bff01a8-eb97-4d09-81a4-f4dbf9b59b73@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1778057142;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FyBSdoaYXNxV7svjP8Gx2sTmbQnB/STZugwK800JzDE=;
+	b=WLJYvYXzy5QXWDKFOm0KLjcnEIM1zL7bS17d32jOy99sxWhPdqlQur5F5zd2W4dB8tR9Yy
+	YrUYlROye7A4tOPFQGXPUnsBUulqp2+GjxS6jBIc5jP/pXFySk0XujN0AFRmO7yxvohXwr
+	jin5mAa6iYkZ44q9WIwZd7JXwhkhLcE=
+Date: Wed, 6 May 2026 16:44:37 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: Re: [PATCH 0/6] alloc_tag: introduce IOCTL-based filtering for MAP
+To: Abhishek Bapat <abhishekbapat@google.com>,
+ Suren Baghdasaryan <surenb@google.com>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, Jonathan Corbet <corbet@lwn.net>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
+ Sourav Panda <souravpanda@google.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Kent Overstreet <kent.overstreet@linux.dev>
+References: <cover.1777936301.git.abhishekbapat@google.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Hao Ge <hao.ge@linux.dev>
+In-Reply-To: <cover.1777936301.git.abhishekbapat@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
+
+Hi Abhishek and Suren
 
 
->> +/*
->> + * These ioctls behave according to the following rules:
->> + * ->lock(): Never locks more than what is requested, ie. may lock less
->> + * ->unlock(): Never unlocks more than what is requested, ie. may unloc=
-k less
->> + * -is_locked(): Checks if the region is *fully* locked, returns false =
-otherwise.
->> + *               This feeback may be misleading because users may get a=
-n "unlocked"
->> + *               status even though a subpart of the region is effectiv=
-ely locked.
->> + */
+On 2026/5/5 07:36, Abhishek Bapat wrote:
+> Currently, memory allocation profiling data is primarily exposed through
+> /proc/allocinfo. While useful for manual inspection, this text-based
+> interface poses challenges for production monitoring and large-scale
+> analysis:
 >
-> We already have some text where struct spi_nor_locking_ops is defined.
-> Can we move this information there?
+> 1. Userspace must parse large amounts of text to extract specific
+> fields.
+> 2. To find specific tags, userspace must read the entire dataset,
+> requiring many context switches and high data copying.
+> 3. The kernel currently aggregates per-CPU counters for every allocation
+> size, even those the user intends to filter out immediately.
+>
+> This series introduces a new IOCTL-based binary interface for allocinfo
+> that supports kernel-side filtering. By allowing the user to specify a
+> filter mask, we significantly reduce the work performed in-kernel and
+> the amount of data transferred to userspace.
+>
+> Performance measurements were conducted on an Intel Xeon Platinum 8481C
+> (224 CPUs) with caches dropped before each run.
+>
+> The IOCTL mechanism shows a ~20x performance improvement for
+> filtered queries. The kernel avoids the expensive per-CPU counter
+> aggregation (alloc_tag_read) for any tags that fail the initial string
+> or location filters.
+>
+> Scenario 1: Specific File Filtering (arch/x86/events/rapl.c)
+> 1. Traditional (cat /proc/allocinfo | grep): 22ms (sys)
+> 2. IOCTL Interface: 1ms (sys)
+>
+> Scenario 2: Compound Filtering (Filename + Size)
+> 1. Traditional: (cat ... | grep | awk): 21ms (sys)
+> 2. IOCTL Interface: 1ms (sys)
+>
+> Scenario 3: Size-Based Filtering (min_size = 1MB)
+> 1. Traditional: (cat ... | awk): 21ms (sys)
+> 2. IOCTL Interface: 14ms (sys)
 
-Ok, I will udpate the position of the comment.
+What a coincidence! I was just about to send an email to Suren
 
-Thanks,
-Miqu=C3=A8l
+asking about plans for upstreaming a filtering tool for /proc/allocinfo,
+
+and then I came across this patchset.
+
+I have been following and using memory allocation profiling since
+
+it was first introduced. It has been very helpful for our memory
+
+analysis by providing clear visibility into allocation data. However,
+
+we have always wanted a tool to efficiently filter this data to get
+
+exactly what we need, so I previously developed a userspace tool [1]
+
+to help with that.
+
+[1] https://lore.kernel.org/all/20250106112103.25401-1-hao.ge@linux.dev/
+
+So this patchset provides efficient filtering of allocinfo data via ioctl.
+
+Would the next step be to develop a general-purpose tool under
+
+tools/mm that leverages these ioctls instead of parsing /proc/allocinfo 
+text output?
+
+Thanks
+
+Best Regards
+
+Hao
+
+> Abhishek Bapat (5):
+>    alloc_tag: add ioctl filters to /proc/allocinfo
+>    alloc_tag: add size-based filtering to ioctl
+>    alloc_tag: add accuracy based filtering to ioctl
+>    kselftest: alloc_tag: add kselftest for ioctl interface
+>    kselftest: alloc_tag: extend the allocinfo ioctl kselftest
+>
+> Suren Baghdasaryan (1):
+>    alloc_tag: add ioctl to /proc/allocinfo
+>
+>   .../userspace-api/ioctl/ioctl-number.rst      |   2 +
+>   include/linux/codetag.h                       |   1 +
+>   include/uapi/linux/alloc_tag.h                |  87 +++
+>   lib/alloc_tag.c                               | 249 ++++++++-
+>   lib/codetag.c                                 |  11 +
+>   tools/testing/selftests/alloc_tag/Makefile    |   9 +
+>   .../alloc_tag/allocinfo_ioctl_test.c          | 508 ++++++++++++++++++
+>   7 files changed, 865 insertions(+), 2 deletions(-)
+>   create mode 100644 include/uapi/linux/alloc_tag.h
+>   create mode 100644 tools/testing/selftests/alloc_tag/Makefile
+>   create mode 100644 tools/testing/selftests/alloc_tag/allocinfo_ioctl_test.c
+>
