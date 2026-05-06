@@ -1,177 +1,220 @@
-Received: from invmail4.hynix.com (exvmail4.skhynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5803930EF6C;
-	Wed,  6 May 2026 06:42:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C6C635AC00;
+	Wed,  6 May 2026 06:49:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778049765; cv=none; b=TvsksiyEVNbvJ92KK7BTJ0w8Ni8+TzSJAqwkgNS+gkBT1Uok3fvvcITyC7OVG7ss4qvs45X3am3qLjio5y9C2io6L0FX8MEDrE8amoG6xfxc18c897q6XhsgFvTYBXJkeARFGvGAHem51tRZpzlmTdv1XRFMKRK8kevINPnpu90=
+	t=1778050181; cv=none; b=F2Eil9nf1slUsJkdhMUx4/iQ/vILRpErg1TPfNljJFYZu7TDig33KffOOZvULrSiQORLqvVZfKBh5uBw/GfwS5CVVrxyi1HsZsaOZgeOUU6pkg2SUMTy+GTgFW4EnCLe+FyOdXA4lt8wJ3ygrkEBHIIONILmXXzUHFUKVWyum20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778049765; c=relaxed/simple;
-	bh=uMKmOeTL3/2pgROWMA/zP/bnLSfPy+1VZq9bHUTyPfU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mZGUmbPXv71BvZYqeJTp6JT8uNWbsKHc+ogXv4zC9K7dcvvVWZZBLKRk1HXAHOW7Pyb132MmRn9lbdZv1RDdEt2g+z/iC9gAItltLV1yXM/5rbCp10VNPasQ+lH2+QWTs+UF1KVGvysLadL6wXu4wpnWKT9ZiD11W/IaEBcLEGU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c2dff70000001609-96-69fadf470ec0
-Date: Wed, 6 May 2026 15:27:14 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Yunseong Kim <yunseong.kim@est.tech>
-Cc: bagasdotme@gmail.com, 2407018371@qq.com, Dai.Ngo@oracle.com,
-	Liam.Howlett@oracle.com, a.hindborg@kernel.org,
-	ada.coupriediaz@arm.com, adilger.kernel@dilger.ca,
-	akpm@linux-foundation.org, alex.gaynor@gmail.com,
-	alexander.shishkin@linux.intel.com, aliceryhl@google.com,
-	amir73il@gmail.com, andi.shyti@kernel.org, andrii@kernel.org,
-	anna@kernel.org, arnd@arndb.de, ast@kernel.org,
-	baolin.wang@linux.alibaba.com, bigeasy@linutronix.de,
-	bjorn3_gh@protonmail.com, boqun.feng@gmail.com, bp@alien8.de,
-	brauner@kernel.org, broonie@kernel.org, bsegall@google.com,
-	catalin.marinas@arm.com, chenhuacai@kernel.org,
-	chris.p.wilson@intel.com, christian.koenig@amd.com,
-	chuck.lever@oracle.com, cl@linux.com, clrkwllms@kernel.org,
-	corbet@lwn.net, da.gomez@kernel.org, dakr@kernel.org,
-	damien.lemoal@opensource.wdc.com, dan.j.williams@intel.com,
-	daniel.vetter@ffwll.ch, dave.hansen@intel.com, david@fromorbit.com,
-	dennis@kernel.org, dietmar.eggemann@arm.com, djwong@kernel.org,
-	dri-devel@lists.freedesktop.org, duyuyang@gmail.com,
-	dwmw@amazon.co.uk, francesco@valla.it, frederic@kernel.org,
-	gary@garyguo.net, geert+renesas@glider.be, geert@linux-m68k.org,
-	gregkh@linuxfoundation.org, guoweikang.kernel@gmail.com,
-	gustavo@padovan.org, gwan-gyeong.mun@intel.com,
-	hamohammed.sa@gmail.com, hannes@cmpxchg.org, harry.yoo@oracle.com,
-	hch@infradead.org, her0gyugyu@gmail.com, hpa@zytor.com,
-	jack@suse.cz, jglisse@redhat.com, jiangshanlai@gmail.com,
-	jlayton@kernel.org, joel.granados@kernel.org,
-	joel@joelfernandes.org, joelagnelf@nvidia.com,
-	johannes.berg@intel.com, josef@toxicpanda.com,
-	josh@joshtriplett.org, jpoimboe@kernel.org, juri.lelli@redhat.com,
-	kees@kernel.org, kernel-team@lge.com, kernel_team@skhynix.com,
-	kevin.brodsky@arm.com, kristina.martsenko@arm.com,
-	lillian@star-ark.net, linaro-mm-sig@lists.linaro.org, link@vivo.com,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-block@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-ext4@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-i2c@vger.kernel.org, linux-ide@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-mm@kvack.org, linux-modules@vger.kernel.org,
-	linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev,
-	linux@treblig.org, longman@redhat.com, lorenzo.stoakes@oracle.com,
-	lossin@kernel.org, luto@kernel.org, mark.rutland@arm.com,
-	masahiroy@kernel.org, mathieu.desnoyers@efficios.com,
-	matthew.brost@intel.com, max.byungchul.park@gmail.com,
-	mcgrof@kernel.org, melissa.srw@gmail.com, mgorman@suse.de,
-	mhocko@kernel.org, miguel.ojeda.sandonis@gmail.com,
-	minchan@kernel.org, mingo@redhat.com, mjguzik@gmail.com,
-	neeraj.upadhyay@kernel.org, neil@brown.name, neilb@ownmail.net,
-	netdev@vger.kernel.org, ngupta@vflare.org, ojeda@kernel.org,
-	okorniev@redhat.com, oleg@redhat.com, paulmck@kernel.org,
-	penberg@kernel.org, peterz@infradead.org, petr.pavlu@suse.com,
-	qiang.zhang@linux.dev, rcu@vger.kernel.org,
-	richard.weiyang@gmail.com, rientjes@google.com,
-	rodrigosiqueiramelo@gmail.com, rostedt@goodmis.org, rppt@kernel.org,
-	rust-for-linux@vger.kernel.org, samitolvanen@google.com,
-	sashal@kernel.org, shakeel.butt@linux.dev, sj@kernel.org,
-	sumit.semwal@linaro.org, surenb@google.com, tglx@linutronix.de,
-	thomas.weissschuh@linutronix.de, tim.c.chen@linux.intel.com,
-	tj@kernel.org, tmgross@umich.edu, tom@talpey.com,
-	torvalds@linux-foundation.org, trondmy@kernel.org, tytso@mit.edu,
-	urezki@gmail.com, usamaarif642@gmail.com, vbabka@suse.cz,
-	vdavydov.dev@gmail.com, vincent.guittot@linaro.org,
-	vschneid@redhat.com, wangfushuai@baidu.com,
-	wangkefeng.wang@huawei.com, will@kernel.org, willy@infradead.org,
-	wsa+renesas@sang-engineering.com, x86@kernel.org,
-	yeoreum.yun@arm.com, ysk@kzalloc.com, yunseong.kim@ericsson.com,
-	yuzhao@google.com, ziy@nvidia.com
-Subject: Re: [PATCH] dept: update documentation function names to match
- implementation
-Message-ID: <20260506062714.GA48817@system.software.com>
-References: <aTN38kJjBftxnjm9@archie.me>
- <20260428162614.786365-2-yunseong.kim@est.tech>
+	s=arc-20240116; t=1778050181; c=relaxed/simple;
+	bh=RZSvlTfv2fK3RygLIl9jvdRyWh2UVxqn2f9Idcb/dzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=J28LnE3Y4s7RH+isOWEFGnR5FbiSlEFCqbbpa0tS49kQ900U36HRDDQwdsI65DAoupwQxQ70achzN3MoKSRrdOtsLs7GWhNzPb4YeYbWySsoHUg9QbasEEypOk//AOHn67siXeywE0y8VFVAr0gw+GRbAN+Fyercgm1c53Vn/1s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=r6u6Ew5C; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r6u6Ew5C"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5AD36C2BCB8;
+	Wed,  6 May 2026 06:49:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1778050181;
+	bh=RZSvlTfv2fK3RygLIl9jvdRyWh2UVxqn2f9Idcb/dzw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=r6u6Ew5CtH6BGCmKM6dtgRwNYm2MzzD4RaXp6V5wALRyGWgwR+sUyVUH68vqaV8oT
+	 7fKi8MXluzmTUegHlj2dMtXGy0rU4eAv3EaDZMBVy6w2lJ93M2CYITxYXdbMQTy1pp
+	 KJjXmITfwtKmJGlQF97y++WpFW0pi5PyNeZLyNKFlYX3OMz9z2nCJtRcAudfrNgPnV
+	 sPGW5aZ19FsYhfPzBwF7z2fFOkVN4SM1vycgIXgU52qSLYhU5WIHMRL9bwW399u1Ba
+	 7LAL/0NhDt0OiDWd0Q8dBjqa9mA47mdUtxzj61U5nQwYi7nBkaFzOLqOB2xxVAf1UC
+	 vKXz+7N3CD7qA==
+Date: Wed, 6 May 2026 08:49:35 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Gary Guo" <gary@garyguo.net>
+Cc: "Benno Lossin" <lossin@kernel.org>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Linux Doc Mailing List" <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <rust-for-linux@vger.kernel.org>,
+ =?UTF-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, "Alice Ryhl"
+ <aliceryhl@google.com>, "Andreas Hindborg" <a.hindborg@kernel.org>, "Boqun
+ Feng" <boqun@kernel.org>, "Danilo Krummrich" <dakr@kernel.org>, "Miguel
+ Ojeda" <ojeda@kernel.org>, "Trevor Gross" <tmgross@umich.edu>
+Subject: Re: [PATCH v2 11/11] MAINTAINERS: use a URL for pin-init
+ maintainer's profile entry
+Message-ID: <20260506084935.1cd4b794@foz.lan>
+In-Reply-To: <DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
+References: <cover.1777987027.git.mchehab+huawei@kernel.org>
+	<1bceee886b9027d66bbb48d9d6c8d1250ce8dbcb.1777987028.git.mchehab+huawei@kernel.org>
+	<DIASHBBEIHQW.3EQSDUML6G3SB@garyguo.net>
+X-Mailer: Claws Mail 4.4.0 (GTK 3.24.52; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260428162614.786365-2-yunseong.kim@est.tech>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0yTdxjF83/v7ez2WsW92GTJOhMNxuvM9mwK0SzEf7IvW5Ysixpds75Z
-	OwuYVpmYEbmqBSaEBJEyt3KxNtDiVtzAQlmHsbOiowiDrqIFbJCuqyyskHFfCzHz2y/nOefk
-	fHg4Ul7PbOS0mSdFfaZKp2SklDS6pn4bDs5pd1a7N8BwMETDYL6bgsXaNhbuDBVQ4GtpRrBY
-	6WEhNvuQhWWXB8GlvkoS/L6fSbDdyCcgcmsKQdVoiIHqcD4Fk5YyBKbxWhaiwQ4ahmb+QmAJ
-	LREQcp9H8F19KwORS3/HzVU+BFPhEQQuawED/aGXYWB6koFn3zNgLnDR0HcvgmA84CKgsOE6
-	AzdHnCz0RRYI6KmoJ6C2upCAKnsHAbOWJhbGrCYWFkZ3wbI5CzzNT1l4VF5FQUu0lwbv40Ea
-	2vJGWHD8cRtBbGCUAFvZOAkXnNMUOJ7Er67AVqg710hBp8tLwYXFGAJP+xgB/c5vGHhsW6bB
-	5+6hocdzh4KH98tZ6HXaabg61EfAzEXFfjUufrDIYNu3NoTn5yoR9o39RuJG4xyBb5oesbio
-	K8Bis+MUbrWm4IbOMIEDkVTsaDIy2DFVyeK6+QkSl0QHCDw82Ml8kHJIuk8t6rTZon5H2qdS
-	jTF4jzrRLDvtqSui89BVaQmScAK/R3g6d555ztGJRjbBFL9JKLnipRPM8JsFv3+WTPB6fovw
-	p79kxU/y9teEy3ZNgtfxnwhd57qIBMt4EGJhy0pWzh8S/KEyZlVfK3hrQtRqNkXwL4Xjfi7O
-	CuHaEpeQJfw+wXy3aWVCEv+G4P7p17hFGp92VyK0fm0mV3cmC79Y/VQF4k0v1JpeqDX9X2tG
-	ZBOSazOzM1Ra3Z7tmpxM7entn2VlOFD8cy25C4fb0ZTvo27Ec0i5RtY+MKuV06psQ05GNxI4
-	UrleNj8cl2RqVc4ZUZ91TH9KJxq6kYKjlK/Kds98qZbzn6tOisdF8YSof34lOMnGPHS8eP+7
-	x6bTf3/ni/s/Xg4U7UxvPPxDzXulac01r1c8uZL0tuJMS1K/7n3CdODAV6rYNTiroEo3NGjb
-	Jrel/8uWGubXHjQ+O2KH3tzkG2fx3g8Hb3cYran24ObdH5er9zoL3zRtufWP42KuJvBWz9bW
-	1I6Drzy4/tLR5OKRTVmSNOVEwKukDBrVrhRSb1D9B8vjLae1AwAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUhTYRTHe+69u7suVzezekgIWkoWaEUFB5KICLz0hlFQ+KFaemvDt9jM
-	MojUtZoWYqvNdFm+LpmapfZiMTUjy8rUypxlTWNZS02xLXE27a6I+nL4nf85PzgfDkMGeEUL
-	GWViMq9KlMfLaAkl2b5OExZp9yhX1tmXgk57EnrtDhG8SW+iwO3SUXC5upIGr+mOGHQ1eSJ4
-	0p1BQcf1CgR2tw7B+KSJBG39NAVefYsYXBPvxGBIRzBtbUFg7NSTYOtoJKGyLp2A7zemaBh8
-	OIbA0O+gIdeZTsGI+RyC/AGTGJyPImHYfl8E0+8/E9D9YwiB2TFFgKPpDAKvMQ6uFtcKunGU
-	hsm2dhJyDR0IivrfkzDm7ENQ1/IBgbU8g4ZPObdIeOWYBa/dIzS0Gs7SMNx5mYBvN2gozLCK
-	oPP5IIICkx7BwFsrAZqSahqMBTUU1PfdE0Pn4E8Ceo16AipqtoHdPEDBs5xiQjhX2Lq5AEy5
-	GkIoXwgwVN0nYMJsEW8wI25cm01xltrbBKd96aW5yiuViJv06BHnKtOQnDZHaB8OjZDcqdqj
-	XNmzIZrzuLtoruPjC5Kz/iikuKfFmCvN9BDc+bawqI3RkohYPl6ZwqtWrN8vUWTan1OHK6TH
-	WopOidJQmSQL+TGYXYOHv5SKfUyxwTiroFXkY5pdim22CdLHgWwo/mrLon1MslWL8KUqhY/n
-	sntww+kGwsdSFrDLaf7tBrDR2OY4R//J5+DWPAf1x12ObVNOYZ8ROAhfm2J8sR8bgQufWn6f
-	MI9dgptuPyZykDT/Pzv/Pzv/n12ISAsKVCamJMiV8WvD1XGK1ETlsfCYpIQaJDyl+cTP83eR
-	61VkM2IZJPOX3n09oQwQyVPUqQnNCDOkLFA62StE0lh56nFelbRPdSSeVzejIIaSLZBu3s3v
-	D2APyZP5OJ4/zKv+TgnGb2Eayhxvv3BhRnj9TpwW4+8fdahsdP2d2YHHnWQfm73Y0di+PTYr
-	Wm3VQUNTcs/el3PCzvp9HTvgsVxPWhbeUw/BbxNKZq4ObcuMqR69GNK1qaRUGtW4xQ7+2xT9
-	MipkOmj04IwHEbs0RZFabx7eOrYjKLg89LR7X7Znpi2pp1w2NF9GqRXyVctJlVr+C58CT62Q
-	AwAA
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 28, 2026 at 06:26:15PM +0200, Yunseong Kim wrote:
-> Synchronize function names in the documentation with the actual
-> implementation to fix naming inconsistencies.
+On Tue, 05 May 2026 14:49:09 +0100
+"Gary Guo" <gary@garyguo.net> wrote:
 
-Good catch!  Thanks Yunseong.  I will apply it on the top.
-
-	Byungchul
-
-> Signed-off-by: Yunseong Kim <yunseong.kim@est.tech>
-> ---
->  Documentation/dev-tools/dept.rst     | 2 +-
->  Documentation/dev-tools/dept_api.rst | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> On Tue May 5, 2026 at 2:25 PM BST, Mauro Carvalho Chehab wrote:
+> > This maintainer's entry is not inside documentation nor is
+> > ReST, preventing Sphinx to create a hyperlink to it.
+> >
+> > Change it to point to the already-formatted URL.
+> >
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> >  MAINTAINERS                   |  2 +-
+> >  rust/pin-init/CONTRIBUTING.md | 72 -----------------------------------
+> >  2 files changed, 1 insertion(+), 73 deletions(-)
+> >  delete mode 100644 rust/pin-init/CONTRIBUTING.md
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 8700472b3ae3..b16c8f85d099 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -23402,7 +23402,7 @@ S:	Maintained
+> >  W:	https://rust-for-linux.com/pin-init
+> >  B:	https://github.com/Rust-for-Linux/pin-init/issues
+> >  C:	zulip://rust-for-linux.zulipchat.com
+> > -P:	rust/pin-init/CONTRIBUTING.md
+> > +P:	https://github.com/Rust-for-Linux/pin-init/blob/main/CONTRIBUTING.md
+> >  T:	git https://github.com/Rust-for-Linux/linux.git pin-init-next
+> >  F:	rust/kernel/init.rs
+> >  F:	rust/pin-init/
+> > diff --git a/rust/pin-init/CONTRIBUTING.md b/rust/pin-init/CONTRIBUTING.md
+> > deleted file mode 100644
+> > index 16c899a7ae0b..000000000000
+> > --- a/rust/pin-init/CONTRIBUTING.md
+> > +++ /dev/null  
 > 
-> diff --git a/Documentation/dev-tools/dept.rst b/Documentation/dev-tools/dept.rst
-> index 333166464543..31b2fe629fab 100644
-> --- a/Documentation/dev-tools/dept.rst
-> +++ b/Documentation/dev-tools/dept.rst
-> @@ -97,7 +97,7 @@ No.  What about the following?
+> This file is part of the bidirectional source sync.
 > 
->                            mutex_lock A
->     mutex_lock A <- DEADLOCK
-> -                          wait_for_complete B <- DEADLOCK
-> +                          wait_for_completion B <- DEADLOCK
->     complete B
->                            mutex_unlock A
->     mutex_unlock A
-> diff --git a/Documentation/dev-tools/dept_api.rst b/Documentation/dev-tools/dept_api.rst
-> index 409116a62849..74e7b1424ad5 100644
-> --- a/Documentation/dev-tools/dept_api.rst
-> +++ b/Documentation/dev-tools/dept_api.rst
-> @@ -113,7 +113,7 @@ Do not use these APIs directly.  The raw APIs of dept are:
->     dept_stage_wait(map, key, ip, wait_func, time);
->     dept_request_event_wait_commit();
->     dept_clean_stage();
-> -   dept_stage_event(task, ip);
-> +   dept_ttwu_stage_wait(task, ip);
->     dept_ecxt_enter(map, evt_flags, ip, ecxt_func, evt_func, sub_local);
->     dept_ecxt_holding(map, evt_flags);
->     dept_request_event(map, ext_wgen);
-> --
-> 2.53.0
+> I think this file is still meaningful in its present location even if not
+> rendered, so people touching the code would be able to see it and be aware. The
+> presence of file is more visible than a P entry in the MAINTAINERS file.
+
+Maybe it is just me, but placing doc files in the crowd together with code
+on a project where documentation has its own directory sounds weird(*).
+
+(*) except for userspace tools and staging drivers where we want
+    everything, including documentation, contained on a single place.
+
+What several subsystems do - for instance the media subsystem - is to
+place the maintainer's profile at the driver api, like this:
+
+	Documentation/driver-api/media/maintainer-entry-profile.rst
+
+And adding it to Documentation/driver-api/<subsystem>/index.rst.
+
+This way, subsystem developers will see it together with all other
+the developer-specific documentation.
+
+As you're already using some scripting to do a bidirectional sync,
+you could add there some logic to convert rust pin-init documentation
+to rst and place it at Documentation/rust/.
+
+This is just my 2 cents.
+
+-
+
+Btw, on a quick check, only Rust has markdown files:
+
+	$ git ls-files|grep ".md$"|grep -v tools/
+	rust/pin-init/CONTRIBUTING.md
+	rust/pin-init/README.md
+	rust/proc-macro2/README.md
+	rust/quote/README.md
+	rust/syn/README.md
+
+As one of the people who spent years helping improving the Kernel
+documentation and doing lots of conversions from markdown
+and other non-structured text formats to RST, I have to say that I'm
+concerned with any trends that would add doc files that aren't
+properly integrated with the Kernel documentation system like those.
+
+> That said, if Miguel and/or Benno think it's fine to not have this file, I'm
+> also okay with it being removed.
+> 
+> Best,
+> Gary
+> 
+> > @@ -1,72 +0,0 @@
+> > -# Contributing to `pin-init`
+> > -
+> > -Thanks for showing interest in contributing to `pin-init`! This document outlines the guidelines for
+> > -contributing to `pin-init`.
+> > -
+> > -All contributions are double-licensed under Apache 2.0 and MIT. You can find the respective licenses
+> > -in the `LICENSE-APACHE` and `LICENSE-MIT` files.
+> > -
+> > -## Non-Code Contributions
+> > -
+> > -### Bug Reports
+> > -
+> > -For any type of bug report, please submit an issue using the bug report issue template.
+> > -
+> > -If the issue is a soundness issue, please privately report it as a security vulnerability via the
+> > -GitHub web interface.
+> > -
+> > -### Feature Requests
+> > -
+> > -If you have any feature requests, please submit an issue using the feature request issue template.
+> > -compare
+> > -### Questions and Getting Help
+> > -
+> > -You can ask questions in the Discussions page of the GitHub repository. If you're encountering
+> > -problems or just have questions related to `pin-init` in the Linux kernel, you can also ask your
+> > -questions in the [Rust-for-Linux Zulip](https://rust-for-linux.zulipchat.com/) or see
+> > -<https://rust-for-linux.com/contact>.
+> > -
+> > -## Contributing Code
+> > -
+> > -### Linux Kernel
+> > -
+> > -`pin-init` is used by the Linux kernel and all commits are synchronized to it. For this reason, the
+> > -same requirements for commits apply to `pin-init`. See [the kernel's documentation] for details. The
+> > -rest of this document will also cover some of the rules listed there and additional ones.
+> > -
+> > -[the kernel's documentation]: https://docs.kernel.org/process/submitting-patches.html
+> > -
+> > -Contributions to `pin-init` ideally go through the [GitHub repository], because that repository runs
+> > -a CI with lots of tests not present in the kernel. However, patches are also accepted (though not
+> > -preferred). Do note that there are some files that are only present in the GitHub repository such as
+> > -tests, licenses and cargo related files. Making changes to them can only happen via GitHub.
+> > -
+> > -[GitHub repository]: https://github.com/Rust-for-Linux/pin-init
+> > -
+> > -### Commit Style
+> > -
+> > -Everything must compile without errors or warnings and all tests must pass after **every commit**.
+> > -This is important for bisection and also required by the kernel.
+> > -
+> > -Each commit should be a single, logically cohesive change. Of course it's best to keep the changes
+> > -small and digestible, but logically linked changes should be made in the same commit. For example,
+> > -when fixing typos, create a single commit that fixes all of them instead of one commit per typo.
+> > -
+> > -Commits must have a meaningful commit title. Commits with changes to files in the `internal`
+> > -directory should have a title prefixed with `internal:`. The commit message should explain the
+> > -change and its rationale. You also have to add your `Signed-off-by` tag, see [Developer's
+> > -Certificate of Origin]. This has to be done for both mailing list submissions as well as GitHub
+> > -submissions.
+> > -
+> > -[Developer's Certificate of Origin]: https://docs.kernel.org/process/submitting-patches.html#sign-your-work-the-developer-s-certificate-of-origin
+> > -
+> > -Any changes made to public APIs must be documented not only in the commit message, but also in the
+> > -`CHANGELOG.md` file. This is especially important for breaking changes, as those warrant a major
+> > -version bump.
+> > -
+> > -If you make changes to the top-level crate documentation, you also need to update the `README.md`
+> > -via `cargo rdme`.
+> > -
+> > -Some of these rules can be ignored if the change is done solely to files that are not present in the
+> > -kernel version of this library. Those files are documented in the `sync-kernel.sh` script at the
+> > -very bottom in the `--exclude` flag given to the `git am` command.  
+> 
+
+
+
+Thanks,
+Mauro
