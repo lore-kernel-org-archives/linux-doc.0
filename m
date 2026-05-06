@@ -1,141 +1,142 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from relay.yourmailgateway.de (relay.yourmailgateway.de [188.68.61.103])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA9823ED5C3
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 15:22:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9838547DD75;
+	Wed,  6 May 2026 15:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=188.68.61.103
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778080937; cv=none; b=dv1ubD1Slo1TAc80GkoEWw/sOCrKraAof8/MM8m4vxnP2JCHKMHbHqu5hj8+IPAYkc7NFC6hI/gNpgJzjHiQFpHcexXB7j22DRr9+qZfMEqc4vthQv1vbMo546YhKHhg4pEXG2Pqs6O6Ps3ahcdF/Og3518eoivCE3nDnbbzKpo=
+	t=1778081212; cv=none; b=mbFwyeKkIefNNh+4KlAKA2gu8ILxPcFi/ZrIBJXCqlu8xN95GhUxBaSAlStIEURQEXrTEFvcWdzaBM/lxresBm0rHotSh/rJ9rqGQnkRoqhWFamJCrwWBZ+ix3pI1nZsr3fEuqDgmwVigDfO/fa9RFWViudF/bX8Ph9raefFSoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778080937; c=relaxed/simple;
-	bh=PZt87gsUS+Wgo4zfaqwWXZGdWegl3vlb2EK9YGH238M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lXcyHfqgxvR76n5plEpFNNbuH56/Q+dMqzA6U0FgP6JiqsF6UWRvs5gxnznnaddj0IauUjUTAoljMoAOBxN0r2wtG3HafY8H+BKCe3aiBneBALywa93zxlCgmn1duHYP7FDImWjZrlAT9YXzCxCQHfiB33HniOMD3WnS6NqNtu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b=q1H8/0zx; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1778081212; c=relaxed/simple;
+	bh=0UMWqxybSwl0t5xTiieZ4KEw1ryIaWanPXQCdFf592Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ahIi8pNduVTbkTL4cWJ10PJYr5fzg0/1zIX9ajvp8Um/d4sDmIzROy8tgJACVTArwXzcfWojiD8x5MEkfljEeRtAkuqgp8pPOoeYwh819n1AP9nJZtRvQsQcRqs3LdnVRP5x69l5s3127j8SLP0C9669LxUaGTeD0MNkqB3mAfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info; spf=pass smtp.mailfrom=leemhuis.info; dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b=EP4Rl4Dw; arc=none smtp.client-ip=188.68.61.103
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=leemhuis.info
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=leemhuis.info
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20251104.gappssmtp.com header.i=@resnulli-us.20251104.gappssmtp.com header.b="q1H8/0zx"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-488a8ca4aadso69525365e9.3
-        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 08:22:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20251104.gappssmtp.com; s=20251104; t=1778080927; x=1778685727; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=f2otLqzL5UIwKJGEw7GU0/viRo2RnqRLXcAGMdCXHaA=;
-        b=q1H8/0zxTASA4aBVYQKqHcEePfrxTpKDgm7SM4meO4nF/VtG5mRlWWg769m8cnyJpd
-         UKNz0ti95hz5Bp8K+souRyejdRtmHNS5v/W9vE8bUi32krABp1iE1H7lxsuJxUzsBerh
-         oiYYHm2yR0nkl5on7Xm/zqLTaXq/J7M0OsyhmbiAMU6UAK/4nKNXeKzltC/Gcb3rVCcJ
-         ixD3vYj1DoWgY1/D+fL+q2jPvmAKkFI5J0lxZVxspIWkF2hn2cjNinY4QtKlPcW1SfZ9
-         OqzVonpDqa323pF2Cvjpc0hKhy+Q3syiuJD7ZRIqc9mudLk7m7eyDQ8nAyW2eF1t4/pu
-         zm3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1778080927; x=1778685727;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=f2otLqzL5UIwKJGEw7GU0/viRo2RnqRLXcAGMdCXHaA=;
-        b=M2xEhLKay5UCbDeg4+EEpKiaaNeYzIpA73xfEgYsyIL+ceZTkWctzUXFuuHww3S/QG
-         GKrB0zVj3rj5FBWzK2K4yifU1W1dFda76oPEi9Npb4gpPValYygARNBuX2NZPclPhSZI
-         kOS5jSZtWlXqwsmsSx1fnVWrBjbHdGCrjTAtig7vqk+1InqBTPfJzGVgR56sU0LK1Gbk
-         zKTYGo72QDoUePePVvrMMvvzJbV0aieMMivb1ftya/mSb6DNx3tIx5J84ZM4MQBTshnz
-         mDrt7iXpxmtZTM2ZaoYv/rNZw7QUBUStJ2PozCoD6hiL21n57VDckrT9zV31tyc/2Phi
-         +K+g==
-X-Forwarded-Encrypted: i=1; AFNElJ+Yh9zSj7MyD84jjsn2/pKqIA7iy1r2dOlsD9BClpXwN4lEhPixAXMHNlZXViYtBw6MaSE6Mkd57+s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBgLtZckGHYPfcWLy6Iq2JZcfQtn5giti9fDAiIEg9EkG0s6/W
-	jQ3AwX6jCG+yglkgBW9cC/JosGnIQuf7Lh5hTkEn891SZS2mz+0DwdmUsEqFpFTJdZI=
-X-Gm-Gg: AeBDies1P89PvSaHQyjTjU8EN2s2dtJ9t0FO7yIZOFsCi2z0ZiJXQHBE0EucjwyJv/H
-	Rdfbpai4xUXqk+xmkoo3RAgO6OoEK19EwcheAsT7DZX0fWFbdnkU83fWVTfAZFwXxOLxDztvQfp
-	dcw83A8CtPMqsiZNQBVEh09wzBsxPsS5GflZnNHROB2mlYOTCjPG7IS3/OxN75pWHYY3KHdb4zD
-	lqS7abX3hZNBMSxy8jEfe4bzZTzGeiFKO55SWHPLlMO+G07mkTWuycHnM4fx+4pi39zpMigBc/X
-	2EdOF0uTrS1YRYf0gbcEJUXriEfe7dQc+Vi9DCjx5E+wDNjyauuD1N1a7ujklsUrOepD2R0RAqq
-	Irst7IllFU9CIeFhjn986DkXOQGiyebyNLBjapyL4uICA5DIPBOM8oF5hqaAferhJLy1zM7zBFk
-	MeOhjAqI3tB7hMJypQe282oTTrEWSAPABoDBnrw822Z+NjuhbRlrUeig==
-X-Received: by 2002:a05:600c:a111:b0:489:19e9:b139 with SMTP id 5b1f17b1804b1-48e51e0bb78mr54150665e9.1.1778080927453;
-        Wed, 06 May 2026 08:22:07 -0700 (PDT)
-Received: from FV6GYCPJ69 ([2001:1ae9:6084:ab00:8c0b:afdd:3d9d:e976])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4504f4857ffsm12838076f8f.0.2026.05.06.08.22.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 May 2026 08:22:06 -0700 (PDT)
-Date: Wed, 6 May 2026 17:22:03 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Mark Bloch <mbloch@nvidia.com>
-Cc: Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
-	Paolo Abeni <pabeni@redhat.com>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	"David S. Miller" <davem@davemloft.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Shuah Khan <skhan@linuxfoundation.org>, Simon Horman <horms@kernel.org>, 
-	Saeed Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, 
-	Tariq Toukan <tariqt@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	"Borislav Petkov (AMD)" <bp@alien8.de>, Randy Dunlap <rdunlap@infradead.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Christian Brauner <brauner@kernel.org>, 
-	Petr Mladek <pmladek@suse.com>, "Peter Zijlstra (Intel)" <peterz@infradead.org>, 
-	Thomas Gleixner <tglx@kernel.org>, Pawan Gupta <pawan.kumar.gupta@linux.intel.com>, 
-	Dapeng Mi <dapeng1.mi@linux.intel.com>, Kees Cook <kees@kernel.org>, Marco Elver <elver@google.com>, 
-	Eric Biggers <ebiggers@kernel.org>, Li RongQing <lirongqing@baidu.com>, 
-	"Paul E. McKenney" <paulmck@kernel.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-rdma@vger.kernel.org
-Subject: Re: [RFC net-next 0/4] devlink: Add boot-time defaults
-Message-ID: <aftaW-irGmkfA7FS@FV6GYCPJ69>
-References: <20260506123739.1959770-1-mbloch@nvidia.com>
+	dkim=pass (2048-bit key) header.d=leemhuis.info header.i=@leemhuis.info header.b="EP4Rl4Dw"
+Received: from mors-relay-8403.netcup.net (localhost [127.0.0.1])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4g9fGy1yrMz8Cl3;
+	Wed,  6 May 2026 17:21:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=leemhuis.info;
+	s=key2; t=1778080874;
+	bh=0UMWqxybSwl0t5xTiieZ4KEw1ryIaWanPXQCdFf592Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EP4Rl4Dw5DQSNoEKQImAwhRbbqi3NFf+vRmvwy8mNiuc7UAaekYX9KjFtnxkBS9j0
+	 Hnh6ODyfFyER2zo1A6GqGZ5ajxDOKQkRVhsZBFIpZott69+6xNhElXQZ0eaozu4hM0
+	 XzyYmLxG2F29vsL21SvrTDaHptLw4B1zLQ7QFfXzw9y0l05o+gyp3HCZCwmmKY2RAS
+	 EgkejrYLdBam8knEEW2Qkbe2KdBtXdPB8jfoJshvYnc6HpMshJPjQ/PBV+FqcG13T7
+	 +XzN0nPabAv03gxOInphONcblxHpdheER1KTRBlEKxAe/emh8b81mDxdC0xk2mlGQJ
+	 yH0cPjQEXjAQQ==
+Received: from policy02-mors.netcup.net (unknown [46.38.225.35])
+	by mors-relay-8403.netcup.net (Postfix) with ESMTPS id 4g9fGy1HBhz8Ckv;
+	Wed,  6 May 2026 17:21:14 +0200 (CEST)
+Received: from mxe9fb.netcup.net (unknown [10.243.12.53])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by policy02-mors.netcup.net (Postfix) with ESMTPS id 4g9fGx35v7z8sgW;
+	Wed,  6 May 2026 17:21:13 +0200 (CEST)
+Received: from [IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f] (unknown [IPv6:2a02:8108:8984:1d00:a0cf:1912:4be:477f])
+	by mxe9fb.netcup.net (Postfix) with ESMTPSA id DA04A6328B;
+	Wed,  6 May 2026 17:21:12 +0200 (CEST)
+Authentication-Results: mxe9fb;
+        spf=pass (sender IP is 2a02:8108:8984:1d00:a0cf:1912:4be:477f) smtp.mailfrom=linux@leemhuis.info smtp.helo=[IPV6:2a02:8108:8984:1d00:a0cf:1912:4be:477f]
+Received-SPF: pass (mxe9fb: connection is authenticated)
+Message-ID: <45e18079-ab21-478b-904d-41dc67041f71@leemhuis.info>
+Date: Wed, 6 May 2026 17:21:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20260506123739.1959770-1-mbloch@nvidia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] docs: fix typos in reporting-issues.rst
+To: Felipe Matarazzo <felipemps@protonmail.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20260503232816.70687-1-felipemps@protonmail.com>
+From: Thorsten Leemhuis <linux@leemhuis.info>
+Content-Language: de-DE, en-US
+Autocrypt: addr=linux@leemhuis.info; keydata=
+ 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 MEK4
+In-Reply-To: <20260503232816.70687-1-felipemps@protonmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-PPP-Message-ID: 
+ <177808087316.1427028.11776644051964436356@mxe9fb.netcup.net>
+X-NC-CID: ZFzH5L34vBIi4+QoZ0kae5Fuo82TAVexyoBpJE4UjtkTkm8BHJg=
 
-Wed, May 06, 2026 at 02:37:35PM +0200, mbloch@nvidia.com wrote:
->This series adds a devlink= kernel command line parameter for applying
->selected devlink settings during device initialization.
->
->Following a discussion with Jakub[1], I am sending this RFC to get the
->conversation moving. I started from Jakub's example/request and extended
->it to cover requirements from production systems and configurations that
->customers use.
->
->One important caveat is that the parsing logic in this RFC was written
->with AI assistance. I am also not sure whether the resulting syntax and
->parser are too complex for a kernel command line interface. This is part
->of why I am sending it as an RFC: to understand what direction and level
->of complexity would be acceptable to people.
->
->The implementation is intended to support the following properties:
->
->- A system may have multiple devlink devices that usually need the same
->  configuration. For a configuration such as eswitch mode switchdev, a
->  user should be able to specify multiple devices to which that
->  configuration applies.
->
->- There may be ordering dependencies between options. For example, in
->  mlx5, flow_steering_mode should be set before moving to switchdev.
->  With this in mind, defaults are applied per device in the left-to-right
->  order in which they appear on the command line.
->
->The intent is to let deployments set devlink defaults before normal
->userspace orchestration runs, while still using devlink concepts and
+On 5/4/26 01:28, Felipe Matarazzo wrote:
+> Fix 33 typos: wrong words (want→what, is→if/it, sent→send,
+> abound→about, exiting→existing, option→opinion, and→an),
+> missing words (of, a, too, s), extra words (on, over), wrong
+> word forms (built, stops, advice, severity, lists, types,
+> Inquiries, requests) and garbled phrases.
+> 
+> Signed-off-by: Felipe Matarazzo <felipemps@protonmail.com>
 
-"defaults before normal userspace orchestrarion". I read it as config
-before config, which eventually could be skipped.
+Many thx for this. Spotted one problem though:
 
+> [...]
+> @@ -1386,7 +1386,7 @@ writing something anyway.
+>  With all these general things off the table let's get into the details of how
+>  to help to get issues resolved once they were reported.
+>  
+> -Inquires and testing request
+> +Inquiries and testing requests
+>  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
->driver callbacks rather than adding driver-specific module parameters.
->A default is scoped to one or more devlink handles, for example:
->
->  devlink=[pci/0000:08:00.0]:esw:mode:switchdev
->  devlink=[pci/0000:08:00.0]:param:flow_steering_mode:smfs
->  devlink=[pci/0000:08:00.0,pci/0000:08:00.1]:param:flow_steering_mode:hmfs,[pci/0000:08:00.0,pci/0000:08:00.1]:esw:mode:switchdev
+That subheading (the lines with all those "~") is now to short. Have you
+tried building this? I'd assume there would have been a warning pointing
+this out.
 
-I don't like this. What you do, you are basically introducing user
-configuration tool on kernel cmdline.
+Apart from that:
 
-The same you would achieve with a proper userspace tool/daemon.
-I did try to come up with it and push it here:
-https://github.com/systemd/systemd/pull/37393
-That didn't get merged for unknown reason, but the idea is sound. You
-provide configuration files for devlink object and systemd-devlinkd
-will apply when they appear. Wouldn't this help your case?
+Acked-by: Thorsten Leemhuis <linux@leemhuis.info>
 
-[..]
+Ciao, Thorsten
