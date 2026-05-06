@@ -1,64 +1,147 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDAC47D93A
-	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 17:36:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05A0848C8A5
+	for <linux-doc@vger.kernel.org>; Wed,  6 May 2026 17:39:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778088989; cv=none; b=Os6bxsBN2z4cMkoAeEou6zzXA2OZxftl+0KxYb409gkxFkUyBbiBFqvrV4LSsaiqYX4470zsXsUvAVn+aByjDMgHNNIxeYci/etKjZocB0t0tWoqLB/zW1+euMi/wbf2qUrgJvod2VeOOaovIb4GedTSN8X51VNc+xcvYCvztJs=
+	t=1778089163; cv=none; b=D8p/8k0TbUxHsWP1YGEjrGsFohGR5Tepcc9DD2W1LWn6S5Y0lx7C180oCZl4V8xQXIILVH3uSn9lZVqu+oegIyAbBSsSQRBwfIygHSgKcpMsx6A06ayvrK/ueDenAdNB5aDMy3xteJ3E0aZC2vmh0fvN+Sy4uZpK4/Eb8T5m2O0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778088989; c=relaxed/simple;
-	bh=WQF14NSC+4NdljM3IedG9+xpMVExmIxK5jwnFJEcjtI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jmhB5DIV/P1miikrDiW5DgOVclxrCjyL/g/JxfvNU1YZ1NL/PK5H6PPpoQZgjduNzgYOc2EhQH3VdhzFlXTgYiIkNwAxLtquADn8iRkDzblc2ej+P5UL6rc00ZzG6ttodQiNDbsKVKHUYvE/AKv1Ji9QG7JYUXCFY7lidNDDm4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com; spf=pass smtp.mailfrom=protonmail.com; dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b=NddnxEGf; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=protonmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=protonmail.com
+	s=arc-20240116; t=1778089163; c=relaxed/simple;
+	bh=6i1w8FUVeMItLfoBEsQ1m6McI0ZsDh5XdVy3i6eNKsY=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=dGA4zYTcIa4C/ewSv7/mTCIBF92s1VYwM1HGBysjW+qDLxeH9GQmBrv4ud4OyjuiBQLByPKyGRVrJ4MO3bupr10cCn3FAsNdBPWqPXsdlaJG5lLfkkcRSchb6bcZlULUzeNwrS0TmOvBdPCdcc78QwpWq+6jCQtjWOxDxordMMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TdLIiDEy; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="NddnxEGf"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1778088979; x=1778348179;
-	bh=WQF14NSC+4NdljM3IedG9+xpMVExmIxK5jwnFJEcjtI=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector;
-	b=NddnxEGfXsHf4+5GUkx8WCzEQWjq9TIXhZfOpqzO9vWy2qgdeh+oTHj7XNHFHnKdg
-	 dxuA0kqP06vpBkYSG1G5cTgl0LQT5JFCI41bu0pdFaUcTWl71Zr1fXLRI79SgEzZfN
-	 CBfsrGSyMQdzcl+lmqE6Z3qjUkceOjEp1BwpYn2v0sKpt0MImFjkqncaduJevjk1YO
-	 IPXLG2HMmUvSigIuqqnYS+a4q6LVI9SVe8yArXKAt1LoqoKH7rdofiNHoNdozvfwgb
-	 bwPhR3w19OV0B4wxpnjJYe0D2mjuARmThuZlftuuQUt+awY9zB2v1CtMF9hP1oSIBB
-	 Imjt1fDsc5dkA==
-Date: Wed, 06 May 2026 17:36:16 +0000
-To: Thorsten Leemhuis <linux@leemhuis.info>
-From: Felipe Matarazzo <felipemps@protonmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] docs: fix typos in reporting-issues.rst
-Message-ID: <d6f0dc5a-d6e2-4512-a7d6-6512a8d085a8@protonmail.com>
-In-Reply-To: <45e18079-ab21-478b-904d-41dc67041f71@leemhuis.info>
-References: <20260503232816.70687-1-felipemps@protonmail.com> <45e18079-ab21-478b-904d-41dc67041f71@leemhuis.info>
-Feedback-ID: 9620817:user:proton
-X-Pm-Message-ID: 049a0fb3eff372e8027051db14d8d0fed4e158a5
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TdLIiDEy"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4852a9c6309so55261705e9.0
+        for <linux-doc@vger.kernel.org>; Wed, 06 May 2026 10:39:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1778089160; x=1778693960; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6i1w8FUVeMItLfoBEsQ1m6McI0ZsDh5XdVy3i6eNKsY=;
+        b=TdLIiDEyzUKjsIHEs2BOaoMIdNi99JiO5V2RkIC8kF1lztgZwpfgLw8B+36GgXMlnU
+         svoeqXeo1rq1akTs04DPVx3ZkHHf7C+q/6cl3N8SsaSkqbC3wl0n7ft1+CQMjDCIahJV
+         qNbKnvbPFT3YjvAqpXXMHio7M+pM4+SI7ROHefCEAPH8KNyPwxVU4ZiTgHGqSDyedsHA
+         t+lXcoKqMIQHrgq2MSAzhfFuG3QEXWHlc3EHFwuDlFepfdZGitvoBw5t7GSjxIDVVXlD
+         VkR+8vUpPMJb+VR2qLwt/n3SjhxDlfyhRQ8ynuvQPDTbbiOv44pFiMj6k/yyyINxBQhU
+         CUlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1778089160; x=1778693960;
+        h=mime-version:references:in-reply-to:message-id:date:subject:cc:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6i1w8FUVeMItLfoBEsQ1m6McI0ZsDh5XdVy3i6eNKsY=;
+        b=suyy3BzJzApY8qyBCEfMGaSHpTlhuTwdSQ4o/1kT+Tinxt4NvzJlWRAcPJ726E7Jf/
+         JVwnjjpllYc2b97cVvHC2j1hCM11CdKGeULcLJVtatiW0WTe9lJ+HEl6z5+meAGgaSCA
+         W5EjLaghg93RDDtAyxA3qCLBTqelFKyl3VzEBuMfUI3sNHv3Z/blaIu+4y02jZZlT0Ud
+         SI/5x0RyLqb+Ho8pme7UG084rFxAnaavLs3Y07P+fpUj4HjPo74GzpJKRiXGOMtKzpRm
+         LY+aB6n92/5S02GkzN/GCW8qlsAPhVfY3y8HE2Yb9MdVNl8vgVbkk/J1jele+GjQXOVy
+         hZGg==
+X-Forwarded-Encrypted: i=1; AFNElJ9iwC+iuQq/xNjQFUnfdMPKq1aMs5mLeDJlliPU7G6oJH6yl99wljQNQPK3SgAXWP/v985jIHodRts=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK3xhN+o71bWfI+I4pqKdwD/kDbnd+6RhurW3p9zAyAdFwMdWw
+	FRX0EgvLtW7BY81Bf//fM5TiY2S0RX0V11fAnMVEDndKJoX9w7BPxMJA
+X-Gm-Gg: AeBDieufTJC+6rPoRagjYD5Q2dXhS2sghE/bwdiaSkxykIZb2T2LE9OszF7WpRwEvyb
+	+fRDwLgQ7wCArMKgzsIdgXjw7tHfQqM/lLT5Z3XcXaxN7XbFXjBxQw7zmw2lHOyKQQGbArzxOON
+	HhqIY4TD35FhBmG7ZsaM628iA0sc4vOwmq6ChXNL7XGqJpkDs07WfjIEQrV4r5losU5MuFH3Fby
+	FMOfqThEfIYFyxfaSA/6GDphZAkDI0nrmZFUjjd10GKLDKJQ8wLpiTz48u6Dd7KX5NS4kGNggSt
+	Jj3w1eVhUYCDJABY8esreNBXTFrvPhLbxfO8z7qZ7E2xoghE8+kCTUec2jgElbalsXdVEP85P9c
+	f+ldIXSP8GKQXgYdiJOVes0ciO/R11zjJnbr18FJCB77aqDCNdLZW1WNZH80Fj69usSadP81I3M
+	UH8zkRgBb4OnRoL8+RkngK9/wQYze+jcpn+3RBZNGm+mJx703LtQhs
+X-Received: by 2002:a05:600c:2e0c:b0:48e:526e:1011 with SMTP id 5b1f17b1804b1-48e526e106bmr38312325e9.25.1778089160201;
+        Wed, 06 May 2026 10:39:20 -0700 (PDT)
+Received: from strix.localnet ([197.250.51.29])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-48e53116a9fsm31957135e9.8.2026.05.06.10.39.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 May 2026 10:39:19 -0700 (PDT)
+From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
+To: Linus Walleij <linusw@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Shuah Khan <skhan@linuxfoundation.org>,
+ Russell King <linux@armlinux.org.uk>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Arnd Bergmann <arnd@arndb.de>, Krzysztof Kozlowski <krzk@kernel.org>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Drew Fustini <fustini@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jiri Slaby <jirislaby@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ devicetree@vger.kernel.org, soc@lists.linux.dev, linux-serial@vger.kernel.org
+Subject: Re: [PATCH v7 6/6] ARM: zte: defconfig: Add a zx29 defconfig file
+Date: Wed, 06 May 2026 20:39:02 +0300
+Message-ID: <5379905.31r3eYUQgx@strix>
+In-Reply-To:
+ <CAD++jL=S6DSOuC-PXFn76SA7e-Lgueu9Z2wuF7icXCVX7MBpJw@mail.gmail.com>
+References:
+ <20260429-send-v7-0-b432e00d2db8@gmail.com>
+ <20260429-send-v7-6-b432e00d2db8@gmail.com>
+ <CAD++jL=S6DSOuC-PXFn76SA7e-Lgueu9Z2wuF7icXCVX7MBpJw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; boundary="nextPart5014054.LvFx2qVVIh";
+ micalg="pgp-sha256"; protocol="application/pgp-signature"
+
+--nextPart5014054.LvFx2qVVIh
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"; protected-headers="v1"
+From: Stefan =?UTF-8?B?RMO2c2luZ2Vy?= <stefandoesinger@gmail.com>
+To: Linus Walleij <linusw@kernel.org>
+Date: Wed, 06 May 2026 20:39:02 +0300
+Message-ID: <5379905.31r3eYUQgx@strix>
+MIME-Version: 1.0
 
-Hi Thorsten,
+Hi,
 
-Thanks for the review and the Acked-by!
+Am Dienstag, 5. Mai 2026, 12:54:29 Ostafrikanische Zeit schrieb Linus Walle=
+ij:
+> On Wed, Apr 29, 2026 at 9:14=E2=80=AFPM Stefan D=C3=B6singer
+> I'm in favor of this, mainly because multi_v7 is pretty useless
+> for this board, it is absolutely too big to boot on the machine,
+> the board is odd and need some ARM64 stuff.
 
-You're right about the underline =E2=80=94 the kernel test robot caught the=
- same issue [1],
-so v2 already addresses both the underline length and includes the Reported=
--by tag.
+I added it more out of cluenessness, thought that every board should have a=
+=20
+defconfig and Sashiko let me know that multi_v7 is the preferred. But I lik=
+e=20
+your reasoning. I'll send a v8 with some of Sashiko's (very impressive)=20
+findings but keep the defconfig.
 
-[1] https://lore.kernel.org/oe-kbuild-all/202605041002.NG14fe8J-lkp@intel.c=
-om/
+> Reviewed-by: Linus Walleij <linusw@kernel.org>
 
-Thanks,
-Felipe
+Thanks for the reviews as always, and thanks to Krzysztof for the yeoman's=
+=20
+work of guiding noobs over and over again!
+
+--nextPart5014054.LvFx2qVVIh
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQJPBAABCAA5FiEEQxb0tqoFWyeVMl1sPRO8yFRPGiIFAmn7fLYbFIAAAAAABAAO
+bWFudTIsMi41KzEuMTIsMiwyAAoJED0TvMhUTxoiGRcP/ihTsoTIIoe31SesPPm7
+q97WA2l0QuRdt6uaaVSwsjuCxhCKwuVvPOYPsy5+/F0BG9UxylI20cKySsfndZyc
+kMG7hIOD2GgP2oFpXvD9Rm6mABU/01SRMgYxJ8BERldruK2XBi/tTl5z9mLCU9Gv
+6hHKRVkiS28GG08oKXywoEXba+Dt5a4HLk6oVy1UgP9OlImj1Bm+KPD3wvWmlRsL
+fYr2suEdrJ76ox0Mx0kHIrwqhGpDEOAwm3g5pjmNOEcXS1eVXW1QLSg83wN2KOty
+3NWXcwr0KxZjxMc6zkq2jqMZmx/4d7Mdijbs/TInuprU1G9mUcyVvi6BHFYS5Hpz
+2ezEEESl6nIbaMpA9zFZWHkhouqr2bOVH12W0Exkml/rhwIQBRv3S53wAeYeR3Mv
+H1LNEaKdJgZWKKL5f9WC9q4QFQ7CKJQZc+jnArsKp9GkdC1uRLWzLP3eriuRsgbf
+zAOrJSziqrze8Dq2VNH9OpqyNk0W92TO4mmUMNrsqpTMh3dDMM8MiM4VJcLIhb/J
+xUUZ4kRf2lHfx/KAJnn9munL1lsJa/k1zBVxarYe1ASh9ivRxqyojTcy0AIPklbQ
+eaQp/Vj1+rGq43J9RuCxFzqT22DpbK9xsmEcxNaCzW+ECpBXRqhclbKHHYESo/aF
++r9T9FDiyUEQwbmVCzN6OIBc
+=eicH
+-----END PGP SIGNATURE-----
+
+--nextPart5014054.LvFx2qVVIh--
+
+
 
