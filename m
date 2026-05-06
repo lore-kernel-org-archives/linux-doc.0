@@ -1,214 +1,248 @@
-Received: from mx0a-001b2d01.pphosted.com (mx0a-001b2d01.pphosted.com [148.163.156.1])
+Received: from BN8PR05CU002.outbound.protection.outlook.com (mail-eastus2azon11011064.outbound.protection.outlook.com [52.101.57.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B3548A2C7;
-	Wed,  6 May 2026 16:10:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.156.1
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1778083826; cv=none; b=iB6w9cvQ2p26JbvQV2CUvmrn/Gjb1ugxOthuJdEqVxN8TKC7NTRm/HzmxmgrjtWegTEqciZOujOkUxcGHVnZ/c6Lfkn5URUxBWonouSMxDBkdJbRUh+h5rstGlycmPcHZQ7NThtbtdH68xLhSx2u1ZyMK2V9VKbtejSbHWo1a7k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1778083826; c=relaxed/simple;
-	bh=gbxikNv/Cxv27q8cG2/wZw5bjFuS02e+cUmWkzowwIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZUC1PrFTnFOyYmNS2xwce5bC6fR8bmQ+YlALwSgTtpXv4EW1wjNOgKx+u5ipvUgFCCBQRawv0OqLzowk0THG4E1ocjdOZIuDDqfZpYGuZqeOhUAFpDYHSV3/gP5AlROfayJDoaVs05qdTXK8TlLvp4BIO6vIcPCK1bWXWnYBv0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=XV8NvTYF; arc=none smtp.client-ip=148.163.156.1
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5FB43ED107;
+	Wed,  6 May 2026 16:18:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.57.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1778084313; cv=fail; b=rqJ4NJAOLonu0MAL0qODq5IM6avX0SaUY4VQ4TYnNzrxBcRO4mv+bsPg+Mt+ujZTfLY9kn4GOy3WgwMpAnUZS0RapChpvJ/U/SEFeSbFEnZyrXBn5S6Nq9aHjruZ8ML3wlK5DErPkGXtmfXpupLSAI661uKebOncKYTMHWvaflI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1778084313; c=relaxed/simple;
+	bh=ljnkMOdRwccGy5bQD3iYTjNPMcNO8N5d4mDtabXjae4=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=CYwajPwPn3dL/rCOwTbMw+P+FigpPgZv9O8G36s0vLq68yduf6nT4df4V6y7eZU19F/ju99QiMfjJ3UMGQf9zrC9b/eutala0ssVaouuSYvGYs7ryLwSjoi4Vm3z/IEkSh7GFNXQ2jWuXKqABC1Vk0mzNHkmnpogSqu5WWyWuIM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=GMmi/8Va; arc=fail smtp.client-ip=52.101.57.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="XV8NvTYF"
-Received: from pps.filterd (m0353729.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6463ISFI1381065;
-	Wed, 6 May 2026 16:09:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=R7lvIC
-	0bxt4661XQeHUXYJKGM0xgbkG8N/Q+Sev8WqM=; b=XV8NvTYFwraDAMzouWWnXu
-	uxcROIYy3qbUaj22IOd/JsM6E7ZEjJBKarCetkgwxLZEwxhh1GDA9LqV0jvXoUgG
-	FbhSgtflGf0lVZv5vunXEfL5qy8JhL5EkhU+Zvdf/THBa4iEQAfTw4qkTm39QB5+
-	yAZGifrUTxNouanPfBzTTlrLkplo0MyB+aR5f3hNIWW4pUUDIUqJy4IG2BK92YdE
-	dwUk3CZPlh/OhCEtdBJe4/5F1MP98HVNqDsnM0SEnwxYfEBPt2l0NKgbC4y/micl
-	ikBYKsW7FeZHM5WNAfwYBl+xpJNBI9nLiQUkSvwYlZABafFoqgAgfU5UJPcfvXgQ
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4dw9x4sj9n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 May 2026 16:09:45 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.7/8.18.1.7) with ESMTP id 646G9Ye4023993;
-	Wed, 6 May 2026 16:09:44 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4dww3h6wuj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 06 May 2026 16:09:44 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com [10.20.54.102])
-	by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 646G9g3R12976486
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 6 May 2026 16:09:42 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0A9642004B;
-	Wed,  6 May 2026 16:09:42 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AA57220040;
-	Wed,  6 May 2026 16:09:37 +0000 (GMT)
-Received: from [9.124.208.31] (unknown [9.124.208.31])
-	by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
-	Wed,  6 May 2026 16:09:37 +0000 (GMT)
-Message-ID: <5af6fd0b-0eca-4089-b76c-45dcc4bf01ed@linux.ibm.com>
-Date: Wed, 6 May 2026 21:39:35 +0530
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="GMmi/8Va"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LXWRe8rVo2MdH56vDfxHD2I78i5FwwbMlWMsfQvyuteuFFtnT9B3uvvYk4Xs5q1MNb+OrRypyaZAfJbb2Iks9e+S5XWKMg+Msz/ykA2/kiML2i5NPFdXp2qawjaSjTWvJ9aoYY8SiyJcbeHoUDcFXoriLliV8DTkHf/aD1xQRgnV/VX4GstB1BEz1JYe1UxlnvsGq5A/mIvnzlOkG9REILMTefiErZmj9kTErbEc/n9E61GBNTEjs6rOa2/T9BjUcgC2SOUX9HoHVbX6DiMb8UtbGjz4U1pL4Ps1q+vmSOA/i3pBLtu3zfRy0EkXNN5atGPntVawqDF9gJ4QnVcuJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9C1G/YQbDfk3TDGrvXEUFjA5pOIkcxhBBG/lJQVeH6g=;
+ b=rA4RGodTy06SAx6s9f2aYma4Metw04SZWSI0wl1TMRQWY67ZTi8R5G8zJHAWhbmWrHEh3WopXY5qtANXGp+AVuHwKsOcU4BP1q2jwu1M0mLTzs7eTLpj10HDJKCc2qmbAS51xMomQBCu9V1Q9Jg+UsX4ec3z3S3yXFwGipLE6mKfviZrjhwXAIzX0JvJwTYAprXd1qbDWdCH+IP7YOWJvnZjNMTvsWOv0w3Bs5VWSpZcSRavOIIi2nzBU4pI1kLE/FKu1WuiVFeT12lxPnEdex0UBVme7rT12LcSpzXQYIlWYJoNA0mXz72Q1LSvifL6M2hVzYWhvnGgfVMav2I9Tg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9C1G/YQbDfk3TDGrvXEUFjA5pOIkcxhBBG/lJQVeH6g=;
+ b=GMmi/8Va7DYoR+krEtgKFxjNl39BzL2BsNLZOVND0FhF8EEY2CxIxFZRMHNgeaHwF60Ilaa22M0UXa2yypLdCl5076L9wZ6xG5sMFzcCytrF4tve9KuN/Q5Kn8pO9dVg3g3QbTvLQO9BVBAZhBBv4YjTRAX/ay/lTkWa1BZI+soYgmOeq0RsJ4I+ObIiKgu/vChq+qyx9vpZ2MFt1ZmHttUQ7iz5CIdu2mrSil4ABSS3BxbLcXVkyBi3SPcve2LUMb9S6lzTJMBUJyeN8oiNLrvSP0fmajY7jxZJ9PmAu/kO6HoQDyy7Syd3KoGq7ObzzdEmyBvwznY87eI6LbEtBw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com (2603:10b6:8:c5::21) by
+ CH3PR12MB8725.namprd12.prod.outlook.com (2603:10b6:610:170::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9870.27; Wed, 6 May
+ 2026 16:18:19 +0000
+Received: from DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33]) by DS0PR12MB6486.namprd12.prod.outlook.com
+ ([fe80::88a9:f314:c95f:8b33%6]) with mapi id 15.20.9891.008; Wed, 6 May 2026
+ 16:18:19 +0000
+Message-ID: <871a3194-5960-4e94-b177-6173c49167be@nvidia.com>
+Date: Wed, 6 May 2026 12:18:16 -0400
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] rust: maple_tree: implement Send and Sync for
+ MapleTree
+To: Boqun Feng <boqun@kernel.org>
+Cc: linux-kernel@vger.kernel.org, Miguel Ojeda <ojeda@kernel.org>,
+ Gary Guo <gary@garyguo.net>, Bjorn Roy Baron <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Dave Airlie <airlied@redhat.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
+ nova-gpu@lists.linux.dev, Nikola Djukic <ndjukic@nvidia.com>,
+ David Airlie <airlied@gmail.com>, Boqun Feng <boqun.feng@gmail.com>,
+ John Hubbard <jhubbard@nvidia.com>, Alistair Popple <apopple@nvidia.com>,
+ Timur Tabi <ttabi@nvidia.com>, Edwin Peer <epeer@nvidia.com>,
+ Alexandre Courbot <acourbot@nvidia.com>, Andrea Righi <arighi@nvidia.com>,
+ Andy Ritger <aritger@nvidia.com>, Zhi Wang <zhiw@nvidia.com>,
+ Balbir Singh <balbirs@nvidia.com>, Philipp Stanner <phasta@kernel.org>,
+ alexeyi@nvidia.com, Eliot Courtney <ecourtney@nvidia.com>,
+ joel@joelfernandes.org, linux-doc@vger.kernel.org
+References: <20260506135122.GA1432412@joelbox2>
+ <aftiZGt3HQe0Bf_x@tardis.local>
+Content-Language: en-US
+From: Joel Fernandes <joelagnelf@nvidia.com>
+In-Reply-To: <aftiZGt3HQe0Bf_x@tardis.local>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: IA4P221CA0007.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:208:559::17) To DS0PR12MB6486.namprd12.prod.outlook.com
+ (2603:10b6:8:c5::21)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] crash_dump: Disallow
- configfs/crash_dm_crypt_key/reuse if CONFIG_CRASH_HOTPLUG enabled
-To: Coiby Xu <coiby.xu@gmail.com>, kexec@lists.infradead.org
-Cc: Andrew Morton <akpm@linux-foundation.org>,
-        Baoquan He <baoquan.he@linux.dev>, Dave Young <ruirui.yang@linux.dev>,
-        Mike Rapoport <rppt@kernel.org>,
-        Pasha Tatashin <pasha.tatashin@soleen.com>,
-        Pratyush Yadav <pratyush@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Shuah Khan <skhan@linuxfoundation.org>, Coiby Xu <coxu@redhat.com>,
-        "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>
-References: <20260501234342.2518281-1-coiby.xu@gmail.com>
- <20260501234342.2518281-9-coiby.xu@gmail.com>
-Content-Language: en-US
-From: Sourabh Jain <sourabhjain@linux.ibm.com>
-In-Reply-To: <20260501234342.2518281-9-coiby.xu@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwNTA2MDE1OCBTYWx0ZWRfX9vEydiAyv6/h
- bIdaqRP0cDBpnu/Q4rBAsvqMtRuWQM8COohpwlH/id7D0mmgYGrAwzbpuDv7pnjpxnp9l7XNAyn
- 9I7pJYEK5KpDXo55qI9mDl7w3h4xO+ic3AryzUH0+pcHwDRiYzD/fgnB57Gqp0lW3VfdkceyXJH
- Rr+Im1H98NPYD4FOq54UUVRg+1Hc0gKR2zt3kmvEqSYcOO4t4cTnsIBLFpJXo18l+pzUizNMf6t
- OurTJh2WPyLq/oGuoWdWL5FZQtSIZz9m8zWI34MwrN1Db0njffOfRo9xe0QibPfUDiIjfLziG3I
- 0of6At05X0YaH+UX5kSoAlWfJbjLbQuhGcfIzI7cqiqMKMh6pqnU17ufOUhwupgnrHsPKjz0Rm5
- ODAB3+u33Z9aevoUvPlJGNzM2fmPU7Kn8gWAq3nvmvNhZZi+fMWVD9DJ4nPVTF8EXkH7BOBBHAL
- 5TW45vPLMfsxjKS1p9A==
-X-Proofpoint-ORIG-GUID: M9zjn8nAJ53d_-FP2PjULB3AD-cpGVm6
-X-Proofpoint-GUID: nDB7-9AbbLcAw4vmxN5TmVz8ATWXCOJc
-X-Authority-Analysis: v=2.4 cv=W7UIkxWk c=1 sm=1 tr=0 ts=69fb67c9 cx=c_pps
- a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17
- a=IkcTkHD0fZMA:10 a=NGcC8JguVDcA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=RnoormkPH1_aCDwRdu11:22 a=uAbxVGIbfxUO_5tXvNgY:22 a=pGLkceISAAAA:8
- a=FAMLr4mYtRK9mEqtjuQA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1143,Hydra:6.1.51,FMLib:17.12.100.49
- definitions=2026-05-06_01,2026-05-06_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 adultscore=0 lowpriorityscore=0 malwarescore=0
- suspectscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
- impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2604200000
- definitions=main-2605060158
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6486:EE_|CH3PR12MB8725:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9cafef02-74c6-4df2-e36a-08deab8b162f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|56012099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info:
+	VlhWOUlnZlduTJDMJTCRHDCZGKX6M3Rqz73JeciSOEcYtoeRczQaXbUCvvhTLU/49NiCvz/ilgbZw1Yntx9RrgbR80E8Pr9YzSyvu3jzORID/yXq71yNleXArFcJlxKuM/YLPvTBtVlg0rPTimEB7Vf9012d2cp1sBkay+oZZqPmFQXrtf0CX8suv/YJ7/p1CMyXIU60rP5K95w3VF+VxAyp/QWRXP9uCulT7LKT6T3k290eq9cwZuzDgwGKjXmCnVb63ZPkxOXK7jq90H8z3RHAjUnbDYqGJ6VgSjbhK24MzGhpOkSX2uX48A/63muNa4eiEqbF01CXeotUa+/YB73cn0F1psaXbRg4IrjDY2wQ4RI0ECe2u1gUj/l4ZyhKkeTersLbduk/9wujHkZMZ+Yko9VHmCBAXfNdOY3YBYhEtAOCDUANqC89Ervf1bd2q+y/t72IlzgZuDc/roYNJ2WdtaDpo3Lb2x+gZZcOIaARVQQ8RPTccQgvCI7ZeGO1CVE454Y7sgKmF+mAuGeL0w3A61ViwEUe714kIv04ebtP5GdZlDAx+X6tIpsCWedRw79lKZ0nYuF0x5P1yGeVHAGV+gxUKLLx7lZAHPxfoFDn12J0XCd6FdBqp5iDjIUK5fgvRO9gIboD5Shup7I43B0iTF9D8iDvNoM1XeXb7sWlW5lrKX/OLYW2CvR63efkBpEDPN4MORai3yc6VarLgw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6486.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(56012099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?UjRDam9hSmFLL05XaU0ySHJtYWRoUGlkTXJNUmJ5ak1pblZxdjdwZzV4UmVj?=
+ =?utf-8?B?UHZCMHoyN050bSt0Wmk4WVdER09yM2NydjR0QU8vZm5jWitYZ3FpNmZxeUNy?=
+ =?utf-8?B?UUdoLzhpZXVaVkd5elhKU2dUeTRlUzFBZmZQdVdLUFFFNnczdksvR2tieEVi?=
+ =?utf-8?B?UTNuaVh6c0g2OXZ2ckpEZXI2VlJPd2ZRakZsZ0pqZS83MXhqTjlFbzFsNEpC?=
+ =?utf-8?B?Zk8zMlNHeUwvc2J2NHZkYXp3OTdWS0p2U2ZqQWczall1VWlFR0V4Q3V0cFJU?=
+ =?utf-8?B?VVFsUmZEK1ZvNWt1STlxN2VZS0llY1Z2TnEvYXJBSTB2andjeU9xU0dYSlhT?=
+ =?utf-8?B?em5oVU9EWUJrUVhzMnFGZDgwVmJXb2s0K2s2ZjZiRjNQSnB4K1lKQWlyR3F2?=
+ =?utf-8?B?dmc5TzdNUmxpdVc0eGY3MFg3ZThkZm4rT256aUdwb3YraWx5MEk0RDRZRlV2?=
+ =?utf-8?B?WHk2RjNHTjU5Vi8yS0VWOXpsTTJUcG5QcThPb2RmYUtCck9NbHllUVUrSkg4?=
+ =?utf-8?B?d2ZHelhaYlVUQmtFck5jREZtZ3hvUktJSlZyNE9DMWZJMnNZWGJObFpVcERs?=
+ =?utf-8?B?U1dOcFY5Y1B2MXlTM1UrL3V2dVBKTWNtOURuSmRDQjBJZjIzOVMyTTgyR2RS?=
+ =?utf-8?B?VmU5UWNKeEIrc3p2QzB1R2cvbVVTSnk3cnBFUFExS3pCcDhmSm9DaUdUSkZo?=
+ =?utf-8?B?bGNESForZG5FVVVYNFE2T2dVQmh4S1VOTVA5Vkczc29PN1dDL04rUUsydnli?=
+ =?utf-8?B?eDFSUGJ6c2tTUDBnOURDM21HM3VyK0IrVEljQ0dZSXdCRERORUxEYlh5dHhC?=
+ =?utf-8?B?M3ljNzdoZ2NwMkFIZUs3UnU5WTgyOHZLVys5cU1mRUVKTi85TVdpYXIrSEtq?=
+ =?utf-8?B?NVdiaUVBZlJFWDF6ZmJleUVSMHVNQnpkNnBOWHJXMUI1d3MvOUFNM1p6amFF?=
+ =?utf-8?B?d1REZGg2bnFiU05FdDExbVJTMjlHYXJYWFY5TXBSME5tT2xzMkRUdWIzRXFB?=
+ =?utf-8?B?aVdtZDFldmFPczJ3Um8yMnl5YkxHV0NHeE1FMWJHdHNWMEJGQ0NjZk4zOUhq?=
+ =?utf-8?B?eDFGMGtxenEvTU5qanhBUjVEWWY4ZThIRjFSZjNRa3F1YjlMcFJHaExLRTNE?=
+ =?utf-8?B?RmFYWjM1NGM0bEkzSkhKQWNvb3NVVG9uMVdUdXJIRVBDSlVQQTNMTk9SVzVw?=
+ =?utf-8?B?Y2JYTElNNnZZcUY3dDI5bjVtRHpZcU5JRXNSM2FVaHFTOG1sRmJLRzhvdE9m?=
+ =?utf-8?B?bUlyY3FRVW5yWHRXTThBWWlrVk9DangzOEphcys0bFlUditFTG8rYVRCVUxq?=
+ =?utf-8?B?ZGU0KysxLy93VEZ0WDdiSk55OEVpYityV1kvZEZBejQ2R3Q4RDZvaDA4MUg3?=
+ =?utf-8?B?WjZsUUxNMldCRzhQcS91Vm9VSFNldkFKMlJYSlpxUEFld1F0V2NQRlZvU09M?=
+ =?utf-8?B?VEVKWkNPSDRSdnpIM21LcDg2aFdUR1JneW9BeUxLaU1BR1hiVHEwc1NCZ1Ba?=
+ =?utf-8?B?TFBhc1k3TlJFUnlsUXpIMnhHZmtBZFQva09JblpYNU1Ua01DemtmbGZudDZi?=
+ =?utf-8?B?d2oyQllycUE3UUhSQmQxcHFoNHJXclRwMER3MHl6WjB3a2FYZ0s5Y2lFUW9q?=
+ =?utf-8?B?dkJ3SFF2UCtUZDRhU0VJNm1tb3hKNi96V1F0TDc3RlRSODJxWXB6Tmwwbm0v?=
+ =?utf-8?B?ZmtvWkpzUlBCN3Y2ZXFpRFgvU3J4ZU9TN0hZb1dPQ3BaVDhtTGkrWjNJaE5N?=
+ =?utf-8?B?ZlFHUkZueXVxdUtQTnpkRW9ESmpQL2xGS1FJQnl4WVo2S3JDUE0vRDhjcVBv?=
+ =?utf-8?B?S1p6YVZWempaaDJrRFpFTEEvdWpTaWNlQVZUU29iTzBqQm9UamZ5a0hFbHQx?=
+ =?utf-8?B?VlE2MURuMlg3YllmSlFFb3JNSmFvTFEwKzRsN3BXemd4VXQ4T2NnaDd2ZlFM?=
+ =?utf-8?B?R21teUZhdzZZUTIyTHN2T1ZnbVQwa0xNYkdTYVJCQXlTYkdtVVFVTVZ5VHJI?=
+ =?utf-8?B?dEdybWo3WGNpYjV1alZ4R2h1QzJaZVVRY1RIdlhVN3ZLS1JrN3lSMFBCaWg3?=
+ =?utf-8?B?SXBCTGRGMzZnR3BSMjdLZHdoWDd2ZE9QaEtENGZGdTQ2ZnAyUWxrVlA5ZGwv?=
+ =?utf-8?B?RlgyTDhrMmhmc2NxUHA5eDY1b2N5bDZYS3d6dFFiSThLcEJqYXpyZ01FNTVI?=
+ =?utf-8?B?TmVxV3VVTHJ1aExYcU14b1l1eExyZHI2WHlkR0dUTWpPMlB6OTFVUWx4Rkgr?=
+ =?utf-8?B?Z2d2UTNTU3lFZVJmQXJTM3NmWi90RXNmb3JHTFdCTk9rbFpLcUNyVkNKa3dt?=
+ =?utf-8?B?OTV2OUp3SndHb3VuK1Y0YTZibnRJWHMwTlQ0bUUyMy92ZytrNUpiUT09?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cafef02-74c6-4df2-e36a-08deab8b162f
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6486.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2026 16:18:19.5894
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cgI/rp1vS/RdqG3Fq75pVy4UyD/SaK6x05hv29K8ARsgTDWZpw0dU1oKyeW/34p3kRINJf/6GgE8GAME3bcApw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8725
 
 
 
-On 02/05/26 05:13, Coiby Xu wrote:
-> If CONFIG_CRASH_HOTPLUG is enabled, dm-crypt keys saved to reserved
-> memory will be took care of automatically. Thus it doesn't make sense
-> to use configfs/crash_dm_crypt_key/reuse. Reserving
-> image->dm_crypt_keys_addr is also unnecessary. Currently x86_64 and
-> ppc64le have implemented CONFIG_CRASH_HOTPLUG feature.
->
-> Also update the doc accordingly. Note two doc issues are fixed as well.
->
-> Fixes: 9ebfa8dcaea7 ("crash_dump: reuse saved dm crypt keys for CPU/memory hot-plugging")
-> Signed-off-by: Coiby Xu <coiby.xu@gmail.com>
-> ---
->   Documentation/admin-guide/kdump/kdump.rst |  9 ++++++---
->   kernel/crash_dump_dm_crypt.c              | 14 +++++++++++---
->   2 files changed, 17 insertions(+), 6 deletions(-)
->
-> diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-> index 7587caadbae1..73f2e9500c60 100644
-> --- a/Documentation/admin-guide/kdump/kdump.rst
-> +++ b/Documentation/admin-guide/kdump/kdump.rst
-> @@ -577,9 +577,10 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
->   
->   1. Tell the first kernel what logon keys are needed to unlock the disk volumes,
->       # Add key #1
-> -    mkdir /sys/kernel/config/crash_dm_crypt_keys/7d26b7b4-e342-4d2d-b660-7426b0996720
-> +    VOL1_UUID=7d26b7b4-e342-4d2d-b660-7426b0996720
-> +    mkdir /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID
->       # Add key #1's description
-> -    echo cryptsetup:7d26b7b4-e342-4d2d-b660-7426b0996720 > /sys/kernel/config/crash_dm_crypt_keys/description
-> +    echo cryptsetup:$VOL1_UUID > /sys/kernel/config/crash_dm_crypt_keys/$VOL1_UUID/description
->   
->       # how many keys do we have now?
->       cat /sys/kernel/config/crash_dm_crypt_keys/count
-> @@ -593,7 +594,9 @@ with /sys/kernel/config/crash_dm_crypt_keys for setup,
->   
->       # To support CPU/memory hot-plugging, reuse keys already saved to reserved
->       # memory
-> -    echo true > /sys/kernel/config/crash_dm_crypt_key/reuse
-> +    # Note if CONFIG_CRASH_HOTPLUG is enabled, this API is totally unnecessary
-> +    # thus will be disabled.
-> +    echo true > /sys/kernel/config/crash_dm_crypt_keys/reuse
->   
->   2. Load the dump-capture kernel
->   
-> diff --git a/kernel/crash_dump_dm_crypt.c b/kernel/crash_dump_dm_crypt.c
-> index 36e51807d94f..7a7cae17f578 100644
-> --- a/kernel/crash_dump_dm_crypt.c
-> +++ b/kernel/crash_dump_dm_crypt.c
-> @@ -304,6 +304,11 @@ static ssize_t config_keys_reuse_store(struct config_item *item,
->   	bool val;
->   	int r;
->   
-> +	if (IS_ENABLED(CONFIG_CRASH_HOTPLUG)) {
-> +		pr_info("CONFIG_CRASH_HOTPLUG already enabled");
-> +		return -EINVAL;
-> +	}
-> +
+On 5/6/2026 11:46 AM, Boqun Feng wrote:
+> On Wed, May 06, 2026 at 09:51:22AM -0400, Joel Fernandes wrote:
+>> The C maple_tree struct contains a *mut c_void, which prevents Rust from
+>> auto-deriving Send/Sync. Following is an example error message when using
+>> MapleTree in nova-core's Vmm.
+>>
+>> This propagates up through MapleTreeAlloc to Vmm, BarUser, Gpu, and NovaCore,
+>> causing NovaCore to fail the Send bound required by pci::Driver:
+>>
+>>   error[E0277]: `*mut c_void` cannot be sent between threads safely
+>>       --> drivers/gpu/nova-core/driver.rs:77:22
+>>        |
+>>   77   | impl pci::Driver for NovaCore {
+>>        |                      ^^^^^^^^ `*mut c_void` cannot be sent between threads safely
+>>        |
+>>        = help: within `MapleTreeAlloc<()>`, the trait `Send` is not implemented for `*mut c_void`
+>>   note: required because it appears within the type `kernel::bindings::maple_tree`
+>>   note: required because it appears within the type `Opaque<kernel::bindings::maple_tree>`
+>>   note: required because it appears within the type `MapleTree<()>`
+>>   note: required because it appears within the type `MapleTreeAlloc<()>`
+>>        = note: required for `Box<MapleTreeAlloc<()>, Kmalloc>` to implement `Send`
+>>   note: required because it appears within the type `core::pin::Pin<Box<MapleTreeAlloc<()>, Kmalloc>>`
+>>   note: required because it appears within the type `Vmm`
+>>   note: required because it appears within the type `BarUser`
+>>   note: required because it appears within the type `Gpu`
+>>   note: required because it appears within the type `NovaCore`
+>>   note: required by a bound in `kernel::pci::Driver`
+>>       --> rust/kernel/pci.rs:294:19
+>>
+>> Implement Send and Sync for MapleTree. The tree contains no thread-local
+>> state, and all shared access goes through the internal ma_lock spinlock.
+>>
+>> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
+>> ---
+>> RFC->v2: Just adjusted a few comments as suggested by Gary.
+>>
+>> Sending this separately as discussed in the nova mm patch series that needs it:
+>> https://lore.kernel.org/all/252a4eef-f4f4-4edf-8154-06cae4ad8518@nvidia.com/
+>>
+>>  rust/kernel/maple_tree.rs | 29 +++++++++++++++++++++++------
+>>  1 file changed, 23 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/rust/kernel/maple_tree.rs b/rust/kernel/maple_tree.rs
+>> index 265d6396a78a..2400c905270d 100644
+>> --- a/rust/kernel/maple_tree.rs
+>> +++ b/rust/kernel/maple_tree.rs
+>> @@ -16,7 +16,11 @@
+>>      alloc::Flags,
+>>      error::to_result,
+>>      prelude::*,
+>> -    types::{ForeignOwnable, Opaque},
+>> +    types::{
+>> +        ForeignOwnable,
+>> +        NotThreadSafe,
+>> +        Opaque, //
+>> +    },
+>>  };
+>>  
+>>  /// A maple tree optimized for storing non-overlapping ranges.
+>> @@ -240,7 +244,10 @@ pub fn lock(&self) -> MapleGuard<'_, T> {
+>>          unsafe { bindings::spin_lock(self.ma_lock()) };
+>>  
+>>          // INVARIANT: We just took the spinlock.
+>> -        MapleGuard(self)
+>> +        MapleGuard {
+>> +            tree: self,
+>> +            _not_send: NotThreadSafe,
+>> +        }
+>>      }
+>>  
+>>      #[inline]
+>> @@ -302,19 +309,29 @@ fn drop(mut self: Pin<&mut Self>) {
+>>      }
+>>  }
+>>  
+>> +// SAFETY: `MapleTree<T>` is `Send` if `T` is `Send` because `MapleTree` owns its elements.
+>> +unsafe impl<T: ForeignOwnable + Send> Send for MapleTree<T> {}
+>> +// SAFETY: `&MapleTree<T>` never hands out `&T`; all entry access is serialized
+>> +// by `ma_lock` or `&mut Guard`, so `T: Send` suffices (`T: Sync` not required).
+>> +unsafe impl<T: ForeignOwnable + Send> Sync for MapleTree<T> {}
+> 
+> I think you missed this:
+> 
+> 	https://lore.kernel.org/rust-for-linux/aepRx2jgIKmoRp-r@tardis.local/
+> 
+> ;-)
 
-Deciding this solely at compile time can create issues. For example, the 
-kernel
-may be built with CONFIG_CRASH_HOTPLUG, but if kexec tool loads the kdump
-kernel using the kexec_load system call without hotplug support, it can
-cause problems. It is rare but possible.
+Oops, sorry about that.
 
-How about this:
+> 
+> But on a second thought, should that (we have methods of `&MapleTree<T>`
+> -> `&T`) happen, we could always guard those methods with T: Sync. Maybe
+> it's worth to keep a note on that but, anyway
+> 
+> Reviewed-by: Boqun Feng <boqun@kernel.org>
+Ok, so I will leave as it is then, thanks for the tag!
 
-#ifdef CONFIG_CRASH_HOTPLUG
-     if (kexec_crash_image->hotplug_support) {
-pr_info("crash image is loaded with hotplug support\n");return -EINVAL;
-     }
-#endif
-
-This code should be placed after validating kexec_crash_image.
-
-
-- Sourabh Jain
-
->   	if (!kexec_crash_image || !kexec_crash_image->dm_crypt_keys_addr) {
->   		pr_info("dm-crypt keys haven't be saved to crash-reserved memory\n");
->   		return -EINVAL;
-> @@ -486,15 +491,18 @@ int crash_load_dm_crypt_keys(struct kimage *image)
->   void kexec_file_post_load_cleanup_dm_crypt(struct kimage *image)
->   {
->   	/*
-> -	 * For CPU/memory hot-plugging, the kdump image will be reloaded. Prevent
-> -	 * keys_header from being cleaned up during unloading when
-> -	 * is_dm_key_reused=true
-> +	 * For CPU/memory hot-plugging without CONFIG_CRASH_HOTPLUG, the whole kdump
-> +	 * image will be reloaded. Prevent keys_header from being cleaned up during
-> +	 * unloading when is_dm_key_reused=true
->   	 */
->   	if (!is_dm_key_reused) {
->   		kfree_sensitive(keys_header);
->   		keys_header = NULL;
->   	}
->   
-> +	if (IS_ENABLED(CONFIG_CRASH_HOTPLUG))
-> +		image->dm_crypt_keys_addr = 0;
-> +
->   	if (mutex_is_locked(&config_keys_subsys.su_mutex))
->   		mutex_unlock(&config_keys_subsys.su_mutex);
->   }
+--
+Joel Fernandes
 
